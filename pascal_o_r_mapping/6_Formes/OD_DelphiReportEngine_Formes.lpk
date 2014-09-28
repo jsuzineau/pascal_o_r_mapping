@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="OD_DelphiReportEngine_Formes"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <SyntaxMode Value="Delphi"/>
+        </SyntaxOptions>
+      </Parsing>
+      <Other>
+        <CompilerMessages>
+          <MsgFileName Value=""/>
+        </CompilerMessages>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Files Count="53">
+      <Item1>
+        <Filename Value="uAide.pas"/>
+        <UnitName Value="uAide"/>
+      </Item1>
+      <Item2>
+        <Filename Value="uAtom.pas"/>
+        <UnitName Value="uAtom"/>
+      </Item2>
+      <Item12>
+        <Filename Value="uDataClasses.pas"/>
+        <UnitName Value="uDataClasses"/>
+      </Item12>
+      <Item17>
+        <Filename Value="ufAccueil.pas"/>
+        <UnitName Value="ufAccueil"/>
+      </Item17>
+      <Item18>
+        <Filename Value="ufBatpro_Desk.pas"/>
+        <UnitName Value="ufBatpro_Desk"/>
+      </Item18>
+      <Item19>
+        <Filename Value="ufBatpro_Form.pas"/>
+        <UnitName Value="ufBatpro_Form"/>
+      </Item19>
+      <Item20>
+        <Filename Value="ufBatpro_Informix.pas"/>
+        <UnitName Value="ufBatpro_Informix"/>
+      </Item20>
+      <Item21>
+        <Filename Value="ufBatpro_MySQL.pas"/>
+        <UnitName Value="ufBatpro_MySQL"/>
+      </Item21>
+      <Item22>
+        <Filename Value="ufBatpro_Parametres_Client.pas"/>
+        <UnitName Value="ufBatpro_Parametres_Client"/>
+      </Item22>
+      <Item23>
+        <Filename Value="ufBitmaps.pas"/>
+        <UnitName Value="ufBitmaps"/>
+      </Item23>
+      <Item24>
+        <Filename Value="ufHelp_Creator.pas"/>
+        <UnitName Value="ufHelp_Creator"/>
+      </Item24>
+      <Item25>
+        <Filename Value="ufMailTo.pas"/>
+        <UnitName Value="ufMailTo"/>
+      </Item25>
+      <Item26>
+        <Filename Value="ufOOoModelSelect.pas"/>
+        <UnitName Value="ufOOoModelSelect"/>
+      </Item26>
+      <Item27>
+        <Filename Value="ufOOo_NomFichier_Modele.pas"/>
+        <UnitName Value="ufOOo_NomFichier_Modele"/>
+      </Item27>
+      <Item28>
+        <Filename Value="ufOpenDocument_DelphiReportEngine.pas"/>
+        <UnitName Value="ufOpenDocument_DelphiReportEngine"/>
+      </Item28>
+      <Item29>
+        <Filename Value="ufpBas.pas"/>
+        <UnitName Value="ufpBas"/>
+      </Item29>
+      <Item30>
+        <Filename Value="ufReconcileError.pas"/>
+        <UnitName Value="ufReconcileError"/>
+      </Item30>
+      <Item31>
+        <Filename Value="uhRequete.pas"/>
+        <UnitName Value="uhRequete"/>
+      </Item31>
+      <Item32>
+        <Filename Value="uhTriColonne.pas"/>
+        <UnitName Value="uhTriColonne"/>
+      </Item32>
+      <Item33>
+        <Filename Value="uImpression_Font_Size_Multiplier.pas"/>
+        <UnitName Value="uImpression_Font_Size_Multiplier"/>
+      </Item33>
+      <Item34>
+        <Filename Value="udmxCreator.pas"/>
+        <UnitName Value="udmxCreator"/>
+      </Item34>
+      <Item35>
+        <Filename Value="ufBatpro_Form_Ancetre.pas"/>
+        <UnitName Value="ufBatpro_Form_Ancetre"/>
+      </Item35>
+      <Item36>
+        <Filename Value="udmx.pas"/>
+        <UnitName Value="udmx"/>
+      </Item36>
+      <Item37>
+        <Filename Value="uhDessinnateur.pas"/>
+        <UnitName Value="uhDessinnateur"/>
+      </Item37>
+      <Item38>
+        <Filename Value="ubeChamp.pas"/>
+        <UnitName Value="ubeChamp"/>
+      </Item38>
+      <Item39>
+        <Filename Value="ubeCoche.pas"/>
+        <UnitName Value="ubeCoche"/>
+      </Item39>
+      <Item40>
+        <Filename Value="ubeCurseur.pas"/>
+        <UnitName Value="ubeCurseur"/>
+      </Item40>
+      <Item41>
+        <Filename Value="ubeExtended.pas"/>
+        <UnitName Value="ubeExtended"/>
+      </Item41>
+      <Item42>
+        <Filename Value="ubeJalon.pas"/>
+        <UnitName Value="ubeJalon"/>
+      </Item42>
+      <Item43>
+        <Filename Value="ubeListe_Batpro_Elements.pas"/>
+        <UnitName Value="ubeListe_Batpro_Elements"/>
+      </Item43>
+      <Item44>
+        <Filename Value="uberef.pas"/>
+        <UnitName Value="uberef"/>
+      </Item44>
+      <Item45>
+        <Filename Value="ubeSerie.pas"/>
+        <UnitName Value="ubeSerie"/>
+      </Item45>
+      <Item46>
+        <Filename Value="ubeString.pas"/>
+        <UnitName Value="ubeString"/>
+      </Item46>
+      <Item47>
+        <Filename Value="ubeTraits.pas"/>
+        <UnitName Value="ubeTraits"/>
+      </Item47>
+      <Item48>
+        <Filename Value="ufBloqueur.pas"/>
+        <UnitName Value="ufBloqueur"/>
+      </Item48>
+      <Item49>
+        <Filename Value="uhrG_BECPCTX.pas"/>
+        <UnitName Value="uhrG_BECPCTX"/>
+      </Item49>
+      <Item50>
+        <Filename Value="udmxLAST_INSERT_ID_MySQL.lfm"/>
+        <Type Value="LFM"/>
+      </Item50>
+      <Item51>
+        <Filename Value="udmxLAST_INSERT_ID_MySQL.pas"/>
+        <UnitName Value="udmxLAST_INSERT_ID_MySQL"/>
+      </Item51>
+      <Item52>
+        <Filename Value="ufSchemateur.pas"/>
+        <UnitName Value="ufSchemateur"/>
+      </Item52>
+      <Item53>
+        <Filename Value="uHorloge.pas"/>
+        <UnitName Value="uHorloge"/>
+      </Item53>
+    </Files>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="10">
+      <Item1>
+        <PackageName Value="OD_DelphiReportEngine_Controls"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="OD_DelphiReportEngine_LCL"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="OD_DelphiReportEngine_Data"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="SQLDBLaz"/>
+      </Item4>
+      <Item5>
+        <PackageName Value="SDFLaz"/>
+      </Item5>
+      <Item6>
+        <PackageName Value="MemDSLaz"/>
+      </Item6>
+      <Item7>
+        <PackageName Value="DBFLaz"/>
+      </Item7>
+      <Item8>
+        <PackageName Value="LCL"/>
+      </Item8>
+      <Item9>
+        <PackageName Value="OD_DelphiReportEngine_Components"/>
+      </Item9>
+      <Item10>
+        <PackageName Value="FCL"/>
+      </Item10>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

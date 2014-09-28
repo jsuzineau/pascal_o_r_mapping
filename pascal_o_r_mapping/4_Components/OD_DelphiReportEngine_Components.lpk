@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="OD_DelphiReportEngine_Components"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Other>
+        <CompilerMessages>
+          <MsgFileName Value=""/>
+        </CompilerMessages>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Files Count="3">
+      <Item1>
+        <Filename Value="ucBatproVerifieur.pas"/>
+        <UnitName Value="ucBatproVerifieur"/>
+      </Item1>
+      <Item2>
+        <Filename Value="ucbvCustomConnection.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucbvCustomConnection"/>
+      </Item2>
+      <Item3>
+        <Filename Value="ucbvQuery_Datasource.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucbvQuery_Datasource"/>
+      </Item3>
+    </Files>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="2">
+      <Item1>
+        <PackageName Value="LCLBase"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="FCL"/>
+      </Item2>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

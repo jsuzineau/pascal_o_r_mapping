@@ -1,0 +1,182 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="9"/>
+    <General>
+      <Flags>
+        <MainUnitHasCreateFormStatements Value="False"/>
+        <MainUnitHasTitleStatement Value="False"/>
+      </Flags>
+      <SessionStorage Value="InProjectDir"/>
+      <MainUnit Value="0"/>
+      <Title Value="OD_DelphiReportEngine_Components_fptest"/>
+      <UseAppBundle Value="False"/>
+      <ResourceType Value="res"/>
+    </General>
+    <i18n>
+      <EnableI18N LFM="False"/>
+    </i18n>
+    <VersionInfo>
+      <StringTable ProductVersion=""/>
+    </VersionInfo>
+    <BuildModes Count="1">
+      <Item1 Name="Default" Default="True"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
+      <ExcludeFileFilter Value="*.(bak|ppu|o|so);*~;backup"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+        <LaunchingApplication PathPlusParams="/usr/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
+      </local>
+    </RunParams>
+    <RequiredPackages Count="3">
+      <Item1>
+        <PackageName Value="LCL"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="fptest_fpgui"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="OD_DelphiReportEngine_Components"/>
+      </Item3>
+    </RequiredPackages>
+    <Units Count="19">
+      <Unit0>
+        <Filename Value="OD_DelphiReportEngine_Components_fptest.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="OD_DelphiReportEngine_Components_fptest"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="utc_Batpro_Button.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utc_Batpro_Button"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="utc_Batpro_RadioGroup.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utc_Batpro_RadioGroup"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="utcBatpro_StringList.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utcBatpro_StringList"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="utc_Binary_Tree.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utc_Binary_Tree"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="utc_btInteger.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utc_btInteger"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="utc_btString.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utc_btString"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="utcCP1252_from_CP437.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utcCP1252_from_CP437"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="utcDataUtilsU.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utcDataUtilsU"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="utcEvaluation_Formule.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utcEvaluation_Formule"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="utcIntervalle.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utcIntervalle"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="utcOD_Printer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utcOD_Printer"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="utcOD_SpreadsheetManager.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utcOD_SpreadsheetManager"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="utcOpenDocument.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utcOpenDocument"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="utc_Publieur.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utc_Publieur"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="utcReal_Formatter.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utcReal_Formatter"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="utc_uDataUtilsU.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utc_uDataUtilsU"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="utc_uStrings.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utc_uStrings"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="utcOD_TestCase.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utcOD_TestCase"/>
+      </Unit18>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <Target>
+      <Filename Value="../../0_bin/OD_DelphiReportEngine_Components_fptest"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+    </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <SyntaxMode Value="Delphi"/>
+      </SyntaxOptions>
+    </Parsing>
+    <Other>
+      <CompilerMessages>
+        <MsgFileName Value=""/>
+      </CompilerMessages>
+      <CompilerPath Value="$(CompPath)"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="4">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+      <Item4>
+        <Name Value="ETestFailure"/>
+      </Item4>
+    </Exceptions>
+  </Debugging>
+</CONFIG>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="9"/>
+    <General>
+      <SessionStorage Value="InProjectDir"/>
+      <MainUnit Value="0"/>
+      <Title Value="jsWorks_linux"/>
+      <ResourceType Value="res"/>
+      <UseXPManifest Value="True"/>
+      <Icon Value="0"/>
+    </General>
+    <i18n>
+      <EnableI18N LFM="False"/>
+    </i18n>
+    <VersionInfo>
+      <StringTable ProductVersion=""/>
+    </VersionInfo>
+    <BuildModes Count="1">
+      <Item1 Name="Default" Default="True"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+      </local>
+    </RunParams>
+    <RequiredPackages Count="2">
+      <Item1>
+        <PackageName Value="OD_DelphiReportEngine_Controls_linux"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
+    </RequiredPackages>
+    <Units Count="23">
+      <Unit0>
+        <Filename Value="jsWorks_linux.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="jsWorks_linux"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="ufjsWorks.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fjsWorks"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufjsWorks"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="ublCategorie.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublCategorie"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="ublDevelopment.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublDevelopment"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="ublJour_ferie.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublJour_ferie"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="ublProject.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublProject"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="ublState.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublState"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="ublWork.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublWork"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="uhfCategorie.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uhfCategorie"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="upoolCategorie.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolCategorie"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="upoolDevelopment.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolDevelopment"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="upoolJour_ferie.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolJour_ferie"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="upoolProject.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolProject"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="upoolState.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolState"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="upoolWork.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="poolWORK"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="upoolWork"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="uhfWork.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uhfWork"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="udkProject_EDIT.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkProject_EDIT"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="udkProject_EDIT"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="udkProject_LABEL.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkProject_LABEL"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="udkProject_LABEL"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="ufProject.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fProject"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufProject"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="udkWork.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkWork"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="udkWork"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="udkDevelopment.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkDevelopment"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="udkDevelopment"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uXML.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uXML"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="../pascal_o_r_mapping/7_sources_externes/synapse/source/lib/blcksock.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="blcksock"/>
+      </Unit22>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <Target>
+      <Filename Value="jsWorks_linux"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data;../../../batpro/source/src/pascal_o_r_mapping/2_Units;../../../batpro/source/src/pascal_o_r_mapping/Controls;../../../batpro/source/src/pascal_o_r_mapping/2_LCL;../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib"/>
+      <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+    </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <SyntaxMode Value="Delphi"/>
+      </SyntaxOptions>
+    </Parsing>
+    <Linking>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
+    <Other>
+      <CompilerMessages>
+        <MsgFileName Value=""/>
+      </CompilerMessages>
+      <CompilerPath Value="$(CompPath)"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="3">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+    </Exceptions>
+  </Debugging>
+</CONFIG>

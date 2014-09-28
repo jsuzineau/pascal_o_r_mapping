@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="9"/>
+    <General>
+      <SessionStorage Value="InProjectDir"/>
+      <MainUnit Value="0"/>
+      <Title Value="http_jsWorks_mswindows"/>
+      <ResourceType Value="res"/>
+      <UseXPManifest Value="True"/>
+    </General>
+    <i18n>
+      <EnableI18N LFM="False"/>
+    </i18n>
+    <VersionInfo>
+      <StringTable ProductVersion=""/>
+    </VersionInfo>
+    <BuildModes Count="1">
+      <Item1 Name="Default" Default="True"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+      </local>
+    </RunParams>
+    <RequiredPackages Count="2">
+      <Item1>
+        <PackageName Value="OD_DelphiReportEngine_Units_windows"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
+    </RequiredPackages>
+    <Units Count="20">
+      <Unit0>
+        <Filename Value="http_jsWorks_mswindows.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="http_jsWorks_mswindows"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="ublCategorie.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublCategorie"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="ublDevelopment.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublDevelopment"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="ublProject.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublProject"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="ublState.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublState"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="ublWork.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublWork"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="uhfCategorie.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uhfCategorie"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="uhfDevelopment.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uhfDevelopment"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="uhfJour_ferie.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uhfJour_ferie"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="uhfProject.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uhfProject"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="uhfState.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uhfState"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="uhfWork.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uhfWork"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="upoolCategorie.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolCategorie"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="upoolDevelopment.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolDevelopment"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="upoolProject.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolProject"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="upoolState.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolState"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="upoolWork.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolWork"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uPool.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="uPool"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="../pascal_o_r_mapping/7_sources_externes/synapse/source/lib/blcksock.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="blcksock"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uHTTP_Interface"/>
+      </Unit19>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib"/>
+    </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <SyntaxMode Value="Delphi"/>
+      </SyntaxOptions>
+    </Parsing>
+    <Linking>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
+    <Other>
+      <CompilerMessages>
+        <MsgFileName Value=""/>
+      </CompilerMessages>
+      <CompilerPath Value="$(CompPath)"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="3">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+    </Exceptions>
+  </Debugging>
+</CONFIG>

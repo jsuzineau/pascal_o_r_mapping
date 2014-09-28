@@ -1,0 +1,1420 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="135">
+      <Unit0>
+        <Filename Value="OD_DelphiReportEngine_Formes_fptest.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="OD_DelphiReportEngine_Formes_fptest"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="15"/>
+        <UsageCount Value="105"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="uftBatpro_Element.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ftBatpro_Element"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uftBatpro_Element"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="67"/>
+        <CursorPos X="62" Y="86"/>
+        <UsageCount Value="105"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="utcBatpro_Element.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utcBatpro_Element"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="16"/>
+        <CursorPos X="11" Y="31"/>
+        <UsageCount Value="105"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="utcLAST_INSERT_ID_MySQL.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utcLAST_INSERT_ID_MySQL"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="17"/>
+        <CursorPos X="1" Y="42"/>
+        <UsageCount Value="105"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="utc_MailTo.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utc_MailTo"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="19"/>
+        <CursorPos X="11" Y="35"/>
+        <UsageCount Value="105"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="ublTest_Batpro_Ligne.pas"/>
+        <UnitName Value="ublTest_Batpro_Ligne"/>
+        <UsageCount Value="43"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="udmxcreTest_Batpro_Ligne.pas"/>
+        <HasResources Value="True"/>
+        <UnitName Value="udmxcreTest_Batpro_Ligne"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="43"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="udmxTest_Batpro_Ligne.pas"/>
+        <ComponentName Value="dmxTest_Batpro_Ligne"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="udmxTest_Batpro_Ligne"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="4"/>
+        <CursorPos X="28" Y="18"/>
+        <UsageCount Value="43"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="uftc_fProgression.pas"/>
+        <HasResources Value="True"/>
+        <UnitName Value="uftc_fProgression"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="43"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="ufTest_Batpro_Ligne.pas"/>
+        <HasResources Value="True"/>
+        <UnitName Value="ufTest_Batpro_Ligne"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="43"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="ufTestChampGrid.pas"/>
+        <HasResources Value="True"/>
+        <UnitName Value="ufTestChampGrid"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="43"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="uf_Valeur_monetaire_en_lettres.pas"/>
+        <HasResources Value="True"/>
+        <UnitName Value="uf_Valeur_monetaire_en_lettres"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="25"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="43"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="utcBatpro_Ligne.pas"/>
+        <UnitName Value="utcBatpro_Ligne"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="43"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="utc_fProgression.pas"/>
+        <UnitName Value="utc_fProgression"/>
+        <UsageCount Value="43"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="utcLogin_MySQL.pas"/>
+        <UnitName Value="utcLogin_MySQL"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="14"/>
+        <CursorPos X="14" Y="11"/>
+        <UsageCount Value="43"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="utc_Valeur_monetaire_en_lettres.pas"/>
+        <UnitName Value="utc_Valeur_monetaire_en_lettres"/>
+        <UsageCount Value="43"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="udmxt_A_CHT_GO_TEST.pas"/>
+        <HasResources Value="True"/>
+        <UnitName Value="udmxt_A_CHT_GO_TEST"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="16"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="udmxt_Etude_GO__0000000000.pas"/>
+        <HasResources Value="True"/>
+        <UnitName Value="udmxt_Etude_GO__0000000000"/>
+        <UsageCount Value="16"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="udmxt_G_FRS.pas"/>
+        <HasResources Value="True"/>
+        <UnitName Value="udmxt_G_FRS"/>
+        <UsageCount Value="16"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="udmxt_hRequete.pas"/>
+        <HasResources Value="True"/>
+        <UnitName Value="udmxt_hRequete"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="163"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="19"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="utcA_CHT_GO_TEST.pas"/>
+        <UnitName Value="utcA_CHT_GO_TEST"/>
+        <UsageCount Value="16"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="utcEtude_GO__0000000000.pas"/>
+        <UnitName Value="utcEtude_GO__0000000000"/>
+        <UsageCount Value="16"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="utcG_FRS.pas"/>
+        <UnitName Value="utcG_FRS"/>
+        <UsageCount Value="16"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="utc_hRequete.pas"/>
+        <UnitName Value="utc_hRequete"/>
+        <UsageCount Value="19"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="../udmxCreator.pas"/>
+        <ComponentName Value="dmxCreator"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="udmxCreator"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="12"/>
+        <CursorPos X="33" Y="33"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="../udmBatpro_DataModule.pas"/>
+        <ComponentName Value="dmBatpro_DataModule"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="udmBatpro_DataModule"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="103"/>
+        <CursorPos X="36" Y="106"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="../udmDatabase.pas"/>
+        <ComponentName Value="dmDatabase"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="udmDatabase"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="99"/>
+        <CursorPos X="54" Y="125"/>
+        <UsageCount Value="11"/>
+        <Bookmarks Count="1">
+          <Item0 X="30" Y="118" ID="1"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="../ufBatpro_Form.pas"/>
+        <ComponentName Value="fBatpro_Form"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufBatpro_Form"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="339"/>
+        <CursorPos X="1" Y="351"/>
+        <UsageCount Value="17"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="../ufBatpro_Desk.pas"/>
+        <ComponentName Value="fBatpro_Desk"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufBatpro_Desk"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="12"/>
+        <CursorPos X="14" Y="30"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="../ufBatpro_Form_Ancetre.pas"/>
+        <ComponentName Value="fBatpro_Form_Ancetre"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufBatpro_Form_Ancetre"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="9" Y="15"/>
+        <UsageCount Value="11"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="../ufBatpro_Desk.lfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="../../../Batpro_Unites/Batpro_Unites_fptest/utc_bmIMPUTATION.pas"/>
+        <UnitName Value="utc_bmIMPUTATION"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="36" Y="10"/>
+        <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="../../pOOoDelphiReportEngine/dunit/utcOOoDatasetRowPrinter.pas"/>
+        <UnitName Value="utcOOoDatasetRowPrinter"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="3"/>
+        <CursorPos X="36" Y="19"/>
+        <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="../../pOOoDelphiReportEngine/dunit/utcOOoDatasetPrinter.pas"/>
+        <UnitName Value="utcOOoDatasetPrinter"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="113"/>
+        <CursorPos X="23" Y="128"/>
+        <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="../../pOOoDelphiReportEngine/dunit/utcOOoDetailStringGridPrinter.pas"/>
+        <UnitName Value="utcOOoDetailStringGridPrinter"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="71"/>
+        <CursorPos X="23" Y="86"/>
+        <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="../../pOOoDelphiReportEngine/dunit/utcOOoMultiDetailPrinter.pas"/>
+        <UnitName Value="utcOOoMultiDetailPrinter"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="333"/>
+        <CursorPos X="24" Y="363"/>
+        <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="../../Components/DBClient.pas"/>
+        <UnitName Value="BufDataset"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="14" Y="11"/>
+        <UsageCount Value="6"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="../uDataUtilsF.pas"/>
+        <UnitName Value="uDataUtilsF"/>
+        <TopLine Value="993"/>
+        <CursorPos X="1" Y="1006"/>
+        <UsageCount Value="15"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="../../Components/Provider.pas"/>
+        <UnitName Value="Provider"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="2" Y="8"/>
+        <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="../udmx.pas"/>
+        <ComponentName Value="dmx"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="udmx"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="63" Y="11"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit39>
+      <Unit40>
+        <Filename Value="../udmx.lfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="18" Y="12"/>
+        <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit40>
+      <Unit41>
+        <Filename Value="udmxTest_Batpro_Ligne.dfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="25"/>
+        <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit41>
+      <Unit42>
+        <Filename Value="/usr/share/fpcsrc/2.6.0/packages/fcl-db/src/base/db.pas"/>
+        <UnitName Value="db"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="544"/>
+        <CursorPos X="38" Y="559"/>
+        <UsageCount Value="3"/>
+      </Unit42>
+      <Unit43>
+        <Filename Value="../uhRequete.pas"/>
+        <UnitName Value="uhRequete"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="534"/>
+        <CursorPos X="19" Y="552"/>
+        <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit43>
+      <Unit44>
+        <Filename Value="../uPool.pas"/>
+        <ComponentName Value="Pool"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="uPool"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="795"/>
+        <CursorPos X="24" Y="799"/>
+        <UsageCount Value="26"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit44>
+      <Unit45>
+        <Filename Value="lib/x86_64-linux/udmxTest_Batpro_Ligne.dfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="43"/>
+        <CursorPos X="41" Y="58"/>
+        <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit45>
+      <Unit46>
+        <Filename Value="../../../Batpro_Formes/upoolG_BECPCTX.lfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="30"/>
+        <CursorPos X="40" Y="60"/>
+        <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit46>
+      <Unit47>
+        <Filename Value="../uhDessinnateur.pas"/>
+        <UnitName Value="uhDessinnateur"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="334"/>
+        <CursorPos X="57" Y="342"/>
+        <UsageCount Value="43"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit47>
+      <Unit48>
+        <Filename Value="../ufpBas.pas"/>
+        <ComponentName Value="fpBas"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufpBas"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="34" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit48>
+      <Unit49>
+        <Filename Value="../uSVG.pas"/>
+        <UnitName Value="uSVG"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="410"/>
+        <CursorPos X="28" Y="427"/>
+        <UsageCount Value="5"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit49>
+      <Unit50>
+        <Filename Value="../uBatproReportPageFormat.pas"/>
+        <UnitName Value="uBatproReportPageFormat"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="71"/>
+        <CursorPos X="28" Y="86"/>
+        <UsageCount Value="5"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit50>
+      <Unit51>
+        <Filename Value="../uCD_from_SL.pas"/>
+        <UnitName Value="uCD_from_SL"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="25"/>
+        <CursorPos X="47" Y="37"/>
+        <UsageCount Value="19"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit51>
+      <Unit52>
+        <Filename Value="uftBatpro_Element.dfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="7"/>
+        <CursorPos X="1" Y="25"/>
+        <UsageCount Value="5"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit52>
+      <Unit53>
+        <Filename Value="../../Components/ucAnimate.pas"/>
+        <UnitName Value="ucAnimate"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="5"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit53>
+      <Unit54>
+        <Filename Value="../ufBatpro_Form.lfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="31"/>
+        <CursorPos X="15" Y="59"/>
+        <UsageCount Value="5"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit54>
+      <Unit55>
+        <Filename Value="../uBatpro_Element.pas"/>
+        <UnitName Value="uBatpro_Element"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1226"/>
+        <CursorPos X="1" Y="1241"/>
+        <UsageCount Value="27"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit55>
+      <Unit56>
+        <Filename Value="../ublG_BECPCTX.pas"/>
+        <UnitName Value="ublG_BECPCTX"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="21"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit56>
+      <Unit57>
+        <Filename Value="../upoolG_BECPCTX.pas"/>
+        <ComponentName Value="poolG_BECPCTX"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="upoolG_BECPCTX"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="6"/>
+        <CursorPos X="20" Y="18"/>
+        <UsageCount Value="23"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit57>
+      <Unit58>
+        <Filename Value="../upoolG_BECP.pas"/>
+        <ComponentName Value="poolG_BECP"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="upoolG_BECP"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="102"/>
+        <CursorPos X="1" Y="117"/>
+        <UsageCount Value="24"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit58>
+      <Unit59>
+        <Filename Value="../upool_Ancetre_Ancetre.pas"/>
+        <ComponentName Value="pool_Ancetre_Ancetre"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="upool_Ancetre_Ancetre"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="55" Y="7"/>
+        <UsageCount Value="24"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit59>
+      <Unit60>
+        <Filename Value="../upool_Ancetre_Ancetre.dfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="6"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit60>
+      <Unit61>
+        <Filename Value="../uPool.lfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="32" Y="7"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit61>
+      <Unit62>
+        <Filename Value="../../Components/uClean.pas"/>
+        <UnitName Value="uClean"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="193"/>
+        <CursorPos X="1" Y="205"/>
+        <UsageCount Value="25"/>
+        <Bookmarks Count="2">
+          <Item0 X="60" Y="40" ID="2"/>
+          <Item1 X="23" Y="157" ID="3"/>
+        </Bookmarks>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit62>
+      <Unit63>
+        <Filename Value="../upoolG_CTX.pas"/>
+        <ComponentName Value="poolG_CTX"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="upoolG_CTX"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="6"/>
+        <CursorPos X="20" Y="18"/>
+        <UsageCount Value="21"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit63>
+      <Unit64>
+        <Filename Value="../uhTriColonneChamps_StringGrid.pas"/>
+        <UnitName Value="uhTriColonneChamps_StringGrid"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="26" Y="7"/>
+        <UsageCount Value="19"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit64>
+      <Unit65>
+        <Filename Value="../uhTriColonneChamps.pas"/>
+        <UnitName Value="uhTriColonneChamps"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="26" Y="7"/>
+        <UsageCount Value="19"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit65>
+      <Unit66>
+        <Filename Value="../_ufClientDataset.pas"/>
+        <UnitName Value="ufClientDataset"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="67"/>
+        <CursorPos X="61" Y="79"/>
+        <UsageCount Value="19"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit66>
+      <Unit67>
+        <Filename Value="../upoolG_CTXTYPE.pas"/>
+        <ComponentName Value="poolG_CTXTYPE"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="upoolG_CTXTYPE"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="52"/>
+        <CursorPos X="23" Y="65"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit67>
+      <Unit68>
+        <Filename Value="Formes_fptest_todo/udmxTest_Batpro_Ligne.pas"/>
+        <UnitName Value="udmxTest_Batpro_Ligne"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="16"/>
+        <CursorPos X="49" Y="28"/>
+        <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit68>
+      <Unit69>
+        <Filename Value="../../Components/Components_fptest/Components_fptest_ToDo/udmxtReal_Field_Formatter.pas"/>
+        <UnitName Value="udmxtReal_Field_Formatter"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="49" Y="20"/>
+        <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit69>
+      <Unit70>
+        <Filename Value="../../../Batpro_Formes/upoolG_PAM.pas"/>
+        <UnitName Value="upoolG_PAM"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="38"/>
+        <CursorPos X="58" Y="50"/>
+        <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit70>
+      <Unit71>
+        <Filename Value="../../../Batpro_Formes/upoolP_EQP.pas"/>
+        <UnitName Value="upoolP_EQP"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="22"/>
+        <CursorPos X="60" Y="35"/>
+        <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit71>
+      <Unit72>
+        <Filename Value="../../../Batpro_Formes/upoolG_TRC.pas"/>
+        <UnitName Value="upoolG_TRC"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="16"/>
+        <CursorPos X="58" Y="28"/>
+        <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit72>
+      <Unit73>
+        <Filename Value="../../../Batpro_Formes/udmxG3_UTI.pas"/>
+        <UnitName Value="udmxG3_UTI"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="139"/>
+        <CursorPos X="5" Y="151"/>
+        <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit73>
+      <Unit74>
+        <Filename Value="../../../Batpro_Formes/upoolG_PIP.pas"/>
+        <UnitName Value="upoolG_PIP"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="19"/>
+        <CursorPos X="58" Y="31"/>
+        <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit74>
+      <Unit75>
+        <Filename Value="../../../Batpro_Formes/Batpro_Formes_fptest/udmxt_hRequete.pas"/>
+        <UnitName Value="udmxt_hRequete"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="230"/>
+        <CursorPos X="5" Y="242"/>
+        <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit75>
+      <Unit76>
+        <Filename Value="/usr/share/fpcsrc/2.6.0/rtl/objpas/classes/classesh.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1852"/>
+        <CursorPos X="43" Y="1836"/>
+        <UsageCount Value="11"/>
+      </Unit76>
+      <Unit77>
+        <Filename Value="/usr/local/share/lazarus/lcl/forms.pp"/>
+        <UnitName Value="Forms"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2039"/>
+        <CursorPos X="31" Y="2047"/>
+        <UsageCount Value="9"/>
+      </Unit77>
+      <Unit78>
+        <Filename Value="../upoolG_BECP.dfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="8"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit78>
+      <Unit79>
+        <Filename Value="../upoolG_BECPCTX.lfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="31"/>
+        <CursorPos X="13" Y="54"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit79>
+      <Unit80>
+        <Filename Value="../ufcbBase.pas"/>
+        <UnitName Value="ufcbBase"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="191"/>
+        <CursorPos X="55" Y="214"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit80>
+      <Unit81>
+        <Filename Value="../ufAccueil.pas"/>
+        <ComponentName Value="fAccueil"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufAccueil"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="306"/>
+        <CursorPos X="16" Y="310"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit81>
+      <Unit82>
+        <Filename Value="../ufBatpro_Informix.pas"/>
+        <ComponentName Value="fBatpro_Informix"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufBatpro_Informix"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit82>
+      <Unit83>
+        <Filename Value="../ufBatpro_MySQL.pas"/>
+        <ComponentName Value="fBatpro_MySQL"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufBatpro_MySQL"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="66"/>
+        <CursorPos X="37" Y="85"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit83>
+      <Unit84>
+        <Filename Value="../ufBatpro_Parametres_Client.pas"/>
+        <ComponentName Value="fBatpro_Parametres_Client"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufBatpro_Parametres_Client"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit84>
+      <Unit85>
+        <Filename Value="../ufBitmaps.pas"/>
+        <ComponentName Value="fBitmaps"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufBitmaps"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit85>
+      <Unit86>
+        <Filename Value="../ufBloqueur.pas"/>
+        <ComponentName Value="fBloqueur"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufBloqueur"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit86>
+      <Unit87>
+        <Filename Value="../ufHelp_Creator.pas"/>
+        <ComponentName Value="fHelp_Creator"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufHelp_Creator"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit87>
+      <Unit88>
+        <Filename Value="../ufHorloge.pas"/>
+        <ComponentName Value="fHorloge"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufHorloge"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit88>
+      <Unit89>
+        <Filename Value="../ufMailTo.pas"/>
+        <ComponentName Value="fMailTo"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufMailTo"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit89>
+      <Unit90>
+        <Filename Value="../ufOOoModelSelect.pas"/>
+        <ComponentName Value="fOOoModelSelect"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufOOoModelSelect"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit90>
+      <Unit91>
+        <Filename Value="../ufOOo_NomFichier_Modele.pas"/>
+        <ComponentName Value="fOOo_NomFichier_Modele"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufOOo_NomFichier_Modele"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit91>
+      <Unit92>
+        <Filename Value="../ufOpenDocument_DelphiReportEngine.pas"/>
+        <ComponentName Value="fOpenDocument_DelphiReportEngine"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufOpenDocument_DelphiReportEngine"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit92>
+      <Unit93>
+        <Filename Value="../ufReconcileError.pas"/>
+        <ComponentName Value="fReconcileError"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufReconcileError"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="13"/>
+        <CursorPos X="45" Y="23"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit93>
+      <Unit94>
+        <Filename Value="../udmx.dfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="13" Y="18"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit94>
+      <Unit95>
+        <Filename Value="../upoolG_BECPCTX.dfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="31"/>
+        <CursorPos X="13" Y="54"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit95>
+      <Unit96>
+        <Filename Value="../../../Batpro_Formes/Batpro_Formes à revoir/udmxLAST_INSERT_ID_INFORMIX.lfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="8"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit96>
+      <Unit97>
+        <Filename Value="../../../Batpro_Formes/Batpro_Formes à revoir/udmxLAST_INSERT_ID_MySQL.lfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="8"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit97>
+      <Unit98>
+        <Filename Value="../../../Batpro_Formes/Batpro_Formes_fptest/udmxt_hRequete.dfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1737"/>
+        <CursorPos X="1" Y="1749"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit98>
+      <Unit99>
+        <Filename Value="../../../Batpro_Formes/Batpro_Formes_fptest/udmxt_G_FRS.dfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="9"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit99>
+      <Unit100>
+        <Filename Value="../../../Batpro_Formes/Batpro_Formes_fptest/udmxt_Etude_GO__0000000000.dfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="8"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit100>
+      <Unit101>
+        <Filename Value="../../../Batpro_Formes/Batpro_Formes_fptest/udmxt_A_CHT_GO_TEST.dfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="9"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit101>
+      <Unit102>
+        <Filename Value="../lib/x86_64-linux/upoolG_CTX.dfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="6"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit102>
+      <Unit103>
+        <Filename Value="../lib/x86_64-linux/upoolG_BECPCTX.lfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="6"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit103>
+      <Unit104>
+        <Filename Value="Formes_fptest_todo/udmxcreTest_Batpro_Ligne.dfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="13"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit104>
+      <Unit105>
+        <Filename Value="lib/x86_64-linux/udmxcreTest_Batpro_Ligne.dfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="13"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit105>
+      <Unit106>
+        <Filename Value="../upoolG_CTX.dfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="6"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit106>
+      <Unit107>
+        <Filename Value="../udmDatabase.dfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="58"/>
+        <CursorPos X="1" Y="70"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit107>
+      <Unit108>
+        <Filename Value="../../Components/uskString.pas"/>
+        <UnitName Value="uskString"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="106"/>
+        <CursorPos X="1" Y="120"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit108>
+      <Unit109>
+        <Filename Value="../ublG_BECP.pas"/>
+        <UnitName Value="ublG_BECP"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="22"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit109>
+      <Unit110>
+        <Filename Value="../../../../../../install/lazarus/lcl/include/control.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="3276"/>
+        <CursorPos X="1" Y="3288"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit110>
+      <Unit111>
+        <Filename Value="../../../../../../install/lazarus/lcl/include/wincontrol.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="8043"/>
+        <CursorPos X="1" Y="8060"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit111>
+      <Unit112>
+        <Filename Value="../uMySQL.pas"/>
+        <UnitName Value="uMySQL"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="78"/>
+        <CursorPos X="30" Y="87"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit112>
+      <Unit113>
+        <Filename Value="../../Components/SqlExpr.pas"/>
+        <UnitName Value="SqlExpr"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit113>
+      <Unit114>
+        <Filename Value="../../Components/ucbvCustomConnection.pas"/>
+        <UnitName Value="ucbvCustomConnection"/>
+        <TopLine Value="1"/>
+        <CursorPos X="24" Y="8"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit114>
+      <Unit115>
+        <Filename Value="../../../uOD_IOO.pas"/>
+        <UnitName Value="uOD_IOO"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="40"/>
+        <CursorPos X="64" Y="52"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit115>
+      <Unit116>
+        <Filename Value="../uhFiltre.pas"/>
+        <UnitName Value="uhFiltre"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="5"/>
+        <CursorPos X="33" Y="25"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit116>
+      <Unit117>
+        <Filename Value="/usr/share/fpcsrc/2.6.0/packages/fcl-db/src/sqldb/sqldb.pp"/>
+        <UnitName Value="sqldb"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="75"/>
+        <CursorPos X="3" Y="87"/>
+        <UsageCount Value="9"/>
+      </Unit117>
+      <Unit118>
+        <Filename Value="../uInformix.pas"/>
+        <UnitName Value="uInformix"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="60" Y="12"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit118>
+      <Unit119>
+        <Filename Value="../uBatpro_Ligne.pas"/>
+        <UnitName Value="uBatpro_Ligne"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="474"/>
+        <CursorPos X="1" Y="486"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit119>
+      <Unit120>
+        <Filename Value="../uChamps_persistance.pas"/>
+        <UnitName Value="uChamps_persistance"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="56"/>
+        <CursorPos X="24" Y="64"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit120>
+      <Unit121>
+        <Filename Value="../uhTriColonne.pas"/>
+        <UnitName Value="uhTriColonne"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="24" Y="7"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit121>
+      <Unit122>
+        <Filename Value="../ufRechercheBatpro_Ligne.pas"/>
+        <UnitName Value="ufRechercheBatpro_Ligne"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="15"/>
+        <CursorPos X="27" Y="27"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit122>
+      <Unit123>
+        <Filename Value="../ufRechercheBatpro_Ligne_DockableScrollBox.pas"/>
+        <UnitName Value="ufRechercheBatpro_Ligne_DockableScrollBox"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="15"/>
+        <CursorPos X="25" Y="27"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit123>
+      <Unit124>
+        <Filename Value="../../../../../../install/lazarus/lcl/include/canvas.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1660"/>
+        <CursorPos X="1" Y="1672"/>
+        <UsageCount Value="14"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit124>
+      <Unit125>
+        <Filename Value="../uDataClasses.pas"/>
+        <UnitName Value="uDataClasses"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="364"/>
+        <CursorPos X="1" Y="368"/>
+        <UsageCount Value="14"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit125>
+      <Unit126>
+        <Filename Value="../ubeString.pas"/>
+        <UnitName Value="ubeString"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="95"/>
+        <CursorPos X="1" Y="108"/>
+        <UsageCount Value="14"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit126>
+      <Unit127>
+        <Filename Value="../../Components/uWinUtils.pas"/>
+        <UnitName Value="uWinUtils"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="269"/>
+        <CursorPos X="1" Y="285"/>
+        <UsageCount Value="14"/>
+        <Bookmarks Count="1">
+          <Item0 X="22" Y="120" ID="1"/>
+        </Bookmarks>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit127>
+      <Unit128>
+        <Filename Value="../../Components/uOD_Temporaire.pas"/>
+        <UnitName Value="uOD_Temporaire"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="116"/>
+        <CursorPos X="49" Y="116"/>
+        <UsageCount Value="14"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit128>
+      <Unit129>
+        <Filename Value="../../Components/uTemporaire.pas"/>
+        <UnitName Value="uTemporaire"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="29"/>
+        <CursorPos X="1" Y="40"/>
+        <UsageCount Value="14"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit129>
+      <Unit130>
+        <Filename Value="/usr/local/share/lazarus/lcl/graphics.pp"/>
+        <UnitName Value="Graphics"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="229"/>
+        <CursorPos X="1" Y="229"/>
+        <UsageCount Value="10"/>
+      </Unit130>
+      <Unit131>
+        <Filename Value="../../../../../../install/lazarus/lcl/interfaces/gtk2/gtk2widgetset.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="38"/>
+        <CursorPos X="1" Y="50"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit131>
+      <Unit132>
+        <Filename Value="../../../../../../install/lazarus/lcl/include/customform.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2894"/>
+        <CursorPos X="1" Y="2906"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit132>
+      <Unit133>
+        <Filename Value="../udmxLAST_INSERT_ID_MySQL.pas"/>
+        <ComponentName Value="dmxLAST_INSERT_ID_MySQL"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="udmxLAST_INSERT_ID_MySQL"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="41"/>
+        <CursorPos X="1" Y="67"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit133>
+      <Unit134>
+        <Filename Value="../udmDatabase.lfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="24" Y="11"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit134>
+    </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="../udmBatpro_DataModule.pas"/>
+        <Caret Line="314" Column="31" TopLine="277"/>
+      </Position1>
+      <Position2>
+        <Filename Value="../udmDatabase.pas"/>
+        <Caret Line="33" Column="42" TopLine="15"/>
+      </Position2>
+      <Position3>
+        <Filename Value="utcLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="8" Column="1" TopLine="17"/>
+      </Position3>
+      <Position4>
+        <Filename Value="utcLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="37" Column="1" TopLine="17"/>
+      </Position4>
+      <Position5>
+        <Filename Value="utcLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="38" Column="1" TopLine="17"/>
+      </Position5>
+      <Position6>
+        <Filename Value="utcLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="39" Column="1" TopLine="17"/>
+      </Position6>
+      <Position7>
+        <Filename Value="utcLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="40" Column="1" TopLine="17"/>
+      </Position7>
+      <Position8>
+        <Filename Value="utcLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="41" Column="1" TopLine="17"/>
+      </Position8>
+      <Position9>
+        <Filename Value="utcLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="42" Column="1" TopLine="17"/>
+      </Position9>
+      <Position10>
+        <Filename Value="../udmxLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="41" Column="1" TopLine="25"/>
+      </Position10>
+      <Position11>
+        <Filename Value="../udmxLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="42" Column="1" TopLine="16"/>
+      </Position11>
+      <Position12>
+        <Filename Value="../udmxLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="28" Column="1" TopLine="10"/>
+      </Position12>
+      <Position13>
+        <Filename Value="../udmxLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="23" Column="50" TopLine="23"/>
+      </Position13>
+      <Position14>
+        <Filename Value="../udmxLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="28" Column="50" TopLine="27"/>
+      </Position14>
+      <Position15>
+        <Filename Value="../udmxLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="27" Column="50" TopLine="26"/>
+      </Position15>
+      <Position16>
+        <Filename Value="../udmxLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="37" Column="47" TopLine="26"/>
+      </Position16>
+      <Position17>
+        <Filename Value="../udmxLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="39" Column="47" TopLine="27"/>
+      </Position17>
+      <Position18>
+        <Filename Value="../udmxLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="40" Column="47" TopLine="27"/>
+      </Position18>
+      <Position19>
+        <Filename Value="../udmxLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="39" Column="47" TopLine="27"/>
+      </Position19>
+      <Position20>
+        <Filename Value="../udmxLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="47" Column="65" TopLine="20"/>
+      </Position20>
+      <Position21>
+        <Filename Value="utcLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="42" Column="1" TopLine="17"/>
+      </Position21>
+      <Position22>
+        <Filename Value="../udmxLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="52" Column="1" TopLine="36"/>
+      </Position22>
+      <Position23>
+        <Filename Value="../udmxLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="54" Column="1" TopLine="36"/>
+      </Position23>
+      <Position24>
+        <Filename Value="../udmxLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="56" Column="1" TopLine="36"/>
+      </Position24>
+      <Position25>
+        <Filename Value="../udmxLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="57" Column="1" TopLine="36"/>
+      </Position25>
+      <Position26>
+        <Filename Value="../udmxLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="59" Column="1" TopLine="36"/>
+      </Position26>
+      <Position27>
+        <Filename Value="../udmxLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="60" Column="1" TopLine="36"/>
+      </Position27>
+      <Position28>
+        <Filename Value="../udmxLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="63" Column="1" TopLine="37"/>
+      </Position28>
+      <Position29>
+        <Filename Value="../udmxLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="64" Column="1" TopLine="38"/>
+      </Position29>
+      <Position30>
+        <Filename Value="../udmxLAST_INSERT_ID_MySQL.pas"/>
+        <Caret Line="65" Column="1" TopLine="39"/>
+      </Position30>
+    </JumpHistory>
+  </ProjectSession>
+  <Debugging>
+    <Watches Count="2">
+      <Item1>
+        <Expression Value="Colonne"/>
+      </Item1>
+      <Item2>
+        <Expression Value="Ligne"/>
+      </Item2>
+    </Watches>
+  </Debugging>
+</CONFIG>

@@ -1,0 +1,9 @@
+object dmDatabase: TdmDatabase
+  Left = 443
+  Height = 284
+  Top = 259
+  Width = 421
+  OnCreate = DataModuleCreate
+  OnDestroy = DataModuleDestroy
+  LCLVersion = '1.2.0.3'
+end

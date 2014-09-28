@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252" http-equiv="content-type">
+  </head>
+  <body>
+    <table ng-app="jsWorks" ng-controller="ctrl_jsWorks" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;">
+            <table style="width: 100%" border="1">
+              <tbody>
+                <tr ng-repeat="bl in slProject">
+                  <td style="width: 100%; vertical-align: top;"> <a href="" ng-click="_from_Project(bl);">{{
+                      bl.Name }} </a> </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td style="width: 634.5px;">
+            <table style="width: 100%" border="1">
+              <tbody>
+                <tr>
+                  <td style="width: 250px; vertical-align: top;">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <p>Projet: {{Project.Name}}</p>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div style="height:250px;overflow:scroll;">
+                              <table style="width: 100%" border="1">
+                                <tbody>
+                                  <tr ng-repeat="bl in slWork">
+                                    <td> <a href="" ng-click="_from_Work(bl);">{{
+                                        bl.Beginning }} </a> </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                  <td style="width: 434.5px;height:300px;vertical-align: top;">
+                    <p> Début: <input ng-model="Work.Beginning" ng_change="Work_Set()"
+                        type="text"> </p>
+                    <p>Fin: <input ng-model="Work.End" ng_change="Work_Set()" type="text"></p>
+                    <button ng-click="Work_Start()">Démarrer</button> <button ng-click="Work_Stop()">Arrêter</button>
+                    <p><textarea ng-model="Work.Description" ng-change="Work_Set()" COLS=40 ROWS=6></textarea></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width: 200px;vertical-align: top;">
+                    <div style="height:200px;overflow:scroll;">
+                      <table style="width: 100%" border="1">
+                        <tbody>
+                          <tr ng-repeat="bl in slDevelopment">
+                            <td style="width: 100%; vertical-align: top;"> <a href=""
+                                ng-click="_from_Development(bl);">{{
+                                bl.Description_Short }} </a> </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </td>
+                  <td style="width: 434.5px;vertical-align: top;">
+                     <table border="0" cellpadding="0" cellspacing="0">
+                      <tbody>
+                        <tr>
+                          <td>
+                            <p>Catégorie</p>
+                            <p>
+                              <select ng-model="Categorie" ng-options="bl.Description for bl in slCategorie"
+                                ng_change="Categorie_Set()">
+                              </select>
+                            </p>
+                          </td>
+                          <td>
+                            <p>Etat</p>
+                            <p>
+                              <select ng-model="State" ng-options="bl.Description for bl in slState"
+                                ng_change="State_Set()">
+                              </select>
+                            </p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <button ng-click="Development_Point()">Point</button>
+                    <button ng-click="Development_Bug()">Bug</button>
+                    <p><textarea ng-model="Development.Description" ng_change="Development_Set()" COLS=40 ROWS=6></textarea></p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"> </script>
+            <script>
+
+function bl_from_sl_id( sl, id)
+  {
+  if (undefined == sl) return;
+  for(var i=0; i < sl.length; i++)
+    {
+    if (sl[i].id == id) return sl[i];
+    }
+  }
+
+function bl_First( sl)
+  {
+  if (undefined == sl) return;
+  if (sl.length < 1) return;
+  return sl[0];
+  }
+
+</script> <script>
+var m_jsWorks = angular.module('jsWorks', []);
+
+m_jsWorks.controller('ctrl_jsWorks', function ($scope,$http)
+ {
+  $scope.slProject= {};
+  $scope.Project = {};
+  $scope.slWork = {};
+  $scope.Work = {};
+  $scope.slDevelopment = {};
+  $scope.Development = {};
+
+  $scope.slCategorie = {};
+  $scope.Categorie={};
+  $scope.slState = {};
+  $scope.State={};
+
+
+  $http.get("Project").success( function(response) {$scope.slProject = response;});
+  $http.get("Categorie").success( function(response) {$scope.slCategorie = response;});
+  $http.get("State").success( function(response) {$scope.slState = response;});
+  $scope._from_Project= function(_Project)
+    {
+    $scope.Project=_Project;
+    $http.get("Work_from_Project"+_Project.id).success( function(response)
+      {
+      $scope.slWork = response;
+      });
+    $http.get("Development_from_Project"+_Project.id).success( function(response)
+      {
+      $scope.slDevelopment = response;
+      });
+    };
+  $scope._from_Work= function(_Work)
+    {
+    $scope.Work= _Work;
+    };
+  $scope._from_Development= function(_Development)
+    {
+    $scope.Development= _Development;
+    };
+  $scope.Work_Start= function()
+    {
+    $http.get("Work_Start"+$scope.Project.id).success( function(response)
+      {
+      $scope.Work= response;
+      $scope._from_Project();
+      });
+    };
+  $scope.Work_Stop= function(_idWork)
+    {
+    $http.get("Work_Stop"+$scope.Work.id).success( function(response)
+      {
+      $scope.Work= response;
+      $scope._from_Project();
+      });
+    };
+  $scope.Work_Set= function()
+    {
+    if ($scope.Work.id == undefined) return;
+    Work_JSON= JSON.stringify( $scope.Work);
+    $http.get("Work_Set"+$scope.Work.id+"&"+Work_JSON).success( function(response)
+      {
+      $scope.Work= response;
+      $scope._from_Project();
+      });
+    };
+  $scope.Development_Point= function()
+    {
+    $http.get("Development_Point"+$scope.Project.id).success( function(response)
+      {
+      $scope.Development= response;
+      $scope._from_Project();
+      });
+    };
+  $scope.Development_Bug= function()
+    {
+    $http.get("Development_Point"+$scope.Project.id).success( function(response)
+      {
+      $scope.Development= response;
+      $scope._from_Project();
+      });
+    };
+  $scope.Development_Set= function()
+    {
+    if ($scope.Development.id == undefined) return;
+    Development_JSON= JSON.stringify( $scope.Development);
+    $http.get("Development_Set"+$scope.Development.id+"&"+Development_JSON).success( function(response)
+      {
+      $scope.Development= response;
+      });
+    };
+
+  $scope.$watch('slProject', function(newValue, oldValue)
+    {
+    $scope.Project= bl_First( $scope.slProject)
+    });
+  $scope.$watch('slWork', function(newValue, oldValue)
+    {
+    $scope.Work= bl_First( $scope.slWork)
+    });
+  $scope.$watch('slDevelopment', function(newValue, oldValue)
+    {
+    $scope.Development= bl_First( $scope.slDevelopment)
+    });
+  $scope.$watch('Development', function(newValue, oldValue)
+    {
+    if (undefined == $scope.Development) return;
+    $scope.Categorie= bl_from_sl_id( $scope.slCategorie, $scope.Development.nCategorie)
+    $scope.State    = bl_from_sl_id( $scope.slState    , $scope.Development.nState    )
+    });
+
+  $scope.Categorie_Set= function()
+    {
+    $scope.Development.nCategorie= $scope.Categorie.id
+    $scope.Development_Set();
+    }
+  $scope.State_Set= function()
+    {
+    $scope.Development.nState= $scope.State.id
+    $scope.Development_Set();
+    }
+ })
+</script> </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

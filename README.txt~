@@ -1,0 +1,29 @@
+Pascal O R Mapping
+(french version follows)
+
+Basically this library provides the mean to create a list of objects from a TDataset. 
+Then around, you have all the bells and whistles to use these lists in the most common contexts 
+where you usually use a TDataset. For example to edit a field value, instead of using 
+a TDBEdit component you can use a TChamp_Edit.
+In a dataset, you can have access to one line at a time. But with this mapping 
+you can build complex relations between all the objects, directly reflecting 
+the underlying UML class diagram. For example in our planning software, tasks are read 
+from a single table and end up displayed in a tree. Each object-task can be connected 
+to objects representing teams, employees, vehicles, tools, a bit like a piece of fabric. 
+You can get several different views of this fabric, listing the planning of an employee,
+or the affectations of a tool. May be it's not completely impossible to achieve with datasets,
+but it's a lot more easier to do this way.
+
+======================================================================================
+Essentiellement cette bibliothèque vous permet de créer une liste d'objets à partir d'un TDataset.
+Elle contient également toute la quincaillerie nécessaire pour utiliser ces listes dans les 
+situations les plus courantes où l'on utilise un TDataset. Par exemple pour modifier la valeur d'un champ,
+un composant TChamp_Edit rendra les mêmes services qu'un TDBEdit. 
+Alors qu'un dataset vous permet d'accéder à une seule ligne à la fois, vous pouvez ici construire 
+des relations complexes entre les objets, reflétant le diagramme de classes UML sous-jacent.
+Par exemple dans notre logiciel de planning, les tâches sont lues dans une seule table avant 
+d'être affichées sous forme d'arbre. Chaque objet-tâche peut être connecté à des objets 
+représentant des équipes, des salariés, des véhicules, des outils, réalisant une sorte de tissu.
+Vous pouvez obtenir plusieurs vues différentes de ce tissu, par exemple le planning d'un salarié 
+ou les affectations d'un outil. Cela n'est peut-être pas complètement impossible à faire 
+avec des datasets mais c'est beaucoup plus simple à coder de cette façon.

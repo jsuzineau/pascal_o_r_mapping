@@ -1,0 +1,4 @@
+id=id
+Selected=Selected
+Symbol=Symbol
+Description=Description

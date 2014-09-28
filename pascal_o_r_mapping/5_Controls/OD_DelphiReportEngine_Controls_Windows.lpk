@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="OD_DelphiReportEngine_Controls_Windows"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <SyntaxMode Value="Delphi"/>
+        </SyntaxOptions>
+      </Parsing>
+      <Other>
+        <CompilerMessages>
+          <MsgFileName Value=""/>
+        </CompilerMessages>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Files Count="38">
+      <Item1>
+        <Filename Value="ucBatpro_Button.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucBatpro_Button"/>
+      </Item1>
+      <Item2>
+        <Filename Value="ucBatproComboBox.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucBatproComboBox"/>
+      </Item2>
+      <Item3>
+        <Filename Value="ucBatpro_Contrainte.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucBatpro_Contrainte"/>
+      </Item3>
+      <Item4>
+        <Filename Value="ucBatproDateRange.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucBatproDateRange"/>
+      </Item4>
+      <Item5>
+        <Filename Value="ucBatproDateTimePicker.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucBatproDateTimePicker"/>
+      </Item5>
+      <Item6>
+        <Filename Value="ucBatproMaskElement.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucBatproMaskElement"/>
+      </Item6>
+      <Item7>
+        <Filename Value="ucBatproMasque.pas"/>
+        <UnitName Value="ucBatproMasque"/>
+      </Item7>
+      <Item8>
+        <Filename Value="ucBatpro_OptionButton.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucBatpro_OptionButton"/>
+      </Item8>
+      <Item9>
+        <Filename Value="ucBatpro_RadioGroup.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucBatpro_RadioGroup"/>
+      </Item9>
+      <Item10>
+        <Filename Value="ucBatproSelector.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucBatproSelector"/>
+      </Item10>
+      <Item11>
+        <Filename Value="ucBatpro_Shape.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucBatpro_Shape"/>
+      </Item11>
+      <Item12>
+        <Filename Value="ucBatpro_SpeedButton.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucBatpro_SpeedButton"/>
+      </Item12>
+      <Item13>
+        <Filename Value="ucBatproSQLMask.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucBatproSQLMask"/>
+      </Item13>
+      <Item14>
+        <Filename Value="ucBitBtn_antirebond.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucBitBtn_antirebond"/>
+      </Item14>
+      <Item15>
+        <Filename Value="ucChamp_CheckBox.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucChamp_CheckBox"/>
+      </Item15>
+      <Item16>
+        <Filename Value="ucChamp_Edit.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucChamp_Edit"/>
+      </Item16>
+      <Item17>
+        <Filename Value="ucChamp_Label.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucChamp_Label"/>
+      </Item17>
+      <Item18>
+        <Filename Value="ucChamp_Lookup_ComboBox.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucChamp_Lookup_ComboBox"/>
+      </Item18>
+      <Item19>
+        <Filename Value="ucChamp_Memo.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucChamp_Memo"/>
+      </Item19>
+      <Item20>
+        <Filename Value="uDBEdit_WANTTAB.pas"/>
+        <UnitName Value="uDBEdit_WANTTAB"/>
+      </Item20>
+      <Item21>
+        <Filename Value="udmf.lfm"/>
+        <Type Value="LFM"/>
+      </Item21>
+      <Item22>
+        <Filename Value="udmf.pas"/>
+        <UnitName Value="udmf"/>
+      </Item22>
+      <Item23>
+        <Filename Value="uDockable.pas"/>
+        <UnitName Value="uDockable"/>
+      </Item23>
+      <Item24>
+        <Filename Value="uEdit_WANTTAB.pas"/>
+        <UnitName Value="uEdit_WANTTAB"/>
+      </Item24>
+      <Item25>
+        <Filename Value="ufAttente_Demarrage.lfm"/>
+        <Type Value="LFM"/>
+      </Item25>
+      <Item26>
+        <Filename Value="ufAttente_Demarrage.pas"/>
+        <UnitName Value="ufAttente_Demarrage"/>
+      </Item26>
+      <Item27>
+        <Filename Value="ufcb.pas"/>
+        <UnitName Value="ufcb"/>
+      </Item27>
+      <Item28>
+        <Filename Value="ufChamp_Date.lfm"/>
+        <Type Value="LFM"/>
+      </Item28>
+      <Item29>
+        <Filename Value="ufChamp_Date.pas"/>
+        <UnitName Value="ufChamp_Date"/>
+      </Item29>
+      <Item30>
+        <Filename Value="ufChamp_Lookup.lfm"/>
+        <Type Value="LFM"/>
+      </Item30>
+      <Item31>
+        <Filename Value="ufChamp_Lookup.pas"/>
+        <UnitName Value="ufChamp_Lookup"/>
+      </Item31>
+      <Item32>
+        <Filename Value="ufChampsGrid_Colonnes.pas"/>
+        <UnitName Value="ufChampsGrid_Colonnes"/>
+      </Item32>
+      <Item33>
+        <Filename Value="ucAnimate.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucAnimate"/>
+      </Item33>
+      <Item34>
+        <Filename Value="ucChamp_Integer_SpinEdit.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucChamp_Integer_SpinEdit"/>
+      </Item34>
+      <Item35>
+        <Filename Value="ucChamp_DateTimePicker.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucChamp_DateTimePicker"/>
+      </Item35>
+      <Item36>
+        <Filename Value="ucChamp_Float_SpinEdit.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucChamp_Float_SpinEdit"/>
+      </Item36>
+      <Item37>
+        <Filename Value="ucChampsGrid.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucChampsGrid"/>
+      </Item37>
+      <Item38>
+        <Filename Value="ucDockableScrollbox.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucDockableScrollbox"/>
+      </Item38>
+    </Files>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="4">
+      <Item1>
+        <PackageName Value="OD_DelphiReportEngine_Components"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="OD_DelphiReportEngine_Units_windows"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="LCL"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="FCL"/>
+      </Item4>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

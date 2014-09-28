@@ -1,0 +1,586 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="45">
+      <Unit0>
+        <Filename Value="OD_DelphiReportEngine_Components_fptest.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="OD_DelphiReportEngine_Components_fptest"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="40" Y="27"/>
+        <UsageCount Value="29"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="utc_Batpro_Button.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utc_Batpro_Button"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="11"/>
+        <CursorPos X="15" Y="21"/>
+        <UsageCount Value="29"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="utc_Batpro_RadioGroup.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utc_Batpro_RadioGroup"/>
+        <EditorIndex Value="12"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="19"/>
+        <CursorPos X="11" Y="34"/>
+        <UsageCount Value="29"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="utcBatpro_StringList.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utcBatpro_StringList"/>
+        <UsageCount Value="29"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="utc_Binary_Tree.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utc_Binary_Tree"/>
+        <UsageCount Value="29"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="utc_btInteger.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utc_btInteger"/>
+        <EditorIndex Value="6"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="307"/>
+        <CursorPos X="29" Y="325"/>
+        <UsageCount Value="29"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="utc_btString.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utc_btString"/>
+        <UsageCount Value="29"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="utcCP1252_from_CP437.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utcCP1252_from_CP437"/>
+        <UsageCount Value="29"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="utcDataUtilsU.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utcDataUtilsU"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="29"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="utcEvaluation_Formule.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utcEvaluation_Formule"/>
+        <EditorIndex Value="7"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="18"/>
+        <CursorPos X="54" Y="38"/>
+        <UsageCount Value="29"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="utcIntervalle.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utcIntervalle"/>
+        <EditorIndex Value="11"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="29"/>
+        <CursorPos X="1" Y="47"/>
+        <UsageCount Value="29"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="utcOD_Printer.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utcOD_Printer"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="106"/>
+        <CursorPos X="1" Y="123"/>
+        <UsageCount Value="29"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="utcOD_SpreadsheetManager.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utcOD_SpreadsheetManager"/>
+        <UsageCount Value="29"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="utcOpenDocument.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utcOpenDocument"/>
+        <UsageCount Value="29"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="utc_Publieur.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utc_Publieur"/>
+        <UsageCount Value="29"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="utcReal_Formatter.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utcReal_Formatter"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="8"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="60"/>
+        <CursorPos X="56" Y="65"/>
+        <UsageCount Value="29"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="utc_uDataUtilsU.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utc_uDataUtilsU"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="63"/>
+        <CursorPos X="1" Y="25"/>
+        <UsageCount Value="29"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="utc_uStrings.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utc_uStrings"/>
+        <UsageCount Value="29"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="utcOD_TestCase.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="utcOD_TestCase"/>
+        <EditorIndex Value="18"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="155"/>
+        <CursorPos X="1" Y="181"/>
+        <UsageCount Value="29"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="udmxtReal_Field_Formatter.pas"/>
+        <HasResources Value="True"/>
+        <UnitName Value="udmxtReal_Field_Formatter"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="8"/>
+        <CursorPos X="33" Y="19"/>
+        <UsageCount Value="21"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="utc_ChampsGrid.pas"/>
+        <UnitName Value="utc_ChampsGrid"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="21"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="utcReal_Field_Formatter.pas"/>
+        <UnitName Value="utcReal_Field_Formatter"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="21"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="../uOD_Niveau.pas"/>
+        <UnitName Value="uOD_Niveau"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="../uOD_Batpro_Table.pas"/>
+        <UnitName Value="uOD_Batpro_Table"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="../uOD_Printer.pas"/>
+        <UnitName Value="uOD_Printer"/>
+        <EditorIndex Value="16"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="79"/>
+        <CursorPos X="1" Y="92"/>
+        <UsageCount Value="13"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="../../../Batpro_Unites/Batpro_Unites_fptest/utcEvaluation_Formule_CEX.pas"/>
+        <UnitName Value="utcEvaluation_Formule_CEX"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="53"/>
+        <CursorPos X="28" Y="70"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="../../../Batpro_Unites/Batpro_Unites_fptest/utc_bmIMPUTATION.pas"/>
+        <UnitName Value="utc_bmIMPUTATION"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="127"/>
+        <CursorPos X="16" Y="146"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="../../../Batpro_Unites/Batpro_Unites_fptest/utcBatproDateRange2.pas"/>
+        <UnitName Value="utcBatproDateRange2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="67"/>
+        <CursorPos X="16" Y="87"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="udmxtReal_Field_Formatter.dfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="82"/>
+        <CursorPos X="1" Y="101"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="/usr/local/share/lazarus/lcl/widgetset/wscalendar.pp"/>
+        <UnitName Value="WSCalendar"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="85"/>
+        <CursorPos X="3" Y="99"/>
+        <UsageCount Value="10"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="/usr/local/share/lazarus/lcl/widgetset/wscontrols.pp"/>
+        <UnitName Value="WSControls"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="440"/>
+        <CursorPos X="10" Y="450"/>
+        <UsageCount Value="10"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="/usr/local/share/lazarus/lcl/widgetset/wsimglist.pp"/>
+        <UnitName Value="WSImgList"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="38"/>
+        <CursorPos X="1" Y="58"/>
+        <UsageCount Value="10"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="/usr/local/share/lazarus/lcl/widgetset/wsfactory.pas"/>
+        <UnitName Value="WSFactory"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="30" Y="9"/>
+        <UsageCount Value="10"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="/usr/local/share/lazarus/lcl/widgetset/wsdialogs.pp"/>
+        <UnitName Value="WSDialogs"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="21"/>
+        <CursorPos X="1" Y="21"/>
+        <UsageCount Value="10"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="../../../../../../install/lazarus/lcl/include/control.inc"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="619"/>
+        <CursorPos X="83" Y="634"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="../uODRE_Table.pas"/>
+        <UnitName Value="uODRE_Table"/>
+        <EditorIndex Value="19"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="74"/>
+        <CursorPos X="1" Y="100"/>
+        <UsageCount Value="13"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="../../../../fptest/fptest/src/TestFramework.pas"/>
+        <UnitName Value="TestFramework"/>
+        <EditorIndex Value="17"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2216"/>
+        <CursorPos X="1" Y="2232"/>
+        <UsageCount Value="13"/>
+        <Loaded Value="True"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="../ucBatpro_RadioGroup.pas"/>
+        <UnitName Value="ucBatpro_RadioGroup"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="182"/>
+        <CursorPos X="1" Y="201"/>
+        <UsageCount Value="12"/>
+        <Bookmarks Count="2">
+          <Item0 X="9" Y="200" ID="1"/>
+          <Item1 X="29" Y="72" ID="2"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="../../../../../../install/lazarus/lcl/include/radiogroup.inc"/>
+        <EditorIndex Value="13"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="17"/>
+        <CursorPos X="1" Y="34"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="../../../../../../install/lazarus/lcl/include/customgroupbox.inc"/>
+        <EditorIndex Value="14"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="16"/>
+        <CursorPos X="1" Y="40"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit39>
+      <Unit40>
+        <Filename Value="../../../../../../install/lazarus/lcl/include/wincontrol.inc"/>
+        <EditorIndex Value="15"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="7905"/>
+        <CursorPos X="1" Y="7921"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit40>
+      <Unit41>
+        <Filename Value="../uIntervalle.pas"/>
+        <UnitName Value="uIntervalle"/>
+        <EditorIndex Value="10"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="55"/>
+        <CursorPos X="1" Y="73"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit41>
+      <Unit42>
+        <Filename Value="../../../../../../install/lazarus/lcl/controls.pp"/>
+        <UnitName Value="Controls"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="12"/>
+        <CursorPos X="20" Y="28"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit42>
+      <Unit43>
+        <Filename Value="../ufAccueil_Erreur.pas"/>
+        <UnitName Value="ufAccueil_Erreur"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit43>
+      <Unit44>
+        <Filename Value="../ufcb.pas"/>
+        <ComponentName Value="fcb"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufcb"/>
+        <EditorIndex Value="9"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="50" Y="24"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit44>
+    </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="utcIntervalle.pas"/>
+        <Caret Line="47" Column="34" TopLine="29"/>
+      </Position1>
+      <Position2>
+        <Filename Value="../uIntervalle.pas"/>
+        <Caret Line="48" Column="1" TopLine="32"/>
+      </Position2>
+      <Position3>
+        <Filename Value="../uIntervalle.pas"/>
+        <Caret Line="73" Column="1" TopLine="57"/>
+      </Position3>
+      <Position4>
+        <Filename Value="../uIntervalle.pas"/>
+        <Caret Line="48" Column="1" TopLine="32"/>
+      </Position4>
+      <Position5>
+        <Filename Value="../uIntervalle.pas"/>
+        <Caret Line="49" Column="1" TopLine="32"/>
+      </Position5>
+      <Position6>
+        <Filename Value="../ucBatpro_RadioGroup.pas"/>
+        <Caret Line="185" Column="35" TopLine="161"/>
+      </Position6>
+      <Position7>
+        <Filename Value="../ucBatpro_RadioGroup.pas"/>
+        <Caret Line="189" Column="1" TopLine="163"/>
+      </Position7>
+      <Position8>
+        <Filename Value="../../../../../../install/lazarus/lcl/include/control.inc"/>
+        <Caret Line="641" Column="68" TopLine="625"/>
+      </Position8>
+      <Position9>
+        <Filename Value="../ucBatpro_RadioGroup.pas"/>
+        <Caret Line="206" Column="24" TopLine="182"/>
+      </Position9>
+      <Position10>
+        <Filename Value="../ucBatpro_RadioGroup.pas"/>
+        <Caret Line="209" Column="54" TopLine="182"/>
+      </Position10>
+      <Position11>
+        <Filename Value="../ucBatpro_RadioGroup.pas"/>
+        <Caret Line="200" Column="53" TopLine="182"/>
+      </Position11>
+      <Position12>
+        <Filename Value="../ucBatpro_RadioGroup.pas"/>
+        <Caret Line="207" Column="1" TopLine="182"/>
+      </Position12>
+      <Position13>
+        <Filename Value="../ucBatpro_RadioGroup.pas"/>
+        <Caret Line="206" Column="1" TopLine="182"/>
+      </Position13>
+      <Position14>
+        <Filename Value="../ucBatpro_RadioGroup.pas"/>
+        <Caret Line="208" Column="1" TopLine="182"/>
+      </Position14>
+      <Position15>
+        <Filename Value="../../../../../../install/lazarus/lcl/include/control.inc"/>
+        <Caret Line="641" Column="1" TopLine="619"/>
+      </Position15>
+      <Position16>
+        <Filename Value="../ucBatpro_RadioGroup.pas"/>
+        <Caret Line="202" Column="1" TopLine="182"/>
+      </Position16>
+      <Position17>
+        <Filename Value="utcIntervalle.pas"/>
+        <Caret Line="47" Column="1" TopLine="29"/>
+      </Position17>
+      <Position18>
+        <Filename Value="../uIntervalle.pas"/>
+        <Caret Line="48" Column="1" TopLine="32"/>
+      </Position18>
+      <Position19>
+        <Filename Value="../uIntervalle.pas"/>
+        <Caret Line="73" Column="1" TopLine="57"/>
+      </Position19>
+      <Position20>
+        <Filename Value="../uIntervalle.pas"/>
+        <Caret Line="48" Column="1" TopLine="32"/>
+      </Position20>
+      <Position21>
+        <Filename Value="../uIntervalle.pas"/>
+        <Caret Line="49" Column="1" TopLine="32"/>
+      </Position21>
+      <Position22>
+        <Filename Value="../uIntervalle.pas"/>
+        <Caret Line="51" Column="1" TopLine="32"/>
+      </Position22>
+      <Position23>
+        <Filename Value="../uIntervalle.pas"/>
+        <Caret Line="69" Column="1" TopLine="53"/>
+      </Position23>
+      <Position24>
+        <Filename Value="utcIntervalle.pas"/>
+        <Caret Line="47" Column="1" TopLine="29"/>
+      </Position24>
+      <Position25>
+        <Filename Value="../uIntervalle.pas"/>
+        <Caret Line="48" Column="1" TopLine="32"/>
+      </Position25>
+      <Position26>
+        <Filename Value="../uIntervalle.pas"/>
+        <Caret Line="73" Column="1" TopLine="57"/>
+      </Position26>
+      <Position27>
+        <Filename Value="../uIntervalle.pas"/>
+        <Caret Line="48" Column="1" TopLine="32"/>
+      </Position27>
+      <Position28>
+        <Filename Value="utcIntervalle.pas"/>
+        <Caret Line="42" Column="20" TopLine="29"/>
+      </Position28>
+      <Position29>
+        <Filename Value="utcIntervalle.pas"/>
+        <Caret Line="47" Column="1" TopLine="29"/>
+      </Position29>
+      <Position30>
+        <Filename Value="../uIntervalle.pas"/>
+        <Caret Line="71" Column="1" TopLine="55"/>
+      </Position30>
+    </JumpHistory>
+  </ProjectSession>
+  <Debugging>
+    <Watches Count="3">
+      <Item1>
+        <Expression Value="Self"/>
+      </Item1>
+      <Item2>
+        <Expression Value="PDebut"/>
+      </Item2>
+      <Item3>
+        <Expression Value="@Debut"/>
+      </Item3>
+    </Watches>
+  </Debugging>
+</CONFIG>

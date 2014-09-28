@@ -1,0 +1,25 @@
+inherited dmx: Tdmx
+  OldCreateOrder = True
+  left = 490
+  Height = 216
+  HorizontalOffset = 677
+  VerticalOffset = 308
+  Width = 313
+  object ds: TDatasource[0]
+    DataSet = cd
+    left = 24
+    top = 160
+  end
+  object bvqd: TbvQuery_Datasource[1]
+    bv2_to_bv0 = False
+    bv2Query = cd
+    left = 56
+    top = 16
+  end
+  object cd: TSQLQuery[2]
+    FieldDefs = <>
+    Params = <>
+    left = 24
+    top = 16
+  end
+end

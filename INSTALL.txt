@@ -1,0 +1,48 @@
+For now I'm not expert in use of lazarus packages, but usually the following should work.
+
+For Linux use projects and packages ending with "_linux"
+For Microsoft Windows use project and packages ending with "_mswindows"
+
+Usually, you should :
+- Open Lazarus
+- Open and compile in Lazarus:
+  OD_DelphiReportEngine_LCL        (sub-directory pascal_o_r_mapping/1_LCL)
+  OD_DelphiReportEngine_Units      (sub-directory pascal_o_r_mapping/2_Units)
+  OD_DelphiReportEngine_Components (sub-directory pascal_o_r_mapping/4_Components)
+- Open, compile and install (Use/Install) in Lazarus:
+  OD_DelphiReportEngine_Controls   (sub-directory pascal_o_r_mapping/5_Controls)
+
+To run jsWorks:
+ It uses a mysql database. 
+You have a binary copy of sample database in sub directory base_mysql/jsWorks.
+Usually you just need to copy this jsWorks directory in your mysql datadir. 
+You can find your datadir by issuing the command SHOW VARIABLES; in your MySQL client or PHPMyAdmin.
+MySQL client library libmysqlclient.so (linux) or libmysql.dll (windows) needs to be in the PATH.
+Connection parameters to MySQL are stored in an etc sub-directory of the directory containing the executable, 
+In this case: jsWorks/etc/_Configuration.ini, section [MySQL]
+for now Version can be 
+     50 for MySQL 5.0 ( TMySQL50Connection)
+     51 for MySQL 5.1 ( TMySQL51Connection)
+     55 for MySQL 5.5 ( TMySQL55Connection)
+The related code is around line 140 in pascal_o_r_mapping/3_Data/uMySQL.pas
+For now the code runs mainly with MySQL. 
+With some tuning it should be possible to run it with unixODBC/Informix, but I haven't tested a lot for now. 
+Some work is done to make it working with Postgres, but not functionnal for now.
+(See pascal_o_r_mapping/2_Units/uSGBD.pas, 
+     pascal_o_r_mapping/3_Data/uInformix.pas, 
+     pascal_o_r_mapping/3_Data/uPostgres.pas,
+     pascal_o_r_mapping/3_Data/udmDatabase.pas,
+     pascal_o_r_mapping/3_Data/uRequete.pas
+     )
+
+Then you should be able to compile and run jsWorks.
+jsWorks(_linux/_windows) is a desktop application with a form.
+http_jsWorks is a console application implementing a rustic http server. 
+The html part use Google Angular.js and json format to communicate with the server.
+Run http_jsWorks and point your browser at http://localhost:1500/, 
+ you should get a web page with functionalities similar to the desktop application.
+
+
+
+
+

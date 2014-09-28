@@ -1,0 +1,382 @@
+unit uParametres_Ligne_de_command e;
+
+interface
+
+uses
+    uClean,
+    uuStrings,
+    uBatpro_StringList,
+    SysUtils, Classes;
+
+var
+   Linux: Boolean= False;
+var
+   ModeDEBUG: Integer= 0;
+   ModeDEBUG_1:Boolean = False;
+   ModeDEBUG_2:Boolean = False;
+   ModeDEBUG_3:Boolean = False;
+var
+   ModeAUTOEXEC: Boolean = False;
+   autoexec_SGBD     : String= '';
+   autoexec_Database : String= '';
+   autoexec_SOC      : String= '';
+   autoexec_ETS      : String= '';
+   autoexec_SOCETS   : String= '';
+   autoexec_CODE_UTIL: String= '';
+   autoexec_Fonction : String= '';
+   Parametre1        : String= '';
+   Parametre2        : String= '';
+   Parametre3        : String= '';
+   Parametre4        : String= '';
+   Parametre5        : String= '';
+   Parametre6        : String= '';
+	 Parametre7        : String= '';
+var
+   ModeHELP_CREATOR: Boolean = False;
+
+type
+ TParametres_Ligne_de_commande
+ =
+  class( TBatpro_StringList)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Méthodes
+  private
+    procedure To_StringList;
+    procedure From_StringList;
+  //Nom utilisateur
+  public
+    function NomUtilisateur: String;
+  //MailSlot server
+  private
+    hMailSlot: THandle;
+    procedure Cree_MailSlot;
+    procedure Ferme_MailSlot;
+  public
+    Actif: Boolean;
+    NomMailSlot: String;
+    function From_MailSlot: Boolean;
+  //MailSlot Client
+  public
+    function not_MailSlot_existe( _NomMailSlot: String): Boolean;
+    procedure To_MailSlot( _NomMailSlot: String);
+  //Affichage des paramètres sur une ligne
+  public
+    function Ligne: String;
+  end;
+
+var
+   Parametres_Ligne_de_commande: TParametres_Ligne_de_commande= nil;
+
+implementation
+
+function Decode_Parametres( code: String): String;
+var
+   I: Integer;
+begin
+     for I:= 1 to Length( code)
+     do
+       if code[I] = '-'
+       then
+           Code[I]:= ' ';
+     Result:= Code;
+end;
+
+procedure Initialize;
+var
+   TypeExecution: String;
+   Bug_Genero: Boolean;
+begin
+     TypeExecution:= UpperCase( ParamStr(1));
+
+     Bug_Genero:=     ('AUTOEXEC' = Copy( TypeExecution, 1, 8))
+                  and (ParamCount = 1);
+
+          if TypeExecution = 'DEBUG'
+     then
+         begin
+         ModeDEBUG:= StrToInt( ParamStr(2));
+         ModeDEBUG_1:= ModeDEBUG >= 1;
+         ModeDEBUG_2:= ModeDEBUG >= 2;
+         ModeDEBUG_3:= ModeDEBUG >= 3;
+         end
+     else if    (TypeExecution = 'AUTOEXEC')
+             or (TypeExecution = 'AUTOEXECL')
+             or Bug_Genero
+     then //AUTOEXEC OPE DEM001 B307 "GO  031500 00 00"
+         begin
+         Linux:= TypeExecution = 'AUTOEXECL';
+         ModeAUTOEXEC:= True;
+
+         if Bug_Genero
+         then
+             begin
+             StrToK( ' ', TypeExecution);//on enlève l'AUTOEXEC
+             TypeExecution:= TrimLeft( TypeExecution);
+             autoexec_SGBD      := StrToK( ' ', TypeExecution);
+             TypeExecution:= TrimLeft( TypeExecution);
+             autoexec_Database  := StrToK( ' ', TypeExecution);
+             TypeExecution:= TrimLeft( TypeExecution);
+             autoexec_CODE_UTIL:= StrToK( ' ', TypeExecution);
+             TypeExecution:= TrimLeft( TypeExecution);
+             autoexec_SOCETS   := StrToK( ' ', TypeExecution);
+             TypeExecution:= TrimLeft( TypeExecution);
+             autoexec_Fonction := StrToK( ' ', TypeExecution);
+             TypeExecution:= TrimLeft( TypeExecution);
+             Parametre1:= Decode_Parametres( StrToK( ' ', TypeExecution)); TypeExecution:= TrimLeft( TypeExecution);
+             Parametre2:= Decode_Parametres( StrToK( ' ', TypeExecution)); TypeExecution:= TrimLeft( TypeExecution);
+             Parametre3:= Decode_Parametres( StrToK( ' ', TypeExecution)); TypeExecution:= TrimLeft( TypeExecution);
+             Parametre4:= Decode_Parametres( StrToK( ' ', TypeExecution)); TypeExecution:= TrimLeft( TypeExecution);
+             Parametre5:= Decode_Parametres( StrToK( ' ', TypeExecution)); TypeExecution:= TrimLeft( TypeExecution);
+             Parametre6:= Decode_Parametres( StrToK( ' ', TypeExecution));
+             Parametre7:= Decode_Parametres( StrToK( ' ', TypeExecution));
+             end
+         else
+             begin
+             autoexec_SGBD     :=                    ParamStr( 2);
+             autoexec_Database :=                    ParamStr( 3);
+             autoexec_CODE_UTIL:=                    ParamStr( 4);
+             autoexec_SOCETS   :=                    ParamStr( 5);
+             autoexec_Fonction :=                    ParamStr( 6);
+             Parametre1        := Decode_Parametres( ParamStr( 7));
+             Parametre2        := Decode_Parametres( ParamStr( 8));
+             Parametre3        := Decode_Parametres( ParamStr( 9));
+             Parametre4        := Decode_Parametres( ParamStr(10));
+             Parametre5        := Decode_Parametres( ParamStr(11));
+             Parametre6        := Decode_Parametres( ParamStr(12));
+             Parametre7        := Decode_Parametres( ParamStr(13));
+             end;
+         autoexec_SOC      := Copy( autoexec_SOCETS, 1, 3);
+         autoexec_ETS      := Copy( autoexec_SOCETS, 4, 3);
+         end
+     else if TypeExecution = 'HELP_CREATOR'
+     then
+         ModeHELP_CREATOR:= True
+     else
+         Linux:= TypeExecution = 'L';
+
+     Parametres_Ligne_de_commande:= TParametres_Ligne_de_commande.Create;
+end;
+
+{ TParametres_Ligne_de_commande }
+
+constructor TParametres_Ligne_de_commande.Create( _Nom: String= '');
+begin
+     inherited;
+     Cree_MailSlot;
+end;
+
+destructor TParametres_Ligne_de_commande.Destroy;
+begin
+     Ferme_MailSlot;
+     inherited;
+end;
+
+procedure TParametres_Ligne_de_commande.To_StringList;
+begin
+     Values['autoexec_SGBD'     ]:= autoexec_SGBD     ;
+     Values['autoexec_Database' ]:= autoexec_Database ;
+     Values['autoexec_SOC'      ]:= autoexec_SOC      ;
+     Values['autoexec_ETS'      ]:= autoexec_ETS      ;
+     Values['autoexec_SOCETS'   ]:= autoexec_SOCETS   ;
+     Values['autoexec_CODE_UTIL']:= autoexec_CODE_UTIL;
+     Values['autoexec_Fonction' ]:= autoexec_Fonction ;
+     Values['Parametre1'        ]:= Parametre1        ;
+     Values['Parametre2'        ]:= Parametre2        ;
+     Values['Parametre3'        ]:= Parametre3        ;
+     Values['Parametre4'        ]:= Parametre4        ;
+     Values['Parametre5'        ]:= Parametre5        ;
+     Values['Parametre6'        ]:= Parametre6        ;
+     Values['Parametre7'        ]:= Parametre7        ;
+end;
+
+procedure TParametres_Ligne_de_commande.From_StringList;
+begin
+     ModeAUTOEXEC      := True;
+     autoexec_SGBD     := Values['autoexec_SGBD'     ];
+     autoexec_Database := Values['autoexec_Database' ];
+     autoexec_SOC      := Values['autoexec_SOC'      ];
+     autoexec_ETS      := Values['autoexec_ETS'      ];
+     autoexec_SOCETS   := Values['autoexec_SOCETS'   ];
+     autoexec_CODE_UTIL:= Values['autoexec_CODE_UTIL'];
+     autoexec_Fonction := Values['autoexec_Fonction' ];
+     Parametre1        := Values['Parametre1'        ];
+     Parametre2        := Values['Parametre2'        ];
+     Parametre3        := Values['Parametre3'        ];
+     Parametre4        := Values['Parametre4'        ];
+     Parametre5        := Values['Parametre5'        ];
+     Parametre6        := Values['Parametre6'        ];
+     Parametre7        := Values['Parametre7'        ];
+end;
+
+function TParametres_Ligne_de_commande.NomUtilisateur: String;
+var
+   cNomUtilisateur: array[0..1024] of Char;
+   cNomUtilisateur_Length: Cardinal;
+begin
+     (*
+     cNomUtilisateur_Length:= SizeOf( cNomUtilisateur);
+     if not GetUserName( cNomUtilisateur, cNomUtilisateur_Length)
+     then
+         Result:= ''
+     else
+         Result:= StrPas( cNomUtilisateur);
+     *)
+end;
+
+procedure TParametres_Ligne_de_commande.Cree_MailSlot;
+begin
+     (*
+     Actif:= True;
+     NomMailSlot
+     :=
+        '\\.\mailslot\'
+       +ChangeFileExt( ExtractFileName( Application.ExeName), '')
+       +'.'+NomUtilisateur;
+
+     hMailSlot
+     :=
+       CreateMailslot( PChar( NomMailSlot),
+                       0,
+                       MAILSLOT_WAIT_FOREVER,   //MAILSLOT_WAIT_FOREVER ou 0
+                       nil);
+     if INVALID_HANDLE_VALUE = hMailSlot
+     then
+         begin
+         Actif:= False;
+         if ERROR_ALREADY_EXISTS <> GetLastError
+         then
+             TraiteLastError( 'Echec à la création du MailSlot: ');
+         end;
+    *)
+end;
+
+procedure TParametres_Ligne_de_commande.Ferme_MailSlot;
+begin
+(*     CloseHandle( hMailSlot);*)
+end;
+
+function TParametres_Ligne_de_commande.From_MailSlot: Boolean;
+var
+   NextSize: DWORD;
+   Lus: DWORD;
+   Buffer: String;
+begin  (*
+     Result:= False;
+     try
+        Clear;
+
+        if not Actif then exit;
+
+        if not GetMailslotInfo( hMailSlot, nil, NextSize, nil, nil)
+        then
+            begin
+            TraiteLastError( 'Echec de GetMailslotInfo : ');
+            exit;
+            end;
+
+        if MAILSLOT_NO_MESSAGE = NextSize then exit;
+
+        Result:= True;
+        SetLength( Buffer, NextSize);
+        ReadFile( hMailSlot, Buffer[1], NextSize, Lus, nil);
+        Text:= Buffer;
+     finally
+            From_StringList;
+            end;
+     *)
+end;
+
+procedure TParametres_Ligne_de_commande.To_MailSlot( _NomMailSlot: String);
+var
+   NomMailSlot_Client: String;
+   hMailSlot_Client: THandle;
+   Buffer: String;
+   Ecrits: DWORD;
+begin  (*
+     To_StringList;
+
+     Buffer:= Text;
+
+     NomMailSlot_Client:= {'\\.\mailslot\'+}_NomMailSlot;
+     hMailSlot_Client
+     :=
+       CreateFile( PChar( NomMailSlot_Client),
+                   GENERIC_WRITE,
+                   FILE_SHARE_READ,
+                   nil,
+                   OPEN_EXISTING,
+                   FILE_ATTRIBUTE_NORMAL,
+                   0);
+     if INVALID_HANDLE_VALUE = hMailSlot_Client
+     then
+         TraiteLastError( 'Echec à l''ouverture du MailSlot '+NomMailSlot_Client+': ');
+
+     WriteFile( hMailSlot_Client, Buffer[1], Length(Buffer), Ecrits, nil);
+
+     CloseHandle( hMailSlot_Client);
+     *)
+end;
+
+function TParametres_Ligne_de_commande.not_MailSlot_existe( _NomMailSlot: String): Boolean;
+var
+   NomMailSlot_Client: String;
+   hMailSlot_Client: THandle;
+begin
+     (*
+     Result:= False;
+     NomMailSlot_Client:= {'\\.\mailslot\'+}_NomMailSlot;
+     hMailSlot_Client
+     :=
+       CreateFile( PChar( NomMailSlot_Client),
+                   GENERIC_WRITE,
+                   FILE_SHARE_READ,
+                   nil,
+                   OPEN_EXISTING,
+                   FILE_ATTRIBUTE_NORMAL,
+                   0);
+     if INVALID_HANDLE_VALUE = hMailSlot_Client
+     then
+         begin
+         if ERROR_FILE_NOT_FOUND = GetLastError
+         then
+             Result:= True
+         else
+             TraiteLastError( 'Echec à l''ouverture du MailSlot '+NomMailSlot_Client+'- '+IntToStr(GetLastError)+': ');
+         end;
+
+     CloseHandle( hMailSlot_Client);
+     *)
+end;
+
+
+function TParametres_Ligne_de_commande.Ligne: String;
+begin
+     Result
+     :=
+        Formate_Liste( [
+                       'Appel par Batpro6:',
+                       autoexec_SGBD       ,
+                       autoexec_Database   ,
+                       autoexec_SOC        ,
+                       autoexec_ETS        ,
+                       autoexec_SOCETS     ,
+                       autoexec_CODE_UTIL  ,
+                       autoexec_Fonction   ,
+                       Parametre1          ,
+                       Parametre2          ,
+                       Parametre3          ,
+                       Parametre4          ,
+                       Parametre5          ,
+                       Parametre6          ,
+                       Parametre7          ], ' ');
+end;
+
+initialization
+              Initialize;
+finalization
+              Free_nil( Parametres_Ligne_de_commande);
+end.
+

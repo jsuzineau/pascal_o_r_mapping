@@ -1,0 +1,37 @@
+inherited dmxLAST_INSERT_ID_MySQL: TdmxLAST_INSERT_ID_MySQL
+  OldCreateOrder = True
+  left = 287
+  top = 107
+  Height = 406
+  HorizontalOffset = 538
+  VerticalOffset = 24
+  Width = 488
+  object sqlq: TSQLQuery[0]
+    IndexName = 'DEFAULT_ORDER'
+    FieldDefs = <    
+      item
+        Name = 'Valeur'
+        DataType = ftLargeint
+        Precision = -1
+        Size = 0
+      end>
+    Transaction = dmDatabase.sqlt
+    SQL.Strings = (
+      'select'
+      '      LAST_INSERT_ID() as Valeur'
+    )
+    Params = <>
+    left = 32
+    top = 32
+    object sqlqValeur: TLargeintField
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'Valeur'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+  end
+end

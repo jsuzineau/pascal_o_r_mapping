@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="OD_DelphiReportEngine_LCL_linux"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="linux"/>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Other>
+        <CompilerMessages>
+          <MsgFileName Value=""/>
+        </CompilerMessages>
+        <CompilerPath Value="$(CompPath)"/>
+      </Other>
+    </CompilerOptions>
+    <Files Count="9">
+      <Item1>
+        <Filename Value="linux/ActiveX.pas"/>
+        <UnitName Value="ActiveX"/>
+      </Item1>
+      <Item2>
+        <Filename Value="linux/ComObj.pas"/>
+        <UnitName Value="ComObj"/>
+      </Item2>
+      <Item3>
+        <Filename Value="linux/Consts.pas"/>
+        <UnitName Value="Consts"/>
+      </Item3>
+      <Item4>
+        <Filename Value="linux/ShellAPI.pas"/>
+        <UnitName Value="ShellAPI"/>
+      </Item4>
+      <Item5>
+        <Filename Value="linux/ShlObj.pas"/>
+        <UnitName Value="ShlObj"/>
+      </Item5>
+      <Item6>
+        <Filename Value="linux/Windows.pas"/>
+        <UnitName Value="Windows"/>
+      </Item6>
+      <Item7>
+        <Filename Value="linux/uWindows.pas"/>
+        <UnitName Value="uWindows"/>
+      </Item7>
+      <Item8>
+        <Filename Value="linux/WinSock.pas"/>
+        <UnitName Value="WinSock"/>
+      </Item8>
+      <Item9>
+        <Filename Value="uDessin.pas"/>
+        <UnitName Value="uDessin"/>
+      </Item9>
+    </Files>
+    <Type Value="RunAndDesignTime"/>
+    <RequiredPkgs Count="2">
+      <Item1>
+        <PackageName Value="LCL"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="FCL"/>
+      </Item2>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

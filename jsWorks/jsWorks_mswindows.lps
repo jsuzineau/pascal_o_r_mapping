@@ -1,0 +1,2308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="254">
+      <Unit0>
+        <Filename Value="jsWorks_mswindows.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="jsWorks_mswindows"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="32"/>
+        <CursorPos X="13" Y="42"/>
+        <UsageCount Value="207"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="ufjsWorks.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fjsWorks"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufjsWorks"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="22"/>
+        <UsageCount Value="207"/>
+        <Bookmarks Count="1">
+          <Item0 X="25" Y="132" ID="2"/>
+        </Bookmarks>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="ublCategorie.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublCategorie"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="136" Y="10"/>
+        <UsageCount Value="20"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="ublDevelopment.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublDevelopment"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="ublJour_ferie.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublJour_ferie"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="22"/>
+        <UsageCount Value="207"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="ublProject.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublProject"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="ublState.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublState"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="ublWork.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublWork"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="uhfCategorie.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uhfCategorie"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="upoolCategorie.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolCategorie"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="upoolDevelopment.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolDevelopment"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="upoolJour_ferie.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolJour_ferie"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="22"/>
+        <UsageCount Value="207"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="upoolProject.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolProject"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="upoolState.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolState"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="upoolWork.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="poolWORK"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="upoolWork"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="49" Y="26"/>
+        <UsageCount Value="20"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="uhfWork.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uhfWork"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="udkProject_EDIT.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkProject_EDIT"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="udkProject_EDIT"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="22"/>
+        <UsageCount Value="198"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="udkProject_LABEL.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkProject_LABEL"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="udkProject_LABEL"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="22"/>
+        <UsageCount Value="193"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="ufProject.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fProject"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufProject"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="22"/>
+        <UsageCount Value="193"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="udkWork.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkWork"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="udkWork"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="22"/>
+        <UsageCount Value="170"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="udkDevelopment.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkDevelopment"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="udkDevelopment"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="22"/>
+        <UsageCount Value="119"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uXML.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uXML"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="21"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="../pascal_o_r_mapping/7_sources_externes/synapse/source/lib/blcksock.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="blcksock"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1472"/>
+        <CursorPos X="25" Y="1497"/>
+        <UsageCount Value="21"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uBatpro_Registry.pas"/>
+        <UnitName Value="uBatpro_Registry"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="48" Y="26"/>
+        <UsageCount Value="207"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
+        <UnitName Value="uBatpro_StringList"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uBinary_Tree.pas"/>
+        <UnitName Value="uBinary_Tree"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="199"/>
+        <CursorPos X="59" Y="219"/>
+        <UsageCount Value="207"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/ubtInteger.pas"/>
+        <UnitName Value="ubtInteger"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uBTree.pas"/>
+        <UnitName Value="uBTree"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/ubtString.pas"/>
+        <UnitName Value="ubtString"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uChamp.pas"/>
+        <UnitName Value="uChamp"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="363"/>
+        <CursorPos X="1" Y="393"/>
+        <UsageCount Value="207"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uChampDefinition.pas"/>
+        <UnitName Value="uChampDefinition"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uChampDefinitions.pas"/>
+        <UnitName Value="uChampDefinitions"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uChamps.pas"/>
+        <UnitName Value="uChamps"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uChrono.pas"/>
+        <UnitName Value="uChrono"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uClean.pas"/>
+        <UnitName Value="uClean"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uCode_barre.pas"/>
+        <UnitName Value="uCode_barre"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uContrainte.pas"/>
+        <UnitName Value="uContrainte"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uCP1252_from_CP437.pas"/>
+        <UnitName Value="uCP1252_from_CP437"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uDataUtilsU.pas"/>
+        <UnitName Value="uDataUtilsU"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/u_db_.pas"/>
+        <UnitName Value="u_db_"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit39>
+      <Unit40>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/u_db_Composants.pas"/>
+        <UnitName Value="u_db_Composants"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit40>
+      <Unit41>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uEtat.pas"/>
+        <UnitName Value="uEtat"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit41>
+      <Unit42>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uEvaluation_Formule.pas"/>
+        <UnitName Value="uEvaluation_Formule"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit42>
+      <Unit43>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uEXE_INI.pas"/>
+        <UnitName Value="uEXE_INI"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit43>
+      <Unit44>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/ufAccueil_Erreur.pas"/>
+        <UnitName Value="ufAccueil_Erreur"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit44>
+      <Unit45>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uForms.pas"/>
+        <UnitName Value="uForms"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit45>
+      <Unit46>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/u_ini_.pas"/>
+        <UnitName Value="u_ini_"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit46>
+      <Unit47>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uIntervalle.pas"/>
+        <UnitName Value="uIntervalle"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit47>
+      <Unit48>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uJCL.pas"/>
+        <UnitName Value="uJCL"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit48>
+      <Unit49>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/u_loc_.pas"/>
+        <UnitName Value="u_loc_"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit49>
+      <Unit50>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uLookupConnection_Ancetre.pas"/>
+        <UnitName Value="uLookupConnection_Ancetre"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit50>
+      <Unit51>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uOD_Column.pas"/>
+        <UnitName Value="uOD_Column"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit51>
+      <Unit52>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uOD_Dataset_Column.pas"/>
+        <UnitName Value="uOD_Dataset_Column"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit52>
+      <Unit53>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uOD_Dataset_Columns.pas"/>
+        <UnitName Value="uOD_Dataset_Columns"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit53>
+      <Unit54>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uOD_Error.pas"/>
+        <UnitName Value="uOD_Error"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="22" Y="7"/>
+        <UsageCount Value="207"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit54>
+      <Unit55>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uOD_Forms.pas"/>
+        <UnitName Value="uOD_Forms"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit55>
+      <Unit56>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uOD_JCL.pas"/>
+        <UnitName Value="uOD_JCL"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit56>
+      <Unit57>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uOD_Merge.pas"/>
+        <UnitName Value="uOD_Merge"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit57>
+      <Unit58>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uOD_Printer.pas"/>
+        <UnitName Value="uOD_Printer"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit58>
+      <Unit59>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uODRE_Table.pas"/>
+        <UnitName Value="uODRE_Table"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit59>
+      <Unit60>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uOD_SpreadsheetManager.pas"/>
+        <UnitName Value="uOD_SpreadsheetManager"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit60>
+      <Unit61>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uOD_Styles.pas"/>
+        <UnitName Value="uOD_Styles"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit61>
+      <Unit62>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uOD_SurTitre.pas"/>
+        <UnitName Value="uOD_SurTitre"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit62>
+      <Unit63>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uOD_Temporaire.pas"/>
+        <UnitName Value="uOD_Temporaire"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit63>
+      <Unit64>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uOD_TextFieldsCreator.pas"/>
+        <UnitName Value="uOD_TextFieldsCreator"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit64>
+      <Unit65>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uOD_TextTableContext.pas"/>
+        <UnitName Value="uOD_TextTableContext"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit65>
+      <Unit66>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uOD_TextTableManager.pas"/>
+        <UnitName Value="uOD_TextTableManager"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit66>
+      <Unit67>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uOOoChrono.pas"/>
+        <UnitName Value="uOOoChrono"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit67>
+      <Unit68>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uOOoDelphiReportEngineLog.pas"/>
+        <UnitName Value="uOOoDelphiReportEngineLog"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit68>
+      <Unit69>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uOOoStringList.pas"/>
+        <UnitName Value="uOOoStringList"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit69>
+      <Unit70>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uOOoStrings.pas"/>
+        <UnitName Value="uOOoStrings"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit70>
+      <Unit71>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uOpenDocument.pas"/>
+        <UnitName Value="uOpenDocument"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit71>
+      <Unit72>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uOpenDocument.pas.r1.pas"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit72>
+      <Unit73>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uXML.pas"/>
+        <UnitName Value="uXML"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="207"/>
+      </Unit73>
+      <Unit74>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_LCL/uDessin.pas"/>
+        <UnitName Value="uDessin"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="9"/>
+        <UsageCount Value="200"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit74>
+      <Unit75>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/Controls/ucChampsGrid.pas"/>
+        <UnitName Value="ucChampsGrid"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="539"/>
+        <CursorPos X="91" Y="536"/>
+        <UsageCount Value="200"/>
+        <Bookmarks Count="1">
+          <Item0 X="1" Y="124" ID="1"/>
+        </Bookmarks>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit75>
+      <Unit76>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/ublG_BECP.pas"/>
+        <UnitName Value="ublG_BECP"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="197"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit76>
+      <Unit77>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/ublG_BECPCTX.pas"/>
+        <UnitName Value="ublG_BECPCTX"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="197"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit77>
+      <Unit78>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/ublG_CTX.pas"/>
+        <UnitName Value="ublG_CTX"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="197"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit78>
+      <Unit79>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/ublG_CTXTYPE.pas"/>
+        <UnitName Value="ublG_CTXTYPE"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="197"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit79>
+      <Unit80>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uhfG_BECP.pas"/>
+        <UnitName Value="uhfG_BECP"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="197"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit80>
+      <Unit81>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uhfG_BECPCTX.pas"/>
+        <UnitName Value="uhfG_BECPCTX"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="197"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit81>
+      <Unit82>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uhfG_CTX.pas"/>
+        <UnitName Value="uhfG_CTX"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="197"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit82>
+      <Unit83>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uhfG_CTXTYPE.pas"/>
+        <UnitName Value="uhfG_CTXTYPE"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="197"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit83>
+      <Unit84>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/upoolG_BECP.pas"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolG_BECP"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="119"/>
+        <CursorPos X="1" Y="151"/>
+        <UsageCount Value="197"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit84>
+      <Unit85>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/upoolG_BECPCTX.pas"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolG_BECPCTX"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="197"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit85>
+      <Unit86>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/upoolG_CTX.pas"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolG_CTX"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="197"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit86>
+      <Unit87>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/upoolG_CTXTYPE.pas"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolG_CTXTYPE"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="48" Y="17"/>
+        <UsageCount Value="197"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit87>
+      <Unit88>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/Controls/uDockable.pas"/>
+        <HasResources Value="True"/>
+        <UnitName Value="uDockable"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="196"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit88>
+      <Unit89>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/Controls/ucDockableScrollbox.pas"/>
+        <UnitName Value="ucDockableScrollbox"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="42" Y="12"/>
+        <UsageCount Value="196"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit89>
+      <Unit90>
+        <Filename Value="ublContact.pas"/>
+        <UnitName Value="ublContact"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit90>
+      <Unit91>
+        <Filename Value="ublDemander.pas"/>
+        <UnitName Value="ublDemander"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit91>
+      <Unit92>
+        <Filename Value="ublSheet.pas"/>
+        <UnitName Value="ublSheet"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit92>
+      <Unit93>
+        <Filename Value="ublSheetref.pas"/>
+        <UnitName Value="ublSheetref"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit93>
+      <Unit94>
+        <Filename Value="ublTContact.pas"/>
+        <UnitName Value="ublTContact"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit94>
+      <Unit95>
+        <Filename Value="ublUser.pas"/>
+        <UnitName Value="ublUser"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit95>
+      <Unit96>
+        <Filename Value="uhfContact.pas"/>
+        <UnitName Value="uhfContact"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit96>
+      <Unit97>
+        <Filename Value="uhfDEMANDER.pas"/>
+        <UnitName Value="uhfDemander"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit97>
+      <Unit98>
+        <Filename Value="uhfDEVELOPMENT.pas"/>
+        <UnitName Value="uhfDEVELOPMENT"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit98>
+      <Unit99>
+        <Filename Value="uhfJOURS_FERIES.pas"/>
+        <UnitName Value="uhfJOURS_FERIES"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit99>
+      <Unit100>
+        <Filename Value="uhfPROJECT.pas"/>
+        <UnitName Value="uhfPROJECT"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit100>
+      <Unit101>
+        <Filename Value="uhfSHEET.pas"/>
+        <UnitName Value="uhfSHEET"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit101>
+      <Unit102>
+        <Filename Value="uhfSHEETREF.pas"/>
+        <UnitName Value="uhfSHEETREF"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit102>
+      <Unit103>
+        <Filename Value="uhfSTATE.pas"/>
+        <UnitName Value="uhfSTATE"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit103>
+      <Unit104>
+        <Filename Value="uhfTCONTACT.pas"/>
+        <UnitName Value="uhfTCONTACT"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit104>
+      <Unit105>
+        <Filename Value="uhfUSER.pas"/>
+        <UnitName Value="uhfUSER"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit105>
+      <Unit106>
+        <Filename Value="upoolContact.pas"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolContact"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit106>
+      <Unit107>
+        <Filename Value="upoolDemander.pas"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolDemander"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit107>
+      <Unit108>
+        <Filename Value="upoolSheet.pas"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolSheet"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit108>
+      <Unit109>
+        <Filename Value="upoolSheetref.pas"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolSheetref"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit109>
+      <Unit110>
+        <Filename Value="upoolTContact.pas"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolTContact"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit110>
+      <Unit111>
+        <Filename Value="upoolUser.pas"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolUser"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit111>
+      <Unit112>
+        <Filename Value="ublJOURS_FERIES.PAS"/>
+        <UnitName Value="ublJOURS_FERIES"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit112>
+      <Unit113>
+        <Filename Value="upoolJOURS_FERIES.PAS"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolJOURS_FERIES"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit113>
+      <Unit114>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uParametre.pas"/>
+        <UnitName Value="uParametre"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit114>
+      <Unit115>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uParametres_Ligne_de_commande.pas"/>
+        <UnitName Value="uParametres_Ligne_de_commande"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit115>
+      <Unit116>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uPatchLanceur.pas"/>
+        <UnitName Value="uPatchLanceur"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit116>
+      <Unit117>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uProgression.pas"/>
+        <UnitName Value="uProgression"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="4" Y="6"/>
+        <UsageCount Value="7"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit117>
+      <Unit118>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uPublieur.pas"/>
+        <UnitName Value="uPublieur"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit118>
+      <Unit119>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uPublieur_sans_btree.pas"/>
+        <UnitName Value="uPublieur_sans_btree"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit119>
+      <Unit120>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uReal_Field_Formatter.pas"/>
+        <UnitName Value="uReal_Field_Formatter"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit120>
+      <Unit121>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uReal_Formatter.pas"/>
+        <UnitName Value="uReal_Formatter"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit121>
+      <Unit122>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uReels.pas"/>
+        <UnitName Value="uReels"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit122>
+      <Unit123>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/u_reg_.pas"/>
+        <UnitName Value="u_reg_"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit123>
+      <Unit124>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uSGBD.pas"/>
+        <UnitName Value="uSGBD"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit124>
+      <Unit125>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uskInteger.pas"/>
+        <UnitName Value="uskInteger"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit125>
+      <Unit126>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uSkipList.pas"/>
+        <UnitName Value="uSkipList"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit126>
+      <Unit127>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uskString.pas"/>
+        <UnitName Value="uskString"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit127>
+      <Unit128>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uStringArray.pas"/>
+        <UnitName Value="uStringArray"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit128>
+      <Unit129>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/u_sys_.pas"/>
+        <UnitName Value="u_sys_"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit129>
+      <Unit130>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uTemporaire.pas"/>
+        <UnitName Value="uTemporaire"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit130>
+      <Unit131>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uTri_Ancetre.pas"/>
+        <UnitName Value="uTri_Ancetre"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit131>
+      <Unit132>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uUseCase.pas"/>
+        <UnitName Value="uUseCase"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit132>
+      <Unit133>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uUseCases.pas"/>
+        <UnitName Value="uUseCases"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit133>
+      <Unit134>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uuStrings.pas"/>
+        <UnitName Value="uuStrings"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit134>
+      <Unit135>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/uVersion.pas"/>
+        <UnitName Value="uVersion"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit135>
+      <Unit136>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uBatproFiltre.pas"/>
+        <UnitName Value="uBatproFiltre"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit136>
+      <Unit137>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uBatpro_Ligne.pas"/>
+        <UnitName Value="uBatpro_Ligne"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="858"/>
+        <CursorPos X="1" Y="882"/>
+        <UsageCount Value="43"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit137>
+      <Unit138>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uBatpro_OD_Printer.pas"/>
+        <UnitName Value="uBatpro_OD_Printer"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit138>
+      <Unit139>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uBatpro_OD_SpreadSheet_Manager.pas"/>
+        <UnitName Value="uBatpro_OD_SpreadSheet_Manager"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit139>
+      <Unit140>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uBatpro_OD_TextFieldsCreator.pas"/>
+        <UnitName Value="uBatpro_OD_TextFieldsCreator"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit140>
+      <Unit141>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uBatpro_OD_TextTableManager.pas"/>
+        <UnitName Value="uBatpro_OD_TextTableManager"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit141>
+      <Unit142>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/ubeChamp.pas"/>
+        <UnitName Value="ubeChamp"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit142>
+      <Unit143>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/ubeClusterElement.pas"/>
+        <UnitName Value="ubeClusterElement"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit143>
+      <Unit144>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/ubeCoche.pas"/>
+        <UnitName Value="ubeCoche"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit144>
+      <Unit145>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/ubeCurseur.pas"/>
+        <UnitName Value="ubeCurseur"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit145>
+      <Unit146>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/ubeExtended.pas"/>
+        <UnitName Value="ubeExtended"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit146>
+      <Unit147>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/ubeJalon.pas"/>
+        <UnitName Value="ubeJalon"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit147>
+      <Unit148>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/ubeListe_Batpro_Elements.pas"/>
+        <UnitName Value="ubeListe_Batpro_Elements"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit148>
+      <Unit149>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uberef.pas"/>
+        <UnitName Value="uberef"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit149>
+      <Unit150>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/ubeSerie.pas"/>
+        <UnitName Value="ubeSerie"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit150>
+      <Unit151>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/ubeString.pas"/>
+        <UnitName Value="ubeString"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit151>
+      <Unit152>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/ubeTraits.pas"/>
+        <UnitName Value="ubeTraits"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit152>
+      <Unit153>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uCD_from_Params.pas"/>
+        <UnitName Value="uCD_from_Params"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit153>
+      <Unit154>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uCD_from_SL.pas"/>
+        <UnitName Value="uCD_from_SL"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit154>
+      <Unit155>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uChamps_persistance.pas"/>
+        <UnitName Value="uChamps_persistance"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit155>
+      <Unit156>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uCharge_100.pas"/>
+        <UnitName Value="uCharge_100"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit156>
+      <Unit157>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uCharMap.pas"/>
+        <UnitName Value="uCharMap"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit157>
+      <Unit158>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uContextes.pas"/>
+        <UnitName Value="uContextes"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit158>
+      <Unit159>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uDataUtils.pas"/>
+        <UnitName Value="uDataUtils"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit159>
+      <Unit160>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uDataUtilsF.pas"/>
+        <UnitName Value="uDataUtilsF"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="11"/>
+        <CursorPos X="18" Y="36"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit160>
+      <Unit161>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/u_db_Formes.pas"/>
+        <UnitName Value="u_db_Formes"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit161>
+      <Unit162>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/udmBatpro_DataModule.pas"/>
+        <UnitName Value="udmBatpro_DataModule"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit162>
+      <Unit163>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/udmDatabase.pas"/>
+        <UnitName Value="udmDatabase"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="234"/>
+        <CursorPos X="1" Y="264"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit163>
+      <Unit164>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uDrawInfo.pas"/>
+        <UnitName Value="uDrawInfo"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit164>
+      <Unit165>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/_uDrawInfo.pas"/>
+        <UnitName Value="uDrawInfo"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit165>
+      <Unit166>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uGlobal_INI.pas"/>
+        <UnitName Value="uGlobal_INI"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit166>
+      <Unit167>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uhAggregation.pas"/>
+        <UnitName Value="uhAggregation"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit167>
+      <Unit168>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uhField.pas"/>
+        <UnitName Value="uhField"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit168>
+      <Unit169>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uhFiltre.pas"/>
+        <UnitName Value="uhFiltre"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit169>
+      <Unit170>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uhFiltre_Ancetre.pas"/>
+        <UnitName Value="uhFiltre_Ancetre"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit170>
+      <Unit171>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uhRequete.pas"/>
+        <UnitName Value="uhRequete"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit171>
+      <Unit172>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uhrG_BECP.pas"/>
+        <UnitName Value="uhrG_BECP"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit172>
+      <Unit173>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uhrG_BECPCTX.pas"/>
+        <UnitName Value="uhrG_BECPCTX"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit173>
+      <Unit174>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uhrG_CTX.pas"/>
+        <UnitName Value="uhrG_CTX"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit174>
+      <Unit175>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uhTriColonne.pas"/>
+        <UnitName Value="uhTriColonne"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit175>
+      <Unit176>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uInformix.pas"/>
+        <UnitName Value="uInformix"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit176>
+      <Unit177>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/u_InformixLob.pas"/>
+        <UnitName Value="u_InformixLob"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit177>
+      <Unit178>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uINI_Batpro_OD_Report.pas"/>
+        <UnitName Value="uINI_Batpro_OD_Report"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit178>
+      <Unit179>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/u_ini_Formes.pas"/>
+        <UnitName Value="u_ini_Formes"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit179>
+      <Unit180>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/u_loc_Formes.pas"/>
+        <UnitName Value="u_loc_Formes"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit180>
+      <Unit181>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uLog.pas"/>
+        <UnitName Value="uLog"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit181>
+      <Unit182>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uMailTo.pas"/>
+        <UnitName Value="uMailTo"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit182>
+      <Unit183>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uMotsCles.pas"/>
+        <UnitName Value="uMotsCles"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit183>
+      <Unit184>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uMySQL.pas"/>
+        <UnitName Value="uMySQL"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="27"/>
+        <CursorPos X="31" Y="43"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit184>
+      <Unit185>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uNetwork.pas"/>
+        <UnitName Value="uNetwork"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit185>
+      <Unit186>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uOD_Batpro_Table.pas"/>
+        <UnitName Value="uOD_Batpro_Table"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit186>
+      <Unit187>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uOD_BatproTextTableContext.pas"/>
+        <UnitName Value="uOD_BatproTextTableContext"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit187>
+      <Unit188>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uOD_Champ.pas"/>
+        <UnitName Value="uOD_Champ"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit188>
+      <Unit189>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uOD_Niveau.pas"/>
+        <UnitName Value="uOD_Niveau"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit189>
+      <Unit190>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uOOo_NomChamp_utilisateur.pas"/>
+        <UnitName Value="uOOo_NomChamp_utilisateur"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit190>
+      <Unit191>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uParametres_Ancetre.pas"/>
+        <UnitName Value="uParametres_Ancetre"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit191>
+      <Unit192>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uPool.pas"/>
+        <ComponentName Value="Pool"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uPool"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2088"/>
+        <CursorPos X="1" Y="2118"/>
+        <UsageCount Value="43"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit192>
+      <Unit193>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/upool_Ancetre_Ancetre.pas"/>
+        <ComponentName Value="pool_Ancetre_Ancetre"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="upool_Ancetre_Ancetre"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit193>
+      <Unit194>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uPostgres.pas"/>
+        <UnitName Value="uPostgres"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit194>
+      <Unit195>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uRegistry.pas"/>
+        <UnitName Value="uRegistry"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit195>
+      <Unit196>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uSuppression.pas"/>
+        <UnitName Value="uSuppression"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit196>
+      <Unit197>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uSVG.pas"/>
+        <UnitName Value="uSVG"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit197>
+      <Unit198>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/u_sys_Batpro_Element.pas"/>
+        <UnitName Value="u_sys_Batpro_Element"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit198>
+      <Unit199>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uTraits.pas"/>
+        <UnitName Value="uTraits"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit199>
+      <Unit200>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uTri.pas"/>
+        <UnitName Value="uTri"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit200>
+      <Unit201>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data/uVide.pas"/>
+        <UnitName Value="uVide"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit201>
+      <Unit202>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/rtl/objpas/classes/classesh.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="76"/>
+        <CursorPos X="3" Y="95"/>
+        <UsageCount Value="2"/>
+      </Unit202>
+      <Unit203>
+        <Filename Value="Laissé_de_coté/upoolDemander.pas"/>
+        <UnitName Value="upoolDemander"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="47"/>
+        <CursorPos X="1" Y="82"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit203>
+      <Unit204>
+        <Filename Value="upoolWork.lfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="2"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit204>
+      <Unit205>
+        <Filename Value="../../../batpro/source/2010_delphi/04_Batpro_Planning/01_source/pA_PLA_Financier/udkA_PLA_Financier.pas"/>
+        <UnitName Value="udkA_PLA_Financier"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="20"/>
+        <CursorPos X="1" Y="20"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit205>
+      <Unit206>
+        <Filename Value="udkProjet.lfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="10" Y="1"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit206>
+      <Unit207>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/OD_DelphiReportEngine_Controls.pas"/>
+        <UnitName Value="OD_DelphiReportEngine_Controls"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="25"/>
+        <CursorPos X="34" Y="43"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit207>
+      <Unit208>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/Truc.pas"/>
+        <UnitName Value="Truc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit208>
+      <Unit209>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/uDockable.pas"/>
+        <ComponentName Value="Dockable"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uDockable"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="122"/>
+        <CursorPos X="1" Y="156"/>
+        <UsageCount Value="22"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit209>
+      <Unit210>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/ucDockableScrollbox.pas"/>
+        <UnitName Value="ucDockableScrollbox"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="8" Y="18"/>
+        <UsageCount Value="14"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit210>
+      <Unit211>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/4_Components/uBatpro_Registry.pas"/>
+        <UnitName Value="uBatpro_Registry"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit211>
+      <Unit212>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/4_Components/uBinary_Tree.pas"/>
+        <UnitName Value="uBinary_Tree"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="55"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit212>
+      <Unit213>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/4_Components/ucBatproVerifieur.pas"/>
+        <UnitName Value="ucBatproVerifieur"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="73"/>
+        <CursorPos X="78" Y="81"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit213>
+      <Unit214>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/4_Components/ucbvCustomConnection.pas"/>
+        <UnitName Value="ucbvCustomConnection"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="3"/>
+        <CursorPos X="34" Y="7"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit214>
+      <Unit215>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/4_Components/ucbvQuery_Datasource.pas"/>
+        <UnitName Value="ucbvQuery_Datasource"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="9" Y="7"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit215>
+      <Unit216>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_LCL/linux/uWindows.pas"/>
+        <UnitName Value="uWindows"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit216>
+      <Unit217>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/ucBatpro_Button.pas"/>
+        <UnitName Value="ucBatpro_Button"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="48" Y="22"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit217>
+      <Unit218>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/uDBEdit_WANTTAB.pas"/>
+        <UnitName Value="uDBEdit_WANTTAB"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="6"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit218>
+      <Unit219>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/ufChamp_Date.pas"/>
+        <UnitName Value="ufChamp_Date"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="37"/>
+        <CursorPos X="8" Y="52"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit219>
+      <Unit220>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/ufChampsGrid_Colonnes.pas"/>
+        <UnitName Value="ufChampsGrid_Colonnes"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="14"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit220>
+      <Unit221>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/ucBatproDateTimePicker.pas"/>
+        <UnitName Value="ucBatproDateTimePicker"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="13"/>
+        <CursorPos X="32" Y="13"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit221>
+      <Unit222>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/ucBatproComboBox.pas"/>
+        <UnitName Value="ucBatproComboBox"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="6"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit222>
+      <Unit223>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/uWinUtils.pas"/>
+        <UnitName Value="uWinUtils"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="3" Y="14"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit223>
+      <Unit224>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/ucChamp_Float_SpinEdit.pas"/>
+        <UnitName Value="ucChamp_Float_SpinEdit"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="13" Y="14"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit224>
+      <Unit225>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/ufAttente_Demarrage.pas"/>
+        <UnitName Value="ufAttente_Demarrage"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="50"/>
+        <CursorPos X="8" Y="56"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit225>
+      <Unit226>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/ucChampsGrid.pas"/>
+        <UnitName Value="ucChampsGrid"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="5" Y="10"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit226>
+      <Unit227>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/uEdit_WANTTAB.pas"/>
+        <UnitName Value="uEdit_WANTTAB"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="15" Y="12"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit227>
+      <Unit228>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/ufcb.pas"/>
+        <UnitName Value="ufcb"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="20"/>
+        <CursorPos X="1" Y="32"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit228>
+      <Unit229>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/ucBatproMasque.pas"/>
+        <UnitName Value="ucBatproMasque"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="13" Y="19"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit229>
+      <Unit230>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/ucBatproSelector.pas"/>
+        <UnitName Value="ucBatproSelector"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="47"/>
+        <CursorPos X="8" Y="73"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit230>
+      <Unit231>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/ucChamp_DateTimePicker.pas"/>
+        <UnitName Value="ucChamp_DateTimePicker"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="46" Y="26"/>
+        <UsageCount Value="67"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit231>
+      <Unit232>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/udmf.pas"/>
+        <UnitName Value="udmf"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="3" Y="14"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit232>
+      <Unit233>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/ucBatproMaskElement.pas"/>
+        <UnitName Value="ucBatproMaskElement"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="469"/>
+        <CursorPos X="55" Y="483"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit233>
+      <Unit234>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/ufChamp_Lookup.pas"/>
+        <UnitName Value="ufChamp_Lookup"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="3" Y="12"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit234>
+      <Unit235>
+        <Filename Value="/usr/share/lazarus/1.2.0/lcl/nonwin32/messages.pp"/>
+        <UnitName Value="Messages"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+      </Unit235>
+      <Unit236>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/OD_DelphiReportEngine_Controls.lpk"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="XML"/>
+      </Unit236>
+      <Unit237>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/2_Units/OD_DelphiReportEngine_Units.pas"/>
+        <UnitName Value="OD_DelphiReportEngine_Units"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2"/>
+        <CursorPos X="24" Y="17"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit237>
+      <Unit238>
+        <Filename Value="udkProject_LABEL.lfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="16"/>
+        <UsageCount Value="2"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit238>
+      <Unit239>
+        <Filename Value="/usr/share/lazarus/1.2.0/lcl/include/control.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2669"/>
+        <CursorPos X="36" Y="2686"/>
+        <UsageCount Value="7"/>
+      </Unit239>
+      <Unit240>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/ucBatpro_Shape.pas"/>
+        <UnitName Value="ucBatpro_Shape"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="51"/>
+        <CursorPos X="9" Y="72"/>
+        <UsageCount Value="3"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit240>
+      <Unit241>
+        <Filename Value="../../../0_Bricolage/Prius/Clips_rétroviseur_extérieur/clips.scad"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="113"/>
+        <CursorPos X="1" Y="159"/>
+        <UsageCount Value="9"/>
+        <Bookmarks Count="1">
+          <Item0 X="51" Y="25" ID="1"/>
+        </Bookmarks>
+        <DefaultSyntaxHighlighter Value="JScript"/>
+      </Unit241>
+      <Unit242>
+        <Filename Value="../../../0_Bricolage/Cle_poubelle/Cle_poubelle.scad"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="19"/>
+        <CursorPos X="12" Y="19"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="JScript"/>
+      </Unit242>
+      <Unit243>
+        <Filename Value="../../../batpro/source/src/Batpro_Formes/ST4_STO/ublST4_STO.pas"/>
+        <UnitName Value="ublST4_STO"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="345"/>
+        <CursorPos X="12" Y="301"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit243>
+      <Unit244>
+        <Filename Value="../../../batpro/source/src/Batpro_Formes/PL_SAL/ublPL_SAL.pas"/>
+        <UnitName Value="ublPL_SAL"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="493"/>
+        <CursorPos X="48" Y="525"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit244>
+      <Unit245>
+        <Filename Value="../../../batpro/source/src/Batpro_Formes/GED/ublNOUVEAU_GED_document.pas"/>
+        <UnitName Value="ublNOUVEAU_GED_document"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="108"/>
+        <CursorPos X="1" Y="145"/>
+        <UsageCount Value="4"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit245>
+      <Unit246>
+        <Filename Value="../../../batpro/source/src/pascal_o_r_mapping/5_Controls/ucChamp_Lookup_ComboBox.pas"/>
+        <UnitName Value="ucChamp_Lookup_ComboBox"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="97"/>
+        <CursorPos X="57" Y="106"/>
+        <UsageCount Value="36"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit246>
+      <Unit247>
+        <Filename Value="../Windows/06_pBase/udb_.pas"/>
+        <UnitName Value="udb_"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="34"/>
+        <CursorPos X="1" Y="48"/>
+        <UsageCount Value="34"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit247>
+      <Unit248>
+        <Filename Value="../pascal_o_r_mapping/2_Units/uOD_Column.pas"/>
+        <UnitName Value="uOD_Column"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="11"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit248>
+      <Unit249>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
+        <UnitName Value="uHTTP_Interface"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="6"/>
+        <CursorPos X="38" Y="34"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit249>
+      <Unit250>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Element.pas"/>
+        <UnitName Value="uBatpro_Element"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1982"/>
+        <CursorPos X="1" Y="2009"/>
+        <UsageCount Value="10"/>
+        <Bookmarks Count="1">
+          <Item0 X="1" Y="1132" ID="1"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit250>
+      <Unit251>
+        <Filename Value="../pascal_o_r_mapping/5_Controls/ucChampsGrid.pas"/>
+        <UnitName Value="ucChampsGrid"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="25" Y="11"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit251>
+      <Unit252>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uDataUtilsF.pas"/>
+        <UnitName Value="uDataUtilsF"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1325"/>
+        <CursorPos X="1" Y="1338"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit252>
+      <Unit253>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uPool.pas"/>
+        <UnitName Value="uPool"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1112"/>
+        <CursorPos X="1" Y="1125"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit253>
+    </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <JumpHistory Count="14" HistoryIndex="13">
+      <Position1>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
+        <Caret Line="30" Column="44" TopLine="1"/>
+      </Position1>
+      <Position2>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Element.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position2>
+      <Position3>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Element.pas"/>
+        <Caret Line="36" Column="1" TopLine="22"/>
+      </Position3>
+      <Position4>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Element.pas"/>
+        <Caret Line="1132" Column="1" TopLine="1126"/>
+      </Position4>
+      <Position5>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Element.pas"/>
+        <Caret Line="35" Column="33" TopLine="18"/>
+      </Position5>
+      <Position6>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Element.pas"/>
+        <Caret Line="1339" Column="1" TopLine="1330"/>
+      </Position6>
+      <Position7>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Element.pas"/>
+        <Caret Line="1425" Column="1" TopLine="1398"/>
+      </Position7>
+      <Position8>
+        <Filename Value="jsWorks_mswindows.lpr"/>
+        <Caret Line="22" Column="1" TopLine="1"/>
+      </Position8>
+      <Position9>
+        <Filename Value="jsWorks_mswindows.lpr"/>
+        <Caret Line="42" Column="2" TopLine="28"/>
+      </Position9>
+      <Position10>
+        <Filename Value="../pascal_o_r_mapping/5_Controls/ucChampsGrid.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position10>
+      <Position11>
+        <Filename Value="../pascal_o_r_mapping/5_Controls/ucChampsGrid.pas"/>
+        <Caret Line="11" Column="25" TopLine="1"/>
+      </Position11>
+      <Position12>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uDataUtilsF.pas"/>
+        <Caret Line="1338" Column="1" TopLine="1325"/>
+      </Position12>
+      <Position13>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uPool.pas"/>
+        <Caret Line="1125" Column="1" TopLine="1112"/>
+      </Position13>
+      <Position14>
+        <Filename Value="jsWorks_mswindows.lpr"/>
+        <Caret Line="42" Column="13" TopLine="32"/>
+      </Position14>
+    </JumpHistory>
+  </ProjectSession>
+  <Debugging>
+    <BreakPoints Count="3">
+      <Item1>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="upoolDemander.pas"/>
+        <Line Value="83"/>
+      </Item1>
+      <Item2>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="upoolUser.pas"/>
+        <Line Value="83"/>
+      </Item2>
+      <Item3>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="../../../batpro/source/src/pascal_o_r_mapping/4_Components/ucBatproVerifieur.pas"/>
+        <Line Value="80"/>
+      </Item3>
+    </BreakPoints>
+    <Watches Count="2">
+      <Item1>
+        <Expression Value="self.field"/>
+      </Item1>
+      <Item2>
+        <Expression Value="self.Labels"/>
+      </Item2>
+    </Watches>
+  </Debugging>
+  <EditorMacros Count="0"/>
+</CONFIG>

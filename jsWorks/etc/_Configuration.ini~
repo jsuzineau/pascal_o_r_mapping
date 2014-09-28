@@ -1,0 +1,10 @@
+[Options]
+Chemin_Global=
+Choisir le SGBD en se basant sur le nom de l'exécutable=0
+
+[MySQL]
+HostName=localhost
+DataBase=jsWork
+User_Name=root
+Password=
+Version=55

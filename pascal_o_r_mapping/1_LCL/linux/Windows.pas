@@ -1,0 +1,2020 @@
+unit Windows;
+{                                                                               |
+    Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
+            partly as freelance: http://www.mars42.com                          |
+        and partly as employee : http://www.batpro.com                          |
+    Contact: gilles.doutre@batpro.com                                           |
+                                                                                |
+    Copyright 2014 Jean SUZINEAU - MARS42                                       |
+    Copyright 2014 Cabinet Gilles DOUTRE - BATPRO                               |
+                                                                                |
+    This program is free software: you can redistribute it and/or modify        |
+    it under the terms of the GNU Lesser General Public License as published by |
+    the Free Software Foundation, either version 3 of the License, or           |
+    (at your option) any later version.                                         |
+                                                                                |
+    This program is distributed in the hope that it will be useful,             |
+    but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    GNU Lesser General Public License for more details.                         |
+                                                                                |
+    You should have received a copy of the GNU Lesser General Public License    |
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.       |
+                                                                                |
+|                                                                               }
+
+{$mode objfpc}{$H+}
+
+interface
+
+uses
+  Classes, SysUtils,Types,LCLType;
+
+const //au pif juste pour pouvoir compiler
+     TRANSPARENT= 0;
+     OPAQUE=1;
+procedure SetBkMode( handle, valeur: integer);
+type
+    TRGBQuad=record rgbBlue,rgbGreen, rgbRed, truc: byte; end;
+
+const
+     TA_TOP=0;
+     TA_LEFT=1;
+procedure SetTextAlign( Handle, valeur: Integer);
+
+procedure TextOut( Handle, x, y: integer;
+                   Text: PChar; Length_Text: Integer);
+
+procedure DrawFrameControl( Handle: integer; Rect: TRect;
+                            truc1, truc2: integer);
+
+type
+{ Translated from WINDEF.H }
+
+  WCHAR = WideChar;
+  {$EXTERNALSYM WCHAR}
+  PWChar = PWideChar;
+
+  LPSTR = PAnsiChar;
+  {$EXTERNALSYM LPSTR}
+  PLPSTR = ^LPSTR;
+  {$EXTERNALSYM PLPSTR}
+  LPCSTR = PAnsiChar;
+  {$EXTERNALSYM LPCSTR}
+  LPCTSTR = PAnsiChar; { should be PWideChar if UNICODE }
+  {$EXTERNALSYM LPCTSTR}
+  LPTSTR = PAnsiChar; { should be PWideChar if UNICODE }
+  {$EXTERNALSYM LPTSTR}
+  LPWSTR = PWideChar;
+  {$EXTERNALSYM LPWSTR}
+  PLPWSTR = ^LPWSTR;
+  {$EXTERNALSYM PLPWSTR}
+  LPCWSTR = PWideChar;
+  {$EXTERNALSYM LPCWSTR}
+
+  DWORD = Types.DWORD;
+  {$EXTERNALSYM DWORD}
+  BOOL = LongBool;
+  {$EXTERNALSYM BOOL}
+  PBOOL = ^BOOL;
+  {$EXTERNALSYM PBOOL}
+  PByte = Types.PByte;
+  PINT = ^Integer;
+  {$EXTERNALSYM PINT}
+  PSingle = ^Single;
+  PWORD = ^Word;
+  {$EXTERNALSYM PWORD}
+  PDWORD = ^DWORD;
+  {$EXTERNALSYM PDWORD}
+  LPDWORD = PDWORD;
+  {$EXTERNALSYM LPDWORD}
+
+  UCHAR = Byte;
+  {$EXTERNALSYM UCHAR}
+  PUCHAR = ^Byte;
+  {$EXTERNALSYM PUCHAR}
+  SHORT = Smallint;
+  {$EXTERNALSYM SHORT}
+  UINT = LongWord;
+  {$EXTERNALSYM UINT}
+  PUINT = ^UINT;
+  {$EXTERNALSYM PUINT}
+  ULONG = Cardinal;
+  {$EXTERNALSYM ULONG}
+  PULONG = ^ULONG;
+  {$EXTERNALSYM PULONG}
+  PLongint = System.PLongint;
+  {$EXTERNALSYM PLongint}
+  PInteger = System.PInteger;
+  {$EXTERNALSYM PInteger}
+  PLongWord = System.PLongWord;
+  {$EXTERNALSYM PLongWord}
+  PSmallInt = System.PSmallInt;
+  {$EXTERNALSYM PSmallInt}
+  PDouble = System.PDouble;
+  {$EXTERNALSYM PDouble}
+  PShortInt = System.PShortInt;
+  {$EXTERNALSYM PShortInt}
+
+  LCID = DWORD;
+  {$EXTERNALSYM LCID}
+  LANGID = Word;
+  {$EXTERNALSYM LANGID}
+
+  THandle = System.THandle;
+  PHandle = ^THandle;
+
+const
+  MAX_PATH = 260;
+  {$EXTERNALSYM MAX_PATH}
+
+
+{ Translated from WINNT.H (only things needed for API calls) }
+
+{line 190}
+type
+  LONGLONG = Int64;
+  {$EXTERNALSYM LONGLONG}
+  PSID = Pointer;
+  {$EXTERNALSYM PSID}
+  PLargeInteger = ^TLargeInteger;
+  _LARGE_INTEGER = record
+    case Integer of
+    0: (
+      LowPart: DWORD;
+      HighPart: Longint);
+    1: (
+      QuadPart: LONGLONG);
+  end;
+  {$EXTERNALSYM _LARGE_INTEGER}
+  {$NODEFINE TLargeInteger}
+  TLargeInteger = Int64;
+  LARGE_INTEGER = _LARGE_INTEGER;
+  {$EXTERNALSYM LARGE_INTEGER}
+
+  ULARGE_INTEGER = record
+    case Integer of
+    0: (
+      LowPart: DWORD;
+      HighPart: DWORD);
+    1: (
+      QuadPart: LONGLONG);
+  end;
+  {$EXTERNALSYM ULARGE_INTEGER}
+  PULargeInteger = ^TULargeInteger;
+  TULargeInteger = ULARGE_INTEGER;
+
+{line 450}
+  PListEntry = ^TListEntry;
+  _LIST_ENTRY = record
+    Flink: PListEntry;
+    Blink: PListEntry;
+  end;
+  {$EXTERNALSYM _LIST_ENTRY}
+  TListEntry = _LIST_ENTRY;
+  LIST_ENTRY = _LIST_ENTRY;
+  {$EXTERNALSYM LIST_ENTRY}
+
+{line 490}
+const
+  MINCHAR = $80;
+  {$EXTERNALSYM MINCHAR}
+  MAXCHAR = 127;
+  {$EXTERNALSYM MAXCHAR}
+  MINSHORT = $8000;
+  {$EXTERNALSYM MINSHORT}
+  MAXSHORT = 32767;
+  {$EXTERNALSYM MAXSHORT}
+  MINLONG = DWORD($80000000);
+  {$EXTERNALSYM MINLONG}
+  MAXLONG = $7FFFFFFF;
+  {$EXTERNALSYM MAXLONG}
+  MAXBYTE = 255;
+  {$EXTERNALSYM MAXBYTE}
+  MAXWORD = 65535;
+  {$EXTERNALSYM MAXWORD}
+  MAXDWORD = DWORD($FFFFFFFF);
+  {$EXTERNALSYM MAXDWORD}
+
+type
+    HWnd= Integer;
+    HDC= Integer;
+    HFont= Integer;
+
+function CreateFont(nHeight, nWidth, nEscapement, nOrientaion, fnWeight: Integer;
+  fdwItalic, fdwUnderline, fdwStrikeOut, fdwCharSet, fdwOutputPrecision,
+  fdwClipPrecision, fdwQuality, fdwPitchAndFamily: DWORD; lpszFace: PChar): HFONT;
+
+function GetDC( _truc: Hwnd): HDC;
+procedure ReleaseDC( _truc: Hwnd; _troc: HDC);
+
+const
+{ DrawText() Format Flags }
+{$EXTERNALSYM DT_TOP}
+DT_TOP = 0;
+{$EXTERNALSYM DT_LEFT}
+DT_LEFT = 0;
+{$EXTERNALSYM DT_CENTER}
+DT_CENTER = 1;
+{$EXTERNALSYM DT_RIGHT}
+DT_RIGHT = 2;
+{$EXTERNALSYM DT_VCENTER}
+DT_VCENTER = 4;
+{$EXTERNALSYM DT_BOTTOM}
+DT_BOTTOM = 8;
+{$EXTERNALSYM DT_WORDBREAK}
+DT_WORDBREAK = $10;
+{$EXTERNALSYM DT_SINGLELINE}
+DT_SINGLELINE = $20;
+{$EXTERNALSYM DT_EXPANDTABS}
+DT_EXPANDTABS = $40;
+{$EXTERNALSYM DT_TABSTOP}
+DT_TABSTOP = $80;
+{$EXTERNALSYM DT_NOCLIP}
+DT_NOCLIP = $100;
+{$EXTERNALSYM DT_EXTERNALLEADING}
+DT_EXTERNALLEADING = $200;
+{$EXTERNALSYM DT_CALCRECT}
+DT_CALCRECT = $400;
+{$EXTERNALSYM DT_NOPREFIX}
+DT_NOPREFIX = $800;
+{$EXTERNALSYM DT_INTERNAL}
+DT_INTERNAL = $1000;
+{$EXTERNALSYM DT_HIDEPREFIX}
+DT_HIDEPREFIX = $00100000;
+{$EXTERNALSYM DT_PREFIXONLY}
+DT_PREFIXONLY = $00200000;
+
+{$EXTERNALSYM DT_EDITCONTROL}
+DT_EDITCONTROL = $2000;
+{$EXTERNALSYM DT_PATH_ELLIPSIS}
+DT_PATH_ELLIPSIS = $4000;
+{$EXTERNALSYM DT_END_ELLIPSIS}
+DT_END_ELLIPSIS = $8000;
+{$EXTERNALSYM DT_MODIFYSTRING}
+DT_MODIFYSTRING = $10000;
+{$EXTERNALSYM DT_RTLREADING}
+DT_RTLREADING = $20000;
+{$EXTERNALSYM DT_WORD_ELLIPSIS}
+DT_WORD_ELLIPSIS = $40000;
+
+type
+PDrawTextParams = ^TDrawTextParams;
+{$EXTERNALSYM tagDRAWTEXTPARAMS}
+tagDRAWTEXTPARAMS = packed record
+  cbSize: UINT;
+  iTabLength: Integer;
+  iLeftMargin: Integer;
+  iRightMargin: Integer;
+  uiLengthDrawn: UINT;
+end;
+TDrawTextParams = tagDRAWTEXTPARAMS;
+{$EXTERNALSYM DRAWTEXTPARAMS}
+DRAWTEXTPARAMS = tagDRAWTEXTPARAMS;
+
+function DrawText( _troc: HDC; _tric: PChar; _L: Integer; var _lpRect: TRect; uFormat: UINT): Integer;
+
+function GetModuleFileName( HInstance: THandle; Buffer: PChar; _L: Integer): Integer;
+
+const
+  FORMAT_MESSAGE_ALLOCATE_BUFFER = $100;
+  {$EXTERNALSYM FORMAT_MESSAGE_ALLOCATE_BUFFER}
+  FORMAT_MESSAGE_IGNORE_INSERTS = $200;
+  {$EXTERNALSYM FORMAT_MESSAGE_IGNORE_INSERTS}
+  FORMAT_MESSAGE_FROM_STRING = $400;
+  {$EXTERNALSYM FORMAT_MESSAGE_FROM_STRING}
+  FORMAT_MESSAGE_FROM_HMODULE = $800;
+  {$EXTERNALSYM FORMAT_MESSAGE_FROM_HMODULE}
+  FORMAT_MESSAGE_FROM_SYSTEM = $1000;
+  {$EXTERNALSYM FORMAT_MESSAGE_FROM_SYSTEM}
+  FORMAT_MESSAGE_ARGUMENT_ARRAY = $2000;
+  {$EXTERNALSYM FORMAT_MESSAGE_ARGUMENT_ARRAY}
+  FORMAT_MESSAGE_MAX_WIDTH_MASK = 255;
+  {$EXTERNALSYM FORMAT_MESSAGE_MAX_WIDTH_MASK}
+
+function FormatMessage(dwFlags: DWORD; lpSource: Pointer; dwMessageId: DWORD; dwLanguageId: DWORD;
+  lpBuffer: PChar; nSize: DWORD; Arguments: Pointer): DWORD;
+
+function GetLastError: DWORD;
+
+type
+  WPARAM = Longint;
+  {$EXTERNALSYM WPARAM}
+  LPARAM = Longint;
+  {$EXTERNALSYM LPARAM}
+  LRESULT = Longint;
+  {$EXTERNALSYM LRESULT}
+
+function PostMessage(hWnd: HWND; Msg: UINT; wParam: WPARAM; lParam: LPARAM): BOOL;
+
+type
+PSize = ^TSize;
+tagSIZE = packed record
+  cx: Longint;
+  cy: Longint;
+end;
+{$EXTERNALSYM tagSIZE}
+TSize = tagSIZE;
+SIZE = tagSIZE;
+{$EXTERNALSYM SIZE}
+
+PSmallPoint = ^TSmallPoint;
+TSmallPoint = packed record
+  x: SmallInt;
+  y: SmallInt;
+end;
+
+type
+  { WM_WINDOWPOSCHANGINGCHANGED struct pointed to by lParam }
+  PWindowPos = ^TWindowPos;
+  {$EXTERNALSYM tagWINDOWPOS}
+  tagWINDOWPOS = packed record
+    hwnd: HWND;
+    hwndInsertAfter: HWND;
+    x: Integer;
+    y: Integer;
+    cx: Integer;
+    cy: Integer;
+    flags: UINT;
+  end;
+  TWindowPos = tagWINDOWPOS;
+  {$EXTERNALSYM WINDOWPOS}
+  WINDOWPOS = tagWINDOWPOS;
+
+  { WM_NCCALCSIZE parameter structure }
+  PNCCalcSizeParams = ^TNCCalcSizeParams;
+  {$EXTERNALSYM tagNCCALCSIZE_PARAMS}
+  tagNCCALCSIZE_PARAMS = packed record
+    rgrc: array[0..2] of TRect;
+    lppos: PWindowPos;
+  end;
+  TNCCalcSizeParams = tagNCCALCSIZE_PARAMS;
+  {$EXTERNALSYM NCCALCSIZE_PARAMS}
+  NCCALCSIZE_PARAMS = tagNCCALCSIZE_PARAMS;
+
+
+const
+  { WM_NCCALCSIZE "window valid rect" return values }
+  {$EXTERNALSYM WVR_ALIGNTOP}
+  WVR_ALIGNTOP = $10;
+  {$EXTERNALSYM WVR_ALIGNLEFT}
+  WVR_ALIGNLEFT = $20;
+  {$EXTERNALSYM WVR_ALIGNBOTTOM}
+  WVR_ALIGNBOTTOM = $40;
+  {$EXTERNALSYM WVR_ALIGNRIGHT}
+  WVR_ALIGNRIGHT = $80;
+  {$EXTERNALSYM WVR_HREDRAW}
+  WVR_HREDRAW = $100;
+  {$EXTERNALSYM WVR_VREDRAW}
+  WVR_VREDRAW = $200;
+  {$EXTERNALSYM WVR_REDRAW}
+  WVR_REDRAW = (WVR_HREDRAW or WVR_VREDRAW);
+  {$EXTERNALSYM WVR_VALIDRECTS}
+  WVR_VALIDRECTS = $400;
+
+  { Key State Masks for Mouse Messages }
+  {$EXTERNALSYM MK_LBUTTON}
+  MK_LBUTTON = 1;
+  {$EXTERNALSYM MK_RBUTTON}
+  MK_RBUTTON = 2;
+  {$EXTERNALSYM MK_SHIFT}
+  MK_SHIFT = 4;
+  {$EXTERNALSYM MK_CONTROL}
+  MK_CONTROL = 8;
+  {$EXTERNALSYM MK_MBUTTON}
+  MK_MBUTTON = $10;
+
+  {$EXTERNALSYM TME_HOVER}
+  TME_HOVER           = $00000001;
+  {$EXTERNALSYM TME_LEAVE}
+  TME_LEAVE           = $00000002;
+  {$EXTERNALSYM TME_QUERY}
+  TME_QUERY           = $40000000;
+  {$EXTERNALSYM TME_CANCEL}
+  TME_CANCEL          = DWORD($80000000);
+
+  {$EXTERNALSYM HOVER_DEFAULT}
+  HOVER_DEFAULT       = DWORD($FFFFFFFF);
+
+type
+  {$EXTERNALSYM PTrackMouseEvent}
+  PTrackMouseEvent = ^TTrackMouseEvent;
+  {$EXTERNALSYM tagTRACKMOUSEEVENT}
+  tagTRACKMOUSEEVENT = record
+    cbSize: DWORD;
+    dwFlags: DWORD;
+    hwndTrack: HWND;
+    dwHoverTime: DWORD;
+  end;
+  TTrackMouseEvent = tagTRACKMOUSEEVENT;
+  {$EXTERNALSYM TTrackMouseEvent}
+
+
+  const
+    { Window Styles }
+    {$EXTERNALSYM WS_OVERLAPPED}
+    WS_OVERLAPPED = 0;
+    {$EXTERNALSYM WS_POPUP}
+    WS_POPUP = DWORD($80000000);
+    {$EXTERNALSYM WS_CHILD}
+    WS_CHILD = $40000000;
+    {$EXTERNALSYM WS_MINIMIZE}
+    WS_MINIMIZE = $20000000;
+    {$EXTERNALSYM WS_VISIBLE}
+    WS_VISIBLE = $10000000;
+    {$EXTERNALSYM WS_DISABLED}
+    WS_DISABLED = $8000000;
+    {$EXTERNALSYM WS_CLIPSIBLINGS}
+    WS_CLIPSIBLINGS = $4000000;
+    {$EXTERNALSYM WS_CLIPCHILDREN}
+    WS_CLIPCHILDREN = $2000000;
+    {$EXTERNALSYM WS_MAXIMIZE}
+    WS_MAXIMIZE = $1000000;
+    {$EXTERNALSYM WS_CAPTION}
+    WS_CAPTION = $C00000;      { WS_BORDER or WS_DLGFRAME  }
+    {$EXTERNALSYM WS_BORDER}
+    WS_BORDER = $800000;
+    {$EXTERNALSYM WS_DLGFRAME}
+    WS_DLGFRAME = $400000;
+    {$EXTERNALSYM WS_VSCROLL}
+    WS_VSCROLL = $200000;
+    {$EXTERNALSYM WS_HSCROLL}
+    WS_HSCROLL = $100000;
+    {$EXTERNALSYM WS_SYSMENU}
+    WS_SYSMENU = $80000;
+    {$EXTERNALSYM WS_THICKFRAME}
+    WS_THICKFRAME = $40000;
+    {$EXTERNALSYM WS_GROUP}
+    WS_GROUP = $20000;
+    {$EXTERNALSYM WS_TABSTOP}
+    WS_TABSTOP = $10000;
+
+    {$EXTERNALSYM WS_MINIMIZEBOX}
+    WS_MINIMIZEBOX = $20000;
+    {$EXTERNALSYM WS_MAXIMIZEBOX}
+    WS_MAXIMIZEBOX = $10000;
+
+    {$EXTERNALSYM WS_TILED}
+    WS_TILED = WS_OVERLAPPED;
+    {$EXTERNALSYM WS_ICONIC}
+    WS_ICONIC = WS_MINIMIZE;
+    {$EXTERNALSYM WS_SIZEBOX}
+    WS_SIZEBOX = WS_THICKFRAME;
+
+    { Common Window Styles }
+    {$EXTERNALSYM WS_OVERLAPPEDWINDOW}
+    WS_OVERLAPPEDWINDOW = (WS_OVERLAPPED or WS_CAPTION or WS_SYSMENU or
+      WS_THICKFRAME or WS_MINIMIZEBOX or WS_MAXIMIZEBOX);
+    {$EXTERNALSYM WS_TILEDWINDOW}
+    WS_TILEDWINDOW = WS_OVERLAPPEDWINDOW;
+    {$EXTERNALSYM WS_POPUPWINDOW}
+    WS_POPUPWINDOW = (WS_POPUP or WS_BORDER or WS_SYSMENU);
+    {$EXTERNALSYM WS_CHILDWINDOW}
+    WS_CHILDWINDOW = (WS_CHILD);
+
+    { Extended Window Styles }
+    {$EXTERNALSYM WS_EX_DLGMODALFRAME}
+    WS_EX_DLGMODALFRAME = 1;
+    {$EXTERNALSYM WS_EX_NOPARENTNOTIFY}
+    WS_EX_NOPARENTNOTIFY = 4;
+    {$EXTERNALSYM WS_EX_TOPMOST}
+    WS_EX_TOPMOST = 8;
+    {$EXTERNALSYM WS_EX_ACCEPTFILES}
+    WS_EX_ACCEPTFILES = $10;
+    {$EXTERNALSYM WS_EX_TRANSPARENT}
+    WS_EX_TRANSPARENT = $20;
+    {$EXTERNALSYM WS_EX_MDICHILD}
+    WS_EX_MDICHILD = $40;
+    {$EXTERNALSYM WS_EX_TOOLWINDOW}
+    WS_EX_TOOLWINDOW = $80;
+    {$EXTERNALSYM WS_EX_WINDOWEDGE}
+    WS_EX_WINDOWEDGE = $100;
+    {$EXTERNALSYM WS_EX_CLIENTEDGE}
+    WS_EX_CLIENTEDGE = $200;
+    {$EXTERNALSYM WS_EX_CONTEXTHELP}
+    WS_EX_CONTEXTHELP = $400;
+
+    {$EXTERNALSYM WS_EX_RIGHT}
+    WS_EX_RIGHT = $1000;
+    {$EXTERNALSYM WS_EX_LEFT}
+    WS_EX_LEFT = 0;
+    {$EXTERNALSYM WS_EX_RTLREADING}
+    WS_EX_RTLREADING = $2000;
+    {$EXTERNALSYM WS_EX_LTRREADING}
+    WS_EX_LTRREADING = 0;
+    {$EXTERNALSYM WS_EX_LEFTSCROLLBAR}
+    WS_EX_LEFTSCROLLBAR = $4000;
+    {$EXTERNALSYM WS_EX_RIGHTSCROLLBAR}
+    WS_EX_RIGHTSCROLLBAR = 0;
+
+    {$EXTERNALSYM WS_EX_CONTROLPARENT}
+    WS_EX_CONTROLPARENT = $10000;
+    {$EXTERNALSYM WS_EX_STATICEDGE}
+    WS_EX_STATICEDGE = $20000;
+    {$EXTERNALSYM WS_EX_APPWINDOW}
+    WS_EX_APPWINDOW = $40000;
+    {$EXTERNALSYM WS_EX_OVERLAPPEDWINDOW}
+    WS_EX_OVERLAPPEDWINDOW = (WS_EX_WINDOWEDGE or WS_EX_CLIENTEDGE);
+    {$EXTERNALSYM WS_EX_PALETTEWINDOW}
+    WS_EX_PALETTEWINDOW = (WS_EX_WINDOWEDGE or WS_EX_TOOLWINDOW or WS_EX_TOPMOST);
+
+    {$EXTERNALSYM WS_EX_LAYERED}
+    WS_EX_LAYERED = $00080000;
+    {$EXTERNALSYM WS_EX_NOINHERITLAYOUT}
+    WS_EX_NOINHERITLAYOUT = $00100000; // Disable inheritence of mirroring by children
+    {$EXTERNALSYM WS_EX_LAYOUTRTL}
+    WS_EX_LAYOUTRTL = $00400000; // Right to left mirroring
+    {$EXTERNALSYM WS_EX_COMPOSITED}
+    WS_EX_COMPOSITED = $02000000;
+    {$EXTERNALSYM WS_EX_NOACTIVATE}
+    WS_EX_NOACTIVATE = $08000000;
+
+    { Class styles }
+    {$EXTERNALSYM CS_VREDRAW}
+    CS_VREDRAW = DWORD(1);
+    {$EXTERNALSYM CS_HREDRAW}
+    CS_HREDRAW = DWORD(2);
+    {$EXTERNALSYM CS_KEYCVTWINDOW}
+    CS_KEYCVTWINDOW = 4;
+    {$EXTERNALSYM CS_DBLCLKS}
+    CS_DBLCLKS = 8;
+    {$EXTERNALSYM CS_OWNDC}
+    CS_OWNDC = $20;
+    {$EXTERNALSYM CS_CLASSDC}
+    CS_CLASSDC = $40;
+    {$EXTERNALSYM CS_PARENTDC}
+    CS_PARENTDC = $80;
+    {$EXTERNALSYM CS_NOKEYCVT}
+    CS_NOKEYCVT = $100;
+    {$EXTERNALSYM CS_NOCLOSE}
+    CS_NOCLOSE = $200;
+    {$EXTERNALSYM CS_SAVEBITS}
+    CS_SAVEBITS = $800;
+    {$EXTERNALSYM CS_BYTEALIGNCLIENT}
+    CS_BYTEALIGNCLIENT = $1000;
+    {$EXTERNALSYM CS_BYTEALIGNWINDOW}
+    CS_BYTEALIGNWINDOW = $2000;
+    {$EXTERNALSYM CS_GLOBALCLASS}
+    CS_GLOBALCLASS = $4000;
+
+    {$EXTERNALSYM CS_IME}
+    CS_IME = $10000;
+    {$EXTERNALSYM CS_DROPSHADOW}
+    CS_DROPSHADOW = $20000;
+
+    { WM_PRINT flags }
+    {$EXTERNALSYM PRF_CHECKVISIBLE}
+    PRF_CHECKVISIBLE = 1;
+    {$EXTERNALSYM PRF_NONCLIENT}
+    PRF_NONCLIENT = 2;
+    {$EXTERNALSYM PRF_CLIENT}
+    PRF_CLIENT = 4;
+    {$EXTERNALSYM PRF_ERASEBKGND}
+    PRF_ERASEBKGND = 8;
+    {$EXTERNALSYM PRF_CHILDREN}
+    PRF_CHILDREN = $10;
+    {$EXTERNALSYM PRF_OWNED}
+    PRF_OWNED = $20;
+
+    { 3D border styles }
+    {$EXTERNALSYM BDR_RAISEDOUTER}
+    BDR_RAISEDOUTER = 1;
+    {$EXTERNALSYM BDR_SUNKENOUTER}
+    BDR_SUNKENOUTER = 2;
+    {$EXTERNALSYM BDR_RAISEDINNER}
+    BDR_RAISEDINNER = 4;
+    {$EXTERNALSYM BDR_SUNKENINNER}
+    BDR_SUNKENINNER = 8;
+
+    {$EXTERNALSYM BDR_OUTER}
+    BDR_OUTER = 3;
+    {$EXTERNALSYM BDR_INNER}
+    BDR_INNER = 12;
+    {$EXTERNALSYM BDR_RAISED}
+    BDR_RAISED = 5;
+    {$EXTERNALSYM BDR_SUNKEN}
+    BDR_SUNKEN = 10;
+
+    {$EXTERNALSYM EDGE_RAISED}
+    EDGE_RAISED = (BDR_RAISEDOUTER or BDR_RAISEDINNER);
+    {$EXTERNALSYM EDGE_SUNKEN}
+    EDGE_SUNKEN = (BDR_SUNKENOUTER or BDR_SUNKENINNER);
+    {$EXTERNALSYM EDGE_ETCHED}
+    EDGE_ETCHED = (BDR_SUNKENOUTER or BDR_RAISEDINNER);
+    {$EXTERNALSYM EDGE_BUMP}
+    EDGE_BUMP = (BDR_RAISEDOUTER or BDR_SUNKENINNER);
+
+    { Border flags }
+    {$EXTERNALSYM BF_LEFT}
+    BF_LEFT = 1;
+    {$EXTERNALSYM BF_TOP}
+    BF_TOP = 2;
+    {$EXTERNALSYM BF_RIGHT}
+    BF_RIGHT = 4;
+    {$EXTERNALSYM BF_BOTTOM}
+    BF_BOTTOM = 8;
+
+    {$EXTERNALSYM BF_TOPLEFT}
+    BF_TOPLEFT = (BF_TOP or BF_LEFT);
+    {$EXTERNALSYM BF_TOPRIGHT}
+    BF_TOPRIGHT = (BF_TOP or BF_RIGHT);
+    {$EXTERNALSYM BF_BOTTOMLEFT}
+    BF_BOTTOMLEFT = (BF_BOTTOM or BF_LEFT);
+    {$EXTERNALSYM BF_BOTTOMRIGHT}
+    BF_BOTTOMRIGHT = (BF_BOTTOM or BF_RIGHT);
+    {$EXTERNALSYM BF_RECT}
+    BF_RECT = (BF_LEFT or BF_TOP or BF_RIGHT or BF_BOTTOM);
+
+    {$EXTERNALSYM BF_DIAGONAL}
+    BF_DIAGONAL = $10;
+
+    { For diagonal lines, the BF_RECT flags specify the end point of the}
+    { vector bounded by the rectangle parameter.}
+    {$EXTERNALSYM BF_DIAGONAL_ENDTOPRIGHT}
+    BF_DIAGONAL_ENDTOPRIGHT = (BF_DIAGONAL or BF_TOP or BF_RIGHT);
+    {$EXTERNALSYM BF_DIAGONAL_ENDTOPLEFT}
+    BF_DIAGONAL_ENDTOPLEFT = (BF_DIAGONAL or BF_TOP or BF_LEFT);
+    {$EXTERNALSYM BF_DIAGONAL_ENDBOTTOMLEFT}
+    BF_DIAGONAL_ENDBOTTOMLEFT = (BF_DIAGONAL or BF_BOTTOM or BF_LEFT);
+    {$EXTERNALSYM BF_DIAGONAL_ENDBOTTOMRIGHT}
+    BF_DIAGONAL_ENDBOTTOMRIGHT = (BF_DIAGONAL or BF_BOTTOM or BF_RIGHT);
+
+    {$EXTERNALSYM BF_MIDDLE}
+    BF_MIDDLE = $800;   { Fill in the middle }
+    {$EXTERNALSYM BF_SOFT}
+    BF_SOFT = $1000;    { For softer buttons }
+    {$EXTERNALSYM BF_ADJUST}
+    BF_ADJUST = $2000;  { Calculate the space left over }
+    {$EXTERNALSYM BF_FLAT}
+    BF_FLAT = $4000;    { For flat rather than 3D borders }
+    {$EXTERNALSYM BF_MONO}
+    BF_MONO = $8000;    { For monochrome borders }
+
+
+    const
+      { flags for DrawFrameControl }
+      {$EXTERNALSYM DFC_CAPTION}
+      DFC_CAPTION = 1;
+      {$EXTERNALSYM DFC_MENU}
+      DFC_MENU = 2;
+      {$EXTERNALSYM DFC_SCROLL}
+      DFC_SCROLL = 3;
+      {$EXTERNALSYM DFC_BUTTON}
+      DFC_BUTTON = 4;
+      {$EXTERNALSYM DFC_POPUPMENU}
+      DFC_POPUPMENU = 5;
+
+      {$EXTERNALSYM DFCS_CAPTIONCLOSE}
+      DFCS_CAPTIONCLOSE = 0;
+      {$EXTERNALSYM DFCS_CAPTIONMIN}
+      DFCS_CAPTIONMIN = 1;
+      {$EXTERNALSYM DFCS_CAPTIONMAX}
+      DFCS_CAPTIONMAX = 2;
+      {$EXTERNALSYM DFCS_CAPTIONRESTORE}
+      DFCS_CAPTIONRESTORE = 3;
+      {$EXTERNALSYM DFCS_CAPTIONHELP}
+      DFCS_CAPTIONHELP = 4;
+
+      {$EXTERNALSYM DFCS_MENUARROW}
+      DFCS_MENUARROW = 0;
+      {$EXTERNALSYM DFCS_MENUCHECK}
+      DFCS_MENUCHECK = 1;
+      {$EXTERNALSYM DFCS_MENUBULLET}
+      DFCS_MENUBULLET = 2;
+      {$EXTERNALSYM DFCS_MENUARROWRIGHT}
+      DFCS_MENUARROWRIGHT = 4;
+
+      {$EXTERNALSYM DFCS_SCROLLUP}
+      DFCS_SCROLLUP = 0;
+      {$EXTERNALSYM DFCS_SCROLLDOWN}
+      DFCS_SCROLLDOWN = 1;
+      {$EXTERNALSYM DFCS_SCROLLLEFT}
+      DFCS_SCROLLLEFT = 2;
+      {$EXTERNALSYM DFCS_SCROLLRIGHT}
+      DFCS_SCROLLRIGHT = 3;
+      {$EXTERNALSYM DFCS_SCROLLCOMBOBOX}
+      DFCS_SCROLLCOMBOBOX = 5;
+      {$EXTERNALSYM DFCS_SCROLLSIZEGRIP}
+      DFCS_SCROLLSIZEGRIP = 8;
+      {$EXTERNALSYM DFCS_SCROLLSIZEGRIPRIGHT}
+      DFCS_SCROLLSIZEGRIPRIGHT = $10;
+
+      {$EXTERNALSYM DFCS_BUTTONCHECK}
+      DFCS_BUTTONCHECK = 0;
+      {$EXTERNALSYM DFCS_BUTTONRADIOIMAGE}
+      DFCS_BUTTONRADIOIMAGE = 1;
+      {$EXTERNALSYM DFCS_BUTTONRADIOMASK}
+      DFCS_BUTTONRADIOMASK = 2;
+      {$EXTERNALSYM DFCS_BUTTONRADIO}
+      DFCS_BUTTONRADIO = 4;
+      {$EXTERNALSYM DFCS_BUTTON3STATE}
+      DFCS_BUTTON3STATE = 8;
+      {$EXTERNALSYM DFCS_BUTTONPUSH}
+      DFCS_BUTTONPUSH = $10;
+
+      {$EXTERNALSYM DFCS_INACTIVE}
+      DFCS_INACTIVE = $100;
+      {$EXTERNALSYM DFCS_PUSHED}
+      DFCS_PUSHED = $200;
+      {$EXTERNALSYM DFCS_CHECKED}
+      DFCS_CHECKED = $400;
+      {$EXTERNALSYM DFCS_TRANSPARENT}
+      DFCS_TRANSPARENT = $800;
+      {$EXTERNALSYM DFCS_HOT}
+      DFCS_HOT = $1000;
+      {$EXTERNALSYM DFCS_ADJUSTRECT}
+      DFCS_ADJUSTRECT = $2000;
+      {$EXTERNALSYM DFCS_FLAT}
+      DFCS_FLAT = $4000;
+      {$EXTERNALSYM DFCS_MONO}
+      DFCS_MONO = $8000;
+
+    {$EXTERNALSYM DrawFrameControl}
+//    function DrawFrameControl(DC: HDC; const Rect: TRect; uType, uState: UINT): BOOL; stdcall;
+
+    const
+      { flags for DrawCaption }
+      {$EXTERNALSYM DC_ACTIVE}
+      DC_ACTIVE = 1;
+      {$EXTERNALSYM DC_SMALLCAP}
+      DC_SMALLCAP = 2;
+      {$EXTERNALSYM DC_ICON}
+      DC_ICON = 4;
+      {$EXTERNALSYM DC_TEXT}
+      DC_TEXT = 8;
+      {$EXTERNALSYM DC_INBUTTON}
+      DC_INBUTTON = $10;
+      {$EXTERNALSYM DC_GRADIENT}
+      DC_GRADIENT = $20;
+      {$EXTERNALSYM DC_BUTTONS}
+      DC_BUTTONS = $1000;
+
+    const
+      { Logical Font }
+      {$EXTERNALSYM LF_FACESIZE}
+      LF_FACESIZE = 32;
+
+    type
+      PLogFontA = ^TLogFontA;
+      PLogFontW = ^TLogFontW;
+      PLogFont = PLogFontA;
+      {$EXTERNALSYM tagLOGFONTA}
+      tagLOGFONTA = packed record
+        lfHeight: Longint;
+        lfWidth: Longint;
+        lfEscapement: Longint;
+        lfOrientation: Longint;
+        lfWeight: Longint;
+        lfItalic: Byte;
+        lfUnderline: Byte;
+        lfStrikeOut: Byte;
+        lfCharSet: Byte;
+        lfOutPrecision: Byte;
+        lfClipPrecision: Byte;
+        lfQuality: Byte;
+        lfPitchAndFamily: Byte;
+        lfFaceName: array[0..LF_FACESIZE - 1] of AnsiChar;
+      end;
+      {$EXTERNALSYM tagLOGFONTW}
+      tagLOGFONTW = packed record
+        lfHeight: Longint;
+        lfWidth: Longint;
+        lfEscapement: Longint;
+        lfOrientation: Longint;
+        lfWeight: Longint;
+        lfItalic: Byte;
+        lfUnderline: Byte;
+        lfStrikeOut: Byte;
+        lfCharSet: Byte;
+        lfOutPrecision: Byte;
+        lfClipPrecision: Byte;
+        lfQuality: Byte;
+        lfPitchAndFamily: Byte;
+        lfFaceName: array[0..LF_FACESIZE - 1] of WideChar;
+      end;
+      {$EXTERNALSYM tagLOGFONT}
+      tagLOGFONT = tagLOGFONTA;
+      TLogFontA = tagLOGFONTA;
+      TLogFontW = tagLOGFONTW;
+      TLogFont = TLogFontA;
+      {$EXTERNALSYM LOGFONTA}
+      LOGFONTA = tagLOGFONTA;
+      {$EXTERNALSYM LOGFONTW}
+      LOGFONTW = tagLOGFONTW;
+      {$EXTERNALSYM LOGFONT}
+      LOGFONT = LOGFONTA;
+
+    const
+      {$EXTERNALSYM LF_FULLFACESIZE}
+      LF_FULLFACESIZE = 64;
+
+    type
+      { Structure passed to FONTENUMPROC }
+      PEnumLogFontA = ^TEnumLogFontA;
+      PEnumLogFontW = ^TEnumLogFontW;
+      PEnumLogFont = PEnumLogFontA;
+      {$EXTERNALSYM tagENUMLOGFONTA}
+      tagENUMLOGFONTA = packed record
+        elfLogFont: TLogFontA;
+        elfFullName: array[0..LF_FULLFACESIZE - 1] of AnsiChar;
+        elfStyle: array[0..LF_FACESIZE - 1] of AnsiChar;
+      end;
+      {$EXTERNALSYM tagENUMLOGFONTW}
+      tagENUMLOGFONTW = packed record
+        elfLogFont: TLogFontW;
+        elfFullName: array[0..LF_FULLFACESIZE - 1] of WideChar;
+        elfStyle: array[0..LF_FACESIZE - 1] of WideChar;
+      end;
+      {$EXTERNALSYM tagENUMLOGFONT}
+      tagENUMLOGFONT = tagENUMLOGFONTA;
+      TEnumLogFontA = tagENUMLOGFONTA;
+      TEnumLogFontW = tagENUMLOGFONTW;
+      TEnumLogFont = TEnumLogFontA;
+      {$EXTERNALSYM ENUMLOGFONTA}
+      ENUMLOGFONTA = tagENUMLOGFONTA;
+      {$EXTERNALSYM ENUMLOGFONTW}
+      ENUMLOGFONTW = tagENUMLOGFONTW;
+      {$EXTERNALSYM ENUMLOGFONT}
+      ENUMLOGFONT = ENUMLOGFONTA;
+
+      PEnumLogFontExA = ^TEnumLogFontExA;
+      PEnumLogFontExW = ^TEnumLogFontExW;
+      PEnumLogFontEx = PEnumLogFontExA;
+      {$EXTERNALSYM tagENUMLOGFONTEXA}
+      tagENUMLOGFONTEXA = packed record
+        elfLogFont: TLogFontA;
+        elfFullName: array[0..LF_FULLFACESIZE - 1] of AnsiChar;
+        elfStyle: array[0..LF_FACESIZE - 1] of AnsiChar;
+        elfScript: array[0..LF_FACESIZE - 1] of AnsiChar;
+      end;
+      {$EXTERNALSYM tagENUMLOGFONTEXW}
+      tagENUMLOGFONTEXW = packed record
+        elfLogFont: TLogFontW;
+        elfFullName: array[0..LF_FULLFACESIZE - 1] of WideChar;
+        elfStyle: array[0..LF_FACESIZE - 1] of WideChar;
+        elfScript: array[0..LF_FACESIZE - 1] of WideChar;
+      end;
+      {$EXTERNALSYM tagENUMLOGFONTEX}
+      tagENUMLOGFONTEX = tagENUMLOGFONTEXA;
+      TEnumLogFontExA = tagENUMLOGFONTEXA;
+      TEnumLogFontExW = tagENUMLOGFONTEXW;
+      TEnumLogFontEx = TEnumLogFontExA;
+      {$EXTERNALSYM ENUMLOGFONTEXA}
+      ENUMLOGFONTEXA = tagENUMLOGFONTEXA;
+      {$EXTERNALSYM ENUMLOGFONTEXW}
+      ENUMLOGFONTEXW = tagENUMLOGFONTEXW;
+      {$EXTERNALSYM ENUMLOGFONTEX}
+      ENUMLOGFONTEX = ENUMLOGFONTEXA;
+
+    const
+      {$EXTERNALSYM OUT_DEFAULT_PRECIS}
+      OUT_DEFAULT_PRECIS = 0;
+      {$EXTERNALSYM OUT_STRING_PRECIS}
+      OUT_STRING_PRECIS = 1;
+      {$EXTERNALSYM OUT_CHARACTER_PRECIS}
+      OUT_CHARACTER_PRECIS = 2;
+      {$EXTERNALSYM OUT_STROKE_PRECIS}
+      OUT_STROKE_PRECIS = 3;
+      {$EXTERNALSYM OUT_TT_PRECIS}
+      OUT_TT_PRECIS = 4;
+      {$EXTERNALSYM OUT_DEVICE_PRECIS}
+      OUT_DEVICE_PRECIS = 5;
+      {$EXTERNALSYM OUT_RASTER_PRECIS}
+      OUT_RASTER_PRECIS = 6;
+      {$EXTERNALSYM OUT_TT_ONLY_PRECIS}
+      OUT_TT_ONLY_PRECIS = 7;
+      {$EXTERNALSYM OUT_OUTLINE_PRECIS}
+      OUT_OUTLINE_PRECIS = 8;
+      {$EXTERNALSYM OUT_SCREEN_OUTLINE_PRECIS}
+      OUT_SCREEN_OUTLINE_PRECIS = 9;
+
+      {$EXTERNALSYM CLIP_DEFAULT_PRECIS}
+      CLIP_DEFAULT_PRECIS = 0;
+      {$EXTERNALSYM CLIP_CHARACTER_PRECIS}
+      CLIP_CHARACTER_PRECIS = 1;
+      {$EXTERNALSYM CLIP_STROKE_PRECIS}
+      CLIP_STROKE_PRECIS = 2;
+      {$EXTERNALSYM CLIP_MASK}
+      CLIP_MASK = 15;
+      {$EXTERNALSYM CLIP_LH_ANGLES}
+      CLIP_LH_ANGLES = (1 shl 4);
+      {$EXTERNALSYM CLIP_TT_ALWAYS}
+      CLIP_TT_ALWAYS = (2 shl 4);
+      {$EXTERNALSYM CLIP_EMBEDDED}
+      CLIP_EMBEDDED  = (8 shl 4);
+
+      {$EXTERNALSYM DEFAULT_QUALITY}
+      DEFAULT_QUALITY = 0;
+      {$EXTERNALSYM DRAFT_QUALITY}
+      DRAFT_QUALITY = 1;
+      {$EXTERNALSYM PROOF_QUALITY}
+      PROOF_QUALITY = 2;
+      {$EXTERNALSYM NONANTIALIASED_QUALITY}
+      NONANTIALIASED_QUALITY = 3;
+      {$EXTERNALSYM ANTIALIASED_QUALITY}
+      ANTIALIASED_QUALITY = 4;
+
+      {$EXTERNALSYM DEFAULT_PITCH}
+      DEFAULT_PITCH = 0;
+      {$EXTERNALSYM FIXED_PITCH}
+      FIXED_PITCH = 1;
+      {$EXTERNALSYM VARIABLE_PITCH}
+      VARIABLE_PITCH = 2;
+      {$EXTERNALSYM MONO_FONT}
+      MONO_FONT = 8;
+
+      {$EXTERNALSYM ANSI_CHARSET}
+      ANSI_CHARSET = 0;
+      {$EXTERNALSYM DEFAULT_CHARSET}
+      DEFAULT_CHARSET = 1;
+      {$EXTERNALSYM SYMBOL_CHARSET}
+      SYMBOL_CHARSET = 2;
+      {$EXTERNALSYM SHIFTJIS_CHARSET}
+      SHIFTJIS_CHARSET = $80;
+      {$EXTERNALSYM HANGEUL_CHARSET}
+      HANGEUL_CHARSET = 129;
+      {$EXTERNALSYM GB2312_CHARSET}
+      GB2312_CHARSET = 134;
+      {$EXTERNALSYM CHINESEBIG5_CHARSET}
+      CHINESEBIG5_CHARSET = 136;
+      {$EXTERNALSYM OEM_CHARSET}
+      OEM_CHARSET = 255;
+      {$EXTERNALSYM JOHAB_CHARSET}
+      JOHAB_CHARSET = 130;
+      {$EXTERNALSYM HEBREW_CHARSET}
+      HEBREW_CHARSET = 177;
+      {$EXTERNALSYM ARABIC_CHARSET}
+      ARABIC_CHARSET = 178;
+      {$EXTERNALSYM GREEK_CHARSET}
+      GREEK_CHARSET = 161;
+      {$EXTERNALSYM TURKISH_CHARSET}
+      TURKISH_CHARSET = 162;
+      {$EXTERNALSYM VIETNAMESE_CHARSET}
+      VIETNAMESE_CHARSET = 163;
+      {$EXTERNALSYM THAI_CHARSET}
+      THAI_CHARSET = 222;
+      {$EXTERNALSYM EASTEUROPE_CHARSET}
+      EASTEUROPE_CHARSET = 238;
+      {$EXTERNALSYM RUSSIAN_CHARSET}
+      RUSSIAN_CHARSET = 204;
+
+      {$EXTERNALSYM MAC_CHARSET}
+      MAC_CHARSET = 77;
+      {$EXTERNALSYM BALTIC_CHARSET}
+      BALTIC_CHARSET = 186;
+
+      {$EXTERNALSYM FS_LATIN1}
+      FS_LATIN1 = 1;
+      {$EXTERNALSYM FS_LATIN2}
+      FS_LATIN2 = 2;
+      {$EXTERNALSYM FS_CYRILLIC}
+      FS_CYRILLIC = 4;
+      {$EXTERNALSYM FS_GREEK}
+      FS_GREEK = 8;
+      {$EXTERNALSYM FS_TURKISH}
+      FS_TURKISH = $10;
+      {$EXTERNALSYM FS_HEBREW}
+      FS_HEBREW = $20;
+      {$EXTERNALSYM FS_ARABIC}
+      FS_ARABIC = $40;
+      {$EXTERNALSYM FS_BALTIC}
+      FS_BALTIC = $80;
+      {$EXTERNALSYM FS_VIETNAMESE}
+      FS_VIETNAMESE = $00000100;
+      {$EXTERNALSYM FS_THAI}
+      FS_THAI = $10000;
+      {$EXTERNALSYM FS_JISJAPAN}
+      FS_JISJAPAN = $20000;
+      {$EXTERNALSYM FS_CHINESESIMP}
+      FS_CHINESESIMP = $40000;
+      {$EXTERNALSYM FS_WANSUNG}
+      FS_WANSUNG = $80000;
+      {$EXTERNALSYM FS_CHINESETRAD}
+      FS_CHINESETRAD = $100000;
+      {$EXTERNALSYM FS_JOHAB}
+      FS_JOHAB = $200000;
+      {$EXTERNALSYM FS_SYMBOL}
+      FS_SYMBOL = DWORD($80000000);
+
+      { Font Families }
+      {$EXTERNALSYM FF_DONTCARE}
+      FF_DONTCARE   = (0 shl 4);     { Don't care or don't know. }
+      {$EXTERNALSYM FF_ROMAN}
+      FF_ROMAN      = (1 shl 4);     { Variable stroke width, serifed. }
+                                     { Times Roman, Century Schoolbook, etc. }
+      {$EXTERNALSYM FF_SWISS}
+      FF_SWISS      = (2 shl 4);     { Variable stroke width, sans-serifed. }
+                                     { Helvetica, Swiss, etc. }
+      {$EXTERNALSYM FF_MODERN}
+      FF_MODERN     = (3 shl 4);     { Constant stroke width, serifed or sans-serifed. }
+                                     { Pica, Elite, Courier, etc. }
+      {$EXTERNALSYM FF_SCRIPT}
+      FF_SCRIPT     = (4 shl 4);     { Cursive, etc. }
+      {$EXTERNALSYM FF_DECORATIVE}
+      FF_DECORATIVE = (5 shl 4);     { Old English, etc. }
+
+      { Font Weights }
+      {$EXTERNALSYM FW_DONTCARE}
+      FW_DONTCARE = 0;
+      {$EXTERNALSYM FW_THIN}
+      FW_THIN = 100;
+      {$EXTERNALSYM FW_EXTRALIGHT}
+      FW_EXTRALIGHT = 200;
+      {$EXTERNALSYM FW_LIGHT}
+      FW_LIGHT = 300;
+      {$EXTERNALSYM FW_NORMAL}
+      FW_NORMAL = 400;
+      {$EXTERNALSYM FW_MEDIUM}
+      FW_MEDIUM = 500;
+      {$EXTERNALSYM FW_SEMIBOLD}
+      FW_SEMIBOLD = 600;
+      {$EXTERNALSYM FW_BOLD}
+      FW_BOLD = 700;
+      {$EXTERNALSYM FW_EXTRABOLD}
+      FW_EXTRABOLD = 800;
+      {$EXTERNALSYM FW_HEAVY}
+      FW_HEAVY = 900;
+      {$EXTERNALSYM FW_ULTRALIGHT}
+      FW_ULTRALIGHT = FW_EXTRALIGHT;
+      {$EXTERNALSYM FW_REGULAR}
+      FW_REGULAR = FW_NORMAL;
+      {$EXTERNALSYM FW_DEMIBOLD}
+      FW_DEMIBOLD = FW_SEMIBOLD;
+      {$EXTERNALSYM FW_ULTRABOLD}
+      FW_ULTRABOLD = FW_EXTRABOLD;
+      {$EXTERNALSYM FW_BLACK}
+      FW_BLACK = FW_HEAVY;
+
+      {$EXTERNALSYM PANOSE_COUNT}
+      PANOSE_COUNT = 10;
+      {$EXTERNALSYM PAN_FAMILYTYPE_INDEX}
+      PAN_FAMILYTYPE_INDEX = 0;
+      {$EXTERNALSYM PAN_SERIFSTYLE_INDEX}
+      PAN_SERIFSTYLE_INDEX = 1;
+      {$EXTERNALSYM PAN_WEIGHT_INDEX}
+      PAN_WEIGHT_INDEX = 2;
+      {$EXTERNALSYM PAN_PROPORTION_INDEX}
+      PAN_PROPORTION_INDEX = 3;
+      {$EXTERNALSYM PAN_CONTRAST_INDEX}
+      PAN_CONTRAST_INDEX = 4;
+      {$EXTERNALSYM PAN_STROKEVARIATION_INDEX}
+      PAN_STROKEVARIATION_INDEX = 5;
+      {$EXTERNALSYM PAN_ARMSTYLE_INDEX}
+      PAN_ARMSTYLE_INDEX = 6;
+      {$EXTERNALSYM PAN_LETTERFORM_INDEX}
+      PAN_LETTERFORM_INDEX = 7;
+      {$EXTERNALSYM PAN_MIDLINE_INDEX}
+      PAN_MIDLINE_INDEX = 8;
+      {$EXTERNALSYM PAN_XHEIGHT_INDEX}
+      PAN_XHEIGHT_INDEX = 9;
+
+      {$EXTERNALSYM PAN_CULTURE_LATIN}
+      PAN_CULTURE_LATIN = 0;
+
+    type
+      PPanose = ^TPanose;
+      {$EXTERNALSYM tagPANOSE}
+      tagPANOSE = packed record
+        bFamilyType: Byte;
+        bSerifStyle: Byte;
+        bWeight: Byte;
+        bProportion: Byte;
+        bContrast: Byte;
+        bStrokeVariation: Byte;
+        bArmStyle: Byte;
+        bLetterform: Byte;
+        bMidline: Byte;
+        bXHeight: Byte;
+      end;
+      TPanose = tagPANOSE;
+      {$EXTERNALSYM PANOSE}
+      PANOSE = tagPANOSE;
+
+    const
+      {$EXTERNALSYM PAN_ANY}
+      PAN_ANY = 0;
+      {$EXTERNALSYM PAN_NO_FIT}
+      PAN_NO_FIT = 1;
+
+      {$EXTERNALSYM PAN_FAMILY_TEXT_DISPLAY}
+      PAN_FAMILY_TEXT_DISPLAY = 2;
+      {$EXTERNALSYM PAN_FAMILY_SCRIPT}
+      PAN_FAMILY_SCRIPT = 3;
+      {$EXTERNALSYM PAN_FAMILY_DECORATIVE}
+      PAN_FAMILY_DECORATIVE = 4;
+      {$EXTERNALSYM PAN_FAMILY_PICTORIAL}
+      PAN_FAMILY_PICTORIAL = 5;
+
+      {$EXTERNALSYM PAN_SERIF_COVE}
+      PAN_SERIF_COVE = 2;
+      {$EXTERNALSYM PAN_SERIF_OBTUSE_COVE}
+      PAN_SERIF_OBTUSE_COVE = 3;
+      {$EXTERNALSYM PAN_SERIF_SQUARE_COVE}
+      PAN_SERIF_SQUARE_COVE = 4;
+      {$EXTERNALSYM PAN_SERIF_OBTUSE_SQUARE_COVE}
+      PAN_SERIF_OBTUSE_SQUARE_COVE = 5;
+      {$EXTERNALSYM PAN_SERIF_SQUARE}
+      PAN_SERIF_SQUARE = 6;
+      {$EXTERNALSYM PAN_SERIF_THIN}
+      PAN_SERIF_THIN = 7;
+      {$EXTERNALSYM PAN_SERIF_BONE}
+      PAN_SERIF_BONE = 8;
+      {$EXTERNALSYM PAN_SERIF_EXAGGERATED}
+      PAN_SERIF_EXAGGERATED = 9;
+      {$EXTERNALSYM PAN_SERIF_TRIANGLE}
+      PAN_SERIF_TRIANGLE = 10;
+      {$EXTERNALSYM PAN_SERIF_NORMAL_SANS}
+      PAN_SERIF_NORMAL_SANS = 11;
+      {$EXTERNALSYM PAN_SERIF_OBTUSE_SANS}
+      PAN_SERIF_OBTUSE_SANS = 12;
+      {$EXTERNALSYM PAN_SERIF_PERP_SANS}
+      PAN_SERIF_PERP_SANS = 13;
+      {$EXTERNALSYM PAN_SERIF_FLARED}
+      PAN_SERIF_FLARED = 14;
+      {$EXTERNALSYM PAN_SERIF_ROUNDED}
+      PAN_SERIF_ROUNDED = 15;
+
+      {$EXTERNALSYM PAN_WEIGHT_VERY_LIGHT}
+      PAN_WEIGHT_VERY_LIGHT = 2;
+      {$EXTERNALSYM PAN_WEIGHT_LIGHT}
+      PAN_WEIGHT_LIGHT = 3;
+      {$EXTERNALSYM PAN_WEIGHT_THIN}
+      PAN_WEIGHT_THIN = 4;
+      {$EXTERNALSYM PAN_WEIGHT_BOOK}
+      PAN_WEIGHT_BOOK = 5;
+      {$EXTERNALSYM PAN_WEIGHT_MEDIUM}
+      PAN_WEIGHT_MEDIUM = 6;
+      {$EXTERNALSYM PAN_WEIGHT_DEMI}
+      PAN_WEIGHT_DEMI = 7;
+      {$EXTERNALSYM PAN_WEIGHT_BOLD}
+      PAN_WEIGHT_BOLD = 8;
+      {$EXTERNALSYM PAN_WEIGHT_HEAVY}
+      PAN_WEIGHT_HEAVY = 9;
+      {$EXTERNALSYM PAN_WEIGHT_BLACK}
+      PAN_WEIGHT_BLACK = 10;
+      {$EXTERNALSYM PAN_WEIGHT_NORD}
+      PAN_WEIGHT_NORD = 11;
+
+      {$EXTERNALSYM PAN_PROP_OLD_STYLE}
+      PAN_PROP_OLD_STYLE = 2;
+      {$EXTERNALSYM PAN_PROP_MODERN}
+      PAN_PROP_MODERN = 3;
+      {$EXTERNALSYM PAN_PROP_EVEN_WIDTH}
+      PAN_PROP_EVEN_WIDTH = 4;
+      {$EXTERNALSYM PAN_PROP_EXPANDED}
+      PAN_PROP_EXPANDED = 5;
+      {$EXTERNALSYM PAN_PROP_CONDENSED}
+      PAN_PROP_CONDENSED = 6;
+      {$EXTERNALSYM PAN_PROP_VERY_EXPANDED}
+      PAN_PROP_VERY_EXPANDED = 7;
+      {$EXTERNALSYM PAN_PROP_VERY_CONDENSED}
+      PAN_PROP_VERY_CONDENSED = 8;
+      {$EXTERNALSYM PAN_PROP_MONOSPACED}
+      PAN_PROP_MONOSPACED = 9;
+
+      {$EXTERNALSYM PAN_CONTRAST_NONE}
+      PAN_CONTRAST_NONE = 2;
+      {$EXTERNALSYM PAN_CONTRAST_VERY_LOW}
+      PAN_CONTRAST_VERY_LOW = 3;
+      {$EXTERNALSYM PAN_CONTRAST_LOW}
+      PAN_CONTRAST_LOW = 4;
+      {$EXTERNALSYM PAN_CONTRAST_MEDIUM_LOW}
+      PAN_CONTRAST_MEDIUM_LOW = 5;
+      {$EXTERNALSYM PAN_CONTRAST_MEDIUM}
+      PAN_CONTRAST_MEDIUM = 6;
+      {$EXTERNALSYM PAN_CONTRAST_MEDIUM_HIGH}
+      PAN_CONTRAST_MEDIUM_HIGH = 7;
+      {$EXTERNALSYM PAN_CONTRAST_HIGH}
+      PAN_CONTRAST_HIGH = 8;
+      {$EXTERNALSYM PAN_CONTRAST_VERY_HIGH}
+      PAN_CONTRAST_VERY_HIGH = 9;
+
+      {$EXTERNALSYM PAN_STROKE_GRADUAL_DIAG}
+      PAN_STROKE_GRADUAL_DIAG = 2;
+      {$EXTERNALSYM PAN_STROKE_GRADUAL_TRAN}
+      PAN_STROKE_GRADUAL_TRAN = 3;
+      {$EXTERNALSYM PAN_STROKE_GRADUAL_VERT}
+      PAN_STROKE_GRADUAL_VERT = 4;
+      {$EXTERNALSYM PAN_STROKE_GRADUAL_HORZ}
+      PAN_STROKE_GRADUAL_HORZ = 5;
+      {$EXTERNALSYM PAN_STROKE_RAPID_VERT}
+      PAN_STROKE_RAPID_VERT = 6;
+      {$EXTERNALSYM PAN_STROKE_RAPID_HORZ}
+      PAN_STROKE_RAPID_HORZ = 7;
+      {$EXTERNALSYM PAN_STROKE_INSTANT_VERT}
+      PAN_STROKE_INSTANT_VERT = 8;
+
+      {$EXTERNALSYM PAN_STRAIGHT_ARMS_HORZ}
+      PAN_STRAIGHT_ARMS_HORZ = 2;
+      {$EXTERNALSYM PAN_STRAIGHT_ARMS_WEDGE}
+      PAN_STRAIGHT_ARMS_WEDGE = 3;
+      {$EXTERNALSYM PAN_STRAIGHT_ARMS_VERT}
+      PAN_STRAIGHT_ARMS_VERT = 4;
+      {$EXTERNALSYM PAN_STRAIGHT_ARMS_SINGLE_SERIF}
+      PAN_STRAIGHT_ARMS_SINGLE_SERIF = 5;
+      {$EXTERNALSYM PAN_STRAIGHT_ARMS_DOUBLE_SERIF}
+      PAN_STRAIGHT_ARMS_DOUBLE_SERIF = 6;
+      {$EXTERNALSYM PAN_BENT_ARMS_HORZ}
+      PAN_BENT_ARMS_HORZ = 7;
+      {$EXTERNALSYM PAN_BENT_ARMS_WEDGE}
+      PAN_BENT_ARMS_WEDGE = 8;
+      {$EXTERNALSYM PAN_BENT_ARMS_VERT}
+      PAN_BENT_ARMS_VERT = 9;
+      {$EXTERNALSYM PAN_BENT_ARMS_SINGLE_SERIF}
+      PAN_BENT_ARMS_SINGLE_SERIF = 10;
+      {$EXTERNALSYM PAN_BENT_ARMS_DOUBLE_SERIF}
+      PAN_BENT_ARMS_DOUBLE_SERIF = 11;
+
+      {$EXTERNALSYM PAN_LETT_NORMAL_CONTACT}
+      PAN_LETT_NORMAL_CONTACT = 2;
+      {$EXTERNALSYM PAN_LETT_NORMAL_WEIGHTED}
+      PAN_LETT_NORMAL_WEIGHTED = 3;
+      {$EXTERNALSYM PAN_LETT_NORMAL_BOXED}
+      PAN_LETT_NORMAL_BOXED = 4;
+      {$EXTERNALSYM PAN_LETT_NORMAL_FLATTENED}
+      PAN_LETT_NORMAL_FLATTENED = 5;
+      {$EXTERNALSYM PAN_LETT_NORMAL_ROUNDED}
+      PAN_LETT_NORMAL_ROUNDED = 6;
+      {$EXTERNALSYM PAN_LETT_NORMAL_OFF_CENTER}
+      PAN_LETT_NORMAL_OFF_CENTER = 7;
+      {$EXTERNALSYM PAN_LETT_NORMAL_SQUARE}
+      PAN_LETT_NORMAL_SQUARE = 8;
+      {$EXTERNALSYM PAN_LETT_OBLIQUE_CONTACT}
+      PAN_LETT_OBLIQUE_CONTACT = 9;
+      {$EXTERNALSYM PAN_LETT_OBLIQUE_WEIGHTED}
+      PAN_LETT_OBLIQUE_WEIGHTED = 10;
+      {$EXTERNALSYM PAN_LETT_OBLIQUE_BOXED}
+      PAN_LETT_OBLIQUE_BOXED = 11;
+      {$EXTERNALSYM PAN_LETT_OBLIQUE_FLATTENED}
+      PAN_LETT_OBLIQUE_FLATTENED = 12;
+      {$EXTERNALSYM PAN_LETT_OBLIQUE_ROUNDED}
+      PAN_LETT_OBLIQUE_ROUNDED = 13;
+      {$EXTERNALSYM PAN_LETT_OBLIQUE_OFF_CENTER}
+      PAN_LETT_OBLIQUE_OFF_CENTER = 14;
+      {$EXTERNALSYM PAN_LETT_OBLIQUE_SQUARE}
+      PAN_LETT_OBLIQUE_SQUARE = 15;
+
+      {$EXTERNALSYM PAN_MIDLINE_STANDARD_TRIMMED}
+      PAN_MIDLINE_STANDARD_TRIMMED = 2;
+      {$EXTERNALSYM PAN_MIDLINE_STANDARD_POINTED}
+      PAN_MIDLINE_STANDARD_POINTED = 3;
+      {$EXTERNALSYM PAN_MIDLINE_STANDARD_SERIFED}
+      PAN_MIDLINE_STANDARD_SERIFED = 4;
+      {$EXTERNALSYM PAN_MIDLINE_HIGH_TRIMMED}
+      PAN_MIDLINE_HIGH_TRIMMED = 5;
+      {$EXTERNALSYM PAN_MIDLINE_HIGH_POINTED}
+      PAN_MIDLINE_HIGH_POINTED = 6;
+      {$EXTERNALSYM PAN_MIDLINE_HIGH_SERIFED}
+      PAN_MIDLINE_HIGH_SERIFED = 7;
+      {$EXTERNALSYM PAN_MIDLINE_CONSTANT_TRIMMED}
+      PAN_MIDLINE_CONSTANT_TRIMMED = 8;
+      {$EXTERNALSYM PAN_MIDLINE_CONSTANT_POINTED}
+      PAN_MIDLINE_CONSTANT_POINTED = 9;
+      {$EXTERNALSYM PAN_MIDLINE_CONSTANT_SERIFED}
+      PAN_MIDLINE_CONSTANT_SERIFED = 10;
+      {$EXTERNALSYM PAN_MIDLINE_LOW_TRIMMED}
+      PAN_MIDLINE_LOW_TRIMMED = 11;
+      {$EXTERNALSYM PAN_MIDLINE_LOW_POINTED}
+      PAN_MIDLINE_LOW_POINTED = 12;
+      {$EXTERNALSYM PAN_MIDLINE_LOW_SERIFED}
+      PAN_MIDLINE_LOW_SERIFED = 13;
+
+      {$EXTERNALSYM PAN_XHEIGHT_CONSTANT_SMALL}
+      PAN_XHEIGHT_CONSTANT_SMALL = 2;
+      {$EXTERNALSYM PAN_XHEIGHT_CONSTANT_STD}
+      PAN_XHEIGHT_CONSTANT_STD = 3;
+      {$EXTERNALSYM PAN_XHEIGHT_CONSTANT_LARGE}
+      PAN_XHEIGHT_CONSTANT_LARGE = 4;
+      {$EXTERNALSYM PAN_XHEIGHT_DUCKING_SMALL}
+      PAN_XHEIGHT_DUCKING_SMALL = 5;
+      {$EXTERNALSYM PAN_XHEIGHT_DUCKING_STD}
+      PAN_XHEIGHT_DUCKING_STD = 6;
+      {$EXTERNALSYM PAN_XHEIGHT_DUCKING_LARGE}
+      PAN_XHEIGHT_DUCKING_LARGE = 7;
+
+      {$EXTERNALSYM ELF_VENDOR_SIZE}
+      ELF_VENDOR_SIZE = 4;
+
+    { The extended logical font       }
+    { An extension of the ENUMLOGFONT }
+
+    type
+      PExtLogFontA = ^TExtLogFontA;
+      PExtLogFontW = ^TExtLogFontW;
+      PExtLogFont = PExtLogFontA;
+      {$EXTERNALSYM tagEXTLOGFONTA}
+      tagEXTLOGFONTA = record
+        elfLogFont: TLogFontA;
+        elfFullName: array[0..LF_FULLFACESIZE - 1] of AnsiChar;
+        elfStyle: array[0..LF_FACESIZE - 1] of AnsiChar;
+        elfVersion: DWORD;     { 0 for the first release of NT }
+        elfStyleSize: DWORD;
+        elfMatch: DWORD;
+        elfReserved: DWORD;
+        elfVendorId: array[0..ELF_VENDOR_SIZE - 1] of Byte;
+        elfCulture: DWORD;     { 0 for Latin }
+        elfPanose: TPanose;
+      end;
+      {$EXTERNALSYM tagEXTLOGFONTW}
+      tagEXTLOGFONTW = record
+        elfLogFont: TLogFontW;
+        elfFullName: array[0..LF_FULLFACESIZE - 1] of WideChar;
+        elfStyle: array[0..LF_FACESIZE - 1] of WideChar;
+        elfVersion: DWORD;     { 0 for the first release of NT }
+        elfStyleSize: DWORD;
+        elfMatch: DWORD;
+        elfReserved: DWORD;
+        elfVendorId: array[0..ELF_VENDOR_SIZE - 1] of Byte;
+        elfCulture: DWORD;     { 0 for Latin }
+        elfPanose: TPanose;
+      end;
+      {$EXTERNALSYM tagEXTLOGFONT}
+      tagEXTLOGFONT = tagEXTLOGFONTA;
+      TExtLogFontA = tagEXTLOGFONTA;
+      TExtLogFontW = tagEXTLOGFONTW;
+      TExtLogFont = TExtLogFontA;
+      {$EXTERNALSYM EXTLOGFONTA}
+      EXTLOGFONTA = tagEXTLOGFONTA;
+      {$EXTERNALSYM EXTLOGFONTW}
+      EXTLOGFONTW = tagEXTLOGFONTW;
+      {$EXTERNALSYM EXTLOGFONT}
+      EXTLOGFONT = EXTLOGFONTA;
+
+    const
+      {$EXTERNALSYM ELF_VERSION}
+      ELF_VERSION = 0;
+      {$EXTERNALSYM ELF_CULTURE_LATIN}
+      ELF_CULTURE_LATIN = 0;
+
+
+      { EnumFonts Masks }
+      {$EXTERNALSYM RASTER_FONTTYPE}
+      RASTER_FONTTYPE = 1;
+      {$EXTERNALSYM DEVICE_FONTTYPE}
+      DEVICE_FONTTYPE = 2;
+      {$EXTERNALSYM TRUETYPE_FONTTYPE}
+      TRUETYPE_FONTTYPE = 4;
+
+    const
+      { Predefined Clipboard Formats }
+      {$EXTERNALSYM CF_TEXT}
+      CF_TEXT = 1;
+      {$EXTERNALSYM CF_BITMAP}
+      CF_BITMAP = 2;
+      {$EXTERNALSYM CF_METAFILEPICT}
+      CF_METAFILEPICT = 3;
+      {$EXTERNALSYM CF_SYLK}
+      CF_SYLK = 4;
+      {$EXTERNALSYM CF_DIF}
+      CF_DIF = 5;
+      {$EXTERNALSYM CF_TIFF}
+      CF_TIFF = 6;
+      {$EXTERNALSYM CF_OEMTEXT}
+      CF_OEMTEXT = 7;
+      {$EXTERNALSYM CF_DIB}
+      CF_DIB = 8;
+      {$EXTERNALSYM CF_PALETTE}
+      CF_PALETTE = 9;
+      {$EXTERNALSYM CF_PENDATA}
+      CF_PENDATA = 10;
+      {$EXTERNALSYM CF_RIFF}
+      CF_RIFF = 11;
+      {$EXTERNALSYM CF_WAVE}
+      CF_WAVE = 12;
+      {$EXTERNALSYM CF_UNICODETEXT}
+      CF_UNICODETEXT = 13;
+      {$EXTERNALSYM CF_ENHMETAFILE}
+      CF_ENHMETAFILE = 14;
+      {$EXTERNALSYM CF_HDROP}
+      CF_HDROP = 15;
+      {$EXTERNALSYM CF_LOCALE}
+      CF_LOCALE = $10;
+      {$EXTERNALSYM CF_MAX}
+      CF_MAX = 17;
+      {$EXTERNALSYM CF_DIBV5}
+      CF_DIBV5 = 17;
+
+      {$EXTERNALSYM CF_MAX_XP}
+      CF_MAX_XP = 18;
+
+      { Note:CF_MAX changes values if WINVER < 5. In order to maintain
+        backwards compatability, use CF_MAX for WINVER < 5, and CF_MAX_XP for
+        WINVER > 5. }
+
+      {$EXTERNALSYM CF_OWNERDISPLAY}
+      CF_OWNERDISPLAY = 128;
+      {$EXTERNALSYM CF_DSPTEXT}
+      CF_DSPTEXT = 129;
+      {$EXTERNALSYM CF_DSPBITMAP}
+      CF_DSPBITMAP = 130;
+      {$EXTERNALSYM CF_DSPMETAFILEPICT}
+      CF_DSPMETAFILEPICT = 131;
+      {$EXTERNALSYM CF_DSPENHMETAFILE}
+      CF_DSPENHMETAFILE = 142;
+
+      { "Private" formats don't get GlobalFree()'d }
+      {$EXTERNALSYM CF_PRIVATEFIRST}
+      CF_PRIVATEFIRST = $200;
+      {$EXTERNALSYM CF_PRIVATELAST}
+      CF_PRIVATELAST = 767;
+
+      { "GDIOBJ" formats do get DeleteObject()'d }
+      {$EXTERNALSYM CF_GDIOBJFIRST}
+      CF_GDIOBJFIRST = 768;
+      {$EXTERNALSYM CF_GDIOBJLAST}
+      CF_GDIOBJLAST = 1023;
+
+
+      { Defines for the fVirt field of the Accelerator table structure. }
+      {$EXTERNALSYM FVIRTKEY}
+      FVIRTKEY = 1;
+      {$EXTERNALSYM FNOINVERT}
+      FNOINVERT = 2;
+      {$EXTERNALSYM FSHIFT}
+      FSHIFT = 4;
+      {$EXTERNALSYM FCONTROL}
+      FCONTROL = 8;
+      {$EXTERNALSYM FALT}
+      FALT = $10;
+
+    type
+      PAccel = ^TAccel;
+      {$EXTERNALSYM tagACCEL}
+      tagACCEL = packed record
+        fVirt: Word;     { Also called the flags field }
+        key: Word;
+        cmd: Word;
+      end;
+      TAccel = tagACCEL;
+      {$EXTERNALSYM ACCEL}
+      ACCEL = tagACCEL;
+
+      PPaintStruct = ^TPaintStruct;
+      {$EXTERNALSYM tagPAINTSTRUCT}
+      tagPAINTSTRUCT = packed record
+        hdc: HDC;
+        fErase: BOOL;
+        rcPaint: TRect;
+        fRestore: BOOL;
+        fIncUpdate: BOOL;
+        rgbReserved: array[0..31] of Byte;
+      end;
+      TPaintStruct = tagPAINTSTRUCT;
+      {$EXTERNALSYM PAINTSTRUCT}
+      PAINTSTRUCT = tagPAINTSTRUCT;
+
+      PWindowPlacement = ^TWindowPlacement;
+      {$EXTERNALSYM tagWINDOWPLACEMENT}
+      tagWINDOWPLACEMENT = packed record
+        length: UINT;
+        flags: UINT;
+        showCmd: UINT;
+        ptMinPosition: TPoint;
+        ptMaxPosition: TPoint;
+        rcNormalPosition: TRect;
+      end;
+      TWindowPlacement = tagWINDOWPLACEMENT;
+      {$EXTERNALSYM WINDOWPLACEMENT}
+      WINDOWPLACEMENT = tagWINDOWPLACEMENT;
+
+    const
+      {$EXTERNALSYM WPF_SETMINPOSITION}
+      WPF_SETMINPOSITION = 1;
+      {$EXTERNALSYM WPF_RESTORETOMAXIMIZED}
+      WPF_RESTORETOMAXIMIZED = 2;
+
+    type
+      PNMHdr = ^TNMHdr;
+      {$EXTERNALSYM tagNMHDR}
+      tagNMHDR = packed record
+        hwndFrom: HWND;
+        idFrom: UINT;
+        code: Integer;     { NM_ code }
+      end;
+      TNMHdr = tagNMHDR;
+      {$EXTERNALSYM NMHDR}
+      NMHDR = tagNMHDR;
+
+      PStyleStruct = ^TStyleStruct;
+      {$EXTERNALSYM tagSTYLESTRUCT}
+      tagSTYLESTRUCT = packed record
+        styleOld: DWORD;
+        styleNew: DWORD;
+      end;
+      TStyleStruct = tagSTYLESTRUCT;
+      {$EXTERNALSYM STYLESTRUCT}
+      STYLESTRUCT = tagSTYLESTRUCT;
+
+    const
+      { Owner draw control types }
+      {$EXTERNALSYM ODT_MENU}
+      ODT_MENU = 1;
+      {$EXTERNALSYM ODT_LISTBOX}
+      ODT_LISTBOX = 2;
+      {$EXTERNALSYM ODT_COMBOBOX}
+      ODT_COMBOBOX = 3;
+      {$EXTERNALSYM ODT_BUTTON}
+      ODT_BUTTON = 4;
+      {$EXTERNALSYM ODT_STATIC}
+      ODT_STATIC = 5;
+
+      { Owner draw actions }
+      {$EXTERNALSYM ODA_DRAWENTIRE}
+      ODA_DRAWENTIRE = 1;
+      {$EXTERNALSYM ODA_SELECT}
+      ODA_SELECT = 2;
+      {$EXTERNALSYM ODA_FOCUS}
+      ODA_FOCUS = 4;
+
+      { Owner draw state }
+      {$EXTERNALSYM ODS_SELECTED}
+      ODS_SELECTED = 1;
+      {$EXTERNALSYM ODS_GRAYED}
+      ODS_GRAYED = 2;
+      {$EXTERNALSYM ODS_DISABLED}
+      ODS_DISABLED = 4;
+      {$EXTERNALSYM ODS_CHECKED}
+      ODS_CHECKED = 8;
+      {$EXTERNALSYM ODS_FOCUS}
+      ODS_FOCUS = $10;
+      {$EXTERNALSYM ODS_DEFAULT}
+      ODS_DEFAULT = $20;
+      {$EXTERNALSYM ODS_COMBOBOXEDIT}
+      ODS_COMBOBOXEDIT = $1000;
+      {$EXTERNALSYM ODS_HOTLIGHT}
+      ODS_HOTLIGHT = $40;
+      {$EXTERNALSYM ODS_INACTIVE}
+      ODS_INACTIVE = $80;
+
+    type
+      TOwnerDrawState = set of (odSelected, odGrayed, odDisabled, odChecked,
+        odFocused, odDefault, odHotLight, odInactive, odNoAccel, odNoFocusRect,
+        odReserved1, odReserved2, odComboBoxEdit);
+
+    type
+      { for ownerdraw }
+      PMeasureItemStruct = ^TMeasureItemStruct;
+      {$EXTERNALSYM tagMEASUREITEMSTRUCT}
+      tagMEASUREITEMSTRUCT = packed record
+        CtlType: UINT;
+        CtlID: UINT;
+        itemID: UINT;
+        itemWidth: UINT;
+        itemHeight: UINT;
+        itemData: DWORD;
+      end;
+      TMeasureItemStruct = tagMEASUREITEMSTRUCT;
+      {$EXTERNALSYM MEASUREITEMSTRUCT}
+      MEASUREITEMSTRUCT = tagMEASUREITEMSTRUCT;
+
+      { for ownerdraw }
+      PDrawItemStruct = ^TDrawItemStruct;
+      {$EXTERNALSYM tagDRAWITEMSTRUCT}
+      tagDRAWITEMSTRUCT = packed record
+        CtlType: UINT;
+        CtlID: UINT;
+        itemID: UINT;
+        itemAction: UINT;
+        itemState: UINT;
+        hwndItem: HWND;
+        hDC: HDC;
+        rcItem: TRect;
+        itemData: DWORD;
+      end;
+      TDrawItemStruct = tagDRAWITEMSTRUCT;
+      {$EXTERNALSYM DRAWITEMSTRUCT}
+      DRAWITEMSTRUCT = tagDRAWITEMSTRUCT;
+
+      { for ownerdraw }
+      PDeleteItemStruct = ^TDeleteItemStruct;
+      {$EXTERNALSYM tagDELETEITEMSTRUCT}
+      tagDELETEITEMSTRUCT = packed record
+        CtlType: UINT;
+        CtlID: UINT;
+        itemID: UINT;
+        hwndItem: HWND;
+        itemData: UINT;
+      end;
+      TDeleteItemStruct = tagDELETEITEMSTRUCT;
+      {$EXTERNALSYM DELETEITEMSTRUCT}
+      DELETEITEMSTRUCT = tagDELETEITEMSTRUCT;
+
+      { for ownerdraw sorting }
+      PCompareItemStruct = ^TCompareItemStruct;
+      {$EXTERNALSYM tagCOMPAREITEMSTRUCT}
+      tagCOMPAREITEMSTRUCT = packed record
+        CtlType: UINT;
+        CtlID: UINT;
+        hwndItem: HWND;
+        itemID1: UINT;
+        itemData1: DWORD;
+        itemID2: UINT;
+        itemData2: DWORD;
+        dwLocaleId: DWORD;
+      end;
+      TCompareItemStruct = tagCOMPAREITEMSTRUCT;
+      {$EXTERNALSYM COMPAREITEMSTRUCT}
+      COMPAREITEMSTRUCT = tagCOMPAREITEMSTRUCT;
+
+    const
+    { Window field offsets for GetWindowLong() }
+
+      {$EXTERNALSYM GWL_WNDPROC}
+      GWL_WNDPROC = -4;
+      {$EXTERNALSYM GWL_HINSTANCE}
+      GWL_HINSTANCE = -6;
+      {$EXTERNALSYM GWL_HWNDPARENT}
+      GWL_HWNDPARENT = -8;
+      {$EXTERNALSYM GWL_STYLE}
+      GWL_STYLE = -16;
+      {$EXTERNALSYM GWL_EXSTYLE}
+      GWL_EXSTYLE = -20;
+      {$EXTERNALSYM GWL_USERDATA}
+      GWL_USERDATA = -21;
+      {$EXTERNALSYM GWL_ID}
+      GWL_ID = -12;
+
+      { Class field offsets for GetClassLong() }
+      {$EXTERNALSYM GCL_MENUNAME}
+      GCL_MENUNAME = -8;
+      {$EXTERNALSYM GCL_HBRBACKGROUND}
+      GCL_HBRBACKGROUND = -10;
+      {$EXTERNALSYM GCL_HCURSOR}
+      GCL_HCURSOR = -12;
+      {$EXTERNALSYM GCL_HICON}
+      GCL_HICON = -14;
+      {$EXTERNALSYM GCL_HMODULE}
+      GCL_HMODULE = -16;
+      {$EXTERNALSYM GCL_CBWNDEXTRA}
+      GCL_CBWNDEXTRA = -18;
+      {$EXTERNALSYM GCL_CBCLSEXTRA}
+      GCL_CBCLSEXTRA = -20;
+      {$EXTERNALSYM GCL_WNDPROC}
+      GCL_WNDPROC = -24;
+      {$EXTERNALSYM GCL_STYLE}
+      GCL_STYLE = -26;
+      {$EXTERNALSYM GCW_ATOM}
+      GCW_ATOM = -32;
+      {$EXTERNALSYM GCL_HICONSM}
+      GCL_HICONSM = -34;
+
+    const
+      { WM_ACTIVATE state values }
+      {$EXTERNALSYM WA_INACTIVE}
+      WA_INACTIVE = 0;
+      {$EXTERNALSYM WA_ACTIVE}
+      WA_ACTIVE = 1;
+      {$EXTERNALSYM WA_CLICKACTIVE}
+      WA_CLICKACTIVE = 2;
+
+    type
+      { Struct pointed to by WM_GETMINMAXINFO lParam }
+      PMinMaxInfo = ^TMinMaxInfo;
+      {$EXTERNALSYM tagMINMAXINFO}
+      tagMINMAXINFO = packed record
+        ptReserved: TPoint;
+        ptMaxSize: TPoint;
+        ptMaxPosition: TPoint;
+        ptMinTrackSize: TPoint;
+        ptMaxTrackSize: TPoint;
+      end;
+      TMinMaxInfo = tagMINMAXINFO;
+      {$EXTERNALSYM MINMAXINFO}
+      MINMAXINFO = tagMINMAXINFO;
+
+    const
+      { wParam for WM_POWER window message and DRV_POWER driver notification }
+      {$EXTERNALSYM PWR_OK}
+      PWR_OK = 1;
+      {$EXTERNALSYM PWR_FAIL}
+      PWR_FAIL = -1;
+      {$EXTERNALSYM PWR_SUSPENDREQUEST}
+      PWR_SUSPENDREQUEST = 1;
+      {$EXTERNALSYM PWR_SUSPENDRESUME}
+      PWR_SUSPENDRESUME = 2;
+      {$EXTERNALSYM PWR_CRITICALRESUME}
+      PWR_CRITICALRESUME = 3;
+
+    type
+      { lParam of WM_COPYDATA message points to... }
+      PCopyDataStruct = ^TCopyDataStruct;
+      {$EXTERNALSYM tagCOPYDATASTRUCT}
+      tagCOPYDATASTRUCT = packed record
+        dwData: DWORD;
+        cbData: DWORD;
+        lpData: Pointer;
+      end;
+      TCopyDataStruct = tagCOPYDATASTRUCT;
+      {$EXTERNALSYM COPYDATASTRUCT}
+      COPYDATASTRUCT = tagCOPYDATASTRUCT;
+
+    const
+      {$EXTERNALSYM NFR_ANSI}
+      NFR_ANSI = 1;
+      {$EXTERNALSYM NFR_UNICODE}
+      NFR_UNICODE = 2;
+      {$EXTERNALSYM NF_QUERY}
+      NF_QUERY = 3;
+      {$EXTERNALSYM NF_REQUERY}
+      NF_REQUERY = 4;
+
+      {$EXTERNALSYM WHEEL_DELTA}
+      WHEEL_DELTA = 120;            { Value for rolling one detent }
+      {$EXTERNALSYM WHEEL_PAGESCROLL}
+      WHEEL_PAGESCROLL = MAXDWORD;  { Scroll one page }
+
+      {$EXTERNALSYM MENULOOP_WINDOW}
+      MENULOOP_WINDOW = 0;
+      {$EXTERNALSYM MENULOOP_POPUP}
+      MENULOOP_POPUP = 1;
+
+
+    type
+      HMENU = type LongWord;
+      PMDINextMenu = ^TMDINextMenu;
+      {$EXTERNALSYM tagMDINEXTMENU}
+      tagMDINEXTMENU = packed record
+        hmenuIn: HMENU;
+        hmenuNext: HMENU;
+        hwndNext: HWND;
+      end;
+      TMDINextMenu = tagMDINEXTMENU;
+      {$EXTERNALSYM MDINEXTMENU}
+      MDINEXTMENU = tagMDINEXTMENU;
+
+    const
+      { LOWORD(wParam) values in WM_*UISTATE* }
+      {$EXTERNALSYM UIS_SET}
+      UIS_SET = 1;
+      {$EXTERNALSYM UIS_CLEAR}
+      UIS_CLEAR = 2;
+      {$EXTERNALSYM UIS_INITIALIZE}
+      UIS_INITIALIZE = 3;
+
+      { HIWORD(wParam) values in WM_*UISTATE* }
+      {$EXTERNALSYM UISF_HIDEFOCUS}
+      UISF_HIDEFOCUS = $1;
+      {$EXTERNALSYM UISF_HIDEACCEL}
+      UISF_HIDEACCEL = $2;
+      {$EXTERNALSYM UISF_ACTIVE}
+      UISF_ACTIVE =$4;
+
+    const
+      { wParam for WM_NOTIFYWOW message  }
+
+      { wParam for WM_SIZING message  }
+      {$EXTERNALSYM WMSZ_LEFT}
+      WMSZ_LEFT = 1;
+      {$EXTERNALSYM WMSZ_RIGHT}
+      WMSZ_RIGHT = 2;
+      {$EXTERNALSYM WMSZ_TOP}
+      WMSZ_TOP = 3;
+      {$EXTERNALSYM WMSZ_TOPLEFT}
+      WMSZ_TOPLEFT = 4;
+      {$EXTERNALSYM WMSZ_TOPRIGHT}
+      WMSZ_TOPRIGHT = 5;
+      {$EXTERNALSYM WMSZ_BOTTOM}
+      WMSZ_BOTTOM = 6;
+      {$EXTERNALSYM WMSZ_BOTTOMLEFT}
+      WMSZ_BOTTOMLEFT = 7;
+      {$EXTERNALSYM WMSZ_BOTTOMRIGHT}
+      WMSZ_BOTTOMRIGHT = 8;
+
+      { WM_SYNCTASK Commands }
+      {$EXTERNALSYM ST_BEGINSWP}
+      ST_BEGINSWP = 0;
+      {$EXTERNALSYM ST_ENDSWP}
+      ST_ENDSWP = 1;
+
+      { WM_NCHITTEST and MOUSEHOOKSTRUCT Mouse Position Codes }
+      {$EXTERNALSYM HTERROR}
+      HTERROR = -2;
+      {$EXTERNALSYM HTTRANSPARENT}
+      HTTRANSPARENT = -1;
+      {$EXTERNALSYM HTNOWHERE}
+      HTNOWHERE = 0;
+      {$EXTERNALSYM HTCLIENT}
+      HTCLIENT = 1;
+      {$EXTERNALSYM HTCAPTION}
+      HTCAPTION = 2;
+      {$EXTERNALSYM HTSYSMENU}
+      HTSYSMENU = 3;
+      {$EXTERNALSYM HTGROWBOX}
+      HTGROWBOX = 4;
+      {$EXTERNALSYM HTSIZE}
+      HTSIZE = HTGROWBOX;
+      {$EXTERNALSYM HTMENU}
+      HTMENU = 5;
+      {$EXTERNALSYM HTHSCROLL}
+      HTHSCROLL = 6;
+      {$EXTERNALSYM HTVSCROLL}
+      HTVSCROLL = 7;
+      {$EXTERNALSYM HTMINBUTTON}
+      HTMINBUTTON = 8;
+      {$EXTERNALSYM HTMAXBUTTON}
+      HTMAXBUTTON = 9;
+      {$EXTERNALSYM HTLEFT}
+      HTLEFT = 10;
+      {$EXTERNALSYM HTRIGHT}
+      HTRIGHT = 11;
+      {$EXTERNALSYM HTTOP}
+      HTTOP = 12;
+      {$EXTERNALSYM HTTOPLEFT}
+      HTTOPLEFT = 13;
+      {$EXTERNALSYM HTTOPRIGHT}
+      HTTOPRIGHT = 14;
+      {$EXTERNALSYM HTBOTTOM}
+      HTBOTTOM = 15;
+      {$EXTERNALSYM HTBOTTOMLEFT}
+      HTBOTTOMLEFT = $10;
+      {$EXTERNALSYM HTBOTTOMRIGHT}
+      HTBOTTOMRIGHT = 17;
+      {$EXTERNALSYM HTBORDER}
+      HTBORDER = 18;
+      {$EXTERNALSYM HTREDUCE}
+      HTREDUCE = HTMINBUTTON;
+      {$EXTERNALSYM HTZOOM}
+      HTZOOM = HTMAXBUTTON;
+      {$EXTERNALSYM HTSIZEFIRST}
+      HTSIZEFIRST = HTLEFT;
+      {$EXTERNALSYM HTSIZELAST}
+      HTSIZELAST = HTBOTTOMRIGHT;
+      {$EXTERNALSYM HTOBJECT}
+      HTOBJECT = 19;
+      {$EXTERNALSYM HTCLOSE}
+      HTCLOSE = 20;
+      {$EXTERNALSYM HTHELP}
+      HTHELP = 21;
+
+      { SendMessageTimeout values }
+      {$EXTERNALSYM SMTO_NORMAL}
+      SMTO_NORMAL = 0;
+      {$EXTERNALSYM SMTO_BLOCK}
+      SMTO_BLOCK = 1;
+      {$EXTERNALSYM SMTO_ABORTIFHUNG}
+      SMTO_ABORTIFHUNG = 2;
+      {$EXTERNALSYM SMTO_NOTIMEOUTIFNOTHUNG}
+      SMTO_NOTIMEOUTIFNOTHUNG = 8;
+
+      { WM_MOUSEACTIVATE Return Codes }
+      {$EXTERNALSYM MA_ACTIVATE}
+      MA_ACTIVATE = 1;
+      {$EXTERNALSYM MA_ACTIVATEANDEAT}
+      MA_ACTIVATEANDEAT = 2;
+      {$EXTERNALSYM MA_NOACTIVATE}
+      MA_NOACTIVATE = 3;
+      {$EXTERNALSYM MA_NOACTIVATEANDEAT}
+      MA_NOACTIVATEANDEAT = 4;
+
+      { WM_SETICON / WM_GETICON Type Codes }
+      {$EXTERNALSYM ICON_SMALL}
+      ICON_SMALL = 0;
+      {$EXTERNALSYM ICON_BIG}
+      ICON_BIG = 1;
+      {$EXTERNALSYM ICON_SMALL2}
+      ICON_SMALL2 = 2;
+
+    const
+      { WM_SIZE message wParam values }
+      {$EXTERNALSYM SIZE_RESTORED}
+      SIZE_RESTORED = 0;
+      {$EXTERNALSYM SIZE_MINIMIZED}
+      SIZE_MINIMIZED = 1;
+      {$EXTERNALSYM SIZE_MAXIMIZED}
+      SIZE_MAXIMIZED = 2;
+      {$EXTERNALSYM SIZE_MAXSHOW}
+      SIZE_MAXSHOW = 3;
+      {$EXTERNALSYM SIZE_MAXHIDE}
+      SIZE_MAXHIDE = 4;
+
+      { Obsolete constant names }
+      {$EXTERNALSYM SIZENORMAL}
+      SIZENORMAL = SIZE_RESTORED;
+      {$EXTERNALSYM SIZEICONIC}
+      SIZEICONIC = SIZE_MINIMIZED;
+      {$EXTERNALSYM SIZEFULLSCREEN}
+      SIZEFULLSCREEN = SIZE_MAXIMIZED;
+      {$EXTERNALSYM SIZEZOOMSHOW}
+      SIZEZOOMSHOW = SIZE_MAXSHOW;
+      {$EXTERNALSYM SIZEZOOMHIDE}
+      SIZEZOOMHIDE = SIZE_MAXHIDE;
+
+
+const
+  {$EXTERNALSYM WM_USER}
+  WM_USER             = $0400;
+
+const
+     VK_RETURN= LCLType.VK_RETURN;
+     VK_ESCAPE= LCLType.VK_ESCAPE;
+     VK_CANCEL= LCLType.VK_CANCEL;
+     VK_F7    = LCLType.VK_F7;
+     VK_F8    = LCLType.VK_F8;
+     VK_F9    = LCLType.VK_F9;
+     VK_TAB    = LCLType.VK_TAB;
+     VK_BACK   = LCLType.VK_BACK;
+     VK_LEFT   = LCLType.VK_LEFT;
+     VK_UP     = LCLType.VK_UP;
+     VK_DOWN   = LCLType.VK_DOWN;
+     SM_CXVSCROLL= LCLType.SM_CXVSCROLL;
+     SM_CXEDGE= LCLType.SM_CXEDGE;
+     SM_CYEDGE= LCLType.SM_CYEDGE;
+     SM_CXBORDER= LCLType.SM_CXBORDER;
+     SM_CYBORDER= LCLType.SM_CYBORDER;
+
+     OBM_COMBO= 0;//au pif pour compiler
+     DLGC_WANTTAB=LCLType.DLGC_WANTTAB;
+     CM_DIALOGKEY= 0;//au pif pour compiler
+     CM_TEXTCHANGED=0;//au pif pour compiler
+     HWND_BROADCAST=0;//au pif pour compiler
+     SW_SHOWNORMAL=LCLType.SW_SHOWNORMAL;
+type
+    HBitmap=LCLType.HBitmap;
+
+const
+     SPI_GETWORKAREA=LCLType.SPI_GETWORKAREA;
+procedure SystemParametersInfo( _i1:Integer; _i2:Integer;  _p:Pointer; _i3: Integer);
+function GetSystemMetrics( _i1: INTEGER):INTEGER;
+function LoadBitmap( _i1: Integer; _s1:PChar):HBitmap;
+
+function muldiv( _Nombre, _numerateur, _denominateur: Integer): Integer;
+implementation
+
+function GetDC( _truc: Hwnd): HDC;
+begin
+
+end;
+
+procedure ReleaseDC( _truc: Hwnd; _troc: HDC);
+begin
+
+end;
+
+function DrawText( _troc: HDC; _tric: PChar; _L: Integer; var _lpRect: TRect; uFormat: UINT): Integer;
+begin
+
+end;
+
+function GetModuleFileName( HInstance: THandle; Buffer: PChar; _L: Integer): Integer;
+begin
+
+end;
+
+function CreateFont(nHeight, nWidth, nEscapement, nOrientaion, fnWeight: Integer;
+  fdwItalic, fdwUnderline, fdwStrikeOut, fdwCharSet, fdwOutputPrecision,
+  fdwClipPrecision, fdwQuality, fdwPitchAndFamily: DWORD; lpszFace: PChar): HFONT;
+begin
+
+end;
+
+function FormatMessage(dwFlags: DWORD; lpSource: Pointer; dwMessageId: DWORD; dwLanguageId: DWORD;
+  lpBuffer: PChar; nSize: DWORD; Arguments: Pointer): DWORD;
+begin
+
+end;
+
+function GetLastError: DWORD;
+begin
+
+end;
+
+function PostMessage(hWnd: HWND; Msg: UINT; wParam: WPARAM; lParam: LPARAM): BOOL;
+begin
+
+end;
+procedure SystemParametersInfo( _i1:Integer; _i2:Integer;  _p:Pointer; _i3: Integer);
+begin
+
+end;
+function GetSystemMetrics( _i1: INTEGER):INTEGER;
+begin
+
+end;
+function LoadBitmap( _i1: Integer; _s1:PChar):HBitmap;
+begin
+
+end;
+function muldiv( _Nombre, _numerateur, _denominateur: Integer): Integer;
+begin
+     Result:= (_Nombre*_numerateur) div _denominateur;
+end;
+procedure SetBkMode( handle, valeur: integer);
+begin
+
+end;
+procedure SetTextAlign( Handle, valeur: Integer);
+begin
+
+end;
+procedure TextOut( Handle, x, y: integer;
+                   Text: PChar; Length_Text: Integer);
+begin
+
+end;
+procedure DrawFrameControl( Handle: integer; Rect: TRect;
+                            truc1, truc2: integer);
+begin
+
+end;
+end.
+
