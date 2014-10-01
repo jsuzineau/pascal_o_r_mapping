@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ADDIN>
+    <NAME>Batpro_Dico</NAME>
+    <DISPLAYNAME>Batpro_Dico</DISPLAYNAME>
+    <COMOBJ>suBatpro_Dico.Batpro_Dico</COMOBJ>
+    <FILENAME>suBatpro_Dico.dll</FILENAME>
+    <COMPANY>BATPRO</COMPANY>
+    <COPYRIGHT>Copyright 2006 BATPRO All rights reserved.</COPYRIGHT>
+    <HELPFILE>http://www.batpro.com</HELPFILE>
+    <ICONFILE>suBatpro_Dico.ico</ICONFILE>
+    <ISACTIVE>True</ISACTIVE>
+    <MENUFILE>suBatpro_Dico.mnu</MENUFILE>
+    <VERSION>1.0.0.0</VERSION>
+</ADDIN>

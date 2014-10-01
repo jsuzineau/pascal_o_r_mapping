@@ -44,7 +44,7 @@ uses
  uhfDevelopment, uhfJour_ferie, uhfProject, uhfState, uhfWork, upoolCategorie,
  upoolDevelopment, upoolJour_ferie, upoolProject, upoolState, upoolWork,
  ublJour_ferie, udkProject_EDIT, udkProject_LABEL, ufProject, udkWork,
- udkDevelopment
+ udkDevelopment, uodWork_from_Period, uOD, uOD_Maitre, uOD_Table_Batpro
  { you can add units after this };
 
 {$R *.res}

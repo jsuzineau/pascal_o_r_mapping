@@ -1,0 +1,28 @@
+#------------------------------------------------------------------------------
+VERSION = BWS.01
+#------------------------------------------------------------------------------
+!ifndef ROOT
+ROOT = $(MAKEDIR)\..
+!endif
+#------------------------------------------------------------------------------
+MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
+DCC = $(ROOT)\bin\dcc32.exe $**
+BRCC = $(ROOT)\bin\brcc32.exe $**
+#------------------------------------------------------------------------------
+PROJECTS = mmPatterns_from_MCD.dll suPatterns_from_MCD.dll \
+  Elements_Pattern.exe
+#------------------------------------------------------------------------------
+default: $(PROJECTS)
+#------------------------------------------------------------------------------
+
+
+mmPatterns_from_MCD.dll: mmPatterns_from_MCD\mmPatterns_from_MCD.dpr
+  $(DCC)
+
+suPatterns_from_MCD.dll: suPatterns_from_MCD\suPatterns_from_MCD.dpr
+  $(DCC)
+
+Elements_Pattern.exe: Pattern\Elements_Pattern.dpr
+  $(DCC)
+
+

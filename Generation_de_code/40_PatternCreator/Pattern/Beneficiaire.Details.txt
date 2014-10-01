@@ -1,0 +1,10 @@
+Referent_Beneficiaire
+Contrainte_dietetique_d_un_beneficiaire
+Menu_Type
+Plats_non_apprecies
+Absent
+Repas
+JourSemaine_Beneficiaire
+Facture
+Activite
+Accueil_de_jour

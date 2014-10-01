@@ -71,6 +71,15 @@ object fjsWorks: TfjsWorks
             Caption = 'Sessions'
             ParentColor = False
           end
+          object bTemps: TButton
+            Left = 164
+            Height = 25
+            Top = 8
+            Width = 75
+            Caption = 'Temps'
+            OnClick = bTempsClick
+            TabOrder = 0
+          end
         end
         object dsbWork: TDockableScrollbox
           Left = 1

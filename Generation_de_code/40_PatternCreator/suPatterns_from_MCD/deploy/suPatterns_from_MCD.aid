@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ADDIN>
+    <NAME>Patterns_from_MCD</NAME>
+    <DISPLAYNAME>Patterns_from_MCD</DISPLAYNAME>
+    <COMOBJ>suPatterns_from_MCD.Patterns_from_MCD</COMOBJ>
+    <FILENAME>suPatterns_from_MCD.dll</FILENAME>
+    <COMPANY>MARS42</COMPANY>
+    <COPYRIGHT>Copyright 2006 MARS42 All rights reserved.</COPYRIGHT>
+    <HELPFILE>http://www.mars42.com</HELPFILE>
+    <ICONFILE>suPatterns_from_MCD.ico</ICONFILE>
+    <ISACTIVE>True</ISACTIVE>
+    <MENUFILE>suPatterns_from_MCD.mnu</MENUFILE>
+    <VERSION>1.0.0.0</VERSION>
+</ADDIN>

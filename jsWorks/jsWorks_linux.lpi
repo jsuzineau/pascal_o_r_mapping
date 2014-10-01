@@ -35,7 +35,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="23">
+    <Units Count="27">
       <Unit0>
         <Filename Value="jsWorks_linux.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -177,6 +177,26 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="blcksock"/>
       </Unit22>
+      <Unit23>
+        <Filename Value="uodWork_from_Period.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uodWork_from_Period"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="../OOo/uOD.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uOD"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="../OOo/uOD_Maitre.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uOD_Maitre"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="../OOo/uOD_Table_Batpro.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uOD_Table_Batpro"/>
+      </Unit26>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -186,7 +206,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data;../../../batpro/source/src/pascal_o_r_mapping/2_Units;../../../batpro/source/src/pascal_o_r_mapping/Controls;../../../batpro/source/src/pascal_o_r_mapping/2_LCL;../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib"/>
+      <OtherUnitFiles Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data;../../../batpro/source/src/pascal_o_r_mapping/2_Units;../../../batpro/source/src/pascal_o_r_mapping/Controls;../../../batpro/source/src/pascal_o_r_mapping/2_LCL;../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;../OOo"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

@@ -1,0 +1,4 @@
+Absent
+Repas
+Conflit
+Ordre_de_fabrication

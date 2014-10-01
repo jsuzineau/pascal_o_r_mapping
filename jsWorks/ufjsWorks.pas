@@ -49,9 +49,11 @@ uses
     ublState,
     upoolState,
 
-    Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-    ExtCtrls, Buttons, ucChampsGrid, ucDockableScrollbox,
-    ucChamp_DateTimePicker, ucChamp_Edit, ucChamp_Memo, ucChamp_Lookup_ComboBox;
+    uodWork_from_Period,
+
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  ExtCtrls, Buttons, ucChampsGrid, ucDockableScrollbox,
+  ucChamp_DateTimePicker, ucChamp_Edit, ucChamp_Memo, ucChamp_Lookup_ComboBox;
 
 type
 
@@ -64,6 +66,7 @@ type
    bStop: TButton;
    bPoint: TButton;
    bBug: TButton;
+   bTemps: TButton;
    ceBeginning: TChamp_Edit;
    ceEnd: TChamp_Edit;
    clkcbState: TChamp_Lookup_ComboBox;
@@ -109,6 +112,7 @@ type
    procedure bPointClick(Sender: TObject);
    procedure bStartClick(Sender: TObject);
    procedure bStopClick(Sender: TObject);
+   procedure bTempsClick(Sender: TObject);
    procedure dsbProjectSelect(Sender: TObject);
    procedure dsbWorkSelect(Sender: TObject);
    procedure dsbDevelopmentSelect(Sender: TObject);
@@ -250,6 +254,12 @@ begin
      if blWork = nil then exit;
      blWork.Stop;
      _from_Work;
+end;
+
+procedure TfjsWorks.bTempsClick(Sender: TObject);
+begin
+     odWork_from_Period.Init( 0, Now);
+     SysUtils.ExecuteProcess( '/usr/bin/libreoffice', [odWork_from_Period.Visualiser]);
 end;
 
 procedure TfjsWorks.bPointClick(Sender: TObject);

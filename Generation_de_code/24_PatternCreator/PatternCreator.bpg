@@ -1,0 +1,47 @@
+#------------------------------------------------------------------------------
+VERSION = BWS.01
+#------------------------------------------------------------------------------
+!ifndef ROOT
+ROOT = $(MAKEDIR)\..
+!endif
+#------------------------------------------------------------------------------
+MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
+DCC = $(ROOT)\bin\dcc32.exe $**
+BRCC = $(ROOT)\bin\brcc32.exe $**
+#------------------------------------------------------------------------------
+PROJECTS = Batpro_Unites.bpl Batpro_Composants.bpl \
+  Batpro_Formes.bpl mmPatterns_from_MCD.dll pBatpro_OpenOffice_Report.bpl \
+  pBSD_Base.bpl Elements_Pattern.exe pPatterns_from_MCD.bpl
+#------------------------------------------------------------------------------
+default: $(PROJECTS)
+#------------------------------------------------------------------------------
+
+
+mmPatterns_from_MCD.dll: mmPatterns_from_MCD\mmPatterns_from_MCD.dpr
+  $(DCC)
+
+Batpro_Unites.bpl: ..\00_Batpro_Unites\Batpro_Unites.dpk
+  $(DCC)
+
+Batpro_Formes.bpl: ..\02_Batpro_Formes\01_source\Batpro_Formes.dpk
+  $(DCC)
+
+pBatpro_Login.bpl: ..\02_Batpro_Formes\01_source\pBatpro_Login\pBatpro_Login.dpk
+  $(DCC)
+
+Elements_Pattern.exe: ..\25_Batpro_Sauvegarde\02_Base\02_pPatterns_from_MCD\patterns\Elements_Pattern.dpr
+  $(DCC)
+
+pBSD_Base.bpl: ..\02_Batpro_Formes\01_source\pBSD_Base\pBSD_Base.dpk
+  $(DCC)
+
+pBatpro_OpenOffice_Report.bpl: ..\02_Batpro_Formes\01_source\pBatpro_OpenOffice_Report\pBatpro_OpenOffice_Report.dpk
+  $(DCC)
+
+Batpro_Composants.bpl: ..\01_Batpro_Composants\Batpro_Composants.dpk
+  $(DCC)
+
+pPatterns_from_MCD.bpl: ..\25_Batpro_Sauvegarde\02_Base\02_pPatterns_from_MCD\pPatterns_from_MCD.dpk
+  $(DCC)
+
+

@@ -26,6 +26,7 @@ uses
     uClean,
     uBatpro_StringList,
     uhAggregation,
+    uDataUtilsU,
 
     uBatpro_Element,
     ublWork,
@@ -72,6 +73,9 @@ type
   //Gestion communication HTTP avec pages html Angular / JSON
   public
     function Traite_HTTP: Boolean; override;
+  //Chargement d'une période
+  public
+    procedure Charge_Periode( _Debut, _Fin: TDateTime; _slLoaded: TBatpro_StringList = nil);
   end;
 
 function poolWork: TpoolWork;
@@ -201,6 +205,26 @@ begin
      else if HTTP_Interface.Prefixe('_Stop' )       then Result:= http_Stop
      else if HTTP_Interface.Prefixe('_from_Project')then Result:= http_from_Project
      else                                                Result:= False;
+end;
+
+procedure TpoolWork.Charge_Periode( _Debut, _Fin: TDateTime;
+                                    _slLoaded: TBatpro_StringList);
+var
+   SQL: String;
+   P: TParams;
+   pDebut, pFin: TParam;
+begin
+     SQL:= 'select * from '+NomTable+' where Beginning >= :Debut and Beginning <= :Fin';
+     P:= TParams.Create;
+     try
+        pDebut:= CreeParam( P, 'Debut');
+        pFin  := CreeParam( P, 'Fin'  );
+        pDebut.AsDate:= _Debut;
+        pFin  .AsDate:= _Fin;
+        Load( SQL, _slLoaded, nil, P);
+     finally
+            FreeAndNil( P);
+            end;
 end;
 
 initialization

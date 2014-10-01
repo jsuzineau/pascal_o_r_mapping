@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ADDINMENU addInID="StarUML.Patterns_from_MCD">
+  <HEADER>
+    <NAME>Patterns_from_MCD</NAME>
+    <VERSION>1.0</VERSION>
+    <DESCRIPTION>Addin de tissage de code par croisement d'un pseudo MCD avec un design pattern</DESCRIPTION>
+    <COMPANY>MARS42</COMPANY>
+    <COPYRIGHT>Copyright (C) 2006 MARS42 All rights reserved.</COPYRIGHT>
+  </HEADER>
+  <BODY>
+    <MAINMENU>
+      <MAINITEM caption="MARS42" beginGroup="TRUE" availableWhen="MODEL_SELECTED">
+        <MAINITEM caption="Patterns_from_MCD" actionId="1" />
+        <MAINITEM caption="C#" actionId="2" />
+        <MAINITEM caption="PHP Doctrine" actionId="3" />
+      </MAINITEM>
+    </MAINMENU>
+
+    <POPUPMENU>
+      <POPUPITEM caption="MARS42" beginGroup="TRUE" availableWhen="MODEL_SELECTED">
+        <POPUPITEM caption="Patterns_from_MCD" actionId="1" />
+        <POPUPITEM caption="C#" actionId="2" />
+        <POPUPITEM caption="PHP Doctrine" actionId="3" />
+      </POPUPITEM>
+    </POPUPMENU>
+  </BODY>
+</ADDINMENU>
+

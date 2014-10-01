@@ -1,0 +1,1 @@
+regsvr32 /u suPatterns_from_MCD.dll

@@ -1,0 +1,51 @@
+
+Générateurs de code:
+
+- répertoire 24_PatternCreator : Première mouture issue du générateur de code du logiciel(Mars42) de portage de repas, implémenté sous forme de plugin/greffon pour le logiciel de modèlisation UML ModelMaker. Un pseudo fichier pascal est généré par Batpro_Dico, puis importé dans un modèle ModelMaker sur lequel on lance le greffon pour générer le code pascal utilisable.
+
+- répertoire 40_PatternCreator : Seconde mouture issue du générateur(Mars42) de code CSharp avec logique de programmation orientée aspect par join points (points de jonctions) et design pattern Visiteur, implémenté sous forme de plugin/greffon pour le logiciel OpenSource de modèlisation UML StarUML.
+
+- 02_Batpro_Formes/01_source/pucDico: Dernière évolution, court circuitant le logiciel de modélisation UML, le générateur est directement rattaché à TblSYSDICO_ENT, la classe ligne de la table sysdico_ent.
+Il fonctionne lui aussi par join points et design pattern Visiteur.
+Il permet de générer un code source à partir de sysdico_ent et de sysdico_lig.
+
+- répertoire 62_Generateur_source: C'est un générateur basique destiné à produire des utilitaires pour une classe ligne (héritant de TBatpro_Ligne), en particulier: 
+ -- la classe itérateur pour cette classe ligne
+ -- la classe liste     utilisant cette classe itérateur
+ -- une classe aggrégation utilisant cette classe itérateur
+L'intérêt d'avoir un itérateur spécialisé est d'avoir par la suite un code plus lisible et 
+plus robuste par rapport aux aléas qui peuvent se présenter dans la listes comme des pointeurs non affectés ou invalides. 
+Il prend principalement le nom de la table comme paramètre, avec possibilité de surcharger le nom de la classe ligne et l'aggrégation.
+La portion souhaitée du code généré est ensuite copié/collé à la main dans le fichier source pascal.
+De façon marginale ce générateur peut aussi produire un itérateur pour n'importe quelle classe.
+
+
+Open Document: répertoire Batpro_Formes/OOo 
+  Difficile de trouver des mots non ambigus.
+  Au sommet pour la génération d'un type de document donné se trouve un objet qui fait le lien entre les données spécifiques à ce type de document et les fonctionnalités de la librairie.
+Le préfixe est OOo pour une génération faisant appel à OpenOfice pour la construction du document 
+et OD_ pour une génération directe du fichier du document au format OpenDocument odt.
+Au niveau norme de nommage cela donne dans le premier cas une unité uOOoXXX.pas implémentant une classe TOOoXXX et un objet OOoXXX, et dans le second cas, uOD_XXX, TOD_XXX et OD_XXX.
+  On appelle en général deux méthodes de cet objet, Init pour l'initialiser(avec des paramètres éventuels) et Action pour réaliser l'action souhaitée (V pour Visualiser, I pour imprimer, ...)
+  Cet objet hérite d'une classe de base fournissant une gestion du document:
+    - ajout de variables dans le document
+    - ajout de tables dans le document 
+    - implémentation de la méthode Action
+    - gestion des noms de modèles
+  Au cours du temps depuis 2004, avec les différents cas rencontrés, l'interface nécessaire pour les données a évolué, ce qui a conduit à plusieurs classes de base différentes avec plusieurs niveaux d'héritages pour garder les premiers types de documents sans modification.
+  Dans le cadre de l'impression freepascal, seule la dernière mouture reste utile. Par ailleurs la  classe de base inclut des du code pour la GED, les logos gérés par G_PAR, le login dans G3_UTI.
+Ces éléments doivent être enlevés pour la version OpenSource.
+Pour l'instant les fichier impliqués sont les suivants:
+ufOOo.dfm |
+ufOOo.pas | Forme de base pour la gestion de la génération du document
+
+ufOOo_NomFichier_Modele.dfm |
+ufOOo_NomFichier_Modele.pas | sélection d'un modèle
+
+uOD.pas                gestion des noms de modèle, des actions, logique de base 
+uOD_Maitre.pas         gestion des champs d'une ligne de table comme variables dans le document
+uOD_Table_Batpro.pas   gestion de listes de lignes pour alimenter un tableau dans le document
+
+
+
+
