@@ -29,13 +29,13 @@ uses
     uOD_Forms,
     uForms,
     uEXE_INI,
-    {$IFDEF MSWINDOWS}
+    {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
     DOM,
 	  uUNO_DeskTop,
  	  uUNO_PropertyValue,
     {$ELSE}
 	  DOM,
-    {$ENDIF}
+    {$IFEND}
     uVersion,
     uBatpro_StringList,
     u_sys_,
@@ -52,19 +52,19 @@ uses
     uOpenDocument,
 
     ufAccueil_Erreur,
-    {$IFDEF MSWINDOWS}
+    {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
     ufOOo_NomFichier_Modele,
     (*ufEnvoyer_vers_la_GED,*)
     (*ufOpenDocument_DelphiReportEngine,*)
     ufMailTo,
     ufMEL,
     Windows,Controls,Dialogs,Variants, ComObj, Menus,
-    {$ENDIF}
+    {$IFEND}
 
   SysUtils, Classes, DB;
 
 type
- {$IFNDEF MSWINDOWS}
+ {$IFDEF FPC}
  TMenuItem= TObject;
  {$ENDIF}
  TOD_Menu_Click_Proc= procedure ( mi: TMenuItem) of object;
@@ -221,7 +221,7 @@ begin
          //'Modèle: <désactivé>'// + NomFichier_Modele
          'Modèle: ' + NomFichier_Modele
        + ', version: '+ GetVersionProgramme
-       {$IFDEF MSWINDOWS}+ ', '+poolG_PAM.version_V6{$ENDIF};
+       {$IFNDEF FPC}+ ', '+poolG_PAM.version_V6{$ENDIF};
      Ajoute_Parametre( 'Cartouche', Cartouche);
 end;
 
@@ -336,7 +336,7 @@ begin
              Suffixe:= sys_Vide
          else
              Suffixe:= NumeroModele;
-         {$IFDEF MSWINDOWS}
+         {$IFNDEF FPC}
          fOOo_NomFichier_Modele.Execute( Prefixe_Masque, Suffixe);
          {$ENDIF}
          Result:= Prefixe_Repertoire+Prefixes[High( Prefixes)]+Suffixe+'.ott';
@@ -393,7 +393,7 @@ var
    Listener: Variant;
    LastState: Integer;
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      PrintOptions:= VarArrayCreate([0, 0], varVariant);
      uUNO_PropertyValue_Set( PrintOptions, 0, 'CopyCount', _NbExemplaires);
 
@@ -430,7 +430,7 @@ function TOD.Editer_Modele_Impression: String;
 begin
      Result:= Editer_Modele_Impression_interne;
      if not FileExists( Result) then exit;
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      ufOpenDocument_DelphiReportEngine_Execute( Result);
      {$ENDIF}
      ShowURL( Result);
@@ -484,7 +484,7 @@ begin
      //    dwFileAttributes:= dwFileAttributes or FILE_ATTRIBUTE_READONLY;
      //SetFileAttributes( PChar( Result), dwFileAttributes);
 
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      (*if ReadOnly
      then
          begin
@@ -564,7 +564,7 @@ end;
 
 function TOD.Masque_Modeles_interne: String;
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      Result:= Prefixe_Modeles +'*.ot?';
      {$ELSE}
      Result:= Prefixe_Modeles +'*.ot*';
@@ -578,7 +578,7 @@ end;
 
 function TOD.Masque_Modeles: String;
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      Result
      :=
         INI_Batpro_OD_Report.Repertoire_Modeles
@@ -614,7 +614,7 @@ var
 begin
      if NomFichierImage = '' then exit;
 
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      urlImage:= UNO_DeskTop.URL_from_WindowsFileName( NomFichierImage);
      {$ELSE}
      urlImage:= '';
@@ -636,7 +636,7 @@ var
       eDF, eDI: TDOMNode;
       urlImage: String;
    begin
-        {$IFDEF MSWINDOWS}
+        {$IFNDEF FPC}
         urlImage:= UNO_DeskTop.URL_from_WindowsFileName( NomFichierImage);
         {$ELSE}
         urlImage:= '';
@@ -659,7 +659,7 @@ var
 begin
      OD:= TOpenDocument.Create( document);
      try
-        {$IFDEF MSWINDOWS}
+        {$IFNDEF FPC}
         (*if logo = ''
         then
             NomFichierLogo:= poolG_PAR.plogo
@@ -689,7 +689,7 @@ begin
 end;
 
 procedure TOD.MenuItemClick(Sender: TObject);
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 var
    mi: TMenuItem;
 begin
@@ -715,7 +715,7 @@ end;
 {$ENDIF}
 procedure TOD.Accroche_Menu( _RacineMenu: TMenuItem;
                               _OD_Menu_Click_Proc: TOD_Menu_Click_Proc);
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 var
    F: TSearchRec;
    procedure Ajoute( _NomFichier: String);
@@ -751,7 +751,7 @@ end;
 {$ENDIF}
 
 procedure TOD.Decroche_Menu;
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 begin
      if RacineMenu = nil then exit;
 
@@ -773,7 +773,7 @@ procedure TOD.SendMail( _Document: String);
 var
    NomfichierPDF: String;
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      (*NomfichierPDF:= UNO_DeskTop.Save_as_PDF( _Document);
 
      if SendMail_G_MEL_fonction <> ''

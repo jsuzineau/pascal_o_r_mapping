@@ -5,7 +5,7 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
-        <OtherUnitFiles Value="linux"/>
+        <OtherUnitFiles Value="linux;../0_uWinUtils"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -20,7 +20,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Files Count="121">
+    <Files Count="122">
       <Item4>
         <Filename Value="Truc.pas"/>
         <HasRegisterProc Value="True"/>
@@ -203,6 +203,10 @@
         <HasRegisterProc Value="True"/>
         <UnitName Value="ucChampsGrid"/>
       </Item121>
+      <Item122>
+        <Filename Value="../0_uWinUtils/uWinUtils.pas"/>
+        <UnitName Value="uWinUtils"/>
+      </Item122>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="5">

@@ -23,9 +23,6 @@ unit uWinUtils;
                                                                                 |
 |                                                                               }
 
-//à corriger, pour l'instant une copie dans 2_Units et une dans 5_Controls
-//pour solutionner le dilemne console/graphique,Linux/Windows
-
 // Copyright (C) Jean SUZINEAU 1997, 2000, 2013
 
 interface

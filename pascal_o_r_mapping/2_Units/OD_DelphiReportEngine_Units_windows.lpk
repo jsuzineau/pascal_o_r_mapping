@@ -5,7 +5,7 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
-        <OtherUnitFiles Value="mswindows"/>
+        <OtherUnitFiles Value="mswindows;../0_uWinUtils"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -342,7 +342,7 @@
         <UnitName Value="uVersion"/>
       </Item80>
       <Item81>
-        <Filename Value="mswindows/uWinUtils.pas"/>
+        <Filename Value="../0_uWinUtils/uWinUtils.pas"/>
         <UnitName Value="uWinUtils"/>
       </Item81>
     </Files>

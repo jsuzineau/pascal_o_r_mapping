@@ -15,7 +15,7 @@ uses
  ucChamp_Memo, uDBEdit_WANTTAB, udmf, uEdit_WANTTAB, ufAttente_Demarrage, 
  ufcb, ufChamp_Date, ufChamp_Lookup, ufChampsGrid_Colonnes, ucAnimate, 
  ucChamp_Integer_SpinEdit, ucChamp_DateTimePicker, ucChamp_Float_SpinEdit, 
- ucDockableScrollbox, uDockable, ucChampsGrid, LazarusPackageIntf;
+ ucDockableScrollbox, uDockable, ucChampsGrid, uWinUtils, LazarusPackageIntf;
 
 implementation
 
