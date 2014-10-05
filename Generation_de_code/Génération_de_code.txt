@@ -1,3 +1,13 @@
+Programmation orientée aspect et génération de code
+
+Le développement de programme peut se voir comme un tissage.
+La trame est le savoir faire du développeur et le fil est le besoin du client.
+
+Le savoir du développeur se traduit par un ensembles de modèles de code correspondant à des design patterns (patrons de conception).
+Le besoin du client va essentiellement se traduire ici par les différentes tables de base de données nécessaires à un projet donné.
+
+L'entrelacement du fil et de la trame, du savoir faire du développeur et du besoin du client vont réaliser le tissu du programme.
+
 
 Générateurs de code:
 

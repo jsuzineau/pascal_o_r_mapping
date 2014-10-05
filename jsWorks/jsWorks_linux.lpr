@@ -29,23 +29,23 @@ uses
  Interfaces, // this includes the LCL widgetset
  Forms, uXML, ublG_BECP, ublG_BECPCTX, ublG_CTX, ublG_CTXTYPE, uhfG_BECP,
  uhfG_BECPCTX, uhfG_CTX, uhfG_CTXTYPE, upoolG_BECP, upoolG_BECPCTX, upoolG_CTX,
- upoolG_CTXTYPE, uBatpro_Registry, uBatpro_StringList, uBinary_Tree, ubtInteger,
- uBTree, ubtString, uChamp, uChampDefinition, uChampDefinitions, uChamps,
- uChrono, uClean, uCode_barre, uContrainte, uCP1252_from_CP437, uDataUtilsU,
- u_db_, u_db_Composants, uEtat, uEvaluation_Formule, uEXE_INI, ufAccueil_Erreur,
- uForms, u_ini_, uIntervalle, uJCL, u_loc_, uLookupConnection_Ancetre,
- uOD_Column, uOD_Dataset_Column, uOD_Dataset_Columns, uOD_Error, uOD_Forms,
- uOD_JCL, uOD_Merge, uOD_Printer, uODRE_Table, uOD_SpreadsheetManager,
- uOD_Styles, uOD_SurTitre, uOD_Temporaire, uOD_TextFieldsCreator,
- uOD_TextTableContext, uOD_TextTableManager, uOOoChrono,
+ upoolG_CTXTYPE, ublAutomatic, upoolAutomatic, uBatpro_Registry,
+ uBatpro_StringList, uBinary_Tree, ubtInteger, uBTree, ubtString, uChamp,
+ uChampDefinition, uChampDefinitions, uChamps, uChrono, uClean, uCode_barre,
+ uContrainte, uCP1252_from_CP437, uDataUtilsU, u_db_, u_db_Composants, uEtat,
+ uEvaluation_Formule, uEXE_INI, ufAccueil_Erreur, uForms, u_ini_, uIntervalle,
+ uJCL, u_loc_, uLookupConnection_Ancetre, uOD_Column, uOD_Dataset_Column,
+ uOD_Dataset_Columns, uOD_Error, uOD_Forms, uOD_JCL, uOD_Merge, uOD_Printer,
+ uODRE_Table, uOD_SpreadsheetManager, uOD_Styles, uOD_SurTitre, uOD_Temporaire,
+ uOD_TextFieldsCreator, uOD_TextTableContext, uOD_TextTableManager, uOOoChrono,
  uOOoDelphiReportEngineLog, uOOoStringList, uOOoStrings, uOpenDocument,
  ucChampsGrid, uDockable, ucDockableScrollbox, uDessin, blcksock, ufjsWorks,
  ublCategorie, ublDevelopment, ublProject, ublState, ublWork, uhfCategorie,
  uhfDevelopment, uhfJour_ferie, uhfProject, uhfState, uhfWork, upoolCategorie,
  upoolDevelopment, upoolJour_ferie, upoolProject, upoolState, upoolWork,
  ublJour_ferie, udkProject_EDIT, udkProject_LABEL, ufProject, udkWork,
- udkDevelopment, uodWork_from_Period, uOD, uOD_Maitre, uOD_Table_Batpro
- { you can add units after this };
+ udkDevelopment, uodWork_from_Period, uOD, uOD_Maitre, uOD_Table_Batpro,
+ ufAutomatic;
 
 {$R *.res}
 

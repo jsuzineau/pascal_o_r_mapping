@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
     <Version Value="9"/>
@@ -35,7 +35,7 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="4">
+    <Units Count="5">
       <Unit0>
         <Filename Value="Generateur_source.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -51,8 +51,8 @@
         <UnitName Value="ufGenerateur_source"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="19"/>
-        <CursorPos X="118" Y="31"/>
+        <TopLine Value="5"/>
+        <CursorPos X="5" Y="31"/>
         <UsageCount Value="44"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -60,86 +60,92 @@
       <Unit2>
         <Filename Value="C:\lazarus\lcl\interfaces\win32\interfaces.pp"/>
         <UnitName Value="Interfaces"/>
-        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="35" Y="11"/>
         <UsageCount Value="22"/>
-        <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="uModele.pas"/>
         <UnitName Value="uModele"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="49"/>
         <CursorPos X="1" Y="81"/>
         <UsageCount Value="17"/>
         <Loaded Value="True"/>
       </Unit3>
+      <Unit4>
+        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uOD_Forms.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uOD_Forms"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit4>
     </Units>
-    <JumpHistory Count="15" HistoryIndex="14">
+    <JumpHistory Count="14" HistoryIndex="13">
       <Position1>
         <Filename Value="ufGenerateur_source.pas"/>
         <Caret Line="1" Column="7" TopLine="1"/>
       </Position1>
       <Position2>
-        <Filename Value="C:\lazarus\lcl\interfaces\win32\interfaces.pp"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Filename Value="ufGenerateur_source.pas"/>
+        <Caret Line="15" Column="44" TopLine="4"/>
       </Position2>
       <Position3>
-        <Filename Value="C:\lazarus\lcl\interfaces\win32\interfaces.pp"/>
-        <Caret Line="11" Column="35" TopLine="1"/>
+        <Filename Value="ufGenerateur_source.pas"/>
+        <Caret Line="43" Column="27" TopLine="4"/>
       </Position3>
       <Position4>
         <Filename Value="ufGenerateur_source.pas"/>
-        <Caret Line="15" Column="44" TopLine="4"/>
+        <Caret Line="44" Column="82" TopLine="4"/>
       </Position4>
       <Position5>
         <Filename Value="ufGenerateur_source.pas"/>
-        <Caret Line="43" Column="27" TopLine="4"/>
+        <Caret Line="42" Column="62" TopLine="10"/>
       </Position5>
       <Position6>
         <Filename Value="ufGenerateur_source.pas"/>
-        <Caret Line="44" Column="82" TopLine="4"/>
+        <Caret Line="43" Column="62" TopLine="10"/>
       </Position6>
       <Position7>
         <Filename Value="ufGenerateur_source.pas"/>
-        <Caret Line="42" Column="62" TopLine="10"/>
+        <Caret Line="48" Column="8" TopLine="17"/>
       </Position7>
       <Position8>
         <Filename Value="ufGenerateur_source.pas"/>
-        <Caret Line="43" Column="62" TopLine="10"/>
+        <Caret Line="44" Column="39" TopLine="19"/>
       </Position8>
       <Position9>
         <Filename Value="ufGenerateur_source.pas"/>
-        <Caret Line="48" Column="8" TopLine="17"/>
+        <Caret Line="45" Column="39" TopLine="19"/>
       </Position9>
       <Position10>
-        <Filename Value="ufGenerateur_source.pas"/>
-        <Caret Line="44" Column="39" TopLine="19"/>
+        <Filename Value="uModele.pas"/>
+        <Caret Line="59" Column="1" TopLine="33"/>
       </Position10>
       <Position11>
-        <Filename Value="ufGenerateur_source.pas"/>
-        <Caret Line="45" Column="39" TopLine="19"/>
+        <Filename Value="uModele.pas"/>
+        <Caret Line="62" Column="1" TopLine="33"/>
       </Position11>
       <Position12>
         <Filename Value="uModele.pas"/>
-        <Caret Line="59" Column="1" TopLine="33"/>
+        <Caret Line="65" Column="1" TopLine="44"/>
       </Position12>
       <Position13>
         <Filename Value="uModele.pas"/>
-        <Caret Line="62" Column="1" TopLine="33"/>
+        <Caret Line="87" Column="1" TopLine="49"/>
       </Position13>
       <Position14>
-        <Filename Value="uModele.pas"/>
-        <Caret Line="65" Column="1" TopLine="44"/>
+        <Filename Value="ufGenerateur_source.pas"/>
+        <Caret Line="31" Column="118" TopLine="19"/>
       </Position14>
-      <Position15>
-        <Filename Value="uModele.pas"/>
-        <Caret Line="87" Column="1" TopLine="49"/>
-      </Position15>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -150,6 +156,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="..\..\pascal_o_r_mapping\2_Units"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>
@@ -176,4 +183,5 @@
       </Item3>
     </Exceptions>
   </Debugging>
-</CONFIG>
+  <EditorMacros Count="0"/>
+</CONFIG>

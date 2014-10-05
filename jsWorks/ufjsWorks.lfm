@@ -80,6 +80,15 @@ object fjsWorks: TfjsWorks
             OnClick = bTempsClick
             TabOrder = 0
           end
+          object bTest: TButton
+            Left = 110
+            Height = 25
+            Top = 8
+            Width = 49
+            Caption = 'Test'
+            OnClick = bTestClick
+            TabOrder = 1
+          end
         end
         object dsbWork: TDockableScrollbox
           Left = 1

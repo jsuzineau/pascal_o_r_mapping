@@ -51,6 +51,8 @@ uses
 
     uodWork_from_Period,
 
+    ufAutomatic,
+
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls, Buttons, ucChampsGrid, ucDockableScrollbox,
   ucChamp_DateTimePicker, ucChamp_Edit, ucChamp_Memo, ucChamp_Lookup_ComboBox;
@@ -67,6 +69,7 @@ type
    bPoint: TButton;
    bBug: TButton;
    bTemps: TButton;
+   bTest: TButton;
    ceBeginning: TChamp_Edit;
    ceEnd: TChamp_Edit;
    clkcbState: TChamp_Lookup_ComboBox;
@@ -113,6 +116,7 @@ type
    procedure bStartClick(Sender: TObject);
    procedure bStopClick(Sender: TObject);
    procedure bTempsClick(Sender: TObject);
+   procedure bTestClick(Sender: TObject);
    procedure dsbProjectSelect(Sender: TObject);
    procedure dsbWorkSelect(Sender: TObject);
    procedure dsbDevelopmentSelect(Sender: TObject);
@@ -260,6 +264,11 @@ procedure TfjsWorks.bTempsClick(Sender: TObject);
 begin
      odWork_from_Period.Init( 0, Now);
      SysUtils.ExecuteProcess( '/usr/bin/libreoffice', [odWork_from_Period.Visualiser]);
+end;
+
+procedure TfjsWorks.bTestClick(Sender: TObject);
+begin
+     fAutomatic.Show;
 end;
 
 procedure TfjsWorks.bPointClick(Sender: TObject);

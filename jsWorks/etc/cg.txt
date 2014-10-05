@@ -1,1 +1,3 @@
-Name=Nom
+id=id
+Selected=Selected
+Name=Name
