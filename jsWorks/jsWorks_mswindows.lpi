@@ -35,7 +35,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="24">
+    <Units Count="26">
       <Unit0>
         <Filename Value="jsWorks_mswindows.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -182,6 +182,17 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uOD_Table_Batpro"/>
       </Unit23>
+      <Unit24>
+        <Filename Value="../Generation_de_code/ufAutomatic.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="ufAutomatic"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/ublAutomatic.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublAutomatic"/>
+      </Unit25>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -191,7 +202,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data;../../../batpro/source/src/pascal_o_r_mapping/2_Units;../../../batpro/source/src/pascal_o_r_mapping/Controls;../../../batpro/source/src/pascal_o_r_mapping/2_LCL;../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;../OOo"/>
+      <OtherUnitFiles Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data;../../../batpro/source/src/pascal_o_r_mapping/2_Units;../../../batpro/source/src/pascal_o_r_mapping/Controls;../../../batpro/source/src/pascal_o_r_mapping/2_LCL;../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;../OOo;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
@@ -226,4 +237,4 @@
       </Item3>
     </Exceptions>
   </Debugging>
-</CONFIG>
+</CONFIG>
