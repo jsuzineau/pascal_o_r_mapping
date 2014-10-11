@@ -39,30 +39,40 @@ uses
     //Code generation
     uPatternHandler,
     uMenuHandler,
-    uGlobal,
+    uGenerateur_Delphi_Ancetre,
     uContexteClasse,
     uContexteMembre,
     uJoinPoint,
 
+    //General
     ujpNom_de_la_table ,
     ujpNom_de_la_classe,
+    ujpNomTableMinuscule,
+
+    //SQL
     ujpSQL_CREATE_TABLE,
-    ujpLabelsDFM,
-    ujpLabelsPAS,
-    ujpChamp_EditDFM,
-    ujpChamp_EditPAS,
-    ujpAffecte,
+
+    //Pascal
+    ujpPascal_LabelsDFM,
+    ujpPascal_LabelsPAS,
+    ujpPascal_Champ_EditDFM,
+    ujpPascal_Champ_EditPAS,
+    ujpPascal_Affecte,
+    ujpPascal_declaration_champs,
+    ujpPascal_sCle_from__Declaration,
+    ujpPascal_creation_champs,
+    ujpPascal_sCle_from__Implementation,
+    ujpPascal_sCle_Implementation_Body,
 
     //CSharp
-    ujpChamps_persistants,
-    ujpContenus,
-    ujpConteneurs,
-    ujpChargement_Conteneurs,
-    ujpDocksDetails,
-    ujpDocksDetails_Affiche,
+    ujpCSharp_Champs_persistants,
+    ujpCSharp_Contenus,
+    ujpCSharp_Conteneurs,
+    ujpCSharp_Chargement_Conteneurs,
+    ujpCSharp_DocksDetails,
+    ujpCSharp_DocksDetails_Affiche,
 
     //PHP
-    ujpNomTableMinuscule,
     ujpPHP_Doctrine_Has_Column,
     ujpPHP_Doctrine_HasMany,
     ujpPHP_Doctrine_HasOne,
@@ -179,9 +189,16 @@ type
   end;
 
 type
+ { TGenerateur_Delphi }
+
  TGenerateur_Delphi
  =
-  class
+  class(TGenerateur_Delphi_Ancetre)
+  //Gestion du cycle de vie
+  public
+    constructor Create;
+    destructor Destroy; override;
+  //Divers
   private
     a: array of TJoinPoint;
     procedure Initialise( _a: array of TJoinPoint);
@@ -190,8 +207,7 @@ type
     procedure Execute( _blAutomatic: TblAutomatic; _Suffixe: String);
   end;
 
-var
-   Generateur_Delphi: TGenerateur_Delphi= nil;
+function Generateur_Delphi: TGenerateur_Delphi;
 
 implementation
 
@@ -366,6 +382,63 @@ end;
 
 { TGenerateur_Delphi }
 
+var
+   FGenerateur_Delphi: TGenerateur_Delphi= nil;
+
+function Generateur_Delphi: TGenerateur_Delphi;
+begin
+     if nil = FGenerateur_Delphi
+     then
+         FGenerateur_Delphi:= TGenerateur_Delphi.Create;
+     Result:= FGenerateur_Delphi;
+end;
+
+constructor TGenerateur_Delphi.Create;
+begin
+     inherited Create;
+     Initialise(
+                [
+                //General
+                jpNom_de_la_table,
+                jpNomTableMinuscule,
+                jpNom_de_la_classe    ,
+
+                //SQL
+                jpSQL_CREATE_TABLE,
+
+                //Pascal
+                jpPascal_LabelsDFM,
+                jpPascal_LabelsPAS,
+                jpPascal_Champ_EditDFM,
+                jpPascal_Champ_EditPAS,
+                jpPascal_Affecte      ,
+                jpPascal_declaration_champs,
+                jpPascal_sCle_from__Declaration,
+                jpPascal_creation_champs,
+                jpPascal_sCle_from__Implementation,
+                jpPascal_sCle_Implementation_Body,
+
+                //CSharp
+                jpCSharp_Champs_persistants   ,
+                jpCSharp_Contenus             ,
+                jpCSharp_Conteneurs           ,
+                jpCSharp_DocksDetails         ,
+                jpCSharp_DocksDetails_Affiche ,
+                jpCSharp_Chargement_Conteneurs,
+
+                //PHP / Doctrine
+                jpPHP_Doctrine_Has_Column,
+                jpPHP_Doctrine_HasMany,
+                jpPHP_Doctrine_HasOne
+                ]
+                );
+end;
+
+destructor TGenerateur_Delphi.Destroy;
+begin
+     inherited Destroy;
+end;
+
 procedure TGenerateur_Delphi.Execute( _blAutomatic: TblAutomatic; _Suffixe: String);
 const
      sys_Vide                 = '';
@@ -377,8 +450,6 @@ var
    NomFichierProjet: String;
    cc: TContexteClasse;
    sTaggedValues: String;
-
-   sRepSource, sRepCible, sRepParametres: String;
 
    Order_By_Key: String;
 
@@ -489,7 +560,7 @@ var
       sParametre: String;
       sDeclarationParametre: String;
    begin
-        cm:= TContexteMembre.Create( cc, _fb.C.Definition.Nom, _fb.sType, '');
+        cm:= TContexteMembre.Create( Self, cc, _fb.C.Definition.Nom, _fb.sType, '');
         //cm:= TContexteMembre.Create( cc, _fb.F.FieldName, _fb.sType, '');
         try
            uJoinPoint_VisiteMembre( cm, a);
@@ -548,7 +619,7 @@ var
       J: Integer;
       fb: TFieldBuffer;
    begin
-        cc:= TContexteClasse.Create( _Suffixe,
+        cc:= TContexteClasse.Create( Self, _Suffixe,
                                      blAutomatic.slFields.Count);
         try
            slChamps_non_order_by.Clear;
@@ -726,38 +797,8 @@ begin
        a[I]:= _a[I];
 end;
 
+
 initialization
-              Generateur_Delphi:= TGenerateur_Delphi.Create;
-              Generateur_Delphi.Initialise(
-                                           [
-                                           //Général
-                                           jpNom_de_la_table,
-                                           jpNomTableMinuscule,
-
-                                           //Pascal
-                                           jpDocksDetails_Affiche ,
-                                           jpSQL_CREATE_TABLE     ,
-                                           jpNom_de_la_classe    ,
-                                           jpLabelsDFM,
-                                           jpLabelsPAS,
-                                           jpChamp_EditDFM,
-                                           jpChamp_EditPAS,
-                                           jpAffecte      ,
-
-                                           //CSharp
-                                           jpChamps_persistants   ,
-                                           jpContenus             ,
-                                           jpConteneurs           ,
-                                           jpDocksDetails         ,
-                                           jpDocksDetails_Affiche ,
-                                           jpChargement_Conteneurs,
-
-                                           //PHP / Doctrine
-                                           jpPHP_Doctrine_Has_Column,
-                                           jpPHP_Doctrine_HasMany,
-                                           jpPHP_Doctrine_HasOne
-                                           ]
-                                           );
 finalization
-              FreeAndNil( Generateur_Delphi);
+              FreeAndNil( FGenerateur_Delphi);
 end.

@@ -35,7 +35,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="30">
+    <Units Count="39">
       <Unit0>
         <Filename Value="jsWorks_linux.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -216,6 +216,51 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ufAutomatic"/>
       </Unit29>
+      <Unit30>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/uGenerateur_Delphi_Ancetre.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uGenerateur_Delphi_Ancetre"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler/uPatternHandler.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uPatternHandler"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/uJoinPoint.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uJoinPoint"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General/ujpNom_de_la_classe.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpNom_de_la_classe"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL/ujpSQL_CREATE_TABLE.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpSQL_CREATE_TABLE"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Affecte.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_Affecte"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp/ujpCSharp_Champs_persistants.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpCSharp_Champs_persistants"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine/ujpPHP_Doctrine_Has_Column.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPHP_Doctrine_Has_Column"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/uGenerateur_Delphi.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uGenerateur_Delphi"/>
+      </Unit38>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -225,7 +270,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data;../../../batpro/source/src/pascal_o_r_mapping/2_Units;../../../batpro/source/src/pascal_o_r_mapping/Controls;../../../batpro/source/src/pascal_o_r_mapping/2_LCL;../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;../OOo;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic"/>
+      <OtherUnitFiles Value="../../../batpro/source/src/pascal_o_r_mapping/3_Data;../../../batpro/source/src/pascal_o_r_mapping/2_Units;../../../batpro/source/src/pascal_o_r_mapping/Controls;../../../batpro/source/src/pascal_o_r_mapping/2_LCL;../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;../OOo;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

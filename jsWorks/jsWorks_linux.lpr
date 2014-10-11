@@ -29,7 +29,10 @@ uses
  Interfaces, // this includes the LCL widgetset
  Forms, uXML, ublG_BECP, ublG_BECPCTX, ublG_CTX, ublG_CTXTYPE, uhfG_BECP,
  uhfG_BECPCTX, uhfG_CTX, uhfG_CTXTYPE, upoolG_BECP, upoolG_BECPCTX, upoolG_CTX,
- upoolG_CTXTYPE, ublAutomatic, upoolAutomatic, uBatpro_Registry,
+ upoolG_CTXTYPE, ublAutomatic, upoolAutomatic,
+uGenerateur_Delphi_Ancetre, uJoinPoint,
+ ujpPHP_Doctrine_Has_Column, ujpCSharp_Champs_persistants, ujpPascal_Affecte,
+ ujpSQL_CREATE_TABLE, ujpNom_de_la_classe, uPatternHandler, uBatpro_Registry,
  uBatpro_StringList, uBinary_Tree, ubtInteger, uBTree, ubtString, uChamp,
  uChampDefinition, uChampDefinitions, uChamps, uChrono, uClean, uCode_barre,
  uContrainte, uCP1252_from_CP437, uDataUtilsU, u_db_, u_db_Composants, uEtat,

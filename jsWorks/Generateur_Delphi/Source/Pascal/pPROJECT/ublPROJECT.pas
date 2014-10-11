@@ -50,10 +50,11 @@ type
     destructor Destroy; override;
   //champs persistants
   public
-//pattern_declaration_champs
+    id: Integer;
+    Name: String;
   //Gestion de la clé
   public
-//pattern_sCle_from__Declaration  
+  
     function sCle: String; override;
   end;
 
@@ -106,7 +107,9 @@ begin
      Champs.ChampDefinitions.NomTable:= 'Project';
 
      //champs persistants
-//pattern_creation_champs
+     Champs. Integer_from_Integer( id             , 'id'             );
+     Champs.  String_from_String ( Name           , 'Name'           );
+
 end;
 
 destructor TblPROJECT.Destroy;
@@ -115,11 +118,11 @@ begin
      inherited;
 end;
 
-//pattern_sCle_from__Implementation
+
 
 function TblPROJECT.sCle: String;
 begin
-//pattern_sCle_Implementation_Body
+     Result:= sCle_ID;
 end;
 
 end.
