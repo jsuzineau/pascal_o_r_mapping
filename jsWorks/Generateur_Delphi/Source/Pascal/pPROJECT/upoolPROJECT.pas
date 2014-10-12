@@ -54,16 +54,17 @@ type
     function Get( _id: integer): TblPROJECT;
   //Gestion de la clé
   protected
-//pattern_Declaration_cle
+
     procedure To_SQLQuery_Params( SQLQuery: TSQLQuery); override;
   public
-//pattern_Get_by_Cle_Declaration
+
   //Indépendance par rapport au SGBD Informix ou MySQL
   protected
     function SQLWHERE_ContraintesChamps: String; override;
   //Méthode de création de test
   public
-{Test_Declaration_Key}
+    function Test( _id: Integer;  _Name: String):Integer;
+
   end;
 
 function poolPROJECT: TpoolPROJECT;
@@ -98,7 +99,7 @@ begin
      Get_Interne_from_id( _id, Result);
 end;
 
-//pattern_Get_by_Cle_Implementation
+
 
 procedure TpoolPROJECT.To_SQLQuery_Params(SQLQuery: TSQLQuery);
 begin
@@ -106,16 +107,31 @@ begin
      with SQLQuery.Params
      do
        begin
-//pattern_To_SQLQuery_Params_Body
+       ParamByName( 'id'    ).AsInteger:= id;
+       ParamByName( 'Name'    ).AsString:= Name;
        end;
 end;
 
 function TpoolPROJECT.SQLWHERE_ContraintesChamps: String;
 begin
-//pattern_SQLWHERE_ContraintesChamps_Body
+     Result                                    
+     :=                                        
+       'where                        '#13#10+
+       '         id              = :id             '#13#10+
+       '     and Name            = :Name           ';
 end;
 
-{Test_Implementation_Key}
+function TpoolPROJECT.Test( _id: Integer;  _Name: String):Integer;
+var                                                 
+   bl: TblPROJECT;                          
+begin                                               
+          Nouveau_Base( bl);                        
+       bl.id             := _id           ;
+       bl.Name           := _Name         ;
+     bl.Save_to_database;                            
+     Result:= bl.id;                                 
+end;                                                 
+
 
 initialization
               Clean_Create ( FpoolPROJECT, TpoolPROJECT);

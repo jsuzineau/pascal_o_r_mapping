@@ -63,6 +63,13 @@ uses
     ujpPascal_creation_champs,
     ujpPascal_sCle_from__Implementation,
     ujpPascal_sCle_Implementation_Body,
+    ujpPascal_Declaration_cle,
+    ujpPascal_Get_by_Cle_Declaration,
+    ujpPascal_Test_Declaration_Key,
+    ujpPascal_Get_by_Cle_Implementation,
+    ujpPascal_To_SQLQuery_Params_Body,
+    ujpPascal_SQLWHERE_ContraintesChamps_Body,
+    ujpPascal_Test_Implementation_Key,
 
     //CSharp
     ujpCSharp_Champs_persistants,
@@ -391,47 +398,6 @@ begin
      then
          FGenerateur_Delphi:= TGenerateur_Delphi.Create;
      Result:= FGenerateur_Delphi;
-end;
-
-constructor TGenerateur_Delphi.Create;
-begin
-     inherited Create;
-     Initialise(
-                [
-                //General
-                jpNom_de_la_table,
-                jpNomTableMinuscule,
-                jpNom_de_la_classe    ,
-
-                //SQL
-                jpSQL_CREATE_TABLE,
-
-                //Pascal
-                jpPascal_LabelsDFM,
-                jpPascal_LabelsPAS,
-                jpPascal_Champ_EditDFM,
-                jpPascal_Champ_EditPAS,
-                jpPascal_Affecte      ,
-                jpPascal_declaration_champs,
-                jpPascal_sCle_from__Declaration,
-                jpPascal_creation_champs,
-                jpPascal_sCle_from__Implementation,
-                jpPascal_sCle_Implementation_Body,
-
-                //CSharp
-                jpCSharp_Champs_persistants   ,
-                jpCSharp_Contenus             ,
-                jpCSharp_Conteneurs           ,
-                jpCSharp_DocksDetails         ,
-                jpCSharp_DocksDetails_Affiche ,
-                jpCSharp_Chargement_Conteneurs,
-
-                //PHP / Doctrine
-                jpPHP_Doctrine_Has_Column,
-                jpPHP_Doctrine_HasMany,
-                jpPHP_Doctrine_HasOne
-                ]
-                );
 end;
 
 destructor TGenerateur_Delphi.Destroy;
@@ -797,6 +763,54 @@ begin
        a[I]:= _a[I];
 end;
 
+
+constructor TGenerateur_Delphi.Create;
+begin
+     inherited Create;
+     Initialise(
+                [
+                //General
+                jpNom_de_la_table,
+                jpNomTableMinuscule,
+                jpNom_de_la_classe    ,
+
+                //SQL
+                jpSQL_CREATE_TABLE,
+
+                //Pascal
+                jpPascal_LabelsDFM,
+                jpPascal_LabelsPAS,
+                jpPascal_Champ_EditDFM,
+                jpPascal_Champ_EditPAS,
+                jpPascal_Affecte      ,
+                jpPascal_declaration_champs,
+                jpPascal_sCle_from__Declaration,
+                jpPascal_creation_champs,
+                jpPascal_sCle_from__Implementation,
+                jpPascal_sCle_Implementation_Body,
+                jpPascal_Declaration_cle,
+                jpPascal_Get_by_Cle_Declaration,
+                jpPascal_Test_Declaration_Key,
+                jpPascal_Get_by_Cle_Implementation,
+                jpPascal_To_SQLQuery_Params_Body,
+                jpPascal_SQLWHERE_ContraintesChamps_Body,
+                jpPascal_Test_Implementation_Key,
+
+                //CSharp
+                jpCSharp_Champs_persistants   ,
+                jpCSharp_Contenus             ,
+                jpCSharp_Conteneurs           ,
+                jpCSharp_DocksDetails         ,
+                jpCSharp_DocksDetails_Affiche ,
+                jpCSharp_Chargement_Conteneurs,
+
+                //PHP / Doctrine
+                jpPHP_Doctrine_Has_Column,
+                jpPHP_Doctrine_HasMany,
+                jpPHP_Doctrine_HasOne
+                ]
+                );
+end;
 
 initialization
 finalization
