@@ -1,4 +1,4 @@
-unit uContexteClasse;
+unit ujpPascal_f_implementation_uses_key;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -27,73 +27,76 @@ interface
 
 uses
     uGenerateur_Delphi_Ancetre,
+    uContexteClasse,
+    uContexteMembre,
+    uJoinPoint,
   SysUtils, Classes;
 
 type
 
- { TContexteClasse }
+ { TjpPascal_f_implementation_uses_key }
 
- TContexteClasse
+ TjpPascal_f_implementation_uses_key
  =
-  class
-  //Gestion du cycle de vie
-  public
-    constructor Create( _g: TGenerateur_Delphi_Ancetre; _Nom_de_la_table: String; _NbChamps: Integer);
-    destructor Destroy; override;
+  class( TJoinPoint)
   //Attributs
   public
-    g: TGenerateur_Delphi_Ancetre;
-    Nom_de_la_table: String;
-    Nom_de_la_classe: String;
-    NomTableMinuscule: String;
-    NbChamps: Integer;
-
-    nfLibelle : String;
-
-    slCle: TStringList;
-    slLibelle :TStringList;
-    slIndex   :TStringList;
+  //Gestion du cycle de vie
+  public
+    constructor Create;
+  //Gestion de la visite d'une classe
+  public
+    procedure Initialise(_cc: TContexteClasse); override;
+    procedure VisiteMembre(_cm: TContexteMembre); override;
+    procedure VisiteDetail( s_Detail, sNomTableMembre: String); override;
+    procedure Finalise; override;
   end;
+
+var
+   jpPascal_f_implementation_uses_key: TjpPascal_f_implementation_uses_key;
 
 implementation
 
-{ TContexteClasse }
+{ TjpPascal_f_implementation_uses_key }
 
-constructor TContexteClasse.Create( _g: TGenerateur_Delphi_Ancetre; _Nom_de_la_table: String; _NbChamps: Integer);
+constructor TjpPascal_f_implementation_uses_key.Create;
+begin
+     Cle:= '{f_implementation_uses_key}';
+end;
+
+procedure TjpPascal_f_implementation_uses_key.Initialise(_cc: TContexteClasse);
+begin
+     inherited;
+end;
+
+procedure TjpPascal_f_implementation_uses_key.VisiteMembre(_cm: TContexteMembre);
+begin
+     inherited;
+
+     if not cm.CleEtrangere then exit;
+
+     Valeur:= Valeur + '    u'+cm.s_fcb     +','#13#10;
+end;
+
+procedure TjpPascal_f_implementation_uses_key.VisiteDetail( s_Detail, sNomTableMembre: String);
 var
-   nfCle: String;
-   nfIndex   : String;
+   s_dkd: String;
 begin
-     g:= _g;
-     Nom_de_la_table := _Nom_de_la_table;
-     Nom_de_la_classe:= UpperCase( Nom_de_la_table);
-     NomTableMinuscule:= LowerCase( Nom_de_la_table);
-     NbChamps:= _NbChamps;
-
-     slCle:= TStringList.Create;
-     nfCle:= g.sRepSource+Nom_de_la_table+'.Cle.txt';
-     if FileExists( nfCle)
-     then
-         slCle.LoadFromFile( nfCle)
-     else
-         slCle.SaveToFile( nfCle);
-
-     //Gestion du libellé
-     slLibelle:= TStringList.Create;
-     nfLibelle:= g.sRepParametres+Nom_de_la_classe+'.libelle.txt';
-     if FileExists( nfLibelle)
-     then
-         slLibelle.LoadFromFile( nfLibelle)
-     else
-         slLibelle.SaveToFile( nfLibelle);
-
+     inherited VisiteDetail(s_Detail, sNomTableMembre);
+     s_dkd:= 'dkd'+s_Detail;
+     Valeur
+     :=
+         Valeur
+       + '    u'+s_dkd     +','#13#10;
 end;
 
-destructor TContexteClasse.Destroy;
+procedure TjpPascal_f_implementation_uses_key.Finalise;
 begin
-     FreeAndNil( slCle);
-     FreeAndNil( slLibelle);
-     inherited Destroy;
+     inherited;
 end;
 
+initialization
+              jpPascal_f_implementation_uses_key:= TjpPascal_f_implementation_uses_key.Create;
+finalization
+              FreeAndNil( jpPascal_f_implementation_uses_key);
 end.

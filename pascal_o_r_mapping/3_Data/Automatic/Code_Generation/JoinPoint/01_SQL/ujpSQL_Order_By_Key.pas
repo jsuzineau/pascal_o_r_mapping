@@ -1,4 +1,4 @@
-unit uContexteClasse;
+unit ujpSQL_Order_By_Key;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -26,74 +26,90 @@ unit uContexteClasse;
 interface
 
 uses
+    SysUtils, Classes,
     uGenerateur_Delphi_Ancetre,
-  SysUtils, Classes;
+    uContexteClasse,
+    uContexteMembre,
+    uJoinPoint;
 
 type
 
- { TContexteClasse }
+ { TjpSQL_Order_By_Key }
 
- TContexteClasse
+ TjpSQL_Order_By_Key
  =
-  class
+  class( TJoinPoint)
   //Gestion du cycle de vie
   public
-    constructor Create( _g: TGenerateur_Delphi_Ancetre; _Nom_de_la_table: String; _NbChamps: Integer);
+    constructor Create;
     destructor Destroy; override;
   //Attributs
   public
-    g: TGenerateur_Delphi_Ancetre;
-    Nom_de_la_table: String;
-    Nom_de_la_classe: String;
-    NomTableMinuscule: String;
-    NbChamps: Integer;
-
-    nfLibelle : String;
-
-    slCle: TStringList;
-    slLibelle :TStringList;
-    slIndex   :TStringList;
+    nfOrder_By: String;
+    slOrder_By: TStringList;
+  //Gestion de la visite d'une classe
+  public
+    procedure Initialise(_cc: TContexteClasse); override;
+    procedure VisiteMembre(_cm: TContexteMembre); override;
+    procedure Finalise; override;
   end;
+
+var
+   jpSQL_Order_By_Key: TjpSQL_Order_By_Key;
 
 implementation
 
-{ TContexteClasse }
+{ TjpSQL_Order_By_Key }
 
-constructor TContexteClasse.Create( _g: TGenerateur_Delphi_Ancetre; _Nom_de_la_table: String; _NbChamps: Integer);
-var
-   nfCle: String;
-   nfIndex   : String;
+constructor TjpSQL_Order_By_Key.Create;
 begin
-     g:= _g;
-     Nom_de_la_table := _Nom_de_la_table;
-     Nom_de_la_classe:= UpperCase( Nom_de_la_table);
-     NomTableMinuscule:= LowerCase( Nom_de_la_table);
-     NbChamps:= _NbChamps;
-
-     slCle:= TStringList.Create;
-     nfCle:= g.sRepSource+Nom_de_la_table+'.Cle.txt';
-     if FileExists( nfCle)
-     then
-         slCle.LoadFromFile( nfCle)
-     else
-         slCle.SaveToFile( nfCle);
-
-     //Gestion du libellé
-     slLibelle:= TStringList.Create;
-     nfLibelle:= g.sRepParametres+Nom_de_la_classe+'.libelle.txt';
-     if FileExists( nfLibelle)
-     then
-         slLibelle.LoadFromFile( nfLibelle)
-     else
-         slLibelle.SaveToFile( nfLibelle);
-
+     Cle:= '      Order_By_Key';
+     slOrder_by:= TStringList.Create;
 end;
 
-destructor TContexteClasse.Destroy;
+destructor TjpSQL_Order_By_Key.Destroy;
 begin
-     FreeAndNil( slCle);
-     FreeAndNil( slLibelle);
+     FreeAndNil( slOrder_by);
      inherited Destroy;
 end;
 
+procedure TjpSQL_Order_By_Key.Initialise(_cc: TContexteClasse);
+begin
+     inherited;
+     //Gestion de l'order by
+     nfOrder_By:= cc.g.sRepParametres+cc.Nom_de_la_classe+'.order_by.txt';
+          if FileExists(   nfOrder_By) then slOrder_by.LoadFromFile( nfOrder_By)
+     else if FileExists( cc.nfLibelle) then slOrder_by.LoadFromFile( cc.nfLibelle );
+end;
+
+procedure TjpSQL_Order_By_Key.VisiteMembre(_cm: TContexteMembre);
+begin
+     inherited VisiteMembre(_cm);
+
+     if cm.CleEtrangere then exit;
+     if -1 = slOrder_By.IndexOf( cm.sNomChamp) then exit;
+
+     if '' = Valeur
+     then
+         Valeur:= Valeur+ '      '
+     else
+         Valeur:= Valeur+ ','+s_SQL_saut+'      ';
+
+     Valeur:= Valeur + cm.sNomChamp;
+
+end;
+
+procedure TjpSQL_Order_By_Key.Finalise;
+begin
+     inherited Finalise;
+     if Valeur = ''
+     then
+         Valeur:= '      Numero';
+     slOrder_by.SaveToFile( nfOrder_By);
+end;
+
+initialization
+              jpSQL_Order_By_Key:= TjpSQL_Order_By_Key.Create;
+finalization
+              FreeAndNil( jpSQL_Order_By_Key);
 end.

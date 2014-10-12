@@ -52,7 +52,7 @@ implementation
 
 uses
     uClean,
-{f_implementation_uses_key}
+
     upoolPROJECT, uPool;
 
 {$R *.dfm}

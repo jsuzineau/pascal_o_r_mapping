@@ -51,6 +51,7 @@ uses
 
     //SQL
     ujpSQL_CREATE_TABLE,
+    ujpSQL_Order_By_Key,
 
     //Pascal
     ujpPascal_LabelsDFM,
@@ -70,6 +71,19 @@ uses
     ujpPascal_To_SQLQuery_Params_Body,
     ujpPascal_SQLWHERE_ContraintesChamps_Body,
     ujpPascal_Test_Implementation_Key,
+    ujpPascal_QfieldsDFM,
+    ujpPascal_QfieldsPAS,
+    ujpPascal_QCalcFieldsKey,
+    ujpPascal_Traite_Index_key,
+    ujpPascal_uses_ubl,
+    ujpPascal_uses_upool,
+    ujpPascal_Ouverture_key,
+    ujpPascal_Test_Call_Key,
+    ujpPascal_f_implementation_uses_key,
+    ujpPascal_f_Execute_Before_Key,
+    ujpPascal_f_Execute_After_Key,
+    ujpPascal_aggregations_faibles_declaration,
+    ujpPascal_aggregations_faibles_pool_get,
 
     //CSharp
     ujpCSharp_Champs_persistants,
@@ -406,21 +420,10 @@ begin
 end;
 
 procedure TGenerateur_Delphi.Execute( _blAutomatic: TblAutomatic; _Suffixe: String);
-const
-     sys_Vide                 = '';
-
-     s_Order_By_Key           = '      Order_By_Key';
-
-     s_Traite_Index_key       ='{Traite_Index_key}';
 var
    NomFichierProjet: String;
    cc: TContexteClasse;
    sTaggedValues: String;
-
-   Order_By_Key: String;
-
-   Traite_Index_key
-                             :String;
 
    phPAS_DMCRE,
    phPAS_POOL ,
@@ -450,20 +453,10 @@ var
 
    INI: TIniFile;
 
-
-   nfLibelle : String;
-   nfOrder_By: String;
-   nfIndex   : String;
-   slLibelle :TStringList;
-   slOrder_By:TStringList;
-   slIndex   :TStringList;
-
    //Gestion des détails
    NbDetails: Integer;
    nfDetails: String;
    slDetails:TStringList;
-
-   slChamps_non_order_by: TStringList;
 
    procedure CreePatternHandler( var phPAS, phDFM: TPatternHandler; Racine: String);
    var
@@ -575,10 +568,6 @@ var
         phPHP_record.Produit(RepertoirePHP);
         phPHP_table .Produit(RepertoirePHP);
    end;
-   function Allowed_in_order_by( NomChamp: String): Boolean;
-   begin
-        Result:= -1 = slChamps_non_order_by.IndexOf( NomChamp);
-   end;
    procedure Visite;
    var
       I: TIterateur_FieldBuffer;
@@ -588,12 +577,9 @@ var
         cc:= TContexteClasse.Create( Self, _Suffixe,
                                      blAutomatic.slFields.Count);
         try
-           slChamps_non_order_by.Clear;
            slParametres.Clear;
 
            uJoinPoint_Initialise( cc, a);
-
-           Traite_Index_key         := '';
 
            I:= blAutomatic.slFields.Iterateur;
            while I.Continuer
@@ -602,50 +588,6 @@ var
              if I.not_Suivant_interne( fb) then continue;
              Traite_Field( fb);
              end;
-
-           //Gestion du libellé
-           slLibelle:= TStringList.Create;
-           try
-              nfLibelle:= sRepParametres+cc.Nom_de_la_classe+'.libelle.txt';
-              if FileExists( nfLibelle)
-              then
-                  slLibelle.LoadFromFile( nfLibelle);
-           finally
-                  slLibelle.SaveToFile( nfLibelle);
-                  FreeAndNil( slLibelle);
-                  end;
-
-           //Gestion de l'order by
-           slOrder_by:= TStringList.Create;
-           try
-              nfOrder_By:= sRepParametres+cc.Nom_de_la_classe+'.order_by.txt';
-                   if FileExists( nfOrder_By)
-              then
-                  slOrder_by.LoadFromFile( nfOrder_By)
-              else if FileExists( nfLibelle)
-              then
-                  slOrder_by.LoadFromFile( nfLibelle);
-
-              Order_By_Key:= '';
-              for J:= 0 to slOrder_by.Count-1
-              do
-                begin
-                if Allowed_in_order_by( slOrder_by.Strings[J])
-                then
-                    begin
-                    if Order_By_Key = sys_Vide
-                    then Order_By_Key:= Order_By_Key+ '      '
-                    else Order_By_Key:= Order_By_Key+ ','+s_SQL_saut+'      ';
-                    Order_By_Key:= Order_By_Key + slOrder_by.Strings[J];
-                    end;
-                end;
-              if Order_By_Key = sys_Vide
-              then
-                  Order_By_Key:= '      Numero';
-           finally
-                  slOrder_by.SaveToFile( nfOrder_By);
-                  FreeAndNil( slOrder_by);
-                  end;
 
            //Gestion des détails
            slDetails:= TStringList.Create;
@@ -668,8 +610,6 @@ var
            //Fermeture des chaines
            uJoinPoint_Finalise( a);
 
-           slParametres.Values[s_Order_By_Key  ]:= Order_By_Key  ;
-           slParametres.Values[s_Traite_Index_key       ]:= Traite_Index_key;
            uJoinPoint_To_Parametres( slParametres, a);
 
            Produit;
@@ -710,7 +650,6 @@ begin
            CreePatternHandler_PHP( phPHP_record, phPHP_table);
            MenuHandler:= TMenuHandler.Create( sRepSource, sRepCible);
 
-           slChamps_non_order_by:= TStringList.Create;
            try
               S:= '';
               Premiere_Classe:= True;
@@ -720,7 +659,6 @@ begin
               //csMenuHandler.Produit;
               slLog.Add( S);
            finally
-                  FreeAndNil( slChamps_non_order_by);
                   FreeAndNil( MenuHandler);
                   FreeAndNil( phPAS_DMCRE);
                   FreeAndNil( phPAS_POOL );
@@ -776,6 +714,7 @@ begin
 
                 //SQL
                 jpSQL_CREATE_TABLE,
+                jpSQL_Order_By_Key,
 
                 //Pascal
                 jpPascal_LabelsDFM,
@@ -795,6 +734,18 @@ begin
                 jpPascal_To_SQLQuery_Params_Body,
                 jpPascal_SQLWHERE_ContraintesChamps_Body,
                 jpPascal_Test_Implementation_Key,
+                jpPascal_QfieldsDFM,
+                jpPascal_QfieldsPAS,
+                jpPascal_QCalcFieldsKey,
+                jpPascal_Traite_Index_key,
+                jpPascal_uses_ubl,
+                jpPascal_uses_upool,
+                jpPascal_Ouverture_key,
+                jpPascal_Test_Call_Key,
+                jpPascal_f_implementation_uses_key,
+                jpPascal_f_Execute_Before_Key,
+                jpPascal_f_Execute_After_Key,
+                jpPascal_aggregations_faibles_declaration,
 
                 //CSharp
                 jpCSharp_Champs_persistants   ,

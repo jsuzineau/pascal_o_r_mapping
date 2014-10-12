@@ -59,7 +59,7 @@ implementation
 
 uses
     uClean,
-//JoinPoint_uses_ubl
+
 {dkd_implementation_uses_key}
     uBatpro_Ligne_Printer,
     upoolPROJECT;

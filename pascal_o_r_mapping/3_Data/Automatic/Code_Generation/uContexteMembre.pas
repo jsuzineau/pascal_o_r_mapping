@@ -40,6 +40,7 @@ type
     cc: TContexteClasse;
     sNomChamp: String;
     sTypChamp: String;
+    sTypChamp_UPPERCASE: String;
     sTyp: String;
     sLibelle: String;
     sParametre: String;
@@ -48,6 +49,10 @@ type
 
     //Pascal
     sPascal_DeclarationParametre: String;
+    s_bl: String;
+    s_pool: String;
+    s_fcb: String;
+    s_NomAggregation: String;
 
     //CSharp
     sNomTableMembre: String;
@@ -65,8 +70,6 @@ implementation
 { TContexteMembre }
 
 constructor TContexteMembre.Create( _g: TGenerateur_Delphi_Ancetre; _cc: TContexteClasse; _sNomChamp, _sTypChamp, _sLibelle: String; _CleEtrangere: Boolean= False);
-var
-   sTypChamp_UPPERCASE: String;
 begin
      g:= _g;
      cc:= _cc;
@@ -94,6 +97,13 @@ begin
 
      sParametre:= ' _'+sNomChamp;
      sPascal_DeclarationParametre:= sParametre+': '+sTyp;
+     s_bl  := 'bl' + TailleNom( sTyp);
+     s_pool:= 'pool' + TailleNom( sTyp);
+     s_fcb     := 'fcb'  + sTyp;
+     s_NomAggregation:= 'bl'+ TailleNom( sNomChamp);
+
+     sNomTableMembre:= sTyp;
+     Member_Name:= sNomchamp;
 end;
 
 end.

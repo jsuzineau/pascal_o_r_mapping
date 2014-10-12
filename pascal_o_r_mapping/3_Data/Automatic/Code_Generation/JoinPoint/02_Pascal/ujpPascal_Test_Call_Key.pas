@@ -1,4 +1,4 @@
-unit uContexteClasse;
+unit ujpPascal_Test_Call_Key;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -27,73 +27,69 @@ interface
 
 uses
     uGenerateur_Delphi_Ancetre,
+    uContexteClasse,
+    uContexteMembre,
+    uJoinPoint,
   SysUtils, Classes;
 
 type
-
- { TContexteClasse }
-
- TContexteClasse
+ TjpPascal_Test_Call_Key
  =
-  class
-  //Gestion du cycle de vie
-  public
-    constructor Create( _g: TGenerateur_Delphi_Ancetre; _Nom_de_la_table: String; _NbChamps: Integer);
-    destructor Destroy; override;
+  class( TJoinPoint)
   //Attributs
   public
-    g: TGenerateur_Delphi_Ancetre;
-    Nom_de_la_table: String;
-    Nom_de_la_classe: String;
-    NomTableMinuscule: String;
-    NbChamps: Integer;
-
-    nfLibelle : String;
-
-    slCle: TStringList;
-    slLibelle :TStringList;
-    slIndex   :TStringList;
+  //Gestion du cycle de vie
+  public
+    constructor Create;
+  //Gestion de la visite d'une classe
+  public
+    procedure Initialise(_cc: TContexteClasse); override;
+    procedure VisiteMembre(_cm: TContexteMembre); override;
+    procedure Finalise; override;
   end;
+
+var
+   jpPascal_Test_Call_Key: TjpPascal_Test_Call_Key;
 
 implementation
 
-{ TContexteClasse }
+{ TjpPascal_Test_Call_Key }
 
-constructor TContexteClasse.Create( _g: TGenerateur_Delphi_Ancetre; _Nom_de_la_table: String; _NbChamps: Integer);
-var
-   nfCle: String;
-   nfIndex   : String;
+constructor TjpPascal_Test_Call_Key.Create;
 begin
-     g:= _g;
-     Nom_de_la_table := _Nom_de_la_table;
-     Nom_de_la_classe:= UpperCase( Nom_de_la_table);
-     NomTableMinuscule:= LowerCase( Nom_de_la_table);
-     NbChamps:= _NbChamps;
-
-     slCle:= TStringList.Create;
-     nfCle:= g.sRepSource+Nom_de_la_table+'.Cle.txt';
-     if FileExists( nfCle)
-     then
-         slCle.LoadFromFile( nfCle)
-     else
-         slCle.SaveToFile( nfCle);
-
-     //Gestion du libellé
-     slLibelle:= TStringList.Create;
-     nfLibelle:= g.sRepParametres+Nom_de_la_classe+'.libelle.txt';
-     if FileExists( nfLibelle)
-     then
-         slLibelle.LoadFromFile( nfLibelle)
-     else
-         slLibelle.SaveToFile( nfLibelle);
-
+     Cle:= '{Test_Call_Key}';
 end;
 
-destructor TContexteClasse.Destroy;
+procedure TjpPascal_Test_Call_Key.Initialise(_cc: TContexteClasse);
 begin
-     FreeAndNil( slCle);
-     FreeAndNil( slLibelle);
-     inherited Destroy;
+     inherited;
 end;
 
+procedure TjpPascal_Test_Call_Key.VisiteMembre(_cm: TContexteMembre);
+begin
+     inherited;
+
+     if '' = Valeur
+     then
+         Valeur:= 'pool'+cc.Nom_de_la_classe+'.Test('#13#10
+     else
+         Valeur:= Valeur + ','#13#10;
+     Valeur
+     :=
+         Valeur
+       + Default_from_Type(cm.sTypChamp)+'{'+cm.sPascal_DeclarationParametre+'}';
+end;
+
+procedure TjpPascal_Test_Call_Key.Finalise;
+begin
+     inherited;
+     if '' = Valeur then exit;
+
+     Valeur:= Valeur+#13#10');';
+end;
+
+initialization
+              jpPascal_Test_Call_Key:= TjpPascal_Test_Call_Key.Create;
+finalization
+              FreeAndNil( jpPascal_Test_Call_Key);
 end.

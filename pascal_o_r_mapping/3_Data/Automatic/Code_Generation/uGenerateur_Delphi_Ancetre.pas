@@ -37,22 +37,34 @@ const
 const
    TailleMaximumIdentificateur = 15;
 
-function CalculeSaisi_from_ClassName( ClassName: String): Boolean;
-
-function NomTable_from_ClassName( ClassName: String): String;
-
 function TailleNom( S: String): String;
-
-function SQL_from_Type( Typ: String): String;
 
 var
    slLog: TStringList;
    Premiere_Classe: Boolean;
    S: String;
 
+//General
+function CalculeSaisi_from_ClassName( ClassName: String): Boolean;
+
+function NomTable_from_ClassName( ClassName: String): String;
+
+//SQL
+function SQL_from_Type( Typ: String): String;
+function Default_from_Type( Typ: String): String;
+
+//Pascal
+function Declaration_from_Type( prefixe, NomChamp, Typ: String): String;
+function PAS_from_Type( prefixe, NomChamp, Typ: String): String;
+function DFM_from_Type( prefixe, NomChamp, Typ: String; notVisible: Boolean): String;
+function DFM_Lookup( prefixe, Member_Name, ClasseLookup: String): String;
+
+//CSharp
 function CS_from_Type( NomChamp, Typ: String): String;
 
+//PHP
 function PHP_from_Type( NomChamp, Typ: String): String;
+
 
 type
 
@@ -98,6 +110,45 @@ begin
      while Length( Result) < 15 do Result:= Result + ' ';
 end;
 
+function DFM_from_Type( prefixe, NomChamp, Typ: String; notVisible: Boolean): String;
+begin
+     Result
+     :=
+       '    object '+Declaration_from_Type( prefixe, NomChamp, Typ)+#13#10+
+       '      FieldName = '''+NomChamp+''''#13#10;
+     if notVisible
+     then
+         Result
+         :=
+             Result
+           + '      Visible = False'#13#10;
+
+     Typ:= UpperCase( Typ);
+          if 'STRING'  =Typ then Result:= Result+'      Size = 42'#13#10
+     else if 'CURRENCY'=Typ then Result:= Result+'      currency= true'#13#10;
+
+     Result
+     :=
+       Result +
+       '    end'#13#10;
+end;
+
+function DFM_Lookup( prefixe, Member_Name, ClasseLookup: String): String;
+begin
+     Result
+     :=
+       '    object '+Declaration_from_Type(prefixe,Member_Name,'STRING')+#13#10+
+       '      FieldName = '''+Member_Name+'''                           '#13#10+
+       '      FieldKind = fkLookup                                      '#13#10+
+       '      LookupDataSet = dmlk'+ClasseLookup+'.q                    '#13#10+
+       '      LookupKeyFields = ''rowid''                              '#13#10+
+       '      LookupResultField = ''Libelle''                           '#13#10+
+       '      KeyFields = ''n'+Member_Name+'''                          '#13#10+
+       '      Lookup = True                                             '#13#10+
+       '      Size = 42                                                 '#13#10+
+       '    end                                                         '#13#10;
+end;
+
 function SQL_from_Type( Typ: String): String;
 begin
      Typ:= UpperCase( Typ);
@@ -116,6 +167,47 @@ begin
          end;
 end;
 
+function Default_from_Type( Typ: String): String;
+begin
+     Typ:= UpperCase( Typ);
+          if'STRING'    =Typ then Result:=''''''
+     else if'SMALLINT'  =Typ then Result:='0'
+     else if'INTEGER'   =Typ then Result:='0'
+     else if'DATE'      =Typ then Result:='Date'
+     else if'TDATETIME' =Typ then Result:='Date'
+     else if'CURRENCY'  =Typ then Result:='0.0'
+     else
+         begin
+         Result:= '''''';
+         slLog.Add( 'Default_from_Type(): Type non géré '+Typ);
+         end;
+end;
+
+//Pascal
+function Declaration_from_Type( prefixe, NomChamp, Typ: String): String;
+begin
+     Typ:= UpperCase( Typ);
+          if'STRING'   =Typ then Result:=': TStringField'
+     else if'SMALLINT' =Typ then Result:=': TIntegerField'
+     else if'INTEGER'  =Typ then Result:=': TIntegerField'
+     else if'DATE'     =Typ then Result:=': TDateField'
+     else if'TDATETIME'=Typ then Result:=': TDateTimeField'
+     else if'CURRENCY' =Typ then Result:=': TFloatField'
+     else if'LONGBLOB' =Typ then Result:=': TStringField'
+     else
+         begin
+         Result:= ': T'+Typ+'Field';
+         slLog.Add( 'Declaration_from_Type(): Type non traduit en champ: '+Typ);
+         end;
+     Result:= prefixe + NomChamp + Result;
+end;
+
+function PAS_from_Type( prefixe, NomChamp, Typ: String): String;
+begin
+     Result:='    ' + Declaration_from_Type(prefixe,NomChamp,Typ) + ';'#13#10;
+end;
+
+//CSharp
 function CSType_from_Type( Typ: String): String;
 begin
      Typ:= UpperCase( Typ);

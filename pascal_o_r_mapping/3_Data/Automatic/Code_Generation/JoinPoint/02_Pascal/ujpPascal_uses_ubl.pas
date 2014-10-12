@@ -1,4 +1,4 @@
-unit uContexteClasse;
+unit ujpPascal_uses_ubl;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -27,73 +27,60 @@ interface
 
 uses
     uGenerateur_Delphi_Ancetre,
+    uContexteClasse,
+    uContexteMembre,
+    uJoinPoint,
   SysUtils, Classes;
 
 type
-
- { TContexteClasse }
-
- TContexteClasse
+ TjpPascal_uses_ubl
  =
-  class
-  //Gestion du cycle de vie
-  public
-    constructor Create( _g: TGenerateur_Delphi_Ancetre; _Nom_de_la_table: String; _NbChamps: Integer);
-    destructor Destroy; override;
+  class( TJoinPoint)
   //Attributs
   public
-    g: TGenerateur_Delphi_Ancetre;
-    Nom_de_la_table: String;
-    Nom_de_la_classe: String;
-    NomTableMinuscule: String;
-    NbChamps: Integer;
-
-    nfLibelle : String;
-
-    slCle: TStringList;
-    slLibelle :TStringList;
-    slIndex   :TStringList;
+  //Gestion du cycle de vie
+  public
+    constructor Create;
+  //Gestion de la visite d'une classe
+  public
+    procedure Initialise(_cc: TContexteClasse); override;
+    procedure VisiteMembre(_cm: TContexteMembre); override;
+    procedure Finalise; override;
   end;
+
+var
+   jpPascal_uses_ubl: TjpPascal_uses_ubl;
 
 implementation
 
-{ TContexteClasse }
+{ TjpPascal_uses_ubl }
 
-constructor TContexteClasse.Create( _g: TGenerateur_Delphi_Ancetre; _Nom_de_la_table: String; _NbChamps: Integer);
-var
-   nfCle: String;
-   nfIndex   : String;
+constructor TjpPascal_uses_ubl.Create;
 begin
-     g:= _g;
-     Nom_de_la_table := _Nom_de_la_table;
-     Nom_de_la_classe:= UpperCase( Nom_de_la_table);
-     NomTableMinuscule:= LowerCase( Nom_de_la_table);
-     NbChamps:= _NbChamps;
-
-     slCle:= TStringList.Create;
-     nfCle:= g.sRepSource+Nom_de_la_table+'.Cle.txt';
-     if FileExists( nfCle)
-     then
-         slCle.LoadFromFile( nfCle)
-     else
-         slCle.SaveToFile( nfCle);
-
-     //Gestion du libellé
-     slLibelle:= TStringList.Create;
-     nfLibelle:= g.sRepParametres+Nom_de_la_classe+'.libelle.txt';
-     if FileExists( nfLibelle)
-     then
-         slLibelle.LoadFromFile( nfLibelle)
-     else
-         slLibelle.SaveToFile( nfLibelle);
-
+     Cle:= '//JoinPoint_uses_ubl';
 end;
 
-destructor TContexteClasse.Destroy;
+procedure TjpPascal_uses_ubl.Initialise(_cc: TContexteClasse);
 begin
-     FreeAndNil( slCle);
-     FreeAndNil( slLibelle);
-     inherited Destroy;
+     inherited;
 end;
 
+procedure TjpPascal_uses_ubl.VisiteMembre(_cm: TContexteMembre);
+begin
+     inherited;
+
+     if not cm.CleEtrangere then exit;
+
+     Valeur:= Valeur + '    u'+cm.s_bl  +','#13#10;
+end;
+
+procedure TjpPascal_uses_ubl.Finalise;
+begin
+     inherited;
+end;
+
+initialization
+              jpPascal_uses_ubl:= TjpPascal_uses_ubl.Create;
+finalization
+              FreeAndNil( jpPascal_uses_ubl);
 end.
