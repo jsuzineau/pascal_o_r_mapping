@@ -26,18 +26,22 @@ unit uDrawInfo;
 interface
 
 uses
+    {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+    JclSimpleXml,
+    {$ELSE}
     DOM,
+    {$IFEND}
     uSVG,
     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
     ufBitmaps,
-    {$ENDIF}
-    {$IFDEF MSWINDOWS}
+    {$IFEND}
+    {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
     Graphics, Windows, Types, Grids, Controls,
-    {$ENDIF}
+    {$IFEND}
   SysUtils, Classes, XMLRead,XMLWrite;
 
 const
-     {$IFNDEF MSWINDOWS}
+     {$IFDEF FPC}
      clBlack = TColor($000000);
      clMaroon = TColor($000080);
      clGreen = TColor($008000);
@@ -76,21 +80,28 @@ const
      Couleur_Jour_Non_Ouvrable_3       = clMedGray;
      Couleur_Jour_Non_Ouvrable_Chantier=  clDkGray ;
 
-{$IFNDEF MSWINDOWS}
+{$IFDEF FPC}
 type
  TStringGrid= TObject;
  TPenStyle=TObject;
+ TFontStyle=(fsBold, fsItalic);
+ TFontStyles= set of TFontStyle;
  TFont
  =
   class
     Name: String;
     Size: Integer;
+    Color: TColor;
+    Style: TFontStyles;
     procedure Assign( _Source: TFont);
   end;
+
+
+{ TBrush }
+const
+     bsClear=0;
+type
  TBrushStyle=TObject;
-
- { TBrush }
-
  TBrush
  =
   class
@@ -101,10 +112,13 @@ type
     //Attributs
     public
       Color: Integer;
+      Style: Integer;
   end;
 
- { TPen }
-
+{ TPen }
+const
+     pmXor=0;
+type
  TPen
  =
   class
@@ -115,6 +129,9 @@ type
     //Attributs
     public
       Style: Integer;
+      Width: Integer;
+      Mode: Integer;
+      Color: TColor;
   end;
 
  { TCanvas }
@@ -130,6 +147,11 @@ type
   public
     Handle: Integer;
     Font: TFont;
+    Brush: TBrush;
+    Pen: TPen;
+  //Méthodes
+  public
+    procedure Rectangle( _Rect: TRect);
   end;
 {$ENDIF}
 
@@ -324,7 +346,7 @@ begin
        end;
 end;
 
-{$IFNDEF MSWINDOWS}
+{$IFDEF FPC}
 { TPen }
 
 constructor TPen.Create;
@@ -353,13 +375,23 @@ end;
 
 constructor TCanvas.Create;
 begin
-     Font:= TFont.Create;
+     Font := TFont.Create;
+     Brush:= TBrush.Create;
+     Pen  := TPen.Create;
 end;
 
 destructor TCanvas.Destroy;
 begin
+     FreeAndNil( Font );
+     FreeAndNil( Brush);
+     FreeAndNil( Pen  );
+end;
+
+procedure TCanvas.Rectangle(_Rect: TRect);
+begin
 
 end;
+
 {$ENDIF}
 
 constructor TDrawInfo.Create( unContexte: Integer; _sg: TStringGrid);
@@ -383,7 +415,7 @@ begin
     SVG_Drawing:= False;
     FLargeurLigne:= 1;
 
-    {$IFDEF MSWINDOWS}
+    {$IFNDEF FPC}
     FCouleurLigne  := Canvas.Pen  .Color;
     FCouleur_Brosse:= Canvas.Brush.Color;
     FStyleLigne    := Canvas.Pen  .Style;
@@ -685,7 +717,7 @@ end;
 
 procedure TDrawInfo.SetCouleurLigne(const Value: TColor);
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      FCouleurLigne:= Value;
      if not SVG_Drawing
      then
@@ -696,7 +728,7 @@ end;
 
 procedure TDrawInfo.SetCouleur_Brosse(const Value: TColor);
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      FCouleur_Brosse:= Value;
      if not SVG_Drawing
      then
@@ -706,7 +738,7 @@ end;
 
 procedure TDrawInfo.SetLargeurLigne(const Value: Integer);
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      FLargeurLigne := Value;
      if not SVG_Drawing
      then
@@ -716,7 +748,7 @@ end;
 
 procedure TDrawInfo.SetStyleLigne(const Value: TPenStyle);
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      FStyleLigne := Value;
      if not SVG_Drawing
      then
@@ -726,7 +758,7 @@ end;
 
 procedure TDrawInfo.MoveTo(X, Y: Integer);
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      if SVG_Drawing
      then
          begin
@@ -740,7 +772,7 @@ end;
 
 procedure TDrawInfo.LineTo(X, Y: Integer);
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      if SVG_Drawing
      then
          begin
@@ -764,7 +796,7 @@ end;
 
 procedure TDrawInfo.Contour_Rectangle( _R: TRect; _Couleur: TColor);
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      if SVG_Drawing
      then
          rect_vide( _R, _Couleur, 1)
@@ -778,7 +810,7 @@ begin
 end;
 
 procedure TDrawInfo.Remplit_Rectangle( _R: TRect; _Couleur: TColor);
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
      procedure GDI;
      var
         OldColor: TColor;
@@ -805,7 +837,7 @@ end;
 {$ENDIF}
 procedure TDrawInfo.Polygon(const Points: array of TPoint);
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      if SVG_Drawing
      then
          svg_polygon( Points, Couleur_Brosse, CouleurLigne, LargeurLigne)
@@ -816,7 +848,7 @@ end;
 
 procedure TDrawInfo.PolyBezier(const Points: array of TPoint);
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      if SVG_Drawing
      then
          svg_PolyBezier( Points, CouleurLigne, LargeurLigne)
@@ -827,7 +859,7 @@ end;
 
 procedure TDrawInfo.Rectangle(X1, Y1, X2, Y2: Integer);
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      if SVG_Drawing
      then
          _rect( Classes.Rect( X1, Y1, X2, Y2),
@@ -839,7 +871,7 @@ end;
 
 procedure TDrawInfo.Ellipse( X1, Y1, X2, Y2: Integer);
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      if SVG_Drawing
      then
          _ellipse( Classes.Rect( X1, Y1, X2, Y2),
@@ -1006,7 +1038,7 @@ begin
          GDI;
 end;
 
-{$IFNDEF MSWINDOWS}
+{$IFDEF FPC}
 { TFont }
 
 procedure TFont.Assign( _Source: TFont);

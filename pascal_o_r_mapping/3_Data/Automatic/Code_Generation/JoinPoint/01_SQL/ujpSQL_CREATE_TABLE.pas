@@ -81,7 +81,7 @@ begin
          SQL:= SQL+TailleNom( cm.sNomChamp)+' INTEGER'
      else
          SQL:= SQL+
-               TailleNom( cm.sNomChamp)+' '+SQL_from_Type( cm.sTypChamp);
+               TailleNom( cm.sNomChamp_database_quote)+' '+SQL_from_Type( cm.sTypChamp);
      Valeur:= Valeur+','+s_SQL_saut+SQL;
 end;
 

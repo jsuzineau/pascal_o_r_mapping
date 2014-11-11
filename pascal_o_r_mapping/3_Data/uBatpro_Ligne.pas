@@ -51,7 +51,7 @@ uses
     uChamps_persistance,
     uhFiltre_Ancetre,
     ufAccueil_Erreur,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Graphics, Windows, DBTables, ComCtrls,
   {$ENDIF}
   Classes, SysUtils, DB, Types,
@@ -270,7 +270,7 @@ function Batpro_Ligne_from_sl( sl: TStringList; Index: Integer): TBatpro_Ligne;
 
 function Batpro_Ligne_from_sl_sCle( sl: TStringList; sCle: String): TBatpro_Ligne;
 
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 function Batpro_Ligne_from_TreeNode( tn: TTreeNode): TBatpro_Ligne;
 
 function Batpro_Ligne_from_TreeView( tv: TTreeView; Index: Integer): TBatpro_Ligne; overload;
@@ -305,7 +305,7 @@ begin
      _Classe_from_sl_sCle( Result, TBatpro_Ligne, sl, sCle);
 end;
 
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 function Batpro_Ligne_from_TreeNode( tn: TTreeNode): TBatpro_Ligne;
 begin
      Result:= nil;

@@ -26,7 +26,7 @@ unit ufChamp_Lookup;
 interface
 
 uses
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows,
   {$ENDIF}
   {$IFDEF FPC}

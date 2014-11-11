@@ -40,7 +40,7 @@ uses
     uPublieur,
     uhTriColonne,
     uhField,
-    {$IFDEF MSWINDOWS}
+    {$IFNDEF FPC}
     ufProgression,
     ufClientDataset_Delta,
     {$ENDIF}
@@ -159,7 +159,7 @@ type
     procedure RecordChanged(Field: TField); override;
     procedure DataSetChanged; override;
     procedure ActiveChanged; override;
-    {$IFDEF MSWINDOWS}
+    {$IFNDEF FPC}
     procedure DataEvent(Event: TDataEvent; Info: Integer); override;
     {$ENDIF}
     procedure CheckBrowseMode; override;
@@ -694,7 +694,7 @@ begin
      then
          Chrono.Start;
 
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      if AfficherProgressionDetails
      then
          fProgression.Demarre( TitreProgression_et_Chrono, 0, Details.Count -1);
@@ -715,7 +715,7 @@ begin
                       begin
                       if TBufDataSet(D).ChangeCount > 0
                       then
-                          {$IFDEF MSWINDOWS}
+                          {$IFNDEF FPC}
                           if fClientDataset_Delta.Execute( TBufDataSet(D), True)
                           {$ELSE}
                           if uForms_Message_Yes('Application des modifications',
@@ -732,13 +732,13 @@ begin
                   then
                       Chrono.Stop( Dataset_Owner_Name( D)+'.'+D.Name);
                   end;
-          {$IFDEF MSWINDOWS}
+          {$IFNDEF FPC}
           if AfficherProgressionDetails then fProgression.AddProgress( 1);
           {$ENDIF}
           end;
 
      finally
-            {$IFDEF MSWINDOWS}
+            {$IFNDEF FPC}
             if AfficherProgressionDetails then fProgression.Termine;
             {$ENDIF}
             end;
@@ -819,7 +819,7 @@ begin
      //uForms_ShowMessage( 'CheckBrowseMode');
 end;
 
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 procedure ThRequete_Datalink.DataEvent( Event: TDataEvent; Info: Integer);
 begin
      inherited;

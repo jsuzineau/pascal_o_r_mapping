@@ -103,6 +103,8 @@ type
     function  Integer_from_Double  (var Memory:  Integer;Field:String;Persistant:Boolean=True): TChamp;
     function Currency_from_BCD     (var Memory: Currency;Field:String;Persistant:Boolean=True): TChamp;
     function   Double_from_        (var Memory:   Double;Field:String;Persistant:Boolean=True): TChamp;
+    function Currency_from_        (var Memory: Currency;Field:String;Persistant:Boolean=True): TChamp;
+    function  Boolean_from_        (var Memory:  Boolean;Field:String;Persistant:Boolean=True): TChamp;
     function DateTime_from_Date    (var Memory:TDateTime;Field:String;Persistant:Boolean=True): TChamp;
     function DateTime_from_        (var Memory:TDateTime;Field:String;Persistant:Boolean=True): TChamp;
     function Cree_Champ_ID         (var Memory:  Integer): TChamp;
@@ -114,6 +116,7 @@ type
     function Ajoute_Date           (var Memory:TDatetime;Field:String;Persistant:Boolean=True): TChamp;
     function Ajoute_BCD            (var Memory:Currency ;Field:String;Persistant:Boolean=True): TChamp;
     function Ajoute_Float          (var Memory:Double   ;Field:String;Persistant:Boolean=True): TChamp;
+    function Ajoute_Currency       (var Memory:Currency ;Field:String;Persistant:Boolean=True): TChamp;
     function Ajoute_Boolean        (var Memory:Boolean  ;Field:String;Persistant:Boolean=True): TChamp;
   // lookups
   public
@@ -892,6 +895,57 @@ begin
          end;
 end;
 
+function TChamps.Currency_from_( var Memory: Currency; Field: String; Persistant: Boolean): TChamp;
+var
+   F: TField;
+   ff     : TFloatField ;
+   bcdf   : TBCDField   ;
+   fmtbcdf: TFMTBCDField;
+   cf     : TCurrencyField;
+begin
+     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
+        or not q.Active
+     then
+         Result:= Ajoute_Currency( Memory, Field, Persistant)
+     else
+         begin
+         F:= q.FindField( Field);
+         if Assigned( F)
+         then
+                  if Affecte( ff     , TFloatField   , F) then Memory:= ff     .AsCurrency
+             else if Affecte( bcdf   , TBCDField     , F) then Memory:= bcdf   .AsCurrency
+             else if Affecte( fmtbcdf, TFMTBCDField  , F) then Memory:= fmtbcdf.AsCurrency
+             else if Affecte( cf     , TCurrencyField, F) then Memory:= cf     .AsCurrency
+             else
+                 Erreur_Champ( Field, 'TFloatField, TBCDField, TFMTBCDField ou TCurrencyField', Persistant)
+         else
+             Erreur_Champ( Field, 'TFloatField, TBCDField, TFMTBCDField ou TCurrencyField', Persistant);
+
+         Result:= Ajoute( @Memory, Field, ftCurrency, Persistant, F);
+         end;
+end;
+
+function TChamps.Boolean_from_( var Memory: Boolean; Field: String; Persistant: Boolean): TChamp;
+var
+   F: TField;
+begin
+     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
+        or not q.Active
+     then
+         Result:= Ajoute_Boolean( Memory, Field, Persistant)
+     else
+         begin
+         F:= q.FindField( Field);
+         if Assigned( F)
+         then
+             Memory:= F.AsBoolean
+         else
+             Erreur_Champ( Field, 'Champ compatible pour TField.AsBoolean', Persistant);
+
+         Result:= Ajoute( @Memory, Field, ftBoolean, Persistant, F);
+         end;
+end;
+
 function TChamps.Ajoute_ShortString(var Memory: ShortString; Field: String; Persistant: Boolean): TChamp;
 begin
      Result:= Ajoute( @Memory, Field, ftFixedChar, Persistant, nil);
@@ -930,6 +984,11 @@ end;
 function TChamps.Ajoute_Float(var Memory: Double; Field: String; Persistant: Boolean): TChamp;
 begin
      Result:= Ajoute( @Memory, Field, ftFloat, Persistant, nil);
+end;
+
+function TChamps.Ajoute_Currency( var Memory: Currency; Field: String; Persistant: Boolean): TChamp;
+begin
+     Result:= Ajoute( @Memory, Field, ftCurrency, Persistant, nil);
 end;
 
 function TChamps.Ajoute_Boolean(var Memory: Boolean; Field: String; Persistant: Boolean): TChamp;
@@ -1435,7 +1494,7 @@ begin
          Result:= C.Chaine;
 end;
 
-procedure TChamps.SetValeur_from_Field( _Field, _Value: String);
+procedure TChamps.SetValeur_from_Field(_Field: String; _Value: String);
 var
    C: TChamp;
 begin

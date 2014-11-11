@@ -32,10 +32,10 @@ uses
     uContextes,
     uDrawInfo,
     uSVG,
-    {$IFDEF MSWINDOWS}
-    Graphics,
-    {$ENDIF}
-    SysUtils, Classes;
+  {$IFNDEF FPC}
+  Graphics,
+  {$ENDIF}
+  SysUtils, Classes;
 
 type
  TArete

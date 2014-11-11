@@ -26,7 +26,7 @@ unit uOD_Batpro_Table;
 interface
 
 uses
-    {$IFDEF MSWINDOWS}
+    {$IFNDEF FPC}
     DOM,
     {$ELSE}
     DOM,

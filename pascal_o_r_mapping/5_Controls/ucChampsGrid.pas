@@ -33,7 +33,7 @@ uses
     uDessin,
     uWinUtils,
     uForms,
-    {$IFDEF MSWINDOWS}
+    {$IFNDEF FPC}
     uWindows,
     {$ENDIF}
     uDataUtilsU,
@@ -42,7 +42,7 @@ uses
     uChamp,
     uChampDefinition,
     ufChampsGrid_Colonnes,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows,
   {$ENDIF}
   {$IFDEF FPC}

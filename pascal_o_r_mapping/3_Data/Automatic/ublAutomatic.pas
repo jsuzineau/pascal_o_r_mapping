@@ -165,6 +165,28 @@ type
     procedure Traite; override;
   end;
 
+ { TCurrencyFieldBuffer }
+
+ TCurrencyFieldBuffer
+ =
+  class( TFieldBuffer)
+    Value: Currency;
+  //Méthodes
+  public
+    procedure Traite; override;
+  end;
+
+ { TBooleanFieldBuffer }
+
+ TBooleanFieldBuffer
+ =
+  class( TFieldBuffer)
+    Value: Boolean;
+  //Méthodes
+  public
+    procedure Traite; override;
+  end;
+
  TIterateur_FieldBuffer
  =
   class( TIterateur)
@@ -331,6 +353,24 @@ begin
      sType:= 'FLOAT';
 end;
 
+{ TCurrencyFieldBuffer }
+
+procedure TCurrencyFieldBuffer.Traite;
+begin
+     inherited Traite;
+     C:= Champs.Currency_from_( Value, F.FieldName);
+     sType:= 'Currency';
+end;
+
+{ TBooleanFieldBuffer }
+
+procedure TBooleanFieldBuffer.Traite;
+begin
+     inherited Traite;
+     C:= Champs.Boolean_from_( Value, F.FieldName);
+     sType:= 'Boolean';
+end;
+
 { TblAutomatic }
 
 constructor TblAutomatic.Create( _sl: TBatpro_StringList;
@@ -379,6 +419,7 @@ begin
          ftFixedChar,
          ftString   ,
          ftMemo     ,
+         ftGuid     ,
          ftBlob     : fb:= TStringFieldBuffer  .Create( sl, Champs, F);
          ftDate     : fb:= TDateTimeFieldBuffer.Create( sl, Champs, F);
          ftAutoInc  ,
@@ -388,6 +429,8 @@ begin
          ftDateTime ,
          ftTimeStamp: fb:= TDateTimeFieldBuffer.Create( sl, Champs, F);
          ftFloat    : fb:= TDoubleFieldBuffer  .Create( sl, Champs, F);
+         ftCurrency : fb:= TCurrencyFieldBuffer.Create( sl, Champs, F);
+         ftBoolean  : fb:= TBooleanFieldBuffer .Create( sl, Champs, F);
          else         fb:= nil;
          end;
        if fb = nil then continue;

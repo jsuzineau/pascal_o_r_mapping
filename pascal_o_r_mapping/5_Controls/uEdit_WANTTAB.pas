@@ -26,7 +26,7 @@ unit uEdit_WANTTAB;
 interface
 
 uses
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows,
   {$ENDIF}
   {$IFDEF FPC}

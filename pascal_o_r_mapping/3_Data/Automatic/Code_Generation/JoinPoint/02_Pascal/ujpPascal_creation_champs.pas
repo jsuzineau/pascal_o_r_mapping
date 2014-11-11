@@ -69,7 +69,7 @@ procedure TjpPascal_creation_champs.VisiteMembre(_cm: TContexteMembre);
 begin
      inherited;
 
-     Valeur:= Valeur + '     Champs.'+cm.g.dbx_from_Type(cm.sTypChamp)+'( '+TailleNom(cm.sNomChamp)+', '+cm.g.TailleNom_Quote(cm.sNomChamp)+');'#13#10;
+     Valeur:= Valeur + '     Champs.'+cm.g.dbx_from_Type(cm.sTypChamp)+'( '+TailleNom(cm.sNomChamp)+', '+cm.g.TailleNom_Quote(cm.sNomChamp_database)+');'#13#10;
 end;
 
 procedure TjpPascal_creation_champs.Finalise;

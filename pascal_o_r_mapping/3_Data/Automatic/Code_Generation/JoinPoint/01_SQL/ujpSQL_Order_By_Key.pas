@@ -95,7 +95,7 @@ begin
      else
          Valeur:= Valeur+ ','+s_SQL_saut+'      ';
 
-     Valeur:= Valeur + cm.sNomChamp;
+     Valeur:= Valeur + cm.sNomChamp_database_quote;
 
 end;
 

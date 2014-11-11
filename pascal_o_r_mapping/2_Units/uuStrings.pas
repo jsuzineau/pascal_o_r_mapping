@@ -31,7 +31,7 @@ uses
     uBatpro_StringList,
     u_sys_,
 
-  {$IFDEF MSWINDOWS}Windows, {$ENDIF}
+  {$IFNDEF FPC}Windows, {$ENDIF}
   SysUtils, Classes, Types;
 
 const
@@ -77,6 +77,7 @@ function Fixe_Length( S: String; L: Integer): String;
 
 function StrToC  ( aC: array of Char; var S: String): String;
 function StrToK  ( Key: String; var S: String): String;
+function StrToK_Inverse( Key: String; var S: String): String;
 function StrSplit( Key: String; var S: String): String;
 
 //Comme StrToK mais prend les NbCaracteres premiers caractères
@@ -523,6 +524,40 @@ begin
          end;
 end;
 
+function StrToK_Inverse( Key: String; var S: String): String;
+var
+   I: Integer;
+   LS: Integer;
+   LKey: Integer;
+   function Continuer: Boolean;
+   begin
+        Result:= I > 0;
+        if not Result then exit;
+
+        Result:= 1 <> Pos( Key, Copy( S, I, LKey));
+   end;
+begin
+     LS:= Length( S);
+     LKey:= Length( Key);
+     I:= LS;
+     while Continuer
+     do
+       Dec( I);
+
+     if I = 0
+     then
+         begin
+         Result:= S;
+         S:= '';
+         end
+     else
+         begin
+         Delete( S, I, LKey);
+         Result:= Copy( S, I, LS);
+         Delete( S, I, LS);
+         end;
+end;
+
 { StrSplit
 idem StrToK mais ne consomme pas la clé
 }
@@ -584,7 +619,7 @@ end;
 }
 function StrToOem(const AnsiStr: string): string;
 begin
-	 {$IFDEF MSWINDOWS}
+	 {$IFNDEF FPC}
      SetLength(Result, Length(AnsiStr));
      if Length(Result) > 0 
      then
@@ -599,7 +634,7 @@ end;
 }
 function OEMToStr(const OEMStr: string): string;
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      SetLength(Result, Length(OEMStr));
      if Length(Result) > 0
      then

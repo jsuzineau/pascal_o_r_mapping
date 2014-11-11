@@ -37,10 +37,10 @@ uses
     ubeClusterElement,
     uContextes,
     uVide,
-    {$IFDEF MSWINDOWS}
+    {$IFNDEF FPC}
     uDessin,
     {$ENDIF}
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows, Graphics, Controls,
   {$ENDIF}
   SysUtils, Classes;

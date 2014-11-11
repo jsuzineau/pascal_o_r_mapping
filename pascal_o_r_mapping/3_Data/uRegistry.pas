@@ -27,7 +27,7 @@ interface
 
 uses
     uSGBD,
-    {$IFDEF MSWINDOWS}
+    {$IFNDEF FPC}
     Windows,
     {$ENDIF}
 

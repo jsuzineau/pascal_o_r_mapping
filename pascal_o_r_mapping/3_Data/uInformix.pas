@@ -36,7 +36,7 @@ uses
 
     ufAccueil_Erreur,
 
-    {$IFDEF MSWINDOWS}
+    {$IFNDEF FPC}
     Windows, Messages,
     {$ENDIF}
     //Dialogs, Forms,
@@ -250,7 +250,7 @@ begin
      //wmsc.Msg:= WM_SETTINGCHANGE;
      //wmsc.Flag:= 0;
      //wmsc.Section:= PChar('Environment');
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      (*if Modifie
      then
          SendNotifyMessage( HWND_BROADCAST, WM_SETTINGCHANGE, 0, Integer(Pointer(PChar('Environment'))));*)

@@ -38,7 +38,7 @@ uses
     uOD_TextTableContext,
     uOpenDocument,
   SysUtils,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows,{pour CopyFile}
   {$ELSE}
   fileutil,

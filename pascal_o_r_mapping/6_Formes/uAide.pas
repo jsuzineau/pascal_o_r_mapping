@@ -154,19 +154,19 @@ end;
 procedure TObjet_Aide.Accroche_Aide_Batpro;
 begin
      Aide:= Aide_Batpro;
-     {$IFDEF MSWINDOWS} Application.OnHelp:= Aide; {$ENDIF}
+     {$IFNDEF FPC} Application.OnHelp:= Aide; {$ENDIF}
 end;
 
 procedure TObjet_Aide.Accroche_Aide_nulle;
 begin
      Aide:= Aide_nulle;
-     {$IFDEF MSWINDOWS} Application.OnHelp:= Aide; {$ENDIF}
+     {$IFNDEF FPC} Application.OnHelp:= Aide; {$ENDIF}
 end;
 
 procedure TObjet_Aide.Desaccroche;
 begin
      Aide:= nil;
-     {$IFDEF MSWINDOWS} Application.OnHelp:= Aide; {$ENDIF}
+     {$IFNDEF FPC} Application.OnHelp:= Aide; {$ENDIF}
 end;
 
 constructor TObjet_Aide.Create;

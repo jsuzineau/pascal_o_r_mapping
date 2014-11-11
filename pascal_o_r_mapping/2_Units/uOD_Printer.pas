@@ -33,7 +33,7 @@ uses
     uODRE_Table,
     uOD_TextTableManager,
     uOOoStrings,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows,{pour CopyFile}
   {$ELSE}
   fileutil,

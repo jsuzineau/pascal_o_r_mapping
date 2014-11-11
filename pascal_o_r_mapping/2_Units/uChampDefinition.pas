@@ -30,11 +30,11 @@ uses
     u_sys_,
     uuStrings,
     uReal_Formatter,
-    {$IFDEF MSWINDOWS}
+    {$IFNDEF FPC}
     uWinUtils,
     {$ENDIF}
   SysUtils, Classes,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Forms, Graphics,Grids,
   {$ENDIF}
   DB;
@@ -84,7 +84,7 @@ type
                                _LookupKey: TChampDefinition
                                );
     function Is_Lookup: Boolean;
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   //Gestion de la largeur maxi d'affichage
   public
     function Largeur( Font: TFont): Integer;
@@ -204,7 +204,7 @@ begin
      FHasMinValue:= True;
 end;
 
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 function TChampDefinition.Largeur(Font: TFont): Integer;
 var
    S: String;

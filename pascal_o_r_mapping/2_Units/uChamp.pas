@@ -38,7 +38,7 @@ uses
     ufChamp_Date  ,
     ufChamp_Lookup,
     {$IFEND}
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows,
   Grids,
   {$ENDIF}

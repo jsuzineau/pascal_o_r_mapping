@@ -30,14 +30,14 @@ uses
     uOOoChrono,
     uClean,
     uuStrings,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Graphics,
   {$ENDIF}
   SysUtils, Classes, Types, XMLRead,XMLWrite,DOM,
   FPimage;
 
 type
- {$IFNDEF MSWINDOWS}
+ {$IFDEF FPC}
  TColor=Cardinal;
  {$ENDIF}
  { TSVGDocument }
@@ -465,7 +465,7 @@ var
    FPColor: TFPColor;
    ColorRef: TColor;
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      FPColor:= TColorToFPColor( Color);
      ColorRef:= FPColorToTColorRef( FPColor);
      Result:= Format('rgb(%d,%d,%d)',[Red(ColorRef), Green(ColorRef), Blue(ColorRef)]);

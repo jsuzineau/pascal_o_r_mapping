@@ -33,12 +33,10 @@ uses
     u_sys_,
     uuStrings,
 
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows,
 
-  {$IFNDEF FPC}
   Consts,
-  {$ENDIF}
   ShlObj, ActiveX,
   {$ENDIF}
   Classes, Menus, Dialogs, SysUtils,

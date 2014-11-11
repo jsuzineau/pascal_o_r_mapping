@@ -26,7 +26,7 @@ unit ufChamp_Date;
 interface
 
 uses
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows,
   {$ENDIF}
   {$IFDEF FPC}

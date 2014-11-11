@@ -33,7 +33,7 @@ uses
     uBatpro_StringList,
     uVersion,
     uNetwork,
-    {$IFDEF MSWINDOWS}udmSMTP,{$ENDIF}
+    {$IFNDEF FPC}udmSMTP,{$ENDIF}
 
     udmDatabase,
 
@@ -174,7 +174,7 @@ begin
      Message.SaveToFile( Mail);
 
      try
-        {$IFDEF MSWINDOWS}dmSMTP.EnvoiMail( Message);{$ENDIF}
+        {$IFNDEF FPC}dmSMTP.EnvoiMail( Message);{$ENDIF}
         poolG_TRC.Trace( 'BED', 'Mail envoyé avec succés')
      except
            on E: Exception

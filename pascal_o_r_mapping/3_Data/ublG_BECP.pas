@@ -38,7 +38,7 @@ uses
     upool_Ancetre_Ancetre,
     uBatpro_Element,
     uBatpro_Ligne,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Graphics, Dialogs,
   {$ENDIF} 
   SysUtils, Classes, DB;
@@ -211,13 +211,13 @@ procedure TblG_BECP.SetNomClasse(Value:String );begin FNomClasse:=Value;end;
 procedure TblG_BECP.SetSauver   (Value:Boolean);begin FSauver   :=Value;end;
 
 function TblG_BECP.GetContexteFont( Contexte: Integer):TFont;
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 var
    sContexte: String;
    blG_BECPCTX: TblG_BECPCTX;
 {$ENDIF}
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      sContexte:= IntToStr( Contexte);
      blG_BECPCTX:= blG_BECPCTX_from_sl_sCle( slG_BECPCTX, sContexte);
      if blG_BECPCTX = nil
@@ -243,7 +243,7 @@ begin
 end;
 
 procedure TblG_BECP.Edit_ContexteFont( Contexte: Integer);
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 var
    sContexte: String;
    blG_BECPCTX: TblG_BECPCTX;

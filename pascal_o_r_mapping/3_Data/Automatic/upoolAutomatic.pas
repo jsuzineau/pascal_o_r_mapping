@@ -51,6 +51,12 @@ type
   //Méthodes
   public
     procedure Charge( _SQL: String; _slLoaded: TBatpro_StringList; _Params: TParams=nil);
+  //Connection fixe
+  public
+    Connection_fixe: TDatabase;
+  //Gestion de la connection
+  public
+    function Connection: TDatabase; override;
   end;
 
 function poolAutomatic: TpoolAutomatic;
@@ -60,7 +66,7 @@ implementation
 {$R *.lfm}
 
 var
-   FpoolAutomatic: TpoolAutomatic;
+   FpoolAutomatic: TpoolAutomatic= nil;
 
 function poolAutomatic: TpoolAutomatic;
 begin
@@ -74,6 +80,7 @@ begin
      NomTable:= 'Automatic';
      Classe_Elements:= TblAutomatic;
      Classe_Filtre:= nil;
+     Connection_fixe:= nil;
 
      inherited;
 
@@ -85,8 +92,15 @@ begin
      Load( _SQL, _slLoaded, nil, _Params);
 end;
 
+function TpoolAutomatic.Connection: TDatabase;
+begin
+     Result:= Connection_fixe;
+     if Assigned( Result) then exit;
+
+     Result:= inherited Connection;
+end;
+
 initialization
-              Clean_Create ( FpoolAutomatic, TpoolAutomatic);
 finalization
               Clean_destroy( FpoolAutomatic);
 end.

@@ -71,7 +71,7 @@ begin
      NbChamps:= _NbChamps;
 
      slCle:= TStringList.Create;
-     nfCle:= g.sRepSource+Nom_de_la_table+'.Cle.txt';
+     nfCle:= g.sRepParametres+Nom_de_la_table+'.Cle.txt';
      if FileExists( nfCle)
      then
          slCle.LoadFromFile( nfCle)

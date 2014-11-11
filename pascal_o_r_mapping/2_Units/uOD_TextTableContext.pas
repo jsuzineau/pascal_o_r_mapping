@@ -34,7 +34,7 @@ uses
     uOD_Styles,
     uOpenDocument,
   SysUtils, Classes,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows, Variants, Dialogs, Grids,
   {$ENDIF}
   DB;
@@ -380,7 +380,7 @@ type
   // Création d'une table à partir d'un dataset
   public
     procedure OD_TextTableName_from_Dataset( D: TDataset);
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   // Création d'une table à partir d'un StringGrid
   public
     procedure OD_TextTableName_from_StringGrid( sg: TStringGrid);
@@ -1082,7 +1082,7 @@ begin
          end;
 end;
 
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 procedure TOD_TextTableContext.OD_TextTableName_from_StringGrid( sg: TStringGrid);
 var
    sg_Owner: TComponent;
@@ -1197,7 +1197,7 @@ begin
        end;
 end;
 
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 function TOD_TextTableContext.ComposeNomStyleColonne_from_StringGrid( sg: TStringGrid): String;
 begin
      Result:= Nom+'_Style_Colonne';

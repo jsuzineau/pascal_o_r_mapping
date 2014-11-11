@@ -38,7 +38,7 @@ uses
     ucChamp_DateTimePicker,
     ucChamp_Integer_SpinEdit,
     ucChamp_Float_SpinEdit,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows,
   {$ENDIF}
   {$IFDEF FPC}

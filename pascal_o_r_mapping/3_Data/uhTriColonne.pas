@@ -32,14 +32,14 @@ uses
     u_sys_,
     uuStrings,
     uDataUtilsU,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Variants, Grids, DBGrids, StdCtrls, Controls,
   {$ENDIF}
   SysUtils, Classes,
   FMTBcd, DB, BufDataset, SQLDB;
 
 type
-  {$IFNDEF MSWINDOWS}
+  {$IFDEF FPC}
   //juste pour permettre la compilation
   TMouseButton= TObject;
   TShiftState= TObject;
@@ -93,7 +93,7 @@ begin
      l:= un_l;
      OnTitleClick:= nil;
 
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      if Assigned( dbg.OnTitleClick)
      then
          uForms_ShowMessage( 'Erreur à signaler au développeur: '+
@@ -117,7 +117,7 @@ destructor ThTriColonne.Destroy;
 begin
      Retablit_Titres;
      Free_nil( CalcFields_Map);
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      dbg.OnTitleClick:= nil;
      {$ENDIF}
      inherited;
@@ -258,7 +258,7 @@ begin
 end;
 
 procedure ThTriColonne.Retablit_Titres;
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 var
    I: Integer;
 begin
@@ -302,7 +302,7 @@ var
 begin
      Croissant:= True;
 
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      Champ:= Column.Field;
      if Assigned( Champ)
      then
@@ -377,7 +377,7 @@ procedure ThTriColonne.Reset;
 begin
      Retablit_Titres;
      cd.IndexName:= sys_Vide;
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      if Assigned( l)
      then
          begin

@@ -34,7 +34,7 @@ uses
     uChamp,
     uChamps,
     ucBatproMaskElement,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows,
   {$ENDIF}
   {$IFDEF FPC}

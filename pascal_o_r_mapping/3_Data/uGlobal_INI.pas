@@ -31,7 +31,7 @@ uses
     u_ini_,
     u_db_,
     uBatpro_StringList,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows, //DBTables,
   {$ENDIF}
   SysUtils, Classes, INIFiles;
@@ -46,7 +46,7 @@ type
     procedure Setweb_SendNotifyMessage(const Value: Boolean);
   public
     property web_SendNotifyMessage: Boolean read Getweb_SendNotifyMessage write Setweb_SendNotifyMessage;
-    {$IFDEF MSWINDOWS}
+    {$IFNDEF FPC}
     procedure SendMessage( _wm: UINT;
                            _WindowSource: HWND= 0;
                            _WindowCible: HWND= HWND_BROADCAST);
@@ -79,7 +79,7 @@ begin
      WriteBool( ini_Options, inik_web_SendNotifyMessage, Value);
 end;
 
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 procedure TGlobal_INIFile.SendMessage( _wm: UINT;
                                        _WindowSource: HWND= 0;
                                        _WindowCible: HWND= HWND_BROADCAST);

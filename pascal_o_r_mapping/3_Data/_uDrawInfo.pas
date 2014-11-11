@@ -26,19 +26,19 @@ unit uDrawInfo;
 interface
 
 uses
-    {$IFDEF MSWINDOWS}
+    {$IFNDEF FPC}
     DOM,
     {$ELSE}
     DOM,
     {$ENDIF}
     uSVG,
-    {$IFDEF MSWINDOWS}
+    {$IFNDEF FPC}
     ufBitmaps,
     {$ENDIF}
   SysUtils, Classes, Windows, Graphics, Types, Grids, Controls,XMLRead,XMLWrite;
 
 const
-     {$IFNDEF MSWINDOWS}
+     {$IFDEF FPC}
      clBlack = TColor($000000);
      clMaroon = TColor($000080);
      clGreen = TColor($008000);
@@ -77,7 +77,7 @@ const
      Couleur_Jour_Non_Ouvrable_3       = clMedGray;
      Couleur_Jour_Non_Ouvrable_Chantier=  clDkGray ;
 
-{$IFNDEF MSWINDOWS}
+{$IFDEF FPC}
 type
  TStringGrid= TObject;
  TPenStyle=TObject;
@@ -890,7 +890,7 @@ begin
          GDI;
 end;
 
-{$IFNDEF MSWINDOWS}
+{$IFDEF FPC}
 { TFont }
 
 procedure TFont.Assign( _Source: TFont);

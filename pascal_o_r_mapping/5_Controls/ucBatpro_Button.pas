@@ -29,7 +29,7 @@ uses
     u_sys_,
     uClean,
     uBatpro_StringList,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows,
   {$ENDIF}
   {$IFDEF FPC}

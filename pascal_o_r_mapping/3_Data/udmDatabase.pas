@@ -46,7 +46,7 @@ uses
 
     ufAccueil_Erreur,
 
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows, Messages, Graphics, Controls, Forms, Dialogs,
   StdCtrls,Registry,
   {$ENDIF}
@@ -591,7 +591,7 @@ begin
          fAccueil_Erreur(  'Erreur à signaler au développeur:'#13#10
                           +'  TdmDatabase.Traite_autoexec_Database: '
                           +'le nom de base de données passé en paramètre de ligne de commande est vide');
-         {$IFDEF MSWINDOWS}
+         {$IFNDEF FPC}
          InputQuery( 'Connection à la base de données',
                      'Entrez le nom de la base de données:',
                      NewDatabase);

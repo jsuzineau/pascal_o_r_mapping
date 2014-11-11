@@ -28,7 +28,7 @@ interface
 uses
     uClean,
     uBatpro_StringList,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows, Messages,
   {$ENDIF}
   {$IFDEF FPC}

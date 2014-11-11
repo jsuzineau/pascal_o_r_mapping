@@ -26,7 +26,7 @@ unit uDessin;
 interface
 
 uses
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows,
   {$ENDIF}
   SysUtils, Graphics, Types;

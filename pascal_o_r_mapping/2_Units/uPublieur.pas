@@ -525,7 +525,7 @@ begin
                on E: Exception
                do
                  begin
-                 {$IFNDEF MSWINDOWS}
+                 {$IFDEF FPC}
                  DumpExceptionBackTrace( Output);
                  {$ENDIF}
                  uJCL_StackTrace( 'TAbonnement_Objet.DoProc: ', E);

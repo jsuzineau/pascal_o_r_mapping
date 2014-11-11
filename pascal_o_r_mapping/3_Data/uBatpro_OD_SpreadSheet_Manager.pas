@@ -48,7 +48,7 @@ uses
     uBatpro_Ligne,
 
     ufAccueil_Erreur,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   DOM,
   Windows, //pour CopyFile
   {$ELSE}

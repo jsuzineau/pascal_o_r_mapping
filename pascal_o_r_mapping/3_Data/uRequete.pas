@@ -34,6 +34,9 @@ uses
 
   SysUtils, Classes, SQLDB, DB;
 type
+
+ { TRequete }
+
  TRequete
  =
   class
@@ -59,19 +62,25 @@ type
   public
     function String_from( _SQL: String; var _Resultat: String): Boolean; overload;
     function String_from( _SQL, _NomChamp: String; var _Resultat: String): Boolean; overload;
-  //MYSQL_storage_engine
-  public
-    function MYSQL_storage_engine: String;
-    function MYSQL_storage_engine_Is_MyISAM: Boolean;
   //Informix_ROWID_from_Serial
   public
     function Informix_ROWID_from_Serial( NomTable, NomSerial: String): Integer;
   //Last_Insert_Id Informix
   public
     function LAST_INSERT_ID_Informix: Integer;
+  //MYSQL_storage_engine
+  public
+    function MYSQL_storage_engine: String;
+    function MYSQL_storage_engine_Is_MyISAM: Boolean;
   //Last_Insert_Id MySQL
   public
     function LAST_INSERT_ID_MySQL: Integer;
+  //MySQL codepage
+  public
+    procedure MySQL_codepage( _codepage: String);
+    procedure MySQL_UTF8;
+    procedure MySQL_latin1;
+    procedure MySQL_cp850;
   //Last_Insert_Id Postgres
   public
     function LAST_INSERT_ID_Postgres( _NomTable: String): Integer;
@@ -269,6 +278,29 @@ begin
      Integer_from( SQL, Result);
 end;
 
+procedure TRequete.MySQL_codepage( _codepage: String);
+begin
+     SQL:= 'SET CHARACTER SET `'+_codepage+'`';
+     Execute;
+     SQL:= 'SET NAMES `'+_codepage+'`';
+     Execute;
+end;
+
+procedure TRequete.MySQL_UTF8;
+begin
+     MySQL_codepage( 'utf8');
+end;
+
+procedure TRequete.MySQL_latin1;
+begin
+     MySQL_codepage( 'latin1');
+end;
+
+procedure TRequete.MySQL_cp850;
+begin
+     MySQL_codepage( 'cp850');
+end;
+
 function TRequete.LAST_INSERT_ID_Postgres( _NomTable: String): Integer;
 var
    SQL: String;
@@ -433,14 +465,14 @@ end;
 
 procedure TRequete.GetFieldNames( const _TableName: String; _List: TStrings);
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      Connection().GetFieldNames( _TableName, _List);
      {$ENDIF}
 end;
 
 procedure TRequete.GetTableNames( _List: TStrings);
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      Connection().GetTableNames( _List);
      {$ENDIF}
 end;

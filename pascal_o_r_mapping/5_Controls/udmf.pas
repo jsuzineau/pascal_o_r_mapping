@@ -28,7 +28,7 @@ interface
 uses
   uLookupConnection_Ancetre,
   uBatpro_StringList,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows,
   {$ENDIF}
   {$IFDEF FPC}

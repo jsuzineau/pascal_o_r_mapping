@@ -34,7 +34,7 @@ uses
     uuStrings,
     uBatpro_StringList,
   SysUtils, Classes,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows,
   {$ENDIF}
   {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
@@ -132,7 +132,7 @@ begin
      Result:= Repertoire_de_etc+PathDelim+'_Configuration.ini';
 end;
 
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 function uEXE_INI_GetString( INI, Section, Key, Default: String): String;
 begin
      FillChar( Buffer^, BufferSize, 0);
@@ -329,7 +329,7 @@ function TEXE_INIFile.GetChemin_Local: String;
              Result:= 1 <> Pos( Racine_Uppercase, ExeFileName);
              if Result then exit;
 
-             {$IFDEF MSWINDOWS}
+             {$IFNDEF FPC}
              _Chemin_Resultat:= 'C:'+PathDelim+'batpro'+PathDelim+_Racine+PathDelim;
              {$ELSE}
              _Chemin_Resultat:= '~'+PathDelim+'batpro'+PathDelim+_Racine+PathDelim;
@@ -361,7 +361,7 @@ begin
      {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
      sChemin_Program_files:= GetSpecialFolderLocation( CSIDL_PROGRAM_FILES);
      {$ELSE}
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      sChemin_Program_files:= 'C:'+PathDelim+'Program Files'+PathDelim;
      {$ELSE}
      sChemin_Program_files:= PathDelim+'opt'+PathDelim;

@@ -29,10 +29,10 @@ uses
     ubtString,
     uskString,
     uBatpro_StringList,
-    {$IFDEF MSWINDOWS}
+    {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
     uWinUtils,
     uWindows,
-    {$ENDIF}
+    {$IFEND}
     uReels,
     uTraits,
     u_sys_,
@@ -51,9 +51,9 @@ uses
     ufBitmaps,
     {$IFEND}
 
-  {$IFDEF MSWINDOWS}
+  {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
   Windows, Controls, Menus, Types, ExtCtrls, Grids,Graphics,
-  {$ENDIF}
+  {$IFEND}
   SysUtils, Classes;
 
 const
@@ -80,14 +80,14 @@ const
   :
    array[bea_Gauche..bea_Droite] of Integer
    =
-    {$IFDEF MSWINDOWS}
+    {$IFNDEF FPC}
     ( DT_LEFT, DT_CENTER, DT_RIGHT);
     {$ELSE}
     (0      ,   1,           2) ;
     {$ENDIF}
 
 type
-  {$IFNDEF MSWINDOWS}
+  {$IFDEF FPC}
   TPopupMenu=TObject;
   TMouseButton=TObject;
   {$ENDIF}
@@ -1129,7 +1129,7 @@ var
           end;
    end;
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      if Assigned( Serie)
      then
          if Serie.svgDraw( DrawInfo)
@@ -1192,7 +1192,7 @@ begin
 end;
 
 function TBatpro_Element.MulDiv_Color( Color: TColor; Mul_,Div_:Integer):TColor;
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 var
    Q: TRGBQuad;
 {$ENDIF}
@@ -1239,7 +1239,7 @@ var
    //     B:= Nouveau;
    //end;
 begin
-	 {$IFDEF MSWINDOWS}
+	 {$IFNDEF FPC}
      Q:= TRGBQuad(Color);
 	 {$ENDIF}
 
@@ -1265,7 +1265,7 @@ begin
      if New_G > 255 then Q.rgbGreen:= 255 else Q.rgbGreen:= Trunc( New_G);
      if New_R > 255 then Q.rgbRed  := 255 else Q.rgbRed  := Trunc( New_R);
      *)
-     {$IFDEF MSWINDOWS} 
+     {$IFNDEF FPC} 
      Q.rgbBlue := MulDiv_Byte( Q.rgbBlue , Mul_, Div_);
      Q.rgbGreen:= MulDiv_Byte( Q.rgbGreen, Mul_, Div_);
      Q.rgbRed  := MulDiv_Byte( Q.rgbRed  , Mul_, Div_);
@@ -1298,7 +1298,7 @@ begin
      //      Inc_Byte( Q.rgbRed  , -1);
      //      end;
 
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      Result:= TColor( Q);
      {$ELSE}
      Result:= $FFFFFF;
@@ -1336,7 +1336,7 @@ var
    OldStyle: TPenStyle;
    Clair, Sombre: TColor;
 begin
-	 {$IFDEF MSWINDOWS}
+	 {$IFNDEF FPC}
      OldColor:= Canvas.Brush.Color;
      OldStyle:= Canvas.Pen.Style;
 
@@ -1460,7 +1460,7 @@ function TBatpro_Element.Cell_Height_Interne( DrawInfo: TDrawInfo;
                                               Texte: String;
                                               Cell_Width: Integer): Integer;
 begin
-	 {$IFDEF MSWINDOWS}
+	 {$IFNDEF FPC}
      if OrientationTexte( DrawInfo) = 900
      then
          Result:=   MulDiv( LargeurTexte( F, Texte), 105, 100)
@@ -1633,7 +1633,7 @@ end;
 
 procedure TBatpro_Element.{svg}Dessinne_Gris( DrawInfo: TDrawInfo);
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      if False//Gris essai désactivé
      then
          with DrawInfo
@@ -2003,7 +2003,7 @@ var
    Old_Brush_Color: TColor;
    Trunc_nPourcentage: Integer;
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      if Reel_Zero( _Pourcentage) then exit;
 
      Trunc_nPourcentage:= Trunc( _nPourcentage);
@@ -2201,7 +2201,7 @@ procedure TBatpro_Serie.Affiche_nJour( DrawInfo: TDrawInfo; _nJour: Integer);
 var
    OldFont: TFont;
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      if not VerticalHorizontal_( DrawInfo.Contexte) then exit;
      OldFont:= TFont.Create;
      with DrawInfo

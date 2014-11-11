@@ -26,7 +26,7 @@ unit uBatpro_OD_TextTableManager;
 interface
 
 uses
-    {$IFDEF MSWINDOWS}
+    {$IFNDEF FPC}
     DOM,
     {$ELSE}
     DOM,

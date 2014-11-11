@@ -117,7 +117,12 @@ begin
      Lit( regv_User_Name, User_Name);
      Lit( regv_PassWord , PassWord , True);
      Lit( inik_Version  , Version);
-
+     if Version = ''
+     then
+         begin
+         Version:= '50';
+         Ecrit( inik_Version  , Version);
+         end;
      Initialized:= True;
 end;
 
@@ -139,10 +144,21 @@ begin
      {$IFDEF FPC}
           if '50' = Version then Result:= TMySQL50Connection.Create( nil)
      else if '51' = Version then Result:= TMySQL51Connection.Create( nil)
-     else if '55' = Version then Result:= TMySQL55Connection.Create( nil);
+     else if '55' = Version then Result:= TMySQL55Connection.Create( nil)
+     else
+         begin
+         WriteLn( 'Attention version MySQL invalide dans _Configuration.ini: Version='+Version);
+         WriteLn( 'Version=50 pris par défaut');
+         Result:= TMySQL50Connection.Create( nil);
+         end;
      {$ELSE}
      Result:= nil;
      {$ENDIF}
+     if Assigned( Result)
+     then
+         Result.CharSet:= 'latin1';
+         //Result.CharSet:= 'utf8';
+         //Result.CharSet:= 'cp850';
 end;
 
 procedure TMySQL.Lit( NomValeur: String; var Valeur: String; _Mot_de_passe: Boolean= False);

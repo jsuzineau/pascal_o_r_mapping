@@ -33,9 +33,9 @@ uses
     uuStrings,
     ufAccueil_Erreur,
   SysUtils, Classes, DB, DBTables, TypInfo,
-  {$IFDEF MSWINDOWS}
+  {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
   Graphics, Forms, Dialogs, Controls,DBCtrls,StdCtrls,
-  {$ENDIF}
+  {$IFEND}
   BufDataset, Math, Types, DateUtils, Variants;
 
 function Lettre_from_NumeroJour( I: Integer): String;
@@ -195,7 +195,7 @@ const
 
 procedure ComboBox_from_Dataset( cb: TComboBox; ds: TDataset;
                                  FieldNames: array of String; Separator: String = '');
-{$ENDIF}
+{$IFEND}
 
 function FormateChamp( Champ: TField; Longueur: Integer): String; overload;
 function FormateChamp( Champ: TField): String; overload;
@@ -1404,7 +1404,7 @@ begin
        end;
 end;
 
-{$IFDEF MSWINDOWS}
+{$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
 procedure ComboBox_from_Dataset( cb: TComboBox; ds: TDataset;
                                  FieldNames: array of String; Separator: String = '');
 var
@@ -1433,7 +1433,7 @@ begin
        ds.Next;
        end;
 end;
-{$ENDIF}
+{$IFEND}
 
 function FormateChaine( S: String; Longueur: Integer): String;
 var

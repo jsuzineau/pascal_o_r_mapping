@@ -27,7 +27,7 @@ interface
 
 uses
     SysUtils, Classes,
-    {$IFDEF MSWINDOWS}
+    {$IFNDEF FPC}
     Graphics, Windows, Grids,
     {$ENDIF}
     Types,
@@ -89,7 +89,7 @@ begin
 end;
 
 procedure TbeClusterElement.Draw(DrawInfo: TDrawInfo);
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 var
    Bounds: TRect;
    sg: TStringGrid;
@@ -148,7 +148,7 @@ end;
 {$ENDIF}
 
 procedure TbeClusterElement.svgDraw(DrawInfo: TDrawInfo);
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 var
    Bounds: TRect;
    sg: TStringGrid;

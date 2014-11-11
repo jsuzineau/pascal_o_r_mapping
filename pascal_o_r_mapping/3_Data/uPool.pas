@@ -777,6 +777,11 @@ type
   //Gestion communication HTTP avec pages html Angular / JSON
   public
     function Traite_HTTP: Boolean; override;
+  //spécial Gestion bases Microsoft Access en Freepascal
+  private
+    procedure SetUsePrimaryKeyAsKey( _Value: Boolean);
+  public
+    property UsePrimaryKeyAsKey: Boolean write SetUsePrimaryKeyAsKey;
   end;
 
   Tprocedure_sCle_Change= procedure ( _bl: TBatpro_Ligne) of object;
@@ -910,6 +915,18 @@ begin
 end;
 
 { TdmxPool }
+
+procedure TPool.SetUsePrimaryKeyAsKey( _Value: Boolean);
+begin
+     sqlq_SELECT          .UsePrimaryKeyAsKey:= _Value;
+     sqlqLoad             .UsePrimaryKeyAsKey:= _Value;
+     sqlq_SELECT_from_id  .UsePrimaryKeyAsKey:= _Value;
+     sqlq_SELECT_ALL_count.UsePrimaryKeyAsKey:= _Value;
+     sqlq_SELECT_ALL      .UsePrimaryKeyAsKey:= _Value;
+     sqlqID_Recuperation  .UsePrimaryKeyAsKey:= _Value;
+     sqlq_INSERT          .UsePrimaryKeyAsKey:= _Value;
+     sqlqLoad_by_id       .UsePrimaryKeyAsKey:= _Value;
+end;
 
 constructor TPool.Create(AOwner: TComponent);
 begin

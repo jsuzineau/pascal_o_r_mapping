@@ -33,7 +33,7 @@ uses
     uuStrings,
     uClean,
     uEXE_INI,
-    {$IFDEF MSWINDOWS}
+    {$IFNDEF FPC}
     Windows, WinSock, Dialogs,
     {$ENDIF}
     SysUtils, Classes, IniFiles, Math;
@@ -211,7 +211,7 @@ begin
            Result:= Strings[ Count - 1];
 end;
 
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 procedure Init_WSA;
 var
   LData: TWSAData;

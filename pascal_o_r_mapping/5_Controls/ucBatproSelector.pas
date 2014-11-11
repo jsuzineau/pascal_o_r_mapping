@@ -27,7 +27,7 @@ interface
 
 uses
     uForms,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows,
   {$ENDIF}
   {$IFDEF FPC}

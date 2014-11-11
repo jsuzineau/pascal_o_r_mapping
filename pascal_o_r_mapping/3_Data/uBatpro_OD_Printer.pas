@@ -36,7 +36,7 @@ uses
     uOD_Batpro_Table,
     uBatpro_OD_TextTableManager,
     uBatpro_StringList,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows, //pour CopyFile
   {$ELSE}
   FileUtil,	//pour CopyFile

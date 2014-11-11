@@ -30,37 +30,39 @@ uses
     uClean,
     uuStrings,
     uBatpro_StringList,
-  {$IFDEF MSWINDOWS}
-  uWinUtils,
+    {$IFNDEF FPC}
+    uWinUtils,
+    {$ENDIF}
+  {$IFDEF WINDOWS}
   Windows,
   {$ENDIF}
   SysUtils, Classes;
 
 var
-   Linux: Boolean;//= False;
+   Linux: Boolean= False;
 var
-   ModeDEBUG: Integer;//= 0;
-   ModeDEBUG_1:Boolean;// = False;
-   ModeDEBUG_2:Boolean;// = False;
-   ModeDEBUG_3:Boolean;// = False;
+   ModeDEBUG: Integer= 0;
+   ModeDEBUG_1:Boolean = False;
+   ModeDEBUG_2:Boolean = False;
+   ModeDEBUG_3:Boolean = False;
 var
-   ModeAUTOEXEC: Boolean;// = False;
-   autoexec_SGBD     : String;//= '';
-   autoexec_Database : String;//= '';
-   autoexec_SOC      : String;//= '';
-   autoexec_ETS      : String;//= '';
-   autoexec_SOCETS   : String;//= '';
-   autoexec_CODE_UTIL: String;//= '';
-   autoexec_Fonction : String;//= '';
-   Parametre1        : String;//= '';
-   Parametre2        : String;//= '';
-   Parametre3        : String;//= '';
-   Parametre4        : String;//= '';
-   Parametre5        : String;//= '';
-   Parametre6        : String;//= '';
-	 Parametre7        : String;//= '';
+   ModeAUTOEXEC: Boolean = False;
+   autoexec_SGBD     : String= '';
+   autoexec_Database : String= '';
+   autoexec_SOC      : String= '';
+   autoexec_ETS      : String= '';
+   autoexec_SOCETS   : String= '';
+   autoexec_CODE_UTIL: String= '';
+   autoexec_Fonction : String= '';
+   Parametre1        : String= '';
+   Parametre2        : String= '';
+   Parametre3        : String= '';
+   Parametre4        : String= '';
+   Parametre5        : String= '';
+   Parametre6        : String= '';
+	 Parametre7        : String= '';
 var
-   ModeHELP_CREATOR: Boolean;// = False;
+   ModeHELP_CREATOR: Boolean = False;
 
 type
  TParametres_Ligne_de_commande
@@ -79,7 +81,7 @@ type
   private
     procedure To_StringList;
     procedure From_StringList;
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   public
     function To_Atom: ATOM;
     procedure From_Atom( _Atom: ATOM);
@@ -165,7 +167,7 @@ begin
      Parametre7        := Values['Parametre7'        ];
 end;
 
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 function TParametres_Ligne_de_commande.To_Atom: ATOM;
 begin
      To_StringList;
@@ -183,7 +185,7 @@ end;
 {$ENDIF}
 
 function TParametres_Ligne_de_commande.NomUtilisateur: String;
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 var
    cNomUtilisateur: array[0..1024] of Char;
    cNomUtilisateur_Length: Cardinal;
@@ -202,7 +204,7 @@ end;
 {$ENDIF}
 
 procedure TParametres_Ligne_de_commande.Cree_MailSlot;
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 var
    NomExe: String;
    RacineNomMailSlot: String;
@@ -252,7 +254,7 @@ end;
 {$ENDIF}
 
 procedure TParametres_Ligne_de_commande.Ferme_MailSlot;
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 begin
      CloseHandle( hMailSlot);
 end;
@@ -262,7 +264,7 @@ end;
 {$ENDIF}
 
 function TParametres_Ligne_de_commande.From_MailSlot: Boolean;
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 var
    NextSize: DWORD;
    Lus: DWORD;
@@ -298,7 +300,7 @@ end;
 
 
 procedure TParametres_Ligne_de_commande.To_MailSlot( _NomMailSlot: String);
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 var
    NomMailSlot_Client: String;
    hMailSlot_Client: THandle;
@@ -334,7 +336,7 @@ end;
 
 
 function TParametres_Ligne_de_commande.not_MailSlot_existe( _NomMailSlot: String): Boolean;
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 var
    NomMailSlot_Client: String;
    hMailSlot_Client: THandle;

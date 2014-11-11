@@ -39,6 +39,8 @@ type
     g: TGenerateur_Delphi_Ancetre;
     cc: TContexteClasse;
     sNomChamp: String;
+    sNomChamp_database: String;
+    sNomChamp_database_quote: String;
     sTypChamp: String;
     sTypChamp_UPPERCASE: String;
     sTyp: String;
@@ -74,6 +76,14 @@ begin
      g:= _g;
      cc:= _cc;
      sNomChamp:= _sNomChamp;
+     sNomChamp_database:= sNomChamp;
+     sNomChamp_database_quote:= '`'+sNomChamp_database+'`';
+     sNomChamp:= StringReplace( sNomChamp, ' ', '_', [rfReplaceAll]);
+     sNomChamp:= StringReplace( sNomChamp, '-', '_', [rfReplaceAll]);
+     sNomChamp:= StringReplace( sNomChamp, '(', '_', [rfReplaceAll]);
+     sNomChamp:= StringReplace( sNomChamp, ')', '_', [rfReplaceAll]);
+     sNomChamp:= StringReplace( sNomChamp, '''', '_', [rfReplaceAll]);
+
      sTypChamp:= _sTypChamp;
      sLibelle := _sLibelle;
      if sLibelle= '' then sLibelle:= sNomChamp;

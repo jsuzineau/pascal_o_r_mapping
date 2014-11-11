@@ -158,6 +158,7 @@ begin
      else if'TDATETIME' =Typ then Result:='DATETIME  '
      else if'CURRENCY'  =Typ then Result:='DOUBLE    '
      else if'FLOAT'     =Typ then Result:='DOUBLE    '
+     else if'BOOLEAN'   =Typ then Result:='BOOLEAN   '
      else if'GRAPHIC'   =Typ then Result:='MEDIUMBLOB'
      else if'MEMO'      =Typ then Result:='TEXT      '
      else
@@ -176,6 +177,8 @@ begin
      else if'DATE'      =Typ then Result:='Date'
      else if'TDATETIME' =Typ then Result:='Date'
      else if'CURRENCY'  =Typ then Result:='0.0'
+     else if'FLOAT'     =Typ then Result:='0.0'
+     else if'BOOLEAN'   =Typ then Result:='False'
      else
          begin
          Result:= '''''';
@@ -192,7 +195,9 @@ begin
      else if'INTEGER'  =Typ then Result:=': TIntegerField'
      else if'DATE'     =Typ then Result:=': TDateField'
      else if'TDATETIME'=Typ then Result:=': TDateTimeField'
-     else if'CURRENCY' =Typ then Result:=': TFloatField'
+     else if'CURRENCY' =Typ then Result:=': TCurrencyField'
+     else if'FLOAT'    =Typ then Result:=': TFloatField'
+     else if'BOOLEAN'  =Typ then Result:=': TBooleanField'
      else if'LONGBLOB' =Typ then Result:=': TStringField'
      else
          begin
@@ -218,6 +223,7 @@ begin
      else if'TDATETIME' =Typ then Result:='DateTime'
      else if'CURRENCY'  =Typ then Result:='double'
      else if'FLOAT'     =Typ then Result:='double'
+     else if'BOOLEAN'   =Typ then Result:='Int32'
      else
          begin
          Result:= 'T'+Typ+'Field';
@@ -235,6 +241,7 @@ begin
      else if'TDATETIME' =Typ then Result:='float'
      else if'CURRENCY'  =Typ then Result:='float'
      else if'FLOAT'     =Typ then Result:='float'
+     else if'BOOLEAN'   =Typ then Result:='integer'
      else
          begin
          Result:= 'T'+Typ+'Field';
@@ -252,6 +259,7 @@ begin
      else if'TDATETIME' =Typ then Result:=''
      else if'CURRENCY'  =Typ then Result:=''
      else if'FLOAT'     =Typ then Result:=''
+     else if'BOOLEAN'   =Typ then Result:=''
      else
          begin
          Result:= 'T'+Typ+'Field';
@@ -314,8 +322,10 @@ begin
      else if'INTEGER'  =Typ then Result:=' Integer_from_Integer'
      else if'DATE'     =Typ then Result:='DateTime_from_Date   '
      else if'TDATETIME'=Typ then Result:='DateTime_from_       '
-     else if'CURRENCY' =Typ then Result:='  Double_from_       '
+     else if'CURRENCY' =Typ then Result:='Currency_from_       '
      else if'DOUBLE'   =Typ then Result:='  Double_from_       '
+     else if'FLOAT'    =Typ then Result:='  Double_from_       '
+     else if'BOOLEAN'  =Typ then Result:=' Boolean_from_       '
      else if'LONGBLOB' =Typ then Result:='  String_from_Blob   '
      else
          begin

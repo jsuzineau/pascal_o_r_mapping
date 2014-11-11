@@ -30,7 +30,7 @@ uses
     uClean,
     uParametres_Ligne_de_commande,
 
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows,
   {$ENDIF}
   {$IFDEF FPC}

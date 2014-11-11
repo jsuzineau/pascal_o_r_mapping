@@ -28,7 +28,7 @@ interface
 uses
     uChamps,
     uChamp,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows,
   {$ENDIF}
   {$IFDEF FPC}

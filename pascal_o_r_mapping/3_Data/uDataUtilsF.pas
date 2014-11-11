@@ -42,7 +42,7 @@ uses
 
     ufAccueil_Erreur,
 
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Graphics, Forms, Dialogs,
   {$ENDIF}
   SysUtils, Classes, DB, DBTables,

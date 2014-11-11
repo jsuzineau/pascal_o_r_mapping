@@ -36,7 +36,7 @@ uses
 
     ufAccueil_Erreur,
 
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows,
   {$ENDIF}
   {$IFDEF FPC}

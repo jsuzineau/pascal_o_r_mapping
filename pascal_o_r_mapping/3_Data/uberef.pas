@@ -38,7 +38,7 @@ uses
     ubeClusterElement,
     uContextes,
     uVide,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows, Graphics, Controls,
   {$ENDIF}
   SysUtils, Classes;
@@ -166,7 +166,7 @@ begin
      then
          begin
          CP.Titre:= 'Référence à un <'+ref.ClassParams.Titre+'>';
-         {$IFDEF MSWINDOWS}
+         {$IFNDEF FPC}
          CP.Font.Name:= ref.ClassParams.Font.Name;
          CP.Font.Size:= ref.ClassParams.Font.Size;
          {$ENDIF}

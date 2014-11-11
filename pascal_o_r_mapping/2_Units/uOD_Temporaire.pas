@@ -27,7 +27,7 @@ interface
 
 uses
     uOD_Forms,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows,Dialogs, ShellAPI,
   {$ENDIF}
   SysUtils, Classes;
@@ -75,7 +75,7 @@ implementation
 
 function ShowURL( URL: String): Boolean;
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      //Result:= 32 < ShellExecute( 0, 'open', 'iexplore', PChar(URL),nil,SW_SHOWNORMAL);
      Result:= 32 < ShellExecute( 0, 'open', PChar(URL),nil,nil,SW_SHOWNORMAL);
      {$ENDIF}
@@ -96,7 +96,7 @@ end;
 
 
 function TOD_Temporaire.RepertoireSysteme: String;
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 var
    buffer: array[0..MAX_PATH] of AnsiChar;
 begin
@@ -110,7 +110,7 @@ end;
 {$ENDIF}
 
 function TOD_Temporaire.Nouveau_Fichier( Prefixe: String): String;
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 var
    TempFileName: array[0..MAX_PATH] of AnsiChar;
 begin
@@ -174,7 +174,7 @@ procedure TOD_Temporaire.TraiteLastError( Messag: String);
 var
    MessageSysteme: PChar;
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      FormatMessage( FORMAT_MESSAGE_FROM_SYSTEM or
                     FORMAT_MESSAGE_ALLOCATE_BUFFER,
                     nil, GetLastError,
