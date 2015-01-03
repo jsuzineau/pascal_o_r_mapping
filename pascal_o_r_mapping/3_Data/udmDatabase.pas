@@ -27,6 +27,7 @@ interface
 
 uses
     uClean,
+    uLog,
     uOD_Forms,
     uParametres_Ligne_de_commande,
     uBatpro_StringList,
@@ -43,6 +44,7 @@ uses
     uInformix,
     uMySQL,
     uPostgres,
+    uSQLServer,
 
     ufAccueil_Erreur,
 
@@ -87,9 +89,11 @@ type
     procedure _from_Informix;
     procedure _from_MySQL;
     procedure _from_Postgres;
+    procedure _from_SQLServer;
     procedure DBExpress_Informix;
     procedure DBExpress_MySQL;
     procedure DBExpress_Postgres;
+    procedure DBExpress_SQLServer;
   public
     procedure Initialise_DBExpress;
   public
@@ -144,7 +148,8 @@ type
   public
     sqlcInformix: TSQLConnection;
     sqlcInformixSYSMASTER: TSQLConnection;
-    sqlcMySQL   : TSQLConnection;
+    sqlcMySQL    : TSQLConnection;
+    sqlcSQLServer: TSQLConnection;
     sqlc: TSQLConnection;
     sqlt: TSQLTransaction;
     sqlcGED: TSQLConnection;
@@ -199,6 +204,7 @@ begin
 
      sqlcInformix:= TODBCConnection.Create(nil);
      sqlcMySQL   := MySQL.Cree_Connection;
+     sqlcSQLServer:= TODBCConnection.Create(nil);
 
      sqlc:= sqlcMySQL;
      sqlc.Transaction:= sqlt;
@@ -236,6 +242,7 @@ begin
      FreeAndnil( sqltGED);
      FreeAndnil( sqlcInformix);
      FreeAndnil( sqlcMySQL);
+     FreeAndnil( SQLServer);
      FreeAndnil( sqlcGED);
 
      inherited;
@@ -248,9 +255,10 @@ begin
      sqlc.Transaction:= nil;
      case SGBD
      of
-       sgbd_Informix: DBExpress_Informix;
-       sgbd_MySQL   : DBExpress_MySQL;
-       sgbd_Postgres: DBExpress_Postgres;
+       sgbd_Informix : DBExpress_Informix;
+       sgbd_MySQL    : DBExpress_MySQL;
+       sgbd_Postgres : DBExpress_Postgres;
+       sgbd_SQLServer: DBExpress_SQLServer;
        else
            begin
            Ouvrable:= False;
@@ -266,14 +274,10 @@ begin
 
      if not Ouvrable then exit;
 
-     {$IF DEFINED(FPC) AND NOT DEFINED(MSWINDOWS)}
-     //WriteLn( ClassName+'.Ouvre_db: Avant ouverture connection');
-     {$ENDIF}
+     //Log.PrintLn( ClassName+'.Ouvre_db: Avant ouverture connection');
      Ouvert:= Ouvre_SQLConnection( sqlc);
-     {$IF DEFINED(FPC) AND NOT DEFINED(MSWINDOWS)}
-     //WriteLn( ClassName+'.Ouvre_db: Aprés ouverture connection');
-     {$ENDIF}
-     uOD_Forms_ShowMessage( Base_sur+' sqlc.Hostname='+sqlc.HostName+' sqlc.DatabaseName='+sqlc.DatabaseName);
+     //Log.PrintLn( ClassName+'.Ouvre_db: Aprés ouverture connection');
+     Log.PrintLn( Base_sur+' sqlc.Hostname='+sqlc.HostName+' sqlc.DatabaseName='+sqlc.DatabaseName);
      if not Ouvert then exit;
 
      case SGBD
@@ -299,6 +303,14 @@ begin
          then
              cdPG_DATABASES.Locate('datname', Postgres.DataBase, []);*)
          end;
+       sgbd_SQLServer:
+         begin
+         {
+         if RefreshQuery( cdPG_DATABASES) // liste des bases Postgres
+         then
+             cdPG_DATABASES.Locate('datname', Postgres.DataBase, []);
+         }
+         end;
        end;
 end;
 
@@ -307,9 +319,16 @@ begin
      Ouvert:= False;
 
      sqlqSHOW_DATABASES.Close;
+     sqlqSYSDATABASES  .Close;
 
-     sqlcInformixSYSMASTER.Connected:= False;
-     sqlc                 .Connected:= False;
+     sqlcInformixSYSMASTER.Close;
+     sqlcInformix         .Close;
+
+     sqlcMySQL            .Close;
+     sqlcSQLServer        .Close;
+
+     sqlc                 .Close;
+     sqlcGED              .Close;
 end;
 
 procedure TdmDatabase.Do_not_Keep_Connection;
@@ -412,6 +431,27 @@ begin
      WriteParam( 'SchemaName', Postgres.SchemaName);
 end;
 
+procedure TdmDatabase._from_SQLServer;
+begin
+     Database_indefinie:= (SQLServer.DataBase = sys_Vide) or (SQLServer.DataBase='---');
+     if Database_indefinie
+     then
+         SQLServer.DataBase:= 'SQLServer'
+     else
+         Database_indefinie:= SQLServer.DataBase = 'SQLServer';
+
+     Ouvrable
+     :=
+           (SQLServer.HostName  <> sys_Vide)
+       and (SQLServer.User_Name <> sys_Vide)
+       and (SQLServer.Database  <> sys_Vide);
+
+     WriteParam( 'HostName' , SQLServer.HostName );
+     WriteParam( 'User_Name', SQLServer.User_Name);
+     WriteParam( 'Password' , SQLServer.Password );
+     WriteParam( 'DataBase' , SQLServer.Database );
+end;
+
 procedure TdmDatabase.DBExpress_Informix;
 begin
      sqlc:= sqlcInformix;
@@ -431,6 +471,12 @@ end;
 procedure TdmDatabase.DBExpress_Postgres;
 begin
      _from_Postgres;
+end;
+
+procedure TdmDatabase.DBExpress_SQLServer;
+begin
+     sqlc:= sqlcSQLServer;
+     _from_SQLServer;
 end;
 
 function TdmDatabase.EmptyCommande(Commande: String): Boolean;
@@ -592,6 +638,7 @@ begin
                           +'  TdmDatabase.Traite_autoexec_Database: '
                           +'le nom de base de données passé en paramètre de ligne de commande est vide');
          {$IFNDEF FPC}
+         end;
          InputQuery( 'Connection à la base de données',
                      'Entrez le nom de la base de données:',
                      NewDatabase);

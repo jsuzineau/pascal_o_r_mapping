@@ -211,13 +211,13 @@
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="5">
       <Item1>
-        <PackageName Value="OD_DelphiReportEngine_Units_linux"/>
+        <PackageName Value="OD_DelphiReportEngine_Components_linux"/>
       </Item1>
       <Item2>
-        <PackageName Value="OD_DelphiReportEngine_LCL_linux"/>
+        <PackageName Value="OD_DelphiReportEngine_Units_linux"/>
       </Item2>
       <Item3>
-        <PackageName Value="OD_DelphiReportEngine_Components"/>
+        <PackageName Value="OD_DelphiReportEngine_LCL_linux"/>
       </Item3>
       <Item4>
         <PackageName Value="LCLBase"/>

@@ -28,7 +28,10 @@ interface
 uses
     uForms,
     uuStrings,
-    SysUtils, Classes, DB;
+    {$IFDEF FPC}
+    uLog,
+    {$ENDIF}
+  SysUtils, Classes, DB;
 
 type
     TfAccueil_Erreur_function = function  ( _Message_Developpeur: String; _Message: String = ''): Boolean of object;
@@ -70,9 +73,9 @@ procedure ufAccueil_Erreur_Add( _Message_Developpeur: String; _Message: String);
 begin
      Formate_Liste( ufAccueil_Erreur_Tampon, #13#10, _Message            );
      Formate_Liste( ufAccueil_Erreur_Tampon, #13#10, _Message_Developpeur);
-     {$IF DEFINED(FPC) AND NOT DEFINED(MSWINDOWS)}
-     WriteLn( _Message);
-     WriteLn( _Message_Developpeur);
+     {$IFDEF FPC}
+     Log.PrintLn( _Message);
+     Log.PrintLn( _Message_Developpeur);
      {$ENDIF}
 end;
 

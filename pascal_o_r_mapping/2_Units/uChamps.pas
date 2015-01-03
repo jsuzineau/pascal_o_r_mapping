@@ -485,22 +485,33 @@ var
    F: TField;
    sf: TStringField;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
+     Result:= nil;
+
+     if     Assigned(q)
+        and q.Active
      then
-         Result:= Ajoute_String( Memory, Field, Persistant)
-     else
          begin
          F:= q.FindField( Field);
 
-         if Affecte( sf, TStringField, F)
+         if Assigned( F)
          then
-             Memory:= TrimRight( sf.Value)
+             begin
+             if Affecte( sf, TStringField, F)
+             then
+                 begin
+                 Memory:= TrimRight( sf.Value);
+                 Result:= Ajoute( @Memory, Field, ftString, Persistant, F);
+                 end
+             else
+                 Erreur_Champ( Field, 'TStringField', Persistant);
+             end
          else
-             Erreur_Champ( Field, 'TStringField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, ftString, Persistant, F);
+             Erreur_Champ( Field, 'TField', Persistant);
          end;
+
+     if Result = nil
+     then
+         Result:= Ajoute_String( Memory, Field, Persistant)
 end;
 
 function TChamps.String_from_Memo     (var Memory:String   ;Field:String;Persistant:Boolean): TChamp;
@@ -508,25 +519,36 @@ var
    F: TField;
    mf: TMemoField;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
+     Result:= nil;
+
+     if     Assigned( q)
+        and q.Active
      then
-         Result:= Ajoute_String( Memory, Field, Persistant)
-     else
          begin
          F:= q.FindField( Field);
-         if Affecte( mf, TMemoField, F)
+         if Assigned( F)
          then
-             if mf.IsNull
+             begin
+             if Affecte( mf, TMemoField, F)
              then
-                 Memory:= ''
+                 begin
+                 if mf.IsNull
+                 then
+                     Memory:= ''
+                 else
+                     Memory:= mf.Value;
+                 Result:= Ajoute( @Memory, Field, ftMemo, Persistant, F);
+                 end
              else
-                 Memory:= mf.Value
+                 Erreur_Champ( Field, 'TMemoField', Persistant);
+             end
          else
-             Erreur_Champ( Field, 'TMemoField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, ftMemo, Persistant, F);
+             Erreur_Champ( Field, 'TField', Persistant);
          end;
+
+     if Result = nil
+     then
+         Result:= Ajoute_String( Memory, Field, Persistant)
 end;
 
 function TChamps.String_from_Blob(var Memory: String; Field: String; Persistant: Boolean): TChamp;
@@ -534,25 +556,36 @@ var
    F: TField;
    bf: TBlobField;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
+     Result:= nil;
+
+     if     Assigned( q)
+        and q.Active
      then
-         Result:= Ajoute_String( Memory, Field, Persistant)
-     else
          begin
          F:= q.FindField( Field);
-         if Affecte( bf, TBlobField, F)
+         if Assigned( F)
          then
-             if bf.IsNull
+             begin
+             if Affecte( bf, TBlobField, F)
              then
-                 Memory:= ''
+                 begin
+                 if bf.IsNull
+                 then
+                     Memory:= ''
+                 else
+                     Memory:= bf.Value;
+                 Result:= Ajoute( @Memory, Field, ftBlob, Persistant, F);
+                 end
              else
-                 Memory:= bf.Value
+                 Erreur_Champ( Field, 'TBlobField', Persistant);
+             end
          else
-             Erreur_Champ( Field, 'TBlobField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, ftBlob, Persistant, F);
+             Erreur_Champ( Field, 'TField', Persistant);
          end;
+
+     if Result = nil
+     then
+         Result:= Ajoute_String( Memory, Field, Persistant);
 end;
 
 function TChamps.String_from_( var Memory: String; Field: String; Persistant: Boolean): TChamp;
@@ -566,6 +599,7 @@ var
    begin
         Memory:= TrimRight( _Valeur);
         Typ:= _FieldType;
+        Result:= Ajoute( @Memory, Field, Typ, Persistant, F);
    end;
    procedure T_bf;
    var
@@ -596,11 +630,11 @@ var
         T( S, ftMemo);
    end;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
+     Result:= nil;
+
+     if     Assigned( q)
+        and q.Active
      then
-         Result:= Ajoute_String( Memory, Field, Persistant)
-     else
          begin
          F:= q.FindField( Field);
          if Assigned( F)
@@ -609,13 +643,16 @@ begin
                   if Affecte( bf, TBlobField  , F) then T_bf
              else if Affecte( mf, TMemoField  , F) then T_mf
              else if Affecte( sf, TStringField, F) then T( sf.Value, ftString)
-             else Erreur_Champ( Field, 'TBlobField', Persistant);
+             else
+                 Erreur_Champ( Field, 'T(Blob,Memo ou String)Field', Persistant);
              end
          else
-             Erreur_Champ( Field, '<champ introuvable>', Persistant);
-
-         Result:= Ajoute( @Memory, Field, Typ, Persistant, F);
+             Erreur_Champ( Field, 'TField', Persistant);
          end;
+
+     if Result = nil
+     then
+         Result:= Ajoute_String( Memory, Field, Persistant);
 end;
 
 function TChamps.DateTime_from_Date   (var Memory:TDateTime;Field:String;Persistant:Boolean): TChamp;
@@ -623,21 +660,30 @@ var
    F: TField;
    df: TDateField;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
+     Result:= nil;
+
+     if     Assigned(q)
+        and q.Active
      then
-         Result:= Ajoute_Date( Memory, Field, Persistant)
-     else
          begin
          F:= q.FindField( Field);
-         if Affecte( df, TDateField, F)
+         if Assigned( F)
          then
-             Memory:= df.Value
-         else
-             Erreur_Champ( Field, 'TDateField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, ftDate, Persistant, F);
+             begin
+             if Affecte( df, TDateField, F)
+             then
+                 begin
+                 Memory:= df.Value;
+                 Result:= Ajoute( @Memory, Field, ftDate, Persistant, F);
+                 end
+             else
+                 Erreur_Champ( Field, 'TDateField', Persistant);
+             end;
          end;
+
+     if Result = nil
+     then
+         Result:= Ajoute_Date( Memory, Field, Persistant);
 end;
 
 function TChamps.Integer_from_Integer (var Memory:Integer  ;Field:String;Persistant:Boolean): TChamp;
@@ -645,21 +691,27 @@ var
    F: TField;
    inf: TLongintField;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
+     Result:= nil;
+
+     if     Assigned( q)
+        and q.Active
      then
-         Result:= Ajoute_Integer( Memory, Field, Persistant)
-     else
          begin
          F:= q.FindField( Field);
          if Affecte( inf, TLongintField, F)
          then
-             Memory:= inf.Value
+             begin
+             Memory:= inf.Value;
+             Result:= Ajoute( @Memory, Field, ftInteger, Persistant, F);
+             end
          else
              Erreur_Champ( Field, 'TLongintField', Persistant);
 
-         Result:= Ajoute( @Memory, Field, ftInteger, Persistant, F);
          end;
+
+     if Result = nil
+     then
+         Result:= Ajoute_Integer( Memory, Field, Persistant)
 end;
 
 function TChamps.Integer_from_SmallInt(var Memory:Integer  ;Field:String;Persistant:Boolean): TChamp;
@@ -667,21 +719,26 @@ var
    F: TField;
    sif: TSmallIntField;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
+     Result:= nil;
+
+     if     Assigned( q)
+        and q.Active
      then
-         Result:= Ajoute_SmallInt( Memory, Field, Persistant)
-     else
          begin
          F:= q.FindField( Field);
          if Affecte( sif, TSmallIntField, F)
          then
-             Memory:= sif.Value
+             begin
+             Memory:= sif.Value;
+             Result:= Ajoute( @Memory, Field, ftSmallint, Persistant, F);
+             end
          else
              Erreur_Champ( Field, 'TSmallIntField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, ftSmallint, Persistant, F);
          end;
+
+     if Result = nil
+     then
+         Result:= Ajoute_SmallInt( Memory, Field, Persistant)
 end;
 
 function TChamps.Integer_from_String( var Memory: Integer; Field: String; Persistant: Boolean): TChamp;
@@ -690,11 +747,11 @@ var
    sf: TStringField;
    S: String;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
+     Result:= nil;
+
+     if     Assigned(q)
+        and q.Active
      then
-         Result:= Ajoute_Integer( Memory, Field, Persistant)
-     else
          begin
          F:= q.FindField( Field);
          if Affecte( sf, TStringField, F)
@@ -704,12 +761,15 @@ begin
              if not TryStrToInt( S, Memory)
              then
                  Memory:= -1;
+             Result:= Ajoute( @Memory, Field, ftInteger, Persistant, F);
              end
          else
              Erreur_Champ( Field, 'TStringField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, ftInteger, Persistant, F);
          end;
+
+     if Result = nil
+     then
+         Result:= Ajoute_Integer( Memory, Field, Persistant)
 end;
 
 function TChamps.Integer_from_FMTBCD( var Memory: Integer; Field: String; Persistant: Boolean): TChamp;
@@ -717,21 +777,26 @@ var
    F: TField;
    fmtbdcf: TFMTBCDField;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
+     Result:= nil;
+
+     if     Assigned( q)
+        and q.Active
      then
-         Result:= Ajoute_Integer( Memory, Field, Persistant)
-     else
          begin
          F:= q.FindField( Field);
          if Affecte( fmtbdcf, TFMTBCDField, F)
          then
-             Memory:= fmtbdcf.AsInteger
+             begin
+             Memory:= fmtbdcf.AsInteger;
+             Result:= Ajoute( @Memory, Field, ftInteger, Persistant, F);
+             end
          else
              Erreur_Champ( Field, 'TFMTBCDField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, ftInteger, Persistant, F);
          end;
+
+     if Result = nil
+     then
+         Result:= Ajoute_Integer( Memory, Field, Persistant)
 end;
 
 function TChamps.Integer_from_( var Memory: Integer; Field: String; Persistant: Boolean): TChamp;
@@ -742,19 +807,24 @@ var
    fmtbcdf: TFMTBCDField  ;
    sf     : TStringField  ;
    S: String;
+   procedure T( _Value: Integer);
+   begin
+        Memory:= _Value;
+        Result:= Ajoute( @Memory, Field, ftInteger, Persistant, F);
+   end;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
+     Result:= nil;
+
+     if     Assigned( q)
+        and q.Active
      then
-         Result:= Ajoute_Integer( Memory, Field, Persistant)
-     else
          begin
          F:= q.FindField( Field);
          if Assigned( F)
          then
-                  if Affecte( inf    , TLongintField , F) then Memory:= inf    .Value
-             else if Affecte( sif    , TSmallIntField, F) then Memory:= sif    .Value
-             else if Affecte( fmtbcdf, TFMTBCDField  , F) then Memory:= fmtbcdf.AsInteger
+                  if Affecte( inf    , TLongintField , F) then T( inf    .Value    )
+             else if Affecte( sif    , TSmallIntField, F) then T( sif    .Value    )
+             else if Affecte( fmtbcdf, TFMTBCDField  , F) then T( fmtbcdf.AsInteger)
              else if Affecte( sf     , TStringField  , F)
              then
                  begin
@@ -762,14 +832,17 @@ begin
                  if not TryStrToInt( S, Memory)
                  then
                      Memory:= -1;
+                 T( Memory);
                  end
              else
                  Erreur_Champ( Field, 'TLongintField ou TSmallIntField ou TFMTBCDField ou TStringField', Persistant)
          else
-             Erreur_Champ( Field, 'TLongintField ou TSmallIntField ou TFMTBCDField ou TStringField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, ftInteger, Persistant, F);
+             Erreur_Champ( Field, 'TField', Persistant);
          end;
+
+     if Result = nil
+     then
+         Result:= Ajoute_Integer( Memory, Field, Persistant);
 end;
 
 function TChamps.Integer_from_Double( var Memory: Integer; Field: String; Persistant: Boolean): TChamp;
@@ -782,21 +855,26 @@ var
    fmtbcdf: TFMTBCDField  ;
    sf     : TStringField  ;
    S: String;
+   procedure T( _Value: Integer);
+   begin
+        Memory:= _Value;
+        Result:= Ajoute( @Memory, Field, ftInteger, Persistant, F);
+   end;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
+     Result:= nil;
+
+     if     Assigned( q)
+        and q.Active
      then
-         Result:= Ajoute_Integer( Memory, Field, Persistant)
-     else
          begin
          F:= q.FindField( Field);
          if Assigned( F)
          then
-                  if Affecte( inf    , TLongintField , F) then Memory:= inf    .Value
-             else if Affecte( sif    , TSmallIntField, F) then Memory:= sif    .Value
-             else if Affecte( ff     , TFloatField   , F) then Memory:= Trunc( ff     .Value  )
-             else if Affecte( bcdf   , TBCDField     , F) then Memory:= Trunc( bcdf   .Value  )
-             else if Affecte( fmtbcdf, TFMTBCDField  , F) then Memory:= Trunc( fmtbcdf.asFloat)
+                  if Affecte( inf    , TLongintField , F) then T( inf    .Value          )
+             else if Affecte( sif    , TSmallIntField, F) then T( sif    .Value          )
+             else if Affecte( ff     , TFloatField   , F) then T( Trunc( ff     .Value  ))
+             else if Affecte( bcdf   , TBCDField     , F) then T( Trunc( bcdf   .Value  ))
+             else if Affecte( fmtbcdf, TFMTBCDField  , F) then T( Trunc( fmtbcdf.asFloat))
              else if Affecte( sf     , TStringField  , F)
              then
                  begin
@@ -804,14 +882,17 @@ begin
                  if not TryStrToInt( S, Memory)
                  then
                      Memory:= -1;
+                 T( Memory);
                  end
              else
                  Erreur_Champ( Field, 'TLongintField ou TSmallIntField ou TFMTBCDField ou TStringField', Persistant)
          else
-             Erreur_Champ( Field, 'TLongintField ou TSmallIntField ou TFMTBCDField ou TStringField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, ftInteger, Persistant, F);
+             Erreur_Champ( Field, 'TField', Persistant);
          end;
+
+     if Result = nil
+     then
+         Result:= Ajoute_Integer( Memory, Field, Persistant);
 end;
 
 function TChamps.Currency_from_BCD( var Memory:Currency ;Field:String;Persistant:Boolean): TChamp;
@@ -819,21 +900,26 @@ var
    F: TField;
    bcdf: TBCDField;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
+     Result:= nil;
+
+     if     Assigned( q)
+        and q.Active
      then
-         Result:= Ajoute_BCD( Memory, Field, Persistant)
-     else
          begin
          F:= q.FindField( Field);
          if Affecte( bcdf, TBCDField, F)
          then
-             Memory:= bcdf.Value
+             begin
+             Memory:= bcdf.Value;
+             Result:= Ajoute( @Memory, Field, ftBCD, Persistant, F);
+             end
          else
              Erreur_Champ( Field, 'TBCDField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, ftBCD, Persistant, F);
          end;
+
+     if Result = nil
+     then
+         Result:= Ajoute_BCD( Memory, Field, Persistant)
 end;
 
 function TChamps.DateTime_from_       (var Memory:TDateTime;Field:String;Persistant:Boolean): TChamp;
@@ -843,28 +929,37 @@ var
    {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
    sqltsf: TSQLTimeStampField;
    {$IFEND}
+   procedure T( _Value: TDateTime);
+   begin
+        Memory:= _Value;
+        Result:= Ajoute( @Memory, Field, F.DataType, Persistant, F);
+   end;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
+     Result:= nil;
+
+     if     Assigned( q)
+        and q.Active
      then
-         Result:= Ajoute_DateTime( Memory, Field, Persistant)
-     else
          begin
          F:= q.FindField( Field);
          if Assigned( F)
          then
-                  if Affecte( dtf   , TDateTimeField    , F) then Memory:= dtf   .Value
+             begin
+                  if Affecte( dtf   , TDateTimeField    , F) then T( dtf   .Value)
              else
              {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-                  if Affecte( sqltsf, TSQLTimeStampField, F) then Memory:= sqltsf.asDateTime
+                  if Affecte( sqltsf, TSQLTimeStampField, F) then T( sqltsf.asDateTime)
              else
              {$IFEND}
-                 Erreur_Champ( Field, 'TDateTimeField ou TSQLTimeStampField', Persistant)
+                 Erreur_Champ( Field, 'TDateTimeField ou TSQLTimeStampField', Persistant);
+             end
          else
-             Erreur_Champ( Field, 'TDateTimeField ou TSQLTimeStampField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, F.DataType, Persistant, F);
+             Erreur_Champ( Field, 'TField', Persistant);
          end;
+
+     if Result = nil
+     then
+         Result:= Ajoute_DateTime( Memory, Field, Persistant);
 end;
 
 function TChamps.Double_from_         (var Memory:Double   ;Field:String;Persistant:Boolean): TChamp;
@@ -873,26 +968,33 @@ var
    ff     : TFloatField ;
    bcdf   : TBCDField   ;
    fmtbcdf: TFMTBCDField;
+   procedure T( _Value: Double);
+   begin
+        Memory:= _Value;
+        Result:= Ajoute( @Memory, Field, ftFloat, Persistant, F);
+   end;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
+     Result:= nil;
+
+     if     Assigned( q)
+        and q.Active
      then
-         Result:= Ajoute_Float( Memory, Field, Persistant)
-     else
          begin
          F:= q.FindField( Field);
          if Assigned( F)
          then
-                  if Affecte( ff     , TFloatField , F) then Memory:= ff     .Value
-             else if Affecte( bcdf   , TBCDField   , F) then Memory:= bcdf   .Value
-             else if Affecte( fmtbcdf, TFMTBCDField, F) then Memory:= fmtbcdf.AsFloat
+                  if Affecte( ff     , TFloatField , F) then T( ff     .Value  )
+             else if Affecte( bcdf   , TBCDField   , F) then T( bcdf   .Value  )
+             else if Affecte( fmtbcdf, TFMTBCDField, F) then T( fmtbcdf.AsFloat)
              else
                  Erreur_Champ( Field, 'TFloatField, TBCDField ou TFMTBCDField', Persistant)
          else
-             Erreur_Champ( Field, 'TFloatField, TBCDField ou TFMTBCDField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, ftFloat, Persistant, F);
+             Erreur_Champ( Field, 'TField', Persistant);
          end;
+
+     if Result = nil
+     then
+         Result:= Ajoute_Float( Memory, Field, Persistant);
 end;
 
 function TChamps.Currency_from_( var Memory: Currency; Field: String; Persistant: Boolean): TChamp;
@@ -902,48 +1004,62 @@ var
    bcdf   : TBCDField   ;
    fmtbcdf: TFMTBCDField;
    cf     : TCurrencyField;
+   procedure T( _Value: Currency);
+   begin
+        Memory:= _Value;
+        Result:= Ajoute( @Memory, Field, ftCurrency, Persistant, F);
+   end;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
+     Result:= nil;
+
+     if     Assigned( q)
+        and q.Active
      then
-         Result:= Ajoute_Currency( Memory, Field, Persistant)
-     else
          begin
          F:= q.FindField( Field);
          if Assigned( F)
          then
-                  if Affecte( ff     , TFloatField   , F) then Memory:= ff     .AsCurrency
-             else if Affecte( bcdf   , TBCDField     , F) then Memory:= bcdf   .AsCurrency
-             else if Affecte( fmtbcdf, TFMTBCDField  , F) then Memory:= fmtbcdf.AsCurrency
-             else if Affecte( cf     , TCurrencyField, F) then Memory:= cf     .AsCurrency
+                  if Affecte( ff     , TFloatField   , F) then T( ff     .AsCurrency)
+             else if Affecte( bcdf   , TBCDField     , F) then T( bcdf   .AsCurrency)
+             else if Affecte( fmtbcdf, TFMTBCDField  , F) then T( fmtbcdf.AsCurrency)
+             else if Affecte( cf     , TCurrencyField, F) then T( cf     .AsCurrency)
              else
                  Erreur_Champ( Field, 'TFloatField, TBCDField, TFMTBCDField ou TCurrencyField', Persistant)
          else
-             Erreur_Champ( Field, 'TFloatField, TBCDField, TFMTBCDField ou TCurrencyField', Persistant);
+             Erreur_Champ( Field, 'TField', Persistant);
 
-         Result:= Ajoute( @Memory, Field, ftCurrency, Persistant, F);
          end;
+
+     if Result = nil
+     then
+         Result:= Ajoute_Currency( Memory, Field, Persistant);
 end;
 
 function TChamps.Boolean_from_( var Memory: Boolean; Field: String; Persistant: Boolean): TChamp;
 var
    F: TField;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
+     Result:= nil;
+
+     if     Assigned( q)
+        and q.Active
      then
-         Result:= Ajoute_Boolean( Memory, Field, Persistant)
-     else
          begin
          F:= q.FindField( Field);
          if Assigned( F)
          then
-             Memory:= F.AsBoolean
+             begin
+             Memory:= F.AsBoolean;
+             Result:= Ajoute( @Memory, Field, ftBoolean, Persistant, F);
+             end
          else
-             Erreur_Champ( Field, 'Champ compatible pour TField.AsBoolean', Persistant);
+             Erreur_Champ( Field, 'TField', Persistant);
 
-         Result:= Ajoute( @Memory, Field, ftBoolean, Persistant, F);
          end;
+
+     if Result = nil
+     then
+         Result:= Ajoute_Boolean( Memory, Field, Persistant);
 end;
 
 function TChamps.Ajoute_ShortString(var Memory: ShortString; Field: String; Persistant: Boolean): TChamp;

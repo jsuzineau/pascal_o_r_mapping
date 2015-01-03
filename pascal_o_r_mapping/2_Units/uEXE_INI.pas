@@ -387,11 +387,9 @@ var
 initialization
               Buffer:= StrAlloc( BufferSize);
 
-              {$IFDEF FPC}
               if Trim(uForms_EXE_Name) = ''
               then
-                  WriteLn( StdErr,'uEXE_INI initialization: uForms_EXE_Name = >'+uForms_EXE_Name+'<');
-              {$ENDIF}
+                  uClean_Log( 'uEXE_INI initialization: uForms_EXE_Name = >'+uForms_EXE_Name+'<');
               ExeFileName:= UpperCase( ExtractFileName( uForms_EXE_Name));
               Special
               :=
@@ -420,11 +418,11 @@ initialization
                       end;
                   end;
 
-              {$IFDEF FPC}
+              {$IFDEF LINUX}
               if 1= pos( PathDelim+'etc', Nom)
               then
                   Nom:= '~'+Nom;
-              //WriteLn( StdErr, 'uEXE_INI initialization: EXE_INI Nom = >'+Nom+'<');
+              //uClean_Log( 'uEXE_INI initialization: EXE_INI Nom = >'+Nom+'<');
               {$ENDIF}
               EXE_INI:= TEXE_INIFile.Create( Nom);
 
@@ -434,9 +432,7 @@ initialization
               else
                   Nom_global:= EXE_INI.Chemin_Global+'etc'+PathDelim+'_Configuration.ini';
 
-              {$IFDEF FPC}
-              //WriteLn( StdErr,'uEXE_INI initialization: EXE_INI_Global Nom = >'+Nom_global+'<');
-              {$ENDIF}
+              //uClean_Log( 'uEXE_INI initialization: EXE_INI_Global Nom = >'+Nom_global+'<');
               EXE_INI_Global:= TEXE_INIFile.Create( Nom_global);
 finalization
               Free_nil( EXE_INI_Global);

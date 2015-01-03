@@ -147,7 +147,7 @@ begin
      {$IFDEF WIN32}
      MessageBeep( MB_ICONEXCLAMATION);
      {$ELSE}
-     WriteLn('ucFEdit.MessageBeep_MB_ICONEXCLAMATION: MessageBeep non implémenté');
+     Log.PrintLn('ucFEdit.MessageBeep_MB_ICONEXCLAMATION: MessageBeep non implémenté');
      {$ENDIF}
 end;
 
@@ -202,7 +202,7 @@ begin
                     SelStart:= Erreur-1;
                     SelLength:= 1;
                     {$ELSE}
-                    WriteLn( 'ucFEEdit.TFloatEdit.Change: TEdit.SelStart non implémenté dans Lazarus');
+                    Log.PrintLn( 'ucFEEdit.TFloatEdit.Change: TEdit.SelStart non implémenté dans Lazarus');
                     {$ENDIF}
                     end;
              except
@@ -214,7 +214,7 @@ begin
                      {$IFDEF WIN32}
                      SelStart:= Length(Text);
                      {$ELSE}
-                     WriteLn( 'ucFEEdit.TFloatEdit.Change: TEdit.SelStart non implémenté dans Lazarus');
+                     Log.PrintLn( 'ucFEEdit.TFloatEdit.Change: TEdit.SelStart non implémenté dans Lazarus');
                      {$ENDIF}
                      end;
                    end;

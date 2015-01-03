@@ -22,8 +22,13 @@ unit uOD_Forms;
     along with this program.  If not, see <http://www.gnu.org/licenses/>.       |
                                                                                 |
 |                                                                               }
-{$IFDEF FPC}
-{$DEFINE uOD_Forms_console}
+{$IFDEF LINUX}
+  {$DEFINE uOD_Forms_console}
+  {$UNDEF  uOD_Forms_graphic}
+{$ENDIF}
+{$IFDEF MSWINDOWS}
+  {$UNDEF  uOD_Forms_console}
+  {$DEFINE uOD_Forms_graphic}
 {$ENDIF}
 
 interface
@@ -45,89 +50,83 @@ procedure uOD_Forms_ShowMessage( _S: String);
 
 implementation
 
+{$IFDEF uOD_Forms_graphic}
+uses
+    Forms, Dialogs;
+{$ENDIF}
+
 function uOD_Forms_EXE_Name: String;
 begin
      Result:= ParamStr( 0);
 end;
 
-{$IFDEF uOD_Forms_console}
 procedure uOD_Forms_ProcessMessages;
 begin
-
+     {$IFDEF uOD_Forms_graphic}
+     Application.ProcessMessages;
+     {$ENDIF}
 end;
 procedure uOD_Forms_Terminate;
 begin
+     {$IFDEF uOD_Forms_graphic}
+     Application.Terminate;
+     {$ENDIF}
+
+     {$IFDEF uOD_Forms_console}
      Halt;
+     {$ENDIF}
 end;
 
 function  uOD_Forms_Terminated: Boolean;
 begin
+     {$IFDEF uOD_Forms_graphic}
+     Result:= Application.Terminated;
+     {$ENDIF}
+     {$IFDEF uOD_Forms_console}
      Result:= False;
+     {$ENDIF}
 end;
 
 procedure uOD_Forms_Set_Hint( _S: String);
 begin
-     {$IF DEFINED(FPC) AND NOT DEFINED(MSWINDOWS)}
+     {$IFDEF uOD_Forms_graphic}
+     Application.Hint:= _S;
+     {$ENDIF}
+
+     {$IFDEF uOD_Forms_console}
      WriteLn( _S);
      {$ENDIF}
 end;
 
 function  uOD_Forms_Title: string;
 begin
+     {$IFDEF uOD_Forms_graphic}
+     Result:= Application.Title;
+     {$ENDIF}
+     {$IFDEF uOD_Forms_console}
      Result:= uOD_Forms_EXE_Name;
+     {$ENDIF}
 end;
 
 procedure uOD_Forms_CancelHint;
 begin
-     {$IF DEFINED(FPC) AND NOT DEFINED(MSWINDOWS)}
+     {$IFDEF uOD_Forms_graphic}
+     Application.CancelHint;
+     {$ENDIF}
+     {$IFDEF uOD_Forms_console}
      WriteLn;
      {$ENDIF}
 end;
 
 procedure uOD_Forms_ShowMessage( _S: String);
 begin
-     {$IF DEFINED(FPC) AND NOT DEFINED(MSWINDOWS)}
+     {$IFDEF uOD_Forms_graphic}
+     ShowMessage( _S);
+     {$ENDIF}
+     {$IFDEF uOD_Forms_console}
      WriteLn( _S);
      {$ENDIF}
 end;
-{$ELSE}
-uses
-    Forms, Dialogs;
-
-procedure uOD_Forms_ProcessMessages;
-begin
-     Application.ProcessMessages;
-end;
-
-procedure uOD_Forms_Terminate;
-begin
-     Application.Terminate;
-end;
-
-function  uOD_Forms_Terminated: Boolean;
-begin
-     Result:= Application.Terminated;
-end;
-
-procedure uOD_Forms_Set_Hint( _S: String);
-begin
-     Application.Hint:= _S;
-end;
-
-function  uOD_Forms_Title: string;
-begin
-     Result:= Application.Title;
-end;
-
-procedure uOD_Forms_CancelHint;
-begin
-     Application.CancelHint;
-end;
-procedure uOD_Forms_ShowMessage( _S: String);
-begin
-     ShowMessage( _S);
-end;
-{$ENDIF}
 
 initialization
 finalization

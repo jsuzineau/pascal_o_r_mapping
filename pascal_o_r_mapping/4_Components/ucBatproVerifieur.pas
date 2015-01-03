@@ -26,6 +26,7 @@ unit ucBatproVerifieur;
 interface
 
 uses
+    uLog,
   SysUtils, Classes;
 
 type
@@ -98,7 +99,7 @@ procedure TBatproVerifieur.Loaded;
    procedure Erreur( S: String);
    begin
         S:= bvGetNamePath( Self)+':'+S;
-        WriteLn( S);
+        Log.PrintLn( S);
    end;
 begin
      inherited;

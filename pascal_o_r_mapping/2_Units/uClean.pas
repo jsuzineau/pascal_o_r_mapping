@@ -123,17 +123,12 @@ var
    Repertoire_Batpro: String;
 begin
      Repertoire_FGL   := Repertoire_from_( _FGL_LIB);
-     {$IF DEFINED(FPC) AND NOT DEFINED(MSWINDOWS)}
-     //WriteLn( 'Repertoire_FGL: ', Repertoire_FGL);
-     {$IFEND}
+
+     //uClean_Log( 'Repertoire_FGL: ', Repertoire_FGL);
      Repertoire_Batpro:= Repertoire_from_( Repertoire_FGL);
-     {$IF DEFINED(FPC) AND NOT DEFINED(MSWINDOWS)}
-     //WriteLn( 'Repertoire_Batpro: ', Repertoire_Batpro);
-     {$IFEND}
+     //uClean_Log( 'Repertoire_Batpro: ', Repertoire_Batpro);
      Result:= Repertoire_Batpro+PathDelim+'bin';
-     {$IF DEFINED(FPC) AND NOT DEFINED(MSWINDOWS)}
-     //WriteLn( 'Résultat uClean_BIN_from_FGL_LIB : ', Result);
-     {$IFEND}
+     //uClean_Log( 'Résultat uClean_BIN_from_FGL_LIB : ', Result);
 end;
 
 function uClean_Racine_from_EXE( _EXE: String): String;
@@ -150,9 +145,7 @@ begin
      else
          Result:= Repertoire_de_EXE;
 
-     {$IF DEFINED(FPC) AND NOT DEFINED(MSWINDOWS)}
-     //WriteLn( 'Résultat uClean_Racine_from_EXE : ', Result);
-     {$IFEND}
+     //uClean_Log( 'Résultat uClean_Racine_from_EXE : ', Result);
 end;
 
 function uClean_ETC_from_EXE( _EXE: String): String;
@@ -162,9 +155,7 @@ begin
      Repertoire_racine:= uClean_Racine_from_EXE( _EXE);
 
      Result:= Repertoire_racine + PathDelim +'etc';
-     {$IF DEFINED(FPC) AND NOT DEFINED(MSWINDOWS)}
-     //WriteLn( 'Résultat uClean_ETC_from_EXE : ', Result);
-     {$IFEND}
+     //uClean_Log( 'Résultat uClean_ETC_from_EXE : ', Result);
 end;
 
 function uClean_LOG_from_EXE( _EXE: String): String;
@@ -174,9 +165,7 @@ begin
      Repertoire_racine:= uClean_Racine_from_EXE( _EXE);
 
      Result:= Repertoire_racine + PathDelim +'log';
-     {$IF DEFINED(FPC) AND NOT DEFINED(MSWINDOWS)}
-     //WriteLn( 'Résultat uClean_LOG_from_EXE : ', Result);
-     {$IFEND}
+     //uClean_Log( 'Résultat uClean_LOG_from_EXE : ', Result);
 end;
 
 var

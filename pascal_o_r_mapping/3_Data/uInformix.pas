@@ -70,7 +70,7 @@ type
     Password : String;
     procedure Efface;
     function Vide: Boolean;
-  {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+  {$IFNDEF FPC}
   //initialisation à partir d'une Database
   public
     procedure _from_sqlc( _sqlc: TDatabase);
@@ -251,9 +251,9 @@ begin
      //wmsc.Flag:= 0;
      //wmsc.Section:= PChar('Environment');
      {$IFNDEF FPC}
-     (*if Modifie
+     if Modifie
      then
-         SendNotifyMessage( HWND_BROADCAST, WM_SETTINGCHANGE, 0, Integer(Pointer(PChar('Environment'))));*)
+         SendNotifyMessage( HWND_BROADCAST, WM_SETTINGCHANGE, 0, Integer(Pointer(PChar('Environment'))));
      {$ENDIF}    
 end;
 
@@ -263,7 +263,7 @@ begin
      Set_INFORMIXSERVER( HostName);
 end;
 
-{$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+{$IFNDEF FPC}
 procedure TInformix._from_sqlc( _sqlc: TDatabase);
 var
    NewHostName: String;
@@ -284,14 +284,14 @@ end;
 
 procedure TInformix.SetNet32;
 begin
-     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+     {$IFNDEF FPC}
      WinExec( PChar('C:\informix_client\bin\setnet32.exe'), SW_SHOWNORMAL);
      {$ENDIF}
 end;
 
 procedure TInformix.DBPing;
 begin
-     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+     {$IFNDEF FPC}
      WinExec( PChar('C:\informix_client\bin\dbping.exe'), SW_SHOWNORMAL);
      {$ENDIF}
 end;

@@ -158,17 +158,13 @@ var
    I: Integer;
 begin
      Result:= S;
-     {$IFDEF LINUX}
-     //Writeln( 'uuStrings.Indente, début');
-     {$ENDIF}
+     //Log.PrintLn( 'uuStrings.Indente, début');
      for I:= Length(Result)-1 downto 0
      do
        if (I<=0) or (Result[I] = #10)
        then
            Insert( Indentation, Result, I+1);
-     {$IFDEF LINUX}
-     //Writeln( 'uuStrings.Indente, fin');
-     {$ENDIF}
+     //Log.PrintLn( 'uuStrings.Indente, fin');
 end;
 
 { ChaineDe

@@ -20,7 +20,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Files Count="81">
+    <Files Count="83">
       <Item1>
         <Filename Value="DBTables.pas"/>
         <UnitName Value="DBTables"/>
@@ -345,6 +345,14 @@
         <Filename Value="../0_uWinUtils/uWinUtils.pas"/>
         <UnitName Value="uWinUtils"/>
       </Item81>
+      <Item82>
+        <Filename Value="uLog.pas"/>
+        <UnitName Value="uLog"/>
+      </Item82>
+      <Item83>
+        <Filename Value="uNetwork.pas"/>
+        <UnitName Value="uNetwork"/>
+      </Item83>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="2">

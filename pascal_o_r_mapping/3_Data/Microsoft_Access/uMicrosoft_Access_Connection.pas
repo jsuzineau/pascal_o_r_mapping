@@ -143,7 +143,7 @@ end;
 
 destructor TMicrosoft_Access_Connection.Destroy;
 begin
-     c.Close( True);
+     c.Close{( True) 2014_11_18: ne passe pas en 64 bits pour l'instant};
      c.Transaction:= nil;
      t.DataBase:= nil;
      Free_nil( c);
@@ -156,7 +156,7 @@ begin
      if FNomfichier_MDB = _Value then Exit;
 
      FNomfichier_MDB:=_Value;
-     c.Close( True);
+     c.Close{( True) 2014_11_18: ne passe pas en 64 bits pour l'instant};
      c.Params.Values['DBQ']:= FNomfichier_MDB;
      //c.Params.Values['charSet']:= 'Windows-1252';
      //c.Params.Values['charSet']:= 'UTF-8'+';';

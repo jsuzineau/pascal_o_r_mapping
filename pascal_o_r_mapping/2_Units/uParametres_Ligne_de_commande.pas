@@ -60,7 +60,7 @@ var
    Parametre4        : String= '';
    Parametre5        : String= '';
    Parametre6        : String= '';
-	 Parametre7        : String= '';
+	  Parametre7        : String= '';
 var
    ModeHELP_CREATOR: Boolean = False;
 

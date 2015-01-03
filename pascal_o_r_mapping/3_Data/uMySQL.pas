@@ -27,6 +27,7 @@ interface
 
 uses
     uClean,
+    uLog,
     u_sys_,
     uRegistry,
     uEXE_INI,
@@ -137,18 +138,16 @@ end;
 
 function TMySQL.Cree_Connection: TSQLConnection;
 begin
-     {$IF DEFINED(FPC) AND NOT DEFINED(MSWINDOWS)}
-     WriteLn( 'Fichier ini:' +EXE_INI.FileName);
-     WriteLn( 'uMySQL paramétré pour MySQL version : '+Version);
-     {$ENDIF}
+     Log.PrintLn( 'Fichier ini:' +EXE_INI.FileName);
+     Log.PrintLn( 'uMySQL paramétré pour MySQL version : '+Version);
      {$IFDEF FPC}
           if '50' = Version then Result:= TMySQL50Connection.Create( nil)
      else if '51' = Version then Result:= TMySQL51Connection.Create( nil)
      else if '55' = Version then Result:= TMySQL55Connection.Create( nil)
      else
          begin
-         WriteLn( 'Attention version MySQL invalide dans _Configuration.ini: Version='+Version);
-         WriteLn( 'Version=50 pris par défaut');
+         Log.PrintLn( 'Attention version MySQL invalide dans _Configuration.ini: Version='+Version);
+         Log.PrintLn( 'Version=50 pris par défaut');
          Result:= TMySQL50Connection.Create( nil);
          end;
      {$ELSE}

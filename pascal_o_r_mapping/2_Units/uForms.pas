@@ -26,8 +26,13 @@ unit uForms;
 //Duplication de uOD_Forms,
 //pour ne pas bloquer le paquet pOOoDelphiReportEngine en mémoire dans Delphi
 //dans la palette de composants ( empêche la recompilation )
-{$IFDEF FPC}
-{$DEFINE uForms_console}
+{$IFDEF LINUX}
+  {$DEFINE uForms_console}
+  {$UNDEF  uForms_graphic}
+{$ENDIF}
+{$IFDEF MSWINDOWS}
+  {$UNDEF  uForms_console}
+  {$DEFINE uForms_graphic}
 {$ENDIF}
 
 interface
@@ -83,10 +88,12 @@ function uForms_Lance_Programme( EXE_FileName: String; Parametres: String = ''):
 
 implementation
 
-{$IFDEF uForms_console}
-{$ELSE}
+{$IFDEF uForms_graphic}
 uses
-    Windows, SysUtils,Forms, Dialogs;
+    {$IFDEF MSWINDOWS}
+    Windows,
+    {$ENDIF}
+    SysUtils,Forms, Dialogs;
 {$ENDIF}
 
 var
@@ -125,43 +132,68 @@ begin
      if Result then exit;
 end;
 
-{$IFDEF uForms_console}
 procedure uForms_ProcessMessages;
 begin
-
+     {$IFDEF uForms_graphic}
+     Application.ProcessMessages;
+     {$ENDIF}
 end;
 procedure uForms_Terminate;
 begin
+     {$IFDEF uForms_graphic}
+     Application.Terminate;
+     {$ENDIF}
+     {$IFDEF uForms_console}
      Halt;
+     {$ENDIF}
 end;
 
 function  uForms_Terminated: Boolean;
 begin
+     {$IFDEF uForms_graphic}
+     Result:= Application.Terminated;
+     {$ENDIF}
+     {$IFDEF uForms_console}
      Result:= False;
+     {$ENDIF}
 end;
 
 procedure uForms_Set_Hint( _S: String);
 begin
-     {$IF DEFINED(FPC) AND NOT DEFINED(MSWINDOWS)}
+     {$IFDEF uForms_graphic}
+     Application.Hint:= _S;
+     {$ENDIF}
+     {$IFDEF uForms_console}
      WriteLn( 'uForms_Set_Hint: '+_S);
      {$ENDIF}
 end;
 
 function  uForms_Title: string;
 begin
+     {$IFDEF uForms_graphic}
+     Result:= Application.Title;
+     {$ENDIF}
+     {$IFDEF uForms_console}
      Result:= uForms_EXE_Name;
+     {$ENDIF}
 end;
 
 procedure uForms_CancelHint;
 begin
-     {$IF DEFINED(FPC) AND NOT DEFINED(MSWINDOWS)}
+     {$IFDEF uForms_graphic}
+     Application.CancelHint;
+     {$ENDIF}
+     {$IFDEF uForms_console}
      WriteLn( 'uForms_CancelHint');
      {$ENDIF}
 end;
 
 procedure uForms_ShowMessage( _S: String);
 begin
-     {$IF DEFINED(FPC) AND NOT DEFINED(MSWINDOWS)}
+     {$IFDEF uForms_graphic}
+     ShowMessage( _S);
+     {$ENDIF}
+     {$IFDEF uForms_console}
      WriteLn( 'uForms_ShowMessage: ');
      WriteLn( _S);
      WriteLn;
@@ -170,7 +202,13 @@ end;
 
 procedure uForms_MessageBox( _Caption, _Prompt: String);
 begin
-     {$IF DEFINED(FPC) AND NOT DEFINED(MSWINDOWS)}
+     {$IFDEF uForms_graphic}
+     MessageBox( GetFocus,
+                 PChar( _Prompt),
+                 PChar( _Caption),
+                 MB_OK);
+     {$ENDIF}
+     {$IFDEF uForms_console}
      WriteLn( 'uForms_MessageBox: ');
      WriteLn( _Caption);
      WriteLn( _Prompt);
@@ -179,78 +217,12 @@ begin
 end;
 
 function uForms_Message_Yes( _Caption, _Prompt: String; _Default_No: Boolean= False): Boolean;
-begin
-     {$IF DEFINED(FPC) AND NOT DEFINED(MSWINDOWS)}
-     WriteLn( 'uForms_Message_Yes: ');
-     WriteLn( _Caption);
-     WriteLn( _Prompt);
-     WriteLn;
-     {$ENDIF}
-     Result:= false;
-end;
-
-function uForms_Charge_Paquet( NomPaquet: String): Boolean;
-begin
-     Result:= True;
-end;
-
-function uForms_Variables_d_environnement: String;
-begin
-     Result:= '';
-end;
-
-function uForms_Lance_Programme( EXE_FileName: String; Parametres: String = ''): Boolean;
-begin
-     Result:= True;
-end;
-
-{$ELSE}
-procedure uForms_ProcessMessages;
-begin
-     Application.ProcessMessages;
-end;
-
-procedure uForms_Terminate;
-begin
-     Application.Terminate;
-end;
-
-function  uForms_Terminated: Boolean;
-begin
-     Result:= Application.Terminated;
-end;
-
-procedure uForms_Set_Hint( _S: String);
-begin
-     Application.Hint:= _S;
-end;
-
-function  uForms_Title: string;
-begin
-     Result:= Application.Title;
-end;
-
-procedure uForms_CancelHint;
-begin
-     Application.CancelHint;
-end;
-
-procedure uForms_ShowMessage( _S: String);
-begin
-     ShowMessage( _S);
-end;
-
-procedure uForms_MessageBox( _Caption, _Prompt: String);
-begin
-     MessageBox( GetFocus,
-                 PChar( _Prompt),
-                 PChar( _Caption),
-                 MB_OK);
-end;
-function uForms_Message_Yes( _Caption, _Prompt: String; _Default_No: Boolean= False): Boolean;
+{$IFDEF uForms_graphic}
 var
    Flags: Longint;
+{$ENDIF}
 begin
+     {$IFDEF uForms_graphic}
      Flags:= MB_YESNO or MB_ICONQUESTION;
      if _Default_No
      then
@@ -260,13 +232,24 @@ begin
        IDYES
        =
        MessageBox( GetFocus, PChar( _Prompt), PChar( _Caption), Flags);
+     {$ENDIF}
+     {$IFDEF uForms_console}
+     WriteLn( 'uForms_Message_Yes: ');
+     WriteLn( _Caption);
+     WriteLn( _Prompt);
+     WriteLn;
+     Result:= false;
+     {$ENDIF}
 end;
 
 function uForms_Charge_Paquet( NomPaquet: String): Boolean;
+{$IFDEF uForms_graphic}
 var
    NomFichierPackage: String;
    FileFound: Boolean;
+{$ENDIF}
 begin
+     {$IFDEF uForms_graphic}
      Result:= uForms_Contexte.Paquet_Charge( NomPaquet);
      if  Result then exit;
 
@@ -307,19 +290,29 @@ begin
              end;
          end;
      Result:= FileFound;
+     {$IFNDEF FPC}
      if FileFound
      then
          Result:= LoadPackage( NomFichierPackage) <> 0;
+     {$ENDIF}
+     {$ENDIF}
+     {$IFDEF uForms_console}
+     Result:= True;
+     {$ENDIF}
 end;
 
 function uForms_Variables_d_environnement: String;
+{$IFDEF uForms_graphic}
 var
    ES: PChar;
    I: Integer;
    C: Char;
+{$ENDIF}
 begin
+     {$IFDEF uForms_graphic}
      Result:= 'Variables d''environnement:'#13#10;
 
+     {$IFNDEF FPC}
      ES:= GetEnvironmentStrings;
      if ES = nil then exit;
      try
@@ -339,13 +332,29 @@ begin
      finally
             FreeEnvironmentStrings( ES);
             end;
+     {$ENDIF}
+     {$ENDIF}
+     {$IFDEF uForms_console}
+     Result:= '';
+     {$ENDIF}
 end;
 
 function uForms_Lance_Programme( EXE_FileName: String; Parametres: String = ''): Boolean;
+{$IFDEF uForms_graphic}
+{$IFNDEF FPC}
 var
    si: TStartupInfo;
    pi: TProcessInformation;
+{$ENDIF}
+{$ENDIF}
 begin
+     {$IFDEF uForms_console}
+     Result:= True;
+     {$ENDIF}
+     {$IFDEF uForms_graphic}
+     {$IFDEF FPC}
+     Result:= True;
+     {$ELSE}
      FillChar( si, SizeOf( si), 0);
      si.cb:= SizeOf( si);
      Parametres:= '"'+EXE_FileName+'" '+Parametres;
@@ -355,9 +364,19 @@ begin
      if Result
      then
          WaitForInputIdle( pi.hProcess, INFINITE);
+     {$ENDIF}
+     {$ENDIF}
 end;
 
-{$ENDIF}
+procedure uForms_WriteLn( _S: String);
+begin
+     {$IFDEF uOD_Forms_graphic}
+     ShowMessage( _S);
+     {$ENDIF}
+     {$IFDEF uOD_Forms_console}
+     WriteLn( _S);
+     {$ENDIF}
+end;
 
 function uForms_EXE_Name: String;
 begin

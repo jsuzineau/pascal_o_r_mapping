@@ -28,11 +28,12 @@ interface
 uses
     ubtString,
     uskString,
+    uuStrings,
     uBatpro_StringList,
-    {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+    {$IFNDEF FPC}
     uWinUtils,
     uWindows,
-    {$IFEND}
+    {$ENDIF}
     uReels,
     uTraits,
     u_sys_,
@@ -51,9 +52,9 @@ uses
     ufBitmaps,
     {$IFEND}
 
-  {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+  {$IFNDEF FPC}
   Windows, Controls, Menus, Types, ExtCtrls, Grids,Graphics,
-  {$IFEND}
+  {$ENDIF}
   SysUtils, Classes;
 
 const
@@ -88,7 +89,23 @@ const
 
 type
   {$IFDEF FPC}
-  TPopupMenu=TObject;
+
+  { TPopupMenu }
+
+  TPopupMenu
+  =
+   class
+     constructor create( _object: TObject);
+   end;
+
+  { TMenuItem }
+
+  TMenuItem
+  =
+   class
+     constructor create( _object: TObject);
+   end;
+
   TMouseButton=TObject;
   {$ENDIF}
   TTypeJalon = (
@@ -127,6 +144,9 @@ type
 
  TBatpro_ElementClassParams= class;
  TslBatpro_Element = class;
+
+ { TBatpro_Element }
+
  TBatpro_Element
  =
   class( TChampsProvider)
@@ -230,8 +250,19 @@ type
   public
     procedure svgDraw( DrawInfo: TDrawInfo); virtual;
   //Menu contextuel
+  protected
+    FPopupMenu: TPopupMenu;
+    miContexteFont: TMenuItem;
+    function Assure_PopupMenu: Boolean; virtual;
+    procedure miContexteFontCLick( Sender:TObject);
   public
     function Popup( Contexte: Integer): TPopupMenu; virtual;
+  //Gestion de la composition de la bulle d'aide
+  private
+    miBulle: TMenuItem;
+    procedure miBulleCLick( Sender:TObject);
+  public
+    procedure EditeBulle( Contexte: Integer); virtual;
   //Gestion de la souris
   public
     function MouseDown( Button: TMouseButton; Shift: TShiftState): Boolean; virtual;
@@ -317,6 +348,7 @@ type
   //Listing des champs pour déboguage
   public
     function Listing_Champs( Separateur: String): String; virtual;
+    function Listing( Indentation: String): String; virtual;
   //Vérification de la cohérence
   public
     procedure Verifie_coherence( var _log: String); virtual;
@@ -577,6 +609,8 @@ type
     function Iterateur_Decroissant: TIterateur_hAggregation;
   end;
 
+ { ThAggregation }
+
  ThAggregation
  =
   class( TBatpro_StringList)
@@ -632,6 +666,9 @@ type
   //Type d'aggrégation: forte ou faible
   public
     Forte: Boolean;
+  //Listing des champs pour déboguage
+  public
+    function Listing( Indentation: String): String; virtual;
   end;
 
  ThAggregation_Create_Params
@@ -667,6 +704,8 @@ type
 
  TCreate_Aggregation_procedure= procedure ( Name: String; P: ThAggregation_Create_Params) of object;
 
+ { TAggregations }
+
  TAggregations //liste de ThAggregation
  =
   class
@@ -700,6 +739,9 @@ type
   //Suppression
   public
     procedure Delete_from_database; 
+  //Listing des champs pour déboguage
+  public
+    function Listing( Indentation: String): String;
   end;
 
 function hAggregation_from_sl( sl: TStringList; Index: Integer): ThAggregation;
@@ -742,6 +784,24 @@ function Batpro_Element_from_sl_sCle( sl: TStringList; sCle: String): TBatpro_El
 begin
      _Classe_from_sl_sCle( Result, TBatpro_Element, sl, sCle);
 end;
+
+{$IFDEF FPC}
+{ TMenuItem }
+
+constructor TMenuItem.create(_object: TObject);
+begin
+
+end;
+{$ENDIF}
+
+{$IFDEF FPC}
+{ TPopupMenu }
+
+constructor TPopupMenu.create(_object: TObject);
+begin
+
+end;
+{$ENDIF}
 
 { TIterateur_Batpro_Element }
 
@@ -873,6 +933,10 @@ begin
         Aggrandir_a_l_impression:= False;
         FAggregations:= nil;
         Contenu_statique:= '';        
+        {$IFNDEF FPC}
+        FPopupMenu:= nil;
+        miContexteFont:= nil;
+        {$ENDIF}
      finally
             Creating:= False;
             end;
@@ -880,6 +944,9 @@ end;
 
 destructor TBatpro_Element.Destroy;
 begin
+     {$IFNDEF FPC}
+     Free_nil( FPopupMenu);
+     {$ENDIF}
      Free_nil( FAggregations);
      Free_nil( FConnecteurs);
      Free_nil( FAggregeurs);
@@ -1400,7 +1467,7 @@ end;
 
 function TBatpro_Element.ClassFont( DrawInfo: TDrawInfo): TFont;
 begin
-     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+     {$IFNDEF FPC}
      Result:= ClassParams.ContexteFont[ DrawInfo.Contexte];
      if       (Aggrandir_a_l_impression or (DrawInfo.Col = 0))
           and (DrawInfo.Impression)
@@ -1415,7 +1482,7 @@ begin
                Size
              * Impression_Font_Size_Multiplier.Valeur[ DrawInfo.Contexte];
          end;
-     {$IFEND}
+     {$ENDIF}
 end;
 
 function TBatpro_Element.Has_ClassParams: Boolean;
@@ -1597,9 +1664,62 @@ begin
      Result:= Cell[ Contexte];
 end;
 
+function TBatpro_Element.Assure_PopupMenu: Boolean;
+begin
+     Result:= nil = FPopupMenu;
+     if not Result then exit;
+
+     FPopupMenu:= TPopupMenu.Create( nil);
+
+     {$IFNDEF FPC}
+     miContexteFont:= TMenuItem.Create( FPopupMenu);
+     FPopupMenu.Items.Add( miContexteFont);
+     miContexteFont.Caption:= 'Police';
+     miContexteFont.OnClick:= miContexteFontCLick;
+
+     miBulle:= TMenuItem.Create( FPopupMenu);
+     FPopupMenu.Items.Add( miBulle);
+     miBulle.Caption:= 'Bulle d''aide '+ClassName;
+     miBulle.OnClick:= miBulleCLick;
+     {$ENDIF}
+end;
+
 function TBatpro_Element.Popup(Contexte: Integer): TPopupMenu;
 begin
-     Result:= nil;
+     Assure_PopupMenu;
+
+     Result:= FPopupMenu;
+     {$IFNDEF FPC}
+     miContexteFont.Tag:= Contexte;
+     miBulle       .Tag:= Contexte;
+     {$ENDIF}
+end;
+
+procedure TBatpro_Element.miContexteFontCLick(Sender: TObject);
+var
+   Contexte: Integer;
+begin
+     {$IFNDEF FPC}
+     Contexte:= miContexteFont.Tag;
+     ClassParams.Edit_ContexteFont( Contexte);
+     {$ENDIF}
+end;
+
+procedure TBatpro_Element.miBulleCLick(Sender: TObject);
+var
+   Contexte: Integer;
+begin
+     {$IFNDEF FPC}
+     Contexte:= miBulle.Tag;
+     EditeBulle( Contexte);
+     {$ENDIF}
+end;
+
+procedure TBatpro_Element.EditeBulle(Contexte: Integer);
+begin
+     {$IFNDEF FPC}
+     MessageBox( 0, PChar( String( classname)), 'EditeBulle', 0);
+     {$ENDIF}
 end;
 
 function TBatpro_Element.Index: Integer;
@@ -3436,6 +3556,11 @@ begin
      Result:= 'Self: '+ClassName+' = $'+IntToHex( Integer( Pointer( Self)), 8);
 end;
 
+function TBatpro_Element.Listing( Indentation: String): String;
+begin
+     Result:= Aggregations.Listing( Indentation+'   ');
+end;
+
 procedure TBatpro_Element.Verifie_coherence( var _log: String);
 begin
 end;
@@ -4009,7 +4134,25 @@ end;
 
 function ThAggregation.JSON: String;
 begin
-     Result:= sl.JSON;
+     Result:= inherited JSON;
+end;
+
+function ThAggregation.Listing(Indentation: String): String;
+var
+   be: TBatpro_Element;
+   I: TIterateur;
+begin
+     Result:= '';
+     Charge;
+
+     I:= Iterateur_interne;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant_interne( be) then continue;
+
+       Formate_Liste( Result, #13#10, be.Listing(Indentation+'  '));
+       end;
 end;
 
 procedure ThAggregation.Ajoute_slCharge;
@@ -4203,5 +4346,27 @@ begin
        ha.Delete_from_database;
        end;
 end;
+
+function TAggregations.Listing(Indentation: String): String;
+var
+   I: Integer;
+   ha: ThAggregation;
+   sha: String;
+begin
+     Result:= '';
+     for I:= 0 to sl.Count -1
+     do
+       begin
+       ha:= hAggregation_from_sl( sl, I);
+       if ha = nil then continue;
+
+       sha:= ha.Listing(Indentation);
+       if '' = sha then continue;
+
+       Formate_Liste( Result, #13#10, Indentation+sl[I]);
+       Formate_Liste( Result, #13#10, sha);
+       end;
+end;
+
 
 end.

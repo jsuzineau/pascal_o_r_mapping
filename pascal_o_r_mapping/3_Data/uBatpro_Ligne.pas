@@ -234,6 +234,7 @@ type
   //Listing des champs pour déboguage
   public
     function Listing_Champs( Separateur: String): String; override;
+    function Listing( Indentation: String): String; override;
   end;
 
  TBatpro_Ligne_Class= class of TBatpro_Ligne;
@@ -1108,10 +1109,12 @@ begin
      Result:= '{'+Champs.JSON+Aggregations.JSON+'}';
 end;
 
+{$IFDEF FPC}
 procedure TBatpro_Ligne.SetJSON(_Value: String);
 begin
      Champs.JSON:= _Value;
 end;
+{$ENDIF}
 
 function TBatpro_Ligne.Listing_Champs( Separateur: String): String;
 var
@@ -1139,6 +1142,14 @@ begin
 
        Formate_Liste( Result, Separateur, S);
        end;
+end;
+
+function TBatpro_Ligne.Listing(Indentation: String): String;
+begin
+     Result
+     :=
+        Indentation+'>'+GetCode+'<, '+GetLibelle+#13#10
+       +inherited Listing(Indentation);
 end;
 
 { TGroupe }

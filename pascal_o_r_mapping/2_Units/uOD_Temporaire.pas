@@ -123,7 +123,6 @@ var
    sl: TStringList;
 begin
      Result:= GetTempFileName( RepertoireTemp, Prefixe);
-     //WriteLn( 'TOD_Temporaire.Nouveau_Fichier: GetTempFileName( RepertoireTemp= ',RepertoireTemp,',Prefixe=',Prefixe,')=',Result);
      sl:= TStringList.Create;
      try
         sl.Text:= 'PlaceHolder';

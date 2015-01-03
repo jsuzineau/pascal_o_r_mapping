@@ -29,6 +29,7 @@ uses
     uClean,
     uuStrings,
     uDataUtilsF,
+    uSGBD,
 
     udmDatabase,
 
@@ -280,6 +281,8 @@ end;
 
 procedure TRequete.MySQL_codepage( _codepage: String);
 begin
+     if not sgbdMYSQL then exit;
+
      SQL:= 'SET CHARACTER SET `'+_codepage+'`';
      Execute;
      SQL:= 'SET NAMES `'+_codepage+'`';

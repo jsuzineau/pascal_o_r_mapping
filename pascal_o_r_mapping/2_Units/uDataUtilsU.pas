@@ -33,9 +33,9 @@ uses
     uuStrings,
     ufAccueil_Erreur,
   SysUtils, Classes, DB, DBTables, TypInfo,
-  {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+  {$IFNDEF FPC}
   Graphics, Forms, Dialogs, Controls,DBCtrls,StdCtrls,
-  {$IFEND}
+  {$ENDIF}
   BufDataset, Math, Types, DateUtils, Variants;
 
 function Lettre_from_NumeroJour( I: Integer): String;
@@ -48,6 +48,8 @@ function DateSQL_DMY2_Slash( D: TDateTime): String;
 function DateSQL_DMY4_Point( D: TDateTime): String;
 function DateSQL_DMY2_Point( D: TDateTime): String;
 function DateSQL_Y4MD_Tiret( D: TDateTime): String;
+function DateSQL_ISO8601( D: TDateTime): String;
+
 function DateSQL_Y4MD_To_Date( S: String): TDateTime;
 function DateSQL_DMY4_sans_separateur( D: TDateTime): String;
 
@@ -61,6 +63,7 @@ function TryDMYToDate( DMY: String; out DT: TDateTime): Boolean;
 
 function DateTimeSQL( D: TDateTime): String;
 function DateTimeSQL_sans_quotes( D: TDateTime): String;
+function DateTime_ISO8601_sans_quotes( D: TDateTime): String;
 
 function DateTimeSQL_sans_quotes_DMY2( D: TDateTime): String;
 function DateTimeSQL_MySQL( D: TDateTime): String;
@@ -144,6 +147,8 @@ function SQL_MATCHES_Etoile( NomChamp, Valeur:String):String;
 function SQL_Racine( NomChamp, Valeur:String):String;
 procedure Value_to_Racine( var S: String; sNomChamp: String);
 
+function SQL_Contient( NomChamp, Valeur:String):String;
+
 //retourne vide si NomChamp ou Valeur vide
 function SQL_OP( NomChamp, OP, Valeur:String):String;
 
@@ -189,13 +194,13 @@ function Echappe_SQL( S: String): String;
 
 procedure CopyLine( Source, Cible: TBufDataSet );
 
-{$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+{$IFNDEF FPC}
 const
      nbNavigation: TButtonSet= [nbFirst, nbPrior, nbNext, nbLast];
 
 procedure ComboBox_from_Dataset( cb: TComboBox; ds: TDataset;
                                  FieldNames: array of String; Separator: String = '');
-{$IFEND}
+{$ENDIF}
 
 function FormateChamp( Champ: TField; Longueur: Integer): String; overload;
 function FormateChamp( Champ: TField): String; overload;
@@ -277,6 +282,11 @@ begin
      Result:= FormatDateTime( 'yyyy-mm-dd hh:nn:ss', D);
 end;
 
+function DateTime_ISO8601_sans_quotes( D: TDateTime): String;
+begin
+     Result:= FormatDateTime( 'yyyy"-"mm"-"dd"T"hh":"nn":"ss', D);
+end;
+
 function DateTimeSQL_sans_quotes_DMY2( D: TDateTime): String;
 begin
      Result:= FormatDateTime( 'dd-mm-yy hh:nn:ss', D);
@@ -326,6 +336,11 @@ end;
 function DateSQL_Y4MD_Tiret( D: TDateTime): String;
 begin
      Result:= FormatDateTime( 'yyyy"-"mm"-"dd', D)
+end;
+
+function DateSQL_ISO8601( D: TDateTime): String;
+begin
+     Result:= DateTime_ISO8601_sans_quotes( Int(D));
 end;
 
 function DateSQL_Y4MD_To_Date( S: String): TDateTime;
@@ -480,7 +495,7 @@ begin
          FF_Value        := TFloatField(Sender).Value        ;
          FF_Currency     := TFloatField(Sender).Currency     ;
          end
-     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+     {$IFNDEF FPC}
      else if Sender is TAggregateField
      then
          begin
@@ -1080,6 +1095,15 @@ begin
          Result:= SQL_OP( NomChamp, 'LIKE', Echappe_SQL( Valeur)+'%');
 end;
 
+function SQL_Contient( NomChamp, Valeur:String):String;
+begin
+     if '' = Valeur
+     then
+         Result:= ''   // sinon en mysql, si le champ est à null la ligne n'est pas retournée
+     else
+         Result:= SQL_OP( NomChamp, 'LIKE', '%'+Echappe_SQL( Valeur)+'%');
+end;
+
 procedure Value_to_Racine( var S: String; sNomChamp: String);
 begin
      S:= SQL_Racine( sNomChamp, S);
@@ -1404,7 +1428,7 @@ begin
        end;
 end;
 
-{$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+{$IFNDEF FPC}
 procedure ComboBox_from_Dataset( cb: TComboBox; ds: TDataset;
                                  FieldNames: array of String; Separator: String = '');
 var
@@ -1433,7 +1457,7 @@ begin
        ds.Next;
        end;
 end;
-{$IFEND}
+{$ENDIF}
 
 function FormateChaine( S: String; Longueur: Integer): String;
 var
@@ -1455,7 +1479,7 @@ function FormateChamp( Champ: TField): String; overload;
 var
    L: Integer;
 begin
-{$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+{$IFNDEF FPC}
      if Champ is TAggregateField then L:=Length(TAggregateField(Champ).DisplayFormat)
 else
 {$ENDIF}
@@ -1871,7 +1895,7 @@ begin
      // Delphi 7: TAggregateField.IsNull est bogué, il retourne null
      // systématiquement à la 2ème ligne même si l'on a une valeur
      if (f.IsNull)
-        {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+        {$IFNDEF FPC}
         and not (f is TAggregateField)
         {$ENDIF}
      then exit;

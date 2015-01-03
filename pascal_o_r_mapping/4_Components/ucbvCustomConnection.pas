@@ -26,6 +26,7 @@ unit ucbvCustomConnection;
 interface
 
 uses
+    uLog,
     ucBatproVerifieur,
   Classes, SysUtils, LCLClasses, DB, SQLDB;
 
@@ -70,7 +71,7 @@ procedure TbvCustomConnection.Loaded;
    procedure Erreur( S: String);
    begin
         S:= bvGetNamePath( Self)+':'+S;
-        WriteLn( S);
+        Log.PrintLn( S);
    end;
    procedure Traite_SQLConnection( sqlc: TDatabase);
    begin
