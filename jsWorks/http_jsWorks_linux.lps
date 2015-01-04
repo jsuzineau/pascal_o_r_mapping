@@ -8,9 +8,10 @@
         <Filename Value="http_jsWorks_linux.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="http_jsWorks_linux"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
+        <TopLine Value="64"/>
         <CursorPos X="24" Y="35"/>
         <UsageCount Value="113"/>
         <Loaded Value="True"/>
@@ -442,7 +443,6 @@
       <Unit44>
         <Filename Value="../pascal_o_r_mapping/3_Data/uDataUtilsF.pas"/>
         <UnitName Value="uDataUtilsF"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="856"/>

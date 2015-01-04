@@ -1,0 +1,60 @@
+>Fichier ini:/home/jean/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL param�tr� pour MySQL version : 55
+>Fichier ini:/home/jean/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL param�tr� pour MySQL version : 55
+>Echec de la connection au SGBD
+>L'ouverture de la SQLConnection . à échoué
+Classe de l'exception :
+    EInOutError
+Message de l'exception:
+    Can not load default MySQL library ("libmysqlclient.so.18" or "libmysqlclient.so"). Check your installation.
+Paramètres de la SQLConnection:
+ConnectionName   : 
+DriverName  : 
+Paramètres  : 
+
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Fichier ini:/home/jean/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL param�tr� pour MySQL version : 51
+>Fichier ini:/home/jean/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL param�tr� pour MySQL version : 51
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Erreur SGBD
+>L'exécution de la requête poolAutomatic.sqlqLoad a échoué. 
+Classe de l'exception :
+    EDatabaseError
+Message de l'exception:
+     : Error executing query: Table 'jsWorks.Works' doesn't exist
+Code de la requête :
+    select * from Works limit 0,5
+
+Paramètres :
+
+Paramètres de connection:
+
+>Erreur SGBD
+>L'exécution de la requête poolAutomatic.sqlqLoad a échoué. 
+Classe de l'exception :
+    EDatabaseError
+Message de l'exception:
+     : Error executing query: Table 'jsWorks.Works' doesn't exist
+Code de la requête :
+    select * from Works limit 0,5
+
+Paramètres :
+
+Paramètres de connection:
+
+>Erreur SGBD
+>L'exécution de la requête poolAutomatic.sqlqLoad a échoué. 
+Classe de l'exception :
+    EDatabaseError
+Message de l'exception:
+     : Error executing query: Table 'jsWorks.Works' doesn't exist
+Code de la requête :
+    select * from Works limit 0,5
+
+Paramètres :
+
+Paramètres de connection:
+

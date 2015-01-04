@@ -1,3 +1,14 @@
 id=id
 Selected=Selected
-Name=Name
+nProject=nProject
+nState=nState
+nCreationWork=nCreationWork
+nSolutionWork=nSolutionWork
+Description=Description
+Steps=Steps
+Origin=Origin
+Solution=Solution
+nCategorie=nCategorie
+isBug=isBug
+nDemander=nDemander
+nSheetRef=nSheetRef
