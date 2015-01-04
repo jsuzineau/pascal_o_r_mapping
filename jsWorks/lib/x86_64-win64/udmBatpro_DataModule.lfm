@@ -1,0 +1,9 @@
+object dmBatpro_DataModule: TdmBatpro_DataModule
+  OldCreateOrder = False
+  left = 381
+  top = 269
+  Height = 547
+  HorizontalOffset = 538
+  VerticalOffset = 24
+  Width = 711
+end

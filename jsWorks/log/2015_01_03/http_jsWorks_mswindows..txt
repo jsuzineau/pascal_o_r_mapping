@@ -1,0 +1,58 @@
+>Fichier ini:C:\public\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramÈtrÈ pour MySQL version : 55
+>Fichier ini:C:\public\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramÈtrÈ pour MySQL version : 55
+>Erreur SGBD
+>L'ex√©cution de la requ√™te poolCATEGORIE.sqlq_SELECT_ALL a √©chou√©. 
+Classe de l'exception :
+    EInOutError
+Message de l'exception:
+    Can not load default MySQL library ("libmysql.dll" or "libmysql.dll"). Check your installation.
+Code de la requ√™te :
+    select * from Categorie
+
+Param√®tres :
+
+Param√®tres de connection:
+
+>
+>Dans TPool.ToutCharger, exception Exception
+Failed to create win32 control, error: 1407 : Classe de fenÍtre introuvable.
+>Fichier ini:C:\public\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramÈtrÈ pour MySQL version : 55
+>Fichier ini:C:\public\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramÈtrÈ pour MySQL version : 55
+>Fichier ini:C:\public\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramÈtrÈ pour MySQL version : 55
+>Fichier ini:C:\public\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramÈtrÈ pour MySQL version : 55
+>Erreur SGBD
+>L'ex√©cution de la requ√™te poolCATEGORIE.sqlq_SELECT_ALL a √©chou√©. 
+Classe de l'exception :
+    EInOutError
+Message de l'exception:
+    TMySQL55Connection can not work with the installed MySQL client version: Expected (5.5), got (5.6.17).
+Code de la requ√™te :
+    select * from Categorie
+
+Param√®tres :
+
+Param√®tres de connection:
+
+>Fichier ini:C:\public\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramÈtrÈ pour MySQL version : 55
+>Fichier ini:C:\public\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramÈtrÈ pour MySQL version : 55
+>Erreur SGBD
+>L'ex√©cution de la requ√™te poolCATEGORIE.sqlq_SELECT_ALL a √©chou√©. 
+Classe de l'exception :
+    EInOutError
+Message de l'exception:
+    Can not load default MySQL library ("libmysql.dll" or "libmysql.dll"). Check your installation.
+Code de la requ√™te :
+    select * from Categorie
+
+Param√®tres :
+
+Param√®tres de connection:
+

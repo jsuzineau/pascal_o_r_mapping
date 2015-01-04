@@ -200,7 +200,7 @@
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="4">
       <Item1>
-        <PackageName Value="OD_DelphiReportEngine_Components"/>
+        <PackageName Value="OD_DelphiReportEngine_Components_windows"/>
       </Item1>
       <Item2>
         <PackageName Value="OD_DelphiReportEngine_Units_windows"/>

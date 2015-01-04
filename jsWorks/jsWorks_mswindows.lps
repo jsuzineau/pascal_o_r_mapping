@@ -3,7 +3,7 @@
   <ProjectSession>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="265">
+    <Units Count="312">
       <Unit0>
         <Filename Value="jsWorks_mswindows.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -36,7 +36,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="136" Y="10"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
       <Unit3>
@@ -46,7 +46,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
       </Unit3>
       <Unit4>
         <Filename Value="ublJour_ferie.pas"/>
@@ -65,7 +65,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
       </Unit5>
       <Unit6>
         <Filename Value="ublState.pas"/>
@@ -74,7 +74,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
       </Unit6>
       <Unit7>
         <Filename Value="ublWork.pas"/>
@@ -83,7 +83,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
       </Unit7>
       <Unit8>
         <Filename Value="uhfCategorie.pas"/>
@@ -92,7 +92,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
       </Unit8>
       <Unit9>
         <Filename Value="upoolCategorie.pas"/>
@@ -102,7 +102,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
       </Unit9>
       <Unit10>
         <Filename Value="upoolDevelopment.pas"/>
@@ -112,7 +112,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
       </Unit10>
       <Unit11>
         <Filename Value="upoolJour_ferie.pas"/>
@@ -133,7 +133,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
       </Unit12>
       <Unit13>
         <Filename Value="upoolState.pas"/>
@@ -143,7 +143,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
       </Unit13>
       <Unit14>
         <Filename Value="upoolWork.pas"/>
@@ -155,7 +155,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="49" Y="26"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
       </Unit14>
       <Unit15>
         <Filename Value="uhfWork.pas"/>
@@ -164,7 +164,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
       </Unit15>
       <Unit16>
         <Filename Value="udkProject_EDIT.pas"/>
@@ -189,7 +189,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="22"/>
-        <UsageCount Value="196"/>
+        <UsageCount Value="197"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit17>
       <Unit18>
@@ -202,7 +202,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="22"/>
-        <UsageCount Value="196"/>
+        <UsageCount Value="197"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit18>
       <Unit19>
@@ -215,7 +215,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="22"/>
-        <UsageCount Value="173"/>
+        <UsageCount Value="174"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit19>
       <Unit20>
@@ -228,7 +228,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="22"/>
-        <UsageCount Value="122"/>
+        <UsageCount Value="123"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit20>
       <Unit21>
@@ -238,7 +238,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="25"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit21>
       <Unit22>
@@ -248,7 +248,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1472"/>
         <CursorPos X="25" Y="1497"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="25"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit22>
       <Unit23>
@@ -258,7 +258,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit23>
       <Unit24>
@@ -270,7 +270,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="23"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit24>
@@ -280,9 +280,9 @@
         <UnitName Value="ublAutomatic"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="25"/>
-        <CursorPos X="13" Y="53"/>
-        <UsageCount Value="22"/>
+        <TopLine Value="31"/>
+        <CursorPos X="5" Y="45"/>
+        <UsageCount Value="23"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit25>
@@ -2289,8 +2289,7 @@
       <Unit263>
         <Filename Value="Generateur_Delphi/Source/Pascal/pPROJECT/ublPROJECT.pas"/>
         <UnitName Value="ublPROJECT"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="50"/>
         <WindowIndex Value="0"/>
         <TopLine Value="16"/>
         <CursorPos X="40" Y="63"/>
@@ -2307,15 +2306,592 @@
         <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit264>
+      <Unit265>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler/uPatternHandler.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uPatternHandler"/>
+        <EditorIndex Value="49"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit265>
+      <Unit266>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/uGenerateur_Delphi_Ancetre.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uGenerateur_Delphi_Ancetre"/>
+        <EditorIndex Value="48"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit266>
+      <Unit267>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/uJoinPoint.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uJoinPoint"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit267>
+      <Unit268>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Declaration_cle.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_Declaration_cle"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit268>
+      <Unit269>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Affecte.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_Affecte"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit269>
+      <Unit270>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Champ_EditDFM.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_Champ_EditDFM"/>
+        <EditorIndex Value="6"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit270>
+      <Unit271>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL/ujpSQL_CREATE_TABLE.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpSQL_CREATE_TABLE"/>
+        <EditorIndex Value="7"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit271>
+      <Unit272>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL/ujpSQL_Order_By_Key.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpSQL_Order_By_Key"/>
+        <EditorIndex Value="8"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit272>
+      <Unit273>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General/ujpNom_de_la_classe.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpNom_de_la_classe"/>
+        <EditorIndex Value="9"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit273>
+      <Unit274>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General/ujpNom_de_la_table.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpNom_de_la_table"/>
+        <EditorIndex Value="10"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit274>
+      <Unit275>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General/ujpNomTableMinuscule.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpNomTableMinuscule"/>
+        <EditorIndex Value="11"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit275>
+      <Unit276>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine/ujpPHP_Doctrine_Has_Column.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPHP_Doctrine_Has_Column"/>
+        <EditorIndex Value="12"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit276>
+      <Unit277>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine/ujpPHP_Doctrine_HasOne.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPHP_Doctrine_HasOne"/>
+        <EditorIndex Value="13"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit277>
+      <Unit278>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp/ujpCSharp_Conteneurs.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpCSharp_Conteneurs"/>
+        <EditorIndex Value="14"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit278>
+      <Unit279>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp/ujpCSharp_Contenus.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpCSharp_Contenus"/>
+        <EditorIndex Value="15"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit279>
+      <Unit280>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp/ujpCSharp_DocksDetails.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpCSharp_DocksDetails"/>
+        <EditorIndex Value="16"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit280>
+      <Unit281>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp/ujpCSharp_DocksDetails_Affiche.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpCSharp_DocksDetails_Affiche"/>
+        <EditorIndex Value="17"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit281>
+      <Unit282>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine/ujpPHP_Doctrine_HasMany.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPHP_Doctrine_HasMany"/>
+        <EditorIndex Value="18"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit282>
+      <Unit283>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp/ujpCSharp_Champs_persistants.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpCSharp_Champs_persistants"/>
+        <EditorIndex Value="19"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit283>
+      <Unit284>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp/ujpCSharp_Chargement_Conteneurs.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpCSharp_Chargement_Conteneurs"/>
+        <EditorIndex Value="20"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit284>
+      <Unit285>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_uses_ubl.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_uses_ubl"/>
+        <EditorIndex Value="21"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit285>
+      <Unit286>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_uses_upool.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_uses_upool"/>
+        <EditorIndex Value="22"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit286>
+      <Unit287>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_f_implementation_uses_key.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_f_implementation_uses_key"/>
+        <EditorIndex Value="23"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit287>
+      <Unit288>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_sCle_from__Declaration.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_sCle_from__Declaration"/>
+        <EditorIndex Value="24"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit288>
+      <Unit289>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_sCle_from__Implementation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_sCle_from__Implementation"/>
+        <EditorIndex Value="25"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit289>
+      <Unit290>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_sCle_Implementation_Body.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_sCle_Implementation_Body"/>
+        <EditorIndex Value="26"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit290>
+      <Unit291>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_declaration_champs.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_declaration_champs"/>
+        <EditorIndex Value="27"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit291>
+      <Unit292>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_f_Execute_After_Key.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_f_Execute_After_Key"/>
+        <EditorIndex Value="28"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit292>
+      <Unit293>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_f_Execute_Before_Key.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_f_Execute_Before_Key"/>
+        <EditorIndex Value="29"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit293>
+      <Unit294>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_aggregations_faibles_declaration.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_aggregations_faibles_declaration"/>
+        <EditorIndex Value="30"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit294>
+      <Unit295>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_aggregations_faibles_pool_get.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_aggregations_faibles_pool_get"/>
+        <EditorIndex Value="31"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit295>
+      <Unit296>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_creation_champs.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_creation_champs"/>
+        <EditorIndex Value="32"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit296>
+      <Unit297>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Test_Declaration_Key.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_Test_Declaration_Key"/>
+        <EditorIndex Value="33"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit297>
+      <Unit298>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Test_Implementation_Key.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_Test_Implementation_Key"/>
+        <EditorIndex Value="34"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit298>
+      <Unit299>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_To_SQLQuery_Params_Body.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_To_SQLQuery_Params_Body"/>
+        <EditorIndex Value="35"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit299>
+      <Unit300>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Traite_Index_key.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_Traite_Index_key"/>
+        <EditorIndex Value="36"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit300>
+      <Unit301>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_QCalcFieldsKey.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_QCalcFieldsKey"/>
+        <EditorIndex Value="37"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit301>
+      <Unit302>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_QfieldsDFM.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_QfieldsDFM"/>
+        <EditorIndex Value="38"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit302>
+      <Unit303>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_QfieldsPAS.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_QfieldsPAS"/>
+        <EditorIndex Value="39"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit303>
+      <Unit304>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_SQLWHERE_ContraintesChamps_Body.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_SQLWHERE_ContraintesChamps_Body"/>
+        <EditorIndex Value="40"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit304>
+      <Unit305>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Test_Call_Key.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_Test_Call_Key"/>
+        <EditorIndex Value="41"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit305>
+      <Unit306>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Get_by_Cle_Declaration.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_Get_by_Cle_Declaration"/>
+        <EditorIndex Value="42"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit306>
+      <Unit307>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Get_by_Cle_Implementation.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_Get_by_Cle_Implementation"/>
+        <EditorIndex Value="43"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit307>
+      <Unit308>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_LabelsDFM.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_LabelsDFM"/>
+        <EditorIndex Value="44"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit308>
+      <Unit309>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_LabelsPAS.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_LabelsPAS"/>
+        <EditorIndex Value="45"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit309>
+      <Unit310>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Ouverture_key.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_Ouverture_key"/>
+        <EditorIndex Value="46"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit310>
+      <Unit311>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Champ_EditPAS.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ujpPascal_Champ_EditPAS"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="47"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit311>
     </Units>
     <General>
       <ActiveWindowIndexAtStart Value="0"/>
     </General>
-    <JumpHistory Count="1" HistoryIndex="0">
+    <JumpHistory Count="4" HistoryIndex="3">
       <Position1>
         <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
         <Caret Line="30" Column="44" TopLine="1"/>
       </Position1>
+      <Position2>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/ublAutomatic.pas"/>
+        <Caret Line="53" Column="13" TopLine="25"/>
+      </Position2>
+      <Position3>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/ublAutomatic.pas"/>
+        <Caret Line="40" Column="5" TopLine="26"/>
+      </Position3>
+      <Position4>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/ublAutomatic.pas"/>
+        <Caret Line="42" Column="5" TopLine="28"/>
+      </Position4>
     </JumpHistory>
   </ProjectSession>
   <Debugging>
