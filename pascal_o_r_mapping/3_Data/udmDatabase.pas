@@ -56,7 +56,7 @@ uses
   ucbvCustomConnection,
  {$IFEND}
   Classes,SysUtils,
-  Db, SQLDB, mysql50conn, mysql51conn, mysql55conn, odbcconn, IniFiles,
+  Db, SQLDB, mysql50conn, mysql51conn, mysql55conn, odbcconn, mssqlconn, IniFiles,
   FMTBcd, BufDataset;
 
 type
@@ -149,7 +149,7 @@ type
     sqlcInformix: TSQLConnection;
     sqlcInformixSYSMASTER: TSQLConnection;
     sqlcMySQL    : TSQLConnection;
-    sqlcSQLServer: TSQLConnection;
+    sqlcSQLServer: TSybaseConnection;
     sqlc: TSQLConnection;
     sqlt: TSQLTransaction;
     sqlcGED: TSQLConnection;
@@ -204,10 +204,11 @@ begin
 
      sqlcInformix:= TODBCConnection.Create(nil);
      sqlcMySQL   := MySQL.Cree_Connection;
-     sqlcSQLServer:= TODBCConnection.Create(nil);
+     sqlcSQLServer:= TSybaseConnection.Create(nil);
 
      sqlc:= sqlcMySQL;
      sqlc.Transaction:= sqlt;
+     sqlcSQLServer.Transaction:= sqlt;
 
      sqlcGED:= MySQL.Cree_Connection;
      sqlcGED.Transaction:= sqltGED;
@@ -446,10 +447,15 @@ begin
        and (SQLServer.User_Name <> sys_Vide)
        and (SQLServer.Database  <> sys_Vide);
 
-     WriteParam( 'HostName' , SQLServer.HostName );
-     WriteParam( 'User_Name', SQLServer.User_Name);
-     WriteParam( 'Password' , SQLServer.Password );
-     WriteParam( 'DataBase' , SQLServer.Database );
+     sqlcSQLServer.HostName:= SQLServer.HostName;
+     sqlcSQLServer.UserName:= SQLServer.User_Name;
+     sqlcSQLServer.Password:= SQLServer.Password;
+     sqlcSQLServer.DatabaseName:= SQLServer.Database;
+
+     //WriteParam( 'HostName' , SQLServer.HostName );
+     //WriteParam( 'User_Name', SQLServer.User_Name);
+     //WriteParam( 'Password' , SQLServer.Password );
+     //WriteParam( 'DataBase' , SQLServer.Database );
 end;
 
 procedure TdmDatabase.DBExpress_Informix;
