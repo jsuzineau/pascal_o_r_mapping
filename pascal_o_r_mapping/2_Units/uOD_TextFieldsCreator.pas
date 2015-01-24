@@ -81,8 +81,15 @@ type
     procedure DetruitChamps( slListeChamps: TStringList);
   //Chercher/Remplacer sur les champs
   public
-    procedure Search_and_Replace( _Search, _Replace_by: String); overload;
-    procedure Search_and_Replace( _Search, _Replace_by: TStringDynArray); overload;
+    procedure Search_and_Replace( _Search, _Replace_by: String;
+                                  _KeepValue: Boolean= False); overload;
+    procedure Search_and_Replace( _Search, _Replace_by: TStringDynArray;
+                                  _KeepValue: Boolean= False); overload;
+  //Chercher/Remplacer sur les champs
+  public
+    procedure Search_and_Replace_Value( _DisplayLabel: String;
+                                        _Search, _Replace_by: TStringDynArray;
+                                        _IgnoreCase: Boolean= True);
   end;
 
 implementation
@@ -215,7 +222,8 @@ begin
        D.DetruitChamp( slListeChamps[I]);
 end;
 
-procedure TOD_TextFieldsCreator.Search_and_Replace( _Search, _Replace_by: String);
+procedure TOD_TextFieldsCreator.Search_and_Replace( _Search, _Replace_by: String;
+                                                    _KeepValue: Boolean= False);
    procedure Avant_Apres_decl( _Avant, _Apres: String);
       procedure Traite_Root( _Root: TDOMNode);
       var
@@ -248,7 +256,9 @@ procedure TOD_TextFieldsCreator.Search_and_Replace( _Search, _Replace_by: String
              else
                  begin
                  D.Set_Property( e, 'text:name'          , _Apres);
-                 D.Set_Property( e, 'office:string-value', _Apres);
+                 if not _KeepValue
+                 then
+                     D.Set_Property( e, 'office:string-value', _Apres);
                  end;
              end;
       end;
@@ -289,7 +299,8 @@ begin
      Avant_Apres_get ( _Search, _Replace_by);
 end;
 
-procedure TOD_TextFieldsCreator.Search_and_Replace( _Search, _Replace_by: TStringDynArray);
+procedure TOD_TextFieldsCreator.Search_and_Replace( _Search, _Replace_by: TStringDynArray;
+                                                    _KeepValue: Boolean= False);
 var
    I: Integer;
    Search, Replace_By: String;
@@ -301,8 +312,58 @@ begin
        begin
        Search    := _Search    [I];
        Replace_By:= _Replace_by[I];
-       Search_and_Replace( Search, Replace_By);
+       Search_and_Replace( Search, Replace_By, _KeepValue);
        end;
+end;
+
+procedure TOD_TextFieldsCreator.Search_and_Replace_Value( _DisplayLabel: String;
+                                                          _Search,
+                                                          _Replace_by: TStringDynArray;
+                                                          _IgnoreCase: Boolean= True);
+var
+   Flags: TReplaceFlags;
+   function Do_Search_Replace( _Value: String): String;
+   var
+      I: Integer;
+      Avant, Apres: String;
+   begin
+        Result:= _Value;
+        for I:= Low( _Search) to High(_Search)
+        do
+          begin
+          Avant:= _Search[I];
+          Apres:= _Replace_by[I];
+          Result:= StringReplace( Result, Avant, Apres, Flags);
+          end;
+   end;
+   procedure Traite_Root( _Root: TDOMNode);
+   var
+      e: TDOMNode;
+      Value: String;
+      function Get_Item: Boolean;
+      begin
+           e:= D.Cherche_Item_Recursif( _Root,'text:user-field-decl',
+                                        ['office:value-type', 'text:name'  ],
+                                        ['string'           , _DisplayLabel]);
+           Result:= Assigned( e);
+      end;
+   begin
+        //Mise à jour de la déclaration. on garde la boucle du Avant_Apres_get
+        // mais à priori on y passe qu'une fois
+        if not Get_Item then exit;
+
+        if D.not_Get_Property( e, 'office:string-value', Value) then exit;
+
+        Value:= Do_Search_Replace( Value);
+        D.Set_Property( e, 'office:string-value', Value);
+   end;
+begin
+     Flags:= [rfReplaceAll];
+     if _IgnoreCase
+     then
+         Flags:= Flags+[rfIgnoreCase];
+     Traite_Root( D.xmlContent.DocumentElement);
+     Traite_Root( D.xmlStyles .DocumentElement);
 end;
 
 end.

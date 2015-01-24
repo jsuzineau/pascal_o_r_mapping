@@ -29,8 +29,10 @@ uses
     uuStrings,
     uBatpro_StringList,
     uBatpro_Element,
+    uPublieur,
+    uLog,
  {$ifdef fpc}
- blcksock, sockets, Synautil, fphttpclient,
+ {fglExt,} blcksock, sockets, Synautil, fphttpclient,
  {$endif}
  Classes, SysUtils;
 
@@ -58,15 +60,33 @@ type
     procedure Send_Not_found;
     procedure Traite_racine;
   //enregistrement d'un pool
-  public
-    procedure Register_pool( _pool: Tpool_Ancetre_Ancetre);
-  //Traitement des appels
   private
     procedure Traite_pool;
+  public
+    procedure Register_pool( _pool: Tpool_Ancetre_Ancetre);
+  //gestion de callbacks
+  private
+    function Traite_slP_slO: Boolean;
+  public
+    slP: TslAbonnement_Procedure;
+    slO: TslAbonnement_Objet;
+  //Traitement des appels
   public
     uri: String;
     function Prefixe( _Prefixe: String): Boolean;
     procedure Traite( _uri: String);
+  //Gestion de l'exécution
+  private
+    ListenerSocket, ConnectionSocket: TTCPBlockSocket;
+    procedure AttendConnection(ASocket: TTCPBlockSocket);
+  public
+    Terminated: Boolean;
+    function Init: String;
+    procedure Run;
+    procedure fgl_LaunchURL( _URL: String);
+  //Validation pour le PortMapper
+  public
+    procedure Traite_Validation;
   end;
 
 function HTTP_Interface: THTTP_Interface;
@@ -91,11 +111,17 @@ begin
      S:= nil;
      Racine:= '';
      slPool:= Tslpool_Ancetre_Ancetre.Create( ClassName+'.slPool');
+     slP   := TslAbonnement_Procedure.Create( ClassName+'.slP');
+     slO   := TslAbonnement_Objet    .Create( ClassName+'.slO');
+
+     slO.Ajoute( 'Validation', Self, Traite_Validation);
 end;
 
 destructor THTTP_Interface.Destroy;
 begin
      Free_nil( slPool);
+     Free_nil( slP   );
+     Free_nil( slO   );
      inherited Destroy;
 end;
 
@@ -151,6 +177,53 @@ begin
      StrTok( _Prefixe, uri);
 end;
 
+function THTTP_Interface.Traite_slP_slO: Boolean;
+   function Traite_slP: Boolean;
+   var
+      I: Integer;
+      ap: TAbonnement_Procedure;
+   begin
+        Result:= False;
+        for I:= 0 to slP.Count - 1
+        do
+          begin
+          if not Prefixe( slP[I]) then continue;
+
+          ap:= Abonnement_Procedure_from_sl( slP, I);
+          if nil = ap then continue;
+
+          ap.DoProc;
+          Result:= True;
+          exit; //Sortie normale
+          end;
+   end;
+   function Traite_slO: Boolean;
+   var
+      I: Integer;
+      ao: TAbonnement_Objet;
+   begin
+        Result:= False;
+        for I:= 0 to slO.Count - 1
+        do
+          begin
+          if not Prefixe( slO[I]) then continue;
+
+          ao:= Abonnement_Objet_from_sl( slO, I);
+          if nil = ao then continue;
+
+          ao.DoProc;
+          Result:= True;
+          exit; //Sortie normale
+          end;
+   end;
+begin
+     Result:= Traite_slP;
+     if Result then exit;
+
+     Result:= Traite_slO;
+     if Result then exit;
+end;
+
 procedure THTTP_Interface.Traite_pool;
 var
    I: TIterateur_pool_Ancetre_Ancetre;
@@ -182,8 +255,103 @@ begin
      if '' = uri
      then
          Traite_racine
-     else
+     else if not Traite_slP_slO
+     then
          Traite_pool  ;
+end;
+
+procedure THTTP_Interface.AttendConnection(ASocket: TTCPBlockSocket);
+var
+   timeout: integer;
+   s: string;
+   method, uri, protocol: string;
+   OutputDataString: string;
+   ResultCode: integer;
+   function Prefixe( _Prefixe: String): Boolean;
+   begin
+        Result:= 1=Pos( _Prefixe,uri);
+        if not Result then exit;
+        StrTok( _Prefixe, uri);
+   end;
+begin
+     Self.S:= ASocket;
+
+     timeout := 120000;
+
+     Log.PrintLn('Received headers+document from browser:');
+
+     //read request line
+     s := ASocket.RecvString(timeout);
+     Log.PrintLn(s);
+     method := fetch(s, ' ');
+     uri := fetch(s, ' ');
+     protocol := fetch(s, ' ');
+
+     //read request headers
+     repeat
+           s:= ASocket.RecvString(Timeout);
+           Log.PrintLn(s);
+     until s = '';
+
+     // Now write the document to the output stream
+     Traite( uri);
+end;
+
+function THTTP_Interface.Init: String;
+var
+   IP: String;
+   Port: Integer;
+begin
+     Terminated:= False;
+
+     IP:= '192.168.1.30';//provisoire à revoir
+     //Port:= '1500';
+
+     ListenerSocket  := TTCPBlockSocket.Create;
+     ConnectionSocket:= TTCPBlockSocket.Create;
+
+     ListenerSocket.CreateSocket;
+     ListenerSocket.setLinger(true,10);
+     ListenerSocket.bind('0.0.0.0','1500');
+     ListenerSocket.listen;
+     Port:= ListenerSocket.GetLocalSinPort;
+     Result:= 'http://'+IP+':'+IntToStr(Port)+'/';
+     fgl_LaunchURL( Result);
+end;
+
+procedure THTTP_Interface.Run;
+begin
+     repeat
+           if not ListenerSocket.canread( 1000) then continue;
+
+           ConnectionSocket.Socket := ListenerSocket.accept;
+           Log.PrintLn('Attending Connection. Error code (0=Success): '+IntToStr(ConnectionSocket.lasterror));
+           AttendConnection(ConnectionSocket);
+           ConnectionSocket.CloseSocket;
+     until Terminated;
+
+     ListenerSocket.Free;
+     ConnectionSocket.Free;
+end;
+
+
+procedure THTTP_Interface.fgl_LaunchURL(_URL: String);
+var
+   lpstrURL: PChar;
+   buff: array[0..2048] of Char;
+begin
+     {$IFDEF FPC}
+     lpstrURL:= PChar( _URL);
+
+     StrCopy(  buff, lpstrURL);
+     //pushquote( buff,sizeof(buff));
+     //fgl_call( 'affiche_url', 1);
+     {$ENDIF}
+end;
+
+procedure THTTP_Interface.Traite_Validation;
+begin
+     Send_JSON( 'pascal_o_r_mapping');
 end;
 
 

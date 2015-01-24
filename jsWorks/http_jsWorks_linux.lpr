@@ -102,6 +102,7 @@ begin
      ListenerSocket.setLinger(true,10);
      ListenerSocket.bind('0.0.0.0','1500');
      ListenerSocket.listen;
+     WriteLn( 'Listening on ',ListenerSocket.GetLocalSinPort);
 
      repeat
            if not ListenerSocket.canread( 1000) then continue;

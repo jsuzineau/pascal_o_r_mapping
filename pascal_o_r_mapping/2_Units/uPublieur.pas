@@ -109,6 +109,36 @@ type
     // a < self :-1  a=self :0  a > self :+1
   end;
 
+ TIterateur_Abonnement_Procedure
+ =
+  class( TIterateur)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: TAbonnement_Procedure);
+    function  not_Suivant( var _Resultat: TAbonnement_Procedure): Boolean;
+  end;
+
+ { TslAbonnement_Procedure }
+
+ TslAbonnement_Procedure
+ =
+  class( TBatpro_StringList)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_Abonnement_Procedure;
+    function Iterateur_Decroissant: TIterateur_Abonnement_Procedure;
+  //Méthodes
+  public
+    procedure Ajoute( _Cle: String; _Proc: TAbonnement_Procedure_Proc);
+    procedure Enleve( _Cle: String);
+  end;
+
  TAbonnement_Objet
  =
   class( TAbonnement)
@@ -128,6 +158,36 @@ type
   public
     function  Compare( _Key: Pointer):Shortint;  override;
     // a < self :-1  a=self :0  a > self :+1
+  end;
+
+ TIterateur_Abonnement_Objet
+ =
+  class( TIterateur)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: TAbonnement_Objet);
+    function  not_Suivant( var _Resultat: TAbonnement_Objet): Boolean;
+  end;
+
+ { TslAbonnement_Objet }
+
+ TslAbonnement_Objet
+ =
+  class( TBatpro_StringList)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_Abonnement_Objet;
+    function Iterateur_Decroissant: TIterateur_Abonnement_Objet;
+    //Méthodes
+    public
+      procedure Ajoute( _Cle: String; _Objet: TObject; _Proc: TAbonnement_Objet_Proc);
+      procedure Enleve( _Cle: String);
   end;
 
  TListe_Abonnements
@@ -219,6 +279,13 @@ var
    uPublieur_MoveTo_Count: Integer= 0;
    uPublieur_MoveTo_Last: String= '';
    uPublieur_s: PString=nil;
+
+function Abonnement_Procedure_from_sl( sl: TBatpro_StringList; Index: Integer): TAbonnement_Procedure;
+function Abonnement_Procedure_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TAbonnement_Procedure;
+
+function Abonnement_Objet_from_sl( sl: TBatpro_StringList; Index: Integer): TAbonnement_Objet;
+function Abonnement_Objet_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TAbonnement_Objet;
+
 
 implementation
 
@@ -321,6 +388,15 @@ begin
 end;
 
 { TAbonnement_Procedure }
+function Abonnement_Procedure_from_sl( sl: TBatpro_StringList; Index: Integer): TAbonnement_Procedure;
+begin
+     _Classe_from_sl( Result, TAbonnement_Procedure, sl, Index);
+end;
+
+function Abonnement_Procedure_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TAbonnement_Procedure;
+begin
+     _Classe_from_sl_sCle( Result, TAbonnement_Procedure, sl, sCle);
+end;
 
 constructor TAbonnement_Procedure.Create( _Proc: TAbonnement_Procedure_Proc;
                                           _Liste_Abonnements: TListe_Abonnements);
@@ -359,7 +435,80 @@ begin
          Proc;
 end;
 
+{ TIterateur_Abonnement_Procedure }
+
+function TIterateur_Abonnement_Procedure.not_Suivant( var _Resultat: TAbonnement_Procedure): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_Abonnement_Procedure.Suivant( var _Resultat: TAbonnement_Procedure);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TslAbonnement_Procedure }
+
+constructor TslAbonnement_Procedure.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, TAbonnement_Procedure);
+end;
+
+destructor TslAbonnement_Procedure.Destroy;
+begin
+     inherited;
+end;
+
+class function TslAbonnement_Procedure.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Abonnement_Procedure;
+end;
+
+function TslAbonnement_Procedure.Iterateur: TIterateur_Abonnement_Procedure;
+begin
+     Result:= TIterateur_Abonnement_Procedure( Iterateur_interne);
+end;
+
+function TslAbonnement_Procedure.Iterateur_Decroissant: TIterateur_Abonnement_Procedure;
+begin
+     Result:= TIterateur_Abonnement_Procedure( Iterateur_interne_Decroissant);
+end;
+
+procedure TslAbonnement_Procedure.Ajoute( _Cle: String; _Proc: TAbonnement_Procedure_Proc);
+var
+   ap: TAbonnement_Procedure;
+begin
+     Enleve( _Cle);
+
+     ap:= TAbonnement_Procedure.Create( _Proc, nil);
+     AddObject( _Cle, ap);
+end;
+
+procedure TslAbonnement_Procedure.Enleve( _Cle: String);
+var
+   I: Integer;
+   O: TObject;
+begin
+     I:= IndexOf( _Cle);
+     if -1 = I then exit;
+
+     O:=Objects[I];
+     Free_nil( O);
+
+     Delete( I);
+end;
+
 { TAbonnement_Objet }
+
+function Abonnement_Objet_from_sl( sl: TBatpro_StringList; Index: Integer): TAbonnement_Objet;
+begin
+     _Classe_from_sl( Result, TAbonnement_Objet, sl, Index);
+end;
+
+function Abonnement_Objet_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TAbonnement_Objet;
+begin
+     _Classe_from_sl_sCle( Result, TAbonnement_Objet, sl, sCle);
+end;
 
 constructor TAbonnement_Objet.Create( _Objet: TObject;
                                       _Proc: TAbonnement_Objet_Proc;
@@ -532,6 +681,69 @@ begin
                  end;
                end;
          end;
+end;
+
+{ TIterateur_Abonnement_Objet }
+
+function TIterateur_Abonnement_Objet.not_Suivant( var _Resultat: TAbonnement_Objet): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_Abonnement_Objet.Suivant( var _Resultat: TAbonnement_Objet);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TslAbonnement_Objet }
+
+constructor TslAbonnement_Objet.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, TAbonnement_Objet);
+end;
+
+destructor TslAbonnement_Objet.Destroy;
+begin
+     inherited;
+end;
+
+class function TslAbonnement_Objet.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Abonnement_Objet;
+end;
+
+function TslAbonnement_Objet.Iterateur: TIterateur_Abonnement_Objet;
+begin
+     Result:= TIterateur_Abonnement_Objet( Iterateur_interne);
+end;
+
+function TslAbonnement_Objet.Iterateur_Decroissant: TIterateur_Abonnement_Objet;
+begin
+     Result:= TIterateur_Abonnement_Objet( Iterateur_interne_Decroissant);
+end;
+
+procedure TslAbonnement_Objet.Ajoute( _Cle: String; _Objet: TObject; _Proc: TAbonnement_Objet_Proc);
+var
+   ao: TAbonnement_Objet;
+begin
+     Enleve( _Cle);
+
+     ao:= TAbonnement_Objet.Create( _Objet, _Proc, nil);
+     AddObject( _Cle, ao);
+end;
+
+procedure TslAbonnement_Objet.Enleve(_Cle: String);
+var
+   I: Integer;
+   O: TObject;
+begin
+     I:= IndexOf( _Cle);
+     if -1 = I then exit;
+
+     O:=Objects[I];
+     Free_nil( O);
+
+     Delete( I);
 end;
 
 { TListe_Abonnements }

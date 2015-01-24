@@ -32,7 +32,10 @@ uses
     uAide,
     {$ENDIF}
     uNetWork,
-    SysUtils, Classes;
+  {$IFDEF FPC}
+  LazUTF8,
+  {$ENDIF}
+  SysUtils, Classes;
 
 type
 
@@ -43,6 +46,7 @@ type
   class
   private
     NomFichier: String;
+    function Ouvre( var _T: Text): Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -107,22 +111,44 @@ begin
                       '.'+uClean_NetWork_Nom_Hote+'.txt')
 end;
 
+function TLog.Ouvre(var _T: Text): Boolean;
+begin
+     Result:= True;
+
+     try
+        AssignFile( _T, NomFichier);
+        if FileExists( NomFichier)
+        then
+            Append( _T)
+        else
+            ReWrite( _T);
+     except
+           on E: Exception
+           do
+             begin
+             Result:= False;
+             {$IFDEF LINUX}
+             WriteLn( UTF8ToConsole('Vérifiez peut-être les droits d''acccés'));
+             WriteLn( UTF8ToConsole('Echec de l''ouverture du log: '+NomFichier));
+             WriteLn( E.Message);
+             {$ENDIF}
+             end;
+           end;
+end;
+
 procedure TLog.Print(S: String);
 var
    T: Text;
 begin
+     if not Ouvre( T) then exit;
      try
-        AssignFile( T, NomFichier);
-        if FileExists( NomFichier)
-        then
-            Append( T)
-        else
-            ReWrite( T);
-
         WriteLn( T);
         WriteLn( T);
         WriteLn( T, FormatDateTime('dddddd","tt', Now)+' ###########################');
         WriteLn( T, S);
+        {$IFDEF LINUX}
+        WriteLn( UTF8ToConsole( S));
+        {$ENDIF}
 
         Flush( T);
      finally
@@ -134,17 +160,12 @@ procedure TLog.PrintLn(S: String);
 var
    T: Text;
 begin
+     if not Ouvre( T) then exit;
      try
-        AssignFile( T, NomFichier);
-        if FileExists( NomFichier)
-        then
-            Append( T)
-        else
-            ReWrite( T);
 
         WriteLn( T, '>',S);
         {$IFDEF LINUX}
-        WriteLn( S);
+        WriteLn( UTF8ToConsole(S));
         {$ENDIF}
 
         Flush( T);

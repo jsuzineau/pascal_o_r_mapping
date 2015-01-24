@@ -1334,9 +1334,12 @@ end;
 
 function TChamps.Cree_Champ_ID( var Memory: Integer): TChamp;
 begin
-     if Fq <> nil
-     then          // pour bien faire dans le cas nil il faudrait créer
-                   // un champ non persistant avec une valeur 0
+     if nil = Fq
+     then
+         begin
+         cID:= Ajoute_Integer( Memory, 'id', False);
+         end
+     else
          begin
          cID:= Integer_from_Integer( Memory, 'id', True);
          end;

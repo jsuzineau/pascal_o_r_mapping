@@ -208,6 +208,8 @@ type
                             _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TDOMNode;
     function  Ensure_style_paragraph( _NomStyle, _NomStyleParent: String;
                             _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TDOMNode;
+    procedure Rename_style_paragraph( _NomStyle_Avant, _NomStyle_Apres: String;
+                                      _Root: TOD_Root_Styles= ors_xmlStyles_STYLES);
     function  Add_automatic_style_paragraph( _NomStyleParent: String;
                                         _Gras: Boolean;
                                         _DeltaSize: Integer;
@@ -1275,6 +1277,21 @@ begin
              Set_Property( Result, 'style:parent-style-name', StyleName);
              end;
          end;
+end;
+
+procedure TOpenDocument.Rename_style_paragraph( _NomStyle_Avant, _NomStyle_Apres: String;
+                                               _Root: TOD_Root_Styles= ors_xmlStyles_STYLES);
+var
+   e: TDOMNode;
+   StyleName_Apres: String;
+begin
+     e:= Find_style_paragraph( _NomStyle_Avant, _Root);
+
+     if nil = e then exit;
+
+     StyleName_Apres:= Style_NameFromDisplayName( _NomStyle_Apres);
+     Set_Property( e, 'style:name'        , StyleName_Apres);
+     Set_Property( e, 'style:display-name', _NomStyle_Apres);
 end;
 
 function TOpenDocument.Ensure_style_text( _NomStyle, _NomStyleParent: String;

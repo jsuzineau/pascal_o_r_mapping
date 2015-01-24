@@ -48,17 +48,27 @@ type
     procedure Finalise; override;
   end;
 
-var
-   jpCSharp_Champs_persistants: TjpCSharp_Champs_persistants;
+function jpCSharp_Champs_persistants: TjpCSharp_Champs_persistants;
 
 implementation
 
 { TjpCSharp_Champs_persistants }
+var
+   FjpCSharp_Champs_persistants: TjpCSharp_Champs_persistants= nil;
+
+function jpCSharp_Champs_persistants: TjpCSharp_Champs_persistants;
+begin
+     if nil = FjpCSharp_Champs_persistants
+     then
+         FjpCSharp_Champs_persistants:= TjpCSharp_Champs_persistants.Create;
+
+     Result:= FjpCSharp_Champs_persistants;
+end;
 
 constructor TjpCSharp_Champs_persistants.Create;
 begin
+     inherited;
      Cle:= '//Point d''insertion champs persistants';
-
 end;
 
 procedure TjpCSharp_Champs_persistants.Initialise(_cc: TContexteClasse);
@@ -87,7 +97,6 @@ begin
 end;
 
 initialization
-              jpCSharp_Champs_persistants:= TjpCSharp_Champs_persistants.Create;
 finalization
-              FreeAndNil( jpCSharp_Champs_persistants);
+              FreeAndNil( FjpCSharp_Champs_persistants);
 end.
