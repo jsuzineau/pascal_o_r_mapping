@@ -40,8 +40,12 @@ type
  TdkProject_LABEL
  =
   class(TDockable)
-  clName: TChamp_Label;
-  procedure FormClick(Sender: TObject);
+    clName: TChamp_Label;
+    procedure FormClick(Sender: TObject);
+  //Gestion du cycle de vie
+  public
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
  public
   procedure SetObjet(const Value: TObject); override;
  //attributs
@@ -55,9 +59,15 @@ implementation
 
 { TdkProject_LABEL }
 
-procedure TdkProject_LABEL.FormClick(Sender: TObject);
+constructor TdkProject_LABEL.Create(AOwner: TComponent);
 begin
-     inherited;
+     inherited Create(AOwner);
+     Ajoute_Colonne( clName, 'Nom', 'Name');
+end;
+
+destructor TdkProject_LABEL.Destroy;
+begin
+ inherited Destroy;
 end;
 
 procedure TdkProject_LABEL.SetObjet(const Value: TObject);
@@ -67,6 +77,11 @@ begin
      Affecte( blProject, TblProject, Value);
 
      Champs_Affecte( blProject, [clName]);
+end;
+
+procedure TdkProject_LABEL.FormClick(Sender: TObject);
+begin
+     inherited;
 end;
 
 end.

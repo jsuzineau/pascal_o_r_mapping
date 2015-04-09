@@ -22,7 +22,8 @@ uses
  uPatchLanceur, uProgression, uPublieur, uPublieur_sans_btree, 
  uReal_Field_Formatter, uReal_Formatter, uReels, u_reg_, uSGBD, uskInteger, 
  uSkipList, uskString, uStringArray, u_sys_, uTemporaire, uTri_Ancetre, 
- uUseCase, uUseCases, uuStrings, uVersion, uNetwork, LazarusPackageIntf;
+ uUseCase, uUseCases, uuStrings, uVersion, uNetwork, uhFiltre_Ancetre, 
+ LazarusPackageIntf;
 
 implementation
 

@@ -20,7 +20,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Files Count="87">
+    <Files Count="88">
       <Item7>
         <Filename Value="DBTables.pas"/>
         <UnitName Value="DBTables"/>
@@ -345,6 +345,10 @@
         <Filename Value="uNetwork.pas"/>
         <UnitName Value="uNetwork"/>
       </Item87>
+      <Item88>
+        <Filename Value="uhFiltre_Ancetre.pas"/>
+        <UnitName Value="uhFiltre_Ancetre"/>
+      </Item88>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="1">
@@ -358,5 +362,8 @@
     <PublishOptions>
       <Version Value="2"/>
     </PublishOptions>
+    <CustomOptions Items="ExternHelp" Version="2">
+      <_ExternHelp Items="Count"/>
+    </CustomOptions>
   </Package>
 </CONFIG>

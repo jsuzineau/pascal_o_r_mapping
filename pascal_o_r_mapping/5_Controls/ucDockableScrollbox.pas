@@ -38,8 +38,9 @@ uses
     uWinUtils,
     uPublieur,
     uTri_Ancetre,
+    uhFiltre_Ancetre,
     uDockable,
-  SysUtils, Classes, Controls, Forms, ExtCtrls,Graphics,StdCtrls,Types;
+  SysUtils, Classes, Controls, Forms, ExtCtrls,Graphics,StdCtrls,Types,LCLType;
 
 type
  TDockable_Event= procedure ( _dk: TDockable) of object;
@@ -47,6 +48,7 @@ type
  =
   record
     Control  : TControl;
+    eFiltre  : TEdit;
     Titre    : String;
     NomChamp : String;
     Total_Type: TDockableScrollbox_Total;
@@ -60,6 +62,8 @@ type
     debut  : Integer;
     fin    : Integer;
   end;
+
+ { TDockableScrollbox }
 
  TDockableScrollbox
  = class(TPanel)
@@ -231,6 +235,9 @@ type
     procedure Enleve_Colonnes;
     procedure Initialise_Colonnes( _Premier: Boolean= False);
     procedure Colonne_MouseDown(Sender:TObject;Button:TMouseButton;Shift:TShiftState;X,Y:Integer);
+    procedure Colonne_eFiltre_Change(Sender: TObject);
+    procedure Colonne_eFiltre_KeyPress(Sender: TObject; var Key: char);
+    procedure Colonne_eFiltre_KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   //Gestion de la totalisation
   private
     Traiter_Totaux: Boolean;
@@ -240,6 +247,9 @@ type
   //Gestion du tri
   public
     Tri: TTri_Ancetre;
+  //Gestion du filtre
+  public
+    Filtre: ThFiltre_Ancetre;
   //Messages divers envoyés au niveau du DockableScrollBox
   public
     procedure Envoie_Message( _iMessage: Integer);
@@ -345,6 +355,7 @@ begin
 
      Initialise_Colonnes( True);
      Tri:= nil;
+     Filtre:= nil;
 end;
 
 destructor TDockableScrollbox.Destroy;
@@ -380,6 +391,7 @@ procedure TDockableScrollbox.Ajoute_Colonne( _C: TControl;
 var
    I, NewLength: Integer;
    L: TLabel;
+   E: TEdit;
    _TopLeft: TPoint;
    sTri: String;
    C_Alignment: TAlignment;
@@ -408,7 +420,10 @@ begin
 
      if Pos( #13, _Titre) > 0
      then
-        pColumnHeader.Height:= 30;
+         begin
+         //pColumnHeader.Height:= 30;
+         pColumnHeader.Height:= 56;
+         end;
 
      L:= TLabel.Create( Self);
      L.Parent:= pColumnHeader;
@@ -416,7 +431,7 @@ begin
      L.Top   := 2;
      L.Left  := _TopLeft.X;
      L.Width := _C.Width;
-     L.Height:= pColumnHeader.ClientHeight- L.Top;
+     L.Height:= pColumnHeader.ClientHeight- L.Top-26;
      L.Caption:= _Titre + sTri;
      L.Tag   := I;
      L.Transparent:= False;
@@ -425,11 +440,27 @@ begin
      L.OnMouseDown:= Colonne_MouseDown;
      L.Show;
 
+     E:= TEdit.Create( Self);
+     E.Parent:= pColumnHeader;
+     E.AutoSize:= False;
+     E.Top   := pColumnHeader.ClientHeight- 26;
+     E.Left  := _TopLeft.X;
+     E.Width := _C.Width;
+     E.Height:= 26;
+     E.Tag   := I;
+     with E.Font do Style:= Style + [fsBold];
+     E.Alignment:= C_Alignment;
+     //E.OnMouseDown:= Colonne_MouseDown;
+     E.OnKeyDown:= Colonne_eFiltre_KeyDown;
+     //E.Show;
+     E.Hide;
 
      with Colonnes[I]
+
      do
        begin
        Control   := L;
+       eFiltre   := E;
        Total_Type:= _Total;
        Titre     := _Titre;
        NomChamp  := _NomChamp;
@@ -526,17 +557,78 @@ begin
 
      if not (ssShift in Shift) then Tri.Reset_ChampsTri;
 
-     NomChamp:= Colonnes[ I].NomChamp;
-     case Tri.ChampTri[ NomChamp]
-     of
-       -1:  NewChampTri:=  0;
-        0:  NewChampTri:= +1;
-       +1:  NewChampTri:= -1;
-       else NewChampTri:=  0;
-       end;
-     Tri.ChampTri[ NomChamp]:= NewChampTri;
-     Tri.Execute( sl);
+     if Button = mbRight
+     then
+         begin
+         Colonnes[ I].eFiltre.Show;
+         end
+     else
+         begin
+         NomChamp:= Colonnes[ I].NomChamp;
+         case Tri.ChampTri[ NomChamp]
+         of
+           -1:  NewChampTri:=  0;
+            0:  NewChampTri:= +1;
+           +1:  NewChampTri:= -1;
+           else NewChampTri:=  0;
+           end;
+         Tri.ChampTri[ NomChamp]:= NewChampTri;
+         Tri.Execute( sl);
+         end;
 
+     Setsl( sl);
+end;
+
+procedure TDockableScrollbox.Colonne_eFiltre_Change( Sender: TObject);
+var
+   E: TEdit;
+   I: Integer;
+begin
+     if Sender = nil          then exit;
+     if not (Sender is TEdit) then exit;
+
+     E:= TEdit( Sender);
+     I:= E.Tag;
+     if (I < Low(Colonnes))or(High(Colonnes)<I) then exit;
+
+end;
+
+procedure TDockableScrollbox.Colonne_eFiltre_KeyPress( Sender: TObject; var Key: char);
+var
+   E: TEdit;
+   I: Integer;
+begin
+     if Key <> #13 then exit;
+
+     if Sender = nil          then exit;
+     if not (Sender is TEdit) then exit;
+
+     E:= TEdit( Sender);
+     I:= E.Tag;
+     if (I < Low(Colonnes))or(High(Colonnes)<I) then exit;
+
+
+end;
+
+procedure TDockableScrollbox.Colonne_eFiltre_KeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+   E: TEdit;
+   I: Integer;
+begin
+     if Key <> VK_RETURN then exit;
+
+     if Filtre = nil          then exit;
+     if Sender = nil          then exit;
+     if not (Sender is TEdit) then exit;
+
+     E:= TEdit( Sender);
+     I:= E.Tag;
+     if (I < Low(Colonnes))or(High(Colonnes)<I) then exit;
+
+     if not (ssShift in Shift) then Filtre.Clear;
+
+     Filtre.AjouteCritereCONTIENT( Colonnes[ I].NomChamp, E.Text);
+     Filtre.Execute;
      Setsl( sl);
 end;
 
@@ -670,7 +762,8 @@ begin
      Fsl := Value;
      if sl = nil then exit;
 
-     pColumnHeader.Height:= 17;
+     //pColumnHeader.Height:= 17;
+     pColumnHeader.Height:= 46;
      pColumnHeader.Hide;
 
      pColumnFooter.Height:= 17;

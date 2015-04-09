@@ -611,6 +611,7 @@ var
    slLIKE_ou_VIDE: TBatpro_StringList;
    slDIFFERENT: TBatpro_StringList;
    slEGAL     : TBatpro_StringList;
+   slCONTIENT : TBatpro_StringList;
 var
    //Batpro_Element / StringList
    J, iChamp: Integer;
@@ -637,6 +638,7 @@ begin
         slLIKE_ou_VIDE:= hf.slLIKE_ou_VIDE;
         slDIFFERENT   := hf.slDIFFERENT   ;
         slEGAL        := hf.slEGAL        ;
+        slCONTIENT    := hf.slCONTIENT    ;
 
         for J:= 0 to slLIKE.Count -1
         do
@@ -772,6 +774,23 @@ begin
                       ValeurCritere:= sys_Vide;
 
                   Passe_le_filtre:= ValeurCritere = ValeurChamp;
+                  if not Passe_le_filtre then break;
+                  end;
+              end;
+        if Passe_le_filtre
+        then
+            for J:= 0 to slCONTIENT.Count -1
+            do
+              begin
+              cc( slCONTIENT, J);
+              iChamp  := Champs.sl.IndexOf( NomChamp);
+              if -1<> iChamp
+              then
+                  begin
+                  Champ      := Champs.Champ_from_Index( iChamp);
+                  ValeurChamp:= Champ.Chaine;
+
+                  Passe_le_filtre:= 0<> Pos( ValeurCritere, ValeurChamp);
                   if not Passe_le_filtre then break;
                   end;
               end;

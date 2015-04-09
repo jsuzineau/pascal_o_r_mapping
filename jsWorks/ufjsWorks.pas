@@ -70,6 +70,7 @@ type
    bBug: TButton;
    bTemps: TButton;
    bTest: TButton;
+   bFiltre: TButton;
    ceBeginning: TChamp_Edit;
    ceEnd: TChamp_Edit;
    clkcbState: TChamp_Lookup_ComboBox;
@@ -90,6 +91,7 @@ type
    Label6: TLabel;
    Label7: TLabel;
    Label8: TLabel;
+   lTri: TLabel;
    lProject: TLabel;
    Panel1: TPanel;
    Panel10: TPanel;
@@ -112,6 +114,7 @@ type
    Splitter5: TSplitter;
    t: TTimer;
    procedure bBugClick(Sender: TObject);
+   procedure bFiltreClick(Sender: TObject);
    procedure bPointClick(Sender: TObject);
    procedure bStartClick(Sender: TObject);
    procedure bStopClick(Sender: TObject);
@@ -120,6 +123,9 @@ type
    procedure dsbProjectSelect(Sender: TObject);
    procedure dsbWorkSelect(Sender: TObject);
    procedure dsbDevelopmentSelect(Sender: TObject);
+   procedure Edit1Change(Sender: TObject);
+   procedure Edit1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+   procedure Edit1KeyPress(Sender: TObject; var Key: char);
    procedure FormShow(Sender: TObject);
    procedure sbProjectClick(Sender: TObject);
    procedure tTimer(Sender: TObject);
@@ -130,6 +136,7 @@ type
   //méthodes
   private
     procedure _from_pool;
+    procedure Projects_Tri_Change;
   //Project
   private
     blProject: TblProject;
@@ -162,7 +169,11 @@ begin
      poolState    .ToutCharger;
 
      dsbProject.Classe_dockable:= TdkProject_LABEL;
+     dsbProject.Tri:= poolProject.Tri;
+     dsbProject.Filtre:= poolProject.hf;
      dsbProject.Classe_Elements:= TblProject;
+
+     poolProject.Tri.pChange.Abonne( Self, @Projects_Tri_Change);
 
      dsbWork.Classe_dockable:= TdkWork;
      dsbWork.Classe_Elements:= TblWork;
@@ -173,13 +184,19 @@ end;
 
 destructor TfjsWorks.Destroy;
 begin
+     poolProject.Tri.pChange.Desabonne( Self, @Projects_Tri_Change);
      inherited Destroy;
 end;
 
 procedure TfjsWorks._from_pool;
 begin
-     dsbProject.sl:= poolProject.slT;
+     dsbProject.sl:= poolProject.slFiltre;
      dsbProject.Goto_Premier;
+end;
+
+procedure TfjsWorks.Projects_Tri_Change;
+begin
+     lTri.Caption:= poolProject.Tri.LibelleTri( False);
 end;
 
 procedure TfjsWorks._from_Project;
@@ -289,6 +306,13 @@ begin
      dsbDevelopment.Goto_bl( bl);
 end;
 
+procedure TfjsWorks.bFiltreClick(Sender: TObject);
+begin
+     poolProject.hf.Clear;
+     poolProject.hf.Execute;
+     _from_pool;
+end;
+
 procedure TfjsWorks.dsbWorkSelect(Sender: TObject);
 begin
      dsbWork .Get_bl( blWork );
@@ -299,6 +323,22 @@ procedure TfjsWorks.dsbDevelopmentSelect(Sender: TObject);
 begin
      dsbDevelopment.Get_bl( blDevelopment);
      _from_Development;
+end;
+
+procedure TfjsWorks.Edit1Change(Sender: TObject);
+begin
+
+end;
+
+procedure TfjsWorks.Edit1KeyDown(Sender: TObject; var Key: Word;
+ Shift: TShiftState);
+begin
+
+end;
+
+procedure TfjsWorks.Edit1KeyPress(Sender: TObject; var Key: char);
+begin
+
 end;
 
 procedure TfjsWorks.tTimer(Sender: TObject);

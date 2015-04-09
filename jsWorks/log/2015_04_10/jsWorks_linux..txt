@@ -1,0 +1,84 @@
+>Fichier ini:/home/jean/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:/home/jean/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>
+>Erreur Ã  signaler au dÃ©veloppeur:
+  ThFiltre.AjouteCritereLIKE: le champ Name est dÃ©jÃ  dans la liste
+>
+>Erreur Ã  signaler au dÃ©veloppeur:
+  ThFiltre.AjouteCritereLIKE: le champ Name est dÃ©jÃ  dans la liste
+>
+>Erreur Ã  signaler au dÃ©veloppeur:
+  ThFiltre.AjouteCritereLIKE: le champ Name est dÃ©jÃ  dans la liste
+>
+>Erreur Ã  signaler au dÃ©veloppeur:
+  ThFiltre.AjouteCritereLIKE: le champ Name est dÃ©jÃ  dans la liste
+>
+>Erreur Ã  signaler au dÃ©veloppeur:
+  ThFiltre.AjouteCritereLIKE: le champ Name est dÃ©jÃ  dans la liste
+>
+>Erreur Ã  signaler au dÃ©veloppeur:
+  ThFiltre.AjouteCritereLIKE: le champ Name est dÃ©jÃ  dans la liste
+>
+>Erreur Ã  signaler au dÃ©veloppeur:
+  ThFiltre.AjouteCritereLIKE: le champ Name est dÃ©jÃ  dans la liste
+>
+>Erreur Ã  signaler au dÃ©veloppeur:
+  ThFiltre.AjouteCritereLIKE: le champ Name est dÃ©jÃ  dans la liste
+>
+>Erreur Ã  signaler au dÃ©veloppeur:
+  ThFiltre.AjouteCritereLIKE: le champ Name est dÃ©jÃ  dans la liste
+>Fichier ini:/home/jean/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:/home/jean/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Fichier ini:/home/jean/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:/home/jean/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Fichier ini:/home/jean/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:/home/jean/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Fichier ini:/home/jean/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:/home/jean/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Fichier ini:/home/jean/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:/home/jean/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Fichier ini:/home/jean/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:/home/jean/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>
+>Erreur Ã  signaler au dÃ©veloppeur:
+  ThFiltre.AjouteCritereLIKE: le champ Name est dÃ©jÃ  dans la liste
+>
+>Erreur Ã  signaler au dÃ©veloppeur:
+  ThFiltre.AjouteCritereLIKE: le champ Name est dÃ©jÃ  dans la liste
+>
+>Erreur Ã  signaler au dÃ©veloppeur:
+  ThFiltre.AjouteCritereLIKE: le champ Name est dÃ©jÃ  dans la liste
+>
+>Erreur Ã  signaler au dÃ©veloppeur:
+  ThFiltre.AjouteCritereLIKE: le champ Name est dÃ©jÃ  dans la liste
+>Fichier ini:/home/jean/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:/home/jean/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Fichier ini:/home/jean/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:/home/jean/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
