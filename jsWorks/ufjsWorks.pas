@@ -52,6 +52,7 @@ uses
     uodWork_from_Period,
 
     ufAutomatic,
+    ufTemps,
 
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls, Buttons, ucChampsGrid, ucDockableScrollbox,
@@ -279,8 +280,7 @@ end;
 
 procedure TfjsWorks.bTempsClick(Sender: TObject);
 begin
-     odWork_from_Period.Init( 0, Now);
-     SysUtils.ExecuteProcess( '/usr/bin/libreoffice', [odWork_from_Period.Visualiser]);
+     fTemps.Show;
 end;
 
 procedure TfjsWorks.bTestClick(Sender: TObject);

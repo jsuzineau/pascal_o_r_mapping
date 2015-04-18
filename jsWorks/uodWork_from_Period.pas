@@ -95,12 +95,14 @@ begin
      t.Pas_de_persistance:= True;
      t.AddColumn( 20, 'Début'      );
      t.AddColumn( 20, 'Fin'        );
+     t.AddColumn( 20, 'Durée'        );
      t.AddColumn( 60, 'Description');
      n:= t.AddNiveau( 'Root');
      n.Charge_sl( sl);
      n.Ajoute_Column_Avant( 'Beginning'  , 0, 0);
      n.Ajoute_Column_Avant( 'End'        , 1, 1);
-     n.Ajoute_Column_Avant( 'Description', 2, 2);
+     n.Ajoute_Column_Avant( 'Duree'      , 2, 2);
+     n.Ajoute_Column_Avant( 'Description', 3, 3);
 end;
 
 initialization

@@ -48,7 +48,7 @@ uGenerateur_Delphi_Ancetre, uJoinPoint,
  upoolDevelopment, upoolJour_ferie, upoolProject, upoolState, upoolWork,
  ublJour_ferie, udkProject_EDIT, udkProject_LABEL, ufProject, udkWork,
  udkDevelopment, uodWork_from_Period, uOD, uOD_Maitre, uOD_Table_Batpro,
- ufAutomatic;
+ ufAutomatic, ufTemps;
 
 {$R *.res}
 

@@ -20,7 +20,7 @@
         <CompilerPath Value="$(CompPath)"/>
       </Other>
     </CompilerOptions>
-    <Files Count="83">
+    <Files Count="84">
       <Item1>
         <Filename Value="DBTables.pas"/>
         <UnitName Value="DBTables"/>
@@ -353,6 +353,10 @@
         <Filename Value="uNetwork.pas"/>
         <UnitName Value="uNetwork"/>
       </Item83>
+      <Item84>
+        <Filename Value="uhFiltre_Ancetre.pas"/>
+        <UnitName Value="uhFiltre_Ancetre"/>
+      </Item84>
     </Files>
     <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="2">

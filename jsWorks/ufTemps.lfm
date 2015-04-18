@@ -1,0 +1,80 @@
+object fTemps: TfTemps
+  Left = 653
+  Height = 97
+  Top = 211
+  Width = 302
+  Caption = 'fTemps'
+  ClientHeight = 97
+  ClientWidth = 302
+  OnCreate = FormCreate
+  LCLVersion = '1.2.6.0'
+  object deDebut: TDateEdit
+    Left = 16
+    Height = 27
+    Top = 24
+    Width = 80
+    CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
+    OKCaption = 'OK'
+    CancelCaption = 'Cancel'
+    DateOrder = doNone
+    ButtonWidth = 23
+    CharCase = ecNormal
+    NumGlyphs = 1
+    MaxLength = 0
+    TabOrder = 0
+  end
+  object deFin: TDateEdit
+    Left = 145
+    Height = 27
+    Top = 24
+    Width = 80
+    CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
+    OKCaption = 'OK'
+    CancelCaption = 'Cancel'
+    DateOrder = doNone
+    ButtonWidth = 23
+    CharCase = ecNormal
+    NumGlyphs = 1
+    MaxLength = 0
+    TabOrder = 1
+  end
+  object Label1: TLabel
+    Left = 16
+    Height = 17
+    Top = 8
+    Width = 41
+    Caption = 'Début'
+    FocusControl = deDebut
+    ParentColor = False
+  end
+  object Label2: TLabel
+    Left = 145
+    Height = 17
+    Top = 8
+    Width = 20
+    Caption = 'Fin'
+    FocusControl = deFin
+    ParentColor = False
+  end
+  object bOK: TBitBtn
+    Left = 16
+    Height = 30
+    Top = 56
+    Width = 75
+    Default = True
+    DefaultCaption = True
+    Kind = bkOK
+    ModalResult = 1
+    OnClick = bOKClick
+    TabOrder = 2
+  end
+  object b0_Now: TButton
+    Left = 176
+    Height = 25
+    Top = 61
+    Width = 75
+    Caption = '0 to now'
+    OnClick = b0_NowClick
+    TabOrder = 3
+  end
+end

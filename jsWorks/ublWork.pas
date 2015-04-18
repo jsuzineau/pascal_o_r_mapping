@@ -27,7 +27,7 @@ uses
     u_sys_,
     uuStrings,
     uBatpro_StringList,
-
+    uChamp,
 
     uBatpro_Element,
     uBatpro_Ligne,
@@ -55,7 +55,14 @@ type
     Beginning: TDateTime;
     End_: TDateTime;
     Description: String;
-
+  //Duree en heures
+  private
+    FDuree: double;
+    procedure Duree_GetChaine( var _Chaine: String);
+    function GetDuree: double;
+  public
+    cDuree: TChamp;
+    property Duree: double read GetDuree;
   //Gestion de la clé
   public
     function sCle: String; override;
@@ -105,12 +112,32 @@ begin
      DateTime_from_( End_           , 'End'            );
      String_from_  ( Description    , 'Description'    );
 
+     cDuree:= Ajoute_Float( FDuree, 'Duree', False);
+     cDuree.OnGetChaine:= Duree_GetChaine;
+
 end;
 
 destructor TblWork.Destroy;
 begin
 
      inherited;
+end;
+
+procedure TblWork.Duree_GetChaine(var _Chaine: String);
+begin
+     GetDuree;
+     _Chaine:= cDuree.GetChaine_interne;
+end;
+
+function TblWork.GetDuree: double;
+begin
+     if End_ < Beginning
+     then
+         FDuree:= 0
+     else
+         FDuree:= (End_ - Beginning)*24;
+
+     Result:= FDuree;
 end;
 
 function TblWork.sCle: String;

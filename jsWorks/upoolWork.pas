@@ -219,8 +219,8 @@ begin
      try
         pDebut:= CreeParam( P, 'Debut');
         pFin  := CreeParam( P, 'Fin'  );
-        pDebut.AsDate:= _Debut;
-        pFin  .AsDate:= _Fin;
+        pDebut.AsDateTime:= Trunc( _Debut);
+        pFin  .AsDateTime:= Trunc(_Fin)+1;
         Load( SQL, _slLoaded, nil, P);
      finally
             FreeAndNil( P);
