@@ -35,7 +35,7 @@ uses
     udmDatabase,
     upool_Ancetre_Ancetre,
 
-    SysUtils, Classes, sqldb, DB;
+    SysUtils, Classes, sqldb, DB,DateUtils;
 
 type
 
@@ -55,20 +55,59 @@ type
     Beginning: TDateTime;
     End_: TDateTime;
     Description: String;
-  //Duree en heures
+  //Duree
   private
-    FDuree: double;
+    FDuree: TDateTime;
     procedure Duree_GetChaine( var _Chaine: String);
-    function GetDuree: double;
+    function GetDuree: TDateTime;
+    function sDuree: String;
   public
     cDuree: TChamp;
-    property Duree: double read GetDuree;
+    property Duree: TDateTime read GetDuree;
   //Gestion de la clé
   public
     function sCle: String; override;
   //Méthodes
   public
     procedure Stop;
+  //Gestion des sessions
+  private
+    FsSession: String;
+    procedure sSession_GetChaine( var _Chaine: String);
+    function GetsSession: String;
+  public
+    csSession: TChamp;
+    property sSession: String read GetsSession;
+  //Session differente
+  public
+    function Session_Differente( _bl: TblWork): Boolean;
+  //Semaine differente
+  public
+    function Semaine_Differente( _bl: TblWork): Boolean;
+  end;
+
+ TIterateur_Work
+ =
+  class( TIterateur)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: TblWork);
+    function  not_Suivant( var _Resultat: TblWork): Boolean;
+  end;
+
+ TslWork
+ =
+  class( TBatpro_StringList)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_Work;
+    function Iterateur_Decroissant: TIterateur_Work;
   end;
 
 function blWork_from_sl( sl: TBatpro_StringList; Index: Integer): TblWork;
@@ -84,6 +123,45 @@ end;
 function blWork_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblWork;
 begin
      _Classe_from_sl_sCle( Result, TblWork, sl, sCle);
+end;
+
+{ TIterateur_Work }
+
+function TIterateur_Work.not_Suivant( var _Resultat: TblWork): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_Work.Suivant( var _Resultat: TblWork);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TslWork }
+
+constructor TslWork.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, TblWork);
+end;
+
+destructor TslWork.Destroy;
+begin
+     inherited;
+end;
+
+class function TslWork.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Work;
+end;
+
+function TslWork.Iterateur: TIterateur_Work;
+begin
+     Result:= TIterateur_Work( Iterateur_interne);
+end;
+
+function TslWork.Iterateur_Decroissant: TIterateur_Work;
+begin
+     Result:= TIterateur_Work( Iterateur_interne_Decroissant);
 end;
 
 { TblWork }
@@ -115,6 +193,8 @@ begin
      cDuree:= Ajoute_Float( FDuree, 'Duree', False);
      cDuree.OnGetChaine:= Duree_GetChaine;
 
+     csSession:= Ajoute_String( FsSession,'sSession', False);
+     csSession.OnGetChaine:= sSession_GetChaine;
 end;
 
 destructor TblWork.Destroy;
@@ -125,17 +205,21 @@ end;
 
 procedure TblWork.Duree_GetChaine(var _Chaine: String);
 begin
-     GetDuree;
-     _Chaine:= cDuree.GetChaine_interne;
+     _Chaine:= sDuree;
 end;
 
-function TblWork.GetDuree: double;
+function TblWork.sDuree: String;
+begin
+     Result:= FormatDateTime( 'hh:nn', Duree);
+end;
+
+function TblWork.GetDuree: TDateTime;
 begin
      if End_ < Beginning
      then
          FDuree:= 0
      else
-         FDuree:= (End_ - Beginning)*24;
+         FDuree:= End_ - Beginning;
 
      Result:= FDuree;
 end;
@@ -149,6 +233,52 @@ procedure TblWork.Stop;
 begin
      End_:= Now;
      Save_to_database;
+end;
+
+procedure TblWork.sSession_GetChaine(var _Chaine: String);
+begin
+     _Chaine:= GetsSession;
+end;
+
+function TblWork.GetsSession: String;
+begin
+     Result
+     :=
+        FormatDateTime( 'hh:nn', Beginning)
+       +'-'
+       +FormatDateTime( 'hh:nn', End_     )
+       +'('+sDuree+'):'
+       +Description;
+       ;
+end;
+
+function TblWork.Session_Differente( _bl: TblWork): Boolean;
+     function Test( _1, _2: TblWork): Boolean;
+     const
+          dt_2_minute= (2{minute}/60{heure})/24{jour};
+     var
+        Delta: TDateTime;
+     begin
+          Delta:= _2.Beginning - _1.End_;
+          Result:= Delta > dt_2_minute;
+     end;
+begin
+     Result:= True;
+     if _bl = nil then exit;
+
+     if Self.Beginning < _bl.Beginning
+     then
+         Result:= Test( Self, _bl)
+     else
+         Result:= Test( _bl, Self);
+end;
+
+function TblWork.Semaine_Differente(_bl: TblWork): Boolean;
+begin
+     Result:= True;
+     if _bl = nil then exit;
+
+     Result:= WeekOfTheYear( Beginning) <> WeekOfTheYear( _bl.Beginning);
 end;
 
 end.

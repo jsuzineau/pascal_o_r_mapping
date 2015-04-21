@@ -35,7 +35,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="73">
+    <Units Count="75">
       <Unit0>
         <Filename Value="jsWorks_mswindows.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -428,6 +428,16 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="ujpPascal_Champ_EditPAS"/>
       </Unit72>
+      <Unit73>
+        <Filename Value="ublSession.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublSession"/>
+      </Unit73>
+      <Unit74>
+        <Filename Value="uhdmsession.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uhdmSession"/>
+      </Unit74>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

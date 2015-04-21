@@ -63,7 +63,7 @@ uses
  uhfJour_ferie, uhfProject, uhfState, uhfWork, upoolCategorie, upoolDevelopment,
  upoolJour_ferie, upoolProject, upoolState, upoolWork, ublJour_ferie,
  udkProject_EDIT, udkProject_LABEL, ufProject, udkWork, udkDevelopment,
- uOD_Table_Batpro, ufAutomatic
+ ublSession, uOD_Table_Batpro, ufAutomatic, uhdmSession
  { you can add units after this };
 
 {$R *.res}
