@@ -35,7 +35,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="75">
+    <Units Count="87">
       <Unit0>
         <Filename Value="jsWorks_mswindows.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -438,6 +438,72 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uhdmSession"/>
       </Unit74>
+      <Unit75>
+        <Filename Value="upoolTAG.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolTAG"/>
+      </Unit75>
+      <Unit76>
+        <Filename Value="uhfTAG.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uhfTAG"/>
+      </Unit76>
+      <Unit77>
+        <Filename Value="ublTAG.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublTAG"/>
+      </Unit77>
+      <Unit78>
+        <Filename Value="upoolTAG_DEVELOPMENT.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolTAG_DEVELOPMENT"/>
+      </Unit78>
+      <Unit79>
+        <Filename Value="uhfTAG_DEVELOPMENT.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uhfTAG_DEVELOPMENT"/>
+      </Unit79>
+      <Unit80>
+        <Filename Value="ublTAG_DEVELOPMENT.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublTAG_DEVELOPMENT"/>
+      </Unit80>
+      <Unit81>
+        <Filename Value="upoolTAG_WORK.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolTAG_WORK"/>
+      </Unit81>
+      <Unit82>
+        <Filename Value="uhfTAG_WORK.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uhfTAG_WORK"/>
+      </Unit82>
+      <Unit83>
+        <Filename Value="ublTAG_WORK.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublTAG_WORK"/>
+      </Unit83>
+      <Unit84>
+        <Filename Value="ublTYPE_TAG.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublTYPE_TAG"/>
+      </Unit84>
+      <Unit85>
+        <Filename Value="uhfTYPE_TAG.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uhfTYPE_TAG"/>
+      </Unit85>
+      <Unit86>
+        <Filename Value="upoolTYPE_TAG.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="poolTYPE_TAG"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="upoolTYPE_TAG"/>
+      </Unit86>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -116,6 +116,10 @@ type
   public
     function Duree: TDateTime;
     function sDuree: String;
+  //Cumul Jour
+  public
+    Cumul_Jour: TDateTime;
+    FinJour: Boolean;
   //Cumul Semaine
   public
     Cumul_Semaine: TDateTime;
@@ -230,6 +234,9 @@ begin
 
      Cumul_Semaine:= 0;
      FinSemaine:= False;
+
+     Cumul_Jour:= 0;
+     FinJour:= False;
 end;
 
 destructor TblSession.Destroy;
@@ -268,9 +275,12 @@ function TblSession.GetLibelle: String;
 begin
      FLibelle:= haWork.Libelle;
      Formate_Liste( FLibelle, #13#10, '('+sDuree+')');
+     if FinJour
+     then
+         Formate_Liste( FLibelle, #13#10, '(Jour: '+sNb_Heures_from_DateTime( Cumul_Jour)+', a '+sNb_Heures_Arrondi_from_DateTime( Cumul_Jour)+')');
      if FinSemaine
      then
-         Formate_Liste( FLibelle, #13#10, '(Semaine: '+FormatDateTime( 'hh:nn', Cumul_Semaine)+')');
+         Formate_Liste( FLibelle, #13#10, '(Semaine: '+sNb_Heures_from_DateTime( Cumul_Semaine)+')');
 
      Result:= FLibelle;
 end;
@@ -278,7 +288,7 @@ end;
 procedure TblSession.Beginning_GetChaine(var _Chaine: String);
 begin
      GetBeginning;
-     _Chaine:= cBeginning.GetChaine_interne;
+     _Chaine:= FormatDateTime( 'dd"/"mm"/"yyyy hh:nn', Beginning);
 end;
 
 function TblSession.GetBeginning: TDateTime;
@@ -290,7 +300,7 @@ end;
 procedure TblSession.End__GetChaine(var _Chaine: String);
 begin
      GetEnd_;
-     _Chaine:= cEnd_.GetChaine_interne;
+     _Chaine:= FormatDateTime( 'dd"/"mm"/"yyyy hh:nn', End_);
 end;
 
 function TblSession.GetEnd_: TDateTime;

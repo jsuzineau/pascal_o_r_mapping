@@ -33,7 +33,7 @@ uses
     {$ENDIF}
     uNetWork,
   {$IFDEF FPC}
-  LazUTF8,
+  LazUTF8, LCLIntf,
   {$ENDIF}
   SysUtils, Classes;
 
@@ -177,7 +177,9 @@ end;
 
 procedure TLog.Affiche;
 begin
-     {$IFNDEF FPC}
+     {$IFDEF FPC}
+     OpenDocument( NomFichier);
+     {$ELSE}
      ShowURL( NomFichier);
      {$ENDIF}
 end;

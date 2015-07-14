@@ -95,6 +95,15 @@ object fTemps: TfTemps
       OnClick = bSessionClick
       TabOrder = 4
     end
+    object bTo_log: TButton
+      Left = 111
+      Height = 25
+      Top = 99
+      Width = 75
+      Caption = 'To log'
+      OnClick = bTo_logClick
+      TabOrder = 5
+    end
   end
   object ds: TDockableScrollbox
     Left = 0
@@ -106,6 +115,7 @@ object fTemps: TfTemps
     ClientHeight = 269
     ClientWidth = 742
     TabOrder = 1
+    OnClick = dsClick
     HauteurLigne = 77
     BordureLignes = True
     Zebrage = False

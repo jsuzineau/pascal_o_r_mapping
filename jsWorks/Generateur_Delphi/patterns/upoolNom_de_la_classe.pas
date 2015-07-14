@@ -38,8 +38,7 @@ uses
   
 
   uhfNom_de_la_classe,
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, FMTBcd, Provider, DBClient, DB, SqlExpr;
+  SysUtils, Classes, DB, SqlDB;
 
 type
  TpoolNom_de_la_classe
@@ -52,15 +51,6 @@ type
   //Accés général
   public
     function Get( _id: integer): TblNom_de_la_classe;
-  //Gestion de la clé
-  protected
-//pattern_Declaration_cle
-    procedure To_SQLQuery_Params( SQLQuery: TSQLQuery); override;
-  public
-//pattern_Get_by_Cle_Declaration
-  //Indépendance par rapport au SGBD Informix ou MySQL
-  protected
-    function SQLWHERE_ContraintesChamps: String; override;
   //Méthode de création de test
   public
 {Test_Declaration_Key}
@@ -96,23 +86,6 @@ end;
 function TpoolNom_de_la_classe.Get( _id: integer): TblNom_de_la_classe;
 begin
      Get_Interne_from_id( _id, Result);
-end;
-
-//pattern_Get_by_Cle_Implementation
-
-procedure TpoolNom_de_la_classe.To_SQLQuery_Params(SQLQuery: TSQLQuery);
-begin
-     inherited;
-     with SQLQuery.Params
-     do
-       begin
-//pattern_To_SQLQuery_Params_Body
-       end;
-end;
-
-function TpoolNom_de_la_classe.SQLWHERE_ContraintesChamps: String;
-begin
-//pattern_SQLWHERE_ContraintesChamps_Body
 end;
 
 {Test_Implementation_Key}

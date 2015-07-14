@@ -59,7 +59,7 @@ type
     procedure _from_DataLink;
   protected
     { Déclarations protégées }
-    procedure Change; override;
+    //procedure Change; override;
     procedure Loaded; override;
     procedure Notification(AComponent:TComponent;Operation:TOperation);override;
   public
@@ -71,7 +71,7 @@ type
     { Déclarations publiées }
     property DataField: string read GetDataField write SetDataField;
     property DataSource: TDataSource read GetDataSource write SetDataSource;
-    property ReadOnly: Boolean read GetReadOnly write SetReadOnly default False;
+    //property ReadOnly: Boolean read GetReadOnly write SetReadOnly default False;
   //Checkbox à gérer
   public
     ShowCheckbox: Boolean;
@@ -206,6 +206,7 @@ begin
          FDataLink.Field.Clear;
 end;
 
+{
 procedure TBatproDateTimePicker.Change;
 begin
      if not Changing
@@ -225,6 +226,7 @@ begin
                 end;
      inherited Change;
 end;
+}
 
 procedure TBatproDateTimePicker.Loaded;
 begin

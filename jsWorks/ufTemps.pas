@@ -11,7 +11,7 @@ uses
     uhdmSession,
     udkSession,
  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, EditBtn,
- StdCtrls, Buttons, ExtCtrls;
+ StdCtrls, Buttons, ExtCtrls,LCLIntf;
 
 type
 
@@ -23,6 +23,7 @@ type
   b0_Now: TButton;
   bOK: TBitBtn;
   bSession: TButton;
+  bTo_log: TButton;
   deDebut: TDateEdit;
   deFin: TDateEdit;
   ds: TDockableScrollbox;
@@ -32,6 +33,8 @@ type
   procedure b0_NowClick(Sender: TObject);
   procedure bOKClick(Sender: TObject);
   procedure bSessionClick(Sender: TObject);
+  procedure bTo_logClick(Sender: TObject);
+  procedure dsClick(Sender: TObject);
   procedure FormCreate(Sender: TObject);
  private
  public
@@ -63,9 +66,14 @@ begin
 end;
 
 procedure TfTemps.bOKClick(Sender: TObject);
+var
+   Resultat: String;
 begin
      odWork_from_Period.Init( deDebut.Date, deFin.Date);
-     SysUtils.ExecuteProcess( '/usr/bin/libreoffice', [odWork_from_Period.Visualiser]);
+     Resultat:= odWork_from_Period.Visualiser;
+     if not OpenDocument( Resultat)
+     then
+         ShowMessage( 'OpenDocument failed on '+Resultat);
 end;
 
 procedure TfTemps.bSessionClick(Sender: TObject);
@@ -74,10 +82,25 @@ begin
      ds.sl:= hdmSession.sl;
 end;
 
+procedure TfTemps.bTo_logClick(Sender: TObject);
+begin
+     hdmSession.To_log;
+end;
+
+procedure TfTemps.dsClick(Sender: TObject);
+begin
+
+end;
+
 procedure TfTemps.b0_NowClick(Sender: TObject);
+var
+   Resultat: String;
 begin
      odWork_from_Period.Init( 0, Now);
-     SysUtils.ExecuteProcess( '/usr/bin/libreoffice', [odWork_from_Period.Visualiser]);
+     Resultat:= odWork_from_Period.Visualiser;
+     if not OpenDocument( Resultat)
+     then
+         ShowMessage( 'OpenDocument failed on '+Resultat);
 end;
 
 initialization

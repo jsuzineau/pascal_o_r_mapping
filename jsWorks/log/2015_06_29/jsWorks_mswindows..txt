@@ -1,0 +1,82 @@
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Echec de la connection au SGBD
+>L'ouverture de la SQLConnection . Ã  Ã©chouÃ©
+Classe de l'exception :
+    EDatabaseError
+Message de l'exception:
+    Server connect failed.
+ParamÃ¨tres de la SQLConnection:
+ConnectionName   : 
+DriverName  : 
+ParamÃ¨tres  : 
+
+>base MySQL jsWorks sur FIRST-BOSS sqlc.Hostname=FIRST-BOSS sqlc.DatabaseName=jsWorks
+>Erreur SGBD
+>L'exÃ©cution de la requÃªte poolCATEGORIE.sqlq_SELECT_ALL a Ã©chouÃ©. 
+Classe de l'exception :
+    EDatabaseError
+Message de l'exception:
+    Server connect failed.
+Code de la requÃªte :
+    select * from Categorie
+
+ParamÃ¨tres :
+
+ParamÃ¨tres de connection:
+
+>Erreur SGBD
+>L'exÃ©cution de la requÃªte poolSTATE.sqlq_SELECT_ALL a Ã©chouÃ©. 
+Classe de l'exception :
+    EDatabaseError
+Message de l'exception:
+    Server connect failed.
+Code de la requÃªte :
+    select * from State
+
+ParamÃ¨tres :
+
+ParamÃ¨tres de connection:
+
+>Erreur SGBD
+>L'exÃ©cution de la requÃªte poolPROJECT.sqlq_SELECT_ALL a Ã©chouÃ©. 
+Classe de l'exception :
+    EDatabaseError
+Message de l'exception:
+    Server connect failed.
+Code de la requÃªte :
+    select * from Project
+
+ParamÃ¨tres :
+
+ParamÃ¨tres de connection:
+
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur FIRST-BOSS sqlc.Hostname=FIRST-BOSS sqlc.DatabaseName=jsWorks
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur FIRST-BOSS sqlc.Hostname=FIRST-BOSS sqlc.DatabaseName=jsWorks
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur FIRST-BOSS sqlc.Hostname=FIRST-BOSS sqlc.DatabaseName=jsWorks
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur FIRST-BOSS sqlc.Hostname=FIRST-BOSS sqlc.DatabaseName=jsWorks
+>
+>function TOD.NomFichier_Modele: String; => >\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\Work_from_Period.ott<
+>
+>function TOD.NomFichier_Modele: String; => >\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\Work_from_Period.ott<
+>
+>function TOD.NomFichier_Modele: String; => >\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\Work_from_Period.ott<
+>30/12/1899 Jour: 0:0,  0,00h Semaine: 0:0,  0,00h

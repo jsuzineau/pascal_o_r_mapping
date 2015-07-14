@@ -1,7 +1,7 @@
-CREATE TABLE Project'
+CREATE TABLE Type_Tag'
       '  ('
       '  Numero          INTEGER AUTO_INCREMENT PRIMARY KEY,'
-      '  id              INTEGER   ,'
-      '  Name            CHAR( 42)   )'
+      '  `id`            INTEGER   ,'
+      '  `Name`          CHAR( 42)   )'
       '
 

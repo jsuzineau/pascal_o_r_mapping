@@ -103,6 +103,7 @@ begin
      inherited;
 
      hfWork:= hf as ThfWork;
+     ChampTri['Beginning']:= +1;
 end;
 
 function TpoolWork.Get( _id: integer): TblWork;
@@ -225,6 +226,7 @@ begin
      finally
             FreeAndNil( P);
             end;
+     Tri.Execute( _slLoaded);
 end;
 
 initialization

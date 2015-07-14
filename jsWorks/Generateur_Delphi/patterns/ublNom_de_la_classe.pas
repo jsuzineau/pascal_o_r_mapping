@@ -30,7 +30,6 @@ uses
     u_sys_,
     uuStrings,
     uBatpro_StringList,
-    uDataClasses,
 
     uBatpro_Element,
     uBatpro_Ligne,
@@ -38,7 +37,7 @@ uses
     udmDatabase,
     upool_Ancetre_Ancetre,
 
-    SysUtils, Classes, SqlExpr, DB, Grids;
+    SysUtils, Classes, SqlDB, DB;
 
 type
  TblNom_de_la_classe
@@ -59,7 +58,6 @@ type
 
 function blNom_de_la_classe_from_sl( sl: TBatpro_StringList; Index: Integer): TblNom_de_la_classe;
 function blNom_de_la_classe_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblNom_de_la_classe;
-function sg_blNom_de_la_classe( sg: TStringGrid; Colonne, Ligne: Integer): TblNom_de_la_classe;
 
 implementation
 
@@ -71,19 +69,6 @@ end;
 function blNom_de_la_classe_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblNom_de_la_classe;
 begin
      _Classe_from_sl_sCle( Result, TblNom_de_la_classe, sl, sCle);
-end;
-
-function sg_blNom_de_la_classe( sg: TStringGrid; Colonne, Ligne: Integer): TblNom_de_la_classe;
-var
-   be: TBatpro_Element;
-begin
-     Result:= nil;
-
-     be:= Batpro_Element_from_sg( sg, Colonne, Ligne);
-     if be = nil then exit;
-     if not (be is TblNom_de_la_classe) then exit;
-
-     Result:=TblNom_de_la_classe( be);
 end;
 
 { TblNom_de_la_classe }

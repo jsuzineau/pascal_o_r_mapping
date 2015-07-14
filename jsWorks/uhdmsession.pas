@@ -6,6 +6,7 @@ interface
 
 uses
     uClean,
+    uLog,
     ufAccueil_Erreur,
     uBatpro_StringList,
     uBatpro_Element,
@@ -61,6 +62,7 @@ type
   //Méthodes
   public
     function Execute( _Debut, _Fin: TDateTime): Boolean;
+    procedure To_log;
   end;
 
 function hdmSession: ThdmSession;
@@ -107,6 +109,7 @@ function ThaWork.Charge_Periode( _Debut, _Fin: TDateTime): Boolean;
 begin
      poolWork.Charge_Periode( _Debut, _Fin, slCharge);
      Ajoute_slCharge;
+     poolWork.Tri.Execute( sl);
 end;
 
 { ThdmSession }
@@ -167,12 +170,49 @@ var
    bl: TblSession;
 
    Cumul_Semaine: TDateTime;
+   Cumul_Jour: TDateTime;
+   procedure Semaine_Change;
+   begin
+        if Assigned( bl)
+        then
+            begin
+            bl.Cumul_Semaine:= Cumul_Semaine;
+            bl.FinSemaine:= True;
+            end;
+
+        Cumul_Semaine:= 0;
+   end;
+   procedure Jour_Change;
+   begin
+        if blWork.Semaine_Differente( Precedent)
+        then
+            Semaine_Change;
+
+        if Assigned( bl)
+        then
+            begin
+            bl.Cumul_Jour:= Cumul_Jour;
+            bl.FinJour:= True;
+            end;
+
+        Cumul_Jour:= 0;
+   end;
+   procedure Session_Change;
+   begin
+        if blWork.Jour_Different( Precedent)
+        then
+            Jour_Change;
+
+        bl:= TblSession.Create( sl, nil, nil);
+        Ajoute( bl);
+   end;
 begin
      haWork.Charge_Periode( _Debut, _Fin);
 
      bl:= nil;
      Precedent:= nil;
      Cumul_Semaine:= 0;
+     Cumul_Jour:= 0;
      I:= haWork.Iterateur;
      while I.Continuer
      do
@@ -182,27 +222,44 @@ begin
        if     blWork.Session_Differente( Precedent)
           or (bl = nil)
        then
-           begin
-           if blWork.Semaine_Differente( Precedent)
-           then
-               begin
-               if Assigned( bl)
-               then
-                   begin
-                   bl.Cumul_Semaine:= Cumul_Semaine;
-                   bl.FinSemaine:= True;
-                   end;
-
-               Cumul_Semaine:= 0;
-               end;
-           bl:= TblSession.Create( sl, nil, nil);
-           Ajoute( bl);
-           end;
+           Session_Change;
 
        bl.haWork.Ajoute( blWork);
+       Cumul_Jour   := Cumul_Jour    + blWork.Duree;
        Cumul_Semaine:= Cumul_Semaine + blWork.Duree;
+       Log.PrintLn(  DateTimeToStr(blWork.End_)
+                    +' Jour: '   +sNb_Heures_from_DateTime( Cumul_Jour   )
+                    +' Semaine: '+sNb_Heures_from_DateTime( Cumul_Semaine)
+                    );
        Precedent:= blWork;
        end;
+end;
+
+procedure ThdmSession.To_log;
+var
+   I: TIterateur_Session;
+   bl: TblSession;
+   sl: TStringList;
+   J: Integer;
+begin
+     I:= Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( bl) then continue;
+
+       Log.PrintLn( DateToStr(bl.Beginning));
+       sl:= TStringList.Create;
+       try
+          sl.Text:= bl.Libelle;
+          for J:= 0 to sl.Count-1
+          do
+            Log.PrintLn( '  '+sl[J]);
+       finally
+              FreeAndNil( sl);
+              end;
+       end;
+     Log.Affiche;
 end;
 
 initialization

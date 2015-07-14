@@ -78,3 +78,43 @@ ParamÃ¨tres de connection:
 >Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
 >uMySQL paramétré pour MySQL version : 51
 >base MySQL jsWorks sur 192.168.1.76 sqlc.Hostname=192.168.1.76 sqlc.DatabaseName=jsWorks
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur 192.168.1.76 sqlc.Hostname=192.168.1.76 sqlc.DatabaseName=jsWorks
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur 192.168.1.76 sqlc.Hostname=192.168.1.76 sqlc.DatabaseName=jsWorks
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur 192.168.1.76 sqlc.Hostname=192.168.1.76 sqlc.DatabaseName=jsWorks
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur 192.168.1.76 sqlc.Hostname=192.168.1.76 sqlc.DatabaseName=jsWorks
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur 192.168.1.76 sqlc.Hostname=192.168.1.76 sqlc.DatabaseName=jsWorks
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur 192.168.1.76 sqlc.Hostname=192.168.1.76 sqlc.DatabaseName=jsWorks
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur 192.168.1.76 sqlc.Hostname=192.168.1.76 sqlc.DatabaseName=jsWorks
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur 192.168.1.76 sqlc.Hostname=192.168.1.76 sqlc.DatabaseName=jsWorks

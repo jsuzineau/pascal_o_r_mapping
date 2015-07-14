@@ -180,7 +180,7 @@
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
         <UnitName Value="uPool"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1112"/>
         <CursorPos X="30" Y="1135"/>
@@ -434,8 +434,7 @@
       <Unit44>
         <Filename Value="../pascal_o_r_mapping/3_Data/uDataUtilsF.pas"/>
         <UnitName Value="uDataUtilsF"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1740"/>
         <CursorPos X="71" Y="1757"/>
@@ -508,23 +507,22 @@
       </Unit51>
       <Unit52>
         <Filename Value="jsWorks_mswindows.lpi"/>
-        <EditorIndex Value="8"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
+        <CursorPos X="47" Y="8"/>
         <UsageCount Value="19"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="XML"/>
       </Unit52>
       <Unit53>
-        <Filename Value="../../../lazarus/lcl/interfaces/win32/win32wscontrols.pp"/>
+        <Filename Value="//lazarus/lcl/interfaces/win32/win32wscontrols.pp"/>
         <UnitName Value="Win32WSControls"/>
-        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="240"/>
         <CursorPos X="1" Y="253"/>
         <UsageCount Value="19"/>
-        <Loaded Value="True"/>
       </Unit53>
       <Unit54>
         <Filename Value="../pascal_o_r_mapping/3_Data/udmDatabase.pas"/>
@@ -541,7 +539,7 @@
     <General>
       <ActiveWindowIndexAtStart Value="0"/>
     </General>
-    <JumpHistory Count="18" HistoryIndex="17">
+    <JumpHistory Count="15" HistoryIndex="14">
       <Position1>
         <Filename Value="http_jsWorks_mswindows.lpr"/>
         <Caret Line="117" Column="1" TopLine="1"/>
@@ -591,29 +589,17 @@
         <Caret Line="73" Column="65" TopLine="54"/>
       </Position12>
       <Position13>
-        <Filename Value="../../../lazarus/lcl/interfaces/win32/win32wscontrols.pp"/>
-        <Caret Line="254" Column="57" TopLine="240"/>
-      </Position13>
-      <Position14>
         <Filename Value="http_jsWorks_mswindows.lpr"/>
         <Caret Line="73" Column="65" TopLine="54"/>
-      </Position14>
-      <Position15>
+      </Position13>
+      <Position14>
         <Filename Value="../pascal_o_r_mapping/3_Data/uMySQL.pas"/>
         <Caret Line="163" Column="53" TopLine="136"/>
-      </Position15>
-      <Position16>
-        <Filename Value="../../../lazarus/lcl/interfaces/win32/win32wscontrols.pp"/>
-        <Caret Line="253" Column="1" TopLine="240"/>
-      </Position16>
-      <Position17>
+      </Position14>
+      <Position15>
         <Filename Value="../pascal_o_r_mapping/3_Data/uDataUtilsF.pas"/>
         <Caret Line="1748" Column="61" TopLine="1740"/>
-      </Position17>
-      <Position18>
-        <Filename Value="../../../lazarus/lcl/interfaces/win32/win32wscontrols.pp"/>
-        <Caret Line="253" Column="1" TopLine="240"/>
-      </Position18>
+      </Position15>
     </JumpHistory>
   </ProjectSession>
   <Debugging>

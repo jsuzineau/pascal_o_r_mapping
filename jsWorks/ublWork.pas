@@ -35,7 +35,7 @@ uses
     udmDatabase,
     upool_Ancetre_Ancetre,
 
-    SysUtils, Classes, sqldb, DB,DateUtils;
+    SysUtils, Classes, sqldb, DB,DateUtils, Math;
 
 type
 
@@ -84,6 +84,9 @@ type
   //Semaine differente
   public
     function Semaine_Differente( _bl: TblWork): Boolean;
+  //Jour different
+  public
+    function Jour_Different( _bl: TblWork): Boolean;
   end;
 
  TIterateur_Work
@@ -110,10 +113,36 @@ type
     function Iterateur_Decroissant: TIterateur_Work;
   end;
 
+function sNb_Heures_from_DateTime( _dt: TDateTime): String;
+function sNb_Heures_Arrondi_from_DateTime( _dt: TDateTime): String;
+
 function blWork_from_sl( sl: TBatpro_StringList; Index: Integer): TblWork;
 function blWork_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblWork;
 
 implementation
+
+function sNb_Heures_Arrondi_from_DateTime( _dt: TDateTime): String;
+var
+   NbHeures: double;
+begin
+     NbHeures:= ceil(_dt*24*2)/2;
+     Result
+     :=
+       FloatToStrF( NbHeures, ffFixed, 0, 2)+'h';
+end;
+
+function sNb_Heures_from_DateTime( _dt: TDateTime): String;
+var
+   NbHeures: double;
+begin
+     NbHeures:= _dt*24;
+     Result
+     :=
+       IntToStr(Trunc(NbHeures))+':'+IntToStr(Trunc(Frac(NbHeures)*60))
+       +',  '+FloatToStrF( NbHeures, ffFixed, 0, 2)+'h';
+end;
+
+
 
 function blWork_from_sl( sl: TBatpro_StringList; Index: Integer): TblWork;
 begin
@@ -244,10 +273,11 @@ function TblWork.GetsSession: String;
 begin
      Result
      :=
-        FormatDateTime( 'hh:nn', Beginning)
-       +'-'
-       +FormatDateTime( 'hh:nn', End_     )
-       +'('+sDuree+'):'
+       // FormatDateTime( 'hh:nn', Beginning)
+       //+'-'
+       //+FormatDateTime( 'hh:nn', End_     )
+       //+'('+sDuree+'):'
+        sDuree+':'
        +Description;
        ;
 end;
@@ -279,6 +309,14 @@ begin
      if _bl = nil then exit;
 
      Result:= WeekOfTheYear( Beginning) <> WeekOfTheYear( _bl.Beginning);
+end;
+
+function TblWork.Jour_Different(_bl: TblWork): Boolean;
+begin
+     Result:= True;
+     if _bl = nil then exit;
+
+     Result:= DayOfTheMonth( Beginning) <> DayOfTheMonth( _bl.Beginning);
 end;
 
 end.

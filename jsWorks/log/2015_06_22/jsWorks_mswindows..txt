@@ -1,0 +1,146 @@
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL param�tr� pour MySQL version : 51
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL param�tr� pour MySQL version : 51
+>Echec de la connection au SGBD
+>L'ouverture de la SQLConnection . à échoué
+Classe de l'exception :
+    EDatabaseError
+Message de l'exception:
+    Server connect failed.
+Paramètres de la SQLConnection:
+ConnectionName   : 
+DriverName  : 
+Paramètres  : 
+
+>base MySQL jsWorks sur 192.168.1.76 sqlc.Hostname=192.168.1.76 sqlc.DatabaseName=jsWorks
+>Erreur SGBD
+>L'exécution de la requête poolCATEGORIE.sqlq_SELECT_ALL a échoué. 
+Classe de l'exception :
+    EDatabaseError
+Message de l'exception:
+    Server connect failed.
+Code de la requête :
+    select * from Categorie
+
+Paramètres :
+
+Paramètres de connection:
+
+>Erreur SGBD
+>L'exécution de la requête poolSTATE.sqlq_SELECT_ALL a échoué. 
+Classe de l'exception :
+    EDatabaseError
+Message de l'exception:
+    Server connect failed.
+Code de la requête :
+    select * from State
+
+Paramètres :
+
+Paramètres de connection:
+
+>Erreur SGBD
+>L'exécution de la requête poolPROJECT.sqlq_SELECT_ALL a échoué. 
+Classe de l'exception :
+    EDatabaseError
+Message de l'exception:
+    Server connect failed.
+Code de la requête :
+    select * from Project
+
+Paramètres :
+
+Paramètres de connection:
+
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL param�tr� pour MySQL version : 51
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL param�tr� pour MySQL version : 51
+>Echec de la connection au SGBD
+>L'ouverture de la SQLConnection . à échoué
+Classe de l'exception :
+    EDatabaseError
+Message de l'exception:
+    Server connect failed.
+Paramètres de la SQLConnection:
+ConnectionName   : 
+DriverName  : 
+Paramètres  : 
+
+>base MySQL jsWorks sur FIRST-BOSS sqlc.Hostname=FIRST-BOSS sqlc.DatabaseName=jsWorks
+>Erreur SGBD
+>L'exécution de la requête poolCATEGORIE.sqlq_SELECT_ALL a échoué. 
+Classe de l'exception :
+    EDatabaseError
+Message de l'exception:
+    Server connect failed.
+Code de la requête :
+    select * from Categorie
+
+Paramètres :
+
+Paramètres de connection:
+
+>Erreur SGBD
+>L'exécution de la requête poolSTATE.sqlq_SELECT_ALL a échoué. 
+Classe de l'exception :
+    EDatabaseError
+Message de l'exception:
+    Server connect failed.
+Code de la requête :
+    select * from State
+
+Paramètres :
+
+Paramètres de connection:
+
+>Erreur SGBD
+>L'exécution de la requête poolPROJECT.sqlq_SELECT_ALL a échoué. 
+Classe de l'exception :
+    EDatabaseError
+Message de l'exception:
+    Server connect failed.
+Code de la requête :
+    select * from Project
+
+Paramètres :
+
+Paramètres de connection:
+
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL param�tr� pour MySQL version : 51
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL param�tr� pour MySQL version : 51
+>base MySQL jsWorks sur FIRST-BOSS sqlc.Hostname=FIRST-BOSS sqlc.DatabaseName=jsWorks
+>Erreur SGBD
+>L'exécution de la requête poolAutomatic.sqlqLoad a échoué. 
+Classe de l'exception :
+    EDatabaseError
+Message de l'exception:
+     : Error executing query: Table 'jsWorks.Tag_' doesn't exist
+Code de la requête :
+    select * from Tag_ limit 0,5
+
+Paramètres :
+
+Paramètres de connection:
+
+>Erreur SGBD
+>L'exécution de la requête poolAutomatic.sqlqLoad a échoué. 
+Classe de l'exception :
+    EDatabaseError
+Message de l'exception:
+     : Error executing query: Table 'jsWorks.Tag_Developpment' doesn't exist
+Code de la requête :
+    select * from Tag_Developpment limit 0,5
+
+Paramètres :
+
+Paramètres de connection:
+
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL param�tr� pour MySQL version : 51
+>Fichier ini:\\FIRST-BOSS\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL param�tr� pour MySQL version : 51
+>base MySQL jsWorks sur FIRST-BOSS sqlc.Hostname=FIRST-BOSS sqlc.DatabaseName=jsWorks
