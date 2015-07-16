@@ -1,7 +1,7 @@
 object fAccueil: TfAccueil
-  Left = 686
+  Left = 689
   Height = 533
-  Top = 462
+  Top = 373
   Width = 592
   Caption = 'Journal de l''exécution du programme'
   ClientHeight = 533
@@ -14,7 +14,7 @@ object fAccueil: TfAccueil
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '1.0.1.3'
+  LCLVersion = '1.2.6.0'
   object Label1: TLabel
     Left = 0
     Height = 20
@@ -6379,9 +6379,9 @@ object fAccueil: TfAccueil
     end
     object Label2: TLabel
       Left = 29
-      Height = 15
+      Height = 13
       Top = 128
-      Width = 63
+      Width = 48
       Caption = 'les erreurs'
       ParentColor = False
     end
@@ -6393,7 +6393,6 @@ object fAccueil: TfAccueil
       Caption = 'Continuer'
       Kind = bkOK
       ModalResult = 1
-      OnClick = bOKClick
       TabOrder = 0
       Visible = False
     end
@@ -6426,9 +6425,9 @@ object fAccueil: TfAccueil
     end
     object cbErreurModal: TCheckBox
       Left = 8
-      Height = 24
+      Height = 19
       Top = 112
-      Width = 110
+      Width = 76
       Caption = 'S''arrêter sur'
       Checked = True
       State = cbChecked
@@ -6440,7 +6439,7 @@ object fAccueil: TfAccueil
       Top = 288
       Width = 87
       Caption = 'Envoyer'
-      ClientHeight = 80
+      ClientHeight = 78
       ClientWidth = 83
       TabOrder = 5
       object bFTP: TButton
@@ -6519,13 +6518,13 @@ object fAccueil: TfAccueil
     TabOrder = 1
     object tsErreur_Courante: TTabSheet
       Caption = 'Erreur courante'
-      ClientHeight = 485
-      ClientWidth = 480
+      ClientHeight = 487
+      ClientWidth = 476
       object m: TMemo
         Left = 0
-        Height = 444
+        Height = 446
         Top = 41
-        Width = 480
+        Width = 476
         Align = alClient
         BorderStyle = bsNone
         Font.Color = clWindowText
@@ -6539,7 +6538,7 @@ object fAccueil: TfAccueil
         Left = 0
         Height = 41
         Top = 0
-        Width = 480
+        Width = 476
         Align = alTop
         BevelOuter = bvNone
         Caption = 'Erreur'
@@ -6573,13 +6572,6 @@ object fAccueil: TfAccueil
       end
     end
   end
-  object SpeedButton1: TSpeedButton
-    Left = 10
-    Height = 22
-    Top = 10
-    Width = 23
-    NumGlyphs = 0
-  end
   object SaveDialog: TSaveDialog
     DefaultExt = '.TXT'
     Filter = 'Fichier texte|*.TXT'
@@ -6593,4 +6585,4 @@ object fAccueil: TfAccueil
     left = 56
     top = 316
   end
-end
+end

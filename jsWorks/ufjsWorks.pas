@@ -30,11 +30,6 @@ uses
 
     udmDatabase,
 
-    ublProject,
-    upoolProject,
-    udkProject_LABEL,
-    ufProject,
-
     ublWork,
     upoolWork,
     udkWork,
@@ -53,6 +48,8 @@ uses
 
     ufAutomatic,
     ufTemps,
+    ufTYPE_TAG,
+    ufTAG,
 
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls, Buttons, ucChampsGrid, ucDockableScrollbox,
@@ -71,7 +68,8 @@ type
    bBug: TButton;
    bTemps: TButton;
    bTest: TButton;
-   bFiltre: TButton;
+   bTYPE_TAG: TButton;
+   bTAG: TButton;
    ceBeginning: TChamp_Edit;
    ceEnd: TChamp_Edit;
    clkcbState: TChamp_Lookup_ComboBox;
@@ -80,55 +78,42 @@ type
    cmDevelopment_Description: TChamp_Memo;
    cmWork_Description: TChamp_Memo;
    dsbDevelopment: TDockableScrollbox;
-   dsbProject: TDockableScrollbox;
    dsbWork: TDockableScrollbox;
    gbDescription: TGroupBox;
    gbSolution: TGroupBox;
-   Label1: TLabel;
-   Label2: TLabel;
    Label3: TLabel;
    Label4: TLabel;
    Label5: TLabel;
    Label6: TLabel;
    Label7: TLabel;
    Label8: TLabel;
-   lTri: TLabel;
-   lProject: TLabel;
    Panel1: TPanel;
    Panel10: TPanel;
    Panel11: TPanel;
    Panel12: TPanel;
    Panel13: TPanel;
-   Panel2: TPanel;
-   Panel3: TPanel;
    Panel4: TPanel;
    Panel5: TPanel;
    Panel6: TPanel;
    Panel7: TPanel;
    Panel8: TPanel;
    Panel9: TPanel;
-   sbProject: TSpeedButton;
-   Splitter1: TSplitter;
    Splitter2: TSplitter;
    Splitter3: TSplitter;
    Splitter4: TSplitter;
    Splitter5: TSplitter;
    t: TTimer;
    procedure bBugClick(Sender: TObject);
-   procedure bFiltreClick(Sender: TObject);
    procedure bPointClick(Sender: TObject);
    procedure bStartClick(Sender: TObject);
    procedure bStopClick(Sender: TObject);
+   procedure bTAGClick(Sender: TObject);
    procedure bTempsClick(Sender: TObject);
    procedure bTestClick(Sender: TObject);
-   procedure dsbProjectSelect(Sender: TObject);
+   procedure bTYPE_TAGClick(Sender: TObject);
    procedure dsbWorkSelect(Sender: TObject);
    procedure dsbDevelopmentSelect(Sender: TObject);
-   procedure Edit1Change(Sender: TObject);
-   procedure Edit1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-   procedure Edit1KeyPress(Sender: TObject; var Key: char);
    procedure FormShow(Sender: TObject);
-   procedure sbProjectClick(Sender: TObject);
    procedure tTimer(Sender: TObject);
   //Gestion du cycle de vie
   public
@@ -137,11 +122,6 @@ type
   //méthodes
   private
     procedure _from_pool;
-    procedure Projects_Tri_Change;
-  //Project
-  private
-    blProject: TblProject;
-    procedure _from_Project;
   //Work
   private
     blWork : TblWork;
@@ -169,13 +149,6 @@ begin
      poolCategorie.ToutCharger;
      poolState    .ToutCharger;
 
-     dsbProject.Classe_dockable:= TdkProject_LABEL;
-     dsbProject.Tri:= poolProject.Tri;
-     dsbProject.Filtre:= poolProject.hf;
-     dsbProject.Classe_Elements:= TblProject;
-
-     poolProject.Tri.pChange.Abonne( Self, @Projects_Tri_Change);
-
      dsbWork.Classe_dockable:= TdkWork;
      dsbWork.Classe_Elements:= TblWork;
 
@@ -185,40 +158,14 @@ end;
 
 destructor TfjsWorks.Destroy;
 begin
-     poolProject.Tri.pChange.Desabonne( Self, @Projects_Tri_Change);
      inherited Destroy;
 end;
 
 procedure TfjsWorks._from_pool;
 begin
-     dsbProject.sl:= poolProject.slFiltre;
-     dsbProject.Goto_Premier;
-end;
+     dsbWork       .sl:= poolWork.slFiltre;
+     dsbDevelopment.sl:= poolDevelopment.slFiltre;
 
-procedure TfjsWorks.Projects_Tri_Change;
-begin
-     lTri.Caption:= poolProject.Tri.LibelleTri( False);
-end;
-
-procedure TfjsWorks._from_Project;
-begin
-     if blProject = nil
-     then
-         lProject.Caption:= ''
-     else
-         lProject.Caption:= blProject.Name;
-
-     if blProject = nil
-     then
-         dsbWork.sl:= nil
-     else
-         begin
-         blProject.haWork       .Charge;
-         blProject.haDevelopment.Charge;
-
-         dsbWork       .sl:= blProject.haWork;
-         dsbDevelopment.sl:= blProject.haDevelopment;
-         end;
      dsbWork       .Goto_Premier;
      dsbDevelopment.Goto_Premier;
 end;
@@ -245,29 +192,17 @@ begin
                           ]);
 end;
 
-procedure TfjsWorks.sbProjectClick(Sender: TObject);
-begin
-     fProject.Execute;
-     _from_pool;
-end;
-
 procedure TfjsWorks.FormShow(Sender: TObject);
 begin
      t.Enabled:= True;
-end;
-
-procedure TfjsWorks.dsbProjectSelect(Sender: TObject);
-begin
-     dsbProject.Get_bl( blProject);
-     _from_Project;
 end;
 
 procedure TfjsWorks.bStartClick(Sender: TObject);
 var
    bl: TblWork;
 begin
-     bl:= blProject.haWork.Start;
-     _from_Project;
+     bl:= poolWork.Start( 0);
+     _from_pool;
      dsbWork.Goto_bl( bl);
 end;
 
@@ -276,6 +211,11 @@ begin
      if blWork = nil then exit;
      blWork.Stop;
      _from_Work;
+end;
+
+procedure TfjsWorks.bTAGClick(Sender: TObject);
+begin
+     fTAG.Show;
 end;
 
 procedure TfjsWorks.bTempsClick(Sender: TObject);
@@ -288,12 +228,17 @@ begin
      fAutomatic.Show;
 end;
 
+procedure TfjsWorks.bTYPE_TAGClick(Sender: TObject);
+begin
+     fTYPE_TAG.Show;
+end;
+
 procedure TfjsWorks.bPointClick(Sender: TObject);
 var
    bl: TblDevelopment;
 begin
-     bl:= blProject.haDevelopment.Point;
-     _from_Project;
+     bl:= poolDevelopment.Point( 0);
+     _from_pool;
      dsbDevelopment.Goto_bl( bl);
 end;
 
@@ -301,16 +246,9 @@ procedure TfjsWorks.bBugClick(Sender: TObject);
 var
    bl: TblDevelopment;
 begin
-     bl:= blProject.haDevelopment.Bug;
-     _from_Project;
-     dsbDevelopment.Goto_bl( bl);
-end;
-
-procedure TfjsWorks.bFiltreClick(Sender: TObject);
-begin
-     poolProject.hf.Clear;
-     poolProject.hf.Execute;
+     bl:= poolDevelopment.Bug( 0);
      _from_pool;
+     dsbDevelopment.Goto_bl( bl);
 end;
 
 procedure TfjsWorks.dsbWorkSelect(Sender: TObject);
@@ -325,26 +263,11 @@ begin
      _from_Development;
 end;
 
-procedure TfjsWorks.Edit1Change(Sender: TObject);
-begin
-
-end;
-
-procedure TfjsWorks.Edit1KeyDown(Sender: TObject; var Key: Word;
- Shift: TShiftState);
-begin
-
-end;
-
-procedure TfjsWorks.Edit1KeyPress(Sender: TObject; var Key: char);
-begin
-
-end;
-
 procedure TfjsWorks.tTimer(Sender: TObject);
 begin
      t.Enabled:= False;
-     poolProject.ToutCharger();
+     poolWork       .ToutCharger();
+     poolDevelopment.ToutCharger();
      _from_pool;
 end;
 

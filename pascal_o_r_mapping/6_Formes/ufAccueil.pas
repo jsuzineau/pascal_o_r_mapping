@@ -32,17 +32,17 @@ uses
     uBatpro_StringList,
     uPublieur,
     uVersion,
-    uFTP,
+    //uFTP,
     uNetwork,
     uLog,
     uWinUtils,
 
     udmDatabase,
 
-    udllOOoDelphiReportEngineAutomation_Register,// pour assurer l'initialisation
-    ufBatpro_Informix,
-    ufBatpro_MySQL,
-    ufBatpro_Parametres_Client,
+    //udllOOoDelphiReportEngineAutomation_Register,// pour assurer l'initialisation
+    //ufBatpro_Informix,
+    //ufBatpro_MySQL,
+    //ufBatpro_Parametres_Client,
 
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   ExtCtrls, StdCtrls, Buttons, DB, ComCtrls, EditBtn;
@@ -468,20 +468,20 @@ begin
        + Network.Nom_Hote                + '_'
        + FormatDateTime( 'yyyy"_"mm"_"dd"_"hh"h"nn"min"ss', Now)
        + '_log_hier.zip';
-     FTP.PutStrings( mHistorique_Developpeur.Lines, NomFichier, False);
-     FTP.PutDirectoryZip( ExcludeTrailingPathDelimiter( uLog.Log.Repertoire), NomZIPLogs, False);
-     FTP.PutDirectoryZip( ExcludeTrailingPathDelimiter( uLog.Log.Repertoire_Hier), NomZIPLogs_Hier, False);
+     //FTP.PutStrings( mHistorique_Developpeur.Lines, NomFichier, False);
+     //FTP.PutDirectoryZip( ExcludeTrailingPathDelimiter( uLog.Log.Repertoire), NomZIPLogs, False);
+     //FTP.PutDirectoryZip( ExcludeTrailingPathDelimiter( uLog.Log.Repertoire_Hier), NomZIPLogs_Hier, False);
      MessageDlg('Transfert effectué avec succés', mtInformation, [mbOK], 0);
 end;
 
 procedure TfAccueil.bInformixClick(Sender: TObject);
 begin
-     fBatpro_Informix.ShowModal;
+     //fBatpro_Informix.ShowModal;
 end;
 
 procedure TfAccueil.bMySQLClick(Sender: TObject);
 begin
-     fBatpro_MySQL.ShowModal;
+     //fBatpro_MySQL.ShowModal;
 end;
 
 procedure TfAccueil.bVariables_d_environnementClick(Sender: TObject);
@@ -496,7 +496,7 @@ end;
 
 procedure TfAccueil.bParametresClick(Sender: TObject);
 begin
-     fBatpro_Parametres_Client.Show;
+     //fBatpro_Parametres_Client.Show;
 end;
 
 procedure TfAccueil.Panel2MouseDown(Sender: TObject; Button: TMouseButton;

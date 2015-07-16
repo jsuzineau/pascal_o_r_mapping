@@ -38,8 +38,8 @@ type
  =
   class
   public
-    function Aide_Batpro( Command: Word; Data: Int64;var CallHelp: Boolean): Boolean;
-    function Aide_nulle( Command: Word; Data: Int64;var CallHelp: Boolean): Boolean;
+    function Aide_Batpro( Command: Word; Data: LongInt;var CallHelp: Boolean): Boolean;
+    function Aide_nulle ( Command: Word; Data: LongInt;var CallHelp: Boolean): Boolean;
   public
     Aide: THelpEvent;
     procedure Accroche_Aide_Batpro;
@@ -112,7 +112,7 @@ begin
 end;
 
 
-function TObjet_Aide.Aide_Batpro( Command: Word; Data: Int64;
+function TObjet_Aide.Aide_Batpro( Command: Word; Data: LongInt;
                                   var CallHelp: Boolean): Boolean;
 var
    NomAide: String;
@@ -144,7 +144,7 @@ begin
          end;
 end;
 
-function TObjet_Aide.Aide_nulle( Command: Word; Data: Int64;
+function TObjet_Aide.Aide_nulle( Command: Word; Data: LongInt;
                                  var CallHelp: Boolean): Boolean;
 begin
      CallHelp:= False;

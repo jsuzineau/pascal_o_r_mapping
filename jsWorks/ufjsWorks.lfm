@@ -1,7 +1,7 @@
 object fjsWorks: TfjsWorks
-  Left = 596
+  Left = 598
   Height = 611
-  Top = 188
+  Top = 190
   Width = 937
   Caption = 'jsWorks'
   ClientHeight = 611
@@ -9,60 +9,44 @@ object fjsWorks: TfjsWorks
   OnShow = FormShow
   LCLVersion = '1.2.6.0'
   object Panel1: TPanel
-    Left = 177
+    Left = 0
     Height = 611
     Top = 0
-    Width = 760
+    Width = 937
     Align = alClient
     Caption = 'Panel1'
     ClientHeight = 611
-    ClientWidth = 760
+    ClientWidth = 937
     TabOrder = 0
     object Panel8: TPanel
       Left = 1
       Height = 609
       Top = 1
-      Width = 246
+      Width = 423
       Align = alClient
       Caption = 'Panel8'
       ClientHeight = 609
-      ClientWidth = 246
+      ClientWidth = 423
       TabOrder = 0
       object Panel6: TPanel
         Left = 1
         Height = 120
         Top = 1
-        Width = 244
+        Width = 421
         Align = alTop
         Caption = 'Panel6'
         ClientHeight = 120
-        ClientWidth = 244
+        ClientWidth = 421
         TabOrder = 0
         object Panel7: TPanel
           Left = 1
           Height = 35
           Top = 1
-          Width = 242
+          Width = 419
           Align = alTop
           ClientHeight = 35
-          ClientWidth = 242
+          ClientWidth = 419
           TabOrder = 0
-          object Label2: TLabel
-            Left = 0
-            Height = 15
-            Top = 0
-            Width = 31
-            Caption = 'Projet'
-            ParentColor = False
-          end
-          object lProject: TLabel
-            Left = 51
-            Height = 15
-            Top = 0
-            Width = 40
-            Caption = 'lProject'
-            ParentColor = False
-          end
           object Label3: TLabel
             Left = 5
             Height = 15
@@ -89,16 +73,34 @@ object fjsWorks: TfjsWorks
             OnClick = bTestClick
             TabOrder = 1
           end
+          object bTYPE_TAG: TButton
+            Left = 253
+            Height = 25
+            Top = 8
+            Width = 75
+            Caption = 'TYPE_TAG'
+            OnClick = bTYPE_TAGClick
+            TabOrder = 2
+          end
+          object bTAG: TButton
+            Left = 341
+            Height = 25
+            Top = 7
+            Width = 75
+            Caption = 'TAG'
+            OnClick = bTAGClick
+            TabOrder = 3
+          end
         end
         object dsbWork: TDockableScrollbox
           Left = 1
           Height = 83
           Top = 36
-          Width = 242
+          Width = 419
           Align = alClient
           Caption = 'dsbWork'
           ClientHeight = 83
-          ClientWidth = 242
+          ClientWidth = 419
           TabOrder = 1
           HauteurLigne = 24
           BordureLignes = True
@@ -114,7 +116,7 @@ object fjsWorks: TfjsWorks
         Left = 1
         Height = 5
         Top = 121
-        Width = 244
+        Width = 421
         Align = alTop
         ResizeAnchor = akTop
       end
@@ -122,17 +124,17 @@ object fjsWorks: TfjsWorks
         Left = 1
         Height = 482
         Top = 126
-        Width = 244
+        Width = 421
         Align = alClient
         Caption = 'Panel4'
         ClientHeight = 482
-        ClientWidth = 244
+        ClientWidth = 421
         TabOrder = 2
         object Panel10: TPanel
           Left = 1
           Height = 50
           Top = 1
-          Width = 242
+          Width = 419
           Align = alTop
           Caption = 'Panel10'
           TabOrder = 0
@@ -141,11 +143,11 @@ object fjsWorks: TfjsWorks
           Left = 1
           Height = 430
           Top = 51
-          Width = 242
+          Width = 419
           Align = alClient
           Caption = 'dsbDevelopment'
           ClientHeight = 430
-          ClientWidth = 242
+          ClientWidth = 419
           TabOrder = 1
           HauteurLigne = 24
           BordureLignes = True
@@ -158,7 +160,7 @@ object fjsWorks: TfjsWorks
       end
     end
     object Panel9: TPanel
-      Left = 252
+      Left = 429
       Height = 609
       Top = 1
       Width = 507
@@ -405,93 +407,14 @@ object fjsWorks: TfjsWorks
       end
     end
     object Splitter4: TSplitter
-      Left = 247
+      Left = 424
       Height = 609
       Top = 1
       Width = 5
       Align = alRight
+      Color = clLime
+      ParentColor = False
       ResizeAnchor = akRight
-    end
-  end
-  object Splitter1: TSplitter
-    Left = 170
-    Height = 611
-    Top = 0
-    Width = 7
-    Color = clLime
-    ParentColor = False
-  end
-  object Panel2: TPanel
-    Left = 0
-    Height = 611
-    Top = 0
-    Width = 170
-    Align = alLeft
-    Caption = 'Panel2'
-    ClientHeight = 611
-    ClientWidth = 170
-    TabOrder = 2
-    object Panel3: TPanel
-      Left = 1
-      Height = 47
-      Top = 1
-      Width = 168
-      Align = alTop
-      ClientHeight = 47
-      ClientWidth = 168
-      TabOrder = 0
-      object Label1: TLabel
-        Left = 53
-        Height = 15
-        Top = 7
-        Width = 36
-        Caption = 'Projets'
-        ParentColor = False
-      end
-      object sbProject: TSpeedButton
-        Left = 141
-        Height = 22
-        Top = 7
-        Width = 23
-        Anchors = [akTop, akRight]
-        Caption = '...'
-        OnClick = sbProjectClick
-      end
-      object lTri: TLabel
-        Left = 8
-        Height = 15
-        Top = 28
-        Width = 17
-        Caption = 'lTri'
-        ParentColor = False
-      end
-      object bFiltre: TButton
-        Left = 6
-        Height = 15
-        Top = 8
-        Width = 44
-        Caption = 'Filtre'
-        OnClick = bFiltreClick
-        TabOrder = 0
-      end
-    end
-    object dsbProject: TDockableScrollbox
-      Left = 1
-      Height = 562
-      Top = 48
-      Width = 168
-      Align = alClient
-      Caption = 'dsbProject'
-      ClientHeight = 562
-      ClientWidth = 168
-      TabOrder = 1
-      HauteurLigne = 24
-      BordureLignes = True
-      Zebrage = True
-      Zebrage1 = 15138790
-      Zebrage2 = 16777192
-      OnSelect = dsbProjectSelect
-      _LectureSeule = False
     end
   end
   object t: TTimer

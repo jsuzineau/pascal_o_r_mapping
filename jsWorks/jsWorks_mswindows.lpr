@@ -58,15 +58,15 @@ uses
  uOD_SpreadsheetManager, uOD_Styles, uOD_SurTitre, uOD_Temporaire,
  uOD_TextFieldsCreator, uOD_TextTableContext, uOD_TextTableManager, uOOoChrono,
  uOOoDelphiReportEngineLog, uOOoStringList, uOOoStrings, uOpenDocument,
- uDockable, ucDockableScrollbox, uDessin, blcksock, ufjsWorks, ublCategorie,
- ublDevelopment, ublProject, ublState, ublWork, uhfCategorie, uhfDevelopment,
- uhfJour_ferie, uhfProject, uhfState, uhfWork, upoolCategorie, upoolDevelopment,
- upoolJour_ferie, upoolProject, upoolState, upoolWork, ublJour_ferie,
- udkProject_EDIT, udkProject_LABEL, ufProject, udkWork, udkDevelopment,
- ublSession, uOD_Table_Batpro, ufAutomatic, uhdmSession, ublTAG, uhfTAG,
- upoolTAG, upoolTAG_DEVELOPMENT, uhfTAG_DEVELOPMENT, ublTAG_DEVELOPMENT,
- upoolTAG_WORK, uhfTAG_WORK, ublTAG_WORK, ublTYPE_TAG, uhfTYPE_TAG,
- upoolTYPE_TAG
+ uDockable, ucDockableScrollbox, uDessin, ufBase, ufBatpro_Form_Ancetre,
+ ufBatpro_Form, blcksock, ufjsWorks, ublCategorie, ublDevelopment, ublProject,
+ ublState, ublWork, uhfCategorie, uhfDevelopment, uhfJour_ferie, uhfProject,
+ uhfState, uhfWork, upoolCategorie, upoolDevelopment, upoolJour_ferie,
+ upoolProject, upoolState, upoolWork, ublJour_ferie, udkProject_EDIT,
+ udkProject_LABEL, ufProject, udkWork, udkDevelopment, ublSession,
+ uOD_Table_Batpro, ufAutomatic, uhdmSession, ublTAG, uhfTAG, upoolTAG,
+ upoolTAG_DEVELOPMENT, uhfTAG_DEVELOPMENT, ublTAG_DEVELOPMENT, upoolTAG_WORK,
+ uhfTAG_WORK, ublTAG_WORK, ublTYPE_TAG, uhfTYPE_TAG, upoolTYPE_TAG
  { you can add units after this };
 
 {$R *.res}

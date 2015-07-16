@@ -41,6 +41,7 @@ uses
     //udmxG3_UTI,
     //upoolG_PAR,
 
+    ufBatpro_Form_Ancetre,
     ufBatpro_Desk,
     ufAccueil_Erreur,
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
@@ -53,7 +54,7 @@ type
     pSociete: TPanel;
     lSociete: TLabel;
     lHeure: TLabel;
-    animation: TAnimate;
+    //animation: TAnimate;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -115,7 +116,7 @@ procedure ufBatpro_Form_Termine_Animation;
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
 var
    Precedentes: TList;

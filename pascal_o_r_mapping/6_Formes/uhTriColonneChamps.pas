@@ -51,7 +51,7 @@ type
     procedure cgSelectCell(Sender:TObject;ACol,ARow:Longint;var CanSelect:Boolean);
     procedure Retablit_Titres;
   public
-    OnSelectCell: TSelectCellEvent;
+    OnSelectCell: TOnSelectCellEvent;
     OnMouseDown: TMouseEvent;
     constructor Create( _cg: TChampsGrid; _pool: TPool; _l: TLabel= nil);
     destructor Destroy; override;
