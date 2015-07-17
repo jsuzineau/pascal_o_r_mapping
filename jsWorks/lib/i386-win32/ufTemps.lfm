@@ -1,7 +1,7 @@
 object fTemps: TfTemps
-  Left = 656
+  Left = 660
   Height = 397
-  Top = 215
+  Top = 218
   Width = 742
   Caption = 'fTemps'
   ClientHeight = 397

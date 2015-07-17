@@ -1,4 +1,4 @@
-unit ujpPascal_aggregations_faibles_declaration;
+unit ujpPascal_Detail_declaration;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -34,9 +34,9 @@ uses
 
 type
 
- { TjpPascal_aggregations_faibles_declaration }
+ { TjpPascal_Detail_declaration }
 
- TjpPascal_aggregations_faibles_declaration
+ TjpPascal_Detail_declaration
  =
   class( TJoinPoint)
   //Attributs
@@ -53,23 +53,23 @@ type
   end;
 
 var
-   jpPascal_aggregations_faibles_declaration: TjpPascal_aggregations_faibles_declaration;
+   jpPascal_Detail_declaration: TjpPascal_Detail_declaration;
 
 implementation
 
-{ TjpPascal_aggregations_faibles_declaration }
+{ TjpPascal_Detail_declaration }
 
-constructor TjpPascal_aggregations_faibles_declaration.Create;
+constructor TjpPascal_Detail_declaration.Create;
 begin
      Cle:= '//pattern_aggregations_faibles_declaration';
 end;
 
-procedure TjpPascal_aggregations_faibles_declaration.Initialise(_cc: TContexteClasse);
+procedure TjpPascal_Detail_declaration.Initialise(_cc: TContexteClasse);
 begin
      inherited;
 end;
 
-procedure TjpPascal_aggregations_faibles_declaration.VisiteMembre(_cm: TContexteMembre);
+procedure TjpPascal_Detail_declaration.VisiteMembre(_cm: TContexteMembre);
 begin
      inherited;
      if not cm.CleEtrangere then exit;
@@ -79,18 +79,18 @@ begin
      Valeur:= Valeur+'     '+cm.s_NomAggregation+': T'+cm.s_bl+';';
 end;
 
-procedure TjpPascal_aggregations_faibles_declaration.VisiteDetail( s_Detail, sNomTableMembre: String);
+procedure TjpPascal_Detail_declaration.VisiteDetail( s_Detail, sNomTableMembre: String);
 begin
      inherited VisiteDetail(s_Detail, sNomTableMembre);
 end;
 
-procedure TjpPascal_aggregations_faibles_declaration.Finalise;
+procedure TjpPascal_Detail_declaration.Finalise;
 begin
      inherited;
 end;
 
 initialization
-              jpPascal_aggregations_faibles_declaration:= TjpPascal_aggregations_faibles_declaration.Create;
+              jpPascal_Detail_declaration:= TjpPascal_Detail_declaration.Create;
 finalization
-              FreeAndNil( jpPascal_aggregations_faibles_declaration);
+              FreeAndNil( jpPascal_Detail_declaration);
 end.

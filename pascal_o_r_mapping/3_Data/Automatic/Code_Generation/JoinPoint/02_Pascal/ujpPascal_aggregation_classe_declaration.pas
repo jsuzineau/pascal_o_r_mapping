@@ -1,12 +1,11 @@
-unit ujpPascal_aggregations_faibles_pool_get;
+unit ujpPascal_aggregation_classe_declaration;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
         and partly as employee : http://www.batpro.com                          |
     Contact: gilles.doutre@batpro.com                                           |
                                                                                 |
-    Copyright 2014 Jean SUZINEAU - MARS42                                       |
-    Copyright 2014 Cabinet Gilles DOUTRE - BATPRO                               |
+    Copyright 2015 Jean SUZINEAU - MARS42                                       |
                                                                                 |
     This program is free software: you can redistribute it and/or modify        |
     it under the terms of the GNU Lesser General Public License as published by |
@@ -27,6 +26,7 @@ interface
 
 uses
     uGenerateur_de_code_Ancetre,
+    uuStrings,
     uContexteClasse,
     uContexteMembre,
     uJoinPoint,
@@ -34,9 +34,9 @@ uses
 
 type
 
- { TjpPascal_aggregations_faibles_pool_get }
+ { TjpPascal_aggregation_classe_declaration }
 
- TjpPascal_aggregations_faibles_pool_get
+ TjpPascal_aggregation_classe_declaration
  =
   class( TJoinPoint)
   //Attributs
@@ -49,54 +49,71 @@ type
     procedure Initialise(_cc: TContexteClasse); override;
     procedure VisiteMembre(_cm: TContexteMembre); override;
     procedure VisiteDetail( s_Detail, sNomTableMembre: String); override;
+    procedure VisiteAggregation( s_Aggregation, sNomTableMembre: String); override;
     procedure Finalise; override;
   end;
 
 var
-   jpPascal_aggregations_faibles_pool_get: TjpPascal_aggregations_faibles_pool_get;
+   jpPascal_aggregation_classe_declaration: TjpPascal_aggregation_classe_declaration;
 
 implementation
 
-{ TjpPascal_aggregations_faibles_pool_get }
+{ TjpPascal_aggregation_classe_declaration }
 
-constructor TjpPascal_aggregations_faibles_pool_get.Create;
+constructor TjpPascal_aggregation_classe_declaration.Create;
 begin
-     Cle:= '//pattern_aggregations_faibles_pool_get';
+     Cle:= '//pattern_aggregation_classe_declaration';
 end;
 
-procedure TjpPascal_aggregations_faibles_pool_get.Initialise(_cc: TContexteClasse);
+procedure TjpPascal_aggregation_classe_declaration.Initialise(_cc: TContexteClasse);
+begin
+     inherited;
+end;
+
+procedure TjpPascal_aggregation_classe_declaration.VisiteMembre(_cm: TContexteMembre);
 begin
      inherited;
 end;
 
-procedure TjpPascal_aggregations_faibles_pool_get.VisiteMembre(_cm: TContexteMembre);
-begin
-     inherited;
-     if not cm.CleEtrangere then exit;
-     if '' <> Valeur
-     then
-         Valeur:= Valeur + #13#10;
-     Valeur
-     :=
-        Valeur
-       +'     '  + cm.s_NomAggregation
-       +':= pool'+ TailleNom( cm.sTyp)
-       +'.Get( ' + TailleNom( cm.sNomChamp)
-       +');';
-end;
-
-procedure TjpPascal_aggregations_faibles_pool_get.VisiteDetail( s_Detail, sNomTableMembre: String);
+procedure TjpPascal_aggregation_classe_declaration.VisiteDetail( s_Detail, sNomTableMembre: String);
 begin
      inherited VisiteDetail(s_Detail, sNomTableMembre);
 end;
 
-procedure TjpPascal_aggregations_faibles_pool_get.Finalise;
+procedure TjpPascal_aggregation_classe_declaration.VisiteAggregation( s_Aggregation, sNomTableMembre: String);
+var
+   sDeclaration: String;
+begin
+     inherited VisiteAggregation(s_Aggregation, sNomTableMembre);
+
+     sDeclaration
+     :=
+ '  { Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+' }    '
++'  Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+'        '
++'  =                                                   '
++'   class( ThAggregation)                              '
++'   //Chargement de tous les détails                   '
++'   public                                             '
++'     procedure Charge; override;                      '
++'  //Création d''itérateur                                             '
++'  protected                                                           '
++'    class function Classe_Iterateur: TIterateur_Class; override;      '
++'  public                                                              '
++'    function Iterateur: TIterateur_'+sNomTableMembre+';               '
++'    function Iterateur_Decroissant: TIterateur_'+sNomTableMembre+';   '
++'   end;                                                               '
+       ;
+
+     Formate_Liste( Valeur, #13#10, sDeclaration);
+end;
+
+procedure TjpPascal_aggregation_classe_declaration.Finalise;
 begin
      inherited;
 end;
 
 initialization
-              jpPascal_aggregations_faibles_pool_get:= TjpPascal_aggregations_faibles_pool_get.Create;
+              jpPascal_aggregation_classe_declaration:= TjpPascal_aggregation_classe_declaration.Create;
 finalization
-              FreeAndNil( jpPascal_aggregations_faibles_pool_get);
+              FreeAndNil( jpPascal_aggregation_classe_declaration);
 end.

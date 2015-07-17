@@ -82,8 +82,9 @@ uses
     ujpPascal_f_implementation_uses_key,
     ujpPascal_f_Execute_Before_Key,
     ujpPascal_f_Execute_After_Key,
-    ujpPascal_aggregations_faibles_declaration,
-    ujpPascal_aggregations_faibles_pool_get,
+    ujpPascal_Detail_declaration,
+    ujpPascal_Detail_pool_get,
+    ujpPascal_aggregation_classe_declaration,
 
     //CSharp
     ujpCSharp_Champs_persistants,
@@ -501,6 +502,11 @@ var
    nfDetails: String;
    slDetails:TStringList;
 
+   //Gestion des aggrégations
+   NbAggregations: Integer;
+   nfAggregations: String;
+   slAggregations:TStringList;
+
    procedure CreePatternHandler( var phPAS, phDFM: TPatternHandler; Racine: String);
    var
       sRepRacine: String;
@@ -650,6 +656,24 @@ var
                   FreeAndNil( slDetails);
                   end;
 
+           //Gestion des aggrégations
+           slAggregations:= TStringList.Create;
+           try
+              nfAggregations:= sRepParametres+cc.Nom_de_la_classe+'.Aggregations.txt';
+              if FileExists( nfAggregations)
+              then
+                  slAggregations.LoadFromFile( nfAggregations);
+              NbAggregations:= slAggregations.Count;
+              for J:= 0 to NbAggregations-1
+              do
+                uJoinPoint_VisiteAggregation( slAggregations.Names[J],
+                                         slAggregations.ValueFromIndex[J],
+                                         a);
+           finally
+                  slAggregations.SaveToFile( nfAggregations);
+                  FreeAndNil( slAggregations);
+                  end;
+
            //Fermeture des chaines
            uJoinPoint_Finalise( a);
 
@@ -788,7 +812,8 @@ begin
                 jpPascal_f_implementation_uses_key,
                 jpPascal_f_Execute_Before_Key,
                 jpPascal_f_Execute_After_Key,
-                jpPascal_aggregations_faibles_declaration,
+                jpPascal_Detail_declaration,
+                jpPascal_aggregation_classe_declaration,
 
                 //CSharp
                 jpCSharp_Champs_persistants   ,

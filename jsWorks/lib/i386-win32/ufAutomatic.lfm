@@ -1,7 +1,7 @@
 object fAutomatic: TfAutomatic
-  Left = 883
+  Left = 887
   Height = 413
-  Top = 166
+  Top = 169
   Width = 596
   Caption = 'fAutomatic'
   ClientHeight = 413

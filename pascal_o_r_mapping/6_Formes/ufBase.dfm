@@ -1,5 +1,5 @@
 inherited fBase: TfBase
-  Left = 383
+  Left = 385
   Top = 250
   Caption = 'Base'
   WindowState = wsMaximized

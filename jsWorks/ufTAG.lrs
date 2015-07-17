@@ -1,7 +1,7 @@
 { This is an automatically generated lazarus resource file }
 
 LazarusResources.Add('TfTAG','FORMDATA',[
-  'TPF0'#241#5'TfTAG'#4'fTAG'#7'Caption'#6#3'TAG'#0#241#6'TPanel'#6'Panel1'#0
-  +#241#6'TPanel'#6'Panel2'#0#241#7'TBitBtn'#9'bImprimer'#7'OnClick'#7#14'bImpr'
-  +'imerClick'#0#0#0#0#0
+  'TPF0'#241#5'TfTAG'#4'fTAG'#4'Left'#3#129#1#7'Caption'#6#3'TAG'#0#241#6'TPane'
+  +'l'#6'Panel1'#0#241#6'TPanel'#6'Panel2'#0#241#7'TBitBtn'#9'bImprimer'#7'OnCl'
+  +'ick'#7#14'bImprimerClick'#0#0#0#0#0
 ]);

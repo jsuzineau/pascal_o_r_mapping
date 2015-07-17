@@ -336,9 +336,9 @@
         <UnitName Value="ujpPascal_f_Execute_Before_Key"/>
       </Unit53>
       <Unit54>
-        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_aggregations_faibles_declaration.pas"/>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Detail_declaration.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_aggregations_faibles_declaration"/>
+        <UnitName Value="ujpPascal_Detail_declaration"/>
       </Unit54>
       <Unit55>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_aggregations_faibles_pool_get.pas"/>

@@ -1,7 +1,7 @@
 inherited dkSession: TdkSession
-  Left = 641
+  Left = 643
   Height = 77
-  Top = 174
+  Top = 176
   Width = 320
   Caption = 'dkSession'
   ClientHeight = 77

@@ -108,7 +108,7 @@ end;
 
 class function TblTAG.sCle_from_( _idType: Integer;  _Name: String): String;
 begin
-     Result:=  _idType+ _Name;
+     Result:=  IntToHex( _idType, 8)+ _Name;
 end;
 
 function TblTAG.sCle: String;

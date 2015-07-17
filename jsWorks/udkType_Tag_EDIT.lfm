@@ -1,7 +1,7 @@
 inherited dkType_Tag_edit: TdkType_Tag_edit
-  Left = 640
+  Left = 642
   Height = 77
-  Top = 173
+  Top = 175
   Width = 320
   Caption = 'dkType_Tag_edit'
   ClientHeight = 77

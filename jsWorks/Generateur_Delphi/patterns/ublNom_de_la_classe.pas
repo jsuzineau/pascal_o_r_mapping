@@ -56,6 +56,30 @@ type
     function sCle: String; override;
   end;
 
+ TIterateur_Nom_de_la_classe
+ =
+  class( TIterateur)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: TblNom_de_la_classe);
+    function  not_Suivant( var _Resultat: TblNom_de_la_classe): Boolean;
+  end;
+
+ TslNom_de_la_classe
+ =
+  class( TBatpro_StringList)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_Nom_de_la_classe;
+    function Iterateur_Decroissant: TIterateur_Nom_de_la_classe;
+  end;
+
 function blNom_de_la_classe_from_sl( sl: TBatpro_StringList; Index: Integer): TblNom_de_la_classe;
 function blNom_de_la_classe_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblNom_de_la_classe;
 
@@ -70,6 +94,46 @@ function blNom_de_la_classe_from_sl_sCle( sl: TBatpro_StringList; sCle: String):
 begin
      _Classe_from_sl_sCle( Result, TblNom_de_la_classe, sl, sCle);
 end;
+
+{ TIterateur_Nom_de_la_classe }
+
+function TIterateur_Nom_de_la_classe.not_Suivant( var _Resultat: TblNom_de_la_classe): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_Nom_de_la_classe.Suivant( var _Resultat: TblNom_de_la_classe);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TslNom_de_la_classe }
+
+constructor TslNom_de_la_classe.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, TblNom_de_la_classe);
+end;
+
+destructor TslNom_de_la_classe.Destroy;
+begin
+     inherited;
+end;
+
+class function TslNom_de_la_classe.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Nom_de_la_classe;
+end;
+
+function TslNom_de_la_classe.Iterateur: TIterateur_Nom_de_la_classe;
+begin
+     Result:= TIterateur_Nom_de_la_classe( Iterateur_interne);
+end;
+
+function TslNom_de_la_classe.Iterateur_Decroissant: TIterateur_Nom_de_la_classe;
+begin
+     Result:= TIterateur_Nom_de_la_classe( Iterateur_interne_Decroissant);
+end;
+
 
 { TblNom_de_la_classe }
 
