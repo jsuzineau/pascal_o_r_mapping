@@ -30,9 +30,9 @@ class Tag extends Doctrine_Record
 
         $this->hasColumn('id', 'integer', 8, array('primary' => true,
 						   'autoincrement' => true));
-        $this->hasColumn('Name', 'string', 42);
-
         $this->hasColumn('idType', 'integer');
+
+        $this->hasColumn('Name', 'string', 42);
 
     }
     public function setUp()

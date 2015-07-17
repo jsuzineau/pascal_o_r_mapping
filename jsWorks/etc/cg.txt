@@ -1,3 +1,4 @@
 id=id
 Selected=Selected
+idType=idType
 Name=Name

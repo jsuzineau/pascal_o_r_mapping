@@ -50,10 +50,11 @@ type
   //champs persistants
   public
     id: Integer;
-    Name: String;
     idType: Integer;
+    Name: String;
   //Gestion de la clé
   public
+    class function sCle_from_( _idType: Integer;  _Name: String): String;
   
     function sCle: String; override;
   end;
@@ -94,8 +95,8 @@ begin
 
      //champs persistants
      Champs. Integer_from_Integer( id             , 'id'             );
-     Champs.  String_from_String ( Name           , 'Name'           );
      Champs. Integer_from_Integer( idType         , 'idType'         );
+     Champs.  String_from_String ( Name           , 'Name'           );
 
 end;
 
@@ -105,11 +106,14 @@ begin
      inherited;
 end;
 
-
+class function TblTAG.sCle_from_( _idType: Integer;  _Name: String): String;
+begin 
+     Result:=  _idType+ _Name;
+end;  
 
 function TblTAG.sCle: String;
 begin
-     Result:= sCle_ID;
+     Result:= sCle_from_(  _idType,  _Name);
 end;
 
 end.

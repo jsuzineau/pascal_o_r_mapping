@@ -90,7 +90,7 @@ begin
          NomTable:= 'Nouveau';
      if not InputQuery( 'Génération de code', 'Suffixe d''identification (nom de la table)', NomTable) then exit;
 
-     bl.Genere_Delphi( NomTable);
+     bl.Genere_code( NomTable);
 end;
 
 initialization

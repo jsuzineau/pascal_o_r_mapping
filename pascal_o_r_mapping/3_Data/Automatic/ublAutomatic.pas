@@ -39,7 +39,7 @@ uses
     //Code generation
     uPatternHandler,
     uMenuHandler,
-    uGenerateur_Delphi_Ancetre,
+    uGenerateur_de_code_Ancetre,
     uContexteClasse,
     uContexteMembre,
     uJoinPoint,
@@ -228,15 +228,15 @@ type
     procedure Ajoute_Champs;
   //Génération de code
   public
-    procedure Genere_Delphi( _Suffixe: String);
+    procedure Genere_code( _Suffixe: String);
   end;
 
 type
- { TGenerateur_Delphi }
+ { TGenerateur_de_code }
 
- TGenerateur_Delphi
+ TGenerateur_de_code
  =
-  class(TGenerateur_Delphi_Ancetre)
+  class(TGenerateur_de_code_Ancetre)
   //Gestion du cycle de vie
   public
     constructor Create;
@@ -250,7 +250,7 @@ type
     procedure Execute( _blAutomatic: TblAutomatic; _Suffixe: String);
   end;
 
-function Generateur_Delphi: TGenerateur_Delphi;
+function Generateur_de_code: TGenerateur_de_code;
 
 implementation
 
@@ -439,30 +439,30 @@ begin
        end;
 end;
 
-procedure TblAutomatic.Genere_Delphi( _Suffixe: String);
+procedure TblAutomatic.Genere_code( _Suffixe: String);
 begin
-     Generateur_Delphi.Execute( Self, _Suffixe);
+     Generateur_de_code.Execute( Self, _Suffixe);
 end;
 
-{ TGenerateur_Delphi }
+{ TGenerateur_de_code }
 
 var
-   FGenerateur_Delphi: TGenerateur_Delphi= nil;
+   FGenerateur_de_code: TGenerateur_de_code= nil;
 
-function Generateur_Delphi: TGenerateur_Delphi;
+function Generateur_de_code: TGenerateur_de_code;
 begin
-     if nil = FGenerateur_Delphi
+     if nil = FGenerateur_de_code
      then
-         FGenerateur_Delphi:= TGenerateur_Delphi.Create;
-     Result:= FGenerateur_Delphi;
+         FGenerateur_de_code:= TGenerateur_de_code.Create;
+     Result:= FGenerateur_de_code;
 end;
 
-destructor TGenerateur_Delphi.Destroy;
+destructor TGenerateur_de_code.Destroy;
 begin
      inherited Destroy;
 end;
 
-procedure TGenerateur_Delphi.Execute( _blAutomatic: TblAutomatic; _Suffixe: String);
+procedure TGenerateur_de_code.Execute( _blAutomatic: TblAutomatic; _Suffixe: String);
 var
    NomFichierProjet: String;
    cc: TContexteClasse;
@@ -670,9 +670,9 @@ begin
      :=
        TIniFile.Create( ChangeFileExt(NomFichierProjet,'_Dico_Delphi.ini'));
      try
-        sRepSource    := INI.ReadString( 'Options', 'sRepSource'    ,ExtractFilePath(NomFichierProjet)+'Generateur_Delphi'+PathDelim+'patterns'  +PathDelim);
-        sRepParametres:= INI.ReadString( 'Options', 'sRepParametres',ExtractFilePath(NomFichierProjet)+'Generateur_Delphi'+PathDelim+'Parametres'+PathDelim);
-        sRepCible     := INI.ReadString( 'Options', 'sRepCible'     ,ExtractFilePath(NomFichierProjet)+'Generateur_Delphi'+PathDelim+'Source'    +PathDelim);
+        sRepSource    := INI.ReadString( 'Options', 'sRepSource'    ,ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'patterns'  +PathDelim);
+        sRepParametres:= INI.ReadString( 'Options', 'sRepParametres',ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'Parametres'+PathDelim);
+        sRepCible     := INI.ReadString( 'Options', 'sRepCible'     ,ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'Source'    +PathDelim);
         INI.WriteString( 'Options', 'sRepSource', sRepSource);
         INI.WriteString( 'Options', 'sRepCible' , sRepCible );
 
@@ -734,7 +734,7 @@ begin
             end;
 end;
 
-procedure TGenerateur_Delphi.Initialise(_a: array of TJoinPoint);
+procedure TGenerateur_de_code.Initialise(_a: array of TJoinPoint);
 var
    I: Integer;
 begin
@@ -745,7 +745,7 @@ begin
 end;
 
 
-constructor TGenerateur_Delphi.Create;
+constructor TGenerateur_de_code.Create;
 begin
      inherited Create;
      Initialise(
@@ -808,5 +808,5 @@ end;
 
 initialization
 finalization
-              FreeAndNil( FGenerateur_Delphi);
+              FreeAndNil( FGenerateur_de_code);
 end.

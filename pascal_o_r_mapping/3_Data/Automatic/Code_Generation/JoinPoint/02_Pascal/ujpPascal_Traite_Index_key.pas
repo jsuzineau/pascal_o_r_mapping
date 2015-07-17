@@ -26,7 +26,7 @@ unit ujpPascal_Traite_Index_key;
 interface
 
 uses
-    uGenerateur_Delphi_Ancetre,
+    uGenerateur_de_code_Ancetre,
     uContexteClasse,
     uContexteMembre,
     uJoinPoint,

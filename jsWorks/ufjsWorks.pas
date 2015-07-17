@@ -48,7 +48,8 @@ uses
 
     ufAutomatic,
     ufTemps,
-    ufTYPE_TAG,
+    ufProject,
+    ufType_Tag,
     ufTAG,
 
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
@@ -62,20 +63,21 @@ type
  TfjsWorks
  =
   class(TForm)
+   bBug: TButton;
+   bPoint: TButton;
+   bProject: TButton;
    bStart: TButton;
    bStop: TButton;
-   bPoint: TButton;
-   bBug: TButton;
+   bTAG: TButton;
    bTemps: TButton;
    bTest: TButton;
-   bTYPE_TAG: TButton;
-   bTAG: TButton;
+   bType_Tag: TButton;
    ceBeginning: TChamp_Edit;
    ceEnd: TChamp_Edit;
-   clkcbState: TChamp_Lookup_ComboBox;
    clkcbCategorie: TChamp_Lookup_ComboBox;
-   cmSolution: TChamp_Memo;
+   clkcbState: TChamp_Lookup_ComboBox;
    cmDevelopment_Description: TChamp_Memo;
+   cmSolution: TChamp_Memo;
    cmWork_Description: TChamp_Memo;
    dsbDevelopment: TDockableScrollbox;
    dsbWork: TDockableScrollbox;
@@ -89,31 +91,32 @@ type
    Label8: TLabel;
    Panel1: TPanel;
    Panel10: TPanel;
-   Panel11: TPanel;
-   Panel12: TPanel;
    Panel13: TPanel;
-   Panel4: TPanel;
+   Panel2: TPanel;
+   Panel3: TPanel;
    Panel5: TPanel;
-   Panel6: TPanel;
    Panel7: TPanel;
    Panel8: TPanel;
    Panel9: TPanel;
-   Splitter2: TSplitter;
-   Splitter3: TSplitter;
+   pWork: TPanel;
+   pDevelopment: TPanel;
+   Splitter1: TSplitter;
    Splitter4: TSplitter;
-   Splitter5: TSplitter;
+   Splitter6: TSplitter;
    t: TTimer;
    procedure bBugClick(Sender: TObject);
    procedure bPointClick(Sender: TObject);
+   procedure bProjectClick(Sender: TObject);
    procedure bStartClick(Sender: TObject);
    procedure bStopClick(Sender: TObject);
    procedure bTAGClick(Sender: TObject);
    procedure bTempsClick(Sender: TObject);
    procedure bTestClick(Sender: TObject);
-   procedure bTYPE_TAGClick(Sender: TObject);
+   procedure bType_TagClick(Sender: TObject);
    procedure dsbWorkSelect(Sender: TObject);
    procedure dsbDevelopmentSelect(Sender: TObject);
    procedure FormShow(Sender: TObject);
+   procedure pDevelopmentClick(Sender: TObject);
    procedure tTimer(Sender: TObject);
   //Gestion du cycle de vie
   public
@@ -197,6 +200,11 @@ begin
      t.Enabled:= True;
 end;
 
+procedure TfjsWorks.pDevelopmentClick(Sender: TObject);
+begin
+
+end;
+
 procedure TfjsWorks.bStartClick(Sender: TObject);
 var
    bl: TblWork;
@@ -228,9 +236,9 @@ begin
      fAutomatic.Show;
 end;
 
-procedure TfjsWorks.bTYPE_TAGClick(Sender: TObject);
+procedure TfjsWorks.bType_TagClick(Sender: TObject);
 begin
-     fTYPE_TAG.Show;
+     fType_Tag.Execute;
 end;
 
 procedure TfjsWorks.bPointClick(Sender: TObject);
@@ -240,6 +248,11 @@ begin
      bl:= poolDevelopment.Point( 0);
      _from_pool;
      dsbDevelopment.Goto_bl( bl);
+end;
+
+procedure TfjsWorks.bProjectClick(Sender: TObject);
+begin
+     fProject.Execute;
 end;
 
 procedure TfjsWorks.bBugClick(Sender: TObject);

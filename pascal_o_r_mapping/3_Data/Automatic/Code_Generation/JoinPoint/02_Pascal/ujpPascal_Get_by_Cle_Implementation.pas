@@ -27,7 +27,7 @@ interface
 
 uses
     SysUtils, Classes,
-    uGenerateur_Delphi_Ancetre,
+    uGenerateur_de_code_Ancetre,
     uContexteClasse,
     uContexteMembre,
     uJoinPoint;
@@ -97,13 +97,6 @@ procedure TjpPascal_Get_by_Cle_Implementation.Finalise;
 begin
      inherited;
      if Valeur = '' then exit;
-     Valeur
-     :=
-        Valeur
-       +'): String;'#13#10
-       + 'begin '#13#10
-       + Body+';'#13#10
-       + 'end;  ';
      Body
      :=
          Body

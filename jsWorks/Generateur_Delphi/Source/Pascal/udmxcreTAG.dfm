@@ -20,8 +20,8 @@ inherited dmxcreTAG: TdmxcreTAG
       '  ('
       '  Numero          INTEGER AUTO_INCREMENT PRIMARY KEY,'
       '  `id`            INTEGER   ,'
-      '  `Name`          CHAR( 42) ,'
-      '  `idType`        INTEGER     )'
+      '  `idType`        INTEGER   ,'
+      '  `Name`          CHAR( 42)   )'
       '')
 
     SQLConnection = dmDatabase.sqlc

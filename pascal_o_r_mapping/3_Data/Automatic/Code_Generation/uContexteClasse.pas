@@ -26,7 +26,7 @@ unit uContexteClasse;
 interface
 
 uses
-    uGenerateur_Delphi_Ancetre,
+    uGenerateur_de_code_Ancetre,
   SysUtils, Classes;
 
 type
@@ -38,11 +38,11 @@ type
   class
   //Gestion du cycle de vie
   public
-    constructor Create( _g: TGenerateur_Delphi_Ancetre; _Nom_de_la_table: String; _NbChamps: Integer);
+    constructor Create( _g: TGenerateur_de_code_Ancetre; _Nom_de_la_table: String; _NbChamps: Integer);
     destructor Destroy; override;
   //Attributs
   public
-    g: TGenerateur_Delphi_Ancetre;
+    g: TGenerateur_de_code_Ancetre;
     Nom_de_la_table: String;
     Nom_de_la_classe: String;
     NomTableMinuscule: String;
@@ -59,7 +59,7 @@ implementation
 
 { TContexteClasse }
 
-constructor TContexteClasse.Create( _g: TGenerateur_Delphi_Ancetre; _Nom_de_la_table: String; _NbChamps: Integer);
+constructor TContexteClasse.Create( _g: TGenerateur_de_code_Ancetre; _Nom_de_la_table: String; _NbChamps: Integer);
 var
    nfCle: String;
    nfIndex   : String;

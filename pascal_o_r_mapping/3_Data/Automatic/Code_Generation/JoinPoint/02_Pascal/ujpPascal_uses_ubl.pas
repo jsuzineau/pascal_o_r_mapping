@@ -26,7 +26,7 @@ unit ujpPascal_uses_ubl;
 interface
 
 uses
-    uGenerateur_Delphi_Ancetre,
+    uGenerateur_de_code_Ancetre,
     uContexteClasse,
     uContexteMembre,
     uJoinPoint,

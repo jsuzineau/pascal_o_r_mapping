@@ -60,14 +60,14 @@ inherited fdTAG: TfdTAG
       Top = 26                          
       Height = 13                               
     end                                         
-    object lNAME: TLabel
-      Caption = 'Name'    
+    object lIDTYPE: TLabel
+      Caption = 'idType'    
       Left = 16           
       Top = 48                          
       Height = 13                               
     end                                         
-    object lIDTYPE: TLabel
-      Caption = 'idType'    
+    object lNAME: TLabel
+      Caption = 'Name'    
       Left = 274           
       Top = 48                          
       Height = 13                               
@@ -86,15 +86,15 @@ inherited fdTAG: TfdTAG
       Height = 21                                
       Width  = 179                               
     end                                          
-    object ceNAME: TChamp_Edit
-      Field = 'Name'                   
+    object ceIDTYPE: TChamp_Edit
+      Field = 'idType'                   
       Left = 81            
       Top = 48                           
       Height = 21                                
       Width  = 179                               
     end                                          
-    object ceIDTYPE: TChamp_Edit
-      Field = 'idType'                   
+    object ceNAME: TChamp_Edit
+      Field = 'Name'                   
       Left = 339            
       Top = 48                           
       Height = 21                                

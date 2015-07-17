@@ -29,18 +29,19 @@ uses
  Interfaces, // this includes the LCL widgetset
  Forms, uXML, ublG_BECP, ublG_BECPCTX, ublG_CTX, ublG_CTXTYPE, uhfG_BECP,
  uhfG_BECPCTX, uhfG_CTX, uhfG_CTXTYPE, upoolG_BECP, upoolG_BECPCTX, upoolG_CTX,
- upoolG_CTXTYPE, ublAutomatic, uPatternHandler, uGenerateur_Delphi_Ancetre,
- uJoinPoint, ujpCSharp_Conteneurs, ujpCSharp_Contenus, ujpCSharp_DocksDetails,
- ujpCSharp_DocksDetails_Affiche, ujpCSharp_Champs_persistants,
- ujpCSharp_Chargement_Conteneurs, ujpPHP_Doctrine_Has_Column,
- ujpPHP_Doctrine_HasOne, ujpPHP_Doctrine_HasMany, ujpNom_de_la_classe,
- ujpNom_de_la_table, ujpNomTableMinuscule, ujpSQL_CREATE_TABLE,
- ujpSQL_Order_By_Key, ujpPascal_Declaration_cle, ujpPascal_Affecte,
- ujpPascal_Champ_EditDFM, ujpPascal_uses_ubl, ujpPascal_uses_upool,
- ujpPascal_f_implementation_uses_key, ujpPascal_sCle_from__Declaration,
- ujpPascal_sCle_from__Implementation, ujpPascal_sCle_Implementation_Body,
- ujpPascal_declaration_champs, ujpPascal_f_Execute_After_Key,
- ujpPascal_f_Execute_Before_Key, ujpPascal_aggregations_faibles_declaration,
+ upoolG_CTXTYPE, ublAutomatic, uPatternHandler, uJoinPoint,
+ uGenerateur_de_code_Ancetre, ujpCSharp_Conteneurs, ujpCSharp_Contenus,
+ ujpCSharp_DocksDetails, ujpCSharp_DocksDetails_Affiche,
+ ujpCSharp_Champs_persistants, ujpCSharp_Chargement_Conteneurs,
+ ujpPHP_Doctrine_Has_Column, ujpPHP_Doctrine_HasOne, ujpPHP_Doctrine_HasMany,
+ ujpNom_de_la_classe, ujpNom_de_la_table, ujpNomTableMinuscule,
+ ujpSQL_CREATE_TABLE, ujpSQL_Order_By_Key, ujpPascal_Declaration_cle,
+ ujpPascal_Affecte, ujpPascal_Champ_EditDFM, ujpPascal_uses_ubl,
+ ujpPascal_uses_upool, ujpPascal_f_implementation_uses_key,
+ ujpPascal_sCle_from__Declaration, ujpPascal_sCle_from__Implementation,
+ ujpPascal_sCle_Implementation_Body, ujpPascal_declaration_champs,
+ ujpPascal_f_Execute_After_Key, ujpPascal_f_Execute_Before_Key,
+ ujpPascal_aggregations_faibles_declaration,
  ujpPascal_aggregations_faibles_pool_get, ujpPascal_creation_champs,
  ujpPascal_Test_Declaration_Key, ujpPascal_Test_Implementation_Key,
  ujpPascal_To_SQLQuery_Params_Body, ujpPascal_Traite_Index_key,
@@ -66,8 +67,8 @@ uses
  udkProject_LABEL, ufProject, udkWork, udkDevelopment, ublSession,
  uOD_Table_Batpro, ufAutomatic, uhdmSession, ublTAG, uhfTAG, upoolTAG,
  upoolTAG_DEVELOPMENT, uhfTAG_DEVELOPMENT, ublTAG_DEVELOPMENT, upoolTAG_WORK,
- uhfTAG_WORK, ublTAG_WORK, ublTYPE_TAG, uhfTYPE_TAG, upoolTYPE_TAG
- { you can add units after this };
+ uhfTAG_WORK, ublTAG_WORK, udkType_Tag_edit, ublType_Tag, upoolType_Tag,
+ uhfType_Tag, ufType_Tag;
 
 {$R *.res}
 
@@ -76,6 +77,7 @@ begin
  Application.Initialize;
  Application.CreateForm(TfjsWorks, fjsWorks);
  Application.CreateForm(TfProject, fProject);
+ Application.CreateForm(TfTYPE_TAG, fTYPE_TAG);
  Application.Run;
 end.
 

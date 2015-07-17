@@ -26,7 +26,7 @@ unit uContexteMembre;
 interface
 
 uses
-    uGenerateur_Delphi_Ancetre,
+    uGenerateur_de_code_Ancetre,
     uContexteClasse,
   SysUtils, Classes;
 
@@ -36,7 +36,7 @@ type
   class
   //Attributs
   public
-    g: TGenerateur_Delphi_Ancetre;
+    g: TGenerateur_de_code_Ancetre;
     cc: TContexteClasse;
     sNomChamp: String;
     sNomChamp_database: String;
@@ -63,7 +63,7 @@ type
 
   //Gestion du cycle de vie
   public
-    constructor Create( _g: TGenerateur_Delphi_Ancetre; _cc: TContexteClasse; _sNomChamp, _sTypChamp, _sLibelle: String; _CleEtrangere: Boolean= False);
+    constructor Create( _g: TGenerateur_de_code_Ancetre; _cc: TContexteClasse; _sNomChamp, _sTypChamp, _sLibelle: String; _CleEtrangere: Boolean= False);
   end;
 
 
@@ -71,7 +71,7 @@ implementation
 
 { TContexteMembre }
 
-constructor TContexteMembre.Create( _g: TGenerateur_Delphi_Ancetre; _cc: TContexteClasse; _sNomChamp, _sTypChamp, _sLibelle: String; _CleEtrangere: Boolean= False);
+constructor TContexteMembre.Create( _g: TGenerateur_de_code_Ancetre; _cc: TContexteClasse; _sNomChamp, _sTypChamp, _sLibelle: String; _CleEtrangere: Boolean= False);
 begin
      g:= _g;
      cc:= _cc;

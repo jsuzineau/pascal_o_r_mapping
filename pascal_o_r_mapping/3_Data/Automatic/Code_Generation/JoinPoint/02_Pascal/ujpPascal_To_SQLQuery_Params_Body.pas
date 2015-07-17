@@ -26,7 +26,7 @@ unit ujpPascal_To_SQLQuery_Params_Body;
 interface
 
 uses
-    uGenerateur_Delphi_Ancetre,
+    uGenerateur_de_code_Ancetre,
     uContexteClasse,
     uContexteMembre,
     uJoinPoint,

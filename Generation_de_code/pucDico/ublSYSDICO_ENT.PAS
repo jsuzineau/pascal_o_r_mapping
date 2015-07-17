@@ -102,7 +102,7 @@ function blSYSDICO_ENT_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblS
 function sg_blSYSDICO_ENT( sg: TStringGrid; Colonne, Ligne: Integer): TblSYSDICO_ENT;
 
 type
- TGenerateur_Delphi
+ TGenerateur_de_code
  =
   class
   private
@@ -114,7 +114,7 @@ type
   end;
 
 var
-   Generateur_Delphi: TGenerateur_Delphi= nil;
+   Generateur_de_code: TGenerateur_de_code= nil;
 
 implementation
 
@@ -235,12 +235,12 @@ end;
 
 procedure TblSYSDICO_ENT.Genere_Delphi;
 begin
-     Generateur_Delphi.Execute( Self);
+     Generateur_de_code.Execute( Self);
 end;
 
-{ TGenerateur_Delphi }
+{ TGenerateur_de_code }
 
-procedure TGenerateur_Delphi.Execute( _blSYSDICO_ENT: TblSYSDICO_ENT);
+procedure TGenerateur_de_code.Execute( _blSYSDICO_ENT: TblSYSDICO_ENT);
 const
      sys_Vide                 = '';
 
@@ -495,9 +495,9 @@ begin
      :=
        TIniFile.Create( ChangeFileExt(NomFichierProjet,'_Dico_Delphi.ini'));
      try
-        sRepSource    := INI.ReadString( 'Options', 'sRepSource', ExtractFilePath(NomFichierProjet)+'Generateur_Delphi\patterns\');
-        sRepParametres:= INI.ReadString( 'Options', 'sRepParametres', ExtractFilePath(NomFichierProjet)+'Generateur_Delphi\Parametres\');
-        sRepCible     := INI.ReadString( 'Options', 'sRepCible' , ExtractFilePath(NomFichierProjet)+'Generateur_Delphi\Source\');
+        sRepSource    := INI.ReadString( 'Options', 'sRepSource', ExtractFilePath(NomFichierProjet)+'Generateur_de_code\patterns\');
+        sRepParametres:= INI.ReadString( 'Options', 'sRepParametres', ExtractFilePath(NomFichierProjet)+'Generateur_de_code\Parametres\');
+        sRepCible     := INI.ReadString( 'Options', 'sRepCible' , ExtractFilePath(NomFichierProjet)+'Generateur_de_code\Source\');
         INI.WriteString( 'Options', 'sRepSource', sRepSource);
         INI.WriteString( 'Options', 'sRepCible' , sRepCible );
 
@@ -556,7 +556,7 @@ begin
             end;
 end;
 
-procedure TGenerateur_Delphi.Initialise(_a: array of TJoinPoint);
+procedure TGenerateur_de_code.Initialise(_a: array of TJoinPoint);
 var
    I: Integer;
 begin
@@ -567,8 +567,8 @@ begin
 end;
 
 initialization
-              Generateur_Delphi:= TGenerateur_Delphi.Create;
-              Generateur_Delphi.Initialise(
+              Generateur_de_code:= TGenerateur_de_code.Create;
+              Generateur_de_code.Initialise(
                                            [
                                            jpChamps_persistants   ,
                                            jpContenus             ,
@@ -584,7 +584,7 @@ initialization
                                            ]
                                            );
 finalization
-              FreeAndNil( Generateur_Delphi);
+              FreeAndNil( Generateur_de_code);
 end.
 
 

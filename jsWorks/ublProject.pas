@@ -38,6 +38,9 @@ uses
     ublDevelopment,
     upoolDevelopment,
 
+    ublTag,
+    upoolTag,
+
     udmDatabase,
     upool_Ancetre_Ancetre,
 
@@ -55,6 +58,7 @@ type
    //Méthodes
    public
      function Start: TblWork;
+     procedure Tag( _blTag: TblTag);
    end;
 
   { ThaProject__Development }
@@ -68,6 +72,7 @@ type
    public
      function Point: TblDevelopment;
      function Bug: TblDevelopment;
+     procedure Tag( _blTag: TblTag);
    end;
 
  TblProject
@@ -140,6 +145,21 @@ begin
      Result:= poolWork.Start( blProject.id);
 end;
 
+procedure ThaProject__Work.Tag(_blTag: TblTag);
+var
+   I: TIterateur;
+   bl: TblWork;
+begin
+     I:= Iterateur_interne;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant_interne( bl) then continue;
+
+       bl.Tag( _blTag);
+       end;
+end;
+
 { ThaProject__Development }
 
 procedure ThaProject__Development.Charge;
@@ -176,6 +196,20 @@ begin
      Result:=poolDevelopment.Point( blProject.id);
 end;
 
+procedure ThaProject__Development.Tag(_blTag: TblTag);
+var
+   I: TIterateur;
+   bl: TblDevelopment;
+begin
+     I:= Iterateur_interne;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant_interne( bl) then continue;
+
+       bl.Tag( _blTag);
+       end;
+end;
 { TblProject }
 
 constructor TblProject.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);

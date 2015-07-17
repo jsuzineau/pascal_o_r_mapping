@@ -58,11 +58,11 @@ namespace Patterns_from_MCD_StarUML_CSharp
 		public Int32  id;
 		public Int32 _id {get{return id;} set{id= value;}}
 
-		public string  Name;
-		public string _Name {get{return Name;} set{Name= value;}}
-
 		public Int32  idType;
 		public Int32 _idType {get{return idType;} set{idType= value;}}
+
+		public string  Name;
+		public string _Name {get{return Name;} set{Name= value;}}
 
 
 		#endregion

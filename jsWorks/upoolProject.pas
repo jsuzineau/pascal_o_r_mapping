@@ -27,10 +27,14 @@ uses
   uBatpro_StringList,
 
   ublProject,
+  ublType_Tag,
+  ublTag,
+  ublWork,
 
   udmDatabase,
   udmBatpro_DataModule,
   uPool,
+  upoolTag,
   
 
   uhfProject,
@@ -38,6 +42,9 @@ uses
   DB, sqldb;
 
 type
+
+ { TpoolProject }
+
  TpoolProject
  =
   class( TPool)
@@ -51,6 +58,9 @@ type
   //Méthode de création de test
   public
     function Test( _Name: String):Integer;
+  //To_Tag conversion en Tags
+  public
+    procedure To_Tag;
   end;
 
 function poolProject: TpoolProject;
@@ -93,7 +103,26 @@ begin
        bl.Name           := _Name         ;
      bl.Save_to_database;
      Result:= bl.id;                                 
-end;                                                 
+end;
+
+procedure TpoolProject.To_Tag;
+var
+   I: TIterateur;
+   bl: TblProject;
+   blTag: TblTag;
+begin
+     ToutCharger;
+     I:= slT.Iterateur_interne;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant_interne( bl) then continue;
+
+       blTag:= poolTAG.Assure( Type_Tag_id_Project, bl.Name);
+       bl.haWork       .Tag( blTag);
+       bl.haDevelopment.Tag( blTag);
+       end;
+end;
 
 
 initialization

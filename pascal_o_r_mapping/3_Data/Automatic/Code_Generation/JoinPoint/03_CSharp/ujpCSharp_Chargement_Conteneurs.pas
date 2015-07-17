@@ -27,7 +27,7 @@ interface
 
 uses
     SysUtils, Classes,
-    uGenerateur_Delphi_Ancetre,
+    uGenerateur_de_code_Ancetre,
     uContexteClasse,
     uContexteMembre,
     uJoinPoint;

@@ -41,6 +41,9 @@ uses
   SysUtils, Classes, DB, SqlDB;
 
 type
+
+ { TpoolTAG }
+
  TpoolTAG
  =
   class( TPool)
@@ -51,10 +54,11 @@ type
   //Accés général
   public
     function Get( _id: integer): TblTAG;
+    function Get_by_Cle( _idType: Integer;  _Name: String): TblTAG;
+    function Assure( _idType: Integer; _Name: String): TblTAG;
   //Méthode de création de test
   public
     function Test( _id: Integer;  _Name: String;  _idType: Integer):Integer;
-
   end;
 
 function poolTAG: TpoolTAG;
@@ -89,6 +93,24 @@ begin
      Get_Interne_from_id( _id, Result);
 end;
 
+function TpoolTAG.Get_by_Cle( _idType: Integer;  _Name: String): TblTAG;
+begin
+     idType:=  _idType;
+     Name:=  _Name;
+     sCle:= TblTAG.sCle_from_( idType, Name);
+     Get_Interne( Result);
+end;
+
+function TpoolTAG.Assure( _idType: Integer; _Name: String): TblTAG;
+begin
+     try
+        Creer_si_non_trouve:= True;
+        Result:= Get_by_Cle( _idType, _Name);
+     finally
+            Creer_si_non_trouve:= False;
+            end;
+end;
+
 function TpoolTAG.Test( _id: Integer;  _Name: String;  _idType: Integer):Integer;
 var                                                 
    bl: TblTAG;                          
@@ -99,7 +121,7 @@ begin
        bl.idType         := _idType       ;
      bl.Save_to_database;                            
      Result:= bl.id;                                 
-end;                                                 
+end;
 
 
 initialization

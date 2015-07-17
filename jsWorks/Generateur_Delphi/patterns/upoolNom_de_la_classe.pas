@@ -51,6 +51,7 @@ type
   //Accés général
   public
     function Get( _id: integer): TblNom_de_la_classe;
+  //pattern_Get_by_Cle_Declaration
   //Méthode de création de test
   public
 {Test_Declaration_Key}
@@ -87,6 +88,8 @@ function TpoolNom_de_la_classe.Get( _id: integer): TblNom_de_la_classe;
 begin
      Get_Interne_from_id( _id, Result);
 end;
+
+//pattern_Get_by_Cle_Implementation
 
 {Test_Implementation_Key}
 

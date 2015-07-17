@@ -52,12 +52,12 @@ type
     lNomChamp: TLabel;
     ceNomChamp: TChamp_Edit;
     lID: TLabel;
-    lNAME: TLabel;
     lIDTYPE: TLabel;
+    lNAME: TLabel;
 
     ceID: TChamp_Edit;
-    ceNAME: TChamp_Edit;
     ceIDTYPE: TChamp_Edit;
+    ceNAME: TChamp_Edit;
 
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -119,8 +119,8 @@ begin
      Champs_Affecte( bl,
                      [
                      ceID,
-                     ceNAME,
-                     ceIDTYPE
+                     ceIDTYPE,
+                     ceNAME
                      ]);
 end;
 

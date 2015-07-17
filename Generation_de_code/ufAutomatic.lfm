@@ -1,14 +1,14 @@
 object fAutomatic: TfAutomatic
-  Left = 881
+  Left = 884
   Height = 413
-  Top = 163
+  Top = 167
   Width = 596
   Caption = 'fAutomatic'
   ClientHeight = 413
   ClientWidth = 596
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '1.2.0.3'
+  LCLVersion = '1.2.6.0'
   object cg: TChampsGrid
     Left = 0
     Height = 339
@@ -43,7 +43,7 @@ object fAutomatic: TfAutomatic
     end
     object e: TEdit
       Left = 88
-      Height = 27
+      Height = 23
       Top = 16
       Width = 496
       Anchors = [akTop, akLeft, akRight]
