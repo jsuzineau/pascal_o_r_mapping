@@ -82,7 +82,7 @@ uses
     ujpPascal_f_implementation_uses_key,
     ujpPascal_f_Execute_Before_Key,
     ujpPascal_f_Execute_After_Key,
-    ujpPascal_aggregations_faibles_declaration,
+    ujpPascal_Detail_declaration,
     ujpPascal_aggregations_faibles_pool_get,
 
     //CSharp
@@ -788,7 +788,7 @@ begin
                 jpPascal_f_implementation_uses_key,
                 jpPascal_f_Execute_Before_Key,
                 jpPascal_f_Execute_After_Key,
-                jpPascal_aggregations_faibles_declaration,
+                jpPascal_Detail_declaration,
 
                 //CSharp
                 jpCSharp_Champs_persistants   ,
