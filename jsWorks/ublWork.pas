@@ -31,6 +31,7 @@ uses
 
     uBatpro_Element,
     uBatpro_Ligne,
+    ublTag,
 
     udmDatabase,
     upool_Ancetre_Ancetre,
@@ -87,6 +88,9 @@ type
   //Jour different
   public
     function Jour_Different( _bl: TblWork): Boolean;
+  //Tag
+  public
+    procedure Tag( _blTag: TblTag);
   end;
 
  TIterateur_Work
@@ -317,6 +321,11 @@ begin
      if _bl = nil then exit;
 
      Result:= DayOfTheMonth( Beginning) <> DayOfTheMonth( _bl.Beginning);
+end;
+
+procedure TblWork.Tag(_blTag: TblTag);
+begin
+
 end;
 
 end.

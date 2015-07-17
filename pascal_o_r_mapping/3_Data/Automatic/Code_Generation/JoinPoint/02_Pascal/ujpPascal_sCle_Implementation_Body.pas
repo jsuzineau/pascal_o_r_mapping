@@ -77,7 +77,7 @@ begin
      else
          Valeur:= Valeur + ', ';
 
-     Valeur:= Valeur+ cm.sParametre;
+     Valeur:= Valeur+ cm.sNomChamp;
 end;
 
 procedure TjpPascal_sCle_Implementation_Body.Finalise;

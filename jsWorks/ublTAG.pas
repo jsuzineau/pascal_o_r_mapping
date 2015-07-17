@@ -113,7 +113,7 @@ end;
 
 function TblTAG.sCle: String;
 begin
-     Result:= sCle_from_(  _idType,  _Name);
+     Result:= sCle_from_(  idType,  Name);
 end;
 
 end.

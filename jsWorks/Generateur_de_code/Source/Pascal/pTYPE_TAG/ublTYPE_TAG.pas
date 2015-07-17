@@ -1,0 +1,115 @@
+unit ublTYPE_TAG;
+{                                                                               |
+    Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
+            partly as freelance: http://www.mars42.com                          |
+        and partly as employee : http://www.batpro.com                          |
+    Contact: gilles.doutre@batpro.com                                           |
+                                                                                |
+    Copyright 2014 Jean SUZINEAU - MARS42                                       |
+    Copyright 2014 Cabinet Gilles DOUTRE - BATPRO                               |
+                                                                                |
+    This program is free software: you can redistribute it and/or modify        |
+    it under the terms of the GNU Lesser General Public License as published by |
+    the Free Software Foundation, either version 3 of the License, or           |
+    (at your option) any later version.                                         |
+                                                                                |
+    This program is distributed in the hope that it will be useful,             |
+    but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    GNU Lesser General Public License for more details.                         |
+                                                                                |
+    You should have received a copy of the GNU Lesser General Public License    |
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.       |
+                                                                                |
+|                                                                               }
+
+interface
+
+uses
+    uClean,
+    u_sys_,
+    uuStrings,
+    uBatpro_StringList,
+
+    uBatpro_Element,
+    uBatpro_Ligne,
+
+    udmDatabase,
+    upool_Ancetre_Ancetre,
+
+    SysUtils, Classes, SqlDB, DB;
+
+type
+ TblTYPE_TAG
+ =
+  class( TBatpro_Ligne)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre); override;
+    destructor Destroy; override;
+  //champs persistants
+  public
+    id: Integer;
+    Name: String;
+  //Gestion de la clé
+  public
+  
+    function sCle: String; override;
+  end;
+
+function blTYPE_TAG_from_sl( sl: TBatpro_StringList; Index: Integer): TblTYPE_TAG;
+function blTYPE_TAG_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTYPE_TAG;
+
+implementation
+
+function blTYPE_TAG_from_sl( sl: TBatpro_StringList; Index: Integer): TblTYPE_TAG;
+begin
+     _Classe_from_sl( Result, TblTYPE_TAG, sl, Index);
+end;
+
+function blTYPE_TAG_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTYPE_TAG;
+begin
+     _Classe_from_sl_sCle( Result, TblTYPE_TAG, sl, sCle);
+end;
+
+{ TblTYPE_TAG }
+
+constructor TblTYPE_TAG.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
+var
+   CP: IblG_BECP;
+begin
+     CP:= Init_ClassParams;
+     if Assigned( CP)
+     then
+         begin
+         CP.Libelle:= 'TYPE_TAG';
+         CP.Font.Name:= sys_Times_New_Roman;
+         CP.Font.Size:= 12;
+         end;
+
+     inherited;
+
+     Champs.ChampDefinitions.NomTable:= 'Type_Tag';
+
+     //champs persistants
+     Champs. Integer_from_Integer( id             , 'id'             );
+     Champs.  String_from_String ( Name           , 'Name'           );
+
+end;
+
+destructor TblTYPE_TAG.Destroy;
+begin
+
+     inherited;
+end;
+
+
+
+function TblTYPE_TAG.sCle: String;
+begin
+     Result:= sCle_ID;
+end;
+
+end.
+
+

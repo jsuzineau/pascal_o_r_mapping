@@ -53,6 +53,8 @@ type
     hfTAG: ThfTAG;
   //Accés général
   public
+    idType: Integer;
+    Name: String;
     function Get( _id: integer): TblTAG;
     function Get_by_Cle( _idType: Integer;  _Name: String): TblTAG;
     function Assure( _idType: Integer; _Name: String): TblTAG;

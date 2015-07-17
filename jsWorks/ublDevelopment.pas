@@ -31,6 +31,7 @@ uses
 
     uBatpro_Element,
     uBatpro_Ligne,
+    ublTag,
 
     udmDatabase,
     upool_Ancetre_Ancetre,
@@ -111,6 +112,9 @@ type
     procedure Description_Short_Get_Chaine( var _Chaine: String);
   public
     property Description_Short: String read GetDescription_Short;
+  //Tag
+  public
+    procedure Tag( _blTag: TblTag);
   end;
 
 function blDevelopment_from_sl( sl: TBatpro_StringList; Index: Integer): TblDevelopment;
@@ -197,6 +201,11 @@ end;
 procedure TblDevelopment.Description_Short_Get_Chaine(var _Chaine: String);
 begin
      _Chaine:= Description_Short;
+end;
+
+procedure TblDevelopment.Tag(_blTag: TblTag);
+begin
+
 end;
 
 procedure TblDevelopment.SetnCategorie(const Value: Integer);

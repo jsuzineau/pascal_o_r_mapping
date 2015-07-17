@@ -71,7 +71,7 @@ begin
 
      if not cm.Belongs_to_sCle then exit;
 
-     Valeur:= Valeur+'    '+cm.sPascal_DeclarationParametre+';'#13#10;
+     Valeur:= Valeur+'    '+cm.sPascal_DeclarationChamp+';'#13#10;
 end;
 
 procedure TjpPascal_Declaration_cle.Finalise;

@@ -42,7 +42,7 @@ uses
  ujpPascal_sCle_Implementation_Body, ujpPascal_declaration_champs,
  ujpPascal_f_Execute_After_Key, ujpPascal_f_Execute_Before_Key,
  ujpPascal_Detail_declaration,
- ujpPascal_aggregations_faibles_pool_get, ujpPascal_creation_champs,
+ ujpPascal_creation_champs,
  ujpPascal_Test_Declaration_Key, ujpPascal_Test_Implementation_Key,
  ujpPascal_To_SQLQuery_Params_Body, ujpPascal_Traite_Index_key,
  ujpPascal_QCalcFieldsKey, ujpPascal_QfieldsDFM, ujpPascal_QfieldsPAS,

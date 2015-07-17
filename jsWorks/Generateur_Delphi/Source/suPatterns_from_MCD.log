@@ -1,8 +1,0 @@
-CREATE TABLE Tag'
-      '  ('
-      '  Numero          INTEGER AUTO_INCREMENT PRIMARY KEY,'
-      '  `id`            INTEGER   ,'
-      '  `idType`        INTEGER   ,'
-      '  `Name`          CHAR( 42)   )'
-      '
-
