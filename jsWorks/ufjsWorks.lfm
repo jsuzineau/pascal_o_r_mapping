@@ -1,7 +1,7 @@
 object fjsWorks: TfjsWorks
-  Left = 580
+  Left = 581
   Height = 731
-  Top = 65
+  Top = 66
   Width = 937
   Caption = 'jsWorks'
   ClientHeight = 731

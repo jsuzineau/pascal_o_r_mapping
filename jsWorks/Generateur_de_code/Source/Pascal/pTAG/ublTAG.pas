@@ -40,6 +40,22 @@ uses
     SysUtils, Classes, SqlDB, DB;
 
 type
+  { ThaTag__Tag_Work }    
+  ThaTag__Tag_Work        
+  =                                                   
+   class( ThAggregation)                              
+   //Chargement de tous les détails
+   public                                             
+     procedure Charge; override;                      
+  //Création d'itérateur
+  protected                                                           
+    class function Classe_Iterateur: TIterateur_Class; override;      
+  public                                                              
+    function Iterateur: TIterateur_Tag_Work;               
+    function Iterateur_Decroissant: TIterateur_Tag_Work;   
+   end;                                                               
+
+
  TblTAG
  =
   class( TBatpro_Ligne)
@@ -59,6 +75,30 @@ type
     function sCle: String; override;
   end;
 
+ TIterateur_TAG
+ =
+  class( TIterateur)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: TblTAG);
+    function  not_Suivant( var _Resultat: TblTAG): Boolean;
+  end;
+
+ TslTAG
+ =
+  class( TBatpro_StringList)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_TAG;
+    function Iterateur_Decroissant: TIterateur_TAG;
+  end;
+
 function blTAG_from_sl( sl: TBatpro_StringList; Index: Integer): TblTAG;
 function blTAG_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTAG;
 
@@ -73,6 +113,46 @@ function blTAG_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTAG;
 begin
      _Classe_from_sl_sCle( Result, TblTAG, sl, sCle);
 end;
+
+{ TIterateur_TAG }
+
+function TIterateur_TAG.not_Suivant( var _Resultat: TblTAG): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_TAG.Suivant( var _Resultat: TblTAG);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TslTAG }
+
+constructor TslTAG.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, TblTAG);
+end;
+
+destructor TslTAG.Destroy;
+begin
+     inherited;
+end;
+
+class function TslTAG.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_TAG;
+end;
+
+function TslTAG.Iterateur: TIterateur_TAG;
+begin
+     Result:= TIterateur_TAG( Iterateur_interne);
+end;
+
+function TslTAG.Iterateur_Decroissant: TIterateur_TAG;
+begin
+     Result:= TIterateur_TAG( Iterateur_interne_Decroissant);
+end;
+
 
 { TblTAG }
 
@@ -113,7 +193,7 @@ end;
 
 function TblTAG.sCle: String;
 begin
-     Result:= sCle_from_(  _idType,  _Name);
+     Result:= sCle_from_( idType, Name);
 end;
 
 end.
