@@ -50,6 +50,7 @@ type
     CleEtrangere: Boolean;
 
     //Pascal
+    sPascal_DeclarationChamp: String;
     sPascal_DeclarationParametre: String;
     s_bl: String;
     s_pool: String;
@@ -106,6 +107,7 @@ begin
      Belongs_to_sCle:= -1 <> cc.slCle.IndexOf( sNomChamp);
 
      sParametre:= ' _'+sNomChamp;
+     sPascal_DeclarationChamp    := sNomChamp +': '+sTyp;
      sPascal_DeclarationParametre:= sParametre+': '+sTyp;
      s_bl  := 'bl' + TailleNom( sTyp);
      s_pool:= 'pool' + TailleNom( sTyp);
