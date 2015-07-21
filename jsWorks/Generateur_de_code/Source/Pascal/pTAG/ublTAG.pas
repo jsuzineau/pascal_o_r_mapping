@@ -44,10 +44,10 @@ type
   ThaTag__Tag_Work        
   =                                                   
    class( ThAggregation)                              
-   //Chargement de tous les détails
+   //Chargement de tous les détails                   
    public                                             
      procedure Charge; override;                      
-  //Création d'itérateur
+  //Création d'itérateur                                             
   protected                                                           
     class function Classe_Iterateur: TIterateur_Class; override;      
   public                                                              
@@ -73,6 +73,16 @@ type
     class function sCle_from_( _idType: Integer;  _Name: String): String;
   
     function sCle: String; override;
+  //Aggrégations                                                                          
+  protected                                                                               
+    procedure Create_Aggregation( Name: String; P: ThAggregation_Create_Params); override;
+  //Aggrégation vers les Tag_Work correspondants                                                   
+  private                                                                                                   
+    FhaTag_Work: ThaTag__Tag_Work;                                     
+    function GethaTag_Work: ThaTag__Tag_Work;                          
+  public                                                                                                    
+    property haTag_Work: ThaTag__Tag_Work read GethaTag_Work; 
+
   end;
 
  TIterateur_TAG

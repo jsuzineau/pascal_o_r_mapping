@@ -41,8 +41,7 @@ uses
  ujpPascal_sCle_from__Declaration, ujpPascal_sCle_from__Implementation,
  ujpPascal_sCle_Implementation_Body, ujpPascal_declaration_champs,
  ujpPascal_f_Execute_After_Key, ujpPascal_f_Execute_Before_Key,
- ujpPascal_Detail_declaration,
- ujpPascal_creation_champs,
+ ujpPascal_Detail_declaration, ujpPascal_creation_champs,
  ujpPascal_Test_Declaration_Key, ujpPascal_Test_Implementation_Key,
  ujpPascal_To_SQLQuery_Params_Body, ujpPascal_Traite_Index_key,
  ujpPascal_QCalcFieldsKey, ujpPascal_QfieldsDFM, ujpPascal_QfieldsPAS,
@@ -59,16 +58,16 @@ uses
  uOD_SpreadsheetManager, uOD_Styles, uOD_SurTitre, uOD_Temporaire,
  uOD_TextFieldsCreator, uOD_TextTableContext, uOD_TextTableManager, uOOoChrono,
  uOOoDelphiReportEngineLog, uOOoStringList, uOOoStrings, uOpenDocument,
- uDockable, ucDockableScrollbox, uDessin, ufBase, ufBatpro_Form_Ancetre,
- ufBatpro_Form, blcksock, ufjsWorks, ublCategorie, ublDevelopment, ublProject,
- ublState, ublWork, uhfCategorie, uhfDevelopment, uhfJour_ferie, uhfProject,
- uhfState, uhfWork, upoolCategorie, upoolDevelopment, upoolJour_ferie,
- upoolProject, upoolState, upoolWork, ublJour_ferie, udkProject_EDIT,
- udkProject_LABEL, ufProject, udkWork, udkDevelopment, ublSession,
- uOD_Table_Batpro, ufAutomatic, uhdmSession, ublTAG, uhfTAG, upoolTAG,
- upoolTAG_DEVELOPMENT, uhfTAG_DEVELOPMENT, ublTAG_DEVELOPMENT, upoolTAG_WORK,
- uhfTAG_WORK, ublTAG_WORK, udkType_Tag_edit, ublType_Tag, upoolType_Tag,
- uhfType_Tag, ufType_Tag;
+ uuStrings, uDockable, ucDockableScrollbox, uDessin, ufBatpro_Form_Ancetre,
+ ufBatpro_Form, ufBase, blcksock, ufjsWorks, ublCategorie, ublDevelopment,
+ ublProject, ublState, ublWork, uhfCategorie, uhfDevelopment, uhfJour_ferie,
+ uhfProject, uhfState, uhfWork, upoolCategorie, upoolDevelopment,
+ upoolJour_ferie, upoolProject, upoolState, upoolWork, ublJour_ferie,
+ udkProject_EDIT, udkProject_LABEL, ufProject, udkWork, udkDevelopment,
+ ublSession, uOD_Table_Batpro, ufAutomatic, uhdmSession, ublTAG, uhfTAG,
+ upoolTAG, upoolTAG_DEVELOPMENT, uhfTAG_DEVELOPMENT, ublTAG_DEVELOPMENT,
+ upoolTAG_WORK, uhfTAG_WORK, ublTAG_WORK, udkType_Tag_edit, ublType_Tag,
+ upoolType_Tag, uhfType_Tag, ufType_Tag;
 
 {$R *.res}
 
