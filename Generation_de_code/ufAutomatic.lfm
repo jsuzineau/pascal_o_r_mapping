@@ -1,7 +1,7 @@
 object fAutomatic: TfAutomatic
-  Left = 887
+  Left = 888
   Height = 413
-  Top = 169
+  Top = 170
   Width = 596
   Caption = 'fAutomatic'
   ClientHeight = 413
@@ -48,7 +48,7 @@ object fAutomatic: TfAutomatic
       Width = 496
       Anchors = [akTop, akLeft, akRight]
       TabOrder = 1
-      Text = 'select * from Project  limit 0,5'
+      Text = 'select * from Tag  limit 0,5'
     end
     object bGenere: TButton
       Left = 11

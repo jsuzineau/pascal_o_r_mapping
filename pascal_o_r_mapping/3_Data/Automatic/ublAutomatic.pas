@@ -85,6 +85,7 @@ uses
     ujpPascal_Detail_declaration,
     ujpPascal_Detail_pool_get,
     ujpPascal_aggregation_classe_declaration,
+    ujpPascal_aggregation_function_Create_Aggregation_declaration,
 
     //CSharp
     ujpCSharp_Champs_persistants,
@@ -814,6 +815,7 @@ begin
                 jpPascal_f_Execute_After_Key,
                 jpPascal_Detail_declaration,
                 jpPascal_aggregation_classe_declaration,
+                jpPascal_aggregation_function_Create_Aggregation_declaration,
 
                 //CSharp
                 jpCSharp_Champs_persistants   ,

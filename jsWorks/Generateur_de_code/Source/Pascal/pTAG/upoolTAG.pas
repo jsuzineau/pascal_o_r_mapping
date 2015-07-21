@@ -51,6 +51,11 @@ type
   //Accés général
   public
     function Get( _id: integer): TblTAG;
+  //Accés par clé
+  public
+      idType: Integer;
+    Name: String;
+
       function Get_by_Cle( _idType: Integer;  _Name: String): TblTAG;
   //Méthode de création de test
   public

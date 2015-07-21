@@ -40,6 +40,8 @@ uses
     SysUtils, Classes, SqlDB, DB;
 
 type
+//pattern_aggregation_classe_declaration
+
  TblNom_de_la_classe
  =
   class( TBatpro_Ligne)
@@ -54,6 +56,7 @@ type
   public
 //pattern_sCle_from__Declaration  
     function sCle: String; override;
+//pattern_aggregation_function_Create_Aggregation_declaration
   end;
 
  TIterateur_Nom_de_la_classe
