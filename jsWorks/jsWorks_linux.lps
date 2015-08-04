@@ -3,12 +3,12 @@
   <ProjectSession>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="200">
+    <Units Count="201">
       <Unit0>
         <Filename Value="jsWorks_linux.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="jsWorks_linux"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
         <TopLine Value="15"/>
         <CursorPos X="1" Y="60"/>
@@ -23,7 +23,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ufjsWorks"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="25"/>
         <CursorPos X="13" Y="55"/>
@@ -93,7 +93,7 @@
         <Filename Value="ublWork.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ublWork"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="10"/>
         <WindowIndex Value="0"/>
         <TopLine Value="102"/>
         <CursorPos X="16" Y="138"/>
@@ -105,7 +105,7 @@
         <Filename Value="uhfCategorie.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uhfCategorie"/>
-        <EditorIndex Value="17"/>
+        <EditorIndex Value="16"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="3" Y="32"/>
@@ -175,7 +175,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="upoolWork"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
         <TopLine Value="186"/>
         <CursorPos X="42" Y="223"/>
@@ -188,7 +188,7 @@
         <Filename Value="uhfWork.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uhfWork"/>
-        <EditorIndex Value="20"/>
+        <EditorIndex Value="19"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="3" Y="32"/>
@@ -216,7 +216,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="udkProject_LABEL"/>
-        <EditorIndex Value="24"/>
+        <EditorIndex Value="23"/>
         <WindowIndex Value="0"/>
         <TopLine Value="35"/>
         <CursorPos X="95" Y="50"/>
@@ -287,7 +287,7 @@
         <Filename Value="uodWork_from_Period.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uodWork_from_Period"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="8" Y="32"/>
@@ -300,7 +300,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uOD"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="25"/>
@@ -356,7 +356,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ufAutomatic"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="54"/>
         <CursorPos X="1" Y="100"/>
@@ -465,7 +465,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ufTemps"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="18"/>
         <CursorPos X="33" Y="52"/>
@@ -1221,7 +1221,7 @@
       <Unit127>
         <Filename Value="../pascal_o_r_mapping/2_Units/uChamp.pas"/>
         <UnitName Value="uChamp"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
         <TopLine Value="29"/>
         <CursorPos X="54" Y="53"/>
@@ -1232,7 +1232,7 @@
       <Unit128>
         <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Ligne.pas"/>
         <UnitName Value="uBatpro_Ligne"/>
-        <EditorIndex Value="21"/>
+        <EditorIndex Value="20"/>
         <WindowIndex Value="0"/>
         <TopLine Value="759"/>
         <CursorPos X="36" Y="770"/>
@@ -1273,7 +1273,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uPool"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="12"/>
         <WindowIndex Value="0"/>
         <TopLine Value="648"/>
         <CursorPos X="5" Y="671"/>
@@ -1693,7 +1693,7 @@
         <Filename Value="../pascal_o_r_mapping/3_Data/udmDatabase.pas"/>
         <HasResources Value="True"/>
         <UnitName Value="udmDatabase"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="278"/>
         <CursorPos X="13" Y="284"/>
@@ -1725,12 +1725,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
-        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="14" Y="20"/>
         <UsageCount Value="66"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit181>
       <Unit182>
@@ -1797,7 +1795,7 @@
       <Unit188>
         <Filename Value="../pascal_o_r_mapping/1_LCL/OD_DelphiReportEngine_LCL_linux.pas"/>
         <UnitName Value="OD_DelphiReportEngine_LCL_linux"/>
-        <EditorIndex Value="26"/>
+        <EditorIndex Value="25"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
@@ -1807,7 +1805,7 @@
       <Unit189>
         <Filename Value="../pascal_o_r_mapping/5_Controls/uDockable.pas"/>
         <UnitName Value="uDockable"/>
-        <EditorIndex Value="25"/>
+        <EditorIndex Value="24"/>
         <WindowIndex Value="0"/>
         <TopLine Value="389"/>
         <CursorPos X="11" Y="423"/>
@@ -1826,7 +1824,7 @@
       <Unit191>
         <Filename Value="../pascal_o_r_mapping/3_Data/uhFiltre.pas"/>
         <UnitName Value="uhFiltre"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="13"/>
         <WindowIndex Value="0"/>
         <TopLine Value="435"/>
         <CursorPos X="11" Y="457"/>
@@ -1849,7 +1847,7 @@
       <Unit193>
         <Filename Value="../pascal_o_r_mapping/2_Units/uContrainte.pas"/>
         <UnitName Value="uContrainte"/>
-        <EditorIndex Value="23"/>
+        <EditorIndex Value="22"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
@@ -1860,7 +1858,7 @@
       <Unit194>
         <Filename Value="../pascal_o_r_mapping/2_Units/uhFiltre_Ancetre.pas"/>
         <UnitName Value="uhFiltre_Ancetre"/>
-        <EditorIndex Value="22"/>
+        <EditorIndex Value="21"/>
         <WindowIndex Value="0"/>
         <TopLine Value="23"/>
         <CursorPos X="57" Y="48"/>
@@ -1870,17 +1868,15 @@
       </Unit194>
       <Unit195>
         <Filename Value="/usr/share/lazarus/1.2.6/lcl/include/control.inc"/>
-        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="3229"/>
         <CursorPos X="1" Y="3269"/>
         <UsageCount Value="26"/>
-        <Loaded Value="True"/>
       </Unit195>
       <Unit196>
         <Filename Value="uhfProject.pas"/>
         <UnitName Value="uhfProject"/>
-        <EditorIndex Value="15"/>
+        <EditorIndex Value="14"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="3" Y="12"/>
@@ -1891,7 +1887,7 @@
       <Unit197>
         <Filename Value="uhfJour_ferie.pas"/>
         <UnitName Value="uhfJour_ferie"/>
-        <EditorIndex Value="16"/>
+        <EditorIndex Value="15"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="3" Y="12"/>
@@ -1902,7 +1898,7 @@
       <Unit198>
         <Filename Value="uhfState.pas"/>
         <UnitName Value="uhfState"/>
-        <EditorIndex Value="18"/>
+        <EditorIndex Value="17"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="3" Y="12"/>
@@ -1913,7 +1909,7 @@
       <Unit199>
         <Filename Value="uhfDevelopment.pas"/>
         <UnitName Value="uhfDevelopment"/>
-        <EditorIndex Value="19"/>
+        <EditorIndex Value="18"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="3" Y="12"/>
@@ -1921,6 +1917,16 @@
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit199>
+      <Unit200>
+        <Filename Value="../pascal_o_r_mapping/3_Data/upool_Ancetre_Ancetre.lfm"/>
+        <EditorIndex Value="26"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit200>
     </Units>
     <General>
       <ActiveWindowIndexAtStart Value="0"/>
