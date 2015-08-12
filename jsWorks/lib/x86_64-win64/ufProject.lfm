@@ -1,12 +1,12 @@
 object fProject: TfProject
-  Left = 1162
+  Left = 1168
   Height = 240
-  Top = 134
+  Top = 140
   Width = 320
   Caption = 'fProject'
   ClientHeight = 240
   ClientWidth = 320
-  LCLVersion = '1.2.0.3'
+  LCLVersion = '1.2.6.0'
   object dsb: TDockableScrollbox
     Left = 0
     Height = 240

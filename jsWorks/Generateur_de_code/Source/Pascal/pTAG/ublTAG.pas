@@ -40,8 +40,8 @@ uses
     SysUtils, Classes, SqlDB, DB;
 
 type
-  { ThaTag__Tag_Work }    
-  ThaTag__Tag_Work        
+  { ThaTag__Work }    
+  ThaTag__Work        
   =                                                   
    class( ThAggregation)                              
    //Chargement de tous les détails                   
@@ -51,8 +51,8 @@ type
   protected                                                           
     class function Classe_Iterateur: TIterateur_Class; override;      
   public                                                              
-    function Iterateur: TIterateur_Tag_Work;               
-    function Iterateur_Decroissant: TIterateur_Tag_Work;   
+    function Iterateur: TIterateur_Work;               
+    function Iterateur_Decroissant: TIterateur_Work;   
    end;                                                               
 
 
@@ -76,12 +76,12 @@ type
   //Aggrégations                                                                          
   protected                                                                               
     procedure Create_Aggregation( Name: String; P: ThAggregation_Create_Params); override;
-  //Aggrégation vers les Tag_Work correspondants                                                   
+  //Aggrégation vers les Work correspondants                                                   
   private                                                                                                   
-    FhaTag_Work: ThaTag__Tag_Work;                                     
-    function GethaTag_Work: ThaTag__Tag_Work;                          
+    FhaWork: ThaTag__Work;                                     
+    function GethaWork: ThaTag__Work;                          
   public                                                                                                    
-    property haTag_Work: ThaTag__Tag_Work read GethaTag_Work; 
+    property haWork: ThaTag__Work read GethaWork; 
 
   end;
 

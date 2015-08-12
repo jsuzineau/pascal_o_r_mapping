@@ -86,6 +86,7 @@ uses
     ujpPascal_Detail_pool_get,
     ujpPascal_aggregation_classe_declaration,
     ujpPascal_aggregation_declaration,
+    ujpPascal_aggregation_classe_implementation,
 
     //CSharp
     ujpCSharp_Champs_persistants,
@@ -816,6 +817,7 @@ begin
                 jpPascal_Detail_declaration,
                 jpPascal_aggregation_classe_declaration,
                 jpPascal_aggregation_declaration,
+                jpPascal_aggregation_classe_implementation,
 
                 //CSharp
                 jpCSharp_Champs_persistants   ,

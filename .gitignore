@@ -17,3 +17,4 @@
 *.lfm~
 .gitignore~
 /.project
+/jsWorks/libmysql.dll
