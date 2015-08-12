@@ -35,11 +35,10 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="93">
+    <Units Count="94">
       <Unit0>
         <Filename Value="jsWorks_mswindows.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="jsWorks_mswindows"/>
       </Unit0>
       <Unit1>
         <Filename Value="ufjsWorks.pas"/>
@@ -47,72 +46,59 @@
         <ComponentName Value="fjsWorks"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufjsWorks"/>
       </Unit1>
       <Unit2>
         <Filename Value="ublCategorie.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublCategorie"/>
       </Unit2>
       <Unit3>
         <Filename Value="ublDevelopment.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublDevelopment"/>
       </Unit3>
       <Unit4>
         <Filename Value="ublJour_ferie.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublJour_ferie"/>
       </Unit4>
       <Unit5>
         <Filename Value="ublProject.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublProject"/>
       </Unit5>
       <Unit6>
         <Filename Value="ublState.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublState"/>
       </Unit6>
       <Unit7>
         <Filename Value="ublWork.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublWork"/>
       </Unit7>
       <Unit8>
         <Filename Value="uhfCategorie.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uhfCategorie"/>
       </Unit8>
       <Unit9>
         <Filename Value="upoolCategorie.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolCategorie"/>
       </Unit9>
       <Unit10>
         <Filename Value="upoolDevelopment.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolDevelopment"/>
       </Unit10>
       <Unit11>
         <Filename Value="upoolJour_ferie.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolJour_ferie"/>
       </Unit11>
       <Unit12>
         <Filename Value="upoolProject.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolProject"/>
       </Unit12>
       <Unit13>
         <Filename Value="upoolState.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolState"/>
       </Unit13>
       <Unit14>
         <Filename Value="upoolWork.pas"/>
@@ -120,12 +106,10 @@
         <ComponentName Value="poolWORK"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="upoolWork"/>
       </Unit14>
       <Unit15>
         <Filename Value="uhfWork.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uhfWork"/>
       </Unit15>
       <Unit16>
         <Filename Value="udkProject_EDIT.pas"/>
@@ -133,7 +117,6 @@
         <ComponentName Value="dkProject_EDIT"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="udkProject_EDIT"/>
       </Unit16>
       <Unit17>
         <Filename Value="udkProject_LABEL.pas"/>
@@ -141,7 +124,6 @@
         <ComponentName Value="dkProject_LABEL"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="udkProject_LABEL"/>
       </Unit17>
       <Unit18>
         <Filename Value="ufProject.pas"/>
@@ -149,7 +131,6 @@
         <ComponentName Value="fProject"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufProject"/>
       </Unit18>
       <Unit19>
         <Filename Value="udkWork.pas"/>
@@ -157,7 +138,6 @@
         <ComponentName Value="dkWork"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="udkWork"/>
       </Unit19>
       <Unit20>
         <Filename Value="udkDevelopment.pas"/>
@@ -165,22 +145,18 @@
         <ComponentName Value="dkDevelopment"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="udkDevelopment"/>
       </Unit20>
       <Unit21>
         <Filename Value="../pascal_o_r_mapping/3_Data/uXML.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uXML"/>
       </Unit21>
       <Unit22>
         <Filename Value="../pascal_o_r_mapping/7_sources_externes/synapse/source/lib/blcksock.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="blcksock"/>
       </Unit22>
       <Unit23>
         <Filename Value="../OOo/uOD_Table_Batpro.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uOD_Table_Batpro"/>
       </Unit23>
       <Unit24>
         <Filename Value="../Generation_de_code/ufAutomatic.pas"/>
@@ -188,247 +164,198 @@
         <ComponentName Value="fAutomatic"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufAutomatic"/>
       </Unit24>
       <Unit25>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/ublAutomatic.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublAutomatic"/>
       </Unit25>
       <Unit26>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler/uPatternHandler.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uPatternHandler"/>
       </Unit26>
       <Unit27>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/uJoinPoint.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uJoinPoint"/>
       </Unit27>
       <Unit28>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Declaration_cle.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_Declaration_cle"/>
       </Unit28>
       <Unit29>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Affecte.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_Affecte"/>
       </Unit29>
       <Unit30>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Champ_EditDFM.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_Champ_EditDFM"/>
       </Unit30>
       <Unit31>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL/ujpSQL_CREATE_TABLE.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpSQL_CREATE_TABLE"/>
       </Unit31>
       <Unit32>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL/ujpSQL_Order_By_Key.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpSQL_Order_By_Key"/>
       </Unit32>
       <Unit33>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General/ujpNom_de_la_classe.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpNom_de_la_classe"/>
       </Unit33>
       <Unit34>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General/ujpNom_de_la_table.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpNom_de_la_table"/>
       </Unit34>
       <Unit35>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General/ujpNomTableMinuscule.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpNomTableMinuscule"/>
       </Unit35>
       <Unit36>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine/ujpPHP_Doctrine_Has_Column.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPHP_Doctrine_Has_Column"/>
       </Unit36>
       <Unit37>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine/ujpPHP_Doctrine_HasOne.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPHP_Doctrine_HasOne"/>
       </Unit37>
       <Unit38>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp/ujpCSharp_Conteneurs.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpCSharp_Conteneurs"/>
       </Unit38>
       <Unit39>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp/ujpCSharp_Contenus.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpCSharp_Contenus"/>
       </Unit39>
       <Unit40>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp/ujpCSharp_DocksDetails.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpCSharp_DocksDetails"/>
       </Unit40>
       <Unit41>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp/ujpCSharp_DocksDetails_Affiche.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpCSharp_DocksDetails_Affiche"/>
       </Unit41>
       <Unit42>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine/ujpPHP_Doctrine_HasMany.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPHP_Doctrine_HasMany"/>
       </Unit42>
       <Unit43>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp/ujpCSharp_Champs_persistants.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpCSharp_Champs_persistants"/>
       </Unit43>
       <Unit44>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp/ujpCSharp_Chargement_Conteneurs.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpCSharp_Chargement_Conteneurs"/>
       </Unit44>
       <Unit45>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_uses_ubl.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_uses_ubl"/>
       </Unit45>
       <Unit46>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_uses_upool.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_uses_upool"/>
       </Unit46>
       <Unit47>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_f_implementation_uses_key.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_f_implementation_uses_key"/>
       </Unit47>
       <Unit48>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_sCle_from__Declaration.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_sCle_from__Declaration"/>
       </Unit48>
       <Unit49>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_sCle_from__Implementation.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_sCle_from__Implementation"/>
       </Unit49>
       <Unit50>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_sCle_Implementation_Body.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_sCle_Implementation_Body"/>
       </Unit50>
       <Unit51>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_declaration_champs.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_declaration_champs"/>
       </Unit51>
       <Unit52>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_f_Execute_After_Key.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_f_Execute_After_Key"/>
       </Unit52>
       <Unit53>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_f_Execute_Before_Key.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_f_Execute_Before_Key"/>
       </Unit53>
       <Unit54>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Detail_declaration.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_Detail_declaration"/>
       </Unit54>
       <Unit55>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_aggregations_faibles_pool_get.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_aggregations_faibles_pool_get"/>
       </Unit55>
       <Unit56>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_creation_champs.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_creation_champs"/>
       </Unit56>
       <Unit57>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Test_Declaration_Key.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_Test_Declaration_Key"/>
       </Unit57>
       <Unit58>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Test_Implementation_Key.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_Test_Implementation_Key"/>
       </Unit58>
       <Unit59>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_To_SQLQuery_Params_Body.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_To_SQLQuery_Params_Body"/>
       </Unit59>
       <Unit60>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Traite_Index_key.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_Traite_Index_key"/>
       </Unit60>
       <Unit61>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_QCalcFieldsKey.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_QCalcFieldsKey"/>
       </Unit61>
       <Unit62>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_QfieldsDFM.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_QfieldsDFM"/>
       </Unit62>
       <Unit63>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_QfieldsPAS.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_QfieldsPAS"/>
       </Unit63>
       <Unit64>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_SQLWHERE_ContraintesChamps_Body.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_SQLWHERE_ContraintesChamps_Body"/>
       </Unit64>
       <Unit65>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Test_Call_Key.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_Test_Call_Key"/>
       </Unit65>
       <Unit66>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Get_by_Cle_Declaration.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_Get_by_Cle_Declaration"/>
       </Unit66>
       <Unit67>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Get_by_Cle_Implementation.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_Get_by_Cle_Implementation"/>
       </Unit67>
       <Unit68>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_LabelsDFM.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_LabelsDFM"/>
       </Unit68>
       <Unit69>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_LabelsPAS.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_LabelsPAS"/>
       </Unit69>
       <Unit70>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Ouverture_key.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_Ouverture_key"/>
       </Unit70>
       <Unit71>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Champ_EditPAS.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_Champ_EditPAS"/>
       </Unit71>
       <Unit72>
         <Filename Value="ublSession.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublSession"/>
       </Unit72>
       <Unit73>
         <Filename Value="uhdmsession.pas"/>
@@ -439,49 +366,40 @@
         <Filename Value="upoolTAG.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolTAG"/>
       </Unit74>
       <Unit75>
         <Filename Value="uhfTAG.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uhfTAG"/>
       </Unit75>
       <Unit76>
         <Filename Value="ublTAG.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublTAG"/>
       </Unit76>
       <Unit77>
         <Filename Value="upoolTAG_DEVELOPMENT.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolTAG_DEVELOPMENT"/>
       </Unit77>
       <Unit78>
         <Filename Value="uhfTAG_DEVELOPMENT.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uhfTAG_DEVELOPMENT"/>
       </Unit78>
       <Unit79>
         <Filename Value="ublTAG_DEVELOPMENT.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublTAG_DEVELOPMENT"/>
       </Unit79>
       <Unit80>
         <Filename Value="upoolTAG_WORK.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolTAG_WORK"/>
       </Unit80>
       <Unit81>
         <Filename Value="uhfTAG_WORK.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uhfTAG_WORK"/>
       </Unit81>
       <Unit82>
         <Filename Value="ublTAG_WORK.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublTAG_WORK"/>
       </Unit82>
       <Unit83>
         <Filename Value="../pascal_o_r_mapping/6_Formes/ufBase.pas"/>
@@ -489,7 +407,6 @@
         <ComponentName Value="fBase"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufBase"/>
       </Unit83>
       <Unit84>
         <Filename Value="../pascal_o_r_mapping/6_Formes/ufBatpro_Form.pas"/>
@@ -497,7 +414,6 @@
         <ComponentName Value="fBatpro_Form"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufBatpro_Form"/>
       </Unit84>
       <Unit85>
         <Filename Value="../pascal_o_r_mapping/6_Formes/ufBatpro_Form_Ancetre.pas"/>
@@ -505,17 +421,14 @@
         <ComponentName Value="fBatpro_Form_Ancetre"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufBatpro_Form_Ancetre"/>
       </Unit85>
       <Unit86>
         <Filename Value="ublType_Tag.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublType_Tag"/>
       </Unit86>
       <Unit87>
         <Filename Value="uhfType_Tag.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uhfType_Tag"/>
       </Unit87>
       <Unit88>
         <Filename Value="upoolType_Tag.pas"/>
@@ -523,7 +436,6 @@
         <ComponentName Value="poolTYPE_TAG"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="upoolType_Tag"/>
       </Unit88>
       <Unit89>
         <Filename Value="ufType_Tag.pas"/>
@@ -531,7 +443,6 @@
         <ComponentName Value="fTYPE_TAG"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufType_Tag"/>
       </Unit89>
       <Unit90>
         <Filename Value="udkType_Tag_EDIT.pas"/>
@@ -544,13 +455,15 @@
       <Unit91>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/uGenerateur_de_code_Ancetre.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uGenerateur_de_code_Ancetre"/>
       </Unit91>
       <Unit92>
         <Filename Value="../pascal_o_r_mapping/2_Units/uuStrings.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uuStrings"/>
       </Unit92>
+      <Unit93>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_aggregation_classe_implementation.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit93>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -575,12 +488,6 @@
         </Win32>
       </Options>
     </Linking>
-    <Other>
-      <CompilerMessages>
-        <MsgFileName Value=""/>
-      </CompilerMessages>
-      <CompilerPath Value="$(CompPath)"/>
-    </Other>
   </CompilerOptions>
   <Debugging>
     <Exceptions Count="3">
