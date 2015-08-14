@@ -137,6 +137,7 @@ begin
      Result:= TIterateur_Nom_de_la_classe( Iterateur_interne_Decroissant);
 end;
 
+//pattern_aggregation_classe_implementation
 
 { TblNom_de_la_classe }
 

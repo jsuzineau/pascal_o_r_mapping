@@ -14,7 +14,7 @@ object fAccueil: TfAccueil
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '1.2.6.0'
+  LCLVersion = '1.4.2.0'
   object Label1: TLabel
     Left = 0
     Height = 20

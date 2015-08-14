@@ -163,6 +163,42 @@ begin
      Result:= TIterateur_TAG( Iterateur_interne_Decroissant);
 end;
 
+{ ThaTag__Work }                                            
+                                                                                            
+constructor ThaTag__Work.Create( _Parent: TBatpro_Element;  
+                               _Classe_Elements: TBatpro_Element_Class;                     
+                               _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre);               
+begin                                                                                       
+     inherited;                                                                             
+     if Classe_Elements <> _Classe_Elements                                                 
+     then                                                                                   
+         fAccueil_Erreur(  'Erreur à signaler au développeur: '#13#10                       
+                          +' '+ClassName+'.Create: Classe_Elements <> _Classe_Elements:'#13#10
+                          +' Classe_Elements='+ Classe_Elements.ClassName+#13#10               
+                          +'_Classe_Elements='+_Classe_Elements.ClassName                      
+                          );                                                                   
+end;                                                                                           
+                                                                                               
+destructor ThaTag__Work.Destroy;                               
+begin                                                                                          
+     inherited;                                                                                
+end;                                                                                           
+                                                                                               
+class function ThaTag__Work.Classe_Iterateur: TIterateur_Class;
+begin                                                                                          
+     Result:= TIterateur_Work;                                                  
+end;                                                                                           
+                                                                                               
+function ThaTag__Work.Iterateur: TIterateur_Work;
+begin                                                                                           
+     Result:= TIterateur_Work( Iterateur_interne);                               
+end;                                                                                            
+                                                                                                
+function ThaTag__Work.Iterateur_Decroissant: TIterateur_Work;
+begin                                                                                           
+     Result:= TIterateur_Work( Iterateur_interne_Decroissant);                   
+end;                                                                                            
+
 
 { TblTAG }
 

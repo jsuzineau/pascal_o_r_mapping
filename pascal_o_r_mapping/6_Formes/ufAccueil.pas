@@ -270,6 +270,7 @@ begin
      Formate_Liste( S_Developpeur, #13#10, _S);
      Formate_Liste( S_Developpeur, #13#10, _S_Developpeur);
 
+
      mHistorique_Developpeur.Lines.Add( S_Developpeur);
 
      if LogBas_running
