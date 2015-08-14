@@ -242,6 +242,23 @@ begin
      Result:= sCle_from_( idType, Name);
 end;
 
+procedure TblTAG.Create_Aggregation( Name: String; P: ThAggregation_Create_Params);
+begin
+          if 'Work' = Name then P.Faible( ThaTag__Work, TblWork, poolWork)
+     else                  inherited Create_Aggregation( Name, P);
+end;
+
+
+function  TblTAG.GethaWork: ThaTag__Work;
+begin                                                        
+     if FhaWork = nil                           
+     then                                                    
+         FhaWork:= Aggregations['Work'] as ThaTag__Work;
+                                                             
+     Result:= FhaWork;                          
+end;                                                         
+
+
 end.
 
 

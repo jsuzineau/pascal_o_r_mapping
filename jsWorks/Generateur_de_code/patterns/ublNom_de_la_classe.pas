@@ -175,6 +175,10 @@ begin
 //pattern_sCle_Implementation_Body
 end;
 
+//pattern_aggregation_Create_Aggregation_implementation
+
+//pattern_aggregation_accesseurs_implementation
+
 end.
 
 

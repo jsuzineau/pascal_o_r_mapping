@@ -87,6 +87,8 @@ uses
     ujpPascal_aggregation_classe_declaration,
     ujpPascal_aggregation_declaration,
     ujpPascal_aggregation_classe_implementation,
+    ujpPascal_aggregation_Create_Aggregation_implementation,
+    ujpPascal_aggregation_accesseurs_implementation,
 
     //CSharp
     ujpCSharp_Champs_persistants,
@@ -818,6 +820,8 @@ begin
                 jpPascal_aggregation_classe_declaration,
                 jpPascal_aggregation_declaration,
                 jpPascal_aggregation_classe_implementation,
+                jpPascal_aggregation_Create_Aggregation_implementation,
+                jpPascal_aggregation_accesseurs_implementation,
 
                 //CSharp
                 jpCSharp_Champs_persistants   ,
