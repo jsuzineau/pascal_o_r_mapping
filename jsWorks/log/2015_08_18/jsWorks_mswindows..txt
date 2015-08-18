@@ -1,0 +1,9 @@
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks

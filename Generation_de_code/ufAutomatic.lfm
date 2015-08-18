@@ -1,20 +1,23 @@
 object fAutomatic: TfAutomatic
-  Left = 892
+  Left = 290
   Height = 413
-  Top = 174
+  Top = 176
   Width = 596
   Caption = 'fAutomatic'
   ClientHeight = 413
   ClientWidth = 596
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '1.2.6.0'
+  Position = poScreenCenter
+  LCLVersion = '1.4.2.0'
   object cg: TChampsGrid
     Left = 0
     Height = 339
     Top = 74
     Width = 596
     Align = alClient
+    AlternateColor = clLime
+    Color = clAqua
     ColCount = 0
     FixedCols = 0
     FixedRows = 0
@@ -48,7 +51,7 @@ object fAutomatic: TfAutomatic
       Width = 496
       Anchors = [akTop, akLeft, akRight]
       TabOrder = 1
-      Text = 'select * from Tag  limit 0,5'
+      Text = 'select * from Work  limit 0,5'
     end
     object bGenere: TButton
       Left = 11

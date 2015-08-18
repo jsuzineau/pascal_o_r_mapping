@@ -30,6 +30,7 @@ uses
     u_sys_,
     uuStrings,
     uBatpro_StringList,
+    ufAccueil_Erreur,
 
     uBatpro_Element,
     uBatpro_Ligne,
@@ -40,6 +41,27 @@ uses
     SysUtils, Classes, SqlDB, DB;
 
 type
+  { ThaTag__Work }
+  ThaTag__Work
+  =
+   class( ThAggregation)
+     //Gestion du cycle de vie
+     public
+       constructor Create( _Parent: TBatpro_Element;
+                           _Classe_Elements: TBatpro_Element_Class;
+                           _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre); override;
+       destructor  Destroy; override;
+   //Chargement de tous les détails
+   public
+     procedure Charge; override;
+   //Création d'itérateur
+   protected
+     class function Classe_Iterateur: TIterateur_Class; override;
+   //public
+   //  function Iterateur: TIterateur_Work;
+   //  function Iterateur_Decroissant: TIterateur_Work;
+   end;
+
  TblTAG
  =
   class( TBatpro_Ligne)
@@ -52,15 +74,53 @@ type
     id: Integer;
     Name: String;
     idType: Integer;
-    //Gestion de la clé
-    public
-      class function sCle_from_( _idType: Integer;  _Name: String): String;
+  //Gestion de la clé
+  public
+    class function sCle_from_( _idType: Integer;  _Name: String): String;
 
-      function sCle: String; override;
+    function sCle: String; override;
+  //Aggrégations
+  protected
+    procedure Create_Aggregation( Name: String; P: ThAggregation_Create_Params); override;
+  //Aggrégation vers les Work correspondants
+  private
+    FhaWork: ThaTag__Work;
+    function GethaWork: ThaTag__Work;
+  public
+    property haWork: ThaTag__Work read GethaWork;
+ end;
+
+ TIterateur_TAG
+ =
+  class( TIterateur)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: TblTAG);
+    function  not_Suivant( var _Resultat: TblTAG): Boolean;
+  end;
+
+ TslTAG
+ =
+  class( TBatpro_StringList)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_TAG;
+    function Iterateur_Decroissant: TIterateur_TAG;
   end;
 
 function blTAG_from_sl( sl: TBatpro_StringList; Index: Integer): TblTAG;
 function blTAG_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTAG;
+
+var
+   TIterateur_Work: TIterateur_Class= nil;
+   TblWork: TBatpro_Ligne_Class= nil;
+   poolWork: Tfunction_pool_Ancetre_Ancetre= nil;
 
 implementation
 
@@ -73,6 +133,88 @@ function blTAG_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTAG;
 begin
      _Classe_from_sl_sCle( Result, TblTAG, sl, sCle);
 end;
+
+{ TIterateur_TAG }
+
+function TIterateur_TAG.not_Suivant( var _Resultat: TblTAG): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_TAG.Suivant( var _Resultat: TblTAG);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TslTAG }
+
+constructor TslTAG.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, TblTAG);
+end;
+
+destructor TslTAG.Destroy;
+begin
+     inherited;
+end;
+
+class function TslTAG.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_TAG;
+end;
+
+function TslTAG.Iterateur: TIterateur_TAG;
+begin
+     Result:= TIterateur_TAG( Iterateur_interne);
+end;
+
+function TslTAG.Iterateur_Decroissant: TIterateur_TAG;
+begin
+     Result:= TIterateur_TAG( Iterateur_interne_Decroissant);
+end;
+
+{ ThaTag__Work }
+
+constructor ThaTag__Work.Create( _Parent: TBatpro_Element;
+                               _Classe_Elements: TBatpro_Element_Class;
+                               _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre);
+begin
+     inherited;
+     if Classe_Elements <> _Classe_Elements
+     then
+         fAccueil_Erreur(  'Erreur à signaler au développeur: '#13#10
+                          +' '+ClassName+'.Create: Classe_Elements <> _Classe_Elements:'#13#10
+                          +' Classe_Elements='+ Classe_Elements.ClassName+#13#10
+                          +'_Classe_Elements='+_Classe_Elements.ClassName
+                          );
+end;
+
+destructor ThaTag__Work.Destroy;
+begin
+     inherited;
+end;
+
+procedure ThaTag__Work.Charge;
+begin
+     inherited Charge;
+end;
+
+class function ThaTag__Work.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Work;
+end;
+
+{
+function ThaTag__Work.Iterateur: TIterateur_Work;
+begin
+     Result:= TIterateur_Work( Iterateur_interne);
+end;
+
+function ThaTag__Work.Iterateur_Decroissant: TIterateur_Work;
+begin
+     Result:= TIterateur_Work( Iterateur_interne_Decroissant);
+end;
+}
 
 { TblTAG }
 
@@ -114,6 +256,22 @@ end;
 function TblTAG.sCle: String;
 begin
      Result:= sCle_from_(  idType,  Name);
+end;
+
+procedure TblTAG.Create_Aggregation( Name: String; P: ThAggregation_Create_Params);
+begin
+          if 'Work' = Name then P.Faible( ThaTag__Work, TblWork, poolWork)
+     else                  inherited Create_Aggregation( Name, P);
+end;
+
+
+function  TblTAG.GethaWork: ThaTag__Work;
+begin
+     if FhaWork = nil
+     then
+         FhaWork:= Aggregations['Work'] as ThaTag__Work;
+
+     Result:= FhaWork;
 end;
 
 end.

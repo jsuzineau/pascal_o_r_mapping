@@ -64,6 +64,7 @@ procedure TfAutomatic.bExecuteClick(Sender: TObject);
 begin
      poolAutomatic.Charge( e.Text, sl);
      cg.sl:= sl;
+     cg.Refresh;
 end;
 
 procedure TfAutomatic.bGenereClick(Sender: TObject);

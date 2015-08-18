@@ -32,14 +32,14 @@ uses
     uBatpro_Element,
     uBatpro_Ligne,
 
+    ublTag,
+    upoolTag,
+
     ublWork,
     upoolWork,
 
     ublDevelopment,
     upoolDevelopment,
-
-    ublTag,
-    upoolTag,
 
     udmDatabase,
     upool_Ancetre_Ancetre,

@@ -582,6 +582,7 @@ type
     function Iterateur_Decroissant: TIterateur_pool_Ancetre_Ancetre;
   end;
 
+ Tfunction_pool_Ancetre_Ancetre= function : Tpool_Ancetre_Ancetre;
 
  ThAggregation= class;
 

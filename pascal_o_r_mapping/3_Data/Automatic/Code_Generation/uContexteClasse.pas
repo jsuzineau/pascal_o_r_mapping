@@ -66,7 +66,8 @@ var
 begin
      g:= _g;
      Nom_de_la_table := _Nom_de_la_table;
-     Nom_de_la_classe:= UpperCase( Nom_de_la_table);
+     //Nom_de_la_classe:= UpperCase( Nom_de_la_table);
+     Nom_de_la_classe:= Nom_de_la_table;
      NomTableMinuscule:= LowerCase( Nom_de_la_table);
      NbChamps:= _NbChamps;
 

@@ -1,13 +1,13 @@
 { This is an automatically generated lazarus resource file }
 
 LazarusResources.Add('TfAccueil','FORMDATA',[
-  'TPF0'#9'TfAccueil'#8'fAccueil'#4'Left'#3#177#2#6'Height'#3#21#2#3'Top'#3'u'#1
+  'TPF0'#9'TfAccueil'#8'fAccueil'#4'Left'#3')'#1#6'Height'#3#21#2#3'Top'#3#163#0
   +#5'Width'#3'P'#2#7'Caption'#6'$Journal de l''ex'#195#169'cution du programme'
   +#12'ClientHeight'#3#21#2#11'ClientWidth'#3'P'#2#5'Color'#7#9'clBtnFace'#10'F'
   +'ont.Color'#7#12'clWindowText'#11'Font.Height'#2#245#9'Font.Name'#6#13'MS Sa'
   +'ns Serif'#9'FormStyle'#7#11'fsStayOnTop'#8'OnCreate'#7#10'FormCreate'#9'OnD'
   +'estroy'#7#11'FormDestroy'#8'Position'#7#14'poScreenCenter'#10'LCLVersion'#6
-  +#7'1.2.6.0'#0#6'TLabel'#6'Label1'#4'Left'#2#0#6'Height'#2#20#3'Top'#2#0#5'Wi'
+  +#7'1.4.2.0'#0#6'TLabel'#6'Label1'#4'Left'#2#0#6'Height'#2#20#3'Top'#2#0#5'Wi'
   +'dth'#3'P'#2#5'Align'#7#5'alTop'#9'Alignment'#7#8'taCenter'#8'AutoSize'#8#7
   +'Caption'#6#5'Titre'#10'Font.Color'#7#12'clWindowText'#11'Font.Height'#2#240
   +#9'Font.Name'#6#13'MS Sans Serif'#11'ParentColor'#8#10'ParentFont'#8#0#0#6'T'
@@ -10401,10 +10401,9 @@ LazarusResources.Add('TfAccueil','FORMDATA',[
   +'TMemo'#11'mHistorique'#4'Left'#2#0#6'Height'#3#195#1#3'Top'#2#0#5'Width'#3
   +#229#1#5'Align'#7#8'alClient'#11'BorderStyle'#7#6'bsNone'#10'Font.Color'#7#12
   +'clWindowText'#11'Font.Height'#2#245#9'Font.Name'#6#11'Courier New'#10'Paren'
-  +'tFont'#8#10'ScrollBars'#7#10'ssVertical'#8'TabOrder'#2#0#0#0#0#0#12'TSpeedB'
-  +'utton'#12'SpeedButton1'#4'Left'#2#10#6'Height'#2#22#3'Top'#2#10#5'Width'#2
-  +#23#0#0#11'TSaveDialog'#10'SaveDialog'#10'DefaultExt'#6#4'.TXT'#6'Filter'#6
-  +#19'Fichier texte|*.TXT'#4'left'#2#24#3'top'#3#20#1#0#0#6'TTimer'#8'tExecute'
-  +#7'Enabled'#8#8'Interval'#3#200#0#7'OnTimer'#7#13'tExecuteTimer'#4'left'#2'8'
-  +#3'top'#3'<'#1#0#0#0
+  +'tFont'#8#10'ScrollBars'#7#10'ssVertical'#8'TabOrder'#2#0#0#0#0#0#11'TSaveDi'
+  +'alog'#10'SaveDialog'#10'DefaultExt'#6#4'.TXT'#6'Filter'#6#19'Fichier texte|'
+  +'*.TXT'#4'left'#2#24#3'top'#3#20#1#0#0#6'TTimer'#8'tExecute'#7'Enabled'#8#8
+  +'Interval'#3#200#0#7'OnTimer'#7#13'tExecuteTimer'#4'left'#2'8'#3'top'#3'<'#1
+  +#0#0#0
 ]);

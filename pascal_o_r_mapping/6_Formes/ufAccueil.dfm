@@ -1,7 +1,7 @@
 object fAccueil: TfAccueil
-  Left = 689
+  Left = 297
   Height = 533
-  Top = 373
+  Top = 163
   Width = 592
   Caption = 'Journal de l''exécution du programme'
   ClientHeight = 533

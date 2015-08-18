@@ -28,6 +28,7 @@ uses
     uuStrings,
     uBatpro_StringList,
     uChamp,
+    ufAccueil_Erreur,
 
     uBatpro_Element,
     uBatpro_Ligne,
@@ -35,10 +36,31 @@ uses
 
     udmDatabase,
     upool_Ancetre_Ancetre,
+    upoolTag,
 
     SysUtils, Classes, sqldb, DB,DateUtils, Math;
 
 type
+  { ThaWork__Tag }
+  ThaWork__Tag
+  =
+   class( ThAggregation)
+   //Gestion du cycle de vie
+   public
+     constructor Create( _Parent: TBatpro_Element;
+                         _Classe_Elements: TBatpro_Element_Class;
+                         _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre); override;
+     destructor  Destroy; override;
+   //Chargement de tous les détails
+   public
+     procedure Charge; override;
+   //Création d'itérateur
+   protected
+     class function Classe_Iterateur: TIterateur_Class; override;
+   public
+     function Iterateur: TIterateur_Tag;
+     function Iterateur_Decroissant: TIterateur_Tag;
+   end;
 
  { TblWork }
 
@@ -68,6 +90,15 @@ type
   //Gestion de la clé
   public
     function sCle: String; override;
+  //Aggrégations
+  protected
+    procedure Create_Aggregation( Name: String; P: ThAggregation_Create_Params); override;
+  //Aggrégation vers les Tag correspondants
+  private
+    FhaTag: ThaWork__Tag;
+    function GethaTag: ThaWork__Tag;
+  public
+    property haTag: ThaWork__Tag read GethaTag;
   //Méthodes
   public
     procedure Stop;
@@ -158,6 +189,47 @@ begin
      _Classe_from_sl_sCle( Result, TblWork, sl, sCle);
 end;
 
+{ ThaWork__Tag }
+
+constructor ThaWork__Tag.Create( _Parent: TBatpro_Element;
+                               _Classe_Elements: TBatpro_Element_Class;
+                               _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre);
+begin
+     inherited;
+     if Classe_Elements <> _Classe_Elements
+     then
+         fAccueil_Erreur(  'Erreur à signaler au développeur: '#13#10
+                          +' '+ClassName+'.Create: Classe_Elements <> _Classe_Elements:'#13#10
+                          +' Classe_Elements='+ Classe_Elements.ClassName+#13#10
+                          +'_Classe_Elements='+_Classe_Elements.ClassName
+                          );
+end;
+
+destructor ThaWork__Tag.Destroy;
+begin
+     inherited;
+end;
+
+procedure ThaWork__Tag.Charge;
+begin
+     inherited Charge;
+end;
+
+class function ThaWork__Tag.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Tag;
+end;
+
+function ThaWork__Tag.Iterateur: TIterateur_Tag;
+begin
+     Result:= TIterateur_Tag( Iterateur_interne);
+end;
+
+function ThaWork__Tag.Iterateur_Decroissant: TIterateur_Tag;
+begin
+     Result:= TIterateur_Tag( Iterateur_interne_Decroissant);
+end;
+
 { TIterateur_Work }
 
 function TIterateur_Work.not_Suivant( var _Resultat: TblWork): Boolean;
@@ -234,6 +306,22 @@ destructor TblWork.Destroy;
 begin
 
      inherited;
+end;
+
+procedure TblWORK.Create_Aggregation( Name: String; P: ThAggregation_Create_Params);
+begin
+          if 'Tag' = Name then P.Faible( ThaWork__Tag, TblTag, poolTag)
+     else                  inherited Create_Aggregation( Name, P);
+end;
+
+
+function  TblWORK.GethaTag: ThaWork__Tag;
+begin
+     if FhaTag = nil
+     then
+         FhaTag:= Aggregations['Tag'] as ThaWork__Tag;
+
+     Result:= FhaTag;
 end;
 
 procedure TblWork.Duree_GetChaine(var _Chaine: String);
@@ -328,6 +416,14 @@ begin
 
 end;
 
+initialization
+              ublTag.TIterateur_Work:= TIterateur_Work;
+              ublTag.TblWork:= TblWork;
+              ublTag.poolWork:= poolWork;
+finalization
+            ublTag.TIterateur_Work:= nil;
+            ublTag.TblWork:= nil;
+            ublTag.poolWork:= nil;
 end.
 
 
