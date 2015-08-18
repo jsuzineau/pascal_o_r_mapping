@@ -1,4 +1,4 @@
-unit ufcbTAG_WORK;
+unit ufcbTag_Work;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -31,7 +31,7 @@ uses
   ufcbBase;
 
 type
- TfcbTAG_WORK
+ TfcbTag_Work
  =
   class(TfcbBase)
   private
@@ -40,44 +40,44 @@ type
     { Déclarations publiques }
   end;
 
-function fcbTAG_WORK: TfcbTAG_WORK;
+function fcbTag_Work: TfcbTag_Work;
 
-function DerouleTAG_WORK( E: TObject; Resultat: TIntegerField):Boolean;
+function DerouleTag_Work( E: TObject; Resultat: TIntegerField):Boolean;
 
 implementation
 
 uses
     uClean,
-    upoolTAG_WORK,
-    ufTAG_WORK;
+    upoolTag_Work,
+    ufTag_Work;
 
 {$R *.dfm}
 
 var
-   FfcbTAG_WORK: TfcbTAG_WORK;
+   FfcbTag_Work: TfcbTag_Work;
 
-function fcbTAG_WORK: TfcbTAG_WORK;
+function fcbTag_Work: TfcbTag_Work;
 begin
-     Clean_Get( Result, FfcbTAG_WORK, TfcbTAG_WORK);
+     Clean_Get( Result, FfcbTag_Work, TfcbTag_Work);
 end;
 
 var
-   FiltreTAG_WORK: String = '';
+   FiltreTag_Work: String = '';
 
-function DerouleTAG_WORK(E: TObject; Resultat: TIntegerField): Boolean;
+function DerouleTag_Work(E: TObject; Resultat: TIntegerField): Boolean;
 begin
-     fcbTAG_WORK.eFiltre.Text:= FiltreTAG_WORK;
+     fcbTag_Work.eFiltre.Text:= FiltreTag_Work;
 //     Result
 //     :=
-//       fcbTAG_WORK.DerouleListe( E, dmaTAG_WORK.ds, fTAG_WORK.Execute,
-//                                 Resultat, dmaTAG_WORK.qNumero);
-     FiltreTAG_WORK:= fcbTAG_WORK.eFiltre.Text;
+//       fcbTag_Work.DerouleListe( E, dmaTag_Work.ds, fTag_Work.Execute,
+//                                 Resultat, dmaTag_Work.qNumero);
+     FiltreTag_Work:= fcbTag_Work.eFiltre.Text;
      Result:= False;
 end;
 
 
 initialization
-              Clean_Create ( FfcbTAG_WORK, TfcbTAG_WORK);
+              Clean_Create ( FfcbTag_Work, TfcbTag_Work);
 finalization
-              Clean_Destroy( FfcbTAG_WORK);
+              Clean_Destroy( FfcbTag_Work);
 end.

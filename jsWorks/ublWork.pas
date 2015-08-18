@@ -37,6 +37,7 @@ uses
     udmDatabase,
     upool_Ancetre_Ancetre,
     upoolTag,
+    upoolTag_Work,
 
     SysUtils, Classes, sqldb, DB,DateUtils, Math;
 
@@ -213,6 +214,8 @@ end;
 procedure ThaWork__Tag.Charge;
 begin
      inherited Charge;
+     poolTAG.Charge_Work( TblWork(Parent).id, slCharge);
+     Ajoute_slCharge;
 end;
 
 class function ThaWork__Tag.Classe_Iterateur: TIterateur_Class;
@@ -411,9 +414,9 @@ begin
      Result:= DayOfTheMonth( Beginning) <> DayOfTheMonth( _bl.Beginning);
 end;
 
-procedure TblWork.Tag(_blTag: TblTag);
+procedure TblWork.Tag( _blTag: TblTag);
 begin
-
+     poolTAG_WORK.Assure( _blTag.id, id);
 end;
 
 initialization

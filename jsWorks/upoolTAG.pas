@@ -61,6 +61,9 @@ type
   //Méthode de création de test
   public
     function Test( _id: Integer;  _Name: String;  _idType: Integer):Integer;
+  //Chargement des tags d'un Work
+  public
+    procedure Charge_Work( _idWork: Integer; _slLoaded: TBatpro_StringList);
   end;
 
 function poolTAG: TpoolTAG;
@@ -123,6 +126,26 @@ begin
        bl.idType         := _idType       ;
      bl.Save_to_database;                            
      Result:= bl.id;                                 
+end;
+
+procedure TpoolTAG.Charge_Work( _idWork: Integer; _slLoaded: TBatpro_StringList);
+var
+   SQL: String;
+begin
+     SQL
+     :=
+ 'select                                          '#13#10
++'      Tag.*                                     '#13#10
++'from                                            '#13#10
++'    Tag                                         '#13#10
++'right join Tag_Work                             '#13#10
++'on                                              '#13#10
++'      (Tag_Work.idTag  = Tag.id               ) '#13#10
++'  and (Tag_Work.idWork = '+IntToStr(_idWork)+') '#13#10
++'where                                           '#13#10
++'         Tag.id is not null                     '#13#10
++'     and Tag_Work.id is not null                '#13#10;
+     Load( SQL, _slLoaded);
 end;
 
 

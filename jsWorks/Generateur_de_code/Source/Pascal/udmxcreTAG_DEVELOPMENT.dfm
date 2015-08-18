@@ -1,4 +1,4 @@
-inherited dmxcreTAG_DEVELOPMENT: TdmxcreTAG_DEVELOPMENT
+inherited dmxcreTag_Development: TdmxcreTag_Development
 
   Left = 382
 

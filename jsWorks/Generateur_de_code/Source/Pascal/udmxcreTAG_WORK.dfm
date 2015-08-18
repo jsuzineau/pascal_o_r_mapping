@@ -1,4 +1,4 @@
-inherited dmxcreTAG_WORK: TdmxcreTAG_WORK
+inherited dmxcreTag_Work: TdmxcreTag_Work
 
   Left = 382
 

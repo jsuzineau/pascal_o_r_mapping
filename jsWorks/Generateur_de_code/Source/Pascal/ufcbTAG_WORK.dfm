@@ -1,6 +1,6 @@
-inherited fcbTAG_WORK: TfcbTAG_WORK
+inherited fcbTag_Work: TfcbTag_Work
 
-  Caption = 'fcbTAG_WORK'
+  Caption = 'fcbTag_Work'
 
   PixelsPerInch = 96
 

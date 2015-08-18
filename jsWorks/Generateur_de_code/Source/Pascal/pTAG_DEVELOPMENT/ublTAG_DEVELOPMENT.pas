@@ -1,4 +1,4 @@
-unit ublTAG_DEVELOPMENT;
+unit ublTag_Development;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -40,7 +40,9 @@ uses
     SysUtils, Classes, SqlDB, DB;
 
 type
- TblTAG_DEVELOPMENT
+
+
+ TblTag_Development
  =
   class( TBatpro_Ligne)
   //Gestion du cycle de vie
@@ -54,28 +56,95 @@ type
     idDevelopment: Integer;
   //Gestion de la clé
   public
+    class function sCle_from_( _idTag: Integer;  _idDevelopment: Integer): String;
   
     function sCle: String; override;
+
   end;
 
-function blTAG_DEVELOPMENT_from_sl( sl: TBatpro_StringList; Index: Integer): TblTAG_DEVELOPMENT;
-function blTAG_DEVELOPMENT_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTAG_DEVELOPMENT;
+ TIterateur_Tag_Development
+ =
+  class( TIterateur)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: TblTag_Development);
+    function  not_Suivant( var _Resultat: TblTag_Development): Boolean;
+  end;
+
+ TslTag_Development
+ =
+  class( TBatpro_StringList)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_Tag_Development;
+    function Iterateur_Decroissant: TIterateur_Tag_Development;
+  end;
+
+function blTag_Development_from_sl( sl: TBatpro_StringList; Index: Integer): TblTag_Development;
+function blTag_Development_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTag_Development;
 
 implementation
 
-function blTAG_DEVELOPMENT_from_sl( sl: TBatpro_StringList; Index: Integer): TblTAG_DEVELOPMENT;
+function blTag_Development_from_sl( sl: TBatpro_StringList; Index: Integer): TblTag_Development;
 begin
-     _Classe_from_sl( Result, TblTAG_DEVELOPMENT, sl, Index);
+     _Classe_from_sl( Result, TblTag_Development, sl, Index);
 end;
 
-function blTAG_DEVELOPMENT_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTAG_DEVELOPMENT;
+function blTag_Development_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTag_Development;
 begin
-     _Classe_from_sl_sCle( Result, TblTAG_DEVELOPMENT, sl, sCle);
+     _Classe_from_sl_sCle( Result, TblTag_Development, sl, sCle);
 end;
 
-{ TblTAG_DEVELOPMENT }
+{ TIterateur_Tag_Development }
 
-constructor TblTAG_DEVELOPMENT.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
+function TIterateur_Tag_Development.not_Suivant( var _Resultat: TblTag_Development): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_Tag_Development.Suivant( var _Resultat: TblTag_Development);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TslTag_Development }
+
+constructor TslTag_Development.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, TblTag_Development);
+end;
+
+destructor TslTag_Development.Destroy;
+begin
+     inherited;
+end;
+
+class function TslTag_Development.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Tag_Development;
+end;
+
+function TslTag_Development.Iterateur: TIterateur_Tag_Development;
+begin
+     Result:= TIterateur_Tag_Development( Iterateur_interne);
+end;
+
+function TslTag_Development.Iterateur_Decroissant: TIterateur_Tag_Development;
+begin
+     Result:= TIterateur_Tag_Development( Iterateur_interne_Decroissant);
+end;
+
+
+
+{ TblTag_Development }
+
+constructor TblTag_Development.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
 var
    CP: IblG_BECP;
 begin
@@ -83,7 +152,7 @@ begin
      if Assigned( CP)
      then
          begin
-         CP.Libelle:= 'TAG_DEVELOPMENT';
+         CP.Libelle:= 'Tag_Development';
          CP.Font.Name:= sys_Times_New_Roman;
          CP.Font.Size:= 12;
          end;
@@ -99,18 +168,25 @@ begin
 
 end;
 
-destructor TblTAG_DEVELOPMENT.Destroy;
+destructor TblTag_Development.Destroy;
 begin
 
      inherited;
 end;
 
+class function TblTag_Development.sCle_from_( _idTag: Integer;  _idDevelopment: Integer): String;
+begin 
+     Result:=  _idTag+ _idDevelopment;
+end;  
 
-
-function TblTAG_DEVELOPMENT.sCle: String;
+function TblTag_Development.sCle: String;
 begin
-     Result:= sCle_ID;
+     Result:= sCle_from_( idTag, idDevelopment);
 end;
+
+
+
+
 
 end.
 

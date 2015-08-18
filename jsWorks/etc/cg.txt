@@ -1,7 +1,4 @@
 id=id
 Selected=Selected
-nProject=nProject
-Beginning=Beginning
-End=End
-Description=Description
-nUser=nUser
+idTag=idTag
+idWork=idWork

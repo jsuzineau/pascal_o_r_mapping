@@ -41,6 +41,9 @@ uses
   SysUtils, Classes, DB, SqlDB;
 
 type
+
+ { TpoolTAG_DEVELOPMENT }
+
  TpoolTAG_DEVELOPMENT
  =
   class( TPool)
@@ -51,6 +54,12 @@ type
   //Accés général
   public
     function Get( _id: integer): TblTAG_DEVELOPMENT;
+  //Accés par clé
+  public
+    idTag: Integer;
+    idDevelopment: Integer;
+    function Get_by_Cle( _idTag: Integer; _idDevelopment: Integer): TblTag_Development;
+    function Assure( _idTag: Integer;  _idDevelopment: Integer): TblTag_Development;
   //Méthode de création de test
   public
     function Test( _id: Integer;  _idTag: Integer;  _idDevelopment: Integer):Integer;
@@ -93,14 +102,31 @@ function TpoolTAG_DEVELOPMENT.Test( _id: Integer;  _idTag: Integer;  _idDevelopm
 var                                                 
    bl: TblTAG_DEVELOPMENT;                          
 begin                                               
-          Nouveau_Base( bl);                        
-       bl.id             := _id           ;
-       bl.idTag          := _idTag        ;
-       bl.idDevelopment  := _idDevelopment;
+     Nouveau_Base( bl);
+     bl.id             := _id           ;
+     bl.idTag          := _idTag        ;
+     bl.idDevelopment  := _idDevelopment;
      bl.Save_to_database;                            
      Result:= bl.id;                                 
 end;                                                 
 
+function TpoolTAG_DEVELOPMENT.Get_by_Cle( _idTag: Integer; _idDevelopment: Integer): TblTag_Development;
+begin
+     idTag:=  _idTag;
+     idDevelopment:=  _idDevelopment;
+     sCle:= TblTag_Development.sCle_from_( idTag, idDevelopment);
+     Get_Interne( Result);
+end;
+
+function TpoolTAG_DEVELOPMENT.Assure( _idTag: Integer; _idDevelopment: Integer): TblTag_Development;
+begin
+     try
+        Creer_si_non_trouve:= True;
+        Result:= Get_by_Cle( _idTag, _idDevelopment);
+     finally
+            Creer_si_non_trouve:= False;
+            end;
+end;
 
 initialization
               Clean_Create ( FpoolTAG_DEVELOPMENT, TpoolTAG_DEVELOPMENT);

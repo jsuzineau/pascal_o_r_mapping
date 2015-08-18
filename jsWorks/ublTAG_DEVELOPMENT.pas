@@ -54,8 +54,32 @@ type
     idDevelopment: Integer;
   //Gestion de la clé
   public
-  
+    class function sCle_from_( _idTag: Integer;  _idDevelopment: Integer): String;
     function sCle: String; override;
+  end;
+
+ TIterateur_Tag_Development
+ =
+  class( TIterateur)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: TblTag_Development);
+    function  not_Suivant( var _Resultat: TblTag_Development): Boolean;
+  end;
+
+ TslTag_Development
+ =
+  class( TBatpro_StringList)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_Tag_Development;
+    function Iterateur_Decroissant: TIterateur_Tag_Development;
   end;
 
 function blTAG_DEVELOPMENT_from_sl( sl: TBatpro_StringList; Index: Integer): TblTAG_DEVELOPMENT;
@@ -71,6 +95,45 @@ end;
 function blTAG_DEVELOPMENT_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTAG_DEVELOPMENT;
 begin
      _Classe_from_sl_sCle( Result, TblTAG_DEVELOPMENT, sl, sCle);
+end;
+
+{ TIterateur_Tag_Development }
+
+function TIterateur_Tag_Development.not_Suivant( var _Resultat: TblTag_Development): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_Tag_Development.Suivant( var _Resultat: TblTag_Development);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TslTag_Development }
+
+constructor TslTag_Development.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, TblTag_Development);
+end;
+
+destructor TslTag_Development.Destroy;
+begin
+     inherited;
+end;
+
+class function TslTag_Development.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Tag_Development;
+end;
+
+function TslTag_Development.Iterateur: TIterateur_Tag_Development;
+begin
+     Result:= TIterateur_Tag_Development( Iterateur_interne);
+end;
+
+function TslTag_Development.Iterateur_Decroissant: TIterateur_Tag_Development;
+begin
+     Result:= TIterateur_Tag_Development( Iterateur_interne_Decroissant);
 end;
 
 { TblTAG_DEVELOPMENT }
@@ -105,11 +168,17 @@ begin
      inherited;
 end;
 
-
-
-function TblTAG_DEVELOPMENT.sCle: String;
+class function TblTag_Development.sCle_from_( _idTag: Integer;  _idDevelopment: Integer): String;
 begin
-     Result:= sCle_ID;
+     Result
+     :=
+         IntToHex( _idTag        , 8)
+       + IntToHex( _idDevelopment, 8);
+end;
+
+function TblTag_Development.sCle: String;
+begin
+     Result:= sCle_from_( idTag, idDevelopment);
 end;
 
 end.

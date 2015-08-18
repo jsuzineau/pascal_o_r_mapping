@@ -1,4 +1,4 @@
-unit ufdTAG_DEVELOPMENT;
+unit ufdTag_Development;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -32,9 +32,9 @@ uses
     uChamps,
     uPublieur,
 
-    ublTAG_DEVELOPMENT,
+    ublTag_Development,
 
-    upoolTAG_DEVELOPMENT,
+    upoolTag_Development,
 
     ufBatpro_Form,
     ufpBas,
@@ -45,7 +45,7 @@ uses
   ucChamp_Lookup_ComboBox, ucDockableScrollbox, ucChamp_Memo, Menus;
 
 type
- TfdTAG_DEVELOPMENT
+ TfdTag_Development
  =
   class(TfpBas)
     Panel1: TPanel;
@@ -63,45 +63,45 @@ type
     procedure FormDestroy(Sender: TObject);
   //Méthodes
   public
-    function Execute( var _bl: TblTAG_DEVELOPMENT): Boolean; reintroduce;
+    function Execute( var _bl: TblTag_Development): Boolean; reintroduce;
   //bl
   private
-    Fbl: TblTAG_DEVELOPMENT;
-    procedure Setbl(const Value: TblTAG_DEVELOPMENT);
+    Fbl: TblTag_Development;
+    procedure Setbl(const Value: TblTag_Development);
   public
-    property bl: TblTAG_DEVELOPMENT read Fbl write Setbl;
+    property bl: TblTag_Development read Fbl write Setbl;
   end;
 
-function  fdTAG_DEVELOPMENT: TfdTAG_DEVELOPMENT;
+function  fdTag_Development: TfdTag_Development;
 
 implementation
 
 {$R *.dfm}
 
 var
-   FfdTAG_DEVELOPMENT: TfdTAG_DEVELOPMENT;
+   FfdTag_Development: TfdTag_Development;
 
-function  fdTAG_DEVELOPMENT: TfdTAG_DEVELOPMENT;
+function  fdTag_Development: TfdTag_Development;
 begin
-     Clean_Get( Result, FfdTAG_DEVELOPMENT, TfdTAG_DEVELOPMENT);
+     Clean_Get( Result, FfdTag_Development, TfdTag_Development);
 end;
 
-{ TfdTAG_DEVELOPMENT }
+{ TfdTag_Development }
 
-procedure TfdTAG_DEVELOPMENT.FormCreate(Sender: TObject);
+procedure TfdTag_Development.FormCreate(Sender: TObject);
 begin
      inherited;
      Maximiser:= False;
      Fbl:= nil;
 end;
 
-procedure TfdTAG_DEVELOPMENT.FormDestroy(Sender: TObject);
+procedure TfdTag_Development.FormDestroy(Sender: TObject);
 begin
      //
      inherited;
 end;
 
-function TfdTAG_DEVELOPMENT.Execute( var _bl: TblTAG_DEVELOPMENT): Boolean;
+function TfdTag_Development.Execute( var _bl: TblTag_Development): Boolean;
 begin
      bl:= _bl;
 
@@ -112,7 +112,7 @@ begin
          _bl:= bl;
 end;
 
-procedure TfdTAG_DEVELOPMENT.Setbl(const Value: TblTAG_DEVELOPMENT);
+procedure TfdTag_Development.Setbl(const Value: TblTag_Development);
 begin
      Fbl:= Value;
 
@@ -125,7 +125,7 @@ begin
 end;
 
 initialization
-              Clean_Create ( FfdTAG_DEVELOPMENT, TfdTAG_DEVELOPMENT);
+              Clean_Create ( FfdTag_Development, TfdTag_Development);
 finalization
-              Clean_Destroy( FfdTAG_DEVELOPMENT);
+              Clean_Destroy( FfdTag_Development);
 end.

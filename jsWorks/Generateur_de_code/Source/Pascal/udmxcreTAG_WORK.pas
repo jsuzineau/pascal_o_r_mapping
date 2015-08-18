@@ -1,4 +1,4 @@
-unit udmxcreTAG_WORK;
+unit udmxcreTag_Work;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -33,7 +33,7 @@ uses
   udmxCreator,  FMTBcd, SqlExpr;
 
 type
- TdmxcreTAG_WORK
+ TdmxcreTag_Work
  =
   class(TdmxCreator)
     sqlq: TSQLQuery;
@@ -44,7 +44,7 @@ type
     function Ouverture(Edition: Boolean): Boolean; override;
   end;
 
-function dmxcreTAG_WORK: TdmxcreTAG_WORK;
+function dmxcreTag_Work: TdmxcreTag_Work;
 
 implementation
 
@@ -55,30 +55,30 @@ uses
 {$R *.dfm}
 
 var
-   FdmxcreTAG_WORK: TdmxcreTAG_WORK;
+   FdmxcreTag_Work: TdmxcreTag_Work;
 
-function dmxcreTAG_WORK: TdmxcreTAG_WORK;
+function dmxcreTag_Work: TdmxcreTag_Work;
 begin
-     Clean_Get( Result, FdmxcreTAG_WORK, TdmxcreTAG_WORK);
+     Clean_Get( Result, FdmxcreTag_Work, TdmxcreTag_Work);
 end;
 
-{ TdmxcreTAG_WORK }
+{ TdmxcreTag_Work }
 
-function TdmxcreTAG_WORK.Ouverture(Edition: Boolean): Boolean;
+function TdmxcreTag_Work.Ouverture(Edition: Boolean): Boolean;
 begin
      Result:= Traite_Table( '', 'Tag_Work', sqlq, sqlq);
 
 end;
 
-function TdmxcreTAG_WORK.Traite_Index(NomChamp: String): Boolean;
+function TdmxcreTag_Work.Traite_Index(NomChamp: String): Boolean;
 begin
      //inutile pour l'instant
      Result:= True;
 end;
 
 initialization
-              Clean_Create ( FdmxcreTAG_WORK, TdmxcreTAG_WORK);
+              Clean_Create ( FdmxcreTag_Work, TdmxcreTag_Work);
 finalization
-              Clean_Destroy( FdmxcreTAG_WORK);
+              Clean_Destroy( FdmxcreTag_Work);
 end.
 

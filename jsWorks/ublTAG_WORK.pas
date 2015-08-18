@@ -40,7 +40,7 @@ uses
     SysUtils, Classes, SqlDB, DB;
 
 type
- TblTAG_WORK
+ TblTag_Work
  =
   class( TBatpro_Ligne)
   //Gestion du cycle de vie
@@ -54,28 +54,28 @@ type
     idWork: Integer;
   //Gestion de la clé
   public
-  
+    class function sCle_from_( _idTag: Integer;  _idWork: Integer): String;
     function sCle: String; override;
   end;
 
-function blTAG_WORK_from_sl( sl: TBatpro_StringList; Index: Integer): TblTAG_WORK;
-function blTAG_WORK_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTAG_WORK;
+function blTAG_WORK_from_sl( sl: TBatpro_StringList; Index: Integer): TblTag_Work;
+function blTAG_WORK_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTag_Work;
 
 implementation
 
-function blTAG_WORK_from_sl( sl: TBatpro_StringList; Index: Integer): TblTAG_WORK;
+function blTAG_WORK_from_sl( sl: TBatpro_StringList; Index: Integer): TblTag_Work;
 begin
-     _Classe_from_sl( Result, TblTAG_WORK, sl, Index);
+     _Classe_from_sl( Result, TblTag_Work, sl, Index);
 end;
 
-function blTAG_WORK_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTAG_WORK;
+function blTAG_WORK_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTag_Work;
 begin
-     _Classe_from_sl_sCle( Result, TblTAG_WORK, sl, sCle);
+     _Classe_from_sl_sCle( Result, TblTag_Work, sl, sCle);
 end;
 
-{ TblTAG_WORK }
+{ TblTag_Work }
 
-constructor TblTAG_WORK.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
+constructor TblTag_Work.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
 var
    CP: IblG_BECP;
 begin
@@ -99,17 +99,23 @@ begin
 
 end;
 
-destructor TblTAG_WORK.Destroy;
+destructor TblTag_Work.Destroy;
 begin
 
      inherited;
 end;
 
-
-
-function TblTAG_WORK.sCle: String;
+class function TblTag_Work.sCle_from_( _idTag: Integer;  _idWork: Integer): String;
 begin
-     Result:= sCle_ID;
+     Result
+     :=
+         IntToHex( _idTag , 8)
+       + IntToHex( _idWork, 8);
+end;
+
+function TblTag_Work.sCle: String;
+begin
+     Result:= sCle_from_( idTag, idWork);
 end;
 
 end.

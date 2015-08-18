@@ -1,4 +1,4 @@
-unit utcTAG_DEVELOPMENT;
+unit utcTag_Development;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -26,11 +26,11 @@ unit utcTAG_DEVELOPMENT;
 interface
 
 uses
-  upoolTAG_DEVELOPMENT,
+  upoolTag_Development,
   TestFrameWork;
 
 type
-  TtcTAG_DEVELOPMENT = class(TTestCase)
+  TtcTag_Development = class(TTestCase)
   private
 
   protected
@@ -46,16 +46,16 @@ type
 
 implementation
 
-{ TtcTAG_DEVELOPMENT }
+{ TtcTag_Development }
 
-procedure TtcTAG_DEVELOPMENT.Test;
+procedure TtcTag_Development.Test;
 begin
-     //dmTAG_DEVELOPMENT.Test();
+     //dmTag_Development.Test();
 end;
 
 initialization
 
-  TestFramework.RegisterTest('utcTAG_DEVELOPMENT Suite',
-    TtcTAG_DEVELOPMENT.Suite);
+  TestFramework.RegisterTest('utcTag_Development Suite',
+    TtcTag_Development.Suite);
 
 end.

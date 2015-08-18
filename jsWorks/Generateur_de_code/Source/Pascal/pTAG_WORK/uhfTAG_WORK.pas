@@ -1,4 +1,4 @@
-unit uhfTAG_WORK;
+unit uhfTag_Work;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -30,7 +30,7 @@ uses
     uhFiltre;
 
 type
- ThfTAG_WORK
+ ThfTag_Work
  =
   class( ThFiltre)
   end;

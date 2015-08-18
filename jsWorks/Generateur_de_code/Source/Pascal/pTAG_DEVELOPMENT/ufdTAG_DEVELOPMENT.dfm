@@ -1,9 +1,9 @@
-inherited fdTAG_DEVELOPMENT: TfdTAG_DEVELOPMENT
+inherited fdTag_Development: TfdTag_Development
   Left = 104
   Top = 184
   Width = 1124
   Height = 371
-  Caption = 'fdTAG_DEVELOPMENT'
+  Caption = 'fdTag_Development'
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13

@@ -1,9 +1,9 @@
-inherited fdTAG_WORK: TfdTAG_WORK
+inherited fdTag_Work: TfdTag_Work
   Left = 104
   Top = 184
   Width = 1124
   Height = 371
-  Caption = 'fdTAG_WORK'
+  Caption = 'fdTag_Work'
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13

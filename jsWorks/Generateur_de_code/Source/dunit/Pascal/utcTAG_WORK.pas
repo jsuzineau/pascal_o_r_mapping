@@ -1,4 +1,4 @@
-unit utcTAG_WORK;
+unit utcTag_Work;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -26,11 +26,11 @@ unit utcTAG_WORK;
 interface
 
 uses
-  upoolTAG_WORK,
+  upoolTag_Work,
   TestFrameWork;
 
 type
-  TtcTAG_WORK = class(TTestCase)
+  TtcTag_Work = class(TTestCase)
   private
 
   protected
@@ -46,16 +46,16 @@ type
 
 implementation
 
-{ TtcTAG_WORK }
+{ TtcTag_Work }
 
-procedure TtcTAG_WORK.Test;
+procedure TtcTag_Work.Test;
 begin
-     //dmTAG_WORK.Test();
+     //dmTag_Work.Test();
 end;
 
 initialization
 
-  TestFramework.RegisterTest('utcTAG_WORK Suite',
-    TtcTAG_WORK.Suite);
+  TestFramework.RegisterTest('utcTag_Work Suite',
+    TtcTag_Work.Suite);
 
 end.

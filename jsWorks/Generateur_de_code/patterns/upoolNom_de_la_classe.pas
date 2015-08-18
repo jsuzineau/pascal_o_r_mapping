@@ -55,6 +55,7 @@ type
   public
   //pattern_Declaration_cle
   //pattern_Get_by_Cle_Declaration
+  //pattern_Assure_Declaration
   //Méthode de création de test
   public
 {Test_Declaration_Key}
@@ -93,6 +94,8 @@ begin
 end;
 
 //pattern_Get_by_Cle_Implementation
+
+//pattern_Assure_Implementation
 
 {Test_Implementation_Key}
 

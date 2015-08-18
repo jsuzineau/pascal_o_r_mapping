@@ -41,6 +41,9 @@ uses
   SysUtils, Classes, DB, SqlDB;
 
 type
+
+ { TpoolTAG_WORK }
+
  TpoolTAG_WORK
  =
   class( TPool)
@@ -50,7 +53,13 @@ type
     hfTAG_WORK: ThfTAG_WORK;
   //Accés général
   public
-    function Get( _id: integer): TblTAG_WORK;
+    function Get( _id: integer): TblTag_Work;
+  //Accés par clé
+  public
+     idTag: Integer;
+    idWork: Integer;
+    function Get_by_Cle( _idTag: Integer;  _idWork: Integer): TblTag_Work;
+    function Assure( _idTag: Integer;  _idWork: Integer): TblTag_Work;
   //Méthode de création de test
   public
     function Test( _id: Integer;  _idTag: Integer;  _idWork: Integer):Integer;
@@ -76,7 +85,7 @@ end;
 procedure TpoolTAG_WORK.DataModuleCreate(Sender: TObject);
 begin
      NomTable:= 'Tag_Work';
-     Classe_Elements:= TblTAG_WORK;
+     Classe_Elements:= TblTag_Work;
      Classe_Filtre:= ThfTAG_WORK;
 
      inherited;
@@ -84,14 +93,33 @@ begin
      hfTAG_WORK:= hf as ThfTAG_WORK;
 end;
 
-function TpoolTAG_WORK.Get( _id: integer): TblTAG_WORK;
+function TpoolTAG_WORK.Get( _id: integer): TblTag_Work;
 begin
      Get_Interne_from_id( _id, Result);
 end;
 
+function TpoolTAG_WORK.Get_by_Cle(_idTag: Integer; _idWork: Integer
+ ): TblTag_Work;
+begin
+     idTag:=  _idTag;
+     idWork:=  _idWork;
+     sCle:= TblTag_Work.sCle_from_( idTag, idWork);
+     Get_Interne( Result);
+end;
+
+function TpoolTAG_WORK.Assure( _idTag: Integer; _idWork: Integer): TblTag_Work;
+begin
+     try
+        Creer_si_non_trouve:= True;
+        Result:= Get_by_Cle( _idTag, _idWork);
+     finally
+            Creer_si_non_trouve:= False;
+            end;
+end;
+
 function TpoolTAG_WORK.Test( _id: Integer;  _idTag: Integer;  _idWork: Integer):Integer;
 var                                                 
-   bl: TblTAG_WORK;                          
+   bl: TblTag_Work;
 begin                                               
           Nouveau_Base( bl);                        
        bl.id             := _id           ;

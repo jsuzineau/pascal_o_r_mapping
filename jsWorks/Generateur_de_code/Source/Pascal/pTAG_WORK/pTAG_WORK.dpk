@@ -1,4 +1,4 @@
-package pTAG_WORK;
+package pTag_Work;
 
 {$R *.res}
 {$ALIGN 8}
@@ -28,10 +28,10 @@ requires
   Batpro_Formes;
 
 contains
-  ublTAG_WORK in 'ublTAG_WORK.pas',
-  upoolTAG_WORK in 'upoolTAG_WORK.pas' {poolTAG_WORK},
-  uhfTAG_WORK in 'uhfTAG_WORK.PAS',
-  udmxcreTAG_WORK in 'udmxcreTAG_WORK.pas',
-  ufTAG_WORK in 'ufTAG_WORK.pas' {fTAG_WORK};
+  ublTag_Work in 'ublTag_Work.pas',
+  upoolTag_Work in 'upoolTag_Work.pas' {poolTag_Work},
+  uhfTag_Work in 'uhfTag_Work.PAS',
+  udmxcreTag_Work in 'udmxcreTag_Work.pas',
+  ufTag_Work in 'ufTag_Work.pas' {fTag_Work};
 
 end.

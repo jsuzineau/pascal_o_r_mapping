@@ -1,4 +1,4 @@
-unit ufcbTAG_DEVELOPMENT;
+unit ufcbTag_Development;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -31,7 +31,7 @@ uses
   ufcbBase;
 
 type
- TfcbTAG_DEVELOPMENT
+ TfcbTag_Development
  =
   class(TfcbBase)
   private
@@ -40,44 +40,44 @@ type
     { Déclarations publiques }
   end;
 
-function fcbTAG_DEVELOPMENT: TfcbTAG_DEVELOPMENT;
+function fcbTag_Development: TfcbTag_Development;
 
-function DerouleTAG_DEVELOPMENT( E: TObject; Resultat: TIntegerField):Boolean;
+function DerouleTag_Development( E: TObject; Resultat: TIntegerField):Boolean;
 
 implementation
 
 uses
     uClean,
-    upoolTAG_DEVELOPMENT,
-    ufTAG_DEVELOPMENT;
+    upoolTag_Development,
+    ufTag_Development;
 
 {$R *.dfm}
 
 var
-   FfcbTAG_DEVELOPMENT: TfcbTAG_DEVELOPMENT;
+   FfcbTag_Development: TfcbTag_Development;
 
-function fcbTAG_DEVELOPMENT: TfcbTAG_DEVELOPMENT;
+function fcbTag_Development: TfcbTag_Development;
 begin
-     Clean_Get( Result, FfcbTAG_DEVELOPMENT, TfcbTAG_DEVELOPMENT);
+     Clean_Get( Result, FfcbTag_Development, TfcbTag_Development);
 end;
 
 var
-   FiltreTAG_DEVELOPMENT: String = '';
+   FiltreTag_Development: String = '';
 
-function DerouleTAG_DEVELOPMENT(E: TObject; Resultat: TIntegerField): Boolean;
+function DerouleTag_Development(E: TObject; Resultat: TIntegerField): Boolean;
 begin
-     fcbTAG_DEVELOPMENT.eFiltre.Text:= FiltreTAG_DEVELOPMENT;
+     fcbTag_Development.eFiltre.Text:= FiltreTag_Development;
 //     Result
 //     :=
-//       fcbTAG_DEVELOPMENT.DerouleListe( E, dmaTAG_DEVELOPMENT.ds, fTAG_DEVELOPMENT.Execute,
-//                                 Resultat, dmaTAG_DEVELOPMENT.qNumero);
-     FiltreTAG_DEVELOPMENT:= fcbTAG_DEVELOPMENT.eFiltre.Text;
+//       fcbTag_Development.DerouleListe( E, dmaTag_Development.ds, fTag_Development.Execute,
+//                                 Resultat, dmaTag_Development.qNumero);
+     FiltreTag_Development:= fcbTag_Development.eFiltre.Text;
      Result:= False;
 end;
 
 
 initialization
-              Clean_Create ( FfcbTAG_DEVELOPMENT, TfcbTAG_DEVELOPMENT);
+              Clean_Create ( FfcbTag_Development, TfcbTag_Development);
 finalization
-              Clean_Destroy( FfcbTAG_DEVELOPMENT);
+              Clean_Destroy( FfcbTag_Development);
 end.

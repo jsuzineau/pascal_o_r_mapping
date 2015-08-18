@@ -1,4 +1,4 @@
-package pTAG_DEVELOPMENT;
+package pTag_Development;
 
 {$R *.res}
 {$ALIGN 8}
@@ -28,10 +28,10 @@ requires
   Batpro_Formes;
 
 contains
-  ublTAG_DEVELOPMENT in 'ublTAG_DEVELOPMENT.pas',
-  upoolTAG_DEVELOPMENT in 'upoolTAG_DEVELOPMENT.pas' {poolTAG_DEVELOPMENT},
-  uhfTAG_DEVELOPMENT in 'uhfTAG_DEVELOPMENT.PAS',
-  udmxcreTAG_DEVELOPMENT in 'udmxcreTAG_DEVELOPMENT.pas',
-  ufTAG_DEVELOPMENT in 'ufTAG_DEVELOPMENT.pas' {fTAG_DEVELOPMENT};
+  ublTag_Development in 'ublTag_Development.pas',
+  upoolTag_Development in 'upoolTag_Development.pas' {poolTag_Development},
+  uhfTag_Development in 'uhfTag_Development.PAS',
+  udmxcreTag_Development in 'udmxcreTag_Development.pas',
+  ufTag_Development in 'ufTag_Development.pas' {fTag_Development};
 
 end.

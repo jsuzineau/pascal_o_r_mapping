@@ -42,6 +42,8 @@ uses
     ublState,
     upoolState,
 
+    upoolTag_Development,
+
     SysUtils, Classes, Sqldb, DB;
 
 type
@@ -205,7 +207,7 @@ end;
 
 procedure TblDevelopment.Tag(_blTag: TblTag);
 begin
-
+     poolTAG_DEVELOPMENT.Assure( _blTag.id, id);
 end;
 
 procedure TblDevelopment.SetnCategorie(const Value: Integer);
