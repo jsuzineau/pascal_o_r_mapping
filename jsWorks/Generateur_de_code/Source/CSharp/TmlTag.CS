@@ -55,9 +55,6 @@ namespace Patterns_from_MCD_StarUML_CSharp
 		#region logique d'instance
 		#region Champs persistants
 
-		public Int32  id;
-		public Int32 _id {get{return id;} set{id= value;}}
-
 		public Int32  idType;
 		public Int32 _idType {get{return idType;} set{idType= value;}}
 

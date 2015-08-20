@@ -1,4 +1,4 @@
-unit udmxcreTAG;
+unit udmxcreTag;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -33,7 +33,7 @@ uses
   udmxCreator,  FMTBcd, SqlExpr;
 
 type
- TdmxcreTAG
+ TdmxcreTag
  =
   class(TdmxCreator)
     sqlq: TSQLQuery;
@@ -44,7 +44,7 @@ type
     function Ouverture(Edition: Boolean): Boolean; override;
   end;
 
-function dmxcreTAG: TdmxcreTAG;
+function dmxcreTag: TdmxcreTag;
 
 implementation
 
@@ -55,30 +55,30 @@ uses
 {$R *.dfm}
 
 var
-   FdmxcreTAG: TdmxcreTAG;
+   FdmxcreTag: TdmxcreTag;
 
-function dmxcreTAG: TdmxcreTAG;
+function dmxcreTag: TdmxcreTag;
 begin
-     Clean_Get( Result, FdmxcreTAG, TdmxcreTAG);
+     Clean_Get( Result, FdmxcreTag, TdmxcreTag);
 end;
 
-{ TdmxcreTAG }
+{ TdmxcreTag }
 
-function TdmxcreTAG.Ouverture(Edition: Boolean): Boolean;
+function TdmxcreTag.Ouverture(Edition: Boolean): Boolean;
 begin
      Result:= Traite_Table( '', 'Tag', sqlq, sqlq);
 
 end;
 
-function TdmxcreTAG.Traite_Index(NomChamp: String): Boolean;
+function TdmxcreTag.Traite_Index(NomChamp: String): Boolean;
 begin
      //inutile pour l'instant
      Result:= True;
 end;
 
 initialization
-              Clean_Create ( FdmxcreTAG, TdmxcreTAG);
+              Clean_Create ( FdmxcreTag, TdmxcreTag);
 finalization
-              Clean_Destroy( FdmxcreTAG);
+              Clean_Destroy( FdmxcreTag);
 end.
 

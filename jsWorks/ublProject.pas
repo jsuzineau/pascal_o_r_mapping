@@ -150,6 +150,7 @@ var
    I: TIterateur;
    bl: TblWork;
 begin
+     Charge;
      I:= Iterateur_interne;
      while I.Continuer
      do
@@ -201,6 +202,7 @@ var
    I: TIterateur;
    bl: TblDevelopment;
 begin
+     Charge;
      I:= Iterateur_interne;
      while I.Continuer
      do

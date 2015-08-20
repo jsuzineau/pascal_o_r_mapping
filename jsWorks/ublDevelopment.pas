@@ -28,6 +28,7 @@ uses
     uuStrings,
     uBatpro_StringList,
     uChamp,
+    ufAccueil_Erreur,
 
     uBatpro_Element,
     uBatpro_Ligne,
@@ -43,10 +44,32 @@ uses
     upoolState,
 
     upoolTag_Development,
+    upoolTAG,
 
     SysUtils, Classes, Sqldb, DB;
 
 type
+ { ThaDevelopment__Tag }
+ ThaDevelopment__Tag
+ =
+  class( ThAggregation)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Parent: TBatpro_Element;
+                        _Classe_Elements: TBatpro_Element_Class;
+                        _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre); override;
+    destructor  Destroy; override;
+  //Chargement de tous les détails
+  public
+    procedure Charge; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_Tag;
+    function Iterateur_Decroissant: TIterateur_Tag;
+  end;
+
 
  { TblDevelopment }
 
@@ -117,6 +140,39 @@ type
   //Tag
   public
     procedure Tag( _blTag: TblTag);
+  //Aggrégations
+  protected
+    procedure Create_Aggregation( Name: String; P: ThAggregation_Create_Params); override;
+  //Aggrégation vers les Tag correspondants
+  private
+    FhaTag: ThaDevelopment__Tag;
+    function GethaTag: ThaDevelopment__Tag;
+  public
+    property haTag: ThaDevelopment__Tag read GethaTag;
+  end;
+
+ TIterateur_Development
+ =
+  class( TIterateur)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: TblDevelopment);
+    function  not_Suivant( var _Resultat: TblDevelopment): Boolean;
+  end;
+
+ TslDevelopment
+ =
+  class( TBatpro_StringList)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_Development;
+    function Iterateur_Decroissant: TIterateur_Development;
   end;
 
 function blDevelopment_from_sl( sl: TBatpro_StringList; Index: Integer): TblDevelopment;
@@ -132,6 +188,88 @@ end;
 function blDevelopment_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblDevelopment;
 begin
      _Classe_from_sl_sCle( Result, TblDevelopment, sl, sCle);
+end;
+
+{ TIterateur_Development }
+
+function TIterateur_Development.not_Suivant( var _Resultat: TblDevelopment): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_Development.Suivant( var _Resultat: TblDevelopment);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TslDevelopment }
+
+constructor TslDevelopment.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, TblDevelopment);
+end;
+
+destructor TslDevelopment.Destroy;
+begin
+     inherited;
+end;
+
+class function TslDevelopment.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Development;
+end;
+
+function TslDevelopment.Iterateur: TIterateur_Development;
+begin
+     Result:= TIterateur_Development( Iterateur_interne);
+end;
+
+function TslDevelopment.Iterateur_Decroissant: TIterateur_Development;
+begin
+     Result:= TIterateur_Development( Iterateur_interne_Decroissant);
+end;
+
+{ ThaDevelopment__Tag }
+
+constructor ThaDevelopment__Tag.Create( _Parent: TBatpro_Element;
+                               _Classe_Elements: TBatpro_Element_Class;
+                               _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre);
+begin
+     inherited;
+     if Classe_Elements <> _Classe_Elements
+     then
+         fAccueil_Erreur(  'Erreur à signaler au développeur: '#13#10
+                          +' '+ClassName+'.Create: Classe_Elements <> _Classe_Elements:'#13#10
+                          +' Classe_Elements='+ Classe_Elements.ClassName+#13#10
+                          +'_Classe_Elements='+_Classe_Elements.ClassName
+                          );
+end;
+
+destructor ThaDevelopment__Tag.Destroy;
+begin
+     inherited;
+end;
+
+procedure ThaDevelopment__Tag.Charge;
+begin
+     inherited Charge;
+     poolTAG.Charge_Development( TblDevelopment(Parent).id, slCharge);
+     Ajoute_slCharge;
+end;
+
+class function ThaDevelopment__Tag.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Tag;
+end;
+
+function ThaDevelopment__Tag.Iterateur: TIterateur_Tag;
+begin
+     Result:= TIterateur_Tag( Iterateur_interne);
+end;
+
+function ThaDevelopment__Tag.Iterateur_Decroissant: TIterateur_Tag;
+begin
+     Result:= TIterateur_Tag( Iterateur_interne_Decroissant);
 end;
 
 { TblDevelopment }
@@ -208,6 +346,7 @@ end;
 procedure TblDevelopment.Tag(_blTag: TblTag);
 begin
      poolTAG_DEVELOPMENT.Assure( _blTag.id, id);
+     haTag.Ajoute( _blTag);
 end;
 
 procedure TblDevelopment.SetnCategorie(const Value: Integer);
@@ -349,6 +488,22 @@ begin
          State:= FblState.Description
      else
          State:= '';
+end;
+
+procedure TblDevelopment.Create_Aggregation( Name: String; P: ThAggregation_Create_Params);
+begin
+          if 'Tag' = Name then P.Faible( ThaDevelopment__Tag, TblTag, poolTag)
+     else                  inherited Create_Aggregation( Name, P);
+end;
+
+
+function  TblDevelopment.GethaTag: ThaDevelopment__Tag;
+begin
+     if FhaTag = nil
+     then
+         FhaTag:= Aggregations['Tag'] as ThaDevelopment__Tag;
+
+     Result:= FhaTag;
 end;
 
 

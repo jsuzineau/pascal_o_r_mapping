@@ -1,4 +1,4 @@
-unit udkdPROJECT;
+unit udkdProject;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -40,7 +40,7 @@ uses
     ucChampsGrid, ucBatpro_Shape;
 
 type
- TdkdPROJECT
+ TdkdProject
  =
   class(TdkdBase)
     procedure FormCreate(Sender: TObject);
@@ -53,7 +53,7 @@ type
     procedure Decroche( _bl: TBatpro_Ligne; _sl: TBatpro_StringList; _pc: TPageControl); override;
   end;
 
-function dkdPROJECT: TdkdPROJECT;
+function dkdProject: TdkdProject;
 
 implementation
 
@@ -62,28 +62,28 @@ uses
 
 {dkd_implementation_uses_key}
     uBatpro_Ligne_Printer,
-    upoolPROJECT;
+    upoolProject;
 
 {$R *.dfm}
 
 var
-   FdkdPROJECT: TdkdPROJECT;
+   FdkdProject: TdkdProject;
 
-function dkdPROJECT: TdkdPROJECT;
+function dkdProject: TdkdProject;
 begin
-     Clean_Get( Result, FdkdPROJECT, TdkdPROJECT);
+     Clean_Get( Result, FdkdProject, TdkdProject);
 end;
 
-{ TdkdPROJECT }
+{ TdkdProject }
 
-procedure TdkdPROJECT.FormCreate(Sender: TObject);
+procedure TdkdProject.FormCreate(Sender: TObject);
 begin
-     pool:= poolPROJECT;
-     Nom:= 'PROJECT';
+     pool:= poolProject;
+     Nom:= 'Project';
      inherited;
 end;
 
-procedure TdkdPROJECT.bImprimerClick(Sender: TObject);
+procedure TdkdProject.bImprimerClick(Sender: TObject);
 var
    cLibelle: TChamp;
    sLibelle: String;
@@ -92,31 +92,31 @@ begin
      cLibelle:= bl.Champs.Champ[ 'Libelle'];
      if Assigned( cLibelle)
      then
-         sLibelle:= 'PROJECT de '+cLibelle.Chaine
+         sLibelle:= 'Project de '+cLibelle.Chaine
      else
-         sLibelle:= 'PROJECT';
+         sLibelle:= 'Project';
 
-     Batpro_Ligne_Printer.Execute( 'dkdPROJECT.stw',
+     Batpro_Ligne_Printer.Execute( 'dkdProject.stw',
                                    sLibelle,[],[],[],[],
-                                   ['PROJECT'],
+                                   ['Project'],
                                    [sl],
                                    [ nil],
                                    [ nil]);
 end;
 
-procedure TdkdPROJECT.Accroche( _bl: TBatpro_Ligne; _sl: TStringList; _pc: TPageControl);
+procedure TdkdProject.Accroche( _bl: TBatpro_Ligne; _sl: TStringList; _pc: TPageControl);
 begin
      inherited;
 end;
 
-procedure TdkdPROJECT.Decroche( _bl: TBatpro_Ligne; _sl: TStringList; _pc: TPageControl);
+procedure TdkdProject.Decroche( _bl: TBatpro_Ligne; _sl: TStringList; _pc: TPageControl);
 begin
      inherited;
 end;
 
 
 initialization
-              Clean_Create ( FdkdPROJECT, TdkdPROJECT);
+              Clean_Create ( FdkdProject, TdkdProject);
 finalization
-              Clean_Destroy( FdkdPROJECT);
+              Clean_Destroy( FdkdProject);
 end.

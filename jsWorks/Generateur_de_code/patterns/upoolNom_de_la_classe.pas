@@ -52,10 +52,15 @@ type
   public
     function Get( _id: integer): TblNom_de_la_classe;
   //Accés par clé
+  protected
+    procedure To_SQLQuery_Params( SQLQuery: TSQLQuery); override;
   public
   //pattern_Declaration_cle
   //pattern_Get_by_Cle_Declaration
   //pattern_Assure_Declaration
+  //Indépendance par rapport au SGBD Informix ou MySQL
+  protected
+    function SQLWHERE_ContraintesChamps: String; override;
   //Méthode de création de test
   public
 {Test_Declaration_Key}
@@ -96,6 +101,21 @@ end;
 //pattern_Get_by_Cle_Implementation
 
 //pattern_Assure_Implementation
+
+procedure TpoolNom_de_la_classe.To_SQLQuery_Params(SQLQuery: TSQLQuery);
+begin
+     inherited;
+     with SQLQuery.Params
+     do
+       begin
+//pattern_To_SQLQuery_Params_Body
+       end;
+end;
+
+function TpoolNom_de_la_classe.SQLWHERE_ContraintesChamps: String;
+begin
+//pattern_SQLWHERE_ContraintesChamps_Body
+end;
 
 {Test_Implementation_Key}
 

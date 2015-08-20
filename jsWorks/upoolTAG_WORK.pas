@@ -55,11 +55,16 @@ type
   public
     function Get( _id: integer): TblTag_Work;
   //Accés par clé
+  protected
+    procedure To_SQLQuery_Params( SQLQuery: TSQLQuery); override;
   public
      idTag: Integer;
     idWork: Integer;
     function Get_by_Cle( _idTag: Integer;  _idWork: Integer): TblTag_Work;
     function Assure( _idTag: Integer;  _idWork: Integer): TblTag_Work;
+  //Indépendance par rapport au SGBD Informix ou MySQL
+  protected
+    function SQLWHERE_ContraintesChamps: String; override;
   //Méthode de création de test
   public
     function Test( _id: Integer;  _idTag: Integer;  _idWork: Integer):Integer;
@@ -93,6 +98,26 @@ begin
      hfTAG_WORK:= hf as ThfTAG_WORK;
 end;
 
+procedure TpoolTag_Work.To_SQLQuery_Params(SQLQuery: TSQLQuery);
+begin
+     inherited;
+     with SQLQuery.Params
+     do
+       begin
+       ParamByName( 'idTag'    ).AsInteger:= idTag;
+       ParamByName( 'idWork'    ).AsInteger:= idWork;
+       end;
+end;
+
+function TpoolTag_Work.SQLWHERE_ContraintesChamps: String;
+begin
+     Result
+     :=
+       'where                        '#13#10+
+       '         idTag           = :idTag          '#13#10+
+       '     and idWork          = :idWork         ';
+end;
+
 function TpoolTAG_WORK.Get( _id: integer): TblTag_Work;
 begin
      Get_Interne_from_id( _id, Result);
@@ -107,14 +132,15 @@ begin
      Get_Interne( Result);
 end;
 
-function TpoolTAG_WORK.Assure( _idTag: Integer; _idWork: Integer): TblTag_Work;
+function TpoolTag_Work.Assure( _idTag: Integer;  _idWork: Integer): TblTag_Work;
 begin
-     try
-        Creer_si_non_trouve:= True;
-        Result:= Get_by_Cle( _idTag, _idWork);
-     finally
-            Creer_si_non_trouve:= False;
-            end;
+     Result:= Get_by_Cle(  _idTag,  _idWork);
+     if Assigned( Result) then exit;
+
+     Nouveau_Base( Result);
+       Result.idTag          := _idTag        ;
+       Result.idWork         := _idWork       ;
+     Result.Save_to_database;
 end;
 
 function TpoolTAG_WORK.Test( _id: Integer;  _idTag: Integer;  _idWork: Integer):Integer;

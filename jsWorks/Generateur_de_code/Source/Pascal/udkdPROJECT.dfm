@@ -1,5 +1,5 @@
-inherited dkdPROJECT: TdkdPROJECT
-  Caption = 'dkdPROJECT'
+inherited dkdProject: TdkdProject
+  Caption = 'dkdProject'
   PixelsPerInch = 96
   TextHeight = 13
   inherited pBas: TPanel

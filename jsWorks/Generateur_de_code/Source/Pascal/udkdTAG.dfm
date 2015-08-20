@@ -1,5 +1,5 @@
-inherited dkdTAG: TdkdTAG
-  Caption = 'dkdTAG'
+inherited dkdTag: TdkdTag
+  Caption = 'dkdTag'
   PixelsPerInch = 96
   TextHeight = 13
   inherited pBas: TPanel

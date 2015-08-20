@@ -1,4 +1,5 @@
 id=id
 Selected=Selected
-idTag=idTag
-idWork=idWork
+contexte=contexte
+contextetype=contextetype
+libelle=libelle

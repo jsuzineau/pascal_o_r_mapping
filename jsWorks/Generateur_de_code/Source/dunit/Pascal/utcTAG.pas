@@ -1,4 +1,4 @@
-unit utcTAG;
+unit utcTag;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -26,11 +26,11 @@ unit utcTAG;
 interface
 
 uses
-  upoolTAG,
+  upoolTag,
   TestFrameWork;
 
 type
-  TtcTAG = class(TTestCase)
+  TtcTag = class(TTestCase)
   private
 
   protected
@@ -46,16 +46,16 @@ type
 
 implementation
 
-{ TtcTAG }
+{ TtcTag }
 
-procedure TtcTAG.Test;
+procedure TtcTag.Test;
 begin
-     //dmTAG.Test();
+     //dmTag.Test();
 end;
 
 initialization
 
-  TestFramework.RegisterTest('utcTAG Suite',
-    TtcTAG.Suite);
+  TestFramework.RegisterTest('utcTag Suite',
+    TtcTag.Suite);
 
 end.

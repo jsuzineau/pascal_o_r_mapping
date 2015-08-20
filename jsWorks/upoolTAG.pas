@@ -52,18 +52,29 @@ type
   public
     hfTAG: ThfTAG;
   //Accés général
+  protected
+    procedure To_SQLQuery_Params( SQLQuery: TSQLQuery); override;
   public
     idType: Integer;
     Name: String;
     function Get( _id: integer): TblTAG;
     function Get_by_Cle( _idType: Integer;  _Name: String): TblTAG;
     function Assure( _idType: Integer; _Name: String): TblTAG;
+  //Indépendance par rapport au SGBD Informix ou MySQL
+  protected
+    function SQLWHERE_ContraintesChamps: String; override;
   //Méthode de création de test
   public
     function Test( _id: Integer;  _Name: String;  _idType: Integer):Integer;
   //Chargement des tags d'un Work
   public
     procedure Charge_Work( _idWork: Integer; _slLoaded: TBatpro_StringList);
+  //Chargement des tags contenus dans la description d'un Work
+  public
+    procedure Charge_Work_from_Description( _Description: String; _slLoaded: TBatpro_StringList);
+  //Chargement des tags d'un Development
+  public
+    procedure Charge_Development( _idDevelopment: Integer; _slLoaded: TBatpro_StringList);
   end;
 
 function poolTAG: TpoolTAG;
@@ -106,14 +117,35 @@ begin
      Get_Interne( Result);
 end;
 
-function TpoolTAG.Assure( _idType: Integer; _Name: String): TblTAG;
+function TpoolTAG.Assure(_idType: Integer; _Name: String): TblTAG;
 begin
-     try
-        Creer_si_non_trouve:= True;
-        Result:= Get_by_Cle( _idType, _Name);
-     finally
-            Creer_si_non_trouve:= False;
-            end;
+     Result:= Get_by_Cle(  _idType,  _Name);
+     if Assigned( Result) then exit;
+
+     Nouveau_Base( Result);
+       Result.idType         := _idType       ;
+       Result.Name           := _Name         ;
+     Result.Save_to_database;
+end;
+
+procedure TpoolTAG.To_SQLQuery_Params(SQLQuery: TSQLQuery);
+begin
+     inherited;
+     with SQLQuery.Params
+     do
+       begin
+       ParamByName( 'idType'    ).AsInteger:= idType;
+       ParamByName( 'Name'    ).AsString:= Name;
+       end;
+end;
+
+function TpoolTAG.SQLWHERE_ContraintesChamps: String;
+begin
+     Result
+     :=
+       'where                        '#13#10+
+       '         idType          = :idType         '#13#10+
+       '     and Name            = :Name           ';
 end;
 
 function TpoolTAG.Test( _id: Integer;  _Name: String;  _idType: Integer):Integer;
@@ -145,6 +177,47 @@ begin
 +'where                                           '#13#10
 +'         Tag.id is not null                     '#13#10
 +'     and Tag_Work.id is not null                '#13#10;
+     Load( SQL, _slLoaded);
+end;
+
+procedure TpoolTAG.Charge_Work_from_Description( _Description: String;
+                                                 _slLoaded: TBatpro_StringList);
+var
+   I: TIterateur;
+   bl: TblTAG;
+begin
+     _slLoaded.Clear;
+     ToutCharger;
+     I:= slT.Iterateur_interne;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant_interne( bl) then continue;
+
+       if 0 = Pos( bl.Name, _Description) then continue;
+
+       _slLoaded.AddObject( bl.sCle, bl);
+       end;
+end;
+
+procedure TpoolTAG.Charge_Development( _idDevelopment: Integer;
+                                       _slLoaded: TBatpro_StringList);
+var
+   SQL: String;
+begin
+     SQL
+     :=
+ 'select                                          '#13#10
++'      Tag.*                                     '#13#10
++'from                                            '#13#10
++'    Tag                                         '#13#10
++'right join Tag_Development                      '#13#10
++'on                                              '#13#10
++'      (Tag_Development.idTag  = Tag.id        ) '#13#10
++'  and (Tag_Development.idDevelopment = '+IntToStr(_idDevelopment)+') '#13#10
++'where                                           '#13#10
++'         Tag.id is not null                     '#13#10
++'     and Tag_Development.id is not null         '#13#10;
      Load( SQL, _slLoaded);
 end;
 

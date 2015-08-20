@@ -1,8 +1,8 @@
-CREATE TABLE Tag_Work'
+CREATE TABLE g_ctx'
       '  ('
       '  Numero          INTEGER AUTO_INCREMENT PRIMARY KEY,'
-      '  `id`            INTEGER   ,'
-      '  `idTag`         INTEGER   ,'
-      '  `idWork`        INTEGER     )'
+      '  `contexte`      INTEGER   ,'
+      '  `contextetype`  CHAR( 42) ,'
+      '  `libelle`       CHAR( 42)   )'
       '
 

@@ -1,4 +1,4 @@
-unit udmxcrePROJECT;
+unit udmxcreProject;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -33,7 +33,7 @@ uses
   udmxCreator,  FMTBcd, SqlExpr;
 
 type
- TdmxcrePROJECT
+ TdmxcreProject
  =
   class(TdmxCreator)
     sqlq: TSQLQuery;
@@ -44,7 +44,7 @@ type
     function Ouverture(Edition: Boolean): Boolean; override;
   end;
 
-function dmxcrePROJECT: TdmxcrePROJECT;
+function dmxcreProject: TdmxcreProject;
 
 implementation
 
@@ -55,30 +55,30 @@ uses
 {$R *.dfm}
 
 var
-   FdmxcrePROJECT: TdmxcrePROJECT;
+   FdmxcreProject: TdmxcreProject;
 
-function dmxcrePROJECT: TdmxcrePROJECT;
+function dmxcreProject: TdmxcreProject;
 begin
-     Clean_Get( Result, FdmxcrePROJECT, TdmxcrePROJECT);
+     Clean_Get( Result, FdmxcreProject, TdmxcreProject);
 end;
 
-{ TdmxcrePROJECT }
+{ TdmxcreProject }
 
-function TdmxcrePROJECT.Ouverture(Edition: Boolean): Boolean;
+function TdmxcreProject.Ouverture(Edition: Boolean): Boolean;
 begin
      Result:= Traite_Table( '', 'Project', sqlq, sqlq);
 
 end;
 
-function TdmxcrePROJECT.Traite_Index(NomChamp: String): Boolean;
+function TdmxcreProject.Traite_Index(NomChamp: String): Boolean;
 begin
      //inutile pour l'instant
      Result:= True;
 end;
 
 initialization
-              Clean_Create ( FdmxcrePROJECT, TdmxcrePROJECT);
+              Clean_Create ( FdmxcreProject, TdmxcreProject);
 finalization
-              Clean_Destroy( FdmxcrePROJECT);
+              Clean_Destroy( FdmxcreProject);
 end.
 

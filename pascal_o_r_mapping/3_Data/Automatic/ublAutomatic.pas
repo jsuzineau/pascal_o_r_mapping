@@ -570,11 +570,15 @@ var
 
    procedure Traite_Field( _fb: TFieldBuffer);
    var
+      sNomChamp: String;
       cm: TContexteMembre;
       sParametre: String;
       sDeclarationParametre: String;
    begin
-        cm:= TContexteMembre.Create( Self, cc, _fb.C.Definition.Nom, _fb.sType, '');
+        sNomChamp:= _fb.C.Definition.Nom;
+        if 'id' = LowerCase( sNomChamp) then exit;
+
+        cm:= TContexteMembre.Create( Self, cc, sNomChamp, _fb.sType, '');
         //cm:= TContexteMembre.Create( cc, _fb.F.FieldName, _fb.sType, '');
         try
            uJoinPoint_VisiteMembre( cm, a);
@@ -594,7 +598,7 @@ var
       RepertoirePaquet: String;
    begin
         RepertoirePascal:= 'Pascal'+PathDelim;
-        RepertoirePaquet:= RepertoirePascal+'p'+cc.Nom_de_la_classe+PathDelim;
+        RepertoirePaquet:= RepertoirePascal+cc.Nom_de_la_classe+PathDelim;
         RepertoireCSharp:= 'CSharp'+PathDelim;
         RepertoirePHP   := 'PHP'   +PathDelim;
 

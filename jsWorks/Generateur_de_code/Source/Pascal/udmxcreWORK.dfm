@@ -19,7 +19,6 @@ inherited dmxcreWork: TdmxcreWork
       'CREATE TABLE Work'
       '  ('
       '  Numero          INTEGER AUTO_INCREMENT PRIMARY KEY,'
-      '  `id`            INTEGER   ,'
       '  `nProject`      INTEGER   ,'
       '  `Beginning`     DATETIME  ,'
       '  `End`           DATETIME  ,'

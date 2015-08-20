@@ -19,7 +19,6 @@ inherited dmxcreTag_Work: TdmxcreTag_Work
       'CREATE TABLE Tag_Work'
       '  ('
       '  Numero          INTEGER AUTO_INCREMENT PRIMARY KEY,'
-      '  `id`            INTEGER   ,'
       '  `idTag`         INTEGER   ,'
       '  `idWork`        INTEGER     )'
       '')

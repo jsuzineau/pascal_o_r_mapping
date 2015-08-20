@@ -55,11 +55,16 @@ type
   public
     function Get( _id: integer): TblTAG_DEVELOPMENT;
   //Accés par clé
+  protected
+    procedure To_SQLQuery_Params( SQLQuery: TSQLQuery); override;
   public
     idTag: Integer;
     idDevelopment: Integer;
     function Get_by_Cle( _idTag: Integer; _idDevelopment: Integer): TblTag_Development;
     function Assure( _idTag: Integer;  _idDevelopment: Integer): TblTag_Development;
+  //Indépendance par rapport au SGBD Informix ou MySQL
+  protected
+    function SQLWHERE_ContraintesChamps: String; override;
   //Méthode de création de test
   public
     function Test( _id: Integer;  _idTag: Integer;  _idDevelopment: Integer):Integer;
@@ -93,6 +98,26 @@ begin
      hfTAG_DEVELOPMENT:= hf as ThfTAG_DEVELOPMENT;
 end;
 
+procedure TpoolTag_Development.To_SQLQuery_Params(SQLQuery: TSQLQuery);
+begin
+     inherited;
+     with SQLQuery.Params
+     do
+       begin
+       ParamByName( 'idTag'    ).AsInteger:= idTag;
+       ParamByName( 'idDevelopment'    ).AsInteger:= idDevelopment;
+       end;
+end;
+
+function TpoolTag_Development.SQLWHERE_ContraintesChamps: String;
+begin
+     Result
+     :=
+       'where                        '#13#10+
+       '         idTag           = :idTag          '#13#10+
+       '     and idDevelopment   = :idDevelopment  ';
+end;
+
 function TpoolTAG_DEVELOPMENT.Get( _id: integer): TblTAG_DEVELOPMENT;
 begin
      Get_Interne_from_id( _id, Result);
@@ -118,14 +143,15 @@ begin
      Get_Interne( Result);
 end;
 
-function TpoolTAG_DEVELOPMENT.Assure( _idTag: Integer; _idDevelopment: Integer): TblTag_Development;
+function TpoolTag_Development.Assure( _idTag: Integer;  _idDevelopment: Integer): TblTag_Development;
 begin
-     try
-        Creer_si_non_trouve:= True;
-        Result:= Get_by_Cle( _idTag, _idDevelopment);
-     finally
-            Creer_si_non_trouve:= False;
-            end;
+     Result:= Get_by_Cle(  _idTag,  _idDevelopment);
+     if Assigned( Result) then exit;
+
+     Nouveau_Base( Result);
+       Result.idTag          := _idTag        ;
+       Result.idDevelopment  := _idDevelopment;
+     Result.Save_to_database;
 end;
 
 initialization

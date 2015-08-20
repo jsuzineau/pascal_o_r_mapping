@@ -30,6 +30,10 @@ uses
 
     udmDatabase,
 
+    ublTag,
+    upoolTag,
+    udkTag_LABEL,
+
     ublWork,
     upoolWork,
     udkWork,
@@ -43,6 +47,8 @@ uses
 
     ublState,
     upoolState,
+
+    upoolProject,
 
     uodWork_from_Period,
 
@@ -66,6 +72,7 @@ type
    bBug: TButton;
    bPoint: TButton;
    bProject: TButton;
+   bProject_to_Tag: TButton;
    bStart: TButton;
    bStop: TButton;
    bTAG: TButton;
@@ -79,6 +86,7 @@ type
    cmDevelopment_Description: TChamp_Memo;
    cmSolution: TChamp_Memo;
    cmWork_Description: TChamp_Memo;
+   dsbWork_Tag: TDockableScrollbox;
    dsbDevelopment: TDockableScrollbox;
    dsbWork: TDockableScrollbox;
    gbDescription: TGroupBox;
@@ -94,6 +102,7 @@ type
    Panel13: TPanel;
    Panel2: TPanel;
    Panel3: TPanel;
+   Panel4: TPanel;
    Panel5: TPanel;
    Panel7: TPanel;
    Panel8: TPanel;
@@ -101,12 +110,14 @@ type
    pWork: TPanel;
    pDevelopment: TPanel;
    Splitter1: TSplitter;
+   Splitter2: TSplitter;
    Splitter4: TSplitter;
    Splitter6: TSplitter;
    t: TTimer;
    procedure bBugClick(Sender: TObject);
    procedure bPointClick(Sender: TObject);
    procedure bProjectClick(Sender: TObject);
+   procedure bProject_to_TagClick(Sender: TObject);
    procedure bStartClick(Sender: TObject);
    procedure bStopClick(Sender: TObject);
    procedure bTAGClick(Sender: TObject);
@@ -157,6 +168,9 @@ begin
 
      dsbDevelopment.Classe_dockable:= TdkDevelopment;
      dsbDevelopment.Classe_Elements:= TblDevelopment;
+
+     dsbWork_Tag.Classe_dockable:= TdkTag_LABEL;
+     dsbWork_Tag.Classe_Elements:= TblTAG;
 end;
 
 destructor TfjsWorks.Destroy;
@@ -181,6 +195,8 @@ begin
                       ceEnd,
                       cmWork_Description
                      ]);
+     blWork.haTag.Charge;
+     dsbWork_Tag.sl:= blWork.haTag.sl;
 
 end;
 
@@ -253,6 +269,11 @@ end;
 procedure TfjsWorks.bProjectClick(Sender: TObject);
 begin
      fProject.Execute;
+end;
+
+procedure TfjsWorks.bProject_to_TagClick(Sender: TObject);
+begin
+     poolProject.To_Tag;
 end;
 
 procedure TfjsWorks.bBugClick(Sender: TObject);

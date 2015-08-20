@@ -70,7 +70,7 @@ uses
  ublSession, uOD_Table_Batpro, ufAutomatic, uhdmSession, ublTAG, uhfTAG,
  upoolTAG, upoolTAG_DEVELOPMENT, uhfTAG_DEVELOPMENT, ublTAG_DEVELOPMENT,
  upoolTAG_WORK, uhfTAG_WORK, ublTAG_WORK, udkType_Tag_edit, ublType_Tag,
- upoolType_Tag, uhfType_Tag, ufType_Tag;
+ upoolType_Tag, uhfType_Tag, ufType_Tag, udkTag_LABEL;
 
 {$R *.res}
 

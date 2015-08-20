@@ -1,6 +1,6 @@
-inherited fTAG: TfTAG
+inherited fTag: TfTag
 
-  Caption = 'TAG'
+  Caption = 'Tag'
 
   PixelsPerInch = 96
 

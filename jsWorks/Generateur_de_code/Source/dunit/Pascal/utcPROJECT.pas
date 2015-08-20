@@ -1,4 +1,4 @@
-unit utcPROJECT;
+unit utcProject;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -26,11 +26,11 @@ unit utcPROJECT;
 interface
 
 uses
-  upoolPROJECT,
+  upoolProject,
   TestFrameWork;
 
 type
-  TtcPROJECT = class(TTestCase)
+  TtcProject = class(TTestCase)
   private
 
   protected
@@ -46,16 +46,16 @@ type
 
 implementation
 
-{ TtcPROJECT }
+{ TtcProject }
 
-procedure TtcPROJECT.Test;
+procedure TtcProject.Test;
 begin
-     //dmPROJECT.Test();
+     //dmProject.Test();
 end;
 
 initialization
 
-  TestFramework.RegisterTest('utcPROJECT Suite',
-    TtcPROJECT.Suite);
+  TestFramework.RegisterTest('utcProject Suite',
+    TtcProject.Suite);
 
 end.

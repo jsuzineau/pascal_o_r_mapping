@@ -1,4 +1,4 @@
-unit udkdTAG;
+unit udkdTag;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -40,7 +40,7 @@ uses
     ucChampsGrid, ucBatpro_Shape;
 
 type
- TdkdTAG
+ TdkdTag
  =
   class(TdkdBase)
     procedure FormCreate(Sender: TObject);
@@ -53,7 +53,7 @@ type
     procedure Decroche( _bl: TBatpro_Ligne; _sl: TBatpro_StringList; _pc: TPageControl); override;
   end;
 
-function dkdTAG: TdkdTAG;
+function dkdTag: TdkdTag;
 
 implementation
 
@@ -62,28 +62,28 @@ uses
 
 {dkd_implementation_uses_key}
     uBatpro_Ligne_Printer,
-    upoolTAG;
+    upoolTag;
 
 {$R *.dfm}
 
 var
-   FdkdTAG: TdkdTAG;
+   FdkdTag: TdkdTag;
 
-function dkdTAG: TdkdTAG;
+function dkdTag: TdkdTag;
 begin
-     Clean_Get( Result, FdkdTAG, TdkdTAG);
+     Clean_Get( Result, FdkdTag, TdkdTag);
 end;
 
-{ TdkdTAG }
+{ TdkdTag }
 
-procedure TdkdTAG.FormCreate(Sender: TObject);
+procedure TdkdTag.FormCreate(Sender: TObject);
 begin
-     pool:= poolTAG;
-     Nom:= 'TAG';
+     pool:= poolTag;
+     Nom:= 'Tag';
      inherited;
 end;
 
-procedure TdkdTAG.bImprimerClick(Sender: TObject);
+procedure TdkdTag.bImprimerClick(Sender: TObject);
 var
    cLibelle: TChamp;
    sLibelle: String;
@@ -92,31 +92,31 @@ begin
      cLibelle:= bl.Champs.Champ[ 'Libelle'];
      if Assigned( cLibelle)
      then
-         sLibelle:= 'TAG de '+cLibelle.Chaine
+         sLibelle:= 'Tag de '+cLibelle.Chaine
      else
-         sLibelle:= 'TAG';
+         sLibelle:= 'Tag';
 
-     Batpro_Ligne_Printer.Execute( 'dkdTAG.stw',
+     Batpro_Ligne_Printer.Execute( 'dkdTag.stw',
                                    sLibelle,[],[],[],[],
-                                   ['TAG'],
+                                   ['Tag'],
                                    [sl],
                                    [ nil],
                                    [ nil]);
 end;
 
-procedure TdkdTAG.Accroche( _bl: TBatpro_Ligne; _sl: TStringList; _pc: TPageControl);
+procedure TdkdTag.Accroche( _bl: TBatpro_Ligne; _sl: TStringList; _pc: TPageControl);
 begin
      inherited;
 end;
 
-procedure TdkdTAG.Decroche( _bl: TBatpro_Ligne; _sl: TStringList; _pc: TPageControl);
+procedure TdkdTag.Decroche( _bl: TBatpro_Ligne; _sl: TStringList; _pc: TPageControl);
 begin
      inherited;
 end;
 
 
 initialization
-              Clean_Create ( FdkdTAG, TdkdTAG);
+              Clean_Create ( FdkdTag, TdkdTag);
 finalization
-              Clean_Destroy( FdkdTAG);
+              Clean_Destroy( FdkdTag);
 end.

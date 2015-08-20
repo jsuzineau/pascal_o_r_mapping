@@ -1,4 +1,4 @@
-unit ufcbPROJECT;
+unit ufcbProject;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -31,7 +31,7 @@ uses
   ufcbBase;
 
 type
- TfcbPROJECT
+ TfcbProject
  =
   class(TfcbBase)
   private
@@ -40,44 +40,44 @@ type
     { Déclarations publiques }
   end;
 
-function fcbPROJECT: TfcbPROJECT;
+function fcbProject: TfcbProject;
 
-function DeroulePROJECT( E: TObject; Resultat: TIntegerField):Boolean;
+function DerouleProject( E: TObject; Resultat: TIntegerField):Boolean;
 
 implementation
 
 uses
     uClean,
-    upoolPROJECT,
-    ufPROJECT;
+    upoolProject,
+    ufProject;
 
 {$R *.dfm}
 
 var
-   FfcbPROJECT: TfcbPROJECT;
+   FfcbProject: TfcbProject;
 
-function fcbPROJECT: TfcbPROJECT;
+function fcbProject: TfcbProject;
 begin
-     Clean_Get( Result, FfcbPROJECT, TfcbPROJECT);
+     Clean_Get( Result, FfcbProject, TfcbProject);
 end;
 
 var
-   FiltrePROJECT: String = '';
+   FiltreProject: String = '';
 
-function DeroulePROJECT(E: TObject; Resultat: TIntegerField): Boolean;
+function DerouleProject(E: TObject; Resultat: TIntegerField): Boolean;
 begin
-     fcbPROJECT.eFiltre.Text:= FiltrePROJECT;
+     fcbProject.eFiltre.Text:= FiltreProject;
 //     Result
 //     :=
-//       fcbPROJECT.DerouleListe( E, dmaPROJECT.ds, fPROJECT.Execute,
-//                                 Resultat, dmaPROJECT.qNumero);
-     FiltrePROJECT:= fcbPROJECT.eFiltre.Text;
+//       fcbProject.DerouleListe( E, dmaProject.ds, fProject.Execute,
+//                                 Resultat, dmaProject.qNumero);
+     FiltreProject:= fcbProject.eFiltre.Text;
      Result:= False;
 end;
 
 
 initialization
-              Clean_Create ( FfcbPROJECT, TfcbPROJECT);
+              Clean_Create ( FfcbProject, TfcbProject);
 finalization
-              Clean_Destroy( FfcbPROJECT);
+              Clean_Destroy( FfcbProject);
 end.

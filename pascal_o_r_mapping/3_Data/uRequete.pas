@@ -468,16 +468,12 @@ end;
 
 procedure TRequete.GetFieldNames( const _TableName: String; _List: TStrings);
 begin
-     {$IFNDEF FPC}
      Connection().GetFieldNames( _TableName, _List);
-     {$ENDIF}
 end;
 
 procedure TRequete.GetTableNames( _List: TStrings);
 begin
-     {$IFNDEF FPC}
      Connection().GetTableNames( _List);
-     {$ENDIF}
 end;
 
 function TRequete.GetNomsTables: TStringList;

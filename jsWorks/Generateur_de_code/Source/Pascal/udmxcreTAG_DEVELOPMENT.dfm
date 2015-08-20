@@ -19,7 +19,6 @@ inherited dmxcreTag_Development: TdmxcreTag_Development
       'CREATE TABLE Tag_Development'
       '  ('
       '  Numero          INTEGER AUTO_INCREMENT PRIMARY KEY,'
-      '  `id`            INTEGER   ,'
       '  `idTag`         INTEGER   ,'
       '  `idDevelopment` INTEGER     )'
       '')

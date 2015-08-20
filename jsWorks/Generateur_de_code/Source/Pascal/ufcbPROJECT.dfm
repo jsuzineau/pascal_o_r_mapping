@@ -1,6 +1,6 @@
-inherited fcbPROJECT: TfcbPROJECT
+inherited fcbProject: TfcbProject
 
-  Caption = 'fcbPROJECT'
+  Caption = 'fcbProject'
 
   PixelsPerInch = 96
 

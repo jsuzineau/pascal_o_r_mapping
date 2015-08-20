@@ -1,6 +1,6 @@
-inherited fPROJECT: TfPROJECT
+inherited fProject: TfProject
 
-  Caption = 'PROJECT'
+  Caption = 'Project'
 
   PixelsPerInch = 96
 

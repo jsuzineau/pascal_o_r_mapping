@@ -1,4 +1,4 @@
-unit ufTAG;
+unit ufTag;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -36,7 +36,7 @@ uses
   uBatpro_Ligne_Printer;
 
 type
- TfTAG
+ TfTag
  =
   class(TfBase)
     procedure FormCreate(Sender: TObject);
@@ -46,34 +46,34 @@ type
     function Execute: Boolean; override;
   end;
 
-function fTAG: TfTAG;
+function fTag: TfTag;
 
 implementation
 
 uses
     uClean,
 
-    upoolTAG, uPool;
+    upoolTag, uPool;
 
 {$R *.dfm}
 
 var
-   FfTAG: TfTAG;
+   FfTag: TfTag;
 
-function fTAG: TfTAG;
+function fTag: TfTag;
 begin
-     Clean_Get( Result, FfTAG, TfTAG);
+     Clean_Get( Result, FfTag, TfTag);
 end;
 
-{ TfTAG }
+{ TfTag }
 
-procedure TfTAG.FormCreate(Sender: TObject);
+procedure TfTag.FormCreate(Sender: TObject);
 begin
-     pool:= poolTAG;
+     pool:= poolTag;
      inherited;
 end;
 
-function TfTAG.Execute: Boolean;
+function TfTag.Execute: Boolean;
 begin
      try
         //f_Execute_Before_Key
@@ -84,18 +84,18 @@ begin
             end;
 end;
 
-procedure TfTAG.bImprimerClick(Sender: TObject);
+procedure TfTag.bImprimerClick(Sender: TObject);
 begin
-     Batpro_Ligne_Printer.Execute( 'fTAG.stw',
-                                   'TAG',[],[],[],[],
-                                   ['TAG'],
-                                   [poolTAG.slFiltre],
+     Batpro_Ligne_Printer.Execute( 'fTag.stw',
+                                   'Tag',[],[],[],[],
+                                   ['Tag'],
+                                   [poolTag.slFiltre],
                                    [ nil],
                                    [ nil]);
 end;
 
 initialization
-              Clean_Create ( FfTAG, TfTAG);
+              Clean_Create ( FfTag, TfTag);
 finalization
-              Clean_Destroy( FfTAG);
+              Clean_Destroy( FfTag);
 end.

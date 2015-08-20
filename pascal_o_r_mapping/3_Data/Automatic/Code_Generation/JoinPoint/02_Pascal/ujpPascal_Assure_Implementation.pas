@@ -38,6 +38,7 @@ type
   class( TJoinPoint)
   //Attributs
   public
+    sGet_by_Cle: String;
     Body: String;
   //Gestion du cycle de vie
   public
@@ -64,12 +65,8 @@ end;
 procedure TjpPascal_Assure_Implementation.Initialise(_cc: TContexteClasse);
 begin
      inherited;
-     Body
-     :=
- '     try                            '#13#10
-+'        Creer_si_non_trouve:= True; '#13#10
-+'        Result:= Get_by_Cle( '
-       ;
+     sGet_by_Cle:= '';
+     Body:= '';
 end;
 
 procedure TjpPascal_Assure_Implementation.VisiteMembre(_cm: TContexteMembre);
@@ -86,7 +83,21 @@ begin
 
      Valeur:= Valeur+cm.sPascal_DeclarationParametre;
 
-     Body:= Body + cm.sParametre;
+     if sGet_by_Cle = ''
+     then
+         sGet_by_Cle:= '     Result:= Get_by_Cle( '
+     else
+         sGet_by_Cle:= sGet_by_Cle+', ';
+
+     sGet_by_Cle:= sGet_by_Cle + cm.sParametre;
+
+     if Body = ''
+     then
+         Body
+         :=
+         '     Nouveau_Base( Result);                        '#13#10;
+     Body:= Body + '       Result.'+TailleNom(cm.sNomChamp)+':='+TailleNom(cm.sParametre)+';'#13#10;
+
 end;
 
 procedure TjpPascal_Assure_Implementation.Finalise;
@@ -96,16 +107,17 @@ begin
 
      Body
      :=
-         Body
-       + ');'#13#10
-+'     finally                               '#13#10
-+'            Creer_si_non_trouve:= False;   '#13#10
-+'            end;                           '#13#10;
+      sGet_by_Cle+');'#13#10
+     +'     if Assigned( Result) then exit;'#13#10
+     +#13#10
+     +Body
+     +'     Result.Save_to_database;'#13#10;
      Valeur
      :=
-       Valeur+'): Tbl'+cc.Nom_de_la_classe+';'#13#10
+         Valeur+'): Tbl'+cc.Nom_de_la_classe+';'#13#10
        + 'begin                               '#13#10
-       + Body;
+       + Body
+       + 'end;'#13#10
 end;
 
 initialization

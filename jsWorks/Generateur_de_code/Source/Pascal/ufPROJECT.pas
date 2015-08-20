@@ -1,4 +1,4 @@
-unit ufPROJECT;
+unit ufProject;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -36,7 +36,7 @@ uses
   uBatpro_Ligne_Printer;
 
 type
- TfPROJECT
+ TfProject
  =
   class(TfBase)
     procedure FormCreate(Sender: TObject);
@@ -46,34 +46,34 @@ type
     function Execute: Boolean; override;
   end;
 
-function fPROJECT: TfPROJECT;
+function fProject: TfProject;
 
 implementation
 
 uses
     uClean,
 
-    upoolPROJECT, uPool;
+    upoolProject, uPool;
 
 {$R *.dfm}
 
 var
-   FfPROJECT: TfPROJECT;
+   FfProject: TfProject;
 
-function fPROJECT: TfPROJECT;
+function fProject: TfProject;
 begin
-     Clean_Get( Result, FfPROJECT, TfPROJECT);
+     Clean_Get( Result, FfProject, TfProject);
 end;
 
-{ TfPROJECT }
+{ TfProject }
 
-procedure TfPROJECT.FormCreate(Sender: TObject);
+procedure TfProject.FormCreate(Sender: TObject);
 begin
-     pool:= poolPROJECT;
+     pool:= poolProject;
      inherited;
 end;
 
-function TfPROJECT.Execute: Boolean;
+function TfProject.Execute: Boolean;
 begin
      try
         //f_Execute_Before_Key
@@ -84,18 +84,18 @@ begin
             end;
 end;
 
-procedure TfPROJECT.bImprimerClick(Sender: TObject);
+procedure TfProject.bImprimerClick(Sender: TObject);
 begin
-     Batpro_Ligne_Printer.Execute( 'fPROJECT.stw',
-                                   'PROJECT',[],[],[],[],
-                                   ['PROJECT'],
-                                   [poolPROJECT.slFiltre],
+     Batpro_Ligne_Printer.Execute( 'fProject.stw',
+                                   'Project',[],[],[],[],
+                                   ['Project'],
+                                   [poolProject.slFiltre],
                                    [ nil],
                                    [ nil]);
 end;
 
 initialization
-              Clean_Create ( FfPROJECT, TfPROJECT);
+              Clean_Create ( FfProject, TfProject);
 finalization
-              Clean_Destroy( FfPROJECT);
+              Clean_Destroy( FfProject);
 end.

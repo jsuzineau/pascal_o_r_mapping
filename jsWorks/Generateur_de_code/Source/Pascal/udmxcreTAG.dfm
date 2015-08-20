@@ -1,4 +1,4 @@
-inherited dmxcreTAG: TdmxcreTAG
+inherited dmxcreTag: TdmxcreTag
 
   Left = 382
 
@@ -19,7 +19,6 @@ inherited dmxcreTAG: TdmxcreTAG
       'CREATE TABLE Tag'
       '  ('
       '  Numero          INTEGER AUTO_INCREMENT PRIMARY KEY,'
-      '  `id`            INTEGER   ,'
       '  `idType`        INTEGER   ,'
       '  `Name`          CHAR( 42)   )'
       '')

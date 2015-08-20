@@ -1,7 +1,7 @@
 object fAutomatic: TfAutomatic
   Left = 290
   Height = 413
-  Top = 176
+  Top = 177
   Width = 596
   Caption = 'fAutomatic'
   ClientHeight = 413
@@ -61,6 +61,15 @@ object fAutomatic: TfAutomatic
       Caption = 'Génère'
       OnClick = bGenereClick
       TabOrder = 2
+    end
+    object bGenere_Tout: TButton
+      Left = 101
+      Height = 25
+      Top = 48
+      Width = 147
+      Caption = 'Génère Tout'
+      OnClick = bGenere_ToutClick
+      TabOrder = 3
     end
   end
 end

@@ -9,6 +9,7 @@ uses
     uBatpro_StringList,
     uChamps,
     uuStrings,
+    uRequete,
     ublAutomatic,
     upoolAutomatic,
   Classes, SysUtils, FileUtil, Forms,
@@ -21,11 +22,13 @@ type
  TfAutomatic = class(TForm)
   bExecute: TButton;
   bGenere: TButton;
+  bGenere_Tout: TButton;
   cg: TChampsGrid;
   e: TEdit;
   Panel1: TPanel;
   procedure bExecuteClick(Sender: TObject);
   procedure bGenereClick(Sender: TObject);
+  procedure bGenere_ToutClick(Sender: TObject);
   procedure FormCreate(Sender: TObject);
   procedure FormDestroy(Sender: TObject);
 //atttributs
@@ -92,6 +95,26 @@ begin
      if not InputQuery( 'Génération de code', 'Suffixe d''identification (nom de la table)', NomTable) then exit;
 
      bl.Genere_code( NomTable);
+end;
+
+procedure TfAutomatic.bGenere_ToutClick(Sender: TObject);
+var
+   sl: TStringList;
+   I: Integer;
+begin
+     try
+        sl:= TStringList.Create;
+        Requete.GetTableNames( sl);
+        for I:= 0 to sl.Count -1
+        do
+          begin
+          e.Text:= 'select * from '+sl[I]+' limit 0,5';
+          bExecute.Click;
+          bGenere.Click;
+          end;
+     finally
+            FreeAndNil( sl);
+            end;
 end;
 
 initialization

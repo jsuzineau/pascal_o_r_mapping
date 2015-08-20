@@ -1,4 +1,4 @@
-inherited dmxcrePROJECT: TdmxcrePROJECT
+inherited dmxcreProject: TdmxcreProject
 
   Left = 382
 
@@ -19,8 +19,7 @@ inherited dmxcrePROJECT: TdmxcrePROJECT
       'CREATE TABLE Project'
       '  ('
       '  Numero          INTEGER AUTO_INCREMENT PRIMARY KEY,'
-      '  id              INTEGER   ,'
-      '  Name            CHAR( 42)   )'
+      '  `Name`          CHAR( 42)   )'
       '')
 
     SQLConnection = dmDatabase.sqlc

@@ -1,4 +1,4 @@
-unit ufcbTAG;
+unit ufcbTag;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -31,7 +31,7 @@ uses
   ufcbBase;
 
 type
- TfcbTAG
+ TfcbTag
  =
   class(TfcbBase)
   private
@@ -40,44 +40,44 @@ type
     { Déclarations publiques }
   end;
 
-function fcbTAG: TfcbTAG;
+function fcbTag: TfcbTag;
 
-function DerouleTAG( E: TObject; Resultat: TIntegerField):Boolean;
+function DerouleTag( E: TObject; Resultat: TIntegerField):Boolean;
 
 implementation
 
 uses
     uClean,
-    upoolTAG,
-    ufTAG;
+    upoolTag,
+    ufTag;
 
 {$R *.dfm}
 
 var
-   FfcbTAG: TfcbTAG;
+   FfcbTag: TfcbTag;
 
-function fcbTAG: TfcbTAG;
+function fcbTag: TfcbTag;
 begin
-     Clean_Get( Result, FfcbTAG, TfcbTAG);
+     Clean_Get( Result, FfcbTag, TfcbTag);
 end;
 
 var
-   FiltreTAG: String = '';
+   FiltreTag: String = '';
 
-function DerouleTAG(E: TObject; Resultat: TIntegerField): Boolean;
+function DerouleTag(E: TObject; Resultat: TIntegerField): Boolean;
 begin
-     fcbTAG.eFiltre.Text:= FiltreTAG;
+     fcbTag.eFiltre.Text:= FiltreTag;
 //     Result
 //     :=
-//       fcbTAG.DerouleListe( E, dmaTAG.ds, fTAG.Execute,
-//                                 Resultat, dmaTAG.qNumero);
-     FiltreTAG:= fcbTAG.eFiltre.Text;
+//       fcbTag.DerouleListe( E, dmaTag.ds, fTag.Execute,
+//                                 Resultat, dmaTag.qNumero);
+     FiltreTag:= fcbTag.eFiltre.Text;
      Result:= False;
 end;
 
 
 initialization
-              Clean_Create ( FfcbTAG, TfcbTAG);
+              Clean_Create ( FfcbTag, TfcbTag);
 finalization
-              Clean_Destroy( FfcbTAG);
+              Clean_Destroy( FfcbTag);
 end.

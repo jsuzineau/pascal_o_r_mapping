@@ -49,7 +49,6 @@ type
     destructor Destroy; override;
   //champs persistants
   public
-    id: Integer;
     idTag: Integer;
     idDevelopment: Integer;
   //Gestion de la clé
@@ -156,7 +155,6 @@ begin
      Champs.ChampDefinitions.NomTable:= 'Tag_Development';
 
      //champs persistants
-     Champs. Integer_from_Integer( id             , 'id'             );
      Champs. Integer_from_Integer( idTag          , 'idTag'          );
      Champs. Integer_from_Integer( idDevelopment  , 'idDevelopment'  );
 
