@@ -71,7 +71,7 @@ type
     procedure Charge_Work( _idWork: Integer; _slLoaded: TBatpro_StringList);
   //Chargement des tags contenus dans la description d'un Work
   public
-    procedure Charge_Work_from_Description( _Description: String; _slLoaded: TBatpro_StringList);
+    procedure Charge_Work_from_Description( _Description: String; _slLoaded, _haTag_sl: TBatpro_StringList);
   //Chargement des tags d'un Development
   public
     procedure Charge_Development( _idDevelopment: Integer; _slLoaded: TBatpro_StringList);
@@ -102,6 +102,8 @@ begin
      inherited;
 
      hfTAG:= hf as ThfTAG;
+     ChampTri['idType']:= +1;
+     ChampTri['Name'  ]:= +1;
 end;
 
 function TpoolTAG.Get( _id: integer): TblTAG;
@@ -181,7 +183,7 @@ begin
 end;
 
 procedure TpoolTAG.Charge_Work_from_Description( _Description: String;
-                                                 _slLoaded: TBatpro_StringList);
+                                                 _slLoaded, _haTag_sl: TBatpro_StringList);
 var
    I: TIterateur;
    bl: TblTAG;
@@ -195,6 +197,8 @@ begin
        if I.not_Suivant_interne( bl) then continue;
 
        if 0 = Pos( bl.Name, _Description) then continue;
+
+       if -1 <> _haTag_sl.IndexOfObject( bl) then continue;
 
        _slLoaded.AddObject( bl.sCle, bl);
        end;

@@ -26,6 +26,11 @@ uses
   uClean,
   uBatpro_StringList,
 
+  ublType_Tag,
+
+  ublTag,
+  upoolTAG,
+
   ublCategorie,
 
   udmDatabase,
@@ -38,6 +43,9 @@ uses
   DB, sqldb;
 
 type
+
+ { TpoolCategorie }
+
  TpoolCategorie
  =
   class( TPool)
@@ -51,7 +59,9 @@ type
   //Méthode de création de test
   public
     function Test( _Symbol: String; _Description: String):Integer;
-
+  //To_Tag conversion en Tags
+  public
+    procedure To_Tag;
   end;
 
 function poolCategorie: TpoolCategorie;
@@ -95,7 +105,26 @@ begin
        bl.Description    := _Description  ;
      bl.Save_to_database;                            
      Result:= bl.id;                                 
-end;                                                 
+end;
+
+procedure TpoolCategorie.To_Tag;
+var
+   I: TIterateur;
+   bl: TblCategorie;
+   blTag: TblTag;
+begin
+     ToutCharger;
+     I:= slT.Iterateur_interne;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant_interne( bl) then continue;
+
+       blTag:= poolTAG.Assure( Type_Tag_id_Categorie, bl.Description);
+       //bl.haWork       .Tag( blTag);
+       //bl.haDevelopment.Tag( blTag);
+       end;
+end;
 
 
 initialization

@@ -283,8 +283,10 @@ end;
 
 procedure ThaWork__Tag_from_Description.Charge;
 begin
+     sl.Clear;
      inherited Charge;
-     poolTAG.Charge_Work_from_Description( TblWork(Parent).Description, slCharge);
+     TblWork(Parent).haTag.Charge;
+     poolTAG.Charge_Work_from_Description( TblWork(Parent).Description, slCharge, TblWork(Parent).haTag.sl);
      Ajoute_slCharge;
 end;
 

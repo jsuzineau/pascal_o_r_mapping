@@ -31,6 +31,8 @@ uses
     uuStrings,
     uBatpro_StringList,
     ufAccueil_Erreur,
+    uSVG,
+    uDrawInfo,
 
     uBatpro_Element,
     uBatpro_Ligne,
@@ -62,6 +64,8 @@ type
    //  function Iterateur_Decroissant: TIterateur_Work;
    end;
 
+ { TblTAG }
+
  TblTAG
  =
   class( TBatpro_Ligne)
@@ -87,6 +91,9 @@ type
     function GethaWork: ThaTag__Work;
   public
     property haWork: ThaTag__Work read GethaWork;
+ //Couleur
+ public
+   function Couleur: TColor;
  end;
 
  TIterateur_TAG
@@ -270,6 +277,17 @@ begin
          FhaWork:= Aggregations['Work'] as ThaTag__Work;
 
      Result:= FhaWork;
+end;
+
+function TblTAG.Couleur: TColor;
+begin
+     case idType
+     of
+       1: Result:= clAqua;
+       2: Result:= clLime;
+       3: Result:= clYellow;
+       else Result:= clWhite;
+       end;
 end;
 
 end.

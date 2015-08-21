@@ -62,7 +62,7 @@ implementation
 constructor TdkTag_LABEL.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
-     Ajoute_Colonne( clName, 'Nom', 'Name');
+     //Ajoute_Colonne( clName, 'Nom', 'Name');
 end;
 
 destructor TdkTag_LABEL.Destroy;
@@ -77,6 +77,11 @@ begin
      Affecte( blTag, TblTag, Value);
 
      Champs_Affecte( blTag, [clName]);
+     if nil = blTag
+     then
+         Color:= clWhite
+     else
+         Color:= blTag.Couleur;
 end;
 
 procedure TdkTag_LABEL.FormClick(Sender: TObject);

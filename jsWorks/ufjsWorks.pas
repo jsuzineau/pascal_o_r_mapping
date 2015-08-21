@@ -79,6 +79,7 @@ type
    bTemps: TButton;
    bTest: TButton;
    bType_Tag: TButton;
+   bCategorie_to_Tag: TButton;
    ceBeginning: TChamp_Edit;
    ceEnd: TChamp_Edit;
    clkcbCategorie: TChamp_Lookup_ComboBox;
@@ -89,6 +90,8 @@ type
    dsbWork_Tag: TDockableScrollbox;
    dsbDevelopment: TDockableScrollbox;
    dsbWork: TDockableScrollbox;
+   dsbWork_Tag_from_Description: TDockableScrollbox;
+   dsbTag: TDockableScrollbox;
    gbDescription: TGroupBox;
    gbSolution: TGroupBox;
    Label3: TLabel;
@@ -104,6 +107,7 @@ type
    Panel3: TPanel;
    Panel4: TPanel;
    Panel5: TPanel;
+   Panel6: TPanel;
    Panel7: TPanel;
    Panel8: TPanel;
    Panel9: TPanel;
@@ -115,6 +119,7 @@ type
    Splitter6: TSplitter;
    t: TTimer;
    procedure bBugClick(Sender: TObject);
+   procedure bCategorie_to_TagClick(Sender: TObject);
    procedure bPointClick(Sender: TObject);
    procedure bProjectClick(Sender: TObject);
    procedure bProject_to_TagClick(Sender: TObject);
@@ -171,6 +176,12 @@ begin
 
      dsbWork_Tag.Classe_dockable:= TdkTag_LABEL;
      dsbWork_Tag.Classe_Elements:= TblTAG;
+
+     dsbWork_Tag_from_Description.Classe_dockable:= TdkTag_LABEL;
+     dsbWork_Tag_from_Description.Classe_Elements:= TblTAG;
+
+     dsbTag.Classe_dockable:= TdkTag_LABEL;
+     dsbTag.Classe_Elements:= TblTAG;
 end;
 
 destructor TfjsWorks.Destroy;
@@ -182,6 +193,9 @@ procedure TfjsWorks._from_pool;
 begin
      dsbWork       .sl:= poolWork.slFiltre;
      dsbDevelopment.sl:= poolDevelopment.slFiltre;
+     poolTAG.ToutCharger;
+     poolTAG.TrierFiltre;
+     dsbTag        .sl:= poolTAG.slFiltre;
 
      dsbWork       .Goto_Premier;
      dsbDevelopment.Goto_Premier;
@@ -198,6 +212,8 @@ begin
      blWork.haTag.Charge;
      dsbWork_Tag.sl:= blWork.haTag.sl;
 
+     blWork.haTag_from_Description.Charge;
+     dsbWork_Tag_from_Description.sl:= blWork.haTag_from_Description.sl;
 end;
 
 procedure TfjsWorks._from_Development;
@@ -271,11 +287,6 @@ begin
      fProject.Execute;
 end;
 
-procedure TfjsWorks.bProject_to_TagClick(Sender: TObject);
-begin
-     poolProject.To_Tag;
-end;
-
 procedure TfjsWorks.bBugClick(Sender: TObject);
 var
    bl: TblDevelopment;
@@ -283,6 +294,16 @@ begin
      bl:= poolDevelopment.Bug( 0);
      _from_pool;
      dsbDevelopment.Goto_bl( bl);
+end;
+
+procedure TfjsWorks.bProject_to_TagClick(Sender: TObject);
+begin
+     poolProject.To_Tag;
+end;
+
+procedure TfjsWorks.bCategorie_to_TagClick(Sender: TObject);
+begin
+     poolCategorie.To_Tag;
 end;
 
 procedure TfjsWorks.dsbWorkSelect(Sender: TObject);

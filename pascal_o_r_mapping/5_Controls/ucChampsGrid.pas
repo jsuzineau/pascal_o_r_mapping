@@ -46,7 +46,7 @@ uses
   Windows,
   {$ENDIF}
   {$IFDEF FPC}
-  LCLType,
+  LCLType, Types,
   {$ENDIF}
   SysUtils, Classes, Controls, DB, Grids,Dialogs, StdCtrls, Buttons, Graphics;
 
@@ -465,24 +465,25 @@ var
    ts: TTextStyle;
 begin
      ts:= _C.TextStyle;
-     ts.Alignment:= taLeftJustify;
+     ts.Alignment:= _a;
      _C.TextStyle:= ts;
 end;
 
 procedure TChampsGrid.DrawCell( ACol, ARow: Integer; ARect: TRect; AState: TGridDrawState);
 var
+   R: TRect;
    Hold: Integer;
 
    ChampDefinition: TChampDefinition;
    procedure Aligne_a_gauche;
    begin
         SetTextAlign( Canvas, taLeftJustify);
-        Canvas.TextRect(ARect,ARect.Left+2,ARect.Top+2,Cells[ACol,ARow]);
+        Canvas.TextRect( R, R.Left, R.Top,Cells[ACol,ARow]);
    end;
    procedure Aligne_a_droite;
    begin
         SetTextAlign( Canvas, taRightJustify);
-        Canvas.TextRect(ARect,ARect.Right-2,ARect.Top+2,Cells[ACol,ARow]);
+        Canvas.TextRect(R,R.Left,R.Top,Cells[ACol,ARow]);
         SetTextAlign( Canvas, taLeftJustify);
    end;
    procedure Coche;
@@ -499,12 +500,24 @@ var
         Champ:= Champ_from_XY( ACol, ARow);
         if Champ = nil then exit;
 
-        Dessinne_Coche( Canvas, Color, Font.Color, ARect, Champ.asBoolean);
+        Dessinne_Coche( Canvas, Color, Font.Color, R, Champ.asBoolean);
    end;
 begin
+     if 0 = ARow
+     then
+         Canvas.Brush.Color:= FixedColor
+     else if Odd( ARow)
+     then
+         Canvas.Brush.Color:= Color
+     else
+         Canvas.Brush.Color:= AlternateColor;
+
+     Canvas.Rectangle( ARect);
+
      //on est obligé de casser l'héritage, du coup les codes sources des
      // ancêtres sont recopiés ici.
-
+     R:= ARect;
+     InflateRect( R, -2, -2);
      ChampDefinition:= Definition( ACol);
      if Assigned( ChampDefinition)
      then
@@ -531,20 +544,22 @@ begin
 
 
      // TCustomDrawGrid.DrawCell
-     if Assigned(OnDrawCell) then
-     begin
-       if UseRightToLeftAlignment then
-       begin
-         ARect.Left := ClientWidth - ARect.Left;
-         ARect.Right := ClientWidth - ARect.Right;
-         Hold := ARect.Left;
-         ARect.Left := ARect.Right;
-         ARect.Right := Hold;
-         //ChangeGridOrientation(False);
-       end;
-       OnDrawCell(Self, ACol, ARow, ARect, AState);
-       //if UseRightToLeftAlignment then ChangeGridOrientation(True);
-     end;
+     if Assigned(OnDrawCell)
+     then
+         begin
+         if UseRightToLeftAlignment
+         then
+             begin
+             ARect.Left := ClientWidth - ARect.Left;
+             ARect.Right := ClientWidth - ARect.Right;
+             Hold := ARect.Left;
+             ARect.Left := ARect.Right;
+             ARect.Right := Hold;
+             //ChangeGridOrientation(False);
+             end;
+         OnDrawCell(Self, ACol, ARow, ARect, AState);
+         //if UseRightToLeftAlignment then ChangeGridOrientation(True);
+         end;
 end;
 
 procedure TChampsGrid.Click;

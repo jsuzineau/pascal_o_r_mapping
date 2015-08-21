@@ -1,5 +1,0 @@
-id=id
-Selected=Selected
-contexte=contexte
-contextetype=contextetype
-libelle=libelle

@@ -483,7 +483,9 @@
       <Unit98>
         <Filename Value="udkTag_LABEL.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkTag_LABEL"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit98>
     </Units>
   </ProjectOptions>

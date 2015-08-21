@@ -11,7 +11,7 @@ inherited dkTag_LABEL: TdkTag_LABEL
   end
   object clName: TChamp_Label[1]
     Left = 8
-    Height = 14
+    Height = 13
     Top = 0
     Width = 310
     Anchors = [akTop, akLeft, akRight]
