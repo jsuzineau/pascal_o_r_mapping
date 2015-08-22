@@ -48,10 +48,14 @@ uses
   ExtCtrls, StdCtrls, Buttons, DB, ComCtrls, EditBtn;
 
 type
+
+ { TfAccueil }
+
  TfAccueil
  =
   class(TForm)
     Label1: TLabel;
+    mHistorique_Developpeur: TMemo;
     Panel2: TPanel;
     Image1: TImage;
     bOK: TBitBtn;
@@ -59,6 +63,7 @@ type
     SaveDialog: TSaveDialog;
     bTerminer: TButton;
     bTuer: TButton;
+    tsHistorique_Developpeur: TTabSheet;
     tExecute: TTimer;
     cbErreurModal: TCheckBox;
     Label2: TLabel;
@@ -69,6 +74,7 @@ type
     bMySQL: TButton;
     bVariables_d_environnement: TButton;
     pc: TPageControl;
+    tsErreur_Courante: TTabSheet;
     tsLigne_Courante: TTabSheet;
     m: TMemo;
     tsHistorique: TTabSheet;
@@ -76,8 +82,6 @@ type
     Panel1: TPanel;
     bTeleassistance: TButton;
     bParametres: TButton;
-    tsHistorique_Developpeur: TTabSheet;
-    mHistorique_Developpeur: TMemo;
     Panel3: TPanel;
     Panel4: TPanel;
     Panel5: TPanel;

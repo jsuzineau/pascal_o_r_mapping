@@ -29,6 +29,8 @@ uses
     uOD_Forms,
   {$IFNDEF FPC}
   Windows,Dialogs, ShellAPI,
+  {$ELSE}
+  LCLIntf,
   {$ENDIF}
   SysUtils, Classes;
 
@@ -78,6 +80,8 @@ begin
      {$IFNDEF FPC}
      //Result:= 32 < ShellExecute( 0, 'open', 'iexplore', PChar(URL),nil,SW_SHOWNORMAL);
      Result:= 32 < ShellExecute( 0, 'open', PChar(URL),nil,nil,SW_SHOWNORMAL);
+     {$ELSE}
+     Result:= OpenDocument( URL);
      {$ENDIF}
 end;
 

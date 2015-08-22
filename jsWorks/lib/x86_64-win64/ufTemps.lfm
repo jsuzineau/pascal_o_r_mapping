@@ -1,13 +1,13 @@
 object fTemps: TfTemps
-  Left = 660
+  Left = 421
   Height = 397
-  Top = 218
+  Top = 193
   Width = 742
   Caption = 'fTemps'
   ClientHeight = 397
   ClientWidth = 742
   OnCreate = FormCreate
-  LCLVersion = '1.2.6.0'
+  LCLVersion = '1.4.2.0'
   object Panel1: TPanel
     Left = 0
     Height = 128
@@ -27,7 +27,6 @@ object fTemps: TfTemps
       CancelCaption = 'Cancel'
       DateOrder = doNone
       ButtonWidth = 23
-      CharCase = ecNormal
       NumGlyphs = 1
       MaxLength = 0
       TabOrder = 0
@@ -42,7 +41,6 @@ object fTemps: TfTemps
       CancelCaption = 'Cancel'
       DateOrder = doNone
       ButtonWidth = 23
-      CharCase = ecNormal
       NumGlyphs = 1
       MaxLength = 0
       TabOrder = 1
@@ -103,6 +101,32 @@ object fTemps: TfTemps
       Caption = 'To log'
       OnClick = bTo_logClick
       TabOrder = 5
+    end
+    object dsbTag: TDockableScrollbox
+      Left = 546
+      Height = 126
+      Top = 1
+      Width = 195
+      Align = alRight
+      Caption = 'dsbTag'
+      ClientHeight = 126
+      ClientWidth = 195
+      TabOrder = 6
+      HauteurLigne = 17
+      BordureLignes = True
+      Zebrage = False
+      Zebrage1 = 15138790
+      Zebrage2 = 16777192
+      _LectureSeule = False
+    end
+    object cbRestreindre_a_un_Tag: TCheckBox
+      Left = 408
+      Height = 19
+      Top = 56
+      Width = 128
+      Caption = 'Restreindre à un Tag'
+      OnClick = cbRestreindre_a_un_TagClick
+      TabOrder = 7
     end
   end
   object ds: TDockableScrollbox

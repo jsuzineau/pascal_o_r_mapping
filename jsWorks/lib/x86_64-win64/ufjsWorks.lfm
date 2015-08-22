@@ -485,12 +485,11 @@ object fjsWorks: TfjsWorks
     TabOrder = 2
     object Panel6: TPanel
       Left = 1
-      Height = 39
+      Height = 79
       Top = 1
       Width = 195
       Align = alTop
-      Caption = 'Panel6'
-      ClientHeight = 39
+      ClientHeight = 79
       ClientWidth = 195
       TabOrder = 0
       object bProject_to_Tag: TButton
@@ -502,15 +501,24 @@ object fjsWorks: TfjsWorks
         OnClick = bProject_to_TagClick
         TabOrder = 0
       end
+      object bDescription_to_Tag: TButton
+        Left = 8
+        Height = 25
+        Top = 39
+        Width = 176
+        Caption = 'bDescription_to_Tag'
+        OnClick = bDescription_to_TagClick
+        TabOrder = 1
+      end
     end
     object dsbTag: TDockableScrollbox
       Left = 1
-      Height = 515
-      Top = 40
+      Height = 475
+      Top = 80
       Width = 195
       Align = alClient
       Caption = 'dsbTag'
-      ClientHeight = 515
+      ClientHeight = 475
       ClientWidth = 195
       TabOrder = 1
       HauteurLigne = 17

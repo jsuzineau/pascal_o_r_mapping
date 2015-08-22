@@ -103,3 +103,55 @@
 >Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
 >uMySQL paramétré pour MySQL version : 55
 >base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>30/12/1899 Jour: 0:0,  0,00h Semaine: 0:0,  0,00h
+>30/12/1899 Jour: 0:0,  0,00h Semaine: 0:0,  0,00h
+>12/08/2015 12:44:47 Jour: 3:59,  4,00h Semaine: 3:59,  4,00h
+>20/08/2015 13:13:50 Jour: 3:0,  3,00h Semaine: 3:0,  3,00h
+>20/08/2015 13:08:11 Jour: 4:0,  4,00h Semaine: 4:0,  4,00h
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>12/08/2015 12:44:47 Jour: 3:59,  4,00h Semaine: 3:59,  4,00h
+>12/08/2015 12:44:47 Jour: 3:59,  4,00h Semaine: 3:59,  4,00h
+>20/08/2015 13:13:50 Jour: 3:0,  3,00h Semaine: 3:0,  3,00h
+>20/08/2015 13:08:11 Jour: 4:0,  4,00h Semaine: 4:0,  4,00h
+>12/08/2015 12:44:47 Jour: 3:59,  4,00h Semaine: 3:59,  4,00h
+>20/08/2015 13:13:50 Jour: 3:0,  3,00h Semaine: 3:0,  3,00h
+>20/08/2015 13:08:11 Jour: 4:0,  4,00h Semaine: 4:0,  4,00h
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks

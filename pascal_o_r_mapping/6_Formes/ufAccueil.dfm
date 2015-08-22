@@ -6512,9 +6512,9 @@ object fAccueil: TfAccueil
     Height = 513
     Top = 20
     Width = 484
-    ActivePage = tsErreur_Courante
+    ActivePage = tsHistorique_Developpeur
     Align = alClient
-    TabIndex = 0
+    TabIndex = 2
     TabOrder = 1
     object tsErreur_Courante: TTabSheet
       Caption = 'Erreur courante'
@@ -6553,14 +6553,14 @@ object fAccueil: TfAccueil
     end
     object tsHistorique: TTabSheet
       Caption = 'Historique des erreurs'
-      ClientHeight = 485
-      ClientWidth = 480
+      ClientHeight = 487
+      ClientWidth = 476
       ImageIndex = 1
       object mHistorique: TMemo
         Left = 0
-        Height = 451
+        Height = 487
         Top = 0
-        Width = 485
+        Width = 476
         Align = alClient
         BorderStyle = bsNone
         Font.Color = clWindowText
@@ -6568,6 +6568,26 @@ object fAccueil: TfAccueil
         Font.Name = 'Courier New'
         ParentFont = False
         ScrollBars = ssVertical
+        TabOrder = 0
+      end
+    end
+    object tsHistorique_Developpeur: TTabSheet
+      Caption = 'Historique Développeur'
+      ClientHeight = 487
+      ClientWidth = 476
+      object mHistorique_Developpeur: TMemo
+        Left = 0
+        Height = 487
+        Top = 0
+        Width = 476
+        Align = alClient
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Courier New'
+        Lines.Strings = (
+          'mHistorique_Developpeur'
+        )
+        ParentFont = False
         TabOrder = 0
       end
     end

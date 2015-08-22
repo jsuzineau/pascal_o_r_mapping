@@ -33,6 +33,7 @@ uses
     ublTag,
     upoolTag,
     udkTag_LABEL,
+    udkTag_LABEL_od,
 
     ublWork,
     upoolWork,
@@ -80,6 +81,7 @@ type
    bTest: TButton;
    bType_Tag: TButton;
    bCategorie_to_Tag: TButton;
+   bDescription_to_Tag: TButton;
    ceBeginning: TChamp_Edit;
    ceEnd: TChamp_Edit;
    clkcbCategorie: TChamp_Lookup_ComboBox;
@@ -120,6 +122,7 @@ type
    t: TTimer;
    procedure bBugClick(Sender: TObject);
    procedure bCategorie_to_TagClick(Sender: TObject);
+   procedure bDescription_to_TagClick(Sender: TObject);
    procedure bPointClick(Sender: TObject);
    procedure bProjectClick(Sender: TObject);
    procedure bProject_to_TagClick(Sender: TObject);
@@ -180,7 +183,7 @@ begin
      dsbWork_Tag_from_Description.Classe_dockable:= TdkTag_LABEL;
      dsbWork_Tag_from_Description.Classe_Elements:= TblTAG;
 
-     dsbTag.Classe_dockable:= TdkTag_LABEL;
+     dsbTag.Classe_dockable:= TdkTag_LABEL_od;
      dsbTag.Classe_Elements:= TblTAG;
 end;
 
@@ -193,6 +196,7 @@ procedure TfjsWorks._from_pool;
 begin
      dsbWork       .sl:= poolWork.slFiltre;
      dsbDevelopment.sl:= poolDevelopment.slFiltre;
+
      poolTAG.ToutCharger;
      poolTAG.TrierFiltre;
      dsbTag        .sl:= poolTAG.slFiltre;
@@ -304,6 +308,11 @@ end;
 procedure TfjsWorks.bCategorie_to_TagClick(Sender: TObject);
 begin
      poolCategorie.To_Tag;
+end;
+
+procedure TfjsWorks.bDescription_to_TagClick(Sender: TObject);
+begin
+     poolWork.Tag_from_Description;
 end;
 
 procedure TfjsWorks.dsbWorkSelect(Sender: TObject);
