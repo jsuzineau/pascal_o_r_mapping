@@ -65,7 +65,7 @@ implementation
 constructor TdkTag_LABEL_od.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
-     //Ajoute_Colonne( clName, 'Nom', 'Name');
+     Ajoute_Colonne( clName, 'Nom', 'Name');
 end;
 
 destructor TdkTag_LABEL_od.Destroy;

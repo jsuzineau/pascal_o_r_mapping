@@ -28,7 +28,7 @@ interface
 uses
   uClean,
   uBatpro_StringList,
-{implementation_uses_key}
+  uRequete,
 
   ublTAG_WORK,
 
@@ -68,7 +68,9 @@ type
   //Méthode de création de test
   public
     function Test( _id: Integer;  _idTag: Integer;  _idWork: Integer):Integer;
-
+  //Suppression pour un work et un tag donné
+  public
+    procedure Supprime( _idTag, _idWork: Integer);
   end;
 
 function poolTAG_WORK: TpoolTAG_WORK;
@@ -98,7 +100,7 @@ begin
      hfTAG_WORK:= hf as ThfTAG_WORK;
 end;
 
-procedure TpoolTag_Work.To_SQLQuery_Params(SQLQuery: TSQLQuery);
+procedure TpoolTAG_WORK.To_SQLQuery_Params(SQLQuery: TSQLQuery);
 begin
      inherited;
      with SQLQuery.Params
@@ -109,7 +111,7 @@ begin
        end;
 end;
 
-function TpoolTag_Work.SQLWHERE_ContraintesChamps: String;
+function TpoolTAG_WORK.SQLWHERE_ContraintesChamps: String;
 begin
      Result
      :=
@@ -132,7 +134,7 @@ begin
      Get_Interne( Result);
 end;
 
-function TpoolTag_Work.Assure( _idTag: Integer;  _idWork: Integer): TblTag_Work;
+function TpoolTAG_WORK.Assure(_idTag: Integer; _idWork: Integer): TblTag_Work;
 begin
      Result:= Get_by_Cle(  _idTag,  _idWork);
      if Assigned( Result) then exit;
@@ -153,7 +155,36 @@ begin
        bl.idWork         := _idWork       ;
      bl.Save_to_database;                            
      Result:= bl.id;                                 
-end;                                                 
+end;
+
+procedure TpoolTAG_WORK.Supprime( _idTag, _idWork: Integer);
+var
+   bl: TblTag_Work;
+   procedure Supprime_from_bl;
+   begin
+        Supprimer( bl);
+   end;
+   procedure Supprime_from_sql;
+   begin
+        Requete.SQL
+        :=
+ 'delete from '+NomTable+#13#10
++'where                 '#13#10
++'         idTag  = '+IntToStr(_idTag)+''#13#10
++'     and idWork = '+IntToStr(_idWork)+''#13#10;
+        Requete.Execute;
+   end;
+begin
+     idTag:=  _idTag;
+     idWork:=  _idWork;
+     sCle:= TblTag_Work.sCle_from_( idTag, idWork);
+     Get_Interne_from_Memory( bl);
+     if Assigned( bl)
+     then
+         Supprime_from_bl
+     else
+         Supprime_from_sql;
+end;
 
 
 initialization

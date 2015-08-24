@@ -1,7 +1,7 @@
 inherited dkWork: TdkWork
-  Left = 636
+  Left = 639
   Height = 77
-  Top = 169
+  Top = 170
   Width = 320
   Caption = 'dkWork'
   ClientHeight = 77
@@ -18,6 +18,8 @@ inherited dkWork: TdkWork
     AutoSize = False
     Caption = 'clBeginning'
     ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
     OnClick = FormClick
     OnDblClick = FormDblClick
     Field = 'Beginning'

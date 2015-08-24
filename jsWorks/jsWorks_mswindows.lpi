@@ -35,7 +35,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="109">
+    <Units Count="110">
       <Unit0>
         <Filename Value="jsWorks_mswindows.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -538,6 +538,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit108>
+      <Unit109>
+        <Filename Value="Elements/Tag/udkWork_haTag_from_Description_LABEL.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkWork_haTag_from_Description_LABEL"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit109>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -64,9 +64,9 @@ type
    //  function Iterateur_Decroissant: TIterateur_Work;
    end;
 
- { TblTAG }
+ { TblTag }
 
- TblTAG
+ TblTag
  =
   class( TBatpro_Ligne)
   //Gestion du cycle de vie
@@ -101,8 +101,8 @@ type
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: TblTAG);
-    function  not_Suivant( var _Resultat: TblTAG): Boolean;
+    procedure Suivant( var _Resultat: TblTag);
+    function  not_Suivant( var _Resultat: TblTag): Boolean;
   end;
 
  TslTAG
@@ -120,8 +120,8 @@ type
     function Iterateur_Decroissant: TIterateur_TAG;
   end;
 
-function blTAG_from_sl( sl: TBatpro_StringList; Index: Integer): TblTAG;
-function blTAG_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTAG;
+function blTAG_from_sl( sl: TBatpro_StringList; Index: Integer): TblTag;
+function blTAG_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTag;
 
 var
    TIterateur_Work: TIterateur_Class= nil;
@@ -135,24 +135,24 @@ var
 
 implementation
 
-function blTAG_from_sl( sl: TBatpro_StringList; Index: Integer): TblTAG;
+function blTAG_from_sl( sl: TBatpro_StringList; Index: Integer): TblTag;
 begin
-     _Classe_from_sl( Result, TblTAG, sl, Index);
+     _Classe_from_sl( Result, TblTag, sl, Index);
 end;
 
-function blTAG_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTAG;
+function blTAG_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTag;
 begin
-     _Classe_from_sl_sCle( Result, TblTAG, sl, sCle);
+     _Classe_from_sl_sCle( Result, TblTag, sl, sCle);
 end;
 
 { TIterateur_TAG }
 
-function TIterateur_TAG.not_Suivant( var _Resultat: TblTAG): Boolean;
+function TIterateur_TAG.not_Suivant( var _Resultat: TblTag): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_TAG.Suivant( var _Resultat: TblTAG);
+procedure TIterateur_TAG.Suivant( var _Resultat: TblTag);
 begin
      Suivant_interne( _Resultat);
 end;
@@ -161,7 +161,7 @@ end;
 
 constructor TslTAG.Create( _Nom: String= '');
 begin
-     inherited CreateE( _Nom, TblTAG);
+     inherited CreateE( _Nom, TblTag);
 end;
 
 destructor TslTAG.Destroy;
@@ -231,9 +231,9 @@ begin
 end;
 }
 
-{ TblTAG }
+{ TblTag }
 
-constructor TblTAG.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
+constructor TblTag.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
 var
    CP: IblG_BECP;
 begin
@@ -256,30 +256,30 @@ begin
 
 end;
 
-destructor TblTAG.Destroy;
+destructor TblTag.Destroy;
 begin
 
      inherited;
 end;
 
-class function TblTAG.sCle_from_( _idType: Integer;  _Name: String): String;
+class function TblTag.sCle_from_( _idType: Integer;  _Name: String): String;
 begin
      Result:=  IntToHex( _idType, 8)+ _Name;
 end;
 
-function TblTAG.sCle: String;
+function TblTag.sCle: String;
 begin
      Result:= sCle_from_(  idType,  Name);
 end;
 
-procedure TblTAG.Create_Aggregation( Name: String; P: ThAggregation_Create_Params);
+procedure TblTag.Create_Aggregation( Name: String; P: ThAggregation_Create_Params);
 begin
           if 'Work' = Name then P.Faible( ThaTag__Work, TblWork, poolWork)
      else                  inherited Create_Aggregation( Name, P);
 end;
 
 
-function  TblTAG.GethaWork: ThaTag__Work;
+function  TblTag.GethaWork: ThaTag__Work;
 begin
      if FhaWork = nil
      then
@@ -288,7 +288,7 @@ begin
      Result:= FhaWork;
 end;
 
-function TblTAG.Couleur: TColor;
+function TblTag.Couleur: TColor;
 begin
      case idType
      of

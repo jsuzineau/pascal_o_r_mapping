@@ -34,6 +34,8 @@ uses
     upoolTag,
     udkTag_LABEL,
     udkTag_LABEL_od,
+    udkWork_haTag_LABEL,
+    udkWork_haTag_from_Description_LABEL,
 
     ublWork,
     upoolWork,
@@ -134,6 +136,8 @@ type
    procedure bType_TagClick(Sender: TObject);
    procedure dsbWorkSelect(Sender: TObject);
    procedure dsbDevelopmentSelect(Sender: TObject);
+   procedure dsbWork_TagSuppression(Sender: TObject);
+   procedure dsbWork_Tag_from_DescriptionSuppression(Sender: TObject);
    procedure FormShow(Sender: TObject);
    procedure pDevelopmentClick(Sender: TObject);
    procedure tTimer(Sender: TObject);
@@ -177,14 +181,16 @@ begin
      dsbDevelopment.Classe_dockable:= TdkDevelopment;
      dsbDevelopment.Classe_Elements:= TblDevelopment;
 
-     dsbWork_Tag.Classe_dockable:= TdkTag_LABEL;
-     dsbWork_Tag.Classe_Elements:= TblTAG;
+     dsbWork_Tag.Classe_dockable:= TdkWork_haTag_LABEL;
+     dsbWork_Tag.Classe_Elements:= TblTag;
 
-     dsbWork_Tag_from_Description.Classe_dockable:= TdkTag_LABEL;
-     dsbWork_Tag_from_Description.Classe_Elements:= TblTAG;
+     dsbWork_Tag_from_Description.Classe_dockable:= TdkWork_haTag_from_Description_LABEL;
+     dsbWork_Tag_from_Description.Classe_Elements:= TblTag;
 
      dsbTag.Classe_dockable:= TdkTag_LABEL_od;
-     dsbTag.Classe_Elements:= TblTAG;
+     dsbTag.Classe_Elements:= TblTag;
+     dsbTag.Tri:= poolTag.Tri;
+     dsbTag.Filtre:= poolTag.hfTAG;
 end;
 
 destructor TfjsWorks.Destroy;
@@ -325,6 +331,26 @@ procedure TfjsWorks.dsbDevelopmentSelect(Sender: TObject);
 begin
      dsbDevelopment.Get_bl( blDevelopment);
      _from_Development;
+end;
+
+procedure TfjsWorks.dsbWork_TagSuppression(Sender: TObject);
+var
+   blTag: TblTag;
+begin
+     dsbWork_Tag.Get_bl( blTag);
+     blWork.haTag.Supprime( blTag);
+     blWork.haTag_from_Description.Ajoute( blTag);
+     _from_Work;
+end;
+
+procedure TfjsWorks.dsbWork_Tag_from_DescriptionSuppression(Sender: TObject);
+var
+   blTag: TblTag;
+begin
+     dsbWork_Tag_from_Description.Get_bl( blTag);
+     blWork.haTag_from_Description.Enleve( blTag);
+     blWork.Tag( blTag);
+     _from_Work;
 end;
 
 procedure TfjsWorks.tTimer(Sender: TObject);

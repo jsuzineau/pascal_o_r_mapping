@@ -224,8 +224,9 @@ type
   //Gestion de l'entete des colonnes
   private
     pColumnHeader: TPanel;
+    pColumnHeader_Height_Replie: Integer;
+    pColumnHeader_Height_Deplie: Integer;
     pColumnFooter: TPanel;
-    pColumnHeader_Premier: Boolean;
     Colonnes: array of TDockableScrollbox_Colonne;
     Surtitres: array of TDockableScrollbox_Surtitre;
     procedure Ajoute_Surtitre( _Surtitre: TDockable_Surtitre);
@@ -240,6 +241,8 @@ type
     procedure Colonne_eFiltre_KeyPress(Sender: TObject; var Key: char);
     procedure Colonne_eFiltre_KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure Place_Column_Header( I: Integer);
+    procedure Replie_pColumnHeader;
+    procedure Deplie_pColumnHeader;
   //Gestion de la totalisation
   private
     Traiter_Totaux: Boolean;
@@ -420,12 +423,6 @@ begin
            else sTri:= sys_Vide;
            end;
 
-     if Pos( #13, _Titre) > 0
-     then
-         pColumnHeader.Height:= 30
-     else
-         pColumnHeader.Height:= 17;
-     pColumnHeader.Color:= clMoneyGreen;
      L:= TLabel.Create( Self);
      L.Parent:= pColumnHeader;
      L.AutoSize:= False;
@@ -434,8 +431,9 @@ begin
      L.Width := _C.Width;
      L.Caption:= _Titre + sTri;
      L.Tag   := I;
-     L.Transparent:= False;
-     L.Color:= clFuchsia;
+     L.Hint:=  _Titre;
+     L.ShowHint:= True;
+     L.Transparent:= True;
      with L.Font do Style:= Style + [fsBold];
      L.Alignment:= C_Alignment;
      L.OnMouseDown:= Colonne_MouseDown;
@@ -454,6 +452,15 @@ begin
      E.OnKeyDown:= Colonne_eFiltre_KeyDown;
      //E.Show;
      E.Hide;
+
+     if Pos( #13, _Titre) > 0
+     then
+         pColumnHeader_Height_Replie:= 30
+     else
+         pColumnHeader_Height_Replie:= 17;
+
+     pColumnHeader_Height_Deplie:= pColumnHeader_Height_Replie+E.Height;
+     pColumnHeader.Height:= pColumnHeader_Height_Replie;
 
      with Colonnes[I]
      do
@@ -560,13 +567,13 @@ begin
      if Button = mbRight
      then
          begin
-         if pColumnHeader_Premier
+         if pColumnHeader_Height_Replie = pColumnHeader.Height
          then
-             begin
-             with pColumnHeader do Height:= Height+26;
-             Place_Column_Header(I);
-             end;
-         Colonnes[ I].eFiltre.Show;
+             Deplie_pColumnHeader
+         else
+             Replie_pColumnHeader;
+
+         Place_Column_Header(I);
          end
      else
          begin
@@ -582,7 +589,7 @@ begin
          Tri.Execute( sl);
          end;
 
-     Setsl( sl);
+    // Setsl( sl);
 end;
 
 procedure TDockableScrollbox.Colonne_eFiltre_Change( Sender: TObject);
@@ -633,19 +640,53 @@ begin
 
      if not (ssShift in Shift) then Filtre.Clear;
 
-     Filtre.AjouteCritereCONTIENT( Colonnes[ I].NomChamp, E.Text);
+     if E.Text <> ''
+     then
+         Filtre.AjouteCritereCONTIENT( Colonnes[ I].NomChamp, E.Text);
      Filtre.Execute;
      Setsl( sl);
 end;
 
 procedure TDockableScrollbox.Place_Column_Header( I: Integer);
+var
+   eFiltre_Height: Integer;
+   eFiltre_Top   : Integer;
 begin
      with Colonnes[I]
      do
        begin
-       Control.Height:= pColumnHeader.ClientHeight- Control.Top-26;
-       eFiltre.Top   := pColumnHeader.ClientHeight- 26;
+       if eFiltre.Visible
+       then
+           eFiltre_Height:= 26
+       else
+           eFiltre_Height:= 0;
+       eFiltre_Top:= pColumnHeader.ClientHeight - eFiltre_Height;
+
+       eFiltre.Top   := eFiltre_Top;
+
+       Control.Height:= eFiltre_Top- Control.Top;
+       pColumnHeader.Hint:= IntToStr( Control.Height);
        end;
+end;
+
+procedure TDockableScrollbox.Replie_pColumnHeader;
+var
+   I: Integer;
+begin
+     pColumnHeader.Height:= pColumnHeader_Height_Replie;
+     for I:= Low(Colonnes) to High(Colonnes)
+     do
+       Colonnes[I].eFiltre.Hide;
+end;
+
+procedure TDockableScrollbox.Deplie_pColumnHeader;
+var
+   I: Integer;
+begin
+     pColumnHeader.Height:= pColumnHeader_Height_Deplie;
+     for I:= Low(Colonnes) to High(Colonnes)
+     do
+       Colonnes[I].eFiltre.Show;
 end;
 
 procedure TDockableScrollbox.lTotal_MouseDown( Sender: TObject;
@@ -778,7 +819,6 @@ begin
      Fsl := Value;
      if sl = nil then exit;
 
-     pColumnHeader_Premier:= True;
      pColumnHeader.Height:= 0;
      pColumnHeader.Hide;
 

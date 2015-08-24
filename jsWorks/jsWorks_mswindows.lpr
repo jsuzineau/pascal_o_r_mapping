@@ -64,14 +64,15 @@ uses
  uuStrings, uDockable, ucDockableScrollbox, uDessin, ufBatpro_Form_Ancetre,
  ufBatpro_Form, ufBase, blcksock, ufjsWorks, ublCategorie, ublDevelopment,
  ublProject, ublState, ublWork, uhfCategorie, uhfDevelopment, uhfJour_ferie,
- uhfProject, uhfState, uodTag, ufTemps, ufTAG,
- udkSession, uhfWork, upoolCategorie, upoolDevelopment, upoolJour_ferie,
- upoolProject, upoolState, upoolWork, ublJour_ferie, udkProject_EDIT,
- udkProject_LABEL, ufProject, udkWork, udkDevelopment, ublSession,
- uOD_Table_Batpro, ufAutomatic, uhdmSession, ublTag, uhfTAG, upoolTAG,
- upoolTAG_DEVELOPMENT, uhfTAG_DEVELOPMENT, ublTAG_DEVELOPMENT, upoolTAG_WORK,
- uhfTAG_WORK, ublTAG_WORK, udkType_Tag_edit, ublType_Tag, upoolType_Tag,
- uhfType_Tag, ufType_Tag, udkTag_LABEL, uodWork_from_Period, udkTag_LABEL_od;
+ uhfProject, uhfState, uodTag, ufTemps, ufTAG, udkSession, uhfWork,
+ upoolCategorie, upoolDevelopment, upoolJour_ferie, upoolProject, upoolState,
+ upoolWork, ublJour_ferie, udkProject_EDIT, udkProject_LABEL, ufProject,
+ udkWork, udkDevelopment, ublSession, uOD_Table_Batpro, ufAutomatic,
+ uhdmSession, ublTag, uhfTAG, upoolTAG, upoolTAG_DEVELOPMENT,
+ uhfTAG_DEVELOPMENT, ublTAG_DEVELOPMENT, upoolTAG_WORK, uhfTAG_WORK,
+ ublTAG_WORK, udkType_Tag_edit, ublType_Tag, upoolType_Tag, uhfType_Tag,
+ ufType_Tag, udkTag_LABEL, uodWork_from_Period, udkTag_LABEL_od,
+ udkWork_haTag_from_Description_LABEL;
 
 {$R *.res}
 

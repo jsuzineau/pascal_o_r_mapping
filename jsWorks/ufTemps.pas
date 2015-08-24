@@ -75,12 +75,12 @@ begin
      ds.Classe_Elements:= TblSession;
 
      dsbTag.Classe_dockable:= TdkTag_LABEL_od;
-     dsbTag.Classe_Elements:= TblTAG;
+     dsbTag.Classe_Elements:= TblTag;
 end;
 
 function TfTemps.idTag: Integer;
 var
-   blTag: TblTAG;
+   blTag: TblTag;
 begin
      Result:= 0;
 

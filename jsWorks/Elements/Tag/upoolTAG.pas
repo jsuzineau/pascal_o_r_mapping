@@ -57,9 +57,9 @@ type
   public
     idType: Integer;
     Name: String;
-    function Get( _id: integer): TblTAG;
-    function Get_by_Cle( _idType: Integer;  _Name: String): TblTAG;
-    function Assure( _idType: Integer; _Name: String): TblTAG;
+    function Get( _id: integer): TblTag;
+    function Get_by_Cle( _idType: Integer;  _Name: String): TblTag;
+    function Assure( _idType: Integer; _Name: String): TblTag;
   //Indépendance par rapport au SGBD Informix ou MySQL
   protected
     function SQLWHERE_ContraintesChamps: String; override;
@@ -96,7 +96,7 @@ end;
 procedure TpoolTAG.DataModuleCreate(Sender: TObject);
 begin
      NomTable:= 'Tag';
-     Classe_Elements:= TblTAG;
+     Classe_Elements:= TblTag;
      Classe_Filtre:= ThfTAG;
 
      inherited;
@@ -106,20 +106,20 @@ begin
      ChampTri['Name'  ]:= +1;
 end;
 
-function TpoolTAG.Get( _id: integer): TblTAG;
+function TpoolTAG.Get( _id: integer): TblTag;
 begin
      Get_Interne_from_id( _id, Result);
 end;
 
-function TpoolTAG.Get_by_Cle( _idType: Integer;  _Name: String): TblTAG;
+function TpoolTAG.Get_by_Cle( _idType: Integer;  _Name: String): TblTag;
 begin
      idType:=  _idType;
      Name:=  _Name;
-     sCle:= TblTAG.sCle_from_( idType, Name);
+     sCle:= TblTag.sCle_from_( idType, Name);
      Get_Interne( Result);
 end;
 
-function TpoolTAG.Assure(_idType: Integer; _Name: String): TblTAG;
+function TpoolTAG.Assure(_idType: Integer; _Name: String): TblTag;
 begin
      Result:= Get_by_Cle(  _idType,  _Name);
      if Assigned( Result) then exit;
@@ -152,7 +152,7 @@ end;
 
 function TpoolTAG.Test( _id: Integer;  _Name: String;  _idType: Integer):Integer;
 var                                                 
-   bl: TblTAG;                          
+   bl: TblTag;                          
 begin                                               
           Nouveau_Base( bl);                        
        bl.id             := _id           ;
@@ -186,7 +186,7 @@ procedure TpoolTAG.Charge_Work_from_Description( _Description: String;
                                                  _slLoaded, _haTag_sl: TBatpro_StringList);
 var
    I: TIterateur;
-   bl: TblTAG;
+   bl: TblTag;
 begin
      _slLoaded.Clear;
      ToutCharger;

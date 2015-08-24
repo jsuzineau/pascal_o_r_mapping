@@ -61,6 +61,9 @@ type
    public
      function Iterateur: TIterateur_Tag;
      function Iterateur_Decroissant: TIterateur_Tag;
+   //déconnection d'un tag
+   public
+     procedure Supprime( _blTag: TblTag);
    end;
 
   { ThaWork__Tag_from_Description }
@@ -263,6 +266,13 @@ begin
      Result:= TIterateur_Tag( Iterateur_interne_Decroissant);
 end;
 
+procedure ThaWork__Tag.Supprime( _blTag: TblTag);
+begin
+     if nil = _blTag then exit;
+     poolTAG_WORK.Supprime( _blTag.id, TblWork(Parent).id);
+     Enleve( _blTag);
+end;
+
 { ThaWork__Tag_from_Description }
 
 constructor ThaWork__Tag_from_Description.Create( _Parent: TBatpro_Element;
@@ -311,7 +321,7 @@ end;
 procedure ThaWork__Tag_from_Description.Valide;
 var
    I: TIterateur_TAG;
-   bl: TblTAG;
+   bl: TblTag;
 begin
      Charge;
      I:= Iterateur;
@@ -518,6 +528,7 @@ end;
 
 procedure TblWork.Tag( _blTag: TblTag);
 begin
+     if _blTag = nil then exit;
      poolTAG_WORK.Assure( _blTag.id, id);
      haTag.Ajoute( _blTag);
 end;
