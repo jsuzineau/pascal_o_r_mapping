@@ -1,0 +1,15 @@
+{ This is an automatically generated lazarus resource file }
+
+LazarusResources.Add('TDockable','FORMDATA',[
+  'TPF0'#9'TDockable'#8'Dockable'#4'Left'#2#249#6'Height'#3#128#2#3'Top'#2'8'#5
+  +'Width'#3#252#2#7'Caption'#6#8'Dockable'#12'ClientHeight'#3#128#2#11'ClientW'
+  +'idth'#3#252#2#5'Color'#7#9'clBtnFace'#10'Font.Color'#7#12'clWindowText'#11
+  +'Font.Height'#2#245#9'Font.Name'#6#13'MS Sans Serif'#7'OnClick'#7#9'FormClic'
+  +'k'#10'OnDblClick'#7#12'FormDblClick'#9'OnKeyDown'#7#15'DockableKeyDown'#16
+  +'OnMouseWheelDown'#7#18'FormMouseWheelDown'#14'OnMouseWheelUp'#7#16'FormMous'
+  +'eWheelUp'#10'LCLVersion'#6#7'1.4.2.0'#0#13'TBatpro_Shape'#10'sSelection'#4
+  +'Left'#2#0#6'Height'#3#128#2#3'Top'#2#0#5'Width'#2#12#5'Align'#7#6'alLeft'#11
+  +'Brush.Style'#7#7'bsClear'#9'Pen.Style'#7#7'psClear'#11'OnMouseDown'#7#19'sS'
+  +'electionMouseDown'#5'Shape'#7#8'stCircle'#12'Batpro_Shape'#7#12'bstRectangl'
+  +'e'#0#0#0
+]);

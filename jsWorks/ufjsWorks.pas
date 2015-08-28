@@ -60,6 +60,7 @@ uses
     ufProject,
     ufType_Tag,
     ufTAG,
+    ufTest_VirtualTreeView,
 
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls, Buttons, ucChampsGrid, ucDockableScrollbox,
@@ -84,6 +85,7 @@ type
    bType_Tag: TButton;
    bCategorie_to_Tag: TButton;
    bDescription_to_Tag: TButton;
+   bVST: TButton;
    ceBeginning: TChamp_Edit;
    ceEnd: TChamp_Edit;
    clkcbCategorie: TChamp_Lookup_ComboBox;
@@ -134,6 +136,7 @@ type
    procedure bTempsClick(Sender: TObject);
    procedure bTestClick(Sender: TObject);
    procedure bType_TagClick(Sender: TObject);
+   procedure bVSTClick(Sender: TObject);
    procedure dsbWorkSelect(Sender: TObject);
    procedure dsbDevelopmentSelect(Sender: TObject);
    procedure dsbWork_TagSuppression(Sender: TObject);
@@ -281,6 +284,11 @@ end;
 procedure TfjsWorks.bType_TagClick(Sender: TObject);
 begin
      fType_Tag.Execute;
+end;
+
+procedure TfjsWorks.bVSTClick(Sender: TObject);
+begin
+     fTest_VirtualTreeView.Show;
 end;
 
 procedure TfjsWorks.bPointClick(Sender: TObject);

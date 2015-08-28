@@ -1,11 +1,11 @@
 object fjsWorks: TfjsWorks
-  Left = 128
+  Left = 24
   Height = 556
-  Top = 104
-  Width = 955
+  Top = 119
+  Width = 1143
   Caption = 'jsWorks'
   ClientHeight = 556
-  ClientWidth = 955
+  ClientWidth = 1143
   OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '1.4.2.0'
@@ -13,25 +13,25 @@ object fjsWorks: TfjsWorks
     Left = 0
     Height = 556
     Top = 0
-    Width = 753
+    Width = 941
     Align = alClient
     Caption = 'Panel1'
     ClientHeight = 556
-    ClientWidth = 753
+    ClientWidth = 941
     TabOrder = 0
     object pDevelopment: TPanel
       Left = 1
       Height = 306
       Top = 249
-      Width = 751
+      Width = 939
       Align = alBottom
       Caption = 'pDevelopment'
       ClientHeight = 306
-      ClientWidth = 751
+      ClientWidth = 939
       TabOrder = 0
       OnClick = pDevelopmentClick
       object Panel2: TPanel
-        Left = 243
+        Left = 431
         Height = 304
         Top = 1
         Width = 507
@@ -161,7 +161,7 @@ object fjsWorks: TfjsWorks
         end
       end
       object Splitter6: TSplitter
-        Left = 238
+        Left = 426
         Height = 304
         Top = 1
         Width = 5
@@ -174,17 +174,17 @@ object fjsWorks: TfjsWorks
         Left = 1
         Height = 304
         Top = 1
-        Width = 237
+        Width = 425
         Align = alClient
         Caption = 'Panel3'
         ClientHeight = 304
-        ClientWidth = 237
+        ClientWidth = 425
         TabOrder = 2
         object Panel10: TPanel
           Left = 1
           Height = 50
           Top = 1
-          Width = 235
+          Width = 423
           Align = alTop
           Caption = 'Panel10'
           TabOrder = 0
@@ -193,11 +193,11 @@ object fjsWorks: TfjsWorks
           Left = 1
           Height = 252
           Top = 51
-          Width = 235
+          Width = 423
           Align = alClient
           Caption = 'dsbDevelopment'
           ClientHeight = 252
-          ClientWidth = 235
+          ClientWidth = 423
           TabOrder = 1
           HauteurLigne = 24
           BordureLignes = True
@@ -213,30 +213,30 @@ object fjsWorks: TfjsWorks
       Left = 1
       Height = 243
       Top = 1
-      Width = 751
+      Width = 939
       Align = alClient
       Caption = 'pWork'
       ClientHeight = 243
-      ClientWidth = 751
+      ClientWidth = 939
       TabOrder = 1
       object Panel8: TPanel
         Left = 1
         Height = 241
         Top = 1
-        Width = 237
+        Width = 425
         Align = alClient
         Caption = 'Panel8'
         ClientHeight = 241
-        ClientWidth = 237
+        ClientWidth = 425
         TabOrder = 0
         object Panel7: TPanel
           Left = 1
           Height = 35
           Top = 1
-          Width = 235
+          Width = 423
           Align = alTop
           ClientHeight = 35
-          ClientWidth = 235
+          ClientWidth = 423
           TabOrder = 0
           object Label3: TLabel
             Left = 5
@@ -296,11 +296,11 @@ object fjsWorks: TfjsWorks
           Left = 1
           Height = 204
           Top = 36
-          Width = 235
+          Width = 423
           Align = alClient
           Caption = 'dsbWork'
           ClientHeight = 204
-          ClientWidth = 235
+          ClientWidth = 423
           TabOrder = 1
           HauteurLigne = 24
           BordureLignes = True
@@ -312,7 +312,7 @@ object fjsWorks: TfjsWorks
         end
       end
       object Splitter4: TSplitter
-        Left = 238
+        Left = 426
         Height = 241
         Top = 1
         Width = 5
@@ -322,7 +322,7 @@ object fjsWorks: TfjsWorks
         ResizeAnchor = akRight
       end
       object Panel9: TPanel
-        Left = 243
+        Left = 431
         Height = 241
         Top = 1
         Width = 507
@@ -438,6 +438,15 @@ object fjsWorks: TfjsWorks
             OnSuppression = dsbWork_Tag_from_DescriptionSuppression
             _LectureSeule = False
           end
+          object bVST: TButton
+            Left = 265
+            Height = 25
+            Top = 30
+            Width = 75
+            Caption = 'bVST'
+            OnClick = bVSTClick
+            TabOrder = 6
+          end
         end
         object cmWork_Description: TChamp_Memo
           Left = 1
@@ -458,7 +467,7 @@ object fjsWorks: TfjsWorks
       Left = 1
       Height = 5
       Top = 244
-      Width = 751
+      Width = 939
       Align = alBottom
       Color = clLime
       ParentColor = False
@@ -466,7 +475,7 @@ object fjsWorks: TfjsWorks
     end
   end
   object Splitter2: TSplitter
-    Left = 753
+    Left = 941
     Height = 556
     Top = 0
     Width = 5
@@ -476,7 +485,7 @@ object fjsWorks: TfjsWorks
     ResizeAnchor = akRight
   end
   object Panel4: TPanel
-    Left = 758
+    Left = 946
     Height = 556
     Top = 0
     Width = 197

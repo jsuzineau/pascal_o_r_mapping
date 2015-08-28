@@ -72,7 +72,8 @@ uses
  uhfTAG_DEVELOPMENT, ublTAG_DEVELOPMENT, upoolTAG_WORK, uhfTAG_WORK,
  ublTAG_WORK, udkType_Tag_edit, ublType_Tag, upoolType_Tag, uhfType_Tag,
  ufType_Tag, udkTag_LABEL, uodWork_from_Period, udkTag_LABEL_od,
- udkWork_haTag_from_Description_LABEL;
+ udkWork_haTag_from_Description_LABEL, ufTest_VirtualTreeView,
+ virtualtreeview_package;
 
 {$R *.res}
 
@@ -82,6 +83,7 @@ begin
  Application.CreateForm(TfjsWorks, fjsWorks);
  Application.CreateForm(TfProject, fProject);
  Application.CreateForm(TfTYPE_TAG, fTYPE_TAG);
+ Application.CreateForm(TfTest_VirtualTreeView, fTest_VirtualTreeView);
  Application.Run;
 end.
 
