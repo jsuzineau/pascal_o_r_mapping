@@ -17,6 +17,8 @@ uses
     uhFiltre_Ancetre,
     uRequete,
 
+    udmDatabase,
+
     uBatpro_Ligne,
 
     ublAutomatic,
@@ -33,12 +35,14 @@ type
   bExecute: TButton;
   bGenere: TButton;
   bGenere_Tout: TButton;
+  cbDatabases: TComboBox;
   e: TEdit;
   Panel1: TPanel;
   vst: TVirtualStringTree;
   procedure bExecuteClick(Sender: TObject);
   procedure bGenereClick(Sender: TObject);
   procedure bGenere_ToutClick(Sender: TObject);
+  procedure cbDatabasesChange(Sender: TObject);
   procedure FormCreate(Sender: TObject);
   procedure FormDestroy(Sender: TObject);
   procedure vstColumnClick(Sender: TBaseVirtualTree; Column: TColumnIndex;
@@ -50,7 +54,11 @@ type
   procedure vstHeaderDraw(Sender: TVTHeader; HeaderCanvas: TCanvas;
    Column: TVirtualTreeColumn; const R: TRect; Hover, Pressed: Boolean;
    DropMark: TVTDropMarkMode);
+  procedure vstInitNode(Sender: TBaseVirtualTree; ParentNode,
+   Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
 //atttributs
+ private
+  procedure Ajoute_Lignes(_Node: PVirtualNode; _sl: TBatpro_StringList);
  public
     sl: TslAutomatic;
  //Execution du SQL
@@ -94,6 +102,9 @@ begin
 
      Tri   := poolAutomatic.Tri;
      Filtre:= poolAutomatic.hf;
+
+     dmDatabase.Fill_with_databases( cbDatabases.Items);
+     cbDatabases.Text:= dmDatabase.sqlc.DatabaseName;
 end;
 
 procedure TfAutomatic_VST.FormDestroy(Sender: TObject);
@@ -102,8 +113,17 @@ begin
 end;
 
 procedure TfAutomatic_VST.bExecuteClick(Sender: TObject);
+var
+   Old_Database: String;
 begin
-     Execute_SQL;
+     dmDatabase.sqlc.Close;
+     Old_Database:= dmDatabase.sqlc.DatabaseName;
+     try
+        dmDatabase.sqlc.DatabaseName:= cbDatabases.Text;
+        Execute_SQL;
+     finally
+            dmDatabase.sqlc.DatabaseName:= Old_Database;
+            end;
 end;
 
 procedure TfAutomatic_VST.Execute_SQL;
@@ -156,59 +176,111 @@ procedure TfAutomatic_VST._from_sl;
          end;
   end;
   procedure Cree_Colonnes;
-  begin
-       Traite_Liste( sl);
-  end;
-  procedure Ajoute_Lignes;
   var
-     I: TIterateur;
-     bl: TBatpro_Ligne;
+     vtc: TVirtualTreeColumn;
   begin
-       I:= sl.Iterateur_interne;
-       while I.Continuer
-       do
-         begin
-         if I.not_Suivant_interne( bl) then continue;
-         vst.AddChild( nil, Pointer(bl));
-         end;
+       if Tri.slSousDetails.Count > 0
+       then
+           begin
+           vtc:= vst.Header.Columns.Add;
+           vtc.Text:= '';
+           vtc.MinWidth:= 100;
+           end;
+       Traite_Liste( sl);
   end;
 begin
      vst.Clear;
      vst.Header.Columns.Clear;
 
      Cree_Colonnes;
-     Ajoute_Lignes;
+     if Tri.slSousDetails.Count > 0
+     then
+         Ajoute_Lignes( nil, Tri.slSousDetails)
+     else
+         Ajoute_Lignes( nil, sl);
 end;
+
+procedure TfAutomatic_VST.Ajoute_Lignes( _Node: PVirtualNode; _sl: TBatpro_StringList);
+var
+   I: TIterateur;
+   o: TObject;
+begin
+     I:= _sl.Iterateur_interne;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant_interne( o) then continue;
+       vst.AddChild( _Node, Pointer(o));
+       end;
+end;
+
+procedure TfAutomatic_VST.vstInitNode( Sender: TBaseVirtualTree;
+                                       ParentNode,
+                                       Node: PVirtualNode;
+                                       var InitialStates: TVirtualNodeInitStates);
+var
+   po: ^TObject;
+   StringList: TBatpro_StringList;
+begin
+     if nil = Node then exit;
+
+     po:= vst.GetNodeData( Node);
+     if Affecte_( StringList, TBatpro_StringList, po^) then exit;
+
+     Ajoute_Lignes( Node, StringList);
+end;
+
 
 procedure TfAutomatic_VST.vstGetText( Sender: TBaseVirtualTree;
                                       Node: PVirtualNode;
                                       Column: TColumnIndex;
                                       TextType: TVSTTextType;
                                       var CellText: String);
-var
-   po: ^TObject;
-   bl: TBatpro_Ligne;
-   vtc: TVirtualTreeColumn;
-   cd: TChampDefinition;
-   c: TChamp;
+   procedure Traite_Donnees;
+   var
+      po: ^TObject;
+      bl: TBatpro_Ligne;
+      vtc: TVirtualTreeColumn;
+      cd: TChampDefinition;
+      c: TChamp;
+   begin
+        CellText:= '';
+        vtc:= vst.Header.Columns[Column];
+        if vtc = nil then exit;
+
+        if Affecte_( cd, TChampDefinition, TObject( Pointer(vtc.Tag))) then exit;
+
+        if nil = Node  then exit;
+        po:= vst.GetNodeData( Node);
+
+        if Affecte_( bl, TBatpro_Ligne, po^) then exit;
+
+        c:= bl.Champs.Champ_from_Field( cd.Nom);
+        if nil = c then exit;
+
+        CellText:= c.Chaine;
+   end;
+   procedure Traite_Liste;
+   var
+      po: ^TObject;
+      sl: TBatpro_StringList;
+   begin
+        CellText:= '';
+
+        if nil = Node  then exit;
+        po:= vst.GetNodeData( Node);
+
+        if Affecte_( sl, TBatpro_StringList, po^) then exit;
+
+        CellText:= sl.Nom;
+   end;
 begin
-     CellText:= '';
-
-     if -1 = Column then exit;
-     vtc:= vst.Header.Columns[Column];
-     if vtc = nil then exit;
-
-     if Affecte_( cd, TChampDefinition, TObject( Pointer(vtc.Tag))) then exit;
-
-     if nil = Node  then exit;
-     po:= vst.GetNodeData( Node);
-
-     if Affecte_( bl, TBatpro_Ligne, po^) then exit;
-
-     c:= bl.Champs.Champ_from_Field( cd.Nom);
-     if nil = c then exit;
-
-     CellText:= c.Chaine;
+      case Column
+     of
+       -1:  CellText:= '';
+        0:  Traite_Liste;
+       else Traite_Donnees;
+     end;
 end;
 
 procedure TfAutomatic_VST.vstHeaderClick( Sender: TVTHeader;
@@ -240,9 +312,10 @@ begin
        else NewChampTri:=  0;
        end;
      Tri.ChampTri[ NomChamp]:= NewChampTri;
-     Tri.Execute( sl);
+     Tri.Execute_et_Cree_SousDetails( sl);
 
      _from_sl;
+     vst.FullExpand();
 end;
 
 procedure TfAutomatic_VST.vstHeaderDraw(Sender: TVTHeader;
@@ -251,7 +324,6 @@ procedure TfAutomatic_VST.vstHeaderDraw(Sender: TVTHeader;
 begin
 
 end;
-
 
 procedure TfAutomatic_VST.vstColumnClick( Sender: TBaseVirtualTree;
                                           Column: TColumnIndex;
@@ -305,6 +377,11 @@ begin
      finally
             FreeAndNil( sl);
             end;
+end;
+
+procedure TfAutomatic_VST.cbDatabasesChange(Sender: TObject);
+begin
+
 end;
 
 initialization

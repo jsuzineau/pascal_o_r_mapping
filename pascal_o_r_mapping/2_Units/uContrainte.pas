@@ -88,8 +88,71 @@ type
     function SQL: String;
   end;
 
+ TIterateur_Contrainte
+ =
+  class( TIterateur)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: TContrainte);
+    function  not_Suivant( var _Resultat: TContrainte): Boolean;
+  end;
+
+ TslContrainte
+ =
+  class( TBatpro_StringList)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_Contrainte;
+    function Iterateur_Decroissant: TIterateur_Contrainte;
+  end;
+
 
 implementation
+
+{ TIterateur_Contrainte }
+
+function TIterateur_Contrainte.not_Suivant( var _Resultat: TContrainte): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_Contrainte.Suivant( var _Resultat: TContrainte);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TslContrainte }
+
+constructor TslContrainte.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, TContrainte);
+end;
+
+destructor TslContrainte.Destroy;
+begin
+     inherited;
+end;
+
+class function TslContrainte.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Contrainte;
+end;
+
+function TslContrainte.Iterateur: TIterateur_Contrainte;
+begin
+     Result:= TIterateur_Contrainte( Iterateur_interne);
+end;
+
+function TslContrainte.Iterateur_Decroissant: TIterateur_Contrainte;
+begin
+     Result:= TIterateur_Contrainte( Iterateur_interne_Decroissant);
+end;
 
 { TContrainte }
 

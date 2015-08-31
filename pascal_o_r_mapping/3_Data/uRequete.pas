@@ -99,6 +99,9 @@ type
     procedure GetTableNames( _List:TStrings);
     property NomsTables: TStringList read GetNomsTables;
     function Table_Existe( _NomTable: String): Boolean;
+  //Liste des schemas
+  public
+    procedure GetSchemaNames( _List:TStrings);
   //Requete SQL pour message erreur
   public
     function sResultat_from_Requete( _SQL: String): String;
@@ -474,6 +477,11 @@ end;
 procedure TRequete.GetTableNames( _List: TStrings);
 begin
      Connection().GetTableNames( _List);
+end;
+
+procedure TRequete.GetSchemaNames(_List: TStrings);
+begin
+     Connection().GetSchemaNames( _List);
 end;
 
 function TRequete.GetNomsTables: TStringList;

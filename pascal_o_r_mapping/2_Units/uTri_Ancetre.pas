@@ -55,6 +55,10 @@ type
     function LibelleTri( Court: Boolean = True): String;
     function LibelleChampTri( NomChamp: String; Court: Boolean = True): String;
     function OrderBy: String;
+  //Sous détails
+  public
+    slSousDetails: TslObject;
+    procedure Execute_et_Cree_SousDetails( StringList: TBatpro_StringList); virtual; abstract;
   //Observation des changements
   public
     pChange: TPublieur;
@@ -71,10 +75,12 @@ constructor TTri_Ancetre.Create;
 begin
      slChampsTri:= TBatpro_StringList.Create;
      pChange:= TPublieur.Create( 'TTri_Ancetre.pChange');
+     slSousDetails:= TslObject.Create( ClassName+'.slSousDetails');
 end;
 
 destructor TTri_Ancetre.Destroy;
 begin
+     Free_nil( slSousDetails);
      Free_nil( pChange);
      Free_nil( slChampsTri);
      inherited;

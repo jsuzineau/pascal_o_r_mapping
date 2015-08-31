@@ -103,6 +103,7 @@ type
     Passe_le_filtre: Boolean; //True si répond au conditions de filtrage
     function Calcule_Passe_le_filtre( hf: ThFiltre_Ancetre): Boolean; virtual;
     function Passe_la_Contrainte( _Contrainte: TContrainte): Boolean; 
+    function Passe_les_Contraintes( _Contraintes: array of TContrainte): Boolean;
   //Champs persistants
   private
     function Traite_Appartient_a_sCle( _C: TChamp; _Appartient_a_sCle: Boolean): TChamp;
@@ -831,6 +832,19 @@ begin
        cto_Date    : _Contrainte.Valeur_Date    := Champ.asDatetime;
        end;
      Result:= _Contrainte.Passe_le_test;
+end;
+
+function TBatpro_Ligne.Passe_les_Contraintes( _Contraintes: array of TContrainte): Boolean;
+var
+   i: Integer;
+begin
+     Result:= True;
+     for I:= Low( _Contraintes) to High( _Contraintes)
+     do
+       begin
+       Result:= Passe_la_Contrainte( _Contraintes[I]);
+       if not Result then break;
+       end;
 end;
 
 procedure TBatpro_Ligne.Copy_from_( _Source: TBatpro_Ligne; _Desactiver_Publications: Boolean= True);
