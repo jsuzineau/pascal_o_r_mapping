@@ -38,7 +38,7 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="111">
+    <Units Count="112">
       <Unit0>
         <Filename Value="jsWorks_mswindows.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -555,6 +555,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit110>
+      <Unit111>
+        <Filename Value="../Generation_de_code/ufAutomatic_VST.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fAutomatic_VST"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit111>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

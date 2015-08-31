@@ -238,6 +238,30 @@ type
     procedure Genere_code( _Suffixe: String);
   end;
 
+ TIterateur_Automatic
+ =
+  class( TIterateur)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: TblAutomatic);
+    function  not_Suivant( var _Resultat: TblAutomatic): Boolean;
+  end;
+
+ TslAutomatic
+ =
+  class( TBatpro_StringList)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_Automatic;
+    function Iterateur_Decroissant: TIterateur_Automatic;
+  end;
+
 type
  { TGenerateur_de_code }
 
@@ -376,6 +400,45 @@ begin
      inherited Traite;
      C:= Champs.Boolean_from_( Value, F.FieldName);
      sType:= 'Boolean';
+end;
+
+{ TIterateur_Automatic }
+
+function TIterateur_Automatic.not_Suivant( var _Resultat: TblAutomatic): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_Automatic.Suivant( var _Resultat: TblAutomatic);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TslAutomatic }
+
+constructor TslAutomatic.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, TblAutomatic);
+end;
+
+destructor TslAutomatic.Destroy;
+begin
+     inherited;
+end;
+
+class function TslAutomatic.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Automatic;
+end;
+
+function TslAutomatic.Iterateur: TIterateur_Automatic;
+begin
+     Result:= TIterateur_Automatic( Iterateur_interne);
+end;
+
+function TslAutomatic.Iterateur_Decroissant: TIterateur_Automatic;
+begin
+     Result:= TIterateur_Automatic( Iterateur_interne_Decroissant);
 end;
 
 { TblAutomatic }

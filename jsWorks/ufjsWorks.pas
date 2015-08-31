@@ -61,6 +61,7 @@ uses
     ufType_Tag,
     ufTAG,
     ufTest_VirtualTreeView,
+    ufAutomatic_VST,
 
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls, Buttons, ucChampsGrid, ucDockableScrollbox,
@@ -85,6 +86,7 @@ type
    bType_Tag: TButton;
    bCategorie_to_Tag: TButton;
    bDescription_to_Tag: TButton;
+   bAutomatic_VST: TButton;
    bVST: TButton;
    ceBeginning: TChamp_Edit;
    ceEnd: TChamp_Edit;
@@ -124,6 +126,7 @@ type
    Splitter4: TSplitter;
    Splitter6: TSplitter;
    t: TTimer;
+   procedure bAutomatic_VSTClick(Sender: TObject);
    procedure bBugClick(Sender: TObject);
    procedure bCategorie_to_TagClick(Sender: TObject);
    procedure bDescription_to_TagClick(Sender: TObject);
@@ -312,6 +315,11 @@ begin
      bl:= poolDevelopment.Bug( 0);
      _from_pool;
      dsbDevelopment.Goto_bl( bl);
+end;
+
+procedure TfjsWorks.bAutomatic_VSTClick(Sender: TObject);
+begin
+     fAutomatic_VST.Show;
 end;
 
 procedure TfjsWorks.bProject_to_TagClick(Sender: TObject);

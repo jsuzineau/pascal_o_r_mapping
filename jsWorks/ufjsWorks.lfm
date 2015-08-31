@@ -439,13 +439,22 @@ object fjsWorks: TfjsWorks
             _LectureSeule = False
           end
           object bVST: TButton
-            Left = 265
+            Left = 254
             Height = 25
-            Top = 30
-            Width = 75
+            Top = 23
+            Width = 43
             Caption = 'bVST'
             OnClick = bVSTClick
             TabOrder = 6
+          end
+          object bAutomatic_VST: TButton
+            Left = 256
+            Height = 25
+            Top = 50
+            Width = 36
+            Caption = 'A VST'
+            OnClick = bAutomatic_VSTClick
+            TabOrder = 7
           end
         end
         object cmWork_Description: TChamp_Memo
