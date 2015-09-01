@@ -129,6 +129,7 @@ end;
 procedure TfAutomatic_VST.Execute_SQL;
 begin
      poolAutomatic.Charge( e.Text, sl);
+     Tri.Vide_SousDetails;
      _from_sl;
 end;
 

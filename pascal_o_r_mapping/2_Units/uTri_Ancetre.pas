@@ -59,6 +59,7 @@ type
   public
     slSousDetails: TslObject;
     procedure Execute_et_Cree_SousDetails( StringList: TBatpro_StringList); virtual; abstract;
+    procedure Vide_SousDetails; virtual; abstract;
   //Observation des changements
   public
     pChange: TPublieur;

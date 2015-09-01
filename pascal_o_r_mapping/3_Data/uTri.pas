@@ -53,13 +53,13 @@ type
   //Sous détails
   private
     slListes: TslBatpro_StringList;
-    procedure Vide_SousDetails;
   private
     sl: TBatpro_StringList;
     iSL: Integer;
     procedure Traite_Niveau( _slDetail: TBatpro_StringList; _iChamp_Tri: Integer; _a: array of TContrainte);
   public
     procedure Execute_et_Cree_SousDetails( _StringList: TBatpro_StringList); override;
+    procedure Vide_SousDetails; override;
   end;
 
 

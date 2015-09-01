@@ -36,7 +36,7 @@ object fAutomatic_VST: TfAutomatic_VST
       Width = 496
       Anchors = [akTop, akLeft, akRight]
       TabOrder = 1
-      Text = 'select * from a_cht  limit 0,50'
+      Text = 'select * from a_cht  where phase <> "0" limit 0,100'
     end
     object bGenere: TButton
       Left = 11

@@ -1023,7 +1023,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="59"/>
         <CursorPos X="38" Y="67"/>
-        <UsageCount Value="155"/>
+        <UsageCount Value="156"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit109>
       <Unit110>
@@ -1035,7 +1035,7 @@
         <EditorIndex Value="8"/>
         <TopLine Value="114"/>
         <CursorPos Y="130"/>
-        <UsageCount Value="101"/>
+        <UsageCount Value="102"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -1048,9 +1048,9 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="9"/>
-        <TopLine Value="211"/>
-        <CursorPos X="27" Y="230"/>
-        <UsageCount Value="75"/>
+        <TopLine Value="120"/>
+        <CursorPos X="27" Y="132"/>
+        <UsageCount Value="76"/>
         <Bookmarks Count="1">
           <Item0 Y="130" ID="3"/>
         </Bookmarks>
@@ -1963,7 +1963,7 @@
         <EditorIndex Value="13"/>
         <TopLine Value="1372"/>
         <CursorPos X="5" Y="1384"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="22"/>
         <Loaded Value="True"/>
       </Unit245>
       <Unit246>
@@ -2000,7 +2000,7 @@
         <Filename Value="../pascal_o_r_mapping/2_Units/uTri_Ancetre.pas"/>
         <EditorIndex Value="3"/>
         <TopLine Value="46"/>
-        <CursorPos X="29" Y="60"/>
+        <CursorPos X="51" Y="62"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -2008,8 +2008,8 @@
       <Unit250>
         <Filename Value="../pascal_o_r_mapping/3_Data/uTri.pas"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="283"/>
-        <CursorPos Y="295"/>
+        <TopLine Value="44"/>
+        <CursorPos Y="63"/>
         <UsageCount Value="18"/>
         <Bookmarks Count="1">
           <Item0 X="31" Y="120" ID="2"/>
@@ -2021,7 +2021,7 @@
         <Filename Value="../pascal_o_r_mapping/3_Data/uVide.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="40"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit251>
       <Unit252>
@@ -2064,123 +2064,123 @@
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="../pascal_o_r_mapping/3_Data/uTri.pas"/>
-        <Caret Line="301" TopLine="282"/>
+        <Caret Line="302" TopLine="282"/>
       </Position1>
       <Position2>
         <Filename Value="../pascal_o_r_mapping/3_Data/uTri.pas"/>
-        <Caret Line="302" TopLine="282"/>
+        <Caret Line="309" TopLine="297"/>
       </Position2>
       <Position3>
         <Filename Value="../pascal_o_r_mapping/3_Data/uTri.pas"/>
-        <Caret Line="309" TopLine="297"/>
+        <Caret Line="315" TopLine="297"/>
       </Position3>
       <Position4>
         <Filename Value="../pascal_o_r_mapping/3_Data/uTri.pas"/>
-        <Caret Line="315" TopLine="297"/>
+        <Caret Line="316" TopLine="297"/>
       </Position4>
       <Position5>
         <Filename Value="../pascal_o_r_mapping/3_Data/uTri.pas"/>
-        <Caret Line="316" TopLine="297"/>
+        <Caret Line="318" TopLine="298"/>
       </Position5>
       <Position6>
         <Filename Value="../pascal_o_r_mapping/3_Data/uTri.pas"/>
-        <Caret Line="318" TopLine="298"/>
+        <Caret Line="319" TopLine="299"/>
       </Position6>
       <Position7>
         <Filename Value="../pascal_o_r_mapping/3_Data/uTri.pas"/>
-        <Caret Line="319" TopLine="299"/>
+        <Caret Line="320" TopLine="300"/>
       </Position7>
       <Position8>
         <Filename Value="../pascal_o_r_mapping/3_Data/uTri.pas"/>
-        <Caret Line="320" TopLine="300"/>
+        <Caret Line="294" TopLine="282"/>
       </Position8>
       <Position9>
         <Filename Value="../pascal_o_r_mapping/3_Data/uTri.pas"/>
-        <Caret Line="294" TopLine="282"/>
+        <Caret Line="296" TopLine="282"/>
       </Position9>
       <Position10>
         <Filename Value="../pascal_o_r_mapping/3_Data/uTri.pas"/>
-        <Caret Line="296" TopLine="282"/>
+        <Caret Line="298" TopLine="282"/>
       </Position10>
       <Position11>
         <Filename Value="../pascal_o_r_mapping/3_Data/uTri.pas"/>
-        <Caret Line="298" TopLine="282"/>
+        <Caret Line="299" TopLine="282"/>
       </Position11>
       <Position12>
         <Filename Value="../pascal_o_r_mapping/3_Data/uTri.pas"/>
-        <Caret Line="299" TopLine="282"/>
+        <Caret Line="301" TopLine="282"/>
       </Position12>
       <Position13>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uTri.pas"/>
-        <Caret Line="301" TopLine="282"/>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Ligne.pas"/>
+        <Caret Line="841" TopLine="831"/>
       </Position13>
       <Position14>
         <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Ligne.pas"/>
-        <Caret Line="841" TopLine="831"/>
+        <Caret Line="842" TopLine="831"/>
       </Position14>
       <Position15>
         <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Ligne.pas"/>
-        <Caret Line="842" TopLine="831"/>
+        <Caret Line="845" TopLine="831"/>
       </Position15>
       <Position16>
         <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Ligne.pas"/>
-        <Caret Line="845" TopLine="831"/>
+        <Caret Line="817" TopLine="805"/>
       </Position16>
       <Position17>
         <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Ligne.pas"/>
-        <Caret Line="817" TopLine="805"/>
+        <Caret Line="818" TopLine="805"/>
       </Position17>
       <Position18>
         <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Ligne.pas"/>
-        <Caret Line="818" TopLine="805"/>
+        <Caret Line="819" TopLine="805"/>
       </Position18>
       <Position19>
         <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Ligne.pas"/>
-        <Caret Line="819" TopLine="805"/>
+        <Caret Line="818" TopLine="815"/>
       </Position19>
       <Position20>
         <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Ligne.pas"/>
-        <Caret Line="818" TopLine="815"/>
+        <Caret Line="846" TopLine="833"/>
       </Position20>
       <Position21>
         <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Ligne.pas"/>
-        <Caret Line="846" TopLine="833"/>
+        <Caret Line="845" TopLine="833"/>
       </Position21>
       <Position22>
         <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Ligne.pas"/>
-        <Caret Line="845" TopLine="833"/>
+        <Caret Line="818" TopLine="806"/>
       </Position22>
       <Position23>
         <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Ligne.pas"/>
-        <Caret Line="818" TopLine="806"/>
+        <Caret Line="819" TopLine="806"/>
       </Position23>
       <Position24>
         <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Ligne.pas"/>
-        <Caret Line="819" TopLine="806"/>
+        <Caret Line="820" TopLine="806"/>
       </Position24>
       <Position25>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Ligne.pas"/>
-        <Caret Line="820" TopLine="806"/>
-      </Position25>
-      <Position26>
         <Filename Value="../pascal_o_r_mapping/3_Data/uTri.pas"/>
         <Caret Line="267" Column="33" TopLine="259"/>
-      </Position26>
-      <Position27>
+      </Position25>
+      <Position26>
         <Filename Value="../pascal_o_r_mapping/2_Units/uContrainte.pas"/>
         <Caret Line="58" Column="17" TopLine="152"/>
-      </Position27>
-      <Position28>
+      </Position26>
+      <Position27>
         <Filename Value="../pascal_o_r_mapping/6_Formes/ufAccueil.pas"/>
         <Caret Line="278" TopLine="260"/>
+      </Position27>
+      <Position28>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uTri.pas"/>
+        <Caret Line="315" TopLine="304"/>
       </Position28>
       <Position29>
         <Filename Value="../pascal_o_r_mapping/3_Data/uTri.pas"/>
-        <Caret Line="315" TopLine="304"/>
+        <Caret Line="295" TopLine="216"/>
       </Position29>
       <Position30>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uTri.pas"/>
-        <Caret Line="295" TopLine="283"/>
+        <Filename Value="../Generation_de_code/ufAutomatic_VST.pas"/>
+        <Caret Line="132" Column="12" TopLine="120"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>
