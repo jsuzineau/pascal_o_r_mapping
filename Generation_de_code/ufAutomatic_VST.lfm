@@ -1,7 +1,7 @@
 object fAutomatic_VST: TfAutomatic_VST
   Left = 290
   Height = 413
-  Top = 177
+  Top = 181
   Width = 596
   Caption = 'fAutomatic_VST'
   ClientHeight = 413
@@ -62,7 +62,6 @@ object fAutomatic_VST: TfAutomatic_VST
       Top = 11
       Width = 100
       ItemHeight = 15
-      OnChange = cbDatabasesChange
       TabOrder = 4
       Text = 'cbDatabases'
     end
@@ -80,10 +79,5 @@ object fAutomatic_VST: TfAutomatic_VST
     Header.MainColumn = -1
     Header.Options = [hoColumnResize, hoDblClickResize, hoDrag, hoShowSortGlyphs]
     TabOrder = 1
-    OnColumnClick = vstColumnClick
-    OnGetText = vstGetText
-    OnHeaderClick = vstHeaderClick
-    OnHeaderDraw = vstHeaderDraw
-    OnInitNode = vstInitNode
   end
 end

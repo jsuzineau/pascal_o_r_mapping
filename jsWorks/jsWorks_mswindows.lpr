@@ -73,7 +73,7 @@ uses
  ublTAG_WORK, udkType_Tag_edit, ublType_Tag, upoolType_Tag, uhfType_Tag,
  ufType_Tag, udkTag_LABEL, uodWork_from_Period, udkTag_LABEL_od,
  udkWork_haTag_from_Description_LABEL, ufTest_VirtualTreeView,
- virtualtreeview_package;
+ virtualtreeview_package, uhVST, ufTest_neo4j, uNEO4J, ublJSON, upoolJSON;
 
 {$R *.res}
 
@@ -84,6 +84,7 @@ begin
  Application.CreateForm(TfProject, fProject);
  Application.CreateForm(TfTYPE_TAG, fTYPE_TAG);
  Application.CreateForm(TfTest_VirtualTreeView, fTest_VirtualTreeView);
+ Application.CreateForm(TfTest_neo4j, fTest_neo4j);
  Application.Run;
 end.
 

@@ -62,6 +62,7 @@ uses
     ufTAG,
     ufTest_VirtualTreeView,
     ufAutomatic_VST,
+    ufTest_neo4j,
 
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls, Buttons, ucChampsGrid, ucDockableScrollbox,
@@ -87,6 +88,7 @@ type
    bCategorie_to_Tag: TButton;
    bDescription_to_Tag: TButton;
    bAutomatic_VST: TButton;
+   bNEO4J: TButton;
    bVST: TButton;
    ceBeginning: TChamp_Edit;
    ceEnd: TChamp_Edit;
@@ -130,6 +132,7 @@ type
    procedure bBugClick(Sender: TObject);
    procedure bCategorie_to_TagClick(Sender: TObject);
    procedure bDescription_to_TagClick(Sender: TObject);
+   procedure bNEO4JClick(Sender: TObject);
    procedure bPointClick(Sender: TObject);
    procedure bProjectClick(Sender: TObject);
    procedure bProject_to_TagClick(Sender: TObject);
@@ -335,6 +338,11 @@ end;
 procedure TfjsWorks.bDescription_to_TagClick(Sender: TObject);
 begin
      poolWork.Tag_from_Description;
+end;
+
+procedure TfjsWorks.bNEO4JClick(Sender: TObject);
+begin
+     fTest_neo4j.Show;
 end;
 
 procedure TfjsWorks.dsbWorkSelect(Sender: TObject);

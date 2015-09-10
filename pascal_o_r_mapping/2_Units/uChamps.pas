@@ -185,6 +185,9 @@ type
              write SetJSON
              {$ENDIF}
              ;
+    {$IFDEF FPC}
+    procedure _from_JSONObject( _jso: TJSONObject);
+    {$ENDIF}
   //Champs aggrégés
   private
     slAggreges: TslChamp;
@@ -1445,21 +1448,15 @@ begin
 end;
 
 {$IFDEF FPC}
-procedure TChamps.SetJSON( _Value: String);
+procedure TChamps._from_JSONObject( _jso: TJSONObject);
 var
-   jsp: TJSONParser;
-   jso: TJSONObject;
-
    nCount, I: Integer;
    C: TChamp;
    Champ_Nom: String;
    Champ_Valeur: String;
 begin
-     jsp:= TJSONParser.Create( _Value);
      try
         uChamp_Publier_Modifications:= False;
-
-        jso:= jsp.Parse as TJSONObject;
 
         nCount:= Count;
         for I:= 0 to nCount - 1
@@ -1468,16 +1465,30 @@ begin
           C        := Champ_from_Index( I);
           Champ_Nom:= Field_from_Index( I);
 
-          Champ_Valeur:= jso.Elements[Champ_Nom].AsString;
+          Champ_Valeur:= _jso.Elements[Champ_Nom].AsString;
 
           C.Chaine:= Champ_Valeur;
           end;
      finally
             uChamp_Publier_Modifications:= True;
-            Free_nil( jsp);
             end;
      Save_to_database;
 end;
+
+procedure TChamps.SetJSON( _Value: String);
+var
+   jsp: TJSONParser;
+   jso: TJSONObject;
+begin
+     jsp:= TJSONParser.Create( _Value);
+     jso:= jsp.Parse as TJSONObject;
+     try
+        _from_JSONObject( jso);
+     finally
+            Free_nil( jsp);
+            end;
+end;
+
 {$ENDIF}
 
 procedure TChamps.Aggrege_interne( _NomChamp: String; _C: TChamp);

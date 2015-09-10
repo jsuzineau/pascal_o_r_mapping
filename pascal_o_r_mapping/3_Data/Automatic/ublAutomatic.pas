@@ -230,7 +230,7 @@ type
   public
     q: TDataset;
     slFields: TslFieldBuffer;
-  //Méthodes
+  //Import des champs depuis un dataset
   public
     procedure Ajoute_Champs;
   //Génération de code
@@ -478,6 +478,8 @@ var
    F: TField;
    fb: TFieldBuffer;
 begin
+     if q = nil then exit;
+
      for I:= 0 to q.FieldCount-1
      do
        begin

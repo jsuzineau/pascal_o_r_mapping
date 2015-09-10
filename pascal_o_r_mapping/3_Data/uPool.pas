@@ -528,8 +528,9 @@ type
   //Chargement par clé
   private
     sqlq_SELECT: TSQLQuery;
-    procedure Ajoute( var bl);
     procedure Select( var bl);
+  protected
+    procedure Ajoute( var bl); //passé de private à protected pour TpoolJSON
   public
     Select_Enabled: Boolean;
   //Gestion de l'insertion
