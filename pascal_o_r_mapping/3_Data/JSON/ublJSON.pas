@@ -197,6 +197,31 @@ type
     function Iterateur_Decroissant: TIterateur_JSONFieldBuffer;
   end;
 
+ TLink= ^TBatpro_Element;
+ TIterateur_Link
+ =
+  class( TIterateur)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: TLink);
+    function  not_Suivant( var _Resultat: TLink): Boolean;
+  end;
+
+ TslLink
+ =
+  class( TBatpro_StringList)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_Link;
+    function Iterateur_Decroissant: TIterateur_Link;
+  end;
+
  { TblJSON }
  TblJSON
  =
@@ -212,6 +237,12 @@ type
   //Import des champs depuis des données au format JSON
   public
     procedure _from_JSONObject( _jso: TJSONObject);
+  //Gestion de liens
+  private
+    FslLink: TslLink;
+    function GetslLink: TslLink;
+  public
+    property slLink: TslLink read GetslLink;
   //Génération de code
   public
     procedure Genere_code( _Suffixe: String);
@@ -369,6 +400,45 @@ begin
      Value:= d.AsBoolean;
 end;
 
+{ TIterateur_Link }
+
+function TIterateur_Link.not_Suivant( var _Resultat: TLink): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_Link.Suivant( var _Resultat: TLink);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TslLink }
+
+constructor TslLink.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, nil{TLink});
+end;
+
+destructor TslLink.Destroy;
+begin
+     inherited;
+end;
+
+class function TslLink.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Link;
+end;
+
+function TslLink.Iterateur: TIterateur_Link;
+begin
+     Result:= TIterateur_Link( Iterateur_interne);
+end;
+
+function TslLink.Iterateur_Decroissant: TIterateur_Link;
+begin
+     Result:= TIterateur_Link( Iterateur_interne_Decroissant);
+end;
+
 { TIterateur_JSON }
 
 function TIterateur_JSON.not_Suivant( var _Resultat: TblJSON): Boolean;
@@ -429,10 +499,12 @@ begin
 
      q:= _q;
      slFields:= TslJSONFieldBuffer.Create( ClassName+'.slFields');
+     FslLink:= nil;
 end;
 
 destructor TblJSON.Destroy;
 begin
+     Free_nil( FslLink);
      Vide_StringList( slFields);
      Free_nil( slFields);
      inherited Destroy;
@@ -469,6 +541,14 @@ begin
 
        slFields.AddObject( fb.sCle, fb);
        end;
+end;
+
+function TblJSON.GetslLink: TslLink;
+begin
+     if FslLink= nil
+     then
+         FslLink:= TslLink.Create( Classname+'.sl');
+     Result:= FslLink;
 end;
 
 procedure TblJSON.Genere_code( _Suffixe: String);

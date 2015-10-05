@@ -185,9 +185,11 @@ end;
 procedure TpoolTAG.Charge_Work_from_Description( _Description: String;
                                                  _slLoaded, _haTag_sl: TBatpro_StringList);
 var
+   Description_LowerCase: String;
    I: TIterateur;
    bl: TblTag;
 begin
+     Description_LowerCase:= LowerCase( _Description);
      _slLoaded.Clear;
      ToutCharger;
      I:= slT.Iterateur_interne;
@@ -196,7 +198,7 @@ begin
        begin
        if I.not_Suivant_interne( bl) then continue;
 
-       if 0 = Pos( bl.Name, _Description) then continue;
+       if 0 = Pos( LowerCase(bl.Name), Description_LowerCase) then continue;
 
        if -1 <> _haTag_sl.IndexOfObject( bl) then continue;
 
