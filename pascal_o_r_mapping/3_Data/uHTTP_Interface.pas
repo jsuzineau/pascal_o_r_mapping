@@ -42,7 +42,7 @@ type
 
  THTTP_Interface
  =
-  class
+  class( TThread)
   //Gestion du cycle de vie
   public
     constructor Create;
@@ -75,15 +75,24 @@ type
     uri: String;
     function Prefixe( _Prefixe: String): Boolean;
     procedure Traite( _uri: String);
-  //Gestion de l'exécution
+  //Gestion de l'exécution, partie commune
   private
     ListenerSocket, ConnectionSocket: TTCPBlockSocket;
     procedure AttendConnection(ASocket: TTCPBlockSocket);
+    procedure Terminaison;
+  private
+     Execute_Running: Boolean;
+  protected
+     procedure Execute; override;
   public
-    Terminated: Boolean;
+    //Terminated: Boolean;
+    function URL: String;
+    function Initialisation: String;
     function Init: String;
-    procedure Run;
     procedure fgl_LaunchURL( _URL: String);
+  //Gestion de l'exécution monotâche
+  public
+    procedure Run;
   //Validation pour le PortMapper
   public
     procedure Traite_Validation;
@@ -108,6 +117,9 @@ end;
 
 constructor THTTP_Interface.Create;
 begin
+     inherited Create( True);
+     FreeOnTerminate:= False;
+
      S:= nil;
      Racine:= '';
      slPool:= Tslpool_Ancetre_Ancetre.Create( ClassName+'.slPool');
@@ -115,10 +127,15 @@ begin
      slO   := TslAbonnement_Objet    .Create( ClassName+'.slO');
 
      slO.Ajoute( 'Validation', Self, Traite_Validation);
+
+     Execute_Running:= False;
 end;
 
 destructor THTTP_Interface.Destroy;
 begin
+     Terminate;
+
+     Terminaison;
      Free_nil( slPool);
      Free_nil( slP   );
      Free_nil( slO   );
@@ -297,16 +314,22 @@ begin
      Traite( uri);
 end;
 
-function THTTP_Interface.Init: String;
+function THTTP_Interface.URL: String;
 var
    IP: String;
    Port: Integer;
 begin
-     Terminated:= False;
+     Result:= '';
+     if nil = ListenerSocket then exit;
 
      IP:= '192.168.1.30';//provisoire à revoir
      //Port:= '1500';
+     Port:= ListenerSocket.GetLocalSinPort;
+     Result:= 'http://'+IP+':'+IntToStr(Port)+'/';
+end;
 
+function THTTP_Interface.Initialisation: String;
+begin
      ListenerSocket  := TTCPBlockSocket.Create;
      ConnectionSocket:= TTCPBlockSocket.Create;
 
@@ -314,26 +337,51 @@ begin
      ListenerSocket.setLinger(true,10);
      ListenerSocket.bind('0.0.0.0','1500');
      ListenerSocket.listen;
-     Port:= ListenerSocket.GetLocalSinPort;
-     Result:= 'http://'+IP+':'+IntToStr(Port)+'/';
+
+     Result:= URL;
+end;
+
+procedure THTTP_Interface.Terminaison;
+begin
+     while Execute_Running
+     do
+       Sleep( 1000);
+     FreeAndNil( ListenerSocket  );
+     FreeAndNil( ConnectionSocket);
+end;
+
+procedure THTTP_Interface.Execute;
+begin
+     if nil = ListenerSocket then exit;
+
+     try
+        Execute_Running:= True;
+        repeat
+          if not ListenerSocket.canread( 1000) then continue;
+
+          ConnectionSocket.Socket := ListenerSocket.accept;
+          Log.PrintLn('Attending Connection. Error code (0=Success): '+IntToStr(ConnectionSocket.lasterror));
+          AttendConnection(ConnectionSocket);
+          ConnectionSocket.CloseSocket;
+        until Terminated;
+     finally
+            Execute_Running:= False;
+            end;
+end;
+
+function THTTP_Interface.Init: String;
+begin
+     Terminaison;
+
+     Result:= Initialisation;
+
      fgl_LaunchURL( Result);
 end;
 
 procedure THTTP_Interface.Run;
 begin
-     repeat
-           if not ListenerSocket.canread( 1000) then continue;
-
-           ConnectionSocket.Socket := ListenerSocket.accept;
-           Log.PrintLn('Attending Connection. Error code (0=Success): '+IntToStr(ConnectionSocket.lasterror));
-           AttendConnection(ConnectionSocket);
-           ConnectionSocket.CloseSocket;
-     until Terminated;
-
-     ListenerSocket.Free;
-     ConnectionSocket.Free;
+     Execute;
 end;
-
 
 procedure THTTP_Interface.fgl_LaunchURL(_URL: String);
 var

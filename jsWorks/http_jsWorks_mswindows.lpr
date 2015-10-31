@@ -42,49 +42,6 @@ Classes, blcksock, sockets, Synautil,SysUtils;
 
 //{$apptype console}
 
-{@@
- Attends a connection. Reads the headers and gives an
- appropriate response
-}
-procedure AttendConnection(ASocket: TTCPBlockSocket);
-var
-   timeout: integer;
-   s: string;
-   method, uri, protocol: string;
-   OutputDataString: string;
-   ResultCode: integer;
-   function Prefixe( _Prefixe: String): Boolean;
-   begin
-        Result:= 1=Pos( _Prefixe,uri);
-        if not Result then exit;
-        StrTok( _Prefixe, uri);
-   end;
-begin
-     HTTP_Interface.S:= ASocket;
-
-     timeout := 120000;
-
-     //WriteLn('Received headers+document from browser:');
-
-     //read request line
-     s := ASocket.RecvString(timeout);
-     //WriteLn(s);
-     method := fetch(s, ' ');
-     uri := fetch(s, ' ');
-     protocol := fetch(s, ' ');
-
-     //read request headers
-     repeat
-           s:= ASocket.RecvString(Timeout);
-           //WriteLn(s);
-     until s = '';
-
-     // Now write the document to the output stream
-     HTTP_Interface.Traite( uri);
-end;
-
-var
-   ListenerSocket, ConnectionSocket: TTCPBlockSocket;
 begin
      poolCategorie.ToutCharger;
      poolState    .ToutCharger;
@@ -96,23 +53,14 @@ begin
      HTTP_Interface.Register_pool( poolCategorie  );
      HTTP_Interface.Register_pool( poolState      );
 
-     ListenerSocket  := TTCPBlockSocket.Create;
-     ConnectionSocket:= TTCPBlockSocket.Create;
+     HTTP_Interface.Init;
 
-     ListenerSocket.CreateSocket;
-     ListenerSocket.setLinger(true,10);
-     ListenerSocket.bind('0.0.0.0','1500');
-     ListenerSocket.listen;
+     //Exécution monotâche
+     //HTTP_Interface.Run;
 
+     //Exécution asynchrone en thread séparé
+     HTTP_Interface.Start;
      repeat
-           if not ListenerSocket.canread( 1000) then continue;
-
-           ConnectionSocket.Socket := ListenerSocket.accept;
-           //WriteLn('Attending Connection. Error code (0=Success): ', ConnectionSocket.lasterror);
-           AttendConnection(ConnectionSocket);
-           ConnectionSocket.CloseSocket;
-     until false;
-
-     ListenerSocket.Free;
-     ConnectionSocket.Free;
+           sleep(1000);
+     until False;
 end.
