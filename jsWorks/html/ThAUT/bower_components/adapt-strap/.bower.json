@@ -1,0 +1,49 @@
+{
+  "name": "adapt-strap",
+  "version": "2.4.6",
+  "homepage": "https://github.com/Adaptv/adapt-strap",
+  "authors": [
+    "Kashyap Patel <kashyap@adap.tv>"
+  ],
+  "description": "Project for simple UI components and utilities",
+  "main": [
+    "dist/adapt-strap.min.js",
+    "dist/adapt-strap.tpl.min.js"
+  ],
+  "moduleType": [
+    "amd"
+  ],
+  "keywords": [
+    "adapt-strap"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "docs",
+    "index.html",
+    "node_modules",
+    "bower_components",
+    "dist_temp",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.4",
+    "bootstrap": "~3.1.1",
+    "angular-sanitize": "~1.4.4"
+  },
+  "devDependencies": {
+    "bootstrap": "~3.2.0",
+    "showdown": "~0.3.1",
+    "angular-mocks": "~1.4.4"
+  },
+  "_release": "2.4.6",
+  "_resolution": {
+    "type": "version",
+    "tag": "2.4.6",
+    "commit": "791a3900db9c1a1b8a3a9488fa9712feff4a6175"
+  },
+  "_source": "git://github.com/Adaptv/adapt-strap.git",
+  "_target": "~2.4.6",
+  "_originalSource": "adapt-strap",
+  "_direct": true
+}

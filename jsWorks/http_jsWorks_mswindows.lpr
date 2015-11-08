@@ -31,8 +31,8 @@ uses
   upoolWork, uPool, upoolG_BECP, uHTTP_Interface, ublAutomatic, upoolAutomatic,
   uContexteClasse, ujpNom_de_la_classe, ujpSQL_CREATE_TABLE,
   ujpPHP_Doctrine_Has_Column, ujpCSharp_Champs_persistants, ujpPascal_Affecte,
-  uJoinPoint, uPatternHandler, uhATB, Interfaces, // this includes the LCL widgetset
-Classes, blcksock, sockets, Synautil,SysUtils, uhAutomatic_ATB;
+  uJoinPoint, uPatternHandler, uhATB, uhAUT, Interfaces, // this includes the LCL widgetset
+Classes, blcksock, sockets, Synautil,SysUtils, uhAutomatic_ATB, uhAutomatic_AUT;
 
 {$ifdef fpc}
  {$mode delphi}
@@ -54,6 +54,7 @@ begin
 
      //hAutomatic_ATB.Execute_SQL( 'select * from a_cht  where phase <> "0" limit 0,100');
      hAutomatic_ATB.Execute_SQL( 'select * from Work limit 0,100');
+     hAutomatic_AUT.Execute_SQL( 'select * from Work limit 0,100');
 
      HTTP_Interface.Init;
 

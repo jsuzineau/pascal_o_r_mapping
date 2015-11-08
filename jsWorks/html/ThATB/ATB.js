@@ -6,7 +6,7 @@
      'ctrl_ATB',
      function ($scope,$http)
        {
-       $scope.root= {"Elements":[]};
+       $scope.root= {"Elements":[{"id":1},{"id":2},{"id":3}]};
 
        //provisoire, il faudrait avoir un nom par occurence
        $scope.NomFonction="ATB.json";

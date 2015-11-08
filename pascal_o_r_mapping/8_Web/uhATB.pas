@@ -126,11 +126,7 @@ function ThATB.HTML_Header: String;
       Nom: String;
       sTri: String;
    begin
-        Result
-        :=
- '        <script type="text/ng-template" id="treeHeader.html">'#13#10
-+'          <div>                                              '#13#10
-        ;
+        Result:= '<div>'#13#10;
         try
            bl:= Batpro_Ligne_from_sl( _sl, 0);
            if nil = bl then exit;
@@ -158,17 +154,12 @@ function ThATB.HTML_Header: String;
 
              Result
              :=
-               Result
-+'               <div class="col-sm-1 text-left">'+cd.Libelle + sTri+'</div>'#13#10;
+                Result
+               +'  <div class="col-sm-1 text-left">'+cd.Libelle + sTri+'</div>'#13#10;
              //vtc.MinWidth:= cd.Longueur*10;
              end;
         finally
-               Result
-               :=
-                 Result
-+'                 </div>  '#13#10
-+'               </script> '#13#10;
-
+               Result:= Result + '</div>'#13#10;
                end;
    end;
 begin
@@ -184,11 +175,7 @@ function ThATB.HTML_Node: String;
       cd: TChampDefinition;
       Nom: String;
    begin
-        Result
-        :=
-    '        <script type="text/ng-template" id="treeNode.html">'#13#10
-   +'          <div>                                            '#13#10
-        ;
+        Result:= '<div>'#13#10;
         try
            bl:= Batpro_Ligne_from_sl( _sl, 0);
            if nil = bl then exit;
@@ -204,16 +191,11 @@ function ThATB.HTML_Node: String;
 
              Result
              :=
-               Result
-   +'               <div class="col-sm-1 text-left">{{item.'+Nom+'}}</div>'#13#10;
+                Result
+               +'  <div class="col-sm-1 text-left">{{item.'+Nom+'}}</div>'#13#10;
              end;
         finally
-               Result
-               :=
-                 Result
-   +'                 </div>  '#13#10
-   +'               </script> '#13#10;
-
+               Result:= Result+'</div>'#13#10;
                end;
    end;
 begin
@@ -284,11 +266,39 @@ var
    uri: String;
   procedure Traite_Racine;
   var
+     NomFichier: String;
+     Extension: String;
      S: String;
   begin
-       S:= HTML;
+       NomFichier:= Repertoire+SetDirSeparators( 'index.html');
+       if FileExists( NomFichier)
+       then
+           begin
+           S:= String_from_File( NomFichier);
+           HTTP_Interface.Send_HTML( S);
+           Log.PrintLn( 'Envoi racine ');
+           end
+       else
+           begin
+           HTTP_Interface.Send_Not_found;
+           Log.PrintLn( '#### Fichier non trouvé :'#13#10+uri);
+           end;
+  end;
+  procedure Traite_Header;
+  var
+     S: String;
+  begin
+       S:= HTML_Header;
        HTTP_Interface.Send_HTML( S);
-       Log.PrintLn( 'Envoi HTML:'#13#10+S);
+       Log.PrintLn( 'HTML_Header:'#13#10+S);
+  end;
+  procedure Traite_Node;
+  var
+     S: String;
+  begin
+       S:= HTML_Node;
+       HTTP_Interface.Send_HTML( S);
+       Log.PrintLn( 'Envoi HTML_Node:'#13#10+S);
   end;
   procedure Traite_JSON;
   var
@@ -327,9 +337,11 @@ var
   end;
 begin
      uri:= HTTP_Interface.uri;
-          if '' = uri                            then Traite_Racine
-     else if HTTP_Interface.Prefixe( 'ATB.json') then Traite_JSON
-     else                                             Traite_Fichier;
+          if '' = uri                                  then Traite_Racine
+     else if HTTP_Interface.Prefixe( 'ATB.json')       then Traite_JSON
+     else if HTTP_Interface.Prefixe( 'treeHeader.html')then Traite_Header
+     else if HTTP_Interface.Prefixe( 'treeNode.html')  then Traite_Node
+     else                                                   Traite_Fichier;
 end;
 
 end.
