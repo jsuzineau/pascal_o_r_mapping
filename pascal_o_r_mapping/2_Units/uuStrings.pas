@@ -147,6 +147,8 @@ function Match_Root( _Root, _S: String):Boolean;
 
 function JSArray_from_StringList( _sl: TStringList): String;
 
+function String_from_File( _FileName: String): String;
+
 implementation
 
 { Indente
@@ -1007,5 +1009,20 @@ begin
        Formate_Liste( Result, ', ', '"'+_sl[I]+'"');
 end;
 
+function String_from_File( _FileName: String): String;
+var
+   sl: TStringList;
+begin
+     Result:= '';
+     if not FileExists( _FileName) then exit;
+
+     sl:= TStringList.Create;
+     try
+        sl.LoadFromFile( _FileName);
+        Result:= sl.Text;
+     finally
+            Free_nil( sl);
+            end;
+end;
 
 end.

@@ -1,7 +1,7 @@
 object fTest_neo4j: TfTest_neo4j
-  Left = 386
+  Left = 1964
   Height = 240
-  Top = 141
+  Top = 276
   Width = 784
   Caption = 'fTest_neo4j'
   ClientHeight = 240

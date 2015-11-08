@@ -25,16 +25,14 @@ program http_jsWorks_mswindows;
 //{$mode objfpc}{$H+}
 
 uses
-  uBatpro_StringList,
-  uuStrings,
-  ublCategorie, ublDevelopment,
-  ublProject, ublState, ublWork,
-  uhfCategorie, uhfDevelopment,
-  uhfJour_ferie, uhfProject, uhfState, uhfWork, upoolCategorie,
-  upoolDevelopment, upoolProject, upoolState, upoolWork, uPool,
-  upoolG_BECP, uHTTP_Interface,
-  Interfaces, // this includes the LCL widgetset
-Classes, blcksock, sockets, Synautil,SysUtils;
+  uBatpro_StringList, uuStrings, ublCategorie, ublDevelopment, ublProject,
+  ublState, ublWork, uhfCategorie, uhfDevelopment, uhfJour_ferie, uhfProject,
+  uhfState, uhfWork, upoolCategorie, upoolDevelopment, upoolProject, upoolState,
+  upoolWork, uPool, upoolG_BECP, uHTTP_Interface, ublAutomatic, upoolAutomatic,
+  uContexteClasse, ujpNom_de_la_classe, ujpSQL_CREATE_TABLE,
+  ujpPHP_Doctrine_Has_Column, ujpCSharp_Champs_persistants, ujpPascal_Affecte,
+  uJoinPoint, uPatternHandler, uhATB, Interfaces, // this includes the LCL widgetset
+Classes, blcksock, sockets, Synautil,SysUtils, uhAutomatic_ATB;
 
 {$ifdef fpc}
  {$mode delphi}
@@ -52,6 +50,10 @@ begin
      HTTP_Interface.Register_pool( poolDevelopment);
      HTTP_Interface.Register_pool( poolCategorie  );
      HTTP_Interface.Register_pool( poolState      );
+     //HTTP_Interface.Register_pool( poolAutomatic  ); à voir, conflit avec uhAutomatic_ATB
+
+     //hAutomatic_ATB.Execute_SQL( 'select * from a_cht  where phase <> "0" limit 0,100');
+     hAutomatic_ATB.Execute_SQL( 'select * from Work limit 0,100');
 
      HTTP_Interface.Init;
 

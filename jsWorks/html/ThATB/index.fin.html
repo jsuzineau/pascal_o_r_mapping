@@ -1,0 +1,30 @@
+      <!-- ===== Usage with border & header ===== -->
+      <ad-tree-browser class="ad-border-default"
+                       tree-name="treeDemoBordered"
+                       row-ng-class="{added:item._selected}"
+                       tree-root="root"
+                       child-node="Elements"
+                       children-padding="0"
+                       bordered="true"
+                       on-row-click="rowClicked"
+                       node-header-url="treeHeader.html"
+                       node-template-url="treeNode.html"
+                       custom-toggle="true">
+      </ad-tree-browser>
+    </section>
+    <!-- dependencies -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+
+    <!-- adapt-strap -->
+    <script src="bower_components/adapt-strap/dist/adapt-strap.min.js"></script>
+    <script src="bower_components/adapt-strap/dist/adapt-strap.tpl.min.js"></script>
+    <link rel="stylesheet" href="bower_components/adapt-strap/dist/adapt-strap.min.css"/>
+
+    <!-- Script -->
+    <script type="text/javascript" src="ATB.js"></script>
+  </body>
+</html>

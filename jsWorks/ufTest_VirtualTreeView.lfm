@@ -1,7 +1,7 @@
 object fTest_VirtualTreeView: TfTest_VirtualTreeView
-  Left = 397
+  Left = 2236
   Height = 342
-  Top = 147
+  Top = 372
   Width = 520
   Caption = 'fTest_VirtualTreeView'
   ClientHeight = 342

@@ -609,6 +609,9 @@ begin
        Inc( iJSON);
        end;
      Result:= Result+']';
+     if Nom <> ''
+     then
+         Result:= '{"Nom": "'+Nom+'","Elements":'+Result+'}';
 end;
 
 class function TBatpro_StringList.Classe_Iterateur: TIterateur_Class;

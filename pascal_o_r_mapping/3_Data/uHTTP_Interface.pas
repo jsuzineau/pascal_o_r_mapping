@@ -57,6 +57,8 @@ type
     procedure Send_Data(_Content_type, _Data: String);
     procedure Send_HTML(_HTML: String);
     procedure Send_JSON(_JSON: String);
+    procedure Send_JS(_JS: String);
+    procedure Send_CSS(_CSS: String);
     procedure Send_Not_found;
     procedure Traite_racine;
   //enregistrement d'un pool
@@ -165,6 +167,16 @@ end;
 procedure THTTP_Interface.Send_JSON( _JSON: String);
 begin
      Send_Data( 'text/json;charset=utf-8', _JSON);
+end;
+
+procedure THTTP_Interface.Send_JS(_JS: String);
+begin
+     Send_Data( 'text/js;charset=utf-8', _JS);
+end;
+
+procedure THTTP_Interface.Send_CSS(_CSS: String);
+begin
+     Send_Data( 'text/css;charset=utf-8', _CSS);
 end;
 
 procedure THTTP_Interface.Send_Not_found;

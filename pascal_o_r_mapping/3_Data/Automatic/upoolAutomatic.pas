@@ -27,6 +27,7 @@ uses
     uBatpro_StringList,
     uhAggregation,
     uDataUtilsU,
+    uhFiltre,
 
     uBatpro_Element,
     ublAutomatic,
@@ -79,7 +80,7 @@ procedure TpoolAutomatic.DataModuleCreate(Sender: TObject);
 begin
      NomTable:= 'Automatic';
      Classe_Elements:= TblAutomatic;
-     Classe_Filtre:= nil;
+     Classe_Filtre:= ThFiltre;
      Connection_fixe:= nil;
 
      inherited;
