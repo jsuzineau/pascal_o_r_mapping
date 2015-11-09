@@ -59,6 +59,10 @@ type
     procedure Send_JSON(_JSON: String);
     procedure Send_JS(_JS: String);
     procedure Send_CSS(_CSS: String);
+    procedure Send_WOFF(_WOFF: String);
+    procedure Send_WOFF2(_WOFF2: String);
+    procedure Send_MIME_from_Extension(_S, _Extension: String);
+    function MIME_from_Extension( _Extension: String): String;
     procedure Send_Not_found;
     procedure Traite_racine;
   //enregistrement d'un pool
@@ -177,6 +181,45 @@ end;
 procedure THTTP_Interface.Send_CSS(_CSS: String);
 begin
      Send_Data( 'text/css;charset=utf-8', _CSS);
+end;
+
+procedure THTTP_Interface.Send_WOFF(_WOFF: String);
+begin
+     Send_Data( 'application/font-woff', _WOFF);
+end;
+
+procedure THTTP_Interface.Send_WOFF2(_WOFF2: String);
+begin
+     Send_Data( 'font/woff2', _WOFF2);
+end;
+
+function THTTP_Interface.MIME_from_Extension(_Extension: String): String;
+begin
+     Result:= '';
+
+          if '.svg' = _Extension then Result:= 'image/svg+xml'
+     else if '.eot' = _Extension then Result:= 'application/vnd.ms-fontobject'
+     else if '.ttf' = _Extension then Result:= 'application/x-font-truetype';
+
+end;
+
+procedure THTTP_Interface.Send_MIME_from_Extension( _S, _Extension: String);
+var
+   MIME: String;
+begin
+     MIME:= MIME_from_Extension( _Extension);
+          if MIME <> ''            then Send_Data( MIME, _S)
+     else if '.html'  = _Extension then Send_HTML ( _S)
+     else if '.js'    = _Extension then Send_JS   ( _S)
+     else if '.json'  = _Extension then Send_JSON ( _S)
+     else if '.css'   = _Extension then Send_CSS  ( _S)
+     else if '.woff'  = _Extension then Send_WOFF ( _S)
+     else if '.woff2' = _Extension then Send_WOFF2( _S)
+     else
+         begin
+         Send_HTML( _S);
+         Log.PrintLn( '#### Extension inconnue pour :'#13#10+uri);
+         end;
 end;
 
 procedure THTTP_Interface.Send_Not_found;

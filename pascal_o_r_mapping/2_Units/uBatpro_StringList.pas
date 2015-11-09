@@ -591,8 +591,28 @@ function TBatpro_StringList.JSON: String;
 var
    I: Integer;
    O: TObject;
-   JSONProvider: TJSONProvider;
+   sJSON: String;
    iJSON: Integer;
+   function notTraite_JSONProvider: Boolean;
+   var
+      JSONProvider: TJSONProvider;
+   begin
+        JSONProvider:= TJSONProvider_from_Object( O);
+        Result:= JSONProvider = nil;
+        if Result then exit;
+
+        sJSON:= JSONProvider.JSON;
+   end;
+   function notTraite_Batpro_StringList: Boolean;
+   var
+      Batpro_StringList: TBatpro_StringList;
+   begin
+
+        Result:= Affecte_( Batpro_StringList, TBatpro_StringList, O);
+        if Result then exit;
+
+        sJSON:= Batpro_StringList.JSON;
+   end;
 begin
      Result:= '[';
      iJSON:= 0;
@@ -600,17 +620,18 @@ begin
      do
        begin
        O:= Objects[I];
-       JSONProvider:= TJSONProvider_from_Object( O);
-       if JSONProvider = nil then continue;
+       if notTraite_JSONProvider
+       then
+           notTraite_Batpro_StringList;
        if iJSON > 0
        then
            Result:= Result + ',';
-       Result:= Result + JSONProvider.JSON;
+       Result:= Result + sJSON;
        Inc( iJSON);
        end;
      Result:= Result+']';
-     if Nom <> ''
-     then
+     //if Nom <> ''
+     //then
          Result:= '{"Nom": "'+Nom+'","Elements":'+Result+'}';
 end;
 

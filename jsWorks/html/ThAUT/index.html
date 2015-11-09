@@ -4,10 +4,10 @@
     <meta charset="utf-8">
   </header>
   <body>
-    <div ng-include="'treeHeader.html'">
-    </div>
-    <br>
     <div ng-controller="ctrl_AUT" >
+       <div ng-include="'treeHeader.html'">
+       </div>
+       <br>
        <div ui-tree>
          <ol ui-tree-nodes="" ng-model="root" id="tree-root">
            <li ng-repeat="node in root.Elements" ui-tree-node ng-include="'treeNode.html'"></li>
@@ -19,8 +19,8 @@
     <script src="bower_components/jquery/dist/jquery.js"></script>
     -->
     <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <!--
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>

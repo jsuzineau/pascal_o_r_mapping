@@ -36,6 +36,20 @@
            $scope.$broadcast('expandAll');
          };
 
+        $scope.TriClick
+        =
+         function ( _NomChamp)
+           {
+           $http.get("Tri/"+_NomChamp)
+           .success
+             (
+             function(response)
+               {
+               $scope.root = response;
+               }
+             );
+           };
+
        //provisoire, il faudrait avoir un nom par occurence
        $scope.NomFonction="AUT.json";
 

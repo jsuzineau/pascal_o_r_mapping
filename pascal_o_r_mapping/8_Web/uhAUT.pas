@@ -155,10 +155,14 @@ function ThAUT.HTML_Header: String;
              Result
              :=
                 Result
-               +'  <div class="col-sm-1 text-left">'+cd.Libelle + sTri+'</div>'#13#10;
+               +'  <div class="col-sm-1 text-left" ng-click="TriClick('''+cd.Nom+''')">'+cd.Libelle + sTri+'</div>'#13#10;
              //vtc.MinWidth:= cd.Longueur*10;
              end;
         finally
+               Result
+               :=
+                  Result
+                 +'  <div class="col-sm-1 text-left" ng-click="TriClick(''0'')">Reset Tri</div>'#13#10;
                Result:= Result + '</div>'#13#10;
                end;
    end;
@@ -288,6 +292,18 @@ var
            Log.PrintLn( '#### Fichier non trouvé :'#13#10+uri);
            end;
   end;
+  procedure Traite_Tri;
+  var
+     Reset: Boolean;
+     NomChamp: String;
+     S: String;
+  begin
+       Reset:= HTTP_Interface.Prefixe('0');
+       NomChamp:= HTTP_Interface.uri;
+       S:= Tri_Click( Reset, NomChamp);
+       HTTP_Interface.Send_JSON( S);
+       Log.PrintLn( 'Tri_Click:'#13#10+S);
+  end;
   procedure Traite_Header;
   var
      S: String;
@@ -325,13 +341,7 @@ var
            Log.PrintLn( 'Envoi fichier '#13#10+uri);
            Extension:= LowerCase(ExtractFileExt(uri));
            S:= String_from_File( NomFichier);
-                if '.js'  = Extension then HTTP_Interface.Send_JS  ( S)
-           else if '.css' = Extension then HTTP_Interface.Send_CSS ( S)
-           else
-               begin
-               HTTP_Interface.Send_HTML( S);
-               Log.PrintLn( '#### Extension inconnue pour :'#13#10+uri);
-               end;
+           HTTP_Interface.Send_MIME_from_Extension( S, Extension);
            end
        else
            begin
@@ -342,6 +352,7 @@ var
 begin
      uri:= HTTP_Interface.uri;
           if '' = uri                                  then Traite_Racine
+     else if HTTP_Interface.Prefixe( 'Tri/')            then Traite_Tri
      else if HTTP_Interface.Prefixe( 'AUT.json')       then Traite_JSON
      else if HTTP_Interface.Prefixe( 'treeHeader.html')then Traite_Header
      else if HTTP_Interface.Prefixe( 'treeNode.html')  then Traite_Node
