@@ -187,6 +187,7 @@ function ThAUT.HTML_Node: String;
           +'     <span class="glyphicon"                                                                             '#13#10
           +'           ng-class="{''glyphicon-chevron-right'': collapsed, ''glyphicon-chevron-down'': !collapsed}">  '#13#10
           +'     </span>                                                                                             '#13#10
+          +'  {{node.Nom}}'#13#10
           +'  </a>                                                                                                   '#13#10
           ;
 
@@ -213,6 +214,7 @@ function ThAUT.HTML_Node: String;
                :=
                   Result
                  +'</div>                                                                           '#13#10
+                 +'<br>'#13#10
                  +'<ol ui-tree-nodes="options" ng-model="node.Elements" ng-class="{hidden: collapsed}">'#13#10
                  +'  <li ng-repeat="node in node.Elements" ui-tree-node ng-include="''treeNode.html''"></li>'#13#10
                  +'</ol>'#13#10
