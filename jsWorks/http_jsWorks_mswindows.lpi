@@ -42,7 +42,9 @@
       <Unit1>
         <Filename Value="../pascal_o_r_mapping/3_Data/uPool.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="Pool"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit1>
       <Unit2>
         <Filename Value="../pascal_o_r_mapping/7_sources_externes/synapse/source/lib/blcksock.pas"/>
@@ -282,7 +284,9 @@
       <Unit55>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/upoolAutomatic.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="poolAutomatic"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit55>
       <Unit56>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/ublAutomatic.pas"/>

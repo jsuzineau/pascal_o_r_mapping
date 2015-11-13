@@ -29,6 +29,7 @@ uses
     uForms,
     uClean,
     uBatpro_StringList,
+    uLog,
     uContrainte,
     u_sys_,
     uuStrings,
@@ -86,6 +87,8 @@ type
     procedure AjouteCritereDIFFERENT(NomChamp, ValeurChamp: String);override;
     procedure AjouteCritereEGAL     (NomChamp, ValeurChamp: String);override;
     procedure AjouteCritereCONTIENT (NomChamp, ValeurChamp: String);override;
+
+    procedure CritereCONTIENT( _NomChamp, _ValeurChamp: String);override;
     function Actif: Boolean;
   //Travail avec une StringList comme source
   //initialisation non mise dans le constructeur pour ne pas changer les appels
@@ -431,7 +434,7 @@ begin
                Format('(%s = %s)',[NomChamp, QuotedStr( ValeurChamp)]);
 end;
 
-procedure ThFiltre.AjouteCritereCONTIENT(NomChamp, ValeurChamp: String);
+procedure ThFiltre.AjouteCritereCONTIENT( NomChamp, ValeurChamp: String);
 begin
      if -1 <> slCONTIENT.IndexOfName( NomChamp)
      then
@@ -447,6 +450,35 @@ begin
      if sFiltre <> sys_Vide then sFiltre:= sFiltre + ' and ';
      sFiltre:= sFiltre +
                Format('(%s like %s)',[NomChamp, QuotedStr( '%'+ValeurChamp+'%')]);
+end;
+
+procedure ThFiltre.CritereCONTIENT( _NomChamp, _ValeurChamp: String);
+    procedure Enleve;
+    var
+       I: Integer;
+    begin
+         I:= slCONTIENT.IndexOfName( _NomChamp);
+         if -1 = I
+         then
+             begin
+//             Log.PrintLn( 'ThFiltre.CritereCONTIENT, Enleve :'#13#10+slCONTIENT.Text);
+             exit;
+             end;
+         slCONTIENT.Delete( I);
+    end;
+    procedure Affecte;
+    begin
+         slCONTIENT.Values[ _NomChamp]:= _ValeurChamp;
+    end;
+begin
+     //Attention sFiltre non mis à jour
+
+     if _ValeurChamp = sys_Vide
+     then
+         Enleve
+     else
+         Affecte;
+
 end;
 
 function ThFiltre.Actif: Boolean;

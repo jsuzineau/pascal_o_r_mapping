@@ -59,6 +59,8 @@ type
     procedure AjouteCritereDIFFERENT(NomChamp, ValeurChamp: String);virtual; abstract;
     procedure AjouteCritereEGAL     (NomChamp, ValeurChamp: String);virtual; abstract;
     procedure AjouteCritereCONTIENT (NomChamp, ValeurChamp: String);virtual; abstract;
+
+    procedure CritereCONTIENT ( _NomChamp, _ValeurChamp: String);virtual; abstract;
   end;
 
 const

@@ -14,7 +14,9 @@ uses
     uChamps,
     uuStrings,
     uTri_Ancetre,
+    uTri,
     uhFiltre_Ancetre,
+    uhFiltre,
     uRequete,
 
     uHTTP_Interface,
@@ -44,6 +46,9 @@ type
    //Liste de lignes
    public
       sl: TslAutomatic;
+      slFiltre: TslAutomatic;
+      Tri: TTri;
+      Filtre: ThFiltre;
    //Execution du SQL
    public
      function Execute_SQL( _SQL: String): String;
@@ -74,16 +79,24 @@ end;
 
 constructor ThAutomatic_AUT.Create;
 begin
-     sl:= TslAutomatic.Create( ClassName+'.sl');
+     sl      := TslAutomatic.Create( ClassName+'.sl'      );
+     slFiltre:= TslAutomatic.Create( ClassName+'.slFiltre');
 
-     hAUT:= ThAUT.Create( sl, poolAutomatic.Tri, poolAutomatic.hf);
+     Tri:= TTri.Create;
+     Filtre:= ThFiltre.Create( nil, nil, slFiltre, Tri);
+     Filtre.slsCle:= sl;
 
-     HTTP_Interface.slO.Ajoute( 'Automatic_AUT', Self, Traite_HTTP);
+     hAUT:= ThAUT.Create( slFiltre, Tri, Filtre);
+
+     HTTP_Interface.slO.Ajoute( 'Automatic_AUT/', Self, Traite_HTTP);
 end;
 
 destructor ThAutomatic_AUT.Destroy;
 begin
      HTTP_Interface.slO.Enleve( 'Automatic_AUT');
+     Free_nil( Filtre);
+     Free_nil( Tri);
+     Free_nil( slFiltre);
      Free_nil( sl);
      inherited Destroy;
 end;
@@ -94,6 +107,7 @@ begin
      hAUT.Tri.Reset_ChampsTri;
 
      poolAutomatic.Charge( _SQL, sl);
+     Filtre.Execute;
      Result:= hAUT.JSON;
 end;
 

@@ -485,6 +485,13 @@ begin
        begin
        F:= q.Fields.Fields[I];
        if F = nil then continue;
+       if     ('id'      = F.FieldName)
+          and (
+                 (ftInteger = F.DataType )
+              or (ftAutoInc = F.DataType )
+              )
+       then
+           continue;
 
        case F.DataType
        of

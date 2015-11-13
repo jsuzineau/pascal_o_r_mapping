@@ -5,6 +5,8 @@
   </header>
   <body>
     <div ng-controller="ctrl_AUT" >
+       <input type ='text'  id="eSQL"  ng-model="SQL" ng-keydown="eSQLKeyDown($event)" size="50">
+       <br>
        <div ng-include="'treeHeader.html'">
        </div>
        <br>

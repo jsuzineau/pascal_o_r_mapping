@@ -6,6 +6,25 @@
      'ctrl_AUT',
      function ($scope,$http)
        {
+       $scope.treeHeader_Champ_inner_Label_html= {};
+       $http.get("treeHeader.Champ.inner.Label.html")
+       .success
+         (
+         function(response)
+           {
+           $scope.treeHeader_Champ_inner_Label_html = response;
+           }
+         );
+       $scope.treeHeader_Champ_inner_Edit_html= {};
+       $http.get("treeHeader.Champ.inner.Edit.html")
+       .success
+         (
+         function(response)
+           {
+           $scope.treeHeader_Champ_inner_Edit_html = response;
+           }
+         );
+
          $scope.remove = function (scope) {
            scope.remove();
          };
@@ -36,7 +55,20 @@
            $scope.$broadcast('expandAll');
          };
 
-        $scope.TriClick
+        $scope.SQL={};
+        $http.get("../Automatic_AUT/SQL")
+        .success
+          (
+          function(response)
+            {
+            $scope.SQL = response;
+            }
+          );
+        };
+        eSQLKeyDown($event)
+
+
+        $scope.Tri_Click
         =
          function ( _NomChamp)
            {
@@ -48,6 +80,45 @@
                $scope.root = response;
                }
              );
+           };
+        $scope.Filtre_Etat_Label_Click
+        =
+         function ( _NomChamp, _ValeurFiltreChamp)
+           {
+           $scope.idSPANNomChamp="span"+_NomChamp;
+           $scope.spanNomChamp=document.getElementById( $scope.idSPANNomChamp);
+           $scope.spanNomChamp_innerHTML
+           =
+            $scope.treeHeader_Champ_inner_Edit_html.replace(/NomChamp/g,_NomChamp);
+
+           $scope.spanNomChamp.innerHTML= $scope.spanNomChamp_innerHTML;
+
+           $scope.ValeurFiltreChamp=_ValeurFiltreChamp;
+
+           $scope.idInputNomChamp="input"+_NomChamp;
+           $scope.inputNomChamp=document.getElementById( $scope.idInputNomChamp);
+           $scope.inputNomChamp.select();
+           };
+        $scope.Filtre_Etat_Edit_KeyDown
+        =
+         function ( $event,_NomChamp)
+           {
+           if ($event.key != "Enter") return false;
+
+           //Récupération de la valeur
+           $scope.inputNomChamp=document.getElementById( "input"+_NomChamp);
+           $scope.ValeurFiltreChamp= $scope.inputNomChamp.value;
+
+           //envoi de la valeur
+           $http.get("Filtre/"+_NomChamp+","+$scope.ValeurFiltreChamp)
+           .success
+             (
+             function(response)
+               {
+               $scope.root = response;
+               }
+             );
+           return true;
            };
 
        //provisoire, il faudrait avoir un nom par occurence

@@ -62,6 +62,7 @@ type
   //Répertoire des fichiers
   public
     Repertoire: String;
+    function SF( _NomFichier: String): String;
   //Génération des modèles
   private
     function HTML_Header: String;
@@ -113,6 +114,11 @@ begin
      inherited Destroy;
 end;
 
+function ThAUT.SF( _NomFichier: String): String;
+begin
+     Result:= String_from_File( Repertoire+_NomFichier);
+end;
+
 function ThAUT.HTML_Header: String;
    function Traite_Liste( _sl: TBatpro_StringList): String;
    var
@@ -122,11 +128,33 @@ function ThAUT.HTML_Header: String;
       cd: TChampDefinition;
       Nom: String;
       sTri: String;
+      ValeurFiltreChamp: String;
+      procedure Calcule_ValeurFiltreChamp;
+      var
+         iValeur: Integer;
+      begin
+           iValeur:= Filtre.slCONTIENT.IndexOfName( Nom);
+           if -1 = iValeur
+           then
+               ValeurFiltreChamp:= ''
+           else
+               ValeurFiltreChamp:= Filtre.slCONTIENT.ValueFromIndex[iValeur];
+      end;
+      procedure Traite_Chercher_Remplacer;
+      var
+         S: String;
+      begin
+           S:= SF( 'treeHeader.Champ.html');
+
+           S:= StringReplace( S, 'NomChamp'              , cd.Nom           , [rfReplaceAll]);
+           S:= StringReplace( S, 'LibelleChamp'          , cd.Libelle + sTri, [rfReplaceAll]);
+           S:= StringReplace( S, 'ValeurFiltreChamp'     , ValeurFiltreChamp, [rfReplaceAll]);
+
+           Result:= Result + S;
+      end;
+
    begin
-        Result
-        :=
-           '<div>'#13#10
-          +'  <div class="col-sm-1 text-left">Arbre</div>'#13#10;
+        Result:= SF( 'treeHeader.prefixe.html');
         try
            bl:= Batpro_Ligne_from_sl( _sl, 0);
            if nil = bl then exit;
@@ -152,18 +180,13 @@ function ThAUT.HTML_Header: String;
                    else sTri:= sys_Vide;
                    end;
 
-             Result
-             :=
-                Result
-               +'  <div class="col-sm-1 text-left" ng-click="TriClick('''+cd.Nom+''')">'+cd.Libelle + sTri+'</div>'#13#10;
+             Calcule_ValeurFiltreChamp;
+
+             Traite_Chercher_Remplacer;
              //vtc.MinWidth:= cd.Longueur*10;
              end;
         finally
-               Result
-               :=
-                  Result
-                 +'  <div class="col-sm-1 text-left" ng-click="TriClick(''0'')">Reset Tri</div>'#13#10;
-               Result:= Result + '</div>'#13#10;
+               Result:= Result + SF( 'treeHeader.suffixe.html');
                end;
    end;
 begin
@@ -179,17 +202,7 @@ function ThAUT.HTML_Node: String;
       cd: TChampDefinition;
       Nom: String;
    begin
-        Result
-        :=
-           '<div ui-tree-handle>                                                                                     '#13#10
-          //+'  <div class="col-sm-1 text-left">truc</div>'#13#10
-          +'  <a class="btn btn-success col-sm-1" data-nodrag ng-click="toggle(this)">                               '#13#10
-          +'     <span class="glyphicon"                                                                             '#13#10
-          +'           ng-class="{''glyphicon-chevron-right'': collapsed, ''glyphicon-chevron-down'': !collapsed}">  '#13#10
-          +'     </span>                                                                                             '#13#10
-          +'  {{node.Nom}}'#13#10
-          +'  </a>                                                                                                   '#13#10
-          ;
+        Result:= SF( 'treeNode.prefixe.html');
 
         try
            bl:= Batpro_Ligne_from_sl( _sl, 0);
@@ -206,20 +219,16 @@ function ThAUT.HTML_Node: String;
 
              Result
              :=
-                Result
-               +'  <div class="col-sm-1 text-left">{{node.'+Nom+'}}</div>'#13#10;
+                 Result
+               + StringReplace(
+                   SF( 'treeNode.Champ.html'),
+                   'NomChamp',
+                   Nom,
+                   [rfReplaceAll]
+                   );
              end;
         finally
-               Result
-               :=
-                  Result
-                 +'</div>                                                                           '#13#10
-                 +'<br>'#13#10
-                 +'<ol ui-tree-nodes="options" ng-model="node.Elements" ng-class="{hidden: collapsed}">'#13#10
-                 +'  <li ng-repeat="node in node.Elements" ui-tree-node ng-include="''treeNode.html''"></li>'#13#10
-                 +'</ol>'#13#10
-                 +'<br>'#13#10
-                 ;
+               Result:= Result + SF( 'treeNode.suffixe.html');
                end;
    end;
 begin
@@ -263,9 +272,7 @@ function ThAUT.Filtre_Click( _Reset: Boolean; _Champ_Nom, _Champ_Valeur: String)
 begin
      if _Reset then Filtre.Clear;
 
-     if _Champ_Valeur <> ''
-     then
-         Filtre.AjouteCritereCONTIENT( _Champ_Nom, _Champ_Valeur);
+     Filtre.CritereCONTIENT( _Champ_Nom, _Champ_Valeur);
      Filtre.Execute;
      Tri.Execute_et_Cree_SousDetails( sl);//pas sûr que ce soit nécessaire
      Result:= JSON;
@@ -305,6 +312,20 @@ var
        S:= Tri_Click( Reset, NomChamp);
        HTTP_Interface.Send_JSON( S);
        Log.PrintLn( 'Tri_Click:'#13#10+S);
+  end;
+  procedure Traite_Filtre;
+  var
+     Reset: Boolean;
+     NomChamp: String;
+     ValeurFiltre: String;
+     S: String;
+  begin
+       Reset:= HTTP_Interface.Prefixe('0');
+       NomChamp:= StrTok( ',',HTTP_Interface.uri);
+       ValeurFiltre:= HTTP_Interface.uri;
+       S:= Filtre_Click( Reset, NomChamp, ValeurFiltre);
+       HTTP_Interface.Send_JSON( S);
+       Log.PrintLn( 'Filtre_Click:'#13#10+S);
   end;
   procedure Traite_Header;
   var
@@ -354,7 +375,8 @@ var
 begin
      uri:= HTTP_Interface.uri;
           if '' = uri                                  then Traite_Racine
-     else if HTTP_Interface.Prefixe( 'Tri/')            then Traite_Tri
+     else if HTTP_Interface.Prefixe( 'Tri/')           then Traite_Tri
+     else if HTTP_Interface.Prefixe( 'Filtre/')        then Traite_Filtre
      else if HTTP_Interface.Prefixe( 'AUT.json')       then Traite_JSON
      else if HTTP_Interface.Prefixe( 'treeHeader.html')then Traite_Header
      else if HTTP_Interface.Prefixe( 'treeNode.html')  then Traite_Node
