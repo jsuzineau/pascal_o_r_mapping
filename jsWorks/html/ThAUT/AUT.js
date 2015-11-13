@@ -55,17 +55,46 @@
            $scope.$broadcast('expandAll');
          };
 
+        $scope.Rafraichit_Header
+        =
+         function ()
+           {
+           //mAUT.$rootScope.$templateCache.remove("treeHeader.html");
+           $scope.treeHeader_html_url="treeHeader.html";
+           };
+
+        $scope.Rafraichit_Header();
+
         $scope.SQL={};
         $http.get("../Automatic_AUT/SQL")
         .success
           (
           function(response)
             {
-            $scope.SQL = response;
+            $scope.SQL= response;
             }
           );
-        };
-        eSQLKeyDown($event)
+
+        $scope.eSQLKeyDown
+        =
+         function ( $event)
+           {
+           if ($event.key != "Enter") return false;
+
+           $scope.treeHeader_html_url="";
+
+           //envoi de la valeur
+           $http.get("../Automatic_AUT/"+$scope.SQL)
+           .success
+             (
+             function(response)
+               {
+               $scope.Rafraichit_Header();
+               $scope.root = response;
+               }
+             );
+           return true;
+           };
 
 
         $scope.Tri_Click
@@ -81,33 +110,15 @@
                }
              );
            };
-        $scope.Filtre_Etat_Label_Click
-        =
-         function ( _NomChamp, _ValeurFiltreChamp)
-           {
-           $scope.idSPANNomChamp="span"+_NomChamp;
-           $scope.spanNomChamp=document.getElementById( $scope.idSPANNomChamp);
-           $scope.spanNomChamp_innerHTML
-           =
-            $scope.treeHeader_Champ_inner_Edit_html.replace(/NomChamp/g,_NomChamp);
-
-           $scope.spanNomChamp.innerHTML= $scope.spanNomChamp_innerHTML;
-
-           $scope.ValeurFiltreChamp=_ValeurFiltreChamp;
-
-           $scope.idInputNomChamp="input"+_NomChamp;
-           $scope.inputNomChamp=document.getElementById( $scope.idInputNomChamp);
-           $scope.inputNomChamp.select();
-           };
-        $scope.Filtre_Etat_Edit_KeyDown
+        $scope.eFiltre_KeyDown
         =
          function ( $event,_NomChamp)
            {
            if ($event.key != "Enter") return false;
 
            //Récupération de la valeur
-           $scope.inputNomChamp=document.getElementById( "input"+_NomChamp);
-           $scope.ValeurFiltreChamp= $scope.inputNomChamp.value;
+           $scope.eFiltre_NomChamp=document.getElementById( "eFiltre_"+_NomChamp);
+           $scope.ValeurFiltreChamp= $scope.eFiltre_NomChamp.value;
 
            //envoi de la valeur
            $http.get("Filtre/"+_NomChamp+","+$scope.ValeurFiltreChamp)

@@ -30,7 +30,7 @@ uses
 
     uhAUT,
 
- Classes, SysUtils;
+ Classes, SysUtils, fpjson, fphttpclient;
 
 type
 
@@ -50,6 +50,8 @@ type
       Tri: TTri;
       Filtre: ThFiltre;
    //Execution du SQL
+   private
+     SQL: String;
    public
      function Execute_SQL( _SQL: String): String;
    //AUT
@@ -103,17 +105,23 @@ end;
 
 function ThAutomatic_AUT.Execute_SQL( _SQL: String): String;
 begin
+     SQL:= _SQL;
+
      hAUT.Filtre.Clear;
      hAUT.Tri.Reset_ChampsTri;
 
-     poolAutomatic.Charge( _SQL, sl);
+     poolAutomatic.Charge( SQL, sl);
      Filtre.Execute;
      Result:= hAUT.JSON;
 end;
 
 procedure ThAutomatic_AUT.Traite_HTTP;
 begin
-     HTTP_Interface.Send_JSON( Execute_SQL( HTTP_Interface.uri));
+     if 'SQL'=HTTP_Interface.uri
+     then
+         HTTP_Interface.Send_JSON( StringToJSONString(SQL))
+     else
+         HTTP_Interface.Send_JSON( Execute_SQL( DecodeURLElement( HTTP_Interface.uri)));
 end;
 
 initialization

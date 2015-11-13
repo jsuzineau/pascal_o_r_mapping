@@ -5,10 +5,13 @@
   </header>
   <body>
     <div ng-controller="ctrl_AUT" >
-       <input type ='text'  id="eSQL"  ng-model="SQL" ng-keydown="eSQLKeyDown($event)" size="50">
+       Requête SQL :<input type ='text'  id="eSQL"  ng-model="SQL" ng-keydown="eSQLKeyDown($event)" size="50">
        <br>
-       <div ng-include="'treeHeader.html'">
-       </div>
+       <div ng-include="treeHeader_html_url"></div>
+       <br>
+       <br>
+       <br>
+       <br>
        <br>
        <div ui-tree>
          <ol ui-tree-nodes="" ng-model="root" id="tree-root">
