@@ -5,6 +5,13 @@
   </header>
   <body>
     <div ng-controller="ctrl_AUT" >
+       <form>
+         <label for="sDatabases"> Database : </label>
+         <select name="sDatabases" id="sDatabases" ng-model="Databases.Nom">
+           <option ng-repeat="Database in Databases.Elements" value="{{Database}}">{{Database}}</option>
+         </select>
+       </form>
+       <br>
        Requête SQL :<input type ='text'  id="eSQL"  ng-model="SQL" ng-keydown="eSQLKeyDown($event)" size="50">
        <br>
        <div ng-include="treeHeader_html_url"></div>

@@ -116,10 +116,35 @@ begin
 end;
 
 procedure ThAutomatic_AUT.Traite_HTTP;
+   procedure Traite_Databases;
+   var
+      slDatabases: TBatpro_StringList;
+   begin
+        if not dmDatabase.Ouvert then dmDatabase.Ouvre_db;
+
+        slDatabases:= TBatpro_StringList.Create( dmDatabase.sqlc.DatabaseName);
+        try
+           dmDatabase.Fill_with_databases( slDatabases);
+           HTTP_Interface.Send_JSON( slDatabases.JSON);
+        finally
+               Free_nil( slDatabases);
+               end;
+   end;
+   procedure Traite_Database_Set;
+   begin
+        if dmDatabase.sqlc.DatabaseName <> HTTP_Interface.uri
+        then
+            begin
+            dmDatabase.sqlc.Close;
+            dmDatabase.sqlc.DatabaseName:= HTTP_Interface.uri;
+            dmDatabase.Ouvre_db;
+            end;
+        Traite_Databases;
+   end;
 begin
-     if 'SQL'=HTTP_Interface.uri
-     then
-         HTTP_Interface.Send_JSON( StringToJSONString(SQL))
+          if 'SQL'=HTTP_Interface.uri             then HTTP_Interface.Send_JSON( StringToJSONString(SQL))
+     else if HTTP_Interface.Prefixe( 'Databases') then Traite_Databases
+     else if HTTP_Interface.Prefixe( 'Database_Set/') then Traite_Database_Set
      else
          HTTP_Interface.Send_JSON( Execute_SQL( DecodeURLElement( HTTP_Interface.uri)));
 end;

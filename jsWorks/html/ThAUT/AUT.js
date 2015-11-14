@@ -75,6 +75,35 @@
             }
           );
 
+        $scope.Databases={};
+        $scope.Rafraichit_Databases
+        =
+         function ()
+           {
+           $http.get("../Automatic_AUT/Databases")
+           .success
+             (
+             function(response)
+               {
+               $scope.Databases= response;
+               }
+             );
+           };
+        $scope.$watch(
+          function() { return $scope.Databases.Nom; },
+          function(newValue, oldValue) {
+            if ( newValue == oldValue ) return;
+            $http.get("../Automatic_AUT/Database_Set/"+newValue)
+            .success
+              (
+              function(response)
+                {
+                $scope.Databases= response;
+                }
+              );
+          }
+        );
+
         $scope.eSQLKeyDown
         =
          function ( $event)
@@ -144,6 +173,7 @@
          function(response)
            {
            $scope.root = response;
+           $scope.Rafraichit_Databases();
            }
          );
 

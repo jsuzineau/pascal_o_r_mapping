@@ -620,9 +620,10 @@ begin
      do
        begin
        O:= Objects[I];
-       if notTraite_JSONProvider
-       then
-           notTraite_Batpro_StringList;
+            if notTraite_JSONProvider
+       then if notTraite_Batpro_StringList
+       then    sJSON:= '"'+Strings[ I]+'"';
+
        if iJSON > 0
        then
            Result:= Result + ',';

@@ -20,7 +20,6 @@
         <ComponentName Value="fjsWorks"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="173"/>
         <CursorPos X="43" Y="352"/>
@@ -1050,9 +1049,10 @@
         <ComponentName Value="fAutomatic_VST"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="13"/>
-        <TopLine Value="81"/>
-        <CursorPos X="10" Y="82"/>
+        <TopLine Value="97"/>
+        <CursorPos X="82" Y="106"/>
         <UsageCount Value="238"/>
         <Bookmarks Count="1">
           <Item0 Y="129" ID="3"/>
@@ -1105,7 +1105,7 @@
         <HasResources Value="True"/>
         <EditorIndex Value="21"/>
         <CursorPos Y="7"/>
-        <UsageCount Value="107"/>
+        <UsageCount Value="110"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit115>
@@ -1115,7 +1115,7 @@
         <EditorIndex Value="24"/>
         <TopLine Value="407"/>
         <CursorPos X="28" Y="433"/>
-        <UsageCount Value="107"/>
+        <UsageCount Value="110"/>
         <Bookmarks Count="1">
           <Item0 X="2" Y="548" ID="2"/>
         </Bookmarks>
@@ -1800,7 +1800,7 @@
         <EditorIndex Value="23"/>
         <TopLine Value="519"/>
         <CursorPos X="77" Y="533"/>
-        <UsageCount Value="97"/>
+        <UsageCount Value="99"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit223>
@@ -2018,7 +2018,7 @@
         <EditorIndex Value="19"/>
         <TopLine Value="16"/>
         <CursorPos X="83" Y="29"/>
-        <UsageCount Value="57"/>
+        <UsageCount Value="59"/>
         <Loaded Value="True"/>
       </Unit248>
     </Units>
