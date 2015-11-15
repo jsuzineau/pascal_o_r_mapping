@@ -69,6 +69,7 @@ type
     function HTML_Node  : String;
   //Données au format JSON
   public
+    function Definitions_JSON: String;
     function JSON: String;
   //Réaction au clic sur un titre de colonne
   private
@@ -235,6 +236,80 @@ begin
      Result:= Traite_Liste( sl);
 end;
 
+function ThAUT.Definitions_JSON: String;
+   function Traite_Liste( _sl: TBatpro_StringList): String;
+   var
+      bl: TBatpro_Ligne;
+      I: TIterateur_Champ;
+      c: TChamp;
+      cd: TChampDefinition;
+      Nom: String;
+      sTri: String;
+      ValeurFiltreChamp: String;
+      procedure Calcule_ValeurFiltreChamp;
+      var
+         iValeur: Integer;
+      begin
+           iValeur:= Filtre.slCONTIENT.IndexOfName( Nom);
+           if -1 = iValeur
+           then
+               ValeurFiltreChamp:= ''
+           else
+               ValeurFiltreChamp:= Filtre.slCONTIENT.ValueFromIndex[iValeur];
+      end;
+      procedure Traite_Champ;
+      var
+         S: String;
+      begin
+           S:= '';
+           Formate_Liste( S, ',', '"NomChamp":"'         + cd.Nom           +'"');
+           Formate_Liste( S, ',', '"LibelleChamp":"'     + cd.Libelle + sTri+'"');
+           Formate_Liste( S, ',', '"ValeurFiltreChamp":"'+ ValeurFiltreChamp+'"');
+           S:= '{' + S + '}';
+
+           Formate_Liste( Result, ',', S);
+      end;
+
+   begin
+        Result:= '';
+        try
+           bl:= Batpro_Ligne_from_sl( _sl, 0);
+           if nil = bl then exit;
+
+           I:= bl.Champs.sl.Iterateur;
+           while I.Continuer
+           do
+             begin
+             if I.not_Suivant( c) then continue;
+
+             cd:= c.Definition;
+             Nom:= cd.Nom;
+
+             if Tri = nil
+             then
+                 sTri:= sys_Vide
+             else
+                 case Tri.ChampTri[ Nom]
+                 of
+                   -1:  sTri:= ' \';
+                    0:  sTri:= sys_Vide;
+                   +1:  sTri:= ' /';
+                   else sTri:= sys_Vide;
+                   end;
+
+             Calcule_ValeurFiltreChamp;
+
+             Traite_Champ;
+             //vtc.MinWidth:= cd.Longueur*10;
+             end;
+        finally
+               Result:= '[' + Result + ']';
+               end;
+   end;
+begin
+  Result:= Traite_Liste( sl);
+end;
+
 function ThAUT.JSON: String;
 var
    Batpro_StringList: TBatpro_StringList;
@@ -343,6 +418,14 @@ var
        HTTP_Interface.Send_HTML( S);
        Log.PrintLn( 'Envoi HTML_Node:'#13#10+S);
   end;
+  procedure Traite_Definitions_JSON;
+  var
+     S: String;
+  begin
+       S:= Definitions_JSON;
+       HTTP_Interface.Send_JSON( S);
+       Log.PrintLn( 'Envoi Definitions_JSON:'#13#10+S);
+  end;
   procedure Traite_JSON;
   var
      S: String;
@@ -374,13 +457,14 @@ var
   end;
 begin
      uri:= HTTP_Interface.uri;
-          if '' = uri                                  then Traite_Racine
-     else if HTTP_Interface.Prefixe( 'Tri/')           then Traite_Tri
-     else if HTTP_Interface.Prefixe( 'Filtre/')        then Traite_Filtre
-     else if HTTP_Interface.Prefixe( 'AUT.json')       then Traite_JSON
-     else if HTTP_Interface.Prefixe( 'treeHeader.html')then Traite_Header
-     else if HTTP_Interface.Prefixe( 'treeNode.html')  then Traite_Node
-     else                                                   Traite_Fichier;
+          if '' = uri                                       then Traite_Racine
+     else if HTTP_Interface.Prefixe( 'Tri/')                then Traite_Tri
+     else if HTTP_Interface.Prefixe( 'Filtre/')             then Traite_Filtre
+     else if HTTP_Interface.Prefixe( 'AUT_Definitions.json')then Traite_Definitions_JSON
+     else if HTTP_Interface.Prefixe( 'AUT.json')            then Traite_JSON
+     else if HTTP_Interface.Prefixe( 'treeHeader.html')     then Traite_Header
+     else if HTTP_Interface.Prefixe( 'treeNode.html')       then Traite_Node
+     else                                                        Traite_Fichier;
 end;
 
 end.

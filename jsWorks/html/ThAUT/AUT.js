@@ -118,6 +118,7 @@
              (
              function(response)
                {
+               $scope.Rafraichit_Definitions();
                $scope.Rafraichit_Header();
                $scope.root = response;
                }
@@ -161,13 +162,28 @@
            return true;
            };
 
-       //provisoire, il faudrait avoir un nom par occurence
-       $scope.NomFonction="AUT.json";
+
+       $scope.Definitions={};
+
+        $scope.Rafraichit_Definitions
+        =
+         function ()
+           {
+           $http.get("AUT_Definitions.json")
+           .success
+             (
+             function(response)
+               {
+               $scope.Definitions = response;
+               }
+             );
+           };
+       $scope.Rafraichit_Definitions();
 
        $scope.root={};
        //$scope.root= {"Elements":[{"id":1},{"id":2},{"id":3}]};
 
-       $http.get($scope.NomFonction)
+       $http.get("AUT.json")
        .success
          (
          function(response)

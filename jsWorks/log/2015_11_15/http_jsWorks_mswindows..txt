@@ -5242,3 +5242,2620 @@ bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf
 >
 >Tri_Click:
 {"Nom": "","Elements":[{"Nom": "phase: 0","Elements":[{"id":"0","Selected":"0","secteur":"FM","chantier":"10090K","phase":"0","libelle1":"ME DORY LUDRES FOURNITURE MATERIAUX"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0060","phase":"0","libelle1":"PELLE VOLVO EC160"},{"id":"0","Selected":"0","secteur":"GO","chantier":"10093L","phase":"0","libelle1":"GROSJEAN PAUL VAUDEVILLE REAL PLANCHER"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0059","phase":"0","libelle1":"MANUSCOPIQUE 2150MRT"},{"id":"0","Selected":"0","secteur":"TP","chantier":"28137E","phase":"0","libelle1":"SIE PULLIGNY AEP BAINVILLE AUX MIROIRS"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10118M","phase":"0","libelle1":"THAON - ASST RUE KLEBER"},{"id":"0","Selected":"0","secteur":"GO","chantier":"10109D","phase":"0","libelle1":"CG VOSGES DVIS EPINAL ENDUIT"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10007W","phase":"0","libelle1":"CHIARAVALLI SAS RANGEMENT DEPOT"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10106P","phase":"0","libelle1":"SCCV VAYRINGE REPRISE"},{"id":"0","Selected":"0","secteur":"AD","chantier":"100000","phase":"0","libelle1":"ADMINISTRATIF"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10055H","phase":"0","libelle1":"XIROCOURT REF CHEMINS VOIRIE 2010"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0061","phase":"0","libelle1":"TAKEUCHI TB 016"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10119S","phase":"0","libelle1":"SIE BULGNEVILLE-AEP MANDRES\/VAIR"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0046","phase":"0","libelle1":"TRACTEUR 3788 + BENNE 8638"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0063","phase":"0","libelle1":"MECALAC 714\/2 MC"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10120G","phase":"0","libelle1":"SIS EINVAUX"},{"id":"0","Selected":"0","secteur":"ST","chantier":"C1","phase":"0","libelle1":"CAISSE A OUTILS 1"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0010","phase":"0","libelle1":"MANITOU MB 20"},{"id":"0","Selected":"0","secteur":"GO","chantier":"29149E","phase":"0","libelle1":"CG VOSGES ESCALIERS LIFFOL LE GRAND"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10112B","phase":"0","libelle1":"CG 88 PARKING CG EPINAL"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0050","phase":"0","libelle1":"IVECO 5592YJ54"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10116L","phase":"0","libelle1":"SCHULZ XIROCOURT ACCES GARAGE"},{"id":"0","Selected":"0","secteur":"GO","chantier":"29115T","phase":"0","libelle1":"POTTIE REMY CONSTRUCTION MAISON"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0053","phase":"0","libelle1":"TAKEUCHI TB28"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0030","phase":"0","libelle1":"RAMMAX 1800"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10102Y","phase":"0","libelle1":"ERNY VIRECOURT AMENAGT ACCES MAISON"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0058","phase":"0","libelle1":"TAKEUCHI TB153 FR"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10152P","phase":"0","libelle1":"SCCV LE CLOS CHARLET VRD GOLBEY"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10066B","phase":"0","libelle1":"SAUR FUITE AEP VEZELISE"},{"id":"0","Selected":"0","secteur":"GO","chantier":"10089B","phase":"0","libelle1":"CG VOSGES DRAIN+DALLE MUSEE EPINAL"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0039","phase":"0","libelle1":"IVECO 1118YF54"},{"id":"0","Selected":"0","secteur":"GO","chantier":"10030W","phase":"0","libelle1":"SAXON-SION REH 2 LOGTS"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0056","phase":"0","libelle1":"IVECO 10T GRUE 516ABR54"},{"id":"0","Selected":"0","secteur":"FM","chantier":"10086D","phase":"0","libelle1":"KROST NOEL FOURN MATERIAUX"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10016Q","phase":"0","libelle1":"JAINVILLOTTE ASS TC3"},{"id":"0","Selected":"0","secteur":"FG","chantier":"100000","phase":"0","libelle1":"FG MAIN D'OEUVRE"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10099W","phase":"0","libelle1":"AF BRALLEVILLE CURAGE FOSSE"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0037","phase":"0","libelle1":"PELLE JOB 706P"},{"id":"0","Selected":"0","secteur":"TP","chantier":"29124N","phase":"0","libelle1":"GOLBEY-ZAC MAXIMONT 2"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10085Q","phase":"0","libelle1":"CAP IMMO REPRISE LOTISST CEINTREY"},{"id":"0","Selected":"0","secteur":"TP","chantier":"29168H","phase":"0","libelle1":"INRA CHAMPENOUX CONST LABO LOT VRD"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0027","phase":"0","libelle1":"CHARGEUR CASE 221B"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10111J","phase":"0","libelle1":"COMMUNE DE LANDECOURT"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0062","phase":"0","libelle1":"MINI PELLE  TAKEUCHI"},{"id":"0","Selected":"0","secteur":"GO","chantier":"10020B","phase":"0","libelle1":"NICOLAS REMI"},{"id":"0","Selected":"0","secteur":"ST","chantier":"100000","phase":"0","libelle1":"STOCK"},{"id":"0","Selected":"0","secteur":"AD","chantier":"900000","phase":"0","libelle1":"LITIGES SUR ACHATS"},{"id":"0","Selected":"0","secteur":"TP","chantier":"29064B","phase":"0","libelle1":"THAON LES VOSGES VRD PORT\/PLAGE"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0071","phase":"0","libelle1":"ROULEAU 4T AMMANN"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0064","phase":"0","libelle1":"CHARGEUSE AS 90\/2"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0022","phase":"0","libelle1":"CHARGEUR CASE 621 B"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0057","phase":"0","libelle1":"IVECO 10T 240ACQ54"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0065","phase":"0","libelle1":"MINI PELLE  TAKEUCHI"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10105E","phase":"0","libelle1":"SAXON SION ASST LOCAL TECHNIQUE"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0072","phase":"0","libelle1":"CHARGEUR LB 40 VOLVO"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10040D","phase":"0","libelle1":"LANDECOURT AMENAGT RUE DU PRIEURE"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0051","phase":"0","libelle1":"VOLVO LB30"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10052V","phase":"0","libelle1":"GERMINY OP B-F-I"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0007","phase":"0","libelle1":"MASSEY 615"},{"id":"0","Selected":"0","secteur":"GO","chantier":"10022R","phase":"0","libelle1":"NICOLAS FRANCOIS MATERIAUX CHANTIER"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0015","phase":"0","libelle1":"VEHICULE TRANSPORT PERSONNEL"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10100F","phase":"0","libelle1":"SYND FONTAINES MADON BRANCHT LEMAINVILLE"},{"id":"0","Selected":"0","secteur":"GO","chantier":"10117T","phase":"0","libelle1":"SIVU DOMPAIRE REP TRAV CENTRE SECOURS"},{"id":"0","Selected":"0","secteur":"TP","chantier":"29090C","phase":"0","libelle1":"SCICV DE BURE VRD"},{"id":"0","Selected":"0","secteur":"GO","chantier":"10091R","phase":"0","libelle1":"SAXON SION LOCAL TECHNIQUE LOT GO"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0069","phase":"0","libelle1":"CHARGEUR ATLAS 95 AR"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0036","phase":"0","libelle1":"CHARGEUR CASE 321B"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10103N","phase":"0","libelle1":"MR NOEL JP VEZELISE ACCES MAISON"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10005G","phase":"0","libelle1":"HOUDREVILLE STATION EPURATION"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0052","phase":"0","libelle1":"IVECO 1126YQ54"},{"id":"0","Selected":"0","secteur":"FM","chantier":"10113K","phase":"0","libelle1":"VERNIER XIROCOURT FOURNITURES MATERIAUX"},{"id":"0","Selected":"0","secteur":"ST","chantier":"CUVES","phase":"0","libelle1":"CUVES"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0073","phase":"0","libelle1":"PELLE CHARGEUR HAULOTTE"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10104Z","phase":"0","libelle1":"HOPITAL VAL DU MADON CONDUITE EP"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0044","phase":"0","libelle1":"TRAX LR 621B"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0054","phase":"0","libelle1":"MECALAC 714\/1"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0070","phase":"0","libelle1":"ROULEAU 11T AMMANN"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10121V","phase":"0","libelle1":"SDIS VOSGES"},{"id":"0","Selected":"0","secteur":"GO","chantier":"10115C","phase":"0","libelle1":"ROYER DUTEIL CEINTREY RENOVATION"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0040","phase":"0","libelle1":"TRACTEUR+PORTE ENGINS"},{"id":"0","Selected":"0","secteur":"TP","chantier":"29031Y","phase":"0","libelle1":"BOMPARD DIARVILLE FAS VRD"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10095M","phase":"0","libelle1":"BRALLEVILLE COUVERTURE FOSSE"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0047","phase":"0","libelle1":"MANUSCOPIQUE 1033"},{"id":"0","Selected":"0","secteur":"TP","chantier":"28150M","phase":"0","libelle1":"SIA AROFFE STEP VANNES LE CHATEL"},{"id":"0","Selected":"0","secteur":"ZZ","chantier":"999999","phase":"0","libelle1":"fictif"},{"id":"0","Selected":"0","secteur":"GO","chantier":"10107A","phase":"0","libelle1":"LEMAINVILLE ENDUIT PONT"},{"id":"0","Selected":"0","secteur":"GO","chantier":"10064U","phase":"0","libelle1":"CG VOSGES DEMO+CARRELAGE COLL CHATEL"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10043B","phase":"0","libelle1":"CHIARAVALLI RAYMOND TRAVAUX ETANG"},{"id":"0","Selected":"0","secteur":"GO","chantier":"10101H","phase":"0","libelle1":"MR OTHENIN DIARVILLE MUR SOUTENEMENT"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0067","phase":"0","libelle1":"CHARGEUR LB 35 VOLVO"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10114R","phase":"0","libelle1":"HEIDERICH BENNEY ACCES GARAGE"},{"id":"0","Selected":"0","secteur":"GO","chantier":"10058Z","phase":"0","libelle1":"CG VOSGES EXT BAT FOYER ENFANCE GOLBEY"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0068","phase":"0","libelle1":"PELLE VOLVO EC 240"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10108Q","phase":"0","libelle1":"COLAS"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10062Q","phase":"0","libelle1":"IMHOFF TRANCHEE ECOLE VITTEL"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0045","phase":"0","libelle1":"CHARGEUSE AS90\/1"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0066","phase":"0","libelle1":"TRAX 963 C CATERPILLAR"},{"id":"0","Selected":"0","secteur":"GO","chantier":"10097G","phase":"0","libelle1":"CG VOSGES SALLE DE BAIN CONTREXEVILLE"},{"id":"0","Selected":"0","secteur":"PM","chantier":"0041","phase":"0","libelle1":"RENAULT KERAX 2145YJ54"},{"id":"0","Selected":"0","secteur":"TP","chantier":"10096S","phase":"0","libelle1":"SIVU DES 7 PONTS ASST\/VOIRIE VAUCOULEURS"}]}]}
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/ HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>
+>Envoi racine 
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/angular/angular.js HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>Envoi fichier 
+bower_components/angular/angular.js
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/css,*/*;q=0.1
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/angular-ui-tree.css HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/css,*/*;q=0.1
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>Envoi fichier 
+angular-ui-tree.css
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/angular-ui-tree.min.js HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>Envoi fichier 
+angular-ui-tree.min.js
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/AUT.js HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>Envoi fichier 
+AUT.js
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeHeader.Champ.inner.Label.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>#### Fichier non trouvÃ© :
+treeHeader.Champ.inner.Label.html
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeHeader.Champ.inner.Edit.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>#### Fichier non trouvÃ© :
+treeHeader.Champ.inner.Edit.html
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /Automatic_AUT/SQL HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/AUT.json HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>Envoi JSON:
+{"Nom": "ThAutomatic_AUT.slFiltre","Elements":[{"id":"1","Selected":"0","nProject":"1","Beginning":"12\/08\/2015 08:44:47","End":"12\/08\/2015 12:44:47","Description":"Client 1\r\nCompta client","nUser":"0"},{"id":"2","Selected":"0","nProject":"0","Beginning":"20\/08\/2015 10:13:50","End":"20\/08\/2015 13:13:50","Description":"","nUser":"0"},{"id":"3","Selected":"0","nProject":"0","Beginning":"20\/08\/2015 12:08:11","End":"20\/08\/2015 13:08:11","Description":"","nUser":"0"}]}
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeHeader.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>HTML_Header:
+<div>
+  <div class="col-sm-3 text-left">Arbre</div>
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'id')">id</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_id"  value="" ng-keydown="eFiltre_KeyDown($event,'id')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'Selected')">Selected</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_Selected"  value="" ng-keydown="eFiltre_KeyDown($event,'Selected')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'nProject')">nProject</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_nProject"  value="" ng-keydown="eFiltre_KeyDown($event,'nProject')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'Beginning')">Beginning</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_Beginning"  value="" ng-keydown="eFiltre_KeyDown($event,'Beginning')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'End')">End</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_End"  value="" ng-keydown="eFiltre_KeyDown($event,'End')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'Description')">Description</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_Description"  value="" ng-keydown="eFiltre_KeyDown($event,'Description')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'nUser')">nUser</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_nUser"  value="" ng-keydown="eFiltre_KeyDown($event,'nUser')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left" ng-click="TriClick('0')">Reset Tri</div>
+</div>
+
+
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /favicon.ico HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /Automatic_AUT/Databases HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeNode.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>Envoi HTML_Node:
+<div ui-tree-handle>
+  <span class="col-sm-3">
+  <a class="btn btn-success" data-nodrag ng-click="toggle(this)">
+     <span class="glyphicon"
+           ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}">
+     </span>
+  </a>
+  {{node.Nom}}
+  </span>
+
+
+  <div class="col-sm-1 text-left">{{node.id}}</div>
+
+  <div class="col-sm-1 text-left">{{node.Selected}}</div>
+
+  <div class="col-sm-1 text-left">{{node.nProject}}</div>
+
+  <div class="col-sm-1 text-left">{{node.Beginning}}</div>
+
+  <div class="col-sm-1 text-left">{{node.End}}</div>
+
+  <div class="col-sm-1 text-left">{{node.Description}}</div>
+
+  <div class="col-sm-1 text-left">{{node.nUser}}</div>
+
+</div>
+<br>
+<ol ui-tree-nodes="options" ng-model="node.Elements" ng-class="{hidden: collapsed}">
+  <li ng-repeat="node in node.Elements" ui-tree-node ng-include="'treeNode.html'"></li>
+</ol>
+<br>
+
+
+
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /favicon.ico HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /Automatic_AUT/Database_Set/jsWorks HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/font-woff2;q=1.0,application/font-woff;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: identity
+>Referer: http://localhost:1500/AUT/bower_components/bootstrap/dist/css/bootstrap.css
+>Connection: keep-alive
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/font-woff2;q=1.0,application/font-woff;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/bower_components/bootstrap/dist/css/bootstrap.css
+>Connection: keep-alive
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/ HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi racine 
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/angular/angular.js HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+bower_components/angular/angular.js
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/AUT.js HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+AUT.js
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/angular-ui-tree.css HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/css,*/*;q=0.1
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+angular-ui-tree.css
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/angular-ui-tree.min.js HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+angular-ui-tree.min.js
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/css,*/*;q=0.1
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeHeader.Champ.inner.Label.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>#### Fichier non trouvÃ© :
+treeHeader.Champ.inner.Label.html
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeHeader.Champ.inner.Edit.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>#### Fichier non trouvÃ© :
+treeHeader.Champ.inner.Edit.html
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /Automatic_AUT/SQL HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/AUT.json HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi JSON:
+{"Nom": "ThAutomatic_AUT.slFiltre","Elements":[{"id":"1","Selected":"0","nProject":"1","Beginning":"12\/08\/2015 08:44:47","End":"12\/08\/2015 12:44:47","Description":"Client 1\r\nCompta client","nUser":"0"},{"id":"2","Selected":"0","nProject":"0","Beginning":"20\/08\/2015 10:13:50","End":"20\/08\/2015 13:13:50","Description":"","nUser":"0"},{"id":"3","Selected":"0","nProject":"0","Beginning":"20\/08\/2015 12:08:11","End":"20\/08\/2015 13:08:11","Description":"","nUser":"0"}]}
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeHeader.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>HTML_Header:
+<div>
+  <div class="col-sm-3 text-left">Arbre</div>
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'id')">id</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_id"  value="" ng-keydown="eFiltre_KeyDown($event,'id')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'Selected')">Selected</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_Selected"  value="" ng-keydown="eFiltre_KeyDown($event,'Selected')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'nProject')">nProject</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_nProject"  value="" ng-keydown="eFiltre_KeyDown($event,'nProject')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'Beginning')">Beginning</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_Beginning"  value="" ng-keydown="eFiltre_KeyDown($event,'Beginning')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'End')">End</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_End"  value="" ng-keydown="eFiltre_KeyDown($event,'End')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'Description')">Description</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_Description"  value="" ng-keydown="eFiltre_KeyDown($event,'Description')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'nUser')">nUser</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_nUser"  value="" ng-keydown="eFiltre_KeyDown($event,'nUser')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left" ng-click="TriClick('0')">Reset Tri</div>
+</div>
+
+
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /Automatic_AUT/Databases HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeNode.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>Envoi HTML_Node:
+<div ui-tree-handle>
+  <span class="col-sm-3">
+  <a class="btn btn-success" data-nodrag ng-click="toggle(this)">
+     <span class="glyphicon"
+           ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}">
+     </span>
+  </a>
+  {{node.Nom}}
+  </span>
+
+
+  <div class="col-sm-1 text-left">{{node.id}}</div>
+
+  <div class="col-sm-1 text-left">{{node.Selected}}</div>
+
+  <div class="col-sm-1 text-left">{{node.nProject}}</div>
+
+  <div class="col-sm-1 text-left">{{node.Beginning}}</div>
+
+  <div class="col-sm-1 text-left">{{node.End}}</div>
+
+  <div class="col-sm-1 text-left">{{node.Description}}</div>
+
+  <div class="col-sm-1 text-left">{{node.nUser}}</div>
+
+</div>
+<br>
+<ol ui-tree-nodes="options" ng-model="node.Elements" ng-class="{hidden: collapsed}">
+  <li ng-repeat="node in node.Elements" ui-tree-node ng-include="'treeNode.html'"></li>
+</ol>
+<br>
+
+
+
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /Automatic_AUT/Database_Set/jsWorks HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/font-woff2;q=1.0,application/font-woff;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: identity
+>Referer: http://localhost:1500/AUT/bower_components/bootstrap/dist/css/bootstrap.css
+>Connection: keep-alive
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/font-woff2;q=1.0,application/font-woff;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/bower_components/bootstrap/dist/css/bootstrap.css
+>Connection: keep-alive
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>
+>
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/ HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi racine 
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/angular/angular.js HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+bower_components/angular/angular.js
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/css,*/*;q=0.1
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/angular-ui-tree.min.js HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+angular-ui-tree.min.js
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/angular-ui-tree.css HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/css,*/*;q=0.1
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+angular-ui-tree.css
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/AUT.js HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+AUT.js
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeHeader.Champ.inner.Label.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>#### Fichier non trouvÃ© :
+treeHeader.Champ.inner.Label.html
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeHeader.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>HTML_Header:
+<div>
+  <div class="col-sm-3 text-left">Arbre</div>
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'id')">id</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_id"  value="" ng-keydown="eFiltre_KeyDown($event,'id')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'Selected')">Selected</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_Selected"  value="" ng-keydown="eFiltre_KeyDown($event,'Selected')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'nProject')">nProject</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_nProject"  value="" ng-keydown="eFiltre_KeyDown($event,'nProject')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'Beginning')">Beginning</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_Beginning"  value="" ng-keydown="eFiltre_KeyDown($event,'Beginning')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'End')">End</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_End"  value="" ng-keydown="eFiltre_KeyDown($event,'End')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'Description')">Description</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_Description"  value="" ng-keydown="eFiltre_KeyDown($event,'Description')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'nUser')">nUser</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_nUser"  value="" ng-keydown="eFiltre_KeyDown($event,'nUser')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left" ng-click="TriClick('0')">Reset Tri</div>
+</div>
+
+
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/AUT.json HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi JSON:
+{"Nom": "ThAutomatic_AUT.slFiltre","Elements":[{"id":"1","Selected":"0","nProject":"1","Beginning":"12\/08\/2015 08:44:47","End":"12\/08\/2015 12:44:47","Description":"Client 1\r\nCompta client","nUser":"0"},{"id":"2","Selected":"0","nProject":"0","Beginning":"20\/08\/2015 10:13:50","End":"20\/08\/2015 13:13:50","Description":"","nUser":"0"},{"id":"3","Selected":"0","nProject":"0","Beginning":"20\/08\/2015 12:08:11","End":"20\/08\/2015 13:08:11","Description":"","nUser":"0"}]}
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/AUT_Definitions.json HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>Envoi Definitions_JSON:
+[{"NomChamp":"id","LibelleChamp":"id","ValeurFiltreChamp":"",}{"NomChamp":"Selected","LibelleChamp":"Selected","ValeurFiltreChamp":"",}{"NomChamp":"nProject","LibelleChamp":"nProject","ValeurFiltreChamp":"",}{"NomChamp":"Beginning","LibelleChamp":"Beginning","ValeurFiltreChamp":"",}{"NomChamp":"End","LibelleChamp":"End","ValeurFiltreChamp":"",}{"NomChamp":"Description","LibelleChamp":"Description","ValeurFiltreChamp":"",}{"NomChamp":"nUser","LibelleChamp":"nUser","ValeurFiltreChamp":"",}]
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /Automatic_AUT/SQL HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeHeader.Champ.inner.Edit.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>#### Fichier non trouvÃ© :
+treeHeader.Champ.inner.Edit.html
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /Automatic_AUT/Databases HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeNode.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>Envoi HTML_Node:
+<div ui-tree-handle>
+  <span class="col-sm-3">
+  <a class="btn btn-success" data-nodrag ng-click="toggle(this)">
+     <span class="glyphicon"
+           ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}">
+     </span>
+  </a>
+  {{node.Nom}}
+  </span>
+
+
+  <div class="col-sm-1 text-left">{{node.id}}</div>
+
+  <div class="col-sm-1 text-left">{{node.Selected}}</div>
+
+  <div class="col-sm-1 text-left">{{node.nProject}}</div>
+
+  <div class="col-sm-1 text-left">{{node.Beginning}}</div>
+
+  <div class="col-sm-1 text-left">{{node.End}}</div>
+
+  <div class="col-sm-1 text-left">{{node.Description}}</div>
+
+  <div class="col-sm-1 text-left">{{node.nUser}}</div>
+
+</div>
+<br>
+<ol ui-tree-nodes="options" ng-model="node.Elements" ng-class="{hidden: collapsed}">
+  <li ng-repeat="node in node.Elements" ui-tree-node ng-include="'treeNode.html'"></li>
+</ol>
+<br>
+
+
+
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /Automatic_AUT/Database_Set/jsWorks HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/font-woff2;q=1.0,application/font-woff;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: identity
+>Referer: http://localhost:1500/AUT/bower_components/bootstrap/dist/css/bootstrap.css
+>Connection: keep-alive
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/font-woff2;q=1.0,application/font-woff;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/bower_components/bootstrap/dist/css/bootstrap.css
+>Connection: keep-alive
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/ HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi racine 
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/angular/angular.js HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+bower_components/angular/angular.js
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/css,*/*;q=0.1
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/angular-ui-tree.min.js HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+angular-ui-tree.min.js
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/angular-ui-tree.css HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/css,*/*;q=0.1
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+angular-ui-tree.css
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/AUT.js HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+AUT.js
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeHeader.Champ.inner.Label.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>#### Fichier non trouvÃ© :
+treeHeader.Champ.inner.Label.html
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/AUT_Definitions.json HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi Definitions_JSON:
+[{"NomChamp":"id","LibelleChamp":"id","ValeurFiltreChamp":"}{"NomChamp":"Selected","LibelleChamp":"Selected","ValeurFiltreChamp":"}{"NomChamp":"nProject","LibelleChamp":"nProject","ValeurFiltreChamp":"}{"NomChamp":"Beginning","LibelleChamp":"Beginning","ValeurFiltreChamp":"}{"NomChamp":"End","LibelleChamp":"End","ValeurFiltreChamp":"}{"NomChamp":"Description","LibelleChamp":"Description","ValeurFiltreChamp":"}{"NomChamp":"nUser","LibelleChamp":"nUser","ValeurFiltreChamp":"}]
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /Automatic_AUT/SQL HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeHeader.Champ.inner.Edit.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>#### Fichier non trouvÃ© :
+treeHeader.Champ.inner.Edit.html
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/AUT.json HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi JSON:
+{"Nom": "ThAutomatic_AUT.slFiltre","Elements":[{"id":"1","Selected":"0","nProject":"1","Beginning":"12\/08\/2015 08:44:47","End":"12\/08\/2015 12:44:47","Description":"Client 1\r\nCompta client","nUser":"0"},{"id":"2","Selected":"0","nProject":"0","Beginning":"20\/08\/2015 10:13:50","End":"20\/08\/2015 13:13:50","Description":"","nUser":"0"},{"id":"3","Selected":"0","nProject":"0","Beginning":"20\/08\/2015 12:08:11","End":"20\/08\/2015 13:08:11","Description":"","nUser":"0"}]}
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeHeader.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>HTML_Header:
+<div>
+  <div class="col-sm-3 text-left">Arbre</div>
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'id')">id</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_id"  value="" ng-keydown="eFiltre_KeyDown($event,'id')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'Selected')">Selected</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_Selected"  value="" ng-keydown="eFiltre_KeyDown($event,'Selected')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'nProject')">nProject</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_nProject"  value="" ng-keydown="eFiltre_KeyDown($event,'nProject')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'Beginning')">Beginning</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_Beginning"  value="" ng-keydown="eFiltre_KeyDown($event,'Beginning')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'End')">End</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_End"  value="" ng-keydown="eFiltre_KeyDown($event,'End')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'Description')">Description</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_Description"  value="" ng-keydown="eFiltre_KeyDown($event,'Description')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'nUser')">nUser</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_nUser"  value="" ng-keydown="eFiltre_KeyDown($event,'nUser')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left" ng-click="TriClick('0')">Reset Tri</div>
+</div>
+
+
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /Automatic_AUT/Databases HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeNode.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>Envoi HTML_Node:
+<div ui-tree-handle>
+  <span class="col-sm-3">
+  <a class="btn btn-success" data-nodrag ng-click="toggle(this)">
+     <span class="glyphicon"
+           ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}">
+     </span>
+  </a>
+  {{node.Nom}}
+  </span>
+
+
+  <div class="col-sm-1 text-left">{{node.id}}</div>
+
+  <div class="col-sm-1 text-left">{{node.Selected}}</div>
+
+  <div class="col-sm-1 text-left">{{node.nProject}}</div>
+
+  <div class="col-sm-1 text-left">{{node.Beginning}}</div>
+
+  <div class="col-sm-1 text-left">{{node.End}}</div>
+
+  <div class="col-sm-1 text-left">{{node.Description}}</div>
+
+  <div class="col-sm-1 text-left">{{node.nUser}}</div>
+
+</div>
+<br>
+<ol ui-tree-nodes="options" ng-model="node.Elements" ng-class="{hidden: collapsed}">
+  <li ng-repeat="node in node.Elements" ui-tree-node ng-include="'treeNode.html'"></li>
+</ol>
+<br>
+
+
+
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /Automatic_AUT/Database_Set/jsWorks HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/font-woff2;q=1.0,application/font-woff;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: identity
+>Referer: http://localhost:1500/AUT/bower_components/bootstrap/dist/css/bootstrap.css
+>Connection: keep-alive
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/font-woff2;q=1.0,application/font-woff;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/bower_components/bootstrap/dist/css/bootstrap.css
+>Connection: keep-alive
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/ HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi racine 
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/angular/angular.js HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+bower_components/angular/angular.js
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/css,*/*;q=0.1
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/angular-ui-tree.min.js HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+angular-ui-tree.min.js
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/AUT.js HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+AUT.js
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/angular-ui-tree.css HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/css,*/*;q=0.1
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+angular-ui-tree.css
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeHeader.Champ.inner.Label.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>#### Fichier non trouvÃ© :
+treeHeader.Champ.inner.Label.html
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeHeader.Champ.inner.Edit.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>#### Fichier non trouvÃ© :
+treeHeader.Champ.inner.Edit.html
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /Automatic_AUT/SQL HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeHeader.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>HTML_Header:
+<div>
+  <div class="col-sm-3 text-left">Arbre</div>
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'id')">id</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_id"  value="" ng-keydown="eFiltre_KeyDown($event,'id')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'Selected')">Selected</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_Selected"  value="" ng-keydown="eFiltre_KeyDown($event,'Selected')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'nProject')">nProject</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_nProject"  value="" ng-keydown="eFiltre_KeyDown($event,'nProject')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'Beginning')">Beginning</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_Beginning"  value="" ng-keydown="eFiltre_KeyDown($event,'Beginning')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'End')">End</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_End"  value="" ng-keydown="eFiltre_KeyDown($event,'End')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'Description')">Description</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_Description"  value="" ng-keydown="eFiltre_KeyDown($event,'Description')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'nUser')">nUser</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_nUser"  value="" ng-keydown="eFiltre_KeyDown($event,'nUser')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left" ng-click="TriClick('0')">Reset Tri</div>
+</div>
+
+
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/AUT.json HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi JSON:
+{"Nom": "ThAutomatic_AUT.slFiltre","Elements":[{"id":"1","Selected":"0","nProject":"1","Beginning":"12\/08\/2015 08:44:47","End":"12\/08\/2015 12:44:47","Description":"Client 1\r\nCompta client","nUser":"0"},{"id":"2","Selected":"0","nProject":"0","Beginning":"20\/08\/2015 10:13:50","End":"20\/08\/2015 13:13:50","Description":"","nUser":"0"},{"id":"3","Selected":"0","nProject":"0","Beginning":"20\/08\/2015 12:08:11","End":"20\/08\/2015 13:08:11","Description":"","nUser":"0"}]}
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/AUT_Definitions.json HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi Definitions_JSON:
+[{"NomChamp":"id","LibelleChamp":"id","ValeurFiltreChamp":""}{"NomChamp":"Selected","LibelleChamp":"Selected","ValeurFiltreChamp":""}{"NomChamp":"nProject","LibelleChamp":"nProject","ValeurFiltreChamp":""}{"NomChamp":"Beginning","LibelleChamp":"Beginning","ValeurFiltreChamp":""}{"NomChamp":"End","LibelleChamp":"End","ValeurFiltreChamp":""}{"NomChamp":"Description","LibelleChamp":"Description","ValeurFiltreChamp":""}{"NomChamp":"nUser","LibelleChamp":"nUser","ValeurFiltreChamp":""}]
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /Automatic_AUT/Databases HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeNode.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>Envoi HTML_Node:
+<div ui-tree-handle>
+  <span class="col-sm-3">
+  <a class="btn btn-success" data-nodrag ng-click="toggle(this)">
+     <span class="glyphicon"
+           ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}">
+     </span>
+  </a>
+  {{node.Nom}}
+  </span>
+
+
+  <div class="col-sm-1 text-left">{{node.id}}</div>
+
+  <div class="col-sm-1 text-left">{{node.Selected}}</div>
+
+  <div class="col-sm-1 text-left">{{node.nProject}}</div>
+
+  <div class="col-sm-1 text-left">{{node.Beginning}}</div>
+
+  <div class="col-sm-1 text-left">{{node.End}}</div>
+
+  <div class="col-sm-1 text-left">{{node.Description}}</div>
+
+  <div class="col-sm-1 text-left">{{node.nUser}}</div>
+
+</div>
+<br>
+<ol ui-tree-nodes="options" ng-model="node.Elements" ng-class="{hidden: collapsed}">
+  <li ng-repeat="node in node.Elements" ui-tree-node ng-include="'treeNode.html'"></li>
+</ol>
+<br>
+
+
+
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /Automatic_AUT/Database_Set/jsWorks HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/font-woff2;q=1.0,application/font-woff;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: identity
+>Referer: http://localhost:1500/AUT/bower_components/bootstrap/dist/css/bootstrap.css
+>Connection: keep-alive
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/font-woff2;q=1.0,application/font-woff;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/bower_components/bootstrap/dist/css/bootstrap.css
+>Connection: keep-alive
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 55
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/ HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi racine 
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/angular/angular.js HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+bower_components/angular/angular.js
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/css,*/*;q=0.1
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/angular-ui-tree.min.js HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+angular-ui-tree.min.js
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/angular-ui-tree.css HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/css,*/*;q=0.1
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+angular-ui-tree.css
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/AUT.js HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi fichier 
+AUT.js
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeHeader.Champ.inner.Label.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>#### Fichier non trouvÃ© :
+treeHeader.Champ.inner.Label.html
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeHeader.Champ.inner.Edit.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>#### Fichier non trouvÃ© :
+treeHeader.Champ.inner.Edit.html
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /Automatic_AUT/SQL HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/AUT_Definitions.json HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi Definitions_JSON:
+[{"NomChamp":"id","LibelleChamp":"id","ValeurFiltreChamp":""},{"NomChamp":"Selected","LibelleChamp":"Selected","ValeurFiltreChamp":""},{"NomChamp":"nProject","LibelleChamp":"nProject","ValeurFiltreChamp":""},{"NomChamp":"Beginning","LibelleChamp":"Beginning","ValeurFiltreChamp":""},{"NomChamp":"End","LibelleChamp":"End","ValeurFiltreChamp":""},{"NomChamp":"Description","LibelleChamp":"Description","ValeurFiltreChamp":""},{"NomChamp":"nUser","LibelleChamp":"nUser","ValeurFiltreChamp":""}]
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeHeader.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>HTML_Header:
+<div>
+  <div class="col-sm-3 text-left">Arbre</div>
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'id')">id</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_id"  value="" ng-keydown="eFiltre_KeyDown($event,'id')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'Selected')">Selected</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_Selected"  value="" ng-keydown="eFiltre_KeyDown($event,'Selected')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'nProject')">nProject</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_nProject"  value="" ng-keydown="eFiltre_KeyDown($event,'nProject')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'Beginning')">Beginning</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_Beginning"  value="" ng-keydown="eFiltre_KeyDown($event,'Beginning')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'End')">End</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_End"  value="" ng-keydown="eFiltre_KeyDown($event,'End')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'Description')">Description</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_Description"  value="" ng-keydown="eFiltre_KeyDown($event,'Description')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left">
+    <table>
+      <tr>
+        <td>
+          <span ng-click="Tri_Click( 'nUser')">nUser</span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input type ='text'  id="eFiltre_nUser"  value="" ng-keydown="eFiltre_KeyDown($event,'nUser')" size="5">
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="col-sm-1 text-left" ng-click="TriClick('0')">Reset Tri</div>
+</div>
+
+
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/AUT.json HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>Cache-Control: max-age=0
+>
+>Envoi JSON:
+{"Nom": "ThAutomatic_AUT.slFiltre","Elements":[{"id":"1","Selected":"0","nProject":"1","Beginning":"12\/08\/2015 08:44:47","End":"12\/08\/2015 12:44:47","Description":"Client 1\r\nCompta client","nUser":"0"},{"id":"2","Selected":"0","nProject":"0","Beginning":"20\/08\/2015 10:13:50","End":"20\/08\/2015 13:13:50","Description":"","nUser":"0"},{"id":"3","Selected":"0","nProject":"0","Beginning":"20\/08\/2015 12:08:11","End":"20\/08\/2015 13:08:11","Description":"","nUser":"0"}]}
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /Automatic_AUT/Databases HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/treeNode.html HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>Envoi HTML_Node:
+<div ui-tree-handle>
+  <span class="col-sm-3">
+  <a class="btn btn-success" data-nodrag ng-click="toggle(this)">
+     <span class="glyphicon"
+           ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}">
+     </span>
+  </a>
+  {{node.Nom}}
+  </span>
+
+
+  <div class="col-sm-1 text-left">{{node.id}}</div>
+
+  <div class="col-sm-1 text-left">{{node.Selected}}</div>
+
+  <div class="col-sm-1 text-left">{{node.nProject}}</div>
+
+  <div class="col-sm-1 text-left">{{node.Beginning}}</div>
+
+  <div class="col-sm-1 text-left">{{node.End}}</div>
+
+  <div class="col-sm-1 text-left">{{node.Description}}</div>
+
+  <div class="col-sm-1 text-left">{{node.nUser}}</div>
+
+</div>
+<br>
+<ol ui-tree-nodes="options" ng-model="node.Elements" ng-class="{hidden: collapsed}">
+  <li ng-repeat="node in node.Elements" ui-tree-node ng-include="'treeNode.html'"></li>
+</ol>
+<br>
+
+
+
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /Automatic_AUT/Database_Set/jsWorks HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/json, text/plain, */*
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/
+>Connection: keep-alive
+>
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/font-woff2;q=1.0,application/font-woff;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: identity
+>Referer: http://localhost:1500/AUT/bower_components/bootstrap/dist/css/bootstrap.css
+>Connection: keep-alive
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.woff
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/css/bootstrap.css.map HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Connection: keep-alive
+>Pragma: no-cache
+>Cache-Control: no-cache
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>#### Extension inconnue pour :
+bower_components/bootstrap/dist/css/bootstrap.css.map
+>Attending Connection. Error code (0=Success): 0
+>Received headers+document from browser:
+>GET /AUT/bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf HTTP/1.1
+>Host: localhost:1500
+>User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:42.0) Gecko/20100101 Firefox/42.0
+>Accept: application/font-woff2;q=1.0,application/font-woff;q=0.9,*/*;q=0.8
+>Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3
+>Accept-Encoding: gzip, deflate
+>Referer: http://localhost:1500/AUT/bower_components/bootstrap/dist/css/bootstrap.css
+>Connection: keep-alive
+>
+>Envoi fichier 
+bower_components/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf
