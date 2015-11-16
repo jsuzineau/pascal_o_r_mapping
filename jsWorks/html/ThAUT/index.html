@@ -12,17 +12,62 @@
          </select>
        </form>
        <br>
-       Requête SQL :<input type ='text'  id="eSQL"  ng-model="SQL" ng-keydown="eSQLKeyDown($event)" size="50">
+       <label for="eSQL"> Requête SQL : </label><input type ='text'  id="eSQL"  ng-model="SQL" ng-keydown="eSQLKeyDown($event)" size="100">
        <br>
-       <div ng-include="treeHeader_html_url"></div>
+<div>
+  <div class="col-sm-3 text-left">Arbre</div>
+  <div ng-repeat="Definition in Definitions">
+    <div class="col-sm-1 text-left">
+      <table color="lime"; >
+        <tr>
+          <td>
+            <span ng-click="Tri_Click( Definition.NomChamp)">{{Definition.LibelleChamp}}</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type ='text'  id="eFiltre_{{Definition.NomChamp}}"
+                   value="{{Definition.ValeurFiltreChamp}}"
+                   ng-keydown="eFiltre_KeyDown($event,Definition.NomChamp)" size="5">
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="col-sm-1 text-left" ng-click="TriClick('0')">Reset Tri</div>
+</div>
+
        <br>
        <br>
        <br>
        <br>
        <br>
+       <script type="text/ng-template" id="LigneChamps">
+          <div ui-tree-handle>
+            <span class="col-sm-3">
+            <a class="btn btn-success" data-nodrag ng-click="toggle(this)">
+               <span class="glyphicon"
+                     ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}">
+               </span>
+            </a>
+            {{node.Nom}}
+            </span>
+
+          <div ng-repeat="Definition in Definitions">
+            <div class="col-sm-1 text-left">{{node[Definition.NomChamp]}}</div>
+          </div>
+
+          </div>
+          <br>
+          <ol ui-tree-nodes="options" ng-model="node.Elements" ng-class="{hidden: collapsed}">
+            <li ng-repeat="node in node.Elements" ui-tree-node ng-include="'LigneChamps'"></li>
+          </ol>
+          <br>
+       </script>
        <div ui-tree>
          <ol ui-tree-nodes="" ng-model="root" id="tree-root">
-           <li ng-repeat="node in root.Elements" ui-tree-node ng-include="'treeNode.html'"></li>
+           <li ng-repeat="node in root.Elements" ui-tree-node ng-include="'LigneChamps'">
+           </li>
          </ol>
        </div>
     </div>

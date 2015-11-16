@@ -6,6 +6,7 @@
      'ctrl_AUT',
      function ($scope,$http)
        {
+       /*
        $scope.treeHeader_Champ_inner_Label_html= {};
        $http.get("treeHeader.Champ.inner.Label.html")
        .success
@@ -24,63 +25,73 @@
            $scope.treeHeader_Champ_inner_Edit_html = response;
            }
          );
+       */
+       $scope.remove = function (scope) { scope.remove(); };
+       $scope.toggle = function (scope) { scope.toggle(); };
+       $scope.moveLastToTheBeginning
+       =
+        function ()
+          {
+          var a = $scope.data.pop();
+          $scope.data.splice(0, 0, a);
+          };
 
-         $scope.remove = function (scope) {
-           scope.remove();
-         };
-
-         $scope.toggle = function (scope) {
-           scope.toggle();
-         };
-
-         $scope.moveLastToTheBeginning = function () {
-           var a = $scope.data.pop();
-           $scope.data.splice(0, 0, a);
-         };
-
-         $scope.newSubItem = function (scope) {
-           var nodeData = scope.$modelValue;
-           nodeData.nodes.push({
-             id: nodeData.id * 10 + nodeData.nodes.length,
-             title: nodeData.title + '.' + (nodeData.nodes.length + 1),
-             nodes: []
+       $scope.newSubItem
+       =
+        function (scope)
+          {
+          var nodeData = scope.$modelValue;
+          nodeData.nodes.push(
+           {
+           id: nodeData.id * 10 + nodeData.nodes.length,
+           title: nodeData.title + '.' + (nodeData.nodes.length + 1),
+           nodes: []
            });
-         };
+          };
 
-         $scope.collapseAll = function () {
-           $scope.$broadcast('collapseAll');
-         };
+       $scope.collapseAll = function () { $scope.$broadcast('collapseAll'); };
+       $scope.expandAll   = function () { $scope.$broadcast('expandAll'); };
 
-         $scope.expandAll = function () {
-           $scope.$broadcast('expandAll');
-         };
+       /*
+       $scope.Rafraichit_Header
+       =
+        function ()
+          {
+          //mAUT.$rootScope.$templateCache.remove("treeHeader.html");
+          $scope.treeHeader_html_url="treeHeader.html";
+          };
+       $scope.Rafraichit_Header();
+       */
 
-        $scope.Rafraichit_Header
-        =
-         function ()
+       $scope.SQL={};
+       $http.get("../Automatic_AUT/SQL")
+       .success
+         (
+         function(response)
            {
-           //mAUT.$rootScope.$templateCache.remove("treeHeader.html");
-           $scope.treeHeader_html_url="treeHeader.html";
-           };
+           $scope.SQL= response;
+           }
+         );
 
-        $scope.Rafraichit_Header();
-
-        $scope.SQL={};
-        $http.get("../Automatic_AUT/SQL")
-        .success
-          (
-          function(response)
-            {
-            $scope.SQL= response;
-            }
-          );
-
-        $scope.Databases={};
-        $scope.Rafraichit_Databases
-        =
-         function ()
-           {
-           $http.get("../Automatic_AUT/Databases")
+       $scope.Databases={};
+       $scope.Rafraichit_Databases
+       =
+        function ()
+          {
+          $http.get("../Automatic_AUT/Databases")
+          .success
+            (
+            function(response)
+              {
+              $scope.Databases= response;
+              }
+            );
+          };
+       $scope.$watch(
+         function() { return $scope.Databases.Nom; },
+         function(newValue, oldValue) {
+           if ( newValue == oldValue ) return;
+           $http.get("../Automatic_AUT/Database_Set/"+newValue)
            .success
              (
              function(response)
@@ -88,96 +99,83 @@
                $scope.Databases= response;
                }
              );
-           };
-        $scope.$watch(
-          function() { return $scope.Databases.Nom; },
-          function(newValue, oldValue) {
-            if ( newValue == oldValue ) return;
-            $http.get("../Automatic_AUT/Database_Set/"+newValue)
-            .success
-              (
-              function(response)
-                {
-                $scope.Databases= response;
-                }
-              );
-          }
-        );
+         }
+       );
 
-        $scope.eSQLKeyDown
-        =
-         function ( $event)
-           {
-           if ($event.key != "Enter") return false;
+       $scope.eSQLKeyDown
+       =
+        function ( $event)
+          {
+          if ($event.key != "Enter") return false;
 
-           $scope.treeHeader_html_url="";
+          //$scope.treeHeader_html_url="";
 
-           //envoi de la valeur
-           $http.get("../Automatic_AUT/"+$scope.SQL)
-           .success
-             (
-             function(response)
-               {
-               $scope.Rafraichit_Definitions();
-               $scope.Rafraichit_Header();
-               $scope.root = response;
-               }
-             );
-           return true;
-           };
+          //envoi de la valeur
+          $http.get("../Automatic_AUT/"+$scope.SQL)
+          .success
+            (
+            function(response)
+              {
+              $scope.Rafraichit_Definitions();
+              //$scope.Rafraichit_Header();
+              $scope.root = response;
+              }
+            );
+          return true;
+          };
 
 
-        $scope.Tri_Click
-        =
-         function ( _NomChamp)
-           {
-           $http.get("Tri/"+_NomChamp)
-           .success
-             (
-             function(response)
-               {
-               $scope.root = response;
-               }
-             );
-           };
-        $scope.eFiltre_KeyDown
-        =
-         function ( $event,_NomChamp)
-           {
-           if ($event.key != "Enter") return false;
+       $scope.Tri_Click
+       =
+        function ( _NomChamp)
+          {
+          $http.get("Tri/"+_NomChamp)
+          .success
+            (
+            function(response)
+              {
+              $scope.root = response;
+              }
+            );
+          };
+       $scope.eFiltre_KeyDown
+       =
+        function ( $event,_NomChamp)
+          {
+          if ($event.key != "Enter") return false;
 
-           //Récupération de la valeur
-           $scope.eFiltre_NomChamp=document.getElementById( "eFiltre_"+_NomChamp);
-           $scope.ValeurFiltreChamp= $scope.eFiltre_NomChamp.value;
+          //Récupération de la valeur
+          $scope.eFiltre_NomChamp=document.getElementById( "eFiltre_"+_NomChamp);
+          $scope.ValeurFiltreChamp= $scope.eFiltre_NomChamp.value;
 
-           //envoi de la valeur
-           $http.get("Filtre/"+_NomChamp+","+$scope.ValeurFiltreChamp)
-           .success
-             (
-             function(response)
-               {
-               $scope.root = response;
-               }
-             );
-           return true;
-           };
+          //envoi de la valeur
+          $http.get("Filtre/"+_NomChamp+","+$scope.ValeurFiltreChamp)
+          .success
+            (
+            function(response)
+              {
+              $scope.root = response;
+              }
+            );
+          return true;
+          };
 
 
        $scope.Definitions={};
 
-        $scope.Rafraichit_Definitions
-        =
-         function ()
-           {
-           $http.get("AUT_Definitions.json")
-           .success
-             (
-             function(response)
-               {
-               $scope.Definitions = response;
-               }
-             );
-           };
+       $scope.Rafraichit_Definitions
+       =
+        function ()
+          {
+          $http.get("AUT_Definitions.json")
+          .success
+            (
+            function(response)
+              {
+              $scope.Definitions = response;
+              }
+            );
+          };
        $scope.Rafraichit_Definitions();
 
        $scope.root={};
