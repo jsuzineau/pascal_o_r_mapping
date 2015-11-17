@@ -45,9 +45,9 @@
        <script type="text/ng-template" id="LigneChamps">
           <div ui-tree-handle>
             <span class="col-sm-3">
-            <a class="btn btn-success" data-nodrag ng-click="toggle(this)">
+            <a ng-class="{'btn': node.hasOwnProperty('Nom'), 'btn-success': node.hasOwnProperty('Nom')}" data-nodrag ng-click="toggle(this)">
                <span class="glyphicon"
-                     ng-class="{'glyphicon-chevron-right': collapsed, 'glyphicon-chevron-down': !collapsed}">
+                     ng-class="{'glyphicon-chevron-right': collapsed && node.hasOwnProperty('Nom'), 'glyphicon-chevron-down': !collapsed  && node.hasOwnProperty('Nom')}">
                </span>
             </a>
             {{node.Nom}}
@@ -58,7 +58,7 @@
           </div>
 
           </div>
-          <br>
+          <br >
           <ol ui-tree-nodes="options" ng-model="node.Elements" ng-class="{hidden: collapsed}">
             <li ng-repeat="node in node.Elements" ui-tree-node ng-include="'LigneChamps'"></li>
           </ol>

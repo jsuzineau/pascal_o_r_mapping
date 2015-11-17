@@ -1011,17 +1011,21 @@ end;
 
 function String_from_File( _FileName: String): String;
 var
-   sl: TStringList;
+   F: File;
+   Longueur: Integer;
 begin
      Result:= '';
      if not FileExists( _FileName) then exit;
 
-     sl:= TStringList.Create;
+     AssignFile( F, _FileName);
      try
-        sl.LoadFromFile( _FileName);
-        Result:= sl.Text;
+        Reset( F, 1);
+        Longueur:= FileSize( F);
+        if 0 = Longueur then exit;
+        SetLength( Result, Longueur);
+        BlockRead( F, Result[1], Longueur);
      finally
-            Free_nil( sl);
+            CloseFile( F);
             end;
 end;
 
