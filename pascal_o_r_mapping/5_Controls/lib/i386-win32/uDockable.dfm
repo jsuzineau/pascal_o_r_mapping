@@ -1,33 +1,31 @@
 object Dockable: TDockable
-  Left = 315
-  Top = 128
-  Width = 870
+  Left = -7
   Height = 640
+  Top = 56
+  Width = 764
   Caption = 'Dockable'
+  ClientHeight = 640
+  ClientWidth = 764
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
-  Font.Style = []
-  OldCreateOrder = False
   OnClick = FormClick
   OnDblClick = FormDblClick
   OnKeyDown = DockableKeyDown
   OnMouseWheelDown = FormMouseWheelDown
   OnMouseWheelUp = FormMouseWheelUp
-  PixelsPerInch = 96
-  TextHeight = 13
+  LCLVersion = '1.4.2.0'
   object sSelection: TBatpro_Shape
     Left = 0
+    Height = 640
     Top = 0
     Width = 12
-    Height = 606
     Align = alLeft
     Brush.Style = bsClear
     Pen.Style = psClear
-    Shape = stCircle
     OnMouseDown = sSelectionMouseDown
+    Shape = stCircle
     Batpro_Shape = bstRectangle
   end
 end

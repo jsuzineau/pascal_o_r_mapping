@@ -1,0 +1,41 @@
+object fRDD_Explorer: TfRDD_Explorer
+  Left = 2003
+  Height = 240
+  Top = 304
+  Width = 320
+  Caption = 'fRDD_Explorer'
+  ClientHeight = 240
+  ClientWidth = 320
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnDropFiles = FormDropFiles
+  LCLVersion = '1.4.4.0'
+  object pc: TPageControl
+    Left = 0
+    Height = 240
+    Top = 0
+    Width = 320
+    ActivePage = tsRaw
+    Align = alClient
+    TabIndex = 0
+    TabOrder = 0
+    object tsRaw: TTabSheet
+      Caption = 'Raw'
+      ClientHeight = 212
+      ClientWidth = 312
+      object mRaw: TMemo
+        Left = 0
+        Height = 212
+        Top = 0
+        Width = 312
+        Align = alClient
+        Font.Pitch = fpFixed
+        Lines.Strings = (
+          'mRaw'
+        )
+        ParentFont = False
+        TabOrder = 0
+      end
+    end
+  end
+end
