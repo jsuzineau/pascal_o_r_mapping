@@ -8,7 +8,7 @@ uses
     uClean,
     uRDD,
  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ComCtrls,
- StdCtrls;
+ StdCtrls, Grids;
 
 type
 
@@ -19,6 +19,8 @@ type
   class(TForm)
    mRaw: TMemo;
    pc: TPageControl;
+   sg: TStringGrid;
+   tsGrid: TTabSheet;
    tsRaw: TTabSheet;
    procedure FormCreate(Sender: TObject);
    procedure FormDestroy(Sender: TObject);
@@ -58,8 +60,28 @@ begin
 end;
 
 procedure TfRDD_Explorer.rdd_Changed;
+var
+   I: TIterateur_RDD_Ligne;
+   bl: TRDD_Ligne;
+   X, Y: Integer;
 begin
      mRaw.Lines.Text:= rdd.S;
+     sg.ColCount:= rdd.NbColonnes;
+     sg.RowCount:= rdd.NbLignes;
+     Y:= 0;
+     I:= rdd.sl.Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( bl) then continue;
+
+       for X:= 0 to bl.NbColonnes - 1
+       do
+         sg.Cells[ X, Y]:= bl.A[X];
+
+       Inc( Y);
+       end;
+
 end;
 
 end.

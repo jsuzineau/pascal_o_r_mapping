@@ -2,6 +2,7 @@
 <CONFIG>
   <Package Version="4">
     <Name Value="OD_DelphiReportEngine_Units_linux"/>
+    <Type Value="RunAndDesignTime"/>
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
@@ -13,12 +14,6 @@
           <SyntaxMode Value="Delphi"/>
         </SyntaxOptions>
       </Parsing>
-      <Other>
-        <CompilerMessages>
-          <MsgFileName Value=""/>
-        </CompilerMessages>
-        <CompilerPath Value="$(CompPath)"/>
-      </Other>
     </CompilerOptions>
     <Files Count="88">
       <Item7>
@@ -350,11 +345,13 @@
         <UnitName Value="uhFiltre_Ancetre"/>
       </Item88>
     </Files>
-    <Type Value="RunAndDesignTime"/>
-    <RequiredPkgs Count="1">
+    <RequiredPkgs Count="2">
       <Item1>
-        <PackageName Value="LazUtils"/>
+        <PackageName Value="LCLBase"/>
       </Item1>
+      <Item2>
+        <PackageName Value="LazUtils"/>
+      </Item2>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
