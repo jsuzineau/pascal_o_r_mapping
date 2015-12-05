@@ -43,37 +43,6 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
       <Unit3>
-        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uLog.pas"/>
-        <UnitName Value="uLog"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="19"/>
-        <CursorPos X="12" Y="36"/>
-        <UsageCount Value="11"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit3>
-      <Unit4>
-        <Filename Value="..\..\..\..\..\..\usr\lib\lazarus\1.4.0\ide\lazarus.pp"/>
-        <UnitName Value="Lazarus"/>
-        <EditorIndex Value="-1"/>
-        <UsageCount Value="9"/>
-      </Unit4>
-      <Unit5>
-        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uBinary_Tree.pas"/>
-        <UnitName Value="uBinary_Tree"/>
-        <EditorIndex Value="-1"/>
-        <UsageCount Value="9"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit5>
-      <Unit6>
-        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uBatpro_StringList.pas"/>
-        <UnitName Value="uBatpro_StringList"/>
-        <EditorIndex Value="9"/>
-        <CursorPos X="6"/>
-        <UsageCount Value="13"/>
-        <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit6>
-      <Unit7>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uVide.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uVide"/>
@@ -81,6 +50,34 @@
         <TopLine Value="4"/>
         <CursorPos X="26" Y="47"/>
         <UsageCount Value="26"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uLog.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="19"/>
+        <CursorPos X="12" Y="36"/>
+        <UsageCount Value="11"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\..\..\..\..\..\usr\lib\lazarus\1.4.0\ide\lazarus.pp"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uBinary_Tree.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uBatpro_StringList.pas"/>
+        <UnitName Value="uBatpro_StringList"/>
+        <EditorIndex Value="9"/>
+        <CursorPos X="6"/>
+        <UsageCount Value="13"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit7>
@@ -117,24 +114,25 @@
       </Unit11>
       <Unit12>
         <Filename Value="..\..\..\..\Public\tmp\storeorder_avec_before_group.xml"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
-        <CursorPos X="60" Y="16"/>
+        <TopLine Value="16"/>
+        <CursorPos X="108" Y="28"/>
         <UsageCount Value="12"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="XML"/>
       </Unit12>
       <Unit13>
         <Filename Value="..\..\..\..\Public\tmp\storeorder_avec_before_group.4rp"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="4"/>
+        <TopLine Value="25"/>
         <CursorPos X="72" Y="44"/>
         <UsageCount Value="12"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="None"/>
       </Unit13>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="29" HistoryIndex="28">
       <Position1>
         <Filename Value="uRDD.pas"/>
         <Caret Line="140" Column="23" TopLine="133"/>
@@ -249,12 +247,8 @@
       </Position28>
       <Position29>
         <Filename Value="..\..\..\..\Public\tmp\f_100.4gl"/>
-        <Caret TopLine="52"/>
-      </Position29>
-      <Position30>
-        <Filename Value="..\..\..\..\Public\tmp\f_100.4gl"/>
         <Caret Line="17" Column="4"/>
-      </Position30>
+      </Position29>
     </JumpHistory>
   </ProjectSession>
 </CONFIG>

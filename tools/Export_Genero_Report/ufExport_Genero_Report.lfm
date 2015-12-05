@@ -1,0 +1,8 @@
+object fExport_Genero_Report: TfExport_Genero_Report
+  Left = 452
+  Height = 240
+  Top = 2214
+  Width = 320
+  Caption = 'fExport_Genero_Report'
+  LCLVersion = '1.4.0.4'
+end

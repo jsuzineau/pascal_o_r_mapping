@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="10">
+      <Unit0>
+        <Filename Value="Export_Genero_Report_linux.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Export_Genero_Report_linux"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="27"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="ufExport_Genero_Report.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fExport_Genero_Report"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufExport_Genero_Report"/>
+        <CursorPos X="64" Y="13"/>
+        <UsageCount Value="27"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="uGenero_Report_XML.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uGenero_Report_XML"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="27" Y="11"/>
+        <UsageCount Value="27"/>
+        <Loaded Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="../../../../Public/tmp/storeorder_avec_before_group.xml"/>
+        <EditorIndex Value="5"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="XML"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="../../pascal_o_r_mapping/2_Units/uOpenDocument.pas"/>
+        <UnitName Value="uOpenDocument"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="11" Y="30"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="../../pascal_o_r_mapping/2_Units/uOD_JCL.pas"/>
+        <UnitName Value="uOD_JCL"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="319"/>
+        <CursorPos X="5" Y="360"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="../../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/uContexteMembre.pas"/>
+        <UnitName Value="uContexteMembre"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="46"/>
+        <CursorPos X="9" Y="59"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="../../pascal_o_r_mapping/3_Data/Automatic/ublAutomatic.pas"/>
+        <UnitName Value="ublAutomatic"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="633"/>
+        <CursorPos X="14" Y="653"/>
+        <UsageCount Value="10"/>
+        <Bookmarks Count="1">
+          <Item0 X="47" Y="362" ID="1"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/src/base/db.pas"/>
+        <UnitName Value="db"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="70"/>
+        <CursorPos X="3" Y="72"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <UnitName Value="SQLDBToolsUnit"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="360"/>
+        <CursorPos X="30" Y="394"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit9>
+    </Units>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="222" Column="27" TopLine="189"/>
+      </Position1>
+      <Position2>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="223" Column="27" TopLine="190"/>
+      </Position2>
+      <Position3>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="224" Column="27" TopLine="191"/>
+      </Position3>
+      <Position4>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="225" Column="27" TopLine="192"/>
+      </Position4>
+      <Position5>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="226" Column="27" TopLine="193"/>
+      </Position5>
+      <Position6>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="227" Column="27" TopLine="194"/>
+      </Position6>
+      <Position7>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="228" Column="27" TopLine="195"/>
+      </Position7>
+      <Position8>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="229" Column="27" TopLine="196"/>
+      </Position8>
+      <Position9>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="230" Column="27" TopLine="197"/>
+      </Position9>
+      <Position10>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="231" Column="27" TopLine="198"/>
+      </Position10>
+      <Position11>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="236" Column="27" TopLine="203"/>
+      </Position11>
+      <Position12>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="238" Column="27" TopLine="205"/>
+      </Position12>
+      <Position13>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="242" Column="27" TopLine="209"/>
+      </Position13>
+      <Position14>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="243" Column="27" TopLine="210"/>
+      </Position14>
+      <Position15>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="244" Column="27" TopLine="211"/>
+      </Position15>
+      <Position16>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="245" Column="27" TopLine="212"/>
+      </Position16>
+      <Position17>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="249" Column="27" TopLine="216"/>
+      </Position17>
+      <Position18>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="250" Column="27" TopLine="217"/>
+      </Position18>
+      <Position19>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="251" Column="27" TopLine="218"/>
+      </Position19>
+      <Position20>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="255" Column="27" TopLine="222"/>
+      </Position20>
+      <Position21>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="256" Column="27" TopLine="223"/>
+      </Position21>
+      <Position22>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="257" Column="27" TopLine="224"/>
+      </Position22>
+      <Position23>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="258" Column="27" TopLine="225"/>
+      </Position23>
+      <Position24>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="262" Column="27" TopLine="229"/>
+      </Position24>
+      <Position25>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="263" Column="27" TopLine="230"/>
+      </Position25>
+      <Position26>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="264" Column="27" TopLine="231"/>
+      </Position26>
+      <Position27>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="265" Column="27" TopLine="232"/>
+      </Position27>
+      <Position28>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="266" Column="27" TopLine="233"/>
+      </Position28>
+      <Position29>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="267" Column="27" TopLine="234"/>
+      </Position29>
+      <Position30>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
+        <Caret Line="268" Column="27" TopLine="235"/>
+      </Position30>
+    </JumpHistory>
+  </ProjectSession>
+</CONFIG>
