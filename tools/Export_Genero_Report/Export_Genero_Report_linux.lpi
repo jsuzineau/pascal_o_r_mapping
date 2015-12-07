@@ -27,19 +27,21 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="2">
+    <RequiredPackages Count="3">
       <Item1>
-        <PackageName Value="OD_DelphiReportEngine_Controls_linux"/>
+        <PackageName Value="SQLDBLaz"/>
       </Item1>
       <Item2>
-        <PackageName Value="LCL"/>
+        <PackageName Value="OD_DelphiReportEngine_Controls_linux"/>
       </Item2>
+      <Item3>
+        <PackageName Value="LCL"/>
+      </Item3>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="4">
       <Unit0>
         <Filename Value="Export_Genero_Report_linux.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="Export_Genero_Report_linux"/>
       </Unit0>
       <Unit1>
         <Filename Value="ufExport_Genero_Report.pas"/>
@@ -54,6 +56,10 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uGenero_Report_XML"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="Genero_Report_XML_Template.xml"/>
+        <IsPartOfProject Value="True"/>
+      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

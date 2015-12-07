@@ -5,12 +5,16 @@ unit ufExport_Genero_Report;
 interface
 
 uses
- Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs;
+ Classes, SysUtils, sqlite3conn, FileUtil, Forms, Controls, Graphics, Dialogs;
 
 type
+
+ { TfExport_Genero_Report }
+
  TfExport_Genero_Report
  =
   class( TForm)
+   SQLite3Connection1: TSQLite3Connection;
   private
    { private declarations }
   public

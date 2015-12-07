@@ -1,8 +1,17 @@
 object fExport_Genero_Report: TfExport_Genero_Report
-  Left = 452
+  Left = 365
   Height = 240
-  Top = 2214
+  Top = 1206
   Width = 320
   Caption = 'fExport_Genero_Report'
   LCLVersion = '1.4.0.4'
+  object SQLite3Connection1: TSQLite3Connection
+    Connected = False
+    LoginPrompt = False
+    KeepConnection = False
+    LogEvents = []
+    Options = []
+    left = 79
+    top = 42
+  end
 end
