@@ -70,7 +70,7 @@ const
       '',                 //ftVarBytes,
       '',                 //ftAutoInc,
       'BLOB',             //ftBlob,
-      'BLOB',             //ftMemo,
+      'TEXT',             //ftMemo,
       'BLOB',             //ftGraphic,
       '',                 //ftFmtMemo,
       '',                 //ftParadoxOle,
@@ -99,8 +99,8 @@ const
    begin
         case _F.DataType
         of
-          ftString   : Result:= Format( 'VARCHAR( %d)', [_F.DataSize])
-          ftFixedChar: Result:= Format( 'CHAR( %d)'   , [_F.DataSize])
+          ftString   : Result:= Format( 'VARCHAR( %d)', [_F.DataSize]);
+          ftFixedChar: Result:= Format( 'CHAR( %d)'   , [_F.DataSize]);
           else Result:= FieldtypeDefinitionsConst[ _F.DataType];
           end;
    end;
@@ -108,7 +108,9 @@ const
    begin
         case _F.DataType
         of
-          else Result:= _F.DisplayText;
+          ftString   : Result:= _F.DisplayText;
+          ftMemo     : Result:= _F.AsString;
+          else         Result:= _F.DisplayText;
           end;
    end;
 begin
@@ -171,18 +173,25 @@ end;
 procedure TGenero_Report_XML.Test;
 var
    c: TSQLite3Connection;
+   t: TSQLTransaction;
    sqlq: TSQLQuery;
 begin
 
      c:= TSQLite3Connection.Create( nil);
      try
         c.DatabaseName:= ExtractFilePath( ParamStr(0))+'test_db.sqlite';
+        t:= TSQLTransaction.Create( nil);
+        t.DataBase:= c;
         sqlq:= TSQLQuery.Create( nil);
+
         sqlq.DataBase:= c;
+        sqlq.SQL.Text:= 'select * from test';
+        sqlq.Open;
 
-
+        Genere_XML( sqlq);
      finally
             Free_nil( sqlq);
+            Free_nil( t);
             Free_nil( c);
             end;
 end;

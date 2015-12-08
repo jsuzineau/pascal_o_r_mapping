@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="windows-1252"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?FGLReportToRTLInputStyleSheet  reportName="storeorder_report"?>
 <?ScopeExtenderStyleSheet  systemId="file:/C:/_FourJs/Genero_Report_Writer_Formation/CustdemoProject250_withoutSum/CustdemoProject250_withoutSum/mon_report.4rp" styleURL="file:/C:/_FourJs/Genero_Report_Writer_Formation/CustdemoProject250_withoutSum/CustdemoProject250_withoutSum/mon_report.4rp" ignoreUnmatchedInput="true" variableValueNamesAreInLowerCase="true"?>
 <?RTLStyleSheet  ignoreUnmatchedInput="true" autoCreate4GLVariables="true" variableValueNamesAreInLowerCase="true" styleURL="file:/C:/_FourJs/Genero_Report_Writer_Formation/CustdemoProject250_withoutSum/CustdemoProject250_withoutSum/mon_report.4rp" outputDeviceName="PDF" isPreview="1"?>
