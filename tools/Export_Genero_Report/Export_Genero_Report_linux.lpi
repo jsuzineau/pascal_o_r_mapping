@@ -38,7 +38,7 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="4">
+    <Units Count="5">
       <Unit0>
         <Filename Value="Export_Genero_Report_linux.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -52,14 +52,19 @@
         <UnitName Value="ufExport_Genero_Report"/>
       </Unit1>
       <Unit2>
-        <Filename Value="uGenero_Report_XML.pas"/>
+        <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uGenero_Report_XML"/>
+        <UnitName Value="uGenero_Report_from_ODRE_Table"/>
       </Unit2>
       <Unit3>
         <Filename Value="Genero_Report_XML_Template.xml"/>
         <IsPartOfProject Value="True"/>
       </Unit3>
+      <Unit4>
+        <Filename Value="uGenero_Report_from_Dataset.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uGenero_Report_from_Dataset"/>
+      </Unit4>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

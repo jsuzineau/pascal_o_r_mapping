@@ -1,7 +1,7 @@
 object fExport_Genero_Report: TfExport_Genero_Report
-  Left = 1764
+  Left = 2087
   Height = 240
-  Top = 235
+  Top = 249
   Width = 320
   Caption = 'fExport_Genero_Report'
   ClientHeight = 240
@@ -9,30 +9,22 @@ object fExport_Genero_Report: TfExport_Genero_Report
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   LCLVersion = '1.4.0.4'
-  object bTest: TButton
-    Left = 53
+  object bGenero_Report_from_Dataset: TButton
+    Left = 16
     Height = 25
-    Top = 107
-    Width = 75
-    Caption = 'Test'
-    OnClick = bTestClick
+    Top = 16
+    Width = 248
+    Caption = 'Genero_Report_from_Dataset'
+    OnClick = bGenero_Report_from_DatasetClick
     TabOrder = 0
   end
-  object SQLTransaction1: TSQLTransaction
-    Active = False
-    Database = SQLite3Connection1
-    left = 112
-    top = 49
-  end
-  object SQLite3Connection1: TSQLite3Connection
-    Connected = False
-    LoginPrompt = False
-    DatabaseName = '/home/jean/pascal_o_r_mapping/pascal_o_r_mapping/tools/Export_Genero_Report/test_db.sqlite'
-    KeepConnection = False
-    Transaction = SQLTransaction1
-    LogEvents = []
-    Options = []
-    left = 165
-    top = 119
+  object bGenero_Report_from_ODRE_Table: TButton
+    Left = 20
+    Height = 25
+    Top = 60
+    Width = 248
+    Caption = 'Genero_Report_from_ODRE_Table'
+    OnClick = bGenero_Report_from_ODRE_TableClick
+    TabOrder = 1
   end
 end

@@ -7,7 +7,8 @@ uses
  cthreads,
  {$ENDIF}{$ENDIF}
  Interfaces, // this includes the LCL widgetset
- Forms, ufExport_Genero_Report, uGenero_Report_XML
+ Forms, ufExport_Genero_Report, uGenero_Report_from_ODRE_Table,
+ uGenero_Report_from_Dataset
  { you can add units after this };
 
 {$R *.res}

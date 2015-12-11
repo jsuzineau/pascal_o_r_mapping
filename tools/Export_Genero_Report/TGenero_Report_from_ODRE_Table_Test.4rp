@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<report:Report xmlns="http://www.4js.com/2004/PXML" version="5.00" xmlns:rtl="http://www.4js.com/2004/RTL" gstVersion="30014" xmlns:report="http://www.4js.com/2007/REPORT">
+  <report:Settings RWPageWidth="a4width" RWTopMargin="1.3cm" RWLeftMargin="1.3cm" RWPageLength="a4length" RWRightMargin="1.3cm" RWBottomMargin="1.3cm">
+    <report:FormatList>
+      <report:Format-SVG/>
+      <report:Format-PDF/>
+      <report:Format-image/>
+    </report:FormatList>
+  </report:Settings>
+  <report:Data RWDataLocation="storeorder_avec_before_group.rdd" RWFglReportName="storeorder_report"/>
+  <report:Conflicts/>
+  <rtl:stylesheet>
+    <PXML>
+      <rtl:match name="Report" maxOccurs="1" minOccurs="1" nameConstraint="Report">
+        <MINIPAGE name="Page Root" width="max" length="max">
+          <TABLE name="Table" rule="1" border="1" floatingBehavior="enclosed">
+            <COLDEFS name="Coldefs1">
+              <COLDEF name="GR_COLDEF" pWidth="1"/>
+              <COLDEF name="GR_COLDEF1" pWidth="5"/>
+            </COLDEFS>
+            <THEAD name="Head1" type="any">
+              <ROW name="Row2">
+                <COL name="GR_COL">
+                  <WORDBOX name="GR_WORDBOX" text="N°" class="grwTableStringColumnTitle" anchorX="1" textAlignment="center" floatingBehavior="enclosed"/>
+                </COL>
+                <COL name="GR_COL1">
+                  <WORDBOX name="GR_WORDBOX1" text="Libellé" class="grwTableStringColumnTitle" anchorX="1" textAlignment="center" floatingBehavior="enclosed"/>
+                </COL>
+              </ROW>
+            </THEAD>
+            <TBODY name="Body1">
+              <rtl:match name="OnEveryRow sqlqTEST" maxOccurs="unbounded" minOccurs="0" nameConstraint="OnEveryRow">
+                <ROW name="GR_ROW">
+                  <COL name="GR_COL2">
+                    <rtl:input-variable name="Corps.sqlqTEST.id" type="FGLString" expectedLocation="expectedHere"/>
+                    <WORDBOX name="GR_WORDBOX2" class="grwTableStringColumnValue" value="{{Corps.sqlqTEST.id}}" anchorX="1" fontBold="{{(Corps.sqlqTEST.NewGroup==1)||(Corps.sqlqTEST.EndGroup==1)||(Corps.sqlqTEST.BoldLine==1)}}" textAlignment="left" floatingBehavior="enclosed"/>
+                  </COL>
+                  <COL name="GR_COL3">
+                    <rtl:input-variable name="Corps.sqlqTEST.libelle" type="FGLString" expectedLocation="expectedHere"/>
+                    <WORDBOX name="GR_WORDBOX3" class="grwTableStringColumnValue" value="{{Corps.sqlqTEST.libelle}}" anchorX="1" fontBold="{{(Corps.sqlqTEST.NewGroup==1)||(Corps.sqlqTEST.EndGroup==1)||(Corps.sqlqTEST.BoldLine==1)}}" textAlignment="left" floatingBehavior="enclosed"/>
+                  </COL>
+                </ROW>
+              </rtl:match>
+            </TBODY>
+          </TABLE>
+        </MINIPAGE>
+      </rtl:match>
+    </PXML>
+  </rtl:stylesheet>
+</report:Report>
