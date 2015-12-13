@@ -28,6 +28,7 @@ interface
 
 uses
     uClean,
+    uuStrings,
     uBatpro_StringList,
     uOD_Temporaire,
     uOD_JCL,
@@ -40,6 +41,26 @@ uses
  Classes, SysUtils, XMLRead, XMLWrite, sqlite3conn, DOM, DB, sqldb;
 
 type
+
+ { TGenero_Report_Dataset }
+
+ TGenero_Report_Dataset
+ =
+  class
+  //Gestion du cycle de vie
+  public
+    constructor Create( _ds: TDataset);
+    destructor Destroy; override;
+  public
+    ds: TDataset;
+    has_BoldLine    : Boolean;
+    has_NewGroup    : Boolean;
+    has_EndGroup    : Boolean;
+    has_GroupSize   : Boolean;
+    has_SizePourcent: Boolean;
+    has_LineSize    : Boolean;
+    has_NewPage     : Boolean;
+  end;
 
  { TGenero_Report_Context }
 
@@ -91,6 +112,7 @@ type
     procedure xml_TraiteDataset( _xml_Parent: TDOMNode; iDataset: Integer);
   public
     ODRE_Table: TODRE_Table;
+    grd: array of TGenero_Report_Dataset;
     procedure _from_ODRE_Table( _ODRE_Table: TODRE_Table);
   end;
 
@@ -112,6 +134,25 @@ type
   end;
 
 implementation
+
+{ TGenero_Report_Dataset }
+
+constructor TGenero_Report_Dataset.Create( _ds: TDataset);
+begin
+     ds:= _ds;
+     has_BoldLine    := nil <> ds.FindField( 'BoldLine'    );
+     has_NewGroup    := nil <> ds.FindField( 'NewGroup'    );
+     has_EndGroup    := nil <> ds.FindField( 'EndGroup'    );
+     has_GroupSize   := nil <> ds.FindField( 'GroupSize'   );
+     has_SizePourcent:= nil <> ds.FindField( 'SizePourcent');
+     has_LineSize    := nil <> ds.FindField( 'LineSize'    );
+     has_NewPage     := nil <> ds.FindField( 'NewPage'     );
+end;
+
+destructor TGenero_Report_Dataset.Destroy;
+begin
+     inherited Destroy;
+end;
 
 { TGenero_Report_Context }
 
@@ -194,7 +235,7 @@ begin
      Item_IsNull:= _F.IsNull or not _Triggered;
 
      Result:= _Parent.AppendChild( _Parent.OwnerDocument.CreateElement('Item'));
-     Set_Property( Result, 'name', _F.FieldName);
+     Set_Property( Result, 'name', _Item_Name);
      Set_Property( Result, 'type', 'TEXT');
      if not Item_IsNull
      then
@@ -314,6 +355,12 @@ var
 
       FieldPath: String;
       BoldExpr: String;
+      procedure AB( _B: Boolean; _S: String);
+      begin
+           if not _B then exit;
+
+           Formate_Liste( BoldExpr, '||',_S);
+      end;
    begin
         if Length( L) =0 then exit;
         if nil = _eROW then exit;
@@ -321,23 +368,15 @@ var
         //then
         //    ODRE_Table.NewPage( C);
         //ROW:= C.NewRow;
-        BoldExpr
-        :=
-           '{{'
-          +  '('+Item_Prefix+'NewGroup==1)'
-          +'||('+Item_Prefix+'EndGroup==1)'
-          +'||('+Item_Prefix+'BoldLine==1)'
-          +'}}';
-          {
-          //Gras:= NewGroup or EndGroup or BoldLine;
-          BooleanFieldValue( ds, 'BoldLine'    , fBoldLine    , BoldLine );
-          BooleanFieldValue( ds, 'NewGroup'    , fNewGroup    , NewGroup );
-          BooleanFieldValue( ds, 'EndGroup'    , fEndGroup    , EndGroup );
-          IntegerFieldValue( ds, 'GroupSize'   , fGroupSize   , GroupSize);
-          IntegerFieldValue( ds, 'SizePourcent', fSizePourcent, SizePourcent);
-          IntegerFieldValue( ds, 'LineSize'    , fLineSize    , LineSize );
-          BooleanFieldValue( ds, 'NewPage'     , fNewPage     , NewPage  );
-          }
+
+        //Gras:= NewGroup or EndGroup or BoldLine;
+        BoldExpr:= '';
+        AB( grd[iDataset].has_NewGroup, '('+Item_Prefix+'NewGroup==1)');
+        AB( grd[iDataset].has_EndGroup, '('+Item_Prefix+'EndGroup==1)');
+        AB( grd[iDataset].has_BoldLine, '('+Item_Prefix+'BoldLine==1)');
+        if BoldExpr <> ''
+        then
+            BoldExpr:= '{{'+ BoldExpr+'}}';
 
         SetLength( Cells, Length( ODRE_Table.Columns));
         for I:= Low( L) to High( L)
@@ -364,7 +403,9 @@ var
           Set_Property( eWORDBOX, 'floatingBehavior', 'enclosed'                 );
           Set_Property( eWORDBOX, 'textAlignment'   , 'left'                     );
           Set_Property( eWORDBOX, 'value'            , '{{'+FieldPath+'}}');
-          Set_Property( eWORDBOX, 'fontBold'         , BoldExpr);
+          if BoldExpr <> ''
+          then
+              Set_Property( eWORDBOX, 'fontBold'         , BoldExpr);
           end;
    end;
 begin
@@ -436,92 +477,21 @@ var
 
         ePrint            := AC( eBalise     , 'Print'      );
    end;
-   procedure TraiteLigne( _ePrint: TDOMNode; L: array of TOD_Dataset_Column; _Triggered: Boolean);
+   procedure TraiteLigne( _ePrint: TDOMNode; _Triggered: Boolean);
    var
       I:Integer;
-      iColonne: Integer;
-      OD_Dataset_Column: TOD_Dataset_Column;
       FieldName: String;
       F: TField;
-
-      CellStyle_FieldName: String;
-      CellStyle_Field: TField;
-      CellStyle: String;
-      sCellValue: String;
       Item_Name: String;
-      Gras: Boolean;
-
-      Cells: array of String;
-      NomStyle: String;
-      sTD, s_TD: String;
    begin
-        if Length( L) =0 then exit;
         if nil = _ePrint then exit;
-        //if NewPage
-        //then
-        //    ODRE_Table.NewPage( C);
-        //ROW:= C.NewRow;
-        SetLength( Cells, Length( ODRE_Table.Columns));
-        for I:= Low( L) to High( L)
+        for I:= 0 to ds.FieldCount-1
         do
           begin
-          OD_Dataset_Column:= L[ I];
-          FieldName:= OD_Dataset_Column.FieldName;
-          CellStyle_FieldName:= FieldName+'_CellStyle';
-
-          CellStyle_Field:= ds.FindField( CellStyle_FieldName);
-          if CellStyle_Field = nil
-          then
-              CellStyle:= ''
-          else
-              CellStyle:= CellStyle_Field.AsString;
-
-          F:= ds.FindField( FieldName);
-          if Assigned( F)
-          then
-              begin
-              iColonne:= OD_Dataset_Column.Debut;
-
-              sCellValue:= F.DisplayText;
-              Item_Name:= Item_Prefix+F.FieldName;
-
-              Create_Item_from_Field( _ePrint, Item_Name, F, _Triggered);
-              //if CellStyle = ''
-              //then
-              //    NomStyle:= Prefixe+'_'+OD_Dataset_Column.FieldName
-              //else
-              //    NomStyle:= CellStyle;
-
-              if iColonne <= High( ODRE_Table.Columns)
-              then
-                  begin
-                  Cells[iColonne]:= sCellValue;
-                  //Gras:= NewGroup or EndGroup or BoldLine;
-
-                  //Cell     := Row.Cells     [iColonne];
-                  //Paragraph:= Row.Paragraphs[iColonne];
-                  //Paragraph.Set_Style( NomStyle, Gras, GroupSize, LineSize);
-
-                  //if     (1 = Pos('graphic',FieldName))
-                  //   and (sCellValue <> '')
-                  //then
-                  //    begin
-                  //    Frame:= Paragraph.NewFrame;
-                  //    Image:= Frame.NewImage_as_Character;
-                  //    Image.Set_Filename( sCellValue);
-                  //    end
-                  //else
-                  //    Paragraph.AddText( sCellValue);
-
-                  //if ODRE_Table.Bordure_Ligne
-                  //then
-                  //    begin
-                  //    //Cell.TopBorder   := BorderLine_NewGroup;
-                  //    //Cell.BottomBorder:= BorderLine_EndGroup;
-                  //    end;
-                  //Row.Fusionne( OD_Dataset_Column.Debut, OD_Dataset_Column.Fin);
-                  end;
-              end;
+          F:= ds.Fields[ I];
+          FieldName:= F.FieldName;
+          Item_Name:= Item_Prefix+F.FieldName;
+          Create_Item_from_Field( _ePrint, Item_Name, F, _Triggered);
           end;
    end;
 begin
@@ -537,6 +507,8 @@ begin
      then
          ds.Open;
 
+     grd[ iDataset]:= TGenero_Report_Dataset.Create( ds);
+
      ds.First;
      while not ds.Eof
      do
@@ -545,14 +517,17 @@ begin
        if Niveau_le_plus_bas
        then
            begin
-           TraiteLigne( ePrint, OD_Dataset_Columns.FAvant, OD_Dataset_Columns.Avant_Triggered);
-           TraiteLigne( ePrint, OD_Dataset_Columns.FApres, OD_Dataset_Columns.Apres_Triggered);
+           TraiteLigne( ePrint, True);
            end
        else
            begin
-           TraiteLigne( eBeforeGroup_Print, OD_Dataset_Columns.FAvant, OD_Dataset_Columns.Avant_Triggered);
+           if Length(OD_Dataset_Columns.FAvant) > 0
+           then
+               TraiteLigne( eBeforeGroup_Print, OD_Dataset_Columns.Avant_Triggered);
            xml_TraiteDataset( eBalise, iDataset+1);
-           TraiteLigne( eAfterGroup_Print, OD_Dataset_Columns.FApres, OD_Dataset_Columns.Apres_Triggered);
+           if Length(OD_Dataset_Columns.FApres) > 0
+           then
+               TraiteLigne( eAfterGroup_Print, OD_Dataset_Columns.Apres_Triggered);
            end;
        ds.Next;
        end;
@@ -560,17 +535,26 @@ begin
 end;
 
 procedure TGenero_Report_Context._from_ODRE_Table( _ODRE_Table: TODRE_Table);
+var
+ I: Integer;
 begin
      if nil = exml_Report then exit;
 
      ODRE_Table:= _ODRE_Table;
 
-     xml_TraiteDataset( exml_Report, 0);
-     Ecrit_XML;
+     SetLength( grd, Length( ODRE_Table.OD_Datasets));
+     try
+        xml_TraiteDataset( exml_Report, 0);
+        Ecrit_XML;
 
-      rp_Traite_entetes_colonnes;
-      rp_TraiteDataset( erp_TBODY  , 0);
-      Ecrit_4RP;
+         rp_Traite_entetes_colonnes;
+         rp_TraiteDataset( erp_TBODY  , 0);
+         Ecrit_4RP;
+     finally
+            for I:= Low(grd) to High( grd)
+            do
+              Free_nil( grd[I]);
+            end;
 
 end;
 

@@ -10,20 +10,23 @@
 <Report name="storeorder.storeorder_report" xmlns="http://www.4js.com/2004/REPORT" topMargin="3" leftMargin="5" pageLength="66" rightMargin="132" bottomMargin="3" headerLength="0" trailerLength="0">
   <OnEveryRow>
     <Print>
-      <Item name="id" type="TEXT" value="1" isNull="0"/>
-      <Item name="libelle" type="TEXT" value="test 1" isNull="0"/>
+      <Item name="Corps.sqlqTEST.id" type="TEXT" value="1" isNull="0"/>
+      <Item name="Corps.sqlqTEST.libelle" type="TEXT" value="test 1" isNull="0"/>
+      <Item name="Corps.sqlqTEST.NewGroup" type="TEXT" value="0" isNull="0"/>
     </Print>
   </OnEveryRow>
   <OnEveryRow>
     <Print>
-      <Item name="id" type="TEXT" value="2" isNull="0"/>
-      <Item name="libelle" type="TEXT" value="test2" isNull="0"/>
+      <Item name="Corps.sqlqTEST.id" type="TEXT" value="2" isNull="0"/>
+      <Item name="Corps.sqlqTEST.libelle" type="TEXT" value="test2" isNull="0"/>
+      <Item name="Corps.sqlqTEST.NewGroup" type="TEXT" value="1" isNull="0"/>
     </Print>
   </OnEveryRow>
   <OnEveryRow>
     <Print>
-      <Item name="id" type="TEXT" value="3" isNull="0"/>
-      <Item name="libelle" type="TEXT" value="test3" isNull="0"/>
+      <Item name="Corps.sqlqTEST.id" type="TEXT" value="3" isNull="0"/>
+      <Item name="Corps.sqlqTEST.libelle" type="TEXT" value="test3" isNull="0"/>
+      <Item name="Corps.sqlqTEST.NewGroup" type="TEXT" value="0" isNull="0"/>
     </Print>
   </OnEveryRow>
 </Report>
