@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?FGLReportToRTLInputStyleSheet  reportName="storeorder_report"?>
-<?ScopeExtenderStyleSheet  systemId="file:/C:/_FourJs/Genero_Report_Writer_Formation/CustdemoProject250_withoutSum/CustdemoProject250_withoutSum/mon_report.4rp" styleURL="file:/C:/_FourJs/Genero_Report_Writer_Formation/CustdemoProject250_withoutSum/CustdemoProject250_withoutSum/mon_report.4rp" ignoreUnmatchedInput="true" variableValueNamesAreInLowerCase="true"?>
-<?RTLStyleSheet  ignoreUnmatchedInput="true" autoCreate4GLVariables="true" variableValueNamesAreInLowerCase="true" styleURL="file:/C:/_FourJs/Genero_Report_Writer_Formation/CustdemoProject250_withoutSum/CustdemoProject250_withoutSum/mon_report.4rp" outputDeviceName="PDF" isPreview="1"?>
-<?BoxDecoratorStyleSheet  systemId="file:/C:/_FourJs/Genero_Report_Writer_Formation/CustdemoProject250_withoutSum/CustdemoProject250_withoutSum/mon_report.4rp"?>
-<?HlPxmlToPxmlStyleSheet  notUsed="true"?>
-<?PxmlLayouter  pageWidth="a4width" pageHeight="a4length" topMargin="1.3cm" leftMargin="1.3cm" rightMargin="1.3cm" bottomMargin="1.3cm" markOverfullBoxesInDocument="false"?>
-<?PdfWriterStyleSheet  antialiasFonts="true" antialiasShapes="true" monochrome="false" encodeImagesAsJPEG="0" jpegQuality="1.0" writeToFile="C:/Users/JEAN~1.SUZ/AppData/Local/Temp/report50b50e96-8b8f-41fd-917d-179eb08b63c3.pdf"?>
-<?ExecStyleSheet  commandLine="&quot;C:/FourJs/Genero Studio 3/fgl/bin/fglrun&quot; &quot;C:/FourJs/Genero Studio 3/gre/lib/gviewdoc.42m&quot; -d &quot;C:/Users/JEAN~1.SUZ/AppData/Local/Temp/report50b50e96-8b8f-41fd-917d-179eb08b63c3.pdf&quot;" suppressStdout="false" suppressStderr="false" FGLSERVER="localhost:0" _FGL_PPID="PO108:7048" _FGL_WPPID="PO108:7048"?>
-<Report name="storeorder.storeorder_report" headerLength="0" trailerLength="0" pageLength="66" topMargin="3" bottomMargin="3" leftMargin="5" rightMargin="132" xmlns="http://www.4js.com/2004/REPORT">
+<Report
+   name="storeorder.storeorder_report"
+   headerLength="0"
+   trailerLength="0"
+   pageLength="66"
+   topMargin="3"
+   bottomMargin="3"
+   leftMargin="5"
+   rightMargin="132"
+   xmlns="http://www.4js.com/2004/REPORT">
 </Report>

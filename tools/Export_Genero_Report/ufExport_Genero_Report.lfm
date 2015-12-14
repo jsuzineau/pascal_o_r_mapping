@@ -1,7 +1,7 @@
 object fExport_Genero_Report: TfExport_Genero_Report
-  Left = 2087
+  Left = 1399
   Height = 240
-  Top = 249
+  Top = 1312
   Width = 320
   Caption = 'fExport_Genero_Report'
   ClientHeight = 240

@@ -32,12 +32,14 @@
               <rtl:match name="OnEveryRow sqlqTEST" maxOccurs="unbounded" minOccurs="0" nameConstraint="OnEveryRow">
                 <ROW name="GR_ROW">
                   <COL name="GR_COL2">
+                    <rtl:input-variable name="Corps.sqlqTEST.NewGroup" type="FGLNumeric" expectedLocation="expectedHere"/>
                     <rtl:input-variable name="Corps.sqlqTEST.id" type="FGLString" expectedLocation="expectedHere"/>
-                    <WORDBOX name="GR_WORDBOX2" class="grwTableStringColumnValue" value="{{Corps.sqlqTEST.id}}" anchorX="1" fontBold="{{(Corps.sqlqTEST.NewGroup==1)}}" textAlignment="left" floatingBehavior="enclosed"/>
+                    <WORDBOX name="GR_WORDBOX2" text="{{Corps.sqlqTEST.id}}" class="grwTableStringColumnValue" anchorX="1" fontBold="{{(Corps.sqlqTEST.NewGroup==1)}}" textAlignment="left" floatingBehavior="enclosed"/>
                   </COL>
                   <COL name="GR_COL3">
+                    <rtl:input-variable name="Corps.sqlqTEST.NewGroup" type="FGLNumeric" expectedLocation="expectedHere"/>
                     <rtl:input-variable name="Corps.sqlqTEST.libelle" type="FGLString" expectedLocation="expectedHere"/>
-                    <WORDBOX name="GR_WORDBOX3" class="grwTableStringColumnValue" value="{{Corps.sqlqTEST.libelle}}" anchorX="1" fontBold="{{(Corps.sqlqTEST.NewGroup==1)}}" textAlignment="left" floatingBehavior="enclosed"/>
+                    <WORDBOX name="GR_WORDBOX3" text="{{Corps.sqlqTEST.libelle}}" class="grwTableStringColumnValue" anchorX="1" fontBold="{{(Corps.sqlqTEST.NewGroup==1)}}" textAlignment="left" floatingBehavior="enclosed"/>
                   </COL>
                 </ROW>
               </rtl:match>

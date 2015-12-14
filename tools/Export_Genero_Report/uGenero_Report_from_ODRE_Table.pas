@@ -350,7 +350,6 @@ var
       sTD, s_TD: String;
 
       eCOL: TDOMNode;
-      eRTL_INPUT_VARIABLE: TDOMNode;
       eWORDBOX: TDOMNode;
 
       FieldPath: String;
@@ -360,6 +359,22 @@ var
            if not _B then exit;
 
            Formate_Liste( BoldExpr, '||',_S);
+      end;
+      procedure RIV( _Parent: TDOMNode; _FieldPath, _Type: String; _Has: Boolean= True);
+      var
+         eRTL_INPUT_VARIABLE: TDOMNode;
+      begin
+           if not _Has then exit;
+           eRTL_INPUT_VARIABLE:= AC( eCOL, 'rtl:input-variable');
+           Set_Property( eRTL_INPUT_VARIABLE, 'name'            , _FieldPath);
+           Set_Property( eRTL_INPUT_VARIABLE, 'type'            , _Type    );
+           Set_Property( eRTL_INPUT_VARIABLE, 'expectedLocation', 'expectedHere');
+      end;
+      procedure RIV_Gras( _Parent: TDOMNode);
+      begin
+           RIV(_Parent,Item_Prefix+'NewGroup','FGLNumeric',grd[iDataset].has_NewGroup);
+           RIV(_Parent,Item_Prefix+'EndGroup','FGLNumeric',grd[iDataset].has_EndGroup);
+           RIV(_Parent,Item_Prefix+'BoldLine','FGLNumeric',grd[iDataset].has_BoldLine);
       end;
    begin
         if Length( L) =0 then exit;
@@ -390,10 +405,8 @@ var
           eCOL:= AC( _eROW, 'COL');
           Nomme( eCOL, 'GR_COL');
 
-          eRTL_INPUT_VARIABLE:= AC( eCOL, 'rtl:input-variable');
-          Set_Property( eRTL_INPUT_VARIABLE, 'name'            , FieldPath     );
-          Set_Property( eRTL_INPUT_VARIABLE, 'type'            , 'FGLString'   );
-          Set_Property( eRTL_INPUT_VARIABLE, 'expectedLocation', 'expectedHere');
+          RIV_Gras( eCOL);
+          RIV( eCOL, FieldPath, 'FGLString');
 
           eWORDBOX:= AC( eCOL, 'WORDBOX');
           Nomme( eWORDBOX, 'GR_WORDBOX');
@@ -402,7 +415,7 @@ var
           Set_Property( eWORDBOX, 'anchorX'         , '1'                        );
           Set_Property( eWORDBOX, 'floatingBehavior', 'enclosed'                 );
           Set_Property( eWORDBOX, 'textAlignment'   , 'left'                     );
-          Set_Property( eWORDBOX, 'value'            , '{{'+FieldPath+'}}');
+          Set_Property( eWORDBOX, 'text'            , '{{'+FieldPath+'}}');
           if BoldExpr <> ''
           then
               Set_Property( eWORDBOX, 'fontBold'         , BoldExpr);
