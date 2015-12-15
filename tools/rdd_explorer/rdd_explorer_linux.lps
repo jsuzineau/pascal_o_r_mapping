@@ -11,7 +11,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="2"/>
         <CursorPos X="25" Y="6"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="30"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
@@ -21,9 +21,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ufRDD_Explorer"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="49"/>
         <CursorPos X="33" Y="61"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="30"/>
         <Bookmarks Count="1">
           <Item0 Y="87" ID="1"/>
         </Bookmarks>
@@ -38,7 +39,7 @@
         <EditorIndex Value="7"/>
         <TopLine Value="187"/>
         <CursorPos X="23" Y="202"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="30"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
@@ -49,7 +50,7 @@
         <EditorIndex Value="8"/>
         <TopLine Value="4"/>
         <CursorPos X="26" Y="47"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="27"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit3>
@@ -95,7 +96,7 @@
         <EditorIndex Value="2"/>
         <UsageCount Value="12"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="None"/>
+        <DefaultSyntaxHighlighter Value="XML"/>
       </Unit9>
       <Unit10>
         <Filename Value="..\..\..\..\Public\tmp\storeorder.xml"/>
@@ -107,17 +108,15 @@
       <Unit11>
         <Filename Value="..\..\..\..\Public\tmp\storeorder.4gl"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="16"/>
         <UsageCount Value="12"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="None"/>
       </Unit11>
       <Unit12>
         <Filename Value="..\..\..\..\Public\tmp\storeorder_avec_before_group.xml"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <TopLine Value="16"/>
-        <CursorPos X="108" Y="28"/>
+        <CursorPos X="85" Y="22"/>
         <UsageCount Value="12"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="XML"/>
@@ -129,7 +128,7 @@
         <CursorPos X="72" Y="44"/>
         <UsageCount Value="12"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="None"/>
+        <DefaultSyntaxHighlighter Value="XML"/>
       </Unit13>
     </Units>
     <JumpHistory Count="29" HistoryIndex="28">

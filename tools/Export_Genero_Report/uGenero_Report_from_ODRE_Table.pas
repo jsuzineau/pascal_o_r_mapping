@@ -87,6 +87,8 @@ type
   public
     xml: TXMLDocument;
     exml_Report: TDOMNode;
+    exml_FirstPageHeader:TDOMNode;
+    exml_FirstPageHeader_Print:TDOMNode;
     procedure Ecrit_XML;
   //4RP
   public
@@ -99,13 +101,14 @@ type
     slNoms: TStringList;
     function Nomme( _Prefixe: String): String; overload;
     procedure Nomme( _e : TDOMNode; _Prefixe: String);
-  //Génération pour un ODRE_Table donné
+  //méthodes utilitaires internes
   private
     function AC( _Parent: TDOMNode; _Name: String): TDOMNode;
     function Create_Item_from_Field( _Parent: TDOMNode;
-                                     _Item_Name: String;
+                                     _Item_Prefix: String;
                                      _F: TField;
-                                     _Triggered: Boolean): TDOMNode;
+                                     _Triggered: Boolean= True): TDOMNode;
+  //Génération pour un ODRE_Table donné
   private
     procedure  rp_Traite_entetes_colonnes;
     procedure  rp_TraiteDataset(  _rp_Parent: TDOMNode; iDataset: Integer);
@@ -114,6 +117,21 @@ type
     ODRE_Table: TODRE_Table;
     grd: array of TGenero_Report_Dataset;
     procedure _from_ODRE_Table( _ODRE_Table: TODRE_Table);
+  //Génération pour une paire Nom/Valeur
+  private
+    function Create_Item_from_Name_Value( _Parent: TDOMNode;
+                                          _Item_Name : String;
+                                          _Item_Value: String
+                                          ): TDOMNode;
+  public
+    procedure Ajoute_Parametre( _Item_Name, _Item_Value: String);
+  //XML pour une ligne donnée d'un dataset (hors ODRE_Table)
+  public
+    procedure XML_from_Dataset_Row( _Parent: TDOMNode; _D: TDataset);
+    procedure Ajoute_Maitre( _D: TDataset);
+  //XML pour un dataset donné (hors ODRE_Table)
+  public
+    procedure XML_from_Dataset( _Parent: TDOMNode; _D: TDataset; _Balise: String= 'OnEveryRow');
   end;
 
  { TGenero_Report_from_ODRE_Table }
@@ -170,6 +188,9 @@ begin
      exml_Report:= xml.FindNode( 'Report');
      erp_Report :=  rp.FindNode( 'report:Report');
 
+     exml_FirstPageHeader      := AC( exml_Report         , 'FirstPageHeader');
+     exml_FirstPageHeader_Print:= AC( exml_FirstPageHeader, 'Print');
+
      slNoms:= TStringList.Create;
 end;
 
@@ -213,11 +234,68 @@ begin
 end;
 
 function TGenero_Report_Context.Create_Item_from_Field( _Parent: TDOMNode;
-                                                        _Item_Name: String;
+                                                        _Item_Prefix: String;
                                                         _F: TField;
                                                         _Triggered: Boolean): TDOMNode;
 var
+   Item_Name: String;
    Item_IsNull: Boolean;
+   function type_from_FieldType: String;
+   const
+        FieldtypeDefinitionsConst
+        :
+         array [TFieldType] of String[20]
+         =
+          (
+            '',                 //ftUnknown,
+            'VARCHAR(10)',      //ftString,
+            'SMALLINT',         //ftSmallint,
+            'INTEGER',          //ftInteger,
+            '',                 //ftWord,
+            'BOOLEAN',          //ftBoolean,
+            'DOUBLE PRECISION', //ftFloat,
+            '',                 //ftCurrency,
+            'DECIMAL(18,4)',    //ftBCD,
+            'DATE',             //ftDate,
+            'TIME',             //ftTime,
+            'TIMESTAMP',        //ftDateTime,
+            '',                 //ftBytes,
+            '',                 //ftVarBytes,
+            '',                 //ftAutoInc,
+            'BLOB',             //ftBlob,
+            'TEXT',             //ftMemo,
+            'BLOB',             //ftGraphic,
+            '',                 //ftFmtMemo,
+            '',                 //ftParadoxOle,
+            '',                 //ftDBaseOle,
+            '',                 //ftTypedBinary,
+            '',                 //ftCursor,
+            'CHAR(10)',         //ftFixedChar,
+            '',                 //ftWideString,
+            'BIGINT',           //ftLargeint,
+            '',                 //ftADT,
+            '',                 //ftArray,
+            '',                 //ftReference,
+            '',                 //ftDataSet,
+            '',                 //ftOraBlob,
+            '',                 //ftOraClob,
+            '',                 //ftVariant,
+            '',                 //ftInterface,
+            '',                 //ftIDispatch,
+            '',                 //ftGuid,
+            'TIMESTAMP',        //ftTimeStamp,
+            'NUMERIC(18,6)',    //ftFMTBcd,
+            '',                 //ftFixedWideChar,
+            ''                  //ftWideMemo);
+          );
+   begin
+        case _F.DataType
+        of
+          ftString   : Result:= Format( 'VARCHAR(%d)', [_F.Size]);
+          ftFixedChar: Result:= Format( 'CHAR(%d)'   , [_F.Size]);
+          else Result:= FieldtypeDefinitionsConst[ _F.DataType];
+          end;
+   end;
    function Value_from_FieldType: String;
    begin
         case _F.DataType
@@ -234,13 +312,69 @@ begin
 
      Item_IsNull:= _F.IsNull or not _Triggered;
 
+     Item_Name:= _Item_Prefix+_F.FieldName;
      Result:= _Parent.AppendChild( _Parent.OwnerDocument.CreateElement('Item'));
-     Set_Property( Result, 'name', _Item_Name);
-     Set_Property( Result, 'type', 'TEXT');
+     Set_Property( Result, 'name', Item_Name);
+     Set_Property( Result, 'type', type_from_FieldType);
      if not Item_IsNull
      then
          Set_Property( Result, 'value', Value_from_FieldType);
      Set_Property( Result, 'isNull', BoolToStr( Item_IsNull, '1','0'));
+end;
+
+function TGenero_Report_Context.Create_Item_from_Name_Value( _Parent: TDOMNode;
+                                                             _Item_Name: String;
+                                                             _Item_Value: String): TDOMNode;
+begin
+     Result:= _Parent.AppendChild( _Parent.OwnerDocument.CreateElement('Item'));
+     Set_Property( Result, 'name', _Item_Name);
+     Set_Property( Result, 'type', 'TEXT');
+     Set_Property( Result, 'value', _Item_Value);
+     Set_Property( Result, 'isNull', '0');
+end;
+
+procedure TGenero_Report_Context.Ajoute_Parametre( _Item_Name, _Item_Value: String);
+begin
+     Create_Item_from_Name_Value( exml_FirstPageHeader_Print,
+                                  _Item_Name,
+                                  _Item_Value);
+end;
+
+procedure TGenero_Report_Context.XML_from_Dataset_Row( _Parent: TDOMNode; _D: TDataset);
+var
+   ePrint: TDOMNode;
+   I: Integer;
+begin
+     if nil = _Parent then exit;
+     if nil = _D      then exit;
+
+     ePrint:= _Parent.AppendChild(_Parent.OwnerDocument.CreateElement('Print'));
+
+     for I:= 0 to _D.FieldCount-1
+     do
+       Create_Item_from_Field( ePrint, _D.Name+'.', _D.Fields[I]);
+end;
+
+procedure TGenero_Report_Context.Ajoute_Maitre(_D: TDataset);
+begin
+     XML_from_Dataset_Row( exml_FirstPageHeader, _D);
+end;
+
+procedure TGenero_Report_Context.XML_from_Dataset( _Parent: TDOMNode; _D: TDataset; _Balise: String);
+var
+   eBalise: TDOMNode;
+begin
+     if nil = _D then exit;
+
+     _D.First;
+     while not _D.EOF
+     do
+       begin
+       eBalise:= _Parent.AppendChild(_Parent.OwnerDocument.CreateElement(_Balise));
+       XML_from_Dataset_Row( eBalise, _D);
+
+       _D.Next;
+       end;
 end;
 
 procedure TGenero_Report_Context.rp_Traite_entetes_colonnes;
@@ -493,7 +627,6 @@ var
    procedure TraiteLigne( _ePrint: TDOMNode; _Triggered: Boolean);
    var
       I:Integer;
-      FieldName: String;
       F: TField;
       Item_Name: String;
    begin
@@ -502,9 +635,7 @@ var
         do
           begin
           F:= ds.Fields[ I];
-          FieldName:= F.FieldName;
-          Item_Name:= Item_Prefix+F.FieldName;
-          Create_Item_from_Field( _ePrint, Item_Name, F, _Triggered);
+          Create_Item_from_Field( _ePrint, Item_Prefix, F, _Triggered);
           end;
    end;
 begin
@@ -593,6 +724,7 @@ var
    c: TSQLite3Connection;
    t: TSQLTransaction;
    sqlq: TSQLQuery;
+   sqlqTitre: TSQLQuery;
    ODRE_Table: TODRE_Table;
    OD_Styles: TOD_Styles;
    grc: TGenero_Report_Context;
@@ -618,18 +750,28 @@ begin
         c.DatabaseName:= ExtractFilePath( ParamStr(0))+'test_db.sqlite';
         t:= TSQLTransaction.Create( nil);
         t.DataBase:= c;
+
         sqlq:= TSQLQuery.Create( nil);
         sqlq.Name:= 'sqlqTEST';
-
         sqlq.DataBase:= c;
         sqlq.SQL.Text:= 'select * from test';
         sqlq.Open;
+
+        sqlqTitre:= TSQLQuery.Create( nil);
+        sqlqTitre.Name:= 'sqlqTitre';
+        sqlqTitre.DataBase:= c;
+        sqlqTitre.SQL.Text:= 'select * from Entete';
+        sqlqTitre.Open;
 
         dc:= ODRE_Table.AddDataset( sqlq);
         dc.OD_Styles:= OD_Styles;
         dc.Column_Avant( 'id'     , 0, 0);
         dc.Column_Avant( 'libelle', 1, 1);
 
+
+        grc.Ajoute_Parametre( 'T1','Titre 1');
+        grc.Ajoute_Parametre( 'T2','Titre 2');
+        grc.Ajoute_Maitre( sqlqTitre);
         _from_ODRE_Table( grc, ODRE_Table);
      finally
             Free_nil( sqlq);

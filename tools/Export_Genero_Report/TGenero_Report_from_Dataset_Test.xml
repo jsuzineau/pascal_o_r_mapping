@@ -12,18 +12,21 @@
     <Print>
       <Item name="id" type="INTEGER" value="1" isNull="0"/>
       <Item name="libelle" type="TEXT" value="test 1" isNull="0"/>
+      <Item name="NewGroup" type="INTEGER" value="0" isNull="0"/>
     </Print>
   </OnEveryRow>
   <OnEveryRow>
     <Print>
       <Item name="id" type="INTEGER" value="2" isNull="0"/>
       <Item name="libelle" type="TEXT" value="test2" isNull="0"/>
+      <Item name="NewGroup" type="INTEGER" value="1" isNull="0"/>
     </Print>
   </OnEveryRow>
   <OnEveryRow>
     <Print>
       <Item name="id" type="INTEGER" value="3" isNull="0"/>
       <Item name="libelle" type="TEXT" value="test3" isNull="0"/>
+      <Item name="NewGroup" type="INTEGER" value="0" isNull="0"/>
     </Print>
   </OnEveryRow>
 </Report>

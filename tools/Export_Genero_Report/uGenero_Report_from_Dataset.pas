@@ -46,6 +46,9 @@ type
   //XML pour un Field donné
   public
     function Create_Item_from_Field( _Parent: TDOMNode; _F: TField): TDOMNode;
+  //XML pour une ligne donnée d'un dataset
+  public
+    procedure XML_from_Dataset_Row( _Parent: TDOMNode; _D: TDataset);
   //XML pour un dataset donné
   public
     procedure XML_from_Dataset( _Parent: TDOMNode; _D: TDataset; _Balise: String= 'OnEveryRow');
@@ -120,8 +123,8 @@ const
    begin
         case _F.DataType
         of
-          ftString   : Result:= Format( 'VARCHAR( %d)', [_F.DataSize]);
-          ftFixedChar: Result:= Format( 'CHAR( %d)'   , [_F.DataSize]);
+          ftString   : Result:= Format( 'VARCHAR( %d)', [_F.Size]);
+          ftFixedChar: Result:= Format( 'CHAR( %d)'   , [_F.Size]);
           else Result:= FieldtypeDefinitionsConst[ _F.DataType];
           end;
    end;
@@ -146,13 +149,27 @@ begin
      Set_Property( Result, 'isNull', BoolToStr( _F.IsNull, '1','0'));
 end;
 
+procedure TGenero_Report_from_Dataset.XML_from_Dataset_Row( _Parent: TDOMNode;
+                                                            _D: TDataset);
+var
+   ePrint: TDOMNode;
+   I: Integer;
+begin
+     if nil = _Parent then exit;
+     if nil = _D      then exit;
+
+     ePrint:= _Parent.AppendChild(_Parent.OwnerDocument.CreateElement('Print'));
+
+     for I:= 0 to _D.FieldCount-1
+     do
+       Create_Item_from_Field( ePrint, _D.Fields[I]);
+end;
+
 procedure TGenero_Report_from_Dataset.XML_from_Dataset( _Parent: TDOMNode;
                                            _D: TDataset;
                                            _Balise: String);
 var
    eBalise: TDOMNode;
-   ePrint: TDOMNode;
-   I: Integer;
 begin
      if nil = _D then exit;
 
@@ -160,12 +177,8 @@ begin
      while not _D.EOF
      do
        begin
-       eBalise:= _Parent.AppendChild( _Parent.OwnerDocument.CreateElement(_Balise));
-       ePrint:= eBalise.AppendChild( eBalise.OwnerDocument.CreateElement('Print'));
-
-       for I:= 0 to _D.FieldCount-1
-       do
-         Create_Item_from_Field( ePrint, _D.Fields[I]);
+       eBalise:= _Parent.AppendChild(_Parent.OwnerDocument.CreateElement(_Balise));
+       XML_from_Dataset_Row( eBalise, _D);
 
        _D.Next;
        end;

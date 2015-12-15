@@ -13,6 +13,12 @@
         <PXML>
             <rtl:match name="Report" nameConstraint="Report" minOccurs="1" maxOccurs="1">
                 <MINIPAGE name="Page Root" width="max" length="max">
+                    <rtl:input-variable name="T1" type="FGLString" expectedLocation="expectedHere"/>
+                    <WORDBOX name="wbT1" text="{{T1}}" class="grwTableStringColumnValue" anchorX="1" textAlignment="left" floatingBehavior="enclosed"/>
+                    <rtl:input-variable name="T2" type="FGLString" expectedLocation="expectedHere"/>
+                    <WORDBOX name="wbT2" text="{{T2}}" class="grwTableStringColumnValue" anchorX="1" textAlignment="left" floatingBehavior="enclosed"/>
+                    <rtl:input-variable name="sqlqTitre.titre" type="FGLString" expectedLocation="expectedHere"/>
+                    <WORDBOX name="wbTestDatasetMaitre" text="{{sqlqTitre.titre}}" class="grwTableStringColumnValue" anchorX="1" textAlignment="left" floatingBehavior="enclosed"/>
                     <TABLE name="Table" floatingBehavior="enclosed" rule="1" border="1">
                         <COLDEFS name="Coldefs1">
                         </COLDEFS>
