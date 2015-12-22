@@ -3,15 +3,14 @@
   <ProjectSession>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="249">
+    <Units Count="250">
       <Unit0>
         <Filename Value="jsWorks_mswindows.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="22"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="64"/>
         <CursorPos X="59" Y="76"/>
         <UsageCount Value="207"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
@@ -20,7 +19,7 @@
         <ComponentName Value="fjsWorks"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="173"/>
         <CursorPos X="43" Y="352"/>
         <UsageCount Value="207"/>
@@ -56,9 +55,8 @@
         <ComponentName Value="fAutomatic"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="27"/>
+        <EditorIndex Value="-1"/>
         <UsageCount Value="205"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit5>
       <Unit6>
@@ -576,11 +574,10 @@
       <Unit69>
         <Filename Value="Elements/Work/ublWork.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="288"/>
         <CursorPos X="11" Y="321"/>
         <UsageCount Value="203"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit69>
       <Unit70>
@@ -653,11 +650,10 @@
         <ComponentName Value="poolWORK"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="277"/>
         <CursorPos X="37" Y="298"/>
         <UsageCount Value="203"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit76>
       <Unit77>
@@ -737,6 +733,7 @@
       <Unit83>
         <Filename Value="Elements/Session/ublSession.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="187"/>
         <CursorPos Y="208"/>
         <UsageCount Value="203"/>
@@ -757,14 +754,13 @@
         <Filename Value="Elements/Tag/upoolTAG.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="142"/>
         <CursorPos X="38" Y="191"/>
         <UsageCount Value="203"/>
         <Bookmarks Count="1">
           <Item0 X="38" Y="202" ID="1"/>
         </Bookmarks>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit85>
       <Unit86>
@@ -1036,11 +1032,9 @@
         <ComponentName Value="fTest_VirtualTreeView"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="-1"/>
         <CursorPos Y="22"/>
         <UsageCount Value="200"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit110>
       <Unit111>
@@ -1049,22 +1043,19 @@
         <ComponentName Value="fAutomatic_VST"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="97"/>
         <CursorPos X="82" Y="106"/>
         <UsageCount Value="238"/>
         <Bookmarks Count="1">
           <Item0 Y="129" ID="3"/>
         </Bookmarks>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit111>
       <Unit112>
         <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="154"/>
         <CursorPos X="6" Y="106"/>
         <UsageCount Value="207"/>
@@ -1072,7 +1063,6 @@
           <Item0 X="20" Y="108" ID="4"/>
           <Item1 X="31" Y="67" ID="5"/>
         </Bookmarks>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit112>
       <Unit113>
@@ -1081,45 +1071,40 @@
         <ComponentName Value="fTest_neo4j"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="17"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="120"/>
         <CursorPos X="71" Y="133"/>
         <UsageCount Value="207"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit113>
       <Unit114>
         <Filename Value="../pascal_o_r_mapping/3_Data/uNEO4J.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="18"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="64"/>
         <CursorPos X="52" Y="23"/>
         <UsageCount Value="207"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit114>
       <Unit115>
         <Filename Value="../pascal_o_r_mapping/3_Data/JSON/upoolJSON.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <EditorIndex Value="21"/>
+        <EditorIndex Value="-1"/>
         <CursorPos Y="7"/>
         <UsageCount Value="110"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit115>
       <Unit116>
         <Filename Value="../pascal_o_r_mapping/3_Data/JSON/ublJSON.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="24"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="407"/>
         <CursorPos X="28" Y="433"/>
         <UsageCount Value="110"/>
         <Bookmarks Count="1">
           <Item0 X="2" Y="548" ID="2"/>
         </Bookmarks>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit116>
       <Unit117>
@@ -1768,20 +1753,18 @@
       </Unit219>
       <Unit220>
         <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Element.pas"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="291"/>
         <CursorPos X="2" Y="150"/>
         <UsageCount Value="105"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit220>
       <Unit221>
         <Filename Value="../pascal_o_r_mapping/5_Controls/ucChampsGrid.pas"/>
-        <EditorIndex Value="28"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="808"/>
         <CursorPos X="59" Y="819"/>
         <UsageCount Value="117"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit221>
       <Unit222>
@@ -1797,11 +1780,10 @@
         <ComponentName Value="Pool"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="23"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="519"/>
         <CursorPos X="77" Y="533"/>
         <UsageCount Value="99"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit223>
       <Unit224>
@@ -1809,11 +1791,10 @@
         <ComponentName Value="fAccueil"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="260"/>
         <CursorPos Y="278"/>
         <UsageCount Value="101"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit224>
       <Unit225>
@@ -1866,18 +1847,16 @@
       </Unit230>
       <Unit231>
         <Filename Value="../pascal_o_r_mapping/2_Units/uChamps.pas"/>
-        <EditorIndex Value="20"/>
+        <EditorIndex Value="-1"/>
         <UsageCount Value="101"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit231>
       <Unit232>
         <Filename Value="../pascal_o_r_mapping/5_Controls/ucDockableScrollbox.pas"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="624"/>
         <CursorPos X="36" Y="652"/>
         <UsageCount Value="120"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit232>
       <Unit233>
@@ -1920,55 +1899,49 @@
       </Unit236>
       <Unit237>
         <Filename Value="../../virtualtreeview-4.8.7_LCL-R2/VirtualTrees.pas"/>
-        <EditorIndex Value="26"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="1372"/>
         <CursorPos X="5" Y="1384"/>
         <UsageCount Value="103"/>
-        <Loaded Value="True"/>
       </Unit237>
       <Unit238>
         <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Ligne.pas"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="60"/>
         <CursorPos X="2" Y="66"/>
         <UsageCount Value="109"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit238>
       <Unit239>
         <Filename Value="../pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
-        <EditorIndex Value="29"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="530"/>
         <CursorPos Y="542"/>
         <UsageCount Value="103"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit239>
       <Unit240>
         <Filename Value="../../../lazarus/lcl/graphics.pp"/>
         <UnitName Value="Graphics"/>
-        <EditorIndex Value="30"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="276"/>
         <CursorPos X="3" Y="276"/>
         <UsageCount Value="119"/>
-        <Loaded Value="True"/>
       </Unit240>
       <Unit241>
         <Filename Value="../pascal_o_r_mapping/2_Units/uTri_Ancetre.pas"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="46"/>
         <CursorPos X="51" Y="62"/>
         <UsageCount Value="101"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit241>
       <Unit242>
         <Filename Value="../pascal_o_r_mapping/3_Data/uTri.pas"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="44"/>
         <CursorPos Y="63"/>
         <UsageCount Value="101"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit242>
       <Unit243>
@@ -1980,170 +1953,51 @@
       </Unit243>
       <Unit244>
         <Filename Value="../pascal_o_r_mapping/3_Data/udmDatabase.pas"/>
-        <EditorIndex Value="25"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="127"/>
         <CursorPos X="37" Y="64"/>
         <UsageCount Value="108"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit244>
       <Unit245>
         <Filename Value="../pascal_o_r_mapping/3_Data/uRequete.pas"/>
-        <EditorIndex Value="15"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="31"/>
         <CursorPos Y="48"/>
         <UsageCount Value="108"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit245>
       <Unit246>
         <Filename Value="../pascal_o_r_mapping/2_Units/uContrainte.pas"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="152"/>
         <CursorPos X="17" Y="58"/>
         <UsageCount Value="106"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit246>
       <Unit247>
         <Filename Value="../../../lazarus/fpc/2.6.4/source/packages/fcl-web/src/base/fphttpclient.pp"/>
-        <EditorIndex Value="16"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="822"/>
         <CursorPos X="40" Y="836"/>
         <UsageCount Value="104"/>
-        <Loaded Value="True"/>
       </Unit247>
       <Unit248>
         <Filename Value="../../../lazarus/fpc/2.6.4/source/packages/fcl-json/src/fpjson.pp"/>
-        <EditorIndex Value="19"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="16"/>
         <CursorPos X="83" Y="29"/>
         <UsageCount Value="59"/>
-        <Loaded Value="True"/>
       </Unit248>
+      <Unit249>
+        <Filename Value="../INSTALL.txt"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="14"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="None"/>
+      </Unit249>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
-      <Position1>
-        <Filename Value="../pascal_o_r_mapping/3_Data/JSON/ublJSON.pas"/>
-        <Caret Line="13"/>
-      </Position1>
-      <Position2>
-        <Filename Value="../pascal_o_r_mapping/3_Data/JSON/ublJSON.pas"/>
-        <Caret Line="219" Column="5" TopLine="217"/>
-      </Position2>
-      <Position3>
-        <Filename Value="ufTest_neo4j.pas"/>
-        <Caret Line="115" Column="6" TopLine="96"/>
-      </Position3>
-      <Position4>
-        <Filename Value="../pascal_o_r_mapping/3_Data/JSON/ublJSON.pas"/>
-        <Caret Line="423" Column="28" TopLine="403"/>
-      </Position4>
-      <Position5>
-        <Filename Value="../pascal_o_r_mapping/3_Data/JSON/ublJSON.pas"/>
-        <Caret Line="206" Column="17" TopLine="194"/>
-      </Position5>
-      <Position6>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Ligne.pas"/>
-        <Caret Line="66" Column="2" TopLine="60"/>
-      </Position6>
-      <Position7>
-        <Filename Value="../pascal_o_r_mapping/3_Data/JSON/ublJSON.pas"/>
-        <Caret Line="223" TopLine="199"/>
-      </Position7>
-      <Position8>
-        <Filename Value="../pascal_o_r_mapping/3_Data/JSON/ublJSON.pas"/>
-        <Caret Line="200" TopLine="198"/>
-      </Position8>
-      <Position9>
-        <Filename Value="../pascal_o_r_mapping/3_Data/JSON/ublJSON.pas"/>
-        <Caret Line="231" Column="26" TopLine="207"/>
-      </Position9>
-      <Position10>
-        <Filename Value="../pascal_o_r_mapping/3_Data/JSON/ublJSON.pas"/>
-        <Caret Line="260" Column="2" TopLine="248"/>
-      </Position10>
-      <Position11>
-        <Filename Value="../pascal_o_r_mapping/3_Data/JSON/ublJSON.pas"/>
-        <Caret Line="403" TopLine="401"/>
-      </Position11>
-      <Position12>
-        <Filename Value="../pascal_o_r_mapping/3_Data/JSON/ublJSON.pas"/>
-        <Caret Line="355" Column="52" TopLine="355"/>
-      </Position12>
-      <Position13>
-        <Filename Value="../pascal_o_r_mapping/3_Data/JSON/ublJSON.pas"/>
-        <Caret Line="243" Column="14" TopLine="234"/>
-      </Position13>
-      <Position14>
-        <Filename Value="../pascal_o_r_mapping/3_Data/JSON/ublJSON.pas"/>
-        <Caret Line="502" Column="19" TopLine="480"/>
-      </Position14>
-      <Position15>
-        <Filename Value="../pascal_o_r_mapping/3_Data/JSON/ublJSON.pas"/>
-        <Caret Line="243" Column="14" TopLine="232"/>
-      </Position15>
-      <Position16>
-        <Filename Value="ufjsWorks.pas"/>
-        <Caret Line="352" Column="52" TopLine="343"/>
-      </Position16>
-      <Position17>
-        <Filename Value="ufjsWorks.pas"/>
-        <Caret Line="340" Column="27" TopLine="338"/>
-      </Position17>
-      <Position18>
-        <Filename Value="Elements/Work/upoolWork.pas"/>
-        <Caret Line="87" Column="15" TopLine="76"/>
-      </Position18>
-      <Position19>
-        <Filename Value="Elements/Work/upoolWork.pas"/>
-        <Caret Line="298" Column="37" TopLine="277"/>
-      </Position19>
-      <Position20>
-        <Filename Value="Elements/Work/ublWork.pas"/>
-        <Caret Line="90" Column="16" TopLine="72"/>
-      </Position20>
-      <Position21>
-        <Filename Value="Elements/Work/ublWork.pas"/>
-        <Caret Line="321" Column="11" TopLine="288"/>
-      </Position21>
-      <Position22>
-        <Filename Value="Elements/Tag/upoolTAG.pas"/>
-        <Caret Line="74" Column="15" TopLine="63"/>
-      </Position22>
-      <Position23>
-        <Filename Value="../pascal_o_r_mapping/3_Data/JSON/ublJSON.pas"/>
-        <Caret Line="165" Column="42" TopLine="151"/>
-      </Position23>
-      <Position24>
-        <Filename Value="../pascal_o_r_mapping/3_Data/JSON/ublJSON.pas"/>
-        <Caret Line="450" Column="32" TopLine="426"/>
-      </Position24>
-      <Position25>
-        <Filename Value="../pascal_o_r_mapping/3_Data/JSON/ublJSON.pas"/>
-        <Caret Line="410" Column="54" TopLine="197"/>
-      </Position25>
-      <Position26>
-        <Filename Value="ufjsWorks.pas"/>
-        <Caret Line="340" Column="27" TopLine="338"/>
-      </Position26>
-      <Position27>
-        <Filename Value="ufjsWorks.pas"/>
-        <Caret Line="49" TopLine="49"/>
-      </Position27>
-      <Position28>
-        <Filename Value="../pascal_o_r_mapping/5_Controls/ucDockableScrollbox.pas"/>
-        <Caret Line="242" Column="15" TopLine="227"/>
-      </Position28>
-      <Position29>
-        <Filename Value="ufjsWorks.pas"/>
-        <Caret Line="49" TopLine="49"/>
-      </Position29>
-      <Position30>
-        <Filename Value="ufjsWorks.pas"/>
-        <Caret Line="325" Column="6" TopLine="323"/>
-      </Position30>
-    </JumpHistory>
+    <JumpHistory HistoryIndex="-1"/>
   </ProjectSession>
   <Debugging>
     <BreakPoints Count="3">

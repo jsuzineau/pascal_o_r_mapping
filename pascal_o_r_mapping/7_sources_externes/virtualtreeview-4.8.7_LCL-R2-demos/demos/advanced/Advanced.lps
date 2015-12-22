@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="9"/>
+    <Units Count="16">
+      <Unit0>
+        <Filename Value="Advanced.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UsageCount Value="23"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="WindowsXPStyleDemo.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="WindowsXPForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <CursorPos X="50" Y="16"/>
+        <UsageCount Value="23"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="AlignDemo.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="AlignForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="23"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="DrawTreeDemo.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="DrawTreeForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="23"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="Editors.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UsageCount Value="23"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="GeneralAbilitiesDemo.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="GeneralForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="23"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="GridDemo.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="GridForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="23"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="HeaderCustomDrawDemo.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="HeaderOwnerDrawForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="23"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="Main.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MainForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="128"/>
+        <CursorPos X="3" Y="122"/>
+        <UsageCount Value="23"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="MultilineDemo.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="NodeForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="62"/>
+        <CursorPos X="107" Y="75"/>
+        <UsageCount Value="23"/>
+        <Loaded Value="True"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="PropertiesDemo.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="PropertiesForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="23"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="SpeedDemo.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="SpeedForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="23"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="States.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="StateForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="23"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="VisibilityDemo.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="VisibilityForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UsageCount Value="23"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="shlobjext.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UsageCount Value="23"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="MultilineDemo.lfm"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="57"/>
+        <CursorPos X="98" Y="77"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit15>
+    </Units>
+    <JumpHistory Count="5" HistoryIndex="4">
+      <Position1>
+        <Filename Value="Main.pas"/>
+        <Caret Line="6"/>
+      </Position1>
+      <Position2>
+        <Filename Value="Main.pas"/>
+        <Caret Line="122" Column="3" TopLine="128"/>
+      </Position2>
+      <Position3>
+        <Filename Value="MultilineDemo.pas"/>
+        <Caret Line="25" Column="15" TopLine="23"/>
+      </Position3>
+      <Position4>
+        <Filename Value="MultilineDemo.pas"/>
+      </Position4>
+      <Position5>
+        <Filename Value="MultilineDemo.pas"/>
+        <Caret Line="82" Column="67" TopLine="62"/>
+      </Position5>
+    </JumpHistory>
+  </ProjectSession>
+</CONFIG>

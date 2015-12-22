@@ -11,6 +11,7 @@ Usually, you should :
   OD_DelphiReportEngine_Components (sub-directory pascal_o_r_mapping/4_Components)
 - Open, compile and install (Use/Install) in Lazarus:
   OD_DelphiReportEngine_Controls   (sub-directory pascal_o_r_mapping/5_Controls)
+  virtualtreeview_package.lpk      (sub-directory pascal_o_r_mapping/7_sources_externes\virtualtreeview-4.8.7_LCL-R2)
 
 To run jsWorks:
  It uses a mysql database. 
