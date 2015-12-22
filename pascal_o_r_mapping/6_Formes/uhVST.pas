@@ -41,7 +41,6 @@ uses
   Classes, SysUtils, Controls, VirtualTrees;
 
 type
-
  { ThVST }
 
  ThVST
@@ -71,6 +70,7 @@ type
                               X, Y: Integer);
   public
     vst: TVirtualStringTree;
+    cds: array of TChampDefinition;
   //Liste de lignes
   public
     sl: TBatpro_StringList;
@@ -134,6 +134,14 @@ procedure ThVST._from_sl_interne;
        bl:= Batpro_Ligne_from_sl( _sl, 0);
        if nil = bl then exit;
 
+       SetLength( cds,
+                   vst.Header.Columns.Count //éventuelle colonne d'arborescence
+                  +bl.Champs.sl      .Count // 1 colonne par champ
+                  );
+       if vst.Header.Columns.Count > 0
+       then
+           cds[0]:= nil;
+
        I:= bl.Champs.sl.Iterateur;
        while I.Continuer
        do
@@ -159,7 +167,8 @@ procedure ThVST._from_sl_interne;
          vtc:= vst.Header.Columns.Add;
          vtc.Text:= cd.Libelle + sTri;
          vtc.MinWidth:= cd.Longueur*10;
-         vtc.Tag:= Integer(Pointer( cd));
+         cds[vtc.Index]:= cd;
+
          //slColonnes.Add( Nom);
          end;
   end;
@@ -235,12 +244,16 @@ procedure ThVST.vstGetText( Sender: TBaseVirtualTree;
      vtc: TVirtualTreeColumn;
      cd: TChampDefinition;
      c: TChamp;
+     Column_Count: Integer;
   begin
        CellText:= '';
+       Column_Count:= vst.Header.Columns.Count;
+       if Column > Column_Count-1 then exit;
        vtc:= vst.Header.Columns[Column];
        if vtc = nil then exit;
 
-       if Affecte_( cd, TChampDefinition, TObject( Pointer(vtc.Tag))) then exit;
+       cd:= cds[ Column];
+       if nil = cd then exit;
 
        if nil = Node  then exit;
        po:= vst.GetNodeData( Node);

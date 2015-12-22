@@ -1,0 +1,10 @@
+23-12-15 00:03:11
+Exception EAccessViolation dans uBatpro_StringList.CheckClass( $E54AAF60, TChampDefinition):
+Access violation
+Pile d'appels:
+
+23-12-15 00:03:20
+Exception EAccessViolation dans uBatpro_StringList.CheckClass( $E54AAF60, TChampDefinition):
+Access violation
+Pile d'appels:
+

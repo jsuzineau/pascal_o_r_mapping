@@ -61,6 +61,7 @@
       <Unit3>
         <Filename Value="../pascal_o_r_mapping/7_sources_externes/synapse/source/lib/blcksock.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="blcksock"/>
       </Unit3>
       <Unit4>
         <Filename Value="../OOo/uOD_Table_Batpro.pas"/>
@@ -568,10 +569,12 @@
         <ComponentName Value="fAutomatic_VST"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufAutomatic_VST"/>
       </Unit111>
       <Unit112>
         <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uhVST"/>
       </Unit112>
       <Unit113>
         <Filename Value="ufTest_neo4j.pas"/>
@@ -579,10 +582,12 @@
         <ComponentName Value="fTest_neo4j"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufTest_neo4j"/>
       </Unit113>
       <Unit114>
         <Filename Value="../pascal_o_r_mapping/3_Data/uNEO4J.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="uNEO4J"/>
       </Unit114>
       <Unit115>
         <Filename Value="../pascal_o_r_mapping/3_Data/JSON/upoolJSON.pas"/>
@@ -593,6 +598,7 @@
       <Unit116>
         <Filename Value="../pascal_o_r_mapping/3_Data/JSON/ublJSON.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="ublJSON"/>
       </Unit116>
       <Unit117>
         <Filename Value="ufTULEAP.pas"/>

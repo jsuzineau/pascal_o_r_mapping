@@ -1,0 +1,35 @@
+>Fichier ini:/home/jean/pascal_o_r_mapping/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:/home/jean/pascal_o_r_mapping/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Fichier ini:/home/jean/pascal_o_r_mapping/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:/home/jean/pascal_o_r_mapping/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Fichier ini:/home/jean/pascal_o_r_mapping/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:/home/jean/pascal_o_r_mapping/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Fichier ini:/home/jean/pascal_o_r_mapping/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:/home/jean/pascal_o_r_mapping/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Fichier ini:/home/jean/pascal_o_r_mapping/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:/home/jean/pascal_o_r_mapping/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Fichier ini:/home/jean/pascal_o_r_mapping/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:/home/jean/pascal_o_r_mapping/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks
+>Fichier ini:/home/jean/pascal_o_r_mapping/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>Fichier ini:/home/jean/pascal_o_r_mapping/pascal_o_r_mapping/jsWorks/etc/_Configuration.ini
+>uMySQL paramétré pour MySQL version : 51
+>base MySQL jsWorks sur localhost sqlc.Hostname=localhost sqlc.DatabaseName=jsWorks

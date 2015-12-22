@@ -31,9 +31,22 @@ uses
  Classes, SysUtils,
  //fphttpclient,
  httpsend,
+ ssl_openssl,
+ fpjson, jsonparser,
  base64;
 
 type
+
+ { TTULEAP_token }
+
+ TTULEAP_token
+ =
+  object
+    user_id: String;
+    token  : String;
+    uri    : String;
+    procedure Clear;
+  end;
 
  { TTULEAP }
 
@@ -51,7 +64,9 @@ type
     User, Password: String;
     procedure Header_Clear;
     procedure Header_accept_json;
+    procedure Header_content_type_json;
     procedure Header_Authorization;
+    function String_from_http: String;
   //Streaming
   private
     procedure Header_Streaming;
@@ -66,6 +81,12 @@ type
   //API Explorer
   public
     function API_Explorer_URL: String;
+  //Token
+  private
+    token: TTULEAP_token;
+    procedure Token_from_json( _json: String);
+  public
+    function Authenticate( _User, _Password: String): String;
   //Project List
   public
     function json_Projects: String;
@@ -74,14 +95,27 @@ type
 
 implementation
 
+{ TTULEAP_token }
+
+procedure TTULEAP_token.Clear;
+begin
+     user_id:= '';
+     token  := '';
+     uri    := '';
+end;
+
 { TTULEAP }
 
 constructor TTULEAP.Create;
 begin
      http:= THTTPSend.Create;
+     http.Sock.SSL.VerifyCert:= False;
 
      Streaming:= False;
-     Root_URL:= 'https://192.168.1.35/'
+     Root_URL:= 'https://192.168.1.35/';
+     User:= '';
+     Password:= '';
+     token.Clear;
 end;
 
 destructor TTULEAP.Destroy;
@@ -97,7 +131,13 @@ end;
 
 procedure TTULEAP.Header_accept_json;
 begin
-     http.Headers.Add( '"Accept": "application/json; charset=UTF-8"');
+     //http.Headers.Add( 'Accept: application/json; charset=UTF-8');
+     http.Headers.Add( 'Accept: application/json');
+end;
+
+procedure TTULEAP.Header_content_type_json;
+begin
+     http.Headers.Add( 'Content-type: application/json');
 end;
 
 procedure TTULEAP.Header_Authorization;
@@ -110,10 +150,23 @@ begin
      http.Headers.Add( '"Authorization": "Basic '+sBase64+'"');
 end;
 
+function TTULEAP.String_from_http: String;
+var
+   ss: TStringStream;
+begin
+     ss:= TStringStream.Create('');
+     try
+        http.Document.SaveToStream( ss);
+        Result:= ss.DataString;
+     finally
+            Free_nil( ss);
+            end;
+end;
+
 procedure TTULEAP.Header_Streaming;
 begin
      if not Streaming then exit;
-     http.Headers.Add( '"X-Stream": "true"');
+     http.Headers.Add( 'X-Stream: true');
 end;
 
 function TTULEAP.GET(_NomFonction, _URL: String): String;
@@ -125,9 +178,9 @@ begin
      try
         if not http.HTTPMethod( 'GET', _URL)
         then
-            Result:= 'Echec de '+_NomFonction+', GET:'#13#10+http.Document.ToString
+            Result:= 'Echec de '+_NomFonction+', GET:'#13#10+String_from_http
         else
-            Result:= http.Document.ToString;
+            Result:= String_from_http;
      except
            on E: Exception
            do
@@ -152,9 +205,9 @@ begin
      try
         if not http.HTTPMethod( 'POST', _URL)
         then
-            Result:= 'Echec de '+_NomFonction+', POST'
+            Result:= 'Echec de '+_NomFonction+', POST'#13#10+String_from_http
         else
-            Result:= http.Document.ToString;
+            Result:= String_from_http;
      except
            on E: Exception
            do
@@ -165,6 +218,59 @@ end;
 function TTULEAP.API_Explorer_URL: String;
 begin
      Result:= Root_URL+'api/explorer/';
+end;
+
+procedure TTULEAP.Token_from_json( _json: String);
+var
+   jsp: TJSONParser;
+   jso: TJSONObject;
+begin
+     jsp:= TJSONParser.Create( _json);
+     jso:= jsp.Parse as TJSONObject;
+     try
+        token.user_id:= jso.Strings['user_id'];
+        token.token  := jso.Strings['token'  ];
+        token.uri    := jso.Strings['uri'    ];
+     finally
+            Free_nil( jsp);
+            end;
+end;
+
+function TTULEAP.Authenticate( _User, _Password: String): String;
+var
+   ss: TStringStream;
+   sToken: String;
+begin
+     User    := _User;
+     Password:= _Password;
+     Header_Clear;
+     Header_content_type_json;
+     try
+        ss:= TStringStream.Create( '{"username":"'+User+'", "password":"'+Password+'"}');
+        http.Document.LoadFromStream( ss);
+     finally
+            Free_nil( ss);
+            end;
+     try
+        try
+           if not http.HTTPMethod( 'POST', Root_URL+'api/tokens')
+           then
+               Result:= 'Echec de Authenticate, POST'#13#10+String_from_http
+           else
+               begin
+               sToken:= String_from_http;
+               Token_from_json( sToken);
+               Result:= sToken;
+               end;
+        except
+              on E: Exception
+              do
+                Result:= 'Echec de Authenticate, POST:'#13#10+E.Message;
+              end;
+
+     finally
+            http.Document.Clear;
+            end;
 end;
 
 function TTULEAP.json_Projects: String;

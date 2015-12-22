@@ -3,7 +3,7 @@
   <ProjectSession>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="273">
+    <Units Count="281">
       <Unit0>
         <Filename Value="jsWorks.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -22,12 +22,9 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ufjsWorks"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="14"/>
+        <TopLine Value="26"/>
         <CursorPos X="49" Y="40"/>
         <UsageCount Value="207"/>
-        <Bookmarks Count="1">
-          <Item0 X="6" Y="348" ID="1"/>
-        </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -43,9 +40,15 @@
       <Unit3>
         <Filename Value="../pascal_o_r_mapping/7_sources_externes/synapse/source/lib/blcksock.pas"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="1472"/>
-        <CursorPos X="25" Y="1497"/>
+        <UnitName Value="blcksock"/>
+        <EditorIndex Value="14"/>
+        <TopLine Value="1478"/>
+        <CursorPos X="3" Y="1499"/>
         <UsageCount Value="207"/>
+        <Bookmarks Count="1">
+          <Item0 X="16" Y="3715" ID="2"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit3>
       <Unit4>
@@ -1043,26 +1046,28 @@
         <ComponentName Value="fAutomatic_VST"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="97"/>
-        <CursorPos X="82" Y="106"/>
+        <UnitName Value="ufAutomatic_VST"/>
+        <EditorIndex Value="10"/>
+        <TopLine Value="94"/>
+        <CursorPos X="13" Y="102"/>
         <UsageCount Value="238"/>
-        <Bookmarks Count="1">
-          <Item0 Y="129" ID="3"/>
-        </Bookmarks>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit111>
       <Unit112>
         <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="154"/>
-        <CursorPos X="6" Y="106"/>
+        <UnitName Value="uhVST"/>
+        <EditorIndex Value="16"/>
+        <TopLine Value="228"/>
+        <CursorPos X="118" Y="244"/>
         <UsageCount Value="207"/>
-        <Bookmarks Count="2">
+        <Bookmarks Count="3">
           <Item0 X="20" Y="108" ID="4"/>
-          <Item1 X="31" Y="67" ID="5"/>
+          <Item1 X="31" Y="66" ID="5"/>
+          <Item2 X="10" Y="171" ID="1"/>
         </Bookmarks>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit112>
       <Unit113>
@@ -1071,18 +1076,22 @@
         <ComponentName Value="fTest_neo4j"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="6"/>
+        <UnitName Value="ufTest_neo4j"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="4"/>
         <UsageCount Value="207"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit113>
       <Unit114>
         <Filename Value="../pascal_o_r_mapping/3_Data/uNEO4J.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="129"/>
-        <CursorPos X="56" Y="130"/>
+        <UnitName Value="uNEO4J"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="16"/>
+        <CursorPos Y="103"/>
         <UsageCount Value="207"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit114>
       <Unit115>
@@ -1090,23 +1099,22 @@
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
         <UnitName Value="upoolJSON"/>
-        <EditorIndex Value="7"/>
-        <TopLine Value="102"/>
-        <CursorPos X="124" Y="123"/>
-        <UsageCount Value="117"/>
+        <EditorIndex Value="15"/>
+        <TopLine Value="120"/>
+        <CursorPos X="55" Y="144"/>
+        <UsageCount Value="128"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit115>
       <Unit116>
         <Filename Value="../pascal_o_r_mapping/3_Data/JSON/ublJSON.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="407"/>
-        <CursorPos X="28" Y="433"/>
-        <UsageCount Value="117"/>
-        <Bookmarks Count="1">
-          <Item0 X="2" Y="548" ID="2"/>
-        </Bookmarks>
+        <UnitName Value="ublJSON"/>
+        <EditorIndex Value="21"/>
+        <TopLine Value="512"/>
+        <CursorPos Y="521"/>
+        <UsageCount Value="128"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit116>
       <Unit117>
@@ -1116,10 +1124,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ufTULEAP"/>
-        <EditorIndex Value="4"/>
-        <TopLine Value="37"/>
-        <CursorPos Y="59"/>
-        <UsageCount Value="24"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="91"/>
+        <CursorPos Y="108"/>
+        <UsageCount Value="35"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -1129,17 +1137,17 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uTULEAP"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="104"/>
-        <CursorPos X="84" Y="128"/>
-        <UsageCount Value="24"/>
+        <EditorIndex Value="11"/>
+        <TopLine Value="246"/>
+        <CursorPos X="58" Y="262"/>
+        <UsageCount Value="35"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit118>
       <Unit119>
         <Filename Value="ublCategorie.pas"/>
         <CursorPos X="136" Y="10"/>
-        <UsageCount Value="166"/>
+        <UsageCount Value="165"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit119>
       <Unit120>
@@ -1147,7 +1155,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="486"/>
         <CursorPos Y="509"/>
-        <UsageCount Value="166"/>
+        <UsageCount Value="165"/>
         <Bookmarks Count="1">
           <Item0 X="27" Y="257" ID="4"/>
         </Bookmarks>
@@ -1156,7 +1164,7 @@
       <Unit121>
         <Filename Value="ublJour_ferie.pas"/>
         <CursorPos Y="22"/>
-        <UsageCount Value="167"/>
+        <UsageCount Value="166"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit121>
       <Unit122>
@@ -1164,12 +1172,12 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="200"/>
         <CursorPos Y="212"/>
-        <UsageCount Value="166"/>
+        <UsageCount Value="165"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit122>
       <Unit123>
         <Filename Value="ublState.pas"/>
-        <UsageCount Value="166"/>
+        <UsageCount Value="165"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit123>
       <Unit124>
@@ -1177,12 +1185,12 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="304"/>
         <CursorPos X="14" Y="326"/>
-        <UsageCount Value="166"/>
+        <UsageCount Value="165"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit124>
       <Unit125>
         <Filename Value="uhfCategorie.pas"/>
-        <UsageCount Value="166"/>
+        <UsageCount Value="165"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit125>
       <Unit126>
@@ -1191,20 +1199,20 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="5"/>
         <CursorPos X="12" Y="32"/>
-        <UsageCount Value="166"/>
+        <UsageCount Value="165"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit126>
       <Unit127>
         <Filename Value="upoolDevelopment.pas"/>
         <HasResources Value="True"/>
-        <UsageCount Value="166"/>
+        <UsageCount Value="165"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit127>
       <Unit128>
         <Filename Value="upoolJour_ferie.pas"/>
         <HasResources Value="True"/>
         <CursorPos Y="22"/>
-        <UsageCount Value="167"/>
+        <UsageCount Value="166"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit128>
       <Unit129>
@@ -1213,14 +1221,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="105"/>
         <CursorPos Y="126"/>
-        <UsageCount Value="166"/>
+        <UsageCount Value="165"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit129>
       <Unit130>
         <Filename Value="upoolState.pas"/>
         <HasResources Value="True"/>
         <TopLine Value="22"/>
-        <UsageCount Value="166"/>
+        <UsageCount Value="165"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit130>
       <Unit131>
@@ -1231,12 +1239,12 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="279"/>
         <CursorPos X="41" Y="297"/>
-        <UsageCount Value="166"/>
+        <UsageCount Value="165"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit131>
       <Unit132>
         <Filename Value="uhfWork.pas"/>
-        <UsageCount Value="166"/>
+        <UsageCount Value="165"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit132>
       <Unit133>
@@ -1245,7 +1253,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <CursorPos Y="22"/>
-        <UsageCount Value="161"/>
+        <UsageCount Value="160"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit133>
       <Unit134>
@@ -1254,7 +1262,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <CursorPos Y="22"/>
-        <UsageCount Value="162"/>
+        <UsageCount Value="161"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit134>
       <Unit135>
@@ -1264,7 +1272,7 @@
         <ResourceBaseClass Value="Form"/>
         <TopLine Value="22"/>
         <CursorPos Y="22"/>
-        <UsageCount Value="162"/>
+        <UsageCount Value="161"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit135>
       <Unit136>
@@ -1275,7 +1283,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="63"/>
         <CursorPos Y="22"/>
-        <UsageCount Value="160"/>
+        <UsageCount Value="159"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit136>
       <Unit137>
@@ -1284,7 +1292,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <CursorPos Y="22"/>
-        <UsageCount Value="161"/>
+        <UsageCount Value="160"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit137>
       <Unit138>
@@ -1292,7 +1300,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="65"/>
         <CursorPos Y="97"/>
-        <UsageCount Value="171"/>
+        <UsageCount Value="170"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit138>
       <Unit139>
@@ -1300,7 +1308,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="96"/>
         <CursorPos X="53" Y="110"/>
-        <UsageCount Value="169"/>
+        <UsageCount Value="168"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit139>
       <Unit140>
@@ -1309,12 +1317,12 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="163"/>
         <CursorPos Y="184"/>
-        <UsageCount Value="161"/>
+        <UsageCount Value="160"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit140>
       <Unit141>
         <Filename Value="uhfTAG.pas"/>
-        <UsageCount Value="161"/>
+        <UsageCount Value="160"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit141>
       <Unit142>
@@ -1322,7 +1330,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="200"/>
         <CursorPos X="22" Y="214"/>
-        <UsageCount Value="161"/>
+        <UsageCount Value="160"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit142>
       <Unit143>
@@ -1331,12 +1339,12 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="136"/>
         <CursorPos Y="155"/>
-        <UsageCount Value="161"/>
+        <UsageCount Value="160"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit143>
       <Unit144>
         <Filename Value="uhfTAG_DEVELOPMENT.pas"/>
-        <UsageCount Value="161"/>
+        <UsageCount Value="160"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit144>
       <Unit145>
@@ -1344,7 +1352,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="34"/>
         <CursorPos Y="52"/>
-        <UsageCount Value="161"/>
+        <UsageCount Value="160"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit145>
       <Unit146>
@@ -1353,12 +1361,12 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="125"/>
         <CursorPos Y="144"/>
-        <UsageCount Value="161"/>
+        <UsageCount Value="160"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit146>
       <Unit147>
         <Filename Value="uhfTAG_WORK.pas"/>
-        <UsageCount Value="161"/>
+        <UsageCount Value="160"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit147>
       <Unit148>
@@ -1366,19 +1374,19 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="40"/>
         <CursorPos Y="52"/>
-        <UsageCount Value="161"/>
+        <UsageCount Value="160"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit148>
       <Unit149>
         <Filename Value="ublType_Tag.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="6"/>
-        <UsageCount Value="160"/>
+        <UsageCount Value="159"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit149>
       <Unit150>
         <Filename Value="uhfType_Tag.pas"/>
-        <UsageCount Value="160"/>
+        <UsageCount Value="159"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit150>
       <Unit151>
@@ -1388,7 +1396,7 @@
         <ResourceBaseClass Value="Form"/>
         <TopLine Value="3"/>
         <CursorPos X="13" Y="33"/>
-        <UsageCount Value="160"/>
+        <UsageCount Value="159"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit151>
       <Unit152>
@@ -1398,7 +1406,7 @@
         <ResourceBaseClass Value="Form"/>
         <TopLine Value="65"/>
         <CursorPos X="17" Y="90"/>
-        <UsageCount Value="164"/>
+        <UsageCount Value="163"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit152>
       <Unit153>
@@ -1408,7 +1416,7 @@
         <ResourceBaseClass Value="Form"/>
         <TopLine Value="51"/>
         <CursorPos X="63" Y="68"/>
-        <UsageCount Value="164"/>
+        <UsageCount Value="163"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit153>
       <Unit154>
@@ -1419,281 +1427,281 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="60"/>
         <CursorPos X="25" Y="82"/>
-        <UsageCount Value="77"/>
+        <UsageCount Value="76"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit154>
       <Unit155>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uBatpro_Registry.pas"/>
         <CursorPos X="48" Y="26"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit155>
       <Unit156>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit156>
       <Unit157>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uBinary_Tree.pas"/>
         <TopLine Value="199"/>
         <CursorPos X="59" Y="219"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit157>
       <Unit158>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/ubtInteger.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit158>
       <Unit159>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uBTree.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit159>
       <Unit160>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/ubtString.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit160>
       <Unit161>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uChamp.pas"/>
         <TopLine Value="363"/>
         <CursorPos Y="393"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit161>
       <Unit162>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uChampDefinition.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit162>
       <Unit163>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uChampDefinitions.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit163>
       <Unit164>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uChamps.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit164>
       <Unit165>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uChrono.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit165>
       <Unit166>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uClean.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit166>
       <Unit167>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uCode_barre.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit167>
       <Unit168>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uContrainte.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit168>
       <Unit169>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uCP1252_from_CP437.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit169>
       <Unit170>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uDataUtilsU.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit170>
       <Unit171>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/u_db_.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit171>
       <Unit172>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/u_db_Composants.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit172>
       <Unit173>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uEtat.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit173>
       <Unit174>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uEvaluation_Formule.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit174>
       <Unit175>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uEXE_INI.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit175>
       <Unit176>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/ufAccueil_Erreur.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit176>
       <Unit177>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uForms.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit177>
       <Unit178>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/u_ini_.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit178>
       <Unit179>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uIntervalle.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit179>
       <Unit180>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uJCL.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit180>
       <Unit181>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/u_loc_.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit181>
       <Unit182>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uLookupConnection_Ancetre.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit182>
       <Unit183>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uOD_Column.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit183>
       <Unit184>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uOD_Dataset_Column.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit184>
       <Unit185>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uOD_Dataset_Columns.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit185>
       <Unit186>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uOD_Error.pas"/>
         <CursorPos X="22" Y="7"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit186>
       <Unit187>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uOD_Forms.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit187>
       <Unit188>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uOD_JCL.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit188>
       <Unit189>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uOD_Merge.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit189>
       <Unit190>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uOD_Printer.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit190>
       <Unit191>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uODRE_Table.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit191>
       <Unit192>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uOD_SpreadsheetManager.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit192>
       <Unit193>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uOD_Styles.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit193>
       <Unit194>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uOD_SurTitre.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit194>
       <Unit195>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uOD_Temporaire.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit195>
       <Unit196>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uOD_TextFieldsCreator.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit196>
       <Unit197>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uOD_TextTableContext.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit197>
       <Unit198>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uOD_TextTableManager.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit198>
       <Unit199>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uOOoChrono.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit199>
       <Unit200>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uOOoDelphiReportEngineLog.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit200>
       <Unit201>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uOOoStringList.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit201>
       <Unit202>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uOOoStrings.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit202>
       <Unit203>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uOpenDocument.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit203>
       <Unit204>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_Units/uOpenDocument.pas.r1.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit204>
       <Unit205>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/3_Data/uXML.pas"/>
-        <UsageCount Value="138"/>
+        <UsageCount Value="137"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit205>
       <Unit206>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/2_LCL/uDessin.pas"/>
         <CursorPos Y="9"/>
-        <UsageCount Value="131"/>
+        <UsageCount Value="130"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit206>
       <Unit207>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/Controls/ucChampsGrid.pas"/>
         <TopLine Value="539"/>
         <CursorPos X="91" Y="536"/>
-        <UsageCount Value="131"/>
+        <UsageCount Value="130"/>
         <Bookmarks Count="1">
           <Item0 Y="124" ID="1"/>
         </Bookmarks>
@@ -1701,42 +1709,42 @@
       </Unit207>
       <Unit208>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/3_Data/ublG_BECP.pas"/>
-        <UsageCount Value="128"/>
+        <UsageCount Value="127"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit208>
       <Unit209>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/3_Data/ublG_BECPCTX.pas"/>
-        <UsageCount Value="128"/>
+        <UsageCount Value="127"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit209>
       <Unit210>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/3_Data/ublG_CTX.pas"/>
-        <UsageCount Value="128"/>
+        <UsageCount Value="127"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit210>
       <Unit211>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/3_Data/ublG_CTXTYPE.pas"/>
-        <UsageCount Value="128"/>
+        <UsageCount Value="127"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit211>
       <Unit212>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/3_Data/uhfG_BECP.pas"/>
-        <UsageCount Value="128"/>
+        <UsageCount Value="127"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit212>
       <Unit213>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/3_Data/uhfG_BECPCTX.pas"/>
-        <UsageCount Value="128"/>
+        <UsageCount Value="127"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit213>
       <Unit214>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/3_Data/uhfG_CTX.pas"/>
-        <UsageCount Value="128"/>
+        <UsageCount Value="127"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit214>
       <Unit215>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/3_Data/uhfG_CTXTYPE.pas"/>
-        <UsageCount Value="128"/>
+        <UsageCount Value="127"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit215>
       <Unit216>
@@ -1744,38 +1752,38 @@
         <HasResources Value="True"/>
         <TopLine Value="119"/>
         <CursorPos Y="151"/>
-        <UsageCount Value="128"/>
+        <UsageCount Value="127"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit216>
       <Unit217>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/3_Data/upoolG_BECPCTX.pas"/>
         <HasResources Value="True"/>
-        <UsageCount Value="128"/>
+        <UsageCount Value="127"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit217>
       <Unit218>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/3_Data/upoolG_CTX.pas"/>
         <HasResources Value="True"/>
-        <UsageCount Value="128"/>
+        <UsageCount Value="127"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit218>
       <Unit219>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/3_Data/upoolG_CTXTYPE.pas"/>
         <HasResources Value="True"/>
         <CursorPos X="48" Y="17"/>
-        <UsageCount Value="128"/>
+        <UsageCount Value="127"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit219>
       <Unit220>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/Controls/uDockable.pas"/>
         <HasResources Value="True"/>
-        <UsageCount Value="127"/>
+        <UsageCount Value="126"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit220>
       <Unit221>
         <Filename Value="/batpro/source/src/pascal_o_r_mapping/Controls/ucDockableScrollbox.pas"/>
         <CursorPos X="42" Y="12"/>
-        <UsageCount Value="127"/>
+        <UsageCount Value="126"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit221>
       <Unit222>
@@ -1783,7 +1791,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="291"/>
         <CursorPos X="2" Y="150"/>
-        <UsageCount Value="104"/>
+        <UsageCount Value="103"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit222>
       <Unit223>
@@ -1791,7 +1799,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="808"/>
         <CursorPos X="59" Y="819"/>
-        <UsageCount Value="116"/>
+        <UsageCount Value="115"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit223>
       <Unit224>
@@ -1799,7 +1807,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="869"/>
         <CursorPos X="86" Y="872"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="20"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit224>
       <Unit225>
@@ -1810,7 +1818,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="519"/>
         <CursorPos X="77" Y="533"/>
-        <UsageCount Value="98"/>
+        <UsageCount Value="97"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit225>
       <Unit226>
@@ -1821,7 +1829,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="25"/>
         <CursorPos X="3" Y="47"/>
-        <UsageCount Value="100"/>
+        <UsageCount Value="99"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit226>
       <Unit227>
@@ -1829,14 +1837,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="36"/>
         <CursorPos X="20" Y="50"/>
-        <UsageCount Value="15"/>
+        <UsageCount Value="14"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit227>
       <Unit228>
         <Filename Value="truc.txt"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="56" Y="6"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
         <DefaultSyntaxHighlighter Value="None"/>
       </Unit228>
       <Unit229>
@@ -1844,7 +1852,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="52"/>
         <CursorPos Y="66"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="27"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit229>
       <Unit230>
@@ -1852,7 +1860,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="129"/>
         <CursorPos X="65" Y="141"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="27"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit230>
       <Unit231>
@@ -1860,7 +1868,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="261"/>
         <CursorPos X="57" Y="275"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="19"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit231>
       <Unit232>
@@ -1868,13 +1876,17 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="318"/>
         <CursorPos Y="339"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="2"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit232>
       <Unit233>
         <Filename Value="../pascal_o_r_mapping/2_Units/uChamps.pas"/>
-        <EditorIndex Value="-1"/>
+        <UnitName Value="uChamps"/>
+        <EditorIndex Value="22"/>
+        <TopLine Value="1085"/>
+        <CursorPos Y="1106"/>
         <UsageCount Value="100"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit233>
       <Unit234>
@@ -1882,7 +1894,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="624"/>
         <CursorPos X="36" Y="652"/>
-        <UsageCount Value="119"/>
+        <UsageCount Value="118"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit234>
       <Unit235>
@@ -1893,7 +1905,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="318"/>
         <CursorPos X="135" Y="341"/>
-        <UsageCount Value="46"/>
+        <UsageCount Value="45"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit235>
       <Unit236>
@@ -1901,7 +1913,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="24"/>
         <CursorPos X="46" Y="35"/>
-        <UsageCount Value="15"/>
+        <UsageCount Value="14"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit236>
       <Unit237>
@@ -1909,7 +1921,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="56"/>
         <CursorPos X="6" Y="79"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit237>
       <Unit238>
@@ -1920,7 +1932,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="53"/>
         <CursorPos X="40" Y="67"/>
-        <UsageCount Value="46"/>
+        <UsageCount Value="45"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit238>
       <Unit239>
@@ -1928,7 +1940,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1372"/>
         <CursorPos X="5" Y="1384"/>
-        <UsageCount Value="102"/>
+        <UsageCount Value="101"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit239>
       <Unit240>
@@ -1936,15 +1948,17 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="60"/>
         <CursorPos X="2" Y="66"/>
-        <UsageCount Value="108"/>
+        <UsageCount Value="107"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit240>
       <Unit241>
         <Filename Value="../pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="530"/>
-        <CursorPos Y="542"/>
-        <UsageCount Value="102"/>
+        <UnitName Value="uBatpro_StringList"/>
+        <EditorIndex Value="17"/>
+        <TopLine Value="168"/>
+        <CursorPos X="28" Y="189"/>
+        <UsageCount Value="101"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit241>
       <Unit242>
@@ -1952,7 +1966,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="276"/>
         <CursorPos X="3" Y="276"/>
-        <UsageCount Value="118"/>
+        <UsageCount Value="117"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit242>
       <Unit243>
@@ -1960,7 +1974,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="46"/>
         <CursorPos X="51" Y="62"/>
-        <UsageCount Value="100"/>
+        <UsageCount Value="99"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit243>
       <Unit244>
@@ -1968,14 +1982,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="44"/>
         <CursorPos Y="63"/>
-        <UsageCount Value="100"/>
+        <UsageCount Value="99"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit244>
       <Unit245>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/upoolAutomatic.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="60"/>
-        <UsageCount Value="59"/>
+        <UsageCount Value="58"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit245>
       <Unit246>
@@ -1983,7 +1997,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="127"/>
         <CursorPos X="37" Y="64"/>
-        <UsageCount Value="107"/>
+        <UsageCount Value="106"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit246>
       <Unit247>
@@ -1991,7 +2005,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="31"/>
         <CursorPos Y="48"/>
-        <UsageCount Value="107"/>
+        <UsageCount Value="106"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit247>
       <Unit248>
@@ -1999,7 +2013,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="152"/>
         <CursorPos X="17" Y="58"/>
-        <UsageCount Value="105"/>
+        <UsageCount Value="104"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit248>
       <Unit249>
@@ -2007,7 +2021,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="822"/>
         <CursorPos X="40" Y="836"/>
-        <UsageCount Value="103"/>
+        <UsageCount Value="102"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit249>
       <Unit250>
@@ -2015,14 +2029,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="16"/>
         <CursorPos X="83" Y="29"/>
-        <UsageCount Value="58"/>
+        <UsageCount Value="57"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit250>
       <Unit251>
         <Filename Value="../INSTALL.txt"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="14"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="None"/>
       </Unit251>
       <Unit252>
@@ -2030,7 +2044,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="12"/>
         <CursorPos X="140" Y="44"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit252>
       <Unit253>
@@ -2038,7 +2052,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="29"/>
         <CursorPos X="8" Y="136"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit253>
       <Unit254>
@@ -2049,7 +2063,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="313"/>
         <CursorPos Y="335"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit254>
       <Unit255>
@@ -2057,7 +2071,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="74"/>
         <CursorPos Y="74"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit255>
       <Unit256>
@@ -2068,7 +2082,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="18"/>
         <CursorPos X="3" Y="41"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit256>
       <Unit257>
@@ -2076,14 +2090,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="50"/>
         <CursorPos X="10" Y="81"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit257>
       <Unit258>
         <Filename Value="../pascal_o_r_mapping/6_Formes/uhTriColonneChamps.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="7"/>
         <CursorPos X="5" Y="30"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit258>
       <Unit259>
@@ -2091,63 +2105,63 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="239"/>
         <CursorPos Y="253"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit259>
       <Unit260>
         <Filename Value="Elements/Tag_Work/upoolTag_Work.dfm"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="38"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit260>
       <Unit261>
         <Filename Value="lib/x86_64-win64/upoolTAG_WORK.dfm"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="38"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit261>
       <Unit262>
         <Filename Value="lib/i386-win32/upoolTAG_WORK.dfm"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="38"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit262>
       <Unit263>
         <Filename Value="Elements/Tag_Development/upoolTag_Development.dfm"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="18" Y="4"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit263>
       <Unit264>
         <Filename Value="Elements/Tag/ufTag.dfm"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="17" Y="3"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit264>
       <Unit265>
         <Filename Value="Elements/Tag/upoolTag.dfm"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="28"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit265>
       <Unit266>
         <Filename Value="Generateur_de_code/Source/Pascal/ufcbTYPE_TAG.dfm"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="25" Y="3"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit266>
       <Unit267>
         <Filename Value="Generateur_de_code/Source/Pascal/udmxcreTYPE_TAG.dfm"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="42"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit267>
       <Unit268>
@@ -2155,7 +2169,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="36"/>
         <CursorPos X="16" Y="76"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit268>
       <Unit269>
@@ -2163,7 +2177,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="343"/>
         <CursorPos X="43" Y="357"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit269>
       <Unit270>
@@ -2171,7 +2185,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="190"/>
         <CursorPos X="35" Y="212"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit270>
       <Unit271>
@@ -2179,135 +2193,207 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="2175"/>
         <CursorPos X="47" Y="2196"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit271>
       <Unit272>
         <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-web/src/base/fphttpclient.pp"/>
         <UnitName Value="fphttpclient"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="885"/>
         <CursorPos X="37" Y="889"/>
+        <UsageCount Value="13"/>
+      </Unit272>
+      <Unit273>
+        <Filename Value="../pascal_o_r_mapping/7_sources_externes/synapse/source/lib/httpsend.pas"/>
+        <UnitName Value="httpsend"/>
+        <EditorIndex Value="13"/>
+        <TopLine Value="256"/>
+        <CursorPos X="3" Y="277"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit273>
+      <Unit274>
+        <Filename Value="../pascal_o_r_mapping/7_sources_externes/synapse/source/lib/ssl_openssl.pas"/>
+        <UnitName Value="ssl_openssl"/>
+        <EditorIndex Value="12"/>
+        <TopLine Value="855"/>
+        <CursorPos X="5" Y="896"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
-      </Unit272>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit274>
+      <Unit275>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-json/src/jsonparser.pp"/>
+        <UnitName Value="jsonparser"/>
+        <EditorIndex Value="19"/>
+        <TopLine Value="26"/>
+        <CursorPos X="41" Y="47"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit275>
+      <Unit276>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-json/src/fpjson.pp"/>
+        <UnitName Value="fpjson"/>
+        <EditorIndex Value="20"/>
+        <TopLine Value="69"/>
+        <CursorPos X="29" Y="114"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit276>
+      <Unit277>
+        <Filename Value="../pascal_o_r_mapping/7_sources_externes/virtualtreeview-4.8.7_LCL-R2/VirtualTrees.pas"/>
+        <UnitName Value="VirtualTrees"/>
+        <EditorIndex Value="18"/>
+        <TopLine Value="1300"/>
+        <CursorPos X="3" Y="1267"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit277>
+      <Unit278>
+        <Filename Value="/usr/lib/lazarus/1.4.0/lcl/include/control.inc"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="2706"/>
+        <CursorPos Y="2728"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit278>
+      <Unit279>
+        <Filename Value="/usr/lib/lazarus/1.4.0/lcl/include/buttoncontrol.inc"/>
+        <EditorIndex Value="8"/>
+        <CursorPos Y="21"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit279>
+      <Unit280>
+        <Filename Value="/usr/lib/lazarus/1.4.0/lcl/include/buttons.inc"/>
+        <EditorIndex Value="9"/>
+        <TopLine Value="149"/>
+        <CursorPos Y="170"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit280>
     </Units>
-    <JumpHistory Count="29" HistoryIndex="28">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="ufTULEAP.pas"/>
-        <Caret Line="137" Column="44" TopLine="103"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="240" Column="31" TopLine="222"/>
       </Position1>
       <Position2>
-        <Filename Value="ufTULEAP.pas"/>
-        <Caret Line="135" TopLine="95"/>
+        <Filename Value="../pascal_o_r_mapping/7_sources_externes/virtualtreeview-4.8.7_LCL-R2/VirtualTrees.pas"/>
+        <Caret Line="1539" Column="14" TopLine="1518"/>
       </Position2>
       <Position3>
-        <Filename Value="ufTULEAP.pas"/>
-        <Caret Line="134" TopLine="94"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="242" TopLine="222"/>
       </Position3>
       <Position4>
-        <Filename Value="ufTULEAP.pas"/>
-        <Caret Line="133" TopLine="93"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="246" Column="15" TopLine="225"/>
       </Position4>
       <Position5>
-        <Filename Value="ufTULEAP.pas"/>
-        <Caret Line="132" TopLine="92"/>
+        <Filename Value="../pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
+        <Caret Line="381" Column="52" TopLine="348"/>
       </Position5>
       <Position6>
-        <Filename Value="ufTULEAP.pas"/>
-        <Caret Line="131" TopLine="91"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="242" TopLine="225"/>
       </Position6>
       <Position7>
-        <Filename Value="ufTULEAP.pas"/>
-        <Caret Line="59" TopLine="37"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="243" TopLine="225"/>
       </Position7>
       <Position8>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uTULEAP.pas"/>
-        <Caret Line="79" Column="6" TopLine="59"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="244" TopLine="225"/>
       </Position8>
       <Position9>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uTULEAP.pas"/>
-        <Caret Line="81" Column="41" TopLine="64"/>
+        <Filename Value="../pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
+        <Caret Line="381" Column="52" TopLine="348"/>
       </Position9>
       <Position10>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uTULEAP.pas"/>
-        <Caret Line="135" Column="48" TopLine="93"/>
+        <Filename Value="../pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
+        <Caret Line="376" Column="39" TopLine="355"/>
       </Position10>
       <Position11>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uTULEAP.pas"/>
-        <Caret Line="81" Column="22" TopLine="48"/>
+        <Filename Value="../pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
+        <Caret Line="189" Column="28" TopLine="168"/>
       </Position11>
       <Position12>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uTULEAP.pas"/>
-        <Caret Line="123" TopLine="102"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="242" TopLine="225"/>
       </Position12>
       <Position13>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uTULEAP.pas"/>
-        <Caret Line="127" TopLine="99"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="243" TopLine="225"/>
       </Position13>
       <Position14>
-        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-web/src/base/fphttpclient.pp"/>
-        <Caret Line="163" TopLine="81"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="244" TopLine="225"/>
       </Position14>
       <Position15>
-        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-web/src/base/fphttpclient.pp"/>
-        <Caret Line="325" Column="33" TopLine="291"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="258" TopLine="225"/>
       </Position15>
       <Position16>
-        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-web/src/base/fphttpclient.pp"/>
-        <Caret Line="339" Column="33" TopLine="305"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="280" TopLine="260"/>
       </Position16>
       <Position17>
-        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-web/src/base/fphttpclient.pp"/>
-        <Caret Line="624" Column="33" TopLine="590"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="242" TopLine="221"/>
       </Position17>
       <Position18>
-        <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-web/src/base/fphttpclient.pp"/>
-        <Caret Line="871" Column="51" TopLine="849"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="243" TopLine="221"/>
       </Position18>
       <Position19>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uTULEAP.pas"/>
-        <Caret Line="121" Column="8" TopLine="88"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="244" TopLine="221"/>
       </Position19>
       <Position20>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uTULEAP.pas"/>
-        <Caret Line="161" Column="58" TopLine="130"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="249" Column="31" TopLine="224"/>
       </Position20>
       <Position21>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uTULEAP.pas"/>
-        <Caret Line="123" TopLine="102"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="262" TopLine="229"/>
       </Position21>
       <Position22>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uTULEAP.pas"/>
-        <Caret Line="96" Column="99" TopLine="66"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="181" Column="27" TopLine="157"/>
       </Position22>
       <Position23>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uTULEAP.pas"/>
-        <Caret Line="121" Column="46" TopLine="93"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="145" TopLine="104"/>
       </Position23>
       <Position24>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uTULEAP.pas"/>
-        <Caret Line="98" Column="27" TopLine="57"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
       </Position24>
       <Position25>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uTULEAP.pas"/>
-        <Caret Line="116" Column="22" TopLine="95"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="121" Column="10" TopLine="98"/>
       </Position25>
       <Position26>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uTULEAP.pas"/>
-        <Caret Line="126" Column="22" TopLine="105"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="97" Column="5" TopLine="69"/>
       </Position26>
       <Position27>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uTULEAP.pas"/>
-        <Caret Line="130" Column="44" TopLine="105"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="151" Column="29" TopLine="115"/>
       </Position27>
       <Position28>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uTULEAP.pas"/>
-        <Caret Line="156" Column="26" TopLine="135"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="129" Column="6" TopLine="108"/>
       </Position28>
       <Position29>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uTULEAP.pas"/>
-        <Caret Line="152" TopLine="135"/>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="73" Column="8" TopLine="53"/>
       </Position29>
+      <Position30>
+        <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
+        <Caret Line="187" Column="15" TopLine="147"/>
+      </Position30>
     </JumpHistory>
   </ProjectSession>
   <Debugging>

@@ -1,7 +1,7 @@
 object fTULEAP: TfTULEAP
-  Left = -51
+  Left = 650
   Height = 240
-  Top = 901
+  Top = 319
   Width = 499
   Caption = 'fTULEAP'
   ClientHeight = 240
@@ -65,7 +65,7 @@ object fTULEAP: TfTULEAP
       Height = 25
       Top = 8
       Width = 96
-      Caption = 'bAuthenticate'
+      Caption = 'Authenticate'
       OnClick = bAuthenticateClick
       TabOrder = 2
     end
@@ -95,6 +95,14 @@ object fTULEAP: TfTULEAP
       Caption = 'API Explorer'
       OnClick = bAPI_ExplorerClick
       TabOrder = 5
+    end
+    object lSSL: TLabel
+      Left = 310
+      Height = 17
+      Top = 46
+      Width = 28
+      Caption = 'lSSL'
+      ParentColor = False
     end
   end
   object m: TMemo

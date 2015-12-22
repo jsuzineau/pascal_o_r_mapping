@@ -33,6 +33,7 @@ uses
     upoolJSON,
 
     uhVST,
+  blcksock,
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics,
   Dialogs, ExtCtrls, StdCtrls, Spin, VirtualTrees,LCLIntf;
 
@@ -49,6 +50,7 @@ type
    cbStreaming: TCheckBox;
    ePassword: TLabeledEdit;
    eUserName: TLabeledEdit;
+   lSSL: TLabel;
    m: TMemo;
    Panel1: TPanel;
    Splitter1: TSplitter;
@@ -88,6 +90,7 @@ begin
      TULEAP:= TTULEAP.Create;
      cbStreaming.Checked:= TULEAP.Streaming;
 
+     lSSL.Caption:= 'SSLImplementation: '+blcksock.SSLImplementation.ClassName;
 end;
 
 procedure TfTULEAP.FormDestroy(Sender: TObject);
@@ -107,7 +110,7 @@ end;
 
 procedure TfTULEAP.bAuthenticateClick(Sender: TObject);
 begin
-     //Affiche_Resultat( TULEAP.Authenticate( eUserName.Text, ePassword.Text));
+     Affiche_Resultat( TULEAP.Authenticate( eUserName.Text, ePassword.Text));
 end;
 
 procedure TfTULEAP.bAPI_ExplorerClick(Sender: TObject);

@@ -236,7 +236,7 @@ type
     slFields: TslJSONFieldBuffer;
   //Import des champs depuis des données au format JSON
   public
-    procedure _from_JSONObject( _jso: TJSONObject);
+    procedure _from_JSONData( _jsd: TJSONData);
   //Gestion de liens
   private
     FslLink: TslLink;
@@ -510,20 +510,21 @@ begin
      inherited Destroy;
 end;
 
-procedure TblJSON._from_JSONObject( _jso: TJSONObject);
+procedure TblJSON._from_JSONData( _jsd: TJSONData);
 var
+   jso: TJSONObject;
    I: Integer;
    FieldName: String;
    d: TJSONData;
    fb: TJSONFieldBuffer;
 begin
-     if _jso = nil then exit;
+     if Affecte_( jso, TJSONObject, _jsd) then exit;
 
-     for I:= 0 to _jso.Count-1
+     for I:= 0 to jso.Count-1
      do
        begin
-       FieldName:= _jso.Names[ I];
-       d:= _jso.Elements[ FieldName];
+       FieldName:= jso.Names[ I];
+       d:= jso.Elements[ FieldName];
        if nil = d then continue;
 
        case d.JSONType

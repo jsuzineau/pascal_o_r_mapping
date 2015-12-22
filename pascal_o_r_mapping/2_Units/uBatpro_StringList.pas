@@ -185,8 +185,8 @@ type
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: TBatpro_StringList);
-    function  not_Suivant( var _Resultat: TBatpro_StringList): Boolean;
+    procedure Suivant( out _Resultat: TBatpro_StringList);
+    function  not_Suivant( out _Resultat: TBatpro_StringList): Boolean;
   end;
 
  TslBatpro_StringList
@@ -236,18 +236,18 @@ function Object_from_sl_sCle( sl: TStringList; sCle: String): TObject;
 // mais peuvent se révéler dangereuses si l'on change le type de la variable
 // passée comme Resultat sans aller mettre à jour le paramètre Classe
 
-procedure CheckClass( var Resultat; Classe: TClass);
+procedure CheckClass( out Resultat; Classe: TClass);
 
-procedure _Classe_from_sl     ( var Resultat; Classe: TClass;
+procedure _Classe_from_sl     ( out Resultat; Classe: TClass;
                                 sl: TStringList; Index: Integer);
-procedure _Classe_from_sl_sCle( var Resultat; Classe: TClass;
+procedure _Classe_from_sl_sCle( out Resultat; Classe: TClass;
                                 sl: TStringList; sCle: String);
 
-function Affecte( var O          ;
+function Affecte( out O          ;
                   Classe: TClass ;
                   Valeur: TObject): Boolean;
 
-function Affecte_( var O          ;
+function Affecte_( out O          ;
                    Classe: TClass ;
                    Valeur: TObject): Boolean;
 
@@ -273,7 +273,7 @@ begin
      Result:= Object_from_sl( sl, sl.IndexOf( sCle))
 end;
 
-procedure CheckClass( var Resultat; Classe: TClass);
+procedure CheckClass( out Resultat; Classe: TClass);
      procedure Set_to_nil;
      begin
           TObject( Resultat):= nil;
@@ -307,21 +307,21 @@ begin
            end;
 end;
 
-procedure _Classe_from_sl( var Resultat; Classe: TClass;
+procedure _Classe_from_sl( out Resultat; Classe: TClass;
                            sl: TStringList; Index: Integer);
 begin
      TObject( Resultat):= Object_from_sl( sl, Index);
      CheckClass( Resultat, Classe);
 end;
 
-procedure _Classe_from_sl_sCle( var Resultat; Classe: TClass;
+procedure _Classe_from_sl_sCle( out Resultat; Classe: TClass;
                                 sl: TStringList; sCle: String);
 begin
      TObject( Resultat):= Object_from_sl_sCle( sl, sCle);
      CheckClass( Resultat, Classe);
 end;
 
-function Affecte_( var O          ;
+function Affecte_( out O          ;
                    Classe: TClass ;
                    Valeur: TObject): Boolean;
 begin
@@ -331,7 +331,7 @@ begin
      Result:= TObject(O) = nil;
 end;
 
-function Affecte( var O          ;
+function Affecte( out O          ;
                   Classe: TClass ;
                   Valeur: TObject): Boolean;
 begin
@@ -373,12 +373,12 @@ end;
 
 { TIterateur_Batpro_StringList }
 
-function TIterateur_Batpro_StringList.not_Suivant( var _Resultat: TBatpro_StringList): Boolean;
+function TIterateur_Batpro_StringList.not_Suivant( out _Resultat: TBatpro_StringList): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_Batpro_StringList.Suivant( var _Resultat: TBatpro_StringList);
+procedure TIterateur_Batpro_StringList.Suivant( out _Resultat: TBatpro_StringList);
 begin
      Suivant_interne( _Resultat);
 end;

@@ -51,8 +51,8 @@ type
     procedure DataModuleCreate(Sender: TObject);
   //Création à partir d'une chaine JSON
   private
-    function Traite_jso( _jso: TJSONObject): TblJSON;
-    procedure Traite_liste( _jso: TJSONObject; _slLoaded: TBatpro_StringList);
+    function Traite_jsd( _jsd: TJSONData): TblJSON;
+    procedure Traite_liste( _jsd: TJSONData; _slLoaded: TBatpro_StringList);
   public
     function Get_from_JSON( _JSON: String): TblJSON;
     procedure Charge_from_JSON( _JSON: String; _slLoaded: TBatpro_StringList);
@@ -85,34 +85,43 @@ begin
      Pas_de_champ_id:= True;
 end;
 
-function TpoolJSON.Traite_jso(_jso: TJSONObject): TblJSON;
+function TpoolJSON.Traite_jsd(_jsd: TJSONData): TblJSON;
 begin
      if Affecte_( Result, TblJSON, Cree_Element( nil)) then exit;
-     Result._from_JSONObject( _jso);
+     Result._from_JSONData( _jsd);
      Ajoute( Result);
 end;
 
-procedure TpoolJSON.Traite_liste( _jso: TJSONObject;
+procedure TpoolJSON.Traite_liste( _jsd: TJSONData;
                                   _slLoaded: TBatpro_StringList);
 var
    I: Integer;
+   item: TJSONData;
+   bl: TblJSON;
 begin
-     for I:= 0 to _jso.Count-1
+     _slLoaded.Clear;
+     for I:= 0 to _jsd.Count-1
      do
        begin
-       //_jso.; à coder
+       item:= _jsd.Items[ I];
+       if nil = item then continue;
+
+       bl:= Traite_jsd( item);
+       if nil = bl then continue;
+
+       _slLoaded.AddObject( bl.sCle, bl);
        end;
 end;
 
 function TpoolJSON.Get_from_JSON(_JSON: String): TblJSON;
 var
    jsp: TJSONParser;
-   jso: TJSONObject;
+   jsd: TJSONData;
 begin
      jsp:= TJSONParser.Create( _JSON);
-     jso:= jsp.Parse as TJSONObject;
+     jsd:= jsp.Parse as TJSONData;
      try
-          Result:= Traite_jso( jso);
+          Result:= Traite_jsd( jsd);
      finally
             Free_nil( jsp);
             end;
@@ -123,22 +132,22 @@ procedure TpoolJSON.Charge_from_JSON( _JSON: String;
                                       _slLoaded: TBatpro_StringList);
 var
    jsp: TJSONParser;
-   jso: TJSONObject;
+   jsd: TJSONData;
    procedure Traite_Object;
    var
       bl: TblJSON;
    begin
-        bl:= Traite_jso( jso);
+        bl:= Traite_jsd( jsd);
         _slLoaded.Clear;
         _slLoaded.AddObject( bl.sCle, bl);
    end;
 begin
      jsp:= TJSONParser.Create( _JSON);
-     jso:= jsp.Parse as TJSONObject;
+     jsd:= jsp.Parse;
      try
-        case jso.JSONType
+        case jsd.JSONType
         of
-          jtArray : Traite_liste( jso, _slLoaded);
+          jtArray : Traite_liste( jsd, _slLoaded);
           jtObject: Traite_Object;
           end;
      finally
