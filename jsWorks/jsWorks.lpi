@@ -52,7 +52,6 @@
         <ComponentName Value="fjsWorks"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufjsWorks"/>
       </Unit1>
       <Unit2>
         <Filename Value="../pascal_o_r_mapping/3_Data/uXML.pas"/>
@@ -267,7 +266,6 @@
         <ComponentName Value="fBase"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufBase"/>
       </Unit53>
       <Unit54>
         <Filename Value="../pascal_o_r_mapping/6_Formes/ufBatpro_Form.pas"/>
@@ -275,7 +273,6 @@
         <ComponentName Value="fBatpro_Form"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufBatpro_Form"/>
       </Unit54>
       <Unit55>
         <Filename Value="../pascal_o_r_mapping/6_Formes/ufBatpro_Form_Ancetre.pas"/>
@@ -318,7 +315,6 @@
         <ComponentName Value="fTemps"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufTemps"/>
       </Unit63>
       <Unit64>
         <Filename Value="Elements/Categorie/ublCategorie.pas"/>
@@ -352,7 +348,6 @@
         <Filename Value="Elements/Categorie/upoolCategorie.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolCategorie"/>
       </Unit71>
       <Unit72>
         <Filename Value="Elements/Development/upoolDevelopment.pas"/>
@@ -423,7 +418,6 @@
       <Unit83>
         <Filename Value="Elements/Session/ublSession.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublSession"/>
       </Unit83>
       <Unit84>
         <Filename Value="Elements/Session/uhdmsession.pas"/>
@@ -563,7 +557,6 @@
         <ComponentName Value="fTest_VirtualTreeView"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufTest_VirtualTreeView"/>
       </Unit110>
       <Unit111>
         <Filename Value="../Generation_de_code/ufAutomatic_VST.pas"/>
