@@ -2,7 +2,7 @@
   This source is only used to compile and install the package.
  }
 
-unit OD_DelphiReportEngine_Units_linux;
+unit OD_DelphiReportEngine_Units;
 
 interface
 
@@ -22,8 +22,8 @@ uses
  uPatchLanceur, uProgression, uPublieur, uPublieur_sans_btree, 
  uReal_Field_Formatter, uReal_Formatter, uReels, u_reg_, uSGBD, uskInteger, 
  uSkipList, uskString, uStringArray, u_sys_, uTemporaire, uTri_Ancetre, 
- uUseCase, uUseCases, uuStrings, uVersion, uNetwork, uhFiltre_Ancetre, 
- LazarusPackageIntf;
+ uUseCase, uUseCases, uuStrings, uVersion, uLog, uNetwork, uhFiltre_Ancetre, 
+ uWinUtils, LazarusPackageIntf;
 
 implementation
 
@@ -32,5 +32,5 @@ begin
 end;
 
 initialization
-  RegisterPackage('OD_DelphiReportEngine_Units_linux', @Register);
+  RegisterPackage('OD_DelphiReportEngine_Units', @Register);
 end.

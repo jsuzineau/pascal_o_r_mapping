@@ -42,7 +42,6 @@
       <Unit0>
         <Filename Value="jsWorks_linux.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="jsWorks_linux"/>
       </Unit0>
       <Unit1>
         <Filename Value="ufjsWorks.pas"/>
@@ -55,67 +54,55 @@
       <Unit2>
         <Filename Value="ublCategorie.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublCategorie"/>
       </Unit2>
       <Unit3>
         <Filename Value="ublDevelopment.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublDevelopment"/>
       </Unit3>
       <Unit4>
         <Filename Value="ublJour_ferie.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublJour_ferie"/>
       </Unit4>
       <Unit5>
         <Filename Value="ublProject.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublProject"/>
       </Unit5>
       <Unit6>
         <Filename Value="ublState.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublState"/>
       </Unit6>
       <Unit7>
         <Filename Value="ublWork.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublWork"/>
       </Unit7>
       <Unit8>
         <Filename Value="uhfCategorie.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uhfCategorie"/>
       </Unit8>
       <Unit9>
         <Filename Value="upoolCategorie.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolCategorie"/>
       </Unit9>
       <Unit10>
         <Filename Value="upoolDevelopment.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolDevelopment"/>
       </Unit10>
       <Unit11>
         <Filename Value="upoolJour_ferie.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolJour_ferie"/>
       </Unit11>
       <Unit12>
         <Filename Value="upoolProject.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolProject"/>
       </Unit12>
       <Unit13>
         <Filename Value="upoolState.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolState"/>
       </Unit13>
       <Unit14>
         <Filename Value="upoolWork.pas"/>
@@ -123,12 +110,10 @@
         <ComponentName Value="poolWORK"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="upoolWork"/>
       </Unit14>
       <Unit15>
         <Filename Value="uhfWork.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uhfWork"/>
       </Unit15>
       <Unit16>
         <Filename Value="udkProject_EDIT.pas"/>
@@ -136,7 +121,6 @@
         <ComponentName Value="dkProject_EDIT"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="udkProject_EDIT"/>
       </Unit16>
       <Unit17>
         <Filename Value="udkProject_LABEL.pas"/>
@@ -144,7 +128,6 @@
         <ComponentName Value="dkProject_LABEL"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="udkProject_LABEL"/>
       </Unit17>
       <Unit18>
         <Filename Value="ufProject.pas"/>
@@ -152,7 +135,6 @@
         <ComponentName Value="fProject"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufProject"/>
       </Unit18>
       <Unit19>
         <Filename Value="udkWork.pas"/>
@@ -160,7 +142,6 @@
         <ComponentName Value="dkWork"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="udkWork"/>
       </Unit19>
       <Unit20>
         <Filename Value="udkDevelopment.pas"/>
@@ -168,22 +149,18 @@
         <ComponentName Value="dkDevelopment"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="udkDevelopment"/>
       </Unit20>
       <Unit21>
         <Filename Value="../pascal_o_r_mapping/3_Data/uXML.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uXML"/>
       </Unit21>
       <Unit22>
         <Filename Value="../pascal_o_r_mapping/7_sources_externes/synapse/source/lib/blcksock.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="blcksock"/>
       </Unit22>
       <Unit23>
         <Filename Value="uodWork_from_Period.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uodWork_from_Period"/>
       </Unit23>
       <Unit24>
         <Filename Value="../OOo/uOD.pas"/>
@@ -193,23 +170,19 @@
       <Unit25>
         <Filename Value="../OOo/uOD_Maitre.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uOD_Maitre"/>
       </Unit25>
       <Unit26>
         <Filename Value="../OOo/uOD_Table_Batpro.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uOD_Table_Batpro"/>
       </Unit26>
       <Unit27>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/ublAutomatic.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublAutomatic"/>
       </Unit27>
       <Unit28>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/upoolAutomatic.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolAutomatic"/>
       </Unit28>
       <Unit29>
         <Filename Value="../Generation_de_code/ufAutomatic.pas"/>
@@ -222,47 +195,38 @@
       <Unit30>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/uGenerateur_Delphi_Ancetre.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uGenerateur_Delphi_Ancetre"/>
       </Unit30>
       <Unit31>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler/uPatternHandler.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uPatternHandler"/>
       </Unit31>
       <Unit32>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/uJoinPoint.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uJoinPoint"/>
       </Unit32>
       <Unit33>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General/ujpNom_de_la_classe.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpNom_de_la_classe"/>
       </Unit33>
       <Unit34>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL/ujpSQL_CREATE_TABLE.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpSQL_CREATE_TABLE"/>
       </Unit34>
       <Unit35>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Affecte.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPascal_Affecte"/>
       </Unit35>
       <Unit36>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp/ujpCSharp_Champs_persistants.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpCSharp_Champs_persistants"/>
       </Unit36>
       <Unit37>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine/ujpPHP_Doctrine_Has_Column.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ujpPHP_Doctrine_Has_Column"/>
       </Unit37>
       <Unit38>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/uGenerateur_Delphi.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uGenerateur_Delphi"/>
       </Unit38>
       <Unit39>
         <Filename Value="ufTemps.pas"/>
@@ -296,12 +260,6 @@
         </Win32>
       </Options>
     </Linking>
-    <Other>
-      <CompilerMessages>
-        <MsgFileName Value=""/>
-      </CompilerMessages>
-      <CompilerPath Value="$(CompPath)"/>
-    </Other>
   </CompilerOptions>
   <Debugging>
     <Exceptions Count="3">

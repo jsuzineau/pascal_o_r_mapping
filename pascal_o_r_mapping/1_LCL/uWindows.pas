@@ -1,4 +1,4 @@
-unit ShellAPI;
+unit uWindows;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -23,20 +23,27 @@ unit ShellAPI;
                                                                                 |
 |                                                                               }
 
-{$mode delphi}
-
 interface
 
+{$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
 uses
-  Classes, SysUtils;
+    Windows;
+{$IFEND}
 
-function ShellExecute( _i1: Integer; _s1, _s2: PChar; _p1, _p2: Pointer; _i2: Integer): Integer;
+var
+   //bords non 3D
+   CXBORDER, CYBORDER: Integer;
+   //bords 3D
+   CXEDGE  , CYEDGE  : Integer;
 
 implementation
 
-function ShellExecute( _i1: Integer; _s1, _s2: PChar; _p1, _p2: Pointer; _i2: Integer): Integer;
-begin
-
-end;
+initialization
+              {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+              CXBORDER:= GetSystemMetrics( SM_CXBORDER);
+              CYBORDER:= GetSystemMetrics( SM_CYBORDER);
+              CXEDGE:= GetSystemMetrics( SM_CXEDGE);
+              CYEDGE:= GetSystemMetrics( SM_CYEDGE);
+              {$IFEND}
+finalization
 end.
-

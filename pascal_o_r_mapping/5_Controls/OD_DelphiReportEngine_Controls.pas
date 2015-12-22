@@ -2,26 +2,25 @@
   This source is only used to compile and install the package.
  }
 
-unit OD_DelphiReportEngine_Controls_linux;
+unit OD_DelphiReportEngine_Controls;
 
 interface
 
 uses
- Truc, ucBatpro_Button, ucBatproComboBox, ucBatpro_Contrainte, 
- ucBatproDateRange, ucBatproDateTimePicker, ucBatproMaskElement, 
- ucBatproMasque, ucBatpro_OptionButton, ucBatpro_RadioGroup, ucBatproSelector, 
- ucBatpro_Shape, ucBatpro_SpeedButton, ucBatproSQLMask, ucBitBtn_antirebond, 
- ucChamp_CheckBox, ucChamp_Edit, ucChamp_Label, ucChamp_Lookup_ComboBox, 
- ucChamp_Memo, uDBEdit_WANTTAB, udmf, uEdit_WANTTAB, ufAttente_Demarrage, 
- ufcb, ufChamp_Date, ufChamp_Lookup, ufChampsGrid_Colonnes, ucAnimate, 
+ ucBatpro_Button, ucBatproComboBox, ucBatpro_Contrainte, ucBatproDateRange, 
+ ucBatproDateTimePicker, ucBatproMaskElement, ucBatproMasque, 
+ ucBatpro_OptionButton, ucBatpro_RadioGroup, ucBatproSelector, ucBatpro_Shape, 
+ ucBatpro_SpeedButton, ucBatproSQLMask, ucBitBtn_antirebond, ucChamp_CheckBox, 
+ ucChamp_Edit, ucChamp_Label, ucChamp_Lookup_ComboBox, ucChamp_Memo, 
+ uDBEdit_WANTTAB, udmf, uDockable, uEdit_WANTTAB, ufAttente_Demarrage, ufcb, 
+ ufChamp_Date, ufChamp_Lookup, ufChampsGrid_Colonnes, ucAnimate, 
  ucChamp_Integer_SpinEdit, ucChamp_DateTimePicker, ucChamp_Float_SpinEdit, 
- ucDockableScrollbox, uDockable, ucChampsGrid, uWinUtils, LazarusPackageIntf;
+ ucChampsGrid, ucDockableScrollbox, LazarusPackageIntf;
 
 implementation
 
 procedure Register;
 begin
-  RegisterUnit('Truc', @Truc.Register);
   RegisterUnit('ucBatpro_Button', @ucBatpro_Button.Register);
   RegisterUnit('ucBatproComboBox', @ucBatproComboBox.Register);
   RegisterUnit('ucBatpro_Contrainte', @ucBatpro_Contrainte.Register);
@@ -40,15 +39,14 @@ begin
   RegisterUnit('ucChamp_Label', @ucChamp_Label.Register);
   RegisterUnit('ucChamp_Lookup_ComboBox', @ucChamp_Lookup_ComboBox.Register);
   RegisterUnit('ucChamp_Memo', @ucChamp_Memo.Register);
-  RegisterUnit('ufcb', @ufcb.Register);
   RegisterUnit('ucAnimate', @ucAnimate.Register);
   RegisterUnit('ucChamp_Integer_SpinEdit', @ucChamp_Integer_SpinEdit.Register);
   RegisterUnit('ucChamp_DateTimePicker', @ucChamp_DateTimePicker.Register);
   RegisterUnit('ucChamp_Float_SpinEdit', @ucChamp_Float_SpinEdit.Register);
-  RegisterUnit('ucDockableScrollbox', @ucDockableScrollbox.Register);
   RegisterUnit('ucChampsGrid', @ucChampsGrid.Register);
+  RegisterUnit('ucDockableScrollbox', @ucDockableScrollbox.Register);
 end;
 
 initialization
-  RegisterPackage('OD_DelphiReportEngine_Controls_linux', @Register);
+  RegisterPackage('OD_DelphiReportEngine_Controls', @Register);
 end.

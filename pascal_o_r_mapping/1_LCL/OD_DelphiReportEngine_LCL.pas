@@ -2,13 +2,12 @@
   This source is only used to compile and install the package.
  }
 
-unit OD_DelphiReportEngine_LCL_linux;
+unit OD_DelphiReportEngine_LCL;
 
 interface
 
 uses
- ActiveX, ComObj, Consts, ShellAPI, ShlObj, Windows, uWindows, WinSock, 
- uDessin, LazarusPackageIntf;
+ uWindows, uDessin, LazarusPackageIntf;
 
 implementation
 
@@ -17,5 +16,5 @@ begin
 end;
 
 initialization
-  RegisterPackage('OD_DelphiReportEngine_LCL_linux', @Register);
+  RegisterPackage('OD_DelphiReportEngine_LCL', @Register);
 end.
