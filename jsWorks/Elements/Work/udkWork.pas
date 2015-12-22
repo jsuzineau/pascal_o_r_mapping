@@ -45,6 +45,7 @@ type
  =
   class(TDockable)
   clBeginning: TChamp_Label;
+  clDescription: TChamp_Label;
   sbDetruire: TSpeedButton;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   procedure sbDetruireClick(Sender: TObject);
@@ -67,7 +68,7 @@ begin
 
      Affecte( blWork, TblWork, Value);
 
-     Champs_Affecte( blWork, [clBeginning]);
+     Champs_Affecte( blWork, [clBeginning,clDescription]);
 end;
 
 procedure TdkWork.sbDetruireClick(Sender: TObject);

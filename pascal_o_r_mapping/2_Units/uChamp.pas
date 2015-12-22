@@ -368,11 +368,7 @@ function TChamp.GetChaine_interne: String;
       D: TDateTime;
    begin
         D:= PDateTime(Valeur)^;
-        if D = 0
-        then
-            Result:= ''
-        else
-            Result:= DateTimeToStr( D);
+        Result:= Definition.Formate_DateTime( D);
    end;
 begin
      if Self = nil

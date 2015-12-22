@@ -1,0 +1,133 @@
+object fTULEAP: TfTULEAP
+  Left = -51
+  Height = 240
+  Top = 901
+  Width = 499
+  Caption = 'fTULEAP'
+  ClientHeight = 240
+  ClientWidth = 499
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  LCLVersion = '1.4.0.4'
+  object Panel1: TPanel
+    Left = 0
+    Height = 72
+    Top = 0
+    Width = 499
+    Align = alTop
+    ClientHeight = 72
+    ClientWidth = 499
+    TabOrder = 0
+    object eUserName: TLabeledEdit
+      Left = 208
+      Height = 27
+      Top = 8
+      Width = 80
+      EditLabel.AnchorSideTop.Control = eUserName
+      EditLabel.AnchorSideTop.Side = asrCenter
+      EditLabel.AnchorSideRight.Control = eUserName
+      EditLabel.AnchorSideBottom.Control = eUserName
+      EditLabel.AnchorSideBottom.Side = asrBottom
+      EditLabel.Left = 128
+      EditLabel.Height = 17
+      EditLabel.Top = 13
+      EditLabel.Width = 77
+      EditLabel.Caption = 'User Name '
+      EditLabel.ParentColor = False
+      LabelPosition = lpLeft
+      TabOrder = 0
+      Text = 'admin'
+    end
+    object ePassword: TLabeledEdit
+      Left = 208
+      Height = 27
+      Top = 36
+      Width = 80
+      EchoMode = emPassword
+      EditLabel.AnchorSideTop.Control = ePassword
+      EditLabel.AnchorSideTop.Side = asrCenter
+      EditLabel.AnchorSideRight.Control = ePassword
+      EditLabel.AnchorSideBottom.Control = ePassword
+      EditLabel.AnchorSideBottom.Side = asrBottom
+      EditLabel.Left = 139
+      EditLabel.Height = 17
+      EditLabel.Top = 41
+      EditLabel.Width = 66
+      EditLabel.Caption = 'Password'
+      EditLabel.ParentColor = False
+      LabelPosition = lpLeft
+      PasswordChar = '*'
+      TabOrder = 1
+      Text = 'azerty12'
+    end
+    object bAuthenticate: TButton
+      Left = 304
+      Height = 25
+      Top = 8
+      Width = 96
+      Caption = 'bAuthenticate'
+      OnClick = bAuthenticateClick
+      TabOrder = 2
+    end
+    object bProjects: TButton
+      Left = 8
+      Height = 25
+      Top = 36
+      Width = 96
+      Caption = 'Projects'
+      OnClick = bProjectsClick
+      TabOrder = 3
+    end
+    object cbStreaming: TCheckBox
+      Left = 409
+      Height = 24
+      Top = 12
+      Width = 111
+      Caption = 'cbStreaming'
+      OnChange = cbStreamingChange
+      TabOrder = 4
+    end
+    object bAPI_Explorer: TButton
+      Left = 11
+      Height = 25
+      Top = 9
+      Width = 109
+      Caption = 'API Explorer'
+      OnClick = bAPI_ExplorerClick
+      TabOrder = 5
+    end
+  end
+  object m: TMemo
+    Left = 0
+    Height = 168
+    Top = 72
+    Width = 272
+    Align = alLeft
+    Lines.Strings = (
+      'm'
+    )
+    ScrollBars = ssAutoBoth
+    TabOrder = 1
+  end
+  object Splitter1: TSplitter
+    Left = 272
+    Height = 168
+    Top = 72
+    Width = 5
+    Color = clLime
+    ParentColor = False
+  end
+  object vst: TVirtualStringTree
+    Left = 277
+    Height = 168
+    Top = 72
+    Width = 222
+    Align = alClient
+    DefaultText = 'Node'
+    Header.AutoSizeIndex = 0
+    Header.Columns = <>
+    Header.DefaultHeight = 17
+    Header.MainColumn = -1
+    TabOrder = 3
+  end
+end

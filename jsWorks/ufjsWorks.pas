@@ -63,6 +63,7 @@ uses
     ufTest_VirtualTreeView,
     ufAutomatic_VST,
     ufTest_neo4j,
+    ufTULEAP,
 
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls, Buttons, ucChampsGrid, ucDockableScrollbox,
@@ -84,6 +85,7 @@ type
    bTag: TButton;
    bTemps: TButton;
    bTest: TButton;
+   bTULEAP: TButton;
    bType_Tag: TButton;
    bCategorie_to_Tag: TButton;
    bDescription_to_Tag: TButton;
@@ -141,6 +143,7 @@ type
    procedure bTagClick(Sender: TObject);
    procedure bTempsClick(Sender: TObject);
    procedure bTestClick(Sender: TObject);
+   procedure bTULEAPClick(Sender: TObject);
    procedure bType_TagClick(Sender: TObject);
    procedure bVSTClick(Sender: TObject);
    procedure dsbWorkSelect(Sender: TObject);
@@ -343,6 +346,11 @@ end;
 procedure TfjsWorks.bNEO4JClick(Sender: TObject);
 begin
      fTest_neo4j.Show;
+end;
+
+procedure TfjsWorks.bTULEAPClick(Sender: TObject);
+begin
+     fTULEAP.Show;
 end;
 
 procedure TfjsWorks.dsbWorkSelect(Sender: TObject);

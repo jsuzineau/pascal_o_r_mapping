@@ -68,12 +68,13 @@ uses
  upoolCategorie, upoolDevelopment, upoolJour_ferie, upoolProject, upoolState,
  upoolWork, ublJour_ferie, udkProject_EDIT, udkProject_LABEL, ufProject,
  udkWork, udkDevelopment, ublSession, uOD_Table_Batpro, ufAutomatic,
- ufAutomatic_VST, uhdmSession, ublTag, uhfTag, upoolTag, upoolTag_DEVELOPMENT,
- uhfTag_DEVELOPMENT, ublTag_DEVELOPMENT, upoolTag_WORK, uhfTag_WORK,
- ublTag_WORK, udkType_Tag_edit, ublType_Tag, upoolType_Tag, uhfType_Tag,
+ ufAutomatic_VST, uhdmSession, ublTag, uhfTag, upoolTag, upoolTag_Development,
+ uhfTag_Development, ublTag_Development, upoolTag_Work, uhfTag_Work,
+ ublTag_Work, udkType_Tag_EDIT, ublType_Tag, upoolType_Tag, uhfType_Tag,
  ufType_Tag, udkTag_LABEL, uodWork_from_Period, udkTag_LABEL_od,
  udkWork_haTag_from_Description_LABEL, ufTest_VirtualTreeView,
- virtualtreeview_package, uhVST, ufTest_neo4j, uNEO4J, ublJSON, upoolJSON;
+ virtualtreeview_package, uhVST, ufTest_neo4j, ufTULEAP, uNEO4J, uTULEAP,
+ ublJSON, upoolJSON;
 
 {$R *.res}
 
@@ -85,6 +86,7 @@ begin
  Application.CreateForm(TfTYPE_Tag, fTYPE_Tag);
  Application.CreateForm(TfTest_VirtualTreeView, fTest_VirtualTreeView);
  Application.CreateForm(TfTest_neo4j, fTest_neo4j);
+ Application.CreateForm(TfTULEAP, fTULEAP);
  Application.Run;
 end.
 

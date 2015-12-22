@@ -1,14 +1,22 @@
 [Options]
 Chemin_Global=
 Choisir le SGBD en se basant sur le nom de l'exécutable=0
-SGBD=3
+SGBD=1
+
+[MySQL_]
+HostName=FIRST-BOSS
+DataBase=jsWorks
+User_Name=ODBC
+Password=
+Version=51
 
 [MySQL]
 HostName=localhost
 DataBase=jsWorks
+;DataBase=a
 User_Name=root
 Password=
-Version=51
+Version=55
 
 [SQLServer]
 HostName=ORDINA

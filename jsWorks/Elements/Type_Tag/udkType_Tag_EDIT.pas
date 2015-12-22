@@ -1,4 +1,4 @@
-unit udkType_Tag_edit;
+unit udkType_Tag_EDIT;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |

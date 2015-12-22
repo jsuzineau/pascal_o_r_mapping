@@ -103,9 +103,10 @@ type
   public
     nUser: Integer;
     nProject: Integer;
-    Beginning: TDateTime;
-    End_: TDateTime;
+    Beginning: TDateTime; cBeginning: TChamp;
+    End_     : TDateTime; cEnd      : TChamp;
     Description: String;
+
   //Duree
   private
     FDuree: TDateTime;
@@ -397,8 +398,13 @@ begin
      //champs persistants
      Integer_from_ ( nUser          , 'nUser'          );
      Integer_from_ ( nProject       , 'nProject'       );
-     DateTime_from_( Beginning      , 'Beginning'      );
-     DateTime_from_( End_           , 'End'            );
+
+     cBeginning:= DateTime_from_( Beginning      , 'Beginning'      );
+     cBeginning.Definition.Format_DateTime:= 'yyyy/mm/dd" "hh:nn';
+
+     cEnd:= DateTime_from_( End_           , 'End'            );
+     cEnd.Definition.Format_DateTime:= 'yyyy/mm/dd" "hh:nn';
+
      String_from_  ( Description    , 'Description'    );
 
      cDuree:= Ajoute_Float( FDuree, 'Duree', False);

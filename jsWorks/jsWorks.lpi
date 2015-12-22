@@ -41,7 +41,7 @@
         <PackageName Value="LCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="117">
+    <Units Count="119">
       <Unit0>
         <Filename Value="jsWorks.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -52,6 +52,7 @@
         <ComponentName Value="fjsWorks"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufjsWorks"/>
       </Unit1>
       <Unit2>
         <Filename Value="../pascal_o_r_mapping/3_Data/uXML.pas"/>
@@ -339,6 +340,7 @@
       <Unit69>
         <Filename Value="Elements/Work/ublWork.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="ublWork"/>
       </Unit69>
       <Unit70>
         <Filename Value="Elements/Categorie/uhfCategorie.pas"/>
@@ -426,8 +428,10 @@
       <Unit85>
         <Filename Value="Elements/Tag/upoolTag.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="poolTAG"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolTAG"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="upoolTag"/>
       </Unit85>
       <Unit86>
         <Filename Value="Elements/Tag/uhfTag.pas"/>
@@ -584,11 +588,25 @@
         <Filename Value="../pascal_o_r_mapping/3_Data/JSON/upoolJSON.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
+        <UnitName Value="upoolJSON"/>
       </Unit115>
       <Unit116>
         <Filename Value="../pascal_o_r_mapping/3_Data/JSON/ublJSON.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit116>
+      <Unit117>
+        <Filename Value="ufTULEAP.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fTULEAP"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufTULEAP"/>
+      </Unit117>
+      <Unit118>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uTULEAP.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uTULEAP"/>
+      </Unit118>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

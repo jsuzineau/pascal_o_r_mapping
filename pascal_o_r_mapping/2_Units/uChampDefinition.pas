@@ -54,6 +54,8 @@ type
  TfcbChamp_class= class of TfcbChamp;
  {$IFEND}
 
+ { TChampDefinition }
+
  TChampDefinition
  =
   class
@@ -118,6 +120,10 @@ type
   public
     property MinValue   : double  read FMinValue    write SetMinValue;
     property HasMinValue: Boolean read FHasMinValue ;
+  //Gestion du Format pour les dates
+  public
+    Format_DateTime: String;
+    function Formate_DateTime( _D: TDateTime): String;
   end;
 
 function ChampDefinition_from_sl( sl: TBatpro_StringList; I: Integer): TChampDefinition;
@@ -169,6 +175,7 @@ begin
      {$IFEND}
 
      FHasMinValue:= False;
+     Format_DateTime:= '';
 end;
 
 constructor TChampDefinition.Create_Lookup( _Nom:String;
@@ -196,6 +203,13 @@ begin
      Result
      :=
        uReal_Formatter.Format_Float( Value,Flottant_Tronque,Flottant_Precision);
+end;
+
+function TChampDefinition.Formate_DateTime(_D: TDateTime): String;
+begin
+          if 0  = _D              then Result:= ''
+     else if '' = Format_DateTime then Result:= DateTimeToStr( _D)
+     else                              Result:= SysUtils.FormatDateTime( Format_DateTime, _D);
 end;
 
 procedure TChampDefinition.SetMinValue(const Value: double);
