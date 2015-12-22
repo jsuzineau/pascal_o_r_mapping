@@ -44,7 +44,7 @@ uses
     ufBatpro_Form_Ancetre,
     ufBatpro_Desk,
     ufAccueil_Erreur,
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   IniFiles, StdCtrls, ExtCtrls, DB, ComCtrls, ucBatproMasque;
 
 type
@@ -194,7 +194,7 @@ var
    WorkArea: TRect;
    W, H: Integer;
 begin
-     SystemParametersInfo( SPI_GETWORKAREA, 0, @WorkArea, 0);
+     Workarea:= Screen.MonitorFromWindow( Handle).WorkareaRect;
      W:= WorkArea.Right  - WorkArea.Left;
      H:= WorkArea.Bottom - WorkArea.Top ;
      Left:= WorkArea.Left + (W - Width ) div 2;
@@ -206,7 +206,7 @@ var
    WorkArea: TRect;
    W, H: Integer;
 begin
-     SystemParametersInfo( SPI_GETWORKAREA, 0, @WorkArea, 0);
+     Workarea:= Screen.MonitorFromWindow( Handle).WorkareaRect;
      W:= WorkArea.Right  - WorkArea.Left;
      H:= WorkArea.Bottom - WorkArea.Top ;
      Left  := WorkArea.Left;

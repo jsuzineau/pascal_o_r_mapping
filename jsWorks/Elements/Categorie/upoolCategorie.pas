@@ -29,7 +29,7 @@ uses
   ublType_Tag,
 
   ublTag,
-  upoolTAG,
+  upoolTag,
 
   ublCategorie,
 
@@ -120,7 +120,7 @@ begin
        begin
        if I.not_Suivant_interne( bl) then continue;
 
-       blTag:= poolTAG.Assure( Type_Tag_id_Categorie, bl.Description);
+       blTag:= poolTag.Assure( Type_Tag_id_Categorie, bl.Description);
        //bl.haWork       .Tag( blTag);
        //bl.haDevelopment.Tag( blTag);
        end;

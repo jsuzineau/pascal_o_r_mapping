@@ -1,4 +1,4 @@
-unit ufcbTYPE_TAG;
+unit ufcbTYPE_Tag;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -31,7 +31,7 @@ uses
   ufcbBase;
 
 type
- TfcbTYPE_TAG
+ TfcbTYPE_Tag
  =
   class(TfcbBase)
   private
@@ -40,44 +40,44 @@ type
     { Déclarations publiques }
   end;
 
-function fcbTYPE_TAG: TfcbTYPE_TAG;
+function fcbTYPE_Tag: TfcbTYPE_Tag;
 
-function DerouleTYPE_TAG( E: TObject; Resultat: TIntegerField):Boolean;
+function DerouleTYPE_Tag( E: TObject; Resultat: TIntegerField):Boolean;
 
 implementation
 
 uses
     uClean,
-    upoolTYPE_TAG,
-    ufTYPE_TAG;
+    upoolTYPE_Tag,
+    ufTYPE_Tag;
 
 {$R *.dfm}
 
 var
-   FfcbTYPE_TAG: TfcbTYPE_TAG;
+   FfcbTYPE_Tag: TfcbTYPE_Tag;
 
-function fcbTYPE_TAG: TfcbTYPE_TAG;
+function fcbTYPE_Tag: TfcbTYPE_Tag;
 begin
-     Clean_Get( Result, FfcbTYPE_TAG, TfcbTYPE_TAG);
+     Clean_Get( Result, FfcbTYPE_Tag, TfcbTYPE_Tag);
 end;
 
 var
-   FiltreTYPE_TAG: String = '';
+   FiltreTYPE_Tag: String = '';
 
-function DerouleTYPE_TAG(E: TObject; Resultat: TIntegerField): Boolean;
+function DerouleTYPE_Tag(E: TObject; Resultat: TIntegerField): Boolean;
 begin
-     fcbTYPE_TAG.eFiltre.Text:= FiltreTYPE_TAG;
+     fcbTYPE_Tag.eFiltre.Text:= FiltreTYPE_Tag;
 //     Result
 //     :=
-//       fcbTYPE_TAG.DerouleListe( E, dmaTYPE_TAG.ds, fTYPE_TAG.Execute,
-//                                 Resultat, dmaTYPE_TAG.qNumero);
-     FiltreTYPE_TAG:= fcbTYPE_TAG.eFiltre.Text;
+//       fcbTYPE_Tag.DerouleListe( E, dmaTYPE_Tag.ds, fTYPE_Tag.Execute,
+//                                 Resultat, dmaTYPE_Tag.qNumero);
+     FiltreTYPE_Tag:= fcbTYPE_Tag.eFiltre.Text;
      Result:= False;
 end;
 
 
 initialization
-              Clean_Create ( FfcbTYPE_TAG, TfcbTYPE_TAG);
+              Clean_Create ( FfcbTYPE_Tag, TfcbTYPE_Tag);
 finalization
-              Clean_Destroy( FfcbTYPE_TAG);
+              Clean_Destroy( FfcbTYPE_Tag);
 end.

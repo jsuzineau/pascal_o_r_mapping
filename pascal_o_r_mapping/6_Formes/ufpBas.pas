@@ -38,7 +38,7 @@ uses
     ufBatpro_Form,
     ufAccueil,
 
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, Buttons, ExtCtrls, ComCtrls, ActnList, Menus;
 
 type

@@ -44,7 +44,7 @@ uses
     upoolState,
 
     upoolTag_Development,
-    upoolTAG,
+    upoolTag,
 
     SysUtils, Classes, Sqldb, DB;
 
@@ -253,7 +253,7 @@ end;
 procedure ThaDevelopment__Tag.Charge;
 begin
      inherited Charge;
-     poolTAG.Charge_Development( TblDevelopment(Parent).id, slCharge);
+     poolTag.Charge_Development( TblDevelopment(Parent).id, slCharge);
      Ajoute_slCharge;
 end;
 
@@ -345,7 +345,7 @@ end;
 
 procedure TblDevelopment.Tag(_blTag: TblTag);
 begin
-     poolTAG_DEVELOPMENT.Assure( _blTag.id, id);
+     poolTag_Development.Assure( _blTag.id, id);
      haTag.Ajoute( _blTag);
 end;
 

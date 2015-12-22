@@ -59,7 +59,7 @@ uses
     ufTemps,
     ufProject,
     ufType_Tag,
-    ufTAG,
+    ufTag,
     ufTest_VirtualTreeView,
     ufAutomatic_VST,
     ufTest_neo4j,
@@ -81,7 +81,7 @@ type
    bProject_to_Tag: TButton;
    bStart: TButton;
    bStop: TButton;
-   bTAG: TButton;
+   bTag: TButton;
    bTemps: TButton;
    bTest: TButton;
    bType_Tag: TButton;
@@ -138,7 +138,7 @@ type
    procedure bProject_to_TagClick(Sender: TObject);
    procedure bStartClick(Sender: TObject);
    procedure bStopClick(Sender: TObject);
-   procedure bTAGClick(Sender: TObject);
+   procedure bTagClick(Sender: TObject);
    procedure bTempsClick(Sender: TObject);
    procedure bTestClick(Sender: TObject);
    procedure bType_TagClick(Sender: TObject);
@@ -199,7 +199,7 @@ begin
      dsbTag.Classe_dockable:= TdkTag_LABEL_od;
      dsbTag.Classe_Elements:= TblTag;
      dsbTag.Tri:= poolTag.Tri;
-     dsbTag.Filtre:= poolTag.hfTAG;
+     dsbTag.Filtre:= poolTag.hfTag;
 end;
 
 destructor TfjsWorks.Destroy;
@@ -212,9 +212,9 @@ begin
      dsbWork       .sl:= poolWork.slFiltre;
      dsbDevelopment.sl:= poolDevelopment.slFiltre;
 
-     poolTAG.ToutCharger;
-     poolTAG.TrierFiltre;
-     dsbTag        .sl:= poolTAG.slFiltre;
+     poolTag.ToutCharger;
+     poolTag.TrierFiltre;
+     dsbTag        .sl:= poolTag.slFiltre;
 
      dsbWork       .Goto_Premier;
      dsbDevelopment.Goto_Premier;
@@ -272,9 +272,9 @@ begin
      _from_Work;
 end;
 
-procedure TfjsWorks.bTAGClick(Sender: TObject);
+procedure TfjsWorks.bTagClick(Sender: TObject);
 begin
-     fTAG.Show;
+     fTag.Show;
 end;
 
 procedure TfjsWorks.bTempsClick(Sender: TObject);

@@ -118,7 +118,7 @@ begin
        begin
        if I.not_Suivant_interne( bl) then continue;
 
-       blTag:= poolTAG.Assure( Type_Tag_id_Project, bl.Name);
+       blTag:= poolTag.Assure( Type_Tag_id_Project, bl.Name);
        bl.haWork       .Tag( blTag);
        bl.haDevelopment.Tag( blTag);
        end;

@@ -26,11 +26,12 @@ unit ufHelp_Creator;
 interface
 
 uses
-    Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-    Dialogs, ShellAPI, StdCtrls, ActnList, ComCtrls, Buttons, ExtCtrls, Spin,
-    (*JPEG,*)
     uBatpro_StringList,
-    ufpBas, Menus;
+    ufpBas,
+  Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ActnList, ComCtrls, Buttons, ExtCtrls, Spin,
+  (*JPEG,*)
+  Menus, LCLIntf;
 
 type
  TfHelp_Creator
@@ -302,32 +303,38 @@ begin
      inherited;
      JPEG_Screen_Shot;
      Cree_HTML;
-     ShellExecute( 0, 'open', 'iexplore', PChar(NomFichier),nil,SW_SHOWNORMAL);
+     LCLIntf.OpenDocument( NomFichier);
 end;
 
 procedure TfHelp_Creator.bKomposerClick(Sender: TObject);
 begin
-     ShellExecute( 0, 'edit', PChar(NomFichier), nil ,nil,SW_SHOWNORMAL);
+     LCLIntf.OpenDocument( NomFichier);
+     //ShellExecute( 0, 'edit', PChar(NomFichier), nil ,nil,SW_SHOWNORMAL);
 end;
 
+(*
 procedure MoveWindowOrg(DC: HDC; DX, DY: Integer);
 var
   P: TPoint;
 begin
-     (*GetWindowOrgEx(DC, P);
-     SetWindowOrgEx(DC, P.X - DX, P.Y - DY, nil);*)
+     GetWindowOrgEx(DC, P);
+     SetWindowOrgEx(DC, P.X - DX, P.Y - DY, nil);
 end;
+*)
 
 procedure TfHelp_Creator.Button1Click(Sender: TObject);
+(*
 var
-   (*M: TMetafile;
-   MC: TMetafileCanvas;*)
+   M: TMetafile;
+   MC: TMetafileCanvas;
    Extension: String;
    sHandle: String;
    H: THandle;
    R: TRect;
    SrcDC, DC: HDC;
+   *)
 begin
+     (*
      sHandle
      :=
        InputBox( 'Screenshot de fenêtre','Donnez le handle de fenêtre', IntToStr(Handle));
@@ -335,7 +342,7 @@ begin
      H:= StrToInt(sHandle);
 
 
-     (*M:= TMetafile.Create;
+     M:= TMetafile.Create;
      try
         Windows.GetClientRect( H, R);
         SrcDC:= Windows.GetWindowDC( H);
@@ -366,7 +373,8 @@ begin
             M.SaveToFile( NomFichierImage);
      finally
             Free_nil( M);
-            end;*)
+            end;
+     *)
 end;
 //$000B1552
 initialization

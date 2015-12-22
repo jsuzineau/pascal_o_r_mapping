@@ -26,7 +26,7 @@ unit uAide;
 interface
 
 uses
-    Windows, ShellAPI, SysUtils, Classes, Forms;
+    SysUtils, Classes, Forms, LCLIntf;
 
 { class TObjet_Aide
 Cette classe est créée uniquement parce que Application.OnHelp et TForm.OnHelp
@@ -82,12 +82,14 @@ end;
 function ShowURL( URL: String): Boolean;
 begin
      //Result:= 32 < ShellExecute( 0, 'open', 'iexplore', PChar(URL),nil,SW_SHOWNORMAL);
-     Result:= 32 < ShellExecute( 0, 'open', PChar(URL),nil,nil,SW_SHOWNORMAL);
+     //Result:= 32 < ShellExecute( 0, 'open', PChar(URL),nil,nil,SW_SHOWNORMAL);
+     Result:= LCLIntf.OpenURL( URL);
 end;
 
 function PrintURL( URL: String): Boolean;
 begin
-     Result:= 32 < ShellExecute( 0, 'print', PChar(URL),nil,nil,SW_SHOWNORMAL);
+     //Result:= 32 < ShellExecute( 0, 'print', PChar(URL),nil,nil,SW_SHOWNORMAL);
+     Result:= LCLIntf.OpenURL( URL);
 end;
 
 procedure MontreAide( NomAide: String);

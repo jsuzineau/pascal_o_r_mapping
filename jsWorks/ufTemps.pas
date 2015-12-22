@@ -118,9 +118,9 @@ procedure TfTemps.cbRestreindre_a_un_TagClick(Sender: TObject);
 begin
      if not cbRestreindre_a_un_Tag.Checked then exit;
 
-     poolTAG.ToutCharger;
-     poolTAG.TrierFiltre;
-     dsbTag.sl:= poolTAG.slFiltre;
+     poolTag.ToutCharger;
+     poolTag.TrierFiltre;
+     dsbTag.sl:= poolTag.slFiltre;
 end;
 
 procedure TfTemps.dsClick(Sender: TObject);

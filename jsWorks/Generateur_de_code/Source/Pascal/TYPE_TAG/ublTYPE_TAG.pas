@@ -1,4 +1,4 @@
-unit ublTYPE_TAG;
+unit ublTYPE_Tag;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -40,7 +40,7 @@ uses
     SysUtils, Classes, SqlDB, DB;
 
 type
- TblTYPE_TAG
+ TblTYPE_Tag
  =
   class( TBatpro_Ligne)
   //Gestion du cycle de vie
@@ -57,24 +57,24 @@ type
     function sCle: String; override;
   end;
 
-function blTYPE_TAG_from_sl( sl: TBatpro_StringList; Index: Integer): TblTYPE_TAG;
-function blTYPE_TAG_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTYPE_TAG;
+function blTYPE_Tag_from_sl( sl: TBatpro_StringList; Index: Integer): TblTYPE_Tag;
+function blTYPE_Tag_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTYPE_Tag;
 
 implementation
 
-function blTYPE_TAG_from_sl( sl: TBatpro_StringList; Index: Integer): TblTYPE_TAG;
+function blTYPE_Tag_from_sl( sl: TBatpro_StringList; Index: Integer): TblTYPE_Tag;
 begin
-     _Classe_from_sl( Result, TblTYPE_TAG, sl, Index);
+     _Classe_from_sl( Result, TblTYPE_Tag, sl, Index);
 end;
 
-function blTYPE_TAG_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTYPE_TAG;
+function blTYPE_Tag_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblTYPE_Tag;
 begin
-     _Classe_from_sl_sCle( Result, TblTYPE_TAG, sl, sCle);
+     _Classe_from_sl_sCle( Result, TblTYPE_Tag, sl, sCle);
 end;
 
-{ TblTYPE_TAG }
+{ TblTYPE_Tag }
 
-constructor TblTYPE_TAG.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
+constructor TblTYPE_Tag.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
 var
    CP: IblG_BECP;
 begin
@@ -82,7 +82,7 @@ begin
      if Assigned( CP)
      then
          begin
-         CP.Libelle:= 'TYPE_TAG';
+         CP.Libelle:= 'TYPE_Tag';
          CP.Font.Name:= sys_Times_New_Roman;
          CP.Font.Size:= 12;
          end;
@@ -97,7 +97,7 @@ begin
 
 end;
 
-destructor TblTYPE_TAG.Destroy;
+destructor TblTYPE_Tag.Destroy;
 begin
 
      inherited;
@@ -105,7 +105,7 @@ end;
 
 
 
-function TblTYPE_TAG.sCle: String;
+function TblTYPE_Tag.sCle: String;
 begin
      Result:= sCle_ID;
 end;

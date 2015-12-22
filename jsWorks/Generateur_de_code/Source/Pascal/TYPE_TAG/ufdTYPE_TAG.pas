@@ -1,4 +1,4 @@
-unit ufdTYPE_TAG;
+unit ufdTYPE_Tag;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -32,9 +32,9 @@ uses
     uChamps,
     uPublieur,
 
-    ublTYPE_TAG,
+    ublTYPE_Tag,
 
-    upoolTYPE_TAG,
+    upoolTYPE_Tag,
 
     ufBatpro_Form,
     ufpBas,
@@ -45,7 +45,7 @@ uses
   ucChamp_Lookup_ComboBox, ucDockableScrollbox, ucChamp_Memo, Menus;
 
 type
- TfdTYPE_TAG
+ TfdTYPE_Tag
  =
   class(TfpBas)
     Panel1: TPanel;
@@ -61,45 +61,45 @@ type
     procedure FormDestroy(Sender: TObject);
   //Méthodes
   public
-    function Execute( var _bl: TblTYPE_TAG): Boolean; reintroduce;
+    function Execute( var _bl: TblTYPE_Tag): Boolean; reintroduce;
   //bl
   private
-    Fbl: TblTYPE_TAG;
-    procedure Setbl(const Value: TblTYPE_TAG);
+    Fbl: TblTYPE_Tag;
+    procedure Setbl(const Value: TblTYPE_Tag);
   public
-    property bl: TblTYPE_TAG read Fbl write Setbl;
+    property bl: TblTYPE_Tag read Fbl write Setbl;
   end;
 
-function  fdTYPE_TAG: TfdTYPE_TAG;
+function  fdTYPE_Tag: TfdTYPE_Tag;
 
 implementation
 
 {$R *.dfm}
 
 var
-   FfdTYPE_TAG: TfdTYPE_TAG;
+   FfdTYPE_Tag: TfdTYPE_Tag;
 
-function  fdTYPE_TAG: TfdTYPE_TAG;
+function  fdTYPE_Tag: TfdTYPE_Tag;
 begin
-     Clean_Get( Result, FfdTYPE_TAG, TfdTYPE_TAG);
+     Clean_Get( Result, FfdTYPE_Tag, TfdTYPE_Tag);
 end;
 
-{ TfdTYPE_TAG }
+{ TfdTYPE_Tag }
 
-procedure TfdTYPE_TAG.FormCreate(Sender: TObject);
+procedure TfdTYPE_Tag.FormCreate(Sender: TObject);
 begin
      inherited;
      Maximiser:= False;
      Fbl:= nil;
 end;
 
-procedure TfdTYPE_TAG.FormDestroy(Sender: TObject);
+procedure TfdTYPE_Tag.FormDestroy(Sender: TObject);
 begin
      //
      inherited;
 end;
 
-function TfdTYPE_TAG.Execute( var _bl: TblTYPE_TAG): Boolean;
+function TfdTYPE_Tag.Execute( var _bl: TblTYPE_Tag): Boolean;
 begin
      bl:= _bl;
 
@@ -110,7 +110,7 @@ begin
          _bl:= bl;
 end;
 
-procedure TfdTYPE_TAG.Setbl(const Value: TblTYPE_TAG);
+procedure TfdTYPE_Tag.Setbl(const Value: TblTYPE_Tag);
 begin
      Fbl:= Value;
 
@@ -122,7 +122,7 @@ begin
 end;
 
 initialization
-              Clean_Create ( FfdTYPE_TAG, TfdTYPE_TAG);
+              Clean_Create ( FfdTYPE_Tag, TfdTYPE_Tag);
 finalization
-              Clean_Destroy( FfdTYPE_TAG);
+              Clean_Destroy( FfdTYPE_Tag);
 end.

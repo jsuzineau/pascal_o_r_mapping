@@ -27,7 +27,7 @@ interface
 
 uses
     uForms,
-    Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+    Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
     Dialogs, FMTBcd, DB, BufDataset, SQLDB, Grids, DBGrids, StdCtrls,
     uClean,
     u_sys_,

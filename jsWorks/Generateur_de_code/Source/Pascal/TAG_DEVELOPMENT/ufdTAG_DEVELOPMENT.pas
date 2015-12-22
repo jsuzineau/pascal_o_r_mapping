@@ -51,10 +51,10 @@ type
     Panel1: TPanel;
     lNomChamp: TLabel;
     ceNomChamp: TChamp_Edit;
-    lIDTAG: TLabel;
+    lIDTag: TLabel;
     lIDDEVELOPMENT: TLabel;
 
-    ceIDTAG: TChamp_Edit;
+    ceIDTag: TChamp_Edit;
     ceIDDEVELOPMENT: TChamp_Edit;
 
     procedure FormCreate(Sender: TObject);
@@ -116,7 +116,7 @@ begin
 
      Champs_Affecte( bl,
                      [
-                     ceIDTAG,
+                     ceIDTag,
                      ceIDDEVELOPMENT
                      ]);
 end;

@@ -247,7 +247,7 @@ end;
 procedure ThaWork__Tag.Charge;
 begin
      inherited Charge;
-     poolTAG.Charge_Work( TblWork(Parent).id, slCharge);
+     poolTag.Charge_Work( TblWork(Parent).id, slCharge);
      Ajoute_slCharge;
 end;
 
@@ -269,7 +269,7 @@ end;
 procedure ThaWork__Tag.Supprime( _blTag: TblTag);
 begin
      if nil = _blTag then exit;
-     poolTAG_WORK.Supprime( _blTag.id, TblWork(Parent).id);
+     poolTag_Work.Supprime( _blTag.id, TblWork(Parent).id);
      Enleve( _blTag);
 end;
 
@@ -299,7 +299,7 @@ begin
      sl.Clear;
      inherited Charge;
      TblWork(Parent).haTag.Charge;
-     poolTAG.Charge_Work_from_Description( TblWork(Parent).Description, slCharge, TblWork(Parent).haTag.sl);
+     poolTag.Charge_Work_from_Description( TblWork(Parent).Description, slCharge, TblWork(Parent).haTag.sl);
      Ajoute_slCharge;
 end;
 
@@ -320,7 +320,7 @@ end;
 
 procedure ThaWork__Tag_from_Description.Valide;
 var
-   I: TIterateur_TAG;
+   I: TIterateur_Tag;
    bl: TblTag;
 begin
      Charge;
@@ -330,7 +330,7 @@ begin
        begin
        if I.not_Suivant( bl) then continue;
 
-       poolTAG_WORK.Assure( bl.id, TblWork(Parent).id);
+       poolTag_Work.Assure( bl.id, TblWork(Parent).id);
        TblWork(Parent).haTag.Ajoute( bl);
        end;
      sl.Clear;
@@ -529,7 +529,7 @@ end;
 procedure TblWork.Tag( _blTag: TblTag);
 begin
      if _blTag = nil then exit;
-     poolTAG_WORK.Assure( _blTag.id, id);
+     poolTag_Work.Assure( _blTag.id, id);
      haTag.Ajoute( _blTag);
 end;
 
