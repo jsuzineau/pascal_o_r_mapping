@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="20">
+      <Unit0>
+        <Filename Value="Tuleap_Test.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="156" Y="6"/>
+        <UsageCount Value="34"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="ufTuleap_Test.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fTuleap_Test"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufTuleap_Test"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="45"/>
+        <CursorPos X="43" Y="103"/>
+        <UsageCount Value="34"/>
+        <Bookmarks Count="1">
+          <Item0 X="16" Y="34" ID="2"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="soap/UTF8/uWSDL_codendi.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWSDL_codendi"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="2913"/>
+        <CursorPos X="6" Y="2949"/>
+        <UsageCount Value="30"/>
+        <Loaded Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="soap/UTF8/uWSDL_codendi_proxy.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWSDL_codendi_proxy"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="13"/>
+        <CursorPos X="7" Y="37"/>
+        <UsageCount Value="30"/>
+        <Loaded Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="soap/UTF8/uWSDL_project.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWSDL_project"/>
+        <EditorIndex Value="4"/>
+        <UsageCount Value="30"/>
+        <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="soap/UTF8/uWSDL_project_proxy.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWSDL_project_proxy"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="76"/>
+        <CursorPos X="115" Y="84"/>
+        <UsageCount Value="30"/>
+        <Bookmarks Count="1">
+          <Item0 X="10" Y="92" ID="1"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="soap/UTF8/uWSDL_svn.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWSDL_svn"/>
+        <EditorIndex Value="6"/>
+        <CursorPos X="49" Y="26"/>
+        <UsageCount Value="30"/>
+        <Loaded Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="soap/UTF8/uWSDL_svn_proxy.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWSDL_svn_proxy"/>
+        <EditorIndex Value="7"/>
+        <UsageCount Value="30"/>
+        <Loaded Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="soap/UTF8/uWSDL_tracker.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWSDL_tracker"/>
+        <EditorIndex Value="8"/>
+        <UsageCount Value="30"/>
+        <Loaded Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="soap/UTF8/uWSDL_tracker_proxy.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uWSDL_tracker_proxy"/>
+        <EditorIndex Value="9"/>
+        <TopLine Value="7"/>
+        <CursorPos X="147" Y="16"/>
+        <UsageCount Value="30"/>
+        <Loaded Value="True"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="codendi_UTF8.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="33" Y="15"/>
+        <UsageCount Value="9"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="codendi_UTF8_proxy.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="soap/codendi.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2837"/>
+        <CursorPos Y="2863"/>
+        <UsageCount Value="23"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="soap/codendi_proxy.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="34" Y="12"/>
+        <UsageCount Value="23"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="svn.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="23"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="svn_proxy.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="23"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="project.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="23"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="project_proxy.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="23"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="tracker.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="33"/>
+        <CursorPos X="13" Y="33"/>
+        <UsageCount Value="23"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="tracker_proxy.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="93"/>
+        <CursorPos X="110" Y="97"/>
+        <UsageCount Value="23"/>
+      </Unit19>
+    </Units>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="ufTuleap_Test.pas"/>
+        <Caret Line="36" Column="5"/>
+      </Position1>
+      <Position2>
+        <Filename Value="ufTuleap_Test.pas"/>
+        <Caret Line="33" Column="51"/>
+      </Position2>
+      <Position3>
+        <Filename Value="soap/UTF8/uWSDL_codendi.pas"/>
+        <Caret Line="2863" TopLine="2828"/>
+      </Position3>
+      <Position4>
+        <Filename Value="soap/UTF8/uWSDL_codendi.pas"/>
+        <Caret Line="1273" Column="14" TopLine="1251"/>
+      </Position4>
+      <Position5>
+        <Filename Value="soap/UTF8/uWSDL_codendi.pas"/>
+        <Caret Line="2921" Column="6" TopLine="2899"/>
+      </Position5>
+      <Position6>
+        <Filename Value="soap/UTF8/uWSDL_codendi.pas"/>
+        <Caret Line="2923" Column="6" TopLine="2899"/>
+      </Position6>
+      <Position7>
+        <Filename Value="soap/UTF8/uWSDL_codendi.pas"/>
+        <Caret Line="2928" Column="6" TopLine="2899"/>
+      </Position7>
+      <Position8>
+        <Filename Value="soap/UTF8/uWSDL_codendi.pas"/>
+        <Caret Line="2935" Column="6" TopLine="2899"/>
+      </Position8>
+      <Position9>
+        <Filename Value="soap/UTF8/uWSDL_codendi.pas"/>
+        <Caret Line="2937" Column="27" TopLine="2900"/>
+      </Position9>
+      <Position10>
+        <Filename Value="soap/UTF8/uWSDL_codendi.pas"/>
+        <Caret Line="2942" Column="6" TopLine="2906"/>
+      </Position10>
+      <Position11>
+        <Filename Value="soap/UTF8/uWSDL_codendi_proxy.pas"/>
+      </Position11>
+      <Position12>
+        <Filename Value="soap/UTF8/uWSDL_codendi_proxy.pas"/>
+        <Caret Line="20" Column="14"/>
+      </Position12>
+      <Position13>
+        <Filename Value="soap/UTF8/uWSDL_codendi_proxy.pas"/>
+        <Caret Line="709" Column="36" TopLine="687"/>
+      </Position13>
+      <Position14>
+        <Filename Value="soap/UTF8/uWSDL_codendi_proxy.pas"/>
+        <Caret Line="721" Column="30" TopLine="450"/>
+      </Position14>
+      <Position15>
+        <Filename Value="soap/UTF8/uWSDL_codendi_proxy.pas"/>
+        <Caret Line="686" Column="12" TopLine="670"/>
+      </Position15>
+      <Position16>
+        <Filename Value="soap/UTF8/uWSDL_codendi_proxy.pas"/>
+        <Caret Line="156" Column="6" TopLine="151"/>
+      </Position16>
+      <Position17>
+        <Filename Value="ufTuleap_Test.pas"/>
+        <Caret Line="25" Column="40" TopLine="3"/>
+      </Position17>
+      <Position18>
+        <Filename Value="ufTuleap_Test.pas"/>
+        <Caret Line="27" Column="40" TopLine="3"/>
+      </Position18>
+      <Position19>
+        <Filename Value="soap/UTF8/uWSDL_codendi_proxy.pas"/>
+        <Caret Line="686" Column="12" TopLine="668"/>
+      </Position19>
+      <Position20>
+        <Filename Value="ufTuleap_Test.pas"/>
+        <Caret Line="38" Column="36" TopLine="31"/>
+      </Position20>
+      <Position21>
+        <Filename Value="ufTuleap_Test.pas"/>
+        <Caret Line="40" Column="36" TopLine="33"/>
+      </Position21>
+      <Position22>
+        <Filename Value="soap/UTF8/uWSDL_project_proxy.pas"/>
+        <Caret Line="44" Column="73" TopLine="33"/>
+      </Position22>
+      <Position23>
+        <Filename Value="ufTuleap_Test.pas"/>
+        <Caret Line="33" Column="16" TopLine="19"/>
+      </Position23>
+      <Position24>
+        <Filename Value="soap/UTF8/uWSDL_project_proxy.pas"/>
+        <Caret Line="92" Column="157" TopLine="74"/>
+      </Position24>
+      <Position25>
+        <Filename Value="ufTuleap_Test.pas"/>
+        <Caret Line="34" Column="33" TopLine="19"/>
+      </Position25>
+      <Position26>
+        <Filename Value="soap/UTF8/uWSDL_project_proxy.pas"/>
+        <Caret Line="92" Column="55" TopLine="74"/>
+      </Position26>
+      <Position27>
+        <Filename Value="soap/UTF8/uWSDL_codendi_proxy.pas"/>
+        <Caret Line="20" Column="14"/>
+      </Position27>
+      <Position28>
+        <Filename Value="ufTuleap_Test.pas"/>
+        <Caret Line="37" Column="30" TopLine="23"/>
+      </Position28>
+      <Position29>
+        <Filename Value="ufTuleap_Test.pas"/>
+        <Caret Line="98" Column="22" TopLine="66"/>
+      </Position29>
+      <Position30>
+        <Filename Value="ufTuleap_Test.pas"/>
+        <Caret Line="101" Column="8" TopLine="73"/>
+      </Position30>
+    </JumpHistory>
+  </ProjectSession>
+  <Debugging>
+    <BreakPoints Count="7">
+      <Item1>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="ufTuleap_Test.pas"/>
+        <Line Value="83"/>
+      </Item1>
+      <Item2>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="ufTuleap_Test.pas"/>
+        <Line Value="96"/>
+      </Item2>
+      <Item3>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="ufTuleap_Test.pas"/>
+        <Line Value="52"/>
+      </Item3>
+      <Item4>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="ufTuleap_Test.pas"/>
+        <Line Value="88"/>
+      </Item4>
+      <Item5>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="ufTuleap_Test.pas"/>
+        <Line Value="111"/>
+      </Item5>
+      <Item6>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="ufTuleap_Test.pas"/>
+        <Line Value="67"/>
+      </Item6>
+      <Item7>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="ufTuleap_Test.pas"/>
+        <Line Value="59"/>
+      </Item7>
+    </BreakPoints>
+  </Debugging>
+</CONFIG>

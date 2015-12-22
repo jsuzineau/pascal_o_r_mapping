@@ -1,0 +1,48 @@
+object fTuleap_Test: TfTuleap_Test
+  Left = 424
+  Height = 240
+  Top = 1315
+  Width = 618
+  Caption = 'fTuleap_Test'
+  ClientHeight = 240
+  ClientWidth = 618
+  LCLVersion = '1.4.0.4'
+  object bCreation: TButton
+    Left = 16
+    Height = 25
+    Top = 72
+    Width = 75
+    Caption = 'bCreation'
+    OnClick = bCreationClick
+    TabOrder = 0
+  end
+  object bCreation_Client: TButton
+    Left = 36
+    Height = 25
+    Top = 33
+    Width = 155
+    Caption = 'bCreation_Client'
+    OnClick = bCreation_ClientClick
+    TabOrder = 1
+  end
+  object bLogout: TButton
+    Left = 40
+    Height = 25
+    Top = 184
+    Width = 75
+    Caption = 'bLogout'
+    OnClick = bLogoutClick
+    TabOrder = 2
+  end
+  object m: TMemo
+    Left = 280
+    Height = 240
+    Top = 0
+    Width = 338
+    Align = alRight
+    Lines.Strings = (
+      'm'
+    )
+    TabOrder = 3
+  end
+end

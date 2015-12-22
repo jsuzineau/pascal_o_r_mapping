@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="https://192.168.1.35/soap/project" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="https://192.168.1.35/soap/project">
+<types><xsd:schema targetNamespace="https://192.168.1.35/soap/project">
+ <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+ <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/"/>
+ <xsd:complexType name="ArrayOfstring">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:string[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfInteger">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:integer[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOflong">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:long[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfint">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:int[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="Revision">
+  <xsd:sequence>
+   <xsd:element name="revision" type="xsd:string"/>
+   <xsd:element name="author" type="xsd:string"/>
+   <xsd:element name="date" type="xsd:string"/>
+   <xsd:element name="message" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfRevision">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Revision[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="Commiter">
+  <xsd:sequence>
+   <xsd:element name="user_id" type="xsd:int"/>
+   <xsd:element name="commit_count" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfCommiter">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Commiter[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="SvnPathInfo">
+  <xsd:sequence>
+   <xsd:element name="path" type="xsd:string"/>
+   <xsd:element name="commit_count" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfSvnPathInfo">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:SvnPathInfo[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="SvnPathDetails">
+  <xsd:sequence>
+   <xsd:element name="path" type="xsd:string"/>
+   <xsd:element name="author" type="xsd:int"/>
+   <xsd:element name="message" type="xsd:string"/>
+   <xsd:element name="timestamp" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfSvnPathDetails">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:SvnPathDetails[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="UserInfo">
+  <xsd:sequence>
+   <xsd:element name="identifier" type="xsd:string"/>
+   <xsd:element name="username" type="xsd:string"/>
+   <xsd:element name="id" type="xsd:string"/>
+   <xsd:element name="real_name" type="xsd:string"/>
+   <xsd:element name="email" type="xsd:string"/>
+   <xsd:element name="ldap_id" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfUserInfo">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:UserInfo[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="DescField">
+  <xsd:sequence>
+   <xsd:element name="id" type="xsd:int"/>
+   <xsd:element name="name" type="xsd:string"/>
+   <xsd:element name="is_mandatory" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfDescFields">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:DescField[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="DescFieldValue">
+  <xsd:sequence>
+   <xsd:element name="id" type="xsd:int"/>
+   <xsd:element name="value" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfDescFieldsValues">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:DescFieldValue[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ServiceValue">
+  <xsd:sequence>
+   <xsd:element name="id" type="xsd:int"/>
+   <xsd:element name="short_name" type="xsd:string"/>
+   <xsd:element name="is_used" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfServicesValues">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ServiceValue[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+</xsd:schema>
+</types>
+<message name="addProjectRequest"><part name="sessionKey" type="xsd:string"/><part name="adminSessionKey" type="xsd:string"/><part name="shortName" type="xsd:string"/><part name="publicName" type="xsd:string"/><part name="privacy" type="xsd:string"/><part name="templateId" type="xsd:int"/></message>
+<message name="addProjectResponse"><part name="addProject" type="xsd:int"/></message>
+<message name="addProjectMemberRequest"><part name="sessionKey" type="xsd:string"/><part name="groupId" type="xsd:int"/><part name="userLogin" type="xsd:string"/></message>
+<message name="addProjectMemberResponse"><part name="addProjectMember" type="xsd:boolean"/></message>
+<message name="removeProjectMemberRequest"><part name="sessionKey" type="xsd:string"/><part name="groupId" type="xsd:int"/><part name="userLogin" type="xsd:string"/></message>
+<message name="removeProjectMemberResponse"><part name="removeProjectMember" type="xsd:boolean"/></message>
+<message name="addUserToUGroupRequest"><part name="sessionKey" type="xsd:string"/><part name="groupId" type="xsd:int"/><part name="ugroupId" type="xsd:int"/><part name="userId" type="xsd:int"/></message>
+<message name="addUserToUGroupResponse"><part name="addUserToUGroup" type="xsd:boolean"/></message>
+<message name="removeUserFromUGroupRequest"><part name="sessionKey" type="xsd:string"/><part name="groupId" type="xsd:int"/><part name="ugroupId" type="xsd:int"/><part name="userId" type="xsd:int"/></message>
+<message name="removeUserFromUGroupResponse"><part name="removeUserFromUGroup" type="xsd:boolean"/></message>
+<message name="setProjectGenericUserRequest"><part name="session_key" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="password" type="xsd:string"/></message>
+<message name="setProjectGenericUserResponse"><part name="setProjectGenericUser" type="tns:UserInfo"/></message>
+<message name="unsetGenericUserRequest"><part name="session_key" type="xsd:string"/><part name="groupId" type="xsd:int"/></message>
+<message name="unsetGenericUserResponse"/>
+<message name="getProjectGenericUserRequest"><part name="sessionKey" type="xsd:string"/><part name="groupId" type="xsd:int"/></message>
+<message name="getProjectGenericUserResponse"><part name="getProjectGenericUser" type="tns:UserInfo"/></message>
+<message name="getPlateformProjectDescriptionFieldsRequest"><part name="sessionKey" type="xsd:string"/></message>
+<message name="getPlateformProjectDescriptionFieldsResponse"><part name="getPlateformProjectDescriptionFields" type="tns:ArrayOfDescFields"/></message>
+<message name="setProjectDescriptionFieldValueRequest"><part name="session_key" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="field_id_to_update" type="xsd:int"/><part name="field_value" type="xsd:string"/></message>
+<message name="setProjectDescriptionFieldValueResponse"/>
+<message name="getProjectDescriptionFieldsValueRequest"><part name="session_key" type="xsd:string"/><part name="group_id" type="xsd:int"/></message>
+<message name="getProjectDescriptionFieldsValueResponse"><part name="getProjectDescriptionFieldsValue" type="tns:ArrayOfDescFieldsValues"/></message>
+<message name="getProjectServicesUsageRequest"><part name="session_key" type="xsd:string"/><part name="group_id" type="xsd:int"/></message>
+<message name="getProjectServicesUsageResponse"><part name="getProjectServicesUsage" type="tns:ArrayOfServicesValues"/></message>
+<message name="activateServiceRequest"><part name="session_key" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="service_id" type="xsd:int"/></message>
+<message name="activateServiceResponse"><part name="activateService" type="xsd:boolean"/></message>
+<message name="deactivateServiceRequest"><part name="session_key" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="service_id" type="xsd:int"/></message>
+<message name="deactivateServiceResponse"><part name="deactivateService" type="xsd:boolean"/></message>
+<portType name="TuleapProjectAPIPortType"><operation name="addProject"><documentation>Create a new project&lt;br /&gt;
+&lt;br /&gt;
+This method throw an exception if there is a conflict on names or if there is an error during the creation process.&lt;br /&gt;
+&lt;br /&gt;
+You can select:&lt;br /&gt;
+* The privacy of the project 'private' or 'public'&lt;br /&gt;
+* The projectId of the template (100 means default template aka default new project).&lt;br /&gt;
+&lt;br /&gt;
+It assumes a couple of things:&lt;br /&gt;
+* The project type is "Project" (Not modifiable)&lt;br /&gt;
+* There is no "Project description" nor any "Project description fields" (long desc, patents, IP, other software)&lt;br /&gt;
+* The project services are inherited from the template&lt;br /&gt;
+* There is no trove cat selected&lt;br /&gt;
+* The default Software Policy is "Site exchange policy".&lt;br /&gt;
+&lt;br /&gt;
+Projects are automatically accepted&lt;br /&gt;
+&lt;br /&gt;
+Error codes:&lt;br /&gt;
+* 3001, Invalid session (wrong $sessionKey)&lt;br /&gt;
+* 3200, Only site admin is allowed to create project on behalf of users (wrong $adminSessionKey)&lt;br /&gt;
+* 3100, Invalid template id (correponding project doesn't exist)&lt;br /&gt;
+* 3101, Project creation failure&lt;br /&gt;
+* 3102, Invalid short name&lt;br /&gt;
+* 3103, Invalid full name&lt;br /&gt;
+* 3104, Project is not a template&lt;br /&gt;
+* 3105, Generic User creation failure&lt;br /&gt;
+* 4000, SOAP Call Quota exceeded (you created to much project during the last hour, according to configuration)&lt;br /&gt;
+&lt;br /&gt;
+@param String  $sessionKey      Session key of the desired project admin&lt;br /&gt;
+@param String  $adminSessionKey Session key of a site admin&lt;br /&gt;
+@param String  $shortName       Unix name of the project&lt;br /&gt;
+@param String  $publicName      Full name of the project&lt;br /&gt;
+@param String  $privacy         Either 'public' or 'private'&lt;br /&gt;
+@param Integer $templateId      Id of template project</documentation><input message="tns:addProjectRequest"/><output message="tns:addProjectResponse"/></operation><operation name="addProjectMember"><documentation>Add given user as member of the project&lt;br /&gt;
+&lt;br /&gt;
+Error codes:&lt;br /&gt;
+* 3000, Invalid project id&lt;br /&gt;
+* 3201, Permission denied: need to be project admin&lt;br /&gt;
+&lt;br /&gt;
+@param String  $sessionKey The project admin session hash&lt;br /&gt;
+@param Integer $groupId Project ID&lt;br /&gt;
+@param String  $userLogin User login name</documentation><input message="tns:addProjectMemberRequest"/><output message="tns:addProjectMemberResponse"/></operation><operation name="removeProjectMember"><documentation>Remove given user from project members&lt;br /&gt;
+&lt;br /&gt;
+Error codes:&lt;br /&gt;
+* 3000, Invalid project id&lt;br /&gt;
+* 3201, Permission denied: need to be project admin&lt;br /&gt;
+* 3202, Invalid user login&lt;br /&gt;
+* 3203, User not member of project&lt;br /&gt;
+&lt;br /&gt;
+@param String  $sessionKey The project admin session hash&lt;br /&gt;
+@param Integer $groupId Project ID&lt;br /&gt;
+@param String  $userLogin User login name</documentation><input message="tns:removeProjectMemberRequest"/><output message="tns:removeProjectMemberResponse"/></operation><operation name="addUserToUGroup"><documentation>Add user to a User Group&lt;br /&gt;
+&lt;br /&gt;
+* Error codes:&lt;br /&gt;
+* 3000, Invalid project id&lt;br /&gt;
+* 3201, Permission denied: need to be project admin&lt;br /&gt;
+* 3203, Invalid user id&lt;br /&gt;
+* 3301, User Group doesn't exist&lt;br /&gt;
+&lt;br /&gt;
+@param String  $sessionKey The project admin session hash&lt;br /&gt;
+@param Integer $groupId    The Project id where the User Group is defined&lt;br /&gt;
+@param Integer $ugroupId   The User Group where the user should be added&lt;br /&gt;
+@param Integer $userId     The user id to add</documentation><input message="tns:addUserToUGroupRequest"/><output message="tns:addUserToUGroupResponse"/></operation><operation name="removeUserFromUGroup"><documentation>Remove User from User Group&lt;br /&gt;
+&lt;br /&gt;
+* Error codes:&lt;br /&gt;
+* 3000, Invalid project id&lt;br /&gt;
+* 3201, Permission denied: need to be project admin&lt;br /&gt;
+* 3203, Invalid user id&lt;br /&gt;
+* 3301, User Group doesn't exist&lt;br /&gt;
+&lt;br /&gt;
+@param String  $sessionKey The project admin session hash&lt;br /&gt;
+@param Integer $groupId    The Project id where the User Group is defined&lt;br /&gt;
+@param Integer $ugroupId   The User Group where the user should be removed&lt;br /&gt;
+@param Integer $userId     The user id to remove</documentation><input message="tns:removeUserFromUGroupRequest"/><output message="tns:removeUserFromUGroupResponse"/></operation><operation name="setProjectGenericUser"><documentation>Create a generic user&lt;br /&gt;
+&lt;br /&gt;
+@param String  $session_key The project admin session hash&lt;br /&gt;
+@param Integer $group_id    The Project id where the User Group is defined&lt;br /&gt;
+@param String  $password    The password of the generic user about to be created</documentation><input message="tns:setProjectGenericUserRequest"/><output message="tns:setProjectGenericUserResponse"/></operation><operation name="unsetGenericUser"><documentation>@param String  $session_key  The project admin session hash&lt;br /&gt;
+@param Integer $groupId      The Project id where the Generic user is</documentation><input message="tns:unsetGenericUserRequest"/><output message="tns:unsetGenericUserResponse"/></operation><operation name="getProjectGenericUser"><documentation>Get a generic user&lt;br /&gt;
+&lt;br /&gt;
+@param String  $sessionKey The project admin session hash&lt;br /&gt;
+@param Integer $groupId    The Project id where the User Group is defined</documentation><input message="tns:getProjectGenericUserRequest"/><output message="tns:getProjectGenericUserResponse"/></operation><operation name="getPlateformProjectDescriptionFields"><documentation>Get all the description fields&lt;br /&gt;
+&lt;br /&gt;
+* Error codes:&lt;br /&gt;
+* 3107, No custom project description fields&lt;br /&gt;
+&lt;br /&gt;
+@param String  $sessionKey The project admin session hash</documentation><input message="tns:getPlateformProjectDescriptionFieldsRequest"/><output message="tns:getPlateformProjectDescriptionFieldsResponse"/></operation><operation name="setProjectDescriptionFieldValue"><documentation>Set description fields&lt;br /&gt;
+&lt;br /&gt;
+* Error codes:&lt;br /&gt;
+* 3000, Invalid project id&lt;br /&gt;
+* 3108, The given project description field does not exist&lt;br /&gt;
+* 3201, Permission denied: need to be project admin&lt;br /&gt;
+&lt;br /&gt;
+@param String  $session_key        The project admin session hash&lt;br /&gt;
+@param int     $group_id           The Id of the project&lt;br /&gt;
+@param int     $field_id_to_update The Id of the field&lt;br /&gt;
+@param String  $field_value        The new value to set</documentation><input message="tns:setProjectDescriptionFieldValueRequest"/><output message="tns:setProjectDescriptionFieldValueResponse"/></operation><operation name="getProjectDescriptionFieldsValue"><documentation>get all the description fields value for a&lt;br /&gt;
+given project&lt;br /&gt;
+&lt;br /&gt;
+* Error codes:&lt;br /&gt;
+* 3000, Invalid project id&lt;br /&gt;
+* 3203, Permission denied: need to be project admin&lt;br /&gt;
+&lt;br /&gt;
+@param String  $session_key        The project admin session hash&lt;br /&gt;
+@param int     $group_id           The Id of the project</documentation><input message="tns:getProjectDescriptionFieldsValueRequest"/><output message="tns:getProjectDescriptionFieldsValueResponse"/></operation><operation name="getProjectServicesUsage"><documentation>get all the services uage value for a&lt;br /&gt;
+given project&lt;br /&gt;
+&lt;br /&gt;
+* Error codes:&lt;br /&gt;
+* 3000, Invalid project id&lt;br /&gt;
+* 3203, Permission denied: need to be project admin&lt;br /&gt;
+&lt;br /&gt;
+@param String  $session_key        The project admin session hash&lt;br /&gt;
+@param int     $group_id           The Id of the project</documentation><input message="tns:getProjectServicesUsageRequest"/><output message="tns:getProjectServicesUsageResponse"/></operation><operation name="activateService"><documentation>Activate a service in a given project&lt;br /&gt;
+&lt;br /&gt;
+* Error codes:&lt;br /&gt;
+* 3000, Invalid project id&lt;br /&gt;
+* 3019, The service does not exist&lt;br /&gt;
+* 3203, Permission denied: need to be project admin&lt;br /&gt;
+&lt;br /&gt;
+@param String  $session_key        The project admin session hash&lt;br /&gt;
+@param int     $group_id           The Id of the project&lt;br /&gt;
+@param int     $service_id         The Id of the service</documentation><input message="tns:activateServiceRequest"/><output message="tns:activateServiceResponse"/></operation><operation name="deactivateService"><documentation>Deactivate a service in a given project&lt;br /&gt;
+&lt;br /&gt;
+* Error codes:&lt;br /&gt;
+* 3000, Invalid project id&lt;br /&gt;
+* 3019, The service does not exist&lt;br /&gt;
+* 3203, Permission denied: need to be project admin&lt;br /&gt;
+&lt;br /&gt;
+@param String  $session_key        The project admin session hash&lt;br /&gt;
+@param int     $group_id           The Id of the project&lt;br /&gt;
+@param int     $service_id         The Id of the service</documentation><input message="tns:deactivateServiceRequest"/><output message="tns:deactivateServiceResponse"/></operation></portType>
+<binding name="TuleapProjectAPIBinding" type="tns:TuleapProjectAPIPortType"><soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/><operation name="addProject"><soap:operation soapAction="https://192.168.1.35/soap/project#addProject" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="addProjectMember"><soap:operation soapAction="https://192.168.1.35/soap/project#addProjectMember" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="removeProjectMember"><soap:operation soapAction="https://192.168.1.35/soap/project#removeProjectMember" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="addUserToUGroup"><soap:operation soapAction="https://192.168.1.35/soap/project#addUserToUGroup" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="removeUserFromUGroup"><soap:operation soapAction="https://192.168.1.35/soap/project#removeUserFromUGroup" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="setProjectGenericUser"><soap:operation soapAction="https://192.168.1.35/soap/project#setProjectGenericUser" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="unsetGenericUser"><soap:operation soapAction="https://192.168.1.35/soap/project#unsetGenericUser" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getProjectGenericUser"><soap:operation soapAction="https://192.168.1.35/soap/project#getProjectGenericUser" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getPlateformProjectDescriptionFields"><soap:operation soapAction="https://192.168.1.35/soap/project#getPlateformProjectDescriptionFields" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="setProjectDescriptionFieldValue"><soap:operation soapAction="https://192.168.1.35/soap/project#setProjectDescriptionFieldValue" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getProjectDescriptionFieldsValue"><soap:operation soapAction="https://192.168.1.35/soap/project#getProjectDescriptionFieldsValue" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getProjectServicesUsage"><soap:operation soapAction="https://192.168.1.35/soap/project#getProjectServicesUsage" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="activateService"><soap:operation soapAction="https://192.168.1.35/soap/project#activateService" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="deactivateService"><soap:operation soapAction="https://192.168.1.35/soap/project#deactivateService" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/soap/project" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation></binding>
+<service name="TuleapProjectAPI"><port name="TuleapProjectAPIPort" binding="tns:TuleapProjectAPIBinding"><soap:address location="https://192.168.1.35:443/soap/project/"/></port></service>
+</definitions>

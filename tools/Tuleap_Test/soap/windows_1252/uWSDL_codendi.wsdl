@@ -1,0 +1,1091 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="https://192.168.1.35" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="https://192.168.1.35">
+<types><xsd:schema targetNamespace="https://192.168.1.35">
+ <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+ <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/"/>
+ <xsd:complexType name="ArrayOfstring">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:string[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfInteger">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:integer[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOflong">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:long[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfint">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:int[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="Revision">
+  <xsd:sequence>
+   <xsd:element name="revision" type="xsd:string"/>
+   <xsd:element name="author" type="xsd:string"/>
+   <xsd:element name="date" type="xsd:string"/>
+   <xsd:element name="message" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfRevision">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Revision[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="Commiter">
+  <xsd:sequence>
+   <xsd:element name="user_id" type="xsd:int"/>
+   <xsd:element name="commit_count" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfCommiter">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Commiter[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="SvnPathInfo">
+  <xsd:sequence>
+   <xsd:element name="path" type="xsd:string"/>
+   <xsd:element name="commit_count" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfSvnPathInfo">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:SvnPathInfo[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="SvnPathDetails">
+  <xsd:sequence>
+   <xsd:element name="path" type="xsd:string"/>
+   <xsd:element name="author" type="xsd:int"/>
+   <xsd:element name="message" type="xsd:string"/>
+   <xsd:element name="timestamp" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfSvnPathDetails">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:SvnPathDetails[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="UserInfo">
+  <xsd:sequence>
+   <xsd:element name="identifier" type="xsd:string"/>
+   <xsd:element name="username" type="xsd:string"/>
+   <xsd:element name="id" type="xsd:string"/>
+   <xsd:element name="real_name" type="xsd:string"/>
+   <xsd:element name="email" type="xsd:string"/>
+   <xsd:element name="ldap_id" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfUserInfo">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:UserInfo[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="DescField">
+  <xsd:sequence>
+   <xsd:element name="id" type="xsd:int"/>
+   <xsd:element name="name" type="xsd:string"/>
+   <xsd:element name="is_mandatory" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfDescFields">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:DescField[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="DescFieldValue">
+  <xsd:sequence>
+   <xsd:element name="id" type="xsd:int"/>
+   <xsd:element name="value" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfDescFieldsValues">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:DescFieldValue[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ServiceValue">
+  <xsd:sequence>
+   <xsd:element name="id" type="xsd:int"/>
+   <xsd:element name="short_name" type="xsd:string"/>
+   <xsd:element name="is_used" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfServicesValues">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ServiceValue[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="Session">
+  <xsd:all>
+   <xsd:element name="user_id" type="xsd:int"/>
+   <xsd:element name="session_hash" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="Group">
+  <xsd:all>
+   <xsd:element name="group_id" type="xsd:int"/>
+   <xsd:element name="group_name" type="xsd:string"/>
+   <xsd:element name="unix_group_name" type="xsd:string"/>
+   <xsd:element name="description" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfGroup">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Group[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="UGroupMember">
+  <xsd:all>
+   <xsd:element name="user_id" type="xsd:int"/>
+   <xsd:element name="user_name" type="xsd:string"/>
+  </xsd:all>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfUGroupMember">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:UGroupMember[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="Ugroup">
+  <xsd:sequence>
+   <xsd:element name="ugroup_id" type="xsd:int"/>
+   <xsd:element name="name" type="xsd:string"/>
+   <xsd:element name="members" type="tns:ArrayOfUGroupMember"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfUgroup">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Ugroup[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="TrackerDesc">
+  <xsd:sequence>
+   <xsd:element name="group_artifact_id" type="xsd:int"/>
+   <xsd:element name="group_id" type="xsd:int"/>
+   <xsd:element name="name" type="xsd:string"/>
+   <xsd:element name="description" type="xsd:string"/>
+   <xsd:element name="item_name" type="xsd:string"/>
+   <xsd:element name="open_count" type="xsd:int"/>
+   <xsd:element name="total_count" type="xsd:int"/>
+   <xsd:element name="reports_desc" type="tns:ArrayOfArtifactReportDesc"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfTrackerDesc">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:TrackerDesc[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactType">
+  <xsd:sequence>
+   <xsd:element name="group_artifact_id" type="xsd:int"/>
+   <xsd:element name="group_id" type="xsd:int"/>
+   <xsd:element name="name" type="xsd:string"/>
+   <xsd:element name="description" type="xsd:string"/>
+   <xsd:element name="item_name" type="xsd:string"/>
+   <xsd:element name="open_count" type="xsd:int"/>
+   <xsd:element name="total_count" type="xsd:int"/>
+   <xsd:element name="total_file_size" type="xsd:float"/>
+   <xsd:element name="field_sets" type="tns:ArrayOfArtifactFieldSet"/>
+   <xsd:element name="field_dependencies" type="tns:ArrayOfArtifactRule"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactType">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactType[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactFieldSet">
+  <xsd:sequence>
+   <xsd:element name="field_set_id" type="xsd:int"/>
+   <xsd:element name="group_artifact_id" type="xsd:int"/>
+   <xsd:element name="name" type="xsd:string"/>
+   <xsd:element name="label" type="xsd:string"/>
+   <xsd:element name="description" type="xsd:string"/>
+   <xsd:element name="description_text" type="xsd:string"/>
+   <xsd:element name="rank" type="xsd:int"/>
+   <xsd:element name="fields" type="tns:ArrayOfArtifactField"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactFieldSet">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactFieldSet[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactField">
+  <xsd:sequence>
+   <xsd:element name="field_id" type="xsd:int"/>
+   <xsd:element name="group_artifact_id" type="xsd:int"/>
+   <xsd:element name="field_set_id" type="xsd:int"/>
+   <xsd:element name="field_name" type="xsd:string"/>
+   <xsd:element name="data_type" type="xsd:int"/>
+   <xsd:element name="display_type" type="xsd:string"/>
+   <xsd:element name="display_size" type="xsd:string"/>
+   <xsd:element name="label" type="xsd:string"/>
+   <xsd:element name="description" type="xsd:string"/>
+   <xsd:element name="scope" type="xsd:string"/>
+   <xsd:element name="required" type="xsd:int"/>
+   <xsd:element name="empty_ok" type="xsd:int"/>
+   <xsd:element name="keep_history" type="xsd:int"/>
+   <xsd:element name="special" type="xsd:int"/>
+   <xsd:element name="value_function" type="xsd:string"/>
+   <xsd:element name="available_values" type="tns:ArrayOfArtifactFieldValueList"/>
+   <xsd:element name="default_value" type="xsd:string"/>
+   <xsd:element name="user_can_submit" type="xsd:boolean"/>
+   <xsd:element name="user_can_update" type="xsd:boolean"/>
+   <xsd:element name="user_can_read" type="xsd:boolean"/>
+   <xsd:element name="is_standard_field" type="xsd:boolean"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactField">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactField[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactFieldValue">
+  <xsd:sequence>
+   <xsd:element name="field_id" type="xsd:int"/>
+   <xsd:element name="artifact_id" type="xsd:int"/>
+   <xsd:element name="field_value" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactFieldValue">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactFieldValue[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactFieldNameValue">
+  <xsd:sequence>
+   <xsd:element name="field_name" type="xsd:string"/>
+   <xsd:element name="field_value" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactFieldNameValue">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactFieldNameValue[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactFieldValueList">
+  <xsd:sequence>
+   <xsd:element name="field_id" type="xsd:int"/>
+   <xsd:element name="group_artifact_id" type="xsd:int"/>
+   <xsd:element name="value_id" type="xsd:int"/>
+   <xsd:element name="value" type="xsd:string"/>
+   <xsd:element name="description" type="xsd:string"/>
+   <xsd:element name="order_id" type="xsd:int"/>
+   <xsd:element name="status" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactFieldValueList">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactFieldValueList[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactRule">
+  <xsd:sequence>
+   <xsd:element name="rule_id" type="xsd:int"/>
+   <xsd:element name="group_artifact_id" type="xsd:int"/>
+   <xsd:element name="source_field_id" type="xsd:int"/>
+   <xsd:element name="source_value_id" type="xsd:int"/>
+   <xsd:element name="target_field_id" type="xsd:int"/>
+   <xsd:element name="target_value_id" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactRule">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactRule[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="Artifact">
+  <xsd:sequence>
+   <xsd:element name="artifact_id" type="xsd:int"/>
+   <xsd:element name="group_artifact_id" type="xsd:int"/>
+   <xsd:element name="status_id" type="xsd:int"/>
+   <xsd:element name="submitted_by" type="xsd:int"/>
+   <xsd:element name="open_date" type="xsd:int"/>
+   <xsd:element name="close_date" type="xsd:int"/>
+   <xsd:element name="last_update_date" type="xsd:int"/>
+   <xsd:element name="summary" type="xsd:string"/>
+   <xsd:element name="details" type="xsd:string"/>
+   <xsd:element name="severity" type="xsd:int"/>
+   <xsd:element name="extra_fields" type="tns:ArrayOfArtifactFieldValue"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifact">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Artifact[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="Criteria">
+  <xsd:sequence>
+   <xsd:element name="field_name" type="xsd:string"/>
+   <xsd:element name="field_value" type="xsd:string"/>
+   <xsd:element name="operator" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfCriteria">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Criteria[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="SortCriteria">
+  <xsd:sequence>
+   <xsd:element name="field_name" type="xsd:string"/>
+   <xsd:element name="sort_direction" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfSortCriteria">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:SortCriteria[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactQueryResult">
+  <xsd:sequence>
+   <xsd:element name="total_artifacts_number" type="xsd:int"/>
+   <xsd:element name="artifacts" type="tns:ArrayOfArtifact"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactCanned">
+  <xsd:sequence>
+   <xsd:element name="artifact_canned_id" type="xsd:int"/>
+   <xsd:element name="group_artifact_id" type="xsd:int"/>
+   <xsd:element name="title" type="xsd:string"/>
+   <xsd:element name="body" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactCanned">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactCanned[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactFollowup">
+  <xsd:sequence>
+   <xsd:element name="artifact_id" type="xsd:int"/>
+   <xsd:element name="follow_up_id" type="xsd:int"/>
+   <xsd:element name="comment" type="xsd:string"/>
+   <xsd:element name="date" type="xsd:int"/>
+   <xsd:element name="original_date" type="xsd:int"/>
+   <xsd:element name="by" type="xsd:string"/>
+   <xsd:element name="original_by" type="xsd:string"/>
+   <xsd:element name="comment_type_id" type="xsd:int"/>
+   <xsd:element name="comment_type" type="xsd:string"/>
+   <xsd:element name="field_name" type="xsd:string"/>
+   <xsd:element name="user_can_edit" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactFollowup">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactFollowup[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactReport">
+  <xsd:sequence>
+   <xsd:element name="report_id" type="xsd:int"/>
+   <xsd:element name="group_artifact_id" type="xsd:int"/>
+   <xsd:element name="name" type="xsd:string"/>
+   <xsd:element name="description" type="xsd:string"/>
+   <xsd:element name="scope" type="xsd:string"/>
+   <xsd:element name="fields" type="tns:ArrayOfArtifactReportField"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactReport">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactReport[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactReportDesc">
+  <xsd:sequence>
+   <xsd:element name="report_id" type="xsd:int"/>
+   <xsd:element name="group_artifact_id" type="xsd:int"/>
+   <xsd:element name="name" type="xsd:string"/>
+   <xsd:element name="description" type="xsd:string"/>
+   <xsd:element name="scope" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactReportDesc">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactReportDesc[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactFile">
+  <xsd:sequence>
+   <xsd:element name="id" type="xsd:int"/>
+   <xsd:element name="artifact_id" type="xsd:int"/>
+   <xsd:element name="filename" type="xsd:string"/>
+   <xsd:element name="description" type="xsd:string"/>
+   <xsd:element name="bin_data" type="xsd:base64Binary"/>
+   <xsd:element name="filesize" type="xsd:int"/>
+   <xsd:element name="filetype" type="xsd:string"/>
+   <xsd:element name="adddate" type="xsd:int"/>
+   <xsd:element name="submitted_by" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactFile">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactFile[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactReportField">
+  <xsd:sequence>
+   <xsd:element name="report_id" type="xsd:int"/>
+   <xsd:element name="field_name" type="xsd:string"/>
+   <xsd:element name="show_on_query" type="xsd:int"/>
+   <xsd:element name="show_on_result" type="xsd:int"/>
+   <xsd:element name="place_query" type="xsd:int"/>
+   <xsd:element name="place_result" type="xsd:int"/>
+   <xsd:element name="col_width" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactReportField">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactReportField[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactCC">
+  <xsd:sequence>
+   <xsd:element name="artifact_cc_id" type="xsd:int"/>
+   <xsd:element name="artifact_id" type="xsd:int"/>
+   <xsd:element name="email" type="xsd:string"/>
+   <xsd:element name="added_by" type="xsd:int"/>
+   <xsd:element name="added_by_name" type="xsd:string"/>
+   <xsd:element name="comment" type="xsd:string"/>
+   <xsd:element name="date" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactCC">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactCC[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactDependency">
+  <xsd:sequence>
+   <xsd:element name="artifact_depend_id" type="xsd:int"/>
+   <xsd:element name="artifact_id" type="xsd:int"/>
+   <xsd:element name="is_dependent_on_artifact_id" type="xsd:int"/>
+   <xsd:element name="summary" type="xsd:string"/>
+   <xsd:element name="tracker_id" type="xsd:int"/>
+   <xsd:element name="tracker_name" type="xsd:string"/>
+   <xsd:element name="group_id" type="xsd:int"/>
+   <xsd:element name="group_name" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactDependency">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactDependency[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactHistory">
+  <xsd:sequence>
+   <xsd:element name="field_name" type="xsd:string"/>
+   <xsd:element name="old_value" type="xsd:string"/>
+   <xsd:element name="new_value" type="xsd:string"/>
+   <xsd:element name="modification_by" type="xsd:string"/>
+   <xsd:element name="date" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactHistory">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactHistory[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfInt">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:int[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactFromReport">
+  <xsd:sequence>
+   <xsd:element name="artifact_id" type="xsd:int"/>
+   <xsd:element name="severity" type="xsd:int"/>
+   <xsd:element name="fields" type="tns:ArrayOfArtifactFieldFromReport"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactFromReport">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactFromReport[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactFieldFromReport">
+  <xsd:sequence>
+   <xsd:element name="field_name" type="xsd:string"/>
+   <xsd:element name="field_value" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactFieldFromReport">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactFieldFromReport[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactFromReportResult">
+  <xsd:sequence>
+   <xsd:element name="total_artifacts_number" type="xsd:int"/>
+   <xsd:element name="artifacts" type="tns:ArrayOfArtifactFromReport"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="FRSPackage">
+  <xsd:sequence>
+   <xsd:element name="package_id" type="xsd:int"/>
+   <xsd:element name="group_id" type="xsd:int"/>
+   <xsd:element name="name" type="xsd:string"/>
+   <xsd:element name="status_id" type="xsd:int"/>
+   <xsd:element name="rank" type="xsd:int"/>
+   <xsd:element name="approve_license" type="xsd:boolean"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfFRSPackage">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:FRSPackage[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="FRSRelease">
+  <xsd:sequence>
+   <xsd:element name="release_id" type="xsd:int"/>
+   <xsd:element name="package_id" type="xsd:int"/>
+   <xsd:element name="name" type="xsd:string"/>
+   <xsd:element name="notes" type="xsd:string"/>
+   <xsd:element name="changes" type="xsd:string"/>
+   <xsd:element name="status_id" type="xsd:string"/>
+   <xsd:element name="release_date" type="xsd:int"/>
+   <xsd:element name="released_by" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfFRSRelease">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:FRSRelease[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="FRSFile">
+  <xsd:sequence>
+   <xsd:element name="file_id" type="xsd:int"/>
+   <xsd:element name="release_id" type="xsd:int"/>
+   <xsd:element name="file_name" type="xsd:string"/>
+   <xsd:element name="file_size" type="xsd:int"/>
+   <xsd:element name="type_id" type="xsd:int"/>
+   <xsd:element name="processor_id" type="xsd:int"/>
+   <xsd:element name="release_time" type="xsd:int"/>
+   <xsd:element name="post_date" type="xsd:int"/>
+   <xsd:element name="computed_md5" type="xsd:string"/>
+   <xsd:element name="reference_md5" type="xsd:string"/>
+   <xsd:element name="user_id" type="xsd:int"/>
+   <xsd:element name="comment" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfFRSFile">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:FRSFile[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="Docman_Item">
+  <xsd:sequence>
+   <xsd:element name="item_id" type="xsd:int"/>
+   <xsd:element name="parent_id" type="xsd:int"/>
+   <xsd:element name="group_id" type="xsd:int"/>
+   <xsd:element name="title" type="xsd:string"/>
+   <xsd:element name="description" type="xsd:string"/>
+   <xsd:element name="create_date" type="xsd:int"/>
+   <xsd:element name="update_date" type="xsd:int"/>
+   <xsd:element name="delete_date" type="xsd:int"/>
+   <xsd:element name="user_id" type="xsd:int"/>
+   <xsd:element name="status" type="xsd:int"/>
+   <xsd:element name="obsolescence_date" type="xsd:int"/>
+   <xsd:element name="rank" type="xsd:int"/>
+   <xsd:element name="item_type" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfDocman_Item">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Docman_Item[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="Permission">
+  <xsd:sequence>
+   <xsd:element name="type" type="xsd:string"/>
+   <xsd:element name="ugroup_id" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfPermission">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Permission[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="MetadataValue">
+  <xsd:sequence>
+   <xsd:element name="label" type="xsd:string"/>
+   <xsd:element name="value" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfMetadataValue">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:MetadataValue[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="MetadataListValue">
+  <xsd:sequence>
+   <xsd:element name="id" type="xsd:int"/>
+   <xsd:element name="name" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfMetadataListValue">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:MetadataListValue[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="Metadata">
+  <xsd:sequence>
+   <xsd:element name="label" type="xsd:string"/>
+   <xsd:element name="name" type="xsd:string"/>
+   <xsd:element name="type" type="xsd:string"/>
+   <xsd:element name="isMultipleValuesAllowed" type="xsd:int"/>
+   <xsd:element name="isEmptyAllowed" type="xsd:int"/>
+   <xsd:element name="listOfValues" type="tns:ArrayOfMetadataListValue"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfMetadata">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Metadata[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ItemInfo">
+  <xsd:sequence>
+   <xsd:element name="id" type="xsd:int"/>
+   <xsd:element name="parent_id" type="xsd:int"/>
+   <xsd:element name="title" type="xsd:string"/>
+   <xsd:element name="filename" type="xsd:string"/>
+   <xsd:element name="type" type="xsd:string"/>
+   <xsd:element name="nb_versions" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfItemInfo">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ItemInfo[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+</xsd:schema>
+</types>
+<message name="loginRequest"><part name="loginname" type="xsd:string"/><part name="passwd" type="xsd:string"/></message>
+<message name="loginResponse"><part name="return" type="tns:Session"/></message>
+<message name="loginAsRequest"><part name="admin_session_hash" type="xsd:string"/><part name="loginname" type="xsd:string"/></message>
+<message name="loginAsResponse"><part name="return" type="xsd:string"/></message>
+<message name="retrieveSessionRequest"><part name="session_hash" type="xsd:string"/></message>
+<message name="retrieveSessionResponse"><part name="return" type="tns:Session"/></message>
+<message name="getAPIVersionRequest"/>
+<message name="getAPIVersionResponse"><part name="return" type="xsd:string"/></message>
+<message name="logoutRequest"><part name="sessionKey" type="xsd:string"/></message>
+<message name="logoutResponse"/>
+<message name="getMyProjectsRequest"><part name="sessionKey" type="xsd:string"/></message>
+<message name="getMyProjectsResponse"><part name="return" type="tns:ArrayOfGroup"/></message>
+<message name="getGroupByNameRequest"><part name="sessionKey" type="xsd:string"/><part name="unix_group_name" type="xsd:string"/></message>
+<message name="getGroupByNameResponse"><part name="return" type="tns:Group"/></message>
+<message name="getGroupByIdRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/></message>
+<message name="getGroupByIdResponse"><part name="return" type="tns:Group"/></message>
+<message name="getGroupUgroupsRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/></message>
+<message name="getGroupUgroupsResponse"><part name="return" type="tns:ArrayOfUgroup"/></message>
+<message name="getProjectGroupsAndUsersRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/></message>
+<message name="getProjectGroupsAndUsersResponse"><part name="return" type="tns:ArrayOfUgroup"/></message>
+<message name="checkUsersExistenceRequest"><part name="sessionKey" type="xsd:string"/><part name="users" type="tns:ArrayOfstring"/></message>
+<message name="checkUsersExistenceResponse"><part name="return" type="tns:ArrayOfUserInfo"/></message>
+<message name="getUserInfoRequest"><part name="sessionKey" type="xsd:string"/><part name="user_id" type="xsd:int"/></message>
+<message name="getUserInfoResponse"><part name="return" type="tns:UserInfo"/></message>
+<message name="getTrackerListRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/></message>
+<message name="getTrackerListResponse"><part name="return" type="tns:ArrayOfTrackerDesc"/></message>
+<message name="getArtifactTypeRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/></message>
+<message name="getArtifactTypeResponse"><part name="return" type="tns:ArtifactType"/></message>
+<message name="getArtifactTypesRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/></message>
+<message name="getArtifactTypesResponse"><part name="return" type="tns:ArrayOfArtifactType"/></message>
+<message name="getArtifactsRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="criteria" type="tns:ArrayOfCriteria"/><part name="offset" type="xsd:int"/><part name="max_rows" type="xsd:int"/></message>
+<message name="getArtifactsResponse"><part name="return" type="tns:ArtifactQueryResult"/></message>
+<message name="getArtifactsFromReportRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="report_id" type="xsd:int"/><part name="criteria" type="tns:ArrayOfCriteria"/><part name="offset" type="xsd:int"/><part name="max_rows" type="xsd:int"/><part name="sort_criteria" type="tns:ArrayOfSortCriteria"/></message>
+<message name="getArtifactsFromReportResponse"><part name="return" type="tns:ArtifactFromReportResult"/></message>
+<message name="addArtifactRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="status_id" type="xsd:int"/><part name="close_date" type="xsd:int"/><part name="summary" type="xsd:string"/><part name="details" type="xsd:string"/><part name="severity" type="xsd:int"/><part name="extra_fields" type="tns:ArrayOfArtifactFieldValue"/></message>
+<message name="addArtifactResponse"><part name="return" type="xsd:int"/></message>
+<message name="addArtifactWithFieldNamesRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="status_id" type="xsd:int"/><part name="close_date" type="xsd:int"/><part name="summary" type="xsd:string"/><part name="details" type="xsd:string"/><part name="severity" type="xsd:int"/><part name="extra_fields" type="tns:ArrayOfArtifactFieldNameValue"/></message>
+<message name="addArtifactWithFieldNamesResponse"><part name="return" type="xsd:int"/></message>
+<message name="updateArtifactRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="artifact_id" type="xsd:int"/><part name="status_id" type="xsd:int"/><part name="close_date" type="xsd:int"/><part name="summary" type="xsd:string"/><part name="details" type="xsd:string"/><part name="severity" type="xsd:int"/><part name="extra_fields" type="tns:ArrayOfArtifactFieldValue"/></message>
+<message name="updateArtifactResponse"><part name="return" type="xsd:int"/></message>
+<message name="updateArtifactWithFieldNamesRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="artifact_id" type="xsd:int"/><part name="status_id" type="xsd:int"/><part name="close_date" type="xsd:int"/><part name="summary" type="xsd:string"/><part name="details" type="xsd:string"/><part name="severity" type="xsd:int"/><part name="extra_fields" type="tns:ArrayOfArtifactFieldNameValue"/></message>
+<message name="updateArtifactWithFieldNamesResponse"><part name="return" type="xsd:int"/></message>
+<message name="getArtifactFollowupsRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="artifact_id" type="xsd:int"/></message>
+<message name="getArtifactFollowupsResponse"><part name="return" type="tns:ArrayOfArtifactFollowup"/></message>
+<message name="getArtifactCannedResponsesRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/></message>
+<message name="getArtifactCannedResponsesResponse"><part name="return" type="tns:ArrayOfArtifactCanned"/></message>
+<message name="getArtifactReportsRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/></message>
+<message name="getArtifactReportsResponse"><part name="return" type="tns:ArrayOfArtifactReport"/></message>
+<message name="getArtifactAttachedFilesRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="artifact_id" type="xsd:int"/></message>
+<message name="getArtifactAttachedFilesResponse"><part name="return" type="tns:ArrayOfArtifactFile"/></message>
+<message name="getArtifactAttachedFileRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="artifact_id" type="xsd:int"/><part name="file_id" type="xsd:int"/></message>
+<message name="getArtifactAttachedFileResponse"><part name="return" type="tns:ArtifactFile"/></message>
+<message name="getArtifactByIdRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="artifact_id" type="xsd:int"/></message>
+<message name="getArtifactByIdResponse"><part name="return" type="tns:Artifact"/></message>
+<message name="getArtifactDependenciesRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="artifact_id" type="xsd:int"/></message>
+<message name="getArtifactDependenciesResponse"><part name="return" type="tns:ArrayOfArtifactDependency"/></message>
+<message name="getArtifactInverseDependenciesRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="artifact_id" type="xsd:int"/></message>
+<message name="getArtifactInverseDependenciesResponse"><part name="return" type="tns:ArrayOfArtifactDependency"/></message>
+<message name="addArtifactAttachedFileRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="artifact_id" type="xsd:int"/><part name="encoded_data" type="xsd:string"/><part name="description" type="xsd:string"/><part name="filename" type="xsd:string"/><part name="filetype" type="xsd:string"/></message>
+<message name="addArtifactAttachedFileResponse"><part name="return" type="xsd:int"/></message>
+<message name="deleteArtifactAttachedFileRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="artifact_id" type="xsd:int"/><part name="file_id" type="xsd:int"/></message>
+<message name="deleteArtifactAttachedFileResponse"><part name="return" type="xsd:int"/></message>
+<message name="addArtifactDependenciesRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="artifact_id" type="xsd:int"/><part name="is_dependent_on_artifact_ids" type="xsd:string"/></message>
+<message name="addArtifactDependenciesResponse"><part name="return" type="xsd:boolean"/></message>
+<message name="deleteArtifactDependencyRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="artifact_id" type="xsd:int"/><part name="dependent_on_artifact_id" type="xsd:int"/></message>
+<message name="deleteArtifactDependencyResponse"><part name="return" type="xsd:int"/></message>
+<message name="addArtifactFollowupRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="artifact_id" type="xsd:int"/><part name="body" type="xsd:string"/><part name="comment_type_id" type="xsd:int"/><part name="format" type="xsd:int"/></message>
+<message name="addArtifactFollowupResponse"><part name="return" type="xsd:boolean"/></message>
+<message name="updateArtifactFollowUpRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="artifact_id" type="xsd:int"/><part name="artifact_history_id" type="xsd:int"/><part name="comment" type="xsd:string"/></message>
+<message name="updateArtifactFollowUpResponse"><part name="return" type="xsd:boolean"/></message>
+<message name="deleteArtifactFollowUpRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="artifact_id" type="xsd:int"/><part name="artifact_history_id" type="xsd:int"/></message>
+<message name="deleteArtifactFollowUpResponse"><part name="return" type="xsd:boolean"/></message>
+<message name="existArtifactSummaryRequest"><part name="sessionKey" type="xsd:string"/><part name="group_artifact_id" type="xsd:int"/><part name="summary" type="xsd:string"/></message>
+<message name="existArtifactSummaryResponse"><part name="return" type="xsd:int"/></message>
+<message name="getArtifactCCListRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="artifact_id" type="xsd:int"/></message>
+<message name="getArtifactCCListResponse"><part name="return" type="tns:ArrayOfArtifactCC"/></message>
+<message name="addArtifactCCRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="artifact_id" type="xsd:int"/><part name="cc_list" type="xsd:string"/><part name="cc_comment" type="xsd:string"/></message>
+<message name="addArtifactCCResponse"><part name="return" type="xsd:boolean"/></message>
+<message name="deleteArtifactCCRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="artifact_id" type="xsd:int"/><part name="artifact_cc_id" type="xsd:int"/></message>
+<message name="deleteArtifactCCResponse"><part name="return" type="xsd:boolean"/></message>
+<message name="getArtifactHistoryRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="group_artifact_id" type="xsd:int"/><part name="artifact_id" type="xsd:int"/></message>
+<message name="getArtifactHistoryResponse"><part name="return" type="tns:ArrayOfArtifactHistory"/></message>
+<message name="getPackagesRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/></message>
+<message name="getPackagesResponse"><part name="getPackagesResponse" type="tns:ArrayOfFRSPackage"/></message>
+<message name="addPackageRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="package_name" type="xsd:string"/><part name="status_id" type="xsd:int"/><part name="rank" type="xsd:int"/><part name="approve_license" type="xsd:boolean"/></message>
+<message name="addPackageResponse"><part name="addPackageResponse" type="xsd:int"/></message>
+<message name="getReleasesRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="package_id" type="xsd:int"/></message>
+<message name="getReleasesResponse"><part name="getReleasesResponse" type="tns:ArrayOfFRSRelease"/></message>
+<message name="updateReleaseRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="package_id" type="xsd:int"/><part name="release_id" type="xsd:int"/><part name="notes" type="xsd:string"/><part name="changes" type="xsd:string"/><part name="status_id" type="xsd:int"/></message>
+<message name="updateReleaseResponse"><part name="updateRelease" type="xsd:boolean"/></message>
+<message name="addReleaseRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="package_id" type="xsd:int"/><part name="name" type="xsd:string"/><part name="notes" type="xsd:string"/><part name="changes" type="xsd:string"/><part name="status_id" type="xsd:int"/><part name="release_date" type="xsd:int"/></message>
+<message name="addReleaseResponse"><part name="addRelease" type="xsd:int"/></message>
+<message name="getFilesRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="package_id" type="xsd:int"/><part name="release_id" type="xsd:int"/></message>
+<message name="getFilesResponse"><part name="getFilesResponse" type="tns:ArrayOfFRSFile"/></message>
+<message name="getFileInfoRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="package_id" type="xsd:int"/><part name="release_id" type="xsd:int"/><part name="file_id" type="xsd:int"/></message>
+<message name="getFileInfoResponse"><part name="getFileInfoResponse" type="tns:FRSFile"/></message>
+<message name="getFileRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="package_id" type="xsd:int"/><part name="release_id" type="xsd:int"/><part name="file_id" type="xsd:int"/></message>
+<message name="getFileResponse"><part name="getFileResponse" type="xsd:string"/></message>
+<message name="getFileChunkRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="package_id" type="xsd:int"/><part name="release_id" type="xsd:int"/><part name="file_id" type="xsd:int"/><part name="offset" type="xsd:int"/><part name="size" type="xsd:int"/></message>
+<message name="getFileChunkResponse"><part name="getFileChunkResponse" type="xsd:string"/></message>
+<message name="addFileRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="package_id" type="xsd:int"/><part name="release_id" type="xsd:int"/><part name="filename" type="xsd:string"/><part name="base64_contents" type="xsd:string"/><part name="type_id" type="xsd:int"/><part name="processor_id" type="xsd:int"/><part name="reference_md5" type="xsd:string"/><part name="comment" type="xsd:string"/></message>
+<message name="addFileResponse"><part name="addFile" type="xsd:int"/></message>
+<message name="addFileChunkRequest"><part name="sessionKey" type="xsd:string"/><part name="filename" type="xsd:string"/><part name="contents" type="xsd:string"/><part name="first_chunk" type="xsd:boolean"/></message>
+<message name="addFileChunkResponse"><part name="addFileChunk" type="xsd:integer"/></message>
+<message name="addUploadedFileRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="package_id" type="xsd:int"/><part name="release_id" type="xsd:int"/><part name="filename" type="xsd:string"/><part name="type_id" type="xsd:int"/><part name="processor_id" type="xsd:int"/><part name="reference_md5" type="xsd:string"/><part name="comment" type="xsd:string"/></message>
+<message name="addUploadedFileResponse"><part name="addUploadedFile" type="xsd:int"/></message>
+<message name="getUploadedFilesRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/></message>
+<message name="getUploadedFilesResponse"><part name="getUploadedFilesResponse" type="tns:ArrayOfstring"/></message>
+<message name="deleteFileRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="package_id" type="xsd:int"/><part name="release_id" type="xsd:int"/><part name="file_id" type="xsd:int"/></message>
+<message name="deleteFileResponse"><part name="deleteFileResponse" type="xsd:boolean"/></message>
+<message name="deleteEmptyPackageRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="package_id" type="xsd:int"/><part name="cleanup_all" type="xsd:boolean"/></message>
+<message name="deleteEmptyPackageResponse"><part name="deleteEmptyPackageResponse" type="tns:ArrayOfFRSPackage"/></message>
+<message name="deleteEmptyReleaseRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="package_id" type="xsd:int"/><part name="release_id" type="xsd:int"/><part name="cleanup_all" type="xsd:boolean"/></message>
+<message name="deleteEmptyReleaseResponse"><part name="deleteEmptyReleaseResponse" type="tns:ArrayOfFRSRelease"/></message>
+<message name="updateFileCommentRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="package_id" type="xsd:int"/><part name="release_id" type="xsd:int"/><part name="file_id" type="xsd:int"/><part name="comment" type="xsd:string"/></message>
+<message name="updateFileCommentResponse"><part name="updateFileCommentResponse" type="xsd:boolean"/></message>
+<message name="getRootFolderRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/></message>
+<message name="getRootFolderResponse"><part name="getRootFolderResponse" type="xsd:int"/></message>
+<message name="listFolderRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="item_id" type="xsd:int"/></message>
+<message name="listFolderResponse"><part name="listFolderResponse" type="tns:ArrayOfDocman_Item"/></message>
+<message name="searchDocmanItemRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="item_id" type="xsd:int"/><part name="criterias" type="tns:ArrayOfCriteria"/></message>
+<message name="searchDocmanItemResponse"><part name="searchDocmanItemResponse" type="tns:ArrayOfDocman_Item"/></message>
+<message name="getDocmanFileContentsRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="item_id" type="xsd:int"/><part name="version_number" type="xsd:int"/></message>
+<message name="getDocmanFileContentsResponse"><part name="getDocmanFileContentsResponse" type="xsd:string"/></message>
+<message name="getDocmanFileMD5sumRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="item_id" type="xsd:int"/><part name="version_number" type="xsd:int"/></message>
+<message name="getDocmanFileMD5sumResponse"><part name="getDocmanFileMD5sumResponse" type="xsd:string"/></message>
+<message name="getDocmanFileAllVersionsMD5sumRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="item_id" type="xsd:int"/></message>
+<message name="getDocmanFileAllVersionsMD5sumResponse"><part name="getDocmanFileAllVersionsMD5sumResponse" type="tns:ArrayOfstring"/></message>
+<message name="getDocmanProjectMetadataRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/></message>
+<message name="getDocmanProjectMetadataResponse"><part name="getDocmanProjectMetadataResponse" type="tns:ArrayOfMetadata"/></message>
+<message name="getDocmanTreeInfoRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="parent_id" type="xsd:int"/></message>
+<message name="getDocmanTreeInfoResponse"><part name="getDocmanTreeInfoResponse" type="tns:ArrayOfItemInfo"/></message>
+<message name="createDocmanFolderRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="parent_id" type="xsd:int"/><part name="title" type="xsd:string"/><part name="description" type="xsd:string"/><part name="ordering" type="xsd:string"/><part name="status" type="xsd:string"/><part name="permissions" type="tns:ArrayOfPermission"/><part name="metadata" type="tns:ArrayOfMetadataValue"/><part name="owner" type="xsd:string"/><part name="create_date" type="xsd:string"/><part name="update_date" type="xsd:string"/></message>
+<message name="createDocmanFolderResponse"><part name="createDocmanFolderResponse" type="xsd:int"/></message>
+<message name="createDocmanFileRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="parent_id" type="xsd:int"/><part name="title" type="xsd:string"/><part name="description" type="xsd:string"/><part name="ordering" type="xsd:string"/><part name="status" type="xsd:string"/><part name="obsolescence_date" type="xsd:string"/><part name="permissions" type="tns:ArrayOfPermission"/><part name="metadata" type="tns:ArrayOfMetadataValue"/><part name="file_size" type="xsd:int"/><part name="file_name" type="xsd:string"/><part name="mime_type" type="xsd:string"/><part name="content" type="xsd:string"/><part name="chunk_offset" type="xsd:int"/><part name="chunk_size" type="xsd:int"/><part name="author" type="xsd:string"/><part name="date" type="xsd:string"/><part name="owner" type="xsd:string"/><part name="create_date" type="xsd:string"/><part name="update_date" type="xsd:string"/></message>
+<message name="createDocmanFileResponse"><part name="createDocmanFileResponse" type="xsd:int"/></message>
+<message name="createDocmanEmbeddedFileRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="parent_id" type="xsd:int"/><part name="title" type="xsd:string"/><part name="description" type="xsd:string"/><part name="ordering" type="xsd:string"/><part name="status" type="xsd:string"/><part name="obsolescence_date" type="xsd:string"/><part name="content" type="xsd:string"/><part name="permissions" type="tns:ArrayOfPermission"/><part name="metadata" type="tns:ArrayOfMetadataValue"/><part name="author" type="xsd:string"/><part name="date" type="xsd:string"/><part name="owner" type="xsd:string"/><part name="create_date" type="xsd:string"/><part name="update_date" type="xsd:string"/></message>
+<message name="createDocmanEmbeddedFileResponse"><part name="createDocmanEmbeddedFileResponse" type="xsd:int"/></message>
+<message name="createDocmanWikiPageRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="parent_id" type="xsd:int"/><part name="title" type="xsd:string"/><part name="description" type="xsd:string"/><part name="ordering" type="xsd:string"/><part name="status" type="xsd:string"/><part name="obsolescence_date" type="xsd:string"/><part name="content" type="xsd:string"/><part name="permissions" type="tns:ArrayOfPermission"/><part name="metadata" type="tns:ArrayOfMetadataValue"/><part name="owner" type="xsd:string"/><part name="create_date" type="xsd:string"/><part name="update_date" type="xsd:string"/></message>
+<message name="createDocmanWikiPageResponse"><part name="createDocmanWikiPageResponse" type="xsd:int"/></message>
+<message name="createDocmanLinkRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="parent_id" type="xsd:int"/><part name="title" type="xsd:string"/><part name="description" type="xsd:string"/><part name="ordering" type="xsd:string"/><part name="status" type="xsd:string"/><part name="obsolescence_date" type="xsd:string"/><part name="content" type="xsd:string"/><part name="permissions" type="tns:ArrayOfPermission"/><part name="metadata" type="tns:ArrayOfMetadataValue"/><part name="owner" type="xsd:string"/><part name="create_date" type="xsd:string"/><part name="update_date" type="xsd:string"/></message>
+<message name="createDocmanLinkResponse"><part name="createDocmanLinkResponse" type="xsd:int"/></message>
+<message name="createDocmanEmptyDocumentRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="parent_id" type="xsd:int"/><part name="title" type="xsd:string"/><part name="description" type="xsd:string"/><part name="ordering" type="xsd:string"/><part name="status" type="xsd:string"/><part name="obsolescence_date" type="xsd:string"/><part name="permissions" type="tns:ArrayOfPermission"/><part name="metadata" type="tns:ArrayOfMetadataValue"/><part name="owner" type="xsd:string"/><part name="create_date" type="xsd:string"/><part name="update_date" type="xsd:string"/></message>
+<message name="createDocmanEmptyDocumentResponse"><part name="createDocmanEmptyDocumentResponse" type="xsd:int"/></message>
+<message name="createDocmanFileVersionRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="item_id" type="xsd:int"/><part name="label" type="xsd:string"/><part name="changelog" type="xsd:string"/><part name="file_size" type="xsd:int"/><part name="file_name" type="xsd:string"/><part name="mime_type" type="xsd:string"/><part name="content" type="xsd:string"/><part name="chunk_offset" type="xsd:int"/><part name="chunk_size" type="xsd:int"/><part name="author" type="xsd:string"/><part name="date" type="xsd:string"/></message>
+<message name="createDocmanFileVersionResponse"><part name="createDocmanFileVersionResponse" type="xsd:int"/></message>
+<message name="createDocmanEmbeddedFileVersionRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="item_id" type="xsd:int"/><part name="label" type="xsd:string"/><part name="changelog" type="xsd:string"/><part name="content" type="xsd:string"/><part name="author" type="xsd:string"/><part name="date" type="xsd:string"/></message>
+<message name="createDocmanEmbeddedFileVersionResponse"><part name="createDocmanEmbeddedFileVersionResponse" type="xsd:int"/></message>
+<message name="appendDocmanFileChunkRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="item_id" type="xsd:int"/><part name="content" type="xsd:string"/><part name="chunk_offset" type="xsd:int"/><part name="chunk_size" type="xsd:int"/></message>
+<message name="appendDocmanFileChunkResponse"><part name="appendDocmanFileChunkResponse" type="xsd:int"/></message>
+<message name="moveDocmanItemRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="item_id" type="xsd:int"/><part name="new_parent" type="xsd:int"/></message>
+<message name="moveDocmanItemResponse"><part name="moveDocmanItemResponse" type="xsd:boolean"/></message>
+<message name="getDocmanFileChunkRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="item_id" type="xsd:int"/><part name="version_number" type="xsd:int"/><part name="chunk_offset" type="xsd:int"/><part name="chunk_size" type="xsd:int"/></message>
+<message name="getDocmanFileChunkResponse"><part name="getDocmanFileChunkResponse" type="xsd:string"/></message>
+<message name="deleteDocmanItemRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="item_id" type="xsd:int"/></message>
+<message name="deleteDocmanItemResponse"><part name="deleteDocmanItemResponse" type="xsd:int"/></message>
+<message name="monitorDocmanItemRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="item_id" type="xsd:int"/></message>
+<message name="monitorDocmanItemResponse"><part name="monitorDocmanItemResponse" type="xsd:boolean"/></message>
+<message name="updateDocmanFolderRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="item_id" type="xsd:int"/><part name="title" type="xsd:string"/><part name="description" type="xsd:string"/><part name="status" type="xsd:string"/><part name="permissions" type="tns:ArrayOfPermission"/><part name="metadata" type="tns:ArrayOfMetadataValue"/><part name="owner" type="xsd:string"/><part name="create_date" type="xsd:string"/><part name="update_date" type="xsd:string"/></message>
+<message name="updateDocmanFolderResponse"><part name="updateDocmanFolderResponse" type="xsd:int"/></message>
+<message name="updateDocmanFileRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="item_id" type="xsd:int"/><part name="title" type="xsd:string"/><part name="description" type="xsd:string"/><part name="status" type="xsd:string"/><part name="obsolescence_date" type="xsd:string"/><part name="permissions" type="tns:ArrayOfPermission"/><part name="metadata" type="tns:ArrayOfMetadataValue"/><part name="owner" type="xsd:string"/><part name="create_date" type="xsd:string"/><part name="update_date" type="xsd:string"/></message>
+<message name="updateDocmanFileResponse"><part name="updateDocmanFileResponse" type="xsd:int"/></message>
+<message name="updateDocmanEmbeddedFileRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="item_id" type="xsd:int"/><part name="title" type="xsd:string"/><part name="description" type="xsd:string"/><part name="status" type="xsd:string"/><part name="obsolescence_date" type="xsd:string"/><part name="permissions" type="tns:ArrayOfPermission"/><part name="metadata" type="tns:ArrayOfMetadataValue"/><part name="owner" type="xsd:string"/><part name="create_date" type="xsd:string"/><part name="update_date" type="xsd:string"/></message>
+<message name="updateDocmanEmbeddedFileResponse"><part name="updateDocmanEmbeddedFileResponse" type="xsd:int"/></message>
+<message name="updateDocmanWikiPageRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="item_id" type="xsd:int"/><part name="title" type="xsd:string"/><part name="description" type="xsd:string"/><part name="status" type="xsd:string"/><part name="obsolescence_date" type="xsd:string"/><part name="content" type="xsd:string"/><part name="permissions" type="tns:ArrayOfPermission"/><part name="metadata" type="tns:ArrayOfMetadataValue"/><part name="owner" type="xsd:string"/><part name="create_date" type="xsd:string"/><part name="update_date" type="xsd:string"/></message>
+<message name="updateDocmanWikiPageResponse"><part name="updateDocmanWikiPageResponse" type="xsd:int"/></message>
+<message name="updateDocmanLinkRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="item_id" type="xsd:int"/><part name="title" type="xsd:string"/><part name="description" type="xsd:string"/><part name="status" type="xsd:string"/><part name="obsolescence_date" type="xsd:string"/><part name="content" type="xsd:string"/><part name="permissions" type="tns:ArrayOfPermission"/><part name="metadata" type="tns:ArrayOfMetadataValue"/><part name="owner" type="xsd:string"/><part name="create_date" type="xsd:string"/><part name="update_date" type="xsd:string"/></message>
+<message name="updateDocmanLinkResponse"><part name="updateDocmanLinkResponse" type="xsd:int"/></message>
+<message name="updateDocmanEmptyDocumentRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="item_id" type="xsd:int"/><part name="title" type="xsd:string"/><part name="description" type="xsd:string"/><part name="status" type="xsd:string"/><part name="obsolescence_date" type="xsd:string"/><part name="permissions" type="tns:ArrayOfPermission"/><part name="metadata" type="tns:ArrayOfMetadataValue"/><part name="owner" type="xsd:string"/><part name="create_date" type="xsd:string"/><part name="update_date" type="xsd:string"/></message>
+<message name="updateDocmanEmptyDocumentResponse"><part name="updateDocmanEmptyDocumentResponse" type="xsd:int"/></message>
+<portType name="CodendiAPIPortType"><operation name="login"><documentation>Login Tuleap Server with given login and password.
+     Returns a soap fault if the login failed.</documentation><input message="tns:loginRequest"/><output message="tns:loginResponse"/></operation><operation name="loginAs"><documentation>Login Tuleap Server with given admin_session_name and login.
+     Returns a soap fault if the login failed.</documentation><input message="tns:loginAsRequest"/><output message="tns:loginAsResponse"/></operation><operation name="retrieveSession"><documentation>Retrieve a valid session with a given session_hash and version.
+     Returns a soap fault if the session is not valid.</documentation><input message="tns:retrieveSessionRequest"/><output message="tns:retrieveSessionResponse"/></operation><operation name="getAPIVersion"><documentation>Returns the current version of this Web Service API.</documentation><input message="tns:getAPIVersionRequest"/><output message="tns:getAPIVersionResponse"/></operation><operation name="logout"><documentation>Logout the session identified by the given sessionKey From Codendi Server.
+     Returns a soap fault if the sessionKey is not a valid session key.</documentation><input message="tns:logoutRequest"/><output message="tns:logoutResponse"/></operation><operation name="getMyProjects"><documentation>Returns the list of Groups that the current user belong to</documentation><input message="tns:getMyProjectsRequest"/><output message="tns:getMyProjectsResponse"/></operation><operation name="getGroupByName"><documentation>Returns a Group object matching with the given unix_group_name, or a soap fault if the name does not match with a valid project.</documentation><input message="tns:getGroupByNameRequest"/><output message="tns:getGroupByNameResponse"/></operation><operation name="getGroupById"><documentation>Returns the Group object associated with the given ID, or a soap fault if the ID does not match with a valid project.</documentation><input message="tns:getGroupByIdRequest"/><output message="tns:getGroupByIdResponse"/></operation><operation name="getGroupUgroups"><documentation>Returns the Ugroups associated to the given project:
+     &lt;pre&gt;
+       [ 
+         ["ugroup_id" =&gt; 120,
+          "name"      =&gt; "my custom group",
+          "members"   =&gt; [ ["user_id"   =&gt; 115,
+                            "user_name" =&gt; "john_doe"],
+                         ]
+         ]
+       ]
+     &lt;/pre&gt;
+    </documentation><input message="tns:getGroupUgroupsRequest"/><output message="tns:getGroupUgroupsResponse"/></operation><operation name="getProjectGroupsAndUsers"><documentation>Returns all groups defined in project both dynamic and static (aka user group).
+     &lt;pre&gt;
+      [
+        ["ugroup_id" =&gt; 3,
+         "name"      =&gt; "project_members",
+         "members"   =&gt; [ ["user_id"   =&gt; 115,
+                           "user_name" =&gt; "john_doe"],
+                          ["user_id"   =&gt; 120,
+                           "user_name" =&gt; "foo_bar"]
+                        ]
+        ],
+        ["ugroup_id" =&gt; 120,
+         "name"      =&gt; "my custom group",
+         "members"   =&gt; [ ["user_id"   =&gt; 115,
+                           "user_name" =&gt; "john_doe"],
+                        ]
+        ]
+      ]
+     &lt;/pre&gt;
+    </documentation><input message="tns:getProjectGroupsAndUsersRequest"/><output message="tns:getProjectGroupsAndUsersResponse"/></operation><operation name="checkUsersExistence"><documentation>Returns the users that exist with their user name</documentation><input message="tns:checkUsersExistenceRequest"/><output message="tns:checkUsersExistenceResponse"/></operation><operation name="getUserInfo"><documentation>Returns the user info matching the given id</documentation><input message="tns:getUserInfoRequest"/><output message="tns:getUserInfoResponse"/></operation><operation name="getTrackerList"><documentation>Returns the array of TrackerDesc (light description of trackers) that belongs to the group identified by group ID.
+     Returns a soap fault if the group ID does not match with a valid project.</documentation><input message="tns:getTrackerListRequest"/><output message="tns:getTrackerListResponse"/></operation><operation name="getArtifactType"><documentation>Returns the ArtifactType (tracker) with the ID group_artifact_id that belongs to the group identified by group ID.
+     Returns a soap fault if the group ID does not match with a valid project, or if the group_artifact_id is invalid or is not a tracker of the project.</documentation><input message="tns:getArtifactTypeRequest"/><output message="tns:getArtifactTypeResponse"/></operation><operation name="getArtifactTypes"><documentation>Returns the array of ArtifactType (trackers) that belongs to the group identified by group ID.
+     Returns a soap fault if the group ID does not match with a valid project.</documentation><input message="tns:getArtifactTypesRequest"/><output message="tns:getArtifactTypesResponse"/></operation><operation name="getArtifacts"><documentation>Returns the ArtifactQueryResult of the tracker group_artifact_id in the project group_id 
+     that are matching the given criteria. If offset AND max_rows are filled, it returns only 
+     max_rows artifacts, skipping the first offset ones.
+     It is not possible to sort artifact with this function (use getArtifactsFromReport if you want to sort).
+     Returns a soap fault if the group_id is not a valid one or if the group_artifact_id is not a valid one.</documentation><input message="tns:getArtifactsRequest"/><output message="tns:getArtifactsResponse"/></operation><operation name="getArtifactsFromReport"><documentation>Returns the ArtifactReportResult of the tracker group_artifact_id in the project group_id 
+     with the report report_id that are matching the given criteria. 
+     If offset AND max_rows are filled, it returns only max_rows artifacts, skipping the first offset ones.
+     The result will be sorted, as defined in the param sort_criteria.
+     Returns a soap fault if the group_id is not a valid one, if the group_artifact_id is not a valid one or if the report_id is not a valid one.</documentation><input message="tns:getArtifactsFromReportRequest"/><output message="tns:getArtifactsFromReportResponse"/></operation><operation name="addArtifact"><documentation>Add an Artifact in the tracker group_artifact_id of the project group_id with the values given by 
+     status_id, close_date, summary, details, severity and extra_fields for the non-standard fields. 
+     Returns the Id of the created artifact if the creation succeed.
+     Returns a soap fault if the group_id is not a valid one, if the group_artifact_id is not a valid one, or if the add failed.</documentation><input message="tns:addArtifactRequest"/><output message="tns:addArtifactResponse"/></operation><operation name="addArtifactWithFieldNames"><documentation>Add an Artifact in the tracker tracker_name of the project group_id with the values given by 
+     status_id, close_date, summary, details, severity and extra_fields for the non-standard fields. 
+     Returns the Id of the created artifact if the creation succeed.
+     Returns a soap fault if the group_id is not a valid one, if the tracker_name is not a valid one, or if the add failed.</documentation><input message="tns:addArtifactWithFieldNamesRequest"/><output message="tns:addArtifactWithFieldNamesResponse"/></operation><operation name="updateArtifact"><documentation>Update the artifact $artifact_id of the tracker $group_artifact_id in the project group_id with the values given by 
+     status_id, close_date, summary, details, severity and extra_fields for the non-standard fields.
+     Returns a soap fault if the group_id is not a valid one, if the group_artifact_id is not a valid one, 
+     if the artifart_id is not a valid one, or if the update failed.</documentation><input message="tns:updateArtifactRequest"/><output message="tns:updateArtifactResponse"/></operation><operation name="updateArtifactWithFieldNames"><documentation>Update the artifact $artifact_id of the tracker $tracker_name in the project group_id with the values given by 
+     status_id, close_date, summary, details, severity and extra_fields for the non-standard fields.
+     Returns a soap fault if the group_id is not a valid one, if the group_artifact_id is not a valid one, 
+     if the artifart_id is not a valid one, or if the update failed.</documentation><input message="tns:updateArtifactWithFieldNamesRequest"/><output message="tns:updateArtifactWithFieldNamesResponse"/></operation><operation name="getArtifactFollowups"><documentation>Returns the list of follow-ups (ArtifactFollowup) of the artifact artifact_id of the tracker group_artifact_id in the project group_id.
+     Returns a soap fault if the group_id is not a valid one, if the group_artifact_id is not a valid one, 
+     or if the artifart_id is not a valid one.</documentation><input message="tns:getArtifactFollowupsRequest"/><output message="tns:getArtifactFollowupsResponse"/></operation><operation name="getArtifactCannedResponses"><documentation>Returns the list of canned responses (ArtifactCanned) for the tracker group_artifact_id of the project group_id. 
+     Returns a soap fault if the group_id is not a valid one or if group_artifact_id is not a valid one.</documentation><input message="tns:getArtifactCannedResponsesRequest"/><output message="tns:getArtifactCannedResponsesResponse"/></operation><operation name="getArtifactReports"><documentation>Returns the list of reports (ArtifactReport) for the tracker group_artifact_id of the project group_id of the current user. 
+     Returns a soap fault if the group_id is not a valid one, if the group_artifact_id is not a valid one.</documentation><input message="tns:getArtifactReportsRequest"/><output message="tns:getArtifactReportsResponse"/></operation><operation name="getArtifactAttachedFiles"><documentation>Returns the array of attached files (ArtifactFile) attached to the artifact artifact_id in the tracker group_artifact_id of the project group_id. 
+     Returns a soap fault if the group_id is not a valid one, if the group_artifact_id is not a valid one, 
+     or if the artifact_id is not a valid one. NOTE : for performance reasons, the result does not contain the content of the file. Please use getArtifactAttachedFile to get the content of a single file</documentation><input message="tns:getArtifactAttachedFilesRequest"/><output message="tns:getArtifactAttachedFilesResponse"/></operation><operation name="getArtifactAttachedFile"><documentation>Returns the attached file (ArtifactFile) with the id file_id attached to the artifact artifact_id in the tracker group_artifact_id of the project group_id. 
+     Returns a soap fault if the group_id is not a valid one, if the group_artifact_id is not a valid one, 
+     if the artifact_id is not a valid one, or if the file_id doesnt match with the given artifact_id.</documentation><input message="tns:getArtifactAttachedFileRequest"/><output message="tns:getArtifactAttachedFileResponse"/></operation><operation name="getArtifactById"><documentation>Returns the artifact (Artifact) identified by the id artifact_id in the tracker group_artifact_id of the project group_id. 
+     Returns a soap fault if the group_id is not a valid one, if the group_artifact_id is not a valid one, 
+     or if the artifact_id is not a valid one.</documentation><input message="tns:getArtifactByIdRequest"/><output message="tns:getArtifactByIdResponse"/></operation><operation name="getArtifactDependencies"><documentation>Returns the list of the dependencies (ArtifactDependency) for the artifact artifact_id of the tracker group_artifact_id of the project group_id. 
+     Returns a soap fault if the group_id is not a valid one, if the group_artifact_id is not a valid one, 
+     or if the artifact_id is not a valid one.</documentation><input message="tns:getArtifactDependenciesRequest"/><output message="tns:getArtifactDependenciesResponse"/></operation><operation name="getArtifactInverseDependencies"><documentation>Returns the list of the dependencies (ArtifactDependency) that other artifact can have with the artifact artifact_id of the tracker group_artifact_id of the project group_id. 
+     Returns a soap fault if the group_id is not a valid one, if the group_artifact_id is not a valid one, 
+     or if the artifact_id is not a valid one.</documentation><input message="tns:getArtifactInverseDependenciesRequest"/><output message="tns:getArtifactInverseDependenciesResponse"/></operation><operation name="addArtifactAttachedFile"><documentation>Add an attached file to the artifact artifact_id of the tracker group_artifact_id of the project group_id. 
+     The attached file is described by the raw encoded_data (encoded in base64), the description of the file, 
+     the name of the file and it type (the mimi-type -- plain/text, image/jpeg, etc ...). 
+     Returns the ID of the attached file if the attachment succeed.
+     Returns a soap fault if the group_id is not a valid one, if the group_artifact_id is not a valid one, 
+     or if the artifact_id is not a valid one, or if the attachment failed.</documentation><input message="tns:addArtifactAttachedFileRequest"/><output message="tns:addArtifactAttachedFileResponse"/></operation><operation name="deleteArtifactAttachedFile"><documentation>Delete the attached file file_id from the artifact artifact_id of the tracker group_artifact_id of the project group_id. 
+     Returns the ID of the deleted file if the deletion succeed. 
+     Returns a soap fault if the group_id is not a valid one, if the group_artifact_id is not a valid one, 
+     if the artifact_id is not a valid one, if the file_id is not a valid one or if the deletion failed.</documentation><input message="tns:deleteArtifactAttachedFileRequest"/><output message="tns:deleteArtifactAttachedFileResponse"/></operation><operation name="addArtifactDependencies"><documentation>Add the list of dependencies is_dependent_on_artifact_id to the list of dependencies of the artifact artifact_id 
+     of the tracker group_artifact_id of the project group_id.
+     Returns true if the add succeed. 
+     Returns a soap fault if the group_id is not a valid one, if the group_artifact_id is not a valid one, 
+     if the artifact_id is not a valid one, or if the add failed.</documentation><input message="tns:addArtifactDependenciesRequest"/><output message="tns:addArtifactDependenciesResponse"/></operation><operation name="deleteArtifactDependency"><documentation>Delete the dependency between the artifact dependent_on_artifact_id and the artifact artifact_id of the tracker group_artifact_id of the project group_id.
+     Returns the ID of the deleted dependency if the deletion succeed. 
+     Returns a soap fault if the group_id is not a valid one, if the group_artifact_id is not a valid one, 
+     if the artifact_id is not a valid one, if the dependent_on_artifact_id is not a valid artifact id, or if the deletion failed.</documentation><input message="tns:deleteArtifactDependencyRequest"/><output message="tns:deleteArtifactDependencyResponse"/></operation><operation name="addArtifactFollowup"><documentation>Add a follow-up body to the artifact artifact_id of the tracker group_artifact_id of the project group_id,
+     with optionals comment type and canned response. If canned response is set, it will replace the body.
+     Returns nothing if the add succeed. 
+     Returns a soap fault if the group_id is not a valid one, if the group_artifact_id is not a valid one, 
+     if the artifact_id is not a valid one, or if the add failed.</documentation><input message="tns:addArtifactFollowupRequest"/><output message="tns:addArtifactFollowupResponse"/></operation><operation name="updateArtifactFollowUp"><documentation>Update the follow_up artifact_history_id of the tracker $group_artifact_id in the project group_id for the artifact $artifact_id with the new comment $comment.
+     Returns a soap fault if the group_id is not a valid one, if the group_artifact_id is not a valid one, 
+     if the artifart_id is not a valid one, if the artifact_history_id is not a valid one, or if the update failed.</documentation><input message="tns:updateArtifactFollowUpRequest"/><output message="tns:updateArtifactFollowUpResponse"/></operation><operation name="deleteArtifactFollowUp"><documentation>Delete the follow_up artifact_history_id of the tracker $group_artifact_id in the project group_id for the artifact $artifact_id.
+     Returns a soap fault if the group_id is not a valid one, if the group_artifact_id is not a valid one, 
+     if the artifart_id is not a valid one, if the artifact_history_id is not a valid one, or if the deletion failed.</documentation><input message="tns:deleteArtifactFollowUpRequest"/><output message="tns:deleteArtifactFollowUpResponse"/></operation><operation name="existArtifactSummary"><documentation>Check if there is an artifact in the tracker group_artifact_id that already have the summary summary (the summary is unique inside a given tracker).
+     Returns the ID of the artifact containing the same summary in the tracker, or -1 if the summary does not exist in this tracker.</documentation><input message="tns:existArtifactSummaryRequest"/><output message="tns:existArtifactSummaryResponse"/></operation><operation name="getArtifactCCList"><documentation>Get the list of emails or logins in the CC list of a specific artifact</documentation><input message="tns:getArtifactCCListRequest"/><output message="tns:getArtifactCCListResponse"/></operation><operation name="addArtifactCC"><documentation>Add a list of emails or logins in the CC list of a specific artifact, with an optional comment</documentation><input message="tns:addArtifactCCRequest"/><output message="tns:addArtifactCCResponse"/></operation><operation name="deleteArtifactCC"><documentation>Delete a CC to the CC list of the artifact</documentation><input message="tns:deleteArtifactCCRequest"/><output message="tns:deleteArtifactCCResponse"/></operation><operation name="getArtifactHistory"><documentation>Get the history of the artifact (the history of the fields values)</documentation><input message="tns:getArtifactHistoryRequest"/><output message="tns:getArtifactHistoryResponse"/></operation><operation name="getPackages"><documentation>Returns the array of FRSPackages that belongs to the group identified by group ID.
+     Returns a soap fault if the group ID does not match with a valid project.</documentation><input message="tns:getPackagesRequest"/><output message="tns:getPackagesResponse"/></operation><operation name="addPackage"><documentation>Add a Package to the File Release Manager of the project group_id with the values given by 
+     package_name, status_id, rank and approve_license. 
+     Returns the ID of the created package if the creation succeed.
+     Returns a soap fault if the group_id is not a valid one, or if the add failed.</documentation><input message="tns:addPackageRequest"/><output message="tns:addPackageResponse"/></operation><operation name="getReleases"><documentation>Returns the array of FRSReleases that belongs to the group identified by group ID and 
+     to the package identified by package_id.
+     Returns a soap fault if the group ID does not match with a valid project, or if the package ID
+     does not match with the right group ID.</documentation><input message="tns:getReleasesRequest"/><output message="tns:getReleasesResponse"/></operation><operation name="updateRelease"><documentation>Updates a Release in the File Release Manager of the project group_id with
+     the values given by package_id, release_id, name, notes, changes and status_id.
+     Returns true if the update succeed.
+     Returns a soap fault if the group_id is not a valid one, if the package does
+     not match with the group ID, if the release does not exist or access to it
+     is not permiited or if the update failed.</documentation><input message="tns:updateReleaseRequest"/><output message="tns:updateReleaseResponse"/></operation><operation name="addRelease"><documentation>Add a Release to the File Release Manager of the project group_id with the values given by 
+     package_id, name, notes, changes, status_id and release_date. 
+     Returns the ID of the created release if the creation succeed.
+     Returns a soap fault if the group_id is not a valid one, 
+     if the package does not match with the group ID, or if the add failed.</documentation><input message="tns:addReleaseRequest"/><output message="tns:addReleaseResponse"/></operation><operation name="getFiles"><documentation>Returns the array of FRSFiles that belongs to the group identified by group ID, 
+     to the package identified by package_id and to the release identfied by release_id.
+     Returns a soap fault if the group ID does not match with a valid project, or if the package ID
+     does not match with the right group ID, or if the release ID does not match with the right package ID.</documentation><input message="tns:getFilesRequest"/><output message="tns:getFilesResponse"/></operation><operation name="getFileInfo"><documentation>Returns the metadata of the file contained in 
+     the release release_id in the package package_id, in the project group_id.
+     Returns a soap fault if the group ID does not match with a valid project, or if the package ID
+     does not match with the right group ID, or if the release ID does not match with the right package ID,
+     or if the file ID does not match with the right release ID.</documentation><input message="tns:getFileInfoRequest"/><output message="tns:getFileInfoResponse"/></operation><operation name="getFile"><documentation>Returns the &lt;strong&gt;content&lt;/strong&gt; (encoded in base64) of the file contained in 
+     the release release_id in the package package_id, in the project group_id.
+     Returns a soap fault if the group ID does not match with a valid project, or if the package ID
+     does not match with the right group ID, or if the release ID does not match with the right package ID,
+     or if the file ID does not match with the right release ID.</documentation><input message="tns:getFileRequest"/><output message="tns:getFileResponse"/></operation><operation name="getFileChunk"><documentation>Returns a part (chunk) of the &lt;strong&gt;content&lt;/strong&gt;, encoded in base64, of the file contained in 
+     the release release_id in the package package_id, in the project group_id.
+     You specify the offset where the download should start and the size to transfer.
+     Returns a soap fault if the group ID does not match with a valid project, or if the package ID
+     does not match with the right group ID, or if the release ID does not match with the right package ID,
+     or if the file ID does not match with the right release ID.</documentation><input message="tns:getFileChunkRequest"/><output message="tns:getFileChunkResponse"/></operation><operation name="addFile"><documentation>Add a File to the File Release Manager of the project group_id with the values given by 
+     package_id, release_id, filename, base64_contents, type_id, processor_id, reference_md5 and comment.
+     The content of the file must be encoded in base64.
+     Returns the ID of the created file if the creation succeed.
+     Returns a soap fault if the group_id is not a valid one, 
+     if the package does not match with the group ID, 
+     if the release does not match with the package ID,
+     or if the add failed.</documentation><input message="tns:addFileRequest"/><output message="tns:addFileResponse"/></operation><operation name="addFileChunk"><documentation>Add a chunk to a file in the incoming directory to be released later in FRS. 
+     The content of the chunk must be encoded in base64.
+     Returns the size of the written chunk if the chunk addition succeed.
+     Returns a soap fault if the session is not valid
+     or if the addition failed.</documentation><input message="tns:addFileChunkRequest"/><output message="tns:addFileChunkResponse"/></operation><operation name="addUploadedFile"><documentation>Add a File to the File Release Manager of the project group_id with the values given by 
+     package_id, release_id, filename, type_id, processor_id, reference_md5 and comment.
+     The file must already be present in the incoming directory.
+     Returns the ID of the created file if the creation succeed.
+     Returns a soap fault if the group_id is not a valid one, 
+     if the package does not match with the group ID, 
+     if the release does not match with the package ID,
+     or if the add failed.</documentation><input message="tns:addUploadedFileRequest"/><output message="tns:addUploadedFileResponse"/></operation><operation name="getUploadedFiles"><documentation>Get the file names of the file present in the incoming directory on the server.</documentation><input message="tns:getUploadedFilesRequest"/><output message="tns:getUploadedFilesResponse"/></operation><operation name="deleteFile"><documentation>Delete the file file_id in release release_id in package package_id.
+    Returns true if succeed, or a soap fault if an error occured.</documentation><input message="tns:deleteFileRequest"/><output message="tns:deleteFileResponse"/></operation><operation name="deleteEmptyPackage"><documentation>Delete a package or all empty packages in project group_id.
+    Returns the list of deleted packages if succeed, or a soap fault if an error occured.</documentation><input message="tns:deleteEmptyPackageRequest"/><output message="tns:deleteEmptyPackageResponse"/></operation><operation name="deleteEmptyRelease"><documentation>Delete a release or all empty releases in package package_id.
+    Returns the list of deleted releases if succeed, or a soap fault if an error occured.</documentation><input message="tns:deleteEmptyReleaseRequest"/><output message="tns:deleteEmptyReleaseResponse"/></operation><operation name="updateFileComment"><documentation>Update the comment of a File in a release with the values given by
+     group_id, package_id, release_id, file_id and comment.
+     Returns boolean if the update succeed.
+     Returns a soap fault if the group_id is not a valid one,
+     if the package does not match with the group ID,
+     if the release does not match with the package ID,
+     if the file does not match with the file ID,
+     or if the update failed.</documentation><input message="tns:updateFileCommentRequest"/><output message="tns:updateFileCommentResponse"/></operation><operation name="getRootFolder"><documentation>Returns the document object id that is at the top of the docman given a group object &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:getRootFolderRequest"/><output message="tns:getRootFolderResponse"/></operation><operation name="listFolder"><documentation>List folder contents &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;item_id             item ID&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:listFolderRequest"/><output message="tns:listFolderResponse"/></operation><operation name="searchDocmanItem"><documentation>Returns all the items that match given criterias &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;item_id             item ID&lt;br/&gt;criterias           Criteria&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:searchDocmanItemRequest"/><output message="tns:searchDocmanItemResponse"/></operation><operation name="getDocmanFileContents"><documentation>Returns the content of a file (or embedded file) base64 encoded. (version_number = -1 means last) &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;item_id             item ID&lt;br/&gt;version_number      Version number&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:getDocmanFileContentsRequest"/><output message="tns:getDocmanFileContentsResponse"/></operation><operation name="getDocmanFileMD5sum"><documentation>Returns the MD5 checksum of the file (last version) corresponding to the provided item ID &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;item_id             item ID&lt;br/&gt;version_number      Version number&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:getDocmanFileMD5sumRequest"/><output message="tns:getDocmanFileMD5sumResponse"/></operation><operation name="getDocmanFileAllVersionsMD5sum"><documentation>Returns the MD5 checksum of the file (all versions) corresponding to the provided item ID &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;item_id             item ID&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:getDocmanFileAllVersionsMD5sumRequest"/><output message="tns:getDocmanFileAllVersionsMD5sumResponse"/></operation><operation name="getDocmanProjectMetadata"><documentation>Returns the metadata of the given project &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:getDocmanProjectMetadataRequest"/><output message="tns:getDocmanProjectMetadataResponse"/></operation><operation name="getDocmanTreeInfo"><documentation>Returns the tree information of the given project &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;parent_id           Parent ID&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:getDocmanTreeInfoRequest"/><output message="tns:getDocmanTreeInfoResponse"/></operation><operation name="createDocmanFolder"><documentation>Create a folder &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;parent_id           Parent ID&lt;br/&gt;title               Title&lt;br/&gt;description         Description&lt;br/&gt;ordering            Ordering (begin, end)&lt;br/&gt;status              Status (none, draft, approved, rejected)&lt;br/&gt;permissions         Permissions&lt;br/&gt;metadata            Metadata values&lt;br/&gt;owner               Owner of the item&lt;br/&gt;create_date         Item creation date (timestamp)&lt;br/&gt;update_date         Item update date (timestamp)&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:createDocmanFolderRequest"/><output message="tns:createDocmanFolderResponse"/></operation><operation name="createDocmanFile"><documentation>Creates a docman file &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;parent_id           Parent ID&lt;br/&gt;title               Title&lt;br/&gt;description         Description&lt;br/&gt;ordering            Ordering (begin, end)&lt;br/&gt;status              Status (none, draft, approved, rejected)&lt;br/&gt;obsolescence_date   Obsolescence date (timestamp)&lt;br/&gt;permissions         Permissions&lt;br/&gt;metadata            Metadata values&lt;br/&gt;file_size           File size&lt;br/&gt;file_name           File name&lt;br/&gt;mime_type           Mime type&lt;br/&gt;content             Content&lt;br/&gt;chunk_offset        Chunk offset&lt;br/&gt;chunk_size          Chunk size&lt;br/&gt;author              Version author&lt;br/&gt;date                Version date (timestamp)&lt;br/&gt;owner               Owner of the item&lt;br/&gt;create_date         Item creation date (timestamp)&lt;br/&gt;update_date         Item update date (timestamp)&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:createDocmanFileRequest"/><output message="tns:createDocmanFileResponse"/></operation><operation name="createDocmanEmbeddedFile"><documentation>Creates a docman embedded file &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;parent_id           Parent ID&lt;br/&gt;title               Title&lt;br/&gt;description         Description&lt;br/&gt;ordering            Ordering (begin, end)&lt;br/&gt;status              Status (none, draft, approved, rejected)&lt;br/&gt;obsolescence_date   Obsolescence date (timestamp)&lt;br/&gt;content             Content&lt;br/&gt;permissions         Permissions&lt;br/&gt;metadata            Metadata values&lt;br/&gt;author              Version author&lt;br/&gt;date                Version date (timestamp)&lt;br/&gt;owner               Owner of the item&lt;br/&gt;create_date         Item creation date (timestamp)&lt;br/&gt;update_date         Item update date (timestamp)&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:createDocmanEmbeddedFileRequest"/><output message="tns:createDocmanEmbeddedFileResponse"/></operation><operation name="createDocmanWikiPage"><documentation>Creates a docman wiki page &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;parent_id           Parent ID&lt;br/&gt;title               Title&lt;br/&gt;description         Description&lt;br/&gt;ordering            Ordering (begin, end)&lt;br/&gt;status              Status (none, draft, approved, rejected)&lt;br/&gt;obsolescence_date   Obsolescence date (timestamp)&lt;br/&gt;content             Content&lt;br/&gt;permissions         Permissions&lt;br/&gt;metadata            Metadata values&lt;br/&gt;owner               Owner of the item&lt;br/&gt;create_date         Item creation date (timestamp)&lt;br/&gt;update_date         Item update date (timestamp)&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:createDocmanWikiPageRequest"/><output message="tns:createDocmanWikiPageResponse"/></operation><operation name="createDocmanLink"><documentation>Creates a docman link &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;parent_id           Parent ID&lt;br/&gt;title               Title&lt;br/&gt;description         Description&lt;br/&gt;ordering            Ordering (begin, end)&lt;br/&gt;status              Status (none, draft, approved, rejected)&lt;br/&gt;obsolescence_date   Obsolescence date (timestamp)&lt;br/&gt;content             Content&lt;br/&gt;permissions         Permissions&lt;br/&gt;metadata            Metadata values&lt;br/&gt;owner               Owner of the item&lt;br/&gt;create_date         Item creation date (timestamp)&lt;br/&gt;update_date         Item update date (timestamp)&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:createDocmanLinkRequest"/><output message="tns:createDocmanLinkResponse"/></operation><operation name="createDocmanEmptyDocument"><documentation>Creates a docman empty document &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;parent_id           Parent ID&lt;br/&gt;title               Title&lt;br/&gt;description         Description&lt;br/&gt;ordering            Ordering (begin, end)&lt;br/&gt;status              Status (none, draft, approved, rejected)&lt;br/&gt;obsolescence_date   Obsolescence date (timestamp)&lt;br/&gt;permissions         Permissions&lt;br/&gt;metadata            Metadata values&lt;br/&gt;owner               Owner of the item&lt;br/&gt;create_date         Item creation date (timestamp)&lt;br/&gt;update_date         Item update date (timestamp)&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:createDocmanEmptyDocumentRequest"/><output message="tns:createDocmanEmptyDocumentResponse"/></operation><operation name="createDocmanFileVersion"><documentation>Creates a docman file version &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;item_id             item ID&lt;br/&gt;label               version label&lt;br/&gt;changelog           Version changelog&lt;br/&gt;file_size           File size&lt;br/&gt;file_name           File name&lt;br/&gt;mime_type           Mime type&lt;br/&gt;content             Content&lt;br/&gt;chunk_offset        Chunk offset&lt;br/&gt;chunk_size          Chunk size&lt;br/&gt;author              Version author&lt;br/&gt;date                Version date (timestamp)&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:createDocmanFileVersionRequest"/><output message="tns:createDocmanFileVersionResponse"/></operation><operation name="createDocmanEmbeddedFileVersion"><documentation>Creates a docman embedded file version &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;item_id             item ID&lt;br/&gt;label               version label&lt;br/&gt;changelog           Version changelog&lt;br/&gt;content             Content&lt;br/&gt;author              Version author&lt;br/&gt;date                Version date (timestamp)&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:createDocmanEmbeddedFileVersionRequest"/><output message="tns:createDocmanEmbeddedFileVersionResponse"/></operation><operation name="appendDocmanFileChunk"><documentation>Appends a chunk of data to the last version of a file &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;item_id             item ID&lt;br/&gt;content             Content&lt;br/&gt;chunk_offset        Chunk offset&lt;br/&gt;chunk_size          Chunk size&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:appendDocmanFileChunkRequest"/><output message="tns:appendDocmanFileChunkResponse"/></operation><operation name="moveDocmanItem"><documentation>Moves an item in a new folder &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;item_id             item ID&lt;br/&gt;new_parent          New parent ID&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:moveDocmanItemRequest"/><output message="tns:moveDocmanItemResponse"/></operation><operation name="getDocmanFileChunk"><documentation>Returns a part (chunk) of the content, encoded in base64, of the file/embedded file which id item_id of a given version version_number, if the version is not specified it will be the current one, in the project group_id.Returns an error if the group ID does not match with a valid project, or if the item ID does not match with the right group ID, or if the version number does not match with the item ID. &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;item_id             item ID&lt;br/&gt;version_number      Version number&lt;br/&gt;chunk_offset        Chunk offset&lt;br/&gt;chunk_size          Chunk size&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:getDocmanFileChunkRequest"/><output message="tns:getDocmanFileChunkResponse"/></operation><operation name="deleteDocmanItem"><documentation>Delete an item (document or folder) &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;item_id             item ID&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:deleteDocmanItemRequest"/><output message="tns:deleteDocmanItemResponse"/></operation><operation name="monitorDocmanItem"><documentation>Enables the monitoring of an item by a user &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;item_id             item ID&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:monitorDocmanItemRequest"/><output message="tns:monitorDocmanItemResponse"/></operation><operation name="updateDocmanFolder"><documentation>Updates a docman folder &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;item_id             item ID&lt;br/&gt;title               Title&lt;br/&gt;description         Description&lt;br/&gt;status              Status (none, draft, approved, rejected)&lt;br/&gt;permissions         Permissions&lt;br/&gt;metadata            Metadata values&lt;br/&gt;owner               Owner of the item&lt;br/&gt;create_date         Item creation date (timestamp)&lt;br/&gt;update_date         Item update date (timestamp)&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:updateDocmanFolderRequest"/><output message="tns:updateDocmanFolderResponse"/></operation><operation name="updateDocmanFile"><documentation>Updates a docman file &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;item_id             item ID&lt;br/&gt;title               Title&lt;br/&gt;description         Description&lt;br/&gt;status              Status (none, draft, approved, rejected)&lt;br/&gt;obsolescence_date   Obsolescence date (timestamp)&lt;br/&gt;permissions         Permissions&lt;br/&gt;metadata            Metadata values&lt;br/&gt;owner               Owner of the item&lt;br/&gt;create_date         Item creation date (timestamp)&lt;br/&gt;update_date         Item update date (timestamp)&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:updateDocmanFileRequest"/><output message="tns:updateDocmanFileResponse"/></operation><operation name="updateDocmanEmbeddedFile"><documentation>Updates a docman embedded file &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;item_id             item ID&lt;br/&gt;title               Title&lt;br/&gt;description         Description&lt;br/&gt;status              Status (none, draft, approved, rejected)&lt;br/&gt;obsolescence_date   Obsolescence date (timestamp)&lt;br/&gt;permissions         Permissions&lt;br/&gt;metadata            Metadata values&lt;br/&gt;owner               Owner of the item&lt;br/&gt;create_date         Item creation date (timestamp)&lt;br/&gt;update_date         Item update date (timestamp)&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:updateDocmanEmbeddedFileRequest"/><output message="tns:updateDocmanEmbeddedFileResponse"/></operation><operation name="updateDocmanWikiPage"><documentation>Updates a docman wiki page &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;item_id             item ID&lt;br/&gt;title               Title&lt;br/&gt;description         Description&lt;br/&gt;status              Status (none, draft, approved, rejected)&lt;br/&gt;obsolescence_date   Obsolescence date (timestamp)&lt;br/&gt;content             Content&lt;br/&gt;permissions         Permissions&lt;br/&gt;metadata            Metadata values&lt;br/&gt;owner               Owner of the item&lt;br/&gt;create_date         Item creation date (timestamp)&lt;br/&gt;update_date         Item update date (timestamp)&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:updateDocmanWikiPageRequest"/><output message="tns:updateDocmanWikiPageResponse"/></operation><operation name="updateDocmanLink"><documentation>Updates a docman link &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;item_id             item ID&lt;br/&gt;title               Title&lt;br/&gt;description         Description&lt;br/&gt;status              Status (none, draft, approved, rejected)&lt;br/&gt;obsolescence_date   Obsolescence date (timestamp)&lt;br/&gt;content             Content&lt;br/&gt;permissions         Permissions&lt;br/&gt;metadata            Metadata values&lt;br/&gt;owner               Owner of the item&lt;br/&gt;create_date         Item creation date (timestamp)&lt;br/&gt;update_date         Item update date (timestamp)&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:updateDocmanLinkRequest"/><output message="tns:updateDocmanLinkResponse"/></operation><operation name="updateDocmanEmptyDocument"><documentation>Updates a docman empty document &lt;pre&gt;sessionKey          Session key&lt;br/&gt;group_id            Group ID&lt;br/&gt;item_id             item ID&lt;br/&gt;title               Title&lt;br/&gt;description         Description&lt;br/&gt;status              Status (none, draft, approved, rejected)&lt;br/&gt;obsolescence_date   Obsolescence date (timestamp)&lt;br/&gt;permissions         Permissions&lt;br/&gt;metadata            Metadata values&lt;br/&gt;owner               Owner of the item&lt;br/&gt;create_date         Item creation date (timestamp)&lt;br/&gt;update_date         Item update date (timestamp)&lt;br/&gt;&lt;/pre&gt;</documentation><input message="tns:updateDocmanEmptyDocumentRequest"/><output message="tns:updateDocmanEmptyDocumentResponse"/></operation></portType>
+<binding name="CodendiAPIBinding" type="tns:CodendiAPIPortType"><soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/><operation name="login"><soap:operation soapAction="https://192.168.1.35#login" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="loginAs"><soap:operation soapAction="https://192.168.1.35#loginAs" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="retrieveSession"><soap:operation soapAction="https://192.168.1.35#retrieveSession" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getAPIVersion"><soap:operation soapAction="https://192.168.1.35#getAPIVersion" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="logout"><soap:operation soapAction="https://192.168.1.35#logout" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getMyProjects"><soap:operation soapAction="https://192.168.1.35#getMyProjects" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getGroupByName"><soap:operation soapAction="https://192.168.1.35#getGroupByName" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getGroupById"><soap:operation soapAction="https://192.168.1.35#getGroupById" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getGroupUgroups"><soap:operation soapAction="https://192.168.1.35#getGroupUgroups" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getProjectGroupsAndUsers"><soap:operation soapAction="https://192.168.1.35#getProjectGroupsAndUsers" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="checkUsersExistence"><soap:operation soapAction="https://192.168.1.35#checkUsersExistence" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getUserInfo"><soap:operation soapAction="https://192.168.1.35#getUserInfo" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getTrackerList"><soap:operation soapAction="https://192.168.1.35#getTrackerList" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getArtifactType"><soap:operation soapAction="https://192.168.1.35#getArtifactType" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getArtifactTypes"><soap:operation soapAction="https://192.168.1.35#getArtifactTypes" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getArtifacts"><soap:operation soapAction="https://192.168.1.35#getArtifacts" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getArtifactsFromReport"><soap:operation soapAction="https://192.168.1.35#getArtifactsFromReport" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="addArtifact"><soap:operation soapAction="https://192.168.1.35#addArtifact" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="addArtifactWithFieldNames"><soap:operation soapAction="https://192.168.1.35#addArtifact" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="updateArtifact"><soap:operation soapAction="https://192.168.1.35#updateArtifact" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="updateArtifactWithFieldNames"><soap:operation soapAction="https://192.168.1.35#updateArtifact" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getArtifactFollowups"><soap:operation soapAction="https://192.168.1.35#getArtifactFollowups" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getArtifactCannedResponses"><soap:operation soapAction="https://192.168.1.35#getArtifactCannedResponses" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getArtifactReports"><soap:operation soapAction="https://192.168.1.35#getArtifactReports" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getArtifactAttachedFiles"><soap:operation soapAction="https://192.168.1.35#getArtifactAttachedFiles" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getArtifactAttachedFile"><soap:operation soapAction="https://192.168.1.35#getArtifactAttachedFile" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getArtifactById"><soap:operation soapAction="https://192.168.1.35#getArtifactById" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getArtifactDependencies"><soap:operation soapAction="https://192.168.1.35#getArtifactDependencies" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getArtifactInverseDependencies"><soap:operation soapAction="https://192.168.1.35#getArtifactInverseDependencies" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="addArtifactAttachedFile"><soap:operation soapAction="https://192.168.1.35#addArtifactAttachedFile" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="deleteArtifactAttachedFile"><soap:operation soapAction="https://192.168.1.35#deleteArtifactAttachedFile" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="addArtifactDependencies"><soap:operation soapAction="https://192.168.1.35#addArtifactDependencies" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="deleteArtifactDependency"><soap:operation soapAction="https://192.168.1.35#deleteArtifactDependency" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="addArtifactFollowup"><soap:operation soapAction="https://192.168.1.35#addArtifactFollowup" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="updateArtifactFollowUp"><soap:operation soapAction="https://192.168.1.35#updateArtifact" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="deleteArtifactFollowUp"><soap:operation soapAction="https://192.168.1.35#deleteArtifact" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="existArtifactSummary"><soap:operation soapAction="https://192.168.1.35#existArtifactSummary" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getArtifactCCList"><soap:operation soapAction="https://192.168.1.35#getArtifactCCList" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="addArtifactCC"><soap:operation soapAction="https://192.168.1.35#addArtifactCC" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="deleteArtifactCC"><soap:operation soapAction="https://192.168.1.35#deleteArtifactCC" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getArtifactHistory"><soap:operation soapAction="https://192.168.1.35#getArtifactHistory" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getPackages"><soap:operation soapAction="https://192.168.1.35#getPackages" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="addPackage"><soap:operation soapAction="https://192.168.1.35#addPackage" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getReleases"><soap:operation soapAction="https://192.168.1.35#getReleases" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="updateRelease"><soap:operation soapAction="https://192.168.1.35#updateRelease" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="addRelease"><soap:operation soapAction="https://192.168.1.35#addRelease" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getFiles"><soap:operation soapAction="https://192.168.1.35#getFiles" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getFileInfo"><soap:operation soapAction="https://192.168.1.35#getFileInfo" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getFile"><soap:operation soapAction="https://192.168.1.35#getFile" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getFileChunk"><soap:operation soapAction="https://192.168.1.35#getFileChunk" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="addFile"><soap:operation soapAction="https://192.168.1.35#addFile" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="addFileChunk"><soap:operation soapAction="https://192.168.1.35#addFileChunk" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="addUploadedFile"><soap:operation soapAction="https://192.168.1.35#addUploadedFile" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getUploadedFiles"><soap:operation soapAction="https://192.168.1.35#getUploadedFiles" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="deleteFile"><soap:operation soapAction="https://192.168.1.35#deleteFile" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="deleteEmptyPackage"><soap:operation soapAction="https://192.168.1.35#deleteEmptyPackage" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="deleteEmptyRelease"><soap:operation soapAction="https://192.168.1.35#deleteEmptyRelease" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="updateFileComment"><soap:operation soapAction="https://192.168.1.35#updateFileComment" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getRootFolder"><soap:operation soapAction="https://192.168.1.35#getRootFolder" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="listFolder"><soap:operation soapAction="https://192.168.1.35#listFolder" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="searchDocmanItem"><soap:operation soapAction="https://192.168.1.35#searchDocmanItem" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getDocmanFileContents"><soap:operation soapAction="https://192.168.1.35#getDocmanFileContents" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getDocmanFileMD5sum"><soap:operation soapAction="https://192.168.1.35#getDocmanFileMD5sum" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getDocmanFileAllVersionsMD5sum"><soap:operation soapAction="https://192.168.1.35#getDocmanFileAllVersionsMD5sum" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getDocmanProjectMetadata"><soap:operation soapAction="https://192.168.1.35#getDocmanProjectMetadata" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getDocmanTreeInfo"><soap:operation soapAction="https://192.168.1.35#getDocmanTreeInfo" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="createDocmanFolder"><soap:operation soapAction="https://192.168.1.35#createDocmanFolder" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="createDocmanFile"><soap:operation soapAction="https://192.168.1.35#createDocmanFile" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="createDocmanEmbeddedFile"><soap:operation soapAction="https://192.168.1.35#createDocmanEmbeddedFile" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="createDocmanWikiPage"><soap:operation soapAction="https://192.168.1.35#createDocmanWikiPage" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="createDocmanLink"><soap:operation soapAction="https://192.168.1.35#createDocmanLink" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="createDocmanEmptyDocument"><soap:operation soapAction="https://192.168.1.35#createDocmanEmptyDocument" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="createDocmanFileVersion"><soap:operation soapAction="https://192.168.1.35#createDocmanFileVersion" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="createDocmanEmbeddedFileVersion"><soap:operation soapAction="https://192.168.1.35#createDocmanEmbeddedFileVersion" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="appendDocmanFileChunk"><soap:operation soapAction="https://192.168.1.35#appendDocmanFileChunk" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="moveDocmanItem"><soap:operation soapAction="https://192.168.1.35#moveDocmanItem" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getDocmanFileChunk"><soap:operation soapAction="https://192.168.1.35#getDocmanFileChunk" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="deleteDocmanItem"><soap:operation soapAction="https://192.168.1.35#deleteDocmanItem" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="monitorDocmanItem"><soap:operation soapAction="https://192.168.1.35#monitorDocmanItem" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="updateDocmanFolder"><soap:operation soapAction="https://192.168.1.35#updateDocmanFolder" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="updateDocmanFile"><soap:operation soapAction="https://192.168.1.35#updateDocmanFile" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="updateDocmanEmbeddedFile"><soap:operation soapAction="https://192.168.1.35#updateDocmanEmbeddedFile" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="updateDocmanWikiPage"><soap:operation soapAction="https://192.168.1.35#updateDocmanWikiPage" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="updateDocmanLink"><soap:operation soapAction="https://192.168.1.35#updateDocmanLink" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="updateDocmanEmptyDocument"><soap:operation soapAction="https://192.168.1.35#updateDocmanEmptyDocument" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation></binding>
+<service name="CodendiAPI"><port name="CodendiAPIPort" binding="tns:CodendiAPIBinding"><soap:address location="https://192.168.1.35:443/soap/"/></port></service>
+</definitions>

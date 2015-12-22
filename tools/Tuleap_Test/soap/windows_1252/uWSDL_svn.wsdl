@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="https://192.168.1.35/soap/svn" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="https://192.168.1.35/soap/svn">
+<types><xsd:schema targetNamespace="https://192.168.1.35/soap/svn">
+ <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+ <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/"/>
+ <xsd:complexType name="ArrayOfstring">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:string[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfInteger">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:integer[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOflong">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:long[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfint">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:int[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="Revision">
+  <xsd:sequence>
+   <xsd:element name="revision" type="xsd:string"/>
+   <xsd:element name="author" type="xsd:string"/>
+   <xsd:element name="date" type="xsd:string"/>
+   <xsd:element name="message" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfRevision">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Revision[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="Commiter">
+  <xsd:sequence>
+   <xsd:element name="user_id" type="xsd:int"/>
+   <xsd:element name="commit_count" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfCommiter">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Commiter[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="SvnPathInfo">
+  <xsd:sequence>
+   <xsd:element name="path" type="xsd:string"/>
+   <xsd:element name="commit_count" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfSvnPathInfo">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:SvnPathInfo[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="SvnPathDetails">
+  <xsd:sequence>
+   <xsd:element name="path" type="xsd:string"/>
+   <xsd:element name="author" type="xsd:int"/>
+   <xsd:element name="message" type="xsd:string"/>
+   <xsd:element name="timestamp" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfSvnPathDetails">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:SvnPathDetails[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="UserInfo">
+  <xsd:sequence>
+   <xsd:element name="identifier" type="xsd:string"/>
+   <xsd:element name="username" type="xsd:string"/>
+   <xsd:element name="id" type="xsd:string"/>
+   <xsd:element name="real_name" type="xsd:string"/>
+   <xsd:element name="email" type="xsd:string"/>
+   <xsd:element name="ldap_id" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfUserInfo">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:UserInfo[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="DescField">
+  <xsd:sequence>
+   <xsd:element name="id" type="xsd:int"/>
+   <xsd:element name="name" type="xsd:string"/>
+   <xsd:element name="is_mandatory" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfDescFields">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:DescField[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="DescFieldValue">
+  <xsd:sequence>
+   <xsd:element name="id" type="xsd:int"/>
+   <xsd:element name="value" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfDescFieldsValues">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:DescFieldValue[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ServiceValue">
+  <xsd:sequence>
+   <xsd:element name="id" type="xsd:int"/>
+   <xsd:element name="short_name" type="xsd:string"/>
+   <xsd:element name="is_used" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfServicesValues">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ServiceValue[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+</xsd:schema>
+</types>
+<message name="getSvnPathRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="path" type="xsd:string"/></message>
+<message name="getSvnPathResponse"><part name="getSvnPath" type="tns:ArrayOfstring"/></message>
+<message name="getSvnPathsWithLogDetailsRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="path" type="xsd:string"/><part name="sort" type="xsd:string"/></message>
+<message name="getSvnPathsWithLogDetailsResponse"><part name="getSvnPathsWithLogDetails" type="tns:ArrayOfSvnPathDetails"/></message>
+<message name="getSvnLogRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="limit" type="xsd:int"/><part name="author_id" type="xsd:int"/></message>
+<message name="getSvnLogResponse"><part name="getSvnLog" type="tns:ArrayOfRevision"/></message>
+<message name="getSvnStatsUsersRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="start_date" type="xsd:int"/><part name="end_date" type="xsd:int"/></message>
+<message name="getSvnStatsUsersResponse"><part name="getSvnStatsUsers" type="tns:ArrayOfCommiter"/></message>
+<message name="getSvnStatsFilesRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="start_date" type="xsd:int"/><part name="end_date" type="xsd:int"/><part name="limit" type="xsd:int"/></message>
+<message name="getSvnStatsFilesResponse"><part name="getSvnStatsFiles" type="tns:ArrayOfSvnPathInfo"/></message>
+<portType name="TuleapSubversionAPIPortType"><operation name="getSvnPath"><documentation>Returns the content of a directory in Subversion according to user permissions&lt;br /&gt;
+&lt;br /&gt;
+&lt;ul&gt;&lt;br /&gt;
+&lt;li&gt;If user cannot see the content it gets an empty array.&lt;/li&gt;&lt;br /&gt;
+&lt;li&gt;The returned content is relative (/project/tags) gives array("1.0", "2.0").&lt;/li&gt;&lt;br /&gt;
+&lt;/ul&gt;&lt;br /&gt;
+&lt;br /&gt;
+Error codes:&lt;br /&gt;
+* 3001, Invalid session (wrong $sessionKey)&lt;br /&gt;
+* 3002, User do not have access to the project&lt;br /&gt;
+&lt;br /&gt;
+@param String  $sessionKey Session key of the desired project admin&lt;br /&gt;
+@param Integer $group_id    ID of the project the subversion repository belongs to&lt;br /&gt;
+@param String  $path        Path to the directory to list (eg. '/tags')</documentation><input message="tns:getSvnPathRequest"/><output message="tns:getSvnPathResponse"/></operation><operation name="getSvnPathsWithLogDetails"><documentation>Returns the detailed content of a directory in Subversion according to user permissions&lt;br /&gt;
+&lt;br /&gt;
+&lt;ul&gt;&lt;br /&gt;
+&lt;li&gt;If user cannot see the content it gets an empty array.&lt;/li&gt;&lt;br /&gt;
+&lt;li&gt;The returned content is relative (/project/tags) gives&lt;br /&gt;
+array(&lt;br /&gt;
+0 =&gt; array(&lt;br /&gt;
+'path' =&gt; '/tags',&lt;br /&gt;
+'author =&gt; 169,&lt;br /&gt;
+'timestamp' =&gt; 1545265465,&lt;br /&gt;
+'message' =&gt; 'some commit message'),&lt;br /&gt;
+1 =&gt; array(&lt;br /&gt;
+'path' =&gt; '/tags',&lt;br /&gt;
+'author =&gt; 587,&lt;br /&gt;
+'timestamp' =&gt; 11545824,&lt;br /&gt;
+'message' =&gt; 'some other commit message'),&lt;br /&gt;
+).&lt;/li&gt;&lt;br /&gt;
+&lt;/ul&gt;&lt;br /&gt;
+&lt;br /&gt;
+Error codes:&lt;br /&gt;
+* 3001, Invalid session (wrong $sessionKey)&lt;br /&gt;
+* 3002, User do not have access to the project&lt;br /&gt;
+&lt;br /&gt;
+@param String  $sessionKey Session key of the desired project admin&lt;br /&gt;
+@param Integer $group_id    ID of the project the subversion repository belongs to&lt;br /&gt;
+@param String  $path        Path to the directory to list (eg. '/tags')&lt;br /&gt;
+@param String  $sort        The type of sort wanted: ASC or DESC</documentation><input message="tns:getSvnPathsWithLogDetailsRequest"/><output message="tns:getSvnPathsWithLogDetailsResponse"/></operation><operation name="getSvnLog"><documentation>Retrieves the SVN revisions of the project visible by the requesting user.&lt;br /&gt;
+&lt;br /&gt;
+Returned format:&lt;br /&gt;
+&lt;code&gt;&lt;br /&gt;
+array(&lt;br /&gt;
+array(&lt;br /&gt;
+"revision"  =&gt; Revision number,&lt;br /&gt;
+"author"    =&gt; User id,&lt;br /&gt;
+"date"      =&gt; timestamp,&lt;br /&gt;
+"message"   =&gt; commit message,&lt;br /&gt;
+)&lt;br /&gt;
+)&lt;br /&gt;
+&lt;/code&gt;&lt;br /&gt;
+&lt;br /&gt;
+Example:&lt;br /&gt;
+&lt;code&gt;&lt;br /&gt;
+array(&lt;br /&gt;
+array(&lt;br /&gt;
+"revision"  =&gt; 12214,&lt;br /&gt;
+"author"    =&gt; 123,&lt;br /&gt;
+"date"      =&gt; 1337788549,&lt;br /&gt;
+"message"   =&gt; "Fix bug #456",&lt;br /&gt;
+)&lt;br /&gt;
+array(&lt;br /&gt;
+"revision"  =&gt; 12213,&lt;br /&gt;
+"author"    =&gt; 123,&lt;br /&gt;
+"date"      =&gt; 1337788530,&lt;br /&gt;
+"message"   =&gt; "Fix bug #789",&lt;br /&gt;
+)&lt;br /&gt;
+)&lt;br /&gt;
+&lt;/code&gt;&lt;br /&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+Error codes:&lt;br /&gt;
+* 3001, Invalid session (wrong $sessionKey)&lt;br /&gt;
+* 3002, User do not have access to the project&lt;br /&gt;
+* 3005, Invalid user id&lt;br /&gt;
+&lt;br /&gt;
+@param String  $sessionKey  Session key of the requesting user&lt;br /&gt;
+@param Integer $group_id    ID of the project the subversion repository belongs to&lt;br /&gt;
+@param Integer $limit       Maximum revisions returned&lt;br /&gt;
+@param Integer $author_id   Id of commit author</documentation><input message="tns:getSvnLogRequest"/><output message="tns:getSvnLogResponse"/></operation><operation name="getSvnStatsUsers"><documentation>Returns the list of active users (commiters) between start_date and end_date&lt;br /&gt;
+&lt;br /&gt;
+@param String  $sessionKey Session key of the requesting user&lt;br /&gt;
+@param Integer $group_id    ID of the project the subversion repository belongs to&lt;br /&gt;
+@param Integer $start_date  Start of period (unix timestamp)&lt;br /&gt;
+@param Integer $end_date    End of period   (unix timestamp)</documentation><input message="tns:getSvnStatsUsersRequest"/><output message="tns:getSvnStatsUsersResponse"/></operation><operation name="getSvnStatsFiles"><documentation>Return top most modified files during the given period&lt;br /&gt;
+&lt;br /&gt;
+@param String  $sessionKey Session key of the requesting user&lt;br /&gt;
+@param Integer $group_id    ID of the project the subversion repository belongs to&lt;br /&gt;
+@param Integer $start_date  Start of period (unix timestamp)&lt;br /&gt;
+@param Integer $end_date    End of period   (unix timestamp)&lt;br /&gt;
+@param Integer $limit       Max number of files to return</documentation><input message="tns:getSvnStatsFilesRequest"/><output message="tns:getSvnStatsFilesResponse"/></operation></portType>
+<binding name="TuleapSubversionAPIBinding" type="tns:TuleapSubversionAPIPortType"><soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/><operation name="getSvnPath"><soap:operation soapAction="https://192.168.1.35/soap/svn#getSvnPath" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/soap/svn" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/soap/svn" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getSvnPathsWithLogDetails"><soap:operation soapAction="https://192.168.1.35/soap/svn#getSvnPathsWithLogDetails" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/soap/svn" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/soap/svn" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getSvnLog"><soap:operation soapAction="https://192.168.1.35/soap/svn#getSvnLog" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/soap/svn" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/soap/svn" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getSvnStatsUsers"><soap:operation soapAction="https://192.168.1.35/soap/svn#getSvnStatsUsers" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/soap/svn" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/soap/svn" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getSvnStatsFiles"><soap:operation soapAction="https://192.168.1.35/soap/svn#getSvnStatsFiles" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/soap/svn" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/soap/svn" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation></binding>
+<service name="TuleapSubversionAPI"><port name="TuleapSubversionAPIPort" binding="tns:TuleapSubversionAPIBinding"><soap:address location="https://192.168.1.35:443/soap/svn/"/></port></service>
+</definitions>

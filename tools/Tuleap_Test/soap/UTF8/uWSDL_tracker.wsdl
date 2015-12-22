@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="https://192.168.1.35/plugins/tracker/soap" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="https://192.168.1.35/plugins/tracker/soap">
+<types><xsd:schema targetNamespace="https://192.168.1.35/plugins/tracker/soap">
+ <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+ <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/"/>
+ <xsd:complexType name="Tracker">
+  <xsd:sequence>
+   <xsd:element name="tracker_id" type="xsd:int"/>
+   <xsd:element name="group_id" type="xsd:int"/>
+   <xsd:element name="name" type="xsd:string"/>
+   <xsd:element name="description" type="xsd:string"/>
+   <xsd:element name="item_name" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfTracker">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Tracker[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="TrackerField">
+  <xsd:sequence>
+   <xsd:element name="tracker_id" type="xsd:int"/>
+   <xsd:element name="field_id" type="xsd:int"/>
+   <xsd:element name="short_name" type="xsd:string"/>
+   <xsd:element name="label" type="xsd:string"/>
+   <xsd:element name="type" type="xsd:string"/>
+   <xsd:element name="values" type="tns:ArrayOfTrackerFieldBindValue"/>
+   <xsd:element name="binding" type="tns:TrackerFieldBindType"/>
+   <xsd:element name="permissions" type="tns:ArrayOfString"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfTrackerField">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:TrackerField[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="TrackerFieldBindValue">
+  <xsd:sequence>
+   <xsd:element name="bind_value_id" type="xsd:int"/>
+   <xsd:element name="bind_value_label" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfTrackerFieldBindValue">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:TrackerFieldBindValue[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="TrackerFieldBindType">
+  <xsd:sequence>
+   <xsd:element name="bind_type" type="xsd:string"/>
+   <xsd:element name="bind_list" type="tns:ArrayOfUgroup"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfUgroup">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:UGroup[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="UGroup">
+  <xsd:sequence>
+   <xsd:element name="ugroup_id" type="xsd:int"/>
+   <xsd:element name="name" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="FieldValueFileInfo">
+  <xsd:sequence>
+   <xsd:element name="id" type="xsd:string"/>
+   <xsd:element name="submitted_by" type="xsd:int"/>
+   <xsd:element name="description" type="xsd:string"/>
+   <xsd:element name="filename" type="xsd:string"/>
+   <xsd:element name="filesize" type="xsd:int"/>
+   <xsd:element name="filetype" type="xsd:string"/>
+   <xsd:element name="action" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfFieldValueFileInfo">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:FieldValueFileInfo[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="FieldValue">
+  <xsd:choice>
+   <xsd:element name="value" type="xsd:string"/>
+   <xsd:element name="file_info" type="tns:ArrayOfFieldValueFileInfo"/>
+   <xsd:element name="bind_value" type="tns:ArrayOfTrackerFieldBindValue"/>
+  </xsd:choice>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactFieldValue">
+  <xsd:sequence>
+   <xsd:element name="field_name" type="xsd:string"/>
+   <xsd:element name="field_label" type="xsd:string"/>
+   <xsd:element name="field_value" type="tns:FieldValue"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactFieldValue">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactFieldValue[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactCrossReferences">
+  <xsd:sequence>
+   <xsd:element name="ref" type="xsd:string"/>
+   <xsd:element name="url" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactCrossReferences">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactCrossReferences[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="Artifact">
+  <xsd:sequence>
+   <xsd:element name="artifact_id" type="xsd:int"/>
+   <xsd:element name="tracker_id" type="xsd:int"/>
+   <xsd:element name="submitted_by" type="xsd:int"/>
+   <xsd:element name="submitted_on" type="xsd:int"/>
+   <xsd:element name="cross_references" type="tns:ArrayOfArtifactCrossReferences"/>
+   <xsd:element name="last_update_date" type="xsd:int"/>
+   <xsd:element name="value" type="tns:ArrayOfArtifactFieldValue"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifact">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Artifact[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="CriteriaValueDate">
+  <xsd:sequence>
+   <xsd:element name="op" type="xsd:string"/>
+   <xsd:element name="to_date" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="CriteriaValueDateAdvanced">
+  <xsd:sequence>
+   <xsd:element name="from_date" type="xsd:int"/>
+   <xsd:element name="to_date" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="CriteriaValue">
+  <xsd:choice>
+   <xsd:element name="value" type="xsd:string"/>
+   <xsd:element name="date" type="tns:CriteriaValueDate"/>
+   <xsd:element name="dateAdvanced" type="tns:CriteriaValueDateAdvanced"/>
+  </xsd:choice>
+ </xsd:complexType>
+ <xsd:complexType name="Criteria">
+  <xsd:sequence>
+   <xsd:element name="field_name" type="xsd:string"/>
+   <xsd:element name="value" type="tns:CriteriaValue"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfCriteria">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:Criteria[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="SortCriteria">
+  <xsd:sequence>
+   <xsd:element name="field_name" type="xsd:string"/>
+   <xsd:element name="sort_direction" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfSortCriteria">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:SortCriteria[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactQueryResult">
+  <xsd:sequence>
+   <xsd:element name="total_artifacts_number" type="xsd:int"/>
+   <xsd:element name="artifacts" type="tns:ArrayOfArtifact"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactFile">
+  <xsd:sequence>
+   <xsd:element name="id" type="xsd:int"/>
+   <xsd:element name="artifact_id" type="xsd:int"/>
+   <xsd:element name="filename" type="xsd:string"/>
+   <xsd:element name="description" type="xsd:string"/>
+   <xsd:element name="bin_data" type="xsd:base64Binary"/>
+   <xsd:element name="filesize" type="xsd:int"/>
+   <xsd:element name="filetype" type="xsd:string"/>
+   <xsd:element name="adddate" type="xsd:int"/>
+   <xsd:element name="submitted_by" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactFile">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactFile[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfInt">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:int[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfString">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="xsd:string[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="TrackerSemanticTitle">
+  <xsd:sequence>
+   <xsd:element name="field_name" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="TrackerSemanticStatus">
+  <xsd:sequence>
+   <xsd:element name="field_name" type="xsd:string"/>
+   <xsd:element name="values" type="tns:ArrayOfInt"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="TrackerSemanticContributor">
+  <xsd:sequence>
+   <xsd:element name="field_name" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="AgileDashBoardSemanticInitialEffort">
+  <xsd:sequence>
+   <xsd:element name="field_name" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="TrackerSemantic">
+  <xsd:sequence>
+   <xsd:element name="title" type="tns:TrackerSemanticTitle"/>
+   <xsd:element name="status" type="tns:TrackerSemanticStatus"/>
+   <xsd:element name="contributor" type="tns:TrackerSemanticContributor"/>
+   <xsd:element name="initial_effort" type="tns:AgileDashBoardSemanticInitialEffort"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="TrackerWorkflowTransition">
+  <xsd:sequence>
+   <xsd:element name="from_id" type="xsd:int"/>
+   <xsd:element name="to_id" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="TrackerWorkflowRuleList">
+  <xsd:sequence>
+   <xsd:element name="source_field_id" type="xsd:int"/>
+   <xsd:element name="target_field_id" type="xsd:int"/>
+   <xsd:element name="source_value_id" type="xsd:int"/>
+   <xsd:element name="target_value_id" type="xsd:int"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="TrackerWorkflowRuleDate">
+  <xsd:sequence>
+   <xsd:element name="source_field_id" type="xsd:int"/>
+   <xsd:element name="target_field_id" type="xsd:int"/>
+   <xsd:element name="comparator" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="TrackerWorkflowRuleArray">
+  <xsd:sequence>
+   <xsd:element name="dates" type="tns:TrackerWorkflowRuleDateArray"/>
+   <xsd:element name="lists" type="tns:TrackerWorkflowRuleListArray"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="TrackerWorkflowTransitionArray">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:TrackerWorkflowTransition[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="TrackerWorkflowRuleDateArray">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:TrackerWorkflowRuleDate[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="TrackerWorkflowRuleListArray">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:TrackerWorkflowRuleList[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="TrackerWorkflow">
+  <xsd:sequence>
+   <xsd:element name="field_id" type="xsd:int"/>
+   <xsd:element name="is_used" type="xsd:int"/>
+   <xsd:element name="rules" type="tns:TrackerWorkflowRuleArray"/>
+   <xsd:element name="transitions" type="tns:TrackerWorkflowTransitionArray"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="TrackerStructure">
+  <xsd:sequence>
+   <xsd:element name="semantic" type="tns:TrackerSemantic"/>
+   <xsd:element name="workflow" type="tns:TrackerWorkflow"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="TrackerReport">
+  <xsd:sequence>
+   <xsd:element name="id" type="xsd:int"/>
+   <xsd:element name="name" type="xsd:string"/>
+   <xsd:element name="description" type="xsd:string"/>
+   <xsd:element name="user_id" type="xsd:int"/>
+   <xsd:element name="is_default" type="xsd:boolean"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfTrackerReport">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:TrackerReport[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactComments">
+  <xsd:sequence>
+   <xsd:element name="submitted_by" type="xsd:int"/>
+   <xsd:element name="email" type="xsd:string"/>
+   <xsd:element name="submitted_on" type="xsd:int"/>
+   <xsd:element name="body" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactComments">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactComments[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactFollowupComment">
+  <xsd:sequence>
+   <xsd:element name="submitted_by" type="xsd:int"/>
+   <xsd:element name="submitted_on" type="xsd:int"/>
+   <xsd:element name="format" type="xsd:string"/>
+   <xsd:element name="body" type="xsd:string"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArtifactHistory">
+  <xsd:sequence>
+   <xsd:element name="submitted_by" type="xsd:int"/>
+   <xsd:element name="email" type="xsd:string"/>
+   <xsd:element name="submitted_on" type="xsd:int"/>
+   <xsd:element name="last_comment" type="tns:ArtifactFollowupComment"/>
+   <xsd:element name="fields" type="tns:ArrayOfArtifactFieldValue"/>
+  </xsd:sequence>
+ </xsd:complexType>
+ <xsd:complexType name="ArrayOfArtifactHistory">
+  <xsd:complexContent>
+   <xsd:restriction base="SOAP-ENC:Array">
+    <xsd:attribute ref="SOAP-ENC:arrayType" wsdl:arrayType="tns:ArtifactHistory[]"/>
+   </xsd:restriction>
+  </xsd:complexContent>
+ </xsd:complexType>
+</xsd:schema>
+</types>
+<message name="getVersionRequest"/>
+<message name="getVersionResponse"><part name="return" type="xsd:float"/></message>
+<message name="getTrackerListRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/></message>
+<message name="getTrackerListResponse"><part name="return" type="tns:ArrayOfTracker"/></message>
+<message name="getTrackerFieldsRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="tracker_id" type="xsd:int"/></message>
+<message name="getTrackerFieldsResponse"><part name="return" type="tns:ArrayOfTrackerField"/></message>
+<message name="getArtifactsRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="tracker_id" type="xsd:int"/><part name="criteria" type="tns:ArrayOfCriteria"/><part name="offset" type="xsd:int"/><part name="max_rows" type="xsd:int"/></message>
+<message name="getArtifactsResponse"><part name="return" type="tns:ArtifactQueryResult"/></message>
+<message name="addArtifactRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="tracker_id" type="xsd:int"/><part name="value" type="tns:ArrayOfArtifactFieldValue"/></message>
+<message name="addArtifactResponse"><part name="return" type="xsd:int"/></message>
+<message name="updateArtifactRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="tracker_id" type="xsd:int"/><part name="artifact_id" type="xsd:int"/><part name="value" type="tns:ArrayOfArtifactFieldValue"/><part name="comment" type="xsd:string"/><part name="comment_format" type="xsd:string"/></message>
+<message name="updateArtifactResponse"><part name="return" type="xsd:int"/></message>
+<message name="getArtifactRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="tracker_id" type="xsd:int"/><part name="artifact_id" type="xsd:int"/></message>
+<message name="getArtifactResponse"><part name="return" type="tns:Artifact"/></message>
+<message name="getArtifactsFromReportRequest"><part name="sessionKey" type="xsd:string"/><part name="report_id" type="xsd:int"/><part name="offset" type="xsd:int"/><part name="max_rows" type="xsd:int"/></message>
+<message name="getArtifactsFromReportResponse"><part name="return" type="tns:ArtifactQueryResult"/></message>
+<message name="getArtifactAttachmentChunkRequest"><part name="sessionKey" type="xsd:string"/><part name="artifact_id" type="xsd:int"/><part name="attachment_id" type="xsd:int"/><part name="offset" type="xsd:int"/><part name="size" type="xsd:int"/></message>
+<message name="getArtifactAttachmentChunkResponse"><part name="return" type="xsd:string"/></message>
+<message name="createTemporaryAttachmentRequest"><part name="sessionKey" type="xsd:string"/></message>
+<message name="createTemporaryAttachmentResponse"><part name="return" type="xsd:string"/></message>
+<message name="appendTemporaryAttachmentChunkRequest"><part name="sessionKey" type="xsd:string"/><part name="attachment_name" type="xsd:string"/><part name="content" type="xsd:string"/></message>
+<message name="appendTemporaryAttachmentChunkResponse"><part name="return" type="xsd:int"/></message>
+<message name="purgeAllTemporaryAttachmentsRequest"><part name="sessionKey" type="xsd:string"/></message>
+<message name="purgeAllTemporaryAttachmentsResponse"><part name="return" type="xsd:boolean"/></message>
+<message name="getTrackerStructureRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="tracker_id" type="xsd:int"/></message>
+<message name="getTrackerStructureResponse"><part name="return" type="tns:TrackerStructure"/></message>
+<message name="getTrackerReportsRequest"><part name="sessionKey" type="xsd:string"/><part name="group_id" type="xsd:int"/><part name="tracker_id" type="xsd:int"/></message>
+<message name="getTrackerReportsResponse"><part name="return" type="tns:ArrayOfTrackerReport"/></message>
+<message name="getArtifactCommentsRequest"><part name="sessionKey" type="xsd:string"/><part name="artifact_id" type="xsd:int"/></message>
+<message name="getArtifactCommentsResponse"><part name="return" type="tns:ArrayOfArtifactComments"/></message>
+<message name="getArtifactHistoryRequest"><part name="sessionKey" type="xsd:string"/><part name="artifact_id" type="xsd:int"/></message>
+<message name="getArtifactHistoryResponse"><part name="return" type="tns:ArrayOfArtifactHistory"/></message>
+<message name="addSelectBoxValuesRequest"><part name="sessionKey" type="xsd:string"/><part name="tracker_id" type="xsd:int"/><part name="field_id" type="xsd:int"/><part name="values" type="tns:ArrayOfString"/></message>
+<message name="addSelectBoxValuesResponse"><part name="return" type="xsd:boolean"/></message>
+<portType name="TuleapTrackerV5APIPortType"><operation name="getVersion"><documentation>Returns the version number of the SOAP API.
+     Changes are available in /plugins/tracker/soap/ChangeLog</documentation><input message="tns:getVersionRequest"/><output message="tns:getVersionResponse"/></operation><operation name="getTrackerList"><documentation>Returns the array of Tracker that belongs to the group identified by group ID.
+     Returns a soap fault if the group ID does not match with a valid project.</documentation><input message="tns:getTrackerListRequest"/><output message="tns:getTrackerListResponse"/></operation><operation name="getTrackerFields"><documentation>Returns the array of Trackerfields that are used in the tracker tracker_id of the project group_id.
+     Returns a soap fault if the tracker ID or the group ID does not match with a valid project.</documentation><input message="tns:getTrackerFieldsRequest"/><output message="tns:getTrackerFieldsResponse"/></operation><operation name="getArtifacts"><documentation>Returns the ArtifactQueryResult of the tracker tracker_id in the project group_id
+     that are matching the given criteria. If offset AND max_rows are filled, it returns only
+     max_rows artifacts, skipping the first offset ones.
+     It is not possible to sort artifact with this function (use getArtifactsFromReport if you want to sort).
+     Returns a soap fault if the group_id is not a valid one or if the tracker_id is not a valid one.</documentation><input message="tns:getArtifactsRequest"/><output message="tns:getArtifactsResponse"/></operation><operation name="addArtifact"><documentation>Add an Artifact in the tracker tracker_id of the project group_id with the values given by
+     value (an ArtifactFieldValue).
+     Returns the Id of the created artifact if the creation succeed.
+     Returns a soap fault if the group_id is not a valid one, if the tracker_name is not a valid one, or if the add failed.</documentation><input message="tns:addArtifactRequest"/><output message="tns:addArtifactResponse"/></operation><operation name="updateArtifact"><documentation>Update the artifact $artifact_id of the tracker $tracker_id in the project group_id with the values given by
+     value. Add a follow-up comment $comment.
+     Returns a soap fault if the group_id is not a valid one, if the tracker_id is not a valid one,
+     if the artifart_id is not a valid one, or if the update failed.</documentation><input message="tns:updateArtifactRequest"/><output message="tns:updateArtifactResponse"/></operation><operation name="getArtifact"><documentation>Returns the artifact (Artifact) identified by the id artifact_id
+     Returns a soap fault if the group_id is not a valid one, if the tracker_id is not a valid one,
+     or if the artifact_id is not a valid one.</documentation><input message="tns:getArtifactRequest"/><output message="tns:getArtifactResponse"/></operation><operation name="getArtifactsFromReport"><documentation>Execute a report and returns corresponding artifacts.</documentation><input message="tns:getArtifactsFromReportRequest"/><output message="tns:getArtifactsFromReportResponse"/></operation><operation name="getArtifactAttachmentChunk"><documentation>Return base64 encoded chunk of request file</documentation><input message="tns:getArtifactAttachmentChunkRequest"/><output message="tns:getArtifactAttachmentChunkResponse"/></operation><operation name="createTemporaryAttachment"><documentation>&lt;pre&gt;Provision an attachment for future upload
+
+This method is supposed to be run before "appendTemporaryAttachmentChunk" to
+allocate an file name on the server for upload before running "addArtifact" or
+"updateArtifact"
+
+Returns an attachment_name to be used with appendTemporaryAttachmentChunk.&lt;/pre&gt;</documentation><input message="tns:createTemporaryAttachmentRequest"/><output message="tns:createTemporaryAttachmentResponse"/></operation><operation name="appendTemporaryAttachmentChunk"><documentation>&lt;pre&gt;Appends file content chunk into selected attachment.
+
+attachment_name is generated by createTemporaryAttachment
+content must be base64 encoded
+
+Returns the number of written bytes on the file system.&lt;/pre&gt;</documentation><input message="tns:appendTemporaryAttachmentChunkRequest"/><output message="tns:appendTemporaryAttachmentChunkResponse"/></operation><operation name="purgeAllTemporaryAttachments"><documentation>Remove all temporary attachment not yet attached to an artifact</documentation><input message="tns:purgeAllTemporaryAttachmentsRequest"/><output message="tns:purgeAllTemporaryAttachmentsResponse"/></operation><operation name="getTrackerStructure"><documentation>Returns the tracker structure.</documentation><input message="tns:getTrackerStructureRequest"/><output message="tns:getTrackerStructureResponse"/></operation><operation name="getTrackerReports"><documentation>Returns the reports the user can execute.</documentation><input message="tns:getTrackerReportsRequest"/><output message="tns:getTrackerReportsResponse"/></operation><operation name="getArtifactComments"><documentation>Returns the comments of an artifact.</documentation><input message="tns:getArtifactCommentsRequest"/><output message="tns:getArtifactCommentsResponse"/></operation><operation name="getArtifactHistory"><documentation>Returns history (all changesets and comments) of an artifact.</documentation><input message="tns:getArtifactHistoryRequest"/><output message="tns:getArtifactHistoryResponse"/></operation><operation name="addSelectBoxValues"><documentation>Add values to Tracker selectBox field</documentation><input message="tns:addSelectBoxValuesRequest"/><output message="tns:addSelectBoxValuesResponse"/></operation></portType>
+<binding name="TuleapTrackerV5APIBinding" type="tns:TuleapTrackerV5APIPortType"><soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/><operation name="getVersion"><soap:operation soapAction="https://192.168.1.35/plugins/tracker/soap#getVersion" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getTrackerList"><soap:operation soapAction="https://192.168.1.35/plugins/tracker/soap#getTrackerList" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getTrackerFields"><soap:operation soapAction="https://192.168.1.35/plugins/tracker/soap#getTrackerFields" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getArtifacts"><soap:operation soapAction="https://192.168.1.35/plugins/tracker/soap#getArtifacts" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="addArtifact"><soap:operation soapAction="https://192.168.1.35/plugins/tracker/soap#addArtifact" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="updateArtifact"><soap:operation soapAction="https://192.168.1.35/plugins/tracker/soap#updateArtifact" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getArtifact"><soap:operation soapAction="https://192.168.1.35/plugins/tracker/soap#getArtifact" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getArtifactsFromReport"><soap:operation soapAction="https://192.168.1.35/plugins/tracker/soap#getArtifactsFromReport" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getArtifactAttachmentChunk"><soap:operation soapAction="https://192.168.1.35/plugins/tracker/soap#getArtifactAttachmentChunk" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="createTemporaryAttachment"><soap:operation soapAction="https://192.168.1.35/plugins/tracker/soap#createTemporaryAttachment" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="appendTemporaryAttachmentChunk"><soap:operation soapAction="https://192.168.1.35/plugins/tracker/soap#appendTemporaryAttachmentChunk" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="purgeAllTemporaryAttachments"><soap:operation soapAction="https://192.168.1.35/plugins/tracker/soap#purgeAllTemporaryAttachments" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getTrackerStructure"><soap:operation soapAction="https://192.168.1.35/plugins/tracker/soap#getTrackerStructure" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getTrackerReports"><soap:operation soapAction="https://192.168.1.35/plugins/tracker/soap#getTrackerReports" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getArtifactComments"><soap:operation soapAction="https://192.168.1.35/plugins/tracker/soap#getArtifactComments" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="getArtifactHistory"><soap:operation soapAction="https://192.168.1.35/plugins/tracker/soap#getArtifactHistory" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation><operation name="addSelectBoxValues"><soap:operation soapAction="https://192.168.1.35/plugins/tracker/soap#addSelectBoxValues" style="rpc"/><input><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></input><output><soap:body use="encoded" namespace="https://192.168.1.35/plugins/tracker/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/></output></operation></binding>
+<service name="TuleapTrackerV5API"><port name="TuleapTrackerV5APIPort" binding="tns:TuleapTrackerV5APIBinding"><soap:address location="https://192.168.1.35:443/plugins/tracker/soap/"/></port></service>
+</definitions>
