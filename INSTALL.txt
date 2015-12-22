@@ -9,6 +9,7 @@ Usually, you should :
   OD_DelphiReportEngine_LCL        (sub-directory pascal_o_r_mapping/1_LCL)
   OD_DelphiReportEngine_Units      (sub-directory pascal_o_r_mapping/2_Units)
   OD_DelphiReportEngine_Components (sub-directory pascal_o_r_mapping/4_Components)
+  lclextensions_package.lpk        (sub-directory pascal_o_r_mapping/7_sources_externes/lclextensions-0.5.1)
 - Open, compile and install (Use/Install) in Lazarus:
   OD_DelphiReportEngine_Controls   (sub-directory pascal_o_r_mapping/5_Controls)
   virtualtreeview_package.lpk      (sub-directory pascal_o_r_mapping/7_sources_externes\virtualtreeview-4.8.7_LCL-R2)
