@@ -72,7 +72,8 @@ type
     function  GetChaine: String;
   public
     OnGetChaine: TChamp_OnGetChaine;
-    property Chaine: String read GetChaine write SetChaine;
+    property Chaine  : String read GetChaine write SetChaine;
+    property asString: String read GetChaine write SetChaine;
   //Gestion de la publication des modifications
   private
     FOnChange: TPublieur;

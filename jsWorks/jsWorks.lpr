@@ -73,7 +73,7 @@ uses
  ublTag_Work, udkType_Tag_EDIT, ublType_Tag, upoolType_Tag, uhfType_Tag,
  ufType_Tag, udkTag_LABEL, uodWork_from_Period, udkTag_LABEL_od,
  udkWork_haTag_from_Description_LABEL, ufTest_VirtualTreeView,
- virtualtreeview_package, uhVST, ufTest_neo4j, ufTULEAP, uNEO4J, uTULEAP,
+ virtualtreeview_package, uhVST, ufTest_neo4j, ufTULEAP, uNEO4J, uTuleap,
  ublJSON, upoolJSON;
 
 {$R *.res}

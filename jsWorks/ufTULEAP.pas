@@ -26,7 +26,8 @@ interface
 
 uses
     uClean,
-    uTULEAP,
+    uBatpro_StringList,
+    uTuleap,
 
     ublJSON,
 
@@ -45,6 +46,7 @@ type
  =
   class(TForm)
    bAuthenticate: TButton;
+   bGenere: TButton;
    bProjects: TButton;
    bAPI_Explorer: TButton;
    cbStreaming: TCheckBox;
@@ -57,6 +59,7 @@ type
    vst: TVirtualStringTree;
    procedure bAPI_ExplorerClick(Sender: TObject);
    procedure bAuthenticateClick(Sender: TObject);
+   procedure bGenereClick(Sender: TObject);
    procedure bProjectsClick(Sender: TObject);
    procedure cbStreamingChange(Sender: TObject);
    procedure FormCreate(Sender: TObject);
@@ -111,6 +114,20 @@ end;
 procedure TfTULEAP.bAuthenticateClick(Sender: TObject);
 begin
      Affiche_Resultat( TULEAP.Authenticate( eUserName.Text, ePassword.Text));
+end;
+
+procedure TfTULEAP.bGenereClick(Sender: TObject);
+var
+   bl: TblJSON;
+   NomTable: String;
+begin
+     if sl.Count = 0                          then exit;
+     if Affecte_( bl, TblJSON, sl.Objects[0]) then exit;
+
+     NomTable:= 'Nouveau';
+     if not InputQuery( 'Génération de code', 'Suffixe d''identification (nom de la table)', NomTable) then exit;
+
+     bl.Genere_code( NomTable);
 end;
 
 procedure TfTULEAP.bAPI_ExplorerClick(Sender: TObject);

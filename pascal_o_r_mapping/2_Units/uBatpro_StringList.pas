@@ -110,11 +110,11 @@ type
 
     // 2012/03/19 tentative de sécuriser l'appel en déclarant des itérateurs
     // pour chaque classe utilisatrice
-    procedure Suivant_interne( var _Resultat);
-    function  not_Suivant_interne( var _Resultat): Boolean;
+    procedure Suivant_interne( out _Resultat);
+    function  not_Suivant_interne( out _Resultat): Boolean;
   private
-    procedure Suivant( var _Resultat);
-    function  not_Suivant( var _Resultat): Boolean;
+    procedure Suivant( out _Resultat);
+    function  not_Suivant( out _Resultat): Boolean;
   public
     procedure Supprime_courant;
     function  EOF: Boolean;
@@ -209,8 +209,8 @@ type
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: TObject);
-    function  not_Suivant( var _Resultat: TObject): Boolean;
+    procedure Suivant( out _Resultat: TObject);
+    function  not_Suivant( out _Resultat: TObject): Boolean;
   end;
 
  TslObject
@@ -385,12 +385,12 @@ end;
 
 { TIterateur_Object }
 
-function TIterateur_Object.not_Suivant( var _Resultat: TObject): Boolean;
+function TIterateur_Object.not_Suivant( out _Resultat: TObject): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_Object.Suivant( var _Resultat: TObject);
+procedure TIterateur_Object.Suivant( out _Resultat: TObject);
 begin
      Suivant_interne( _Resultat);
 end;
@@ -720,7 +720,7 @@ begin
      Frunning:= False;
 end;
 
-procedure TIterateur.Suivant_interne(var _Resultat);
+procedure TIterateur.Suivant_interne(out _Resultat);
 begin
      if Assigned( By_Index)
      then
@@ -734,18 +734,18 @@ begin
          Inc( nSuivant);
 end;
 
-procedure TIterateur.Suivant(var _Resultat);
+procedure TIterateur.Suivant(out _Resultat);
 begin
      Suivant_interne( _Resultat);
 end;
 
-function TIterateur.not_Suivant_interne(var _Resultat): Boolean;
+function TIterateur.not_Suivant_interne(out _Resultat): Boolean;
 begin
      Suivant_interne( _Resultat);
      Result:= TObject(_Resultat) = nil;
 end;
 
-function TIterateur.not_Suivant(var _Resultat): Boolean;
+function TIterateur.not_Suivant(out _Resultat): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
