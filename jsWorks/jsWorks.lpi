@@ -52,7 +52,6 @@
         <ComponentName Value="fjsWorks"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufjsWorks"/>
       </Unit1>
       <Unit2>
         <Filename Value="../pascal_o_r_mapping/3_Data/uXML.pas"/>
@@ -61,7 +60,6 @@
       <Unit3>
         <Filename Value="../pascal_o_r_mapping/7_sources_externes/synapse/source/lib/blcksock.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="blcksock"/>
       </Unit3>
       <Unit4>
         <Filename Value="../OOo/uOD_Table_Batpro.pas"/>
@@ -341,7 +339,6 @@
       <Unit69>
         <Filename Value="Elements/Work/ublWork.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublWork"/>
       </Unit69>
       <Unit70>
         <Filename Value="Elements/Categorie/uhfCategorie.pas"/>
@@ -432,7 +429,6 @@
         <ComponentName Value="poolTAG"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="upoolTag"/>
       </Unit85>
       <Unit86>
         <Filename Value="Elements/Tag/uhfTag.pas"/>
@@ -569,12 +565,10 @@
         <ComponentName Value="fAutomatic_VST"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufAutomatic_VST"/>
       </Unit111>
       <Unit112>
         <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uhVST"/>
       </Unit112>
       <Unit113>
         <Filename Value="ufTest_neo4j.pas"/>
@@ -582,23 +576,19 @@
         <ComponentName Value="fTest_neo4j"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufTest_neo4j"/>
       </Unit113>
       <Unit114>
         <Filename Value="../pascal_o_r_mapping/3_Data/uNEO4J.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uNEO4J"/>
       </Unit114>
       <Unit115>
         <Filename Value="../pascal_o_r_mapping/3_Data/JSON/upoolJSON.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolJSON"/>
       </Unit115>
       <Unit116>
         <Filename Value="../pascal_o_r_mapping/3_Data/JSON/ublJSON.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublJSON"/>
       </Unit116>
       <Unit117>
         <Filename Value="ufTULEAP.pas"/>
@@ -606,12 +596,10 @@
         <ComponentName Value="fTULEAP"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufTULEAP"/>
       </Unit117>
       <Unit118>
         <Filename Value="../pascal_o_r_mapping/3_Data/uTULEAP.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uTULEAP"/>
       </Unit118>
     </Units>
   </ProjectOptions>
