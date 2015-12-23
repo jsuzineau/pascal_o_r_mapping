@@ -88,7 +88,7 @@ begin
 end;
 
 initialization
-              Clean_Create ( FfTag, TfTag);
+              //Clean_Create ( FfTag, TfTag);
 finalization
               Clean_Destroy( FfTag);
 end.
