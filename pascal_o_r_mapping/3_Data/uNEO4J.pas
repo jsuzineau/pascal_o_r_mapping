@@ -47,6 +47,9 @@ type
     procedure Header_Clear;
     procedure Header_accept_json;
     procedure Header_Authorization;
+  //Root_URL
+  public
+    Root_URL: String;
   //Streaming
   private
     procedure Header_Streaming;
@@ -84,6 +87,7 @@ constructor TNEO4J.Create;
 begin
      http:= TFPHTTPClient.Create( nil);
      Streaming:= False;
+     Root_URL:= 'http://localhost:7474/';
 end;
 
 destructor TNEO4J.Destroy;
@@ -161,27 +165,27 @@ function TNEO4J.Authenticate( _User, _Password: String): String;
 begin
      User    := _User;
      Password:= _Password;
-     Result:= GET( 'Authenticate', 'http://localhost:7474/user/'+User);
+     Result:= GET( 'Authenticate', Root_URL+'user/'+User);
 end;
 
 function TNEO4J.ServiceRoot: String;
 begin
-     Result:= GET( 'ServiceRoot', 'http://localhost:7474/db/data/');
+     Result:= GET( 'ServiceRoot', Root_URL+'db/data/');
 end;
 
 function TNEO4J.Property_Keys: String;
 begin
-     Result:= GET( 'Property_Keys', 'http://localhost:7474/db/data/propertykeys');
+     Result:= GET( 'Property_Keys', Root_URL+'db/data/propertykeys');
 end;
 
 function TNEO4J.Create_node( _Request_Body: String= ''): String;
 begin
-     Result:= POST( 'Create_node', 'http://localhost:7474/db/data/node', _Request_Body);
+     Result:= POST( 'Create_node', Root_URL+'db/data/node', _Request_Body);
 end;
 
 function TNEO4J.Get_node(_id: Integer): String;
 begin
-     Result:= GET( 'Get_node', 'http://localhost:7474/db/data/node/'+IntToStr(_id));
+     Result:= GET( 'Get_node', Root_URL+'db/data/node/'+IntToStr(_id));
 end;
 
 function TNEO4J.Node_from_id(_id: Integer): TblJSON;

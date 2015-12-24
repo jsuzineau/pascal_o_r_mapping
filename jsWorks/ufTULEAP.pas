@@ -51,8 +51,10 @@ type
    cbStreaming: TCheckBox;
    eProject: TEdit;
    ePassword: TLabeledEdit;
+   eRoot_URL: TEdit;
    eUserName: TLabeledEdit;
    Label1: TLabel;
+   Label2: TLabel;
    lSSL: TLabel;
    m: TMemo;
    Panel1: TPanel;
@@ -64,6 +66,7 @@ type
    procedure bProjectsClick(Sender: TObject);
    procedure bTrackersClick(Sender: TObject);
    procedure cbStreamingChange(Sender: TObject);
+   procedure eRoot_URLChange(Sender: TObject);
    procedure FormCreate(Sender: TObject);
    procedure FormDestroy(Sender: TObject);
   //TULEAP
@@ -96,6 +99,8 @@ begin
      cbStreaming.Checked:= TULEAP.Streaming;
 
      lSSL.Caption:= 'SSLImplementation: '+blcksock.SSLImplementation.ClassName;
+
+     eRoot_URL.Text:= TULEAP.Root_URL;
 end;
 
 procedure TfTULEAP.FormDestroy(Sender: TObject);
@@ -140,6 +145,11 @@ end;
 procedure TfTULEAP.cbStreamingChange(Sender: TObject);
 begin
      TULEAP.Streaming:= cbStreaming.Checked;
+end;
+
+procedure TfTULEAP.eRoot_URLChange(Sender: TObject);
+begin
+     TULEAP.Root_URL:= eRoot_URL.Text;
 end;
 
 procedure TfTULEAP.bProjectsClick(Sender: TObject);

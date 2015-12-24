@@ -70,7 +70,7 @@ type
   end;
 
  T_Iterateur_Count= function :Integer of Object;
- T_Iterateur_By_Index= procedure ( _Index: Integer; var _Resultat) of Object;
+ T_Iterateur_By_Index= procedure ( _Index: Integer; out _S: String; out _Resultat) of Object;
  T_Iterateur_Delete_By_Index= procedure ( _Index: Integer) of Object;
 
  TIterateur
@@ -105,6 +105,8 @@ type
   public
     nSuivant: Integer;//mis en public pour tests
 
+    Current_S: String; //chaine associée
+
     procedure Start;
     procedure Stop;
 
@@ -122,6 +124,8 @@ type
   end;
 
  TIterateur_Class= class of TIterateur;
+
+ { TBatpro_StringList }
 
  TBatpro_StringList
  =
@@ -156,7 +160,7 @@ type
   //Création d'itérateur (nouvelle mouture de l'itérateur: 2011/11/09)
   private
     function Iterateur_Count: Integer;
-    procedure By_Index( _Index: Integer; var _Resultat);
+    procedure By_Index( _Index: Integer; out _S: String; out _Resultat);
   protected
     class function Classe_Iterateur: TIterateur_Class; virtual;
   public
@@ -176,6 +180,9 @@ type
   //Export JSON, JavaScript Object Notation
   public
     function JSON: String; virtual;
+  //
+  //public
+  //  procedure S_Object_from_Index( _Index: Integer; out _S: String; out _O: TObject);
   end;
 
  TBatpro_StringList_class= class of TBatpro_StringList;
@@ -266,6 +273,33 @@ begin
      Result:= sl.Objects[ Index];
 end;
 
+//version plus lente avec 2 accés à la liste, mais basée sur TStringList
+function Object_S_from_sl( sl: TStringList; Index: Integer; out _S: String): TObject;
+begin
+     Result:= nil;
+     _S:= '';
+
+     if sl = nil                        then exit;
+     if (Index < 0)or(sl.Count<= Index) then exit;
+
+     _S    := sl.Strings[ Index];
+     Result:= sl.Objects[ Index];
+end;
+
+(*
+//version utilisant S_Object_from_Index défini sur TBatpro_StringList
+function Object_S_from_sl( sl: TBatpro_StringList; Index: Integer; out _S: String): TObject;
+begin
+     Result:= nil;
+     _S:= '';
+
+     if sl = nil                        then exit;
+     if (Index < 0)or(sl.Count<= Index) then exit;
+
+     sl.S_Object_from_Index( Index, _S, Result);
+end;
+*)
+
 function Object_from_sl_sCle( sl: TStringList; sCle: String): TObject;
 begin
      Result:= nil;
@@ -312,6 +346,13 @@ procedure _Classe_from_sl( out Resultat; Classe: TClass;
 begin
      TObject( Resultat):= Object_from_sl( sl, Index);
      CheckClass( Resultat, Classe);
+end;
+
+procedure _S_Classe_from_sl( out _S: String; out _Resultat; _Classe: TClass;
+                             _sl: TBatpro_StringList; _Index: Integer);
+begin
+     TObject( _Resultat):= Object_S_from_sl( _sl, _Index, _S);
+     CheckClass( _Resultat, _Classe);
 end;
 
 procedure _Classe_from_sl_sCle( out Resultat; Classe: TClass;
@@ -522,9 +563,9 @@ begin
      Result:= nIterateur_Suivant >= Count;
 end;
 
-procedure TBatpro_StringList.By_Index( _Index: Integer; var _Resultat);
+procedure TBatpro_StringList.By_Index( _Index: Integer; out _S: String; out _Resultat);
 begin
-     _Classe_from_sl( _Resultat, Classe_Elements, Self, _Index);
+     _S_Classe_from_sl( _S, _Resultat, Classe_Elements, Self, _Index);
 end;
 
 function TBatpro_StringList.Iterateur_Count: Integer;
@@ -636,6 +677,23 @@ begin
          Result:= '{"Nom": "'+Nom+'","Elements":'+Result+'}';
 end;
 
+(*
+procedure TBatpro_StringList.S_Object_from_Index( _Index: Integer;
+                                                  out _S: String;
+                                                  out _O: TObject);
+var
+   si: TStringItem;
+begin
+     //recopié du code source de TStringList, stringl.inc
+     if (_Index<0) or (_Index>=Fcount)
+     then
+         Error(SListIndexError,Index);
+     si:= Flist^[Index];
+     _S:= si.FString;
+     _O:= si.FObject;
+end;
+*)
+
 class function TBatpro_StringList.Classe_Iterateur: TIterateur_Class;
 begin
      Result:= TIterateur;
@@ -724,9 +782,12 @@ procedure TIterateur.Suivant_interne(out _Resultat);
 begin
      if Assigned( By_Index)
      then
-         By_Index( nSuivant, _Resultat)
+         By_Index( nSuivant, Current_S, _Resultat)
      else
+         begin
+         Current_S:= '';
          TObject(_Resultat):= nil;
+         end;
      if Decroissant
      then
          Dec( nSuivant)

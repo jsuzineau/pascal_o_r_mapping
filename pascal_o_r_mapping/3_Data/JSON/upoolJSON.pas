@@ -155,8 +155,8 @@ type
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: TLink);
-    function  not_Suivant( var _Resultat: TLink): Boolean;
+    procedure Suivant( out _Resultat: TLink);
+    function  not_Suivant( out _Resultat: TLink): Boolean;
   end;
 
  TslLink
@@ -209,7 +209,7 @@ type
     procedure Champ_from_JSONData( _c: TChamp; _d: TJSONData);
   public
     procedure Champs_from_JSONData( _jsd: TJSONData);
-  //Gestion de liens
+  //Gestion de liens (gérdé au cas où, non implémenté pour l'instant)
   private
     FslLink: TslLink;
     function GetslLink: TslLink;
@@ -391,12 +391,12 @@ end;
 
 { TIterateur_Link }
 
-function TIterateur_Link.not_Suivant( var _Resultat: TLink): Boolean;
+function TIterateur_Link.not_Suivant( out _Resultat: TLink): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_Link.Suivant( var _Resultat: TLink);
+procedure TIterateur_Link.Suivant( out _Resultat: TLink);
 begin
      Suivant_interne( _Resultat);
 end;
@@ -541,7 +541,7 @@ var
         bl:= poolJSON.Get_from_JSON(d.AsJSON);
         if nil = bl then exit;
 
-        AggregeLigne( FieldName, bl);
+        Connect_To( bl, FieldName);
    end;
    procedure Traite_Boolean;
    begin

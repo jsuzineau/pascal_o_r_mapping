@@ -772,7 +772,8 @@ type
   protected
     Pas_de_champ_id: Boolean;
   public
-    procedure bl_from_id( _id: Integer; var _bl);
+    procedure S_bl_from_id( _id: Integer; out _S: String; out _bl);
+    procedure bl_from_id( _id: Integer; out _bl);
     procedure Set_bl_from_id( _id: Integer; _bl: TBatpro_Ligne);
     function Iterateur_id: TIterateur;
   //Gestion communication HTTP avec pages html Angular / JSON
@@ -2399,7 +2400,24 @@ begin
      Result:= iTid;
 end;
 
-procedure TPool.bl_from_id( _id: Integer; var _bl);
+procedure TPool.S_bl_from_id( _id: Integer; out _S: String; out _bl);
+var
+   iTid: Integer;
+begin
+     TBatpro_Ligne( _bl):= nil;
+     _S:= '';
+     if Pas_de_champ_id then exit;
+
+     if Tid_Premiere_fois then Tid_Initialise;
+
+     iTid:= iTid_from_id( _id);
+     if iTid = -1 then exit;
+
+     _S:= IntToStr( _id);
+     TBatpro_Ligne( _bl):= Tid[ iTid];
+end;
+
+procedure TPool.bl_from_id( _id: Integer; out _bl);
 var
    iTid: Integer;
 begin
@@ -2442,7 +2460,7 @@ function TPool.Iterateur_id: TIterateur;
 begin
      Result:= TIterateur.Create( ClassName+'.Iterateur_id',
                                  Tid_count,
-                                 bl_from_id, Tid_Delete, False);
+                                 S_bl_from_id, Tid_Delete, False);
 end;
 
 function TPool.Traite_HTTP: Boolean;

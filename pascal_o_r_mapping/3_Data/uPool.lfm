@@ -5,4 +5,4 @@ inherited Pool: TPool
   Width = 338
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-end
+end

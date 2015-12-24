@@ -398,6 +398,7 @@
         <ComponentName Value="dkProject_LABEL"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="udkProject_LABEL"/>
       </Unit79>
       <Unit80>
         <Filename Value="Elements/Project/ufProject.pas"/>

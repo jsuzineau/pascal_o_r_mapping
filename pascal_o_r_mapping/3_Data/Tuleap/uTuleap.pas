@@ -59,13 +59,15 @@ type
   //http
   private
     http:THTTPSend;
-    Root_URL: String;
     User, Password: String;
     procedure Header_Clear;
     procedure Header_accept_json;
     procedure Header_content_type_json;
     procedure Header_Authorization;
     function String_from_http: String;
+  //Root_URL
+  public
+    Root_URL: String;
   //Streaming
   private
     procedure Header_Streaming;
