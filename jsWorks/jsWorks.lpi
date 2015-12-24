@@ -41,7 +41,7 @@
         <PackageName Value="LCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="119">
+    <Units Count="118">
       <Unit0>
         <Filename Value="jsWorks.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -334,6 +334,7 @@
       <Unit67>
         <Filename Value="Elements/Project/ublProject.pas"/>
         <IsPartOfProject Value="True"/>
+        <UnitName Value="ublProject"/>
       </Unit67>
       <Unit68>
         <Filename Value="Elements/State/ublState.pas"/>
@@ -593,27 +594,24 @@
       <Unit115>
         <Filename Value="../pascal_o_r_mapping/3_Data/JSON/upoolJSON.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="poolJSON"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
         <UnitName Value="upoolJSON"/>
       </Unit115>
       <Unit116>
-        <Filename Value="../pascal_o_r_mapping/3_Data/JSON/ublJSON.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="ublJSON"/>
-      </Unit116>
-      <Unit117>
         <Filename Value="ufTULEAP.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fTULEAP"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ufTULEAP"/>
-      </Unit117>
-      <Unit118>
+      </Unit116>
+      <Unit117>
         <Filename Value="../pascal_o_r_mapping/3_Data/Tuleap/uTuleap.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uTuleap"/>
-      </Unit118>
+      </Unit117>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

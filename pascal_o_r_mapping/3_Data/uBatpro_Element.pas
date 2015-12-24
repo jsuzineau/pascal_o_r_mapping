@@ -591,8 +591,8 @@ type
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: ThAggregation);
-    function  not_Suivant( var _Resultat: ThAggregation): Boolean;
+    procedure Suivant( out _Resultat: ThAggregation);
+    function  not_Suivant( out _Resultat: ThAggregation): Boolean;
   end;
 
  TslhAggregation
@@ -728,6 +728,7 @@ type
     property by_Name[ Name: String]:ThAggregation
              read  Get_by_Name
              write Set_by_Name; default;
+    function Iterateur: TIterateur_hAggregation;
   //Déconnection simple
   public
     procedure Deconnecte;
@@ -3916,12 +3917,12 @@ begin
      Result:= hAggregation_from_sl( sl, sl.IndexOf( Name))
 end;
 
-function TIterateur_hAggregation.not_Suivant( var _Resultat: ThAggregation): Boolean;
+function TIterateur_hAggregation.not_Suivant( out _Resultat: ThAggregation): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_hAggregation.Suivant( var _Resultat: ThAggregation);
+procedure TIterateur_hAggregation.Suivant( out _Resultat: ThAggregation);
 begin
      Suivant_interne( _Resultat);
 end;
@@ -4260,6 +4261,7 @@ begin
          begin
          Create_Aggregation( Name, Create_Params);
          Result:= Create_Params.Instancie;
+         Result.Nom:= Name;
          sl.AddObject( Name, Result);
          end;
 end;
@@ -4274,6 +4276,11 @@ begin
          sl.AddObject( Name, Value)
      else
          sl.Objects[I]:= Value;
+end;
+
+function TAggregations.Iterateur: TIterateur_hAggregation;
+begin
+     Result:= sl.Iterateur;
 end;
 
 procedure TAggregations.Deconnecte;

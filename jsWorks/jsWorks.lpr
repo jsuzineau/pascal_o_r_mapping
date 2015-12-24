@@ -74,7 +74,7 @@ uses
  ufType_Tag, udkTag_LABEL, uodWork_from_Period, udkTag_LABEL_od,
  udkWork_haTag_from_Description_LABEL, ufTest_VirtualTreeView,
  virtualtreeview_package, uhVST, ufTest_neo4j, ufTULEAP, uNEO4J, uTuleap,
- ublJSON, upoolJSON;
+ upoolJSON;
 
 {$R *.res}
 

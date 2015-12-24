@@ -28,8 +28,6 @@ uses
     uClean,
     uNEO4J,
 
-    ublJSON,
-
     upoolJSON,
 
     uhVST,

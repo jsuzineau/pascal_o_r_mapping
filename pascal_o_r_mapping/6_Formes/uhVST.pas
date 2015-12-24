@@ -36,6 +36,7 @@ uses
     uTri_Ancetre,
     uhFiltre_Ancetre,
 
+    uBatpro_Element,
     uBatpro_Ligne,
 
   Classes, SysUtils, Controls, VirtualTrees;
@@ -207,13 +208,30 @@ procedure ThVST.Ajoute_Lignes(_Node: PVirtualNode; _sl: TBatpro_StringList);
 var
    I: TIterateur;
    o: TObject;
+   n: PVirtualNode;
+   bl: TBatpro_Ligne;
+   Ia: TIterateur_hAggregation;
+   ha: ThAggregation;
 begin
      I:= _sl.Iterateur_interne;
      while I.Continuer
      do
        begin
        if I.not_Suivant_interne( o) then continue;
-       vst.AddChild( _Node, Pointer(o));
+       n:= vst.AddChild( _Node, Pointer(o));
+       if nil = n then continue;
+
+       if Affecte_( bl, TBatpro_Ligne, o) then continue;
+
+       Ajoute_Lignes( n, bl.Champs.sl);
+
+       Ia:= bl.Aggregations.Iterateur;
+       while Ia.Continuer
+       do
+         begin
+         if Ia.not_Suivant( ha) then continue;
+         Ajoute_Lignes( n, ha.sl);
+         end;
        end;
 end;
 
@@ -239,12 +257,28 @@ procedure ThVST.vstGetText( Sender: TBaseVirtualTree;
                             var CellText: String);
   procedure Traite_Donnees;
   var
-     po: ^TObject;
-     bl: TBatpro_Ligne;
+     Column_Count: Integer;
      vtc: TVirtualTreeColumn;
      cd: TChampDefinition;
+     po: ^TObject;
+     bl: TBatpro_Ligne;
      c: TChamp;
-     Column_Count: Integer;
+     procedure Traite_Champ_Colonne;
+     begin
+          c:= bl.Champs.Champ_from_Field( cd.Nom);
+          if nil = c then exit;
+
+          CellText:= c.Chaine;
+     end;
+     procedure Traite_Champ_Ligne;
+     begin
+          case Column
+          of
+            1: CellText:= c.Definition.Nom;
+            2: CellText:= c.Chaine;
+            else CellText:= '';
+            end;
+     end;
   begin
        CellText:= '';
        Column_Count:= vst.Header.Columns.Count;
@@ -258,12 +292,9 @@ procedure ThVST.vstGetText( Sender: TBaseVirtualTree;
        if nil = Node  then exit;
        po:= vst.GetNodeData( Node);
 
-       if Affecte_( bl, TBatpro_Ligne, po^) then exit;
+            if Affecte( bl, TBatpro_Ligne, po^) then Traite_Champ_Colonne
+       else if Affecte( c , TChamp       , po^) then Traite_Champ_Ligne  ;
 
-       c:= bl.Champs.Champ_from_Field( cd.Nom);
-       if nil = c then exit;
-
-       CellText:= c.Chaine;
   end;
   procedure Traite_Liste;
   var

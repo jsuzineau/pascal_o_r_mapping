@@ -26,7 +26,6 @@ interface
 
 uses
     uClean,
-    ublJSON,
     upoolJSON,
  Classes, SysUtils,
  //fphttpclient,
@@ -91,6 +90,10 @@ type
   public
     function json_Projects: String;
     procedure Charge_Projects( _slLoaded: TslJSON);
+  //Tracker List from Project
+  public
+    function json_Trackers( _Project_id: String): String;
+    procedure Charge_Trackers( _Project_id: String; _slLoaded: TslJSON);
   end;
 
 implementation
@@ -281,6 +284,16 @@ end;
 procedure TTULEAP.Charge_Projects(_slLoaded: TslJSON);
 begin
      poolJSON.Charge_from_JSON( json_Projects, _slLoaded);
+end;
+
+function TTULEAP.json_Trackers(_Project_id: String): String;
+begin
+     Result:= GET( 'Trackers', Root_URL+'api/projects/'+_Project_id+'/trackers?limit=10');
+end;
+
+procedure TTULEAP.Charge_Trackers(_Project_id: String; _slLoaded: TslJSON);
+begin
+     poolJSON.Charge_from_JSON( json_Trackers( _Project_id), _slLoaded);
 end;
 
 end.

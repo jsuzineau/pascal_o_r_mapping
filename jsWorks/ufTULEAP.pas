@@ -29,8 +29,6 @@ uses
     uBatpro_StringList,
     uTuleap,
 
-    ublJSON,
-
     upoolJSON,
 
     uhVST,
@@ -49,9 +47,12 @@ type
    bGenere: TButton;
    bProjects: TButton;
    bAPI_Explorer: TButton;
+   bTrackers: TButton;
    cbStreaming: TCheckBox;
+   eProject: TEdit;
    ePassword: TLabeledEdit;
    eUserName: TLabeledEdit;
+   Label1: TLabel;
    lSSL: TLabel;
    m: TMemo;
    Panel1: TPanel;
@@ -61,6 +62,7 @@ type
    procedure bAuthenticateClick(Sender: TObject);
    procedure bGenereClick(Sender: TObject);
    procedure bProjectsClick(Sender: TObject);
+   procedure bTrackersClick(Sender: TObject);
    procedure cbStreamingChange(Sender: TObject);
    procedure FormCreate(Sender: TObject);
    procedure FormDestroy(Sender: TObject);
@@ -143,6 +145,11 @@ end;
 procedure TfTULEAP.bProjectsClick(Sender: TObject);
 begin
      Affiche_Resultat( TULEAP.json_Projects);
+end;
+
+procedure TfTULEAP.bTrackersClick(Sender: TObject);
+begin
+     Affiche_Resultat( TULEAP.json_Trackers( eProject.Text));
 end;
 
 end.
