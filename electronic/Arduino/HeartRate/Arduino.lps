@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="12">
+      <Unit0>
+        <Filename Value="Arduino.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Arduino"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="39" Y="21"/>
+        <UsageCount Value="67"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="ufArduino.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fArduino"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufArduino"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="113"/>
+        <CursorPos X="30" Y="122"/>
+        <UsageCount Value="67"/>
+        <Bookmarks Count="2">
+          <Item0 X="1" Y="109" ID="1"/>
+          <Item1 X="1" Y="216" ID="2"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="../../Documents/Bricolage/Deyme _support interrupteur_sans_fil_dans _boitier/support.scad"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="27" Y="1"/>
+        <UsageCount Value="28"/>
+        <Bookmarks Count="2">
+          <Item0 X="1" Y="35" ID="2"/>
+          <Item1 X="23" Y="81" ID="1"/>
+        </Bookmarks>
+        <DefaultSyntaxHighlighter Value="JScript"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="/usr/lib/lazarus/0.9.30.4/lcl/include/control.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="3173"/>
+        <CursorPos X="1" Y="3192"/>
+        <UsageCount Value="12"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="ufArduino.lfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="50"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="/usr/share/fpcsrc/2.6.0/rtl/unix/serial.pp"/>
+        <UnitName Value="Serial"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="120"/>
+        <CursorPos X="26" Y="137"/>
+        <UsageCount Value="11"/>
+        <Bookmarks Count="1">
+          <Item0 X="26" Y="137" ID="1"/>
+        </Bookmarks>
+      </Unit5>
+      <Unit6>
+        <Filename Value="../../lazarus/fpc/2.6.2/source/rtl/unix/serial.pp"/>
+        <UnitName Value="Serial"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="147"/>
+        <CursorPos X="63" Y="174"/>
+        <UsageCount Value="11"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="serial.pp"/>
+        <UnitName Value="serial"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="79"/>
+        <CursorPos X="1" Y="94"/>
+        <UsageCount Value="11"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="../LazSerial/LazSerial/test/main.pas"/>
+        <ComponentName Value="FMain"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Main"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="289"/>
+        <CursorPos X="3" Y="289"/>
+        <UsageCount Value="12"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="../2_source_lazarus/home/ecran_clavier/2_source_Lazarus/src/pascal_o_r_mapping/2_Units/uuStrings.pas"/>
+        <UnitName Value="uuStrings"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="495"/>
+        <CursorPos X="1" Y="522"/>
+        <UsageCount Value="12"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="LazSerial/LazSerial/lazserial.pas"/>
+        <UnitName Value="LazSerial"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="C:/lazarus/lcl/utf8process.pp"/>
+        <UnitName Value="UTF8Process"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="162"/>
+        <CursorPos X="59" Y="177"/>
+        <UsageCount Value="10"/>
+      </Unit11>
+    </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <JumpHistory Count="24" HistoryIndex="23">
+      <Position1>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="140" Column="1" TopLine="126"/>
+      </Position1>
+      <Position2>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="141" Column="1" TopLine="126"/>
+      </Position2>
+      <Position3>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="140" Column="1" TopLine="126"/>
+      </Position3>
+      <Position4>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="141" Column="1" TopLine="126"/>
+      </Position4>
+      <Position5>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="140" Column="1" TopLine="126"/>
+      </Position5>
+      <Position6>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="132" Column="44" TopLine="126"/>
+      </Position6>
+      <Position7>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="105" Column="2" TopLine="105"/>
+      </Position7>
+      <Position8>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="114" Column="3" TopLine="112"/>
+      </Position8>
+      <Position9>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="131" Column="20" TopLine="119"/>
+      </Position9>
+      <Position10>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="106" Column="1" TopLine="80"/>
+      </Position10>
+      <Position11>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="147" Column="3" TopLine="144"/>
+      </Position11>
+      <Position12>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="154" Column="3" TopLine="151"/>
+      </Position12>
+      <Position13>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="40" Column="42" TopLine="34"/>
+      </Position13>
+      <Position14>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="157" Column="22" TopLine="134"/>
+      </Position14>
+      <Position15>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="179" Column="28" TopLine="167"/>
+      </Position15>
+      <Position16>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="142" Column="40" TopLine="142"/>
+      </Position16>
+      <Position17>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="149" Column="40" TopLine="149"/>
+      </Position17>
+      <Position18>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="47" Column="32" TopLine="32"/>
+      </Position18>
+      <Position19>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="208" Column="1" TopLine="182"/>
+      </Position19>
+      <Position20>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="110" Column="1" TopLine="105"/>
+      </Position20>
+      <Position21>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="204" Column="25" TopLine="204"/>
+      </Position21>
+      <Position22>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="159" Column="6" TopLine="132"/>
+      </Position22>
+      <Position23>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="109" Column="1" TopLine="96"/>
+      </Position23>
+      <Position24>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="92" Column="21" TopLine="65"/>
+      </Position24>
+    </JumpHistory>
+  </ProjectSession>
+  <Debugging>
+    <BreakPoints Count="1">
+      <Item1>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="ufArduino.pas"/>
+        <Line Value="101"/>
+      </Item1>
+    </BreakPoints>
+    <Watches Count="1">
+      <Item1>
+        <Expression Value="Result"/>
+      </Item1>
+    </Watches>
+  </Debugging>
+  <EditorMacros Count="0"/>
+</CONFIG>
