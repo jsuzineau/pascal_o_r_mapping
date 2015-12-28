@@ -3,15 +3,13 @@
   <ProjectSession>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="12">
+    <Units Count="15">
       <Unit0>
         <Filename Value="Arduino.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="Arduino"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="39" Y="21"/>
-        <UsageCount Value="67"/>
+        <UsageCount Value="68"/>
       </Unit0>
       <Unit1>
         <Filename Value="ufArduino.pas"/>
@@ -20,50 +18,43 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ufArduino"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="0"/>
-        <WindowIndex Value="0"/>
         <TopLine Value="113"/>
         <CursorPos X="30" Y="122"/>
-        <UsageCount Value="67"/>
+        <UsageCount Value="68"/>
         <Bookmarks Count="2">
-          <Item0 X="1" Y="109" ID="1"/>
-          <Item1 X="1" Y="216" ID="2"/>
+          <Item0 Y="109" ID="1"/>
+          <Item1 Y="216" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="../../Documents/Bricolage/Deyme _support interrupteur_sans_fil_dans _boitier/support.scad"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="27" Y="1"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="27"/>
         <UsageCount Value="28"/>
         <Bookmarks Count="2">
-          <Item0 X="1" Y="35" ID="2"/>
+          <Item0 Y="35" ID="2"/>
           <Item1 X="23" Y="81" ID="1"/>
         </Bookmarks>
         <DefaultSyntaxHighlighter Value="JScript"/>
       </Unit2>
       <Unit3>
         <Filename Value="/usr/lib/lazarus/0.9.30.4/lcl/include/control.inc"/>
-        <WindowIndex Value="0"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="3173"/>
-        <CursorPos X="1" Y="3192"/>
+        <CursorPos Y="3192"/>
         <UsageCount Value="12"/>
       </Unit3>
       <Unit4>
         <Filename Value="ufArduino.lfm"/>
-        <WindowIndex Value="0"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="50"/>
-        <CursorPos X="1" Y="1"/>
         <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit4>
       <Unit5>
         <Filename Value="/usr/share/fpcsrc/2.6.0/rtl/unix/serial.pp"/>
-        <UnitName Value="Serial"/>
-        <WindowIndex Value="0"/>
         <TopLine Value="120"/>
         <CursorPos X="26" Y="137"/>
         <UsageCount Value="11"/>
@@ -73,18 +64,14 @@
       </Unit5>
       <Unit6>
         <Filename Value="../../lazarus/fpc/2.6.2/source/rtl/unix/serial.pp"/>
-        <UnitName Value="Serial"/>
-        <WindowIndex Value="0"/>
         <TopLine Value="147"/>
         <CursorPos X="63" Y="174"/>
         <UsageCount Value="11"/>
       </Unit6>
       <Unit7>
         <Filename Value="serial.pp"/>
-        <UnitName Value="serial"/>
-        <WindowIndex Value="0"/>
         <TopLine Value="79"/>
-        <CursorPos X="1" Y="94"/>
+        <CursorPos Y="94"/>
         <UsageCount Value="11"/>
       </Unit7>
       <Unit8>
@@ -92,62 +79,75 @@
         <ComponentName Value="FMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="Main"/>
-        <WindowIndex Value="0"/>
         <TopLine Value="289"/>
         <CursorPos X="3" Y="289"/>
         <UsageCount Value="12"/>
       </Unit8>
       <Unit9>
         <Filename Value="../2_source_lazarus/home/ecran_clavier/2_source_Lazarus/src/pascal_o_r_mapping/2_Units/uuStrings.pas"/>
-        <UnitName Value="uuStrings"/>
-        <WindowIndex Value="0"/>
         <TopLine Value="495"/>
-        <CursorPos X="1" Y="522"/>
+        <CursorPos Y="522"/>
         <UsageCount Value="12"/>
       </Unit9>
       <Unit10>
         <Filename Value="LazSerial/LazSerial/lazserial.pas"/>
-        <UnitName Value="LazSerial"/>
-        <EditorIndex Value="1"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
+        <EditorIndex Value="-1"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit10>
       <Unit11>
         <Filename Value="C:/lazarus/lcl/utf8process.pp"/>
-        <UnitName Value="UTF8Process"/>
-        <WindowIndex Value="0"/>
         <TopLine Value="162"/>
         <CursorPos X="59" Y="177"/>
         <UsageCount Value="10"/>
       </Unit11>
+      <Unit12>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/lazserial.pas"/>
+        <UnitName Value="LazSerial"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="34"/>
+        <CursorPos X="16" Y="62"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
+        <UnitName Value="synaser"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="231"/>
+        <CursorPos Y="252"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/rtl/linux/termios.inc"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="922"/>
+        <CursorPos X="4" Y="937"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit14>
     </Units>
-    <General>
-      <ActiveWindowIndexAtStart Value="0"/>
-    </General>
-    <JumpHistory Count="24" HistoryIndex="23">
+    <JumpHistory Count="27" HistoryIndex="26">
       <Position1>
         <Filename Value="ufArduino.pas"/>
-        <Caret Line="140" Column="1" TopLine="126"/>
+        <Caret Line="140" TopLine="126"/>
       </Position1>
       <Position2>
         <Filename Value="ufArduino.pas"/>
-        <Caret Line="141" Column="1" TopLine="126"/>
+        <Caret Line="141" TopLine="126"/>
       </Position2>
       <Position3>
         <Filename Value="ufArduino.pas"/>
-        <Caret Line="140" Column="1" TopLine="126"/>
+        <Caret Line="140" TopLine="126"/>
       </Position3>
       <Position4>
         <Filename Value="ufArduino.pas"/>
-        <Caret Line="141" Column="1" TopLine="126"/>
+        <Caret Line="141" TopLine="126"/>
       </Position4>
       <Position5>
         <Filename Value="ufArduino.pas"/>
-        <Caret Line="140" Column="1" TopLine="126"/>
+        <Caret Line="140" TopLine="126"/>
       </Position5>
       <Position6>
         <Filename Value="ufArduino.pas"/>
@@ -167,7 +167,7 @@
       </Position9>
       <Position10>
         <Filename Value="ufArduino.pas"/>
-        <Caret Line="106" Column="1" TopLine="80"/>
+        <Caret Line="106" TopLine="80"/>
       </Position10>
       <Position11>
         <Filename Value="ufArduino.pas"/>
@@ -203,11 +203,11 @@
       </Position18>
       <Position19>
         <Filename Value="ufArduino.pas"/>
-        <Caret Line="208" Column="1" TopLine="182"/>
+        <Caret Line="208" TopLine="182"/>
       </Position19>
       <Position20>
         <Filename Value="ufArduino.pas"/>
-        <Caret Line="110" Column="1" TopLine="105"/>
+        <Caret Line="110" TopLine="105"/>
       </Position20>
       <Position21>
         <Filename Value="ufArduino.pas"/>
@@ -219,12 +219,24 @@
       </Position22>
       <Position23>
         <Filename Value="ufArduino.pas"/>
-        <Caret Line="109" Column="1" TopLine="96"/>
+        <Caret Line="109" TopLine="96"/>
       </Position23>
       <Position24>
         <Filename Value="ufArduino.pas"/>
         <Caret Line="92" Column="21" TopLine="65"/>
       </Position24>
+      <Position25>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/lazserial.pas"/>
+        <Caret Line="62" Column="16" TopLine="34"/>
+      </Position25>
+      <Position26>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
+        <Caret TopLine="7"/>
+      </Position26>
+      <Position27>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
+        <Caret Line="252" TopLine="231"/>
+      </Position27>
     </JumpHistory>
   </ProjectSession>
   <Debugging>
@@ -243,5 +255,4 @@
       </Item1>
     </Watches>
   </Debugging>
-  <EditorMacros Count="0"/>
 </CONFIG>

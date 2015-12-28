@@ -45,7 +45,6 @@
       <Unit0>
         <Filename Value="Arduino.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="Arduino"/>
       </Unit0>
       <Unit1>
         <Filename Value="ufArduino.pas"/>
@@ -73,9 +72,6 @@
         </Win32>
       </Options>
     </Linking>
-    <Other>
-      <CompilerPath Value="$(CompPath)"/>
-    </Other>
   </CompilerOptions>
   <Debugging>
     <Exceptions Count="3">
