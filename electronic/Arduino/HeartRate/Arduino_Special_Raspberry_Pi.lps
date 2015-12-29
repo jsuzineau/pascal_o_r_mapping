@@ -1,0 +1,240 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="19">
+      <Unit0>
+        <Filename Value="Arduino_Special_Raspberry_Pi.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Arduino_Special_Raspberry_Pi"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="49" Y="5"/>
+        <UsageCount Value="69"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="Special_Raspberry_Pi/ufArduino.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fArduino"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufArduino"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="62" Y="26"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="ufArduino.pas"/>
+        <ComponentName Value="fArduino"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufArduino"/>
+        <TopLine Value="113"/>
+        <CursorPos X="30" Y="122"/>
+        <UsageCount Value="69"/>
+        <Bookmarks Count="2">
+          <Item0 X="1" Y="109" ID="1"/>
+          <Item1 X="1" Y="216" ID="2"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="../../Documents/Bricolage/Deyme _support interrupteur_sans_fil_dans _boitier/support.scad"/>
+        <CursorPos X="27"/>
+        <UsageCount Value="28"/>
+        <Bookmarks Count="2">
+          <Item0 X="1" Y="35" ID="2"/>
+          <Item1 X="23" Y="81" ID="1"/>
+        </Bookmarks>
+        <DefaultSyntaxHighlighter Value="None"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="/usr/lib/lazarus/0.9.30.4/lcl/include/control.inc"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="3173"/>
+        <CursorPos X="1" Y="3192"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="ufArduino.lfm"/>
+        <TopLine Value="50"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="/usr/share/fpcsrc/2.6.0/rtl/unix/serial.pp"/>
+        <TopLine Value="120"/>
+        <CursorPos X="26" Y="137"/>
+        <UsageCount Value="11"/>
+        <Bookmarks Count="1">
+          <Item0 X="26" Y="137" ID="1"/>
+        </Bookmarks>
+      </Unit6>
+      <Unit7>
+        <Filename Value="../../lazarus/fpc/2.6.2/source/rtl/unix/serial.pp"/>
+        <TopLine Value="147"/>
+        <CursorPos X="63" Y="174"/>
+        <UsageCount Value="11"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="serial.pp"/>
+        <TopLine Value="79"/>
+        <CursorPos Y="94"/>
+        <UsageCount Value="11"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="../LazSerial/LazSerial/test/main.pas"/>
+        <ComponentName Value="FMain"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <TopLine Value="289"/>
+        <CursorPos X="3" Y="289"/>
+        <UsageCount Value="12"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="../2_source_lazarus/home/ecran_clavier/2_source_Lazarus/src/pascal_o_r_mapping/2_Units/uuStrings.pas"/>
+        <TopLine Value="495"/>
+        <CursorPos Y="522"/>
+        <UsageCount Value="12"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="LazSerial/LazSerial/lazserial.pas"/>
+        <UsageCount Value="10"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="C:/lazarus/lcl/utf8process.pp"/>
+        <TopLine Value="162"/>
+        <CursorPos X="59" Y="177"/>
+        <UsageCount Value="10"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/lazserial.pas"/>
+        <UnitName Value="LazSerial"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="56"/>
+        <CursorPos X="26" Y="63"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
+        <UnitName Value="synaser"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="231"/>
+        <CursorPos Y="252"/>
+        <UsageCount Value="11"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="/usr/share/fpcsrc/2.6.4/rtl/linux/termios.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="922"/>
+        <CursorPos X="4" Y="937"/>
+        <UsageCount Value="11"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/lazserialsetup.pas"/>
+        <UnitName Value="lazserialsetup"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="Special_Raspberry_Pi/ufArduino.lfm"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="/usr/lib/lazarus/0.9.30.4/lcl/include/application.inc"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1330"/>
+        <CursorPos X="1" Y="1350"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit18>
+    </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <JumpHistory Count="12" HistoryIndex="11">
+      <Position1>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/lazserial.pas"/>
+        <Caret Line="62" Column="16" TopLine="34"/>
+      </Position1>
+      <Position2>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/lazserialsetup.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position2>
+      <Position3>
+        <Filename Value="Special_Raspberry_Pi/ufArduino.pas"/>
+        <Caret Line="1" Column="1" TopLine="100"/>
+      </Position3>
+      <Position4>
+        <Filename Value="Arduino_Special_Raspberry_Pi.lpr"/>
+        <Caret Line="20" Column="39" TopLine="1"/>
+      </Position4>
+      <Position5>
+        <Filename Value="Arduino_Special_Raspberry_Pi.lpr"/>
+        <Caret Line="17" Column="1" TopLine="1"/>
+      </Position5>
+      <Position6>
+        <Filename Value="Arduino_Special_Raspberry_Pi.lpr"/>
+        <Caret Line="18" Column="1" TopLine="1"/>
+      </Position6>
+      <Position7>
+        <Filename Value="/usr/lib/lazarus/0.9.30.4/lcl/include/application.inc"/>
+        <Caret Line="1349" Column="1" TopLine="1330"/>
+      </Position7>
+      <Position8>
+        <Filename Value="Arduino_Special_Raspberry_Pi.lpr"/>
+        <Caret Line="21" Column="36" TopLine="1"/>
+      </Position8>
+      <Position9>
+        <Filename Value="Arduino_Special_Raspberry_Pi.lpr"/>
+        <Caret Line="15" Column="49" TopLine="1"/>
+      </Position9>
+      <Position10>
+        <Filename Value="Arduino_Special_Raspberry_Pi.lpr"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position10>
+      <Position11>
+        <Filename Value="Arduino_Special_Raspberry_Pi.lpr"/>
+        <Caret Line="10" Column="147" TopLine="1"/>
+      </Position11>
+      <Position12>
+        <Filename Value="Special_Raspberry_Pi/ufArduino.pas"/>
+        <Caret Line="266" Column="1" TopLine="153"/>
+      </Position12>
+    </JumpHistory>
+  </ProjectSession>
+  <Debugging>
+    <BreakPoints Count="1">
+      <Item1>
+        <Source Value="ufArduino.pas"/>
+        <Line Value="101"/>
+      </Item1>
+    </BreakPoints>
+    <Watches Count="1">
+      <Item1>
+        <Expression Value="Result"/>
+      </Item1>
+    </Watches>
+  </Debugging>
+</CONFIG>

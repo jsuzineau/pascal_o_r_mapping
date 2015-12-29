@@ -11,10 +11,10 @@ the lowest pulse in the program be set to 30.
 //for communication with Android
  
 #include <SPI.h>
-#include <Adb.h>
+//#include <Adb.h>
  
 // Adb connection.
-Connection * connection;
+//Connection * connection;
  
 // Elapsed time for ADC sampling
 long lastTime;
@@ -43,10 +43,10 @@ void setup()
   attachInterrupt(0, interrupt, RISING);//set interrupt 0,digital port 2
    
   // Initialise the ADB subsystem.
-  ADB::init();
+  //ADB::init();
    
   // Open an ADB stream to the phone's shell. Auto-reconnect
-  connection = ADB::addConnection("tcp:4568", true, adbEventHandler);
+  //connection = ADB::addConnection("tcp:4568", true, adbEventHandler);
   }
  
 void loop() 
@@ -61,8 +61,8 @@ void sum()//calculate the heart rate
     heart_rate= 1200000 / (temp[20]-temp[0]);//60*20*1000/20_total_time
     //Serial.print("Heart_rate_is:\t");
     Serial.println( heart_rate);
-    connection->write(2, (uint8_t*)&heart_rate);
-    ADB::poll();
+    //connection->write(2, (uint8_t*)&heart_rate);
+    //ADB::poll();
     }
   data_effect=1;//sign bit
   }
@@ -83,6 +83,11 @@ void interrupt()
       sub=temp[counter]-temp[counter-1];
       //Serial.println(sub);
       break;
+    }
+  if(sub)  
+    {
+      int courant= 60000/sub;
+      Serial.println( courant);
     }
   if(sub>max_heartpulse_duty)//set 2 seconds as max heart pulse duty
     {
@@ -115,7 +120,7 @@ void array_init()
   }
 
 // Event handler for the shell connection.
-void adbEventHandler(Connection * connection, adb_eventType event, uint16_t length, uint8_t * data)
-  {
-   
-  }
+//void adbEventHandler(Connection * connection, adb_eventType event, uint16_t length, uint8_t * data)
+//  {
+//   
+//  }
