@@ -7,7 +7,8 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, tachartlazaruspkg, LazSerialPort_special_Raspberry_Pi, ufArduino;
+  Forms, tachartlazaruspkg, LazSerialPort_special_Raspberry_Pi, ufArduino,
+  upoolPouls, ublPouls;
 
 {$R *.res}
 

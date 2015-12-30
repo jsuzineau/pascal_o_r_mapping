@@ -7,7 +7,7 @@ object fArduino: TfArduino
   ClientHeight = 481
   ClientWidth = 562
   OnCreate = FormCreate
-  LCLVersion = '1.2.0.3'
+  LCLVersion = '0.9.30.4'
   WindowState = wsMaximized
   object Panel1: TPanel
     Left = 0
@@ -19,16 +19,6 @@ object fArduino: TfArduino
     ClientWidth = 562
     TabOrder = 0
     OnClick = Panel1Click
-    object bDemarrer_linux: TButton
-      Left = 259
-      Height = 19
-      Top = 0
-      Width = 75
-      Caption = 'Démarrer'
-      OnClick = bDemarrer_linuxClick
-      TabOrder = 0
-      Visible = False
-    end
     object bStop: TButton
       Left = 85
       Height = 19
@@ -36,7 +26,7 @@ object fArduino: TfArduino
       Width = 75
       Caption = 'Arrêter'
       OnClick = bStopClick
-      TabOrder = 1
+      TabOrder = 0
     end
     object bFermer: TButton
       Left = 172
@@ -45,7 +35,7 @@ object fArduino: TfArduino
       Width = 75
       Caption = 'Fermer'
       OnClick = bFermerClick
-      TabOrder = 2
+      TabOrder = 1
     end
     object bDemarrer: TButton
       Left = 3
@@ -54,7 +44,7 @@ object fArduino: TfArduino
       Width = 75
       Caption = 'Démarrer'
       OnClick = bDemarrerClick
-      TabOrder = 3
+      TabOrder = 2
     end
     object bParametres: TButton
       Left = 356
@@ -63,7 +53,7 @@ object fArduino: TfArduino
       Width = 75
       Caption = 'Parametres'
       OnClick = bParametresClick
-      TabOrder = 4
+      TabOrder = 3
     end
   end
   object PageControl1: TPageControl
@@ -77,16 +67,15 @@ object fArduino: TfArduino
     TabOrder = 1
     object tsGraphe: TTabSheet
       Caption = 'Graphe'
-      ClientHeight = 430
-      ClientWidth = 554
+      ClientHeight = 433
+      ClientWidth = 560
       object c: TChart
         Left = 0
-        Height = 430
+        Height = 433
         Top = 0
-        Width = 554
+        Width = 560
         AxisList = <        
           item
-
             Title.LabelFont.Orientation = 900
           end        
           item
@@ -107,8 +96,8 @@ object fArduino: TfArduino
     end
     object tsLog: TTabSheet
       Caption = 'Log'
-      ClientHeight = 419
-      ClientWidth = 556
+      ClientHeight = 433
+      ClientWidth = 560
       object m: TMemo
         Left = 0
         Height = 419

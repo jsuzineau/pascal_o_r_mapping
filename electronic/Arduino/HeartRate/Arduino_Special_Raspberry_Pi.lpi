@@ -42,7 +42,7 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="2">
+    <Units Count="4">
       <Unit0>
         <Filename Value="Arduino_Special_Raspberry_Pi.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -56,6 +56,17 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ufArduino"/>
       </Unit1>
+      <Unit2>
+        <Filename Value="Elements/Pouls/ublPouls.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="ublPouls"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="Elements/Pouls/upoolPouls.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="upoolPouls"/>
+      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -65,7 +76,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="Special_Raspberry_Pi"/>
+      <OtherUnitFiles Value="Special_Raspberry_Pi;Elements/Pouls"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>
