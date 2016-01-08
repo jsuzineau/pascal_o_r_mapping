@@ -23,25 +23,25 @@
           function ()
             {
             if ($scope.actif)
-              $interval( $scope.Charger,500, 1);
+              $interval( $scope.Charger,50, 1);
             };
          $scope.Charger
          =
           function ()
             {
-            $http.get("/arduino/pouls")
+            $http.get("/data/get")
             .success
               (
               function(response)
                 {
                 $scope.valeur= response;
 
-                var longueur=response.length;
+                var Ts_Size=response.value.Ts_Size;
                 var iMin= 0;
                 var TMin=0;
-                for (var i=0; i<longueur; i++)
+                for (var i=0; i<Ts_Size; i++)
                   {
-                  var T= response[i];
+                  var T= response.value[String(i)];
                   if ((TMin == 0)||(TMin > T ))
                     {
                     iMin=i;
@@ -49,15 +49,15 @@
                     }
                   }
 
-                for (var i=iMin+1; i<iMin+longueur; i++)
+                for (var i=iMin+1; i<iMin+Ts_Size; i++)
                   {
-                  var j= i%longueur;
-                  var j_1=(i-1)%longueur;
+                  var j= i%Ts_Size;
+                  var j_1=(i-1)%Ts_Size;
 
-                  var T= response[j];
+                  var T= response.value[String(j)];
                   if (-1 != $scope.labels.indexOf(T)) continue;
 
-                  var T_1= response[j_1];
+                  var T_1= response.value[String(j_1)];
                   var delta= T-T_1;
                   if (delta==0) continue;
 
