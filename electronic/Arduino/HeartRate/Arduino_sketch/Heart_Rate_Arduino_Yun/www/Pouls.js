@@ -12,6 +12,7 @@
        function ($scope,$http,$interval)
          {
          $scope.actif=false;
+         $scope.NomFichier="";
          $scope.NbPoints=50;
          $scope.Delai=1;
          $scope.premier=true;
@@ -73,6 +74,7 @@
               function(response)
                 {
                 $scope.valeur= response;
+                $scope.NomFichier=response.value.NomFichier;
 
                 var Ts_Size=response.value.Ts_Size;
                 var iMin= 0;
