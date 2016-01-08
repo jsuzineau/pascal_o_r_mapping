@@ -10,16 +10,20 @@
            <label>Actif
              <input type="checkbox" ng-model="actif" ng-change="Charger_asynchrone()">
            </label>
+           <label>Limite Nombre de points
+             <input type="number" ng-model="NbPoints">
+           </label>
+           <label>D&eacute;lai
+             <input type="number" ng-model="Delai">ms
+           </label>
          </h2>
        </div>
 
-      <canvas id="line" class="chart chart-line" chart-data="data"
-        chart-labels="labels" chart-legend="false" chart-series="series"
-        chart-options="options"
-        chart-click="onClick" >
-      </canvas>
+      <canvas id="cChart"></canvas>
+
       <script src="angular.min.js"></script>
       <script src="Chart.min.js"></script>
+      <script src="Chart.Scatter.min.js"></script>
       <script src="angular-chart.min.js"></script>
       <script src="Pouls.js"></script>
     </div>

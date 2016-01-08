@@ -12,19 +12,57 @@
        function ($scope,$http,$interval)
          {
          $scope.actif=false;
-         $scope.labels = [0];
-         $scope.series = ['Series A'];
-         $scope.data = [[0]];
+         $scope.NbPoints=50;
+         $scope.Delai=1;
+         $scope.premier=true;
          $scope.valeur="état initial";
-         $scope.options={bezierCurve : false};
+         $scope.labels = [0];
+         var data
+         =
+          [
+           {
+           label: 'My First dataset',
+           strokeColor: '#F16220',
+           pointColor: '#F16220',
+           pointStrokeColor: '#fff',
+           data: [{ x: 0, y: 0 }]
+           }
+          ];
+         var options
+         =
+          {
+          bezierCurve : false,
+          // Boolean - If we want to override with a hard coded scale
+          scaleOverride: true,
+
+          // ** Required if scaleOverride is true **
+          // Number - The number of steps in a hard coded scale
+          scaleSteps: 5,
+
+          // Number - The value jump in the hard coded scale
+          scaleStepWidth: 25,
+
+          // Number - The scale starting value
+          scaleStartValue: 25,
+          };
          Chart.defaults.global.animation=false;
+
+         var ctx = document.getElementById("cChart").getContext("2d");
+         $scope.cChart= new Chart(ctx).Scatter( data, options);
          $scope.Charger_asynchrone
          =
           function ()
             {
             if ($scope.actif)
-              $interval( $scope.Charger,50, 1);
+              $interval( $scope.Charger,$scope.Delai, 1);
             };
+         $scope.Supprime_Point_debut
+         =
+          function ()
+             {
+             $scope.labels.shift();
+             $scope.cChart.datasets[0].removePoint(0);
+             }
          $scope.Charger
          =
           function ()
@@ -65,13 +103,18 @@
                   if ((pouls<20)||(200<pouls)) continue;
 
                   $scope.labels.push( T);
-                  $scope.data[0].push( pouls);
+                  $scope.cChart.datasets[0].addPoint( T, pouls);
                   }
-                while ($scope.labels.length > 50)
+                if ($scope.premier)
                   {
-                  $scope.labels.shift();
-                  $scope.data[0].shift();
+                  $scope.Supprime_Point_debut();
+                  $scope.premier= false;
                   }
+                while ($scope.labels.length > $scope.NbPoints)
+                  {
+                  $scope.Supprime_Point_debut();
+                  }
+                $scope.cChart.update();
                 $scope.Charger_asynchrone();
                 }
               );
