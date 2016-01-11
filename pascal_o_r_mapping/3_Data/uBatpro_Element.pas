@@ -297,16 +297,20 @@ type
   public
     property Aggregeurs: TBatpro_StringList read GetAggregeurs;
   //Connecteurs : liste des objets TBatpro_element qui ont un pointeur vers cet objet
+  //Connectes   : liste de pointeurs vers des objets TBatpro_element
   private
     FConnecteurs: TslBatpro_Element;
+    FConnectes: TslBatpro_Element;
     function GetConnecteurs: TslBatpro_Element;
+    function GetConnectes: TslBatpro_Element;
     //Fonctionne à l'endroit sur Self.FConnecteurs
-    procedure Connecteurs_Ajoute( _be: TBatpro_Element);
+    procedure Connecteurs_Ajoute( _be: TBatpro_Element; _Nom: String= '');
     procedure Connecteurs_Enleve( _be: TBatpro_Element);
   public
     property Connecteurs: TslBatpro_Element read GetConnecteurs;
+    property Connectes: TslBatpro_Element read GetConnectes;
     //On fonctionne à l'envers sur  _be.FConnecteurs
-    procedure Connect_To( _be: TBatpro_Element);
+    procedure Connect_To( _be: TBatpro_Element; _Nom: String= '');
     procedure Unconnect_To( var _be; _Contexte: String= '');
   //Gestion des traits de connection
   private
@@ -591,8 +595,8 @@ type
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: ThAggregation);
-    function  not_Suivant( var _Resultat: ThAggregation): Boolean;
+    procedure Suivant( out _Resultat: ThAggregation);
+    function  not_Suivant( out _Resultat: ThAggregation): Boolean;
   end;
 
  TslhAggregation
@@ -728,6 +732,7 @@ type
     property by_Name[ Name: String]:ThAggregation
              read  Get_by_Name
              write Set_by_Name; default;
+    function Iterateur: TIterateur_hAggregation;
   //Déconnection simple
   public
     procedure Deconnecte;
@@ -3409,30 +3414,36 @@ begin
      Result:= FConnecteurs;
 end;
 
-procedure TBatpro_Element.Connecteurs_Ajoute( _be: TBatpro_Element);
+function TBatpro_Element.GetConnectes: TslBatpro_Element;
+begin
+     if FConnectes = nil
+     then
+         FConnectes:= TslBatpro_Element.Create( ClassName+'.FConnectes');
+
+     Result:= FConnectes;
+end;
+
+procedure TBatpro_Element.Connecteurs_Ajoute( _be: TBatpro_Element; _Nom: String= '');
 begin
      if _be = nil then exit;
      if -1 <> Connecteurs.IndexOfObject( _be) then exit;
 
-     Connecteurs.AddObject( '', _be);
+     Self.Connecteurs.AddObject( _Nom, _be );
+     _be .Connectes  .AddObject( _Nom, Self);
 end;
 
 procedure TBatpro_Element.Connecteurs_Enleve( _be: TBatpro_Element);
-var
-   I: Integer;
 begin
      if _be = nil then exit;
 
-     I:= Connecteurs.IndexOfObject( _be);
-     if I = -1 then exit;
-
-     Connecteurs.Delete( I);
+     Self.Connecteurs.Remove( _be );
+     _be .Connectes  .Remove( Self);
 end;
 
-procedure TBatpro_Element.Connect_To(_be: TBatpro_Element);
+procedure TBatpro_Element.Connect_To(_be: TBatpro_Element; _Nom: String= '');
 begin
      if _be = nil then exit;
-     _be.Connecteurs_Ajoute( Self);
+     _be.Connecteurs_Ajoute( Self, _Nom);
 end;
 
 procedure TBatpro_Element.Unconnect_To( var _be; _Contexte: String= '');
@@ -3916,12 +3927,12 @@ begin
      Result:= hAggregation_from_sl( sl, sl.IndexOf( Name))
 end;
 
-function TIterateur_hAggregation.not_Suivant( var _Resultat: ThAggregation): Boolean;
+function TIterateur_hAggregation.not_Suivant( out _Resultat: ThAggregation): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_hAggregation.Suivant( var _Resultat: ThAggregation);
+procedure TIterateur_hAggregation.Suivant( out _Resultat: ThAggregation);
 begin
      Suivant_interne( _Resultat);
 end;
@@ -4260,6 +4271,7 @@ begin
          begin
          Create_Aggregation( Name, Create_Params);
          Result:= Create_Params.Instancie;
+         Result.Nom:= Name;
          sl.AddObject( Name, Result);
          end;
 end;
@@ -4274,6 +4286,11 @@ begin
          sl.AddObject( Name, Value)
      else
          sl.Objects[I]:= Value;
+end;
+
+function TAggregations.Iterateur: TIterateur_hAggregation;
+begin
+     Result:= sl.Iterateur;
 end;
 
 procedure TAggregations.Deconnecte;

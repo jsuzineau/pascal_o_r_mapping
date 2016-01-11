@@ -1,27 +1,27 @@
 object fTULEAP: TfTULEAP
-  Left = 650
-  Height = 240
-  Top = 319
-  Width = 499
+  Left = 796
+  Height = 399
+  Top = 1124
+  Width = 736
   Caption = 'fTULEAP'
-  ClientHeight = 240
-  ClientWidth = 499
+  ClientHeight = 399
+  ClientWidth = 736
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   LCLVersion = '1.4.0.4'
   object Panel1: TPanel
     Left = 0
-    Height = 72
+    Height = 189
     Top = 0
-    Width = 499
+    Width = 736
     Align = alTop
-    ClientHeight = 72
-    ClientWidth = 499
+    ClientHeight = 189
+    ClientWidth = 736
     TabOrder = 0
     object eUserName: TLabeledEdit
       Left = 208
       Height = 27
-      Top = 8
+      Top = 40
       Width = 80
       EditLabel.AnchorSideTop.Control = eUserName
       EditLabel.AnchorSideTop.Side = asrCenter
@@ -30,7 +30,7 @@ object fTULEAP: TfTULEAP
       EditLabel.AnchorSideBottom.Side = asrBottom
       EditLabel.Left = 128
       EditLabel.Height = 17
-      EditLabel.Top = 13
+      EditLabel.Top = 45
       EditLabel.Width = 77
       EditLabel.Caption = 'User Name '
       EditLabel.ParentColor = False
@@ -41,7 +41,7 @@ object fTULEAP: TfTULEAP
     object ePassword: TLabeledEdit
       Left = 208
       Height = 27
-      Top = 36
+      Top = 68
       Width = 80
       EchoMode = emPassword
       EditLabel.AnchorSideTop.Control = ePassword
@@ -51,7 +51,7 @@ object fTULEAP: TfTULEAP
       EditLabel.AnchorSideBottom.Side = asrBottom
       EditLabel.Left = 139
       EditLabel.Height = 17
-      EditLabel.Top = 41
+      EditLabel.Top = 73
       EditLabel.Width = 66
       EditLabel.Caption = 'Password'
       EditLabel.ParentColor = False
@@ -63,7 +63,7 @@ object fTULEAP: TfTULEAP
     object bAuthenticate: TButton
       Left = 304
       Height = 25
-      Top = 8
+      Top = 40
       Width = 96
       Caption = 'Authenticate'
       OnClick = bAuthenticateClick
@@ -72,7 +72,7 @@ object fTULEAP: TfTULEAP
     object bProjects: TButton
       Left = 8
       Height = 25
-      Top = 36
+      Top = 68
       Width = 96
       Caption = 'Projects'
       OnClick = bProjectsClick
@@ -81,7 +81,7 @@ object fTULEAP: TfTULEAP
     object cbStreaming: TCheckBox
       Left = 409
       Height = 24
-      Top = 12
+      Top = 44
       Width = 111
       Caption = 'cbStreaming'
       OnChange = cbStreamingChange
@@ -90,7 +90,7 @@ object fTULEAP: TfTULEAP
     object bAPI_Explorer: TButton
       Left = 11
       Height = 25
-      Top = 9
+      Top = 41
       Width = 109
       Caption = 'API Explorer'
       OnClick = bAPI_ExplorerClick
@@ -99,16 +99,67 @@ object fTULEAP: TfTULEAP
     object lSSL: TLabel
       Left = 310
       Height = 17
-      Top = 46
+      Top = 78
       Width = 28
       Caption = 'lSSL'
+      ParentColor = False
+    end
+    object bGenere: TButton
+      Left = 11
+      Height = 25
+      Top = 152
+      Width = 75
+      Caption = 'Génère'
+      OnClick = bGenereClick
+      TabOrder = 6
+    end
+    object bTrackers: TButton
+      Left = 160
+      Height = 25
+      Top = 104
+      Width = 75
+      Caption = 'Trackers'
+      OnClick = bTrackersClick
+      TabOrder = 7
+    end
+    object Label1: TLabel
+      Left = 32
+      Height = 17
+      Top = 106
+      Width = 49
+      Caption = 'Project'
+      ParentColor = False
+    end
+    object eProject: TEdit
+      Left = 88
+      Height = 27
+      Top = 102
+      Width = 63
+      TabOrder = 8
+      Text = '103'
+    end
+    object eRoot_URL: TEdit
+      Left = 76
+      Height = 27
+      Top = 10
+      Width = 488
+      OnChange = eRoot_URLChange
+      TabOrder = 9
+      Text = 'eRoot_URL'
+    end
+    object Label2: TLabel
+      Left = 8
+      Height = 17
+      Top = 14
+      Width = 63
+      Caption = 'Root URL'
       ParentColor = False
     end
   end
   object m: TMemo
     Left = 0
-    Height = 168
-    Top = 72
+    Height = 210
+    Top = 189
     Width = 272
     Align = alLeft
     Lines.Strings = (
@@ -119,17 +170,17 @@ object fTULEAP: TfTULEAP
   end
   object Splitter1: TSplitter
     Left = 272
-    Height = 168
-    Top = 72
+    Height = 210
+    Top = 189
     Width = 5
     Color = clLime
     ParentColor = False
   end
   object vst: TVirtualStringTree
     Left = 277
-    Height = 168
-    Top = 72
-    Width = 222
+    Height = 210
+    Top = 189
+    Width = 459
     Align = alClient
     DefaultText = 'Node'
     Header.AutoSizeIndex = 0

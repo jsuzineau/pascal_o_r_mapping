@@ -26,9 +26,8 @@ interface
 
 uses
     uClean,
-    uTULEAP,
-
-    ublJSON,
+    uBatpro_StringList,
+    uTuleap,
 
     upoolJSON,
 
@@ -45,11 +44,17 @@ type
  =
   class(TForm)
    bAuthenticate: TButton;
+   bGenere: TButton;
    bProjects: TButton;
    bAPI_Explorer: TButton;
+   bTrackers: TButton;
    cbStreaming: TCheckBox;
+   eProject: TEdit;
    ePassword: TLabeledEdit;
+   eRoot_URL: TEdit;
    eUserName: TLabeledEdit;
+   Label1: TLabel;
+   Label2: TLabel;
    lSSL: TLabel;
    m: TMemo;
    Panel1: TPanel;
@@ -57,8 +62,11 @@ type
    vst: TVirtualStringTree;
    procedure bAPI_ExplorerClick(Sender: TObject);
    procedure bAuthenticateClick(Sender: TObject);
+   procedure bGenereClick(Sender: TObject);
    procedure bProjectsClick(Sender: TObject);
+   procedure bTrackersClick(Sender: TObject);
    procedure cbStreamingChange(Sender: TObject);
+   procedure eRoot_URLChange(Sender: TObject);
    procedure FormCreate(Sender: TObject);
    procedure FormDestroy(Sender: TObject);
   //TULEAP
@@ -91,6 +99,8 @@ begin
      cbStreaming.Checked:= TULEAP.Streaming;
 
      lSSL.Caption:= 'SSLImplementation: '+blcksock.SSLImplementation.ClassName;
+
+     eRoot_URL.Text:= TULEAP.Root_URL;
 end;
 
 procedure TfTULEAP.FormDestroy(Sender: TObject);
@@ -113,6 +123,20 @@ begin
      Affiche_Resultat( TULEAP.Authenticate( eUserName.Text, ePassword.Text));
 end;
 
+procedure TfTULEAP.bGenereClick(Sender: TObject);
+var
+   bl: TblJSON;
+   NomTable: String;
+begin
+     if sl.Count = 0                          then exit;
+     if Affecte_( bl, TblJSON, sl.Objects[0]) then exit;
+
+     NomTable:= 'Nouveau';
+     if not InputQuery( 'Génération de code', 'Suffixe d''identification (nom de la table)', NomTable) then exit;
+
+     bl.Genere_code( NomTable);
+end;
+
 procedure TfTULEAP.bAPI_ExplorerClick(Sender: TObject);
 begin
      LCLIntf.OpenURL( TULEAP.API_Explorer_URL);
@@ -123,9 +147,19 @@ begin
      TULEAP.Streaming:= cbStreaming.Checked;
 end;
 
+procedure TfTULEAP.eRoot_URLChange(Sender: TObject);
+begin
+     TULEAP.Root_URL:= eRoot_URL.Text;
+end;
+
 procedure TfTULEAP.bProjectsClick(Sender: TObject);
 begin
      Affiche_Resultat( TULEAP.json_Projects);
+end;
+
+procedure TfTULEAP.bTrackersClick(Sender: TObject);
+begin
+     Affiche_Resultat( TULEAP.json_Trackers( eProject.Text));
 end;
 
 end.

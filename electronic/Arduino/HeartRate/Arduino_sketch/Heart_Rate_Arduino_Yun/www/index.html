@@ -1,0 +1,33 @@
+<!doctype html>
+<html ng-app="Pouls">
+  <head>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <div ng-controller="ctrl_Pouls" >
+       <div>
+         <h2>
+           <label>Actif
+             <input type="checkbox" ng-model="actif" ng-change="Charger_asynchrone()">
+           </label>
+           <label>Limite Nombre de points
+             <input type="number" ng-model="NbPoints">
+           </label>
+           <label>D&eacute;lai
+             <input type="number" ng-model="Delai">ms
+           </label>
+         <a ng-href="{{NomFichier}}">Log</a>
+         </h2>
+       </div>
+
+      <canvas id="cChart"></canvas>
+
+      <script src="angular.min.js"></script>
+      <script src="Chart.min.js"></script>
+      <script src="Chart.Scatter.min.js"></script>
+      <script src="angular-chart.min.js"></script>
+      <script src="Pouls.js"></script>
+    </div>
+  </body>
+</html>
+

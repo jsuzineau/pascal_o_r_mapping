@@ -124,6 +124,36 @@ type
   public
     Format_DateTime: String;
     function Formate_DateTime( _D: TDateTime): String;
+  //Gestion du type pour la génération automatique de code
+  private
+    FsType: String;
+    function GetsType: String;
+  public
+    property sType: String read GetsType write FsType;
+  end;
+
+ TIterateur_ChampDefinition
+ =
+  class( TIterateur)
+  //Iterateur
+  public
+    procedure Suivant( out _Resultat: TChampDefinition);
+    function  not_Suivant( out _Resultat: TChampDefinition): Boolean;
+  end;
+
+ TslChampDefinition
+ =
+  class( TBatpro_StringList)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_ChampDefinition;
+    function Iterateur_Decroissant: TIterateur_ChampDefinition;
   end;
 
 function ChampDefinition_from_sl( sl: TBatpro_StringList; I: Integer): TChampDefinition;
@@ -139,6 +169,45 @@ begin
 
      O:= sl.Objects[ I];
      Affecte( Result, TChampDefinition, O);
+end;
+
+{ TIterateur_ChampDefinition }
+
+function TIterateur_ChampDefinition.not_Suivant( out _Resultat: TChampDefinition): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_ChampDefinition.Suivant( out _Resultat: TChampDefinition);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TslChampDefinition }
+
+constructor TslChampDefinition.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, TChampDefinition);
+end;
+
+destructor TslChampDefinition.Destroy;
+begin
+     inherited;
+end;
+
+class function TslChampDefinition.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_ChampDefinition;
+end;
+
+function TslChampDefinition.Iterateur: TIterateur_ChampDefinition;
+begin
+     Result:= TIterateur_ChampDefinition( Iterateur_interne);
+end;
+
+function TslChampDefinition.Iterateur_Decroissant: TIterateur_ChampDefinition;
+begin
+     Result:= TIterateur_ChampDefinition( Iterateur_interne_Decroissant);
 end;
 
 { TChampDefinition }
@@ -176,6 +245,7 @@ begin
 
      FHasMinValue:= False;
      Format_DateTime:= '';
+     FsType:= '';
 end;
 
 constructor TChampDefinition.Create_Lookup( _Nom:String;
@@ -210,6 +280,31 @@ begin
           if 0  = _D              then Result:= ''
      else if '' = Format_DateTime then Result:= DateTimeToStr( _D)
      else                              Result:= SysUtils.FormatDateTime( Format_DateTime, _D);
+end;
+
+function TChampDefinition.GetsType: String;
+begin
+     if '' = FsType
+     then
+         case Typ
+         of
+           ftFixedChar,
+           ftString   ,
+           ftMemo     ,
+           ftGuid     ,
+           ftBlob     : FsType:= 'String';
+           ftDate     : FsType:= 'TDateTime';
+           ftAutoInc  ,
+           ftInteger  ,
+           ftSmallint : FsType:= 'Integer';
+           ftBCD      : FsType:= 'FLOAT';
+           ftDateTime ,
+           ftTimeStamp: FsType:= 'TDateTime';
+           ftFloat    : FsType:= 'FLOAT';
+           ftCurrency : FsType:= 'Currency';
+           ftBoolean  : FsType:= 'Boolean';
+           end;
+     Result:= FsType;
 end;
 
 procedure TChampDefinition.SetMinValue(const Value: double);

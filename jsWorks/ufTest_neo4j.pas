@@ -28,8 +28,6 @@ uses
     uClean,
     uNEO4J,
 
-    ublJSON,
-
     upoolJSON,
 
     uhVST,
@@ -49,8 +47,10 @@ type
    bCreate_node: TButton;
    bGet_node: TButton;
    cbStreaming: TCheckBox;
+   eRoot_URL: TEdit;
    ePassword: TLabeledEdit;
    eUserName: TLabeledEdit;
+   Label1: TLabel;
    m: TMemo;
    Panel1: TPanel;
    seNode: TSpinEdit;
@@ -62,6 +62,7 @@ type
    procedure bProperty_KeysClick(Sender: TObject);
    procedure bServiceRootClick(Sender: TObject);
    procedure cbStreamingChange(Sender: TObject);
+   procedure eRoot_URLChange(Sender: TObject);
    procedure FormCreate(Sender: TObject);
    procedure FormDestroy(Sender: TObject);
   //Neo4j
@@ -93,6 +94,7 @@ begin
      neo4j:= TNEO4J.Create;
      cbStreaming.Checked:= neo4j.Streaming;
 
+     eRoot_URL.Text:= neo4j.Root_URL;
 end;
 
 procedure TfTest_neo4j.FormDestroy(Sender: TObject);
@@ -123,6 +125,11 @@ end;
 procedure TfTest_neo4j.cbStreamingChange(Sender: TObject);
 begin
      neo4j.Streaming:= cbStreaming.Checked;
+end;
+
+procedure TfTest_neo4j.eRoot_URLChange(Sender: TObject);
+begin
+     neo4j.Root_URL:= eRoot_URL.Text;
 end;
 
 procedure TfTest_neo4j.bProperty_KeysClick(Sender: TObject);

@@ -35,17 +35,20 @@ uses
     ufAccueil_Erreur;
 
 type
+
+ { TChampDefinitions }
+
  TChampDefinitions
  =
   class
   private
-    Fsl: TBatpro_StringList;
+    Fsl: TslChampDefinition;
   public
     NomTable: String;
     constructor Create;
     destructor Destroy; override;
 
-    property sl   : TBatpro_StringList read Fsl;
+    property sl   : TslChampDefinition read Fsl;
 
     function Ajoute( Field: String; _FieldType: TFieldType;
                      Persistant: Boolean; F: TField): TChampDefinition;
@@ -63,6 +66,7 @@ type
     function Definition( I: Integer): TChampDefinition;
     function Definition_from_Field( Field: String): TChampDefinition;
     function Count: Integer;
+    function Persistant_Count: Integer;
   //accés direct à des propriétés de définitions
   public
     procedure Definition_SetVisible( Field: String; Visible: Boolean);
@@ -74,8 +78,8 @@ type
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: TChampDefinitions);
-    function  not_Suivant( var _Resultat: TChampDefinitions): Boolean;
+    procedure Suivant( out _Resultat: TChampDefinitions);
+    function  not_Suivant( out _Resultat: TChampDefinitions): Boolean;
   end;
 
  TslChampDefinitions
@@ -127,12 +131,12 @@ end;
 
 { TIterateur_ChampDefinitions }
 
-function TIterateur_ChampDefinitions.not_Suivant( var _Resultat: TChampDefinitions): Boolean;
+function TIterateur_ChampDefinitions.not_Suivant( out _Resultat: TChampDefinitions): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_ChampDefinitions.Suivant( var _Resultat: TChampDefinitions);
+procedure TIterateur_ChampDefinitions.Suivant( out _Resultat: TChampDefinitions);
 begin
      Suivant_interne( _Resultat);
 end;
@@ -168,7 +172,7 @@ end;
 
 constructor TChampDefinitions.Create;
 begin
-     Fsl:= TBatpro_StringList.Create;
+     Fsl:= TslChampDefinition.Create( ClassName+'.Fsl');
 end;
 
 destructor TChampDefinitions.Destroy;
@@ -329,6 +333,22 @@ begin
      Result:= sl.Count;
 end;
 
+function TChampDefinitions.Persistant_Count: Integer;
+var
+   I: TIterateur_ChampDefinition;
+   d: TChampDefinition;
+begin
+     Result:= 0;
+     I:= sl.Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( d) then continue;
+
+       if d.Persistant then Inc(Result);
+       end;
+end;
+
 function TChampDefinitions.Definition_from_Field( Field: String): TChampDefinition;
 var
    I: Integer;
@@ -355,7 +375,8 @@ begin
      cd.Visible:= Visible;
 end;
 
-procedure TChampDefinitions.Definition_SetLibelle(Field, Libelle: String);
+procedure TChampDefinitions.Definition_SetLibelle(Field: String; Libelle: String
+ );
 var
    cd: TChampDefinition;
 begin

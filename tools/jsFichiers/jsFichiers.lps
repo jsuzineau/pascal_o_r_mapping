@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="9"/>
+    <BuildModes Active="Default"/>
+    <Units Count="11">
+      <Unit0>
+        <Filename Value="jsFichiers.dpr"/>
+        <IsPartOfProject Value="True"/>
+        <CursorPos X="55" Y="9"/>
+        <UsageCount Value="40"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="ufjsFichiers.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fjsFichiers"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufjsFichiers"/>
+        <EditorIndex Value="1"/>
+        <UsageCount Value="40"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="uthjsFichiers.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uthjsFichiers"/>
+        <EditorIndex Value="4"/>
+        <CursorPos X="40" Y="23"/>
+        <UsageCount Value="40"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="../../electronic/Arduino/HeartRate/Arduino_sketch/Heart_Rate_Arduino_Yun/www/index.html"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="41" Y="19"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="HTML"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="../../electronic/Arduino/HeartRate/Arduino_sketch/Heart_Rate_Arduino_Yun/www/Pouls.js"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="68"/>
+        <CursorPos X="61" Y="77"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="JScript"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="../../jsWorks/html/ThAUT/index.html"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="7"/>
+        <UsageCount Value="11"/>
+        <DefaultSyntaxHighlighter Value="HTML"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="../../jsWorks/html/ThAUT/AUT.js"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="49"/>
+        <UsageCount Value="11"/>
+        <DefaultSyntaxHighlighter Value="JScript"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="../../electronic/Arduino/HeartRate/Arduino_sketch/Heart_Rate_Arduino_Yun/www/angular-chart.js"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="42"/>
+        <UsageCount Value="13"/>
+        <DefaultSyntaxHighlighter Value="JScript"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="../../electronic/Arduino/HeartRate/Arduino_sketch/Heart_Rate_Arduino_Yun/www/angular-chart.css"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="6" Y="49"/>
+        <UsageCount Value="12"/>
+        <DefaultSyntaxHighlighter Value="None"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="../../../Chart.Scatter-master/Chart.Scatter.js"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="12"/>
+        <DefaultSyntaxHighlighter Value="JScript"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="../../../Chart.Scatter-master/Chart.Core.js"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="82" Y="40"/>
+        <UsageCount Value="12"/>
+        <DefaultSyntaxHighlighter Value="JScript"/>
+      </Unit10>
+    </Units>
+    <JumpHistory Count="4" HistoryIndex="3">
+      <Position1>
+        <Filename Value="../../electronic/Arduino/HeartRate/Arduino_sketch/Heart_Rate_Arduino_Yun/www/Pouls.js"/>
+        <Caret Line="73" Column="47" TopLine="10"/>
+      </Position1>
+      <Position2>
+        <Filename Value="../../electronic/Arduino/HeartRate/Arduino_sketch/Heart_Rate_Arduino_Yun/www/Pouls.js"/>
+        <Caret Line="77" Column="44" TopLine="37"/>
+      </Position2>
+      <Position3>
+        <Filename Value="../../electronic/Arduino/HeartRate/Arduino_sketch/Heart_Rate_Arduino_Yun/www/Pouls.js"/>
+      </Position3>
+      <Position4>
+        <Filename Value="../../electronic/Arduino/HeartRate/Arduino_sketch/Heart_Rate_Arduino_Yun/www/Pouls.js"/>
+        <Caret Line="17" Column="21"/>
+      </Position4>
+    </JumpHistory>
+  </ProjectSession>
+</CONFIG>

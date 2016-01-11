@@ -332,8 +332,8 @@ end;
 {$ENDIF}
 
 procedure bl_nil( var bl);
-var
-   BatproLigne: TBatpro_Ligne;
+//var
+//   BatproLigne: TBatpro_Ligne;
 begin
      if TObject( bl) = nil then exit;
 

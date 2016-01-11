@@ -28,6 +28,7 @@ uses
     uClean,
     u_sys_,
     uBatpro_StringList,
+    uChampDefinition,
     uChamp,
     uChamps,
     uVide,
@@ -122,7 +123,6 @@ type
     Champs: TChamps;
     C: TChamp;
     F: TField;
-    sType: String;
   //Méthodes
   public
     procedure Traite; virtual;
@@ -277,8 +277,8 @@ type
     a: array of TJoinPoint;
     procedure Initialise( _a: array of TJoinPoint);
   public
-    blAutomatic: TblAutomatic;
-    procedure Execute( _blAutomatic: TblAutomatic; _Suffixe: String);
+    bl: TBatpro_Ligne;
+    procedure Execute( _bl: TBatpro_Ligne; _Suffixe: String);
   end;
 
 function Generateur_de_code: TGenerateur_de_code;
@@ -334,7 +334,6 @@ begin
      Champs:= _Champs;
      F:= _F;
      C:= nil;
-     sType:= '';
      Traite;
 end;
 
@@ -354,7 +353,6 @@ procedure TStringFieldBuffer.Traite;
 begin
      inherited Traite;
      C:= Champs.String_from_( Value, F.FieldName);
-     sType:= 'String';
 end;
 
 { TIntegerFieldBuffer }
@@ -363,7 +361,6 @@ procedure TIntegerFieldBuffer.Traite;
 begin
      inherited Traite;
      C:= Champs.Integer_from_( Value, F.FieldName);
-     sType:= 'Integer';
 end;
 
 { TDateTimeFieldBuffer }
@@ -372,7 +369,6 @@ procedure TDateTimeFieldBuffer.Traite;
 begin
      inherited Traite;
      C:= Champs.DateTime_from_( Value, F.FieldName);
-     sType:= 'TDateTime';
 end;
 
 { TDoubleFieldBuffer }
@@ -381,7 +377,6 @@ procedure TDoubleFieldBuffer.Traite;
 begin
      inherited Traite;
      C:= Champs.Double_from_( Value, F.FieldName);
-     sType:= 'FLOAT';
 end;
 
 { TCurrencyFieldBuffer }
@@ -390,7 +385,6 @@ procedure TCurrencyFieldBuffer.Traite;
 begin
      inherited Traite;
      C:= Champs.Currency_from_( Value, F.FieldName);
-     sType:= 'Currency';
 end;
 
 { TBooleanFieldBuffer }
@@ -399,7 +393,6 @@ procedure TBooleanFieldBuffer.Traite;
 begin
      inherited Traite;
      C:= Champs.Boolean_from_( Value, F.FieldName);
-     sType:= 'Boolean';
 end;
 
 { TIterateur_Automatic }
@@ -541,7 +534,7 @@ begin
      inherited Destroy;
 end;
 
-procedure TGenerateur_de_code.Execute( _blAutomatic: TblAutomatic; _Suffixe: String);
+procedure TGenerateur_de_code.Execute( _bl: TBatpro_Ligne; _Suffixe: String);
 var
    NomFichierProjet: String;
    cc: TContexteClasse;
@@ -640,17 +633,21 @@ var
         phTable := TPatternHandler.Create( sRepSource+'t'+s_Nom_de_la_table+'.class.php',sRepCible,slParametres);
    end;
 
-   procedure Traite_Field( _fb: TFieldBuffer);
+   procedure Traite_Champ( _C: TChamp);
    var
+      d: TChampDefinition;
       sNomChamp: String;
       cm: TContexteMembre;
       sParametre: String;
       sDeclarationParametre: String;
    begin
-        sNomChamp:= _fb.C.Definition.Nom;
+        d:= _C.Definition;
+        if not d.Persistant then exit;//pour éviter le champ Selected
+
+        sNomChamp:= d.Nom;
         if 'id' = LowerCase( sNomChamp) then exit;
 
-        cm:= TContexteMembre.Create( Self, cc, sNomChamp, _fb.sType, '');
+        cm:= TContexteMembre.Create( Self, cc, sNomChamp, d.sType, '');
         //cm:= TContexteMembre.Create( cc, _fb.F.FieldName, _fb.sType, '');
         try
            uJoinPoint_VisiteMembre( cm, a);
@@ -701,23 +698,24 @@ var
    end;
    procedure Visite;
    var
-      I: TIterateur_FieldBuffer;
+      I: TIterateur_Champ;
       J: Integer;
       fb: TFieldBuffer;
+      C: TChamp;
    begin
         cc:= TContexteClasse.Create( Self, _Suffixe,
-                                     blAutomatic.slFields.Count);
+                                     bl.Champs.ChampDefinitions.Persistant_Count);
         try
            slParametres.Clear;
 
            uJoinPoint_Initialise( cc, a);
 
-           I:= blAutomatic.slFields.Iterateur;
+           I:= bl.Champs.sl.Iterateur;
            while I.Continuer
            do
              begin
-             if I.not_Suivant_interne( fb) then continue;
-             Traite_Field( fb);
+             if I.not_Suivant_interne( C) then continue;
+             Traite_Champ( C);
              end;
 
            //Gestion des détails
@@ -770,7 +768,7 @@ var
                end;
    end;
 begin
-     blAutomatic:= _blAutomatic;
+     bl:= _bl;
      NomFichierProjet:= uOD_Forms_EXE_Name;
      INI
      :=
