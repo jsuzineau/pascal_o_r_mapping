@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Lazarus>
+    <ColorSchemes Version="11">
+      <Names Count="1">
+        <Item1 Value="Lazarus_Couleurs"/>
+      </Names>
+      <Globals Version="11">
+        <SchemeLazarus_Couleurs>
+          <ahaGutter Background="clBtnFace"/>
+          <ahaDefault Background="clWhite" Foreground="clBlack"/>
+          <ahaErrorLine Background="5284095" Foreground="clBlack" BackPriority="500" ForePriority="500" FramePriority="500"/>
+          <ahaMouseLink Foreground="clBlue" FrameColor="clBlue" FrameEdges="sfeBottom" BackPriority="2500" ForePriority="1500" FramePriority="7500"/>
+          <ahaTextBlock Background="clBlue" BackPriority="7000" ForePriority="7000" FramePriority="7000"/>
+          <ahaWordGroup FrameColor="clRed" BackPriority="3000" ForePriority="3000" FramePriority="3000"/>
+          <ahaFoldedCode Background="clWhite" Foreground="clSilver" FrameColor="clSilver" BackPriority="8000" ForePriority="8000" FramePriority="8000"/>
+          <ahaRightMargin Foreground="clSilver"/>
+          <ahaTopInfoHint Background="clSkyBlue" Foreground="clBlack" FrameColor="clMaroon" FrameStyle="slsDashed" FrameEdges="sfeBottom" BackPriority="8500" ForePriority="8500" FramePriority="8500"/>
+          <ahaBracketMatch Background="12632319" Style="fsBold" BackPriority="3000" ForePriority="3000" FramePriority="3000"/>
+          <ahaHighlightAll Background="clYellow" BackPriority="4000" ForePriority="4000" FramePriority="4000"/>
+          <ahaModifiedLine Foreground="clGreen" FrameColor="59900"/>
+          <ahaHighlightWord Background="15132390" FrameColor="clSilver" BackPriority="3000" ForePriority="3000" FramePriority="3000"/>
+          <ahaLineHighlight BackPriority="500" ForePriority="500" FramePriority="500"/>
+          <ahaSyncroEditCur FrameColor="clFuchsia" BackPriority="2000" ForePriority="2000" FramePriority="2000"/>
+          <ahaExecutionPoint Background="clGray" Foreground="clWhite" BackPriority="500" ForePriority="500" FramePriority="500"/>
+          <ahaSyncroEditArea Background="clMoneyGreen" BackPriority="2000" ForePriority="2000" FramePriority="2000"/>
+          <ahaSyncroEditSync FrameColor="clRed" BackPriority="6000" ForePriority="6000" FramePriority="6000"/>
+          <ahaCodeFoldingTree Background="clWhite" Foreground="clSilver"/>
+          <ahaGutterSeparator Background="clWhite" Foreground="clGray"/>
+          <ahaIfDefNodeActive BackPriority="9050" ForePriority="9050" FramePriority="9050"/>
+          <ahaSyncroEditOther FrameColor="9744532" BackPriority="6000" ForePriority="6000" FramePriority="6000"/>
+          <ahaTemplateEditCur FrameColor="clAqua" BackPriority="6000" ForePriority="6000" FramePriority="6000"/>
+          <ahaIfDefBlockActive BackPriority="9000" ForePriority="9000" FramePriority="9000"/>
+          <ahaTemplateEditSync FrameColor="clFuchsia" BackPriority="6000" ForePriority="6000" FramePriority="6000"/>
+          <ahaEnabledBreakpoint Background="clRed" Foreground="clBlack" BackPriority="500" ForePriority="500" FramePriority="500"/>
+          <ahaIfDefNodeInactive BackPriority="9150" ForePriority="9150" FramePriority="9150"/>
+          <ahaIncrementalSearch Background="3199088" Foreground="clWhite" BackPriority="4000" ForePriority="4000" FramePriority="4000"/>
+          <ahaInvalidBreakpoint Background="clOlive" Foreground="clGreen" BackPriority="500" ForePriority="500" FramePriority="500"/>
+          <ahaTemplateEditOther FrameColor="clMaroon" BackPriority="6000" ForePriority="6000" FramePriority="6000"/>
+          <ahaUnknownBreakpoint Background="clRed" Foreground="clBlack" BackPriority="500" ForePriority="500" FramePriority="500"/>
+          <ahaDisabledBreakpoint Background="clGreen" Foreground="clBlack" BackPriority="500" ForePriority="500" FramePriority="500"/>
+          <ahaIfDefBlockInactive Foreground="clSilver" BackPriority="9050" ForePriority="9050" FramePriority="9050" ForeAlpha="165"/>
+          <ahaIfDefNodeTmpActive BackPriority="9050" ForePriority="9050" FramePriority="9050"/>
+          <ahaIfDefBlockTmpActive BackPriority="9000" ForePriority="9000" FramePriority="9000"/>
+          <ahaSpecialVisibleChars BackPriority="8100" ForePriority="8100" FramePriority="8100"/>
+        </SchemeLazarus_Couleurs>
+      </Globals>
+      <LangObjectPascal Version="11">
+        <SchemeLazarus_Couleurs>
+          <ahaTextBlock Background="clNavy" Foreground="clWhite"/>
+          <ahaBracketMatch Background="clNone"/>
+          <ahaIfDefBlockInactive ForeAlpha="0"/>
+          <Number Foreground="clFuchsia"/>
+          <String Background="clYellow"/>
+          <Symbol Foreground="clRed"/>
+          <Comment Background="clLime"/>
+          <Assembler Background="clAqua"/>
+          <Directive Foreground="clTeal" Style="fsBold"/>
+          <Identifier Foreground="clBlue"/>
+          <Reserved_word Style="fsBold"/>
+        </SchemeLazarus_Couleurs>
+      </LangObjectPascal>
+      <LangLazarus_Form_definition Version="11">
+        <SchemeLazarus_Couleurs>
+          <Key Style="fsBold"/>
+          <Number Foreground="clNavy"/>
+          <String Foreground="clBlue"/>
+          <Symbol Foreground="clRed"/>
+          <Comment Foreground="clBlue" Style="fsBold"/>
+          <ahaTextBlock Background="clNavy" Foreground="clWhite"/>
+          <ahaBracketMatch Background="clNone"/>
+          <ahaIfDefBlockInactive ForeAlpha="0"/>
+        </SchemeLazarus_Couleurs>
+      </LangLazarus_Form_definition>
+      <LangXML_document Version="11">
+        <SchemeLazarus_Couleurs>
+          <Text Foreground="clBlack" Style="fsBold"/>
+          <Symbol Foreground="clRed"/>
+          <Comment Background="clLime"/>
+          <ahaTextBlock Background="clNavy" Foreground="clWhite"/>
+          <Element_Name Style="fsBold"/>
+          <CDATA_Section Background="clAqua" Style="fsItalic"/>
+          <Attribute_Name Foreground="clBlue"/>
+          <ahaBracketMatch Background="clNone"/>
+          <Attribute_Value Background="clYellow"/>
+          <DOCTYPE_Section Foreground="clBlue" Style="fsItalic"/>
+          <Entity_Reference Background="clYellow"/>
+          <ahaIfDefBlockInactive ForeAlpha="0"/>
+          <Processing_Instruction Background="clAqua"/>
+          <Namespace_Attribute_Name Foreground="clRed"/>
+          <Namespace_Attribute_Value Foreground="clRed" Style="fsBold"/>
+        </SchemeLazarus_Couleurs>
+      </LangXML_document>
+      <LangHTML_document Version="11">
+        <SchemeLazarus_Couleurs>
+          <Asp Background="clYellow" Foreground="clBlack"/>
+          <Text Foreground="clBlue"/>
+          <Value Background="clYellow"/>
+          <Symbol Foreground="clRed"/>
+          <Comment Background="clLime" Style="fsBold"/>
+          <Identifier Style="fsBold"/>
+          <ahaTextBlock Background="clNavy" Foreground="clWhite"/>
+          <Unknown_word Foreground="clRed" Style="fsBold"/>
+          <Reserved_word Style="fsBold"/>
+          <ahaBracketMatch Background="clNone"/>
+          <Escape_ampersand Foreground="clLime" Style="fsBold"/>
+          <ahaIfDefBlockInactive ForeAlpha="0"/>
+        </SchemeLazarus_Couleurs>
+      </LangHTML_document>
+      <LangC__ Version="11">
+        <SchemeLazarus_Couleurs>
+          <Space Foreground="clWindow"/>
+          <Number Foreground="clFuchsia"/>
+          <String Background="clYellow"/>
+          <Symbol Foreground="clRed"/>
+          <Comment Background="clLime"/>
+          <Assembler Foreground="clGreen"/>
+          <Identifier Foreground="clBlue"/>
+          <ahaTextBlock Background="clNavy" Foreground="clWhite"/>
+          <Preprocessor Foreground="clGreen" Style="fsBold"/>
+          <Reserved_word Style="fsBold"/>
+          <ahaBracketMatch Background="clNone"/>
+          <ahaIfDefBlockInactive ForeAlpha="0"/>
+        </SchemeLazarus_Couleurs>
+      </LangC__>
+      <LangPerl Version="11">
+        <SchemeLazarus_Couleurs>
+          <Space Foreground="clWindow"/>
+          <Number Foreground="clNavy"/>
+          <Pragma Style="fsBold"/>
+          <String Foreground="clBlue"/>
+          <Symbol Foreground="clRed"/>
+          <Comment Foreground="clBlue" Style="fsBold"/>
+          <Variable Style="fsBold"/>
+          <ahaTextBlock Background="clNavy" Foreground="clWhite"/>
+          <Reserved_word Style="fsBold"/>
+          <ahaBracketMatch Background="clNone"/>
+          <ahaIfDefBlockInactive ForeAlpha="0"/>
+        </SchemeLazarus_Couleurs>
+      </LangPerl>
+      <LangJava Version="11">
+        <SchemeLazarus_Couleurs>
+          <Space Foreground="clWindow"/>
+          <Number Foreground="clFuchsia"/>
+          <String Background="clYellow"/>
+          <Symbol Foreground="clRed"/>
+          <Comment Background="clLime"/>
+          <Identifier Foreground="clBlue"/>
+          <ahaTextBlock Background="clNavy" Foreground="clWhite"/>
+          <Documentation Background="clLime"/>
+          <Reserved_word Style="fsBold"/>
+          <ahaBracketMatch Background="clNone"/>
+          <ahaIfDefBlockInactive ForeAlpha="0"/>
+        </SchemeLazarus_Couleurs>
+      </LangJava>
+      <LangUNIX_Shell_Script Version="11">
+        <SchemeLazarus_Couleurs>
+          <Number Foreground="clNavy"/>
+          <String Foreground="clBlue"/>
+          <Symbol Foreground="clRed"/>
+          <Comment Foreground="clBlue" Style="fsBold"/>
+          <Variable Foreground="clPurple"/>
+          <ahaTextBlock Background="clNavy" Foreground="clWhite"/>
+          <Reserved_word Style="fsBold"/>
+          <ahaBracketMatch Background="clNone"/>
+          <ahaIfDefBlockInactive ForeAlpha="0"/>
+        </SchemeLazarus_Couleurs>
+      </LangUNIX_Shell_Script>
+      <LangPython Version="11">
+        <SchemeLazarus_Couleurs>
+          <Float Foreground="clFuchsia"/>
+          <Octal Foreground="clNavy"/>
+          <Number Foreground="clFuchsia"/>
+          <String Background="clYellow"/>
+          <Symbol Foreground="clRed"/>
+          <Comment Background="clLime"/>
+          <Identifier Foreground="clBlue"/>
+          <Hexadecimal Foreground="clPurple"/>
+          <SyntaxError Foreground="clRed"/>
+          <ahaTextBlock Background="clNavy" Foreground="clWhite"/>
+          <Documentation Background="clLime"/>
+          <Reserved_word Style="fsBold"/>
+          <ahaBracketMatch Background="clNone"/>
+          <Non_reserved_keyword Foreground="clNavy" Style="fsBold"/>
+          <ahaIfDefBlockInactive ForeAlpha="0"/>
+          <System_functions_and_variables Style="fsBold"/>
+        </SchemeLazarus_Couleurs>
+      </LangPython>
+      <LangPHP Version="11">
+        <SchemeLazarus_Couleurs>
+          <Number Foreground="clFuchsia"/>
+          <String Background="clYellow"/>
+          <Symbol Foreground="clRed"/>
+          <Comment Background="clLime"/>
+          <Variable Foreground="clGray"/>
+          <Identifier Foreground="clBlue"/>
+          <ahaTextBlock Background="clNavy" Foreground="clWhite"/>
+          <Reserved_word Style="fsBold"/>
+          <Invalid_symbol Background="clFuchsia"/>
+          <ahaBracketMatch Background="clNone"/>
+          <ahaIfDefBlockInactive ForeAlpha="0"/>
+        </SchemeLazarus_Couleurs>
+      </LangPHP>
+      <LangSQL Version="11">
+        <SchemeLazarus_Couleurs>
+          <Number Foreground="clNavy"/>
+          <String Foreground="clBlue"/>
+          <Symbol Foreground="clRed"/>
+          <Comment Foreground="clBlue" Style="fsBold"/>
+          <Function Style="fsBold"/>
+          <Data_type Style="fsBold"/>
+          <Exception Style="fsItalic"/>
+          <ahaTextBlock Background="clNavy" Foreground="clWhite"/>
+          <Reserved_word Style="fsBold"/>
+          <ahaBracketMatch Background="clNone"/>
+          <Default_packages Style="fsBold"/>
+          <SQL_Plus_command Style="fsBold"/>
+          <ahaIfDefBlockInactive ForeAlpha="0"/>
+          <Reserved_word__PL_SQL_ Style="fsBold"/>
+        </SchemeLazarus_Couleurs>
+      </LangSQL>
+      <LangJavascript Version="11">
+        <SchemeLazarus_Couleurs>
+          <Number Foreground="clFuchsia"/>
+          <String Background="clYellow"/>
+          <Symbol Foreground="clRed"/>
+          <Comment Background="clLime"/>
+          <Identifier Foreground="clBlue"/>
+          <ahaTextBlock Background="clNavy" Foreground="clWhite"/>
+          <Reserved_word Style="fsBold"/>
+          <ahaBracketMatch Background="clNone"/>
+          <ahaIfDefBlockInactive ForeAlpha="0"/>
+        </SchemeLazarus_Couleurs>
+      </LangJavascript>
+      <LangDiff_File Version="11">
+        <SchemeLazarus_Couleurs>
+          <ahaTextBlock Background="clNavy" Foreground="clWhite"/>
+          <Unknown_word Style="fsItalic"/>
+          <Diff_New_File Background="clGreen" Style="fsBold"/>
+          <ahaBracketMatch Background="clNone"/>
+          <Diff_Added_line Foreground="clGreen"/>
+          <Diff_Changed_Line Foreground="clPurple"/>
+          <Diff_Chunk_Marker Style="fsBold"/>
+          <Diff_Removed_Line Foreground="clRed"/>
+          <Diff_Original_File Background="clRed" Style="fsBold"/>
+          <ahaIfDefBlockInactive ForeAlpha="0"/>
+          <Diff_Chunk_Line_Counts Foreground="clPurple" Style="fsBold"/>
+          <Diff_Chunk_New_Line_Count Foreground="clGreen" Style="fsBold"/>
+          <Diff_Chunk_Original_Line_Count Foreground="clRed" Style="fsBold"/>
+        </SchemeLazarus_Couleurs>
+      </LangDiff_File>
+      <LangMS_DOS_batch_language Version="11">
+        <SchemeLazarus_Couleurs>
+          <Key Style="fsBold"/>
+          <Number Foreground="clBlue"/>
+          <Comment Foreground="clNavy" Style="fsItalic"/>
+          <Variable Foreground="clGreen"/>
+          <ahaTextBlock Background="clNavy" Foreground="clWhite"/>
+          <ahaBracketMatch Background="clNone"/>
+          <ahaIfDefBlockInactive ForeAlpha="0"/>
+        </SchemeLazarus_Couleurs>
+      </LangMS_DOS_batch_language>
+      <LangINI_file Version="11">
+        <SchemeLazarus_Couleurs>
+          <Comment Foreground="clGreen" Style="fsItalic"/>
+          <Section Style="fsBold"/>
+          <ahaTextBlock Background="clNavy" Foreground="clWhite"/>
+          <ahaBracketMatch Background="clNone"/>
+          <ahaIfDefBlockInactive ForeAlpha="0"/>
+        </SchemeLazarus_Couleurs>
+      </LangINI_file>
+      <Langpo_language_files Version="11">
+        <SchemeLazarus_Couleurs>
+          <Key Style="fsBold"/>
+          <Flags Foreground="clTeal"/>
+          <String Foreground="clFuchsia"/>
+          <Comment Foreground="clGreen" Style="fsItalic"/>
+          <Identifier Foreground="clGreen" Style="fsBold"/>
+          <ahaTextBlock Background="clNavy" Foreground="clWhite"/>
+          <Previous_value Foreground="clOlive" Style="fsItalic"/>
+          <ahaBracketMatch Background="clNone"/>
+          <ahaIfDefBlockInactive ForeAlpha="0"/>
+        </SchemeLazarus_Couleurs>
+      </Langpo_language_files>
+    </ColorSchemes>
+  </Lazarus>
+</CONFIG>
