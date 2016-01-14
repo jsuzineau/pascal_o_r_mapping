@@ -1,0 +1,50 @@
+inherited dkWork: TdkWork
+  Left = 642
+  Height = 77
+  Top = 172
+  Width = 320
+  Caption = 'dkWork'
+  ClientHeight = 77
+  ClientWidth = 320
+  inherited sSelection: TBatpro_Shape
+    Height = 77
+  end
+  object clBeginning: TChamp_Label[1]
+    Left = 16
+    Height = 14
+    Top = 4
+    Width = 105
+    AutoSize = False
+    Caption = '2014/05/17 18:30'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    OnDblClick = FormDblClick
+    Field = 'Beginning'
+  end
+  object sbDetruire: TSpeedButton[2]
+    Left = 119
+    Height = 22
+    Hint = 'Supprimer'
+    Top = 0
+    Width = 22
+    Caption = 'D'
+    OnClick = sbDetruireClick
+  end
+  object clDescription: TChamp_Label[3]
+    Left = 143
+    Height = 14
+    Top = 4
+    Width = 174
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    Caption = 'clDescription'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    OnDblClick = FormDblClick
+    Field = 'Description'
+  end
+end
