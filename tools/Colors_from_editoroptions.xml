@@ -1,0 +1,90 @@
+    <Color Version="11">
+      <LangObjectPascal Version="11">
+        <SchemeDefault>
+          <Number Foreground="clFuchsia"/>
+          <String Background="clYellow" Foreground="clNone"/>
+          <Comment Background="clLime" Foreground="clNone" Style=""/>
+          <Assembler Background="clAqua" Foreground="clNone"/>
+          <Directive Foreground="clTeal"/>
+          <Identifier Foreground="clBlue"/>
+        </SchemeDefault>
+      </LangObjectPascal>
+      <LangPHP Version="11">
+        <SchemeDefault>
+          <Number Foreground="clFuchsia"/>
+          <String Background="clYellow" Foreground="clNone"/>
+          <Comment Background="clLime" Foreground="clNone" Style=""/>
+          <Variable Foreground="clGray"/>
+          <Identifier Foreground="clBlue"/>
+          <Invalid_symbol Background="clFuchsia"/>
+        </SchemeDefault>
+      </LangPHP>
+      <LangXML_document Version="11">
+        <FileExtensions Value="xml;xsd;xsl;xslt;dtd;lpi;lps;lpk;4rp"/>
+        <SchemeDefault>
+          <Comment Background="clLime" Foreground="clNone" Style=""/>
+          <Element_Name Foreground="clNone"/>
+          <CDATA_Section Background="clAqua" Foreground="clNone"/>
+          <Attribute_Name Foreground="clBlue"/>
+          <Attribute_Value Background="clYellow" Foreground="clNone" Style=""/>
+          <Entity_Reference Background="clYellow" Foreground="clNone" Style=""/>
+          <Processing_Instruction Background="clAqua" Foreground="clNone"/>
+        </SchemeDefault>
+      </LangXML_document>
+      <LangJavascript Version="11">
+        <SchemeDefault>
+          <Number Foreground="clFuchsia"/>
+          <String Background="clYellow" Foreground="clNone"/>
+          <Comment Background="clLime" Foreground="clNone" Style=""/>
+          <Identifier Foreground="clBlue"/>
+        </SchemeDefault>
+        <FileExtensions Value="js;scad"/>
+      </LangJavascript>
+      <LangJava Version="11">
+        <SchemeDefault>
+          <Number Foreground="clFuchsia"/>
+          <String Background="clYellow" Foreground="clNone"/>
+          <Comment Background="clLime" Foreground="clNone" Style=""/>
+          <Identifier Foreground="clBlue"/>
+          <Documentation Background="clLime" Foreground="clNone" Style=""/>
+        </SchemeDefault>
+      </LangJava>
+      <LangPython Version="11">
+        <FileExtensions Value="py;FCMacro"/>
+        <SchemeDefault>
+          <Float Foreground="clFuchsia"/>
+          <Octal Foreground="clNavy"/>
+          <Number Foreground="clFuchsia"/>
+          <String Background="clYellow" Foreground="clNone"/>
+          <Comment Background="clLime" Foreground="clNone" Style=""/>
+          <Identifier Foreground="clBlue"/>
+          <Hexadecimal Foreground="clPurple"/>
+          <Documentation Background="clLime" Foreground="clNone" Style=""/>
+        </SchemeDefault>
+      </LangPython>
+      <Globals Version="11">
+        <SchemeDefault>
+          <ahaTextBlock Background="clBlue" Foreground="clNone"/>
+          <ahaBracketMatch Background="12632319"/>
+        </SchemeDefault>
+      </Globals>
+      <LangC__ Version="11">
+        <ColorScheme Value="Default"/>
+        <FileExtensions Value="c;cc;cpp;h;hpp;hh;ino;pde;ec;cs"/>
+        <SchemeDefault>
+          <Number Foreground="clFuchsia"/>
+          <String Background="clYellow" Foreground="clNone"/>
+          <Comment Background="clLime" Foreground="clNone" Style=""/>
+          <Identifier Foreground="clBlue"/>
+          <Preprocessor Foreground="clGreen"/>
+        </SchemeDefault>
+      </LangC__>
+      <LangHTML_document Version="11">
+        <SchemeDefault>
+          <Text Foreground="clBlue"/>
+          <Value Background="clYellow" Foreground="clNone"/>
+          <Comment Background="clLime" Foreground="clNone"/>
+        </SchemeDefault>
+      </LangHTML_document>
+    </Color>
+ 
