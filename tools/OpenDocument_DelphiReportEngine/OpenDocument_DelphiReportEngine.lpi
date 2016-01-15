@@ -48,6 +48,7 @@
         <ComponentName Value="fOpenDocument_DelphiReportEngine"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ufOpenDocument_DelphiReportEngine"/>
       </Unit1>
     </Units>
   </ProjectOptions>

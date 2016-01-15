@@ -48,6 +48,7 @@ type
  TfOpenDocument_DelphiReportEngine
  =
   class(TForm)
+   bInsererColonne: TButton;
     odODF: TOpenDialog;
     pc: TPageControl;
     tsContent: TTabSheet;
