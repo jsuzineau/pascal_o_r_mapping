@@ -55,15 +55,18 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <SearchPaths>
-      <IncludeFiles Value="..\..\pascal_o_r_mapping\6_Formes;..\..\pascal_o_r_mapping\2_Units"/>
+      <IncludeFiles Value="..\..\pascal_o_r_mapping\6_Formes;..\..\pascal_o_r_mapping\2_Units;$(ProjOutDir)"/>
       <OtherUnitFiles Value="..\..\pascal_o_r_mapping\6_Formes;..\..\pascal_o_r_mapping\2_Units"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
-        <SyntaxMode Value="delphi"/>
+        <SyntaxMode Value="Delphi"/>
       </SyntaxOptions>
     </Parsing>
     <Linking>
+      <Debugging>
+        <GenerateDebugInfo Value="False"/>
+      </Debugging>
       <Options>
         <Win32>
           <GraphicApplication Value="True"/>
