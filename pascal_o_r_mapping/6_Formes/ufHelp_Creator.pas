@@ -83,7 +83,7 @@ type
     procedure Cree_HTML;
   public
     { Déclarations publiques }
-    function Execute( Command: Word; Data: Integer; var CallHelp: Boolean;
+    function Execute( Command: Word; Data: PtrInt; var CallHelp: Boolean;
                       unNomFichier: String;
                       unF: TCustomForm): Boolean; reintroduce;
   end;
@@ -105,7 +105,7 @@ begin
      Clean_Get( Result, FfHelp_Creator, TfHelp_Creator);
 end;
 
-function TfHelp_Creator.Execute( Command: Word; Data: Integer;
+function TfHelp_Creator.Execute( Command: Word; Data: PtrInt;
                                  var CallHelp: Boolean; unNomFichier: String;
                                  unF: TCustomForm): Boolean;
 begin

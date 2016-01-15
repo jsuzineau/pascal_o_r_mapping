@@ -1,0 +1,60 @@
+Hint: * Conversion du fichier C:\_freepascal\pascal_o_r_mapping\tools\OpenDocument_DelphiReportEngine\OpenDocument_DelphiReportEngine.dpr *
+Hint: Définitions -dBorland -dVer150 -dDelphi7 -dCompiler6_Up -dPUREPASCAL ajoutées dans les options personnalisées
+Hint: Tous les fichiers d'unités ont été trouvés
+Hint: * Ajustement des unités utilisées pour le fichier C:\_freepascal\pascal_o_r_mapping\tools\OpenDocument_DelphiReportEngine\OpenDocument_DelphiReportEngine.dpr *
+Hint: 
+Hint: *** Conversion des fichiers unités appartenant au projet/paquet **
+Hint: 
+Hint: *** Conversion des fichiers unités trouvés lors de la conversion ***
+Hint: * Conversion du fichier C:\_freepascal\pascal_o_r_mapping\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas *
+Hint: Codage modifié de cp1252 en "UTF-8"
+Hint: Unité "ShellAPI" retirée de la section "uses".
+Hint: Unité "Windows" remplacée par "LCLIntf, LMessages" dans la section "uses".
+Hint: 
+Hint: *** Ajustement des unités utilisées et réparation des fichiers des fiches ***
+Hint: * Réparation du fichier de la fiche C:\_freepascal\pascal_o_r_mapping\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.lfm *
+Hint: Top coordonnées TButton de "8" changées en  "6" dans TPanel.
+Hint: Left coordonnées TButton de "8" changées en  "6" dans TPanel.
+Hint: Top coordonnées TButton de "8" changées en  "6" dans TPanel.
+Hint: Left coordonnées TButton de "8" changées en  "6" dans TPanel.
+Hint: Top coordonnées TSpinEdit de "9" changées en  "7" dans TPanel.
+Hint: Left coordonnées TSpinEdit de "469" changées en  "467" dans TPanel.
+Hint: Top coordonnées TButton de "8" changées en  "6" dans TPanel.
+Hint: Left coordonnées TButton de "360" changées en  "358" dans TPanel.
+Hint: Top coordonnées TMemo de "32" changées en  "30" dans TPanel.
+Hint: Left coordonnées TMemo de "8" changées en  "6" dans TPanel.
+Hint: Top coordonnées TSpinEdit de "7" changées en  "5" dans TPanel.
+Hint: Left coordonnées TSpinEdit de "72" changées en  "70" dans TPanel.
+Hint: Top coordonnées TLabel de "8" changées en  "6" dans TPanel.
+Hint: Left coordonnées TLabel de "8" changées en  "6" dans TPanel.
+Hint: Top coordonnées TButton de "24" changées en  "22" dans TPanel.
+Hint: Left coordonnées TButton de "904" changées en  "902" dans TPanel.
+Hint: Top coordonnées TButton de "8" changées en  "6" dans TPanel.
+Hint: Left coordonnées TButton de "648" changées en  "646" dans TPanel.
+Hint: Top coordonnées TButton de "24" changées en  "10" dans TGroupBox.
+Hint: Left coordonnées TButton de "330" changées en  "328" dans TGroupBox.
+Hint: Top coordonnées TButton de "24" changées en  "10" dans TGroupBox.
+Hint: Left coordonnées TButton de "264" changées en  "262" dans TGroupBox.
+Hint: Top coordonnées TButton de "24" changées en  "10" dans TGroupBox.
+Hint: Left coordonnées TButton de "200" changées en  "198" dans TGroupBox.
+Hint: Top coordonnées TButton de "24" changées en  "10" dans TGroupBox.
+Hint: Left coordonnées TButton de "136" changées en  "134" dans TGroupBox.
+Hint: Top coordonnées TButton de "24" changées en  "10" dans TGroupBox.
+Hint: Left coordonnées TButton de "6" changées en  "4" dans TGroupBox.
+Hint: Top coordonnées TButton de "24" changées en  "10" dans TGroupBox.
+Hint: Left coordonnées TButton de "70" changées en  "68" dans TGroupBox.
+Hint: Top coordonnées TGroupBox de "2" changées en  "0" dans TPanel.
+Hint: Left coordonnées TGroupBox de "168" changées en  "166" dans TPanel.
+Hint: Top coordonnées TButton de "40" changées en  "38" dans TPanel.
+Hint: Left coordonnées TButton de "88" changées en  "86" dans TPanel.
+Hint: Top coordonnées TButton de "40" changées en  "38" dans TPanel.
+Hint: Left coordonnées TButton de "8" changées en  "6" dans TPanel.
+Hint: Top coordonnées TButton de "7" changées en  "5" dans TPanel.
+Hint: Left coordonnées TButton de "8" changées en  "6" dans TPanel.
+Hint: Top coordonnées TCheckBox de "12" changées en  "10" dans TPanel.
+Hint: Left coordonnées TCheckBox de "184" changées en  "182" dans TPanel.
+Hint: Top coordonnées TButton de "8" changées en  "6" dans TPanel.
+Hint: Left coordonnées TButton de "8" changées en  "6" dans TPanel.
+Hint: * Ajustement des unités utilisées pour le fichier C:\_freepascal\pascal_o_r_mapping\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas *
+Hint: La conversion a pris : 00:02:01
+Hint: Conversion prête.

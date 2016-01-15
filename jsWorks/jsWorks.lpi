@@ -16,8 +16,86 @@
     <VersionInfo>
       <StringTable ProductVersion=""/>
     </VersionInfo>
-    <BuildModes Count="1">
+    <BuildModes Count="3">
       <Item1 Name="Default" Default="True"/>
+      <Item2 Name="Windows 64 bits Debug">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <Target>
+            <Filename Value="jsWorks"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;../OOo;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/6_Formes;Elements/Tag;Elements/Work;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;../pascal_o_r_mapping/3_Data/JSON;../pascal_o_r_mapping/3_Data/Tuleap"/>
+            <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <SyntaxMode Value="Delphi"/>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <Checks>
+              <IOChecks Value="True"/>
+              <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
+            </Checks>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="win64"/>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
+              <UseHeaptrc Value="True"/>
+              <UseExternalDbgSyms Value="True"/>
+            </Debugging>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+        </CompilerOptions>
+      </Item2>
+      <Item3 Name="Windows 64 bits Release">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <Target>
+            <Filename Value="jsWorks"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;../OOo;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/6_Formes;Elements/Tag;Elements/Work;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;../pascal_o_r_mapping/3_Data/JSON;../pascal_o_r_mapping/3_Data/Tuleap"/>
+            <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <SyntaxMode Value="Delphi"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="win64"/>
+            <Optimizations>
+              <OptimizationLevel Value="3"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+        </CompilerOptions>
+      </Item3>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -52,7 +130,6 @@
         <ComponentName Value="fjsWorks"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufjsWorks"/>
       </Unit1>
       <Unit2>
         <Filename Value="../pascal_o_r_mapping/3_Data/uXML.pas"/>
@@ -61,7 +138,6 @@
       <Unit3>
         <Filename Value="../pascal_o_r_mapping/7_sources_externes/synapse/source/lib/blcksock.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="blcksock"/>
       </Unit3>
       <Unit4>
         <Filename Value="../OOo/uOD_Table_Batpro.pas"/>
@@ -77,7 +153,6 @@
       <Unit6>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/ublAutomatic.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublAutomatic"/>
       </Unit6>
       <Unit7>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler/uPatternHandler.pas"/>
@@ -334,7 +409,6 @@
       <Unit67>
         <Filename Value="Elements/Project/ublProject.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublProject"/>
       </Unit67>
       <Unit68>
         <Filename Value="Elements/State/ublState.pas"/>
@@ -343,7 +417,6 @@
       <Unit69>
         <Filename Value="Elements/Work/ublWork.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublWork"/>
       </Unit69>
       <Unit70>
         <Filename Value="Elements/Categorie/uhfCategorie.pas"/>
@@ -398,7 +471,6 @@
         <ComponentName Value="dkProject_LABEL"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="udkProject_LABEL"/>
       </Unit79>
       <Unit80>
         <Filename Value="Elements/Project/ufProject.pas"/>
@@ -435,7 +507,6 @@
         <ComponentName Value="poolTAG"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="upoolTag"/>
       </Unit85>
       <Unit86>
         <Filename Value="Elements/Tag/uhfTag.pas"/>
@@ -572,12 +643,10 @@
         <ComponentName Value="fAutomatic_VST"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufAutomatic_VST"/>
       </Unit111>
       <Unit112>
         <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uhVST"/>
       </Unit112>
       <Unit113>
         <Filename Value="ufTest_neo4j.pas"/>
@@ -585,12 +654,10 @@
         <ComponentName Value="fTest_neo4j"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufTest_neo4j"/>
       </Unit113>
       <Unit114>
         <Filename Value="../pascal_o_r_mapping/3_Data/uNEO4J.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uNEO4J"/>
       </Unit114>
       <Unit115>
         <Filename Value="../pascal_o_r_mapping/3_Data/JSON/upoolJSON.pas"/>
@@ -598,7 +665,6 @@
         <ComponentName Value="poolJSON"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="upoolJSON"/>
       </Unit115>
       <Unit116>
         <Filename Value="ufTULEAP.pas"/>
@@ -606,12 +672,10 @@
         <ComponentName Value="fTULEAP"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufTULEAP"/>
       </Unit116>
       <Unit117>
         <Filename Value="../pascal_o_r_mapping/3_Data/Tuleap/uTuleap.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uTuleap"/>
       </Unit117>
     </Units>
   </ProjectOptions>

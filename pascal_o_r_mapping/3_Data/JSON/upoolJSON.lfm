@@ -1,4 +1,4 @@
 inherited poolJSON: TpoolJSON
-  Left = 566
-  Top = 155
+  Left = 1875
+  Top = 258
 end

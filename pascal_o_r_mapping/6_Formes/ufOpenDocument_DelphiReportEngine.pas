@@ -1,4 +1,7 @@
 unit ufOpenDocument_DelphiReportEngine;
+
+{$MODE Delphi}
+
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -34,8 +37,8 @@ uses
     Zipper ,
     DOM,
     uOOoChrono,
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, ValEdit, ShellAPI, Registry,
+  LCLIntf, LMessages, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, ValEdit, Registry,
   Spin,LCLType,XMLWrite,XMLRead,StrUtils;
 
 type
@@ -142,7 +145,7 @@ type
    procedure From_m(var _xml: TXMLDocument; _m: TMemo);
     procedure Optimise( _tns: TTreeNodes);
     procedure To_m(_xml: TXMLDocument; _m: TMemo);
-  //Attributs et méthodes privés généraux
+  //Attributs et mÃ©thodes privÃ©s gÃ©nÃ©raux
   private
     Embedded: Boolean; //pour distinguer l'appel par Execute de l'affichage comme fiche principale
     Document: TOpenDocument;
@@ -167,13 +170,13 @@ type
   public
     procedure Ouvre( _NomDocument: String);
     procedure Ferme;
-  //Méthodes générales
+  //MÃ©thodes gÃ©nÃ©rales
   public
     function Execute( _NomDocument: String): Boolean;
   //Composition du Treeview
   private
     procedure tv_Add( _tv: TTreeView; _e: TDOMNode; _Parent: TTreeNode = nil);
-  //Surcharge de la méthode de gestion des messages
+  //Surcharge de la mÃ©thode de gestion des messages
   protected
     procedure WndProc(var Message: TMessage); override;
   //Inscription dans la base de registre
@@ -194,7 +197,7 @@ function ufOpenDocument_DelphiReportEngine_Execute( _NomDocument: String): Boole
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
 function ufOpenDocument_DelphiReportEngine_Execute( _NomDocument: String): Boolean;
 var
@@ -560,7 +563,7 @@ begin
          if tn.Parent = nil
          then // Cas terminal
              Result:= ''
-         else // Appel récursif
+         else // Appel rÃ©cursif
              Result:= Cle_from_tn( tn.Parent) + '_';
          Result:= Result + Name_from_Text( tn);
          end;
@@ -597,7 +600,7 @@ begin
      Source:= Cle_from_tn( tn);
      Cible:= Source+'_Copie';
 
-     if InputQuery( 'Duplication', 'Nouvelle clé pour Open Office', Cible)
+     if InputQuery( 'Duplication', 'Nouvelle clÃ© pour Open Office', Cible)
      then
          begin
          if HasValue( tn)
@@ -954,8 +957,11 @@ var
    tn: TTreeNode;
    Properties: String;
 begin
-     Properties:= '';
+     if _tv = nil then exit;
+     if _e = nil  then exit;
+     if _e.Attributes = nil then exit;
 
+     Properties:= '';
      for I:= 0 to _e.Attributes.Length -1
      do
        begin
@@ -1047,30 +1053,44 @@ const
 
 var
    r: TRegistry;
+   Failed: Boolean;
    procedure T( _extension: String);
    var
       Key, Value: String;
    begin
+        if Failed then exit;
+
         //verbe OpenDocument_DelphiReportEngine
         Key:= '\'+_extension+'\shell\OpenDocument_DelphiReportEngine\command';
         Value:= '"'+Application.ExeName+'" "%1"';
 
         try
-           r.OpenKey( Key, True);
+           if not r.OpenKey( Key, True)
+           then
+               begin
+               MessageDlg( 'Echec de l''ouverture de la clÃ© '+Key, mtError, [mbOK], 0);
+               Failed:= True;
+               exit;
+               end;
+
            r.WriteString( '', Value);
         except
               on E: ERegistryException
               do
+                begin
+                Failed:= True;
                 MessageDlg( 'Echec de l''inscription dans la base de registre '#13#10
-                           +'pour accés avec le bouton droit de la souris '#13#10
+                           +'pour accÃ©s avec le bouton droit de la souris '#13#10
                            +'sur un document Open document'#13#10
                            +'dans l''explorateur de fichiers.'#13#10
-                           +'Peut-être que vous devriez exécuter '
+                           +'Peut-Ãªtre que vous devriez exÃ©cuter '
                            +'le programme en temps qu''administrateur.'#13#10
                            +E.Message, mtError, [mbOK], 0);
+                end;
               end;
    end;
 begin
+     Failed:= False;
      r:= TRegistry.Create;
      try
         r.RootKey:= HKEY_CLASSES_ROOT;
@@ -1103,7 +1123,7 @@ end;
 procedure TfOpenDocument_DelphiReportEngine.bSupprimerColonneClick( Sender: TObject);
 begin
      if ODRE_Table = nil then exit;
-     ShowMessage('à déboguer');
+     ShowMessage('Ã  dÃ©boguer');
      ODRE_Table.SupprimerColonne(speSupprimerColonne_Numero.Value);
      ODRE_Table.To_Doc( OD_TextTableContext);
 end;
@@ -1111,7 +1131,7 @@ end;
 procedure TfOpenDocument_DelphiReportEngine.bInsererColonneClick( Sender: TObject);
 begin
      if ODRE_Table = nil then exit;
-     ShowMessage('à déboguer');
+     ShowMessage('Ã  dÃ©boguer');
      ODRE_Table.InsererColonneApres(speInsererColonne_Numero.Value);
      ODRE_Table.To_Doc( OD_TextTableContext);
 end;
@@ -1120,7 +1140,7 @@ procedure TfOpenDocument_DelphiReportEngine.bDecalerChampsApresColonneClick(
   Sender: TObject);
 begin
      if ODRE_Table = nil then exit;
-     ShowMessage('à déboguer');
+     ShowMessage('Ã  dÃ©boguer');
      ODRE_Table.DecalerChampsApresColonne(speDecalerChampsApresColonne_Numero.Value);
      ODRE_Table.To_Doc( OD_TextTableContext);
 end;
@@ -1133,7 +1153,7 @@ begin
      if I = 0
      then
          begin
-         ShowMessage( 'Texte non trouvé');
+         ShowMessage( 'Texte non trouvÃ©');
          exit;
          end;
      mStyles_XML.SetFocus;
@@ -1150,7 +1170,7 @@ begin
      if I = 0
      then
          begin
-         ShowMessage( 'Texte non trouvé');
+         ShowMessage( 'Texte non trouvÃ©');
          exit;
          end;
      mContent_XML.SetFocus;

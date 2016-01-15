@@ -1,7 +1,7 @@
 inherited dkProject_LABEL: TdkProject_LABEL
-  Left = 636
+  Left = 1778
   Height = 77
-  Top = 169
+  Top = 217
   Width = 320
   Caption = 'dkProject_LABEL'
   ClientHeight = 77
@@ -11,7 +11,7 @@ inherited dkProject_LABEL: TdkProject_LABEL
   end
   object clName: TChamp_Label[1]
     Left = 8
-    Height = 14
+    Height = 13
     Top = 0
     Width = 310
     Anchors = [akTop, akLeft, akRight]
