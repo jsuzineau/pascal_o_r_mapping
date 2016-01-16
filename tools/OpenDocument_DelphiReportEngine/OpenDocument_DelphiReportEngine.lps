@@ -4,11 +4,11 @@
     <PathDelim Value="\"/>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="9">
+    <Units Count="13">
       <Unit0>
         <Filename Value="OpenDocument_DelphiReportEngine.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="27"/>
+        <UsageCount Value="30"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
@@ -18,12 +18,10 @@
         <ComponentName Value="fOpenDocument_DelphiReportEngine"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufOpenDocument_DelphiReportEngine"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="1132"/>
-        <CursorPos X="6" Y="1134"/>
-        <UsageCount Value="27"/>
+        <TopLine Value="28"/>
+        <CursorPos X="19" Y="40"/>
+        <UsageCount Value="30"/>
         <Bookmarks Count="3">
           <Item0 X="18" Y="796" ID="1"/>
           <Item1 X="57" Y="1111" ID="2"/>
@@ -73,130 +71,172 @@
         <UsageCount Value="10"/>
       </Unit7>
       <Unit8>
-        <Filename Value="..\..\..\..\..\..\usr\lib\lazarus\1.4.0\lcl\controls.pp"/>
+        <Filename Value="C:\usr\lib\lazarus\1.4.0\lcl\controls.pp"/>
         <UnitName Value="Controls"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="7"/>
         <CursorPos X="36" Y="38"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit8>
+      <Unit9>
+        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uODRE_Table.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="35"/>
+        <CursorPos X="38" Y="40"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="Elements\ublODRE_Table.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="62"/>
+        <CursorPos X="33" Y="61"/>
+        <UsageCount Value="23"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="..\..\jsWorks\Elements\Work\ublWork.pas"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="105"/>
+        <CursorPos Y="105"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uBatpro_Ligne.pas"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="70"/>
+        <CursorPos Y="95"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit12>
     </Units>
-    <JumpHistory Count="29" HistoryIndex="28">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="964" TopLine="945"/>
+        <Caret Line="293" Column="28" TopLine="260"/>
       </Position1>
       <Position2>
         <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="967" TopLine="945"/>
+        <Caret Line="795" Column="18" TopLine="774"/>
       </Position2>
       <Position3>
         <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="962" Column="10" TopLine="945"/>
+        <Caret Line="806" Column="27" TopLine="774"/>
       </Position3>
       <Position4>
         <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="969" Column="35" TopLine="946"/>
+        <Caret Line="809" Column="27" TopLine="775"/>
       </Position4>
       <Position5>
         <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="924" Column="45" TopLine="899"/>
+        <Caret Line="871" Column="31" TopLine="831"/>
       </Position5>
       <Position6>
         <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
+        <Caret Line="1124" Column="57" TopLine="1089"/>
       </Position6>
       <Position7>
         <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="1158" Column="20" TopLine="1133"/>
+        <Caret Line="1160" Column="19" TopLine="1125"/>
       </Position7>
       <Position8>
         <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
+        <Caret Line="32" Column="16" TopLine="12"/>
       </Position8>
       <Position9>
         <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="32" Column="16"/>
+        <Caret Line="1131" Column="45" TopLine="1101"/>
       </Position9>
       <Position10>
         <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="98" Column="17" TopLine="66"/>
+        <Caret Line="1132" Column="45" TopLine="1102"/>
       </Position10>
       <Position11>
         <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="99" Column="17" TopLine="67"/>
+        <Caret Line="1132" Column="65" TopLine="1102"/>
       </Position11>
       <Position12>
         <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="101" Column="18" TopLine="69"/>
+        <Caret Line="1134" Column="6" TopLine="1105"/>
       </Position12>
       <Position13>
-        <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="103" Column="16" TopLine="71"/>
+        <Filename Value="Elements\ublODRE_Table.pas"/>
+        <Caret Line="16" Column="29"/>
       </Position13>
       <Position14>
         <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="136" Column="27" TopLine="104"/>
+        <Caret Line="1134" Column="6" TopLine="1105"/>
       </Position14>
       <Position15>
         <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="185" Column="27" TopLine="153"/>
+        <Caret Line="111" Column="20" TopLine="97"/>
       </Position15>
       <Position16>
         <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="188" Column="27" TopLine="156"/>
       </Position16>
       <Position17>
-        <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="222" Column="16" TopLine="189"/>
+        <Filename Value="Elements\ublODRE_Table.pas"/>
+        <Caret Line="30" Column="6" TopLine="25"/>
       </Position17>
       <Position18>
-        <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="293" Column="28" TopLine="260"/>
+        <Filename Value="Elements\ublODRE_Table.pas"/>
+        <Caret Line="51" Column="36" TopLine="25"/>
       </Position18>
       <Position19>
-        <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="795" Column="18" TopLine="774"/>
+        <Filename Value="Elements\ublODRE_Table.pas"/>
+        <Caret Line="75" Column="48" TopLine="56"/>
       </Position19>
       <Position20>
-        <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="806" Column="27" TopLine="774"/>
+        <Filename Value="Elements\ublODRE_Table.pas"/>
+        <Caret Line="51" Column="44" TopLine="36"/>
       </Position20>
       <Position21>
-        <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="809" Column="27" TopLine="775"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uBatpro_Ligne.pas"/>
+        <Caret Line="156" TopLine="137"/>
       </Position21>
       <Position22>
-        <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="871" Column="31" TopLine="831"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uBatpro_Ligne.pas"/>
+        <Caret TopLine="61"/>
       </Position22>
       <Position23>
-        <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="1124" Column="57" TopLine="1089"/>
+        <Filename Value="Elements\ublODRE_Table.pas"/>
+        <Caret Line="55" Column="42" TopLine="35"/>
       </Position23>
       <Position24>
-        <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="1160" Column="19" TopLine="1125"/>
+        <Filename Value="Elements\ublODRE_Table.pas"/>
+        <Caret Line="86" Column="32" TopLine="60"/>
       </Position24>
       <Position25>
-        <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="32" Column="16" TopLine="12"/>
+        <Filename Value="Elements\ublODRE_Table.pas"/>
+        <Caret Line="50" Column="49" TopLine="30"/>
       </Position25>
       <Position26>
         <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="1131" Column="45" TopLine="1101"/>
+        <Caret Line="795" Column="18" TopLine="780"/>
       </Position26>
       <Position27>
-        <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="1132" Column="45" TopLine="1102"/>
+        <Filename Value="Elements\ublODRE_Table.pas"/>
+        <Caret Column="6"/>
       </Position27>
       <Position28>
-        <Filename Value="..\..\..\..\..\..\usr\lib\lazarus\1.4.0\lcl\controls.pp"/>
-        <Caret Line="38" Column="36" TopLine="8"/>
+        <Filename Value="Elements\ublODRE_Table.pas"/>
+        <Caret Line="44" Column="23" TopLine="37"/>
       </Position28>
       <Position29>
-        <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
-        <Caret Line="1132" Column="65" TopLine="1102"/>
+        <Filename Value="Elements\ublODRE_Table.pas"/>
+        <Caret Line="56" Column="55" TopLine="41"/>
       </Position29>
+      <Position30>
+        <Filename Value="Elements\ublODRE_Table.pas"/>
+        <Caret Line="86" Column="11" TopLine="65"/>
+      </Position30>
     </JumpHistory>
   </ProjectSession>
 </CONFIG>

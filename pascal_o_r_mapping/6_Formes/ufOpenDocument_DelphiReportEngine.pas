@@ -37,6 +37,7 @@ uses
     Zipper ,
     DOM,
     uOOoChrono,
+    ublODRE_Table,
   LCLIntf, LMessages, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, ValEdit, Registry,
   Spin,LCLType,XMLWrite,XMLRead,StrUtils;
@@ -48,7 +49,6 @@ type
  TfOpenDocument_DelphiReportEngine
  =
   class(TForm)
-   bInsererColonne: TButton;
     odODF: TOpenDialog;
     pc: TPageControl;
     tsContent: TTabSheet;
