@@ -29,14 +29,17 @@ unit ufOpenDocument_DelphiReportEngine;
 interface
 
 uses
+    uOD_Forms,
     uODRE_Table,
     uOD_TextTableContext,
     uOOoStrings,
     uOOoStringList,
     uOpenDocument,
+    uVide,
     Zipper ,
     DOM,
-    uOOoChrono,
+    uOOoChrono, 
+    ucChampsGrid,
     ublODRE_Table,
   LCLIntf, LMessages, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, ValEdit, Registry,
@@ -49,6 +52,7 @@ type
  TfOpenDocument_DelphiReportEngine
  =
   class(TForm)
+   cg: TChampsGrid;
     odODF: TOpenDialog;
     pc: TPageControl;
     tsContent: TTabSheet;
@@ -186,7 +190,8 @@ type
   //Gestion des ODRE_Tables
   public
    OD_TextTableContext: TOD_TextTableContext;
-   ODRE_Table: TODRE_Table;
+   slT: TslODRE_Table;
+   blODRE_Table: TblODRE_Table;
   end;
 
 var
@@ -217,10 +222,9 @@ end;
 
 procedure TfOpenDocument_DelphiReportEngine.FormCreate(Sender: TObject);
 begin
-     //DragAcceptFiles( Handle, True);
      Document:= nil;
      OD_TextTableContext:= nil;
-     ODRE_Table:= nil;
+     blODRE_Table:= nil;
 
      __sl            := TOOoStringList.Create;
      __sli           := TOOoStringList.Create;
@@ -228,7 +232,17 @@ begin
      tns := tv.Items;
      tnsi:= tvi.Items;
      Embedded:= False;
+     slT:= TslODRE_Table.Create( Classname+'.slT');
+end;
 
+procedure TfOpenDocument_DelphiReportEngine.FormDestroy(Sender: TObject);
+begin
+     Detruit_StringList( slT);
+     FreeAndNil( OD_TextTableContext);
+     FreeAndNil( Document      );
+     FreeAndNil( __sl            );
+     FreeAndNil( __sli           );
+     FreeAndNil( slSuppressions);
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.FormShow(Sender: TObject);
@@ -287,16 +301,6 @@ begin
 
      From_Document;
      pc.Show;
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.FormDestroy(Sender: TObject);
-begin
-     FreeAndNil( ODRE_Table);
-     FreeAndNil( OD_TextTableContext);
-     FreeAndNil( Document      );
-     FreeAndNil( __sl            );
-     FreeAndNil( __sli           );
-     FreeAndNil( slSuppressions);
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.Ajoute_Valeur_dans_tv( sKey, sValue: String);
@@ -808,6 +812,15 @@ var
         else
             Nom_ODRE_Table:= '';
    end;
+   procedure Ajoute_ODRE_Table;
+   var
+      bl: TblODRE_Table;
+   begin
+        lbODRE_Table.Items.Add( Nom_ODRE_Table);
+        bl:= TblODRE_Table.Create( slT, nil, nil);
+        bl.Charge( Nom_ODRE_Table, OD_TextTableContext);
+        slT.AddObject( bl.sCle, bl);
+   end;
 begin
      Affiche_XMLs;
 
@@ -833,7 +846,7 @@ begin
               Ajoute_Valeur_dans_tv ( Nom, Valeur);
               if Is_NbColonnes
               then
-                  lbODRE_Table.Items.Add( Nom_ODRE_Table);
+                  Ajoute_ODRE_Table;
               end
           else
               Ajoute_Valeur_dans_tvi( Nom, Valeur);
@@ -1110,40 +1123,39 @@ var
    I: Integer;
 begin
      Nom:= lbODRE_Table.Items[lbODRE_Table.ItemIndex];
-     ODRE_Table:= TODRE_Table.Create( Nom);
-     ODRE_Table.Pas_de_persistance:= False;
-     ODRE_Table.from_Doc( OD_TextTableContext);
+     blODRE_Table:= blODRE_Table_from_sl_sCle( slT, Nom);
+     if nil = blODRE_Table then exit;
 
-     speODRE_Table_NbColonnes.Value:= ODRE_Table.GetNbColonnes;
+     speODRE_Table_NbColonnes.Value:= blODRE_Table.T.GetNbColonnes;
      mODRE_Table_Colonnes.Clear;
-     for I:= Low( ODRE_Table.Columns) to High( ODRE_Table.Columns)
+     for I:= Low( blODRE_Table.T.Columns) to High( blODRE_Table.T.Columns)
      do
-       mODRE_Table_Colonnes.Lines.Add( ODRE_Table.Columns[I].Titre);
+       mODRE_Table_Colonnes.Lines.Add( blODRE_Table.T.Columns[I].Titre);
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.bSupprimerColonneClick( Sender: TObject);
 begin
-     if ODRE_Table = nil then exit;
+     if blODRE_Table = nil then exit;
      ShowMessage('à déboguer');
-     ODRE_Table.SupprimerColonne(speSupprimerColonne_Numero.Value);
-     ODRE_Table.To_Doc( OD_TextTableContext);
+     blODRE_Table.T.SupprimerColonne(speSupprimerColonne_Numero.Value);
+     blODRE_Table.T.To_Doc( OD_TextTableContext);
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.bInsererColonneClick( Sender: TObject);
 begin
-     if ODRE_Table = nil then exit;
+     if blODRE_Table = nil then exit;
      ShowMessage('à déboguer');
-     ODRE_Table.InsererColonneApres(speInsererColonne_Numero.Value);
-     ODRE_Table.To_Doc( OD_TextTableContext);
+     blODRE_Table.T.InsererColonneApres(speInsererColonne_Numero.Value);
+     blODRE_Table.T.To_Doc( OD_TextTableContext);
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.bDecalerChampsApresColonneClick(
   Sender: TObject);
 begin
-     if ODRE_Table = nil then exit;
+     if blODRE_Table = nil then exit;
      ShowMessage('à déboguer');
-     ODRE_Table.DecalerChampsApresColonne(speDecalerChampsApresColonne_Numero.Value);
-     ODRE_Table.To_Doc( OD_TextTableContext);
+     blODRE_Table.T.DecalerChampsApresColonne(speDecalerChampsApresColonne_Numero.Value);
+     blODRE_Table.T.To_Doc( OD_TextTableContext);
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.bStyles_XML_ChercherClick( Sender: TObject);

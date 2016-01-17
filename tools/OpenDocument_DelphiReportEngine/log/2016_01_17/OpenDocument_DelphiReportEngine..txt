@@ -1,0 +1,4 @@
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\tools\OpenDocument_DelphiReportEngine\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 50
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\tools\OpenDocument_DelphiReportEngine\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 50
