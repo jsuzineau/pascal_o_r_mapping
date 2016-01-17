@@ -1518,6 +1518,7 @@ begin
      if ClassName = sys_TblG_BECP       then exit;
      if ClassName = sys_TblG_BECPCTX    then exit;
 
+     if not Assigned( poolG_BECP_Cree)  then exit;
      if Has_ClassParams                 then exit;
 
      Result:= poolG_BECP_Cree( ClassName);

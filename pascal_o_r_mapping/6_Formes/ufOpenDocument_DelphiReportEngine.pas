@@ -150,7 +150,7 @@ type
    procedure From_m(var _xml: TXMLDocument; _m: TMemo);
     procedure Optimise( _tns: TTreeNodes);
     procedure To_m(_xml: TXMLDocument; _m: TMemo);
-  //Attributs et mÃ©thodes privÃ©s gÃ©nÃ©raux
+  //Attributs et méthodes privés généraux
   private
     Embedded: Boolean; //pour distinguer l'appel par Execute de l'affichage comme fiche principale
     Document: TOpenDocument;
@@ -175,13 +175,13 @@ type
   public
     procedure Ouvre( _NomDocument: String);
     procedure Ferme;
-  //MÃ©thodes gÃ©nÃ©rales
+  //Méthodes générales
   public
     function Execute( _NomDocument: String): Boolean;
   //Composition du Treeview
   private
     procedure tv_Add( _tv: TTreeView; _e: TDOMNode; _Parent: TTreeNode = nil);
-  //Surcharge de la mÃ©thode de gestion des messages
+  //Surcharge de la méthode de gestion des messages
   protected
     procedure WndProc(var Message: TMessage); override;
   //Inscription dans la base de registre
@@ -538,12 +538,7 @@ begin
 
      sKey:= __sl.Strings[ I];
      Delete( sKey, 1, 1);
-
-     for iRow:= 0 to vle.RowCount-1
-     do
-       if sKey = vle.Keys[iRow] then break;
-     if sKey <> vle.Keys[iRow]  then exit;
-
+     if not vle.FindRow( sKey,  iRow)  then exit;
      sValue:= vle.Values[ sKey];
      OldTitre:= Name_from_Text( Node);
 
@@ -568,7 +563,7 @@ begin
          if tn.Parent = nil
          then // Cas terminal
              Result:= ''
-         else // Appel rÃ©cursif
+         else // Appel récursif
              Result:= Cle_from_tn( tn.Parent) + '_';
          Result:= Result + Name_from_Text( tn);
          end;
@@ -605,7 +600,7 @@ begin
      Source:= Cle_from_tn( tn);
      Cible:= Source+'_Copie';
 
-     if InputQuery( 'Duplication', 'Nouvelle clÃ© pour Open Office', Cible)
+     if InputQuery( 'Duplication', 'Nouvelle clé pour Open Office', Cible)
      then
          begin
          if HasValue( tn)
@@ -663,10 +658,7 @@ var
       Row: Integer;
    begin
         slSuppressions.Add( Champ);
-        for Row:= 0 to vle.RowCount-1
-        do
-          if Champ = vle.Keys[Row] then break;
-        if Champ = vle.Keys[Row]
+        if vle.FindRow( Champ, Row)
         then
             vle.DeleteRow( Row);
         Document.DetruitChamp( Champ);
@@ -697,10 +689,7 @@ var
       Row: Integer;
    begin
         slSuppressions.Add( Champ);
-        for Row:= 0 to vle.RowCount-1
-        do
-          if Champ = vle.Keys[Row] then break;
-        if Champ = vle.Keys[Row]
+        if vle.FindRow( Champ, Row)
         then
             vle.DeleteRow( Row);
         Document.DetruitChamp( Champ);
@@ -1019,7 +1008,7 @@ end;
 
 procedure TfOpenDocument_DelphiReportEngine.bChronoClick(Sender: TObject);
 begin
-     ShowMessage( OOoChrono.Get_Liste);
+     uOD_Forms_ShowMessage( OOoChrono.Get_Liste);
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.WndProc(var Message: TMessage);
@@ -1082,7 +1071,7 @@ var
            if not r.OpenKey( Key, True)
            then
                begin
-               MessageDlg( 'Echec de l''ouverture de la clÃ© '+Key, mtError, [mbOK], 0);
+               //MessageDlg( 'Echec de l''ouverture de la clé '+Key, mtError, [mbOK], 0);
                Failed:= True;
                exit;
                end;
@@ -1094,10 +1083,10 @@ var
                 begin
                 Failed:= True;
                 MessageDlg( 'Echec de l''inscription dans la base de registre '#13#10
-                           +'pour accÃ©s avec le bouton droit de la souris '#13#10
+                           +'pour accés avec le bouton droit de la souris '#13#10
                            +'sur un document Open document'#13#10
                            +'dans l''explorateur de fichiers.'#13#10
-                           +'Peut-Ãªtre que vous devriez exÃ©cuter '
+                           +'Peut-être que vous devriez exécuter '
                            +'le programme en temps qu''administrateur.'#13#10
                            +E.Message, mtError, [mbOK], 0);
                 end;
@@ -1136,7 +1125,7 @@ end;
 procedure TfOpenDocument_DelphiReportEngine.bSupprimerColonneClick( Sender: TObject);
 begin
      if blODRE_Table = nil then exit;
-     ShowMessage('Ã  dÃ©boguer');
+     ShowMessage('à déboguer');
      blODRE_Table.T.SupprimerColonne(speSupprimerColonne_Numero.Value);
      blODRE_Table.T.To_Doc( OD_TextTableContext);
 end;
@@ -1144,7 +1133,7 @@ end;
 procedure TfOpenDocument_DelphiReportEngine.bInsererColonneClick( Sender: TObject);
 begin
      if blODRE_Table = nil then exit;
-     ShowMessage('Ã  dÃ©boguer');
+     ShowMessage('à déboguer');
      blODRE_Table.T.InsererColonneApres(speInsererColonne_Numero.Value);
      blODRE_Table.T.To_Doc( OD_TextTableContext);
 end;
@@ -1153,7 +1142,7 @@ procedure TfOpenDocument_DelphiReportEngine.bDecalerChampsApresColonneClick(
   Sender: TObject);
 begin
      if blODRE_Table = nil then exit;
-     ShowMessage('Ã  dÃ©boguer');
+     ShowMessage('à déboguer');
      blODRE_Table.T.DecalerChampsApresColonne(speDecalerChampsApresColonne_Numero.Value);
      blODRE_Table.T.To_Doc( OD_TextTableContext);
 end;
@@ -1166,7 +1155,7 @@ begin
      if I = 0
      then
          begin
-         ShowMessage( 'Texte non trouvÃ©');
+         uOD_Forms_ShowMessage( 'Texte non trouvé');
          exit;
          end;
      mStyles_XML.SetFocus;
@@ -1183,7 +1172,7 @@ begin
      if I = 0
      then
          begin
-         ShowMessage( 'Texte non trouvÃ©');
+         uOD_Forms_ShowMessage( 'Texte non trouvé');
          exit;
          end;
      mContent_XML.SetFocus;

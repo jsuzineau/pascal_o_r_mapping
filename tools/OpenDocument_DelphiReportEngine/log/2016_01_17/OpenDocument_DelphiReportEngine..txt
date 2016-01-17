@@ -2,3 +2,55 @@
 >uMySQL paramétré pour MySQL version : 50
 >Fichier ini:C:\_freepascal\pascal_o_r_mapping\tools\OpenDocument_DelphiReportEngine\etc\_Configuration.ini
 >uMySQL paramétré pour MySQL version : 50
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\tools\OpenDocument_DelphiReportEngine\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 50
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\tools\OpenDocument_DelphiReportEngine\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 50
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\tools\OpenDocument_DelphiReportEngine\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 50
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\tools\OpenDocument_DelphiReportEngine\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 50
+>
+>Erreur à signaler au développeur: Batpro_ElementClassesParams = nilprobablement upoolG_BECP n'est pas inclue dans le projet
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\tools\OpenDocument_DelphiReportEngine\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 50
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\tools\OpenDocument_DelphiReportEngine\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 50
+>
+>Erreur à signaler au développeur: Batpro_ElementClassesParams = nilprobablement upoolG_BECP n'est pas inclue dans le projet
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\tools\OpenDocument_DelphiReportEngine\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 50
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\tools\OpenDocument_DelphiReportEngine\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 50
+>
+>Erreur à signaler au développeur: Batpro_ElementClassesParams = nilprobablement upoolG_BECP n'est pas inclue dans le projet
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\tools\OpenDocument_DelphiReportEngine\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 50
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\tools\OpenDocument_DelphiReportEngine\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 50
+>
+>Erreur à signaler au développeur: Batpro_ElementClassesParams = nilprobablement upoolG_BECP n'est pas inclue dans le projet
+>
+>Erreur à signaler au développeur: Batpro_ElementClassesParams = nilprobablement upoolG_BECP n'est pas inclue dans le projet
+>
+>Erreur à signaler au développeur: Batpro_ElementClassesParams = nilprobablement upoolG_BECP n'est pas inclue dans le projet
+>
+>Erreur à signaler au développeur: Batpro_ElementClassesParams = nilprobablement upoolG_BECP n'est pas inclue dans le projet
+>
+>Erreur à signaler au développeur: Batpro_ElementClassesParams = nilprobablement upoolG_BECP n'est pas inclue dans le projet
+>
+>Erreur à signaler au développeur: Batpro_ElementClassesParams = nilprobablement upoolG_BECP n'est pas inclue dans le projet
+>
+>Erreur à signaler au développeur: Batpro_ElementClassesParams = nilprobablement upoolG_BECP n'est pas inclue dans le projet
+>
+>Erreur à signaler au développeur: Batpro_ElementClassesParams = nilprobablement upoolG_BECP n'est pas inclue dans le projet
+>
+>Erreur à signaler au développeur: Batpro_ElementClassesParams = nilprobablement upoolG_BECP n'est pas inclue dans le projet
+>
+>Erreur à signaler au développeur: Batpro_ElementClassesParams = nilprobablement upoolG_BECP n'est pas inclue dans le projet
+>
+>Erreur à signaler au développeur: Batpro_ElementClassesParams = nilprobablement upoolG_BECP n'est pas inclue dans le projet
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\tools\OpenDocument_DelphiReportEngine\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 50
+>Fichier ini:C:\_freepascal\pascal_o_r_mapping\tools\OpenDocument_DelphiReportEngine\etc\_Configuration.ini
+>uMySQL paramétré pour MySQL version : 50

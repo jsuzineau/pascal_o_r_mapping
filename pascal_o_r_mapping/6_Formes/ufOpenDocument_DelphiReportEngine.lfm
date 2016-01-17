@@ -301,9 +301,9 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
           TabOrder = 3
         end
         object bInsererColonne: TButton
-          Left = 207
+          Left = 362
           Height = 21
-          Top = 6
+          Top = 41
           Width = 143
           Caption = 'Inserer Colonne'
           OnClick = bInsererColonneClick
