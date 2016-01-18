@@ -85,6 +85,9 @@ type
   public
     function Iterateur: TIterateur_OD_Dataset_Columns;
     function Iterateur_Decroissant: TIterateur_OD_Dataset_Columns;
+  //Ajout d'un dataset
+  public
+    procedure AddDataset( _Nom: String);
   end;
 
  { TblODRE_Table }
@@ -309,6 +312,21 @@ end;
 function ThaODRE_Table__OD_Dataset_Columns.Iterateur_Decroissant: TIterateur_OD_Dataset_Columns;
 begin
      Result:= TIterateur_OD_Dataset_Columns( Iterateur_interne_Decroissant);
+end;
+
+procedure ThaODRE_Table__OD_Dataset_Columns.AddDataset( _Nom: String);
+var
+   blParent: TblODRE_Table;
+   bl: TblOD_Dataset_Columns;
+   DCs: TOD_Dataset_Columns;
+begin
+     if Affecte_( blParent, TblODRE_Table, Parent) then exit;
+     if -1 <> sl.IndexOf( _Nom)                    then exit;
+
+     bl:= TblOD_Dataset_Columns.Create( sl, nil, nil);
+     DCs:= blParent.T.AddDataset( bl.D);
+     bl.Charge( _Nom, DCs);
+     Ajoute( bl);
 end;
 
 { TblODRE_Table }

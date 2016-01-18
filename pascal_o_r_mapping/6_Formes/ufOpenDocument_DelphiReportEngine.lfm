@@ -1,7 +1,7 @@
 object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
-  Left = 296
+  Left = 1769
   Height = 656
-  Top = 71
+  Top = 274
   Width = 1142
   Caption = 'fOpenDocument_DelphiReportEngine'
   ClientHeight = 656

@@ -32,7 +32,7 @@ uses
     uBatpro_Element,
     uBatpro_Ligne,
 
- Classes, SysUtils, DB;
+ Classes, SysUtils, DB, BufDataset;
 
 type
 
@@ -48,6 +48,7 @@ type
   //OD_Dataset_Columns
   public
     Nom: String;
+    D: TBufDataset;
     DCs: TOD_Dataset_Columns;
     procedure Charge( _Nom: String; _DCs: TOD_Dataset_Columns);
   //Gestion de la clé
@@ -140,10 +141,12 @@ end;
 constructor TblOD_Dataset_Columns.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
 begin
      inherited Create(_sl, _q, _pool);
+     D:= TBufDataset.Create( nil);
 end;
 
 destructor TblOD_Dataset_Columns.Destroy;
 begin
+     Free_nil( D);
      inherited Destroy;
 end;
 
@@ -152,6 +155,7 @@ begin
      Nom:= _Nom;
      DCs:= _DCs;
 
+     D.Name:= Nom;
      Ajoute_String ( Nom, 'Nom'  );
 end;
 

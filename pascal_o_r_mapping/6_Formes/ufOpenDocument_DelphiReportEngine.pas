@@ -783,7 +783,6 @@ end;
 procedure TfOpenDocument_DelphiReportEngine.From_Document;
 var
    sl: TOOoStringList;
-   I: Integer;
 
    Ligne, Nom, Valeur: String;
    Nom_ODRE_Table: String;
@@ -810,6 +809,30 @@ var
         bl.Charge( Nom_ODRE_Table, OD_TextTableContext);
         slT.AddObject( bl.sCle, bl);
    end;
+   procedure Traite_Tables;
+   const
+        sAvant_Composition='_avant_composition';
+        lAvant_Composition=Length(sAvant_Composition);
+   var
+      I: TIterateur_ODRE_Table;
+      bl: TblODRE_Table;
+      iAvant_Composition: Integer;
+   begin
+        I:= slT.Iterateur;
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( bl)     then continue;
+          if 1 <> Pos( bl.Nom, Nom) then continue;
+
+          Delete( Nom, 1, Length(bl.Nom));
+          iAvant_Composition:= Length( Nom)-lAvant_Composition;
+          if iAvant_Composition <> Pos(sAvant_Composition, Nom) then continue;
+
+          Delete( Nom, iAvant_Composition, lAvant_Composition);
+          bl.haOD_Dataset_Columns.AddDataset( Nom);
+          end;
+   end;
 begin
      Affiche_XMLs;
 
@@ -822,10 +845,10 @@ begin
      sl:= TOOoStringList.Create;
      try
         Document.Get_Fields( sl);
-        for I:= 0 to sl.Count - 1
+
+        for Ligne in sl
         do
           begin
-          Ligne:= sl.Strings[I];
           Nom:= StrToK( '=', Ligne);
           Valeur:= Ligne;
           vle.Values[Nom]:= Valeur;
@@ -839,6 +862,18 @@ begin
               end
           else
               Ajoute_Valeur_dans_tvi( Nom, Valeur);
+          end;
+
+        for Ligne in sl
+        do
+          begin
+          if ''  =  Ligne    then continue;
+          if '_' <> Ligne[1] then continue;
+
+          Delete(Ligne,1,1);
+          Nom:= StrToK( '=', Ligne);
+          Valeur:= Ligne;
+          Traite_Tables;
           end;
      finally
             FreeAndNil( sl);
