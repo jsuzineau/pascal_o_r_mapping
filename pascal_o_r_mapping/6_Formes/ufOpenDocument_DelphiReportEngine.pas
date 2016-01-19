@@ -809,7 +809,7 @@ var
         bl.Charge( Nom_ODRE_Table, OD_TextTableContext);
         slT.AddObject( bl.sCle, bl);
    end;
-   procedure Traite_Tables;
+   procedure Traite_Tables;//détection des datasets dans les tables
    const
         sAvant_Composition='_avant_composition';
         lAvant_Composition=Length(sAvant_Composition);
@@ -830,6 +830,30 @@ var
           if iAvant_Composition <> Pos(sAvant_Composition, Nom) then continue;
 
           Delete( Nom, iAvant_Composition, lAvant_Composition);
+          bl.haOD_Dataset_Columns.AddDataset( Nom);
+          end;
+   end;
+   procedure Traite_Datasets;//détection des champs dans les datasets
+   const
+        sDebut='_Debut';
+        lDebut=Length(sDebut);
+   var
+      I: TIterateur_ODRE_Table;
+      bl: TblODRE_Table;
+      iDebut: Integer;
+   begin
+        I:= slT.Iterateur;
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( bl)     then continue;
+          if 1 <> Pos( bl.Nom, Nom) then continue; //pb de longueur _Corps/ _Corps_Options
+
+          Delete( Nom, 1, Length(bl.Nom));
+          iDebut:= Length( Nom)-lDebut;
+          if iDebut <> Pos(sDebut, Nom) then continue;
+
+          Delete( Nom, iDebut, lDebut);
           bl.haOD_Dataset_Columns.AddDataset( Nom);
           end;
    end;
@@ -874,6 +898,18 @@ begin
           Nom:= StrToK( '=', Ligne);
           Valeur:= Ligne;
           Traite_Tables;
+          end;
+
+        for Ligne in sl
+        do
+          begin
+          if ''  =  Ligne    then continue;
+          if '_' <> Ligne[1] then continue;
+
+          Delete(Ligne,1,1);
+          Nom:= StrToK( '=', Ligne);
+          Valeur:= Ligne;
+          Traite_Datasets;
           end;
      finally
             FreeAndNil( sl);
