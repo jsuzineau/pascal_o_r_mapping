@@ -32,6 +32,8 @@ uses
     uOD_Forms,
     uODRE_Table,
     uOD_TextTableContext,
+    uOD_Dataset_Columns,
+    uOD_Dataset_Column,
     uOOoStrings,
     uOOoStringList,
     uOpenDocument,
@@ -40,7 +42,10 @@ uses
     DOM,
     uOOoChrono, 
     ucChampsGrid,
+
     ublODRE_Table,
+    ublOD_Dataset_Columns,
+
   LCLIntf, LMessages, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, ValEdit, Registry,
   Spin,LCLType,XMLWrite,XMLRead,StrUtils;
@@ -816,6 +821,7 @@ var
    var
       I: TIterateur_ODRE_Table;
       bl: TblODRE_Table;
+      Prefixe: String;
       iAvant_Composition: Integer;
    begin
         I:= slT.Iterateur;
@@ -823,14 +829,73 @@ var
         do
           begin
           if I.not_Suivant( bl)     then continue;
-          if 1 <> Pos( bl.Nom, Nom) then continue;
 
-          Delete( Nom, 1, Length(bl.Nom));
+          Prefixe:= bl.Nom+'_';
+          if 1 <> Pos( Prefixe, Nom) then continue;
+
+          Delete( Nom, 1, Length(Prefixe));
           iAvant_Composition:= Length( Nom)-lAvant_Composition;
           if iAvant_Composition <> Pos(sAvant_Composition, Nom) then continue;
 
           Delete( Nom, iAvant_Composition, lAvant_Composition);
-          bl.haOD_Dataset_Columns.AddDataset( Nom);
+          bl.haOD_Dataset_Columns.AddDataset( Nom, OD_TextTableContext);
+          end;
+   end;
+   procedure Traite_Dataset( _blODRE_Table: TblODRE_Table);
+   var
+      I: TIterateur_OD_Dataset_Columns;
+      bl: TblOD_Dataset_Columns;
+      Prefixe: String;
+      function not_Traite_Avant: Boolean;
+      const
+           sAvant='Avant_';
+           lAvant=Length( sAvant);
+      var
+         DCs: TOD_Dataset_Columns;
+         NomAvant: String;
+      begin
+           Result:= True;
+           if 1 <> Pos( sAvant, Nom) then exit;
+
+           Result:= False;
+           Delete( Nom, 1, lAvant);
+
+           DCs:= bl.DCs;
+           NomAvant:= DCs.Nom_Avant( '_'+_blODRE_Table.Nom+'_');
+           DCs.Avant[ Nom].from_Doc( NomAvant, OD_TextTableContext);
+      end;
+      function not_Traite_Apres: Boolean;
+      const
+           sApres='Apres_';
+           lApres=Length( sApres);
+      var
+         DCs: TOD_Dataset_Columns;
+         NomApres: String;
+      begin
+           Result:= True;
+           if 1 <> Pos( sApres, Nom) then exit;
+
+           Result:= False;
+           Delete( Nom, 1, lApres);
+
+           DCs:= bl.DCs;
+           NomApres:= DCs.Nom_Apres( '_'+_blODRE_Table.Nom+'_');
+           DCs.Apres[ Nom].from_Doc( NomApres, OD_TextTableContext);
+      end;
+   begin
+        I:= _blODRE_Table.haOD_Dataset_Columns.Iterateur;
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( bl)     then continue;
+
+          Prefixe:= bl.Nom+'_';
+          if 1 <> Pos( Prefixe, Nom) then continue;
+
+          Delete( Nom, 1, Length(Prefixe));
+
+          if   not_Traite_Avant
+          then not_Traite_Apres;
           end;
    end;
    procedure Traite_Datasets;//détection des champs dans les datasets
@@ -840,6 +905,7 @@ var
    var
       I: TIterateur_ODRE_Table;
       bl: TblODRE_Table;
+      Prefixe: String;
       iDebut: Integer;
    begin
         I:= slT.Iterateur;
@@ -847,14 +913,16 @@ var
         do
           begin
           if I.not_Suivant( bl)     then continue;
-          if 1 <> Pos( bl.Nom, Nom) then continue; //pb de longueur _Corps/ _Corps_Options
 
-          Delete( Nom, 1, Length(bl.Nom));
+          Prefixe:= bl.Nom+'_';
+          if 1 <> Pos( Prefixe, Nom) then continue;
+
+          Delete( Nom, 1, Length(Prefixe));
           iDebut:= Length( Nom)-lDebut;
           if iDebut <> Pos(sDebut, Nom) then continue;
 
           Delete( Nom, iDebut, lDebut);
-          bl.haOD_Dataset_Columns.AddDataset( Nom);
+          Traite_Dataset( bl);
           end;
    end;
 begin

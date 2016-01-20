@@ -74,7 +74,7 @@ type
   public
     OD_Styles: TOD_Styles;
   //Persistance dans le document OpenOffice
-  private
+  public //pour OpenDocument_DelphiReportEngine
     function Nom_Avant( Prefixe: String): String;
     function Nom_Apres( Prefixe: String): String;
     function Nom_Composition( Prefixe: String): String;
