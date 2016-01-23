@@ -170,7 +170,7 @@ type
     function Rect_Externe_from_Interne( DrawInfo: TDrawInfo; Valeur: TRect): TRect;
     function Rectangle_Aligne( R: TRect; Alignement: TbeAlignement; Largeur, Hauteur: Integer):TRect;
   public
-    function Cell_Height( DrawInfo: TDrawInfo; Cell_Width: Integer): Integer; virtual;
+    function Cell_Height( _DrawInfo: TDrawInfo; _Cell_Width: Integer): Integer; virtual;
     function Cell_Width( DrawInfo: TDrawInfo): Integer; virtual;
   //Gestion de l'orientation
   public
@@ -1769,14 +1769,14 @@ begin
      Result:= Valeur - 2 * MargeY( DrawInfo);
 end;
 
-function TBatpro_Element.Cell_Height( DrawInfo: TDrawInfo;
-                                      Cell_Width: Integer): Integer;
+function TBatpro_Element.Cell_Height( _DrawInfo: TDrawInfo;
+                                      _Cell_Width: Integer): Integer;
 begin
-     Result:= Cell_Height_Interne( DrawInfo,
-                                   ClassFont( DrawInfo),
-                                   Cell     [ DrawInfo.Contexte], Cell_Width);
+     Result:= Cell_Height_Interne( _DrawInfo,
+                                   ClassFont( _DrawInfo),
+                                   Cell     [ _DrawInfo.Contexte], _Cell_Width);
 
-     Result:= Height_Externe_from_Interne( DrawInfo, Result);
+     Result:= Height_Externe_from_Interne( _DrawInfo, Result);
 end;
 
 function TBatpro_Element.Cell_Width_Interne( DrawInfo: TDrawInfo;

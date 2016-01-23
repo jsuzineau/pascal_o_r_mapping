@@ -30,7 +30,7 @@ uses
     uPublieur,
     ubtString,
     uOD_Temporaire,
-    uAide,
+    //uAide,
     uBatpro_StringList,
     u_sys_,
     u_ini_,
@@ -59,123 +59,127 @@ type
  TStringGridWeb
  =
   class
-    //Méthodes
-    private
-      procedure Resize;
-    public
-      procedure Charge_Cell( _Colonne, _Ligne:Integer; _be: TBatpro_Element; _Contexte: Integer);
-      procedure Charge_Ligne( _OffsetColonne, _Ligne: Integer;
+  //Gestion du cycle de vie
+  public
+    constructor Create;
+    destructor Destroy; override;
+  //Méthodes
+  private
+    procedure Resize;
+  public
+    procedure Charge_Cell( _Colonne, _Ligne:Integer; _be: TBatpro_Element; _Contexte: Integer);
+    procedure Charge_Ligne( _OffsetColonne, _Ligne: Integer;
+                            _sl: TBatpro_StringList;
+                            _ClusterAddInit_: Boolean;
+                            _Contexte: Integer); overload;
+    procedure Charge_Colonne( _Colonne, _OffsetLigne: Integer;
                               _sl: TBatpro_StringList;
-                              _ClusterAddInit_: Boolean;
                               _Contexte: Integer); overload;
-      procedure Charge_Colonne( _Colonne, _OffsetLigne: Integer;
-                                _sl: TBatpro_StringList;
-                                _Contexte: Integer); overload;
-      procedure Charge_Colonne( _Colonne, _OffsetLigne:Integer;
-                                _beEntete:TBatpro_Element;
-                                _sl:TBatpro_StringList;
-                                _Contexte: Integer); overload;
-      procedure Charge_Ligne( _OffsetColonne, _Ligne: Integer;
+    procedure Charge_Colonne( _Colonne, _OffsetLigne:Integer;
+                              _beEntete:TBatpro_Element;
+                              _sl:TBatpro_StringList;
+                              _Contexte: Integer); overload;
+    procedure Charge_Ligne( _OffsetColonne, _Ligne: Integer;
+                            _bts: TbtString;
+                            _ClusterAddInit_: Boolean;
+                            _Contexte: Integer); overload;
+    procedure Charge_Colonne( _Colonne, _OffsetLigne: Integer;
                               _bts: TbtString;
-                              _ClusterAddInit_: Boolean;
                               _Contexte: Integer); overload;
-      procedure Charge_Colonne( _Colonne, _OffsetLigne: Integer;
-                                _bts: TbtString;
-                                _Contexte: Integer); overload;
-      procedure Charge_Colonne( _Colonne, _OffsetLigne:Integer;
-                                _beEntete:TBatpro_Element;
-                                _bts: TbtString;
-                                _Contexte: Integer); overload;
-      function Hauteur_Ligne( _DrawInfo: TDrawInfo;
-                              _Ligne: Integer;
+    procedure Charge_Colonne( _Colonne, _OffsetLigne:Integer;
+                              _beEntete:TBatpro_Element;
+                              _bts: TbtString;
+                              _Contexte: Integer); overload;
+    function Hauteur_Ligne( _DrawInfo: TDrawInfo;
+                            _Ligne: Integer;
+                            _TraiterClusters: Boolean = False): Integer;
+    function Largeur_Colonne( _DrawInfo: TDrawInfo; _Colonne: Integer;
                               _TraiterClusters: Boolean = False): Integer;
-      function Largeur_Colonne( _DrawInfo: TDrawInfo; _Colonne: Integer;
-                                _TraiterClusters: Boolean = False): Integer;
-      procedure Traite_Hauteurs_Lignes( _DrawInfo: TDrawInfo);
-      procedure Traite_Largeurs_Colonnes( _DrawInfo: TDrawInfo;
-                                          _ColonneDebut: Integer= 0;
-                                          _ColonneFin  : Integer= -1);
-      procedure Egalise_Largeurs_Colonnes( _ColonneDebut, _ColonneFin: Integer);
-      procedure Egalise_Hauteurs_Lignes  ( _LigneDebut, _LigneFin: Integer);
-      procedure Initialise_dimensions( _ColonneDebut: Integer= 0);
-      procedure Ajuste_Largeur_Client( _ColonneDebut: Integer= 0);
-      procedure Refresh;
-      procedure MouseToCell(X,Y: Integer; var ACol,ARow: Longint); overload;
-    //FixedCols
-    private
-      FFixedCols: Integer;
-    public
-      property FixedCols: Integer read FFixedCols;
-    //FixedRows
-    private
-      FFixedRows: Integer;
-    public
-      property FixedRows: Integer read FFixedRows;
-    //ColCount
-    private
-      FColCount: Integer;
-      procedure SetColCount( _Value: Integer);
-    public
-      property ColCount: Integer read FColCount write SetColCount;
-    //RowCount
-    private
-      FRowCount: Integer;
-      procedure SetRowCount( _Value: Integer);
-    public
-      property RowCount: Integer read FRowCount write SetRowCount;
-    //ColWidths
-    public
-      ColWidths: array of Integer;
-    //RowHeights
-    public
-      RowHeights: array of Integer;
-    //ClientWidth
-    public
-      ClientWidth: Integer;
-    //GridLineWidth
-    public
-      GridLineWidth: Integer;
-    //DefaultColWidth
-    public
-      DefaultColWidth: Integer;
-    //DefaultRowHeight
-    public
-      DefaultRowHeight: Integer;
-    //Col
-    public
-      Col: Integer;
-    //Row
-    public
-      Row: Integer;
-    //Selection
-    public
-      Selection: TRect;
-    //Width
-    public
-      Width: Integer;
-    //Height
-    public
-      Height: Integer;
-    //Cells
-    private
-      FCells: array of array of String;
-      function GetCell( _Col, _Row: Integer): String;
-      procedure SetCell( _Col, _Row: Integer; _Value: String);
-    public
-      property Cells[ _Col, _Row: Integer]: String read GetCell write SetCell;
-    //Objects
-    private
-      FObjects: array of array of TObject;
-      function GetObject( _Col, _Row: Integer): TObject;
-      procedure SetObject( _Col, _Row: Integer; _Value: TObject);
-    public
-      property Objects[ _Col, _Row: Integer]: TObject read GetObject write SetObject;
-    //be
-    private
-      function GetBatpro_Element( _Col, _Row: Integer): TBatpro_Element;
-      procedure SetBatpro_Element( _Col, _Row: Integer; _Value: TBatpro_Element);
-    public
-      property Batpro_Element[ _Col, _Row: Integer]: TBatpro_Element read GetBatpro_Element write SetBatpro_Element;
+    procedure Traite_Hauteurs_Lignes( _DrawInfo: TDrawInfo);
+    procedure Traite_Largeurs_Colonnes( _DrawInfo: TDrawInfo;
+                                        _ColonneDebut: Integer= 0;
+                                        _ColonneFin  : Integer= -1);
+    procedure Egalise_Largeurs_Colonnes( _ColonneDebut, _ColonneFin: Integer);
+    procedure Egalise_Hauteurs_Lignes  ( _LigneDebut, _LigneFin: Integer);
+    procedure Initialise_dimensions( _ColonneDebut: Integer= 0);
+    procedure Ajuste_Largeur_Client( _ColonneDebut: Integer= 0);
+    procedure Refresh;
+    procedure MouseToCell(X,Y: Integer; var ACol,ARow: Longint); overload;
+  //FixedCols
+  private
+    FFixedCols: Integer;
+  public
+    property FixedCols: Integer read FFixedCols;
+  //FixedRows
+  private
+    FFixedRows: Integer;
+  public
+    property FixedRows: Integer read FFixedRows;
+  //ColCount
+  private
+    FColCount: Integer;
+    procedure SetColCount( _Value: Integer);
+  public
+    property ColCount: Integer read FColCount write SetColCount;
+  //RowCount
+  private
+    FRowCount: Integer;
+    procedure SetRowCount( _Value: Integer);
+  public
+    property RowCount: Integer read FRowCount write SetRowCount;
+  //ColWidths
+  public
+    ColWidths: array of Integer;
+  //RowHeights
+  public
+    RowHeights: array of Integer;
+  //ClientWidth
+  public
+    ClientWidth: Integer;
+  //GridLineWidth
+  public
+    GridLineWidth: Integer;
+  //DefaultColWidth
+  public
+    DefaultColWidth: Integer;
+  //DefaultRowHeight
+  public
+    DefaultRowHeight: Integer;
+  //Col
+  public
+    Col: Integer;
+  //Row
+  public
+    Row: Integer;
+  //Selection
+  public
+    Selection: TRect;
+  //Width
+  public
+    Width: Integer;
+  //Height
+  public
+    Height: Integer;
+  //Cells
+  private
+    FCells: array of array of String;
+    function GetCell( _Col, _Row: Integer): String;
+    procedure SetCell( _Col, _Row: Integer; _Value: String);
+  public
+    property Cells[ _Col, _Row: Integer]: String read GetCell write SetCell;
+  //Objects
+  private
+    FObjects: array of array of TObject;
+    function GetObject( _Col, _Row: Integer): TObject;
+    procedure SetObject( _Col, _Row: Integer; _Value: TObject);
+  public
+    property Objects[ _Col, _Row: Integer]: TObject read GetObject write SetObject;
+  //be
+  private
+    function GetBatpro_Element( _Col, _Row: Integer): TBatpro_Element;
+    procedure SetBatpro_Element( _Col, _Row: Integer; _Value: TBatpro_Element);
+  public
+    property Batpro_Element[ _Col, _Row: Integer]: TBatpro_Element read GetBatpro_Element write SetBatpro_Element;
   end;
 
  //non affecté considéré comme colonne de l'équipe nulle
@@ -189,19 +193,19 @@ type
   public
     constructor Create( _hd: ThDessinnateurWeb;
                         _hdcs: ThDessinnateurWeb_Colonnes;
-                        _id, _Titre, _Libelle: String;
+                        _inikey, _Titre, _Libelle: String;
                         _Classe_Elements: TClass); reintroduce;
     destructor Destroy; override;
   //Attributs
   protected
-    id: String;
+    inikey: String;
     bsTitre: TbeString;
   protected
     hd  : ThDessinnateurWeb;
     hdcs: ThDessinnateurWeb_Colonnes;
     Libelle: String;
   public
-    Index: Integer;
+    Colonne: Integer;
     slLignes     : TBatpro_StringList;
   //Visibilité de la colonne
   private
@@ -214,8 +218,8 @@ type
     procedure hd_Charge;
   //Placement d'un objet à une ligne donnée
   private
-    function Offset_Titre_Colonne: Integer;
-    function Offset_Colonne: Integer;
+    function Offset_Ligne_Titre: Integer;
+    function Offset_Ligne: Integer;
   public
     procedure Place( _Ligne: Integer; _O: TObject);
   end;
@@ -287,7 +291,7 @@ type
   class( TBatpro_Element)
   //Gestion du cycle de vie
   public
-    constructor Create( _Contexte: Integer; _SG: TStringGridWeb;
+    constructor Create( _Contexte: Integer;
                         _Titre: String;
                         _PopupDefaut: TPopupMenu);
     destructor Destroy; override;
@@ -313,7 +317,7 @@ type
     function Typ(Col, Row: Integer): TypeCellule; virtual;
     function GetCell( Contexte: Integer): String; override;
     function sg_be( Colonne, Ligne: Integer): TBatpro_Element;
-    function Cell_Height( Colonnne, Ligne, Cell_Width: Integer): Integer; reintroduce;
+    function Cell_Height( _Colonnne, _Ligne, _Cell_Width: Integer): Integer; reintroduce;
     function hdCell: String;
     procedure Refresh;
     property Titre: String read GetTitre write FTitre;
@@ -455,6 +459,18 @@ begin
 end;
 
 { TStringGridWeb }
+
+constructor TStringGridWeb.Create;
+begin
+     ColCount:= 0;
+     RowCount:= 0;
+     Resize;
+end;
+
+destructor TStringGridWeb.Destroy;
+begin
+     inherited Destroy;
+end;
 
 procedure TStringGridWeb.Resize;
 begin
@@ -942,14 +958,14 @@ end;
 
 constructor ThDessinnateurWeb_Colonne.Create( _hd: ThDessinnateurWeb;
                                            _hdcs: ThDessinnateurWeb_Colonnes;
-                                           _id, _Titre, _Libelle: String;
+                                           _inikey, _Titre, _Libelle: String;
                                            _Classe_Elements: TClass);
 var
    cVisible: TChamp;
 begin
      hd     := _hd;
      hdcs   := _hdcs;
-     id     := _id;
+     inikey     := _inikey;
      Libelle:= _Libelle;
 
      inherited Create( hdcs.sl, nil, nil);
@@ -960,35 +976,35 @@ begin
 
      bsTitre:= TbeString.Create( nil, _Titre, clWhite, bea_Gauche);
      slLignes:=TBatpro_StringList.CreateE(ClassName+'('+_Titre+').slLignes',_Classe_Elements);
-     Index:= -1;
-     Visible:= EXE_INI.ReadBool( ini_Options, ClassName+'_'+id, True);
+     Colonne:= -1;
+     Visible:= EXE_INI.ReadBool( ini_Options, ClassName+'_'+inikey, True);
 end;
 
 destructor ThDessinnateurWeb_Colonne.Destroy;
 begin
-     EXE_INI.WriteBool( ini_Options, ClassName+'_'+id, Visible);
+     EXE_INI.WriteBool( ini_Options, ClassName+'_'+inikey, Visible);
 
      Free_nil( bsTitre);
      Free_nil( slLignes);
      inherited;
 end;
 
-function ThDessinnateurWeb_Colonne.Offset_Titre_Colonne: Integer;
+function ThDessinnateurWeb_Colonne.Offset_Ligne_Titre: Integer;
 begin
      Result:= hdcs.OffsetTitresColonnes;
 end;
 
-function ThDessinnateurWeb_Colonne.Offset_Colonne: Integer;
+function ThDessinnateurWeb_Colonne.Offset_Ligne: Integer;
 begin
-     Result:= Offset_Titre_Colonne+1;
+     Result:= Offset_Ligne_Titre+1;
 end;
 
 procedure ThDessinnateurWeb_Colonne.hd_Charge;
 begin
      if not Visible then exit;
 
-     hd.Charge_Cell   ( bsTitre , Index, Offset_Titre_Colonne);
-     hd.Charge_Colonne( slLignes, Index, Offset_Colonne      );
+     hd.Charge_Cell   ( bsTitre , Colonne, Offset_Ligne_Titre);
+     hd.Charge_Colonne( slLignes, Colonne, Offset_Ligne      );
 end;
 
 procedure ThDessinnateurWeb_Colonne.Vide;
@@ -1004,7 +1020,7 @@ end;
 procedure ThDessinnateurWeb_Colonne.Place( _Ligne: Integer; _O: TObject);
 begin
      uBatpro_Element.Place( slLignes,
-                         _Ligne-Offset_Colonne,
+                         _Ligne-Offset_Ligne,
                          '',
                          _O,
                          ClassName+'.Place( '+IntToStr(_Ligne)+')',
@@ -1090,7 +1106,7 @@ var
    L: Integer;
 begin
      Index:= sl.AddObject( '', _c);
-     _c.Index:= OffsetColonne+Index;
+     _c.Colonne:= OffsetColonne+Index;
      L:= Count+1;
      beSeparation.Serie.Ajoute    ( -1, L);
      beSeparation.Serie.SetVisible( -1, L);
@@ -1181,7 +1197,7 @@ begin
        if  c= nil then continue;
        if not c.Visible then continue;
 
-       c.Index:= OffsetColonne+Index;
+       c.Colonne:= OffsetColonne+Index;
        Inc( Index);
        Inc( NbColonnes_visibles);
        end;
@@ -1189,7 +1205,7 @@ end;
 
 { ThDessinnateurWeb }
 
-constructor ThDessinnateurWeb.Create( _Contexte: Integer; _SG: TStringGridWeb;
+constructor ThDessinnateurWeb.Create( _Contexte: Integer;
                                       _Titre: String;
                                       _PopupDefaut: TPopupMenu);
 var
@@ -1206,7 +1222,7 @@ begin
 
      FTitre:= _Titre;
      SetLength( Legende, 0);
-     sg:= _SG;
+     sg:= TStringGridWeb.Create;
 
      Fond:= clBtnFace;
      PopupDefaut:= _PopupDefaut;
@@ -1231,6 +1247,7 @@ begin
      Detruit_StringList( slCE);
 
      Free_nil( DI);
+     Free_nil( sg);
      inherited;
 end;
 
@@ -1328,16 +1345,16 @@ begin
      Result:= sg.Batpro_Element[ Colonne, Ligne];
 end;
 
-function ThDessinnateurWeb.Cell_Height(Colonnne,Ligne,Cell_Width:Integer):Integer;
+function ThDessinnateurWeb.Cell_Height( _Colonnne, _Ligne, _Cell_Width:Integer):Integer;
 var
    be: TBatpro_Element;
 begin
-     be:= sg_be( Colonnne, Ligne);
+     be:= sg_be( _Colonnne, _Ligne);
      if Assigned( be)
      then
-         Result:= be.Cell_Height( DI, Cell_Width)
+         Result:= be.Cell_Height( DI, _Cell_Width)
      else
-         Result:= sg.RowHeights[ Ligne];
+         Result:= sg.RowHeights[ _Ligne];
 end;
 
 procedure ThDessinnateurWeb.Charge_Cell(be:TBatpro_Element; Colonne,Ligne:Integer);
