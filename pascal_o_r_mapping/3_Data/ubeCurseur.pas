@@ -26,7 +26,6 @@ unit ubeCurseur;
 interface
 
 uses
-    Windows, SysUtils, Classes, Graphics, Controls,
     uBatpro_StringList,
     u_sys_,
     u_loc_,
@@ -37,7 +36,10 @@ uses
     ubeClusterElement,
     uContextes,
     uVide,
-    uDessin;
+    {$IFDEF WINDOWS_GRAPHIC}
+    uDessin,
+    {$ENDIF}
+  SysUtils, Classes;
 
 type
  TbeCurseur
@@ -82,7 +84,9 @@ end;
 
 procedure TbeCurseur.Draw( DrawInfo: TDrawInfo);
 begin
+     {$IFDEF WINDOWS_GRAPHIC}
      DrawJalon( DrawInfo, tj_Triangle_vers_droite, clBlack);
+     {$ENDIF}
 end;
 
 procedure TbeCurseur.svgDraw( DrawInfo: TDrawInfo);

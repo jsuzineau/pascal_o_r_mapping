@@ -29,6 +29,7 @@ uses
     uBatpro_StringList,
     u_sys_,
     u_loc_,
+    ufAccueil_Erreur,
     uDataUtils,
     uuStrings,
     uSVG,
@@ -37,12 +38,9 @@ uses
     ubeClusterElement,
     uContextes,
     uVide,
-    {$IFNDEF FPC}
+    {$IFDEF WINDOWS_GRAPHIC}
     uDessin,
     {$ENDIF}
-  {$IFNDEF FPC}
-  Windows, Graphics, Controls,
-  {$ENDIF}
   SysUtils, Classes;
 
 type
@@ -67,9 +65,6 @@ type
 function beJalon_from_sl( sl: TBatpro_StringList; Index: Integer): TbeJalon;
 
 implementation
-
-uses
-    ufAccueil_Erreur;
 
 function beJalon_from_sl( sl: TBatpro_StringList; Index: Integer): TbeJalon;
 begin
@@ -103,7 +98,9 @@ end;
 
 procedure TbeJalon.Draw( DrawInfo: TDrawInfo);
 begin
+     {$IFDEF WINDOWS_GRAPHIC}
      DrawJalon( DrawInfo, Forme, CouleurJalon, CouleurJalon_Contour);
+     {$ENDIF}
 end;
 
 procedure TbeJalon.svgDraw( DrawInfo: TDrawInfo);

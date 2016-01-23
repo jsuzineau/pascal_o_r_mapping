@@ -26,16 +26,16 @@ unit ubeString;
 interface
 
 uses
-    Windows, SysUtils, Classes, Graphics, Controls,
+    uClean,
 
+    uSVG,
+    uDrawInfo,
     uBatpro_StringList,
 
-    uClean,
     u_sys_,
 
-    uDrawInfo,
-
-    uBatpro_Element;
+    uBatpro_Element,
+  SysUtils, Classes;
 
 type
  TbeString

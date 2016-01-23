@@ -30,12 +30,10 @@ uses
     uPublieur,
     ubtString,
     uOD_Temporaire,
-    //uAide,
     uBatpro_StringList,
     u_sys_,
     u_ini_,
     uSVG,
-    uWinUtils,
     uVide,
     uChamp,
     uEXE_INI,
@@ -46,6 +44,7 @@ uses
     ubeString,
     ubeSerie,
     uBatpro_Ligne,
+
     uDrawInfo,
 
   SysUtils,Classes, DOM, Types;

@@ -27,11 +27,10 @@ interface
 
 uses
     uBatpro_StringList,
+    uSVG,
+    uDrawInfo,
     u_sys_,
     uBatpro_Element,
-  {$IFNDEF FPC}
-  Graphics,
-  {$ENDIF}
   SysUtils, Classes;
 
 type
@@ -64,11 +63,9 @@ begin
      then
          begin
          CP.Libelle:= 'classe Série générique';
-         {$IFNDEF FPC}
          CP.Font.Name:= sys_SmallFonts;
          CP.Font.Size:= 6;
          with CP.Font do Style:= Style + [fsBold];
-         {$ENDIF}
          end;
 
      inherited Create( _sl);

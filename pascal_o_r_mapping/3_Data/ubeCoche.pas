@@ -26,18 +26,21 @@ unit ubeCoche;
 interface
 
 uses
-    SysUtils, Classes,
     uBatpro_StringList,
     u_sys_,
     u_loc_,
     uDataUtils,
+    ufAccueil_Erreur,
     uuStrings,
     uDrawInfo,
     uBatpro_Element,
     ubeClusterElement,
     uContextes,
     uVide,
-    uDessin;
+    {$IFDEF WINDOWS_GRAPHIC}
+    uDessin,
+    {$ENDIF}
+  SysUtils, Classes;
 
 type
  TbeCoche
@@ -58,9 +61,6 @@ function beCoche_from_sl( sl: TBatpro_StringList; Index: Integer): TbeCoche;
 procedure Cree_Coches( slCible, slSource: TBatpro_StringList);
 
 implementation
-
-uses
-    ufAccueil_Erreur;
 
 function beCoche_from_sl( sl: TBatpro_StringList; Index: Integer): TbeCoche;
 begin
@@ -113,7 +113,9 @@ end;
 
 procedure TbeCoche.Draw( DrawInfo: TDrawInfo);
 begin
+     {$IFDEF WINDOWS_GRAPHIC}
      Dessinne_Coche( DrawInfo.Canvas, Fond, clBlue, DrawInfo.Rect, ref.Selected);
+     {$ENDIF}
 end;
 
 procedure TbeCoche.svgDraw( DrawInfo: TDrawInfo);

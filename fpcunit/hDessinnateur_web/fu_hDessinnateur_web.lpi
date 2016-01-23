@@ -27,21 +27,18 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="4">
+    <RequiredPackages Count="3">
       <Item1>
-        <PackageName Value="OD_DelphiReportEngine_LCL"/>
+        <PackageName Value="OD_DelphiReportEngine_Units"/>
       </Item1>
       <Item2>
-        <PackageName Value="OD_DelphiReportEngine_Units"/>
+        <PackageName Value="FPCUnitConsoleRunner"/>
       </Item2>
       <Item3>
-        <PackageName Value="FPCUnitConsoleRunner"/>
-      </Item3>
-      <Item4>
         <PackageName Value="FCL"/>
-      </Item4>
+      </Item3>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="5">
       <Unit0>
         <Filename Value="fu_hDessinnateur_web.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -54,6 +51,14 @@
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uhDessinnateurWeb.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\ubeCoche.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uClean.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit4>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
