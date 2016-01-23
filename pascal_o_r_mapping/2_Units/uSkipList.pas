@@ -182,7 +182,7 @@ type
     skiIterateur_Suivant: TSkipList_Item;//mis en public pour tests
     procedure Iterateur_Start;
     procedure Iterateur_Stop;
-    procedure Iterateur_Suivant( var _Resultat); virtual;
+    procedure Iterateur_Suivant( out _Resultat); virtual;
     function  Iterateur_EOF: Boolean;
   //Recherche par Objet
   public
@@ -596,7 +596,7 @@ begin
      Result:= skiIterateur_Suivant.is_nil;
 end;
 
-procedure TSkipList.Iterateur_Suivant(var _Resultat);
+procedure TSkipList.Iterateur_Suivant(out _Resultat);
 begin
      TObject(_Resultat):= nil;
      if skiIterateur_Suivant = nil then exit;

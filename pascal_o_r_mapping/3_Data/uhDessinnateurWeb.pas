@@ -46,7 +46,6 @@ uses
     ubeString,
     ubeSerie,
     uBatpro_Ligne,
-    uDataClasses,
     uDrawInfo,
 
   SysUtils,Classes, DOM, Types;
@@ -54,6 +53,131 @@ uses
 type
  TypeCellule= (tc_Semaine, tc_Equipe, tc_ESequence, tc_A_PLA, tc_Date, tc_hDessinnateurWeb,
                tc_BP_SAL, tc_Case, tc_Cluster, tc_NULL);
+
+ { TStringGridWeb }
+
+ TStringGridWeb
+ =
+  class
+    //Méthodes
+    private
+      procedure Resize;
+    public
+      procedure Charge_Cell( _Colonne, _Ligne:Integer; _be: TBatpro_Element; _Contexte: Integer);
+      procedure Charge_Ligne( _OffsetColonne, _Ligne: Integer;
+                              _sl: TBatpro_StringList;
+                              _ClusterAddInit_: Boolean;
+                              _Contexte: Integer); overload;
+      procedure Charge_Colonne( _Colonne, _OffsetLigne: Integer;
+                                _sl: TBatpro_StringList;
+                                _Contexte: Integer); overload;
+      procedure Charge_Colonne( _Colonne, _OffsetLigne:Integer;
+                                _beEntete:TBatpro_Element;
+                                _sl:TBatpro_StringList;
+                                _Contexte: Integer); overload;
+      procedure Charge_Ligne( _OffsetColonne, _Ligne: Integer;
+                              _bts: TbtString;
+                              _ClusterAddInit_: Boolean;
+                              _Contexte: Integer); overload;
+      procedure Charge_Colonne( _Colonne, _OffsetLigne: Integer;
+                                _bts: TbtString;
+                                _Contexte: Integer); overload;
+      procedure Charge_Colonne( _Colonne, _OffsetLigne:Integer;
+                                _beEntete:TBatpro_Element;
+                                _bts: TbtString;
+                                _Contexte: Integer); overload;
+      function Hauteur_Ligne( _DrawInfo: TDrawInfo;
+                              _Ligne: Integer;
+                              _TraiterClusters: Boolean = False): Integer;
+      function Largeur_Colonne( _DrawInfo: TDrawInfo; _Colonne: Integer;
+                                _TraiterClusters: Boolean = False): Integer;
+      procedure Traite_Hauteurs_Lignes( _DrawInfo: TDrawInfo);
+      procedure Traite_Largeurs_Colonnes( _DrawInfo: TDrawInfo;
+                                          _ColonneDebut: Integer= 0;
+                                          _ColonneFin  : Integer= -1);
+      procedure Egalise_Largeurs_Colonnes( _ColonneDebut, _ColonneFin: Integer);
+      procedure Egalise_Hauteurs_Lignes  ( _LigneDebut, _LigneFin: Integer);
+      procedure Initialise_dimensions( _ColonneDebut: Integer= 0);
+      procedure Ajuste_Largeur_Client( _ColonneDebut: Integer= 0);
+      procedure Refresh;
+      procedure MouseToCell(X,Y: Integer; var ACol,ARow: Longint); overload;
+    //FixedCols
+    private
+      FFixedCols: Integer;
+    public
+      property FixedCols: Integer read FFixedCols;
+    //FixedRows
+    private
+      FFixedRows: Integer;
+    public
+      property FixedRows: Integer read FFixedRows;
+    //ColCount
+    private
+      FColCount: Integer;
+      procedure SetColCount( _Value: Integer);
+    public
+      property ColCount: Integer read FColCount write SetColCount;
+    //RowCount
+    private
+      FRowCount: Integer;
+      procedure SetRowCount( _Value: Integer);
+    public
+      property RowCount: Integer read FRowCount write SetRowCount;
+    //ColWidths
+    public
+      ColWidths: array of Integer;
+    //RowHeights
+    public
+      RowHeights: array of Integer;
+    //ClientWidth
+    public
+      ClientWidth: Integer;
+    //GridLineWidth
+    public
+      GridLineWidth: Integer;
+    //DefaultColWidth
+    public
+      DefaultColWidth: Integer;
+    //DefaultRowHeight
+    public
+      DefaultRowHeight: Integer;
+    //Col
+    public
+      Col: Integer;
+    //Row
+    public
+      Row: Integer;
+    //Selection
+    public
+      Selection: TRect;
+    //Width
+    public
+      Width: Integer;
+    //Height
+    public
+      Height: Integer;
+    //Cells
+    private
+      FCells: array of array of String;
+      function GetCell( _Col, _Row: Integer): String;
+      procedure SetCell( _Col, _Row: Integer; _Value: String);
+    public
+      property Cells[ _Col, _Row: Integer]: String read GetCell write SetCell;
+    //Objects
+    private
+      FObjects: array of array of TObject;
+      function GetObject( _Col, _Row: Integer): TObject;
+      procedure SetObject( _Col, _Row: Integer; _Value: TObject);
+    public
+      property Objects[ _Col, _Row: Integer]: TObject read GetObject write SetObject;
+    //be
+    private
+      function GetBatpro_Element( _Col, _Row: Integer): TBatpro_Element;
+      procedure SetBatpro_Element( _Col, _Row: Integer; _Value: TBatpro_Element);
+    public
+      property Batpro_Element[ _Col, _Row: Integer]: TBatpro_Element read GetBatpro_Element write SetBatpro_Element;
+  end;
+
  //non affecté considéré comme colonne de l'équipe nulle
 
  ThDessinnateurWeb = class;
@@ -163,9 +287,9 @@ type
   class( TBatpro_Element)
   //Gestion du cycle de vie
   public
-    constructor Create( unContexte: Integer; unSG: TStringGrid;
-                        unTitre: String;
-                        unPopupDefaut: TPopupMenu);
+    constructor Create( _Contexte: Integer; _SG: TStringGridWeb;
+                        _Titre: String;
+                        _PopupDefaut: TPopupMenu);
     destructor Destroy; override;
   //Divers
   protected
@@ -179,7 +303,7 @@ type
     procedure EnregistrerSous_interne( NomFichier: String);
   public
     DI: TDrawInfo;
-    sg: TStringGrid;
+    sg: TStringGridWeb;
     PopupDefaut: TPopupMenu;
 
     //Variables MouseMove
@@ -187,8 +311,6 @@ type
     MMbe: TBatpro_Element;
 
     function Typ(Col, Row: Integer): TypeCellule; virtual;
-    procedure sgDrawCell(  Sender: TObject; ACol, ARow: Integer;
-                         Rect: TRect; State: TGridDrawState);
     function GetCell( Contexte: Integer): String; override;
     function sg_be( Colonne, Ligne: Integer): TBatpro_Element;
     function Cell_Height( Colonnne, Ligne, Cell_Width: Integer): Integer; reintroduce;
@@ -245,16 +367,6 @@ type
     procedure Vide; virtual;
     procedure _from_pool; virtual;
     procedure Clusterise;
-  //Évènements de grille
-  private
-    Old_sgMouseDown: TMouseEvent;
-    Old_sgSelectCell: TOnSelectCellEvent;
-  protected
-    procedure sgMouseDown(Sender:TObject;Button:TMouseButton;Shift:TShiftState;X,Y:Integer); virtual;
-    procedure sgMouseMove( Sender: TObject; Shift: TShiftState; X,Y: Integer); virtual;
-    procedure sgSelectCell( Sender: TObject; ACol, ARow: Integer; var CanSelect: Boolean); virtual;
-  public
-    procedure TraiteMouseDown( Button:TMouseButton; Shift:TShiftState; X,Y: Integer); virtual;
   //Gestion souris et Drag / Drop
   protected
     function  Drag_from_( ACol, ARow: Integer): Boolean; virtual;
@@ -274,10 +386,6 @@ type
   public
     property Curseur_Colonne: Integer read FCurseur_Colonne write SetCurseur_Colonne;
     function GotoXY( _Colonne, _Ligne: Integer): Boolean;
-  //Gestion du bloquage
-  public
-    Form: TForm;
-    procedure Bloque( _Proc: TAbonnement_Objet_Proc);
   //Recherche d'un objet sur une ligne
   public
     function Colonne_of( _be: TBatpro_Element; _Ligne: Integer): Integer;
@@ -309,51 +417,525 @@ procedure uhDessinnateurWeb_Demarre_Animation;
 
 procedure uhDessinnateurWeb_Termine_Animation;
 
-procedure Vide_StringGrid( sg: TStringGrid);
+procedure Vide_StringGrid( _sg: TStringGridWeb);
 
-procedure Vide_StringGrid_Liste( sg: TStringGrid);
+procedure Vide_StringGrid_Liste( _sg: TStringGridWeb);
 
 implementation
 
 uses Math;
 
-procedure Vide_StringGrid( sg: TStringGrid);
+procedure Vide_StringGrid( _sg: TStringGridWeb);
 var
    Ligne, Colonne: Integer;
 begin
-     if sg = nil then exit;
-     for Ligne:= 0 to sg.RowCount - 1
+     if _sg = nil then exit;
+     for Ligne:= 0 to _sg.RowCount - 1
      do
-       for Colonne:= 0 to sg.ColCount - 1
+       for Colonne:= 0 to _sg.ColCount - 1
        do
          begin
-         sg.Objects[ Colonne, Ligne]:= nil;
-         sg.Cells[ Colonne, Ligne]:= sys_Vide;
+         _sg.Objects[ Colonne, Ligne]:= nil;
+         _sg.Cells[ Colonne, Ligne]:= sys_Vide;
          end;
 end;
 
-procedure Vide_StringGrid_Liste( sg: TStringGrid);
+procedure Vide_StringGrid_Liste( _sg: TStringGridWeb);
 var
    Ligne, Colonne: Integer;
 begin
-     if sg = nil then exit;
+     if _sg = nil then exit;
      Colonne:= 0;
-     for Ligne:= 0 to sg.RowCount - 1
+     for Ligne:= 0 to _sg.RowCount - 1
      do
        begin
-       sg.Objects[ Colonne, Ligne]:= nil;
-       sg.Cells[ Colonne, Ligne]:= sys_Vide;
+       _sg.Objects[ Colonne, Ligne]:= nil;
+       _sg.Cells[ Colonne, Ligne]:= sys_Vide;
        end;
+end;
+
+{ TStringGridWeb }
+
+procedure TStringGridWeb.Resize;
+begin
+     SetLength( ColWidths , ColCount);
+     SetLength( RowHeights, RowCount);
+
+     SetLength( FObjects, ColCount, RowCount);
+     SetLength( FCells  , ColCount, RowCount);
+end;
+
+procedure TStringGridWeb.Charge_Cell( _Colonne, _Ligne: Integer; _be: TBatpro_Element; _Contexte: Integer);
+begin
+     if _be = nil
+     then
+         begin
+         Cells  [ _Colonne, _Ligne]:= sys_Vide;
+         Objects[ _Colonne, _Ligne]:= nil;
+         end
+     else
+         begin
+         Cells  [ _Colonne, _Ligne]:= _be.Cell[ _Contexte];
+         Objects[ _Colonne, _Ligne]:= _be;
+         end;
+end;
+
+procedure TStringGridWeb.Charge_Ligne( _OffsetColonne, _Ligne: Integer;
+                                       _sl: TBatpro_StringList;
+                                       _ClusterAddInit_: Boolean;
+                                       _Contexte: Integer); overload;
+var
+   I,
+   Colonne: Integer;
+   BE: TBatpro_Element;
+   beClusterElement: TbeClusterElement;
+   Cell: String;
+begin
+     if not _ClusterAddInit_
+     then
+         Initialise_Clusters( _sl);
+
+     for I:= 0 to _sl.Count-1
+     do
+       begin
+       Colonne:= _OffsetColonne+I;
+
+       BE:= Batpro_Element_from_sl( _sl, I);
+       if Assigned( BE)
+       then
+           begin
+           Cell:= BE.Cell[ _Contexte];
+           if BE is TbeClusterElement
+           then
+               begin
+               beClusterElement:= TbeClusterElement( BE);
+               beClusterElement.Ajoute( Colonne, _Ligne);
+               end
+           end
+       else
+           Cell:= _sl.Strings[ I];
+
+       Cells  [ Colonne, _Ligne]:= Cell;
+       Objects[ Colonne, _Ligne]:= _sl.Objects[ I];
+       end;
+end;
+
+procedure TStringGridWeb.Charge_Colonne( _Colonne, _OffsetLigne: Integer;
+                                         _sl: TBatpro_StringList;
+                                         _Contexte: Integer);
+var
+   Ligne: Integer;
+   BE: TBatpro_Element;
+   Cell: String;
+begin
+     for Ligne:= 0 to _sl.Count-1
+     do
+       begin
+       BE:= Batpro_Element_from_sl( _sl, Ligne);
+       if Assigned( BE)
+       then
+           Cell:= BE.Cell[ _Contexte]
+       else
+           Cell:= _sl.Strings[ Ligne];
+       Cells  [ _Colonne, _OffsetLigne+Ligne]:= Cell;
+       Objects[ _Colonne, _OffsetLigne+Ligne]:= _sl.Objects[ Ligne];
+       end;
+end;
+
+procedure TStringGridWeb.Charge_Colonne( _Colonne, _OffsetLigne: Integer;
+                                         _beEntete: TBatpro_Element;
+                                         _sl: TBatpro_StringList;
+                                         _Contexte: Integer);
+begin
+     Charge_Cell   ( _Colonne, _OffsetLigne-1, _beEntete, _Contexte);
+     Charge_Colonne( _Colonne, _OffsetLigne  , _sl      , _Contexte);
+end;
+
+procedure TStringGridWeb.Charge_Ligne( _OffsetColonne, _Ligne: Integer;
+                                       _bts: TbtString;
+                                       _ClusterAddInit_: Boolean;
+                                       _Contexte: Integer); overload;
+var
+   I,
+   Colonne: Integer;
+   BE: TBatpro_Element;
+   beClusterElement: TbeClusterElement;
+   Cell: String;
+begin
+     if not _ClusterAddInit_
+     then
+         Initialise_Clusters( _bts);
+
+     I:= -1;
+     _bts.Iterateur_Start;
+     while not _bts.Iterateur_EOF
+     do
+       begin
+       _bts.Iterateur_Suivant( BE);
+       Inc( I);
+
+       Colonne:= _OffsetColonne+I;
+
+       if Assigned( BE)
+       then
+           begin
+           Cell:= BE.Cell[ _Contexte];
+           if BE is TbeClusterElement
+           then
+               begin
+               beClusterElement:= TbeClusterElement( BE);
+               beClusterElement.Ajoute( Colonne, _Ligne);
+               end
+           end
+       else
+           Cell:= sys_Vide;
+
+       Cells  [ Colonne, _Ligne]:= Cell;
+       Objects[ Colonne, _Ligne]:= BE;
+       end;
+end;
+
+procedure TStringGridWeb.Charge_Colonne( _Colonne, _OffsetLigne: Integer;
+                                         _bts: TbtString;
+                                         _Contexte: Integer);
+var
+   Ligne: Integer;
+   BE: TBatpro_Element;
+   Cell: String;
+begin
+     Ligne:= -1;
+     _bts.Iterateur_Start;
+     while not _bts.Iterateur_EOF
+     do
+       begin
+       _bts.Iterateur_Suivant( BE);
+       Inc( Ligne);
+
+       if Assigned( BE)
+       then
+           Cell:= BE.Cell[ _Contexte]
+       else
+           Cell:= sys_Vide;
+       Cells  [ _Colonne, _OffsetLigne+Ligne]:= Cell;
+       Objects[ _Colonne, _OffsetLigne+Ligne]:= BE;
+       end;
+end;
+
+procedure TStringGridWeb.Charge_Colonne( _Colonne, _OffsetLigne: Integer;
+                                         _beEntete: TBatpro_Element;
+                                         _bts: TbtString;
+                                         _Contexte: Integer);
+begin
+     Charge_Cell   ( _Colonne, _OffsetLigne-1, _beEntete, _Contexte);
+     Charge_Colonne( _Colonne, _OffsetLigne  , _bts     , _Contexte);
+end;
+
+function TStringGridWeb.Hauteur_Ligne( _DrawInfo: TDrawInfo;
+                                       _Ligne: Integer;
+                                       _TraiterClusters: Boolean): Integer;
+var
+   Colonne: Integer;
+   be: TBatpro_Element;
+   be_Height: Integer;
+begin
+     _DrawInfo.Row:= _Ligne;
+
+     if _TraiterClusters
+     then
+         Result:= RowHeights[ _Ligne]
+     else
+         Result:= 0;
+
+     for Colonne:= 0 to ColCount-1
+     do
+       begin
+       be:= Batpro_Element[ Colonne, _Ligne];
+       if be = nil then continue;
+
+       _DrawInfo.Col:= Colonne;
+            if not( _TraiterClusters or  (be is TbeClusterElement))
+       then
+           begin
+           be_Height:= be.Cell_Height( _DrawInfo, ColWidths[ Colonne]);
+           if be_Height > Result
+           then
+               Result:= be_Height;
+           end
+       else if      _TraiterClusters and (be is TbeClusterElement)
+       then
+           begin
+           TbeClusterElement(be).CalculeHauteur( _DrawInfo,
+                                                 Colonne, _Ligne,
+                                                 Result);
+           end;
+       end;
+end;
+
+function TStringGridWeb.Largeur_Colonne( _DrawInfo: TDrawInfo;
+                                         _Colonne: Integer;
+                                         _TraiterClusters: Boolean): Integer;
+var
+   Ligne: Integer;
+   be: TBatpro_Element;
+   be_Width: Integer;
+begin
+     _DrawInfo.Col:= _Colonne;
+
+     if _TraiterClusters
+     then
+         Result:= ColWidths[ _Colonne]
+     else
+         Result:= 0;
+
+     for Ligne:= 0 to RowCount-1
+     do
+       begin
+       be:= Batpro_Element[_Colonne, Ligne];
+       if be = nil then continue;
+       _DrawInfo.Row:= Ligne;
+
+            if not( _TraiterClusters or  (be is TbeClusterElement))
+       then
+           begin
+           be_Width:= be.Cell_Width( _DrawInfo);
+           if be_Width > Result
+           then
+               Result:= be_Width;
+           end
+       else if      _TraiterClusters and (be is TbeClusterElement)
+       then
+           begin
+           TbeClusterElement(be).CalculeLargeur( _DrawInfo,
+                                                 _Colonne, Ligne,
+                                                 Result);
+           end;
+       end;
+end;
+
+procedure TStringGridWeb.Traite_Hauteurs_Lignes( _DrawInfo: TDrawInfo);
+var
+   Ligne: Integer;
+   Max: Integer;
+begin
+     //première passe sur les cellules non-clusters
+     for Ligne:= 0 to RowCount-1
+     do
+       begin
+       Max:= Hauteur_Ligne( _DrawInfo, Ligne, False);
+       if Max > 0
+       then
+           RowHeights[ Ligne]:= Max;
+       end;
+
+     //seconde passe sur les cellules clusters
+     for Ligne:= 0 to RowCount-1
+     do
+       begin
+       Max:= Hauteur_Ligne( _DrawInfo, Ligne, True);
+       if Max > 0
+       then
+           RowHeights[ Ligne]:= Max;
+       end;
+end;
+
+procedure TStringGridWeb.Traite_Largeurs_Colonnes( _DrawInfo: TDrawInfo;
+                                                   _ColonneDebut: Integer;
+                                                   _ColonneFin  : Integer);
+var
+   Colonne: Integer;
+   Max: Integer;
+begin
+     if _ColonneFin = -1
+     then
+         _ColonneFin:= ColCount-1;
+
+     //première passe sur les cellules non-clusters
+     for Colonne:= _ColonneDebut to _ColonneFin
+     do
+       begin
+       Max:= Largeur_Colonne( _DrawInfo, Colonne, False);
+       if Max > 0
+       then
+           ColWidths[ Colonne]:= Max;
+       end;
+
+     //seconde passe sur les cellules clusters
+     for Colonne:= _ColonneDebut to _ColonneFin
+     do
+       begin
+       Max:= Largeur_Colonne( _DrawInfo, Colonne, True);
+       if Max > 0
+       then
+           ColWidths[ Colonne]:= Max;
+       end;
+end;
+
+procedure TStringGridWeb.Egalise_Largeurs_Colonnes( _ColonneDebut,
+                                                    _ColonneFin  : Integer);
+var
+   Colonne: Integer;
+   Largeur, LargeurMax: Integer;
+begin
+     //première passe de détection de la largeur maxi
+     LargeurMax:= 0;
+     for Colonne:= _ColonneDebut to _ColonneFin
+     do
+       begin
+       Largeur:= ColWidths[ Colonne];
+       if LargeurMax < Largeur
+       then
+           LargeurMax:= Largeur;
+       end;
+
+     //Seconde passe pour égaliser
+     for Colonne:= _ColonneDebut to _ColonneFin
+     do
+       ColWidths[ Colonne]:= LargeurMax;
+end;
+
+procedure TStringGridWeb.Egalise_Hauteurs_Lignes( _LigneDebut, _LigneFin: Integer);
+var
+   Ligne: Integer;
+   Hauteur, HauteurMax: Integer;
+begin
+     //première passe de détection de la Hauteur maxi
+     HauteurMax:= 0;
+     for Ligne:= _LigneDebut to _LigneFin
+     do
+       begin
+       Hauteur:= RowHeights[ Ligne];
+       if HauteurMax < Hauteur
+       then
+           HauteurMax:= Hauteur;
+       end;
+
+     //Seconde passe pour égaliser
+     for Ligne:= _LigneDebut to _LigneFin
+     do
+       RowHeights[ Ligne]:= HauteurMax;
+end;
+
+procedure TStringGridWeb.Initialise_dimensions( _ColonneDebut: Integer);
+var
+   Colonne, Ligne: Integer;
+begin
+     for Colonne:= _ColonneDebut to ColCount-1
+     do
+       ColWidths[ Colonne]:= DefaultColWidth;
+
+     for Ligne:= 0 to RowCount-1
+     do
+       RowHeights[ Ligne]:= DefaultRowHeight;
+end;
+
+procedure TStringGridWeb.Ajuste_Largeur_Client(_ColonneDebut: Integer);
+var
+   LargeurDisponible: Integer;
+   NbColonnesAjustees: Integer;
+   LargeurColonne_avec_GridLineWidth,
+   LargeurColonne, Reste: Integer;
+   Colonne: Integer;
+begin
+     LargeurDisponible:= ClientWidth - ColCount*GridLineWidth;
+     for Colonne:= 0 to _ColonneDebut-1
+     do
+       begin
+       Dec( LargeurDisponible, ColWidths[ Colonne]);
+       Dec( LargeurDisponible, GridLineWidth);
+       end;
+
+     NbColonnesAjustees:= ColCount - _ColonneDebut;
+     LargeurColonne_avec_GridLineWidth:= LargeurDisponible div NbColonnesAjustees;
+     LargeurColonne:= LargeurColonne_avec_GridLineWidth - GridLineWidth;
+     Reste:= LargeurDisponible - LargeurColonne_avec_GridLineWidth * NbColonnesAjustees;
+
+     for Colonne:= _ColonneDebut to ColCount-2
+     do
+       ColWidths[ Colonne]:= LargeurColonne;
+
+     Colonne:= ColCount-1;
+     ColWidths[ Colonne]:= LargeurColonne+Reste;
+end;
+
+procedure TStringGridWeb.Refresh;
+begin
+
+end;
+
+procedure TStringGridWeb.MouseToCell(X, Y: Integer; var ACol, ARow: Longint);
+begin
+
+end;
+
+
+procedure TStringGridWeb.SetColCount( _Value: Integer);
+begin
+     if FColCount= _Value then exit;
+
+     FColCount:= _Value;
+     Resize;
+end;
+
+procedure TStringGridWeb.SetRowCount( _Value: Integer);
+begin
+     if FRowCount=_Value then exit;
+
+     FRowCount:=_Value;
+     Resize;
+end;
+
+function TStringGridWeb.GetCell(_Col, _Row: Integer): String;
+begin
+     Result:= FCells[_Col][_Row];
+end;
+
+procedure TStringGridWeb.SetCell(_Col, _Row: Integer; _Value: String);
+begin
+     FCells[_Col][_Row]:= _Value;
+end;
+
+function TStringGridWeb.GetObject( _Col, _Row: Integer): TObject;
+begin
+     Result:= nil;
+
+     if _Col     <  0    then exit;
+     if ColCount <= _Col then exit;
+
+     if _Row     <  0    then exit;
+     if RowCount <= _Row then exit;
+
+     Result:= FObjects[_Col][_Row];
+end;
+
+procedure TStringGridWeb.SetObject( _Col, _Row: Integer; _Value: TObject);
+begin
+     if _Col     <  0    then exit;
+     if ColCount <= _Col then exit;
+
+     if _Row     <  0    then exit;
+     if RowCount <= _Row then exit;
+
+     FObjects[_Col][_Row]:= _Value;
+end;
+
+function TStringGridWeb.GetBatpro_Element( _Col, _Row: Integer): TBatpro_Element;
+begin
+     Affecte_( Result, TBatpro_Element, Objects[ _Col, _Row]);
+end;
+
+procedure TStringGridWeb.SetBatpro_Element( _Col, _Row: Integer; _Value: TBatpro_Element);
+begin
+     Objects[_Col, _Row]:= _Value;
 end;
 
 procedure uhDessinnateurWeb_Demarre_Animation;
 begin
-     ufBatpro_Form_Demarre_Animation;
+     //ufBatpro_Form_Demarre_Animation;
 end;
 
 procedure uhDessinnateurWeb_Termine_Animation;
 begin
-     ufBatpro_Form_Termine_Animation;
+     //ufBatpro_Form_Termine_Animation;
 end;
 
 { ThDessinnateurWeb_Colonne }
@@ -421,7 +1003,7 @@ end;
 
 procedure ThDessinnateurWeb_Colonne.Place( _Ligne: Integer; _O: TObject);
 begin
-     uDataClasses.Place( slLignes,
+     uBatpro_Element.Place( slLignes,
                          _Ligne-Offset_Colonne,
                          '',
                          _O,
@@ -542,7 +1124,7 @@ begin
        it.Suivant( c);
        if  c= nil then continue;
 
-       uDataClasses.AssureLongueur( c.slLignes, _Longueur, _sCle);
+       uBatpro_Element.AssureLongueur( c.slLignes, _Longueur, _sCle);
        end;
 end;
 
@@ -607,39 +1189,33 @@ end;
 
 { ThDessinnateurWeb }
 
-constructor ThDessinnateurWeb.Create( unContexte: Integer; unSG: TStringGrid;
-                                   unTitre: String;
-                                   unPopupDefaut: TPopupMenu);
+constructor ThDessinnateurWeb.Create( _Contexte: Integer; _SG: TStringGridWeb;
+                                      _Titre: String;
+                                      _PopupDefaut: TPopupMenu);
 var
    CP: IblG_BECP;
 begin
      CP:= Init_ClassParams;
      if Assigned( CP)
      then
-         CP.Titre:= 'Gestionnaire de grille de '+unTitre;
+         CP.Titre:= 'Gestionnaire de grille de '+_Titre;
 
      inherited Create( nil);
 
      Debug_Hint:= False;
 
-     FTitre:= unTitre;
+     FTitre:= _Titre;
      SetLength( Legende, 0);
-     sg:= unSG;
-     sg.OnDrawCell := sgDrawCell;
-     sg.OnMouseMove:= sgMouseMove;
+     sg:= _SG;
 
-     Old_sgMouseDown:= sg.OnMouseDown;
-     sg.OnMouseDown:= sgMouseDown;
-     Old_sgSelectCell:= sg.OnSelectCell;
-     sg.OnSelectCell:= sgSelectCell;
      Fond:= clBtnFace;
-     PopupDefaut:= unPopupDefaut;
+     PopupDefaut:= _PopupDefaut;
      MMColonne:= -1;
      MMLigne  := -1;
      Drag_Colonne:= -1;
      Drag_Ligne:= -1;
 
-     DI:= TDrawInfo.Create( unContexte, sg);
+     DI:= TDrawInfo.Create( _Contexte, sg);
      slCE:= TBatpro_StringList.CreateE( ClassName+'.slCE', TbeClusterElement);
 
      beCurseur:= TbeCurseur.Create( nil);
@@ -652,43 +1228,15 @@ destructor ThDessinnateurWeb.Destroy;
 begin
      Free_nil( pDrag);
 
-     sg.OnMouseDown := Old_sgMouseDown;
-     sg.OnSelectCell:= Old_sgSelectCell;
-
      Detruit_StringList( slCE);
 
      Free_nil( DI);
-     sg.OnMouseMove:= nil;
-     sg.OnDrawCell := nil;
      inherited;
 end;
 
 procedure ThDessinnateurWeb.DrawCell_Table_Defaut;
 begin
-     if DI.Gris
-     then
-         DI.Canvas.Brush.Color:= DI.Couleur_Jour_Non_Ouvrable
-     else
-         DI.Canvas.Brush.Color:= DI.Fond;
-     DI.Canvas.FillRect( DI.Rect);
-
-     {
-     if Gris
-     then
-         begin
-         Canvas.Brush.Color:= clBlack;
-         Canvas.Brush.Style:= bsFDiagonal;
-         Canvas.Pen  .Style:= psClear;
-           Canvas.Rectangle( Rect);
-         Canvas.Pen  .Style:= psSolid;
-         Canvas.Brush.Style:= bsSolid;
-         end
-     else
-         begin
-         Canvas.Brush.Color:= clWhite;
-         Canvas.FillRect( Rect);
-         end;
-     }
+     DI.Dessine_Fond;
 end;
 
 procedure ThDessinnateurWeb.DrawCell_Table;
@@ -707,16 +1255,7 @@ begin
          end
      else
          begin
-         if DI.Impression
-         then
-             if uBatpro_Element_Afficher_Grille
-             then
-                 begin
-                 DI.Canvas.Pen.Style:= psSolid;
-                 DI.Canvas.Pen.Color:= clBlack;
-                 end
-             else
-                 DI.Canvas.Pen.Style:= psClear;
+         DI.Traite_Grille_impression( uBatpro_Element_Afficher_Grille);
          if Assigned(be)
          then
              be.Draw( DI)
@@ -756,6 +1295,7 @@ begin
              Result:= tc_Case;
 end;
 
+{
 procedure ThDessinnateurWeb.sgDrawCell( Sender: TObject; ACol, ARow: Integer;
                                    Rect: TRect; State: TGridDrawState);
 var
@@ -777,91 +1317,68 @@ begin
            Canvas.DrawFocusRect(Rect);*)
        end;
 end;
-
+}
 function ThDessinnateurWeb.GetCell( Contexte: Integer): String;
 begin
      Result:= Titre;
 end;
 
 function ThDessinnateurWeb.sg_be(Colonne, Ligne: Integer): TBatpro_Element;
-var
-   O: TObject;
 begin
-     Result:= nil;
-
-     if Colonne     <  0       then exit;
-     if sg.ColCount <= Colonne then exit;
-
-     if Ligne       <  0     then exit;
-     if sg.RowCount <= Ligne then exit;
-
-     O:= sg.Objects[ Colonne, Ligne];
-     if O = nil then exit;
-     try
-        if not (O is TBatpro_Element) then exit;
-
-        Result:= TBatpro_Element( O);
-     except
-           on Exception
-           do
-             Vide; //mis par sécurité
-           end;
+     Result:= sg.Batpro_Element[ Colonne, Ligne];
 end;
 
 function ThDessinnateurWeb.Cell_Height(Colonnne,Ligne,Cell_Width:Integer):Integer;
+var
+   be: TBatpro_Element;
 begin
-     Result
-     :=
-       uDataClasses.Cell_Height( DI, Colonnne,Ligne,Cell_Width);
+     be:= sg_be( Colonnne, Ligne);
+     if Assigned( be)
+     then
+         Result:= be.Cell_Height( DI, Cell_Width)
+     else
+         Result:= sg.RowHeights[ Ligne];
 end;
 
-(*
-procedure Charge_Ligne  ( Contexte: Integer; sg:TStringGrid;_sl:TBatpro_StringList;
-                          OffsetColonne,      Ligne:Integer);
-procedure Charge_Colonne( Contexte: Integer; sg:TStringGrid;_sl:TBatpro_StringList;
-                                Colonne,OffsetLigne:Integer);
-*)
 procedure ThDessinnateurWeb.Charge_Cell(be:TBatpro_Element; Colonne,Ligne:Integer);
 begin
-     uDataClasses.Charge_Cell( DI, be,Colonne,Ligne);
+     sg.Charge_Cell( Colonne, Ligne, be, DI.Contexte);
 end;
 
 procedure ThDessinnateurWeb.Charge_Ligne( _sl:TBatpro_StringList;OffsetColonne,Ligne:Integer;
                                        ClusterAddInit_: Boolean= False);
 begin
-     uDataClasses.Charge_Ligne  ( DI, _sl,OffsetColonne,Ligne,
-                                  ClusterAddInit_);
+     sg.Charge_Ligne( OffsetColonne, Ligne, _sl, ClusterAddInit_, DI.Contexte);
 end;
 
 procedure ThDessinnateurWeb.Charge_Colonne(_sl:TBatpro_StringList;Colonne,OffsetLigne:Integer);
 begin
-     uDataClasses.Charge_Colonne( DI, _sl,Colonne,OffsetLigne);
+     sg.Charge_Colonne( Colonne, OffsetLigne, _sl, DI.Contexte);
 end;
 
 procedure ThDessinnateurWeb.Charge_Colonne( beEntete: TBatpro_Element;
                                          _sl: TBatpro_StringList;
                                          Colonne, OffsetLigne: Integer);
 begin
-     uDataClasses.Charge_Colonne( DI, beEntete,_sl,Colonne,OffsetLigne);
+     sg.Charge_Colonne( Colonne, OffsetLigne, beEntete,_sl, DI.Contexte);
 end;
 
 procedure ThDessinnateurWeb.Charge_Ligne( bts: TbtString;OffsetColonne,Ligne:Integer;
                                        ClusterAddInit_: Boolean= False);
 begin
-     uDataClasses.Charge_Ligne  ( DI, bts,OffsetColonne,Ligne,
-                                  ClusterAddInit_);
+     sg.Charge_Ligne  ( OffsetColonne,Ligne, bts,ClusterAddInit_,DI.Contexte);
 end;
 
 procedure ThDessinnateurWeb.Charge_Colonne( bts: TbtString;Colonne,OffsetLigne:Integer);
 begin
-     uDataClasses.Charge_Colonne( DI, bts,Colonne,OffsetLigne);
+     sg.Charge_Colonne( Colonne,OffsetLigne, bts, DI.Contexte);
 end;
 
 procedure ThDessinnateurWeb.Charge_Colonne( beEntete: TBatpro_Element;
-                                         bts: TbtString;
-                                         Colonne, OffsetLigne: Integer);
+                                            bts: TbtString;
+                                            Colonne, OffsetLigne: Integer);
 begin
-     uDataClasses.Charge_Colonne( DI, beEntete,bts,Colonne,OffsetLigne);
+     sg.Charge_Colonne( Colonne,OffsetLigne, beEntete,bts, DI.Contexte);
 end;
 
 function ThDessinnateurWeb.hdCell: String;
@@ -871,35 +1388,36 @@ end;
 
 procedure ThDessinnateurWeb.Traite_Hauteurs_Lignes;
 begin
-     uDataClasses.Traite_Hauteurs_Lignes( DI);
+     sg.Traite_Hauteurs_Lignes( DI);
 end;
 
 procedure ThDessinnateurWeb.Traite_Largeurs_Colonnes( _ColonneDebut: Integer= 0;
                                                    _ColonneFin  : Integer= -1);
 begin
-     uDataClasses.Traite_Largeurs_Colonnes( DI, _ColonneDebut, _ColonneFin);
+     sg.Traite_Largeurs_Colonnes( DI, _ColonneDebut, _ColonneFin);
 end;
 
 procedure ThDessinnateurWeb.Traite_Ratio;
 begin
-     uDataClasses.Traite_Ratio( DI);
+     //sg.Traite_Ratio( DI);
 end;
 
 procedure ThDessinnateurWeb.Initialise_dimensions( _ColonneDebut: Integer= 0);
 begin
-     uDataClasses.Initialise_dimensions( DI, _ColonneDebut);
+     sg.Initialise_dimensions( _ColonneDebut);
 end;
 
 procedure ThDessinnateurWeb.Ajuste_Largeur_Client(_ColonneDebut: Integer);
 begin
-     uDataClasses.Ajuste_Largeur_Client( DI, _ColonneDebut);
+     sg.Ajuste_Largeur_Client( _ColonneDebut);
 end;
 
 procedure ThDessinnateurWeb.Egalise_Largeurs_Colonnes( ColonneDebut, ColonneFin: Integer);
 begin
-     uDataClasses.Egalise_Largeurs_Colonnes( DI.sg, ColonneDebut, ColonneFin);
+     sg.Egalise_Largeurs_Colonnes( ColonneDebut, ColonneFin);
 end;
 
+{
 procedure ThDessinnateurWeb.sgMouseMove( Sender: TObject; Shift: TShiftState;
                                       X, Y: Integer);
 var
@@ -935,10 +1453,10 @@ begin
 
      sg.PopupMenu:= MMbe.Popup( DI.Contexte);
 end;
-
+}
 procedure ThDessinnateurWeb.Refresh;
 begin
-     sg.Refresh;
+     //sg.Refresh;
 end;
 
 function ThDessinnateurWeb.GetTitre: String;
@@ -1023,9 +1541,10 @@ begin
 end;
 
 function ThDessinnateurWeb.EnregistrerSous: Boolean;
-var
-   sd: TSaveDialog;
+//var
+//   sd: TSaveDialog;
 begin
+{
      sd:= TSaveDialog.Create( nil);
      try
         sd.DefaultExt:= 'TXT';
@@ -1037,6 +1556,7 @@ begin
      finally
             Free_nil( sd);
             end;
+}
 end;
 
 procedure ThDessinnateurWeb._from_pool_interne;
@@ -1205,7 +1725,7 @@ end;
 
 function ThDessinnateurWeb.Drag_from_(ACol, ARow: Integer): Boolean;
 var
-   gr: TGridRect;
+   gr: TRect;//TGridRect;
    gr_Change: Boolean;
 begin
      gr_Change:= False;
@@ -1264,11 +1784,7 @@ begin
      Result:= Drag_from_( _Colonne, _Ligne);
 end;
 
-procedure ThDessinnateurWeb.TraiteMouseDown( Button:TMouseButton; Shift:TShiftState; X,Y: Integer);
-begin
-
-end;
-
+{
 procedure ThDessinnateurWeb.sgMouseDown( Sender:TObject; Button:TMouseButton; Shift:TShiftState; X,Y:Integer);
 begin
      inherited;
@@ -1296,7 +1812,7 @@ procedure ThDessinnateurWeb.Bloque( _Proc: TAbonnement_Objet_Proc);
 begin
      ufBloqueur.Bloque( Form, _Proc);
 end;
-
+}
 function ThDessinnateurWeb.svgDraw: String;
 var
    iCol, iRow: Integer;
@@ -1315,10 +1831,13 @@ begin
 
      try
         eDEFS:= Cree_path( eSVG, 'defs');
+
         eDEFS.NodeValue
         :=
-           fBitmaps.svgDOCSINGL
-          +fBitmaps.svgLOSANGE
+            ''
+          // fBitmaps.svgDOCSINGL
+          //+fBitmaps.svgLOSANGE
+
 +'<pattern                                                                  '#13#10
 +'   id="Hachures_Slash"                                                    '#13#10
 +'   patternUnits="userSpaceOnUse"                                          '#13#10
@@ -1355,9 +1874,9 @@ begin
             do
               begin
               TC:= Typ( iCol, iRow);
-              Canvas.Font.Assign( Font);
+              //Canvas.Font.Assign( Font);
 
-              DI.Init_Draw( Canvas, iCol, iRow, CellRect( iCol, iRow), False);
+              //DI.Init_Draw( Canvas, iCol, iRow, CellRect( iCol, iRow), False);
               DI.Init_Cell( TC <> tc_Case, False);
               DI.Init_SVG( svg, eSVG);
               InflateRect( DI.Rect, 1, 1);

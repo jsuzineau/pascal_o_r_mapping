@@ -38,6 +38,7 @@ uses
     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
     Graphics, Windows, Types, Grids, Controls,
     {$IFEND}
+    FPCanvas,
   SysUtils, Classes, XMLRead,XMLWrite;
 
 const
@@ -83,7 +84,9 @@ const
 {$IFDEF FPC}
 type
  TStringGrid= TObject;
- TPenStyle=TObject;
+ TCanvas= TFPCustomCanvas;
+ TPenStyle=TFPPenStyle;
+ TBrushStyle=TFPBrushStyle;
  TFontStyle=(fsBold, fsItalic);
  TFontStyles= set of TFontStyle;
  TFont
@@ -95,67 +98,12 @@ type
     Style: TFontStyles;
     procedure Assign( _Source: TFont);
   end;
-
-
-{ TBrush }
-const
-     bsClear=0;
-type
- TBrushStyle=TObject;
- TBrush
- =
-  class
-    //Gestion du cycle de vie
-    public
-      constructor Create;
-      destructor Destroy; override;
-    //Attributs
-    public
-      Color: Integer;
-      Style: Integer;
-  end;
-
-{ TPen }
-const
-     pmXor=0;
-type
- TPen
- =
-  class
-    //Gestion du cycle de vie
-    public
-      constructor Create;
-      destructor Destroy; override;
-    //Attributs
-    public
-      Style: Integer;
-      Width: Integer;
-      Mode: Integer;
-      Color: TColor;
-  end;
-
- { TCanvas }
-
- TCanvas
- =
-  class
-  //Gestion du cycle de vie
-  public
-    constructor Create;
-    destructor Destroy; override;
-  //Attributs
-  public
-    Handle: Integer;
-    Font: TFont;
-    Brush: TBrush;
-    Pen: TPen;
-  //Méthodes
-  public
-    procedure Rectangle( _Rect: TRect);
-  end;
 {$ENDIF}
 
 type
+
+ { TDrawInfo }
+
  TDrawInfo
  =
   class
@@ -167,13 +115,14 @@ type
     sg: TStringGrid;
     Contexte: Integer;
   //Draw
+  private
+    Canvas: TFPCustomCanvas;
   public
-    Canvas: TCanvas;
     Col, Row: Integer;
     Rect_Original: TRect; //pour échapper au bornage de la hauteur dans planning production
     Rect: TRect;
     Impression: Boolean;
-    procedure Init_Draw( _Canvas: TCanvas; _Col, _Row: Integer; _Rect: TRect;
+    procedure Init_Draw( _Canvas: TFPCustomCanvas; _Col, _Row: Integer; _Rect: TRect;
                          _Impression: Boolean);
   //Cell
   public
@@ -308,6 +257,8 @@ type
 
     procedure image_MEN_AT_WORK__centre( _Couleur_Fond: TColor);
     procedure image_DOSSIER_KDE_PAR_POSTE__centre( _Couleur_Fond: TColor);
+    procedure Dessine_Fond;
+    procedure Traite_Grille_impression( _Afficher_Grille: Boolean);
   end;
 
 procedure OffsetRect( var _R: TRect; _dx, _dy: Integer);
@@ -346,61 +297,13 @@ begin
        end;
 end;
 
-{$IFDEF FPC}
-{ TPen }
-
-constructor TPen.Create;
-begin
-
-end;
-
-destructor TPen.Destroy;
-begin
- inherited Destroy;
-end;
-
-{ TBrush }
-
-constructor TBrush.Create;
-begin
-
-end;
-
-destructor TBrush.Destroy;
-begin
- inherited Destroy;
-end;
-
-{ TCanvas }
-
-constructor TCanvas.Create;
-begin
-     Font := TFont.Create;
-     Brush:= TBrush.Create;
-     Pen  := TPen.Create;
-end;
-
-destructor TCanvas.Destroy;
-begin
-     FreeAndNil( Font );
-     FreeAndNil( Brush);
-     FreeAndNil( Pen  );
-end;
-
-procedure TCanvas.Rectangle(_Rect: TRect);
-begin
-
-end;
-
-{$ENDIF}
-
 constructor TDrawInfo.Create( unContexte: Integer; _sg: TStringGrid);
 begin
      Contexte:= unContexte;
      sg:= _sg;
 end;
 
-procedure TDrawInfo.Init_Draw( _Canvas: TCanvas; _Col, _Row: Integer;
+procedure TDrawInfo.Init_Draw( _Canvas: TFPCustomCanvas; _Col, _Row: Integer;
                                _Rect: TRect; _Impression: Boolean);
 begin
     Canvas    := _Canvas     ;
@@ -484,8 +387,8 @@ begin
      Result:= svg.rect_vide( eCell, _R, _Pen_Width, _Pen_Color);
 end;
 
-function TDrawInfo._ellipse( _R: TRect;
-                             _Color, _Pen_Color: TColor;_Pen_Width: Integer): TDOMNode;
+function TDrawInfo._ellipse(_R: TRect; _Color: TColor; _Pen_Color: TColor;
+ _Pen_Width: Integer): TDOMNode;
 begin
      Result:= svg.ellipse( eCell, _R, _Color, _Pen_Color, _Pen_Width);
 end;
@@ -522,9 +425,8 @@ begin
      Result:= svg.text_a_Droite( eCell, _X, _Y, _Text, _Font_Family, _Font_Size, _Font_Family_Generic);
 end;
 
-function TDrawInfo.text_rotate( _X, _Y: Integer;
-                                _Text, _Font_Family: String;
-                                _Font_Size, _Rotate: Integer): TDOMNode;
+function TDrawInfo.text_rotate(_X, _Y: Integer; _Text, _Font_Family: String;
+ _Font_Size: Integer; _Rotate: Integer): TDOMNode;
 begin
      Result:= svg.text_rotate( eCell, _X, _Y, _Text, _Font_Family, _Font_Size, _Rotate);
 end;
@@ -1036,6 +938,35 @@ begin
          svg_image_DOSSIER_KDE_PAR_POSTE__centre
      else
          GDI;
+end;
+
+procedure TDrawInfo.Dessine_Fond;
+var
+   C: TColor;
+begin
+     if Gris
+     then
+         C:= Couleur_Jour_Non_Ouvrable
+     else
+         C:= Fond;
+     Remplit_Rectangle( Rect, C);
+end;
+
+procedure TDrawInfo.Traite_Grille_impression( _Afficher_Grille: Boolean);
+begin
+     if not Impression then exit;
+
+     {$IFDEF WINDOWS_GRAPHIC}
+     if _Afficher_Grille
+     then
+         begin
+         Canvas.Pen.Style:= psSolid;
+         Canvas.Pen.Color:= clBlack;
+         end
+     else
+         Canvas.Pen.Style:= psClear;
+     {$ENDIF}
+
 end;
 
 {$IFDEF FPC}

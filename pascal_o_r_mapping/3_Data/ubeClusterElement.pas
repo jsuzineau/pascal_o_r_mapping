@@ -26,15 +26,16 @@ unit ubeClusterElement;
 interface
 
 uses
-    SysUtils, Classes,
-    {$IFNDEF FPC}
-    Graphics, Windows, Grids,
-    {$ENDIF}
-    Types,
     uBatpro_StringList,
     u_sys_,
     uDrawInfo,
-    uBatpro_Element;
+    ubtString,
+    uBatpro_Element,
+  {$IFNDEF FPC}
+  Graphics, Windows, Grids,
+  {$ENDIF}
+  Types,
+  SysUtils, Classes;
 
 type
  TbeClusterElement
@@ -71,6 +72,9 @@ type
 
 function beClusterElement_from_sl( sl: TBatpro_StringList; Index: Integer): TbeClusterElement;
 
+procedure Initialise_Clusters( sl: TBatpro_StringList); overload;
+procedure Initialise_Clusters( bts: TbtString); overload;
+
 implementation
 
 function beClusterElement_from_sl( sl: TBatpro_StringList; Index: Integer): TbeClusterElement;
@@ -78,6 +82,46 @@ begin
      _Classe_from_sl( Result, TbeClusterElement, sl, Index);
 end;
 
+
+procedure Initialise_Clusters( sl: TBatpro_StringList); overload;
+var
+   I: Integer;
+   BE: TBatpro_Element;
+   beClusterElement: TbeClusterElement;
+begin
+     for I:= 0 to sl.Count - 1
+     do
+       begin
+       BE:= Batpro_Element_from_sl( sl, I);
+       if     Assigned( BE)
+          and (BE is TbeClusterElement)
+       then
+           begin
+           beClusterElement:= TbeClusterElement( BE);
+           beClusterElement.Initialise;
+           end
+       end;
+end;
+
+procedure Initialise_Clusters( bts: TbtString); overload;
+var
+   BE: TBatpro_Element;
+   beClusterElement: TbeClusterElement;
+begin
+     bts.Iterateur_Start;
+     while not bts.Iterateur_EOF
+     do
+       begin
+       bts.Iterateur_Suivant( BE);
+       if     Assigned( BE)
+          and (BE is TbeClusterElement)
+       then
+           begin
+           beClusterElement:= TbeClusterElement( BE);
+           beClusterElement.Initialise;
+           end
+       end;
+end;
 
 { TbeClusterElement }
 

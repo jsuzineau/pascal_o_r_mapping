@@ -51,37 +51,30 @@
         <ComponentName Value="fOpenDocument_DelphiReportEngine"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufOpenDocument_DelphiReportEngine"/>
       </Unit1>
       <Unit2>
         <Filename Value="Elements\ublODRE_Table.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublODRE_Table"/>
       </Unit2>
       <Unit3>
         <Filename Value="Elements\ublOD_Column.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublOD_Column"/>
       </Unit3>
       <Unit4>
         <Filename Value="Elements\ublOD_Dataset_Columns.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublOD_Dataset_Columns"/>
       </Unit4>
       <Unit5>
         <Filename Value="Elements\ublOD_Dataset_Column.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublOD_Dataset_Column"/>
       </Unit5>
       <Unit6>
         <Filename Value="Elements\ublOD_Affectation.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublOD_Affectation"/>
       </Unit6>
       <Unit7>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uhDessinnateurWeb.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uhDessinnateurWeb"/>
       </Unit7>
     </Units>
   </ProjectOptions>

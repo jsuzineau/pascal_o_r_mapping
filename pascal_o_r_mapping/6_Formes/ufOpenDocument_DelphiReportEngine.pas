@@ -45,6 +45,7 @@ uses
 
     ublODRE_Table,
     ublOD_Dataset_Columns,
+    uhDessinnateurWeb,//pour mise au point
 
   LCLIntf, LMessages, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, ValEdit, Registry,
