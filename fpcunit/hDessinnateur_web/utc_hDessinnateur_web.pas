@@ -28,6 +28,10 @@ interface
 
 uses
     uClean,
+    uSVG,
+    uDrawInfo,
+    uBatpro_Element,
+    ubeString,
     uhDessinnateurWeb,
  Classes, SysUtils, fpcunit, testutils, testregistry;
 
@@ -43,27 +47,34 @@ type
   //attributs
   private
     hdW: ThDessinnateurWeb;
+    bs: TbeString;
   end;
 
 implementation
 
 procedure TTest_hDessinnateur_web.TestHookUp;
 begin
-     Fail('Écrivez votre propre test');
+     //Fail('Écrivez votre propre test');
+     hdW.Test_html;
 end;
 
 procedure TTest_hDessinnateur_web.SetUp;
 begin
      hdW:= ThDessinnateurWeb.Create( 1, 'Test', nil);
+     bs:= TbeString.Create( nil, 'Test', clWhite, bea_Gauche);
+     hdW.sg.Width := 100;
+     hdW.sg.Height:= 100;
+     hdW.sg.Resize( 1, 1);
+     hdW.Charge_Cell( bs, 0, 0);
 end;
 
 procedure TTest_hDessinnateur_web.TearDown;
 begin
+     Free_nil( bs);
      Free_nil( hdW);
 end;
 
 initialization
-
- RegisterTest(TTest_hDessinnateur_web);
+              RegisterTest(TTest_hDessinnateur_web);
 end.
 

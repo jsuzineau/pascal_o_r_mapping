@@ -712,15 +712,16 @@ begin
 end;
 
 procedure TDrawInfo.Remplit_Rectangle( _R: TRect; _Couleur: TColor);
-{$IFNDEF FPC}
      procedure GDI;
      var
         OldColor: TColor;
      begin
+          {$IFDEF WINDOWS_GRAPHIC}
           OldColor:= Canvas.Brush.Color;
           Canvas.Brush.Color:= _Couleur;
           Canvas.FillRect( _R);
           Canvas.Brush.Color:= OldColor;
+          {$ENDIF}
      end;
 begin
      if Gris
@@ -733,10 +734,7 @@ begin
      else
          GDI;
 end;
-{$ELSE}
-begin
-end;
-{$ENDIF}
+
 procedure TDrawInfo.Polygon(const Points: array of TPoint);
 begin
      {$IFNDEF FPC}

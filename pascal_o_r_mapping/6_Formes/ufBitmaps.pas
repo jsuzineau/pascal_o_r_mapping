@@ -189,6 +189,11 @@ begin
 +'</svg>                                                                                                                              '#13#10;
 end;
 
+function TfBitmaps.svgLOSANGE_id: String;
+begin
+     Result:= 'svgLOSANGE';
+end;
+
 function TfBitmaps.svgLOSANGE_width: Integer;
 begin
      Result:= 16;
@@ -197,11 +202,6 @@ end;
 function TfBitmaps.svgLOSANGE_height: Integer;
 begin
      Result:= 16;
-end;
-
-function TfBitmaps.svgLOSANGE_id: String;
-begin
-     Result:= 'svgLOSANGE';
 end;
 
 function TfBitmaps.svgLOSANGE: String;
@@ -228,6 +228,11 @@ begin
      ;
 end;
 
+function TfBitmaps.svgLOGIN_id: String;
+begin
+     Result:= 'svgLOGIN';
+end;
+
 function TfBitmaps.svgLOGIN_width: Integer;
 begin
      Result:= 16;
@@ -236,11 +241,6 @@ end;
 function TfBitmaps.svgLOGIN_height: Integer;
 begin
      Result:= 16;
-end;
-
-function TfBitmaps.svgLOGIN_id: String;
-begin
-     Result:= 'svgLOGIN';
 end;
 
 function TfBitmaps.svgLOGIN: String;
@@ -359,6 +359,11 @@ begin
      ;
 end;
 
+function TfBitmaps.svgMEN_AT_WORK_id: String;
+begin
+     Result:= 'svgMEN_AT_WORK';
+end;
+
 function TfBitmaps.svgMEN_AT_WORK_width: Integer;
 begin
      Result:= 16;
@@ -367,11 +372,6 @@ end;
 function TfBitmaps.svgMEN_AT_WORK_height: Integer;
 begin
      Result:= 16;
-end;
-
-function TfBitmaps.svgMEN_AT_WORK_id: String;
-begin
-     Result:= 'svgMEN_AT_WORK';
 end;
 
 function TfBitmaps.svgMEN_AT_WORK: String;
@@ -444,6 +444,11 @@ begin
      ;
 end;
 
+function TfBitmaps.svgDOSSIER_KDE_PAR_POSTE_id: String;
+begin
+     Result:= 'svgDOSSIER_KDE_PAR_POSTE';
+end;
+
 function TfBitmaps.svgDOSSIER_KDE_PAR_POSTE_width: Integer;
 begin
      Result:= 16;
@@ -452,11 +457,6 @@ end;
 function TfBitmaps.svgDOSSIER_KDE_PAR_POSTE_height: Integer;
 begin
      Result:= 16;
-end;
-
-function TfBitmaps.svgDOSSIER_KDE_PAR_POSTE_id: String;
-begin
-     Result:= 'svgDOSSIER_KDE_PAR_POSTE';
 end;
 
 function TfBitmaps.svgDOSSIER_KDE_PAR_POSTE: String;

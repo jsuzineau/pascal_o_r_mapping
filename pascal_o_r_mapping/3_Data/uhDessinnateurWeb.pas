@@ -63,9 +63,8 @@ type
     constructor Create;
     destructor Destroy; override;
   //Méthodes
-  private
-    procedure Resize;
   public
+    procedure Resize( _ColCount: Integer= -1; _RowCount: Integer= -1);
     procedure Charge_Cell( _Colonne, _Ligne:Integer; _be: TBatpro_Element; _Contexte: Integer);
     procedure Charge_Ligne( _OffsetColonne, _Ligne: Integer;
                             _sl: TBatpro_StringList;
@@ -471,8 +470,11 @@ begin
      inherited Destroy;
 end;
 
-procedure TStringGridWeb.Resize;
+procedure TStringGridWeb.Resize( _ColCount: Integer= -1; _RowCount: Integer= -1);
 begin
+     if _ColCount <> -1 then FColCount:= _ColCount;
+     if _RowCount <> -1 then FRowCount:= _RowCount;
+
      SetLength( ColWidths , ColCount);
      SetLength( RowHeights, RowCount);
 
@@ -1838,7 +1840,8 @@ var
    eDEFS: TDOMNode;
 begin
      svg:= TSVGDocument.Create( '');
-     eSVG:= Cree_path( svg.xml.DocumentElement, 'svg');
+     eSVG:= svg.xml.AppendChild(svg.xml.CreateElement('svg'));
+     //eSVG:= Cree_path( svg.xml.DocumentElement, 'svg');
      svg.Set_Property( eSVG, 'xmlns'  , 'http://www.w3.org/2000/svg');
      svg.Set_Property( eSVG, 'version', '1.1');
      svg.Set_Property( eSVG, 'width' , IntToStr(sg.Width ));
@@ -1851,8 +1854,8 @@ begin
         eDEFS.NodeValue
         :=
             ''
-          // fBitmaps.svgDOCSINGL
-          //+fBitmaps.svgLOSANGE
+          +SVG_Bitmaps.DOCSINGL
+          +SVG_Bitmaps.LOSANGE
 
 +'<pattern                                                                  '#13#10
 +'   id="Hachures_Slash"                                                    '#13#10

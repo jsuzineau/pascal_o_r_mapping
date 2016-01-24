@@ -1242,12 +1242,16 @@ var
    uFormat: Cardinal;
    OrientationTexte_: Integer;
 begin
-     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
      OrientationTexte_:= OrientationTexte( DrawInfo);
 
      OldFont:= TFont.Create;
+     {$IFDEF WINDOWS_GRAPHIC}
      OldFont.Assign( DrawInfo.Canvas.Font);
      DrawInfo.Canvas.Font.Assign( Font);
+     {$ELSE}
+     Font.Name:='Arial';
+     Font.Size:= 7;
+     {$ENDIF}
        R:= DrawInfo.Rect;
        //InflateRect( R, -Batpro_Element_Marge, -Batpro_Element_Marge);
        TextW:= Cell_Width_Interne ( DrawInfo, Font, Text);
@@ -1260,6 +1264,7 @@ begin
        //CALCRECT:= Rectangle_Aligne( R, Alignement, R.Right-R.Left, TextH);
        CALCRECT:= Rect_Interne_from_Externe( DrawInfo, CALCRECT);
 
+       CALCRECT:= Rect( 0,0,100,10);
        if DrawInfo.SVG_Drawing
        then
            DrawInfo.text_rotate( CALCRECT.Left,
@@ -1269,6 +1274,7 @@ begin
                                  OrientationTexte_ div 10)
        else
            begin
+           {$IFDEF WINDOWS_GRAPHIC}
            uFormat:= DT_WORDBREAK or Format_beAlignementH[ Alignement.H];
            SetBkMode( DrawInfo.Canvas.Handle, TRANSPARENT);
            try
@@ -1290,11 +1296,13 @@ begin
            finally
                   SetBkMode( DrawInfo.Canvas.Handle, OPAQUE);
                   end;
+           {$ENDIF}
            end;
 
+     {$IFDEF WINDOWS_GRAPHIC}
      DrawInfo.Canvas.Font.Assign( OldFont);
+     {$ENDIF}
      FreeAndNil( OldFont);
-     {$IFEND}
 end;
 
 procedure TBatpro_Element.Draw( DrawInfo: TDrawInfo);
@@ -1399,7 +1407,6 @@ var
           end;
    end;
 begin
-     {$IFNDEF FPC}
      if Assigned( Serie)
      then
          if Serie.svgDraw( DrawInfo)
@@ -1414,15 +1421,17 @@ begin
      then
          begin
          DrawInfo.Couleur_Brosse:= Fond;
+         {
          if DrawInfo.Couleur_Brosse = clBtnFace
          then
              DrawFrameControl( DrawInfo.Canvas.Handle, DrawInfo.Rect,DFC_BUTTON,DFCS_BUTTONPUSH)
          else
              DrawFrameButton_Color( DrawInfo.Canvas, DrawInfo.Couleur_Brosse, DrawInfo.Rect);
+         }
          if DrawInfo.Impression
          then
              {svg}Dessinne_Bordure( DrawInfo);
-         InflateRect( DrawInfo.Rect, -CXEDGE, -CYEDGE);
+         //InflateRect( DrawInfo.Rect, -CXEDGE, -CYEDGE);
          end;
 
      {svg}Dessinne_Fond( DrawInfo);
@@ -1448,7 +1457,6 @@ begin
      if Assigned( FTraits)
      then
          FTraits.{svg}Dessinne( DrawInfo);
-     {$ENDIF}
 end;
 
 function TBatpro_Element.GetCell( Contexte: Integer): String;
@@ -1957,7 +1965,7 @@ end;
 
 procedure TBatpro_Element.{svg}Dessinne_Gris( DrawInfo: TDrawInfo);
 begin
-     {$IFNDEF FPC}
+     {$IFDEF WINDOWS_GRAPHIC}
      if False//Gris essai désactivé
      then
          with DrawInfo
