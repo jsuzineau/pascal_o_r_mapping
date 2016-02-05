@@ -31,6 +31,7 @@ uses
     uSVG,
     uDrawInfo,
     uBatpro_Element,
+    ubeClusterElement,
     ubeString,
     uhDessinnateurWeb,
  Classes, SysUtils, fpcunit, testutils, testregistry;
@@ -48,6 +49,8 @@ type
   private
     hdW: ThDessinnateurWeb;
     bs: TbeString;
+    ce1: TbeClusterElement;
+    ce2: TbeClusterElement;
   end;
 
 implementation
@@ -60,12 +63,23 @@ end;
 
 procedure TTest_hDessinnateur_web.SetUp;
 begin
+     bs:= TbeString.Create( nil, 'Test', clAqua, bea_Gauche);
+     bs.Cree_Cluster;
+     bs.Cluster.Initialise;
+     bs.Cluster.Colonne_LargeurMaxi:= 10;
+     ce1:= TbeClusterElement.Create( nil, bs);
+     ce2:= TbeClusterElement.Create( nil, bs);
+     bs.Cluster.Ajoute( ce1, 1,1);
+     bs.Cluster.Ajoute( ce2, 2,1);
+
+
      hdW:= ThDessinnateurWeb.Create( 1, 'Test', nil);
-     bs:= TbeString.Create( nil, 'Test', clWhite, bea_Gauche);
      hdW.sg.Width := 100;
      hdW.sg.Height:= 100;
-     hdW.sg.Resize( 1, 1);
-     hdW.Charge_Cell( bs, 0, 0);
+     hdW.sg.Resize( 4, 4);
+
+     hdW.Charge_Cell( bs, 1, 1);
+     hdW.Charge_Cell( bs, 2, 1);
 end;
 
 procedure TTest_hDessinnateur_web.TearDown;

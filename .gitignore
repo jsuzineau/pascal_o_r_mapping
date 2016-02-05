@@ -18,3 +18,5 @@
 .gitignore~
 /.project
 /jsWorks/libmysql.dll
+/fpcunit/hDessinnateur_web/*.or
+/fpcunit/hDessinnateur_web/fug_hDessinnateur_web.res
