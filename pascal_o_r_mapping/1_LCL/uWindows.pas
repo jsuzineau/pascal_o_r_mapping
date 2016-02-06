@@ -44,6 +44,11 @@ initialization
               CYBORDER:= GetSystemMetrics( SM_CYBORDER);
               CXEDGE:= GetSystemMetrics( SM_CXEDGE);
               CYEDGE:= GetSystemMetrics( SM_CYEDGE);
+              {$ELSE}
+              CXBORDER:= 1;
+              CYBORDER:= 1;
+              CXEDGE:= 1;
+              CYEDGE:= 1;
               {$IFEND}
 finalization
 end.

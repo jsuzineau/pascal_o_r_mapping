@@ -200,6 +200,26 @@ begin
      Charge_Colonne( DrawInfo, sl      , Colonne, OffsetLigne  );
 end;
 
+procedure Initialise_Clusters( sl: TBatpro_StringList); overload;
+var
+   I: Integer;
+   BE: TBatpro_Element;
+   beClusterElement: TbeClusterElement;
+begin
+     for I:= 0 to sl.Count - 1
+     do
+       begin
+       BE:= Batpro_Element_from_sl( sl, I);
+       if     Assigned( BE)
+          and (BE is TbeClusterElement)
+       then
+           begin
+           beClusterElement:= TbeClusterElement( BE);
+           beClusterElement.Initialise;
+           end
+       end;
+end;
+
 //Chargement d'arbres binaires
 
 procedure Initialise_Clusters( bts: TbtString);

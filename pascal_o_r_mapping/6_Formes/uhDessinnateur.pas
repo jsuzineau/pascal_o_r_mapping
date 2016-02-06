@@ -425,7 +425,7 @@ end;
 
 procedure ThDessinnateur_Colonne.Place( _Ligne: Integer; _O: TObject);
 begin
-     uDataClasses.Place( slLignes,
+     uBatpro_Element.Place( slLignes,
                          _Ligne-Offset_Colonne,
                          '',
                          _O,
@@ -546,7 +546,7 @@ begin
        it.Suivant( c);
        if  c= nil then continue;
 
-       uDataClasses.AssureLongueur( c.slLignes, _Longueur, _sCle);
+       uBatpro_Element.AssureLongueur( c.slLignes, _Longueur, _sCle);
        end;
 end;
 

@@ -31,6 +31,9 @@ uses
     uDrawInfo,
     u_sys_,
     uBatpro_Element,
+  {$IFDEF WINDOWS_GRAPHIC}
+  Graphics,
+  {$ENDIF}
   SysUtils, Classes;
 
 type

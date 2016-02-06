@@ -29,6 +29,7 @@ unit ufOpenDocument_DelphiReportEngine;
 interface
 
 uses
+    uClean,
     uOD_Forms,
     uODRE_Table,
     uOD_TextTableContext,
@@ -37,6 +38,7 @@ uses
     uOOoStrings,
     uOOoStringList,
     uOpenDocument,
+    uhdODRE_Table,
     uVide,
     Zipper ,
     DOM,
@@ -45,7 +47,6 @@ uses
 
     ublODRE_Table,
     ublOD_Dataset_Columns,
-    uhDessinnateurWeb,//pour mise au point
 
   LCLIntf, LMessages, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, ValEdit, Registry,
@@ -58,10 +59,22 @@ type
  TfOpenDocument_DelphiReportEngine
  =
   class(TForm)
+   bDecalerChampsApresColonne: TButton;
+   bInsererColonne: TButton;
+   bSupprimerColonne: TButton;
    cg: TChampsGrid;
+   Label1: TLabel;
+   mODRE_Table_Colonnes: TMemo;
     odODF: TOpenDialog;
+    Panel6: TPanel;
     pc: TPageControl;
+    speDecalerChampsApresColonne_Numero: TSpinEdit;
+    speInsererColonne_Numero: TSpinEdit;
+    speODRE_Table_NbColonnes: TSpinEdit;
+    speSupprimerColonne_Numero: TSpinEdit;
+    sgODRE_Table: TStringGrid;
     tsContent: TTabSheet;
+    tShow: TTimer;
     tsStyles: TTabSheet;
     tvContent: TTreeView;
     tvStyles: TTreeView;
@@ -93,7 +106,6 @@ type
     bOuvrir: TButton;
     bFermer: TButton;
     bChrono: TButton;
-    tShow: TTimer;
     Panel2: TPanel;
     bContent_Enregistrer: TButton;
     Panel4: TPanel;
@@ -109,19 +121,10 @@ type
     tsODRE_Table: TTabSheet;
     lbODRE_Table: TListBox;
     Panel5: TPanel;
-    speODRE_Table_NbColonnes: TSpinEdit;
-    Label1: TLabel;
-    mODRE_Table_Colonnes: TMemo;
-    bSupprimerColonne: TButton;
-    speSupprimerColonne_Numero: TSpinEdit;
     eStyles_XML_Chercher: TEdit;
     bStyles_XML_Chercher: TButton;
     eContent_XML_Chercher: TEdit;
     bContent_XML_Chercher: TButton;
-    bInsererColonne: TButton;
-    speInsererColonne_Numero: TSpinEdit;
-    bDecalerChampsApresColonne: TButton;
-    speDecalerChampsApresColonne_Numero: TSpinEdit;
     gbBranche_Insertion: TGroupBox;
     bSupprimer_Insertion: TButton;
     procedure FormDestroy(Sender: TObject);
@@ -198,6 +201,7 @@ type
    OD_TextTableContext: TOD_TextTableContext;
    slT: TslODRE_Table;
    blODRE_Table: TblODRE_Table;
+   hd: ThdODRE_Table;
   end;
 
 var
@@ -239,10 +243,12 @@ begin
      tnsi:= tvi.Items;
      Embedded:= False;
      slT:= TslODRE_Table.Create( Classname+'.slT');
+     hd:= ThdODRE_Table.Create( 1, sgODRE_Table, 'hdODRE_Table');
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.FormDestroy(Sender: TObject);
 begin
+     Free_nil( hd);
      Detruit_StringList( slT);
      FreeAndNil( OD_TextTableContext);
      FreeAndNil( Document      );
@@ -897,6 +903,9 @@ var
 
           if   not_Traite_Avant
           then not_Traite_Apres;
+
+          bl.haAvant.Charge;
+          bl.haApres.Charge;
           end;
    end;
    procedure Traite_Datasets;//détection des champs dans les datasets
@@ -1260,6 +1269,9 @@ begin
      for I:= Low( blODRE_Table.T.Columns) to High( blODRE_Table.T.Columns)
      do
        mODRE_Table_Colonnes.Lines.Add( blODRE_Table.T.Columns[I].Titre);
+
+     hd.blODRE_Table:= blODRE_Table;
+     hd._from_pool;
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.bSupprimerColonneClick( Sender: TObject);

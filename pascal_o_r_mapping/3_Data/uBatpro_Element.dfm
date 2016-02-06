@@ -6,4 +6,4 @@ object pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre
   HorizontalOffset = 446
   VerticalOffset = 247
   Width = 213
-end
+end

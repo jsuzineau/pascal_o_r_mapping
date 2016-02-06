@@ -3,9 +3,9 @@ program fug_hDessinnateur_web;
 {$mode objfpc}{$H+}
 
 uses
-    uhDessinnateurWeb, ubeCoche, uClean,
+    uhDessinnateurWeb, ubeCoche, upoolG_BECP, uClean,
     utc_hDessinnateur_web,
-  Interfaces, Forms, GuiTestRunner;
+  Interfaces, Forms, blcksock, GuiTestRunner;
 
 {$R *.res}
 

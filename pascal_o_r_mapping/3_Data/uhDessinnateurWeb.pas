@@ -47,7 +47,7 @@ uses
 
     uDrawInfo,
 
-  SysUtils,Classes, DOM, Types;
+  SysUtils,Classes, DOM, Types, FPCanvas;
 
 type
  TypeCellule= (tc_Semaine, tc_Equipe, tc_ESequence, tc_A_PLA, tc_Date, tc_hDessinnateurWeb,
@@ -201,6 +201,8 @@ type
     procedure DrawCell_Table_Defaut; virtual;
   //Affichage
   public
+    Font: TFont;
+    Canvas: TFPCustomCanvas;
     procedure svgDrawCell_Table; virtual;
     procedure svgDrawCell_Table_Defaut; virtual;
     function svgDraw: String; reintroduce;
@@ -591,10 +593,14 @@ begin
      Curseur_Colonne:= -1;
 
      pDrag:= TPublieur.Create( 'ThDessinnateurWeb.pDrag');
+     Canvas:= nil;
+     Font:= TFont.Create;
 end;
 
 destructor ThDessinnateurWeb.Destroy;
 begin
+     Free_nil( Font);
+     Free_nil( Canvas);
      Free_nil( pDrag);
 
      Detruit_StringList( slCE);
@@ -1245,9 +1251,9 @@ begin
             do
               begin
               TC:= Typ( iCol, iRow);
-              //Canvas.Font.Assign( Font);
+//              Canvas.Font.Assign( Font);
 
-              //DI.Init_Draw( Canvas, iCol, iRow, CellRect( iCol, iRow), False);
+              DI.Init_Draw( Canvas, iCol, iRow, CellRect( iCol, iRow), False);
               DI.Init_Cell( TC <> tc_Case, False);
               DI.Init_SVG( svg, eSVG);
               InflateRect( DI.Rect, 1, 1);

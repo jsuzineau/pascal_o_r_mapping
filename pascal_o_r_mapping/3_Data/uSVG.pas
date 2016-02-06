@@ -905,16 +905,33 @@ begin
 end;
 
 function TSVGDocument.svgColor( Color: TColor): String;
+{$IFDEF FPC}
+
+   function Red( _C: TColor): Byte;
+   begin
+        Result:= _C AND $FF;
+   end;
+   function Green( _C: TColor): Byte;
+   begin
+        Result:= (_C AND $FF00) shr 8;
+   end;
+   function Blue( _C: TColor): Byte;
+   begin
+        Result:= (_C AND $FF0000)shr 16;
+   end;
+begin
+     Result:= Format('rgb(%d,%d,%d)',[Red(Color), Green(Color), Blue(Color)]);
+end;
+{$ELSE}
 var
    FPColor: TFPColor;
    ColorRef: TColor;
 begin
-     {$IFNDEF FPC}
      FPColor:= TColorToFPColor( Color);
      ColorRef:= FPColorToTColorRef( FPColor);
      Result:= Format('rgb(%d,%d,%d)',[Red(ColorRef), Green(ColorRef), Blue(ColorRef)]);
-     {$ENDIF}
 end;
+{$ENDIF}
 
 function TSVGDocument.rect( _eRoot: TDOMNode;
                             _R: TRect;

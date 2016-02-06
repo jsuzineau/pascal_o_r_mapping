@@ -28,21 +28,24 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="4">
+    <RequiredPackages Count="5">
       <Item1>
-        <PackageName Value="OD_DelphiReportEngine_Units"/>
+        <PackageName Value="OD_DelphiReportEngine_LCL"/>
       </Item1>
       <Item2>
-        <PackageName Value="FPCUnitTestRunner"/>
+        <PackageName Value="OD_DelphiReportEngine_Units"/>
       </Item2>
       <Item3>
-        <PackageName Value="LCL"/>
+        <PackageName Value="FPCUnitTestRunner"/>
       </Item3>
       <Item4>
-        <PackageName Value="FCL"/>
+        <PackageName Value="LCL"/>
       </Item4>
+      <Item5>
+        <PackageName Value="FCL"/>
+      </Item5>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="5">
       <Unit0>
         <Filename Value="fug_hDessinnateur_web.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -55,6 +58,15 @@
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uhDessinnateurWeb.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\upoolG_BECP.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\..\pascal_o_r_mapping\7_sources_externes\synapse\source\lib\blcksock.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit4>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -62,7 +74,7 @@
     <PathDelim Value="\"/>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\..\pascal_o_r_mapping\3_Data"/>
+      <OtherUnitFiles Value="..\..\pascal_o_r_mapping\3_Data;..\..\pascal_o_r_mapping\7_sources_externes\synapse\source\lib"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>

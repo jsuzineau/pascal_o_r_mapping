@@ -34,6 +34,7 @@ uses
     ubeClusterElement,
     ubeString,
     uhDessinnateurWeb,
+    upoolG_BECP,
  Classes, SysUtils, fpcunit, testutils, testregistry;
 
 type
@@ -63,7 +64,7 @@ end;
 
 procedure TTest_hDessinnateur_web.SetUp;
 begin
-     bs:= TbeString.Create( nil, 'Test', clAqua, bea_Gauche);
+     bs:= TbeString.Create( nil, 'Test', clYellow, bea_Gauche);
      bs.Cree_Cluster;
      bs.Cluster.Initialise;
      bs.Cluster.Colonne_LargeurMaxi:= 10;
@@ -76,10 +77,12 @@ begin
      hdW:= ThDessinnateurWeb.Create( 1, 'Test', nil);
      hdW.sg.Width := 100;
      hdW.sg.Height:= 100;
+     hdW.sg.DefaultColWidth := 25;
+     hdW.sg.DefaultRowHeight:= 25;
      hdW.sg.Resize( 4, 4);
 
-     hdW.Charge_Cell( bs, 1, 1);
-     hdW.Charge_Cell( bs, 2, 1);
+     hdW.Charge_Cell( ce1, 1, 1);
+     hdW.Charge_Cell( ce2, 2, 1);
 end;
 
 procedure TTest_hDessinnateur_web.TearDown;

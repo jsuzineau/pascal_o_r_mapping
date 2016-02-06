@@ -1,7 +1,7 @@
 object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
-  Left = 1769
+  Left = 210
   Height = 656
-  Top = 274
+  Top = 123
   Width = 1142
   Caption = 'fOpenDocument_DelphiReportEngine'
   ClientHeight = 656
@@ -14,6 +14,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
+  Position = poScreenCenter
   LCLVersion = '1.4.4.0'
   object pc: TPageControl
     Left = 0
@@ -257,97 +258,118 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
         ClientHeight = 533
         ClientWidth = 1134
         TabOrder = 1
-        object Label1: TLabel
-          Left = 6
-          Height = 13
-          Top = 6
-          Width = 58
-          Caption = 'NbColonnes'
-          ParentColor = False
-        end
-        object speODRE_Table_NbColonnes: TSpinEdit
-          Left = 70
-          Height = 21
-          Top = 5
-          Width = 69
-          MaxValue = 0
+        object Panel6: TPanel
+          Left = 1
+          Height = 175
+          Top = 1
+          Width = 1132
+          Align = alTop
+          ClientHeight = 175
+          ClientWidth = 1132
           TabOrder = 0
+          object Label1: TLabel
+            Left = 6
+            Height = 13
+            Top = 6
+            Width = 58
+            Caption = 'NbColonnes'
+            ParentColor = False
+          end
+          object speODRE_Table_NbColonnes: TSpinEdit
+            Left = 70
+            Height = 21
+            Top = 5
+            Width = 69
+            MaxValue = 0
+            TabOrder = 0
+          end
+          object mODRE_Table_Colonnes: TMemo
+            Left = 6
+            Height = 137
+            Top = 30
+            Width = 297
+            Lines.Strings = (
+              'mOD_Table_Colonnes'
+            )
+            TabOrder = 1
+          end
+          object bSupprimerColonne: TButton
+            Left = 358
+            Height = 25
+            Top = 6
+            Width = 104
+            Caption = 'SupprimerColonne'
+            OnClick = bSupprimerColonneClick
+            TabOrder = 2
+          end
+          object speSupprimerColonne_Numero: TSpinEdit
+            Left = 467
+            Height = 21
+            Top = 7
+            Width = 38
+            MaxValue = 0
+            TabOrder = 3
+          end
+          object bInsererColonne: TButton
+            Left = 362
+            Height = 21
+            Top = 41
+            Width = 143
+            Caption = 'Inserer Colonne'
+            OnClick = bInsererColonneClick
+            TabOrder = 4
+          end
+          object cg: TChampsGrid
+            Left = 616
+            Height = 159
+            Top = 8
+            Width = 200
+            ColCount = 0
+            FixedCols = 0
+            FixedRows = 0
+            RowCount = 0
+            TabOrder = 5
+            TitleFont.Color = clWindowText
+            TitleFont.Height = -11
+            TitleFont.Name = 'MS Sans Serif'
+            Persistance = True
+          end
+          object speInsererColonne_Numero: TSpinEdit
+            Left = 525
+            Height = 21
+            Top = 41
+            Width = 38
+            MaxValue = 0
+            TabOrder = 6
+          end
+          object bDecalerChampsApresColonne: TButton
+            Left = 360
+            Height = 25
+            Top = 80
+            Width = 156
+            Caption = 'DecalerChampsApresColonne'
+            OnClick = bDecalerChampsApresColonneClick
+            TabOrder = 7
+          end
+          object speDecalerChampsApresColonne_Numero: TSpinEdit
+            Left = 525
+            Height = 21
+            Top = 81
+            Width = 38
+            MaxValue = 0
+            TabOrder = 8
+          end
         end
-        object mODRE_Table_Colonnes: TMemo
-          Left = 6
-          Height = 137
-          Top = 30
-          Width = 297
-          Lines.Strings = (
-            'mOD_Table_Colonnes'
-          )
+        object sgODRE_Table: TStringGrid
+          Left = 1
+          Height = 356
+          Top = 176
+          Width = 1132
+          Align = alClient
           TabOrder = 1
-        end
-        object bSupprimerColonne: TButton
-          Left = 358
-          Height = 25
-          Top = 6
-          Width = 104
-          Caption = 'SupprimerColonne'
-          OnClick = bSupprimerColonneClick
-          TabOrder = 2
-        end
-        object speSupprimerColonne_Numero: TSpinEdit
-          Left = 467
-          Height = 21
-          Top = 7
-          Width = 38
-          MaxValue = 0
-          TabOrder = 3
-        end
-        object bInsererColonne: TButton
-          Left = 362
-          Height = 21
-          Top = 41
-          Width = 143
-          Caption = 'Inserer Colonne'
-          OnClick = bInsererColonneClick
-          TabOrder = 4
-        end
-        object cg: TChampsGrid
-          Left = 16
-          Height = 159
-          Top = 184
-          Width = 200
-          ColCount = 0
-          FixedCols = 0
-          FixedRows = 0
-          RowCount = 0
-          TabOrder = 8
           TitleFont.Color = clWindowText
           TitleFont.Height = -11
           TitleFont.Name = 'MS Sans Serif'
-          Persistance = True
-        end
-        object speInsererColonne_Numero: TSpinEdit
-          Left = 525
-          Height = 21
-          Top = 41
-          Width = 38
-          MaxValue = 0
-          TabOrder = 5
-        end
-        object bDecalerChampsApresColonne: TButton
-          Left = 360
-          Height = 25
-          Top = 80
-          Width = 156
-          Caption = 'DecalerChampsApresColonne'
-          OnClick = bDecalerChampsApresColonneClick
-          TabOrder = 6
-        end
-        object speDecalerChampsApresColonne_Numero: TSpinEdit
-          Left = 525
-          Height = 21
-          Top = 81
-          Width = 38
-          MaxValue = 0
-          TabOrder = 7
         end
       end
     end
@@ -573,7 +595,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
   object tShow: TTimer
     Enabled = False
     OnTimer = tShowTimer
-    left = 108
-    top = 136
+    left = 136
+    top = 164
   end
 end

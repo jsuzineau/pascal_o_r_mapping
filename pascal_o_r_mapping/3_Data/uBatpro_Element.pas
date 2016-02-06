@@ -26,19 +26,17 @@ unit uBatpro_Element;
 interface
 
 uses
-    {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+    {$IFNDEF FPC}
     JclSimpleXml,
     {$ELSE}
     DOM,
-    {$IFEND}
+    {$ENDIF}
     ubtString,
     uskString,
     uuStrings,
     uBatpro_StringList,
-    {$IFNDEF FPC}
     uWinUtils,
     uWindows,
-    {$ENDIF}
     uReels,
     uTraits,
     u_sys_,
@@ -58,11 +56,11 @@ uses
     ufBitmaps,
     {$IFEND}
 
-  {$IFNDEF FPC}
+  {$IFDEF WINDOWS_GRAPHIC}
   Windows, Controls, Menus, Types, ExtCtrls, Grids,Graphics,
   {$ENDIF}
   FPCanvas,
-  SysUtils, Classes, XMLRead, XMLWrite;
+  SysUtils, Classes, XMLRead, XMLWrite,math;
 
 const
      //nom de la classe TBatpro_Element
@@ -197,6 +195,7 @@ type
     procedure Ajuste_Largeur_Client( _ColonneDebut: Integer= 0);
     procedure Refresh;
     procedure MouseToCell(X,Y: Integer; var ACol,ARow: Longint); overload;
+    function  CellRect(_Col, _Row: Integer): TRect;
   //FixedCols
   private
     FFixedCols: Integer;
@@ -220,11 +219,19 @@ type
   public
     property RowCount: Integer read FRowCount write SetRowCount;
   //ColWidths
+  private
+    FColWidths: array of Integer;
+    function  GetColWidths(Index: Integer): Integer;
+    procedure SetColWidths(Index: Integer; _Value: Integer);
   public
-    ColWidths: array of Integer;
+    property ColWidths[Index: Integer]: Integer read GetColWidths write SetColWidths;
   //RowHeights
+  private
+    FRowHeights: array of Integer;
+    function  GetRowHeights(Index: Integer): Integer;
+    procedure SetRowHeights(Index: Integer; _Value: Integer);
   public
-    RowHeights: array of Integer;
+    property RowHeights[Index: Integer]: Integer read GetRowHeights write SetRowHeights;
   //ClientWidth
   public
     ClientWidth: Integer;
@@ -274,22 +281,28 @@ type
     property Batpro_Element[ _Col, _Row: Integer]: TBatpro_Element read GetBatpro_Element write SetBatpro_Element;
   end;
 
-{$IFDEF FPC}
+{$IFNDEF WINDOWS_GRAPHIC}
  TStringGrid= TStringGridWeb;
  TCanvas= TFPCustomCanvas;
  TPenStyle=TFPPenStyle;
  TBrushStyle=TFPBrushStyle;
  TFontStyle=(fsBold, fsItalic);
  TFontStyles= set of TFontStyle;
+
+ { TFont }
+
  TFont
  =
-  class
-    Name: String;
-    Size: Integer;
-    Color: TColor;
+  class(TFPCustomFont)
+  public
     Style: TFontStyles;
-    procedure Assign( _Source: TFont);
+    constructor Create;
+    procedure Assign( _Source: TPersistent); override;
   end;
+{$ELSE}
+ TFont= Graphics.TFont;
+ TFontStyle= Graphics.TFontStyle;
+ TFontStyles= Graphics.TFontStyles;
 {$ENDIF}
 
  { TDrawInfo }
@@ -305,14 +318,14 @@ type
     sg: TStringGrid;
     Contexte: Integer;
   //Draw
-  private
-    Canvas: TFPCustomCanvas;
+  public
+    Canvas: TCanvas;
   public
     Col, Row: Integer;
     Rect_Original: TRect; //pour échapper au bornage de la hauteur dans planning production
     Rect: TRect;
     Impression: Boolean;
-    procedure Init_Draw( _Canvas: TFPCustomCanvas; _Col, _Row: Integer; _Rect: TRect;
+    procedure Init_Draw( _Canvas: TCanvas; _Col, _Row: Integer; _Rect: TRect;
                          _Impression: Boolean);
   //Cell
   public
@@ -539,7 +552,7 @@ type
 
 {fin de l'unité uTraits déplacée}
 
-  {$IFDEF FPC}
+  {$IFNDEF WINDOWS_GRAPHIC}
 
   { TPopupMenu }
 
@@ -558,6 +571,10 @@ type
    end;
 
   TMouseButton=TObject;
+  {$ELSE}
+  TPopupMenu= Menus.TPopupMenu;
+  TMenuItem=Menus.TMenuItem;
+  TMouseButton=Controls.TMouseButton;
   {$ENDIF}
   TTypeJalon = (
                tj_Losange, tj_LosangePlein,
@@ -1328,12 +1345,16 @@ begin
 end;
 
 procedure TStringGridWeb.Resize( _ColCount: Integer= -1; _RowCount: Integer= -1);
+var
+   I: Integer;
 begin
      if _ColCount <> -1 then FColCount:= _ColCount;
      if _RowCount <> -1 then FRowCount:= _RowCount;
 
-     SetLength( ColWidths , ColCount);
-     SetLength( RowHeights, RowCount);
+     SetLength( FColWidths , ColCount);
+     SetLength( FRowHeights, RowCount);
+     for I:= Low(FColWidths) to High(FColWidths) do FColWidths[I]:= -1;
+     for I:= Low(FRowHeights) to High(FRowHeights) do FRowHeights[I]:= -1;
 
      SetLength( FObjects, ColCount, RowCount);
      SetLength( FCells  , ColCount, RowCount);
@@ -1741,6 +1762,17 @@ begin
 
 end;
 
+function TStringGridWeb.CellRect( _Col, _Row: Integer): TRect;
+var
+   I: Integer;
+   X, Y: Integer;
+begin
+     Result:= Rect( 0,0,ColWidths[_Col],RowHeights[_Row]);
+     X:= 0;for I:= 0 to _Col-1 do Inc(X, ColWidths [I]);
+     Y:= 0;for I:= 0 to _Row-1 do Inc(Y, RowHeights[I]);
+     OffsetRect( Result, X, Y);
+end;
+
 
 procedure TStringGridWeb.SetColCount( _Value: Integer);
 begin
@@ -1756,6 +1788,32 @@ begin
 
      FRowCount:=_Value;
      Resize;
+end;
+
+function TStringGridWeb.GetColWidths(Index: Integer): Integer;
+begin
+     Result:= FColWidths[Index];
+     if -1 = Result
+     then
+         Result:= DefaultColWidth;
+end;
+
+procedure TStringGridWeb.SetColWidths(Index: Integer; _Value: Integer);
+begin
+     FColWidths[Index]:= _Value;
+end;
+
+function TStringGridWeb.GetRowHeights(Index: Integer): Integer;
+begin
+     Result:= FRowHeights[Index];
+     if -1 = Result
+     then
+         Result:= DefaultRowHeight;
+end;
+
+procedure TStringGridWeb.SetRowHeights(Index: Integer; _Value: Integer);
+begin
+     FColWidths[Index]:= _Value;
 end;
 
 function TStringGridWeb.GetCell(_Col, _Row: Integer): String;
@@ -1838,7 +1896,7 @@ begin
      sg:= _sg;
 end;
 
-procedure TDrawInfo.Init_Draw( _Canvas: TFPCustomCanvas; _Col, _Row: Integer;
+procedure TDrawInfo.Init_Draw( _Canvas: TCanvas; _Col, _Row: Integer;
                                _Rect: TRect; _Impression: Boolean);
 begin
     Canvas    := _Canvas     ;
@@ -2502,18 +2560,54 @@ begin
 
 end;
 
-{$IFDEF FPC}
+{$IFNDEF WINDOWS_GRAPHIC}
 { TFont }
 
-procedure TFont.Assign( _Source: TFont);
+constructor TFont.Create;
 begin
-     if _Source= nil then exit;
-
-     Name:= _Source.Name;
-     Size:= _Source.Size;
+     inherited;
+     Name:='Arial';
+     Size:= 7;
 end;
 
+procedure TFont.Assign(_Source: TPersistent);
+var
+   F: TFPCustomFont;
+begin
+     //inherited Assign(_Source);
+     if Affecte_( F, TFPCustomFont, _Source) then exit;
+
+     Name:= F.Name;
+     size:= F.Size;
+
+end;
+
+function LargeurTexte( F: TFont; S: String): Integer;
+begin
+     Result:= Length( S)*F.Size;
+end;
+
+function LineHeight( F: TFont): Integer;
+begin
+     Result:= F.Size;
+end;
+
+function HauteurTexte( F: TFont; S: String; Largeur: Integer): Integer;
+var
+   LH: Integer;
+   L: Integer;
+   NbLignes: Integer;
+begin
+     LH:= LineHeight( F);
+     Result:= LH;
+     if Largeur = 0 then exit;
+
+     L:= LargeurTexte( F, S);
+     NbLignes:= ceil( L/Largeur);
+     Result:= NbLignes*LH;
+end;
 {$ENDIF}
+
 {fin de l'unité uDrawInfo déplacée}
 {début de l'unité uTraits déplacée}
 function Ligne_from_sl( sl: TStringList; Index: Integer): TLigne;
@@ -2819,7 +2913,7 @@ begin
      _Classe_from_sl_sCle( Result, TBatpro_Element, sl, sCle);
 end;
 
-{$IFDEF FPC}
+{$IFNDEF WINDOWS_GRAPHIC}
 { TMenuItem }
 
 constructor TMenuItem.create(_object: TObject);
@@ -2828,7 +2922,7 @@ begin
 end;
 {$ENDIF}
 
-{$IFDEF FPC}
+{$IFNDEF WINDOWS_GRAPHIC}
 { TPopupMenu }
 
 constructor TPopupMenu.create(_object: TObject);
@@ -3259,13 +3353,8 @@ begin
      OrientationTexte_:= OrientationTexte( DrawInfo);
 
      OldFont:= TFont.Create;
-     {$IFDEF WINDOWS_GRAPHIC}
-     OldFont.Assign( DrawInfo.Canvas.Font);
-     DrawInfo.Canvas.Font.Assign( Font);
-     {$ELSE}
-     Font.Name:='Arial';
-     Font.Size:= 7;
-     {$ENDIF}
+     //OldFont.Assign( DrawInfo.Canvas.Font);
+     //DrawInfo.Canvas.Font.Assign( Font);
        R:= DrawInfo.Rect;
        //InflateRect( R, -Batpro_Element_Marge, -Batpro_Element_Marge);
        TextW:= Cell_Width_Interne ( DrawInfo, Font, Text);
@@ -3278,7 +3367,6 @@ begin
        //CALCRECT:= Rectangle_Aligne( R, Alignement, R.Right-R.Left, TextH);
        CALCRECT:= Rect_Interne_from_Externe( DrawInfo, CALCRECT);
 
-       CALCRECT:= Rect( 0,0,100,10);
        if DrawInfo.SVG_Drawing
        then
            DrawInfo.text_rotate( CALCRECT.Left,
@@ -3692,8 +3780,8 @@ end;
 
 function TBatpro_Element.ClassFont( DrawInfo: TDrawInfo): TFont;
 begin
-     {$IFNDEF FPC}
      Result:= ClassParams.ContexteFont[ DrawInfo.Contexte];
+     {
      if       (Aggrandir_a_l_impression or (DrawInfo.Col = 0))
           and (DrawInfo.Impression)
      then
@@ -3707,7 +3795,8 @@ begin
                Size
              * Impression_Font_Size_Multiplier.Valeur[ DrawInfo.Contexte];
          end;
-     {$ENDIF}
+     }
+
 end;
 
 function TBatpro_Element.Has_ClassParams: Boolean;
@@ -3753,7 +3842,6 @@ function TBatpro_Element.Cell_Height_Interne( DrawInfo: TDrawInfo;
                                               Texte: String;
                                               Cell_Width: Integer): Integer;
 begin
-	 {$IFNDEF FPC}
      if OrientationTexte( DrawInfo) = 900
      then
          Result:=   MulDiv( LargeurTexte( F, Texte), 105, 100)
@@ -3764,12 +3852,10 @@ begin
      if Assigned( Cluster)
      then
          Cluster.Check_HauteurTotale( Result);
-     {$ENDIF}
 end;
 
 function TBatpro_Element.MargeY( DrawInfo: TDrawInfo): Integer;
 begin
-     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
      if DrawInfo.Fixe
      then
          Result:= CYEDGE
@@ -3777,7 +3863,6 @@ begin
          Result:= CYBORDER;
 
      Result:= Result + Batpro_Element_Marge;
-     {$IFEND}
 end;
 
 function TBatpro_Element.Height_Externe_from_Interne( DrawInfo: TDrawInfo; Valeur: Integer): Integer;
@@ -3805,7 +3890,6 @@ function TBatpro_Element.Cell_Width_Interne( DrawInfo: TDrawInfo;
                                              F: TFont;
                                              Texte: String): Integer;
 begin
-     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
      if OrientationTexte( DrawInfo) = 900
      then
          Result:= MulDiv( LineHeight( F), 105, 100)
@@ -3814,12 +3898,10 @@ begin
      if Assigned( Cluster)
      then
          Cluster.Check_LargeurTotale( Result);
-     {$IFEND}
 end;
 
 function TBatpro_Element.MargeX( DrawInfo: TDrawInfo): Integer;
 begin
-     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
      if DrawInfo.Fixe
      then
          Result:= CXEDGE
@@ -3827,7 +3909,6 @@ begin
          Result:= CXBORDER;
 
      Result:= Result + Batpro_Element_Marge;
-     {$IFEND}
 end;
 
 function TBatpro_Element.Width_Externe_from_Interne( DrawInfo: TDrawInfo;Valeur: Integer): Integer;
