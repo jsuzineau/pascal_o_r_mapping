@@ -89,9 +89,9 @@ procedure ThdODRE_Table._from_pool;
              begin
              if iDC.not_Suivant( blDC) then continue;
 
-             for iCol:= blDC.Debut to blDC.Fin
+             for iCol:= blDC.DC.Debut to blDC.DC.Fin
              do
-               Charge_Cell( blDC, iCol, iRow);
+               Charge_Cell( blDC, 1+iCol, iRow);
              end;
       end;
       procedure Charge_Apres;
@@ -106,22 +106,32 @@ procedure ThdODRE_Table._from_pool;
              begin
              if iDC.not_Suivant( blDC) then continue;
 
-             for iCol:= blDC.Debut to blDC.Fin
+             for iCol:= blDC.DC.Debut to blDC.DC.Fin
              do
-               Charge_Cell( blDC, iCol, iRow);
+               Charge_Cell( blDC, 1+iCol, iRow);
              end;
       end;
    begin
+        iRow:= 1;
         I:= blODRE_Table.haOD_Dataset_Columns.Iterateur;
-        iRow:= 0;
         while I.Continuer
         do
           begin
           if I.not_Suivant( blDCs) then continue;
 
+          blDCS.haAvant.Charge;
+          blDCs.haApres.Charge;
+
           Charge_Cell( blDCs, 0, iRow);
           Charge_Avant;
           Inc( iRow);
+          end;
+
+        I:= blODRE_Table.haOD_Dataset_Columns.Iterateur_Decroissant;
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( blDCs) then continue;
 
           Charge_Cell( blDCs, 0, iRow);
           Charge_Apres;
@@ -131,7 +141,12 @@ procedure ThdODRE_Table._from_pool;
 begin
      inherited _from_pool;
 
-     sg.ColCount:= blODRE_Table.haOD_Column.Count;
+     //blODRE_Table.haOD_Column.Charge;
+     //blODRE_Table.haOD_Dataset_Columns.Charge;
+
+     sg.FixedCols:= 0;
+     sg.FixedRows:= 0;
+     sg.ColCount:= 1+blODRE_Table.haOD_Column.Count;
      sg.RowCount
      :=
          1  //Titres de colonnes
@@ -139,7 +154,7 @@ begin
 
      Charge_OD_Column;
      Charge_OD_Dataset_Columns;
-     Clusterise;
+     //Clusterise;
 end;
 
 end.

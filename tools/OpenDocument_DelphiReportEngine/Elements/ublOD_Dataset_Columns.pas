@@ -54,6 +54,7 @@ type
   //Chargement de tous les détails
   public
     function DCa: TOD_Dataset_Column_array; virtual;
+    function Composition: String; virtual;
     procedure Charge; override;
   //Création d'itérateur
   protected
@@ -70,6 +71,7 @@ type
   //Chargement de tous les détails
   public
     function DCa: TOD_Dataset_Column_array; override;
+    function Composition: String; override;
   end;
 
  { ThaOD_Dataset_Columns__OD_Dataset_Column_Apres }
@@ -79,6 +81,7 @@ type
   //Chargement de tous les détails
   public
     function DCa: TOD_Dataset_Column_array; override;
+    function Composition: String; override;
   end;
 
  { TblOD_Dataset_Columns }
@@ -168,6 +171,17 @@ begin
      Result:= blParent.DCs.FAvant;
 end;
 
+function ThaOD_Dataset_Columns__OD_Dataset_Column_Avant.Composition: String;
+var
+   blParent: TblOD_Dataset_Columns;
+begin
+     Result:= '';
+     if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
+
+     Result:= blParent.DCs.Avant_Composition;
+end;
+
+
 { ThaOD_Dataset_Columns__OD_Dataset_Column_Apres }
 
 function ThaOD_Dataset_Columns__OD_Dataset_Column_Apres.DCa: TOD_Dataset_Column_array;
@@ -179,6 +193,17 @@ begin
 
      Result:= blParent.DCs.FAvant;
 end;
+
+function ThaOD_Dataset_Columns__OD_Dataset_Column_Apres.Composition: String;
+var
+   blParent: TblOD_Dataset_Columns;
+begin
+     Result:= '';
+     if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
+
+     Result:= blParent.DCs.Apres_Composition;
+end;
+
 
 { TIterateur_OD_Dataset_Columns }
 
@@ -250,6 +275,16 @@ begin
      Result:= blParent.DCs.FAvant;
 end;
 
+function ThaOD_Dataset_Columns__OD_Dataset_Column.Composition: String;
+var
+   blParent: TblOD_Dataset_Columns;
+begin
+     Result:= '';
+     if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
+
+     Result:= blParent.DCs.Avant_Composition;
+end;
+
 procedure ThaOD_Dataset_Columns__OD_Dataset_Column.Charge;
 var
    blParent: TblOD_Dataset_Columns;
@@ -263,8 +298,11 @@ begin
      for DC in DCa
      do
        begin
+       if not FieldName_in_Composition( DC.FieldName, Composition) then continue;
+
        bl:= TblOD_Dataset_Column.Create( sl, nil, nil);
        bl.Charge( DC);
+       Ajoute( bl);
        end;
 end;
 
@@ -303,7 +341,7 @@ begin
      DCs:= _DCs;
 
      D.Name:= Nom;
-     Ajoute_String ( Nom, 'Nom'  );
+     cLibelle:= Ajoute_String ( Nom, 'Nom'  );
 end;
 
 class function TblOD_Dataset_Columns.sCle_from_( _Nom: String): String;

@@ -394,7 +394,7 @@ begin
      uClean_SGBD_OPN_Requeteur( _SQL);
 end;
 
-procedure Finalize;
+procedure uClean_Finalize;
 var
 //   I,
    LC: Integer;
@@ -418,16 +418,16 @@ begin
      Free_nil( Liste);
 end;
 
-procedure Initialize;
+procedure uClean_Initialize;
 begin
      Liste:= TList.Create;
      Noms := TStringList.Create;
 end;
 
 initialization
-              Initialize;
+              uClean_Initialize;
 finalization
-              Finalize;
+              uClean_Finalize;
 end.
 
 

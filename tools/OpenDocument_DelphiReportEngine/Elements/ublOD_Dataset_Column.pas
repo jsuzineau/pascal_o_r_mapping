@@ -155,7 +155,7 @@ procedure TblOD_Dataset_Column.Charge( _DC: TOD_Dataset_Column);
 begin
      DC:= _DC;
 
-     Ajoute_String ( DC.FieldName, 'FieldName');
+     cLibelle:= Ajoute_String ( DC.FieldName, 'FieldName');
      Ajoute_Integer( DC.Debut    , 'Debut'    );
      Ajoute_Integer( DC.Fin      , 'Fin'      );
 end;

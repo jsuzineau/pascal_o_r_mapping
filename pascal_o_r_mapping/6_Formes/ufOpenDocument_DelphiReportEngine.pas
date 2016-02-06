@@ -796,7 +796,7 @@ procedure TfOpenDocument_DelphiReportEngine.From_Document;
 var
    sl: TOOoStringList;
 
-   Ligne, Nom, Valeur: String;
+   sLigne, Ligne, Nom, Valeur: String;
    Nom_ODRE_Table: String;
    function Is_NbColonnes: Boolean;
    const
@@ -830,6 +830,7 @@ var
       bl: TblODRE_Table;
       Prefixe: String;
       iAvant_Composition: Integer;
+      iPos: Integer;
    begin
         I:= slT.Iterateur;
         while I.Continuer
@@ -840,9 +841,16 @@ var
           Prefixe:= bl.Nom+'_';
           if 1 <> Pos( Prefixe, Nom) then continue;
 
+          {
+          if 0<pos('avant', lowercase(Nom))
+          then
+              ShowMessage( 'avant');
+          }
           Delete( Nom, 1, Length(Prefixe));
-          iAvant_Composition:= Length( Nom)-lAvant_Composition;
-          if iAvant_Composition <> Pos(sAvant_Composition, Nom) then continue;
+          iAvant_Composition:= Length( Nom)-lAvant_Composition+1;
+          if iAvant_Composition <= 0    then continue;
+          iPos:= Pos(sAvant_Composition, lowercase(Nom));
+          if iAvant_Composition <> iPos then continue;
 
           Delete( Nom, iAvant_Composition, lAvant_Composition);
           bl.haOD_Dataset_Columns.AddDataset( Nom, OD_TextTableContext);
@@ -868,8 +876,8 @@ var
            Delete( Nom, 1, lAvant);
 
            DCs:= bl.DCs;
-           NomAvant:= DCs.Nom_Avant( '_'+_blODRE_Table.Nom+'_');
-           DCs.Avant[ Nom].from_Doc( NomAvant, OD_TextTableContext);
+           NomAvant:= DCs.Nom_Avant( '_'+_blODRE_Table.Nom+'_'+Prefixe);
+           DCs.Avant[ Nom].from_Doc( NomAvant+'_', OD_TextTableContext);
       end;
       function not_Traite_Apres: Boolean;
       const
@@ -886,8 +894,8 @@ var
            Delete( Nom, 1, lApres);
 
            DCs:= bl.DCs;
-           NomApres:= DCs.Nom_Apres( '_'+_blODRE_Table.Nom+'_');
-           DCs.Apres[ Nom].from_Doc( NomApres, OD_TextTableContext);
+           NomApres:= DCs.Nom_Apres( '_'+_blODRE_Table.Nom+'_'+Prefixe);
+           DCs.Apres[ Nom].from_Doc( NomApres+'_', OD_TextTableContext);
       end;
    begin
         I:= _blODRE_Table.haOD_Dataset_Columns.Iterateur;
@@ -910,13 +918,14 @@ var
    end;
    procedure Traite_Datasets;//détection des champs dans les datasets
    const
-        sDebut='_Debut';
+        sDebut='_debut';
         lDebut=Length(sDebut);
    var
       I: TIterateur_ODRE_Table;
       bl: TblODRE_Table;
       Prefixe: String;
       iDebut: Integer;
+      iPos: Integer;
    begin
         I:= slT.Iterateur;
         while I.Continuer
@@ -928,14 +937,16 @@ var
           if 1 <> Pos( Prefixe, Nom) then continue;
 
           Delete( Nom, 1, Length(Prefixe));
-          iDebut:= Length( Nom)-lDebut;
-          if iDebut <> Pos(sDebut, Nom) then continue;
+          iDebut:= Length( Nom)-lDebut+1;
+          iPos:= Pos(sDebut, lowercase(Nom));
+          if iDebut <> iPos then continue;
 
           Delete( Nom, iDebut, lDebut);
           Traite_Dataset( bl);
           end;
    end;
 begin
+     OOoChrono.Stop('Début From_Document');
      Affiche_XMLs;
 
      vle.Strings.Clear;
@@ -946,11 +957,14 @@ begin
 
      sl:= TOOoStringList.Create;
      try
+        OOoChrono.Stop('avant Get_Fields');
         Document.Get_Fields( sl);
+        OOoChrono.Stop('aprés Get_Fields');
 
-        for Ligne in sl
+        for sLigne in sl
         do
           begin
+          Ligne:= sLigne;
           Nom:= StrToK( '=', Ligne);
           Valeur:= Ligne;
           vle.Values[Nom]:= Valeur;
@@ -966,9 +980,11 @@ begin
               Ajoute_Valeur_dans_tvi( Nom, Valeur);
           end;
 
-        for Ligne in sl
+        OOoChrono.Stop('avant boucle Traite_Tables');
+        for sLigne in sl
         do
           begin
+          Ligne:= sLigne;
           if ''  =  Ligne    then continue;
           if '_' <> Ligne[1] then continue;
 
@@ -978,9 +994,11 @@ begin
           Traite_Tables;
           end;
 
-        for Ligne in sl
+        OOoChrono.Stop('avant boucle Traite_Datasets');
+        for sLigne in sl
         do
           begin
+          Ligne:= sLigne;
           if ''  =  Ligne    then continue;
           if '_' <> Ligne[1] then continue;
 

@@ -150,7 +150,7 @@ procedure TblOD_Column.Charge( _C: TOD_Column);
 begin
      C:= _C;
 
-     Ajoute_String ( C.Titre  , 'Titre'  );
+     cLibelle:=Ajoute_String ( C.Titre  , 'Titre'  );
      Ajoute_Integer( C.Largeur, 'Largeur');
 end;
 

@@ -118,6 +118,8 @@ end;
 procedure Charge_Cell   ( DrawInfo: TDrawInfo; be:TBatpro_Element;
                           Colonne,Ligne:Integer);
 begin
+     if (Colonne<0)or(DrawInfo.sg.ColCount <= Colonne) then exit;
+     if (Ligne  <0)or(DrawInfo.sg.RowCount <= Ligne  ) then exit;
      if be = nil
      then
          begin

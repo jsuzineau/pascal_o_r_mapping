@@ -242,6 +242,7 @@ begin
        begin
        bl:= TblOD_Column.Create( sl, nil, nil);
        bl.Charge( C);
+       Ajoute( bl);
        end;
 end;
 
