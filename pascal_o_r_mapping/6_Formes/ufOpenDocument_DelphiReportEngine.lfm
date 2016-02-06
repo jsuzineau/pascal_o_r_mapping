@@ -1,5 +1,5 @@
 object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
-  Left = 210
+  Left = 318
   Height = 656
   Top = 123
   Width = 1142
@@ -21,9 +21,9 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
     Height = 656
     Top = 0
     Width = 1142
-    ActivePage = tsODRE_Table
+    ActivePage = tsTV
     Align = alClient
-    TabIndex = 4
+    TabIndex = 3
     TabOrder = 0
     object tsContent: TTabSheet
       Caption = 'Content.xml'
@@ -56,17 +56,17 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
     end
     object tsTV_Insertion: TTabSheet
       Caption = 'Insertion de champs dans le modèle'
-      ClientHeight = 628
-      ClientWidth = 1138
+      ClientHeight = 630
+      ClientWidth = 1134
       ImageIndex = 2
       object Panel3: TPanel
         Left = 0
         Height = 41
-        Top = 553
-        Width = 1126
+        Top = 589
+        Width = 1134
         Align = alBottom
         ClientHeight = 41
-        ClientWidth = 1126
+        ClientWidth = 1134
         TabOrder = 0
         object bInserer: TButton
           Left = 6
@@ -79,49 +79,43 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
         end
         object cbOptimiserInsertion: TCheckBox
           Left = 182
-          Height = 17
+          Height = 19
           Top = 10
-          Width = 65
+          Width = 63
           Caption = 'Optimiser'
           Checked = True
           State = cbChecked
           TabOrder = 1
         end
       end
-      object tvi: TTreeView
+      object vsti: TVirtualStringTree
         Left = 0
-        Height = 553
+        Height = 589
         Top = 0
-        Width = 1126
+        Width = 1134
         Align = alClient
-        Indent = 19
+        DefaultText = 'Node'
+        Header.AutoSizeIndex = 0
+        Header.Columns = <>
+        Header.DefaultHeight = 17
+        Header.MainColumn = -1
         TabOrder = 1
       end
     end
     object tsTV: TTabSheet
       Caption = 'Modification de valeurs'
-      ClientHeight = 628
-      ClientWidth = 1138
+      ClientHeight = 630
+      ClientWidth = 1134
       ImageIndex = 1
-      object tv: TTreeView
-        Left = 0
-        Height = 522
-        Top = 0
-        Width = 1126
-        Align = alClient
-        Indent = 19
-        TabOrder = 0
-        OnEditing = tvEditing
-      end
       object Panel1: TPanel
         Left = 0
         Height = 72
-        Top = 522
-        Width = 1126
+        Top = 558
+        Width = 1134
         Align = alBottom
         ClientHeight = 72
-        ClientWidth = 1126
-        TabOrder = 1
+        ClientWidth = 1134
+        TabOrder = 0
         object bArborescence_from_Natif: TButton
           Left = 6
           Height = 25
@@ -231,6 +225,20 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
           OnClick = bChronoClick
           TabOrder = 5
         end
+      end
+      object vst: TVirtualStringTree
+        Left = 0
+        Height = 558
+        Top = 0
+        Width = 1134
+        Align = alClient
+        DefaultText = 'Node'
+        Header.AutoSizeIndex = 0
+        Header.Columns = <>
+        Header.DefaultHeight = 17
+        Header.MainColumn = -1
+        TabOrder = 1
+        OnEditing = vstEditing
       end
     end
     object tsODRE_Table: TTabSheet

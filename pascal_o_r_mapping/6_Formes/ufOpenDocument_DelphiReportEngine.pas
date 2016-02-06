@@ -39,6 +39,7 @@ uses
     uOOoStringList,
     uOpenDocument,
     uhdODRE_Table,
+    uhVST_ODR,
     uVide,
     Zipper ,
     DOM,
@@ -50,10 +51,9 @@ uses
 
   LCLIntf, LMessages, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, ValEdit, Registry,
-  Spin,LCLType,XMLWrite,XMLRead,StrUtils;
+  Spin,LCLType, VirtualTrees,XMLWrite,XMLRead,StrUtils;
 
 type
-
  { TfOpenDocument_DelphiReportEngine }
 
  TfOpenDocument_DelphiReportEngine
@@ -79,9 +79,10 @@ type
     tvContent: TTreeView;
     tvStyles: TTreeView;
     tsVLE: TTabSheet;
+    vst: TVirtualStringTree;
+    vsti: TVirtualStringTree;
     vle: TValueListEditor;
     tsTV: TTabSheet;
-    tv: TTreeView;
     Panel1: TPanel;
     bArborescence_from_Natif: TButton;
     bToutOuvrir: TButton;
@@ -93,7 +94,6 @@ type
     bImporter: TButton;
     tsTV_Insertion: TTabSheet;
     Panel3: TPanel;
-    tvi: TTreeView;
     bInserer: TButton;
     cbOptimiserInsertion: TCheckBox;
     sd: TSaveDialog;
@@ -128,7 +128,6 @@ type
     gbBranche_Insertion: TGroupBox;
     bSupprimer_Insertion: TButton;
     procedure FormDestroy(Sender: TObject);
-    procedure tvEditing(Sender: TObject; Node: TTreeNode; var AllowEdit: Boolean);
     procedure bDupliquerClick(Sender: TObject);
     procedure bArborescence_from_NatifClick(Sender: TObject);
     procedure bFrom_DocumentClick(Sender: TObject);
@@ -154,10 +153,11 @@ type
     procedure bInsererColonneClick(Sender: TObject);
     procedure bDecalerChampsApresColonneClick(Sender: TObject);
     procedure bSupprimer_InsertionClick(Sender: TObject);
+    procedure vstEditing(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex; var Allowed: Boolean);
   //Optimisation de l'arborescence
   private
-   procedure From_m(var _xml: TXMLDocument; _m: TMemo);
-    procedure Optimise( _tns: TTreeNodes);
+    procedure From_m(var _xml: TXMLDocument; _m: TMemo);
+    //procedure Optimise( _tns: TTreeNodes);
     procedure To_m(_xml: TXMLDocument; _m: TMemo);
   //Attributs et méthodes privés généraux
   private
@@ -167,19 +167,14 @@ type
     __sl: TOOoStringList;
     __sli: TOOoStringList;
     slSuppressions: TOOoStringList;
-    tns, tnsi: TTreeNodes;
     procedure Ajoute_Valeur_dans_tv( sKey, sValue: String);
     procedure Ajoute_Valeur_dans_tvi( sKey, sValue: String);
-    function Cle_from_tn( tn: TTreeNode): String;
-    function Racine_from_tn( tn: TTreeNode): String;
-    function Name_from_Text( tn: TTreeNode): String;
-    function HasValue( tn: TTreeNode): Boolean;
-    procedure Copie_Sous_branche( tn: TTreeNode; Source, Cible: String);
-    procedure Supprime_Sous_branche( tn: TTreeNode; Selection: String);
-    procedure Supprime_Sous_branche_Insertion( tn: TTreeNode; Selection: String);
+    procedure Copie_Sous_branche( tn: PVirtualNode; Source, Cible: String);
+    procedure Supprime_Sous_branche( tn: PVirtualNode; Selection: String);
+    procedure Supprime_Sous_branche_Insertion( tn: PVirtualNode; Selection: String);
     procedure Affiche_XMLs;
     procedure From_Document;
-    procedure Exporte_Sous_branche(tn: TTreeNode; Source: String; sl: TOOoStringList);
+    procedure Exporte_Sous_branche(tn: PVirtualNode; Source: String; sl: TOOoStringList);
   //Gestion de l'ouverture
   public
     procedure Ouvre( _NomDocument: String);
@@ -189,7 +184,7 @@ type
     function Execute( _NomDocument: String): Boolean;
   //Composition du Treeview
   private
-    procedure tv_Add( _tv: TTreeView; _e: TDOMNode; _Parent: TTreeNode = nil);
+    procedure tv_Add( _tv: TTreeView; _e: TDOMNode; _Parent: PVirtualNode = nil);
   //Surcharge de la méthode de gestion des messages
   protected
     procedure WndProc(var Message: TMessage); override;
@@ -202,6 +197,10 @@ type
    slT: TslODRE_Table;
    blODRE_Table: TblODRE_Table;
    hd: ThdODRE_Table;
+  //Gestion des VST
+  public
+    hvst : ThVST_ODR;
+    hvsti: ThVST_ODR;
   end;
 
 var
@@ -239,15 +238,19 @@ begin
      __sl            := TOOoStringList.Create;
      __sli           := TOOoStringList.Create;
      slSuppressions:= TOOoStringList.Create;
-     tns := tv.Items;
-     tnsi:= tvi.Items;
+
      Embedded:= False;
      slT:= TslODRE_Table.Create( Classname+'.slT');
      hd:= ThdODRE_Table.Create( 1, sgODRE_Table, 'hdODRE_Table');
+
+     hvst := ThVST_ODR.Create( vst );
+     hvsti:= ThVST_ODR.Create( vsti);
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.FormDestroy(Sender: TObject);
 begin
+     Free_nil( hvst );
+     Free_nil( hvsti);
      Free_nil( hd);
      Detruit_StringList( slT);
      FreeAndNil( OD_TextTableContext);
@@ -318,7 +321,7 @@ end;
 procedure TfOpenDocument_DelphiReportEngine.Ajoute_Valeur_dans_tv( sKey, sValue: String);
 var
    sTreePath: String;
-   procedure Recursif( Racine: String; Parent: TTreeNode);
+   procedure Recursif( Racine: String; Parent: PVirtualNode);
    var
       s, sCle: String;
       i: Integer;
@@ -342,15 +345,17 @@ var
         if i = -1
         then
             begin
-            Parent:= tns.AddChild( Parent, s);
-            __sl.AddObject( sCle, Parent);
+            Parent:= hvst.Ajoute_Ligne( Parent, s, sValue);
+            __sl.AddObject( sCle, TObject(Parent));
             end
         else
-            Parent:= __sl.Objects[i] as TTreeNode;
+            Parent:= PVirtualNode( __sl.Objects[i]);
 
         if sTreePath = ''
         then //cas terminal
-            Parent.Text:= s + '=' + sValue
+            begin
+
+            end
         else
             Recursif( sCle, Parent);
    end;
@@ -362,7 +367,7 @@ end;
 procedure TfOpenDocument_DelphiReportEngine.Ajoute_Valeur_dans_tvi( sKey, sValue: String);
 var
    sTreePath: String;
-   procedure Recursif( Racine: String; Parent: TTreeNode);
+   procedure Recursif( Racine: String; Parent: PVirtualNode);
    var
       s, sCle: String;
       i: Integer;
@@ -386,15 +391,16 @@ var
         if i = -1
         then
             begin
-            Parent:= tnsi.AddChild( Parent, s);
-            __sli.AddObject( sCle, Parent);
+            Parent:= hvsti.Ajoute_Ligne( Parent, s);
+            __sli.AddObject( sCle, TObject(Parent));
             end
         else
-            Parent:= __sli.Objects[i] as TTreeNode;
+            Parent:= PVirtualNode( __sli.Objects[i]);
 
         if sTreePath = ''
         then //cas terminal
-            Parent.Text:= s
+            begin
+            end
         else
             Recursif( sCle, Parent);
    end;
@@ -403,19 +409,20 @@ begin
      Recursif( '', nil);
 end;
 
+{
 procedure TfOpenDocument_DelphiReportEngine.Optimise( _tns: TTreeNodes);
 var
    I: Integer;
-   TreeNode: TTreeNode;
-     procedure T( _Root: TTreeNode);
+   TreeNode: PVirtualNode;
+     procedure T( _Root: PVirtualNode);
      var
         Cle_Root: String;
         iRoot: Integer;
-        tv_root_node: TTreeNode;
+        tv_root_node: PVirtualNode;
         ok_singlechild: Boolean;
-        procedure Move_Child( _Parent: TTreeNode);
+        procedure Move_Child( _Parent: PVirtualNode);
         var
-           tn, fish: TTreeNode;
+           tn, fish: PVirtualNode;
         begin
              tn:= _Parent.getFirstChild;
              while Assigned( tn)
@@ -430,7 +437,7 @@ var
         var
            iRoot: Integer;
 
-           SingleChild: TTreeNode;
+           SingleChild: PVirtualNode;
            SingleChild_Text: String;
            iSingleChild: Integer;
            S: String;
@@ -456,7 +463,7 @@ var
         end;
         procedure Recursive;
         var
-           tn: TTreeNode;
+           tn: PVirtualNode;
         begin
              tn:= _Root.getFirstChild;
              while Assigned( tn)
@@ -479,11 +486,11 @@ var
               if ok_singlechild
               then
                   begin
-                  tv_root_node:= TTreeNode( __sl.Objects[iRoot]);
+                  tv_root_node:= PVirtualNode( __sl.Objects[iRoot]);
                   ok_singlechild
                   :=
                         Assigned( tv_root_node)
-                    and (tv_root_node is TTreeNode);
+                    and (tv_root_node is PVirtualNode);
                   if ok_singlechild
                   then
                       ok_singlechild:= 0 = Pos( '=', tv_root_node.Text);
@@ -513,7 +520,7 @@ begin
        Inc( I);
        end;
 end;
-
+}
 function TfOpenDocument_DelphiReportEngine.Execute( _NomDocument: String): Boolean;
 begin
      Embedded:= True;
@@ -525,88 +532,41 @@ begin
             end;
 end;
 
-function TfOpenDocument_DelphiReportEngine.Name_from_Text( tn: TTreeNode): String;
-begin
-     if tn = nil
-     then
-         Result:= ''
-     else
-         begin
-         Result:= tn.Text;
-         Result:= StrTok( '=', Result);
-         end;
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.tvEditing(Sender: TObject;
-  Node: TTreeNode; var AllowEdit: Boolean);
+procedure TfOpenDocument_DelphiReportEngine.vstEditing(
+ Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex;
+ var Allowed: Boolean);
 var
    I, iRow: Integer;
    sKey, sValue: String;
 begin
-     AllowEdit:= False;
+     Allowed:= False;
 
-     I:= __sl.IndexOfObject( Node);
+     I:= __sl.IndexOfObject( TObject(Node));
      if i = -1 then exit;
 
      sKey:= __sl.Strings[ I];
      Delete( sKey, 1, 1);
      if not vle.FindRow( sKey,  iRow)  then exit;
      sValue:= vle.Values[ sKey];
-     OldTitre:= Name_from_Text( Node);
+     OldTitre:= hvst.Key_from_Node( Node);
 
      if InputQuery( 'Modification', OldTitre, sValue)
      then
          begin
          Document.Set_Field( sKey, sValue);
          vle.Values[ sKey]:= sValue;
-         Node.Text:= OldTitre+'='+sValue;
+         hvst.Node_set_Key( Node, sValue);
          Affiche_XMLs;
          end;
 end;
 
-
-function TfOpenDocument_DelphiReportEngine.Cle_from_tn(tn: TTreeNode): String;
-begin
-     if tn = nil
-     then
-         Result:= ''
-     else
-         begin
-         if tn.Parent = nil
-         then // Cas terminal
-             Result:= ''
-         else // Appel récursif
-             Result:= Cle_from_tn( tn.Parent) + '_';
-         Result:= Result + Name_from_Text( tn);
-         end;
-end;
-
-function TfOpenDocument_DelphiReportEngine.Racine_from_tn( tn: TTreeNode): String;
-begin
-     if    (tn        = nil)
-        or (tn.Parent = nil)
-     then
-         Result:= ''
-     else
-         Result:= Cle_from_tn
-         ( tn.Parent);
-end;
-
-function TfOpenDocument_DelphiReportEngine.HasValue( tn: TTreeNode): Boolean;
-begin
-     if tn = nil
-     then
-         Result:= False
-     else
-         Result:= Pos( '=', tn.Text) > 0
-end;
-
 procedure TfOpenDocument_DelphiReportEngine.bDupliquerClick(Sender: TObject);
 var
-   tn: TTreeNode;
+   tn: PVirtualNode;
    Source, Cible: String;
 begin
-     tn:= tv.Selected;
+     vst.GetSortedSelection();
+     tn:= vst.Selected;
      if tn = nil then exit;
 
      Source:= Cle_from_tn( tn);
@@ -623,9 +583,9 @@ begin
          end;
 end;
 
-procedure TfOpenDocument_DelphiReportEngine.Copie_Sous_branche( tn: TTreeNode; Source, Cible: String);
+procedure TfOpenDocument_DelphiReportEngine.Copie_Sous_branche( tn: PVirtualNode; Source, Cible: String);
 var
-   Child: TTreeNode;
+   Child: PVirtualNode;
    _Name: String;
    Child_Source,
    Child_Cible : String;
@@ -649,7 +609,7 @@ end;
 
 procedure TfOpenDocument_DelphiReportEngine.bSupprimerClick(Sender: TObject);
 var
-   tn: TTreeNode;
+   tn: PVirtualNode;
    Selection: String;
 begin
      tn:= tv.Selected;
@@ -661,9 +621,9 @@ begin
      tv.Items.Delete( tn);
 end;
 
-procedure TfOpenDocument_DelphiReportEngine.Supprime_Sous_branche( tn: TTreeNode; Selection: String);
+procedure TfOpenDocument_DelphiReportEngine.Supprime_Sous_branche( tn: PVirtualNode; Selection: String);
 var
-   Child, Trash: TTreeNode;
+   Child, Trash: PVirtualNode;
    _Name: String;
    procedure Supprime_Champ( Champ: String);
    var
@@ -692,9 +652,9 @@ begin
      Supprime_Champ( Selection);
 end;
 
-procedure TfOpenDocument_DelphiReportEngine.Supprime_Sous_branche_Insertion( tn: TTreeNode; Selection: String);
+procedure TfOpenDocument_DelphiReportEngine.Supprime_Sous_branche_Insertion( tn: PVirtualNode; Selection: String);
 var
-   Child, Trash: TTreeNode;
+   Child, Trash: PVirtualNode;
    _Name: String;
    procedure Supprime_Champ( Champ: String);
    var
@@ -1038,7 +998,7 @@ end;
 
 procedure TfOpenDocument_DelphiReportEngine.bInsererClick(Sender: TObject);
 var
-   tn: TTreeNode;
+   tn: PVirtualNode;
    Selection: String;
 begin
      tn:= tvi.Selected;
@@ -1050,9 +1010,9 @@ begin
      To_m( Document.xmlContent, mContent_XML);
 end;
 
-procedure TfOpenDocument_DelphiReportEngine.Exporte_Sous_branche( tn: TTreeNode; Source: String; sl: TOOoStringList);
+procedure TfOpenDocument_DelphiReportEngine.Exporte_Sous_branche( tn: PVirtualNode; Source: String; sl: TOOoStringList);
 var
-   Child: TTreeNode;
+   Child: PVirtualNode;
    _Name: String;
    Child_Source: String;
 begin
@@ -1074,7 +1034,7 @@ end;
 
 procedure TfOpenDocument_DelphiReportEngine.bExporterClick(Sender: TObject);
 var
-   tn: TTreeNode;
+   tn: PVirtualNode;
    Source: String;
    sl: TOOoStringList;
 begin
@@ -1121,10 +1081,10 @@ begin
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.tv_Add( _tv: TTreeView; _e: TDOMNode;
-                                                    _Parent: TTreeNode = nil);
+                                                    _Parent: PVirtualNode = nil);
 var
    I: Integer;
-   tn: TTreeNode;
+   tn: PVirtualNode;
    Properties: String;
 begin
      if _tv = nil then exit;
@@ -1155,7 +1115,7 @@ end;
 
 procedure TfOpenDocument_DelphiReportEngine.bOuvrirClick(Sender: TObject);
 var
-   tn: TTreeNode;
+   tn: PVirtualNode;
 begin
      tn:= tv.Selected;
      if tn = nil then exit;
@@ -1165,7 +1125,7 @@ end;
 
 procedure TfOpenDocument_DelphiReportEngine.bFermerClick(Sender: TObject);
 var
-   tn: TTreeNode;
+   tn: PVirtualNode;
 begin
      tn:= tv.Selected;
      if tn = nil then exit;
@@ -1352,7 +1312,7 @@ end;
 
 procedure TfOpenDocument_DelphiReportEngine.bSupprimer_InsertionClick( Sender: TObject);
 var
-   tn: TTreeNode;
+   tn: PVirtualNode;
    Selection: String;
 begin
      tn:= tvi.Selected;
