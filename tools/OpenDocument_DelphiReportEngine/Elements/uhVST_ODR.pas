@@ -42,12 +42,13 @@ type
   class
   //Gestion du cycle de vie
   public
-    constructor Create( _Key, _Value: String);
+    constructor Create( _Key, _Value: String; _IsLeaf: Boolean);
     destructor Destroy; override;
   //Attributs
   public
     Key: String;
     Value: String;
+    IsLeaf: Boolean;
   end;
 
  TIterateur_hVST_ODR_Ligne
@@ -95,13 +96,14 @@ type
   //Liste des descripteurs de lignes
   private
     slhVST_ODR_Ligne: TslhVST_ODR_Ligne;
-    function New_Line( _Key, _Value: String): ThVST_ODR_Ligne;
-    function Line_from_Node( _Node: PVirtualNode): ThVST_ODR_Ligne;
+    function New_Line( _Key, _Value: String; _IsLeaf: Boolean): ThVST_ODR_Ligne;
     function New_Node_from_Line( _Parent: PVirtualNode; _Line: ThVST_ODR_Ligne): PVirtualNode;
   //Remplissage
   public
    procedure Clear;
-   function Ajoute_Ligne(_Node: PVirtualNode; _Key: String; _Value: String= ''): PVirtualNode;
+   function Ajoute_Ligne_(_Node: PVirtualNode; _Key: String; _Value: String): PVirtualNode;
+   function Ajoute_Intermediaire(_Node: PVirtualNode; _Key: String): PVirtualNode;
+   function Line_from_Node( _Node: PVirtualNode): ThVST_ODR_Ligne;
    function Key_from_Node( _Node: PVirtualNode): String;
    function Value_from_Node( _Node: PVirtualNode): String;
    function Cle_from_Node( _Node: PVirtualNode): String;
@@ -114,12 +116,13 @@ implementation
 
 { ThVST_ODR_Ligne }
 
-constructor ThVST_ODR_Ligne.Create( _Key, _Value: String);
+constructor ThVST_ODR_Ligne.Create( _Key, _Value: String; _IsLeaf: Boolean);
 begin
      inherited Create;
 
-     Key  := _Key;
-     Value:= _Value;
+     Key   := _Key;
+     Value := _Value;
+     IsLeaf:= _IsLeaf;
 end;
 
 destructor ThVST_ODR_Ligne.Destroy;
@@ -190,9 +193,9 @@ begin
      inherited Destroy;
 end;
 
-function ThVST_ODR.New_Line( _Key, _Value: String): ThVST_ODR_Ligne;
+function ThVST_ODR.New_Line(_Key, _Value: String; _IsLeaf: Boolean): ThVST_ODR_Ligne;
 begin
-     Result:= ThVST_ODR_Ligne.Create( _Key, _Value);
+     Result:= ThVST_ODR_Ligne.Create( _Key, _Value, _IsLeaf);
      slhVST_ODR_Ligne.AddObject( _Key, Result);
 end;
 
@@ -302,11 +305,20 @@ begin
      Cree_Colonnes;
 end;
 
-function ThVST_ODR.Ajoute_Ligne( _Node: PVirtualNode; _Key: String; _Value: String= ''): PVirtualNode;
+function ThVST_ODR.Ajoute_Ligne_( _Node: PVirtualNode; _Key: String; _Value: String): PVirtualNode;
 var
    hVST_ODR_Ligne: ThVST_ODR_Ligne;
 begin
-     hVST_ODR_Ligne:= New_Line( _Key, _Value);
+     hVST_ODR_Ligne:= New_Line( _Key, _Value, True);
+
+     Result:= New_Node_from_Line( _Node, hVST_ODR_Ligne);
+end;
+
+function ThVST_ODR.Ajoute_Intermediaire(_Node: PVirtualNode; _Key: String): PVirtualNode;
+var
+   hVST_ODR_Ligne: ThVST_ODR_Ligne;
+begin
+     hVST_ODR_Ligne:= New_Line( _Key, '', False);
 
      Result:= New_Node_from_Line( _Node, hVST_ODR_Ligne);
 end;

@@ -132,8 +132,8 @@ type
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: TblODRE_Table);
-    function  not_Suivant( var _Resultat: TblODRE_Table): Boolean;
+    procedure Suivant( out _Resultat: TblODRE_Table);
+    function  not_Suivant( out _Resultat: TblODRE_Table): Boolean;
   end;
 
  TslODRE_Table
@@ -169,12 +169,12 @@ end;
 
 { TIterateur_ODRE_Table }
 
-function TIterateur_ODRE_Table.not_Suivant( var _Resultat: TblODRE_Table): Boolean;
+function TIterateur_ODRE_Table.not_Suivant( out _Resultat: TblODRE_Table): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_ODRE_Table.Suivant( var _Resultat: TblODRE_Table);
+procedure TIterateur_ODRE_Table.Suivant( out _Resultat: TblODRE_Table);
 begin
      Suivant_interne( _Resultat);
 end;
