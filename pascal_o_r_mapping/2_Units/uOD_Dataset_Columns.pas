@@ -33,6 +33,9 @@ uses
   SysUtils, Classes, DB, StrUtils;
 
 type
+
+ { TOD_Dataset_Columns }
+
  TOD_Dataset_Columns
  =
   class
@@ -46,6 +49,9 @@ type
   //Nom
   public
     function Nom: String;
+  //
+  private
+    function Find_in_DCA( _DCA: TOD_Dataset_Column_array;_FieldName: String): TOD_Dataset_Column;
   //Avant
   public
     FAvant: TOD_Dataset_Column_array;
@@ -54,6 +60,8 @@ type
   public
     Avant_Composition: String;
     property Avant[_FieldName: String]: TOD_Dataset_Column read GetAvant;
+    function FindAvant( _FieldName: String): TOD_Dataset_Column;
+    function AssureAvant( _FieldName: String): TOD_Dataset_Column;
     procedure Ajoute_Column_Avant( FieldIndex, _Debut, _Fin: Integer);
     procedure Column_Avant( _FieldName: String; _Debut, _Fin: Integer);
     procedure Column_Avant_from_( _FieldName: String; _from: TOD_Dataset_Column);
@@ -66,6 +74,8 @@ type
   public
     Apres_Composition: String;
     property Apres[_FieldName: String]: TOD_Dataset_Column read GetApres;
+    function FindApres( _FieldName: String): TOD_Dataset_Column;
+    function AssureApres( _FieldName: String): TOD_Dataset_Column;
     procedure Ajoute_Column_Apres( FieldIndex, _Debut, _Fin: Integer);
     procedure Column_Apres( _FieldName: String; _Debut, _Fin: Integer);
     procedure Column_Apres_from_( _FieldName: String; _from: TOD_Dataset_Column);
@@ -171,70 +181,71 @@ begin
 
 end;
 
-function TOD_Dataset_Columns.GetAvant( _FieldName: String): TOD_Dataset_Column;
+function TOD_Dataset_Columns.Find_in_DCA( _DCA: TOD_Dataset_Column_array;
+                                          _FieldName: String
+                                          ): TOD_Dataset_Column;
 var
-   I: Integer;
-   Trouve: Boolean;
-   procedure Cherche;
-   begin
-        Trouve:= False;
-        I:= Low( FAvant);
-        while I <= High( FAvant)
-        do
-          begin
-          Result:= FAvant[I];
-          Trouve:= _FieldName = Result.FieldName;
-          if Trouve then break;
+   DC: TOD_Dataset_Column;
+begin
+     Result:= nil;
+     for DC in _DCA
+     do
+       begin
+       if nil = DC                   then continue;
+       if _FieldName <> DC.FieldName then continue;
 
-          Inc( I);
-          end;
-   end;
+       Result:= DC;
+       end;
+end;
+
+function TOD_Dataset_Columns.FindAvant( _FieldName: String): TOD_Dataset_Column;
+begin
+     Result:= Find_in_DCA( FAvant, _FieldName);
+end;
+
+function TOD_Dataset_Columns.AssureAvant( _FieldName: String): TOD_Dataset_Column;
    procedure Ajoute;
    begin
         Result:= TOD_Dataset_Column.Create( _FieldName);
         SetLength( FAvant, Length( FAvant)+1);
         FAvant[High( FAvant)]:= Result;
-
-        Assure_FieldName_in_Composition( _FieldName, Avant_Composition);
    end;
 begin
-     Cherche;
-     if Trouve then exit;
+     Result:= FindAvant( _FieldName);
+     if Assigned( Result) then exit;
 
      Ajoute;
 end;
 
-function TOD_Dataset_Columns.GetApres( _FieldName: String): TOD_Dataset_Column;
-var
-   I: Integer;
-   Trouve: Boolean;
-   procedure Cherche;
-   begin
-        Trouve:= False;
-        I:= Low( FApres);
-        while I <= High( FApres)
-        do
-          begin
-          Result:= FApres[I];
-          Trouve:= _FieldName = Result.FieldName;
-          if Trouve then break;
+function TOD_Dataset_Columns.GetAvant(_FieldName: String): TOD_Dataset_Column;
+begin
+     Result:= AssureAvant( _FieldName);
+     Assure_FieldName_in_Composition( _FieldName, Avant_Composition);
+end;
 
-          Inc( I);
-          end;
-   end;
+function TOD_Dataset_Columns.FindApres(_FieldName: String): TOD_Dataset_Column;
+begin
+     Result:= Find_in_DCA( FApres, _FieldName);
+end;
+
+function TOD_Dataset_Columns.AssureApres( _FieldName: String): TOD_Dataset_Column;
    procedure Ajoute;
    begin
         Result:= TOD_Dataset_Column.Create( _FieldName);
         SetLength( FApres, Length( FApres)+1);
         FApres[High( FApres)]:= Result;
-
-        Assure_FieldName_in_Composition( _FieldName, Apres_Composition);
    end;
 begin
-     Cherche;
-     if Trouve then exit;
+     Result:= FindApres( _FieldName);
+     if Assigned( Result) then exit;
 
      Ajoute;
+end;
+
+function TOD_Dataset_Columns.GetApres(_FieldName: String): TOD_Dataset_Column;
+begin
+     Result:= AssureApres( _FieldName);
+     Assure_FieldName_in_Composition( _FieldName, Apres_Composition);
 end;
 
 procedure TOD_Dataset_Columns.Column_Avant( _FieldName: String;

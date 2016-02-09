@@ -26,6 +26,7 @@ interface
 
 uses
     uClean,
+    uLog,
     uBatpro_StringList,
     uOD_TextTableContext,
     uOD_Dataset_Columns,
@@ -303,6 +304,8 @@ begin
        bl:= TblOD_Dataset_Column.Create( sl, nil, nil);
        bl.Charge( DC);
        Ajoute( bl);
+
+       Log.PrintLn( 'Charge '+blParent.Nom+' '+bl.FieldName);
        end;
 end;
 

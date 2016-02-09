@@ -65,8 +65,8 @@ type
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: TblOD_Dataset_Column);
-    function  not_Suivant( var _Resultat: TblOD_Dataset_Column): Boolean;
+    procedure Suivant( out _Resultat: TblOD_Dataset_Column);
+    function  not_Suivant( out _Resultat: TblOD_Dataset_Column): Boolean;
   end;
 
  TslOD_Dataset_Column
@@ -102,12 +102,12 @@ end;
 
 { TIterateur_OD_Dataset_Column }
 
-function TIterateur_OD_Dataset_Column.not_Suivant( var _Resultat: TblOD_Dataset_Column): Boolean;
+function TIterateur_OD_Dataset_Column.not_Suivant( out _Resultat: TblOD_Dataset_Column): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_OD_Dataset_Column.Suivant( var _Resultat: TblOD_Dataset_Column);
+procedure TIterateur_OD_Dataset_Column.Suivant( out _Resultat: TblOD_Dataset_Column);
 begin
      Suivant_interne( _Resultat);
 end;

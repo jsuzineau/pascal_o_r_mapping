@@ -344,11 +344,13 @@ var
         if i = -1
         then
             begin
+            {
             if sTreePath = ''
             then
                 Parent:= hvst.Ajoute_Ligne_( Parent, s, sValue)
             else
                 Parent:= hvst.Ajoute_Intermediaire( Parent, s);
+            }
             __sl.AddObject( sCle, TObject(Parent));
             end
         else
@@ -394,11 +396,13 @@ var
         if i = -1
         then
             begin
+            {
             if sTreePath = ''
             then
                 Parent:= hvsti.Ajoute_Ligne_( Parent, s, '')
             else
                 Parent:= hvsti.Ajoute_Intermediaire( Parent, s);
+            }
             __sli.AddObject( sCle, TObject(Parent));
             end
         else
@@ -847,6 +851,7 @@ var
       var
          DCs: TOD_Dataset_Columns;
          NomAvant: String;
+         DC: TOD_Dataset_Column;
       begin
            Result:= True;
            if 1 <> Pos( sAvant, Nom) then exit;
@@ -855,8 +860,11 @@ var
            Delete( Nom, 1, lAvant);
 
            DCs:= bl.DCs;
+           DC:= DCs.AssureAvant( Nom);
+           if nil = DC then exit;
+
            NomAvant:= DCs.Nom_Avant( '_'+_blODRE_Table.Nom+'_'+Prefixe);
-           DCs.Avant[ Nom].from_Doc( NomAvant+'_', OD_TextTableContext);
+           DC.from_Doc( NomAvant+'_', OD_TextTableContext);
       end;
       function not_Traite_Apres: Boolean;
       const
@@ -865,6 +873,7 @@ var
       var
          DCs: TOD_Dataset_Columns;
          NomApres: String;
+         DC: TOD_Dataset_Column;
       begin
            Result:= True;
            if 1 <> Pos( sApres, Nom) then exit;
@@ -873,8 +882,11 @@ var
            Delete( Nom, 1, lApres);
 
            DCs:= bl.DCs;
+           DC:= DCs.AssureApres( Nom);
+           if nil = DC then exit;
+
            NomApres:= DCs.Nom_Apres( '_'+_blODRE_Table.Nom+'_'+Prefixe);
-           DCs.Apres[ Nom].from_Doc( NomApres+'_', OD_TextTableContext);
+           DC.from_Doc( NomApres+'_', OD_TextTableContext);
       end;
    begin
         I:= _blODRE_Table.haOD_Dataset_Columns.Iterateur;
@@ -940,6 +952,8 @@ begin
         Document.Get_Fields( sl);
         OOoChrono.Stop('aprés Get_Fields');
 
+        OOoChrono.Stop('Treeview désactivé');
+
         for sLigne in sl
         do
           begin
@@ -958,6 +972,7 @@ begin
           else
               Ajoute_Valeur_dans_tvi( Nom, Valeur);
           end;
+
 
         OOoChrono.Stop('avant boucle Traite_Tables');
         for sLigne in sl

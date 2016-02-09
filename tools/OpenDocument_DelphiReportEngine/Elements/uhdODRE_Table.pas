@@ -7,6 +7,7 @@ interface
 uses
     uClean,
     u_sys_,
+    uLog,
     uBatpro_StringList,
     uBatpro_Element,
     uBatpro_Ligne,
@@ -91,7 +92,10 @@ procedure ThdODRE_Table._from_pool;
 
              for iCol:= blDC.DC.Debut to blDC.DC.Fin
              do
+               begin
+               Log.PrintLn( blDCs.Nom+' '+blDC.FieldName+' '+IntToStr( iCol)+' '+IntToStr( iRow));
                Charge_Cell( blDC, 1+iCol, iRow);
+               end;
              end;
       end;
       procedure Charge_Apres;
@@ -108,7 +112,10 @@ procedure ThdODRE_Table._from_pool;
 
              for iCol:= blDC.DC.Debut to blDC.DC.Fin
              do
+               begin
+               Log.PrintLn( blDCs.Nom+' '+blDC.FieldName+' '+IntToStr( iCol)+' '+IntToStr( iRow));
                Charge_Cell( blDC, 1+iCol, iRow);
+               end;
              end;
       end;
    begin
@@ -154,7 +161,7 @@ begin
 
      Charge_OD_Column;
      Charge_OD_Dataset_Columns;
-     //Clusterise;
+     Clusterise;
 end;
 
 end.
