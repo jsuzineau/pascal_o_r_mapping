@@ -176,7 +176,7 @@ function ThaOD_Dataset_Columns__OD_Dataset_Column_Avant.Composition: String;
 var
    blParent: TblOD_Dataset_Columns;
 begin
-     Result:= '';
+     Result:= 'ThaOD_Dataset_Columns__OD_Dataset_Column_Avant.Composition';
      if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
 
      Result:= blParent.DCs.Avant_Composition;
@@ -199,7 +199,7 @@ function ThaOD_Dataset_Columns__OD_Dataset_Column_Apres.Composition: String;
 var
    blParent: TblOD_Dataset_Columns;
 begin
-     Result:= '';
+     Result:= 'ThaOD_Dataset_Columns__OD_Dataset_Column_Apres.Composition';
      if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
 
      Result:= blParent.DCs.Apres_Composition;
@@ -277,13 +277,8 @@ begin
 end;
 
 function ThaOD_Dataset_Columns__OD_Dataset_Column.Composition: String;
-var
-   blParent: TblOD_Dataset_Columns;
 begin
-     Result:= '';
-     if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
-
-     Result:= blParent.DCs.Avant_Composition;
+     Result:= 'ThaOD_Dataset_Columns__OD_Dataset_Column.Composition';
 end;
 
 procedure ThaOD_Dataset_Columns__OD_Dataset_Column.Charge;
@@ -296,6 +291,7 @@ begin
      inherited Charge;
      if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
 
+     Log.PrintLn( 'Charge '+blParent.Nom+': '+Composition);
      for DC in DCa
      do
        begin
@@ -305,7 +301,7 @@ begin
        bl.Charge( DC);
        Ajoute( bl);
 
-       Log.PrintLn( 'Charge '+blParent.Nom+' '+bl.FieldName);
+       Log.PrintLn( '  '+bl.FieldName);
        end;
 end;
 

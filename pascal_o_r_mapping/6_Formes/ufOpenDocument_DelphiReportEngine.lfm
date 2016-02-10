@@ -1,7 +1,7 @@
 object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
-  Left = 318
+  Left = 1749
   Height = 656
-  Top = 123
+  Top = 257
   Width = 1142
   Caption = 'fOpenDocument_DelphiReportEngine'
   ClientHeight = 656
@@ -15,8 +15,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
   OnDestroy = FormDestroy
   OnDropFiles = FormDropFiles
   OnShow = FormShow
-  Position = poScreenCenter
-  LCLVersion = '1.6.0.2'
+  LCLVersion = '1.4.4.0'
   object pc: TPageControl
     Left = 0
     Height = 656

@@ -27,6 +27,7 @@ interface
 
 uses
     uOOoStrings,
+    uLog,
     uOD_Dataset_Column,
     uOD_TextTableContext,
     uOD_Styles,
@@ -390,8 +391,11 @@ var
       F: TField;
       ODC: TOD_Dataset_Column;
       Composition_local: String;
+      sNomComposition: String;
    begin
-        Composition:= C.Lire( Nom_Composition( pa));
+        sNomComposition:= Nom_Composition( pa);
+        Composition:= C.Lire( sNomComposition);
+        Log.PrintLn( sNomComposition+'='+Composition);
         Composition_local:= Composition;
         TriggerField    := C.Lire( Nom_TriggerField    ( pa));
         for I:= Low( A) to High( A) do FreeAndNil( A[I]);
