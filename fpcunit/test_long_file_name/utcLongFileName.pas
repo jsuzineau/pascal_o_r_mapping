@@ -5,7 +5,8 @@ unit utcLongFileName;
 interface
 
 uses
- Classes, SysUtils, fpcunit, testutils, testregistry, Windows, LazUTF8, dos;
+ Classes, SysUtils, fpcunit, testutils, testregistry, Windows, LazUTF8,
+ FileUtil;
 
 type
 
@@ -52,7 +53,6 @@ begin
             end;
 end;
 
-//  ne marche pas
 function GetLongPathNameW(ShortPathName: PWideChar; LongPathName: PWideChar;
     cchBuffer: Integer): Integer; stdcall; external 'kernel32.dll' name 'GetLongPathNameW';
 
@@ -64,7 +64,7 @@ begin
      if 0 = Length(ws)
      then
          begin
-         Result:= sGetLastError;
+         Result:= 'windows.GetLongPathNameW: '+sGetLastError;
          exit;
          end;
      SetLength(ws, GetLongPathNameW( PWideChar(ShortName), PWideChar(ws), Length(ws)));
@@ -79,7 +79,7 @@ begin
      if 0 = Length(ws)
      then
          begin
-         Result:= 'Echec de windows.GetLongPathNameW: '+sGetLastError;
+         Result:= 'Echec de windows.GetTempPathW: '+sGetLastError;
          exit;
          end;
      SetLength(ws, GetTempPathW( Length(ws), PWideChar(ws)));
@@ -90,67 +90,78 @@ end;
 function GetLongName(var p : String) : boolean;
 
 var
-  SR: SearchRec;
+  SR: TSearchRec;
   FullFN, FinalFN, TestFN: string;
   Found: boolean;
   SPos: byte;
 begin
-  if Length (P) = 0 then
-    GetLongName := false
-  else
-   begin
-    FullFN := FExpand (P); (* Needed to be done at the beginning to get proper case for all parts *)
-    SPos := 1;
-    if (Length (FullFN) > 2) then
-     if (FullFN [2] = DriveSeparator) then
-      SPos := 4
+     if Length (P) = 0
+     then
+         GetLongName := false
      else
-      if (FullFN [1] = DirectorySeparator) and (FullFN [2] = DirectorySeparator) then
-       begin
-        SPos := 3;
-        while (Length (FullFN) > SPos) and (FullFN [SPos] <> DirectorySeparator) do
-         Inc (SPos);
-        if SPos >= Length (FullFN) then
-         SPos := 1
-        else
          begin
-          Inc (SPos);
-          while (Length (FullFN) >= SPos) and (FullFN [SPos] <> DirectorySeparator) do
-           Inc (SPos);
-          if SPos <= Length (FullFN) then
-           Inc (SPos);
+         FullFN := ExpandFileName (P); (* Needed to be done at the beginning to get proper case for all parts *)
+         SPos := 1;
+         if (Length (FullFN) > 2)
+         then
+             if (FullFN [2] = DriveSeparator)
+             then
+                 SPos := 4
+             else
+                 if (FullFN [1] = DirectorySeparator) and (FullFN [2] = DirectorySeparator)
+                 then
+                     begin
+                     SPos := 3;
+                     while (Length (FullFN) > SPos) and (FullFN [SPos] <> DirectorySeparator)
+                     do
+                       Inc (SPos);
+                     if SPos >= Length (FullFN)
+                     then
+                         SPos := 1
+                     else
+                         begin
+                         Inc (SPos);
+                         while (Length (FullFN) >= SPos) and (FullFN [SPos] <> DirectorySeparator)
+                         do
+                           Inc (SPos);
+                         if SPos <= Length (FullFN)
+                         then
+                             Inc (SPos);
+                         end;
+                     end;
+         FinalFN := Copy (FullFN, 1, Pred (SPos));
+         Delete (FullFN, 1, Pred (SPos));
+         Found := true;
+         while (FullFN <> '') and Found
+         do
+           begin
+           SPos := Pos (DirectorySeparator, FullFN);
+           TestFN := Copy (FullFN, 1, Pred (SPos));
+           Delete (FullFN, 1, Pred (SPos));
+           if 0 <> SysUtils.FindFirst (FinalFN + TestFN, faAnyFile, SR)
+           then
+               Found := false
+           else
+               begin
+               FinalFN := FinalFN + SR.Name;
+               if (FullFN <> '') and (FullFN [1] = DirectorySeparator)
+               then
+                   begin
+                   FinalFN := FinalFN + DirectorySeparator;
+                   Delete (FullFN, 1, 1);
+                   end;
+               end;
+           SysUtils.FindClose (SR);
+           end;
+         if Found
+         then
+             begin
+             GetLongName := true;
+             P := FinalFN;
+             end
+         else
+             GetLongName := false
          end;
-       end;
-    FinalFN := Copy (FullFN, 1, Pred (SPos));
-    Delete (FullFN, 1, Pred (SPos));
-    Found := true;
-    while (FullFN <> '') and Found do
-     begin
-      SPos := Pos (DirectorySeparator, FullFN);
-      TestFN := Copy (FullFN, 1, Pred (SPos));
-      Delete (FullFN, 1, Pred (SPos));
-      FindFirst (FinalFN + TestFN, AnyFile, SR);
-      if DosError <> 0 then
-       Found := false
-      else
-       begin
-        FinalFN := FinalFN + SR.Name;
-        if (FullFN <> '') and (FullFN [1] = DirectorySeparator) then
-         begin
-          FinalFN := FinalFN + DirectorySeparator;
-          Delete (FullFN, 1, 1);
-         end;
-       end;
-      FindClose (SR);
-     end;
-    if Found then
-     begin
-      GetLongName := true;
-      P := FinalFN;
-     end
-    else
-     GetLongName := false
-   end;
 end;
 
 procedure TtcLongFileName.Test_FPC_GetTempDir;
@@ -180,7 +191,8 @@ begin
      then
          Fail( 'Echec de GetLongName: '+sGetLastError);
 
-     Fail(  'Court: '+Court+#13#10
+     Fail(  'GetLongName basé sur FindFirst : '#13#10
+           +'Court: '+Court+#13#10
            +'Long : '+Long);
 end;
 
@@ -188,7 +200,8 @@ procedure TtcLongFileName.TestHookUp;
 begin
      Long:= ExtractLongPathName( Court);
 
-     Fail(  'Court: '+Court+#13#10
+     Fail(  'windows.GetLongPathNameW : '#13#10
+           +'Court: '+Court+#13#10
            +'Long : '+Long);
 end;
 
