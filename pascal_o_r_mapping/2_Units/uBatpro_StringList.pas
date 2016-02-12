@@ -243,7 +243,7 @@ function Object_from_sl_sCle( sl: TStringList; sCle: String): TObject;
 // mais peuvent se révéler dangereuses si l'on change le type de la variable
 // passée comme Resultat sans aller mettre à jour le paramètre Classe
 
-procedure CheckClass( out Resultat; Classe: TClass);
+procedure CheckClass( var Resultat; Classe: TClass);
 
 procedure _Classe_from_sl     ( out Resultat; Classe: TClass;
                                 sl: TStringList; Index: Integer);
@@ -307,7 +307,7 @@ begin
      Result:= Object_from_sl( sl, sl.IndexOf( sCle))
 end;
 
-procedure CheckClass( out Resultat; Classe: TClass);
+procedure CheckClass( var Resultat; Classe: TClass);
      procedure Set_to_nil;
      begin
           TObject( Resultat):= nil;

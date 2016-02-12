@@ -33,7 +33,7 @@ uses
     {$IFNDEF FPC}
     uWinUtils,
     {$ENDIF}
-  {$IFDEF WINDOWS}
+  {$IFDEF WINDOWS_GRAPHIC}
   Windows,
   {$ENDIF}
   SysUtils, Classes;

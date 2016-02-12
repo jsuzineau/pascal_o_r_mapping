@@ -2,6 +2,6 @@
 
 LazarusResources.Add('Tpool_Ancetre_Ancetre','FORMDATA',[
   'TPF0'#21'Tpool_Ancetre_Ancetre'#20'pool_Ancetre_Ancetre'#14'OldCreateOrder'#8
-  +#4'left'#3' '#1#3'top'#3#156#0#6'Height'#3#148#0#16'HorizontalOffset'#3#190#1
-  +#14'VerticalOffset'#3#247#0#5'Width'#3#213#0#0#0
+  +#4'left'#3' '#1#3'top'#3#156#0#6'Height'#3#148#0#16'HorizontalOffset'#3#230#5
+  +#14'VerticalOffset'#3#147#2#5'Width'#3#213#0#0#0
 ]);

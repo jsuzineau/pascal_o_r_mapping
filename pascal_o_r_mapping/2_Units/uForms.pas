@@ -26,13 +26,17 @@ unit uForms;
 //Duplication de uOD_Forms,
 //pour ne pas bloquer le paquet pOOoDelphiReportEngine en mémoire dans Delphi
 //dans la palette de composants ( empêche la recompilation )
-{$IFDEF LINUX}
-  {$DEFINE uForms_console}
-  {$UNDEF  uForms_graphic}
-{$ENDIF}
-{$IFDEF MSWINDOWS}
-  {$UNDEF  uForms_console}
-  {$DEFINE uForms_graphic}
+{$IFNDEF uForms_console}
+  {$IFNDEF uForms_graphic}
+    {$IFDEF LINUX}
+      {$DEFINE uForms_console}
+      {$UNDEF  uForms_graphic}
+    {$ENDIF}
+    {$IFDEF MSWINDOWS}
+      {$UNDEF  uForms_console}
+      {$DEFINE uForms_graphic}
+    {$ENDIF}
+  {$ENDIF}
 {$ENDIF}
 
 interface

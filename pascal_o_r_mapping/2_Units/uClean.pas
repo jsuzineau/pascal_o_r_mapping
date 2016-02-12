@@ -106,7 +106,6 @@ function uClean_HTML_from_EXE( _EXE: String): String;
 
 implementation
 uses
-    uChrono, //référence circulaire
     uParametres_Ligne_de_commande;
 
 function uClean_EXE_Name: String;

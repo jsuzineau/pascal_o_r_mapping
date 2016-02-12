@@ -149,6 +149,8 @@ function JSArray_from_StringList( _sl: TStringList): String;
 
 function String_from_File( _FileName: String): String;
 
+procedure String_to_File( _FileName: String; _S: String);
+
 implementation
 
 { Indente
@@ -1024,6 +1026,21 @@ begin
         if 0 = Longueur then exit;
         SetLength( Result, Longueur);
         BlockRead( F, Result[1], Longueur);
+     finally
+            CloseFile( F);
+            end;
+end;
+
+procedure String_to_File( _FileName: String; _S: String);
+var
+   F: File;
+begin
+     if '' = _S then exit;
+
+     AssignFile( F, _FileName);
+     try
+        ReWrite( F, 1);
+        BlockWrite( F, _S[1], Length( _S));
      finally
             CloseFile( F);
             end;
