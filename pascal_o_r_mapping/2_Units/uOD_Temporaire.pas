@@ -27,12 +27,16 @@ interface
 
 uses
     uOD_Forms,
+    uWinUtils,
   {$IFNDEF FPC}
-  Windows,Dialogs, ShellAPI,
+  Dialogs, ShellAPI,
   {$ELSE}
   LCLIntf,
   {$ENDIF}
-  SysUtils, Classes;
+  {$IFDEF WINDOWS}
+  Windows,
+  {$ENDIF}
+  SysUtils, Classes,LazUTF8;
 
 type
  TOD_Temporaire
@@ -113,6 +117,26 @@ begin
 end;
 {$ENDIF}
 
+{$IFDEF WINDOWS}
+function GetLongPathNameW(ShortPathName: PWideChar; LongPathName: PWideChar;
+    cchBuffer: Integer): Integer; stdcall; external 'kernel32.dll' name 'GetLongPathNameW';
+
+function ExtractLongPathName(const ShortName: WideString): string;
+var
+   ws: WideString;
+begin
+     SetLength( ws, GetLongPathNameW( PWideChar(ShortName), nil, 0));
+     if 0 = Length(ws)
+     then
+         begin
+         Result:= 'windows.GetLongPathNameW: '+sGetLastError;
+         exit;
+         end;
+     SetLength(ws, GetLongPathNameW( PWideChar(ShortName), PWideChar(ws), Length(ws)));
+     Result:= UTF16ToUTF8( ws);
+end;
+{$ENDIF}
+
 function TOD_Temporaire.Nouveau_Fichier( Prefixe: String): String;
 {$IFNDEF FPC}
 var
@@ -134,6 +158,9 @@ begin
      finally
             FreeAndNil( sl);
             end;
+     {$IFDEF WINDOWS}
+     Result:= ExtractLongPathName( Result);
+     {$ENDIF}
 end;
 {$ENDIF}
 

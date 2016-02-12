@@ -3,7 +3,7 @@
   <ProjectSession>
     <Version Value="9"/>
     <BuildModes Active="Windows 64 bits Debug"/>
-    <Units Count="288">
+    <Units Count="290">
       <Unit0>
         <Filename Value="jsWorks.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -39,7 +39,7 @@
       <Unit3>
         <Filename Value="../pascal_o_r_mapping/7_sources_externes/synapse/source/lib/blcksock.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="15"/>
+        <EditorIndex Value="17"/>
         <TopLine Value="1478"/>
         <CursorPos X="3" Y="1499"/>
         <UsageCount Value="207"/>
@@ -65,7 +65,7 @@
       <Unit6>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/ublAutomatic.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="26"/>
+        <EditorIndex Value="28"/>
         <TopLine Value="279"/>
         <CursorPos Y="302"/>
         <UsageCount Value="205"/>
@@ -559,7 +559,7 @@
       <Unit67>
         <Filename Value="Elements/Project/ublProject.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="22"/>
+        <EditorIndex Value="24"/>
         <TopLine Value="217"/>
         <CursorPos Y="253"/>
         <UsageCount Value="203"/>
@@ -690,7 +690,7 @@
         <ComponentName Value="dkProject_LABEL"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="12"/>
         <TopLine Value="12"/>
         <CursorPos X="40" Y="29"/>
         <UsageCount Value="203"/>
@@ -1038,7 +1038,7 @@
         <ComponentName Value="fAutomatic_VST"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="14"/>
         <TopLine Value="120"/>
         <CursorPos Y="160"/>
         <UsageCount Value="238"/>
@@ -1049,7 +1049,7 @@
       <Unit112>
         <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="16"/>
+        <EditorIndex Value="18"/>
         <TopLine Value="221"/>
         <CursorPos Y="242"/>
         <UsageCount Value="207"/>
@@ -1079,7 +1079,7 @@
       <Unit114>
         <Filename Value="../pascal_o_r_mapping/3_Data/uNEO4J.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="11"/>
         <TopLine Value="156"/>
         <CursorPos X="72" Y="192"/>
         <UsageCount Value="207"/>
@@ -1092,7 +1092,7 @@
         <ComponentName Value="poolJSON"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="20"/>
+        <EditorIndex Value="22"/>
         <TopLine Value="521"/>
         <CursorPos Y="544"/>
         <UsageCount Value="163"/>
@@ -1117,7 +1117,7 @@
       <Unit117>
         <Filename Value="../pascal_o_r_mapping/3_Data/Tuleap/uTuleap.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="13"/>
         <TopLine Value="42"/>
         <CursorPos Y="69"/>
         <UsageCount Value="70"/>
@@ -1779,7 +1779,7 @@
       </Unit221>
       <Unit222>
         <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Element.pas"/>
-        <EditorIndex Value="21"/>
+        <EditorIndex Value="23"/>
         <TopLine Value="3410"/>
         <CursorPos Y="3424"/>
         <UsageCount Value="101"/>
@@ -1807,7 +1807,7 @@
         <ComponentName Value="Pool"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="28"/>
+        <EditorIndex Value="30"/>
         <TopLine Value="2443"/>
         <CursorPos X="36" Y="2463"/>
         <UsageCount Value="96"/>
@@ -1866,7 +1866,7 @@
       </Unit231>
       <Unit232>
         <Filename Value="../pascal_o_r_mapping/2_Units/uChamps.pas"/>
-        <EditorIndex Value="24"/>
+        <EditorIndex Value="26"/>
         <TopLine Value="387"/>
         <CursorPos X="26" Y="409"/>
         <UsageCount Value="100"/>
@@ -1929,7 +1929,7 @@
       </Unit238>
       <Unit239>
         <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Ligne.pas"/>
-        <EditorIndex Value="19"/>
+        <EditorIndex Value="21"/>
         <TopLine Value="274"/>
         <CursorPos X="3" Y="296"/>
         <UsageCount Value="105"/>
@@ -1938,7 +1938,7 @@
       </Unit239>
       <Unit240>
         <Filename Value="../pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
-        <EditorIndex Value="27"/>
+        <EditorIndex Value="29"/>
         <TopLine Value="271"/>
         <CursorPos X="44" Y="283"/>
         <UsageCount Value="101"/>
@@ -2034,9 +2034,6 @@
         <TopLine Value="122"/>
         <CursorPos X="61" Y="122"/>
         <UsageCount Value="10"/>
-        <Bookmarks Count="1">
-          <Item0 X="56" Y="41" ID="1"/>
-        </Bookmarks>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit252>
@@ -2045,7 +2042,6 @@
         <ComponentName Value="fHelp_Creator"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="7"/>
         <TopLine Value="96"/>
         <CursorPos X="12" Y="101"/>
@@ -2162,7 +2158,7 @@
       </Unit267>
       <Unit268>
         <Filename Value="../pascal_o_r_mapping/2_Units/uChamp.pas"/>
-        <EditorIndex Value="23"/>
+        <EditorIndex Value="25"/>
         <TopLine Value="604"/>
         <CursorPos X="33" Y="622"/>
         <UsageCount Value="26"/>
@@ -2171,7 +2167,7 @@
       </Unit268>
       <Unit269>
         <Filename Value="../pascal_o_r_mapping/2_Units/uChampDefinition.pas"/>
-        <EditorIndex Value="29"/>
+        <EditorIndex Value="31"/>
         <TopLine Value="165"/>
         <CursorPos X="50" Y="181"/>
         <UsageCount Value="26"/>
@@ -2196,7 +2192,7 @@
       </Unit271>
       <Unit272>
         <Filename Value="../pascal_o_r_mapping/7_sources_externes/synapse/source/lib/httpsend.pas"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="16"/>
         <TopLine Value="256"/>
         <CursorPos X="3" Y="277"/>
         <UsageCount Value="28"/>
@@ -2205,7 +2201,7 @@
       </Unit272>
       <Unit273>
         <Filename Value="../pascal_o_r_mapping/7_sources_externes/synapse/source/lib/ssl_openssl.pas"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="15"/>
         <TopLine Value="856"/>
         <CursorPos X="5" Y="896"/>
         <UsageCount Value="27"/>
@@ -2230,7 +2226,7 @@
       </Unit275>
       <Unit276>
         <Filename Value="../pascal_o_r_mapping/7_sources_externes/virtualtreeview-4.8.7_LCL-R2/VirtualTrees.pas"/>
-        <EditorIndex Value="17"/>
+        <EditorIndex Value="19"/>
         <TopLine Value="3005"/>
         <CursorPos X="14" Y="3024"/>
         <UsageCount Value="23"/>
@@ -2261,7 +2257,7 @@
       </Unit279>
       <Unit280>
         <Filename Value="../pascal_o_r_mapping/2_Units/uChampDefinitions.pas"/>
-        <EditorIndex Value="25"/>
+        <EditorIndex Value="27"/>
         <TopLine Value="321"/>
         <CursorPos X="39" Y="347"/>
         <UsageCount Value="26"/>
@@ -2293,7 +2289,7 @@
       </Unit283>
       <Unit284>
         <Filename Value="../pascal_o_r_mapping/3_Data/uVide.pas"/>
-        <EditorIndex Value="18"/>
+        <EditorIndex Value="20"/>
         <TopLine Value="43"/>
         <CursorPos X="28" Y="68"/>
         <UsageCount Value="13"/>
@@ -2319,132 +2315,151 @@
       <Unit287>
         <Filename Value="../../../lazarus/lcl/forms.pp"/>
         <UnitName Value="Forms"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="10"/>
         <TopLine Value="390"/>
         <CursorPos X="46" Y="399"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit287>
+      <Unit288>
+        <Filename Value="../pascal_o_r_mapping/2_Units/uOD_Temporaire.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="8"/>
+        <CursorPos X="28" Y="39"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit288>
+      <Unit289>
+        <Filename Value="../pascal_o_r_mapping/2_Units/uWinUtils.pas"/>
+        <EditorIndex Value="9"/>
+        <TopLine Value="371"/>
+        <CursorPos Y="382"/>
+        <UsageCount Value="10"/>
+        <Bookmarks Count="1">
+          <Item0 Y="393" ID="1"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit289>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="../pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
-        <Caret Line="276" TopLine="252"/>
+        <Caret Line="676" TopLine="648"/>
       </Position1>
       <Position2>
         <Filename Value="../pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
-        <Caret Line="277" TopLine="252"/>
+        <Caret Line="163" Column="15" TopLine="144"/>
       </Position2>
       <Position3>
         <Filename Value="../pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
-        <Caret Line="279" TopLine="252"/>
+        <Caret Line="553" Column="18" TopLine="530"/>
       </Position3>
       <Position4>
         <Filename Value="../pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
-        <Caret Line="280" TopLine="252"/>
+        <Caret Line="341" Column="44" TopLine="311"/>
       </Position4>
       <Position5>
         <Filename Value="../pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
-        <Caret Line="279" Column="21" TopLine="252"/>
+        <Caret Line="291" Column="67" TopLine="270"/>
       </Position5>
       <Position6>
         <Filename Value="../pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
-        <Caret Line="185" Column="82" TopLine="150"/>
+        <Caret Line="694" TopLine="665"/>
       </Position6>
       <Position7>
         <Filename Value="../pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
-        <Caret Line="676" TopLine="648"/>
+        <Caret Line="185" Column="5" TopLine="178"/>
       </Position7>
       <Position8>
-        <Filename Value="../pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
-        <Caret Line="163" Column="15" TopLine="144"/>
-      </Position8>
-      <Position9>
-        <Filename Value="../pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
-        <Caret Line="553" Column="18" TopLine="530"/>
-      </Position9>
-      <Position10>
-        <Filename Value="../pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
-        <Caret Line="341" Column="44" TopLine="311"/>
-      </Position10>
-      <Position11>
-        <Filename Value="../pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
-        <Caret Line="291" Column="67" TopLine="270"/>
-      </Position11>
-      <Position12>
-        <Filename Value="../pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
-        <Caret Line="694" TopLine="665"/>
-      </Position12>
-      <Position13>
-        <Filename Value="../pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
-        <Caret Line="185" Column="5" TopLine="178"/>
-      </Position13>
-      <Position14>
         <Filename Value="../pascal_o_r_mapping/3_Data/uNEO4J.pas"/>
         <Caret Line="88" Column="18" TopLine="61"/>
-      </Position14>
-      <Position15>
+      </Position8>
+      <Position9>
         <Filename Value="../pascal_o_r_mapping/3_Data/uNEO4J.pas"/>
         <Caret Line="186" Column="54" TopLine="155"/>
-      </Position15>
-      <Position16>
+      </Position9>
+      <Position10>
         <Filename Value="../pascal_o_r_mapping/6_Formes/uhVST.pas"/>
         <Caret Line="242" TopLine="221"/>
-      </Position16>
-      <Position17>
+      </Position10>
+      <Position11>
         <Filename Value="../pascal_o_r_mapping/3_Data/uNEO4J.pas"/>
         <Caret Line="88" Column="17" TopLine="68"/>
-      </Position17>
-      <Position18>
+      </Position11>
+      <Position12>
         <Filename Value="ufTest_neo4j.pas"/>
         <Caret Line="71" Column="5" TopLine="45"/>
-      </Position18>
-      <Position19>
+      </Position12>
+      <Position13>
         <Filename Value="ufTest_neo4j.pas"/>
         <Caret Line="72" Column="5" TopLine="45"/>
-      </Position19>
-      <Position20>
+      </Position13>
+      <Position14>
         <Filename Value="ufTest_neo4j.pas"/>
         <Caret Line="98" TopLine="62"/>
-      </Position20>
-      <Position21>
+      </Position14>
+      <Position15>
         <Filename Value="../pascal_o_r_mapping/3_Data/Tuleap/uTuleap.pas"/>
         <Caret Line="291" Column="32" TopLine="259"/>
-      </Position21>
-      <Position22>
+      </Position15>
+      <Position16>
         <Filename Value="ufTULEAP.pas"/>
         <Caret Line="152" Column="59" TopLine="115"/>
-      </Position22>
-      <Position23>
+      </Position16>
+      <Position17>
         <Filename Value="ufTULEAP.pas"/>
         <Caret Line="154" Column="59" TopLine="117"/>
-      </Position23>
-      <Position24>
+      </Position17>
+      <Position18>
         <Filename Value="ufTULEAP.pas"/>
         <Caret Line="160" Column="59" TopLine="120"/>
-      </Position24>
-      <Position25>
+      </Position18>
+      <Position19>
         <Filename Value="../pascal_o_r_mapping/3_Data/uNEO4J.pas"/>
         <Caret Line="168" Column="36" TopLine="135"/>
-      </Position25>
-      <Position26>
+      </Position19>
+      <Position20>
         <Filename Value="Elements/Project/udkProject_LABEL.pas"/>
-      </Position26>
-      <Position27>
+      </Position20>
+      <Position21>
         <Filename Value="../pascal_o_r_mapping/6_Formes/uAide.pas"/>
         <Caret Line="136" Column="8" TopLine="28"/>
-      </Position27>
-      <Position28>
+      </Position21>
+      <Position22>
         <Filename Value="../pascal_o_r_mapping/6_Formes/uAide.pas"/>
         <Caret Line="41" Column="55" TopLine="38"/>
-      </Position28>
-      <Position29>
+      </Position22>
+      <Position23>
         <Filename Value="../pascal_o_r_mapping/6_Formes/uAide.pas"/>
         <Caret Line="42" Column="54" TopLine="38"/>
-      </Position29>
-      <Position30>
+      </Position23>
+      <Position24>
         <Filename Value="../pascal_o_r_mapping/6_Formes/uAide.pas"/>
         <Caret Line="122" Column="61" TopLine="122"/>
+      </Position24>
+      <Position25>
+        <Filename Value="../pascal_o_r_mapping/2_Units/uOD_Temporaire.pas"/>
+      </Position25>
+      <Position26>
+        <Filename Value="../pascal_o_r_mapping/2_Units/uWinUtils.pas"/>
+      </Position26>
+      <Position27>
+        <Filename Value="../pascal_o_r_mapping/2_Units/uOD_Temporaire.pas"/>
+        <Caret Line="131" Column="48" TopLine="108"/>
+      </Position27>
+      <Position28>
+        <Filename Value="../pascal_o_r_mapping/2_Units/uWinUtils.pas"/>
+        <Caret Line="50" Column="23" TopLine="13"/>
+      </Position28>
+      <Position29>
+        <Filename Value="../pascal_o_r_mapping/2_Units/uWinUtils.pas"/>
+        <Caret Line="394" TopLine="362"/>
+      </Position29>
+      <Position30>
+        <Filename Value="../pascal_o_r_mapping/2_Units/uWinUtils.pas"/>
+        <Caret Column="6"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>

@@ -34,10 +34,11 @@ uses
     uuStrings,
 
   {$IFNDEF FPC}
-  Windows,
-
   Consts,
   ShlObj, ActiveX,
+  {$ENDIF}
+  {$IFDEF WINDOWS}
+  Windows,
   {$ENDIF}
   Classes, Menus, Dialogs, SysUtils,
   {$IFDEF FPC}
@@ -378,17 +379,21 @@ begin
 end;
 
 function sGetLastError: String;
+{$IFDEF WINDOWS}
 var
    MessageSysteme: PChar;
 begin
-(*
-FormatMessage( FORMAT_MESSAGE_FROM_SYSTEM or
-                    FORMAT_MESSAGE_ALLOCATE_BUFFER,
-                    nil, GetLastError,
-                    0, @MessageSysteme, 0, nil);
+     FormatMessage( FORMAT_MESSAGE_FROM_SYSTEM or
+                         FORMAT_MESSAGE_ALLOCATE_BUFFER,
+                         nil, GetLastError,
+                         0, @MessageSysteme, 0, nil);
      Result:= StrPas(MessageSysteme);
-*)
 end;
+{$ELSE}
+begin
+     Result:= 'fonction uWinUtils.sGetLastError non implémentée en dehors de Windows';
+end;
+{$ENDIF}
 
 procedure TraiteLastError( Messag: String);
 begin
