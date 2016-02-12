@@ -4,129 +4,191 @@
     <PathDelim Value="\"/>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="17">
+    <Units Count="24">
       <Unit0>
         <Filename Value="test_long_file_name.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="3"/>
-        <UsageCount Value="24"/>
+        <EditorIndex Value="12"/>
+        <UsageCount Value="30"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="utcLongFileName.pas"/>
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="49"/>
-        <CursorPos X="18" Y="49"/>
-        <UsageCount Value="24"/>
+        <TopLine Value="54"/>
+        <CursorPos X="38" Y="70"/>
+        <UsageCount Value="30"/>
+        <Bookmarks Count="1">
+          <Item0 X="15" Y="86" ID="1"/>
+        </Bookmarks>
         <Loaded Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="uTemporaire.pas"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="20"/>
       </Unit2>
       <Unit3>
         <Filename Value="uClean.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="93"/>
         <CursorPos Y="109"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="20"/>
       </Unit3>
       <Unit4>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uTemporaire.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="41"/>
         <CursorPos X="25" Y="57"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="19"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit4>
       <Unit5>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uClean.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="22"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit5>
       <Unit6>
         <Filename Value="uChrono.pas"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="19"/>
       </Unit6>
       <Unit7>
         <Filename Value="uParametre.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="28"/>
         <CursorPos X="41" Y="54"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit7>
       <Unit8>
         <Filename Value="uParametres_Ligne_de_commande.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="41"/>
         <CursorPos X="64" Y="38"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit8>
       <Unit9>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uBatpro_StringList.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="291"/>
         <CursorPos X="46" Y="315"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit9>
       <Unit10>
         <Filename Value="C:\lazarus\components\fpcunit\console\consoletestrunner.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="309"/>
-        <CursorPos X="25" Y="326"/>
-        <UsageCount Value="10"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="189"/>
+        <CursorPos Y="336"/>
+        <UsageCount Value="13"/>
+        <Loaded Value="True"/>
       </Unit10>
       <Unit11>
         <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\objpas\sysutils\osutilsh.inc"/>
-        <EditorIndex Value="-1"/>
-        <UsageCount Value="10"/>
+        <EditorIndex Value="9"/>
+        <TopLine Value="34"/>
+        <CursorPos X="3" Y="63"/>
+        <UsageCount Value="14"/>
+        <Loaded Value="True"/>
       </Unit11>
       <Unit12>
         <Filename Value="..\..\pascal_o_r_mapping\1_LCL\uWindows.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="22"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit12>
       <Unit13>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uWinUtils.pas"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="13"/>
         <TopLine Value="364"/>
         <CursorPos Y="392"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="14"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit13>
       <Unit14>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uuStrings.pas"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="14"/>
         <TopLine Value="1017"/>
         <CursorPos Y="1034"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="14"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit14>
       <Unit15>
         <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\win\dos.pp"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="667"/>
-        <CursorPos X="21" Y="667"/>
-        <UsageCount Value="10"/>
+        <EditorIndex Value="11"/>
+        <TopLine Value="711"/>
+        <CursorPos Y="732"/>
+        <UsageCount Value="14"/>
         <Loaded Value="True"/>
       </Unit15>
       <Unit16>
         <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\inc\dosh.inc"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="10"/>
         <TopLine Value="104"/>
         <CursorPos X="22" Y="120"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="14"/>
         <Loaded Value="True"/>
       </Unit16>
+      <Unit17>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\win\sysutils.pp"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="21"/>
+        <CursorPos Y="44"/>
+        <UsageCount Value="14"/>
+        <Loaded Value="True"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\objpas\sysutils\sysutilh.inc"/>
+        <EditorIndex Value="8"/>
+        <UsageCount Value="14"/>
+        <Loaded Value="True"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\objpas\sysutils\osutil.inc"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="164"/>
+        <CursorPos X="15" Y="183"/>
+        <UsageCount Value="13"/>
+        <Loaded Value="True"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\unix\sysutils.pp"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="1333"/>
+        <CursorPos X="10" Y="1346"/>
+        <UsageCount Value="13"/>
+        <Loaded Value="True"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\wince\sysutils.pp"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="767"/>
+        <CursorPos X="10" Y="783"/>
+        <UsageCount Value="13"/>
+        <Loaded Value="True"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\win\wininc\ascdef.inc"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="89"/>
+        <CursorPos X="10" Y="105"/>
+        <UsageCount Value="13"/>
+        <Loaded Value="True"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="C:\lazarus\components\lazutils\lazutf8.pas"/>
+        <UnitName Value="LazUTF8"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="139"/>
+        <CursorPos X="38" Y="140"/>
+        <UsageCount Value="13"/>
+        <Loaded Value="True"/>
+      </Unit23>
     </Units>
     <CustomDefines Count="1">
       <Define0 Value="uForms_console"/>
@@ -134,134 +196,121 @@
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="33" Column="38" TopLine="19"/>
+        <Caret Line="68" Column="10" TopLine="52"/>
       </Position1>
       <Position2>
         <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="9" Column="62"/>
+        <Caret Line="131" TopLine="60"/>
       </Position2>
       <Position3>
         <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="37" Column="31" TopLine="21"/>
+        <Caret Line="135" Column="48" TopLine="131"/>
       </Position3>
       <Position4>
         <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="9" Column="53"/>
+        <Caret Line="154" TopLine="131"/>
       </Position4>
       <Position5>
-        <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="59" TopLine="27"/>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\objpas\sysutils\osutil.inc"/>
       </Position5>
       <Position6>
-        <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="37" Column="21" TopLine="27"/>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\unix\sysutils.pp"/>
       </Position6>
       <Position7>
-        <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="9" Column="54"/>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\wince\sysutils.pp"/>
       </Position7>
       <Position8>
-        <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="37" Column="21" TopLine="21"/>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\objpas\sysutils\osutil.inc"/>
+        <Caret Line="180" Column="10" TopLine="164"/>
       </Position8>
       <Position9>
-        <Filename Value="utcLongFileName.pas"/>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\objpas\sysutils\osutil.inc"/>
+        <Caret Line="199" Column="11" TopLine="183"/>
       </Position9>
       <Position10>
-        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uWinUtils.pas"/>
-        <Caret TopLine="256"/>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\objpas\sysutils\osutil.inc"/>
+        <Caret Line="196" Column="10" TopLine="183"/>
       </Position10>
       <Position11>
-        <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="58" TopLine="32"/>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\objpas\sysutils\osutil.inc"/>
+        <Caret Line="183" Column="15" TopLine="164"/>
       </Position11>
       <Position12>
-        <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="54" TopLine="32"/>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\objpas\sysutils\osutilsh.inc"/>
+        <Caret Line="62" Column="63" TopLine="34"/>
       </Position12>
       <Position13>
-        <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="55" TopLine="32"/>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\objpas\sysutils\osutilsh.inc"/>
+        <Caret Line="63" Column="3" TopLine="34"/>
       </Position13>
       <Position14>
-        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uuStrings.pas"/>
-        <Caret Line="153" TopLine="121"/>
+        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\objpas\sysutils\osutil.inc"/>
+        <Caret Line="184" Column="13" TopLine="164"/>
       </Position14>
       <Position15>
-        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uuStrings.pas"/>
-        <Caret Line="1035" Column="17" TopLine="1010"/>
+        <Filename Value="utcLongFileName.pas"/>
+        <Caret Line="137" Column="21" TopLine="128"/>
       </Position15>
       <Position16>
-        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uuStrings.pas"/>
-        <Caret Line="153" TopLine="136"/>
+        <Filename Value="utcLongFileName.pas"/>
+        <Caret Line="77" Column="35" TopLine="55"/>
       </Position16>
       <Position17>
         <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="70" Column="37" TopLine="50"/>
+        <Caret Line="146" Column="37" TopLine="140"/>
       </Position17>
       <Position18>
         <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="69" TopLine="50"/>
+        <Caret Line="85" Column="7" TopLine="69"/>
       </Position18>
       <Position19>
         <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="70" TopLine="50"/>
+        <Caret Line="189" Column="26" TopLine="157"/>
       </Position19>
       <Position20>
         <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="72" TopLine="50"/>
+        <Caret Line="17" Column="17"/>
       </Position20>
       <Position21>
         <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="67" Column="40" TopLine="50"/>
+        <Caret Line="156" Column="40" TopLine="148"/>
       </Position21>
       <Position22>
         <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="69" TopLine="50"/>
+        <Caret Line="70" Column="21" TopLine="49"/>
       </Position22>
       <Position23>
         <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="70" TopLine="50"/>
+        <Caret Line="20" Column="26"/>
       </Position23>
       <Position24>
         <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="71" TopLine="50"/>
+        <Caret Line="178" Column="13" TopLine="156"/>
       </Position24>
       <Position25>
         <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="75" Column="54" TopLine="59"/>
+        <Caret Line="21" Column="8" TopLine="2"/>
       </Position25>
       <Position26>
         <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="9" Column="66"/>
+        <Caret Line="153" TopLine="134"/>
       </Position26>
       <Position27>
         <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="72" Column="38" TopLine="51"/>
+        <Caret Line="24"/>
       </Position27>
       <Position28>
         <Filename Value="utcLongFileName.pas"/>
-        <Caret Line="80" Column="23" TopLine="64"/>
+        <Caret Line="63" Column="21" TopLine="52"/>
       </Position28>
       <Position29>
-        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\win\dos.pp"/>
-        <Caret TopLine="250"/>
+        <Filename Value="utcLongFileName.pas"/>
+        <Caret Line="82" Column="37" TopLine="60"/>
       </Position29>
       <Position30>
-        <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\win\dos.pp"/>
-        <Caret Line="72" Column="25" TopLine="56"/>
+        <Filename Value="utcLongFileName.pas"/>
+        <Caret Line="204" TopLine="172"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>
-  <Debugging>
-    <BreakPoints Count="1">
-      <Item1>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="utcLongFileName.pas"/>
-        <Line Value="86"/>
-      </Item1>
-    </BreakPoints>
-  </Debugging>
 </CONFIG>
