@@ -29,16 +29,7 @@ uses
     uBatpro_StringList,
     u_sys_,
     u_loc_,
-    uDataUtils,
-    uuStrings,
-    uDrawInfo,
     uBatpro_Element,
-    ubeClusterElement,
-    uContextes,
-    uVide,
-    {$IFDEF WINDOWS_GRAPHIC}
-    uDessin,
-    {$ENDIF}
   SysUtils, Classes;
 
 type
@@ -84,9 +75,7 @@ end;
 
 procedure TbeCurseur.Draw( DrawInfo: TDrawInfo);
 begin
-     {$IFDEF WINDOWS_GRAPHIC}
      DrawJalon( DrawInfo, tj_Triangle_vers_droite, clBlack);
-     {$ENDIF}
 end;
 
 procedure TbeCurseur.svgDraw( DrawInfo: TDrawInfo);
