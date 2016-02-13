@@ -202,7 +202,7 @@ type
   //Affichage
   public
     Font: TFont;
-    Canvas: TFPCustomCanvas;
+    Canvas: TCanvas;
     procedure svgDrawCell_Table; virtual;
     procedure svgDrawCell_Table_Defaut; virtual;
     function svgDraw: String; reintroduce;

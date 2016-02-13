@@ -324,7 +324,7 @@ begin
      if Affecte_( blParent, TblODRE_Table, Parent) then exit;
      if -1 <> sl.IndexOf( _Nom)                    then exit;
 
-     bl:= TblOD_Dataset_Columns.Create( sl, nil, nil);
+     bl:= TblOD_Dataset_Columns.Create( nil, nil, nil);
      DCs:= blParent.T.AddDataset( bl.D);
      DCs.from_Doc( '_'+blParent.Nom+'_', _C);
      bl.Charge( _Nom, DCs);

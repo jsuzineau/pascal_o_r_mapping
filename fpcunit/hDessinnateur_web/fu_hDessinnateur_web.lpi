@@ -25,6 +25,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
+        <CommandLineParams Value="-a"/>
       </local>
     </RunParams>
     <RequiredPackages Count="3">
@@ -38,7 +39,7 @@
         <PackageName Value="FCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="5">
+    <Units Count="6">
       <Unit0>
         <Filename Value="fu_hDessinnateur_web.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -59,6 +60,10 @@
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uClean.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit4>
+      <Unit5>
+        <Filename Value="..\..\pascal_o_r_mapping\7_sources_externes\synapse\source\lib\blcksock.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit5>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -66,13 +71,27 @@
     <PathDelim Value="\"/>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\..\pascal_o_r_mapping\3_Data"/>
+      <OtherUnitFiles Value="..\..\pascal_o_r_mapping\3_Data;..\..\pascal_o_r_mapping\7_sources_externes\synapse\source\lib"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
         <SyntaxMode Value="Delphi"/>
       </SyntaxOptions>
     </Parsing>
+    <CodeGeneration>
+      <TargetCPU Value="x86_64"/>
+      <TargetOS Value="win64"/>
+    </CodeGeneration>
+    <Linking>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
+    </Linking>
+    <Other>
+      <CustomOptions Value="-duForms_console"/>
+    </Other>
   </CompilerOptions>
   <Debugging>
     <Exceptions Count="3">

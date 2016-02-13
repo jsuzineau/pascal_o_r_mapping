@@ -36,7 +36,6 @@ uses
     uuStrings,
     uBatpro_StringList,
     uWinUtils,
-    uWindows,
     uReels,
     uTraits,
     u_sys_,
@@ -283,7 +282,25 @@ type
 
 {$IFNDEF WINDOWS_GRAPHIC}
  TStringGrid= TStringGridWeb;
- TCanvas= TFPCustomCanvas;
+ TBrush
+ =
+  record
+  Color: TColor;
+  end;
+ TPen
+ =
+  record
+  Color: TColor;
+  Width: Integer;
+  end;
+
+ TCanvas
+ =
+  class( TFPCustomCanvas)
+  public
+    Brush: TBrush;
+    Pen: TPen;
+  end;
  TPenStyle=TFPPenStyle;
  TBrushStyle=TFPBrushStyle;
  TFontStyle=(fsBold, fsItalic);
@@ -1297,9 +1314,174 @@ procedure Vide_StringGrid( _sg: TStringGridWeb);
 
 procedure Vide_StringGrid_Liste( _sg: TStringGridWeb);
 
+{Début de l'ancienne unité uDessin}
+procedure Dessinne_Coche( Canvas: TCanvas;
+                          CouleurFond, CouleurCoche: TColor;
+                          R: TRect;
+                          Coche: Boolean);
+
+procedure Dessinne_X( Canvas: TCanvas;
+                      CouleurFond, CouleurCoche: TColor;
+                      R: TRect;
+                      X: Boolean);
+
+procedure Dessinne_Coche_X( Canvas: TCanvas;
+                      CouleurFond, CouleurCoche: TColor;
+                      R: TRect;
+                      Coche_X, Coche, X: String);
+
+procedure FrameRect_0( C: TCanvas; R: TRect);
+{Fin de l'ancienne unité uDessin}
+{Début de l'ancienne unité uWindows}
+var
+   //bords non 3D
+   CXBORDER, CYBORDER: Integer;
+   //bords 3D
+   CXEDGE  , CYEDGE  : Integer;
+{Fin de l'ancienne unité uWindows}
+
+
 implementation
 
 {$R *.dfm}
+
+{Début de l'ancienne unité uDessin}
+procedure Dessinne_Coche( Canvas: TCanvas;
+                          CouleurFond, CouleurCoche: TColor;
+                          R: TRect;
+                          Coche: Boolean);
+var
+   W, H, W3, H3, W5, H5: Integer;
+   OldPenWidth: Integer;
+   OldColor: TColor;
+   procedure WH_from_R;
+   begin
+        W:= R.Right  - R.Left;
+        H:= R.Bottom - R.Top ;
+
+        W3:= W div 3;
+        H3:= H div 3;
+
+        W5:= W div 5;
+        H5:= H div 5;
+   end;
+begin
+     with Canvas
+     do
+       begin
+       OldColor:= Brush.Color;
+       Brush.Color:= CouleurFond;
+       FillRect( R);
+       Brush.Color:= OldColor;
+       if Coche
+       then
+           begin
+           OldPenWidth:= Pen.Width;
+           OldColor   := Pen.Color;
+
+           // on rétrécit R de 1/5
+           WH_from_R;
+           InflateRect( R, -W5, -H5);
+           WH_from_R;
+
+           Pen.Color:= CouleurCoche;
+           MoveTo( R.Left, R.Top+H3);
+
+           Pen.Width:= 1;
+           LineTo( R.Left+W3, R.Bottom);
+
+           Pen.Width:= 2;
+           LineTo( R.Right, R.Top);
+
+           Pen.Color:= OldColor;
+           Pen.Width:= OldPenWidth;
+           end;
+       end;
+end;
+
+procedure Dessinne_X( Canvas: TCanvas;
+                      CouleurFond, CouleurCoche: TColor;
+                      R: TRect;
+                      X: Boolean);
+var
+   W, H, W3, H3, W5, H5: Integer;
+   OldPenWidth: Integer;
+   OldColor: TColor;
+   procedure WH_from_R;
+   begin
+        W:= R.Right  - R.Left;
+        H:= R.Bottom - R.Top ;
+
+        W3:= W div 3;
+        H3:= H div 3;
+
+        W5:= W div 5;
+        H5:= H div 5;
+   end;
+begin
+     with Canvas
+     do
+       begin
+       OldColor:= Brush.Color;
+       Brush.Color:= CouleurFond;
+       FillRect( R);
+       Brush.Color:= OldColor;
+       if X
+       then
+           begin
+           OldPenWidth:= Pen.Width;
+           OldColor   := Pen.Color;
+
+           // on rétrécit R de 1/5
+           WH_from_R;
+           InflateRect( R, -W5, -H5);
+           WH_from_R;
+
+           Pen.Color:= CouleurCoche;
+           Pen.Width:= 2;
+           MoveTo( R.Left , R.Top   );
+           LineTo( R.Right, R.Bottom);
+
+           MoveTo( R.Right, R.Top   );
+           LineTo( R.Left , R.Bottom);
+
+           Pen.Color:= OldColor;
+           Pen.Width:= OldPenWidth;
+           end;
+       end;
+end;
+
+procedure Dessinne_Coche_X( Canvas: TCanvas;
+                      CouleurFond, CouleurCoche: TColor;
+                      R: TRect;
+                      Coche_X, Coche, X: String);
+begin
+     if Coche = Coche_X
+     then
+         Dessinne_Coche( Canvas, CouleurFond, CouleurCoche, R, True)
+     else
+         Dessinne_X( Canvas, CouleurFond, CouleurCoche, R, X = Coche_X);
+end;
+
+procedure FrameRect_0( C: TCanvas; R: TRect);
+var
+   P: array[0..4] of TPoint;
+   OldPenWidth: Integer;
+begin
+     P[0]:= R.TopLeft;
+     P[1]:= Point( R.Right, R.Top);
+     P[2]:= R.BottomRight;
+     P[3]:= Point( R.Left, R.Bottom);
+     P[4]:= P[0];
+     OldPenWidth  := C.Pen.Width;
+     try
+        C.Pen.Width:= 0;
+        C.Polyline( P);
+     finally
+            C.Pen.Width  := OldPenWidth;
+            end;
+end;
+{Fin de l'ancienne unité uDessin}
 
 procedure Vide_StringGrid( _sg: TStringGridWeb);
 var
@@ -6935,4 +7117,19 @@ begin
 end;
 
 
+initialization
+              {Début de l'ancienne unité uWindows}
+              {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+              CXBORDER:= GetSystemMetrics( SM_CXBORDER);
+              CYBORDER:= GetSystemMetrics( SM_CYBORDER);
+              CXEDGE:= GetSystemMetrics( SM_CXEDGE);
+              CYEDGE:= GetSystemMetrics( SM_CYEDGE);
+              {$ELSE}
+              CXBORDER:= 1;
+              CYBORDER:= 1;
+              CXEDGE:= 1;
+              CYEDGE:= 1;
+              {$IFEND}
+              {Fin de l'ancienne unité uWindows}
+finalization
 end.

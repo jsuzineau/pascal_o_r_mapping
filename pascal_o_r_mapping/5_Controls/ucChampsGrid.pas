@@ -30,7 +30,6 @@ uses
     uBatpro_StringList,
     ubtString,
     u_sys_,
-    uDessin,
     uWinUtils,
     uForms,
     {$IFNDEF FPC}
@@ -468,6 +467,61 @@ begin
      ts.Alignment:= _a;
      _C.TextStyle:= ts;
 end;
+
+{2016_02_13: Recopié de l'ancienne unité uDessin, dupliqué dans uBatpro_Element}
+procedure Dessinne_Coche( Canvas: TCanvas;
+                          CouleurFond, CouleurCoche: TColor;
+                          R: TRect;
+                          Coche: Boolean);
+var
+   W, H, W3, H3, W5, H5: Integer;
+   OldPenWidth: Integer;
+   OldColor: TColor;
+   procedure WH_from_R;
+   begin
+        W:= R.Right  - R.Left;
+        H:= R.Bottom - R.Top ;
+
+        W3:= W div 3;
+        H3:= H div 3;
+
+        W5:= W div 5;
+        H5:= H div 5;
+   end;
+begin
+     with Canvas
+     do
+       begin
+       OldColor:= Brush.Color;
+       Brush.Color:= CouleurFond;
+       FillRect( R);
+       Brush.Color:= OldColor;
+       if Coche
+       then
+           begin
+           OldPenWidth:= Pen.Width;
+           OldColor   := Pen.Color;
+
+           // on rétrécit R de 1/5
+           WH_from_R;
+           InflateRect( R, -W5, -H5);
+           WH_from_R;
+
+           Pen.Color:= CouleurCoche;
+           MoveTo( R.Left, R.Top+H3);
+
+           Pen.Width:= 1;
+           LineTo( R.Left+W3, R.Bottom);
+
+           Pen.Width:= 2;
+           LineTo( R.Right, R.Top);
+
+           Pen.Color:= OldColor;
+           Pen.Width:= OldPenWidth;
+           end;
+       end;
+end;
+{fin recopie 2016_02_13: Recopié de l'ancienne unité uDessin, dupliqué dans uBatpro_Element}
 
 procedure TChampsGrid.DrawCell( ACol, ARow: Integer; ARect: TRect; AState: TGridDrawState);
 var
