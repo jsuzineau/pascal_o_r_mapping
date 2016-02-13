@@ -207,7 +207,7 @@ type
     procedure svgDrawCell_Table_Defaut; virtual;
     function svgDraw: String; reintroduce;
     function html: String;
-    procedure Test_html;
+    function html_file:String;
   //Dimensionnement
   public
     procedure Initialise_dimensions( _ColonneDebut: Integer= 0);
@@ -1284,20 +1284,18 @@ begin
        +'</body>';
 end;
 
-procedure ThDessinnateurWeb.Test_html;
+function ThDessinnateurWeb.html_file: String;
 var
-   NomFichier: String;
    slLignes: TBatpro_StringList;
 begin
-     NomFichier:= OD_Temporaire.Nouveau_Extension( ClassName, '.html');
+     Result:= OD_Temporaire.Nouveau_Extension( ClassName, '.html');
      slLignes:= TBatpro_StringList.Create;
      try
         slLignes.Text:= html;
-        slLignes.SaveToFile( NomFichier);
+        slLignes.SaveToFile( Result);
      finally
             Free_nil( slLignes);
             end;
-     ShowURL( NomFichier);
 end;
 
 procedure ThDessinnateurWeb.Traite_Dimensions;

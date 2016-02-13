@@ -35,6 +35,7 @@ uses
     ubeString,
     uhDessinnateurWeb,
     upoolG_BECP,
+    LCLIntf,
  Classes, SysUtils, fpcunit, testutils, testregistry;
 
 type
@@ -59,7 +60,7 @@ implementation
 procedure TTest_hDessinnateur_web.TestHookUp;
 begin
      //Fail('Écrivez votre propre test');
-     hdW.Test_html;
+     OpenDocument(  hdW.html_file);
 end;
 
 procedure TTest_hDessinnateur_web.SetUp;
