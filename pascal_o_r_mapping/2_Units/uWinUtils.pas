@@ -40,24 +40,29 @@ uses
   {$IFDEF WINDOWS}
   Windows,
   {$ENDIF}
-  Classes, Menus, Dialogs, SysUtils,
   {$IFDEF FPC}
     LCLIntf, LCLType,
   {$ENDIF}
-  Graphics, Controls, CheckLst, StdCtrls, ExtCtrls,
-  Forms;
+  {$IFDEF WINDOWS_GRAPHIC}
+  Menus, Dialogs, Graphics, Controls, CheckLst, StdCtrls, ExtCtrls, Forms,
+  {$ENDIF}
+  SysUtils, Classes;
 
 function sGetLastError: String;
 
+{$IFDEF WINDOWS_GRAPHIC}
 procedure TraiteLastError( Messag: String);
+{$ENDIF}
 
 function SelectionnneRepertoire( Parent: Integer;
                                  Titre: String; var Path: String): Boolean;
 
+{$IFDEF WINDOWS_GRAPHIC}
 procedure Enable_MenuItem( MenuItem: TMenuItem; Enabled: Boolean);
-
+{$ENDIF}
 procedure Concat_Espace( var S1: String; S2, Espace: String);
 
+{$IFDEF WINDOWS_GRAPHIC}
 procedure Oriente_Fonte( Orientation: Integer; F: TFont);
 function LineHeight( F: TFont): Integer;
 
@@ -68,13 +73,15 @@ function LargeurTexte( F: TFont; S: String                  ): Integer;
 function NbChars( F: TFont; Width: Integer): Integer;
 
 procedure Aligne_Sommet( Source, Cible: TControl);
+{$ENDIF}
 
 function Try_ShortPathName( var Path: String): Boolean;
 
+{$IFDEF WINDOWS_GRAPHIC}
 procedure CheckAll( cb: TCheckListBox);
 procedure UnCheckAll( cb: TCheckListBox);
 procedure Check( cb: TCheckListBox; C: array of integer; C0: Integer = 0);
-
+{$ENDIF}
 function Lance_Programme( EXE_FileName: String; Parametres: String = ''): Boolean;
 
 var
@@ -82,21 +89,25 @@ var
    pBatpro_EXE_ou_DLL_Path: String = '';
 function Charge_Paquet( NomPaquet: String): Boolean;
 
+{$IFDEF WINDOWS_GRAPHIC}
 type TControlProc = procedure ( C: TControl);
 procedure EnumereControls( W: TWinControl; Proc: TControlProc);
 
 function Panel_from_sl( sl: TBatpro_StringList; I: Integer): TPanel;
+{$ENDIF}
 
 function Variables_d_environnement: String;
 
+{$IFDEF WINDOWS_GRAPHIC}
 function InputPassword(const ACaption, APrompt, ADefault: string): String;
 
 procedure uWinUtils_Control_Color( Color: TColor; Controls: array of TControl);
-
+{$ENDIF}
 function uWinUtils_RepertoireTemporaire: String;
 
 implementation
 
+{$IFDEF WINDOWS_GRAPHIC}
 type
  TWinUtils_Contexte
  =
@@ -377,6 +388,7 @@ begin
             WinUtils_Contexte.Termine;
             end;
 end;
+{$ENDIF}
 
 function sGetLastError: String;
 {$IFDEF WINDOWS}
@@ -395,6 +407,7 @@ begin
 end;
 {$ENDIF}
 
+{$IFDEF WINDOWS_GRAPHIC}
 procedure TraiteLastError( Messag: String);
 begin
      ShowMessage( Messag + sGetLastError);
@@ -440,6 +453,7 @@ begin
          PostMessage( Wnd, BFFM_SETSELECTION, 1, lpData);
 end;
 *)
+{$ENDIF}
 
 function SelectionnneRepertoire( Parent: integer; Titre: String; var Path: String): Boolean;
 (*
@@ -478,6 +492,7 @@ SHGetMalloc( malloc);
 *)
 end;
 
+{$IFDEF WINDOWS_GRAPHIC}
 procedure Enable_MenuItem( MenuItem: TMenuItem; Enabled: Boolean);
 var
    I: Integer;
@@ -492,6 +507,7 @@ begin
          do
            Enable_MenuItem( MenuItem.Items[I], Enabled);
 end;
+{$ENDIF}
 
 procedure Concat_Espace( var S1: String; S2, Espace: String);
 begin
@@ -503,7 +519,7 @@ begin
      S1:= S1 + S2;
 end;
 
-
+{$IFDEF WINDOWS_GRAPHIC}
 procedure Aligne_Sommet( Source, Cible: TControl);
 var
    P: TPoint;
@@ -513,6 +529,7 @@ begin
      P:= Cible.Parent.ScreenToClient( P);
      Cible.Top := P.Y;
 end;
+{$ENDIF}
 
 function Try_ShortPathName( var Path: String): Boolean;
 var
@@ -535,6 +552,7 @@ Fillchar(Buffer, SizeOf(Buffer), 0);
 *)
 end;
 
+{$IFDEF WINDOWS_GRAPHIC}
 procedure CheckAll( cb: TCheckListBox);
 var
    I: Integer;
@@ -569,6 +587,7 @@ begin
            cb.Checked[ I]:= True;
        end;
 end;
+{$ENDIF}
 
 function Lance_Programme( EXE_FileName: String; Parametres: String = ''): Boolean;
 (*
@@ -590,6 +609,7 @@ begin
      *)
 end;
 
+{$IFDEF WINDOWS_GRAPHIC}
 procedure EnumereControls( W: TWinControl; Proc: TControlProc);
 var
    I: Integer;
@@ -622,6 +642,8 @@ begin
 
      Result:= TPanel( O);
 end;
+
+{$ENDIF}
 
 function Charge_Paquet( NomPaquet: String): Boolean;
 (*
@@ -709,96 +731,13 @@ begin
 end;
 
 
-//provient du code Borland de l'unité Dialogs
+{$IFDEF WINDOWS_GRAPHIC}
 function GetAveCharSize(Canvas: TCanvas): TPoint;
-var
-  I: Integer;
-  Buffer: array[0..51] of Char;
 begin
-     (*
-  for I := 0 to 25 do Buffer[I] := Chr(I + Ord('A'));
-  for I := 0 to 25 do Buffer[I + 26] := Chr(I + Ord('a'));
-  GetTextExtentPoint(Canvas.Handle, Buffer, 52, TSize(Result));
-  Result.X := Result.X div 52;
-  *)
 end;
 
-//provient du code Borland de Dialogs.InputQuery
 function InputPassword(const ACaption, APrompt, ADefault: string): String;
-var
-   Form: TForm;
-   Prompt: TLabel;
-   Edit: TEdit;
-   DialogUnits: TPoint;
-   ButtonTop, ButtonWidth, ButtonHeight: Integer;
 begin
-(*
-Result := ADefault;
-
-     Form := TForm.Create(Application);
-     with Form
-     do
-       try
-          Canvas.Font := Font;
-          DialogUnits := GetAveCharSize(Canvas);
-          BorderStyle := bsDialog;
-          Caption     := ACaption;
-          ClientWidth := MulDiv(180, DialogUnits.X, 4);
-          Position    := poScreenCenter;
-
-          Prompt := TLabel.Create(Form);
-          with Prompt
-          do
-            begin
-            Parent  := Form;
-            Caption := APrompt;
-            Left    := MulDiv(8, DialogUnits.X, 4);
-            Top     := MulDiv(8, DialogUnits.Y, 8);
-            Constraints.MaxWidth := MulDiv(164, DialogUnits.X, 4);
-            WordWrap:= True;
-            end;
-          Edit := TEdit.Create(Form);
-          with Edit
-          do
-            begin
-            Parent   := Form;
-            Left     := Prompt.Left;
-            Top      := Prompt.Top + Prompt.Height + 5;
-            Width    := MulDiv(164, DialogUnits.X, 4);
-            MaxLength:= 255;
-            Text     := Result;
-            PasswordChar:= '*';
-            SelectAll;
-            end;
-          ButtonTop   := Edit.Top + Edit.Height + 15;
-          ButtonWidth := MulDiv(50, DialogUnits.X, 4);
-          ButtonHeight:= MulDiv(14, DialogUnits.Y, 8);
-          with TButton.Create(Form)
-          do
-            begin
-            Parent     := Form;
-            Caption    := SMsgDlgOK;
-            ModalResult:= mrOk;
-            Default    := True;
-            SetBounds(MulDiv(38, DialogUnits.X, 4), ButtonTop, ButtonWidth, ButtonHeight);
-            end;
-          with TButton.Create(Form)
-          do
-            begin
-            Parent     := Form;
-            Caption    := SMsgDlgCancel;
-            ModalResult:= mrCancel;
-            Cancel     := True;
-            SetBounds(MulDiv(92, DialogUnits.X, 4), Edit.Top + Edit.Height + 15, ButtonWidth, ButtonHeight);
-            Form.ClientHeight := Top + Height + 13;
-            end;
-          if ShowModal = mrOk
-          then
-              Result:= Edit.Text;
-       finally
-              Form.Free;
-       end;
-*)
 end;
 
 procedure uWinUtils_Control_Color( Color: TColor; Controls: array of TControl);
@@ -815,6 +754,7 @@ begin
        C.Refresh;
        end;
 end;
+{$ENDIF}
 
 function uWinUtils_RepertoireTemporaire: String;
 begin
@@ -822,9 +762,13 @@ begin
 end;
 
 initialization
+              {$IFDEF WINDOWS_GRAPHIC}
               WinUtils_Contexte:= TWinUtils_Contexte.Create;
+              {$ENDIF}
 finalization
+              {$IFDEF WINDOWS_GRAPHIC}
               Free_nil( WinUtils_Contexte);
+              {$ENDIF}
 end.
 
 
