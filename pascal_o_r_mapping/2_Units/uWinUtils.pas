@@ -40,10 +40,8 @@ uses
   {$IFDEF WINDOWS}
   Windows,
   {$ENDIF}
-  {$IFDEF FPC}
-    LCLIntf, LCLType,
-  {$ENDIF}
   {$IFDEF WINDOWS_GRAPHIC}
+  LCLIntf, LCLType,
   Menus, Dialogs, Graphics, Controls, CheckLst, StdCtrls, ExtCtrls, Forms,
   {$ENDIF}
   SysUtils, Classes;
