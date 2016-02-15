@@ -35,7 +35,9 @@ uses
     uskString,
     uuStrings,
     uBatpro_StringList,
+    {$IFDEF WINDOWS_GRAPHIC}
     uWinUtils,
+    {$ENDIF}
     uReels,
     uTraits,
     u_sys_,

@@ -42,6 +42,45 @@ begin
          thjsFichiers:= TthjsFichiers.Create( eRootPath.Text);
 end;
 
+
+// à réécrire avec TSelectDirectoryDialog ?
+function SelectionnneRepertoire( Parent: integer; Titre: String; var Path: String): Boolean;
+(*
+var
+   bi: TBrowseInfoA;
+   pIIL: PItemIDList;
+   malloc: IMalloc;
+   Display: PChar;
+*)
+begin
+     Result:= False;
+(*
+SHGetMalloc( malloc);
+     Display:= malloc.Alloc( MAX_PATH+1);
+       StrPCopy( Display, Path);
+       bi.hwndOwner:= Parent;
+       bi.pidlRoot:= nil;//GetIILfromPath(Parent, Path);
+       bi.pszDisplayName:= Display;
+       bi.lpszTitle:= PChar(Titre);
+       bi.ulFlags:= 0;//$0010;//BIF_EDITBOX;
+       bi.lpfn:= BrowseCallbackProc;
+       bi.lParam:= Integer( Display);
+       bi.iImage:=0;
+       pIIL:= SHBrowseForFolder( bi);
+       if pIIL <> nil
+       then
+           begin
+           if SHGetPathFromIDList( pIIL, Display)
+           then
+               begin
+               Path:= Display;
+               Result:= True;
+               end;
+           end;
+     malloc.Free( Display);
+*)
+end;
+
 procedure TfjsFichiers.bParcourirClick(Sender: TObject);
 var
    RootPath: String;

@@ -27,7 +27,7 @@ interface
 
 uses
     uOD_Forms,
-    uWinUtils,
+    uLog,
   {$IFNDEF FPC}
   Dialogs, ShellAPI,
   {$ELSE}
@@ -104,7 +104,7 @@ end;
 
 
 function TOD_Temporaire.RepertoireSysteme: String;
-{$IFNDEF FPC}
+{$IFDEF WINDOWS}
 var
    buffer: array[0..MAX_PATH] of AnsiChar;
 begin
@@ -138,13 +138,14 @@ end;
 {$ENDIF}
 
 function TOD_Temporaire.Nouveau_Fichier( Prefixe: String): String;
-{$IFNDEF FPC}
+{$IFDEF WINDOWS}
 var
    TempFileName: array[0..MAX_PATH] of AnsiChar;
 begin
      GetTempFileName(  PAnsiChar( RepertoireTemp),
                        PAnsiChar( Prefixe       ), 0, TempFileName);
      Result:= StrPas( TempFileName);
+     Result:= ExtractLongPathName( Result);
 end;
 {$ELSE}
 var
@@ -201,18 +202,8 @@ begin
 end;
 
 procedure TOD_Temporaire.TraiteLastError( Messag: String);
-var
-   MessageSysteme: PChar;
 begin
-     {$IFNDEF FPC}
-     FormatMessage( FORMAT_MESSAGE_FROM_SYSTEM or
-                    FORMAT_MESSAGE_ALLOCATE_BUFFER,
-                    nil, GetLastError,
-                    0, @MessageSysteme, 0, nil);
-     {$ELSE}
-     MessageSysteme:= nil;
-     {$ENDIF}
-     uOD_Forms_ShowMessage( Messag + StrPas(MessageSysteme));
+     uLog.TraiteLastError( Messag);
 end;
 
 function TOD_Temporaire.DetruitRepertoire( _Repertoire: String): Boolean;

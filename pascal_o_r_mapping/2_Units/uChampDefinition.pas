@@ -319,7 +319,7 @@ var
    S: String;
 begin
      S:= ChaineDe( Longueur, 'W');
-     Result:= LargeurTexte( Font, S);
+     Result:= uWinUtils.LargeurTexte( Font, S);
 end;
 {$ENDIF}
 {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}

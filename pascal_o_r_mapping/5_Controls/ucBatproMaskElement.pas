@@ -26,6 +26,8 @@ unit ucBatproMaskElement;
 interface
 
 uses
+    uDataUtilsU,
+    u_sys_, uClean,
     uForms,
     uBatpro_StringList,
     uSGBD,
@@ -35,6 +37,7 @@ uses
     uChamp,
 
     ufAccueil_Erreur,
+    uWinUtils,
 
   {$IFNDEF FPC}
   Windows,
@@ -42,6 +45,7 @@ uses
   {$IFDEF FPC}
   LCLType,
   {$ENDIF}
+  Mask,
   Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, Buttons, DB, DBCtrls, ExtCtrls, Math, DBTables;
 
@@ -301,11 +305,6 @@ type
 procedure Register;
 
 implementation
-
-uses
-    uDataUtilsU,
-    uWinUtils,
-    u_sys_, uClean, Mask;
 
 procedure Register;
 begin

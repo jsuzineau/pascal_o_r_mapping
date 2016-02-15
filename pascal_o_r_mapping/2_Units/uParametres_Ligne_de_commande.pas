@@ -30,10 +30,7 @@ uses
     uClean,
     uuStrings,
     uBatpro_StringList,
-    {$IFNDEF FPC}
-    uWinUtils,
-    {$ENDIF}
-  {$IFDEF WINDOWS_GRAPHIC}
+  {$IFDEF WINDOWS}
   Windows,
   {$ENDIF}
   SysUtils, Classes;
@@ -81,27 +78,9 @@ type
   private
     procedure To_StringList;
     procedure From_StringList;
-  {$IFNDEF FPC}
-  public
-    function To_Atom: ATOM;
-    procedure From_Atom( _Atom: ATOM);
-  {$ENDIF}
   //Nom utilisateur
   public
     function NomUtilisateur: String;
-  //MailSlot server
-  private
-    hMailSlot: THandle;
-    procedure Cree_MailSlot;
-    procedure Ferme_MailSlot;
-  public
-    Actif: Boolean;
-    NomMailSlot: String;
-    function From_MailSlot: Boolean;
-  //MailSlot Client
-  public
-    function not_MailSlot_existe( _NomMailSlot: String): Boolean;
-    procedure To_MailSlot( _NomMailSlot: String);
   //Pour gestion du FrontCall depuis le GDC
   public
     procedure From_Chaine( _Parametres: String);
@@ -120,13 +99,10 @@ implementation
 constructor TParametres_Ligne_de_commande.Create( _Nom: String= '');
 begin
      inherited;
-     Actif:= False;
-     Cree_MailSlot;
 end;
 
 destructor TParametres_Ligne_de_commande.Destroy;
 begin
-     Ferme_MailSlot;
      inherited;
 end;
 
@@ -167,25 +143,8 @@ begin
      Parametre7        := Values['Parametre7'        ];
 end;
 
-{$IFNDEF FPC}
-function TParametres_Ligne_de_commande.To_Atom: ATOM;
-begin
-     To_StringList;
-     Result:= GlobalAddAtom( PChar( Text))
-end;
-
-procedure TParametres_Ligne_de_commande.From_Atom( _Atom: ATOM);
-var
-   Buffer: array[0..4096] of AnsiChar;
-begin
-     GlobalGetAtomName( _Atom, Buffer, SizeOf( Buffer));
-     Text:= StrPas( Buffer);
-     From_StringList;
-end;
-{$ENDIF}
-
 function TParametres_Ligne_de_commande.NomUtilisateur: String;
-{$IFNDEF FPC}
+{$IFDEF WINDOWS}
 var
    cNomUtilisateur: array[0..1024] of Char;
    cNomUtilisateur_Length: Cardinal;
@@ -200,172 +159,6 @@ end;
 {$ELSE}
 begin
      Result:= GetEnvironmentVariable('USER');
-end;
-{$ENDIF}
-
-procedure TParametres_Ligne_de_commande.Cree_MailSlot;
-{$IFNDEF FPC}
-var
-   NomExe: String;
-   RacineNomMailSlot: String;
-   function not_T( _NomApplication: String): Boolean;
-   begin
-        //uClean_Log(  'Parametres_Ligne_de_commande.Cree_MailSlot, test >'
-        //            +_NomApplication
-        //            +'<, NomExe: >'+NomExe+'<' );
-        Result:= True;
-        if 1 <> Pos( UpperCase( _NomApplication), NomExe) then exit;
-
-        RacineNomMailSlot:= '\\.\mailslot\'+_NomApplication+'.';
-        Actif:= True;
-        Result:= False;
-   end;
-begin
-     if Actif then exit;
-
-     NomExe:= UpperCase( ExtractFileName( uForms_EXE_Name));
-          if not_T( 'Batpro_Editions_Application')
-     then    not_T( 'Batpro_Planning_Application');
-
-     if not Actif then exit;
-
-     NomMailSlot:= RacineNomMailSlot+NomUtilisateur;
-     //uClean_Log(  'Parametres_Ligne_de_commande.Cree_MailSlot, Création >'
-     //            +NomMailSlot+'<');
-
-     hMailSlot
-     :=
-       CreateMailslot( PChar( NomMailSlot),
-                       0,
-                       MAILSLOT_WAIT_FOREVER,   //MAILSLOT_WAIT_FOREVER ou 0
-                       nil);
-     if INVALID_HANDLE_VALUE = hMailSlot
-     then
-         begin
-         Actif:= False;
-         if ERROR_ALREADY_EXISTS <> GetLastError
-         then
-             TraiteLastError( 'Echec à la création du MailSlot: ');
-         end;
-end;
-{$ELSE}
-begin
-end;
-{$ENDIF}
-
-procedure TParametres_Ligne_de_commande.Ferme_MailSlot;
-{$IFNDEF FPC}
-begin
-     CloseHandle( hMailSlot);
-end;
-{$ELSE}
-begin
-end;
-{$ENDIF}
-
-function TParametres_Ligne_de_commande.From_MailSlot: Boolean;
-{$IFNDEF FPC}
-var
-   NextSize: DWORD;
-   Lus: DWORD;
-   Buffer: String;
-begin
-     Result:= False;
-     try
-        Clear;
-
-        if not Actif then exit;
-
-        if not GetMailslotInfo( hMailSlot, nil, NextSize, nil, nil)
-        then
-            begin
-            TraiteLastError( 'Echec de GetMailslotInfo : ');
-            exit;
-            end;
-
-        if MAILSLOT_NO_MESSAGE = NextSize then exit;
-
-        Result:= True;
-        SetLength( Buffer, NextSize);
-        ReadFile( hMailSlot, Buffer[1], NextSize, Lus, nil);
-        Text:= Buffer;
-     finally
-            From_StringList;
-            end;
-end;
-{$ELSE}
-begin
-end;
-{$ENDIF}
-
-
-procedure TParametres_Ligne_de_commande.To_MailSlot( _NomMailSlot: String);
-{$IFNDEF FPC}
-var
-   NomMailSlot_Client: String;
-   hMailSlot_Client: THandle;
-   Buffer: String;
-   Ecrits: DWORD;
-begin
-     To_StringList;
-
-     Buffer:= Text;
-
-     NomMailSlot_Client:= {'\\.\mailslot\'+}_NomMailSlot;
-     hMailSlot_Client
-     :=
-       CreateFile( PChar( NomMailSlot_Client),
-                   GENERIC_WRITE,
-                   FILE_SHARE_READ,
-                   nil,
-                   OPEN_EXISTING,
-                   FILE_ATTRIBUTE_NORMAL,
-                   0);
-     if INVALID_HANDLE_VALUE = hMailSlot_Client
-     then
-         TraiteLastError( 'Echec à l''ouverture du MailSlot '+NomMailSlot_Client+': ');
-
-     WriteFile( hMailSlot_Client, Buffer[1], Length(Buffer), Ecrits, nil);
-
-     CloseHandle( hMailSlot_Client);
-end;
-{$ELSE}
-begin
-end;
-{$ENDIF}
-
-
-function TParametres_Ligne_de_commande.not_MailSlot_existe( _NomMailSlot: String): Boolean;
-{$IFNDEF FPC}
-var
-   NomMailSlot_Client: String;
-   hMailSlot_Client: THandle;
-begin
-     Result:= False;
-     NomMailSlot_Client:= {'\\.\mailslot\'+}_NomMailSlot;
-     hMailSlot_Client
-     :=
-       CreateFile( PChar( NomMailSlot_Client),
-                   GENERIC_WRITE,
-                   FILE_SHARE_READ,
-                   nil,
-                   OPEN_EXISTING,
-                   FILE_ATTRIBUTE_NORMAL,
-                   0);
-     if INVALID_HANDLE_VALUE = hMailSlot_Client
-     then
-         begin
-         if ERROR_FILE_NOT_FOUND = GetLastError
-         then
-             Result:= True
-         else
-             TraiteLastError( 'Echec à l''ouverture du MailSlot '+NomMailSlot_Client+'- '+IntToStr(GetLastError)+': ');
-         end;
-
-     CloseHandle( hMailSlot_Client);
-end;
-{$ELSE}
-begin
 end;
 {$ENDIF}
 
