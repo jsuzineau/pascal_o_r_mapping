@@ -12,10 +12,10 @@ uses
  ucBatpro_OptionButton, ucBatpro_RadioGroup, ucBatproSelector, ucBatpro_Shape, 
  ucBatpro_SpeedButton, ucBatproSQLMask, ucBitBtn_antirebond, ucChamp_CheckBox, 
  ucChamp_Edit, ucChamp_Label, ucChamp_Lookup_ComboBox, ucChamp_Memo, 
- uDBEdit_WANTTAB, udmf, uDockable, uEdit_WANTTAB, ufAttente_Demarrage, ufcb, 
- ufChamp_Date, ufChamp_Lookup, ufChampsGrid_Colonnes, ucAnimate, 
- ucChamp_Integer_SpinEdit, ucChamp_DateTimePicker, ucChamp_Float_SpinEdit, 
- ucChampsGrid, ucDockableScrollbox, LazarusPackageIntf;
+ uDBEdit_WANTTAB, udmf, uDockable, uEdit_WANTTAB, ufcb, ufChamp_Date, 
+ ufChamp_Lookup, ufChampsGrid_Colonnes, ucAnimate, ucChamp_Integer_SpinEdit, 
+ ucChamp_DateTimePicker, ucChamp_Float_SpinEdit, ucChampsGrid, 
+ ucDockableScrollbox, uWinUtils, LazarusPackageIntf;
 
 implementation
 

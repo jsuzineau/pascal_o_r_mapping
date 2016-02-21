@@ -28,10 +28,14 @@ interface
 uses
     uBatpro_StringList,
     uClean,
+    uForms,
     {$IFNDEF FPC}
     uAide,
     {$ENDIF}
     uNetWork,
+  {$IFDEF WINDOWS}
+  Windows,
+  {$ENDIF}
   {$IFDEF FPC}
   LazUTF8, LCLIntf,
   {$ENDIF}
@@ -64,7 +68,55 @@ type
 
 function Log: TLog;
 
+function sGetLastError: String;
+
+procedure TraiteLastError( Messag: String);
+
+function Variables_d_environnement: String;
+
 implementation
+
+function sGetLastError: String;
+{$IFDEF WINDOWS}
+var
+   MessageSysteme: PChar;
+begin
+     FormatMessage( FORMAT_MESSAGE_FROM_SYSTEM or
+                         FORMAT_MESSAGE_ALLOCATE_BUFFER,
+                         nil, GetLastError,
+                         0, @MessageSysteme, 0, nil);
+     Result:= StrPas(MessageSysteme);
+end;
+{$ELSE}
+begin
+     Result:= 'fonction uLog.sGetLastError non implémentée en dehors de Windows';
+end;
+{$ENDIF}
+
+procedure TraiteLastError( Messag: String);
+begin
+     uForms_ShowMessage( Messag + sGetLastError);
+end;
+
+function Variables_d_environnement: String;
+var
+   I: Integer;
+   sl: TStringList;
+begin
+     Result:= 'Variables d''environnement:'#13#10;
+     sl:= TStringList.Create;
+     try
+       for I := 0 to GetEnvironmentVariableCount - 1
+       do
+         sl.Add( GetEnvironmentString(I));
+
+       Result:= Result+sl.Text;
+     finally
+            FreeAndNil( sl);
+            end;
+end;
+
+{ TLog }
 
 var
    FLog: TLog= nil;
@@ -76,8 +128,6 @@ begin
          FLog:= TLog.Create;
      Result:= FLog;
 end;
-
-{ TLog }
 
 constructor TLog.Create;
 begin

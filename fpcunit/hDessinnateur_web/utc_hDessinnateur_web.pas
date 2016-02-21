@@ -28,13 +28,8 @@ interface
 
 uses
     uClean,
-    uSVG,
-    uDrawInfo,
-    uBatpro_Element,
-    ubeClusterElement,
-    ubeString,
-    uhDessinnateurWeb,
-    upoolG_BECP,
+    uhdmTestDessinnateurWeb,
+    LCLIntf,
  Classes, SysUtils, fpcunit, testutils, testregistry;
 
 type
@@ -48,10 +43,7 @@ type
    procedure TestHookUp;
   //attributs
   private
-    hdW: ThDessinnateurWeb;
-    bs: TbeString;
-    ce1: TbeClusterElement;
-    ce2: TbeClusterElement;
+    hdm: ThdmTestDessinnateurWeb;
   end;
 
 implementation
@@ -59,36 +51,17 @@ implementation
 procedure TTest_hDessinnateur_web.TestHookUp;
 begin
      //Fail('Écrivez votre propre test');
-     hdW.Test_html;
+     OpenDocument(  hdm.html_file);
 end;
 
 procedure TTest_hDessinnateur_web.SetUp;
 begin
-     bs:= TbeString.Create( nil, 'Test', clYellow, bea_Gauche);
-     bs.Cree_Cluster;
-     bs.Cluster.Initialise;
-     bs.Cluster.Colonne_LargeurMaxi:= 10;
-     ce1:= TbeClusterElement.Create( nil, bs);
-     ce2:= TbeClusterElement.Create( nil, bs);
-     bs.Cluster.Ajoute( ce1, 1,1);
-     bs.Cluster.Ajoute( ce2, 2,1);
-
-
-     hdW:= ThDessinnateurWeb.Create( 1, 'Test', nil);
-     hdW.sg.Width := 100;
-     hdW.sg.Height:= 100;
-     hdW.sg.DefaultColWidth := 25;
-     hdW.sg.DefaultRowHeight:= 25;
-     hdW.sg.Resize( 4, 4);
-
-     hdW.Charge_Cell( ce1, 1, 1);
-     hdW.Charge_Cell( ce2, 2, 1);
+     hdm:= ThdmTestDessinnateurWeb.Create;
 end;
 
 procedure TTest_hDessinnateur_web.TearDown;
 begin
-     Free_nil( bs);
-     Free_nil( hdW);
+     Free_nil( hdm);
 end;
 
 initialization

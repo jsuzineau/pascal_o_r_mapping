@@ -35,7 +35,9 @@ uses
     uskString,
     uuStrings,
     uBatpro_StringList,
+    {$IFDEF WINDOWS_GRAPHIC}
     uWinUtils,
+    {$ENDIF}
     uReels,
     uTraits,
     u_sys_,
@@ -90,6 +92,44 @@ const
     {$ELSE}
     (0      ,   1,           2) ;
     {$ENDIF}
+
+{$IFNDEF WINDOWS_GRAPHIC}
+const //recopié de l'unité Graphics
+  psSolid = FPCanvas.psSolid;
+  psDash = FPCanvas.psDash;
+  psDot = FPCanvas.psDot;
+  psDashDot = FPCanvas.psDashDot;
+  psDashDotDot = FPCanvas.psDashDotDot;
+  psClear = FPCanvas.psClear;
+  psInsideframe = FPCanvas.psInsideframe;
+  psPattern = FPCanvas.psPattern;
+
+  pmBlack = FPCanvas.pmBlack;
+  pmWhite = FPCanvas.pmWhite;
+  pmNop = FPCanvas.pmNop;
+  pmNot = FPCanvas.pmNot;
+  pmCopy = FPCanvas.pmCopy;
+  pmNotCopy = FPCanvas.pmNotCopy;
+  pmMergePenNot = FPCanvas.pmMergePenNot;
+  pmMaskPenNot = FPCanvas.pmMaskPenNot;
+  pmMergeNotPen = FPCanvas.pmMergeNotPen;
+  pmMaskNotPen = FPCanvas.pmMaskNotPen;
+  pmMerge = FPCanvas.pmMerge;
+  pmNotMerge = FPCanvas.pmNotMerge;
+  pmMask = FPCanvas.pmMask;
+  pmNotMask = FPCanvas.pmNotMask;
+  pmXor = FPCanvas.pmXor;
+  pmNotXor = FPCanvas.pmNotXor;
+
+  bsSolid = FPCanvas.bsSolid;
+  bsClear = FPCanvas.bsClear;
+  bsHorizontal = FPCanvas.bsHorizontal;
+  bsVertical = FPCanvas.bsVertical;
+  bsFDiagonal = FPCanvas.bsFDiagonal;
+  bsBDiagonal = FPCanvas.bsBDiagonal;
+  bsCross = FPCanvas.bsCross;
+  bsDiagCross = FPCanvas.bsDiagCross;
+{$ENDIF}
 
 {début de l'unité uDrawInfo déplacée}
 const
@@ -282,16 +322,22 @@ type
 
 {$IFNDEF WINDOWS_GRAPHIC}
  TStringGrid= TStringGridWeb;
+ TBrushStyle = TFPBrushStyle;
  TBrush
  =
   record
   Color: TColor;
+  Style: TBrushStyle;
   end;
+
+ TPenStyle=TFPPenStyle;
  TPen
  =
   record
   Color: TColor;
   Width: Integer;
+  Mode : TFPPenMode;
+  Style: TPenStyle;
   end;
 
  TCanvas
@@ -301,8 +347,6 @@ type
     Brush: TBrush;
     Pen: TPen;
   end;
- TPenStyle=TFPPenStyle;
- TBrushStyle=TFPBrushStyle;
  TFontStyle=(fsBold, fsItalic);
  TFontStyles= set of TFontStyle;
 
@@ -312,6 +356,7 @@ type
  =
   class(TFPCustomFont)
   public
+    Color: TColor;
     Style: TFontStyles;
     constructor Create;
     procedure Assign( _Source: TPersistent); override;

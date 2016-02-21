@@ -30,7 +30,6 @@ uses
     uuStrings,
     uReels,
     uWindows,
-    uWinUtils,
     u_sys_,
     u_sys_Batpro_Element,
     uDrawInfo,

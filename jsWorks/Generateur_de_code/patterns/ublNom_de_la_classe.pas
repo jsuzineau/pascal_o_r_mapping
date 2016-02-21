@@ -64,8 +64,8 @@ type
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: TblNom_de_la_classe);
-    function  not_Suivant( var _Resultat: TblNom_de_la_classe): Boolean;
+    procedure Suivant( out _Resultat: TblNom_de_la_classe);
+    function  not_Suivant( out _Resultat: TblNom_de_la_classe): Boolean;
   end;
 
  TslNom_de_la_classe
@@ -100,12 +100,12 @@ end;
 
 { TIterateur_Nom_de_la_classe }
 
-function TIterateur_Nom_de_la_classe.not_Suivant( var _Resultat: TblNom_de_la_classe): Boolean;
+function TIterateur_Nom_de_la_classe.not_Suivant( out _Resultat: TblNom_de_la_classe): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_Nom_de_la_classe.Suivant( var _Resultat: TblNom_de_la_classe);
+procedure TIterateur_Nom_de_la_classe.Suivant( out _Resultat: TblNom_de_la_classe);
 begin
      Suivant_interne( _Resultat);
 end;

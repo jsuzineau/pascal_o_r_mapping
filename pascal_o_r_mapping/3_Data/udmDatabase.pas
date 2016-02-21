@@ -34,7 +34,6 @@ uses
     u_sys_,
     u_ini_,
     uDataUtilsU,
-    //uWinUtils,
     uNetwork,
     uuStrings,
     uDataUtilsF,

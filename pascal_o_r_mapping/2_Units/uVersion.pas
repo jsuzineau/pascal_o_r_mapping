@@ -25,8 +25,11 @@ unit uVersion;
 interface
 
 uses
-    (*uWinUtils,
-  Windows,*) SysUtils;
+    uLog,
+  {$IFDEF WINDOWS}
+  Windows,
+  {$ENDIF}
+  SysUtils;
 
 function GetVersionProgramme: String;
 

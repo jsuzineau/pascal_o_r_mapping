@@ -1,11 +1,11 @@
 object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
-  Left = 1749
-  Height = 656
-  Top = 257
-  Width = 1142
+  Left = 248
+  Height = 356
+  Top = 153
+  Width = 818
   Caption = 'fOpenDocument_DelphiReportEngine'
-  ClientHeight = 656
-  ClientWidth = 1142
+  ClientHeight = 356
+  ClientWidth = 818
   Color = clBtnFace
   Font.Color = clWindowText
   Font.Height = -11
@@ -18,9 +18,9 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
   LCLVersion = '1.4.4.0'
   object pc: TPageControl
     Left = 0
-    Height = 656
+    Height = 356
     Top = 0
-    Width = 1142
+    Width = 818
     ActivePage = tsTV
     Align = alClient
     TabIndex = 3
@@ -104,17 +104,17 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
     end
     object tsTV: TTabSheet
       Caption = 'Modification de valeurs'
-      ClientHeight = 630
-      ClientWidth = 1134
+      ClientHeight = 330
+      ClientWidth = 810
       ImageIndex = 1
       object Panel1: TPanel
         Left = 0
         Height = 72
-        Top = 558
-        Width = 1134
+        Top = 258
+        Width = 810
         Align = alBottom
         ClientHeight = 72
-        ClientWidth = 1134
+        ClientWidth = 810
         TabOrder = 0
         object bArborescence_from_Natif: TButton
           Left = 6
@@ -228,9 +228,9 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
       end
       object vst: TVirtualStringTree
         Left = 0
-        Height = 558
+        Height = 258
         Top = 0
-        Width = 1134
+        Width = 810
         Align = alClient
         DefaultText = 'Node'
         Header.AutoSizeIndex = 0

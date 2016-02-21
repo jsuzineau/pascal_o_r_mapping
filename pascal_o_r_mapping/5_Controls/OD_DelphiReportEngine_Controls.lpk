@@ -13,8 +13,11 @@
           <SyntaxMode Value="Delphi"/>
         </SyntaxOptions>
       </Parsing>
+      <Other>
+        <CustomOptions Value="-dWINDOWS_GRAPHIC"/>
+      </Other>
     </CompilerOptions>
-    <Files Count="38">
+    <Files Count="37">
       <Item1>
         <Filename Value="ucBatpro_Button.pas"/>
         <HasRegisterProc Value="True"/>
@@ -130,81 +133,74 @@
         <UnitName Value="uEdit_WANTTAB"/>
       </Item24>
       <Item25>
-        <Filename Value="ufAttente_Demarrage.lfm"/>
-        <Type Value="LFM"/>
-      </Item25>
-      <Item26>
-        <Filename Value="ufAttente_Demarrage.pas"/>
-        <UnitName Value="ufAttente_Demarrage"/>
-      </Item26>
-      <Item27>
         <Filename Value="ufcb.pas"/>
         <UnitName Value="ufcb"/>
+      </Item25>
+      <Item26>
+        <Filename Value="ufChamp_Date.lfm"/>
+        <Type Value="LFM"/>
+      </Item26>
+      <Item27>
+        <Filename Value="ufChamp_Date.pas"/>
+        <UnitName Value="ufChamp_Date"/>
       </Item27>
       <Item28>
-        <Filename Value="ufChamp_Date.lfm"/>
+        <Filename Value="ufChamp_Lookup.lfm"/>
         <Type Value="LFM"/>
       </Item28>
       <Item29>
-        <Filename Value="ufChamp_Date.pas"/>
-        <UnitName Value="ufChamp_Date"/>
-      </Item29>
-      <Item30>
-        <Filename Value="ufChamp_Lookup.lfm"/>
-        <Type Value="LFM"/>
-      </Item30>
-      <Item31>
         <Filename Value="ufChamp_Lookup.pas"/>
         <UnitName Value="ufChamp_Lookup"/>
-      </Item31>
-      <Item32>
+      </Item29>
+      <Item30>
         <Filename Value="ufChampsGrid_Colonnes.pas"/>
         <UnitName Value="ufChampsGrid_Colonnes"/>
-      </Item32>
-      <Item33>
+      </Item30>
+      <Item31>
         <Filename Value="ucAnimate.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="ucAnimate"/>
-      </Item33>
-      <Item34>
+      </Item31>
+      <Item32>
         <Filename Value="ucChamp_Integer_SpinEdit.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="ucChamp_Integer_SpinEdit"/>
-      </Item34>
-      <Item35>
+      </Item32>
+      <Item33>
         <Filename Value="ucChamp_DateTimePicker.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="ucChamp_DateTimePicker"/>
-      </Item35>
-      <Item36>
+      </Item33>
+      <Item34>
         <Filename Value="ucChamp_Float_SpinEdit.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="ucChamp_Float_SpinEdit"/>
-      </Item36>
-      <Item37>
+      </Item34>
+      <Item35>
         <Filename Value="ucChampsGrid.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="ucChampsGrid"/>
-      </Item37>
-      <Item38>
+      </Item35>
+      <Item36>
         <Filename Value="ucDockableScrollbox.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="ucDockableScrollbox"/>
-      </Item38>
+      </Item36>
+      <Item37>
+        <Filename Value="uWinUtils.pas"/>
+        <UnitName Value="uWinUtils"/>
+      </Item37>
     </Files>
-    <RequiredPkgs Count="4">
+    <RequiredPkgs Count="3">
       <Item1>
-        <PackageName Value="OD_DelphiReportEngine_LCL"/>
+        <PackageName Value="OD_DelphiReportEngine_Components"/>
       </Item1>
       <Item2>
-        <PackageName Value="OD_DelphiReportEngine_Components"/>
+        <PackageName Value="LCLBase"/>
       </Item2>
       <Item3>
-        <PackageName Value="LCLBase"/>
-      </Item3>
-      <Item4>
         <PackageName Value="FCL"/>
-      </Item4>
+      </Item3>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>
@@ -212,5 +208,8 @@
     <PublishOptions>
       <Version Value="2"/>
     </PublishOptions>
+    <CustomOptions Items="ExternHelp" Version="2">
+      <_ExternHelp Items="Count"/>
+    </CustomOptions>
   </Package>
 </CONFIG>

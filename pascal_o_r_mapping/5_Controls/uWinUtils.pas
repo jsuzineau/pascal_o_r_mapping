@@ -32,31 +32,19 @@ uses
     uBatpro_StringList,
     u_sys_,
     uuStrings,
+    uForms,
 
-  {$IFNDEF FPC}
-  Consts,
-  ShlObj, ActiveX,
-  {$ENDIF}
   {$IFDEF WINDOWS}
   Windows,
   {$ENDIF}
-  Classes, Menus, Dialogs, SysUtils,
-  {$IFDEF FPC}
-    LCLIntf, LCLType,
+  {$IFDEF WINDOWS_GRAPHIC}
+  LCLIntf, LCLType,
+  Menus, Dialogs, Graphics, Controls, CheckLst, StdCtrls, ExtCtrls, Forms,
   {$ENDIF}
-  Graphics, Controls, CheckLst, StdCtrls, ExtCtrls,
-  Forms;
+  SysUtils, Classes;
 
-function sGetLastError: String;
-
-procedure TraiteLastError( Messag: String);
-
-function SelectionnneRepertoire( Parent: Integer;
-                                 Titre: String; var Path: String): Boolean;
-
+{$IFDEF WINDOWS_GRAPHIC}
 procedure Enable_MenuItem( MenuItem: TMenuItem; Enabled: Boolean);
-
-procedure Concat_Espace( var S1: String; S2, Espace: String);
 
 procedure Oriente_Fonte( Orientation: Integer; F: TFont);
 function LineHeight( F: TFont): Integer;
@@ -69,34 +57,23 @@ function NbChars( F: TFont; Width: Integer): Integer;
 
 procedure Aligne_Sommet( Source, Cible: TControl);
 
-function Try_ShortPathName( var Path: String): Boolean;
-
 procedure CheckAll( cb: TCheckListBox);
 procedure UnCheckAll( cb: TCheckListBox);
 procedure Check( cb: TCheckListBox; C: array of integer; C0: Integer = 0);
-
-function Lance_Programme( EXE_FileName: String; Parametres: String = ''): Boolean;
-
-var
-   pBatpro_Login_Path: String = '';
-   pBatpro_EXE_ou_DLL_Path: String = '';
-function Charge_Paquet( NomPaquet: String): Boolean;
 
 type TControlProc = procedure ( C: TControl);
 procedure EnumereControls( W: TWinControl; Proc: TControlProc);
 
 function Panel_from_sl( sl: TBatpro_StringList; I: Integer): TPanel;
 
-function Variables_d_environnement: String;
-
 function InputPassword(const ACaption, APrompt, ADefault: string): String;
 
 procedure uWinUtils_Control_Color( Color: TColor; Controls: array of TControl);
-
-function uWinUtils_RepertoireTemporaire: String;
+{$ENDIF}
 
 implementation
 
+{$IFDEF WINDOWS_GRAPHIC}
 type
  TWinUtils_Contexte
  =
@@ -378,106 +355,6 @@ begin
             end;
 end;
 
-function sGetLastError: String;
-{$IFDEF WINDOWS}
-var
-   MessageSysteme: PChar;
-begin
-     FormatMessage( FORMAT_MESSAGE_FROM_SYSTEM or
-                         FORMAT_MESSAGE_ALLOCATE_BUFFER,
-                         nil, GetLastError,
-                         0, @MessageSysteme, 0, nil);
-     Result:= StrPas(MessageSysteme);
-end;
-{$ELSE}
-begin
-     Result:= 'fonction uWinUtils.sGetLastError non implémentée en dehors de Windows';
-end;
-{$ENDIF}
-
-procedure TraiteLastError( Messag: String);
-begin
-     ShowMessage( Messag + sGetLastError);
-end;
-
-(*
-function GetIILfromPath( Parent: HWnd; Path: string): PItemIDList;
-var
-   DesktopFolder: IShellFolder;
-   olePath: array[0..MAX_PATH] of WideChar;
-   chEaten: ULONG;
-   dwAttributes: ULONG;
-begin
-     if SUCCEEDED( SHGetDesktopFolder( DesktopFolder))
-     then
-         begin
-         MultiByteToWideChar( CP_ACP, MB_PRECOMPOSED, PChar(Path), -1,
-                              olePath, MAX_PATH);
-         if Failed(
-              DesktopFolder.ParseDisplayName( Parent,nil,olePath,
-                                              chEaten,Result,dwAttributes))
-         then
-             Result:= nil;
-         end;
-end;
-*)
-(*
-int CALLBACK BrowseCallbackProc(
-    HWND hwnd,
-    UINT uMsg,
-    LPARAM lParam,
-    LPARAM lpData
-    );
-*)
-//function(Wnd: HWND; uMsg: UINT; lParam, lpData: LPARAM): Integer stdcall;
-(*
-function BrowseCallbackProc( Wnd: HWND; uMsg: UINT; lPARAM: LPARAM;
-                             lpData: LPARAM): Integer; stdcall;
-begin
-     Result:= 0;
-     if uMsg = BFFM_INITIALIZED
-     then
-         PostMessage( Wnd, BFFM_SETSELECTION, 1, lpData);
-end;
-*)
-
-function SelectionnneRepertoire( Parent: integer; Titre: String; var Path: String): Boolean;
-(*
-var
-   bi: TBrowseInfoA;
-   pIIL: PItemIDList;
-   malloc: IMalloc;
-   Display: PChar;
-*)
-begin
-     Result:= False;
-(*
-SHGetMalloc( malloc);
-     Display:= malloc.Alloc( MAX_PATH+1);
-       StrPCopy( Display, Path);
-       bi.hwndOwner:= Parent;
-       bi.pidlRoot:= nil;//GetIILfromPath(Parent, Path);
-       bi.pszDisplayName:= Display;
-       bi.lpszTitle:= PChar(Titre);
-       bi.ulFlags:= 0;//$0010;//BIF_EDITBOX;
-       bi.lpfn:= BrowseCallbackProc;
-       bi.lParam:= Integer( Display);
-       bi.iImage:=0;
-       pIIL:= SHBrowseForFolder( bi);
-       if pIIL <> nil
-       then
-           begin
-           if SHGetPathFromIDList( pIIL, Display)
-           then
-               begin
-               Path:= Display;
-               Result:= True;
-               end;
-           end;
-     malloc.Free( Display);
-*)
-end;
-
 procedure Enable_MenuItem( MenuItem: TMenuItem; Enabled: Boolean);
 var
    I: Integer;
@@ -493,17 +370,6 @@ begin
            Enable_MenuItem( MenuItem.Items[I], Enabled);
 end;
 
-procedure Concat_Espace( var S1: String; S2, Espace: String);
-begin
-     if S1 <> ''
-     then
-         if S2 <> ''
-         then
-             S1:= S1 + Espace;
-     S1:= S1 + S2;
-end;
-
-
 procedure Aligne_Sommet( Source, Cible: TControl);
 var
    P: TPoint;
@@ -512,27 +378,6 @@ begin
      P:= Source.Parent.ClientToScreen( P);
      P:= Cible.Parent.ScreenToClient( P);
      Cible.Top := P.Y;
-end;
-
-function Try_ShortPathName( var Path: String): Boolean;
-var
-   Buffer: array[0..1024] of Char;
-   Longueur: Integer;
-   Resultat: Cardinal;
-begin
-     Result:= False;
-(*
-Fillchar(Buffer, SizeOf(Buffer), 0);
-     Longueur:= SizeOf(Buffer)-1;
-     Resultat:= GetShortPathName( PChar(Path), @Buffer[0], Longueur);
-     if     (Resultat <> 0)
-        and (Resultat = StrLen( Buffer))
-     then
-         begin
-         Path:= StrPas( Buffer);
-         Result:= Pos(' ', Path) = 0;
-         end;
-*)
 end;
 
 procedure CheckAll( cb: TCheckListBox);
@@ -570,26 +415,6 @@ begin
        end;
 end;
 
-function Lance_Programme( EXE_FileName: String; Parametres: String = ''): Boolean;
-(*
-var
-   si: TStartupInfo;
-   pi: TProcessInformation;
-*)
-begin
-     (*
-     FillChar( si, SizeOf( si), 0);
-     si.cb:= SizeOf( si);
-     Parametres:= '"'+EXE_FileName+'" '+Parametres;
-     Result:=
-     CreateProcess( PChar( EXE_FileName), nil, nil, nil, False,
-                            0, nil, nil, si, pi);
-     if Result
-     then
-         WaitForInputIdle( pi.hProcess, INFINITE);
-     *)
-end;
-
 procedure EnumereControls( W: TWinControl; Proc: TControlProc);
 var
    I: Integer;
@@ -623,182 +448,12 @@ begin
      Result:= TPanel( O);
 end;
 
-function Charge_Paquet( NomPaquet: String): Boolean;
-(*
-var
-   NomFichierPackage: String;
-   FileFound: Boolean;
-*)
-begin
-(*
-     Result:= WinUtils_Contexte.Paquet_Charge( NomPaquet);
-     if  Result then exit;
-
-     NomFichierPackage:= ExtractFilePath( ParamStr(0)) + NomPaquet + '.bpl';
-     FileFound:= FileExists( NomFichierPackage);
-     if not FileFound
-     then
-         begin
-         if pBatpro_Login_Path <> ''
-         then
-             begin
-             NomFichierPackage:=   pBatpro_Login_Path
-                                 + ExtractFileName( NomFichierPackage);
-             FileFound:= FileExists( NomFichierPackage);
-             if     FileFound
-                and (0= Pos('C:\2_source\', ParamStr(0)))//= si on n'est pas sur la machine de développement
-             then
-                 ShowMessage( 'La fonctionnalité (use case) a été trouvée '+
-                              'dans le répertoire du paquet pBatpro_Login:'+#13#10+
-                              NomFichierPackage);
-             end;
-         end;
-     if not FileFound
-     then
-         begin
-         if pBatpro_EXE_ou_DLL_Path <> ''
-         then
-             begin
-             NomFichierPackage:=   pBatpro_EXE_ou_DLL_Path
-                                 + ExtractFileName( NomFichierPackage);
-             FileFound:= FileExists( NomFichierPackage);
-             if     FileFound
-                and (0= Pos('C:\2_source\', ParamStr(0)))//= si on n'est pas sur la machine de développement
-             then
-                 ShowMessage( 'La fonctionnalité (use case) a été trouvée '+
-                              'dans le répertoire de la DLL pour le GDC:'+#13#10+
-                              NomFichierPackage);
-             end;
-         end;
-     Result:= FileFound;
-     if FileFound
-     then
-         Result:= LoadPackage( NomFichierPackage) <> 0;
-*)
-end;
-
-function Variables_d_environnement: String;
-var
-   ES: PChar;
-   I: Integer;
-   C: Char;
-begin
-     Result:= 'Variables d''environnement:'#13#10;
-
-     (*
-     ES:= GetEnvironmentStrings;
-     if ES = nil then exit;
-     try
-        I:= 0;
-        repeat
-              C:= ES[I];
-              if C = #0
-              then
-                  begin
-                  Result:= Result + #13#10;
-                  if ES[I+1] = #0 then exit;
-                  end
-              else
-                  Result:= Result + C;
-              Inc( I);
-        until False;
-     finally
-            FreeEnvironmentStrings( ES);
-            end;
-     *)
-end;
-
-
-//provient du code Borland de l'unité Dialogs
 function GetAveCharSize(Canvas: TCanvas): TPoint;
-var
-  I: Integer;
-  Buffer: array[0..51] of Char;
 begin
-     (*
-  for I := 0 to 25 do Buffer[I] := Chr(I + Ord('A'));
-  for I := 0 to 25 do Buffer[I + 26] := Chr(I + Ord('a'));
-  GetTextExtentPoint(Canvas.Handle, Buffer, 52, TSize(Result));
-  Result.X := Result.X div 52;
-  *)
 end;
 
-//provient du code Borland de Dialogs.InputQuery
 function InputPassword(const ACaption, APrompt, ADefault: string): String;
-var
-   Form: TForm;
-   Prompt: TLabel;
-   Edit: TEdit;
-   DialogUnits: TPoint;
-   ButtonTop, ButtonWidth, ButtonHeight: Integer;
 begin
-(*
-Result := ADefault;
-
-     Form := TForm.Create(Application);
-     with Form
-     do
-       try
-          Canvas.Font := Font;
-          DialogUnits := GetAveCharSize(Canvas);
-          BorderStyle := bsDialog;
-          Caption     := ACaption;
-          ClientWidth := MulDiv(180, DialogUnits.X, 4);
-          Position    := poScreenCenter;
-
-          Prompt := TLabel.Create(Form);
-          with Prompt
-          do
-            begin
-            Parent  := Form;
-            Caption := APrompt;
-            Left    := MulDiv(8, DialogUnits.X, 4);
-            Top     := MulDiv(8, DialogUnits.Y, 8);
-            Constraints.MaxWidth := MulDiv(164, DialogUnits.X, 4);
-            WordWrap:= True;
-            end;
-          Edit := TEdit.Create(Form);
-          with Edit
-          do
-            begin
-            Parent   := Form;
-            Left     := Prompt.Left;
-            Top      := Prompt.Top + Prompt.Height + 5;
-            Width    := MulDiv(164, DialogUnits.X, 4);
-            MaxLength:= 255;
-            Text     := Result;
-            PasswordChar:= '*';
-            SelectAll;
-            end;
-          ButtonTop   := Edit.Top + Edit.Height + 15;
-          ButtonWidth := MulDiv(50, DialogUnits.X, 4);
-          ButtonHeight:= MulDiv(14, DialogUnits.Y, 8);
-          with TButton.Create(Form)
-          do
-            begin
-            Parent     := Form;
-            Caption    := SMsgDlgOK;
-            ModalResult:= mrOk;
-            Default    := True;
-            SetBounds(MulDiv(38, DialogUnits.X, 4), ButtonTop, ButtonWidth, ButtonHeight);
-            end;
-          with TButton.Create(Form)
-          do
-            begin
-            Parent     := Form;
-            Caption    := SMsgDlgCancel;
-            ModalResult:= mrCancel;
-            Cancel     := True;
-            SetBounds(MulDiv(92, DialogUnits.X, 4), Edit.Top + Edit.Height + 15, ButtonWidth, ButtonHeight);
-            Form.ClientHeight := Top + Height + 13;
-            end;
-          if ShowModal = mrOk
-          then
-              Result:= Edit.Text;
-       finally
-              Form.Free;
-       end;
-*)
 end;
 
 procedure uWinUtils_Control_Color( Color: TColor; Controls: array of TControl);
@@ -815,16 +470,16 @@ begin
        C.Refresh;
        end;
 end;
-
-function uWinUtils_RepertoireTemporaire: String;
-begin
-     Result:= GetTempDir;
-end;
+{$ENDIF}
 
 initialization
+              {$IFDEF WINDOWS_GRAPHIC}
               WinUtils_Contexte:= TWinUtils_Contexte.Create;
+              {$ENDIF}
 finalization
+              {$IFDEF WINDOWS_GRAPHIC}
               Free_nil( WinUtils_Contexte);
+              {$ENDIF}
 end.
 
 
