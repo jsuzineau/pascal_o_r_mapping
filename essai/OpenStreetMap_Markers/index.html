@@ -14,7 +14,7 @@
       var layer_switcher= new OpenLayers.Control.LayerSwitcher({});
       map.addControl(layer_switcher);
 
-      function CreeLonLat( _Longitude, _Latitude)
+      function CreeLatitudeLongitude( _Latitude, _Longitude)
         {
         var lonLat = new OpenLayers.LonLat( _Longitude, _Latitude)
               .transform(
@@ -29,7 +29,7 @@
       //OpenStreetMap permet aussi de les trouver à la main en cliquant sur Où suis-je ?
       // http://www.openstreetmap.org/#map=19/43.70168/1.36953
 
-      var centre= CreeLonLat( 1.38457, 43.72499);
+      var centre= CreeLatitudeLongitude( 43.72499, 1.38457);
       var zoom=11;
       map.setCenter (centre, zoom);
 
@@ -48,7 +48,7 @@
                                     );
       map.addLayer( overlay);
 
-      function Add_Point( _Longitude, _Latitude, _Libelle)
+      function Add_Point( _Latitude, _Longitude, _Libelle)
         {
         // The location of our marker and popup. We usually think in geographic
         // coordinates ('EPSG:4326'), but the map is projected ('EPSG:3857').
@@ -65,11 +65,11 @@
             ]);
         }
 
-      Add_Point( 1.37442, 43.74061, 'texte de libellé 1');  //St Jory
-      Add_Point( 1.35215, 43.73595, 'texte de libellé 2');
-      Add_Point( 1.38457, 43.72499, 'libelle3');
-      Add_Point( 1.36953, 43.70168, 'libellé4');
-      Add_Point( 1.40764, 43.70896, 'libellé5');
+      Add_Point( 43.74061, 1.37442, 'texte de libellé 1');  //St Jory
+      Add_Point( 43.73595, 1.35215, 'texte de libellé 2');
+      Add_Point( 43.72499, 1.38457, 'libelle3');
+      Add_Point( 43.70168, 1.36953, 'libellé4');
+      Add_Point( 43.70896, 1.40764, 'libellé5');
 
     </script>
   </body>
