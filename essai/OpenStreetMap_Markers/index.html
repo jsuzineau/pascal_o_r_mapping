@@ -1,0 +1,76 @@
+<html>
+  <header>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+  </header>
+  <body>
+    <div id="mapdiv"></div>
+    <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+    <script>
+      map = new OpenLayers.Map("mapdiv");
+      map.addLayer(new OpenLayers.Layer.OSM());
+
+      // create layer switcher widget in top right corner of map.
+      var layer_switcher= new OpenLayers.Control.LayerSwitcher({});
+      map.addControl(layer_switcher);
+
+      function CreeLonLat( _Longitude, _Latitude)
+        {
+        var lonLat = new OpenLayers.LonLat( _Longitude, _Latitude)
+              .transform(
+                new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+                map.getProjectionObject() // to Spherical Mercator Projection
+              );
+        return lonLat;
+        }
+
+      //pour trouver les latitudes/longitudes depuis un nom ( exemple: london):
+      //geonames search: http://api.geonames.org/searchJSON?q=london&maxRows=10&username=demo
+      //OpenStreetMap permet aussi de les trouver à la main en cliquant sur Où suis-je ?
+      // http://www.openstreetmap.org/#map=19/43.70168/1.36953
+
+      var centre= CreeLonLat( 1.38457, 43.72499);
+      var zoom=11;
+      map.setCenter (centre, zoom);
+
+      var overlay
+      =
+       new OpenLayers.Layer.Vector( 'Overlay',
+                                    {
+                                    styleMap: new OpenLayers.StyleMap
+                                      (
+                                      {
+                                      externalGraphic: 'http://mars42.com/gb.jpg',
+                                      graphicWidth: 20, graphicHeight: 24, graphicYOffset: -24,
+                                      title: '${tooltip}'}
+                                      )
+                                    }
+                                    );
+      map.addLayer( overlay);
+
+      function Add_Point( _Longitude, _Latitude, _Libelle)
+        {
+        // The location of our marker and popup. We usually think in geographic
+        // coordinates ('EPSG:4326'), but the map is projected ('EPSG:3857').
+        var myLocation
+        =
+         new OpenLayers.Geometry.Point(_Longitude, _Latitude)
+             .transform('EPSG:4326', 'EPSG:3857');
+
+        // We add the marker with a tooltip text to the overlay
+        overlay.addFeatures(
+            [
+            new OpenLayers.Feature.Vector( myLocation,
+                                           {tooltip: _Libelle})
+            ]);
+        }
+
+      Add_Point( 1.37442, 43.74061, 'texte de libellé 1');  //St Jory
+      Add_Point( 1.35215, 43.73595, 'texte de libellé 2');
+      Add_Point( 1.38457, 43.72499, 'libelle3');
+      Add_Point( 1.36953, 43.70168, 'libellé4');
+      Add_Point( 1.40764, 43.70896, 'libellé5');
+
+    </script>
+  </body>
+</html>
