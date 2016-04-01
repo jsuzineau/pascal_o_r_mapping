@@ -1,5 +1,0 @@
->Fichier ini:C:\_mars42\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
->uMySQL paramétré pour MySQL version : 51
->Fichier ini:C:\_mars42\pascal_o_r_mapping\jsWorks\etc\_Configuration.ini
->uMySQL paramétré pour MySQL version : 51
->base MySQL jsWorks sur FIRST-BOSS sqlc.Hostname=FIRST-BOSS sqlc.DatabaseName=jsWorks

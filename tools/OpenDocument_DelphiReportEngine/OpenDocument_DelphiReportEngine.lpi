@@ -155,7 +155,6 @@
     <Linking>
       <Debugging>
         <DebugInfoType Value="dsDwarf2Set"/>
-        <UseHeaptrc Value="True"/>
         <TrashVariables Value="True"/>
         <UseExternalDbgSyms Value="True"/>
       </Debugging>
@@ -172,6 +171,14 @@
 -dCompiler6_Up
 -dPUREPASCAL
 -dWINDOWS_GRAPHIC"/>
+      <OtherDefines Count="6">
+        <Define0 Value="Borland"/>
+        <Define1 Value="Ver150"/>
+        <Define2 Value="Delphi7"/>
+        <Define3 Value="Compiler6_Up"/>
+        <Define4 Value="PUREPASCAL"/>
+        <Define5 Value="WINDOWS_GRAPHIC"/>
+      </OtherDefines>
     </Other>
   </CompilerOptions>
   <Debugging>

@@ -135,19 +135,19 @@ m_jsWorks.controller('ctrl_jsWorks', function ($scope,$http)
   $scope.State={};
 
 
-  $http.get("Project").success( function(response) {$scope.slProject = response;});
-  $http.get("Categorie").success( function(response) {$scope.slCategorie = response;});
-  $http.get("State").success( function(response) {$scope.slState = response;});
+  $http.get("Project").success( function(response) {$scope.slProject = response.Elements;});
+  $http.get("Categorie").success( function(response) {$scope.slCategorie = response.Elements;});
+  $http.get("State").success( function(response) {$scope.slState = response.Elements;});
   $scope._from_Project= function(_Project)
     {
     $scope.Project=_Project;
     $http.get("Work_from_Project"+_Project.id).success( function(response)
       {
-      $scope.slWork = response;
+      $scope.slWork = response.Elements;
       });
     $http.get("Development_from_Project"+_Project.id).success( function(response)
       {
-      $scope.slDevelopment = response;
+      $scope.slDevelopment = response.Elements;
       });
     };
   $scope._from_Work= function(_Work)
