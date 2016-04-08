@@ -58,6 +58,7 @@ type
  end;
 
   TOD_Dataset_Column_array= array of TOD_Dataset_Column;
+  POD_Dataset_Column_array= ^TOD_Dataset_Column_array;
   
 implementation
 

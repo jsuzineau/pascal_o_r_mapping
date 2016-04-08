@@ -50,20 +50,15 @@
         <ComponentName Value="fjsFichiers"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufjsFichiers"/>
       </Unit1>
       <Unit2>
         <Filename Value="uthjsFichiers.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uthjsFichiers"/>
       </Unit2>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
-    <SearchPaths>
-      <IncludeFiles Value="$(ProjOutDir)"/>
-    </SearchPaths>
     <Parsing>
       <SyntaxOptions>
         <SyntaxMode Value="Delphi"/>

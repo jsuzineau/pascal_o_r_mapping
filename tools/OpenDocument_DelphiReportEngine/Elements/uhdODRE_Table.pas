@@ -15,8 +15,10 @@ uses
     ublODRE_Table,
     ublOD_Dataset_Columns,
     ublOD_Dataset_Column,
+    ublOD_Affectation,
     uhDessinnateur,
 
+    ucChamp_Lookup_ComboBox,
  Classes, SysUtils, Grids, Graphics;
 
 type
@@ -35,7 +37,11 @@ type
   public
     blODRE_Table: TblODRE_Table;
     bsTitre: TBeString;
+    clkcbNomChamp: TChamp_Lookup_ComboBox;
     procedure _from_pool; override;
+  //Gestion souris et Drag / Drop
+  protected
+    function  Drag_from_( ACol, ARow: Integer): Boolean; override;
   end;
 
 implementation
@@ -60,6 +66,7 @@ begin
      inherited Create( _Contexte, _SG, _Titre, nil);
 
      bsTitre:= TbeString.Create( nil, 'Titre', clYellow, bea_Gauche);
+     Debug_Hint:= True;
 end;
 
 destructor ThdODRE_Table.Destroy;
@@ -82,8 +89,11 @@ procedure ThdODRE_Table._from_pool;
       var
          iDC: TIterateur_OD_Dataset_Column;
          blDC: TblOD_Dataset_Column;
+         blA: TblOD_Affectation;
          iCol: Integer;
       begin
+           blDCs.haAvant_Affectation.Blanc;
+
            iDC:= blDCs.haAvant.Iterateur;
            while iDC.Continuer
            do
@@ -93,17 +103,25 @@ procedure ThdODRE_Table._from_pool;
              for iCol:= blDC.DC.Debut to blDC.DC.Fin
              do
                begin
-               Log.PrintLn( blDCs.Nom+' '+blDC.FieldName+' '+IntToStr( iCol)+' '+IntToStr( iRow));
-               Charge_Cell( blDC, 1+iCol, iRow);
+               Log.PrintLn( blODRE_Table.Nom+' '+blDCs.Nom+' '+blDC.FieldName+' col:'+IntToStr( iCol)+' row:'+IntToStr( iRow));
+
+               blA:= blDCs.haAvant_Affectation._from_Colonne_Document( iCol);
+               if nil = blA then continue;
+
+               blA.NomChamp:= blDC.FieldName;
                end;
              end;
+           Charge_Ligne( blDCs.haAvant_Affectation, 1, iRow);
       end;
       procedure Charge_Apres;
       var
          iDC: TIterateur_OD_Dataset_Column;
          blDC: TblOD_Dataset_Column;
+         blA: TblOD_Affectation;
          iCol: Integer;
       begin
+           blDCs.haApres_Affectation.Blanc;
+
            iDC:= blDCs.haApres.Iterateur;
            while iDC.Continuer
            do
@@ -113,10 +131,14 @@ procedure ThdODRE_Table._from_pool;
              for iCol:= blDC.DC.Debut to blDC.DC.Fin
              do
                begin
-               Log.PrintLn( blDCs.Nom+' '+blDC.FieldName+' '+IntToStr( iCol)+' '+IntToStr( iRow));
-               Charge_Cell( blDC, 1+iCol, iRow);
+               Log.PrintLn( blODRE_Table.Nom+' '+blDCs.Nom+' '+blDC.FieldName+' col:'+IntToStr( iCol)+' row:'+IntToStr( iRow));
+               blA:= blDCs.haApres_Affectation._from_Colonne_Document( iCol);
+               if nil = blA then continue;
+
+               blA.NomChamp:= blDC.FieldName;
                end;
              end;
+           Charge_Ligne( blDCs.haApres_Affectation, 1, iRow);
       end;
    begin
         iRow:= 1;
@@ -150,7 +172,8 @@ begin
 
      //blODRE_Table.haOD_Column.Charge;
      //blODRE_Table.haOD_Dataset_Columns.Charge;
-
+     sg.Hide;
+     Vide_StringGrid( sg);
      sg.FixedCols:= 0;
      sg.FixedRows:= 0;
      sg.ColCount:= 1+blODRE_Table.haOD_Column.Count;
@@ -162,6 +185,21 @@ begin
      Charge_OD_Column;
      Charge_OD_Dataset_Columns;
      Clusterise;
+     sg.Show;
+end;
+
+function ThdODRE_Table.Drag_from_(ACol, ARow: Integer): Boolean;
+var
+   bl: TblOD_Affectation;
+begin
+     Result:=inherited Drag_from_(ACol, ARow);
+
+     if nil = clkcbNomChamp then exit;
+     clkcbNomChamp.Champs:= nil;
+
+     if Affecte_( bl, TblOD_Affectation, sg_be( ACol, ARow)) then exit;
+
+     clkcbNomChamp.Champs:= bl.Champs;
 end;
 
 end.

@@ -53,7 +53,7 @@ uses
     ufBloqueur,
     ufBitmaps,
 
-  SysUtils,Forms, Classes, Windows, Graphics, Menus, Grids, Dialogs, Controls, DOM, Types;
+  SysUtils,Forms, Classes, Graphics, Menus, Grids, Dialogs, Controls, DOM, Types;
 
 type
  TypeCellule= (tc_Semaine, tc_Equipe, tc_ESequence, tc_A_PLA, tc_Date, tc_hDessinnateur,

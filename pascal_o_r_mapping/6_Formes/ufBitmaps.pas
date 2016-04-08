@@ -26,7 +26,7 @@ unit ufBitmaps;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ImgList, StdCtrls, ExtCtrls;
 
 type

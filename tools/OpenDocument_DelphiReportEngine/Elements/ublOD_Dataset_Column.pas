@@ -58,6 +58,9 @@ type
   public
     class function sCle_from_( _FieldName: String): String;
     function sCle: String; override;
+  //Gestion du Hint
+  public
+    function Contenu( Contexte: Integer; Col, Row: Integer): String; override;
   end;
 
  TIterateur_OD_Dataset_Column
@@ -168,6 +171,11 @@ end;
 function TblOD_Dataset_Column.sCle: String;
 begin
      Result:= sCle_from_( FieldName);
+end;
+
+function TblOD_Dataset_Column.Contenu(Contexte: Integer; Col, Row: Integer): String;
+begin
+     Result:= inherited Contenu(Contexte, Col, Row) + Listing_Champs(#13#10);
 end;
 
 end.

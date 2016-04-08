@@ -32,10 +32,9 @@ uses
     uOD_Dataset_Column,
     uChamps,
     uChamp,
+    uLookupConnection_Ancetre,
     uBatpro_Element,
     uBatpro_Ligne,
-    ublOD_Dataset_Column,
-    ublOD_Dataset_Columns,
 
  Classes, SysUtils, DB;
 
@@ -52,20 +51,23 @@ type
     destructor Destroy; override;
   //DCs
   public
-    DCa: ^TOD_Dataset_Column_array;
-  //Champ
+    DCa: POD_Dataset_Column_array;
+  //NomChamp
   public
     NomChamp: String;
     cNomChamp: TChamp;
-    procedure NomChamp_Change;
-    procedure NomChamp_GetLookupListItems( _Current_Key: String;
+  //NomChamp_Libelle
+  public
+    NomChamp_Libelle: String;
+    cNomChamp_Libelle: TChamp;
+    procedure NomChamp_Libelle_GetLookupListItems( _Current_Key: String;
                                            _Keys, _Labels: TStrings;
                                            _Connection_Ancetre: TLookupConnection_Ancetre;
                                            _CodeId_: Boolean= False);
-  //Key
+    procedure NomChamp_Libelle_Change;
+  //Gestion du Hint
   public
-    key: String;
-    cKey: TChamp;
+    function Contenu( Contexte: Integer; Col, Row: Integer): String; override;
   end;
 
  TIterateur_OD_Affectation
@@ -154,28 +156,24 @@ begin
      inherited Create(_sl, _q, _pool);
      DCa:= nil;
 
-     Key:= '';
-     cKey:= Ajoute_String( Key, 'Key', False);
-
      NomChamp:= '';
-     cNomChamp:= Champs.String_Lookup ( NomChamp, 'NomChamp', cKey, NomChamp_GetLookupListItems, '');
-     cNomChamp.OnChange.Abonne( Self, NomChamp_Change);
+     cNomChamp:= Ajoute_String( NomChamp, 'NomChamp', False);
 
+     NomChamp_Libelle:= '';
+     cNomChamp_Libelle:= Champs.String_Lookup ( NomChamp_Libelle, 'NomChamp_Libelle', cNomChamp, NomChamp_Libelle_GetLookupListItems, '');
+     cNomChamp_Libelle.OnChange.Abonne( Self, NomChamp_Libelle_Change);
+
+     cLibelle:= cNomChamp;
 
 end;
 
 destructor TblOD_Affectation.Destroy;
 begin
-     cNomChamp.OnChange.Desabonne( Self, NomChamp_Change);
+     cNomChamp_Libelle.OnChange.Desabonne( Self, NomChamp_Libelle_Change);
      inherited Destroy;
 end;
 
-procedure TblOD_Affectation.NomChamp_Change;
-begin
-
-end;
-
-procedure TblOD_Affectation.NomChamp_GetLookupListItems( _Current_Key: String;
+procedure TblOD_Affectation.NomChamp_Libelle_GetLookupListItems( _Current_Key: String;
                                                          _Keys, _Labels: TStrings;
                                                          _Connection_Ancetre: TLookupConnection_Ancetre;
                                                          _CodeId_: Boolean);
@@ -193,6 +191,16 @@ begin
        _Keys  .Add( DC.FieldName);
        _Labels.Add( DC.FieldName);
        end;
+end;
+
+procedure TblOD_Affectation.NomChamp_Libelle_Change;
+begin
+
+end;
+
+function TblOD_Affectation.Contenu( Contexte: Integer; Col, Row: Integer): String;
+begin
+     Result:= inherited Contenu(Contexte, Col, Row) + Listing_Champs(#13#10);
 end;
 
 end.

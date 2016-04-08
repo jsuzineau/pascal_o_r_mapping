@@ -7,6 +7,8 @@
       <Unit0>
         <Filename Value="jsFichiers.dpr"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
         <CursorPos X="55" Y="9"/>
         <UsageCount Value="40"/>
         <Loaded Value="True"/>
@@ -18,18 +20,14 @@
         <ComponentName Value="fjsFichiers"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufjsFichiers"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <UsageCount Value="40"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
       <Unit2>
         <Filename Value="uthjsFichiers.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uthjsFichiers"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
         <CursorPos X="40" Y="23"/>
         <UsageCount Value="40"/>
         <Loaded Value="True"/>
@@ -37,8 +35,6 @@
       </Unit2>
       <Unit3>
         <Filename Value="../../electronic/Arduino/HeartRate/Arduino_sketch/Heart_Rate_Arduino_Yun/www/index.html"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
         <CursorPos X="41" Y="19"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
@@ -46,7 +42,7 @@
       </Unit3>
       <Unit4>
         <Filename Value="../../electronic/Arduino/HeartRate/Arduino_sketch/Heart_Rate_Arduino_Yun/www/Pouls.js"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <TopLine Value="68"/>
         <CursorPos X="61" Y="77"/>
         <UsageCount Value="20"/>
@@ -113,4 +109,5 @@
       </Position4>
     </JumpHistory>
   </ProjectSession>
+  <SkipCheckLCLInterfaces Value="True"/>
 </CONFIG>

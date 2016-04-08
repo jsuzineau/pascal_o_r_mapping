@@ -21,7 +21,7 @@
     <VersionInfo>
       <StringTable ProductVersion=""/>
     </VersionInfo>
-    <BuildModes Count="2">
+    <BuildModes Count="3">
       <Item1 Name="Debug" Default="True"/>
       <Item2 Name="Release">
         <CompilerOptions>
@@ -63,6 +63,58 @@
           </Other>
         </CompilerOptions>
       </Item2>
+      <Item3 Name="Linux Debug">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <SearchPaths>
+            <IncludeFiles Value="..\..\pascal_o_r_mapping\6_Formes;$(ProjOutDir)"/>
+            <OtherUnitFiles Value="..\..\pascal_o_r_mapping\6_Formes;Elements;..\..\pascal_o_r_mapping\3_Data"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <SyntaxMode Value="Delphi"/>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <Checks>
+              <IOChecks Value="True"/>
+              <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
+            </Checks>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
+              <UseValgrind Value="True"/>
+              <UseExternalDbgSyms Value="True"/>
+            </Debugging>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dBorland
+-dVer150
+-dDelphi7
+-dCompiler6_Up
+-dPUREPASCAL
+-dWINDOWS_GRAPHIC"/>
+            <OtherDefines Count="6">
+              <Define0 Value="Borland"/>
+              <Define1 Value="Ver150"/>
+              <Define2 Value="Delphi7"/>
+              <Define3 Value="Compiler6_Up"/>
+              <Define4 Value="PUREPASCAL"/>
+              <Define5 Value="WINDOWS_GRAPHIC"/>
+            </OtherDefines>
+          </Other>
+        </CompilerOptions>
+      </Item3>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -70,6 +122,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
+        <CommandLineParams Value="\home\jean\batpro\source\2010_delphi\53_modeles_oo\DEV01-Complet\ avec\ Options.ott"/>
       </local>
     </RunParams>
     <RequiredPackages Count="3">
@@ -118,7 +171,9 @@
       <Unit7>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uBatpro_Element.pas"/>
         <IsPartOfProject Value="True"/>
+        <ComponentName Value="pool_Ancetre_Ancetre"/>
         <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
       </Unit7>
       <Unit8>
         <Filename Value="Elements\uhdODRE_Table.pas"/>
@@ -150,12 +205,11 @@
         <OverflowChecks Value="True"/>
         <StackChecks Value="True"/>
       </Checks>
-      <VerifyObjMethodCallValidity Value="True"/>
     </CodeGeneration>
     <Linking>
       <Debugging>
         <DebugInfoType Value="dsDwarf2Set"/>
-        <TrashVariables Value="True"/>
+        <UseValgrind Value="True"/>
         <UseExternalDbgSyms Value="True"/>
       </Debugging>
       <Options>

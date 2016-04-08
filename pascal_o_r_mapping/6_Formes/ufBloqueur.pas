@@ -28,7 +28,7 @@ interface
 uses
     uClean,
     uPublieur,
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls;
 
 type

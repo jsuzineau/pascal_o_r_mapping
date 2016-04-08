@@ -3,7 +3,7 @@ object pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre
   left = 288
   top = 156
   Height = 148
-  HorizontalOffset = 811
-  VerticalOffset = 570
+  HorizontalOffset = 2523
+  VerticalOffset = 1962
   Width = 213
 end

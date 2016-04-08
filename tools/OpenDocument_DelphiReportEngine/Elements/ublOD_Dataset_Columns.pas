@@ -36,6 +36,7 @@ uses
     uBatpro_Element,
     uBatpro_Ligne,
     ublOD_Dataset_Column,
+    ublOD_Affectation,
 
     ufAccueil_Erreur,
  Classes, SysUtils, DB, BufDataset;
@@ -54,7 +55,7 @@ type
     destructor  Destroy; override;
   //Chargement de tous les détails
   public
-    function DCa: TOD_Dataset_Column_array; virtual;
+    function DCa: POD_Dataset_Column_array; virtual;
     function Composition: String; virtual;
     procedure Charge; override;
   //Création d'itérateur
@@ -65,13 +66,37 @@ type
     function Iterateur_Decroissant: TIterateur_OD_Dataset_Column;
   end;
 
+ { ThaOD_Dataset_Columns__OD_Affectation }
+ ThaOD_Dataset_Columns__OD_Affectation
+ =
+  class( ThAggregation)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Parent: TBatpro_Element;
+                        _Classe_Elements: TBatpro_Element_Class;
+                        _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre); override;
+    destructor  Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_OD_Affectation;
+    function Iterateur_Decroissant: TIterateur_OD_Affectation;
+  //Formatage pour un nombre de colonnes donné
+  public
+    function Cree: TblOD_Affectation;
+    procedure Formate( _Nb_Colonnes: Integer; const _DCa: POD_Dataset_Column_array);
+    function _from_Colonne_Document( _Colonne: Integer): TblOD_Affectation;
+    procedure Blanc;
+  end;
+
  { ThaOD_Dataset_Columns__OD_Dataset_Column_Avant }
  ThaOD_Dataset_Columns__OD_Dataset_Column_Avant
  =
   class( ThaOD_Dataset_Columns__OD_Dataset_Column)
   //Chargement de tous les détails
   public
-    function DCa: TOD_Dataset_Column_array; override;
+    function DCa: POD_Dataset_Column_array; override;
     function Composition: String; override;
   end;
 
@@ -81,7 +106,7 @@ type
   class( ThaOD_Dataset_Columns__OD_Dataset_Column)
   //Chargement de tous les détails
   public
-    function DCa: TOD_Dataset_Column_array; override;
+    function DCa: POD_Dataset_Column_array; override;
     function Composition: String; override;
   end;
 
@@ -119,6 +144,18 @@ type
     function GethaApres: ThaOD_Dataset_Columns__OD_Dataset_Column_Apres;
   public
     property haApres: ThaOD_Dataset_Columns__OD_Dataset_Column_Apres read GethaApres;
+  //Aggrégation vers les OD_Affectation correspondants
+  private
+    FhaAvant_Affectation: ThaOD_Dataset_Columns__OD_Affectation;
+    function GethaAvant_Affectation: ThaOD_Dataset_Columns__OD_Affectation;
+  public
+    property haAvant_Affectation: ThaOD_Dataset_Columns__OD_Affectation read GethaAvant_Affectation;
+  //Aggrégation vers les OD_Affectation correspondants
+  private
+    FhaApres_Affectation: ThaOD_Dataset_Columns__OD_Affectation;
+    function GethaApres_Affectation: ThaOD_Dataset_Columns__OD_Affectation;
+  public
+    property haApres_Affectation: ThaOD_Dataset_Columns__OD_Affectation read GethaApres_Affectation;
   end;
 
  TIterateur_OD_Dataset_Columns
@@ -162,14 +199,14 @@ end;
 
 { ThaOD_Dataset_Columns__OD_Dataset_Column_Avant }
 
-function ThaOD_Dataset_Columns__OD_Dataset_Column_Avant.DCa: TOD_Dataset_Column_array;
+function ThaOD_Dataset_Columns__OD_Dataset_Column_Avant.DCa: POD_Dataset_Column_array;
 var
    blParent: TblOD_Dataset_Columns;
 begin
      Result:= nil;
      if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
 
-     Result:= blParent.DCs.FAvant;
+     Result:= @blParent.DCs.FAvant;
 end;
 
 function ThaOD_Dataset_Columns__OD_Dataset_Column_Avant.Composition: String;
@@ -185,14 +222,14 @@ end;
 
 { ThaOD_Dataset_Columns__OD_Dataset_Column_Apres }
 
-function ThaOD_Dataset_Columns__OD_Dataset_Column_Apres.DCa: TOD_Dataset_Column_array;
+function ThaOD_Dataset_Columns__OD_Dataset_Column_Apres.DCa: POD_Dataset_Column_array;
 var
    blParent: TblOD_Dataset_Columns;
 begin
      Result:= nil;
      if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
 
-     Result:= blParent.DCs.FAvant;
+     Result:= @blParent.DCs.FAvant;
 end;
 
 function ThaOD_Dataset_Columns__OD_Dataset_Column_Apres.Composition: String;
@@ -266,14 +303,14 @@ begin
      inherited;
 end;
 
-function ThaOD_Dataset_Columns__OD_Dataset_Column.DCa: TOD_Dataset_Column_array;
+function ThaOD_Dataset_Columns__OD_Dataset_Column.DCa: POD_Dataset_Column_array;
 var
    blParent: TblOD_Dataset_Columns;
 begin
      Result:= nil;
      if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
 
-     Result:= blParent.DCs.FAvant;
+     Result:= @blParent.DCs.FAvant;
 end;
 
 function ThaOD_Dataset_Columns__OD_Dataset_Column.Composition: String;
@@ -292,7 +329,7 @@ begin
      if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
 
      Log.PrintLn( 'Charge '+blParent.Nom+': '+Composition);
-     for DC in DCa
+     for DC in DCa^
      do
        begin
        if not FieldName_in_Composition( DC.FieldName, Composition) then continue;
@@ -318,6 +355,84 @@ end;
 function ThaOD_Dataset_Columns__OD_Dataset_Column.Iterateur_Decroissant: TIterateur_OD_Dataset_Column;
 begin
      Result:= TIterateur_OD_Dataset_Column( Iterateur_interne_Decroissant);
+end;
+
+{ ThaOD_Dataset_Columns__OD_Affectation }
+
+constructor ThaOD_Dataset_Columns__OD_Affectation.Create( _Parent: TBatpro_Element;
+                               _Classe_Elements: TBatpro_Element_Class;
+                               _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre);
+begin
+     inherited;
+     if Classe_Elements <> _Classe_Elements
+     then
+         fAccueil_Erreur(  'Erreur à signaler au développeur: '#13#10
+                          +' '+ClassName+'.Create: Classe_Elements <> _Classe_Elements:'#13#10
+                          +' Classe_Elements='+ Classe_Elements.ClassName+#13#10
+                          +'_Classe_Elements='+_Classe_Elements.ClassName
+                          );
+end;
+
+destructor ThaOD_Dataset_Columns__OD_Affectation.Destroy;
+begin
+     inherited;
+end;
+
+class function ThaOD_Dataset_Columns__OD_Affectation.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_OD_Affectation;
+end;
+
+function ThaOD_Dataset_Columns__OD_Affectation.Iterateur: TIterateur_OD_Affectation;
+begin
+     Result:= TIterateur_OD_Affectation( Iterateur_interne);
+end;
+
+function ThaOD_Dataset_Columns__OD_Affectation.Iterateur_Decroissant: TIterateur_OD_Affectation;
+begin
+     Result:= TIterateur_OD_Affectation( Iterateur_interne_Decroissant);
+end;
+
+function ThaOD_Dataset_Columns__OD_Affectation.Cree: TblOD_Affectation;
+begin
+     Result:= TblOD_Affectation.Create( Self, nil, nil);
+     Ajoute( Result);
+end;
+
+procedure ThaOD_Dataset_Columns__OD_Affectation.Formate(_Nb_Colonnes: Integer; const _DCa: POD_Dataset_Column_array);
+var
+   I: Integer;
+   bl: TblOD_Affectation;
+begin
+     Vide_StringList( sl);
+     for I:= 1 to _Nb_Colonnes
+     do
+       begin
+       bl:= Cree;
+       if nil = bl then continue;
+
+       bl.DCa:= _DCa;
+       end;
+end;
+
+function ThaOD_Dataset_Columns__OD_Affectation._from_Colonne_Document( _Colonne: Integer): TblOD_Affectation;
+begin
+     Result:= blOD_Affectation_from_sl( sl, _Colonne);
+end;
+
+procedure ThaOD_Dataset_Columns__OD_Affectation.Blanc;
+var
+   I: TIterateur_OD_Affectation;
+   bl: TblOD_Affectation;
+begin
+     I:= Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( bl) then continue;
+
+       bl.NomChamp:= '';
+       end;
 end;
 
 { TblOD_Dataset_Columns }
@@ -355,8 +470,10 @@ end;
 
 procedure TblOD_Dataset_Columns.Create_Aggregation( Name: String; P: ThAggregation_Create_Params);
 begin
-          if 'Avant' = Name then P.Forte( ThaOD_Dataset_Columns__OD_Dataset_Column_Avant, TblOD_Dataset_Column, nil)
-     else if 'Apres' = Name then P.Forte( ThaOD_Dataset_Columns__OD_Dataset_Column_Apres, TblOD_Dataset_Column, nil)
+          if 'Avant'       = Name then P.Forte( ThaOD_Dataset_Columns__OD_Dataset_Column_Avant, TblOD_Dataset_Column, nil)
+     else if 'Apres'       = Name then P.Forte( ThaOD_Dataset_Columns__OD_Dataset_Column_Apres, TblOD_Dataset_Column, nil)
+     else if 'Avant_Affectation' = Name then P.Forte( ThaOD_Dataset_Columns__OD_Affectation, TblOD_Affectation, nil)
+     else if 'Apres_Affectation' = Name then P.Forte( ThaOD_Dataset_Columns__OD_Affectation, TblOD_Affectation, nil)
      else                        inherited Create_Aggregation( Name, P);
 end;
 
@@ -376,6 +493,24 @@ begin
          FhaApres:= Aggregations['Apres'] as ThaOD_Dataset_Columns__OD_Dataset_Column_Apres;
 
      Result:= FhaApres;
+end;
+
+function  TblOD_Dataset_Columns.GethaAvant_Affectation: ThaOD_Dataset_Columns__OD_Affectation;
+begin
+     if FhaAvant_Affectation = nil
+     then
+         FhaAvant_Affectation:= Aggregations['Avant_Affectation'] as ThaOD_Dataset_Columns__OD_Affectation;
+
+     Result:= FhaAvant_Affectation;
+end;
+
+function  TblOD_Dataset_Columns.GethaApres_Affectation: ThaOD_Dataset_Columns__OD_Affectation;
+begin
+     if FhaApres_Affectation = nil
+     then
+         FhaApres_Affectation:= Aggregations['Apres_Affectation'] as ThaOD_Dataset_Columns__OD_Affectation;
+
+     Result:= FhaApres_Affectation;
 end;
 
 end.

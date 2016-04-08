@@ -326,9 +326,12 @@ begin
 
      bl:= TblOD_Dataset_Columns.Create( nil, nil, nil);
      DCs:= blParent.T.AddDataset( bl.D);
-     DCs.from_Doc( '_'+blParent.Nom+'_', _C);
      bl.Charge( _Nom, DCs);
+     DCs.from_Doc( '_'+blParent.Nom+'_', _C);
      Ajoute( bl);
+
+     bl.haAvant_Affectation.Formate( blParent.T.GetNbColonnes, bl.haAvant.DCa);
+     bl.haApres_Affectation.Formate( blParent.T.GetNbColonnes, bl.haApres.DCa);
 end;
 
 { TblODRE_Table }

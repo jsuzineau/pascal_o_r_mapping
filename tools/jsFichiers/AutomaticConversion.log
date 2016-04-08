@@ -5,16 +5,6 @@ Hint: * Ajustement des unités utilisées pour le fichier /home/jean/pascal_o_r_
 Hint: 
 Hint: *** Conversion des fichiers unités appartenant au projet/paquet **
 Hint: * Conversion du fichier /home/jean/pascal_o_r_mapping/pascal_o_r_mapping/tools/jsFichiers/ufjsFichiers.pas *
-Hint: Codage modifié de ISO-8859-1 en "UTF-8"
-Hint: Codage modifié de ISO-8859-1 en "UTF-8"
-Hint: Unité "Windows" remplacée par "LCLIntf, LCLType, LMessages" dans la section "uses".
-Hint: Paquet OD_DelphiReportEngine_Units ajouté en tant que dépendance.
-Hint: * Conversion du fichier /home/jean/pascal_o_r_mapping/pascal_o_r_mapping/tools/jsFichiers/uthjsFichiers.pas *
-Hint: Codage modifié de ISO-8859-1 en "UTF-8"
-Hint: Appel FindNext( SearchRec) remplacé par FindNextUTF8(SearchRec) { *Converti depuis FindNext* }
-Hint: Unité FileUtil ajoutée à la section "uses"
-Hint: Appel FindFirst( Path+'\*.*', faAnyFile, SearchRec) remplacé par FindFirstUTF8(Path+'\*.*',faAnyFile,SearchRec) { *Converti depuis FindFirst* }
-Hint: * Ajustement des unités utilisées pour le fichier /home/jean/pascal_o_r_mapping/pascal_o_r_mapping/tools/jsFichiers/ufjsFichiers.pas *
-Hint: * Ajustement des unités utilisées pour le fichier /home/jean/pascal_o_r_mapping/pascal_o_r_mapping/tools/jsFichiers/uthjsFichiers.pas *
-Hint: La conversion a pris : 00:00:04
-Hint: Conversion prête.
+Hint: La conversion a pris : 00:00:13
+Hint: Erreur = "Utilisateur choisi pour terminer la conversion avec le fichier /home/jean/pascal_o_r_mapping/pascal_o_r_mapping/tools/jsFichiers/ufjsFichiers.pas"
+Hint: Conversion abandonnée.

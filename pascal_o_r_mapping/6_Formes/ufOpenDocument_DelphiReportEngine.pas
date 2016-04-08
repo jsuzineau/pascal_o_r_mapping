@@ -44,7 +44,8 @@ uses
     Zipper ,
     DOM,
     uOOoChrono, 
-    ucChampsGrid,
+    ucChampsGrid, ucChamp_Lookup_ComboBox,
+    uLog,
 
     ublODRE_Table,
     ublOD_Dataset_Columns,
@@ -63,7 +64,9 @@ type
    bInsererColonne: TButton;
    bSupprimerColonne: TButton;
    cg: TChampsGrid;
+   clkcbNomChamp: TChamp_Lookup_ComboBox;
    Label1: TLabel;
+   Label2: TLabel;
    mODRE_Table_Colonnes: TMemo;
     odODF: TOpenDialog;
     Panel6: TPanel;
@@ -234,13 +237,15 @@ begin
      OD_TextTableContext:= nil;
      blODRE_Table:= nil;
 
-     __sl            := TOOoStringList.Create;
-     __sli           := TOOoStringList.Create;
+     __sl          := TOOoStringList.Create;__sl .Sorted:= True;
+     __sli         := TOOoStringList.Create;__sli.Sorted:= True;
      slSuppressions:= TOOoStringList.Create;
 
      Embedded:= False;
      slT:= TslODRE_Table.Create( Classname+'.slT');
      hd:= ThdODRE_Table.Create( 1, sgODRE_Table, 'hdODRE_Table');
+
+     hd.clkcbNomChamp:=  clkcbNomChamp;
 
      hvst := ThVST_ODR.Create( vst );
      hvsti:= ThVST_ODR.Create( vsti);
@@ -265,7 +270,7 @@ begin
 
      Enregistre_Extension;
 
-     if ParamCount = 1
+     if ParamCount > 0
      then
          Ouvre( ParamStr( 1))
      else
@@ -344,13 +349,11 @@ var
         if i = -1
         then
             begin
-            {
             if sTreePath = ''
             then
                 Parent:= hvst.Ajoute_Ligne_( Parent, s, sValue)
             else
                 Parent:= hvst.Ajoute_Intermediaire( Parent, s);
-            }
             __sl.AddObject( sCle, TObject(Parent));
             end
         else
@@ -396,13 +399,12 @@ var
         if i = -1
         then
             begin
-            {
             if sTreePath = ''
             then
                 Parent:= hvsti.Ajoute_Ligne_( Parent, s, '')
             else
                 Parent:= hvsti.Ajoute_Intermediaire( Parent, s);
-            }
+
             __sli.AddObject( sCle, TObject(Parent));
             end
         else
@@ -836,6 +838,7 @@ var
           if iAvant_Composition <> iPos then continue;
 
           Delete( Nom, iAvant_Composition, lAvant_Composition);
+          //Log.PrintLn( 'TfOpenDocument_DelphiReportEngine.From_Document::Traite_Tables; Nom= '+Nom);
           bl.haOD_Dataset_Columns.AddDataset( Nom, OD_TextTableContext);
           end;
    end;
@@ -960,7 +963,7 @@ begin
           Ligne:= sLigne;
           Nom:= StrToK( '=', Ligne);
           Valeur:= Ligne;
-          vle.Values[Nom]:= Valeur;
+          //vle.Values[Nom]:= Valeur;
           if  1 = Pos( '_', Nom)
           then
               begin

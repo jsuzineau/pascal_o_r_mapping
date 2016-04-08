@@ -47,6 +47,7 @@ uses
     uDrawInfo,
     uChampDefinitions,
     uChamps,
+    //uLog,
     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
     uImpression_Font_Size_Multiplier,
     {$IFEND}
@@ -58,7 +59,10 @@ uses
     {$IFEND}
 
   {$IFDEF WINDOWS_GRAPHIC}
-  Windows, Controls, Menus, Types, ExtCtrls, Grids,Graphics,
+    {$IFDEF MSWINDOWS}
+    Windows,
+    {$ENDIF}
+    Controls, Menus, Types, ExtCtrls, Grids,Graphics,
   {$ENDIF}
   FPCanvas,
   SysUtils, Classes, XMLRead, XMLWrite,math;
@@ -3604,27 +3608,32 @@ begin
        else
            begin
            {$IFDEF WINDOWS_GRAPHIC}
-           uFormat:= DT_WORDBREAK or Format_beAlignementH[ Alignement.H];
-           SetBkMode( DrawInfo.Canvas.Handle, TRANSPARENT);
-           try
-              Oriente_Fonte( OrientationTexte_,DrawInfo.Canvas.Font);
-              //SetTextAlign( DrawInfo.Canvas.Handle, TA_TOP or TA_LEFT);
-              if OrientationTexte_ = 900
-              then
-                  begin
-                  SetTextAlign( DrawInfo.Canvas.Handle, TA_TOP or TA_LEFT);
-                  TextOut( DrawInfo.Canvas.Handle,
-                           CALCRECT.Left,
-                           CALCRECT.Bottom,
-                           PChar( Text), Length(Text));
-                  end
-              else
-                  DrawText( DrawInfo.Canvas.Handle,
-                            PChar(Text), Length(Text),
-                            CALCRECT, uFormat);
-           finally
-                  SetBkMode( DrawInfo.Canvas.Handle, OPAQUE);
-                  end;
+             {$IFDEF MSWINDOWS}
+             uFormat:= DT_WORDBREAK or Format_beAlignementH[ Alignement.H];
+             SetBkMode( DrawInfo.Canvas.Handle, TRANSPARENT);
+             try
+                Oriente_Fonte( OrientationTexte_,DrawInfo.Canvas.Font);
+                //SetTextAlign( DrawInfo.Canvas.Handle, TA_TOP or TA_LEFT);
+                if OrientationTexte_ = 900
+                then
+                    begin
+                    SetTextAlign( DrawInfo.Canvas.Handle, TA_TOP or TA_LEFT);
+                    TextOut( DrawInfo.Canvas.Handle,
+                             CALCRECT.Left,
+                             CALCRECT.Bottom,
+                             PChar( Text), Length(Text));
+                    end
+                else
+                    DrawText( DrawInfo.Canvas.Handle,
+                              PChar(Text), Length(Text),
+                              CALCRECT, uFormat);
+             finally
+                    SetBkMode( DrawInfo.Canvas.Handle, OPAQUE);
+                    end;
+             {$ELSE}
+             {$WARNING TBatpro_Element.Draw_Text cas linux non codé }
+             //Log.Prin
+             {$ENDIF}
            {$ENDIF}
            end;
 
