@@ -27,6 +27,7 @@ interface
 uses
     uClean,
     uLog,
+    uuStrings,
     uBatpro_StringList,
     uOD_TextTableContext,
     uOD_Dataset_Columns,
@@ -39,7 +40,7 @@ uses
     ublOD_Affectation,
 
     ufAccueil_Erreur,
- Classes, SysUtils, DB, BufDataset;
+ Classes, SysUtils, DB, BufDataset,math;
 
 type
 
@@ -53,17 +54,35 @@ type
                         _Classe_Elements: TBatpro_Element_Class;
                         _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre); override;
     destructor  Destroy; override;
-  //Chargement de tous les détails
+  //DCa
   public
     function DCa: POD_Dataset_Column_array; virtual;
-    function Composition: String; virtual;
+    function DC_from_FieldName( _FieldName: String): TOD_Dataset_Column;
+  //Chargement de tous les détails
+  public
     procedure Charge; override;
+  //Composition
+  protected
+    function GetComposition: String; virtual;
+    procedure SetComposition( const _Value: String); virtual;
+  public
+    property Composition: String read GetComposition write SetComposition;
+    procedure Assure_dans_Composition( _FieldName: String);
   //Création d'itérateur
   protected
     class function Classe_Iterateur: TIterateur_Class; override;
   public
     function Iterateur: TIterateur_OD_Dataset_Column;
     function Iterateur_Decroissant: TIterateur_OD_Dataset_Column;
+  //Vide
+  public
+     procedure Vide;
+  //Cree pour 1 DC
+  private
+     function Cree( _DC: TOD_Dataset_Column): TblOD_Dataset_Column;
+  // Ajoute = Cree + ajout dans composition
+  public
+     function Ajoute( _FieldName: String): TblOD_Dataset_Column;
   end;
 
  { ThaOD_Dataset_Columns__OD_Affectation }
@@ -83,9 +102,16 @@ type
     function Iterateur: TIterateur_OD_Affectation;
     function Iterateur_Decroissant: TIterateur_OD_Affectation;
   //Formatage pour un nombre de colonnes donné
-  public
+  private
     function Cree: TblOD_Affectation;
-    procedure Formate( _Nb_Colonnes: Integer; const _DCa: POD_Dataset_Column_array);
+    procedure NomChamp_Change;
+    procedure Affectation_to_DC;
+  public
+    C: TOD_TextTableContext;
+    haDC: ThaOD_Dataset_Columns__OD_Dataset_Column;
+    procedure Formate( _Nb_Colonnes: Integer;
+                       _haDC: ThaOD_Dataset_Columns__OD_Dataset_Column;
+                       _C: TOD_TextTableContext);
     function _from_Colonne_Document( _Colonne: Integer): TblOD_Affectation;
     procedure Blanc;
   end;
@@ -97,7 +123,10 @@ type
   //Chargement de tous les détails
   public
     function DCa: POD_Dataset_Column_array; override;
-    function Composition: String; override;
+  //Composition
+  protected
+    function GetComposition: String; override;
+    procedure SetComposition( const _Value: String); override;
   end;
 
  { ThaOD_Dataset_Columns__OD_Dataset_Column_Apres }
@@ -107,7 +136,10 @@ type
   //Chargement de tous les détails
   public
     function DCa: POD_Dataset_Column_array; override;
-    function Composition: String; override;
+  //Composition
+  protected
+    function GetComposition: String; override;
+    procedure SetComposition( const _Value: String); override;
   end;
 
  { TblOD_Dataset_Columns }
@@ -209,7 +241,7 @@ begin
      Result:= @blParent.DCs.FAvant;
 end;
 
-function ThaOD_Dataset_Columns__OD_Dataset_Column_Avant.Composition: String;
+function ThaOD_Dataset_Columns__OD_Dataset_Column_Avant.GetComposition: String;
 var
    blParent: TblOD_Dataset_Columns;
 begin
@@ -217,6 +249,15 @@ begin
      if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
 
      Result:= blParent.DCs.Avant_Composition;
+end;
+
+procedure ThaOD_Dataset_Columns__OD_Dataset_Column_Avant.SetComposition( const _Value: String);
+var
+   blParent: TblOD_Dataset_Columns;
+begin
+     if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
+
+     blParent.DCs.Avant_Composition:= _Value;
 end;
 
 
@@ -232,7 +273,7 @@ begin
      Result:= @blParent.DCs.FAvant;
 end;
 
-function ThaOD_Dataset_Columns__OD_Dataset_Column_Apres.Composition: String;
+function ThaOD_Dataset_Columns__OD_Dataset_Column_Apres.GetComposition: String;
 var
    blParent: TblOD_Dataset_Columns;
 begin
@@ -242,6 +283,14 @@ begin
      Result:= blParent.DCs.Apres_Composition;
 end;
 
+procedure ThaOD_Dataset_Columns__OD_Dataset_Column_Apres.SetComposition( const _Value: String);
+var
+   blParent: TblOD_Dataset_Columns;
+begin
+     if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
+
+     blParent.DCs.Apres_Composition:= _Value;
+end;
 
 { TIterateur_OD_Dataset_Columns }
 
@@ -313,9 +362,56 @@ begin
      Result:= @blParent.DCs.FAvant;
 end;
 
-function ThaOD_Dataset_Columns__OD_Dataset_Column.Composition: String;
+function ThaOD_Dataset_Columns__OD_Dataset_Column.DC_from_FieldName( _FieldName: String): TOD_Dataset_Column;
+begin
+     for Result in DCa^
+     do
+       if Result.FieldName = _FieldName then exit;
+
+     Result:= nil;
+end;
+
+function ThaOD_Dataset_Columns__OD_Dataset_Column.GetComposition: String;
 begin
      Result:= 'ThaOD_Dataset_Columns__OD_Dataset_Column.Composition';
+end;
+
+procedure ThaOD_Dataset_Columns__OD_Dataset_Column.SetComposition( const _Value: String);
+begin
+
+end;
+
+procedure ThaOD_Dataset_Columns__OD_Dataset_Column.Assure_dans_Composition( _FieldName: String);
+var
+   S: String;
+begin
+     if FieldName_in_Composition( _FieldName, Composition) then exit;
+
+     // (Formate_Liste ne peut travailler direct sur une property comme Composition, on passe par S)
+     S:= Composition;
+     Formate_Liste( S, ',', _FieldName);
+     Composition:= S;
+end;
+
+function ThaOD_Dataset_Columns__OD_Dataset_Column.Cree( _DC: TOD_Dataset_Column): TblOD_Dataset_Column;
+begin
+     Result:= TblOD_Dataset_Column.Create( sl, nil, nil);
+     Result.Charge( _DC);
+     inherited Ajoute( Result);
+end;
+
+function ThaOD_Dataset_Columns__OD_Dataset_Column.Ajoute( _FieldName: String): TblOD_Dataset_Column;
+var
+   DC: TOD_Dataset_Column;
+begin
+     Result:= nil;
+
+     DC:= DC_from_FieldName( _FieldName);
+     if nil = DC then exit;
+
+     Assure_dans_Composition( _FieldName);
+
+     Result:= Cree( DC);
 end;
 
 procedure ThaOD_Dataset_Columns__OD_Dataset_Column.Charge;
@@ -334,9 +430,7 @@ begin
        begin
        if not FieldName_in_Composition( DC.FieldName, Composition) then continue;
 
-       bl:= TblOD_Dataset_Column.Create( sl, nil, nil);
-       bl.Charge( DC);
-       Ajoute( bl);
+       bl:= Cree( DC);
 
        Log.PrintLn( '  '+bl.FieldName);
        end;
@@ -355,6 +449,24 @@ end;
 function ThaOD_Dataset_Columns__OD_Dataset_Column.Iterateur_Decroissant: TIterateur_OD_Dataset_Column;
 begin
      Result:= TIterateur_OD_Dataset_Column( Iterateur_interne_Decroissant);
+end;
+
+procedure ThaOD_Dataset_Columns__OD_Dataset_Column.Vide;
+var
+   I: TIterateur_OD_Dataset_Column;
+   bl: TblOD_Dataset_Column;
+begin
+     Composition:= '';
+     I:= Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( bl) then continue;
+
+       bl.Debut:=100;//au pif, il faudrait mettre le numéro de colonne max + 1
+       bl.Fin  :=-1;
+       end;
+     Vide_StringList( sl);
 end;
 
 { ThaOD_Dataset_Columns__OD_Affectation }
@@ -399,11 +511,48 @@ begin
      Ajoute( Result);
 end;
 
-procedure ThaOD_Dataset_Columns__OD_Affectation.Formate(_Nb_Colonnes: Integer; const _DCa: POD_Dataset_Column_array);
+procedure ThaOD_Dataset_Columns__OD_Affectation.NomChamp_Change;
+begin
+     Affectation_to_DC;
+end;
+
+procedure ThaOD_Dataset_Columns__OD_Affectation.Affectation_to_DC;
+var
+   blParent: TblOD_Dataset_Columns;
+
+   I: TIterateur_OD_Affectation;
+   bl: TblOD_Affectation;
+   blDC: TblOD_Dataset_Column;
+begin
+     if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
+
+     haDC.Composition:= '';
+     haDC.Vide;
+     I:= Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( bl) then continue;
+
+       blDC:= haDC.Ajoute( bl.NomChamp);
+       if nil = blDC then continue;
+
+       blDC.Debut:= Min( bl.Colonne, blDC.Debut);
+       blDC.Fin  := Max( bl.Colonne, blDC.Fin  );
+       end;
+     blParent.DCs.to_Doc( blParent.DCs.Prefixe_Table, C);
+end;
+
+procedure ThaOD_Dataset_Columns__OD_Affectation.Formate( _Nb_Colonnes: Integer;
+                                                         _haDC: ThaOD_Dataset_Columns__OD_Dataset_Column;
+                                                         _C: TOD_TextTableContext);
 var
    I: Integer;
    bl: TblOD_Affectation;
 begin
+     haDC:= _haDC;
+     C:= _C;
+
      Vide_StringList( sl);
      for I:= 1 to _Nb_Colonnes
      do
@@ -411,7 +560,10 @@ begin
        bl:= Cree;
        if nil = bl then continue;
 
-       bl.DCa:= _DCa;
+       bl.DCa:= haDC.DCa;
+       bl.cNomChamp.OnChange.Abonne( Self, NomChamp_Change);
+
+       bl.Colonne:= I-1;//premier = 0
        end;
 end;
 

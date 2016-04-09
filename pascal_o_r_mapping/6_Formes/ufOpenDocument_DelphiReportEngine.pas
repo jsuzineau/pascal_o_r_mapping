@@ -44,7 +44,7 @@ uses
     Zipper ,
     DOM,
     uOOoChrono, 
-    ucChampsGrid, ucChamp_Lookup_ComboBox,
+    ucChampsGrid, ucChamp_Lookup_ComboBox, ucChamp_Edit,
     uLog,
 
     ublODRE_Table,
@@ -64,9 +64,11 @@ type
    bInsererColonne: TButton;
    bSupprimerColonne: TButton;
    cg: TChampsGrid;
+   ceTitre: TChamp_Edit;
    clkcbNomChamp: TChamp_Lookup_ComboBox;
    Label1: TLabel;
    Label2: TLabel;
+   Label3: TLabel;
    mODRE_Table_Colonnes: TMemo;
     odODF: TOpenDialog;
     Panel6: TPanel;
@@ -246,6 +248,7 @@ begin
      hd:= ThdODRE_Table.Create( 1, sgODRE_Table, 'hdODRE_Table');
 
      hd.clkcbNomChamp:=  clkcbNomChamp;
+     hd.ceTitre      :=  ceTitre;
 
      hvst := ThVST_ODR.Create( vst );
      hvsti:= ThVST_ODR.Create( vsti);

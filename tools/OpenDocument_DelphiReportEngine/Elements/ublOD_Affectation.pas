@@ -68,6 +68,9 @@ type
   //Gestion du Hint
   public
     function Contenu( Contexte: Integer; Col, Row: Integer): String; override;
+  //Colonne
+  public
+    Colonne: Integer;
   end;
 
  TIterateur_OD_Affectation

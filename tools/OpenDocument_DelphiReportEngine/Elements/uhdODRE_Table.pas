@@ -16,8 +16,10 @@ uses
     ublOD_Dataset_Columns,
     ublOD_Dataset_Column,
     ublOD_Affectation,
+    ublOD_Column,
     uhDessinnateur,
 
+    ucChamp_Edit,
     ucChamp_Lookup_ComboBox,
  Classes, SysUtils, Grids, Graphics;
 
@@ -38,6 +40,7 @@ type
     blODRE_Table: TblODRE_Table;
     bsTitre: TBeString;
     clkcbNomChamp: TChamp_Lookup_ComboBox;
+    ceTitre: TChamp_Edit;
     procedure _from_pool; override;
   //Gestion souris et Drag / Drop
   protected
@@ -189,17 +192,41 @@ begin
 end;
 
 function ThdODRE_Table.Drag_from_(ACol, ARow: Integer): Boolean;
-var
-   bl: TblOD_Affectation;
+   function not_Traite_Titre: Boolean;
+   var
+      bl: TblOD_Column;
+   begin
+        Result:= True;
+
+        if nil = ceTitre then exit;
+
+        ceTitre.Champs:= nil;
+
+        if Affecte_( bl, TblOD_Column, sg_be( ACol, ARow)) then exit;
+
+        Result:= False;
+        ceTitre.Champs:= bl.Champs;
+   end;
+   function not_Traite_Affectation: Boolean;
+   var
+      bl: TblOD_Affectation;
+   begin
+        Result:= True;
+
+        if nil = clkcbNomChamp then exit;
+
+        clkcbNomChamp.Champs:= nil;
+
+        if Affecte_( bl, TblOD_Affectation, sg_be( ACol, ARow)) then exit;
+
+        Result:= False;
+        clkcbNomChamp.Champs:= bl.Champs;
+   end;
 begin
      Result:=inherited Drag_from_(ACol, ARow);
 
-     if nil = clkcbNomChamp then exit;
-     clkcbNomChamp.Champs:= nil;
-
-     if Affecte_( bl, TblOD_Affectation, sg_be( ACol, ARow)) then exit;
-
-     clkcbNomChamp.Champs:= bl.Champs;
+          if not_Traite_Titre
+     then    not_Traite_Affectation;
 end;
 
 end.

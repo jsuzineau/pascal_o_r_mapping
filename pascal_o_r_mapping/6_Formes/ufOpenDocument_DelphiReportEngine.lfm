@@ -370,21 +370,38 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
           end
           object clkcbNomChamp: TChamp_Lookup_ComboBox
             Left = 406
-            Height = 27
-            Top = 129
+            Height = 28
+            Top = 137
             Width = 179
             ItemHeight = 0
+            Style = csDropDownList
             TabOrder = 9
-            Text = 'clkcbNomChamp'
             Field = 'NomChamp_Libelle'
           end
           object Label2: TLabel
             Left = 337
             Height = 14
-            Top = 135
+            Top = 143
             Width = 61
             Caption = 'Affectation'
             ParentColor = False
+          end
+          object Label3: TLabel
+            Left = 337
+            Height = 14
+            Top = 113
+            Width = 26
+            Caption = 'Titre'
+            ParentColor = False
+          end
+          object ceTitre: TChamp_Edit
+            Left = 406
+            Height = 24
+            Top = 111
+            Width = 184
+            TabOrder = 10
+            Text = 'ceTitre'
+            Field = 'Titre'
           end
         end
         object sgODRE_Table: TStringGrid

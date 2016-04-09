@@ -91,9 +91,12 @@ type
     function Nom_Composition( Prefixe: String): String;
     function Nom_TriggerField( Prefixe: String): String;
   public
-    procedure Assure_Modele( Prefixe: String; C: TOD_TextTableContext);
-    procedure   to_Doc( Prefixe: String; C: TOD_TextTableContext);
-    procedure from_Doc( Prefixe: String; C: TOD_TextTableContext);
+    procedure Assure_Modele( _Prefixe_Table: String; C: TOD_TextTableContext);
+    procedure   to_Doc( _Prefixe_Table: String; C: TOD_TextTableContext);
+    procedure from_Doc( _Prefixe_Table: String; C: TOD_TextTableContext);
+  //Prefixe_Table
+  public
+    Prefixe_Table: String;
   //Gestion des gachettes
   private
     function Triggered( TriggerField: String): Boolean;
@@ -346,13 +349,15 @@ begin
      Result:= Prefixe+'TriggerField';
 end;
 
-procedure TOD_Dataset_Columns.Assure_Modele( Prefixe: String; C: TOD_TextTableContext);
+procedure TOD_Dataset_Columns.Assure_Modele( _Prefixe_Table: String; C: TOD_TextTableContext);
 var
    p: String;
    pav, pap: String;
    I: Integer;
 begin
-     p:= Prefixe+Nom+'_';
+     Prefixe_Table:= _Prefixe_Table;
+
+     p:= Prefixe_Table+Nom+'_';
      pav:= Nom_Avant( p)+'_';
      pap:= Nom_Apres( p)+'_';
      C.Assure_Parametre( Nom_Composition( pav), Avant_Composition);
@@ -363,13 +368,15 @@ begin
      for I:= Low( FApres) to High( FApres) do FApres[I].Assure_Modele( pap, C);
 end;
 
-procedure TOD_Dataset_Columns.to_Doc( Prefixe: String; C: TOD_TextTableContext);
+procedure TOD_Dataset_Columns.to_Doc( _Prefixe_Table: String; C: TOD_TextTableContext);
 var
    p: String;
    pav, pap: String;
    I: Integer;
 begin
-     p:= Prefixe+Nom+'_';
+     Prefixe_Table:= _Prefixe_Table;
+
+     p:= Prefixe_Table+Nom+'_';
      pav:= Nom_Avant( p)+'_';
      pap:= Nom_Apres( p)+'_';
      C.Ecrire( Nom_Composition( pav), Avant_Composition);
@@ -380,7 +387,7 @@ begin
      for I:= Low( FApres) to High( FApres) do FApres[I].to_Doc( pap, C);
 end;
 
-procedure TOD_Dataset_Columns.from_Doc( Prefixe: String; C: TOD_TextTableContext);
+procedure TOD_Dataset_Columns.from_Doc( _Prefixe_Table: String; C: TOD_TextTableContext);
 var
    p: String;
    pav, pap: String;
@@ -417,7 +424,9 @@ var
    end;
 
 begin
-     p:= Prefixe+Nom+'_';
+     Prefixe_Table:= _Prefixe_Table;
+
+     p:= Prefixe_Table+Nom+'_';
      pav:= Nom_Avant( p)+'_';
      pap:= Nom_Apres( p)+'_';
      Traite( pav, Avant_Composition, Avant_TriggerField, FAvant);

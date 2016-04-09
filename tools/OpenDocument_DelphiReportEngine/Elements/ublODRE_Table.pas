@@ -330,8 +330,8 @@ begin
      DCs.from_Doc( '_'+blParent.Nom+'_', _C);
      Ajoute( bl);
 
-     bl.haAvant_Affectation.Formate( blParent.T.GetNbColonnes, bl.haAvant.DCa);
-     bl.haApres_Affectation.Formate( blParent.T.GetNbColonnes, bl.haApres.DCa);
+     bl.haAvant_Affectation.Formate( blParent.T.GetNbColonnes, bl.haAvant, _C);
+     bl.haApres_Affectation.Formate( blParent.T.GetNbColonnes, bl.haApres, _C);
 end;
 
 { TblODRE_Table }
