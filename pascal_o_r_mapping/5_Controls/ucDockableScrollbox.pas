@@ -818,7 +818,13 @@ begin
 
      Fsl := Value;
      if sl = nil then exit;
-     if sl.Count= 0 then exit;
+     try
+        if sl.Count= 0 then exit;
+     except
+           on E: Exception
+           do
+             exit;
+           end;
 
      pColumnHeader.Height:= 0;
      pColumnHeader.Hide;

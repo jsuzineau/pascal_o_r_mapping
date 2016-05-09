@@ -46,9 +46,7 @@ type
   class( ThAggregation)
   //Gestion du cycle de vie
   public
-    constructor Create( _Parent: TBatpro_Element;
-                        _Classe_Elements: TBatpro_Element_Class;
-                        _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre); override;
+    constructor Create; reintroduce;
     destructor  Destroy; override;
   //Création d'itérateur
   protected
@@ -64,8 +62,6 @@ type
     function Execute( _Debut, _Fin: TDateTime; _idTag: Integer): Boolean;
     procedure To_log;
   end;
-
-function hdmSession: ThdmSession;
 
 implementation
 
@@ -114,27 +110,15 @@ end;
 
 { ThdmSession }
 
-var
-   FhdmSession: ThdmSession= nil;
-
-function hdmSession: ThdmSession;
+constructor ThdmSession.Create;
 begin
-     if FhdmSession = nil
-     then
-         FhdmSession:= ThdmSession.Create( nil, TblSession, nil);
-end;
-
-constructor ThdmSession.Create( _Parent: TBatpro_Element;
-                               _Classe_Elements: TBatpro_Element_Class;
-                               _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre);
-begin
-     inherited;
-     if Classe_Elements <> _Classe_Elements
+     inherited Create( nil, TblSession, nil);
+     if Classe_Elements <> TblSession
      then
          fAccueil_Erreur(  'Erreur à signaler au développeur: '#13#10
                           +' '+ClassName+'.Create: Classe_Elements <> _Classe_Elements:'#13#10
                           +' Classe_Elements='+ Classe_Elements.ClassName+#13#10
-                          +'_Classe_Elements='+_Classe_Elements.ClassName
+                          +'_Classe_Elements='+TblSession.ClassName
                           );
      haWork:= ThaWork.Create( nil, TblWork, nil);
 end;
@@ -263,8 +247,5 @@ begin
      Log.Affiche;
 end;
 
-initialization
-finalization
-            Free_nil( FhdmSession);
 end.
 

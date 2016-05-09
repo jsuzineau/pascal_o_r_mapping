@@ -45,9 +45,11 @@ type
   procedure cbRestreindre_a_un_TagClick(Sender: TObject);
   procedure dsClick(Sender: TObject);
   procedure FormCreate(Sender: TObject);
+  procedure FormDestroy(Sender: TObject);
  private
    function idTag: Integer;
  public
+   hdmSession: ThdmSession;
  end;
 
 function fTemps: TfTemps;
@@ -76,6 +78,13 @@ begin
 
      dsbTag.Classe_dockable:= TdkTag_LABEL_od;
      dsbTag.Classe_Elements:= TblTag;
+
+     hdmSession:= ThdmSession.Create;
+end;
+
+procedure TfTemps.FormDestroy(Sender: TObject);
+begin
+     Free_nil( hdmSession);
 end;
 
 function TfTemps.idTag: Integer;
