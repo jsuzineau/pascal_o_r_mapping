@@ -1,4 +1,4 @@
 inherited poolPouls: TpoolPouls
-  Left = 430
-  Top = 155
+  Left = 1418
+  Top = 326
 end

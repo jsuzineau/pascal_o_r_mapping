@@ -25,6 +25,7 @@ log
 libmysql.dll
 libmysqlclient.so.16
 libmysqlclient.so.18
+sqlite3.dll
 /fpcunit/hDessinnateur_web/*.or
 /fpcunit/hDessinnateur_web/fug_hDessinnateur_web.res
 /fpcunit/test_long_file_name/test_long_file_name.exe
