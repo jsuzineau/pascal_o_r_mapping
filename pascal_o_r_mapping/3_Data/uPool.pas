@@ -1323,6 +1323,7 @@ begin
        sgbd_Informix: Result:= r.LAST_INSERT_ID_INFORMIX;
        sgbd_MySQL   : Result:= r.LAST_INSERT_ID_MySQL   ;
        sgbd_Postgres: Result:= r.LAST_INSERT_ID_Postgres( NomTable);
+       sgbd_SQLite3 : Result:= r.LAST_INSERT_ID_SQLite3;
        else           SGBD_non_gere( 'TPool.Last_Insert_id');
        end;
 end;
@@ -1961,7 +1962,11 @@ end;
 function TPool.SQL_INSERT: String;
 begin
      is_Base:= True;//True pour appeler insertion par id seul (pas d'appel à To_SQLQuery_Params)
-     Result:= 'insert into '+NomTable+'(id) values (0)';
+     case SGBD
+     of
+       sgbd_SQLite3: Result:= 'insert into '+NomTable+' default values';
+       else          Result:= 'insert into '+NomTable+'(id) values (0)';
+     end;
 end;
 
 procedure TPool.Compose_INSERT;

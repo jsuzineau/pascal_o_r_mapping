@@ -239,8 +239,8 @@ begin
   'select                                          '#13#10
  +'      Work.*                                    '#13#10
  +'from                                            '#13#10
- +'    Work                                        '#13#10
- +'right join Tag_Work                             '#13#10
+ +'    Tag_Work                                        '#13#10
+ +'left join Work                             '#13#10
  +'on                                              '#13#10
  +'      (Tag_Work.idTag  = '+IntToStr(_idTag)+')  '#13#10
  +'  and (Tag_Work.idWork = Work.id             )  '#13#10
@@ -270,8 +270,8 @@ begin
  'select                                          '#13#10
 +'      Work.*                                    '#13#10
 +'from                                            '#13#10
-+'    Work                                        '#13#10
-+'right join Tag_Work                             '#13#10
++'    Tag_Work                                    '#13#10
++'left join Work                                  '#13#10
 +'on                                              '#13#10
 +'      (Tag_Work.idTag  = '+IntToStr(_idTag)+')  '#13#10
 +'  and (Tag_Work.idWork = Work.id             )  '#13#10

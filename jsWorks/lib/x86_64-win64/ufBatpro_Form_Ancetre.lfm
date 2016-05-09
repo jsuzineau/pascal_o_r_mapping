@@ -1,8 +1,0 @@
-object fBatpro_Form_Ancetre: TfBatpro_Form_Ancetre
-  Left = 403
-  Height = 240
-  Top = 54
-  Width = 320
-  Caption = 'fBatpro_Form_Ancetre'
-  LCLVersion = '1.0.1.3'
-end

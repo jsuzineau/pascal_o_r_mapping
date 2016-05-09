@@ -2,6 +2,7 @@
 <CONFIG>
   <Package Version="4">
     <Name Value="OD_DelphiReportEngine_Formes"/>
+    <Type Value="RunAndDesignTime"/>
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
@@ -12,14 +13,8 @@
           <SyntaxMode Value="Delphi"/>
         </SyntaxOptions>
       </Parsing>
-      <Other>
-        <CompilerMessages>
-          <MsgFileName Value=""/>
-        </CompilerMessages>
-        <CompilerPath Value="$(CompPath)"/>
-      </Other>
     </CompilerOptions>
-    <Files Count="53">
+    <Files Count="36">
       <Item1>
         <Filename Value="uAide.pas"/>
         <UnitName Value="uAide"/>
@@ -89,99 +84,30 @@
         <UnitName Value="ufReconcileError"/>
       </Item30>
       <Item31>
-        <Filename Value="uhRequete.pas"/>
-        <UnitName Value="uhRequete"/>
-      </Item31>
-      <Item32>
-        <Filename Value="uhTriColonne.pas"/>
-        <UnitName Value="uhTriColonne"/>
-      </Item32>
-      <Item33>
         <Filename Value="uImpression_Font_Size_Multiplier.pas"/>
         <UnitName Value="uImpression_Font_Size_Multiplier"/>
-      </Item33>
-      <Item34>
+      </Item31>
+      <Item32>
         <Filename Value="udmxCreator.pas"/>
         <UnitName Value="udmxCreator"/>
-      </Item34>
-      <Item35>
+      </Item32>
+      <Item33>
         <Filename Value="ufBatpro_Form_Ancetre.pas"/>
         <UnitName Value="ufBatpro_Form_Ancetre"/>
-      </Item35>
-      <Item36>
-        <Filename Value="udmx.pas"/>
-        <UnitName Value="udmx"/>
-      </Item36>
-      <Item37>
+      </Item33>
+      <Item34>
         <Filename Value="uhDessinnateur.pas"/>
         <UnitName Value="uhDessinnateur"/>
-      </Item37>
-      <Item38>
-        <Filename Value="ubeChamp.pas"/>
-        <UnitName Value="ubeChamp"/>
-      </Item38>
-      <Item39>
-        <Filename Value="ubeCoche.pas"/>
-        <UnitName Value="ubeCoche"/>
-      </Item39>
-      <Item40>
-        <Filename Value="ubeCurseur.pas"/>
-        <UnitName Value="ubeCurseur"/>
-      </Item40>
-      <Item41>
-        <Filename Value="ubeExtended.pas"/>
-        <UnitName Value="ubeExtended"/>
-      </Item41>
-      <Item42>
-        <Filename Value="ubeJalon.pas"/>
-        <UnitName Value="ubeJalon"/>
-      </Item42>
-      <Item43>
-        <Filename Value="ubeListe_Batpro_Elements.pas"/>
-        <UnitName Value="ubeListe_Batpro_Elements"/>
-      </Item43>
-      <Item44>
-        <Filename Value="uberef.pas"/>
-        <UnitName Value="uberef"/>
-      </Item44>
-      <Item45>
-        <Filename Value="ubeSerie.pas"/>
-        <UnitName Value="ubeSerie"/>
-      </Item45>
-      <Item46>
-        <Filename Value="ubeString.pas"/>
-        <UnitName Value="ubeString"/>
-      </Item46>
-      <Item47>
-        <Filename Value="ubeTraits.pas"/>
-        <UnitName Value="ubeTraits"/>
-      </Item47>
-      <Item48>
+      </Item34>
+      <Item35>
         <Filename Value="ufBloqueur.pas"/>
         <UnitName Value="ufBloqueur"/>
-      </Item48>
-      <Item49>
-        <Filename Value="uhrG_BECPCTX.pas"/>
-        <UnitName Value="uhrG_BECPCTX"/>
-      </Item49>
-      <Item50>
-        <Filename Value="udmxLAST_INSERT_ID_MySQL.lfm"/>
-        <Type Value="LFM"/>
-      </Item50>
-      <Item51>
-        <Filename Value="udmxLAST_INSERT_ID_MySQL.pas"/>
-        <UnitName Value="udmxLAST_INSERT_ID_MySQL"/>
-      </Item51>
-      <Item52>
-        <Filename Value="ufSchemateur.pas"/>
-        <UnitName Value="ufSchemateur"/>
-      </Item52>
-      <Item53>
+      </Item35>
+      <Item36>
         <Filename Value="uHorloge.pas"/>
         <UnitName Value="uHorloge"/>
-      </Item53>
+      </Item36>
     </Files>
-    <Type Value="RunAndDesignTime"/>
     <RequiredPkgs Count="10">
       <Item1>
         <PackageName Value="OD_DelphiReportEngine_Controls"/>

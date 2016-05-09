@@ -34,7 +34,7 @@ uses
     uSGBD,
     ufAccueil_Erreur,
   {$IFDEF FPC}
-  mysql50conn, mysql51conn, mysql55conn, SQLDB,
+  mysql50conn, mysql51conn, mysql55conn, mysql56conn, SQLDB,
   {$ELSE}
   SQLExpr,
   {$ENDIF}
@@ -144,6 +144,7 @@ begin
           if '50' = Version then Result:= TMySQL50Connection.Create( nil)
      else if '51' = Version then Result:= TMySQL51Connection.Create( nil)
      else if '55' = Version then Result:= TMySQL55Connection.Create( nil)
+     else if '56' = Version then Result:= TMySQL56Connection.Create( nil)
      else
          begin
          Log.PrintLn( 'Attention version MySQL invalide dans _Configuration.ini: Version='+Version);

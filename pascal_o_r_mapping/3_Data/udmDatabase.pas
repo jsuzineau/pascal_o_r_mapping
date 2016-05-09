@@ -44,6 +44,7 @@ uses
     uMySQL,
     uPostgres,
     uSQLServer,
+    uSQLite3,
 
     ufAccueil_Erreur,
 
@@ -55,7 +56,15 @@ uses
   ucbvCustomConnection,
  {$IFEND}
   Classes,SysUtils,
-  Db, SQLDB, mysql50conn, mysql51conn, mysql55conn, odbcconn, mssqlconn, IniFiles,
+  Db, SQLDB,
+  mysql50conn,
+    mysql51conn,
+    mysql55conn,
+    mysql56conn,
+    odbcconn,
+    mssqlconn,
+    sqlite3conn,
+    IniFiles,
   FMTBcd, BufDataset;
 
 type
@@ -89,10 +98,12 @@ type
     procedure _from_MySQL;
     procedure _from_Postgres;
     procedure _from_SQLServer;
+    procedure _from_SQLite3;
     procedure DBExpress_Informix;
     procedure DBExpress_MySQL;
     procedure DBExpress_Postgres;
     procedure DBExpress_SQLServer;
+    procedure DBExpress_SQLite3;
   public
     procedure Initialise_DBExpress;
   public
@@ -149,6 +160,7 @@ type
     sqlcInformixSYSMASTER: TSQLConnection;
     sqlcMySQL    : TSQLConnection;
     sqlcSQLServer: TSybaseConnection;
+    sqlcSQLite3: TSQLite3Connection;
     sqlc: TSQLConnection;
     sqlt: TSQLTransaction;
     sqlcGED: TSQLConnection;
@@ -190,6 +202,15 @@ const
      inik_Mot_de_passe= 'Mot_de_passe';
 
 constructor TdmDatabase.Create;
+    function Cree_SQLTransaction_ODBC: TSQLTransaction;
+    begin
+         Result:= TSQLTransaction.Create( nil);
+    end;
+    function Cree_SQLTransaction: TSQLTransaction;
+    begin
+         Result:= TSQLTransaction.Create( nil);
+         with Result do Options:= Options+[stoUseImplicit];
+    end;
 begin
      inherited;
      FLoginOK    := False;//redondant, initialisé dans Ouvre_db
@@ -197,17 +218,19 @@ begin
 
      pSGBDChange.Abonne( Self, SGBDChange);
 
-     sqlt         := TSQLTransaction.Create( nil);
-     sqltGED      := TSQLTransaction.Create( nil);
-     sqltSYSMASTER:= TSQLTransaction.Create( nil);
+     sqlt         := Cree_SQLTransaction;
+     sqltGED      := Cree_SQLTransaction;
+     sqltSYSMASTER:= Cree_SQLTransaction_ODBC;
+
 
      sqlcInformix:= TODBCConnection.Create(nil);
      sqlcMySQL   := MySQL.Cree_Connection;
      sqlcSQLServer:= TSybaseConnection.Create(nil);
+     sqlcSQLite3 := SQLite3.Cree_Connection;
 
-     sqlc:= sqlcMySQL;
-     sqlc.Transaction:= sqlt;
+     sqlcMySQL    .Transaction:= sqlt;
      sqlcSQLServer.Transaction:= sqlt;
+     sqlcSQLite3  .Transaction:= sqlt;
 
      sqlcGED:= MySQL.Cree_Connection;
      sqlcGED.Transaction:= sqltGED;
@@ -226,6 +249,8 @@ begin
      sqlqSHOW_DATABASES:= TSQLQuery.Create(nil);
      sqlqSHOW_DATABASES.SQL.Text:= 'show databases';
 
+     sqlc:= nil;
+
      Ferme_db;
 
      Initialise_DBExpress;
@@ -242,7 +267,8 @@ begin
      FreeAndnil( sqltGED);
      FreeAndnil( sqlcInformix);
      FreeAndnil( sqlcMySQL);
-     FreeAndnil( SQLServer);
+     FreeAndnil( sqlcSQLServer);
+     FreeAndnil( sqlcSQLite3);
      FreeAndnil( sqlcGED);
 
      inherited;
@@ -252,13 +278,14 @@ procedure TdmDatabase.Initialise_DBExpress;
 begin
      IsMySQL:= sgbdMySQL;
      dmDatabase_IsMySQL:= sgbdMySQL;
-     sqlc.Transaction:= nil;
+     if Assigned( sqlc) then sqlc.Transaction:= nil;
      case SGBD
      of
        sgbd_Informix : DBExpress_Informix;
        sgbd_MySQL    : DBExpress_MySQL;
        sgbd_Postgres : DBExpress_Postgres;
        sgbd_SQLServer: DBExpress_SQLServer;
+       sgbd_SQLite3  : DBExpress_SQLite3;
        else
            begin
            Ouvrable:= False;
@@ -311,6 +338,9 @@ begin
              cdPG_DATABASES.Locate('datname', Postgres.DataBase, []);
          }
          end;
+       sgbd_SQLite3:
+         begin
+         end;
        end;
 end;
 
@@ -326,8 +356,9 @@ begin
 
      sqlcMySQL            .Close;
      sqlcSQLServer        .Close;
+     sqlcSQLite3          .Close;
 
-     sqlc                 .Close;
+     if Assigned( sqlc) then sqlc.Close;
      sqlcGED              .Close;
 end;
 
@@ -457,6 +488,28 @@ begin
      //WriteParam( 'DataBase' , SQLServer.Database );
 end;
 
+procedure TdmDatabase._from_SQLite3;
+var
+   Default_Database: String;
+begin
+     Default_Database:= GetCurrentDir+DirectorySeparator+'SQLite3_database.db';
+
+     Database_indefinie:= (SQLite3.DataBase = sys_Vide) or (SQLite3.DataBase='---');
+     if Database_indefinie
+     then
+         SQLite3.DataBase:= Default_Database
+     else
+         Database_indefinie:= SQLite3.DataBase = Default_Database;
+
+     Ouvrable
+     :=
+            (SQLite3.Database  <> sys_Vide)
+        and FileExists(SQLite3.Database);
+
+     sqlcSQLite3.DatabaseName:= SQLite3.Database;
+
+end;
+
 procedure TdmDatabase.DBExpress_Informix;
 begin
      sqlc:= sqlcInformix;
@@ -482,6 +535,12 @@ procedure TdmDatabase.DBExpress_SQLServer;
 begin
      sqlc:= sqlcSQLServer;
      _from_SQLServer;
+end;
+
+procedure TdmDatabase.DBExpress_SQLite3;
+begin
+     sqlc:= sqlcSQLite3;
+     _from_SQLite3;
 end;
 
 function TdmDatabase.EmptyCommande(Commande: String): Boolean;
@@ -664,6 +723,14 @@ begin
          begin
          OldDatabase:= Postgres.DataBase; Postgres.DataBase:= NewDatabase;
          end;
+       sgbd_SQLServer:
+         begin
+         OldDatabase:= SQLServer.DataBase; SQLServer.DataBase:= NewDatabase;
+         end;
+       sgbd_SQLite3:
+         begin
+         OldDatabase:= SQLite3.DataBase; SQLite3.DataBase:= NewDatabase;
+         end;
        else SGBD_non_gere( 'TdmDatabase.Traite_autoexec_Database; 1');
        end;
 
@@ -676,12 +743,11 @@ begin
              begin
              case SGBD
              of
-               sgbd_Informix:
-                 Informix.DataBase:= OldDatabase;
-               sgbd_MySQL:
-                 MySQL   .DataBase:= OldDatabase;
-               sgbd_Postgres:
-                 Postgres.DataBase:= OldDatabase;
+               sgbd_Informix : Informix .DataBase:= OldDatabase;
+               sgbd_MySQL    : MySQL    .DataBase:= OldDatabase;
+               sgbd_Postgres : Postgres .DataBase:= OldDatabase;
+               sgbd_SQLServer: SQLServer.DataBase:= OldDatabase;
+               sgbd_SQLite3  : SQLite3  .DataBase:= OldDatabase;
                else SGBD_non_gere( 'TdmDatabase.Traite_autoexec_Database; 2');
                end;
              raise;
@@ -695,14 +761,18 @@ begin
      Initialise_DBExpress;
 end;
 
+//il faudrait mettre un ancêtre commun pour TInformix, TMySQL, ...
+//pour simplifier et factoriser le code ci-dessous
 function TdmDatabase.Hote: String;
 begin
      case SGBD
      of
-       sgbd_Informix: Result:= Informix  .HostName;
-       sgbd_MySQL   : Result:= MySQL     .HostName;
-       sgbd_Postgres: Result:= Postgres.HostName;
-       else             Result:= Informix  .HostName;
+       sgbd_Informix : Result:= Informix  .HostName;
+       sgbd_MySQL    : Result:= MySQL     .HostName;
+       sgbd_Postgres : Result:= Postgres  .HostName;
+       sgbd_SQLServer: Result:= SQLServer .HostName;
+       sgbd_SQLite3  : Result:= 'local filesystem';
+       else            Result:= Informix  .HostName;
        end;
 end;
 
@@ -710,10 +780,12 @@ function TdmDatabase.Database: String;
 begin
      case SGBD
      of
-       sgbd_Informix: Result:= Informix  .DataBase;
-       sgbd_MySQL   : Result:= MySQL     .DataBase;
-       sgbd_Postgres: Result:= Postgres.DataBase;
-       else             Result:= Informix  .DataBase;
+       sgbd_Informix : Result:= Informix .DataBase;
+       sgbd_MySQL    : Result:= MySQL    .DataBase;
+       sgbd_Postgres : Result:= Postgres .DataBase;
+       sgbd_SQLServer: Result:= SQLServer.DataBase;
+       sgbd_SQLite3  : Result:= SQLite3  .DataBase;
+       else            Result:= Informix .DataBase;
        end;
 end;
 
@@ -733,9 +805,11 @@ procedure TdmDatabase.Sauve;
 begin
      case SGBD
      of
-       sgbd_Informix: Informix.Ecrire;
-       sgbd_MySQL   : MySQL   .Ecrire;
-       sgbd_Postgres: Postgres.Ecrire;
+       sgbd_Informix : Informix .Ecrire;
+       sgbd_MySQL    : MySQL    .Ecrire;
+       sgbd_Postgres : Postgres .Ecrire;
+       sgbd_SQLServer: SQLServer.Ecrire;
+       sgbd_SQLite3  : SQLite3  .Ecrire;
        end;
 end;
 
@@ -781,6 +855,12 @@ begin
            _cb.Items.Add( cdPG_DATABASESdatname.Value);
            cdPG_DATABASES.Next;
            end;*)
+         end;
+       sgbd_SQLServer:
+         begin
+         end;
+       sgbd_SQLite3:
+         begin
          end;
        end;
 end;

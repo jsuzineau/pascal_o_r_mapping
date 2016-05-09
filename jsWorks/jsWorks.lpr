@@ -61,7 +61,7 @@ uses
  uOD_Styles, uOD_SurTitre, uOD_Temporaire, uOD_TextFieldsCreator,
  uOD_TextTableContext, uOD_TextTableManager, uOOoChrono,
  uOOoDelphiReportEngineLog, uOOoStringList, uOOoStrings, uOpenDocument,
- uuStrings, uDockable, ucDockableScrollbox, uDessin, ufBatpro_Form_Ancetre,
+ uuStrings, uDockable, ucDockableScrollbox, ufBatpro_Form_Ancetre,
  ufBatpro_Form, ufBase, blcksock, ufjsWorks, ublCategorie, ublDevelopment,
  ublProject, ublState, ublWork, uhfCategorie, uhfDevelopment, uhfJour_ferie,
  uhfProject, uhfState, uodTag, ufTemps, ufTag, udkSession, uhfWork,
@@ -73,8 +73,8 @@ uses
  ublTag_Work, udkType_Tag_EDIT, ublType_Tag, upoolType_Tag, uhfType_Tag,
  ufType_Tag, udkTag_LABEL, uodWork_from_Period, udkTag_LABEL_od,
  udkWork_haTag_from_Description_LABEL, ufTest_VirtualTreeView,
- virtualtreeview_package, uhVST, ufTest_neo4j, ufTULEAP, uNEO4J, uTuleap,
- upoolJSON;
+ virtualtreeview_package, uhVST, ufTest_neo4j, ufTULEAP, uNEO4J, uSQLite3,
+ uTuleap, upoolJSON;
 
 {$R *.res}
 

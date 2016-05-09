@@ -85,6 +85,9 @@ type
   //Last_Insert_Id Postgres
   public
     function LAST_INSERT_ID_Postgres( _NomTable: String): Integer;
+  //Last_Insert_Id SQLite3
+  public
+    function LAST_INSERT_ID_SQLite3: Integer;
   //Listage d'un champ vers une liste
   public
     procedure Liste_Champ( _SQL, _NomChamp: String; _Resultat: TStrings);
@@ -312,6 +315,14 @@ var
    SQL: String;
 begin
      SQL:= 'select currval( '''+_NomTable+'_SEQ'')';
+     Integer_from( SQL, Result);
+end;
+
+function TRequete.LAST_INSERT_ID_SQLite3: Integer;
+var
+   SQL: String;
+begin
+     SQL:= 'select last_insert_rowid()';
      Integer_from( SQL, Result);
 end;
 

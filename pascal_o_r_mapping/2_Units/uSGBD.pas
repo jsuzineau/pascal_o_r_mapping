@@ -43,7 +43,8 @@ type
      sgbd_Informix,
      sgbd_MySQL   ,
      sgbd_Postgres,
-     sgbd_SQLServer
+     sgbd_SQLServer,
+     sgbd_SQLite3
      );
 const
      sSGBDs: array[Low(TSGBD)..High(TSGBD)] of String
@@ -52,7 +53,8 @@ const
       'Informix',
       'MySQL',
       'Postgres',
-      'SQLServer'
+      'SQLServer',
+      'SQLite3'
       );
      sBATPRO6_SGBD: array[Low(TSGBD)..High(TSGBD)] of String
      =
@@ -60,7 +62,8 @@ const
       'INFX',
       'MYSQL',
       'POSTGR',
-      'SQLServer'
+      'SQLServer',
+      'SQLite3'
       );
 
 var
@@ -78,6 +81,7 @@ function sgbdINFORMIX: Boolean;
 function sgbdMYSQL   : Boolean;
 function sgbdPOSTGRES: Boolean;
 function sgbdSQLServer: Boolean;
+function sgbdSQLite3 : Boolean;
 
 function sgbd_Substr( _NomChamp: String; _Debut, _Fin: Integer): String;
 
@@ -105,6 +109,7 @@ var
    uSGBD_OPN_Informix : TSGBD_OPN_CallBack = nil;
    uSGBD_OPN_MySQL    : TSGBD_OPN_CallBack = nil;
    uSGBD_OPN_SQLServer: TSGBD_OPN_CallBack = nil;
+   uSGBD_OPN_SQLite3  : TSGBD_OPN_CallBack = nil;
 
 implementation
 
@@ -134,7 +139,8 @@ procedure uSGBD_Compute;
         if BATPRO6( sgbd_Informix ) then exit;
         if BATPRO6( sgbd_MySQL    ) then exit;
         if BATPRO6( sgbd_Postgres ) then exit;
-           BATPRO6( sgbd_SQLServer);
+        if BATPRO6( sgbd_SQLServer) then exit;
+        if BATPRO6( sgbd_SQLite3  ) then exit;
    end;
 
    function Traite_INI: Boolean;
@@ -223,6 +229,7 @@ begin
        sgbd_MySQL    : begin sgbd_DateSQL_function:= DateSQL_Y4MD_Tiret; sgbd_DateTimeSQL_function:= DateTimeSQL_sans_quotes     ; end;
        sgbd_Postgres : begin sgbd_DateSQL_function:= DateSQL_Y4MD_Tiret; sgbd_DateTimeSQL_function:= DateTimeSQL_sans_quotes     ; end;
        sgbd_SQLServer: begin sgbd_DateSQL_function:= DateSQL_ISO8601   ; sgbd_DateTimeSQL_function:= DateTime_ISO8601_sans_quotes; end;
+       sgbd_SQLite3  : begin sgbd_DateSQL_function:= DateSQL_Y4MD_Tiret; sgbd_DateTimeSQL_function:= DateTimeSQL_sans_quotes     ; end;
        else           SGBD_non_gere( 'uSGBD.SGBD_Set');
        end;
      pSGBDChange.Publie;
@@ -260,6 +267,11 @@ begin
      Result:= sgbd_SQLServer = SGBD;
 end;
 
+function sgbdSQLite3: Boolean;
+begin
+     Result:= sgbd_SQLite3 = SGBD;
+end;
+
 function sgbd_Substr( _NomChamp: String; _Debut, _Fin: Integer): String;
 var
    Longueur: Integer;
@@ -271,6 +283,7 @@ begin
        sgbd_MySQL    : Result:= Format( 'substring( %s,%d,%d)'         ,[_NomChamp, _Debut, Longueur]);
        sgbd_Postgres : Result:= Format( 'substring( %s from %d for %d)',[_NomChamp, _Debut, Longueur]);
        sgbd_SQLServer: Result:= Format( 'substring( %s,%d,%d)'         ,[_NomChamp, _Debut, Longueur]);
+       sgbd_SQLite3  : Result:= Format( 'substr( %s,%d,%d)'            ,[_NomChamp, _Debut, Longueur]);
        else SGBD_non_gere( 'uSGBD.sgbd_Substr');
        end;
 
@@ -288,11 +301,12 @@ end;
 
 function sgbd_Limit( _NbLignes: Integer = 1): String;
 begin
-     if sgbdMYSQL
-     then
-         Result:= 'limit '+IntToStr( _NbLignes)
-     else
-         Result:= '';
+     case SGBD
+     of
+       sgbd_MYSQL  : Result:= 'limit '+IntToStr( _NbLignes);
+       sgbd_SQLite3: Result:= 'limit '+IntToStr( _NbLignes);
+       else          Result:= '';
+       end;
 end;
 
 function sgbd_DateSQL( D: TDateTime): String;
@@ -343,6 +357,13 @@ begin
          uSGBD_OPN_SQLServer;
 end;
 
+procedure Do_uSGBD_OPN_SQLite3;
+begin
+     if Assigned( uSGBD_OPN_SQLite3)
+     then
+         uSGBD_OPN_SQLite3;
+end;
+
 procedure uSGBD_OPN;
 begin
      if not uClean_fMot_de_passe_OPN_OK( 'OPN') then exit;
@@ -353,6 +374,7 @@ begin
        sgbd_MySQL    : Do_uSGBD_OPN_MySQL;
        sgbd_Postgres : Do_uSGBD_OPN_MySQL;
        sgbd_SQLServer: Do_uSGBD_OPN_SQLServer;
+       sgbd_SQLite3  : Do_uSGBD_OPN_SQLite3;
        else SGBD_non_gere( 'uSGBD_OPN');
        end;
 end;
@@ -367,6 +389,7 @@ begin
        sgbd_MySQL   : uClean_UsesCase_Execute( 'Requeteur_MySQL'   ,[_SQL]);
        sgbd_Postgres: uClean_UsesCase_Execute( 'OPN_Postgres'      ,[_SQL]);
        sgbd_SQLServer: uClean_UsesCase_Execute( 'Requeteur_SQLServer'   ,[_SQL]);
+       sgbd_SQLite3 : uClean_UsesCase_Execute( 'Requeteur_SQLite3' ,[_SQL]);
        else SGBD_non_gere( 'uSGBD_OPN_Requeteur');
        end;
 end;

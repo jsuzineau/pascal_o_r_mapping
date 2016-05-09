@@ -63,7 +63,7 @@ uses
     ufTest_VirtualTreeView,
     ufAutomatic_VST,
     ufTest_neo4j,
-    ufTULEAP,
+    ufTULEAP, sqlite3conn,
 
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls, Buttons, ucChampsGrid, ucDockableScrollbox,
@@ -129,6 +129,7 @@ type
    Splitter2: TSplitter;
    Splitter4: TSplitter;
    Splitter6: TSplitter;
+   SQLite3Connection1: TSQLite3Connection;
    t: TTimer;
    procedure bAutomatic_VSTClick(Sender: TObject);
    procedure bBugClick(Sender: TObject);
@@ -219,7 +220,7 @@ begin
      poolTag.TrierFiltre;
      dsbTag        .sl:= poolTag.slFiltre;
 
-     dsbWork       .Goto_Premier;
+     dsbWork       .Goto_Dernier;
      dsbDevelopment.Goto_Premier;
 end;
 

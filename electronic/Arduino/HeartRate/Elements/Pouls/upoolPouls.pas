@@ -239,8 +239,8 @@ begin
   'select                                          '#13#10
  +'      Pouls.*                                    '#13#10
  +'from                                            '#13#10
- +'    Pouls                                        '#13#10
- +'right join Tag_Pouls                             '#13#10
+ +'    Tag_Pouls                                        '#13#10
+ +'left join Pouls                             '#13#10
  +'on                                              '#13#10
  +'      (Tag_Pouls.idTag  = '+IntToStr(_idTag)+')  '#13#10
  +'  and (Tag_Pouls.idPouls = Pouls.id             )  '#13#10
@@ -268,10 +268,10 @@ begin
      SQL
      :=
  'select                                          '#13#10
-+'      Pouls.*                                    '#13#10
++'      Pouls.*                                   '#13#10
 +'from                                            '#13#10
-+'    Pouls                                        '#13#10
-+'right join Tag_Pouls                             '#13#10
++'    Tag_Pouls                                   '#13#10
++'left join Pouls                                 '#13#10
 +'on                                              '#13#10
 +'      (Tag_Pouls.idTag  = '+IntToStr(_idTag)+')  '#13#10
 +'  and (Tag_Pouls.idPouls = Pouls.id             )  '#13#10

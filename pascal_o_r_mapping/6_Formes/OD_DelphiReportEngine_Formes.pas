@@ -14,7 +14,7 @@ uses
  uhTriColonne, uImpression_Font_Size_Multiplier, udmxCreator, 
  ufBatpro_Form_Ancetre, udmx, uhDessinnateur, ubeChamp, ubeCoche, ubeCurseur, 
  ubeExtended, ubeJalon, ubeListe_Batpro_Elements, uberef, ubeSerie, ubeString, 
- ubeTraits, ufBloqueur, uhrG_BECPCTX, udmxLAST_INSERT_ID_MySQL, ufSchemateur, 
+ ubeTraits, ufBloqueur, uhrG_BECPCTX, ufSchemateur,
  uHorloge, LazarusPackageIntf;
 
 implementation
