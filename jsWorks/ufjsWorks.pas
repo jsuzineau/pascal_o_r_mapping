@@ -185,6 +185,8 @@ begin
      inherited Create(TheOwner);
 
      dmDatabase.Ouvre_db;
+
+     Caption:= Caption+' - '+dmDatabase.Base_sur;
      poolCategorie.ToutCharger;
      poolState    .ToutCharger;
 

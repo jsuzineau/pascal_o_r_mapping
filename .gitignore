@@ -30,3 +30,10 @@ sqlite3.dll
 /fpcunit/hDessinnateur_web/fug_hDessinnateur_web.res
 /fpcunit/test_long_file_name/test_long_file_name.exe
 callgrind.out.*
+/jsWorks/etc/_Configuration.ini
+/jsWorks/jsWorks
+/fpcunit/hDessinnateur_web/fu_hDessinnateur_web.exe
+/fpcunit/hDessinnateur_web/*.obj
+/fpcunit/test_long_file_name/*.a
+/pascal_o_r_mapping/3_Data/*.rst
+/*.stackdump

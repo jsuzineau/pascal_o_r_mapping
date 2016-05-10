@@ -230,6 +230,7 @@ var
    P: TParams;
    pDebut, pFin: TParam;
 begin
+     dmDatabase.Start_SQLLog;
      if _idTag = 0
      then
          SQL:= 'select * from '+NomTable+' where Beginning >= :Debut and Beginning <= :Fin'
@@ -259,6 +260,7 @@ begin
             FreeAndNil( P);
             end;
      Tri.Execute( _slLoaded);
+     dmDatabase.Stop_SQLLog;
 end;
 
 procedure TpoolWork.Charge_Tag(_idTag: Integer; _slLoaded: TBatpro_StringList);
