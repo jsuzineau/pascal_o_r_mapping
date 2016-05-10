@@ -170,6 +170,11 @@ type
   public
     function Connection: TSQLConnection;
     function Connection_GED: TSQLConnection;
+  //Gestion du log
+  private
+    procedure GetLogEvent( _Sender: TSQLConnection;
+                           _EventType: TDBEventType;
+                           const _Msg : String);
   end;
 
 // constraint \"informix\"\.n{[0123456789_]*}
@@ -651,14 +656,14 @@ end;
 
 procedure TdmDatabase.Start_SQLLog;
 begin
-     (*sqlm.AutoSave:= True;
-     sqlm.Active  := True;*)
+     sqlc.LogEvents:=LogAllEvents;
+     sqlc.OnLog:= GetLogEvent;
 end;
 
 procedure TdmDatabase.Stop_SQLLog;
 begin
-     (*sqlm.Active  := False;
-     sqlm.AutoSave:= False;*)
+     sqlc.LogEvents:=[];
+     sqlc.OnLog    := nil;
 end;
 
 procedure TdmDatabase.Reconnecte;
@@ -909,6 +914,24 @@ begin
      Result:= sqlcGED;
 end;
 
+procedure TdmDatabase.GetLogEvent( _Sender: TSQLConnection;
+                                   _EventType: TDBEventType;
+                                   const _Msg: String);
+var
+  Source: string;
+begin
+     case _EventType
+     of
+       detCustom:   Source:='Custom:  ';
+       detPrepare:  Source:='Prepare: ';
+       detExecute:  Source:='Execute: ';
+       detFetch:    Source:='Fetch:   ';
+       detCommit:   Source:='Commit:  ';
+       detRollBack: Source:='Rollback:';
+       else Source:='Unknown event. Please fix program code.';
+     end;
+     Log.PrintLn( Source + ' ' + _Msg);
+end;
 initialization
               dmDatabase:= TdmDatabase.Create;
 finalization
