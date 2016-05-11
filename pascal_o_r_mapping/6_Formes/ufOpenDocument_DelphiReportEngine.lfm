@@ -1,7 +1,7 @@
 object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
-  Left = 231
+  Left = 159
   Height = 661
-  Top = 911
+  Top = 104
   Width = 1085
   Caption = 'fOpenDocument_DelphiReportEngine'
   ClientHeight = 661
@@ -15,6 +15,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
   OnDestroy = FormDestroy
   OnDropFiles = FormDropFiles
   OnShow = FormShow
+  Position = poScreenCenter
   LCLVersion = '1.6.0.4'
   object pc: TPageControl
     Left = 0
@@ -149,7 +150,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
           Top = 0
           Width = 401
           Caption = 'Pour la branche sélectionnée'
-          ClientHeight = 48
+          ClientHeight = 46
           ClientWidth = 397
           TabOrder = 3
           object bDupliquer: TButton
@@ -243,50 +244,49 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
     end
     object tsODRE_Table: TTabSheet
       Caption = 'ODRE_Table'
-      ClientHeight = 633
-      ClientWidth = 1081
+      ClientHeight = 635
+      ClientWidth = 1077
       ImageIndex = 11
       object lbODRE_Table: TListBox
         Left = 0
         Height = 97
         Top = 0
-        Width = 1081
+        Width = 1077
         Align = alTop
         ItemHeight = 0
         OnClick = lbODRE_TableClick
         ScrollWidth = 1079
         TabOrder = 0
-        TopIndex = -1
       end
       object Panel5: TPanel
         Left = 0
-        Height = 536
+        Height = 538
         Top = 97
-        Width = 1081
+        Width = 1077
         Align = alClient
-        ClientHeight = 536
-        ClientWidth = 1081
+        ClientHeight = 538
+        ClientWidth = 1077
         TabOrder = 1
         object Panel6: TPanel
           Left = 1
           Height = 175
           Top = 1
-          Width = 1079
+          Width = 1075
           Align = alTop
           ClientHeight = 175
-          ClientWidth = 1079
+          ClientWidth = 1075
           TabOrder = 0
           object Label1: TLabel
             Left = 6
-            Height = 14
+            Height = 13
             Top = 6
-            Width = 67
+            Width = 58
             Caption = 'NbColonnes'
             ParentColor = False
           end
           object speODRE_Table_NbColonnes: TSpinEdit
             Left = 70
-            Height = 24
+            Height = 21
             Top = 5
             Width = 69
             MaxValue = 0
@@ -313,7 +313,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
           end
           object speSupprimerColonne_Numero: TSpinEdit
             Left = 467
-            Height = 24
+            Height = 21
             Top = 7
             Width = 38
             MaxValue = 0
@@ -345,7 +345,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
           end
           object speInsererColonne_Numero: TSpinEdit
             Left = 525
-            Height = 24
+            Height = 21
             Top = 41
             Width = 38
             MaxValue = 0
@@ -362,7 +362,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
           end
           object speDecalerChampsApresColonne_Numero: TSpinEdit
             Left = 525
-            Height = 24
+            Height = 21
             Top = 81
             Width = 38
             MaxValue = 0
@@ -370,33 +370,33 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
           end
           object clkcbNomChamp: TChamp_Lookup_ComboBox
             Left = 406
-            Height = 28
+            Height = 21
             Top = 137
             Width = 179
-            ItemHeight = 0
+            ItemHeight = 13
             Style = csDropDownList
             TabOrder = 9
             Field = 'NomChamp_Libelle'
           end
           object Label2: TLabel
             Left = 337
-            Height = 14
+            Height = 13
             Top = 143
-            Width = 61
+            Width = 51
             Caption = 'Affectation'
             ParentColor = False
           end
           object Label3: TLabel
             Left = 337
-            Height = 14
+            Height = 13
             Top = 113
-            Width = 26
+            Width = 21
             Caption = 'Titre'
             ParentColor = False
           end
           object ceTitre: TChamp_Edit
             Left = 406
-            Height = 24
+            Height = 21
             Top = 111
             Width = 184
             TabOrder = 10
@@ -406,9 +406,9 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
         end
         object sgODRE_Table: TStringGrid
           Left = 1
-          Height = 359
+          Height = 361
           Top = 176
-          Width = 1079
+          Width = 1075
           Align = alClient
           TabOrder = 1
           TitleFont.Color = clWindowText
@@ -444,7 +444,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
         )
         ColWidths = (
           317
-          805
+          788
         )
       end
     end

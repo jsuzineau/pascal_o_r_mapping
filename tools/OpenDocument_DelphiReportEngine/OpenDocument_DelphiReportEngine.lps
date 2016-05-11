@@ -18,9 +18,10 @@
         <ComponentName Value="fOpenDocument_DelphiReportEngine"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="24"/>
-        <CursorPos X="44" Y="47"/>
+        <CursorPos X="44" Y="36"/>
         <UsageCount Value="212"/>
         <Bookmarks Count="1">
           <Item0 X="19" Y="324" ID="4"/>
@@ -97,10 +98,9 @@
       <Unit8>
         <Filename Value="Elements\uhdODRE_Table.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
         <TopLine Value="186"/>
-        <CursorPos X="37" Y="229"/>
+        <CursorPos X="70" Y="202"/>
         <UsageCount Value="152"/>
         <Bookmarks Count="1">
           <Item0 X="11" Y="197" ID="1"/>
