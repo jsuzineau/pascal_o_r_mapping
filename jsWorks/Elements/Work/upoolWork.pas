@@ -292,7 +292,8 @@ procedure TpoolWork.Charge_Periode( _Debut, _Fin: TDateTime; _idTag: Integer= 0;
 begin
      dmDatabase.Start_SQLLog;
 
-     Version_avec_sgbd_DateTimeSQL;
+     //Version_avec_sgbd_DateTimeSQL;
+     Version_avec_TParams;
      Tri.Execute( _slLoaded);
      dmDatabase.Stop_SQLLog;
 end;

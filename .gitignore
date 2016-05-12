@@ -33,7 +33,8 @@ callgrind.out.*
 /jsWorks/etc/_Configuration.ini
 /jsWorks/jsWorks
 /fpcunit/hDessinnateur_web/fu_hDessinnateur_web.exe
-/fpcunit/hDessinnateur_web/*.obj
-/fpcunit/test_long_file_name/*.a
-/pascal_o_r_mapping/3_Data/*.rst
-/*.stackdump
+*.a
+*.rst
+*.stackdump
+*.obj
+/tools/OpenDocument_DelphiReportEngine/OpenDocument_DelphiReportEngine.obj
