@@ -7,15 +7,12 @@
       <Unit0>
         <Filename Value="http_PortMapper_linux.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="http_PortMapper_linux"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="0"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="128"/>
-        <CursorPos X="25" Y="154"/>
-        <UsageCount Value="131"/>
+        <TopLine Value="44"/>
+        <CursorPos X="42" Y="57"/>
+        <UsageCount Value="132"/>
         <Bookmarks Count="1">
-          <Item0 X="1" Y="160" ID="1"/>
+          <Item0 Y="188" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -23,175 +20,118 @@
       <Unit1>
         <Filename Value="ublCategorie.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublCategorie"/>
-        <WindowIndex Value="0"/>
         <TopLine Value="6"/>
         <CursorPos X="82" Y="33"/>
-        <UsageCount Value="131"/>
+        <UsageCount Value="132"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
       <Unit2>
         <Filename Value="ublDevelopment.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublDevelopment"/>
-        <EditorIndex Value="8"/>
-        <WindowIndex Value="0"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="119"/>
         <CursorPos X="55" Y="155"/>
-        <UsageCount Value="131"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="132"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
       <Unit3>
         <Filename Value="ublProject.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublProject"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
         <CursorPos X="13" Y="13"/>
-        <UsageCount Value="131"/>
+        <UsageCount Value="132"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit3>
       <Unit4>
         <Filename Value="ublState.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublState"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
-        <UsageCount Value="131"/>
+        <UsageCount Value="132"/>
       </Unit4>
       <Unit5>
         <Filename Value="ublWork.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="ublWork"/>
-        <WindowIndex Value="0"/>
         <TopLine Value="46"/>
-        <CursorPos X="1" Y="1"/>
-        <UsageCount Value="131"/>
+        <UsageCount Value="132"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit5>
       <Unit6>
         <Filename Value="uhfCategorie.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uhfCategorie"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
-        <UsageCount Value="131"/>
+        <UsageCount Value="132"/>
       </Unit6>
       <Unit7>
         <Filename Value="uhfDevelopment.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uhfDevelopment"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
-        <UsageCount Value="131"/>
+        <UsageCount Value="132"/>
       </Unit7>
       <Unit8>
         <Filename Value="uhfJour_ferie.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uhfJour_ferie"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
-        <UsageCount Value="131"/>
+        <UsageCount Value="132"/>
       </Unit8>
       <Unit9>
         <Filename Value="uhfProject.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uhfProject"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
-        <UsageCount Value="131"/>
+        <UsageCount Value="132"/>
       </Unit9>
       <Unit10>
         <Filename Value="uhfState.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uhfState"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
-        <UsageCount Value="131"/>
+        <UsageCount Value="132"/>
       </Unit10>
       <Unit11>
         <Filename Value="uhfWork.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uhfWork"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
-        <UsageCount Value="131"/>
+        <UsageCount Value="132"/>
       </Unit11>
       <Unit12>
         <Filename Value="upoolCategorie.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolCategorie"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
-        <UsageCount Value="131"/>
+        <UsageCount Value="132"/>
       </Unit12>
       <Unit13>
         <Filename Value="upoolDevelopment.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolDevelopment"/>
-        <EditorIndex Value="4"/>
-        <WindowIndex Value="0"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="160"/>
         <CursorPos X="26" Y="210"/>
-        <UsageCount Value="131"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="132"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit13>
       <Unit14>
         <Filename Value="upoolProject.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolProject"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
         <CursorPos X="8" Y="13"/>
-        <UsageCount Value="131"/>
+        <UsageCount Value="132"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit14>
       <Unit15>
         <Filename Value="upoolState.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolState"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
-        <UsageCount Value="131"/>
+        <UsageCount Value="132"/>
       </Unit15>
       <Unit16>
         <Filename Value="upoolWork.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolWork"/>
-        <WindowIndex Value="0"/>
         <TopLine Value="135"/>
         <CursorPos X="26" Y="174"/>
-        <UsageCount Value="131"/>
+        <UsageCount Value="132"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit16>
       <Unit17>
         <Filename Value="../pascal_o_r_mapping/3_Data/uPool.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UnitName Value="uPool"/>
-        <EditorIndex Value="7"/>
-        <WindowIndex Value="0"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="2429"/>
         <CursorPos X="27" Y="2430"/>
-        <UsageCount Value="131"/>
+        <UsageCount Value="132"/>
         <Bookmarks Count="2">
-          <Item0 X="1" Y="756" ID="2"/>
+          <Item0 Y="756" ID="2"/>
           <Item1 X="32" Y="41" ID="3"/>
         </Bookmarks>
         <Loaded Value="True"/>
@@ -200,22 +140,16 @@
       <Unit18>
         <Filename Value="../pascal_o_r_mapping/7_sources_externes/synapse/source/lib/blcksock.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="blcksock"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
-        <UsageCount Value="131"/>
+        <UsageCount Value="132"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit18>
       <Unit19>
         <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uHTTP_Interface"/>
         <EditorIndex Value="1"/>
-        <WindowIndex Value="0"/>
         <TopLine Value="297"/>
-        <CursorPos X="1" Y="319"/>
-        <UsageCount Value="76"/>
+        <CursorPos Y="319"/>
+        <UsageCount Value="77"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit19>
@@ -224,27 +158,17 @@
         <ComponentName Value="wmjsWorks"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
-        <UnitName Value="uwmjsWorks"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
         <CursorPos X="30" Y="39"/>
         <UsageCount Value="9"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit20>
       <Unit21>
         <Filename Value="ublJour_ferie.pas"/>
-        <UnitName Value="ublJour_ferie"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
         <UsageCount Value="9"/>
       </Unit21>
       <Unit22>
         <Filename Value="udkDevelopment.pas"/>
         <HasResources Value="True"/>
-        <UnitName Value="udkDevelopment"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
         <CursorPos X="5" Y="15"/>
         <UsageCount Value="9"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -252,61 +176,35 @@
       <Unit23>
         <Filename Value="udkProject_EDIT.pas"/>
         <HasResources Value="True"/>
-        <UnitName Value="udkProject_EDIT"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
         <UsageCount Value="9"/>
       </Unit23>
       <Unit24>
         <Filename Value="udkProject_LABEL.pas"/>
         <HasResources Value="True"/>
-        <UnitName Value="udkProject_LABEL"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
         <UsageCount Value="9"/>
       </Unit24>
       <Unit25>
         <Filename Value="udkWork.pas"/>
         <HasResources Value="True"/>
-        <UnitName Value="udkWork"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
         <UsageCount Value="9"/>
       </Unit25>
       <Unit26>
         <Filename Value="ufjsWorks.pas"/>
         <HasResources Value="True"/>
-        <UnitName Value="ufjsWorks"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
         <UsageCount Value="9"/>
       </Unit26>
       <Unit27>
         <Filename Value="ufProject.pas"/>
         <HasResources Value="True"/>
-        <UnitName Value="ufProject"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
         <UsageCount Value="9"/>
       </Unit27>
       <Unit28>
         <Filename Value="upoolJour_ferie.pas"/>
         <HasResources Value="True"/>
-        <UnitName Value="upoolJour_ferie"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
         <UsageCount Value="9"/>
       </Unit28>
       <Unit29>
         <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Element.pas"/>
-        <UnitName Value="uBatpro_Element"/>
-        <WindowIndex Value="0"/>
         <TopLine Value="539"/>
         <CursorPos X="14" Y="574"/>
         <UsageCount Value="18"/>
@@ -314,79 +212,59 @@
       </Unit29>
       <Unit30>
         <Filename Value="../www/index.html"/>
-        <EditorIndex Value="6"/>
-        <WindowIndex Value="0"/>
+        <EditorIndex Value="4"/>
         <TopLine Value="45"/>
         <CursorPos X="63" Y="69"/>
-        <UsageCount Value="66"/>
+        <UsageCount Value="67"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="HTML"/>
       </Unit30>
       <Unit31>
         <Filename Value="../test_synapse/test.lpr"/>
-        <UnitName Value="test"/>
-        <WindowIndex Value="0"/>
         <TopLine Value="29"/>
-        <CursorPos X="1" Y="68"/>
+        <CursorPos Y="68"/>
         <UsageCount Value="9"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit31>
       <Unit32>
         <Filename Value="../pascal_o_r_mapping/7_sources_externes/synapse/source/lib/synautil.pas"/>
-        <UnitName Value="synautil"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
         <CursorPos X="87" Y="12"/>
         <UsageCount Value="9"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit32>
       <Unit33>
         <Filename Value="../truc.json"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="5"/>
+        <CursorPos Y="5"/>
         <UsageCount Value="42"/>
         <DefaultSyntaxHighlighter Value="None"/>
       </Unit33>
       <Unit34>
         <Filename Value="../pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
-        <UnitName Value="uBatpro_StringList"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="47"/>
+        <CursorPos Y="47"/>
         <UsageCount Value="3"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit34>
       <Unit35>
         <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Ligne.pas"/>
-        <UnitName Value="uBatpro_Ligne"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
         <CursorPos X="13" Y="16"/>
         <UsageCount Value="25"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit35>
       <Unit36>
         <Filename Value="../pascal_o_r_mapping/2_Units/uChamps.pas"/>
-        <UnitName Value="uChamps"/>
-        <WindowIndex Value="0"/>
         <TopLine Value="1230"/>
-        <CursorPos X="1" Y="1272"/>
+        <CursorPos Y="1272"/>
         <UsageCount Value="25"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit36>
       <Unit37>
         <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-json/src/fpjson.pp"/>
-        <UnitName Value="fpjson"/>
-        <WindowIndex Value="0"/>
         <TopLine Value="43"/>
         <CursorPos X="3" Y="69"/>
         <UsageCount Value="12"/>
       </Unit37>
       <Unit38>
         <Filename Value="../pascal_o_r_mapping/2_Units/uChamp.pas"/>
-        <UnitName Value="uChamp"/>
-        <WindowIndex Value="0"/>
         <TopLine Value="288"/>
         <CursorPos X="13" Y="320"/>
         <UsageCount Value="10"/>
@@ -394,185 +272,167 @@
       </Unit38>
       <Unit39>
         <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-json/src/jsonparser.pp"/>
-        <UnitName Value="jsonparser"/>
-        <WindowIndex Value="0"/>
         <TopLine Value="22"/>
         <CursorPos X="14" Y="47"/>
         <UsageCount Value="10"/>
       </Unit39>
       <Unit40>
         <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-web/src/base/fphttpclient.pp"/>
-        <UnitName Value="fphttpclient"/>
-        <EditorIndex Value="5"/>
-        <WindowIndex Value="0"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="138"/>
         <CursorPos X="14" Y="178"/>
         <UsageCount Value="45"/>
-        <Loaded Value="True"/>
       </Unit40>
       <Unit41>
         <Filename Value="../pascal_o_r_mapping/3_Data/upool_Ancetre_Ancetre.pas"/>
-        <UnitName Value="upool_Ancetre_Ancetre"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
         <UsageCount Value="4"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit41>
       <Unit42>
         <Filename Value="/var/www/test_angular.html"/>
-        <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
         <CursorPos X="29" Y="13"/>
         <UsageCount Value="12"/>
         <DefaultSyntaxHighlighter Value="HTML"/>
       </Unit42>
       <Unit43>
         <Filename Value="../pascal_o_r_mapping/3_Data/uMySQL.pas"/>
-        <UnitName Value="uMySQL"/>
         <EditorIndex Value="2"/>
-        <WindowIndex Value="0"/>
         <TopLine Value="106"/>
         <CursorPos X="53" Y="127"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="27"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit43>
       <Unit44>
         <Filename Value="../pascal_o_r_mapping/3_Data/uDataUtilsF.pas"/>
-        <UnitName Value="uDataUtilsF"/>
         <EditorIndex Value="3"/>
-        <WindowIndex Value="0"/>
         <TopLine Value="856"/>
         <CursorPos X="25" Y="901"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="27"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit44>
     </Units>
-    <General>
-      <ActiveWindowIndexAtStart Value="0"/>
-    </General>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="124" Column="1" TopLine="84"/>
+        <Caret Line="81" TopLine="50"/>
       </Position1>
       <Position2>
         <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="74" Column="1" TopLine="50"/>
+        <Caret Line="82" TopLine="50"/>
       </Position2>
       <Position3>
         <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="75" Column="1" TopLine="50"/>
+        <Caret Line="83" TopLine="50"/>
       </Position3>
       <Position4>
         <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="77" Column="1" TopLine="50"/>
+        <Caret Line="84" TopLine="50"/>
       </Position4>
       <Position5>
         <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="80" Column="1" TopLine="50"/>
+        <Caret Line="88" TopLine="50"/>
       </Position5>
       <Position6>
         <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="81" Column="1" TopLine="50"/>
+        <Caret Line="89" TopLine="50"/>
       </Position6>
       <Position7>
         <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="82" Column="1" TopLine="50"/>
+        <Caret Line="90" TopLine="66"/>
       </Position7>
       <Position8>
         <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="83" Column="1" TopLine="50"/>
+        <Caret Line="94" TopLine="66"/>
       </Position8>
       <Position9>
         <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="84" Column="1" TopLine="50"/>
+        <Caret Line="95" TopLine="66"/>
       </Position9>
       <Position10>
         <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="88" Column="1" TopLine="50"/>
+        <Caret Line="102" TopLine="66"/>
       </Position10>
       <Position11>
         <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="89" Column="1" TopLine="50"/>
+        <Caret Line="103" TopLine="66"/>
       </Position11>
       <Position12>
         <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="90" Column="1" TopLine="66"/>
+        <Caret Line="105" TopLine="66"/>
       </Position12>
       <Position13>
         <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="94" Column="1" TopLine="66"/>
+        <Caret Line="106" TopLine="67"/>
       </Position13>
       <Position14>
         <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="95" Column="1" TopLine="66"/>
+        <Caret Line="122" TopLine="85"/>
       </Position14>
       <Position15>
         <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="102" Column="1" TopLine="66"/>
+        <Caret Line="45" Column="29" TopLine="21"/>
       </Position15>
       <Position16>
         <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="103" Column="1" TopLine="66"/>
+        <Caret Line="71" Column="4" TopLine="30"/>
       </Position16>
       <Position17>
         <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="105" Column="1" TopLine="66"/>
+        <Caret Line="115" TopLine="69"/>
       </Position17>
       <Position18>
-        <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="106" Column="1" TopLine="67"/>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
+        <Caret Line="251" Column="62" TopLine="232"/>
       </Position18>
       <Position19>
-        <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="122" Column="1" TopLine="85"/>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
+        <Caret Line="88" Column="55" TopLine="71"/>
       </Position19>
       <Position20>
-        <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="45" Column="29" TopLine="21"/>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
+        <Caret Line="140" Column="6" TopLine="110"/>
       </Position20>
       <Position21>
         <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="71" Column="4" TopLine="30"/>
+        <Caret Line="112" Column="110" TopLine="101"/>
       </Position21>
       <Position22>
-        <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="115" Column="1" TopLine="69"/>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
+        <Caret Line="148" Column="36" TopLine="123"/>
       </Position22>
       <Position23>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
-        <Caret Line="251" Column="62" TopLine="232"/>
+        <Filename Value="http_PortMapper_linux.lpr"/>
+        <Caret Line="160" TopLine="127"/>
       </Position23>
       <Position24>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
-        <Caret Line="88" Column="55" TopLine="71"/>
+        <Filename Value="http_PortMapper_linux.lpr"/>
+        <Caret Column="9"/>
       </Position24>
       <Position25>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
-        <Caret Line="140" Column="6" TopLine="110"/>
+        <Filename Value="http_PortMapper_linux.lpr"/>
+        <Caret Line="150" Column="108" TopLine="128"/>
       </Position25>
       <Position26>
         <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="112" Column="110" TopLine="101"/>
+        <Caret Line="106" Column="22" TopLine="99"/>
       </Position26>
       <Position27>
-        <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
-        <Caret Line="148" Column="36" TopLine="123"/>
+        <Filename Value="http_PortMapper_linux.lpr"/>
+        <Caret Line="31" Column="19" TopLine="13"/>
       </Position27>
       <Position28>
         <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="160" Column="1" TopLine="127"/>
+        <Caret Line="169" Column="16" TopLine="137"/>
       </Position28>
       <Position29>
         <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="1" Column="9" TopLine="1"/>
+        <Caret Line="55" Column="75" TopLine="41"/>
       </Position29>
       <Position30>
         <Filename Value="http_PortMapper_linux.lpr"/>
-        <Caret Line="150" Column="108" TopLine="128"/>
+        <Caret Line="161" Column="88" TopLine="133"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>
@@ -583,7 +443,7 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="http_PortMapper_linux.lpr"/>
-        <Line Value="165"/>
+        <Line Value="193"/>
       </Item1>
     </BreakPoints>
     <Watches Count="3">
@@ -598,5 +458,4 @@
       </Item3>
     </Watches>
   </Debugging>
-  <EditorMacros Count="0"/>
 </CONFIG>

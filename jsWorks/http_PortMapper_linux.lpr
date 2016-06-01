@@ -52,13 +52,17 @@ begin
      WriteLn('################')
 end;
 
-function http_get( _URL: String; out _Content_Type, _Server: String): String;
+function http_get( _URL: String; out _Content_Type, _Server: String; _Body: String= ''): String;
 var
    c: TFPHttpClient;
 begin
      c:= TFPHttpClient.Create( nil);
      try
-        Result:= c.Get( _URL);
+        if '' = _Body
+        then
+            Result:= c.Get( _URL)
+        else
+            Result:= c.FormPost( _URL, _Body);
         _Content_Type:= c.ResponseHeaders.Values[ 'Content-type'];
         _Server      := c.ResponseHeaders.Values[ 'Server'      ];
      finally
@@ -95,9 +99,26 @@ var
    Forward_Content_Type: String;
    Forward_Server      : String;
 
+   Has_Body: Boolean;
+   Content_Length: Integer;
+   Body: String;
+
    procedure Send_Not_found;
    begin
         ASocket.SendString('HTTP/1.0 404' + CRLF);
+   end;
+   procedure Traite_Content_Length;
+   const
+        s_Content_Length='content-length:';
+   begin
+        s:= LowerCase( s);
+        if 1 <> Pos(s_Content_Length, s) then exit;
+        StrToK(s_Content_Length, s);
+        Has_Body:= TryStrToInt( s, Content_Length);
+   end;
+   procedure Traite_Body;
+   begin
+        Body:= ASocket.RecvBufferStr( Content_Length, timeout);
    end;
 begin
      timeout := 120000;
@@ -111,10 +132,13 @@ begin
      uri := fetch(s, ' ');
      protocol := fetch(s, ' ');
 
+     Has_Body:= False;
+     Content_Length:= 0;
      //read request headers
      repeat
            s:= ASocket.RecvString(Timeout);
            WriteLn(s);
+           Traite_Content_Length;
      until s = '';
 
      // Now write the document to the output stream
@@ -134,8 +158,12 @@ begin
          exit;
          end;
 
+     if Has_Body
+     then
+         Traite_Body;
+
      Forward_URL:= 'http://localhost:'+sPort+'/'+uri;
-     Forward_Result:= http_get( Forward_URL, Forward_Content_Type, Forward_Server);
+     Forward_Result:= http_get( Forward_URL, Forward_Content_Type, Forward_Server, Body);
 
      ASocket.SendString('HTTP/1.0 200' + CRLF);
      ASocket.SendString('Content-type: '+Forward_Content_Type + CRLF);
