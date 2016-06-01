@@ -95,7 +95,8 @@ function sgbd_DateSQL( D: TDateTime): String;
 var
    sgbd_DateTimeSQL_function: function ( D: TDateTime): String = nil;
 // fonctionne mal avec informix, mieux vaut créer un objet TParams
-//function sgbd_DateTimeSQL( D: TDateTime): String;
+// 2016/05/10: mais TParams ne fonctionne pas pour les dates avec SQLite3
+function sgbd_DateTimeSQL( D: TDateTime): String;
 
 procedure uSGBD_Compute;
 

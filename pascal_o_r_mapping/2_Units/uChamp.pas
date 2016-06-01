@@ -464,12 +464,31 @@ procedure TChamp.SetChaine(Value: String);
    procedure TraiteDateTime;
    var
       D: TDateTime;
+      procedure Convertit;
+      var
+         Format_DateTime: String;
+         procedure Traite_Format;
+         var
+            F: TFormatSettings;
+         begin
+              F:= DefaultFormatSettings;
+              F.ShortDateFormat:= Format_DateTime;
+              TryStrToDateTime( Value, D, F);
+         end;
+      begin
+           Format_DateTime:= Definition.Format_DateTime;
+           if '' = Format_DateTime
+           then
+               TryStrToDateTime( Value, D)
+           else
+               Traite_Format;
+      end;
    begin
         if Value = ''
         then
             D:= 0
         else
-            TryStrToDateTime( Value, D);
+            Convertit;
         PDateTime( Valeur)^:= D;
    end;
 begin

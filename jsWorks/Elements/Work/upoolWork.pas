@@ -27,6 +27,7 @@ uses
     uBatpro_StringList,
     uhAggregation,
     uDataUtilsU,
+    uSGBD,
 
     uBatpro_Element,
 
@@ -225,42 +226,77 @@ end;
 
 procedure TpoolWork.Charge_Periode( _Debut, _Fin: TDateTime; _idTag: Integer= 0;
                                     _slLoaded: TBatpro_StringList= nil);
-var
-   SQL: String;
-   P: TParams;
-   pDebut, pFin: TParam;
-begin
-     if _idTag = 0
-     then
-         SQL:= 'select * from '+NomTable+' where Beginning >= :Debut and Beginning <= :Fin'
-     else
-         SQL
-         :=
-  'select                                          '#13#10
- +'      Work.*                                    '#13#10
- +'from                                            '#13#10
- +'    Tag_Work                                        '#13#10
- +'left join Work                             '#13#10
- +'on                                              '#13#10
- +'      (Tag_Work.idTag  = '+IntToStr(_idTag)+')  '#13#10
- +'  and (Tag_Work.idWork = Work.id             )  '#13#10
- +'where                                           '#13#10
- +'         Work.id is not null                    '#13#10
- +'     and Tag_Work.id is not null                '#13#10
- +'     and Beginning >= :Debut and Beginning <= :Fin'#13#10;
-     P:= TParams.Create;
-     try
-        pDebut:= CreeParam( P, 'Debut');
-        pFin  := CreeParam( P, 'Fin'  );
-        pDebut.AsDateTime:= Trunc( _Debut);
-        pFin  .AsDateTime:= Trunc(_Fin)+1;
-        Load( SQL, _slLoaded, nil, P);
-     finally
-            FreeAndNil( P);
-            end;
-     Tri.Execute( _slLoaded);
-end;
+   procedure Version_avec_TParams;
+   var
+      SQL: String;
+      P: TParams;
+      pDebut, pFin: TParam;
+   begin
+        if _idTag = 0
+        then
+            SQL:= 'select * from '+NomTable+' where Beginning >= :Debut and Beginning <= :Fin'
+        else
+            SQL
+            :=
+     'select                                          '#13#10
+    +'      Work.*                                    '#13#10
+    +'from                                            '#13#10
+    +'    Tag_Work                                        '#13#10
+    +'left join Work                             '#13#10
+    +'on                                              '#13#10
+    +'      (Tag_Work.idTag  = '+IntToStr(_idTag)+')  '#13#10
+    +'  and (Tag_Work.idWork = Work.id             )  '#13#10
+    +'where                                           '#13#10
+    +'         Work.id is not null                    '#13#10
+    +'     and Tag_Work.id is not null                '#13#10
+    +'     and Beginning >= :Debut and Beginning <= :Fin'#13#10;
+        P:= TParams.Create;
+        try
+           pDebut:= CreeParam( P, 'Debut');
+           pFin  := CreeParam( P, 'Fin'  );
+           pDebut.AsDateTime:= Trunc( _Debut);
+           pFin  .AsDateTime:= Trunc(_Fin)+1;
+           Load( SQL, _slLoaded, nil, P);
+        finally
+               FreeAndNil( P);
+               end;
+   end;
+   procedure Version_avec_sgbd_DateTimeSQL;
+   var
+      SQL: String;
+      sDebut, sFin: String;
+   begin
+        sDebut:= sgbd_DateTimeSQL( _Debut);
+        sFin  := sgbd_DateTimeSQL( _Fin  );
 
+        if _idTag = 0
+        then
+            SQL:= 'select * from '+NomTable+' where Beginning >= "'+sDebut+'" and Beginning <= "'+sFin+'"'
+        else
+            SQL
+            :=
+     'select                                          '#13#10
+    +'      Work.*                                    '#13#10
+    +'from                                            '#13#10
+    +'    Tag_Work                                        '#13#10
+    +'left join Work                             '#13#10
+    +'on                                              '#13#10
+    +'      (Tag_Work.idTag  = '+IntToStr(_idTag)+')  '#13#10
+    +'  and (Tag_Work.idWork = Work.id             )  '#13#10
+    +'where                                           '#13#10
+    +'         Work.id is not null                    '#13#10
+    +'     and Tag_Work.id is not null                '#13#10
+    +'     and Beginning >= "'+sDebut+'" and Beginning <= "'+sFin+'"'#13#10;
+        Load( SQL, _slLoaded);
+   end;
+begin
+     dmDatabase.Start_SQLLog;
+
+     //Version_avec_sgbd_DateTimeSQL;
+     Version_avec_TParams;
+     Tri.Execute( _slLoaded);
+     dmDatabase.Stop_SQLLog;
+end;
 procedure TpoolWork.Charge_Tag(_idTag: Integer; _slLoaded: TBatpro_StringList);
 var
    SQL: String;
