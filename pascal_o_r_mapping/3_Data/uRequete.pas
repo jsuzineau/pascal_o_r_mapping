@@ -185,17 +185,21 @@ end;
 
 function TRequete.Integer_from( _SQL: String; var _Resultat: Integer): Boolean;
 begin
+     _Resultat:= 0;
+     Result:= False;
      try
         sqlq.Database:= Connection();
         sqlq.SQL.Text:= _SQL;
         RefreshQuery( sqlq);
         sqlq.First;
+
+        Result:= not SQLQ.IsEmpty;
+        if  not Result then exit;
+
         Result:= sqlq.Fields.Count >= 1;
-        if not Result
-        then
-            _Resultat:= 0
-        else
-            _Resultat:= sqlq.Fields.Fields[0].AsInteger;
+        if  not Result then exit;
+
+        _Resultat:= sqlq.Fields.Fields[0].AsInteger;
      finally
             sqlq.Close;
             end;

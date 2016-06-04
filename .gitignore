@@ -37,4 +37,5 @@ callgrind.out.*
 *.rst
 *.stackdump
 *.obj
+*.lps
 /tools/OpenDocument_DelphiReportEngine/OpenDocument_DelphiReportEngine.obj
