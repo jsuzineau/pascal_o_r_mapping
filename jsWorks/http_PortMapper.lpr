@@ -1,4 +1,4 @@
-program http_jsWorks_linux;
+program http_PortMapper;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
@@ -25,15 +25,7 @@ program http_jsWorks_linux;
 {$mode objfpc}{$H+}
 
 uses
-  uBatpro_StringList,
-  uuStrings,
-  ublCategorie, ublDevelopment,
-  ublProject, ublState, ublWork,
-  uhfCategorie, uhfDevelopment,
-  uhfJour_ferie, uhfProject, uhfState, uhfWork, upoolCategorie,
-  upoolDevelopment, upoolProject, upoolState, upoolWork, uPool,
-  upoolG_BECP, uHTTP_Interface,
-Classes, blcksock, sockets, Synautil, SysUtils,fphttpclient;
+  Classes, blcksock, sockets, Synautil, SysUtils,fphttpclient;
 
 {$ifdef fpc}
  {$mode delphi}
@@ -41,10 +33,72 @@ Classes, blcksock, sockets, Synautil, SysUtils,fphttpclient;
 
 {$apptype console}
 
-{@@
- Attends a connection. Reads the headers and gives an
- appropriate response
-}
+function StrToK( Key: String; var S: String): String;
+var
+   I: Integer;
+begin
+     I:= Pos( Key, S);
+     if I = 0
+     then
+         begin
+         Result:= S;
+         S:= '';
+         end
+     else
+         begin
+         Result:= Copy( S, 1, I-1);
+         Delete( S, 1, (I-1)+Length( Key));
+         end;
+end;
+
+function http_getS( _URL: String): String;
+var
+   c: TFPHttpClient;
+begin
+     c:= TFPHttpClient.Create( nil);
+     try
+        Result:= c.Get( _URL);
+     finally
+            FreeAndNil( c);
+            end;
+
+     Writeln( 'http_getS( '+_URL+')= ');
+     WriteLn('################');
+     Writeln( Result);
+     WriteLn('################')
+end;
+
+function http_get( _URL: String; out _Content_Type, _Server: String; _Body: String= ''): String;
+var
+   c: TFPHttpClient;
+begin
+     c:= TFPHttpClient.Create( nil);
+     try
+        if '' = _Body
+        then
+            Result:= c.Get( _URL)
+        else
+            Result:= c.FormPost( _URL, _Body);
+        _Content_Type:= c.ResponseHeaders.Values[ 'Content-type'];
+        _Server      := c.ResponseHeaders.Values[ 'Server'      ];
+     finally
+            FreeAndNil( c);
+            end;
+
+     Writeln( 'http_get( '+_URL+')= ');
+     WriteLn('################');
+     Writeln( Result);
+     WriteLn('################')
+end;
+
+function http_Port_Valide( _Port: String): Boolean;
+var
+   URL: String;
+begin
+     URL:= 'http://localhost:'+_Port+'/Validation';
+     Result:= 'pascal_o_r_mapping' = http_getS( URL);
+end;
+
 procedure AttendConnection(ASocket: TTCPBlockSocket);
 var
    timeout: integer;
@@ -52,15 +106,37 @@ var
    method, uri, protocol: string;
    OutputDataString: string;
    ResultCode: integer;
-   function Prefixe( _Prefixe: String): Boolean;
+
+   sPort: String;
+   nPort: Integer;
+
+   Forward_URL: String;
+   Forward_Result      : String;
+   Forward_Content_Type: String;
+   Forward_Server      : String;
+
+   Has_Body: Boolean;
+   Content_Length: Integer;
+   Body: String;
+
+   procedure Send_Not_found;
    begin
-        Result:= 1=Pos( _Prefixe,uri);
-        if not Result then exit;
-        StrTok( _Prefixe, uri);
+        ASocket.SendString('HTTP/1.0 404' + CRLF);
+   end;
+   procedure Traite_Content_Length;
+   const
+        s_Content_Length='content-length:';
+   begin
+        s:= LowerCase( s);
+        if 1 <> Pos(s_Content_Length, s) then exit;
+        StrToK(s_Content_Length, s);
+        Has_Body:= TryStrToInt( s, Content_Length);
+   end;
+   procedure Traite_Body;
+   begin
+        Body:= ASocket.RecvBufferStr( Content_Length, timeout);
    end;
 begin
-     HTTP_Interface.S:= ASocket;
-
      timeout := 120000;
 
      WriteLn('Received headers+document from browser:');
@@ -72,29 +148,52 @@ begin
      uri := fetch(s, ' ');
      protocol := fetch(s, ' ');
 
+     Has_Body:= False;
+     Content_Length:= 0;
      //read request headers
      repeat
            s:= ASocket.RecvString(Timeout);
            WriteLn(s);
+           Traite_Content_Length;
      until s = '';
 
      // Now write the document to the output stream
-     HTTP_Interface.Traite( uri);
+     StrTok( '/', uri);
+     sPort:= StrTok( '/', uri);
+     if not TryStrToInt( sPort, nPort)
+     then
+         begin
+         Send_Not_found;
+         exit;
+         end;
+
+     if not http_Port_Valide( sPort)
+     then
+         begin
+         Send_Not_found;
+         exit;
+         end;
+
+     if Has_Body
+     then
+         Traite_Body;
+
+     Forward_URL:= 'http://localhost:'+sPort+'/'+uri;
+     Forward_Result:= http_get( Forward_URL, Forward_Content_Type, Forward_Server, Body);
+
+     ASocket.SendString('HTTP/1.0 200' + CRLF);
+     ASocket.SendString('Content-type: '+Forward_Content_Type + CRLF);
+     ASocket.SendString('Content-length: ' + IntTostr(Length(Forward_Result)) + CRLF);
+     ASocket.SendString('Connection: close' + CRLF);
+     ASocket.SendString('Date: ' + Rfc822DateTime(now) + CRLF);
+     ASocket.SendString('Server: '+Forward_Server + CRLF);
+     ASocket.SendString('' + CRLF);
+     ASocket.SendString(Forward_Result);
 end;
 
 var
    ListenerSocket, ConnectionSocket: TTCPBlockSocket;
 begin
-     poolCategorie.ToutCharger;
-     poolState    .ToutCharger;
-
-     HTTP_Interface.Racine:= ExtractFilePath(ParamStr(0))+'..'+PathDelim+'www'+PathDelim+'index.html';
-     HTTP_Interface.Register_pool( poolProject    );
-     HTTP_Interface.Register_pool( poolWork       );
-     HTTP_Interface.Register_pool( poolDevelopment);
-     HTTP_Interface.Register_pool( poolCategorie  );
-     HTTP_Interface.Register_pool( poolState      );
-
      ListenerSocket  := TTCPBlockSocket.Create;
      ConnectionSocket:= TTCPBlockSocket.Create;
 
@@ -102,6 +201,7 @@ begin
      ListenerSocket.setLinger(true,10);
      ListenerSocket.bind('0.0.0.0','1500');
      ListenerSocket.listen;
+     WriteLn('http_PortMapper_linux listen on ', ListenerSocket.GetLocalSinPort);
 
      repeat
            if not ListenerSocket.canread( 1000) then continue;
@@ -115,3 +215,5 @@ begin
      ListenerSocket.Free;
      ConnectionSocket.Free;
 end.
+
+

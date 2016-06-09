@@ -7,8 +7,9 @@
       <Unit0>
         <Filename Value="http_jsWorks.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="94"/>
-        <CursorPos X="8" Y="98"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="31"/>
+        <CursorPos X="129" Y="35"/>
         <UsageCount Value="203"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -32,7 +33,7 @@
       <Unit2>
         <Filename Value="../pascal_o_r_mapping/7_sources_externes/synapse/source/lib/blcksock.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="27"/>
+        <EditorIndex Value="25"/>
         <TopLine Value="2064"/>
         <CursorPos X="11" Y="2081"/>
         <UsageCount Value="203"/>
@@ -45,7 +46,7 @@
       <Unit3>
         <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="26"/>
+        <EditorIndex Value="24"/>
         <TopLine Value="299"/>
         <CursorPos Y="313"/>
         <UsageCount Value="210"/>
@@ -800,7 +801,6 @@
       </Unit83>
       <Unit84>
         <Filename Value="../www/index.html"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="188"/>
         <CursorPos X="93" Y="202"/>
@@ -816,7 +816,7 @@
       </Unit85>
       <Unit86>
         <Filename Value="../pascal_o_r_mapping/2_Units/uBatpro_StringList.pas"/>
-        <EditorIndex Value="23"/>
+        <EditorIndex Value="21"/>
         <TopLine Value="652"/>
         <CursorPos Y="674"/>
         <UsageCount Value="47"/>
@@ -825,7 +825,7 @@
       </Unit86>
       <Unit87>
         <Filename Value="../pascal_o_r_mapping/3_Data/uBatpro_Ligne.pas"/>
-        <EditorIndex Value="24"/>
+        <EditorIndex Value="22"/>
         <TopLine Value="1113"/>
         <CursorPos X="31" Y="1145"/>
         <UsageCount Value="42"/>
@@ -854,7 +854,7 @@
         <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-json/src/jsonparser.pp"/>
         <TopLine Value="22"/>
         <CursorPos X="14" Y="47"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit90>
       <Unit91>
@@ -906,7 +906,7 @@
       </Unit96>
       <Unit97>
         <Filename Value="../pascal_o_r_mapping/3_Data/udmDatabase.pas"/>
-        <EditorIndex Value="18"/>
+        <EditorIndex Value="17"/>
         <TopLine Value="747"/>
         <CursorPos Y="763"/>
         <UsageCount Value="59"/>
@@ -923,11 +923,10 @@
       </Unit98>
       <Unit99>
         <Filename Value="../../Test_angular_ui_tree/index.html"/>
-        <EditorIndex Value="16"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="2"/>
         <CursorPos Y="19"/>
         <UsageCount Value="71"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="HTML"/>
       </Unit99>
       <Unit100>
@@ -1045,7 +1044,7 @@
       </Unit114>
       <Unit115>
         <Filename Value="../pascal_o_r_mapping/2_Units/uClean.pas"/>
-        <EditorIndex Value="19"/>
+        <EditorIndex Value="18"/>
         <TopLine Value="218"/>
         <CursorPos X="97" Y="235"/>
         <UsageCount Value="34"/>
@@ -1075,7 +1074,7 @@
       </Unit118>
       <Unit119>
         <Filename Value="../pascal_o_r_mapping/2_Units/uTri_Ancetre.pas"/>
-        <EditorIndex Value="22"/>
+        <EditorIndex Value="20"/>
         <TopLine Value="65"/>
         <CursorPos X="5" Y="60"/>
         <UsageCount Value="41"/>
@@ -1148,7 +1147,7 @@
       </Unit127>
       <Unit128>
         <Filename Value="html/ThAUT/AUT.js"/>
-        <EditorIndex Value="17"/>
+        <EditorIndex Value="16"/>
         <TopLine Value="43"/>
         <UsageCount Value="59"/>
         <Loaded Value="True"/>
@@ -1180,7 +1179,7 @@
       </Unit131>
       <Unit132>
         <Filename Value="../pascal_o_r_mapping/2_Units/uLog.pas"/>
-        <EditorIndex Value="28"/>
+        <EditorIndex Value="26"/>
         <TopLine Value="146"/>
         <CursorPos Y="163"/>
         <UsageCount Value="56"/>
@@ -1197,10 +1196,9 @@
       </Unit133>
       <Unit134>
         <Filename Value="../../tmp/Membre.js"/>
-        <EditorIndex Value="20"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="28" Y="7"/>
         <UsageCount Value="41"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="JScript"/>
       </Unit134>
       <Unit135>
@@ -1265,7 +1263,7 @@
       </Unit142>
       <Unit143>
         <Filename Value="../pascal_o_r_mapping/2_Units/ufAccueil_Erreur.pas"/>
-        <EditorIndex Value="21"/>
+        <EditorIndex Value="19"/>
         <TopLine Value="67"/>
         <CursorPos Y="90"/>
         <UsageCount Value="38"/>
@@ -1320,7 +1318,7 @@
       </Unit149>
       <Unit150>
         <Filename Value="../pascal_o_r_mapping/2_Units/uChampDefinitions.pas"/>
-        <EditorIndex Value="25"/>
+        <EditorIndex Value="23"/>
         <TopLine Value="13"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>

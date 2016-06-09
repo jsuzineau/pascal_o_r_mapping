@@ -25,8 +25,6 @@ program http_PortMapper_linux;
 {$mode objfpc}{$H+}
 
 uses
-  uBatpro_StringList,
-  uuStrings,
   Classes, blcksock, sockets, Synautil, SysUtils,fphttpclient;
 
 {$ifdef fpc}
@@ -34,6 +32,24 @@ uses
 {$endif}
 
 {$apptype console}
+
+function StrToK( Key: String; var S: String): String;
+var
+   I: Integer;
+begin
+     I:= Pos( Key, S);
+     if I = 0
+     then
+         begin
+         Result:= S;
+         S:= '';
+         end
+     else
+         begin
+         Result:= Copy( S, 1, I-1);
+         Delete( S, 1, (I-1)+Length( Key));
+         end;
+end;
 
 function http_getS( _URL: String): String;
 var
