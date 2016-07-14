@@ -193,16 +193,94 @@ object fOpenSCAD_from_Eagle_File: TfOpenSCAD_from_Eagle_File
         Align = alTop
         TabOrder = 0
       end
-      object mHOLE_LIST: TMemo
+      object Panel5: TPanel
         Left = 0
         Height = 382
         Top = 50
         Width = 903
         Align = alClient
-        Lines.Strings = (
-          'mHOLE_LIST'
-        )
+        Caption = 'Panel5'
+        ClientHeight = 382
+        ClientWidth = 903
         TabOrder = 1
+        object Splitter1: TSplitter
+          Left = 411
+          Height = 380
+          Top = 1
+          Width = 5
+          Color = clLime
+          ParentColor = False
+        end
+        object Panel6: TPanel
+          Left = 416
+          Height = 380
+          Top = 1
+          Width = 486
+          Align = alClient
+          Caption = 'Panel6'
+          ClientHeight = 380
+          ClientWidth = 486
+          TabOrder = 1
+          object Label1: TLabel
+            Left = 1
+            Height = 17
+            Top = 1
+            Width = 484
+            Align = alTop
+            Alignment = taCenter
+            Caption = 'Board Shape'
+            ParentColor = False
+          end
+          object mBOARD_SHAPE: TMemo
+            Left = 1
+            Height = 361
+            Top = 18
+            Width = 484
+            Align = alClient
+            Font.Height = -12
+            Font.Name = 'Courier New'
+            Lines.Strings = (
+              'mBOARD_SHAPE'
+            )
+            ParentFont = False
+            TabOrder = 0
+          end
+        end
+        object Panel7: TPanel
+          Left = 1
+          Height = 380
+          Top = 1
+          Width = 410
+          Align = alLeft
+          Caption = 'Panel7'
+          ClientHeight = 380
+          ClientWidth = 410
+          TabOrder = 2
+          object Label2: TLabel
+            Left = 1
+            Height = 17
+            Top = 1
+            Width = 408
+            Align = alTop
+            Alignment = taCenter
+            Caption = 'Hole List'
+            ParentColor = False
+          end
+          object mHOLE_LIST: TMemo
+            Left = 1
+            Height = 361
+            Top = 18
+            Width = 408
+            Align = alClient
+            Font.Height = -12
+            Font.Name = 'Courier New'
+            Lines.Strings = (
+              'mHOLE_LIST'
+            )
+            ParentFont = False
+            TabOrder = 0
+          end
+        end
       end
     end
   end

@@ -16,9 +16,12 @@ type
  TfOpenSCAD_from_Eagle_File
  =
   class(TForm)
+   Label1: TLabel;
+   Label2: TLabel;
    leBoard_Shape_Library_Name: TLabeledEdit;
    leLIBRARIES_PATH: TLabeledEdit;
    leBoard_Shape_Package_Name: TLabeledEdit;
+   mBOARD_SHAPE: TMemo;
    mBoard_Shape_Library: TMemo;
     mEagle_File: TMemo;
     mBoard_Shape_package: TMemo;
@@ -28,8 +31,12 @@ type
     Panel2: TPanel;
     Panel3: TPanel;
     Panel4: TPanel;
+    Panel5: TPanel;
+    Panel6: TPanel;
+    Panel7: TPanel;
     pc: TPageControl;
     sb: TStatusBar;
+    Splitter1: TSplitter;
     t: TTimer;
     tsBoard_Shape_Library: TTabSheet;
     tsHOLE_LIST: TTabSheet;
@@ -74,7 +81,9 @@ type
   //Hole List
   private
      procedure Add_hole_from_node( _dn: TDOMNode);
-
+  //Board Shape Point
+  private
+     procedure Add_Board_Shape_Point_from_node( _dn: TDOMNode);
   end;
 
 var
@@ -105,6 +114,8 @@ begin
      mLIBRARIES.Clear;;
      mBoard_Shape_Library.Clear;
      mBoard_Shape_package.Clear;
+     mHOLE_LIST.Clear;
+     mBOARD_SHAPE.Clear;
 end;
 
 procedure TfOpenSCAD_from_Eagle_File.m_from_xml( _m: TMemo; _xml: TXMLDocument);
@@ -213,9 +224,8 @@ begin
      while Assigned( dn)
      do
        begin
-       if 'hole' = dn.NodeName
-       then
-           Add_hole_from_node( dn);
+            if 'hole' = dn.NodeName then Add_hole_from_node( dn)
+       else if 'wire' = dn.NodeName then Add_Board_Shape_Point_from_node( dn);
 
        dn:= dn.NextSibling;
        end;
@@ -239,6 +249,40 @@ begin
 
      sOpenSCAD:= '['+x+', '+y+'/*drill: '+drill+'*/]';
      mHOLE_LIST.Lines.Add( sOpenSCAD);
+end;
+
+procedure TfOpenSCAD_from_Eagle_File.Add_Board_Shape_Point_from_node( _dn: TDOMNode);
+var
+   x1, y1, x2, y2, curve, width_: String;
+   iLast_Line: Integer;
+   procedure Add_xy( _x, _y: String; _Virgule: Boolean= False);
+   var
+      sOpenSCAD: String;
+   begin
+        sOpenSCAD:= '['+_x+', '+_y+']';
+        if _Virgule
+        then
+            sOpenSCAD:= sOpenSCAD + ','
+        else
+            sOpenSCAD:= sOpenSCAD+'/*curve:'+curve+',width:'+width_+'*/';
+        mBOARD_SHAPE.Lines.Add( sOpenSCAD);
+   end;
+begin
+     if not_Get_Property( _dn, 'x1'    , x1    ) then exit;
+     if not_Get_Property( _dn, 'x2'    , x2    ) then exit;
+     if not_Get_Property( _dn, 'y1'    , y1    ) then exit;
+     if not_Get_Property( _dn, 'y2'    , y2    ) then exit;
+     if not_Get_Property( _dn, 'curve' , curve ) then exit;
+     if not_Get_Property( _dn, 'width' , width_) then exit;
+
+     iLast_Line:= mBOARD_SHAPE.Lines.Count-1;
+     if iLast_Line < 0
+     then
+         Add_xy( x1, y1, True)
+     else
+         mBOARD_SHAPE.Lines.Strings[iLast_Line]:= mBOARD_SHAPE.Lines.Strings[iLast_Line]+',';
+
+     Add_xy( x2, y2);
 end;
 
 procedure TfOpenSCAD_from_Eagle_File.leLIBRARIES_PATHChange(Sender: TObject);
