@@ -42,12 +42,12 @@
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="163"/>
-        <CursorPos X="40" Y="180"/>
+        <TopLine Value="230"/>
+        <CursorPos X="10" Y="259"/>
         <UsageCount Value="210"/>
         <Bookmarks Count="2">
-          <Item0 X="11" Y="287" ID="2"/>
-          <Item1 X="16" Y="201" ID="1"/>
+          <Item0 X="11" Y="334" ID="2"/>
+          <Item1 X="46" Y="203" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -572,7 +572,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="316"/>
         <CursorPos Y="348"/>
-        <UsageCount Value="192"/>
+        <UsageCount Value="194"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit53>
       <Unit54>
@@ -581,7 +581,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="69"/>
         <CursorPos Y="93"/>
-        <UsageCount Value="191"/>
+        <UsageCount Value="193"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit54>
       <Unit55>
@@ -593,7 +593,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="66"/>
         <CursorPos X="59" Y="102"/>
-        <UsageCount Value="191"/>
+        <UsageCount Value="193"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit55>
       <Unit56>
@@ -602,49 +602,49 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="118"/>
         <CursorPos X="17" Y="118"/>
-        <UsageCount Value="191"/>
+        <UsageCount Value="193"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit56>
       <Unit57>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/uContexteClasse.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="189"/>
+        <UsageCount Value="191"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit57>
       <Unit58>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler/uPatternHandler.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="189"/>
+        <UsageCount Value="191"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit58>
       <Unit59>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General/ujpNom_de_la_classe.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="189"/>
+        <UsageCount Value="191"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit59>
       <Unit60>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL/ujpSQL_CREATE_TABLE.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="189"/>
+        <UsageCount Value="191"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit60>
       <Unit61>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine/ujpPHP_Doctrine_Has_Column.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="189"/>
+        <UsageCount Value="191"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit61>
       <Unit62>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp/ujpCSharp_Champs_persistants.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="189"/>
+        <UsageCount Value="191"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit62>
       <Unit63>
@@ -652,14 +652,14 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="95" Y="26"/>
-        <UsageCount Value="189"/>
+        <UsageCount Value="191"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit63>
       <Unit64>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/uJoinPoint.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="189"/>
+        <UsageCount Value="191"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit64>
       <Unit65>
@@ -677,7 +677,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="116"/>
         <CursorPos Y="138"/>
-        <UsageCount Value="133"/>
+        <UsageCount Value="135"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit66>
       <Unit67>
@@ -1319,7 +1319,7 @@
         <EditorIndex Value="4"/>
         <TopLine Value="212"/>
         <CursorPos Y="230"/>
-        <UsageCount Value="15"/>
+        <UsageCount Value="16"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit153>
@@ -1342,7 +1342,7 @@
         <Filename Value="jsWorks.lpr"/>
         <EditorIndex Value="2"/>
         <CursorPos X="29" Y="22"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="13"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit156>
@@ -1350,12 +1350,12 @@
         <Filename Value="http_jsWorks_linux.lpr"/>
         <EditorIndex Value="1"/>
         <TopLine Value="7"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="13"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit157>
     </Units>
-    <JumpHistory Count="10" HistoryIndex="9">
+    <JumpHistory Count="18" HistoryIndex="17">
       <Position1>
         <Filename Value="http_jsWorks.lpr"/>
         <Caret Line="98" Column="48" TopLine="85"/>
@@ -1396,6 +1396,37 @@
         <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
         <Caret Line="171" Column="25" TopLine="161"/>
       </Position10>
+      <Position11>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
+        <Caret Line="114" Column="35" TopLine="94"/>
+      </Position11>
+      <Position12>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
+        <Caret Line="223" Column="35" TopLine="203"/>
+      </Position12>
+      <Position13>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
+        <Caret Line="161" Column="34" TopLine="141"/>
+      </Position13>
+      <Position14>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
+        <Caret Line="233" Column="9" TopLine="203"/>
+      </Position14>
+      <Position15>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
+        <Caret Line="208" Column="79" TopLine="194"/>
+      </Position15>
+      <Position16>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
+        <Caret Line="178" Column="46" TopLine="161"/>
+      </Position16>
+      <Position17>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
+      </Position17>
+      <Position18>
+        <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
+        <Caret Line="517" Column="21" TopLine="484"/>
+      </Position18>
     </JumpHistory>
   </ProjectSession>
   <Debugging>
@@ -1405,7 +1436,7 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
-        <Line Value="548"/>
+        <Line Value="595"/>
       </Item1>
       <Item2>
         <Kind Value="bpkSource"/>

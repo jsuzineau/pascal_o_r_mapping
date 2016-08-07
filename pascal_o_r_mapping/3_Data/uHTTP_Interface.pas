@@ -111,7 +111,7 @@ function http_getS( _URL: String): String;
 const
      port_http_PortMapper= '1500';
 
-procedure Assure_http_PortMapper( _Repertoire_http_PortMapper: String= '');
+procedure Assure_http_PortMapper( _Nom_executable: String= '');
 
 implementation
 
@@ -158,22 +158,67 @@ begin
      Result:= http_Port_Valide( port_http_PortMapper);
 end;
 
-procedure Lance_http_PortMapper( _Repertoire_http_PortMapper: String= '');
+procedure Execute_par_Run_Command( _Nom_Executable:String);
+var
+   Resultat: ansistring;
+begin
+     if RunCommand('/bin/bash',['-c',_Nom_Executable+' &'],Resultat)
+     then
+         Log.Println('Execute_par_Run_Command( '+_Nom_Executable+'):'+Resultat);
+end;
+
+procedure Execute_par_TProcess_et_bash( _Nom_Executable:String);
+var
+   p: TProcess;
+   I: Integer;
+begin
+     p := TProcess.Create(nil);
+     try
+        p.InheritHandles := False;
+        p.Options := [];
+        p.ShowWindow := swoShow;
+
+        // Copy default environment variables including DISPLAY variable for GUI application to work
+        for I := 1 to GetEnvironmentVariableCount do
+          p.Environment.Add(GetEnvironmentString(I));
+
+        p.Executable := '/bin/bash';
+        p.Parameters.Add('-c');
+        p.Parameters.Add(_Nom_Executable+' &');
+        p.Execute;
+     finally
+            p.Free;
+            end;
+end;
+
+procedure Execute_par_TProcess( _Nom_Executable:String);
+var
+   p: TProcess;
+   I: Integer;
+begin
+     p := TProcess.Create(nil);
+     try
+        p.InheritHandles := False;
+        p.Options := [];
+        p.ShowWindow := swoShow;
+
+        // Copy default environment variables including DISPLAY variable for GUI application to work
+        for I := 1 to GetEnvironmentVariableCount do
+          p.Environment.Add(GetEnvironmentString(I));
+
+        p.Executable := _Nom_Executable;
+        p.Execute;
+     finally
+            p.Free;
+            end;
+end;
+
+procedure Lance_http_PortMapper( _Nom_executable: String= '');
 const
-     NomExecutable
-     =
-      {$IFDEF LINUX}
-        'http_PortMapper'
-      {$ELSE}
-        'http_PortMapper.exe'
-      {$ENDIF}
-      ;
      Attente_secondes=10;
 var
    Repertoire: String;
    NomFichier: String;
-   p: TProcess;
-   I: Integer;
    procedure Attente_lancement;
    const
         Test_par_seconde=4;
@@ -188,40 +233,42 @@ var
           Sleep( Temporisation_ms);
           end;
    end;
-begin
-     Repertoire:= _Repertoire_http_PortMapper;
-     if '' = Repertoire
-     then
-         Repertoire:= GetCurrentDir;
-     Repertoire:= IncludeTrailingPathDelimiter(Repertoire);
+   procedure Compose_NomFichier;
+   const
+        NomExecutable
+        =
+         {$IFDEF LINUX}
+           'http_PortMapper'
+         {$ELSE}
+           'http_PortMapper.exe'
+         {$ENDIF}
+         ;
+   begin
+        NomFichier:= _Nom_executable;
+        if '' <> NomFichier then exit;
 
-     Log.Println('Lance_http_PortMapper: Repertoire:'+Repertoire);
-     NomFichier:= Repertoire+NomExecutable;
+        Repertoire:= IncludeTrailingPathDelimiter(GetCurrentDir);
+        Log.Println('Lance_http_PortMapper: Repertoire:'+Repertoire);
+        NomFichier:= Repertoire+NomExecutable;
+   end;
+begin
+     Compose_NomFichier;
      Log.Println('Lance_http_PortMapper: NomFichier:'+NomFichier);
 
-     p := TProcess.Create(nil);
-     try
-        p.InheritHandles := False;
-        p.Options := [];
-        p.ShowWindow := swoShow;
-
-        // Copy default environment variables including DISPLAY variable for GUI application to work
-        for I := 1 to GetEnvironmentVariableCount do
-          p.Environment.Add(GetEnvironmentString(I));
-
-        p.Executable := NomFichier;
-        p.Execute;
-     finally
-            p.Free;
-            end;
+     {$IFDEF LINUX}
+       //Execute_par_Run_Command(NomFichier);
+       Execute_par_TProcess_et_bash(NomFichier);
+     {$ELSE}
+       Execute_par_TProcess( NomFichier);
+     {$ENDIF}
      Attente_lancement;
 end;
 
-procedure Assure_http_PortMapper( _Repertoire_http_PortMapper: String= '');
+procedure Assure_http_PortMapper( _Nom_executable: String= '');
 begin
      if http_PortMapper_OK then exit;
 
-     Lance_http_PortMapper( _Repertoire_http_PortMapper);
+     Lance_http_PortMapper( _Nom_executable);
 end;
 
 { THTTP_Interface }
@@ -493,7 +540,7 @@ begin
      Result:= '';
      if nil = ListenerSocket then exit;
 
-     IP:= '192.168.1.30';//provisoire à revoir
+     IP:= 'localhost';//provisoire à revoir
      //Port:= '1500';
      Port:= ListenerSocket.GetLocalSinPort;
      Result:= 'http://'+IP+':'+IntToStr(Port)+'/';
