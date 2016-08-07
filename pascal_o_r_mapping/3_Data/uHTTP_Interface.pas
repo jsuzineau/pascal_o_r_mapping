@@ -31,6 +31,7 @@ uses
     uBatpro_Element,
     uPublieur,
     uLog,
+    uEXE_INI,
  {$ifdef fpc}
  {fglExt,} blcksock, sockets, Synautil, fphttpclient,
  {$endif}
@@ -111,7 +112,7 @@ function http_getS( _URL: String): String;
 const
      port_http_PortMapper= '1500';
 
-procedure Assure_http_PortMapper( _Nom_executable: String= '');
+procedure Assure_http_PortMapper;
 
 implementation
 
@@ -213,7 +214,7 @@ begin
             end;
 end;
 
-procedure Lance_http_PortMapper( _Nom_executable: String= '');
+procedure Lance_http_PortMapper;
 const
      Attente_secondes=10;
 var
@@ -235,6 +236,7 @@ var
    end;
    procedure Compose_NomFichier;
    const
+        inik_http_PortMapper= 'http_PortMapper';
         NomExecutable
         =
          {$IFDEF LINUX}
@@ -244,12 +246,13 @@ var
          {$ENDIF}
          ;
    begin
-        NomFichier:= _Nom_executable;
-        if '' <> NomFichier then exit;
+        NomFichier:= EXE_INI.ReadString('Options',inik_http_PortMapper,'#');
+        if '#' <> NomFichier then exit;
 
         Repertoire:= IncludeTrailingPathDelimiter(GetCurrentDir);
         Log.Println('Lance_http_PortMapper: Repertoire:'+Repertoire);
         NomFichier:= Repertoire+NomExecutable;
+        EXE_INI.WriteString('Options',inik_http_PortMapper,NomFichier);
    end;
 begin
      Compose_NomFichier;
@@ -264,11 +267,11 @@ begin
      Attente_lancement;
 end;
 
-procedure Assure_http_PortMapper( _Nom_executable: String= '');
+procedure Assure_http_PortMapper;
 begin
      if http_PortMapper_OK then exit;
 
-     Lance_http_PortMapper( _Nom_executable);
+     Lance_http_PortMapper;
 end;
 
 { THTTP_Interface }
@@ -554,7 +557,8 @@ begin
 
      ListenerSocket.CreateSocket;
      ListenerSocket.setLinger(true,10);
-     ListenerSocket.bind('0.0.0.0','1500');
+     //ListenerSocket.bind('0.0.0.0','1500');
+     ListenerSocket.bind('localhost','0');
      ListenerSocket.listen;
 
      Result:= URL;
