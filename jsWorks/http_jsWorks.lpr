@@ -22,9 +22,12 @@ program http_jsWorks;
 
 {Adapted from The Micro Pascal WebServer, http://wiki.freepascal.org/Networking }
 
-//{$mode objfpc}{$H+}
+{$mode objfpc}{$H+}
 
 uses
+  {$IFDEF UNIX}
+  cthreads,
+  {$ENDIF}
   uBatpro_StringList, uuStrings, ublCategorie, ublDevelopment, ublProject,
   ublState, ublWork, uhfCategorie, uhfDevelopment, uhfJour_ferie, uhfProject,
   uhfState, uhfWork, upoolCategorie, upoolDevelopment, upoolProject, upoolState,
@@ -104,7 +107,7 @@ begin
      HTTP_Interface.Register_pool( poolCategorie  );
      HTTP_Interface.Register_pool( poolState      );
      //HTTP_Interface.Register_pool( poolAutomatic  ); à voir, conflit avec uhAutomatic_ATB
-     HTTP_Interface.slP.Ajoute( 'Test_AUT/', Traite_Test_AUT);
+     HTTP_Interface.slP.Ajoute( 'Test_AUT/', @Traite_Test_AUT);
 
      //hAutomatic_ATB.Execute_SQL( 'select * from a_cht  where phase <> "0" limit 0,100');
      hAutomatic_ATB.Execute_SQL( 'select * from Work limit 0,100');

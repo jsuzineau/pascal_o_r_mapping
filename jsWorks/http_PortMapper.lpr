@@ -33,6 +33,10 @@ uses
 
 {$apptype console}
 
+const
+     s_Validation         ='Validation';
+     s_Validation_Response='pascal_o_r_mapping';
+
 function StrToK( Key: String; var S: String): String;
 var
    I: Integer;
@@ -55,12 +59,21 @@ function http_getS( _URL: String): String;
 var
    c: TFPHttpClient;
 begin
-     c:= TFPHttpClient.Create( nil);
      try
-        Result:= c.Get( _URL);
-     finally
-            FreeAndNil( c);
-            end;
+        c:= TFPHttpClient.Create( nil);
+        try
+           Result:= c.Get( _URL);
+        finally
+               FreeAndNil( c);
+               end;
+     except
+           on E: Exception
+           do
+             begin
+             Result:= '';
+             Writeln( 'http_getS( '+_URL+'): '+E.Message);
+             end;
+           end;
 
      Writeln( 'http_getS( '+_URL+')= ');
      WriteLn('################');
@@ -72,18 +85,27 @@ function http_get( _URL: String; out _Content_Type, _Server: String; _Body: Stri
 var
    c: TFPHttpClient;
 begin
-     c:= TFPHttpClient.Create( nil);
      try
-        if '' = _Body
-        then
-            Result:= c.Get( _URL)
-        else
-            Result:= c.FormPost( _URL, _Body);
-        _Content_Type:= c.ResponseHeaders.Values[ 'Content-type'];
-        _Server      := c.ResponseHeaders.Values[ 'Server'      ];
-     finally
-            FreeAndNil( c);
-            end;
+        c:= TFPHttpClient.Create( nil);
+        try
+           if '' = _Body
+           then
+               Result:= c.Get( _URL)
+           else
+               Result:= c.FormPost( _URL, _Body);
+           _Content_Type:= c.ResponseHeaders.Values[ 'Content-type'];
+           _Server      := c.ResponseHeaders.Values[ 'Server'      ];
+        finally
+               FreeAndNil( c);
+               end;
+     except
+           on E: Exception
+           do
+             begin
+             Result:= '';
+             Writeln( 'http_get( '+_URL+'): '+E.Message);
+             end;
+           end;
 
      Writeln( 'http_get( '+_URL+')= ');
      WriteLn('################');
@@ -95,8 +117,8 @@ function http_Port_Valide( _Port: String): Boolean;
 var
    URL: String;
 begin
-     URL:= 'http://localhost:'+_Port+'/Validation';
-     Result:= 'pascal_o_r_mapping' = http_getS( URL);
+     URL:= 'http://localhost:'+_Port+'/'+s_Validation;
+     Result:= s_Validation_Response = http_getS( URL);
 end;
 
 procedure AttendConnection(ASocket: TTCPBlockSocket);
@@ -110,19 +132,9 @@ var
    sPort: String;
    nPort: Integer;
 
-   Forward_URL: String;
-   Forward_Result      : String;
-   Forward_Content_Type: String;
-   Forward_Server      : String;
-
    Has_Body: Boolean;
    Content_Length: Integer;
-   Body: String;
 
-   procedure Send_Not_found;
-   begin
-        ASocket.SendString('HTTP/1.0 404' + CRLF);
-   end;
    procedure Traite_Content_Length;
    const
         s_Content_Length='content-length:';
@@ -132,9 +144,55 @@ var
         StrToK(s_Content_Length, s);
         Has_Body:= TryStrToInt( s, Content_Length);
    end;
-   procedure Traite_Body;
+   procedure Send_Not_found;
    begin
-        Body:= ASocket.RecvBufferStr( Content_Length, timeout);
+        ASocket.SendString('HTTP/1.0 404' + CRLF);
+   end;
+   procedure Send_Validation;
+   begin
+        ASocket.SendString('HTTP/1.0 200' + CRLF);
+        ASocket.SendString('Content-type: text/plain' + CRLF);
+        ASocket.SendString('Content-length: ' + IntTostr(Length(s_Validation_Response)) + CRLF);
+        ASocket.SendString('Connection: close' + CRLF);
+        ASocket.SendString('Date: ' + Rfc822DateTime(now) + CRLF);
+        ASocket.SendString('Server: http_PortMapper' + CRLF);
+        ASocket.SendString('' + CRLF);
+
+       //  if ASocket.lasterror <> 0 then HandleError;
+
+        ASocket.SendString(s_Validation_Response);
+   end;
+   procedure Send_Forward;
+   var
+      Body: String;
+      Forward_URL: String;
+      Forward_Result      : String;
+      Forward_Content_Type: String;
+      Forward_Server      : String;
+   begin
+        if not http_Port_Valide( sPort)
+        then
+            begin
+            Send_Not_found;
+            exit;
+            end;
+
+        Forward_URL:= 'http://localhost:'+sPort+'/'+uri;
+
+        if Has_Body
+        then
+            Body:= ASocket.RecvBufferStr( Content_Length, timeout);
+
+        Forward_Result:= http_get( Forward_URL, Forward_Content_Type, Forward_Server, Body);
+
+        ASocket.SendString('HTTP/1.0 200' + CRLF);
+        ASocket.SendString('Content-type: '+Forward_Content_Type + CRLF);
+        ASocket.SendString('Content-length: ' + IntTostr(Length(Forward_Result)) + CRLF);
+        ASocket.SendString('Connection: close' + CRLF);
+        ASocket.SendString('Date: ' + Rfc822DateTime(now) + CRLF);
+        ASocket.SendString('Server: '+Forward_Server + CRLF);
+        ASocket.SendString('' + CRLF);
+        ASocket.SendString(Forward_Result);
    end;
 begin
      timeout := 120000;
@@ -160,35 +218,10 @@ begin
      // Now write the document to the output stream
      StrTok( '/', uri);
      sPort:= StrTok( '/', uri);
-     if not TryStrToInt( sPort, nPort)
-     then
-         begin
-         Send_Not_found;
-         exit;
-         end;
 
-     if not http_Port_Valide( sPort)
-     then
-         begin
-         Send_Not_found;
-         exit;
-         end;
-
-     if Has_Body
-     then
-         Traite_Body;
-
-     Forward_URL:= 'http://localhost:'+sPort+'/'+uri;
-     Forward_Result:= http_get( Forward_URL, Forward_Content_Type, Forward_Server, Body);
-
-     ASocket.SendString('HTTP/1.0 200' + CRLF);
-     ASocket.SendString('Content-type: '+Forward_Content_Type + CRLF);
-     ASocket.SendString('Content-length: ' + IntTostr(Length(Forward_Result)) + CRLF);
-     ASocket.SendString('Connection: close' + CRLF);
-     ASocket.SendString('Date: ' + Rfc822DateTime(now) + CRLF);
-     ASocket.SendString('Server: '+Forward_Server + CRLF);
-     ASocket.SendString('' + CRLF);
-     ASocket.SendString(Forward_Result);
+          if TryStrToInt( sPort, nPort) then Send_Forward
+     else if s_Validation = sPort       then Send_Validation
+     else                                    Send_Not_found;
 end;
 
 var
@@ -201,7 +234,7 @@ begin
      ListenerSocket.setLinger(true,10);
      ListenerSocket.bind('0.0.0.0','1500');
      ListenerSocket.listen;
-     WriteLn('http_PortMapper_linux listen on ', ListenerSocket.GetLocalSinPort);
+     WriteLn('http_PortMapper listen on ', ListenerSocket.GetLocalSinPort);
 
      repeat
            if not ListenerSocket.canread( 1000) then continue;

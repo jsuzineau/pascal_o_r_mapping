@@ -34,7 +34,7 @@ uses
  {$ifdef fpc}
  {fglExt,} blcksock, sockets, Synautil, fphttpclient,
  {$endif}
- Classes, SysUtils;
+ Classes, SysUtils,process;
 
 type
 
@@ -106,7 +106,125 @@ type
 
 function HTTP_Interface: THTTP_Interface;
 
+function http_getS( _URL: String): String;
+
+const
+     port_http_PortMapper= '1500';
+
+procedure Assure_http_PortMapper( _Repertoire_http_PortMapper: String= '');
+
 implementation
+
+const
+     s_Validation         ='Validation';
+     s_Validation_Response='pascal_o_r_mapping';
+
+function http_getS( _URL: String): String;
+var
+   c: TFPHttpClient;
+begin
+     try
+        c:= TFPHttpClient.Create( nil);
+        try
+           Result:= c.Get( _URL);
+        finally
+               FreeAndNil( c);
+               end;
+     except
+           on E: Exception
+           do
+             begin
+             Result:= '';
+             //Log.Println( 'http_getS( '+_URL+'): '+E.Message);
+             end;
+           end;
+
+     //Log.Println( 'http_getS( '+_URL+')= ');
+     //Log.Println('################');
+     //Log.Println( Result);
+     //Log.Println('################')
+end;
+
+function http_Port_Valide( _Port: String): Boolean;
+var
+   URL: String;
+begin
+     URL:= 'http://localhost:'+_Port+'/'+s_Validation;
+     Result:= s_Validation_Response = http_getS( URL);
+end;
+
+function http_PortMapper_OK: boolean;
+begin
+     Result:= http_Port_Valide( port_http_PortMapper);
+end;
+
+procedure Lance_http_PortMapper( _Repertoire_http_PortMapper: String= '');
+const
+     NomExecutable
+     =
+      {$IFDEF LINUX}
+        'http_PortMapper'
+      {$ELSE}
+        'http_PortMapper.exe'
+      {$ENDIF}
+      ;
+     Attente_secondes=10;
+var
+   Repertoire: String;
+   NomFichier: String;
+   p: TProcess;
+   I: Integer;
+   procedure Attente_lancement;
+   const
+        Test_par_seconde=4;
+        Temporisation_ms= 1000{ms} div Test_par_seconde;
+   var
+      I: Integer;
+   begin
+        for I:= 0 to Attente_secondes*Test_par_seconde
+        do
+          begin
+          if http_PortMapper_OK then break;
+          Sleep( Temporisation_ms);
+          end;
+   end;
+begin
+     Repertoire:= _Repertoire_http_PortMapper;
+     if '' = Repertoire
+     then
+         Repertoire:= GetCurrentDir;
+     Repertoire:= IncludeTrailingPathDelimiter(Repertoire);
+
+     Log.Println('Lance_http_PortMapper: Repertoire:'+Repertoire);
+     NomFichier:= Repertoire+NomExecutable;
+     Log.Println('Lance_http_PortMapper: NomFichier:'+NomFichier);
+
+     p := TProcess.Create(nil);
+     try
+        p.InheritHandles := False;
+        p.Options := [];
+        p.ShowWindow := swoShow;
+
+        // Copy default environment variables including DISPLAY variable for GUI application to work
+        for I := 1 to GetEnvironmentVariableCount do
+          p.Environment.Add(GetEnvironmentString(I));
+
+        p.Executable := NomFichier;
+        p.Execute;
+     finally
+            p.Free;
+            end;
+     Attente_lancement;
+end;
+
+procedure Assure_http_PortMapper( _Repertoire_http_PortMapper: String= '');
+begin
+     if http_PortMapper_OK then exit;
+
+     Lance_http_PortMapper( _Repertoire_http_PortMapper);
+end;
+
+{ THTTP_Interface }
 
 var
    FHTTP_Interface: THTTP_Interface= nil;
@@ -118,8 +236,6 @@ begin
          FHTTP_Interface:= THTTP_Interface.Create;
      Result:= FHTTP_Interface;
 end;
-
-{ THTTP_Interface }
 
 constructor THTTP_Interface.Create;
 begin
@@ -381,6 +497,7 @@ begin
      //Port:= '1500';
      Port:= ListenerSocket.GetLocalSinPort;
      Result:= 'http://'+IP+':'+IntToStr(Port)+'/';
+     Log.Println( ClassName+'.URL= '+Result);
 end;
 
 function THTTP_Interface.Initialisation: String;
@@ -427,6 +544,8 @@ end;
 function THTTP_Interface.Init: String;
 begin
      Terminaison;
+
+     Assure_http_PortMapper;
 
      Result:= Initialisation;
 

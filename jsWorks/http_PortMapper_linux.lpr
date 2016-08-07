@@ -55,12 +55,21 @@ function http_getS( _URL: String): String;
 var
    c: TFPHttpClient;
 begin
-     c:= TFPHttpClient.Create( nil);
      try
-        Result:= c.Get( _URL);
-     finally
-            FreeAndNil( c);
-            end;
+        c:= TFPHttpClient.Create( nil);
+        try
+           Result:= c.Get( _URL);
+        finally
+               FreeAndNil( c);
+               end;
+     except
+           on E: Exception
+           do
+             begin
+             Result:= '';
+             Writeln( 'http_getS( '+_URL+'): '+E.Message);
+             end;
+           end;
 
      Writeln( 'http_getS( '+_URL+')= ');
      WriteLn('################');
@@ -72,18 +81,27 @@ function http_get( _URL: String; out _Content_Type, _Server: String; _Body: Stri
 var
    c: TFPHttpClient;
 begin
-     c:= TFPHttpClient.Create( nil);
      try
-        if '' = _Body
-        then
-            Result:= c.Get( _URL)
-        else
-            Result:= c.FormPost( _URL, _Body);
-        _Content_Type:= c.ResponseHeaders.Values[ 'Content-type'];
-        _Server      := c.ResponseHeaders.Values[ 'Server'      ];
-     finally
-            FreeAndNil( c);
-            end;
+        c:= TFPHttpClient.Create( nil);
+        try
+           if '' = _Body
+           then
+               Result:= c.Get( _URL)
+           else
+               Result:= c.FormPost( _URL, _Body);
+           _Content_Type:= c.ResponseHeaders.Values[ 'Content-type'];
+           _Server      := c.ResponseHeaders.Values[ 'Server'      ];
+        finally
+               FreeAndNil( c);
+               end;
+     except
+           on E: Exception
+           do
+             begin
+             Result:= '';
+             Writeln( 'http_get( '+_URL+'): '+E.Message);
+             end;
+           end;
 
      Writeln( 'http_get( '+_URL+')= ');
      WriteLn('################');
@@ -160,6 +178,7 @@ begin
      // Now write the document to the output stream
      StrTok( '/', uri);
      sPort:= StrTok( '/', uri);
+
      if not TryStrToInt( sPort, nPort)
      then
          begin
@@ -174,11 +193,12 @@ begin
          exit;
          end;
 
+     Forward_URL:= 'http://localhost:'+sPort+'/'+uri;
+
      if Has_Body
      then
          Traite_Body;
 
-     Forward_URL:= 'http://localhost:'+sPort+'/'+uri;
      Forward_Result:= http_get( Forward_URL, Forward_Content_Type, Forward_Server, Body);
 
      ASocket.SendString('HTTP/1.0 200' + CRLF);
