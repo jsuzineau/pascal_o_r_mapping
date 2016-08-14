@@ -37,7 +37,8 @@ function Elem_from_path( _e: TDOMNode; Path: String):TDOMNode;
 function Cree_path     ( _e: TDOMNode; Path: String):TDOMNode;
 function Assure_path   ( _e: TDOMNode; Path: String):TDOMNode;
 function Text_from_path( _Root: TDOMNode; _Path: String): String;
-
+function Assure_path_TextContent( _e: TDOMNode; _Path: String; _TextContent: String):TDOMNode;
+procedure Delete_from_path( _e: TDOMNode; Path: String);
 
 //Gestion tableur
 function CellName_from_XY( X, Y: Integer): String;
@@ -66,7 +67,7 @@ function StrCM_from_double( _d  : double): String;//"0.635cm"
 
 //Gestion Items
 function Cherche_Item( _eRoot: TDOMNode; _NodeName: String;
-                       _Properties_Names,
+                       _Properties_Names ,
                        _Properties_Values: array of String): TDOMNode;
 function Cherche_Item_Recursif( _eRoot: TDOMNode; _NodeName: String;
                                 _Properties_Names ,
@@ -80,6 +81,11 @@ function Add_Item( _eRoot: TDOMNode; _NodeName: String;
 procedure Copie_Item( _Source, _Cible: TDOMNode);
 
 procedure RemoveChilds( _e:TDOMNode);
+
+//
+function Find_Node_by_PropertyName( _eRoot: TDOMNode;
+                                    _Properties_Names ,
+                                    _Properties_Values: array of String): TDOMNode;
 
 implementation
 
@@ -144,6 +150,20 @@ begin
          Result:= Cree_path( _e, Path);
 end;
 
+function Assure_path_TextContent( _e: TDOMNode; _Path: String; _TextContent: String):TDOMNode;
+begin
+     Result:= Assure_path( _e, _Path);
+     Result.TextContent:= _TextContent;
+end;
+
+procedure Delete_from_path( _e: TDOMNode; Path: String);
+var
+   Trash: TDOMNode;
+begin
+     Trash:= Elem_from_path( _e, Path);
+     FreeAndNil( Trash);
+end;
+
 function Text_from_path( _Root: TDOMNode; _Path: String): String;
 var
    e: TDOMNode;
@@ -153,7 +173,7 @@ begin
      e:= Elem_from_path( _Root, _Path);
      if e= nil then exit;
 
-     Result:= e.NodeValue;
+     Result:= e.TextContent;
 end;
 
 //Gestion tableur
@@ -339,6 +359,63 @@ begin
 end;
 
 //Gestion Items
+
+//Find_Node_by_PropertyName = Cherche_Item sans contrainte sur NodeName
+function Find_Node_by_PropertyName( _eRoot: TDOMNode;
+                                    _Properties_Names ,
+                                    _Properties_Values: array of String): TDOMNode;
+var
+   I: Integer;
+   e: TDOMNode;
+   iProperties: Integer;
+   Properties_Values: array of String;
+   Arreter: Boolean;
+begin
+     Result:= nil;
+
+     if _eRoot = nil then exit;
+
+     SetLength( Properties_Values, Length( _Properties_Names));
+
+     for I:= 0 to _eRoot.ChildNodes.Count - 1
+     do
+       begin
+       e:= _eRoot.ChildNodes.Item[ I];
+       if e = nil                 then continue;
+
+       Arreter:= False;
+       for iProperties:= Low( _Properties_Names) to High( _Properties_Names)
+       do
+         begin
+         Arreter
+         :=
+           not_Get_Property( e,
+                             _Properties_Names [iProperties],
+                              Properties_Values[iProperties]
+                             );
+         if Arreter
+         then
+             break;
+         end;
+       if Arreter then continue;
+
+       for iProperties:= Low( _Properties_Names) to High( _Properties_Names)
+       do
+         begin
+         Arreter
+         :=
+              _Properties_Values[ iProperties]
+           <>  Properties_Values[ iProperties];
+         if Arreter
+         then
+             break;
+         end;
+       if Arreter then continue;
+
+       Result:= e;
+       break;
+       end;
+end;
 
 function Cherche_Item( _eRoot: TDOMNode; _NodeName: String;
                        _Properties_Names ,
