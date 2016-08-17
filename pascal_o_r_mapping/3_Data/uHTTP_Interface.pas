@@ -246,13 +246,13 @@ var
          {$ENDIF}
          ;
    begin
-        NomFichier:= EXE_INI.ReadString('Options',inik_http_PortMapper,'#');
+        NomFichier:= EXE_INI.ReadString( inis_Options,inik_http_PortMapper,'#');
         if '#' <> NomFichier then exit;
 
         Repertoire:= IncludeTrailingPathDelimiter(GetCurrentDir);
         Log.Println('Lance_http_PortMapper: Repertoire:'+Repertoire);
         NomFichier:= Repertoire+NomExecutable;
-        EXE_INI.WriteString('Options',inik_http_PortMapper,NomFichier);
+        EXE_INI.WriteString(inis_Options,inik_http_PortMapper,NomFichier);
    end;
 begin
      Compose_NomFichier;

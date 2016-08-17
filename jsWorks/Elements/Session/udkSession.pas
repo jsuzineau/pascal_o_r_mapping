@@ -29,9 +29,11 @@ uses
     uBatpro_StringList,
     uChamps,
     ublSession,
+    ublWork,
     uDockable,
-    ucBatpro_Shape, ucChamp_Label, ucChamp_Edit, ucChamp_Memo,
- Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ClipBrd;
+    ucBatpro_Shape,
+    ucChamp_Label, ucChamp_Edit, ucChamp_Memo, Classes, SysUtils, FileUtil,
+    Forms, Controls, Graphics, Dialogs, ClipBrd, ExtCtrls, StdCtrls;
 
 type
 
@@ -43,6 +45,11 @@ type
    ceBeginning: TChamp_Edit;
    ceEnd_: TChamp_Edit;
    cmLibelle: TChamp_Memo;
+   Label1: TLabel;
+   lCumul_Global_Depassement: TLabel;
+   Panel1: TPanel;
+   Panel2: TPanel;
+   Splitter1: TSplitter;
     procedure ceBeginningEnter(Sender: TObject);
     procedure ceEnd_Enter(Sender: TObject);
     procedure cmLibelleEnter(Sender: TObject);
@@ -82,6 +89,9 @@ begin
      Affecte( blSession, TblSession, Value);
 
      Champs_Affecte( blSession, [ceBeginning, ceEnd_, cmLibelle]);
+     if Assigned( blSession)
+     then
+         lCumul_Global_Depassement.Caption:= sNb_Heures_from_DateTime( blSession.Cumul_Global.Depassement);
 end;
 
 procedure TdkSession.FormClick(Sender: TObject);

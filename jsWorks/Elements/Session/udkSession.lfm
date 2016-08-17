@@ -1,45 +1,91 @@
 inherited dkSession: TdkSession
-  Left = 643
-  Height = 77
-  Top = 176
-  Width = 320
+  Left = 505
+  Height = 123
+  Top = 268
+  Width = 632
   Caption = 'dkSession'
-  ClientHeight = 77
-  ClientWidth = 320
+  ClientHeight = 123
+  ClientWidth = 632
   inherited sSelection: TBatpro_Shape
-    Height = 77
+    Height = 123
   end
-  object cmLibelle: TChamp_Memo[1]
-    Left = 136
-    Height = 77
-    Top = 0
-    Width = 184
-    Anchors = [akTop, akLeft, akRight, akBottom]
-    Lines.Strings = (
-      'cmLibelle'
-    )
-    OnEnter = cmLibelleEnter
-    TabOrder = 0
-    Field = 'Libelle'
-  end
-  object ceBeginning: TChamp_Edit[2]
+  object ceBeginning: TChamp_Edit[1]
     Left = 16
     Height = 21
     Top = -1
     Width = 119
     OnEnter = ceBeginningEnter
-    TabOrder = 1
+    TabOrder = 0
     Text = 'ceBeginning'
     Field = 'Beginning'
   end
-  object ceEnd_: TChamp_Edit[3]
+  object ceEnd_: TChamp_Edit[2]
     Left = 16
     Height = 21
     Top = 32
     Width = 119
     OnEnter = ceEnd_Enter
-    TabOrder = 2
+    TabOrder = 1
     Text = 'ceEnd_'
     Field = 'End_'
+  end
+  object Panel1: TPanel[3]
+    Left = 136
+    Height = 123
+    Top = -1
+    Width = 495
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    ClientHeight = 123
+    ClientWidth = 495
+    TabOrder = 2
+    object cmLibelle: TChamp_Memo
+      Left = 1
+      Height = 121
+      Top = 1
+      Width = 226
+      Align = alClient
+      Lines.Strings = (
+        'cmLibelle'
+      )
+      OnEnter = cmLibelleEnter
+      TabOrder = 0
+      Field = 'Libelle'
+    end
+    object Splitter1: TSplitter
+      Left = 227
+      Height = 121
+      Top = 1
+      Width = 5
+      Align = alRight
+      Color = clLime
+      ParentColor = False
+      ResizeAnchor = akRight
+    end
+    object Panel2: TPanel
+      Left = 232
+      Height = 121
+      Top = 1
+      Width = 262
+      Align = alRight
+      ClientHeight = 121
+      ClientWidth = 262
+      TabOrder = 2
+      object Label1: TLabel
+        Left = 8
+        Height = 13
+        Top = 16
+        Width = 133
+        Caption = 'Cumul Heures Supp Période'
+        ParentColor = False
+      end
+      object lCumul_Global_Depassement: TLabel
+        Left = 147
+        Height = 13
+        Top = 16
+        Width = 138
+        Caption = 'lCumul_Global_Depassement'
+        ParentColor = False
+      end
+    end
   end
 end

@@ -114,6 +114,7 @@ end;
 
 procedure TfTemps.bSessionClick(Sender: TObject);
 begin
+     ds.sl:= nil;
      hdmSession.Execute( deDebut.Date, deFin.Date, idTag);
      ds.sl:= hdmSession.sl;
 end;

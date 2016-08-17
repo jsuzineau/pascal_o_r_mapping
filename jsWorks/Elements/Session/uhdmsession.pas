@@ -7,6 +7,8 @@ interface
 uses
     uClean,
     uLog,
+    uEXE_INI,
+    uVide,
     ufAccueil_Erreur,
     uBatpro_StringList,
     uBatpro_Element,
@@ -16,7 +18,6 @@ uses
  Classes, SysUtils;
 
 type
-
  { ThaWork }
 
  ThaWork
@@ -61,6 +62,10 @@ type
   public
     function Execute( _Debut, _Fin: TDateTime; _idTag: Integer): Boolean;
     procedure To_log;
+    procedure Vide;
+  //Nombre heures par jour
+  private
+    NB_Heures_Jour: Double;
   end;
 
 implementation
@@ -103,6 +108,7 @@ end;
 
 function ThaWork.Charge_Periode( _Debut, _Fin: TDateTime; _idTag: Integer): Boolean;
 begin
+     Clear;
      poolWork.Charge_Periode( _Debut, _Fin, _idTag, slCharge);
      Ajoute_slCharge;
      poolWork.Tri.Execute( sl);
@@ -121,6 +127,8 @@ begin
                           +'_Classe_Elements='+TblSession.ClassName
                           );
      haWork:= ThaWork.Create( nil, TblWork, nil);
+     NB_Heures_Jour:= EXE_INI.Assure_Double( 'NB_Heures_Jour', 5.75);
+     Log.PrintLn( ClassName+'.NB_Heures_Jour= '+FloatToStr( NB_Heures_Jour));
 end;
 
 destructor ThdmSession.Destroy;
@@ -146,6 +154,7 @@ end;
 
 function ThdmSession.Execute( _Debut, _Fin: TDateTime; _idTag: Integer): Boolean;
 var
+   dtNB_Heures_Jour: TDateTime;
    Precedent: TblWork;
 
    I: TIterateur_Work;
@@ -153,8 +162,9 @@ var
 
    bl: TblSession;
 
-   Cumul_Semaine: TDateTime;
-   Cumul_Jour: TDateTime;
+   Cumul_Global : TSession_Cumul;
+   Cumul_Semaine: TSession_Cumul;
+   Cumul_Jour   : TSession_Cumul;
    procedure Semaine_Change;
    begin
         if Assigned( bl)
@@ -164,10 +174,24 @@ var
             bl.FinSemaine:= True;
             end;
 
-        Cumul_Semaine:= 0;
+        Cumul_Semaine.Zero;
+   end;
+   procedure Traite_Cumul_Depassement;
+   var
+      Depassement: TDateTime;
+   begin
+        Depassement:= Cumul_Jour.Total - dtNB_Heures_Jour;
+
+        Cumul_Jour   .Add_Depassement( Depassement);
+        Cumul_Semaine.Add_Depassement( Depassement);
+        Cumul_Global .Add_Depassement( Depassement);
    end;
    procedure Jour_Change;
    begin
+        if Assigned( bl)
+        then
+            Traite_Cumul_Depassement;
+
         if blWork.Semaine_Differente( Precedent)
         then
             Semaine_Change;
@@ -179,7 +203,7 @@ var
             bl.FinJour:= True;
             end;
 
-        Cumul_Jour:= 0;
+        Cumul_Jour.Zero;
    end;
    procedure Session_Change;
    begin
@@ -187,16 +211,38 @@ var
         then
             Jour_Change;
 
+        if Assigned( bl)
+        then
+            begin
+            bl.Cumul_Global:= Cumul_Global;
+            bl.FinGlobal:= True;
+            end;
+
         bl:= TblSession.Create( sl, nil, nil);
         Ajoute( bl);
    end;
+   procedure Traite_Cumul;
+   var
+      Total: TDateTime;
+   begin
+        Total      := blWork.Duree;
+
+        Cumul_Jour   .Add_Total( Total);
+        Cumul_Semaine.Add_Total( Total);
+        Cumul_Global .Add_Total( Total);
+   end;
 begin
+     Vide;
+
+     dtNB_Heures_Jour:= NB_Heures_Jour/24;
+
      haWork.Charge_Periode( _Debut, _Fin, _idTag);
 
+     Cumul_Global .Zero;
+     Cumul_Semaine.Zero;
+     Cumul_Jour   .Zero;
      bl:= nil;
      Precedent:= nil;
-     Cumul_Semaine:= 0;
-     Cumul_Jour:= 0;
      I:= haWork.Iterateur;
      while I.Continuer
      do
@@ -209,14 +255,20 @@ begin
            Session_Change;
 
        bl.haWork.Ajoute( blWork);
-       Cumul_Jour   := Cumul_Jour    + blWork.Duree;
-       Cumul_Semaine:= Cumul_Semaine + blWork.Duree;
+       Traite_Cumul;
        Log.PrintLn(  DateTimeToStr(blWork.End_)
-                    +' Jour: '   +sNb_Heures_from_DateTime( Cumul_Jour   )
-                    +' Semaine: '+sNb_Heures_from_DateTime( Cumul_Semaine)
+                    +' Jour: '   +Cumul_Jour   .To_String
+                    +' Semaine: '+Cumul_Semaine.To_String
+                    +' Global: ' +Cumul_Global .To_String
                     );
        Precedent:= blWork;
        end;
+     if Assigned( bl)
+     then
+         begin
+         bl.Cumul_Global:= Cumul_Global;
+         bl.FinGlobal:= True;
+         end;
      Result:= True;
 end;
 
@@ -245,6 +297,21 @@ begin
               end;
        end;
      Log.Affiche;
+end;
+
+procedure ThdmSession.Vide;
+var
+   I: TIterateur_Session;
+   bl: TblSession;
+begin
+     I:= Iterateur_Decroissant;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( bl) then continue;
+       I.Supprime_courant;
+       Free_nil( bl);
+       end;
 end;
 
 end.

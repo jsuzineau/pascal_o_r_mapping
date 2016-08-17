@@ -103,8 +103,11 @@ type
   //Utilitaires
   public
     function Assure_String( _iniKey: String; _iniDefault: String= ''): String;
+    function Assure_Double( _iniKey: String; _iniDefault: Double= 0 ): Double;
   end;
 
+const
+     inis_Options= 'Options';
 var
    EXE_INI_Global: TEXE_INIFile= nil;
    EXE_INI       : TEXE_INIFile= nil;
@@ -290,13 +293,13 @@ function TEXE_INIFile.GetUtiliser_OD: Boolean;
 var
    Utiliser_OD_IOO: Boolean;
 begin
-     Utiliser_OD_IOO:= EXE_INI.ReadBool( 'Options', 'Utiliser_OD_IOO', False);
-     Result:= EXE_INI.ReadBool( 'Options', 'Utiliser_OD', Utiliser_OD_IOO);
+     Utiliser_OD_IOO:= EXE_INI.ReadBool( inis_Options, 'Utiliser_OD_IOO', False);
+     Result:= EXE_INI.ReadBool( inis_Options, 'Utiliser_OD', Utiliser_OD_IOO);
 end;
 
 procedure TEXE_INIFile.SetUtiliser_OD(const Value: Boolean);
 begin
-     EXE_INI.WriteBool( 'Options', 'Utiliser_OD', Value);
+     EXE_INI.WriteBool( inis_Options, 'Utiliser_OD', Value);
 end;
 
 procedure Cree_EXE_INI_Poste;
@@ -315,7 +318,7 @@ end;
 
 function TEXE_INIFile.GetChemin(Key: String): String;
 begin
-     Result:= ReadString( 'Options', Key, '@');
+     Result:= ReadString( inis_Options, Key, '@');
      if Result = '@'
      then
          begin
@@ -327,7 +330,7 @@ end;
 
 procedure TEXE_INIFile.SetChemin( Key: String; Value: String);
 begin
-     WriteString( 'Options', Key, Value);
+     WriteString( inis_Options, Key, Value);
 end;
 
 function TEXE_INIFile.GetChemin_Global: String;
@@ -411,8 +414,6 @@ begin
 end;
 
 function TEXE_INIFile.Assure_String( _iniKey: String; _iniDefault: String): String;
-const
-     inis_Options= 'Options';
 var
    iniKey: String;
 begin
@@ -424,6 +425,20 @@ begin
          Result:= _iniDefault;
          WriteString( inis_Options, iniKey, Result);
          end;
+end;
+
+function TEXE_INIFile.Assure_Double( _iniKey: String; _iniDefault: Double): Double;
+var
+   siniDefault: String;
+   sResult: String;
+   Code: Integer;
+begin
+     Str( _iniDefault, siniDefault);
+     sResult:= Assure_String( _iniKey, siniDefault);
+     Val( sResult, Result, Code);
+     if 0 <> Code
+     then
+         Result:= _iniDefault;
 end;
 
 var

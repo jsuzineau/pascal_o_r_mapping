@@ -1,28 +1,28 @@
 object fjsWorks: TfjsWorks
-  Left = 1778
-  Height = 556
-  Top = 217
+  Left = 166
+  Height = 527
+  Top = 72
   Width = 959
   Caption = 'jsWorks'
-  ClientHeight = 556
+  ClientHeight = 527
   ClientWidth = 959
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '1.6.0.4'
+  LCLVersion = '1.6.0.2'
   object Panel1: TPanel
     Left = 0
-    Height = 556
+    Height = 527
     Top = 0
     Width = 757
     Align = alClient
     Caption = 'Panel1'
-    ClientHeight = 556
+    ClientHeight = 527
     ClientWidth = 757
     TabOrder = 0
     object pDevelopment: TPanel
       Left = 1
       Height = 306
-      Top = 249
+      Top = 220
       Width = 755
       Align = alBottom
       Caption = 'pDevelopment'
@@ -211,22 +211,22 @@ object fjsWorks: TfjsWorks
     end
     object pWork: TPanel
       Left = 1
-      Height = 243
+      Height = 214
       Top = 1
       Width = 755
       Align = alClient
       Caption = 'pWork'
-      ClientHeight = 243
+      ClientHeight = 214
       ClientWidth = 755
       TabOrder = 1
       object Panel8: TPanel
         Left = 1
-        Height = 241
+        Height = 212
         Top = 1
         Width = 241
         Align = alClient
         Caption = 'Panel8'
-        ClientHeight = 241
+        ClientHeight = 212
         ClientWidth = 241
         TabOrder = 0
         object Panel7: TPanel
@@ -294,12 +294,12 @@ object fjsWorks: TfjsWorks
         end
         object dsbWork: TDockableScrollbox
           Left = 1
-          Height = 204
+          Height = 175
           Top = 36
           Width = 239
           Align = alClient
           Caption = 'dsbWork'
-          ClientHeight = 204
+          ClientHeight = 175
           ClientWidth = 239
           TabOrder = 1
           HauteurLigne = 24
@@ -313,7 +313,7 @@ object fjsWorks: TfjsWorks
       end
       object Splitter4: TSplitter
         Left = 242
-        Height = 241
+        Height = 212
         Top = 1
         Width = 5
         Align = alRight
@@ -323,12 +323,12 @@ object fjsWorks: TfjsWorks
       end
       object Panel9: TPanel
         Left = 247
-        Height = 241
+        Height = 212
         Top = 1
         Width = 507
         Align = alRight
         Caption = 'Panel9'
-        ClientHeight = 241
+        ClientHeight = 212
         ClientWidth = 507
         TabOrder = 2
         object Panel5: TPanel
@@ -477,7 +477,7 @@ object fjsWorks: TfjsWorks
         end
         object cmWork_Description: TChamp_Memo
           Left = 1
-          Height = 119
+          Height = 90
           Top = 121
           Width = 505
           Align = alClient
@@ -493,7 +493,7 @@ object fjsWorks: TfjsWorks
       Cursor = crVSplit
       Left = 1
       Height = 5
-      Top = 244
+      Top = 215
       Width = 755
       Align = alBottom
       Color = clLime
@@ -503,7 +503,7 @@ object fjsWorks: TfjsWorks
   end
   object Splitter2: TSplitter
     Left = 757
-    Height = 556
+    Height = 527
     Top = 0
     Width = 5
     Align = alRight
@@ -513,12 +513,12 @@ object fjsWorks: TfjsWorks
   end
   object Panel4: TPanel
     Left = 762
-    Height = 556
+    Height = 527
     Top = 0
     Width = 197
     Align = alRight
     Caption = 'Panel4'
-    ClientHeight = 556
+    ClientHeight = 527
     ClientWidth = 197
     TabOrder = 2
     object Panel6: TPanel
@@ -551,12 +551,12 @@ object fjsWorks: TfjsWorks
     end
     object dsbTag: TDockableScrollbox
       Left = 1
-      Height = 475
+      Height = 446
       Top = 80
       Width = 195
       Align = alClient
       Caption = 'dsbTag'
-      ClientHeight = 475
+      ClientHeight = 446
       ClientWidth = 195
       TabOrder = 1
       HauteurLigne = 17
