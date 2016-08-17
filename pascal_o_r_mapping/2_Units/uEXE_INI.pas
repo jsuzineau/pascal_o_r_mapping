@@ -44,16 +44,25 @@ uses
   INIFiles;
 
 type
+
+ { TEXE_INIFile }
+
  TEXE_INIFile
  =
   class( TINIFile)
+  //Gestion du cycle de vie
+  public
+    constructor Create(const AFileName: string; AEscapeLineFeeds : Boolean = False); overload; override;
+    destructor Destroy; override;
+  //ToolTip
   private
     function GetToolTip(Index: String): Boolean;
     procedure SetToolTip(Index: String; Value: Boolean);
   public
     property ToolTip[ Index: String]: Boolean read GetToolTip write SetToolTip;
     procedure Reset_ToolTips;
-
+ //ValueList
+ public
     procedure ValueList_to_Section( Section: String; ValueList: TStrings);
     procedure Section_to_ValueList(Section: String; ValueList: TStrings);
   //Mode autonome
@@ -71,7 +80,7 @@ type
   //Chemins
   private
     function  GetChemin( Key: String): String;
-    procedure SetChemin( Key, Value  : String);
+    procedure SetChemin( Key: String; Value: String);
   public
     property Chemin[ Key:String]: String read GetChemin write SetChemin;
   //Chemin Global
@@ -88,6 +97,12 @@ type
     property Chemin_Local: String read GetChemin_Local write SetChemin_Local;
     function Chemin_Local_Program_Files( _NomApplication: String): String;
     function Chemin_Local_from_NomApplication( _NomApplication: String): String;
+  //OS
+  public
+    os: String;
+  //Utilitaires
+  public
+    function Assure_String( _iniKey: String; _iniDefault: String= ''): String;
   end;
 
 var
@@ -194,6 +209,23 @@ end;
 
 { TEXE_INIFile }
 
+constructor TEXE_INIFile.Create( const AFileName: string; AEscapeLineFeeds: Boolean);
+begin
+     inherited Create(AFileName, AEscapeLineFeeds);
+     os
+     :=
+     {$IFDEF LINUX}
+       'Linux.'
+     {$ELSE}
+       'Windows.'
+     {$ENDIF};
+end;
+
+destructor TEXE_INIFile.Destroy;
+begin
+     inherited Destroy;
+end;
+
 function TEXE_INIFile.GetToolTip(Index: String): Boolean;
 begin
      Result:= ReadBool( inis_ToolTips, Index, False);
@@ -293,7 +325,7 @@ begin
 
 end;
 
-procedure TEXE_INIFile.SetChemin(Key, Value: String);
+procedure TEXE_INIFile.SetChemin( Key: String; Value: String);
 begin
      WriteString( 'Options', Key, Value);
 end;
@@ -376,6 +408,22 @@ function TEXE_INIFile.Chemin_Local_from_NomApplication( _NomApplication: String)
 begin
      //Result:= Chemin_Local_Program_Files( _NomApplication);
      Result:= Chemin_Local;
+end;
+
+function TEXE_INIFile.Assure_String( _iniKey: String; _iniDefault: String): String;
+const
+     inis_Options= 'Options';
+var
+   iniKey: String;
+begin
+     iniKey:= os+_iniKey;
+     Result:= ReadString( inis_Options, iniKey, '#');
+     if '#' = Result
+     then
+         begin
+         Result:= _iniDefault;
+         WriteString( inis_Options, iniKey, Result);
+         end;
 end;
 
 var
