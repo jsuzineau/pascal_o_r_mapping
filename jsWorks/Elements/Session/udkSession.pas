@@ -45,8 +45,8 @@ type
    ceBeginning: TChamp_Edit;
    ceEnd_: TChamp_Edit;
    cmLibelle: TChamp_Memo;
-   Label1: TLabel;
    lCumul_Global_Depassement: TLabel;
+   lCumul_Global_Total: TLabel;
    Panel1: TPanel;
    Panel2: TPanel;
    Splitter1: TSplitter;
@@ -74,7 +74,9 @@ implementation
 constructor TdkSession.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
-     Ajoute_Colonne( cmLibelle, 'Libelle', 'Libelle');
+     Ajoute_Colonne( cmLibelle                , 'Libelle', 'Libelle');
+     Ajoute_Colonne( lCumul_Global_Total      , 'Cumul'#13#10'Période'               , 'Libelle');
+     Ajoute_Colonne( lCumul_Global_Depassement, 'Cumul'#13#10'H. Supp'#13#10'Période', 'Libelle');
 end;
 
 destructor TdkSession.Destroy;
@@ -91,7 +93,10 @@ begin
      Champs_Affecte( blSession, [ceBeginning, ceEnd_, cmLibelle]);
      if Assigned( blSession)
      then
+         begin
+         lCumul_Global_Total      .Caption:= sNb_Heures_from_DateTime( blSession.Cumul_Global.Total      );
          lCumul_Global_Depassement.Caption:= sNb_Heures_from_DateTime( blSession.Cumul_Global.Depassement);
+         end;
 end;
 
 procedure TdkSession.FormClick(Sender: TObject);

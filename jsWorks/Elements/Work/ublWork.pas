@@ -208,11 +208,13 @@ begin
      NbHeures:= _dt*24;
      Result
      :=
-       IntToStr(Trunc(NbHeures))+':'+IntToStr(Trunc(Frac(NbHeures)*60))
-       +',  '+FloatToStrF( NbHeures, ffFixed, 0, 2)+'h';
+       Format( '%d:%.2d,  %sh',
+               [
+                Trunc(NbHeures),
+                Trunc(Frac(Abs(NbHeures))*60),
+                FloatToStrF( NbHeures, ffFixed, 0, 2)
+               ]);
 end;
-
-
 
 function blWork_from_sl( sl: TBatpro_StringList; Index: Integer): TblWork;
 begin

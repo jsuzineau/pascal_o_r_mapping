@@ -121,7 +121,7 @@
         <PackageName Value="LCL"/>
       </Item5>
     </RequiredPackages>
-    <Units Count="119">
+    <Units Count="120">
       <Unit0>
         <Filename Value="jsWorks.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -684,6 +684,10 @@
         <Filename Value="../pascal_o_r_mapping/3_Data/uSQLite3.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit118>
+      <Unit119>
+        <Filename Value="Elements/Session/uodSession.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit119>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

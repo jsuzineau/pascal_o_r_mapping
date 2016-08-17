@@ -13,6 +13,8 @@ uses
     udkTag_LABEL_od,
 
     uodWork_from_Period,
+
+    uodSession,
     ublSession,
     uhdmSession,
     udkSession,
@@ -30,6 +32,7 @@ type
   bOK: TBitBtn;
   bSession: TButton;
   bTo_log: TButton;
+  bodSession: TButton;
   cbRestreindre_a_un_Tag: TCheckBox;
   deDebut: TDateEdit;
   deFin: TDateEdit;
@@ -39,6 +42,7 @@ type
   Label2: TLabel;
   Panel1: TPanel;
   procedure b0_NowClick(Sender: TObject);
+  procedure bodSessionClick(Sender: TObject);
   procedure bOKClick(Sender: TObject);
   procedure bSessionClick(Sender: TObject);
   procedure bTo_logClick(Sender: TObject);
@@ -144,6 +148,17 @@ var
 begin
      odWork_from_Period.Init( 0, Now, idTag);
      Resultat:= odWork_from_Period.Visualiser;
+     if not OpenDocument( Resultat)
+     then
+         ShowMessage( 'OpenDocument failed on '+Resultat);
+end;
+
+procedure TfTemps.bodSessionClick(Sender: TObject);
+var
+   Resultat: String;
+begin
+     odSession.Init( hdmSession);
+     Resultat:= odSession.Visualiser;
      if not OpenDocument( Resultat)
      then
          ShowMessage( 'OpenDocument failed on '+Resultat);

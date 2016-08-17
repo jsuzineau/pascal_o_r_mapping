@@ -151,6 +151,8 @@ function String_from_File( _FileName: String): String;
 
 procedure String_to_File( _FileName: String; _S: String);
 
+function Char_Count( _C: Char; _S: String): Integer;
+
 implementation
 
 { Indente
@@ -1044,6 +1046,18 @@ begin
      finally
             CloseFile( F);
             end;
+end;
+
+function Char_Count( _C: Char; _S: String): Integer;
+var
+   I: Integer;
+begin
+     Result:= 0;
+     for I:= 1 to Length(_S)
+     do
+       if _C = _S[I]
+       then
+           Inc( Result);
 end;
 
 end.

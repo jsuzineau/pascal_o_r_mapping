@@ -28,6 +28,7 @@ interface
 uses
     uForms,
     uClean,
+    uuStrings,
     uChampDefinition,
     uChamp,
     uChamps,
@@ -453,11 +454,7 @@ begin
      //E.Show;
      E.Hide;
 
-     if Pos( #13, _Titre) > 0
-     then
-         pColumnHeader_Height_Replie:= 30
-     else
-         pColumnHeader_Height_Replie:= 17;
+     pColumnHeader_Height_Replie:= 17+14*Char_Count( #13, _Titre);
 
      pColumnHeader_Height_Deplie:= pColumnHeader_Height_Replie+E.Height;
      pColumnHeader.Height:= pColumnHeader_Height_Replie;

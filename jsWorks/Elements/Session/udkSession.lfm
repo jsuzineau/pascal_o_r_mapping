@@ -42,7 +42,7 @@ inherited dkSession: TdkSession
       Left = 1
       Height = 121
       Top = 1
-      Width = 226
+      Width = 312
       Align = alClient
       Lines.Strings = (
         'cmLibelle'
@@ -52,7 +52,7 @@ inherited dkSession: TdkSession
       Field = 'Libelle'
     end
     object Splitter1: TSplitter
-      Left = 227
+      Left = 313
       Height = 121
       Top = 1
       Width = 5
@@ -62,28 +62,30 @@ inherited dkSession: TdkSession
       ResizeAnchor = akRight
     end
     object Panel2: TPanel
-      Left = 232
+      Left = 318
       Height = 121
       Top = 1
-      Width = 262
+      Width = 176
       Align = alRight
       ClientHeight = 121
-      ClientWidth = 262
+      ClientWidth = 176
       TabOrder = 2
-      object Label1: TLabel
-        Left = 8
+      object lCumul_Global_Depassement: TLabel
+        Left = 93
         Height = 13
-        Top = 16
-        Width = 133
-        Caption = 'Cumul Heures Supp Période'
+        Top = 4
+        Width = 74
+        AutoSize = False
+        Caption = 'lCumul_Global_Depassement'
         ParentColor = False
       end
-      object lCumul_Global_Depassement: TLabel
-        Left = 147
+      object lCumul_Global_Total: TLabel
+        Left = 7
         Height = 13
-        Top = 16
-        Width = 138
-        Caption = 'lCumul_Global_Depassement'
+        Top = 3
+        Width = 74
+        AutoSize = False
+        Caption = 'lCumul_Global_Total'
         ParentColor = False
       end
     end
