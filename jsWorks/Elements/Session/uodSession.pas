@@ -5,7 +5,7 @@ unit uodSession;
         and partly as employee : http://www.batpro.com                          |
     Contact: gilles.doutre@batpro.com                                           |
                                                                                 |
-    Copyright 2014 Jean SUZINEAU - MARS42                                       |
+    Copyright 2016 Jean SUZINEAU - MARS42                                       |
                                                                                 |
     This program is free software: you can redistribute it and/or modify        |
     it under the terms of the GNU Lesser General Public License as published by |

@@ -33,6 +33,7 @@ uses
     uBatpro_Element,
     uBatpro_Ligne,
     ublWork,
+    ublCalendrier,
 
     udmDatabase,
     upool_Ancetre_Ancetre,
@@ -41,24 +42,6 @@ uses
   SysUtils, Classes, sqldb, DB;
 
 type
-
- { TSession_Cumul }
-
- TSession_Cumul
- =
-  object
-  //Attributs
-  public
-    Total: TDateTime;
-    Depassement: TDateTime;
-  //Methodes
-  public
-    procedure Zero;
-    procedure Add_Total( _Total: TDateTime);
-    procedure Add_Depassement( _Depassement: TDateTime);
-    function To_String: String;
-    function To_String_arrondi: String;
-  end;
 
  { ThaSession_Work }
 
@@ -136,15 +119,15 @@ type
     function sDuree: String;
   //Cumul Jour
   public
-    Cumul_Jour: TSession_Cumul;
+    Cumul_Jour: TWork_Cumul;
     FinJour: Boolean;
   //Cumul Semaine
   public
-    Cumul_Semaine: TSession_Cumul;
+    Cumul_Semaine: TWork_Cumul;
     FinSemaine: Boolean;
   //Cumul Global
   public
-    Cumul_Global: TSession_Cumul;
+    Cumul_Global: TWork_Cumul;
     FinGlobal: Boolean;
   end;
 
@@ -186,37 +169,6 @@ end;
 function blSession_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblSession;
 begin
      _Classe_from_sl_sCle( Result, TblSession, sl, sCle);
-end;
-
-{ TSession_Cumul }
-
-procedure TSession_Cumul.Zero;
-begin
-     Total:= 0;
-     Depassement:= 0;
-end;
-
-procedure TSession_Cumul.Add_Total(_Total: TDateTime);
-begin
-     Total:= Total+ _Total;
-end;
-
-procedure TSession_Cumul.Add_Depassement(_Depassement: TDateTime);
-begin
-     Depassement:= Depassement + _Depassement;
-end;
-
-function TSession_Cumul.To_String: String;
-begin
-     Result:= sNb_Heures_from_DateTime( Total);
-     if Depassement <> 0
-     then
-         Result:= Result +'(HS:'+sNb_Heures_from_DateTime( Depassement)+')';
-end;
-
-function TSession_Cumul.To_String_arrondi: String;
-begin
-     Result:= sNb_Heures_Arrondi_from_DateTime( Total);
 end;
 
 { TIterateur_Session }
@@ -338,9 +290,9 @@ begin
      then
          Formate_Liste( FLibelle, #13#10, '(Semaine: '+Cumul_Semaine.To_String+')');
 
-     if FinGlobal
-     then
-         Formate_Liste( FLibelle, #13#10, '(Global: '+Cumul_Global.To_String+')');
+     //if FinGlobal
+     //then
+     //    Formate_Liste( FLibelle, #13#10, '(Global: '+Cumul_Global.To_String+')');
 
      Result:= FLibelle;
 end;

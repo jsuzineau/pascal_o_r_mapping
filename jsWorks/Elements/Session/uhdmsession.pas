@@ -1,4 +1,26 @@
 unit uhdmSession;
+{                                                                               |
+    Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
+            partly as freelance: http://www.mars42.com                          |
+        and partly as employee : http://www.batpro.com                          |
+    Contact: gilles.doutre@batpro.com                                           |
+                                                                                |
+    Copyright 2016 Jean SUZINEAU - MARS42                                       |
+                                                                                |
+    This program is free software: you can redistribute it and/or modify        |
+    it under the terms of the GNU Lesser General Public License as published by |
+    the Free Software Foundation, either version 3 of the License, or           |
+    (at your option) any later version.                                         |
+                                                                                |
+    This program is distributed in the hope that it will be useful,             |
+    but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    GNU Lesser General Public License for more details.                         |
+                                                                                |
+    You should have received a copy of the GNU Lesser General Public License    |
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.       |
+                                                                                |
+|                                                                               }
 
 {$mode delphi}
 
@@ -14,7 +36,10 @@ uses
     uBatpro_Element,
     ublSession,
     ublWork,
+    ublCalendrier,
+
     upoolWork,
+    uhdmCalendrier,
  Classes, SysUtils;
 
 type
@@ -66,6 +91,12 @@ type
   //Nombre heures par jour
   private
     NB_Heures_Jour: Double;
+  //Calendrier
+  public
+    hdmCalendrier: ThdmCalendrier;
+  //Cumul global
+  public
+    Cumul_Global : TWork_Cumul;
   end;
 
 implementation
@@ -129,10 +160,12 @@ begin
      haWork:= ThaWork.Create( nil, TblWork, nil);
      NB_Heures_Jour:= EXE_INI.Assure_Double( 'NB_Heures_Jour', 5.75);
      Log.PrintLn( ClassName+'.NB_Heures_Jour= '+FloatToStr( NB_Heures_Jour));
+     hdmCalendrier:= ThdmCalendrier.Create;
 end;
 
 destructor ThdmSession.Destroy;
 begin
+     Free_nil( hdmCalendrier);
      Free_nil( haWork);
      inherited;
 end;
@@ -162,9 +195,8 @@ var
 
    bl: TblSession;
 
-   Cumul_Global : TSession_Cumul;
-   Cumul_Semaine: TSession_Cumul;
-   Cumul_Jour   : TSession_Cumul;
+   Cumul_Semaine: TWork_Cumul;
+   Cumul_Jour   : TWork_Cumul;
    procedure Semaine_Change;
    begin
         if Assigned( bl)
@@ -180,7 +212,11 @@ var
    var
       Depassement: TDateTime;
    begin
-        Depassement:= Cumul_Jour.Total - dtNB_Heures_Jour;
+        if {Vendredi}6=DayOfWeek(bl.Beginning)
+        then
+            Depassement:= Cumul_Jour.Total
+        else
+            Depassement:= Cumul_Jour.Total - dtNB_Heures_Jour;
 
         Cumul_Jour   .Add_Depassement( Depassement);
         Cumul_Semaine.Add_Depassement( Depassement);
@@ -191,6 +227,10 @@ var
         if Assigned( bl)
         then
             Traite_Cumul_Depassement;
+
+        if Assigned( Precedent)
+        then
+            hdmCalendrier.Affecte( Precedent.Beginning, Cumul_Jour, Cumul_Semaine, Cumul_Global);
 
         if blWork.Semaine_Differente( Precedent)
         then
@@ -236,6 +276,7 @@ begin
 
      dtNB_Heures_Jour:= NB_Heures_Jour/24;
 
+     hdmCalendrier.Formate( _Debut, _Fin);
      haWork.Charge_Periode( _Debut, _Fin, _idTag);
 
      Cumul_Global .Zero;

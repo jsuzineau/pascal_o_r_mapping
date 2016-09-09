@@ -17,9 +17,9 @@ uses
     uodSession,
     ublSession,
     uhdmSession,
-    udkSession,
+    udkSession, uodCalendrier,
  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, EditBtn,
- StdCtrls, Buttons, ExtCtrls,LCLIntf;
+ StdCtrls, Buttons, ExtCtrls,LCLIntf, dateutils;
 
 type
 
@@ -29,10 +29,18 @@ type
  =
  class(TForm)
   b0_Now: TButton;
+  bodCalendrier_Modele: TButton;
   bOK: TBitBtn;
   bSession: TButton;
   bTo_log: TButton;
   bodSession: TButton;
+  bodCalendrier: TButton;
+  bCurrentWeek: TButton;
+  bCurrentMonth: TButton;
+  bPreviousWeek: TButton;
+  bPreviousMonth: TButton;
+  bNextMonth: TButton;
+  bNextWeek: TButton;
   cbRestreindre_a_un_Tag: TCheckBox;
   deDebut: TDateEdit;
   deFin: TDateEdit;
@@ -40,10 +48,20 @@ type
   dsbTag: TDockableScrollbox;
   Label1: TLabel;
   Label2: TLabel;
+  Label3: TLabel;
+  Label4: TLabel;
   Panel1: TPanel;
   procedure b0_NowClick(Sender: TObject);
+  procedure bCurrentMonthClick(Sender: TObject);
+  procedure bNextMonthClick(Sender: TObject);
+  procedure bNextWeekClick(Sender: TObject);
+  procedure bodCalendrierClick(Sender: TObject);
+  procedure bodCalendrier_ModeleClick(Sender: TObject);
   procedure bodSessionClick(Sender: TObject);
   procedure bOKClick(Sender: TObject);
+  procedure bCurrentWeekClick(Sender: TObject);
+  procedure bPreviousMonthClick(Sender: TObject);
+  procedure bPreviousWeekClick(Sender: TObject);
   procedure bSessionClick(Sender: TObject);
   procedure bTo_logClick(Sender: TObject);
   procedure cbRestreindre_a_un_TagClick(Sender: TObject);
@@ -54,6 +72,11 @@ type
    function idTag: Integer;
  public
    hdmSession: ThdmSession;
+ //Gestion bornes période
+ private
+   procedure Semaine( _D: TDateTime; _Delta: Integer=0);
+   procedure Mois   ( _D: TDateTime; _Delta: Integer=0);
+
  end;
 
 function fTemps: TfTemps;
@@ -116,6 +139,54 @@ begin
          ShowMessage( 'OpenDocument failed on '+Resultat);
 end;
 
+procedure TfTemps.Semaine(_D: TDateTime; _Delta: Integer);
+begin
+          if _Delta < 0 then _D:= StartOfTheWeek( _D)-1
+     else if _Delta > 0 then _D:=   EndOfTheWeek( _D)+1;
+
+     deDebut.Date:= StartOfTheWeek( _D);
+     deFin  .Date:=   EndOfTheWeek( _D);
+end;
+
+procedure TfTemps.Mois(_D: TDateTime; _Delta: Integer);
+begin
+          if _Delta < 0 then _D:= StartOfTheMonth( _D)-1
+     else if _Delta > 0 then _D:=   EndOfTheMonth( _D)+1;
+
+     deDebut.Date:= StartOfTheMonth( _D);
+     deFin  .Date:=   EndOfTheMonth( _D);
+end;
+
+procedure TfTemps.bCurrentWeekClick(Sender: TObject);
+begin
+     Semaine( Now);
+end;
+
+procedure TfTemps.bPreviousWeekClick(Sender: TObject);
+begin
+     Semaine( deDebut.Date, -1);
+end;
+
+procedure TfTemps.bNextWeekClick(Sender: TObject);
+begin
+     Semaine( deDebut.Date, +1);
+end;
+
+procedure TfTemps.bCurrentMonthClick(Sender: TObject);
+begin
+     Mois( Now);
+end;
+
+procedure TfTemps.bPreviousMonthClick(Sender: TObject);
+begin
+     Mois( deDebut.Date, -1);
+end;
+
+procedure TfTemps.bNextMonthClick(Sender: TObject);
+begin
+     Mois( deDebut.Date, +1);
+end;
+
 procedure TfTemps.bSessionClick(Sender: TObject);
 begin
      ds.sl:= nil;
@@ -151,6 +222,40 @@ begin
      if not OpenDocument( Resultat)
      then
          ShowMessage( 'OpenDocument failed on '+Resultat);
+end;
+
+procedure TfTemps.bodCalendrierClick(Sender: TObject);
+var
+   od: TodCalendrier;
+   Resultat: String;
+begin
+     od:= TodCalendrier.Create;
+     try
+        od.Init( hdmSession.hdmCalendrier);
+        Resultat:= od.Visualiser;
+        if not OpenDocument( Resultat)
+        then
+            ShowMessage( 'OpenDocument failed on '+Resultat);
+     finally
+            FreeAndNil( od);
+            end;
+end;
+
+procedure TfTemps.bodCalendrier_ModeleClick(Sender: TObject);
+var
+   od: TodCalendrier;
+   Resultat: String;
+begin
+     od:= TodCalendrier.Create;
+     try
+        od.Init( hdmSession.hdmCalendrier);
+        Resultat:= od.Editer_Modele_Impression;
+        if not OpenDocument( Resultat)
+        then
+            ShowMessage( 'OpenDocument failed on '+Resultat);
+     finally
+            FreeAndNil( od);
+            end;
 end;
 
 procedure TfTemps.bodSessionClick(Sender: TObject);

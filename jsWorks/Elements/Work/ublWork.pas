@@ -28,6 +28,7 @@ uses
     uuStrings,
     uBatpro_StringList,
     uChamp,
+    uReels,
     ufAccueil_Erreur,
 
     uBatpro_Element,
@@ -195,6 +196,9 @@ function sNb_Heures_Arrondi_from_DateTime( _dt: TDateTime): String;
 var
    NbHeures: double;
 begin
+     Result:= '';
+     if Reel_Zero( _dt) then exit;
+
      NbHeures:= ceil(_dt*24*2)/2;
      Result
      :=
@@ -205,6 +209,9 @@ function sNb_Heures_from_DateTime( _dt: TDateTime): String;
 var
    NbHeures: double;
 begin
+     Result:= '';
+     if Reel_Zero( _dt) then exit;
+
      NbHeures:= _dt*24;
      Result
      :=

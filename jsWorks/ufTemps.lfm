@@ -22,7 +22,7 @@ object fTemps: TfTemps
       Left = 8
       Height = 23
       Top = 24
-      Width = 80
+      Width = 103
       CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
       OKCaption = 'OK'
       CancelCaption = 'Cancel'
@@ -33,10 +33,10 @@ object fTemps: TfTemps
       TabOrder = 0
     end
     object deFin: TDateEdit
-      Left = 137
+      Left = 113
       Height = 23
       Top = 24
-      Width = 80
+      Width = 112
       CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
       OKCaption = 'OK'
       CancelCaption = 'Cancel'
@@ -56,7 +56,7 @@ object fTemps: TfTemps
       ParentColor = False
     end
     object Label2: TLabel
-      Left = 137
+      Left = 113
       Height = 15
       Top = 8
       Width = 16
@@ -138,6 +138,67 @@ object fTemps: TfTemps
       OnClick = bodSessionClick
       TabOrder = 8
     end
+    object bodCalendrier: TButton
+      Left = 278
+      Height = 25
+      Top = 95
+      Width = 91
+      Caption = 'bodCalendrier'
+      OnClick = bodCalendrierClick
+      TabOrder = 9
+    end
+    object bCurrentWeek: TButton
+      Left = 312
+      Height = 18
+      Top = 1
+      Width = 55
+      Caption = 'Courant'
+      OnClick = bCurrentWeekClick
+      TabOrder = 10
+    end
+    object bCurrentMonth: TButton
+      Left = 312
+      Height = 18
+      Top = 28
+      Width = 57
+      Caption = 'Courant'
+      OnClick = bCurrentMonthClick
+      TabOrder = 11
+    end
+    object Label3: TLabel
+      Left = 227
+      Height = 15
+      Top = 5
+      Width = 45
+      Caption = 'Semaine'
+      ParentColor = False
+    end
+    object Label4: TLabel
+      Left = 229
+      Height = 15
+      Top = 31
+      Width = 26
+      Caption = 'Mois'
+      ParentColor = False
+    end
+    object bPreviousWeek: TButton
+      Left = 285
+      Height = 18
+      Top = 1
+      Width = 26
+      Caption = '-'
+      OnClick = bPreviousWeekClick
+      TabOrder = 12
+    end
+    object bodCalendrier_Modele: TButton
+      Left = 378
+      Height = 25
+      Top = 95
+      Width = 130
+      Caption = 'bodCalendrier_Modele'
+      OnClick = bodCalendrier_ModeleClick
+      TabOrder = 13
+    end
   end
   object ds: TDockableScrollbox
     Left = 0
@@ -156,5 +217,32 @@ object fTemps: TfTemps
     Zebrage1 = 15138790
     Zebrage2 = 16777192
     _LectureSeule = False
+  end
+  object bPreviousMonth: TButton
+    Left = 284
+    Height = 18
+    Top = 29
+    Width = 26
+    Caption = '-'
+    OnClick = bPreviousMonthClick
+    TabOrder = 2
+  end
+  object bNextMonth: TButton
+    Left = 373
+    Height = 18
+    Top = 28
+    Width = 26
+    Caption = '+'
+    OnClick = bNextMonthClick
+    TabOrder = 3
+  end
+  object bNextWeek: TButton
+    Left = 373
+    Height = 18
+    Top = 0
+    Width = 26
+    Caption = '+'
+    OnClick = bNextWeekClick
+    TabOrder = 4
   end
 end
