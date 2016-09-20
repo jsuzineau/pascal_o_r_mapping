@@ -379,12 +379,13 @@ begin
      else if '.js'    = _Extension then Send_JS   ( _S)
      else if '.json'  = _Extension then Send_JSON ( _S)
      else if '.css'   = _Extension then Send_CSS  ( _S)
+     else if '.map'   = _Extension then Send_JS   ( _S)
      else if '.woff'  = _Extension then Send_WOFF ( _S)
      else if '.woff2' = _Extension then Send_WOFF2( _S)
      else
          begin
          Send_HTML( _S);
-         Log.PrintLn( '#### Extension inconnue pour :'#13#10+uri);
+         Log.PrintLn( '#### Extension inconnue '+_Extension+' pour :'#13#10+uri);
          end;
 end;
 

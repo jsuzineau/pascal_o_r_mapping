@@ -307,8 +307,9 @@ begin
      if Assigned( bl)
      then
          begin
-         bl.Cumul_Global:= Cumul_Global;
-         bl.FinGlobal:= True;
+         bl.Cumul_Global := Cumul_Global ; bl.FinGlobal := True;
+         bl.Cumul_Semaine:= Cumul_Semaine; bl.FinSemaine:= True;
+         bl.Cumul_Jour   := Cumul_Jour   ; bl.FinJour   := True;
          end;
      Result:= True;
 end;

@@ -39,3 +39,5 @@ callgrind.out.*
 *.obj
 *.lps
 /tools/OpenDocument_DelphiReportEngine/OpenDocument_DelphiReportEngine.obj
+/jsWorks/*.obj
+/jsWorks/*.dbg

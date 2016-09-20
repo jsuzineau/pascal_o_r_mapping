@@ -238,6 +238,9 @@ end;
 
 function ThAUT.Definitions_JSON: String;
    function Traite_Liste( _sl: TBatpro_StringList): String;
+   const
+        Longueur_Arbre    = 50;
+        Longueur_Reset_Tri=  9;
    var
       bl: TBatpro_Ligne;
       I: TIterateur_Champ;
@@ -246,6 +249,10 @@ function ThAUT.Definitions_JSON: String;
       Nom: String;
       sTri: String;
       ValeurFiltreChamp: String;
+      Somme_Longueur: Integer;
+      sPourcentageLongueur_Arbre: String;
+      sPourcentageLongueur_Reset_Tri: String;
+      PourcentRestant: double;
       procedure Calcule_ValeurFiltreChamp;
       var
          iValeur: Integer;
@@ -257,24 +264,75 @@ function ThAUT.Definitions_JSON: String;
            else
                ValeurFiltreChamp:= Filtre.slCONTIENT.ValueFromIndex[iValeur];
       end;
+      function sPourcentage_from_Pourcentage( _Pourcentage: double): String;
+      begin
+           Str( _Pourcentage:5:2,Result);
+           Result:= '"'+Trim( Result)+'%'+'"';
+      end;
+      function sPourcentage_from_Longueur( _Longueur: Integer): String;
+      var
+         Pourcentage_Longueur: double;
+      begin
+           Pourcentage_Longueur:= Trunc( (_Longueur/Somme_Longueur)*100);
+           Result:= sPourcentage_from_Pourcentage( Pourcentage_Longueur);
+           PourcentRestant:= PourcentRestant - Pourcentage_Longueur;
+      end;
       procedure Traite_Champ;
       var
          S: String;
+         sPourcentage_Longueur: String;
       begin
+           sPourcentage_Longueur:= sPourcentage_from_Longueur( cd.Longueur);
+
            S:= '';
-           Formate_Liste( S, ',', '"NomChamp":"'         + cd.Nom           +'"');
-           Formate_Liste( S, ',', '"LibelleChamp":"'     + cd.Libelle + sTri+'"');
-           Formate_Liste( S, ',', '"ValeurFiltreChamp":"'+ ValeurFiltreChamp+'"');
+           Formate_Liste( S, ',', '"NomChamp":"'          + cd.Nom               +'"');
+           Formate_Liste( S, ',', '"LibelleChamp":"'      + cd.Libelle + sTri    +'"');
+           Formate_Liste( S, ',', '"ValeurFiltreChamp":"' + ValeurFiltreChamp    +'"');
+           Formate_Liste( S, ',', '"PourcentageLongueur":'+ sPourcentage_Longueur+'' );
+           Formate_Liste( S, ',', '"Longueur":'           + IntToStr(cd.Longueur)+'' );
            S:= '{' + S + '}';
 
            Formate_Liste( Result, ',', S);
       end;
+      procedure Traite_Longueurs_fixes;
+      begin
+           sPourcentageLongueur_Reset_Tri:= sPourcentage_from_Longueur( Longueur_Reset_Tri);
+           sPourcentageLongueur_Arbre    := sPourcentage_from_Pourcentage( PourcentRestant);
+      end;
+      procedure Calcul_Somme_Longueur;
+      begin
+           Somme_Longueur:= Longueur_Arbre+Longueur_Reset_Tri;
+           I:= bl.Champs.sl.Iterateur;
+           while I.Continuer
+           do
+             begin
+             if I.not_Suivant( c) then continue;
 
+             cd:= c.Definition;
+
+             Inc( Somme_Longueur, cd.Longueur);
+             end;
+      end;
+      procedure Formate_Resultat;
+      var
+         S: String;
+      begin
+           S:= '';
+           Formate_Liste( S, ',', '"PourcentageLongueur_Arbre":'    + sPourcentageLongueur_Arbre    +'' );
+           Formate_Liste( S, ',', '"PourcentageLongueur_Reset_Tri":'+ sPourcentageLongueur_Reset_Tri+'' );
+           Formate_Liste( S, ',', '"Somme_Longueur":'               + IntToStr(Somme_Longueur)      +'' );
+           Formate_Liste( S, ',', '"Champs":'                       + '[' + Result + ']'            +'' );
+           S:= '{' + S + '}';
+           Result:= S;
+      end;
    begin
         Result:= '';
         try
            bl:= Batpro_Ligne_from_sl( _sl, 0);
            if nil = bl then exit;
+
+           PourcentRestant:= 100;
+           Calcul_Somme_Longueur;
 
            I:= bl.Champs.sl.Iterateur;
            while I.Continuer
@@ -302,8 +360,9 @@ function ThAUT.Definitions_JSON: String;
              Traite_Champ;
              //vtc.MinWidth:= cd.Longueur*10;
              end;
+           Traite_Longueurs_fixes;
         finally
-               Result:= '[' + Result + ']';
+               Formate_Resultat;
                end;
    end;
 begin

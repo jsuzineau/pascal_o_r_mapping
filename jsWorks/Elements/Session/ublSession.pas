@@ -113,6 +113,11 @@ type
   public
     cEnd_: TChamp;
     property End_: TDateTime read GetEnd_;
+  //Libelle_date
+  public
+    Libelle_date: String;
+    cLibelle_date: TChamp;
+    procedure Libelle_date_GetChaine( var _Chaine: String);
   //Duree
   public
     function Duree: TDateTime;
@@ -237,6 +242,9 @@ begin
      cEnd_:= Ajoute_DateTime( FEnd_, 'End_', False);
      cEnd_.OnGetChaine:= End__GetChaine;
 
+     cLibelle_date:= Ajoute_String( Libelle_date,'Libelle_date', False);
+     cLibelle_date.OnGetChaine:= Libelle_date_GetChaine;
+
      Cumul_Global.Zero;
      FinGlobal:= False;
 
@@ -319,6 +327,61 @@ function TblSession.GetEnd_: TDateTime;
 begin
      FEnd_:= haWork.End_;
      Result:= FEnd_;
+end;
+
+procedure TblSession.Libelle_date_GetChaine(var _Chaine: String);
+var
+   Debut_Y, Debut_M, Debut_D: Word;
+     Fin_Y,   Fin_M,   Fin_D: Word;
+   procedure Cas_Meme_Jour;
+   begin
+        _Chaine
+        :=
+           FormatDateTime( 'ddd dd"/"mm"/"yyyy '#13#10'"de" hh:nn', FBeginning)
+          + ' à '
+          +FormatDateTime( 'hh:nn'                   , FEnd_     )
+          ;
+   end;
+   procedure Cas_Meme_Mois;
+   begin
+        _Chaine
+        :=
+           FormatDateTime( 'ddd dd"/"mm"/"yyyy hh:nn', FBeginning)
+          + #13#10' à '
+          +FormatDateTime( 'ddd dd  hh:nn'       , FEnd_     )
+          ;
+   end;
+   procedure Cas_Meme_Annee;
+   begin
+        _Chaine
+        :=
+           FormatDateTime( 'ddd dd"/"mm"/"yyyy hh:nn', FBeginning)
+          + #13#10' à '
+          +FormatDateTime( 'ddd dd"/"mm hh:nn'       , FEnd_     )
+          ;
+   end;
+   procedure Cas_Different;//au cas où on y passe le réveillon ...
+   begin
+        _Chaine
+        :=
+           FormatDateTime( 'ddd dd"/"mm"/"yyyy hh:nn', FBeginning)
+          + #13#10' à '
+          +FormatDateTime( 'ddd dd"/"mm"/"yyyy hh:nn', FEnd_     )
+          ;
+   end;
+begin
+     //avant d'utiliser FBeginning et FEnd_ on s'assure de les mettre à jour
+     FBeginning:= Beginning;
+     FEnd_     := End_;
+
+     DecodeDate( FBeginning, Debut_Y, Debut_M, Debut_D);
+     DecodeDate( FEnd_     ,   Fin_Y,   Fin_M,   Fin_D);
+
+          if Trunc( FBeginning) = Trunc( FEnd_) then Cas_Meme_Jour
+     else if        Debut_M     =        Fin_M  then Cas_Meme_Mois
+     else if        Debut_Y     =        Fin_Y  then Cas_Meme_Annee
+     else                                            Cas_Different
+        ;
 end;
 
 function TblSession.Duree: TDateTime;

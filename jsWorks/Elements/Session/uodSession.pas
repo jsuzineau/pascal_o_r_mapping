@@ -95,8 +95,7 @@ begin
      t.AddColumn( 60, 'Libelle');
      n:= t.AddNiveau( 'Root');
      n.Charge_sl( _hdmSession.sl);
-     n.Ajoute_Column_Avant( 'Beginning'  , 0, 0);
-     n.Ajoute_Column_Avant( 'End_'        , 0, 0);
+     n.Ajoute_Column_Avant( 'Libelle_date'  , 0, 0);
      n.Ajoute_Column_Avant( 'Libelle'      , 1, 1);
 end;
 

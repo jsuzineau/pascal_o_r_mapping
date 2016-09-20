@@ -15,9 +15,9 @@
        <label for="eSQL"> Requête SQL : </label><input type ='text'  id="eSQL"  ng-model="SQL" ng-keydown="eSQLKeyDown($event)" size="100">
        <br>
 <div>
-  <div class="col-sm-3 text-left">Arbre</div>
-  <div ng-repeat="Definition in Definitions">
-    <div class="col-sm-1 text-left">
+  <div class="text-left" style="float:left;" ng_style="{width: Definitions.PourcentageLongueur_Arbre}">Arbre</div>
+  <div ng-repeat="Definition in Definitions.Champs">
+    <div class="text-left" style="float:left;" ng_style="{width: Definition.PourcentageLongueur}">
       <table color="lime"; >
         <tr>
           <td>
@@ -34,7 +34,7 @@
       </table>
     </div>
   </div>
-  <div class="col-sm-1 text-left" ng-click="TriClick('0')">Reset Tri</div>
+  <div class="text-left" style="position=relative; float:left;" ng_style="{width: Definitions.PourcentageLongueur_Reset_Tri}" ng-click="TriClick('0')">Reset Tri</div>
 </div>
 
        <br>
@@ -44,7 +44,7 @@
        <br>
        <script type="text/ng-template" id="LigneChamps">
           <div ui-tree-handle>
-            <span class="col-sm-3">
+            <span style="float:left;" ng_style="{width: Definitions.PourcentageLongueur_Arbre}">
             <a ng-class="{'btn': node.hasOwnProperty('Nom'), 'btn-success': node.hasOwnProperty('Nom')}" data-nodrag ng-click="toggle(this)">
                <span class="glyphicon"
                      ng-class="{'glyphicon-chevron-right': collapsed && node.hasOwnProperty('Nom'), 'glyphicon-chevron-down': !collapsed  && node.hasOwnProperty('Nom')}">
@@ -53,10 +53,11 @@
             {{node.Nom}}
             </span>
 
-          <div ng-repeat="Definition in Definitions">
-            <div class="col-sm-1 text-left">{{node[Definition.NomChamp]}}</div>
+          <div ng-repeat="Definition in Definitions.Champs">
+            <div class="text-left" style="float:left;" ng_style="{width: Definition.PourcentageLongueur}">{{node[Definition.NomChamp]}}</div>
           </div>
-
+          <div style="float:left;" ng_style="{width: Definitions.PourcentageLongueur_Reset_Tri}">
+          </div>
           </div>
           <br >
           <ol ui-tree-nodes="options" ng-model="node.Elements" ng-class="{hidden: collapsed}">
