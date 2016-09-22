@@ -226,7 +226,7 @@ begin
          begin
          Visible := False;
          Libelle := Nom;
-         Longueur:= 0;
+         Longueur:= Length(Nom);
          end
      else
          begin

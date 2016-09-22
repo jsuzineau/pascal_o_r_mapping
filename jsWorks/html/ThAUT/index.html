@@ -14,11 +14,13 @@
        <br>
        <label for="eSQL"> Requête SQL : </label><input type ='text'  id="eSQL"  ng-model="SQL" ng-keydown="eSQLKeyDown($event)" size="100">
        <br>
-<table style="width:3000px;max-width=3000px;"><tr><td>
+       LargeurTable:{{LargeurTable}}
+       <br>
+<table ng-style="{width:LargeurTable,'max-width':10000px}"><tr><td>
 <div>
-  <div class="text-left" style="float:left;" ng_style="{width: Definitions.PourcentageLongueur_Arbre}">Arbre</div>
+  <div class="text-left" style="float:left;width:{{Definitions.Longueur_Arbre+'em'}};" >Arbre</div>
   <div ng-repeat="Definition in Definitions.Champs">
-    <div class="text-left" style="float:left;" ng_style="{width: Definition.PourcentageLongueur}">
+    <div class="text-left" style="float:left;width:{{Definition.Longueur+'em'}}" >
       <table color="lime"; >
         <tr>
           <td>
@@ -29,13 +31,13 @@
           <td>
             <input type ='text'  id="eFiltre_{{Definition.NomChamp}}"
                    value="{{Definition.ValeurFiltreChamp}}"
-                   ng-keydown="eFiltre_KeyDown($event,Definition.NomChamp)" size="5">
+                   ng-keydown="eFiltre_KeyDown($event,Definition.NomChamp)" size="{{Definition.Longueur}}">
           </td>
         </tr>
       </table>
     </div>
   </div>
-  <div class="text-left" style="position=relative; float:left;" ng_style="{width: Definitions.PourcentageLongueur_Reset_Tri}" ng-click="TriClick('0')">Reset Tri</div>
+  <div class="text-left" style="position=relative;float:left;width:{{Definitions.Longueur_Reset_Tri+'em'}}" ng-click="TriClick('0')">Reset Tri</div>
 </div>
 
        <br>
@@ -45,7 +47,7 @@
        <br>
        <script type="text/ng-template" id="LigneChamps">
           <div ui-tree-handle>
-            <span style="float:left;" ng_style="{width: Definitions.PourcentageLongueur_Arbre}">
+            <span style="float:left;width:{{Definitions.Longueur_Arbre+'em'}}">
             <a ng-class="{'btn': node.hasOwnProperty('Nom'), 'btn-success': node.hasOwnProperty('Nom')}" data-nodrag ng-click="toggle(this)">
                <span class="glyphicon"
                      ng-class="{'glyphicon-chevron-right': collapsed && node.hasOwnProperty('Nom'), 'glyphicon-chevron-down': !collapsed  && node.hasOwnProperty('Nom')}">
@@ -55,9 +57,9 @@
             </span>
 
           <div ng-repeat="Definition in Definitions.Champs">
-            <div class="text-left" style="float:left;" ng_style="{width: Definition.PourcentageLongueur}">{{node[Definition.NomChamp]}}</div>
+            <div class="text-left" style="float:left;width:{{Definition.Longueur+'em'}}">{{node[Definition.NomChamp]}}</div>
           </div>
-          <div style="float:left;" ng_style="{width: Definitions.PourcentageLongueur_Reset_Tri}">
+          <div style="float:left;width:{{Definitions.Longueur_Reset_Tri+'em'}}">
           </div>
           </div>
           <br >

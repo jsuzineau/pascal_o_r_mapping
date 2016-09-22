@@ -320,6 +320,8 @@ function ThAUT.Definitions_JSON: String;
            S:= '';
            Formate_Liste( S, ',', '"PourcentageLongueur_Arbre":'    + sPourcentageLongueur_Arbre    +'' );
            Formate_Liste( S, ',', '"PourcentageLongueur_Reset_Tri":'+ sPourcentageLongueur_Reset_Tri+'' );
+           Formate_Liste( S, ',', '"Longueur_Arbre":'               + IntToStr(Longueur_Arbre      )+'' );
+           Formate_Liste( S, ',', '"Longueur_Reset_Tri":'           + IntToStr(Longueur_Reset_Tri  )+'' );
            Formate_Liste( S, ',', '"Somme_Longueur":'               + IntToStr(Somme_Longueur)      +'' );
            Formate_Liste( S, ',', '"Champs":'                       + '[' + Result + ']'            +'' );
            S:= '{' + S + '}';

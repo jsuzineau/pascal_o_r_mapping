@@ -161,7 +161,8 @@
           };
 
 
-       $scope.Definitions={};
+       $scope.Definitions={Champs:[]};
+       $scope.LargeurTable= "10000px";
 
        $scope.Rafraichit_Definitions
        =
@@ -173,6 +174,7 @@
             function(response)
               {
               $scope.Definitions = response;
+              $scope.LargeurTable=$scope.Definitions.Somme_Longueur+"em";
               }
             );
           };
