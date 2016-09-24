@@ -1,8 +1,134 @@
 <html ng-app="AUT">
-  <header>
+  <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-  </header>
+    <style>
+
+      /*style btn extrait de bootstrap.css*/
+      .btn {
+        display: inline-block;
+        padding: 6px 12px;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        -webkit-user-select: none;
+           -moz-user-select: none;
+            -ms-user-select: none;
+                user-select: none;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 4px;
+      }
+      .btn:focus,
+      .btn:active:focus,
+      .btn.active:focus {
+        outline: thin dotted;
+        outline: 5px auto -webkit-focus-ring-color;
+        outline-offset: -2px;
+      }
+      .btn:hover,
+      .btn:focus {
+        color: #333;
+        text-decoration: none;
+      }
+      .btn:active,
+      .btn.active {
+        background-image: none;
+        outline: 0;
+        -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+                box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+      }
+      .btn.disabled,
+      .btn[disabled],
+      fieldset[disabled] .btn {
+        pointer-events: none;
+        cursor: not-allowed;
+        filter: alpha(opacity=65);
+        -webkit-box-shadow: none;
+                box-shadow: none;
+        opacity: .65;
+      }
+      /*fin du style btn extrait de bootstrap.css*/
+      /*style btn-success extrait de bootstrap.css*/
+      .btn-success {
+        color: #fff;
+        background-color: #5cb85c;
+        border-color: #4cae4c;
+      }
+      .btn-success:hover,
+      .btn-success:focus,
+      .btn-success:active,
+      .btn-success.active,
+      .open .dropdown-toggle.btn-success {
+        color: #fff;
+        background-color: #47a447;
+        border-color: #398439;
+      }
+      .btn-success:active,
+      .btn-success.active,
+      .open .dropdown-toggle.btn-success {
+        background-image: none;
+      }
+      .btn-success.disabled,
+      .btn-success[disabled],
+      fieldset[disabled] .btn-success,
+      .btn-success.disabled:hover,
+      .btn-success[disabled]:hover,
+      fieldset[disabled] .btn-success:hover,
+      .btn-success.disabled:focus,
+      .btn-success[disabled]:focus,
+      fieldset[disabled] .btn-success:focus,
+      .btn-success.disabled:active,
+      .btn-success[disabled]:active,
+      fieldset[disabled] .btn-success:active,
+      .btn-success.disabled.active,
+      .btn-success[disabled].active,
+      fieldset[disabled] .btn-success.active {
+        background-color: #5cb85c;
+        border-color: #4cae4c;
+      }
+      .btn-success .badge {
+        color: #5cb85c;
+        background-color: #fff;
+      }
+      /*fin du style btn-success extrait de bootstrap.css*/
+
+      /*Style glyphicon extrait de bootstrap.css*/
+      @font-face {
+       font-family: 'Glyphicons Halflings';
+
+       src: url('fonts/glyphicons-halflings-regular.eot');
+       src: url('fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('fonts/glyphicons-halflings-regular.woff') format('woff'), url('fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+     }
+     .glyphicon {
+       position: relative;
+       top: 1px;
+       display: inline-block;
+       font-family: 'Glyphicons Halflings';
+       font-style: normal;
+       font-weight: normal;
+       line-height: 1;
+
+       -webkit-font-smoothing: antialiased;
+       -moz-osx-font-smoothing: grayscale;
+     }
+     .glyphicon-chevron-right:before
+        {
+        content: "\e080";
+        }
+      .glyphicon-chevron-down:before
+        {
+        content: "\e114";
+        }
+      /*Fin du Style glyphicon extrait de bootstrap.css*/
+
+    </style>
+  </head>
   <body>
     <div ng-controller="ctrl_AUT" >
        <form>
@@ -16,7 +142,10 @@
        <br>
        LargeurTable:{{LargeurTable}}
        <br>
-<table ng-style="{width:LargeurTable,'max-width':10000px}"><tr><td>
+<!--
+<table ng-style="{width:LargeurTable,'max-width':'10000px'}"><tr><td>
+-->
+<table style="width:{{LargeurTable}};max-width:10000px;"><tr><td>
 <div>
   <div class="text-left" style="float:left;width:{{Definitions.Longueur_Arbre+'em'}};" >Arbre</div>
   <div ng-repeat="Definition in Definitions.Champs">
@@ -37,7 +166,11 @@
       </table>
     </div>
   </div>
-  <div class="text-left" style="position=relative;float:left;width:{{Definitions.Longueur_Reset_Tri+'em'}}" ng-click="TriClick('0')">Reset Tri</div>
+  <div class="text-left" style="position=relative;float:left;width:{{Definitions.Longueur_Reset_Tri+'em'}}">
+    <table><tr><td>
+      <span ng-click="Tri_Click('0')">Reset Tri </span>
+    </td></tr></table>
+  </div>
 </div>
 
        <br>
@@ -47,14 +180,16 @@
        <br>
        <script type="text/ng-template" id="LigneChamps">
           <div ui-tree-handle>
-            <span style="float:left;width:{{Definitions.Longueur_Arbre+'em'}}">
-            <a ng-class="{'btn': node.hasOwnProperty('Nom'), 'btn-success': node.hasOwnProperty('Nom')}" data-nodrag ng-click="toggle(this)">
-               <span class="glyphicon"
-                     ng-class="{'glyphicon-chevron-right': collapsed && node.hasOwnProperty('Nom'), 'glyphicon-chevron-down': !collapsed  && node.hasOwnProperty('Nom')}">
-               </span>
-            </a>
-            {{node.Nom}}
-            </span>
+            <div class="text-left" style="float:left;width:{{Definitions.Longueur_Arbre+'em'}}">
+              <table><tr><td>
+                <a ng-class="{'btn': node.hasOwnProperty('Nom'), 'btn-success': node.hasOwnProperty('Nom')}" data-nodrag ng-click="toggle(this)">
+                   <span class="glyphicon"
+                         ng-class="{'glyphicon-chevron-right': collapsed && node.hasOwnProperty('Nom'), 'glyphicon-chevron-down': !collapsed  && node.hasOwnProperty('Nom')}">
+                   </span>
+                </a>
+                {{node.Nom}}
+              <td><tr></table>
+            </div>
 
           <div ng-repeat="Definition in Definitions.Champs">
             <div class="text-left" style="float:left;width:{{Definition.Longueur+'em'}}">{{node[Definition.NomChamp]}}</div>
@@ -84,8 +219,8 @@
     <!--
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+    -->
     <script type="text/javascript" src="angular-ui-tree.min.js"></script>
     <link rel="stylesheet" href="angular-ui-tree.css">
     <script type="text/javascript" src="AUT.js"></script>

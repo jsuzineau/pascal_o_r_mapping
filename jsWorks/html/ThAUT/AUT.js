@@ -134,6 +134,7 @@
             (
             function(response)
               {
+              $scope.Rafraichit_Definitions();
               $scope.root = response;
               }
             );
@@ -154,6 +155,7 @@
             (
             function(response)
               {
+              $scope.Rafraichit_Definitions();
               $scope.root = response;
               }
             );

@@ -239,7 +239,7 @@ end;
 function ThAUT.Definitions_JSON: String;
    function Traite_Liste( _sl: TBatpro_StringList): String;
    const
-        Longueur_Arbre    = 50;
+        Longueur_Arbre_si_Tri = 25;
         Longueur_Reset_Tri=  9;
    var
       bl: TBatpro_Ligne;
@@ -250,6 +250,7 @@ function ThAUT.Definitions_JSON: String;
       sTri: String;
       ValeurFiltreChamp: String;
       Somme_Longueur: Integer;
+      Longueur_Arbre: Integer;
       sPourcentageLongueur_Arbre: String;
       sPourcentageLongueur_Reset_Tri: String;
       PourcentRestant: double;
@@ -296,6 +297,11 @@ function ThAUT.Definitions_JSON: String;
       end;
       procedure Traite_Longueurs_fixes;
       begin
+           if Tri.slSousDetails.Count > 0
+           then
+               Longueur_Arbre:= Longueur_Arbre_si_Tri
+           else
+               Longueur_Arbre:= Length('Arbre');
            sPourcentageLongueur_Reset_Tri:= sPourcentage_from_Longueur( Longueur_Reset_Tri);
            sPourcentageLongueur_Arbre    := sPourcentage_from_Pourcentage( PourcentRestant);
       end;
