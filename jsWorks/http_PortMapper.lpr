@@ -25,7 +25,13 @@ program http_PortMapper;
 {$mode objfpc}{$H+}
 
 uses
-  Classes, blcksock, sockets, Synautil, SysUtils,fphttpclient;
+    uuStrings,
+    uEXE_INI,
+    {$ifdef unix}
+      cthreads,
+      cmem, // the c memory manager is on some systems much faster for multi-threading
+    {$endif}
+  Classes, blcksock, sockets, Synautil, SysUtils,fphttpclient,process;
 
 {$ifdef fpc}
  {$mode delphi}
@@ -121,6 +127,51 @@ begin
      Result:= s_Validation_Response = http_getS( URL);
 end;
 
+function httpProgramme_Execute( _NomProgramme: String): String;
+const Taille=1024;
+var
+   NomResultat: String;
+   p: TProcess;
+   procedure Result_from_NomResultat;
+   var
+      NbTests: Integer;
+   begin
+        NbTests:= 0;
+        repeat
+              Result:= String_from_File( NomResultat);
+              if '' <> Result then break;
+              Sleep( 1000);
+        until NbTests > 5;
+        Result:= Trim(Result);
+   end;
+   procedure Result_from_stdout;
+   var
+      Read_Length: Integer;
+   begin
+        SetLength( Result, Taille);
+        Read_Length:= p.Output.Read( Result[1], Taille);
+        SetLength( Result, Read_Length);
+        Result:= Trim(Result);
+   end;
+begin
+     NomResultat:= ChangeFileExt( _NomProgramme, '_URL.txt');
+     DeleteFile( NomResultat);
+     p:= TProcess.Create( nil);
+     try
+        p.Executable:= _NomProgramme;
+        p.Options := [poUsePipes];
+        WriteLn('httpProgramme_Execute: avant TProcess.execute sur '+_NomProgramme);
+        p.Execute;
+        WriteLn('httpProgramme_Execute: aprés TProcess.execute');
+        //Result_from_NomResultat;
+        Result_from_stdout;
+
+        WriteLn('httpProgramme_Execute: Result= '+Result);
+     finally
+            FreeAndNil( p);
+            end;
+end;
+
 procedure AttendConnection(ASocket: TTCPBlockSocket);
 var
    timeout: integer;
@@ -147,6 +198,11 @@ var
    procedure Send_Not_found;
    begin
         ASocket.SendString('HTTP/1.0 404' + CRLF);
+   end;
+   procedure Send_Redirect( _URL: String);
+   begin
+        ASocket.SendString('HTTP/1.1 303 See Other' + CRLF);
+        ASocket.SendString('Location: '+ _URL+ CRLF);
    end;
    procedure Send_Validation;
    begin
@@ -194,6 +250,22 @@ var
         ASocket.SendString('' + CRLF);
         ASocket.SendString(Forward_Result);
    end;
+   function httpLauncher_: Boolean;
+   var
+      Key: String;
+      NomProgramme: String;
+   begin
+        Result:= True;
+
+        Key:= sPort; //pas propre, il faudrait renommer sPort
+        NomProgramme:= EXE_INI.ReadString( 'httpLauncher', Key, '#');
+        WriteLn( 'httpLauncher_: NomProgramme('+Key+')='+NomProgramme);
+        if '#' = NomProgramme            then exit;
+        if not FileExists( NomProgramme) then exit;
+        WriteLn( 'httpLauncher_: OK');
+        Send_Redirect( httpProgramme_Execute( NomProgramme));
+        Result:= False;
+   end;
 begin
      timeout := 120000;
 
@@ -221,14 +293,61 @@ begin
 
           if TryStrToInt( sPort, nPort) then Send_Forward
      else if s_Validation = sPort       then Send_Validation
-     else                                    Send_Not_found;
+     else if httpLauncher_              then Send_Not_found;
+end;
+
+procedure Traite_Socket( _Socket: Tsocket);
+var
+   ConnectionSocket: TTCPBlockSocket;
+begin
+     ConnectionSocket:= TTCPBlockSocket.Create;
+     try
+        ConnectionSocket.Socket:= _Socket;
+        WriteLn('Attending Connection. Error code (0=Success): ', ConnectionSocket.lasterror);
+        AttendConnection(ConnectionSocket);
+        ConnectionSocket.CloseSocket;
+     finally
+            ConnectionSocket.Free;
+            end;
+end;
+
+type
+
+ { TConnectionThread }
+
+ TConnectionThread
+ =
+  class( TThread)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Socket: Tsocket);
+  //Attributs
+  public
+    Socket: Tsocket;
+  //Méthodes surchargées
+  protected
+    procedure Execute; override;
+  end;
+
+{ TConnectionThread }
+
+constructor TConnectionThread.Create( _Socket: Tsocket);
+begin
+     Socket:= _Socket;
+     FreeOnTerminate := True;
+     inherited Create( False);
+end;
+
+procedure TConnectionThread.Execute;
+begin
+     Traite_Socket( Socket);
 end;
 
 var
-   ListenerSocket, ConnectionSocket: TTCPBlockSocket;
+   ListenerSocket: TTCPBlockSocket;
+
 begin
      ListenerSocket  := TTCPBlockSocket.Create;
-     ConnectionSocket:= TTCPBlockSocket.Create;
 
      ListenerSocket.CreateSocket;
      ListenerSocket.setLinger(true,10);
@@ -239,14 +358,10 @@ begin
      repeat
            if not ListenerSocket.canread( 1000) then continue;
 
-           ConnectionSocket.Socket := ListenerSocket.accept;
-           WriteLn('Attending Connection. Error code (0=Success): ', ConnectionSocket.lasterror);
-           AttendConnection(ConnectionSocket);
-           ConnectionSocket.CloseSocket;
+           TConnectionThread.Create( ListenerSocket.accept);
      until false;
 
      ListenerSocket.Free;
-     ConnectionSocket.Free;
 end.
 
 

@@ -23,7 +23,7 @@ program http_jsWorks;
 {Adapted from The Micro Pascal WebServer, http://wiki.freepascal.org/Networking }
 
 {$mode objfpc}{$H+}
-
+{$apptype console}
 uses
   {$IFDEF UNIX}
   cthreads,
@@ -40,8 +40,6 @@ Classes, blcksock, sockets, Synautil,SysUtils, uhAutomatic_ATB, uhAutomatic_AUT;
 {$ifdef fpc}
  {$mode delphi}
 {$endif}
-
-//{$apptype console}
 
 procedure Traite_Test_AUT;
 var
@@ -95,6 +93,26 @@ begin
      else                                                   Traite_Fichier;
 end;
 
+procedure Ecrit_URL;
+var
+   S: String;
+   procedure Version_avec_complement;
+   const Taille=1024;
+   var
+      Complement: Integer;
+   begin
+        Complement:= Taille-Length(S);
+        Write( S+Espaces(Complement));
+   end;
+   procedure Version_brute;
+   begin
+        Write( S);
+   end;
+begin
+     S:= HTTP_Interface.URL;
+     //Version_avec_complement;
+     Version_brute;
+end;
 begin
      poolCategorie.ToutCharger;
      poolState    .ToutCharger;
@@ -120,6 +138,8 @@ begin
 
      //Exécution asynchrone en thread séparé
      HTTP_Interface.Start;
+     //String_to_File( ChangeFileExt( ParamStr(0), '_URL.txt'),HTTP_Interface.URL);
+     Ecrit_URL;
      repeat
            sleep(1000);
      until False;
