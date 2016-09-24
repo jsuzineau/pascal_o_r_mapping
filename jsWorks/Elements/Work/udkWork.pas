@@ -37,6 +37,9 @@ uses
     ucChamp_DateTimePicker, Classes, SysUtils, FileUtil, Forms, Controls,
     Graphics, Dialogs, Buttons,LCLType;
 
+const
+     udkWork_Copy_to_current=0;
+
 type
 
  { TdkWork }
@@ -46,8 +49,10 @@ type
   class(TDockable)
   clBeginning: TChamp_Label;
   clDescription: TChamp_Label;
+  sbCopy_to_current: TSpeedButton;
   sbDetruire: TSpeedButton;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+  procedure sbCopy_to_currentClick(Sender: TObject);
   procedure sbDetruireClick(Sender: TObject);
  public
   procedure SetObjet(const Value: TObject); override;
@@ -87,6 +92,11 @@ end;
 procedure TdkWork.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
      inherited;
+end;
+
+procedure TdkWork.sbCopy_to_currentClick(Sender: TObject);
+begin
+     Envoie_Message( udkWork_Copy_to_current);
 end;
 
 end.

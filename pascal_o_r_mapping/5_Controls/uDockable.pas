@@ -71,6 +71,12 @@ type
     debut  : Integer;
     fin    : Integer;
   end;
+
+ TDockable= class;
+ TDockableScrollBox_Traite_Message= procedure ( _dk: TDockable; _iMessage: Integer) of object;
+
+ { TDockable }
+
  TDockable
  =
   class( TForm)
@@ -145,9 +151,13 @@ type
     Surtitres: array of TDockable_Surtitre;
     procedure Ajoute_Colonne( _C: TControl; _Titre: String = ''; _NomChamp: String = ''; _Total: TDockableScrollbox_Total = dsbt_Aucun);
     procedure Ajoute_Surtitre( _libelle: String; _debut, _fin: Integer);
-  //Messages divers envoyés au niveau du DockableScrollBox
+  //Messages divers envoyés du DockableScrollBox au Dockable
   public
     procedure Traite_Message( Sender: TObject; _iMessage: Integer); virtual; abstract;
+  //Messages divers envoyés du Dockable au DockableScrollBox
+  public
+    DockableScrollBox_Traite_Message: TDockableScrollBox_Traite_Message;
+    procedure Envoie_Message( _iMessage: Integer);
   //Selection
   public
     Selected: Boolean;
@@ -219,6 +229,7 @@ begin
      SetLength( Surtitres, 0);
      DockableScrollbox_Selection:= nil;
      DockableScrollbox_Validation:= nil;
+     DockableScrollBox_Traite_Message:= nil;
 end;
 
 destructor TDockable.Destroy;
@@ -349,6 +360,13 @@ begin
      if Assigned( DockableScrollbox_Nouveau)
      then
          DockableScrollbox_Nouveau( Self);
+end;
+
+procedure TDockable.Envoie_Message(_iMessage: Integer);
+begin
+     if Assigned( DockableScrollBox_Traite_Message)
+     then
+         DockableScrollBox_Traite_Message( Self, _iMessage);
 end;
 
 function TDockable.Traite_KeyDown( var Key: Word; Shift: TShiftState): Boolean;
