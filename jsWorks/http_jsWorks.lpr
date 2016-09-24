@@ -114,13 +114,14 @@ begin
      hAutomatic_AUT.Execute_SQL( 'select * from Work limit 0,100');
 
      HTTP_Interface.Init;
+     WriteLn( 'HTTP_Interface.URL: ', HTTP_Interface.URL);
 
      //Exécution monotâche
-     //HTTP_Interface.Run;
+     HTTP_Interface.Run;
 
      //Exécution asynchrone en thread séparé
-     HTTP_Interface.Start;
-     repeat
-           sleep(1000);
-     until False;
+     //HTTP_Interface.Start;
+     //repeat
+     //      sleep(1000);
+     //until False;
 end.

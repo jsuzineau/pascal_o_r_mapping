@@ -256,9 +256,19 @@ type
   //Gestion du filtre
   public
     Filtre: ThFiltre_Ancetre;
-  //Messages divers envoyés au niveau du DockableScrollBox
+  //Messages divers envoyés du DockableScrollBox au Dockable
   public
     procedure Envoie_Message( _iMessage: Integer);
+  //Transmission vers la fiche d'un évènement envoyé  par un dockable
+  protected
+    FOnTraite_Message: TDockableScrollBox_Traite_Message;
+    //appel de FOnTraite_Message
+    procedure Do_OnTraite_Message( _dk: TDockable; _iMessage: Integer);
+    //appelée par le Dockable
+    procedure DockableScrollBox_Traite_Message( _dk: TDockable; _iMessage: Integer);
+  published
+    property OnTraite_Message: TDockableScrollBox_Traite_Message read FOnTraite_Message write FOnTraite_Message;
+
   end;
 
 procedure Register;
@@ -871,6 +881,7 @@ begin
        dk.DockableScrollbox_Precedent  := DockableScrollbox_Precedent;
        dk.DockableScrollbox_Suivant    := DockableScrollbox_Suivant  ;
        dk.DockableScrollbox_Nouveau    := DockableScrollbox_Nouveau  ;
+       dk.DockableScrollBox_Traite_Message:= DockableScrollBox_Traite_Message;
 
        if Zebrage
        then
@@ -1264,6 +1275,18 @@ begin
        then
            dk.Traite_Message( Self, _iMessage);
        end;
+end;
+
+procedure TDockableScrollbox.Do_OnTraite_Message(_dk: TDockable; _iMessage: Integer);
+begin
+     if Assigned( OnTraite_Message)
+     then
+         OnTraite_Message( _dk, _iMessage);
+end;
+
+procedure TDockableScrollbox.DockableScrollBox_Traite_Message( _dk: TDockable; _iMessage: Integer);
+begin
+     Do_OnTraite_Message( _dk, _iMessage);
 end;
 
 procedure TDockableScrollbox.s_Scroll( Sender: TObject;

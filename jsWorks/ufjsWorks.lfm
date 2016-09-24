@@ -1,14 +1,14 @@
 object fjsWorks: TfjsWorks
-  Left = 166
+  Left = 507
   Height = 527
-  Top = 72
+  Top = 107
   Width = 959
   Caption = 'jsWorks'
   ClientHeight = 527
   ClientWidth = 959
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '1.6.0.2'
+  LCLVersion = '1.6.0.4'
   object Panel1: TPanel
     Left = 0
     Height = 527
@@ -51,37 +51,37 @@ object fjsWorks: TfjsWorks
           TabOrder = 0
           object clkcbCategorie: TChamp_Lookup_ComboBox
             Left = 3
-            Height = 23
+            Height = 31
             Top = 18
             Width = 233
-            ItemHeight = 15
+            ItemHeight = 0
             Style = csDropDownList
             TabOrder = 0
             Field = 'Categorie'
           end
           object clkcbState: TChamp_Lookup_ComboBox
             Left = 254
-            Height = 23
+            Height = 31
             Top = 19
             Width = 235
-            ItemHeight = 15
+            ItemHeight = 0
             Style = csDropDownList
             TabOrder = 1
             Field = 'State'
           end
           object Label7: TLabel
             Left = 2
-            Height = 15
+            Height = 17
             Top = 2
-            Width = 51
+            Width = 67
             Caption = 'Categorie'
             ParentColor = False
           end
           object Label8: TLabel
             Left = 254
-            Height = 15
+            Height = 17
             Top = 2
-            Width = 26
+            Width = 36
             Caption = 'State'
             ParentColor = False
           end
@@ -120,12 +120,12 @@ object fjsWorks: TfjsWorks
           Width = 505
           Align = alBottom
           Caption = 'Solution'
-          ClientHeight = 85
+          ClientHeight = 86
           ClientWidth = 501
           TabOrder = 1
           object cmSolution: TChamp_Memo
             Left = 0
-            Height = 85
+            Height = 86
             Top = 0
             Width = 501
             Align = alClient
@@ -143,12 +143,12 @@ object fjsWorks: TfjsWorks
           Width = 505
           Align = alClient
           Caption = 'Description'
-          ClientHeight = 94
+          ClientHeight = 95
           ClientWidth = 501
           TabOrder = 2
           object cmDevelopment_Description: TChamp_Memo
             Left = 0
-            Height = 94
+            Height = 95
             Top = 0
             Width = 501
             Align = alClient
@@ -240,9 +240,9 @@ object fjsWorks: TfjsWorks
           TabOrder = 0
           object Label3: TLabel
             Left = 5
-            Height = 15
+            Height = 17
             Top = 16
-            Width = 44
+            Width = 59
             Caption = 'Sessions'
             ParentColor = False
           end
@@ -309,6 +309,7 @@ object fjsWorks: TfjsWorks
           Zebrage2 = 16777192
           OnSelect = dsbWorkSelect
           _LectureSeule = False
+          OnTraite_Message = dsbWorkTraite_Message
         end
       end
       object Splitter4: TSplitter
@@ -342,23 +343,23 @@ object fjsWorks: TfjsWorks
           TabOrder = 0
           object Label4: TLabel
             Left = 3
-            Height = 15
+            Height = 17
             Top = 27
-            Width = 32
+            Width = 43
             Caption = 'Début'
             ParentColor = False
           end
           object Label5: TLabel
             Left = 3
-            Height = 15
+            Height = 17
             Top = 54
-            Width = 16
+            Width = 21
             Caption = 'Fin'
             ParentColor = False
           end
           object Label6: TLabel
             Left = 1
-            Height = 15
+            Height = 17
             Top = 1
             Width = 503
             Align = alTop
@@ -367,7 +368,7 @@ object fjsWorks: TfjsWorks
             ParentColor = False
           end
           object bStart: TButton
-            Left = 26
+            Left = 2
             Height = 25
             Top = 85
             Width = 75
@@ -386,7 +387,7 @@ object fjsWorks: TfjsWorks
           end
           object ceBeginning: TChamp_Edit
             Left = 49
-            Height = 23
+            Height = 27
             Top = 23
             Width = 200
             TabOrder = 2
@@ -395,7 +396,7 @@ object fjsWorks: TfjsWorks
           end
           object ceEnd: TChamp_Edit
             Left = 49
-            Height = 23
+            Height = 27
             Top = 50
             Width = 200
             TabOrder = 3
@@ -404,12 +405,12 @@ object fjsWorks: TfjsWorks
           end
           object dsbWork_Tag: TDockableScrollbox
             Left = 300
-            Height = 103
-            Top = 16
+            Height = 101
+            Top = 18
             Width = 114
             Align = alRight
             Caption = 'dsbWork_Tag'
-            ClientHeight = 103
+            ClientHeight = 101
             ClientWidth = 114
             TabOrder = 4
             HauteurLigne = 17
@@ -422,12 +423,12 @@ object fjsWorks: TfjsWorks
           end
           object dsbWork_Tag_from_Description: TDockableScrollbox
             Left = 414
-            Height = 103
-            Top = 16
+            Height = 101
+            Top = 18
             Width = 90
             Align = alRight
             Caption = 'dsbWork_Tag_from_Description'
-            ClientHeight = 103
+            ClientHeight = 101
             ClientWidth = 90
             TabOrder = 5
             HauteurLigne = 17
@@ -473,6 +474,15 @@ object fjsWorks: TfjsWorks
             Caption = 'TULEAP'
             OnClick = bTULEAPClick
             TabOrder = 9
+          end
+          object bStopAndStart: TButton
+            Left = 80
+            Height = 25
+            Top = 84
+            Width = 86
+            Caption = 'Redémarrer'
+            OnClick = bStopAndStartClick
+            TabOrder = 10
           end
         end
         object cmWork_Description: TChamp_Memo
@@ -573,13 +583,5 @@ object fjsWorks: TfjsWorks
     OnTimer = tTimer
     left = 44
     top = 212
-  end
-  object SQLite3Connection1: TSQLite3Connection
-    Connected = False
-    LoginPrompt = False
-    KeepConnection = False
-    Options = []
-    left = 367
-    top = 92
   end
 end

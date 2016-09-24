@@ -25,7 +25,9 @@ unit ufjsWorks;
 interface
 
 uses
+    uChamp,
     uChamps,
+    uuStrings,
     uBatpro_StringList,
 
     udmDatabase,
@@ -67,7 +69,7 @@ uses
 
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   ExtCtrls, Buttons, ucChampsGrid, ucDockableScrollbox,
-  ucChamp_DateTimePicker, ucChamp_Edit, ucChamp_Memo, ucChamp_Lookup_ComboBox;
+  ucChamp_DateTimePicker, ucChamp_Edit, ucChamp_Memo, ucChamp_Lookup_ComboBox, uDockable;
 
 type
 
@@ -91,6 +93,7 @@ type
    bDescription_to_Tag: TButton;
    bAutomatic_VST: TButton;
    bNEO4J: TButton;
+   bStopAndStart: TButton;
    bVST: TButton;
    ceBeginning: TChamp_Edit;
    ceEnd: TChamp_Edit;
@@ -129,7 +132,6 @@ type
    Splitter2: TSplitter;
    Splitter4: TSplitter;
    Splitter6: TSplitter;
-   SQLite3Connection1: TSQLite3Connection;
    t: TTimer;
    procedure bAutomatic_VSTClick(Sender: TObject);
    procedure bBugClick(Sender: TObject);
@@ -140,6 +142,7 @@ type
    procedure bProjectClick(Sender: TObject);
    procedure bProject_to_TagClick(Sender: TObject);
    procedure bStartClick(Sender: TObject);
+   procedure bStopAndStartClick(Sender: TObject);
    procedure bStopClick(Sender: TObject);
    procedure bTagClick(Sender: TObject);
    procedure bTempsClick(Sender: TObject);
@@ -149,6 +152,7 @@ type
    procedure bVSTClick(Sender: TObject);
    procedure dsbWorkSelect(Sender: TObject);
    procedure dsbDevelopmentSelect(Sender: TObject);
+   procedure dsbWorkTraite_Message(_dk: TDockable; _iMessage: Integer);
    procedure dsbWork_TagSuppression(Sender: TObject);
    procedure dsbWork_Tag_from_DescriptionSuppression(Sender: TObject);
    procedure FormShow(Sender: TObject);
@@ -278,6 +282,19 @@ begin
      _from_Work;
 end;
 
+procedure TfjsWorks.bStopAndStartClick(Sender: TObject);
+var
+   bl: TblWork;
+begin
+     if Assigned( blWork)
+     then
+         blWork.Stop;
+
+     bl:= poolWork.Start( 0);
+     _from_pool;
+     dsbWork.Goto_bl( bl);
+end;
+
 procedure TfjsWorks.bTagClick(Sender: TObject);
 begin
      fTag.Show;
@@ -366,6 +383,24 @@ procedure TfjsWorks.dsbDevelopmentSelect(Sender: TObject);
 begin
      dsbDevelopment.Get_bl( blDevelopment);
      _from_Development;
+end;
+
+procedure TfjsWorks.dsbWorkTraite_Message( _dk: TDockable; _iMessage: Integer);
+var
+   dk: TdkWork;
+   dk_bl: TblWork;
+   cDescription: TChamp;
+begin
+     if blWork = nil                        then exit;
+     if Affecte_( dk, TdkWork, _dk)         then exit;
+     if Affecte_( dk_bl, TblWork, dk.Objet) then exit;
+
+     if udkWork_Copy_to_current <> _iMessage then exit;
+     Formate_Liste( blWork.Description, #13#10, dk_bl.Description);
+     cDescription:= blWork.Champs.Champ['Description'];
+     if nil = cDescription then exit;
+     cDescription.Publie_Modifications;
+
 end;
 
 procedure TfjsWorks.dsbWork_TagSuppression(Sender: TObject);
