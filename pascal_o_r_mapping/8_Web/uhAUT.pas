@@ -41,7 +41,7 @@ uses
     uHTTP_Interface,
     uLog,
 
-  Classes, SysUtils, Controls;
+  Classes, SysUtils, Controls,strutils;
 
 type
 
@@ -238,9 +238,6 @@ end;
 
 function ThAUT.Definitions_JSON: String;
    function Traite_Liste( _sl: TBatpro_StringList): String;
-   const
-        Longueur_Arbre_si_Tri = 25;
-        Longueur_Reset_Tri=  9;
    var
       bl: TBatpro_Ligne;
       I: TIterateur_Champ;
@@ -252,7 +249,6 @@ function ThAUT.Definitions_JSON: String;
       Somme_Longueur: Integer;
       Longueur_Arbre: Integer;
       sPourcentageLongueur_Arbre: String;
-      sPourcentageLongueur_Reset_Tri: String;
       PourcentRestant: double;
       procedure Calcule_ValeurFiltreChamp;
       var
@@ -297,17 +293,13 @@ function ThAUT.Definitions_JSON: String;
       end;
       procedure Traite_Longueurs_fixes;
       begin
-           if Tri.slSousDetails.Count > 0
-           then
-               Longueur_Arbre:= Longueur_Arbre_si_Tri
-           else
-               Longueur_Arbre:= Length('Arbre');
-           sPourcentageLongueur_Reset_Tri:= sPourcentage_from_Longueur( Longueur_Reset_Tri);
            sPourcentageLongueur_Arbre    := sPourcentage_from_Pourcentage( PourcentRestant);
       end;
       procedure Calcul_Somme_Longueur;
+      const
+           Ajustement=1;
       begin
-           Somme_Longueur:= Longueur_Arbre+Longueur_Reset_Tri;
+           Somme_Longueur:= Longueur_Arbre;
            I:= bl.Champs.sl.Iterateur;
            while I.Continuer
            do
@@ -318,18 +310,20 @@ function ThAUT.Definitions_JSON: String;
 
              Inc( Somme_Longueur, cd.Longueur);
              end;
+           //ajustement empirique
+           Inc(Somme_Longueur,Ajustement+Tri.NbChampsTri*1);
       end;
       procedure Formate_Resultat;
       var
          S: String;
       begin
            S:= '';
-           Formate_Liste( S, ',', '"PourcentageLongueur_Arbre":'    + sPourcentageLongueur_Arbre    +'' );
-           Formate_Liste( S, ',', '"PourcentageLongueur_Reset_Tri":'+ sPourcentageLongueur_Reset_Tri+'' );
-           Formate_Liste( S, ',', '"Longueur_Arbre":'               + IntToStr(Longueur_Arbre      )+'' );
-           Formate_Liste( S, ',', '"Longueur_Reset_Tri":'           + IntToStr(Longueur_Reset_Tri  )+'' );
-           Formate_Liste( S, ',', '"Somme_Longueur":'               + IntToStr(Somme_Longueur)      +'' );
-           Formate_Liste( S, ',', '"Champs":'                       + '[' + Result + ']'            +'' );
+
+           Formate_Liste( S, ',', '"Tri_slSousDetails_Count":'  + IntToStr( Tri.slSousDetails.Count)+'' );
+           Formate_Liste( S, ',', '"PourcentageLongueur_Arbre":'+ sPourcentageLongueur_Arbre    +'' );
+           Formate_Liste( S, ',', '"Longueur_Arbre":'           + IntToStr(Longueur_Arbre      )+'' );
+           Formate_Liste( S, ',', '"Somme_Longueur":'           + IntToStr(Somme_Longueur)      +'' );
+           Formate_Liste( S, ',', '"Champs":'                   + '[' + Result + ']'            +'' );
            S:= '{' + S + '}';
            Result:= S;
       end;
@@ -340,6 +334,7 @@ function ThAUT.Definitions_JSON: String;
            if nil = bl then exit;
 
            PourcentRestant:= 100;
+           Longueur_Arbre:= Tri.Longueur_Arbre( bl.Champs);
            Calcul_Somme_Longueur;
 
            I:= bl.Champs.sl.Iterateur;
@@ -391,20 +386,27 @@ end;
 
 function ThAUT.Tri_Click( _Reset: Boolean; _NomChamp: String): String;
 var
-   NomChamp: String;
    NewChampTri: Integer;
+   procedure Traite_NomChamp;
+   begin
+        case Tri.ChampTri[ _NomChamp]
+        of
+          -1:  NewChampTri:=  0;
+           0:  NewChampTri:= +1;
+          +1:  NewChampTri:= -1;
+          else NewChampTri:=  0;
+          end;
+        Tri.ChampTri[ _NomChamp]:= NewChampTri;
+   end;
 begin
-     if _Reset then Tri.Reset_ChampsTri;
+     if _Reset
+     then
+         Tri.Reset_ChampsTri;
 
-     NomChamp:= _NomChamp;
-     case Tri.ChampTri[ NomChamp]
-     of
-       -1:  NewChampTri:=  0;
-        0:  NewChampTri:= +1;
-       +1:  NewChampTri:= -1;
-       else NewChampTri:=  0;
-       end;
-     Tri.ChampTri[ NomChamp]:= NewChampTri;
+     if '' <> _NomChamp
+     then
+         Traite_NomChamp;
+
      Tri.Execute_et_Cree_SousDetails( sl);
 
      Result:= JSON;
@@ -426,7 +428,6 @@ var
   procedure Traite_Racine;
   var
      NomFichier: String;
-     Extension: String;
      S: String;
   begin
        NomFichier:= Repertoire+SetDirSeparators( 'index.html');

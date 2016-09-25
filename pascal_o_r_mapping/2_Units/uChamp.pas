@@ -176,8 +176,8 @@ type
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: TChamp);
-    function  not_Suivant( var _Resultat: TChamp): Boolean;
+    procedure Suivant( out _Resultat: TChamp);
+    function  not_Suivant( out _Resultat: TChamp): Boolean;
   end;
 
  TslChamp
@@ -231,12 +231,12 @@ end;
 
 { TIterateur_Champ }
 
-function TIterateur_Champ.not_Suivant( var _Resultat: TChamp): Boolean;
+function TIterateur_Champ.not_Suivant( out _Resultat: TChamp): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_Champ.Suivant( var _Resultat: TChamp);
+procedure TIterateur_Champ.Suivant( out _Resultat: TChamp);
 begin
      Suivant_interne( _Resultat);
 end;

@@ -15,7 +15,7 @@
     <VersionInfo>
       <StringTable ProductVersion=""/>
     </VersionInfo>
-    <BuildModes Count="3">
+    <BuildModes Count="2">
       <Item1 Name="Windows Debug" Default="True"/>
       <Item2 Name="Windows Release">
         <CompilerOptions>
@@ -48,41 +48,6 @@
           </Linking>
         </CompilerOptions>
       </Item2>
-      <Item3 Name="Linux Debug">
-        <CompilerOptions>
-          <Version Value="11"/>
-          <SearchPaths>
-            <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;Elements/Work;../pascal_o_r_mapping/8_Web;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint"/>
-          </SearchPaths>
-          <Parsing>
-            <SyntaxOptions>
-              <SyntaxMode Value="Delphi"/>
-              <IncludeAssertionCode Value="True"/>
-            </SyntaxOptions>
-          </Parsing>
-          <CodeGeneration>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-              <StackChecks Value="True"/>
-            </Checks>
-            <TargetOS Value="linux"/>
-          </CodeGeneration>
-          <Linking>
-            <Debugging>
-              <DebugInfoType Value="dsDwarf2Set"/>
-              <UseExternalDbgSyms Value="True"/>
-            </Debugging>
-            <Options>
-              <Win32>
-                <GraphicApplication Value="True"/>
-              </Win32>
-            </Options>
-          </Linking>
-        </CompilerOptions>
-      </Item3>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -90,6 +55,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
+        <CommandLineParams Value="1"/>
       </local>
     </RunParams>
     <RequiredPackages Count="2">

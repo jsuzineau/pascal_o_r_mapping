@@ -5,7 +5,7 @@ unit uTri_Ancetre;
         and partly as employee : http://www.batpro.com                          |
     Contact: gilles.doutre@batpro.com                                           |
                                                                                 |
-    Copyright 2014 Jean SUZINEAU - MARS42                                       |
+    Copyright 2014-2016 Jean SUZINEAU - MARS42                                       |
     Copyright 2014 Cabinet Gilles DOUTRE - BATPRO                               |
                                                                                 |
     This program is free software: you can redistribute it and/or modify        |
@@ -29,11 +29,18 @@ uses
     uClean,
     uBatpro_StringList,
     u_sys_,
+    uLog,
     uPublieur,
+    uChampDefinition,
+    uChampDefinitions,
     uChamp,
-    SysUtils, Classes, DB;
+    uChamps,
+  SysUtils, Classes, DB,math;
 
 type
+
+ { TTri_Ancetre }
+
  TTri_Ancetre
  =
   class
@@ -55,6 +62,7 @@ type
     function LibelleTri( Court: Boolean = True): String;
     function LibelleChampTri( NomChamp: String; Court: Boolean = True): String;
     function OrderBy: String;
+    function NbChampsTri: Integer;
   //Sous détails
   public
     slSousDetails: TslObject;
@@ -63,6 +71,9 @@ type
   //Observation des changements
   public
     pChange: TPublieur;
+  //Longueur maximale de la chaine d'arbre pour affichage HTML
+  public
+    function Longueur_Arbre( _Champs: TChamps): Integer;
   end;
 
 
@@ -191,6 +202,62 @@ begin
              else begin end;
              end;
            end;
+       end;
+end;
+
+function TTri_Ancetre.NbChampsTri: Integer;
+begin
+     Result:= slChampsTri.Count;
+end;
+
+function TTri_Ancetre.Longueur_Arbre( _Champs: TChamps): Integer;
+const
+     Indentation= 4;
+var
+   I: Integer;
+   NomChamp: String;
+   c: TChamp;
+   d: TChampDefinition;
+   Result_I: Integer;
+   function Longueur_Indentation: Integer;
+   begin
+        Result:= I*Indentation;
+        Log.PrintLn( ClassName+'.Longueur_Arbre, Longueur_Indentation= '+IntToStr( Result));
+   end;
+   function Longueur_Libelle: Integer;
+   var
+      S: String;
+      L: Integer;
+   begin
+        S:= d.Libelle+': ';
+        L:= d.Longueur;
+        Result:= Length( S) + L;
+        Log.PrintLn( ClassName+'.Longueur_Arbre, Longueur_Libelle= Length( '+S+')+'+IntToStr( L)+'= '+IntToStr( Result));
+   end;
+begin
+     Result:= Length('Reset Tri');
+     Log.PrintLn( ClassName+'.Longueur_Arbre, Initial, Result= '+IntToStr( Result));
+
+     if slSousDetails.Count = 0 then exit;
+
+     for I:= 0 to slChampsTri.Count - 1
+     do
+       begin
+       NomChamp:= slChampsTri[I];
+       if NomChamp = sys_Vide then continue;
+
+       c:= _Champs.Champ_from_Field( NomChamp);
+       if nil = c then continue;
+
+       d:= c.Definition;
+       if nil = d then continue;
+
+       Log.PrintLn( ClassName+'.Longueur_Arbre, niveau '+IntToStr( I));
+
+       Result_I:= Longueur_Indentation+Longueur_Libelle;
+       Log.PrintLn( ClassName+'.Longueur_Arbre, Result_I= '+IntToStr( Result_I));
+
+       Result:= Max( Result, Result_I);
        end;
 end;
 

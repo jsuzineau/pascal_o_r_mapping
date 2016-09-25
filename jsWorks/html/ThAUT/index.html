@@ -140,14 +140,14 @@
        <br>
        <label for="eSQL"> Requête SQL : </label><input type ='text'  id="eSQL"  ng-model="SQL" ng-keydown="eSQLKeyDown($event)" size="100">
        <br>
-       LargeurTable:{{LargeurTable}}
-       <br>
 <!--
 <table ng-style="{width:LargeurTable,'max-width':'10000px'}"><tr><td>
 -->
 <table style="width:{{LargeurTable}};max-width:10000px;"><tr><td>
 <div>
-  <div class="text-left" style="float:left;width:{{Definitions.Longueur_Arbre+'em'}};" >Arbre</div>
+  <div class="text-left" ng-show="Definitions.Tri_slSousDetails_Count" style="float:left;width:{{Definitions.Longueur_Arbre+'em'}};" >
+     <button type="button" ng-click="Tri_Click('0')">Reset Tri</button>
+  </div>
   <div ng-repeat="Definition in Definitions.Champs">
     <div class="text-left" style="float:left;width:{{Definition.Longueur+'em'}}" >
       <table color="lime"; >
@@ -166,11 +166,6 @@
       </table>
     </div>
   </div>
-  <div class="text-left" style="position=relative;float:left;width:{{Definitions.Longueur_Reset_Tri+'em'}}">
-    <table><tr><td>
-      <span ng-click="Tri_Click('0')">Reset Tri </span>
-    </td></tr></table>
-  </div>
 </div>
 
        <br>
@@ -180,7 +175,7 @@
        <br>
        <script type="text/ng-template" id="LigneChamps">
           <div ui-tree-handle>
-            <div class="text-left" style="float:left;width:{{Definitions.Longueur_Arbre+'em'}}">
+            <div class="text-left" ng-show="Definitions.Tri_slSousDetails_Count" style="float:left;width:{{Definitions.Longueur_Arbre+'em'}}">
               <table><tr><td>
                 <a ng-class="{'btn': node.hasOwnProperty('Nom'), 'btn-success': node.hasOwnProperty('Nom')}" data-nodrag ng-click="toggle(this)">
                    <span class="glyphicon"

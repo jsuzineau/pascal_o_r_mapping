@@ -24,6 +24,7 @@ program http_jsWorks;
 
 {$mode objfpc}{$H+}
 {$apptype console}
+
 uses
   {$IFDEF UNIX}
   cthreads,
@@ -35,11 +36,7 @@ uses
   uContexteClasse, ujpNom_de_la_classe, ujpSQL_CREATE_TABLE,
   ujpPHP_Doctrine_Has_Column, ujpCSharp_Champs_persistants, ujpPascal_Affecte,
   uJoinPoint, uPatternHandler, uhATB, uhAUT, uLog, Interfaces, // this includes the LCL widgetset
-Classes, blcksock, sockets, Synautil,SysUtils, uhAutomatic_ATB, uhAutomatic_AUT;
-
-{$ifdef fpc}
- {$mode delphi}
-{$endif}
+Classes, blcksock, sockets, Synautil,SysUtils,LCLIntf, uhAutomatic_ATB, uhAutomatic_AUT;
 
 procedure Traite_Test_AUT;
 var
@@ -48,7 +45,6 @@ var
   procedure Traite_Racine;
   var
      NomFichier: String;
-     Extension: String;
      S: String;
   begin
        NomFichier:= Repertoire+SetDirSeparators( 'index.html');
@@ -140,6 +136,7 @@ begin
      HTTP_Interface.Start;
      //String_to_File( ChangeFileExt( ParamStr(0), '_URL.txt'),HTTP_Interface.URL);
      Ecrit_URL;
+     if ParamCount > 0 then OpenURL( HTTP_Interface.URL);
      repeat
            sleep(1000);
      until False;
