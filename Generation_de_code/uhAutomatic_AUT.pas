@@ -118,13 +118,16 @@ end;
 procedure ThAutomatic_AUT.Traite_HTTP;
    procedure Traite_Databases;
    var
+      sDatabase: String;
       slDatabases: TBatpro_StringList;
    begin
         if not dmDatabase.Ouvert then dmDatabase.Ouvre_db;
 
-        slDatabases:= TBatpro_StringList.Create( dmDatabase.sqlc.DatabaseName);
+        sDatabase:= dmDatabase.sqlc.DatabaseName;
+        slDatabases:= TBatpro_StringList.Create( sDatabase);
         try
            dmDatabase.Fill_with_databases( slDatabases);
+           if 0 = slDatabases.Count then slDatabases.Add( sDatabase);
            HTTP_Interface.Send_JSON( slDatabases.JSON);
         finally
                Free_nil( slDatabases);

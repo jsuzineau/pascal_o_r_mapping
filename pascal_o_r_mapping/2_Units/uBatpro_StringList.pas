@@ -28,7 +28,7 @@ interface
 uses
     JCLDebug,
     uClean,
-    SysUtils, Classes;
+    SysUtils, Classes,fpjson;
 
 type
  EBatpro_StringList_Iterateur_running
@@ -663,7 +663,7 @@ begin
        O:= Objects[I];
             if notTraite_JSONProvider
        then if notTraite_Batpro_StringList
-       then    sJSON:= '"'+Strings[ I]+'"';
+       then    sJSON:= '"'+StringToJSONString(Strings[ I])+'"';
 
        if iJSON > 0
        then
@@ -674,7 +674,7 @@ begin
      Result:= Result+']';
      //if Nom <> ''
      //then
-         Result:= '{"Nom": "'+Nom+'","Elements":'+Result+'}';
+         Result:= '{"Nom": "'+StringToJSONString(Nom)+'","Elements":'+Result+'}';
 end;
 
 (*

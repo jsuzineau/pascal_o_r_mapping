@@ -41,7 +41,7 @@ uses
     uHTTP_Interface,
     uLog,
 
-  Classes, SysUtils, Controls,strutils;
+  Classes, SysUtils, Controls,strutils,fpjson;
 
 type
 
@@ -264,7 +264,11 @@ function ThAUT.Definitions_JSON: String;
       function sPourcentage_from_Pourcentage( _Pourcentage: double): String;
       begin
            Str( _Pourcentage:5:2,Result);
-           Result:= '"'+Trim( Result)+'%'+'"';
+           Result
+           :=
+              '"'
+             +StringToJSONString(Trim( Result)+'%')
+             +'"';
       end;
       function sPourcentage_from_Longueur( _Longueur: Integer): String;
       var
@@ -282,11 +286,11 @@ function ThAUT.Definitions_JSON: String;
            sPourcentage_Longueur:= sPourcentage_from_Longueur( cd.Longueur);
 
            S:= '';
-           Formate_Liste( S, ',', '"NomChamp":"'          + cd.Nom               +'"');
-           Formate_Liste( S, ',', '"LibelleChamp":"'      + cd.Libelle + sTri    +'"');
-           Formate_Liste( S, ',', '"ValeurFiltreChamp":"' + ValeurFiltreChamp    +'"');
-           Formate_Liste( S, ',', '"PourcentageLongueur":'+ sPourcentage_Longueur+'' );
-           Formate_Liste( S, ',', '"Longueur":'           + IntToStr(cd.Longueur)+'' );
+           Formate_Liste( S, ',', '"NomChamp":"'          + StringToJSONString(cd.Nom               )+'"');
+           Formate_Liste( S, ',', '"LibelleChamp":"'      + StringToJSONString(cd.Libelle + sTri    )+'"');
+           Formate_Liste( S, ',', '"ValeurFiltreChamp":"' + StringToJSONString(ValeurFiltreChamp    )+'"');
+           Formate_Liste( S, ',', '"PourcentageLongueur":'+ sPourcentage_Longueur                        );
+           Formate_Liste( S, ',', '"Longueur":'           + IntToStr(cd.Longueur)                        );
            S:= '{' + S + '}';
 
            Formate_Liste( Result, ',', S);
@@ -320,10 +324,10 @@ function ThAUT.Definitions_JSON: String;
            S:= '';
 
            Formate_Liste( S, ',', '"Tri_slSousDetails_Count":'  + IntToStr( Tri.slSousDetails.Count)+'' );
-           Formate_Liste( S, ',', '"PourcentageLongueur_Arbre":'+ sPourcentageLongueur_Arbre    +'' );
-           Formate_Liste( S, ',', '"Longueur_Arbre":'           + IntToStr(Longueur_Arbre      )+'' );
-           Formate_Liste( S, ',', '"Somme_Longueur":'           + IntToStr(Somme_Longueur)      +'' );
-           Formate_Liste( S, ',', '"Champs":'                   + '[' + Result + ']'            +'' );
+           Formate_Liste( S, ',', '"PourcentageLongueur_Arbre":'+ sPourcentageLongueur_Arbre        +'' );
+           Formate_Liste( S, ',', '"Longueur_Arbre":'           + IntToStr(Longueur_Arbre      )    +'' );
+           Formate_Liste( S, ',', '"Somme_Longueur":'           + IntToStr(Somme_Longueur)          +'' );
+           Formate_Liste( S, ',', '"Champs":'                   + '[' + Result + ']'                +'' );
            S:= '{' + S + '}';
            Result:= S;
       end;
