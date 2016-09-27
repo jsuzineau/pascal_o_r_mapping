@@ -43,3 +43,4 @@ callgrind.out.*
 /jsWorks/*.dbg
 /jsWorks/http_jsWorks.exe
 /jsWorks/http_PortMapper.exe
+/jsWorks/jsWorks.exe

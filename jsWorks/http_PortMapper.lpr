@@ -90,7 +90,26 @@ end;
 function http_get( _URL: String; out _Content_Type, _Server: String; _Body: String= ''): String;
 var
    c: TFPHttpClient;
+   procedure Parse_headers;
+   var
+      I: Integer;
+      S: String;
+      Key, Value: String;
+   begin
+        _Content_Type:= '';
+        _Server      := '';
+        for I:= 0 to c.ResponseHeaders.Count-1
+        do
+          begin
+          S:= c.ResponseHeaders.Strings[I];
+          Key:= StrToK(':', S); Key:= UpperCase( Key);
+          Value:= S;
+               if 'CONTENT-TYPE'= Key then _Content_Type:= Value
+          else if 'SERVER'      = Key then _Server      := Value;
+          end;
+   end;
 begin
+     //Writeln( 'http_get( '+_URL+')= ');
      try
         c:= TFPHttpClient.Create( nil);
         try
@@ -99,8 +118,13 @@ begin
                Result:= c.Get( _URL)
            else
                Result:= c.FormPost( _URL, _Body);
-           _Content_Type:= c.ResponseHeaders.Values[ 'Content-type'];
-           _Server      := c.ResponseHeaders.Values[ 'Server'      ];
+           Parse_headers;
+           //WriteLn('####Headers#####');
+           //WriteLn(c.ResponseHeaders.Text);
+
+           //WriteLn('#########');
+           //WriteLn('_Content_Type='+_Content_Type);
+           //WriteLn('_Server='      +_Server      );
         finally
                FreeAndNil( c);
                end;
@@ -113,10 +137,9 @@ begin
              end;
            end;
 
-     Writeln( 'http_get( '+_URL+')= ');
-     WriteLn('################');
-     Writeln( Result);
-     WriteLn('################')
+     //WriteLn('###Result#####');
+     //Writeln( Result);
+     //WriteLn('################')
 end;
 
 function http_Port_Valide( _Port: String): Boolean;
