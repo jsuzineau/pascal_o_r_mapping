@@ -46,3 +46,6 @@ DataBase=/home/jean/pascal_o_r_mapping/pascal_o_r_mapping/base_SQLite3/jsWorks.s
 
 [SQLite3]
 DataBase=/home/jean/pascal_o_r_mapping/jsWorks.sqlite
+
+[httpLauncher]
+jsWorks=C:\_freepascal\pascal_o_r_mapping\jsWorks\http_jsWorks.exe
