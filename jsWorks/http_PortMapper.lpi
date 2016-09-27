@@ -110,9 +110,6 @@
     </Linking>
     <Other>
       <CustomOptions Value="-duForms_console"/>
-      <OtherDefines Count="1">
-        <Define0 Value="uForms_console"/>
-      </OtherDefines>
     </Other>
   </CompilerOptions>
   <Debugging>

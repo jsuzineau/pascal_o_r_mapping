@@ -197,7 +197,7 @@ begin
         WriteLn( T, FormatDateTime('dddddd","tt', Now)+' ###########################');
         WriteLn( T, S);
         {$IFDEF LINUX}
-        WriteLn( UTF8ToConsole( S));
+        //WriteLn( UTF8ToConsole( S));
         {$ENDIF}
 
         Flush( T);
@@ -215,7 +215,7 @@ begin
 
         WriteLn( T, '>',S);
         {$IFDEF LINUX}
-        WriteLn( UTF8ToConsole(S));
+        //WriteLn( UTF8ToConsole(S));
         {$ENDIF}
 
         Flush( T);

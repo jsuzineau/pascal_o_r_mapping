@@ -31,7 +31,6 @@ sqlite3.dll
 /fpcunit/test_long_file_name/test_long_file_name.exe
 callgrind.out.*
 /jsWorks/etc/_Configuration.ini
-/jsWorks/jsWorks
 /fpcunit/hDessinnateur_web/fu_hDessinnateur_web.exe
 *.a
 *.rst
@@ -42,5 +41,8 @@ callgrind.out.*
 /jsWorks/*.obj
 /jsWorks/*.dbg
 /jsWorks/http_jsWorks.exe
+/jsWorks/http_jsWorks
 /jsWorks/http_PortMapper.exe
+/jsWorks/http_PortMapper
 /jsWorks/jsWorks.exe
+/jsWorks/jsWorks
