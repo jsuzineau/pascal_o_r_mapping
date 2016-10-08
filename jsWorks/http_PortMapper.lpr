@@ -25,19 +25,17 @@ program http_PortMapper;
 {$mode objfpc}{$H+}
 
 uses
-    uuStrings,
-    uEXE_INI,
     {$ifdef unix}
       cthreads,
       cmem, // the c memory manager is on some systems much faster for multi-threading
     {$endif}
+    uuStrings,
+    uEXE_INI,
   Classes, blcksock, sockets, Synautil, SysUtils,fphttpclient,process;
 
-{$ifdef fpc}
- {$mode delphi}
-{$endif}
-
+{$ifdef windows}
 {$apptype console}
+{$endif}
 
 const
      s_Validation         ='Validation';
@@ -200,8 +198,6 @@ var
    timeout: integer;
    s: string;
    method, uri, protocol: string;
-   OutputDataString: string;
-   ResultCode: integer;
 
    sPort: String;
    nPort: Integer;
@@ -260,7 +256,9 @@ var
 
         if Has_Body
         then
-            Body:= ASocket.RecvBufferStr( Content_Length, timeout);
+            Body:= ASocket.RecvBufferStr( Content_Length, timeout)
+        else
+            Body:= '';
 
         Forward_Result:= http_get( Forward_URL, Forward_Content_Type, Forward_Server, Body);
 
