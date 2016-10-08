@@ -179,6 +179,12 @@ type
     procedure Remove( O: TObject);
   //Export JSON, JavaScript Object Notation
   public
+    JSON_Page : Integer;
+    JSON_Debut: Integer;
+    JSON_Fin  : Integer;
+    procedure JSON_Premiere_Page;
+    procedure JSON_Page_precedente;
+    procedure JSON_Page_suivante;
     function JSON: String; virtual;
   //
   //public
@@ -500,6 +506,10 @@ begin
      Classe_Elements:= nil;
 
      FIterateur_running:= False;
+
+     JSON_Page:= 100;
+     JSON_Debut:=-1;
+     JSON_Fin  :=-1;
 end;
 
 constructor TBatpro_StringList.CreateE( _Nom: String= '';
@@ -511,6 +521,10 @@ begin
      Classe_Elements:= _Classe_Elements;
 
      FIterateur_running:= False;
+
+     JSON_Page:= 100;
+     JSON_Debut:=-1;
+     JSON_Fin  :=-1;
 end;
 
 destructor TBatpro_StringList.Destroy;
@@ -628,8 +642,32 @@ begin
      Delete( I);
 end;
 
+procedure TBatpro_StringList.JSON_Premiere_Page;
+begin
+     JSON_Debut:= 0;
+     JSON_Fin:= JSON_Debut+JSON_Page;
+end;
+
+procedure TBatpro_StringList.JSON_Page_precedente;
+begin
+     Dec( JSON_Debut, JSON_Page);
+     if JSON_Debut < 0 then JSON_Debut:= 0;
+     JSON_Fin:= JSON_Debut+JSON_Page;
+end;
+
+procedure TBatpro_StringList.JSON_Page_suivante;
+var
+   Fin: Integer;
+begin
+     Fin:= Count-1;
+     Inc( JSON_Fin, JSON_Page);
+     if JSON_Fin > Fin then JSON_Fin:= Fin;
+     JSON_Debut:= JSON_Fin-JSON_Page;
+end;
+
 function TBatpro_StringList.JSON: String;
 var
+   Debut, Fin: Integer;
    I: Integer;
    O: TObject;
    sJSON: String;
@@ -655,9 +693,11 @@ var
         sJSON:= Batpro_StringList.JSON;
    end;
 begin
+     Debut:= JSON_Debut; if Debut < 0                     then Debut:= 0;
+     Fin  := JSON_Fin  ; if (-1 = Fin) or (Fin > Count-1) then Fin  := Count-1;
      Result:= '[';
      iJSON:= 0;
-     for I:= 0 to Count - 1
+     for I:= Debut to Fin
      do
        begin
        O:= Objects[I];
@@ -672,9 +712,15 @@ begin
        Inc( iJSON);
        end;
      Result:= Result+']';
-     //if Nom <> ''
-     //then
-         Result:= '{"Nom": "'+StringToJSONString(Nom)+'","Elements":'+Result+'}';
+     Result
+     :=
+        '{'
+       +'"Nom":"'+StringToJSONString(Nom)+'",'
+       +'"JSON_Debut":'+IntToStr( JSON_Debut)+','
+       +'"JSON_Fin":'  +IntToStr( JSON_Fin  )+','
+       +'"Count":'     +IntToStr( Count  )+','
+       +'"Elements":'+Result
+       +'}';
 end;
 
 (*

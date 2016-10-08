@@ -112,6 +112,7 @@ begin
 
      poolAutomatic.Charge( SQL, sl);
      Filtre.Execute;
+     hAUT.sl.JSON_Premiere_Page;
      Result:= hAUT.JSON;
 end;
 

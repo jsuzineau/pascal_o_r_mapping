@@ -145,6 +145,11 @@
        <br>
        <label for="eSQL"> Requête SQL : </label><input type ='text'  id="eSQL"  ng-model="SQL" ng-keydown="eSQLKeyDown($event)" size="100">
        <br>
+       <span ng-show="(root != undefined)">
+         Lignes de {{root.JSON_Debut}} à {{root.JSON_Fin}} de {{root.Count}} lignes
+         <button ng-Show="(root.JSON_Debut > 0           )" ng-click="Page_precedente()"> Page précédente </button>
+         <button ng-Show="(root.JSON_Fin   < root.Count-1)" ng-click="Page_suivante()"  > Page suivante   </button>
+       </span>
 <!--
 <table ng-style="{width:LargeurTable,'max-width':'10000px'}"><tr><td>
 -->
@@ -209,6 +214,11 @@
            </li>
          </ol>
        </div>
+       <span ng-show="(root != undefined)">
+         Lignes de {{root.JSON_Debut}} à {{root.JSON_Fin}} de {{root.Count}} lignes
+         <button ng-Show="(root.JSON_Debut > 0           )" ng-click="Page_precedente()"> Page précédente </button>
+         <button ng-Show="(root.JSON_Fin   < root.Count-1)" ng-click="Page_suivante()"  > Page suivante   </button>
+       </span>
 </td></tr></table>
     </div>
     <!-- dependencies -->

@@ -506,6 +506,24 @@ var
        HTTP_Interface.Send_JSON( S);
        Log.PrintLn( 'Envoi JSON:'#13#10+S);
   end;
+  procedure Traite_Page_precedente;
+  var
+     S: String;
+  begin
+       sl.JSON_Page_precedente;
+       S:= JSON;
+       HTTP_Interface.Send_JSON( S);
+       Log.PrintLn( 'Envoi JSON:'#13#10+S);
+  end;
+  procedure Traite_Page_suivante;
+  var
+     S: String;
+  begin
+       sl.JSON_Page_suivante;
+       S:= JSON;
+       HTTP_Interface.Send_JSON( S);
+       Log.PrintLn( 'Envoi JSON:'#13#10+S);
+  end;
   procedure Traite_Fichier;
   var
      NomFichier: String;
@@ -534,6 +552,8 @@ begin
      else if HTTP_Interface.Prefixe( 'Filtre/')             then Traite_Filtre
      else if HTTP_Interface.Prefixe( 'AUT_Definitions.json')then Traite_Definitions_JSON
      else if HTTP_Interface.Prefixe( 'AUT.json')            then Traite_JSON
+     else if HTTP_Interface.Prefixe( 'Page_precedente')     then Traite_Page_precedente
+     else if HTTP_Interface.Prefixe( 'Page_suivante')       then Traite_Page_suivante
      else if HTTP_Interface.Prefixe( 'treeHeader.html')     then Traite_Header
      else if HTTP_Interface.Prefixe( 'treeNode.html')       then Traite_Node
      else                                                        Traite_Fichier;
