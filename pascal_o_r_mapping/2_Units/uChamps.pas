@@ -174,6 +174,7 @@ type
     procedure Liste;
   //Export JSON, JavaScript Object Notation
   private
+    function  GetJSON_interne( _Persistants_seulement: Boolean= False): String;
     function  GetJSON: String;
     {$IFDEF FPC}
     procedure SetJSON( _Value: String);
@@ -185,6 +186,7 @@ type
              write SetJSON
              {$ENDIF}
              ;
+    function JSON_Persistants: String;
     {$IFDEF FPC}
     procedure _from_JSONObject( _jso: TJSONObject);
     {$ENDIF}
@@ -1418,22 +1420,24 @@ begin
             end;
 end;
 
-function TChamps.GetJSON: String;
+function TChamps.GetJSON_interne( _Persistants_seulement: Boolean= False): String;
 var
    nCount, I: Integer;
+   IJSON: Integer;
    C: TChamp;
    NomChamp: String;
 begin
      //Result:= '{';
      Result:= '';
-
+     IJSON:= 0;
      nCount:= Count;
      for I:= 0 to nCount - 1
      do
        begin
        C       := Champ_from_Index( I);
+       if _Persistants_seulement and not C.Definition.Persistant then continue;
        NomChamp:= Field_from_Index( I);
-       if I > 0
+       if IJSON > 0
        then
            Result:= Result + ',';
        //Result:= Result + #13#10;
@@ -1442,10 +1446,22 @@ begin
        {$ELSE}
        Result:= Result + Format( '"%s":"%s"',[NomChamp, C.Chaine]);
        {$ENDIF}
+       Inc( IJSON);
        end;
      //Result:= Result + #13#10;
      //Result:= Result+'}';
 end;
+
+function TChamps.GetJSON: String;
+begin
+     Result:= GetJSON_interne;
+end;
+
+function TChamps.JSON_Persistants: String;
+begin
+     Result:= GetJSON_interne( True);
+end;
+
 
 {$IFDEF FPC}
 procedure TChamps._from_JSONObject( _jso: TJSONObject);

@@ -311,6 +311,7 @@ function ThAUT.Definitions_JSON: String;
              if I.not_Suivant( c) then continue;
 
              cd:= c.Definition;
+             if not cd.Persistant then continue;
 
              Inc( Somme_Longueur, cd.Longueur);
              end;
@@ -348,6 +349,8 @@ function ThAUT.Definitions_JSON: String;
              if I.not_Suivant( c) then continue;
 
              cd:= c.Definition;
+             if not cd.Persistant then continue;
+
              Nom:= cd.Nom;
 
              if Tri = nil
@@ -380,12 +383,12 @@ function ThAUT.JSON: String;
 var
    Batpro_StringList: TBatpro_StringList;
 begin
-     if Tri.slSousDetails.Count > 0
+     if False//Tri.slSousDetails.Count > 0
      then
          Batpro_StringList:= Tri.slSousDetails
      else
          Batpro_StringList:= sl;
-     Result:= Batpro_StringList.JSON;
+     Result:= Batpro_StringList.JSON_Persistants;
 end;
 
 function ThAUT.Tri_Click( _Reset: Boolean; _NomChamp: String): String;

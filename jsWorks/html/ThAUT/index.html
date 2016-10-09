@@ -3,7 +3,14 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <style>
-
+       .odd
+         {
+         background-color: #9FF57F;
+         }
+       .even
+         {
+         background-color: #CFFBF6;
+         }
       /*style btn extrait de bootstrap.css*/
       .btn {
         display: inline-block;
@@ -163,7 +170,7 @@
       <table color="lime"; >
         <tr>
           <td>
-            <span ng-click="Tri_Click( Definition.NomChamp)">{{Definition.LibelleChamp}}</span>
+            <a ng-click="Tri_Click( Definition.NomChamp)" style="cursor:pointer;">{{Definition.LibelleChamp}}</a>
           </td>
         </tr>
         <tr>
@@ -184,33 +191,48 @@
        <br>
        <br>
        <script type="text/ng-template" id="LigneChamps">
-          <div ui-tree-handle>
-            <div class="text-left" ng-show="Definitions.Tri_slSousDetails_Count" style="float:left;width:{{Definitions.Longueur_Arbre+'em'}}">
+          <div ui-tree-handle ng-class-odd="'odd'" ng-class-even="'even'" >
+            <div
+              class="text-left"
+              ng-show="Definitions.Tri_slSousDetails_Count"
+              style="float:left;width:{{Definitions.Longueur_Arbre+'em'}};"
+              >
               <table><tr><td>
-                <a ng-class="{'btn': node.hasOwnProperty('Nom'), 'btn-success': node.hasOwnProperty('Nom')}" data-nodrag ng-click="toggle(this)">
-                   <span class="glyphicon"
-                         ng-class="{'glyphicon-chevron-right': collapsed && node.hasOwnProperty('Nom'), 'glyphicon-chevron-down': !collapsed  && node.hasOwnProperty('Nom')}">
-                   </span>
+                <a
+                  ng-class="{'btn': node.hasOwnProperty('Nom'), 'btn-success': node.hasOwnProperty('Nom')}"
+                  data-nodrag ng-click="toggle(this)"
+                  >
+                  <span
+                    class="glyphicon"
+                    ng-class="{'glyphicon-chevron-right': collapsed && node.hasOwnProperty('Nom'), 'glyphicon-chevron-down': !collapsed  && node.hasOwnProperty('Nom')}"
+                    >
+                  </span>
                 </a>
                 {{node.Nom}}
               <td><tr></table>
             </div>
 
-          <div ng-repeat="Definition in Definitions.Champs">
-            <div class="text-left" style="float:left;width:{{Definition.Longueur+'em'}}">{{node[Definition.NomChamp]}}</div>
+            <div ng-repeat="Definition in Definitions.Champs">
+              <div
+                class="text-left"
+                style="float:left;width:{{Definition.Longueur+'em'}};overflow:auto;font-weight:normal;"
+                >
+                {{node[Definition.NomChamp]}}
+              </div>
+            </div>
           </div>
-          <div style="float:left;width:{{Definitions.Longueur_Reset_Tri+'em'}}">
-          </div>
-          </div>
-          <br >
-          <ol ui-tree-nodes="options" ng-model="node.Elements" ng-class="{hidden: collapsed}">
-            <li ng-repeat="node in node.Elements" ui-tree-node ng-include="'LigneChamps'"></li>
+          <!--
+          <br ng-show="(node.Elements.length)||(Definitions.Tri_slSousDetails_Count)">
+          -->
+          <br ng-show="(node.Elements.length)">
+          <ol ui-tree-nodes="options" ng-model="node.Elements" ng-class="{hidden: collapsed}" ng-show="(node.Elements.length)">
+            <li ng-repeat="node in node.Elements" ui-tree-node ng-include="'LigneChamps'" style="clear:left;"></li>
           </ol>
-          <br>
+          <br ng-show="(node.Elements.length)">
        </script>
        <div ui-tree>
          <ol ui-tree-nodes="" ng-model="root" id="tree-root">
-           <li ng-repeat="node in root.Elements" ui-tree-node ng-include="'LigneChamps'">
+           <li ng-repeat="node in root.Elements" ui-tree-node ng-include="'LigneChamps'" style="clear:left;">
            </li>
          </ol>
        </div>

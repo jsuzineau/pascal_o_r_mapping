@@ -1224,6 +1224,7 @@ type
   //Export JSON, JavaScript Object Notation
   public
     function JSON: String; override;
+    function JSON_Persistants: String; override;
   //Type d'aggrégation: forte ou faible
   public
     Forte: Boolean;
@@ -1298,6 +1299,7 @@ type
   //Export JSON, JavaScript Object Notation
   public
     function JSON: String;
+    function JSON_Persistants: String;
   //Suppression
   public
     procedure Delete_from_database; 
@@ -6933,6 +6935,11 @@ begin
      Result:= inherited JSON;
 end;
 
+function ThAggregation.JSON_Persistants: String;
+begin
+     Result:= inherited JSON_Persistants;
+end;
+
 function ThAggregation.Listing(Indentation: String): String;
 var
    be: TBatpro_Element;
@@ -7131,6 +7138,29 @@ begin
        then
            Result:= Result + ',';
        Result:= Result + Format( '"%s":%s',[haName, ha.JSON]);
+       Inc( iJSON);
+       end;
+end;
+
+function TAggregations.JSON_Persistants: String;
+var
+   I: Integer;
+   ha: ThAggregation;
+   haName: String;
+   iJSON: Integer;
+begin
+     Result:= '';
+     iJSON:= 0;
+     for I:= 0 to sl.Count -1
+     do
+       begin
+       ha:= hAggregation_from_sl( sl, I);
+       if ha = nil then continue;
+       haName:= sl.Strings[I];
+       if iJSON > 0
+       then
+           Result:= Result + ',';
+       Result:= Result + Format( '"%s":%s',[haName, ha.JSON_Persistants]);
        Inc( iJSON);
        end;
 end;

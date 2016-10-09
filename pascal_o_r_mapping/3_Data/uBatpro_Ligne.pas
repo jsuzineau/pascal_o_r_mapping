@@ -232,7 +232,8 @@ type
              write SetJSON
              {$ENDIF}
              ;
-  //Listing des champs pour déboguage
+     function JSON_Persistants: String; override;
+ //Listing des champs pour déboguage
   public
     function Listing_Champs( Separateur: String): String; override;
     function Listing( Indentation: String): String; override;
@@ -1142,11 +1143,17 @@ begin
      Result:= '{'+Champs.JSON+Aggregations.JSON+'}';
 end;
 
+function TBatpro_Ligne.JSON_Persistants: String;
+begin
+     Result:= '{'+Champs.JSON_Persistants+Aggregations.JSON_Persistants+'}';
+end;
+
 {$IFDEF FPC}
 procedure TBatpro_Ligne.SetJSON(_Value: String);
 begin
      Champs.JSON:= _Value;
 end;
+
 {$ENDIF}
 
 function TBatpro_Ligne.Listing_Champs( Separateur: String): String;
