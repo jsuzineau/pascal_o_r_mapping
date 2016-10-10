@@ -190,6 +190,7 @@ type
     procedure JSON_Page_suivante;
     function JSON: String; virtual;
     function JSON_Persistants: String; virtual;
+    function JSON_Persistants_Complet: String;
   //
   //public
   //  procedure S_Object_from_Index( _Index: Integer; out _S: String; out _O: TObject);
@@ -783,6 +784,25 @@ begin
        +'"Count":'     +IntToStr( Count  )+','
        +'"Elements":'+Result
        +'}';
+end;
+
+function TBatpro_StringList.JSON_Persistants_Complet: String;
+var
+   Old_JSON_Debut: Integer;
+   Old_JSON_Fin  : Integer;
+begin
+     Old_JSON_Debut:= JSON_Debut;
+     Old_JSON_Fin  := JSON_Fin  ;
+     try
+         JSON_Debut:= -1;
+         JSON_Fin  := -1;
+
+         Result:= JSON_Persistants;
+     finally
+            JSON_Debut:= Old_JSON_Debut;
+            JSON_Fin  := Old_JSON_Fin  ;
+            end;
+
 end;
 
 (*

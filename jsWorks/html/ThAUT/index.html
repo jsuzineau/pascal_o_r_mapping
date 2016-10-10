@@ -151,6 +151,9 @@
        </form>
        <br>
        <label for="eSQL"> Requête SQL : </label><input type ='text'  id="eSQL"  ng-model="SQL" ng-keydown="eSQLKeyDown($event)" size="100">
+       <form method="get" action="Export.json">
+       <button type="submit" formatarget="_blank">Export JSON</button>
+       </form>
        <br>
        <span ng-show="(root != undefined)">
          Lignes de {{root.JSON_Debut}} à {{root.JSON_Fin}} de {{root.Count}} lignes

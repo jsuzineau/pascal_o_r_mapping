@@ -67,10 +67,13 @@ type
   private
     function HTML_Header: String;
     function HTML_Node  : String;
-  //Données au format JSON
+  //Données au format JSON coupées par page
   public
     function Definitions_JSON: String;
     function JSON: String;
+  //Données au format JSON au format complet (arbre si tri)
+  public
+    function JSON_Complet: String;
   //Réaction au clic sur un titre de colonne
   private
     function Tri_Click( _Reset: Boolean; _NomChamp: String): String;
@@ -380,15 +383,20 @@ begin
 end;
 
 function ThAUT.JSON: String;
+begin
+     Result:= sl.JSON_Persistants;
+end;
+
+function ThAUT.JSON_Complet: String;
 var
    Batpro_StringList: TBatpro_StringList;
 begin
-     if False//Tri.slSousDetails.Count > 0
+     if Tri.slSousDetails.Count > 0
      then
          Batpro_StringList:= Tri.slSousDetails
      else
          Batpro_StringList:= sl;
-     Result:= Batpro_StringList.JSON_Persistants;
+     Result:= Batpro_StringList.JSON_Persistants_Complet;
 end;
 
 function ThAUT.Tri_Click( _Reset: Boolean; _NomChamp: String): String;
@@ -509,6 +517,14 @@ var
        HTTP_Interface.Send_JSON( S);
        Log.PrintLn( 'Envoi JSON:'#13#10+S);
   end;
+  procedure Traite_JSON_Complet;
+  var
+     S: String;
+  begin
+       S:= JSON_Complet;
+       HTTP_Interface.Send_JSON( S);
+       Log.PrintLn( 'Envoi JSON Complet:'#13#10+S);
+  end;
   procedure Traite_Page_precedente;
   var
      S: String;
@@ -555,6 +571,7 @@ begin
      else if HTTP_Interface.Prefixe( 'Filtre/')             then Traite_Filtre
      else if HTTP_Interface.Prefixe( 'AUT_Definitions.json')then Traite_Definitions_JSON
      else if HTTP_Interface.Prefixe( 'AUT.json')            then Traite_JSON
+     else if HTTP_Interface.Prefixe( 'Export.json')         then Traite_JSON_Complet
      else if HTTP_Interface.Prefixe( 'Page_precedente')     then Traite_Page_precedente
      else if HTTP_Interface.Prefixe( 'Page_suivante')       then Traite_Page_suivante
      else if HTTP_Interface.Prefixe( 'treeHeader.html')     then Traite_Header
