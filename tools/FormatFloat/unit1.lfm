@@ -1,0 +1,24 @@
+object Form1: TForm1
+  Left = 471
+  Height = 454
+  Top = 891
+  Width = 741
+  Caption = 'Form1'
+  ClientHeight = 454
+  ClientWidth = 741
+  OnCreate = FormCreate
+  LCLVersion = '1.6.0.4'
+  object m: TMemo
+    Left = 0
+    Height = 454
+    Top = 0
+    Width = 741
+    Align = alClient
+    Font.Name = 'Courier New'
+    Lines.Strings = (
+      'm'
+    )
+    ParentFont = False
+    TabOrder = 0
+  end
+end
