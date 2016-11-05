@@ -45,6 +45,7 @@
         <Filename Value="ufOpenSCAD_from_Eagle_File.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fOpenSCAD_from_Eagle_File"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit1>
     </Units>

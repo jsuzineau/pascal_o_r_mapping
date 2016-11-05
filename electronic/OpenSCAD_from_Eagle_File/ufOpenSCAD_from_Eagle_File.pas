@@ -16,8 +16,10 @@ type
  TfOpenSCAD_from_Eagle_File
  =
   class(TForm)
+   eLayer: TEdit;
    Label1: TLabel;
    Label2: TLabel;
+   Label3: TLabel;
    leBoard_Shape_Library_Name: TLabeledEdit;
    leLIBRARIES_PATH: TLabeledEdit;
    leBoard_Shape_Package_Name: TLabeledEdit;
@@ -43,6 +45,7 @@ type
     tsLIBRARIES: TTabSheet;
     tsEagle_File: TTabSheet;
     tsBoard_Shape_Package: TTabSheet;
+    procedure eLayerChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames: array of String);
@@ -62,6 +65,8 @@ type
     procedure tsBoard_Shape_Library_Refresh;
     procedure tsBoard_Shape_Package_Refresh;
     procedure tsHOLE_LIST_Refresh;
+    procedure Node_to_HOLE_LIST( _Root: TDOMNode);
+    procedure Board_Plain_to_HOLE_LIST;
   //Eagle File
   private
     Eagle_FileName: String;
@@ -78,6 +83,9 @@ type
   //package of board shape
   private
     dnBoard_Shape_Package: TDOMNode;
+  //Layer
+  private
+    BoardLayer: String;
   //Hole List
   private
      procedure Add_hole_from_node( _dn: TDOMNode);
@@ -99,6 +107,12 @@ procedure TfOpenSCAD_from_Eagle_File.FormCreate(Sender: TObject);
 begin
      xmlEagle_File:= nil;
      Clear;
+end;
+
+procedure TfOpenSCAD_from_Eagle_File.eLayerChange(Sender: TObject);
+begin
+     BoardLayer:= eLayer.Text;
+     tsHOLE_LIST_Refresh;
 end;
 
 procedure TfOpenSCAD_from_Eagle_File.FormDestroy(Sender: TObject);
@@ -215,12 +229,31 @@ begin
 end;
 
 procedure TfOpenSCAD_from_Eagle_File.tsHOLE_LIST_Refresh;
-var
-   dn: TDOMNode;
 begin
      pc.ActivePage:= tsHOLE_LIST;
      mHOLE_LIST.Clear;
-     dn:= dnBoard_Shape_Package.FirstChild;
+     mBOARD_SHAPE.Clear;
+     Board_Plain_to_HOLE_LIST;
+     Node_to_HOLE_LIST( dnBoard_Shape_Package);
+end;
+
+procedure TfOpenSCAD_from_Eagle_File.Board_Plain_to_HOLE_LIST;
+var
+   dnBoard_Plain: TDOMNode;
+begin
+     dnBoard_Plain:= Elem_from_path( xmlEagle_File.DocumentElement, 'drawing/board/plain');
+     if nil = dnBoard_Plain then exit;
+
+     Node_to_HOLE_LIST( dnBoard_Plain);
+end;
+
+procedure TfOpenSCAD_from_Eagle_File.Node_to_HOLE_LIST(_Root: TDOMNode);
+var
+   dn: TDOMNode;
+begin
+     if nil = _Root then exit;
+
+     dn:= _Root.FirstChild;
      while Assigned( dn)
      do
        begin
@@ -229,7 +262,6 @@ begin
 
        dn:= dn.NextSibling;
        end;
-
 end;
 
 procedure TfOpenSCAD_from_Eagle_File.Add_hole_from_node( _dn: TDOMNode);
@@ -253,7 +285,7 @@ end;
 
 procedure TfOpenSCAD_from_Eagle_File.Add_Board_Shape_Point_from_node( _dn: TDOMNode);
 var
-   x1, y1, x2, y2, curve, width_: String;
+   x1, y1, x2, y2, curve, width_,layer: String;
    iLast_Line: Integer;
    procedure Add_xy( _x, _y: String; _Virgule: Boolean= False);
    var
@@ -274,6 +306,8 @@ begin
      if not_Get_Property( _dn, 'y2'    , y2    ) then exit;
      if not_Get_Property( _dn, 'curve' , curve ) then exit;
      if not_Get_Property( _dn, 'width' , width_) then exit;
+     if not_Get_Property( _dn, 'layer' , layer ) then exit;
+     if (''<>BoardLayer) and (layer <> BoardLayer) then exit;
 
      iLast_Line:= mBOARD_SHAPE.Lines.Count-1;
      if iLast_Line < 0
