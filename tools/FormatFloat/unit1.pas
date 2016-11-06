@@ -36,7 +36,7 @@ function FloatToTextFmt( Buffer : PChar;
 
 var
    Digits: string[40];                         { String Of Digits                 }
-   Exponent: string[8];                        { Exponent strin                   }
+   Exponent: string[8];                        { Exponent string                  }
    FmtStart, FmtStop: PChar;                   { Start And End Of relevant part   }
    { Of format String                 }
    ExpFmt, ExpSize: integer;                   { Type And Length Of               }
@@ -388,6 +388,9 @@ var
         Insert('e', Exponent, 1);
     end;
     DigitExponent := DecimalPoint-2;
+
+    //original
+    {
     I := 1;
     while (I<=Length(Digits)) and (Digits[i] in [' ', '-'])
     do
@@ -395,6 +398,24 @@ var
       Dec(DigitExponent);
       Inc(i);
       end;
+    }
+
+    I := 1;
+    while (I<=Length(Digits)) and (Digits[i] in [' ', '-'])
+    do
+      begin
+      Dec(DigitExponent);
+      if ' ' = Digits[i]
+      then
+          begin
+          Delete( Digits, I, 1);
+          //Dec( Placehold[1]);
+          Inc(FmtStart);
+          end
+      else
+          Inc(i);
+      end;
+
     UnexpectedDigits := DecimalPoint-1-(Placehold[1]+Placehold[2]);
   end;
 
@@ -476,8 +497,13 @@ var
                                Inc(Buf);
                                end;
                            end;
-                       if Digits[Dig]<>'-'  then Dec(DigitExponent);
+                       if Digits[Dig]<>'-'
+                       then
+                           Dec(DigitExponent);
                        Inc(Dig);
+                       if Dig > Length( Digits)
+                       then
+                           Fmt:= FmtStop;
                        Inc(Fmt);
                        end;
                      'e', 'E':
@@ -600,10 +626,12 @@ var
      begin
           S
           :=
-              ' Format:'  + Format( '%:15s',[_Format])
-            + ' Obtained:'+ Format( '%:8s' ,[FormatFloat( _Format, _Value)])
+              ' Format:'  + Format( '%:20s',[_Format])
+            + ' Obtained:'+ Format( '%:20s' ,[FormatFloat( _Format, _Value)])
+            + ' French_FormatFloat:'+Format('%:20s',[French_FormatFloat( _Value)])
             + ' Expected:'+_Expected
             ;
+          //S:= StringReplace( S, #160, #$00A0, [rfReplaceAll]);
           m.Lines.Add( S);
      end;
      procedure Test_French_FormatFloat( _Value: Extended);
@@ -612,18 +640,31 @@ var
      end;
 begin
      m.Clear;
+     //DefaultFormatSettings.ThousandSeparator:= #160;
      T:= DefaultFormatSettings.ThousandSeparator;
      D:= DefaultFormatSettings.DecimalSeparator;
      m.Lines.Add( '#34='#34);
      m.Lines.Add( '#39='#39);
-     m.Lines.Add( 'ThousandSeparator: '+IntToStr(Ord(T))+'='+T);
-     TestCase( 9999.99, '###,###,###.00','9'+T+'999'+D+'99');
-     TestCase( 9999.99,  '##,###,###.00','9'+T+'999'+D+'99');
-     TestCase( 9999.99,   '#,###,###.00','9'+T+'999'+D+'99');
-     TestCase( 9999.99,     '###,###.00','9'+T+'999'+D+'99');
-     TestCase( 9999.99,      '##,###.00','9'+T+'999'+D+'99');
-     TestCase( 9999.99,       '#,###.00','9'+T+'999'+D+'99');
-     TestCase( 9999.99,         '###.00',' 9999'+D+'99');
+     //m.Lines.Add( 'ThousandSeparator: '+IntToStr(Ord(T))+'='+T);
+     TestCase(  9999.99,  '#,###,###,###,###.00','9'+T+'999'+D+'99');
+     TestCase(  9999.99,    '###,###,###,###.00','9'+T+'999'+D+'99');
+     TestCase(  9999.99,     '##,###,###,###.00','9'+T+'999'+D+'99');
+     TestCase(  9999.99,      '#,###,###,###.00','9'+T+'999'+D+'99');
+     TestCase(  9999.99,        '###,###,###.00','9'+T+'999'+D+'99');
+     TestCase(  9999.99,         '##,###,###.00','9'+T+'999'+D+'99');
+     TestCase(  9999.99,          '#,###,###.00','9'+T+'999'+D+'99');
+     TestCase(  9999.99,            '###,###.00','9'+T+'999'+D+'99');
+     TestCase(  9999.99,             '##,###.00','9'+T+'999'+D+'99');
+     TestCase(  9999.99,              '#,###.00','9'+T+'999'+D+'99');
+     TestCase(  9999.99,                '###.00',' 9999'+D+'99');
+     TestCase( -9999.99,        '###,###,###.00','-9'+T+'999'+D+'99');
+     TestCase( -9999.99,         '##,###,###.00','-9'+T+'999'+D+'99');
+     TestCase( -9999.99,          '#,###,###.00','-9'+T+'999'+D+'99');
+     TestCase( -9999.99,            '###,###.00','-9'+T+'999'+D+'99');
+     TestCase( -9999.99,             '##,###.00','-9'+T+'999'+D+'99');
+     TestCase( -9999.99,              '#,###.00','-9'+T+'999'+D+'99');
+     TestCase( -9999.99,                '###.00',' -9999'+D+'99');
+     TestCase( -10     ,        '###,###,##0.00','   -10'); //bug freepascal 13076
 
      Test_French_FormatFloat(     9999.99);
      Test_French_FormatFloat(    99999.99);
@@ -641,6 +682,6 @@ end;
 end.
 
 
-
+Freepascal SVN Revision 28680 restaurant la correction du bug 13076 cassée par la révision 28660
 
 
