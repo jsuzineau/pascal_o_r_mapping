@@ -41,6 +41,9 @@ const
      s_Validation         ='Validation';
      s_Validation_Response='pascal_o_r_mapping';
 
+var
+   Afficher_Log: Boolean= False;
+
 function StrToK( Key: String; var S: String): String;
 var
    I: Integer;
@@ -75,14 +78,18 @@ begin
            do
              begin
              Result:= '';
-             Writeln( 'http_getS( '+_URL+'): '+E.Message);
+             if Afficher_Log then Writeln( 'http_getS( '+_URL+'): '+E.Message);
              end;
            end;
 
-     Writeln( 'http_getS( '+_URL+')= ');
-     WriteLn('################');
-     Writeln( Result);
-     WriteLn('################')
+     if Afficher_Log
+     then
+         begin
+         Writeln( 'http_getS( '+_URL+')= ');
+         WriteLn('################');
+         Writeln( Result);
+         WriteLn('################')
+         end;
 end;
 
 function http_get( _URL: String; out _Content_Type, _Server: String; _Body: String= ''): String;
@@ -107,7 +114,7 @@ var
           end;
    end;
 begin
-     //Writeln( 'http_get( '+_URL+')= ');
+     if Afficher_Log then Writeln( 'http_get( '+_URL+')= ');
      try
         c:= TFPHttpClient.Create( nil);
         try
@@ -117,12 +124,16 @@ begin
            else
                Result:= c.FormPost( _URL, _Body);
            Parse_headers;
-           //WriteLn('####Headers#####');
-           //WriteLn(c.ResponseHeaders.Text);
+           if Afficher_Log
+           then
+               begin
+               WriteLn('####Headers#####');
+               WriteLn(c.ResponseHeaders.Text);
 
-           //WriteLn('#########');
-           //WriteLn('_Content_Type='+_Content_Type);
-           //WriteLn('_Server='      +_Server      );
+               WriteLn('#########');
+               WriteLn('_Content_Type='+_Content_Type);
+               WriteLn('_Server='      +_Server      );
+               end;
         finally
                FreeAndNil( c);
                end;
@@ -131,13 +142,17 @@ begin
            do
              begin
              Result:= '';
-             Writeln( 'http_get( '+_URL+'): '+E.Message);
+             if Afficher_Log then Writeln( 'http_get( '+_URL+'): '+E.Message);
              end;
            end;
 
-     //WriteLn('###Result#####');
-     //Writeln( Result);
-     //WriteLn('################')
+     if Afficher_Log
+     then
+         begin
+         WriteLn('###Result#####');
+         Writeln( Result);
+         WriteLn('################');
+         end;
 end;
 
 function http_Port_Valide( _Port: String): Boolean;
@@ -181,13 +196,13 @@ begin
      try
         p.Executable:= _NomProgramme;
         p.Options := [poUsePipes];
-        WriteLn('httpProgramme_Execute: avant TProcess.execute sur '+_NomProgramme);
+        if Afficher_Log then WriteLn('httpProgramme_Execute: avant TProcess.execute sur '+_NomProgramme);
         p.Execute;
-        WriteLn('httpProgramme_Execute: aprés TProcess.execute');
+        if Afficher_Log then WriteLn('httpProgramme_Execute: aprés TProcess.execute');
         //Result_from_NomResultat;
         Result_from_stdout;
 
-        WriteLn('httpProgramme_Execute: Result= '+Result);
+        if Afficher_Log then WriteLn('httpProgramme_Execute: Result= '+Result);
      finally
             FreeAndNil( p);
             end;
@@ -280,21 +295,21 @@ var
 
         Key:= sPort; //pas propre, il faudrait renommer sPort
         NomProgramme:= EXE_INI.ReadString( 'httpLauncher', Key, '#');
-        WriteLn( 'httpLauncher_: NomProgramme('+Key+')='+NomProgramme);
+        if Afficher_Log then WriteLn( 'httpLauncher_: NomProgramme('+Key+')='+NomProgramme);
         if '#' = NomProgramme            then exit;
         if not FileExists( NomProgramme) then exit;
-        WriteLn( 'httpLauncher_: OK');
+        if Afficher_Log then WriteLn( 'httpLauncher_: OK');
         Send_Redirect( httpProgramme_Execute( NomProgramme));
         Result:= False;
    end;
 begin
      timeout := 120000;
 
-     WriteLn('Received headers+document from browser:');
+     if Afficher_Log then WriteLn('Received headers+document from browser:');
 
      //read request line
      s := ASocket.RecvString(timeout);
-     WriteLn(s);
+     if Afficher_Log then WriteLn(s);
      method := fetch(s, ' ');
      uri := fetch(s, ' ');
      protocol := fetch(s, ' ');
@@ -304,7 +319,7 @@ begin
      //read request headers
      repeat
            s:= ASocket.RecvString(Timeout);
-           WriteLn(s);
+           if Afficher_Log then WriteLn(s);
            Traite_Content_Length;
      until s = '';
 
@@ -324,7 +339,7 @@ begin
      ConnectionSocket:= TTCPBlockSocket.Create;
      try
         ConnectionSocket.Socket:= _Socket;
-        WriteLn('Attending Connection. Error code (0=Success): ', ConnectionSocket.lasterror);
+        if Afficher_Log then WriteLn('Attending Connection. Error code (0=Success): ', ConnectionSocket.lasterror);
         AttendConnection(ConnectionSocket);
         ConnectionSocket.CloseSocket;
      finally
@@ -368,13 +383,29 @@ var
    ListenerSocket: TTCPBlockSocket;
 
 begin
+     if ParamCount > 0
+     then
+         begin
+         if '--help' = ParamStr(1)
+         then
+             begin
+             WriteLn( 'Paramètres:');
+             WriteLn( '  --help  aide ');
+             WriteLn( '  -v  affichage du log');
+             Halt;
+             end
+         else if '-v' = ParamStr(1)
+         then
+             Afficher_Log:= True;
+         end;
+
      ListenerSocket  := TTCPBlockSocket.Create;
 
      ListenerSocket.CreateSocket;
      ListenerSocket.setLinger(true,10);
      ListenerSocket.bind('0.0.0.0','1500');
      ListenerSocket.listen;
-     WriteLn('http_PortMapper listen on ', ListenerSocket.GetLocalSinPort);
+     if Afficher_Log then WriteLn('http_PortMapper listen on ', ListenerSocket.GetLocalSinPort);
 
      repeat
            if not ListenerSocket.canread( 1000) then continue;
