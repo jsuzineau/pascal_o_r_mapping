@@ -1,0 +1,45 @@
+object fInstallation_Check: TfInstallation_Check
+  Left = 507
+  Height = 240
+  Top = 108
+  Width = 517
+  Caption = 'fInstallation_Check'
+  ClientHeight = 240
+  ClientWidth = 517
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  LCLVersion = '1.6.0.4'
+  object m: TMemo
+    Left = 0
+    Height = 190
+    Top = 50
+    Width = 517
+    Align = alClient
+    Font.Name = 'Courier New'
+    Lines.Strings = (
+      'm'
+    )
+    ParentFont = False
+    TabOrder = 0
+  end
+  object Panel1: TPanel
+    Left = 0
+    Height = 50
+    Top = 0
+    Width = 517
+    Align = alTop
+    Caption = 'Panel1'
+    ClientHeight = 50
+    ClientWidth = 517
+    TabOrder = 1
+    object bLL: TButton
+      Left = 328
+      Height = 25
+      Top = 8
+      Width = 75
+      Caption = 'll'
+      OnClick = bLLClick
+      TabOrder = 0
+    end
+  end
+end

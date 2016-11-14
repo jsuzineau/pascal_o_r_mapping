@@ -198,8 +198,8 @@ end;
 
 procedure TTelnetSend.FilterHook(Sender: TObject; var Value: AnsiString);
 begin
-  Value := Negotiate(Value);
-  FSessionLog := FSessionLog + Value;
+     Value:= Negotiate(Value);
+     FSessionLog := FSessionLog + Value;
 end;
 
 function TTelnetSend.Negotiate(const Buf: Ansistring): Ansistring;

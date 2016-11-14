@@ -46,3 +46,6 @@ callgrind.out.*
 /jsWorks/http_PortMapper
 /jsWorks/jsWorks.exe
 /jsWorks/jsWorks
+tools/Installation_Check/etc/_Configuration.ini
+tools/Installation_Check/Installation_Check
+tools/FormatFloat/project1
