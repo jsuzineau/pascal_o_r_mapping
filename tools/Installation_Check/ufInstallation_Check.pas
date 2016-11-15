@@ -9,10 +9,12 @@ uses
     uEXE_INI,
     libssh2, blcksock,
  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
- ExtCtrls, tlntsend, LCLType;
+ ExtCtrls, LCLType;
 
 type
-    TthCommand= class;
+
+ TInstallation_Check= class;
+ TInstallation_Check_String_Proc=  procedure (_S: String) of object;
 
  { TfInstallation_Check }
 
@@ -20,33 +22,64 @@ type
  =
   class(TForm)
    bLL: TButton;
+   bFPC: TButton;
     m: TMemo;
     Panel1: TPanel;
+    procedure bFPCClick(Sender: TObject);
     procedure bLLClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
    //
   private
-   procedure Add_Text(_S: String);
+   ic: TInstallation_Check;
    procedure Add_Line(_S: String);
-   procedure Traite_ll(_Repertoire: String);
-   procedure Traite_ll_Resultat( _Resultat: String);
-   procedure ll_Done( _th: TthCommand);
+  end;
+
+ TthCommand= class;
+ TthCommand_Terminated= procedure ( _th: TthCommand) of object;
+
+ { TInstallation_Check }
+
+ TInstallation_Check
+ =
+  class
+   //Gestion du cycle de vie
+   public
+     constructor Create;
+     destructor Destroy; override;
+  //Attributs
+  public
+    HostName, UserName, Password, Prompt: String;
+  //Listage des droits dans un répertoire
+  private
+    procedure Traite_ll_Done( _th: TthCommand);
+  public
+    procedure Traite_ll( _Add_Line: TInstallation_Check_String_Proc;
+                         _Repertoire: String);
+  //Résultat brut d'une commande
+  private
+    procedure Commande_Done( _th: TthCommand);
+  public
+    procedure Traite_Commande( _Add_Line: TInstallation_Check_String_Proc;
+                               _Commande: String;
+                               _Tag: String= '';
+                               _OnTerminated: TthCommand_Terminated=nil);
   end;
 
  { TthCommand }
- TthCommand_Termainated= procedure ( _th: TthCommand) of object;
 
  TthCommand
  =
   class(TThread)
   //Gestion du cycle de vie
   public
-    constructor Create( _Hostname, _Username, _Password, _Prompt, _Commande: String;
-                        _OnTerminated: TthCommand_Termainated);
+    constructor Create( _Add_Line: TInstallation_Check_String_Proc;
+                        _Hostname, _Username, _Password, _Prompt, _Commande, _Tag: String;
+                        _OnTerminated: TthCommand_Terminated);
     destructor Destroy; override;
   //Attributs
    private
+     Add_Line: TInstallation_Check_String_Proc;
      Hostname, Username, Password, Prompt, Commande: String;
    private
      sock:TTCPBlockSocket;
@@ -60,8 +93,8 @@ type
      procedure Execute; override;
    //
    private
-     procedure Add_Line(_S: String);
-     procedure Add_Text( _S: String);
+     procedure Log_Add_Line(_S: String);
+     procedure Log_Add_Text( _S: String);
    public
       slLog: TStringList;
    //Etat
@@ -73,9 +106,12 @@ type
      procedure Send( _S: String);
    //Terminaison
    public
-      OnTerminated: TthCommand_Termainated;
+      OnTerminated: TthCommand_Terminated;
       procedure Do_OnTerminated_interne;
       procedure Do_OnTerminated;
+   //Tag
+   public
+     Tag: String;
    //Resultat
    public
      Resultat: String;
@@ -90,20 +126,24 @@ implementation
 
 { TthCommand }
 
-constructor TthCommand.Create( _Hostname, _Username, _Password, _Prompt, _Commande: String;
-                               _OnTerminated: TthCommand_Termainated);
+constructor TthCommand.Create( _Add_Line: TInstallation_Check_String_Proc;
+                               _Hostname, _Username, _Password, _Prompt, _Commande, _Tag: String;
+                               _OnTerminated: TthCommand_Terminated);
 begin
+     Add_Line:= _Add_Line;
      Hostname:= _Hostname;
      Username:= _Username;
      Password:= _Password;
      Prompt  := _Prompt  ;
      Commande:= _Commande;
+     Tag     := _Tag     ;
      OnTerminated:= _OnTerminated;
 
      slLog:= TStringList.Create;
      IsPrompt:= False;
      IsLogin := True;
      Resultat:= '';
+     if Tag= '' then Tag:= Commande;
      inherited Create(False);
 end;
 
@@ -130,7 +170,7 @@ begin
      if sock.LastError<>0
      then
          begin
-         Add_Line('Cannot connect');
+         Log_Add_Line('Cannot connect');
          Do_OnTerminated;
          exit;
          end;
@@ -139,49 +179,49 @@ begin
      if libssh2_session_startup(session, sock.Socket)<>0
      then
          begin
-         Add_Line( 'Cannot establishing SSH session');
+         Log_Add_Line( 'Cannot establishing SSH session');
          Do_OnTerminated;
          exit;
          end;
 
      fingerprint := libssh2_hostkey_hash(session, LIBSSH2_HOSTKEY_HASH_SHA1);
-     Add_Text( 'Host fingerprint ');
+     Log_Add_Text( 'Host fingerprint ');
      i:=0;
      while fingerprint[i]<>#0
      do
        begin
-       Add_Text( inttohex(ord(fingerprint[i]),2)+':');
+       Log_Add_Text( inttohex(ord(fingerprint[i]),2)+':');
        i:=i+1;
        end;
-     Add_Text( #13#10);
-     Add_Line( 'Assuming known host...');
+     Log_Add_Text( #13#10);
+     Log_Add_Line( 'Assuming known host...');
      if libssh2_userauth_password(session, pchar(Username), pchar(Password))<>0
      then
          begin
-         Add_Line('Authentication by password failed');
+         Log_Add_Line('Authentication by password failed');
          Do_OnTerminated;
          exit;
          end;
-     Add_Line('Authentication succeeded');
+     Log_Add_Line('Authentication succeeded');
      channel := libssh2_channel_open_session(session);
      if not assigned(channel)
      then
          begin
-         Add_Line('Cannot open session');
+         Log_Add_Line('Cannot open session');
          Do_OnTerminated;
          exit;
          end;
      if libssh2_channel_request_pty(channel, 'vanilla')<>0
      then
          begin
-         Add_Line('Cannot obtain pty');
+         Log_Add_Line('Cannot obtain pty');
          Do_OnTerminated;
          exit;
          end;
      if libssh2_channel_shell(channel)<>0
      then
          begin
-         Add_Line('Cannot open shell');
+         Log_Add_Line('Cannot open shell');
          Do_OnTerminated;
          exit;
          end;
@@ -196,12 +236,12 @@ begin
        end;
 end;
 
-procedure TthCommand.Add_Line(_S: String);
+procedure TthCommand.Log_Add_Line(_S: String);
 begin
      slLog.Add( _S);
 end;
 
-procedure TthCommand.Add_Text(_S: String);
+procedure TthCommand.Log_Add_Text(_S: String);
 begin
      with slLog do Text:= Text + _S;
 end;
@@ -212,7 +252,7 @@ var
    sDerniereLigne: String;
 begin
      Resultat:= Resultat+_S;
-     Add_Text( _S);
+     Log_Add_Text( _S);
      iDerniereLigne:= slLog.Count-1;
      IsPrompt:= 0 <= iDerniereLigne;
      if IsPrompt
@@ -233,6 +273,9 @@ begin
              end
          else
              begin
+             while Prompt = Copy(Resultat, Length(Resultat)-Length(Prompt)+1, Length(Prompt))
+             do
+               Delete( Resultat, Length(Resultat)-Length(Prompt)+1, Length(Prompt));
              Do_OnTerminated;
              Terminate;
              end;
@@ -256,44 +299,49 @@ begin
      Synchronize( @Do_OnTerminated_interne);
 end;
 
-{ TfInstallation_Check }
+{ TInstallation_Check }
 
-procedure TfInstallation_Check.FormCreate(Sender: TObject);
-begin
-end;
-
-procedure TfInstallation_Check.FormDestroy(Sender: TObject);
-begin
-end;
-
-procedure TfInstallation_Check.Add_Text( _S: String);
-begin
-     m.Lines.add( _S);
-end;
-
-procedure TfInstallation_Check.Add_Line( _S: String);
-begin
-     m.Lines.add( _S);
-end;
-
-procedure TfInstallation_Check.Traite_ll( _Repertoire: String);
-var
-   HostName, UserName, Password, Prompt: String;
+constructor TInstallation_Check.Create;
 begin
      HostName:= EXE_INI.Assure_String( 'HostName', '');
      UserName:= EXE_INI.Assure_String( 'UserName', '');
      PassWord:= EXE_INI.Assure_String( 'PassWord', '');
      Prompt  := EXE_INI.Assure_String( 'Prompt'  , '"(please quote the prompt)"');
-
-     TthCommand.Create( HostName,
-                        UserName,
-                        PassWord,
-                        Prompt  ,
-                        'll '+_Repertoire,
-                        @ll_Done);
 end;
 
-procedure TfInstallation_Check.Traite_ll_Resultat( _Resultat: String);
+destructor TInstallation_Check.Destroy;
+begin
+     inherited Destroy;
+end;
+
+procedure TInstallation_Check.Commande_Done( _th: TthCommand);
+begin        //c'est manifestement à déplacer comme méthode de TthCommand
+     if _th.IsLogin
+     then
+         _th.Add_Line( _th.slLog.Text)
+     else
+         begin
+         _th.Add_Line( _th.Tag);
+         _th.Add_Line( _th.Resultat);
+         end;
+    //FreeAndNil( _th);
+end;
+
+procedure TInstallation_Check.Traite_Commande( _Add_Line: TInstallation_Check_String_Proc;
+                                               _Commande: String;
+                                               _Tag: String= '';
+                                               _OnTerminated: TthCommand_Terminated=nil);
+begin
+     if nil = _OnTerminated
+     then
+         _OnTerminated:= @Commande_Done;
+
+     TthCommand.Create( _Add_Line,
+                        HostName, UserName, PassWord, Prompt,
+                        _Commande, _Tag, _OnTerminated);
+end;
+
+procedure TInstallation_Check.Traite_ll_Done( _th: TthCommand);
 var
    sl: TStringList;
    slResultat: TStringList;
@@ -304,13 +352,24 @@ var
    Group: String;
    Info: String;
 begin
-     //Add_Line( 'Retour commande brut:');
-     //Add_Line( _Resultat);
+     if _th.IsLogin
+     then
+         begin
+         _th.Add_Line( _th.slLog.Text);
+         exit;
+         end;
+
      sl:= TStringList.Create;
      slResultat:= TStringList.Create;
      try
-        sl.Text:= _Resultat;
-        sl.Delete( sl.Count-1); //le prompt
+        sl.Text:= _th.Resultat;
+        //Suppression du prompt à la fin
+        while
+                 (sl.Count>0)
+             and (sl[sl.Count-1] = Prompt)
+        do
+          sl.Delete( sl.Count-1); //le prompt
+
         sl.Delete( 1         ); //total
         sl.Delete( 0         ); //l'écho de la commande
 
@@ -332,29 +391,51 @@ drwxrwxr-x  3 jean jean    4096 janv.  9  2016 analyseur_4gl
           Info:= Rights + ' '+ sOwner + ' ' + Group;
           if -1 = slResultat.IndexOf(Info) then slResultat.Add( Info);
           end;
-        Add_Line( 'consolidation droits ll:');
+        _th.Add_Line( 'consolidation droits ll sur '+_th.Tag+':');
         slResultat.Sort;
-        Add_Line( slResultat.Text);
-        Add_Line( 'fin consolidation droits ll:');
+        _th.Add_Line( slResultat.Text);
+        _th.Add_Line( 'fin consolidation droits ll:');
+        //_th.Add_Line( 'Retour commande brut:');
+        //_th.Add_Line( _Resultat);
+        //_th.Add_Line( 'Fin Retour commande brut');
      finally
             FreeAndNil( sl);
             end;
 
+     //FreeAndNil( _th);
 end;
 
-procedure TfInstallation_Check.ll_Done( _th: TthCommand);
+procedure TInstallation_Check.Traite_ll( _Add_Line: TInstallation_Check_String_Proc;
+                                         _Repertoire: String);
 begin
-     if _th.IsLogin
-     then
-         Add_Line( _th.slLog.Text)
-     else
-         Traite_ll_Resultat( _th.Resultat);
-    //FreeAndNil( _th);
+     Traite_Commande( _Add_Line, 'll '+_Repertoire, _Repertoire, @Traite_ll_Done);
+end;
+
+{ TfInstallation_Check }
+
+procedure TfInstallation_Check.FormCreate(Sender: TObject);
+begin
+     ic:= TInstallation_Check.Create;
+end;
+
+procedure TfInstallation_Check.FormDestroy(Sender: TObject);
+begin
+     FreeAndNil( ic);
+end;
+
+procedure TfInstallation_Check.Add_Line( _S: String);
+begin
+     m.Lines.add( _S);
 end;
 
 procedure TfInstallation_Check.bLLClick(Sender: TObject);
 begin
-     Traite_ll( './');
+     ic.Traite_ll( @Add_Line, './');
+end;
+
+procedure TfInstallation_Check.bFPCClick(Sender: TObject);
+begin
+     ic.Traite_Commande( @Add_Line, 'fpc -v', 'Version de FreePascal');
 end;
 
 end.

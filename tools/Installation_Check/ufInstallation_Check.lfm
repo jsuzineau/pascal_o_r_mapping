@@ -8,7 +8,7 @@ object fInstallation_Check: TfInstallation_Check
   ClientWidth = 517
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '1.6.0.4'
+  LCLVersion = '1.6.0.2'
   object m: TMemo
     Left = 0
     Height = 190
@@ -20,6 +20,7 @@ object fInstallation_Check: TfInstallation_Check
       'm'
     )
     ParentFont = False
+    ScrollBars = ssAutoBoth
     TabOrder = 0
   end
   object Panel1: TPanel
@@ -33,13 +34,22 @@ object fInstallation_Check: TfInstallation_Check
     ClientWidth = 517
     TabOrder = 1
     object bLL: TButton
-      Left = 328
+      Left = 16
       Height = 25
       Top = 8
       Width = 75
       Caption = 'll'
       OnClick = bLLClick
       TabOrder = 0
+    end
+    object bFPC: TButton
+      Left = 120
+      Height = 25
+      Top = 8
+      Width = 75
+      Caption = 'FPC'
+      OnClick = bFPCClick
+      TabOrder = 1
     end
   end
 end
