@@ -48,4 +48,6 @@ callgrind.out.*
 /jsWorks/jsWorks
 tools/Installation_Check/etc/_Configuration.ini
 tools/Installation_Check/Installation_Check
+tools/Installation_Check/Installation_Check.exe
+tools/Installation_Check/libssh2.dll
 tools/FormatFloat/project1
