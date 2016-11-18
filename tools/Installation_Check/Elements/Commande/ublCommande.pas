@@ -139,6 +139,9 @@ type
      public
        Resultat: String;
        slResultat: TStringList;
+     //Ctrl+C pour arrêter
+     public
+       procedure Send_Ctrl_C;
      end;
 
 
@@ -365,6 +368,11 @@ procedure TthCommand.Send(_S: String);
 begin
      ssend:= _S+LineEnding;
      libssh2_channel_write(channel,pchar(ssend),length(ssend));
+end;
+
+procedure TthCommand.Send_Ctrl_C;
+begin
+     Send( #3);
 end;
 
 procedure TthCommand.Do_OnTerminated_interne;

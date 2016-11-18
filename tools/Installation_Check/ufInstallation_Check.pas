@@ -7,13 +7,17 @@ unit ufInstallation_Check;
 interface
 
 uses
+    uClean,
     uBatpro_StringList,
     uuStrings,
-    uEXE_INI, ucDockableScrollbox,
+    uVide,
+    uEXE_INI,
     ublCommande,
-    udkCommande,
- Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
- ExtCtrls, LCLType;
+
+    ucDockableScrollbox,
+    udkCommande, Classes, SysUtils, FileUtil, SynHighlighterPas, SynEdit,
+    uPSComponent, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
+    LCLType;
 
 type
 
@@ -24,16 +28,35 @@ type
  TfInstallation_Check
  =
   class(TForm)
+   bRun: TButton;
+   bCtrlC: TButton;
    dsb: TDockableScrollbox;
     m: TMemo;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    ps: TPSScript;
+    se: TSynEdit;
     Splitter1: TSplitter;
+    Splitter2: TSplitter;
+    SynPasSyn: TSynPasSyn;
+    procedure bCtrlCClick(Sender: TObject);
+    procedure bRunClick(Sender: TObject);
     procedure dsbResize(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure psCompile(Sender: TPSScript);
+    procedure psExecute(Sender: TPSScript);
    //
   private
    ic: TInstallation_Check;
+   NomScript: String;
    procedure Add_Line(_S: String);
+   procedure Vide;
+   procedure Refresh_List;
+   procedure Charge_script;
+   procedure Sauve_script;
+   procedure Run;
   end;
 
  { TTraite_ll }
@@ -132,9 +155,10 @@ type
   //Liste de commandes
   public
     sl: TslCommande;
+    procedure Vide;
   //Résultat brut d'une commande
   public
-    procedure Traite_Commande( _Commande: String;_Libelle: String= '');
+    procedure Traite_Commande( _Commande: String;_Libelle: String);
   //Listage des droits dans un répertoire
   public
     procedure Traite_ll( _Repertoire: String);
@@ -173,7 +197,7 @@ function TTraite_ll.Init( _th: TthCommand;
                           _Repertoire: String): TTraite_ll;
 begin
      Repertoire:= _Repertoire;
-     inherited Init( _th, _Add_Line, 'll '+Repertoire);
+     inherited Init( _th, _Add_Line, 'll -R '+Repertoire);
      Libelle:= 'Consolidation droits ll sur '+Repertoire;
      Result:= Self;
 end;
@@ -196,7 +220,14 @@ begin
 
         slBrut.Delete( 1         ); //total
         slBrut.Delete( 0         ); //l'écho de la commande
-
+        for i:= slBrut.Count-1 downto 0
+        do
+          begin
+          s:= slBrut[i];
+               if 1 = Pos( Repertoire, s) then slBrut.Delete( i)
+          else if 1 = Pos( 'total'   , s) then slBrut.Delete( i)
+          else if '' = s                  then slBrut.Delete( i);
+          end;
 (*
 drwxrwxr-x  3 jean jean    4096 janv.  9  2016 analyseur_4gl
 *)
@@ -215,12 +246,15 @@ drwxrwxr-x  3 jean jean    4096 janv.  9  2016 analyseur_4gl
           Calcule_Info;
           if -1 = slConsolidation.IndexOf(Info) then slConsolidation.Add( Info);
           end;
+        Calcule_Succes;
+        Affiche_Resultat;
+        if not Succes
+        then
+            Add_Line( slBrut.Text);
      finally
             FreeAndNil( slBrut);
             end;
 
-     Calcule_Succes;
-     Affiche_Resultat;
 end;
 
 procedure TTraite_ll.Calcule_Info;
@@ -331,7 +365,12 @@ begin
      inherited Destroy;
 end;
 
-procedure TInstallation_Check.Traite_Commande( _Commande: String; _Libelle: String= '');
+procedure TInstallation_Check.Vide;
+begin
+     Vide_StringList( sl);
+end;
+
+procedure TInstallation_Check.Traite_Commande( _Commande: String; _Libelle: String);
 begin
      TblCommande.Create(sl).Init( th, Add_Line, _Commande, _Libelle).Execute;
 end;
@@ -356,23 +395,33 @@ end;
 procedure TfInstallation_Check.FormCreate(Sender: TObject);
 begin
      ic:= TInstallation_Check.Create( @Add_Line);
-     ic.Verifie_CHMOD_777  ( './tmp/test_ll/droits_777');
-     ic.Verifie_CHMOD_777  ( './tmp/test_ll/droits_differents');
-     ic.Verifie_Owner_Group( './tmp/test_ll/non_partage','jean','jean');
-     ic.Verifie_Owner_Group( './tmp/test_ll/partage','jean','jean');
-     ic.Traite_Commande( 'fpc -v', 'Version de FreePascal');
-     ic.Traite_ll( './');
 
      dsb.Classe_dockable:= TdkCommande;
      dsb.Classe_Elements:= TblCommande;
-     dsb.sl:= ic.sl;
+     Refresh_List;
 
      m.Clear;
+     Charge_script;
 end;
 
 procedure TfInstallation_Check.FormDestroy(Sender: TObject);
 begin
+     Sauve_script;
      FreeAndNil( ic);
+end;
+
+procedure TfInstallation_Check.psCompile(Sender: TPSScript);
+begin
+     Sender.AddMethod( ic, @TInstallation_Check.Traite_Commande    , 'procedure Traite_Commande( _Commande: String;_Libelle: String)'                         );
+     Sender.AddMethod( ic, @TInstallation_Check.Traite_ll          , 'procedure Traite_ll( _Repertoire: String)'                                              );
+     Sender.AddMethod( ic, @TInstallation_Check.Verifie_CHMOD_777  , 'procedure Verifie_CHMOD_777( _Repertoire: String)'                                      );
+     Sender.AddMethod( ic, @TInstallation_Check.Verifie_Owner_Group, 'procedure Verifie_Owner_Group( _Repertoire, _OwnerConstraint, _GroupConstraint: String)');
+     //Sender.AddRegisteredPTRVariable( 'ic', ic.ClassName);
+end;
+
+procedure TfInstallation_Check.psExecute(Sender: TPSScript);
+begin
+     //ps.SetPointerToData( 'ic',@ic, ps.FindNamedType( ic.ClassName));
 end;
 
 procedure TfInstallation_Check.Add_Line( _S: String);
@@ -380,9 +429,89 @@ begin
      m.Lines.add( _S);
 end;
 
-procedure TfInstallation_Check.dsbResize(Sender: TObject);
+procedure TfInstallation_Check.Vide;
+begin
+     dsb.sl:= nil;
+     ic.Vide;
+end;
+
+procedure TfInstallation_Check.Refresh_List;
 begin
      dsb.sl:= ic.sl;
+end;
+
+procedure TfInstallation_Check.Charge_script;
+var
+   Repertoire_etc: String;
+begin
+     Repertoire_etc:= uClean_ETC_from_EXE( uClean_EXE_Name);
+     ForceDirectories( Repertoire_etc);
+     NomScript:= Repertoire_etc+PathDelim+'script.pas';
+     if FileExists( NomScript)
+     then
+         se.Lines.LoadFromFile( NomScript);
+
+end;
+
+procedure TfInstallation_Check.Sauve_script;
+begin
+     if     se.Modified
+        and (
+            mrYes = MessageDlg( 'Enregistrer les modifications dans le script ?',
+                                mtConfirmation,[mbYes, mbNo],0))
+     then
+         se.Lines.SaveToFile( NomScript);
+end;
+
+procedure TfInstallation_Check.dsbResize(Sender: TObject);
+begin
+     Refresh_List;
+end;
+
+procedure TfInstallation_Check.bRunClick(Sender: TObject);
+begin
+     Run;
+end;
+
+procedure TfInstallation_Check.bCtrlCClick(Sender: TObject);
+begin
+     ic.th.Send_Ctrl_C;
+end;
+
+procedure TfInstallation_Check.Run;
+var
+   compiled: boolean;
+   i: Integer;
+begin
+     {
+     ic.Verifie_CHMOD_777  ( './tmp/test_ll/droits_777');
+     ic.Verifie_CHMOD_777  ( './tmp/test_ll/droits_differents');
+     ic.Verifie_Owner_Group( './tmp/test_ll/non_partage','jean','jean');
+     ic.Verifie_Owner_Group( './tmp/test_ll/partage','jean','jean');
+     ic.Traite_Commande( 'fpc -v', 'Version de FreePascal');
+     ic.Traite_ll( './');
+     }
+     Vide;
+     m.Clear;
+
+     ps.Script.Text := se.Lines.Text;
+     Compiled := ps.Compile;
+     for i := 0 to ps.CompilerMessageCount -1
+     do
+       m.Lines.Add( ps.CompilerMessages[i].MessageToString);
+     if Compiled
+     then
+         m.Lines.Add( 'Succesfully compiled');
+     if Compiled
+     then
+         begin
+         if ps.Execute
+         then
+             m.Lines.Add( 'Succesfully Executed')
+         else
+             m.Lines.Add( 'Error while executing script: '+ps.ExecErrorToString);
+         end;
+     Refresh_List;
 end;
 
 end.
