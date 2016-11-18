@@ -23,10 +23,12 @@ type
   class(TForm)
    bLL: TButton;
    bFPC: TButton;
+   bTest: TButton;
     m: TMemo;
     Panel1: TPanel;
     procedure bFPCClick(Sender: TObject);
     procedure bLLClick(Sender: TObject);
+    procedure bTestClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
    //
@@ -106,9 +108,64 @@ type
   //Attributs
   public
     Repertoire: String;
+  // Consolidation
+  protected
+    Rights: String;
+    sOwner: String;
+    Group: String;
+    Info: String;
+    procedure Calcule_Info; virtual;
   //CallBack appelé à la fin du thread
   public
      procedure th_Terminated(  _th: TthCommand); override;
+  //Résultat
+  public
+    slResultat: TStringList;
+    procedure Affiche_Resultat; virtual;
+  //Succes
+  public
+    Succes: Boolean;
+    procedure Calcule_Succes; virtual;
+  end;
+
+ { TVerifie_CHMOD_777 }
+
+ TVerifie_CHMOD_777
+ =
+  class( TTraite_ll)
+  // Consolidation
+  protected
+    procedure Calcule_Info; override;
+  //Résultat
+  public
+    procedure Affiche_Resultat; override;
+  //Succes
+  public
+    procedure Calcule_Succes; override;
+  end;
+
+ { TVerifie_Owner_Group }
+
+ TVerifie_Owner_Group
+ =
+  class( TTraite_ll)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _c: TContexte; _Add_Line: TInstallation_Check_String_Proc;
+                        _Repertoire, _OwnerConstraint, _GroupConstraint: String);
+    destructor Destroy; override;
+  //Attributs
+  public
+    OwnerConstraint, GroupConstraint: String;
+  // Consolidation
+  protected
+    procedure Calcule_Info; override;
+  //Résultat
+  public
+    procedure Affiche_Resultat; override;
+  //Succes
+  public
+    procedure Calcule_Succes; override;
   end;
 
  { TInstallation_Check }
@@ -132,6 +189,14 @@ type
   public
     procedure Traite_ll( _Add_Line: TInstallation_Check_String_Proc;
                          _Repertoire: String);
+  //Vérification droits 777
+  public
+    procedure Verifie_CHMOD_777( _Add_Line: TInstallation_Check_String_Proc;
+                                 _Repertoire: String);
+  //Vérification propriétaire et groupe
+  public
+    procedure Verifie_Owner_Group( _Add_Line: TInstallation_Check_String_Proc;
+                                   _Repertoire, _OwnerConstraint, _GroupConstraint: String);
   end;
 
  { TthCommand }
@@ -427,23 +492,20 @@ constructor TTraite_ll.Create( _c: TContexte; _Add_Line: TInstallation_Check_Str
 begin
      Repertoire:= _Repertoire;
      inherited Create( _c, _Add_Line,'ll '+Repertoire);
+     slResultat:= TStringList.Create;
 end;
 
 destructor TTraite_ll.Destroy;
 begin
+     FreeAndNil( slResultat);
      inherited Destroy;
 end;
 
 procedure TTraite_ll.th_Terminated( _th: TthCommand);
 var
    sl: TStringList;
-   slResultat: TStringList;
    i: Integer;
    s: String;
-   Rights: String;
-   sOwner: String;
-   Group: String;
-   Info: String;
 begin
      if _th.IsLogin
      then
@@ -453,7 +515,6 @@ begin
          end;
 
      sl:= TStringList.Create;
-     slResultat:= TStringList.Create;
      try
         sl.Text:= _th.Resultat;
         //Suppression du prompt à la fin
@@ -481,21 +542,96 @@ drwxrwxr-x  3 jean jean    4096 janv.  9  2016 analyseur_4gl
 
           Delete(Rights, 1, 1);//on enlève le type de fichier : directory, link, fichier...
 
-          Info:= Rights + ' '+ sOwner + ' ' + Group;
+          Calcule_Info;
           if -1 = slResultat.IndexOf(Info) then slResultat.Add( Info);
           end;
-        Add_Line( 'consolidation droits ll sur '+Repertoire+':');
-        slResultat.Sort;
-        Add_Line( slResultat.Text);
-        Add_Line( 'fin consolidation droits ll:');
-        //Add_Line( 'Retour commande brut:');
-        //Add_Line( _Resultat);
-        //Add_Line( 'Fin Retour commande brut');
      finally
             FreeAndNil( sl);
             end;
 
      //FreeAndNil( _th);
+
+     Calcule_Succes;
+     Affiche_Resultat;
+end;
+
+procedure TTraite_ll.Calcule_Info;
+begin
+     Info:= Rights + ' '+ sOwner + ' ' + Group;
+end;
+
+procedure TTraite_ll.Calcule_Succes;
+begin
+     Succes:= True;
+end;
+
+procedure TTraite_ll.Affiche_Resultat;
+begin
+     Add_Line( 'consolidation droits ll sur '+Repertoire+':');
+     slResultat.Sort;
+     Add_Line( slResultat.Text);
+     Add_Line( 'fin consolidation droits ll:');
+     //Add_Line( 'Retour commande brut:');
+     //Add_Line( _Resultat);
+     //Add_Line( 'Fin Retour commande brut');
+end;
+
+{ TVerifie_CHMOD_777 }
+
+procedure TVerifie_CHMOD_777.Calcule_Info;
+begin
+     Info:= Rights;
+end;
+
+procedure TVerifie_CHMOD_777.Calcule_Succes;
+begin
+     Succes:= slResultat.Count = 1;
+     if not Succes then exit;
+
+     Succes:= slResultat[0] = 'rwxrwxrwx';//777
+end;
+
+procedure TVerifie_CHMOD_777.Affiche_Resultat;
+begin
+     Add_Line( BoolToStr( Succes, 'Succcés',
+                                  'Echec  ')
+               +' vérification droits 777 sur '+Repertoire);
+end;
+
+{ TVerifie_Owner_Group }
+
+constructor TVerifie_Owner_Group.Create( _c: TContexte;
+                                         _Add_Line: TInstallation_Check_String_Proc;
+                                         _Repertoire, _OwnerConstraint, _GroupConstraint: String);
+begin
+     inherited Create( _c, _Add_Line, _Repertoire);
+     OwnerConstraint:= _OwnerConstraint;
+     GroupConstraint:= _GroupConstraint;
+end;
+
+destructor TVerifie_Owner_Group.Destroy;
+begin
+     inherited Destroy;
+end;
+
+procedure TVerifie_Owner_Group.Calcule_Info;
+begin
+     Info:= sOwner + ' ' + Group;
+end;
+
+procedure TVerifie_Owner_Group.Calcule_Succes;
+begin
+     Succes:= slResultat.Count = 1;
+     if not Succes then exit;
+
+     Succes:= slResultat[0] = OwnerConstraint + ' ' + GroupConstraint;
+end;
+
+procedure TVerifie_Owner_Group.Affiche_Resultat;
+begin
+     Add_Line( BoolToStr( Succes, 'Succcés',
+                                  'Echec  ')
+               +' vérification propriétaire '+OwnerConstraint + ' groupe ' + GroupConstraint+' sur '+Repertoire);
 end;
 
 { TInstallation_Check }
@@ -523,6 +659,16 @@ begin
      TTraite_ll.Create( c, _Add_Line, _Repertoire).Execute;
 end;
 
+procedure TInstallation_Check.Verifie_CHMOD_777( _Add_Line: TInstallation_Check_String_Proc; _Repertoire: String);
+begin
+     TVerifie_CHMOD_777.Create( c, _Add_Line, _Repertoire).Execute;
+end;
+
+procedure TInstallation_Check.Verifie_Owner_Group( _Add_Line: TInstallation_Check_String_Proc; _Repertoire, _OwnerConstraint, _GroupConstraint: String);
+begin
+     TVerifie_Owner_Group.Create( c, _Add_Line, _Repertoire, _OwnerConstraint, _GroupConstraint).Execute;
+end;
+
 { TfInstallation_Check }
 
 procedure TfInstallation_Check.FormCreate(Sender: TObject);
@@ -543,6 +689,14 @@ end;
 procedure TfInstallation_Check.bLLClick(Sender: TObject);
 begin
      ic.Traite_ll( @Add_Line, './');
+end;
+
+procedure TfInstallation_Check.bTestClick(Sender: TObject);
+begin
+     ic.Verifie_CHMOD_777( @Add_Line, './tmp/test_ll/droits_777');
+     ic.Verifie_CHMOD_777( @Add_Line, './tmp/test_ll/droits_differents');
+     ic.Verifie_Owner_Group( @Add_Line, './tmp/test_ll/non_partage','jean','jean');
+     ic.Verifie_Owner_Group( @Add_Line, './tmp/test_ll/partage','jean','jean');
 end;
 
 procedure TfInstallation_Check.bFPCClick(Sender: TObject);
