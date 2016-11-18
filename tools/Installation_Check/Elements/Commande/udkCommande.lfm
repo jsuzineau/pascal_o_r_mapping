@@ -1,0 +1,36 @@
+inherited dkCommande: TdkCommande
+  Left = 710
+  Height = 77
+  Top = 272
+  Width = 320
+  Caption = 'dkCommande'
+  ClientHeight = 77
+  ClientWidth = 320
+  inherited sSelection: TBatpro_Shape
+    Height = 77
+  end
+  object clLibelle: TChamp_Label[1]
+    Left = 47
+    Height = 14
+    Top = 4
+    Width = 273
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    Caption = 'clLibelle'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    OnDblClick = FormDblClick
+    Field = 'Libelle'
+  end
+  object cLED: TChamp_LED[2]
+    Left = 23
+    Height = 15
+    Top = 3
+    Width = 17
+    Brush.Style = bsClear
+    Shape = stCircle
+    Field = 'LED_Color'
+  end
+end

@@ -8,9 +8,10 @@ uses
  cthreads,
  {$ENDIF}{$ENDIF}
  Interfaces, // this includes the LCL widgetset
- Forms, tlntsend, libssh2, ufInstallation_Check, telnetsshclient
+ Forms, uBatpro_Ligne, tlntsend, libssh2, ufInstallation_Check, telnetsshclient,
+ udkCommande
  { you can add units after this },
-  blcksock;
+  blcksock, ublCommande;
 
 {$R *.res}
 

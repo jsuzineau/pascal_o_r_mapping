@@ -15,7 +15,7 @@ uses
  uDBEdit_WANTTAB, udmf, uDockable, uEdit_WANTTAB, ufcb, ufChamp_Date, 
  ufChamp_Lookup, ufChampsGrid_Colonnes, ucAnimate, ucChamp_Integer_SpinEdit, 
  ucChamp_DateTimePicker, ucChamp_Float_SpinEdit, ucChampsGrid, 
- ucDockableScrollbox, uWinUtils, LazarusPackageIntf;
+ ucDockableScrollbox, uWinUtils, ucChamp_LED, LazarusPackageIntf;
 
 implementation
 
@@ -45,6 +45,7 @@ begin
   RegisterUnit('ucChamp_Float_SpinEdit', @ucChamp_Float_SpinEdit.Register);
   RegisterUnit('ucChampsGrid', @ucChampsGrid.Register);
   RegisterUnit('ucDockableScrollbox', @ucDockableScrollbox.Register);
+  RegisterUnit('ucChamp_LED', @ucChamp_LED.Register);
 end;
 
 initialization

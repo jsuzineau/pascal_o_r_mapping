@@ -17,7 +17,7 @@
         <CustomOptions Value="-dWINDOWS_GRAPHIC"/>
       </Other>
     </CompilerOptions>
-    <Files Count="37">
+    <Files Count="38">
       <Item1>
         <Filename Value="ucBatpro_Button.pas"/>
         <HasRegisterProc Value="True"/>
@@ -190,6 +190,11 @@
         <Filename Value="uWinUtils.pas"/>
         <UnitName Value="uWinUtils"/>
       </Item37>
+      <Item38>
+        <Filename Value="ucChamp_LED.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="ucChamp_LED"/>
+      </Item38>
     </Files>
     <RequiredPkgs Count="3">
       <Item1>

@@ -35,7 +35,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="5">
+    <Units Count="8">
       <Unit0>
         <Filename Value="Installation_Check.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -59,6 +59,21 @@
         <Filename Value="../../pascal_o_r_mapping/7_sources_externes/forum.lazarus.freepascal.org/libssh2/libssh2.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit4>
+      <Unit5>
+        <Filename Value="Elements/Commande/udkCommande.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkCommande"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="Elements/Commande/ublCommande.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="../../pascal_o_r_mapping/3_Data/uBatpro_Ligne.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit7>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -68,9 +83,14 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;../../pascal_o_r_mapping/7_sources_externes/forum.lazarus.freepascal.org/libssh2"/>
+      <OtherUnitFiles Value="../../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;../../pascal_o_r_mapping/7_sources_externes/forum.lazarus.freepascal.org/libssh2;Elements/Commande_Ancetre;../../pascal_o_r_mapping/3_Data;Elements/Commande"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <SyntaxMode Value="Delphi"/>
+      </SyntaxOptions>
+    </Parsing>
     <Linking>
       <Options>
         <Win32>

@@ -11,8 +11,8 @@ object fInstallation_Check: TfInstallation_Check
   LCLVersion = '1.6.0.2'
   object m: TMemo
     Left = 0
-    Height = 186
-    Top = 232
+    Height = 192
+    Top = 226
     Width = 517
     Align = alClient
     Font.Name = 'Courier New'
@@ -23,21 +23,33 @@ object fInstallation_Check: TfInstallation_Check
     ScrollBars = ssAutoBoth
     TabOrder = 0
   end
-  object Panel1: TPanel
+  object dsb: TDockableScrollbox
     Left = 0
-    Height = 232
+    Height = 218
     Top = 0
     Width = 517
     Align = alTop
-    ClientHeight = 232
+    Caption = 'dsb'
+    ClientHeight = 218
     ClientWidth = 517
     TabOrder = 1
-    object s: TShape
-      Left = 14
-      Height = 15
-      Top = 11
-      Width = 19
-      Shape = stCircle
-    end
+    OnResize = dsbResize
+    HauteurLigne = 24
+    BordureLignes = True
+    Zebrage = False
+    Zebrage1 = 15138790
+    Zebrage2 = 16777192
+    _LectureSeule = False
+  end
+  object Splitter1: TSplitter
+    Cursor = crVSplit
+    Left = 0
+    Height = 8
+    Top = 218
+    Width = 517
+    Align = alTop
+    Color = clLime
+    ParentColor = False
+    ResizeAnchor = akTop
   end
 end

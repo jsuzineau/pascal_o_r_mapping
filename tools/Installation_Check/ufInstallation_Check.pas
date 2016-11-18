@@ -9,27 +9,25 @@ interface
 uses
     uBatpro_StringList,
     uuStrings,
-    uEXE_INI,
-    libssh2, blcksock,
+    uEXE_INI, ucDockableScrollbox,
+    ublCommande,
+    udkCommande,
  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
  ExtCtrls, LCLType;
 
 type
 
  TInstallation_Check= class;
- TInstallation_Check_String_Proc=  procedure (_S: String) of object;
 
  { TfInstallation_Check }
 
  TfInstallation_Check
  =
   class(TForm)
+   dsb: TDockableScrollbox;
     m: TMemo;
-    Panel1: TPanel;
-    s: TShape;
-    procedure bFPCClick(Sender: TObject);
-    procedure bLLClick(Sender: TObject);
-    procedure bTestClick(Sender: TObject);
+    Splitter1: TSplitter;
+    procedure dsbResize(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
    //
@@ -38,83 +36,20 @@ type
    procedure Add_Line(_S: String);
   end;
 
- TthCommand= class;
-
- { TCommande_Ancetre }
-
- TCommande_Ancetre
- =
-  class
-  //Gestion du cycle de vie
-  public
-    constructor Create( _th: TthCommand; _Add_Line: TInstallation_Check_String_Proc;
-                        _Commande: String);
-    destructor Destroy; override;
-  //Attributs
-  private
-    th: TthCommand;
-    Add_Line: TInstallation_Check_String_Proc;
-    Commande: String;
-
-  //Lancement du thread
-  public
-    procedure Execute;
-  //CallBack appelé à la fin du thread
-  public
-     procedure Commande_Terminated; virtual;  abstract;
-  end;
-
- TIterateur_Commande_Ancetre
- =
-  class( TIterateur)
-  //Iterateur
-  public
-    procedure Suivant( var _Resultat: TCommande_Ancetre);
-    function  not_Suivant( var _Resultat: TCommande_Ancetre): Boolean;
-  end;
-
- TslCommande_Ancetre
- =
-  class( TBatpro_StringList)
-  //Gestion du cycle de vie
-  public
-    constructor Create( _Nom: String= ''); override;
-    destructor Destroy; override;
-  //Création d'itérateur
-  protected
-    class function Classe_Iterateur: TIterateur_Class; override;
-  public
-    function Iterateur: TIterateur_Commande_Ancetre;
-    function Iterateur_Decroissant: TIterateur_Commande_Ancetre;
-  end;
-
- { TCommande}
-
- TCommande
- =
-  class( TCommande_Ancetre)
-  //Gestion du cycle de vie
-  public
-    constructor Create( _th: TthCommand; _Add_Line: TInstallation_Check_String_Proc; _Commande, _Tag: String);
-    destructor Destroy; override;
-  //Attributs
-  private
-    Tag: String;
-  //CallBack appelé à la fin du thread
-  public
-     procedure Commande_Terminated; override;
-  end;
-
  { TTraite_ll }
 
  TTraite_ll
  =
-  class( TCommande_Ancetre)
+  class( TblCommande)
   //Gestion du cycle de vie
   public
-    constructor Create( _th: TthCommand; _Add_Line: TInstallation_Check_String_Proc;
-                        _Repertoire: String);
+    constructor Create( _sl: TBatpro_StringList);
+
     destructor Destroy; override;
+  //Initialisation
+  public
+    function Init( _th: TthCommand; _Add_Line: TInstallation_Check_String_Proc;
+                   _Repertoire: String): TTraite_ll;
   //Attributs
   public
     Repertoire: String;
@@ -130,7 +65,7 @@ type
      procedure Commande_Terminated; override;
   //Résultat
   public
-    slResultat: TStringList;
+    slConsolidation: TStringList;
     procedure Affiche_Resultat; virtual;
   //Succes
   public
@@ -143,6 +78,10 @@ type
  TVerifie_CHMOD_777
  =
   class( TTraite_ll)
+  //Initialisation
+  public
+    function Init( _th: TthCommand; _Add_Line: TInstallation_Check_String_Proc;
+                   _Repertoire: String): TVerifie_CHMOD_777;
   // Consolidation
   protected
     procedure Calcule_Info; override;
@@ -159,11 +98,10 @@ type
  TVerifie_Owner_Group
  =
   class( TTraite_ll)
-  //Gestion du cycle de vie
+  //Initialisation
   public
-    constructor Create( _th: TthCommand; _Add_Line: TInstallation_Check_String_Proc;
-                        _Repertoire, _OwnerConstraint, _GroupConstraint: String);
-    destructor Destroy; override;
+    function Init( _th: TthCommand; _Add_Line: TInstallation_Check_String_Proc;
+                    _Repertoire, _OwnerConstraint, _GroupConstraint: String): TVerifie_Owner_Group;
   //Attributs
   public
     OwnerConstraint, GroupConstraint: String;
@@ -191,9 +129,12 @@ type
   public
     th: TthCommand;
     Add_Line: TInstallation_Check_String_Proc;
+  //Liste de commandes
+  public
+    sl: TslCommande;
   //Résultat brut d'une commande
   public
-    procedure Traite_Commande( _Commande: String;_Tag: String= '');
+    procedure Traite_Commande( _Commande: String;_Libelle: String= '');
   //Listage des droits dans un répertoire
   public
     procedure Traite_ll( _Repertoire: String);
@@ -205,66 +146,6 @@ type
     procedure Verifie_Owner_Group( _Repertoire, _OwnerConstraint, _GroupConstraint: String);
   end;
 
- { TthCommand }
-
- TthCommand
- =
-  class(TThread)
-  //Gestion du cycle de vie
-  public
-    constructor Create( _Add_Line: TInstallation_Check_String_Proc);
-    destructor Destroy; override;
-  //Attributs
-  private
-    Add_Line: TInstallation_Check_String_Proc;
-    Hostname, Username, Password, Prompt: String;
-    lPrompt: Integer;
-   //Gestion Connection
-   private
-     sock:TTCPBlockSocket;
-     session:PLIBSSH2_SESSION;
-     channel:PLIBSSH2_CHANNEL;
-     ssend:string;
-   //Méthodes
-   protected
-     procedure Execute; override;
-   //Login
-   private
-     function not_Login: Boolean;
-   //Lecture
-   private
-     IsLogin: Boolean;
-     IsPrompt: Boolean;
-     function no_New_input: Boolean;
-   //Gestion envoi
-   private
-     Wait_For_Command: Boolean;
-     procedure Send( _S: String);
-     procedure Process_Output;
-   //Log
-   private
-     procedure Log_Add_Line(_S: String);
-     procedure Log_Add_Text( _S: String);
-   public
-      slLog: TStringList;
-   //Liste de commandes à exécuter
-   public
-     I: TIterateur_Commande_Ancetre;
-     sl: TslCommande_Ancetre;
-     procedure Ajoute_Commande( _Commande: TCommande_Ancetre);
-     function Next_Command: Boolean;
-   //Terminaison
-   public
-      Commande: TCommande_Ancetre;
-      procedure Do_OnTerminated_interne;
-      procedure Do_OnTerminated;
-   //Tag
-   public
-     Tag: String;
-   //Resultat
-   public
-     Resultat: String;
-   end;
 
 var
  fInstallation_Check: TfInstallation_Check;
@@ -273,371 +154,56 @@ implementation
 
 {$R *.lfm}
 
-{ TthCommand }
-
-constructor TthCommand.Create( _Add_Line: TInstallation_Check_String_Proc);
-begin
-     Add_Line:= _Add_Line;
-     HostName:= EXE_INI.Assure_String( 'HostName', '');
-     UserName:= EXE_INI.Assure_String( 'UserName', '');
-     PassWord:= EXE_INI.Assure_String( 'PassWord', '');
-     Prompt  := EXE_INI.Assure_String( 'Prompt'  , '"(please quote the prompt)"');
-     lPrompt:= Length( Prompt);
-
-     slLog:= TStringList.Create;
-
-     sl:= TslCommande_Ancetre.Create(ClassName+'.sl');
-     I:= sl.Iterateur;
-
-     IsLogin := True;
-     IsPrompt:= False;
-     Resultat:= '';
-     Tag:= '';
-     Commande:= nil;
-     Wait_For_Command:= False;
-
-     inherited Create(False);
-end;
-
-destructor TthCommand.Destroy;
-begin
-     libssh2_channel_free(channel);
-     libssh2_session_disconnect(session,'Thank you for using sshtest');
-     libssh2_session_free(session);
-     sock.Free;
-
-     FreeAndNil( sl);
-     FreeAndNil( slLog);
-
-     inherited Destroy;
-end;
-
-function TthCommand.not_Login: Boolean;
-var
-   fingerprint:PAnsiChar;
-   iFINGERPRINT:integer;
-begin
-     Result:= True;
-
-     sock := TTCPBlockSocket.Create;
-     sock.Connect(Hostname,'22');
-     if sock.LastError<>0
-     then
-         begin
-         Log_Add_Line('Cannot connect');
-         Add_Line( slLog.Text);
-         exit;
-         end;
-
-     session := libssh2_session_init();
-     if libssh2_session_startup(session, sock.Socket)<>0
-     then
-         begin
-         Log_Add_Line( 'Cannot establishing SSH session');
-         Add_Line( slLog.Text);
-         exit;
-         end;
-
-     fingerprint := libssh2_hostkey_hash(session, LIBSSH2_HOSTKEY_HASH_SHA1);
-     Log_Add_Text( 'Host fingerprint ');
-     iFINGERPRINT:=0;
-     while fingerprint[iFINGERPRINT]<>#0
-     do
-       begin
-       Log_Add_Text( inttohex(ord(fingerprint[iFINGERPRINT]),2)+':');
-       iFINGERPRINT:=iFINGERPRINT+1;
-       end;
-     Log_Add_Text( #13#10);
-     Log_Add_Line( 'Assuming known host...');
-     if libssh2_userauth_password(session, pchar(Username), pchar(Password))<>0
-     then
-         begin
-         Log_Add_Line('Authentication by password failed');
-         Add_Line( slLog.Text);
-         exit;
-         end;
-     Log_Add_Line('Authentication succeeded');
-     channel := libssh2_channel_open_session(session);
-     if not assigned(channel)
-     then
-         begin
-         Log_Add_Line('Cannot open session');
-         Add_Line( slLog.Text);
-         exit;
-         end;
-     if libssh2_channel_request_pty(channel, 'vanilla')<>0
-     then
-         begin
-         Log_Add_Line('Cannot obtain pty');
-         Add_Line( slLog.Text);
-         exit;
-         end;
-     if libssh2_channel_shell(channel)<>0
-     then
-         begin
-         Log_Add_Line('Cannot open shell');
-         Add_Line( slLog.Text);
-         exit;
-         end;
-
-     libssh2_channel_set_blocking(channel,0);
-
-     Result:= False;
-end;
-
-function TthCommand.no_New_input: Boolean;
-const
-     Buffer_Size=10000;
-var
-  Used:integer;
-  S: String;
-var
-   iDerniereLigne: Integer;
-   sDerniereLigne: String;
-begin
-     Result:= True;
-
-     SetLength( S, Buffer_Size+1);
-     Used:=libssh2_channel_read(channel,@S[1],Buffer_Size);
-     Result:= Used <= 0;
-     if Result then exit;
-
-     SetLength( S, Used);
-
-     Resultat:= Resultat+S;
-     Log_Add_Text( S);
-     iDerniereLigne:= slLog.Count-1;
-     IsPrompt:= 0 <= iDerniereLigne;
-     if IsPrompt
-     then
-         begin
-         sDerniereLigne:= slLog.Strings[ iDerniereLigne];
-         IsPrompt:= sDerniereLigne = Prompt;
-         end;
-     if IsPrompt
-     then
-         if IsLogin
-         then
-             begin
-             Add_Line( slLog.Text);
-             IsLogin:= False;
-             Resultat:= '';
-             Wait_For_Command:= True;
-             end
-         else
-             begin
-             while Prompt = Copy(Resultat, Length(Resultat)-lPrompt+1, lPrompt)
-             do
-               Delete( Resultat, Length(Resultat)-lPrompt+1, lPrompt);
-             Do_OnTerminated;
-             end;
-end;
-
-procedure TthCommand.Process_Output;
-begin
-     if     Wait_For_Command
-        and Next_Command
-     then
-         begin
-         Wait_For_Command:= False;
-         Send( Commande.Commande);
-         end;
-end;
-
-procedure TthCommand.Execute;
-begin
-     FreeOnTerminate:= False;
-
-     if not_Login then exit;
-     while not Terminated
-     do
-       begin
-       if no_New_input then Sleep( 1000);
-
-       Process_Output;
-       end;
-end;
-
-procedure TthCommand.Log_Add_Line(_S: String);
-begin
-     slLog.Add( _S);
-end;
-
-procedure TthCommand.Log_Add_Text(_S: String);
-begin
-     with slLog do Text:= Text + _S;
-end;
-
-procedure TthCommand.Ajoute_Commande(_Commande: TCommande_Ancetre);
-begin
-     sl.AddObject( _Commande.Commande, _Commande);
-end;
-
-function TthCommand.Next_Command: Boolean;
-begin
-     Result:= I.Continuer;
-     if not Result then exit;
-
-     Result:= not I.not_Suivant( Commande);
-     if not Result then exit;
-
-     IsPrompt:= False;
-     Resultat:= '';
-     if Tag= '' then Tag:= Commande.Commande;
-end;
-
-procedure TthCommand.Send(_S: String);
-begin
-     ssend:= _S+LineEnding;
-     libssh2_channel_write(channel,pchar(ssend),length(ssend));
-end;
-
-procedure TthCommand.Do_OnTerminated_interne;
-begin
-     Commande.Commande_Terminated;
-     I.Supprime_courant;
-     Wait_For_Command:= True;
-end;
-
-procedure TthCommand.Do_OnTerminated;
-begin
-     Synchronize( @Do_OnTerminated_interne);
-end;
-
-{ TCommande_Ancetre }
-
-constructor TCommande_Ancetre.Create( _th: TthCommand; _Add_Line: TInstallation_Check_String_Proc;
-                                      _Commande: String);
-begin
-     th      := _th;
-     Add_Line:= _Add_Line;
-     Commande:= _Commande;
-end;
-
-destructor TCommande_Ancetre.Destroy;
-begin
-     inherited Destroy;
-end;
-
-procedure TCommande_Ancetre.Execute;
-begin
-     th.Ajoute_Commande( Self);
-end;
-
-{ TIterateur_Commande_Ancetre }
-
-function TIterateur_Commande_Ancetre.not_Suivant( var _Resultat: TCommande_Ancetre): Boolean;
-begin
-     Result:= not_Suivant_interne( _Resultat);
-end;
-
-procedure TIterateur_Commande_Ancetre.Suivant( var _Resultat: TCommande_Ancetre);
-begin
-     Suivant_interne( _Resultat);
-end;
-
-{ TslCommande_Ancetre }
-
-constructor TslCommande_Ancetre.Create( _Nom: String= '');
-begin
-     inherited CreateE( _Nom, TCommande_Ancetre);
-end;
-
-destructor TslCommande_Ancetre.Destroy;
-begin
-     inherited;
-end;
-
-class function TslCommande_Ancetre.Classe_Iterateur: TIterateur_Class;
-begin
-     Result:= TIterateur_Commande_Ancetre;
-end;
-
-function TslCommande_Ancetre.Iterateur: TIterateur_Commande_Ancetre;
-begin
-     Result:= TIterateur_Commande_Ancetre( Iterateur_interne);
-end;
-
-function TslCommande_Ancetre.Iterateur_Decroissant: TIterateur_Commande_Ancetre;
-begin
-     Result:= TIterateur_Commande_Ancetre( Iterateur_interne_Decroissant);
-end;
-
-{ TCommande }
-
-constructor TCommande.Create( _th: TthCommand; _Add_Line: TInstallation_Check_String_Proc; _Commande, _Tag: String);
-begin
-     inherited Create( _th, _Add_Line,_Commande);
-     Tag:= _Tag;
-end;
-
-destructor TCommande.Destroy;
-begin
-     inherited Destroy;
-end;
-
-procedure TCommande.Commande_Terminated;
-begin
-     if th.IsLogin
-     then
-         Add_Line( th.slLog.Text)
-     else
-         begin
-         Add_Line( Tag);
-         Add_Line( th.Resultat);
-         end;
-     Free;
-end;
-
 { TTraite_ll }
 
-constructor TTraite_ll.Create( _th: TthCommand; _Add_Line: TInstallation_Check_String_Proc;
-                               _Repertoire: String);
+constructor TTraite_ll.Create(_sl: TBatpro_StringList);
 begin
-     Repertoire:= _Repertoire;
-     inherited Create( _th, _Add_Line,'ll '+Repertoire);
-     slResultat:= TStringList.Create;
+     inherited;
+     slConsolidation:= TStringList.Create;
 end;
 
 destructor TTraite_ll.Destroy;
 begin
-     FreeAndNil( slResultat);
+     FreeAndNil( slConsolidation);
      inherited Destroy;
+end;
+
+function TTraite_ll.Init( _th: TthCommand;
+                          _Add_Line: TInstallation_Check_String_Proc;
+                          _Repertoire: String): TTraite_ll;
+begin
+     Repertoire:= _Repertoire;
+     inherited Init( _th, _Add_Line, 'll '+Repertoire);
+     Libelle:= 'Consolidation droits ll sur '+Repertoire;
+     Result:= Self;
 end;
 
 procedure TTraite_ll.Commande_Terminated;
 var
-   sl: TStringList;
+   slBrut: TStringList;
    i: Integer;
    s: String;
 begin
-     if th.IsLogin
-     then
-         begin
-         Add_Line( th.slLog.Text);
-         exit;
-         end;
-
-     sl:= TStringList.Create;
+     slBrut:= TStringList.Create;
      try
-        sl.Text:= th.Resultat;
+        slBrut.Text:= th.Resultat;
         //Suppression du prompt à la fin
         while
-                 (sl.Count>0)
-             and (sl[sl.Count-1] = th.Prompt)
+                 (slBrut.Count>0)
+             and (slBrut[slBrut.Count-1] = th.Prompt)
         do
-          sl.Delete( sl.Count-1); //le prompt
+          slBrut.Delete( slBrut.Count-1); //le prompt
 
-        sl.Delete( 1         ); //total
-        sl.Delete( 0         ); //l'écho de la commande
+        slBrut.Delete( 1         ); //total
+        slBrut.Delete( 0         ); //l'écho de la commande
 
 (*
 drwxrwxr-x  3 jean jean    4096 janv.  9  2016 analyseur_4gl
 *)
-        for i:= 0 to sl.Count-1
+        for i:= 0 to slBrut.Count-1
         do
           begin
-          s:= sl[i];
+          s:= slBrut[i];
           Rights:= StrToK( ' ', s);
           s:= TrimLeft( s);
           StrToK( ' ', s); //hardlinks #
@@ -647,15 +213,14 @@ drwxrwxr-x  3 jean jean    4096 janv.  9  2016 analyseur_4gl
           Delete(Rights, 1, 1);//on enlève le type de fichier : directory, link, fichier...
 
           Calcule_Info;
-          if -1 = slResultat.IndexOf(Info) then slResultat.Add( Info);
+          if -1 = slConsolidation.IndexOf(Info) then slConsolidation.Add( Info);
           end;
      finally
-            FreeAndNil( sl);
+            FreeAndNil( slBrut);
             end;
 
      Calcule_Succes;
      Affiche_Resultat;
-     Free;
 end;
 
 procedure TTraite_ll.Calcule_Info;
@@ -670,9 +235,10 @@ end;
 
 procedure TTraite_ll.Affiche_Resultat;
 begin
-     Add_Line( 'consolidation droits ll sur '+Repertoire+':');
-     slResultat.Sort;
-     Add_Line( slResultat.Text);
+     cLED_Color.asInteger:= clLime;
+     Add_Line( Libelle+':');
+     slConsolidation.Sort;
+     Add_Line( slConsolidation.Text);
      Add_Line( 'fin consolidation droits ll:');
      //Add_Line( 'Retour commande brut:');
      //Add_Line( _Resultat);
@@ -681,6 +247,15 @@ end;
 
 { TVerifie_CHMOD_777 }
 
+function TVerifie_CHMOD_777.Init( _th: TthCommand;
+                                  _Add_Line: TInstallation_Check_String_Proc;
+                                  _Repertoire: String): TVerifie_CHMOD_777;
+begin
+     inherited Init( _th, _Add_Line, _Repertoire);
+     Libelle:= ' vérification droits 777 sur '+Repertoire;
+     Result:= Self;
+end;
+
 procedure TVerifie_CHMOD_777.Calcule_Info;
 begin
      Info:= Rights;
@@ -688,33 +263,33 @@ end;
 
 procedure TVerifie_CHMOD_777.Calcule_Succes;
 begin
-     Succes:= slResultat.Count = 1;
+     Succes:= slConsolidation.Count = 1;
      if not Succes then exit;
 
-     Succes:= slResultat[0] = 'rwxrwxrwx';//777
+     Succes:= slConsolidation[0] = 'rwxrwxrwx';//777
 end;
 
 procedure TVerifie_CHMOD_777.Affiche_Resultat;
 begin
-     Add_Line( BoolToStr( Succes, 'Succés',
-                                  'Echec ')
-               +' vérification droits 777 sur '+Repertoire);
+     if Succes
+     then
+         cLED_Color.asInteger:= clLime
+     else
+         cLED_Color.asInteger:= clRed;
+
+     Add_Line( BoolToStr( Succes, 'Succés','Echec ')+Libelle);
 end;
 
 { TVerifie_Owner_Group }
-
-constructor TVerifie_Owner_Group.Create( _th: TthCommand;
-                                         _Add_Line: TInstallation_Check_String_Proc;
-                                         _Repertoire, _OwnerConstraint, _GroupConstraint: String);
+function TVerifie_Owner_Group.Init( _th: TthCommand;
+                                    _Add_Line: TInstallation_Check_String_Proc;
+                                    _Repertoire, _OwnerConstraint, _GroupConstraint: String): TVerifie_Owner_Group;
 begin
-     inherited Create( _th, _Add_Line, _Repertoire);
+     inherited Init( _th, _Add_Line, _Repertoire);
      OwnerConstraint:= _OwnerConstraint;
      GroupConstraint:= _GroupConstraint;
-end;
-
-destructor TVerifie_Owner_Group.Destroy;
-begin
-     inherited Destroy;
+     Libelle:= 'vérification propriétaire '+OwnerConstraint + ' groupe ' + GroupConstraint+' sur '+Repertoire;
+     Result:= Self;
 end;
 
 procedure TVerifie_Owner_Group.Calcule_Info;
@@ -724,17 +299,20 @@ end;
 
 procedure TVerifie_Owner_Group.Calcule_Succes;
 begin
-     Succes:= slResultat.Count = 1;
+     Succes:= slConsolidation.Count = 1;
      if not Succes then exit;
 
-     Succes:= slResultat[0] = OwnerConstraint + ' ' + GroupConstraint;
+     Succes:= slConsolidation[0] = OwnerConstraint + ' ' + GroupConstraint;
 end;
 
 procedure TVerifie_Owner_Group.Affiche_Resultat;
 begin
-     Add_Line( BoolToStr( Succes, 'Succcés',
-                                  'Echec  ')
-               +' vérification propriétaire '+OwnerConstraint + ' groupe ' + GroupConstraint+' sur '+Repertoire);
+     if Succes
+     then
+         cLED_Color.asInteger:= clLime
+     else
+         cLED_Color.asInteger:= clRed;
+     Add_Line( BoolToStr( Succes, 'Succcés ','Echec   ')+Libelle);
 end;
 
 { TInstallation_Check }
@@ -743,32 +321,34 @@ constructor TInstallation_Check.Create( _Add_Line: TInstallation_Check_String_Pr
 begin
      Add_Line:= _Add_Line;
      th:= TthCommand.Create( Add_Line);
+     sl:= TslCommande.Create( ClassName+'.sl');
 end;
 
 destructor TInstallation_Check.Destroy;
 begin
      th.FreeOnTerminate:= True;
+     FreeAndNil( sl);
      inherited Destroy;
 end;
 
-procedure TInstallation_Check.Traite_Commande( _Commande: String; _Tag: String= '');
+procedure TInstallation_Check.Traite_Commande( _Commande: String; _Libelle: String= '');
 begin
-     TCommande.Create( th, Add_Line, _Commande, _Tag).Execute;
+     TblCommande.Create(sl).Init( th, Add_Line, _Commande, _Libelle).Execute;
 end;
 
 procedure TInstallation_Check.Traite_ll( _Repertoire: String);
 begin
-     TTraite_ll.Create( th, Add_Line, _Repertoire).Execute;
+     TTraite_ll.Create(sl).Init( th, Add_Line, _Repertoire).Execute;
 end;
 
 procedure TInstallation_Check.Verifie_CHMOD_777( _Repertoire: String);
 begin
-     TVerifie_CHMOD_777.Create( th, Add_Line, _Repertoire).Execute;
+     TVerifie_CHMOD_777.Create(sl).Init( th, Add_Line, _Repertoire).Execute;
 end;
 
 procedure TInstallation_Check.Verifie_Owner_Group( _Repertoire, _OwnerConstraint, _GroupConstraint: String);
 begin
-     TVerifie_Owner_Group.Create( th, Add_Line, _Repertoire, _OwnerConstraint, _GroupConstraint).Execute;
+     TVerifie_Owner_Group.Create(sl).Init( th, Add_Line, _Repertoire, _OwnerConstraint, _GroupConstraint).Execute;
 end;
 
 { TfInstallation_Check }
@@ -782,6 +362,12 @@ begin
      ic.Verifie_Owner_Group( './tmp/test_ll/partage','jean','jean');
      ic.Traite_Commande( 'fpc -v', 'Version de FreePascal');
      ic.Traite_ll( './');
+
+     dsb.Classe_dockable:= TdkCommande;
+     dsb.Classe_Elements:= TblCommande;
+     dsb.sl:= ic.sl;
+
+     m.Clear;
 end;
 
 procedure TfInstallation_Check.FormDestroy(Sender: TObject);
@@ -794,16 +380,9 @@ begin
      m.Lines.add( _S);
 end;
 
-procedure TfInstallation_Check.bLLClick(Sender: TObject);
+procedure TfInstallation_Check.dsbResize(Sender: TObject);
 begin
-end;
-
-procedure TfInstallation_Check.bTestClick(Sender: TObject);
-begin
-end;
-
-procedure TfInstallation_Check.bFPCClick(Sender: TObject);
-begin
+     dsb.sl:= ic.sl;
 end;
 
 end.
