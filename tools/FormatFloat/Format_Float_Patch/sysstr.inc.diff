@@ -1,0 +1,21 @@
+2254c2254,2261
+<       Inc(i);
+---
+>       if ' ' = Digits[i]
+>       then
+>           begin
+>           Delete( Digits, I, 1);
+>           Inc(FmtStart);
+>           end
+>       else
+>           Inc(i);
+2329c2336
+<               if Digits[Dig]<>'-' then  
+---
+>               if Digits[Dig]<>'-' then
+2331a2339,2341
+>               if Dig > Length( Digits)
+>               then
+>                   Fmt:= FmtStop;
+2406d2415
+< 
