@@ -1,0 +1,46 @@
+Générer une clé pour l'administrateur gitolite
+  ssh-keygen -t rsa
+
+La copier dans le répertoire /tmp : (pas certain que ce soit indispensable)
+  cp ~/.ssh/id_rsa.pub /tmp/$(whoami).pub
+installation package gitolite3
+
+passer en utilisateur git: (pas certain que ce soit indispensable)
+ sudo su - git
+
+Tester si gitolite est paramétré:
+  git@First-Boss:~$ gitolite setup
+  FATAL: '-pk' or '-a' required; see 'gitolite setup -h' for more
+
+Donner le compte administrateur pour gitolite:
+  gitolite setup -a jean
+
+Donner le fichier de la clé
+  gitolite setup -pk /tmp/jean.pub
+
+Retester si gitolite est paramétré
+  git@First-Boss:~$ gitolite setup
+  git@First-Boss:~$ 
+
+Sortir du sudo git et revenir en compte administrateur gitolite.
+
+Déplacer les repositories 
+  sudo mv /opt/git/* /home/git/repositories/
+ajuster le propriétaire sur les repositories
+  sudo chown -R git:git  /home/git/repositories
+ajuster les droits
+  sudo chmod -R o-rwx  /home/git/repositories
+  sudo chmod -R g-rwx  /home/git/repositories
+
+Cloner le paramétrage de gitolite pour pouvoir le modifier:
+  jean@First-Boss:~$ git clone git@localhost:gitolite-admin.git
+
+
+Pour chaque utilisateur de git, mettre sa clé publique dans un fichier  ~/gitolite-admin/Nom_utilisateur.pub
+Mettre les droits d'accés au repositories dans ~/gitolite-admin/conf/gitolite.conf 
+
+Pour chaque répertoire de travail, mettre à jour le remote correspondant avec la nouvelle url:
+  jean@First-Boss:~/0_Bricolage$ git remote -v
+  origin	/opt/git/bricolage.git (fetch)
+  origin	/opt/git/bricolage.git (push)
+  jean@First-Boss:~/0_Bricolage$ git remote set-url origin git@localhost:bricolage.git

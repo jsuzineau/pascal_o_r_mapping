@@ -1,0 +1,85 @@
+object fDecoupe_gcode: TfDecoupe_gcode
+  Left = 507
+  Height = 364
+  Top = 145
+  Width = 517
+  Caption = 'fDecoupe_gcode'
+  ClientHeight = 364
+  ClientWidth = 517
+  Menu = mm
+  LCLVersion = '1.6.0.4'
+  object m: TMemo
+    Left = 0
+    Height = 219
+    Top = 50
+    Width = 517
+    Align = alClient
+    Lines.Strings = (
+      'm'
+    )
+    ScrollBars = ssAutoBoth
+    TabOrder = 0
+  end
+  object Splitter1: TSplitter
+    Cursor = crVSplit
+    Left = 0
+    Height = 5
+    Top = 269
+    Width = 517
+    Align = alBottom
+    Color = clLime
+    ParentColor = False
+    ResizeAnchor = akBottom
+  end
+  object mVariables: TMemo
+    Left = 0
+    Height = 90
+    Top = 274
+    Width = 517
+    Align = alBottom
+    Lines.Strings = (
+      'mVariables'
+    )
+    ScrollBars = ssAutoBoth
+    TabOrder = 2
+  end
+  object Panel1: TPanel
+    Left = 0
+    Height = 50
+    Top = 0
+    Width = 517
+    Align = alTop
+    ClientHeight = 50
+    ClientWidth = 517
+    TabOrder = 3
+    object seNb: TSpinEdit
+      Left = 128
+      Height = 27
+      Top = 15
+      Width = 50
+      TabOrder = 0
+      Value = 20
+    end
+    object bDecoupe_en: TButton
+      Left = 14
+      Height = 25
+      Top = 15
+      Width = 107
+      Caption = 'Découper en'
+      OnClick = bDecoupe_enClick
+      TabOrder = 1
+    end
+  end
+  object mm: TMainMenu
+    left = 64
+    top = 24
+    object miFichier: TMenuItem
+      Caption = '&Fichier'
+      object miOuvrir: TMenuItem
+        Caption = '&Ouvrir'
+        ShortCut = 16463
+        OnClick = miOuvrirClick
+      end
+    end
+  end
+end
