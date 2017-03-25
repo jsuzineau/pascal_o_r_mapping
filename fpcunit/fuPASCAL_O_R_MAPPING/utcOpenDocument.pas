@@ -5,38 +5,50 @@ unit utcOpenDocument;
 interface
 
 uses
+    uOD_Temporaire,
     uOpenDocument,
- Classes, SysUtils, fpcunit, testutils, testregistry;
+ Classes, SysUtils, fpcunit, testutils, testregistry, FileUtil,LCLIntf;
 
 type
 
- TtcOpenDocument= class(TTestCase)
- protected
-  procedure SetUp; override;
-  procedure TearDown; override;
- published
-  procedure TestHookUp;
- end;
+ TtcOpenDocument
+ =
+  class(TTestCase)
+  private
+    NomODT: String;
+    od: TOpenDocument;
+  protected
+    procedure SetUp; override;
+    procedure TearDown; override;
+  published
+    procedure test_TOpenDocument_Freeze_fields;
+  end;
 
 implementation
 
-procedure TtcOpenDocument.TestHookUp;
+procedure TtcOpenDocument.test_TOpenDocument_Freeze_fields;
 begin
- Fail('Écrivez votre propre test');
+     od.Freeze_fields;
+     od.Save;
+     OpenDocument( IncludeTrailingPathDelimiter( od.Repertoire_Extraction)+'content.xml');
+     OpenDocument( NomODT);
+//     Fail('Écrivez votre propre test');
 end;
 
 procedure TtcOpenDocument.SetUp;
 begin
-
+     NomODT:= OD_Temporaire.Nouveau_ODT( 'TEST');
+     CopyFile( 'tcOpenDocument.odt', NomODT);
+     od:= TOpenDocument.Create( NomODT);
 end;
 
 procedure TtcOpenDocument.TearDown;
 begin
-
+     FreeAndNil( od);
+     //DeleteFile( NomODT);
 end;
 
 initialization
-
- RegisterTest(TtcOpenDocument);
+              RegisterTest(TtcOpenDocument);
 end.
 

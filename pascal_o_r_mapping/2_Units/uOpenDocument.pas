@@ -33,6 +33,9 @@ uses
     uOOoStringList,
     uOOoDelphiReportEngineLog,
 
+  {$IFDEF LINUX}
+  clocale,
+  {$ENDIF}
   (*Windows, ExtCtrls, Forms, Dialogs, *)SysUtils, Classes, XMLRead,XMLWrite,DOM,Zipper, Math;
 
 type
@@ -84,6 +87,9 @@ type
   public
     constructor Create( _Nom: String);
     destructor Destroy; override;
+  //Extraction
+  public
+    Repertoire_Extraction: String;
   //Persistance
   private
     procedure XML_from_Repertoire_Extraction;
@@ -96,7 +102,6 @@ type
     Nom: String;
     is_Calc: Boolean;
   private
-    Repertoire_Extraction: String;
     function Ensure_style_text( _NomStyle, _NomStyleParent: String;
                                           _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TDOMNode;
     function Find_style_family_multiroot(_NomStyle: String;
@@ -271,6 +276,9 @@ type
   //Changer le style parent d'un style donné
   public
     procedure Change_style_parent( _NomStyle, _NomStyleParent: String);
+  //Styles de date
+  public
+    function Find_date_style( _NomStyle: String;_Root: TOD_Root_Styles): TDOMNode;
   //Général
   private
     function Text_Traite_Field( FieldName, FieldContent: String;
@@ -502,8 +510,90 @@ end;
 function TStyle_Date.Format_Value( _d: TDateTime): String;
 var
    eStyle: TDOMNode;
+   I: Integer;
+   e: TDOMNode;
+   sFormat: String;
+   function number_style_SHORT_from_( _e: TDOMNode): Boolean;
+   var
+      sNUMBER_STYLE: String;
+   begin
+        Result:= True;
+        if not_Get_Property( _e, 'number:style', sNUMBER_STYLE) then exit;
+
+        Result:= 'short' = sNUMBER_STYLE;
+   end;
+   function number_textual_from_( _e: TDOMNode): Boolean;
+   var
+      sNUMBER_TEXTUAL: String;
+   begin
+        Result:= False;
+        if not_Get_Property( _e, 'number:textual', sNUMBER_TEXTUAL) then exit;
+
+        Result:= 'true' = sNUMBER_TEXTUAL;
+   end;
+   function Format_from_number_style( _e: TDOMNode; _Short, _Long: String): String;
+   var
+      IsShort: Boolean;
+   begin
+        IsShort:= number_style_SHORT_from_( _e);
+        if IsShort
+        then
+            Result:= _Short
+        else
+            Result:= _Long;
+   end;
+   procedure Add_Format( _Short, _Long: String);
+   begin
+        sFormat:= sFormat+ Format_from_number_style( e, _Short, _Long);
+   end;
+   procedure Add_Format_textual( _Short, _Long, _Textual_Short, _Textual_Long: String);
+   var
+      IsTextual: Boolean;
+   begin
+        IsTextual:= number_textual_from_( e);
+        if IsTextual
+        then
+            Add_Format( _Textual_Short, _Textual_Long)
+        else
+            Add_Format( _Short, _Long);
+   end;
+   procedure Add_Text;
+   var
+      Text: String;
+   begin
+        Text:= Text_from_path( e,'');
+        if '' = Text then Text:= ' ';
+        sFormat:= sFormat+ '"'+Text+'"';
+   end;
+   procedure Traite_Node;
+   var
+      NodeName: String;
+   begin
+        NodeName:= e.NodeName;
+             if NodeName =  'number:day'         then Add_Format        ( 'd'  , 'dd'  )
+        else if NodeName =  'number:day-of-week' then Add_Format        ( 'ddd', 'dddd')
+        else if NodeName =  'number:month'       then Add_Format_textual( 'm'  , 'mm'  , 'mmm', 'mmmm')
+        else if NodeName =  'number:year'        then Add_Format        ( 'yy' , 'yyyy')
+        else if NodeName =  'number:text'        then Add_Text;
+   end;
 begin
-     //eStyle:= od.Style_DisplayNameFromName();
+     Result:= '';
+     sFormat:= '';
+
+     eStyle:= od.Find_date_style( Style_Name, ors_xmlContent_AUTOMATIC_STYLES(*à revoir, potentiellement ors_xmlStyles_AUTOMATIC_STYLES *));
+     if nil = eStyle then exit;
+
+     for I:= 0 to eStyle.ChildNodes.Count-1
+     do
+       begin
+       e:= eStyle.ChildNodes.Item[ I];
+       if nil = e then continue;
+
+       Traite_Node;
+       end;
+     if '' = sFormat then exit;
+
+     Result:= FormatDateTime( sFormat, _d);
 end;
 
 { TODStringList }
@@ -960,15 +1050,10 @@ begin
      Result:= Add_style( _NomStyle, _NomStyleParent, _Root, 'text','');
 end;
 
-function TOpenDocument.Add_style_with_text_properties( _NomStyle: String;
-                                                       _Root: TOD_Root_Styles;
-                                                       _family,
-                                                       _class,
-                                                       _NomStyleParent: String;
-                                                       _Gras: Boolean;
-                                                       _DeltaSize,
-                                                       _Size,
-                                                       _SizePourcent: Integer): TDOMNode;
+function TOpenDocument.Add_style_with_text_properties(_NomStyle: String;
+ _Root: TOD_Root_Styles; _family, _class: String; _NomStyleParent: String;
+ _Gras: Boolean; _DeltaSize: Integer; _Size: Integer; _SizePourcent: Integer
+ ): TDOMNode;
 var
    eTEXT_PROPERTIES: TDOMNode;
    Font_size: Integer;
@@ -1017,17 +1102,10 @@ begin
          end;
 end;
 
-function TOpenDocument.Add_automatic_style( _NomStyleParent: String;
-                                            _Gras: Boolean;
-                                            _DeltaSize,
-                                            _Size,
-                                            _SizePourcent: Integer;
-                                            out _eStyle: TDOMNode;
-                                            _Is_Header: Boolean;
-                                            _family,
-                                            _class,
-                                            _number_prefix: String;
-                                            var _number_counter: Integer): String;
+function TOpenDocument.Add_automatic_style(_NomStyleParent: String;
+ _Gras: Boolean; _DeltaSize: Integer; _Size: Integer; _SizePourcent: Integer;
+ out _eStyle: TDOMNode; _Is_Header: Boolean; _family, _class,
+ _number_prefix: String; var _number_counter: Integer): String;
 var
    Style_Root: TOD_Root_Styles;
    eTEXT_PROPERTIES: TDOMNode;
@@ -1059,13 +1137,9 @@ begin
 end;
 
 
-function TOpenDocument.Add_automatic_style_paragraph( _NomStyleParent: String;
-                                                      _Gras: Boolean;
-                                                      _DeltaSize,
-                                                      _Size,
-                                                      _SizePourcent: Integer;
-                                                      out _eStyle: TDOMNode;
-                                                      _Is_Header: Boolean): String;
+function TOpenDocument.Add_automatic_style_paragraph(_NomStyleParent: String;
+ _Gras: Boolean; _DeltaSize: Integer; _Size: Integer; _SizePourcent: Integer;
+ out _eStyle: TDOMNode; _Is_Header: Boolean): String;
 begin
      Result:= Add_automatic_style( _NomStyleParent,
                                    _Gras,
@@ -1080,13 +1154,9 @@ begin
                                    Automatic_style_paragraph_number);
 end;
 
-function TOpenDocument.Add_automatic_style_text( _NomStyleParent: String;
-                                                      _Gras: Boolean;
-                                                      _DeltaSize,
-                                                      _Size,
-                                                      _SizePourcent: Integer;
-                                                      out _eStyle: TDOMNode;
-                                                      _Is_Header: Boolean): String;
+function TOpenDocument.Add_automatic_style_text(_NomStyleParent: String;
+ _Gras: Boolean; _DeltaSize: Integer; _Size: Integer; _SizePourcent: Integer;
+ out _eStyle: TDOMNode; _Is_Header: Boolean): String;
 begin
      Result:= Add_automatic_style( _NomStyleParent,
                                    _Gras,
@@ -1567,6 +1637,19 @@ begin
                               [Name        ,_family       ]);
 end;
 
+function TOpenDocument.Find_date_style( _NomStyle: String; _Root: TOD_Root_Styles): TDOMNode;
+var
+   Name: String;
+begin
+     Name:= Style_NameFromDisplayName( _NomStyle);
+     Result
+     :=
+       Cherche_Item_Recursif( Get_STYLES( _Root),
+                              'number:date-style',
+                              ['style:name'],
+                              [Name        ]);
+end;
+
 function TOpenDocument.Find_style_paragraph( _NomStyle: String;
                                                _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TDOMNode;
 begin
@@ -2041,6 +2124,9 @@ procedure TOpenDocument.Freeze_fields;
             finally
                    FreeAndNil( sd);
                    end;
+            if '' = Result
+            then
+                Result:= Default_Format( _d);
        end;
        function Value_from_: String;
        var
