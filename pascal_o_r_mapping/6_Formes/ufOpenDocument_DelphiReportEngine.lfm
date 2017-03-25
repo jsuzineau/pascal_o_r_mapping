@@ -1,11 +1,11 @@
 object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
-  Left = 159
+  Left = 507
   Height = 661
-  Top = 104
-  Width = 1085
+  Top = 76
+  Width = 959
   Caption = 'fOpenDocument_DelphiReportEngine'
   ClientHeight = 661
-  ClientWidth = 1085
+  ClientWidth = 959
   Color = clBtnFace
   Font.Color = clWindowText
   Font.Height = -11
@@ -21,15 +21,15 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
     Left = 0
     Height = 661
     Top = 0
-    Width = 1085
-    ActivePage = tsODRE_Table
+    Width = 959
+    ActivePage = tsContent_XML
     Align = alClient
-    TabIndex = 4
+    TabIndex = 6
     TabOrder = 0
     object tsContent: TTabSheet
       Caption = 'Content.xml'
-      ClientHeight = 633
-      ClientWidth = 1081
+      ClientHeight = 634
+      ClientWidth = 955
       object tvContent: TTreeView
         Left = 0
         Height = 594
@@ -42,8 +42,8 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
     end
     object tsStyles: TTabSheet
       Caption = 'Styles.xml'
-      ClientHeight = 633
-      ClientWidth = 1081
+      ClientHeight = 634
+      ClientWidth = 955
       ImageIndex = 1
       object tvStyles: TTreeView
         Left = 0
@@ -57,8 +57,8 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
     end
     object tsTV_Insertion: TTabSheet
       Caption = 'Insertion de champs dans le modèle'
-      ClientHeight = 633
-      ClientWidth = 1081
+      ClientHeight = 634
+      ClientWidth = 955
       ImageIndex = 2
       object Panel3: TPanel
         Left = 0
@@ -105,8 +105,8 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
     end
     object tsTV: TTabSheet
       Caption = 'Modification de valeurs'
-      ClientHeight = 633
-      ClientWidth = 1081
+      ClientHeight = 634
+      ClientWidth = 955
       ImageIndex = 1
       object Panel1: TPanel
         Left = 0
@@ -150,7 +150,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
           Top = 0
           Width = 401
           Caption = 'Pour la branche sélectionnée'
-          ClientHeight = 46
+          ClientHeight = 49
           ClientWidth = 397
           TabOrder = 3
           object bDupliquer: TButton
@@ -244,49 +244,50 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
     end
     object tsODRE_Table: TTabSheet
       Caption = 'ODRE_Table'
-      ClientHeight = 635
-      ClientWidth = 1077
+      ClientHeight = 634
+      ClientWidth = 955
       ImageIndex = 11
       object lbODRE_Table: TListBox
         Left = 0
         Height = 97
         Top = 0
-        Width = 1077
+        Width = 955
         Align = alTop
         ItemHeight = 0
         OnClick = lbODRE_TableClick
-        ScrollWidth = 1079
+        ScrollWidth = 953
         TabOrder = 0
+        TopIndex = -1
       end
       object Panel5: TPanel
         Left = 0
-        Height = 538
+        Height = 537
         Top = 97
-        Width = 1077
+        Width = 955
         Align = alClient
-        ClientHeight = 538
-        ClientWidth = 1077
+        ClientHeight = 537
+        ClientWidth = 955
         TabOrder = 1
         object Panel6: TPanel
           Left = 1
           Height = 175
           Top = 1
-          Width = 1075
+          Width = 953
           Align = alTop
           ClientHeight = 175
-          ClientWidth = 1075
+          ClientWidth = 953
           TabOrder = 0
           object Label1: TLabel
             Left = 6
             Height = 13
             Top = 6
-            Width = 58
+            Width = 67
             Caption = 'NbColonnes'
             ParentColor = False
           end
           object speODRE_Table_NbColonnes: TSpinEdit
             Left = 70
-            Height = 21
+            Height = 23
             Top = 5
             Width = 69
             MaxValue = 0
@@ -313,7 +314,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
           end
           object speSupprimerColonne_Numero: TSpinEdit
             Left = 467
-            Height = 21
+            Height = 23
             Top = 7
             Width = 38
             MaxValue = 0
@@ -345,7 +346,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
           end
           object speInsererColonne_Numero: TSpinEdit
             Left = 525
-            Height = 21
+            Height = 23
             Top = 41
             Width = 38
             MaxValue = 0
@@ -362,7 +363,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
           end
           object speDecalerChampsApresColonne_Numero: TSpinEdit
             Left = 525
-            Height = 21
+            Height = 23
             Top = 81
             Width = 38
             MaxValue = 0
@@ -370,10 +371,10 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
           end
           object clkcbNomChamp: TChamp_Lookup_ComboBox
             Left = 406
-            Height = 21
+            Height = 31
             Top = 137
             Width = 179
-            ItemHeight = 13
+            ItemHeight = 0
             Style = csDropDownList
             TabOrder = 9
             Field = 'NomChamp_Libelle'
@@ -382,7 +383,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
             Left = 337
             Height = 13
             Top = 143
-            Width = 51
+            Width = 61
             Caption = 'Affectation'
             ParentColor = False
           end
@@ -390,13 +391,13 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
             Left = 337
             Height = 13
             Top = 113
-            Width = 21
+            Width = 26
             Caption = 'Titre'
             ParentColor = False
           end
           object ceTitre: TChamp_Edit
             Left = 406
-            Height = 21
+            Height = 23
             Top = 111
             Width = 184
             TabOrder = 10
@@ -406,9 +407,9 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
         end
         object sgODRE_Table: TStringGrid
           Left = 1
-          Height = 361
+          Height = 360
           Top = 176
-          Width = 1075
+          Width = 953
           Align = alClient
           TabOrder = 1
           TitleFont.Color = clWindowText
@@ -419,8 +420,8 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
     end
     object tsVLE: TTabSheet
       Caption = 'Format natif'
-      ClientHeight = 633
-      ClientWidth = 1081
+      ClientHeight = 634
+      ClientWidth = 955
       object vle: TValueListEditor
         Left = 0
         Height = 594
@@ -444,20 +445,20 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
         )
         ColWidths = (
           317
-          788
+          805
         )
       end
     end
     object tsContent_XML: TTabSheet
       Caption = 'tsContent_XML'
-      ClientHeight = 633
-      ClientWidth = 1081
+      ClientHeight = 634
+      ClientWidth = 955
       ImageIndex = 5
       object mContent_XML: TMemo
         Left = 0
-        Height = 553
+        Height = 593
         Top = 0
-        Width = 1126
+        Width = 955
         Align = alClient
         Font.Color = clWindowText
         Font.Height = -11
@@ -472,11 +473,11 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
       object Panel2: TPanel
         Left = 0
         Height = 41
-        Top = 553
-        Width = 1126
+        Top = 593
+        Width = 955
         Align = alBottom
         ClientHeight = 41
-        ClientWidth = 1126
+        ClientWidth = 955
         TabOrder = 1
         object bContent_Enregistrer: TButton
           Left = 6
@@ -491,8 +492,8 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
     end
     object tsStyles_XML: TTabSheet
       Caption = 'tsStyles_XML'
-      ClientHeight = 633
-      ClientWidth = 1081
+      ClientHeight = 634
+      ClientWidth = 955
       ImageIndex = 6
       object mStyles_XML: TMemo
         Left = 0
@@ -532,8 +533,8 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
     end
     object tsMIMETYPE: TTabSheet
       Caption = 'tsMIMETYPE'
-      ClientHeight = 633
-      ClientWidth = 1081
+      ClientHeight = 634
+      ClientWidth = 955
       ImageIndex = 7
       object mMIMETYPE: TMemo
         Left = 0
@@ -553,8 +554,8 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
     end
     object tsMETA_XML: TTabSheet
       Caption = 'tsMETA_XML'
-      ClientHeight = 633
-      ClientWidth = 1081
+      ClientHeight = 634
+      ClientWidth = 955
       ImageIndex = 8
       object mMETA_XML: TMemo
         Left = 0
@@ -575,8 +576,8 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
     end
     object tsSETTINGS_XML: TTabSheet
       Caption = 'tsSETTINGS_XML'
-      ClientHeight = 633
-      ClientWidth = 1081
+      ClientHeight = 634
+      ClientWidth = 955
       ImageIndex = 9
       object mSETTINGS_XML: TMemo
         Left = 0
@@ -597,8 +598,8 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
     end
     object tsMETA_INF_manifest_xml: TTabSheet
       Caption = 'tsMETA_INF_manifest_xml'
-      ClientHeight = 633
-      ClientWidth = 1081
+      ClientHeight = 634
+      ClientWidth = 955
       ImageIndex = 10
       object mMETA_INF_manifest_xml: TMemo
         Left = 0

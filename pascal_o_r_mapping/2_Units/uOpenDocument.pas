@@ -54,6 +54,27 @@ type
 
  TEnumere_field_Racine_Callback= procedure ( _e: TDOMNode) of object;
 
+ TOpenDocument= class;
+
+ { TStyle_Date }
+
+ TStyle_Date
+ =
+  class
+  //Gestion du cycle de vie
+  public
+    constructor Create( _od: TOpenDocument; _Style_Name: String);
+    destructor Destroy; override;
+  //Attributs
+  public
+    od: TOpenDocument;
+    Style_Name: String;
+  //Formatage
+  public
+    function Format_Value( _d: TDateTime): String;
+  end;
+
+
  { TOpenDocument }
 
  TOpenDocument
@@ -462,6 +483,27 @@ begin
      Cree_path( Result, 'table:table-header-rows/table:table-row/table:table-cell');
      Cree_path( Result,                         'table:table-row/table:table-cell');
 
+end;
+
+{ TStyle_Date }
+
+constructor TStyle_Date.Create(_od: TOpenDocument; _Style_Name: String);
+begin
+     inherited Create;
+     od        := _od        ;
+     Style_Name:= _Style_Name;
+end;
+
+destructor TStyle_Date.Destroy;
+begin
+     inherited Destroy;
+end;
+
+function TStyle_Date.Format_Value( _d: TDateTime): String;
+var
+   eStyle: TDOMNode;
+begin
+     //eStyle:= od.Style_DisplayNameFromName();
 end;
 
 { TODStringList }
@@ -1985,6 +2027,29 @@ procedure TOpenDocument.Freeze_fields;
                   Value[J]:= #32; 
               end;
        end;
+       function Default_Format( _d: TDateTime): String;
+       begin
+            Result:= FormatDateTime( 'dddddd', _d);
+       end;
+       function Style_Format( _d: TDateTime): String;
+       var
+          sd: TStyle_Date;
+       begin
+            sd:= TStyle_Date.Create( Self, DataStyleName);
+            try
+               Result:= sd.Format_Value( _d);
+            finally
+                   FreeAndNil( sd);
+                   end;
+       end;
+       function Value_from_: String;
+       var
+          d: TDateTime;
+       begin
+            d:= Now;
+                  if '' = DataStyleName then Result:= Default_Format( d)
+            else                             Result:=   Style_Format( d);
+       end;
     begin
          if _e = nil then exit;
 
@@ -2005,8 +2070,7 @@ procedure TOpenDocument.Freeze_fields;
          Parent.ReplaceChild( eSPAN, _e);
          FreeAndNil( _e);
 
-         //il faudrait aller interpréter le style fourni par DataStyleName
-         Value:= FormatDateTime( 'dddddd', Now);
+         Value:= Value_from_;
          //Insecable_to_Space;
          AddText( eSPAN, Value, False);
     end;
