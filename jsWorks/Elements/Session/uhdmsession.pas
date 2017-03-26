@@ -31,6 +31,7 @@ uses
     uLog,
     uEXE_INI,
     uVide,
+    uuStrings,
     ufAccueil_Erreur,
     uBatpro_StringList,
     uBatpro_Element,
@@ -97,6 +98,9 @@ type
   //Cumul global
   public
     Cumul_Global : TWork_Cumul;
+  //Text
+  public
+    function Text: String;
   end;
 
 implementation
@@ -353,6 +357,23 @@ begin
        if I.not_Suivant( bl) then continue;
        I.Supprime_courant;
        Free_nil( bl);
+       end;
+end;
+
+function ThdmSession.Text: String;
+var
+   I: TIterateur_Session;
+   bl: TblSession;
+begin
+     Result:= '';
+     I:= Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( bl) then continue;
+
+       Formate_Liste( Result, #13#10, bl.Libelle);
+       Formate_Liste( Result, #13#10, '  ');
        end;
 end;
 

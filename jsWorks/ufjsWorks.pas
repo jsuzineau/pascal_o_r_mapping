@@ -32,6 +32,7 @@ uses
 
     udmDatabase,
 
+    ublType_Tag,
     ublTag,
     upoolTag,
     udkTag_LABEL,
@@ -94,6 +95,7 @@ type
    bAutomatic_VST: TButton;
    bNEO4J: TButton;
    bStopAndStart: TButton;
+   bNew_Tag_Project_from_Selection: TButton;
    bVST: TButton;
    ceBeginning: TChamp_Edit;
    ceEnd: TChamp_Edit;
@@ -138,6 +140,7 @@ type
    procedure bCategorie_to_TagClick(Sender: TObject);
    procedure bDescription_to_TagClick(Sender: TObject);
    procedure bNEO4JClick(Sender: TObject);
+   procedure bNew_Tag_Project_from_SelectionClick(Sender: TObject);
    procedure bPointClick(Sender: TObject);
    procedure bProjectClick(Sender: TObject);
    procedure bProject_to_TagClick(Sender: TObject);
@@ -366,6 +369,12 @@ end;
 procedure TfjsWorks.bNEO4JClick(Sender: TObject);
 begin
      fTest_neo4j.Show;
+end;
+
+procedure TfjsWorks.bNew_Tag_Project_from_SelectionClick(Sender: TObject);
+begin
+     poolTag.Assure( Type_Tag_id_Project, cmWork_Description.SelText);
+     dsbTag.sl:= poolTag.slFiltre;
 end;
 
 procedure TfjsWorks.bTULEAPClick(Sender: TObject);

@@ -1,7 +1,7 @@
 object fTemps: TfTemps
-  Left = 623
+  Left = 282
   Height = 397
-  Top = 792
+  Top = 24
   Width = 742
   Caption = 'fTemps'
   ClientHeight = 397
@@ -199,15 +199,33 @@ object fTemps: TfTemps
       OnClick = bodCalendrier_ModeleClick
       TabOrder = 13
     end
+    object cbEcrire_arrondi: TCheckBox
+      Left = 416
+      Height = 24
+      Top = 2
+      Width = 79
+      Caption = 'Arrondi'
+      OnChange = cbEcrire_arrondiChange
+      TabOrder = 14
+    end
+    object cbHeures_Supplementaires: TCheckBox
+      Left = 415
+      Height = 24
+      Top = 28
+      Width = 84
+      Caption = 'H.Suppl.'
+      OnChange = cbHeures_SupplementairesChange
+      TabOrder = 15
+    end
   end
   object ds: TDockableScrollbox
     Left = 0
-    Height = 269
+    Height = 174
     Top = 128
     Width = 742
     Align = alClient
     Caption = 'ds'
-    ClientHeight = 269
+    ClientHeight = 174
     ClientWidth = 742
     TabOrder = 1
     OnClick = dsClick
@@ -244,5 +262,30 @@ object fTemps: TfTemps
     Caption = '+'
     OnClick = bNextWeekClick
     TabOrder = 4
+  end
+  object mResume: TMemo
+    Left = 0
+    Height = 90
+    Top = 307
+    Width = 742
+    Align = alBottom
+    Font.Name = 'Courier New'
+    Lines.Strings = (
+      'mResume'
+    )
+    OnEnter = mResumeEnter
+    ParentFont = False
+    TabOrder = 5
+  end
+  object Splitter1: TSplitter
+    Cursor = crVSplit
+    Left = 0
+    Height = 5
+    Top = 302
+    Width = 742
+    Align = alBottom
+    Color = clLime
+    ParentColor = False
+    ResizeAnchor = akBottom
   end
 end

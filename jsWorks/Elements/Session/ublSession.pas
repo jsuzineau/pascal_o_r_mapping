@@ -164,6 +164,9 @@ type
 function blSession_from_sl( sl: TBatpro_StringList; Index: Integer): TblSession;
 function blSession_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblSession;
 
+var
+   ublSession_Ecrire_arrondi: Boolean= False;
+
 implementation
 
 function blSession_from_sl( sl: TBatpro_StringList; Index: Integer): TblSession;
@@ -288,12 +291,29 @@ begin
 end;
 
 function TblSession.GetLibelle: String;
+    procedure Ecrit_Cumul_Jour;
+    var
+       S: String;
+    begin
+         S:= '(Jour: '+Cumul_Jour.To_String;
+         if ublSession_Ecrire_arrondi
+         then
+             S:= S+', a '+Cumul_Jour.To_String_arrondi;
+         S:= S+')';
+         Formate_Liste( FLibelle, #13#10, S);
+    end;
 begin
-     FLibelle:= haWork.Libelle;
-     Formate_Liste( FLibelle, #13#10, '('+sDuree+')');
+     FLibelle
+     :=
+        FormatDateTime( 'dddd ddddd', Beginning)
+       +' Session de '+FormatDateTime( 'hh:nn', Beginning)
+       +' à ' +FormatDateTime( 'hh:nn', End_     )
+       ;
+     Formate_Liste_Indentation( FLibelle, #13#10, '  ', haWork.Libelle);
+     Formate_Liste( FLibelle, #13#10, '(Session: '+sDuree+')');
      if FinJour
      then
-         Formate_Liste( FLibelle, #13#10, '(Jour: '+Cumul_Jour.To_String+', a '+Cumul_Jour.To_String_arrondi+')');
+         Ecrit_Cumul_Jour;
      if FinSemaine
      then
          Formate_Liste( FLibelle, #13#10, '(Semaine: '+Cumul_Semaine.To_String+')');

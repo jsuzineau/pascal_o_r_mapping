@@ -14,12 +14,13 @@ uses
 
     uodWork_from_Period,
 
+    ublCalendrier,
     uodSession,
     ublSession,
     uhdmSession,
     udkSession, uodCalendrier,
  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, EditBtn,
- StdCtrls, Buttons, ExtCtrls,LCLIntf, dateutils;
+ StdCtrls, Buttons, ExtCtrls,LCLIntf, dateutils,Clipbrd;
 
 type
 
@@ -42,6 +43,8 @@ type
   bNextMonth: TButton;
   bNextWeek: TButton;
   cbRestreindre_a_un_Tag: TCheckBox;
+  cbEcrire_arrondi: TCheckBox;
+  cbHeures_Supplementaires: TCheckBox;
   deDebut: TDateEdit;
   deFin: TDateEdit;
   ds: TDockableScrollbox;
@@ -50,7 +53,9 @@ type
   Label2: TLabel;
   Label3: TLabel;
   Label4: TLabel;
+  mResume: TMemo;
   Panel1: TPanel;
+  Splitter1: TSplitter;
   procedure b0_NowClick(Sender: TObject);
   procedure bCurrentMonthClick(Sender: TObject);
   procedure bNextMonthClick(Sender: TObject);
@@ -64,10 +69,13 @@ type
   procedure bPreviousWeekClick(Sender: TObject);
   procedure bSessionClick(Sender: TObject);
   procedure bTo_logClick(Sender: TObject);
+  procedure cbEcrire_arrondiChange(Sender: TObject);
+  procedure cbHeures_SupplementairesChange(Sender: TObject);
   procedure cbRestreindre_a_un_TagClick(Sender: TObject);
   procedure dsClick(Sender: TObject);
   procedure FormCreate(Sender: TObject);
   procedure FormDestroy(Sender: TObject);
+  procedure mResumeEnter(Sender: TObject);
  private
    function idTag: Integer;
  public
@@ -107,11 +115,18 @@ begin
      dsbTag.Classe_Elements:= TblTag;
 
      hdmSession:= ThdmSession.Create;
+     cbEcrire_arrondi.Checked:= ublSession_Ecrire_arrondi;
+     cbHeures_Supplementaires.Checked:= ublCalendrier_Heures_Supplementaires;
 end;
 
 procedure TfTemps.FormDestroy(Sender: TObject);
 begin
      Free_nil( hdmSession);
+end;
+
+procedure TfTemps.mResumeEnter(Sender: TObject);
+begin
+     Clipboard.AsText:= mResume.Text;
 end;
 
 function TfTemps.idTag: Integer;
@@ -192,11 +207,22 @@ begin
      ds.sl:= nil;
      hdmSession.Execute( deDebut.Date, deFin.Date, idTag);
      ds.sl:= hdmSession.sl;
+     mResume.Text:= hdmSession.Text;
 end;
 
 procedure TfTemps.bTo_logClick(Sender: TObject);
 begin
      hdmSession.To_log;
+end;
+
+procedure TfTemps.cbEcrire_arrondiChange(Sender: TObject);
+begin
+     ublSession_Ecrire_arrondi:= cbEcrire_arrondi.Checked;
+end;
+
+procedure TfTemps.cbHeures_SupplementairesChange(Sender: TObject);
+begin
+     ublCalendrier_Heures_Supplementaires:= cbHeures_Supplementaires.Checked;
 end;
 
 procedure TfTemps.cbRestreindre_a_un_TagClick(Sender: TObject);

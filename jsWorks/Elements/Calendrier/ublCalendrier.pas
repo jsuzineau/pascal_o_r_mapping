@@ -138,6 +138,9 @@ type
 function blCalendrier_from_sl( sl: TBatpro_StringList; Index: Integer): TblCalendrier;
 function blCalendrier_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblCalendrier;
 
+var
+   ublCalendrier_Heures_Supplementaires: Boolean= False;
+
 implementation
 
 function blCalendrier_from_sl( sl: TBatpro_StringList; Index: Integer): TblCalendrier;
@@ -171,7 +174,7 @@ end;
 function TWork_Cumul.To_String: String;
 begin
      Result:= sNb_Heures_from_DateTime( Total);
-     if Depassement <> 0
+     if (Depassement <> 0) and ublCalendrier_Heures_Supplementaires
      then
          Result:= Result +'(HS:'+sNb_Heures_from_DateTime( Depassement)+')';
 end;

@@ -1,5 +1,5 @@
 object Dockable: TDockable
-  Left = -7
+  Left = 260
   Height = 640
   Top = 56
   Width = 764
@@ -15,7 +15,7 @@ object Dockable: TDockable
   OnKeyDown = DockableKeyDown
   OnMouseWheelDown = FormMouseWheelDown
   OnMouseWheelUp = FormMouseWheelUp
-  LCLVersion = '1.4.2.0'
+  LCLVersion = '1.6.0.4'
   object sSelection: TBatpro_Shape
     Left = 0
     Height = 640

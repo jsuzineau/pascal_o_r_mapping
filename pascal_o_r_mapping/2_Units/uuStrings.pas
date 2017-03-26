@@ -58,6 +58,7 @@ function Justifie( S: array of String; TailleLigne: Integer): String;
 procedure Formate_Liste( var S: String; Separateur, Element: String); overload;
 function  Formate_Liste( S: array of String    ; Separateur: String                       ): String; overload;
 function  Formate_Liste( sl: TBatpro_StringList; Separateur: String; DoubleQuotes: Boolean): String; overload;
+procedure Formate_Liste_Indentation( var _S: String; _Separateur, _Indentation, _Element: String);
 
 function Formate_Hint( S: array of String): String;
 
@@ -317,6 +318,22 @@ begin
          S:= S + Separateur;
          
      S:= S + Element;
+end;
+
+procedure Formate_Liste_Indentation( var _S: String; _Separateur, _Indentation, _Element: String);
+var
+   sl: TStringList;
+   J: Integer;
+begin
+     sl:= TStringList.Create;
+     try
+        sl.Text:= _Element;
+        for J:= 0 to sl.Count-1
+        do
+          Formate_Liste( _S, _Separateur, _Indentation+sl[J]);
+     finally
+            FreeAndNil( sl);
+            end;
 end;
 
 function Formate_Liste( S: array of String; Separateur: String): String; overload;

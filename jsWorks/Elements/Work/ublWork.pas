@@ -499,9 +499,9 @@ begin
        //+'-'
        //+FormatDateTime( 'hh:nn', End_     )
        //+'('+sDuree+'):'
-        sDuree+':'
-       +Description;
+       sDuree+':'
        ;
+     Formate_Liste_Indentation( Result, #13#10, '  ', Description);
 end;
 
 function TblWork.Session_Differente( _bl: TblWork): Boolean;
