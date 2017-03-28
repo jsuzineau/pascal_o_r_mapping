@@ -28,9 +28,12 @@ implementation
 
 procedure TtcOpenDocument.test_TOpenDocument_Freeze_fields;
 begin
+     OpenDocument( IncludeTrailingPathDelimiter( od.Repertoire_Extraction)+'content.xml');
+     OpenDocument( IncludeTrailingPathDelimiter( od.Repertoire_Extraction)+'styles.xml');
      od.Freeze_fields;
      od.Save;
-     OpenDocument( IncludeTrailingPathDelimiter( od.Repertoire_Extraction)+'content.xml');
+     //OpenDocument( IncludeTrailingPathDelimiter( od.Repertoire_Extraction)+'content.xml');
+     //OpenDocument( IncludeTrailingPathDelimiter( od.Repertoire_Extraction)+'styles.xml');
      OpenDocument( NomODT);
 //     Fail('Écrivez votre propre test');
 end;

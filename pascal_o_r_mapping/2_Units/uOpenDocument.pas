@@ -59,22 +59,59 @@ type
 
  TOpenDocument= class;
 
- { TStyle_Date }
+ { TStyle_DateTime }
 
- TStyle_Date
+ TStyle_DateTime
  =
   class
   //Gestion du cycle de vie
   public
-    constructor Create( _od: TOpenDocument; _Style_Name: String);
+    constructor Create( _od: TOpenDocument; _Root: TOD_Root_Styles; _Style_Name: String);
     destructor Destroy; override;
   //Attributs
   public
     od: TOpenDocument;
+    Root: TOD_Root_Styles;
     Style_Name: String;
   //Formatage
+  protected
+    function Find_Style: TDOMNode; virtual; abstract;
+  protected
+    Format_e: TDOMNode; //non réentrant/multithread
+    Format_Result: String; //non réentrant/multithread
+    function number_style_SHORT_from_(_e: TDOMNode): Boolean;
+    function number_textual_from_(_e: TDOMNode): Boolean;
+    function Format_from_number_style(_e: TDOMNode; _Short, _Long: String): String;
+    procedure Add_Format(_Short, _Long: String);
+    procedure Add_Format_textual(_Short, _Long, _Textual_Short, _Textual_Long: String);
+    procedure Add_Text;
+    procedure Traite_Node; virtual; abstract;
   public
-    function Format_Value( _d: TDateTime): String;
+    function Format: String; //non réentrant/multithread
+  end;
+
+ TStyle_DateTime_class= class of TStyle_DateTime;
+
+ { TStyle_Date }
+
+ TStyle_Date
+ =
+  class( TStyle_DateTime)
+  //Formatage
+  protected
+   function Find_Style: TDOMNode; override;
+   procedure Traite_Node; override;
+  end;
+
+ { TStyle_Time }
+
+ TStyle_Time
+ =
+  class( TStyle_DateTime)
+  //Formatage
+  protected
+   function Find_Style: TDOMNode; override;
+   procedure Traite_Node; override;
   end;
 
 
@@ -279,6 +316,9 @@ type
   //Styles de date
   public
     function Find_date_style( _NomStyle: String;_Root: TOD_Root_Styles): TDOMNode;
+  //Styles de Time
+  public
+    function Find_Time_style( _NomStyle: String;_Root: TOD_Root_Styles): TDOMNode;
   //Général
   private
     function Text_Traite_Field( FieldName, FieldContent: String;
@@ -493,107 +533,144 @@ begin
 
 end;
 
-{ TStyle_Date }
+{ TStyle_DateTime }
 
-constructor TStyle_Date.Create(_od: TOpenDocument; _Style_Name: String);
+constructor TStyle_DateTime.Create(_od: TOpenDocument; _Root: TOD_Root_Styles; _Style_Name: String);
 begin
      inherited Create;
      od        := _od        ;
+     Root      := _Root      ;
      Style_Name:= _Style_Name;
 end;
 
-destructor TStyle_Date.Destroy;
+destructor TStyle_DateTime.Destroy;
 begin
      inherited Destroy;
 end;
 
-function TStyle_Date.Format_Value( _d: TDateTime): String;
+function TStyle_DateTime.number_style_SHORT_from_( _e: TDOMNode): Boolean;
+var
+   sNUMBER_STYLE: String;
+begin
+     Result:= True;
+     if not_Get_Property( _e, 'number:style', sNUMBER_STYLE) then exit;
+
+     Result:= 'short' = sNUMBER_STYLE;
+end;
+
+function TStyle_DateTime.number_textual_from_( _e: TDOMNode): Boolean;
+var
+   sNUMBER_TEXTUAL: String;
+begin
+     Result:= False;
+     if not_Get_Property( _e, 'number:textual', sNUMBER_TEXTUAL) then exit;
+
+     Result:= 'true' = sNUMBER_TEXTUAL;
+end;
+
+function TStyle_DateTime.Format_from_number_style( _e: TDOMNode; _Short, _Long: String): String;
+var
+   IsShort: Boolean;
+begin
+     IsShort:= number_style_SHORT_from_( _e);
+     if IsShort
+     then
+         Result:= _Short
+     else
+         Result:= _Long;
+end;
+
+procedure TStyle_DateTime.Add_Format( _Short, _Long: String);
+begin
+     Format_Result:= Format_Result+ Format_from_number_style( Format_e, _Short, _Long);
+end;
+
+procedure TStyle_DateTime.Add_Format_textual( _Short, _Long, _Textual_Short, _Textual_Long: String);
+var
+   IsTextual: Boolean;
+begin
+     IsTextual:= number_textual_from_( Format_e);
+     if IsTextual
+     then
+         Add_Format( _Textual_Short, _Textual_Long)
+     else
+         Add_Format( _Short, _Long);
+end;
+
+procedure TStyle_DateTime.Add_Text;
+var
+   Text: String;
+begin
+     Text:= Text_from_path( Format_e,'');
+     if '' = Text then Text:= ' ';
+     Format_Result:= Format_Result+ '"'+Text+'"';
+end;
+
+function TStyle_DateTime.Format: String;
 var
    eStyle: TDOMNode;
    I: Integer;
-   e: TDOMNode;
-   sFormat: String;
-   function number_style_SHORT_from_( _e: TDOMNode): Boolean;
-   var
-      sNUMBER_STYLE: String;
-   begin
-        Result:= True;
-        if not_Get_Property( _e, 'number:style', sNUMBER_STYLE) then exit;
-
-        Result:= 'short' = sNUMBER_STYLE;
-   end;
-   function number_textual_from_( _e: TDOMNode): Boolean;
-   var
-      sNUMBER_TEXTUAL: String;
-   begin
-        Result:= False;
-        if not_Get_Property( _e, 'number:textual', sNUMBER_TEXTUAL) then exit;
-
-        Result:= 'true' = sNUMBER_TEXTUAL;
-   end;
-   function Format_from_number_style( _e: TDOMNode; _Short, _Long: String): String;
-   var
-      IsShort: Boolean;
-   begin
-        IsShort:= number_style_SHORT_from_( _e);
-        if IsShort
-        then
-            Result:= _Short
-        else
-            Result:= _Long;
-   end;
-   procedure Add_Format( _Short, _Long: String);
-   begin
-        sFormat:= sFormat+ Format_from_number_style( e, _Short, _Long);
-   end;
-   procedure Add_Format_textual( _Short, _Long, _Textual_Short, _Textual_Long: String);
-   var
-      IsTextual: Boolean;
-   begin
-        IsTextual:= number_textual_from_( e);
-        if IsTextual
-        then
-            Add_Format( _Textual_Short, _Textual_Long)
-        else
-            Add_Format( _Short, _Long);
-   end;
-   procedure Add_Text;
-   var
-      Text: String;
-   begin
-        Text:= Text_from_path( e,'');
-        if '' = Text then Text:= ' ';
-        sFormat:= sFormat+ '"'+Text+'"';
-   end;
-   procedure Traite_Node;
-   var
-      NodeName: String;
-   begin
-        NodeName:= e.NodeName;
-             if NodeName =  'number:day'         then Add_Format        ( 'd'  , 'dd'  )
-        else if NodeName =  'number:day-of-week' then Add_Format        ( 'ddd', 'dddd')
-        else if NodeName =  'number:month'       then Add_Format_textual( 'm'  , 'mm'  , 'mmm', 'mmmm')
-        else if NodeName =  'number:year'        then Add_Format        ( 'yy' , 'yyyy')
-        else if NodeName =  'number:text'        then Add_Text;
-   end;
 begin
      Result:= '';
-     sFormat:= '';
+     Format_Result:= '';
 
-     eStyle:= od.Find_date_style( Style_Name, ors_xmlContent_AUTOMATIC_STYLES(*à revoir, potentiellement ors_xmlStyles_AUTOMATIC_STYLES *));
+     eStyle:= Find_Style;
      if nil = eStyle then exit;
 
      for I:= 0 to eStyle.ChildNodes.Count-1
      do
        begin
-       e:= eStyle.ChildNodes.Item[ I];
-       if nil = e then continue;
+       Format_e:= eStyle.ChildNodes.Item[ I];
+       if nil = Format_e then continue;
 
        Traite_Node;
        end;
-     if '' = sFormat then exit;
 
-     Result:= FormatDateTime( sFormat, _d);
+     Result:= Format_Result;
+end;
+
+{ TStyle_Date }
+
+function TStyle_Date.Find_Style: TDOMNode;
+begin
+     Result:= od.Find_date_style( Style_Name, Root);
+     if Assigned( Result) or (Root = ors_xmlStyles_AUTOMATIC_STYLES) then exit;
+
+     Result:= od.Find_date_style( Style_Name, ors_xmlStyles_AUTOMATIC_STYLES);
+end;
+
+procedure TStyle_Date.Traite_Node;
+var
+   NodeName: String;
+begin
+     NodeName:= Format_e.NodeName;
+          if NodeName =  'number:day'         then Add_Format        ( 'd'  , 'dd'  )
+     else if NodeName =  'number:day-of-week' then Add_Format        ( 'ddd', 'dddd')
+     else if NodeName =  'number:month'       then Add_Format_textual( 'm'  , 'mm'  , 'mmm', 'mmmm')
+     else if NodeName =  'number:year'        then Add_Format        ( 'yy' , 'yyyy')
+     else if NodeName =  'number:text'        then Add_Text;
+end;
+
+{ TStyle_Time }
+
+function TStyle_Time.Find_Style: TDOMNode;
+begin
+     Result:= od.Find_Time_style( Style_Name, Root);
+     if Assigned( Result) or (Root = ors_xmlStyles_AUTOMATIC_STYLES) then exit;
+
+     Result:= od.Find_Time_style( Style_Name, ors_xmlStyles_AUTOMATIC_STYLES);
+end;
+
+procedure TStyle_Time.Traite_Node;
+var
+   NodeName: String;
+begin
+     NodeName:= Format_e.NodeName;
+          if NodeName =  'number:hours'       then Add_Format( 'h', 'hh')
+     else if NodeName =  'number:minutes'     then Add_Format( 'n', 'nn')
+     else if NodeName =  'number:seconds'     then Add_Format( 's', 'ss')
+     else if NodeName =  'number:am-pm'       then Add_Format( 'am/pm', 'am/pm')
+     else if NodeName =  'number:text'        then Add_Text;
 end;
 
 { TODStringList }
@@ -1650,6 +1727,19 @@ begin
                               [Name        ]);
 end;
 
+function TOpenDocument.Find_Time_style( _NomStyle: String; _Root: TOD_Root_Styles): TDOMNode;
+var
+   Name: String;
+begin
+     Name:= Style_NameFromDisplayName( _NomStyle);
+     Result
+     :=
+       Cherche_Item_Recursif( Get_STYLES( _Root),
+                              'number:time-style',
+                              ['style:name'],
+                              [Name        ]);
+end;
+
 function TOpenDocument.Find_style_paragraph( _NomStyle: String;
                                                _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TDOMNode;
 begin
@@ -2089,7 +2179,7 @@ procedure TOpenDocument.Freeze_fields;
          Value:= Field_Value( FieldName);
          AddText( eSPAN, Value, False);
     end;
-    procedure Traite_DATE( _e: TDOMNode);
+    procedure Traite_DATE_TIME( _e: TDOMNode; _Root: TOD_Root_Styles; _sdtClass: TStyle_DateTime_class; _Default_Format: String);
     var
        I: Integer;
        DataStyleName, DateFixe: String;
@@ -2110,31 +2200,29 @@ procedure TOpenDocument.Freeze_fields;
                   Value[J]:= #32; 
               end;
        end;
-       function Default_Format( _d: TDateTime): String;
-       begin
-            Result:= FormatDateTime( 'dddddd', _d);
-       end;
-       function Style_Format( _d: TDateTime): String;
+       function Style_Format: String;
        var
-          sd: TStyle_Date;
+          sdt: TStyle_DateTime;
        begin
-            sd:= TStyle_Date.Create( Self, DataStyleName);
+            sdt:= _sdtClass.Create( Self, _Root, DataStyleName);
             try
-               Result:= sd.Format_Value( _d);
+               Result:= sdt.Format;
             finally
-                   FreeAndNil( sd);
+                   FreeAndNil( sdt);
                    end;
             if '' = Result
             then
-                Result:= Default_Format( _d);
+                Result:= _Default_Format;
        end;
        function Value_from_: String;
        var
+          sFormat: String;
           d: TDateTime;
        begin
             d:= Now;
-                  if '' = DataStyleName then Result:= Default_Format( d)
-            else                             Result:=   Style_Format( d);
+                  if '' = DataStyleName then sFormat:= _Default_Format
+            else                             sFormat:=    Style_Format;
+            Result:= FormatDateTime( sFormat, d);
        end;
     begin
          if _e = nil then exit;
@@ -2160,50 +2248,27 @@ procedure TOpenDocument.Freeze_fields;
          //Insecable_to_Space;
          AddText( eSPAN, Value, False);
     end;
-    procedure Traite_TIME( _e: TDOMNode);
-    var
-       I: Integer;
-       DataStyleName, DateFixe: String;
-       Parent: TDOMNode;
-       eSPAN: TDOMNode;
-       Value: String;
+    procedure Traite_DATE( _e: TDOMNode; _Root: TOD_Root_Styles);
     begin
-         if _e = nil then exit;
-
-         if not_Get_Property( _e, 'style:data-style-name', DataStyleName)
-         then
-             DataStyleName:='';
-
-         if not_Get_Property( _e, 'text:fixed', DateFixe) // non utilisé pour l'instant
-         then
-             DateFixe:= '';
-
-         Parent:= _e.ParentNode;
-         if Parent= nil then exit;
-
-         eSPAN:= Parent.OwnerDocument.CreateElement( 'text:span');
-         if eSPAN = nil then exit;
-
-         Parent.ReplaceChild( eSPAN, _e);
-         FreeAndNil( _e);
-
-         //il faudrait aller interpréter le style fourni par DataStyleName
-         Value:= FormatDateTime( 'tt', Now);
-         AddText( eSPAN, Value, False);
+         Traite_DATE_TIME( _e, _Root, TStyle_Date, 'dddddd');
     end;
-    procedure T( _e: TDOMNode);
+    procedure Traite_TIME( _e: TDOMNode; _Root: TOD_Root_Styles);
+    begin
+         Traite_DATE_TIME( _e, _Root, TStyle_Time, 'tt');
+    end;
+    procedure T( _e: TDOMNode; _Root: TOD_Root_Styles);
     var
        I: Integer;
     begin
          if _e = nil then exit;
 
               if _e.NodeName = 'text:user-field-get' then Traite_USER_FIELD_GET( _e)
-         else if _e.NodeName = 'text:date'           then Traite_DATE( _e)
-         else if _e.NodeName = 'text:time'           then Traite_TIME( _e)
+         else if _e.NodeName = 'text:date'           then Traite_DATE( _e, _Root)
+         else if _e.NodeName = 'text:time'           then Traite_TIME( _e, _Root)
          else
              for I:= 0 to _e.ChildNodes.Count-1
              do
-               T( _e.ChildNodes.Item[ I]);
+               T( _e.ChildNodes.Item[ I], _Root);
     end;
     procedure Efface_Declarations;
     var
@@ -2222,8 +2287,8 @@ procedure TOpenDocument.Freeze_fields;
            end;
     end;
 begin
-     T( Get_xmlContent_TEXT);
-     T( Get_xmlStyles_MASTER_STYLES);
+     T( Get_xmlContent_TEXT, ors_xmlContent_AUTOMATIC_STYLES);
+     T( Get_xmlStyles_MASTER_STYLES, ors_xmlStyles_AUTOMATIC_STYLES);
      Efface_Declarations;
 end;
 
