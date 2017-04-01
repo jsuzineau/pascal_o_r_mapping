@@ -36,7 +36,7 @@ uses
   {$IFDEF LINUX}
   clocale,
   {$ENDIF}
-  (*Windows, ExtCtrls, Forms, Dialogs, *)SysUtils, Classes, XMLRead,XMLWrite,DOM,Zipper, Math;
+  SysUtils, Classes, XMLRead,XMLWrite,DOM,Zipper, Math, FileUtil;
 
 type
  TOD_Root_Styles
@@ -127,6 +127,11 @@ type
   //Extraction
   public
     Repertoire_Extraction: String;
+  //Repertoire_Pictures
+  private
+    FRepertoire_Pictures: String;
+  public
+    function Repertoire_Pictures: String;
   //Persistance
   private
     procedure XML_from_Repertoire_Extraction;
@@ -409,6 +414,16 @@ type
   public
     Name_style_text_bold: String;
     procedure Ensure_style_text_bold;
+  //Embed_Image
+  private
+    slEmbed_Image: TStringList;
+    Embed_Image_counter: Cardinal;
+    Embed_Image_counter_New_name: String;
+    procedure Manifeste(_FullPath, _Extension: String);
+    function Embed_Image_New_name_exists: Boolean;
+    function Embed_Image_New: String;
+  public
+    function Embed_Image( _NomFichier: String): String;
   end;
 
 //Gestion tables
@@ -706,10 +721,13 @@ begin
      Extrait;
 
      XML_from_Repertoire_Extraction;
+     Embed_Image_counter:= 0;
+     slEmbed_Image:= TStringList.Create;
 end;
 
 destructor TOpenDocument.Destroy;
 begin
+     FreeAndNil( slEmbed_Image       );
      FreeAndNil( xmlMeta             );
      FreeAndNil( xmlSettings         );
      FreeAndNil( xmlMETA_INF_manifest);
@@ -721,6 +739,20 @@ begin
      //OD_Temporaire.DetruitRepertoire( Repertoire_Extraction);
 
      inherited;
+end;
+
+const
+     sPictures='Pictures';
+
+function TOpenDocument.Repertoire_Pictures: String;
+begin
+     if '' = FRepertoire_Pictures
+     then
+         FRepertoire_Pictures
+         :=
+           IncludeTrailingPathDelimiter( Repertoire_Extraction)
+           +sPictures+PathDelim;
+     Result:= FRepertoire_Pictures;
 end;
 
 procedure TOpenDocument.XML_from_Repertoire_Extraction;
@@ -764,6 +796,7 @@ var
    UnZipper: TUnZipper;
 begin
      Repertoire_Extraction:= OD_Temporaire.Nouveau_Repertoire('OD');
+     FRepertoire_Pictures:= '';
      UnZipper := TUnZipper.Create;
      try
         UnZipper.FileName := Nom;
@@ -855,6 +888,95 @@ begin
        if Result[I]= '/'
        then
            Result[I]:= '\';
+end;
+
+procedure TOpenDocument.Manifeste( _FullPath, _Extension: String);
+var
+   root, e: TDOMNode;
+begin
+     //==> META-INF/manifest.xml
+     //  <manifest:manifest manifest:version="1.2">
+     //     <manifest:file-entry manifest:full-path="Pictures/1000020100000064000000323F4469E66C808866.png" manifest:media-type="image/png"/>
+     root:= xmlMETA_INF_manifest.DocumentElement;
+     e:= Cherche_Item_Recursif( root,
+                                'manifest:file-entry',
+                                ['manifest:full-path'],
+                                [_FullPath]);
+    if Assigned(e) then exit;
+
+    Add_Item( root,
+              'manifest:file-entry',
+              ['manifest:full-path'],
+              [_FullPath]);
+end;
+
+function TOpenDocument.Embed_Image_New_name_exists: Boolean;
+var
+   sr: TSearchRec;
+   sWildCards: String;
+begin
+     {$IFDEF WINDOWS}
+     sWildCards:= '*.*';
+     {$ELSE}
+     sWildCards:= '*';
+     {$ENDIF}
+     Embed_Image_counter_New_name
+     :=
+       IntToHex( Embed_Image_counter, 40);
+     Result:= 0 = FindFirst( Repertoire_Pictures+Embed_Image_counter_New_name+sWildCards, faAnyFile, sr);
+     FindClose( sr);
+end;
+
+function TOpenDocument.Embed_Image_New: String;
+begin
+     while Embed_Image_New_name_exists
+     do
+       Inc( Embed_Image_counter);
+     Result:= Embed_Image_counter_New_name;
+end;
+
+function TOpenDocument.Embed_Image(_NomFichier: String): String;
+var
+   iEmbed_Image: Integer;
+   procedure Copie_dans_Pictures;
+   var
+      Extension: String;
+      sFileName: String;
+      sRepertoirePictures: String;
+      sNomFichierCible: String;
+   begin
+        sRepertoirePictures
+        :=
+           IncludeTrailingPathDelimiter(Repertoire_Extraction)
+          +sPictures;
+        ForceDirectories( sRepertoirePictures);
+
+        Extension:= ExtractFileExt( _NomFichier);
+
+        sFileName:= Embed_Image_New+Extension;
+        //sFileName:= ExtractFileName( _NomFichier);
+
+   //1000020100000064000000323F4469E66C808866 40 digits
+   //1000020100000064000000323F4469E66C808866
+
+        Result:= sPictures+'/'+sFileName;
+        Manifeste( Result, Extension);
+
+        sNomFichierCible:= Repertoire_Pictures+sFileName;
+
+        CopyFile( _NomFichier, sNomFichierCible);
+        slEmbed_Image.Values[ _NomFichier]:= Result;
+   end;
+begin
+     Result:= '';
+     if not FileExists( _NomFichier) then exit;
+
+     iEmbed_Image:= slEmbed_Image.IndexOfName( _NomFichier);
+     if -1 <> iEmbed_Image
+     then
+         Result:= slEmbed_Image.ValueFromIndex[ iEmbed_Image]
+     else
+         Copie_dans_Pictures;;
 end;
 
 function TOpenDocument.Get_xmlContent_TEXT: TDOMNode;

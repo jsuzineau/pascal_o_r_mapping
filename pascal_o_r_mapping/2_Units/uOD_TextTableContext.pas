@@ -641,7 +641,8 @@ procedure TOD_IMAGE.Set_Filename( _Filename: String);
 var
    url: String;
 begin
-     url:= D.URL_from_WindowsFileName( _Filename);
+     //url:= D.URL_from_WindowsFileName( _Filename);
+     url:= D.Embed_Image( _Filename);
      D.Set_Property( e, 'xlink:href'      , url                       );
      D.Set_Property( e, 'xlink:type'      , 'simple'                  );
      D.Set_Property( e, 'xlink:show'      , 'embed'                   );

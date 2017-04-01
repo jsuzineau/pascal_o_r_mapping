@@ -11,6 +11,8 @@ uses
 
 type
 
+ { TtcOpenDocument }
+
  TtcOpenDocument
  =
   class(TTestCase)

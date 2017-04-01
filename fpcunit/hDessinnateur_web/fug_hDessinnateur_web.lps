@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="29">
+    <Units Count="30">
       <Unit0>
         <Filename Value="fug_hDessinnateur_web.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -16,9 +16,7 @@
       <Unit1>
         <Filename Value="utc_hDessinnateur_web.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="27"/>
-        <TopLine Value="56"/>
-        <CursorPos X="50" Y="67"/>
+        <EditorIndex Value="17"/>
         <UsageCount Value="75"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -40,7 +38,7 @@
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\upoolG_BECP.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="114"/>
         <CursorPos Y="131"/>
         <UsageCount Value="30"/>
@@ -50,7 +48,7 @@
       <Unit4>
         <Filename Value="..\..\pascal_o_r_mapping\7_sources_externes\synapse\source\lib\blcksock.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="11"/>
         <CursorPos X="65" Y="16"/>
         <UsageCount Value="30"/>
         <Loaded Value="True"/>
@@ -58,7 +56,7 @@
       </Unit4>
       <Unit5>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\ubeString.pas"/>
-        <EditorIndex Value="28"/>
+        <EditorIndex Value="19"/>
         <TopLine Value="114"/>
         <CursorPos Y="139"/>
         <UsageCount Value="38"/>
@@ -70,7 +68,7 @@
         <ComponentName Value="pool_Ancetre_Ancetre"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="4481"/>
         <CursorPos Y="4495"/>
         <UsageCount Value="38"/>
@@ -87,7 +85,7 @@
         <ComponentName Value="fBitmaps"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="26"/>
+        <EditorIndex Value="16"/>
         <TopLine Value="193"/>
         <CursorPos X="34" Y="209"/>
         <UsageCount Value="25"/>
@@ -97,7 +95,7 @@
       </Unit7>
       <Unit8>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
-        <EditorIndex Value="23"/>
+        <EditorIndex Value="14"/>
         <TopLine Value="905"/>
         <CursorPos X="24" Y="918"/>
         <UsageCount Value="25"/>
@@ -107,15 +105,14 @@
       <Unit9>
         <Filename Value="C:\lazarus\fpc\2.6.4\source\packages\fcl-xml\src\dom.pp"/>
         <UnitName Value="DOM"/>
-        <EditorIndex Value="25"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="2244"/>
         <CursorPos X="10" Y="2261"/>
         <UsageCount Value="24"/>
-        <Loaded Value="True"/>
       </Unit9>
       <Unit10>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uOD_JCL.pas"/>
-        <EditorIndex Value="24"/>
+        <EditorIndex Value="15"/>
         <TopLine Value="282"/>
         <CursorPos X="11" Y="313"/>
         <UsageCount Value="24"/>
@@ -124,7 +121,7 @@
       </Unit10>
       <Unit11>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uDrawInfo.pas"/>
-        <EditorIndex Value="21"/>
+        <EditorIndex Value="12"/>
         <CursorPos Y="4"/>
         <UsageCount Value="24"/>
         <Loaded Value="True"/>
@@ -132,21 +129,21 @@
       </Unit11>
       <Unit12>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\ubeClusterElement.pas"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="4"/>
         <UsageCount Value="23"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit12>
       <Unit13>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uTraits.pas"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="5"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit13>
       <Unit14>
         <Filename Value="..\..\pascal_o_r_mapping\6_Formes\uDataClasses.pas"/>
-        <EditorIndex Value="22"/>
+        <EditorIndex Value="13"/>
         <TopLine Value="10"/>
         <CursorPos X="5" Y="31"/>
         <UsageCount Value="22"/>
@@ -165,62 +162,55 @@
       <Unit16>
         <Filename Value="C:\lazarus\fpc\2.6.4\source\packages\fcl-image\src\fpcanvas.pp"/>
         <UnitName Value="FPCanvas"/>
-        <EditorIndex Value="18"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="252"/>
         <CursorPos X="15" Y="266"/>
         <UsageCount Value="17"/>
-        <Loaded Value="True"/>
       </Unit16>
       <Unit17>
         <Filename Value="C:\lazarus\lcl\grids.pas"/>
         <UnitName Value="Grids"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="1161"/>
         <CursorPos Y="1176"/>
         <UsageCount Value="17"/>
-        <Loaded Value="True"/>
       </Unit17>
       <Unit18>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uWinUtils.pas"/>
-        <EditorIndex Value="17"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="291"/>
         <CursorPos Y="307"/>
         <UsageCount Value="16"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit18>
       <Unit19>
         <Filename Value="..\..\pascal_o_r_mapping\1_LCL\uWindows.pas"/>
-        <EditorIndex Value="15"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="24"/>
         <CursorPos X="59" Y="42"/>
         <UsageCount Value="16"/>
-        <Loaded Value="True"/>
       </Unit19>
       <Unit20>
         <Filename Value="..\..\pascal_o_r_mapping\1_LCL\uDessin.pas"/>
-        <EditorIndex Value="16"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="21"/>
         <UsageCount Value="16"/>
-        <Loaded Value="True"/>
       </Unit20>
       <Unit21>
         <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\objpas\classes\classesh.inc"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="419"/>
         <CursorPos Y="440"/>
         <UsageCount Value="15"/>
-        <Loaded Value="True"/>
       </Unit21>
       <Unit22>
         <Filename Value="C:\lazarus\fpc\2.6.4\source\packages\fcl-image\src\fpcanvas.inc"/>
-        <EditorIndex Value="20"/>
+        <EditorIndex Value="-1"/>
         <UsageCount Value="15"/>
-        <Loaded Value="True"/>
       </Unit22>
       <Unit23>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uHTTP_Interface.pas"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="10"/>
         <TopLine Value="20"/>
         <CursorPos X="21" Y="21"/>
         <UsageCount Value="15"/>
@@ -229,15 +219,14 @@
       </Unit23>
       <Unit24>
         <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\objpas\classes\persist.inc"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="17"/>
         <CursorPos X="11" Y="32"/>
         <UsageCount Value="15"/>
-        <Loaded Value="True"/>
       </Unit24>
       <Unit25>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\ublG_BECP.pas"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="9"/>
         <TopLine Value="93"/>
         <CursorPos X="72" Y="142"/>
         <UsageCount Value="15"/>
@@ -246,7 +235,7 @@
       </Unit25>
       <Unit26>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uPool.pas"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="1254"/>
         <CursorPos Y="1269"/>
         <UsageCount Value="15"/>
@@ -256,144 +245,146 @@
       <Unit27>
         <Filename Value="C:\lazarus\fpc\2.6.4\source\packages\fcl-image\src\fpimage.pp"/>
         <UnitName Value="FPimage"/>
-        <EditorIndex Value="19"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="19"/>
         <CursorPos X="3" Y="30"/>
         <UsageCount Value="14"/>
-        <Loaded Value="True"/>
       </Unit27>
       <Unit28>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uTemporaire.pas"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="41"/>
-        <CursorPos X="27" Y="58"/>
+        <TopLine Value="35"/>
+        <CursorPos X="31" Y="50"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit28>
+      <Unit29>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uhdmTestDessinnateurWeb.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="18"/>
+        <TopLine Value="19"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit29>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="29" HistoryIndex="28">
       <Position1>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uBatpro_Element.pas"/>
         <Caret Line="4495" TopLine="4481"/>
       </Position1>
       <Position2>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uhDessinnateurWeb.pas"/>
-        <Caret Line="628" TopLine="613"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
+        <Caret Line="918" Column="41" TopLine="901"/>
       </Position2>
       <Position3>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uBatpro_Element.pas"/>
-        <Caret Line="4495" TopLine="4481"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uhDessinnateurWeb.pas"/>
+        <Caret Line="1295" TopLine="1279"/>
       </Position3>
       <Position4>
-        <Filename Value="C:\lazarus\fpc\2.6.4\source\packages\fcl-image\src\fpcanvas.pp"/>
-        <Caret Line="266" Column="15" TopLine="252"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
+        <Caret Line="919" Column="36" TopLine="901"/>
       </Position4>
       <Position5>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
-        <Caret Line="918" Column="41" TopLine="901"/>
+        <Caret Line="922" Column="42" TopLine="901"/>
       </Position5>
       <Position6>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uhDessinnateurWeb.pas"/>
-        <Caret Line="1295" TopLine="1279"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
+        <Caret Line="923" TopLine="901"/>
       </Position6>
       <Position7>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
-        <Caret Line="919" Column="36" TopLine="901"/>
+        <Caret Line="953" TopLine="939"/>
       </Position7>
       <Position8>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
-        <Caret Line="922" Column="42" TopLine="901"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uBatpro_Element.pas"/>
+        <Caret Line="1939" TopLine="1923"/>
       </Position8>
       <Position9>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
-        <Caret Line="923" TopLine="901"/>
+        <Caret Line="42" Column="2" TopLine="26"/>
       </Position9>
       <Position10>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
-        <Caret Line="953" TopLine="939"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uBatpro_Element.pas"/>
+        <Caret Line="1965" TopLine="1950"/>
       </Position10>
       <Position11>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uBatpro_Element.pas"/>
-        <Caret Line="1939" TopLine="1923"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uhDessinnateurWeb.pas"/>
+        <Caret Line="658" TopLine="643"/>
       </Position11>
       <Position12>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
-        <Caret Line="42" Column="2" TopLine="26"/>
+        <Caret Line="42" Column="2" TopLine="30"/>
       </Position12>
       <Position13>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uBatpro_Element.pas"/>
-        <Caret Line="1965" TopLine="1950"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
+        <Caret Line="923" TopLine="905"/>
       </Position13>
       <Position14>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uhDessinnateurWeb.pas"/>
-        <Caret Line="658" TopLine="643"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
+        <Caret Line="912" TopLine="905"/>
       </Position14>
       <Position15>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
-        <Caret Line="42" Column="2" TopLine="30"/>
+        <Caret Line="920" Column="40" TopLine="905"/>
       </Position15>
       <Position16>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
-        <Caret Line="923" TopLine="905"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uhDessinnateurWeb.pas"/>
+        <Caret Line="1295" TopLine="1280"/>
       </Position16>
       <Position17>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
-        <Caret Line="912" TopLine="905"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uhDessinnateurWeb.pas"/>
+        <Caret Line="658" TopLine="643"/>
       </Position17>
       <Position18>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
-        <Caret Line="920" Column="40" TopLine="905"/>
+        <Caret Line="923" TopLine="905"/>
       </Position18>
       <Position19>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uhDessinnateurWeb.pas"/>
-        <Caret Line="1295" TopLine="1280"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
+        <Caret Line="912" TopLine="905"/>
       </Position19>
       <Position20>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uhDessinnateurWeb.pas"/>
-        <Caret Line="658" TopLine="643"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
+        <Caret Line="913" TopLine="905"/>
       </Position20>
       <Position21>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
-        <Caret Line="923" TopLine="905"/>
+        <Caret Line="919" Column="34" TopLine="905"/>
       </Position21>
       <Position22>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
-        <Caret Line="912" TopLine="905"/>
+        <Caret Line="918" Column="24" TopLine="905"/>
       </Position22>
       <Position23>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
-        <Caret Line="913" TopLine="905"/>
-      </Position23>
-      <Position24>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
-        <Caret Line="919" Column="34" TopLine="905"/>
-      </Position24>
-      <Position25>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
-        <Caret Line="918" Column="24" TopLine="905"/>
-      </Position25>
-      <Position26>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uhDessinnateurWeb.pas"/>
         <Caret Line="658" TopLine="643"/>
-      </Position26>
-      <Position27>
+      </Position23>
+      <Position24>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uhDessinnateurWeb.pas"/>
         <Caret Line="628" TopLine="613"/>
-      </Position27>
-      <Position28>
+      </Position24>
+      <Position25>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uBatpro_Element.pas"/>
         <Caret Line="4495" TopLine="4481"/>
+      </Position25>
+      <Position26>
+        <Filename Value="utc_hDessinnateur_web.pas"/>
+        <Caret Line="67" Column="50" TopLine="56"/>
+      </Position26>
+      <Position27>
+        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uTemporaire.pas"/>
+        <Caret Line="57" Column="29" TopLine="44"/>
+      </Position27>
+      <Position28>
+        <Filename Value="fug_hDessinnateur_web.lpr"/>
+        <Caret Line="6" Column="5"/>
       </Position28>
       <Position29>
         <Filename Value="utc_hDessinnateur_web.pas"/>
-        <Caret Line="67" Column="50" TopLine="56"/>
       </Position29>
-      <Position30>
-        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uTemporaire.pas"/>
-        <Caret Line="57" Column="29" TopLine="44"/>
-      </Position30>
     </JumpHistory>
   </ProjectSession>
   <Debugging>

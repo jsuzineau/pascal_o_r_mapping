@@ -65,7 +65,7 @@ type
                       ParametresValeurs: array of string;
                       NomMaitres  : array of String;
                       Maitres     : array of TBatpro_Ligne;
-                      Details     : array of TOD_Batpro_Table): Variant; overload;
+                      Details     : array of TOD_Batpro_Table): String; overload;
   end;
 
 var
@@ -142,7 +142,7 @@ function TBatpro_OD_Printer.Execute( NomFichierModele, sTitreEtat: String;
                                      ParametresValeurs: array of string;
                                      NomMaitres  : array of String;
                                      Maitres     : array of TBatpro_Ligne;
-                                     Details     : array of TOD_Batpro_Table): Variant;
+                                     Details     : array of TOD_Batpro_Table): String;
 var
    NomFichier: String;
    I, Longueur: Integer;
