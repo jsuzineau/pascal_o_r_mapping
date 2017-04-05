@@ -18,7 +18,7 @@
         <CustomOptions Value="-dWINDOWS_GRAPHIC"/>
       </Other>
     </CompilerOptions>
-    <Files Count="83">
+    <Files Count="84">
       <Item1>
         <Filename Value="DBTables.pas"/>
         <UnitName Value="DBTables"/>
@@ -351,6 +351,10 @@
         <Filename Value="uhFiltre_Ancetre.pas"/>
         <UnitName Value="uhFiltre_Ancetre"/>
       </Item83>
+      <Item84>
+        <Filename Value="uDimensions_from_pasjpeg.pas"/>
+        <UnitName Value="uDimensions_from_pasjpeg"/>
+      </Item84>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>

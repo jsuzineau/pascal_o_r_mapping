@@ -1,0 +1,25 @@
+object fTest_Graphique: TfTest_Graphique
+  Left = 507
+  Height = 607
+  Top = 24
+  Width = 923
+  Caption = 'fTest_Graphique'
+  ClientHeight = 607
+  ClientWidth = 923
+  OnCreate = FormCreate
+  LCLVersion = '1.6.0.4'
+  object m: TMemo
+    Left = 0
+    Height = 607
+    Top = 0
+    Width = 923
+    Align = alClient
+    Font.Name = 'Courier New'
+    Lines.Strings = (
+      'm'
+    )
+    ParentFont = False
+    ScrollBars = ssAutoBoth
+    TabOrder = 0
+  end
+end
