@@ -26,6 +26,7 @@ unit uOpenDocument;
 interface
 
 uses
+    uDimensions_from_pasjpeg,
     uOD_Temporaire,
     uOD_JCL,
     uOOoStrings,
@@ -416,14 +417,14 @@ type
     procedure Ensure_style_text_bold;
   //Embed_Image
   private
-    slEmbed_Image: TStringList;
+    slEmbed_Image: TslDimensions_from_pasjpeg;
     Embed_Image_counter: Cardinal;
     Embed_Image_counter_New_name: String;
     procedure Manifeste(_FullPath, _Extension: String);
     function Embed_Image_New_name_exists: Boolean;
     function Embed_Image_New: String;
   public
-    function Embed_Image( _NomFichier: String): String;
+    function Embed_Image( _NomFichier: String): TDimensions_from_pasjpeg;
   end;
 
 //Gestion tables
@@ -722,7 +723,7 @@ begin
 
      XML_from_Repertoire_Extraction;
      Embed_Image_counter:= 0;
-     slEmbed_Image:= TStringList.Create;
+     slEmbed_Image:= TslDimensions_from_pasjpeg.Create( ClassName+'.slEmbed_Image');
 end;
 
 destructor TOpenDocument.Destroy;
@@ -935,7 +936,7 @@ begin
      Result:= Embed_Image_counter_New_name;
 end;
 
-function TOpenDocument.Embed_Image(_NomFichier: String): String;
+function TOpenDocument.Embed_Image( _NomFichier: String): TDimensions_from_pasjpeg;
 var
    iEmbed_Image: Integer;
    procedure Copie_dans_Pictures;
@@ -944,6 +945,7 @@ var
       sFileName: String;
       sRepertoirePictures: String;
       sNomFichierCible: String;
+      sURL: String;
    begin
         sRepertoirePictures
         :=
@@ -956,27 +958,24 @@ var
         sFileName:= Embed_Image_New+Extension;
         //sFileName:= ExtractFileName( _NomFichier);
 
-   //1000020100000064000000323F4469E66C808866 40 digits
-   //1000020100000064000000323F4469E66C808866
-
-        Result:= sPictures+'/'+sFileName;
-        Manifeste( Result, Extension);
+        sURL:= sPictures+'/'+sFileName;
+        Manifeste( sURL, Extension);
 
         sNomFichierCible:= Repertoire_Pictures+sFileName;
 
         CopyFile( _NomFichier, sNomFichierCible);
-        slEmbed_Image.Values[ _NomFichier]:= Result;
+
+        Result:= TDimensions_from_pasjpeg.Create( sNomFichierCible, sURL);
+        slEmbed_Image.AddObject( _NomFichier, Result);
    end;
 begin
-     Result:= '';
+     Result:= nil;
      if not FileExists( _NomFichier) then exit;
 
-     iEmbed_Image:= slEmbed_Image.IndexOfName( _NomFichier);
-     if -1 <> iEmbed_Image
-     then
-         Result:= slEmbed_Image.ValueFromIndex[ iEmbed_Image]
-     else
-         Copie_dans_Pictures;;
+     Result:= Dimensions_from_pasjpeg_from_sl_sCle( slEmbed_Image, _NomFichier);
+     if Assigned( Result) then exit;
+
+     Copie_dans_Pictures;;
 end;
 
 function TOpenDocument.Get_xmlContent_TEXT: TDOMNode;

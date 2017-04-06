@@ -346,8 +346,7 @@ var
                      then
                          begin
                          Frame:= Paragraph.NewFrame;
-                         Image:= Frame.NewImage_as_Character;
-                         Image.Set_Filename( sCellValue);
+                         Image:= Frame.NewImage_as_Character( sCellValue);
                          end
                      else
                          Paragraph.AddText( sCellValue);
@@ -657,8 +656,7 @@ var
                      then
                          begin
                          Frame:= Paragraph.NewFrame;
-                         Image:= Frame.NewImage_as_Character;
-                         Image.Set_Filename( sCellValue);
+                         Image:= Frame.NewImage_as_Character( sCellValue);
                          end
                      else
                          Paragraph.AddText( sCellValue, NomStyle, Gras, GroupSize, LineSize, SizePourcent);
@@ -1003,8 +1001,7 @@ var
                      then
                          begin
                          Frame:= Paragraph.NewFrame;
-                         Image:= Frame.NewImage_as_Character;
-                         Image.Set_Filename( sCellValue);
+                         Image:= Frame.NewImage_as_Character( sCellValue);
                          end
                      else
                          Paragraph.AddText( sCellValue);

@@ -411,8 +411,7 @@ var
                then
                    begin
                    Frame:= Paragraph.NewFrame;
-                   Image:= Frame.NewImage_as_Character;
-                   Image.Set_Filename( _Valeur);
+                   Image:= Frame.NewImage_as_Character( _Valeur);
                    end
                else
                    Paragraph.AddText( _Valeur);

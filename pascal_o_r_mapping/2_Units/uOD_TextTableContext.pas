@@ -27,6 +27,7 @@ interface
 
 uses
     DOM,
+    uDimensions_from_pasjpeg,
     uOOoStrings,
     uOD_Merge,
     uOD_TextFieldsCreator,
@@ -126,7 +127,7 @@ type
     constructor Create( _C: TOD_TextTableContext; _eRoot: TDOMNode); override;
   //Méthodes
   public
-    procedure Set_Filename( _Filename: String);
+    procedure Set_xlink_href( _xlink_href: String);
   end;
 
  TOD_FRAME
@@ -137,7 +138,7 @@ type
     constructor Create( _C: TOD_TextTableContext; _eRoot: TDOMNode); override;
   //Méthodes
   public
-    function NewImage_as_Character: TOD_IMAGE;
+    function NewImage_as_Character( _Filename: String): TOD_IMAGE;
   end;
 
  TOD_TABLE
@@ -637,13 +638,9 @@ begin
 
 end;
 
-procedure TOD_IMAGE.Set_Filename( _Filename: String);
-var
-   url: String;
+procedure TOD_IMAGE.Set_xlink_href( _xlink_href: String);
 begin
-     //url:= D.URL_from_WindowsFileName( _Filename);
-     url:= D.Embed_Image( _Filename);
-     D.Set_Property( e, 'xlink:href'      , url                       );
+     D.Set_Property( e, 'xlink:href'      , _xlink_href                );
      D.Set_Property( e, 'xlink:type'      , 'simple'                  );
      D.Set_Property( e, 'xlink:show'      , 'embed'                   );
      D.Set_Property( e, 'xlink:actuate'   , 'onLoad'                  );
@@ -658,10 +655,19 @@ begin
      e:= Cree_path( eRoot, 'draw:frame');
 end;
 
-function TOD_FRAME.NewImage_as_Character: TOD_IMAGE;
+function TOD_FRAME.NewImage_as_Character( _Filename: String): TOD_IMAGE;
+var
+   dfp: TDimensions_from_pasjpeg;
+   svgWidth, svgHeight: String;
 begin
+     dfp:= D.Embed_Image( _Filename);
+     svgWidth := dfp.svgWidth ;
+     svgHeight:= dfp.svgHeight;
      D.Set_Property( e, 'text:anchor-type', 'as-char');
+     if '' <> svgWidth  then D.Set_Property( e, 'svg:width' , svgWidth );
+     if '' <> svgHeight then D.Set_Property( e, 'svg:height', svgHeight);
      Result:= TOD_IMAGE.Create( C, e);
+     Result.Set_xlink_href( dfp.URL);
 end;
 
 { TOD_TAB_STOP }

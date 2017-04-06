@@ -26,7 +26,9 @@ unit uDimensions_from_pasjpeg;
 interface
 
 uses
+    uLog,
     uuStrings,
+    uBatpro_StringList,
  Classes, SysUtils, jpeglib,JDataSrc,JdAPImin;
 
 type
@@ -38,11 +40,13 @@ type
   class
   //Gestion du cycle de vie
   public
-    constructor Create( _NomFichier: String);
+    constructor Create( _NomFichier, _URL: String);
     destructor Destroy; override;
   //Nom de fichier
   public
     NomFichier: String;
+    URL: String; //référence à l'intérieur de l'OpenDocument
+    Is_JPEG: Boolean;
   //Calcul
   private
     function cm_from_pixel_density( _pixel: Integer; _density: Word): String;
@@ -53,6 +57,7 @@ type
     Density_units: Byte;
     Xdensity: Word;
     Ydensity: Word;
+    procedure Reset;
     procedure Calcul;
     function sDensity_Units: String;
     function svgWidth: String;
@@ -60,8 +65,86 @@ type
     function Test_Formate_cm: String;
   end;
 
+ TIterateur_Dimensions_from_pasjpeg
+ =
+  class( TIterateur)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: TDimensions_from_pasjpeg);
+    function  not_Suivant( var _Resultat: TDimensions_from_pasjpeg): Boolean;
+  end;
+
+ TslDimensions_from_pasjpeg
+ =
+  class( TBatpro_StringList)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_Dimensions_from_pasjpeg;
+    function Iterateur_Decroissant: TIterateur_Dimensions_from_pasjpeg;
+  end;
+
+function Dimensions_from_pasjpeg_from_sl( sl: TBatpro_StringList; Index: Integer): TDimensions_from_pasjpeg;
+function Dimensions_from_pasjpeg_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TDimensions_from_pasjpeg;
+
 implementation
 
+function Dimensions_from_pasjpeg_from_sl( sl: TBatpro_StringList; Index: Integer): TDimensions_from_pasjpeg;
+begin
+     _Classe_from_sl( Result, TDimensions_from_pasjpeg, sl, Index);
+end;
+
+function Dimensions_from_pasjpeg_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TDimensions_from_pasjpeg;
+begin
+     _Classe_from_sl_sCle( Result, TDimensions_from_pasjpeg, sl, sCle);
+end;
+
+{ TIterateur_Dimensions_from_pasjpeg }
+
+function TIterateur_Dimensions_from_pasjpeg.not_Suivant( var _Resultat: TDimensions_from_pasjpeg): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_Dimensions_from_pasjpeg.Suivant( var _Resultat: TDimensions_from_pasjpeg);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TslDimensions_from_pasjpeg }
+
+constructor TslDimensions_from_pasjpeg.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, TDimensions_from_pasjpeg);
+end;
+
+destructor TslDimensions_from_pasjpeg.Destroy;
+begin
+     inherited;
+end;
+
+class function TslDimensions_from_pasjpeg.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Dimensions_from_pasjpeg;
+end;
+
+function TslDimensions_from_pasjpeg.Iterateur: TIterateur_Dimensions_from_pasjpeg;
+begin
+     Result:= TIterateur_Dimensions_from_pasjpeg( Iterateur_interne);
+end;
+
+function TslDimensions_from_pasjpeg.Iterateur_Decroissant: TIterateur_Dimensions_from_pasjpeg;
+begin
+     Result:= TIterateur_Dimensions_from_pasjpeg( Iterateur_interne_Decroissant);
+end;
+
+
+{ routines pour gestionnaire d'erreur JPEG}
 procedure JPEGError(CurInfo: j_common_ptr);
 begin
   if CurInfo=nil then exit;
@@ -99,15 +182,32 @@ var
 
 { TDimensions_from_pasjpeg }
 
-constructor TDimensions_from_pasjpeg.Create( _NomFichier: String);
+constructor TDimensions_from_pasjpeg.Create( _NomFichier, _URL: String);
+var
+   Extension: String;
 begin
      NomFichier:= _NomFichier;
+     URL       := _URL       ;
+     Extension:= LowerCase( ExtractFileExt( _NomFichier));
+
+     Is_JPEG:= '.jpg' = Extension;
+
+     if not Is_JPEG then exit;
      Calcul;
 end;
 
 destructor TDimensions_from_pasjpeg.Destroy;
 begin
      inherited Destroy;
+end;
+
+procedure TDimensions_from_pasjpeg.Reset;
+begin
+     Width        := 1;
+     Height       := 1;
+     Density_units:= 0;
+     Xdensity     := 1;
+     Ydensity     := 1;
 end;
 
 procedure TDimensions_from_pasjpeg.Calcul;
@@ -132,24 +232,34 @@ var
         //FProgressiveEncoding := jpeg_has_multiple_scans(@jds);
    end;
 begin
-     s:= TFileStream.Create( NomFichier, fmOpenRead);
      try
-        jem:=jpeg_std_error;
-        jds.err := @jem;
-        jpeg_CreateDecompress(@jds, JPEG_LIB_VERSION, SizeOf(jds));
+        s:= TFileStream.Create( NomFichier, fmOpenRead);
         try
-          //FProgressMgr.pub.progress_monitor := @ProgressCallback;
-          //FProgressMgr.instance := Self;
-          //jds.progress := @FProgressMgr.pub;
-          jds.progress := nil;
-          SetSource;
-          ReadHeader;
+           jem:=jpeg_std_error;
+           jds.err := @jem;
+           jpeg_CreateDecompress(@jds, JPEG_LIB_VERSION, SizeOf(jds));
+           try
+             //FProgressMgr.pub.progress_monitor := @ProgressCallback;
+             //FProgressMgr.instance := Self;
+             //jds.progress := @FProgressMgr.pub;
+             jds.progress := nil;
+             SetSource;
+             ReadHeader;
+           finally
+             jpeg_Destroy_Decompress(@jds);
+           end;
         finally
-          jpeg_Destroy_Decompress(@jds);
-        end;
-     finally
-            FreeAndNil( s);
-            end;
+               FreeAndNil( s);
+               end;
+     except
+           on E: Exception
+           do
+             begin
+             Log.PrintLn( ClassName+'.Calcul: Erreur ');
+             Log.PrintLn( E.Message);
+             Reset;
+             end;
+           end;
 end;
 
 function TDimensions_from_pasjpeg.sDensity_Units: String;
@@ -219,6 +329,9 @@ var
         cm_from_;
    end;
 begin
+     Result:= '';
+     if not Is_JPEG then exit;
+
      case Density_units
      of
        0: Traite_No_Units;// No units; width:height pixel aspect ratio = Xdensity:Ydensity
