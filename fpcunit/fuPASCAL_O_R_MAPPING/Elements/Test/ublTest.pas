@@ -45,8 +45,9 @@ type
     destructor Destroy; override;
   //Attributs
   public
-    graphic_png: String;
     graphic_jpg: String;
+    graphic_png: String;
+    graphic_bmp: String;
   end;
 
  TIterateur_Test
@@ -136,8 +137,9 @@ begin
 
      //champs persistants
 
-     Ajoute_String( graphic_png, 'graphic_png', False); graphic_png:= ExtractFilePath(ParamStr(0))+'Test.png';
      Ajoute_String( graphic_jpg, 'graphic_jpg', False); graphic_jpg:= ExtractFilePath(ParamStr(0))+'Test.jpg';
+     Ajoute_String( graphic_png, 'graphic_png', False); graphic_png:= ExtractFilePath(ParamStr(0))+'Test.png';
+     Ajoute_String( graphic_bmp, 'graphic_bmp', False); graphic_bmp:= ExtractFilePath(ParamStr(0))+'Test.bmp';
 end;
 
 destructor TblTest.Destroy;

@@ -30,6 +30,7 @@ uses
     uBatpro_StringList,
     uDimensions_from_pasjpeg,
     uPNG_File,
+    uBMP_File,
  Classes, SysUtils;
 
 type
@@ -53,6 +54,7 @@ type
   private
     jpeg: TDimensions_from_pasjpeg;
     png: TPNG_File;
+    bmp: TBMP_File;
   public
     Cas: TDimensions_Image_Cas;
   //Dimensions pour fichier ODT
@@ -150,6 +152,7 @@ begin
      URL       := _URL       ;
      jpeg:= nil;
      png := nil;
+     bmp:= nil;
 
      Extension:= LowerCase( ExtractFileExt( _NomFichier));
 
@@ -162,6 +165,7 @@ begin
      of
        dic_jpeg: jpeg:= TDimensions_from_pasjpeg.Create( _NomFichier);
        dic_png : png := TPNG_File               .Create( _NomFichier, True);
+       dic_bmp : bmp := TBMP_File               .Create( _NomFichier);
        end;
 end;
 
@@ -176,6 +180,7 @@ begin
      of
        dic_jpeg: Result:= jpeg.svgWidth;
        dic_png : Result:= png .svgWidth;
+       dic_bmp : Result:= bmp .svgWidth;
        else      Result:= '';
        end;
 end;
@@ -186,6 +191,7 @@ begin
      of
        dic_jpeg: Result:= jpeg.svgHeight;
        dic_png : Result:= png .svgHeight;
+       dic_bmp : Result:= bmp .svgHeight;
        else      Result:= '';
        end;
 end;

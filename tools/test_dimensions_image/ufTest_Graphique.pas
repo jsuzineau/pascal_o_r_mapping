@@ -166,6 +166,7 @@ procedure TfTest_Graphique.Dimensions_Image;
 begin
      Dimensions_Image_interne( 'Test.jpg');
      Dimensions_Image_interne( 'Test.png');
+     Dimensions_Image_interne( 'Test.bmp');
 end;
 
 procedure TfTest_Graphique.Test;

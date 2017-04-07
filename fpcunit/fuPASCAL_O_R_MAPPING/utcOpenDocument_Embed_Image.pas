@@ -39,12 +39,14 @@ begin
 
      t:= TOD_Batpro_Table.Create( 'Corps');
      t.Pas_de_persistance:=True;
-     t.AddColumn( 10, 'Image PNG');
      t.AddColumn( 10, 'Image JPG');
+     t.AddColumn( 10, 'Image PNG');
+     t.AddColumn( 10, 'Image BMP');
      n:= t.AddNiveau( '');
      n.Charge_sl( sl);
-     n.Ajoute_Column_Avant('graphic_png',0,0);
-     n.Ajoute_Column_Avant('graphic_jpg',1,1);
+     n.Ajoute_Column_Avant('graphic_jpg',0,0);
+     n.Ajoute_Column_Avant('graphic_png',1,1);
+     n.Ajoute_Column_Avant('graphic_bmp',2,2);
 end;
 
 procedure TtcOpenDocument_Embed_Image.TearDown;
