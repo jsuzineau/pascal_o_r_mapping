@@ -661,13 +661,17 @@ var
    svgWidth, svgHeight: String;
 begin
      dfp:= D.Embed_Image( _Filename);
-     svgWidth := dfp.svgWidth ;
-     svgHeight:= dfp.svgHeight;
-     D.Set_Property( e, 'text:anchor-type', 'as-char');
-     if '' <> svgWidth  then D.Set_Property( e, 'svg:width' , svgWidth );
-     if '' <> svgHeight then D.Set_Property( e, 'svg:height', svgHeight);
-     Result:= TOD_IMAGE.Create( C, e);
-     Result.Set_xlink_href( dfp.URL);
+     try
+        svgWidth := dfp.svgWidth ;
+        svgHeight:= dfp.svgHeight;
+        D.Set_Property( e, 'text:anchor-type', 'as-char');
+        if '' <> svgWidth  then D.Set_Property( e, 'svg:width' , svgWidth );
+        if '' <> svgHeight then D.Set_Property( e, 'svg:height', svgHeight);
+        Result:= TOD_IMAGE.Create( C, e);
+        Result.Set_xlink_href( dfp.URL);
+     finally
+            FreeAndNil( dfp);
+            end;
 end;
 
 { TOD_TAB_STOP }

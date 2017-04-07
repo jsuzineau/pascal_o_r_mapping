@@ -975,7 +975,7 @@ begin
      Result:= Dimensions_Image_from_sl_sCle( slEmbed_Image, _NomFichier);
      if Assigned( Result) then exit;
 
-     Copie_dans_Pictures;;
+     Copie_dans_Pictures;
 end;
 
 function TOpenDocument.Get_xmlContent_TEXT: TDOMNode;

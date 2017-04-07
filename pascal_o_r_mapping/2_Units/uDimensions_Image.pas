@@ -171,6 +171,9 @@ end;
 
 destructor TDimensions_Image.Destroy;
 begin
+     FreeAndNil( jpeg);
+     FreeAndNil( png );
+     FreeAndNil( bmp );
      inherited Destroy;
 end;
 
