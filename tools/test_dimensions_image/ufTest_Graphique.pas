@@ -27,6 +27,7 @@ interface
 uses
     uuStrings,
     uJPEG_File,
+    uPNG_File,
     uDimensions_from_pasjpeg,
  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
  FPimage,FPReadJPEG;
@@ -40,9 +41,11 @@ type
   procedure FormCreate(Sender: TObject);
  private
    procedure Infos_from_TJPEG_File;
+   procedure Infos_from_TPNG_File;
    procedure Dimensions_from_TPicture;
    procedure Dimensions_from_TFPReaderJPEG;
    procedure Dimensions_from_pasjpeg;
+   procedure Test;
  end;
 
 var
@@ -56,13 +59,7 @@ implementation
 
 procedure TfTest_Graphique.FormCreate(Sender: TObject);
 begin
-     m.Text:= '';
-
-     Infos_from_TJPEG_File;
-
-     Dimensions_from_TPicture;
-     Dimensions_from_TFPReaderJPEG;
-     Dimensions_from_pasjpeg;
+     Test;
 end;
 
 procedure TfTest_Graphique.Infos_from_TJPEG_File;
@@ -76,6 +73,19 @@ begin
             FreeAndNil( jpeg_file);
             end;
 end;
+
+procedure TfTest_Graphique.Infos_from_TPNG_File;
+var
+   png_file: TPNG_File;
+begin
+     png_file:= TPNG_File.Create( 'Test.png', True);
+     try
+        m.Lines.Add( png_file.Affichage);
+     finally
+            FreeAndNil( png_file);
+            end;
+end;
+
 
 procedure TfTest_Graphique.Dimensions_from_TPicture;
 var
@@ -119,7 +129,7 @@ procedure TfTest_Graphique.Dimensions_from_pasjpeg;
 var
    d: TDimensions_from_pasjpeg;
 begin
-     d:= TDimensions_from_pasjpeg.Create( 'Test.jpg');
+     d:= TDimensions_from_pasjpeg.Create( 'Test.jpg', '');
      try
         m.Lines.Add( 'Dimensions_from_pasjpeg:');
         m.Lines.Add( '  Largeur: '+ IntToStr( d.Width));
@@ -133,6 +143,19 @@ begin
      finally
             FreeAndNil( d);
             end;
+end;
+
+procedure TfTest_Graphique.Test;
+begin
+     m.Text:= '';
+
+     //Infos_from_TJPEG_File;
+
+     //Dimensions_from_TPicture;
+     //Dimensions_from_TFPReaderJPEG;
+     //Dimensions_from_pasjpeg;
+
+     Infos_from_TPNG_File;
 end;
 
 initialization

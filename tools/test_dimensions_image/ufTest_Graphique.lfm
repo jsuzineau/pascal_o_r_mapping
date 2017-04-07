@@ -1,18 +1,18 @@
 object fTest_Graphique: TfTest_Graphique
   Left = 507
-  Height = 607
+  Height = 712
   Top = 24
-  Width = 923
+  Width = 955
   Caption = 'fTest_Graphique'
-  ClientHeight = 607
-  ClientWidth = 923
+  ClientHeight = 712
+  ClientWidth = 955
   OnCreate = FormCreate
   LCLVersion = '1.6.0.4'
   object m: TMemo
     Left = 0
-    Height = 607
+    Height = 712
     Top = 0
-    Width = 923
+    Width = 955
     Align = alClient
     Font.Name = 'Courier New'
     Lines.Strings = (

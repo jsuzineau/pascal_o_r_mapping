@@ -120,7 +120,7 @@ constructor TJPEG_Segment.Create(var _F: File; _Marker: Byte);
      Lu: Word;
   begin
        BlockRead( _F, _w, SizeOf(_w), Lu);
-       _w:= swap( _w);
+       _w:= BEtoN( _w);
        if Lu = SizeOf(_w) then exit;
 
        _w:= 0;
