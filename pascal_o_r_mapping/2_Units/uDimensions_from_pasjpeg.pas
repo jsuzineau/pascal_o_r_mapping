@@ -40,13 +40,11 @@ type
   class
   //Gestion du cycle de vie
   public
-    constructor Create( _NomFichier, _URL: String);
+    constructor Create( _NomFichier: String);
     destructor Destroy; override;
   //Nom de fichier
   public
     NomFichier: String;
-    URL: String; //référence à l'intérieur de l'OpenDocument
-    Is_JPEG: Boolean;
   //Calcul
   private
     function cm_from_pixel_density( _pixel: Integer; _density: Word): String;
@@ -182,17 +180,9 @@ var
 
 { TDimensions_from_pasjpeg }
 
-constructor TDimensions_from_pasjpeg.Create( _NomFichier, _URL: String);
-var
-   Extension: String;
+constructor TDimensions_from_pasjpeg.Create( _NomFichier: String);
 begin
      NomFichier:= _NomFichier;
-     URL       := _URL       ;
-     Extension:= LowerCase( ExtractFileExt( _NomFichier));
-
-     Is_JPEG:= '.jpg' = Extension;
-
-     if not Is_JPEG then exit;
      Calcul;
 end;
 
@@ -329,9 +319,6 @@ var
         cm_from_;
    end;
 begin
-     Result:= '';
-     if not Is_JPEG then exit;
-
      case Density_units
      of
        0: Traite_No_Units;// No units; width:height pixel aspect ratio = Xdensity:Ydensity

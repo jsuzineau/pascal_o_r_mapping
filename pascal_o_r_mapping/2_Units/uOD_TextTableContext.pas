@@ -27,7 +27,7 @@ interface
 
 uses
     DOM,
-    uDimensions_from_pasjpeg,
+    uDimensions_Image,
     uOOoStrings,
     uOD_Merge,
     uOD_TextFieldsCreator,
@@ -657,7 +657,7 @@ end;
 
 function TOD_FRAME.NewImage_as_Character( _Filename: String): TOD_IMAGE;
 var
-   dfp: TDimensions_from_pasjpeg;
+   dfp: TDimensions_Image;
    svgWidth, svgHeight: String;
 begin
      dfp:= D.Embed_Image( _Filename);

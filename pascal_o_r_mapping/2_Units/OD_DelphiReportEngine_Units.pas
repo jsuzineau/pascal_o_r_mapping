@@ -23,7 +23,7 @@ uses
  uReal_Field_Formatter, uReal_Formatter, uReels, u_reg_, uSGBD, uskInteger, 
  uSkipList, uskString, uStringArray, u_sys_, uTemporaire, uTri_Ancetre, 
  uUseCase, uUseCases, uuStrings, uVersion, uLog, uNetwork, uhFiltre_Ancetre, 
- uDimensions_from_pasjpeg, LazarusPackageIntf;
+ uDimensions_from_pasjpeg, uDimensions_Image, uPNG_File, LazarusPackageIntf;
 
 implementation
 

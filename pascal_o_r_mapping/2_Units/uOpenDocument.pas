@@ -26,7 +26,7 @@ unit uOpenDocument;
 interface
 
 uses
-    uDimensions_from_pasjpeg,
+    uDimensions_Image,
     uOD_Temporaire,
     uOD_JCL,
     uOOoStrings,
@@ -417,14 +417,14 @@ type
     procedure Ensure_style_text_bold;
   //Embed_Image
   private
-    slEmbed_Image: TslDimensions_from_pasjpeg;
+    slEmbed_Image: TslDimensions_Image;
     Embed_Image_counter: Cardinal;
     Embed_Image_counter_New_name: String;
     procedure Manifeste(_FullPath, _Extension: String);
     function Embed_Image_New_name_exists: Boolean;
     function Embed_Image_New: String;
   public
-    function Embed_Image( _NomFichier: String): TDimensions_from_pasjpeg;
+    function Embed_Image( _NomFichier: String): TDimensions_Image;
   end;
 
 //Gestion tables
@@ -723,7 +723,7 @@ begin
 
      XML_from_Repertoire_Extraction;
      Embed_Image_counter:= 0;
-     slEmbed_Image:= TslDimensions_from_pasjpeg.Create( ClassName+'.slEmbed_Image');
+     slEmbed_Image:= TslDimensions_Image.Create( ClassName+'.slEmbed_Image');
 end;
 
 destructor TOpenDocument.Destroy;
@@ -936,7 +936,7 @@ begin
      Result:= Embed_Image_counter_New_name;
 end;
 
-function TOpenDocument.Embed_Image( _NomFichier: String): TDimensions_from_pasjpeg;
+function TOpenDocument.Embed_Image( _NomFichier: String): TDimensions_Image;
 var
    iEmbed_Image: Integer;
    procedure Copie_dans_Pictures;
@@ -965,14 +965,14 @@ var
 
         CopyFile( _NomFichier, sNomFichierCible);
 
-        Result:= TDimensions_from_pasjpeg.Create( sNomFichierCible, sURL);
+        Result:= TDimensions_Image.Create( sNomFichierCible, sURL);
         slEmbed_Image.AddObject( _NomFichier, Result);
    end;
 begin
      Result:= nil;
      if not FileExists( _NomFichier) then exit;
 
-     Result:= Dimensions_from_pasjpeg_from_sl_sCle( slEmbed_Image, _NomFichier);
+     Result:= Dimensions_Image_from_sl_sCle( slEmbed_Image, _NomFichier);
      if Assigned( Result) then exit;
 
      Copie_dans_Pictures;;

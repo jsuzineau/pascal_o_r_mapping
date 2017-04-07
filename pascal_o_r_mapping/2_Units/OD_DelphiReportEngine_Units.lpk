@@ -18,7 +18,7 @@
         <CustomOptions Value="-dWINDOWS_GRAPHIC"/>
       </Other>
     </CompilerOptions>
-    <Files Count="84">
+    <Files Count="86">
       <Item1>
         <Filename Value="DBTables.pas"/>
         <UnitName Value="DBTables"/>
@@ -355,6 +355,14 @@
         <Filename Value="uDimensions_from_pasjpeg.pas"/>
         <UnitName Value="uDimensions_from_pasjpeg"/>
       </Item84>
+      <Item85>
+        <Filename Value="uDimensions_Image.pas"/>
+        <UnitName Value="uDimensions_Image"/>
+      </Item85>
+      <Item86>
+        <Filename Value="uPNG_File.pas"/>
+        <UnitName Value="uPNG_File"/>
+      </Item86>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>

@@ -29,6 +29,7 @@ uses
     uJPEG_File,
     uPNG_File,
     uDimensions_from_pasjpeg,
+    uDimensions_Image,
  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
  FPimage,FPReadJPEG;
 
@@ -45,6 +46,8 @@ type
    procedure Dimensions_from_TPicture;
    procedure Dimensions_from_TFPReaderJPEG;
    procedure Dimensions_from_pasjpeg;
+   procedure Dimensions_Image_interne( _NomFichier: String);
+   procedure Dimensions_Image;
    procedure Test;
  end;
 
@@ -129,7 +132,7 @@ procedure TfTest_Graphique.Dimensions_from_pasjpeg;
 var
    d: TDimensions_from_pasjpeg;
 begin
-     d:= TDimensions_from_pasjpeg.Create( 'Test.jpg', '');
+     d:= TDimensions_from_pasjpeg.Create( 'Test.jpg');
      try
         m.Lines.Add( 'Dimensions_from_pasjpeg:');
         m.Lines.Add( '  Largeur: '+ IntToStr( d.Width));
@@ -145,6 +148,26 @@ begin
             end;
 end;
 
+procedure TfTest_Graphique.Dimensions_Image_interne(_NomFichier: String);
+var
+   d: TDimensions_Image;
+begin
+     d:= TDimensions_Image.Create( _NomFichier, '');
+     try
+        m.Lines.Add( 'Dimensions_Image_interne: '+_NomFichier);
+        m.Lines.Add( '  svgWidth : '+d.svgWidth);
+        m.Lines.Add( '  svgHeight: '+d.svgHeight);
+     finally
+            FreeAndNil( d);
+            end;
+end;
+
+procedure TfTest_Graphique.Dimensions_Image;
+begin
+     Dimensions_Image_interne( 'Test.jpg');
+     Dimensions_Image_interne( 'Test.png');
+end;
+
 procedure TfTest_Graphique.Test;
 begin
      m.Text:= '';
@@ -155,7 +178,8 @@ begin
      //Dimensions_from_TFPReaderJPEG;
      //Dimensions_from_pasjpeg;
 
-     Infos_from_TPNG_File;
+     //Infos_from_TPNG_File;
+     Dimensions_Image;
 end;
 
 initialization
