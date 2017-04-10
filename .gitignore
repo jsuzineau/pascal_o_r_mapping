@@ -54,3 +54,4 @@ tools/FormatFloat/Format_Float_Patch/Format_Float_Patch
 tools/FormatFloat/Format_Float_test_case/Format_Float_test_case
 tools/FormatFloat/project1
 fpcunit/fuPASCAL_O_R_MAPPING/fuPASCAL_O_R_MAPPING
+fpcunit/fuPASCAL_O_R_MAPPING/etc
