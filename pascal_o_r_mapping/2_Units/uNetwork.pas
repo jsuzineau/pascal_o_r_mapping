@@ -135,7 +135,7 @@ var
    I: Integer;
 begin
      {$IFDEF MSWINDOWS}
-     Result:= GetEnvironmentVariable('HOSTNAME');
+     Result:= GetEnvironmentVariable('COMPUTERNAME');
      {$ELSE}
      RunCommand('hostname', Result);
      repeat

@@ -114,13 +114,7 @@ var
 
 implementation
 
-const
-     inik_SGBD_depuis_Nom_Executable='Choisir le SGBD en se basant sur le nom de l''exécutable';
 var
-   SGBD_depuis_Nom_Executable: Boolean= False;
-
-var
-   NomExecutable: String;
    FSGBD: TSGBD;
 
 function BATPRO6( _SGBD: TSGBD): Boolean;
@@ -154,56 +148,9 @@ procedure uSGBD_Compute;
 
         SGBD_Set( TSGBD( iSGBD));
    end;
-
-   function Traite_NomExecutable: Boolean;
-   begin
-        NomExecutable
-        :=
-          UpperCase( ChangeFileExt( ExtractFileName( ParamStr(0)), sys_Vide));
-
-        Result:= True;
-             if    (NomExecutable = 'BATPRO_EDITIONS_APPLICATION' )
-                or (NomExecutable = 'wsBATPRO_EDITIONS' )
-                or (NomExecutable = 'BATPRO_PLANNING_APPLICATION' )
-                or (NomExecutable = 'BATPRO_APPELS'   )
-                or (NomExecutable = 'BATPRO_OPN_INFORMIX')
-                or (NomExecutable = 'BATPRO_COURRIERS_INFORMIX')
-                or (NomExecutable = 'BATPRO_TEST_INFORMIX')
-                or (NomExecutable = 'BATPRO_FORMES_TESTS')
-                or (NomExecutable = 'BATPRO_EDITIONS_TESTS')
-                or (NomExecutable = 'INFORMIX_TO_MYSQL')
-                or (NomExecutable = 'BATPRO_DICO'     )
-                or (NomExecutable = 'BATPRO_GED'     )
-                or (NomExecutable = 'BATPRO_POINTEUSE')
-                or (NomExecutable = 'PUC_EXEC'     ) then SGBD_Set( sgbd_Informix, EXE_INI.Delphi_autonome)
-        else if    (NomExecutable = 'BATPRO_OPN_MYSQL')
-                or (NomExecutable = 'BATPRO_PLANNING_TESTS')
-                or (NomExecutable = 'BATPRO_COURRIERS_MYSQL')
-                or (NomExecutable = 'BATPRO_TEST_MYSQL')
-                or (NomExecutable = 'BATPRO_PROSPECTS_TESTS')
-                or (NomExecutable = 'BATPRO_IMPORT'   )
-                or (NomExecutable = 'BATPRO_IMPORT_MARCHESSYSTEM')
-                or (NomExecutable = 'BATPRO_GED_MYSQL')
-                or (NomExecutable = 'BATPRO_POINTEUSE_MYSQL')
-                or (NomExecutable = 'BATPRO_PROSPECTS') then SGBD_Set( sgbd_MySQL, EXE_INI.Delphi_autonome)
-        else if    (NomExecutable = 'BATPRO_EDITIONS_APPLICATION_POSTGRES' )
-                or (NomExecutable = 'BATPRO_PLANNING_APPLICATION_POSTGRES' )
-                                                        then SGBD_Set( sgbd_Postgres, EXE_INI.Delphi_autonome)
-        else                                                 Result:= False;
-
-   end;
 begin
-     SGBD_depuis_Nom_Executable
-     :=
-       EXE_INI.ReadBool( ini_Options, inik_SGBD_depuis_Nom_Executable, False);
-     EXE_INI.WriteBool( ini_Options,
-                        inik_SGBD_depuis_Nom_Executable,
-                        SGBD_depuis_Nom_Executable);
-
-     if Traite_AUTOEXEC                     then exit;
-     if     not SGBD_depuis_Nom_Executable
-        and Traite_INI                      then exit;
-     if Traite_NomExecutable                then exit;
+     if Traite_AUTOEXEC then exit;
+     if Traite_INI      then exit;
      SGBD_Set( sgbd_MySQL   );
 end;
 
