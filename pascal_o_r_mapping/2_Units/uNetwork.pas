@@ -36,7 +36,7 @@ uses
     {$IFNDEF FPC}
     Windows, WinSock, Dialogs,
     {$ENDIF}
-    SysUtils, Classes, IniFiles, Math;
+    SysUtils, Classes, IniFiles, Math,process;
 
 type
  TTypeNetwork= (tn_application, tn_informix, tn_mysql);
@@ -131,8 +131,19 @@ begin
      Result:= StrPas( hostname);
 end;
 {$ELSE}
+var
+   I: Integer;
 begin
+     {$IFDEF MSWINDOWS}
      Result:= GetEnvironmentVariable('HOSTNAME');
+     {$ELSE}
+     RunCommand('hostname', Result);
+     repeat
+           I:= Pos( #10, Result);
+           if I = 0 then break;
+           Delete( Result, I, 1);
+     until I = -1;
+     {$ENDIF}
 end;
 {$ENDIF}
 
