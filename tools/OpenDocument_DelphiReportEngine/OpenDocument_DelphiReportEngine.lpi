@@ -122,7 +122,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <CommandLineParams Value="&quot;\home\jean\pascal_o_r_mapping\pascal_o_r_mapping\fpcunit\fuPASCAL_O_R_MAPPING\tcOpenDocument.odt&quot;"/>
+        <CommandLineParams Value="&quot;C:\_freepascal\pascal_o_r_mapping\fpcunit\fuPASCAL_O_R_MAPPING\tcOpenDocument.odt&quot;"/>
       </local>
     </RunParams>
     <RequiredPackages Count="3">
