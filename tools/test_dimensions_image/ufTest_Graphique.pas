@@ -42,7 +42,7 @@ type
   procedure FormCreate(Sender: TObject);
  private
    procedure Infos_from_TJPEG_File;
-   procedure Infos_from_TPNG_File;
+   procedure Infos_from_TPNG_File( _NomFichier: String);
    procedure Dimensions_from_TPicture;
    procedure Dimensions_from_TFPReaderJPEG;
    procedure Dimensions_from_pasjpeg;
@@ -77,11 +77,11 @@ begin
             end;
 end;
 
-procedure TfTest_Graphique.Infos_from_TPNG_File;
+procedure TfTest_Graphique.Infos_from_TPNG_File( _NomFichier: String);
 var
    png_file: TPNG_File;
 begin
-     png_file:= TPNG_File.Create( 'Test.png', True);
+     png_file:= TPNG_File.Create( _NomFichier, false);
      try
         m.Lines.Add( png_file.Affichage);
      finally
@@ -155,8 +155,6 @@ begin
      d:= TDimensions_Image.Create( _NomFichier, '');
      try
         m.Lines.Add( 'Dimensions_Image_interne: '+_NomFichier);
-        m.Lines.Add( '  svgWidth : '+d.svgWidth);
-        m.Lines.Add( '  svgHeight: '+d.svgHeight);
      finally
             FreeAndNil( d);
             end;
@@ -179,8 +177,9 @@ begin
      //Dimensions_from_TFPReaderJPEG;
      //Dimensions_from_pasjpeg;
 
-     //Infos_from_TPNG_File;
-     Dimensions_Image;
+     Infos_from_TPNG_File('Test.png');
+     Infos_from_TPNG_File('terminals.png');
+     //Dimensions_Image;
 end;
 
 initialization

@@ -417,6 +417,9 @@ begin
 
      Has_IHDR:= False;
      Has_pHYs:= False;
+     pHYs.Density_units:= 0;
+     pHYs.Xdensity:= 0;
+     pHYs.Ydensity:= 0;
 
      slChunks:= TslPNG_Chunk.Create(ClassName+'.slChunks');
 
@@ -464,6 +467,12 @@ begin
            end;
        if Only_Read_Dimensions and Has_IHDR and Has_pHYs then break;
        end;
+     if not Has_pHYs
+     then
+         begin
+         Has_pHYs:= True;
+         Normalise_Density;
+         end;
 end;
 
 procedure TPNG_File.Verifie_signature;
@@ -562,7 +571,7 @@ end;
 
 function TPNG_File.svgWidth: String;
 begin
-     Result:= '1';
+     Result:= '1cm';
      if not Has_IHDR then exit;
      if not Has_pHYs then exit;
 
@@ -571,7 +580,7 @@ end;
 
 function TPNG_File.svgHeight: String;
 begin
-     Result:= '1';
+     Result:= '1cm';
      if not Has_IHDR then exit;
      if not Has_pHYs then exit;
 
