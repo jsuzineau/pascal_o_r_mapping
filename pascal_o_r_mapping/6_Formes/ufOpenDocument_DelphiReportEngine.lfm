@@ -1,7 +1,7 @@
 object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
-  Left = 507
+  Left = 486
   Height = 661
-  Top = 76
+  Top = 879
   Width = 959
   Caption = 'fOpenDocument_DelphiReportEngine'
   ClientHeight = 661
@@ -10,6 +10,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
+  Menu = mm
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -22,39 +23,10 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
     Height = 661
     Top = 0
     Width = 959
-    ActivePage = tsContent_XML
+    ActivePage = tsTV_Insertion
     Align = alClient
-    TabIndex = 6
+    TabIndex = 0
     TabOrder = 0
-    object tsContent: TTabSheet
-      Caption = 'Content.xml'
-      ClientHeight = 634
-      ClientWidth = 955
-      object tvContent: TTreeView
-        Left = 0
-        Height = 594
-        Top = 0
-        Width = 1126
-        Align = alClient
-        Indent = 19
-        TabOrder = 0
-      end
-    end
-    object tsStyles: TTabSheet
-      Caption = 'Styles.xml'
-      ClientHeight = 634
-      ClientWidth = 955
-      ImageIndex = 1
-      object tvStyles: TTreeView
-        Left = 0
-        Height = 594
-        Top = 0
-        Width = 1126
-        Align = alClient
-        Indent = 19
-        TabOrder = 0
-      end
-    end
     object tsTV_Insertion: TTabSheet
       Caption = 'Insertion de champs dans le modèle'
       ClientHeight = 634
@@ -63,11 +35,11 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
       object Panel3: TPanel
         Left = 0
         Height = 41
-        Top = 589
-        Width = 1134
+        Top = 593
+        Width = 955
         Align = alBottom
         ClientHeight = 41
-        ClientWidth = 1134
+        ClientWidth = 955
         TabOrder = 0
         object bInserer: TButton
           Left = 6
@@ -80,9 +52,9 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
         end
         object cbOptimiserInsertion: TCheckBox
           Left = 182
-          Height = 19
+          Height = 24
           Top = 10
-          Width = 63
+          Width = 95
           Caption = 'Optimiser'
           Checked = True
           State = cbChecked
@@ -91,9 +63,9 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
       end
       object vsti: TVirtualStringTree
         Left = 0
-        Height = 589
+        Height = 593
         Top = 0
-        Width = 1134
+        Width = 955
         Align = alClient
         DefaultText = 'Node'
         Header.AutoSizeIndex = 0
@@ -424,9 +396,9 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
       ClientWidth = 955
       object vle: TValueListEditor
         Left = 0
-        Height = 594
+        Height = 634
         Top = 0
-        Width = 1126
+        Width = 955
         Align = alClient
         FixedCols = 0
         Font.Color = clWindowText
@@ -445,176 +417,23 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
         )
         ColWidths = (
           317
-          805
+          636
         )
-      end
-    end
-    object tsContent_XML: TTabSheet
-      Caption = 'tsContent_XML'
-      ClientHeight = 634
-      ClientWidth = 955
-      ImageIndex = 5
-      object mContent_XML: TMemo
-        Left = 0
-        Height = 593
-        Top = 0
-        Width = 955
-        Align = alClient
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Courier New'
-        Lines.Strings = (
-          'mContent_XML'
-        )
-        ParentFont = False
-        ScrollBars = ssBoth
-        TabOrder = 0
-      end
-      object Panel2: TPanel
-        Left = 0
-        Height = 41
-        Top = 593
-        Width = 955
-        Align = alBottom
-        ClientHeight = 41
-        ClientWidth = 955
-        TabOrder = 1
-        object bContent_Enregistrer: TButton
-          Left = 6
-          Height = 25
-          Top = 6
-          Width = 75
-          Caption = 'Valider'
-          OnClick = bContent_EnregistrerClick
-          TabOrder = 0
-        end
-      end
-    end
-    object tsStyles_XML: TTabSheet
-      Caption = 'tsStyles_XML'
-      ClientHeight = 634
-      ClientWidth = 955
-      ImageIndex = 6
-      object mStyles_XML: TMemo
-        Left = 0
-        Height = 553
-        Top = 0
-        Width = 1126
-        Align = alClient
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Courier New'
-        Lines.Strings = (
-          'mStyles_XML'
-        )
-        ParentFont = False
-        ScrollBars = ssBoth
-        TabOrder = 0
-      end
-      object Panel4: TPanel
-        Left = 0
-        Height = 41
-        Top = 553
-        Width = 1126
-        Align = alBottom
-        ClientHeight = 41
-        ClientWidth = 1126
-        TabOrder = 1
-        object bStyles_Enregistrer: TButton
-          Left = 6
-          Height = 25
-          Top = 6
-          Width = 75
-          Caption = 'Valider'
-          OnClick = bStyles_EnregistrerClick
-          TabOrder = 0
-        end
       end
     end
     object tsMIMETYPE: TTabSheet
       Caption = 'tsMIMETYPE'
       ClientHeight = 634
       ClientWidth = 955
-      ImageIndex = 7
       object mMIMETYPE: TMemo
         Left = 0
-        Height = 594
+        Height = 634
         Top = 0
-        Width = 1126
+        Width = 955
         Align = alClient
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Courier New'
         Lines.Strings = (
           'mMIMETYPE'
         )
-        ParentFont = False
-        TabOrder = 0
-      end
-    end
-    object tsMETA_XML: TTabSheet
-      Caption = 'tsMETA_XML'
-      ClientHeight = 634
-      ClientWidth = 955
-      ImageIndex = 8
-      object mMETA_XML: TMemo
-        Left = 0
-        Height = 594
-        Top = 0
-        Width = 1126
-        Align = alClient
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Courier New'
-        Lines.Strings = (
-          'mMETA_XML'
-        )
-        ParentFont = False
-        ScrollBars = ssBoth
-        TabOrder = 0
-      end
-    end
-    object tsSETTINGS_XML: TTabSheet
-      Caption = 'tsSETTINGS_XML'
-      ClientHeight = 634
-      ClientWidth = 955
-      ImageIndex = 9
-      object mSETTINGS_XML: TMemo
-        Left = 0
-        Height = 594
-        Top = 0
-        Width = 1126
-        Align = alClient
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Courier New'
-        Lines.Strings = (
-          'mSETTINGS_XML'
-        )
-        ParentFont = False
-        ScrollBars = ssBoth
-        TabOrder = 0
-      end
-    end
-    object tsMETA_INF_manifest_xml: TTabSheet
-      Caption = 'tsMETA_INF_manifest_xml'
-      ClientHeight = 634
-      ClientWidth = 955
-      ImageIndex = 10
-      object mMETA_INF_manifest_xml: TMemo
-        Left = 0
-        Height = 594
-        Top = 0
-        Width = 1126
-        Align = alClient
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Courier New'
-        Lines.Strings = (
-          'mMETA_INF_manifest_xml'
-        )
-        ParentFont = False
-        ScrollBars = ssBoth
         TabOrder = 0
       end
     end
@@ -642,5 +461,35 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
     OnTimer = tShowTimer
     left = 136
     top = 164
+  end
+  object mm: TMainMenu
+    left = 313
+    top = 205
+    object miVoir: TMenuItem
+      Caption = '&Voir'
+      object miVoir_XML: TMenuItem
+        Caption = 'XML'
+        object mixmlMeta: TMenuItem
+          Caption = 'Meta'
+          OnClick = mixmlMetaClick
+        end
+        object mixmlSettings: TMenuItem
+          Caption = 'Settings'
+          OnClick = mixmlSettingsClick
+        end
+        object mixmlMETA_INF_manifest: TMenuItem
+          Caption = 'META_INF/manifest'
+          OnClick = mixmlMETA_INF_manifestClick
+        end
+        object mixmlContent: TMenuItem
+          Caption = 'Content'
+          OnClick = mixmlContentClick
+        end
+        object mixmlStyles: TMenuItem
+          Caption = 'Styles'
+          OnClick = mixmlStylesClick
+        end
+      end
+    end
   end
 end

@@ -27,6 +27,7 @@ interface
 
 uses
     uDimensions_Image,
+    uPublieur,
     uOD_Temporaire,
     uOD_JCL,
     uOOoStrings,
@@ -425,6 +426,9 @@ type
     function Embed_Image_New: String;
   public
     function Embed_Image( _NomFichier: String): TDimensions_Image;
+  //Publication des modifications
+  public
+    pChange: TPublieur;
   end;
 
 //Gestion tables
@@ -714,6 +718,7 @@ var
 begin
      Automatic_style_paragraph_number:= 0;
      Automatic_style_text_number:= 0;
+     pChange:= TPublieur.Create( Classname+'.pChange');
      Nom:= _Nom;
      Calcule_is_Calc;
 
@@ -739,6 +744,7 @@ begin
      ChDir( ExtractFilePath( Nom));
      //OD_Temporaire.DetruitRepertoire( Repertoire_Extraction);
 
+     FreeAndNil( pChange);
      inherited;
 end;
 

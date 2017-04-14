@@ -44,24 +44,27 @@ type
  TbeString
  =
   class( TBatpro_Element)
+  //Gestion du cycle de vie
+  public
+    constructor Create( un_sl: TBatpro_StringList; unS: String; un_Fond: TColor;
+                        H: TbeAlignementH; _Orientation: Integer= 0);
+    destructor Destroy; override;
+  //Attributs
   private
     bCustomFont: Boolean;
-    CustomFont: TFont;
+    CustomFont: uBatpro_Element.TFont;
     FontName : String;
     FontSize : Integer;
-    FontStyle: TFontStyles;
+    FontStyle: uBatpro_Element.TFontStyles;
   public
     beAlignement: TbeAlignement;
     S: String;
     Orientation: Integer;
-    constructor Create( un_sl: TBatpro_StringList; unS: String; un_Fond: TColor;
-                        H: TbeAlignementH; _Orientation: Integer= 0);
-    destructor Destroy; override;
     function GetCell(Contexte: Integer): String; override;
     function Get_Alignement(Contexte: Integer): TbeAlignement; override;
     function OrientationTexte( DrawInfo: TDrawInfo): Integer; override;
-    function ClassFont(DrawInfo: TDrawInfo): TFont; override;
-    procedure SetFont(_FontName:String;_FontSize:Integer;_FontStyle:TFontStyles);
+    function ClassFont(DrawInfo: TDrawInfo): uBatpro_Element.TFont; override;
+    procedure SetFont(_FontName:String;_FontSize:Integer;_FontStyle:uBatpro_Element.TFontStyles);
   //Gestion de la clé
   public
     function sCle: String; override;
@@ -108,7 +111,7 @@ end;
 
 procedure TbeString.SetFont( _FontName : String     ;
                              _FontSize : Integer    ;
-                             _FontStyle: TFontStyles);
+                             _FontStyle: uBatpro_Element.TFontStyles);
 begin
      bCustomFont:= True;
      FontName := _FontName ;
@@ -116,14 +119,14 @@ begin
      FontStyle:= _FontStyle;
 end;
 
-function TbeString.ClassFont(DrawInfo: TDrawInfo): TFont;
+function TbeString.ClassFont(DrawInfo: TDrawInfo): uBatpro_Element.TFont;
 begin
      if bCustomFont
      then
          begin
          if CustomFont = nil
          then
-             CustomFont:= TFont.Create;
+             CustomFont:= uBatpro_Element.TFont.Create;
          CustomFont.Assign( inherited ClassFont( DrawInfo));
 
          if FontName <> sys_Vide then CustomFont.Name := FontName;

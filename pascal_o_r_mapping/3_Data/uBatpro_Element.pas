@@ -368,7 +368,8 @@ type
 {$ELSE}
  TFont= Graphics.TFont;
  TFontStyle= Graphics.TFontStyle;
- TFontStyles= Graphics.TFontStyles;
+ //TFontStyles= Graphics.TFontStyles;
+ TFontStyles= Set of TFontStyle;
 {$ENDIF}
 
  { TDrawInfo }

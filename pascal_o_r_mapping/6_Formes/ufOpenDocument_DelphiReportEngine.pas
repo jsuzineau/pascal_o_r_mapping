@@ -50,9 +50,11 @@ uses
     ublODRE_Table,
     ublOD_Dataset_Columns,
 
+    ufXML_Editor,
+
   LCLIntf, LMessages, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, ValEdit, Registry,
-  Spin,LCLType, VirtualTrees,XMLWrite,XMLRead,StrUtils;
+  Spin,LCLType, Menus, VirtualTrees,XMLWrite,XMLRead,StrUtils;
 
 type
  { TfOpenDocument_DelphiReportEngine }
@@ -69,6 +71,15 @@ type
    Label1: TLabel;
    Label2: TLabel;
    Label3: TLabel;
+   mMIMETYPE: TMemo;
+   miVoir_XML: TMenuItem;
+   mixmlStyles: TMenuItem;
+   mixmlContent: TMenuItem;
+   mixmlMETA_INF_manifest: TMenuItem;
+   mixmlSettings: TMenuItem;
+   mixmlMeta: TMenuItem;
+   miVoir: TMenuItem;
+   mm: TMainMenu;
    mODRE_Table_Colonnes: TMemo;
     odODF: TOpenDialog;
     Panel6: TPanel;
@@ -78,11 +89,8 @@ type
     speODRE_Table_NbColonnes: TSpinEdit;
     speSupprimerColonne_Numero: TSpinEdit;
     sgODRE_Table: TStringGrid;
-    tsContent: TTabSheet;
+    tsMIMETYPE: TTabSheet;
     tShow: TTimer;
-    tsStyles: TTabSheet;
-    tvContent: TTreeView;
-    tvStyles: TTreeView;
     tsVLE: TTabSheet;
     vst: TVirtualStringTree;
     vsti: TVirtualStringTree;
@@ -104,25 +112,9 @@ type
     sd: TSaveDialog;
     od: TOpenDialog;
     bFrom_Document: TButton;
-    tsContent_XML: TTabSheet;
-    mContent_XML: TMemo;
-    tsStyles_XML: TTabSheet;
-    mStyles_XML: TMemo;
     bOuvrir: TButton;
     bFermer: TButton;
     bChrono: TButton;
-    Panel2: TPanel;
-    bContent_Enregistrer: TButton;
-    Panel4: TPanel;
-    bStyles_Enregistrer: TButton;
-    tsMIMETYPE: TTabSheet;
-    tsMETA_XML: TTabSheet;
-    tsSETTINGS_XML: TTabSheet;
-    mMIMETYPE: TMemo;
-    mMETA_XML: TMemo;
-    mSETTINGS_XML: TMemo;
-    tsMETA_INF_manifest_xml: TTabSheet;
-    mMETA_INF_manifest_xml: TMemo;
     tsODRE_Table: TTabSheet;
     lbODRE_Table: TListBox;
     Panel5: TPanel;
@@ -148,14 +140,15 @@ type
     procedure bChronoClick(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames: array of String);
     procedure FormShow(Sender: TObject);
+    procedure mixmlContentClick(Sender: TObject);
+    procedure mixmlMetaClick(Sender: TObject);
+    procedure mixmlMETA_INF_manifestClick(Sender: TObject);
+    procedure mixmlSettingsClick(Sender: TObject);
+    procedure mixmlStylesClick(Sender: TObject);
     procedure tShowTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure bContent_EnregistrerClick(Sender: TObject);
-    procedure bStyles_EnregistrerClick(Sender: TObject);
     procedure lbODRE_TableClick(Sender: TObject);
     procedure bSupprimerColonneClick(Sender: TObject);
-    procedure bStyles_XML_ChercherClick(Sender: TObject);
-    procedure bContent_XML_ChercherClick(Sender: TObject);
     procedure bInsererColonneClick(Sender: TObject);
     procedure bDecalerChampsApresColonneClick(Sender: TObject);
     procedure bSupprimer_InsertionClick(Sender: TObject);
@@ -165,7 +158,13 @@ type
     procedure From_m(var _xml: TXMLDocument; _m: TMemo);
     procedure Optimise( _vst: TVirtualStringTree;
                         _hvst: ThVST_ODR);
-    procedure To_m(_xml: TXMLDocument; _m: TMemo);
+  //Affichage des XML
+  private
+    fxmleMeta             : TfXML_Editor;
+    fxmleSettings         : TfXML_Editor;
+    fxmleMETA_INF_manifest: TfXML_Editor;
+    fxmleContent          : TfXML_Editor;
+    fxmleStyles           : TfXML_Editor;
   //Attributs et méthodes privés généraux
   private
     Embedded: Boolean; //pour distinguer l'appel par Execute de l'affichage comme fiche principale
@@ -189,9 +188,6 @@ type
   //Méthodes générales
   public
     function Execute( _NomDocument: String): Boolean;
-  //Composition du Treeview
-  private
-    procedure tv_Add( _tv: TTreeView; _e: TDOMNode; _Parent: TTreeNode = nil);
   //Inscription dans la base de registre
   private
     procedure Enregistre_Extension;
@@ -260,8 +256,7 @@ begin
      Free_nil( hvsti);
      Free_nil( hd);
      Detruit_StringList( slT);
-     FreeAndNil( OD_TextTableContext);
-     FreeAndNil( Document      );
+     Ferme;
      FreeAndNil( __sl            );
      FreeAndNil( __sli           );
      FreeAndNil( slSuppressions);
@@ -280,21 +275,30 @@ begin
          tShow.Enabled:= True;
 end;
 
-procedure TfOpenDocument_DelphiReportEngine.Ferme;
+procedure TfOpenDocument_DelphiReportEngine.mixmlMetaClick(Sender: TObject);
 begin
-     if Document = nil then exit;
+     fxmleMeta.Show;
+end;
 
-     if idYes
-        =
-        MessageDlg( 'Voulez vous enregistrer les modifications ?',
-                    mtConfirmation, [mbYes, mbNo], 0)
-     then
-         Document.Save;
+procedure TfOpenDocument_DelphiReportEngine.mixmlSettingsClick(Sender: TObject);
+begin
+     fxmleSettings.Show;
+end;
 
-     pc.Hide;
-     FreeAndNil( OD_TextTableContext);
-     FreeAndNil( Document);
-     Caption:= 'OpenDocument_DelphiReportEngine';
+procedure TfOpenDocument_DelphiReportEngine.mixmlMETA_INF_manifestClick(
+ Sender: TObject);
+begin
+     fxmleMETA_INF_manifest.Show;
+end;
+
+procedure TfOpenDocument_DelphiReportEngine.mixmlContentClick(Sender: TObject);
+begin
+     fxmleContent.Show;
+end;
+
+procedure TfOpenDocument_DelphiReportEngine.mixmlStylesClick(Sender: TObject);
+begin
+     fxmleStyles.Show;
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.tShowTimer(Sender: TObject);
@@ -317,12 +321,45 @@ begin
 
      OOoChrono.Start;
      Document:= TOpenDocument.Create( _NomDocument);
+
+     fxmleMeta             := TfXML_Editor.Create( 'Meta'             , Document, @Document.xmlMeta             );
+     fxmleSettings         := TfXML_Editor.Create( 'Settings'         , Document, @Document.xmlSettings         );
+     fxmleMETA_INF_manifest:= TfXML_Editor.Create( 'META_INF_manifest', Document, @Document.xmlMETA_INF_manifest);
+     fxmleContent          := TfXML_Editor.Create( 'Content'          , Document, @Document.xmlContent          );
+     fxmleStyles           := TfXML_Editor.Create( 'Styles'           , Document, @Document.xmlStyles           );
+
      OD_TextTableContext:= TOD_TextTableContext.Create( Document);
 
      Caption:= ExtractFileName( Document.Nom);
 
+     Document.pChange.Abonne( Self, From_Document);
      From_Document;
      pc.Show;
+end;
+
+procedure TfOpenDocument_DelphiReportEngine.Ferme;
+begin
+     if Document = nil then exit;
+
+     FreeAndNil( fxmleMeta             );
+     FreeAndNil( fxmleSettings         );
+     FreeAndNil( fxmleMETA_INF_manifest);
+     FreeAndNil( fxmleContent          );
+     FreeAndNil( fxmleStyles           );
+
+     if idYes
+        =
+        MessageDlg( 'Voulez vous enregistrer les modifications ?',
+                    mtConfirmation, [mbYes, mbNo], 0)
+     then
+         Document.Save;
+
+     pc.Hide;
+
+     Document.pChange.Desabonne( Self, From_Document);
+     FreeAndNil( OD_TextTableContext);
+     FreeAndNil( Document);
+     Caption:= 'OpenDocument_DelphiReportEngine';
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.Ajoute_Valeur_dans_tv( sKey, sValue: String);
@@ -735,20 +772,6 @@ begin
      Result:= sys_Racine_Champ+_FieldName;
 end;
 
-procedure TfOpenDocument_DelphiReportEngine.To_m( _xml: TXMLDocument; _m: TMemo);
-var
-   ms: TMemoryStream;
-begin
-     ms:= TMemoryStream.Create;
-     try
-        WriteXML( _xml, ms);
-        _m.Lines.LoadFromStream( ms);
-     finally
-            FreeAndNil( ms);
-            end;
-     OOoChrono.Stop( 'Chargement de l''objet XML dans le memo '+_m.Name);
-
-end;
 procedure TfOpenDocument_DelphiReportEngine.From_m( var _xml: TXMLDocument; _m: TMemo);
 var
    ms: TMemoryStream;
@@ -764,20 +787,12 @@ begin
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.Affiche_XMLs;
-   procedure To_tv( _xml: TXMLDocument; _tv: TTreeView; _m: TMemo);
-   begin
-        To_m( _xml, _m);
-        _tv.Items.Clear;
-        tv_add( _tv, _XML.DocumentElement);
-        _tv.FullExpand;
-        OOoChrono.Stop( 'Chargement de l''objet XML dans le TreeView '+_tv.Name);
-   end;
 begin
-     To_m( Document.xmlMeta             , mMeta_xml             );
-     To_m( Document.xmlSettings         , mSettings_xml         );
-     To_m( Document.xmlMETA_INF_manifest, mMETA_INF_manifest_xml);
-     To_tv( Document.xmlContent, tvContent, mContent_XML);
-     To_tv( Document.xmlStyles , tvStyles , mStyles_XML );
+     fxmleMeta             ._from_xml;
+     fxmleSettings         ._from_xml;
+     fxmleMETA_INF_manifest._from_xml;
+     fxmleContent          ._from_xml;
+     fxmleStyles           ._from_xml;
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.From_Document;
@@ -1047,7 +1062,7 @@ begin
      Selection:= hvsti.Cle_from_Node( tn);
      Document.Add_FieldGet( Selection);
 
-     To_m( Document.xmlContent, mContent_XML);
+     fxmleContent._from_xml;
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.Exporte_Sous_branche( tn: PVirtualNode; Source: String; sl: TOOoStringList);
@@ -1120,33 +1135,6 @@ begin
      From_Document;
 end;
 
-procedure TfOpenDocument_DelphiReportEngine.tv_Add( _tv: TTreeView; _e: TDOMNode;
-                                                    _Parent: TTreeNode = nil);
-var
-   I: Integer;
-   tn: TTreeNode;
-   Properties: WideString;
-begin
-     if _tv = nil then exit;
-     if _e = nil  then exit;
-     if _e.Attributes = nil then exit;
-
-     Properties:= '';
-     for I:= 0 to _e.Attributes.Length -1
-     do
-       begin
-       if Properties <> '' then Properties:= Properties + '     ';
-       with _e.Attributes.Item[I]
-       do
-         Properties:= Properties+NodeName+': '+NodeValue;
-       end;
-     tn:= _tv.Items.AddChild( _Parent, '<'+_e.NodeName+' '+Properties+' >'+_e.TextContent);
-     
-     for I:= 0 to _e.ChildNodes.count - 1
-     do
-       tv_Add( _tv, _e.ChildNodes.Item[I], tn);
-end;
-
 procedure TfOpenDocument_DelphiReportEngine.FormCloseQuery( Sender: TObject;
                                                             var CanClose: Boolean);
 begin
@@ -1183,18 +1171,6 @@ procedure TfOpenDocument_DelphiReportEngine.FormDropFiles(Sender: TObject;
 begin
      if Length( FileNames) = 0 then exit;
      Ouvre( FileNames[0]);
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.bContent_EnregistrerClick( Sender: TObject);
-begin
-     From_m( Document.xmlContent, mContent_XML);
-     From_Document;
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.bStyles_EnregistrerClick( Sender: TObject);
-begin
-     From_m( Document.xmlStyles, mStyles_XML);
-     From_Document;
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.Enregistre_Extension;
@@ -1299,39 +1275,6 @@ begin
      ShowMessage('à déboguer');
      blODRE_Table.T.DecalerChampsApresColonne(speDecalerChampsApresColonne_Numero.Value);
      blODRE_Table.T.To_Doc( OD_TextTableContext);
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.bStyles_XML_ChercherClick( Sender: TObject);
-var
-   I: Integer;
-begin
-     I:= PosEx( eStyles_XML_Chercher.Text, mStyles_XML.Text, mStyles_XML.SelStart+mStyles_XML.SelLength+1);
-     if I = 0
-     then
-         begin
-         uOD_Forms_ShowMessage( 'Texte non trouvé');
-         exit;
-         end;
-     mStyles_XML.SetFocus;
-     mStyles_XML.SelStart:= I-1;
-     mStyles_XML.SelLength:= Length(eStyles_XML_Chercher.Text);
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.bContent_XML_ChercherClick(
-  Sender: TObject);
-var
-   I: Integer;
-begin
-     I:= PosEx( eContent_XML_Chercher.Text, mContent_XML.Text, mContent_XML.SelStart+mContent_XML.SelLength+1);
-     if I = 0
-     then
-         begin
-         uOD_Forms_ShowMessage( 'Texte non trouvé');
-         exit;
-         end;
-     mContent_XML.SetFocus;
-     mContent_XML.SelStart:= I-1;
-     mContent_XML.SelLength:= Length(eContent_XML_Chercher.Text);
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.bSupprimer_InsertionClick( Sender: TObject);
