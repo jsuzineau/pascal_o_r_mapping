@@ -491,5 +491,12 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
         end
       end
     end
+    object miOutils: TMenuItem
+      Caption = 'Outils'
+      object miCree_Test: TMenuItem
+        Caption = 'Crée Test'
+        OnClick = miCree_TestClick
+      end
+    end
   end
 end

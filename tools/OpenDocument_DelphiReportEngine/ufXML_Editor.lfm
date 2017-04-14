@@ -1,26 +1,27 @@
 object fXML_Editor: TfXML_Editor
-  Left = 443
-  Height = 758
-  Top = 932
-  Width = 1006
+  Left = 281
+  Height = 716
+  Top = 937
+  Width = 955
   Caption = 'fXML_Editor'
-  ClientHeight = 758
-  ClientWidth = 1006
+  ClientHeight = 716
+  ClientWidth = 955
   LCLVersion = '1.6.0.4'
   object Panel1: TPanel
     Left = 0
     Height = 50
-    Top = 708
-    Width = 1006
+    Top = 666
+    Width = 955
     Align = alBottom
     ClientHeight = 50
-    ClientWidth = 1006
+    ClientWidth = 955
     TabOrder = 0
     object bValider: TButton
-      Left = 920
+      Left = 862
       Height = 25
       Top = 8
       Width = 75
+      Anchors = [akTop, akRight]
       Caption = 'Valider'
       OnClick = bValiderClick
       TabOrder = 0
@@ -45,9 +46,9 @@ object fXML_Editor: TfXML_Editor
   end
   inline se: TSynEdit
     Left = 0
-    Height = 708
+    Height = 666
     Top = 0
-    Width = 1006
+    Width = 955
     Align = alClient
     Font.Height = -13
     Font.Name = 'Courier New'

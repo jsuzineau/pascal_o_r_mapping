@@ -41,6 +41,7 @@ uses
     uhdODRE_Table,
     uhVST_ODR,
     uVide,
+
     Zipper ,
     DOM,
     uOOoChrono, 
@@ -49,6 +50,9 @@ uses
 
     ublODRE_Table,
     ublOD_Dataset_Columns,
+
+    uhdmOpenDocument_DelphiReportEngine_Test,
+    uodOpenDocument_DelphiReportEngine_Test,
 
     ufXML_Editor,
 
@@ -71,6 +75,8 @@ type
    Label1: TLabel;
    Label2: TLabel;
    Label3: TLabel;
+   miOutils: TMenuItem;
+   miCree_Test: TMenuItem;
    mMIMETYPE: TMemo;
    miVoir_XML: TMenuItem;
    mixmlStyles: TMenuItem;
@@ -140,6 +146,7 @@ type
     procedure bChronoClick(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames: array of String);
     procedure FormShow(Sender: TObject);
+    procedure miCree_TestClick(Sender: TObject);
     procedure mixmlContentClick(Sender: TObject);
     procedure mixmlMetaClick(Sender: TObject);
     procedure mixmlMETA_INF_manifestClick(Sender: TObject);
@@ -273,6 +280,26 @@ begin
          Ouvre( ParamStr( 1))
      else
          tShow.Enabled:= True;
+end;
+
+procedure TfOpenDocument_DelphiReportEngine.miCree_TestClick(Sender: TObject);
+var
+   hdm: ThdmOpenDocument_DelphiReportEngine_Test;
+   od: TodOpenDocument_DelphiReportEngine_Test;
+begin
+     hdm:= ThdmOpenDocument_DelphiReportEngine_Test.Create;
+     try
+        hdm.Execute;
+        od:= TodOpenDocument_DelphiReportEngine_Test.Create;
+        try
+           od.Init( hdm);
+           od.Editer_Modele_Impression;
+        finally
+               FreeAndNil( od);
+               end;
+     finally
+            FreeAndNil( hdm);
+            end;
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.mixmlMetaClick(Sender: TObject);
