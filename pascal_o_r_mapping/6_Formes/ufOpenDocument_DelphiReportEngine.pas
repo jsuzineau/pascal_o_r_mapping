@@ -45,7 +45,7 @@ uses
     Zipper ,
     DOM,
     uOOoChrono, 
-    ucChampsGrid, ucChamp_Lookup_ComboBox, ucChamp_Edit,
+    ucChampsGrid, ucChamp_Lookup_ComboBox, ucChamp_Edit, ucDockableScrollbox,
     uLog,
 
     ublODRE_Table,
@@ -53,6 +53,8 @@ uses
 
     uhdmOpenDocument_DelphiReportEngine_Test,
     uodOpenDocument_DelphiReportEngine_Test,
+
+    udkODRE_Table,
 
     ufXML_Editor,
     ufFields_vle,
@@ -76,6 +78,7 @@ type
    cg: TChampsGrid;
    ceTitre: TChamp_Edit;
    clkcbNomChamp: TChamp_Lookup_ComboBox;
+   dsbODRE_Table: TDockableScrollbox;
    Label1: TLabel;
    Label2: TLabel;
    Label3: TLabel;
@@ -108,10 +111,10 @@ type
     sgODRE_Table: TStringGrid;
     tShow: TTimer;
     tsODRE_Table: TTabSheet;
-    lbODRE_Table: TListBox;
     Panel5: TPanel;
     gbBranche_Insertion: TGroupBox;
     bSupprimer_Insertion: TButton;
+    procedure dsbODRE_TableSelect(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormDropFiles(Sender: TObject; const FileNames: array of String);
@@ -129,7 +132,6 @@ type
     procedure mixmlStylesClick(Sender: TObject);
     procedure tShowTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure lbODRE_TableClick(Sender: TObject);
     procedure bSupprimerColonneClick(Sender: TObject);
     procedure bInsererColonneClick(Sender: TObject);
     procedure bDecalerChampsApresColonneClick(Sender: TObject);
@@ -223,6 +225,8 @@ begin
      hd.clkcbNomChamp:=  clkcbNomChamp;
      hd.ceTitre      :=  ceTitre;
 
+     dsbODRE_Table.Classe_dockable:= TdkODRE_Table;
+     dsbODRE_Table.Classe_Elements:= TblODRE_Table;
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.FormDestroy(Sender: TObject);
@@ -400,6 +404,9 @@ begin
      Document.Fields_Visite( Document_Fields_Visitor_for_Traite_Datasets);
 
      OOoChrono.Stop( 'Affichage des TextFields');
+
+     dsbODRE_Table.sl:= slT;
+     dsbODRE_Table.Goto_Premier;
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.Document_Fields_Visitor_for_ODRE_Table(_Name, _Value: String);
@@ -423,7 +430,6 @@ var
    var
       bl: TblODRE_Table;
    begin
-        lbODRE_Table.Items.Add( Nom_ODRE_Table);
         bl:= TblODRE_Table.Create( slT, nil, nil);
         bl.Charge( Nom_ODRE_Table, OD_TextTableContext);
         slT.AddObject( bl.sCle, bl);
@@ -454,7 +460,7 @@ begin
        begin
        if I.not_Suivant( bl)     then continue;
 
-       Prefixe:= bl.Nom+'_';
+       Prefixe:= '_'+bl.Nom+'_';
        if 1 <> Pos( Prefixe, _Name) then continue;
 
        {
@@ -559,7 +565,7 @@ begin
        begin
        if I.not_Suivant( bl)     then continue;
 
-       Prefixe:= bl.Nom+'_';
+       Prefixe:= '_'+bl.Nom+'_';
        if 1 <> Pos( Prefixe, _Name) then continue;
 
        Delete( _Name, 1, Length(Prefixe));
@@ -645,13 +651,11 @@ begin
             end;
 end;
 
-procedure TfOpenDocument_DelphiReportEngine.lbODRE_TableClick( Sender: TObject);
+procedure TfOpenDocument_DelphiReportEngine.dsbODRE_TableSelect(Sender: TObject);
 var
-   Nom: String;
    I: Integer;
 begin
-     Nom:= lbODRE_Table.Items[lbODRE_Table.ItemIndex];
-     blODRE_Table:= blODRE_Table_from_sl_sCle( slT, Nom);
+     dsbODRE_Table.Get_bl( blODRE_Table);
      if nil = blODRE_Table then exit;
 
      speODRE_Table_NbColonnes.Value:= blODRE_Table.T.GetNbColonnes;

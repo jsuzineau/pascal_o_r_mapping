@@ -69,7 +69,7 @@
           <PathDelim Value="\"/>
           <SearchPaths>
             <IncludeFiles Value="..\..\pascal_o_r_mapping\6_Formes;$(ProjOutDir)"/>
-            <OtherUnitFiles Value="..\..\pascal_o_r_mapping\6_Formes;Elements;..\..\pascal_o_r_mapping\3_Data;Elements\OpenDocument_DelphiReportEngine_Test;..\..\OOo"/>
+            <OtherUnitFiles Value="..\..\pascal_o_r_mapping\6_Formes;Elements;..\..\pascal_o_r_mapping\3_Data;Elements\OpenDocument_DelphiReportEngine_Test;..\..\OOo;Elements\ODRE_Table"/>
           </SearchPaths>
           <Parsing>
             <SyntaxOptions>
@@ -152,7 +152,7 @@
         <ResourceBaseClass Value="Form"/>
       </Unit1>
       <Unit2>
-        <Filename Value="Elements\ublODRE_Table.pas"/>
+        <Filename Value="Elements\ODRE_Table\ublODRE_Table.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit2>
       <Unit3>
@@ -179,7 +179,7 @@
         <ResourceBaseClass Value="DataModule"/>
       </Unit7>
       <Unit8>
-        <Filename Value="Elements\uhdODRE_Table.pas"/>
+        <Filename Value="Elements\ODRE_Table\uhdODRE_Table.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit8>
       <Unit9>
