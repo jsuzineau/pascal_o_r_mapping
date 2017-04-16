@@ -55,6 +55,10 @@ uses
     uodOpenDocument_DelphiReportEngine_Test,
 
     ufXML_Editor,
+    ufFields_vle,
+    ufTextFile,
+    ufFields_vstInsertion,
+    ufFields_vstTables   ,
 
   LCLIntf, LMessages, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, ValEdit, Registry,
@@ -75,9 +79,16 @@ type
    Label1: TLabel;
    Label2: TLabel;
    Label3: TLabel;
+   miNormal: TMenuItem;
+   miNormal_Insertion: TMenuItem;
+   miMode_Expert: TMenuItem;
+   miInsertion: TMenuItem;
+   miTables: TMenuItem;
+   miMIMETYPE: TMenuItem;
+   miFormatNatif: TMenuItem;
+   miChamps: TMenuItem;
    miOutils: TMenuItem;
    miCree_Test: TMenuItem;
-   mMIMETYPE: TMemo;
    miVoir_XML: TMenuItem;
    mixmlStyles: TMenuItem;
    mixmlContent: TMenuItem;
@@ -95,58 +106,22 @@ type
     speODRE_Table_NbColonnes: TSpinEdit;
     speSupprimerColonne_Numero: TSpinEdit;
     sgODRE_Table: TStringGrid;
-    tsMIMETYPE: TTabSheet;
     tShow: TTimer;
-    tsVLE: TTabSheet;
-    vst: TVirtualStringTree;
-    vsti: TVirtualStringTree;
-    vle: TValueListEditor;
-    tsTV: TTabSheet;
-    Panel1: TPanel;
-    bArborescence_from_Natif: TButton;
-    bToutOuvrir: TButton;
-    bToutFermer: TButton;
-    gbBranche: TGroupBox;
-    bDupliquer: TButton;
-    bSupprimer: TButton;
-    bExporter: TButton;
-    bImporter: TButton;
-    tsTV_Insertion: TTabSheet;
-    Panel3: TPanel;
-    bInserer: TButton;
-    cbOptimiserInsertion: TCheckBox;
-    sd: TSaveDialog;
-    od: TOpenDialog;
-    bFrom_Document: TButton;
-    bOuvrir: TButton;
-    bFermer: TButton;
-    bChrono: TButton;
     tsODRE_Table: TTabSheet;
     lbODRE_Table: TListBox;
     Panel5: TPanel;
-    eStyles_XML_Chercher: TEdit;
-    bStyles_XML_Chercher: TButton;
-    eContent_XML_Chercher: TEdit;
-    bContent_XML_Chercher: TButton;
     gbBranche_Insertion: TGroupBox;
     bSupprimer_Insertion: TButton;
     procedure FormDestroy(Sender: TObject);
-    procedure bDupliquerClick(Sender: TObject);
-    procedure bArborescence_from_NatifClick(Sender: TObject);
-    procedure bFrom_DocumentClick(Sender: TObject);
-    procedure bToutOuvrirClick(Sender: TObject);
-    procedure bToutFermerClick(Sender: TObject);
-    procedure bSupprimerClick(Sender: TObject);
-    procedure bInsererClick(Sender: TObject);
-    procedure bExporterClick(Sender: TObject);
-    procedure bImporterClick(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-    procedure bOuvrirClick(Sender: TObject);
-    procedure bFermerClick(Sender: TObject);
-    procedure bChronoClick(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames: array of String);
     procedure FormShow(Sender: TObject);
     procedure miCree_TestClick(Sender: TObject);
+    procedure miFormatNatifClick(Sender: TObject);
+    procedure miInsertionClick(Sender: TObject);
+    procedure miNormal_InsertionClick(Sender: TObject);
+    procedure miMIMETYPEClick(Sender: TObject);
+    procedure miTablesClick(Sender: TObject);
     procedure mixmlContentClick(Sender: TObject);
     procedure mixmlMetaClick(Sender: TObject);
     procedure mixmlMETA_INF_manifestClick(Sender: TObject);
@@ -158,13 +133,6 @@ type
     procedure bSupprimerColonneClick(Sender: TObject);
     procedure bInsererColonneClick(Sender: TObject);
     procedure bDecalerChampsApresColonneClick(Sender: TObject);
-    procedure bSupprimer_InsertionClick(Sender: TObject);
-    procedure vstEditing(Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex; var Allowed: Boolean);
-  //Optimisation de l'arborescence
-  private
-    procedure From_m(var _xml: TXMLDocument; _m: TMemo);
-    procedure Optimise( _vst: TVirtualStringTree;
-                        _hvst: ThVST_ODR);
   //Affichage des XML
   private
     fxmleMeta             : TfXML_Editor;
@@ -172,22 +140,29 @@ type
     fxmleMETA_INF_manifest: TfXML_Editor;
     fxmleContent          : TfXML_Editor;
     fxmleStyles           : TfXML_Editor;
+  //Affichage des champs
+  public
+    fFields_vle: TfFields_vle;
+  //Affichage du type mime
+  public
+    fMIMETYPE: TfTextFile;
+  //Affichage en arbres
+  public
+    fFields_vstInsertion:TfFields_vstInsertion;
+    fFields_vstTables   :TfFields_vstTables   ;
+    procedure fFields_vstInsertion_Show;
+    procedure fFields_vstTables_Show;
   //Attributs et méthodes privés généraux
   private
     Embedded: Boolean; //pour distinguer l'appel par Execute de l'affichage comme fiche principale
     Document: TOpenDocument;
-    OldTitre: String;
-    __sl: TOOoStringList;
-    __sli: TOOoStringList;
-    slSuppressions: TOOoStringList;
-    procedure Ajoute_Valeur_dans_tv( sKey, sValue: String);
-    procedure Ajoute_Valeur_dans_tvi( sKey, sValue: String);
-    procedure Copie_Sous_branche( tn: PVirtualNode; Source, Cible: String);
-    procedure Supprime_Sous_branche( tn: PVirtualNode; Selection: String);
-    procedure Supprime_Sous_branche_Insertion( tn: PVirtualNode; Selection: String);
     procedure Affiche_XMLs;
     procedure From_Document;
-    procedure Exporte_Sous_branche(tn: PVirtualNode; Source: String; sl: TOOoStringList);
+  //Visiteurs des Fields du Document
+  public
+    procedure Document_Fields_Visitor_for_ODRE_Table     ( _Name, _Value: String);
+    procedure Document_Fields_Visitor_for_Traite_Tables  ( _Name, _Value: String);//détection des datasets dans les tables
+    procedure Document_Fields_Visitor_for_Traite_Datasets( _Name, _Value: String);//détection des champs dans les datasets
   //Gestion de l'ouverture
   public
     procedure Ouvre( _NomDocument: String);
@@ -206,7 +181,6 @@ type
    hd: ThdODRE_Table;
   //Gestion des VST
   public
-    hvst : ThVST_ODR;
     hvsti: ThVST_ODR;
   end;
 
@@ -242,10 +216,6 @@ begin
      OD_TextTableContext:= nil;
      blODRE_Table:= nil;
 
-     __sl          := TOOoStringList.Create;__sl .Sorted:= True;
-     __sli         := TOOoStringList.Create;__sli.Sorted:= True;
-     slSuppressions:= TOOoStringList.Create;
-
      Embedded:= False;
      slT:= TslODRE_Table.Create( Classname+'.slT');
      hd:= ThdODRE_Table.Create( 1, sgODRE_Table, 'hdODRE_Table');
@@ -253,20 +223,13 @@ begin
      hd.clkcbNomChamp:=  clkcbNomChamp;
      hd.ceTitre      :=  ceTitre;
 
-     hvst := ThVST_ODR.Create( vst );
-     hvsti:= ThVST_ODR.Create( vsti);
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.FormDestroy(Sender: TObject);
 begin
-     Free_nil( hvst );
-     Free_nil( hvsti);
      Free_nil( hd);
      Detruit_StringList( slT);
      Ferme;
-     FreeAndNil( __sl            );
-     FreeAndNil( __sli           );
-     FreeAndNil( slSuppressions);
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.FormShow(Sender: TObject);
@@ -285,48 +248,38 @@ end;
 procedure TfOpenDocument_DelphiReportEngine.miCree_TestClick(Sender: TObject);
 var
    hdm: ThdmOpenDocument_DelphiReportEngine_Test;
-   od: TodOpenDocument_DelphiReportEngine_Test;
+   opendialog: TodOpenDocument_DelphiReportEngine_Test;
 begin
      hdm:= ThdmOpenDocument_DelphiReportEngine_Test.Create;
      try
         hdm.Execute;
-        od:= TodOpenDocument_DelphiReportEngine_Test.Create;
+        opendialog:= TodOpenDocument_DelphiReportEngine_Test.Create;
         try
-           od.Init( hdm);
-           od.Editer_Modele_Impression;
+           opendialog.Init( hdm);
+           opendialog.Editer_Modele_Impression;
         finally
-               FreeAndNil( od);
+               FreeAndNil( opendialog);
                end;
      finally
             FreeAndNil( hdm);
             end;
 end;
 
-procedure TfOpenDocument_DelphiReportEngine.mixmlMetaClick(Sender: TObject);
-begin
-     fxmleMeta.Show;
-end;
+procedure TfOpenDocument_DelphiReportEngine.miFormatNatifClick(Sender: TObject); begin Assure_fFields_vle( fFields_vle, Document).Show; end;
 
-procedure TfOpenDocument_DelphiReportEngine.mixmlSettingsClick(Sender: TObject);
-begin
-     fxmleSettings.Show;
-end;
+procedure TfOpenDocument_DelphiReportEngine.fFields_vstInsertion_Show; begin Assure_fFields_vstInsertion( fFields_vstInsertion, miInsertion.Caption, Document).Show; end;
+procedure TfOpenDocument_DelphiReportEngine.fFields_vstTables_Show   ; begin Assure_fFields_vstTables   ( fFields_vstTables   , miTables   .Caption, Document).Show; end;
+procedure TfOpenDocument_DelphiReportEngine.miInsertionClick       (Sender: TObject);begin fFields_vstInsertion_Show;end;
+procedure TfOpenDocument_DelphiReportEngine.miNormal_InsertionClick(Sender: TObject);begin fFields_vstInsertion_Show;end;
+procedure TfOpenDocument_DelphiReportEngine.miTablesClick          (Sender: TObject);begin fFields_vstTables_Show   ;end;
 
-procedure TfOpenDocument_DelphiReportEngine.mixmlMETA_INF_manifestClick(
- Sender: TObject);
-begin
-     fxmleMETA_INF_manifest.Show;
-end;
+procedure TfOpenDocument_DelphiReportEngine.mixmlMetaClick             (Sender: TObject); begin Assure_fXML_Editor( fxmleMeta             ,'Meta'             , Document, @Document.xmlMeta             ).Show; end;
+procedure TfOpenDocument_DelphiReportEngine.mixmlSettingsClick         (Sender: TObject); begin Assure_fXML_Editor( fxmleSettings         ,'Settings'         , Document, @Document.xmlSettings         ).Show; end;
+procedure TfOpenDocument_DelphiReportEngine.mixmlMETA_INF_manifestClick(Sender: TObject); begin Assure_fXML_Editor( fxmleMETA_INF_manifest,'META_INF_manifest', Document, @Document.xmlMETA_INF_manifest).Show; end;
+procedure TfOpenDocument_DelphiReportEngine.mixmlContentClick          (Sender: TObject); begin Assure_fXML_Editor( fxmleContent          ,'Content'          , Document, @Document.xmlContent          ).Show; end;
+procedure TfOpenDocument_DelphiReportEngine.mixmlStylesClick           (Sender: TObject); begin Assure_fXML_Editor( fxmleStyles           ,'Styles'           , Document, @Document.xmlStyles           ).Show; end;
 
-procedure TfOpenDocument_DelphiReportEngine.mixmlContentClick(Sender: TObject);
-begin
-     fxmleContent.Show;
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.mixmlStylesClick(Sender: TObject);
-begin
-     fxmleStyles.Show;
-end;
+procedure TfOpenDocument_DelphiReportEngine.miMIMETYPEClick(Sender: TObject); begin Assure_fTextFile( fMIMETYPE, 'mimetype', Document.CheminFichier_temporaire( 'mimetype')).Show; end;
 
 procedure TfOpenDocument_DelphiReportEngine.tShowTimer(Sender: TObject);
 begin
@@ -349,11 +302,15 @@ begin
      OOoChrono.Start;
      Document:= TOpenDocument.Create( _NomDocument);
 
-     fxmleMeta             := TfXML_Editor.Create( 'Meta'             , Document, @Document.xmlMeta             );
-     fxmleSettings         := TfXML_Editor.Create( 'Settings'         , Document, @Document.xmlSettings         );
-     fxmleMETA_INF_manifest:= TfXML_Editor.Create( 'META_INF_manifest', Document, @Document.xmlMETA_INF_manifest);
-     fxmleContent          := TfXML_Editor.Create( 'Content'          , Document, @Document.xmlContent          );
-     fxmleStyles           := TfXML_Editor.Create( 'Styles'           , Document, @Document.xmlStyles           );
+     fxmleMeta             := nil;
+     fxmleSettings         := nil;
+     fxmleMETA_INF_manifest:= nil;
+     fxmleContent          := nil;
+     fxmleStyles           := nil;
+     fFields_vle           := nil;
+     fMIMETYPE             := nil;
+     fFields_vstInsertion  := nil;
+     fFields_vstTables     := nil;
 
      OD_TextTableContext:= TOD_TextTableContext.Create( Document);
 
@@ -373,6 +330,10 @@ begin
      FreeAndNil( fxmleMETA_INF_manifest);
      FreeAndNil( fxmleContent          );
      FreeAndNil( fxmleStyles           );
+     FreeAndNil( fFields_vle           );
+     FreeAndNil( fMIMETYPE             );
+     FreeAndNil( fFields_vstInsertion  );
+     FreeAndNil( fFields_vstTables     );
 
      if idYes
         =
@@ -389,230 +350,6 @@ begin
      Caption:= 'OpenDocument_DelphiReportEngine';
 end;
 
-procedure TfOpenDocument_DelphiReportEngine.Ajoute_Valeur_dans_tv( sKey, sValue: String);
-var
-   sTreePath: String;
-   procedure Recursif( Racine: String; Parent: PVirtualNode);
-   var
-      s, sCle: String;
-      i: Integer;
-      LsTreePath: Integer;
-      sTreePath_has_final_underscore: Boolean;
-   begin
-        LsTreePath:= Length( sTreePath);
-        if LsTreePath = 0
-        then
-            sTreePath_has_final_underscore:= False
-        else
-            sTreePath_has_final_underscore:= sTreePath[ LsTreePath] = '_';
-        s:= StrTok( '_', sTreePath);
-        if      sTreePath_has_final_underscore
-           and (sTreePath = '')
-        then
-            s:= s+'_';
-
-        sCle:= Racine+'_'+s;
-        i:= __sl.IndexOf( sCle);
-        if i = -1
-        then
-            begin
-            if sTreePath = ''
-            then
-                Parent:= hvst.Ajoute_Ligne_( Parent, s, sValue)
-            else
-                Parent:= hvst.Ajoute_Intermediaire( Parent, s);
-            __sl.AddObject( sCle, TObject(Parent));
-            end
-        else
-            Parent:= PVirtualNode( __sl.Objects[i]);
-
-        if sTreePath = ''
-        then //cas terminal
-            begin
-
-            end
-        else
-            Recursif( sCle, Parent);
-   end;
-begin
-     sTreePath:= sKey;
-     Recursif( '', nil);
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.Ajoute_Valeur_dans_tvi( sKey, sValue: String);
-var
-   sTreePath: String;
-   procedure Recursif( Racine: String; Parent: PVirtualNode);
-   var
-      s, sCle: String;
-      i: Integer;
-      LsTreePath: Integer;
-      sTreePath_has_final_underscore: Boolean;
-   begin
-        LsTreePath:= Length( sTreePath);
-        if LsTreePath = 0
-        then
-            sTreePath_has_final_underscore:= False
-        else
-            sTreePath_has_final_underscore:= sTreePath[ LsTreePath] = '_';
-        s:= StrTok( '_', sTreePath);
-        if      sTreePath_has_final_underscore
-           and (sTreePath = '')
-        then
-            s:= s+'_';
-
-        sCle:= Racine+'_'+s;
-        i:= __sli.IndexOf( sCle);
-        if i = -1
-        then
-            begin
-            if sTreePath = ''
-            then
-                Parent:= hvsti.Ajoute_Ligne_( Parent, s, '')
-            else
-                Parent:= hvsti.Ajoute_Intermediaire( Parent, s);
-
-            __sli.AddObject( sCle, TObject(Parent));
-            end
-        else
-            Parent:= PVirtualNode( __sli.Objects[i]);
-
-        if sTreePath = ''
-        then //cas terminal
-            begin
-            end
-        else
-            Recursif( sCle, Parent);
-   end;
-begin
-     sTreePath:= sKey;
-     Recursif( '', nil);
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.Optimise( _vst: TVirtualStringTree;
-                                                      _hvst: ThVST_ODR);
-var
-   I: Integer;
-   TreeNode: PVirtualNode;
-     procedure T( _Root: PVirtualNode);
-     var
-        Cle_Root: String;
-        iRoot: Integer;
-        tv_root_node: PVirtualNode;
-        ok_singlechild: Boolean;
-        Root_Line: ThVST_ODR_Ligne;
-        tv_root_node_Line: ThVST_ODR_Ligne;
-        procedure Move_Child( _Parent: PVirtualNode);
-        var
-           tn, fish: PVirtualNode;
-        begin
-             tn:= _vst.GetFirstChild( _Parent);
-             while Assigned( tn)
-             do
-               begin
-               fish:= tn.NextSibling;
-               _vst.MoveTo( tn, _Root, amAddChildLast, False);
-               tn:= fish;
-               end;
-        end;
-        procedure Traite_SingleChild;
-        var
-           iRoot: Integer;
-
-           SingleChild: PVirtualNode;
-           SingleChild_Line: ThVST_ODR_Ligne;
-           Root_Line: ThVST_ODR_Ligne;
-           iSingleChild: Integer;
-           S: String;
-        begin
-             SingleChild:= _vst.GetFirstChild( _Root);
-
-             Move_Child( SingleChild);
-
-             SingleChild_Line:= _hvst.Line_from_Node( SingleChild);
-             Root_Line:= _hvst.Line_from_Node( _Root);
-
-             with Root_Line do Key:= Key + '_' + SingleChild_Line.Key;
-
-             iRoot:= __sl.IndexOfObject( TObject( _Root));
-             if iRoot <> -1
-             then
-                 begin
-                 S:= __sl[iRoot];
-                 __sl[iRoot]:= S+'_'+SingleChild_Line.Key;
-                 end;
-
-             iSingleChild:= __sl.IndexOfObject( TObject(SingleChild));
-             if iSingleChild <> -1 then __sl.Delete( iSingleChild);
-
-             _vst.DeleteNode( SingleChild);
-        end;
-        procedure Recursive;
-        var
-           tn: PVirtualNode;
-        begin
-             tn:= _vst.getFirstChild( _Root);
-             while Assigned( tn)
-             do
-               begin
-               T( tn);
-               tn:= tn.NextSibling;
-               end;
-        end;
-     begin
-          if _Root = nil then exit;
-          Root_Line:= _hvst.Line_from_Node( _Root);
-          if Root_Line = nil then exit;
-
-          ok_singlechild:= not Root_Line.IsLeaf;
-          if ok_singlechild
-          then
-              begin
-              Cle_Root:= _hvst.Cle_from_Node( _Root);
-              iRoot:= __sl.IndexOf( '_'+Cle_Root);
-              ok_singlechild:= iRoot <> -1;
-              if ok_singlechild
-              then
-                  begin
-                  tv_root_node:= PVirtualNode( __sl.Objects[iRoot]);
-                  ok_singlechild
-                  :=
-                        tv_root_node <> nil;
-                  if ok_singlechild
-                  then
-                      begin
-                      tv_root_node_Line:= _hvst.Line_from_Node( tv_root_node);
-                      ok_singlechild:= Assigned( tv_root_node_Line);
-                      if ok_singlechild
-                      then
-                          ok_singlechild:= not tv_root_node_Line.IsLeaf;
-                      end;
-                  end;
-              end;
-
-
-          if ok_singlechild
-          then
-              while _vst.ChildCount[_Root] = 1
-              do
-                Traite_SingleChild;
-
-          if _vst.ChildCount[_Root] > 0
-          then
-              Recursive;
-     end;
-begin
-     TreeNode:= _vst.GetFirst();
-     while TreeNode <> nil
-     do
-       begin
-       if TreeNode.Parent =  nil
-       then
-           T( TreeNode);
-       TreeNode:= TreeNode.NextSibling;
-       end;
-end;
-
 function TfOpenDocument_DelphiReportEngine.Execute( _NomDocument: String): Boolean;
 begin
      Embedded:= True;
@@ -622,167 +359,6 @@ begin
      finally
             Ferme;
             end;
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.vstEditing(
- Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex;
- var Allowed: Boolean);
-var
-   I, iRow: Integer;
-   sKey, sValue: String;
-begin
-     Allowed:= False;
-
-     I:= __sl.IndexOfObject( TObject(Node));
-     if i = -1 then exit;
-
-     sKey:= __sl.Strings[ I];
-     Delete( sKey, 1, 1);
-     if not vle.FindRow( sKey,  iRow)  then exit;
-     sValue:= vle.Values[ sKey];
-     OldTitre:= hvst.Key_from_Node( Node);
-
-     if InputQuery( 'Modification', OldTitre, sValue)
-     then
-         begin
-         Document.Set_Field( sKey, sValue);
-         vle.Values[ sKey]:= sValue;
-         hvst.Node_set_Key( Node, sValue);
-         Affiche_XMLs;
-         end;
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.bDupliquerClick(Sender: TObject);
-var
-   tn: PVirtualNode;
-   Source, Cible: String;
-begin
-     tn:= vst.GetFirstSelected;
-     if tn = nil then exit;
-
-     Source:= hvst.Cle_from_Node( tn);
-     Cible:= Source+'_Copie';
-
-     if InputQuery( 'Duplication', 'Nouvelle clé pour Open Office', Cible)
-     then
-         begin
-         if hvst.HasValue( tn)
-         then
-             Document.Set_Field( Cible, vle.Values[ Source]);
-         Copie_Sous_branche( tn, Source, Cible);
-         From_document;
-         end;
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.Copie_Sous_branche( tn: PVirtualNode; Source, Cible: String);
-var
-   Child: PVirtualNode;
-   _Name: String;
-   Child_Source,
-   Child_Cible : String;
-begin
-     Child:= vst.GetFirstChild( tn);
-
-     while Assigned( Child)
-     do
-       begin
-       _Name:= '_'+hvst.Key_from_Node( Child);
-       Child_Source:= Source + _Name;
-       Child_Cible := Cible  + _Name;
-       if hvst.HasValue( Child)
-       then
-           Document.Set_Field( Child_Cible, vle.Values[ Child_Source]);
-
-       Copie_Sous_branche( Child, Child_Source, Child_Cible);
-
-       Child:= Child.NextSibling;
-       end;
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.bSupprimerClick(Sender: TObject);
-var
-   tn: PVirtualNode;
-   Selection: String;
-begin
-     tn:= vst.GetFirstSelected;
-     if tn = nil then exit;
-
-     Selection:= hvst.Cle_from_Node( tn);
-
-     Supprime_Sous_branche( tn, Selection);
-     vst.DeleteNode( tn);
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.Supprime_Sous_branche( tn: PVirtualNode; Selection: String);
-var
-   Child, Trash: PVirtualNode;
-   _Name: String;
-   procedure Supprime_Champ( Champ: String);
-   var
-      Row: Integer;
-   begin
-        slSuppressions.Add( Champ);
-        if vle.FindRow( Champ, Row)
-        then
-            vle.DeleteRow( Row);
-        Document.DetruitChamp( Champ);
-   end;
-begin
-     Child:= vst.GetFirstChild(tn);
-     while Assigned( Child)
-     do
-       begin
-       _Name:= Selection+'_'+hvst.Key_from_Node( Child);
-
-       Supprime_Sous_branche( Child, _Name);
-
-       Trash:= Child;
-       Child:= Child.NextSibling;
-       vst.DeleteNode( Trash);
-       end;
-
-     Supprime_Champ( Selection);
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.Supprime_Sous_branche_Insertion( tn: PVirtualNode; Selection: String);
-var
-   Child, Trash: PVirtualNode;
-   _Name: String;
-   procedure Supprime_Champ( Champ: String);
-   var
-      Row: Integer;
-   begin
-        slSuppressions.Add( Champ);
-        if vle.FindRow( Champ, Row)
-        then
-            vle.DeleteRow( Row);
-        Document.DetruitChamp( Champ);
-   end;
-begin
-     Child:= vsti.GetFirstChild( tn);
-     while Assigned( Child)
-     do
-       begin
-       _Name:= Selection+'_'+hvsti.Key_from_Node( Child);
-
-       Supprime_Sous_branche_Insertion( Child, _Name);
-
-       Trash:= Child;
-       Child:= Child.NextSibling;
-       vsti.DeleteChildren( Trash);
-       end;
-
-     Supprime_Champ( Selection);
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.bArborescence_from_NatifClick( Sender: TObject);
-begin
-     From_Document;
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.bFrom_DocumentClick(Sender: TObject);
-begin
-     From_Document;
 end;
 
 var
@@ -799,34 +375,35 @@ begin
      Result:= sys_Racine_Champ+_FieldName;
 end;
 
-procedure TfOpenDocument_DelphiReportEngine.From_m( var _xml: TXMLDocument; _m: TMemo);
-var
-   ms: TMemoryStream;
-begin
-     FreeAndnil( _xml);
-     ms:= TMemoryStream.Create;
-     try
-        _m.Lines.SaveToStream( ms);
-        ReadXMLFile( _xml, ms);
-     finally
-            FreeAndNil( ms);
-            end;
-end;
-
 procedure TfOpenDocument_DelphiReportEngine.Affiche_XMLs;
 begin
-     fxmleMeta             ._from_xml;
-     fxmleSettings         ._from_xml;
-     fxmleMETA_INF_manifest._from_xml;
-     fxmleContent          ._from_xml;
-     fxmleStyles           ._from_xml;
+     if Assigned( fxmleMeta             ) then fxmleMeta             ._from_xml;
+     if Assigned( fxmleSettings         ) then fxmleSettings         ._from_xml;
+     if Assigned( fxmleMETA_INF_manifest) then fxmleMETA_INF_manifest._from_xml;
+     if Assigned( fxmleContent          ) then fxmleContent          ._from_xml;
+     if Assigned( fxmleStyles           ) then fxmleStyles           ._from_xml;
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.From_Document;
-var
-   sl: TOOoStringList;
+begin
+     OOoChrono.Stop('Début From_Document');
+     Affiche_XMLs;
 
-   sLigne, Ligne, Nom, Valeur: String;
+     if Assigned( fFields_vle         ) then fFields_vle         ._from_od;
+     if Assigned( fFields_vstInsertion) then fFields_vstInsertion._from_od;
+     if Assigned( fFields_vstTables   ) then fFields_vstTables   ._from_od;
+
+     Document.Fields_Visite( Document_Fields_Visitor_for_ODRE_Table);
+     OOoChrono.Stop('avant Document.Fields_Visite( Document_Fields_Visitor_for_Traite_Tables);');
+     Document.Fields_Visite( Document_Fields_Visitor_for_Traite_Tables);
+     OOoChrono.Stop('avant boucle Document.Fields_Visite( Document_Fields_Visitor_for_Traite_Datasets);');
+     Document.Fields_Visite( Document_Fields_Visitor_for_Traite_Datasets);
+
+     OOoChrono.Stop( 'Affichage des TextFields');
+end;
+
+procedure TfOpenDocument_DelphiReportEngine.Document_Fields_Visitor_for_ODRE_Table(_Name, _Value: String);
+var
    Nom_ODRE_Table: String;
    function Is_NbColonnes: Boolean;
    const
@@ -834,11 +411,11 @@ var
    var
       iNbColonnes: Integer;
    begin //Test si se termine par NbColonnes
-        iNbColonnes:= Pos( sNbColonnes, Nom);
-        Result:= iNbColonnes = Length( Nom)-Length(sNbColonnes)+1;
+        iNbColonnes:= Pos( sNbColonnes, _Name);
+        Result:= iNbColonnes = Length( _Name)-Length(sNbColonnes)+1;
         if Result
         then
-            Nom_ODRE_Table:= Copy( Nom, 2, iNbColonnes-2)
+            Nom_ODRE_Table:= Copy( _Name, 2, iNbColonnes-2)
         else
             Nom_ODRE_Table:= '';
    end;
@@ -851,346 +428,154 @@ var
         bl.Charge( Nom_ODRE_Table, OD_TextTableContext);
         slT.AddObject( bl.sCle, bl);
    end;
-   procedure Traite_Tables;//détection des datasets dans les tables
-   const
-        sAvant_Composition='_avant_composition';
-        lAvant_Composition=Length(sAvant_Composition);
-   var
-      I: TIterateur_ODRE_Table;
-      bl: TblODRE_Table;
-      Prefixe: String;
-      iAvant_Composition: Integer;
-      iPos: Integer;
-   begin
-        I:= slT.Iterateur;
-        while I.Continuer
-        do
-          begin
-          if I.not_Suivant( bl)     then continue;
-
-          Prefixe:= bl.Nom+'_';
-          if 1 <> Pos( Prefixe, Nom) then continue;
-
-          {
-          if 0<pos('avant', lowercase(Nom))
-          then
-              ShowMessage( 'avant');
-          }
-          Delete( Nom, 1, Length(Prefixe));
-          iAvant_Composition:= Length( Nom)-lAvant_Composition+1;
-          if iAvant_Composition <= 0    then continue;
-          iPos:= Pos(sAvant_Composition, lowercase(Nom));
-          if iAvant_Composition <> iPos then continue;
-
-          Delete( Nom, iAvant_Composition, lAvant_Composition);
-          //Log.PrintLn( 'TfOpenDocument_DelphiReportEngine.From_Document::Traite_Tables; Nom= '+Nom);
-          bl.haOD_Dataset_Columns.AddDataset( Nom, OD_TextTableContext);
-          end;
-   end;
-   procedure Traite_Dataset( _blODRE_Table: TblODRE_Table);
-   var
-      I: TIterateur_OD_Dataset_Columns;
-      bl: TblOD_Dataset_Columns;
-      Prefixe: String;
-      function not_Traite_Avant: Boolean;
-      const
-           sAvant='Avant_';
-           lAvant=Length( sAvant);
-      var
-         DCs: TOD_Dataset_Columns;
-         NomAvant: String;
-         DC: TOD_Dataset_Column;
-      begin
-           Result:= True;
-           if 1 <> Pos( sAvant, Nom) then exit;
-
-           Result:= False;
-           Delete( Nom, 1, lAvant);
-
-           DCs:= bl.DCs;
-           DC:= DCs.AssureAvant( Nom);
-           if nil = DC then exit;
-
-           NomAvant:= DCs.Nom_Avant( '_'+_blODRE_Table.Nom+'_'+Prefixe);
-           DC.from_Doc( NomAvant+'_', OD_TextTableContext);
-      end;
-      function not_Traite_Apres: Boolean;
-      const
-           sApres='Apres_';
-           lApres=Length( sApres);
-      var
-         DCs: TOD_Dataset_Columns;
-         NomApres: String;
-         DC: TOD_Dataset_Column;
-      begin
-           Result:= True;
-           if 1 <> Pos( sApres, Nom) then exit;
-
-           Result:= False;
-           Delete( Nom, 1, lApres);
-
-           DCs:= bl.DCs;
-           DC:= DCs.AssureApres( Nom);
-           if nil = DC then exit;
-
-           NomApres:= DCs.Nom_Apres( '_'+_blODRE_Table.Nom+'_'+Prefixe);
-           DC.from_Doc( NomApres+'_', OD_TextTableContext);
-      end;
-   begin
-        I:= _blODRE_Table.haOD_Dataset_Columns.Iterateur;
-        while I.Continuer
-        do
-          begin
-          if I.not_Suivant( bl)     then continue;
-
-          Prefixe:= bl.Nom+'_';
-          if 1 <> Pos( Prefixe, Nom) then continue;
-
-          Delete( Nom, 1, Length(Prefixe));
-
-          if   not_Traite_Avant
-          then not_Traite_Apres;
-
-          bl.haAvant.Charge;
-          bl.haApres.Charge;
-          end;
-   end;
-   procedure Traite_Datasets;//détection des champs dans les datasets
-   const
-        sDebut='_debut';
-        lDebut=Length(sDebut);
-   var
-      I: TIterateur_ODRE_Table;
-      bl: TblODRE_Table;
-      Prefixe: String;
-      iDebut: Integer;
-      iPos: Integer;
-   begin
-        I:= slT.Iterateur;
-        while I.Continuer
-        do
-          begin
-          if I.not_Suivant( bl)     then continue;
-
-          Prefixe:= bl.Nom+'_';
-          if 1 <> Pos( Prefixe, Nom) then continue;
-
-          Delete( Nom, 1, Length(Prefixe));
-          iDebut:= Length( Nom)-lDebut+1;
-          iPos:= Pos(sDebut, lowercase(Nom));
-          if iDebut <> iPos then continue;
-
-          Delete( Nom, iDebut, lDebut);
-          Traite_Dataset( bl);
-          end;
-   end;
 begin
-     OOoChrono.Stop('Début From_Document');
-     Affiche_XMLs;
+     if 1 <> Pos( '_', _Name) then exit;
+     if not Is_NbColonnes   then exit;
 
-     vle.Strings.Clear;
-     vst .Clear;
-     vsti.Clear;
-     __sl .Clear;
-     __sli.Clear;
-
-     sl:= TOOoStringList.Create;
-     try
-        OOoChrono.Stop('avant Get_Fields');
-        Document.Get_Fields( sl);
-        OOoChrono.Stop('aprés Get_Fields');
-
-        OOoChrono.Stop('Treeview désactivé');
-
-        for sLigne in sl
-        do
-          begin
-          Ligne:= sLigne;
-          Nom:= StrToK( '=', Ligne);
-          Valeur:= Ligne;
-          //vle.Values[Nom]:= Valeur;
-          if  1 = Pos( '_', Nom)
-          then
-              begin
-              Ajoute_Valeur_dans_tv ( Nom, Valeur);
-              if Is_NbColonnes
-              then
-                  Ajoute_ODRE_Table;
-              end
-          else
-              Ajoute_Valeur_dans_tvi( Nom, Valeur);
-          end;
-
-
-        OOoChrono.Stop('avant boucle Traite_Tables');
-        for sLigne in sl
-        do
-          begin
-          Ligne:= sLigne;
-          if ''  =  Ligne    then continue;
-          if '_' <> Ligne[1] then continue;
-
-          Delete(Ligne,1,1);
-          Nom:= StrToK( '=', Ligne);
-          Valeur:= Ligne;
-          Traite_Tables;
-          end;
-
-        OOoChrono.Stop('avant boucle Traite_Datasets');
-        for sLigne in sl
-        do
-          begin
-          Ligne:= sLigne;
-          if ''  =  Ligne    then continue;
-          if '_' <> Ligne[1] then continue;
-
-          Delete(Ligne,1,1);
-          Nom:= StrToK( '=', Ligne);
-          Valeur:= Ligne;
-          Traite_Datasets;
-          end;
-     finally
-            FreeAndNil( sl);
-            end;
-     OOoChrono.Stop( 'Affichage des TextFields');
-
-     slSuppressions.Clear;
-
-     if cbOptimiserInsertion.Checked then Optimise( vsti, hvsti);
-     Optimise( vst, hvst);
-     vst .FullCollapse;
-     vsti.FullCollapse;
-
-     OOoChrono.Stop( 'Optimisation des TextFields');
-
-     mMIMETYPE    .Lines.LoadFromFile( Document.CheminFichier_temporaire( 'mimetype'    ));
-
-     OOoChrono.Stop( 'Affichage des autres fichiers');
+     Ajoute_ODRE_Table;
 end;
 
-procedure TfOpenDocument_DelphiReportEngine.bToutOuvrirClick(Sender: TObject);
-begin
-     vst.FullExpand;
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.bToutFermerClick(Sender: TObject);
-begin
-     vst.FullCollapse;
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.bInsererClick(Sender: TObject);
+procedure TfOpenDocument_DelphiReportEngine.Document_Fields_Visitor_for_Traite_Tables( _Name, _Value: String);
+const
+     sAvant_Composition='_avant_composition';
+     lAvant_Composition=Length(sAvant_Composition);
 var
-   tn: PVirtualNode;
-   Selection: String;
+   I: TIterateur_ODRE_Table;
+   bl: TblODRE_Table;
+   Prefixe: String;
+   iAvant_Composition: Integer;
+   iPos: Integer;
 begin
-     tn:= vsti.GetFirstSelected();
-     if tn = nil then exit;
+     if 1 <> Pos( '_', _Name) then exit;
 
-     Selection:= hvsti.Cle_from_Node( tn);
-     Document.Add_FieldGet( Selection);
-
-     fxmleContent._from_xml;
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.Exporte_Sous_branche( tn: PVirtualNode; Source: String; sl: TOOoStringList);
-var
-   Child: PVirtualNode;
-   _Name: String;
-   Child_Source: String;
-begin
-     Child:= vst.GetFirstChild(tn);
-     while Assigned( Child)
+     I:= slT.Iterateur;
+     while I.Continuer
      do
        begin
-       _Name:= '_'+hvst.Key_from_Node( Child);
-       Child_Source:= Source + _Name;
-       if hvst.HasValue( Child)
+       if I.not_Suivant( bl)     then continue;
+
+       Prefixe:= bl.Nom+'_';
+       if 1 <> Pos( Prefixe, _Name) then continue;
+
+       {
+       if 0<pos('avant', lowercase(Nom))
        then
-           sl.Values[Child_Source]:= vle.Values[Child_Source];
+           ShowMessage( 'avant');
+       }
+       Delete( _Name, 1, Length(Prefixe));
+       iAvant_Composition:= Length( _Name)-lAvant_Composition+1;
+       if iAvant_Composition <= 0    then continue;
+       iPos:= Pos(sAvant_Composition, lowercase(_Name));
+       if iAvant_Composition <> iPos then continue;
 
-       Exporte_Sous_branche( Child, Child_Source, sl);
-
-       Child:= Child.NextSibling;
+       Delete( _Name, iAvant_Composition, lAvant_Composition);
+       //Log.PrintLn( 'TfOpenDocument_DelphiReportEngine.From_Document::Traite_Tables; Nom= '+Nom);
+       bl.haOD_Dataset_Columns.AddDataset( _Name, OD_TextTableContext);
        end;
 end;
 
-procedure TfOpenDocument_DelphiReportEngine.bExporterClick(Sender: TObject);
-var
-   tn: PVirtualNode;
-   Source: String;
-   sl: TOOoStringList;
-begin
-     tn:= vst.GetFirstSelected();
-     if tn = nil then exit;
+procedure TfOpenDocument_DelphiReportEngine.Document_Fields_Visitor_for_Traite_Datasets( _Name, _Value: String);
+     procedure Traite_Dataset( _blODRE_Table: TblODRE_Table);
+     var
+        I: TIterateur_OD_Dataset_Columns;
+        bl: TblOD_Dataset_Columns;
+        Prefixe: String;
+        function not_Traite_Avant: Boolean;
+        const
+             sAvant='Avant_';
+             lAvant=Length( sAvant);
+        var
+           DCs: TOD_Dataset_Columns;
+           NomAvant: String;
+           DC: TOD_Dataset_Column;
+        begin
+             Result:= True;
+             if 1 <> Pos( sAvant, _Name) then exit;
 
-     sl:= TOOoStringList.Create;
-     try
-        Source:= hvst.Cle_from_Node( tn);
-        if hvst.HasValue( tn)
-        then
-            sl.Values[Source]:= vle.Values[ Source];
-        Exporte_Sous_branche( tn, Source, sl);
+             Result:= False;
+             Delete( _Name, 1, lAvant);
 
-        if sd.Execute
-        then
-            sl.SaveToFile( sd.FileName);
-     finally
-            FreeAndNil( sl);
+             DCs:= bl.DCs;
+             DC:= DCs.AssureAvant( _Name);
+             if nil = DC then exit;
+
+             NomAvant:= DCs.Nom_Avant( '_'+_blODRE_Table.Nom+'_'+Prefixe);
+             DC.from_Doc( NomAvant+'_', OD_TextTableContext);
+        end;
+        function not_Traite_Apres: Boolean;
+        const
+             sApres='Apres_';
+             lApres=Length( sApres);
+        var
+           DCs: TOD_Dataset_Columns;
+           NomApres: String;
+           DC: TOD_Dataset_Column;
+        begin
+             Result:= True;
+             if 1 <> Pos( sApres, _Name) then exit;
+
+             Result:= False;
+             Delete( _Name, 1, lApres);
+
+             DCs:= bl.DCs;
+             DC:= DCs.AssureApres( _Name);
+             if nil = DC then exit;
+
+             NomApres:= DCs.Nom_Apres( '_'+_blODRE_Table.Nom+'_'+Prefixe);
+             DC.from_Doc( NomApres+'_', OD_TextTableContext);
+        end;
+     begin
+          I:= _blODRE_Table.haOD_Dataset_Columns.Iterateur;
+          while I.Continuer
+          do
+            begin
+            if I.not_Suivant( bl)     then continue;
+
+            Prefixe:= bl.Nom+'_';
+            if 1 <> Pos( Prefixe, _Name) then continue;
+
+            Delete( _Name, 1, Length(Prefixe));
+
+            if   not_Traite_Avant
+            then not_Traite_Apres;
+
+            bl.haAvant.Charge;
+            bl.haApres.Charge;
             end;
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.bImporterClick(Sender: TObject);
+     end;
+const
+     sDebut='_debut';
+     lDebut=Length(sDebut);
 var
-   sl: TOOoStringList;
-   I: Integer;
-   Source: String;
+   I: TIterateur_ODRE_Table;
+   bl: TblODRE_Table;
+   Prefixe: String;
+   iDebut: Integer;
+   iPos: Integer;
 begin
-     sl:= TOOoStringList.Create;
-     try
-        if od.Execute
-        then
-            sl.LoadFromFile( od.FileName);
-        for I:= 0 to sl.Count - 1
-        do
-          begin
-          Source:= sl.Names[ I];
-          Document.Set_Field( Source, sl.Values[ Source]);
-          end;
-     finally
-            FreeAndNil( sl);
-            end;
-     From_Document;
+     I:= slT.Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( bl)     then continue;
+
+       Prefixe:= bl.Nom+'_';
+       if 1 <> Pos( Prefixe, _Name) then continue;
+
+       Delete( _Name, 1, Length(Prefixe));
+       iDebut:= Length( _Name)-lDebut+1;
+       iPos:= Pos(sDebut, lowercase(_Name));
+       if iDebut <> iPos then continue;
+
+       Delete( _Name, iDebut, lDebut);
+       Traite_Dataset( bl);
+       end;
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.FormCloseQuery( Sender: TObject;
                                                             var CanClose: Boolean);
 begin
      Ferme;
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.bOuvrirClick(Sender: TObject);
-var
-   tn: PVirtualNode;
-begin
-     tn:= vst.GetFirstSelected();
-     if tn = nil then exit;
-
-     vst.Expanded[tn]:= True;
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.bFermerClick(Sender: TObject);
-var
-   tn: PVirtualNode;
-begin
-     tn:= vst.GetFirstSelected();
-     if tn = nil then exit;
-
-     vst.Expanded[tn]:= False;
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.bChronoClick(Sender: TObject);
-begin
-     uOD_Forms_ShowMessage( OOoChrono.Get_Liste);
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.FormDropFiles(Sender: TObject;
@@ -1302,20 +687,6 @@ begin
      ShowMessage('à déboguer');
      blODRE_Table.T.DecalerChampsApresColonne(speDecalerChampsApresColonne_Numero.Value);
      blODRE_Table.T.To_Doc( OD_TextTableContext);
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.bSupprimer_InsertionClick( Sender: TObject);
-var
-   tn: PVirtualNode;
-   Selection: String;
-begin
-     tn:= vsti.GetFirstSelected();
-     if tn = nil then exit;
-
-     Selection:= hvst.Cle_from_Node( tn);
-
-     Supprime_Sous_branche_Insertion( tn, Selection);
-     vsti.DeleteNode( tn);
 end;
 
 end.

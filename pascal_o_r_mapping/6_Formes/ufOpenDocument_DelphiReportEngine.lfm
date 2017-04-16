@@ -1,11 +1,11 @@
 object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
-  Left = 486
+  Left = 463
   Height = 661
-  Top = 879
-  Width = 959
+  Top = 881
+  Width = 1277
   Caption = 'fOpenDocument_DelphiReportEngine'
   ClientHeight = 661
-  ClientWidth = 959
+  ClientWidth = 1277
   Color = clBtnFace
   Font.Color = clWindowText
   Font.Height = -11
@@ -22,212 +22,25 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
     Left = 0
     Height = 661
     Top = 0
-    Width = 959
-    ActivePage = tsTV_Insertion
+    Width = 1277
+    ActivePage = tsODRE_Table
     Align = alClient
     TabIndex = 0
     TabOrder = 0
-    object tsTV_Insertion: TTabSheet
-      Caption = 'Insertion de champs dans le modèle'
-      ClientHeight = 634
-      ClientWidth = 955
-      ImageIndex = 2
-      object Panel3: TPanel
-        Left = 0
-        Height = 41
-        Top = 593
-        Width = 955
-        Align = alBottom
-        ClientHeight = 41
-        ClientWidth = 955
-        TabOrder = 0
-        object bInserer: TButton
-          Left = 6
-          Height = 25
-          Top = 6
-          Width = 134
-          Caption = 'Insérer dans le document'
-          OnClick = bInsererClick
-          TabOrder = 0
-        end
-        object cbOptimiserInsertion: TCheckBox
-          Left = 182
-          Height = 24
-          Top = 10
-          Width = 95
-          Caption = 'Optimiser'
-          Checked = True
-          State = cbChecked
-          TabOrder = 1
-        end
-      end
-      object vsti: TVirtualStringTree
-        Left = 0
-        Height = 593
-        Top = 0
-        Width = 955
-        Align = alClient
-        DefaultText = 'Node'
-        Header.AutoSizeIndex = 0
-        Header.Columns = <>
-        Header.DefaultHeight = 17
-        Header.MainColumn = -1
-        TabOrder = 1
-      end
-    end
-    object tsTV: TTabSheet
-      Caption = 'Modification de valeurs'
-      ClientHeight = 634
-      ClientWidth = 955
-      ImageIndex = 1
-      object Panel1: TPanel
-        Left = 0
-        Height = 72
-        Top = 561
-        Width = 1081
-        Align = alBottom
-        ClientHeight = 72
-        ClientWidth = 1081
-        TabOrder = 0
-        object bArborescence_from_Natif: TButton
-          Left = 6
-          Height = 25
-          Top = 5
-          Width = 145
-          Caption = 'Arborescence_from_Natif'
-          OnClick = bArborescence_from_NatifClick
-          TabOrder = 0
-        end
-        object bToutOuvrir: TButton
-          Left = 6
-          Height = 25
-          Top = 38
-          Width = 75
-          Caption = 'Tout ouvrir'
-          OnClick = bToutOuvrirClick
-          TabOrder = 1
-        end
-        object bToutFermer: TButton
-          Left = 86
-          Height = 25
-          Top = 38
-          Width = 75
-          Caption = 'Tout fermer'
-          OnClick = bToutFermerClick
-          TabOrder = 2
-        end
-        object gbBranche: TGroupBox
-          Left = 166
-          Height = 64
-          Top = 0
-          Width = 401
-          Caption = 'Pour la branche sélectionnée'
-          ClientHeight = 49
-          ClientWidth = 397
-          TabOrder = 3
-          object bDupliquer: TButton
-            Left = 68
-            Height = 25
-            Top = 10
-            Width = 58
-            Caption = 'Dupliquer'
-            OnClick = bDupliquerClick
-            TabOrder = 0
-          end
-          object bSupprimer: TButton
-            Left = 4
-            Height = 25
-            Top = 10
-            Width = 58
-            Caption = 'Supprimer'
-            OnClick = bSupprimerClick
-            TabOrder = 1
-          end
-          object bExporter: TButton
-            Left = 134
-            Height = 25
-            Top = 10
-            Width = 54
-            Caption = 'Exporter'
-            OnClick = bExporterClick
-            TabOrder = 2
-          end
-          object bImporter: TButton
-            Left = 198
-            Height = 25
-            Top = 10
-            Width = 54
-            Caption = 'Importer'
-            OnClick = bImporterClick
-            TabOrder = 3
-          end
-          object bOuvrir: TButton
-            Left = 262
-            Height = 25
-            Top = 10
-            Width = 59
-            Caption = 'Ouvrir'
-            OnClick = bOuvrirClick
-            TabOrder = 4
-          end
-          object bFermer: TButton
-            Left = 328
-            Height = 25
-            Top = 10
-            Width = 59
-            Caption = 'Fermer'
-            OnClick = bFermerClick
-            TabOrder = 5
-          end
-        end
-        object bFrom_Document: TButton
-          Left = 646
-          Height = 25
-          Top = 6
-          Width = 97
-          Caption = 'From Document'
-          OnClick = bFrom_DocumentClick
-          TabOrder = 4
-        end
-        object bChrono: TButton
-          Left = 902
-          Height = 25
-          Top = 22
-          Width = 75
-          Caption = 'Chrono'
-          OnClick = bChronoClick
-          TabOrder = 5
-        end
-      end
-      object vst: TVirtualStringTree
-        Left = 0
-        Height = 561
-        Top = 0
-        Width = 1081
-        Align = alClient
-        DefaultText = 'Node'
-        Header.AutoSizeIndex = 0
-        Header.Columns = <>
-        Header.DefaultHeight = 17
-        Header.MainColumn = -1
-        TabOrder = 1
-        OnEditing = vstEditing
-      end
-    end
     object tsODRE_Table: TTabSheet
       Caption = 'ODRE_Table'
       ClientHeight = 634
-      ClientWidth = 955
+      ClientWidth = 1273
       ImageIndex = 11
       object lbODRE_Table: TListBox
         Left = 0
         Height = 97
         Top = 0
-        Width = 955
+        Width = 1273
         Align = alTop
         ItemHeight = 0
         OnClick = lbODRE_TableClick
-        ScrollWidth = 953
+        ScrollWidth = 1271
         TabOrder = 0
         TopIndex = -1
       end
@@ -235,19 +48,19 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
         Left = 0
         Height = 537
         Top = 97
-        Width = 955
+        Width = 1273
         Align = alClient
         ClientHeight = 537
-        ClientWidth = 955
+        ClientWidth = 1273
         TabOrder = 1
         object Panel6: TPanel
           Left = 1
           Height = 175
           Top = 1
-          Width = 953
+          Width = 1271
           Align = alTop
           ClientHeight = 175
-          ClientWidth = 953
+          ClientWidth = 1271
           TabOrder = 0
           object Label1: TLabel
             Left = 6
@@ -381,60 +194,13 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
           Left = 1
           Height = 360
           Top = 176
-          Width = 953
+          Width = 1271
           Align = alClient
           TabOrder = 1
           TitleFont.Color = clWindowText
           TitleFont.Height = -11
           TitleFont.Name = 'MS Sans Serif'
         end
-      end
-    end
-    object tsVLE: TTabSheet
-      Caption = 'Format natif'
-      ClientHeight = 634
-      ClientWidth = 955
-      object vle: TValueListEditor
-        Left = 0
-        Height = 634
-        Top = 0
-        Width = 955
-        Align = alClient
-        FixedCols = 0
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Courier New'
-        ParentFont = False
-        RowCount = 2
-        TabOrder = 0
-        TitleFont.Color = clWindowText
-        TitleFont.Height = -11
-        TitleFont.Name = 'Courier New'
-        KeyOptions = [keyEdit, keyAdd, keyUnique]
-        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goEditing, goAutoAddRows, goAlwaysShowEditor, goThumbTracking]
-        Strings.Strings = (
-          ''
-        )
-        ColWidths = (
-          317
-          636
-        )
-      end
-    end
-    object tsMIMETYPE: TTabSheet
-      Caption = 'tsMIMETYPE'
-      ClientHeight = 634
-      ClientWidth = 955
-      object mMIMETYPE: TMemo
-        Left = 0
-        Height = 634
-        Top = 0
-        Width = 955
-        Align = alClient
-        Lines.Strings = (
-          'mMIMETYPE'
-        )
-        TabOrder = 0
       end
     end
   end
@@ -446,16 +212,6 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
     left = 40
     top = 16
   end
-  object sd: TSaveDialog
-    DefaultExt = '.txt'
-    left = 324
-    top = 491
-  end
-  object od: TOpenDialog
-    DefaultExt = '.TXT'
-    left = 385
-    top = 491
-  end
   object tShow: TTimer
     Enabled = False
     OnTimer = tShowTimer
@@ -465,37 +221,66 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
   object mm: TMainMenu
     left = 313
     top = 205
-    object miVoir: TMenuItem
-      Caption = '&Voir'
-      object miVoir_XML: TMenuItem
-        Caption = 'XML'
-        object mixmlMeta: TMenuItem
-          Caption = 'Meta'
-          OnClick = mixmlMetaClick
-        end
-        object mixmlSettings: TMenuItem
-          Caption = 'Settings'
-          OnClick = mixmlSettingsClick
-        end
-        object mixmlMETA_INF_manifest: TMenuItem
-          Caption = 'META_INF/manifest'
-          OnClick = mixmlMETA_INF_manifestClick
-        end
-        object mixmlContent: TMenuItem
-          Caption = 'Content'
-          OnClick = mixmlContentClick
-        end
-        object mixmlStyles: TMenuItem
-          Caption = 'Styles'
-          OnClick = mixmlStylesClick
-        end
+    object miNormal: TMenuItem
+      Caption = 'Normal'
+      object miNormal_Insertion: TMenuItem
+        Caption = 'Insertion de champs à la fin du document'
+        OnClick = miNormal_InsertionClick
       end
     end
-    object miOutils: TMenuItem
-      Caption = 'Outils'
-      object miCree_Test: TMenuItem
-        Caption = 'Crée Test'
-        OnClick = miCree_TestClick
+    object miMode_Expert: TMenuItem
+      Caption = 'Mode expert'
+      object miVoir: TMenuItem
+        Caption = '&Voir'
+        object miVoir_XML: TMenuItem
+          Caption = 'XML'
+          object mixmlMeta: TMenuItem
+            Caption = 'Meta'
+            OnClick = mixmlMetaClick
+          end
+          object mixmlSettings: TMenuItem
+            Caption = 'Settings'
+            OnClick = mixmlSettingsClick
+          end
+          object mixmlMETA_INF_manifest: TMenuItem
+            Caption = 'META_INF/manifest'
+            OnClick = mixmlMETA_INF_manifestClick
+          end
+          object mixmlContent: TMenuItem
+            Caption = 'Content'
+            OnClick = mixmlContentClick
+          end
+          object mixmlStyles: TMenuItem
+            Caption = 'Styles'
+            OnClick = mixmlStylesClick
+          end
+        end
+        object miChamps: TMenuItem
+          Caption = 'Champs'
+          object miFormatNatif: TMenuItem
+            Caption = 'Format natif'
+            OnClick = miFormatNatifClick
+          end
+          object miInsertion: TMenuItem
+            Caption = 'Insertion de champs à la fin du document'
+            OnClick = miInsertionClick
+          end
+          object miTables: TMenuItem
+            Caption = 'Modification des tableaux'
+            OnClick = miTablesClick
+          end
+        end
+        object miMIMETYPE: TMenuItem
+          Caption = 'MIMETYPE'
+          OnClick = miMIMETYPEClick
+        end
+      end
+      object miOutils: TMenuItem
+        Caption = 'Outils'
+        object miCree_Test: TMenuItem
+          Caption = 'Crée Test'
+          OnClick = miCree_TestClick
+        end
       end
     end
   end

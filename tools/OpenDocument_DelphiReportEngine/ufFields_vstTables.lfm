@@ -1,0 +1,20 @@
+inherited fFields_vstTables: TfFields_vstTables
+  Left = 477
+  Height = 415
+  Top = 996
+  Width = 850
+  Caption = 'fFields_vstTables'
+  ClientHeight = 415
+  ClientWidth = 850
+  inherited Panel1: TPanel
+    Height = 71
+    Top = 344
+    Width = 850
+    ClientHeight = 71
+    ClientWidth = 850
+  end
+  inherited vst: TVirtualStringTree
+    Height = 344
+    Width = 850
+  end
+end

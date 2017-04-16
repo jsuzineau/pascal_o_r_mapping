@@ -54,7 +54,7 @@ type
  public
    constructor Create( _Name: String;
                        _od: TOpenDocument;
-                       _xml: PTXMLDocument);
+                       _xml: PTXMLDocument); reintroduce;
    destructor Destroy; override;
  //od
  private
@@ -66,6 +66,9 @@ type
    procedure _from_xml;
    procedure _to_xml;
  end;
+ PfXML_Editor= ^TfXML_Editor;
+
+function Assure_fXML_Editor( var _fXML_Editor: TfXML_Editor; _Name: String; _od: TOpenDocument; _xml: PTXMLDocument): TfXML_Editor;
 
 implementation
 
@@ -73,12 +76,21 @@ implementation
 
 { TfXML_Editor }
 
+function Assure_fXML_Editor( var _fXML_Editor: TfXML_Editor; _Name: String; _od: TOpenDocument; _xml: PTXMLDocument): TfXML_Editor;
+begin
+     if nil = _fXML_Editor
+     then
+         _fXML_Editor:= TfXML_Editor.Create( _Name, _od, _xml);
+     Result:= _fXML_Editor;
+end;
+
 constructor TfXML_Editor.Create( _Name: String; _od: TOpenDocument; _xml: PTXMLDocument);
 begin
      inherited Create( nil);
      Name:= _Name;
      od := _od;
      xml:= _xml;
+     _from_xml;
 end;
 
 destructor TfXML_Editor.Destroy;

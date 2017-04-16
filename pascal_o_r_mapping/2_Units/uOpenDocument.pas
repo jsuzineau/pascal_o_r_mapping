@@ -59,6 +59,31 @@ type
 
  TEnumere_field_Racine_Callback= procedure ( _e: TDOMNode) of object;
 
+ TFields_Visitor= procedure ( _Name, _Value: String) of object;
+
+ { TOpenDocument_Fields_Publieur }
+
+ TOpenDocument_Fields_Publieur
+ =
+  class
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Owner_Name: String);
+    destructor Destroy; override;
+  //Owner_Name
+  public
+    Owner_Name: String;
+  //Publieur
+  public
+    p: TPublieur;
+    procedure Abonne   ( _Objet: TObject; _Proc: TAbonnement_Objet_Proc);
+    procedure Desabonne( _Objet: TObject; _Proc: TAbonnement_Objet_Proc);
+    procedure Publie( _Name, _Value: String);
+  //Paramètree
+  public
+    Name, Value: String;
+  end;
+
  TOpenDocument= class;
 
  { TStyle_DateTime }
@@ -234,9 +259,8 @@ type
     procedure Efface_Styles_Table( _NomTable: String);
   //Méthodes créées pour OpenDocument_DelphiReportEngine.exe
   public
+    procedure Fields_Visite( _fv: TFields_Visitor);
     procedure Set_Field( _Name, _Value: String);
-    procedure Get_Fields( _sl: TOOoStringList);
-    procedure Set_Fields( _sl: TOOoStringList);
     function Field_Value( _Name: String): String;
     procedure Add_FieldGet( _Name: String);
     procedure Set_StylesXML( _Styles: String);
@@ -429,6 +453,8 @@ type
   //Publication des modifications
   public
     pChange: TPublieur;
+    pFields_Change: TOpenDocument_Fields_Publieur;
+    pFields_Delete: TOpenDocument_Fields_Publieur;
   end;
 
 //Gestion tables
@@ -551,6 +577,39 @@ begin
      Cree_path( Result, 'table:table-header-rows/table:table-row/table:table-cell');
      Cree_path( Result,                         'table:table-row/table:table-cell');
 
+end;
+
+{ TOpenDocument_Fields_Publieur }
+
+constructor TOpenDocument_Fields_Publieur.Create(_Owner_Name: String);
+begin
+     Owner_Name:= _Owner_Name;
+     p:= TPublieur.Create( Owner_Name+'::'+ClassName+'.p');
+end;
+
+destructor TOpenDocument_Fields_Publieur.Destroy;
+begin
+     FreeAndNil( p);
+     inherited Destroy;
+end;
+
+procedure TOpenDocument_Fields_Publieur.Abonne( _Objet: TObject;
+                                                _Proc: TAbonnement_Objet_Proc);
+begin
+     p.Abonne( _Objet, _Proc);
+end;
+
+procedure TOpenDocument_Fields_Publieur.Desabonne( _Objet: TObject;
+                                                   _Proc: TAbonnement_Objet_Proc);
+begin
+     p.Desabonne( _Objet, _Proc);
+end;
+
+procedure TOpenDocument_Fields_Publieur.Publie( _Name, _Value: String);
+begin
+     Name := _Name ;
+     Value:= _Value;
+     p.Publie;
 end;
 
 { TStyle_DateTime }
@@ -729,10 +788,14 @@ begin
      XML_from_Repertoire_Extraction;
      Embed_Image_counter:= 0;
      slEmbed_Image:= TslDimensions_Image.Create( ClassName+'.slEmbed_Image');
+     pFields_Change:= TOpenDocument_Fields_Publieur.Create(ClassName+'.pFields_Change');
+     pFields_Delete:= TOpenDocument_Fields_Publieur.Create(ClassName+'.pFields_Delete');
 end;
 
 destructor TOpenDocument.Destroy;
 begin
+     FreeAndNil( pFields_Change      );
+     FreeAndNil( pFields_Delete      );
      FreeAndNil( slEmbed_Image       );
      FreeAndNil( xmlMeta             );
      FreeAndNil( xmlSettings         );
@@ -1101,16 +1164,18 @@ begin
 
      Set_Property( e, 'office:value-type'  , 'string');
      Set_Property( e, 'office:string-value', _Value  );
+
+     pFields_Change.Publie( _Name, _Value);
 end;
 
-procedure TOpenDocument.Get_Fields( _sl: TOOoStringList);
+procedure TOpenDocument.Fields_Visite( _fv: TFields_Visitor);
 var
    eUSER_FIELD_DECLS: TDOMNode;
    I: Integer;
    e: TDOMNode;
    Name, String_Value: String;
 begin
-     _sl.Clear;
+     if not Assigned( _fv) then exit;
 
      eUSER_FIELD_DECLS:= Get_xmlContent_USER_FIELD_DECLS;
      if eUSER_FIELD_DECLS = nil then exit;
@@ -1125,48 +1190,9 @@ begin
        if not_Get_Property( e, 'text:name'          , Name        ) then continue;
        if not_Get_Property( e, 'office:string-value', String_Value) then continue;
 
-       _sl.Add(Name+'='+String_Value);
+       _fv( Name, String_Value);
        end;
      OOoChrono.Stop( 'Extraction des TextFields');
-end;
-
-procedure TOpenDocument.Set_Fields( _sl: TOOoStringList);
-var
-   eUSER_FIELD_DECLS: TDOMNode;
-   I: Integer;
-   Line, FieldName, Value: String;
-   e: TDOMNode;
-   s: TStringStream;
-
-begin
-     eUSER_FIELD_DECLS:= Get_xmlContent_USER_FIELD_DECLS;
-     if eUSER_FIELD_DECLS = nil then exit;
-
-     RemoveChilds( eUSER_FIELD_DECLS);
-
-     for I:= 0 to _sl.Count - 1
-     do
-       begin
-       Line     := _sl.Strings[I];
-       FieldName:= StrTok( '=', Line);
-       Value    := Line;
-
-       e:= Cree_path( eUSER_FIELD_DECLS, 'text:user-field-decl');
-       if e= nil then continue;
-
-
-       Set_Property( e, 'office:value-type'  ,'string'  );
-       Set_Property( e, 'office:string-value', Value    );
-       Set_Property( e, 'text:name'          , FieldName);
-       end;
-
-     (*s:= TStringStream.Create( xmlContent.SaveToString);
-     try
-        F.AddFile( 'content.xml', s);
-        F.Compress;
-     finally
-            FreeAndNil( s);
-            end;*)
 end;
 
 procedure TOpenDocument.Add_FieldGet( _Name: String);
@@ -2067,6 +2093,7 @@ begin
      if e = nil then exit;
 
      FreeAndNil( e);
+     pFields_Delete.Publie( Champ, '');
 end;
 
 function TOpenDocument.Style_NameFromDisplayName( _DisplayName: String): String;

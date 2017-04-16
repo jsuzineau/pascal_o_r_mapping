@@ -1,0 +1,29 @@
+object fTextFile: TfTextFile
+  Left = 625
+  Height = 551
+  Top = 992
+  Width = 751
+  Caption = 'fTextFile'
+  ClientHeight = 551
+  ClientWidth = 751
+  LCLVersion = '1.6.0.4'
+  object Panel1: TPanel
+    Left = 0
+    Height = 50
+    Top = 501
+    Width = 751
+    Align = alBottom
+    TabOrder = 0
+  end
+  object mMIMETYPE: TMemo
+    Left = 0
+    Height = 501
+    Top = 0
+    Width = 751
+    Align = alClient
+    Lines.Strings = (
+      'mMIMETYPE'
+    )
+    TabOrder = 1
+  end
+end
