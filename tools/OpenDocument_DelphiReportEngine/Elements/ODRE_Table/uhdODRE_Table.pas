@@ -44,12 +44,22 @@ type
     procedure _from_pool; override;
   //Gestion souris et Drag / Drop
   protected
+    Drag_Column: TblOD_Column;
+    Drag_Affectation: TblOD_Affectation;
+    procedure Drag_nil;
+    procedure Drag_Abonne;
+    procedure Drag_Desabonne;
+    procedure Drag_Column_Change;
+    procedure Drag_Affectation_Change;
     function  Drag_from_( ACol, ARow: Integer): Boolean; override;
   end;
 
 implementation
 
 { ThdODRE_Table }
+
+const
+     ThdODRE_Table_Ligne_Titres_Colonnes=0;
 
 constructor ThdODRE_Table.Create( _Contexte: Integer;
                                   _SG: TStringGrid;
@@ -80,8 +90,8 @@ end;
 procedure ThdODRE_Table._from_pool;
    procedure Charge_OD_Column;
    begin
-        Charge_Cell( bsTitre, 0, 0);
-        Charge_Ligne( blODRE_Table.haOD_Column.sl, 1, 0);
+        Charge_Cell( bsTitre, 0, ThdODRE_Table_Ligne_Titres_Colonnes);
+        Charge_Ligne( blODRE_Table.haOD_Column.sl, 1, ThdODRE_Table_Ligne_Titres_Colonnes);
    end;
    procedure Charge_OD_Dataset_Columns;
    var
@@ -173,12 +183,14 @@ procedure ThdODRE_Table._from_pool;
 begin
      inherited _from_pool;
 
+     Drag_nil;
+
      //blODRE_Table.haOD_Column.Charge;
      //blODRE_Table.haOD_Dataset_Columns.Charge;
      sg.Hide;
      Vide_StringGrid( sg);
-     sg.FixedCols:= 0;
-     sg.FixedRows:= 0;
+     sg.FixedCols:= 1;
+     sg.FixedRows:= 1;
      sg.ColCount:= 1+blODRE_Table.haOD_Column.Count;
      sg.RowCount
      :=
@@ -191,21 +203,47 @@ begin
      sg.Show;
 end;
 
-function ThdODRE_Table.Drag_from_(ACol, ARow: Integer): Boolean;
-   function not_Traite_Titre: Boolean;
-   var
-      bl: TblOD_Column;
-   begin
-        Result:= True;
+procedure ThdODRE_Table.Drag_nil;
+begin
+     Drag_Desabonne;
+     Drag_Column     := nil;
+     Drag_Affectation:= nil;
+end;
 
+procedure ThdODRE_Table.Drag_Abonne;
+begin
+     if Assigned( Drag_Column     ) then Drag_Column     .cLibelle .OnChange.Desabonne( Self, Drag_Column_Change     );
+     if Assigned( Drag_Affectation) then Drag_Affectation.cNomChamp.OnChange.Desabonne( Self, Drag_Affectation_Change);
+end;
+
+procedure ThdODRE_Table.Drag_Desabonne;
+begin
+     if Assigned( Drag_Column     ) then Drag_Column     .cLibelle .OnChange.Desabonne( Self, Drag_Column_Change     );
+     if Assigned( Drag_Affectation) then Drag_Affectation.cNomChamp.OnChange.Desabonne( Self, Drag_Affectation_Change);
+end;
+
+procedure ThdODRE_Table.Drag_Column_Change;
+begin
+     _from_pool;
+end;
+
+procedure ThdODRE_Table.Drag_Affectation_Change;
+begin
+     _from_pool;
+end;
+
+function ThdODRE_Table.Drag_from_(ACol, ARow: Integer): Boolean;
+   procedure Traite_Titre;
+   begin
         if nil = ceTitre then exit;
 
         ceTitre.Champs:= nil;
+        ceTitre.Caption:= '';
 
-        if Affecte_( bl, TblOD_Column, sg_be( ACol, ARow)) then exit;
+        if Affecte_( Drag_Column, TblOD_Column,
+                     sg_be( ACol, ThdODRE_Table_Ligne_Titres_Colonnes)) then exit;
 
-        Result:= False;
-        ceTitre.Champs:= bl.Champs;
+        ceTitre.Champs:= Drag_Column.Champs;
    end;
    function not_Traite_Affectation: Boolean;
    var
@@ -216,6 +254,7 @@ function ThdODRE_Table.Drag_from_(ACol, ARow: Integer): Boolean;
         if nil = clkcbNomChamp then exit;
 
         clkcbNomChamp.Champs:= nil;
+        clkcbNomChamp.Text:= '';
 
         if Affecte_( bl, TblOD_Affectation, sg_be( ACol, ARow)) then exit;
 
@@ -225,8 +264,11 @@ function ThdODRE_Table.Drag_from_(ACol, ARow: Integer): Boolean;
 begin
      Result:=inherited Drag_from_(ACol, ARow);
 
-          if not_Traite_Titre
-     then    not_Traite_Affectation;
+     Drag_nil;
+
+     Traite_Titre;
+     not_Traite_Affectation;
+     Drag_Abonne;
 end;
 
 end.

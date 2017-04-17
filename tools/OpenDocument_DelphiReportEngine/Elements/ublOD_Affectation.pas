@@ -188,6 +188,8 @@ begin
      _Keys  .Clear;
      _Labels.Clear;
 
+     _Keys  .Add( '');
+     _Labels.Add( '<Aucun>');
      for DC in DCa^
      do
        begin

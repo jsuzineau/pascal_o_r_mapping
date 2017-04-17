@@ -75,7 +75,6 @@ type
    bDecalerChampsApresColonne: TButton;
    bInsererColonne: TButton;
    bSupprimerColonne: TButton;
-   cg: TChampsGrid;
    ceTitre: TChamp_Edit;
    clkcbNomChamp: TChamp_Lookup_ComboBox;
    dsbODRE_Table: TDockableScrollbox;
@@ -102,13 +101,15 @@ type
    mm: TMainMenu;
    mODRE_Table_Colonnes: TMemo;
     odODF: TOpenDialog;
+    Panel1: TPanel;
+    Panel2: TPanel;
     Panel6: TPanel;
     pc: TPageControl;
+    sgODRE_Table: TStringGrid;
     speDecalerChampsApresColonne_Numero: TSpinEdit;
     speInsererColonne_Numero: TSpinEdit;
     speODRE_Table_NbColonnes: TSpinEdit;
     speSupprimerColonne_Numero: TSpinEdit;
-    sgODRE_Table: TStringGrid;
     tShow: TTimer;
     tsODRE_Table: TTabSheet;
     Panel5: TPanel;

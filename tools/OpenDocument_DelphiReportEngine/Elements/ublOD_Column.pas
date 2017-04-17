@@ -150,8 +150,8 @@ procedure TblOD_Column.Charge( _C: TOD_Column);
 begin
      C:= _C;
 
-     cLibelle:=Ajoute_String ( C.Titre  , 'Titre'  );
-     Ajoute_Integer( C.Largeur, 'Largeur');
+     cLibelle:=Ajoute_String ( C.Titre  , 'Titre'  , False);
+               Ajoute_Integer( C.Largeur, 'Largeur', False);
 end;
 
 class function TblOD_Column.sCle_from_( _id: Integer): String;
