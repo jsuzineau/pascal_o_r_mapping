@@ -18,10 +18,11 @@ uses
     ublOD_Affectation,
     ublOD_Column,
     uhDessinnateur,
+    uOD_TextTableContext,
 
     ucChamp_Edit,
     ucChamp_Lookup_ComboBox,
- Classes, SysUtils, Grids, Graphics;
+ Classes, SysUtils, Grids, Graphics,Dialogs,LCLType,Controls;
 
 type
 
@@ -52,6 +53,8 @@ type
     procedure Drag_Column_Change;
     procedure Drag_Affectation_Change;
     function  Drag_from_( ACol, ARow: Integer): Boolean; override;
+  public
+    procedure Supprimer_Colonne( _C: TOD_TextTableContext);
   end;
 
 implementation
@@ -269,6 +272,24 @@ begin
      Traite_Titre;
      not_Traite_Affectation;
      Drag_Abonne;
+end;
+
+procedure ThdODRE_Table.Supprimer_Colonne( _C: TOD_TextTableContext);
+var
+   nColonne: Integer;
+begin
+     if nil = Drag_Column then exit;
+
+     nColonne:= Drag_Colonne-1;
+
+     if mrYes <> MessageDlg( 'Confirmation',
+     'Souhaitez vous supprimer la colonne n°'+IntToStr(nColonne)+' '+Drag_Column.C.Titre+' ?',
+     mtConfirmation, [mbYes, mbNo], 0, mbNo)
+     then
+         exit;
+
+     blODRE_Table.T.SupprimerColonne( nColonne);
+     blODRE_Table.T.To_Doc( _C);
 end;
 
 end.

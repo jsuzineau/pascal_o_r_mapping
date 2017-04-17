@@ -78,7 +78,6 @@ type
    ceTitre: TChamp_Edit;
    clkcbNomChamp: TChamp_Lookup_ComboBox;
    dsbODRE_Table: TDockableScrollbox;
-   Label1: TLabel;
    Label2: TLabel;
    Label3: TLabel;
    miNormal: TMenuItem;
@@ -99,20 +98,15 @@ type
    mixmlMeta: TMenuItem;
    miVoir: TMenuItem;
    mm: TMainMenu;
-   mODRE_Table_Colonnes: TMemo;
     odODF: TOpenDialog;
     Panel1: TPanel;
     Panel2: TPanel;
+    Panel5: TPanel;
     Panel6: TPanel;
-    pc: TPageControl;
     sgODRE_Table: TStringGrid;
     speDecalerChampsApresColonne_Numero: TSpinEdit;
     speInsererColonne_Numero: TSpinEdit;
-    speODRE_Table_NbColonnes: TSpinEdit;
-    speSupprimerColonne_Numero: TSpinEdit;
     tShow: TTimer;
-    tsODRE_Table: TTabSheet;
-    Panel5: TPanel;
     gbBranche_Insertion: TGroupBox;
     bSupprimer_Insertion: TButton;
     procedure dsbODRE_TableSelect(Sender: TObject);
@@ -323,7 +317,6 @@ begin
 
      Document.pChange.Abonne( Self, From_Document);
      From_Document;
-     pc.Show;
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.Ferme;
@@ -346,8 +339,6 @@ begin
                     mtConfirmation, [mbYes, mbNo], 0)
      then
          Document.Save;
-
-     pc.Hide;
 
      Document.pChange.Desabonne( Self, From_Document);
      FreeAndNil( OD_TextTableContext);
@@ -659,12 +650,6 @@ begin
      dsbODRE_Table.Get_bl( blODRE_Table);
      if nil = blODRE_Table then exit;
 
-     speODRE_Table_NbColonnes.Value:= blODRE_Table.T.GetNbColonnes;
-     mODRE_Table_Colonnes.Clear;
-     for I:= Low( blODRE_Table.T.Columns) to High( blODRE_Table.T.Columns)
-     do
-       mODRE_Table_Colonnes.Lines.Add( blODRE_Table.T.Columns[I].Titre);
-
      hd.blODRE_Table:= blODRE_Table;
      hd._from_pool;
 end;
@@ -672,9 +657,7 @@ end;
 procedure TfOpenDocument_DelphiReportEngine.bSupprimerColonneClick( Sender: TObject);
 begin
      if blODRE_Table = nil then exit;
-     ShowMessage('à déboguer');
-     blODRE_Table.T.SupprimerColonne(speSupprimerColonne_Numero.Value);
-     blODRE_Table.T.To_Doc( OD_TextTableContext);
+     hd.Supprimer_Colonne( OD_TextTableContext);
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.bInsererColonneClick( Sender: TObject);

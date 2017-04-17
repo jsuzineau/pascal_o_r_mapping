@@ -71,6 +71,9 @@ type
   //Colonne
   public
     Colonne: Integer;
+  //Comparaison
+  public
+    function Egale( be: TBatpro_Element): Boolean; override;
   end;
 
  TIterateur_OD_Affectation
@@ -206,6 +209,21 @@ end;
 function TblOD_Affectation.Contenu( Contexte: Integer; Col, Row: Integer): String;
 begin
      Result:= inherited Contenu(Contexte, Col, Row) + Listing_Champs(#13#10);
+end;
+
+function TblOD_Affectation.Egale(be: TBatpro_Element): Boolean;
+var
+   bl: TblOD_Affectation;
+begin
+     Result:= inherited Egale(be);
+     exit;
+     Result:= False;
+     if Affecte_( bl, TblOD_Affectation, be) then exit;
+
+     Result
+     :=
+           (DCa      = bl.DCa     )
+       and (NomChamp = bl.NomChamp);
 end;
 
 end.

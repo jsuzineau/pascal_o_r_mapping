@@ -1,11 +1,11 @@
 object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
-  Left = 386
-  Height = 661
-  Top = 952
-  Width = 1277
+  Left = 652
+  Height = 403
+  Top = 1069
+  Width = 626
   Caption = 'fOpenDocument_DelphiReportEngine'
-  ClientHeight = 661
-  ClientWidth = 1277
+  ClientHeight = 403
+  ClientWidth = 626
   Color = clBtnFace
   Font.Color = clWindowText
   Font.Height = -11
@@ -18,203 +18,153 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
   OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '1.6.0.4'
-  object pc: TPageControl
+  object Panel5: TPanel
     Left = 0
-    Height = 661
-    Top = 0
-    Width = 1277
-    ActivePage = tsODRE_Table
+    Height = 304
+    Top = 99
+    Width = 626
     Align = alClient
-    TabIndex = 0
+    ClientHeight = 304
+    ClientWidth = 626
     TabOrder = 0
-    object tsODRE_Table: TTabSheet
-      Caption = 'ODRE_Table'
-      ClientHeight = 634
-      ClientWidth = 1273
-      ImageIndex = 11
-      object Panel5: TPanel
-        Left = 0
-        Height = 535
-        Top = 99
-        Width = 1273
-        Align = alClient
-        ClientHeight = 535
-        ClientWidth = 1273
+    object Panel6: TPanel
+      Left = 1
+      Height = 39
+      Top = 1
+      Width = 624
+      Align = alTop
+      ClientHeight = 39
+      ClientWidth = 624
+      TabOrder = 0
+      object bInsererColonne: TButton
+        Left = 178
+        Height = 21
+        Top = 7
+        Width = 143
+        Caption = 'Inserer Colonne'
+        OnClick = bInsererColonneClick
         TabOrder = 0
-        object Panel6: TPanel
-          Left = 1
-          Height = 175
-          Top = 1
-          Width = 1271
-          Align = alTop
-          ClientHeight = 175
-          ClientWidth = 1271
-          TabOrder = 0
-          object Label1: TLabel
-            Left = 6
-            Height = 13
-            Top = 6
-            Width = 67
-            Caption = 'NbColonnes'
-            ParentColor = False
-          end
-          object speODRE_Table_NbColonnes: TSpinEdit
-            Left = 70
-            Height = 23
-            Top = 5
-            Width = 69
-            MaxValue = 0
-            TabOrder = 0
-          end
-          object mODRE_Table_Colonnes: TMemo
-            Left = 6
-            Height = 137
-            Top = 30
-            Width = 297
-            Lines.Strings = (
-              'mOD_Table_Colonnes'
-            )
-            TabOrder = 1
-          end
-          object bSupprimerColonne: TButton
-            Left = 358
-            Height = 25
-            Top = 6
-            Width = 104
-            Caption = 'SupprimerColonne'
-            OnClick = bSupprimerColonneClick
-            TabOrder = 2
-          end
-          object speSupprimerColonne_Numero: TSpinEdit
-            Left = 467
-            Height = 23
-            Top = 7
-            Width = 38
-            MaxValue = 0
-            TabOrder = 3
-          end
-          object bInsererColonne: TButton
-            Left = 362
-            Height = 21
-            Top = 41
-            Width = 143
-            Caption = 'Inserer Colonne'
-            OnClick = bInsererColonneClick
-            TabOrder = 4
-          end
-          object speInsererColonne_Numero: TSpinEdit
-            Left = 525
-            Height = 23
-            Top = 41
-            Width = 38
-            MaxValue = 0
-            TabOrder = 5
-          end
-          object bDecalerChampsApresColonne: TButton
-            Left = 360
-            Height = 25
-            Top = 80
-            Width = 156
-            Caption = 'DecalerChampsApresColonne'
-            OnClick = bDecalerChampsApresColonneClick
-            TabOrder = 6
-          end
-          object speDecalerChampsApresColonne_Numero: TSpinEdit
-            Left = 525
-            Height = 23
-            Top = 81
-            Width = 38
-            MaxValue = 0
-            TabOrder = 7
-          end
-        end
-        object Panel1: TPanel
-          Left = 1
-          Height = 358
-          Top = 176
-          Width = 1271
-          Align = alClient
-          Caption = 'Panel1'
-          ClientHeight = 358
-          ClientWidth = 1271
-          TabOrder = 1
-          object Panel2: TPanel
-            Left = 1067
-            Height = 356
-            Top = 1
-            Width = 203
-            Align = alRight
-            ClientHeight = 356
-            ClientWidth = 203
-            TabOrder = 0
-            object Label3: TLabel
-              Left = 9
-              Height = 13
-              Top = 9
-              Width = 92
-              Caption = 'Titre de colonne'
-              ParentColor = False
-            end
-            object ceTitre: TChamp_Edit
-              Left = 9
-              Height = 23
-              Top = 24
-              Width = 184
-              TabOrder = 0
-              Text = 'ceTitre'
-              Field = 'Titre'
-            end
-            object clkcbNomChamp: TChamp_Lookup_ComboBox
-              Left = 9
-              Height = 31
-              Top = 73
-              Width = 179
-              ItemHeight = 0
-              Style = csDropDownList
-              TabOrder = 1
-              Field = 'NomChamp_Libelle'
-            end
-            object Label2: TLabel
-              Left = 9
-              Height = 13
-              Top = 56
-              Width = 147
-              Caption = 'Afficher dans cette cellule'
-              ParentColor = False
-            end
-          end
-          object sgODRE_Table: TStringGrid
-            Left = 1
-            Height = 356
-            Top = 1
-            Width = 1066
-            Align = alClient
-            TabOrder = 1
-            TitleFont.Color = clWindowText
-            TitleFont.Height = -11
-            TitleFont.Name = 'MS Sans Serif'
-          end
-        end
       end
-      object dsbODRE_Table: TDockableScrollbox
-        Left = 0
-        Height = 99
-        Top = 0
-        Width = 1273
-        Align = alTop
-        Caption = 'dsbODRE_Table'
-        ClientHeight = 99
-        ClientWidth = 1273
+      object speInsererColonne_Numero: TSpinEdit
+        Left = 341
+        Height = 23
+        Top = 7
+        Width = 38
+        MaxValue = 0
         TabOrder = 1
-        HauteurLigne = 24
-        BordureLignes = True
-        Zebrage = False
-        Zebrage1 = 15138790
-        Zebrage2 = 16777192
-        OnSelect = dsbODRE_TableSelect
-        _LectureSeule = False
+      end
+      object bDecalerChampsApresColonne: TButton
+        Left = 400
+        Height = 25
+        Top = 7
+        Width = 156
+        Caption = 'DecalerChampsApresColonne'
+        OnClick = bDecalerChampsApresColonneClick
+        TabOrder = 2
+      end
+      object speDecalerChampsApresColonne_Numero: TSpinEdit
+        Left = 565
+        Height = 23
+        Top = 7
+        Width = 38
+        MaxValue = 0
+        TabOrder = 3
       end
     end
+    object Panel1: TPanel
+      Left = 1
+      Height = 263
+      Top = 40
+      Width = 624
+      Align = alClient
+      Caption = 'Panel1'
+      ClientHeight = 263
+      ClientWidth = 624
+      TabOrder = 1
+      object Panel2: TPanel
+        Left = 420
+        Height = 261
+        Top = 1
+        Width = 203
+        Align = alRight
+        ClientHeight = 261
+        ClientWidth = 203
+        TabOrder = 0
+        object Label3: TLabel
+          Left = 9
+          Height = 13
+          Top = 9
+          Width = 92
+          Caption = 'Titre de colonne'
+          ParentColor = False
+        end
+        object ceTitre: TChamp_Edit
+          Left = 9
+          Height = 23
+          Top = 24
+          Width = 184
+          TabOrder = 0
+          Text = 'ceTitre'
+          Field = 'Titre'
+        end
+        object clkcbNomChamp: TChamp_Lookup_ComboBox
+          Left = 9
+          Height = 31
+          Top = 153
+          Width = 179
+          ItemHeight = 0
+          Style = csDropDownList
+          TabOrder = 1
+          Field = 'NomChamp_Libelle'
+        end
+        object Label2: TLabel
+          Left = 9
+          Height = 13
+          Top = 136
+          Width = 147
+          Caption = 'Afficher dans cette cellule'
+          ParentColor = False
+        end
+        object bSupprimerColonne: TButton
+          Left = 14
+          Height = 25
+          Top = 55
+          Width = 122
+          Caption = 'SupprimerColonne'
+          OnClick = bSupprimerColonneClick
+          TabOrder = 2
+        end
+      end
+      object sgODRE_Table: TStringGrid
+        Left = 1
+        Height = 261
+        Top = 1
+        Width = 419
+        Align = alClient
+        TabOrder = 1
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'MS Sans Serif'
+      end
+    end
+  end
+  object dsbODRE_Table: TDockableScrollbox
+    Left = 0
+    Height = 99
+    Top = 0
+    Width = 626
+    Align = alTop
+    Caption = 'dsbODRE_Table'
+    ClientHeight = 99
+    ClientWidth = 626
+    TabOrder = 1
+    HauteurLigne = 24
+    BordureLignes = True
+    Zebrage = False
+    Zebrage1 = 15138790
+    Zebrage2 = 16777192
+    OnSelect = dsbODRE_TableSelect
+    _LectureSeule = False
   end
   object odODF: TOpenDialog
     DefaultExt = '.ott'
@@ -227,12 +177,12 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
   object tShow: TTimer
     Enabled = False
     OnTimer = tShowTimer
-    left = 136
-    top = 164
+    left = 128
+    top = 16
   end
   object mm: TMainMenu
-    left = 313
-    top = 205
+    left = 216
+    top = 16
     object miNormal: TMenuItem
       Caption = 'Normal'
       object miNormal_Insertion: TMenuItem
