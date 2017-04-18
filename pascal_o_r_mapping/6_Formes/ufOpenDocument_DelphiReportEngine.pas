@@ -100,7 +100,7 @@ type
    mm: TMainMenu;
     odODF: TOpenDialog;
     Panel1: TPanel;
-    Panel2: TPanel;
+    pDrag: TPanel;
     Panel5: TPanel;
     Panel6: TPanel;
     sgODRE_Table: TStringGrid;
@@ -219,6 +219,7 @@ begin
 
      hd.clkcbNomChamp:=  clkcbNomChamp;
      hd.ceTitre      :=  ceTitre;
+     hd.pDrag        :=  pDrag;
 
      dsbODRE_Table.Classe_dockable:= TdkODRE_Table;
      dsbODRE_Table.Classe_Elements:= TblODRE_Table;
@@ -473,74 +474,6 @@ begin
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.Document_Fields_Visitor_for_Traite_Datasets( _Name, _Value: String);
-     procedure Traite_Dataset( _blODRE_Table: TblODRE_Table);
-     var
-        I: TIterateur_OD_Dataset_Columns;
-        bl: TblOD_Dataset_Columns;
-        Prefixe: String;
-        function not_Traite_Avant: Boolean;
-        const
-             sAvant='Avant_';
-             lAvant=Length( sAvant);
-        var
-           DCs: TOD_Dataset_Columns;
-           NomAvant: String;
-           DC: TOD_Dataset_Column;
-        begin
-             Result:= True;
-             if 1 <> Pos( sAvant, _Name) then exit;
-
-             Result:= False;
-             Delete( _Name, 1, lAvant);
-
-             DCs:= bl.DCs;
-             DC:= DCs.AssureAvant( _Name);
-             if nil = DC then exit;
-
-             NomAvant:= DCs.Nom_Avant( '_'+_blODRE_Table.Nom+'_'+Prefixe);
-             DC.from_Doc( NomAvant+'_', OD_TextTableContext);
-        end;
-        function not_Traite_Apres: Boolean;
-        const
-             sApres='Apres_';
-             lApres=Length( sApres);
-        var
-           DCs: TOD_Dataset_Columns;
-           NomApres: String;
-           DC: TOD_Dataset_Column;
-        begin
-             Result:= True;
-             if 1 <> Pos( sApres, _Name) then exit;
-
-             Result:= False;
-             Delete( _Name, 1, lApres);
-
-             DCs:= bl.DCs;
-             DC:= DCs.AssureApres( _Name);
-             if nil = DC then exit;
-
-             NomApres:= DCs.Nom_Apres( '_'+_blODRE_Table.Nom+'_'+Prefixe);
-             DC.from_Doc( NomApres+'_', OD_TextTableContext);
-        end;
-     begin
-          I:= _blODRE_Table.haOD_Dataset_Columns.Iterateur;
-          while I.Continuer
-          do
-            begin
-            if I.not_Suivant( bl)     then continue;
-
-            Prefixe:= bl.Nom+'_';
-            if 1 <> Pos( Prefixe, _Name) then continue;
-
-            Delete( _Name, 1, Length(Prefixe));
-
-            if   not_Traite_Avant
-            then not_Traite_Apres;
-
-            bl.haAvant.Charge;
-            bl.haApres.Charge;
-            end;
-     end;
 const
      sDebut='_debut';
      lDebut=Length(sDebut);
@@ -548,6 +481,7 @@ var
    I: TIterateur_ODRE_Table;
    bl: TblODRE_Table;
    Prefixe: String;
+   SubName: String;
    iDebut: Integer;
    iPos: Integer;
 begin
@@ -557,16 +491,17 @@ begin
        begin
        if I.not_Suivant( bl)     then continue;
 
+       SubName:= _Name;
        Prefixe:= '_'+bl.Nom+'_';
-       if 1 <> Pos( Prefixe, _Name) then continue;
+       if 1 <> Pos( Prefixe, SubName) then continue;
 
-       Delete( _Name, 1, Length(Prefixe));
-       iDebut:= Length( _Name)-lDebut+1;
-       iPos:= Pos(sDebut, lowercase(_Name));
+       Delete( SubName, 1, Length(Prefixe));
+       iDebut:= Length( SubName)-lDebut+1;
+       iPos:= Pos(sDebut, lowercase(SubName));
        if iDebut <> iPos then continue;
 
-       Delete( _Name, iDebut, lDebut);
-       Traite_Dataset( bl);
+       Delete( SubName, iDebut, lDebut);
+       bl.Document_Fields_Visitor_for_Traite_Datasets( OD_TextTableContext, SubName, _Value);
        end;
 end;
 

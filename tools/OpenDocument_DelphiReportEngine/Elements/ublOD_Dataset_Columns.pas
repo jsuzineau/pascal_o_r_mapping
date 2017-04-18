@@ -58,6 +58,9 @@ type
   public
     function DCa: POD_Dataset_Column_array; virtual;
     function DC_from_FieldName( _FieldName: String): TOD_Dataset_Column;
+  //Vide
+  public
+     procedure Vide; override;
   //Chargement de tous les détails
   public
     procedure Charge; override;
@@ -74,9 +77,6 @@ type
   public
     function Iterateur: TIterateur_OD_Dataset_Column;
     function Iterateur_Decroissant: TIterateur_OD_Dataset_Column;
-  //Vide
-  public
-     procedure Vide;
   //Cree pour 1 DC
   private
      function Cree( _DC: TOD_Dataset_Column): TblOD_Dataset_Column;
@@ -101,6 +101,9 @@ type
   public
     function Iterateur: TIterateur_OD_Affectation;
     function Iterateur_Decroissant: TIterateur_OD_Affectation;
+  //Vide
+  public
+     procedure Vide; override;
   //Formatage pour un nombre de colonnes donné
   private
     function Cree: TblOD_Affectation;
@@ -114,6 +117,9 @@ type
                        _C: TOD_TextTableContext);
     function _from_Colonne_Document( _Colonne: Integer): TblOD_Affectation;
     procedure Blanc;
+  //Suppression d'une colonne
+  public
+    procedure SupprimerColonne( _Index: Integer);
   end;
 
  { ThaOD_Dataset_Columns__OD_Dataset_Column_Avant }
@@ -188,6 +194,25 @@ type
     function GethaApres_Affectation: ThaOD_Dataset_Columns__OD_Affectation;
   public
     property haApres_Affectation: ThaOD_Dataset_Columns__OD_Affectation read GethaApres_Affectation;
+  //Suppression d'une colonne
+  public
+    procedure Affectation_SupprimerColonne( _Index: Integer);
+  //Vidage des affectations
+  public
+    procedure Affectation_Vide;
+  //Formatage des affectations
+  public
+    procedure Affectation_Formate( _Nb_Colonnes: Integer;
+                                   _C: TOD_TextTableContext);
+  //Chargement des affectations
+  private
+    procedure Affectation_Charge( _ODRE_Table_Nom: String;
+                                  _Avant_Apres: String;
+                                  _ha: ThaOD_Dataset_Columns__OD_Dataset_Column;
+                                  _haAffectation: ThaOD_Dataset_Columns__OD_Affectation);
+  public
+    procedure Affectation_Charge_Avant( _ODRE_Table_Nom: String);
+    procedure Affectation_Charge_Apres( _ODRE_Table_Nom: String);
   end;
 
  TIterateur_OD_Dataset_Columns
@@ -245,7 +270,7 @@ function ThaOD_Dataset_Columns__OD_Dataset_Column_Avant.GetComposition: String;
 var
    blParent: TblOD_Dataset_Columns;
 begin
-     Result:= 'ThaOD_Dataset_Columns__OD_Dataset_Column_Avant.Composition';
+     Result:= inherited GetComposition;
      if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
 
      Result:= blParent.DCs.Avant_Composition;
@@ -277,7 +302,7 @@ function ThaOD_Dataset_Columns__OD_Dataset_Column_Apres.GetComposition: String;
 var
    blParent: TblOD_Dataset_Columns;
 begin
-     Result:= 'ThaOD_Dataset_Columns__OD_Dataset_Column_Apres.Composition';
+     Result:= inherited GetComposition;
      if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
 
      Result:= blParent.DCs.Apres_Composition;
@@ -373,7 +398,7 @@ end;
 
 function ThaOD_Dataset_Columns__OD_Dataset_Column.GetComposition: String;
 begin
-     Result:= 'ThaOD_Dataset_Columns__OD_Dataset_Column.Composition';
+     Result:= ClassName+'.Composition';
 end;
 
 procedure ThaOD_Dataset_Columns__OD_Dataset_Column.SetComposition( const _Value: String);
@@ -420,7 +445,6 @@ var
    DC: TOD_Dataset_Column;
    bl: TblOD_Dataset_Column;
 begin
-     Vide_StringList( sl);
      inherited Charge;
      if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
 
@@ -452,20 +476,7 @@ begin
 end;
 
 procedure ThaOD_Dataset_Columns__OD_Dataset_Column.Vide;
-var
-   I: TIterateur_OD_Dataset_Column;
-   bl: TblOD_Dataset_Column;
 begin
-     Composition:= '';
-     I:= Iterateur;
-     while I.Continuer
-     do
-       begin
-       if I.not_Suivant( bl) then continue;
-
-       bl.Debut:=100;//au pif, il faudrait mettre le numéro de colonne max + 1
-       bl.Fin  :=-1;
-       end;
      Vide_StringList( sl);
 end;
 
@@ -503,6 +514,12 @@ end;
 function ThaOD_Dataset_Columns__OD_Affectation.Iterateur_Decroissant: TIterateur_OD_Affectation;
 begin
      Result:= TIterateur_OD_Affectation( Iterateur_interne_Decroissant);
+end;
+
+procedure ThaOD_Dataset_Columns__OD_Affectation.Vide;
+begin
+     inherited Vide;
+     Vide_StringList( sl);
 end;
 
 function ThaOD_Dataset_Columns__OD_Affectation.Cree: TblOD_Affectation;
@@ -553,7 +570,7 @@ begin
      haDC:= _haDC;
      C:= _C;
 
-     Vide_StringList( sl);
+     Vide;
      for I:= 1 to _Nb_Colonnes
      do
        begin
@@ -564,6 +581,26 @@ begin
        bl.cNomChamp.OnChange.Abonne( Self, NomChamp_Change);
 
        bl.Colonne:= I-1;//premier = 0
+       end;
+end;
+
+procedure ThaOD_Dataset_Columns__OD_Affectation.SupprimerColonne( _Index: Integer);
+var
+   I: Integer;
+   bl, bl1: TblOD_Affectation;
+begin
+     for I:= _Index to sl.Count-2
+     do
+       begin
+       bl := _from_Colonne_Document( I  );
+       if nil = bl  then continue;
+
+       bl1:= _from_Colonne_Document( I+1);
+       if nil = bl1 then continue;
+
+       bl.NomChamp        := bl1.NomChamp;
+       bl.NomChamp_Libelle:= bl1.NomChamp_Libelle;
+       bl.cNomChamp.OnChange.Publie;
        end;
 end;
 
@@ -663,6 +700,65 @@ begin
          FhaApres_Affectation:= Aggregations['Apres_Affectation'] as ThaOD_Dataset_Columns__OD_Affectation;
 
      Result:= FhaApres_Affectation;
+end;
+
+procedure TblOD_Dataset_Columns.Affectation_SupprimerColonne(_Index: Integer);
+begin
+     haAvant_Affectation.SupprimerColonne( _Index);
+     haApres_Affectation.SupprimerColonne( _Index);
+end;
+
+procedure TblOD_Dataset_Columns.Affectation_Vide;
+begin
+     haAvant_Affectation.Vide;
+     haApres_Affectation.Vide;
+end;
+
+procedure TblOD_Dataset_Columns.Affectation_Formate( _Nb_Colonnes: Integer; _C: TOD_TextTableContext);
+begin
+     haAvant_Affectation.Formate( _Nb_Colonnes, haAvant, _C);
+     haApres_Affectation.Formate( _Nb_Colonnes, haApres, _C);
+end;
+
+procedure TblOD_Dataset_Columns.Affectation_Charge( _ODRE_Table_Nom: String;
+                                                    _Avant_Apres: String;
+                                                    _ha: ThaOD_Dataset_Columns__OD_Dataset_Column;
+                                                    _haAffectation: ThaOD_Dataset_Columns__OD_Affectation);
+var
+   I: TIterateur_OD_Dataset_Column;
+   bl: TblOD_Dataset_Column;
+   blA: TblOD_Affectation;
+   iCol: Integer;
+begin
+     _haAffectation.Blanc;
+
+     I:= _ha.Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( bl) then continue;
+
+       for iCol:= bl.DC.Debut to bl.DC.Fin
+       do
+         begin
+         Log.PrintLn( _ODRE_Table_Nom+' '+Nom+' '+_Avant_Apres+' '+bl.FieldName+' col:'+IntToStr( iCol));
+
+         blA:= _haAffectation._from_Colonne_Document( iCol);
+         if nil = blA then continue;
+
+         blA.NomChamp:= bl.FieldName;
+         end;
+       end;
+end;
+
+procedure TblOD_Dataset_Columns.Affectation_Charge_Avant( _ODRE_Table_Nom: String);
+begin
+     Affectation_Charge( _ODRE_Table_Nom, 'Avant', haAvant, haAvant_Affectation);
+end;
+
+procedure TblOD_Dataset_Columns.Affectation_Charge_Apres( _ODRE_Table_Nom: String);
+begin
+     Affectation_Charge( _ODRE_Table_Nom, 'Apres', haApres, haApres_Affectation);
 end;
 
 end.

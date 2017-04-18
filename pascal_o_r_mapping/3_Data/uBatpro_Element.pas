@@ -1196,6 +1196,9 @@ type
   public
     function Is_Vide: Boolean;
     function Contient( be: TBatpro_Element): Boolean;
+  //Vidage
+  public
+    procedure Vide; virtual;
   //Chargement de tous les détails
   public
     procedure Charge; virtual;
@@ -6872,9 +6875,14 @@ begin
      Enleve_dans_be_Aggregeurs( be);
 end;
 
-procedure ThAggregation.Charge;
+procedure ThAggregation.Vide;
 begin
 
+end;
+
+procedure ThAggregation.Charge;
+begin
+     Vide;
 end;
 
 procedure ThAggregation.Assure_Charge;

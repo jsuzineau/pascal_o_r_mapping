@@ -55,6 +55,9 @@ type
                         _Classe_Elements: TBatpro_Element_Class;
                         _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre); override;
     destructor  Destroy; override;
+  //Vidage
+  public
+    procedure Vide; virtual;
   //Chargement de tous les détails
   public
     procedure Charge; override;
@@ -88,6 +91,15 @@ type
   //Ajout d'un dataset
   public
     procedure AddDataset( _Nom: String; _C: TOD_TextTableContext);
+  //Suppression d'une colonne
+  public
+    procedure SupprimerColonne( _Index: Integer);
+  //Vidage des affectations
+  public
+    procedure Affectation_Vide;
+  //Formatage des affectations
+  public
+    procedure Affectation_Formate( _C: TOD_TextTableContext);
   end;
 
  { TblODRE_Table }
@@ -125,6 +137,15 @@ type
     function GethaOD_Dataset_Columns: ThaODRE_Table__OD_Dataset_Columns;
   public
     property haOD_Dataset_Columns: ThaODRE_Table__OD_Dataset_Columns read GethaOD_Dataset_Columns;
+  //Méthodes
+  public
+    procedure SupprimerColonne( _Index: Integer; _C: TOD_TextTableContext);
+  //Visiteurs des Fields du Document
+  public
+    //procedure Document_Fields_Visitor_for_ODRE_Table     ( _Name, _Value: String);
+    //procedure Document_Fields_Visitor_for_Traite_Tables  ( _Name, _Value: String);//détection des datasets dans les tables
+    procedure Document_Fields_Visitor_for_Traite_Datasets( _C: TOD_TextTableContext;
+                                                           _SubName, _Value: String);//détection des champs dans les datasets
   end;
 
  TIterateur_ODRE_Table
@@ -227,13 +248,17 @@ begin
      inherited;
 end;
 
+procedure ThaODRE_Table__OD_Column.Vide;
+begin
+     Vide_StringList( sl);
+end;
+
 procedure ThaODRE_Table__OD_Column.Charge;
 var
    blParent: TblODRE_Table;
    C: TOD_Column;
    bl: TblOD_Column;
 begin
-     Vide_StringList( sl);
      inherited Charge;
      if Affecte_( blParent, TblODRE_Table, Parent) then exit;
 
@@ -320,6 +345,7 @@ var
    blParent: TblODRE_Table;
    bl: TblOD_Dataset_Columns;
    DCs: TOD_Dataset_Columns;
+   NbColonnes: Integer;
 begin
      if Affecte_( blParent, TblODRE_Table, Parent) then exit;
      if -1 <> sl.IndexOf( _Nom)                    then exit;
@@ -330,8 +356,59 @@ begin
      DCs.from_Doc( '_'+blParent.Nom+'_', _C);
      Ajoute( bl);
 
-     bl.haAvant_Affectation.Formate( blParent.T.GetNbColonnes, bl.haAvant, _C);
-     bl.haApres_Affectation.Formate( blParent.T.GetNbColonnes, bl.haApres, _C);
+     NbColonnes:= blParent.T.GetNbColonnes;
+     bl.Affectation_Formate( NbColonnes, _C);
+end;
+
+procedure ThaODRE_Table__OD_Dataset_Columns.SupprimerColonne( _Index: Integer);
+var
+   I: TIterateur_OD_Dataset_Columns;
+   bl: TblOD_Dataset_Columns;
+begin
+     I:= Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( bl) then continue;
+
+       bl.Affectation_SupprimerColonne( _Index);
+       end;
+end;
+
+procedure ThaODRE_Table__OD_Dataset_Columns.Affectation_Vide;
+var
+   I: TIterateur_OD_Dataset_Columns;
+   bl: TblOD_Dataset_Columns;
+begin
+     I:= Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( bl) then continue;
+
+       bl.Affectation_Vide;
+       end;
+end;
+
+procedure ThaODRE_Table__OD_Dataset_Columns.Affectation_Formate( _C: TOD_TextTableContext);
+var
+   blParent: TblODRE_Table;
+   I: TIterateur_OD_Dataset_Columns;
+   bl: TblOD_Dataset_Columns;
+   NbColonnes: Integer;
+begin
+     if Affecte_( blParent, TblODRE_Table, Parent) then exit;
+
+     NbColonnes:= blParent.T.GetNbColonnes;
+
+     I:= Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( bl) then continue;
+
+       bl.Affectation_Formate( NbColonnes, _C);
+       end;
 end;
 
 { TblODRE_Table }
@@ -390,6 +467,93 @@ begin
          FhaOD_Dataset_Columns:= Aggregations['OD_Dataset_Columns'] as ThaODRE_Table__OD_Dataset_Columns;
 
      Result:= FhaOD_Dataset_Columns;
+end;
+
+procedure TblODRE_Table.Document_Fields_Visitor_for_Traite_Datasets( _C: TOD_TextTableContext;
+                                                                     _SubName, _Value: String);
+var
+   I: TIterateur_OD_Dataset_Columns;
+   bl: TblOD_Dataset_Columns;
+   Prefixe: String;
+   function not_Traite_Avant: Boolean;
+   const
+        sAvant='Avant_';
+        lAvant=Length( sAvant);
+   var
+      DCs: TOD_Dataset_Columns;
+      NomAvant: String;
+      DC: TOD_Dataset_Column;
+   begin
+        Result:= True;
+        if 1 <> Pos( sAvant, _SubName) then exit;
+
+        Result:= False;
+        Delete( _SubName, 1, lAvant);
+
+        DCs:= bl.DCs;
+        DC:= DCs.AssureAvant( _SubName);
+        if nil = DC then exit;
+
+        NomAvant:= DCs.Nom_Avant( '_'+Nom+'_'+Prefixe);
+        DC.from_Doc( NomAvant+'_', _C);
+   end;
+   function not_Traite_Apres: Boolean;
+   const
+        sApres='Apres_';
+        lApres=Length( sApres);
+   var
+      DCs: TOD_Dataset_Columns;
+      NomApres: String;
+      DC: TOD_Dataset_Column;
+   begin
+        Result:= True;
+        if 1 <> Pos( sApres, _SubName) then exit;
+
+        Result:= False;
+        Delete( _SubName, 1, lApres);
+
+        DCs:= bl.DCs;
+        DC:= DCs.AssureApres( _SubName);
+        if nil = DC then exit;
+
+        NomApres:= DCs.Nom_Apres( '_'+Nom+'_'+Prefixe);
+        DC.from_Doc( NomApres+'_', _C);
+   end;
+begin
+     I:= haOD_Dataset_Columns.Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( bl)     then continue;
+
+       Prefixe:= bl.Nom+'_';
+       if 1 <> Pos( Prefixe, _SubName) then continue;
+
+       Delete( _SubName, 1, Length(Prefixe));
+
+       if   not_Traite_Avant
+       then not_Traite_Apres;
+
+       bl.haAvant.Charge;
+       bl.haApres.Charge;
+       end;
+end;
+
+procedure TblODRE_Table.SupprimerColonne( _Index: Integer; _C: TOD_TextTableContext);
+begin
+     //Décalage du contenu des colonnes vers la gauche à partir de la colonne supprimée
+     haOD_Dataset_Columns.SupprimerColonne( _Index);
+
+     //Vidage
+     haOD_Column.Vide;
+     haOD_Dataset_Columns.Affectation_Vide;
+
+     //Suppression
+     T.SupprimerColonne( _Index);
+
+     //Rechargement
+     haOD_Column.Charge;
+     haOD_Dataset_Columns.Affectation_Formate( _C);
 end;
 
 end.

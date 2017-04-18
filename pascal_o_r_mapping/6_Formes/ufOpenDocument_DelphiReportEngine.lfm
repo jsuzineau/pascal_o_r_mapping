@@ -81,7 +81,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
       ClientHeight = 263
       ClientWidth = 624
       TabOrder = 1
-      object Panel2: TPanel
+      object pDrag: TPanel
         Left = 420
         Height = 261
         Top = 1
@@ -90,6 +90,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
         ClientHeight = 261
         ClientWidth = 203
         TabOrder = 0
+        Visible = False
         object Label3: TLabel
           Left = 9
           Height = 13
