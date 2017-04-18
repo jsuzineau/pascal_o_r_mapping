@@ -61,6 +61,9 @@ type
   //Chargement de tous les détails
   public
     procedure Charge; override;
+  //Réponse aux changements de colonnes
+  public
+    procedure Column_Change;
   //Création d'itérateur
   protected
     class function Classe_Iterateur: TIterateur_Class; override;
@@ -103,6 +106,9 @@ type
   //Formatage des affectations
   public
     procedure Affectation_Formate( _C: TOD_TextTableContext);
+  //Chargement des affectations
+  public
+    procedure Affectation_Charge( _ODRE_Table_Nom: String);
   end;
 
  { TblODRE_Table }
@@ -116,6 +122,7 @@ type
     destructor Destroy; override;
   //ODRE_Table
   public
+    C: TOD_TextTableContext;
     T: TODRE_Table;
     procedure Charge( _Nom: String; _C: TOD_TextTableContext);
   //Champs
@@ -150,6 +157,9 @@ type
     //procedure Document_Fields_Visitor_for_Traite_Tables  ( _Name, _Value: String);//détection des datasets dans les tables
     procedure Document_Fields_Visitor_for_Traite_Datasets( _C: TOD_TextTableContext;
                                                            _SubName, _Value: String);//détection des champs dans les datasets
+  //Chargement des affectations
+  public
+    procedure Affectation_Charge;
   end;
 
  TIterateur_ODRE_Table
@@ -271,8 +281,19 @@ begin
        begin
        bl:= TblOD_Column.Create( sl, nil, nil);
        bl.Charge( C);
+       bl.cTitre  .OnChange.Abonne( Self, Column_Change);
+       bl.cLargeur.OnChange.Abonne( Self, Column_Change);
        Ajoute( bl);
        end;
+end;
+
+procedure ThaODRE_Table__OD_Column.Column_Change;
+var
+   blParent: TblODRE_Table;
+begin
+     if Affecte_( blParent, TblODRE_Table, Parent) then exit;
+
+     blParent.T.To_Doc( blParent.C);
 end;
 
 class function ThaODRE_Table__OD_Column.Classe_Iterateur: TIterateur_Class;
@@ -431,6 +452,21 @@ begin
        end;
 end;
 
+procedure ThaODRE_Table__OD_Dataset_Columns.Affectation_Charge( _ODRE_Table_Nom: String);
+var
+   I: TIterateur_OD_Dataset_Columns;
+   bl: TblOD_Dataset_Columns;
+begin
+     I:= Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( bl) then continue;
+
+       bl.Affectation_Charge( _ODRE_Table_Nom);
+       end;
+end;
+
 { TblODRE_Table }
 
 constructor TblODRE_Table.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
@@ -445,6 +481,7 @@ end;
 
 procedure TblODRE_Table.Charge( _Nom: String; _C: TOD_TextTableContext);
 begin
+     C:= _C;
      T:= TODRE_Table.Create( _Nom);
      T.Pas_de_persistance:= False;
 
@@ -559,6 +596,11 @@ begin
        end;
 end;
 
+procedure TblODRE_Table.Affectation_Charge;
+begin
+     haOD_Dataset_Columns.Affectation_Charge( Nom);
+end;
+
 procedure TblODRE_Table.SupprimerColonne( _Index: Integer; _C: TOD_TextTableContext);
 begin
      //Décalage du contenu des colonnes vers la gauche à partir de la colonne supprimée
@@ -591,9 +633,10 @@ begin
      //Rechargement
      haOD_Column.Charge;
      haOD_Dataset_Columns.Affectation_Formate( _C);
+     Affectation_Charge;
 
      //Décalage du contenu des colonnes vers la gauche à partir de la colonne supprimée
-     //haOD_Dataset_Columns.InsererColonne( _Index);
+     haOD_Dataset_Columns.InsererColonne( _Index);
 
      //Enregistrmeent dans le xml
      T.To_Doc( _C);

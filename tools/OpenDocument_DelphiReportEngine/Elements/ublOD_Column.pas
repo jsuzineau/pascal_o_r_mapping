@@ -26,6 +26,7 @@ interface
 
 uses
     uClean,
+    uChamp,
     uBatpro_StringList,
     uOD_TextTableContext,
     uOD_Column,
@@ -49,6 +50,10 @@ type
   public
     C: TOD_Column;
     procedure Charge( _C: TOD_Column);
+  //Champs
+  public
+    cTitre  : TChamp;
+    cLargeur: TChamp;
   //Gestion de la clé
   public
     class function sCle_from_( _id: Integer): String;
@@ -150,8 +155,9 @@ procedure TblOD_Column.Charge( _C: TOD_Column);
 begin
      C:= _C;
 
-     cLibelle:=Ajoute_String ( C.Titre  , 'Titre'  , False);
-               Ajoute_Integer( C.Largeur, 'Largeur', False);
+     cTitre  :=Ajoute_String ( C.Titre  , 'Titre'  , False);
+     cLargeur:=Ajoute_Integer( C.Largeur, 'Largeur', False);
+     cLibelle:= cTitre;
 end;
 
 class function TblOD_Column.sCle_from_( _id: Integer): String;

@@ -51,6 +51,8 @@ uses
     ublODRE_Table,
     ublOD_Dataset_Columns,
 
+    upoolG_BECP,
+
     uhdmOpenDocument_DelphiReportEngine_Test,
     uodOpenDocument_DelphiReportEngine_Test,
 
@@ -326,6 +328,7 @@ begin
      if Document = nil then exit;
 
      gbTable.Visible:= False;
+     Vide_StringList( slT);
 
      FreeAndNil( fxmleMeta             );
      FreeAndNil( fxmleSettings         );

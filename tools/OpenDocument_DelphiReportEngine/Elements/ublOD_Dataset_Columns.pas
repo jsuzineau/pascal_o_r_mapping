@@ -62,6 +62,9 @@ type
   //Vide
   public
      procedure Vide; override;
+  // Mise_a_blanc
+  public
+    procedure Mise_a_blanc;
   //Chargement de tous les détails
   public
     procedure Charge; override;
@@ -84,6 +87,7 @@ type
   // Ajoute = Cree + ajout dans composition
   public
      function Ajoute( _FieldName: String): TblOD_Dataset_Column;
+
   end;
 
  { ThaOD_Dataset_Columns__OD_Affectation }
@@ -213,13 +217,14 @@ type
                                    _C: TOD_TextTableContext);
   //Chargement des affectations
   private
-    procedure Affectation_Charge( _ODRE_Table_Nom: String;
+    procedure Affectation_Charge_interne( _ODRE_Table_Nom: String;
                                   _Avant_Apres: String;
                                   _ha: ThaOD_Dataset_Columns__OD_Dataset_Column;
                                   _haAffectation: ThaOD_Dataset_Columns__OD_Affectation);
   public
     procedure Affectation_Charge_Avant( _ODRE_Table_Nom: String);
     procedure Affectation_Charge_Apres( _ODRE_Table_Nom: String);
+    procedure Affectation_Charge( _ODRE_Table_Nom: String);
   //Cellules de titre avant aprés
   public
     bsAvant: TbeString;
@@ -491,6 +496,25 @@ begin
      Vide_StringList( sl);
 end;
 
+procedure ThaOD_Dataset_Columns__OD_Dataset_Column.Mise_a_blanc;
+var
+   I: TIterateur_OD_Dataset_Column;
+    DC: TOD_Dataset_Column;
+   bl: TblOD_Dataset_Column;
+begin
+     Composition:= '';
+     I:= Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( bl) then continue;
+
+       bl.Debut:=100;//au pif, il faudrait mettre le numéro de colonne max + 1
+       bl.Fin  :=-1;
+       end;
+end;
+
+
 { ThaOD_Dataset_Columns__OD_Affectation }
 
 constructor ThaOD_Dataset_Columns__OD_Affectation.Create( _Parent: TBatpro_Element;
@@ -554,8 +578,7 @@ var
 begin
      if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
 
-     haDC.Composition:= '';
-     haDC.Vide;
+     haDC.Mise_a_blanc;
      I:= Iterateur;
      while I.Continuer
      do
@@ -633,9 +656,9 @@ begin
        bl1.NomChamp_Libelle:= bl.NomChamp_Libelle;
        bl1.cNomChamp.OnChange.Publie;
 
-       //bl.NomChamp        := '';
-       //bl.NomChamp_Libelle:= '';
-       //bl .cNomChamp.OnChange.Publie;
+       bl.NomChamp        := '';
+       bl.NomChamp_Libelle:= '';
+       bl .cNomChamp.OnChange.Publie;
        end;
 end;
 
@@ -770,7 +793,7 @@ begin
      haApres_Affectation.Formate( _Nb_Colonnes, haApres, _C);
 end;
 
-procedure TblOD_Dataset_Columns.Affectation_Charge( _ODRE_Table_Nom: String;
+procedure TblOD_Dataset_Columns.Affectation_Charge_interne( _ODRE_Table_Nom: String;
                                                     _Avant_Apres: String;
                                                     _ha: ThaOD_Dataset_Columns__OD_Dataset_Column;
                                                     _haAffectation: ThaOD_Dataset_Columns__OD_Affectation);
@@ -803,12 +826,18 @@ end;
 
 procedure TblOD_Dataset_Columns.Affectation_Charge_Avant( _ODRE_Table_Nom: String);
 begin
-     Affectation_Charge( _ODRE_Table_Nom, 'Avant', haAvant, haAvant_Affectation);
+     Affectation_Charge_interne( _ODRE_Table_Nom, 'Avant', haAvant, haAvant_Affectation);
 end;
 
 procedure TblOD_Dataset_Columns.Affectation_Charge_Apres( _ODRE_Table_Nom: String);
 begin
-     Affectation_Charge( _ODRE_Table_Nom, 'Apres', haApres, haApres_Affectation);
+     Affectation_Charge_interne( _ODRE_Table_Nom, 'Apres', haApres, haApres_Affectation);
+end;
+
+procedure TblOD_Dataset_Columns.Affectation_Charge(_ODRE_Table_Nom: String);
+begin
+     Affectation_Charge_Avant( _ODRE_Table_Nom);
+     Affectation_Charge_Apres( _ODRE_Table_Nom);
 end;
 
 end.
