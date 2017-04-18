@@ -1,11 +1,11 @@
 object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
-  Left = 652
-  Height = 403
-  Top = 1069
-  Width = 626
+  Left = 632
+  Height = 424
+  Top = 1138
+  Width = 581
   Caption = 'fOpenDocument_DelphiReportEngine'
-  ClientHeight = 403
-  ClientWidth = 626
+  ClientHeight = 424
+  ClientWidth = 581
   Color = clBtnFace
   Font.Color = clWindowText
   Font.Height = -11
@@ -18,154 +18,221 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
   OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '1.6.0.4'
-  object Panel5: TPanel
+  object gbListeTables: TGroupBox
     Left = 0
-    Height = 304
-    Top = 99
-    Width = 626
-    Align = alClient
-    ClientHeight = 304
-    ClientWidth = 626
+    Height = 105
+    Top = 0
+    Width = 581
+    Align = alTop
+    Caption = 'Liste des Tableaux'
+    ClientHeight = 90
+    ClientWidth = 577
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ParentFont = False
     TabOrder = 0
-    object Panel6: TPanel
-      Left = 1
-      Height = 39
-      Top = 1
-      Width = 624
-      Align = alTop
-      ClientHeight = 39
-      ClientWidth = 624
-      TabOrder = 0
-      object bInsererColonne: TButton
-        Left = 178
-        Height = 21
-        Top = 7
-        Width = 143
-        Caption = 'Inserer Colonne'
-        OnClick = bInsererColonneClick
-        TabOrder = 0
-      end
-      object speInsererColonne_Numero: TSpinEdit
-        Left = 341
-        Height = 23
-        Top = 7
-        Width = 38
-        MaxValue = 0
-        TabOrder = 1
-      end
-      object bDecalerChampsApresColonne: TButton
-        Left = 400
-        Height = 25
-        Top = 7
-        Width = 156
-        Caption = 'DecalerChampsApresColonne'
-        OnClick = bDecalerChampsApresColonneClick
-        TabOrder = 2
-      end
-      object speDecalerChampsApresColonne_Numero: TSpinEdit
-        Left = 565
-        Height = 23
-        Top = 7
-        Width = 38
-        MaxValue = 0
-        TabOrder = 3
-      end
-    end
-    object Panel1: TPanel
-      Left = 1
-      Height = 263
-      Top = 40
-      Width = 624
+    object dsbODRE_Table: TDockableScrollbox
+      Left = 0
+      Height = 90
+      Top = 0
+      Width = 577
       Align = alClient
-      Caption = 'Panel1'
-      ClientHeight = 263
-      ClientWidth = 624
-      TabOrder = 1
-      object pDrag: TPanel
-        Left = 420
-        Height = 261
+      Caption = 'dsbODRE_Table'
+      ClientHeight = 90
+      ClientWidth = 577
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      ParentFont = False
+      TabOrder = 0
+      HauteurLigne = 24
+      BordureLignes = True
+      Zebrage = False
+      Zebrage1 = 15138790
+      Zebrage2 = 16777192
+      OnSelect = dsbODRE_TableSelect
+      _LectureSeule = False
+    end
+  end
+  object gbTable: TGroupBox
+    Left = 0
+    Height = 319
+    Top = 105
+    Width = 581
+    Align = alClient
+    Caption = 'gbTable'
+    ClientHeight = 304
+    ClientWidth = 577
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 1
+    Visible = False
+    object pDrag: TPanel
+      Left = 374
+      Height = 304
+      Top = 0
+      Width = 203
+      Align = alRight
+      ClientHeight = 304
+      ClientWidth = 203
+      TabOrder = 0
+      Visible = False
+      object gbColonne: TGroupBox
+        Left = 1
+        Height = 141
         Top = 1
-        Width = 203
-        Align = alRight
-        ClientHeight = 261
-        ClientWidth = 203
+        Width = 201
+        Align = alTop
+        Caption = 'Colonne'
+        ClientHeight = 126
+        ClientWidth = 197
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
         TabOrder = 0
-        Visible = False
         object Label3: TLabel
           Left = 9
           Height = 13
-          Top = 9
-          Width = 92
-          Caption = 'Titre de colonne'
+          Top = 35
+          Width = 26
+          Caption = 'Titre'
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
           ParentColor = False
+          ParentFont = False
         end
         object ceTitre: TChamp_Edit
           Left = 9
           Height = 23
-          Top = 24
+          Top = 50
           Width = 184
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          ParentFont = False
           TabOrder = 0
           Text = 'ceTitre'
           Field = 'Titre'
         end
-        object clkcbNomChamp: TChamp_Lookup_ComboBox
-          Left = 9
-          Height = 31
-          Top = 153
-          Width = 179
-          ItemHeight = 0
-          Style = csDropDownList
+        object bSupprimerColonne: TButton
+          Left = 118
+          Height = 25
+          Top = 7
+          Width = 73
+          Caption = 'Supprimer'
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          OnClick = bSupprimerColonneClick
+          ParentFont = False
           TabOrder = 1
-          Field = 'NomChamp_Libelle'
         end
+        object bInsererColonne: TButton
+          Left = 12
+          Height = 21
+          Top = 10
+          Width = 73
+          Caption = 'Inserer'
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          OnClick = bInsererColonneClick
+          ParentFont = False
+          TabOrder = 2
+        end
+        object Label4: TLabel
+          Left = 9
+          Height = 13
+          Top = 79
+          Width = 44
+          Caption = 'Largeur'
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          ParentColor = False
+          ParentFont = False
+        end
+        object ceLargeur: TChamp_Edit
+          Left = 9
+          Height = 23
+          Top = 94
+          Width = 184
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          ParentFont = False
+          TabOrder = 3
+          Text = 'ceLargeur'
+          Field = 'Largeur'
+        end
+      end
+      object gbCellule: TGroupBox
+        Left = 1
+        Height = 73
+        Top = 142
+        Width = 201
+        Align = alTop
+        Caption = 'Cellule'
+        ClientHeight = 58
+        ClientWidth = 197
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Sans Serif'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 1
         object Label2: TLabel
           Left = 9
           Height = 13
-          Top = 136
+          Top = 8
           Width = 147
           Caption = 'Afficher dans cette cellule'
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
           ParentColor = False
+          ParentFont = False
         end
-        object bSupprimerColonne: TButton
-          Left = 14
-          Height = 25
-          Top = 55
-          Width = 122
-          Caption = 'SupprimerColonne'
-          OnClick = bSupprimerColonneClick
-          TabOrder = 2
+        object clkcbNomChamp: TChamp_Lookup_ComboBox
+          Left = 9
+          Height = 31
+          Top = 25
+          Width = 179
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Sans Serif'
+          ItemHeight = 0
+          ParentFont = False
+          Style = csDropDownList
+          TabOrder = 0
+          Field = 'NomChamp_Libelle'
         end
-      end
-      object sgODRE_Table: TStringGrid
-        Left = 1
-        Height = 261
-        Top = 1
-        Width = 419
-        Align = alClient
-        TabOrder = 1
-        TitleFont.Color = clWindowText
-        TitleFont.Height = -11
-        TitleFont.Name = 'MS Sans Serif'
       end
     end
-  end
-  object dsbODRE_Table: TDockableScrollbox
-    Left = 0
-    Height = 99
-    Top = 0
-    Width = 626
-    Align = alTop
-    Caption = 'dsbODRE_Table'
-    ClientHeight = 99
-    ClientWidth = 626
-    TabOrder = 1
-    HauteurLigne = 24
-    BordureLignes = True
-    Zebrage = False
-    Zebrage1 = 15138790
-    Zebrage2 = 16777192
-    OnSelect = dsbODRE_TableSelect
-    _LectureSeule = False
+    object sgODRE_Table: TStringGrid
+      Left = 0
+      Height = 304
+      Top = 0
+      Width = 374
+      Align = alClient
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Sans Serif'
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goSmoothScroll]
+      ParentFont = False
+      TabOrder = 1
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'MS Sans Serif'
+    end
   end
   object odODF: TOpenDialog
     DefaultExt = '.ott'

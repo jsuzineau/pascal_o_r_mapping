@@ -41,7 +41,8 @@ type
     blODRE_Table: TblODRE_Table;
     bsTitre: TBeString;
     clkcbNomChamp: TChamp_Lookup_ComboBox;
-    ceTitre: TChamp_Edit;
+    ceTitre  : TChamp_Edit;
+    ceLargeur: TChamp_Edit;
     pDrag: TPanel;
     procedure _from_pool; override;
   //Gestion souris et Drag / Drop
@@ -54,8 +55,12 @@ type
     procedure Drag_Column_Change;
     procedure Drag_Affectation_Change;
     function  Drag_from_( ACol, ARow: Integer): Boolean; override;
+  //Suppression de colonne
   public
     procedure Supprimer_Colonne( _C: TOD_TextTableContext);
+  //Insertion de colonne
+  public
+    procedure InsererColonne( _C: TOD_TextTableContext);
   //Rafraichissement
   public
     procedure Vide; override;
@@ -126,7 +131,7 @@ procedure ThdODRE_Table._from_pool;
           blDCS.haAvant.Charge;
           blDCs.haApres.Charge;
 
-          Charge_Cell( blDCs, 0, iRow);
+          Charge_Cell( blDCs.bsAvant, 0, iRow);
           Charge_Avant;
           Inc( iRow);
           end;
@@ -137,7 +142,7 @@ procedure ThdODRE_Table._from_pool;
           begin
           if I.not_Suivant( blDCs) then continue;
 
-          Charge_Cell( blDCs, 0, iRow);
+          Charge_Cell( blDCs.bsApres, 0, iRow);
           Charge_Apres;
           Inc( iRow);
           end;
@@ -161,7 +166,11 @@ begin
 
      Charge_OD_Column;
      Charge_OD_Dataset_Columns;
+
      Clusterise;
+
+     //Traite_Dimensions;
+
      sg.Show;
 end;
 
@@ -172,6 +181,7 @@ begin
      Drag_Affectation:= nil;
      pDrag.Visible:= False;
      ceTitre      .Champs:= nil;
+     ceLargeur    .Champs:= nil;
      clkcbNomChamp.Champs:= nil;
 end;
 
@@ -200,15 +210,17 @@ end;
 function ThdODRE_Table.Drag_from_(ACol, ARow: Integer): Boolean;
    procedure Traite_Titre;
    begin
-        if nil = ceTitre then exit;
+        if nil = ceTitre   then exit;
+        if nil = ceLargeur then exit;
 
-        ceTitre.Champs:= nil;
-        ceTitre.Caption:= '';
+        ceTitre  .Champs:= nil; ceTitre  .Caption:= '';
+        ceLargeur.Champs:= nil; ceLargeur.Caption:= '';
 
         if Affecte_( Drag_Column, TblOD_Column,
                      sg_be( ACol, ThdODRE_Table_Ligne_Titres_Colonnes)) then exit;
 
-        ceTitre.Champs:= Drag_Column.Champs;
+        ceTitre  .Champs:= Drag_Column.Champs;
+        ceLargeur.Champs:= Drag_Column.Champs;
         pDrag.Visible:= True;
    end;
    function not_Traite_Affectation: Boolean;
@@ -241,22 +253,58 @@ end;
 procedure ThdODRE_Table.Supprimer_Colonne( _C: TOD_TextTableContext);
 var
    nColonne: Integer;
+   Abandon: Boolean;
 begin
      if nil = Drag_Column then exit;
 
      nColonne:= Drag_Colonne-1;
 
-     if mrYes <> MessageDlg( 'Confirmation',
-     'Souhaitez vous supprimer la colonne n°'+IntToStr(nColonne)+' '+Drag_Column.C.Titre+' ?',
-     mtConfirmation, [mbYes, mbNo], 0, mbNo)
-     then
-         exit;
-     Vide;
+     Abandon
+     :=
+          mrYes
+       <> MessageDlg( 'Confirmation',
+                       'Souhaitez vous supprimer la colonne n°'
+                      +IntToStr(nColonne)+': '
+                      +Drag_Column.C.Titre+' ?',
+                      mtConfirmation,
+                      [mbYes, mbNo],
+                      0,
+                      mbNo
+                      );
+     if Abandon then exit;
 
+     Vide;
      blODRE_Table.SupprimerColonne( nColonne, _C);
-     blODRE_Table.T.To_Doc( _C);
      _from_pool;
 end;
+
+procedure ThdODRE_Table.InsererColonne(_C: TOD_TextTableContext);
+var
+   nColonne: Integer;
+   Abandon: Boolean;
+begin
+     if nil = Drag_Column then exit;
+
+     nColonne:= Drag_Colonne-1;
+
+     Abandon
+     :=
+          mrYes
+       <> MessageDlg( 'Confirmation',
+                       'Souhaitez vous insérer une colonne avant la colonne n°'
+                      +IntToStr(nColonne)+': '
+                      +Drag_Column.C.Titre+' ?',
+                      mtConfirmation,
+                      [mbYes, mbNo],
+                      0,
+                      mbNo);
+     if Abandon then exit;
+
+     Vide;
+     blODRE_Table.InsererColonne( nColonne, _C);
+     _from_pool;
+end;
+
 
 procedure ThdODRE_Table.Vide;
 begin

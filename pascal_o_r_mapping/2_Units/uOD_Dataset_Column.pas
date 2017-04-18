@@ -52,9 +52,6 @@ type
     procedure Assure_Modele( Prefixe: String; C: TOD_TextTableContext);
     procedure   to_Doc( Prefixe: String; C: TOD_TextTableContext);
     procedure from_Doc( Prefixe: String; C: TOD_TextTableContext);
-   //Gestion de l'insertion de colonne
-  public
-    procedure InsererColonneApres( _Index: Integer);
  end;
 
   TOD_Dataset_Column_array= array of TOD_Dataset_Column;
@@ -125,12 +122,6 @@ begin
 
      Debut:= _odc.Debut;
      Fin  := _odc.Fin  ;
-end;
-
-procedure TOD_Dataset_Column.InsererColonneApres( _Index: Integer);
-begin
-     if Debut > _Index then Inc(Debut);
-     if Fin   > _Index then Inc(Fin  );
 end;
 
 end.

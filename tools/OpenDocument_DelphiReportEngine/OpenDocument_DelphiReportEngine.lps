@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="9"/>
     <BuildModes Active="Linux Debug"/>
-    <Units Count="95">
+    <Units Count="94">
       <Unit0>
         <Filename Value="OpenDocument_DelphiReportEngine.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -19,12 +19,13 @@
         <ComponentName Value="fOpenDocument_DelphiReportEngine"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="565"/>
-        <CursorPos X="14" Y="589"/>
+        <TopLine Value="195"/>
+        <CursorPos X="58" Y="233"/>
         <UsageCount Value="212"/>
         <Bookmarks Count="1">
-          <Item0 X="19" Y="320" ID="4"/>
+          <Item0 X="19" Y="321" ID="4"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -33,13 +34,12 @@
       <Unit2>
         <Filename Value="Elements\ODRE_Table\ublODRE_Table.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="4"/>
-        <TopLine Value="363"/>
-        <CursorPos X="6" Y="368"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="260"/>
+        <CursorPos X="6" Y="266"/>
         <UsageCount Value="205"/>
-        <Bookmarks Count="2">
-          <Item0 X="37" Y="545" ID="1"/>
-          <Item1 X="15" Y="96" ID="2"/>
+        <Bookmarks Count="1">
+          <Item0 Y="598" ID="7"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -47,9 +47,9 @@
       <Unit3>
         <Filename Value="Elements\ublOD_Column.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="13"/>
-        <TopLine Value="24"/>
-        <CursorPos X="5" Y="50"/>
+        <EditorIndex Value="12"/>
+        <TopLine Value="116"/>
+        <CursorPos X="44" Y="154"/>
         <UsageCount Value="203"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -57,14 +57,13 @@
       <Unit4>
         <Filename Value="Elements\ublOD_Dataset_Columns.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="6"/>
-        <TopLine Value="289"/>
-        <CursorPos X="76" Y="320"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="665"/>
+        <CursorPos X="28" Y="692"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="2">
-          <Item0 X="15" Y="122" ID="7"/>
-          <Item1 X="15" Y="199" ID="5"/>
+          <Item0 Y="626" ID="5"/>
+          <Item1 X="2" Y="157" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -72,7 +71,7 @@
       <Unit5>
         <Filename Value="Elements\ublOD_Dataset_Column.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="29"/>
         <CursorPos X="14" Y="55"/>
         <UsageCount Value="200"/>
@@ -82,7 +81,7 @@
       <Unit6>
         <Filename Value="Elements\ublOD_Affectation.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="10"/>
         <TopLine Value="152"/>
         <CursorPos X="2" Y="204"/>
         <UsageCount Value="202"/>
@@ -95,9 +94,9 @@
         <ComponentName Value="pool_Ancetre_Ancetre"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
-        <EditorIndex Value="7"/>
-        <TopLine Value="6858"/>
-        <CursorPos Y="6885"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="6575"/>
+        <CursorPos Y="6601"/>
         <UsageCount Value="207"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -105,9 +104,9 @@
       <Unit8>
         <Filename Value="Elements\ODRE_Table\uhdODRE_Table.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="3"/>
-        <TopLine Value="104"/>
-        <CursorPos X="38" Y="254"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="157"/>
+        <CursorPos X="45" Y="180"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -130,7 +129,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="34"/>
         <CursorPos X="2" Y="69"/>
-        <UsageCount Value="95"/>
+        <UsageCount Value="105"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit10>
       <Unit11>
@@ -139,7 +138,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="13"/>
         <CursorPos X="84" Y="22"/>
-        <UsageCount Value="78"/>
+        <UsageCount Value="88"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit11>
       <Unit12>
@@ -148,7 +147,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="65"/>
         <CursorPos Y="85"/>
-        <UsageCount Value="78"/>
+        <UsageCount Value="88"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit12>
       <Unit13>
@@ -157,7 +156,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="50"/>
         <CursorPos X="19" Y="72"/>
-        <UsageCount Value="78"/>
+        <UsageCount Value="88"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit13>
       <Unit14>
@@ -165,7 +164,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="40" Y="36"/>
-        <UsageCount Value="77"/>
+        <UsageCount Value="87"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit14>
       <Unit15>
@@ -177,7 +176,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="16"/>
         <CursorPos Y="59"/>
-        <UsageCount Value="50"/>
+        <UsageCount Value="60"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit15>
       <Unit16>
@@ -189,7 +188,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="9"/>
         <CursorPos Y="52"/>
-        <UsageCount Value="47"/>
+        <UsageCount Value="57"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit16>
       <Unit17>
@@ -201,7 +200,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="169"/>
         <CursorPos X="6" Y="196"/>
-        <UsageCount Value="46"/>
+        <UsageCount Value="56"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit17>
       <Unit18>
@@ -210,10 +209,10 @@
         <ComponentName Value="fFields_vstInsertion"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="19"/>
+        <EditorIndex Value="18"/>
         <TopLine Value="6"/>
         <CursorPos X="169" Y="35"/>
-        <UsageCount Value="46"/>
+        <UsageCount Value="56"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -224,9 +223,9 @@
         <ComponentName Value="fFields_vstTables"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="18"/>
+        <EditorIndex Value="17"/>
         <CursorPos X="91" Y="16"/>
-        <UsageCount Value="46"/>
+        <UsageCount Value="56"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -235,14 +234,14 @@
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uhDessinnateurWeb.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="23"/>
-        <UsageCount Value="84"/>
+        <UsageCount Value="83"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit20>
       <Unit21>
         <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.lfm"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="16"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="2"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit21>
       <Unit22>
@@ -251,22 +250,26 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="171"/>
         <CursorPos X="3" Y="186"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit22>
       <Unit23>
         <Filename Value="C:\lazarus\fpc\2.6.4\source\packages\fcl-xml\src\dom.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="49"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="2"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit23>
       <Unit24>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uODRE_Table.pas"/>
-        <EditorIndex Value="17"/>
-        <TopLine Value="133"/>
-        <CursorPos Y="163"/>
-        <UsageCount Value="84"/>
+        <EditorIndex Value="16"/>
+        <TopLine Value="286"/>
+        <CursorPos X="6" Y="312"/>
+        <UsageCount Value="89"/>
+        <Bookmarks Count="2">
+          <Item0 X="6" Y="312" ID="2"/>
+          <Item1 X="6" Y="145" ID="3"/>
+        </Bookmarks>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit24>
@@ -275,7 +278,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="415"/>
         <CursorPos Y="439"/>
-        <UsageCount Value="78"/>
+        <UsageCount Value="77"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit25>
       <Unit26>
@@ -283,51 +286,51 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="946"/>
         <CursorPos X="23" Y="952"/>
-        <UsageCount Value="75"/>
+        <UsageCount Value="74"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit26>
       <Unit27>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uOD_TextTableContext.pas"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="9"/>
         <TopLine Value="1135"/>
         <CursorPos Y="1163"/>
-        <UsageCount Value="41"/>
+        <UsageCount Value="46"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit27>
       <Unit28>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uOD_Column.pas"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="13"/>
         <TopLine Value="8"/>
         <CursorPos X="3" Y="34"/>
-        <UsageCount Value="80"/>
+        <UsageCount Value="85"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit28>
       <Unit29>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uOD_Dataset_Columns.pas"/>
-        <EditorIndex Value="15"/>
-        <TopLine Value="27"/>
-        <CursorPos Y="434"/>
+        <EditorIndex Value="14"/>
+        <TopLine Value="404"/>
+        <CursorPos X="6" Y="456"/>
         <UsageCount Value="101"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit29>
       <Unit30>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uOD_Dataset_Column.pas"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="78"/>
-        <CursorPos Y="114"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="31"/>
+        <CursorPos Y="55"/>
         <UsageCount Value="100"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit30>
       <Unit31>
         <Filename Value="..\..\pascal_o_r_mapping\6_Formes\uhDessinnateur.pas"/>
-        <EditorIndex Value="12"/>
-        <TopLine Value="238"/>
-        <CursorPos X="15" Y="264"/>
-        <UsageCount Value="55"/>
+        <EditorIndex Value="11"/>
+        <TopLine Value="1399"/>
+        <CursorPos X="26" Y="1411"/>
+        <UsageCount Value="60"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit31>
@@ -336,7 +339,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="4"/>
         <CursorPos X="28" Y="34"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit32>
       <Unit33>
@@ -344,7 +347,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="2"/>
         <CursorPos X="50" Y="50"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="11"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit33>
       <Unit34>
@@ -352,7 +355,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="58"/>
         <CursorPos X="5" Y="89"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="11"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit34>
       <Unit35>
@@ -360,7 +363,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="14"/>
         <CursorPos Y="31"/>
-        <UsageCount Value="31"/>
+        <UsageCount Value="30"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit35>
       <Unit36>
@@ -368,7 +371,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="20"/>
         <CursorPos Y="37"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="52"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit36>
       <Unit37>
@@ -377,7 +380,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="48"/>
         <CursorPos X="17" Y="63"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit37>
       <Unit38>
@@ -386,7 +389,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="129"/>
         <CursorPos X="3" Y="131"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="6"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit38>
       <Unit39>
@@ -395,14 +398,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="48"/>
         <CursorPos Y="80"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="6"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit39>
       <Unit40>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\ubeClusterElement.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="34"/>
-        <UsageCount Value="50"/>
+        <UsageCount Value="49"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit40>
       <Unit41>
@@ -410,7 +413,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="583"/>
         <CursorPos X="42" Y="615"/>
-        <UsageCount Value="46"/>
+        <UsageCount Value="45"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit41>
       <Unit42>
@@ -419,14 +422,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="365"/>
         <CursorPos X="3" Y="368"/>
-        <UsageCount Value="25"/>
+        <UsageCount Value="24"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit42>
       <Unit43>
         <Filename Value="..\..\pascal_o_r_mapping\7_sources_externes\isapi_Udo_Schmal\isapi.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="12"/>
-        <UsageCount Value="46"/>
+        <UsageCount Value="45"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit43>
       <Unit44>
@@ -434,7 +437,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="4"/>
         <CursorPos Y="18"/>
-        <UsageCount Value="46"/>
+        <UsageCount Value="45"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit44>
       <Unit45>
@@ -442,14 +445,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="41"/>
         <CursorPos Y="52"/>
-        <UsageCount Value="70"/>
+        <UsageCount Value="69"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit45>
       <Unit46>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uWinUtils.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="6"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="1"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit46>
       <Unit47>
@@ -457,20 +460,20 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="50"/>
         <CursorPos X="33" Y="70"/>
-        <UsageCount Value="34"/>
+        <UsageCount Value="33"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit47>
       <Unit48>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\u_sys_.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="12"/>
-        <UsageCount Value="34"/>
+        <UsageCount Value="33"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit48>
       <Unit49>
         <Filename Value="..\..\pascal_o_r_mapping\7_sources_externes\virtualtreeview-4.8.7_LCL-R2-demos\demos\mininal\Main.pas"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="25"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit49>
       <Unit50>
@@ -478,13 +481,13 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="19"/>
         <CursorPos X="9" Y="47"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="21"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit50>
       <Unit51>
         <Filename Value="..\..\pascal_o_r_mapping\6_Formes\uhVST.pas"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="21"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit51>
       <Unit52>
@@ -492,290 +495,274 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="625"/>
         <CursorPos X="5" Y="645"/>
-        <UsageCount Value="19"/>
+        <UsageCount Value="18"/>
       </Unit52>
       <Unit53>
         <Filename Value="C:\_freepascal\pascal_o_r_mapping\tools\OpenDocument_DelphiReportEngine\log\2016_02_09\OpenDocument_DelphiReportEngine..txt"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="7"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="6"/>
         <DefaultSyntaxHighlighter Value="None"/>
       </Unit53>
       <Unit54>
-        <Filename Value="C:\_freepascal\pascal_o_r_mapping\tools\OpenDocument_DelphiReportEngine\log\2016_02_10\OpenDocument_DelphiReportEngine..txt"/>
-        <EditorIndex Value="-1"/>
-        <UsageCount Value="0"/>
-        <DefaultSyntaxHighlighter Value="None"/>
-      </Unit54>
-      <Unit55>
         <Filename Value="..\..\pascal_o_r_mapping\5_Controls\ucBatproMaskElement.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="18"/>
         <CursorPos X="44" Y="29"/>
-        <UsageCount Value="19"/>
+        <UsageCount Value="18"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit55>
-      <Unit56>
+      </Unit54>
+      <Unit55>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uForms.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="40"/>
-        <UsageCount Value="19"/>
+        <UsageCount Value="18"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit56>
-      <Unit57>
+      </Unit55>
+      <Unit56>
         <Filename Value="..\jsFichiers\ufjsFichiers.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="7"/>
         <CursorPos X="46" Y="7"/>
-        <UsageCount Value="19"/>
+        <UsageCount Value="18"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit57>
-      <Unit58>
+      </Unit56>
+      <Unit57>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uOD_Temporaire.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="12"/>
         <CursorPos Y="31"/>
-        <UsageCount Value="19"/>
+        <UsageCount Value="18"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit57>
+      <Unit58>
+        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uLog.pas"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="99"/>
+        <CursorPos Y="130"/>
+        <UsageCount Value="25"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit58>
       <Unit59>
-        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uLog.pas"/>
-        <EditorIndex Value="8"/>
-        <TopLine Value="99"/>
-        <CursorPos Y="130"/>
-        <UsageCount Value="20"/>
-        <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit59>
-      <Unit60>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uBatpro_StringList.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="593"/>
         <CursorPos X="11" Y="616"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="16"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit60>
-      <Unit61>
+      </Unit59>
+      <Unit60>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uOD_Forms.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="27"/>
         <CursorPos Y="70"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="16"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit61>
-      <Unit62>
+      </Unit60>
+      <Unit61>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uParametres_Ligne_de_commande.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="153"/>
         <CursorPos X="43" Y="153"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="16"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit62>
-      <Unit63>
+      </Unit61>
+      <Unit62>
         <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\win32\windows.pp"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="7"/>
         <CursorPos X="77" Y="21"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit63>
-      <Unit64>
+      </Unit62>
+      <Unit63>
         <Filename Value="C:\lazarus\fpc\2.6.4\source\rtl\win\wininc\redef.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="603"/>
         <CursorPos X="10" Y="625"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit64>
-      <Unit65>
+      </Unit63>
+      <Unit64>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uChampDefinition.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="291"/>
         <CursorPos X="32" Y="312"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="16"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit65>
-      <Unit66>
+      </Unit64>
+      <Unit65>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uVersion.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="44"/>
         <CursorPos Y="89"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="16"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit66>
-      <Unit67>
+      </Unit65>
+      <Unit66>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uWinUtils.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="4"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit67>
-      <Unit68>
+      </Unit66>
+      <Unit67>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\udmDatabase.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="37"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit68>
-      <Unit69>
+      </Unit67>
+      <Unit68>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\ubeExtended.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="33"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit69>
-      <Unit70>
+      </Unit68>
+      <Unit69>
         <Filename Value="..\..\pascal_o_r_mapping\5_Controls\ufAttente_Demarrage.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="36"/>
         <CursorPos X="48" Y="48"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit70>
-      <Unit71>
+      </Unit69>
+      <Unit70>
         <Filename Value="C:\usr\share\lazarus\1.6\lcl\graphics.pp"/>
         <UnitName Value="Graphics"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1163"/>
         <CursorPos X="25" Y="1179"/>
-        <UsageCount Value="16"/>
+        <UsageCount Value="15"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit71>
-      <Unit72>
+      </Unit70>
+      <Unit71>
         <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufBitmaps.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="12"/>
         <CursorPos Y="29"/>
-        <UsageCount Value="15"/>
+        <UsageCount Value="14"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit72>
-      <Unit73>
+      </Unit71>
+      <Unit72>
         <Filename Value="C:\usr\share\fpcsrc\3.0.0\rtl\objpas\classes\classesh.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="754"/>
         <CursorPos X="14" Y="768"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="5"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit73>
-      <Unit74>
+      </Unit72>
+      <Unit73>
         <Filename Value="C:\usr\share\fpcsrc\3.0.0\rtl\objpas\classes\stringl.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1404"/>
         <CursorPos X="10" Y="1419"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="5"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit74>
-      <Unit75>
+      </Unit73>
+      <Unit74>
         <Filename Value="C:\_freepascal\pascal_o_r_mapping\tools\OpenDocument_DelphiReportEngine\log\2016_04_06\OpenDocument_DelphiReportEngine..txt"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="None"/>
-      </Unit75>
-      <Unit76>
+      </Unit74>
+      <Unit75>
         <Filename Value="C:\_freepascal\pascal_o_r_mapping\tools\OpenDocument_DelphiReportEngine\log\2016_04_08\OpenDocument_DelphiReportEngine..txt"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="5245"/>
         <CursorPos X="81" Y="5270"/>
-        <UsageCount Value="27"/>
+        <UsageCount Value="26"/>
         <DefaultSyntaxHighlighter Value="None"/>
-      </Unit76>
-      <Unit77>
+      </Unit75>
+      <Unit76>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uLookupConnection_Ancetre.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="6"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="5"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit77>
-      <Unit78>
+      </Unit76>
+      <Unit77>
         <Filename Value="..\..\pascal_o_r_mapping\5_Controls\ucChamp_Lookup_ComboBox.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="101"/>
         <CursorPos Y="124"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit78>
-      <Unit79>
+      </Unit77>
+      <Unit78>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uPublieur.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="231"/>
         <CursorPos Y="267"/>
-        <UsageCount Value="13"/>
+        <UsageCount Value="12"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit78>
+      <Unit79>
+        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uOpenDocument.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1156"/>
+        <CursorPos Y="1183"/>
+        <UsageCount Value="40"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit79>
       <Unit80>
-        <Filename Value="C:\usr\share\lazarus\1.6\lcl\grids.pas"/>
-        <UnitName Value="Grids"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="9264"/>
-        <CursorPos X="100" Y="9280"/>
-        <UsageCount Value="0"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit80>
-      <Unit81>
-        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uOpenDocument.pas"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="1156"/>
-        <CursorPos Y="1183"/>
-        <UsageCount Value="41"/>
-        <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit81>
-      <Unit82>
         <Filename Value="..\..\..\..\..\..\usr\share\fpcsrc\3.0.0\packages\fcl-xml\src\xmlwrite.pp"/>
         <UnitName Value="XMLWrite"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="13"/>
         <CursorPos X="11" Y="33"/>
-        <UsageCount Value="29"/>
-      </Unit82>
-      <Unit83>
+        <UsageCount Value="28"/>
+      </Unit80>
+      <Unit81>
         <Filename Value="..\..\..\..\..\..\usr\share\lazarus\1.6\lcl\graphics.pp"/>
         <UnitName Value="Graphics"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="43"/>
         <CursorPos X="3" Y="64"/>
-        <UsageCount Value="28"/>
-      </Unit83>
-      <Unit84>
+        <UsageCount Value="27"/>
+      </Unit81>
+      <Unit82>
         <Filename Value="..\..\..\..\..\..\usr\share\lazarus\1.6\components\synedit\synedit.pp"/>
         <UnitName Value="SynEdit"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="7447"/>
         <CursorPos X="23" Y="7566"/>
-        <UsageCount Value="27"/>
-      </Unit84>
-      <Unit85>
+        <UsageCount Value="26"/>
+      </Unit82>
+      <Unit83>
         <Filename Value="..\..\..\..\..\..\usr\share\lazarus\1.6\components\synedit\syneditkeycmds.pp"/>
         <UnitName Value="SynEditKeyCmds"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1040"/>
         <CursorPos X="33" Y="1073"/>
-        <UsageCount Value="3"/>
-      </Unit85>
-      <Unit86>
+        <UsageCount Value="2"/>
+      </Unit83>
+      <Unit84>
         <Filename Value="..\..\..\..\..\..\usr\share\fpcsrc\3.0.0\packages\fcl-xml\src\dom.pp"/>
         <UnitName Value="DOM"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="503"/>
         <CursorPos X="3" Y="523"/>
-        <UsageCount Value="26"/>
-      </Unit86>
-      <Unit87>
+        <UsageCount Value="25"/>
+      </Unit84>
+      <Unit85>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uOD_Batpro_Table.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="119"/>
         <CursorPos X="6" Y="119"/>
-        <UsageCount Value="18"/>
+        <UsageCount Value="17"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit87>
-      <Unit88>
+      </Unit85>
+      <Unit86>
         <Filename Value="ufFields_vstInsertion.lfm"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="10"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
-      </Unit88>
-      <Unit89>
+      </Unit86>
+      <Unit87>
         <Filename Value="Elements\ODRE_Table\udkODRE_Table.pas"/>
         <ComponentName Value="dkODRE_Table"/>
         <HasResources Value="True"/>
@@ -783,50 +770,58 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="22"/>
         <CursorPos Y="48"/>
-        <UsageCount Value="13"/>
+        <UsageCount Value="12"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit89>
-      <Unit90>
+      </Unit87>
+      <Unit88>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uDataUtilsF.pas"/>
-        <EditorIndex Value="16"/>
+        <EditorIndex Value="15"/>
         <TopLine Value="1761"/>
         <CursorPos X="98" Y="1785"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit90>
-      <Unit91>
+      </Unit88>
+      <Unit89>
         <Filename Value="..\..\..\..\..\..\usr\share\lazarus\1.6\lcl\dialogs.pp"/>
         <UnitName Value="Dialogs"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="483"/>
         <CursorPos X="10" Y="509"/>
-        <UsageCount Value="10"/>
-      </Unit91>
-      <Unit92>
+        <UsageCount Value="9"/>
+      </Unit89>
+      <Unit90>
         <Filename Value="..\..\..\..\..\..\usr\share\lazarus\1.6\lcl\forms.pp"/>
         <UnitName Value="Forms"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="817"/>
         <CursorPos X="3" Y="375"/>
-        <UsageCount Value="10"/>
-      </Unit92>
-      <Unit93>
+        <UsageCount Value="9"/>
+      </Unit90>
+      <Unit91>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uVide.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="47"/>
         <CursorPos X="6" Y="49"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit93>
-      <Unit94>
+      </Unit91>
+      <Unit92>
         <Filename Value="..\..\..\..\..\..\usr\share\lazarus\1.6\lcl\extctrls.pp"/>
         <UnitName Value="ExtCtrls"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1009"/>
         <CursorPos X="3" Y="1035"/>
+        <UsageCount Value="9"/>
+      </Unit92>
+      <Unit93>
+        <Filename Value="..\..\pascal_o_r_mapping\6_Formes\backup\ufOpenDocument_DelphiReportEngine.lfm.bak"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="142"/>
+        <CursorPos Y="191"/>
         <UsageCount Value="10"/>
-      </Unit94>
+        <DefaultSyntaxHighlighter Value="None"/>
+      </Unit93>
     </Units>
     <OtherDefines Count="6">
       <Define0 Value="Borland"/>
@@ -838,135 +833,142 @@
     </OtherDefines>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="Elements\ODRE_Table\ublODRE_Table.pas"/>
-        <Caret Line="528" Column="33" TopLine="487"/>
+        <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
+        <Caret Line="586" Column="24" TopLine="550"/>
       </Position1>
       <Position2>
-        <Filename Value="Elements\ODRE_Table\ublODRE_Table.pas"/>
-        <Caret Line="94" TopLine="70"/>
+        <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
+        <Caret Line="224" Column="29" TopLine="185"/>
       </Position2>
       <Position3>
-        <Filename Value="Elements\ODRE_Table\ublODRE_Table.pas"/>
-        <Caret Line="140" TopLine="114"/>
+        <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
+        <Caret Line="352" Column="39" TopLine="313"/>
       </Position3>
       <Position4>
         <Filename Value="Elements\ODRE_Table\ublODRE_Table.pas"/>
-        <Caret Line="96" Column="48" TopLine="67"/>
+        <Caret Line="598" Column="8" TopLine="551"/>
       </Position4>
       <Position5>
         <Filename Value="Elements\ODRE_Table\ublODRE_Table.pas"/>
-        <Caret Line="373" TopLine="360"/>
+        <Caret Line="590" Column="18" TopLine="551"/>
       </Position5>
       <Position6>
-        <Filename Value="Elements\ublOD_Dataset_Columns.pas"/>
-        <Caret Line="196" Column="15" TopLine="171"/>
+        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uODRE_Table.pas"/>
+        <Caret Line="318" Column="25" TopLine="307"/>
       </Position6>
       <Position7>
-        <Filename Value="Elements\ODRE_Table\ublODRE_Table.pas"/>
-        <Caret Line="373" TopLine="360"/>
+        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uODRE_Table.pas"/>
+        <Caret Line="317" Column="22" TopLine="291"/>
       </Position7>
       <Position8>
-        <Filename Value="Elements\ODRE_Table\ublODRE_Table.pas"/>
-        <Caret Line="97" TopLine="68"/>
+        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uODRE_Table.pas"/>
+        <Caret Line="52" Column="5" TopLine="26"/>
       </Position8>
       <Position9>
-        <Filename Value="Elements\ublOD_Dataset_Columns.pas"/>
-        <Caret Line="195" TopLine="171"/>
+        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uOD_Column.pas"/>
+        <Caret Line="34" Column="3" TopLine="8"/>
       </Position9>
       <Position10>
-        <Filename Value="Elements\ublOD_Dataset_Columns.pas"/>
-        <Caret Line="686" TopLine="670"/>
+        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uODRE_Table.pas"/>
+        <Caret Line="245" Column="6" TopLine="222"/>
       </Position10>
       <Position11>
-        <Filename Value="Elements\ODRE_Table\ublODRE_Table.pas"/>
-        <Caret Line="546" Column="33" TopLine="505"/>
+        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uODRE_Table.pas"/>
+        <Caret Line="145" Column="6" TopLine="141"/>
       </Position11>
       <Position12>
-        <Filename Value="Elements\ODRE_Table\ublODRE_Table.pas"/>
-        <Caret Line="374" Column="48" TopLine="363"/>
+        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uODRE_Table.pas"/>
+        <Caret Line="311" Column="6" TopLine="285"/>
       </Position12>
       <Position13>
-        <Filename Value="Elements\ublOD_Dataset_Columns.pas"/>
-        <Caret Line="196" Column="27" TopLine="174"/>
+        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uODRE_Table.pas"/>
+        <Caret Line="145" Column="6" TopLine="119"/>
       </Position13>
       <Position14>
         <Filename Value="Elements\ODRE_Table\ublODRE_Table.pas"/>
-        <Caret Line="373" TopLine="363"/>
+        <Caret Line="590" Column="18" TopLine="551"/>
       </Position14>
       <Position15>
-        <Filename Value="Elements\ublOD_Dataset_Columns.pas"/>
-        <Caret Line="684" Column="6" TopLine="682"/>
+        <Filename Value="Elements\ODRE_Table\ublODRE_Table.pas"/>
+        <Caret Line="266" Column="6" TopLine="260"/>
       </Position15>
       <Position16>
-        <Filename Value="Elements\ublOD_Dataset_Columns.pas"/>
-        <Caret Line="106" TopLine="80"/>
+        <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
+        <Caret Line="607" Column="29" TopLine="555"/>
       </Position16>
       <Position17>
-        <Filename Value="Elements\ublOD_Dataset_Columns.pas"/>
-        <Caret Line="587" Column="49" TopLine="560"/>
+        <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
+        <Caret Line="609" Column="29" TopLine="557"/>
       </Position17>
       <Position18>
-        <Filename Value="Elements\ublOD_Dataset_Columns.pas"/>
-        <Caret Line="692" Column="20" TopLine="690"/>
+        <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
+        <Caret Line="610" Column="42" TopLine="558"/>
       </Position18>
       <Position19>
-        <Filename Value="Elements\ublOD_Dataset_Columns.pas"/>
-        <Caret Line="595" Column="18" TopLine="561"/>
+        <Filename Value="Elements\ODRE_Table\uhdODRE_Table.pas"/>
+        <Caret Line="59" Column="60" TopLine="253"/>
       </Position19>
       <Position20>
-        <Filename Value="Elements\ublOD_Dataset_Columns.pas"/>
-        <Caret Line="601" Column="21" TopLine="565"/>
+        <Filename Value="Elements\ODRE_Table\uhdODRE_Table.pas"/>
+        <Caret Line="45" Column="14" TopLine="18"/>
       </Position20>
       <Position21>
-        <Filename Value="Elements\ublOD_Dataset_Columns.pas"/>
-        <Caret Line="122" Column="15" TopLine="97"/>
+        <Filename Value="Elements\ODRE_Table\uhdODRE_Table.pas"/>
+        <Caret Line="180" Column="15" TopLine="152"/>
       </Position21>
       <Position22>
-        <Filename Value="Elements\ublOD_Dataset_Columns.pas"/>
-        <Caret Line="706" Column="6" TopLine="704"/>
+        <Filename Value="Elements\ODRE_Table\uhdODRE_Table.pas"/>
+        <Caret Line="203" Column="48" TopLine="103"/>
       </Position22>
       <Position23>
-        <Filename Value="Elements\ODRE_Table\ublODRE_Table.pas"/>
-        <Caret Line="373" TopLine="363"/>
+        <Filename Value="Elements\ODRE_Table\uhdODRE_Table.pas"/>
+        <Caret Line="111" Column="7" TopLine="85"/>
       </Position23>
       <Position24>
-        <Filename Value="Elements\ODRE_Table\ublODRE_Table.pas"/>
-        <Caret Line="545" Column="37" TopLine="505"/>
+        <Filename Value="Elements\ublOD_Dataset_Columns.pas"/>
+        <Caret Line="156" Column="2" TopLine="130"/>
       </Position24>
       <Position25>
         <Filename Value="Elements\ublOD_Dataset_Columns.pas"/>
-        <Caret Line="706" Column="6" TopLine="704"/>
+        <Caret Line="39" Column="6"/>
       </Position25>
       <Position26>
-        <Filename Value="Elements\ublOD_Dataset_Columns.pas"/>
-        <Caret Line="602" Column="6" TopLine="587"/>
+        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uODRE_Table.pas"/>
+        <Caret Line="312" Column="6" TopLine="286"/>
       </Position26>
       <Position27>
         <Filename Value="Elements\ublOD_Dataset_Columns.pas"/>
+        <Caret Line="162" Column="18" TopLine="149"/>
       </Position27>
       <Position28>
-        <Filename Value="Elements\ublOD_Dataset_Columns.pas"/>
-        <Caret Line="581" Column="8" TopLine="536"/>
+        <Filename Value="Elements\ODRE_Table\uhdODRE_Table.pas"/>
+        <Caret Line="170" Column="6" TopLine="131"/>
       </Position28>
       <Position29>
-        <Filename Value="Elements\ublOD_Dataset_Columns.pas"/>
-        <Caret Line="603" Column="37" TopLine="587"/>
+        <Filename Value="Elements\ODRE_Table\uhdODRE_Table.pas"/>
       </Position29>
       <Position30>
-        <Filename Value="Elements\ublOD_Dataset_Columns.pas"/>
-        <Caret Line="286" Column="76" TopLine="257"/>
+        <Filename Value="Elements\ODRE_Table\uhdODRE_Table.pas"/>
+        <Caret Line="179" Column="37" TopLine="157"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>
   <Debugging>
-    <BreakPoints Count="1">
+    <BreakPoints Count="2">
       <Item1>
         <Kind Value="bpkSource"/>
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="..\..\pascal_o_r_mapping\2_Units\uOD_Dataset_Columns.pas"/>
-        <Line Value="283"/>
+        <Line Value="280"/>
       </Item1>
+      <Item2>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="Elements\ublOD_Dataset_Columns.pas"/>
+        <Line Value="623"/>
+      </Item2>
     </BreakPoints>
     <Watches Count="6">
       <Item1>

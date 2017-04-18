@@ -36,6 +36,7 @@ uses
 
     uBatpro_Element,
     uBatpro_Ligne,
+    ubeString,
     ublOD_Dataset_Column,
     ublOD_Affectation,
 
@@ -120,6 +121,9 @@ type
   //Suppression d'une colonne
   public
     procedure SupprimerColonne( _Index: Integer);
+  //Insertion d'une colonne
+  public
+    procedure InsererColonne( _Index: Integer);
   end;
 
  { ThaOD_Dataset_Columns__OD_Dataset_Column_Avant }
@@ -197,6 +201,9 @@ type
   //Suppression d'une colonne
   public
     procedure Affectation_SupprimerColonne( _Index: Integer);
+  //Insertion d'une colonne
+  public
+    procedure Affectation_InsererColonne( _Index: Integer);
   //Vidage des affectations
   public
     procedure Affectation_Vide;
@@ -213,6 +220,10 @@ type
   public
     procedure Affectation_Charge_Avant( _ODRE_Table_Nom: String);
     procedure Affectation_Charge_Apres( _ODRE_Table_Nom: String);
+  //Cellules de titre avant aprés
+  public
+    bsAvant: TbeString;
+    bsApres: TbeString;
   end;
 
  TIterateur_OD_Dataset_Columns
@@ -604,6 +615,31 @@ begin
        end;
 end;
 
+procedure ThaOD_Dataset_Columns__OD_Affectation.InsererColonne(_Index: Integer);
+var
+   I: Integer;
+   bl, bl1: TblOD_Affectation;
+begin
+     for I:= sl.Count-2 downto _Index
+     do
+       begin
+       bl := _from_Colonne_Document( I  );
+       if nil = bl  then continue;
+
+       bl1:= _from_Colonne_Document( I+1);
+       if nil = bl1 then continue;
+
+       bl1.NomChamp        := bl.NomChamp;
+       bl1.NomChamp_Libelle:= bl.NomChamp_Libelle;
+       bl1.cNomChamp.OnChange.Publie;
+
+       //bl.NomChamp        := '';
+       //bl.NomChamp_Libelle:= '';
+       //bl .cNomChamp.OnChange.Publie;
+       end;
+end;
+
+
 function ThaOD_Dataset_Columns__OD_Affectation._from_Colonne_Document( _Colonne: Integer): TblOD_Affectation;
 begin
      Result:= blOD_Affectation_from_sl( sl, _Colonne);
@@ -630,10 +666,15 @@ constructor TblOD_Dataset_Columns.Create( _sl: TBatpro_StringList; _q: TDataset;
 begin
      inherited Create(_sl, _q, _pool);
      D:= TBufDataset.Create( nil);
+
+     bsAvant:= TbeString.Create( nil, '', clWhite,bea_Gauche);
+     bsApres:= TbeString.Create( nil, '', clWhite,bea_Gauche);
 end;
 
 destructor TblOD_Dataset_Columns.Destroy;
 begin
+     Free_nil( bsAvant);
+     Free_nil( bsApres);
      Free_nil( D);
      inherited Destroy;
 end;
@@ -645,6 +686,9 @@ begin
 
      D.Name:= Nom;
      cLibelle:= Ajoute_String ( Nom, 'Nom'  );
+
+     bsAvant.S:= Nom+' avant';
+     bsApres.S:= Nom+' aprés';
 end;
 
 class function TblOD_Dataset_Columns.sCle_from_( _Nom: String): String;
@@ -706,6 +750,12 @@ procedure TblOD_Dataset_Columns.Affectation_SupprimerColonne(_Index: Integer);
 begin
      haAvant_Affectation.SupprimerColonne( _Index);
      haApres_Affectation.SupprimerColonne( _Index);
+end;
+
+procedure TblOD_Dataset_Columns.Affectation_InsererColonne(_Index: Integer);
+begin
+     haAvant_Affectation.InsererColonne( _Index);
+     haApres_Affectation.InsererColonne( _Index);
 end;
 
 procedure TblOD_Dataset_Columns.Affectation_Vide;

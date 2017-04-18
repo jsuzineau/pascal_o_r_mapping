@@ -57,7 +57,7 @@ type
     destructor  Destroy; override;
   //Vidage
   public
-    procedure Vide; virtual;
+    procedure Vide; override;
   //Chargement de tous les détails
   public
     procedure Charge; override;
@@ -94,6 +94,9 @@ type
   //Suppression d'une colonne
   public
     procedure SupprimerColonne( _Index: Integer);
+  //Insertion d'une colonne
+  public
+    procedure InsererColonne( _Index: Integer);
   //Vidage des affectations
   public
     procedure Affectation_Vide;
@@ -140,6 +143,7 @@ type
   //Méthodes
   public
     procedure SupprimerColonne( _Index: Integer; _C: TOD_TextTableContext);
+    procedure InsererColonne  ( _Index: Integer; _C: TOD_TextTableContext);
   //Visiteurs des Fields du Document
   public
     //procedure Document_Fields_Visitor_for_ODRE_Table     ( _Name, _Value: String);
@@ -375,6 +379,22 @@ begin
        end;
 end;
 
+procedure ThaODRE_Table__OD_Dataset_Columns.InsererColonne(_Index: Integer);
+var
+   I: TIterateur_OD_Dataset_Columns;
+   bl: TblOD_Dataset_Columns;
+begin
+     I:= Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( bl) then continue;
+
+       bl.Affectation_InsererColonne( _Index);
+       end;
+end;
+
+
 procedure ThaODRE_Table__OD_Dataset_Columns.Affectation_Vide;
 var
    I: TIterateur_OD_Dataset_Columns;
@@ -554,6 +574,29 @@ begin
      //Rechargement
      haOD_Column.Charge;
      haOD_Dataset_Columns.Affectation_Formate( _C);
+
+     //Enregistrmeent dans le xml
+     T.To_Doc( _C);
+end;
+
+procedure TblODRE_Table.InsererColonne( _Index: Integer; _C: TOD_TextTableContext);
+begin
+     //Vidage
+     haOD_Column.Vide;
+     //haOD_Dataset_Columns.Affectation_Vide;
+
+     //Insertion
+     T.InsererColonne( _Index);
+
+     //Rechargement
+     haOD_Column.Charge;
+     haOD_Dataset_Columns.Affectation_Formate( _C);
+
+     //Décalage du contenu des colonnes vers la gauche à partir de la colonne supprimée
+     //haOD_Dataset_Columns.InsererColonne( _Index);
+
+     //Enregistrmeent dans le xml
+     T.To_Doc( _C);
 end;
 
 end.

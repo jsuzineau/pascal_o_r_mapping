@@ -72,14 +72,19 @@ type
  TfOpenDocument_DelphiReportEngine
  =
   class(TForm)
-   bDecalerChampsApresColonne: TButton;
    bInsererColonne: TButton;
    bSupprimerColonne: TButton;
    ceTitre: TChamp_Edit;
+   ceLargeur: TChamp_Edit;
    clkcbNomChamp: TChamp_Lookup_ComboBox;
    dsbODRE_Table: TDockableScrollbox;
+   gbCellule: TGroupBox;
+   gbColonne: TGroupBox;
+   gbListeTables: TGroupBox;
+   gbTable: TGroupBox;
    Label2: TLabel;
    Label3: TLabel;
+   Label4: TLabel;
    miNormal: TMenuItem;
    miNormal_Insertion: TMenuItem;
    miMode_Expert: TMenuItem;
@@ -99,13 +104,8 @@ type
    miVoir: TMenuItem;
    mm: TMainMenu;
     odODF: TOpenDialog;
-    Panel1: TPanel;
     pDrag: TPanel;
-    Panel5: TPanel;
-    Panel6: TPanel;
     sgODRE_Table: TStringGrid;
-    speDecalerChampsApresColonne_Numero: TSpinEdit;
-    speInsererColonne_Numero: TSpinEdit;
     tShow: TTimer;
     gbBranche_Insertion: TGroupBox;
     bSupprimer_Insertion: TButton;
@@ -129,7 +129,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure bSupprimerColonneClick(Sender: TObject);
     procedure bInsererColonneClick(Sender: TObject);
-    procedure bDecalerChampsApresColonneClick(Sender: TObject);
   //Affichage des XML
   private
     fxmleMeta             : TfXML_Editor;
@@ -212,6 +211,7 @@ begin
      Document:= nil;
      OD_TextTableContext:= nil;
      blODRE_Table:= nil;
+     gbTable.Caption:= '';
 
      Embedded:= False;
      slT:= TslODRE_Table.Create( Classname+'.slT');
@@ -219,6 +219,7 @@ begin
 
      hd.clkcbNomChamp:=  clkcbNomChamp;
      hd.ceTitre      :=  ceTitre;
+     hd.ceLargeur    :=  ceLargeur;
      hd.pDrag        :=  pDrag;
 
      dsbODRE_Table.Classe_dockable:= TdkODRE_Table;
@@ -323,6 +324,8 @@ end;
 procedure TfOpenDocument_DelphiReportEngine.Ferme;
 begin
      if Document = nil then exit;
+
+     gbTable.Visible:= False;
 
      FreeAndNil( fxmleMeta             );
      FreeAndNil( fxmleSettings         );
@@ -585,8 +588,10 @@ begin
      dsbODRE_Table.Get_bl( blODRE_Table);
      if nil = blODRE_Table then exit;
 
+     gbTable.Caption:= 'Tableau   '+blODRE_Table.Nom;
      hd.blODRE_Table:= blODRE_Table;
      hd._from_pool;
+     gbTable.Visible:= True;
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.bSupprimerColonneClick( Sender: TObject);
@@ -598,18 +603,7 @@ end;
 procedure TfOpenDocument_DelphiReportEngine.bInsererColonneClick( Sender: TObject);
 begin
      if blODRE_Table = nil then exit;
-     ShowMessage('à déboguer');
-     blODRE_Table.T.InsererColonneApres(speInsererColonne_Numero.Value);
-     blODRE_Table.T.To_Doc( OD_TextTableContext);
-end;
-
-procedure TfOpenDocument_DelphiReportEngine.bDecalerChampsApresColonneClick(
-  Sender: TObject);
-begin
-     if blODRE_Table = nil then exit;
-     ShowMessage('à déboguer');
-     blODRE_Table.T.DecalerChampsApresColonne(speDecalerChampsApresColonne_Numero.Value);
-     blODRE_Table.T.To_Doc( OD_TextTableContext);
+     hd.InsererColonne( OD_TextTableContext);
 end;
 
 end.

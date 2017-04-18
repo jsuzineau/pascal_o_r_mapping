@@ -62,8 +62,7 @@ type
     procedure AddColumn( _Largeur: Integer; _Titre: String);
     function AddDataset( _D: TDataset): TOD_Dataset_Columns;
     procedure SupprimerColonne( _Index: Integer);
-    procedure InsererColonneApres( _Index: Integer);
-    procedure DecalerChampsApresColonne( _Index: Integer);
+    procedure InsererColonne( _Index: Integer);
   //Persistance dans le document OpenOffice
   private
     function Prefixe_Colonne( iColonne: Integer): String;
@@ -305,33 +304,19 @@ begin
      SetLength( Columns, Length(Columns)-1);
 end;
 
-procedure TODRE_Table.InsererColonneApres(_Index: Integer);
+procedure TODRE_Table.InsererColonne(_Index: Integer);
 var
    I: Integer;
+   NewColumn: TOD_Column;
 begin
      if (_Index < Low(Columns))or(High(Columns)< _Index) then exit;
-     SetLength( Columns, Length(Columns)+1);
+     AddColumn( 1, '');
 
-     for I:= High( Columns) downto _Index
+     NewColumn:= Columns[High( Columns)];
+     for I:= High( Columns)-1 downto _Index
      do
        Columns[I+1]:= Columns[I];
-
-     //DecalerChampsApresColonne( _Index); désactivé pour l'instant: les dataset ne sont pas chargés
-end;
-
-procedure TODRE_Table.DecalerChampsApresColonne( _Index: Integer);
-var
-   I: Integer;
-   od: TOD_Dataset_Columns;
-begin
-     if (_Index < Low(Columns))or(High(Columns)< _Index) then exit;
-
-     for I:= Low( OD_Datasets) to High( OD_Datasets)
-     do
-       begin
-       od:= OD_Datasets[I];
-       od.InsererColonneApres( _Index);
-       end;
+     Columns[_Index]:= NewColumn;
 end;
 
 procedure TODRE_Table.Dimensionne_Colonnes_interne( _C: TOD_TextTableContext);

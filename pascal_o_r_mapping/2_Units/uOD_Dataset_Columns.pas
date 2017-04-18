@@ -104,9 +104,6 @@ type
     Avant_TriggerField, Apres_TriggerField: String;
     function Avant_Triggered: Boolean;
     function Apres_Triggered: Boolean;
-  //Gestion de l'insertion de colonne
-  public
-    procedure InsererColonneApres( _Index: Integer);
   end;
 
  TOD_Dataset_Columns_array= array of TOD_Dataset_Columns;
@@ -454,25 +451,6 @@ end;
 function TOD_Dataset_Columns.Apres_Triggered: Boolean;
 begin
      Result:= Triggered( Apres_TriggerField);
-end;
-
-procedure TOD_Dataset_Columns.InsererColonneApres(_Index: Integer);
-var
-   I: Integer;
-   od: TOD_Dataset_Column;
-begin
-     for I:= Low(FAvant) to High(FAvant)
-     do
-       begin
-       od:= FAvant[I];
-       od.InsererColonneApres( _Index);
-       end;
-     for I:= Low(FApres) to High(FApres)
-     do
-       begin
-       od:= FApres[I];
-       od.InsererColonneApres( _Index);
-       end;
 end;
 
 end.
