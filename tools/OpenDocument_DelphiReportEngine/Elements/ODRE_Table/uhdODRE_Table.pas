@@ -37,6 +37,10 @@ type
                         _Titre: String);
     destructor Destroy; override;
   //Composition
+  private
+    procedure Charge_OD_Column;
+    procedure Charge_OD_Dataset_Columns;
+    procedure Champ_Change;
   public
     blODRE_Table: TblODRE_Table;
     bsTitre: TBeString;
@@ -45,6 +49,10 @@ type
     ceLargeur: TChamp_Edit;
     pDrag: TPanel;
     procedure _from_pool; override;
+  //timer de réaffichage
+  public
+    t: TTimer;
+    procedure t_Timer( Sender: TObject);
   //Gestion souris et Drag / Drop
   protected
     Drag_Column: TblOD_Column;
@@ -92,61 +100,69 @@ begin
 
      bsTitre:= TbeString.Create( nil, 'Titre', clYellow, bea_Gauche);
      Debug_Hint:= True;
+     t:= TTimer.Create( nil);
+     t.Interval:= 1;
+     t.OnTimer:= t_Timer;
 end;
 
 destructor ThdODRE_Table.Destroy;
 begin
+     FreeAndNil( t);
      inherited Destroy;
 end;
 
+procedure ThdODRE_Table.Charge_OD_Column;
+begin
+     Charge_Cell( bsTitre, 0, ThdODRE_Table_Ligne_Titres_Colonnes);
+     Charge_Ligne( blODRE_Table.haOD_Column.sl, 1, ThdODRE_Table_Ligne_Titres_Colonnes);
+end;
+
+procedure ThdODRE_Table.Charge_OD_Dataset_Columns;
+var
+   I: TIterateur_OD_Dataset_Columns;
+   blDCs: TblOD_Dataset_Columns;
+   iRow: Integer;
+   procedure Charge_Avant;
+   begin
+        blDCs.Affectation_Charge_Avant( blODRE_Table.Nom);
+        Charge_Ligne( blDCs.haAvant_Affectation, 1, iRow);
+   end;
+   procedure Charge_Apres;
+   begin
+        blDCs.Affectation_Charge_Apres( blODRE_Table.Nom);
+        Charge_Ligne( blDCs.haApres_Affectation, 1, iRow);
+   end;
+begin
+     iRow:= 1;
+     I:= blODRE_Table.haOD_Dataset_Columns.Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( blDCs) then continue;
+
+       blDCs.DCs.to_Doc_Called:= Champ_Change;
+
+       blDCS.haAvant.Charge;
+       blDCs.haApres.Charge;
+
+       Charge_Cell( blDCs.bsAvant, 0, iRow);
+       Charge_Avant;
+       Inc( iRow);
+       end;
+
+     I:= blODRE_Table.haOD_Dataset_Columns.Iterateur_Decroissant;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( blDCs) then continue;
+
+       Charge_Cell( blDCs.bsApres, 0, iRow);
+       Charge_Apres;
+       Inc( iRow);
+       end;
+end;
+
 procedure ThdODRE_Table._from_pool;
-   procedure Charge_OD_Column;
-   begin
-        Charge_Cell( bsTitre, 0, ThdODRE_Table_Ligne_Titres_Colonnes);
-        Charge_Ligne( blODRE_Table.haOD_Column.sl, 1, ThdODRE_Table_Ligne_Titres_Colonnes);
-   end;
-   procedure Charge_OD_Dataset_Columns;
-   var
-      I: TIterateur_OD_Dataset_Columns;
-      blDCs: TblOD_Dataset_Columns;
-      iRow: Integer;
-      procedure Charge_Avant;
-      begin
-           blDCs.Affectation_Charge_Avant( blODRE_Table.Nom);
-           Charge_Ligne( blDCs.haAvant_Affectation, 1, iRow);
-      end;
-      procedure Charge_Apres;
-      begin
-           blDCs.Affectation_Charge_Apres( blODRE_Table.Nom);
-           Charge_Ligne( blDCs.haApres_Affectation, 1, iRow);
-      end;
-   begin
-        iRow:= 1;
-        I:= blODRE_Table.haOD_Dataset_Columns.Iterateur;
-        while I.Continuer
-        do
-          begin
-          if I.not_Suivant( blDCs) then continue;
-
-          blDCS.haAvant.Charge;
-          blDCs.haApres.Charge;
-
-          Charge_Cell( blDCs.bsAvant, 0, iRow);
-          Charge_Avant;
-          Inc( iRow);
-          end;
-
-        I:= blODRE_Table.haOD_Dataset_Columns.Iterateur_Decroissant;
-        while I.Continuer
-        do
-          begin
-          if I.not_Suivant( blDCs) then continue;
-
-          Charge_Cell( blDCs.bsApres, 0, iRow);
-          Charge_Apres;
-          Inc( iRow);
-          end;
-   end;
 begin
      inherited _from_pool;
 
@@ -167,11 +183,22 @@ begin
      Charge_OD_Column;
      Charge_OD_Dataset_Columns;
 
-     Clusterise;
+     //Clusterise;
 
      //Traite_Dimensions;
 
      sg.Show;
+end;
+
+procedure ThdODRE_Table.Champ_Change;
+begin
+     t.Enabled:= True;
+end;
+
+procedure ThdODRE_Table.t_Timer( Sender: TObject);
+begin
+     t.Enabled:= False;
+     _from_pool;
 end;
 
 procedure ThdODRE_Table.Drag_nil;

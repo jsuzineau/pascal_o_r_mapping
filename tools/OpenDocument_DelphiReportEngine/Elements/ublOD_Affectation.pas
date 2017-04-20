@@ -30,6 +30,7 @@ uses
     uOD_TextTableContext,
     uOD_Column,
     uOD_Dataset_Column,
+    uOD_Dataset_Columns,
     uChamps,
     uChamp,
     uLookupConnection_Ancetre,
@@ -51,7 +52,7 @@ type
     destructor Destroy; override;
   //DCs
   public
-    DCa: POD_Dataset_Column_array;
+    DCs_set: TOD_Dataset_Column_set;
   //NomChamp
   public
     NomChamp: String;
@@ -160,7 +161,7 @@ end;
 constructor TblOD_Affectation.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
 begin
      inherited Create(_sl, _q, _pool);
-     DCa:= nil;
+     DCs_set:= nil;
 
      NomChamp:= '';
      cNomChamp:= Ajoute_String( NomChamp, 'NomChamp', False);
@@ -186,14 +187,14 @@ procedure TblOD_Affectation.NomChamp_Libelle_GetLookupListItems( _Current_Key: S
 var
    DC: TOD_Dataset_Column;
 begin
-     if nil = DCa then exit;
+     if nil = DCs_set then exit;
 
      _Keys  .Clear;
      _Labels.Clear;
 
      _Keys  .Add( '');
      _Labels.Add( '<Aucun>');
-     for DC in DCa^
+     for DC in DCs_set.DCa
      do
        begin
        _Keys  .Add( DC.FieldName);
@@ -222,7 +223,7 @@ begin
 
      Result
      :=
-           (DCa      = bl.DCa     )
+           (DCs_set  = bl.DCs_set )
        and (NomChamp = bl.NomChamp);
 end;
 

@@ -28,6 +28,7 @@ uses
     uClean,
     uLog,
     uuStrings,
+    uPublieur,
     uBatpro_StringList,
     uOD_TextTableContext,
     uOD_Dataset_Columns,
@@ -57,8 +58,7 @@ type
     destructor  Destroy; override;
   //DCa
   public
-    function DCa: POD_Dataset_Column_array; virtual;
-    function DC_from_FieldName( _FieldName: String): TOD_Dataset_Column;
+    function DCs_set: TOD_Dataset_Column_set; virtual;
   //Vide
   public
      procedure Vide; override;
@@ -68,13 +68,6 @@ type
   //Chargement de tous les détails
   public
     procedure Charge; override;
-  //Composition
-  protected
-    function GetComposition: String; virtual;
-    procedure SetComposition( const _Value: String); virtual;
-  public
-    property Composition: String read GetComposition write SetComposition;
-    procedure Assure_dans_Composition( _FieldName: String);
   //Création d'itérateur
   protected
     class function Classe_Iterateur: TIterateur_Class; override;
@@ -136,11 +129,7 @@ type
   class( ThaOD_Dataset_Columns__OD_Dataset_Column)
   //Chargement de tous les détails
   public
-    function DCa: POD_Dataset_Column_array; override;
-  //Composition
-  protected
-    function GetComposition: String; override;
-    procedure SetComposition( const _Value: String); override;
+    function DCs_set: TOD_Dataset_Column_set; override;
   end;
 
  { ThaOD_Dataset_Columns__OD_Dataset_Column_Apres }
@@ -149,11 +138,7 @@ type
   class( ThaOD_Dataset_Columns__OD_Dataset_Column)
   //Chargement de tous les détails
   public
-    function DCa: POD_Dataset_Column_array; override;
-  //Composition
-  protected
-    function GetComposition: String; override;
-    procedure SetComposition( const _Value: String); override;
+    function DCs_set: TOD_Dataset_Column_set; override;
   end;
 
  { TblOD_Dataset_Columns }
@@ -272,65 +257,26 @@ end;
 
 { ThaOD_Dataset_Columns__OD_Dataset_Column_Avant }
 
-function ThaOD_Dataset_Columns__OD_Dataset_Column_Avant.DCa: POD_Dataset_Column_array;
+function ThaOD_Dataset_Columns__OD_Dataset_Column_Avant.DCs_set: TOD_Dataset_Column_set;
 var
    blParent: TblOD_Dataset_Columns;
 begin
      Result:= nil;
      if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
 
-     Result:= @blParent.DCs.FAvant;
+     Result:= blParent.DCs.Avant;
 end;
-
-function ThaOD_Dataset_Columns__OD_Dataset_Column_Avant.GetComposition: String;
-var
-   blParent: TblOD_Dataset_Columns;
-begin
-     Result:= inherited GetComposition;
-     if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
-
-     Result:= blParent.DCs.Avant_Composition;
-end;
-
-procedure ThaOD_Dataset_Columns__OD_Dataset_Column_Avant.SetComposition( const _Value: String);
-var
-   blParent: TblOD_Dataset_Columns;
-begin
-     if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
-
-     blParent.DCs.Avant_Composition:= _Value;
-end;
-
 
 { ThaOD_Dataset_Columns__OD_Dataset_Column_Apres }
 
-function ThaOD_Dataset_Columns__OD_Dataset_Column_Apres.DCa: POD_Dataset_Column_array;
+function ThaOD_Dataset_Columns__OD_Dataset_Column_Apres.DCs_set: TOD_Dataset_Column_set;
 var
    blParent: TblOD_Dataset_Columns;
 begin
      Result:= nil;
      if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
 
-     Result:= @blParent.DCs.FAvant;
-end;
-
-function ThaOD_Dataset_Columns__OD_Dataset_Column_Apres.GetComposition: String;
-var
-   blParent: TblOD_Dataset_Columns;
-begin
-     Result:= inherited GetComposition;
-     if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
-
-     Result:= blParent.DCs.Apres_Composition;
-end;
-
-procedure ThaOD_Dataset_Columns__OD_Dataset_Column_Apres.SetComposition( const _Value: String);
-var
-   blParent: TblOD_Dataset_Columns;
-begin
-     if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
-
-     blParent.DCs.Apres_Composition:= _Value;
+     Result:= blParent.DCs.Apres;
 end;
 
 { TIterateur_OD_Dataset_Columns }
@@ -393,45 +339,14 @@ begin
      inherited;
 end;
 
-function ThaOD_Dataset_Columns__OD_Dataset_Column.DCa: POD_Dataset_Column_array;
+function ThaOD_Dataset_Columns__OD_Dataset_Column.DCs_set: TOD_Dataset_Column_set;
 var
    blParent: TblOD_Dataset_Columns;
 begin
      Result:= nil;
      if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
 
-     Result:= @blParent.DCs.FAvant;
-end;
-
-function ThaOD_Dataset_Columns__OD_Dataset_Column.DC_from_FieldName( _FieldName: String): TOD_Dataset_Column;
-begin
-     for Result in DCa^
-     do
-       if Result.FieldName = _FieldName then exit;
-
-     Result:= nil;
-end;
-
-function ThaOD_Dataset_Columns__OD_Dataset_Column.GetComposition: String;
-begin
-     Result:= ClassName+'.Composition';
-end;
-
-procedure ThaOD_Dataset_Columns__OD_Dataset_Column.SetComposition( const _Value: String);
-begin
-
-end;
-
-procedure ThaOD_Dataset_Columns__OD_Dataset_Column.Assure_dans_Composition( _FieldName: String);
-var
-   S: String;
-begin
-     if FieldName_in_Composition( _FieldName, Composition) then exit;
-
-     // (Formate_Liste ne peut travailler direct sur une property comme Composition, on passe par S)
-     S:= Composition;
-     Formate_Liste( S, ',', _FieldName);
-     Composition:= S;
+     Result:= blParent.DCs.Avant;
 end;
 
 function ThaOD_Dataset_Columns__OD_Dataset_Column.Cree( _DC: TOD_Dataset_Column): TblOD_Dataset_Column;
@@ -447,10 +362,8 @@ var
 begin
      Result:= nil;
 
-     DC:= DC_from_FieldName( _FieldName);
+     DC:= DCs_set.Column[ _FieldName];
      if nil = DC then exit;
-
-     Assure_dans_Composition( _FieldName);
 
      Result:= Cree( DC);
 end;
@@ -464,11 +377,10 @@ begin
      inherited Charge;
      if Affecte_( blParent, TblOD_Dataset_Columns, Parent) then exit;
 
-     Log.PrintLn( 'Charge '+blParent.Nom+': '+Composition);
-     for DC in DCa^
+     for DC in DCs_set.DCA
      do
        begin
-       if not FieldName_in_Composition( DC.FieldName, Composition) then continue;
+       if not DCs_set.Displayed( DC.FieldName) then continue;
 
        bl:= Cree( DC);
 
@@ -502,7 +414,7 @@ var
     DC: TOD_Dataset_Column;
    bl: TblOD_Dataset_Column;
 begin
-     Composition:= '';
+     DCs_set.Composition:= '';
      I:= Iterateur;
      while I.Continuer
      do
@@ -611,7 +523,7 @@ begin
        bl:= Cree;
        if nil = bl then continue;
 
-       bl.DCa:= haDC.DCa;
+       bl.DCs_set:= haDC.DCs_set;
        bl.cNomChamp.OnChange.Abonne( Self, NomChamp_Change);
 
        bl.Colonne:= I-1;//premier = 0

@@ -250,9 +250,9 @@ var
         if _Nouveau_Modele
         then
             Niveau.Ajoute_Tout_Avant;
-        TraiteLigne( Niveau.Avant);
+        TraiteLigne( Niveau.Avant.CA);
         TraiteNiveau( iDataset+1, bl);
-        TraiteLigne( Niveau.Apres);
+        TraiteLigne( Niveau.Apres.CA);
    end;
 begin
      Init( True, _NomFichierModele, nil, _OD_Batpro_Table.Nom);
@@ -578,11 +578,11 @@ var
 
           if Niveau.Avant_Triggered
           then
-              TraiteLigne( Niveau.Avant);
+              TraiteLigne( Niveau.Avant.CA);
           TraiteNiveau( iDataset+1, bl);
           if Niveau.Apres_Triggered
           then
-              TraiteLigne( Niveau.Apres);
+              TraiteLigne( Niveau.Apres.CA);
           end;
 
         //Styles de colonnes

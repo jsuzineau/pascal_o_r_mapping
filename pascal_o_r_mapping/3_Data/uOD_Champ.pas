@@ -31,17 +31,21 @@ uses
     uOD_BatproTextTableContext;
 
 type
+
+ { TOD_Champ }
+
  TOD_Champ
  =
   class
   //Gestion du cycle de vie
   public
-    constructor Create( _FieldName: String; _Debut, _Fin: Integer);
+    constructor Create( _FieldName: String);
     destructor Destroy; override;
   //Attributs
   public
     FieldName: String;
     Debut, Fin: Integer;
+    procedure SetDebutFin( _Debut, _Fin: Integer);
   //Persistance dans le document OpenOffice
   private
     function Nom_( Prefixe: String): String;
@@ -59,18 +63,23 @@ implementation
 
 { TOD_Champ }
 
-constructor TOD_Champ.Create( _FieldName: String;
-                                       _Debut, _Fin: Integer);
+constructor TOD_Champ.Create( _FieldName: String);
 begin
      FieldName:= _FieldName;
-     Debut    := _Debut    ;
-     Fin      := _Fin      ;
+     Debut    := 0;
+     Fin      := 0;
 end;
 
 destructor TOD_Champ.Destroy;
 begin
 
      inherited;
+end;
+
+procedure TOD_Champ.SetDebutFin(_Debut, _Fin: Integer);
+begin
+     Debut:= _Debut;
+     Fin  := _Fin  ;
 end;
 
 function TOD_Champ.Nom_(Prefixe: String): String;

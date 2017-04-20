@@ -158,9 +158,9 @@ var
 
         OD_Dataset_Columns:= OD_Datasets[iDataset];
         Prefixe:= '_'+ODRE_Table.Nom+'_'+OD_Dataset_Columns.Nom;
-        TraiteLigne( OD_Dataset_Columns.FAvant);
+        TraiteLigne( OD_Dataset_Columns.Avant.DCA);
         TraiteDataset( iDataset+1);
-        TraiteLigne( OD_Dataset_Columns.FApres);
+        TraiteLigne( OD_Dataset_Columns.Apres.DCA);
    end;
 begin
      Result:= False;
@@ -403,13 +403,13 @@ var
             or Assigned( fGroupSize)
             or Assigned( fSizePourcent);
 
-          if OD_Dataset_Columns.Avant_Triggered
+          if OD_Dataset_Columns.Avant.Triggered
           then
-              TraiteLigne( OD_Dataset_Columns.FAvant);
+              TraiteLigne( OD_Dataset_Columns.Avant.DCA);
           TraiteDataset( iDataset+1);
-          if OD_Dataset_Columns.Apres_Triggered
+          if OD_Dataset_Columns.Apres.Triggered
           then
-              TraiteLigne( OD_Dataset_Columns.FApres);
+              TraiteLigne( OD_Dataset_Columns.Apres.DCA);
 
           ds.Next;
           end;
@@ -712,13 +712,13 @@ var
             or Assigned( fGroupSize)
             or Assigned( fSizePourcent);
 
-          if OD_Dataset_Columns.Avant_Triggered
+          if OD_Dataset_Columns.Avant.Triggered
           then
-              TraiteLigne( OD_Dataset_Columns.FAvant);
+              TraiteLigne( OD_Dataset_Columns.Avant.DCA);
           TraiteDataset( iDataset+1);
-          if OD_Dataset_Columns.Apres_Triggered
+          if OD_Dataset_Columns.Apres.Triggered
           then
-              TraiteLigne( OD_Dataset_Columns.FApres);
+              TraiteLigne( OD_Dataset_Columns.Apres.DCA);
 
           ds.Next;
           end;
@@ -1061,13 +1061,13 @@ var
             or Assigned( fGroupSize)
             or Assigned( fSizePourcent);
 
-          if OD_Dataset_Columns.Avant_Triggered
+          if OD_Dataset_Columns.Avant.Triggered
           then
-              TraiteLigne( OD_Dataset_Columns.FAvant);
+              TraiteLigne( OD_Dataset_Columns.Avant.DCA);
           TraiteDataset( iDataset+1);
-          if OD_Dataset_Columns.Apres_Triggered
+          if OD_Dataset_Columns.Apres.Triggered
           then
-              TraiteLigne( OD_Dataset_Columns.FApres);
+              TraiteLigne( OD_Dataset_Columns.Apres.DCA);
 
           ds.Next;
           end;

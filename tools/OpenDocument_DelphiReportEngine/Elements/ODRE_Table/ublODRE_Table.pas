@@ -548,10 +548,11 @@ var
         Delete( _SubName, 1, lAvant);
 
         DCs:= bl.DCs;
-        DC:= DCs.AssureAvant( _SubName);
+        DC:= DCs.Avant.Assure( _SubName);
         if nil = DC then exit;
 
-        NomAvant:= DCs.Nom_Avant( '_'+Nom+'_'+Prefixe);
+        //DCs.Avant.from_Doc( Nom);
+        NomAvant:= DCs.Avant.Nom_set( '_'+Nom+'_'+Prefixe);
         DC.from_Doc( NomAvant+'_', _C);
    end;
    function not_Traite_Apres: Boolean;
@@ -570,10 +571,10 @@ var
         Delete( _SubName, 1, lApres);
 
         DCs:= bl.DCs;
-        DC:= DCs.AssureApres( _SubName);
+        DC:= DCs.Apres.Assure( _SubName);
         if nil = DC then exit;
 
-        NomApres:= DCs.Nom_Apres( '_'+Nom+'_'+Prefixe);
+        NomApres:= DCs.Apres.Nom_set( '_'+Nom+'_'+Prefixe);
         DC.from_Doc( NomApres+'_', _C);
    end;
 begin

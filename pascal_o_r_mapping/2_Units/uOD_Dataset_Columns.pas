@@ -31,9 +31,90 @@ uses
     uOD_Dataset_Column,
     uOD_TextTableContext,
     uOD_Styles,
+    uPublieur,
   SysUtils, Classes, DB, StrUtils;
 
 type
+
+ TOD_Dataset_Columns= class;
+
+ { TOD_Dataset_Column_set }
+
+ TOD_Dataset_Column_set
+ =
+  class
+  //Gestion du cycle de vie
+  public
+    constructor Create( _DCs: TOD_Dataset_Columns);
+    destructor Destroy; override;
+  //OD_Dataset_Columns
+  public
+    DCs: TOD_Dataset_Columns;
+  //Composition
+  public
+    Composition: String;
+  //DCA
+  public
+    DCA: TOD_Dataset_Column_array;
+  //Find
+  public
+    function Find( _FieldName: String): TOD_Dataset_Column;
+  //Assure
+  public
+    function Assure( _FieldName: String): TOD_Dataset_Column;
+  //Accesseur par défaut
+  private
+    function Get( _FieldName: String): TOD_Dataset_Column;
+  public
+    property Column[ _FieldName: String]: TOD_Dataset_Column read Get; default;
+  //Ajoute_Column
+  public
+    procedure Ajoute_Column( _FieldIndex, _Debut, _Fin: Integer);
+  //Ajoute_Tout
+  public
+    procedure Ajoute_Tout;
+  //Displayed
+  public
+    function Displayed( _FieldName: String): Boolean;
+  //Column_SetDebutFin
+  public
+    procedure Column_SetDebutFin( _FieldName: String; _Debut, _Fin: Integer);
+  //Column_from_
+  public
+    procedure Column_from_( _FieldName: String; _from: TOD_Dataset_Column);
+  //Gestion du champ gachette
+  public
+    TriggerField: String;
+    function Triggered: Boolean;
+  //Persistance dans le document OpenOffice
+  public //pour OpenDocument_DelphiReportEngine
+    function Nom_set( Prefixe: String): String; virtual;
+    function Nom_Composition( Prefixe: String): String;
+    function Nom_TriggerField( Prefixe: String): String;
+    procedure Assure_Modele( _Prefixe_DCs: String; _C: TOD_TextTableContext);
+    procedure        to_Doc( _Prefixe_DCs: String; _C: TOD_TextTableContext);
+    procedure      from_Doc( _Prefixe_DCs: String; _C: TOD_TextTableContext);
+  end;
+
+ { TOD_Dataset_Column_set_avant }
+
+ TOD_Dataset_Column_set_avant
+ =
+  class( TOD_Dataset_Column_set)
+  //Persistance dans le document OpenOffice
+  public //pour OpenDocument_DelphiReportEngine
+    function Nom_set( _Prefixe: String): String; override;
+  end;
+
+ { TOD_Dataset_Column_set_apres }
+
+ TOD_Dataset_Column_set_apres
+ =
+  class( TOD_Dataset_Column_set)
+  //Persistance dans le document OpenOffice
+  public //pour OpenDocument_DelphiReportEngine
+    function Nom_set( _Prefixe: String): String; override;
+  end;
 
  { TOD_Dataset_Columns }
 
@@ -50,60 +131,30 @@ type
   //Nom
   public
     function Nom: String;
-  //
-  private
-    function Find_in_DCA( _DCA: TOD_Dataset_Column_array;_FieldName: String): TOD_Dataset_Column;
   //Avant
   public
-    FAvant: TOD_Dataset_Column_array;
-  private
-    function GetAvant( _FieldName: String): TOD_Dataset_Column;
-  public
-    Avant_Composition: String;
-    property Avant[_FieldName: String]: TOD_Dataset_Column read GetAvant;
-    function FindAvant( _FieldName: String): TOD_Dataset_Column;
-    function AssureAvant( _FieldName: String): TOD_Dataset_Column;
+    Avant: TOD_Dataset_Column_set_avant;
     procedure Ajoute_Column_Avant( FieldIndex, _Debut, _Fin: Integer);
-    procedure Column_Avant( _FieldName: String; _Debut, _Fin: Integer);
-    procedure Column_Avant_from_( _FieldName: String; _from: TOD_Dataset_Column);
     procedure Ajoute_Tout_Avant;
   //Apres
   public
-    FApres: TOD_Dataset_Column_array;
-  private
-    function GetApres( _FieldName: String): TOD_Dataset_Column;
-  public
-    Apres_Composition: String;
-    property Apres[_FieldName: String]: TOD_Dataset_Column read GetApres;
-    function FindApres( _FieldName: String): TOD_Dataset_Column;
-    function AssureApres( _FieldName: String): TOD_Dataset_Column;
+    Apres: TOD_Dataset_Column_set_apres;
     procedure Ajoute_Column_Apres( FieldIndex, _Debut, _Fin: Integer);
-    procedure Column_Apres( _FieldName: String; _Debut, _Fin: Integer);
-    procedure Column_Apres_from_( _FieldName: String; _from: TOD_Dataset_Column);
     procedure Ajoute_Tout_Apres;
   //Styles
   public
     OD_Styles: TOD_Styles;
   //Persistance dans le document OpenOffice
-  public //pour OpenDocument_DelphiReportEngine
-    function Nom_Avant( Prefixe: String): String;
-    function Nom_Apres( Prefixe: String): String;
-    function Nom_Composition( Prefixe: String): String;
-    function Nom_TriggerField( Prefixe: String): String;
   public
-    procedure Assure_Modele( _Prefixe_Table: String; C: TOD_TextTableContext);
-    procedure   to_Doc( _Prefixe_Table: String; C: TOD_TextTableContext);
-    procedure from_Doc( _Prefixe_Table: String; C: TOD_TextTableContext);
+    procedure Assure_Modele( _Prefixe_Table: String; _C: TOD_TextTableContext);
+    procedure        to_Doc( _Prefixe_Table: String; _C: TOD_TextTableContext);
+    procedure      from_Doc( _Prefixe_Table: String; _C: TOD_TextTableContext);
   //Prefixe_Table
   public
     Prefixe_Table: String;
-  //Gestion des gachettes
-  private
-    function Triggered( TriggerField: String): Boolean;
+  //Evenement à l'appel à to_Doc
   public
-    Avant_TriggerField, Apres_TriggerField: String;
-    function Avant_Triggered: Boolean;
-    function Apres_Triggered: Boolean;
+    to_Doc_Called: TAbonnement_Objet_Proc;
   end;
 
  TOD_Dataset_Columns_array= array of TOD_Dataset_Columns;
@@ -165,31 +216,27 @@ begin
         _Composition:= _Composition + _FieldName;
 end;
 
-{ TOD_Dataset_Columns }
+{ TOD_Dataset_Column_set }
 
-constructor TOD_Dataset_Columns.Create(_D: TDataset);
+constructor TOD_Dataset_Column_set.Create(_DCs: TOD_Dataset_Columns);
 begin
-     D:= _D;
-     Avant_Composition:= '';
-     Apres_Composition:= '';
-     Avant_TriggerField:= '';
-     Apres_TriggerField:= '';
-     OD_Styles:= nil;
+     inherited Create;
+     DCs:= _DCs;
+     Composition:= '';
+     TriggerField:= '';
 end;
 
-destructor TOD_Dataset_Columns.Destroy;
+destructor TOD_Dataset_Column_set.Destroy;
 begin
-
+     inherited Destroy;
 end;
 
-function TOD_Dataset_Columns.Find_in_DCA( _DCA: TOD_Dataset_Column_array;
-                                          _FieldName: String
-                                          ): TOD_Dataset_Column;
+function TOD_Dataset_Column_set.Find( _FieldName: String): TOD_Dataset_Column;
 var
    DC: TOD_Dataset_Column;
 begin
      Result:= nil;
-     for DC in _DCA
+     for DC in DCA
      do
        begin
        if nil = DC                   then continue;
@@ -199,126 +246,184 @@ begin
        end;
 end;
 
-function TOD_Dataset_Columns.FindAvant( _FieldName: String): TOD_Dataset_Column;
+function TOD_Dataset_Column_set.Assure( _FieldName: String): TOD_Dataset_Column;
 begin
-     Result:= Find_in_DCA( FAvant, _FieldName);
-end;
-
-function TOD_Dataset_Columns.AssureAvant( _FieldName: String): TOD_Dataset_Column;
-   procedure Ajoute;
-   begin
-        Result:= TOD_Dataset_Column.Create( _FieldName);
-        SetLength( FAvant, Length( FAvant)+1);
-        FAvant[High( FAvant)]:= Result;
-   end;
-begin
-     Result:= FindAvant( _FieldName);
+     Result:= Find( _FieldName);
      if Assigned( Result) then exit;
 
-     Ajoute;
+     Result:= TOD_Dataset_Column.Create( _FieldName);
+     SetLength( DCA, Length( DCA)+1);
+     DCA[High( DCA)]:= Result;
 end;
 
-function TOD_Dataset_Columns.GetAvant(_FieldName: String): TOD_Dataset_Column;
+function TOD_Dataset_Column_set.Get(_FieldName: String): TOD_Dataset_Column;
 begin
-     Result:= AssureAvant( _FieldName);
-     Assure_FieldName_in_Composition( _FieldName, Avant_Composition);
+     Result:= Assure( _FieldName);
+     Assure_FieldName_in_Composition( _FieldName, Composition);
 end;
 
-function TOD_Dataset_Columns.FindApres(_FieldName: String): TOD_Dataset_Column;
-begin
-     Result:= Find_in_DCA( FApres, _FieldName);
-end;
-
-function TOD_Dataset_Columns.AssureApres( _FieldName: String): TOD_Dataset_Column;
-   procedure Ajoute;
-   begin
-        Result:= TOD_Dataset_Column.Create( _FieldName);
-        SetLength( FApres, Length( FApres)+1);
-        FApres[High( FApres)]:= Result;
-   end;
-begin
-     Result:= FindApres( _FieldName);
-     if Assigned( Result) then exit;
-
-     Ajoute;
-end;
-
-function TOD_Dataset_Columns.GetApres(_FieldName: String): TOD_Dataset_Column;
-begin
-     Result:= AssureApres( _FieldName);
-     Assure_FieldName_in_Composition( _FieldName, Apres_Composition);
-end;
-
-procedure TOD_Dataset_Columns.Column_Avant( _FieldName: String;
-                                            _Debut, _Fin: Integer);
-begin
-     Avant[_FieldName].SetDebutFin( _Debut, _Fin);
-end;
-
-procedure TOD_Dataset_Columns.Column_Apres( _FieldName: String;
-                                            _Debut, _Fin: Integer);
-begin
-     Apres[_FieldName].SetDebutFin( _Debut, _Fin);
-end;
-
-procedure TOD_Dataset_Columns.Column_Avant_from_( _FieldName: String; _from: TOD_Dataset_Column);
-begin
-     Avant[_FieldName].Set_from_( _from);
-end;
-
-procedure TOD_Dataset_Columns.Column_Apres_from_( _FieldName: String; _from: TOD_Dataset_Column);
-begin
-     Apres[_FieldName].Set_from_( _from);
-end;
-
-procedure TOD_Dataset_Columns.Ajoute_Column_Avant( FieldIndex, _Debut, _Fin: Integer);
+procedure TOD_Dataset_Column_set.Ajoute_Column( _FieldIndex, _Debut, _Fin: Integer);
 var
    F: TField;
    FieldName: String;
    C: TOD_Dataset_Column;
 begin
-     F:= d.Fields[ FieldIndex];
+     F:= DCs.D.Fields[ _FieldIndex];
      FieldName:= F.FieldName;
-     C:= TOD_Dataset_Column.Create( FieldName);
+     C:= Column[ FieldName];
      C.SetDebutFin( _Debut, _Fin);
-     SetLength( FAvant, Length( FAvant)+1);
-     FAvant[High(FAvant)]:= C;
-
-     Assure_FieldName_in_Composition( FieldName, Avant_Composition);
 end;
 
-procedure TOD_Dataset_Columns.Ajoute_Column_Apres( FieldIndex, _Debut, _Fin: Integer);
+procedure TOD_Dataset_Column_set.Ajoute_Tout;
+var
+   I: Integer;
+begin
+     for I:= 0 to DCs.d.FieldCount - 1
+     do
+       Ajoute_Column( I, 0, 0);
+end;
+
+function TOD_Dataset_Column_set.Displayed( _FieldName: String): Boolean;
+begin
+     Result:= FieldName_in_Composition( _FieldName, Composition);
+end;
+
+procedure TOD_Dataset_Column_set.Column_SetDebutFin( _FieldName: String; _Debut, _Fin: Integer);
+begin
+     Column[ _FieldName].SetDebutFin( _Debut, _Fin);
+end;
+
+procedure TOD_Dataset_Column_set.Column_from_( _FieldName: String;
+                                               _from: TOD_Dataset_Column);
+begin
+     Column[_FieldName].Set_from_( _from);
+end;
+
+function TOD_Dataset_Column_set.Triggered: Boolean;
 var
    F: TField;
+begin
+     Result:= TriggerField = sys_Vide;
+     if Result then exit;
+
+     F:= DCs.D.FindField( TriggerField);
+     if F = nil then exit;
+
+     Result:= F.DisplayText <> sys_Vide;
+end;
+
+function TOD_Dataset_Column_set.Nom_set(Prefixe: String): String;
+begin
+     Result:= '';
+end;
+
+function TOD_Dataset_Column_set.Nom_Composition(Prefixe: String): String;
+begin
+     Result:= Prefixe+'Composition';
+end;
+
+function TOD_Dataset_Column_set.Nom_TriggerField(Prefixe: String): String;
+begin
+     Result:= Prefixe+'TriggerField';
+end;
+
+procedure TOD_Dataset_Column_set.Assure_Modele( _Prefixe_DCs: String; _C: TOD_TextTableContext);
+var
+   Prefixe_set: String;
+   I: Integer;
+begin
+     Prefixe_set:= Nom_set( _Prefixe_DCs)+'_';
+
+     _C.Assure_Parametre( Nom_Composition ( Prefixe_set), Composition );
+     _C.Assure_Parametre( Nom_TriggerField( Prefixe_set), TriggerField);
+
+     for I:= Low( DCA) to High( DCA) do DCA[I].Assure_Modele( Prefixe_set, _C);
+end;
+
+procedure TOD_Dataset_Column_set.to_Doc( _Prefixe_DCs: String; _C: TOD_TextTableContext);
+var
+   Prefixe_set: String;
+   I: Integer;
+begin
+     Prefixe_set:= Nom_set( _Prefixe_DCs)+'_';
+
+     _C.Ecrire( Nom_Composition ( Prefixe_set), Composition );
+     _C.Ecrire( Nom_TriggerField( Prefixe_set), TriggerField);
+
+     for I:= Low( DCA) to High( DCA) do DCA[I].to_Doc( Prefixe_set, _C);
+end;
+
+procedure TOD_Dataset_Column_set.from_Doc( _Prefixe_DCs: String; _C: TOD_TextTableContext);
+var
+   Prefixe_set: String;
+   I: Integer;
    FieldName: String;
-   C: TOD_Dataset_Column;
+   F: TField;
+   ODC: TOD_Dataset_Column;
+   Composition_local: String;
+   sNomComposition: String;
 begin
-     F:= d.Fields[ FieldIndex];
-     FieldName:= F.FieldName;
-     C:= TOD_Dataset_Column.Create( FieldName);
-     C.SetDebutFin( _Debut, _Fin);
-     SetLength( FApres, Length( FApres)+1);
-     FApres[High(FApres)]:= C;
+     Prefixe_set:= Nom_set( _Prefixe_DCs)+'_';
 
-     Assure_FieldName_in_Composition( FieldName, Apres_Composition);
+     //Composition
+     sNomComposition:= Nom_Composition( Prefixe_set);
+     Composition:= _C.Lire( sNomComposition);
+     Log.PrintLn( sNomComposition+'='+Composition);
+     Composition_local:= Composition;
+
+     //TriggerField
+     TriggerField    := _C.Lire( Nom_TriggerField    ( Prefixe_set));
+
+     //DCA
+     for I:= Low( DCA) to High( DCA) do FreeAndNil( DCA[I]);
+     SetLength( DCA, 0);
+     while Composition_local <> ''
+     do
+       begin
+       FieldName:= StrToK( ',', Composition_local);
+       F:= DCs.D.FindField( FieldName);
+       if Assigned( F)
+       then
+           begin
+           SetLength( DCA, Length(DCA)+1);
+           ODC:= TOD_Dataset_Column.Create( FieldName);
+           ODC.from_Doc( Prefixe_set, _C);
+           DCA[High(DCA)]:= ODC;
+           end;
+       end;
 end;
 
-procedure TOD_Dataset_Columns.Ajoute_Tout_Avant;
-var
-   I: Integer;
+{ TOD_Dataset_Column_set_avant }
+
+function TOD_Dataset_Column_set_avant.Nom_set( _Prefixe: String): String;
 begin
-     for I:= 0 to d.FieldCount - 1
-     do
-       Ajoute_Column_Avant( I, 0, 0);
+     Result:= _Prefixe+'Avant';
 end;
 
-procedure TOD_Dataset_Columns.Ajoute_Tout_Apres;
-var
-   I: Integer;
+{ TOD_Dataset_Column_set_apres }
+
+function TOD_Dataset_Column_set_apres.Nom_set( _Prefixe: String): String;
 begin
-     for I:= 0 to d.FieldCount - 1
-     do
-       Ajoute_Column_Apres( I, 0, 0);
+     Result:= _Prefixe+'Apres';
+end;
+
+{ TOD_Dataset_Columns }
+
+constructor TOD_Dataset_Columns.Create(_D: TDataset);
+begin
+     D:= _D;
+     Avant:= TOD_Dataset_Column_set_avant.Create( Self);
+     Apres:= TOD_Dataset_Column_set_apres.Create( Self);
+     OD_Styles:= nil;
+     to_Doc_Called:= nil;
+end;
+
+destructor TOD_Dataset_Columns.Destroy;
+begin
+     to_Doc_Called:= nil;
+     FreeAndNil( Avant);
+     FreeAndNil( Apres);
+     inherited Destroy;
 end;
 
 function TOD_Dataset_Columns.Nom: String;
@@ -326,131 +431,64 @@ begin
      Result:= D.Name;
 end;
 
-function TOD_Dataset_Columns.Nom_Avant(Prefixe: String): String;
+procedure TOD_Dataset_Columns.Ajoute_Column_Avant( FieldIndex, _Debut, _Fin: Integer);
 begin
-     Result:= Prefixe+'Avant';
+     Avant.Ajoute_Column( FieldIndex, _Debut, _Fin);
 end;
 
-function TOD_Dataset_Columns.Nom_Apres(Prefixe: String): String;
+procedure TOD_Dataset_Columns.Ajoute_Tout_Avant;
 begin
-     Result:= Prefixe+'Apres';
+     Avant.Ajoute_Tout;
 end;
 
-function TOD_Dataset_Columns.Nom_Composition(Prefixe: String): String;
+procedure TOD_Dataset_Columns.Ajoute_Column_Apres( FieldIndex, _Debut, _Fin: Integer);
 begin
-     Result:= Prefixe+'Composition';
+     Apres.Ajoute_Column( FieldIndex, _Debut, _Fin);
 end;
 
-function TOD_Dataset_Columns.Nom_TriggerField(Prefixe: String): String;
+procedure TOD_Dataset_Columns.Ajoute_Tout_Apres;
 begin
-     Result:= Prefixe+'TriggerField';
+     Apres.Ajoute_Tout;
 end;
 
-procedure TOD_Dataset_Columns.Assure_Modele( _Prefixe_Table: String; C: TOD_TextTableContext);
+procedure TOD_Dataset_Columns.Assure_Modele(_Prefixe_Table: String;
+ _C: TOD_TextTableContext);
 var
-   p: String;
-   pav, pap: String;
-   I: Integer;
+   Prefixe_DCs: String;
 begin
      Prefixe_Table:= _Prefixe_Table;
 
-     p:= Prefixe_Table+Nom+'_';
-     pav:= Nom_Avant( p)+'_';
-     pap:= Nom_Apres( p)+'_';
-     C.Assure_Parametre( Nom_Composition( pav), Avant_Composition);
-     C.Assure_Parametre( Nom_Composition( pap), Apres_Composition);
-     C.Assure_Parametre( Nom_TriggerField( pav), Avant_TriggerField);
-     C.Assure_Parametre( Nom_TriggerField( pap), Apres_TriggerField);
-     for I:= Low( FAvant) to High( FAvant) do FAvant[I].Assure_Modele( pav, C);
-     for I:= Low( FApres) to High( FApres) do FApres[I].Assure_Modele( pap, C);
+     Prefixe_DCs:= Prefixe_Table+Nom+'_';
+
+     Avant.Assure_Modele( Prefixe_DCs, _C);
+     Apres.Assure_Modele( Prefixe_DCs, _C);
 end;
 
-procedure TOD_Dataset_Columns.to_Doc( _Prefixe_Table: String; C: TOD_TextTableContext);
+procedure TOD_Dataset_Columns.to_Doc( _Prefixe_Table: String; _C: TOD_TextTableContext);
 var
-   p: String;
-   pav, pap: String;
-   I: Integer;
+   Prefixe_DCs: String;
 begin
      Prefixe_Table:= _Prefixe_Table;
 
-     p:= Prefixe_Table+Nom+'_';
-     pav:= Nom_Avant( p)+'_';
-     pap:= Nom_Apres( p)+'_';
-     C.Ecrire( Nom_Composition( pav), Avant_Composition);
-     C.Ecrire( Nom_Composition( pap), Apres_Composition);
-     C.Ecrire( Nom_TriggerField( pav), Avant_TriggerField);
-     C.Ecrire( Nom_TriggerField( pap), Apres_TriggerField);
-     for I:= Low( FAvant) to High( FAvant) do FAvant[I].to_Doc( pav, C);
-     for I:= Low( FApres) to High( FApres) do FApres[I].to_Doc( pap, C);
+     Prefixe_DCs:= Prefixe_Table+Nom+'_';
+
+     Avant.to_Doc( Prefixe_DCs, _C);
+     Apres.to_Doc( Prefixe_DCs, _C);
+
+     if Assigned( to_Doc_Called) then to_Doc_Called;
 end;
 
-procedure TOD_Dataset_Columns.from_Doc( _Prefixe_Table: String; C: TOD_TextTableContext);
+procedure TOD_Dataset_Columns.from_Doc(_Prefixe_Table: String;
+ _C: TOD_TextTableContext);
 var
-   p: String;
-   pav, pap: String;
-   procedure Traite( pa: String; var Composition, TriggerField: String; var a: TOD_Dataset_Column_array);
-   var
-      I: Integer;
-      FieldName: String;
-      F: TField;
-      ODC: TOD_Dataset_Column;
-      Composition_local: String;
-      sNomComposition: String;
-   begin
-        sNomComposition:= Nom_Composition( pa);
-        Composition:= C.Lire( sNomComposition);
-        Log.PrintLn( sNomComposition+'='+Composition);
-        Composition_local:= Composition;
-        TriggerField    := C.Lire( Nom_TriggerField    ( pa));
-        for I:= Low( A) to High( A) do FreeAndNil( A[I]);
-        SetLength( A, 0);
-        while Composition_local <> ''
-        do
-          begin
-          FieldName:= StrToK( ',', Composition_local);
-          F:= D.FindField( FieldName);
-          if Assigned( F)
-          then
-              begin
-              SetLength( A, Length(A)+1);
-              ODC:= TOD_Dataset_Column.Create( FieldName);
-              ODC.from_Doc( pa, C);
-              A[High(A)]:= ODC;
-              end;
-          end;
-   end;
-
+   Prefixe_DCs: String;
 begin
      Prefixe_Table:= _Prefixe_Table;
 
-     p:= Prefixe_Table+Nom+'_';
-     pav:= Nom_Avant( p)+'_';
-     pap:= Nom_Apres( p)+'_';
-     Traite( pav, Avant_Composition, Avant_TriggerField, FAvant);
-     Traite( pap, Apres_Composition, Apres_TriggerField, FApres);
-end;
+     Prefixe_DCs:= Prefixe_Table+Nom+'_';
 
-function TOD_Dataset_Columns.Triggered( TriggerField: String): Boolean;
-var
-   F: TField;
-begin
-     Result:= TriggerField = sys_Vide;
-     if Result then exit;
-
-     F:= D.FindField( TriggerField);
-     if F = nil then exit;
-
-     Result:= F.DisplayText <> sys_Vide;
-end;
-
-function TOD_Dataset_Columns.Avant_Triggered: Boolean;
-begin
-     Result:= Triggered( Avant_TriggerField);
-end;
-
-function TOD_Dataset_Columns.Apres_Triggered: Boolean;
-begin
-     Result:= Triggered( Apres_TriggerField);
+     Avant.from_Doc( Prefixe_DCs, _C);
+     Apres.from_Doc( Prefixe_DCs, _C);
 end;
 
 end.
