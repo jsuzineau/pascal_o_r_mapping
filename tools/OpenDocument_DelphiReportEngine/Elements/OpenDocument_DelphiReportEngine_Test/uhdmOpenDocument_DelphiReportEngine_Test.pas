@@ -55,9 +55,6 @@ type
   public
     function Iterateur: TIterateur_OpenDocument_DelphiReportEngine_Test;
     function Iterateur_Decroissant: TIterateur_OpenDocument_DelphiReportEngine_Test;
-  //Liste
-  public
-    sl: TslOpenDocument_DelphiReportEngine_Test;
   //Méthodes
   public
     function Execute: Boolean;

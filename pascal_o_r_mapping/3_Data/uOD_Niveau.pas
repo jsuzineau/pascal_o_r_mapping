@@ -316,14 +316,16 @@ procedure TOD_Niveau_set.from_Doc( _Prefixe_Niveau: String; _C: TOD_BatproTextTa
 var
    Prefixe_set: String;
    I: Integer;
+   Composition_local: String;
    FieldName: String;
    Champ: TChamp;
    ODC: TOD_Champ;
+
 begin
      Prefixe_set:= Nom_set( _Prefixe_Niveau)+'_';
 
      //Composition
-     Composition := _C.Lire( Nom_Composition( Prefixe_set));
+     Composition:= _C.Lire( Nom_Composition( Prefixe_set));
 
      //TriggerField
      TriggerField:= _C.Lire( Nom_TriggerField    ( Prefixe_set));
@@ -334,10 +336,12 @@ begin
 
      if Assigned( Niveau.Champs_Courant)
      then
-         while Composition <> ''
+         begin
+         Composition_local:= Composition;
+         while Composition_local <> ''
          do
            begin
-           FieldName:= StrToK( ',', Composition);
+           FieldName:= StrToK( ',', Composition_local);
 
            Champ:= Niveau.Champs_Courant.Champ_from_Field( FieldName);
            if Assigned( Champ)
@@ -347,6 +351,7 @@ begin
                ODC.from_Doc( Prefixe_set, _C);
                end;
            end;
+         end;
 end;
 
 { TOD_Niveau_set_avant }

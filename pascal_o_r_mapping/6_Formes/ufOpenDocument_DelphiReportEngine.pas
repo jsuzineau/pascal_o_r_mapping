@@ -90,6 +90,7 @@ type
    Label2: TLabel;
    Label3: TLabel;
    Label4: TLabel;
+   miVisualiseTest: TMenuItem;
    miNormal: TMenuItem;
    miNormal_Insertion: TMenuItem;
    miMode_Expert: TMenuItem;
@@ -121,6 +122,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure miCree_TestClick(Sender: TObject);
     procedure miFormatNatifClick(Sender: TObject);
+    procedure miVisualiseTestClick(Sender: TObject);
     procedure miInsertionClick(Sender: TObject);
     procedure miNormal_InsertionClick(Sender: TObject);
     procedure miMIMETYPEClick(Sender: TObject);
@@ -191,6 +193,9 @@ type
   //Gestion des VST
   public
     hvsti: ThVST_ODR;
+  //Action_Test
+  public
+    procedure Action_Test( _Action: String);
   end;
 
 var
@@ -269,25 +274,57 @@ begin
          tShow.Enabled:= True;
 end;
 
-procedure TfOpenDocument_DelphiReportEngine.miCree_TestClick(Sender: TObject);
+procedure TfOpenDocument_DelphiReportEngine.Action_Test( _Action: String);
 var
+   OldModele: String;
    hdm: ThdmOpenDocument_DelphiReportEngine_Test;
-   opendialog: TodOpenDocument_DelphiReportEngine_Test;
+   od: TodOpenDocument_DelphiReportEngine_Test;
+   NomDocument: String;
 begin
-     hdm:= ThdmOpenDocument_DelphiReportEngine_Test.Create;
+     if Assigned( Document)
+     then
+         begin
+         OldModele:= Document.Nom;
+         Ferme;
+         end
+     else
+         OldModele:= '';
      try
-        hdm.Execute;
-        opendialog:= TodOpenDocument_DelphiReportEngine_Test.Create;
+        hdm:= ThdmOpenDocument_DelphiReportEngine_Test.Create;
         try
-           opendialog.Init( hdm);
-           opendialog.Editer_Modele_Impression;
+           hdm.Execute;
+           od:= TodOpenDocument_DelphiReportEngine_Test.Create;
+           try
+              od.Init( hdm);
+
+              NomDocument:= od.Action(_Action);
+           finally
+                  FreeAndNil( od);
+                  end;
         finally
-               FreeAndNil( opendialog);
+               FreeAndNil( hdm);
                end;
+        if _Action <> 'M'//sinon on bloque la réouverture
+        then
+            OpenDocument( NomDocument);
+
      finally
-            FreeAndNil( hdm);
+            if '' <> OldModele
+            then
+                Ouvre( OldModele);
             end;
 end;
+
+procedure TfOpenDocument_DelphiReportEngine.miCree_TestClick(Sender: TObject);
+begin
+     Action_Test( 'M');
+end;
+
+procedure TfOpenDocument_DelphiReportEngine.miVisualiseTestClick(Sender: TObject);
+begin
+     Action_Test( 'V');
+end;
+
 
 procedure TfOpenDocument_DelphiReportEngine.miFormatNatifClick(Sender: TObject); begin Assure_fFields_vle( fFields_vle, Document).Show; end;
 
@@ -348,7 +385,10 @@ procedure TfOpenDocument_DelphiReportEngine.Ferme;
 begin
      if Document = nil then exit;
 
+     hd.Vide;
+     hd.blODRE_Table:= nil;
      gbTable.Visible:= False;
+     dsbODRE_Table.sl:= nil;
      Vide_StringList( slT);
 
      FreeAndNil( fxmleMeta             );

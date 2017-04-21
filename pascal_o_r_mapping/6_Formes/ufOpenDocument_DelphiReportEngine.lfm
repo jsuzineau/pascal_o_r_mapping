@@ -179,7 +179,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
           Height = 24
           Hint = 'Insérer la colonne aprés la colonne courante'
           Top = 10
-          Width = 58
+          Width = 64
           Caption = 'aprés'
           Font.Color = clWindowText
           Font.Height = -11
@@ -326,6 +326,10 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
         object miCree_Test: TMenuItem
           Caption = 'Crée Test'
           OnClick = miCree_TestClick
+        end
+        object miVisualiseTest: TMenuItem
+          Caption = ' Visualise Test'
+          OnClick = miVisualiseTestClick
         end
       end
     end
