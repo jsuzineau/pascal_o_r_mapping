@@ -30,6 +30,7 @@ interface
 
 uses
     uClean,
+    uuStrings,
     uOD_Forms,
     uODRE_Table,
     uOD_TextTableContext,
@@ -63,6 +64,7 @@ uses
     ufTextFile,
     ufFields_vstInsertion,
     ufFields_vstTables   ,
+    ufStringList,
 
   LCLIntf, LMessages, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, ValEdit, Registry,
@@ -78,6 +80,7 @@ type
    bSupprimerColonne: TButton;
    ceTitre: TChamp_Edit;
    ceLargeur: TChamp_Edit;
+   cbApres: TCheckBox;
    clkcbNomChamp: TChamp_Lookup_ComboBox;
    dsbODRE_Table: TDockableScrollbox;
    gbCellule: TGroupBox;
@@ -161,6 +164,14 @@ type
     procedure Document_Fields_Visitor_for_ODRE_Table     ( _Name, _Value: String);
     procedure Document_Fields_Visitor_for_Traite_Tables  ( _Name, _Value: String);//détection des datasets dans les tables
     procedure Document_Fields_Visitor_for_Traite_Datasets( _Name, _Value: String);//détection des champs dans les datasets
+  //Contrôle des Fields en doublons (différences majuscules/minuscules)
+  private
+    FfDoublons: TfStringList;
+  public
+    slFields: TStringList;
+    slDoublons: TStringList;
+    function fDoublons: TfStringList;
+    procedure Traite_Doublons( _Name, _Value: String);
   //Gestion de l'ouverture
   public
     procedure Ouvre( _NomDocument: String);
@@ -226,10 +237,20 @@ begin
 
      dsbODRE_Table.Classe_dockable:= TdkODRE_Table;
      dsbODRE_Table.Classe_Elements:= TblODRE_Table;
+
+     slFields:= TStringList.Create;
+     slFields.CaseSensitive:=True;;
+     slDoublons:= TStringList.Create;
+     slDoublons.CaseSensitive:=True;;
+
+     FfDoublons:= nil;
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.FormDestroy(Sender: TObject);
 begin
+     Free_nil( FfDoublons);
+     Free_nil( slFields);
+     Free_nil( slDoublons);
      Free_nil( hd);
      Detruit_StringList( slT);
      Ferme;
@@ -389,6 +410,9 @@ end;
 
 procedure TfOpenDocument_DelphiReportEngine.From_Document;
 begin
+     slFields  .Clear;
+     slDoublons.Clear;
+
      OOoChrono.Stop('Début From_Document');
      Affiche_XMLs;
 
@@ -406,9 +430,37 @@ begin
 
      dsbODRE_Table.sl:= slT;
      dsbODRE_Table.Goto_Premier;
+
+     if slDoublons.Count >0
+     then
+         fDoublons.Show;
 end;
 
-procedure TfOpenDocument_DelphiReportEngine.Document_Fields_Visitor_for_ODRE_Table(_Name, _Value: String);
+function TfOpenDocument_DelphiReportEngine.fDoublons: TfStringList;
+begin
+     Result:= Assure_fStringList( FfDoublons, 'Doublons', slDoublons);
+end;
+
+
+procedure TfOpenDocument_DelphiReportEngine.Traite_Doublons( _Name, _Value: String);
+var
+   Name_lowercase: String;
+   Doublons: String;
+   Is_duplicate: Boolean;
+begin
+     Name_lowercase:= LowerCase( _Name);
+
+     Doublons:= slFields.Values[ Name_lowercase];
+     Is_duplicate:= Doublons <> '';
+     Formate_Liste( Doublons,',',_Name);
+     slFields.Values[ Name_lowercase]:= Doublons;
+
+     if Is_duplicate
+     then
+         slDoublons.Values[ Name_lowercase]:= Doublons;
+end;
+
+procedure TfOpenDocument_DelphiReportEngine.Document_Fields_Visitor_for_ODRE_Table( _Name, _Value: String);
 var
    Nom_ODRE_Table: String;
    function Is_NbColonnes: Boolean;
@@ -431,9 +483,12 @@ var
    begin
         bl:= TblODRE_Table.Create( slT, nil, nil);
         bl.Charge( Nom_ODRE_Table, OD_TextTableContext);
+        bl.T.to_Doc_Called.Abonne( Self, Affiche_XMLs);
         slT.AddObject( bl.sCle, bl);
    end;
 begin
+     Traite_Doublons( _Name, _Value);
+
      if 1 <> Pos( '_', _Name) then exit;
      if not Is_NbColonnes   then exit;
 
@@ -606,7 +661,7 @@ end;
 procedure TfOpenDocument_DelphiReportEngine.bInsererColonneClick( Sender: TObject);
 begin
      if blODRE_Table = nil then exit;
-     hd.InsererColonne( OD_TextTableContext);
+     hd.InsererColonne( OD_TextTableContext, cbApres.Checked);
 end;
 
 end.

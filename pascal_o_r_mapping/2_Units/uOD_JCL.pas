@@ -68,10 +68,12 @@ function StrCM_from_double( _d  : double): String;//"0.635cm"
 //Gestion Items
 function Cherche_Item( _eRoot: TDOMNode; _NodeName: String;
                        _Properties_Names ,
-                       _Properties_Values: array of String): TDOMNode;
+                       _Properties_Values: array of String;
+                       _Property_Value_Case_Insensitive: Boolean= False): TDOMNode;
 function Cherche_Item_Recursif( _eRoot: TDOMNode; _NodeName: String;
                                 _Properties_Names ,
-                                _Properties_Values: array of String): TDOMNode;
+                                _Properties_Values: array of String;
+                                _Property_Value_Case_Insensitive: Boolean= False): TDOMNode;
 function Ensure_Item( _eRoot: TDOMNode; _NodeName: String;
                       _Properties_Names ,
                       _Properties_Values: array of String): TDOMNode;
@@ -419,12 +421,15 @@ end;
 
 function Cherche_Item( _eRoot: TDOMNode; _NodeName: String;
                        _Properties_Names ,
-                       _Properties_Values: array of String): TDOMNode;
+                       _Properties_Values: array of String;
+                       _Property_Value_Case_Insensitive: Boolean= False): TDOMNode;
 var
    I: Integer;
    e: TDOMNode;
    iProperties: Integer;
    Properties_Values: array of String;
+   _Property_Value,
+    Property_Value: String;
    Arreter: Boolean;
 begin
      Result:= nil;
@@ -459,13 +464,18 @@ begin
        for iProperties:= Low( _Properties_Names) to High( _Properties_Names)
        do
          begin
-         Arreter
-         :=
-              _Properties_Values[ iProperties]
-           <>  Properties_Values[ iProperties];
-         if Arreter
+         _Property_Value:= _Properties_Values[ iProperties];
+          Property_Value:=  Properties_Values[ iProperties];
+
+         if _Property_Value_Case_Insensitive
          then
-             break;
+             begin
+             _Property_Value:= LowerCase( _Property_Value);
+              Property_Value:= LowerCase(  Property_Value);
+             end;
+
+         Arreter:= _Property_Value <>  Property_Value;
+         if Arreter then break;
          end;
        if Arreter then continue;
 
@@ -476,11 +486,14 @@ end;
 
 function Cherche_Item_Recursif( _eRoot: TDOMNode; _NodeName: String;
                                 _Properties_Names ,
-                                _Properties_Values: array of String): TDOMNode;
+                                _Properties_Values: array of String;
+                                _Property_Value_Case_Insensitive: Boolean= False): TDOMNode;
 var
    I: Integer;
    e: TDOMNode;
    Properties_Values: array of String;
+   _Property_Value,
+    Property_Value: String;
    Arreter: Boolean;
    procedure Traite_Properties;
    var
@@ -502,10 +515,17 @@ var
         for iProperties:= Low( _Properties_Names) to High( _Properties_Names)
         do
           begin
-          Arreter
-          :=
-               _Properties_Values[ iProperties]
-            <>  Properties_Values[ iProperties];
+          _Property_Value:= _Properties_Values[ iProperties];
+           Property_Value:=  Properties_Values[ iProperties];
+
+          if _Property_Value_Case_Insensitive
+          then
+              begin
+              _Property_Value:= LowerCase( _Property_Value);
+               Property_Value:= LowerCase(  Property_Value);
+              end;
+
+          Arreter:= _Property_Value <>  Property_Value;
           if Arreter then break;
           end;
    end;

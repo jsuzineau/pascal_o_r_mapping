@@ -261,6 +261,7 @@ type
   public
     procedure Fields_Visite( _fv: TFields_Visitor);
     procedure Set_Field( _Name, _Value: String);
+    function Field_Assure( _Name: String): TDOMNode;
     function Field_Value( _Name: String): String;
     procedure Add_FieldGet( _Name: String);
     procedure Set_StylesXML( _Styles: String);
@@ -1152,14 +1153,21 @@ begin
      uOD_JCL.Delete_Property( _e, _Fullname);
 end;
 
+function TOpenDocument.Field_Assure( _Name: String): TDOMNode;
+begin
+     Result
+     :=
+       Ensure_Item( Get_xmlContent_USER_FIELD_DECLS, 'text:user-field-decl',
+                    ['text:name'],
+                    [_Name      ]
+                    );
+end;
+
 procedure TOpenDocument.Set_Field( _Name, _Value: String);
 var
    e: TDOMNode;
 begin
-     e:= Ensure_Item( Get_xmlContent_USER_FIELD_DECLS, 'text:user-field-decl',
-                      ['text:name'],
-                      [_Name      ]
-                    );
+     e:= Field_Assure( _Name);
      if e= nil then exit;
 
      Set_Property( e, 'office:value-type'  , 'string');
@@ -1749,33 +1757,13 @@ begin
 end;
 
 function TOpenDocument.Cherche_field( _Name: String): TDOMNode;
-var
-   eUSER_FIELD_DECLS: TDOMNode;
-   I: Integer;
-   e: TDOMNode;
-   Name: String;
+//2017 04 21: passage de "case insensitive" à "case sensitive"
 begin
-     Result:= nil;
-
-     eUSER_FIELD_DECLS:= Get_xmlContent_USER_FIELD_DECLS;
-     if eUSER_FIELD_DECLS = nil then exit;
-
-     for I:= 0 to eUSER_FIELD_DECLS.ChildNodes.Count - 1
-     do
-       begin
-       e:= eUSER_FIELD_DECLS.ChildNodes.Item[ I];
-       if e = nil                     then continue;
-       if e.NodeName <> 'text:user-field-decl' then continue;
-
-       if not_Get_Property( e, 'text:name', Name) then continue;
-
-       if UpperCase(Name) = UpperCase(_Name)
-       then
-           begin
-           Result:= e;
-           break;
-           end;
-       end;
+     Result
+     :=
+       Cherche_Item( Get_xmlContent_USER_FIELD_DECLS, 'text:user-field-decl',
+                     ['text:name'],
+                     [_Name      ]);
 end;
 
 procedure TOpenDocument.Enumere_field_Racine( _Racine_Name: String;
@@ -2052,7 +2040,7 @@ procedure TOpenDocument.Text_Ecrire( _Nom: String; _Valeur: String);
 var
    e: TDOMNode;
 begin
-     e:= Cherche_field( _Nom);
+     e:= Field_Assure( _Nom);
      if e = nil then exit;
 
      Set_Property( e, 'office:string-value', _Valeur);

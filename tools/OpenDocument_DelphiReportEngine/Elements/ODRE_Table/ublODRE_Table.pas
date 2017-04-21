@@ -27,6 +27,7 @@ interface
 uses
     uClean,
     uVide,
+    uPublieur,
     uBatpro_StringList,
     ufAccueil_Erreur,
     uOD_TextTableContext,
@@ -99,7 +100,7 @@ type
     procedure SupprimerColonne( _Index: Integer);
   //Insertion d'une colonne
   public
-    procedure InsererColonne( _Index: Integer);
+    procedure InsererColonne( _Index: Integer; _Apres: Boolean);
   //Vidage des affectations
   public
     procedure Affectation_Vide;
@@ -125,6 +126,7 @@ type
     C: TOD_TextTableContext;
     T: TODRE_Table;
     procedure Charge( _Nom: String; _C: TOD_TextTableContext);
+    procedure To_Doc;
   //Champs
   public
     property Nom: String read T.Nom write T.Nom;
@@ -150,7 +152,7 @@ type
   //Méthodes
   public
     procedure SupprimerColonne( _Index: Integer; _C: TOD_TextTableContext);
-    procedure InsererColonne  ( _Index: Integer; _C: TOD_TextTableContext);
+    procedure InsererColonne  ( _Index: Integer; _C: TOD_TextTableContext; _Apres: Boolean);
   //Visiteurs des Fields du Document
   public
     //procedure Document_Fields_Visitor_for_ODRE_Table     ( _Name, _Value: String);
@@ -293,7 +295,7 @@ var
 begin
      if Affecte_( blParent, TblODRE_Table, Parent) then exit;
 
-     blParent.T.To_Doc( blParent.C);
+     blParent.To_Doc;
 end;
 
 class function ThaODRE_Table__OD_Column.Classe_Iterateur: TIterateur_Class;
@@ -346,7 +348,7 @@ begin
      do
        begin
        bl:= TblOD_Dataset_Columns.Create( sl, nil, nil);
-       bl.Charge( '', DCs);
+       bl.Charge( '', DCs, blParent.To_Doc);
        end;
 end;
 
@@ -377,7 +379,7 @@ begin
 
      bl:= TblOD_Dataset_Columns.Create( nil, nil, nil);
      DCs:= blParent.T.AddDataset( bl.D);
-     bl.Charge( _Nom, DCs);
+     bl.Charge( _Nom, DCs, blParent.To_Doc);
      DCs.from_Doc( '_'+blParent.Nom+'_', _C);
      Ajoute( bl);
 
@@ -400,7 +402,7 @@ begin
        end;
 end;
 
-procedure ThaODRE_Table__OD_Dataset_Columns.InsererColonne(_Index: Integer);
+procedure ThaODRE_Table__OD_Dataset_Columns.InsererColonne( _Index: Integer; _Apres: Boolean);
 var
    I: TIterateur_OD_Dataset_Columns;
    bl: TblOD_Dataset_Columns;
@@ -411,7 +413,7 @@ begin
        begin
        if I.not_Suivant( bl) then continue;
 
-       bl.Affectation_InsererColonne( _Index);
+       bl.Affectation_InsererColonne( _Index, _Apres);
        end;
 end;
 
@@ -491,6 +493,11 @@ begin
      haOD_Column.Charge;
 end;
 
+procedure TblODRE_Table.To_Doc;
+begin
+     T.To_Doc( C);
+end;
+
 class function TblODRE_Table.sCle_from_( _Nom: String): String;
 begin
      Result:= _Nom;
@@ -526,8 +533,7 @@ begin
      Result:= FhaOD_Dataset_Columns;
 end;
 
-procedure TblODRE_Table.Document_Fields_Visitor_for_Traite_Datasets( _C: TOD_TextTableContext;
-                                                                     _SubName, _Value: String);
+procedure TblODRE_Table.Document_Fields_Visitor_for_Traite_Datasets( _C: TOD_TextTableContext; _SubName, _Value: String);
 var
    I: TIterateur_OD_Dataset_Columns;
    bl: TblOD_Dataset_Columns;
@@ -548,6 +554,7 @@ var
         Delete( _SubName, 1, lAvant);
 
         DCs:= bl.DCs;
+
         DC:= DCs.Avant.Assure( _SubName);
         if nil = DC then exit;
 
@@ -571,6 +578,7 @@ var
         Delete( _SubName, 1, lApres);
 
         DCs:= bl.DCs;
+
         DC:= DCs.Apres.Assure( _SubName);
         if nil = DC then exit;
 
@@ -622,22 +630,22 @@ begin
      T.To_Doc( _C);
 end;
 
-procedure TblODRE_Table.InsererColonne( _Index: Integer; _C: TOD_TextTableContext);
+procedure TblODRE_Table.InsererColonne( _Index: Integer; _C: TOD_TextTableContext; _Apres: Boolean);
 begin
      //Vidage
      haOD_Column.Vide;
      //haOD_Dataset_Columns.Affectation_Vide;
 
      //Insertion
-     T.InsererColonne( _Index);
+     T.InsererColonne( _Index, _Apres);
 
      //Rechargement
      haOD_Column.Charge;
      haOD_Dataset_Columns.Affectation_Formate( _C);
      Affectation_Charge;
 
-     //Décalage du contenu des colonnes vers la gauche à partir de la colonne supprimée
-     haOD_Dataset_Columns.InsererColonne( _Index);
+     //Décalage du contenu des colonnes vers la droite à partir de la colonne insérée
+     haOD_Dataset_Columns.InsererColonne( _Index, _Apres);
 
      //Enregistrmeent dans le xml
      T.To_Doc( _C);

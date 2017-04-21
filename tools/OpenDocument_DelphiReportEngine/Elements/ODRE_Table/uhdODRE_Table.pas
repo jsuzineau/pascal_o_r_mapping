@@ -36,13 +36,19 @@ type
     constructor Create( _Contexte: Integer; _SG: TStringGrid;
                         _Titre: String);
     destructor Destroy; override;
+  //blODRE_Table
+  private
+    FblODRE_Table: TblODRE_Table;
+    procedure Set_blODRE_Table( _Value: TblODRE_Table);
+  public
+    property blODRE_Table: TblODRE_Table read FblODRE_Table write Set_blODRE_Table;
   //Composition
   private
     procedure Charge_OD_Column;
+    procedure Charge_OD_Dataset_Columns_hdm;
     procedure Charge_OD_Dataset_Columns;
     procedure Champ_Change;
   public
-    blODRE_Table: TblODRE_Table;
     bsTitre: TBeString;
     clkcbNomChamp: TChamp_Lookup_ComboBox;
     ceTitre  : TChamp_Edit;
@@ -58,17 +64,13 @@ type
     Drag_Column: TblOD_Column;
     Drag_Affectation: TblOD_Affectation;
     procedure Drag_nil;
-    procedure Drag_Abonne;
-    procedure Drag_Desabonne;
-    procedure Drag_Column_Change;
-    procedure Drag_Affectation_Change;
     function  Drag_from_( ACol, ARow: Integer): Boolean; override;
   //Suppression de colonne
   public
     procedure Supprimer_Colonne( _C: TOD_TextTableContext);
   //Insertion de colonne
   public
-    procedure InsererColonne( _C: TOD_TextTableContext);
+    procedure InsererColonne( _C: TOD_TextTableContext; _Apres: Boolean);
   //Rafraichissement
   public
     procedure Vide; override;
@@ -103,6 +105,8 @@ begin
      t:= TTimer.Create( nil);
      t.Interval:= 1;
      t.OnTimer:= t_Timer;
+
+     FblODRE_Table:= nil;
 end;
 
 destructor ThdODRE_Table.Destroy;
@@ -111,10 +115,37 @@ begin
      inherited Destroy;
 end;
 
+procedure ThdODRE_Table.Set_blODRE_Table( _Value: TblODRE_Table);
+begin
+     if FblODRE_Table = _Value then Exit;
+     if Assigned( FblODRE_Table) then FblODRE_Table.T.to_Doc_Called.Desabonne( Self, Champ_Change);
+     FblODRE_Table:=_Value;
+     if Assigned( FblODRE_Table) then FblODRE_Table.T.to_Doc_Called.Abonne( Self, Champ_Change);
+end;
+
 procedure ThdODRE_Table.Charge_OD_Column;
 begin
      Charge_Cell( bsTitre, 0, ThdODRE_Table_Ligne_Titres_Colonnes);
      Charge_Ligne( blODRE_Table.haOD_Column.sl, 1, ThdODRE_Table_Ligne_Titres_Colonnes);
+end;
+
+procedure ThdODRE_Table.Charge_OD_Dataset_Columns_hdm;
+var
+   I: TIterateur_OD_Dataset_Columns;
+   blDCs: TblOD_Dataset_Columns;
+begin
+     I:= blODRE_Table.haOD_Dataset_Columns.Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( blDCs) then continue;
+
+       blDCS.haAvant.Charge;
+       blDCs.haApres.Charge;
+
+       blDCs.Affectation_Charge_Avant( blODRE_Table.Nom);
+       blDCs.Affectation_Charge_Apres( blODRE_Table.Nom);
+       end;
 end;
 
 procedure ThdODRE_Table.Charge_OD_Dataset_Columns;
@@ -122,16 +153,6 @@ var
    I: TIterateur_OD_Dataset_Columns;
    blDCs: TblOD_Dataset_Columns;
    iRow: Integer;
-   procedure Charge_Avant;
-   begin
-        blDCs.Affectation_Charge_Avant( blODRE_Table.Nom);
-        Charge_Ligne( blDCs.haAvant_Affectation, 1, iRow);
-   end;
-   procedure Charge_Apres;
-   begin
-        blDCs.Affectation_Charge_Apres( blODRE_Table.Nom);
-        Charge_Ligne( blDCs.haApres_Affectation, 1, iRow);
-   end;
 begin
      iRow:= 1;
      I:= blODRE_Table.haOD_Dataset_Columns.Iterateur;
@@ -140,13 +161,8 @@ begin
        begin
        if I.not_Suivant( blDCs) then continue;
 
-       blDCs.DCs.to_Doc_Called:= Champ_Change;
-
-       blDCS.haAvant.Charge;
-       blDCs.haApres.Charge;
-
        Charge_Cell( blDCs.bsAvant, 0, iRow);
-       Charge_Avant;
+       Charge_Ligne( blDCs.haAvant_Affectation, 1, iRow);
        Inc( iRow);
        end;
 
@@ -157,7 +173,7 @@ begin
        if I.not_Suivant( blDCs) then continue;
 
        Charge_Cell( blDCs.bsApres, 0, iRow);
-       Charge_Apres;
+       Charge_Ligne( blDCs.haApres_Affectation, 1, iRow);
        Inc( iRow);
        end;
 end;
@@ -167,6 +183,8 @@ begin
      inherited _from_pool;
 
      Drag_nil;
+
+     Charge_OD_Dataset_Columns_hdm;
 
      //blODRE_Table.haOD_Column.Charge;
      //blODRE_Table.haOD_Dataset_Columns.Charge;
@@ -198,40 +216,19 @@ end;
 procedure ThdODRE_Table.t_Timer( Sender: TObject);
 begin
      t.Enabled:= False;
-     _from_pool;
+     //_from_pool;
+     Charge_OD_Column;
+     Charge_OD_Dataset_Columns;
 end;
 
 procedure ThdODRE_Table.Drag_nil;
 begin
-     Drag_Desabonne;
      Drag_Column     := nil;
      Drag_Affectation:= nil;
      pDrag.Visible:= False;
      ceTitre      .Champs:= nil;
      ceLargeur    .Champs:= nil;
      clkcbNomChamp.Champs:= nil;
-end;
-
-procedure ThdODRE_Table.Drag_Abonne;
-begin
-     if Assigned( Drag_Column     ) then Drag_Column     .cLibelle .OnChange.Desabonne( Self, Drag_Column_Change     );
-     if Assigned( Drag_Affectation) then Drag_Affectation.cNomChamp.OnChange.Desabonne( Self, Drag_Affectation_Change);
-end;
-
-procedure ThdODRE_Table.Drag_Desabonne;
-begin
-     if Assigned( Drag_Column     ) then Drag_Column     .cLibelle .OnChange.Desabonne( Self, Drag_Column_Change     );
-     if Assigned( Drag_Affectation) then Drag_Affectation.cNomChamp.OnChange.Desabonne( Self, Drag_Affectation_Change);
-end;
-
-procedure ThdODRE_Table.Drag_Column_Change;
-begin
-     _from_pool;
-end;
-
-procedure ThdODRE_Table.Drag_Affectation_Change;
-begin
-     _from_pool;
 end;
 
 function ThdODRE_Table.Drag_from_(ACol, ARow: Integer): Boolean;
@@ -274,7 +271,6 @@ begin
 
      Traite_Titre;
      not_Traite_Affectation;
-     Drag_Abonne;
 end;
 
 procedure ThdODRE_Table.Supprimer_Colonne( _C: TOD_TextTableContext);
@@ -305,20 +301,26 @@ begin
      _from_pool;
 end;
 
-procedure ThdODRE_Table.InsererColonne(_C: TOD_TextTableContext);
+procedure ThdODRE_Table.InsererColonne(_C: TOD_TextTableContext; _Apres: Boolean);
 var
    nColonne: Integer;
    Abandon: Boolean;
+   sAvant_Apres: String;
 begin
      if nil = Drag_Column then exit;
 
      nColonne:= Drag_Colonne-1;
 
+     if _Apres
+     then
+         sAvant_Apres:= 'aprés'
+     else
+         sAvant_Apres:= 'avant';
      Abandon
      :=
           mrYes
        <> MessageDlg( 'Confirmation',
-                       'Souhaitez vous insérer une colonne avant la colonne n°'
+                       'Souhaitez vous insérer une colonne '+sAvant_Apres+' la colonne n°'
                       +IntToStr(nColonne)+': '
                       +Drag_Column.C.Titre+' ?',
                       mtConfirmation,
@@ -328,7 +330,7 @@ begin
      if Abandon then exit;
 
      Vide;
-     blODRE_Table.InsererColonne( nColonne, _C);
+     blODRE_Table.InsererColonne( nColonne, _C, _Apres);
      _from_pool;
 end;
 

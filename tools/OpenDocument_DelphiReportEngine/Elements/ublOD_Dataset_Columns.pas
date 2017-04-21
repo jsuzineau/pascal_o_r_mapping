@@ -120,7 +120,7 @@ type
     procedure SupprimerColonne( _Index: Integer);
   //Insertion d'une colonne
   public
-    procedure InsererColonne( _Index: Integer);
+    procedure InsererColonne( _Index: Integer; _Apres: Boolean);
   end;
 
  { ThaOD_Dataset_Columns__OD_Dataset_Column_Avant }
@@ -155,7 +155,9 @@ type
     Nom: String;
     D: TBufDataset;
     DCs: TOD_Dataset_Columns;
-    procedure Charge( _Nom: String; _DCs: TOD_Dataset_Columns);
+    Table_To_Doc_procedure: TAbonnement_Objet_Proc;
+    procedure Charge( _Nom: String; _DCs: TOD_Dataset_Columns; _Table_To_Doc_procedure: TAbonnement_Objet_Proc);
+    procedure Table_To_Doc;
   //Gestion de la clé
   public
     class function sCle_from_( _Nom: String): String;
@@ -192,7 +194,7 @@ type
     procedure Affectation_SupprimerColonne( _Index: Integer);
   //Insertion d'une colonne
   public
-    procedure Affectation_InsererColonne( _Index: Integer);
+    procedure Affectation_InsererColonne( _Index: Integer; _Apres: Boolean);
   //Vidage des affectations
   public
     procedure Affectation_Vide;
@@ -503,7 +505,8 @@ begin
        blDC.Debut:= Min( bl.Colonne, blDC.Debut);
        blDC.Fin  := Max( bl.Colonne, blDC.Fin  );
        end;
-     blParent.DCs.to_Doc( blParent.DCs.Prefixe_Table, C);
+     //blParent.DCs.to_Doc( blParent.DCs.Prefixe_Table, C);
+     blParent.Table_To_Doc;
 end;
 
 procedure ThaOD_Dataset_Columns__OD_Affectation.Formate( _Nb_Colonnes: Integer;
@@ -550,12 +553,19 @@ begin
        end;
 end;
 
-procedure ThaOD_Dataset_Columns__OD_Affectation.InsererColonne(_Index: Integer);
+procedure ThaOD_Dataset_Columns__OD_Affectation.InsererColonne( _Index: Integer; _Apres: Boolean);
 var
+   IndexCible: Integer;
    I: Integer;
    bl, bl1: TblOD_Affectation;
 begin
-     for I:= sl.Count-2 downto _Index
+     if _Apres
+     then
+         IndexCible:= _Index+1
+     else
+         IndexCible:= _Index;
+
+     for I:= sl.Count-2 downto IndexCible
      do
        begin
        bl := _from_Colonne_Document( I  );
@@ -604,6 +614,7 @@ begin
 
      bsAvant:= TbeString.Create( nil, '', clWhite,bea_Gauche);
      bsApres:= TbeString.Create( nil, '', clWhite,bea_Gauche);
+     Table_To_Doc_procedure:= nil;
 end;
 
 destructor TblOD_Dataset_Columns.Destroy;
@@ -614,16 +625,24 @@ begin
      inherited Destroy;
 end;
 
-procedure TblOD_Dataset_Columns.Charge( _Nom: String; _DCs: TOD_Dataset_Columns);
+procedure TblOD_Dataset_Columns.Charge( _Nom: String;
+                                        _DCs: TOD_Dataset_Columns;
+                                        _Table_To_Doc_procedure: TAbonnement_Objet_Proc);
 begin
      Nom:= _Nom;
      DCs:= _DCs;
+     Table_To_Doc_procedure:= _Table_To_Doc_procedure;
 
      D.Name:= Nom;
      cLibelle:= Ajoute_String ( Nom, 'Nom'  );
 
      bsAvant.S:= Nom+' avant';
      bsApres.S:= Nom+' aprés';
+end;
+
+procedure TblOD_Dataset_Columns.Table_To_Doc;
+begin
+     if Assigned( Table_To_Doc_procedure) then Table_To_Doc_procedure;
 end;
 
 class function TblOD_Dataset_Columns.sCle_from_( _Nom: String): String;
@@ -687,10 +706,10 @@ begin
      haApres_Affectation.SupprimerColonne( _Index);
 end;
 
-procedure TblOD_Dataset_Columns.Affectation_InsererColonne(_Index: Integer);
+procedure TblOD_Dataset_Columns.Affectation_InsererColonne( _Index: Integer; _Apres: Boolean);
 begin
-     haAvant_Affectation.InsererColonne( _Index);
-     haApres_Affectation.InsererColonne( _Index);
+     haAvant_Affectation.InsererColonne( _Index, _Apres);
+     haApres_Affectation.InsererColonne( _Index, _Apres);
 end;
 
 procedure TblOD_Dataset_Columns.Affectation_Vide;

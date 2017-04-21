@@ -152,9 +152,6 @@ type
   //Prefixe_Table
   public
     Prefixe_Table: String;
-  //Evenement à l'appel à to_Doc
-  public
-    to_Doc_Called: TAbonnement_Objet_Proc;
   end;
 
  TOD_Dataset_Columns_array= array of TOD_Dataset_Columns;
@@ -415,12 +412,10 @@ begin
      Avant:= TOD_Dataset_Column_set_avant.Create( Self);
      Apres:= TOD_Dataset_Column_set_apres.Create( Self);
      OD_Styles:= nil;
-     to_Doc_Called:= nil;
 end;
 
 destructor TOD_Dataset_Columns.Destroy;
 begin
-     to_Doc_Called:= nil;
      FreeAndNil( Avant);
      FreeAndNil( Apres);
      inherited Destroy;
@@ -474,8 +469,6 @@ begin
 
      Avant.to_Doc( Prefixe_DCs, _C);
      Apres.to_Doc( Prefixe_DCs, _C);
-
-     if Assigned( to_Doc_Called) then to_Doc_Called;
 end;
 
 procedure TOD_Dataset_Columns.from_Doc(_Prefixe_Table: String;

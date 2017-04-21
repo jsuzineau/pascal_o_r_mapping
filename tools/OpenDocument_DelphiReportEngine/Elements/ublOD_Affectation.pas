@@ -65,7 +65,6 @@ type
                                            _Keys, _Labels: TStrings;
                                            _Connection_Ancetre: TLookupConnection_Ancetre;
                                            _CodeId_: Boolean= False);
-    procedure NomChamp_Libelle_Change;
   //Gestion du Hint
   public
     function Contenu( Contexte: Integer; Col, Row: Integer): String; override;
@@ -168,7 +167,6 @@ begin
 
      NomChamp_Libelle:= '';
      cNomChamp_Libelle:= Champs.String_Lookup ( NomChamp_Libelle, 'NomChamp_Libelle', cNomChamp, NomChamp_Libelle_GetLookupListItems, '');
-     cNomChamp_Libelle.OnChange.Abonne( Self, NomChamp_Libelle_Change);
 
      cLibelle:= cNomChamp;
 
@@ -176,7 +174,6 @@ end;
 
 destructor TblOD_Affectation.Destroy;
 begin
-     cNomChamp_Libelle.OnChange.Desabonne( Self, NomChamp_Libelle_Change);
      inherited Destroy;
 end;
 
@@ -200,11 +197,6 @@ begin
        _Keys  .Add( DC.FieldName);
        _Labels.Add( DC.FieldName);
        end;
-end;
-
-procedure TblOD_Affectation.NomChamp_Libelle_Change;
-begin
-
 end;
 
 function TblOD_Affectation.Contenu( Contexte: Integer; Col, Row: Integer): String;

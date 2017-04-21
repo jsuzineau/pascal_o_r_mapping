@@ -27,6 +27,7 @@ interface
 
 uses
     DOM,
+    uPublieur,
     uOpenDocument,
     uOD_JCL,
     uOD_Column,
@@ -38,6 +39,9 @@ uses
   SysUtils, Classes, DB;
 
 type
+
+ { TODRE_Table }
+
  TODRE_Table
  =
   class
@@ -62,7 +66,7 @@ type
     procedure AddColumn( _Largeur: Integer; _Titre: String);
     function AddDataset( _D: TDataset): TOD_Dataset_Columns;
     procedure SupprimerColonne( _Index: Integer);
-    procedure InsererColonne( _Index: Integer);
+    procedure InsererColonne( _Index: Integer; _Apres: Boolean);
   //Persistance dans le document OpenOffice
   private
     function Prefixe_Colonne( iColonne: Integer): String;
@@ -76,6 +80,9 @@ type
     procedure Assure_Modele( C: TOD_TextTableContext);
     procedure To_Doc( C: TOD_TextTableContext);
     procedure from_Doc( C: TOD_TextTableContext);
+  //Evenement à l'appel à to_Doc
+  public
+    to_Doc_Called: TPublieur;
   //Test du surtitre
   public
     function SurTitre_Actif: Boolean;
@@ -130,10 +137,12 @@ begin
      ForceBordure:= True;
 
      Pas_de_persistance:= False;
+     to_Doc_Called:= TPublieur.Create( ClassName+'.to_Doc_Called');
 end;
 
 destructor TODRE_Table.Destroy;
 begin
+     FreeAndNil( to_Doc_Called);
      FreeAndNil( OD_SurTitre);
      inherited;
 end;
@@ -224,6 +233,8 @@ begin
      OD_SurTitre.to_Doc( Prefixe_OD_SurTitre, C);
      C.Ecrire( Prefixe_ForceBordure, '1');
      Bordures_Ecrire( C);
+
+     to_Doc_Called.Publie;
 end;
 
 procedure TODRE_Table.from_Doc( C: TOD_TextTableContext);
@@ -304,19 +315,27 @@ begin
      SetLength( Columns, Length(Columns)-1);
 end;
 
-procedure TODRE_Table.InsererColonne(_Index: Integer);
+procedure TODRE_Table.InsererColonne( _Index: Integer; _Apres: Boolean);
 var
+   IndexCible: Integer;
    I: Integer;
    NewColumn: TOD_Column;
 begin
      if (_Index < Low(Columns))or(High(Columns)< _Index) then exit;
+
      AddColumn( 1, '');
 
+     if _Apres
+     then
+         IndexCible:= _Index+1
+     else
+         IndexCible:= _Index;
+
      NewColumn:= Columns[High( Columns)];
-     for I:= High( Columns)-1 downto _Index
+     for I:= High( Columns)-1 downto IndexCible
      do
        Columns[I+1]:= Columns[I];
-     Columns[_Index]:= NewColumn;
+     Columns[IndexCible]:= NewColumn;
 end;
 
 procedure TODRE_Table.Dimensionne_Colonnes_interne( _C: TOD_TextTableContext);
