@@ -212,6 +212,8 @@ begin
      if nil = _Node then exit;
 
      po:= vst.GetNodeData( _Node);
+     if po = nil then exit;
+
      Affecte( Result, ThVST_ODR_Ligne, po^);
 end;
 
@@ -246,7 +248,7 @@ begin
          Result:= ''
      else
          begin
-         if _Node^.Parent = nil
+         if vst.RootNode = _Node^.Parent
          then // Cas terminal
              Result:= ''
          else // Appel récursif

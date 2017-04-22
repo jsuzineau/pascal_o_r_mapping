@@ -31,6 +31,7 @@ type
    od: TOpenDocument;
  public
    procedure _from_od;
+   procedure Vide;
  //Visiteurs des Fields du od
  public
    procedure Document_Fields_Visitor_for_vle( _Name, _Value: String);
@@ -74,8 +75,13 @@ end;
 
 procedure TfFields_vle._from_od;
 begin
-     vle.Strings.Clear;
+     Vide;
      od.Fields_Visite( Document_Fields_Visitor_for_vle       );
+end;
+
+procedure TfFields_vle.Vide;
+begin
+     vle.Strings.Clear;
 end;
 
 procedure TfFields_vle.Document_Fields_Visitor_for_vle(_Name, _Value: String);

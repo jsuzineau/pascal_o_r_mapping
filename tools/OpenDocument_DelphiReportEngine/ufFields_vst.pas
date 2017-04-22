@@ -58,6 +58,7 @@ type
     od: TOpenDocument;
   public
     procedure _from_od; virtual;
+    procedure Vide;
   //sl
   public
     sl: TOOoStringList;
@@ -115,13 +116,19 @@ begin
      inherited Destroy;
 end;
 
+procedure TfFields_vst.Vide;
+begin
+     hvst.Clear;
+     sl.Clear;
+     slSuppressions.Clear;
+end;
+
 procedure TfFields_vst._from_od;
 begin
-     vst .Clear; sl .Clear;
+     Vide;
      od.Fields_Visite( Document_Fields_Visitor_for_tv);
      Optimise( vst, hvst, sl);
      vst.FullCollapse;
-     slSuppressions.Clear;
 end;
 
 procedure TfFields_vst.Document_Fields_Visitor_for_tv(_Name, _Value: String);

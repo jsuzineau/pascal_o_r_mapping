@@ -175,6 +175,8 @@ type
     function fDoublons: TfStringList;
     procedure Traite_Doublons( _Name, _Value: String);
   //Gestion de l'ouverture
+  private
+    procedure Vide;
   public
     procedure Ouvre( _NomDocument: String);
     procedure Ferme;
@@ -186,13 +188,10 @@ type
     procedure Enregistre_Extension;
   //Gestion des ODRE_Tables
   public
-   OD_TextTableContext: TOD_TextTableContext;
-   slT: TslODRE_Table;
-   blODRE_Table: TblODRE_Table;
-   hd: ThdODRE_Table;
-  //Gestion des VST
-  public
-    hvsti: ThVST_ODR;
+    OD_TextTableContext: TOD_TextTableContext;
+    slT: TslODRE_Table;
+    blODRE_Table: TblODRE_Table;
+    hd: ThdODRE_Table;
   //Action_Test
   public
     procedure Action_Test( _Action: String);
@@ -247,13 +246,10 @@ begin
      slFields.CaseSensitive:=True;;
      slDoublons:= TStringList.Create;
      slDoublons.CaseSensitive:=True;;
-
-     FfDoublons:= nil;
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.FormDestroy(Sender: TObject);
 begin
-     Free_nil( FfDoublons);
      Free_nil( slFields);
      Free_nil( slDoublons);
      Free_nil( hd);
@@ -381,25 +377,43 @@ begin
      From_Document;
 end;
 
-procedure TfOpenDocument_DelphiReportEngine.Ferme;
+procedure TfOpenDocument_DelphiReportEngine.Vide;
 begin
-     if Document = nil then exit;
-
      hd.Vide;
      hd.blODRE_Table:= nil;
      gbTable.Visible:= False;
      dsbODRE_Table.sl:= nil;
      Vide_StringList( slT);
 
+     if Assigned( fFields_vle         ) then fFields_vle         .Vide;
+     if Assigned( fFields_vstInsertion) then fFields_vstInsertion.Vide;
+     if Assigned( fFields_vstTables   ) then fFields_vstTables   .Vide;
+     if Assigned( FfDoublons          ) then FreeAndNil( FfDoublons);
+
+     slFields  .Clear;
+     slDoublons.Clear;
+end;
+
+procedure TfOpenDocument_DelphiReportEngine.Ferme;
+begin
+     if Document = nil then exit;
+
+     Vide;
+
      FreeAndNil( fxmleMeta             );
      FreeAndNil( fxmleSettings         );
      FreeAndNil( fxmleMETA_INF_manifest);
      FreeAndNil( fxmleContent          );
      FreeAndNil( fxmleStyles           );
-     FreeAndNil( fFields_vle           );
+
      FreeAndNil( fMIMETYPE             );
+
+     FreeAndNil( fFields_vle           );
+
      FreeAndNil( fFields_vstInsertion  );
      FreeAndNil( fFields_vstTables     );
+
+     Free_nil( FfDoublons);
 
      if idYes
         =
@@ -450,8 +464,7 @@ end;
 
 procedure TfOpenDocument_DelphiReportEngine.From_Document;
 begin
-     slFields  .Clear;
-     slDoublons.Clear;
+     Vide;
 
      OOoChrono.Stop('Début From_Document');
      Affiche_XMLs;
