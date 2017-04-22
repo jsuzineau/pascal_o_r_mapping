@@ -3,8 +3,10 @@ program fuPASCAL_O_R_MAPPING;
 {$mode objfpc}{$H+}
 
 uses
-  Interfaces, Forms, GuiTestRunner, utcOpenDocument, ublTest, 
-utcOpenDocument_Embed_Image;
+  Interfaces, Forms, GuiTestRunner, utcOpenDocument, ublTest,
+  utcOpenDocument_Embed_Image, utcWinUtils, uftcWinUtils, utcDockableScrollbox,
+  uhdmTestDockableScrollbox, ublTestDockableScrollbox,
+  udkTestDockableScrollbox, uhdmTestWinUtils, ublTestWinUtils;
 
 {$R *.res}
 

@@ -75,7 +75,11 @@ type
   //Méthodes surchargées
   protected
     procedure Loaded; override;
-    procedure Resize; override;
+    procedure DoOnResize; override;
+  //Gestion Redimensionnement
+  private
+    Ajuste_Nombre_Dockables_running: Boolean;
+    procedure Ajuste_Nombre_Dockables;
   //Panel principal
   public
     p: TPanel;
@@ -92,8 +96,10 @@ type
   private
     Fsl: TBatpro_StringList;
     sl_Offset: Integer;
+    Setsl_running: Boolean;
     procedure Setsl(const Value: TBatpro_StringList);
     procedure Vide;
+    function Cree_Panel_et_Dockable( _Bas: Integer; out _pa: TPanel): TDockable;
     procedure Supprime_dockable( _iDockable: Integer);
     procedure SetLectureSeule(const Value: Boolean);
     procedure Verifie_sl_Offset;
@@ -372,6 +378,9 @@ begin
      Initialise_Colonnes( True);
      Tri:= nil;
      Filtre:= nil;
+
+     Setsl_running:= False;
+     Ajuste_Nombre_Dockables_running:= False;
 end;
 
 destructor TDockableScrollbox.Destroy;
@@ -774,9 +783,9 @@ end;
 procedure TDockableScrollbox.Setsl(const Value: TBatpro_StringList);
 var
    I: Integer;
+   pa: TPanel;
    dk: TDockable;
    O: TObject;
-   pa: TPanel;
    Bas: Integer;
    procedure Traite_ColumnHeader;
    var
@@ -820,114 +829,85 @@ var
             end;
    end;
 begin
-     Vide;
-     if Classe_dockable = nil then exit;
-
-     Fsl := Value;
-     if sl = nil then exit;
+     Setsl_running:= True;
      try
-        if sl.Count= 0 then exit;
-     except
-           on E: Exception
-           do
-             exit;
-           end;
+        Vide;
+        if Classe_dockable = nil then exit;
 
-     pColumnHeader.Height:= 0;
-     pColumnHeader.Hide;
+        Fsl := Value;
+        if sl = nil then exit;
+        try
+           if sl.Count= 0 then exit;
+        except
+              on E: Exception
+              do
+                exit;
+              end;
 
-     pColumnFooter.Height:= 17;
-     pColumnFooter.Hide;
+        pColumnHeader.Height:= 0;
+        pColumnHeader.Hide;
 
-     p.Refresh;
+        pColumnFooter.Height:= 17;
+        pColumnFooter.Hide;
 
-     Bas:= 0;
+        p.Refresh;
 
-     if Assigned( uProgression_Demarre)
-     then
-         uProgression_Demarre( 'Remplissage de la boite de défilement', 0, sl.Count - 1, False, True);
-     for I:= 0 to sl.Count - 1
-     do
-       begin
-       if Bas > p.ClientHeight then break;
+        Bas:= 0;
 
-       Bas:= Bas + HauteurLigne;
+        if Assigned( uProgression_Demarre)
+        then
+            uProgression_Demarre( 'Remplissage de la boite de défilement', 0, sl.Count - 1, False, True);
+        for I:= 0 to sl.Count - 1
+        do
+          begin
+          if Bas > p.ClientHeight-HauteurLigne then break;
 
-       O:= sl.Objects[ I];
+          Bas:= Bas + HauteurLigne;
 
-       pa:= TPanel.Create( nil);
-       pa.Parent:= p;
-       pa.Top:= Bas;
-       pa.Align:= alTop;
-       pa.Height:= HauteurLigne;
-       if BordureLignes
-       then
-           pa.BevelOuter:= bvRaised
-       else
-           pa.BevelOuter:= bvNone;
+          dk:= Cree_Panel_et_Dockable( Bas, pa);
 
-       Create_Dockable( dk, Classe_dockable, pa);
+          O:= sl.Objects[ I];
+          dk.Objet:= O;
 
-       slDockable.AddObject( sys_Vide, dk);
-       slPanel   .AddObject( sys_Vide, pa );
+          Do_OnCreateDockable( dk);
+          if I = 0
+          then
+              begin
+              Traite_ColumnHeader;
+              if Length(Colonnes) > 0
+              then
+                  begin
+                  pColumnHeader.Show;
+                  pa.Top:= Bas;
+                  Bas:= Bas + HauteurLigne;
+                  pColumnFooter.Visible:= Traiter_Totaux;
+                  end;
+              end;
+          TraiteTotaux;
+          if Assigned(uProgression_AddProgress)
+          then
+              uProgression_AddProgress( 1);
+          uForms_ProcessMessages;
+          if Assigned( uProgression_GetInterrompre)
+          then
+              if uProgression_GetInterrompre
+              then
+                  break;
+          end;
 
-       dk.Objet:= O;
-       dk.pValide_Change.Abonne( Self, Verifie_Validites);
+        s_Set_MinMax;
+        if Assigned(uProgression_Termine)
+        then
+            uProgression_Termine;
 
-       dk.DockableScrollbox_Avant_Suppression:= Dockable_Avant_Suppression;
-       dk.DockableScrollbox_Suppression:= Dockable_Suppression;
-       dk.DockableScrollbox_Selection  := DemandeSelection  ;
-       dk.DockableScrollbox_Validation := DemandeValidation ;
-       dk.DockableScrollbox_Precedent  := DockableScrollbox_Precedent;
-       dk.DockableScrollbox_Suivant    := DockableScrollbox_Suivant  ;
-       dk.DockableScrollbox_Nouveau    := DockableScrollbox_Nouveau  ;
-       dk.DockableScrollBox_Traite_Message:= DockableScrollBox_Traite_Message;
+        if Traiter_Totaux
+        then
+            RecalculeTotaux;
+        Verifie_Validites;
 
-       if Zebrage
-       then
-           if Odd( I)
-           then
-               dk.Color:= Zebrage1
-           else
-               dk.Color:= Zebrage2;
-
-       dk.Traite_LectureSeule( FLectureSeule);
-
-       Do_OnCreateDockable( dk);
-       if I = 0
-       then
-           begin
-           Traite_ColumnHeader;
-           if Length(Colonnes) > 0
-           then
-               begin
-               pColumnHeader.Show;
-               pa.Top:= Bas;
-               Bas:= Bas + HauteurLigne;
-               pColumnFooter.Visible:= Traiter_Totaux;
-               end;
-           end;
-       TraiteTotaux;
-       if Assigned(uProgression_AddProgress)
-       then
-           uProgression_AddProgress( 1);
-       uForms_ProcessMessages;
-       if Assigned( uProgression_GetInterrompre)
-       then
-           if uProgression_GetInterrompre
-           then
-               break;
-       end;
-
-     s_Set_MinMax;
-     if Assigned(uProgression_Termine)
-     then
-         uProgression_Termine;
-     
-     if Traiter_Totaux
-     then
-         RecalculeTotaux;
-     Verifie_Validites;
+     finally
+            Setsl_running:= False;
+            end;
 end;
 
 procedure TDockableScrollbox.SetValide( const Value: Boolean);
@@ -973,6 +953,7 @@ begin
            and Assigned( p )
         then
             begin
+            if Selection = dk then Selection:= nil;
             dk.Objet:= nil;
             dk.pValide_Change.Desabonne( Self, Verifie_Validites);
             Destroy_Dockable( dk);
@@ -1005,6 +986,50 @@ begin
      for iDockable:= slDockable.Count - 1 downto 0
      do
        Supprime_dockable( iDockable);
+end;
+
+function TDockableScrollbox.Cree_Panel_et_Dockable( _Bas: Integer; out _pa: TPanel): TDockable;
+var
+   dk: TDockable;
+   I: Integer;
+begin
+     _pa:= TPanel.Create( nil);
+     _pa.Parent:= p;
+     _pa.Top:= _Bas;
+     _pa.Align:= alTop;
+     _pa.Height:= HauteurLigne;
+     if BordureLignes
+     then
+         _pa.BevelOuter:= bvRaised
+     else
+         _pa.BevelOuter:= bvNone;
+
+     Create_Dockable( dk, Classe_dockable, _pa);
+
+     I:= slDockable.AddObject( sys_Vide, dk);
+         slPanel   .AddObject( sys_Vide, _pa );
+
+     dk.pValide_Change.Abonne( Self, Verifie_Validites);
+
+     dk.DockableScrollbox_Avant_Suppression:= Dockable_Avant_Suppression;
+     dk.DockableScrollbox_Suppression:= Dockable_Suppression;
+     dk.DockableScrollbox_Selection  := DemandeSelection  ;
+     dk.DockableScrollbox_Validation := DemandeValidation ;
+     dk.DockableScrollbox_Precedent  := DockableScrollbox_Precedent;
+     dk.DockableScrollbox_Suivant    := DockableScrollbox_Suivant  ;
+     dk.DockableScrollbox_Nouveau    := DockableScrollbox_Nouveau  ;
+     dk.DockableScrollBox_Traite_Message:= DockableScrollBox_Traite_Message;
+
+     if Zebrage
+     then
+         if Odd( I)
+         then
+             dk.Color:= Zebrage1
+         else
+             dk.Color:= Zebrage2;
+
+     dk.Traite_LectureSeule( FLectureSeule);
+     Result:= dk;
 end;
 
 procedure TDockableScrollbox.Dockable_Avant_Suppression(Sender: TObject);
@@ -1306,18 +1331,16 @@ var
    iSL: Integer;
 begin
      s.Position:= sl_Offset;
-     for iDockable:= 0 to slDockable.Count - 1
+     for iDockable:= slDockable.Count - 1 downto 0
      do
        begin
        dk:= Dockable_from_sl( slDockable, iDockable);
        if dk = nil then continue;
 
        iSL:= Index_from_iDockable( iDockable);
-       if (0 <= iSL)and(iSL <= sl.Count-1)
-       then
-           dk.Objet:= sl.Objects[ iSL]
-       else
-           dk.Objet:= nil;
+            if (0 <= iSL)and(iSL <= sl.Count-1) then dk.Objet:= sl.Objects[ iSL]
+       else if sl.Count-1 < iSL                 then Supprime_dockable( iDockable) //peut arriver sur un redimensionnement rapide
+       else                                          dk.Objet:= nil;
        end;
 end;
 
@@ -1353,25 +1376,91 @@ end;
 
 procedure TDockableScrollbox.s_Set_MinMax;
 var
+   sl_Count, slDockable_Count: Integer;
    s_Enabled: Boolean;
 begin
-     s_Enabled:= sl.Count > 0;
+     sl_Count        := sl.Count;
+     slDockable_Count:= slDockable.Count;
+     s_Enabled:= (sl_Count > 0) and (sl_Count > slDockable_Count);
      s.Enabled:= s_Enabled;
+     s.Visible:= s_Enabled;
 
      if not s_Enabled then exit;
 
      s.Position:=0;
      s.PageSize:= 1;
      s.Min:= 0;
-     s.Max:= sl.Count;
-     s.PageSize:= slDockable.Count;
+     s.Max:= sl_Count-slDockable_Count;
+     s.PageSize:= slDockable_Count;
 end;
 
-procedure TDockableScrollbox.Resize;
+procedure TDockableScrollbox.DoOnResize;
 begin
      inherited;
-     //Setsl( sl);
+     if not Setsl_running
+     then
+         Ajuste_Nombre_Dockables;
 end;
+
+procedure TDockableScrollbox.Ajuste_Nombre_Dockables;
+var
+   Bas: Integer;
+   iLastPanel: Integer;
+   LastPanel: TPanel;
+   Delta: Integer;
+
+   procedure Cas_Ajoute;
+   var
+      pa: TPanel;
+      dk: TDockable;
+   begin
+        if sl.Count = slDockable.Count then exit;
+
+        while Bas <= p.ClientHeight-HauteurLigne
+        do
+          begin
+          dk:= Cree_Panel_et_Dockable( Bas, pa);
+          Bas:= Bas + HauteurLigne;
+          end;
+        s_Set_MinMax;
+        _from_Scroll;
+   end;
+   procedure Cas_Enleve;
+   var
+      iDockable: Integer;
+      pa: TPanel;
+      dk: TDockable;
+   begin
+        while Bas > p.ClientHeight-HauteurLigne
+        do
+          begin
+          iDockable:= slDockable.Count - 1;
+          Supprime_dockable( iDockable);
+          Bas:= Bas - HauteurLigne;
+          end;
+        s_Set_MinMax;
+        _from_Scroll;
+   end;
+begin
+     if Ajuste_Nombre_Dockables_running then exit;
+     Ajuste_Nombre_Dockables_running:= True;
+     try
+        if slPanel.Count = 0 then exit;
+
+        iLastPanel:= slPanel.Count - 1;
+        LastPanel:= Panel_from_sl( slPanel, iLastPanel);
+        if nil = LastPanel then exit;
+
+        Bas:= LastPanel.Top+LastPanel.Height;
+        Delta:= p.ClientHeight - Bas;
+
+              if Delta < 0             then Cas_Enleve
+        else  if Delta > HauteurLigne  then Cas_Ajoute;
+     finally
+            Ajuste_Nombre_Dockables_running:= False;
+            end;
+end;
+
 
 end.
 

@@ -16,6 +16,9 @@
     <VersionInfo>
       <StringTable ProductVersion=""/>
     </VersionInfo>
+    <BuildModes Count="1">
+      <Item1 Name="default" Default="True"/>
+    </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
     </PublishOptions>
@@ -24,31 +27,34 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="4">
+    <RequiredPackages Count="5">
       <Item1>
-        <PackageName Value="fpcunittestrunner"/>
+        <PackageName Value="OD_DelphiReportEngine_Controls"/>
       </Item1>
       <Item2>
-        <PackageName Value="OD_DelphiReportEngine_Units"/>
+        <PackageName Value="fpcunittestrunner"/>
       </Item2>
       <Item3>
-        <PackageName Value="LCL"/>
+        <PackageName Value="OD_DelphiReportEngine_Units"/>
       </Item3>
       <Item4>
-        <PackageName Value="FCL"/>
+        <PackageName Value="LCL"/>
       </Item4>
+      <Item5>
+        <PackageName Value="FCL"/>
+      </Item5>
     </RequiredPackages>
-    <Units Count="5">
+    <Units Count="13">
       <Unit0>
         <Filename Value="fuPASCAL_O_R_MAPPING.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="utcOpenDocument.pas"/>
+        <Filename Value="TestCase/tcOpenDocument/utcOpenDocument.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit1>
       <Unit2>
-        <Filename Value="Elements/Test/ublTest.pas"/>
+        <Filename Value="TestCase/tcOpenDocument_Embed_Image/Elements/Test/ublTest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit2>
       <Unit3>
@@ -56,16 +62,53 @@
         <IsPartOfProject Value="True"/>
       </Unit3>
       <Unit4>
-        <Filename Value="utcOpenDocument_Embed_Image.pas"/>
+        <Filename Value="TestCase/tcOpenDocument_Embed_Image/utcOpenDocument_Embed_Image.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit4>
+      <Unit5>
+        <Filename Value="TestCase/tcWinUtils/utcWinUtils.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="TestCase/tcWinUtils/uftcWinUtils.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ftcWinUtils"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="TestCase/tcWinUtils/Elements/TestWinUtils/ublTestWinUtils.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="TestCase/tcWinUtils/Elements/TestWinUtils/uhdmTestWinUtils.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="TestCase/tcDockableScrollbox/utcDockableScrollbox.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox/ublTestDockableScrollbox.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox/uhdmTestDockableScrollbox.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox/udkTestDockableScrollbox.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkTestDockableScrollbox"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit12>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../pascal_o_r_mapping/3_Data;Elements/Test"/>
+      <OtherUnitFiles Value="../../pascal_o_r_mapping/3_Data;Elements/Test;TestCase/tcOpenDocument;TestCase/tcOpenDocument_Embed_Image;TestCase/tcOpenDocument_Embed_Image/Elements/Test;TestCase/tcWinUtils;TestCase/tcWinUtils/Elements/TestWinUtils;TestCase/tcDockableScrollbox;TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>

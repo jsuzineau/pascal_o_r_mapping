@@ -259,14 +259,10 @@ begin
      Result:= sCle_from_( NomClasse, Contexte);
 end;
 
-{$IFNDEF FPC}
 initialization
               Fonte_Arial_8:= TFont.Create;
               Fonte_Arial_8.Name:= sys_Arial;
               Fonte_Arial_8.Size:= 8;
-
 finalization
               Free_nil( Fonte_Arial_8);
-{$ELSE}
-{$ENDIF}
 end.

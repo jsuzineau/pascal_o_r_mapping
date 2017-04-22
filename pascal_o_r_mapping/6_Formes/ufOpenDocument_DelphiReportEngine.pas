@@ -90,6 +90,7 @@ type
    Label2: TLabel;
    Label3: TLabel;
    Label4: TLabel;
+   mCellule_Info: TMemo;
    miVisualiseTest: TMenuItem;
    miNormal: TMenuItem;
    miNormal_Insertion: TMenuItem;
@@ -110,8 +111,10 @@ type
    miVoir: TMenuItem;
    mm: TMainMenu;
     odODF: TOpenDialog;
+    Panel1: TPanel;
     pDrag: TPanel;
     sgODRE_Table: TStringGrid;
+    Splitter1: TSplitter;
     tShow: TTimer;
     gbBranche_Insertion: TGroupBox;
     bSupprimer_Insertion: TButton;
@@ -238,6 +241,7 @@ begin
      hd.ceTitre      :=  ceTitre;
      hd.ceLargeur    :=  ceLargeur;
      hd.pDrag        :=  pDrag;
+     hd.mCellule_Info:= mCellule_Info;
 
      dsbODRE_Table.Classe_dockable:= TdkODRE_Table;
      dsbODRE_Table.Classe_Elements:= TblODRE_Table;

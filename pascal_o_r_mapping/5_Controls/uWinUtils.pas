@@ -232,11 +232,15 @@ function HauteurTexte( F: TFont; S: String; Largeur: Integer): Integer;
 var
    CALCRECT: TRect;
 begin
+     Result:= 0;
+     if '' = S then exit;
+
      //Impossible de gérer l'orientation de la fonte ici
      //DrawText le gére pas en DT_CALCRECT.
-     //Il semble le gérer dans les autres cas.     CALCRECT:= Rect(0,0,Largeur,0);
-     WinUtils_Contexte.DrawText( F, S, CALCRECT, DT_CALCRECT or DT_WORDBREAK);
-     Result:= CALCRECT.Bottom;
+     //Il semble le gérer dans les autres cas.
+     CALCRECT:= Rect(0,0,Largeur,0);
+     WinUtils_Contexte.DrawText( F, S, CALCRECT, DT_WORDBREAK or DT_INTERNAL or DT_CALCRECT);
+     Result:= CALCRECT.Bottom-CALCRECT.Top;
 end;
 
 function LargeurTexte( F: TFont; S: String): Integer;
@@ -249,7 +253,7 @@ var
       CALCRECT: TRect;
    begin
         CALCRECT:= Rect(0,0,0,0);
-        WinUtils_Contexte.DrawText_interne( S, CALCRECT, DT_CALCRECT);
+        WinUtils_Contexte.DrawText_interne( S, CALCRECT, DT_INTERNAL or DT_CALCRECT);
         Result:= CALCRECT.Right;
    end;
 begin

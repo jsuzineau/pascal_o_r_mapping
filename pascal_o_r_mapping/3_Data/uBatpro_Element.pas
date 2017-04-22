@@ -4072,6 +4072,7 @@ begin
      if Has_ClassParams                 then exit;
 
      Result:= poolG_BECP_Cree( ClassName);
+     Result:= nil;//############ provisoire 2017 04 22
 end;
 
 function TBatpro_Element.OrientationTexte( DrawInfo: TDrawInfo): Integer;

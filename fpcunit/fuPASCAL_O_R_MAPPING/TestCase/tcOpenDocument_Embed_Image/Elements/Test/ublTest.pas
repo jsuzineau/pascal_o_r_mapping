@@ -125,7 +125,7 @@ begin
      if Assigned( CP)
      then
          begin
-         CP.Libelle:= 'Work';
+         CP.Libelle:= 'Test';
          CP.Font.Name:= sys_Times_New_Roman;
          CP.Font.Size:= 12;
          end;

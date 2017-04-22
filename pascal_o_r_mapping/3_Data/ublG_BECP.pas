@@ -115,6 +115,7 @@ type
 
 var
    Fonte_Arial_8: TFont;
+   Fonte_Default_0: TFont;
 
 function blG_BECP_from_sl( sl: TBatpro_StringList; Index: Integer): TblG_BECP;
 function blG_BECP_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblG_BECP;
@@ -139,7 +140,7 @@ end;
 
 procedure TblG_BECP.Fonte_Defaut;
 begin
-     FFont.Assign( Fonte_Arial_8);
+     FFont.Assign( Fonte_Default_0);
 end;
 
 constructor TblG_BECP.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
@@ -388,6 +389,8 @@ initialization
               Fonte_Arial_8:= TFont.Create;
               Fonte_Arial_8.Name:= sys_Arial;
               Fonte_Arial_8.Size:= 8;
+              Fonte_Default_0:= TFont.Create;
 finalization
               Free_nil( Fonte_Arial_8);
+              Free_nil( Fonte_Default_0);
 end.

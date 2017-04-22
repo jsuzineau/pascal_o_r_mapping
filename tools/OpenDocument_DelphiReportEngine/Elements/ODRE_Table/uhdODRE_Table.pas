@@ -22,7 +22,7 @@ uses
 
     ucChamp_Edit,
     ucChamp_Lookup_ComboBox,
- Classes, SysUtils, Grids, Graphics,Dialogs,LCLType,Controls, ExtCtrls;
+ Classes, SysUtils, Grids, Graphics,Dialogs,LCLType,Controls, StdCtrls, ExtCtrls;
 
 type
 
@@ -54,6 +54,7 @@ type
     ceTitre  : TChamp_Edit;
     ceLargeur: TChamp_Edit;
     pDrag: TPanel;
+    mCellule_Info: TMemo;
     procedure _from_pool; override;
   //timer de réaffichage
   public
@@ -107,6 +108,7 @@ begin
      t.OnTimer:= t_Timer;
 
      FblODRE_Table:= nil;
+     //Batpro_Element_Marge:= 10;
 end;
 
 destructor ThdODRE_Table.Destroy;
@@ -203,7 +205,7 @@ begin
 
      //Clusterise;
 
-     //Traite_Dimensions;
+     Traite_Dimensions;
 
      sg.Show;
 end;
@@ -229,6 +231,7 @@ begin
      ceTitre      .Champs:= nil;
      ceLargeur    .Champs:= nil;
      clkcbNomChamp.Champs:= nil;
+     mCellule_Info.Clear;
 end;
 
 function ThdODRE_Table.Drag_from_(ACol, ARow: Integer): Boolean;
@@ -247,6 +250,14 @@ function ThdODRE_Table.Drag_from_(ACol, ARow: Integer): Boolean;
         ceLargeur.Champs:= Drag_Column.Champs;
         pDrag.Visible:= True;
    end;
+   procedure Affiche_Cellule_Info( _bl: TblOD_Affectation);
+   var
+      W: Integer;
+   begin
+        W:= _bl.Cell_Width(DI);
+        mCellule_Info.Lines.Add( 'Largeur:'+IntToStr( W));
+        mCellule_Info.Lines.Add( 'Hauteur:'+IntToStr( _bl.Cell_Height(DI,W)));
+   end;
    function not_Traite_Affectation: Boolean;
    var
       bl: TblOD_Affectation;
@@ -263,6 +274,8 @@ function ThdODRE_Table.Drag_from_(ACol, ARow: Integer): Boolean;
         Result:= False;
         clkcbNomChamp.Champs:= bl.Champs;
         pDrag.Visible:= True;
+
+        //Affiche_Cellule_Info( bl);
    end;
 begin
      Result:=inherited Drag_from_(ACol, ARow);
