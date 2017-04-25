@@ -6,7 +6,8 @@ object fXML_Editor: TfXML_Editor
   Caption = 'fXML_Editor'
   ClientHeight = 716
   ClientWidth = 517
-  LCLVersion = '1.6.0.4'
+  Position = poScreenCenter
+  LCLVersion = '1.6.2.0'
   object Panel1: TPanel
     Left = 0
     Height = 50
@@ -28,7 +29,7 @@ object fXML_Editor: TfXML_Editor
     end
     object eChercher: TEdit
       Left = 8
-      Height = 27
+      Height = 23
       Top = 8
       Width = 344
       TabOrder = 1

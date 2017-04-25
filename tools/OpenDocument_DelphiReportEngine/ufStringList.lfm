@@ -7,7 +7,8 @@ object fStringList: TfStringList
   ClientHeight = 551
   ClientWidth = 751
   OnShow = FormShow
-  LCLVersion = '1.6.0.4'
+  Position = poScreenCenter
+  LCLVersion = '1.6.2.0'
   object Panel1: TPanel
     Left = 0
     Height = 50

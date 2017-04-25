@@ -6,11 +6,13 @@ inherited fFields_vstInsertion: TfFields_vstInsertion
   Caption = 'fFields_vstInsertion'
   ClientHeight = 514
   ClientWidth = 858
+  Position = poScreenCenter
   inherited Panel1: TPanel
     Top = 424
     Width = 858
     ClientWidth = 858
     inherited gbBranche: TGroupBox
+      ClientHeight = 44
       inherited bImporter: TButton
         OnClick = nil
       end

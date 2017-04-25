@@ -6,7 +6,8 @@ object fFields_vle: TfFields_vle
   Caption = 'Champs au format natif'
   ClientHeight = 641
   ClientWidth = 1125
-  LCLVersion = '1.6.0.4'
+  Position = poScreenCenter
+  LCLVersion = '1.6.2.0'
   object Panel1: TPanel
     Left = 0
     Height = 50
@@ -18,9 +19,9 @@ object fFields_vle: TfFields_vle
     TabOrder = 0
     object lKey: TLabel
       Left = 30
-      Height = 17
+      Height = 15
       Top = 21
-      Width = 28
+      Width = 22
       Caption = 'lKey'
       ParentColor = False
     end
@@ -50,7 +51,7 @@ object fFields_vle: TfFields_vle
     )
     ColWidths = (
       317
-      806
+      804
     )
   end
 end

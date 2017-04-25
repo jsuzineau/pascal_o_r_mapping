@@ -105,6 +105,7 @@ begin
      Debug_Hint:= True;
      t:= TTimer.Create( nil);
      t.Interval:= 1;
+     t.Enabled:= False;
      t.OnTimer:= t_Timer;
 
      FblODRE_Table:= nil;
@@ -185,13 +186,15 @@ begin
      inherited _from_pool;
 
      Drag_nil;
+     sg.Hide;
+     Vide_StringGrid( sg);
+
+     if nil = blODRE_Table then exit;
 
      Charge_OD_Dataset_Columns_hdm;
 
      //blODRE_Table.haOD_Column.Charge;
      //blODRE_Table.haOD_Dataset_Columns.Charge;
-     sg.Hide;
-     Vide_StringGrid( sg);
      sg.FixedCols:= 1;
      sg.FixedRows:= 1;
      sg.ColCount:= 1+blODRE_Table.haOD_Column.Count;
@@ -218,6 +221,7 @@ end;
 procedure ThdODRE_Table.t_Timer( Sender: TObject);
 begin
      t.Enabled:= False;
+     if nil = blODRE_Table then exit;
      //_from_pool;
      Charge_OD_Column;
      Charge_OD_Dataset_Columns;

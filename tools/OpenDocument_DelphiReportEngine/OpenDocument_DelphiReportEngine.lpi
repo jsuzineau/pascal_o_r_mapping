@@ -122,7 +122,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <CommandLineParams Value="\home\jean\batpro\source\2010_delphi\53_modeles_oo\DEV01-Complet\ avec\ Options.ott"/>
+        <CommandLineParams Value="C:\_freepascal\pascal_o_r_mapping\tools\OpenDocument_DelphiReportEngine\OpenDocument_DelphiReportEngine_Test.ott"/>
       </local>
     </RunParams>
     <RequiredPackages Count="4">
