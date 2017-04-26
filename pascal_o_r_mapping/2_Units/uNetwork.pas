@@ -137,7 +137,7 @@ begin
      {$IFDEF MSWINDOWS}
      Result:= GetEnvironmentVariable('COMPUTERNAME');
      {$ELSE}
-     RunCommand('hostname', Result);
+     RunCommand('hostname', Result); //attention, ne fonctionne pas dans le cas librairie C-Extensions 4js
      repeat
            I:= Pos( #10, Result);
            if I = 0 then break;
