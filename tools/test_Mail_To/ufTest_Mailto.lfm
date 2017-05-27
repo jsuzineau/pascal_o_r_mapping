@@ -1,0 +1,8 @@
+object fTest_Mailto: TfTest_Mailto
+  Left = 504
+  Height = 240
+  Top = 41
+  Width = 320
+  Caption = 'fTest_Mailto'
+  LCLVersion = '1.6.0.2'
+end

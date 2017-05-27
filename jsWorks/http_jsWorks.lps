@@ -7,6 +7,7 @@
       <Unit0>
         <Filename Value="http_jsWorks.lpr"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="112"/>
         <CursorPos Y="127"/>
         <UsageCount Value="203"/>
@@ -1061,7 +1062,6 @@
       </Unit116>
       <Unit117>
         <Filename Value="html/ThAUT/index.html"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="9"/>
         <TopLine Value="138"/>
         <CursorPos Y="157"/>
