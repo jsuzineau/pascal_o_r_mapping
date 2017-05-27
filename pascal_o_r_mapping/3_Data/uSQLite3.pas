@@ -87,7 +87,9 @@ begin
      DataBase := sys_Vide;
      Initialized:= False;
 
+     {$ifndef android}
      Assure_initialisation;
+     {$endif}
 end;
 
 destructor TSQLite3.Destroy;

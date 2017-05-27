@@ -102,7 +102,9 @@ begin
      Version  := '50';
      Initialized:= False;
 
+     {$ifndef android}
      Assure_initialisation;
+     {$endif}
 end;
 
 destructor TMySQL.Destroy;
@@ -138,7 +140,9 @@ end;
 
 function TMySQL.Cree_Connection: TSQLConnection;
 begin
+     {$ifndef android}
      Log.PrintLn( 'Fichier ini:' +EXE_INI.FileName);
+     {$endif}
      Log.PrintLn( 'uMySQL paramétré pour MySQL version : '+Version);
      {$IFDEF FPC}
           if '50' = Version then Result:= TMySQL50Connection.Create( nil)

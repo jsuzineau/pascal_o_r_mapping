@@ -1920,6 +1920,14 @@ public  java.lang.Object jButton_Create(long pasobj ) {
   return (java.lang.Object)( new jButton(this.activity,this,pasobj));
 }
 
+public  java.lang.Object jCheckBox_Create(long pasobj ) {
+  return (java.lang.Object)( new jCheckBox(this.activity,this,pasobj));
+}
+
+public java.lang.Object jEditText_Create(long pasobj ) {
+  return (java.lang.Object)( new jEditText(this.activity,this,pasobj));
+}
+
 public  java.lang.Object jSqliteCursor_Create( long pasobj ) {
    return (java.lang.Object)( new jSqliteCursor(this,pasobj) );
 }
@@ -1928,8 +1936,17 @@ public java.lang.Object jSqliteDataAccess_Create(long pasobj, String databaseNam
    return (java.lang.Object)( new jSqliteDataAccess(this,pasobj,databaseName,colDelim,rowDelim) );
 }
 
+public java.lang.Object jTextFileManager_jCreate(long _Self) {
+   return (java.lang.Object)(new jTextFileManager(this,_Self));
+}
+
 public  java.lang.Object jTextView_Create(long pasobj) {
   return (java.lang.Object)( new jTextView(this.activity,this,pasobj));
 }
+
+public  java.lang.Object jWebView_Create(long pasobj ) {
+   return (java.lang.Object)( new jWebView(this.activity,this,pasobj));
+}
+public native int pOnWebViewStatus(long pasobj, int EventType, String url);
 
 }

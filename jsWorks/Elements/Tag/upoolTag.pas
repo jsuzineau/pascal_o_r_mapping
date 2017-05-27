@@ -84,7 +84,7 @@ implementation
 {$R *.dfm}
 
 var
-   FpoolTag: TpoolTag;
+   FpoolTag: TpoolTag= nil;
 
 function poolTag: TpoolTag;
 begin
@@ -229,7 +229,6 @@ end;
 
 
 initialization
-              Clean_Create ( FpoolTag, TpoolTag);
 finalization
               Clean_destroy( FpoolTag);
 end.

@@ -95,7 +95,7 @@ implementation
 {$R *.lfm}
 
 var
-   FpoolWork: TpoolWork;
+   FpoolWork: TpoolWork= nil;
 
 function poolWork: TpoolWork;
 begin
@@ -158,6 +158,7 @@ end;
 function TpoolWork.Start( _nProject: Integer): TblWork;
 begin
      Nouveau_Base( Result);
+     if Result = nil then writeln('TpoolWork.Start: Nouveau_Base( Result) -> nil')  ;
      if Result = nil then exit;
 
      Result.nProject:= _nProject;

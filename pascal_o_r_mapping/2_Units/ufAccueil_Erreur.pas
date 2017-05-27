@@ -74,8 +74,12 @@ begin
      Formate_Liste( ufAccueil_Erreur_Tampon, #13#10, _Message            );
      Formate_Liste( ufAccueil_Erreur_Tampon, #13#10, _Message_Developpeur);
      {$IFDEF FPC}
-     Log.PrintLn( _Message);
-     Log.PrintLn( _Message_Developpeur);
+	      Log.PrintLn( _Message);
+	      Log.PrintLn( _Message_Developpeur);
+	      {$IFDEF ANDROID}
+		       WriteLn( _Message);
+		       WriteLn( _Message_Developpeur);
+	      {$ENDIF}
      {$ENDIF}
 end;
 

@@ -46,7 +46,7 @@
         <PackageName Value="tfpandroidbridge_pack"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="2">
+    <Units Count="12">
       <Unit0>
         <Filename Value="controls.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -60,6 +60,50 @@
           <Item0 Name="jControls" Value="jButton;jForm;jSqliteCursor;jSqliteDataAccess;jTextView"/>
         </CustomData>
       </Unit1>
+      <Unit2>
+        <Filename Value="..\..\..\Elements\Work\upoolWork.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\..\..\..\pascal_o_r_mapping\3_Data\uhAggregation.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="..\..\..\Elements\Tag\ublTag.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="..\..\..\..\pascal_o_r_mapping\7_sources_externes\synapse\source\lib\blcksock.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="fphttpclient.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="..\..\..\Elements\Tag\upoolTag.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="..\..\..\Elements\Tag_Work\upoolTag_Work.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="..\..\..\..\pascal_o_r_mapping\3_Data\udmDatabase.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="..\..\..\..\pascal_o_r_mapping\3_Data\uSQLite3.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="..\..\..\Elements\Work\ublWork.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit11>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -70,11 +114,12 @@
     </Target>
     <SearchPaths>
       <Libraries Value="C:\lamw\android-ndk-r10e-windows-x86\platforms\android-17\arch-arm\usr\lib\;C:\lamw\android-ndk-r10e-windows-x86\toolchains\arm-linux-androideabi-4.9\prebuilt\windows\lib\gcc\arm-linux-androideabi\4.9\"/>
+      <OtherUnitFiles Value="..\..\..\Elements\Work;..\..\..\..\pascal_o_r_mapping\3_Data;..\..\..\Elements\Tag;..\..\..\..\pascal_o_r_mapping\7_sources_externes\synapse\source\lib;..\..\..\Elements\Tag_Work"/>
       <UnitOutputDirectory Value="..\obj\controls"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
-        <SyntaxMode Value="delphi"/>
+        <SyntaxMode Value="Delphi"/>
         <CStyleMacros Value="True"/>
       </SyntaxOptions>
     </Parsing>
@@ -89,7 +134,6 @@
     </CodeGeneration>
     <Linking>
       <Debugging>
-        <GenerateDebugInfo Value="False"/>
         <StripSymbols Value="True"/>
       </Debugging>
       <LinkSmart Value="True"/>

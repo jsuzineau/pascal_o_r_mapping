@@ -97,7 +97,9 @@ begin
      Password := sys_Vide;
      Initialized:= False;
 
+     {$ifndef android}
      Assure_initialisation;
+     {$endif}
 end;
 
 destructor TSQLServer.Destroy;

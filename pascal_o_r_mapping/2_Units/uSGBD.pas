@@ -149,6 +149,10 @@ procedure uSGBD_Compute;
         SGBD_Set( TSGBD( iSGBD));
    end;
 begin
+     {$ifdef android}
+     SGBD_Set( sgbd_SQLite3); exit;
+     {$endif}
+
      if Traite_AUTOEXEC then exit;
      if Traite_INI      then exit;
      SGBD_Set( sgbd_MySQL   );

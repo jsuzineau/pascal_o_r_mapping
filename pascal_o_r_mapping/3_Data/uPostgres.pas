@@ -91,7 +91,9 @@ begin
      SchemaName:= 'public';
      Initialized:= False;
 
+     {$ifndef android}
      Assure_initialisation;
+     {$endif}
 end;
 
 destructor TPostgres.Destroy;

@@ -63,7 +63,7 @@ object amjsWorks: TamjsWorks
   end
   object tw: jTextView
     Left = 8
-    Top = 101
+    Top = 149
     Width = 13
     Height = 20
     MarginLeft = 5
@@ -72,7 +72,7 @@ object amjsWorks: TamjsWorks
     MarginBottom = 5
     Enabled = True
     Visible = True
-    Anchor = bState
+    Anchor = bDemarrer
     Id = 3
     PosRelativeToAnchor = [raBelow]
     PosRelativeToParent = []
@@ -86,6 +86,30 @@ object amjsWorks: TamjsWorks
     TextTypeFace = tfNormal
     FontSizeUnit = unitDefault
   end
+  object bDemarrer: jButton
+    Left = 2
+    Top = 100
+    Width = 316
+    Height = 40
+    MarginLeft = 2
+    MarginTop = 4
+    MarginRight = 2
+    MarginBottom = 4
+    Enabled = True
+    Visible = True
+    Anchor = bState
+    Id = 4
+    PosRelativeToAnchor = [raBelow]
+    PosRelativeToParent = []
+    LayoutParamWidth = lpMatchParent
+    LayoutParamHeight = lpWrapContent
+    Text = 'Démarrer'
+    BackgroundColor = colbrDefault
+    FontColor = colbrDefault
+    FontSize = 0
+    FontSizeUnit = unitDefault
+    OnClick = bDemarrerClick
+  end
   object sda: jSqliteDataAccess
     Cursor = sc
     ColDelimiter = '|'
@@ -93,7 +117,7 @@ object amjsWorks: TamjsWorks
     DataBaseName = 'myData.db'
     ReturnHeaderOnSelect = True
     Left = 24
-    Top = 72
+    Top = 64
   end
   object sc: jSqliteCursor
     Left = 24

@@ -33,7 +33,12 @@ uses
     uLog,
     uEXE_INI,
  {$ifdef fpc}
- {fglExt,} blcksock, sockets, Synautil, fphttpclient,
+		   {fglExt,} blcksock, sockets, Synautil,
+		   {$ifdef android}
+       Laz_And_Controls,
+     {$else}
+		     fphttpclient,
+		   {$endif}
  {$endif}
  Classes, SysUtils,process;
 
@@ -121,6 +126,9 @@ const
      s_Validation_Response='pascal_o_r_mapping';
 
 function http_getS( _URL: String): String;
+{$ifdef android}
+  type TFPHttpClient= jHttpClient;
+{$endif}
 var
    c: TFPHttpClient;
 begin

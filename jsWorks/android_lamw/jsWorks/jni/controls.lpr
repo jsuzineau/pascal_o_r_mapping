@@ -1,3 +1,23 @@
+{                                                                               |
+    Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
+            http://www.mars42.com                                               |
+                                                                                |
+    Copyright 2017 Jean SUZINEAU - MARS42                                       |
+                                                                                |
+    This program is free software: you can redistribute it and/or modify        |
+    it under the terms of the GNU Lesser General Public License as published by |
+    the Free Software Foundation, either version 3 of the License, or           |
+    (at your option) any later version.                                         |
+                                                                                |
+    This program is distributed in the hope that it will be useful,             |
+    but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    GNU Lesser General Public License for more details.                         |
+                                                                                |
+    You should have received a copy of the GNU Lesser General Public License    |
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. 1     |
+                                                                                |
+|                                                                               }
 {hint: save all files to location: C:\_freepascal\pascal_o_r_mapping\jsWorks\android_lamw\jsWorks\jni\ }
 library controls;  //[by Lamw: Lazarus Android Module Wizard: 27/05/2017 10:32:40]
   
@@ -5,7 +25,8 @@ library controls;  //[by Lamw: Lazarus Android Module Wizard: 27/05/2017 10:32:4
   
 uses
   Classes, SysUtils, And_jni, And_jni_Bridge, AndroidWidget, Laz_And_Controls,
-  Laz_And_Controls_Events, uamjsWorks;
+		Laz_And_Controls_Events, blcksock, uhAggregation, udmDatabase, uSQLite3,
+		upoolWork, ublWork, ublTag, upoolTag, upoolTag_Work, uamjsWorks, fphttpclient;
   
 {%region /fold 'LAMW generated code'}
 
@@ -336,7 +357,17 @@ begin
   Java_Event_pOnLayouting(PEnv, this, TObject(pasobj), changed);
 end;
 
-const NativeMethods: array[0..36] of JNINativeMethod = (
+{ Class:     com_mars42_jsworks_jsworks_Controls
+  Method:    pOnWebViewStatus
+  Signature: (JILjava/lang/String;)I }
+function pOnWebViewStatus(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
+		EventType: JInt; url: JString): JInt; cdecl;
+begin
+  Result:=Java_Event_pOnWebViewStatus(PEnv, this, TObject(pasobj), EventType,
+				url);
+end;
+
+const NativeMethods: array[0..37] of JNINativeMethod = (
    (name: 'pAppOnCreate';
     signature: '(Landroid/content/Context;Landroid/widget/RelativeLayout;'
       +'Landroid/content/Intent;)V';
@@ -448,7 +479,10 @@ const NativeMethods: array[0..36] of JNINativeMethod = (
     fnPtr: @pOnAfterDispatchDraw; ),
    (name: 'pOnLayouting';
     signature: '(JZ)V';
-    fnPtr: @pOnLayouting; )
+    fnPtr: @pOnLayouting; ),
+   (name: 'pOnWebViewStatus';
+    signature: '(JILjava/lang/String;)I';
+    fnPtr: @pOnWebViewStatus; )
 );
 
 function RegisterNativeMethodsArray(PEnv: PJNIEnv; className: PChar;
@@ -563,7 +597,9 @@ exports
     +'pOnBeforeDispatchDraw',
   pOnAfterDispatchDraw name 'Java_com_mars42_jsworks_jsworks_Controls_'
     +'pOnAfterDispatchDraw',
-  pOnLayouting name 'Java_com_mars42_jsworks_jsworks_Controls_pOnLayouting';
+  pOnLayouting name 'Java_com_mars42_jsworks_jsworks_Controls_pOnLayouting',
+  pOnWebViewStatus name 'Java_com_mars42_jsworks_jsworks_Controls_'
+    +'pOnWebViewStatus';
 
 {%endregion}
   

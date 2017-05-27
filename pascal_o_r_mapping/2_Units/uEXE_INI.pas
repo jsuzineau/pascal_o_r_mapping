@@ -108,10 +108,10 @@ type
 
 const
      inis_Options= 'Options';
-var
-   EXE_INI_Global: TEXE_INIFile= nil;
-   EXE_INI       : TEXE_INIFile= nil;
-   EXE_INI_Poste : TEXE_INIFile= nil;
+
+function EXE_INI_Global: TEXE_INIFile;
+function EXE_INI       : TEXE_INIFile;
+function EXE_INI_Poste : TEXE_INIFile;
 
 procedure Cree_EXE_INI_Poste;//doit être appelé depuis uNetwork pour que
                              //le nom de poste soit renseigné.
@@ -124,6 +124,10 @@ function  uEXE_INI_GetString( INI, Section, Key, Default: String): String;
 procedure uEXE_INI_SetString( INI, Section, Key, Value: String);
 function  uEXE_INI_GetInteger( INI, Section, Key: String; Default: Integer): Integer;
 procedure uEXE_INI_SetInteger( INI, Section, Key: String; Value  : Integer);
+
+procedure uEXE_INI_init_android( _EnvironmentDirPath: String);
+
+function DumpCallStack: String;
 
 implementation
 
@@ -211,6 +215,75 @@ begin
 end;
 
 { TEXE_INIFile }
+
+var
+   FEXE_INI_Global: TEXE_INIFile= nil;
+   FEXE_INI       : TEXE_INIFile= nil;
+   FEXE_INI_Poste : TEXE_INIFile= nil;
+
+   EXE_INI_Global_Nom: String = '';
+   EXE_INI_Nom       : String = '';
+   EXE_INI_Poste_Nom : String = '';
+
+ {taken from Freepascal documentation}
+ function DumpCallStack: String;
+ var
+   I: Longint;
+   prevbp: Pointer;
+   CallerFrame,
+   CallerAddress,
+   bp: Pointer;
+   Report: string;
+ const
+   MaxDepth = 20;
+ begin
+       Report := '';
+       bp := get_frame;
+       // This trick skip SendCallstack item
+       // bp:= get_caller_frame(get_frame);
+       try
+         prevbp := bp - 1;
+         I := 0;
+         while bp > prevbp do begin
+            CallerAddress := get_caller_addr(bp);
+            CallerFrame := get_caller_frame(bp);
+            if (CallerAddress = nil) then
+              Break;
+            Report := Report + BackTraceStrFunc(CallerAddress) + LineEnding;
+            Inc(I);
+            if (I >= MaxDepth) or (CallerFrame = nil) then
+              Break;
+            prevbp := bp;
+            bp := CallerFrame;
+          end;
+        except
+          { prevent endless dump if an exception occured }
+        end;
+        Result:= Report;
+ end;
+
+procedure EXE_INI_interne( out _Resultat: TEXE_INIFile; var _FEXE_INI: TEXE_INIFile; _Nom: String);
+begin
+     if nil = _FEXE_INI
+     then
+         begin
+         if '' = _Nom
+         then
+             begin
+             {$ifdef android}
+             WriteLn( 'uEXE_INI.EXE_INI_interne: nom non initialisé: '#13#10+DumpCallStack);
+             {$endif}
+             uForms_ShowMessage( 'uEXE_INI.EXE_INI_interne: nom non initialisé: '#13#10+DumpCallStack);
+             end
+         else
+             _FEXE_INI:= TEXE_INIFile.Create( _Nom);
+         end;
+     _Resultat:= _FEXE_INI;
+end;
+
+function EXE_INI_Global: TEXE_INIFile; begin EXE_INI_interne( Result, FEXE_INI_Global, EXE_INI_Global_Nom); end;
+function EXE_INI       : TEXE_INIFile; begin EXE_INI_interne( Result, FEXE_INI       , EXE_INI_Nom       ); end;
+function EXE_INI_Poste : TEXE_INIFile; begin EXE_INI_interne( Result, FEXE_INI_Poste , EXE_INI_Poste_Nom ); end;
 
 constructor TEXE_INIFile.Create( const AFileName: string; AEscapeLineFeeds: Boolean);
 begin
@@ -303,17 +376,15 @@ begin
 end;
 
 procedure Cree_EXE_INI_Poste;
-var
-   NomPoste: String;
 begin
-     NomPoste
+     {$ifndef android}
+     EXE_INI_Poste_Nom
      :=
          ExtractFilePath( uForms_EXE_Name)
        + 'etc'+PathDelim+'_Configuration.'
        + uClean_NetWork_Nom_Hote
        + '.ini';
-
-     EXE_INI_Poste:= TEXE_INIFile.Create( NomPoste);
+     {$endif}
 end;
 
 function TEXE_INIFile.GetChemin(Key: String): String;
@@ -441,71 +512,80 @@ begin
          Result:= _iniDefault;
 end;
 
+procedure uEXE_INI_init;
 var
-   Nom: String;
    ExeFileName: String;
    Special: Boolean;
-   Nom_global: String;
    ModuleName: String;
+begin
+     if Trim(uForms_EXE_Name) = ''
+     then
+         uClean_Log( 'uEXE_INI initialization: uForms_EXE_Name = >'+uForms_EXE_Name+'<');
+     ExeFileName:= UpperCase( ExtractFileName( uForms_EXE_Name));
+     Special
+     :=
+           ('BATPRO~1.EXE'      = ExeFileName) //Batpro_Copieur
+        or ('BATPRO_ICONES.EXE' = ExeFileName);
+     if Special
+     then
+         begin
+         if 'BATPRO~1.EXE' = ExeFileName //Batpro_Copieur
+         then
+             EXE_INI_Nom:= ExtractFilePath( uForms_EXE_Name)+'Batpro_Copieur_Application.ini'
+         else
+             EXE_INI_Nom:= ChangeFileExt( uForms_EXE_Name, '.ini');
+         end
+     else
+         begin
+         EXE_INI_Nom:= uEXE_INI_INI_from_EXE( uForms_EXE_Name);
+         if not FileExists( EXE_INI_Nom)
+         then
+             begin
+             ModuleName:= GetModuleName( HInstance);
+
+             if ModuleName <> ''
+             then
+                 EXE_INI_Nom:= uEXE_INI_INI_from_EXE( ModuleName);
+             end;
+         end;
+
+     {$IFDEF LINUX}
+     if 1= pos( PathDelim+'etc', EXE_INI_Nom)
+     then
+         EXE_INI_Nom:= '~'+EXE_INI_Nom;
+     //uClean_Log( 'uEXE_INI initialization: EXE_INI Nom = >'+Nom+'<');
+     {$ENDIF}
+
+     if Special
+     then
+         EXE_INI_Global_Nom:= EXE_INI_Nom
+     else
+         EXE_INI_Global_Nom:= EXE_INI.Chemin_Global+'etc'+PathDelim+'_Configuration.ini';
+
+     //uClean_Log( 'uEXE_INI initialization: EXE_INI_Global Nom = >'+EXE_INI_Global_Nom+'<');
+end;
+
+procedure uEXE_INI_init_android( _EnvironmentDirPath: String);
+begin
+     EXE_INI_Nom       := IncludeTrailingPathDelimiter( _EnvironmentDirPath)+'_Configuration.ini';
+     EXE_INI_Global_Nom:= EXE_INI_Nom;
+     EXE_INI_Poste_Nom := EXE_INI_Nom;
+end;
 initialization
               Buffer:= StrAlloc( BufferSize);
 
-              if Trim(uForms_EXE_Name) = ''
-              then
-                  uClean_Log( 'uEXE_INI initialization: uForms_EXE_Name = >'+uForms_EXE_Name+'<');
-              ExeFileName:= UpperCase( ExtractFileName( uForms_EXE_Name));
-              Special
-              :=
-                    ('BATPRO~1.EXE'      = ExeFileName) //Batpro_Copieur
-                 or ('BATPRO_ICONES.EXE' = ExeFileName);
-              if Special
-              then
-                  begin
-                  if 'BATPRO~1.EXE' = ExeFileName //Batpro_Copieur
-                  then
-                      Nom:= ExtractFilePath( uForms_EXE_Name)+'Batpro_Copieur_Application.ini'
-                  else
-                      Nom:= ChangeFileExt( uForms_EXE_Name, '.ini');
-                  end
-              else
-                  begin
-                  Nom:= uEXE_INI_INI_from_EXE( uForms_EXE_Name);
-                  if not FileExists( Nom)
-                  then
-                      begin
-                      ModuleName:= GetModuleName( HInstance);
-
-                      if ModuleName <> ''
-                      then
-                          Nom:= uEXE_INI_INI_from_EXE( ModuleName);
-                      end;
-                  end;
-
-              {$IFDEF LINUX}
-              if 1= pos( PathDelim+'etc', Nom)
-              then
-                  Nom:= '~'+Nom;
-              //uClean_Log( 'uEXE_INI initialization: EXE_INI Nom = >'+Nom+'<');
-              {$ENDIF}
-              EXE_INI:= TEXE_INIFile.Create( Nom);
-
-              if Special
-              then
-                  Nom_global:= Nom
-              else
-                  Nom_global:= EXE_INI.Chemin_Global+'etc'+PathDelim+'_Configuration.ini';
-
-              //uClean_Log( 'uEXE_INI initialization: EXE_INI_Global Nom = >'+Nom_global+'<');
-              EXE_INI_Global:= TEXE_INIFile.Create( Nom_global);
+              {$ifndef android}
+              uEXE_INI_init;
+              {$endif}
 finalization
-              Free_nil( EXE_INI_Global);
-              EXE_INI.UpdateFile;
-              Free_nil( EXE_INI);
+              Free_nil( FEXE_INI_Global);
+              FEXE_INI.UpdateFile;
+              Free_nil( FEXE_INI);
 
-              if Assigned( EXE_INI_Poste)
+              if Assigned( FEXE_INI_Poste)
               then
-                  EXE_INI_Poste.UpdateFile;
-              Free_nil( EXE_INI_Poste);
+                  FEXE_INI_Poste.UpdateFile;
+              Free_nil( FEXE_INI_Poste);
               StrDispose( Buffer);
 end.
 

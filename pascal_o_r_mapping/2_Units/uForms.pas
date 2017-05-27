@@ -79,6 +79,8 @@ function  uForms_Title: string;
 
 procedure uForms_CancelHint;
 
+var
+   uForms_Android_ShowMessage: procedure ( _S: String) of object= nil;
 procedure uForms_ShowMessage( _S: String);
 
 procedure uForms_MessageBox( _Caption, _Prompt: String);
