@@ -1,10 +1,10 @@
 object fGenerateur: TfGenerateur
-  Left = 466
+  Left = 543
   Height = 240
   Top = 331
   Width = 320
   Caption = 'fGenerateur'
   OnCreate = FormCreate
   OnShow = FormShow
-  LCLVersion = '1.4.4.0'
+  LCLVersion = '1.6.0.4'
 end

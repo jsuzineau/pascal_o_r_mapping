@@ -1,14 +1,14 @@
 object ftcDockableScrollbox: TftcDockableScrollbox
-  Left = 1022
+  Left = 704
   Height = 240
-  Top = 1155
+  Top = 420
   Width = 320
   Caption = 'ftcDockableScrollbox'
   ClientHeight = 240
   ClientWidth = 320
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '1.6.0.4'
+  LCLVersion = '1.8.0.1'
   object Panel1: TPanel
     Left = 0
     Height = 66
@@ -21,9 +21,9 @@ object ftcDockableScrollbox: TftcDockableScrollbox
     TabOrder = 0
     object m: TMemo
       Left = 1
-      Height = 64
+      Height = 60
       Top = 1
-      Width = 318
+      Width = 314
       Align = alClient
       Lines.Strings = (
         'm'

@@ -6,7 +6,8 @@ uses
   Interfaces, Forms, GuiTestRunner, utcOpenDocument, ublTest,
   utcOpenDocument_Embed_Image, utcWinUtils, uftcWinUtils, utcDockableScrollbox,
   uhdmTestDockableScrollbox, ublTestDockableScrollbox,
-  udkTestDockableScrollbox, uhdmTestWinUtils, ublTestWinUtils;
+  udkTestDockableScrollbox, uhdmTestWinUtils, ublTestWinUtils, 
+utcCode_barre_pdf417, ucDockableScrollbox, uCode_barre_pdf417;
 
 {$R *.res}
 

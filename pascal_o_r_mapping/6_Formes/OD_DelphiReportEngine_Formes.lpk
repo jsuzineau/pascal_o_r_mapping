@@ -108,37 +108,31 @@
         <UnitName Value="uHorloge"/>
       </Item36>
     </Files>
-    <RequiredPkgs Count="10">
+    <RequiredPkgs Count="8">
       <Item1>
         <PackageName Value="OD_DelphiReportEngine_Controls"/>
       </Item1>
       <Item2>
-        <PackageName Value="OD_DelphiReportEngine_LCL"/>
+        <PackageName Value="SQLDBLaz"/>
       </Item2>
       <Item3>
-        <PackageName Value="OD_DelphiReportEngine_Data"/>
+        <PackageName Value="SDFLaz"/>
       </Item3>
       <Item4>
-        <PackageName Value="SQLDBLaz"/>
+        <PackageName Value="MemDSLaz"/>
       </Item4>
       <Item5>
-        <PackageName Value="SDFLaz"/>
+        <PackageName Value="DBFLaz"/>
       </Item5>
       <Item6>
-        <PackageName Value="MemDSLaz"/>
+        <PackageName Value="LCL"/>
       </Item6>
       <Item7>
-        <PackageName Value="DBFLaz"/>
+        <PackageName Value="OD_DelphiReportEngine_Components"/>
       </Item7>
       <Item8>
-        <PackageName Value="LCL"/>
-      </Item8>
-      <Item9>
-        <PackageName Value="OD_DelphiReportEngine_Components"/>
-      </Item9>
-      <Item10>
         <PackageName Value="FCL"/>
-      </Item10>
+      </Item8>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

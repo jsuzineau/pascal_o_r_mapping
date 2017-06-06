@@ -105,11 +105,7 @@ type
                           Column: TColumnIndex;
                           TextType: TVSTTextType;
                           var CellText: String);
-    procedure vstHeaderClick( Sender: TVTHeader;
-                              Column: TColumnIndex;
-                              Button: TMouseButton;
-                              Shift: TShiftState;
-                              X, Y: Integer);
+    procedure vstHeaderClick( Sender: TVTHeader; HitInfo: TVTHeaderHitInfo);
   public
     vst: TVirtualStringTree;
     cds: array of TChampDefinition;
@@ -484,11 +480,7 @@ begin
        end;
  end;
 
-procedure ThVST.vstHeaderClick( Sender: TVTHeader;
-                                Column: TColumnIndex;
-                                Button: TMouseButton;
-                                Shift: TShiftState;
-                                X, Y: Integer);
+procedure ThVST.vstHeaderClick(Sender: TVTHeader; HitInfo: TVTHeaderHitInfo);
 var
    vtc: TVirtualTreeColumn;
    cd: TChampDefinition;
@@ -496,14 +488,14 @@ var
    NewChampTri: Integer;
 begin
      if Tri = nil                then exit;
-     if -1 = Column then exit;
-     vtc:= vst.Header.Columns[Column];
+     if -1 = HitInfo.Column then exit;
+     vtc:= vst.Header.Columns[HitInfo.Column];
      if vtc = nil then exit;
 
-     cd:= cds[ Column];
+     cd:= cds[ HitInfo.Column];
      if nil = cd then exit;
 
-     if not (ssShift in Shift) then Tri.Reset_ChampsTri;
+     if not (ssShift in HitInfo.Shift) then Tri.Reset_ChampsTri;
 
      NomChamp:= cd.Nom;
      case Tri.ChampTri[ NomChamp]

@@ -1,18 +1,20 @@
 object fDecoupe_gcode: TfDecoupe_gcode
-  Left = 507
+  Left = 823
   Height = 364
-  Top = 145
-  Width = 517
+  Top = 955
+  Width = 542
   Caption = 'fDecoupe_gcode'
   ClientHeight = 364
-  ClientWidth = 517
+  ClientWidth = 542
   Menu = mm
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   LCLVersion = '1.6.0.4'
   object m: TMemo
     Left = 0
-    Height = 219
-    Top = 50
-    Width = 517
+    Height = 195
+    Top = 74
+    Width = 542
     Align = alClient
     Lines.Strings = (
       'm'
@@ -25,7 +27,7 @@ object fDecoupe_gcode: TfDecoupe_gcode
     Left = 0
     Height = 5
     Top = 269
-    Width = 517
+    Width = 542
     Align = alBottom
     Color = clLime
     ParentColor = False
@@ -35,7 +37,7 @@ object fDecoupe_gcode: TfDecoupe_gcode
     Left = 0
     Height = 90
     Top = 274
-    Width = 517
+    Width = 542
     Align = alBottom
     Lines.Strings = (
       'mVariables'
@@ -45,17 +47,17 @@ object fDecoupe_gcode: TfDecoupe_gcode
   end
   object Panel1: TPanel
     Left = 0
-    Height = 50
+    Height = 74
     Top = 0
-    Width = 517
+    Width = 542
     Align = alTop
-    ClientHeight = 50
-    ClientWidth = 517
+    ClientHeight = 74
+    ClientWidth = 542
     TabOrder = 3
     object seNb: TSpinEdit
       Left = 128
       Height = 27
-      Top = 15
+      Top = 39
       Width = 50
       TabOrder = 0
       Value = 20
@@ -63,11 +65,38 @@ object fDecoupe_gcode: TfDecoupe_gcode
     object bDecoupe_en: TButton
       Left = 14
       Height = 25
-      Top = 15
+      Top = 39
       Width = 107
       Caption = 'Découper en'
       OnClick = bDecoupe_enClick
       TabOrder = 1
+    end
+    object Label1: TLabel
+      Left = 18
+      Height = 17
+      Top = 12
+      Width = 47
+      Caption = 'Source'
+      ParentColor = False
+    end
+    object eSource: TEdit
+      Left = 72
+      Height = 27
+      Top = 8
+      Width = 433
+      Anchors = [akTop, akLeft, akRight]
+      TabOrder = 2
+      Text = 'eSource'
+    end
+    object bChoix: TButton
+      Left = 508
+      Height = 27
+      Top = 8
+      Width = 30
+      Anchors = [akTop, akRight]
+      Caption = '...'
+      OnClick = bChoixClick
+      TabOrder = 3
     end
   end
   object mm: TMainMenu
@@ -81,5 +110,10 @@ object fDecoupe_gcode: TfDecoupe_gcode
         OnClick = miOuvrirClick
       end
     end
+  end
+  object od: TOpenDialog
+    Filter = 'Tous les fichiers|*.*|Fichiers gcode|*.gcode'
+    left = 256
+    top = 44
   end
 end

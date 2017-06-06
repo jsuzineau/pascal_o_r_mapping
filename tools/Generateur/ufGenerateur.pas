@@ -5,6 +5,7 @@ unit ufGenerateur;
 interface
 
 uses
+    udmDatabase,
     ufAutomatic_VST,
  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs;
 
@@ -37,6 +38,7 @@ end;
 
 procedure TfGenerateur.FormShow(Sender: TObject);
 begin
+     dmDatabase.Ouvre_db;
      fAutomatic_VST.Show;
 end;
 

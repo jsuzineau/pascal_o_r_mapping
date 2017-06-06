@@ -6,7 +6,7 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
-        <OtherUnitFiles Value="../0_uWinUtils;."/>
+        <OtherUnitFiles Value="../0_uWinUtils;.;../7_sources_externes/synapse/source/lib"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>

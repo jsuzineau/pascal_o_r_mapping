@@ -824,6 +824,12 @@ var
 begin
      if _s = nil then exit;
 
+     if not sqlc.Connected
+     then
+         Ouvre_SQLConnection( sqlc);
+
+     sqlc.GetSchemaNames( _s);
+
      case SGBD
      of
        sgbd_Informix:
@@ -836,21 +842,7 @@ begin
            cdSYSDATABASE.Next;
            end;*)
          end;
-       sgbd_MySQL   :
-         begin
-         sqlqSHOW_DATABASESDatabase:= sqlqSHOW_DATABASES.FieldbyName( 'Database') as TStringField;
-         if Assigned( sqlqSHOW_DATABASESDatabase)
-         then
-             begin
-             sqlqSHOW_DATABASES.First;
-             while not sqlqSHOW_DATABASES.Eof
-             do
-               begin
-               _s.Add( sqlqSHOW_DATABASESDatabase.Value);
-               sqlqSHOW_DATABASES.Next;
-               end;
-             end;
-         end;
+       sgbd_MySQL   :begin end;
        sgbd_Postgres:
          begin
          (*cdPG_DATABASES.First;

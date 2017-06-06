@@ -1,0 +1,37 @@
+package pNom_de_la_classe;
+
+{$R *.res}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO ON}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION ON}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES OFF}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$IMPLICITBUILD OFF}
+
+requires
+  Batpro_Formes;
+
+contains
+  ublNom_de_la_classe in 'ublNom_de_la_classe.pas',
+  upoolNom_de_la_classe in 'upoolNom_de_la_classe.pas' {poolNom_de_la_classe},
+  uhfNom_de_la_classe in 'uhfNom_de_la_classe.PAS',
+  udmxcreNom_de_la_classe in 'udmxcreNom_de_la_classe.pas',
+  ufNom_de_la_classe in 'ufNom_de_la_classe.pas' {fNom_de_la_classe};
+
+end.

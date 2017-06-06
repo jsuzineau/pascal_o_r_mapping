@@ -1,0 +1,66 @@
+inherited fAutomatic_Genere_tout_sl: TfAutomatic_Genere_tout_sl
+  Left = 677
+  Height = 238
+  Top = 1018
+  Width = 563
+  Caption = 'fAutomatic_Genere_tout_sl'
+  ClientHeight = 238
+  ClientWidth = 563
+  OnCreate = FormCreate
+  Position = poDesktopCenter
+  inherited pSociete: TPanel
+    Width = 563
+    ClientWidth = 563
+    inherited lSociete: TLabel
+      Width = 507
+    end
+    inherited lHeure: TLabel
+      Left = 507
+      Width = 56
+    end
+  end
+  inherited sLog: TSplitter
+    Top = 139
+    Width = 563
+  end
+  inherited pBas: TPanel
+    Top = 98
+    Width = 563
+    ClientWidth = 563
+    TabOrder = 2
+    inherited pFermer: TPanel
+      Left = 330
+    end
+  end
+  inherited StatusBar1: TStatusBar
+    Height = 21
+    Top = 217
+    Width = 563
+  end
+  inherited pLog: TPanel
+    Top = 145
+    Width = 563
+    ClientWidth = 563
+    inherited lLog: TLabel
+      Width = 561
+    end
+    inherited mLog: TMemo
+      Width = 561
+    end
+  end
+  object m: TMemo[5]
+    Left = 0
+    Height = 80
+    Top = 18
+    Width = 563
+    Align = alClient
+    Lines.Strings = (
+      'm'
+    )
+    TabOrder = 0
+  end
+  inherited al: TActionList[6]
+  end
+  inherited pmValidation: TPopupMenu[7]
+  end
+end

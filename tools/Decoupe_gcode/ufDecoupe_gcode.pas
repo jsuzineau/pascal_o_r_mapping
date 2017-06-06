@@ -5,6 +5,7 @@ unit ufDecoupe_gcode;
 interface
 
 uses
+    uEXE_INI,
     uFichierGCODE,
  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Menus,
  StdCtrls, ExtCtrls, Spin;
@@ -15,15 +16,22 @@ type
 
  TfDecoupe_gcode = class(TForm)
   bDecoupe_en: TButton;
+  bChoix: TButton;
+  eSource: TEdit;
+  Label1: TLabel;
   m: TMemo;
   mVariables: TMemo;
   miOuvrir: TMenuItem;
   miFichier: TMenuItem;
   mm: TMainMenu;
+  od: TOpenDialog;
   Panel1: TPanel;
   seNb: TSpinEdit;
   Splitter1: TSplitter;
+  procedure bChoixClick(Sender: TObject);
   procedure bDecoupe_enClick(Sender: TObject);
+  procedure FormCreate(Sender: TObject);
+  procedure FormDestroy(Sender: TObject);
   procedure miOuvrirClick(Sender: TObject);
  private
   { private declarations }
@@ -40,6 +48,16 @@ implementation
 
 { TfDecoupe_gcode }
 
+procedure TfDecoupe_gcode.FormCreate(Sender: TObject);
+begin
+     eSource.Text:= EXE_INI.ReadString('Options', 'Source','');
+end;
+
+procedure TfDecoupe_gcode.FormDestroy(Sender: TObject);
+begin
+     EXE_INI.WriteString('Options', 'Source',eSource.Text);
+end;
+
 procedure TfDecoupe_gcode.miOuvrirClick(Sender: TObject);
 var
    F: TFichierGCODE;
@@ -47,7 +65,7 @@ begin
      m.Clear;
      F:= TFichierGCODE.Create;
      try
-        F.Charge( '/home/jean/0_Bricolage/Alvaro_et_Pascale/conduit_degauchisseuse/conduit.gcode');
+        F.Charge( eSource.Text);
         m.Lines.Add( IntToStr(Length(F.Montees))+' montées');
         m.Lines.Add( 'G92 E0 final en position '+IntToStr(F.Cherche_Reverse('G92 E0')));
         m.Lines.Add( 'Fin de ligne '+F.sFin_Ligne);
@@ -74,11 +92,19 @@ var
 begin
      F:= TFichierGCODE.Create;
      try
-        F.Charge( '/home/jean/0_Bricolage/Alvaro_et_Pascale/conduit_degauchisseuse/conduit.gcode');
+        F.Charge( eSource.Text);
         F.Decoupe( seNb.Value);
      finally
             FreeAndNil(F);
             end;
+end;
+
+procedure TfDecoupe_gcode.bChoixClick(Sender: TObject);
+begin
+     od.FileName:= eSource.Text;
+     if od.Execute
+     then
+         eSource.Text:= od.FileName;
 end;
 
 end.

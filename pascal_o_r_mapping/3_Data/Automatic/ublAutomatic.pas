@@ -559,9 +559,17 @@ var
    phPAS_HF   ,
    phPAS_TC   ,
    phDPK       : TPatternHandler;
+
    phCS_ML     : TPatternHandler;
-   phPHP_record: TPatternHandler;
-   phPHP_table : TPatternHandler;
+
+   phPHP_Doctrine_record: TPatternHandler;
+   phPHP_Doctrine_table : TPatternHandler;
+
+   phPHP_Perso_c     : TPatternHandler;
+   phPHP_Perso_Delete: TPatternHandler;
+   phPHP_Perso_Insert: TPatternHandler;
+   phPHP_Perso_Set: TPatternHandler;
+
    slParametres: TBatpro_StringList;
 
    MenuHandler: TMenuHandler;
@@ -627,10 +635,24 @@ var
         phCS:= TPatternHandler.Create( sRepRacine+'.CS',sRepCible,slParametres);
    end;
 
-   procedure CreePatternHandler_PHP( var phRecord, phTable: TPatternHandler);
+   procedure CreePatternHandler_PHP_Doctrine( var phRecord, phTable: TPatternHandler);
+   var
+      sRepSource_PHP_Doctrine: String;
    begin
-        phRecord:= TPatternHandler.Create( sRepSource+s_Nom_de_la_table+'.class.php',sRepCible,slParametres);
-        phTable := TPatternHandler.Create( sRepSource+'t'+s_Nom_de_la_table+'.class.php',sRepCible,slParametres);
+        sRepSource_PHP_Doctrine:= sRepSource+'PHP'+PathDelim+'Doctrine'+PathDelim;
+        phRecord:= TPatternHandler.Create( sRepSource_PHP_Doctrine+s_Nom_de_la_table+'.class.php',sRepCible,slParametres);
+        phTable := TPatternHandler.Create( sRepSource_PHP_Doctrine+'t'+s_Nom_de_la_table+'.class.php',sRepCible,slParametres);
+   end;
+
+   procedure CreePatternHandler_PHP_Perso( var phPHP_Perso_c, phPHP_Perso_Delete, phPHP_Perso_Insert, phPHP_Perso_Set: TPatternHandler);
+   var
+      sRepSource_PHP_Perso: String;
+   begin
+        sRepSource_PHP_Perso:= sRepSource+'PHP'+PathDelim+'Perso'+PathDelim;
+        phPHP_Perso_c     := TPatternHandler.Create( sRepSource_PHP_Perso+'cpool'+s_Nom_de_la_table+       '.php',sRepCible,slParametres);
+        phPHP_Perso_Delete:= TPatternHandler.Create( sRepSource_PHP_Perso+        s_Nom_de_la_table+'_Delete.php',sRepCible,slParametres);
+        phPHP_Perso_Insert:= TPatternHandler.Create( sRepSource_PHP_Perso+        s_Nom_de_la_table+'_Insert.php',sRepCible,slParametres);
+        phPHP_Perso_Set   := TPatternHandler.Create( sRepSource_PHP_Perso+        s_Nom_de_la_table+   '_Set.php',sRepCible,slParametres);
    end;
 
    procedure Traite_Champ( _C: TChamp);
@@ -662,14 +684,16 @@ var
    var
       RepertoirePascal: String;
       RepertoireCSharp: String;
-      RepertoirePHP   : String;
+      RepertoirePHP_Doctrine: String;
+      RepertoirePHP_Perso   : String;
 
       RepertoirePaquet: String;
    begin
-        RepertoirePascal:= 'Pascal'+PathDelim;
-        RepertoirePaquet:= RepertoirePascal+cc.Nom_de_la_classe+PathDelim;
-        RepertoireCSharp:= 'CSharp'+PathDelim;
-        RepertoirePHP   := 'PHP'   +PathDelim;
+        RepertoirePascal      := 'Pascal'                            +PathDelim;
+        RepertoirePaquet      := RepertoirePascal+cc.Nom_de_la_classe+PathDelim;
+        RepertoireCSharp      := 'CSharp'                            +PathDelim;
+        RepertoirePHP_Doctrine:= 'PHP'+PathDelim+'Doctrine'          +PathDelim;
+        RepertoirePHP_Perso   := 'PHP'+PathDelim+'Perso'             +PathDelim;
 
         phPAS_DMCRE.Produit( RepertoirePascal);
         phPAS_POOL .Produit( RepertoirePaquet);
@@ -693,8 +717,13 @@ var
 
         phCS_ML    .Produit( RepertoireCSharp);
 
-        phPHP_record.Produit(RepertoirePHP);
-        phPHP_table .Produit(RepertoirePHP);
+        phPHP_Doctrine_record.Produit(RepertoirePHP_Doctrine);
+        phPHP_Doctrine_table .Produit(RepertoirePHP_Doctrine);
+
+        phPHP_Perso_c     .Produit(RepertoirePHP_Perso);
+        phPHP_Perso_Delete.Produit(RepertoirePHP_Perso);
+        phPHP_Perso_Insert.Produit(RepertoirePHP_Perso);
+        phPHP_Perso_Set.Produit(RepertoirePHP_Perso);
    end;
    procedure Visite;
    var
@@ -794,7 +823,8 @@ begin
            CreePatternHandler_TC( phPAS_TC);
            CreePatternHandler_DPK( phDPK);
            CreePatternHandler_ML( phCS_ML);
-           CreePatternHandler_PHP( phPHP_record, phPHP_table);
+           CreePatternHandler_PHP_Doctrine( phPHP_Doctrine_record, phPHP_Doctrine_table);
+           CreePatternHandler_PHP_Perso( phPHP_Perso_c, phPHP_Perso_Delete, phPHP_Perso_Insert, phPHP_Perso_Set);
            MenuHandler:= TMenuHandler.Create( sRepSource, sRepCible);
 
            try
@@ -825,9 +855,16 @@ begin
                   FreeAndNil( phPAS_BL   );
                   FreeAndNil( phPAS_HF   );
                   FreeAndNil( phPAS_TC   );
+
                   FreeAndNil( phCS_ML   );
-                  FreeAndNil( phPHP_record);
-                  FreeAndNil( phPHP_table );
+
+                  FreeAndNil( phPHP_Doctrine_record);
+                  FreeAndNil( phPHP_Doctrine_table );
+
+                  FreeAndNil( phPHP_Perso_c     );
+                  FreeAndNil( phPHP_Perso_Delete);
+                  FreeAndNil( phPHP_Perso_Insert);
+                  FreeAndNil( phPHP_Perso_Set);
        end;
         finally
                slLog.SaveToFile( sRepCible+'suPatterns_from_MCD.log');

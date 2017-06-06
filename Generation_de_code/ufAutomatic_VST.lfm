@@ -1,15 +1,15 @@
 object fAutomatic_VST: TfAutomatic_VST
-  Left = 224
+  Left = 346
   Height = 413
-  Top = 242
+  Top = 1100
   Width = 596
   Caption = 'fAutomatic_VST'
   ClientHeight = 413
   ClientWidth = 596
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  Position = poScreenCenter
-  LCLVersion = '1.4.4.0'
+  Position = poDesktopCenter
+  LCLVersion = '1.8.0.1'
   object Panel1: TPanel
     Left = 0
     Height = 106
@@ -31,7 +31,7 @@ object fAutomatic_VST: TfAutomatic_VST
     end
     object e: TEdit
       Left = 88
-      Height = 23
+      Height = 27
       Top = 40
       Width = 496
       Anchors = [akTop, akLeft, akRight]
@@ -58,10 +58,10 @@ object fAutomatic_VST: TfAutomatic_VST
     end
     object cbDatabases: TComboBox
       Left = 95
-      Height = 23
+      Height = 29
       Top = 11
       Width = 100
-      ItemHeight = 15
+      ItemHeight = 0
       TabOrder = 4
       Text = 'cbDatabases'
     end
@@ -76,6 +76,7 @@ object fAutomatic_VST: TfAutomatic_VST
     Header.AutoSizeIndex = 0
     Header.Columns = <>
     Header.DefaultHeight = 17
+    Header.Height = 17
     Header.MainColumn = -1
     Header.Options = [hoColumnResize, hoDblClickResize, hoDrag, hoShowSortGlyphs]
     TabOrder = 1

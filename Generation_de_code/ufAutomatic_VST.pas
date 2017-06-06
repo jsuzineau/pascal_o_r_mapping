@@ -46,6 +46,8 @@ uses
 
     uhVST,
 
+    ufAutomatic_Genere_tout_sl,
+
   Classes, SysUtils, FileUtil, Forms,
   Controls, Graphics, Dialogs, StdCtrls, ExtCtrls, VirtualTrees, ucChampsGrid;
 
@@ -160,21 +162,30 @@ end;
 
 procedure TfAutomatic_VST.bGenere_ToutClick(Sender: TObject);
 var
+   Old_Database: String;
    sl: TStringList;
    I: Integer;
 begin
+     dmDatabase.sqlc.Close;
+     Old_Database:= dmDatabase.sqlc.DatabaseName;
      try
-        sl:= TStringList.Create;
-        Requete.GetTableNames( sl);
-        for I:= 0 to sl.Count -1
-        do
-          begin
-          e.Text:= 'select * from '+sl[I]+' limit 0,5';
-          bExecute.Click;
-          bGenere.Click;
-          end;
+        dmDatabase.sqlc.DatabaseName:= cbDatabases.Text;
+        try
+           sl:= TStringList.Create;
+           Requete.GetTableNames( sl);
+           fAutomatic_Genere_tout_sl.Execute( sl);
+           for I:= 0 to sl.Count -1
+           do
+             begin
+             e.Text:= 'select * from '+sl[I]+' limit 0,5';
+             bExecute.Click;
+             bGenere.Click;
+             end;
+        finally
+               FreeAndNil( sl);
+               end;
      finally
-            FreeAndNil( sl);
+            dmDatabase.sqlc.DatabaseName:= Old_Database;
             end;
 end;
 

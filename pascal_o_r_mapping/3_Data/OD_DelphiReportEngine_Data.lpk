@@ -6,6 +6,7 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
+        <OtherUnitFiles Value="../7_sources_externes/synapse/source/lib"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -14,7 +15,7 @@
         </SyntaxOptions>
       </Parsing>
     </CompilerOptions>
-    <Files Count="80">
+    <Files Count="116">
       <Item1>
         <Filename Value="uBatpro_Element.pas"/>
         <UnitName Value="uBatpro_Element"/>
@@ -144,197 +145,340 @@
         <UnitName Value="uhFiltre"/>
       </Item32>
       <Item33>
-        <Filename Value="uhFiltre_Ancetre.pas"/>
-        <UnitName Value="uhFiltre_Ancetre"/>
-      </Item33>
-      <Item34>
         <Filename Value="uInformix.pas"/>
         <UnitName Value="uInformix"/>
-      </Item34>
-      <Item35>
+      </Item33>
+      <Item34>
         <Filename Value="u_InformixLob.pas"/>
         <UnitName Value="u_InformixLob"/>
-      </Item35>
-      <Item36>
+      </Item34>
+      <Item35>
         <Filename Value="uINI_Batpro_OD_Report.pas"/>
         <UnitName Value="uINI_Batpro_OD_Report"/>
-      </Item36>
-      <Item37>
+      </Item35>
+      <Item36>
         <Filename Value="u_ini_Formes.pas"/>
         <UnitName Value="u_ini_Formes"/>
-      </Item37>
-      <Item38>
+      </Item36>
+      <Item37>
         <Filename Value="u_loc_Formes.pas"/>
         <UnitName Value="u_loc_Formes"/>
-      </Item38>
-      <Item39>
-        <Filename Value="uLog.pas"/>
-        <UnitName Value="uLog"/>
-      </Item39>
-      <Item40>
+      </Item37>
+      <Item38>
         <Filename Value="uMailTo.pas"/>
         <UnitName Value="uMailTo"/>
-      </Item40>
-      <Item41>
+      </Item38>
+      <Item39>
         <Filename Value="uMotsCles.pas"/>
         <UnitName Value="uMotsCles"/>
-      </Item41>
-      <Item42>
+      </Item39>
+      <Item40>
         <Filename Value="uMySQL.pas"/>
         <UnitName Value="uMySQL"/>
-      </Item42>
-      <Item43>
+      </Item40>
+      <Item41>
         <Filename Value="uOD_Batpro_Table.pas"/>
         <UnitName Value="uOD_Batpro_Table"/>
-      </Item43>
-      <Item44>
+      </Item41>
+      <Item42>
         <Filename Value="uOD_BatproTextTableContext.pas"/>
         <UnitName Value="uOD_BatproTextTableContext"/>
-      </Item44>
-      <Item45>
+      </Item42>
+      <Item43>
         <Filename Value="uOD_Champ.pas"/>
         <UnitName Value="uOD_Champ"/>
-      </Item45>
-      <Item46>
+      </Item43>
+      <Item44>
         <Filename Value="uOD_Niveau.pas"/>
         <UnitName Value="uOD_Niveau"/>
-      </Item46>
-      <Item47>
+      </Item44>
+      <Item45>
         <Filename Value="uOOo_NomChamp_utilisateur.pas"/>
         <UnitName Value="uOOo_NomChamp_utilisateur"/>
-      </Item47>
-      <Item48>
+      </Item45>
+      <Item46>
         <Filename Value="uParametres_Ancetre.pas"/>
         <UnitName Value="uParametres_Ancetre"/>
+      </Item46>
+      <Item47>
+        <Filename Value="uPool.lfm"/>
+        <Type Value="LFM"/>
+      </Item47>
+      <Item48>
+        <Filename Value="uPool.pas"/>
+        <UnitName Value="uPool"/>
       </Item48>
       <Item49>
-        <Filename Value="uPool.lfm"/>
+        <Filename Value="upool_Ancetre_Ancetre.lfm"/>
         <Type Value="LFM"/>
       </Item49>
       <Item50>
-        <Filename Value="uPool.pas"/>
-        <UnitName Value="uPool"/>
-      </Item50>
-      <Item51>
-        <Filename Value="upool_Ancetre_Ancetre.lfm"/>
-        <Type Value="LFM"/>
-      </Item51>
-      <Item52>
         <Filename Value="upool_Ancetre_Ancetre.lrs"/>
         <Type Value="LRS"/>
-      </Item52>
-      <Item53>
+      </Item50>
+      <Item51>
         <Filename Value="upool_Ancetre_Ancetre.pas"/>
         <UnitName Value="upool_Ancetre_Ancetre"/>
-      </Item53>
-      <Item54>
+      </Item51>
+      <Item52>
         <Filename Value="upoolG_BECP.pas"/>
         <UnitName Value="upoolG_BECP"/>
-      </Item54>
-      <Item55>
+      </Item52>
+      <Item53>
         <Filename Value="upoolG_BECPCTX.lfm"/>
         <Type Value="LFM"/>
-      </Item55>
-      <Item56>
+      </Item53>
+      <Item54>
         <Filename Value="upoolG_BECPCTX.pas"/>
         <UnitName Value="upoolG_BECPCTX"/>
-      </Item56>
-      <Item57>
+      </Item54>
+      <Item55>
         <Filename Value="upoolG_CTX.pas"/>
         <UnitName Value="upoolG_CTX"/>
-      </Item57>
-      <Item58>
+      </Item55>
+      <Item56>
         <Filename Value="upoolG_CTXTYPE.pas"/>
         <UnitName Value="upoolG_CTXTYPE"/>
-      </Item58>
-      <Item59>
+      </Item56>
+      <Item57>
         <Filename Value="uPostgres.pas"/>
         <UnitName Value="uPostgres"/>
-      </Item59>
-      <Item60>
+      </Item57>
+      <Item58>
         <Filename Value="uRegistry.pas"/>
         <UnitName Value="uRegistry"/>
-      </Item60>
-      <Item61>
+      </Item58>
+      <Item59>
         <Filename Value="uRequete.pas"/>
         <UnitName Value="uRequete"/>
-      </Item61>
-      <Item62>
+      </Item59>
+      <Item60>
         <Filename Value="uSuppression.pas"/>
         <UnitName Value="uSuppression"/>
-      </Item62>
-      <Item63>
+      </Item60>
+      <Item61>
         <Filename Value="uSVG.pas"/>
         <UnitName Value="uSVG"/>
-      </Item63>
-      <Item64>
+      </Item61>
+      <Item62>
         <Filename Value="u_sys_Batpro_Element.pas"/>
         <UnitName Value="u_sys_Batpro_Element"/>
-      </Item64>
-      <Item65>
+      </Item62>
+      <Item63>
         <Filename Value="uTri.pas"/>
         <UnitName Value="uTri"/>
-      </Item65>
-      <Item66>
+      </Item63>
+      <Item64>
         <Filename Value="uVide.pas"/>
         <UnitName Value="uVide"/>
-      </Item66>
-      <Item67>
+      </Item64>
+      <Item65>
         <Filename Value="uXML.pas"/>
         <UnitName Value="uXML"/>
-      </Item67>
-      <Item68>
+      </Item65>
+      <Item66>
         <Filename Value="uTraits.pas"/>
         <UnitName Value="uTraits"/>
-      </Item68>
-      <Item69>
+      </Item66>
+      <Item67>
         <Filename Value="u_db_Formes.pas"/>
         <UnitName Value="u_db_Formes"/>
-      </Item69>
-      <Item70>
+      </Item67>
+      <Item68>
         <Filename Value="ubeChamp.pas"/>
         <UnitName Value="ubeChamp"/>
-      </Item70>
-      <Item71>
+      </Item68>
+      <Item69>
         <Filename Value="ubeClusterElement.pas"/>
         <UnitName Value="ubeClusterElement"/>
-      </Item71>
-      <Item72>
+      </Item69>
+      <Item70>
         <Filename Value="ubeJalon.pas"/>
         <UnitName Value="ubeJalon"/>
-      </Item72>
-      <Item73>
+      </Item70>
+      <Item71>
         <Filename Value="uberef.pas"/>
         <UnitName Value="uberef"/>
-      </Item73>
-      <Item74>
+      </Item71>
+      <Item72>
         <Filename Value="ubeSerie.pas"/>
         <UnitName Value="ubeSerie"/>
-      </Item74>
-      <Item75>
+      </Item72>
+      <Item73>
         <Filename Value="uhRequete.pas"/>
         <UnitName Value="uhRequete"/>
-      </Item75>
-      <Item76>
+      </Item73>
+      <Item74>
         <Filename Value="uhrG_BECP.pas"/>
         <UnitName Value="uhrG_BECP"/>
-      </Item76>
-      <Item77>
+      </Item74>
+      <Item75>
         <Filename Value="uhrG_BECPCTX.pas"/>
         <UnitName Value="uhrG_BECPCTX"/>
-      </Item77>
-      <Item78>
+      </Item75>
+      <Item76>
         <Filename Value="uhrG_CTX.pas"/>
         <UnitName Value="uhrG_CTX"/>
-      </Item78>
-      <Item79>
+      </Item76>
+      <Item77>
         <Filename Value="uhTriColonne.pas"/>
         <UnitName Value="uhTriColonne"/>
+      </Item77>
+      <Item78>
+        <AddToUsesPkgSection Value="False"/>
+      </Item78>
+      <Item79>
+        <Filename Value="../7_sources_externes/synapse/source/lib/ssl_streamsec.pas"/>
+        <UnitName Value="ssl_streamsec"/>
       </Item79>
       <Item80>
-        <Filename Value="../sources_externes/synapse/source/lib/blcksock.pas"/>
+        <Filename Value="../7_sources_externes/synapse/source/lib/blcksock.pas"/>
         <UnitName Value="blcksock"/>
       </Item80>
+      <Item81>
+        <Filename Value="../7_sources_externes/synapse/source/lib/mimeinln.pas"/>
+        <UnitName Value="mimeinln"/>
+      </Item81>
+      <Item82>
+        <Filename Value="../7_sources_externes/synapse/source/lib/ssl_cryptlib.pas"/>
+        <UnitName Value="ssl_cryptlib"/>
+      </Item82>
+      <Item83>
+        <Filename Value="../7_sources_externes/synapse/source/lib/pingsend.pas"/>
+        <UnitName Value="pingsend"/>
+      </Item83>
+      <Item84>
+        <Filename Value="../7_sources_externes/synapse/source/lib/mimepart.pas"/>
+        <UnitName Value="mimepart"/>
+      </Item84>
+      <Item85>
+        <Filename Value="../7_sources_externes/synapse/source/lib/ftpsend.pas"/>
+        <UnitName Value="ftpsend"/>
+      </Item85>
+      <Item86>
+        <Filename Value="../7_sources_externes/synapse/source/lib/clamsend.pas"/>
+        <UnitName Value="clamsend"/>
+      </Item86>
+      <Item87>
+        <Filename Value="../7_sources_externes/synapse/source/lib/imapsend.pas"/>
+        <UnitName Value="imapsend"/>
+      </Item87>
+      <Item88>
+        <Filename Value="../7_sources_externes/synapse/source/lib/laz_synapse.pas"/>
+        <UnitName Value="laz_synapse"/>
+      </Item88>
+      <Item89>
+        <Filename Value="../7_sources_externes/synapse/source/lib/slogsend.pas"/>
+        <UnitName Value="slogsend"/>
+      </Item89>
+      <Item90>
+        <Filename Value="../7_sources_externes/synapse/source/lib/synafpc.pas"/>
+        <UnitName Value="synafpc"/>
+      </Item90>
+      <Item91>
+        <Filename Value="../7_sources_externes/synapse/source/lib/nntpsend.pas"/>
+        <UnitName Value="nntpsend"/>
+      </Item91>
+      <Item92>
+        <Filename Value="../7_sources_externes/synapse/source/lib/synachar.pas"/>
+        <UnitName Value="synachar"/>
+      </Item92>
+      <Item93>
+        <Filename Value="../7_sources_externes/synapse/source/lib/synautil.pas"/>
+        <UnitName Value="synautil"/>
+      </Item93>
+      <Item94>
+        <Filename Value="../7_sources_externes/synapse/source/lib/ssl_sbb.pas"/>
+        <UnitName Value="ssl_sbb"/>
+      </Item94>
+      <Item95>
+        <Filename Value="../7_sources_externes/synapse/source/lib/dnssend.pas"/>
+        <UnitName Value="dnssend"/>
+      </Item95>
+      <Item96>
+        <Filename Value="../7_sources_externes/synapse/source/lib/ssl_openssl_lib.pas"/>
+        <UnitName Value="ssl_openssl_lib"/>
+      </Item96>
+      <Item97>
+        <Filename Value="../7_sources_externes/synapse/source/lib/mimemess.pas"/>
+        <UnitName Value="mimemess"/>
+      </Item97>
+      <Item98>
+        <Filename Value="../7_sources_externes/synapse/source/lib/snmpsend.pas"/>
+        <UnitName Value="snmpsend"/>
+      </Item98>
+      <Item99>
+        <Filename Value="../7_sources_externes/synapse/source/lib/ldapsend.pas"/>
+        <UnitName Value="ldapsend"/>
+      </Item99>
+      <Item100>
+        <Filename Value="../7_sources_externes/synapse/source/lib/ssl_openssl.pas"/>
+        <UnitName Value="ssl_openssl"/>
+      </Item100>
+      <Item101>
+        <Filename Value="../7_sources_externes/synapse/source/lib/synsock.pas"/>
+        <UnitName Value="synsock"/>
+      </Item101>
+      <Item102>
+        <Filename Value="../7_sources_externes/synapse/source/lib/tlntsend.pas"/>
+        <UnitName Value="tlntsend"/>
+      </Item102>
+      <Item103>
+        <Filename Value="../7_sources_externes/synapse/source/lib/sntpsend.pas"/>
+        <UnitName Value="sntpsend"/>
+      </Item103>
+      <Item104>
+        <Filename Value="../7_sources_externes/synapse/source/lib/synamisc.pas"/>
+        <UnitName Value="synamisc"/>
+      </Item104>
+      <Item105>
+        <Filename Value="../7_sources_externes/synapse/source/lib/httpsend.pas"/>
+        <UnitName Value="httpsend"/>
+      </Item105>
+      <Item106>
+        <Filename Value="../7_sources_externes/synapse/source/lib/ssl_libssh2.pas"/>
+        <UnitName Value="ssl_libssh2"/>
+      </Item106>
+      <Item107>
+        <Filename Value="../7_sources_externes/synapse/source/lib/synadbg.pas"/>
+        <UnitName Value="synadbg"/>
+      </Item107>
+      <Item108>
+        <Filename Value="../7_sources_externes/synapse/source/lib/synaip.pas"/>
+        <UnitName Value="synaip"/>
+      </Item108>
+      <Item109>
+        <Filename Value="../7_sources_externes/synapse/source/lib/synacrypt.pas"/>
+        <UnitName Value="synacrypt"/>
+      </Item109>
+      <Item110>
+        <Filename Value="../7_sources_externes/synapse/source/lib/synaser.pas"/>
+        <UnitName Value="synaser"/>
+      </Item110>
+      <Item111>
+        <Filename Value="../7_sources_externes/synapse/source/lib/synaicnv.pas"/>
+        <UnitName Value="synaicnv"/>
+      </Item111>
+      <Item112>
+        <Filename Value="../7_sources_externes/synapse/source/lib/pop3send.pas"/>
+        <UnitName Value="pop3send"/>
+      </Item112>
+      <Item113>
+        <Filename Value="../7_sources_externes/synapse/source/lib/ftptsend.pas"/>
+        <UnitName Value="ftptsend"/>
+      </Item113>
+      <Item114>
+        <Filename Value="../7_sources_externes/synapse/source/lib/smtpsend.pas"/>
+        <UnitName Value="smtpsend"/>
+      </Item114>
+      <Item115>
+        <Filename Value="../7_sources_externes/synapse/source/lib/synacode.pas"/>
+        <UnitName Value="synacode"/>
+      </Item115>
+      <Item116>
+        <Filename Value="../7_sources_externes/synapse/source/lib/asn1util.pas"/>
+        <UnitName Value="asn1util"/>
+      </Item116>
     </Files>
     <RequiredPkgs Count="1">
       <Item1>
