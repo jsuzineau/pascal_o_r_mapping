@@ -68,3 +68,7 @@ tools/OpenDocument_DelphiReportEngine/OpenDocument_DelphiReportEngine.exe
 backup
 /tools/OpenDocument_DelphiReportEngine/OpenDocument_DelphiReportEngine.exe
 /jsWorks/android_lamw/jsWorks/obj
+tools/Generateur/Generateur_de_code/Parametres
+tools/Generateur/Generateur_de_code/Source
+tools/Generateur/Generateur
+jsWorks/etc/_Configuration.First-Boss.ini
