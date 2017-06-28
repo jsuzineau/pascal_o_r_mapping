@@ -53,7 +53,7 @@ type
     function Get( _id: integer): Tblg_ctr;
   //Accés par clé
   protected
-    procedure To_SQLQuery_Params( SQLQuery: TSQLQuery); override;
+    procedure To_Params( _Params: TParams); override;
   public
   
   
@@ -103,10 +103,10 @@ end;
 
 
 
-procedure Tpoolg_ctr.To_SQLQuery_Params(SQLQuery: TSQLQuery);
+procedure Tpoolg_ctr.To_Params( _Params: TParams);
 begin
      inherited;
-     with SQLQuery.Params
+     with _Params
      do
        begin
        ParamByName( 'soc'    ).AsString:= soc;

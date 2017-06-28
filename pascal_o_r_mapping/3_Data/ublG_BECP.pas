@@ -74,7 +74,7 @@ type
   public
     Is_blClasse_TBatpro_Element: Boolean; // si composant d'amorçage
     slG_BECPCTX: TBatpro_StringList;
-    constructor Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre); override;
+    constructor Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre); override;
     constructor Create_New( unNomClasse: String);
     destructor Destroy; override;
 
@@ -143,9 +143,9 @@ begin
      FFont.Assign( Fonte_Default_0);
 end;
 
-constructor TblG_BECP.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
+constructor TblG_BECP.Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre);
 begin
-     inherited Create( _sl, _q, _pool);
+     inherited Create( _sl, _jsdc, _pool);
 
      CreeObjets;
 

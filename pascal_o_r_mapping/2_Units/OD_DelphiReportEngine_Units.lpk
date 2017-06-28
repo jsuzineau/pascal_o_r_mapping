@@ -18,7 +18,7 @@
         <CustomOptions Value="-dWINDOWS_GRAPHIC"/>
       </Other>
     </CompilerOptions>
-    <Files Count="87">
+    <Files Count="94">
       <Item1>
         <Filename Value="DBTables.pas"/>
         <UnitName Value="DBTables"/>
@@ -367,6 +367,35 @@
         <Filename Value="uBMP_File.pas"/>
         <UnitName Value="uBMP_File"/>
       </Item87>
+      <Item88>
+        <Filename Value="ujsDataContexte.pas"/>
+        <UnitName Value="ujsDataContexte"/>
+      </Item88>
+      <Item89>
+        <Filename Value="uSQLite3.pas"/>
+        <UnitName Value="uSQLite3"/>
+      </Item89>
+      <Item90>
+        <Filename Value="uRegistry.pas"/>
+        <UnitName Value="uRegistry"/>
+      </Item90>
+      <Item91>
+        <Filename Value="uDataUtilsF.pas"/>
+        <UnitName Value="uDataUtilsF"/>
+      </Item91>
+      <Item92>
+        <Filename Value="uVide.pas"/>
+        <UnitName Value="uVide"/>
+      </Item92>
+      <Item93>
+        <Filename Value="../../../../01_pascal_o_r_mapping/pascal_o_r_mapping/2_Units/sqlite3conn_pour_test.pp"/>
+        <UnitName Value="sqlite3conn_pour_test"/>
+      </Item93>
+      <Item94>
+        <Filename Value="sqlite3conn_pour_test.pp"/>
+        <AddToUsesPkgSection Value="False"/>
+        <UnitName Value="sqlite3conn_pour_test"/>
+      </Item94>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>

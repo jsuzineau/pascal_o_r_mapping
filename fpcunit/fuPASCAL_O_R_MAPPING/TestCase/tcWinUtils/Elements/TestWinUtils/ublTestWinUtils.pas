@@ -28,6 +28,7 @@ uses
     uClean,
     u_sys_,
     uBatpro_StringList,
+    ujsDataContexte,
     uBatpro_Element,
     uBatpro_Ligne,
  Classes, SysUtils,db;
@@ -41,7 +42,7 @@ type
   class( TBatpro_Ligne)
   //Cycle de vie
   public
-    constructor Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre); virtual;
+    constructor Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre); virtual;
     destructor Destroy; override;
   //Attributs
   public
@@ -117,7 +118,9 @@ end;
 
 { TblTestWinUtils }
 
-constructor TblTestWinUtils.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
+constructor TblTestWinUtils.Create( _sl: TBatpro_StringList;
+                                    _jsdc: TjsDataContexte;
+                                    _pool: Tpool_Ancetre_Ancetre);
 var
    CP: IblG_BECP;
 begin

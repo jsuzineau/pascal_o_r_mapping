@@ -59,7 +59,7 @@ type
     sStringList: String;
     StringList : TBatpro_StringList;
     Sauver     : Boolean;
-    constructor Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre); override;
+    constructor Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre); override;
     constructor Create_New( unNomClasse: String);
     destructor Destroy; override;
     //procedure To_Q;
@@ -125,7 +125,7 @@ begin
      {$ENDIF}
 end;
 
-constructor TblG_BECPCTX.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
+constructor TblG_BECPCTX.Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre);
 var
    CP: IblG_BECP;
    {$IFNDEF FPC}
@@ -145,7 +145,7 @@ begin
          {$ENDIF}
          end;
 
-     inherited Create( _sl, _q, _pool);
+     inherited Create( _sl, _jsdc, _pool);
 
      if Assigned( Champs.ChampDefinitions)
      then

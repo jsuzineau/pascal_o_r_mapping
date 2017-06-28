@@ -32,6 +32,7 @@ uses
     uLookupConnection_Ancetre,
     u_sys_,
     uPublieur,
+    ujsDataContexte,
     uChampDefinition,
     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
     udmf,
@@ -45,12 +46,14 @@ uses
   SysUtils, Classes,DB;
 
 type
- PtrBoolean= ^Boolean;
  TOnGetLookupListItems= procedure ( _Current_Key: String;
                                     _Keys, _Labels: TStrings;
                                     _Connection_Ancetre: TLookupConnection_Ancetre;
                                     _CodeId_: Boolean= False) of object;
  TChamp_OnGetChaine= procedure ( var _Chaine: String) of object;
+
+ { TChamp }
+
  TChamp
  =
   class
@@ -121,7 +124,7 @@ type
     Save_to_database: TAbonnement_Objet_Proc;
   //Rechargement
   public
-    procedure Recharge( _q: TDataset);
+    procedure Recharge( _jsdc: TjsDataContexte);
   // asInteger
   private
     function GetasInteger: Integer;
@@ -679,28 +682,9 @@ begin
 
 end;
 
-procedure TChamp.Recharge( _q: TDataset);
-var
-   F: TField;
+procedure TChamp.Recharge(_jsdc: TjsDataContexte);
 begin
-     F:= _q.FindField( Definition.Nom);
-     if F = nil then exit;
-
-     case Definition.Typ
-     of
-       ftFixedChar: PShortString( Valeur)^:= F.AsString;
-       ftString  : PString  ( Valeur)^:= F.AsString;
-       ftMemo    : PString  ( Valeur)^:= F.AsString;
-       ftBlob    : PString  ( Valeur)^:= F.AsString;
-       ftDate    : TryStrToDate    ( F.AsString, PDateTime( Valeur)^);
-       ftInteger : TryStrToInt     ( F.AsString, PLongint ( Valeur)^);
-       ftSmallint: TryStrToInt     ( F.AsString, PLongint ( Valeur)^);
-       ftBCD     : TryStrToCurr    ( F.AsString, PCurrency( Valeur)^);
-       ftDateTime: TryStrToDateTime( F.AsString, PDateTime( Valeur)^);
-       ftTimeStamp:TryStrToDateTime( F.AsString, PDateTime( Valeur)^);
-       ftFloat   : TryStrToFloat   ( F.AsString, PDouble  ( Valeur)^);
-       ftBoolean : TryStrToBool    ( F.AsString, PtrBoolean ( Valeur)^);
-       end;
+     _jsdc.Charge( Definition.Nom, Definition.Info.jsDataType, Valeur);
 end;
 
 function TChamp.GetasDatetime: TDatetime;

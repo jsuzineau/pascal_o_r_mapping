@@ -26,6 +26,7 @@ interface
 
 uses
     uClean,
+    ujsDataContexte,
     u_sys_,
     uBatpro_StringList,
     uBatpro_Element,
@@ -41,7 +42,7 @@ type
   class( TBatpro_Ligne)
   //Cycle de vie
   public
-    constructor Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre); virtual;
+    constructor Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre); override;
     destructor Destroy; override;
   //Attributs
   public
@@ -117,7 +118,7 @@ end;
 
 { TblTest }
 
-constructor TblTest.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
+constructor TblTest.Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre);
 var
    CP: IblG_BECP;
 begin

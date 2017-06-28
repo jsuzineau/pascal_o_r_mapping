@@ -58,7 +58,7 @@ type
     nomclasse: String;
     contexte: Integer;
 
-    procedure To_SQLQuery_Params( SQLQuery: TSQLQuery); override;
+    procedure To_Params( _Params: TParams); override;
   public
     function Get_by_Cle( _nomclasse: String; _contexte: Integer): TblG_BECPCTX;
   //Gestion de l'insertion
@@ -133,10 +133,10 @@ begin
 
 end;
 
-procedure TpoolG_BECPCTX.To_SQLQuery_Params(SQLQuery: TSQLQuery);
+procedure TpoolG_BECPCTX.To_Params( _Params: TParams);
 begin
      inherited;
-     with SQLQuery.Params
+     with _Params
      do
        begin
        ParamByName( 'nomclasse'    ).AsString:= nomclasse;

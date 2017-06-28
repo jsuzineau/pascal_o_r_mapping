@@ -33,7 +33,7 @@ uses
     uEXE_INI,
     uSGBD,
     ufAccueil_Erreur,
-  sqlite3conn, SQLDB,
+  sqlite3conn_pour_test, SQLDB, sqlite3dyn,
   SysUtils, Classes;
 
 type
@@ -59,6 +59,30 @@ type
   public
     DataBase: String;
     function Cree_Connection: TSQLite3Connection;
+  end;
+
+ { TjsDataContexte_libsqlite3 }
+
+ TjsDataContexte_libsqlite3
+ =
+  class( TjsDataContexte)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Name: String; _ds: TDataset);
+    destructor Destroy; override;
+  //SQL
+  public
+    function Params: TParams;       override;
+    function RefreshQuery: Boolean; override;
+    function ExecSQLQuery: Boolean; override;
+    function IsEmpty: Boolean;      virtual;
+    procedure First;                virtual;
+    function EoF: Boolean;          virtual;
+    procedure Next;                 virtual;
+    procedure Close;                virtual;
+  //Champs
+  public
+    function Assure_Champ( _Champ_Nom: String): TjsDataContexte_Champ; override;
   end;
 
 var

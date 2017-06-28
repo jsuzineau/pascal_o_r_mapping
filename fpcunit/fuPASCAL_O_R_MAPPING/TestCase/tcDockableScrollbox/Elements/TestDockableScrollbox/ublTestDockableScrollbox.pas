@@ -41,7 +41,7 @@ type
   class( TBatpro_Ligne)
   //Cycle de vie
   public
-    constructor Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre); virtual;
+    constructor Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre); virtual;
     destructor Destroy; override;
   //Attributs
   public
@@ -117,7 +117,9 @@ end;
 
 { TblTestDockableScrollbox }
 
-constructor TblTestDockableScrollbox.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
+constructor TblTestDockableScrollbox.Create( _sl: TBatpro_StringList;
+                                             _jsdc: TjsDataContexte;
+                                             _pool: Tpool_Ancetre_Ancetre);
 var
    CP: IblG_BECP;
 begin

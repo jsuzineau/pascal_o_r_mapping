@@ -46,7 +46,7 @@ type
   class( TBatpro_Ligne)
   //Gestion du cycle de vie
   public
-    constructor Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre); override;
+    constructor Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre); override;
     destructor Destroy; override;
   //champs persistants
   public
@@ -82,7 +82,7 @@ implementation
 
 { TblTest_Champ_DateTimePicker }
 
-constructor TblTest_Champ_DateTimePicker.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
+constructor TblTest_Champ_DateTimePicker.Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre);
 var
    CP: IblG_BECP;
 begin

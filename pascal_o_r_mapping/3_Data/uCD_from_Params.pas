@@ -30,6 +30,7 @@ uses
     DB, BufDataset,
     uClean,
     uBatpro_StringList,
+    ujsDataContexte,
     uChamp,
     uChampDefinition,
     uChamps,
@@ -50,8 +51,28 @@ type
     procedure Remplit;
   end;
 
-var
-   CD_from_Params: TCD_from_Params = nil;
+ { TjsDataContexte_CD_from_Params }
+
+ TjsDataContexte_CD_from_Params
+ =
+  class( TjsDataContexte)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Name: String);
+    destructor Destroy; override;
+  //SQL
+  protected
+    procedure SetSQL( _SQL: String); override;
+    function  GetSQL: String; override;
+  //Contexte BufDataset
+  private
+    BufDataset: TBufDataset;
+  // CD_from_Params
+  private
+     CD_from_Params: TCD_from_Params;
+  public
+     procedure _from_Params( _P: TParams);
+  end;
 
 implementation
 
@@ -141,8 +162,36 @@ begin
      cd.Post;
 end;
 
-initialization
-              CD_from_Params:= TCD_from_Params.Create;
-finalization
-              Free_nil( CD_from_Params);
+{ TjsDataContexte_CD_from_Params }
+
+constructor TjsDataContexte_CD_from_Params.Create(_Name: String);
+begin
+     inherited Create( _Name);
+     BufDataset:= TBufDataset.Create( nil);
+     CD_from_Params:= TCD_from_Params.Create;
+end;
+
+destructor TjsDataContexte_CD_from_Params.Destroy;
+begin
+     Free_nil( CD_from_Params);
+     FreeAndNil( BufDataset);
+     inherited Destroy;
+end;
+
+procedure TjsDataContexte_CD_from_Params.SetSQL(_SQL: String);
+begin
+     raise Exception.Create( Name+': '+ClassName+': méthode SetSQL non implémentée');
+end;
+
+function TjsDataContexte_CD_from_Params.GetSQL: String;
+begin
+     Result:=inherited GetSQL;
+     raise Exception.Create( Name+': '+ClassName+': fonction GetSQL non implémentée');
+end;
+
+procedure TjsDataContexte_CD_from_Params._from_Params(_P: TParams);
+begin
+     CD_from_Params.Execute( BufDataset, _P);
+end;
+
 end.

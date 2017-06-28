@@ -25,7 +25,8 @@ uses
  uSkipList, uskString, uStringArray, u_sys_, uTemporaire, uTri_Ancetre, 
  uUseCase, uUseCases, uuStrings, uVersion, uLog, uNetwork, uhFiltre_Ancetre, 
  uDimensions_from_pasjpeg, uDimensions_Image, uPNG_File, uBMP_File, 
- LazarusPackageIntf;
+ ujsDataContexte, uSQLite3, uRegistry, uDataUtilsF, uVide, 
+ sqlite3conn_pour_test, LazarusPackageIntf;
 
 implementation
 

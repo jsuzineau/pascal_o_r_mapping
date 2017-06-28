@@ -63,7 +63,7 @@ uses
     mysql56conn,
     odbcconn,
     mssqlconn,
-    sqlite3conn,
+    sqlite3conn_pour_test,
     IniFiles,
   FMTBcd, BufDataset;
 

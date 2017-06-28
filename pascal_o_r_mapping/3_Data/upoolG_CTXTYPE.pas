@@ -61,7 +61,7 @@ type
   protected
     contextetype: String;
 
-    procedure To_SQLQuery_Params( SQLQuery: TSQLQuery); override;
+    procedure To_Params( _Params: TParams); override;
   public
     function Get_by_Cle( _contextetype: String): TblG_CTXTYPE;
   //Indépendance par rapport au SGBD Informix ou MySQL
@@ -119,10 +119,10 @@ begin
 end;                             
 
 
-procedure TpoolG_CTXTYPE.To_SQLQuery_Params(SQLQuery: TSQLQuery);
+procedure TpoolG_CTXTYPE.To_Params( _Params: TParams);
 begin
      inherited;
-     with SQLQuery.Params
+     with _Params
      do
        begin
        ParamByName( 'contextetype'    ).AsString:= contextetype;

@@ -192,11 +192,10 @@ type
   class( TBatpro_Ligne)
   //Gestion du cycle de vie
   public
-    constructor Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre); override;
+    constructor Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre); override;
     destructor Destroy; override;
   //Attributs
   public
-    q: TDataset;
     slFields: TslJSONFieldBuffer;
   //Aggrégations
   protected
@@ -470,8 +469,8 @@ end;
 { TblJSON }
 
 constructor TblJSON.Create( _sl: TBatpro_StringList;
-                                 _q: TDataset;
-                                 _pool: Tpool_Ancetre_Ancetre);
+                            _jsdc: TjsDataContexte;
+                            _pool: Tpool_Ancetre_Ancetre);
 var
    CP: IblG_BECP;
 begin
@@ -484,9 +483,8 @@ begin
          CP.Font.Size:= 12;
          end;
 
-     inherited Create(_sl, _q, _pool);
+     inherited Create(_sl, _jsdc, _pool);
 
-     q:= _q;
      slFields:= TslJSONFieldBuffer.Create( ClassName+'.slFields');
      FslLink:= nil;
 end;

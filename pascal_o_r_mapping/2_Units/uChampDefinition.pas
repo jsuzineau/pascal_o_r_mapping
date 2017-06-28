@@ -30,6 +30,7 @@ uses
     u_sys_,
     uuStrings,
     uReal_Formatter,
+    ujsDataContexte,
     {$IFNDEF FPC}
     uWinUtils,
     {$ENDIF}
@@ -63,14 +64,15 @@ type
     Nom       : String;
     Typ       : TFieldType;
     Persistant: Boolean;
-    Visible   : Boolean;
-    Libelle   : String;
-    Longueur  : Integer;
+    Info: TjsDataContexte_Champ_Info;
+    property Visible   : Boolean read Info.Visible  write Info.Visible ;
+    property Libelle   : String  read Info.Libelle  write Info.Libelle ;
+    property Longueur  : Integer read Info.Longueur write Info.Longueur;
     constructor Create(
                         _Nom       : String;
                         _Typ       : TFieldType;
                         _Persistant: Boolean;
-                        F          : TField
+                        _jsdcc: TjsDataContexte_Champ
                        );
   //Gestion des lookups
   private
@@ -215,25 +217,23 @@ end;
 constructor TChampDefinition.Create( _Nom       : String;
                                      _Typ       : TFieldType;
                                      _Persistant: Boolean;
-                                     F          : TField
+                                     _jsdcc: TjsDataContexte_Champ
                                      );
 begin
      Nom       := _Nom       ;
      Typ       := _Typ       ;
      Persistant:= _Persistant;
-     if F = nil
+     if nil = _jsdcc
      then
          begin
-         Visible := False;
-         Libelle := Nom;
-         Longueur:= Length(Nom);
+         Info.Visible := False;
+         Info.Libelle := Nom;
+         Info.Longueur:= Length(Nom);
+         Info.FieldType:= ftUnknown;
+         Info.jsDataType:= jsdt_Unknown;
          end
      else
-         begin
-         Visible := F.Visible;
-         Libelle := f.DisplayLabel;
-         Longueur:= f.DisplayWidth;
-         end;
+         Info:= _jsdcc.Info;
 
      Flottant_Tronque  := False;
      Flottant_Precision:= 2;

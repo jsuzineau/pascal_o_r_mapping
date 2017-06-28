@@ -56,9 +56,9 @@ type
     function Est_Vide( _SQL: String): Boolean;
   //Integer_from
   public
-    function Integer_from(_SQL: String; var _Resultat: Integer): Boolean; overload;
-    function Integer_from(_SQL, _NomChamp: String; var _Resultat: Integer): Boolean; overload;
-    function Integer_from(_SQL, _NomChamp: String; _Params: TParams; var _Resultat: Integer): Boolean; overload;
+    function Integer_from(_SQL: String; out _Resultat: Integer): Boolean; overload;
+    function Integer_from(_SQL, _NomChamp: String; out _Resultat: Integer): Boolean; overload;
+    function Integer_from(_SQL, _NomChamp: String; _Params: TParams; out _Resultat: Integer): Boolean; overload;
   //Récupération d'une valeur chaine à partir d'une requete
   public
     function String_from( _SQL: String; var _Resultat: String): Boolean; overload;
@@ -183,7 +183,7 @@ begin
             end;
 end;
 
-function TRequete.Integer_from( _SQL: String; var _Resultat: Integer): Boolean;
+function TRequete.Integer_from( _SQL: String; out _Resultat: Integer): Boolean;
 begin
      _Resultat:= 0;
      Result:= False;
@@ -205,7 +205,7 @@ begin
             end;
 end;
 
-function TRequete.Integer_from( _SQL, _NomChamp: String; var _Resultat: Integer): Boolean;
+function TRequete.Integer_from( _SQL, _NomChamp: String; out _Resultat: Integer): Boolean;
 var
    F: TField;
 begin
@@ -229,7 +229,7 @@ begin
 end;
 
 function TRequete.Integer_from( _SQL, _NomChamp: String; _Params: TParams;
-                                var _Resultat: Integer): Boolean;
+                                out _Resultat: Integer): Boolean;
 var
    F: TField;
 begin

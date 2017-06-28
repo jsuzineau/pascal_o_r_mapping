@@ -31,6 +31,7 @@ uses
     uClean,
     uDataUtilsU,
     u_sys_,
+    ujsDataContexte,
     uChampDefinition,
     ufAccueil_Erreur;
 
@@ -51,7 +52,8 @@ type
     property sl   : TslChampDefinition read Fsl;
 
     function Ajoute( Field: String; _FieldType: TFieldType;
-                     Persistant: Boolean; F: TField): TChampDefinition;
+                     Persistant: Boolean;
+                     _jsdcc: TjsDataContexte_Champ): TChampDefinition;
     function Ajoute_Lookup( Field: String;
                             _FieldType: TFieldType;
                             LookupKey: TChampDefinition): TChampDefinition;
@@ -195,9 +197,9 @@ end;
 function TChampDefinitions.Ajoute( Field: String;
                                    _FieldType: TFieldType;
                                    Persistant:Boolean;
-                                   F: TField): TChampDefinition;
+                                   _jsdcc: TjsDataContexte_Champ): TChampDefinition;
 begin
-     Result:= TChampDefinition.Create( Field, _FieldType, Persistant,F);
+     Result:= TChampDefinition.Create( Field, _FieldType, Persistant,_jsdcc);
      sl.AddObject( Field, Result);
 end;
 

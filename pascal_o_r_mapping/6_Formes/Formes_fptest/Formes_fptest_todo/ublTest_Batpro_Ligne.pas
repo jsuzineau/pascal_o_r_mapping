@@ -48,7 +48,7 @@ type
     test_datetime: TDateTime;
     test_double  : Double;
     test_champ_calcule: String;
-    constructor Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre); override;
+    constructor Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre); override;
     function sCle: String; override;
   end;
 
@@ -70,7 +70,7 @@ end;
 
 { TblTest_Batpro_Ligne }
 
-constructor TblTest_Batpro_Ligne.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
+constructor TblTest_Batpro_Ligne.Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre);
 var
    CP: IblG_BECP;
 begin

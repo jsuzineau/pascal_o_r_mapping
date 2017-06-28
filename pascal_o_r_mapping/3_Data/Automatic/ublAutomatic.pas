@@ -28,6 +28,7 @@ uses
     uClean,
     u_sys_,
     uBatpro_StringList,
+    ujsDataContexte,
     uChampDefinition,
     uChamp,
     uChamps,
@@ -116,13 +117,13 @@ type
   class( TBatpro_Element)
   //Gestion du cycle de vie
   public
-    constructor Create( _sl: TBatpro_StringList; _Champs: TChamps; _F: TField);
+    constructor Create( _sl: TBatpro_StringList; _Champs: TChamps; _jsdcc: TjsDataContexte_Champ);
     destructor Destroy; override;
   //Attributs
   public
     Champs: TChamps;
     C: TChamp;
-    F: TField;
+    jsdcc: TjsDataContexte_Champ;
   //Méthodes
   public
     procedure Traite; virtual;
@@ -224,11 +225,11 @@ type
   class( TBatpro_Ligne)
   //Gestion du cycle de vie
   public
-    constructor Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre); override;
+    constructor Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre); override;
     destructor Destroy; override;
   //Attributs
   public
-    q: TDataset;
+    jsdc: TjsDataContexte;
     slFields: TslFieldBuffer;
   //Import des champs depuis un dataset
   public
@@ -328,11 +329,11 @@ end;
 
 constructor TFieldBuffer.Create( _sl: TBatpro_StringList;
                                  _Champs: TChamps;
-                                 _F: TField);
+                                 _jsdcc: TjsDataContexte_Champ);
 begin
      inherited Create( _sl);
      Champs:= _Champs;
-     F:= _F;
+     jsdcc:= _jsdcc;
      C:= nil;
      Traite;
 end;
@@ -352,7 +353,7 @@ end;
 procedure TStringFieldBuffer.Traite;
 begin
      inherited Traite;
-     C:= Champs.String_from_( Value, F.FieldName);
+     C:= Champs.String_from_( Value, jsdcc.Nom);
 end;
 
 { TIntegerFieldBuffer }
@@ -360,7 +361,7 @@ end;
 procedure TIntegerFieldBuffer.Traite;
 begin
      inherited Traite;
-     C:= Champs.Integer_from_( Value, F.FieldName);
+     C:= Champs.Integer_from_( Value, jsdcc.Nom);
 end;
 
 { TDateTimeFieldBuffer }
@@ -368,7 +369,7 @@ end;
 procedure TDateTimeFieldBuffer.Traite;
 begin
      inherited Traite;
-     C:= Champs.DateTime_from_( Value, F.FieldName);
+     C:= Champs.DateTime_from_( Value, jsdcc.Nom);
 end;
 
 { TDoubleFieldBuffer }
@@ -376,7 +377,7 @@ end;
 procedure TDoubleFieldBuffer.Traite;
 begin
      inherited Traite;
-     C:= Champs.Double_from_( Value, F.FieldName);
+     C:= Champs.Double_from_( Value, jsdcc.Nom);
 end;
 
 { TCurrencyFieldBuffer }
@@ -384,7 +385,7 @@ end;
 procedure TCurrencyFieldBuffer.Traite;
 begin
      inherited Traite;
-     C:= Champs.Currency_from_( Value, F.FieldName);
+     C:= Champs.Currency_from_( Value, jsdcc.Nom);
 end;
 
 { TBooleanFieldBuffer }
@@ -392,7 +393,7 @@ end;
 procedure TBooleanFieldBuffer.Traite;
 begin
      inherited Traite;
-     C:= Champs.Boolean_from_( Value, F.FieldName);
+     C:= Champs.Boolean_from_( Value, jsdcc.Nom);
 end;
 
 { TIterateur_Automatic }
@@ -437,7 +438,7 @@ end;
 { TblAutomatic }
 
 constructor TblAutomatic.Create( _sl: TBatpro_StringList;
-                                 _q: TDataset;
+                                 _jsdc: TjsDataContexte;
                                  _pool: Tpool_Ancetre_Ancetre);
 var
    CP: IblG_BECP;
@@ -451,9 +452,9 @@ begin
          CP.Font.Size:= 12;
          end;
 
-     inherited Create(_sl, _q, _pool);
+     inherited Create(_sl, _jsdc, _pool);
 
-     q:= _q;
+     jsdc:= _jsdc;
      slFields:= TslFieldBuffer.Create( ClassName+'.slFields');
      Ajoute_Champs;
 end;
@@ -467,42 +468,41 @@ end;
 
 procedure TblAutomatic.Ajoute_Champs;
 var
-   I: Integer;
+   I: TIterateur_jsDataContexte_Champ;
+   jsdcc: TjsDataContexte_Champ;
    F: TField;
    fb: TFieldBuffer;
 begin
-     if q = nil then exit;
-
-     for I:= 0 to q.FieldCount-1
+     I:= jsdc.Champs.Iterateur;
+     while I.Continuer
      do
        begin
-       F:= q.Fields.Fields[I];
-       if F = nil then continue;
-       if     ('id'      = F.FieldName)
+       if I.not_Suivant( jsdcc) then continue;
+       if     ('id'      = jsdcc.Nom)
           and (
-                 (ftInteger = F.DataType )
-              or (ftAutoInc = F.DataType )
+                 (ftInteger = jsdcc.Info.FieldType)
+              or (ftAutoInc = jsdcc.Info.FieldType)
               )
        then
            continue;
 
-       case F.DataType
+       case jsdcc.Info.FieldType
        of
          ftFixedChar,
          ftString   ,
          ftMemo     ,
          ftGuid     ,
-         ftBlob     : fb:= TStringFieldBuffer  .Create( sl, Champs, F);
-         ftDate     : fb:= TDateTimeFieldBuffer.Create( sl, Champs, F);
+         ftBlob     : fb:= TStringFieldBuffer  .Create( sl, Champs, jsdcc);
+         ftDate     : fb:= TDateTimeFieldBuffer.Create( sl, Champs, jsdcc);
          ftAutoInc  ,
          ftInteger  ,
-         ftSmallint : fb:= TIntegerFieldBuffer .Create( sl, Champs, F);
-         ftBCD      : fb:= TDoubleFieldBuffer  .Create( sl, Champs, F);
+         ftSmallint : fb:= TIntegerFieldBuffer .Create( sl, Champs, jsdcc);
+         ftBCD      : fb:= TDoubleFieldBuffer  .Create( sl, Champs, jsdcc);
          ftDateTime ,
-         ftTimeStamp: fb:= TDateTimeFieldBuffer.Create( sl, Champs, F);
-         ftFloat    : fb:= TDoubleFieldBuffer  .Create( sl, Champs, F);
-         ftCurrency : fb:= TCurrencyFieldBuffer.Create( sl, Champs, F);
-         ftBoolean  : fb:= TBooleanFieldBuffer .Create( sl, Champs, F);
+         ftTimeStamp: fb:= TDateTimeFieldBuffer.Create( sl, Champs, jsdcc);
+         ftFloat    : fb:= TDoubleFieldBuffer  .Create( sl, Champs, jsdcc);
+         ftCurrency : fb:= TCurrencyFieldBuffer.Create( sl, Champs, jsdcc);
+         ftBoolean  : fb:= TBooleanFieldBuffer .Create( sl, Champs, jsdcc);
          else         fb:= nil;
          end;
        if fb = nil then continue;
@@ -670,7 +670,7 @@ var
         if 'id' = LowerCase( sNomChamp) then exit;
 
         cm:= TContexteMembre.Create( Self, cc, sNomChamp, d.sType, '');
-        //cm:= TContexteMembre.Create( cc, _fb.F.FieldName, _fb.sType, '');
+        //cm:= TContexteMembre.Create( cc, _fb.jsdcc.Nom, _fb.sType, '');
         try
            uJoinPoint_VisiteMembre( cm, a);
 

@@ -1,4 +1,4 @@
 inherited poolTag_Work: TpoolTag_Work
-  Left = 430
+  Left = 543
   Top = 155
 end

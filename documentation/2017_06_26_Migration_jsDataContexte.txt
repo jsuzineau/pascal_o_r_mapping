@@ -1,0 +1,10 @@
+Dans le constructeur des descendant de TBatpro_Ligne, le paramètre _q: TDataset est remplacé par _jsdc: TjsDataContexte
+
+-    constructor Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre); virtual;
++    constructor Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre); virtual;
+
+
+Dans les descendants de TPool :
+-    procedure To_SQLQuery_Params( SQLQuery: TSQLQuery); virtual;
++    procedure To_Params( _Params: TParams); virtual;
+

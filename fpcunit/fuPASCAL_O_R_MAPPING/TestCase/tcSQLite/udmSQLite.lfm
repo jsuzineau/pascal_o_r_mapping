@@ -1,0 +1,236 @@
+object dmSQLite: TdmSQLite
+  Left = 574
+  Height = 323
+  Top = 1065
+  Width = 447
+  Caption = 'dmSQLite'
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  LCLVersion = '1.8.0.1'
+  object c: TSQLite3Connection
+    Connected = False
+    LoginPrompt = False
+    DatabaseName = '/home/jean/pascal_o_r_mapping/pascal_o_r_mapping/fpcunit/fuPASCAL_O_R_MAPPING/jsWorks.sqlite'
+    KeepConnection = False
+    Transaction = t
+    left = 40
+    top = 56
+  end
+  object t: TSQLTransaction
+    Active = False
+    Database = c
+    left = 40
+    top = 8
+  end
+  object sqlqOld: TSQLQuery
+    PacketRecords = -1
+    FieldDefs = <    
+      item
+        Name = 'id'
+        DataType = ftInteger
+        Precision = -1
+      end    
+      item
+        Name = 's'
+        DataType = ftMemo
+        Precision = -1
+      end>
+    Database = c
+    Transaction = t
+    SQL.Strings = (
+      'select * from Test'
+    )
+    Options = [sqoKeepOpenOnCommit, sqoAutoApplyUpdates, sqoAutoCommit, sqoCancelUpdatesOnRefresh, sqoRefreshUsingSelect]
+    Params = <>
+    left = 40
+    top = 112
+    object sqlqOldid: TLongintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = True
+    end
+    object sqlqOlds: TMemoField
+      FieldKind = fkData
+      FieldName = 's'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+  end
+  object ds: TDataSource
+    DataSet = sqlds
+    left = 47
+    top = 178
+  end
+  object sqlq: TSQLQuery
+    PacketRecords = -1
+    FieldDefs = <    
+      item
+        Name = 'id'
+        DataType = ftInteger
+        Precision = -1
+      end    
+      item
+        Name = 'nProject'
+        DataType = ftInteger
+        Precision = -1
+      end    
+      item
+        Name = 'Beginning'
+        DataType = ftDateTime
+        Precision = -1
+      end    
+      item
+        Name = 'End'
+        DataType = ftDateTime
+        Precision = -1
+      end    
+      item
+        Name = 'Description'
+        DataType = ftString
+        Precision = -1
+        Size = 255
+      end    
+      item
+        Name = 'nUser'
+        DataType = ftInteger
+        Precision = -1
+      end>
+    Database = c
+    Transaction = t
+    SQL.Strings = (
+      'select * from Work'
+    )
+    Options = [sqoKeepOpenOnCommit, sqoAutoApplyUpdates, sqoAutoCommit, sqoCancelUpdatesOnRefresh, sqoRefreshUsingSelect]
+    Params = <>
+    left = 112
+    top = 112
+    object sqlqid: TLongintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object sqlqnProject: TLongintField
+      FieldKind = fkData
+      FieldName = 'nProject'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object sqlqBeginning: TDateTimeField
+      FieldKind = fkData
+      FieldName = 'Beginning'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object sqlqEnd: TDateTimeField
+      FieldKind = fkData
+      FieldName = 'End'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object sqlqDescription: TStringField
+      FieldKind = fkData
+      FieldName = 'Description'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 255
+    end
+    object sqlqnUser: TLongintField
+      FieldKind = fkData
+      FieldName = 'nUser'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+  end
+  object sqlds: TSqlite3Dataset
+    AutoIncrementKey = True
+    FileName = '/home/jean/pascal_o_r_mapping/pascal_o_r_mapping/fpcunit/fuPASCAL_O_R_MAPPING/jsWorks.sqlite'
+    PrimaryKey = 'id'
+    SaveOnClose = True
+    TableName = 'Work'
+    left = 208
+    top = 115
+    object sqldsid: TAutoIncField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object sqldsnProject: TLongintField
+      FieldKind = fkData
+      FieldName = 'nProject'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object sqldsBeginning: TDateTimeField
+      FieldKind = fkData
+      FieldName = 'Beginning'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object sqldsEnd: TDateTimeField
+      FieldKind = fkData
+      FieldName = 'End'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object sqldsDescription: TStringField
+      FieldKind = fkData
+      FieldName = 'Description'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 255
+    end
+    object sqldsnUser: TLongintField
+      FieldKind = fkData
+      FieldName = 'nUser'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+  end
+end

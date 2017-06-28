@@ -39,6 +39,7 @@ uses
     uBatpro_Element,
     uhAggregation,
 
+    ujsDataContexte,
     uChampDefinition,
     uChamp,
     uChamps,
@@ -58,6 +59,8 @@ uses
   SQLDB;
 
 type
+    TjsDataContexte         = ujsDataContexte.TjsDataContexte;
+    TjsDataContexte_SQLQuery=ujsDataContexte.TjsDataContexte_SQLQuery;
  TGroupe     = class;
  TGroupeTitle= class;
 
@@ -68,11 +71,11 @@ type
   class( TBatpro_Element)
   //Cycle de vie
   public
-    constructor Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre); virtual;
+    constructor Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre); virtual;
     destructor Destroy; override;
   // Persistance à partir du dataset principal
   protected
-    Fq: TDataset;
+    Fjsdc: TjsDataContexte;
   public
     Modified: Boolean;
   //Persistance XML
@@ -149,7 +152,7 @@ type
     procedure Copy_from_( _Source: TBatpro_Ligne; _Desactiver_Publications: Boolean= True);
   //Rechargement
   public
-    procedure Recharge( _q: TDataset); virtual;
+    procedure Recharge( _jsdc: TjsDataContexte); virtual;
   // id sous forme de chaine en hexadécimal pour les clés
   public
     class function sCle_ID_from_( _id: Integer): String;
@@ -241,12 +244,14 @@ type
 
  TBatpro_Ligne_Class= class of TBatpro_Ligne;
 
+ { TGroupe }
+
  TGroupe
  =
   class( TBatpro_Ligne)
   //Cycle de vie
   public
-    constructor Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre); override;
+    constructor Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre); override;
     destructor Destroy; override;
   //Attributs
   public
@@ -255,12 +260,14 @@ type
     GroupSize        : Integer;
   end;
 
+ { TGroupeTitle }
+
  TGroupeTitle
  =
   class( TBatpro_Ligne)
   //Cycle de vie
   public
-    constructor Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre); override;
+    constructor Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre); override;
     destructor Destroy; override;
   //Attributs
   public
@@ -435,16 +442,20 @@ end;
 
 { TBatpro_Ligne }
 
-constructor TBatpro_Ligne.Create( _sl: TBatpro_StringList; _q: TDataset;
+constructor TBatpro_Ligne.Create( _sl: TBatpro_StringList;
+                                  _jsdc: TjsDataContexte;
                                   _pool: Tpool_Ancetre_Ancetre);
 begin
-
      inherited Create( _sl);
-     Fq  := _q;
+     Fjsdc  := _jsdc;
      pool:= _pool;
      Modified:= False;
 
-     Champs:= TChamps.Create( ClassName, Fq, Save_to_database);
+     if Fjsdc= nil
+     then
+         Fjsdc:= jsDataContexte_Dataset_Null;
+
+     Champs:= TChamps.Create( ClassName, Fjsdc, Save_to_database);
 
      Passe_le_filtre:= True;
 
@@ -903,10 +914,10 @@ begin
             end;
 end;
 
-procedure TBatpro_Ligne.Recharge( _q: TDataset);
+procedure TBatpro_Ligne.Recharge( _jsdc: TjsDataContexte);
 begin
-     Fq:= _q;
-     Champs.Recharge( Fq);
+     Fjsdc:= _jsdc;
+     Champs.Recharge( Fjsdc);
 end;
 
 class function TBatpro_Ligne.sCle_ID_from_( _id: Integer): String;
@@ -1194,7 +1205,9 @@ end;
 
 { TGroupe }
 
-constructor TGroupe.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
+constructor TGroupe.Create( _sl: TBatpro_StringList;
+                            _jsdc: TjsDataContexte;
+                            _pool: Tpool_Ancetre_Ancetre);
 var
    CP: IblG_BECP;
 begin
@@ -1222,7 +1235,9 @@ end;
 
 { TGroupeTitle }
 
-constructor TGroupeTitle.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
+constructor TGroupeTitle.Create( _sl: TBatpro_StringList;
+                                 _jsdc: TjsDataContexte;
+                                 _pool: Tpool_Ancetre_Ancetre);
 var
    CP: IblG_BECP;
 begin

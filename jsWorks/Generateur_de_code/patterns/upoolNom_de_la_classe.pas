@@ -53,7 +53,7 @@ type
     function Get( _id: integer): TblNom_de_la_classe;
   //Accés par clé
   protected
-    procedure To_SQLQuery_Params( SQLQuery: TSQLQuery); override;
+    procedure To_Params( _Params: TParams); override;
   public
   //pattern_Declaration_cle
   //pattern_Get_by_Cle_Declaration
@@ -102,10 +102,10 @@ end;
 
 //pattern_Assure_Implementation
 
-procedure TpoolNom_de_la_classe.To_SQLQuery_Params(SQLQuery: TSQLQuery);
+procedure TpoolNom_de_la_classe.To_Params( _Params: TParams);
 begin
      inherited;
-     with SQLQuery.Params
+     with _Params
      do
        begin
 //pattern_To_SQLQuery_Params_Body
