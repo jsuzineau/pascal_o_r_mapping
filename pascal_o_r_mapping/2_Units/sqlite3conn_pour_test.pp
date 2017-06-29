@@ -301,18 +301,18 @@ begin
   case FieldDef.DataType of
     ftWideMemo:
       begin
-      p1 := sqlite3_column_text16(st,fnum);
-      int1 := sqlite3_column_bytes16(st,fnum);
+      p1  := sqlite3_column_text16 (st,fnum);
+      int1:= sqlite3_column_bytes16(st,fnum);
       end;
     ftMemo:
       begin
-      p1 := sqlite3_column_text(st,fnum);
-      int1 := sqlite3_column_bytes(st,fnum);
+      p1  := sqlite3_column_text (st,fnum);
+      int1:= sqlite3_column_bytes(st,fnum);
       end;
     else //ftBlob
       begin
-      p1 := sqlite3_column_blob(st,fnum);
-      int1 := sqlite3_column_bytes(st,fnum);
+      p1  := sqlite3_column_blob (st,fnum);
+      int1:= sqlite3_column_bytes(st,fnum);
       end;
   end;
 
@@ -465,11 +465,14 @@ begin
     FN := sqlite3_column_name(st,i);
     FD := uppercase(sqlite3_column_decltype(st,i));
     FT := ftUnknown;
-    for j := 1 to FieldMapCount do if pos(FieldMap[j].N,FD)=1 then
-      begin
-      FT:=FieldMap[j].t;
-      break;
-      end;
+    for j := 1 to FieldMapCount
+    do
+      if pos(FieldMap[j].N,FD)=1
+      then
+          begin
+          FT:=FieldMap[j].t;
+          break;
+          end;
     // Column declared as INTEGER PRIMARY KEY [AUTOINCREMENT] becomes ROWID for given table
     // declared data type must be INTEGER (not INT, BIGINT, NUMERIC etc.)
     if (FD='INTEGER') and SameText(FN, PrimaryKeyFields) then
@@ -636,7 +639,8 @@ var
  bcd: tBCD;
  bcdstr: FmtBCDStringtype;
  st    : psqlite3_stmt;
-
+ pText: pointer;
+ pBlob: pointer;
 begin
   st:=TSQLite3Cursor(cursor).fstatement;
   fnum:= FieldDef.fieldno - 1;
@@ -675,11 +679,12 @@ begin
                end;
     ftFixedChar,
     ftString: begin
+              pText:= sqlite3_column_text(st,fnum);
               int1:= sqlite3_column_bytes(st,fnum);
               if int1>FieldDef.Size then 
                 int1:=FieldDef.Size;
               if int1 > 0 then 
-                 move(sqlite3_column_text(st,fnum)^,buffer^,int1);
+                 move(pText^,buffer^,int1);
               PAnsiChar(buffer + int1)^ := #0;
               end;
     ftFmtBCD: begin
@@ -711,6 +716,7 @@ begin
     ftVarBytes,
     ftBytes:
       begin
+      pBlob:= sqlite3_column_blob(st,fnum);
       int1 := sqlite3_column_bytes(st,fnum);
       if int1 > FieldDef.Size then
         int1 := FieldDef.Size;
@@ -720,7 +726,7 @@ begin
         inc(buffer, sizeof(Word));
       end;
       if int1 > 0 then
-        move(sqlite3_column_blob(st,fnum)^, buffer^, int1);
+        move(pBlob^, buffer^, int1);
       end;
     ftWideMemo,
     ftMemo,

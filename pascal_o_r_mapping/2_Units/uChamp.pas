@@ -382,23 +382,18 @@ begin
          exit;
          end;
 
-     case Definition.Typ
+     case Definition.Info.jsDataType
      of
-       ftFixedChar: Result:= PShortString( Valeur)^;
-       ftString  : Result:= PString  ( Valeur)^;
-       ftMemo    : Result:= PString  ( Valeur)^;
-       ftBlob    : Result:= PString  ( Valeur)^;
-       //ftDate    : Result:= FormatDateTime( 'ddddd', PDateTime(Valeur)^);
-       ftDate    : Traite_Date;
-       ftInteger : Result:= IntToStr  ( PInteger ( Valeur)^);
-       ftSmallint: Result:= IntToStr  ( PInteger ( Valeur)^);
-       ftBCD     : Result:= Definition.Format_Float( PCurrency( Valeur)^);
-       //ftDateTime: Result:= FormatDateTime( 'ddddd","t', PDateTime(Valeur)^);
-       ftDateTime: Traite_DateTime;
-       ftTimeStamp:Traite_DateTime;
-       ftFloat   : Result:= Definition.Format_Float( PDouble  ( Valeur)^);
-       ftBoolean : Result:=     BoolToStr( PtrBoolean( Valeur)^);
-       else        Result:= sys_Vide;
+       jsdt_String     : Result:= PString  ( Valeur)^;
+       jsdt_Date       : Traite_Date;
+       jsdt_DateTime   : Traite_DateTime;
+       jsdt_Integer    : Result:= IntToStr  ( PInteger ( Valeur)^);
+       jsdt_Currency   : Result:= Definition.Format_Float( PCurrency( Valeur)^);
+       jsdt_Double     : Result:= Definition.Format_Float( PDouble  ( Valeur)^);
+       jsdt_Boolean    : Result:=     BoolToStr( PtrBoolean( Valeur)^);
+       jsdt_ShortString: Result:= PShortString( Valeur)^;
+       jsdt_Unknown    : Result:= sys_Vide;
+       else              Result:= sys_Vide;
        end;
 end;
 
@@ -499,20 +494,17 @@ begin
 
      if not ReadOnly
      then
-         case Definition.Typ
+         case Definition.Info.jsDataType
          of
-           ftFixedChar: PShortString( Valeur)^:= Value;
-           ftString  : PString  ( Valeur)^:= Value;
-           ftMemo    : PString  ( Valeur)^:= Value;
-           ftBlob    : PString  ( Valeur)^:= Value;
-           ftDate    : TraiteDate;
-           ftInteger : TryStrToInt     ( Value, PLongint ( Valeur)^);
-           ftSmallint: TryStrToInt     ( Value, PLongint ( Valeur)^);
-           ftBCD     : TryStrToCurr    ( Value, PCurrency( Valeur)^);
-           ftDateTime: TraiteDateTime;
-           ftTimeStamp:TraiteDateTime;
-           ftFloat   : TraiteDouble;
-           ftBoolean : TryStrToBool    ( Value, PtrBoolean ( Valeur)^);
+           jsdt_String     : PString  ( Valeur)^:= Value;
+           jsdt_Date       : TraiteDate;
+           jsdt_DateTime   : TraiteDateTime;
+           jsdt_Integer    : TryStrToInt ( Value, PLongint  ( Valeur)^);
+           jsdt_Currency   : TryStrToCurr( Value, PCurrency ( Valeur)^);
+           jsdt_Double     : TraiteDouble;
+           jsdt_Boolean    : TryStrToBool( Value, PtrBoolean( Valeur)^);
+           jsdt_ShortString: PShortString( Valeur)^:= Value;
+           jsdt_Unknown    : begin end;
            end;
 
      Publie_Modifications;
@@ -689,21 +681,18 @@ end;
 
 function TChamp.GetasDatetime: TDatetime;
 begin
-     case Definition.Typ
+     case Definition.Info.jsDataType
      of
-       ftFixedChar: Result:= StrToDateTime( PShortString  ( Valeur)^);
-       ftString  : Result:= StrToDateTime( PString  ( Valeur)^);
-       ftMemo    : Result:= StrToDateTime( PString  ( Valeur)^);
-       ftBlob    : Result:= StrToDateTime( PString  ( Valeur)^);
-       ftDate    : Result:= PDateTime( Valeur)^;
-       ftInteger : Result:= PInteger ( Valeur)^;
-       ftSmallint: Result:= PInteger ( Valeur)^;
-       ftBCD     : Result:= PCurrency( Valeur)^;
-       ftDateTime: Result:= PDateTime( Valeur)^;
-       ftTimeStamp:Result:= PDateTime( Valeur)^;
-       ftFloat   : Result:= PDouble  ( Valeur)^;
-       ftBoolean : Result:= Integer  ( PtrBoolean ( Valeur)^);//peu utile
-       else        Result:= 0;
+       jsdt_String     : Result:= StrToDateTime( PString  ( Valeur)^);
+       jsdt_Date       : Result:= PDateTime( Valeur)^;
+       jsdt_DateTime   : Result:= PDateTime( Valeur)^;
+       jsdt_Integer    : Result:= PInteger ( Valeur)^;
+       jsdt_Currency   : Result:= PCurrency( Valeur)^;
+       jsdt_Double     : Result:= PDouble  ( Valeur)^;
+       jsdt_Boolean    : Result:= Integer  ( PtrBoolean ( Valeur)^);//peu utile
+       jsdt_ShortString: Result:= StrToDateTime( PShortString  ( Valeur)^);
+       jsdt_Unknown    : Result:= 0;
+       else              Result:= 0;
        end;
 end;
 
@@ -711,21 +700,18 @@ procedure TChamp.SetasDatetime(const Value: TDatetime);
 begin
      if not ReadOnly
      then
-         case Definition.Typ
+         case Definition.Info.jsDataType
          of
-           ftFixedChar: PShortString( Valeur)^:= DateTimeToStr( Value);
-           ftString  : PString  ( Valeur)^:= DateTimeToStr( Value);
-           ftMemo    : PString  ( Valeur)^:= DateTimeToStr( Value);
-           ftBlob    : PString  ( Valeur)^:= DateTimeToStr( Value);
-           ftDate    : PDateTime( Valeur)^:= Value;
-           ftInteger : PInteger ( Valeur)^:= Trunc( Value);
-           ftSmallint: PInteger ( Valeur)^:= Trunc( Value);
-           ftBCD     : PCurrency( Valeur)^:= Value;
-           ftDateTime: PDateTime( Valeur)^:= Value;
-           ftTimeStamp:PDateTime( Valeur)^:= Value;
-           ftFloat   : PDouble  ( Valeur)^:= Value;
-           ftBoolean : PtrBoolean ( Valeur)^:= Boolean( Trunc(Value));//peu utile
-           else        begin end;
+           jsdt_String     : PString  ( Valeur)^:= DateTimeToStr( Value);
+           jsdt_Date       : PDateTime( Valeur)^:= Value;
+           jsdt_DateTime   : PDateTime( Valeur)^:= Value;
+           jsdt_Integer    : PInteger ( Valeur)^:= Trunc( Value);
+           jsdt_Currency   : PCurrency( Valeur)^:= Value;
+           jsdt_Double     : PDouble  ( Valeur)^:= Value;
+           jsdt_Boolean    : PtrBoolean ( Valeur)^:= Boolean( Trunc(Value));//peu utile
+           jsdt_ShortString: PShortString( Valeur)^:= DateTimeToStr( Value);
+           jsdt_Unknown    : begin end;
+           else              begin end;
            end;
            
      Publie_Modifications;
@@ -733,21 +719,18 @@ end;
 
 function TChamp.GetasDouble: Double;
 begin
-     case Definition.Typ
+     case Definition.Info.jsDataType
      of
-       ftFixedChar: Result:= StrToFloat( PShortString  ( Valeur)^);
-       ftString  : Result:= StrToFloat( PString  ( Valeur)^);
-       ftMemo    : Result:= StrToFloat( PString  ( Valeur)^);
-       ftBlob    : Result:= StrToFloat( PString  ( Valeur)^);
-       ftDate    : Result:= PDateTime( Valeur)^;
-       ftInteger : Result:= PInteger ( Valeur)^;
-       ftSmallint: Result:= PInteger ( Valeur)^;
-       ftBCD     : Result:= PCurrency( Valeur)^;
-       ftDateTime: Result:= PDateTime( Valeur)^;
-       ftTimeStamp:Result:= PDateTime( Valeur)^;
-       ftFloat   : Result:= PDouble  ( Valeur)^;
-       ftBoolean : Result:= Integer  ( PtrBoolean ( Valeur)^);//peu utile
-       else        Result:= 0;
+       jsdt_String     : Result:= StrToFloat( PString  ( Valeur)^);
+       jsdt_Date       : Result:= PDateTime( Valeur)^;
+       jsdt_DateTime   : Result:= PDateTime( Valeur)^;
+       jsdt_Integer    : Result:= PInteger ( Valeur)^;
+       jsdt_Currency   : Result:= PCurrency( Valeur)^;
+       jsdt_Double     : Result:= PDouble  ( Valeur)^;
+       jsdt_Boolean    : Result:= Integer  ( PtrBoolean ( Valeur)^);//peu utile
+       jsdt_ShortString: Result:= StrToFloat( PShortString  ( Valeur)^);
+       jsdt_Unknown    : Result:= 0;
+       else              Result:= 0;
        end;
 end;
 
@@ -755,42 +738,36 @@ procedure TChamp.SetasDouble(const Value: Double);
 begin
      if not ReadOnly
      then
-         case Definition.Typ
+         case Definition.Info.jsDataType
          of
-           ftFixedChar: PShortString( Valeur)^:= FloatToStr( Value);
-           ftString  : PString  ( Valeur)^:= FloatToStr( Value);
-           ftMemo    : PString  ( Valeur)^:= FloatToStr( Value);
-           ftBlob    : PString  ( Valeur)^:= FloatToStr( Value);
-           ftDate    : PDateTime( Valeur)^:= Value;
-           ftInteger : PInteger ( Valeur)^:= Trunc( Value);
-           ftSmallint: PInteger ( Valeur)^:= Trunc( Value);
-           ftBCD     : PCurrency( Valeur)^:= Value;
-           ftDateTime: PDateTime( Valeur)^:= Value;
-           ftTimeStamp:PDateTime( Valeur)^:= Value;
-           ftFloat   : PDouble  ( Valeur)^:= Value;
-           ftBoolean : PtrBoolean ( Valeur)^:= Boolean( Trunc(Value));//peu utile
-           else        begin end;
+           jsdt_String     : PString  ( Valeur)^:= FloatToStr( Value);
+           jsdt_Date       : PDateTime( Valeur)^:= Value;
+           jsdt_DateTime   : PDateTime( Valeur)^:= Value;
+           jsdt_Integer    : PInteger ( Valeur)^:= Trunc( Value);
+           jsdt_Currency   : PCurrency( Valeur)^:= Value;
+           jsdt_Double     : PDouble  ( Valeur)^:= Value;
+           jsdt_Boolean    : PtrBoolean ( Valeur)^:= Boolean( Trunc(Value));//peu utile
+           jsdt_ShortString: PShortString( Valeur)^:= FloatToStr( Value);
+           jsdt_Unknown    : begin end;
+           else              begin end;
            end;
      Publie_Modifications;
 end;
 
 function TChamp.GetasBoolean: Boolean;
 begin
-     case Definition.Typ
+     case Definition.Info.jsDataType
      of
-       ftFixedChar: Result:= StrToBool( PShortString  ( Valeur)^);
-       ftString  : Result:= StrToBool( PString  ( Valeur)^);
-       ftMemo    : Result:= StrToBool( PString  ( Valeur)^);
-       ftBlob    : Result:= StrToBool( PString  ( Valeur)^);
-       ftDate    : Result:= Boolean( Trunc( PDateTime( Valeur)^));
-       ftInteger : Result:= Boolean( Trunc( PInteger ( Valeur)^));
-       ftSmallint: Result:= Boolean( PInteger ( Valeur)^);
-       ftBCD     : Result:= Boolean( Trunc( PCurrency( Valeur)^));
-       ftDateTime: Result:= Boolean( Trunc( PDateTime( Valeur)^));
-       ftTimeStamp:Result:= Boolean( Trunc( PDateTime( Valeur)^));
-       ftFloat   : Result:= Boolean( Trunc( PDouble  ( Valeur)^));
-       ftBoolean : Result:= PtrBoolean ( Valeur)^;
-       else        Result:= False;
+       jsdt_String     : Result:= StrToBool( PString  ( Valeur)^);
+       jsdt_Date       : Result:= Boolean( Trunc( PDateTime( Valeur)^));
+       jsdt_DateTime   : Result:= Boolean( Trunc( PDateTime( Valeur)^));
+       jsdt_Integer    : Result:= Boolean( Trunc( PInteger ( Valeur)^));
+       jsdt_Currency   : Result:= Boolean( Trunc( PCurrency( Valeur)^));
+       jsdt_Double     : Result:= Boolean( Trunc( PDouble  ( Valeur)^));
+       jsdt_Boolean    : Result:= PtrBoolean ( Valeur)^;
+       jsdt_ShortString: Result:= StrToBool( PShortString  ( Valeur)^);
+       jsdt_Unknown    : Result:= False;
+       else              Result:= False;
        end;
 end;
 
@@ -798,42 +775,36 @@ procedure TChamp.SetasBoolean(const Value: Boolean);
 begin
      if not ReadOnly
      then
-         case Definition.Typ
+         case Definition.Info.jsDataType
          of
-           ftFixedChar:PShortString( Valeur)^:= BoolToStr( Value);
-           ftString  : PString  ( Valeur)^:= BoolToStr( Value);
-           ftMemo    : PString  ( Valeur)^:= BoolToStr( Value);
-           ftBlob    : PString  ( Valeur)^:= BoolToStr( Value);
-           ftDate    : PDateTime( Valeur)^:= Integer( Value);
-           ftInteger : PInteger ( Valeur)^:= Integer( Value);
-           ftSmallint: PInteger ( Valeur)^:= Integer( Value);
-           ftBCD     : PCurrency( Valeur)^:= Integer( Value);
-           ftDateTime: PDateTime( Valeur)^:= Integer( Value);
-           ftTimeStamp:PDateTime( Valeur)^:= Integer( Value);
-           ftFloat   : PDouble  ( Valeur)^:= Integer( Value);
-           ftBoolean : PtrBoolean( Valeur)^:= Value;
-           else        begin end;
+           jsdt_String     : PString  ( Valeur)^:= BoolToStr( Value);
+           jsdt_Date       : PDateTime( Valeur)^:= Integer( Value);
+           jsdt_DateTime   : PDateTime( Valeur)^:= Integer( Value);
+           jsdt_Integer    : PInteger ( Valeur)^:= Integer( Value);
+           jsdt_Currency   : PCurrency( Valeur)^:= Integer( Value);
+           jsdt_Double     : PDouble  ( Valeur)^:= Integer( Value);
+           jsdt_Boolean    : PtrBoolean( Valeur)^:= Value;
+           jsdt_ShortString: PShortString( Valeur)^:= BoolToStr( Value);
+           jsdt_Unknown    : begin end;
+           else              begin end;
            end;
      Publie_Modifications;
 end;
 
 function TChamp.GetasInteger: Integer;
 begin
-     case Definition.Typ
+     case Definition.Info.jsDataType
      of
-       ftFixedChar:Result:= StrToInt( PShortString  ( Valeur)^);
-       ftString  : Result:= StrToInt( PString  ( Valeur)^);
-       ftMemo    : Result:= StrToInt( PString  ( Valeur)^);
-       ftBlob    : Result:= StrToInt( PString  ( Valeur)^);
-       ftDate    : Result:= Trunc( PDateTime( Valeur)^);
-       ftInteger : Result:= PInteger ( Valeur)^;
-       ftSmallint: Result:= PInteger ( Valeur)^;
-       ftBCD     : Result:= Trunc( PCurrency( Valeur)^);
-       ftDateTime: Result:= Trunc( PDateTime( Valeur)^);
-       ftTimeStamp:Result:= Trunc( PDateTime( Valeur)^);
-       ftFloat   : Result:= Trunc( PDouble  ( Valeur)^);
-       ftBoolean : Result:= Integer( PtrBoolean( Valeur)^);
-       else        Result:= 0;
+       jsdt_String     : Result:= StrToInt( PString  ( Valeur)^);
+       jsdt_Date       : Result:= Trunc( PDateTime( Valeur)^);
+       jsdt_DateTime   : Result:= Trunc( PDateTime( Valeur)^);
+       jsdt_Integer    : Result:= PInteger ( Valeur)^;
+       jsdt_Currency   : Result:= Trunc( PCurrency( Valeur)^);
+       jsdt_Double     : Result:= Trunc( PDouble  ( Valeur)^);
+       jsdt_Boolean    : Result:= Integer( PtrBoolean( Valeur)^);
+       jsdt_ShortString: Result:= StrToInt( PShortString  ( Valeur)^);
+       jsdt_Unknown    : Result:= 0;
+       else              Result:= 0;
        end;
 end;
 
@@ -841,21 +812,18 @@ procedure TChamp.SetasInteger(const Value: Integer);
 begin
      if not ReadOnly
      then
-         case Definition.Typ
+         case Definition.Info.jsDataType
          of
-           ftFixedChar:PShortString  ( Valeur)^:= IntToStr( Value);
-           ftString  : PString  ( Valeur)^:= IntToStr( Value);
-           ftMemo    : PString  ( Valeur)^:= IntToStr( Value);
-           ftBlob    : PString  ( Valeur)^:= IntToStr( Value);
-           ftDate    : PDateTime( Valeur)^:= Value;
-           ftInteger : PInteger ( Valeur)^:= Value;
-           ftSmallint: PInteger ( Valeur)^:= Value;
-           ftBCD     : PCurrency( Valeur)^:= Value;
-           ftDateTime: PDateTime( Valeur)^:= Value;
-           ftTimeStamp:PDateTime( Valeur)^:= Value;
-           ftFloat   : PDouble  ( Valeur)^:= Value;
-           ftBoolean : PtrBoolean( Valeur)^:= Boolean( Value);
-           else        begin end;
+           jsdt_String     : PString  ( Valeur)^:= IntToStr( Value);
+           jsdt_Date       : PDateTime( Valeur)^:= Value;
+           jsdt_DateTime   : PDateTime( Valeur)^:= Value;
+           jsdt_Integer    : PInteger ( Valeur)^:= Value;
+           jsdt_Currency   : PCurrency( Valeur)^:= Value;
+           jsdt_Double     : PDouble  ( Valeur)^:= Value;
+           jsdt_Boolean    : PtrBoolean(Valeur)^:= Boolean( Value);
+           jsdt_ShortString: PShortString  ( Valeur)^:= IntToStr( Value);
+           jsdt_Unknown    : begin end;
+           else              begin end;
            end;
      Publie_Modifications;
 end;
@@ -875,21 +843,18 @@ procedure TChamp.Serialise(S: TStream);
          S.Write( PString( Valeur)^[1], Longueur);
     end;
 begin
-     case Definition.Typ
+     case Definition.Info.jsDataType
      of
-       ftFixedChar: Traite_ShortString;
-       ftString  : Traite_String;
-       ftMemo    : Traite_String;
-       ftBlob    : Traite_String;
-       ftDate    : S.Write( Valeur, SizeOf( TDateTime));
-       ftInteger : S.Write( Valeur, SizeOf( Integer  ));
-       ftSmallint: S.Write( Valeur, SizeOf( Integer  ));
-       ftBCD     : S.Write( Valeur, SizeOf( Currency ));
-       ftDateTime: S.Write( Valeur, SizeOf( TDateTime));
-       ftTimeStamp:S.Write( Valeur, SizeOf( TDateTime));
-       ftFloat   : S.Write( Valeur, SizeOf( Double   ));
-       ftBoolean : S.Write( Valeur, SizeOf( Boolean  ));
-       else        begin end;
+       jsdt_String     : Traite_String;
+       jsdt_Date       : S.Write( Valeur, SizeOf( TDateTime));
+       jsdt_DateTime   : S.Write( Valeur, SizeOf( TDateTime));
+       jsdt_Integer    : S.Write( Valeur, SizeOf( Integer  ));
+       jsdt_Currency   : S.Write( Valeur, SizeOf( Currency ));
+       jsdt_Double     : S.Write( Valeur, SizeOf( Double   ));
+       jsdt_Boolean    : S.Write( Valeur, SizeOf( Boolean  ));
+       jsdt_ShortString: Traite_ShortString;
+       jsdt_Unknown    : begin end;
+       else              begin end;
        end;
 end;
 
@@ -912,21 +877,18 @@ procedure TChamp.DeSerialise(S: TStream);
          S.Read( PString( Valeur)^[1], Longueur);
     end;
 begin
-     case Definition.Typ
+     case Definition.Info.jsDataType
      of
-       ftFixedChar: Traite_ShortString;
-       ftString  : Traite_String;
-       ftMemo    : Traite_String;
-       ftBlob    : Traite_String;
-       ftDate    : S.Read( Valeur, SizeOf( TDateTime));
-       ftInteger : S.Read( Valeur, SizeOf( Integer  ));
-       ftSmallint: S.Read( Valeur, SizeOf( Integer  ));
-       ftBCD     : S.Read( Valeur, SizeOf( Currency ));
-       ftDateTime: S.Read( Valeur, SizeOf( TDateTime));
-       ftTimeStamp:S.Read( Valeur, SizeOf( TDateTime));
-       ftFloat   : S.Read( Valeur, SizeOf( Double   ));
-       ftBoolean : S.Read( Valeur, SizeOf( Boolean  ));
-       else        begin end;
+       jsdt_String     : Traite_String;
+       jsdt_Date       : S.Read( Valeur, SizeOf( TDateTime));
+       jsdt_DateTime   : S.Read( Valeur, SizeOf( TDateTime));
+       jsdt_Integer    : S.Read( Valeur, SizeOf( Integer  ));
+       jsdt_Currency   : S.Read( Valeur, SizeOf( Currency ));
+       jsdt_Double     : S.Read( Valeur, SizeOf( Double   ));
+       jsdt_Boolean    : S.Read( Valeur, SizeOf( Boolean  ));
+       jsdt_ShortString: Traite_ShortString;
+       jsdt_Unknown    : begin end;
+       else              begin end;
        end;
 end;
 
@@ -956,16 +918,18 @@ procedure TChamp.Applique_MinValue;
 begin
      if not Definition.HasMinValue then exit;
 
-     case Definition.Typ
+     case Definition.Info.jsDataType
      of
-       ftDate    : if PDateTime( Valeur)^ < Definition.MinValue then PDateTime( Valeur)^:=       Definition.MinValue ;
-       ftInteger : if PInteger ( Valeur)^ < Definition.MinValue then PInteger ( Valeur)^:= Trunc(Definition.MinValue);
-       ftSmallint: if PInteger ( Valeur)^ < Definition.MinValue then PInteger ( Valeur)^:= Trunc(Definition.MinValue);
-       ftBCD     : if PCurrency( Valeur)^ < Definition.MinValue then PCurrency( Valeur)^:=       Definition.MinValue ;
-       ftDateTime: if PDateTime( Valeur)^ < Definition.MinValue then PDateTime( Valeur)^:=       Definition.MinValue ;
-       ftTimeStamp:if PDateTime( Valeur)^ < Definition.MinValue then PDateTime( Valeur)^:=       Definition.MinValue ;
-       ftFloat   : if PDouble  ( Valeur)^ < Definition.MinValue then PDouble  ( Valeur)^:=       Definition.MinValue ;
-       else        begin end;
+       jsdt_String     : begin end;
+       jsdt_Date       : if PDateTime( Valeur)^ < Definition.MinValue then PDateTime( Valeur)^:=       Definition.MinValue ;
+       jsdt_DateTime   : if PDateTime( Valeur)^ < Definition.MinValue then PDateTime( Valeur)^:=       Definition.MinValue ;
+       jsdt_Integer    : if PInteger ( Valeur)^ < Definition.MinValue then PInteger ( Valeur)^:= Trunc(Definition.MinValue);
+       jsdt_Currency   : if PCurrency( Valeur)^ < Definition.MinValue then PCurrency( Valeur)^:=       Definition.MinValue ;
+       jsdt_Double     : if PDouble  ( Valeur)^ < Definition.MinValue then PDouble  ( Valeur)^:=       Definition.MinValue ;
+       jsdt_Boolean    : begin end;
+       jsdt_ShortString: begin end;
+       jsdt_Unknown    : begin end;
+       else              begin end;
        end;
 end;
 

@@ -27,6 +27,7 @@ interface
 
 uses
     uSGBD,
+    uSQLite3,
     uBatpro_StringList,
     uLog,
     u_sys_,
@@ -500,12 +501,12 @@ type
   class
   //Gestion du cycle de vie
   public
-    constructor Create( _pool: TPool; _jsdc: TjsDataContexte_SQLQuery); virtual;
+    constructor Create( _pool: TPool; _jsdc: TjsDataContexte); virtual;
     destructor Destroy; override;
   //Attributs
   public
     pool: TPool;
-    jsdc: TjsDataContexte_SQLQuery;
+    jsdc: TjsDataContexte;
     id: Integer;
     bl: TBatpro_Ligne;
   //Traitement de la ligne courante de sqlq
@@ -528,9 +529,12 @@ type
   public
     constructor Create( AOwner: TComponent); override;
     destructor Destroy; override;
+  //Gestion des contextes
+  private
+    function Cree_Contexte( _Name: String): TjsDataContexte;
   //Chargement par clé
   private
-    jsdcSELECT: TjsDataContexte_SQLQuery;
+    jsdcSELECT: TjsDataContexte;
     procedure Select( var bl);
   protected
     procedure Ajoute( var bl); //passé de private à protected pour TpoolJSON
@@ -545,7 +549,7 @@ type
     procedure Select_from_Insert(var bl);
   protected
     is_Base: Boolean;
-    jsdcINSERT: TjsDataContexte_SQLQuery;
+    jsdcINSERT: TjsDataContexte;
     function SQL_INSERT: String; virtual;
     procedure Params_INSERT; virtual;
   //Gestion de la création de l'id
@@ -582,7 +586,7 @@ type
     procedure SetNomTable(const Value: String); override;
   //Chargement par id
   private
-    jsdcSELECT_from_id: TjsDataContexte_SQLQuery;
+    jsdcSELECT_from_id: TjsDataContexte;
     procedure _Select_from_id( _id: Integer; var bl);
   private
     IDFieldName: String;
@@ -594,11 +598,11 @@ type
   public
     procedure Get_Interne_from_id( _id: Integer; out bl);
     procedure Get_Interne_from_SQLid( _SQL: String; out bl; _fID: String= 'id');
-    procedure Load_by_id( _jsdc: TjsDataContexte_SQLQuery;
+    procedure Load_by_id( _jsdc: TjsDataContexte;
                           slLoaded : TBatpro_StringList = nil;
                           btsLoaded: TbtString          = nil); overload;
   private
-    jsdcLoad_by_id: TjsDataContexte_SQLQuery;
+    jsdcLoad_by_id: TjsDataContexte;
   public
     procedure Load_by_id( _SQL      : String                   ;
                           _slLoaded : TBatpro_StringList = nil ;
@@ -608,7 +612,7 @@ type
   // Load_N_rows_by_id
   public
     Load_N_rows_by_id_ORDER_BY: String;//pour contraintes éphémères sur A_PLA
-    procedure Load_N_rows_by_id( _jsdc: TjsDataContexte_SQLQuery;
+    procedure Load_N_rows_by_id( _jsdc: TjsDataContexte;
                                  slLoaded : TBatpro_StringList = nil;
                                  btsLoaded: TbtString          = nil;
                                  N: Integer= -1);
@@ -623,7 +627,7 @@ type
     //                             N: Integer= -1);
   //Chargement direct du contenu d'un SQLQuery
   private
-    procedure Load_sqlQuery( _jsdc: TjsDataContexte_SQLQuery;
+    procedure Load_sqlQuery( _jsdc: TjsDataContexte;
                              _slLoaded : TBatpro_StringList = nil ;
                              _btsLoaded: TbtString          = nil ;
                              _Vider    : Boolean            = True);
@@ -631,7 +635,7 @@ type
     Load_sqlQuery_Context_class: TLoad_sqlQuery_Context_class;
   //Chargement direct sans passer par le champ id
   private
-    jsdcLoad: TjsDataContexte_SQLQuery;
+    jsdcLoad: TjsDataContexte;
   public
     procedure Load( _SQL      : String                   ;
                     _slLoaded : TBatpro_StringList = nil ;
@@ -646,7 +650,7 @@ type
   private
     sqlq_SELECT_ALL_count: TSQLQuery;
   public//en public juste pour uaA_PST
-    jsdcSELECT_ALL: TjsDataContexte_SQLQuery;
+    jsdcSELECT_ALL: TjsDataContexte;
     ToutCharger_SQL_suffixe: String;
     procedure Verifie_ToutCharger_SQL_suffixe;
     procedure ToutCharger_prepare_sqlq_SELECT_ALL;
@@ -882,7 +886,7 @@ end;
 { TLoad_sqlQuery_Context }
 
 constructor TLoad_sqlQuery_Context.Create( _pool: TPool;
-                                           _jsdc: TjsDataContexte_SQLQuery);
+                                           _jsdc: TjsDataContexte);
 begin
      inherited Create;
      pool:= _pool;
@@ -934,22 +938,22 @@ constructor TPool.Create(AOwner: TComponent);
 begin
      Load_sqlQuery_Context_class:= TLoad_sqlQuery_Context;
 
-     jsdcSELECT        := TjsDataContexte_SQLQuery.Create(ClassName+'.jsdcSELECT'        );
-     jsdcLoad          := TjsDataContexte_SQLQuery.Create(ClassName+'.jsdcLoad'          );
-     jsdcSELECT_from_id:= TjsDataContexte_SQLQuery.Create(ClassName+'.jsdcSELECT_from_id');
+     jsdcSELECT        := Cree_Contexte( ClassName+'.jsdcSELECT'        );
+     jsdcLoad          := Cree_Contexte( ClassName+'.jsdcLoad'          );
+     jsdcSELECT_from_id:= Cree_Contexte( ClassName+'.jsdcSELECT_from_id');
 
      sqlq_SELECT_ALL_count:= TSQLQuery.Create( Self);
      sqlq_SELECT_ALL_count.Name:= 'sqlq_SELECT_ALL_count';
 
-     jsdcSELECT_ALL    := TjsDataContexte_SQLQuery.Create(ClassName+'.jsdcSELECT_ALL');
+     jsdcSELECT_ALL    := Cree_Contexte( ClassName+'.jsdcSELECT_ALL');
 
      SQL_Recuperation:= '';
      sqlqID_Recuperation:= TSQLQuery.Create( Self);
      sqlqID_Recuperation.Name:= 'sqlqID_Recuperation';
 
-     jsdcINSERT:= TjsDataContexte_SQLQuery.Create( ClassName+'.jsdcINSERT');
+     jsdcINSERT:= Cree_Contexte( ClassName+'.jsdcINSERT');
 
-     jsdcLoad_by_id    := TjsDataContexte_SQLQuery.Create(ClassName+'.jsdcLoad_by_id');
+     jsdcLoad_by_id    := Cree_Contexte( ClassName+'.jsdcLoad_by_id');
      jsdcLoad_by_id.Create_id_field;
 
      Tid_Premiere_fois:= True;
@@ -975,6 +979,16 @@ begin
      Free_nil( jsdcCD_FROM_INSERT);
      inherited;
 end;
+
+function TPool.Cree_Contexte( _Name: String): TjsDataContexte;
+begin
+     case SGBD
+     of
+       sgbd_SQLite3: Result:= TjsDataContexte_libsqlite3.Create( _Name);
+       else          Result:= TjsDataContexte_SQLQuery  .Create( _Name);
+       end;
+end;
+
 procedure TPool.DataModuleCreate(Sender: TObject);
 begin
      inherited;
@@ -1120,7 +1134,7 @@ begin
      ToutCharger_direct_effectue:= True;
 end;
 
-procedure TPool.Load_sqlQuery( _jsdc     : TjsDataContexte_SQLQuery;
+procedure TPool.Load_sqlQuery( _jsdc     : TjsDataContexte;
                                _slLoaded : TBatpro_StringList= nil ;
                                _btsLoaded: TbtString         = nil ;
                                _Vider    : Boolean           = True);
@@ -1452,7 +1466,7 @@ begin
            end;
 end;
 
-procedure TPool.Load_N_rows_by_id( _jsdc: TjsDataContexte_SQLQuery;
+procedure TPool.Load_N_rows_by_id( _jsdc: TjsDataContexte;
                                    slLoaded: TBatpro_StringList;
                                    btsLoaded: TbtString;
                                    N: Integer);
@@ -1465,11 +1479,11 @@ var
    //NBDataset, NBCharges: Integer;
    procedure Traite_sqlqLoad_N_rows_by_id;
    var
-      jsdcLoad_N_rows_by_id: TjsDataContexte_SQLQuery;
+      jsdcLoad_N_rows_by_id: TjsDataContexte;
    begin
         if sIDs = sys_Vide then exit;
 
-        jsdcLoad_N_rows_by_id:= TjsDataContexte_SQLQuery.Create( ClassName+'.Load_N_rows_by_id::Traite_sqlqLoad_N_rows_by_id::jsdcLoad_N_rows_by_id');
+        jsdcLoad_N_rows_by_id:= Cree_Contexte( ClassName+'.Load_N_rows_by_id::Traite_sqlqLoad_N_rows_by_id::jsdcLoad_N_rows_by_id');
         try
            jsdcLoad_N_rows_by_id.Connection:= Connection;
 
@@ -1596,7 +1610,7 @@ begin
             end;
 end;
 
-procedure TPool.Load_by_id( _jsdc: TjsDataContexte_SQLQuery;
+procedure TPool.Load_by_id( _jsdc: TjsDataContexte;
                             slLoaded: TBatpro_StringList = nil;
                             btsLoaded: TbtString          = nil);
 begin

@@ -1079,8 +1079,8 @@ type
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: TBatpro_Element);
-    function  not_Suivant( var _Resultat: TBatpro_Element): Boolean;
+    procedure Suivant( out _Resultat: TBatpro_Element);
+    function  not_Suivant( out _Resultat: TBatpro_Element): Boolean;
   end;
 
  TslBatpro_Element
@@ -3170,12 +3170,12 @@ end;
 
 { TIterateur_Batpro_Element }
 
-function TIterateur_Batpro_Element.not_Suivant( var _Resultat: TBatpro_Element): Boolean;
+function TIterateur_Batpro_Element.not_Suivant( out _Resultat: TBatpro_Element): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_Batpro_Element.Suivant( var _Resultat: TBatpro_Element);
+procedure TIterateur_Batpro_Element.Suivant( out _Resultat: TBatpro_Element);
 begin
      Suivant_interne( _Resultat);
 end;

@@ -30,6 +30,7 @@ uses
     uBatpro_StringList,
     u_sys_,
     uClean,
+    ujsDataContexte,
     uChamp,
     uContrainte,
 
@@ -79,7 +80,7 @@ var
    I: Integer;
    NomChamp: String;
    Decroissant: Boolean;
-   TypeChamp: TFieldType;
+   TypeChamp: TjsDataType;
    cA, cB: TChamp;
    OK: Boolean;
    procedure CompareChaines( S1, S2: String);
@@ -154,18 +155,20 @@ begin
           and Assigned( cB)
        then
            begin
-           TypeChamp:= cA.Definition.Typ;
-           if TypeChamp = cB.Definition.Typ
+           TypeChamp:= cA.Definition.Info.jsDataType;
+           if TypeChamp = cB.Definition.Info.jsDataType
            then
                begin
-                    if TypeChamp in [ftDate, ftDateTime]
+                    if TypeChamp in [jsdt_Date, jsdt_DateTime]
                then
                    CompareDates  ( PDateTime(cA.Valeur)^,
                                    PDateTime(cB.Valeur)^)
-               else if TypeChamp in [ftInteger, ftSmallInt]
+               (*
+               else if TypeChamp in [jsdt_Integer, jsdt_Integer]//gardé pour gérer plus tard l'int64
                then
                    CompareEntiers( PInteger(cA.Valeur)^,
                                    PInteger(cB.Valeur)^)
+               *)
                else
                    CompareChaines( cA.Chaine, cB.Chaine);
                end;

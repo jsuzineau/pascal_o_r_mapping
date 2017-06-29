@@ -36,6 +36,7 @@ uses
     uWindows,
     {$ENDIF}
     uDataUtilsU,
+    ujsDataContexte,
     uChamps,
     uChampDefinitions,
     uChamp,
@@ -402,7 +403,7 @@ begin
              then
                  begin
                  ChampDefinition:= Champ.Definition;
-                 if    (ChampDefinition.Typ in [ftDate, ftDateTime])
+                 if    (ChampDefinition.Info.jsDataType in [jsdt_Date, jsdt_DateTime])
                     or ChampDefinition.Is_Lookup
                  then
                      begin end;//Inc( L, GetSystemMetrics( SM_CXVSCROLL))
@@ -576,18 +577,16 @@ begin
      if Assigned( ChampDefinition)
      then
          begin
-         case ChampDefinition.Typ
+         case ChampDefinition.Info.jsDataType
          of
-           ftString  : Aligne_a_gauche;
-           ftMemo    : Aligne_a_gauche;
-           ftDate    : Aligne_a_droite;
-           ftInteger : Aligne_a_droite;
-           ftSmallint: Aligne_a_droite;
-           ftBCD     : Aligne_a_droite;
-           ftDateTime: Aligne_a_droite;
-           ftFloat   : Aligne_a_droite;
-           ftBoolean : Coche;
-           else        Aligne_a_gauche;
+           jsdt_String  : Aligne_a_gauche;
+           jsdt_Date    : Aligne_a_droite;
+           jsdt_DateTime: Aligne_a_droite;
+           jsdt_Integer : Aligne_a_droite;
+           jsdt_Currency: Aligne_a_droite;
+           jsdt_Double  : Aligne_a_droite;
+           jsdt_Boolean : Coche;
+           else           Aligne_a_gauche;
            end;
          end
      else
@@ -624,7 +623,7 @@ begin
      inherited;
      ChampDefinition:= Definition( Col);
      if      Assigned( ChampDefinition)
-        and (ChampDefinition.Typ = ftBoolean)
+        and (ChampDefinition.Info.jsDataType = jsdt_Boolean)
      then
          begin
          Champ:= Champ_from_XY( Col, Row);
@@ -762,7 +761,7 @@ begin
      ChampDefinition:= Definition( ACol);
      if Assigned( ChampDefinition)
      then
-         if ftBoolean = ChampDefinition.Typ
+         if jsdt_Boolean = ChampDefinition.Info.jsDataType
          then
              begin
              Result:= False;

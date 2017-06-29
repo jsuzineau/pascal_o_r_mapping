@@ -400,7 +400,7 @@ procedure BooleanFieldValue( _bl: TBatpro_Ligne; _FielName: String;
 begin
      _C:= _bl.Champs.Champ_from_Field( _FielName);
      if      Assigned( _C)
-        and ( _C.Definition.Typ = ftBoolean)
+        and ( _C.Definition.Info.jsDataType = jsdt_Boolean)
      then
          _B:= PtrBoolean( _C.Valeur)^
      else
@@ -412,7 +412,7 @@ procedure IntegerFieldValue( _bl: TBatpro_Ligne; _FielName: String;
 begin
      _C:= _bl.Champs.Champ_from_Field( _FielName);
      if      Assigned( _C)
-        and ( _C.Definition.Typ = ftInteger)
+        and ( _C.Definition.Info.jsDataType = jsdt_Integer)
      then
          _I:= PInteger( _C.Valeur)^
      else
@@ -424,7 +424,7 @@ procedure StringFieldValue( _bl: TBatpro_Ligne; _FielName: String;
 begin
      _C:= _bl.Champs.Champ_from_Field( _FielName);
      if      Assigned( _C)
-        and ( _C.Definition.Typ = ftString)
+        and ( _C.Definition.Info.jsDataType = jsdt_String)
      then
          _S:= _C.Chaine
      else

@@ -26,6 +26,7 @@ unit ucChamp_DateTimePicker;
 interface
 
 uses
+    ujsDataContexte,
     uChamps,
     uChamp,
   {$IFNDEF FPC}
@@ -119,11 +120,10 @@ begin
      try
         Champs_Changing:= True;
 
-        case Champ.Definition.Typ
+        case Champ.Definition.Info.jsDataType
         of
-          ftDate     : Date:= PDateTime( Champ.Valeur)^;
-          ftDateTime : Date:= PDateTime( Champ.Valeur)^;
-          ftTimeStamp: Date:= PDateTime( Champ.Valeur)^;
+          jsdt_Date     : Date:= PDateTime( Champ.Valeur)^;
+          jsdt_DateTime : Date:= PDateTime( Champ.Valeur)^;
           end;
      finally
             Champs_Changing:= False;
@@ -136,11 +136,10 @@ begin
      try
         Champs_Changing:= True;
 
-        case Champ.Definition.Typ
+        case Champ.Definition.Info.jsDataType
         of
-          ftDate     : Champ.asDatetime:= Date;
-          ftDateTime : Champ.asDatetime:= Date;
-          ftTimeStamp: Champ.asDatetime:= Date;
+          jsdt_Date    : Champ.asDatetime:= Date;
+          jsdt_DateTime: Champ.asDatetime:= Date;
           end;
         Champ.Publie_Modifications;
      finally

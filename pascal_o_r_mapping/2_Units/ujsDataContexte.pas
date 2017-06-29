@@ -15,7 +15,7 @@ type
   PtrBoolean= ^Boolean;
   TjsDataType
   =
-   ( jsdt_String, jsdt_DateTime, jsdt_Integer, jsdt_Currency, jsdt_Double, jsdt_Boolean, jsdt_ShortString, jsdt_Unknown);
+   ( jsdt_String, jsdt_Date, jsdt_DateTime, jsdt_Integer, jsdt_Currency, jsdt_Double, jsdt_Boolean, jsdt_ShortString, jsdt_Unknown);
 
   { TjsDataContexte_Champ_Info }
 
@@ -54,6 +54,7 @@ type
    //Accesseurs
    public
      function asString  : String   ; virtual;
+     function asDate    : TDateTime; virtual;
      function asDateTime: TDateTime; virtual;
      function asInteger : Integer  ; virtual;
      function asCurrency: Currency ; virtual;
@@ -80,6 +81,7 @@ type
    //Accesseurs
    public
      function asString  : String   ; override;
+     function asDate    : TDateTime; override;
      function asDateTime: TDateTime; override;
      function asInteger : Integer  ; override;
      function asCurrency: Currency ; override;
@@ -123,6 +125,12 @@ type
    //Name
    public
      Name: String;
+   //Connection
+   protected
+     function GetConnection: TDatabase; virtual;
+     procedure SetConnection(_Value: TDatabase); virtual;
+   public
+     property Connection: TDatabase read GetConnection write SetConnection;
    //SQL
    protected
      procedure SetSQL( _SQL: String); virtual;
@@ -158,6 +166,12 @@ type
    public
      property id_FielName: String read Fid_FielName write Setid_FielName;
      function id: Integer; virtual;
+     procedure Create_id_field; virtual;
+   //spécial Gestion bases Microsoft Access en Freepascal
+   protected
+     procedure SetUsePrimaryKeyAsKey( _Value: Boolean); virtual;
+   public
+     property UsePrimaryKeyAsKey: Boolean write SetUsePrimaryKeyAsKey;
    end;
 
 
@@ -193,6 +207,10 @@ type
    public
      constructor Create( _Name: String);
      destructor Destroy; override;
+   //Connection
+   protected
+     function GetConnection: TDatabase; override;
+     procedure SetConnection(_Value: TDatabase); override;
    //SQL
    protected
      procedure SetSQL( _SQL: String); override;
@@ -206,10 +224,6 @@ type
    //Contexte SQLQuery
    private
      sqlq: TSQLQuery;
-     function GetConnection: TDatabase;
-     procedure SetConnection(_Value: TDatabase);
-   public
-     property Connection: TDatabase read GetConnection write SetConnection;
    //Champ id
    private
      sqlqid: TLongintField;
@@ -218,12 +232,10 @@ type
      procedure Setid_FielName( _id_FielName: String);override;
    public
      function id: Integer; override;
-     procedure Create_id_field;
+     procedure Create_id_field; override;
    //spécial Gestion bases Microsoft Access en Freepascal
-   private
-     procedure SetUsePrimaryKeyAsKey( _Value: Boolean);
-   public
-     property UsePrimaryKeyAsKey: Boolean write SetUsePrimaryKeyAsKey;
+   protected
+     procedure SetUsePrimaryKeyAsKey( _Value: Boolean); override;
    end;
 
   { TjsDataContexte_Dataset_Null }
@@ -302,6 +314,13 @@ begin
      Info.FieldType_Default( ftString);
 end;
 
+function TjsDataContexte_Champ.asDate: TDateTime;
+begin
+     Result:= 0;
+     Info.jsDataType:= jsdt_Date;
+     Info.FieldType_Default( ftDate);
+end;
+
 function TjsDataContexte_Champ.asDateTime: TDateTime;
 begin
      Result:= 0;
@@ -343,6 +362,7 @@ begin
      of
        jsdt_ShortString: PShortString( _Valeur)^:= asString  ;
        jsdt_String     : PString     ( _Valeur)^:= asString  ;
+       jsdt_Date       : PDateTime   ( _Valeur)^:= asDate    ;
        jsdt_DateTime   : PDateTime   ( _Valeur)^:= asDateTime;
        jsdt_Integer    : PInteger    ( _Valeur)^:= asInteger ;
        jsdt_Currency   : PCurrency   ( _Valeur)^:= asCurrency;
@@ -409,6 +429,25 @@ begin
                end;
 
 
+end;
+
+function TjsDataContexte_Champ_Dataset.asDate: TDateTime;
+var
+   df: TDateField;
+   dtf: TDateTimeField;
+   {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+   sqltsf: TSQLTimeStampField;
+   {$IFEND}
+begin
+     Result:=inherited asDate;
+
+     if nil = F then exit;
+          if Affecte(     df, TDateField        , F) then Result:=     df.Value
+     else if Affecte(    dtf, TDateTimeField    , F) then Result:=    dtf.Value
+     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+     else if Affecte( sqltsf, TSQLTimeStampField, F) then Result:= sqltsf.asDateTime
+     {$IFEND}
+     ;
 end;
 
 function TjsDataContexte_Champ_Dataset.asDateTime: TDateTime;
@@ -558,6 +597,14 @@ begin
      inherited Destroy;
 end;
 
+function TjsDataContexte.GetConnection: TDatabase;
+begin
+end;
+
+procedure TjsDataContexte.SetConnection(_Value: TDatabase);
+begin
+end;
+
 procedure TjsDataContexte.SetSQL(_SQL: String);
 begin
 end;
@@ -661,6 +708,14 @@ end;
 function TjsDataContexte.id: Integer;
 begin
      Result:= -1;
+end;
+
+procedure TjsDataContexte.Create_id_field;
+begin
+end;
+
+procedure TjsDataContexte.SetUsePrimaryKeyAsKey(_Value: Boolean);
+begin
 end;
 
 { TjsDataContexte_Dataset }

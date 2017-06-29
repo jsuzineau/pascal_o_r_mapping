@@ -1,5 +1,5 @@
 object fjsWorks: TfjsWorks
-  Left = 543
+  Left = 65
   Height = 527
   Top = 24
   Width = 959

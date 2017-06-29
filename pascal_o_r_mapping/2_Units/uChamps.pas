@@ -46,7 +46,7 @@ uses
   {$IFEND}
   {$IFDEF FPC}
   fpjson,
-  jsonparser,
+  jsonparser,jsonscanner,
   {$ENDIF}
   SysUtils, Classes, DB,Types;
 
@@ -640,23 +640,18 @@ begin
 
                with Params.ParamByName( FieldName)
                do
-                 case Definition.Typ
+                 case Definition.Info.jsDataType
                  of
-                   ftString   : AsString  := PString  ( Valeur)^;
-                   ftMemo     : AsMemo    := PString  ( Valeur)^;
-                   ftBlob     : AsBlob    := PString  ( Valeur)^;
-                   ftDate     : AsDate    := PDateTime( Valeur)^;
-                   ftInteger  : AsInteger := PInteger ( Valeur)^;
-                   ftSmallint : AsSmallInt:= PInteger ( Valeur)^;
-                   {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-                   ftBCD      : AsBCD     := PCurrency( Valeur)^;
-                   {$IFEND}
-                   ftDateTime : AsDateTime:= PDateTime( Valeur)^;
-                   {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-                   ftTimeStamp: AsSQLTimeStamp
-                    :=DateTimeToSQLTimeStamp(PDateTime( Valeur)^);
-                   {$IFEND}
-                   ftFloat    : AsFloat   := PDouble  ( Valeur)^;
+                   jsdt_String     : AsString  := PString     ( Valeur)^;
+                   jsdt_Date       : AsDate    := PDateTime   ( Valeur)^;
+                   jsdt_DateTime   : AsDateTime:= PDateTime   ( Valeur)^;
+                   jsdt_Integer    : AsInteger := PInteger    ( Valeur)^;
+                   jsdt_Currency   : AsBCD     := PCurrency   ( Valeur)^;
+                   jsdt_Double     : AsFloat   := PDouble     ( Valeur)^;
+                   jsdt_Boolean    : AsBoolean := PtrBoolean  ( Valeur)^;
+                   jsdt_ShortString: AsString  := PShortString( Valeur)^;
+                   jsdt_Unknown    : begin end;
+                   else              begin end;
                    end;
                end;
            end;
@@ -687,23 +682,18 @@ begin
                Valeur:= Champ.Valeur;
                with Params.ParamByName( Definition.Nom)
                do
-                 case Definition.Typ
+                 case Definition.Info.jsDataType
                  of
-                   ftString   : AsString  := PString  ( Valeur)^;
-                   ftMemo     : AsMemo    := PString  ( Valeur)^;
-                   ftBlob     : AsBlob    := PString  ( Valeur)^;
-                   ftDate     : AsDate    := PDateTime( Valeur)^;
-                   ftInteger  : AsInteger := PInteger ( Valeur)^;
-                   ftSmallint : AsSmallInt:= PInteger ( Valeur)^;
-                   {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-                   ftBCD      : AsBCD     := PCurrency( Valeur)^;
-                   {$IFEND}
-                   ftDateTime : AsDateTime:= PDateTime( Valeur)^;
-                   {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-                   ftTimeStamp: AsSQLTimeStamp
-                    :=DateTimeToSQLTimeStamp(PDateTime( Valeur)^);
-                   {$IFEND}
-                   ftFloat    : AsFloat   := PDouble  ( Valeur)^;
+                   jsdt_String     : AsString  := PString     ( Valeur)^;
+                   jsdt_Date       : AsDate    := PDateTime   ( Valeur)^;
+                   jsdt_DateTime   : AsDateTime:= PDateTime   ( Valeur)^;
+                   jsdt_Integer    : AsInteger := PInteger    ( Valeur)^;
+                   jsdt_Currency   : AsBCD     := PCurrency   ( Valeur)^;
+                   jsdt_Double     : AsFloat   := PDouble     ( Valeur)^;
+                   jsdt_Boolean    : AsBoolean := PtrBoolean  ( Valeur)^;
+                   jsdt_ShortString: AsString  := PShortString( Valeur)^;
+                   jsdt_Unknown    : begin end;
+                   else              begin end;
                    end;
                end;
            end;
@@ -984,7 +974,7 @@ var
    jsp: TJSONParser;
    jso: TJSONObject;
 begin
-     jsp:= TJSONParser.Create( _Value);
+     jsp:= TJSONParser.Create( _Value, [joUTF8]);
      jso:= jsp.Parse as TJSONObject;
      try
         _from_JSONObject( jso);
