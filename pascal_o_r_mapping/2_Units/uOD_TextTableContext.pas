@@ -319,6 +319,8 @@ type
     procedure Duplique( _odc: TOD_TABLE_COLUMN; _NomTable: String);
   end;
 
+ { TOD_TextTableContext }
+
  TOD_TextTableContext
  =
   class
@@ -341,7 +343,7 @@ type
 
     function  ComposeNomStyle_from_Field( F: TField): String;
     function  ComposeNomStyleColonne_from_Field( F: TField): String;
-    procedure Init( _Nom: String);
+    procedure Init( _Nom: String; _Bordures_Verticales_Colonnes: Boolean= True);
   //Accés à la table
   public
     function Table_Existe: Boolean;
@@ -1057,10 +1059,10 @@ begin
      inherited;
 end;
 
-procedure TOD_TextTableContext.Init( _Nom: String);
+procedure TOD_TextTableContext.Init( _Nom: String; _Bordures_Verticales_Colonnes: Boolean= True);
 begin
      Nom:= _Nom;
-     Bordures_Verticales_Colonnes:= True;//provisoire à vérifier
+     Bordures_Verticales_Colonnes:= _Bordures_Verticales_Colonnes;
      Numero_NewPage:= 0;
      NomStyleColonne:= '_'+Nom+'_Style_Colonne';
      NomStyleMerge  := '_'+Nom+'_Style_Merge';

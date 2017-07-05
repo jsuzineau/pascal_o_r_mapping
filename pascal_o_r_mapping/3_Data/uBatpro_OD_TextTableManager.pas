@@ -60,6 +60,9 @@ uses
   SysUtils, Classes, DB;
 
 type
+
+ { TBatpro_OD_TextTableManager }
+
  TBatpro_OD_TextTableManager
  =
   class
@@ -75,7 +78,7 @@ type
     sl: TBatpro_StringList;
     Champs: TChamps;
 
-    procedure Init( _Editing_Modele: Boolean; _NomFichierModele: String; _sl: TBatpro_StringList; _Nom: String);
+    procedure Init( _Editing_Modele: Boolean; _NomFichierModele: String; _sl: TBatpro_StringList; _OD_Batpro_Table: TOD_Batpro_Table);
     function  ComposeNomStyle_from_Field( I: Integer): String;
   //Gestion du titre des colonnes
   private
@@ -134,11 +137,14 @@ begin
      inherited;
 end;
 
-procedure TBatpro_OD_TextTableManager.Init( _Editing_Modele: Boolean; _NomFichierModele: String; _sl: TBatpro_StringList; _Nom: String);
+procedure TBatpro_OD_TextTableManager.Init( _Editing_Modele: Boolean;
+                                            _NomFichierModele: String;
+                                            _sl: TBatpro_StringList;
+                                            _OD_Batpro_Table: TOD_Batpro_Table);
 var
    bl: TBatpro_Ligne;
 begin
-     C.Init( _Nom);
+     C.Init( _OD_Batpro_Table.Nom, _OD_Batpro_Table.Bordures_Verticales_Colonnes);
 
      sl:= _sl;
      bl:= Batpro_Ligne_from_sl( sl, 0);
@@ -255,7 +261,7 @@ var
         TraiteLigne( Niveau.Apres.CA);
    end;
 begin
-     Init( True, _NomFichierModele, nil, _OD_Batpro_Table.Nom);
+     Init( True, _NomFichierModele, nil, _OD_Batpro_Table);
      _OD_Batpro_Table.Assure_Modele( C);
      _OD_Batpro_Table.from_Doc( C);
      C.Cree_Styles_de_base;
@@ -597,7 +603,7 @@ begin
      //BorderLine_Vide.InnerLineWidth:= 0;
      //BorderLine_Vide.OuterLineWidth:= 0;
 
-     Init( False, _NomFichierModele, nil, _OD_Batpro_Table.Nom);
+     Init( False, _NomFichierModele, nil, _OD_Batpro_Table);
      _OD_Batpro_Table.from_Doc( C);
 
      Niveaux:= _OD_Batpro_Table.Niveaux;

@@ -103,7 +103,7 @@ type
   //Gestion de l'affichage des bordures
   public
     Bordure_fin_table: String;
-    Bordures_Verticales_Colonnes: String;
+    Bordures_Verticales_Colonnes: Boolean;
     procedure Bordures_Assure( _C: TOD_BatproTextTableContext);
     procedure Bordures_Lire( _C: TOD_BatproTextTableContext);
     procedure Bordures_Ecrire( _C: TOD_BatproTextTableContext);
@@ -362,15 +362,18 @@ begin
 end;
 
 procedure TOD_Batpro_Table.Bordures_Lire(_C: TOD_BatproTextTableContext);
+var
+   sBordures_Verticales_Colonnes: String;
 begin
      Bordure_fin_table:= _C.Lire( Prefixe_Bordure_fin_table, '1');
-     Bordures_Verticales_Colonnes:= _C.Lire( Prefixe_Bordures_Verticales_Colonnes, '1');
+     sBordures_Verticales_Colonnes:= _C.Lire( Prefixe_Bordures_Verticales_Colonnes, '1');
+     Bordures_Verticales_Colonnes:= '1' = sBordures_Verticales_Colonnes;
 end;
 
 procedure TOD_Batpro_Table.Bordures_Ecrire(_C: TOD_BatproTextTableContext);
 begin
      _C.Ecrire( Prefixe_Bordure_fin_table, Bordure_fin_table);
-     _C.Ecrire( Prefixe_Bordures_Verticales_Colonnes, Bordures_Verticales_Colonnes);
+     _C.Ecrire( Prefixe_Bordures_Verticales_Colonnes, BoolToStr(Bordures_Verticales_Colonnes, '1','0'));
 end;
 
 end.

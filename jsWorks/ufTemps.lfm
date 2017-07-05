@@ -1,14 +1,14 @@
 object fTemps: TfTemps
-  Left = 282
+  Left = 794
   Height = 397
-  Top = 24
+  Top = 1261
   Width = 742
   Caption = 'fTemps'
   ClientHeight = 397
   ClientWidth = 742
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '1.6.0.4'
+  LCLVersion = '1.8.0.1'
   object Panel1: TPanel
     Left = 0
     Height = 128
@@ -24,8 +24,6 @@ object fTemps: TfTemps
       Top = 24
       Width = 103
       CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
-      OKCaption = 'OK'
-      CancelCaption = 'Cancel'
       DateOrder = doNone
       ButtonWidth = 23
       NumGlyphs = 1
@@ -38,8 +36,6 @@ object fTemps: TfTemps
       Top = 24
       Width = 112
       CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
-      OKCaption = 'OK'
-      CancelCaption = 'Cancel'
       DateOrder = doNone
       ButtonWidth = 23
       NumGlyphs = 1
@@ -139,7 +135,7 @@ object fTemps: TfTemps
       TabOrder = 8
     end
     object bodCalendrier: TButton
-      Left = 278
+      Left = 312
       Height = 25
       Top = 95
       Width = 91
@@ -191,7 +187,7 @@ object fTemps: TfTemps
       TabOrder = 12
     end
     object bodCalendrier_Modele: TButton
-      Left = 378
+      Left = 408
       Height = 25
       Top = 95
       Width = 130
@@ -216,6 +212,15 @@ object fTemps: TfTemps
       Caption = 'H.Suppl.'
       OnChange = cbHeures_SupplementairesChange
       TabOrder = 15
+    end
+    object bodSession_Modele: TButton
+      Left = 261
+      Height = 25
+      Top = 96
+      Width = 23
+      Caption = 'M'
+      OnClick = bodSession_ModeleClick
+      TabOrder = 16
     end
   end
   object ds: TDockableScrollbox

@@ -51,27 +51,12 @@ type
   private
     sl: TBatpro_StringList;
     t: TOD_Batpro_Table;
-    n: TOD_Niveau;
+    nSession, nWork, nWork_Self: TOD_Niveau;
   public
     procedure Init( _hdmSession: ThdmSession); reintroduce;
   end;
 
-function odSession: TodSession;
-
 implementation
-
-{ TodSession }
-
-var
-   FodSession: TodSession= nil;
-
-function odSession: TodSession;
-begin
-     if nil = FodSession
-     then
-         FodSession:= TodSession.Create;
-     Result:= FodSession;
-end;
 
 constructor TodSession.Create;
 begin
@@ -91,17 +76,20 @@ begin
 
      t:= Ajoute_Table( 't');
      t.Pas_de_persistance:= True;
-     t.AddColumn( 20, 'Début/Fin'      );
-     t.AddColumn( 60, 'Libelle');
-     n:= t.AddNiveau( 'Root');
-     n.Charge_sl( _hdmSession.sl);
-     n.Ajoute_Column_Avant( 'Libelle_date'  , 0, 0);
-     n.Ajoute_Column_Avant( 'Libelle'      , 1, 1);
+     t.Bordures_Verticales_Colonnes:= False;
+
+     t.AddColumn(  1, '  ');
+     t.AddColumn(  1, '  ');
+     t.AddColumn( 17, '  ');
+     nSession  := t.AddNiveau( 'Root');
+     nWork     := t.AddNiveau( 'Work');
+     nWork_Self:= t.AddNiveau( 'Self');
+     nSession.Charge_sl( _hdmSession.sl);
+     nSession  .Ajoute_Column_Avant( 'Titre'        , 0, 2);
+     nWork     .Ajoute_Column_Avant( 'Session_Titre', 1, 2);
+     nWork_Self.Ajoute_Column_Avant( 'Description'  , 2, 2);
+     nSession  .Ajoute_Column_Apres( 'Pied'         , 1, 2);
 end;
 
-initialization
-
-finalization
-            FreeAndNil( FodSession);
 end.
 

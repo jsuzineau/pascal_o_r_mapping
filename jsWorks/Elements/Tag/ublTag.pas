@@ -64,6 +64,27 @@ type
    //  function Iterateur_Decroissant: TIterateur_Work;
    end;
 
+  { ThaTag__Work_from_Session }
+  ThaTag__Work_from_Session
+  =
+   class( ThAggregation)
+     //Gestion du cycle de vie
+     public
+       constructor Create( _Parent: TBatpro_Element;
+                           _Classe_Elements: TBatpro_Element_Class;
+                           _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre); override;
+       destructor  Destroy; override;
+   //Chargement de tous les détails
+   public
+     procedure Charge; override;
+   //Création d'itérateur
+   protected
+     class function Classe_Iterateur: TIterateur_Class; override;
+   //public
+   //  function Iterateur: TIterateur_Work;
+   //  function Iterateur_Decroissant: TIterateur_Work;
+   end;
+
  { TblTag }
 
  TblTag
@@ -91,6 +112,12 @@ type
     function GethaWork: ThaTag__Work;
   public
     property haWork: ThaTag__Work read GethaWork;
+  //Aggrégation vers les Work_from_Session correspondants
+  private
+    FhaWork_from_Session: ThaTag__Work_from_Session;
+    function GethaWork_from_Session: ThaTag__Work_from_Session;
+  public
+    property haWork_from_Session: ThaTag__Work_from_Session read GethaWork_from_Session;
  //Couleur
  public
    function Couleur: TColor;
@@ -231,6 +258,47 @@ begin
 end;
 }
 
+{ ThaTag__Work_from_Session }
+
+constructor ThaTag__Work_from_Session.Create( _Parent: TBatpro_Element;
+                               _Classe_Elements: TBatpro_Element_Class;
+                               _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre);
+begin
+     inherited;
+     if Classe_Elements <> _Classe_Elements
+     then
+         fAccueil_Erreur(  'Erreur à signaler au développeur: '#13#10
+                          +' '+ClassName+'.Create: Classe_Elements <> _Classe_Elements:'#13#10
+                          +' Classe_Elements='+ Classe_Elements.ClassName+#13#10
+                          +'_Classe_Elements='+_Classe_Elements.ClassName
+                          );
+end;
+
+destructor ThaTag__Work_from_Session.Destroy;
+begin
+     inherited;
+end;
+
+procedure ThaTag__Work_from_Session.Charge;
+begin
+     //inherited Charge; pré-chargé
+end;
+
+class function ThaTag__Work_from_Session.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Work;
+end;
+
+function ThaTag__Work_from_Session.Iterateur: TIterateur_Work;
+begin
+     Result:= TIterateur_Work( Iterateur_interne);
+end;
+
+function ThaTag__Work_from_Session.Iterateur_Decroissant: TIterateur_Work;
+begin
+     Result:= TIterateur_Work( Iterateur_interne_Decroissant);
+end;
+
 { TblTag }
 
 constructor TblTag.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
@@ -274,8 +342,9 @@ end;
 
 procedure TblTag.Create_Aggregation( Name: String; P: ThAggregation_Create_Params);
 begin
-          if 'Work' = Name then P.Faible( ThaTag__Work, TblWork, poolWork)
-     else                  inherited Create_Aggregation( Name, P);
+          if 'Work'              = Name then P.Faible( ThaTag__Work             , TblWork, poolWork)
+     else if 'Work_from_Session' = Name then P.Faible( ThaTag__Work_from_Session, TblWork, poolWork)
+     else                                    inherited Create_Aggregation( Name, P);
 end;
 
 
@@ -286,6 +355,15 @@ begin
          FhaWork:= Aggregations['Work'] as ThaTag__Work;
 
      Result:= FhaWork;
+end;
+
+function  TblTag.GethaWork_from_Session: ThaTag__Work_from_Session;
+begin
+     if FhaWork_from_Session = nil
+     then
+         FhaWork_from_Session:= Aggregations['Work_from_Session'] as ThaTag__Work_from_Session;
+
+     Result:= FhaWork_from_Session;
 end;
 
 function TblTag.Couleur: TColor;

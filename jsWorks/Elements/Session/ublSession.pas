@@ -89,6 +89,22 @@ type
     function  GethaWork: ThaSession_Work;
   public
     property haWork: ThaSession_Work read GethaWork;
+  //Titre
+  private
+    FTitre: String;
+    procedure Titre_GetChaine( var _Chaine: String);
+    function GetTitre: String;
+  public
+    cTitre: TChamp;
+    property Titre: String read GetTitre;
+  //Pied
+  private
+    FPied: String;
+    procedure Pied_GetChaine( var _Chaine: String);
+    function GetPied: String;
+  public
+    cPied: TChamp;
+    property Pied: String read GetPied;
   //Libelle
   private
     FLibelle: String;
@@ -237,6 +253,12 @@ begin
 
      Champs.ChampDefinitions.NomTable:= '';
 
+     cTitre:= Ajoute_String( FTitre,'Titre', False);
+     cTitre.OnGetChaine:= Titre_GetChaine;
+
+     cPied:= Ajoute_String( FPied,'Pied', False);
+     cPied.OnGetChaine:= Pied_GetChaine;
+
      cLibelle:= Ajoute_String( FLibelle,'Libelle', False);
      cLibelle.OnGetChaine:= Libelle_GetChaine;
 
@@ -285,43 +307,63 @@ begin
      Result:= FhaWork;
 end;
 
+function TblSession.GetTitre: String;
+begin
+     Result
+     :=
+        FormatDateTime( 'dddd ddddd', Beginning)
+       +' Session de '+FormatDateTime( 'hh:nn', Beginning)
+       +' à ' +FormatDateTime( 'hh:nn', End_     )
+       ;
+end;
+
+procedure TblSession.Titre_GetChaine(var _Chaine: String);
+begin
+     _Chaine:= GetTitre;
+end;
+
+function TblSession.GetPied: String;
+   procedure Ecrit_Cumul_Jour;
+   var
+      S: String;
+   begin
+        S:= '(Jour: '+Cumul_Jour.To_String;
+        if ublSession_Ecrire_arrondi
+        then
+            S:= S+', a '+Cumul_Jour.To_String_arrondi;
+        S:= S+')';
+        Formate_Liste( Result, #13#10, S);
+   end;
+begin
+     Result:= '';
+     Formate_Liste( Result, #13#10, '(Session: '+sDuree+')');
+     if FinJour
+     then
+         Ecrit_Cumul_Jour;
+     if FinSemaine
+     then
+         Formate_Liste( Result, #13#10, '(Semaine: '+Cumul_Semaine.To_String+')');
+
+     if FinGlobal
+     then
+         Formate_Liste( Result, #13#10, '(Global: '+Cumul_Global.To_String+')');
+end;
+
+procedure TblSession.Pied_GetChaine(var _Chaine: String);
+begin
+     _Chaine:= GetPied;
+end;
+
 procedure TblSession.Libelle_GetChaine(var _Chaine: String);
 begin
      _Chaine:= GetLibelle;
 end;
 
 function TblSession.GetLibelle: String;
-    procedure Ecrit_Cumul_Jour;
-    var
-       S: String;
-    begin
-         S:= '(Jour: '+Cumul_Jour.To_String;
-         if ublSession_Ecrire_arrondi
-         then
-             S:= S+', a '+Cumul_Jour.To_String_arrondi;
-         S:= S+')';
-         Formate_Liste( FLibelle, #13#10, S);
-    end;
 begin
-     FLibelle
-     :=
-        FormatDateTime( 'dddd ddddd', Beginning)
-       +' Session de '+FormatDateTime( 'hh:nn', Beginning)
-       +' à ' +FormatDateTime( 'hh:nn', End_     )
-       ;
+     FLibelle:= Titre;
      Formate_Liste_Indentation( FLibelle, #13#10, '  ', haWork.Libelle);
-     Formate_Liste( FLibelle, #13#10, '(Session: '+sDuree+')');
-     if FinJour
-     then
-         Ecrit_Cumul_Jour;
-     if FinSemaine
-     then
-         Formate_Liste( FLibelle, #13#10, '(Semaine: '+Cumul_Semaine.To_String+')');
-
-     //if FinGlobal
-     //then
-     //    Formate_Liste( FLibelle, #13#10, '(Global: '+Cumul_Global.To_String+')');
-
+     Formate_Liste( FLibelle, #13#10, Pied);
      Result:= FLibelle;
 end;
 
