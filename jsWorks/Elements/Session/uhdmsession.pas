@@ -35,9 +35,9 @@ uses
     ufAccueil_Erreur,
     uBatpro_StringList,
     uBatpro_Element,
+    ublTag,
     ublSession,
     ublWork,
-    ublTag,
     ublCalendrier,
 
     upoolWork,
@@ -46,6 +46,25 @@ uses
  Classes, SysUtils;
 
 type
+ { ThaTag }
+
+  ThaTag
+  =
+   class( ThAggregation)
+   //Gestion du cycle de vie
+   public
+     constructor Create( _Parent: TBatpro_Element;
+                         _Classe_Elements: TBatpro_Element_Class;
+                         _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre); override;
+     destructor  Destroy; override;
+   //Création d'itérateur
+   protected
+     class function Classe_Iterateur: TIterateur_Class; override;
+   public
+     function Iterateur: TIterateur_Tag;
+     function Iterateur_Decroissant: TIterateur_Tag;
+   end;
+
  { ThaWork }
 
  ThaWork
@@ -68,7 +87,30 @@ type
     function Charge_Periode( _Debut, _Fin: TDateTime; _idTag: Integer): Boolean;
   end;
 
- ThaTag
+ { ThaTag__Work_from_Session }
+ ThaTag__Work_from_Session
+ =
+  class( ThaWork)
+    //Gestion du cycle de vie
+    public
+      constructor Create( _Parent: TBatpro_Element;
+                          _Classe_Elements: TBatpro_Element_Class;
+                          _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre); override;
+      destructor  Destroy; override;
+  //Chargement de tous les détails
+  public
+    procedure Charge; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_Work;
+    function Iterateur_Decroissant: TIterateur_Work;
+  end;
+
+ { ThaSession }
+
+ ThaSession
  =
   class( ThAggregation)
   //Gestion du cycle de vie
@@ -81,51 +123,100 @@ type
   protected
     class function Classe_Iterateur: TIterateur_Class; override;
   public
-    function Iterateur: TIterateur_Tag;
-    function Iterateur_Decroissant: TIterateur_Tag;
+    function Iterateur: TIterateur_Session;
+    function Iterateur_Decroissant: TIterateur_Session;
+  //Liste des Works
+  public
+    haWork: ThaWork;
+  //Méthodes
+  public
+    function Execute: Boolean;
+    procedure Vide;
+  //Nombre heures par jour
+  protected
+    NB_Heures_Jour: Double;
+  //Cumul global
+  public
+    Cumul_Global : TWork_Cumul;
+  //Calendrier
+  public
+    procedure hdmCalendrier_Affecte( _D: TDateTime; _Cumul_Jour, _Cumul_Semaine, _Cumul_Global: TWork_Cumul); virtual;
+  end;
+
+ ThaTag__Session
+ =
+  class( ThaSession)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Parent: TBatpro_Element;
+                        _Classe_Elements: TBatpro_Element_Class;
+                        _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre); override;
+    destructor  Destroy; override;
   end;
 
  { ThdmSession }
 
  ThdmSession
  =
-  class( ThAggregation)
+  class( ThaSession)
   //Gestion du cycle de vie
   public
     constructor Create; reintroduce;
     destructor  Destroy; override;
-  //Création d'itérateur
-  protected
-    class function Classe_Iterateur: TIterateur_Class; override;
-  public
-    function Iterateur: TIterateur_Session;
-    function Iterateur_Decroissant: TIterateur_Session;
-  //Liste des Works
-  public
-    haWork: ThaWork;
   //Liste des Tags
   public
     haTag: ThaTag;
   //Méthodes
   public
-    function Execute( _Debut, _Fin: TDateTime; _idTag: Integer): Boolean;
+    function Execute( _Debut, _Fin: TDateTime; _idTag: Integer): Boolean; reintroduce;
     procedure To_log;
-    procedure Vide;
-  //Nombre heures par jour
-  private
-    NB_Heures_Jour: Double;
   //Calendrier
   public
     hdmCalendrier: ThdmCalendrier;
-  //Cumul global
-  public
-    Cumul_Global : TWork_Cumul;
+    procedure hdmCalendrier_Affecte( _D: TDateTime; _Cumul_Jour, _Cumul_Semaine, _Cumul_Global: TWork_Cumul); override;
   //Text
   public
     function Text: String;
   end;
 
 implementation
+
+{ ThaTag }
+
+constructor ThaTag.Create( _Parent: TBatpro_Element;
+                               _Classe_Elements: TBatpro_Element_Class;
+                               _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre);
+begin
+     inherited;
+     if Classe_Elements <> _Classe_Elements
+     then
+         fAccueil_Erreur(  'Erreur à signaler au développeur: '#13#10
+                          +' '+ClassName+'.Create: Classe_Elements <> _Classe_Elements:'#13#10
+                          +' Classe_Elements='+ Classe_Elements.ClassName+#13#10
+                          +'_Classe_Elements='+_Classe_Elements.ClassName
+                          );
+end;
+
+destructor ThaTag.Destroy;
+begin
+     inherited;
+end;
+
+class function ThaTag.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Tag;
+end;
+
+function ThaTag.Iterateur: TIterateur_Tag;
+begin
+     Result:= TIterateur_Tag( Iterateur_interne);
+end;
+
+function ThaTag.Iterateur_Decroissant: TIterateur_Tag;
+begin
+     Result:= TIterateur_Tag( Iterateur_interne_Decroissant);
+end;
+
 
 { ThaWork }
 
@@ -171,9 +262,9 @@ begin
      poolWork.Tri.Execute( sl);
 end;
 
-{ ThaTag }
+{ ThaTag__Work_from_Session }
 
-constructor ThaTag.Create( _Parent: TBatpro_Element;
+constructor ThaTag__Work_from_Session.Create( _Parent: TBatpro_Element;
                                _Classe_Elements: TBatpro_Element_Class;
                                _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre);
 begin
@@ -187,70 +278,71 @@ begin
                           );
 end;
 
-destructor ThaTag.Destroy;
+destructor ThaTag__Work_from_Session.Destroy;
 begin
      inherited;
 end;
 
-class function ThaTag.Classe_Iterateur: TIterateur_Class;
+procedure ThaTag__Work_from_Session.Charge;
 begin
-     Result:= TIterateur_Tag;
+     //inherited Charge; pré-chargé
 end;
 
-function ThaTag.Iterateur: TIterateur_Tag;
+class function ThaTag__Work_from_Session.Classe_Iterateur: TIterateur_Class;
 begin
-     Result:= TIterateur_Tag( Iterateur_interne);
+     Result:= TIterateur_Work;
 end;
 
-function ThaTag.Iterateur_Decroissant: TIterateur_Tag;
+function ThaTag__Work_from_Session.Iterateur: TIterateur_Work;
 begin
-     Result:= TIterateur_Tag( Iterateur_interne_Decroissant);
+     Result:= TIterateur_Work( Iterateur_interne);
 end;
 
-
-{ ThdmSession }
-
-constructor ThdmSession.Create;
+function ThaTag__Work_from_Session.Iterateur_Decroissant: TIterateur_Work;
 begin
-     inherited Create( nil, TblSession, nil);
-     if Classe_Elements <> TblSession
+     Result:= TIterateur_Work( Iterateur_interne_Decroissant);
+end;
+
+{ ThaSession }
+
+constructor ThaSession.Create( _Parent: TBatpro_Element;
+                               _Classe_Elements: TBatpro_Element_Class;
+                               _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre);
+begin
+     inherited;
+     if Classe_Elements <> _Classe_Elements
      then
          fAccueil_Erreur(  'Erreur à signaler au développeur: '#13#10
                           +' '+ClassName+'.Create: Classe_Elements <> _Classe_Elements:'#13#10
                           +' Classe_Elements='+ Classe_Elements.ClassName+#13#10
-                          +'_Classe_Elements='+TblSession.ClassName
+                          +'_Classe_Elements='+_Classe_Elements.ClassName
                           );
-     haWork:= ThaWork.Create( nil, TblWork, nil);
-     haTag:= ThaTag.Create( nil, TblTag, nil);
+     haWork:= nil;
      NB_Heures_Jour:= EXE_INI.Assure_Double( 'NB_Heures_Jour', 5.75);
      Log.PrintLn( ClassName+'.NB_Heures_Jour= '+FloatToStr( NB_Heures_Jour));
-     hdmCalendrier:= ThdmCalendrier.Create;
 end;
 
-destructor ThdmSession.Destroy;
+destructor ThaSession.Destroy;
 begin
-     Free_nil( hdmCalendrier);
-     Free_nil( haTag);
-     Free_nil( haWork);
      inherited;
 end;
 
-class function ThdmSession.Classe_Iterateur: TIterateur_Class;
+class function ThaSession.Classe_Iterateur: TIterateur_Class;
 begin
      Result:= TIterateur_Session;
 end;
 
-function ThdmSession.Iterateur: TIterateur_Session;
+function ThaSession.Iterateur: TIterateur_Session;
 begin
      Result:= TIterateur_Session( Iterateur_interne);
 end;
 
-function ThdmSession.Iterateur_Decroissant: TIterateur_Session;
+function ThaSession.Iterateur_Decroissant: TIterateur_Session;
 begin
      Result:= TIterateur_Session( Iterateur_interne_Decroissant);
 end;
 
-function ThdmSession.Execute( _Debut, _Fin: TDateTime; _idTag: Integer): Boolean;
+function ThaSession.Execute: Boolean;
 var
    dtNB_Heures_Jour: TDateTime;
    Precedent: TblWork;
@@ -295,7 +387,7 @@ var
 
         if Assigned( Precedent)
         then
-            hdmCalendrier.Affecte( Precedent.Beginning, Cumul_Jour, Cumul_Semaine, Cumul_Global);
+            hdmCalendrier_Affecte( Precedent.Beginning, Cumul_Jour, Cumul_Semaine, Cumul_Global);
 
         if blWork.Semaine_Differente( Precedent)
         then
@@ -341,9 +433,6 @@ begin
 
      dtNB_Heures_Jour:= NB_Heures_Jour/24;
 
-     hdmCalendrier.Formate( _Debut, _Fin);
-     haWork.Charge_Periode( _Debut, _Fin, _idTag);
-
      Cumul_Global .Zero;
      Cumul_Semaine.Zero;
      Cumul_Jour   .Zero;
@@ -379,6 +468,171 @@ begin
      Result:= True;
 end;
 
+procedure ThaSession.Vide;
+var
+   I: TIterateur_Session;
+   bl: TblSession;
+begin
+     I:= Iterateur_Decroissant;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( bl) then continue;
+       I.Supprime_courant;
+       Free_nil( bl);
+       end;
+end;
+
+procedure ThaSession.hdmCalendrier_Affecte( _D: TDateTime; _Cumul_Jour, _Cumul_Semaine, _Cumul_Global: TWork_Cumul);
+begin
+
+end;
+
+{ ThaTag__Session }
+
+constructor ThaTag__Session.Create( _Parent: TBatpro_Element;
+                               _Classe_Elements: TBatpro_Element_Class;
+                               _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre);
+var
+   blParent: TblTag;
+begin
+     inherited;
+
+     if Affecte_( blParent, TblTag, Parent) then exit;
+     Affecte( haWork, ThaWork, blParent.haWork_from_Session);
+end;
+
+destructor ThaTag__Session.Destroy;
+begin
+     inherited;
+end;
+
+
+{ ThdmSession }
+
+constructor ThdmSession.Create;
+begin
+     inherited Create( nil, TblSession, nil);
+     if Classe_Elements <> TblSession
+     then
+         fAccueil_Erreur(  'Erreur à signaler au développeur: '#13#10
+                          +' '+ClassName+'.Create: Classe_Elements <> _Classe_Elements:'#13#10
+                          +' Classe_Elements='+ Classe_Elements.ClassName+#13#10
+                          +'_Classe_Elements='+TblSession.ClassName
+                          );
+     haWork:= ThaWork.Create( nil, TblWork, nil);
+     haTag := ThaTag .Create( nil, TblTag , nil);
+     hdmCalendrier:= ThdmCalendrier.Create;
+end;
+
+destructor ThdmSession.Destroy;
+begin
+     Free_nil( hdmCalendrier);
+     Free_nil( haTag);
+     Free_nil( haWork);
+     inherited;
+end;
+
+function ThdmSession.Execute( _Debut, _Fin: TDateTime; _idTag: Integer): Boolean;
+   procedure haTag_from_ha_Work;
+   var
+      I: TIterateur_Work;
+      bl: TblWork;
+      procedure haTag_from_bl_haTag;
+      var
+         iTag: TIterateur_Tag;
+         blTag: TblTag;
+      begin
+           bl.haTag.Charge;
+           iTag:= bl.haTag.Iterateur;
+           while iTag.Continuer
+           do
+             begin
+             if iTag.not_Suivant( blTag) then continue;
+
+             haTag.Ajoute( blTag);
+             end;
+      end;
+   begin
+        haTag.Clear;
+        I:= haWork.Iterateur;
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( bl) then continue;
+
+          haTag_from_bl_haTag;
+          end;
+   end;
+   procedure haTag_haWork_from_Session_Clear;
+   var
+      iTag: TIterateur_Tag;
+      blTag: TblTag;
+   begin
+        iTag:= haTag.Iterateur;
+        while iTag.Continuer
+        do
+          begin
+          if iTag.not_Suivant( blTag) then continue;
+
+          blTag.haWork_from_Session.Clear;
+          end;
+   end;
+   procedure haTag_haWork_from_Session_from_ha_Work;
+   var
+      I: TIterateur_Work;
+      bl: TblWork;
+      procedure haWork_from_Session_from_ha_Work;
+      var
+         iTag: TIterateur_Tag;
+         blTag: TblTag;
+      begin
+           bl.haTag.Charge;
+           iTag:= bl.haTag.Iterateur;
+           while iTag.Continuer
+           do
+             begin
+             if iTag.not_Suivant( blTag) then continue;
+
+             blTag.haWork_from_Session.Ajoute( bl);
+             end;
+      end;
+   begin
+        I:= haWork.Iterateur;
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( bl) then continue;
+
+          haWork_from_Session_from_ha_Work;
+          end;
+   end;
+   procedure haTag_haSession_Execute;
+   var
+      iTag: TIterateur_Tag;
+      blTag: TblTag;
+      haSession: ThaTag__Session;
+   begin
+        iTag:= haTag.Iterateur;
+        while iTag.Continuer
+        do
+          begin
+          if iTag.not_Suivant( blTag)                               then continue;
+          if Affecte_( haSession, ThaTag__Session, blTag.haSession) then continue;
+          haSession.Execute;
+          end;
+   end;
+begin
+     hdmCalendrier.Formate( _Debut, _Fin);
+     haWork.Charge_Periode( _Debut, _Fin, _idTag);
+     haTag_from_ha_Work;
+     haTag_haWork_from_Session_Clear;
+     haTag_haWork_from_Session_from_ha_Work;
+     haTag_haSession_Execute;
+
+     inherited Execute;
+end;
+
 procedure ThdmSession.To_log;
 var
    I: TIterateur_Session;
@@ -406,19 +660,10 @@ begin
      Log.Affiche;
 end;
 
-procedure ThdmSession.Vide;
-var
-   I: TIterateur_Session;
-   bl: TblSession;
+procedure ThdmSession.hdmCalendrier_Affecte( _D: TDateTime; _Cumul_Jour, _Cumul_Semaine, _Cumul_Global: TWork_Cumul);
 begin
-     I:= Iterateur_Decroissant;
-     while I.Continuer
-     do
-       begin
-       if I.not_Suivant( bl) then continue;
-       I.Supprime_courant;
-       Free_nil( bl);
-       end;
+     inherited hdmCalendrier_Affecte(_D, _Cumul_Jour, _Cumul_Semaine, _Cumul_Global);
+     hdmCalendrier.Affecte( _D, _Cumul_Jour, _Cumul_Semaine, _Cumul_Global);
 end;
 
 function ThdmSession.Text: String;
@@ -438,5 +683,11 @@ begin
        end;
 end;
 
+initialization
+              ublTag.ThaTag__Session          := ThaTag__Session;
+              ublTag.ThaTag__Work_from_Session:= ThaTag__Work_from_Session;
+finalization
+            ublTag.ThaTag__Session          := nil;
+            ublTag.ThaTag__Work_from_Session:= nil;
 end.
 

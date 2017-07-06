@@ -96,6 +96,7 @@ type
    bNEO4J: TButton;
    bStopAndStart: TButton;
    bNew_Tag_Project_from_Selection: TButton;
+   bNew_Tag_Client_from_Selection: TButton;
    bVST: TButton;
    ceBeginning: TChamp_Edit;
    ceEnd: TChamp_Edit;
@@ -140,6 +141,7 @@ type
    procedure bCategorie_to_TagClick(Sender: TObject);
    procedure bDescription_to_TagClick(Sender: TObject);
    procedure bNEO4JClick(Sender: TObject);
+   procedure bNew_Tag_Client_from_SelectionClick(Sender: TObject);
    procedure bNew_Tag_Project_from_SelectionClick(Sender: TObject);
    procedure bPointClick(Sender: TObject);
    procedure bProjectClick(Sender: TObject);
@@ -371,6 +373,12 @@ begin
      fTest_neo4j.Show;
 end;
 
+procedure TfjsWorks.bNew_Tag_Client_from_SelectionClick(Sender: TObject);
+begin
+     poolTag.Assure( Type_Tag_id_Client, cmWork_Description.SelText);
+     dsbTag.sl:= poolTag.slFiltre;
+end;
+
 procedure TfjsWorks.bNew_Tag_Project_from_SelectionClick(Sender: TObject);
 begin
      poolTag.Assure( Type_Tag_id_Project, cmWork_Description.SelText);
@@ -435,8 +443,9 @@ end;
 procedure TfjsWorks.tTimer(Sender: TObject);
 begin
      t.Enabled:= False;
-     poolWork       .ToutCharger();
-     poolDevelopment.ToutCharger();
+     //poolWork       .ToutCharger();
+     poolWork       .Charge_Periode(EncodeDate(2017,03,13), Now);
+     //poolDevelopment.ToutCharger();
      _from_pool;
 end;
 

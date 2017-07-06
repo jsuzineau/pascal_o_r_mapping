@@ -145,11 +145,21 @@ begin
 end;
 
 function Assure_path   ( _e: TDOMNode; Path: String):TDOMNode;
+var
+   sNode: String;
 begin
-     Result:= Elem_from_path( _e, Path);
-     if Result = nil
+     Result:= _e;
+     if _e = nil  then exit;
+     if Path = '' then exit;
+
+     sNode:= StrToK( '/', Path);
+
+     Result:= _e.FindNode(sNode);
+     if nil = Result
      then
-         Result:= Cree_path( _e, Path);
+         Result:= _e.AppendChild( _e.OwnerDocument.CreateElement(sNode));
+
+     Result:= Assure_path( Result, Path);
 end;
 
 function Assure_path_TextContent( _e: TDOMNode; _Path: String; _TextContent: String):TDOMNode;

@@ -50,8 +50,9 @@ type
   //Gestion état
   private
     sl: TBatpro_StringList;
-    t: TOD_Batpro_Table;
-    nSession, nWork, nWork_Self: TOD_Niveau;
+    hdmSession: ThdmSession;
+    procedure Table_globale;
+    procedure Table_par_Tag;
   public
     procedure Init( _hdmSession: ThdmSession); reintroduce;
   end;
@@ -70,12 +71,12 @@ begin
      inherited Destroy;
 end;
 
-procedure TodSession.Init( _hdmSession: ThdmSession);
+procedure TodSession.Table_globale;
+var
+  t: TOD_Batpro_Table;
+  nSession, nWork, nWork_Self: TOD_Niveau;
 begin
-     inherited Init;
-
      t:= Ajoute_Table( 't');
-     t.Pas_de_persistance:= True;
      t.Bordures_Verticales_Colonnes:= False;
 
      t.AddColumn(  1, '  ');
@@ -84,11 +85,47 @@ begin
      nSession  := t.AddNiveau( 'Root');
      nWork     := t.AddNiveau( 'Work');
      nWork_Self:= t.AddNiveau( 'Self');
-     nSession.Charge_sl( _hdmSession.sl);
+
+     nSession.Charge_sl( hdmSession.sl);
+
      nSession  .Ajoute_Column_Avant( 'Titre'        , 0, 2);
      nWork     .Ajoute_Column_Avant( 'Session_Titre', 1, 2);
      nWork_Self.Ajoute_Column_Avant( 'Description'  , 2, 2);
      nSession  .Ajoute_Column_Apres( 'Pied'         , 1, 2);
+end;
+
+procedure TodSession.Table_par_Tag;
+var
+  tTag: TOD_Batpro_Table;
+  nTag, nTag_Session, nTag_Work, nTag_Work_Self: TOD_Niveau;
+begin
+     tTag:= Ajoute_Table( 'tTag');
+     tTag.Bordures_Verticales_Colonnes:= False;
+
+     tTag.AddColumn(  1, '  ');
+     tTag.AddColumn(  1, '  ');
+     tTag.AddColumn( 16, '  ');
+
+     nTag          := tTag.AddNiveau( 'Tag'    );
+     nTag_Session  := tTag.AddNiveau( 'Session');
+     nTag_Work     := tTag.AddNiveau( 'Work'   );
+     nTag_Work_Self:= tTag.AddNiveau( 'Self'   );
+
+     nTag.Charge_ha( hdmSession.haTag);
+
+     nTag          .Ajoute_Column_Avant( 'Libelle'      , 0, 2);
+     nTag_Session  .Ajoute_Column_Avant( 'Titre'        , 0, 2);
+     nTag_Work     .Ajoute_Column_Avant( 'Session_Titre', 1, 2);
+     nTag_Work_Self.Ajoute_Column_Avant( 'Description'  , 2, 2);
+     nTag_Session  .Ajoute_Column_Apres( 'Pied'         , 1, 2);
+end;
+
+procedure TodSession.Init( _hdmSession: ThdmSession);
+begin
+     inherited Init;
+     hdmSession:= _hdmSession;
+     Table_globale;
+     Table_par_Tag;
 end;
 
 end.

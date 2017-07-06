@@ -144,7 +144,7 @@ procedure TBatpro_OD_TextTableManager.Init( _Editing_Modele: Boolean;
 var
    bl: TBatpro_Ligne;
 begin
-     C.Init( _OD_Batpro_Table.Nom, _OD_Batpro_Table.Bordures_Verticales_Colonnes);
+     C.Init( _OD_Batpro_Table.Nom, _OD_Batpro_Table.Bordures_Verticales_Colonnes, _OD_Batpro_Table.MasquerTitreColonnes);
 
      sl:= _sl;
      bl:= Batpro_Ligne_from_sl( sl, 0);

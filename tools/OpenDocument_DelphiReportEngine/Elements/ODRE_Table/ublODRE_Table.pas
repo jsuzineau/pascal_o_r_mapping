@@ -129,7 +129,11 @@ type
     procedure To_Doc;
   //Champs
   public
-    property Nom: String read T.Nom write T.Nom;
+    property Nom                         : String  read T.Nom                          write T.Nom                         ;
+    property ForceBordure                : Boolean read T.ForceBordure                 write T.ForceBordure                ;
+    property Bordure_Ligne               : Boolean read T.Bordure_Ligne                write T.Bordure_Ligne               ;
+    property MasquerTitreColonnes        : Boolean read T.MasquerTitreColonnes         write T.MasquerTitreColonnes        ;
+    property Bordures_Verticales_Colonnes: Boolean read T.Bordures_Verticales_Colonnes write T.Bordures_Verticales_Colonnes;
   //Gestion de la clé
   public
     class function sCle_from_( _Nom: String): String;
@@ -487,8 +491,12 @@ begin
      T:= TODRE_Table.Create( _Nom);
      T.Pas_de_persistance:= False;
 
+     Ajoute_String ( T.Nom                         , 'Nom'                         , False).OnChange.Abonne( Self, To_Doc);
+     Ajoute_Boolean( T.ForceBordure                , 'ForceBordure'                , False).OnChange.Abonne( Self, To_Doc);
+     Ajoute_Boolean( T.Bordure_Ligne               , 'Bordure_Ligne'               , False).OnChange.Abonne( Self, To_Doc);
+     Ajoute_Boolean( T.MasquerTitreColonnes        , 'MasquerTitreColonnes'        , False).OnChange.Abonne( Self, To_Doc);
+     Ajoute_Boolean( T.Bordures_Verticales_Colonnes, 'Bordures_Verticales_Colonnes', False).OnChange.Abonne( Self, To_Doc);
 
-     Ajoute_String( T.Nom, 'Nom');
      T.from_Doc( _C);
      haOD_Column.Charge;
 end;

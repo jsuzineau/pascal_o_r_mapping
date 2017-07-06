@@ -42,6 +42,9 @@ uses
   DB;
 
 type
+
+ { TOD_TextTableManager }
+
  TOD_TextTableManager
  =
   class
@@ -55,7 +58,7 @@ type
     Nom: String;
   //Général
   private
-    procedure Init( _Nom: String);
+    procedure Init( _ODRE_Table: TODRE_Table);
     procedure BooleanFieldValue( _D: TDataset; _FielName: String; var _F:TField; var _B: Boolean);
     procedure IntegerFieldValue( _D: TDataset; _FielName: String; var _F:TField; var _I: Integer);
   // Création d'une table maitre-détail à partir d'un tableau de
@@ -85,9 +88,9 @@ begin
      inherited;
 end;
 
-procedure TOD_TextTableManager.Init( _Nom: String);
+procedure TOD_TextTableManager.Init( _ODRE_Table: TODRE_Table);
 begin
-     C.Init( _Nom);
+     C.Init( _ODRE_Table.Nom, _ODRE_Table.Bordures_Verticales_Colonnes, _ODRE_Table.MasquerTitreColonnes);
 end;
 
 procedure TOD_TextTableManager.BooleanFieldValue( _D: TDataset;
@@ -164,7 +167,7 @@ var
    end;
 begin
      Result:= False;
-     Init( ODRE_Table.Nom);
+     Init( ODRE_Table);
      if C.D.is_Calc then exit;
      C.Cree_Styles_de_base;
      ODRE_Table.Assure_Modele( C);
@@ -417,7 +420,7 @@ var
 begin
      Result:= False;
 
-     Init( ODRE_Table.Nom);
+     Init( ODRE_Table);
      if C.D.is_Calc then exit;
      ODRE_Table.from_Doc( C);
 
@@ -726,7 +729,7 @@ var
 begin
      Result:= False;
 
-     Init( ODRE_Table.Nom);
+     Init( ODRE_Table);
      if C.D.is_Calc then exit;
      ODRE_Table.from_Doc( C);
 
@@ -1077,7 +1080,7 @@ begin
 
      WriteLn( T, '<table>');
 
-     Init( ODRE_Table.Nom);
+     Init( ODRE_Table);
      if C.D.is_Calc then exit;
      ODRE_Table.from_Doc( C);
 

@@ -121,6 +121,7 @@ begin
      ms:= TMemoryStream.Create;
      try
         se.Lines.SaveToStream( ms);
+        ms.Position:= 0;
         ReadXMLFile( xml^, ms);
      finally
             FreeAndNil( ms);

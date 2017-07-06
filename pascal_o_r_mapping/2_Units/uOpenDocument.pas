@@ -1057,10 +1057,7 @@ function TOpenDocument.Get_xmlContent_USER_FIELD_DECLS: TDOMNode;
 const
      USER_FIELD_DECLS_path='office:body/office:text/text:user-field-decls';
 begin
-     Result:= Elem_from_path( xmlContent.DocumentElement, USER_FIELD_DECLS_path);
-     if Assigned( Result) then exit;
-
-     Result:= Cree_path( xmlContent.DocumentElement, USER_FIELD_DECLS_path);
+     Result:= Assure_path( xmlContent.DocumentElement, USER_FIELD_DECLS_path);
 end;
 
 function TOpenDocument.Get_xmlContent_AUTOMATIC_STYLES: TDOMNode;

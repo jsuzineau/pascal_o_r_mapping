@@ -343,7 +343,7 @@ type
 
     function  ComposeNomStyle_from_Field( F: TField): String;
     function  ComposeNomStyleColonne_from_Field( F: TField): String;
-    procedure Init( _Nom: String; _Bordures_Verticales_Colonnes: Boolean= True);
+    procedure Init( _Nom: String; _Bordures_Verticales_Colonnes: Boolean; _MasquerTitreColonnes: Boolean);
   //Accés à la table
   public
     function Table_Existe: Boolean;
@@ -405,8 +405,7 @@ type
     procedure Insere_table( Nouveau_Modele: Boolean);
   //Masquer le titre des colonnes
   public
-    function Nom_MasquerTitreColonnes: String;
-    function MasquerTitreColonnes: Boolean;
+    MasquerTitreColonnes: Boolean;
   //Bordure extérieure du tableau
   public
     procedure Formate_Titre  ( _X, _Y: Integer);
@@ -1059,10 +1058,13 @@ begin
      inherited;
 end;
 
-procedure TOD_TextTableContext.Init( _Nom: String; _Bordures_Verticales_Colonnes: Boolean= True);
+procedure TOD_TextTableContext.Init( _Nom: String;
+                                     _Bordures_Verticales_Colonnes: Boolean;
+                                     _MasquerTitreColonnes: Boolean);
 begin
      Nom:= _Nom;
      Bordures_Verticales_Colonnes:= _Bordures_Verticales_Colonnes;
+     MasquerTitreColonnes:= _MasquerTitreColonnes;
      Numero_NewPage:= 0;
      NomStyleColonne:= '_'+Nom+'_Style_Colonne';
      NomStyleMerge  := '_'+Nom+'_Style_Merge';
@@ -1221,9 +1223,6 @@ procedure TOD_TextTableContext.Cree_Styles_de_base;
 begin
      D.Ensure_style_paragraph( NomStyleColonne, NomStyle_Contenu_tableau);
      D.Ensure_style_paragraph( NomStyleMerge  , NomStyleColonne         );
-
-     //Pas trop propre de mettre cette initialisation ici, mais çà fonctionnera
-     OD_TextFieldsCreator.Assure_Parametre( Nom_MasquerTitreColonnes, '0');
 end;
 
 procedure TOD_TextTableContext.Modelise_colonne( NomTitreColonne,
@@ -1347,16 +1346,6 @@ begin
      //Duplique_Styles_colonnes;
 
      Nom:= Nom_New_TABLE;
-end;
-
-function TOD_TextTableContext.Nom_MasquerTitreColonnes: String;
-begin
-     Result:= '_'+Nom+'_HideColumnTitles';
-end;
-
-function TOD_TextTableContext.MasquerTitreColonnes: Boolean;
-begin
-     Result:= Lire( Nom_MasquerTitreColonnes) = '1';
 end;
 
 function TOD_TextTableContext.Table_Existe: Boolean;

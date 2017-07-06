@@ -42,12 +42,10 @@ uses
     uhdODRE_Table,
     uhVST_ODR,
     uVide,
+    uChamps,
 
-    Zipper ,
-    DOM,
-    uOOoChrono, 
-    ucChampsGrid, ucChamp_Lookup_ComboBox, ucChamp_Edit, ucDockableScrollbox,
-    uLog,
+    Zipper, DOM, uOOoChrono, ucChampsGrid, ucChamp_Lookup_ComboBox,
+    ucChamp_Edit, ucDockableScrollbox, ucChamp_CheckBox, uLog,
 
     ublODRE_Table,
     ublOD_Dataset_Columns,
@@ -81,6 +79,10 @@ type
    ceTitre: TChamp_Edit;
    ceLargeur: TChamp_Edit;
    cbApres: TCheckBox;
+   ccbMasquerTitreColonnes: TChamp_CheckBox;
+   ccbBordures_Verticales_Colonnes: TChamp_CheckBox;
+   ccbBordure_Ligne: TChamp_CheckBox;
+   ccbForceBordure: TChamp_CheckBox;
    clkcbNomChamp: TChamp_Lookup_ComboBox;
    dsbODRE_Table: TDockableScrollbox;
    gbCellule: TGroupBox;
@@ -112,6 +114,7 @@ type
    mm: TMainMenu;
     odODF: TOpenDialog;
     Panel1: TPanel;
+    Panel2: TPanel;
     pDrag: TPanel;
     sgODRE_Table: TStringGrid;
     Splitter1: TSplitter;
@@ -193,8 +196,13 @@ type
   public
     OD_TextTableContext: TOD_TextTableContext;
     slT: TslODRE_Table;
-    blODRE_Table: TblODRE_Table;
     hd: ThdODRE_Table;
+  //blODRE_Table
+  private
+    FblODRE_Table: TblODRE_Table;
+    procedure SetblODRE_Table( _blODRE_Table: TblODRE_Table);
+  public
+    property blODRE_Table: TblODRE_Table read FblODRE_Table write SetblODRE_Table;
   //Action_Test
   public
     procedure Action_Test( _Action: String);
@@ -383,6 +391,7 @@ end;
 
 procedure TfOpenDocument_DelphiReportEngine.Vide;
 begin
+     blODRE_Table:= nil;
      hd.Vide;
      hd.blODRE_Table:= nil;
      gbTable.Visible:= False;
@@ -696,11 +705,26 @@ begin
             end;
 end;
 
+procedure TfOpenDocument_DelphiReportEngine.SetblODRE_Table( _blODRE_Table: TblODRE_Table);
+begin
+     FblODRE_Table:= _blODRE_Table;
+
+     Champs_Affecte( FblODRE_Table,
+                     [
+                     ccbMasquerTitreColonnes,
+                     ccbBordures_Verticales_Colonnes,
+                     ccbBordure_Ligne,
+                     ccbForceBordure
+                     ]);
+
+end;
+
 procedure TfOpenDocument_DelphiReportEngine.dsbODRE_TableSelect(Sender: TObject);
 var
-   I: Integer;
+   bl: TblODRE_Table;
 begin
-     dsbODRE_Table.Get_bl( blODRE_Table);
+     dsbODRE_Table.Get_bl( bl);
+     blODRE_Table:= bl;//Détour par bl pour l'accesseur à la propriété blODRE_Table
      if nil = blODRE_Table then exit;
 
      gbTable.Caption:= 'Tableau   '+blODRE_Table.Nom;

@@ -32,6 +32,7 @@ uses
 
     uBatpro_Element,
     uBatpro_Ligne,
+    ublTag,
     ublWork,
     ublCalendrier,
 
@@ -567,6 +568,10 @@ begin
        end;
 end;
 
+initialization
+              ublTag.TblSession:= TblSession;
+finalization
+            ublTag.TblSession:= nil;
 end.
 
 

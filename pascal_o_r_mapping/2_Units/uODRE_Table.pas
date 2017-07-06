@@ -74,6 +74,7 @@ type
     function Prefixe_ForceBordure: String;
     function Prefixe_Bordure_fin_table: String;
     function Prefixe_Bordures_Verticales_Colonnes: String;
+    function Prefixe_MasquerTitreColonnes: String;
   public
     Nom_NbColonnes: String;
     Pas_de_persistance: Boolean;
@@ -115,10 +116,17 @@ type
   //Gestion de l'affichage des bordures
   public
     Bordure_fin_table: String;
-    Bordures_Verticales_Colonnes: String;
+    Bordures_Verticales_Colonnes: Boolean;
     procedure Bordures_Assure( _C: TOD_TextTableContext);
     procedure Bordures_Lire( _C: TOD_TextTableContext);
     procedure Bordures_Ecrire( _C: TOD_TextTableContext);
+  //MasquerTitreColonnes
+  private
+    procedure MasquerTitreColonnes_Assure( _C: TOD_TextTableContext);
+    procedure MasquerTitreColonnes_Lire  ( _C: TOD_TextTableContext);
+    procedure MasquerTitreColonnes_Ecrire( _C: TOD_TextTableContext);
+  public
+    MasquerTitreColonnes: Boolean;
   end;
 
 implementation
@@ -195,6 +203,11 @@ begin
      Result:= Prefixe+'Bordures_Verticales_Colonnes';
 end;
 
+function TODRE_Table.Prefixe_MasquerTitreColonnes: String;
+begin
+     Result:= Prefixe+'HideColumnTitles';
+end;
+
 procedure TODRE_Table.Assure_Modele( C: TOD_TextTableContext);
 var
    Valeur_NbColonnes: String;
@@ -212,7 +225,8 @@ begin
        OD_Datasets[I].Assure_Modele( Prefixe, C);
      OD_SurTitre.Assure_Modele( Prefixe_OD_SurTitre, C);
      C.Assure_Parametre( Prefixe_ForceBordure, '1');
-     Bordures_Assure( C);
+                 Bordures_Assure( C);
+     MasquerTitreColonnes_Assure( C);
 end;
 
 procedure TODRE_Table.To_Doc( C: TOD_TextTableContext);
@@ -231,8 +245,9 @@ begin
      do
        OD_Datasets[I].to_Doc( Prefixe, C);
      OD_SurTitre.to_Doc( Prefixe_OD_SurTitre, C);
-     C.Ecrire( Prefixe_ForceBordure, '1');
-     Bordures_Ecrire( C);
+     C.Ecrire( Prefixe_ForceBordure, BoolToStr(ForceBordure, '1','0'));
+                 Bordures_Ecrire( C);
+     MasquerTitreColonnes_Ecrire( C);
 
      to_Doc_Called.Publie;
 end;
@@ -280,7 +295,8 @@ begin
        OD_Datasets[I].from_Doc( Prefixe, C);
      OD_SurTitre.from_Doc( Prefixe_OD_SurTitre, C);
      ForceBordure:= C.Lire( Prefixe_ForceBordure, '1') = '1';
-     Bordures_Lire( C);
+                 Bordures_Lire( C);
+     MasquerTitreColonnes_Lire( C);
 end;
 
 function TODRE_Table.SurTitre_Actif: Boolean;
@@ -543,15 +559,33 @@ begin
 end;
 
 procedure TODRE_Table.Bordures_Lire( _C: TOD_TextTableContext);
+var
+   sBordures_Verticales_Colonnes: String;
 begin
      Bordure_fin_table:= _C.Lire( Prefixe_Bordure_fin_table, '1');
-     Bordures_Verticales_Colonnes:= _C.Lire( Prefixe_Bordures_Verticales_Colonnes, '1');
+     sBordures_Verticales_Colonnes:= _C.Lire( Prefixe_Bordures_Verticales_Colonnes, '1');
+     Bordures_Verticales_Colonnes:= '1' = sBordures_Verticales_Colonnes;
 end;
 
 procedure TODRE_Table.Bordures_Ecrire( _C: TOD_TextTableContext);
 begin
      _C.Ecrire( Prefixe_Bordure_fin_table, Bordure_fin_table);
-     _C.Ecrire( Prefixe_Bordures_Verticales_Colonnes, Bordures_Verticales_Colonnes);
+     _C.Ecrire( Prefixe_Bordures_Verticales_Colonnes, BoolToStr(Bordures_Verticales_Colonnes, '1','0'));
+end;
+
+procedure TODRE_Table.MasquerTitreColonnes_Assure(_C: TOD_TextTableContext);
+begin
+     _C.Assure_Parametre( Prefixe_MasquerTitreColonnes, '0');
+end;
+
+procedure TODRE_Table.MasquerTitreColonnes_Lire(_C: TOD_TextTableContext);
+begin
+     MasquerTitreColonnes:= _C.Lire( Prefixe_MasquerTitreColonnes) = '1';
+end;
+
+procedure TODRE_Table.MasquerTitreColonnes_Ecrire(_C: TOD_TextTableContext);
+begin
+     _C.Ecrire( Prefixe_MasquerTitreColonnes, BoolToStr(MasquerTitreColonnes, '1','0'));
 end;
 
 end.
