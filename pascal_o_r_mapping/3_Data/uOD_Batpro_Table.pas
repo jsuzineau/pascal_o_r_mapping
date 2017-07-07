@@ -339,7 +339,7 @@ begin
          _OffSet_SurTitre:= 0;
          end;
 
-     if _C.MasquerTitreColonnes
+     if MasquerTitreColonnes
      then
          rowTitre:= nil
      else
@@ -353,7 +353,7 @@ begin
        sCellValue:= OD_Column.Titre;
        ColumnLengths[iColonne]:= OD_Column.Largeur;
 
-       if _C.MasquerTitreColonnes then continue;
+       if MasquerTitreColonnes then continue;
 
        _C.Formate_Titre( iColonne, rowTitre.Row);
        cellTitre:= rowTitre.NewCell( iColonne);

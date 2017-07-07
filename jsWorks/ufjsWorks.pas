@@ -68,9 +68,10 @@ uses
     ufTest_neo4j,
     ufTULEAP, sqlite3conn,
 
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Buttons, ucChampsGrid, ucDockableScrollbox,
-  ucChamp_DateTimePicker, ucChamp_Edit, ucChamp_Memo, ucChamp_Lookup_ComboBox, uDockable;
+  Classes, SysUtils, FileUtil, DateTimePicker, Forms, Controls, Graphics,
+  Dialogs, StdCtrls, ExtCtrls, Buttons, Menus, ucChampsGrid,
+  ucDockableScrollbox, ucChamp_DateTimePicker, ucChamp_Edit, ucChamp_Memo,
+  ucChamp_Lookup_ComboBox, uDockable, dateutils;
 
 type
 
@@ -81,15 +82,11 @@ type
   class(TForm)
    bBug: TButton;
    bPoint: TButton;
-   bProject: TButton;
    bProject_to_Tag: TButton;
    bStart: TButton;
    bStop: TButton;
-   bTag: TButton;
    bTemps: TButton;
-   bTest: TButton;
    bTULEAP: TButton;
-   bType_Tag: TButton;
    bCategorie_to_Tag: TButton;
    bDescription_to_Tag: TButton;
    bAutomatic_VST: TButton;
@@ -97,6 +94,7 @@ type
    bStopAndStart: TButton;
    bNew_Tag_Project_from_Selection: TButton;
    bNew_Tag_Client_from_Selection: TButton;
+   bBeginning_From: TButton;
    bVST: TButton;
    ceBeginning: TChamp_Edit;
    ceEnd: TChamp_Edit;
@@ -105,6 +103,7 @@ type
    cmDevelopment_Description: TChamp_Memo;
    cmSolution: TChamp_Memo;
    cmWork_Description: TChamp_Memo;
+   dtpBeginning_From: TDateTimePicker;
    dsbWork_Tag: TDockableScrollbox;
    dsbDevelopment: TDockableScrollbox;
    dsbWork: TDockableScrollbox;
@@ -118,6 +117,13 @@ type
    Label6: TLabel;
    Label7: TLabel;
    Label8: TLabel;
+   Label9: TLabel;
+   miTag: TMenuItem;
+   miType_Tag: TMenuItem;
+   miAutomatic: TMenuItem;
+   miProject: TMenuItem;
+   miVoir: TMenuItem;
+   mm: TMainMenu;
    Panel1: TPanel;
    Panel10: TPanel;
    Panel13: TPanel;
@@ -137,6 +143,7 @@ type
    Splitter6: TSplitter;
    t: TTimer;
    procedure bAutomatic_VSTClick(Sender: TObject);
+   procedure bBeginning_FromClick(Sender: TObject);
    procedure bBugClick(Sender: TObject);
    procedure bCategorie_to_TagClick(Sender: TObject);
    procedure bDescription_to_TagClick(Sender: TObject);
@@ -144,16 +151,12 @@ type
    procedure bNew_Tag_Client_from_SelectionClick(Sender: TObject);
    procedure bNew_Tag_Project_from_SelectionClick(Sender: TObject);
    procedure bPointClick(Sender: TObject);
-   procedure bProjectClick(Sender: TObject);
    procedure bProject_to_TagClick(Sender: TObject);
    procedure bStartClick(Sender: TObject);
    procedure bStopAndStartClick(Sender: TObject);
    procedure bStopClick(Sender: TObject);
-   procedure bTagClick(Sender: TObject);
    procedure bTempsClick(Sender: TObject);
-   procedure bTestClick(Sender: TObject);
    procedure bTULEAPClick(Sender: TObject);
-   procedure bType_TagClick(Sender: TObject);
    procedure bVSTClick(Sender: TObject);
    procedure dsbWorkSelect(Sender: TObject);
    procedure dsbDevelopmentSelect(Sender: TObject);
@@ -161,6 +164,10 @@ type
    procedure dsbWork_TagSuppression(Sender: TObject);
    procedure dsbWork_Tag_from_DescriptionSuppression(Sender: TObject);
    procedure FormShow(Sender: TObject);
+   procedure miAutomaticClick(Sender: TObject);
+   procedure miProjectClick(Sender: TObject);
+   procedure miTagClick(Sender: TObject);
+   procedure miType_TagClick(Sender: TObject);
    procedure pDevelopmentClick(Sender: TObject);
    procedure tTimer(Sender: TObject);
   //Gestion du cycle de vie
@@ -169,6 +176,7 @@ type
     destructor Destroy; override;
   //méthodes
   private
+    procedure Traite_Beginning_From;
     procedure _from_pool;
   //Work
   private
@@ -215,11 +223,36 @@ begin
      dsbTag.Classe_Elements:= TblTag;
      dsbTag.Tri:= poolTag.Tri;
      dsbTag.Filtre:= poolTag.hfTag;
+
+     dtpBeginning_From.Date:= EncodeDate( YearOf(Now), MonthOf(Now)-1, DayOf( Now));
 end;
 
 destructor TfjsWorks.Destroy;
 begin
      inherited Destroy;
+end;
+
+procedure TfjsWorks.FormShow(Sender: TObject);
+begin
+     t.Enabled:= True;
+end;
+
+procedure TfjsWorks.tTimer(Sender: TObject);
+begin
+     t.Enabled:= False;
+     Traite_Beginning_From;
+end;
+
+procedure TfjsWorks.Traite_Beginning_From;
+var
+   D: TDateTime;
+begin
+     D:= dtpBeginning_From.Date;
+     //poolWork       .ToutCharger();
+     poolWork       .Charge_Periode( D, Now);
+     poolWork.TrierFiltre;
+     //poolDevelopment.ToutCharger();
+     _from_pool;
 end;
 
 procedure TfjsWorks._from_pool;
@@ -261,9 +294,24 @@ begin
                           ]);
 end;
 
-procedure TfjsWorks.FormShow(Sender: TObject);
+procedure TfjsWorks.miType_TagClick(Sender: TObject);
 begin
-     t.Enabled:= True;
+     fType_Tag.Execute;
+end;
+
+procedure TfjsWorks.miTagClick(Sender: TObject);
+begin
+     fTag.Show;
+end;
+
+procedure TfjsWorks.miProjectClick(Sender: TObject);
+begin
+     fProject.Execute;
+end;
+
+procedure TfjsWorks.miAutomaticClick(Sender: TObject);
+begin
+     fAutomatic.Show;
 end;
 
 procedure TfjsWorks.pDevelopmentClick(Sender: TObject);
@@ -300,24 +348,9 @@ begin
      dsbWork.Goto_bl( bl);
 end;
 
-procedure TfjsWorks.bTagClick(Sender: TObject);
-begin
-     fTag.Show;
-end;
-
 procedure TfjsWorks.bTempsClick(Sender: TObject);
 begin
      fTemps.Show;
-end;
-
-procedure TfjsWorks.bTestClick(Sender: TObject);
-begin
-     fAutomatic.Show;
-end;
-
-procedure TfjsWorks.bType_TagClick(Sender: TObject);
-begin
-     fType_Tag.Execute;
 end;
 
 procedure TfjsWorks.bVSTClick(Sender: TObject);
@@ -334,11 +367,6 @@ begin
      dsbDevelopment.Goto_bl( bl);
 end;
 
-procedure TfjsWorks.bProjectClick(Sender: TObject);
-begin
-     fProject.Execute;
-end;
-
 procedure TfjsWorks.bBugClick(Sender: TObject);
 var
    bl: TblDevelopment;
@@ -351,6 +379,11 @@ end;
 procedure TfjsWorks.bAutomatic_VSTClick(Sender: TObject);
 begin
      fAutomatic_VST.Show;
+end;
+
+procedure TfjsWorks.bBeginning_FromClick(Sender: TObject);
+begin
+     Traite_Beginning_From;
 end;
 
 procedure TfjsWorks.bProject_to_TagClick(Sender: TObject);
@@ -438,15 +471,6 @@ begin
      blWork.haTag_from_Description.Enleve( blTag);
      blWork.Tag( blTag);
      _from_Work;
-end;
-
-procedure TfjsWorks.tTimer(Sender: TObject);
-begin
-     t.Enabled:= False;
-     //poolWork       .ToutCharger();
-     poolWork       .Charge_Periode(EncodeDate(2017,03,13), Now);
-     //poolDevelopment.ToutCharger();
-     _from_pool;
 end;
 
 end.
