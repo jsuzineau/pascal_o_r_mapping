@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="10"/>
+    <Version Value="9"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
@@ -26,7 +26,7 @@
           <PathDelim Value="\"/>
           <SearchPaths>
             <IncludeFiles Value="..\..\pascal_o_r_mapping\6_Formes;$(ProjOutDir)"/>
-            <OtherUnitFiles Value="..\..\pascal_o_r_mapping\6_Formes;Elements;..\..\pascal_o_r_mapping\3_Data;Elements\OpenDocument_DelphiReportEngine_Test;..\..\OOo;..\..\pascal_o_r_mapping\7_sources_externes\synapse\source\lib"/>
+            <OtherUnitFiles Value="..\..\pascal_o_r_mapping\6_Formes;Elements;..\..\pascal_o_r_mapping\3_Data;Elements\OpenDocument_DelphiReportEngine_Test;..\..\OOo;Elements\ODRE_Table;..\..\pascal_o_r_mapping\7_sources_externes\synapse\source\lib"/>
           </SearchPaths>
           <Parsing>
             <SyntaxOptions>
@@ -119,7 +119,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <CommandLineParams Value="\home\jean\pascal_o_r_mapping\pascal_o_r_mapping\jsWorks\Session.ott"/>
+        <CommandLineParams Value="C:\_freepascal\pascal_o_r_mapping\jsWorks\Session.ott"/>
       </local>
     </RunParams>
     <RequiredPackages Count="4">

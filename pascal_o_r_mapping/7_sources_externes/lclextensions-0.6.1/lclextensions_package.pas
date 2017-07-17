@@ -4,11 +4,10 @@
 
 unit lclextensions_package;
 
-{$warn 5023 off : no warning about unused units}
 interface
 
 uses
-  DelphiCompat, oleutils, LclExt, LazarusPackageIntf;
+ DelphiCompat, oleutils, LclExt, LazarusPackageIntf;
 
 implementation
 
