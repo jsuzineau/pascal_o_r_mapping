@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="9"/>
+    <Version Value="10"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
@@ -119,7 +119,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <CommandLineParams Value="C:\_freepascal\pascal_o_r_mapping\jsWorks\Session.ott"/>
+        <CommandLineParams Value="&quot;\home\jean\pascal_o_r_mapping\pascal_o_r_mapping\jsWorks\Session.odt&quot;"/>
       </local>
     </RunParams>
     <RequiredPackages Count="4">

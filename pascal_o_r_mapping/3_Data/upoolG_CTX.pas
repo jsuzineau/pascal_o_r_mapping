@@ -29,6 +29,7 @@ uses
     uClean,
     udmDatabase,
     uBatpro_StringList,
+    uDataUtilsU,
 
     ublG_CTX,
 
@@ -47,10 +48,6 @@ type
  TpoolG_CTX
  =
   class( TPool)
-    sqlqID_contextes: TSQLQuery;
-    sqlqID_contextesid: TLongintField;
-    sqlqID_contextetype: TSQLQuery;
-    sqlqID_contextetypeid: TLongintField;
     procedure DataModuleCreate(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
   //Filtre
@@ -78,7 +75,7 @@ type
                                 slLoaded: TBatpro_StringList);
   //Chargement des contextes d'un certain type
   public
-    procedure Charge_CONTEXTETYPE( _contextetype: String; slLoaded: TBatpro_StringList);
+    procedure Charge_CONTEXTETYPE( _contextetype: String; _slLoaded: TBatpro_StringList);
   end;
 
 var
@@ -162,12 +159,29 @@ begin
 end;
 
 procedure TpoolG_CTX.Charge_CONTEXTETYPE( _contextetype: String;
-                                          slLoaded: TBatpro_StringList);
+                                          _slLoaded: TBatpro_StringList);
+var
+   SQL: String;
+   P: TParams;
+   pCONTEXTETYPE: TParam;
 begin
-     sqlqID_contextetype
-     .
-      Params.ParamByName( 'contextetype').AsString:= _contextetype;
-     Load_by_id( sqlqID_contextetype, sqlqID_contextetypeid, slLoaded);
+     SQL
+     :=
+        'select                            '#13#10
+       +'      *                           '#13#10
+       +'from                              '#13#10
+       +'    g_ctx                         '#13#10
+       +'where                             '#13#10
+       +'     contextetype = :contextetype '#13#10
+       ;
+     P:= TParams.Create;
+     try
+        pCONTEXTETYPE:= CreeParam( P, 'contextetype');
+        pCONTEXTETYPE.AsString:= _contextetype;
+        Load( SQL, _slLoaded, nil, P);
+     finally
+            FreeAndNil( P);
+            end;
 end;
 
 initialization
