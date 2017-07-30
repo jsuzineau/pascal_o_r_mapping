@@ -538,7 +538,6 @@ procedure TGenerateur_de_code.Execute( _bl: TBatpro_Ligne; _Suffixe: String);
 var
    NomFichierProjet: String;
    cc: TContexteClasse;
-   sTaggedValues: String;
 
    phPAS_DMCRE,
    phPAS_POOL ,
@@ -547,7 +546,6 @@ var
    phPAS_DKD  ,
 
    phDFM_DMCRE,
-   phDFM_POOL ,
    phDFM_F    ,
    phDFM_FCB  ,
    phDFM_DKD  ,
@@ -586,7 +584,7 @@ var
    nfAggregations: String;
    slAggregations:TStringList;
 
-   procedure CreePatternHandler( var phPAS, phDFM: TPatternHandler; Racine: String);
+   procedure CreePatternHandler( out phPAS, phDFM: TPatternHandler; Racine: String);
    var
       sRepRacine: String;
    begin
@@ -595,7 +593,15 @@ var
         phDFM:= TPatternHandler.Create( sRepRacine+'.dfm',sRepCible,slParametres);
    end;
 
-   procedure CreePatternHandler_BL( var phPAS: TPatternHandler);
+   procedure CreePatternHandler_pool( out phPAS: TPatternHandler);
+   var
+      sRepRacine: String;
+   begin
+        sRepRacine:= sRepSource+'upool'+s_Nom_de_la_classe;
+        phPAS:= TPatternHandler.Create( sRepRacine+'.pas',sRepCible,slParametres);
+   end;
+
+   procedure CreePatternHandler_BL( out phPAS: TPatternHandler);
    var
       sRepRacine: String;
    begin
@@ -603,7 +609,7 @@ var
         phPAS:= TPatternHandler.Create( sRepRacine+'.pas',sRepCible,slParametres);
    end;
 
-   procedure CreePatternHandler_HF( var phPAS: TPatternHandler);
+   procedure CreePatternHandler_HF( out phPAS: TPatternHandler);
    var
       sRepRacine: String;
    begin
@@ -611,7 +617,7 @@ var
         phPAS:= TPatternHandler.Create( sRepRacine+'.pas',sRepCible,slParametres);
    end;
 
-   procedure CreePatternHandler_TC( var phPAS: TPatternHandler);
+   procedure CreePatternHandler_TC( out phPAS: TPatternHandler);
    var
       sRepRacine: String;
    begin
@@ -619,7 +625,7 @@ var
         phPAS:= TPatternHandler.Create( sRepRacine+'.pas',sRepCible+'dunit'+PathDelim,slParametres);
    end;
 
-   procedure CreePatternHandler_DPK( var phDPK: TPatternHandler);
+   procedure CreePatternHandler_DPK( out phDPK: TPatternHandler);
    var
       sRepRacine: String;
    begin
@@ -627,7 +633,7 @@ var
         phDPK:= TPatternHandler.Create( sRepRacine+'.dpk',sRepCible,slParametres);
    end;
 
-   procedure CreePatternHandler_ML( var phCS: TPatternHandler);
+   procedure CreePatternHandler_ML( out phCS: TPatternHandler);
    var
       sRepRacine: String;
    begin
@@ -635,7 +641,7 @@ var
         phCS:= TPatternHandler.Create( sRepRacine+'.CS',sRepCible,slParametres);
    end;
 
-   procedure CreePatternHandler_PHP_Doctrine( var phRecord, phTable: TPatternHandler);
+   procedure CreePatternHandler_PHP_Doctrine( out phRecord, phTable: TPatternHandler);
    var
       sRepSource_PHP_Doctrine: String;
    begin
@@ -644,7 +650,7 @@ var
         phTable := TPatternHandler.Create( sRepSource_PHP_Doctrine+'t'+s_Nom_de_la_table+'.class.php',sRepCible,slParametres);
    end;
 
-   procedure CreePatternHandler_PHP_Perso( var phPHP_Perso_c, phPHP_Perso_Delete, phPHP_Perso_Insert, phPHP_Perso_Set: TPatternHandler);
+   procedure CreePatternHandler_PHP_Perso( out phPHP_Perso_c, phPHP_Perso_Delete, phPHP_Perso_Insert, phPHP_Perso_Set: TPatternHandler);
    var
       sRepSource_PHP_Perso: String;
    begin
@@ -660,8 +666,6 @@ var
       d: TChampDefinition;
       sNomChamp: String;
       cm: TContexteMembre;
-      sParametre: String;
-      sDeclarationParametre: String;
    begin
         d:= _C.Definition;
         if not d.Persistant then exit;//pour éviter le champ Selected
@@ -673,12 +677,9 @@ var
         //cm:= TContexteMembre.Create( cc, _fb.F.FieldName, _fb.sType, '');
         try
            uJoinPoint_VisiteMembre( cm, a);
-
-           sParametre:= ' _'+cm.sNomChamp;
-           sDeclarationParametre:= sParametre+': '+cm.sTyp;
-           finally
-                  FreeAndNil( cm);
-                  end;
+        finally
+               FreeAndNil( cm);
+               end;
    end;
    procedure Produit;
    var
@@ -702,7 +703,6 @@ var
         phPAS_DKD  .Produit( RepertoirePascal);
 
         phDFM_DMCRE.Produit( RepertoirePascal);
-        phDFM_POOL .Produit( RepertoirePaquet);
         phDFM_F    .Produit( RepertoirePascal);
         phDFM_FCB  .Produit( RepertoirePascal);
         phDFM_DKD  .Produit( RepertoirePascal);
@@ -729,7 +729,6 @@ var
    var
       I: TIterateur_Champ;
       J: Integer;
-      fb: TFieldBuffer;
       C: TChamp;
    begin
         cc:= TContexteClasse.Create( Self, _Suffixe,
@@ -813,11 +812,11 @@ begin
         slLog.Clear;
         try
            CreePatternHandler( phPAS_DMCRE, phDFM_DMCRE, 'dmxcre');
-           CreePatternHandler( phPAS_POOL , phDFM_POOL , 'pool'  );
            CreePatternHandler( phPAS_F    , phDFM_F    , 'f'     );
            CreePatternHandler( phPAS_FCB  , phDFM_FCB  , 'fcb'   );
            CreePatternHandler( phPAS_DKD  , phDFM_DKD  , 'dkd'   );
            CreePatternHandler( phPAS_FD  , phDFM_FD  , 'fd'   );
+           CreePatternHandler_pool( phPAS_POOL);
            CreePatternHandler_BL( phPAS_BL);
            CreePatternHandler_HF( phPAS_HF);
            CreePatternHandler_TC( phPAS_TC);
@@ -844,7 +843,6 @@ begin
                   FreeAndNil( phPAS_DKD  );
 
                   FreeAndNil( phDFM_DMCRE);
-                  FreeAndNil( phDFM_POOL );
                   FreeAndNil( phDFM_F    );
                   FreeAndNil( phDFM_FCB  );
                   FreeAndNil( phDFM_DKD  );

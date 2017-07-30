@@ -86,8 +86,6 @@ uses
 {implementation_uses_key}
     udmDatabase;
 
-
-
 var
    FpoolG_BECP: TpoolG_BECP;
 
