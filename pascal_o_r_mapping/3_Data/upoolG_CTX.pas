@@ -48,8 +48,8 @@ type
  TpoolG_CTX
  =
   class( TPool)
-    procedure DataModuleCreate(Sender: TObject);
-    procedure DataModuleDestroy(Sender: TObject);
+    procedure DataModuleCreate(Sender: TObject);  override;
+    procedure DataModuleDestroy(Sender: TObject);  override;
   //Filtre
   public
     hfG_CTX: ThfG_CTX;
@@ -83,7 +83,7 @@ var
 
 implementation
 
-{$R *.dfm}
+
 
 { TpoolG_CTX }
 
@@ -185,9 +185,8 @@ begin
 end;
 
 initialization
-              Clean_Create( poolG_CTX, TpoolG_CTX);
 finalization
-              Clean_Destroy( poolG_CTX);
+              TPool.class_Destroy( poolG_CTX);
 end.
 
 

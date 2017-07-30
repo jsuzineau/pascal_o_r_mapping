@@ -249,7 +249,7 @@ type
  TpoolJSON
  =
   class( TPool)
-    procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleCreate(Sender: TObject);  override;
   //Création à partir d'une chaine JSON
   private
     function Traite_jsd( _jsd: TJSONData): TblJSON;
@@ -263,7 +263,7 @@ function poolJSON: TpoolJSON;
 
 implementation
 
-{$R *.lfm}
+
 
 { ThaJSON__JSON }
 
@@ -655,7 +655,7 @@ var
 
 function poolJSON: TpoolJSON;
 begin
-     Clean_Get( Result, FpoolJSON, TpoolJSON);
+     TPool.class_Get( Result, FpoolJSON, TpoolJSON);
 end;
 
 
@@ -742,5 +742,5 @@ end;
 
 initialization
 finalization
-              Clean_destroy( FpoolJSON);
+              TPool.class_Destroy( FpoolJSON);
 end.

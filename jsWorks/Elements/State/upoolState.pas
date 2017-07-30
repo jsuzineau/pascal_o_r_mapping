@@ -41,7 +41,7 @@ type
  TpoolState
  =
   class( TPool)
-    procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleCreate(Sender: TObject);  override;
   //Filtre
   public
     hfState: ThfState;
@@ -58,14 +58,14 @@ function poolState: TpoolState;
 
 implementation
 
-{$R *.lfm}
+
 
 var
    FpoolState: TpoolState;
 
 function poolState: TpoolState;
 begin
-     Clean_Get( Result, FpoolState, TpoolState);
+     TPool.class_Get( Result, FpoolState, TpoolState);
 end;
 
 { TpoolState }
@@ -98,7 +98,6 @@ begin
 end;                                                 
 
 initialization
-              Clean_Create ( FpoolState, TpoolState);
 finalization
-              Clean_destroy( FpoolState);
+              TPool.class_Destroy( FpoolState);
 end.

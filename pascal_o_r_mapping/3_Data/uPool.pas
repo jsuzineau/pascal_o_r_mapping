@@ -518,13 +518,16 @@ type
  TPool
  =
   class( Tpool_Ancetre_Ancetre)
-    procedure DataModuleCreate(Sender: TObject);
-    procedure DataModuleDestroy(Sender: TObject);
-
   //Gestion du cycle de vie
   public
-    constructor Create( AOwner: TComponent); override;
+    constructor Create( _sl: TBatpro_StringList); override;
     destructor Destroy; override;
+
+    procedure AfterConstruction; override;
+    procedure BeforeDestruction; override;
+
+    procedure DataModuleCreate (Sender: TObject); virtual;
+    procedure DataModuleDestroy(Sender: TObject); virtual;
   //Chargement par clé
   private
     sqlq_SELECT: TSQLQuery;
@@ -589,8 +592,8 @@ type
     Load_by_id_TrierFiltre  : Boolean;
     Load_by_id_TrierslLoaded: Boolean;
   public
-    procedure Get_Interne_from_id( _id: Integer; var bl);
-    procedure Get_Interne_from_SQLid( _SQL: String; var bl; _fID: String= 'id');
+    procedure Get_Interne_from_id( _id: Integer; out bl);
+    procedure Get_Interne_from_SQLid( _SQL: String; out bl; _fID: String= 'id');
     procedure Load_by_id( Dataset: TDataset; fID: TField;
                           slLoaded : TBatpro_StringList = nil;
                           btsLoaded: TbtString          = nil); overload;
@@ -802,8 +805,6 @@ procedure uPool_Vide;
 
 implementation
 
-{$R *.lfm}
-
 procedure Traite_TABLE_SANS_ID;
 var
    I: Integer;
@@ -930,33 +931,33 @@ begin
      sqlqLoad_by_id       .UsePrimaryKeyAsKey:= _Value;
 end;
 
-constructor TPool.Create(AOwner: TComponent);
+constructor TPool.Create(_sl: TBatpro_StringList);
 begin
      Load_sqlQuery_Context_class:= TLoad_sqlQuery_Context;
 
-     sqlq_SELECT:= TSQLQuery.Create( Self);
+     sqlq_SELECT:= TSQLQuery.Create( nil);
      sqlq_SELECT.Name:= 'sqlq_SELECT';
 
-     sqlqLoad:= TSQLQuery.Create( Self);
+     sqlqLoad:= TSQLQuery.Create( nil);
      sqlqLoad.Name:= 'sqlqLoad';
 
-     sqlq_SELECT_from_id:= TSQLQuery.Create( Self);
+     sqlq_SELECT_from_id:= TSQLQuery.Create( nil);
      sqlq_SELECT_from_id.Name:= 'sqlq_SELECT_from_id';
 
-     sqlq_SELECT_ALL_count:= TSQLQuery.Create( Self);
+     sqlq_SELECT_ALL_count:= TSQLQuery.Create( nil);
      sqlq_SELECT_ALL_count.Name:= 'sqlq_SELECT_ALL_count';
 
-     sqlq_SELECT_ALL:= TSQLQuery.Create( Self);
+     sqlq_SELECT_ALL:= TSQLQuery.Create( nil);
      sqlq_SELECT_ALL.Name:= 'sqlq_SELECT_ALL';
 
      SQL_Recuperation:= '';
-     sqlqID_Recuperation:= TSQLQuery.Create( Self);
+     sqlqID_Recuperation:= TSQLQuery.Create( nil);
      sqlqID_Recuperation.Name:= 'sqlqID_Recuperation';
 
-     sqlq_INSERT:= TSQLQuery.Create( Self);
+     sqlq_INSERT:= TSQLQuery.Create( nil);
      sqlq_INSERT.Name:= 'sqlq_INSERT';
 
-     sqlqLoad_by_id:= TSQLQuery.Create( Self);
+     sqlqLoad_by_id:= TSQLQuery.Create( nil);
      sqlqLoad_by_id.Name:= 'sqlqLoad_by_id';
      sqlqLoad_by_idid:= TIntegerField.Create( sqlqLoad_by_id);
      sqlqLoad_by_idid.FieldName:= 'id';
@@ -971,14 +972,35 @@ begin
 
      Load_N_rows_by_id_ORDER_BY:= '';
 
-     inherited;
+     inherited Create( _sl);
 end;
 
 destructor TPool.Destroy;
 begin
-
+     FreeAndNil(sqlq_SELECT          );
+     FreeAndNil(sqlqLoad             );
+     FreeAndNil(sqlq_SELECT_from_id  );
+     FreeAndNil(sqlq_SELECT_ALL_count);
+     FreeAndNil(sqlq_SELECT_ALL      );
+     FreeAndNil(sqlqID_Recuperation  );
+     FreeAndNil(sqlq_INSERT          );
+     FreeAndNil(sqlqLoad_by_id       );
+     FreeAndNil(cd_from_Insert       );
      inherited;
 end;
+
+procedure TPool.AfterConstruction;
+begin
+     inherited AfterConstruction;
+     DataModuleCreate( Self);
+end;
+
+procedure TPool.BeforeDestruction;
+begin
+     DataModuleDestroy( Self);
+     inherited BeforeDestruction;
+end;
+
 procedure TPool.DataModuleCreate(Sender: TObject);
 begin
      inherited;
@@ -1059,6 +1081,7 @@ begin
 
      inherited;
 end;
+
 
 function TPool.SQLWHERE_ContraintesChamps: String;
 begin
@@ -1363,7 +1386,7 @@ begin
      Get_Interne_from_id( _id, bl);
 end;
 
-procedure TPool.Get_Interne_from_id( _id: Integer; var bl);
+procedure TPool.Get_Interne_from_id( _id: Integer; out bl);
 begin
      Pointer( bl):= nil;
      if _id = 0 then exit;
@@ -2314,7 +2337,7 @@ begin
             end;
 end;
 
-procedure TPool.Get_Interne_from_SQLid( _SQL: String; var bl; _fID: String= 'id');
+procedure TPool.Get_Interne_from_SQLid( _SQL: String; out bl; _fID: String= 'id');
 var
    id: Integer;
 begin

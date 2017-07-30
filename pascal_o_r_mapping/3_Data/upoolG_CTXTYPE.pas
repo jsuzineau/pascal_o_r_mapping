@@ -43,8 +43,8 @@ type
  TpoolG_CTXTYPE
  =
   class( TPool)
-    procedure DataModuleCreate(Sender: TObject);
-    procedure DataModuleDestroy(Sender: TObject);
+    procedure DataModuleCreate(Sender: TObject);  override;
+    procedure DataModuleDestroy(Sender: TObject);  override;
   private
     { Déclarations privées }
   protected
@@ -78,14 +78,14 @@ uses
 {implementation_uses_key}
     udmDatabase;
 
-{$R *.dfm}
+
 
 var
    FpoolG_CTXTYPE: TpoolG_CTXTYPE;
 
 function poolG_CTXTYPE: TpoolG_CTXTYPE;
 begin
-     Clean_Get( Result, FpoolG_CTXTYPE, TpoolG_CTXTYPE);
+     TPool.class_Get( Result, FpoolG_CTXTYPE, TpoolG_CTXTYPE);
 end;
 
 { TpoolG_CTXTYPE }
@@ -138,7 +138,6 @@ begin
 end;
 
 initialization
-              Clean_Create ( FpoolG_CTXTYPE, TpoolG_CTXTYPE);
 finalization
-              Clean_destroy( FpoolG_CTXTYPE);
+              TPool.class_Destroy( FpoolG_CTXTYPE);
 end.

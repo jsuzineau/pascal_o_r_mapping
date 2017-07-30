@@ -46,7 +46,7 @@ type
  TpoolMicrosoft_Access
  =
   class( TPool)
-    procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleCreate(Sender: TObject);  override;
   //Microsoft_Access_Connection
   public
     mac: TMicrosoft_Access_Connection;
@@ -57,7 +57,7 @@ type
 
 implementation
 
-{$R *.lfm}
+
 
 { TpoolMicrosoft_Access }
 

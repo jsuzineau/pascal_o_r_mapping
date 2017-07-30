@@ -52,7 +52,7 @@ type
  TpoolPouls
  =
   class( TPool)
-    procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleCreate(Sender: TObject);  override;
   //Filtre
   public
     hfPouls: ThfPouls;
@@ -91,14 +91,14 @@ function poolPouls: TpoolPouls;
 
 implementation
 
-{$R *.lfm}
+
 
 var
    FpoolPouls: TpoolPouls;
 
 function poolPouls: TpoolPouls;
 begin
-     Clean_Get( Result, FpoolPouls, TpoolPouls);
+     TPool.class_Get( Result, FpoolPouls, TpoolPouls);
 end;
 
 function poolPouls_Ancetre_Ancetre: Tpool_Ancetre_Ancetre;
@@ -301,5 +301,5 @@ end;
 initialization
               ublTag.poolPouls:= poolPouls_Ancetre_Ancetre;
 finalization
-              Clean_destroy( FpoolPouls);
+              TPool.class_Destroy( FpoolPouls);
 end.

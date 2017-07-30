@@ -41,7 +41,7 @@ type
  TpoolJour_ferie
  =
   class( TPool)
-    procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleCreate(Sender: TObject);  override;
   //Filtre
   public
     hfJour_ferie: ThfJour_ferie;
@@ -57,14 +57,14 @@ function poolJour_ferie: TpoolJour_ferie;
 
 implementation
 
-{$R *.lfm}
+
 
 var
    FpoolJour_ferie: TpoolJour_ferie;
 
 function poolJour_ferie: TpoolJour_ferie;
 begin
-     Clean_Get( Result, FpoolJour_ferie, TpoolJour_ferie);
+     TPool.class_Get( Result, FpoolJour_ferie, TpoolJour_ferie);
 end;
 
 { TpoolJour_ferie }
@@ -97,7 +97,6 @@ end;
 
 
 initialization
-              Clean_Create ( FpoolJour_ferie, TpoolJour_ferie);
 finalization
-              Clean_destroy( FpoolJour_ferie);
+              TPool.class_Destroy( FpoolJour_ferie);
 end.

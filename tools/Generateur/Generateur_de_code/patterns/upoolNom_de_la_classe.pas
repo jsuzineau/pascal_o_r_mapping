@@ -44,7 +44,7 @@ type
  TpoolNom_de_la_classe
  =
   class( TPool)
-    procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleCreate(Sender: TObject);  override;
   //Filtre
   public
     hfNom_de_la_classe: ThfNom_de_la_classe;
@@ -70,14 +70,14 @@ function poolNom_de_la_classe: TpoolNom_de_la_classe;
 
 implementation
 
-{$R *.dfm}
+
 
 var
    FpoolNom_de_la_classe: TpoolNom_de_la_classe;
 
 function poolNom_de_la_classe: TpoolNom_de_la_classe;
 begin
-     Clean_Get( Result, FpoolNom_de_la_classe, TpoolNom_de_la_classe);
+     TPool.class_Get( Result, FpoolNom_de_la_classe, TpoolNom_de_la_classe);
 end;
 
 { TpoolNom_de_la_classe }
@@ -120,7 +120,6 @@ end;
 {Test_Implementation_Key}
 
 initialization
-              Clean_Create ( FpoolNom_de_la_classe, TpoolNom_de_la_classe);
 finalization
-              Clean_destroy( FpoolNom_de_la_classe);
+              TPool.class_Destroy( FpoolNom_de_la_classe);
 end.

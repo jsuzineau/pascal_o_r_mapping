@@ -73,6 +73,8 @@ const
      //nom de la classe de paramètres TBatpro_Element
      sys_TblG_BECP   : String='TblG_BECP';
      sys_TblG_BECPCTX: String='TblG_BECPCTX';
+     sys_TpoolG_BECP   : String='TpoolG_BECP';
+     sys_TpoolG_BECPCTX: String='TpoolG_BECPCTX';
 
      //Batpro_Element_Marge= 2; //bordure
      Batpro_Element_Marge: Integer = 0; //bordure
@@ -1098,26 +1100,8 @@ type
     function Iterateur_Decroissant: TIterateur_Batpro_Element;
   end;
 
- Tpool_Ancetre_Ancetre
- =
-  class//( TDataModule)
-  //Gestion de la clé
-  public
-    procedure sCle_Change( _bl: TBatpro_element); virtual; 
-  //Suppression
-  public
-    procedure Supprimer( var bl); virtual; abstract;
-  //Nom de la table
-  protected
-    FNomTable: String;
-    procedure SetNomTable(const Value: String); virtual; abstract;
-    property NomTable: String read FNomTable write SetNomTable;
-  public
-    property NomTable_public: String read FNomTable;
-  //Gestion communication HTTP avec pages html Angular / JSON
-  public
-    function Traite_HTTP: Boolean; virtual; abstract;
-  end;
+ { Tpool_Ancetre_Ancetre }
+ Tpool_Ancetre_Ancetre= class;
 
  TIterateur_pool_Ancetre_Ancetre
  =
@@ -1141,6 +1125,43 @@ type
   public
     function Iterateur: TIterateur_pool_Ancetre_Ancetre;
     function Iterateur_Decroissant: TIterateur_pool_Ancetre_Ancetre;
+  end;
+
+ Tpool_Ancetre_Ancetre_Class= class of Tpool_Ancetre_Ancetre;
+
+ Tpool_Ancetre_Ancetre
+ =
+  class( TBatpro_Element)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _sl: TBatpro_StringList);reintroduce;virtual;
+    destructor Destroy; override;
+  public
+    class function Name: String;
+  //Gestion de la clé
+  public
+    procedure sCle_Change( _bl: TBatpro_element); virtual; 
+  //Suppression
+  public
+    procedure Supprimer( var bl); virtual; abstract;
+  //Nom de la table
+  protected
+    FNomTable: String;
+    procedure SetNomTable(const Value: String); virtual; abstract;
+    property NomTable: String read FNomTable write SetNomTable;
+  public
+    property NomTable_public: String read FNomTable;
+  //Gestion communication HTTP avec pages html Angular / JSON
+  public
+    function Traite_HTTP: Boolean; virtual; abstract;
+  //Logique de classe pour la gestion des instances
+  private
+    class var Fclass_sl: Tslpool_Ancetre_Ancetre;
+  public
+    class function class_sl: Tslpool_Ancetre_Ancetre;
+    class procedure class_Create (               var Reference ; Classe: Tpool_Ancetre_Ancetre_Class);
+    class procedure class_Destroy(               var Reference                                      );
+    class procedure class_Get    ( var Resultat; var Reference ; Classe: Tpool_Ancetre_Ancetre_Class);
   end;
 
  Tfunction_pool_Ancetre_Ancetre= function : Tpool_Ancetre_Ancetre;
@@ -4049,8 +4070,8 @@ begin
      Result
      :=
           (ClassName=sys_TBatpro_Element)
-       or (ClassName=sys_TblG_BECP      )
-       or (ClassName=sys_TblG_BECPCTX   );
+       or (ClassName=sys_TblG_BECP      )or (ClassName=sys_TpoolG_BECP      )
+       or (ClassName=sys_TblG_BECPCTX   )or (ClassName=sys_TpoolG_BECPCTX   );
      if Result then exit;
 
      if Batpro_ElementClassesParams_nil then exit;
@@ -6649,9 +6670,59 @@ end;
 
 { Tpool_Ancetre_Ancetre }
 
-procedure Tpool_Ancetre_Ancetre.sCle_Change( _bl: TBatpro_Element);
+constructor Tpool_Ancetre_Ancetre.Create( _sl: TBatpro_StringList);
+begin
+     inherited Create( _sl);
+end;
+
+destructor Tpool_Ancetre_Ancetre.Destroy;
+begin
+     inherited Destroy;
+end;
+
+class function Tpool_Ancetre_Ancetre.Name: String;
+begin
+     Result:= ClassName;
+end;
+
+procedure Tpool_Ancetre_Ancetre.sCle_Change(_bl: TBatpro_element);
 begin
 
+end;
+
+class function Tpool_Ancetre_Ancetre.class_sl: Tslpool_Ancetre_Ancetre;
+begin
+     if nil = Fclass_sl
+     then
+         Fclass_sl:= Tslpool_Ancetre_Ancetre.Create( ClassName+'.slInstances');
+     Result:= Fclass_sl;
+end;
+
+class procedure Tpool_Ancetre_Ancetre.class_Create( var Reference; Classe: Tpool_Ancetre_Ancetre_Class);
+var
+   Nom: String;
+begin
+     //if Assigned(Chrono) then Chrono.Stop( 'Clean_Create , début');
+     Tpool_Ancetre_Ancetre(Reference):= Classe.Create( class_sl);
+     //Liste.Add( @Reference);
+     Nom:= Tpool_Ancetre_Ancetre(Reference).Name;
+     //Noms.Add( Nom);
+     class_sl.AddObject( Nom, Tpool_Ancetre_Ancetre(Reference));
+     //if Assigned(Chrono) then Chrono.Stop( 'Clean_Create ( '+Nom+')');
+end;
+
+class procedure Tpool_Ancetre_Ancetre.class_Destroy(var Reference);
+begin
+     Clean_Destroy( Reference);
+end;
+
+class procedure Tpool_Ancetre_Ancetre.class_Get( var Resultat; var Reference; Classe: Tpool_Ancetre_Ancetre_Class);
+begin
+     if not Assigned( Tpool_Ancetre_Ancetre( Reference))
+     then
+         class_Create( Reference, Classe);
+
+     Tpool_Ancetre_Ancetre( Resultat):= Tpool_Ancetre_Ancetre( Reference);
 end;
 
 { TIterateur_pool_Ancetre_Ancetre }
@@ -7212,6 +7283,7 @@ end;
 
 
 initialization
+              Tpool_Ancetre_Ancetre.Fclass_sl:= nil;
               {Début de l'ancienne unité uWindows}
               {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
               CXBORDER:= GetSystemMetrics( SM_CXBORDER);

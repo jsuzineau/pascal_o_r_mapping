@@ -44,7 +44,7 @@ type
  TpoolType_Tag
  =
   class( TPool)
-    procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleCreate(Sender: TObject);  override;
   //Filtre
   public
     hfType_Tag: ThfType_Tag;
@@ -61,14 +61,14 @@ function poolType_Tag: TpoolType_Tag;
 
 implementation
 
-{$R *.dfm}
+
 
 var
    FpoolType_Tag: TpoolType_Tag;
 
 function poolType_Tag: TpoolType_Tag;
 begin
-     Clean_Get( Result, FpoolType_Tag, TpoolType_Tag);
+     TPool.class_Get( Result, FpoolType_Tag, TpoolType_Tag);
 end;
 
 { TpoolType_Tag }
@@ -103,7 +103,6 @@ end;
 
 
 initialization
-              Clean_Create ( FpoolType_Tag, TpoolType_Tag);
 finalization
-              Clean_destroy( FpoolType_Tag);
+              TPool.class_Destroy( FpoolType_Tag);
 end.

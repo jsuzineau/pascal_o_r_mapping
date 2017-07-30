@@ -53,7 +53,7 @@ type
  TpoolWork
  =
   class( TPool)
-    procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleCreate(Sender: TObject);  override;
   //Filtre
   public
     hfWork: ThfWork;
@@ -92,14 +92,14 @@ function poolWork: TpoolWork;
 
 implementation
 
-{$R *.lfm}
+
 
 var
    FpoolWork: TpoolWork= nil;
 
 function poolWork: TpoolWork;
 begin
-     Clean_Get( Result, FpoolWork, TpoolWork);
+     TPool.class_Get( Result, FpoolWork, TpoolWork);
 end;
 
 function poolWork_Ancetre_Ancetre: Tpool_Ancetre_Ancetre;
@@ -385,5 +385,5 @@ end;
 initialization
               ublTag.poolWork:= poolWork_Ancetre_Ancetre;
 finalization
-              Clean_destroy( FpoolWork);
+              TPool.class_Destroy( FpoolWork);
 end.
