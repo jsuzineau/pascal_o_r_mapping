@@ -1100,7 +1100,7 @@ type
 
  Tpool_Ancetre_Ancetre
  =
-  class//( TDataModule)
+  class( TDataModule)
   //Gestion de la clé
   public
     procedure sCle_Change( _bl: TBatpro_element); virtual; 
