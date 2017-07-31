@@ -26,17 +26,27 @@ unit ucsMenuHandler;
 interface
 
 uses
-    SysUtils, Classes,
-    uPatternHandler;
+    uBatpro_StringList,
+    uGenerateur_de_code_Ancetre,
+    uPatternHandler,
+    SysUtils, Classes;
 
 type
+
+ { TcsMenuHandler }
+
  TcsMenuHandler
  =
   class
+  //Gestion du cycle de vie
+  public
+    constructor Create( _g: TGenerateur_de_code_Ancetre);
+    destructor Destroy; override;
+  //Attributs
   private
+    g: TGenerateur_de_code_Ancetre;
     phCS, phDesigner: TPatternHandler;
   public
-    sRepSource, sRepCible: String;
     sCreation,
     sAddRange_Base,
     sAddRange_Relation,
@@ -45,9 +55,7 @@ type
     sItem, sDeclaration,
     sConstructor,
     sClick: String;
-    slParametres: TStringList;
-    constructor Create( _sRepSource, _sRepCible: String);
-    destructor Destroy; override;
+    slParametres: TBatpro_StringList;
     procedure Init;
     procedure Add( NomClasse: String; IsRelation, CalculeSaisi_: Boolean);
     procedure Produit;
@@ -70,14 +78,15 @@ const
 
 { TMenuHandler }
 
-constructor TcsMenuHandler.Create( _sRepSource, _sRepCible: String);
+constructor TcsMenuHandler.Create( _g: TGenerateur_de_code_Ancetre);
 begin
-     slParametres:= TStringList.Create;
-     phCS      :=TPatternHandler.Create(_sRepSource+s_MenuHandler_Form_Name+         '.cs',_sRepCible,slParametres);
-     phDesigner:=TPatternHandler.Create(_sRepSource+s_MenuHandler_Form_Name+'.Designer.cs',_sRepCible,slParametres);
+     g:= _g;
+
+     slParametres:= TBatpro_StringList.Create(ClassName+'.slParametres');
+     phCS      :=TPatternHandler.Create(g,s_RepertoireCSharp+s_MenuHandler_Form_Name+         '.cs',slParametres);
+     phDesigner:=TPatternHandler.Create(g,s_RepertoireCSharp+s_MenuHandler_Form_Name+'.Designer.cs',slParametres);
+
      Init;
-     sRepSource:= _sRepSource;
-     sRepCible := _sRepCible ;
 end;
 
 destructor TcsMenuHandler.Destroy;
@@ -174,8 +183,8 @@ begin
      slParametres.Values[sk_Constructor              ]:= sConstructor  ;
      slParametres.Values[sk_Click                    ]:= sClick;
 
-     phCS      .Produit('');
-     phDesigner.Produit('');
+     phCS      .Produit;
+     phDesigner.Produit;
 end;
 
 end.

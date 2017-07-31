@@ -224,7 +224,7 @@ begin
      dsbTag.Tri:= poolTag.Tri;
      dsbTag.Filtre:= poolTag.hfTag;
 
-     dtpBeginning_From.Date:= EncodeDate( YearOf(Now), MonthOf(Now)-1, DayOf( Now));
+     dtpBeginning_From.Date:= Now-30;
 end;
 
 destructor TfjsWorks.Destroy;

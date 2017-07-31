@@ -40,6 +40,7 @@ uses
     //Code generation
     uPatternHandler,
     uMenuHandler,
+    ucsMenuHandler,
     uGenerateur_de_code_Ancetre,
     uContexteClasse,
     uContexteMembre,
@@ -571,6 +572,7 @@ var
    slParametres: TBatpro_StringList;
 
    MenuHandler: TMenuHandler;
+   csMenuHandler: TcsMenuHandler;
 
    INI: TIniFile;
 
@@ -588,77 +590,71 @@ var
    var
       sRepRacine: String;
    begin
-        sRepRacine:= sRepSource+'u'+Racine+s_Nom_de_la_classe;
-        phPAS:= TPatternHandler.Create( sRepRacine+'.pas',sRepCible,slParametres);
-        phDFM:= TPatternHandler.Create( sRepRacine+'.dfm',sRepCible,slParametres);
+        sRepRacine:= s_RepertoirePascal_paquet+'u'+Racine+s_Nom_de_la_classe;
+        phPAS:= TPatternHandler.Create( Self, sRepRacine+'.pas',slParametres);
+        phDFM:= TPatternHandler.Create( Self, sRepRacine+'.dfm',slParametres);
    end;
 
    procedure CreePatternHandler_pool( out phPAS: TPatternHandler);
    var
       sRepRacine: String;
    begin
-        sRepRacine:= sRepSource+'upool'+s_Nom_de_la_classe;
-        phPAS:= TPatternHandler.Create( sRepRacine+'.pas',sRepCible,slParametres);
+        sRepRacine:= s_RepertoirePascal_paquet+'upool'+s_Nom_de_la_classe;
+        phPAS:= TPatternHandler.Create( Self, sRepRacine+'.pas',slParametres);
    end;
 
    procedure CreePatternHandler_BL( out phPAS: TPatternHandler);
    var
       sRepRacine: String;
    begin
-        sRepRacine:= sRepSource+'ubl'+s_Nom_de_la_classe;
-        phPAS:= TPatternHandler.Create( sRepRacine+'.pas',sRepCible,slParametres);
+        sRepRacine:= s_RepertoirePascal_paquet+'ubl'+s_Nom_de_la_classe;
+        phPAS:= TPatternHandler.Create( Self, sRepRacine+'.pas',slParametres);
    end;
 
    procedure CreePatternHandler_HF( out phPAS: TPatternHandler);
    var
       sRepRacine: String;
    begin
-        sRepRacine:= sRepSource+'uhf'+s_Nom_de_la_classe;
-        phPAS:= TPatternHandler.Create( sRepRacine+'.pas',sRepCible,slParametres);
+        sRepRacine:= s_RepertoirePascal_paquet+'uhf'+s_Nom_de_la_classe;
+        phPAS:= TPatternHandler.Create( Self, sRepRacine+'.pas',slParametres);
    end;
 
    procedure CreePatternHandler_TC( out phPAS: TPatternHandler);
    var
       sRepRacine: String;
    begin
-        sRepRacine:= sRepSource+'utc'+s_Nom_de_la_classe;
-        phPAS:= TPatternHandler.Create( sRepRacine+'.pas',sRepCible+'dunit'+PathDelim,slParametres);
+        sRepRacine:= s_RepertoirePascal_dunit+'utc'+s_Nom_de_la_classe;
+        phPAS:= TPatternHandler.Create( Self, sRepRacine+'.pas',slParametres);
    end;
 
    procedure CreePatternHandler_DPK( out phDPK: TPatternHandler);
    var
       sRepRacine: String;
    begin
-        sRepRacine:= sRepSource+'p'+s_Nom_de_la_classe;
-        phDPK:= TPatternHandler.Create( sRepRacine+'.dpk',sRepCible,slParametres);
+        sRepRacine:= s_RepertoirePascal_paquet+'p'+s_Nom_de_la_classe;
+        phDPK:= TPatternHandler.Create( Self, sRepRacine+'.dpk',slParametres);
    end;
 
    procedure CreePatternHandler_ML( out phCS: TPatternHandler);
    var
       sRepRacine: String;
    begin
-        sRepRacine:= sRepSource+'Tml'+s_Nom_de_la_table;
-        phCS:= TPatternHandler.Create( sRepRacine+'.CS',sRepCible,slParametres);
+        sRepRacine:= s_RepertoireCSharp+'Tml'+s_Nom_de_la_table;
+        phCS:= TPatternHandler.Create( Self, sRepRacine+'.CS',slParametres);
    end;
 
    procedure CreePatternHandler_PHP_Doctrine( out phRecord, phTable: TPatternHandler);
-   var
-      sRepSource_PHP_Doctrine: String;
    begin
-        sRepSource_PHP_Doctrine:= sRepSource+'PHP'+PathDelim+'Doctrine'+PathDelim;
-        phRecord:= TPatternHandler.Create( sRepSource_PHP_Doctrine+s_Nom_de_la_table+'.class.php',sRepCible,slParametres);
-        phTable := TPatternHandler.Create( sRepSource_PHP_Doctrine+'t'+s_Nom_de_la_table+'.class.php',sRepCible,slParametres);
+        phRecord:= TPatternHandler.Create( Self, s_RepertoirePHP_Doctrine+    s_Nom_de_la_table+'.class.php',slParametres);
+        phTable := TPatternHandler.Create( Self, s_RepertoirePHP_Doctrine+'t'+s_Nom_de_la_table+'.class.php',slParametres);
    end;
 
    procedure CreePatternHandler_PHP_Perso( out phPHP_Perso_c, phPHP_Perso_Delete, phPHP_Perso_Insert, phPHP_Perso_Set: TPatternHandler);
-   var
-      sRepSource_PHP_Perso: String;
    begin
-        sRepSource_PHP_Perso:= sRepSource+'PHP'+PathDelim+'Perso'+PathDelim;
-        phPHP_Perso_c     := TPatternHandler.Create( sRepSource_PHP_Perso+'cpool'+s_Nom_de_la_table+       '.php',sRepCible,slParametres);
-        phPHP_Perso_Delete:= TPatternHandler.Create( sRepSource_PHP_Perso+        s_Nom_de_la_table+'_Delete.php',sRepCible,slParametres);
-        phPHP_Perso_Insert:= TPatternHandler.Create( sRepSource_PHP_Perso+        s_Nom_de_la_table+'_Insert.php',sRepCible,slParametres);
-        phPHP_Perso_Set   := TPatternHandler.Create( sRepSource_PHP_Perso+        s_Nom_de_la_table+   '_Set.php',sRepCible,slParametres);
+        phPHP_Perso_c     := TPatternHandler.Create( Self, s_RepertoirePHP_Perso+'cpool'+s_Nom_de_la_table+       '.php',slParametres);
+        phPHP_Perso_Delete:= TPatternHandler.Create( Self, s_RepertoirePHP_Perso+        s_Nom_de_la_table+'_Delete.php',slParametres);
+        phPHP_Perso_Insert:= TPatternHandler.Create( Self, s_RepertoirePHP_Perso+        s_Nom_de_la_table+'_Insert.php',slParametres);
+        phPHP_Perso_Set   := TPatternHandler.Create( Self, s_RepertoirePHP_Perso+        s_Nom_de_la_table+   '_Set.php',slParametres);
    end;
 
    procedure Traite_Champ( _C: TChamp);
@@ -682,48 +678,35 @@ var
                end;
    end;
    procedure Produit;
-   var
-      RepertoirePascal: String;
-      RepertoireCSharp: String;
-      RepertoirePHP_Doctrine: String;
-      RepertoirePHP_Perso   : String;
-
-      RepertoirePaquet: String;
    begin
-        RepertoirePascal      := 'Pascal'                            +PathDelim;
-        RepertoirePaquet      := RepertoirePascal+cc.Nom_de_la_classe+PathDelim;
-        RepertoireCSharp      := 'CSharp'                            +PathDelim;
-        RepertoirePHP_Doctrine:= 'PHP'+PathDelim+'Doctrine'          +PathDelim;
-        RepertoirePHP_Perso   := 'PHP'+PathDelim+'Perso'             +PathDelim;
+        phPAS_DMCRE.Produit;
+        phPAS_POOL .Produit;
+        phPAS_F    .Produit;
+        phPAS_FCB  .Produit;
+        phPAS_DKD  .Produit;
 
-        phPAS_DMCRE.Produit( RepertoirePascal);
-        phPAS_POOL .Produit( RepertoirePaquet);
-        phPAS_F    .Produit( RepertoirePascal);
-        phPAS_FCB  .Produit( RepertoirePascal);
-        phPAS_DKD  .Produit( RepertoirePascal);
+        phDFM_DMCRE.Produit;
+        phDFM_F    .Produit;
+        phDFM_FCB  .Produit;
+        phDFM_DKD  .Produit;
 
-        phDFM_DMCRE.Produit( RepertoirePascal);
-        phDFM_F    .Produit( RepertoirePascal);
-        phDFM_FCB  .Produit( RepertoirePascal);
-        phDFM_DKD  .Produit( RepertoirePascal);
+        phDFM_FD   .Produit;
+        phPAS_FD   .Produit;
 
-        phDFM_FD   .Produit( RepertoirePaquet);
-        phPAS_FD   .Produit( RepertoirePaquet);
+        phPAS_BL   .Produit;
+        phPAS_HF   .Produit;
+        phPAS_TC   .Produit;
+        phDPK      .Produit;
 
-        phPAS_BL   .Produit( RepertoirePaquet);
-        phPAS_HF   .Produit( RepertoirePaquet);
-        phPAS_TC   .Produit( RepertoirePascal);
-        phDPK      .Produit( RepertoirePaquet);
+        phCS_ML    .Produit;
 
-        phCS_ML    .Produit( RepertoireCSharp);
+        phPHP_Doctrine_record.Produit;
+        phPHP_Doctrine_table .Produit;
 
-        phPHP_Doctrine_record.Produit(RepertoirePHP_Doctrine);
-        phPHP_Doctrine_table .Produit(RepertoirePHP_Doctrine);
-
-        phPHP_Perso_c     .Produit(RepertoirePHP_Perso);
-        phPHP_Perso_Delete.Produit(RepertoirePHP_Perso);
-        phPHP_Perso_Insert.Produit(RepertoirePHP_Perso);
-        phPHP_Perso_Set.Produit(RepertoirePHP_Perso);
+        phPHP_Perso_c     .Produit;
+        phPHP_Perso_Delete.Produit;
+        phPHP_Perso_Insert.Produit;
+        phPHP_Perso_Set   .Produit;
    end;
    procedure Visite;
    var
@@ -788,9 +771,9 @@ var
            uJoinPoint_To_Parametres( slParametres, a);
 
            Produit;
-           //slLog.Add( 'aprés Produit');
-           //csMenuHandler.Add( cc.NomTable, NbDetails = 0, cc.CalculeSaisi_);
-           //slLog.Add( 'MenuHandler.Add');
+           slLog.Add( 'aprés Produit');
+           csMenuHandler.Add( cc.Nom_de_la_table, NbDetails = 0, True(*cc.CalculeSaisi_*));
+           slLog.Add( 'MenuHandler.Add');
         finally
                FreeAndNil( cc)
                end;
@@ -821,10 +804,13 @@ begin
            CreePatternHandler_HF( phPAS_HF);
            CreePatternHandler_TC( phPAS_TC);
            CreePatternHandler_DPK( phDPK);
+           MenuHandler:= TMenuHandler.Create( Self);
+
            CreePatternHandler_ML( phCS_ML);
+           csMenuHandler:= TcsMenuHandler.Create( Self);
+
            CreePatternHandler_PHP_Doctrine( phPHP_Doctrine_record, phPHP_Doctrine_table);
            CreePatternHandler_PHP_Perso( phPHP_Perso_c, phPHP_Perso_Delete, phPHP_Perso_Insert, phPHP_Perso_Set);
-           MenuHandler:= TMenuHandler.Create( sRepSource, sRepCible);
 
            try
               S:= '';
@@ -832,7 +818,7 @@ begin
 
               Visite;
 
-              //csMenuHandler.Produit;
+              csMenuHandler.Produit;
               slLog.Add( S);
            finally
                   FreeAndNil( MenuHandler);
@@ -854,6 +840,7 @@ begin
                   FreeAndNil( phPAS_HF   );
                   FreeAndNil( phPAS_TC   );
 
+                  FreeAndNil( csMenuHandler);
                   FreeAndNil( phCS_ML   );
 
                   FreeAndNil( phPHP_Doctrine_record);

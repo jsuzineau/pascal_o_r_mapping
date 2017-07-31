@@ -27,26 +27,33 @@ interface
 
 uses
     uForms,
-    SysUtils, Classes, Dialogs,
-    uBatpro_StringList;
+    uBatpro_StringList,
+    uGenerateur_de_code_Ancetre,
+    SysUtils, Classes, Dialogs;
 
 type
+
+ { TPatternHandler }
+
  TPatternHandler
  =
   class
+  //Gestion du cycle de vie
+  public
+    constructor Create( _g: TGenerateur_de_code_Ancetre;
+                        _Source: String;
+                        _slParametres: TBatpro_StringList);
+    destructor Destroy; override;
+  //Attributs
   private
+    g: TGenerateur_de_code_Ancetre;
     Source: String;
-    RepertoireCible: String;
     slSource: TBatpro_StringList;
     slCible : TBatpro_StringList;
     slParametres: TBatpro_StringList;
     function RemplaceParametres( S: String): String;
   public
-    constructor Create( _Source, _RepertoireCible: String;
-                        _slParametres: TBatpro_StringList);
-    destructor Destroy; override;
-
-    procedure Produit( SousRepertoire: String);
+    procedure Produit;
   //déboguage
   private
     Log_Actif: Boolean;
@@ -57,14 +64,14 @@ implementation
 
 { TPatternHandler }
 
-constructor TPatternHandler.Create( _Source, _RepertoireCible: String;
+constructor TPatternHandler.Create( _g: TGenerateur_de_code_Ancetre;
+                                    _Source: String;
                                     _slParametres: TBatpro_StringList);
 begin
-     Source         := _Source         ;
-     RepertoireCible:= _RepertoireCible;
-     slParametres   := _slParametres;
+     g:= _g;
 
-     ForceDirectories( RepertoireCible);
+     Source         := _Source         ;
+     slParametres   := _slParametres;
 
      slSource:= TBatpro_StringList.Create;
      if not FileExists( Source)
@@ -72,7 +79,7 @@ begin
          uForms_ShowMessage( 'Introuvable '+Source);
      slLog  := TBatpro_StringList.Create;
 
-     slSource.LoadFromFile( Source);
+     slSource.LoadFromFile( g.sRepSource+Source);
      slLog.Add( 'Original de '+Source);
      slLog.Add( slSource.Text);
 
@@ -84,7 +91,7 @@ destructor TPatternHandler.Destroy;
 begin
      if Pos( 'udmd', Source) <> 0
      then
-         slLog.SaveToFile( RepertoireCible+ExtractFileName( Source)+'.log');
+         slLog.SaveToFile( g.sRepCible+Source+'.log');
      FreeAndNil( slCible     );
      FreeAndNil( slSource    );
      FreeAndNil( slLog       );
@@ -108,20 +115,20 @@ begin
        end;
 end;
 
-procedure TPatternHandler.Produit( SousRepertoire: String);
+procedure TPatternHandler.Produit;
 var
    CibleName: String;
    Chemin: String;
 begin
      Log_Actif:= False;
-     CibleName:= RemplaceParametres( ExtractFileName( Source));
-     Chemin:= RepertoireCible + SousRepertoire;
+     CibleName:= g.sRepCible+RemplaceParametres( Source);
+     Chemin:= ExtractFilePath( CibleName);
      ForceDirectories( Chemin);
 
      Log_Actif:= True;
      slCible.Text:= RemplaceParametres( slSource.Text);
-     slCible.SaveToFile( Chemin + CibleName);
+     slCible.SaveToFile( CibleName);
      Log_Actif:= False;
 end;
 
-end.      createdir
+end.
