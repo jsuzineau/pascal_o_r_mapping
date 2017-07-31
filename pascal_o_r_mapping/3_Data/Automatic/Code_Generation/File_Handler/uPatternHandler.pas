@@ -50,7 +50,11 @@ type
     Source: String;
     slSource: TBatpro_StringList;
     slCible : TBatpro_StringList;
+  public //pas propre, passé en public pour que TcsMenuHandler
+         //puisse éventuellement surcharger l'initialisation
+         //faite avant par l'exploration directe du répertoire
     slParametres: TBatpro_StringList;
+  private
     function RemplaceParametres( S: String): String;
   public
     procedure Produit;
@@ -60,7 +64,83 @@ type
     slLog: TBatpro_StringList;
   end;
 
+ TIterateur_PatternHandler
+ =
+  class( TIterateur)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: TPatternHandler);
+    function  not_Suivant( var _Resultat: TPatternHandler): Boolean;
+  end;
+
+ TslPatternHandler
+ =
+  class( TBatpro_StringList)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_PatternHandler;
+    function Iterateur_Decroissant: TIterateur_PatternHandler;
+  end;
+
+function PatternHandler_from_sl( sl: TBatpro_StringList; Index: Integer): TPatternHandler;
+function PatternHandler_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TPatternHandler;
+
 implementation
+
+function PatternHandler_from_sl( sl: TBatpro_StringList; Index: Integer): TPatternHandler;
+begin
+     _Classe_from_sl( Result, TPatternHandler, sl, Index);
+end;
+
+function PatternHandler_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TPatternHandler;
+begin
+     _Classe_from_sl_sCle( Result, TPatternHandler, sl, sCle);
+end;
+
+{ TIterateur_PatternHandler }
+
+function TIterateur_PatternHandler.not_Suivant( var _Resultat: TPatternHandler): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_PatternHandler.Suivant( var _Resultat: TPatternHandler);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TslPatternHandler }
+
+constructor TslPatternHandler.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, TPatternHandler);
+end;
+
+destructor TslPatternHandler.Destroy;
+begin
+     inherited;
+end;
+
+class function TslPatternHandler.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_PatternHandler;
+end;
+
+function TslPatternHandler.Iterateur: TIterateur_PatternHandler;
+begin
+     Result:= TIterateur_PatternHandler( Iterateur_interne);
+end;
+
+function TslPatternHandler.Iterateur_Decroissant: TIterateur_PatternHandler;
+begin
+     Result:= TIterateur_PatternHandler( Iterateur_interne_Decroissant);
+end;
 
 { TPatternHandler }
 
