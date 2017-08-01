@@ -1,5 +1,5 @@
 <?php
-/*                                                                            |
+/**                                                                           |
                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr> http://www.mars42.com    |
                                                                               |
@@ -18,38 +18,9 @@
     You should have received a copy of the GNU General Public License         |
     along with this program; if not, write to the Free Software               |
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
-|                                                                            */
+|                                                                           **/
 //nom original cMySQL_Link.php
-//include_once  "cXMIable.php";
-
-//convertit une chaine en
-function Echappe_HTML( $Chaine)
- {
- $Resultat= "";
- for ($I= 0; $I < strlen( $Chaine); $I++)
-     $Resultat.= "%".dechex(ord($Chaine[$I]));
- return $Resultat;
- }
-
-function Date_SQL( $D)
-  {
-  /* doc getdate()
-  • "seconds" - seconds
-  • "minutes" - minutes
-  • "hours" - hours
-  • "mday" - day of the month
-  • "wday" - day of the week, numeric
-  • "mon" - month, numeric
-  • "year" - year, numeric
-  • "yday" - day of the year, numeric; i.e. "299"
-  • "weekday" - day of the week, textual, full; i.e. "Friday"
-  • "month" - month, textual, full; i.e. "January"
-  "01/01/2002 00:00:00",
-  */
-  $Resultat= $D["year"]."-".$D["mon"]."-".$D["mday"]." ".
-             $D["hours"].":".$D["minutes"].":".$D["seconds"];
-  return $Resultat;
-  }
+//require_once  "cXMIable.php";
 
 class cConnexion //extends cXMIable
   {
@@ -72,7 +43,7 @@ class cConnexion //extends cXMIable
     }
   function Ouverture()
     {
-    //si la connexion est déjà ouverte, on sort
+    //si la connexion est dï¿½jï¿½ ouverte, on sort
     if ($this->pdo)
        return;
 
@@ -106,6 +77,35 @@ class cConnexion //extends cXMIable
 
     return $this->ResultatRequete;
     }
+  }
+
+//convertit une chaine en
+function Echappe_HTML( $Chaine)
+ {
+ $Resultat= "";
+ for ($I= 0; $I < strlen( $Chaine); $I++)
+     $Resultat.= "%".dechex(ord($Chaine[$I]));
+ return $Resultat;
+ }
+
+function Date_SQL( $D)
+  {
+  /* doc getdate()
+  ï¿½ "seconds" - seconds
+  ï¿½ "minutes" - minutes
+  ï¿½ "hours" - hours
+  ï¿½ "mday" - day of the month
+  ï¿½ "wday" - day of the week, numeric
+  ï¿½ "mon" - month, numeric
+  ï¿½ "year" - year, numeric
+  ï¿½ "yday" - day of the year, numeric; i.e. "299"
+  ï¿½ "weekday" - day of the week, textual, full; i.e. "Friday"
+  ï¿½ "month" - month, textual, full; i.e. "January"
+  "01/01/2002 00:00:00",
+  */
+  $Resultat= $D["year"]."-".$D["mon"]."-".$D["mday"]." ".
+             $D["hours"].":".$D["minutes"].":".$D["seconds"];
+  return $Resultat;
   }
 
 ?>

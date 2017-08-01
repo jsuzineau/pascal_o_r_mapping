@@ -1,5 +1,5 @@
 <?php
-/*                                                                            |
+/**                                                                           |
                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr> http://www.mars42.com    |
                                                                               |
@@ -18,8 +18,9 @@
     You should have received a copy of the GNU General Public License         |
     along with this program; if not, write to the Free Software               |
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
-|                                                                            */
+|                                                                           **/
 //nom original cDataset.php
+// cPool.php
 include_once( "cConnexion.php");
 //include_once( "cHTMLer.php");
 
@@ -70,11 +71,17 @@ class cPool extends cConnexion
        for ($I=0; $I < $NbChamps; $I++ )
            {
            $Champ=$this->ResultatRequete->getColumnMeta( $I);
-           $Nom=$Champ->name;
+           if (!$Champ)
+              {
+              error_log( "cPool.php::Recherche(): getColumnMeta( $I) retourne $Champ");    
+              continue;  
+              }          
+           //error_log( "cPool.php::Recherche(): getColumnMeta( $I) retourne ".print_r($Champ, true));
+           $Nom=$Champ["name"];
            $this->Noms     []= $Nom;
-           $this->Types    [$Nom]= $Champ->type;
-           $this->Longueurs[$Nom]= $Champ->len;
-           $this->Flags    [$Nom]= $Champ->flags;
+           $this->Types    [$Nom]= $Champ["native_type"];
+           $this->Longueurs[$Nom]= $Champ["len"        ];
+           $this->Flags    [$Nom]= $Champ["flags"      ];
            }
        }
     //echo "<br>cPool.Recherche( $SQL): ".$this->Lignes[0]."<br>";

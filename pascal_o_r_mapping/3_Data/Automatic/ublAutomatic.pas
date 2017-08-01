@@ -291,6 +291,7 @@ type
                                    _slParametres: TBatpro_StringList= nil); override; overload;
     function  Cree_PatternHandler( _Source: String;
                                    _slParametres: TBatpro_StringList= nil): TPatternHandler; overload;
+
   //Création des PatternHandler par lecture du répertoire de patterns
   private
     procedure slPatternHandler_from_sRepSource_FileFound( _FileIterator: TFileIterator);
@@ -876,6 +877,7 @@ begin
                FreeAndNil( phPHP_Perso_Insert);
                FreeAndNil( phPHP_Perso_Set);
                }
+               slPatternHandler.Vide;
                FreeAndNil( MenuHandler);
                FreeAndNil( csMenuHandler);
                end;

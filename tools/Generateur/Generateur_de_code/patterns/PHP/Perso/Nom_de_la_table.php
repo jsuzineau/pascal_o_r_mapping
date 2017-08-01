@@ -20,13 +20,17 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.       |
                                                                                 |
 |                                                                             **/
-//cpoolNom_de_la_table.php
-require_once  "cPool.php";
+// poolNom_de_la_table.php                                                                
+require_once  "Session_ok.php";
+if (not_Session_ok()) exit();
 
-class cpoolNom_de_la_table extends cPool
-  {
-  var $ClasseLigne= "cNom_de_la_table";
-  var $NomTable="Nom_de_la_table";
-  }
+require_once "cpoolNom_de_la_table.php";
+
+$poolNom_de_la_table= new cpoolNom_de_la_table();
+
+echo $poolNom_de_la_table->Charge_Table();
 ?>
+
+
+
 

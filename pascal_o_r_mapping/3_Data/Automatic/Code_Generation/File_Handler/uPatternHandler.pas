@@ -50,6 +50,7 @@ type
     Source: String;
     slSource: TBatpro_StringList;
     slCible : TBatpro_StringList;
+    function Calcule_NomCible: String;
   public //pas propre, passé en public pour que TcsMenuHandler
          //puisse éventuellement surcharger l'initialisation
          //faite avant par l'exploration directe du répertoire
@@ -72,6 +73,8 @@ type
     procedure Suivant( var _Resultat: TPatternHandler);
     function  not_Suivant( var _Resultat: TPatternHandler): Boolean;
   end;
+
+ { TslPatternHandler }
 
  TslPatternHandler
  =
@@ -171,11 +174,16 @@ destructor TPatternHandler.Destroy;
 begin
      if Pos( 'udmd', Source) <> 0
      then
-         slLog.SaveToFile( g.sRepCible+Source+'.log');
+         slLog.SaveToFile( Calcule_NomCible+'.log');
      FreeAndNil( slCible     );
      FreeAndNil( slSource    );
      FreeAndNil( slLog       );
      inherited;
+end;
+
+function TPatternHandler.Calcule_NomCible: String;
+begin
+     Result:= g.sRepCible+RemplaceParametres( Source);
 end;
 
 function TPatternHandler.RemplaceParametres( S: String): String;
@@ -201,7 +209,7 @@ var
    Chemin: String;
 begin
      Log_Actif:= False;
-     CibleName:= g.sRepCible+RemplaceParametres( Source);
+     CibleName:= Calcule_NomCible;
      Chemin:= ExtractFilePath( CibleName);
      ForceDirectories( Chemin);
 
