@@ -1,6 +1,6 @@
 object amjsWorks: TamjsWorks
-  Left = 452
-  Top = 176
+  Left = 514
+  Top = 175
   Width = 320
   Height = 400
   MarginLeft = 0

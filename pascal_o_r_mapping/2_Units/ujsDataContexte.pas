@@ -12,6 +12,12 @@ uses
  Classes, SysUtils, db, sqldb, strutils;
 
 type
+  TjsDataConnexion
+  =
+   class
+
+			end;
+
   PtrBoolean= ^Boolean;
   TjsDataType
   =
@@ -126,11 +132,13 @@ type
    public
      Name: String;
    //Connection
+   private
+     FConnection: TjsDataConnexion;
    protected
-     function GetConnection: TDatabase; virtual;
-     procedure SetConnection(_Value: TDatabase); virtual;
+     function GetConnection: TjsDataConnexion; virtual;
+     procedure SetConnection(_Value: TjsDataConnexion); virtual;
    public
-     property Connection: TDatabase read GetConnection write SetConnection;
+     property Connection: TjsDataConnexion read GetConnection write SetConnection;
    //SQL
    protected
      procedure SetSQL( _SQL: String); virtual;
@@ -198,6 +206,14 @@ type
      function Assure_Champ( _Champ_Nom: String): TjsDataContexte_Champ; override;
    end;
 
+  TjsDataConnexion_SQLQuery
+  =
+   class( TjsDataConnexion)
+   //Database
+   public
+     Database: TDatabase;
+			end;
+
   { TjsDataContexte_SQLQuery }
 
   TjsDataContexte_SQLQuery
@@ -208,9 +224,10 @@ type
      constructor Create( _Name: String);
      destructor Destroy; override;
    //Connection
+   private
+     jsDataConnexion_SQLQuery: TjsDataConnexion_SQLQuery;
    protected
-     function GetConnection: TDatabase; override;
-     procedure SetConnection(_Value: TDatabase); override;
+     procedure SetConnection(_Value: TjsDataConnexion); override;
    //SQL
    protected
      procedure SetSQL( _SQL: String); override;
@@ -597,12 +614,14 @@ begin
      inherited Destroy;
 end;
 
-function TjsDataContexte.GetConnection: TDatabase;
+function TjsDataContexte.GetConnection: TjsDataConnexion;
 begin
+     Result:= FConnection;
 end;
 
-procedure TjsDataContexte.SetConnection(_Value: TDatabase);
+procedure TjsDataContexte.SetConnection(_Value: TjsDataConnexion);
 begin
+     FConnection:= _Value;
 end;
 
 procedure TjsDataContexte.SetSQL(_SQL: String);
@@ -774,6 +793,8 @@ end;
 
 constructor TjsDataContexte_SQLQuery.Create( _Name: String);
 begin
+     jsDataConnexion_SQLQuery:= nil;
+
      sqlq:= TSQLQuery.Create( nil);
      sqlq.Name:= 'sqlq';
      sqlqid:= nil;
@@ -797,14 +818,14 @@ begin
      Result:= sqlq.SQL.Text;
 end;
 
-function TjsDataContexte_SQLQuery.GetConnection: TDatabase;
+procedure TjsDataContexte_SQLQuery.SetConnection(_Value: TjsDataConnexion);
 begin
-     Result:= sqlq.DataBase;
-end;
+     if Affecte_( jsDataConnexion_SQLQuery, TjsDataConnexion_SQLQuery, _Value)
+     then
+         raise Exception.Create( ClassName+'.SetConnection: Wrong type');
 
-procedure TjsDataContexte_SQLQuery.SetConnection(_Value: TDatabase);
-begin
-     sqlq.DataBase:= _Value;
+     inherited;
+     sqlq.DataBase:= jsDataConnexion_SQLQuery.Database;
 end;
 
 function TjsDataContexte_SQLQuery.RefreshQuery: Boolean;

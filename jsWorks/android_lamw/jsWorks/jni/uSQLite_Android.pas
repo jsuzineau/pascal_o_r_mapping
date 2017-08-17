@@ -1,12 +1,9 @@
-unit uSQLite3;
+unit uSQLite_Android;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
-            partly as freelance: http://www.mars42.com                          |
-        and partly as employee : http://www.batpro.com                          |
-    Contact: gilles.doutre@batpro.com                                           |
+            http://www.mars42.com                          |
                                                                                 |
-    Copyright 2014 Jean SUZINEAU - MARS42                                       |
-    Copyright 2014 Cabinet Gilles DOUTRE - BATPRO                               |
+    Copyright 2017 Jean SUZINEAU - MARS42                                       |
                                                                                 |
     This program is free software: you can redistribute it and/or modify        |
     it under the terms of the GNU Lesser General Public License as published by |
@@ -35,14 +32,14 @@ uses
     ujsDataContexte,
     uSGBD,
     ufAccueil_Erreur,
-  db, sqlite3conn_pour_test, SQLDB, sqlite3dyn, FmtBCD,dateutils,
+  db, SQLDB, FmtBCD,dateutils,Laz_And_Controls,
   SysUtils, Classes;
 
 type
 
- { TSQLite3 }
+ { TSQLite_Android }
 
- TSQLite3
+ TSQLite_Android
  =
   class
   //Gestion du cycle de vie
@@ -115,14 +112,6 @@ type
     function asBoolean : Boolean  ; override;
   end;
 
- TjsDataConnexion_libsqlite3
- =
-  class( TjsDataConnexion)
-  //Database
-  public
-    SQLite3Connection: TSQLite3Connection;
-		end;
-
  { TjsDataContexte_libsqlite3 }
 
  TjsDataContexte_libsqlite3
@@ -140,9 +129,11 @@ type
     slErrorLog: TStringList;
   //Connection
   private
-    jsDataConnexion_SQLite3: TjsDataConnexion_libsqlite3;
+    FConnection: TDatabase;
+    SQLite3Connection: TSQLite3Connection;
   protected
-    procedure SetConnection( _Value: TjsDataConnexion); override;
+    function GetConnection: TDatabase; override;
+    procedure SetConnection(_Value: TDatabase); override;
   //SQL
   private
     FParams: TParams;
@@ -191,7 +182,7 @@ type
   end;
 
 var
-   SQLite3: TSQLite3;
+   SQLite_Android: TSQLite_Android;
 
 const
      inis_sqlite3  = 'SQLite3';
@@ -208,9 +199,9 @@ begin
        Result[I]:= Chr( Ord(Result[I]) XOR $31);
 end;
 
-{ TSQLite3 }
+{ TSQLite_Android }
 
-constructor TSQLite3.Create;
+constructor TSQLite_Android.Create;
 begin
      inherited;
      DataBase := sys_Vide;
@@ -221,24 +212,24 @@ begin
      {$endif}
 end;
 
-destructor TSQLite3.Destroy;
+destructor TSQLite_Android.Destroy;
 begin
      inherited;
 end;
 
-procedure TSQLite3.Assure_initialisation;
+procedure TSQLite_Android.Assure_initialisation;
 begin
      if Initialized then exit;
      Lit( regv_Database , DataBase);
      Initialized:= True;
 end;
 
-procedure TSQLite3.Ecrire;
+procedure TSQLite_Android.Ecrire;
 begin
      Ecrit( regv_Database , DataBase );
 end;
 
-function TSQLite3.Cree_Connection: TSQLite3Connection;
+function TSQLite_Android.Cree_Connection: TSQLite3Connection;
 begin
      Result:= TSQLite3Connection.Create(nil);
      if Assigned( Result)
@@ -248,7 +239,7 @@ begin
          //Result.CharSet:= 'cp850';
 end;
 
-procedure TSQLite3.Lit( NomValeur: String; var Valeur: String; _Mot_de_passe: Boolean= False);
+procedure TSQLite_Android.Lit( NomValeur: String; var Valeur: String; _Mot_de_passe: Boolean= False);
 var
    ValeurBrute: String;
 begin
@@ -260,7 +251,7 @@ begin
          Valeur:= ValeurBrute;
 end;
 
-procedure TSQLite3.Ecrit( NomValeur: String; var Valeur: String; _Mot_de_passe: Boolean= False);
+procedure TSQLite_Android.Ecrit( NomValeur: String; var Valeur: String; _Mot_de_passe: Boolean= False);
 var
    ValeurBrute: String;
 begin
@@ -585,13 +576,19 @@ begin
      Log_Error( _Contexte, _Error_Code);
 end;
 
-procedure TjsDataContexte_libsqlite3.SetConnection( _Value: TjsDataConnexion);
+function TjsDataContexte_libsqlite3.GetConnection: TDatabase;
 begin
-     if Affecte_( jsDataConnexion_SQLite3, TjsDataConnexion_libsqlite3, _Value)
-     then
-         raise Exception.Create( ClassName+'.SetConnection: Wrong type');
+     Result:= FConnection;
+end;
 
-     NomFichierBase:= jsDataConnexion_SQLite3.SQLite3Connection.DatabaseName
+procedure TjsDataContexte_libsqlite3.SetConnection(_Value: TDatabase);
+begin
+     FConnection:= _Value;
+     if Affecte( SQLite3Connection, TSQLite3Connection, FConnection)
+     then
+         NomFichierBase:= SQLite3Connection.DatabaseName
+     else
+         NomFichierBase:= '';
 end;
 
 procedure TjsDataContexte_libsqlite3.SetSQL(_SQL: String);
@@ -907,7 +904,7 @@ begin
 end;
 
 initialization
-              SQLite3:= TSQLite3.Create;
+              SQLite_Android:= TSQLite_Android.Create;
 finalization
-              Free_nil( SQLite3);
+              Free_nil( SQLite_Android);
 end.

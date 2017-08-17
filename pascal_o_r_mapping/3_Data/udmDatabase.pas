@@ -346,6 +346,9 @@ begin
        sgbd_SQLite3:
          begin
          end;
+       sgbd_SQLite_Android:
+         begin
+         end;
        end;
 end;
 
