@@ -136,12 +136,6 @@ begin
 
      Message:= TIdMessage.Create( nil);
 
-
-     if     (_From = '')
-        and ('EMFA' = UpperCase( dmDatabase.Database))
-     then
-         _From:= 'FDENIAUD@emfa.fr';
-
      Message.From.Address:= _From;
 
      Log.Print( 'MailTo, ajout destinataires');

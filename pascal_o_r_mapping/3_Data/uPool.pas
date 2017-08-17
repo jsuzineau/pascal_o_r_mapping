@@ -43,10 +43,8 @@ uses
     uChamp,
     uChamps,
     uCD_from_Params,
-    //uDataClasses,
     uDataUtilsF,
-    udmDatabase,{AUTOOPENUNIT udmDatabase}
-    (*udmxG3_UTI,*)
+    udmDatabase,
     upool_Ancetre_Ancetre,
     uMySQL,
 
@@ -56,7 +54,6 @@ uses
     uBatpro_Ligne,
     uPublieur,
     uhFiltre,
-    (*ufProgression,*)
     ufAccueil_Erreur,
     uTri,
     uSuppression,
@@ -66,7 +63,7 @@ uses
   blcksock, sockets, Synautil, fphttpclient,
   {$endif}
   SysUtils, Variants, Classes,
-  FMTBcd, DB, mysql51conn, SQLDB, DBXpress,  Math, BufDataSet;
+  FMTBcd, DB, mysql51conn, SQLDB, Math, BufDataSet;
 
 
 var

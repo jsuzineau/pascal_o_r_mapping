@@ -44,7 +44,8 @@ type
      sgbd_MySQL   ,
      sgbd_Postgres,
      sgbd_SQLServer,
-     sgbd_SQLite3
+     sgbd_SQLite3,
+     sgbd_SQLite_Android
      );
 const
      sSGBDs: array[Low(TSGBD)..High(TSGBD)] of String
@@ -54,16 +55,8 @@ const
       'MySQL',
       'Postgres',
       'SQLServer',
-      'SQLite3'
-      );
-     sBATPRO6_SGBD: array[Low(TSGBD)..High(TSGBD)] of String
-     =
-      (
-      'INFX',
-      'MYSQL',
-      'POSTGR',
-      'SQLServer',
-      'SQLite3'
+      'SQLite3',
+      'SQLite_Android'
       );
 
 var
@@ -77,11 +70,12 @@ function sSGBD: String;
 
 procedure SGBD_non_gere( _Ou: String);
 
-function sgbdINFORMIX: Boolean;
-function sgbdMYSQL   : Boolean;
-function sgbdPOSTGRES: Boolean;
-function sgbdSQLServer: Boolean;
-function sgbdSQLite3 : Boolean;
+function sgbdINFORMIX        : Boolean;
+function sgbdMYSQL           : Boolean;
+function sgbdPOSTGRES        : Boolean;
+function sgbdSQLServer       : Boolean;
+function sgbdSQLite3         : Boolean;
+function sgbdSQLite_Android  : Boolean;
 
 function sgbd_Substr( _NomChamp: String; _Debut, _Fin: Integer): String;
 
@@ -107,37 +101,18 @@ procedure uSGBD_OPN_Requeteur( _SQL: String = '');
 type
     TSGBD_OPN_CallBack= procedure;
 var
-   uSGBD_OPN_Informix : TSGBD_OPN_CallBack = nil;
-   uSGBD_OPN_MySQL    : TSGBD_OPN_CallBack = nil;
-   uSGBD_OPN_SQLServer: TSGBD_OPN_CallBack = nil;
-   uSGBD_OPN_SQLite3  : TSGBD_OPN_CallBack = nil;
+   uSGBD_OPN_Informix      : TSGBD_OPN_CallBack = nil;
+   uSGBD_OPN_MySQL         : TSGBD_OPN_CallBack = nil;
+   uSGBD_OPN_SQLServer     : TSGBD_OPN_CallBack = nil;
+   uSGBD_OPN_SQLite3       : TSGBD_OPN_CallBack = nil;
+   uSGBD_OPN_SQLite_Android: TSGBD_OPN_CallBack = nil;
 
 implementation
 
 var
    FSGBD: TSGBD;
 
-function BATPRO6( _SGBD: TSGBD): Boolean;
-begin
-     Result:= sBATPRO6_SGBD[ _SGBD] = autoexec_SGBD;
-     if not Result then exit;
-
-     SGBD_Set( _SGBD, True);
-end;
-
 procedure uSGBD_Compute;
-   function Traite_AUTOEXEC: Boolean;
-   begin
-        Result:= ModeAUTOEXEC;
-        if not Result then exit;
-
-        if BATPRO6( sgbd_Informix ) then exit;
-        if BATPRO6( sgbd_MySQL    ) then exit;
-        if BATPRO6( sgbd_Postgres ) then exit;
-        if BATPRO6( sgbd_SQLServer) then exit;
-        if BATPRO6( sgbd_SQLite3  ) then exit;
-   end;
-
    function Traite_INI: Boolean;
    var
       iSGBD: Integer;
@@ -150,10 +125,9 @@ procedure uSGBD_Compute;
    end;
 begin
      {$ifdef android}
-     SGBD_Set( sgbd_SQLite3); exit;
+     SGBD_Set( sgbd_SQLite_Android); exit;
      {$endif}
 
-     if Traite_AUTOEXEC then exit;
      if Traite_INI      then exit;
      SGBD_Set( sgbd_MySQL   );
 end;
@@ -177,12 +151,13 @@ begin
          end;
      case SGBD
      of
-       sgbd_Informix : begin sgbd_DateSQL_function:= DateSQL_DMY2_Point; sgbd_DateTimeSQL_function:= DateTimeSQL_sans_quotes_DMY2; end;
-       sgbd_MySQL    : begin sgbd_DateSQL_function:= DateSQL_Y4MD_Tiret; sgbd_DateTimeSQL_function:= DateTimeSQL_sans_quotes     ; end;
-       sgbd_Postgres : begin sgbd_DateSQL_function:= DateSQL_Y4MD_Tiret; sgbd_DateTimeSQL_function:= DateTimeSQL_sans_quotes     ; end;
-       sgbd_SQLServer: begin sgbd_DateSQL_function:= DateSQL_ISO8601   ; sgbd_DateTimeSQL_function:= DateTime_ISO8601_sans_quotes; end;
-       sgbd_SQLite3  : begin sgbd_DateSQL_function:= DateSQL_Y4MD_Tiret; sgbd_DateTimeSQL_function:= DateTimeSQL_sans_quotes     ; end;
-       else           SGBD_non_gere( 'uSGBD.SGBD_Set');
+       sgbd_Informix        : begin sgbd_DateSQL_function:= DateSQL_DMY2_Point; sgbd_DateTimeSQL_function:= DateTimeSQL_sans_quotes_DMY2; end;
+       sgbd_MySQL           : begin sgbd_DateSQL_function:= DateSQL_Y4MD_Tiret; sgbd_DateTimeSQL_function:= DateTimeSQL_sans_quotes     ; end;
+       sgbd_Postgres        : begin sgbd_DateSQL_function:= DateSQL_Y4MD_Tiret; sgbd_DateTimeSQL_function:= DateTimeSQL_sans_quotes     ; end;
+       sgbd_SQLServer       : begin sgbd_DateSQL_function:= DateSQL_ISO8601   ; sgbd_DateTimeSQL_function:= DateTime_ISO8601_sans_quotes; end;
+       sgbd_SQLite3         : begin sgbd_DateSQL_function:= DateSQL_Y4MD_Tiret; sgbd_DateTimeSQL_function:= DateTimeSQL_sans_quotes     ; end;
+       sgbd_SQLite_Android  : begin sgbd_DateSQL_function:= DateSQL_Y4MD_Tiret; sgbd_DateTimeSQL_function:= DateTimeSQL_sans_quotes     ; end;
+       else                   SGBD_non_gere( 'uSGBD.SGBD_Set');
        end;
      pSGBDChange.Publie;
 end;
@@ -224,6 +199,11 @@ begin
      Result:= sgbd_SQLite3 = SGBD;
 end;
 
+function sgbdSQLite_Android: Boolean;
+begin
+     Result:= sgbd_SQLite_Android = SGBD;
+end;
+
 function sgbd_Substr( _NomChamp: String; _Debut, _Fin: Integer): String;
 var
    Longueur: Integer;
@@ -231,12 +211,13 @@ begin
      Longueur:= _fin - _Debut + 1;
      case SGBD
      of
-       sgbd_Informix : Result:= Format( '%s[%d,%d]'                    ,[_NomChamp, _Debut, _Fin    ]);
-       sgbd_MySQL    : Result:= Format( 'substring( %s,%d,%d)'         ,[_NomChamp, _Debut, Longueur]);
-       sgbd_Postgres : Result:= Format( 'substring( %s from %d for %d)',[_NomChamp, _Debut, Longueur]);
-       sgbd_SQLServer: Result:= Format( 'substring( %s,%d,%d)'         ,[_NomChamp, _Debut, Longueur]);
-       sgbd_SQLite3  : Result:= Format( 'substr( %s,%d,%d)'            ,[_NomChamp, _Debut, Longueur]);
-       else SGBD_non_gere( 'uSGBD.sgbd_Substr');
+       sgbd_Informix      : Result:= Format( '%s[%d,%d]'                    ,[_NomChamp, _Debut, _Fin    ]);
+       sgbd_MySQL         : Result:= Format( 'substring( %s,%d,%d)'         ,[_NomChamp, _Debut, Longueur]);
+       sgbd_Postgres      : Result:= Format( 'substring( %s from %d for %d)',[_NomChamp, _Debut, Longueur]);
+       sgbd_SQLServer     : Result:= Format( 'substring( %s,%d,%d)'         ,[_NomChamp, _Debut, Longueur]);
+       sgbd_SQLite3       : Result:= Format( 'substr( %s,%d,%d)'            ,[_NomChamp, _Debut, Longueur]);
+       sgbd_SQLite_Android: Result:= Format( 'substr( %s,%d,%d)'            ,[_NomChamp, _Debut, Longueur]);
+       else                 SGBD_non_gere( 'uSGBD.sgbd_Substr');
        end;
 
 end;
@@ -255,9 +236,10 @@ function sgbd_Limit( _NbLignes: Integer = 1): String;
 begin
      case SGBD
      of
-       sgbd_MYSQL  : Result:= 'limit '+IntToStr( _NbLignes);
-       sgbd_SQLite3: Result:= 'limit '+IntToStr( _NbLignes);
-       else          Result:= '';
+       sgbd_MYSQL         : Result:= 'limit '+IntToStr( _NbLignes);
+       sgbd_SQLite3       : Result:= 'limit '+IntToStr( _NbLignes);
+       sgbd_SQLite_Android: Result:= 'limit '+IntToStr( _NbLignes);
+       else                 Result:= '';
        end;
 end;
 
@@ -316,18 +298,26 @@ begin
          uSGBD_OPN_SQLite3;
 end;
 
+procedure Do_uSGBD_OPN_SQLite_Android;
+begin
+     if Assigned( uSGBD_OPN_SQLite_Android)
+     then
+         uSGBD_OPN_SQLite_Android;
+end;
+
 procedure uSGBD_OPN;
 begin
      if not uClean_fMot_de_passe_OPN_OK( 'OPN') then exit;
 
      case SGBD
      of
-       sgbd_Informix : Do_uSGBD_OPN_Informix;
-       sgbd_MySQL    : Do_uSGBD_OPN_MySQL;
-       sgbd_Postgres : Do_uSGBD_OPN_MySQL;
-       sgbd_SQLServer: Do_uSGBD_OPN_SQLServer;
-       sgbd_SQLite3  : Do_uSGBD_OPN_SQLite3;
-       else SGBD_non_gere( 'uSGBD_OPN');
+       sgbd_Informix      : Do_uSGBD_OPN_Informix;
+       sgbd_MySQL         : Do_uSGBD_OPN_MySQL;
+       sgbd_Postgres      : Do_uSGBD_OPN_MySQL;
+       sgbd_SQLServer     : Do_uSGBD_OPN_SQLServer;
+       sgbd_SQLite3       : Do_uSGBD_OPN_SQLite3;
+       sgbd_SQLite_Android: Do_uSGBD_OPN_SQLite_Android;
+       else                 SGBD_non_gere( 'uSGBD_OPN');
        end;
 end;
 
@@ -337,12 +327,13 @@ begin
 
      case SGBD
      of
-       sgbd_Informix: uClean_UsesCase_Execute( 'Requeteur_Informix',[_SQL]);
-       sgbd_MySQL   : uClean_UsesCase_Execute( 'Requeteur_MySQL'   ,[_SQL]);
-       sgbd_Postgres: uClean_UsesCase_Execute( 'OPN_Postgres'      ,[_SQL]);
-       sgbd_SQLServer: uClean_UsesCase_Execute( 'Requeteur_SQLServer'   ,[_SQL]);
-       sgbd_SQLite3 : uClean_UsesCase_Execute( 'Requeteur_SQLite3' ,[_SQL]);
-       else SGBD_non_gere( 'uSGBD_OPN_Requeteur');
+       sgbd_Informix       : uClean_UsesCase_Execute( 'Requeteur_Informix',[_SQL]);
+       sgbd_MySQL          : uClean_UsesCase_Execute( 'Requeteur_MySQL'   ,[_SQL]);
+       sgbd_Postgres       : uClean_UsesCase_Execute( 'OPN_Postgres'      ,[_SQL]);
+       sgbd_SQLServer      : uClean_UsesCase_Execute( 'Requeteur_SQLServer'   ,[_SQL]);
+       sgbd_SQLite3        : uClean_UsesCase_Execute( 'Requeteur_SQLite3' ,[_SQL]);
+       sgbd_SQLite_Android : uClean_UsesCase_Execute( 'Requeteur_SQLite_Android' ,[_SQL]);
+       else                  SGBD_non_gere( 'uSGBD_OPN_Requeteur');
        end;
 end;
 

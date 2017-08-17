@@ -25,8 +25,9 @@ library controls;  //[by Lamw: Lazarus Android Module Wizard: 27/05/2017 10:32:4
   
 uses
   Classes, SysUtils, And_jni, And_jni_Bridge, AndroidWidget, Laz_And_Controls,
-		Laz_And_Controls_Events, blcksock, uhAggregation, udmDatabase, uSQLite3,
-		upoolWork, ublWork, ublTag, upoolTag, upoolTag_Work, uamjsWorks, fphttpclient;
+		Laz_And_Controls_Events, blcksock, uhAggregation, udmDatabase,
+		upoolWork, ublWork, ublTag, upoolTag, upoolTag_Work,
+		uamjsWorks, fphttpclient;
   
 {%region /fold 'LAMW generated code'}
 

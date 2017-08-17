@@ -29,7 +29,7 @@ uses
     uForms,
     uEXE_INI,
     uSGBD,
-    uSQLite3,
+    uSQLite_Android,
 
     ublWork,
 
@@ -87,8 +87,9 @@ begin
      uEXE_INI_init_android( EnvironmentDirPath);
      tw.Text:= ClassName+'.amjsWorksJNIPrompt: Avant CopyFromAssetsToEnvironmentDir('+Filename+', '+EnvironmentDirPath+');';
      CopyFromAssetsToEnvironmentDir(Filename, EnvironmentDirPath);
-     SQLite3.DataBase:= IncludeTrailingPathDelimiter( EnvironmentDirPath)+Filename;
-     SGBD_Set( sgbd_SQLite3);
+     //SQLite_Android.DataBase:= IncludeTrailingPathDelimiter( EnvironmentDirPath)+Filename;
+     SQLite_Android.DataBase:= Filename;
+     SGBD_Set( sgbd_SQLite_Android);
      dmDatabase.Ouvre_db;
      sda.DataBaseName:= Filename;
 end;
