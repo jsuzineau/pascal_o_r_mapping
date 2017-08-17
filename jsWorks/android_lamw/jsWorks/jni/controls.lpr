@@ -26,7 +26,7 @@ library controls;  //[by Lamw: Lazarus Android Module Wizard: 27/05/2017 10:32:4
 uses
   Classes, SysUtils, And_jni, And_jni_Bridge, AndroidWidget, Laz_And_Controls,
 		Laz_And_Controls_Events, blcksock, uhAggregation, udmDatabase,
-		upoolWork, ublWork, ublTag, upoolTag, upoolTag_Work,
+		upoolWork, ublWork, ublTag, upoolTag, upoolTag_Work, ublType_Tag,
 		uamjsWorks, fphttpclient;
   
 {%region /fold 'LAMW generated code'}
@@ -358,17 +358,7 @@ begin
   Java_Event_pOnLayouting(PEnv, this, TObject(pasobj), changed);
 end;
 
-{ Class:     com_mars42_jsworks_jsworks_Controls
-  Method:    pOnWebViewStatus
-  Signature: (JILjava/lang/String;)I }
-function pOnWebViewStatus(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
-		EventType: JInt; url: JString): JInt; cdecl;
-begin
-  Result:=Java_Event_pOnWebViewStatus(PEnv, this, TObject(pasobj), EventType,
-				url);
-end;
-
-const NativeMethods: array[0..37] of JNINativeMethod = (
+const NativeMethods: array[0..36] of JNINativeMethod = (
    (name: 'pAppOnCreate';
     signature: '(Landroid/content/Context;Landroid/widget/RelativeLayout;'
       +'Landroid/content/Intent;)V';
@@ -480,10 +470,7 @@ const NativeMethods: array[0..37] of JNINativeMethod = (
     fnPtr: @pOnAfterDispatchDraw; ),
    (name: 'pOnLayouting';
     signature: '(JZ)V';
-    fnPtr: @pOnLayouting; ),
-   (name: 'pOnWebViewStatus';
-    signature: '(JILjava/lang/String;)I';
-    fnPtr: @pOnWebViewStatus; )
+    fnPtr: @pOnLayouting; )
 );
 
 function RegisterNativeMethodsArray(PEnv: PJNIEnv; className: PChar;
@@ -598,9 +585,7 @@ exports
     +'pOnBeforeDispatchDraw',
   pOnAfterDispatchDraw name 'Java_com_mars42_jsworks_jsworks_Controls_'
     +'pOnAfterDispatchDraw',
-  pOnLayouting name 'Java_com_mars42_jsworks_jsworks_Controls_pOnLayouting',
-  pOnWebViewStatus name 'Java_com_mars42_jsworks_jsworks_Controls_'
-    +'pOnWebViewStatus';
+  pOnLayouting name 'Java_com_mars42_jsworks_jsworks_Controls_pOnLayouting';
 
 {%endregion}
   

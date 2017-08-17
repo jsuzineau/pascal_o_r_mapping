@@ -168,7 +168,7 @@ type
     procedure Rafraichit_Champs_Calcules; virtual;
   //Gestion de la connection
   public
-    class function SQLConnection: TDatabase; virtual;
+    class function jsDataConnexion: TjsDataConnexion; virtual;
   //Gestion des champ de code et de libelle
   public
     cCode   : TChamp;
@@ -531,20 +531,20 @@ end;
 
 procedure TBatpro_Ligne.Save_to_database;
 begin
-     Modified:= not Champs_persistance.Save_to_database( Champs, SQLConnection);
+     Modified:= not Champs_persistance.Save_to_database( Champs, jsDataConnexion);
      Rafraichit_Champs_Calcules;
 end;
 
 procedure TBatpro_Ligne.Insert_into_database;
 begin
-     Modified:= not Champs_persistance.Insert_into_database( Champs, SQLConnection);
+     Modified:= not Champs_persistance.Insert_into_database( Champs, jsDataConnexion);
 end;
 
 function TBatpro_Ligne.Delete_from_database: Boolean;
 begin
      Aggregations.Delete_from_database;
      Supprime_Connections;
-     Result:= Champs_persistance.Delete_from_database( Champs, SQLConnection);
+     Result:= Champs_persistance.Delete_from_database( Champs, jsDataConnexion);
 end;
 
 function TBatpro_Ligne.GetChamps: TChamps;
@@ -935,9 +935,9 @@ begin
 
 end;
 
-class function TBatpro_Ligne.SQLConnection: TDatabase;
+class function TBatpro_Ligne.jsDataConnexion: TjsDataConnexion;
 begin
-     Result:= dmDatabase.sqlc;
+     Result:= dmDatabase.jsDataConnexion;
 end;
 
 function TBatpro_Ligne.Champ_a_editer( Contexte: Integer): TChamp;

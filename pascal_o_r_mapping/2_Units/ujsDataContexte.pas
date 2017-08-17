@@ -6,17 +6,75 @@ interface
 
 uses
     uClean,
+    u_sys_,
     uChrono,
+    ufAccueil_Erreur,
+    uuStrings,
     uBatpro_StringList,
     uDataUtilsF,
+    uLog,
  Classes, SysUtils, db, sqldb, strutils;
 
 type
+
+		{ TjsDataConnexion }
+
   TjsDataConnexion
   =
    class
+   //Gestion du cycle de vie
+   public
+     constructor Create; virtual;
+     destructor Destroy; override;
+   //SGBD
+   public
+     sSGBD: String;
+   //HostName
+   protected
+     FHostName : String;
+     procedure SetHostName(const Value: String); virtual;
+   public
+     property HostName: String read FHostName write SetHostName;
+   //User_Name
+   public
+	    User_Name: String;
+   //Password
+   public
+	    Password : String;
+   //Database
+   public
+     DataBase : String;
+   //Attributs
+   public
 
+     Database_indefinie: Boolean;
+	    Ouvrable: Boolean;
+     Ouvert: Boolean;
+	    procedure Prepare; virtual;
+     procedure Ouvre_db; virtual;
+     procedure Ferme_db; virtual;
+     procedure Keep_Connection; virtual;
+     procedure Do_not_Keep_Connection; virtual;
+     procedure Ecrire; virtual;
+     procedure Fill_with_databases( _s: TStrings); virtual;
+     function EmptyCommande( Commande: String): Boolean;
+     procedure DoCommande( Commande: String);            virtual;
+     function ExecQuery( _SQL: String): Boolean;         virtual;
+
+     procedure DoScript  ( NomFichierScriptSQL: String); virtual;
+     procedure DoLOAD_INTO_MarchesSystem( NomFichier, NomTable: String;
+                                          NbLignesEntete: Integer = 0);virtual;
+     procedure DoLOAD_INTO_INFORMIX     ( NomFichier, NomTable: String;
+                                          LinuxWindows_: Boolean); virtual;
+     function MySQLPath(NomFichier: String): String; virtual;
+     procedure Reconnecte; virtual;
+     function Base_sur: String; virtual;
+   //Gestion du log
+   public
+     procedure Start_SQLLog; virtual;
+     procedure  Stop_SQLLog; virtual;
 			end;
+  TjsDataConnexion_Class= class of TjsDataConnexion;
 
   PtrBoolean= ^Boolean;
   TjsDataType
@@ -206,12 +264,54 @@ type
      function Assure_Champ( _Champ_Nom: String): TjsDataContexte_Champ; override;
    end;
 
+		{ TjsDataConnexion_SQLQuery }
+
   TjsDataConnexion_SQLQuery
   =
    class( TjsDataConnexion)
-   //Database
+   //Gestion du cycle de vie
    public
-     Database: TDatabase;
+     constructor Create; override;
+     destructor Destroy; override;
+   //Transaction
+   protected
+     function Cree_SQLTransaction: TSQLTransaction; virtual;
+   protected
+     sqlt: TSQLTransaction;
+   //Connexion
+   protected
+     function Cree_SQLConnection: TSQLConnection; virtual;
+   public
+     sqlc: TSQLConnection;
+   //Attributs de connexion
+   public
+     procedure Prepare; override;
+     procedure Ouvre_db; override;
+     procedure Ferme_db; override;
+     procedure Keep_Connection; override;
+     procedure Do_not_Keep_Connection; override;
+     procedure Fill_with_databases( _s: TStrings); override;
+     procedure Connecte_SQLQuery( _SQLQuery: TSQLQuery);
+     procedure WriteParam(Key, Value: String);
+     procedure    DoCommande( Commande: String);          override;
+     function ExecQuery( _SQL: String): Boolean;          override;
+
+     procedure DoScript  ( NomFichierScriptSQL: String); override;
+     procedure DoLOAD_INTO_MarchesSystem( NomFichier, NomTable: String;
+                                          NbLignesEntete: Integer = 0); override;
+     procedure DoLOAD_INTO_INFORMIX     ( NomFichier, NomTable: String;
+                                          LinuxWindows_: Boolean);      override;
+     procedure Reconnecte; override;
+     procedure CopieConnection( source, cible: TDatabase);
+     procedure Init_Connection( _sqlc: TDatabase; _Database: String);
+   //Gestion du log
+   private
+     procedure GetLogEvent( _Sender: TSQLConnection;
+                            _EventType: TDBEventType;
+                            const _Msg : String);
+   public
+     procedure Start_SQLLog; override;
+     procedure  Stop_SQLLog; override;
 			end;
 
   { TjsDataContexte_SQLQuery }
@@ -291,6 +391,375 @@ type
 function jsDataContexte_Dataset_Null: TjsDataContexte_Dataset_Null;
 
 implementation
+
+{ TjsDataConnexion_SQLQuery }
+
+constructor TjsDataConnexion_SQLQuery.Create;
+begin
+		   inherited Create;
+     sqlt:= Cree_SQLTransaction;
+     sqlc:= Cree_SQLConnection;
+     sqlc.Transaction:= sqlt;
+end;
+
+destructor TjsDataConnexion_SQLQuery.Destroy;
+begin
+     FreeAndnil( sqlc);
+     FreeAndnil( sqlt);
+     inherited Destroy;
+end;
+
+function TjsDataConnexion_SQLQuery.Cree_SQLTransaction: TSQLTransaction;
+begin
+     Result:= TSQLTransaction.Create( nil);
+     with Result do Options:= Options+[stoUseImplicit];
+end;
+
+function TjsDataConnexion_SQLQuery.Cree_SQLConnection: TSQLConnection;
+begin
+     Result:= nil;
+     raise Exception.Create( ClassName+'.Cree_SQLConnection: appel d''une méthode abstraite');
+end;
+
+procedure TjsDataConnexion_SQLQuery.Prepare;
+begin
+
+end;
+
+procedure TjsDataConnexion_SQLQuery.Ouvre_db;
+begin
+     inherited Ouvre_db;
+
+     if nil = sqlc then exit;
+
+     //Log.PrintLn( ClassName+'.Ouvre_db: Avant ouverture connection');
+     Ouvert:= Ouvre_SQLConnection( sqlc);
+     //Log.PrintLn( ClassName+'.Ouvre_db: Aprés ouverture connection');
+     Log.PrintLn( Base_sur+' sqlc.Hostname='+sqlc.HostName+' sqlc.DatabaseName='+sqlc.DatabaseName);
+end;
+
+procedure TjsDataConnexion_SQLQuery.Ferme_db;
+begin
+     inherited Ferme_db;
+     if Assigned( sqlc) then sqlc.Close;
+end;
+
+procedure TjsDataConnexion_SQLQuery.Keep_Connection;
+begin
+     inherited Keep_Connection;
+     sqlc.KeepConnection:= True;
+     Ouvre_SQLConnection( sqlc);
+end;
+
+procedure TjsDataConnexion_SQLQuery.Do_not_Keep_Connection;
+begin
+     inherited Do_not_Keep_Connection;
+     sqlc.KeepConnection:= False;
+     sqlc.Connected     := False;
+end;
+
+procedure TjsDataConnexion_SQLQuery.Fill_with_databases(_s: TStrings);
+begin
+		   inherited Fill_with_databases(_s);
+     if _s = nil then exit;
+
+     if not sqlc.Connected
+     then
+         Ouvre_SQLConnection( sqlc);
+
+     sqlc.GetSchemaNames( _s);
+end;
+
+procedure TjsDataConnexion_SQLQuery.Connecte_SQLQuery(_SQLQuery: TSQLQuery);
+begin
+     _SQLQuery.Database   := sqlc;
+     _SQLQuery.Transaction:= sqlt;
+end;
+
+procedure TjsDataConnexion_SQLQuery.WriteParam(Key, Value: String);
+begin
+     sqlc.Params.Values[Key]:= Value;
+end;
+
+procedure TjsDataConnexion_SQLQuery.DoCommande(Commande: String);
+begin
+		   inherited DoCommande(Commande);
+     if EmptyCommande( Commande) then exit;
+     try
+        sqlc.ExecuteDirect( Commande);
+        Commande:= ChaineDe(80,'#')+ sys_N+ Commande + sys_N+ '---> Succés';
+        fAccueil_Log( Commande);
+     except
+           on E: EDatabaseError
+           do
+             begin
+             Commande:= ChaineDe(80,'#')+sys_N + Commande + sys_N+ '---> Echec:'+sys_N+
+                        E.Message;
+             fAccueil_Erreur( Commande);
+             end;
+           end;
+end;
+
+function TjsDataConnexion_SQLQuery.ExecQuery(_SQL: String): Boolean;
+begin
+		   Result:=inherited ExecQuery(_SQL);
+     Result:= uDataUtilsF.ExecQuery( sqlc, _SQL);
+end;
+
+procedure TjsDataConnexion_SQLQuery.DoScript(NomFichierScriptSQL: String);
+var
+   sl: TBatpro_StringList;
+   S: String;
+   Commande: String;
+begin
+   		inherited DoScript(NomFichierScriptSQL);
+     fAccueil_Log(   ChaineDe(80,'*')   +sys_N
+                   + NomFichierScriptSQL+sys_N
+                   + ChaineDe(80,'*')   +sys_N);
+     sl:= TBatpro_StringList.Create;
+     try
+        sl.LoadFromFile( NomFichierScriptSQL);
+
+        S:= sl.Text;
+     finally
+            Free_nil( sl);
+            end;
+
+     while S <> sys_Vide
+     do
+       begin
+       Commande:= StrTok( ';', S);
+       DoCommande( Commande);
+       end;
+end;
+
+procedure TjsDataConnexion_SQLQuery.DoLOAD_INTO_MarchesSystem( NomFichier,
+		                                                             NomTable: String;
+                                                               NbLignesEntete: Integer);
+begin
+   		inherited DoLOAD_INTO_MarchesSystem(NomFichier, NomTable, NbLignesEntete);
+     DoCommande( Format(  'LOAD DATA                             '+ sys_N
+                         +'     INFILE ''%s''                      '+ sys_N
+                         +'     REPLACE                          '+ sys_N
+                         +'     INTO TABLE %s                    '+ sys_N
+                         +'     FIELDS                           '+ sys_N
+                         +'           TERMINATED BY ''\t''         '+ sys_N
+                         +'           OPTIONALLY ENCLOSED BY ''|'' '+ sys_N
+                         +'     LINES                            '+ sys_N
+                         +'          TERMINATED BY ''\r\n''        '+ sys_N
+                         +'     IGNORE %d LINES                  '+ sys_N,
+                         [ MySQLPath( NomFichier), NomTable, NbLignesEntete]));
+end;
+
+procedure TjsDataConnexion_SQLQuery.DoLOAD_INTO_INFORMIX( NomFichier,
+		                                                        NomTable: String;
+                                                          LinuxWindows_: Boolean);
+var
+   FinLigne: String;
+begin
+   		inherited DoLOAD_INTO_INFORMIX(NomFichier, NomTable, LinuxWindows_);
+     if LinuxWindows_
+     then
+         FinLigne:=   '\n'
+     else
+         FinLigne:= '\r\n';
+     DoCommande( Format(  'LOAD DATA                             '+ sys_N
+                         +'     INFILE ''%s''                      '+ sys_N
+                         +'     REPLACE                          '+ sys_N
+                         +'     INTO TABLE %s                    '+ sys_N
+                         +'     FIELDS                           '+ sys_N
+                         +'           TERMINATED BY ''|''          '+ sys_N
+                         +'     LINES                            '+ sys_N
+                         +'          TERMINATED BY ''%s''          '+ sys_N,
+                         [ MySQLPath( NomFichier), NomTable, FinLigne]));
+end;
+
+procedure TjsDataConnexion_SQLQuery.Start_SQLLog;
+begin
+		   inherited Start_SQLLog;
+     sqlc.LogEvents:=LogAllEvents;
+     sqlc.OnLog:= GetLogEvent;
+end;
+
+procedure TjsDataConnexion_SQLQuery.Stop_SQLLog;
+begin
+		   inherited Stop_SQLLog;
+     sqlc.LogEvents:=[];
+     sqlc.OnLog    := nil;
+end;
+
+procedure TjsDataConnexion_SQLQuery.Reconnecte;
+begin
+     inherited Reconnecte;
+     sqlc.Connected:= False;
+     sqlc.Connected:= True;
+end;
+
+procedure TjsDataConnexion_SQLQuery.CopieConnection(source, cible: TDatabase);
+begin
+     cible.Assign( source);
+     (*cible.ConnectionName:= source.ConnectionName;
+     cible.DriverName    := source.DriverName    ;
+     cible.GetDriverFunc := source.GetDriverFunc ;
+     cible.LibraryName   := source.LibraryName   ;
+     cible.VendorLib     := source.VendorLib     ;*)
+     cible.Params.Text   := source.Params.Text   ;
+end;
+
+procedure TjsDataConnexion_SQLQuery.Init_Connection( _sqlc: TDatabase;
+		                                                   _Database: String);
+begin
+     CopieConnection( sqlc, _sqlc);
+     _sqlc.Params.Values['DataBase']:= _Database;
+end;
+
+procedure TjsDataConnexion_SQLQuery.GetLogEvent( _Sender: TSQLConnection;
+		                                               _EventType: TDBEventType;
+                                                 const _Msg: String);
+var
+  Source: string;
+begin
+     case _EventType
+     of
+       detCustom:   Source:='Custom:  ';
+       detPrepare:  Source:='Prepare: ';
+       detExecute:  Source:='Execute: ';
+       detFetch:    Source:='Fetch:   ';
+       detCommit:   Source:='Commit:  ';
+       detRollBack: Source:='Rollback:';
+       else Source:='Unknown event. Please fix program code.';
+     end;
+     Log.PrintLn( Source + ' ' + _Msg);
+end;
+
+{ TjsDataConnexion }
+
+constructor TjsDataConnexion.Create;
+begin
+     sSGBD:= '';
+     DataBase := '';
+     FHostName:= '';
+     User_Name:= '';
+     Password := '';
+
+	    Database_indefinie:= True;
+	    Ouvrable:= False;
+end;
+
+destructor TjsDataConnexion.Destroy;
+begin
+		   inherited Destroy;
+end;
+
+procedure TjsDataConnexion.SetHostName( const Value: String);
+begin
+     FHostName:= Value;
+end;
+
+procedure TjsDataConnexion.Prepare;
+begin
+
+end;
+
+procedure TjsDataConnexion.Ouvre_db;
+begin
+
+end;
+
+procedure TjsDataConnexion.Ferme_db;
+begin
+     Ouvert:= False;
+end;
+
+procedure TjsDataConnexion.Keep_Connection;
+begin
+
+end;
+
+procedure TjsDataConnexion.Do_not_Keep_Connection;
+begin
+
+end;
+
+procedure TjsDataConnexion.Ecrire;
+begin
+
+end;
+
+procedure TjsDataConnexion.Fill_with_databases(_s: TStrings);
+begin
+
+end;
+
+function TjsDataConnexion.EmptyCommande(Commande: String): Boolean;
+var
+   J: Integer;
+begin
+     Result:= True;
+     for J:= 1 to Length( Commande)
+     do
+       begin
+       Result:= Commande[J] in [' ', #13, #10];
+       if not Result then break;
+       end;
+end;
+
+procedure TjsDataConnexion.DoCommande(Commande: String);
+begin
+
+end;
+
+function TjsDataConnexion.ExecQuery(_SQL: String): Boolean;
+begin
+
+end;
+
+procedure TjsDataConnexion.DoScript(NomFichierScriptSQL: String);
+begin
+
+end;
+
+procedure TjsDataConnexion.DoLOAD_INTO_MarchesSystem(NomFichier,
+		NomTable: String; NbLignesEntete: Integer);
+begin
+
+end;
+
+procedure TjsDataConnexion.DoLOAD_INTO_INFORMIX(NomFichier, NomTable: String;
+		LinuxWindows_: Boolean);
+begin
+
+end;
+
+function TjsDataConnexion.MySQLPath(NomFichier: String): String;
+var
+   I: Integer;
+begin
+     Result:= NomFichier;
+     for I:= 1 to Length(Result)
+     do
+       if Result[I] = '\' then Result[I]:= '/';
+end;
+
+procedure TjsDataConnexion.Start_SQLLog;
+begin
+
+end;
+
+procedure TjsDataConnexion.Stop_SQLLog;
+begin
+
+end;
+
+procedure TjsDataConnexion.Reconnecte;
+begin
+
+end;
+
+function TjsDataConnexion.Base_sur: String;
+begin
+     Result:= 'base '+sSGBD+' '+DataBase+' sur '+HostName;
+end;
 
 { TjsDataContexte_Champ_Info }
 
@@ -825,7 +1294,7 @@ begin
          raise Exception.Create( ClassName+'.SetConnection: Wrong type');
 
      inherited;
-     sqlq.DataBase:= jsDataConnexion_SQLQuery.Database;
+     sqlq.DataBase:= jsDataConnexion_SQLQuery.sqlc;
 end;
 
 function TjsDataContexte_SQLQuery.RefreshQuery: Boolean;

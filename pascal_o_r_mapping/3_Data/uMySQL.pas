@@ -31,7 +31,9 @@ uses
     u_sys_,
     uRegistry,
     uEXE_INI,
+    ujsDataContexte,
     uSGBD,
+    uDataUtilsF,
     ufAccueil_Erreur,
   {$IFDEF FPC}
   mysql50conn,
@@ -51,7 +53,7 @@ type
 
  TMySQL
  =
-  class
+  class( TjsDataConnexion_SQLQuery)
   //Gestion du cycle de vie
   public
     constructor Create;
@@ -59,23 +61,26 @@ type
   //Persistance dans la base de registre
   private
     Initialized: Boolean;
-    procedure Lit  (NomValeur: String; var Valeur: String; _Mot_de_passe: Boolean= False);
-    procedure Ecrit(NomValeur: String; var Valeur: String; _Mot_de_passe: Boolean= False);
+    procedure Lit  (NomValeur: String; out Valeur: String; _Mot_de_passe: Boolean= False);
+    procedure Ecrit(NomValeur: String;     Valeur: String; _Mot_de_passe: Boolean= False);
   public
     procedure Assure_initialisation;
-    procedure Ecrire;
+    procedure Ecrire; override;
+	 //Connexion
+	 protected
+	   function Cree_SQLConnection: TSQLConnection; override;
   //Attributs
   public
-    HostName : String;
-    DataBase : String;
-    User_Name: String;
-    Password : String;
     Version  : String;
-    function Cree_Connection: TSQLConnection;
+  private
+    sqlqSHOW_DATABASES: TSQLQuery;
+  public
+    procedure Prepare; override;
+    procedure Ouvre_db; override;
+    procedure Ferme_db; override;
+    procedure Keep_Connection; override;
+    procedure Do_not_Keep_Connection; override;
   end;
-
-var
-   MySQL: TMySQL;
 
 const
      inis_mysql  = 'mysql';
@@ -100,27 +105,28 @@ end;
 constructor TMySQL.Create;
 begin
      inherited;
-     HostName := sys_Vide;
-     DataBase := sys_Vide;
-     User_Name:= sys_Vide;
-     Password := sys_Vide;
+     sSGBD:= sSGBDs[sgbd_MySQL];
      Version  := '50';
      Initialized:= False;
 
      {$ifndef android}
      Assure_initialisation;
      {$endif}
+
+     sqlqSHOW_DATABASES:= TSQLQuery.Create(nil);
+     sqlqSHOW_DATABASES.SQL.Text:= 'show databases';
 end;
 
 destructor TMySQL.Destroy;
 begin
+     FreeAndnil( sqlqSHOW_DATABASES);
      inherited;
 end;
 
 procedure TMySQL.Assure_initialisation;
 begin
      if Initialized then exit;
-     Lit( regv_HostName , HostName );
+     Lit( regv_HostName , FHostName );HostName:= FHostName;
      Lit( regv_Database , DataBase );
      Lit( regv_User_Name, User_Name);
      Lit( regv_PassWord , PassWord , True);
@@ -136,6 +142,8 @@ end;
 
 procedure TMySQL.Ecrire;
 begin
+     inherited Ecrire;
+
      Ecrit( regv_HostName , HostName );
      Ecrit( regv_Database , DataBase );
      Ecrit( regv_User_Name, User_Name);
@@ -143,7 +151,7 @@ begin
      Ecrit( inik_Version  , Version);
 end;
 
-function TMySQL.Cree_Connection: TSQLConnection;
+function TMySQL.Cree_SQLConnection: TSQLConnection;
 begin
      {$ifndef android}
      Log.PrintLn( 'Fichier ini:' +EXE_INI.FileName);
@@ -171,7 +179,56 @@ begin
          //Result.CharSet:= 'cp850';
 end;
 
-procedure TMySQL.Lit( NomValeur: String; var Valeur: String; _Mot_de_passe: Boolean= False);
+procedure TMySQL.Prepare;
+begin
+		   inherited Prepare;
+     Database_indefinie:= (DataBase = sys_Vide) or (DataBase='---');
+     if Database_indefinie
+     then
+         DataBase:= 'mysql'
+     else
+         Database_indefinie:= DataBase = 'mysql';
+
+     Ouvrable
+     :=
+           (HostName  <> sys_Vide)
+       and (User_Name <> sys_Vide)
+       and (Database  <> sys_Vide);
+
+     sqlc.HostName:= HostName;
+     sqlc.UserName:= User_Name;
+     sqlc.Password:= Password;
+     sqlc.DatabaseName:= Database;
+end;
+
+procedure TMySQL.Ouvre_db;
+begin
+		   inherited Ouvre_db;
+
+     Connecte_SQLQuery( sqlqSHOW_DATABASES);
+     if RefreshQuery( sqlqSHOW_DATABASES) // liste des bases mysql
+     then
+         sqlqSHOW_DATABASES.Locate('Database', DataBase, []);
+end;
+
+procedure TMySQL.Ferme_db;
+begin
+     sqlqSHOW_DATABASES.Close;
+
+     inherited Ferme_db;
+end;
+
+procedure TMySQL.Keep_Connection;
+begin
+		   inherited Keep_Connection;
+end;
+
+procedure TMySQL.Do_not_Keep_Connection;
+begin
+		   inherited Do_not_Keep_Connection;
+end;
+
+procedure TMySQL.Lit( NomValeur: String; out Valeur: String; _Mot_de_passe: Boolean= False);
 var
    ValeurBrute: String;
 begin
@@ -183,7 +240,7 @@ begin
          Valeur:= ValeurBrute;
 end;
 
-procedure TMySQL.Ecrit( NomValeur: String; var Valeur: String; _Mot_de_passe: Boolean= False);
+procedure TMySQL.Ecrit( NomValeur: String; Valeur: String; _Mot_de_passe: Boolean= False);
 var
    ValeurBrute: String;
 begin
@@ -200,8 +257,4 @@ begin
      EXE_INI.WriteString( inis_mysql, NomValeur, ValeurBrute);
 end;
 
-initialization
-              MySQL:= TMySQL.Create;
-finalization
-              Free_nil( MySQL);
 end.

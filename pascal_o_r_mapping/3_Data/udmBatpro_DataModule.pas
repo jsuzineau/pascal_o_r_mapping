@@ -187,7 +187,7 @@ end;
 
 procedure Ouvre_Modules_Login;
 begin
-     if not dmDatabase.Ouvert then exit; //peut se produire dans les tests unitaires
+     if not dmDatabase.jsDataConnexion.Ouvert then exit; //peut se produire dans les tests unitaires
 
      Ouvre_Modules( True);
      pLogin.Publie;
@@ -195,7 +195,7 @@ end;
 
 procedure Ouvre_Modules_Edition( isLogin: Boolean);
 begin
-     if not dmDatabase.Ouvert then exit; //peut se produire dans les tests unitaires
+     if not dmDatabase.jsDataConnexion.Ouvert then exit; //peut se produire dans les tests unitaires
 
      Do_Ouvre_Modules( isLogin, True);
 end;

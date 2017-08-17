@@ -41,10 +41,10 @@ type
 
  TSQLite_Android
  =
-  class
+  class( TjsDataConnexion)
   //Gestion du cycle de vie
   public
-    constructor Create;
+    constructor Create; override;
     destructor Destroy; override;
   //Persistance dans la base de registre
   private
@@ -53,11 +53,19 @@ type
     procedure Ecrit(NomValeur: String; var Valeur: String; _Mot_de_passe: Boolean= False);
   public
     procedure Assure_initialisation;
-    procedure Ecrire;
+    procedure Ecrire; override;
   //Attributs
   public
-    DataBase: String;
-    function Cree_Connection: TSQLite3Connection;
+    procedure Prepare; override;
+    procedure Ouvre_db; override;
+    procedure Ferme_db; override;
+    procedure Keep_Connection; override;
+    procedure Do_not_Keep_Connection; override;
+    procedure Fill_with_databases( _s: TStrings); override;
+    procedure DoCommande( Commande: String);      override;
+    function  ExecQuery( _SQL: String): Boolean;  override;
+    procedure DoScript  ( NomFichierScriptSQL: String); override;
+    procedure Reconnecte; override;
   end;
 
  { TSQLITE3_StorageType }
@@ -226,17 +234,8 @@ end;
 
 procedure TSQLite_Android.Ecrire;
 begin
+     inherited Ecrire;
      Ecrit( regv_Database , DataBase );
-end;
-
-function TSQLite_Android.Cree_Connection: TSQLite3Connection;
-begin
-     Result:= TSQLite3Connection.Create(nil);
-     if Assigned( Result)
-     then
-         Result.CharSet:= 'latin1';
-         //Result.CharSet:= 'utf8';
-         //Result.CharSet:= 'cp850';
 end;
 
 procedure TSQLite_Android.Lit( NomValeur: String; var Valeur: String; _Mot_de_passe: Boolean= False);
@@ -266,6 +265,56 @@ begin
          ValeurBrute:= Valeur;
 
      EXE_INI.WriteString( inis_sqlite3, NomValeur, ValeurBrute);
+end;
+
+procedure TSQLite_Android.Prepare;
+begin
+		   inherited Prepare;
+end;
+
+procedure TSQLite_Android.Ouvre_db;
+begin
+		   inherited Ouvre_db;
+end;
+
+procedure TSQLite_Android.Ferme_db;
+begin
+		   inherited Ferme_db;
+end;
+
+procedure TSQLite_Android.Keep_Connection;
+begin
+		   inherited Keep_Connection;
+end;
+
+procedure TSQLite_Android.Do_not_Keep_Connection;
+begin
+		   inherited Do_not_Keep_Connection;
+end;
+
+procedure TSQLite_Android.Fill_with_databases(_s: TStrings);
+begin
+		   inherited Fill_with_databases(_s);
+end;
+
+procedure TSQLite_Android.DoCommande(Commande: String);
+begin
+		   inherited DoCommande(Commande);
+end;
+
+function TSQLite_Android.ExecQuery(_SQL: String): Boolean;
+begin
+		   Result:=inherited ExecQuery(_SQL);
+end;
+
+procedure TSQLite_Android.DoScript(NomFichierScriptSQL: String);
+begin
+		   inherited DoScript(NomFichierScriptSQL);
+end;
+
+procedure TSQLite_Android.Reconnecte;
+begin
+		   inherited Reconnecte;
 end;
 
 { TField_libsqlite3 }

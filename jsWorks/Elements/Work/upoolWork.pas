@@ -337,13 +337,13 @@ procedure TpoolWork.Charge_Periode( _Debut, _Fin: TDateTime; _idTag: Integer= 0;
                end;
    end;
 begin
-     dmDatabase.Start_SQLLog;
+     Connection.Start_SQLLog;
 
      //Version_avec_sgbd_DateTimeSQL;
      //Version_avec_TParams;
      Version_avec_les_deux;
      Tri.Execute( _slLoaded);
-     dmDatabase.Stop_SQLLog;
+     Connection.Stop_SQLLog;
 end;
 procedure TpoolWork.Charge_Tag(_idTag: Integer; _slLoaded: TBatpro_StringList);
 var

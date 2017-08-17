@@ -44,7 +44,7 @@ type
 
  TSQLite3
  =
-  class
+  class( TjsDataConnexion_SQLQuery)
   //Gestion du cycle de vie
   public
     constructor Create;
@@ -56,11 +56,21 @@ type
     procedure Ecrit(NomValeur: String; var Valeur: String; _Mot_de_passe: Boolean= False);
   public
     procedure Assure_initialisation;
-    procedure Ecrire;
+    procedure Ecrire; override;
+ 	//Connexion
+ 	protected
+ 	  function Cree_SQLConnection: TSQLConnection; override;
+  public
+    sqlcSQLite3: TSQLite3Connection;
   //Attributs
   public
     DataBase: String;
-    function Cree_Connection: TSQLite3Connection;
+  public
+    procedure Prepare; override;
+    procedure Ouvre_db; override;
+    procedure Ferme_db; override;
+    procedure Keep_Connection; override;
+    procedure Do_not_Keep_Connection; override;
   end;
 
  { TSQLITE3_StorageType }
@@ -190,9 +200,6 @@ type
     function Assure_Champ( _Champ_Nom: String): TjsDataContexte_Champ; override;
   end;
 
-var
-   SQLite3: TSQLite3;
-
 const
      inis_sqlite3  = 'SQLite3';
 
@@ -213,16 +220,20 @@ end;
 constructor TSQLite3.Create;
 begin
      inherited;
+     sSGBD:= sSGBDs[sgbd_SQLite3];
+     HostName:= 'local filesystem';
      DataBase := sys_Vide;
      Initialized:= False;
 
      {$ifndef android}
      Assure_initialisation;
      {$endif}
+     Affecte( sqlcSQLite3, TSQLite3Connection, sqlc);
 end;
 
 destructor TSQLite3.Destroy;
 begin
+     sqlcSQLite3:= nil;
      inherited;
 end;
 
@@ -235,17 +246,8 @@ end;
 
 procedure TSQLite3.Ecrire;
 begin
+     inherited Ecrire;
      Ecrit( regv_Database , DataBase );
-end;
-
-function TSQLite3.Cree_Connection: TSQLite3Connection;
-begin
-     Result:= TSQLite3Connection.Create(nil);
-     if Assigned( Result)
-     then
-         Result.CharSet:= 'latin1';
-         //Result.CharSet:= 'utf8';
-         //Result.CharSet:= 'cp850';
 end;
 
 procedure TSQLite3.Lit( NomValeur: String; var Valeur: String; _Mot_de_passe: Boolean= False);
@@ -275,6 +277,58 @@ begin
          ValeurBrute:= Valeur;
 
      EXE_INI.WriteString( inis_sqlite3, NomValeur, ValeurBrute);
+end;
+
+function TSQLite3.Cree_SQLConnection: TSQLConnection;
+begin
+     Result:= TSQLite3Connection.Create(nil);
+     if Assigned( Result)
+     then
+         Result.CharSet:= 'latin1';
+         //Result.CharSet:= 'utf8';
+         //Result.CharSet:= 'cp850';
+end;
+
+procedure TSQLite3.Prepare;
+var
+   Default_Database: String;
+begin
+     Default_Database:= GetCurrentDir+DirectorySeparator+'SQLite3_database.db';
+
+     Database_indefinie:= (DataBase = sys_Vide) or (DataBase='---');
+     if Database_indefinie
+     then
+         DataBase:= Default_Database
+     else
+         Database_indefinie:= DataBase = Default_Database;
+
+     Ouvrable
+     :=
+            (Database  <> sys_Vide)
+        and FileExists(Database);
+
+     sqlcSQLite3.DatabaseName:= Database;
+
+end;
+
+procedure TSQLite3.Ouvre_db;
+begin
+
+end;
+
+procedure TSQLite3.Ferme_db;
+begin
+
+end;
+
+procedure TSQLite3.Keep_Connection;
+begin
+
+end;
+
+procedure TSQLite3.Do_not_Keep_Connection;
+begin
+
 end;
 
 { TField_libsqlite3 }
@@ -550,8 +604,7 @@ begin
 
      slErrorLog:= TStringList.Create;
 
-     FConnection:= nil;
-     SQLite3Connection:= nil;
+     jsDataConnexion_SQLite3:= nil;
 
      FNomFichierBase:= '';
      pDb:= nil;
@@ -906,8 +959,4 @@ begin
      jsdcc.F:= F;
 end;
 
-initialization
-              SQLite3:= TSQLite3.Create;
-finalization
-              Free_nil( SQLite3);
 end.

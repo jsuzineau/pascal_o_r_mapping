@@ -27,9 +27,11 @@ interface
 
 uses
     uClean,
+    uBatpro_StringList,
     uuStrings,
     uDataUtilsF,
     uSGBD,
+    ujsDataContexte,
 
     udmDatabase,
 
@@ -43,11 +45,12 @@ type
   class
   //Gestion du cycle de vie
   public
-    constructor Create( _Connection: Tfunction_GetConnection);
+    constructor Create( _Connexion: Tfunction_GetConnexion);
     destructor Destroy; override;
   //Connection
   public
-    Connection: Tfunction_GetConnection;
+    Connexion: Tfunction_GetConnexion;
+    function Connection: TSQLConnection;
   //SQLQuery
   public
     sqlq: TSQLQuery;
@@ -125,14 +128,12 @@ type
     function Execute: Boolean;
   end;
 
-function     Requete: TRequete;
-function GED_Requete: TRequete;
+function Requete: TRequete;
 
 implementation
 
 var
-       FRequete: TRequete= nil;
-   FGED_Requete: TRequete= nil;
+   FRequete: TRequete= nil;
 
 function Requete: TRequete;
 begin
@@ -142,21 +143,13 @@ begin
      Result:= FRequete;
 end;
 
-function GED_Requete: TRequete;
-begin
-     if nil = FGED_Requete
-     then
-         FGED_Requete:= TRequete.Create( dmDatabase.Connection_GED);
-     Result:= FGED_Requete;
-end;
-
 { TRequete }
 
-constructor TRequete.Create( _Connection: Tfunction_GetConnection);
+constructor TRequete.Create(_Connexion: Tfunction_GetConnexion);
 begin
      inherited Create;
 
-     Connection:= _Connection;
+     Connexion:= _Connexion;
 
      sqlq:= TSQLQuery.Create( nil);
      sqlq.Name:= 'sqlq';
@@ -168,6 +161,17 @@ destructor TRequete.Destroy;
 begin
 
   inherited;
+end;
+
+function TRequete.Connection: TSQLConnection;
+var
+   jsdcs: TjsDataConnexion_SQLQuery;
+begin
+     if Affecte_( jsdcs, TjsDataConnexion_SQLQuery, Connexion)
+     then
+         raise Exception.Create( ClassName+'.Connection: TDatabase: impossible de convertir Connexion en TjsDataConnexion_SQLQuery');
+
+     Result:= jsdcs.sqlc;
 end;
 
 function TRequete.Est_Vide( _SQL: String): Boolean;

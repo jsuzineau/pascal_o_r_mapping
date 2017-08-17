@@ -579,7 +579,7 @@ type
     function Cree_Element( _jsdc: TjsDataContexte): TBatpro_Ligne; virtual; // permet de sélectionner des classes différentes
   //Récupération d'id
   private
-    sqlqID_Recuperation: TSQLQuery;
+    jsdcID_Recuperation: TjsDataContexte;
   protected
     SQL_Recuperation: String;
   //Nom de la table
@@ -649,7 +649,7 @@ type
                                          Vider: Boolean = True);
   //Chargement de toutes les lignes
   private
-    sqlq_SELECT_ALL_count: TSQLQuery;
+    jsdcSELECT_ALL_count: TjsDataContexte;
   public//en public juste pour uaA_PST
     jsdcSELECT_ALL: TjsDataContexte;
     ToutCharger_SQL_suffixe: String;
@@ -741,7 +741,7 @@ type
     procedure Cree_nul( var _bl; _Classe_Element_null: TBatpro_Ligne_Class= nil);
   //Gestion de la connection
   public
-    function Connection: TDatabase; virtual;
+    function Connection: TjsDataConnexion; virtual;
   //Objet de requete
   public
     function r: TRequete; virtual;
@@ -923,14 +923,14 @@ end;
 
 procedure TPool.SetUsePrimaryKeyAsKey( _Value: Boolean);
 begin
-     jsdcSELECT           .UsePrimaryKeyAsKey:= _Value;
-     jsdcLoad             .UsePrimaryKeyAsKey:= _Value;
-     jsdcSELECT_from_id   .UsePrimaryKeyAsKey:= _Value;
-     sqlq_SELECT_ALL_count.UsePrimaryKeyAsKey:= _Value;
-     jsdcSELECT_ALL       .UsePrimaryKeyAsKey:= _Value;
-     sqlqID_Recuperation  .UsePrimaryKeyAsKey:= _Value;
-     jsdcINSERT           .UsePrimaryKeyAsKey:= _Value;
-     jsdcLoad_by_id       .UsePrimaryKeyAsKey:= _Value;
+     jsdcSELECT          .UsePrimaryKeyAsKey:= _Value;
+     jsdcLoad            .UsePrimaryKeyAsKey:= _Value;
+     jsdcSELECT_from_id  .UsePrimaryKeyAsKey:= _Value;
+     jsdcSELECT_ALL_count.UsePrimaryKeyAsKey:= _Value;
+     jsdcSELECT_ALL      .UsePrimaryKeyAsKey:= _Value;
+     jsdcID_Recuperation .UsePrimaryKeyAsKey:= _Value;
+     jsdcINSERT          .UsePrimaryKeyAsKey:= _Value;
+     jsdcLoad_by_id      .UsePrimaryKeyAsKey:= _Value;
 end;
 
 constructor TPool.Create(_sl: TBatpro_StringList);
@@ -941,14 +941,12 @@ begin
      jsdcLoad          := Cree_Contexte( ClassName+'.jsdcLoad'          );
      jsdcSELECT_from_id:= Cree_Contexte( ClassName+'.jsdcSELECT_from_id');
 
-     sqlq_SELECT_ALL_count:= TSQLQuery.Create( nil);
-     sqlq_SELECT_ALL_count.Name:= 'sqlq_SELECT_ALL_count';
+     jsdcSELECT_ALL_count:= Cree_Contexte( ClassName+'.jsdcSELECT_ALL_count');
 
      jsdcSELECT_ALL    := Cree_Contexte( ClassName+'.jsdcSELECT_ALL');
 
      SQL_Recuperation:= '';
-     sqlqID_Recuperation:= TSQLQuery.Create( nil);
-     sqlqID_Recuperation.Name:= 'sqlqID_Recuperation';
+     jsdcID_Recuperation:=Cree_Contexte( ClassName+'.jsdcID_Recuperation');
 
      jsdcINSERT:= Cree_Contexte( ClassName+'.jsdcINSERT');
 
@@ -972,9 +970,9 @@ begin
      Free_nil( jsdcSELECT);
      Free_nil( jsdcLoad  );
      Free_nil( jsdcSELECT_from_id);
-     Free_nil(sqlq_SELECT_ALL_count);
+     Free_nil( jsdcSELECT_ALL_count);
      Free_nil( jsdcSELECT_ALL);
-     Free_nil( sqlqID_Recuperation  );
+     Free_nil( jsdcID_Recuperation);
      Free_nil( jsdcINSERT);
      Free_nil( jsdcLoad_by_id);
      Free_nil( jsdcCD_FROM_INSERT);
@@ -1042,7 +1040,7 @@ begin
     Recuperer:= Trim( SQL_Recuperation) <> sys_Vide;
     if Recuperer
     then
-        sqlqID_Recuperation.SQL.Text:= SQL_Recuperation;
+        jsdcID_Recuperation.SQL:= SQL_Recuperation;
 
     ToutCharger_direct_effectue:= False;
 
@@ -1362,13 +1360,13 @@ begin
      if Recuperer
      then
          begin
-         sqlqID_Recuperation.Database:= Connection;
-         if RefreshQuery( sqlqID_Recuperation)
+         jsdcID_Recuperation.Connection:= Connection;
+         if jsdcID_Recuperation.RefreshQuery
          then
              begin
-             sqlqID_Recuperation.First;
+             jsdcID_Recuperation.First;
 
-             _id:= sqlqID_Recuperation.FieldByName('id').AsInteger;
+             _id:= jsdcID_Recuperation.Assure_Champ('id').AsInteger;
              end;
          end;
 
@@ -1450,16 +1448,16 @@ function TPool.ToutCharger_Count: Integer;
 begin
      Verifie_ToutCharger_SQL_suffixe;
 
-     sqlq_SELECT_ALL_count.Database:= Connection;
-     sqlq_SELECT_ALL_count.SQL.Text
+     jsdcSELECT_ALL_count.Connection:= Connection;
+     jsdcSELECT_ALL_count.SQL
      :=
        'select count(*) as Resultat from '+NomTable+ToutCharger_SQL_suffixe;
      (*dmxG3_UTI.To_SQLQuery_Params( sqlq_SELECT_ALL_count);*)
-     if not RefreshQuery( sqlq_SELECT_ALL_count)
+     if not jsdcSELECT_ALL_count.RefreshQuery
      then
          Result:= 0
      else
-         Result:= sqlq_SELECT_ALL_count.FieldByName('Resultat').AsInteger;
+         Result:= jsdcSELECT_ALL_count.Assure_Champ('Resultat').AsInteger;
 end;
 
 procedure TPool.ToutCharger(  slLoaded: TBatpro_StringList = nil;
@@ -2206,19 +2204,19 @@ begin
      TBatpro_Ligne( _bl):= _Classe_Element_null.Create( slT, nil, Self);
 end;
 
-function TPool.Connection: TDatabase;
+function TPool.Connection: TjsDataConnexion;
 begin
-     Result:= dmDatabase.sqlc;
+     Result:= dmDatabase.jsDataConnexion;
 end;
 
 procedure TPool.Vider_table;
 begin
-     dmDatabase.DoCommande( 'truncate '+NomTable);
+     Connection.DoCommande( 'truncate '+NomTable);
 end;
 
 procedure TPool.Detruire_table;
 begin
-     dmDatabase.DoCommande( 'drop table '+NomTable);
+     Connection.DoCommande( 'drop table '+NomTable);
 end;
 
 procedure TPool.Supprimer_par_id( _SQL: String;

@@ -203,7 +203,7 @@ begin
 
      dmDatabase.Ouvre_db;
 
-     Caption:= Caption+' - '+dmDatabase.Base_sur;
+     Caption:= Caption+' - '+dmDatabase.jsDataConnexion.Base_sur;
      poolCategorie.ToutCharger;
      poolState    .ToutCharger;
 

@@ -31,8 +31,10 @@ uses
     u_sys_,
     uRegistry,
     uSGBD,
+    uDataUtilsF,
     uMySQL,//juste pour fonction crypto
     uEXE_INI,
+    ujsDataContexte,
 
     ufAccueil_Erreur,
 
@@ -40,12 +42,15 @@ uses
     Windows, Messages,
     {$ENDIF}
     //Dialogs, Forms,
-    SysUtils, Registry, SQLDB;
+    SysUtils, Registry, SQLDB, odbcconn;
 
 type
+
+	{ TInformix }
+
  TInformix
  =
-  class
+  class( TjsDataConnexion_SQLQuery)
   //Gestion du cycle de vie
   public
     constructor Create;
@@ -56,18 +61,20 @@ type
     function  Lit_simple( NomValeur: String; Crypter: Boolean= False): String;
     procedure Lecture_simple;
   public
-    procedure Ecrire;
-  //Attributs
+    procedure Ecrire; override;
+  //Transaction
+  protected
+    function Cree_SQLTransaction: TSQLTransaction; override;
+  //Connexion
+  protected
+    function Cree_SQLConnection: TSQLConnection; override;
+  //HostName
   private
-    FHostName : String;
     procedure Set_INFORMIXSERVER(Value: String);
-    procedure SetHostName(const Value: String);
+  protected
+    procedure SetHostName(const Value: String); override;
+  //Attributs
   public
-    property HostName: String read FHostName write SetHostName;
-  public
-    DataBase : String;
-    User_Name: String;
-    Password : String;
     procedure Efface;
     function Vide: Boolean;
   {$IFNDEF FPC}
@@ -79,10 +86,19 @@ type
   public
     procedure SetNet32;
     procedure DBPing;
+  //Attributs de connexion
+  private
+    sqltSYSMASTER: TSQLTransaction;
+    sqlqSYSDATABASES: TSQLQuery;
+  public
+    sqlc         : TSQLConnection;
+    sqlcSYSMASTER: TSQLConnection;
+    procedure Prepare; override;
+    procedure Ouvre_db; override;
+    procedure Ferme_db; override;
+    procedure Keep_Connection; override;
+    procedure Do_not_Keep_Connection; override;
   end;
-
-var
-   Informix: TInformix;
 
 const
      inis_informix= 'informix';
@@ -95,19 +111,41 @@ implementation
 constructor TInformix.Create;
 begin
      inherited;
-     FHostName:= sys_Vide;
-     DataBase := sys_Vide;
-     User_Name:= sys_Vide;
-     Password := sys_Vide;
+     sSGBD:= sSGBDs[sgbd_Informix];
+
+     sqltSYSMASTER:= Cree_SQLTransaction;
+
+     sqlcSYSMASTER:= Cree_SQLConnection;
+     sqlcSYSMASTER.Transaction:= sqltSYSMASTER;
+     sqlcSYSMASTER.DatabaseName:= 'sysmaster';
+
+     sqlqSYSDATABASES:= TSQLQuery.Create(nil);
+     sqlqSYSDATABASES.SQL.Text:= 'select * from sysdatabases where name <> "sysmaster" and name <> "sysutils"';
+     sqlqSYSDATABASES.Transaction:= sqltSYSMASTER;
 
      pSGBDChange.Abonne( Self, Lecture_simple);
      Lecture_simple;
+
 end;
 
 destructor TInformix.Destroy;
 begin
      pSGBDChange.DesAbonne( Self, Lecture_simple);
+
+     FreeAndnil( sqlqSYSDATABASES);
+     FreeAndnil( sqlcSYSMASTER);
+     FreeAndnil( sqltSYSMASTER);
      inherited;
+end;
+
+function TInformix.Cree_SQLTransaction: TSQLTransaction;
+begin
+     Result:= TSQLTransaction.Create( nil);
+end;
+
+function TInformix.Cree_SQLConnection: TSQLConnection;
+begin
+		   Result:= TODBCConnection.Create(nil);
 end;
 
 procedure TInformix.Lecture_simple;
@@ -123,6 +161,8 @@ end;
 
 procedure TInformix.Ecrire;
 begin
+     inherited Ecrire;
+
      Ecrit( regv_HostName , HostName );
      Ecrit( regv_Database , DataBase );
      Ecrit( regv_User_Name, User_Name);
@@ -259,7 +299,7 @@ end;
 
 procedure TInformix.SetHostName(const Value: String);
 begin
-     FHostName:= Value;
+     inherited SetHostName( Value);
      Set_INFORMIXSERVER( HostName);
 end;
 
@@ -296,8 +336,64 @@ begin
      {$ENDIF}
 end;
 
-initialization
-              Informix:= TInformix.Create;
-finalization
-              Free_nil( Informix);
+procedure TInformix.Prepare;
+begin
+     inherited Prepare;
+
+     Database_indefinie:= DataBase = sys_Vide;
+     if Database_indefinie
+     then
+         DataBase:= 'sysmaster'
+     else
+         Database_indefinie:= DataBase = 'sysmaster';
+
+     Ouvrable
+     :=
+       //    (Informix.HostName  <> sys_Vide)
+       //and (Informix.User_Name <> sys_Vide)
+       (*and*) (Database  <> sys_Vide);
+
+
+     sqlc.DatabaseName:= Database;
+     //WriteParam( 'HostName' , Informix.HostName );
+     //WriteParam( 'User_Name', Informix.User_Name);
+     //WriteParam( 'Password' , Informix.Password );
+     //WriteParam( 'DataBase' , Informix.Database );
+end;
+
+procedure TInformix.Ouvre_db;
+begin
+		   inherited Ouvre_db;
+     if not Ouvert then exit;
+
+     if Ouvre_SQLConnection( sqlcSYSMASTER) // liste des bases informix
+     then
+         if RefreshQuery( sqlqSYSDATABASES)
+         then
+             sqlqSYSDATABASES.Locate('name', DataBase, []);
+end;
+
+procedure TInformix.Ferme_db;
+begin
+		   inherited Ferme_db;
+     sqlqSYSDATABASES.Close;
+     sqlcSYSMASTER   .Close;
+end;
+
+procedure TInformix.Keep_Connection;
+begin
+     inherited Keep_Connection;
+
+     sqlcSYSMASTER.KeepConnection:= True;
+     Ouvre_SQLConnection( sqlcSYSMASTER);
+end;
+
+procedure TInformix.Do_not_Keep_Connection;
+begin
+     inherited Do_not_Keep_Connection;
+
+     sqlcSYSMASTER.KeepConnection:= False;
+     sqlcSYSMASTER.Connected:= False;
+end;
+
 end.
