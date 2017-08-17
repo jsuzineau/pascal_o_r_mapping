@@ -45,8 +45,8 @@ type
  TpoolG_BECPCTX
  =
   class( TPool)
-    procedure DataModuleCreate(Sender: TObject);
-    procedure DataModuleDestroy(Sender: TObject);
+    procedure DataModuleCreate(Sender: TObject);  override;
+    procedure DataModuleDestroy(Sender: TObject);  override;
   //Filtre
   public
     hfG_BECPCTX: ThfG_BECPCTX;
@@ -82,14 +82,14 @@ function poolG_BECPCTX: TpoolG_BECPCTX;
 
 implementation
 
-{$R *.lfm}
+
 
 var
    FpoolG_BECPCTX: TpoolG_BECPCTX;
 
 function poolG_BECPCTX: TpoolG_BECPCTX;
 begin
-     Clean_Get( Result, FpoolG_BECPCTX, TpoolG_BECPCTX);
+     TpoolG_BECPCTX.class_Get( Result, FpoolG_BECPCTX, TpoolG_BECPCTX);
 end;
 
 { TpoolG_BECPCTX }
@@ -203,8 +203,7 @@ begin
 end;
 
 initialization
-              Clean_Create ( FpoolG_BECPCTX, TpoolG_BECPCTX);
 finalization
-              Clean_destroy( FpoolG_BECPCTX);
+              TPool.class_Destroy( FpoolG_BECPCTX);
 end.
 

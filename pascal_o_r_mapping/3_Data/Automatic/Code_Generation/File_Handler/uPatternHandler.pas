@@ -27,44 +27,134 @@ interface
 
 uses
     uForms,
-    SysUtils, Classes, Dialogs,
-    uBatpro_StringList;
+    uBatpro_StringList,
+    uGenerateur_de_code_Ancetre,
+    SysUtils, Classes, Dialogs;
 
 type
+
+ { TPatternHandler }
+
  TPatternHandler
  =
   class
-  private
-    Source: String;
-    RepertoireCible: String;
-    slSource: TBatpro_StringList;
-    slCible : TBatpro_StringList;
-    slParametres: TBatpro_StringList;
-    function RemplaceParametres( S: String): String;
+  //Gestion du cycle de vie
   public
-    constructor Create( _Source, _RepertoireCible: String;
+    constructor Create( _g: TGenerateur_de_code_Ancetre;
+                        _Source: String;
                         _slParametres: TBatpro_StringList);
     destructor Destroy; override;
-
-    procedure Produit( SousRepertoire: String);
+  //Attributs
+  private
+    g: TGenerateur_de_code_Ancetre;
+    Source: String;
+    slSource: TBatpro_StringList;
+    slCible : TBatpro_StringList;
+    function Calcule_NomCible: String;
+  public //pas propre, passé en public pour que TcsMenuHandler
+         //puisse éventuellement surcharger l'initialisation
+         //faite avant par l'exploration directe du répertoire
+    slParametres: TBatpro_StringList;
+  private
+    function RemplaceParametres( S: String): String;
+  public
+    procedure Produit;
   //déboguage
   private
     Log_Actif: Boolean;
     slLog: TBatpro_StringList;
   end;
 
+ TIterateur_PatternHandler
+ =
+  class( TIterateur)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: TPatternHandler);
+    function  not_Suivant( var _Resultat: TPatternHandler): Boolean;
+  end;
+
+ { TslPatternHandler }
+
+ TslPatternHandler
+ =
+  class( TBatpro_StringList)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_PatternHandler;
+    function Iterateur_Decroissant: TIterateur_PatternHandler;
+  end;
+
+function PatternHandler_from_sl( sl: TBatpro_StringList; Index: Integer): TPatternHandler;
+function PatternHandler_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TPatternHandler;
+
 implementation
+
+function PatternHandler_from_sl( sl: TBatpro_StringList; Index: Integer): TPatternHandler;
+begin
+     _Classe_from_sl( Result, TPatternHandler, sl, Index);
+end;
+
+function PatternHandler_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TPatternHandler;
+begin
+     _Classe_from_sl_sCle( Result, TPatternHandler, sl, sCle);
+end;
+
+{ TIterateur_PatternHandler }
+
+function TIterateur_PatternHandler.not_Suivant( var _Resultat: TPatternHandler): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_PatternHandler.Suivant( var _Resultat: TPatternHandler);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TslPatternHandler }
+
+constructor TslPatternHandler.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, TPatternHandler);
+end;
+
+destructor TslPatternHandler.Destroy;
+begin
+     inherited;
+end;
+
+class function TslPatternHandler.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_PatternHandler;
+end;
+
+function TslPatternHandler.Iterateur: TIterateur_PatternHandler;
+begin
+     Result:= TIterateur_PatternHandler( Iterateur_interne);
+end;
+
+function TslPatternHandler.Iterateur_Decroissant: TIterateur_PatternHandler;
+begin
+     Result:= TIterateur_PatternHandler( Iterateur_interne_Decroissant);
+end;
 
 { TPatternHandler }
 
-constructor TPatternHandler.Create( _Source, _RepertoireCible: String;
+constructor TPatternHandler.Create( _g: TGenerateur_de_code_Ancetre;
+                                    _Source: String;
                                     _slParametres: TBatpro_StringList);
 begin
-     Source         := _Source         ;
-     RepertoireCible:= _RepertoireCible;
-     slParametres   := _slParametres;
+     g:= _g;
 
-     ForceDirectories( RepertoireCible);
+     Source         := _Source         ;
+     slParametres   := _slParametres;
 
      slSource:= TBatpro_StringList.Create;
      if not FileExists( Source)
@@ -72,7 +162,7 @@ begin
          uForms_ShowMessage( 'Introuvable '+Source);
      slLog  := TBatpro_StringList.Create;
 
-     slSource.LoadFromFile( Source);
+     slSource.LoadFromFile( g.sRepSource+Source);
      slLog.Add( 'Original de '+Source);
      slLog.Add( slSource.Text);
 
@@ -84,11 +174,16 @@ destructor TPatternHandler.Destroy;
 begin
      if Pos( 'udmd', Source) <> 0
      then
-         slLog.SaveToFile( RepertoireCible+ExtractFileName( Source)+'.log');
+         slLog.SaveToFile( Calcule_NomCible+'.log');
      FreeAndNil( slCible     );
      FreeAndNil( slSource    );
      FreeAndNil( slLog       );
      inherited;
+end;
+
+function TPatternHandler.Calcule_NomCible: String;
+begin
+     Result:= g.sRepCible+RemplaceParametres( Source);
 end;
 
 function TPatternHandler.RemplaceParametres( S: String): String;
@@ -108,20 +203,20 @@ begin
        end;
 end;
 
-procedure TPatternHandler.Produit( SousRepertoire: String);
+procedure TPatternHandler.Produit;
 var
    CibleName: String;
    Chemin: String;
 begin
      Log_Actif:= False;
-     CibleName:= RemplaceParametres( ExtractFileName( Source));
-     Chemin:= RepertoireCible + SousRepertoire;
+     CibleName:= Calcule_NomCible;
+     Chemin:= ExtractFilePath( CibleName);
      ForceDirectories( Chemin);
 
      Log_Actif:= True;
      slCible.Text:= RemplaceParametres( slSource.Text);
-     slCible.SaveToFile( Chemin + CibleName);
+     slCible.SaveToFile( CibleName);
      Log_Actif:= False;
 end;
 
-end.      createdir
+end.

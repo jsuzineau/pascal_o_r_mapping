@@ -4,12 +4,11 @@
 
 unit virtualtreeview_package;
 
-{$warn 5023 off : no warning about unused units}
 interface
 
 uses
-  VirtualTrees, VTHeaderPopup, registervirtualtreeview, VTGraphics, 
-  VTIDEEditors, LazarusPackageIntf;
+ VirtualTrees, VTHeaderPopup, registervirtualtreeview, VTGraphics, 
+ VTIDEEditors, LazarusPackageIntf;
 
 implementation
 

@@ -42,6 +42,9 @@ uses
   SysUtils, Classes, DB;
 
 type
+
+ { TOD_Batpro_Table }
+
  TOD_Batpro_Table
  =
   class
@@ -70,6 +73,7 @@ type
     function Prefixe_ForceBordure: String;
     function Prefixe_Bordure_fin_table: String;
     function Prefixe_Bordures_Verticales_Colonnes: String;
+    function Prefixe_MasquerTitreColonnes: String;
   public
     Nom_NbColonnes: String;
     Pas_de_persistance: Boolean;
@@ -103,10 +107,17 @@ type
   //Gestion de l'affichage des bordures
   public
     Bordure_fin_table: String;
-    Bordures_Verticales_Colonnes: String;
+    Bordures_Verticales_Colonnes: Boolean;
     procedure Bordures_Assure( _C: TOD_BatproTextTableContext);
     procedure Bordures_Lire( _C: TOD_BatproTextTableContext);
     procedure Bordures_Ecrire( _C: TOD_BatproTextTableContext);
+  //MasquerTitreColonnes
+  private
+    procedure MasquerTitreColonnes_Assure( _C: TOD_BatproTextTableContext);
+    procedure MasquerTitreColonnes_Lire  ( _C: TOD_BatproTextTableContext);
+    procedure MasquerTitreColonnes_Ecrire( _C: TOD_BatproTextTableContext);
+  public
+    MasquerTitreColonnes: Boolean;
   end;
 
 implementation
@@ -188,6 +199,11 @@ begin
      Result:= Prefixe+'Bordures_Verticales_Colonnes';
 end;
 
+function TOD_Batpro_Table.Prefixe_MasquerTitreColonnes: String;
+begin
+     Result:= Prefixe+'HideColumnTitles';
+end;
+
 procedure TOD_Batpro_Table.Assure_Modele( C: TOD_BatproTextTableContext);
 var
    Valeur_NbColonnes: String;
@@ -206,6 +222,7 @@ begin
      OD_SurTitre.Assure_Modele( Prefixe_OD_SurTitre, C);
      C.Assure_Parametre( Prefixe_ForceBordure, '1');
      Bordures_Assure( C);
+     MasquerTitreColonnes_Assure(C);
 end;
 
 procedure TOD_Batpro_Table.to_Doc( C: TOD_BatproTextTableContext);
@@ -224,8 +241,9 @@ begin
      do
        Niveaux[I].to_Doc( Prefixe, C);
      OD_SurTitre.to_Doc( Prefixe_OD_SurTitre, C);
-     C.Ecrire( Prefixe_ForceBordure, '1');
+     C.Ecrire( Prefixe_ForceBordure, BoolToStr(ForceBordure, '1','0'));
      Bordures_Ecrire( C);
+     MasquerTitreColonnes_Ecrire(C);
 end;
 
 procedure TOD_Batpro_Table.from_Doc( C: TOD_BatproTextTableContext);
@@ -257,6 +275,7 @@ begin
      OD_SurTitre.from_Doc( Prefixe_OD_SurTitre, C);
      ForceBordure:= C.Lire( Prefixe_ForceBordure, '1') = '1';
      Bordures_Lire( C);
+     MasquerTitreColonnes_Lire(C);
 end;
 
 function TOD_Batpro_Table.SurTitre_Actif: Boolean;
@@ -320,7 +339,7 @@ begin
          _OffSet_SurTitre:= 0;
          end;
 
-     if _C.MasquerTitreColonnes
+     if MasquerTitreColonnes
      then
          rowTitre:= nil
      else
@@ -334,7 +353,7 @@ begin
        sCellValue:= OD_Column.Titre;
        ColumnLengths[iColonne]:= OD_Column.Largeur;
 
-       if _C.MasquerTitreColonnes then continue;
+       if MasquerTitreColonnes then continue;
 
        _C.Formate_Titre( iColonne, rowTitre.Row);
        cellTitre:= rowTitre.NewCell( iColonne);
@@ -362,15 +381,33 @@ begin
 end;
 
 procedure TOD_Batpro_Table.Bordures_Lire(_C: TOD_BatproTextTableContext);
+var
+   sBordures_Verticales_Colonnes: String;
 begin
      Bordure_fin_table:= _C.Lire( Prefixe_Bordure_fin_table, '1');
-     Bordures_Verticales_Colonnes:= _C.Lire( Prefixe_Bordures_Verticales_Colonnes, '1');
+     sBordures_Verticales_Colonnes:= _C.Lire( Prefixe_Bordures_Verticales_Colonnes, '1');
+     Bordures_Verticales_Colonnes:= '1' = sBordures_Verticales_Colonnes;
 end;
 
 procedure TOD_Batpro_Table.Bordures_Ecrire(_C: TOD_BatproTextTableContext);
 begin
      _C.Ecrire( Prefixe_Bordure_fin_table, Bordure_fin_table);
-     _C.Ecrire( Prefixe_Bordures_Verticales_Colonnes, Bordures_Verticales_Colonnes);
+     _C.Ecrire( Prefixe_Bordures_Verticales_Colonnes, BoolToStr(Bordures_Verticales_Colonnes, '1','0'));
+end;
+
+procedure TOD_Batpro_Table.MasquerTitreColonnes_Assure( _C: TOD_BatproTextTableContext);
+begin
+     _C.Assure_Parametre( Prefixe_MasquerTitreColonnes, '0');
+end;
+
+procedure TOD_Batpro_Table.MasquerTitreColonnes_Lire( _C: TOD_BatproTextTableContext);
+begin
+     MasquerTitreColonnes:= _C.Lire( Prefixe_MasquerTitreColonnes) = '1';
+end;
+
+procedure TOD_Batpro_Table.MasquerTitreColonnes_Ecrire( _C: TOD_BatproTextTableContext);
+begin
+     _C.Ecrire( Prefixe_MasquerTitreColonnes, BoolToStr(MasquerTitreColonnes, '1','0'));
 end;
 
 end.

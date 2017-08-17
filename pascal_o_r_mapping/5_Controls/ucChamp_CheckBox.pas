@@ -31,13 +31,16 @@ uses
     uChamp;
 
 type
+
+ { TChamp_CheckBox }
+
  TChamp_CheckBox
  =
   class(TCheckBox, IChampsComponent)
   //Général
   protected
     procedure Loaded; override;
-    procedure Click; override;
+    procedure DoClickOnChange; override;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -129,9 +132,9 @@ begin
      _from_Champs;
 end;
 
-procedure TChamp_CheckBox.Click;
+procedure TChamp_CheckBox.DoClickOnChange;
 begin
-     inherited;
+     inherited DoClickOnChange;
      if not Champ_OK then exit;
 
      _to_Champs;

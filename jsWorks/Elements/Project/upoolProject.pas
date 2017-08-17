@@ -48,7 +48,7 @@ type
  TpoolProject
  =
   class( TPool)
-    procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleCreate(Sender: TObject);  override;
   //Filtre
   public
     hfProject: ThfProject;
@@ -67,14 +67,14 @@ function poolProject: TpoolProject;
 
 implementation
 
-{$R *.lfm}
+
 
 var
    FpoolProject: TpoolProject;
 
 function poolProject: TpoolProject;
 begin
-     Clean_Get( Result, FpoolProject, TpoolProject);
+     TPool.class_Get( Result, FpoolProject, TpoolProject);
 end;
 
 { TpoolProject }
@@ -125,7 +125,6 @@ begin
 end;
 
 initialization
-              Clean_Create ( FpoolProject, TpoolProject);
 finalization
-              Clean_destroy( FpoolProject);
+              TPool.class_Destroy( FpoolProject);
 end.

@@ -33,9 +33,13 @@ uses
     ufAccueil_Erreur,
     uSVG,
     uDrawInfo,
+    uChamp,
 
     uBatpro_Element,
     uBatpro_Ligne,
+
+    ublType_Tag,
+    upoolType_Tag,
 
     udmDatabase,
     upool_Ancetre_Ancetre,
@@ -76,7 +80,18 @@ type
   //champs persistants
   public
     Name: String;
+  //Type_Tag
+  public
     idType: Integer;
+    blType_Tag: TblType_Tag;
+  //Libelle
+  private
+    FLibelle: String;
+    procedure Libelle_GetChaine( var _Chaine: String);
+    function GetLibelle: String;
+  public
+    cLibelle: TChamp;
+    property Libelle: String read GetLibelle;
   //Gestion de la clé
   public
     class function sCle_from_( _idType: Integer;  _Name: String): String;
@@ -85,15 +100,30 @@ type
   //Aggrégations
   protected
     procedure Create_Aggregation( Name: String; P: ThAggregation_Create_Params); override;
+  //Aggrégation vers les Session correspondants
+  private
+    FhaSession: ThAggregation;
+    function GethaSession: ThAggregation;
+  public
+    property haSession: ThAggregation read GethaSession;
   //Aggrégation vers les Work correspondants
   private
     FhaWork: ThaTag__Work;
     function GethaWork: ThaTag__Work;
   public
     property haWork: ThaTag__Work read GethaWork;
+  //Aggrégation vers les Work_from_Session correspondants
+  private
+    FhaWork_from_Session: ThAggregation;
+    function GethaWork_from_Session: ThAggregation;
+  public
+    property haWork_from_Session: ThAggregation read GethaWork_from_Session;
  //Couleur
  public
    function Couleur: TColor;
+ //NewPage rajouté pour sauts de page dans TodSession
+ public
+   NewPage: Boolean;
  end;
 
  TIterateur_Tag
@@ -127,6 +157,12 @@ var
    TIterateur_Work: TIterateur_Class= nil;
    TblWork: TBatpro_Ligne_Class= nil;
    poolWork: Tfunction_pool_Ancetre_Ancetre= nil;
+
+   ThaTag__Session: ThAggregation_class= nil;
+   TblSession: TBatpro_Ligne_Class= nil;
+
+   ThaTag__Work_from_Session: ThAggregation_class= nil;
+
 type
     TCharge_Tag= procedure ( _idTag: Integer; _slLoaded: TBatpro_StringList) of object;
 
@@ -253,13 +289,36 @@ begin
      //champs persistants
      Champs. Integer_from_Integer( idType         , 'idType'         );
      Champs.  String_from_String ( Name           , 'Name'           );
+     Champs. Ajoute_Boolean      ( NewPage        , 'NewPage', False );
+     NewPage:= True;
+
+     blType_Tag:= poolType_Tag.Get( idType);
+     AggregeLigne( 'Type_Tag', blType_Tag);
+
+     cLibelle:= Ajoute_String( FLibelle,'Libelle', False);
+     cLibelle.OnGetChaine:= Libelle_GetChaine;
 
 end;
 
 destructor TblTag.Destroy;
 begin
+     DesAggregeLigne( 'Type_Tag', blType_Tag);
 
      inherited;
+end;
+
+function TblTag.GetLibelle: String;
+begin
+     Result:= '';
+     if Assigned( blType_Tag)
+     then
+         Formate_Liste( Result, ' ', blType_Tag.Name);
+     Formate_Liste( Result, ' ', Name);
+end;
+
+procedure TblTag.Libelle_GetChaine(var _Chaine: String);
+begin
+     _Chaine:= GetLibelle;
 end;
 
 class function TblTag.sCle_from_( _idType: Integer;  _Name: String): String;
@@ -274,8 +333,19 @@ end;
 
 procedure TblTag.Create_Aggregation( Name: String; P: ThAggregation_Create_Params);
 begin
-          if 'Work' = Name then P.Faible( ThaTag__Work, TblWork, poolWork)
-     else                  inherited Create_Aggregation( Name, P);
+          if 'Session'           = Name then P.Faible( ThaTag__Session          , TblSession, nil)
+     else if 'Work'              = Name then P.Faible( ThaTag__Work             , TblWork, poolWork)
+     else if 'Work_from_Session' = Name then P.Faible( ThaTag__Work_from_Session, TblWork, poolWork)
+     else                                    inherited Create_Aggregation( Name, P);
+end;
+
+function TblTag.GethaSession: ThAggregation;
+begin
+          if FhaSession = nil
+          then
+              FhaSession:= Aggregations['Session'];
+
+          Result:= FhaSession;
 end;
 
 
@@ -286,6 +356,15 @@ begin
          FhaWork:= Aggregations['Work'] as ThaTag__Work;
 
      Result:= FhaWork;
+end;
+
+function  TblTag.GethaWork_from_Session: ThAggregation;
+begin
+     if FhaWork_from_Session = nil
+     then
+         FhaWork_from_Session:= Aggregations['Work_from_Session'];
+
+     Result:= FhaWork_from_Session;
 end;
 
 function TblTag.Couleur: TColor;

@@ -49,7 +49,7 @@ type
  TpoolCategorie
  =
   class( TPool)
-    procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleCreate(Sender: TObject);  override;
   //Filtre
   public
     hfCategorie: ThfCategorie;
@@ -68,14 +68,14 @@ function poolCategorie: TpoolCategorie;
 
 implementation
 
-{$R *.lfm}
+
 
 var
    FpoolCategorie: TpoolCategorie;
 
 function poolCategorie: TpoolCategorie;
 begin
-     Clean_Get( Result, FpoolCategorie, TpoolCategorie);
+     TPool.class_Get( Result, FpoolCategorie, TpoolCategorie);
 end;
 
 { TpoolCategorie }
@@ -128,7 +128,6 @@ end;
 
 
 initialization
-              Clean_Create ( FpoolCategorie, TpoolCategorie);
 finalization
-              Clean_destroy( FpoolCategorie);
+              TPool.class_Destroy( FpoolCategorie);
 end.

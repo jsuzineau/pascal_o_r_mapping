@@ -47,7 +47,7 @@ type
  TpoolTag_Development
  =
   class( TPool)
-    procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleCreate(Sender: TObject);  override;
   //Filtre
   public
     hfTag_Development: ThfTag_Development;
@@ -75,14 +75,14 @@ function poolTag_Development: TpoolTag_Development;
 
 implementation
 
-{$R *.dfm}
+
 
 var
    FpoolTag_Development: TpoolTag_Development;
 
 function poolTag_Development: TpoolTag_Development;
 begin
-     Clean_Get( Result, FpoolTag_Development, TpoolTag_Development);
+     TPool.class_Get( Result, FpoolTag_Development, TpoolTag_Development);
 end;
 
 { TpoolTag_Development }
@@ -155,7 +155,6 @@ begin
 end;
 
 initialization
-              Clean_Create ( FpoolTag_Development, TpoolTag_Development);
 finalization
-              Clean_destroy( FpoolTag_Development);
+              TPool.class_Destroy( FpoolTag_Development);
 end.

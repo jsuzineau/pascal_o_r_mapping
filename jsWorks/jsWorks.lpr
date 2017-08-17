@@ -27,9 +27,9 @@ uses
  cthreads,
  {$ENDIF}{$ENDIF}
  Interfaces, // this includes the LCL widgetset
- Forms, uXML, ublG_BECP, ublG_BECPCTX, ublG_CTX, ublG_CTXTYPE, uhfG_BECP,
- uhfG_BECPCTX, uhfG_CTX, uhfG_CTXTYPE, upoolG_BECP, upoolG_BECPCTX, upoolG_CTX,
- upoolG_CTXTYPE, ublAutomatic, uPatternHandler, uJoinPoint,
+ Forms, datetimectrls, uXML, ublG_BECP, ublG_BECPCTX, ublG_CTX, ublG_CTXTYPE,
+ uhfG_BECP, uhfG_BECPCTX, uhfG_CTX, uhfG_CTXTYPE, upoolG_BECP, upoolG_BECPCTX,
+ upoolG_CTX, upoolG_CTXTYPE, ublAutomatic, uPatternHandler, uJoinPoint,
  uGenerateur_de_code_Ancetre, ujpCSharp_Conteneurs, ujpCSharp_Contenus,
  ujpCSharp_DocksDetails, ujpCSharp_DocksDetails_Affiche,
  ujpCSharp_Champs_persistants, ujpCSharp_Chargement_Conteneurs,

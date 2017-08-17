@@ -30,6 +30,7 @@ uses
     uChamp,
     uReels,
     ufAccueil_Erreur,
+    uPublieur,
 
     uBatpro_Element,
     uBatpro_Ligne,
@@ -43,6 +44,9 @@ uses
     SysUtils, Classes, sqldb, DB,DateUtils, Math;
 
 type
+  TblWork = class;
+  TIterateur_Work= class;
+
   { ThaWork__Tag }
   ThaWork__Tag
   =
@@ -80,6 +84,9 @@ type
    //Chargement de tous les détails
    public
      procedure Charge; override;
+   //
+   public
+     pCharge: TPublieur;
    //Création d'itérateur
    protected
      class function Classe_Iterateur: TIterateur_Class; override;
@@ -90,6 +97,29 @@ type
    public
      procedure Valide;
    end;
+
+  { ThaWork__Self }
+
+  ThaWork__Self
+  =
+   class( ThAggregation)
+   //Gestion du cycle de vie
+   public
+     constructor Create( _Parent: TBatpro_Element;
+                         _Classe_Elements: TBatpro_Element_Class;
+                         _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre); override;
+     destructor  Destroy; override;
+   //Création d'itérateur
+   protected
+     class function Classe_Iterateur: TIterateur_Class; override;
+   public
+     function Iterateur: TIterateur_Work;
+     function Iterateur_Decroissant: TIterateur_Work;
+   //Chargement de tous les détails
+   public
+     procedure Charge; override;
+   end;
+
 
   { TblWork }
 
@@ -135,9 +165,23 @@ type
     function GethaTag_from_Description: ThaWork__Tag_from_Description;
   public
     property haTag_from_Description: ThaWork__Tag_from_Description read GethaTag_from_Description;
+  //Aggrégation vers les Work correspondants
+  private
+    FhaSelf: ThaWork__Self;
+    function GethaSelf: ThaWork__Self;
+  public
+    property haSelf: ThaWork__Self read GethaSelf;
   //Méthodes
   public
     procedure Stop;
+  //Session_Titre
+  private
+    FSession_Titre: String;
+    procedure Session_Titre_GetChaine( var _Chaine: String);
+    function GetSession_Titre: String;
+  public
+    cSession_Titre: TChamp;
+    property Session_Titre: String read GetSession_Titre;
   //Gestion des sessions
   private
     FsSession: String;
@@ -169,6 +213,8 @@ type
     function  not_Suivant( var _Resultat: TblWork): Boolean;
   end;
 
+ { TslWork }
+
  TslWork
  =
   class( TBatpro_StringList)
@@ -182,6 +228,9 @@ type
   public
     function Iterateur: TIterateur_Work;
     function Iterateur_Decroissant: TIterateur_Work;
+  //
+  public
+    procedure Charger_Tags;
   end;
 
 function sNb_Heures_from_DateTime( _dt: TDateTime): String;
@@ -297,10 +346,12 @@ begin
                           +' Classe_Elements='+ Classe_Elements.ClassName+#13#10
                           +'_Classe_Elements='+_Classe_Elements.ClassName
                           );
+     pCharge:= TPublieur.Create( ClassName+'.pCharge');
 end;
 
 destructor ThaWork__Tag_from_Description.Destroy;
 begin
+     Free_nil( pCharge);
      inherited;
 end;
 
@@ -311,6 +362,7 @@ begin
      TblWork(Parent).haTag.Charge;
      poolTag.Charge_Work_from_Description( TblWork(Parent).Description, slCharge, TblWork(Parent).haTag.sl);
      Ajoute_slCharge;
+     pCharge.Publie;
 end;
 
 class function ThaWork__Tag_from_Description.Classe_Iterateur: TIterateur_Class;
@@ -344,6 +396,54 @@ begin
        TblWork(Parent).haTag.Ajoute( bl);
        end;
      sl.Clear;
+end;
+
+{ ThaWork__Self }
+
+constructor ThaWork__Self.Create( _Parent: TBatpro_Element;
+                               _Classe_Elements: TBatpro_Element_Class;
+                               _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre);
+begin
+     inherited;
+     if Classe_Elements <> _Classe_Elements
+     then
+         fAccueil_Erreur(  'Erreur ? signaler au d?veloppeur: '#13#10
+                          +' '+ClassName+'.Create: Classe_Elements <> _Classe_Elements:'#13#10
+                          +' Classe_Elements='+ Classe_Elements.ClassName+#13#10
+                          +'_Classe_Elements='+_Classe_Elements.ClassName
+                          );
+end;
+
+destructor ThaWork__Self.Destroy;
+begin
+     inherited;
+end;
+
+class function ThaWork__Self.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Work;
+end;
+
+function ThaWork__Self.Iterateur: TIterateur_Work;
+begin
+     Result:= TIterateur_Work( Iterateur_interne);
+end;
+
+function ThaWork__Self.Iterateur_Decroissant: TIterateur_Work;
+begin
+     Result:= TIterateur_Work( Iterateur_interne_Decroissant);
+end;
+
+procedure ThaWork__Self.Charge;
+var
+   bl: TblWork;
+begin
+     sl.Clear;
+     inherited Charge;
+     if Affecte_( bl, TblWork, Parent) then exit;
+
+     slCharge.AddObject( bl.sCle, bl);
+     Ajoute_slCharge;
 end;
 
 { TIterateur_Work }
@@ -385,6 +485,22 @@ begin
      Result:= TIterateur_Work( Iterateur_interne_Decroissant);
 end;
 
+procedure TslWork.Charger_Tags;
+var
+   I: TIterateur_Work;
+   bl: TblWork;
+begin
+     I:= Iterateur;
+
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( bl) then continue;
+
+       bl.haTag_from_Description.Charge;
+       end;
+end;
+
 { TblWork }
 
 constructor TblWork.Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre);
@@ -419,6 +535,9 @@ begin
      cDuree:= Ajoute_Float( FDuree, 'Duree', False);
      cDuree.OnGetChaine:= Duree_GetChaine;
 
+     cSession_Titre:= Ajoute_String( FSession_Titre,'Session_Titre', False);
+     cSession_Titre.OnGetChaine:= Session_Titre_GetChaine;
+
      csSession:= Ajoute_String( FsSession,'sSession', False);
      csSession.OnGetChaine:= sSession_GetChaine;
 end;
@@ -429,14 +548,15 @@ begin
      inherited;
 end;
 
-procedure TblWORK.Create_Aggregation( Name: String; P: ThAggregation_Create_Params);
+procedure TblWork.Create_Aggregation( Name: String; P: ThAggregation_Create_Params);
 begin
-          if 'Tag' = Name then P.Faible( ThaWork__Tag, TblTag, poolTag)
-     else if 'Tag_from_Description' = Name then P.Faible( ThaWork__Tag_from_Description, TblTag, poolTag)
+          if 'Tag'                  = Name then P.Faible( ThaWork__Tag                 , TblTag , poolTag )
+     else if 'Tag_from_Description' = Name then P.Faible( ThaWork__Tag_from_Description, TblTag , poolTag )
+     else if 'Self'                 = Name then P.Faible( ThaWork__Self                , TblWork, poolWork)
      else                  inherited Create_Aggregation( Name, P);
 end;
 
-function  TblWORK.GethaTag: ThaWork__Tag;
+function TblWork.GethaTag: ThaWork__Tag;
 begin
      if FhaTag = nil
      then
@@ -452,6 +572,15 @@ begin
          FhaTag_from_Description:= Aggregations['Tag_from_Description'] as ThaWork__Tag_from_Description;
 
      Result:= FhaTag_from_Description;
+end;
+
+function TblWork.GethaSelf: ThaWork__Self;
+begin
+     if FhaSelf = nil
+     then
+         FhaSelf:= Aggregations['Self'] as ThaWork__Self;
+
+     Result:= FhaSelf;
 end;
 
 procedure TblWork.Duree_GetChaine(var _Chaine: String);
@@ -486,12 +615,7 @@ begin
      Save_to_database;
 end;
 
-procedure TblWork.sSession_GetChaine(var _Chaine: String);
-begin
-     _Chaine:= GetsSession;
-end;
-
-function TblWork.GetsSession: String;
+function TblWork.GetSession_Titre: String;
 begin
      Result
      :=
@@ -501,6 +625,21 @@ begin
        //+'('+sDuree+'):'
        sDuree+':'
        ;
+end;
+
+procedure TblWork.Session_Titre_GetChaine(var _Chaine: String);
+begin
+     _Chaine:= GetSession_Titre;
+end;
+
+procedure TblWork.sSession_GetChaine(var _Chaine: String);
+begin
+     _Chaine:= GetsSession;
+end;
+
+function TblWork.GetsSession: String;
+begin
+     Result:= Session_Titre;
      Formate_Liste_Indentation( Result, #13#10, '  ', Description);
 end;
 

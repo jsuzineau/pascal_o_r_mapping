@@ -45,7 +45,7 @@ type
  TpoolG_BECP
  =
   class( TPool)
-    procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleCreate(Sender: TObject);  override;
   //Filtre
   public
     hfG_BECP: ThfG_BECP;
@@ -86,14 +86,12 @@ uses
 {implementation_uses_key}
     udmDatabase;
 
-{$R *.dfm}
-
 var
    FpoolG_BECP: TpoolG_BECP;
 
 function poolG_BECP: TpoolG_BECP;
 begin
-     Clean_Get( Result, FpoolG_BECP, TpoolG_BECP);
+     TPool.class_Get( Result, FpoolG_BECP, TpoolG_BECP);
 end;
 
 procedure Cree_blG_BECP_classe_speciale( NomClasse: String;
@@ -187,7 +185,7 @@ begin
 end;
 
 initialization
-              Clean_Create ( FpoolG_BECP, TpoolG_BECP);
+              TPool.class_Create( FpoolG_BECP, TpoolG_BECP);
               uBatpro_Element.poolG_BECP_Cree            := FpoolG_BECP.Cree;
               uBatpro_Element.Batpro_ElementClassesParams:= FpoolG_BECP.Get_btsCle;
 
@@ -204,5 +202,5 @@ finalization
               uBatpro_Element.Batpro_ElementClassesParams:= nil;
               uBatpro_Element.poolG_BECP_Cree:= nil;
 
-              Clean_destroy( FpoolG_BECP);
+              TPool.class_Destroy( FpoolG_BECP);
 end.

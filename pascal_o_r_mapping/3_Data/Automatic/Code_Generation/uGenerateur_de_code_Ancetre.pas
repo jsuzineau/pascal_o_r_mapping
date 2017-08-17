@@ -27,6 +27,7 @@ interface
 
 uses
     uuStrings,
+    uBatpro_StringList,
   SysUtils, Classes;
 
 const
@@ -34,6 +35,12 @@ const
      s_Nom_de_la_classe= 'Nom_de_la_classe';
      s_NomTableMinuscule= 'NomTableMinuscule';
      s_SQL_saut= ''''#13#10'      ''';
+     s_RepertoirePascal       = 'Pascal'                                 +PathDelim;
+     s_RepertoirePascal_paquet= s_RepertoirePascal+'p'+s_Nom_de_la_classe+PathDelim;
+     s_RepertoirePascal_dunit= s_RepertoirePascal_paquet+'dunit'         +PathDelim;
+     s_RepertoireCSharp      = 'CSharp'                                  +PathDelim;
+     s_RepertoirePHP_Doctrine= 'PHP'+PathDelim+'Doctrine'                +PathDelim;
+     s_RepertoirePHP_Perso   = 'PHP'+PathDelim+'Perso'                   +PathDelim;
 const
    TailleMaximumIdentificateur = 15;
 
@@ -84,6 +91,11 @@ type
   public
     function dbx_from_Type( Typ: String): String;
     function TailleNom_Quote( S: String): String;
+  //PatternHandler
+  public
+    procedure Cree_PatternHandler( var _Reference;
+                                   _Source: String;
+                                   _slParametres: TBatpro_StringList= nil); virtual; abstract;
   end;
 
 implementation

@@ -42,6 +42,7 @@ type
   bPreviousMonth: TButton;
   bNextMonth: TButton;
   bNextWeek: TButton;
+  bodSession_Modele: TButton;
   cbRestreindre_a_un_Tag: TCheckBox;
   cbEcrire_arrondi: TCheckBox;
   cbHeures_Supplementaires: TCheckBox;
@@ -63,6 +64,7 @@ type
   procedure bodCalendrierClick(Sender: TObject);
   procedure bodCalendrier_ModeleClick(Sender: TObject);
   procedure bodSessionClick(Sender: TObject);
+  procedure bodSession_ModeleClick(Sender: TObject);
   procedure bOKClick(Sender: TObject);
   procedure bCurrentWeekClick(Sender: TObject);
   procedure bPreviousMonthClick(Sender: TObject);
@@ -286,10 +288,33 @@ end;
 
 procedure TfTemps.bodSessionClick(Sender: TObject);
 var
+   odSession: TodSession;
    Resultat: String;
 begin
-     odSession.Init( hdmSession);
-     Resultat:= odSession.Visualiser;
+     odSession:= TodSession.Create;
+     try
+        odSession.Init( hdmSession);
+        Resultat:= odSession.Visualiser;
+     finally
+            FreeAndNil( odSession);
+            end;
+     if not OpenDocument( Resultat)
+     then
+         ShowMessage( 'OpenDocument failed on '+Resultat);
+end;
+
+procedure TfTemps.bodSession_ModeleClick(Sender: TObject);
+var
+   odSession: TodSession;
+   Resultat: String;
+begin
+     odSession:= TodSession.Create;
+     try
+        odSession.Init( hdmSession);
+        Resultat:= odSession.Editer_Modele_Impression;
+     finally
+            FreeAndNil( odSession);
+            end;
      if not OpenDocument( Resultat)
      then
          ShowMessage( 'OpenDocument failed on '+Resultat);

@@ -83,6 +83,7 @@ type
   //Panel principal
   public
     p: TPanel;
+    p_ClientHeight: Integer;
   //Scrollbar
   public
     s: TScrollBar;
@@ -359,6 +360,7 @@ begin
      {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
      p.ParentBackground:= False;
      {$ENDIF}
+     p_ClientHeight:= 0;
 
      s:= TScrollBar.Create( Self);
      s.Parent:= Self;
@@ -1322,6 +1324,10 @@ begin
      Verifie_sl_Offset;
 
      _from_Scroll;
+
+     if p_ClientHeight <> p.ClientHeight
+     then
+         Ajuste_Nombre_Dockables;
 end;
 
 procedure TDockableScrollbox._from_Scroll;
@@ -1390,7 +1396,8 @@ begin
      s.Position:=0;
      s.PageSize:= 1;
      s.Min:= 0;
-     s.Max:= sl_Count-slDockable_Count;
+     //s.Max:= sl_Count-slDockable_Count;
+     s.Max:= sl_Count;
      s.PageSize:= slDockable_Count;
 end;
 
@@ -1416,7 +1423,7 @@ var
    begin
         if sl.Count = slDockable.Count then exit;
 
-        while Bas <= p.ClientHeight-HauteurLigne
+        while Bas <= p_ClientHeight-HauteurLigne
         do
           begin
           dk:= Cree_Panel_et_Dockable( Bas, pa);
@@ -1431,7 +1438,7 @@ var
       pa: TPanel;
       dk: TDockable;
    begin
-        while Bas > p.ClientHeight-HauteurLigne
+        while Bas > p_ClientHeight-HauteurLigne
         do
           begin
           iDockable:= slDockable.Count - 1;
@@ -1447,12 +1454,14 @@ begin
      try
         if slPanel.Count = 0 then exit;
 
+        p_ClientHeight:= p.ClientHeight;
+
         iLastPanel:= slPanel.Count - 1;
         LastPanel:= Panel_from_sl( slPanel, iLastPanel);
         if nil = LastPanel then exit;
 
         Bas:= LastPanel.Top+LastPanel.Height;
-        Delta:= p.ClientHeight - Bas;
+        Delta:= p_ClientHeight - Bas;
 
               if Delta < 0             then Cas_Enleve
         else  if Delta > HauteurLigne  then Cas_Ajoute;

@@ -1,22 +1,23 @@
 object fTemps: TfTemps
-  Left = 282
+  Left = 101
   Height = 397
-  Top = 24
-  Width = 742
+  Top = 50
+  Width = 923
   Caption = 'fTemps'
   ClientHeight = 397
-  ClientWidth = 742
+  ClientWidth = 923
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '1.6.0.4'
+  Position = poScreenCenter
+  LCLVersion = '1.8.0.1'
   object Panel1: TPanel
     Left = 0
     Height = 128
     Top = 0
-    Width = 742
+    Width = 923
     Align = alTop
     ClientHeight = 128
-    ClientWidth = 742
+    ClientWidth = 923
     TabOrder = 0
     object deDebut: TDateEdit
       Left = 8
@@ -24,8 +25,6 @@ object fTemps: TfTemps
       Top = 24
       Width = 103
       CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
-      OKCaption = 'OK'
-      CancelCaption = 'Cancel'
       DateOrder = doNone
       ButtonWidth = 23
       NumGlyphs = 1
@@ -38,8 +37,6 @@ object fTemps: TfTemps
       Top = 24
       Width = 112
       CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
-      OKCaption = 'OK'
-      CancelCaption = 'Cancel'
       DateOrder = doNone
       ButtonWidth = 23
       NumGlyphs = 1
@@ -103,23 +100,6 @@ object fTemps: TfTemps
       OnClick = bTo_logClick
       TabOrder = 5
     end
-    object dsbTag: TDockableScrollbox
-      Left = 546
-      Height = 126
-      Top = 1
-      Width = 195
-      Align = alRight
-      Caption = 'dsbTag'
-      ClientHeight = 126
-      ClientWidth = 195
-      TabOrder = 6
-      HauteurLigne = 17
-      BordureLignes = True
-      Zebrage = False
-      Zebrage1 = 15138790
-      Zebrage2 = 16777192
-      _LectureSeule = False
-    end
     object cbRestreindre_a_un_Tag: TCheckBox
       Left = 408
       Height = 24
@@ -127,7 +107,7 @@ object fTemps: TfTemps
       Width = 165
       Caption = 'Restreindre à un Tag'
       OnClick = cbRestreindre_a_un_TagClick
-      TabOrder = 7
+      TabOrder = 6
     end
     object bodSession: TButton
       Left = 184
@@ -136,16 +116,16 @@ object fTemps: TfTemps
       Width = 75
       Caption = 'bodSession'
       OnClick = bodSessionClick
-      TabOrder = 8
+      TabOrder = 7
     end
     object bodCalendrier: TButton
-      Left = 278
+      Left = 312
       Height = 25
       Top = 95
       Width = 91
       Caption = 'bodCalendrier'
       OnClick = bodCalendrierClick
-      TabOrder = 9
+      TabOrder = 8
     end
     object bCurrentWeek: TButton
       Left = 312
@@ -154,7 +134,7 @@ object fTemps: TfTemps
       Width = 55
       Caption = 'Courant'
       OnClick = bCurrentWeekClick
-      TabOrder = 10
+      TabOrder = 9
     end
     object bCurrentMonth: TButton
       Left = 312
@@ -163,7 +143,7 @@ object fTemps: TfTemps
       Width = 57
       Caption = 'Courant'
       OnClick = bCurrentMonthClick
-      TabOrder = 11
+      TabOrder = 10
     end
     object Label3: TLabel
       Left = 227
@@ -188,16 +168,16 @@ object fTemps: TfTemps
       Width = 26
       Caption = '-'
       OnClick = bPreviousWeekClick
-      TabOrder = 12
+      TabOrder = 11
     end
     object bodCalendrier_Modele: TButton
-      Left = 378
+      Left = 408
       Height = 25
       Top = 95
       Width = 130
       Caption = 'bodCalendrier_Modele'
       OnClick = bodCalendrier_ModeleClick
-      TabOrder = 13
+      TabOrder = 12
     end
     object cbEcrire_arrondi: TCheckBox
       Left = 416
@@ -206,7 +186,7 @@ object fTemps: TfTemps
       Width = 79
       Caption = 'Arrondi'
       OnChange = cbEcrire_arrondiChange
-      TabOrder = 14
+      TabOrder = 13
     end
     object cbHeures_Supplementaires: TCheckBox
       Left = 415
@@ -215,6 +195,15 @@ object fTemps: TfTemps
       Width = 84
       Caption = 'H.Suppl.'
       OnChange = cbHeures_SupplementairesChange
+      TabOrder = 14
+    end
+    object bodSession_Modele: TButton
+      Left = 261
+      Height = 25
+      Top = 96
+      Width = 23
+      Caption = 'M'
+      OnClick = bodSession_ModeleClick
       TabOrder = 15
     end
   end
@@ -222,11 +211,11 @@ object fTemps: TfTemps
     Left = 0
     Height = 174
     Top = 128
-    Width = 742
+    Width = 728
     Align = alClient
     Caption = 'ds'
     ClientHeight = 174
-    ClientWidth = 742
+    ClientWidth = 728
     TabOrder = 1
     OnClick = dsClick
     HauteurLigne = 77
@@ -267,7 +256,7 @@ object fTemps: TfTemps
     Left = 0
     Height = 90
     Top = 307
-    Width = 742
+    Width = 923
     Align = alBottom
     Font.Name = 'Courier New'
     Lines.Strings = (
@@ -282,10 +271,27 @@ object fTemps: TfTemps
     Left = 0
     Height = 5
     Top = 302
-    Width = 742
+    Width = 923
     Align = alBottom
     Color = clLime
     ParentColor = False
     ResizeAnchor = akBottom
+  end
+  object dsbTag: TDockableScrollbox
+    Left = 728
+    Height = 174
+    Top = 128
+    Width = 195
+    Align = alRight
+    Caption = 'dsbTag'
+    ClientHeight = 174
+    ClientWidth = 195
+    TabOrder = 7
+    HauteurLigne = 17
+    BordureLignes = True
+    Zebrage = False
+    Zebrage1 = 15138790
+    Zebrage2 = 16777192
+    _LectureSeule = False
   end
 end

@@ -1,5 +1,5 @@
 <?php
-/*                                                                               |
+/**                                                                             |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
     Contact: Jean.Suzineau@wanadoo.fr                                           |
@@ -19,9 +19,9 @@
     You should have received a copy of the GNU Lesser General Public License    |
     along with this program.  If not, see <http://www.gnu.org/licenses/>.       |
                                                                                 |
-|                                                                              */
+|                                                                             **/
 //cpoolNom_de_la_table.php
-include_once( "cPool.php");
+require_once  "cPool.php";
 
 class cpoolNom_de_la_table extends cPool
   {

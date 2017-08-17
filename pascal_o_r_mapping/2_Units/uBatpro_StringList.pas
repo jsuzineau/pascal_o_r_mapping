@@ -174,12 +174,15 @@ type
   private
     function Iterateur: TIterateur;
     function Iterateur_Decroissant: TIterateur;
-  //Effacement sécurisé (peut être appelé si non affecté)
+  //Effacement sécurisé (peut être appelé si non affecté) (aggrégation faible) voir Vide
   public
     procedure Efface;
   //Effacement de la ligne correspondant à un objet donné
   public
     procedure Remove( O: TObject);
+  //Vide = Efface + détruit chaque objet contenu (aggrégation forte)
+  public
+      procedure Vide;
   //Export JSON, JavaScript Object Notation
   public
     JSON_Page : Integer;
@@ -645,6 +648,25 @@ begin
      I:= IndexOfObject( O);
      if I = -1 then exit;
      Delete( I);
+end;
+
+procedure TBatpro_StringList.Vide;
+var
+   I: TIterateur;
+   o: TObject;
+begin
+     if nil = Self            then exit;
+     if nil = Classe_Elements then exit;
+
+     I:= Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant_interne( o) then continue;
+
+       I.Supprime_courant;
+       FreeAndNil( o);
+       end;
 end;
 
 procedure TBatpro_StringList.JSON_Premiere_Page;

@@ -1,10 +1,10 @@
 object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
   Left = 632
-  Height = 448
+  Height = 509
   Top = 1138
   Width = 622
   Caption = 'fOpenDocument_DelphiReportEngine'
-  ClientHeight = 448
+  ClientHeight = 509
   ClientWidth = 622
   Color = clBtnFace
   Font.Color = clWindowText
@@ -17,7 +17,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
   OnDropFiles = FormDropFiles
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '1.6.0.4'
+  LCLVersion = '1.8.0.1'
   object gbListeTables: TGroupBox
     Left = 0
     Height = 105
@@ -58,12 +58,12 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
   end
   object gbTable: TGroupBox
     Left = 0
-    Height = 338
+    Height = 399
     Top = 110
     Width = 622
     Align = alClient
     Caption = 'gbTable'
-    ClientHeight = 323
+    ClientHeight = 384
     ClientWidth = 618
     Font.Color = clWindowText
     Font.Height = -11
@@ -74,11 +74,11 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
     Visible = False
     object pDrag: TPanel
       Left = 415
-      Height = 323
-      Top = 0
+      Height = 334
+      Top = 50
       Width = 203
       Align = alRight
-      ClientHeight = 323
+      ClientHeight = 334
       ClientWidth = 203
       TabOrder = 0
       Visible = False
@@ -192,12 +192,12 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
       end
       object gbCellule: TGroupBox
         Left = 1
-        Height = 138
+        Height = 149
         Top = 184
         Width = 201
         Align = alClient
         Caption = 'Cellule'
-        ClientHeight = 123
+        ClientHeight = 134
         ClientWidth = 197
         Font.Color = clWindowText
         Font.Height = -11
@@ -249,7 +249,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
         end
         object mCellule_Info: TMemo
           Left = 0
-          Height = 60
+          Height = 71
           Top = 63
           Width = 197
           Align = alClient
@@ -266,8 +266,8 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
     end
     object sgODRE_Table: TStringGrid
       Left = 0
-      Height = 323
-      Top = 0
+      Height = 334
+      Top = 50
       Width = 415
       Align = alClient
       Font.Color = clWindowText
@@ -279,6 +279,61 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
       TitleFont.Color = clWindowText
       TitleFont.Height = -11
       TitleFont.Name = 'MS Sans Serif'
+    end
+    object Panel2: TPanel
+      Left = 0
+      Height = 50
+      Top = 0
+      Width = 618
+      Align = alTop
+      ClientHeight = 50
+      ClientWidth = 618
+      TabOrder = 2
+      object ccbMasquerTitreColonnes: TChamp_CheckBox
+        Left = 8
+        Height = 24
+        Top = 0
+        Width = 211
+        Caption = 'Masquer le titre des colonnes'
+        TabOrder = 0
+        Field = 'MasquerTitreColonnes'
+        ValueTrue = '-1'
+        ValueFalse = '0'
+      end
+      object ccbBordures_Verticales_Colonnes: TChamp_CheckBox
+        Left = 8
+        Height = 24
+        Top = 16
+        Width = 226
+        Caption = 'Bordures verticales de colonnes'
+        TabOrder = 1
+        Field = 'Bordures_Verticales_Colonnes'
+        ValueTrue = '-1'
+        ValueFalse = '0'
+      end
+      object ccbBordure_Ligne: TChamp_CheckBox
+        Left = 254
+        Height = 24
+        Top = 0
+        Width = 129
+        Caption = 'Bordure de ligne'
+        TabOrder = 2
+        Visible = False
+        Field = 'Bordure_Ligne'
+        ValueTrue = '-1'
+        ValueFalse = '0'
+      end
+      object ccbForceBordure: TChamp_CheckBox
+        Left = 254
+        Height = 24
+        Top = 16
+        Width = 114
+        Caption = 'Force bordure'
+        TabOrder = 3
+        Field = 'ForceBordure'
+        ValueTrue = '-1'
+        ValueFalse = '0'
+      end
     end
   end
   object Splitter1: TSplitter

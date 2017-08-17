@@ -26,29 +26,36 @@ unit uMenuHandler;
 interface
 
 uses
-    SysUtils, Classes,
+    uGenerateur_de_code_Ancetre,
     uBatpro_StringList,
-    uPatternHandler;
+    uPatternHandler,
+    SysUtils, Classes;
 
 type
+
+ { TMenuHandler }
+
  TMenuHandler
  =
   class
+  //Gestion du cycle de vie
+  public
+    constructor Create( _g: TGenerateur_de_code_Ancetre);
+    destructor Destroy; override;
+  //Attributs
   private
+    g: TGenerateur_de_code_Ancetre;
     PAS, DFM: TPatternHandler;
   public
-    sRepSource, sRepCible: String;
     sMenu_Base_DFM,
     sMenu_Relation_DFM,
     sMenu_Uses,
     sMenu_Declaration,
     sMenu_Implementation: String;
     slParametres: TBatpro_StringList;
-    constructor Create( _sRepSource, _sRepCible: String);
-    destructor Destroy; override;
     procedure Init;
     procedure Add( NomClasse: String; IsRelation: Boolean);
-    procedure Produit( SousRepertoire: String);
+    procedure Produit;
   end;
 
 implementation
@@ -64,14 +71,14 @@ const
 
 { TMenuHandler }
 
-constructor TMenuHandler.Create( _sRepSource, _sRepCible: String);
+constructor TMenuHandler.Create( _g: TGenerateur_de_code_Ancetre);
 begin
+     g:= _g;
+
      slParametres:= TBatpro_StringList.Create;
-     PAS:=TPatternHandler.Create(_sRepSource+'u'+s_MenuHandler_Form_Name+'.pas',_sRepCible,slParametres);
-     DFM:=TPatternHandler.Create(_sRepSource+'u'+s_MenuHandler_Form_Name+'.dfm',_sRepCible,slParametres);
+     PAS:=TPatternHandler.Create( g, s_RepertoirePascal+'u'+s_MenuHandler_Form_Name+'.pas',slParametres);
+     DFM:=TPatternHandler.Create( g, s_RepertoirePascal+'u'+s_MenuHandler_Form_Name+'.dfm',slParametres);
      Init;
-     sRepSource:= _sRepSource;
-     sRepCible := _sRepCible ;
 end;
 
 destructor TMenuHandler.Destroy;
@@ -127,7 +134,7 @@ begin
        +'end;                                                            '#13#10#13#10;
 end;
 
-procedure TMenuHandler.Produit( SousRepertoire: String);
+procedure TMenuHandler.Produit;
 begin
      //fermeture des chaines de remplacement
      //on rajoute le bout qu'on va supprimer
@@ -143,8 +150,8 @@ begin
      slParametres.Values[    s_Declaration_Key]:= sMenu_Declaration   ;
      slParametres.Values[ s_Implementation_Key]:= sMenu_Implementation;
 
-     DFM.Produit( SousRepertoire);
-     PAS.Produit( SousRepertoire);
+     DFM.Produit;
+     PAS.Produit;
 end;
 
 end.

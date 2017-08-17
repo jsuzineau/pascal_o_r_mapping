@@ -23,7 +23,7 @@ unit uModele;
                                                                                 |
 |                                                                               }
 
-// non instancié, sert seulement de modèle pour le générateur de code
+// non instanciÃ©, sert seulement de modÃ¨le pour le gÃ©nÃ©rateur de code
 //inclu dans Batpro_Formes pour garantir la compilation et la mise au point
 
 interface
@@ -56,7 +56,7 @@ type
   public
     constructor Create( _Nom: String= ''); override;
     destructor Destroy; override;
-  //Création d'itérateur
+  //CrÃ©ation d'itÃ©rateur
   protected
     class function Classe_Iterateur: TIterateur_Class; override;
   public
@@ -73,7 +73,7 @@ type
                         _Classe_Elements: TBatpro_Element_Class;
                         _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre); override;
     destructor  Destroy; override;
-  //Création d'itérateur
+  //CrÃ©ation d'itÃ©rateur
   protected
     class function Classe_Iterateur: TIterateur_Class; override;
   public
@@ -153,7 +153,7 @@ begin
      inherited;
      if Classe_Elements <> _Classe_Elements
      then
-         fAccueil_Erreur(  'Erreur à signaler au développeur: '#13#10
+         fAccueil_Erreur(  'Erreur Ã  signaler au dÃ©veloppeur: '#13#10
                           +' '+ClassName+'.Create: Classe_Elements <> _Classe_Elements:'#13#10
                           +' Classe_Elements='+ Classe_Elements.ClassName+#13#10
                           +'_Classe_Elements='+_Classe_Elements.ClassName

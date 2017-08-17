@@ -48,8 +48,8 @@ type
  TpoolG_CTX
  =
   class( TPool)
-    procedure DataModuleCreate(Sender: TObject);
-    procedure DataModuleDestroy(Sender: TObject);
+    procedure DataModuleCreate(Sender: TObject);  override;
+    procedure DataModuleDestroy(Sender: TObject);  override;
   //Filtre
   public
     hfG_CTX: ThfG_CTX;
@@ -60,7 +60,7 @@ type
   protected
     contexte: Integer;
 
-    procedure To_Params( _Params: TParams); override;
+    procedure To_SQLQuery_Params( SQLQuery: TSQLQuery); override;
   public
     function Get_by_Cle( _contexte: Integer): TblG_CTX;
   //Gestion de l'insertion
@@ -83,7 +83,7 @@ var
 
 implementation
 
-{$R *.dfm}
+
 
 { TpoolG_CTX }
 
@@ -123,10 +123,10 @@ begin
 
 end;
 
-procedure TpoolG_CTX.To_Params( _Params: TParams);
+procedure TpoolG_CTX.To_SQLQuery_Params(SQLQuery: TSQLQuery);
 begin
      inherited;
-     with _Params
+     with SQLQuery.Params
      do
        begin
        ParamByName( 'contexte'    ).AsInteger:= contexte;
@@ -185,9 +185,8 @@ begin
 end;
 
 initialization
-              Clean_Create( poolG_CTX, TpoolG_CTX);
 finalization
-              Clean_Destroy( poolG_CTX);
+              TPool.class_Destroy( poolG_CTX);
 end.
 
 

@@ -1,5 +1,5 @@
 <?php
-/*                                                                               |
+/**                                                                             |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
     Contact: Jean.Suzineau@wanadoo.fr                                           |
@@ -19,8 +19,14 @@
     You should have received a copy of the GNU Lesser General Public License    |
     along with this program.  If not, see <http://www.gnu.org/licenses/>.       |
                                                                                 |
-|                                                                              */
-include_once( "cpoolNom_de_la_table.php");
+|                                                                             **/
+// Nom_de_la_table_Insert.php
+
+require_once  "Session_ok.php";
+if (not_Session_ok()) exit();
+
+require_once "cpoolNom_de_la_table.php";
+
 $poolNom_de_la_table= new cpoolNom_de_la_table();
 
 $Nom_de_la_table= $poolNom_de_la_table->Nouveau();

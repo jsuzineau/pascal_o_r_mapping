@@ -48,7 +48,7 @@ type
  TpoolAutomatic
  =
   class( TPool)
-    procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleCreate(Sender: TObject);  override;
   //Méthodes
   public
     procedure Charge( _SQL: String; _slLoaded: TBatpro_StringList; _Params: TParams=nil);
@@ -64,14 +64,14 @@ function poolAutomatic: TpoolAutomatic;
 
 implementation
 
-{$R *.lfm}
+
 
 var
    FpoolAutomatic: TpoolAutomatic= nil;
 
 function poolAutomatic: TpoolAutomatic;
 begin
-     Clean_Get( Result, FpoolAutomatic, TpoolAutomatic);
+     TpoolAutomatic.class_Get( Result, FpoolAutomatic, TpoolAutomatic);
 end;
 
 { TpoolAutomatic }
@@ -103,5 +103,5 @@ end;
 
 initialization
 finalization
-              Clean_destroy( FpoolAutomatic);
+              TPool.class_Destroy( FpoolAutomatic);
 end.

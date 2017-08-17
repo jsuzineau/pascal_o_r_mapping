@@ -522,13 +522,17 @@ type
  TPool
  =
   class( Tpool_Ancetre_Ancetre)
-    procedure DataModuleCreate(Sender: TObject);
-    procedure DataModuleDestroy(Sender: TObject);
-
   //Gestion du cycle de vie
   public
-    constructor Create( AOwner: TComponent); override;
+    constructor Create( _sl: TBatpro_StringList); override;
     destructor Destroy; override;
+
+    procedure AfterConstruction; override;
+    procedure BeforeDestruction; override;
+
+    procedure DataModuleCreate (Sender: TObject); virtual;
+    procedure DataModuleDestroy(Sender: TObject); virtual;
+
   //Gestion des contextes
   private
     function Cree_Contexte( _Name: String): TjsDataContexte;
@@ -806,8 +810,6 @@ procedure uPool_Vide;
 
 implementation
 
-{$R *.lfm}
-
 procedure Traite_TABLE_SANS_ID;
 var
    I: Integer;
@@ -934,7 +936,7 @@ begin
      jsdcLoad_by_id       .UsePrimaryKeyAsKey:= _Value;
 end;
 
-constructor TPool.Create(AOwner: TComponent);
+constructor TPool.Create(_sl: TBatpro_StringList);
 begin
      Load_sqlQuery_Context_class:= TLoad_sqlQuery_Context;
 
@@ -942,13 +944,13 @@ begin
      jsdcLoad          := Cree_Contexte( ClassName+'.jsdcLoad'          );
      jsdcSELECT_from_id:= Cree_Contexte( ClassName+'.jsdcSELECT_from_id');
 
-     sqlq_SELECT_ALL_count:= TSQLQuery.Create( Self);
+     sqlq_SELECT_ALL_count:= TSQLQuery.Create( nil);
      sqlq_SELECT_ALL_count.Name:= 'sqlq_SELECT_ALL_count';
 
      jsdcSELECT_ALL    := Cree_Contexte( ClassName+'.jsdcSELECT_ALL');
 
      SQL_Recuperation:= '';
-     sqlqID_Recuperation:= TSQLQuery.Create( Self);
+     sqlqID_Recuperation:= TSQLQuery.Create( nil);
      sqlqID_Recuperation.Name:= 'sqlqID_Recuperation';
 
      jsdcINSERT:= Cree_Contexte( ClassName+'.jsdcINSERT');
@@ -965,7 +967,7 @@ begin
 
      Load_N_rows_by_id_ORDER_BY:= '';
 
-     inherited;
+     inherited Create( _sl);
 end;
 
 destructor TPool.Destroy;
@@ -973,7 +975,9 @@ begin
      Free_nil( jsdcSELECT);
      Free_nil( jsdcLoad  );
      Free_nil( jsdcSELECT_from_id);
+     Free_nil(sqlq_SELECT_ALL_count);
      Free_nil( jsdcSELECT_ALL);
+     Free_nil( sqlqID_Recuperation  );
      Free_nil( jsdcINSERT);
      Free_nil( jsdcLoad_by_id);
      Free_nil( jsdcCD_FROM_INSERT);
@@ -987,6 +991,18 @@ begin
        sgbd_SQLite3: Result:= TjsDataContexte_libsqlite3.Create( _Name);
        else          Result:= TjsDataContexte_SQLQuery  .Create( _Name);
        end;
+end;
+
+procedure TPool.AfterConstruction;
+begin
+     inherited AfterConstruction;
+     DataModuleCreate( Self);
+end;
+
+procedure TPool.BeforeDestruction;
+begin
+     DataModuleDestroy( Self);
+     inherited BeforeDestruction;
 end;
 
 procedure TPool.DataModuleCreate(Sender: TObject);
@@ -1068,6 +1084,7 @@ begin
 
      inherited;
 end;
+
 
 function TPool.SQLWHERE_ContraintesChamps: String;
 begin
