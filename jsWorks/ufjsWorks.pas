@@ -246,11 +246,20 @@ end;
 procedure TfjsWorks.Traite_Beginning_From;
 var
    D: TDateTime;
+   slWork: TslWork;
 begin
      D:= dtpBeginning_From.Date;
-     //poolWork       .ToutCharger();
-     poolWork       .Charge_Periode( D, Now);
-     poolWork.TrierFiltre;
+
+     slWork:= TslWork.Create( ClassName+'slWork');
+     try
+        //poolWork.ToutCharger();
+        poolWork.Charge_Periode( D, Now, 0, slWork);
+        poolWork.TrierFiltre;
+        slWork.Charger_Tags;
+     finally
+            FreeAndNil( slWork);
+            end;
+
      //poolDevelopment.ToutCharger();
      _from_pool;
 end;

@@ -30,6 +30,7 @@ uses
     uChamp,
     uReels,
     ufAccueil_Erreur,
+    uPublieur,
 
     uBatpro_Element,
     uBatpro_Ligne,
@@ -83,6 +84,9 @@ type
    //Chargement de tous les détails
    public
      procedure Charge; override;
+   //
+   public
+     pCharge: TPublieur;
    //Création d'itérateur
    protected
      class function Classe_Iterateur: TIterateur_Class; override;
@@ -209,6 +213,8 @@ type
     function  not_Suivant( var _Resultat: TblWork): Boolean;
   end;
 
+ { TslWork }
+
  TslWork
  =
   class( TBatpro_StringList)
@@ -222,6 +228,9 @@ type
   public
     function Iterateur: TIterateur_Work;
     function Iterateur_Decroissant: TIterateur_Work;
+  //
+  public
+    procedure Charger_Tags;
   end;
 
 function sNb_Heures_from_DateTime( _dt: TDateTime): String;
@@ -337,10 +346,12 @@ begin
                           +' Classe_Elements='+ Classe_Elements.ClassName+#13#10
                           +'_Classe_Elements='+_Classe_Elements.ClassName
                           );
+     pCharge:= TPublieur.Create( ClassName+'.pCharge');
 end;
 
 destructor ThaWork__Tag_from_Description.Destroy;
 begin
+     Free_nil( pCharge);
      inherited;
 end;
 
@@ -351,6 +362,7 @@ begin
      TblWork(Parent).haTag.Charge;
      poolTag.Charge_Work_from_Description( TblWork(Parent).Description, slCharge, TblWork(Parent).haTag.sl);
      Ajoute_slCharge;
+     pCharge.Publie;
 end;
 
 class function ThaWork__Tag_from_Description.Classe_Iterateur: TIterateur_Class;
@@ -471,6 +483,22 @@ end;
 function TslWork.Iterateur_Decroissant: TIterateur_Work;
 begin
      Result:= TIterateur_Work( Iterateur_interne_Decroissant);
+end;
+
+procedure TslWork.Charger_Tags;
+var
+   I: TIterateur_Work;
+   bl: TblWork;
+begin
+     I:= Iterateur;
+
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( bl) then continue;
+
+       bl.haTag_from_Description.Charge;
+       end;
 end;
 
 { TblWork }
