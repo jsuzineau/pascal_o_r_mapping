@@ -88,8 +88,8 @@ begin
      tw.Text:= ClassName+'.amjsWorksJNIPrompt: Avant CopyFromAssetsToEnvironmentDir('+Filename+', '+EnvironmentDirPath+');';
      CopyFromAssetsToEnvironmentDir(Filename, EnvironmentDirPath);
      //SQLite_Android.DataBase:= IncludeTrailingPathDelimiter( EnvironmentDirPath)+Filename;
-     SQLite_Android.DataBase:= Filename;
      SGBD_Set( sgbd_SQLite_Android);
+     dmDatabase.Connection.DataBase:= Filename;
      dmDatabase.Ouvre_db;
      sda.DataBaseName:= Filename;
 end;
