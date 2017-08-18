@@ -86,9 +86,8 @@ type
     procedure Ferme_db; virtual;
     procedure Keep_Connection; virtual;
     procedure Do_not_Keep_Connection; virtual;
-  //DBExpress
   public
-    procedure Initialise_DBExpress;
+    procedure Initialise;
   public
     { Déclarations publiques }
 
@@ -120,34 +119,25 @@ type
     function Connection: TjsDataConnexion;
   end;
 
-// constraint \"informix\"\.n{[0123456789_]*}
-// constraint \"informix\"\.n{[0123456789_]*}
-// constraint \"batprov3\"\.n{[0123456789_]*}
-// constraint \"batpro\"\.n{[0123456789_]*}
-
-// Locale code 1036	fr	Français (France) (paramètre pour TDatabase)
-
-const
-     //BDE
-     db_bde_database= 'DATABASE NAME';
-     db_bde_server  =   'SERVER NAME';
-     db_bde_user    =   'USER NAME';
-
-     //DBExpress, pilote Borland
-     db_dbx_database= 'DataBase';
-     db_dbx_server  = 'HostName';
-
-     //DBExpress, pilote Luxena pour Informix
-     db_dbx_Luxena_database= 'DataBase';
-
 var
-   dmDatabase: TdmDatabase;
    dmDatabase_IsMySQL: Boolean;
+
+function dmDatabase: TdmDatabase;
 
 implementation
 
-const
-     inik_Mot_de_passe= 'Mot_de_passe';
+{ TdmDatabase }
+
+var
+   FdmDatabase: TdmDatabase= nil;
+
+function dmDatabase: TdmDatabase;
+begin
+     if nil = FdmDatabase
+     then
+         FdmDatabase:= TdmDatabase.Create;
+     Result:= FdmDatabase;
+end;
 
 constructor TdmDatabase.Create;
 begin
@@ -161,7 +151,7 @@ begin
 
      Ferme_db;
 
-     Initialise_DBExpress;
+     Initialise;
      //Ouvre_db;
 end;
 
@@ -173,7 +163,7 @@ begin
      inherited;
 end;
 
-procedure TdmDatabase.Initialise_DBExpress;
+procedure TdmDatabase.Initialise;
 begin
      IsMySQL:= sgbdMySQL;
      dmDatabase_IsMySQL:= sgbdMySQL;
@@ -242,7 +232,7 @@ begin
      OldDatabase:= jsDataConnexion.DataBase; jsDataConnexion.DataBase:= NewDatabase;
 
      try
-        Initialise_DBExpress;
+        Initialise;
         Ouvre_db;
      except
            on E: Exception
@@ -257,7 +247,7 @@ end;
 procedure TdmDatabase.SGBDChange;
 begin
      Ferme_db;
-     Initialise_DBExpress;
+     Initialise;
 end;
 
 function TdmDatabase.Hote: String;
@@ -308,9 +298,7 @@ begin
      FLoginOK:= Value;
 end;
 
-initialization
-              dmDatabase:= TdmDatabase.Create;
 finalization
-              Free_nil( dmDatabase);
+              Free_nil( FdmDatabase);
 end.
 

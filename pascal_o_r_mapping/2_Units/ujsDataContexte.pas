@@ -190,9 +190,8 @@ type
    public
      Name: String;
    //Connection
-   private
-     FConnection: TjsDataConnexion;
    protected
+     FConnection: TjsDataConnexion;
      function GetConnection: TjsDataConnexion; virtual;
      procedure SetConnection(_Value: TjsDataConnexion); virtual;
    public
