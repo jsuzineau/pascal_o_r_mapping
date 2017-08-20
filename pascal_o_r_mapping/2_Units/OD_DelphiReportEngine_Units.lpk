@@ -18,7 +18,7 @@
         <CustomOptions Value="-dWINDOWS_GRAPHIC"/>
       </Other>
     </CompilerOptions>
-    <Files Count="94">
+    <Files Count="93">
       <Item1>
         <Filename Value="DBTables.pas"/>
         <UnitName Value="DBTables"/>
@@ -388,14 +388,10 @@
         <UnitName Value="uVide"/>
       </Item92>
       <Item93>
-        <Filename Value="C:/01_pascal_o_r_mapping/pascal_o_r_mapping/2_Units/sqlite3conn_pour_test.pp"/>
-        <UnitName Value="sqlite3conn_pour_test"/>
-      </Item93>
-      <Item94>
         <Filename Value="sqlite3conn_pour_test.pp"/>
         <AddToUsesPkgSection Value="False"/>
         <UnitName Value="sqlite3conn_pour_test"/>
-      </Item94>
+      </Item93>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>
