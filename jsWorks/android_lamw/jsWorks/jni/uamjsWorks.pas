@@ -36,6 +36,7 @@ uses
     udmDatabase,
     upoolWork,
 
+    ufAccueil_Erreur,
   Classes, SysUtils, And_jni, And_jni_Bridge, Laz_And_Controls,
 		AndroidWidget;
 
@@ -58,6 +59,7 @@ type
   private
     procedure Exec_query( _SQL: String);
     procedure Show_tables;
+    procedure Log( _Message_Developpeur: String; _Message: String = '');
   end;
 
 var
@@ -80,17 +82,24 @@ var
    Filename: String;
    EnvironmentDirPath:String;
 begin
+     fAccueil_log_procedure:= Log;
      uForms_Android_ShowMessage:= Self.ShowMessage;
-     ShowMessage( 'TamjsWorks.amjsWorksJNIPrompt, debut');
+     fAccueil_Log( ClassName+'.amjsWorksJNIPrompt, debut');
      Filename:= 'jsWorks.sqlite';
      EnvironmentDirPath:= GetEnvironmentDirectoryPath(dirDatabase);
      uEXE_INI_init_android( EnvironmentDirPath);
      tw.Text:= ClassName+'.amjsWorksJNIPrompt: Avant CopyFromAssetsToEnvironmentDir('+Filename+', '+EnvironmentDirPath+');';
-     CopyFromAssetsToEnvironmentDir(Filename, EnvironmentDirPath);
+     //CopyFromAssetsToEnvironmentDir(Filename, EnvironmentDirPath);
      //SQLite_Android.DataBase:= IncludeTrailingPathDelimiter( EnvironmentDirPath)+Filename;
+     fAccueil_Log( ClassName+'.amjsWorksJNIPrompt, avant SGBD_Set( sgbd_SQLite_Android);');
      SGBD_Set( sgbd_SQLite_Android);
+     fAccueil_Log( ClassName+'.amjsWorksJNIPrompt, truc avant dmDatabase.Initialise;');
+     dmDatabase.Initialise;
+     fAccueil_Log( ClassName+'.amjsWorksJNIPrompt, avant dmDatabase.Connection.DataBase:= Filename;');
      dmDatabase.Connection.DataBase:= Filename;
+     fAccueil_Log( ClassName+'.amjsWorksJNIPrompt, avant dmDatabase.Ouvre_db;');
      dmDatabase.Ouvre_db;
+     fAccueil_Log( ClassName+'.amjsWorksJNIPrompt, avant sda.DataBaseName:= Filename;');
      sda.DataBaseName:= Filename;
 end;
 
@@ -148,6 +157,11 @@ end;
 procedure TamjsWorks.Show_tables;
 begin
      Exec_query( 'SELECT name FROM sqlite_master WHERE type=''table''');
+end;
+
+procedure TamjsWorks.Log(_Message_Developpeur: String; _Message: String='');
+begin
+     ShowMessage( _Message_Developpeur)
 end;
 
 end.

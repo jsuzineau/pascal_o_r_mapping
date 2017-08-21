@@ -133,26 +133,37 @@ var
 
 function dmDatabase: TdmDatabase;
 begin
+     fAccueil_Log( 'dmDatabase: début');
      if nil = FdmDatabase
      then
+         begin
+         fAccueil_Log( 'dmDatabase: avant FdmDatabase:= TdmDatabase.Create;');
          FdmDatabase:= TdmDatabase.Create;
+         fAccueil_Log( 'dmDatabase: aprés FdmDatabase:= TdmDatabase.Create;');
+         end;
      Result:= FdmDatabase;
+     fAccueil_Log( 'dmDatabase: fin');
 end;
 
 constructor TdmDatabase.Create;
 begin
+     fAccueil_Log( ClassName+'.Create;, début');
      inherited;
      FLoginOK:= False;//redondant, initialisé dans Ouvre_db
 
      Classe_jsDataConnexion:= nil;
      jsDataConnexion:= nil;
 
+     fAccueil_Log( ClassName+'.Create;, avant pSGBDChange.Abonne( Self, SGBDChange);');
      pSGBDChange.Abonne( Self, SGBDChange);
 
+     fAccueil_Log( ClassName+'.Create;, avant Ferme_db;');
      Ferme_db;
 
+     fAccueil_Log( ClassName+'.Create;, avant Initialise;');
      Initialise;
      //Ouvre_db;
+     fAccueil_Log( ClassName+'.Create;, Fin');
 end;
 
 destructor TdmDatabase.Destroy;
@@ -175,16 +186,21 @@ begin
        sgbd_SQLServer: Classe_jsDataConnexion:= TSQLServer;
        sgbd_SQLite3  : Classe_jsDataConnexion:= TSQLite3;
        else
-           raise Exception.Create( ClassName+'.Initialise_DBExpress: sbgd non géré: '+sSGBDs[SGBD]);
+           raise Exception.Create( ClassName+'.Initialise: sbgd non géré: '+sSGBDs[SGBD]);
        end;
 
+     fAccueil_Log( ClassName+'.Initialise;, avant jsDataConnexion:= Classe_jsDataConnexion.Create;');
      jsDataConnexion:= Classe_jsDataConnexion.Create;
+     fAccueil_Log( ClassName+'.Initialise;, avant jsDataConnexion.Prepare;');
      jsDataConnexion.Prepare;
+     fAccueil_Log( ClassName+'.Initialise;, apréss jsDataConnexion.Prepare;');
 end;
 
 procedure TdmDatabase.Ouvre_db;
 begin
      FLoginOK:= False;
+
+     if nil = jsDataConnexion then exit;
 
      if not jsDataConnexion.Ouvrable then exit;
 
@@ -193,16 +209,22 @@ end;
 
 procedure TdmDatabase.Ferme_db;
 begin
+     if nil = jsDataConnexion then exit;
+
      jsDataConnexion.Ferme_db;
 end;
 
 procedure TdmDatabase.Do_not_Keep_Connection;
 begin
+     if nil = jsDataConnexion then exit;
+
      jsDataConnexion.Do_not_Keep_Connection;
 end;
 
 procedure TdmDatabase.Keep_Connection;
 begin
+     if nil = jsDataConnexion then exit;
+
      jsDataConnexion.Keep_Connection;
 end;
 
@@ -252,11 +274,17 @@ end;
 
 function TdmDatabase.Hote: String;
 begin
+     Result:= '';
+     if nil = jsDataConnexion then exit;
+
      Result:= jsDataConnexion.HostName;
 end;
 
 function TdmDatabase.Database: String;
 begin
+     Result:= '';
+     if nil = jsDataConnexion then exit;
+
      Result:= jsDataConnexion.DataBase;
 end;
 
@@ -274,6 +302,8 @@ end;
 
 procedure TdmDatabase.Fill_with_databases( _s: TStrings);
 begin
+     if nil = jsDataConnexion then exit;
+
      jsDataConnexion.Fill_with_databases( _s);
 end;
 
