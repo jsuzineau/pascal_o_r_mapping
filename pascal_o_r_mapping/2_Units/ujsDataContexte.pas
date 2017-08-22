@@ -12,6 +12,7 @@ uses
     uuStrings,
     uBatpro_StringList,
     uDataUtilsF,
+    uSGBD,
     uLog,
  Classes, SysUtils, db, sqldb, strutils;
 
@@ -73,6 +74,9 @@ type
    public
      procedure Start_SQLLog; virtual;
      procedure  Stop_SQLLog; virtual;
+   //Récupération du nom du serveur et de la base
+   public
+     function sSGBD_Database: String;
 			end;
   TjsDataConnexion_Class= class of TjsDataConnexion;
 
@@ -753,6 +757,13 @@ end;
 procedure TjsDataConnexion.Reconnecte;
 begin
 
+end;
+
+function TjsDataConnexion.sSGBD_Database: String;
+begin
+     Result
+     :=
+       'base '+DataBase+' sur '+sSGBD;
 end;
 
 function TjsDataConnexion.Base_sur: String;

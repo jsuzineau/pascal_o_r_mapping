@@ -28,16 +28,11 @@ interface
 uses
     uClean,
     uLog,
-    uOD_Forms,
     uParametres_Ligne_de_commande,
-    uBatpro_StringList,
     u_sys_,
-    u_ini_,
     uDataUtilsU,
     uNetwork,
-    uuStrings,
     uDataUtilsF,
-    u_InformixLob,//juste pour exécuter l'initialization de u_InformixLob
     uEXE_INI,
     ujsDataContexte,
     uSGBD,
@@ -52,20 +47,8 @@ uses
 
     ufAccueil_Erreur,
 
-  {$IFNDEF FPC}
-  Windows, Messages, Graphics, Controls, Forms, Dialogs,
-  StdCtrls,Registry,
-  {$ENDIF}
-  {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-  ucbvCustomConnection,
- {$IFEND}
   Classes,SysUtils,
-  Db, SQLDB,
-  mysql50conn,
-    mysql51conn,
-    mysql55conn,
-    mysql56conn,
-    IniFiles,
+  SQLDB,
   FMTBcd, BufDataset;
 
 type
@@ -105,7 +88,6 @@ type
   public
     function Hote: String;
     function Database: String;
-    function sSGBD_Database: String;
   //Type de serveur
   private
     procedure SGBDChange;
@@ -292,13 +274,6 @@ begin
      if nil = jsDataConnexion then exit;
 
      Result:= jsDataConnexion.DataBase;
-end;
-
-function TdmDatabase.sSGBD_Database: String;
-begin
-     Result
-     :=
-       'base '+DataBase+' sur '+sSGBD;
 end;
 
 procedure TdmDatabase.Sauve;

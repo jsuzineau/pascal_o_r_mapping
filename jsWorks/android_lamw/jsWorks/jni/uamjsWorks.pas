@@ -110,9 +110,11 @@ function dmDatabase: TdmDatabase;
 {%endregion}
 
 type
-  { TamjsWorks }
+ { TamjsWorks }
 
-  TamjsWorks = class(jForm)
+ TamjsWorks
+ =
+  class(jForm)
     bOuvrir: jButton;
     bState: jButton;
 				bDemarrer: jButton;
@@ -128,6 +130,7 @@ type
     procedure Exec_query( _SQL: String);
     procedure Show_tables;
     procedure Log( _Message_Developpeur: String; _Message: String = '');
+    procedure Test_SQLite_Android( _Filename: String);
   end;
 
 var
@@ -365,12 +368,14 @@ begin
      //SQLite_Android.DataBase:= IncludeTrailingPathDelimiter( EnvironmentDirPath)+Filename;
      fAccueil_Log( ClassName+'.amjsWorksJNIPrompt, avant SGBD_Set( sgbd_SQLite_Android);');
      SGBD_Set( sgbd_SQLite_Android);
-     fAccueil_Log( ClassName+'.amjsWorksJNIPrompt, truc avant dmDatabase.Initialise;');
-     dmDatabase.Initialise;
+     fAccueil_Log( ClassName+'.amjsWorksJNIPrompt, avant Test_SQLite_Android;');
+     Test_SQLite_Android( Filename);
+     fAccueil_Log( ClassName+'.amjsWorksJNIPrompt, avant dmDatabase.Initialise;');
+     //dmDatabase.Initialise;
      fAccueil_Log( ClassName+'.amjsWorksJNIPrompt, avant dmDatabase.Connection.DataBase:= Filename;');
-     dmDatabase.Connection.DataBase:= Filename;
+     //dmDatabase.Connection.DataBase:= Filename;
      fAccueil_Log( ClassName+'.amjsWorksJNIPrompt, avant dmDatabase.Ouvre_db;');
-     dmDatabase.Ouvre_db;
+     //dmDatabase.Ouvre_db;
      fAccueil_Log( ClassName+'.amjsWorksJNIPrompt, avant sda.DataBaseName:= Filename;');
      sda.DataBaseName:= Filename;
 end;
@@ -434,6 +439,28 @@ end;
 procedure TamjsWorks.Log(_Message_Developpeur: String; _Message: String='');
 begin
      ShowMessage( _Message_Developpeur)
+end;
+
+procedure TamjsWorks.Test_SQLite_Android( _Filename: String);
+var
+   sa: TSQLite_Android;
+begin
+     fAccueil_Log( ClassName+'.Test_SQLite_Android;, avant sa:= TSQLite_Android.Create;');
+     sa:= TSQLite_Android.Create;
+     fAccueil_Log( ClassName+'.Test_SQLite_Android;, aprés sa:= TSQLite_Android.Create;');
+     try
+        fAccueil_Log( ClassName+'.Test_SQLite_Android;, avant sa.Prepare;');
+        sa.Prepare;
+        fAccueil_Log( ClassName+'.Test_SQLite_Android;, aprés sa.Prepare;');
+        fAccueil_Log( ClassName+'.Test_SQLite_Android;, avant sa.DataBase:= _Filename;');
+        sa.DataBase:= _Filename;
+        fAccueil_Log( ClassName+'.Test_SQLite_Android;, aprés sa.DataBase:= _Filename;');
+        fAccueil_Log( ClassName+'.Test_SQLite_Android;, avant sa.Ouvre_db;');
+        sa.Ouvre_db;
+        fAccueil_Log( ClassName+'.Test_SQLite_Android;, aprés sa.Ouvre_db;');
+					finally
+            FreeAndNil( sa);
+					       end;
 end;
 
 end.
