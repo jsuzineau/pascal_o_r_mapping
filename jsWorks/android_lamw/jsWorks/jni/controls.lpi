@@ -118,7 +118,7 @@
     </Target>
     <SearchPaths>
       <Libraries Value="C:\lamw\android-ndk-r10e-windows-x86\platforms\android-17\arch-arm\usr\lib\;C:\lamw\android-ndk-r10e-windows-x86\toolchains\arm-linux-androideabi-4.9\prebuilt\windows\lib\gcc\arm-linux-androideabi\4.9\"/>
-      <OtherUnitFiles Value="..\..\..\Elements\Work;..\..\..\..\pascal_o_r_mapping\3_Data;..\..\..\Elements\Tag;..\..\..\..\pascal_o_r_mapping\7_sources_externes\synapse\source\lib;..\..\..\Elements\Tag_Work;..\..\..\Elements\Type_Tag"/>
+      <OtherUnitFiles Value="..\..\..\Elements\Work;..\..\..\Elements\Tag;..\..\..\..\pascal_o_r_mapping\7_sources_externes\synapse\source\lib;..\..\..\Elements\Tag_Work;..\..\..\Elements\Type_Tag;..\..\..\..\pascal_o_r_mapping\3_Data"/>
       <UnitOutputDirectory Value="..\obj\controls"/>
     </SearchPaths>
     <Parsing>

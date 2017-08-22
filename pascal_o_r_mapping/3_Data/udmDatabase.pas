@@ -46,6 +46,9 @@ uses
     uPostgres,
     uSQLServer,
     uSQLite3,
+    {$ifdef android}
+    uSQLite_Android,
+    {$endif}
 
     ufAccueil_Erreur,
 
@@ -185,6 +188,9 @@ begin
        sgbd_Postgres : Classe_jsDataConnexion:= TPostgres;
        sgbd_SQLServer: Classe_jsDataConnexion:= TSQLServer;
        sgbd_SQLite3  : Classe_jsDataConnexion:= TSQLite3;
+       {$ifdef android}
+       sgbd_SQLite_Android: Classe_jsDataConnexion:= TSQLite_Android;
+       {$endif}
        else
            raise Exception.Create( ClassName+'.Initialise: sbgd non géré: '+sSGBDs[SGBD]);
        end;
@@ -327,6 +333,8 @@ begin
      if FLoginOK = Value then exit;
      FLoginOK:= Value;
 end;
+
+initialization
 
 finalization
               Free_nil( FdmDatabase);

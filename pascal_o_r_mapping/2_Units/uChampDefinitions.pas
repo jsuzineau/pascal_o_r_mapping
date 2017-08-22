@@ -104,6 +104,9 @@ var
 
 function ChampDefinitions_from_ClassName( _ClassName: String): TChampDefinitions;
 
+procedure ChampDefinitions_Set_Flottant_Precision( _ClassName: String; _Value: Integer);
+procedure ChampDefinitions_Set_Flottant_Precision_Field( _ClassName, _Field: String; _Value: Integer);
+
 implementation
 
 function ChampDefinitions_from_ClassName_sans_creation( _ClassName: String): TChampDefinitions;
@@ -129,6 +132,44 @@ begin
 
      Result:= TChampDefinitions.Create;
      uChampDefinitions_ChampDefinitions.AddObject( _ClassName, Result);
+end;
+
+procedure ChampDefinitions_Set_Flottant_Precision_ChampDefinition( _cd: TChampDefinition; _Value: Integer);
+begin
+     _cd.Flottant_Precision:= _Value;
+end;
+
+procedure ChampDefinitions_Set_Flottant_Precision( _ClassName: String; _Value: Integer);
+var
+   cds: TChampDefinitions;
+   I: TIterateur_ChampDefinition;
+   cd: TChampDefinition;
+begin
+     cds:= ChampDefinitions_from_ClassName( _ClassName);
+     if nil = cds then exit;
+
+     I:= cds.sl.Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( cd) then continue;
+
+       ChampDefinitions_Set_Flottant_Precision_ChampDefinition( cd, _Value);
+       end;
+end;
+
+procedure ChampDefinitions_Set_Flottant_Precision_Field( _ClassName, _Field: String; _Value: Integer);
+var
+   cds: TChampDefinitions;
+   cd: TChampDefinition;
+begin
+     cds:= ChampDefinitions_from_ClassName( _ClassName);
+     if nil = cds then exit;
+
+     cd:= cds.Definition_from_Field( _Field);
+     if nil = cd then exit;
+
+     ChampDefinitions_Set_Flottant_Precision_ChampDefinition( cd, _Value);
 end;
 
 { TIterateur_ChampDefinitions }
