@@ -139,7 +139,7 @@ function Requete: TRequete;
 begin
      if nil = FRequete
      then
-         FRequete:= TRequete.Create( dmDatabase.Connection);
+         FRequete:= TRequete.Create( dmDatabase.Get_jsDataConnexion);
      Result:= FRequete;
 end;
 

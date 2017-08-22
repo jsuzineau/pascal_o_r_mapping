@@ -802,6 +802,7 @@ procedure Reinitialise_pools;//pour passage d'informix à MySQL
 
 var
    uPool_Vide_contexte: String = '';
+   uPool_Default_jsDataConnexion: TjsDataConnexion= nil;
 
 procedure uPool_Vide;
 
@@ -2206,7 +2207,10 @@ end;
 
 function TPool.Connection: TjsDataConnexion;
 begin
-     Result:= dmDatabase.jsDataConnexion;
+     if nil = uPool_Default_jsDataConnexion
+     then
+         uPool_Default_jsDataConnexion:= dmDatabase.jsDataConnexion;
+     Result:= uPool_Default_jsDataConnexion;
 end;
 
 procedure TPool.Vider_table;

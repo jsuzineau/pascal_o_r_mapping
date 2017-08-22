@@ -57,7 +57,6 @@ type
      procedure Keep_Connection; virtual;
      procedure Do_not_Keep_Connection; virtual;
      procedure Ecrire; virtual;
-     procedure Fill_with_databases( _s: TStrings); virtual;
      function EmptyCommande( Commande: String): Boolean;
      procedure DoCommande( Commande: String);            virtual;
      function ExecQuery( _SQL: String): Boolean;         virtual;
@@ -70,6 +69,10 @@ type
      function MySQLPath(NomFichier: String): String; virtual;
      procedure Reconnecte; virtual;
      function Base_sur: String; virtual;
+   //Récupération du nom des bases
+   public
+     procedure Fill_with_databases( _s: TStrings); virtual;
+     //    procedure Fill_with_databases( _cb: TComboBox); overload;
    //Gestion du log
    public
      procedure Start_SQLLog; virtual;
@@ -693,6 +696,16 @@ procedure TjsDataConnexion.Fill_with_databases(_s: TStrings);
 begin
 
 end;
+
+(*
+procedure TjsDataConnexion.Fill_with_databases( _cb: TComboBox);
+begin
+     if _cb = nil then exit;
+
+     Fill_with_databases( _cb.Items);
+     _cb.Sorted:= True;
+end;
+*)
 
 function TjsDataConnexion.EmptyCommande(Commande: String): Boolean;
 var

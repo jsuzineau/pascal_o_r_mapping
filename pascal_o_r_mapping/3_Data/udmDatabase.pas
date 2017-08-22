@@ -70,8 +70,6 @@ type
   public //mis en public pour les tests automatiques utcLogin_MySQL
     procedure Ouvre_db; virtual;
     procedure Ferme_db; virtual;
-    procedure Keep_Connection; virtual;
-    procedure Do_not_Keep_Connection; virtual;
   public
     procedure Initialise;
   public
@@ -84,24 +82,16 @@ type
   //Gestion de la base passée en ligne de commande
   public
     procedure Traite_autoexec_Database;
-  //Récupération du nom du serveur et de la base
-  public
-    function Hote: String;
-    function Database: String;
   //Type de serveur
   private
     procedure SGBDChange;
   public
     procedure Sauve;
-  //Récupération du nom des bases
-  public
-    procedure Fill_with_databases( _s: TStrings); overload;
-//    procedure Fill_with_databases( _cb: TComboBox); overload;
   //jsDataConnexion
   public
     Classe_jsDataConnexion: TjsDataConnexion_Class;
     jsDataConnexion: TjsDataConnexion;
-    function Connection: TjsDataConnexion;
+    function Get_jsDataConnexion: TjsDataConnexion;
   end;
 
 var
@@ -200,20 +190,8 @@ begin
      if nil = jsDataConnexion then exit;
 
      jsDataConnexion.Ferme_db;
-end;
 
-procedure TdmDatabase.Do_not_Keep_Connection;
-begin
-     if nil = jsDataConnexion then exit;
-
-     jsDataConnexion.Do_not_Keep_Connection;
-end;
-
-procedure TdmDatabase.Keep_Connection;
-begin
-     if nil = jsDataConnexion then exit;
-
-     jsDataConnexion.Keep_Connection;
+     FLoginOK:= False;
 end;
 
 procedure TdmDatabase.Traite_autoexec_Database;
@@ -260,48 +238,15 @@ begin
      Initialise;
 end;
 
-function TdmDatabase.Hote: String;
-begin
-     Result:= '';
-     if nil = jsDataConnexion then exit;
-
-     Result:= jsDataConnexion.HostName;
-end;
-
-function TdmDatabase.Database: String;
-begin
-     Result:= '';
-     if nil = jsDataConnexion then exit;
-
-     Result:= jsDataConnexion.DataBase;
-end;
-
 procedure TdmDatabase.Sauve;
 begin
      jsDataConnexion.Ecrire;
 end;
 
-procedure TdmDatabase.Fill_with_databases( _s: TStrings);
-begin
-     if nil = jsDataConnexion then exit;
-
-     jsDataConnexion.Fill_with_databases( _s);
-end;
-
-function TdmDatabase.Connection: TjsDataConnexion;
+function TdmDatabase.Get_jsDataConnexion: TjsDataConnexion;
 begin
      Result:= jsDataConnexion;
 end;
-
-(*
-procedure TdmDatabase.Fill_with_databases( _cb: TComboBox);
-begin
-     if _cb = nil then exit;
-
-     Fill_with_databases( _cb.Items);
-     _cb.Sorted:= True;
-end;
-*)
 
 procedure TdmDatabase.SetLoginOK( Value: Boolean);
 begin
