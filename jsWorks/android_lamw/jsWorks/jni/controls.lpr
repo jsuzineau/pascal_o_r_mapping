@@ -27,7 +27,8 @@ uses
   Classes, SysUtils, And_jni, And_jni_Bridge, AndroidWidget, Laz_And_Controls,
 		Laz_And_Controls_Events, blcksock, uSQLite_Android, uhAggregation,
 		udmDatabase, upoolWork, ublWork, ublTag, upoolTag, upoolTag_Work,
-		ublType_Tag, uamjsWorks, fphttpclient;
+		ublType_Tag, ufjsWorks, fphttpclient, ufTest_SQLiteDataAccess,
+uAndroid_Database, ufUtilitaires;
   
 {%region /fold 'LAMW generated code'}
 
@@ -35,10 +36,10 @@ uses
   Method:    pAppOnCreate
   Signature: (Landroid/content/Context;Landroid/widget/RelativeLayout;Landroid/content/Intent;)V }
 procedure pAppOnCreate(PEnv: PJNIEnv; this: JObject; context: JObject;
-		layout: JObject; intent: JObject); cdecl;
+	layout: JObject; intent: JObject); cdecl;
 begin
-  Java_Event_pAppOnCreate(PEnv, this, context, layout, intent); amjsWorks.Init(
-				gApp);
+  Java_Event_pAppOnCreate(PEnv, this, context, layout, intent); fjsWorks.Init(
+			gApp);
 end;
 
 { Class:     com_mars42_jsworks_jsworks_Controls
@@ -133,7 +134,7 @@ end;
   Method:    pAppOnActivityResult
   Signature: (IILandroid/content/Intent;)V }
 procedure pAppOnActivityResult(PEnv: PJNIEnv; this: JObject; requestCode: JInt;
-		resultCode: JInt; data: JObject); cdecl;
+	resultCode: JInt; data: JObject); cdecl;
 begin
   Java_Event_pAppOnActivityResult(PEnv, this, requestCode, resultCode, data);
 end;
@@ -142,7 +143,7 @@ end;
   Method:    pAppOnCreateOptionsMenu
   Signature: (Landroid/view/Menu;)V }
 procedure pAppOnCreateOptionsMenu(PEnv: PJNIEnv; this: JObject; menu: JObject);
-		cdecl;
+	cdecl;
 begin
   Java_Event_pAppOnCreateOptionsMenu(PEnv, this, menu);
 end;
@@ -151,18 +152,18 @@ end;
   Method:    pAppOnClickOptionMenuItem
   Signature: (Landroid/view/MenuItem;ILjava/lang/String;Z)V }
 procedure pAppOnClickOptionMenuItem(PEnv: PJNIEnv; this: JObject;
-		menuItem: JObject; itemID: JInt; itemCaption: JString; checked: JBoolean);
-		cdecl;
+	menuItem: JObject; itemID: JInt; itemCaption: JString; checked: JBoolean);
+	cdecl;
 begin
   Java_Event_pAppOnClickOptionMenuItem(PEnv, this, menuItem, itemID,
-				itemCaption, checked);
+			itemCaption, checked);
 end;
 
 { Class:     com_mars42_jsworks_jsworks_Controls
   Method:    pAppOnPrepareOptionsMenu
   Signature: (Landroid/view/Menu;I)Z }
 function pAppOnPrepareOptionsMenu(PEnv: PJNIEnv; this: JObject; menu: JObject;
-		menuSize: JInt): JBoolean; cdecl;
+	menuSize: JInt): JBoolean; cdecl;
 begin
   Result:=Java_Event_pAppOnPrepareOptionsMenu(PEnv, this, menu, menuSize);
 end;
@@ -171,17 +172,17 @@ end;
   Method:    pAppOnPrepareOptionsMenuItem
   Signature: (Landroid/view/Menu;Landroid/view/MenuItem;I)Z }
 function pAppOnPrepareOptionsMenuItem(PEnv: PJNIEnv; this: JObject;
-		menu: JObject; menuItem: JObject; itemIndex: JInt): JBoolean; cdecl;
+	menu: JObject; menuItem: JObject; itemIndex: JInt): JBoolean; cdecl;
 begin
   Result:=Java_Event_pAppOnPrepareOptionsMenuItem(PEnv, this, menu, menuItem,
-				itemIndex);
+			itemIndex);
 end;
 
 { Class:     com_mars42_jsworks_jsworks_Controls
   Method:    pAppOnCreateContextMenu
   Signature: (Landroid/view/ContextMenu;)V }
 procedure pAppOnCreateContextMenu(PEnv: PJNIEnv; this: JObject; menu: JObject);
-		cdecl;
+	cdecl;
 begin
   Java_Event_pAppOnCreateContextMenu(PEnv, this, menu);
 end;
@@ -190,11 +191,11 @@ end;
   Method:    pAppOnClickContextMenuItem
   Signature: (Landroid/view/MenuItem;ILjava/lang/String;Z)V }
 procedure pAppOnClickContextMenuItem(PEnv: PJNIEnv; this: JObject;
-		menuItem: JObject; itemID: JInt; itemCaption: JString; checked: JBoolean);
-		cdecl;
+	menuItem: JObject; itemID: JInt; itemCaption: JString; checked: JBoolean);
+	cdecl;
 begin
   Java_Event_pAppOnClickContextMenuItem(PEnv, this, menuItem, itemID,
-				itemCaption, checked);
+			itemCaption, checked);
 end;
 
 { Class:     com_mars42_jsworks_jsworks_Controls
@@ -209,7 +210,7 @@ end;
   Method:    pOnTouch
   Signature: (JIIFFFF)V }
 procedure pOnTouch(PEnv: PJNIEnv; this: JObject; pasobj: JLong; act: JInt;
-		cnt: JInt; x1: JFloat; y1: JFloat; x2: JFloat; y2: JFloat); cdecl;
+	cnt: JInt; x1: JFloat; y1: JFloat; x2: JFloat; y2: JFloat); cdecl;
 begin
   Java_Event_pOnTouch(PEnv, this, TObject(pasobj), act, cnt, x1, y1, x2, y2);
 end;
@@ -218,7 +219,7 @@ end;
   Method:    pOnClickGeneric
   Signature: (JI)V }
 procedure pOnClickGeneric(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
-		value: JInt); cdecl;
+	value: JInt); cdecl;
 begin
   Java_Event_pOnClickGeneric(PEnv, this, TObject(pasobj), value);
 end;
@@ -227,17 +228,17 @@ end;
   Method:    pAppOnSpecialKeyDown
   Signature: (CILjava/lang/String;)Z }
 function pAppOnSpecialKeyDown(PEnv: PJNIEnv; this: JObject; keyChar: JChar;
-		keyCode: JInt; keyCodeString: JString): JBoolean; cdecl;
+	keyCode: JInt; keyCodeString: JString): JBoolean; cdecl;
 begin
   Result:=Java_Event_pAppOnSpecialKeyDown(PEnv, this, keyChar, keyCode,
-				keyCodeString);
+			keyCodeString);
 end;
 
 { Class:     com_mars42_jsworks_jsworks_Controls
   Method:    pOnClick
   Signature: (JI)V }
 procedure pOnClick(PEnv: PJNIEnv; this: JObject; pasobj: JLong; value: JInt);
-		cdecl;
+	cdecl;
 begin
   Java_Event_pOnClick(PEnv, this, TObject(pasobj), value);
 end;
@@ -246,7 +247,7 @@ end;
   Method:    pOnLongClick
   Signature: (JI)V }
 procedure pOnLongClick(PEnv: PJNIEnv; this: JObject; pasobj: JLong; value: JInt
-		); cdecl;
+	); cdecl;
 begin
   Java_Event_pOnLongClick(PEnv, this, TObject(pasobj), value);
 end;
@@ -255,7 +256,7 @@ end;
   Method:    pOnChange
   Signature: (JLjava/lang/String;I)V }
 procedure pOnChange(PEnv: PJNIEnv; this: JObject; pasobj: JLong; txt: JString;
-		count: JInt); cdecl;
+	count: JInt); cdecl;
 begin
   Java_Event_pOnChange(PEnv, this, TObject(pasobj), txt, count);
 end;
@@ -264,7 +265,7 @@ end;
   Method:    pOnChanged
   Signature: (JLjava/lang/String;I)V }
 procedure pOnChanged(PEnv: PJNIEnv; this: JObject; pasobj: JLong; txt: JString;
-		count: JInt); cdecl;
+	count: JInt); cdecl;
 begin
   Java_Event_pOnChanged(PEnv, this, TObject(pasobj), txt, count);
 end;
@@ -289,7 +290,7 @@ end;
   Method:    pAppOnViewClick
   Signature: (Landroid/view/View;I)V }
 procedure pAppOnViewClick(PEnv: PJNIEnv; this: JObject; view: JObject; id: JInt
-		); cdecl;
+	); cdecl;
 begin
   Java_Event_pAppOnViewClick(PEnv, this, view, id);
 end;
@@ -298,7 +299,7 @@ end;
   Method:    pAppOnListItemClick
   Signature: (Landroid/widget/AdapterView;Landroid/view/View;II)V }
 procedure pAppOnListItemClick(PEnv: PJNIEnv; this: JObject; adapter: JObject;
-		view: JObject; position: JInt; id: JInt); cdecl;
+	view: JObject; position: JInt; id: JInt); cdecl;
 begin
   Java_Event_pAppOnListItemClick(PEnv, this, adapter, view, position, id);
 end;
@@ -307,7 +308,7 @@ end;
   Method:    pOnFlingGestureDetected
   Signature: (JI)V }
 procedure pOnFlingGestureDetected(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
-		direction: JInt); cdecl;
+	direction: JInt); cdecl;
 begin
   Java_Event_pOnFlingGestureDetected(PEnv, this, TObject(pasobj), direction);
 end;
@@ -316,17 +317,17 @@ end;
   Method:    pOnPinchZoomGestureDetected
   Signature: (JFI)V }
 procedure pOnPinchZoomGestureDetected(PEnv: PJNIEnv; this: JObject;
-		pasobj: JLong; scaleFactor: JFloat; state: JInt); cdecl;
+	pasobj: JLong; scaleFactor: JFloat; state: JInt); cdecl;
 begin
   Java_Event_pOnPinchZoomGestureDetected(PEnv, this, TObject(pasobj),
-				scaleFactor, state);
+			scaleFactor, state);
 end;
 
 { Class:     com_mars42_jsworks_jsworks_Controls
   Method:    pOnLostFocus
   Signature: (JLjava/lang/String;)V }
 procedure pOnLostFocus(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
-		text: JString); cdecl;
+	text: JString); cdecl;
 begin
   Java_Event_pOnLostFocus(PEnv, this, TObject(pasobj), text);
 end;
@@ -335,7 +336,7 @@ end;
   Method:    pOnBeforeDispatchDraw
   Signature: (JLandroid/graphics/Canvas;I)V }
 procedure pOnBeforeDispatchDraw(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
-		canvas: JObject; tag: JInt); cdecl;
+	canvas: JObject; tag: JInt); cdecl;
 begin
   Java_Event_pOnBeforeDispatchDraw(PEnv, this, TObject(pasobj), canvas, tag);
 end;
@@ -344,7 +345,7 @@ end;
   Method:    pOnAfterDispatchDraw
   Signature: (JLandroid/graphics/Canvas;I)V }
 procedure pOnAfterDispatchDraw(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
-		canvas: JObject; tag: JInt); cdecl;
+	canvas: JObject; tag: JInt); cdecl;
 begin
   Java_Event_pOnAfterDispatchDraw(PEnv, this, TObject(pasobj), canvas, tag);
 end;
@@ -353,7 +354,7 @@ end;
   Method:    pOnLayouting
   Signature: (JZ)V }
 procedure pOnLayouting(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
-		changed: JBoolean); cdecl;
+	changed: JBoolean); cdecl;
 begin
   Java_Event_pOnLayouting(PEnv, this, TObject(pasobj), changed);
 end;
@@ -361,7 +362,7 @@ end;
 const NativeMethods: array[0..36] of JNINativeMethod = (
    (name: 'pAppOnCreate';
     signature: '(Landroid/content/Context;Landroid/widget/RelativeLayout;'
-      +'Landroid/content/Intent;)V';
+     +'Landroid/content/Intent;)V';
     fnPtr: @pAppOnCreate; ),
    (name: 'pAppOnScreenStyle';
     signature: '()I';
@@ -474,7 +475,7 @@ const NativeMethods: array[0..36] of JNINativeMethod = (
 );
 
 function RegisterNativeMethodsArray(PEnv: PJNIEnv; className: PChar;
-		methods: PJNINativeMethod; countMethods: integer): integer;
+	methods: PJNINativeMethod; countMethods: integer): integer;
 var
   curClass: jClass;
 begin
@@ -483,14 +484,14 @@ begin
   if curClass <> nil then
   begin
     if (PEnv^).RegisterNatives(PEnv, curClass, methods, countMethods) > 0
-						then Result:= JNI_TRUE;
+					then Result:= JNI_TRUE;
   end;
 end;
 
 function RegisterNativeMethods(PEnv: PJNIEnv; className: PChar): integer;
 begin
   Result:= RegisterNativeMethodsArray(PEnv, className, @NativeMethods[0], Length
-				(NativeMethods));
+			(NativeMethods));
 end;
 
 function JNI_OnLoad(VM: PJavaVM; {%H-}reserved: pointer): JInt; cdecl;
@@ -532,9 +533,9 @@ exports
   JNI_OnUnload name 'JNI_OnUnload',
   pAppOnCreate name 'Java_com_mars42_jsworks_jsworks_Controls_pAppOnCreate',
   pAppOnScreenStyle name 'Java_com_mars42_jsworks_jsworks_Controls_'
-    +'pAppOnScreenStyle',
+   +'pAppOnScreenStyle',
   pAppOnNewIntent name 'Java_com_mars42_jsworks_jsworks_Controls_'
-    +'pAppOnNewIntent',
+   +'pAppOnNewIntent',
   pAppOnDestroy name 'Java_com_mars42_jsworks_jsworks_Controls_pAppOnDestroy',
   pAppOnPause name 'Java_com_mars42_jsworks_jsworks_Controls_pAppOnPause',
   pAppOnRestart name 'Java_com_mars42_jsworks_jsworks_Controls_pAppOnRestart',
@@ -542,30 +543,30 @@ exports
   pAppOnStart name 'Java_com_mars42_jsworks_jsworks_Controls_pAppOnStart',
   pAppOnStop name 'Java_com_mars42_jsworks_jsworks_Controls_pAppOnStop',
   pAppOnBackPressed name 'Java_com_mars42_jsworks_jsworks_Controls_'
-    +'pAppOnBackPressed',
+   +'pAppOnBackPressed',
   pAppOnRotate name 'Java_com_mars42_jsworks_jsworks_Controls_pAppOnRotate',
   pAppOnConfigurationChanged name 'Java_com_mars42_jsworks_jsworks_Controls_'
-    +'pAppOnConfigurationChanged',
+   +'pAppOnConfigurationChanged',
   pAppOnActivityResult name 'Java_com_mars42_jsworks_jsworks_Controls_'
-    +'pAppOnActivityResult',
+   +'pAppOnActivityResult',
   pAppOnCreateOptionsMenu name 'Java_com_mars42_jsworks_jsworks_Controls_'
-    +'pAppOnCreateOptionsMenu',
+   +'pAppOnCreateOptionsMenu',
   pAppOnClickOptionMenuItem name 'Java_com_mars42_jsworks_jsworks_Controls_'
-    +'pAppOnClickOptionMenuItem',
+   +'pAppOnClickOptionMenuItem',
   pAppOnPrepareOptionsMenu name 'Java_com_mars42_jsworks_jsworks_Controls_'
-    +'pAppOnPrepareOptionsMenu',
+   +'pAppOnPrepareOptionsMenu',
   pAppOnPrepareOptionsMenuItem name 'Java_com_mars42_jsworks_jsworks_Controls_'
-    +'pAppOnPrepareOptionsMenuItem',
+   +'pAppOnPrepareOptionsMenuItem',
   pAppOnCreateContextMenu name 'Java_com_mars42_jsworks_jsworks_Controls_'
-    +'pAppOnCreateContextMenu',
+   +'pAppOnCreateContextMenu',
   pAppOnClickContextMenuItem name 'Java_com_mars42_jsworks_jsworks_Controls_'
-    +'pAppOnClickContextMenuItem',
+   +'pAppOnClickContextMenuItem',
   pOnDraw name 'Java_com_mars42_jsworks_jsworks_Controls_pOnDraw',
   pOnTouch name 'Java_com_mars42_jsworks_jsworks_Controls_pOnTouch',
   pOnClickGeneric name 'Java_com_mars42_jsworks_jsworks_Controls_'
-    +'pOnClickGeneric',
+   +'pOnClickGeneric',
   pAppOnSpecialKeyDown name 'Java_com_mars42_jsworks_jsworks_Controls_'
-    +'pAppOnSpecialKeyDown',
+   +'pAppOnSpecialKeyDown',
   pOnClick name 'Java_com_mars42_jsworks_jsworks_Controls_pOnClick',
   pOnLongClick name 'Java_com_mars42_jsworks_jsworks_Controls_pOnLongClick',
   pOnChange name 'Java_com_mars42_jsworks_jsworks_Controls_pOnChange',
@@ -573,18 +574,18 @@ exports
   pOnEnter name 'Java_com_mars42_jsworks_jsworks_Controls_pOnEnter',
   pOnClose name 'Java_com_mars42_jsworks_jsworks_Controls_pOnClose',
   pAppOnViewClick name 'Java_com_mars42_jsworks_jsworks_Controls_'
-    +'pAppOnViewClick',
+   +'pAppOnViewClick',
   pAppOnListItemClick name 'Java_com_mars42_jsworks_jsworks_Controls_'
-    +'pAppOnListItemClick',
+   +'pAppOnListItemClick',
   pOnFlingGestureDetected name 'Java_com_mars42_jsworks_jsworks_Controls_'
-    +'pOnFlingGestureDetected',
+   +'pOnFlingGestureDetected',
   pOnPinchZoomGestureDetected name 'Java_com_mars42_jsworks_jsworks_Controls_'
-    +'pOnPinchZoomGestureDetected',
+   +'pOnPinchZoomGestureDetected',
   pOnLostFocus name 'Java_com_mars42_jsworks_jsworks_Controls_pOnLostFocus',
   pOnBeforeDispatchDraw name 'Java_com_mars42_jsworks_jsworks_Controls_'
-    +'pOnBeforeDispatchDraw',
+   +'pOnBeforeDispatchDraw',
   pOnAfterDispatchDraw name 'Java_com_mars42_jsworks_jsworks_Controls_'
-    +'pOnAfterDispatchDraw',
+   +'pOnAfterDispatchDraw',
   pOnLayouting name 'Java_com_mars42_jsworks_jsworks_Controls_pOnLayouting';
 
 {%endregion}
@@ -597,5 +598,5 @@ begin
   gApp.AppName:=gjAppName;
   gApp.ClassName:=gjClassName;
   gApp.Initialize;
-  gApp.CreateForm(TamjsWorks, amjsWorks);
+  gApp.CreateForm(TfjsWorks, fjsWorks);
 end.

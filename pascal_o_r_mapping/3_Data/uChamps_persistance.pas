@@ -36,7 +36,7 @@ uses
     ujsDataContexte,
     udmDatabase,
     udmBatpro_DataModule,
-  SysUtils,Classes, FMTBcd, DB, SQLDB, DBXpress;
+  SysUtils,Classes, FMTBcd, DB, SQLDB;
 
 type
 
@@ -55,6 +55,8 @@ type
     sqlq: TSQLQuery;
     function not_sqlc_from_( _jsDataConnexion: TjsDataConnexion): Boolean;
   //Méthodes
+  private
+    function Save_to_database_old( Champs: TChamps; _jsDataConnexion: TjsDataConnexion): Boolean;
   public
     function Save_to_database( Champs: TChamps; _jsDataConnexion: TjsDataConnexion): Boolean;
     function Insert_into_database( Champs: TChamps; _jsDataConnexion: TjsDataConnexion): Boolean;
@@ -92,7 +94,7 @@ begin
      sqlc:= jsdcs.sqlc;
 end;
 
-function TChamps_persistance.Save_to_database( Champs: TChamps;
+function TChamps_persistance.Save_to_database_old( Champs: TChamps;
 		                                             _jsDataConnexion: TjsDataConnexion): Boolean;
 (*var
    T: TTransactionDesc;*)
@@ -113,6 +115,13 @@ begin
      finally
             (*sqlc.Commit( T);*)
             end;
+end;
+
+function TChamps_persistance.Save_to_database( Champs: TChamps; _jsDataConnexion: TjsDataConnexion): Boolean;
+begin
+     _jsDataConnexion.Contexte.SQL:= Champs.ChampDefinitions.ComposeSQL;
+     Champs.To_Params_Update( _jsDataConnexion.Contexte.Params);
+     Result:= _jsDataConnexion.Contexte.ExecSQLQuery;
 end;
 
 function TChamps_persistance.Insert_into_database(Champs: TChamps;

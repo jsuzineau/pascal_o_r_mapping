@@ -182,46 +182,67 @@ begin
              WriteLn( UTF8ToConsole('Echec de l''ouverture du log: '+NomFichier));
              WriteLn( E.Message);
              {$ENDIF}
+             {$IFDEF android}
+             WriteLn( UTF8ToConsole('Vérifiez peut-être les droits d''acccés'));
+             WriteLn( UTF8ToConsole('Echec de l''ouverture du log: '+NomFichier));
+             WriteLn( E.Message);
+             {$ENDIF}
              end;
            end;
 end;
 
 procedure TLog.Print(S: String);
-var
-   T: Text;
-begin
-     if not Ouvre( T) then exit;
-     try
-        WriteLn( T);
-        WriteLn( T);
-        WriteLn( T, FormatDateTime('dddddd","tt', Now)+' ###########################');
-        WriteLn( T, S);
-        {$IFDEF LINUX}
-        //WriteLn( UTF8ToConsole( S));
-        {$ENDIF}
+   procedure Cas_Normal;
+			var
+			   T: Text;
+   begin
+        if not Ouvre( T) then exit;
+        try
+           WriteLn( T);
+           WriteLn( T);
+           WriteLn( T, FormatDateTime('dddddd","tt', Now)+' ###########################');
+           WriteLn( T, S);
 
-        Flush( T);
-     finally
-            CloseFile( T);
-            end;
+           Flush( T);
+        finally
+               CloseFile( T);
+               end;
+   end;
+begin
+     {$IFDEF android}
+     WriteLn( UTF8ToConsole( S));
+     exit;
+     {$ENDIF}
+     {$IFDEF LINUX}
+     //WriteLn( UTF8ToConsole( S));
+     {$ENDIF}
+
+     Cas_Normal;
+
 end;
 
 procedure TLog.PrintLn(S: String);
-var
-   T: Text;
+   procedure Cas_Normal;
+			var
+			   T: Text;
+   begin
+        if not Ouvre( T) then exit;
+        try
+           WriteLn( T, '>',S);
+           Flush( T);
+        finally
+               CloseFile( T);
+               end;
+   end;
 begin
-     if not Ouvre( T) then exit;
-     try
-
-        WriteLn( T, '>',S);
-        {$IFDEF LINUX}
-        //WriteLn( UTF8ToConsole(S));
-        {$ENDIF}
-
-        Flush( T);
-     finally
-            CloseFile( T);
-            end;
+     {$IFDEF android}
+     WriteLn( UTF8ToConsole(S));
+     exit;
+     {$ENDIF}
+     {$IFDEF LINUX}
+     //WriteLn( UTF8ToConsole(S));
+     {$ENDIF}
+     Cas_Normal;
 end;
 
 

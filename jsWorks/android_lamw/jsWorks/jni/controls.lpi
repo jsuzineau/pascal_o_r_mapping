@@ -25,7 +25,7 @@
       <Item2 Name="NdkPath" Value="C:\lamw\android-ndk-r10e-windows-x86\"/>
       <Item3 Name="Package" Value="com.mars42.jsworks.jsworks"/>
       <Item4 Name="SdkPath" Value="C:\lamw\android-sdk-windows\"/>
-      <Item5 Name="StartModule" Value="amjsWorks"/>
+      <Item5 Name="StartModule" Value="fjsWorks"/>
     </CustomData>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
@@ -46,18 +46,18 @@
         <PackageName Value="tfpandroidbridge_pack"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="13">
+    <Units Count="16">
       <Unit0>
         <Filename Value="controls.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="uamjsWorks.pas"/>
+        <Filename Value="ufjsWorks.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="amjsWorks"/>
+        <ComponentName Value="fjsWorks"/>
         <HasResources Value="True"/>
         <CustomData Count="1">
-          <Item0 Name="jControls" Value="jButton;jForm;jSqliteCursor;jSqliteDataAccess;jTextView"/>
+          <Item0 Name="jControls" Value="jButton;jForm"/>
         </CustomData>
       </Unit1>
       <Unit2>
@@ -108,6 +108,27 @@
         <Filename Value="..\..\..\Elements\Type_Tag\ublType_Tag.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit12>
+      <Unit13>
+        <Filename Value="ufTest_SQLiteDataAccess.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fTest_SQLiteDataAccess"/>
+        <HasResources Value="True"/>
+        <CustomData Count="1">
+          <Item0 Name="jControls" Value="jButton;jForm;jSqliteCursor;jSqliteDataAccess;jTextView"/>
+        </CustomData>
+      </Unit13>
+      <Unit14>
+        <Filename Value="uAndroid_Database.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="ufUtilitaires.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fUtilitaires"/>
+        <CustomData Count="1">
+          <Item0 Name="jControls" Value="jButton;jForm"/>
+        </CustomData>
+      </Unit15>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

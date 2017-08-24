@@ -168,7 +168,7 @@ begin
        end;
 
      fAccueil_Log( ClassName+'.Initialise;, avant jsDataConnexion:= Classe_jsDataConnexion.Create;');
-     jsDataConnexion:= Classe_jsDataConnexion.Create;
+     jsDataConnexion:= Classe_jsDataConnexion.Create( SGBD);
      fAccueil_Log( ClassName+'.Initialise;, avant jsDataConnexion.Prepare;');
      jsDataConnexion.Prepare;
      fAccueil_Log( ClassName+'.Initialise;, apréss jsDataConnexion.Prepare;');

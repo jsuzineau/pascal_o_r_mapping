@@ -51,7 +51,7 @@ type
   class( TjsDataConnexion_SQLQuery)
   //Gestion du cycle de vie
   public
-    constructor Create;
+    constructor Create( _SGBD: TSGBD); override;
     destructor Destroy; override;
   //Persistance dans la base de registre
   private
@@ -73,6 +73,9 @@ type
     procedure Ferme_db; override;
     procedure Keep_Connection; override;
     procedure Do_not_Keep_Connection; override;
+  //Last_Insert_id
+  public
+    function Last_Insert_id( {%H-}_NomTable: String): Integer; override;
   end;
 
 const
@@ -94,10 +97,9 @@ end;
 
 { TSQLServer }
 
-constructor TSQLServer.Create;
+constructor TSQLServer.Create( _SGBD: TSGBD);
 begin
-     inherited;
-     sSGBD:= sSGBDs[sgbd_SQLServer];
+     inherited Create( _SGBD);
      Initialized:= False;
 
      {$ifndef android}
@@ -211,6 +213,11 @@ end;
 procedure TSQLServer.Do_not_Keep_Connection;
 begin
 
+end;
+
+function TSQLServer.Last_Insert_id( _NomTable: String): Integer;
+begin
+     raise Exception.Create(ClassName+'.Last_Insert_id non implémenté');
 end;
 
 end.

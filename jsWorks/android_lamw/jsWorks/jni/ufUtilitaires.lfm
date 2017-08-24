@@ -1,6 +1,6 @@
-object amjsWorks: TamjsWorks
-  Left = 514
-  Top = 175
+object fUtilitaires: TfUtilitaires
+  Left = 642
+  Top = 189
   Width = 320
   Height = 400
   MarginLeft = 0
@@ -8,15 +8,13 @@ object amjsWorks: TamjsWorks
   MarginRight = 0
   MarginBottom = 0
   Enabled = True
-  OnCreate = amjsWorksCreate
-  Text = 'amjsWorks'
-  ActivityMode = actMain
+  Text = 'fUtilitaires'
+  ActivityMode = actRecyclable
   BackgroundColor = colbrDefault
   ActionBarTitle = abtDefault
-  OnJNIPrompt = amjsWorksJNIPrompt
-  object bDemarrer: jButton
+  object bRecree_Base: jButton
     Left = 2
-    Top = 8
+    Top = 4
     Width = 316
     Height = 40
     MarginLeft = 2
@@ -25,16 +23,18 @@ object amjsWorks: TamjsWorks
     MarginBottom = 4
     Enabled = True
     Visible = True
-    Id = 4
-    PosRelativeToAnchor = [raBelow]
-    PosRelativeToParent = []
+    Id = 1
+    PosRelativeToAnchor = []
+    PosRelativeToParent = [rpTop]
     LayoutParamWidth = lpMatchParent
     LayoutParamHeight = lpWrapContent
-    Text = 'Démarrer'
+    Text = 'Recréer la base'
     BackgroundColor = colbrDefault
     FontColor = colbrDefault
     FontSize = 0
     FontSizeUnit = unitDefault
-    OnClick = bDemarrerClick
+    OnClick = bRecree_BaseClick
+    Left = 28
+    Top = 28
   end
 end

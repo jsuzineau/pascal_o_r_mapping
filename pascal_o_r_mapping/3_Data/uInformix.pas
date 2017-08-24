@@ -53,7 +53,7 @@ type
   class( TjsDataConnexion_SQLQuery)
   //Gestion du cycle de vie
   public
-    constructor Create;
+    constructor Create( _SGBD: TSGBD); override;
     destructor Destroy; override;
   //Persistance dans la base de registre
   private
@@ -98,6 +98,9 @@ type
     procedure Ferme_db; override;
     procedure Keep_Connection; override;
     procedure Do_not_Keep_Connection; override;
+  //Last_Insert_id
+  public
+    function Last_Insert_id( _NomTable: String): Integer; override;
   end;
 
 const
@@ -108,10 +111,9 @@ implementation
 
 { TInformix }
 
-constructor TInformix.Create;
+constructor TInformix.Create( _SGBD: TSGBD);
 begin
-     inherited;
-     sSGBD:= sSGBDs[sgbd_Informix];
+     inherited Create( _SGBD);
 
      sqltSYSMASTER:= Cree_SQLTransaction;
 
@@ -394,6 +396,21 @@ begin
 
      sqlcSYSMASTER.KeepConnection:= False;
      sqlcSYSMASTER.Connected:= False;
+end;
+
+function TInformix.Last_Insert_id( _NomTable: String): Integer;
+var
+   SQL: String;
+begin
+     SQL:=
+ 'select                                                                   '#13#10
++'      dbinfo(''sqlca.sqlerrd1'')                                         '#13#10
++'-- le from et le where sont là juste pour qu informix accepte la requete '#13#10
++'from                                                                     '#13#10
++'    systables                                                            '#13#10
++'where                                                                    '#13#10
++'     tabid =1                                                            '#13#10;
+     Contexte.Integer_from( SQL, Result);
 end;
 
 end.

@@ -56,7 +56,7 @@ type
   class( TjsDataConnexion_SQLQuery)
   //Gestion du cycle de vie
   public
-    constructor Create;
+    constructor Create( _SGBD: TSGBD); override;
     destructor Destroy; override;
   //Persistance dans la base de registre
   private
@@ -80,6 +80,9 @@ type
     procedure Ferme_db; override;
     procedure Keep_Connection; override;
     procedure Do_not_Keep_Connection; override;
+  //Last_Insert_id
+  public
+    function Last_Insert_id( {%H-}_NomTable: String): Integer; override;
   end;
 
 const
@@ -102,10 +105,10 @@ end;
 
 { TMySQL }
 
-constructor TMySQL.Create;
+constructor TMySQL.Create(_SGBD: TSGBD);
 begin
-     inherited;
-     sSGBD:= sSGBDs[sgbd_MySQL];
+     inherited Create( _SGBD);
+
      Version  := '50';
      Initialized:= False;
 
@@ -226,6 +229,14 @@ end;
 procedure TMySQL.Do_not_Keep_Connection;
 begin
 		   inherited Do_not_Keep_Connection;
+end;
+
+function TMySQL.Last_Insert_id( _NomTable: String): Integer;
+var
+   SQL: String;
+begin
+     SQL:= 'select LAST_INSERT_ID()';
+     Contexte.Integer_from( SQL, Result);
 end;
 
 procedure TMySQL.Lit( NomValeur: String; out Valeur: String; _Mot_de_passe: Boolean= False);

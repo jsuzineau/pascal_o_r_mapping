@@ -41,13 +41,14 @@ uses
 type
 
  { TSQLite3 }
+ TjsDataContexte_libsqlite3= class;
 
  TSQLite3
  =
   class( TjsDataConnexion_SQLQuery)
   //Gestion du cycle de vie
   public
-    constructor Create;
+    constructor Create( _SGBD: TSGBD); override;
     destructor Destroy; override;
   //Persistance dans la base de registre
   private
@@ -71,6 +72,12 @@ type
     procedure Ferme_db; override;
     procedure Keep_Connection; override;
     procedure Do_not_Keep_Connection; override;
+  //Contexte
+  public
+    jsdc: TjsDataContexte_libsqlite3;
+  //Last_Insert_id
+  public
+    function Last_Insert_id( _NomTable: String): Integer; override;
   end;
 
  { TSQLITE3_StorageType }
@@ -140,7 +147,7 @@ type
   class( TjsDataContexte)
   //Gestion du cycle de vie
   public
-    constructor Create( _Name: String);
+    constructor Create( _Name: String); override;
     destructor Destroy; override;
   //ErrorLog
   private
@@ -198,6 +205,9 @@ type
   //Champs
   public
     function Assure_Champ( _Champ_Nom: String): TjsDataContexte_Champ; override;
+  //Last_Insert_id
+  public
+    function Last_Insert_id( _NomTable: String): Integer; override;
   end;
 
 const
@@ -217,10 +227,10 @@ end;
 
 { TSQLite3 }
 
-constructor TSQLite3.Create;
+constructor TSQLite3.Create(_SGBD: TSGBD);
 begin
-     inherited;
-     sSGBD:= sSGBDs[sgbd_SQLite3];
+     inherited Create( _SGBD);
+
      HostName:= 'local filesystem';
      DataBase := sys_Vide;
      Initialized:= False;
@@ -229,10 +239,18 @@ begin
      Assure_initialisation;
      {$endif}
      Affecte( sqlcSQLite3, TSQLite3Connection, sqlc);
+
+     //à revoir: écrase l'initialisation de TjsDataConnexion_SQLQuery.Create
+     Classe_Contexte:= TjsDataContexte_libsqlite3;
+     jsdc:= TjsDataContexte_libsqlite3.Create( ClassName+'.jsdc');
+     Contexte:= jsdc;
+     jsdc.SetConnection( Self);
 end;
 
 destructor TSQLite3.Destroy;
 begin
+     Contexte:= nil;
+	    FreeAndNil( jsdc);
      sqlcSQLite3:= nil;
      inherited;
 end;
@@ -329,6 +347,14 @@ end;
 procedure TSQLite3.Do_not_Keep_Connection;
 begin
 
+end;
+
+function TSQLite3.Last_Insert_id( _NomTable: String): Integer;
+var
+   SQL: String;
+begin
+     SQL:= 'select last_insert_rowid()';
+     Contexte.Integer_from( SQL, Result);
 end;
 
 { TField_libsqlite3 }
@@ -944,6 +970,7 @@ var
         then
             raise Exception.Create( ClassName+'.Assure_Champ: '
                                     +'Echec de TjsDataContexte_Champ_libsqlite3.Create');
+        Champs.AddObject( _Champ_Nom, Result);
    end;
 begin
      Result:= Find_Champ( _Champ_Nom);
@@ -957,6 +984,11 @@ begin
      F.Index:= Column_Index_from_Name( _Champ_Nom);
      F.Typ  := Column_Type( F.Index);
      jsdcc.F:= F;
+end;
+
+function TjsDataContexte_libsqlite3.Last_Insert_id(_NomTable: String): Integer;
+begin
+     Result:= Connection.Last_Insert_id( _NomTable);
 end;
 
 end.

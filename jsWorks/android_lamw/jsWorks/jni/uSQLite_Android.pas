@@ -27,24 +27,26 @@ uses
     uLog,
     uBatpro_StringList,
     u_sys_,
+    uDataUtilsU,
     uRegistry,
     uEXE_INI,
     ujsDataContexte,
     uSGBD,
     ufAccueil_Erreur,
-  db, SQLDB, FmtBCD,dateutils,Laz_And_Controls,
+  db, SQLDB, FmtBCD,dateutils,Laz_And_Controls,AndroidWidget,And_jni,
   SysUtils, Classes;
 
 type
 
  { TSQLite_Android }
+ TjsDataContexte_SQLite_Android= class;
 
  TSQLite_Android
  =
   class( TjsDataConnexion)
   //Gestion du cycle de vie
   public
-    constructor Create; override;
+    constructor Create( _SGBD: TSGBD); override;
     destructor Destroy; override;
   //Persistance dans la base de registre
   private
@@ -66,6 +68,12 @@ type
     function  ExecQuery( _SQL: String): Boolean;  override;
     procedure DoScript  ( NomFichierScriptSQL: String); override;
     procedure Reconnecte; override;
+  //Contexte
+  public
+    jsdc: TjsDataContexte_SQLite_Android;
+  //Last_Insert_id
+  public
+    function Last_Insert_id( {%H-}_NomTable: String): Integer; override;
   end;
 
  { TSQLITE3_StorageType }
@@ -120,6 +128,13 @@ type
     function asBoolean : Boolean  ; override;
   end;
 
+	{ TjSqliteDataAccess }
+
+ TjSqliteDataAccess=
+ class( jSqliteDataAccess)
+   function ExecSQL_Last_insert_rowid( execQuery: String): Integer;
+	end;
+
  { TjsDataContexte_SQLite_Android }
 
  TjsDataContexte_SQLite_Android
@@ -127,7 +142,7 @@ type
   class( TjsDataContexte)
   //Gestion du cycle de vie
   public
-    constructor Create( _Name: String);
+    constructor Create( _Name: String); override;
     destructor Destroy; override;
   //ErrorLog
   private
@@ -158,7 +173,6 @@ type
     procedure Close;                override;
   //Contexte SQLite_Android
   private
-    FNomFichierBase: String;
     sda: jSqliteDataAccess;
     sc: jSqliteCursor;
     FEOF: Boolean;
@@ -166,29 +180,32 @@ type
     slNomColonnes: TStringList;
     ParamBinding: TParamBinding;
     Step_Index: Integer;
-    procedure SetNomFichierBase( _NomFichierBase: String);
-    function Ouvre_Base: Boolean;
-    function Ferme_Base: Boolean;
-    function Prepare: Boolean;
-    function Bind: Boolean;
-    function Step( _IsFirst: Boolean= False): Boolean;
-    function Prepare_and_Bind_and_Step: Boolean;
-    function Reset: Boolean;
+    function NomFichierBase: String;
+    procedure Assure_Ouverture;
+    procedure Bind;
     function Column_Count: Integer;
     function Column_Name( _i: Integer): String;
     procedure slNomColonnes_Remplit;
     function Column_Index_from_Name( _Column_Name: String): Integer;
     function Column_Type( _i: Integer): TSqliteFieldType;
-    function Data_Count: Integer;
-  public
-    property NomFichierBase: String read FNomFichierBase write SetNomFichierBase;
-  //Champs
+  //Champs                                             :
   public
     function Assure_Champ( _Champ_Nom: String): TjsDataContexte_Champ; override;
+  //last_insert_rowid
+  public
+    last_insert_rowid: integer;
+  //Last_Insert_id
+  public
+    function Last_Insert_id( _NomTable: String): Integer; override;
   end;
 
 const
      inis_sqlite3  = 'SQLite3';
+
+var
+   uSQLite_Android_jForm: jForm            = nil;
+   uSQLite_Android_sc   : jSqliteCursor    = nil;
+   uSQLite_Android_sda  : jSqliteDataAccess= nil;
 
 implementation
 
@@ -204,19 +221,26 @@ end;
 
 { TSQLite_Android }
 
-constructor TSQLite_Android.Create;
+constructor TSQLite_Android.Create(_SGBD: TSGBD);
 begin
-     inherited;
+     inherited Create( _SGBD);
+
      DataBase := sys_Vide;
      Initialized:= False;
 
      {$ifndef android}
      Assure_initialisation;
      {$endif}
+     Classe_Contexte:= TjsDataContexte_SQLite_Android;
+     jsdc:= TjsDataContexte_SQLite_Android.Create( ClassName+'.jsdc');
+     Contexte:= jsdc;
+     jsdc.SetConnection( Self);
 end;
 
 destructor TSQLite_Android.Destroy;
 begin
+     Contexte:= nil;
+     FreeAndNil( jsdc);
      inherited;
 end;
 
@@ -310,6 +334,15 @@ end;
 procedure TSQLite_Android.Reconnecte;
 begin
 		   inherited Reconnecte;
+end;
+
+function TSQLite_Android.Last_Insert_id( _NomTable: String): Integer;
+var
+   SQL: String;
+begin
+     SQL:= 'select last_insert_rowid()';
+     Contexte.Integer_from( SQL, Result);
+     WriteLn( ClassName+'.Last_Insert_id = ', Result);
 end;
 
 { TField_SQLite_Android }
@@ -453,11 +486,12 @@ function TField_SQLite_Android.asDateTime_interne(_jsdt: TjsDataType): TDateTime
           end;
    end;
 begin
-    case Typ
-    of
-      ftFloat : Traite_Float;
-      ftString: Traite_String ;
-      end;
+     Result:= 0;
+     case Typ
+     of
+       ftFloat : Traite_Float;
+       ftString: Traite_String ;
+       end;
 end;
 
 function TField_SQLite_Android.asDateTime: TDateTime;
@@ -552,23 +586,129 @@ begin
      Result:= Boolean( F.asInteger);
 end;
 
+{ TjSqliteDataAccess }
+(* inséré ligne 742 dans C:\lamw\lazandroidmodulewizard\java\lamwdesigner\jSqliteDataAccess.java
+//2017/08/24 by jsuzineau
+public int ExecSQL_Last_insert_rowid(String execQuery)
+ {
+ int Resultat= 0;
+ SQLiteDatabase mydb = getWritableDatabase();
+ Cursor c;
+ //Log.i("Showmessage execsql", execQuery);
+ try
+    {
+	   mydb.beginTransaction();
+	   try
+       {
+			    mydb.execSQL(execQuery); //Execute a single SQL statement that is NOT a SELECT or any other SQL statement that returns data.
+			    //Set the transaction flag is successful, the transaction will be submitted when the end of the transaction
+       c= mydb.rawQuery( "select last_insert_rowid()", null);
+       if (c.moveToFirst())
+         {
+         Resultat= c.getInt(0);
+         c.close();
+         }
+			    }
+    catch (Exception e)
+          {
+			       e.printStackTrace();
+			       }
+    finally
+           {
+							    // transaction over
+							    mydb.setTransactionSuccessful();
+							    mydb.endTransaction();
+           if (0 == Resultat)
+             {
+				         c= mydb.rawQuery( "select last_insert_rowid()", null);
+				         if (c.moveToFirst())
+				           {
+				           Resultat= c.getInt(0);
+               c.close();
+				           }
+             }
+							    mydb.close();
+			        }
+			  }
+ catch (SQLiteException e)
+       {
+			    Log.e(getClass().getSimpleName(), "Could not execute: " + execQuery);
+	      }
+ Log.i("jSqliteDataAccess", "last_insert_rowid() = "+Integer.toString( Resultat));
+ return Resultat;
+ }
+
+*)
+
+//java: public void ExecSQL(String execQuery)
+function jSqliteDataAccess_ExecSQL_Last_insert_rowid(env:PJNIEnv; SqliteDataBase : jObject; execQuery: string): Integer;
+var
+	  cls     : jClass;
+   _jMethod: jMethodID = nil;
+	  _jParams: array[0..0] of jValue;
+begin
+     WriteLn( 'jSqliteDataAccess_ExecSQL_Last_insert_rowid, avant NewStringUTF, execQuery = '+execQuery);
+			  _jParams[0].l:= env^.NewStringUTF(env, pchar(execQuery));
+     WriteLn( 'jSqliteDataAccess_ExecSQL_Last_insert_rowid, avant GetObjectClass');
+			  cls          := env^.GetObjectClass(env, SqliteDataBase);
+     WriteLn( 'jSqliteDataAccess_ExecSQL_Last_insert_rowid, avant GetMethodID');
+			  _jMethod     := env^.GetMethodID(env, cls, 'ExecSQL_Last_insert_rowid', '(Ljava/lang/String;)I');
+     WriteLn( 'jSqliteDataAccess_ExecSQL_Last_insert_rowid, avant CallIntMethod');
+			  Result       := env^.CallIntMethodA(env,SqliteDataBase,_jMethod, @_jParams);
+     WriteLn( 'jSqliteDataAccess_ExecSQL_Last_insert_rowid, avant DeleteLocalRef(env,_jParams[0].l)');
+			  env^.DeleteLocalRef(env,_jParams[0].l);
+     WriteLn( 'jSqliteDataAccess_ExecSQL_Last_insert_rowid, avant DeleteLocalRef(env, cls);');
+			  env^.DeleteLocalRef(env, cls);
+     WriteLn( 'jSqliteDataAccess_ExecSQL_Last_insert_rowid, Fin');
+end;
+
+function TjSqliteDataAccess.ExecSQL_Last_insert_rowid( execQuery: String): Integer;
+begin
+     WriteLn( ClassName+'.ExecSQL_Last_insert_rowid, début, execQuery = '+execQuery);
+     Result:= 0;
+     if not FInitialized
+     then
+         begin
+         WriteLn( ClassName+'.ExecSQL_Last_insert_rowid, FInitialized = False, execQuery = '+execQuery);
+         exit;
+         end;
+
+     WriteLn( ClassName+'.ExecSQL_Last_insert_rowid, avant jSqliteDataAccess_ExecSQL_Last_insert_rowid');
+     Result:= jSqliteDataAccess_ExecSQL_Last_insert_rowid( FjEnv, FjObject , execQuery);
+     WriteLn( ClassName+'.ExecSQL_Last_insert_rowid, avant if Cursor <> nil then Cursor.SetCursor(Self.GetCursor);');
+     if Cursor <> nil then Cursor.SetCursor(Self.GetCursor);
+     WriteLn( ClassName+'.ExecSQL_Last_insert_rowid, fin');
+end;
+
 { TjsDataContexte_SQLite_Android }
 
 constructor TjsDataContexte_SQLite_Android.Create(_Name: String);
+     procedure Cas_local;
+     begin
+         sc := jSqliteCursor     .Create( uSQLite_Android_jForm);
+         sc.Init( gApp);
+         sda:= TjSqliteDataAccess.Create( uSQLite_Android_jForm);
+         sda.Init( gApp);
+         sda.Cursor:= sc;
+         sda.DataBaseName:= '';
+     end;
+     procedure Cas_global;
+     begin
+          sda:= uSQLite_Android_sda;
+          sc := uSQLite_Android_sc ;
+     end;
 begin
      inherited Create( _Name);
 
      slErrorLog:= TStringList.Create;
 
      FConnection:= nil;
-     sc := jSqliteCursor    .Create(nil);
-     sda:= jSqliteDataAccess.Create(nil);
-     sda.Cursor:= sc;
+     Cas_local;
+     //Cas_global;
 
-     FNomFichierBase:= '';
      FEOF:= False;
 
-     FParams:= TParams.Create(nil);
+     FParams:= TParams.Create;
      slNomColonnes:= TStringList.Create;
 end;
 
@@ -576,11 +716,11 @@ destructor TjsDataContexte_SQLite_Android.Destroy;
 begin
      FreeAndNil( slNomColonnes);
      FreeAndNil( FParams);
-     Ferme_Base;
      FreeAndNil( slErrorLog);
-     sda.Cursor:= nil;
-     FreeAndNil( sda);
-     FreeAndNil( sc);
+     //sda.Close;
+     //sda.Cursor:= nil;
+     //FreeAndNil( sda);
+     //FreeAndNil( sc);
      inherited Destroy;
 end;
 
@@ -592,17 +732,44 @@ end;
 procedure TjsDataContexte_SQLite_Android.SetConnection( _Value: TjsDataConnexion);
 begin
      FConnection:= _Value;
-     if Affecte( SQLite_Android, TSQLite_Android, FConnection)
+     Affecte( SQLite_Android, TSQLite_Android, FConnection);
+end;
+
+function TjsDataContexte_SQLite_Android.NomFichierBase: String;
+begin
+     Result:= '';
+     if nil = SQLite_Android
      then
-         NomFichierBase:= SQLite_Android.DataBase
-     else
-         NomFichierBase:= '';
+         begin
+         Writeln( ClassName+'.NomFichierBase, SQLite_Android = nil');
+         exit;
+         end;
+     Result:= SQLite_Android.DataBase;
+     Writeln( ClassName+'.NomFichierBase, NomFichierBase =',Result);
+end;
+
+procedure TjsDataContexte_SQLite_Android.Assure_Ouverture;
+begin
+     if '' <> sda.DataBaseName then exit;
+
+     sda.DataBaseName:= NomFichierBase;
+     sda.OpenOrCreate( NomFichierBase);
 end;
 
 procedure TjsDataContexte_SQLite_Android.SetSQL(_SQL: String);
 begin
-     Params.Clear;
-     FSQL:= Params.ParseSQL( _SQL, True, False, False, psInterbase, ParamBinding);
+     try
+	       Params.Clear;
+	       FSQL:= Params.ParseSQL( _SQL, True, False, False, psInterbase, ParamBinding);
+				 except
+           on E: Exception
+           do
+             begin
+             WriteLn( 'Exception : '#13#10
+                      +E.Message+#13#10
+                      +DumpCallStack);
+             end;
+				       end;
 end;
 
 function TjsDataContexte_SQLite_Android.GetSQL: String;
@@ -610,109 +777,67 @@ begin
      Result:= FSQL;
 end;
 
-procedure TjsDataContexte_SQLite_Android.SetNomFichierBase( _NomFichierBase: String);
-begin
-     if FNomFichierBase = _NomFichierBase then exit;
-
-     Ferme_Base;
-     FNomFichierBase:= _NomFichierBase;
-     Ouvre_Base;
-end;
-
-function TjsDataContexte_SQLite_Android.Ouvre_Base: Boolean;
-begin
-     sda.DataBaseName:= NomFichierBase;
-     sda.OpenOrCreate( NomFichierBase);
-     Result:= True;
-end;
-
-function TjsDataContexte_SQLite_Android.Ferme_Base: Boolean;
-begin
-    sda.Close;
-    Result:= True;
-end;
-
 function TjsDataContexte_SQLite_Android.Params: TParams;
 begin
      Result:= FParams;
 end;
 
-function TjsDataContexte_SQLite_Android.Prepare: Boolean;
-var
-   Resultat: Integer;
-begin
-     Close;
-
-     Result:= True;
-end;
-
-//provient de unit sqlite3conn.pp
-procedure freebindstring(astring: pointer); cdecl;
-begin
-     StrDispose(AString);
-end;
-
-function TjsDataContexte_SQLite_Android.Bind: Boolean;
+procedure TjsDataContexte_SQLite_Android.Bind;
 var
    iParamBinding: Integer;
    iParam: Integer;
-   iBind: Integer;
    P: TParam;
+   sValue: String;
 begin
      SQL_Bind:= FSQL;
-     Result:= True;
      for iParamBinding:= Low(ParamBinding) to High(ParamBinding)
      do
        begin
-       iBind := iParamBinding+1;
        iParam:= ParamBinding[iParamBinding];
        P:= Params.Items[ iParam];
-       SQL_Bind:= StringReplace( SQL_Bind, '?', P.AsString, []);
+       sValue:= P.AsString;
+       WriteLn( ClassName+'.Bind: P.Name:',P.Name,': ',P.DataType,'= ', sValue);
+       case P.DataType
+       of
+         db.ftDateTime: sValue:= DateTimeSQL( P.AsDateTime);
+         db.ftString  : sValue:= QuotedStr  ( P.AsString  );
+         else           sValue:= P.AsString;
+         end;
+
+       SQL_Bind:= StringReplace( SQL_Bind, '?', sValue, []);
        end;
 end;
 
-function TjsDataContexte_SQLite_Android.Step( _IsFirst: Boolean= False): Boolean;
-     procedure TraiteErreur;
-     begin
-          Log_Error( ClassName+'.Step: échec de sqlite3_step:');
-     end;
+function TjsDataContexte_SQLite_Android.IsEmpty: Boolean;
 begin
-     Result:= True;
-     IsFirst:= _IsFirst;
-     if _IsFirst
-     then
-         begin
-         Result:= sda.Select( SQL_Bind, False);
-         if not Result then begin TraiteErreur; exit; end;
-         slNomColonnes_Remplit;
-         Step_Index:= 0;
-         end
-     else
-         begin
-         Inc( Step_Index);
-         sc.MoveToPosition( Step_Index);
-         end;
-
-     FEOF:= Step_Index < sc.GetRowCount;
+     Result:= 0 = sc.GetRowCount;
 end;
 
-function TjsDataContexte_SQLite_Android.Prepare_and_Bind_and_Step: Boolean;
+procedure TjsDataContexte_SQLite_Android.First;
 begin
-     Result:= Prepare;
-     if not Result then exit;
+     if IsFirst then exit;
 
-     Result:= Bind;
-     if not Result then exit;
-
-     Result:= Step( True);
-     if not Result then exit;
-end;
-
-function TjsDataContexte_SQLite_Android.Reset: Boolean;
-begin
      sc.MoveToFirst;
      Step_Index:= 0;
      IsFirst:= True;
+end;
+
+function TjsDataContexte_SQLite_Android.EoF: Boolean;
+begin
+     Result:= FEOF;
+end;
+
+procedure TjsDataContexte_SQLite_Android.Next;
+begin
+    IsFirst:= False;
+    Inc( Step_Index);
+    sc.MoveToPosition( Step_Index);
+    FEOF:= Step_Index < sc.GetRowCount;
+end;
+
+procedure TjsDataContexte_SQLite_Android.Close;
+begin
+     FEOF:= False;
 end;
 
 function TjsDataContexte_SQLite_Android.Column_Count: Integer;
@@ -728,11 +853,18 @@ end;
 procedure TjsDataContexte_SQLite_Android.slNomColonnes_Remplit;
 var
    I: Integer;
+   NomColonne: String;
 begin
      slNomColonnes.Clear;
+     WriteLn( ClassName+'.slNomColonnes_Remplit, Column_Count= ',Column_Count);
      for I:= 0 to Column_Count-1
      do
-       slNomColonnes.Add(Column_Name( I));
+       begin
+       NomColonne:= Column_Name( I);
+       WriteLn( ClassName+'.slNomColonnes_Remplit, NomColonne= '+NomColonne);
+       slNomColonnes.Add(NomColonne);
+       Assure_Champ( NomColonne);
+       end;
 end;
 
 function TjsDataContexte_SQLite_Android.Column_Index_from_Name( _Column_Name: String): Integer;
@@ -745,48 +877,57 @@ begin
      Result:= sc.GetColType( _i);
 end;
 
-function TjsDataContexte_SQLite_Android.Data_Count: Integer;
-begin
-     Result:= sc.GetRowCount;
-end;
-
 function TjsDataContexte_SQLite_Android.RefreshQuery: Boolean;
 begin
-     Result:= Prepare_and_Bind_and_Step;
+     WriteLn( ClassName+'.RefreshQuery, SQL= '+SQL);
+     Assure_Ouverture;
+
+     Bind;
+     Result:= sda.Select( SQL_Bind, False);
+     if Result
+     then
+         begin
+         slNomColonnes_Remplit;
+         Step_Index:= 0;
+         IsFirst:= True;
+         FEOF:= sc.GetRowCount = 0;
+         end
+     else
+         Log_Error( ClassName+'.RefreshQuery: échec');;
 end;
 
 function TjsDataContexte_SQLite_Android.ExecSQLQuery: Boolean;
+   procedure Cas_Insert_old;
+   var
+      S: String;
+   begin
+       WriteLn( ClassName+'.ExecSQLQuery, Cas_Insert');
+       sda.InsertIntoTable( SQL_Bind);
+       s:= sda.Select( 'select last_insert_rowid()');
+       WriteLn( ClassName+'.ExecSQLQuery, Cas_Insert: last_insert_rowid()=',s);
+   end;
+   procedure Cas_Insert;
+   begin
+       WriteLn( ClassName+'.ExecSQLQuery, Cas_Insert');
+       last_insert_rowid:= TjSqliteDataAccess(sda).ExecSQL_Last_insert_rowid( SQL_Bind);
+       WriteLn( ClassName+'.ExecSQLQuery, Cas_Insert: last_insert_rowid()=',last_insert_rowid);
+   end;
+   procedure CasGeneral;
+   begin
+        WriteLn( ClassName+'.ExecSQLQuery, CasGeneral;');
+        sda.ExecSQL( SQL_Bind);
+  end;
 begin
-     Result:= Prepare_and_Bind_and_Step;
-end;
-
-function TjsDataContexte_SQLite_Android.IsEmpty: Boolean;
-begin
-     Result:= 0 = Data_Count;
-end;
-
-procedure TjsDataContexte_SQLite_Android.First;
-begin
-     if IsFirst then exit;
-
-     Reset;
-end;
-
-function TjsDataContexte_SQLite_Android.EoF: Boolean;
-begin
-     Result:= FEOF;
-end;
-
-procedure TjsDataContexte_SQLite_Android.Next;
-begin
-     Step;
-end;
-
-procedure TjsDataContexte_SQLite_Android.Close;
-begin
-     FEOF:= False;
-
-     //sc. ?
+     WriteLn( ClassName+'.ExecSQLQuery, SQL= '+SQL);
+     Bind;
+     WriteLn( ClassName+'.ExecSQLQuery, SQL_Bind= '+SQL_Bind);
+     Assure_Ouverture;
+     if 1 = Pos( 'INSERT', UpperCase( SQL_Bind))
+     then
+         Cas_Insert//_old
+     else
+         CasGeneral;
+     Result:= True;
 end;
 
 function TjsDataContexte_SQLite_Android.Assure_Champ( _Champ_Nom: String): TjsDataContexte_Champ;
@@ -795,13 +936,16 @@ var
    F: TField_SQLite_Android;
    procedure Cree_Champ;
    begin
+        WriteLn( ClassName+'.Assure_Champ::Cree_Champ: _Champ_Nom= '+_Champ_Nom);
         Result:= TjsDataContexte_Champ_SQLite_Android.Create( _Champ_Nom);
         if nil = Result
         then
             raise Exception.Create( ClassName+'.Assure_Champ: '
                                     +'Echec de TjsDataContexte_Champ_libsqlite3.Create');
+        Champs.AddObject( _Champ_Nom, Result);
    end;
 begin
+     WriteLn( ClassName+'.Assure_Champ, _Champ_Nom= '+_Champ_Nom);
      Result:= Find_Champ( _Champ_Nom);
      if nil = Result
      then
@@ -813,6 +957,16 @@ begin
      F.Index:= Column_Index_from_Name( _Champ_Nom);
      F.Typ  := Column_Type( F.Index);
      jsdcc.F:= F;
+     WriteLn( ClassName+'.Assure_Champ, initialisé ',
+              ', _Champ_Nom= ',_Champ_Nom,
+              ', F.Index= ',F.Index,
+              ', F.Typ= ',F.Typ
+              );
+end;
+
+function TjsDataContexte_SQLite_Android.Last_Insert_id( _NomTable: String): Integer;
+begin
+     Result:= last_insert_rowid;
 end;
 
 end.

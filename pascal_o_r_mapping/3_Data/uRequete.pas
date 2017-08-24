@@ -50,7 +50,6 @@ type
   //Connection
   public
     Connexion: Tfunction_GetConnexion;
-    function Connection: TSQLConnection;
   //SQLQuery
   public
     sqlq: TSQLQuery;
@@ -64,33 +63,22 @@ type
     function Integer_from(_SQL, _NomChamp: String; _Params: TParams; out _Resultat: Integer): Boolean; overload;
   //Récupération d'une valeur chaine à partir d'une requete
   public
-    function String_from( _SQL: String; var _Resultat: String): Boolean; overload;
+    function String_from( _SQL: String; var _Resultat: String; _Index: Integer= 0): Boolean; overload;
     function String_from( _SQL, _NomChamp: String; var _Resultat: String): Boolean; overload;
+    function String_from( _SQL, _NomChamp: String; _Params: TParams; out _Resultat: String): Boolean; overload;
   //Informix_ROWID_from_Serial
   public
     function Informix_ROWID_from_Serial( NomTable, NomSerial: String): Integer;
-  //Last_Insert_Id Informix
-  public
-    function LAST_INSERT_ID_Informix: Integer;
   //MYSQL_storage_engine
   public
     function MYSQL_storage_engine: String;
     function MYSQL_storage_engine_Is_MyISAM: Boolean;
-  //Last_Insert_Id MySQL
-  public
-    function LAST_INSERT_ID_MySQL: Integer;
   //MySQL codepage
   public
     procedure MySQL_codepage( _codepage: String);
     procedure MySQL_UTF8;
     procedure MySQL_latin1;
     procedure MySQL_cp850;
-  //Last_Insert_Id Postgres
-  public
-    function LAST_INSERT_ID_Postgres( _NomTable: String): Integer;
-  //Last_Insert_Id SQLite3
-  public
-    function LAST_INSERT_ID_SQLite3: Integer;
   //Listage d'un champ vers une liste
   public
     procedure Liste_Champ( _SQL, _NomChamp: String; _Resultat: TStrings);
@@ -163,98 +151,25 @@ begin
   inherited;
 end;
 
-function TRequete.Connection: TSQLConnection;
-var
-   jsdcs: TjsDataConnexion_SQLQuery;
-begin
-     if Affecte_( jsdcs, TjsDataConnexion_SQLQuery, Connexion)
-     then
-         raise Exception.Create( ClassName+'.Connection: TDatabase: impossible de convertir Connexion en TjsDataConnexion_SQLQuery');
-
-     Result:= jsdcs.sqlc;
-end;
-
 function TRequete.Est_Vide( _SQL: String): Boolean;
 begin
-     try
-        sqlq.Database:= Connection();
-        sqlq.SQL.Text:= _SQL;
-        RefreshQuery( sqlq);
-        sqlq.First;
-        Result:= not sqlq.IsEmpty;
-     finally
-            sqlq.Close;
-            end;
+     Result:= Connexion.Contexte.Est_Vide( _SQL);
 end;
 
 function TRequete.Integer_from( _SQL: String; out _Resultat: Integer): Boolean;
 begin
-     _Resultat:= 0;
-     Result:= False;
-     try
-        sqlq.Database:= Connection();
-        sqlq.SQL.Text:= _SQL;
-        RefreshQuery( sqlq);
-        sqlq.First;
-
-        Result:= not SQLQ.IsEmpty;
-        if  not Result then exit;
-
-        Result:= sqlq.Fields.Count >= 1;
-        if  not Result then exit;
-
-        _Resultat:= sqlq.Fields.Fields[0].AsInteger;
-     finally
-            sqlq.Close;
-            end;
+     Result:= Connexion.Contexte.Integer_from( _SQL, _Resultat);
 end;
 
 function TRequete.Integer_from( _SQL, _NomChamp: String; out _Resultat: Integer): Boolean;
-var
-   F: TField;
 begin
-     _Resultat:= 0;
-     try
-        sqlq.Database:= Connection();
-        sqlq.SQL.Text:= _SQL;
-        RefreshQuery( sqlq);
-        sqlq.First;
-        Result:= not SQLQ.IsEmpty;
-        if  not Result then exit;
-
-        F:= sqlq.FindField( _NomChamp);
-        Result:= Assigned( F);
-        if not Result then exit;
-
-        _Resultat:= F.AsInteger;
-     finally
-            sqlq.Close;
-            end;
+     Result:= Connexion.Contexte.Integer_from( _SQL, _NomChamp, _Resultat);
 end;
 
 function TRequete.Integer_from( _SQL, _NomChamp: String; _Params: TParams;
                                 out _Resultat: Integer): Boolean;
-var
-   F: TField;
 begin
-     _Resultat:= 0;
-     try
-        sqlq.Database:= Connection();
-        sqlq.SQL.Text:= _SQL;
-        sqlq.Params.AssignValues( _Params);
-        RefreshQuery( sqlq);
-        sqlq.First;
-        Result:= not SQLQ.IsEmpty;
-        if  not Result then exit;
-
-        F:= sqlq.FindField( _NomChamp);
-        Result:= Assigned( F);
-        if not Result then exit;
-
-        _Resultat:= F.AsInteger;
-     finally
-            sqlq.Close;
-            end;
+     Result:= Connexion.Contexte.Integer_from( _SQL, _NomChamp, _Params, _Resultat);
 end;
 
 function TRequete.Informix_ROWID_from_Serial( NomTable, NomSerial: String): Integer;
@@ -262,34 +177,11 @@ var
    nSerial: Integer;
    SQL: String;
 begin
-     nSerial:= LAST_INSERT_ID_Informix;
+     nSerial:= Connexion.LAST_INSERT_ID( NomTable);
      SQL
      :=
        Format( 'select rowid from %s where %s = %d',
                [NomTable, NomSerial, nSerial]);
-     Integer_from( SQL, Result);
-end;
-
-function TRequete.LAST_INSERT_ID_Informix: Integer;
-var
-   SQL: String;
-begin
-     SQL:=
- 'select                                                                   '#13#10
-+'      dbinfo(''sqlca.sqlerrd1'')                                         '#13#10
-+'-- le from et le where sont là juste pour qu informix accepte la requete '#13#10
-+'from                                                                     '#13#10
-+'    systables                                                            '#13#10
-+'where                                                                    '#13#10
-+'     tabid =1                                                            '#13#10;
-     Integer_from( SQL, Result);
-end;
-
-function TRequete.LAST_INSERT_ID_MySQL: Integer;
-var
-   SQL: String;
-begin
-     SQL:= 'select LAST_INSERT_ID()';
      Integer_from( SQL, Result);
 end;
 
@@ -318,83 +210,25 @@ begin
      MySQL_codepage( 'cp850');
 end;
 
-function TRequete.LAST_INSERT_ID_Postgres( _NomTable: String): Integer;
-var
-   SQL: String;
+function TRequete.String_from( _SQL: String; var _Resultat: String; _Index: Integer= 0): Boolean;
 begin
-     SQL:= 'select currval( '''+_NomTable+'_SEQ'')';
-     Integer_from( SQL, Result);
-end;
-
-function TRequete.LAST_INSERT_ID_SQLite3: Integer;
-var
-   SQL: String;
-begin
-     SQL:= 'select last_insert_rowid()';
-     Integer_from( SQL, Result);
-end;
-
-function TRequete.String_from( _SQL: String; var _Resultat: String): Boolean;
-begin
-     try
-        sqlq.Database:= Connection();
-        sqlq.SQL.Text:= _SQL;
-        RefreshQuery( sqlq);
-        sqlq.First;
-        Result:= sqlq.Fields.Count >= 1;
-        if not Result
-        then
-            _Resultat:= ''
-        else
-            _Resultat:= sqlq.Fields.Fields[0].AsString;
-     finally
-            sqlq.Close;
-            end;
+     Result:= Connexion.Contexte.String_from( _SQL, _Resultat, _Index);
 end;
 
 function TRequete.String_from( _SQL, _NomChamp: String; var _Resultat: String): Boolean;
-var
-   F: TField;
 begin
-     _Resultat:= '';
-     try
-        sqlq.Database:= Connection();
-        sqlq.SQL.Text:= _SQL;
-        RefreshQuery( sqlq);
-        sqlq.First;
-        Result:= not sqlq.IsEmpty;
-        if  not Result then exit;
+     Result:= Connexion.Contexte.String_from( _SQL, _NomChamp, _Resultat);
+end;
 
-        F:= sqlq.FindField( _NomChamp);
-        Result:= Assigned( F);
-        if not Result then exit;
-
-        _Resultat:= F.AsString;
-     finally
-            sqlq.Close;
-            end;
+function TRequete.String_from( _SQL, _NomChamp: String; _Params: TParams;
+                               out _Resultat: String): Boolean;
+begin
+     Result:= Connexion.Contexte.String_from( _SQL, _NomChamp, _Params, _Resultat);
 end;
 
 function TRequete.MYSQL_storage_engine: String;
-var
-   F: TField;
 begin
-     Result:= '';
-     try
-        sqlq.Database:= Connection();
-        sqlq.SQL.Text:= 'show variables like "storage_engine"';
-        RefreshQuery( sqlq);
-        sqlq.First;
-        if sqlq.IsEmpty        then exit;
-        if sqlq.FieldCount < 2 then exit;
-
-        F:= sqlq.Fields.Fields[1];
-        if not Assigned( F) then exit;
-
-        Result:= F.AsString;
-     finally
-            sqlq.Close;
-            end;
+     String_from( 'show variables like "storage_engine"', Result, 1);
 end;
 
 function TRequete.MYSQL_storage_engine_Is_MyISAM: Boolean;
@@ -403,104 +237,53 @@ begin
 end;
 
 procedure TRequete.Liste_Champ( _SQL, _NomChamp: String; _Resultat: TStrings);
-var
-   F: TField;
 begin
-     _Resultat.Clear;
-     try
-        sqlq.Database:= Connection();
-        sqlq.SQL.Text:= _SQL;
-        RefreshQuery( sqlq);
-        sqlq.First;
-        if sqlq.IsEmpty then exit;
-
-        F:= sqlq.FindField( _NomChamp);
-        if nil = F then exit;
-
-        while not sqlq.Eof
-        do
-          begin
-          _Resultat.Add( F.AsString);
-          sqlq.Next;
-          end;
-     finally
-            sqlq.Close;
-            end;
+     Connexion.Contexte.Liste_Champ( _SQL, _NomChamp, _Resultat);
 end;
 
-
 function TRequete.sResultat_from_Requete( _SQL: String): String;
-var
-   I: Integer;
-   F: TField;
 begin
-     Result:=  _SQL+#13#10
-              +'Résultat'+#13#10;
-     try
-        try
-           sqlq.Database:= Connection();
-           sqlq.SQL.Text:= _SQL;
-           RefreshQuery( sqlq);
-           sqlq.First;
-           if sqlq.IsEmpty
-           then
-               Formate_Liste( Result, #13#10, 'Vide')
-           else
-               for I:= 0 to sqlq.FieldCount-1
-               do
-                 begin
-                 F:= sqlq.Fields[I];
-                 Formate_Liste( Result, #13#10, F.FieldName+'=>'+F.AsString+'<');
-                 end;
-        finally
-               sqlq.Close;
-               end;
-     except
-           on E: Exception
-           do
-             Formate_Liste( Result, #13#10, E.Message);
-           end;
+     Result:= Connexion.Contexte.sResultat_from_Requete( _SQL);
 end;
 
 function TRequete.GetSQL: String;
 begin
-     Result:= sqlq.SQL.Text;
+     Result:= Connexion.Contexte.SQL;
 end;
 
 procedure TRequete.SetSQL(const Value: String);
 begin
-     sqlq.SQL.Text:= Value;
+     Connexion.Contexte.SQL:= Value;
 end;
 
 function TRequete.GetParams: TParams;
 begin
-     Result:= sqlq.Params;
+     Result:= Connexion.Contexte.Params;
 end;
 
 procedure TRequete.SetParams(const Value: TParams);
 begin
-     sqlq.Params.AssignValues( Value);
+     Connexion.Contexte.Params.AssignValues( Value);
 end;
 
 function TRequete.Execute: Boolean;
 begin
-     sqlq.Database:= Connection();
-     Result:= ExecSQLQuery( sqlq);
+     Result:= Connexion.Contexte.ExecSQLQuery;
 end;
 
 procedure TRequete.GetFieldNames( const _TableName: String; _List: TStrings);
 begin
-     Connection().GetFieldNames( _TableName, _List);
+     Connexion.GetFieldNames( _TableName, _List);
 end;
 
 procedure TRequete.GetTableNames( _List: TStrings);
 begin
-     Connection().GetTableNames( _List);
+     Connexion.GetTableNames( _List);
 end;
 
 procedure TRequete.GetSchemaNames(_List: TStrings);
 begin
-     Connection().GetSchemaNames( _List);
+     Connexion.GetSchemaNames( _List);
 end;
 
 function TRequete.GetNomsTables: TStringList;

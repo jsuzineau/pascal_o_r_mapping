@@ -37,11 +37,10 @@ uses
     ublTag,
 
     udmDatabase,
-    upool_Ancetre_Ancetre,
     upoolTag,
     upoolTag_Work,
 
-    SysUtils, Classes, sqldb, DB,DateUtils, Math;
+    SysUtils, Classes, sqldb, DateUtils, Math;
 
 type
   TblWork = class;
@@ -209,8 +208,8 @@ type
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: TblWork);
-    function  not_Suivant( var _Resultat: TblWork): Boolean;
+    procedure Suivant( out _Resultat: TblWork);
+    function  not_Suivant( out _Resultat: TblWork): Boolean;
   end;
 
  { TslWork }
@@ -448,12 +447,12 @@ end;
 
 { TIterateur_Work }
 
-function TIterateur_Work.not_Suivant( var _Resultat: TblWork): Boolean;
+function TIterateur_Work.not_Suivant( out _Resultat: TblWork): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_Work.Suivant( var _Resultat: TblWork);
+procedure TIterateur_Work.Suivant( out _Resultat: TblWork);
 begin
      Suivant_interne( _Resultat);
 end;

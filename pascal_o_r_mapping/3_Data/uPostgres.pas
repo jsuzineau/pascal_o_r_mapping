@@ -44,7 +44,7 @@ type
   class( TjsDataConnexion_SQLQuery)
   //Gestion du cycle de vie
   public
-    constructor Create;
+    constructor Create( _SGBD: TSGBD); override;
     destructor Destroy; override;
   //Persistance dans la base de registre
   private
@@ -63,6 +63,9 @@ type
     procedure Ferme_db; override;
     procedure Keep_Connection; override;
     procedure Do_not_Keep_Connection; override;
+  //Last_Insert_id
+  public
+    function Last_Insert_id( _NomTable: String): Integer; override;
   end;
 
 const
@@ -84,10 +87,9 @@ end;
 
 { TPostgres }
 
-constructor TPostgres.Create;
+constructor TPostgres.Create( _SGBD: TSGBD);
 begin
-     inherited;
-     sSGBD:= sSGBDs[sgbd_Postgres];
+     inherited Create( _SGBD);
      SchemaName:= 'public';
      Initialized:= False;
 
@@ -193,6 +195,14 @@ end;
 procedure TPostgres.Do_not_Keep_Connection;
 begin
 		   inherited Do_not_Keep_Connection;
+end;
+
+function TPostgres.Last_Insert_id( _NomTable: String): Integer;
+var
+   SQL: String;
+begin
+     SQL:= 'select currval( '''+_NomTable+'_SEQ'')';
+     Contexte.Integer_from( SQL, Result);
 end;
 
 end.

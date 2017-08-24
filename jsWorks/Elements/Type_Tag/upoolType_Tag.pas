@@ -27,8 +27,6 @@ interface
 
 uses
   uClean,
-  uBatpro_StringList,
-{implementation_uses_key}
 
   ublType_Tag,
 
@@ -38,7 +36,7 @@ uses
 
 
   uhfType_Tag,
-  SysUtils, Classes, DB, SqlDB;
+  SysUtils, Classes, SqlDB;
 
 type
  TpoolType_Tag

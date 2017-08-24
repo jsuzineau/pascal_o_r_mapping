@@ -25,7 +25,6 @@ interface
 uses
     uClean,
     uBatpro_StringList,
-    uhAggregation,
     uDataUtilsU,
     uSGBD,
 
@@ -110,6 +109,7 @@ end;
 
 procedure TpoolWork.DataModuleCreate(Sender: TObject);
 begin
+     Writeln( ClassName+'.DataModuleCreate, début');
      NomTable:= 'Work';
      Classe_Elements:= TblWork;
      Classe_Filtre:= ThfWork;
@@ -120,6 +120,7 @@ begin
      ChampTri['Beginning']:= +1;
 
      ublTag.poolWork_Charge_Tag:= Charge_Tag;
+     Writeln( ClassName+'.DataModuleCreate, fin');
 end;
 
 function TpoolWork.Get( _id: integer): TblWork;
@@ -157,8 +158,9 @@ end;
 
 function TpoolWork.Start( _nProject: Integer): TblWork;
 begin
+     Writeln('TpoolWork.Start: Nouveau_Base( Result): début');
      Nouveau_Base( Result);
-     if Result = nil then writeln('TpoolWork.Start: Nouveau_Base( Result) -> nil')  ;
+     if Result = nil then writeln('TpoolWork.Start: Nouveau_Base( Result) -> nil');
      if Result = nil then exit;
 
      Result.nProject:= _nProject;
@@ -369,7 +371,6 @@ procedure TpoolWork.Tag_from_Description;
 var
    I: TIterateur;
    bl: TblWork;
-   blTag: TblTag;
 begin
      ToutCharger;
      I:= slT.Iterateur_interne;

@@ -739,6 +739,56 @@ public class jSqliteDataAccess extends SQLiteAssetHelper {
   }
  }
 
+  //2017/08/24 by jsuzineau
+  public int ExecSQL_Last_insert_rowid(String execQuery)
+   {
+   int Resultat= 0;
+   SQLiteDatabase mydb = getWritableDatabase();
+   Cursor c;
+   //Log.i("Showmessage execsql", execQuery);
+	  try
+      {
+			   mydb.beginTransaction();
+			   try
+         {
+					    mydb.execSQL(execQuery); //Execute a single SQL statement that is NOT a SELECT or any other SQL statement that returns data.
+					    //Set the transaction flag is successful, the transaction will be submitted when the end of the transaction
+         c= mydb.rawQuery( "select last_insert_rowid()", null);
+         if (c.moveToFirst())
+           {
+           Resultat= c.getInt(0);
+           c.close();
+           }
+					    }
+      catch (Exception e)
+            {
+					       e.printStackTrace();
+					       }
+      finally
+             {
+									    // transaction over
+									    mydb.setTransactionSuccessful();
+									    mydb.endTransaction();
+             if (0 == Resultat)
+               {
+						         c= mydb.rawQuery( "select last_insert_rowid()", null);
+						         if (c.moveToFirst())
+						           {
+						           Resultat= c.getInt(0);
+                 c.close();
+						           }
+               }
+									    mydb.close();
+					        }
+					  }
+   catch (SQLiteException e)
+         {
+					    Log.e(getClass().getSimpleName(), "Could not execute: " + execQuery);
+			      }
+   Log.i("jSqliteDataAccess", "last_insert_rowid() = "+Integer.toString( Resultat));
+   return Resultat;
+	  }
+
  //by jmpessoa
  private int GetDrawableResourceId(String _resName) {
   try {

@@ -1161,7 +1161,7 @@ type
     class function class_sl: Tslpool_Ancetre_Ancetre;
     class procedure class_Create (               var Reference ; Classe: Tpool_Ancetre_Ancetre_Class);
     class procedure class_Destroy(               var Reference                                      );
-    class procedure class_Get    ( var Resultat; var Reference ; Classe: Tpool_Ancetre_Ancetre_Class);
+    class procedure class_Get    ( out Resultat; var Reference ; Classe: Tpool_Ancetre_Ancetre_Class);
   end;
 
  Tfunction_pool_Ancetre_Ancetre= function : Tpool_Ancetre_Ancetre;
@@ -6714,7 +6714,7 @@ begin
      Clean_Destroy( Reference);
 end;
 
-class procedure Tpool_Ancetre_Ancetre.class_Get( var Resultat; var Reference; Classe: Tpool_Ancetre_Ancetre_Class);
+class procedure Tpool_Ancetre_Ancetre.class_Get( out Resultat; var Reference; Classe: Tpool_Ancetre_Ancetre_Class);
 begin
      if not Assigned( Tpool_Ancetre_Ancetre( Reference))
      then

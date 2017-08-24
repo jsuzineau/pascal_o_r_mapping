@@ -19,17 +19,22 @@ uses
 type
 
 		{ TjsDataConnexion }
-
+  TjsDataContexte=class;
+  TjsDataContexte_class= class of TjsDataContexte;
   TjsDataConnexion
   =
    class
    //Gestion du cycle de vie
    public
-     constructor Create; virtual;
+     constructor Create( _SGBD: TSGBD); virtual;
      destructor Destroy; override;
    //SGBD
+   private
+	    FSGBD: TSGBD;
+	    FsSGBD: String;
    public
-     sSGBD: String;
+     property SGBD: TSGBD   read FSGBD;
+     property sSGBD: String read FsSGBD;
    //HostName
    protected
      FHostName : String;
@@ -80,6 +85,24 @@ type
    //Récupération du nom du serveur et de la base
    public
      function sSGBD_Database: String;
+   //Contexte
+   protected
+     Classe_Contexte: TjsDataContexte_class;
+   public
+     Contexte: TjsDataContexte;
+     function Cree_Contexte( _Name: String): TjsDataContexte;
+   //Liste des noms des champs d'une table
+   public
+     procedure GetFieldNames(const _TableName: String; _List: TStrings); virtual; abstract;
+   //Liste des tables
+   public
+     procedure GetTableNames( _List:TStrings); virtual; abstract;
+   //Liste des schemas
+   public
+     procedure GetSchemaNames( _List:TStrings); virtual; abstract;
+   //Last_Insert_id
+   public
+     function Last_Insert_id( _NomTable: String): Integer; virtual; abstract;
 			end;
   TjsDataConnexion_Class= class of TjsDataConnexion;
 
@@ -191,7 +214,7 @@ type
    class
    //Gestion du cycle de vie
    public
-     constructor Create( _Name: String);
+     constructor Create( _Name: String); virtual;
      destructor Destroy; override;
    //Name
    public
@@ -202,7 +225,7 @@ type
      function GetConnection: TjsDataConnexion; virtual;
      procedure SetConnection(_Value: TjsDataConnexion); virtual;
    public
-     property Connection: TjsDataConnexion read GetConnection write SetConnection;
+     property Connection: TjsDataConnexion read GetConnection;
    //SQL
    protected
      procedure SetSQL( _SQL: String); virtual;
@@ -220,8 +243,9 @@ type
    //Champs
    public
      Champs: TsljsDataContexte_Champ;
-     function   Find_Champ( _Champ_Nom: String): TjsDataContexte_Champ;
-     function Assure_Champ( _Champ_Nom: String): TjsDataContexte_Champ; virtual;abstract;
+     function Champ_by_Index( _Index    : Integer): TjsDataContexte_Champ;
+     function     Find_Champ( _Champ_Nom: String ): TjsDataContexte_Champ;
+     function   Assure_Champ( _Champ_Nom: String ): TjsDataContexte_Champ; virtual;abstract;
    //Accesseurs
    public
      function   String_from_( _Champ_Nom: String; var Memory: String   ): TjsDataContexte_Champ;
@@ -244,6 +268,37 @@ type
      procedure SetUsePrimaryKeyAsKey( _Value: Boolean); virtual;
    public
      property UsePrimaryKeyAsKey: Boolean write SetUsePrimaryKeyAsKey;
+   //Utilitaires
+   public
+     function Est_Vide( _SQL: String): Boolean;
+   //Integer_from
+   public
+     function Integer_from(_SQL: String; out _Resultat: Integer): Boolean; overload;
+     function Integer_from(_SQL, _NomChamp: String; out _Resultat: Integer): Boolean; overload;
+     function Integer_from(_SQL, _NomChamp: String; _Params: TParams; out _Resultat: Integer): Boolean; overload;
+   //Récupération d'une valeur chaine à partir d'une requete
+   public
+     function String_from( _SQL: String; var _Resultat: String; _Index: Integer= 0): Boolean; overload;
+     function String_from( _SQL, _NomChamp: String; var _Resultat: String): Boolean; overload;
+     function String_from( _SQL, _NomChamp: String; _Params: TParams; out _Resultat: String): Boolean; overload;
+	  //Listage d'un champ vers une liste
+	  public
+	    procedure Liste_Champ( _SQL, _NomChamp: String; _Resultat: TStrings);
+   //Requete SQL pour message erreur
+   public
+     function sResultat_from_Requete( _SQL: String): String;
+   //Liste des noms des champs d'une table
+   public
+     procedure GetFieldNames(const _TableName: String; _List: TStrings);
+   //Liste des tables
+   public
+     procedure GetTableNames( _List:TStrings);
+   //Liste des schemas
+   public
+     procedure GetSchemaNames( _List:TStrings);
+   //Last_Insert_id
+   public
+     function Last_Insert_id( _NomTable: String): Integer; virtual; abstract;
    end;
 
 
@@ -254,7 +309,7 @@ type
    class( TjsDataContexte)
    //Gestion du cycle de vie
    public
-     constructor Create( _Name: String; _ds: TDataset);
+     constructor Create( _Name: String);override;
      destructor Destroy; override;
    //SQL
    public
@@ -262,7 +317,7 @@ type
      function EoF: Boolean;  override;
      procedure Next;         override;
    //Contexte Dataset
-   private
+   protected
      ds: TDataset;
      function ds_FindField( _FieldName: String): TField;
    //Champs
@@ -271,13 +326,14 @@ type
    end;
 
 		{ TjsDataConnexion_SQLQuery }
+  TjsDataContexte_SQLQuery= class;
 
   TjsDataConnexion_SQLQuery
   =
    class( TjsDataConnexion)
    //Gestion du cycle de vie
    public
-     constructor Create; override;
+     constructor Create( _SGBD: TSGBD); override;
      destructor Destroy; override;
    //Transaction
    protected
@@ -318,6 +374,18 @@ type
    public
      procedure Start_SQLLog; override;
      procedure  Stop_SQLLog; override;
+   //Contexte
+   public
+     jsdc: TjsDataContexte_SQLQuery;
+   //Liste des noms des champs d'une table
+   public
+     procedure GetFieldNames(const _TableName: String; _List: TStrings); override;
+   //Liste des tables
+   public
+     procedure GetTableNames( _List:TStrings); override;
+   //Liste des schemas
+   public
+     procedure GetSchemaNames( _List:TStrings); override;
 			end;
 
   { TjsDataContexte_SQLQuery }
@@ -327,7 +395,7 @@ type
    class( TjsDataContexte_Dataset)
    //Gestion du cycle de vie
    public
-     constructor Create( _Name: String);
+     constructor Create( _Name: String); override;
      destructor Destroy; override;
    //Connection
    private
@@ -359,6 +427,9 @@ type
    //spécial Gestion bases Microsoft Access en Freepascal
    protected
      procedure SetUsePrimaryKeyAsKey( _Value: Boolean); override;
+   //Last_Insert_id
+   public
+     function Last_Insert_id( _NomTable: String): Integer; override;
    end;
 
   { TjsDataContexte_Dataset_Null }
@@ -400,16 +471,23 @@ implementation
 
 { TjsDataConnexion_SQLQuery }
 
-constructor TjsDataConnexion_SQLQuery.Create;
+constructor TjsDataConnexion_SQLQuery.Create( _SGBD: TSGBD);
 begin
-		   inherited Create;
+		   inherited Create( _SGBD);
      sqlt:= Cree_SQLTransaction;
      sqlc:= Cree_SQLConnection;
      sqlc.Transaction:= sqlt;
+
+     Classe_Contexte:= TjsDataContexte_SQLQuery;
+     jsdc:= TjsDataContexte_SQLQuery.Create( ClassName+'.jsdc');
+     Contexte:= jsdc;
+     jsdc.SetConnection( Self);
 end;
 
 destructor TjsDataConnexion_SQLQuery.Destroy;
 begin
+     Contexte:= nil;
+     FreeAndNil( jsdc);
      FreeAndnil( sqlc);
      FreeAndnil( sqlt);
      inherited Destroy;
@@ -594,6 +672,21 @@ begin
      sqlc.OnLog    := nil;
 end;
 
+procedure TjsDataConnexion_SQLQuery.GetFieldNames( const _TableName: String;  _List: TStrings);
+begin
+     sqlc.GetFieldNames( _TableName, _List);
+end;
+
+procedure TjsDataConnexion_SQLQuery.GetTableNames(_List: TStrings);
+begin
+     sqlc.GetTableNames( _List);
+end;
+
+procedure TjsDataConnexion_SQLQuery.GetSchemaNames(_List: TStrings);
+begin
+     sqlc.GetSchemaNames( _List);
+end;
+
 procedure TjsDataConnexion_SQLQuery.Reconnecte;
 begin
      inherited Reconnecte;
@@ -640,9 +733,11 @@ end;
 
 { TjsDataConnexion }
 
-constructor TjsDataConnexion.Create;
+constructor TjsDataConnexion.Create( _SGBD: TSGBD);
 begin
-     sSGBD:= '';
+     FSGBD := _SGBD;
+     FsSGBD:= sSGBDs[ FSGBD];
+
      DataBase := '';
      FHostName:= '';
      User_Name:= '';
@@ -650,6 +745,9 @@ begin
 
 	    Database_indefinie:= True;
 	    Ouvrable:= False;
+
+     Classe_Contexte:= nil;
+     Contexte:= nil;
 end;
 
 destructor TjsDataConnexion.Destroy;
@@ -777,6 +875,12 @@ begin
      Result
      :=
        'base '+DataBase+' sur '+sSGBD;
+end;
+
+function TjsDataConnexion.Cree_Contexte( _Name: String): TjsDataContexte;
+begin
+     Result:= Classe_Contexte.Create( _Name);
+     Result.SetConnection( Self);
 end;
 
 function TjsDataConnexion.Base_sur: String;
@@ -1162,6 +1266,11 @@ procedure TjsDataContexte.Close;
 begin
 end;
 
+function TjsDataContexte.Champ_by_Index( _Index: Integer): TjsDataContexte_Champ;
+begin
+     Result:= jsDataContexte_Champ_from_sl( Champs, _Index);
+end;
+
 function TjsDataContexte.Find_Champ( _Champ_Nom: String): TjsDataContexte_Champ;
 begin
      Result:= jsDataContexte_Champ_from_sl_sCle( Champs, _Champ_Nom);
@@ -1229,12 +1338,257 @@ procedure TjsDataContexte.SetUsePrimaryKeyAsKey(_Value: Boolean);
 begin
 end;
 
+function TjsDataContexte.Est_Vide(_SQL: String): Boolean;
+begin
+     try
+        SQL:= _SQL;
+        RefreshQuery;
+        First;
+        Result:= not IsEmpty;
+     finally
+            Close;
+            end;
+end;
+
+function TjsDataContexte.Integer_from( _SQL: String; out _Resultat: Integer): Boolean;
+var
+   c: TjsDataContexte_Champ;
+begin
+     _Resultat:= 0;
+     Result:= False;
+     try
+        SQL:= _SQL;
+        RefreshQuery;
+        First;
+
+        Result:= not IsEmpty;
+
+        if not Result
+        then
+            begin
+            WriteLn( ClassName+'.Integer_from: IsEmpty ');
+            exit;
+            end;
+
+        Result:= Champs.Count > 0;
+        if not Result
+        then
+            begin
+            WriteLn( ClassName+'.Integer_from: Champs.Count = 0');
+            exit;
+            end;
+
+        c:= Champ_by_Index( 0);
+        Result:= Assigned( c);
+        if not Result
+        then
+            begin
+            WriteLn( ClassName+'.Integer_from: Champ_by_Index( 0) = nil');
+            exit;
+            end;
+
+        _Resultat:= c.asInteger;
+     finally
+            Close;
+            end;
+end;
+
+function TjsDataContexte.Integer_from( _SQL, _NomChamp: String; out _Resultat: Integer): Boolean;
+var
+   c: TjsDataContexte_Champ;
+begin
+     _Resultat:= 0;
+     try
+        SQL:= _SQL;
+        RefreshQuery;
+        First;
+        Result:= not IsEmpty;
+        if  not Result then exit;
+
+        c:= Find_Champ( _NomChamp);
+
+        Result:= Assigned( c);
+        if not Result then exit;
+
+        _Resultat:= c.AsInteger;
+     finally
+            Close;
+            end;
+end;
+
+function TjsDataContexte.Integer_from(_SQL, _NomChamp: String; _Params: TParams; out _Resultat: Integer): Boolean;
+var
+   C: TjsDataContexte_Champ;
+begin
+     _Resultat:= 0;
+     try
+        SQL:= _SQL;
+        Params.AssignValues( _Params);
+        RefreshQuery;
+        First;
+        Result:= not IsEmpty;
+        if not Result then exit;
+
+        C:= Find_Champ( _NomChamp);
+        Result:= Assigned( C);
+        if not Result then exit;
+
+        _Resultat:= C.AsInteger;
+     finally
+            Close;
+            end;
+end;
+
+function TjsDataContexte.String_from( _SQL: String; var _Resultat: String;
+                                      _Index: Integer= 0): Boolean;
+var
+   C: TjsDataContexte_Champ;
+begin
+     _Resultat:= '';
+     try
+        SQL:= _SQL;
+        RefreshQuery;
+        First;
+        Result:= Champs.Count >= _Index+1;
+        if not Result then exit;
+
+        C:= Champ_by_Index( _Index);
+        Result:= Assigned( C);
+        if not Result then exit;
+
+        _Resultat:= C.AsString;
+     finally
+            Close;
+            end;
+end;
+
+function TjsDataContexte.String_from( _SQL, _NomChamp: String; var _Resultat: String): Boolean;
+var
+   C: TjsDataContexte_Champ;
+begin
+     _Resultat:= '';
+     try
+        SQL:= _SQL;
+        RefreshQuery;
+        First;
+        Result:= not IsEmpty;
+        if not Result then exit;
+
+        C:= Find_Champ( _NomChamp);
+        Result:= Assigned( C);
+        if not Result then exit;
+
+        _Resultat:= C.AsString;
+     finally
+            Close;
+            end;
+end;
+
+function TjsDataContexte.String_from( _SQL, _NomChamp: String; _Params: TParams;
+		                                    out _Resultat: String): Boolean;
+var
+   C: TjsDataContexte_Champ;
+begin
+     _Resultat:= '';
+     try
+        SQL:= _SQL;
+        Params.AssignValues( _Params);
+        RefreshQuery;
+        First;
+        Result:= not IsEmpty;
+        if not Result then exit;
+
+        C:= Find_Champ( _NomChamp);
+        Result:= Assigned( C);
+        if not Result then exit;
+
+        _Resultat:= C.asString;
+     finally
+            Close;
+            end;
+end;
+
+procedure TjsDataContexte.Liste_Champ( _SQL, _NomChamp: String;
+		                                     _Resultat: TStrings);
+var
+   C: TjsDataContexte_Champ;
+begin
+     _Resultat.Clear;
+     try
+        SQL:= _SQL;
+        RefreshQuery;
+        First;
+        if IsEmpty then exit;
+
+        C:= Find_Champ( _NomChamp);
+        if nil = C then exit;
+
+        while not EoF
+        do
+          begin
+          _Resultat.Add( C.AsString);
+          Next;
+          end;
+     finally
+            Close;
+            end;
+end;
+
+function TjsDataContexte.sResultat_from_Requete(_SQL: String): String;
+var
+   I: Integer;
+   C: TjsDataContexte_Champ;
+begin
+     Result:=  _SQL+#13#10
+              +'Résultat'+#13#10;
+     try
+        try
+           SQL:= _SQL;
+           RefreshQuery;
+           First;
+           if IsEmpty
+           then
+               Formate_Liste( Result, #13#10, 'Vide')
+           else
+               for I:= 0 to Champs.Count-1
+               do
+                 begin
+                 C:= Champ_by_Index( I);
+                 if nil = C  then continue;
+
+                 Formate_Liste( Result, #13#10, C.Nom+'=>'+C.asString+'<');
+                 end;
+        finally
+               Close;
+               end;
+     except
+           on E: Exception
+           do
+             Formate_Liste( Result, #13#10, E.Message);
+           end;
+end;
+
+procedure TjsDataContexte.GetFieldNames( const _TableName: String; _List: TStrings);
+begin
+     Connection.GetFieldNames( _TableName, _List);
+end;
+
+procedure TjsDataContexte.GetTableNames( _List: TStrings);
+begin
+     Connection.GetTableNames( _List);
+end;
+
+procedure TjsDataContexte.GetSchemaNames( _List: TStrings);
+begin
+     Connection.GetSchemaNames( _List);
+end;
+
+
 { TjsDataContexte_Dataset }
 
-constructor TjsDataContexte_Dataset.Create( _Name: String; _ds: TDataset);
+constructor TjsDataContexte_Dataset.Create( _Name: String);
 begin
      inherited Create( _Name);
-     ds:= _ds;
 end;
 
 destructor TjsDataContexte_Dataset.Destroy;
@@ -1285,17 +1639,20 @@ end;
 
 constructor TjsDataContexte_SQLQuery.Create( _Name: String);
 begin
+     inherited Create( _Name);
+
      jsDataConnexion_SQLQuery:= nil;
 
      sqlq:= TSQLQuery.Create( nil);
      sqlq.Name:= 'sqlq';
      sqlqid:= nil;
 
-     inherited Create( _Name, sqlq);
+     ds:= sqlq;
 end;
 
 destructor TjsDataContexte_SQLQuery.Destroy;
 begin
+     ds:= nil;
      FreeAndNil( sqlq); //owner de sqlqid
      inherited Destroy;
 end;
@@ -1376,6 +1733,11 @@ end;
 procedure TjsDataContexte_SQLQuery.SetUsePrimaryKeyAsKey( _Value: Boolean);
 begin
      sqlq.UsePrimaryKeyAsKey:= _Value;
+end;
+
+function TjsDataContexte_SQLQuery.Last_Insert_id(_NomTable: String): Integer;
+begin
+     Result:= Connection.Last_Insert_id( _NomTable);
 end;
 
 { TjsDataContexte_Dataset_Null }

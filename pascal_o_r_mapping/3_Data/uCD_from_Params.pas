@@ -55,10 +55,10 @@ type
 
  TjsDataContexte_CD_from_Params
  =
-  class( TjsDataContexte)
+  class( TjsDataContexte_Dataset)
   //Gestion du cycle de vie
   public
-    constructor Create( _Name: String);
+    constructor Create( _Name: String); override;
     destructor Destroy; override;
   //SQL
   protected
@@ -168,11 +168,13 @@ constructor TjsDataContexte_CD_from_Params.Create(_Name: String);
 begin
      inherited Create( _Name);
      BufDataset:= TBufDataset.Create( nil);
+     ds:= BufDataset;
      CD_from_Params:= TCD_from_Params.Create;
 end;
 
 destructor TjsDataContexte_CD_from_Params.Destroy;
 begin
+     ds:= nil;
      Free_nil( CD_from_Params);
      FreeAndNil( BufDataset);
      inherited Destroy;

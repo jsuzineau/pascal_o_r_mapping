@@ -27,7 +27,6 @@ interface
 
 uses
   uClean,
-  uBatpro_StringList,
   uRequete,
 
   ublTag_Work,
@@ -102,7 +101,6 @@ end;
 
 procedure TpoolTag_Work.To_Params( _Params: TParams);
 begin
-     inherited;
      with _Params
      do
        begin
@@ -149,7 +147,7 @@ function TpoolTag_Work.Test( _id: Integer;  _idTag: Integer;  _idWork: Integer):
 var                                                 
    bl: TblTag_Work;
 begin                                               
-          Nouveau_Base( bl);                        
+     Nouveau_Base( bl);
        bl.id             := _id           ;
        bl.idTag          := _idTag        ;
        bl.idWork         := _idWork       ;

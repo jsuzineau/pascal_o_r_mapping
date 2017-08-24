@@ -32,7 +32,6 @@ uses
     uBatpro_StringList,
     ufAccueil_Erreur,
     uSVG,
-    uDrawInfo,
     uChamp,
 
     uBatpro_Element,
@@ -42,9 +41,8 @@ uses
     upoolType_Tag,
 
     udmDatabase,
-    upool_Ancetre_Ancetre,
 
-    SysUtils, Classes, SqlDB, DB;
+    SysUtils, Classes, SqlDB;
 
 type
   { ThaTag__Work }
@@ -88,7 +86,8 @@ type
   private
     FLibelle: String;
     procedure Libelle_GetChaine( var _Chaine: String);
-    function GetLibelle: String;
+  public
+    function GetLibelle: String; override;
   public
     cLibelle: TChamp;
     property Libelle: String read GetLibelle;
@@ -131,8 +130,8 @@ type
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: TblTag);
-    function  not_Suivant( var _Resultat: TblTag): Boolean;
+    procedure Suivant( out _Resultat: TblTag);
+    function  not_Suivant( out _Resultat: TblTag): Boolean;
   end;
 
  TslTag
@@ -183,12 +182,12 @@ end;
 
 { TIterateur_Tag }
 
-function TIterateur_Tag.not_Suivant( var _Resultat: TblTag): Boolean;
+function TIterateur_Tag.not_Suivant( out _Resultat: TblTag): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_Tag.Suivant( var _Resultat: TblTag);
+procedure TIterateur_Tag.Suivant( out _Resultat: TblTag);
 begin
      Suivant_interne( _Resultat);
 end;

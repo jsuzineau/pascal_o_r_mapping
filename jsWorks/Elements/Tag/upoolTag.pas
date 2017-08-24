@@ -132,12 +132,11 @@ end;
 
 procedure TpoolTag.To_Params( _Params: TParams);
 begin
-     inherited;
      with _Params
      do
        begin
-       ParamByName( 'idType'    ).AsInteger:= idType;
-       ParamByName( 'Name'    ).AsString:= Name;
+       ParamByName( 'idType').AsInteger:= idType;
+       ParamByName( 'Name'  ).AsString := Name;
        end;
 end;
 
@@ -145,16 +144,16 @@ function TpoolTag.SQLWHERE_ContraintesChamps: String;
 begin
      Result
      :=
-       'where                        '#13#10+
-       '         idType          = :idType         '#13#10+
-       '     and Name            = :Name           ';
+       'where                              '#13#10+
+       '         idType          = :idType '#13#10+
+       '     and Name            = :Name   ';
 end;
 
 function TpoolTag.Test( _id: Integer;  _Name: String;  _idType: Integer):Integer;
 var                                                 
    bl: TblTag;                          
 begin                                               
-          Nouveau_Base( bl);                        
+     Nouveau_Base( bl);
        bl.id             := _id           ;
        bl.Name           := _Name         ;
        bl.idType         := _idType       ;
