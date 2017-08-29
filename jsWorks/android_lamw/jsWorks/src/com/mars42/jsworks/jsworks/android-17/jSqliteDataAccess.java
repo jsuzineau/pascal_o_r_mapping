@@ -739,7 +739,7 @@ public class jSqliteDataAccess extends SQLiteAssetHelper {
   }
  }
 
-  //2017/08/04 by jsuzineau
+  //2017/08/24 by jsuzineau
   public int ExecSQL_Last_insert_rowid(String execQuery)
    {
    int Resultat= 0;

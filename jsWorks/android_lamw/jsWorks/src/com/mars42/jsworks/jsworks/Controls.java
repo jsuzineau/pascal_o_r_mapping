@@ -1920,6 +1920,18 @@ public  java.lang.Object jButton_Create(long pasobj ) {
   return (java.lang.Object)( new jButton(this.activity,this,pasobj));
 }
 
+public java.lang.Object jEditText_Create(long pasobj ) {
+  return (java.lang.Object)( new jEditText(this.activity,this,pasobj));
+}
+
+public java.lang.Object jMenu_jCreate(long _Self) {
+   return (java.lang.Object)(new jMenu(this,_Self));
+}
+
+public  java.lang.Object jPanel_Create(long pasobj ) {
+  return (java.lang.Object)(new jPanel(this.activity,this,pasobj));
+}
+
 public  java.lang.Object jSqliteCursor_Create( long pasobj ) {
    return (java.lang.Object)( new jSqliteCursor(this,pasobj) );
 }

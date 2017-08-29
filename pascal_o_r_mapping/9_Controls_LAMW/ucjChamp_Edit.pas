@@ -1,12 +1,9 @@
-unit ucChamp_Edit;
+unit ucjChamp_Edit;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
-            partly as freelance: http://www.mars42.com                          |
-        and partly as employee : http://www.batpro.com                          |
-    Contact: gilles.doutre@batpro.com                                           |
+            http://www.mars42.com                                               |
                                                                                 |
-    Copyright 2014 Jean SUZINEAU - MARS42                                       |
-    Copyright 2014 Cabinet Gilles DOUTRE - BATPRO                               |
+    Copyright 2017 Jean SUZINEAU - MARS42                                       |
                                                                                 |
     This program is free software: you can redistribute it and/or modify        |
     it under the terms of the GNU Lesser General Public License as published by |
@@ -23,32 +20,37 @@ unit ucChamp_Edit;
                                                                                 |
 |                                                                               }
 
+{$mode delphi}
+
 interface
 
 uses
-    SysUtils, Classes, Controls, StdCtrls,
     uChamps,
-    uChamp;
+    uChamp,
+  Classes, SysUtils, Laz_And_Controls,And_jni_Bridge;
 
 type
- TChamp_Edit
+
+	{ TjChamp_Edit }
+
+ TjChamp_Edit
  =
-  class(TEdit, IChampsComponent)
+  class(jEditText, IChampsComponent)
   //Cycle de vie
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-  //Général
-  protected
-    procedure Change; override;
-  //Propriété Champs
+  //OnChange
+  private
+    procedure Change( _Sender: TObject; _txt: string; _count: integer);
+  //PropriÃ©tÃ© Champs
   private
     FChamps: TChamps;
     function GetChamps: TChamps;
     procedure SetChamps( Value: TChamps);
   public
     property Champs: TChamps read GetChamps write SetChamps;
-  // Propriété Field
+  // PropriÃ©tÃ© Field
   private
     FField: String;
   published
@@ -57,15 +59,15 @@ type
   private
     Champ: TChamp;
     function Champ_OK: Boolean;
-  //Gestion des mises à jours avec TChamps
+  //Gestion des mises Ã  jours avec TChamps
   private
     Champs_Changing: Boolean;
     procedure _from_Champs;
     procedure _to_Champs;
-  //accesseur à partir de l'interface
+  //accesseur Ã  partir de l'interface
   private
     function GetComponent: TComponent;
-  end;
+	 end;
 
 procedure Register;
 
@@ -73,35 +75,39 @@ implementation
 
 procedure Register;
 begin
-  RegisterComponents('Batpro', [TChamp_Edit]);
+  RegisterComponents('Android Bridges',[TjChamp_Edit]);
 end;
 
-{ TChamp_Edit }
+{ TjChamp_Edit }
 
-constructor TChamp_Edit.Create(AOwner: TComponent);
+constructor TjChamp_Edit.Create(AOwner: TComponent);
 begin
-     inherited;
+	    inherited Create(AOwner);
+     if not (csDesigning in ComponentState) then WriteLn( ClassName+'.Create');
      FChamps:= nil;
      Champs_Changing:= False;
+     OnChange:= Change;
 end;
 
-destructor TChamp_Edit.Destroy;
+destructor TjChamp_Edit.Destroy;
 begin
-     inherited;
+	    inherited Destroy;
 end;
 
-function TChamp_Edit.Champ_OK: Boolean;
+procedure TjChamp_Edit.Change( _Sender: TObject; _txt: string; _count: integer);
 begin
-     Champ:= nil;
+     if not (csDesigning in ComponentState) then WriteLn( ClassName+'.Change( _Sender, _txt="', _txt,'", _count= ',_count,')');
+     if not Champ_OK then exit;
 
-     Result:= Assigned( FChamps);
-     if not Result then exit;
-
-     Champ:= Champs.Champ_from_Field( Field);
-     Result:= Assigned( Champ);
+     _to_Champs;
 end;
 
-procedure TChamp_Edit.SetChamps( Value: TChamps);
+function TjChamp_Edit.GetChamps: TChamps;
+begin
+     Result:= FChamps;
+end;
+
+procedure TjChamp_Edit.SetChamps(Value: TChamps);
 begin
      if Assigned( Champ)
      then
@@ -116,45 +122,53 @@ begin
      _from_Champs;
 end;
 
-procedure TChamp_Edit.Change;
+function TjChamp_Edit.Champ_OK: Boolean;
 begin
-     inherited;
-     if not Champ_OK then exit;
+     Champ:= nil;
 
-     _to_Champs;
+     Result:= Assigned( FChamps);
+     if not (csDesigning in ComponentState) then if not Result then WriteLn( ClassName+'.Champ_OK = False');
+     if not Result then exit;
+
+     Champ:= Champs.Champ_from_Field( Field);
+     Result:= Assigned( Champ);
+     if not (csDesigning in ComponentState) then WriteLn( ClassName+'.Champ_OK = ', Result);
 end;
 
-procedure TChamp_Edit._from_Champs;
+procedure TjChamp_Edit._from_Champs;
 begin
+     if not (csDesigning in ComponentState) then if Champs_Changing then WriteLn( ClassName+'._from_Champs: Champs_Changing= True');
      if Champs_Changing then exit;
      try
         Champs_Changing:= True;
 
+        if not (csDesigning in ComponentState) then WriteLn( ClassName+'._from_Champs: Champ.Chaine = ',Champ.Chaine);
         Text:= Champ.Chaine;
+        if not (csDesigning in ComponentState) then WriteLn( ClassName+'._from_Champs: FInitialized= ',FInitialized);
+        if FInitialized
+        then
+           jEditText_setText(FjEnv, FjObject , Champ.Chaine);
      finally
             Champs_Changing:= False;
             end;
 end;
 
-procedure TChamp_Edit._to_Champs;
+procedure TjChamp_Edit._to_Champs;
 begin
+     if not (csDesigning in ComponentState) then if Champs_Changing then WriteLn( ClassName+'._to_Champs: Champs_Changing= True');
      if Champs_Changing then exit;
      try
         Champs_Changing:= True;
 
         Champ.Chaine:= Text;
+        if not (csDesigning in ComponentState) then WriteLn( ClassName+'._from_Champs: Champ.Chaine = ',Champ.Chaine);
      finally
             Champs_Changing:= False;
             end;
      if Champ.Bounce then _from_Champs;
 end;
 
-function TChamp_Edit.GetChamps: TChamps;
-begin
-     Result:= FChamps;
-end;
-
-function TChamp_Edit.GetComponent: TComponent;
+function TjChamp_Edit.GetComponent: TComponent;
 begin
      Result:= Self;
 end;

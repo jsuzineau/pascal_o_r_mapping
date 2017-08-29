@@ -10,7 +10,7 @@ object fTest_SQLiteDataAccess: TfTest_SQLiteDataAccess
   Enabled = True
   Text = 'fTest_SQLiteDataAccess'
   ActivityMode = actRecyclable
-  BackgroundColor = colbrDefault
+  BackgroundColor = colbrIvory
   ActionBarTitle = abtDefault
   OnJNIPrompt = fTest_SQLiteDataAccessJNIPrompt
   object bOuvrir: jButton
@@ -30,7 +30,7 @@ object fTest_SQLiteDataAccess: TfTest_SQLiteDataAccess
     LayoutParamWidth = lpMatchParent
     LayoutParamHeight = lpWrapContent
     Text = 'Ouvrir'
-    BackgroundColor = colbrDefault
+    BackgroundColor = colbrSkyBlue
     FontColor = colbrDefault
     FontSize = 0
     FontSizeUnit = unitDefault
@@ -54,7 +54,7 @@ object fTest_SQLiteDataAccess: TfTest_SQLiteDataAccess
     LayoutParamWidth = lpMatchParent
     LayoutParamHeight = lpWrapContent
     Text = 'State'
-    BackgroundColor = colbrDefault
+    BackgroundColor = colbrSkyBlue
     FontColor = colbrDefault
     FontSize = 0
     FontSizeUnit = unitDefault
@@ -78,7 +78,7 @@ object fTest_SQLiteDataAccess: TfTest_SQLiteDataAccess
     LayoutParamWidth = lpMatchParent
     LayoutParamHeight = lpWrapContent
     Text = 'Work'
-    BackgroundColor = colbrDefault
+    BackgroundColor = colbrSkyBlue
     FontColor = colbrDefault
     FontSize = 0
     FontSizeUnit = unitDefault
@@ -103,7 +103,7 @@ object fTest_SQLiteDataAccess: TfTest_SQLiteDataAccess
     LayoutParamHeight = lpWrapContent
     Text = 'tw'
     Alignment = taLeft
-    BackgroundColor = colbrWhite
+    BackgroundColor = colbrIvory
     FontColor = colbrBlack
     FontSize = 0
     TextTypeFace = tfNormal

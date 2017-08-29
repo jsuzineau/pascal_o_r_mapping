@@ -28,7 +28,7 @@ uses
 		Laz_And_Controls_Events, blcksock, uSQLite_Android, uhAggregation,
 		udmDatabase, upoolWork, ublWork, ublTag, upoolTag, upoolTag_Work,
 		ublType_Tag, ufjsWorks, fphttpclient, ufTest_SQLiteDataAccess,
-uAndroid_Database, ufUtilitaires;
+uAndroid_Database, ufUtilitaires, ufWork;
   
 {%region /fold 'LAMW generated code'}
 

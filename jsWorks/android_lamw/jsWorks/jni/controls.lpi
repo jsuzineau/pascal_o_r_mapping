@@ -38,15 +38,18 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="2">
+    <RequiredPackages Count="3">
       <Item1>
-        <PackageName Value="OD_DelphiReportEngine_Units"/>
+        <PackageName Value="OD_DelphiReportEngine_Controls_LAMW"/>
       </Item1>
       <Item2>
-        <PackageName Value="tfpandroidbridge_pack"/>
+        <PackageName Value="OD_DelphiReportEngine_Units"/>
       </Item2>
+      <Item3>
+        <PackageName Value="tfpandroidbridge_pack"/>
+      </Item3>
     </RequiredPackages>
-    <Units Count="16">
+    <Units Count="17">
       <Unit0>
         <Filename Value="controls.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -57,7 +60,7 @@
         <ComponentName Value="fjsWorks"/>
         <HasResources Value="True"/>
         <CustomData Count="1">
-          <Item0 Name="jControls" Value="jButton;jForm"/>
+          <Item0 Name="jControls" Value="jButton;jForm;jMenu;jPanel;jTextView;TjChamp_Edit"/>
         </CustomData>
       </Unit1>
       <Unit2>
@@ -125,10 +128,20 @@
         <Filename Value="ufUtilitaires.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fUtilitaires"/>
+        <HasResources Value="True"/>
         <CustomData Count="1">
           <Item0 Name="jControls" Value="jButton;jForm"/>
         </CustomData>
       </Unit15>
+      <Unit16>
+        <Filename Value="ufWork.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fWork"/>
+        <HasResources Value="True"/>
+        <CustomData Count="1">
+          <Item0 Name="jControls" Value="jButton;jEditText;jForm;jPanel;jTextView;TjChamp_Edit"/>
+        </CustomData>
+      </Unit16>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

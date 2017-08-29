@@ -33,6 +33,7 @@ uses
     uSQLite_Android,
     uLog,
     uAndroid_Database,
+    uChamps,
 
     uParametres_Ligne_de_commande,
 
@@ -42,10 +43,10 @@ uses
     upool,
     upoolWork,
 
-    ufAccueil_Erreur,
+    ufAccueil_Erreur, ucjChamp_Edit,
     ufTest_SQLiteDataAccess,
-    ufUtilitaires,
-  Classes, SysUtils, DB,Laz_And_Controls,AndroidWidget;
+    ufUtilitaires, ufWork,
+  Classes, SysUtils, DB,Laz_And_Controls,AndroidWidget, menu, And_jni;
 
 type
  { TfjsWorks }
@@ -53,14 +54,24 @@ type
  TfjsWorks
  =
   class(jForm)
-				bDemarrer: jButton;
-				bTest_SQLiteDataAccess: jButton;
-				bUtilitaires: jButton;
-				procedure bTest_SQLiteDataAccessClick(Sender: TObject);
-				procedure bUtilitairesClick(Sender: TObject);
-    procedure fjsWorksCreate(Sender: TObject);
-    procedure fjsWorksJNIPrompt(Sender: TObject);
+			bDemarrer: jButton;
+			jceBeginning: TjChamp_Edit;
+				jceBeginning2: TjChamp_Edit;
+				jceDescription: TjChamp_Edit;
+				jceEnd: TjChamp_Edit;
+				jceEnd1: TjChamp_Edit;
+				jm: jMenu;
+				jpBeginning: jPanel;
+				jpEnd: jPanel;
+				jTextView3: jTextView;
+				lDebut: jTextView;
+				lDescription: jTextView;
+				lFin: jTextView;
 				procedure bDemarrerClick(Sender: TObject);
+    procedure bWorkClick(Sender: TObject);
+    procedure fjsWorksJNIPrompt(Sender: TObject);
+				procedure fjsWorksCreateOptionMenu   ( Sender: TObject; jObjMenu: jObject);
+				procedure fjsWorksClickOptionMenuItem( Sender: TObject; jObjMenuItem: jObject; itemID: integer; itemCaption: string; checked: boolean);
   private
     procedure LogP( _Message_Developpeur: String; _Message: String = '');
   //Connexion
@@ -72,6 +83,9 @@ type
   //Test TParams
   private
     procedure Test_TParams;
+  //Work
+  private
+    bl: TblWork;
   end;
 
 var
@@ -83,9 +97,43 @@ implementation
 
 { TfjsWorks }
 
-procedure TfjsWorks.fjsWorksCreate(Sender: TObject);
+procedure TfjsWorks.bWorkClick(Sender: TObject);
 begin
+     fWork.Show;
+end;
 
+procedure TfjsWorks.bDemarrerClick(Sender: TObject);
+begin
+     try
+        try
+           Log.PrintLn( 'avant bl:= poolWork.Start(0);')  ;
+           bl:= poolWork.Start(0);
+           if nil = bl
+           then
+               begin
+               Log.PrintLn( 'bl = nil');
+               exit;
+               end;
+           Log.PrintLn( 'avant tw.Text:= bl.Listing_Champs(#13#10);');
+           Log.PrintLn( bl.Listing_Champs(#13#10));
+
+           bl.Description:= 'Test';
+           WriteLn( ClassName+'.Edit, avant Champs_Affecte');
+           Champs_Affecte( bl, [jceBeginning, jceEnd, jceDescription]);
+           WriteLn( ClassName+'.Edit, aprés Champs_Affecte');
+     		 except
+              on E: Exception
+              do
+                begin
+                Log.PrintLn( 'Exception : '#13#10
+                         +E.Message+#13#10
+                         +DumpCallStack);
+                end;
+     		       end;
+
+     finally
+            //fTest_SQLiteDataAccess.Dump_LastWork;
+            end;
 end;
 
 var compteur: integer=0;
@@ -95,8 +143,8 @@ begin
      uSQLite_Android_jForm:= Self;
      fAccueil_log_procedure:= LogP;
      uForms_Android_ShowMessage:= Self.ShowMessage;
-     uSQLite_Android_sc := fTest_SQLiteDataAccess.sc ;
-     uSQLite_Android_sda:= fTest_SQLiteDataAccess.sda;
+     //uSQLite_Android_sc := fTest_SQLiteDataAccess.sc ;
+     //uSQLite_Android_sda:= fTest_SQLiteDataAccess.sda;
      //uPool_Default_jsDataConnexion:= am;
      uAndroid_Database_Traite_Environment( Self);
 
@@ -111,48 +159,27 @@ begin
      //Test_TParams;
 
      //test_poolWork;
+
      Show;
 end;
 
-procedure TfjsWorks.bDemarrerClick(Sender: TObject);
-var
-   bl: TblWork;
+procedure TfjsWorks.fjsWorksCreateOptionMenu( Sender: TObject; jObjMenu: jObject);
 begin
-     try
-		      try
-		         Log.PrintLn( 'avant bl:= poolWork.Start(0);')  ;
-		         bl:= poolWork.Start(0);
-		         if nil = bl
-		         then
-		             begin
-		             Log.PrintLn( 'bl = nil');
-		             exit;
-		             end;
-		         Log.PrintLn( 'avant tw.Text:= bl.Listing_Champs(#13#10);');
-		         Log.PrintLn( bl.Listing_Champs(#13#10));
-							 except
-		            on E: Exception
-		            do
-		              begin
-		              Log.PrintLn( 'Exception : '#13#10
-		                       +E.Message+#13#10
-		                       +DumpCallStack);
-		              end;
-							       end;
-
-					finally
-            fTest_SQLiteDataAccess.Dump_LastWork;
-					       end;
+     jm.AddItem( jObjMenu, 1, 'jsWorks'              , 'ic_launcher', mitDefault, misIfRoomWithText);
+     jm.AddItem( jObjMenu, 2, 'Test_SQLiteDataAccess', 'ic_launcher', mitDefault, misIfRoomWithText);
+     jm.AddItem( jObjMenu, 3, 'Utilitaires'          , 'ic_launcher', mitDefault, misIfRoomWithText);
+     jm.AddItem( jObjMenu, 4, 'Work'                 , 'ic_launcher', mitDefault, misIfRoomWithText);
 end;
 
-procedure TfjsWorks.bTest_SQLiteDataAccessClick(Sender: TObject);
+procedure TfjsWorks.fjsWorksClickOptionMenuItem( Sender: TObject; jObjMenuItem: jObject; itemID: integer; itemCaption: string; checked: boolean);
 begin
-     fTest_SQLiteDataAccess.Show;
-end;
-
-procedure TfjsWorks.bUtilitairesClick(Sender: TObject);
-begin
-     fUtilitaires.Show;
+     case itemID
+     of
+       1: fjsWorks              .Show;
+       2: fTest_SQLiteDataAccess.Show;
+       3: fUtilitaires          .Show;
+       4: fWork                 .Show;
+					  end;
 end;
 
 procedure TfjsWorks.LogP( _Message_Developpeur: String; _Message: String= '');
@@ -208,7 +235,6 @@ begin
                end;
            Log.PrintLn( 'avant tw.Text:= bl.Listing_Champs(#13#10);');
            Log.PrintLn( bl.Listing_Champs(#13#10));
-
    					except
               on E: Exception
               do
@@ -251,4 +277,5 @@ begin
 end;
 
 end.
+
 

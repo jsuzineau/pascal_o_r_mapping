@@ -1,6 +1,6 @@
-object fjsWorks: TfjsWorks
-  Left = 619
-  Top = 278
+object fWork: TfWork
+  Left = 543
+  Top = 181
   Width = 320
   Height = 400
   MarginLeft = 0
@@ -8,43 +8,15 @@ object fjsWorks: TfjsWorks
   MarginRight = 0
   MarginBottom = 0
   Enabled = True
-  Text = 'fjsWorks'
-  ActivityMode = actMain
+  Text = 'fWork'
+  ActivityMode = actRecyclable
   BackgroundColor = colbrIvory
   ActionBarTitle = abtDefault
-  OnJNIPrompt = fjsWorksJNIPrompt
-  OnCreateOptionMenu = fjsWorksCreateOptionMenu
-  OnClickOptionMenuItem = fjsWorksClickOptionMenuItem
-  object bDemarrer: jButton
-    Left = 0
-    Top = 0
-    Width = 320
-    Height = 40
-    MarginLeft = 2
-    MarginTop = 4
-    MarginRight = 2
-    MarginBottom = 4
-    Enabled = True
-    Visible = True
-    Id = 4
-    PosRelativeToAnchor = []
-    PosRelativeToParent = []
-    LayoutParamWidth = lpWrapContent
-    LayoutParamHeight = lpWrapContent
-    Text = 'Démarrer'
-    BackgroundColor = colbrSkyBlue
-    FontColor = colbrDefault
-    FontSize = 0
-    FontSizeUnit = unitDefault
-    OnClick = bDemarrerClick
-    Left = 28
-    Top = 28
-  end
   object jpBeginning: jPanel
-    Left = 0
+    Left = 4
     Top = 48
-    Width = 289
-    Height = 49
+    Width = 312
+    Height = 58
     MarginLeft = 4
     MarginTop = 4
     MarginRight = 4
@@ -52,19 +24,17 @@ object fjsWorks: TfjsWorks
     Enabled = True
     Visible = True
     Anchor = bDemarrer
-    Id = 13
+    Id = 5
     PosRelativeToAnchor = [raBelow]
     PosRelativeToParent = []
-    LayoutParamWidth = lpWrapContent
+    LayoutParamWidth = lpMatchParent
     LayoutParamHeight = lpWrapContent
     BackgroundColor = colbrDefault
     MinPinchZoomFactor = 0.25
     MaxPinchZoomFactor = 4
-    Left = 56
-    Top = 56
-    object lDebut: jTextView
-      Left = 5
-      Top = 5
+    object jTextView1: jTextView
+      Left = 20
+      Top = 16
       Width = 35
       Height = 20
       MarginLeft = 5
@@ -73,34 +43,35 @@ object fjsWorks: TfjsWorks
       MarginBottom = 5
       Enabled = True
       Visible = True
-      Id = 8
-      PosRelativeToAnchor = []
-      PosRelativeToParent = [rpTop, rpLeft]
+      Anchor = jceBeginning
+      Id = 6
+      PosRelativeToAnchor = [raToLeftOf]
+      PosRelativeToParent = []
       LayoutParamWidth = lpWrapContent
       LayoutParamHeight = lpWrapContent
       Text = 'Début'
-      Alignment = taRight
+      Alignment = taLeft
       BackgroundColor = colbrDefault
-      FontColor = colbrSkyBlue
+      FontColor = colbrDefault
       FontSize = 0
       TextTypeFace = tfNormal
       FontSizeUnit = unitDefault
     end
     object jceBeginning: TjChamp_Edit
-      Left = 48
-      Top = 5
-      Width = 236
-      Height = 39
+      Left = 92
+      Top = 8
+      Width = 212
+      Height = 40
       MarginLeft = 5
-      MarginTop = 5
+      MarginTop = 10
       MarginRight = 5
-      MarginBottom = 5
+      MarginBottom = 10
       Enabled = True
       Visible = True
-      Id = 9
+      Id = 7
       PosRelativeToAnchor = []
-      PosRelativeToParent = [rpTop, rpRight]
-      LayoutParamWidth = lpWrapContent
+      PosRelativeToParent = [rpRight]
+      LayoutParamWidth = lpOneThirdOfParent
       LayoutParamHeight = lpWrapContent
       Text = 'jceBeginning'
       Alignment = taLeft
@@ -121,10 +92,10 @@ object fjsWorks: TfjsWorks
     end
   end
   object jpEnd: jPanel
-    Left = 0
-    Top = 105
-    Width = 289
-    Height = 59
+    Left = 4
+    Top = 114
+    Width = 312
+    Height = 62
     MarginLeft = 4
     MarginTop = 4
     MarginRight = 4
@@ -132,19 +103,17 @@ object fjsWorks: TfjsWorks
     Enabled = True
     Visible = True
     Anchor = jpBeginning
-    Id = 14
+    Id = 6
     PosRelativeToAnchor = [raBelow]
     PosRelativeToParent = []
-    LayoutParamWidth = lpWrapContent
+    LayoutParamWidth = lpMatchParent
     LayoutParamHeight = lpWrapContent
     BackgroundColor = colbrDefault
     MinPinchZoomFactor = 0.25
     MaxPinchZoomFactor = 4
-    Left = 84
-    Top = 84
-    object lFin: jTextView
-      Left = 5
-      Top = 5
+    object jTextView2: jTextView
+      Left = 20
+      Top = 16
       Width = 16
       Height = 20
       MarginLeft = 5
@@ -153,34 +122,34 @@ object fjsWorks: TfjsWorks
       MarginBottom = 5
       Enabled = True
       Visible = True
-      Id = 10
-      PosRelativeToAnchor = []
-      PosRelativeToParent = [rpTop, rpLeft]
+      Id = 6
+      PosRelativeToAnchor = [raToLeftOf]
+      PosRelativeToParent = []
       LayoutParamWidth = lpWrapContent
       LayoutParamHeight = lpWrapContent
       Text = 'Fin'
       Alignment = taLeft
       BackgroundColor = colbrDefault
-      FontColor = colbrSkyBlue
+      FontColor = colbrDefault
       FontSize = 0
       TextTypeFace = tfNormal
       FontSizeUnit = unitDefault
     end
     object jceEnd: TjChamp_Edit
-      Left = 56
-      Top = 10
-      Width = 228
-      Height = 39
+      Left = 96
+      Top = 12
+      Width = 212
+      Height = 40
       MarginLeft = 5
       MarginTop = 10
       MarginRight = 5
       MarginBottom = 10
       Enabled = True
       Visible = True
-      Id = 11
+      Id = 7
       PosRelativeToAnchor = []
-      PosRelativeToParent = [rpTop, rpRight]
-      LayoutParamWidth = lpWrapContent
+      PosRelativeToParent = [rpRight]
+      LayoutParamWidth = lpOneThirdOfParent
       LayoutParamHeight = lpWrapContent
       Text = 'jceEnd'
       Alignment = taLeft
@@ -200,45 +169,18 @@ object fjsWorks: TfjsWorks
       Field = 'End'
     end
   end
-  object lDescription: jTextView
-    Left = 0
-    Top = 173
-    Width = 66
-    Height = 20
-    MarginLeft = 5
-    MarginTop = 5
-    MarginRight = 5
-    MarginBottom = 5
-    Enabled = True
-    Visible = True
-    Anchor = jpEnd
-    Id = 12
-    PosRelativeToAnchor = [raBelow]
-    PosRelativeToParent = []
-    LayoutParamWidth = lpWrapContent
-    LayoutParamHeight = lpWrapContent
-    Text = 'Description'
-    Alignment = taLeft
-    BackgroundColor = colbrDefault
-    FontColor = colbrSkyBlue
-    FontSize = 0
-    TextTypeFace = tfNormal
-    FontSizeUnit = unitDefault
-    Left = 112
-    Top = 112
-  end
   object jceDescription: TjChamp_Edit
-    Left = 5
-    Top = 208
-    Width = 310
-    Height = 39
+    Left = 8
+    Top = 184
+    Width = 304
+    Height = 19
     MarginLeft = 5
     MarginTop = 10
     MarginRight = 5
     MarginBottom = 10
     Enabled = True
     Visible = True
-    Anchor = lDescription
+    Anchor = jpEnd
     Id = 7
     PosRelativeToAnchor = [raBelow]
     PosRelativeToParent = []
@@ -260,9 +202,62 @@ object fjsWorks: TfjsWorks
     Editable = True
     FontSizeUnit = unitDefault
     Field = 'Description'
-    Left = 140
-    Top = 140
   end
-  object jm: jMenu
+  object jEditText1: jEditText
+    Left = 20
+    Top = 209
+    Width = 92
+    Height = 39
+    MarginLeft = 5
+    MarginTop = 10
+    MarginRight = 5
+    MarginBottom = 10
+    Enabled = True
+    Visible = True
+    Id = 8
+    PosRelativeToAnchor = []
+    PosRelativeToParent = []
+    LayoutParamWidth = lpOneThirdOfParent
+    LayoutParamHeight = lpWrapContent
+    Text = 'jEditText1'
+    Alignment = taLeft
+    InputTypeEx = itxText
+    MaxTextLength = -1
+    BackgroundColor = colbrDefault
+    FontColor = colbrDefault
+    FontSize = 0
+    HintTextColor = colbrDefault
+    ScrollBarStyle = scrNone
+    MaxLines = 1
+    HorScrollBar = True
+    VerScrollBar = True
+    WrappingLine = False
+    Editable = True
+    FontSizeUnit = unitDefault
+  end
+  object bDemarrer: jButton
+    Left = 2
+    Top = 0
+    Width = 316
+    Height = 40
+    MarginLeft = 2
+    MarginTop = 4
+    MarginRight = 2
+    MarginBottom = 4
+    Enabled = True
+    Visible = True
+    Id = 4
+    PosRelativeToAnchor = [raBelow]
+    PosRelativeToParent = []
+    LayoutParamWidth = lpMatchParent
+    LayoutParamHeight = lpWrapContent
+    Text = 'Démarrer'
+    BackgroundColor = colbrSkyBlue
+    FontColor = colbrDefault
+    FontSize = 0
+    FontSizeUnit = unitDefault
+    OnClick = bDemarrerClick
+    Left = 28
+    Top = 28
   end
 end
