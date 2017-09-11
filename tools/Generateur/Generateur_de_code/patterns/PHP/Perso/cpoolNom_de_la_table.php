@@ -27,6 +27,13 @@ class cpoolNom_de_la_table extends cPool
   {
   var $ClasseLigne= "cNom_de_la_table";
   var $NomTable="Nom_de_la_table";
+/** exemple 
+  function Get_by_Cle( $_Nom)
+    {
+    $this->Recherche( "select * from $this->NomTable where nom = '$_Nom'");
+    return reset( $this->Lignes);
+    }
+**/
   }
 ?>
 

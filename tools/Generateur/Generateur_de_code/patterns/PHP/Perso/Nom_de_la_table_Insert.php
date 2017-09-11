@@ -22,16 +22,17 @@
 |                                                                             **/
 // Nom_de_la_table_Insert.php
 
-require_once  "Session_ok.php";
+require_once "uSession.php";
 if (not_Session_ok()) exit();
+
+$json_Parametre=file_get_contents('php://input');
+error_log( "Nom_de_la_table_Insert.php: Parametre=$json_Parametre");
 
 require_once "cpoolNom_de_la_table.php";
 
 $poolNom_de_la_table= new cpoolNom_de_la_table();
 
-$Nom_de_la_table= $poolNom_de_la_table->Nouveau();
-$Nom_de_la_table->Nom=$_GET["Nom"];
-$poolNom_de_la_table->Ecrire($Nom_de_la_table->id);
+$json_Resultat= $poolNom_de_la_table->Insert_from_json( $json_Parametre);
 
-echo $Nom_de_la_table->id;
+echo $json_Resultat;
 ?>

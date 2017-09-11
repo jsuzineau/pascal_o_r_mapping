@@ -21,7 +21,7 @@
                                                                                 |
 |                                                                             **/
 // poolNom_de_la_table.php                                                                
-require_once  "Session_ok.php";
+require_once "uSession.php";
 if (not_Session_ok()) exit();
 
 require_once "cpoolNom_de_la_table.php";

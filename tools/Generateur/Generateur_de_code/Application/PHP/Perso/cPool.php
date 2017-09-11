@@ -130,7 +130,18 @@ class cPool extends cConnexion
 
   function json_Charge_Ligne( $id)
     {
-    return json_encode( Charge_Ligne( $id));
+    return json_encode( $this->Charge_Ligne( $id));
+    }
+
+  function json_Charge_Table()
+    {
+    $this->Charge_Table(); 
+    $Resultat=array(); 
+    foreach( $this->Lignes as $id => $ligne)
+      {
+      $Resultat[]= $ligne;  
+      }
+    return json_encode( $Resultat);
     }
 
   function &Nouveau()
@@ -166,12 +177,12 @@ class cPool extends cConnexion
     }
   function Ecrire( $id)
     {
-    Ecrire_interne( $id, $this->Lignes[$id]);
+    $this->Ecrire_interne( $id, $this->Lignes[$id]);
     }
   function Ecrire_json( $id, $json)
     {
     $Ligne= json_decode( $json);
-    Ecrire_interne( $id, $Ligne);
+    $this->Ecrire_interne( $id, $Ligne);
     }
 
   function Supprimer( $id)
@@ -180,5 +191,18 @@ class cPool extends cConnexion
    $this->Requete( "delete from $this->NomTable where id = $id");
    $this->Fermeture();
    }
+  function Insert_from_json( $_json) 
+    {
+    $Ligne= json_decode( $_json);
+
+    $Resultat= $this->Nouveau();
+    foreach ($Ligne as $NomChamp => $Champ)
+      {
+      $Resultat[$NomChamp]= $Champ;
+      }
+    $poolUtilisateur->Ecrire($Resultat->id);
+    $json_Resultat= json_encode( $Resultat);
+    return $json_Resultat;
+    }
   }
 ?>

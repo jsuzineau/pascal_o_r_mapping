@@ -20,13 +20,58 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.       |
                                                                                 |
 |                                                                             **/
-// Nom_de_la_table_Delete.php
-require_once "uSession.php";
-if (not_Session_ok()) exit();
+// uStrings.php
+function pstrtok( $key, &$string)
+  {
+  $iPos= strpos( $string, $key);
+  $Len
+  = 
+   ($iPos === FALSE) 
+   ?
+    strlen( $string)
+   :
+    $iPos;
+  $Result= substr( $string, 0, $Len);   
+  $string
+  = 
+   ($iPos === FALSE) 
+   ?
+    ""
+   :
+    substr( $string, $iPos+strlen($key));  
+   return $Result;  
+  }
 
-require_once "cpoolNom_de_la_table.php";
-  
-$poolNom_de_la_table= new cpoolNom_de_la_table();
-$poolNom_de_la_table-->Supprimer($_GET["id"]);
-echo "&nbsp;";
+
+function test_pstrtok_start()
+  {
+  echo "<table>";
+  }
+
+
+function test_pstrtok_stop()
+  {
+  echo "</table>";
+  }
+
+
+function test_pstrtok( $key, $string)
+  {
+  $string_initial= $string;  
+  $Result= pstrtok( $key, $string);
+  echo <<<"EOT"
+  <tr>
+    <td>
+    pstrtok( $key, $string_initial)
+    </td>
+    <td>
+    \$Result=$Result
+    </td>
+    <td>
+    \$string=$string
+    </td>
+  </tr>
+EOT;
+  }
+
 ?>

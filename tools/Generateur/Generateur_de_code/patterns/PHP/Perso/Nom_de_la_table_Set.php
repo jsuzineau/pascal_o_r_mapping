@@ -21,22 +21,22 @@
                                                                                 |
 |                                                                             **/
 // Nom_de_la_table_Set.php
-require_once  "Session_ok.php";
+require_once "uSession.php";
 if (not_Session_ok()) exit();
 
 require_once "cpoolNom_de_la_table.php";
 
-$HTTP_request_body = file_get_contents('php://input');
+$json_Parametre = file_get_contents('php://input');
 
 $id=$_GET["id"];
-$json=$HTTP_request_body;
 
 $poolNom_de_la_table= new cpoolNom_de_la_table();
 
-$poolNom_de_la_table->Ecrire_json( $id, $json);
+$poolNom_de_la_table->Ecrire_json( $id, $json_Parametre);
 
+$json_Resultat= $poolNom_de_la_table->json_Charge_Ligne( $id);
 
-echo $poolNom_de_la_table->json_Charge_Ligne( $id);
+echo $json_Resultat;
 ?>
 
 
