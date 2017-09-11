@@ -20,9 +20,10 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 |                                                                           **/
 //nom original cMySQL_Link.php
-//require_once  "cXMIable.php";
+// uConnexion.php
+//require_once  "uXMIable.php";
 
-class cConnexion //extends cXMIable
+class TConnexion //extends TXMIable
   {
   var $NomServeur= "localhost";
   var $UserName="root";

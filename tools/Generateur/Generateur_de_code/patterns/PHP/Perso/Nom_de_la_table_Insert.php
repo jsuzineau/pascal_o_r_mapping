@@ -28,9 +28,9 @@ if (not_Session_ok()) exit();
 $json_Parametre=file_get_contents('php://input');
 error_log( "Nom_de_la_table_Insert.php: Parametre=$json_Parametre");
 
-require_once "cpoolNom_de_la_table.php";
+require_once "upoolNom_de_la_table.php";
 
-$poolNom_de_la_table= new cpoolNom_de_la_table();
+$poolNom_de_la_table= new TpoolNom_de_la_table();
 
 $json_Resultat= $poolNom_de_la_table->Insert_from_json( $json_Parametre);
 

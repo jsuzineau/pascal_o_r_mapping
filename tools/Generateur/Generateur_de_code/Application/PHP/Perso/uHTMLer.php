@@ -19,9 +19,9 @@
     along with this program; if not, write to the Free Software               |
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 |                                                                            */
-include_once  "cXMIable.php";
+include_once  "uXMIable.php";
 
-class cHTMLer extends cXMIable
+class THTMLer extends TXMIable
   {
   var $Entete_sorti= 0;
   function Entete()

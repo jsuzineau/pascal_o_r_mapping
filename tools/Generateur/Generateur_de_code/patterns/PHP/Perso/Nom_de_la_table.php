@@ -24,9 +24,9 @@
 require_once "uSession.php";
 if (not_Session_ok()) exit();
 
-require_once "cpoolNom_de_la_table.php";
+require_once "upoolNom_de_la_table.php";
 
-$poolNom_de_la_table= new cpoolNom_de_la_table();
+$poolNom_de_la_table= new TpoolNom_de_la_table();
 
 echo $poolNom_de_la_table->Charge_Table();
 ?>

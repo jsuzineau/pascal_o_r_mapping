@@ -20,12 +20,12 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.       |
                                                                                 |
 |                                                                             **/
-//cpoolNom_de_la_table.php
-require_once  "cPool.php";
+//upoolNom_de_la_table.php
+require_once  "uPool.php";
 
-class cpoolNom_de_la_table extends cPool
+class TpoolNom_de_la_table extends TPool
   {
-  var $ClasseLigne= "cNom_de_la_table";
+  var $ClasseLigne= "TNom_de_la_table";
   var $NomTable="Nom_de_la_table";
 /** exemple 
   function Get_by_Cle( $_Nom)

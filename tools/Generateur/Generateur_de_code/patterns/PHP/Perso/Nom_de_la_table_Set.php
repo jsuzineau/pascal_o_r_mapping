@@ -24,13 +24,13 @@
 require_once "uSession.php";
 if (not_Session_ok()) exit();
 
-require_once "cpoolNom_de_la_table.php";
+require_once "upoolNom_de_la_table.php";
 
 $json_Parametre = file_get_contents('php://input');
 
 $id=$_GET["id"];
 
-$poolNom_de_la_table= new cpoolNom_de_la_table();
+$poolNom_de_la_table= new TpoolNom_de_la_table();
 
 $poolNom_de_la_table->Ecrire_json( $id, $json_Parametre);
 

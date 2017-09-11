@@ -26,7 +26,9 @@ CHANGES:                                                                      |
    0.1 : First version.                                                       |
 |                                                                            */
 
-//cXMIable.php
+//nom original cXMIable.php
+// uXMIable.php
+// 2017/09/11: non testé aprés renommage des classes de cXXXX à TXXXX
 $xmiClasses= array();
 $Generalizations= array();
 $xmiCount= 1;
@@ -58,7 +60,7 @@ function MajPrem( $Chaine)
   return $Debut.$Fin;
   }
 
-class cXMIable
+class TXMIable
   {
   /* juste pour tests
   var $attribut1= "1";
@@ -67,7 +69,7 @@ class cXMIable
     echo $this->Truc;
     }
   */
-  function cXMIable()
+  function TXMIable()
     {
     global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
@@ -76,7 +78,7 @@ class cXMIable
     $Ancetre  = MajPrem( get_parent_class($this));
 
     if (! array_key_exists( $NomClasse, $xmiClasses))
-       $xmiClasses[$NomClasse]= new cClass( $NomClasse, $Ancetre);
+       $xmiClasses[$NomClasse]= new TClass( $NomClasse, $Ancetre);
 
     if ($Ancetre != "")
       if (!$xmiClasses[$NomClasse]->Ancetre)
@@ -84,7 +86,7 @@ class cXMIable
     }
   }
 
-class cElement //extends cXMIable
+class TElement //extends TXMIable
   {
   var $Tag;
   var $Attributes;
@@ -93,11 +95,11 @@ class cElement //extends cXMIable
   var $Id;
   var $Indent= "  ";
   var $RetourLigne= "\n";
-  function cElement( $Tag)
+  function TElement( $Tag)
     {
     global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
-    //$this->cXMIable();
+    //$this->TXMIable();
     $this->Tag       = $Tag;
     $this->Attributes= array();
     $this->Childs    = array();
@@ -124,7 +126,7 @@ class cElement //extends cXMIable
 
   function Add_Property( $Tag, $Value)
     {
-    $this->Childs[]= new cPropertyElement( $Tag, $Value);
+    $this->Childs[]= new TPropertyElement( $Tag, $Value);
     }
 
   function XMI( $Indentation="")
@@ -168,216 +170,216 @@ class cElement //extends cXMIable
     }
   }
 
-class cTextElement extends cElement
+class TTextElement extends TElement
   {
-  function cTextElement( $Tag, $Name)
+  function TTextElement( $Tag, $Name)
     {
     global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
-    $this->cElement( $Tag);
+    $this->TElement( $Tag);
     $this->Text= $Name;
     }
   }
 
-class cNameElement extends cTextElement
+class TNameElement extends TTextElement
   {
   var $Indent= "";
   var $RetourLigne= "";
-  function cNameElement( $Name)
+  function TNameElement( $Name)
     {
     global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
-    $this->cTextElement( tagName, $Name);
+    $this->TTextElement( tagName, $Name);
     }
   }
 
-class cNamedElement extends cElement
+class TNamedElement extends TElement
   {
-  function cNamedElement( $Tag, $Name)
+  function TNamedElement( $Tag, $Name)
     {
     global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
-    $this->cElement( $Tag);
-    $this->Childs[]= new cNameElement( $Name);
+    $this->TElement( $Tag);
+    $this->Childs[]= new TNameElement( $Name);
     }
   }
 
-class cNamedIdElement extends cNamedElement
+class TNamedIdElement extends TNamedElement
   {
-  function cNamedIdElement( $Tag, $Name)
+  function TNamedIdElement( $Tag, $Name)
     {
     global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
-    $this->cNamedElement( $Tag, $Name);
+    $this->TNamedElement( $Tag, $Name);
     $this->Add_Id();
     }
   }
 
-class cIdElement extends cElement
+class TIdElement extends TElement
   {
-  function cIdElement( $Tag)
+  function TIdElement( $Tag)
     {
     global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
-    $this->cElement( $Tag);
+    $this->TElement( $Tag);
     $this->Add_Id();
     }
   }
 
-class cIdrefElement extends cElement
+class TIdrefElement extends TElement
   {
-  function cIdrefElement( $Tag, $idref)
+  function TIdrefElement( $Tag, $idref)
     {
     global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
-    $this->cElement( $Tag);
+    $this->TElement( $Tag);
     $this->Add_Idref( $idref);
     }
   }
 
-class cIdReferenceElement extends cElement
+class TIdReferenceElement extends TElement
   {
-  function cIdReferenceElement( $Tag, $Tag_idref, $idref)
+  function TIdReferenceElement( $Tag, $Tag_idref, $idref)
     {
     global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
-    $this->cElement( $Tag);
-    $this->Childs[]= new cIdrefElement( $Tag_idref, $idref);
+    $this->TElement( $Tag);
+    $this->Childs[]= new TIdrefElement( $Tag_idref, $idref);
     }
   }
 
-class cPropertyElement extends cElement
+class TPropertyElement extends TElement
   {
-  function cPropertyElement( $Tag, $Value)
+  function TPropertyElement( $Tag, $Value)
     {
     global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
-    $this->cElement( $Tag);
+    $this->TElement( $Tag);
     $this->Attributes["xmi.value"]= $Value;
     }
   }
 
-class cExpressionElement extends cIdElement
+class TExpressionElement extends TIdElement
   {
-  function cExpressionElement( $Value)
+  function TExpressionElement( $Value)
     {
     global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
-    $this->cIdElement( "Foundation.Data_Types.Expression");
+    $this->TIdElement( "Foundation.Data_Types.Expression");
     $this->Childs[]
     =
-      new cTextElement( "Foundation.Data_Types.Expression.language", "Java");
+      new TTextElement( "Foundation.Data_Types.Expression.language", "Java");
 
     if (gettype( $Value) == "string")
        $Value= "&quot;$Value&quot;";
 
     $this->Childs[]
     =
-      new cTextElement( "Foundation.Data_Types.Expression.body", "$Value");
+      new TTextElement( "Foundation.Data_Types.Expression.body", "$Value");
     }
   }
 
-class cInitialValueElement extends cElement
+class TInitialValueElement extends TElement
   {
-  function cInitialValueElement( $Value)
+  function TInitialValueElement( $Value)
     {
     global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
-    $this->cElement( "Foundation.Core.Attribute.initialValue");
-    $this->Childs[]= new cExpressionElement( $Value);
+    $this->TElement( "Foundation.Core.Attribute.initialValue");
+    $this->Childs[]= new TExpressionElement( $Value);
     }
   }
 
-class cAttributeElement extends cNamedIdElement
+class TAttributeElement extends TNamedIdElement
   {
-  function cAttributeElement( $Name, $idref, $InitialValue)
+  function TAttributeElement( $Name, $idref, $InitialValue)
     {
     global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
-    $this->cNamedIdElement( tagAttribute, $Name);
+    $this->TNamedIdElement( tagAttribute, $Name);
  $this->Add_Property("Foundation.Core.ModelElement.visibility"     ,"public"  );
  $this->Add_Property("Foundation.Core.ModelElement.isSpecification","false"   );
  $this->Add_Property("Foundation.Core.Feature.ownerScope"          ,"instance");
 
-    $this->Childs[]= new cInitialValueElement( $InitialValue);
+    $this->Childs[]= new TInitialValueElement( $InitialValue);
 
     $this->Childs[]
     =
-      new cIdReferenceElement( "Foundation.Core.Feature.owner",
+      new TIdReferenceElement( "Foundation.Core.Feature.owner",
                                "Foundation.Core.Classifier",
                                $idref);
     if ($idPHPVar != "")
       $this->Childs[]
       =
-        new cIdReferenceElement( "Foundation.Core.StructuralFeature.type",
+        new TIdReferenceElement( "Foundation.Core.StructuralFeature.type",
                                  "Foundation.Core.Classifier",
                                  $idPHPVar);
     }
   }
 
-class cMethodElement extends cIdElement
+class TMethodElement extends TIdElement
   {
-  function cMethodElement( $idref, $idrefclasse)
+  function TMethodElement( $idref, $idrefclasse)
     {
     global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
-    $this->cIdElement( "Foundation.Core.Method");
+    $this->TIdElement( "Foundation.Core.Method");
     $this->Add_Property("Foundation.Core.ModelElement.isSpecification","false");
     $this->Add_Property("Foundation.Core.BehavioralFeature.isQuery"   ,"false");
     $this->Childs[]
     =
-      new cIdReferenceElement( "Foundation.Core.Feature.owner",
+      new TIdReferenceElement( "Foundation.Core.Feature.owner",
                                "Foundation.Core.Classifier",
                                $idrefclasse);
     $this->Childs[]
     =
-      new cIdReferenceElement( "Foundation.Core.Method.specification",
+      new TIdReferenceElement( "Foundation.Core.Method.specification",
                                tagOperation,
                                $idref);
     }
   }
 
-class cParameterElement extends cNamedIdElement
+class TParameterElement extends TNamedIdElement
   {
-  function cParameterElement( $idref)
+  function TParameterElement( $idref)
     {
     global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
-    $this->cNamedIdElement( "Foundation.Core.Parameter", "return");
+    $this->TNamedIdElement( "Foundation.Core.Parameter", "return");
     $this->Add_Property("Foundation.Core.ModelElement.isSpecification","false");
     $this->Add_Property("Foundation.Core.Parameter.kind","return");
     $this->Childs[]
     =
-      new cIdReferenceElement( "Foundation.Core.Parameter.behavioralFeature",
+      new TIdReferenceElement( "Foundation.Core.Parameter.behavioralFeature",
                                "Foundation.Core.BehavioralFeature",
                                $idref);
     if ( $idPHPVar != "")
       $this->Childs[]
       =
-        new cIdReferenceElement( "Foundation.Core.Parameter.type",
+        new TIdReferenceElement( "Foundation.Core.Parameter.type",
                                  "Foundation.Core.Classifier",
                                  $idPHPVar);
     }
   }
 
-class cBehavioralFeatureElement extends cElement
+class TBehavioralFeatureElement extends TElement
   {
-  function cBehavioralFeatureElement( $idref)
+  function TBehavioralFeatureElement( $idref)
     {
     global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
-    $this->cElement( "Foundation.Core.BehavioralFeature.parameter");
-    $this->Childs[]= new cParameterElement( $idref);
+    $this->TElement( "Foundation.Core.BehavioralFeature.parameter");
+    $this->Childs[]= new TParameterElement( $idref);
     }
   }
 
-class cOperationElement extends cNamedIdElement
+class TOperationElement extends TNamedIdElement
   {
-  function cOperationElement( $Name, $idref, & $parent)
+  function TOperationElement( $Name, $idref, & $parent)
     {
     global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
-    $this->cNamedIdElement( tagOperation, $Name);
+    $this->TNamedIdElement( tagOperation, $Name);
 
  $this->Add_Property("Foundation.Core.ModelElement.visibility"     ,"public" );
  $this->Add_Property("Foundation.Core.ModelElement.isSpecification","false"   );
@@ -388,85 +390,85 @@ class cOperationElement extends cNamedIdElement
     $this->Add_Property( "Foundation.Core.Operation.isAbstract","false");
     $this->Childs[]
     =
-      new cIdReferenceElement( "Foundation.Core.Feature.owner",
+      new TIdReferenceElement( "Foundation.Core.Feature.owner",
                                "Foundation.Core.Classifier",
                                $idref);
-    $Methode= new cMethodElement( $this->Id, $idref);
+    $Methode= new TMethodElement( $this->Id, $idref);
     $parent->Childs[]= $Methode;
     $this->Childs[]
     =
-      new cIdReferenceElement( "Foundation.Core.Operation.method",
+      new TIdReferenceElement( "Foundation.Core.Operation.method",
                                "Foundation.Core.Method",
                                $Methode->Id);
     $this->Childs[]
     =
-      new cBehavioralFeatureElement( $this->Id);
+      new TBehavioralFeatureElement( $this->Id);
     }
   }
 
-class cGeneralization extends cIdElement
+class TGeneralization extends TIdElement
   {
-  function cGeneralization( $parent, $child)
+  function TGeneralization( $parent, $child)
     {
     global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
-    $this->cIdElement( tagGeneralization);
+    $this->TIdElement( tagGeneralization);
 
     $this->Add_Property("Foundation.Core.ModelElement.isSpecification","false");
 
-    $this->Childs[]= new cNameSpaceReferenceElement( $XMI->Model->Id);
+    $this->Childs[]= new TNameSpaceReferenceElement( $XMI->Model->Id);
 
     $this->Childs[]
     =
-      new cIdReferenceElement( tagParent, tagGeneralizable, $parent);
+      new TIdReferenceElement( tagParent, tagGeneralizable, $parent);
 
     $this->Childs[]
     =
-      new cIdReferenceElement( tagChild , tagGeneralizable, $child );
+      new TIdReferenceElement( tagChild , tagGeneralizable, $child );
     }
   }
 
-class cGeneralizationReferenceElement extends cIdReferenceElement
+class TGeneralizationReferenceElement extends TIdReferenceElement
   {
-  function cGeneralizationReferenceElement( $idref)
+  function TGeneralizationReferenceElement( $idref)
     {
     global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
-    $this->cIdReferenceElement( tagGeneralizationReference,
+    $this->TIdReferenceElement( tagGeneralizationReference,
                                 tagGeneralization, $idref);
     }
   }
 
-class cSpecializationReferenceElement extends cElement
+class TSpecializationReferenceElement extends TElement
   {
-  function cSpecializationReferenceElement()
+  function TSpecializationReferenceElement()
     {
     global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
-    $this->cElement( tagSpecializationReference);
+    $this->TElement( tagSpecializationReference);
     }
   }
 
-class cNameSpaceReferenceElement extends cIdReferenceElement
+class TNameSpaceReferenceElement extends TIdReferenceElement
   {
-  function cNameSpaceReferenceElement( $idref)
+  function TNameSpaceReferenceElement( $idref)
     {
     global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
-    $this->cIdReferenceElement( tagNameSpaceReference, tagNameSpace, $idref);
+    $this->TIdReferenceElement( tagNameSpaceReference, tagNameSpace, $idref);
     }
   }
-class cClass extends cNamedIdElement
+class TClass extends TNamedIdElement
   {
   var $Ancetre;
   var $Specialization=0;
-  function cClass( $NomClasse, $NomClasseParente)
+  function TClass( $NomClasse, $NomClasseParente)
     {
     global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
     $this->Ancetre= 0;
 
-    $this->cNamedIdElement( tagClass, $NomClasse);
+    $this->TNamedIdElement( tagClass, $NomClasse);
     $XMI->ownedElement->Childs[]= $this;
 
     $this->Add_Property( "Foundation.Core.ModelElement.isSpecification","false");
@@ -477,11 +479,11 @@ class cClass extends cNamedIdElement
 
     $this->Add_Property( "Foundation.Core.Class.isActive", "false");
 
-    $this->Childs[]= new cNameSpaceReferenceElement( $XMI->Model->Id);
+    $this->Childs[]= new TNameSpaceReferenceElement( $XMI->Model->Id);
 
     $this->AssureSpecialization();
 
-    $feature= new cElement( tagFeature);
+    $feature= new TElement( tagFeature);
     $this->Childs[]= $feature;
 
     $ParentAttributes= get_class_vars( $NomClasseParente);
@@ -496,7 +498,7 @@ class cClass extends cNamedIdElement
          $Ajouter= $ParentAttributes[$Nom] != $Valeur;
 
       if ($Ajouter)
-         $feature->Childs[]= new cAttributeElement( $Nom, $this->Id, $Valeur);
+         $feature->Childs[]= new TAttributeElement( $Nom, $this->Id, $Valeur);
       }
 
     $ParentOperations= get_class_methods( $NomClasseParente);
@@ -507,13 +509,13 @@ class cClass extends cNamedIdElement
       if (!in_array( $Operation, $ParentOperations))
          $feature->Childs[]
          =
-           new cOperationElement( $Operation, $this->Id, $feature);
+           new TOperationElement( $Operation, $this->Id, $feature);
     }
   function AssureSpecialization()
     {
     if ($this->Specialization == 0)
        {
-       $this->Specialization= new cSpecializationReferenceElement();
+       $this->Specialization= new TSpecializationReferenceElement();
        $this->Childs[]= $this->Specialization;
        }
     }
@@ -525,7 +527,7 @@ class cClass extends cNamedIdElement
     //echo ">$Ancetre< <br>\n";
     $ClasseAncetre= $xmiClasses[$Ancetre];
     if (!is_object($ClasseAncetre)) return;
-    $Generalization= new cGeneralization( $ClasseAncetre->Id, $this->Id);
+    $Generalization= new TGeneralization( $ClasseAncetre->Id, $this->Id);
     $XMI->ownedElement->Childs[]= $Generalization;
 
     $Generalizations[]= & $Generalization;
@@ -533,51 +535,51 @@ class cClass extends cNamedIdElement
     $ClasseAncetre->AssureSpecialization();
     $ClasseAncetre->Specialization->Childs[]
     =
-      new cIdrefElement( tagGeneralization, $Generalization->Id);
+      new TIdrefElement( tagGeneralization, $Generalization->Id);
 
-    $this->Childs[]= new cGeneralizationReferenceElement( $Generalization->Id);
+    $this->Childs[]= new TGeneralizationReferenceElement( $Generalization->Id);
     }
   }
 
-class cXMI extends cElement
+class TXMI extends TElement
  {
  var $ownedElement=0;
  var $Model=0;
- function cXMI()
+ function TXMI()
    {
    global $xmiClasses, $Generalizations, $xmiCount, $XMI, $idPHPVar;
 
-   $this->cElement( tagXMI);
+   $this->TElement( tagXMI);
 
    $this->Attributes["xmi.version"]="1.0";
 
-   $Header= new cElement( "XMI.header");
+   $Header= new TElement( "XMI.header");
    $this->Childs[]= $Header;
 
-   $documentation= new cElement("XMI.documentation");
+   $documentation= new TElement("XMI.documentation");
    $Header->Childs[]= $documentation;
 
-   $exporter= new cElement("XMI.exporter");
+   $exporter= new TElement("XMI.exporter");
    $exporter->Indent= "";
    $exporter->RetourLigne= "";
    $exporter->Text= "Novosoft UML Library";
    $documentation->Childs[]= $exporter;
 
-   $exporterVersion= new cElement("XMI.exporterVersion");
+   $exporterVersion= new TElement("XMI.exporterVersion");
    $documentation->Childs[]= $exporterVersion;
    $exporterVersion->Text= "0.4.19";
    $exporterVersion->Indent= "";
    $exporterVersion->RetourLigne= "";
 
-   $metamodel= new cElement("XMI.metamodel");
+   $metamodel= new TElement("XMI.metamodel");
    $Header->Childs[]= $metamodel;
    $metamodel->Attributes["xmi.name"]="UML";
    $metamodel->Attributes["xmi.version"]="1.3";
 
-   $Content= new cElement( tagContent);
+   $Content= new TElement( tagContent);
    $this->Childs[]= $Content;
 
-   $this->Model= new cNamedIdElement( tagModel, "jswork");
+   $this->Model= new TNamedIdElement( tagModel, "jswork");
    $Content->Childs[]= $this->Model;
 
    $this->Model->Add_Property( "Foundation.Core.ModelElement.isSpecification","false");
@@ -586,13 +588,13 @@ class cXMI extends cElement
    $this->Model->Add_Property( "Foundation.Core.GeneralizableElement.isAbstract",
                                "false");
 
-   $this->ownedElement= new cElement( tagownedElement);
+   $this->ownedElement= new TElement( tagownedElement);
    $this->Model->Childs[]= $this->ownedElement;
    }
  }
-$XMI= new cXMI();
+$XMI= new TXMI();
 
-class PHPVar
+class TPHPVar
   {
   /* juste pour test
   var $attribut1= "1";
@@ -602,11 +604,11 @@ class PHPVar
     }
   */
   }
-$InstancePHPVar= new PHPVar();
+$InstancePHPVar= new TPHPVar();
 
-$xmiClasses["PHPVar"]= new cClass( "PHPVar", "stdclass");
+$xmiClasses["TPHPVar"]= new TClass( "TPHPVar", "stdclass");
 
-$idPHPVar= $xmiClasses["PHPVar"]->Id;
+$idPHPVar= $xmiClasses["TPHPVar"]->Id;
 
 function Produit_XMI()
   {
@@ -617,7 +619,7 @@ function Produit_XMI()
   $NomClasses= get_declared_Classes();
   foreach ( $NomClasses as $NomClasse)
     if (!$xmiClasses[$NomClasse])
-       $xmiClasses[$NomClasse]= new cClass( $NomClasse);
+       $xmiClasses[$NomClasse]= new TClass( $NomClasse);
   */
 
   $Childs= & $XMI->ownedElement->Childs;

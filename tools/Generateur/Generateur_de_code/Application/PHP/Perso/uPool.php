@@ -20,11 +20,11 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA |
 |                                                                           **/
 //nom original cDataset.php
-// cPool.php
-include_once( "cConnexion.php");
-//include_once( "cHTMLer.php");
+// uPool.php
+include_once( "uConnexion.php");
+//include_once( "uHTMLer.php");
 
-class cPool extends cConnexion
+class TPool extends TConnexion
   {
   var $ClasseLigne= "";
   var $Lignes="";
@@ -63,7 +63,7 @@ class cPool extends cConnexion
 //echo "cPool dump 0 dans boucle";
 //debug_zval_dump(&$this->Lignes[$ligne->id]);
       }
-//echo "cPool dump 0 aprés affectation";
+//echo "uPool dump 0 aprï¿½s affectation";
 //debug_zval_dump(&$this->Lignes[0]);
     if (isset($this->Lignes))
        {
@@ -107,7 +107,7 @@ class cPool extends cConnexion
        $this->Requete( "insert into $this->NomTable () values ()");
        $id= $this->pdo->lastInsertId();
        $this->Fermeture();
-       //echo "<br>$this->NomTable: ligne n°$id créée<br>" ;
+       //echo "<br>$this->NomTable: ligne nï¿½$id crï¿½ï¿½e<br>" ;
        if ($id)
          $this->Recherche( "select * from $this->NomTable where id = $id");
        }
