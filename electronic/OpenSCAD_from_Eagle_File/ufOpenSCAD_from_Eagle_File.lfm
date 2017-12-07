@@ -10,15 +10,15 @@ object fOpenSCAD_from_Eagle_File: TfOpenSCAD_from_Eagle_File
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnDropFiles = FormDropFiles
-  LCLVersion = '1.6.0.4'
+  LCLVersion = '1.8.0.3'
   object pc: TPageControl
     Left = 0
     Height = 463
     Top = 0
     Width = 907
-    ActivePage = tsHOLE_LIST
+    ActivePage = tsBoard_Shape_Package
     Align = alClient
-    TabIndex = 4
+    TabIndex = 3
     TabOrder = 0
     object tsEagle_File: TTabSheet
       Caption = 'Eagle File'
@@ -156,15 +156,15 @@ object fOpenSCAD_from_Eagle_File: TfOpenSCAD_from_Eagle_File
           EditLabel.AnchorSideRight.Control = leBoard_Shape_Package_Name
           EditLabel.AnchorSideBottom.Control = leBoard_Shape_Package_Name
           EditLabel.AnchorSideBottom.Side = asrBottom
-          EditLabel.Left = 5
+          EditLabel.Left = 7
           EditLabel.Height = 17
           EditLabel.Top = 12
-          EditLabel.Width = 98
+          EditLabel.Width = 96
           EditLabel.Caption = 'Package name'
           EditLabel.ParentColor = False
           LabelPosition = lpLeft
           TabOrder = 0
-          Text = '2X2U-DIM-W/-DRILL'
+          Text = 'ARDUINO-38P'
           OnChange = leBoard_Shape_Package_NameChange
         end
       end

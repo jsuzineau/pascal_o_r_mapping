@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="9"/>
+    <Version Value="10"/>
     <General>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
@@ -13,9 +13,6 @@
     <i18n>
       <EnableI18N LFM="False"/>
     </i18n>
-    <VersionInfo>
-      <StringTable ProductVersion=""/>
-    </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
     </BuildModes>
@@ -25,7 +22,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <CommandLineParams Value="&quot;/home/jean/0_Bricolage/FBU/Monte-charge/Bloc_Prise_Secteur/OpenSCAD-Arduino-Mounting-Library/Grove - RJ45 Adapter Eagle File/Grove - RJ45 Adapter v1.0b.brd&quot;"/>
+        <CommandLineParams Value="&quot;/home/jean/01_Projets/00_Bricolage/FBU/Monte-charge/Bloc_Prise_Secteur/OpenSCAD-Arduino-Mounting-Library/Seeeduino Lotus v1.0/Seeeduino Lotus v1.0.brd&quot;"/>
       </local>
     </RunParams>
     <RequiredPackages Count="2">
@@ -36,7 +33,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="2">
+    <Units Count="3">
       <Unit0>
         <Filename Value="OpenSCAD_from_Eagle_File.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -48,6 +45,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit1>
+      <Unit2>
+        <Filename Value="uCircle.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit2>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

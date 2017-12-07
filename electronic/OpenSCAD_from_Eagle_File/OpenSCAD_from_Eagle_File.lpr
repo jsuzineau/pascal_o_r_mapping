@@ -7,8 +7,7 @@ uses
  cthreads,
  {$ENDIF}{$ENDIF}
  Interfaces, // this includes the LCL widgetset
- Forms, ufOpenSCAD_from_Eagle_File
- { you can add units after this };
+ Forms, ufOpenSCAD_from_Eagle_File, uCircle;
 
 {$R *.res}
 

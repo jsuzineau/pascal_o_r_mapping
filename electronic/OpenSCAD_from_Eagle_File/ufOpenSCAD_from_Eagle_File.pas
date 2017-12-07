@@ -1,13 +1,35 @@
 unit ufOpenSCAD_from_Eagle_File;
 
+{                                                                               |
+    Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
+            http://www.mars42.com                                               |
+                                                                                |
+    Copyright 2016 Jean SUZINEAU - MARS42                                       |
+                                                                                |
+    This program is free software: you can redistribute it and/or modify        |
+    it under the terms of the GNU Lesser General Public License as published by |
+    the Free Software Foundation, either version 3 of the License, or           |
+    (at your option) any later version.                                         |
+                                                                                |
+    This program is distributed in the hope that it will be useful,             |
+    but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    GNU Lesser General Public License for more details.                         |
+                                                                                |
+    You should have received a copy of the GNU Lesser General Public License    |
+    along with this program.  If not, see <http://www.gnu.org/licenses/>. 1     |
+                                                                                |
+|                                                                               }
 {$mode objfpc}{$H+}
 
 interface
 
 uses
     uOD_JCL,
+    uuStrings,
+    uCircle,
  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ComCtrls,
- StdCtrls, ExtCtrls,DOM, XMLRead, XMLWrite;
+ StdCtrls, ExtCtrls,DOM, XMLRead, XMLWrite,strutils;
 
 type
 
@@ -285,8 +307,10 @@ end;
 
 procedure TfOpenSCAD_from_Eagle_File.Add_Board_Shape_Point_from_node( _dn: TDOMNode);
 var
+   has_not_curve: Boolean;
    x1, y1, x2, y2, curve, width_,layer: String;
    iLast_Line: Integer;
+   cas: String;
    procedure Add_xy( _x, _y: String; _Virgule: Boolean= False);
    var
       sOpenSCAD: String;
@@ -296,15 +320,54 @@ var
         then
             sOpenSCAD:= sOpenSCAD + ','
         else
-            sOpenSCAD:= sOpenSCAD+'/*curve:'+curve+',width:'+width_+'*/';
+            sOpenSCAD:= sOpenSCAD+'/*'+IfThen(has_not_curve, '', 'curve:'+curve+',')+'width:'+width_+',layer:'+layer+', case: '+cas+'*/';
         mBOARD_SHAPE.Lines.Add( sOpenSCAD);
+   end;
+   function double_from_xmlstring( _xmlstring: String): double;
+   var
+      Erreur: Integer;
+   begin
+        Val( _xmlstring, Result, Erreur);
+        if Erreur > 0 then Result:= 0;
+   end;
+   function xmlstring_from_double( _double: double): String;
+   begin
+        str( _double:10:2, Result);
+   end;
+   procedure Traite_arc;
+   const NbPoints=10;
+   var
+      C: TCircle;
+      I: Integer;
+   begin
+        C
+        :=
+          TCircle.Create(
+                          double_from_xmlstring(x1),
+                          double_from_xmlstring(y1),
+                          double_from_xmlstring(x2),
+                          double_from_xmlstring(y2),
+                          double_from_xmlstring(curve)
+                          );
+        try
+           cas:= C.cas+' x1: '+x1+' y1: '+y1+' x2: '+x2+' y2: '+y2;
+           C.Calcul( NbPoints);
+           for I:= low(c.x) to High( C.x)
+           do
+             Add_xy(
+                     xmlstring_from_double( C.x[I]),
+                     xmlstring_from_double( C.y[I]),
+                     I<High( C.x));
+        finally
+               FreeAndNil( C);
+               end;
    end;
 begin
      if not_Get_Property( _dn, 'x1'    , x1    ) then exit;
      if not_Get_Property( _dn, 'x2'    , x2    ) then exit;
      if not_Get_Property( _dn, 'y1'    , y1    ) then exit;
      if not_Get_Property( _dn, 'y2'    , y2    ) then exit;
-     if not_Get_Property( _dn, 'curve' , curve ) then exit;
+     has_not_curve:= not_Get_Property( _dn, 'curve' , curve );
      if not_Get_Property( _dn, 'width' , width_) then exit;
      if not_Get_Property( _dn, 'layer' , layer ) then exit;
      if (''<>BoardLayer) and (layer <> BoardLayer) then exit;
@@ -312,11 +375,21 @@ begin
      iLast_Line:= mBOARD_SHAPE.Lines.Count-1;
      if iLast_Line < 0
      then
-         Add_xy( x1, y1, True)
+         begin
+         cas:= 'start';
+         Add_xy( x1, y1, True);
+         end
      else
          mBOARD_SHAPE.Lines.Strings[iLast_Line]:= mBOARD_SHAPE.Lines.Strings[iLast_Line]+',';
 
-     Add_xy( x2, y2);
+     if has_not_curve
+     then
+         begin
+         cas:= 'no curve';
+         Add_xy( x2, y2);
+         end
+     else
+         Traite_arc;
 end;
 
 procedure TfOpenSCAD_from_Eagle_File.leLIBRARIES_PATHChange(Sender: TObject);

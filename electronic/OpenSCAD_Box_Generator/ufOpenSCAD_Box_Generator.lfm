@@ -1,0 +1,8 @@
+object fOpenSCAD_Box_Generator: TfOpenSCAD_Box_Generator
+  Left = 471
+  Height = 240
+  Top = 420
+  Width = 320
+  Caption = 'fOpenSCAD_Box_Generator'
+  LCLVersion = '1.8.0.3'
+end
