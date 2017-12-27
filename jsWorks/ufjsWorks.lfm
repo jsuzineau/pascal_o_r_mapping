@@ -1,5 +1,5 @@
 object fjsWorks: TfjsWorks
-  Left = 543
+  Left = 471
   Height = 527
   Top = 155
   Width = 959
@@ -9,7 +9,7 @@ object fjsWorks: TfjsWorks
   Menu = mm
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '1.8.0.3'
+  LCLVersion = '1.8.0.6'
   object Panel1: TPanel
     Left = 0
     Height = 527
@@ -75,7 +75,7 @@ object fjsWorks: TfjsWorks
             Left = 2
             Height = 17
             Top = 2
-            Width = 67
+            Width = 66
             Caption = 'Categorie'
             ParentColor = False
           end
@@ -97,7 +97,7 @@ object fjsWorks: TfjsWorks
             TabOrder = 2
           end
           object bBug: TButton
-            Left = 92
+            Left = 96
             Height = 25
             Top = 56
             Width = 75
@@ -244,7 +244,7 @@ object fjsWorks: TfjsWorks
             Left = 8
             Height = 17
             Top = 0
-            Width = 59
+            Width = 58
             Caption = 'Sessions'
             ParentColor = False
           end
@@ -283,7 +283,7 @@ object fjsWorks: TfjsWorks
             Left = 8
             Height = 17
             Top = 31
-            Width = 48
+            Width = 46
             Caption = 'Depuis'
             ParentColor = False
           end
@@ -350,7 +350,7 @@ object fjsWorks: TfjsWorks
             Left = 3
             Height = 17
             Top = 27
-            Width = 43
+            Width = 41
             Caption = 'Début'
             ParentColor = False
           end
@@ -358,7 +358,7 @@ object fjsWorks: TfjsWorks
             Left = 3
             Height = 17
             Top = 54
-            Width = 21
+            Width = 20
             Caption = 'Fin'
             ParentColor = False
           end
