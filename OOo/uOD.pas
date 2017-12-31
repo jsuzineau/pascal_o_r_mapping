@@ -54,7 +54,6 @@ uses
     ufAccueil_Erreur,
     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
     ufOOo_NomFichier_Modele,
-    (*ufEnvoyer_vers_la_GED,*)
     (*ufOpenDocument_DelphiReportEngine,*)
     ufMailTo,
     ufMEL,
@@ -174,9 +173,7 @@ begin
      Repertoire_racine:= uClean_Racine_from_EXE( uOD_Forms_EXE_Name);
 
      Result:= Repertoire_racine+PathDelim+sys_modeles_np+PathDelim;
-     {$IFDEF FPC}
-     WriteLn( 'Résultat uOD_repertoire_standard : ', Result);
-     {$ENDIF}
+     Log.PrintLn( 'Résultat uOD_repertoire_standard : '+ Result);
 end;
 
 { TOD }
@@ -238,13 +235,13 @@ begin
      else
          Prefixe_Masque:= Prefixe_Repertoire + Prefixe+'*.'+Extension_Modele;
 
-     Erreur:= FindFirst( Prefixe_Masque, faAnyFile, F);
+     Erreur:= SysUtils.FindFirst( Prefixe_Masque, faAnyFile, F);
      Result:= Erreur = 0;
      if Result
      then
          begin
          Prefixe_Resultat:= Prefixe_Repertoire + F.Name;
-         FindClose( F);
+         SysUtils.FindClose( F);
          end;
 end;
 
@@ -413,10 +410,6 @@ begin
        LastState:= Listener.LastState;
        end;
 
-     if GED_direct
-     then
-         Envoyer_vers_la_GED( NomFichier);
-
      if not Previsualiser then F.Close( True);
      {$ENDIF}
 end;
@@ -494,23 +487,15 @@ begin
      {$ENDIF} 
      Termine;
 
-     (*
-     if     GED.Active
-        and GED_direct
-     then
-         Envoyer_vers_la_GED_interne( Result);*)
-
      if SendMail_Active
      then
          SendMail( Result);
 
-     if Previsualiser
+     if Previsualiser and (Result <> '')
      then
          ShowURL( Result);
 
-     {$IFDEF LINUX}
-     WriteLn( classname+'.Visualiser: Result= '+result);
-     {$ENDIF}
+     Log.PrintLn( classname+'.Visualiser: Result= '+result);
 end;
 
 function TOD.Action( c: Char): String;
@@ -526,9 +511,7 @@ begin
          Result:= Visualiser;
          end;
        end;
-     {$IFDEF LINUX}
-     WriteLn( classname+'.Action: Result= '+result);
-     {$ENDIF}
+     Log.PrintLn( classname+'.Action: Result= '+result);
 end;
 
 function  TOD.Action( s: String): String;
@@ -557,9 +540,7 @@ begin
      else if 1 = Pos( 'SENDMAIL' , s) then Result:= Cas_SendMail
      //else if 1 = Pos( 'ISENDMAIL', s) then Result:= Cas_ISendMail
      else                                  Result:= Action( s[1]);
-    {$IFDEF LINUX}
-    WriteLn( classname+'.Action(S:String): Result= '+Result);
-    {$ENDIF}
+    Log.PrintLn( classname+'.Action(S:String): Result= '+Result);
 end;
 
 function TOD.Masque_Modeles_interne: String;
@@ -736,14 +717,14 @@ begin
      RacineMenu         .Clear;
      OD_Menu_Click_Proc:= _OD_Menu_Click_Proc;
 
-     if 0 = FindFirst( Masque_Modeles, faAnyFile, F)
+     if 0 = SysUtils.FindFirst( Masque_Modeles, faAnyFile, F)
      then
          begin
          repeat
                Ajoute( F.Name);
-         until 0 <> FindNext( F);
-         FindClose( F);
-         end;*)
+         until 0 <> SysUtils.FindNext( F);
+         SysUtils.FindClose( F);
+         end;
 end;
 {$ELSE}
 begin
