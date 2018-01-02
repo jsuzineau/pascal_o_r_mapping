@@ -2,10 +2,10 @@ inherited dkWork: TdkWork
   Left = 704
   Height = 77
   Top = 420
-  Width = 320
+  Width = 226
   Caption = 'dkWork'
   ClientHeight = 77
-  ClientWidth = 320
+  ClientWidth = 226
   inherited sSelection: TBatpro_Shape
     Height = 77
   end
@@ -36,7 +36,7 @@ inherited dkWork: TdkWork
     Left = 143
     Height = 14
     Top = 4
-    Width = 62
+    Width = 80
     Anchors = [akTop, akLeft, akRight]
     AutoSize = False
     Caption = 'clDescription'
@@ -48,19 +48,19 @@ inherited dkWork: TdkWork
     Field = 'Description'
   end
   object sbCopy_to_current: TSpeedButton[4]
-    Left = 297
+    Left = 203
     Height = 22
     Hint = 'Copie vers courant'
-    Top = 2
+    Top = 23
     Width = 22
     Anchors = [akTop, akRight]
     Caption = '>'
     OnClick = sbCopy_to_currentClick
   end
   object clName: TChamp_Label[5]
-    Left = 236
+    Left = 142
     Height = 13
-    Top = 4
+    Top = 25
     Width = 60
     Anchors = [akTop, akRight]
     AutoSize = False
@@ -72,9 +72,9 @@ inherited dkWork: TdkWork
     Field = 'Name'
   end
   object sbAddTag: TSpeedButton[6]
-    Left = 212
+    Left = 118
     Height = 22
-    Top = 0
+    Top = 21
     Width = 22
     Anchors = [akTop, akRight]
     Caption = '<'
