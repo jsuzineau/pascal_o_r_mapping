@@ -60,7 +60,7 @@ type
   protected
     contexte: Integer;
 
-    procedure To_SQLQuery_Params( SQLQuery: TSQLQuery); override;
+    procedure To_Params( _Params: TParams); override;
   public
     function Get_by_Cle( _contexte: Integer): TblG_CTX;
   //Gestion de l'insertion
@@ -123,10 +123,10 @@ begin
 
 end;
 
-procedure TpoolG_CTX.To_SQLQuery_Params(SQLQuery: TSQLQuery);
+procedure TpoolG_CTX.To_Params( _Params: TParams);
 begin
      inherited;
-     with SQLQuery.Params
+     with _Params
      do
        begin
        ParamByName( 'contexte'    ).AsInteger:= contexte;

@@ -103,8 +103,8 @@ begin
 
      hVST:= ThVST.Create( vst, sl, poolAutomatic.Tri, poolAutomatic.hf);
 
-     dmDatabase.Fill_with_databases( cbDatabases.Items);
-     cbDatabases.Text:= dmDatabase.sqlc.DatabaseName;
+     dmDatabase.jsDataConnexion.Fill_with_databases( cbDatabases.Items);
+     cbDatabases.Text:= dmDatabase.jsDataConnexion.DataBase;
 end;
 
 procedure TfAutomatic_VST.FormDestroy(Sender: TObject);
@@ -117,13 +117,13 @@ procedure TfAutomatic_VST.bExecuteClick(Sender: TObject);
 var
    Old_Database: String;
 begin
-     dmDatabase.sqlc.Close;
-     Old_Database:= dmDatabase.sqlc.DatabaseName;
+     dmDatabase.jsDataConnexion.Ferme_db;
+     Old_Database:= dmDatabase.jsDataConnexion.DataBase;
      try
-        dmDatabase.sqlc.DatabaseName:= cbDatabases.Text;
+        dmDatabase.jsDataConnexion.DataBase:= cbDatabases.Text;
         Execute_SQL;
      finally
-            dmDatabase.sqlc.DatabaseName:= Old_Database;
+            dmDatabase.jsDataConnexion.DataBase:= Old_Database;
             end;
 end;
 
@@ -166,10 +166,10 @@ var
    sl: TStringList;
    I: Integer;
 begin
-     dmDatabase.sqlc.Close;
-     Old_Database:= dmDatabase.sqlc.DatabaseName;
+     dmDatabase.jsDataConnexion.Ferme_db;
+     Old_Database:= dmDatabase.jsDataConnexion.DataBase;
      try
-        dmDatabase.sqlc.DatabaseName:= cbDatabases.Text;
+        dmDatabase.jsDataConnexion.DataBase:= cbDatabases.Text;
         try
            sl:= TStringList.Create;
            Requete.GetTableNames( sl);
@@ -185,7 +185,7 @@ begin
                FreeAndNil( sl);
                end;
      finally
-            dmDatabase.sqlc.DatabaseName:= Old_Database;
+            dmDatabase.jsDataConnexion.DataBase:= Old_Database;
             end;
 end;
 

@@ -307,7 +307,7 @@ object fjsWorks: TfjsWorks
           ClientHeight = 150
           ClientWidth = 239
           TabOrder = 1
-          HauteurLigne = 24
+          HauteurLigne = 45
           BordureLignes = True
           Zebrage = False
           Zebrage1 = 15138790

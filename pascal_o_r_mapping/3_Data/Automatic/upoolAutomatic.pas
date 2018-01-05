@@ -28,6 +28,7 @@ uses
     uhAggregation,
     uDataUtilsU,
     uhFiltre,
+    ujsDataContexte,
 
     uBatpro_Element,
     ublAutomatic,
@@ -54,10 +55,10 @@ type
     procedure Charge( _SQL: String; _slLoaded: TBatpro_StringList; _Params: TParams=nil);
   //Connection fixe
   public
-    Connection_fixe: TDatabase;
+    Connection_fixe: TjsDataConnexion;
   //Gestion de la connection
   public
-    function Connection: TDatabase; override;
+    function Connection: TjsDataConnexion; override;
   end;
 
 function poolAutomatic: TpoolAutomatic;
@@ -93,7 +94,7 @@ begin
      Load( _SQL, _slLoaded, nil, _Params);
 end;
 
-function TpoolAutomatic.Connection: TDatabase;
+function TpoolAutomatic.Connection: TjsDataConnexion;
 begin
      Result:= Connection_fixe;
      if Assigned( Result) then exit;

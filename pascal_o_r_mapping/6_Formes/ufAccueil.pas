@@ -57,7 +57,6 @@ type
     Label1: TLabel;
     mHistorique_Developpeur: TMemo;
     Panel2: TPanel;
-    Image1: TImage;
     bOK: TBitBtn;
     bEnregistrer: TButton;
     SaveDialog: TSaveDialog;
@@ -457,19 +456,19 @@ var
 begin
      NomFichier
      :=
-         dmDatabase.DataBase + '_'
+         dmDatabase.jsDataConnexion.DataBase + '_'
        + Network.Nom_Hote                + '_'
        + FormatDateTime( 'yyyy"_"mm"_"dd"_"hh"h"nn"min"ss', Now)
        + '_fAccueil.txt';
      NomZIPLogs
      :=
-         dmDatabase.DataBase + '_'
+         dmDatabase.jsDataConnexion.DataBase + '_'
        + Network.Nom_Hote                + '_'
        + FormatDateTime( 'yyyy"_"mm"_"dd"_"hh"h"nn"min"ss', Now)
        + '_log.zip';
      NomZIPLogs_Hier
      :=
-         dmDatabase.DataBase + '_'
+         dmDatabase.jsDataConnexion.DataBase + '_'
        + Network.Nom_Hote                + '_'
        + FormatDateTime( 'yyyy"_"mm"_"dd"_"hh"h"nn"min"ss', Now)
        + '_log_hier.zip';

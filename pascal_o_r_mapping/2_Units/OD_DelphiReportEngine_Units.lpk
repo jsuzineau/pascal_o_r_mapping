@@ -18,7 +18,7 @@
         <CustomOptions Value="-dWINDOWS_GRAPHIC"/>
       </Other>
     </CompilerOptions>
-    <Files Count="93">
+    <Files Count="95">
       <Item1>
         <Filename Value="DBTables.pas"/>
         <UnitName Value="DBTables"/>
@@ -392,6 +392,14 @@
         <AddToUsesPkgSection Value="False"/>
         <UnitName Value="sqlite3conn_pour_test"/>
       </Item93>
+      <Item94>
+        <Filename Value="uSQLite3_SQLQuery.pas"/>
+        <UnitName Value="uSQLite3_SQLQuery"/>
+      </Item94>
+      <Item95>
+        <Filename Value="uSQLite3_libsqlite3.pas"/>
+        <UnitName Value="uSQLite3_libsqlite3"/>
+      </Item95>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>

@@ -125,7 +125,7 @@ end;
 function TpoolG_BECP.Get_by_Cle( _nomclasse: String): TblG_BECP;
 begin
      Result:= blClasse_TBatpro_Element;
-     if not dmDatabase.Ouvert then exit;
+     if not dmDatabase.jsDataConnexion.Ouvert then exit;
 
      nomclasse:=  _nomclasse;
      sCle:= TblG_BECP.sCle_from_( nomclasse);

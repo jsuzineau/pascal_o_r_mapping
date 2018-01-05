@@ -63,8 +63,8 @@ type
      procedure Do_not_Keep_Connection; virtual;
      procedure Ecrire; virtual;
      function EmptyCommande( Commande: String): Boolean;
-     procedure DoCommande( Commande: String);            virtual;
-     function ExecQuery( _SQL: String): Boolean;         virtual;
+     procedure DoCommande( Commande: String);            virtual; abstract;
+     function ExecQuery( _SQL: String): Boolean;         virtual; abstract;
 
      procedure DoScript  ( NomFichierScriptSQL: String); virtual;
      procedure DoLOAD_INTO_MarchesSystem( NomFichier, NomTable: String;
@@ -87,7 +87,7 @@ type
      function sSGBD_Database: String;
    //Contexte
    protected
-     Classe_Contexte: TjsDataContexte_class;
+     function Classe_Contexte: TjsDataContexte_class; virtual; abstract;
    public
      Contexte: TjsDataContexte;
      function Cree_Contexte( _Name: String): TjsDataContexte;
@@ -352,9 +352,12 @@ type
      procedure Ferme_db; override;
      procedure Keep_Connection; override;
      procedure Do_not_Keep_Connection; override;
+
      procedure Fill_with_databases( _s: TStrings); override;
      procedure Connecte_SQLQuery( _SQLQuery: TSQLQuery);
+
      procedure WriteParam(Key, Value: String);
+
      procedure    DoCommande( Commande: String);          override;
      function ExecQuery( _SQL: String): Boolean;          override;
 
@@ -375,6 +378,8 @@ type
      procedure Start_SQLLog; override;
      procedure  Stop_SQLLog; override;
    //Contexte
+   protected
+     function Classe_Contexte: TjsDataContexte_class; override;
    public
      jsdc: TjsDataContexte_SQLQuery;
    //Liste des noms des champs d'une table
@@ -473,15 +478,13 @@ implementation
 
 constructor TjsDataConnexion_SQLQuery.Create( _SGBD: TSGBD);
 begin
-		   inherited Create( _SGBD);
+     inherited Create( _SGBD);
      sqlt:= Cree_SQLTransaction;
      sqlc:= Cree_SQLConnection;
      sqlc.Transaction:= sqlt;
 
-     Classe_Contexte:= TjsDataContexte_SQLQuery;
-     jsdc:= TjsDataContexte_SQLQuery.Create( ClassName+'.jsdc');
-     Contexte:= jsdc;
-     jsdc.SetConnection( Self);
+     Contexte:= Cree_Contexte( ClassName+'.Contexte');
+     Affecte( jsdc, TjsDataContexte_SQLQuery, Contexte);
 end;
 
 destructor TjsDataConnexion_SQLQuery.Destroy;
@@ -567,7 +570,6 @@ end;
 
 procedure TjsDataConnexion_SQLQuery.DoCommande(Commande: String);
 begin
-		   inherited DoCommande(Commande);
      if EmptyCommande( Commande) then exit;
      try
         sqlc.ExecuteDirect( Commande);
@@ -586,7 +588,6 @@ end;
 
 function TjsDataConnexion_SQLQuery.ExecQuery(_SQL: String): Boolean;
 begin
-		   Result:=inherited ExecQuery(_SQL);
      Result:= uDataUtilsF.ExecQuery( sqlc, _SQL);
 end;
 
@@ -672,6 +673,11 @@ begin
      sqlc.OnLog    := nil;
 end;
 
+function TjsDataConnexion_SQLQuery.Classe_Contexte: TjsDataContexte_class;
+begin
+     Result:= TjsDataContexte_SQLQuery;
+end;
+
 procedure TjsDataConnexion_SQLQuery.GetFieldNames( const _TableName: String;  _List: TStrings);
 begin
      sqlc.GetFieldNames( _TableName, _List);
@@ -746,7 +752,6 @@ begin
 	    Database_indefinie:= True;
 	    Ouvrable:= False;
 
-     Classe_Contexte:= nil;
      Contexte:= nil;
 end;
 
@@ -816,16 +821,6 @@ begin
        Result:= Commande[J] in [' ', #13, #10];
        if not Result then break;
        end;
-end;
-
-procedure TjsDataConnexion.DoCommande(Commande: String);
-begin
-
-end;
-
-function TjsDataConnexion.ExecQuery(_SQL: String): Boolean;
-begin
-
 end;
 
 procedure TjsDataConnexion.DoScript(NomFichierScriptSQL: String);

@@ -108,37 +108,37 @@ var
 
 function dmDatabase: TdmDatabase;
 begin
-     fAccueil_Log( 'dmDatabase: début');
+     //fAccueil_Log( 'dmDatabase: début');
      if nil = FdmDatabase
      then
          begin
-         fAccueil_Log( 'dmDatabase: avant FdmDatabase:= TdmDatabase.Create;');
+         //fAccueil_Log( 'dmDatabase: avant FdmDatabase:= TdmDatabase.Create;');
          FdmDatabase:= TdmDatabase.Create;
-         fAccueil_Log( 'dmDatabase: aprés FdmDatabase:= TdmDatabase.Create;');
+         //fAccueil_Log( 'dmDatabase: aprés FdmDatabase:= TdmDatabase.Create;');
          end;
      Result:= FdmDatabase;
-     fAccueil_Log( 'dmDatabase: fin');
+     //fAccueil_Log( 'dmDatabase: fin');
 end;
 
 constructor TdmDatabase.Create;
 begin
-     fAccueil_Log( ClassName+'.Create;, début');
+     //fAccueil_Log( ClassName+'.Create;, début');
      inherited;
      FLoginOK:= False;//redondant, initialisé dans Ouvre_db
 
      Classe_jsDataConnexion:= nil;
      jsDataConnexion:= nil;
 
-     fAccueil_Log( ClassName+'.Create;, avant pSGBDChange.Abonne( Self, SGBDChange);');
+     //fAccueil_Log( ClassName+'.Create;, avant pSGBDChange.Abonne( Self, SGBDChange);');
      pSGBDChange.Abonne( Self, SGBDChange);
 
-     fAccueil_Log( ClassName+'.Create;, avant Ferme_db;');
+     //fAccueil_Log( ClassName+'.Create;, avant Ferme_db;');
      Ferme_db;
 
-     fAccueil_Log( ClassName+'.Create;, avant Initialise;');
+     //fAccueil_Log( ClassName+'.Create;, avant Initialise;');
      Initialise;
      //Ouvre_db;
-     fAccueil_Log( ClassName+'.Create;, Fin');
+     //fAccueil_Log( ClassName+'.Create;, Fin');
 end;
 
 destructor TdmDatabase.Destroy;
@@ -167,11 +167,11 @@ begin
            raise Exception.Create( ClassName+'.Initialise: sbgd non géré: '+sSGBDs[SGBD]);
        end;
 
-     fAccueil_Log( ClassName+'.Initialise;, avant jsDataConnexion:= Classe_jsDataConnexion.Create;');
+     //fAccueil_Log( ClassName+'.Initialise;, avant jsDataConnexion:= Classe_jsDataConnexion.Create;');
      jsDataConnexion:= Classe_jsDataConnexion.Create( SGBD);
-     fAccueil_Log( ClassName+'.Initialise;, avant jsDataConnexion.Prepare;');
+     //fAccueil_Log( ClassName+'.Initialise;, avant jsDataConnexion.Prepare;');
      jsDataConnexion.Prepare;
-     fAccueil_Log( ClassName+'.Initialise;, apréss jsDataConnexion.Prepare;');
+     //fAccueil_Log( ClassName+'.Initialise;, apréss jsDataConnexion.Prepare;');
 end;
 
 procedure TdmDatabase.Ouvre_db;
