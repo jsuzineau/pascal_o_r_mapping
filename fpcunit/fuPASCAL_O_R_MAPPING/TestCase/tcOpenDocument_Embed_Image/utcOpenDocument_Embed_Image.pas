@@ -142,7 +142,8 @@ begin
                                      [], [],
                                      [jpg.t,png.t,bmp.t]);
      Resultat:= Batpro_OD_Printer.Execute( NomFichierModele, ClassName,
-                                     ['RepertoireImages'], [jpg.RepertoireImages],
+                                     ['RepertoireImages'],
+                                     [jpg.RepertoireImages],
                                      [], [],
                                      [jpg.t,png.t,bmp.t]);
      OpenDocument( Resultat);

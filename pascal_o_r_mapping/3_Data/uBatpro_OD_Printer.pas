@@ -173,6 +173,8 @@ begin
             for I:= 0 to Longueur-1
             do
               Batpro_OD_TextFieldsCreator.Execute( ParametresNoms[I], ParametresValeurs[I]);
+        Batpro_OD_TextFieldsCreator.Execute( 'FileName', NomFichier);
+
 
         //champs du dataset maitre
         for I:= Low( Maitres) to High( Maitres)
