@@ -31,6 +31,7 @@ uses
     uOD_Temporaire,
     uOD_JCL,
     uOOoStrings,
+    uuStrings,
     uOOoChrono,
     uOOoStringList,
     uOOoDelphiReportEngineLog,
@@ -456,6 +457,18 @@ type
     pChange: TPublieur;
     pFields_Change: TOpenDocument_Fields_Publieur;
     pFields_Delete: TOpenDocument_Fields_Publieur;
+  //mimetype file
+  private
+    function mimetype_filename: String;
+    function Getmimetype: String;
+    procedure Setmimetype( _mimetype: String);
+  public
+    property mimetype: String read Getmimetype write Setmimetype;
+  //Gestion modèle/document
+  public
+    Is_template: Boolean;
+    procedure Is_template_from_extension;
+    procedure MIMETYPE_and_MANIFEST_MEDIA_TYPE_from_Is_template;
   end;
 
 //Gestion tables
@@ -781,6 +794,7 @@ begin
      pChange:= TPublieur.Create( Classname+'.pChange');
      Nom:= _Nom;
      Calcule_is_Calc;
+     Is_template_from_extension;
 
      slStyles_Cellule_Properties:= TODStringList.Create;
 
@@ -855,6 +869,7 @@ procedure TOpenDocument.Repertoire_Extraction_from_XML;
         WriteXMLFile( _xml, NomFichier);
    end;
 begin
+     MIMETYPE_and_MANIFEST_MEDIA_TYPE_from_Is_template;
      Sauve_XML( 'meta.xml'             , xmlMeta             );
      Sauve_XML( 'settings.xml'         , xmlSettings         );
      Sauve_XML( 'META-INF'+PathDelim+'manifest.xml', xmlMETA_INF_manifest);
@@ -2599,6 +2614,82 @@ end;
 function TOpenDocument.Append_SOFT_PAGE_BREAK( _eRoot: TDOMNode): TDOMNode;
 begin
      Result:= Cree_path( _eRoot, 'text:soft-page-break');
+end;
+
+procedure TOpenDocument.Is_template_from_extension;
+var
+   Extension: String;
+begin
+     Is_template:= False;
+
+     Extension:= UpperCase( ExtractFileExt( Nom));
+     if 4 > Length(Extension) then exit;
+
+                                     // .ODT .OTT .ODS .OTS
+     Is_template:= 'T'=Extension[3]; // 1234 1234 1234 1234
+end;
+
+function TOpenDocument.mimetype_filename: String;
+begin
+     Result:= IncludeTrailingPathDelimiter( Repertoire_Extraction)+'mimetype';
+end;
+
+function TOpenDocument.Getmimetype: String;
+begin
+     Result:= String_from_File( mimetype_filename);
+end;
+
+procedure TOpenDocument.Setmimetype( _mimetype: String);
+begin
+     String_to_File( mimetype_filename, _mimetype);
+end;
+
+procedure TOpenDocument.MIMETYPE_and_MANIFEST_MEDIA_TYPE_from_Is_template;
+const
+     sTemplate='-template';
+var
+   sMIMETYPE: String;
+   sMIMETYPE_is_template: Boolean;
+   procedure Traite_Document;
+   begin
+        sMIMETYPE:= Delete_suffix( sMIMETYPE, sTemplate);
+   end;
+   procedure Traite_Template;
+   begin
+        sMIMETYPE:= sMIMETYPE + sTemplate;
+   end;
+   procedure Modifie_mimetype;
+   begin
+        if Is_template
+        then
+            Traite_Template
+        else
+            Traite_Document;
+   end;
+   procedure Enregistre;
+   var
+      root, e: TDOMNode;
+   begin
+        //modification fichier mimetype
+        mimetype:= sMIMETYPE;
+
+        //modification manifest.xml
+        root:= xmlMETA_INF_manifest.DocumentElement;
+        e:= Cherche_Item_Recursif( root,
+                                   'manifest:file-entry',
+                                   ['manifest:full-path'],
+                                   ['/']);
+       if nil = e then exit;
+       uOD_JCL.Set_Property( e, 'manifest:media-type', sMIMETYPE);
+   end;
+begin
+     sMIMETYPE:= mimetype;
+     sMIMETYPE_is_template:= String_has_suffix( sMIMETYPE, sTemplate);
+     if sMIMETYPE_is_template <> Is_template
+     then
+         Modifie_mimetype;
+
+     Enregistre;
 end;
 
 end.

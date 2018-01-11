@@ -154,6 +154,10 @@ procedure String_to_File( _FileName: String; _S: String);
 
 function Char_Count( _C: Char; _S: String): Integer;
 
+function String_suffix_index( _S, _Suffix: String): Integer;
+function String_has_suffix( _S, _Suffix: String): Boolean;
+function Delete_suffix( _S, _Suffix: String): String;
+
 implementation
 
 { Indente
@@ -1075,6 +1079,48 @@ begin
        if _C = _S[I]
        then
            Inc( Result);
+end;
+
+function String_suffix_index( _S, _Suffix: String): Integer;
+var
+   LS, LSuffix: Integer;
+   iSuffix: Integer;
+begin
+     Result:= 0;
+
+     LS     := Length( _S     );
+     LSuffix:= Length( _Suffix);
+
+     if 0  = LSuffix then exit;
+     if LS < LSuffix then exit;
+
+     Result:= 1+ LS - LSuffix;
+end;
+
+function String_has_suffix( _S, _Suffix: String): Boolean;
+var
+   iSuffix: Integer;
+begin
+     Result:= False;
+
+     iSuffix:= String_suffix_index( _S, _Suffix);
+     if 0 = iSuffix then exit;
+
+     Result:= iSuffix = Pos( _Suffix, _S);
+end;
+
+function Delete_suffix( _S, _Suffix: String): String;
+var
+   LSuffix: Integer;
+   iSuffix: Integer;
+begin
+     Result:= _S;
+
+     if not String_has_suffix( _S, _Suffix) then exit;
+
+     LSuffix:= Length( _Suffix);
+     iSuffix:= String_suffix_index( _S, _Suffix);
+     Delete( Result, iSuffix, LSuffix);
 end;
 
 end.
