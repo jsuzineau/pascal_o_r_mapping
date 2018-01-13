@@ -36,7 +36,7 @@ uses
     uChampDefinitions,
     uChamp,
     uChampDefinition,
-    Windows, SysUtils, Classes, Controls, DB, Grids,Dialogs, StdCtrls, Buttons;
+    Windows, SysUtils, Classes, FMX.Controls, DB, Grids,Dialogs, StdCtrls, Buttons;
 
 type
 

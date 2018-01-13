@@ -27,7 +27,7 @@ interface
 uses
     uChamps,
     uChamp,
-  SysUtils, Classes, Controls, StdCtrls, Spin;
+  SysUtils, Classes, FMX.Controlso, StdCtrls, Spin;
 
 type
  TChamp_Integer_SpinEdit

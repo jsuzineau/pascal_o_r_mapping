@@ -1,4 +1,4 @@
-unit uBatpro_Element;
+﻿unit uBatpro_Element;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -30,10 +30,8 @@ uses
     uskString,
     uuStrings,
     uBatpro_StringList,
-    {$IFNDEF FPC}
     uWinUtils,
     uWindows,
-    {$ENDIF}
     uReels,
     uTraits,
     u_sys_,
@@ -42,19 +40,17 @@ uses
     uDrawInfo,
     uChampDefinitions,
     uChamps,
-    {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
     uImpression_Font_Size_Multiplier,
-    {$IFEND}
     uVide,
 
     ufAccueil_Erreur,
-    {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
     ufBitmaps,
-    {$IFEND}
 
-  {$IFNDEF FPC}
-  Windows, Controls, Menus, Types, ExtCtrls, Grids,Graphics,
-  {$ENDIF}
+  //Windows,
+  System.UITypes,
+  FMX.Menus, FMX.Controls, Types, FMX.Graphics, FMX.TextLayout,
+  FMX.Types,
+  System.Math.Vectors,
   SysUtils, Classes;
 
 const
@@ -79,19 +75,12 @@ type
 const
   Format_beAlignementH
   :
-   array[bea_Gauche..bea_Droite] of Integer
+   array[bea_Gauche..bea_Droite] of TTextAlign
    =
-    {$IFNDEF FPC}
-    ( DT_LEFT, DT_CENTER, DT_RIGHT);
-    {$ELSE}
-    (0      ,   1,           2) ;
-    {$ENDIF}
+    //( DT_LEFT, DT_CENTER, DT_RIGHT);
+    (TTextAlign.Leading, TTextAlign.Center, TTextAlign.Trailing) ;
 
 type
-  {$IFDEF FPC}
-  TPopupMenu=TObject;
-  TMouseButton=TObject;
-  {$ENDIF}
   TTypeJalon = (
                tj_Losange, tj_LosangePlein,
                tj_Ellipse, tj_TraitVertical, tj_Puce,
@@ -219,6 +208,7 @@ type
     function _3D_Clair( Color: TColor): TColor;
     function _3D_Sombre( Color: TColor): TColor;
     function OffsetPoint( P: TPoint; dx, dy: Integer): TPoint;
+    function OffsetPointF( P: TPointF; dx, dy: Single): TPointF;
     procedure DrawFrameButton_Color( Canvas: TCanvas; Color: TColor; R: TRect);
     procedure {svg}Dessinne_Fond( DrawInfo: TDrawInfo); virtual;
     function Get_Alignement( Contexte: Integer): TbeAlignement; virtual;
@@ -227,7 +217,7 @@ type
     procedure {svg}Dessinne_Gris(DrawInfo: TDrawInfo);
     procedure {svg}DrawJalon( DrawInfo: TDrawInfo; Forme: TTypeJalon;
                          CouleurJalon: TColor;
-                         CouleurJalon_Contour : TColor= clBlack;
+                         CouleurJalon_Contour : TColor= TColorRec.Black;
                          Note: Boolean= False);
     function Cree_Fonte( DrawInfo: TDrawInfo; Gras: Boolean): TFont;
   //Affichage SVG
@@ -883,7 +873,7 @@ begin
 
         inherited Create;
         sl:= _sl;
-        Fond:= clWhite;
+        Fond:= TColorRec.White;
         Serie:= nil;
         Cluster:= nil;
         Tag:= nil;
@@ -942,7 +932,7 @@ end;
 
 function TBatpro_Element.Couleur_Fond( DrawInfo: TDrawInfo): TColor;
 begin
-          if Selected      then Result:= clAqua //clHighlight
+          if Selected      then Result:= TColorRec.Aqua //TColorRec.SysHighlight
      else if DrawInfo.Gris then Result:= DrawInfo.Couleur_Jour_Non_Ouvrable
      else                       Result:= Fond;
 end;
@@ -961,7 +951,7 @@ procedure TBatpro_Element.{svg}Dessinne_Bordure( DrawInfo: TDrawInfo);
 begin
      if not uBatpro_Element_Afficher_Grille then exit;
      
-     DrawInfo.Contour_Rectangle( DrawInfo.Rect, clBlack);
+     DrawInfo.Contour_Rectangle( DrawInfo.Rect, TColorRec.Black);
 end;
 
 function TBatpro_Element.Rectangle_Aligne( R: TRect;
@@ -999,65 +989,76 @@ end;
 function TBatpro_Element.{svg}Draw_Text( DrawInfo: TDrawInfo; Alignement: TbeAlignement;
                                     Text: String; Font: TFont): Integer;
 var
+   tl: TTextLayout;
    R, CALCRECT: TRect;
    TextW, TextH: Integer;
-   OldFont: TFont;
    uFormat: Cardinal;
    OrientationTexte_: Integer;
 begin
-     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-     OrientationTexte_:= OrientationTexte( DrawInfo);
+     tl:= TTextLayoutManager.DefaultTextLayout.Create;
+     try
+        tl.BeginUpdate;
+        OrientationTexte_:= OrientationTexte( DrawInfo);
 
-     OldFont:= TFont.Create;
-     OldFont.Assign( DrawInfo.Canvas.Font);
-     DrawInfo.Canvas.Font.Assign( Font);
-       R:= DrawInfo.Rect;
-       //InflateRect( R, -Batpro_Element_Marge, -Batpro_Element_Marge);
-       TextW:= Cell_Width_Interne ( DrawInfo, Font, Text);
-       TextW:= Width_Externe_from_Interne( DrawInfo, TextW);
-       TextH:= Cell_Height_Interne( DrawInfo, Font, Text, TextW);
-       TextH:= Height_Externe_from_Interne( DrawInfo, TextH);
-       Result:= TextH;
+        tl.Font.Assign( Font);
+          R:= DrawInfo.Rect;
+          //InflateRect( R, -Batpro_Element_Marge, -Batpro_Element_Marge);
+          TextW:= Cell_Width_Interne ( DrawInfo, Font, Text);
+          TextW:= Width_Externe_from_Interne( DrawInfo, TextW);
+          TextH:= Cell_Height_Interne( DrawInfo, Font, Text, TextW);
+          TextH:= Height_Externe_from_Interne( DrawInfo, TextH);
+          Result:= TextH;
 
-       CALCRECT:= Rectangle_Aligne( R, Alignement, TextW, TextH);
-       //CALCRECT:= Rectangle_Aligne( R, Alignement, R.Right-R.Left, TextH);
-       CALCRECT:= Rect_Interne_from_Externe( DrawInfo, CALCRECT);
+          CALCRECT:= Rectangle_Aligne( R, Alignement, TextW, TextH);
+          //CALCRECT:= Rectangle_Aligne( R, Alignement, R.Right-R.Left, TextH);
+          CALCRECT:= Rect_Interne_from_Externe( DrawInfo, CALCRECT);
 
-       if DrawInfo.SVG_Drawing
-       then
-           DrawInfo.text_rotate( CALCRECT.Left,
-                                 CALCRECT.Top ,
-                                 Text,
-                                 Font.Name, Font.Size,
-                                 OrientationTexte_ div 10)
-       else
-           begin
-           uFormat:= DT_WORDBREAK or Format_beAlignementH[ Alignement.H];
-           SetBkMode( DrawInfo.Canvas.Handle, TRANSPARENT);
-           try
-              Oriente_Fonte( OrientationTexte_,DrawInfo.Canvas.Font);
-              //SetTextAlign( DrawInfo.Canvas.Handle, TA_TOP or TA_LEFT);
-              if OrientationTexte_ = 900
-              then
-                  begin
-                  SetTextAlign( DrawInfo.Canvas.Handle, TA_TOP or TA_LEFT);
-                  TextOut( DrawInfo.Canvas.Handle,
-                           CALCRECT.Left,
-                           CALCRECT.Bottom,
-                           PChar( Text), Length(Text));
-                  end
-              else
-                  DrawText( DrawInfo.Canvas.Handle,
-                            PChar(Text), Length(Text),
-                            CALCRECT, uFormat);
-           finally
-                  SetBkMode( DrawInfo.Canvas.Handle, OPAQUE);
-                  end;
-           end;
+          if DrawInfo.SVG_Drawing
+          then
+              DrawInfo.text_rotate( CALCRECT.Left,
+                                    CALCRECT.Top ,
+                                    Text,
+                                    Font.Family, Trunc(Font.Size),
+                                    OrientationTexte_ div 10)
+          else
+              begin
+              tl.WordWrap:= True;
+              tl.HorizontalAlign:= Format_beAlignementH[ Alignement.H];
+              tl.Text:= Text;
+              //SetBkMode( DrawInfo.Canvas.Handle, TRANSPARENT);
+              try
+                 Oriente_Fonte( OrientationTexte_,tl.Font);
+                 //SetTextAlign( DrawInfo.Canvas.Handle, TA_TOP or TA_LEFT);
+                 if OrientationTexte_ = 900
+                 then
+                     begin
+                     tl.HorizontalAlign:= TTextAlign.Leading;
+                     tl.  VerticalAlign:= TTextAlign.Leading;
+                     {
+                     TextOut( DrawInfo.Canvas.Handle,
+                              CALCRECT.Left,
+                              CALCRECT.Bottom,
+                              PChar( Text), Length(Text));
+                     }
+                     end
+                 else
+                     begin
+                     {
+                     DrawText( DrawInfo.Canvas.Handle,
+                               PChar(Text), Length(Text),
+                               CALCRECT, uFormat);
+                     }
+                     end;
+              finally
+                     //SetBkMode( DrawInfo.Canvas.Handle, OPAQUE);
+                     end;
+              end;
 
-     DrawInfo.Canvas.Font.Assign( OldFont);
-     FreeAndNil( OldFont);
-     {$IFEND}
+        tl.EndUpdate;
+        tl.RenderLayout(DrawInfo.Canvas);
+     finally
+            FreeAndNil( tl);
+            end;
 end;
 
 procedure TBatpro_Element.Draw( DrawInfo: TDrawInfo);
@@ -1100,11 +1101,12 @@ begin
      then
          begin
          DrawInfo.Couleur_Brosse:= Fond;
-         if DrawInfo.Couleur_Brosse = clBtnFace
+         {if DrawInfo.Couleur_Brosse = TColorRec.SysBtnFace
          then
              DrawFrameControl( DrawInfo.Canvas.Handle, DrawInfo.Rect,DFC_BUTTON,DFCS_BUTTONPUSH)
          else
              DrawFrameButton_Color( DrawInfo.Canvas, DrawInfo.Couleur_Brosse, DrawInfo.Rect);
+         }
          if DrawInfo.Impression
          then
              Dessinne_Bordure( DrawInfo);
@@ -1112,6 +1114,7 @@ begin
          end;
 
      Dessinne_Fond( DrawInfo);
+
 
      if Serie_not_CellDebut
      then
@@ -1177,11 +1180,13 @@ begin
      then
          begin
          DrawInfo.Couleur_Brosse:= Fond;
-         if DrawInfo.Couleur_Brosse = clBtnFace
+         {
+         if DrawInfo.Couleur_Brosse = TColorRec.SysBtnFace
          then
              DrawFrameControl( DrawInfo.Canvas.Handle, DrawInfo.Rect,DFC_BUTTON,DFCS_BUTTONPUSH)
          else
              DrawFrameButton_Color( DrawInfo.Canvas, DrawInfo.Couleur_Brosse, DrawInfo.Rect);
+         }
          if DrawInfo.Impression
          then
              {svg}Dessinne_Bordure( DrawInfo);
@@ -1227,7 +1232,7 @@ end;
 function TBatpro_Element.MulDiv_Color( Color: TColor; Mul_,Div_:Integer):TColor;
 {$IFNDEF FPC}
 var
-   Q: TRGBQuad;
+   CR: TColorRec;
 {$ENDIF}
    //OldRayon, Old_BG, NewRayon, New_BG: Extended;
    //R_BG: Extended;
@@ -1272,9 +1277,7 @@ var
    //     B:= Nouveau;
    //end;
 begin
-	 {$IFNDEF FPC}
-     Q:= TRGBQuad(Color);
-	 {$ENDIF}
+     CR.Color:= Color;
 
      //OldRayon:= Rayon( Q);
      //Old_BG  := BG( Q);
@@ -1298,11 +1301,9 @@ begin
      if New_G > 255 then Q.rgbGreen:= 255 else Q.rgbGreen:= Trunc( New_G);
      if New_R > 255 then Q.rgbRed  := 255 else Q.rgbRed  := Trunc( New_R);
      *)
-     {$IFNDEF FPC} 
-     Q.rgbBlue := MulDiv_Byte( Q.rgbBlue , Mul_, Div_);
-     Q.rgbGreen:= MulDiv_Byte( Q.rgbGreen, Mul_, Div_);
-     Q.rgbRed  := MulDiv_Byte( Q.rgbRed  , Mul_, Div_);
-     {$ENDIF}
+     CR.B:= MulDiv_Byte( CR.B, Mul_, Div_);
+     CR.G:= MulDiv_Byte( CR.G, Mul_, Div_);
+     CR.R:= MulDiv_Byte( CR.R, Mul_, Div_);
      //if NewRayon > OldRayon
      //then
      //    while
@@ -1331,11 +1332,7 @@ begin
      //      Inc_Byte( Q.rgbRed  , -1);
      //      end;
 
-     {$IFNDEF FPC}
-     Result:= TColor( Q);
-     {$ELSE}
-     Result:= $FFFFFF;
-     {$ENDIF}
+     Result:= CR.Color;
 end;
 
 function TBatpro_Element._3D_Clair( Color: TColor): TColor;
@@ -1361,43 +1358,49 @@ begin
      Inc( Result.Y, dy);
 end;
 
+function TBatpro_Element.OffsetPointF(P: TPointF; dx, dy: Single): TPointF;
+begin
+     Result:= P;
+     Result.X:= Result.X + dx;
+     Result.Y:= Result.Y + dy;
+end;
+
 procedure TBatpro_Element.DrawFrameButton_Color( Canvas: TCanvas; Color: TColor;
                                                  R: TRect);
 var
-   PolyClair: array[0..5] of TPoint;
+   PolyClair: TPolygon;
    OldColor: TColor;
-   OldStyle: TPenStyle;
+   OldStyle: TStrokeDash;
    Clair, Sombre: TColor;
 begin
-	 {$IFNDEF FPC}
-     OldColor:= Canvas.Brush.Color;
-     OldStyle:= Canvas.Pen.Style;
+     OldColor:= Canvas.Fill.Color;
+     OldStyle:= Canvas.Stroke.Dash;
 
      Clair := _3D_Clair ( Color);
      Sombre:= _3D_Sombre( Color);
 
-     Canvas.Brush.Color:= Sombre;
-     Canvas.FillRect( R);
+     Canvas.Fill.Color:= Sombre;
+     Canvas.FillRect( RectF(R.Left, R.Top, R.Right, R.Bottom), 0, 0, [], 1);
 
+     SetLength( PolyClair, 6);
      PolyClair[0]:= R.TopLeft;
      with PolyClair[1] do begin X:= R.Right; Y:= R.Top   ; end;
      with PolyClair[5] do begin X:= R.Left ; Y:= R.Bottom; end;
 
-     PolyClair[3]:= OffsetPoint( PolyClair[0],  CXEDGE,  CYEDGE);
-     PolyClair[2]:= OffsetPoint( PolyClair[1], -CXEDGE,  CYEDGE);
-     PolyClair[4]:= OffsetPoint( PolyClair[5],  CXEDGE, -CYEDGE);
+     PolyClair[3]:= OffsetPointF( PolyClair[0],  CXEDGE,  CYEDGE);
+     PolyClair[2]:= OffsetPointF( PolyClair[1], -CXEDGE,  CYEDGE);
+     PolyClair[4]:= OffsetPointF( PolyClair[5],  CXEDGE, -CYEDGE);
 
-     Canvas.Pen.Style:= psClear;
-     Canvas.Brush.Color:= Clair;
-     Canvas.Polygon( PolyClair);
-     Canvas.Pen.Style  := OldStyle;
+     Canvas.Stroke.Dash:= TStrokeDash.Custom;//Clear;
+     Canvas.Fill.Color:= Clair;
+     Canvas.DrawPolygon( PolyClair, 1);
+     Canvas.Stroke.Dash  := OldStyle;
 
      InflateRect( R, -CXEDGE, -CYEDGE);
-     Canvas.Brush.Color:= Color;
-     Canvas.FillRect( R);
+     Canvas.Fill.Color:= Color;
+     Canvas.FillRect( RectF(R.Left, R.Top, R.Right, R.Bottom), 0, 0, [], 1);
 
-     Canvas.Brush.Color:= OldColor;
-     {$ENDIF}
+     Canvas.Fill.Color:= OldColor;
 end;
 
 function TBatpro_Element.Batpro_ElementClassesParams_nil: Boolean;
@@ -1486,6 +1489,11 @@ end;
 function TBatpro_Element.OrientationTexte( DrawInfo: TDrawInfo): Integer;
 begin
      Result:= 0;
+end;
+
+function MulDiv( _Value, _Numerateur, _Denominateur: Integer):Integer;
+begin
+     Result:= (_Value * _Numerateur) div _Denominateur;
 end;
 
 function TBatpro_Element.Cell_Height_Interne( DrawInfo: TDrawInfo;
@@ -1717,12 +1725,12 @@ begin
          with DrawInfo
          do
            begin
-           Couleur_Brosse:= clBlack;
-           Canvas.Brush.Style:= bsFDiagonal;
-           StyleLigne:= psClear;
+           Couleur_Brosse:= TColorRec.Black;
+           Canvas.Fill.Kind:= bsFDiagonal;
+           StyleLigne:= TStrokeDash.Clear;
            Rectangle( Rect);
-           StyleLigne:= psSolid;
-           Canvas.Brush.Style:= bsSolid;
+           StyleLigne:= TStrokeDash.Solid;
+           Canvas.Fill.Kind:= TBrushKind.Solid;
            end;
      {$ENDIF}
 end;
@@ -1730,7 +1738,7 @@ end;
 
 procedure TBatpro_Element.{svg}DrawJalon( DrawInfo: TDrawInfo; Forme: TTypeJalon;
                                      CouleurJalon: TColor;
-                                     CouleurJalon_Contour : TColor= clBlack;
+                                     CouleurJalon_Contour : TColor= TColorRec.Black;
                                      Note: Boolean= False);
 var
    //Jalon
@@ -2008,7 +2016,7 @@ begin
      CellDebut:= False;
      Style:= ss_TraitFin;
      CoefficientEpaisseur:= 1;
-     Couleur:= clBlack;
+     Couleur:= TColorRec.Black;
      Pourcentage:= 0;
 end;
 
@@ -2114,12 +2122,12 @@ begin
          end;
      Old_Pen_Style:= _DrawInfo.StyleLigne;
      Old_Pen_Color:= _DrawInfo.CouleurLigne;
-     Old_Brush_Style:= _DrawInfo.Canvas.Brush.Style;
+     Old_Brush_Style:= _DrawInfo.Canvas.Fill.Kind;
      Old_Brush_Color:= _DrawInfo.Couleur_Brosse;
 
-     _DrawInfo.StyleLigne:= psSolid;
+     _DrawInfo.StyleLigne:= TStrokeDash.Solid;
      _DrawInfo.CouleurLigne:= _Color;
-     _DrawInfo.Canvas.Brush.Style:= bsSolid;
+     _DrawInfo.Canvas.Fill.Kind:= TBrushKind.Solid;
      _DrawInfo.Couleur_Brosse:= _Color;
      //_DrawInfo.Moveto( X1, _Y);
      //_DrawInfo.LineTo( X2, _Y);
@@ -2127,7 +2135,7 @@ begin
 
      _DrawInfo.StyleLigne:= Old_Pen_Style;
      _DrawInfo.CouleurLigne:= Old_Pen_Color;
-     _DrawInfo.Canvas.Brush.Style:= Old_Brush_Style;
+     _DrawInfo.Canvas.Fill.Kind:= Old_Brush_Style;
      _DrawInfo.Couleur_Brosse:= Old_Brush_Color;
      {$ENDIF}
 end;
@@ -2287,7 +2295,7 @@ begin
      do
        begin
        OldFont.Assign( Canvas.Font);
-         Canvas.Font.Name:= sys_Arial; // sys_SmallFonts, 7, Bold
+         Canvas.Font.Family:= sys_Arial; // sys_SmallFonts, 7, Bold
          Canvas.Font.Size:= 8;
          //with Canvas.Font do Style:= Style + [fsBold];
          Canvas.TextOut( Rect.Left+3, Rect.Top+3, snJour_from_nJour( _nJour));
@@ -2337,13 +2345,13 @@ begin
      with DrawInfo
      do
        begin
-       OldBitmap:= Canvas.Brush.Bitmap;
-       Canvas.Brush.Bitmap:= Motif;
+       OldBitmap:= Canvas.Fill.Bitmap;
+       Canvas.Fill.Bitmap:= Motif;
          OldBrushColor:= Couleur_Brosse;
          Couleur_Brosse:= Couleur;
            Polygon( Polygone);
          Couleur_Brosse:= OldBrushColor;
-       Canvas.Brush.Bitmap:= OldBitmap;
+       Canvas.Fill.Bitmap:= OldBitmap;
        end;
 end;
 {$ELSE}
@@ -2379,13 +2387,13 @@ begin
      with DrawInfo
      do
        begin
-       OldBitmap:= Canvas.Brush.Bitmap;
-       Canvas.Brush.Bitmap:= Motif;
+       OldBitmap:= Canvas.Fill.Bitmap;
+       Canvas.Fill.Bitmap:= Motif;
          OldBrushColor:= Couleur_Brosse;
          Couleur_Brosse:= Couleur;
            Polygon( Polygone);
          Couleur_Brosse:= OldBrushColor;
-       Canvas.Brush.Bitmap:= OldBitmap;
+       Canvas.Fill.Bitmap:= OldBitmap;
        end;
 end;
 {$ELSE}
@@ -2416,16 +2424,16 @@ var
         with DrawInfo
         do
           begin
-          OldBitmap  := Canvas.Brush.Bitmap;
+          OldBitmap  := Canvas.Fill.Bitmap;
           OldPenStyle:= StyleLigne;
-          Canvas.Brush.Bitmap:= Motif;
-          StyleLigne   := psClear;
+          Canvas.Fill.Bitmap:= Motif;
+          StyleLigne   := TStrokeDash.Clear;
             OldBrushColor:= Couleur_Brosse;
             Couleur_Brosse:= Couleur;
               Polygon( Polygone);
             Couleur_Brosse:= OldBrushColor;
           StyleLigne   := OldPenStyle;
-          Canvas.Brush.Bitmap:= OldBitmap;
+          Canvas.Fill.Bitmap:= OldBitmap;
           end;
    end;
 begin
@@ -2472,7 +2480,7 @@ var
         do
           begin
           OldPenStyle:= StyleLigne;
-          StyleLigne   := psClear;
+          StyleLigne   := TStrokeDash.Clear;
             OldBrushColor:= Couleur_Brosse;
             Couleur_Brosse:= Couleur;
               Polygon( Polygone);
@@ -2648,10 +2656,10 @@ begin
            begin
            XC:= (Rect.Left+Rect.Right ) div 2;
            H2:= (Rect.Bottom-Rect.Top ) div 2;
-           StyleLigne:= psDot;
+           StyleLigne:= TStrokeDash.Dot;
            Moveto( XC, Rect.Top      );
            LineTo( XC, Rect.Top   +H2);
-           StyleLigne:= psSolid;
+           StyleLigne:= TStrokeDash.Solid;
            Moveto( XC, Rect.Top   +H2);
            LineTo( XC, Rect.Bottom   );
            end
@@ -2663,10 +2671,10 @@ begin
                begin
                YC:= (Rect.Top +Rect.Bottom) div 2;
                W2:= (Rect.Right -Rect.Left) div 2;
-               StyleLigne:= psDot;
+               StyleLigne:= TStrokeDash.Dot;
                Moveto( Rect.Left   , YC);
                LineTo( Rect.Left+W2, YC);
-               StyleLigne:= psSolid;
+               StyleLigne:= TStrokeDash.Solid;
                Moveto( Rect.Left+W2, YC);
                LineTo( Rect.Right  , YC);
                end;
@@ -3123,7 +3131,7 @@ begin
        begin
        OldColor:= CouleurLigne;
        CouleurLigne:= Couleur;
-       StyleLigne:= psSolid;
+       StyleLigne:= TStrokeDash.Solid;
        if VerticalHorizontal_( Contexte)
        then
            begin
@@ -3131,7 +3139,7 @@ begin
            H2:= (Rect.Bottom-Rect.Top ) div 2;
            Moveto( XC, Rect.Top      );
            LineTo( XC, Rect.Top   +H2);
-           StyleLigne:= psDot;
+           StyleLigne:= TStrokeDash.Dot;
            Moveto( XC, Rect.Top   +H2);
            LineTo( XC, Rect.Bottom   );
            end
@@ -3145,7 +3153,7 @@ begin
                W2:= (Rect.Right -Rect.Left) div 2;
                Moveto( Rect.Left   , YC);
                LineTo( Rect.Left+W2, YC);
-               StyleLigne:= psDot;
+               StyleLigne:= TStrokeDash.Dot;
                Moveto( Rect.Left+W2, YC);
                LineTo( Rect.Right  , YC);
                end;
@@ -3195,7 +3203,7 @@ begin
                end;
              end;
            end;
-       StyleLigne:= psSolid;
+       StyleLigne:= TStrokeDash.Solid;
        CouleurLigne:= OldColor;
        end;
 end;
@@ -3222,7 +3230,7 @@ begin
        begin
        OldColor:= CouleurLigne;
        CouleurLigne:= Couleur;
-       StyleLigne:= psSolid;
+       StyleLigne:= TStrokeDash.Solid;
        if VerticalHorizontal_( Contexte)
        then
            begin
@@ -3288,7 +3296,7 @@ begin
                end;
              end;
            end;
-       StyleLigne:= psSolid;
+       StyleLigne:= TStrokeDash.Solid;
        CouleurLigne:= OldColor;
        end;
 end;

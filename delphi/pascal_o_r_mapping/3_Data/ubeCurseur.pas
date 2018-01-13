@@ -25,7 +25,7 @@ unit ubeCurseur;
 interface
 
 uses
-    Windows, SysUtils, Classes, Graphics, Controls,
+    Windows, SysUtils, Classes, FMX.Graphics, FMX.Controls,
     uBatpro_StringList,
     u_sys_,
     u_loc_,
@@ -81,7 +81,7 @@ end;
 
 procedure TbeCurseur.Draw( DrawInfo: TDrawInfo);
 begin
-     DrawJalon( DrawInfo, tj_Triangle_vers_droite, clBlack);
+     DrawJalon( DrawInfo, tj_Triangle_vers_droite, TColorRec.Black);
 end;
 
 procedure TbeCurseur.svgDraw( DrawInfo: TDrawInfo);

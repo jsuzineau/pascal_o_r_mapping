@@ -1,4 +1,4 @@
-unit ufBitmaps;
+﻿unit ufBitmaps;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -25,8 +25,11 @@ unit ufBitmaps;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ImgList, StdCtrls, ExtCtrls;
+  Windows, Messages, SysUtils, Variants, Classes,
+  Vcl.ImgList, Vcl.Controls, Vcl.Graphics, Vcl.ExtCtrls, Vcl.StdCtrls,
+  System.ImageList,
+  FMX.Dialogs,FMX.Forms,
+  FMX.ImgList, FMX.Controls, FMX.Graphics, FMX.ExtCtrls, FMX.StdCtrls, FMX.Objects;
 
 type
   TfBitmaps = class(TForm)
@@ -35,11 +38,11 @@ type
     Label1: TLabel;
     Label2: TLabel;
     GroupBox1: TGroupBox;
-    iBrosse_Trame_50_pourcent: TImage;
-    iBrosse_Trame_25_pourcent: TImage;
-    iBrosse_Solide           : TImage;
-    iBrosse_Vertical_50: TImage;
-    iBrosse_Vertical_25: TImage;
+    iBrosse_Trame_50_pourcent: FMX.Objects.TImage;
+    iBrosse_Trame_25_pourcent: FMX.Objects.TImage;
+    iBrosse_Solide           : FMX.Objects.TImage;
+    iBrosse_Vertical_50: FMX.Objects.TImage;
+    iBrosse_Vertical_25: FMX.Objects.TImage;
     Label3: TLabel;
     LOSANGE: TImageList;
     DOSSIER_KDE_PAR_POSTE: TImageList;
@@ -103,27 +106,27 @@ end;
 
 function TfBitmaps.bBrosse_Solide: TBitmap;
 begin
-     Result:= iBrosse_Solide.Picture.Bitmap;
+     Result:= iBrosse_Solide.Bitmap;
 end;
 
 function TfBitmaps.bBrosse_Trame_50_pourcent: TBitmap;
 begin
-     Result:= iBrosse_Trame_50_pourcent.Picture.Bitmap;
+     Result:= iBrosse_Trame_50_pourcent.Bitmap;
 end;
 
 function TfBitmaps.bBrosse_Trame_25_pourcent: TBitmap;
 begin
-     Result:= iBrosse_Trame_25_pourcent.Picture.Bitmap;
+     Result:= iBrosse_Trame_25_pourcent.Bitmap;
 end;
 
 function TfBitmaps.bBrosse_Vertical_50: TBitmap;
 begin
-     Result:= iBrosse_Vertical_50.Picture.Bitmap;
+     Result:= iBrosse_Vertical_50.Bitmap;
 end;
 
 function TfBitmaps.bBrosse_Vertical_25: TBitmap;
 begin
-     Result:= iBrosse_Vertical_25.Picture.Bitmap;
+     Result:= iBrosse_Vertical_25.Bitmap;
 end;
 
 function TfBitmaps.svgDOCSINGL_id: String;

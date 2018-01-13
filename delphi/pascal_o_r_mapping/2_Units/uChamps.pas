@@ -1,4 +1,4 @@
-unit uChamps;
+﻿unit uChamps;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -33,9 +33,7 @@ uses
     u_sys_,
     uuStrings,
     uChamp,
-    {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-    udmf,
-    {$IFEND}
+    //udmf,
     uChampDefinition,
     uChampDefinitions,
     ufAccueil_Erreur,
@@ -64,13 +62,12 @@ type
     function Ajoute( Memory: Pointer;
                       Field: String; _FieldType: TFieldType;
                       Persistant: Boolean; F: TField): TChamp;
-    {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-    function Ajoute_dmf_Lookup( Memory: Pointer;
+    {function Ajoute_dmf_Lookup( Memory: Pointer;
                                 Field: String;
                                 _FieldType: TFieldType;
                                 dmf: Tdmf;
                                 _LookupKey: TChamp): TChamp;
-    {$IFEND}
+    }
     function Ajoute_Lookup( Memory: Pointer;
                             Field: String;
                             _FieldType: TFieldType;
@@ -116,9 +113,7 @@ type
     function Ajoute_Boolean        (var Memory:Boolean  ;Field:String;Persistant:Boolean=True): TChamp;
   // lookups
   public
-    {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-    function   String_dmf_Lookup   (var Memory:   String;Field:String; dmf: Tdmf; _LookupKey: TChamp): TChamp;
-    {$IFEND}
+    //function   String_dmf_Lookup   (var Memory:   String;Field:String; dmf: Tdmf; _LookupKey: TChamp): TChamp;
     function   String_Lookup       (var Memory:   String;Field:String; _LookupKey: TChamp; _OnGetLookupListItems: TOnGetLookupListItems; _Valeur_courante: String): TChamp;
   //persistance
   private
@@ -413,8 +408,7 @@ begin
      sl.AddObject( Field, Result);
 end;
 
-{$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-function TChamps.Ajoute_dmf_Lookup( Memory    : Pointer;
+{function TChamps.Ajoute_dmf_Lookup( Memory    : Pointer;
                                     Field     : String;
                                     _FieldType: TFieldType;
                                     dmf       : Tdmf;
@@ -432,7 +426,7 @@ begin
      Result.LookupConnection:= TLookupConnection.Create( Self);
      sl.AddObject( Field, Result);
 end;
-{$IFEND}
+}
 
 function TChamps.Ajoute_Lookup( Memory               : Pointer;
                                 Field                : String;
@@ -543,7 +537,7 @@ begin
              then
                  Memory:= ''
              else
-                 Memory:= bf.Value
+                 Memory:= bf.AsString
          else
              Erreur_Champ( Field, 'TBlobField', Persistant);
 
@@ -574,7 +568,7 @@ var
             //2014/01/20 suite à pb sur la base ATE / SITA requêtes de R_REQUETE
             //requêteur sécurisé
             try
-               S:= bf.Value;
+               S:= bf.AsString;
             except
                   on E: Exception do S:= '';
                   end;
@@ -967,18 +961,14 @@ begin
                  of
                    ftString   : AsString  := PString  ( Valeur)^;
                    ftMemo     : AsMemo    := PString  ( Valeur)^;
-                   ftBlob     : AsBlob    := PString  ( Valeur)^;
+                   ftBlob     : AsString  := PString  ( Valeur)^;
                    ftDate     : AsDate    := PDateTime( Valeur)^;
                    ftInteger  : AsInteger := PInteger ( Valeur)^;
                    ftSmallint : AsSmallInt:= PInteger ( Valeur)^;
-                   {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
                    ftBCD      : AsBCD     := PCurrency( Valeur)^;
-                   {$IFEND}
                    ftDateTime : AsDateTime:= PDateTime( Valeur)^;
-                   {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
                    ftTimeStamp: AsSQLTimeStamp
                     :=DateTimeToSQLTimeStamp(PDateTime( Valeur)^);
-                   {$IFEND}
                    ftFloat    : AsFloat   := PDouble  ( Valeur)^;
                    end;
                end;
@@ -1014,7 +1004,7 @@ begin
                  of
                    ftString   : AsString  := PString  ( Valeur)^;
                    ftMemo     : AsMemo    := PString  ( Valeur)^;
-                   ftBlob     : AsBlob    := PString  ( Valeur)^;
+                   ftBlob     : AsString  := PString  ( Valeur)^;
                    ftDate     : AsDate    := PDateTime( Valeur)^;
                    ftInteger  : AsInteger := PInteger ( Valeur)^;
                    ftSmallint : AsSmallInt:= PInteger ( Valeur)^;
@@ -1109,8 +1099,7 @@ begin
          end;
 end;
 
-{$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-function TChamps.String_dmf_Lookup( var Memory: String;
+{function TChamps.String_dmf_Lookup( var Memory: String;
                                     Field: String;
                                     dmf: Tdmf;
                                     _LookupKey: TChamp
@@ -1119,7 +1108,7 @@ begin
      Memory:= sys_Vide;
      Result:= Ajoute_dmf_Lookup( @Memory, Field, ftString, dmf, _LookupKey);
 end;
-{$IFEND}
+}
 
 function TChamps.String_Lookup( var Memory: String;
                                 Field: String;

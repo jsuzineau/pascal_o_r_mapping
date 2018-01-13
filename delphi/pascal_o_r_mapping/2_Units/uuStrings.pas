@@ -1,4 +1,4 @@
-unit uuStrings;
+﻿unit uuStrings;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -86,10 +86,6 @@ function StrReadString( var S: String; NbCaracteres: Integer): String;
 function StrReadString_Cesure( var S: String; NbCaracteres: Integer): String;
 
 function Is_Blank( C: Char): Boolean;
-
-// provient du code source de Delphi, unité DBTables
-function StrToOem(const AnsiStr: string): string;
-function OEMToStr(const OEMStr: string): string;
 
 function Parentheses( S: String): String;
 
@@ -572,36 +568,6 @@ begin
              NbCaracteres:= Cesure;
          end;
      Result:= StrReadString( S, NbCaracteres)
-end;
-
-{ StrToOem
- provient du code source de Delphi, unité DBTables
-}
-function StrToOem(const AnsiStr: string): string;
-begin
-	 {$IFDEF MSWINDOWS}
-     SetLength(Result, Length(AnsiStr));
-     if Length(Result) > 0 
-     then
-         CharToOem(PChar(AnsiStr), PChar(Result));
-     {$ELSE}
-	 Result:= AnsiStr;
-     {$ENDIF}
-end;
-
-{ OEMToStr
- provient du code source de Delphi, unité DBTables
-}
-function OEMToStr(const OEMStr: string): string;
-begin
-     {$IFDEF MSWINDOWS}
-     SetLength(Result, Length(OEMStr));
-     if Length(Result) > 0
-     then
-         OEMToChar(PChar(OEMStr), PChar(Result));
-     {$ELSE}
-     Result:= OEMStr;
-     {$ENDIF}
 end;
 
 function Formate_Affichage( Titre, Valeur: String;

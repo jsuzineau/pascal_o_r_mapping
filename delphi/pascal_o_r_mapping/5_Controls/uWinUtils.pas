@@ -1,4 +1,4 @@
-unit uWinUtils;
+﻿unit uWinUtils;
 
 // Copyright (C) Jean SUZINEAU 1997, 2000
 
@@ -12,8 +12,13 @@ uses
     u_sys_,
     uuStrings,
 
-  Classes, Windows, Graphics, Controls, Menus, CheckLst, SysUtils,
-  ShlObj, ActiveX, StdCtrls, ExtCtrls, Consts;
+  Classes,
+  Windows,
+  System.UITypes,
+  FMX.Graphics, FMX.Controls, FMX.Menus,
+  //FMX.CheckLst,
+  SysUtils,
+  ShlObj, ActiveX, FMX.StdCtrls, FMX.ExtCtrls, FMX.Consts;
 
 function sGetLastError: String;
 
@@ -39,17 +44,22 @@ procedure Aligne_Sommet( Source, Cible: TControl);
 
 function Try_ShortPathName( var Path: String): Boolean;
 
+{ TCheckListBox existe seulement en VCL, pas en FMX
 procedure CheckAll( cb: TCheckListBox);
 procedure UnCheckAll( cb: TCheckListBox);
 procedure Check( cb: TCheckListBox; C: array of integer; C0: Integer = 0);
-
+}
+{
 type TControlProc = procedure ( C: TControl);
 procedure EnumereControls( W: TWinControl; Proc: TControlProc);
-
+}
 function Panel_from_sl( sl: TBatpro_StringList; I: Integer): TPanel;
 
-procedure uWinUtils_Control_Color( Color: TColor; Controls: array of TControl);
 
+//code à reprendre pour FMX
+{
+procedure uWinUtils_Control_Color( Color: TColor; FMX.Controls: array of TControl);
+}
 function uWinUtils_RepertoireTemporaire: String;
 
 implementation
@@ -97,7 +107,8 @@ end;
 
 procedure TWinUtils_Contexte.Init( F: TFont);
 begin
-     C.Handle:= GetDC(0);
+     //code à reprendre pour FMX
+     //C.Handle:= GetDC(0);
      C_Font.Assign( C.Font);
      C.Font.Assign( F);
 end;
@@ -105,14 +116,16 @@ end;
 procedure TWinUtils_Contexte.Termine;
 begin
      C.Font.Assign( C_Font);
-     ReleaseDC( 0, C.Handle);
+     //code à reprendre pour FMX
+     //ReleaseDC( 0, C.Handle);
 end;
 
 function TWinUtils_Contexte.DrawText_interne( S: String;
                                               var lpRect: TRect;
                                               uFormat: UINT): Integer;
 begin
-     Result:= Windows.DrawText( C.Handle, PChar(S), Length(S), lpRect, uFormat);
+     //code à reprendre pour FMX
+     //Result:= Windows.DrawText( C.Handle, PChar(S), Length(S), lpRect, uFormat);
 end;
 
 function TWinUtils_Contexte.DrawText( F: TFont; S: String; var lpRect: TRect;
@@ -136,6 +149,8 @@ var
 begin
      if Orientation = 0 then exit;
 
+     //code à reprendre pour FMX
+     {
      if fsBold in F.Style
      then
          fnWeight:= FW_BOLD
@@ -157,6 +172,7 @@ begin
                          OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
                          DEFAULT_QUALITY, fdwPitchAndFamily, PChar(F.Name));
      F.Handle:= Fonte;
+     }
 end;
 
 function HauteurTexte( F: TFont; S: String; Largeur: Integer): Integer;
@@ -217,7 +233,8 @@ function LineHeight( F: TFont): Integer;
 begin
      try
         WinUtils_Contexte.Init( F);
-        Result:= WinUtils_Contexte.C.TextHeight( 'Wg');
+        //code à reprendre pour FMX
+        //Result:= WinUtils_Contexte.C.TextHeight( 'Wg');
      finally
             WinUtils_Contexte.Termine;
             end;
@@ -276,7 +293,8 @@ begin
      try
         WinUtils_Contexte.Init( F);
 
-        TW:= WinUtils_Contexte.C.TextWidth( 'W');
+        //code à reprendre pour FMX
+        //TW:= WinUtils_Contexte.C.TextWidth( 'W');
         if TW = 0
         then
             Result:= 1
@@ -349,6 +367,8 @@ var
    malloc: IMalloc;
    Display: PChar;
 begin
+     //code à reprendre pour FMX
+     {
      Result:= False;
      SHGetMalloc( malloc);
      Display:= malloc.Alloc( MAX_PATH+1);
@@ -373,6 +393,7 @@ begin
                end;
            end;
      malloc.Free( Display);
+     }
 end;
 
 procedure Enable_MenuItem( MenuItem: TMenuItem; Enabled: Boolean);
@@ -380,6 +401,8 @@ var
    I: Integer;
    Count: Integer;
 begin
+     //code à reprendre pour FMX
+     {
      Count:= MenuItem.Count;
      if Count = 0
      then
@@ -388,6 +411,7 @@ begin
          for I:= 0 to Count-1
          do
            Enable_MenuItem( MenuItem.Items[I], Enabled);
+     }
 end;
 
 procedure Concat_Espace( var S1: String; S2, Espace: String);
@@ -405,10 +429,13 @@ procedure Aligne_Sommet( Source, Cible: TControl);
 var
    P: TPoint;
 begin
+     //code à reprendre pour FMX
+     {
      P:= Point( Source.Left, Source.Top);
      P:= Source.Parent.ClientToScreen( P);
      P:= Cible.Parent.ScreenToClient( P);
      Cible.Top := P.Y;
+     }
 end;
 
 function Try_ShortPathName( var Path: String): Boolean;
@@ -430,6 +457,8 @@ begin
          end;
 end;
 
+//code à reprendre pour FMX
+{
 procedure CheckAll( cb: TCheckListBox);
 var
    I: Integer;
@@ -476,13 +505,13 @@ begin
      for I:= 0 to W.ControlCount-1
      do
        begin
-       C:= W.Controls[ I];
+       C:= W.FMX.Controls[ I];
        if Assigned( C)
        then
            Proc( C);
        end;
 end;
-
+}
 function Panel_from_sl( sl: TBatpro_StringList; I: Integer): TPanel;
 var
    O: TObject;
@@ -498,20 +527,23 @@ begin
      Result:= TPanel( O);
 end;
 
-procedure uWinUtils_Control_Color( Color: TColor; Controls: array of TControl);
+//code à reprendre pour FMX
+{
+procedure uWinUtils_Control_Color( Color: TColor; FMX.Controls: array of TControl);
 var
    I: Integer;
    C: TControl;
 begin
-     for I:= Low( Controls) to High( Controls)
+     for I:= Low( FMX.Controls) to High( FMX.Controls)
      do
        begin
-       C:= Controls[I];
+       C:= FMX.Controls[I];
             if C is TEdit     then TEdit    (C).Color:= Color
        else if C is TComboBox then TComboBox(C).Color:= Color;
        C.Refresh;
        end;
 end;
+}
 
 function uWinUtils_RepertoireTemporaire: String;
 var

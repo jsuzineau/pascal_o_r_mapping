@@ -31,7 +31,7 @@ implementation
 
 uses
     uForms,
-    Windows, Graphics, Forms, Dialogs, Controls;
+    Windows, FMX.Graphicsooooo, FMX.Forms, Dialogs, FMX.Controls;
 {$R *.RES}
 
 procedure Charge_curseur( _Index: Integer; _Resource_Name: String);

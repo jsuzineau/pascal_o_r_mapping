@@ -33,7 +33,7 @@ uses
     uBatpro_Element,
     ubeClusterElement,
     ufAccueil_Erreur,
-  SysUtils, Classes, Grids, Dialogs, Printers, Windows, Forms, Controls;
+  SysUtils, Classes, Grids, Dialogs, Printers, Windows, FMX.Forms, FMX.Controls;
 
 function Batpro_Element_from_sg( sg: TStringGrid;
                                  Colonne, Ligne: Integer): TBatpro_Element;

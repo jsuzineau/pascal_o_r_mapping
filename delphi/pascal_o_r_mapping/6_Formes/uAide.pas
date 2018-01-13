@@ -30,7 +30,7 @@ Elle est utilisée dans fBatpro_Form (OnHelp:= Objet_Aide.Aide).
 interface
 
 uses
-    Windows, ShellAPI, SysUtils, Classes, Forms;
+    Windows, ShellAPI, SysUtils, Classes, FMX.Forms;
 
 { class TObjet_Aide
 Cette classe est créée uniquement parce que Application.OnHelp et TForm.OnHelp

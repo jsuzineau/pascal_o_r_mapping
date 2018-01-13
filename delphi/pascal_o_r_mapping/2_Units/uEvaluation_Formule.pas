@@ -411,7 +411,7 @@ begin
      do
        if Formule[I] = '.'
        then
-           Formule[I]:= DecimalSeparator;
+           Formule[I]:= FormatSettings.DecimalSeparator;
 
      I:= 0;
      while I< Length( Formule)

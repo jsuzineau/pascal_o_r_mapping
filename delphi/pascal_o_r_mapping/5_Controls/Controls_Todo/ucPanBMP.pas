@@ -6,7 +6,7 @@ unit ucPanBMP;
 interface
 
 uses
-    Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+    Windows, Messages, SysUtils, Classes, FMX.Graphicsoooo, FMX.Controls, FMX.Forms, Dialogs,
     ExtCtrls, StdCtrls, Themes,
     ucImaTrs;
 
@@ -35,7 +35,7 @@ type
      TColor
      read    FCouleurTransparente
      write   SetCouleurTransparente
-     default clBlack;
+     default TColorRec.Black;
     property Bitmap: TBitmap read FBitmap write SetBitmap;
   end;
 
@@ -60,7 +60,7 @@ type
     procedure BitmapChanged(Sender: TObject);
     procedure StyleChanged(Sender: TObject);
     property Bitmap: TBitmap read FBitmap write SetBitmap;
-    property Brush: TBrush read FBrush write SetBrush;
+    property Fill: TBrush read FBrush write SetBrush;
   end;
 
  TGroupBoxBMP
@@ -128,7 +128,7 @@ type
     procedure BitmapChanged(Sender: TObject);
     procedure StyleChanged(Sender: TObject);
     property Bitmap: TBitmap read FBitmap write SetBitmap;
-    property Brush: TBrush read FBrush write SetBrush;
+    property Fill: TBrush read FBrush write SetBrush;
   end;
 
 procedure Register;
@@ -155,7 +155,7 @@ begin
      Height:= 10;
      FBitmap:= TBitmap.Create;
      FBitmap.onChange:= BitmapChanged;
-     FCouleurTransparente:= clBlack;
+     FCouleurTransparente:= TColorRec.Black;
 end;
 
 destructor TPanelBMPTransparent.Destroy;
@@ -195,8 +195,8 @@ begin
          with Canvas
          do
            begin
-           Pen.Style := psDash;
-           Brush.Style := bsClear;
+           Stroke.Dash := TStrokeDash.Dash;
+           Fill.Kind := bsClear;
            Rectangle(0, 0, Width, Height);
            end;
      DrawTransparentBitmap( Canvas.Handle, FBitmap.Handle,
@@ -255,16 +255,16 @@ begin
          with Canvas
          do
            begin
-           Pen.Style := psDash;
-           Brush.Style := bsClear;
+           Stroke.Dash := TStrokeDash.Dash;
+           Fill.Kind := bsClear;
            Rectangle(0, 0, Width, Height);
            end;
      Rect := GetClientRect;
     with Canvas
     do
       begin
-      Brush.Color := Color;
-      Brush.Style := bsClear;
+      Fill.Color := Color;
+      Fill.Kind := bsClear;
       Font := Self.Font;
       FontHeight := TextHeight('W');
       with Rect
@@ -283,7 +283,7 @@ begin
               DT_VCENTER) or Alignments[Alignment]);
 
      Canvas.StretchDraw( ClientRect, FBitmap);
-     Canvas.Brush.Assign( FBrush);
+     Canvas.Fill.Assign( FBrush);
      Canvas.Rectangle( ClientRect);
 end;
 
@@ -366,16 +366,16 @@ begin
 
      OldBrush:= TBrush.Create;
      try
-        OldBrush.Assign( Canvas.Brush);
+        OldBrush.Assign( Canvas.Fill);
 
-        Canvas.Pen.Style:= psClear;
-        Canvas.Brush.Assign( FBrush);
+        Canvas.Stroke.Dash:= TStrokeDash.Clear;
+        Canvas.Fill.Assign( FBrush);
         Canvas.Font:= Self.Font;
         H := Canvas.TextHeight('0');
         R := Rect(0, H div 2 - 1, Width, Height);
         Canvas.Rectangle( R);
      finally
-            Canvas.Brush.Assign( OldBrush);
+            Canvas.Fill.Assign( OldBrush);
             Free_nil( OldBrush);
             end;
 
@@ -429,13 +429,13 @@ begin
                begin
                Inc(R.Left);
                Inc(R.Top);
-               Brush.Color := clBtnHighlight;
+               Fill.Color := clBtnHighlight;
                FrameRect(R);
                OffsetRect(R, -1, -1);
-               Brush.Color := clBtnShadow;
+               Fill.Color := clBtnShadow;
                end
            else
-               Brush.Color := clWindowFrame;
+               Fill.Color := clWindowFrame;
            FrameRect(R);
            if Text <> ''
            then
@@ -448,7 +448,7 @@ begin
                Flags := DrawTextBiDiModeFlags(DT_SINGLELINE);
                DrawText( Handle, PChar(Text), Length(Text), R,
                          Flags or DT_CALCRECT);
-               Brush.Color := Color;
+               Fill.Color := Color;
                DrawText(Handle, PChar(Text), Length(Text), R, Flags);
                end;
            end;

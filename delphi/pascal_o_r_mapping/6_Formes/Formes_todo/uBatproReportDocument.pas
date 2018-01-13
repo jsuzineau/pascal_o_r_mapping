@@ -33,7 +33,7 @@ uses
     uBatproReportPage,
     uBatproReportPageFormat,
     ufAccueil_Erreur,
-  Windows, SysUtils, Classes, Graphics,Printers,Grids,ExtCtrls,
+  Windows, SysUtils, Classes, FMX.Graphicso,Printers,Grids,ExtCtrls,
   Gauges;
 
 type
@@ -267,7 +267,7 @@ var
    begin
         if C = nil then exit;
 
-        C.Brush.Color:= clWhite;
+        C.Fill.Color:= TColorRec.White;
 
         hDessinnateur.DI.Init_Draw( C, Colonne, Ligne, R, True);
         hDessinnateur.DI.Init_Cell( hDessinnateur.Typ(Colonne, Ligne) <> tc_Case,
@@ -287,7 +287,7 @@ var
             FrameRect_0( C, R);
             end;
 
-        C.Brush.Color:= clWhite;
+        C.Fill.Color:= TColorRec.White;
    end;
    procedure Traite_ColumnHeader;
    begin

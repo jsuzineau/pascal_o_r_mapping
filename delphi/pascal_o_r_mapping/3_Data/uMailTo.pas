@@ -39,7 +39,7 @@ uses
 
     upoolG_TRC,
     ufAccueil_Erreur,
-  {$IFDEF MSWINDOWS} Forms, {$ENDIF}
+  {$IFDEF MSWINDOWS} FMX.Forms, {$ENDIF}
   SysUtils, Classes, ShellAPI, Windows, MAPI, Dialogs, uOD_Forms, JclMapi,
   IdMessage, IdMessageClient, IdAttachmentFile, IdMessageCoder,
   IdMessageCoderUUE, IdMessageCoderMIME, IdEMailAddress;

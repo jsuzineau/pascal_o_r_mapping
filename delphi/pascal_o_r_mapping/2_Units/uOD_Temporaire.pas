@@ -1,4 +1,4 @@
-unit uOD_Temporaire;
+﻿unit uOD_Temporaire;
 {                                                                               |
     Part of package pOpenDocument_DelphiReportEngine                            |
                                                                                 |
@@ -18,7 +18,7 @@ interface
 uses
     uOD_Forms,
   {$IFDEF MSWINDOWS}
-  Windows,Dialogs, ShellAPI,
+  Windows, FMX.Dialogs, ShellAPI,
   {$ENDIF}
   SysUtils, Classes;
 
@@ -91,7 +91,7 @@ function TOD_Temporaire.RepertoireSysteme: String;
 var
    buffer: array[0..MAX_PATH] of AnsiChar;
 begin
-     GetTempPath( length( buffer), buffer);
+     GetTempPathA( length( buffer), buffer);
      Result:= StrPas( buffer);
 end;
 {$ELSE}
@@ -105,7 +105,7 @@ function TOD_Temporaire.Nouveau_Fichier( Prefixe: String): String;
 var
    TempFileName: array[0..MAX_PATH] of AnsiChar;
 begin
-     GetTempFileName(  PAnsiChar( RepertoireTemp),
+     GetTempFileNameA(  PAnsiChar( RepertoireTemp),
                        PAnsiChar( Prefixe       ), 0, TempFileName);
      Result:= StrPas( TempFileName);
 end;

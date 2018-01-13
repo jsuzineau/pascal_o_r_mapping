@@ -37,7 +37,7 @@ uses
     uBatpro_Element,
     uBatpro_Ligne,
   {$IFDEF MSWINDOWS}
-  Windows, Graphics, 
+  Windows, FMX.Graphics,
   {$ENDIF}
   SysUtils, Classes, DB;
 
@@ -138,7 +138,7 @@ begin
          begin
          CP.Titre:= 'ligne de la table g_becpctx';
          {$IFDEF MSWINDOWS}
-         CP.Font.Name:= sys_SmallFonts;
+         CP.Font.Family:= sys_SmallFonts;
          CP.Font.Size:= 6;
          {$ELSE}
          {$ENDIF}

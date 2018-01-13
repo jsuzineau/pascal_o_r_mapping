@@ -78,7 +78,7 @@ begin
      then
          begin
          CP.Libelle:= 'Test de la classe Batpro_Ligne (table Test_Batpro_Ligne)';
-         CP.Font.Name:= sys_Arial;
+         CP.Font.Family:= sys_Arial;
          CP.Font.Size:= 16;
          end;
 

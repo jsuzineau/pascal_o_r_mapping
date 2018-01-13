@@ -25,7 +25,7 @@ unit ubeCoche;
 interface
 
 uses
-    Windows, SysUtils, Classes, Graphics, Controls,
+    Windows, SysUtils, Classes, FMX.Graphics, FMX.Controls,
     uBatpro_StringList,
     u_sys_,
     u_loc_,
@@ -103,7 +103,7 @@ begin
      then
          begin
          CP.Titre:= 'Coche de sélection';
-         CP.Font.Name:= ref.ClassParams.Font.Name;
+         CP.Font.Family:= ref.ClassParams.Font.Family;
          CP.Font.Size:= ref.ClassParams.Font.Size;
          end;
 

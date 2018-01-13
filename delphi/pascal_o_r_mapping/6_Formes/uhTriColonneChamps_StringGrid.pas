@@ -25,7 +25,7 @@ unit uhTriColonneChamps_StringGrid;
 interface
 
 uses
-    Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+    Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
     Dialogs, FMTBcd, DB, Provider, DBClient, SqlExpr, Grids, DBGrids, StdCtrls,
     uClean,
     u_sys_,

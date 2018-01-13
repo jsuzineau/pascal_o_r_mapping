@@ -1,4 +1,4 @@
-unit uDrawInfo;
+﻿unit uDrawInfo;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -36,108 +36,17 @@ uses
     ufBitmaps,
     {$IFEND}
   {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-  Graphics, Windows, Types, Grids, Controls,
+  FMX.Graphics, Windows, Types, FMX.Grid, FMX.Controls,
   {$ELSE}
   XMLRead,XMLWrite,
   {$IFEND}
+  System.UITypes,
+  System.Math.Vectors,FMX.ImgList,
   SysUtils, Classes;
 const
-     {$IFNDEF MSWINDOWS}
-     clBlack = TColor($000000);
-     clMaroon = TColor($000080);
-     clGreen = TColor($008000);
-     clOlive = TColor($008080);
-     clNavy = TColor($800000);
-     clPurple = TColor($800080);
-     clTeal = TColor($808000);
-     clGray = TColor($808080);
-     clSilver = TColor($C0C0C0);
-     clRed = TColor($0000FF);
-     clLime = TColor($00FF00);
-     clYellow = TColor($00FFFF);
-     clBlue = TColor($FF0000);
-     clFuchsia = TColor($FF00FF);
-     clAqua = TColor($FFFF00);
-     clLtGray = TColor($C0C0C0);
-     clDkGray = TColor($808080);
-     clWhite = TColor($FFFFFF);
-     StandardColorsCount = 16;
-
-     clMoneyGreen = TColor($C0DCC0);
-     clSkyBlue = TColor($F0CAA6);
-     clCream = TColor($F0FBFF);
-     clMedGray = TColor($A4A0A0);
-     ExtendedColorsCount = 4;
-
-     clNone = TColor($1FFFFFFF);
-     clDefault = TColor($20000000);
-
-     clBtnFace=clMedGray;
-     clWindow=clWhite;
-     clInfoBk=$FFFF80;
-     {$ENDIF}
-
-     Couleur_Jour_Non_Ouvrable_1_2     =  clLtGray ;
-     Couleur_Jour_Non_Ouvrable_3       = clMedGray;
-     Couleur_Jour_Non_Ouvrable_Chantier=  clDkGray ;
-
-{$IFNDEF MSWINDOWS}
-type
- TStringGrid= TObject;
- TPenStyle=TObject;
- TFont
- =
-  class
-    Name: String;
-    Size: Integer;
-    Color: TColor;
-    procedure Assign( _Source: TFont);
-  end;
- TBrushStyle=TObject;
-
- { TBrush }
-
- TBrush
- =
-  class
-    //Gestion du cycle de vie
-    public
-      constructor Create;
-      destructor Destroy; override;
-    //Attributs
-    public
-      Color: Integer;
-  end;
-
- { TPen }
-
- TPen
- =
-  class
-    //Gestion du cycle de vie
-    public
-      constructor Create;
-      destructor Destroy; override;
-    //Attributs
-    public
-      Style: Integer;
-  end;
-
- { TCanvas }
-
- TCanvas
- =
-  class
-  //Gestion du cycle de vie
-  public
-    constructor Create;
-    destructor Destroy; override;
-  //Attributs
-  public
-    Handle: Integer;
-    Font: TFont;
-  end;
-{$ENDIF}
+     Couleur_Jour_Non_Ouvrable_1_2     =  TColorRec.LtGray ;
+     Couleur_Jour_Non_Ouvrable_3       =  TColorRec.MedGray;
+     Couleur_Jour_Non_Ouvrable_Chantier=  TColorRec.DkGray ;
 
 type
  TDrawInfo
@@ -225,7 +134,7 @@ type
     function line_dash( _x1, _y1, _x2, _y2: Integer;
                         _stroke: TColor;
                         _stroke_width: Integer): TJclSimpleXMLElem;
-    function svg_polygon( _points: array of TPoint;
+    function svg_polygon( _points: TPolygon;
                       _Color: TColor;
                       _Pen_Color: TColor;
                       _Pen_Width: Integer): TJclSimpleXMLElem;
@@ -264,16 +173,16 @@ type
     FCouleurLigne: TColor;
     FCouleur_Brosse: TColor;
     FLargeurLigne: Integer;
-    FStyleLigne: TPenStyle;
+    FStyleLigne: TStrokeDash;
     procedure SetCouleurLigne(const Value: TColor);
     procedure SetCouleur_Brosse(const Value: TColor);
     procedure SetLargeurLigne(const Value: Integer);
-    procedure SetStyleLigne(const Value: TPenStyle);
+    procedure SetStyleLigne(const Value: TStrokeDash);
   public
     property CouleurLigne: TColor read FCouleurLigne write SetCouleurLigne;
     property Couleur_Brosse: TColor read FCouleur_Brosse write SetCouleur_Brosse;
     property LargeurLigne: Integer read FLargeurLigne write SetLargeurLigne;
-    property StyleLigne: TPenStyle read FStyleLigne write SetStyleLigne;
+    property StyleLigne: TStrokeDash read FStyleLigne write SetStyleLigne;
     procedure MoveTo( X, Y: Integer);
     procedure LineTo( X, Y: Integer);
     procedure Contour_Rectangle( _R: TRect; _Couleur: TColor);
@@ -281,8 +190,8 @@ type
     procedure Rectangle( X1, Y1, X2, Y2: Integer); overload;
     procedure Rectangle( _R: TRect); overload;
     procedure Ellipse( X1, Y1, X2, Y2: Integer);
-    procedure Polygon(const Points: array of TPoint);
-    procedure PolyBezier(const Points: array of TPoint);
+    procedure Polygon(const Points: TPolygon);
+    procedure PolyBezier(const Points: TPolygon);
     procedure image_DOCSINGL_bas_droite( _Couleur_Fond: TColor);
     procedure image_DOCSINGL_centre( _Couleur_Fond: TColor);
     procedure image_LOSANGE__centre( _Couleur_Fond: TColor);
@@ -310,15 +219,15 @@ begin
     Row       := _Row        ;
     Rect      := _Rect       ;
     Impression:= _Impression;
-    Fond      := clWhite;
+    Fond      := TColorRec.White;
 
     Rect_Original:= Rect;
 
     SVG_Drawing:= False;
     FLargeurLigne:= 1;
-    FCouleurLigne  := Canvas.Pen  .Color;
-    FCouleur_Brosse:= Canvas.Brush.Color;
-    FStyleLigne    := Canvas.Pen  .Style; 
+    FCouleurLigne  := Canvas.Stroke.Color;
+    FCouleur_Brosse:= Canvas.Fill.Color;
+    FStyleLigne    := Canvas.Stroke.Dash;
 end;
 
 procedure TDrawInfo.Init_Cell( _Fixe, _Gris: Boolean);
@@ -440,7 +349,7 @@ begin
      Result:= svg.line_dash( eCell, _x1, _y1, _x2, _y2, _stroke, _stroke_width);
 end;
 
-function TDrawInfo.svg_polygon( _points: array of TPoint;
+function TDrawInfo.svg_polygon( _points: TPolygon;
                             _Color: TColor;
                             _Pen_Color: TColor;
                             _Pen_Width: Integer): TJclSimpleXMLElem;
@@ -605,7 +514,7 @@ begin
      FCouleurLigne:= Value;
      if not SVG_Drawing
      then
-         Canvas.Pen.Color:= FCouleurLigne;
+         Canvas.Stroke.Color:= FCouleurLigne;
 end;
 
 procedure TDrawInfo.SetCouleur_Brosse(const Value: TColor);
@@ -613,7 +522,7 @@ begin
      FCouleur_Brosse:= Value;
      if not SVG_Drawing
      then
-         Canvas.Brush.Color:= FCouleur_Brosse;
+         Canvas.Fill.Color:= FCouleur_Brosse;
 end;
 
 procedure TDrawInfo.SetLargeurLigne(const Value: Integer);
@@ -621,27 +530,21 @@ begin
      FLargeurLigne := Value;
      if not SVG_Drawing
      then
-         Canvas.Pen.Width:= FLargeurLigne;
+         Canvas.Stroke.Thickness:= FLargeurLigne;
 end;
 
-procedure TDrawInfo.SetStyleLigne(const Value: TPenStyle);
+procedure TDrawInfo.SetStyleLigne(const Value: TStrokeDash);
 begin
      FStyleLigne := Value;
      if not SVG_Drawing
      then
-         Canvas.Pen.Style:= FStyleLigne;
+         Canvas.Stroke.Dash:= FStyleLigne;
 end;
 
 procedure TDrawInfo.MoveTo(X, Y: Integer);
 begin
-     if SVG_Drawing
-     then
-         begin
-         XTortue:= X;
-         YTortue:= Y;
-         end
-     else
-         Canvas.MoveTo( X, Y);
+     XTortue:= X;
+     YTortue:= Y;
 end;
 
 procedure TDrawInfo.LineTo(X, Y: Integer);
@@ -651,19 +554,19 @@ begin
          begin
          case StyleLigne
          of
-           psSolid     : line     ( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
-           psDot       : line_dash( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
-           psDash      : line_dash( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
-           psDashDot   : line_dash( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
-           psDashDotDot: line_dash( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
-           psClear     : begin end;
+           TStrokeDash.Solid     : line     ( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
+           TStrokeDash.Dot       : line_dash( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
+           TStrokeDash.Dash      : line_dash( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
+           TStrokeDash.DashDot   : line_dash( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
+           TStrokeDash.DashDotDot: line_dash( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
+           TStrokeDash.Custom    : begin {à revoir, peut être implémenté dans uSVG} end;
            else       line     ( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
            end;
          XTortue:= X;
          YTortue:= Y;
          end
      else
-         Canvas.LineTo( X, Y);
+         Canvas.DrawLine( PointF(XTortue, YTortue),PointF(X, Y), 1);
 end;
 
 procedure TDrawInfo.Contour_Rectangle( _R: TRect; _Couleur: TColor);
@@ -673,9 +576,9 @@ begin
          rect_vide( _R, _Couleur, 1)
      else
          begin
-         Canvas.Brush.Color:= _Couleur;
-         Canvas.Brush.Style:= bsSolid;
-         Canvas.FrameRect( _R);
+         Canvas.Fill.Color:= _Couleur;
+         Canvas.Fill.Kind:= TBrushKind.Solid;
+         Canvas.DrawRect( _R, 0,0, [], 1);
          end;
 
 end;
@@ -685,10 +588,10 @@ procedure TDrawInfo.Remplit_Rectangle( _R: TRect; _Couleur: TColor);
      var
         OldColor: TColor;
      begin
-          OldColor:= Canvas.Brush.Color;
-          Canvas.Brush.Color:= _Couleur;
-          Canvas.FillRect( _R);
-          Canvas.Brush.Color:= OldColor;
+          OldColor:= Canvas.Fill.Color;
+          Canvas.Fill.Color:= _Couleur;
+          Canvas.FillRect( _R, 0, 0, [], 1);
+          Canvas.Fill.Color:= OldColor;
      end;
 begin
      if Gris
@@ -702,22 +605,33 @@ begin
          GDI;
 end;
 
-procedure TDrawInfo.Polygon(const Points: array of TPoint);
+procedure TDrawInfo.Polygon(const Points: TPolygon);
 begin
      if SVG_Drawing
      then
          svg_polygon( Points, Couleur_Brosse, CouleurLigne, LargeurLigne)
      else
-         Canvas.Polygon( Points);
+         Canvas.DrawPolygon( Points, 1);
 end;
 
-procedure TDrawInfo.PolyBezier(const Points: array of TPoint);
+procedure TDrawInfo.PolyBezier(const Points: TPolygon);
+var
+   P: TPathData;
 begin
      if SVG_Drawing
      then
-         svg_PolyBezier( Points, CouleurLigne, LargeurLigne)
+         //svg_PolyBezier( Points, CouleurLigne, LargeurLigne)
+         svg_polygon( Points, Couleur_Brosse, CouleurLigne, LargeurLigne)
      else
-         Canvas.PolyBezier( Points);
+         begin
+         P:= TPathData.Create;
+         try
+            //à traiter
+            Canvas.DrawPolygon( Points, 1);
+         finally
+                FreeAndNil( P);
+                end;
+         end;
 end;
 
 procedure TDrawInfo.Rectangle(X1, Y1, X2, Y2: Integer);
@@ -727,7 +641,7 @@ begin
          _rect( Classes.Rect( X1, Y1, X2, Y2),
                 Couleur_Brosse, CouleurLigne, LargeurLigne)
      else
-         Canvas.Rectangle( X1, Y1, X2, Y2);
+         Canvas.DrawRect( RectF(X1, Y1, X2, Y2), 0, 0, [], 1);
 end;
 
 procedure TDrawInfo.Ellipse( X1, Y1, X2, Y2: Integer);
@@ -737,7 +651,7 @@ begin
          _ellipse( Classes.Rect( X1, Y1, X2, Y2),
                    Couleur_Brosse, CouleurLigne, LargeurLigne)
      else
-         Canvas.Ellipse( X1, Y1, X2, Y2);
+         Canvas.DrawEllipse( RectF(X1, Y1, X2, Y2), 1);
 end;
 
 procedure TDrawInfo.Rectangle( _R: TRect);
@@ -752,11 +666,8 @@ begin
          svg_image_DOCSINGL_bas_droite
      else
          begin
-         fBitmaps.DOCSINGL.BkColor:= _Couleur_Fond;
-         fBitmaps.DOCSINGL.Draw( Canvas,
-                                 Rect.Right -fBitmaps.DOCSINGL.Width -1,
-                                 Rect.Bottom-fBitmaps.DOCSINGL.Height-1,
-                                 0);
+         //fBitmaps.DOCSINGL.BkColor:= _Couleur_Fond;
+         fBitmaps.DOCSINGL.Draw( Canvas, TRectF.Create( Rect), 0);
          end;
 end;
 
@@ -769,12 +680,12 @@ procedure TDrawInfo.image_DOCSINGL_centre( _Couleur_Fond: TColor);
    begin
         ImageList:= fBitmaps.DOCSINGL;
         R:= Rect;
-        dx:= (R.Right -ImageList.Width -R.Left) div 2;
-        dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
-        InflateRect( R, -dx, -dy);
+        //dx:= (R.Right -ImageList.Width -R.Left) div 2;
+        //dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
+        //InflateRect( R, -dx, -dy);
 
-        ImageList.BkColor:= _Couleur_Fond;
-        ImageList.Draw( Canvas, R.Left, R.Top, 0);
+        //ImageList.BkColor:= _Couleur_Fond;
+        ImageList.Draw( Canvas, TRectF.Create( Rect), 0);
    end;
 begin
      if SVG_Drawing
@@ -793,12 +704,12 @@ procedure TDrawInfo.image_LOSANGE__centre(_Couleur_Fond: TColor);
    begin
         ImageList:= fBitmaps.LOSANGE;
         R:= Rect;
-        dx:= (R.Right -ImageList.Width -R.Left) div 2;
-        dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
-        InflateRect( R, -dx, -dy);
+        //dx:= (R.Right -ImageList.Width -R.Left) div 2;
+        //dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
+        //InflateRect( R, -dx, -dy);
 
-        ImageList.BkColor:= _Couleur_Fond;
-        ImageList.Draw( Canvas, R.Left, R.Top, 0);
+        //ImageList.BkColor:= _Couleur_Fond;
+        ImageList.Draw( Canvas, TRectF.Create( Rect), 0);
    end;
 begin
      if SVG_Drawing
@@ -817,12 +728,12 @@ procedure TDrawInfo.image_LOGIN__centre(_Couleur_Fond: TColor);
    begin
         ImageList:= fBitmaps.LOGIN;
         R:= Rect;
-        dx:= (R.Right -ImageList.Width -R.Left) div 2;
-        dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
-        InflateRect( R, -dx, -dy);
+        //dx:= (R.Right -ImageList.Width -R.Left) div 2;
+        //dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
+        //InflateRect( R, -dx, -dy);
 
-        ImageList.BkColor:= _Couleur_Fond;
-        ImageList.Draw( Canvas, R.Left, R.Top, 0);
+        //ImageList.BkColor:= _Couleur_Fond;
+        ImageList.Draw( Canvas, TRectF.Create( Rect), 0);
    end;
 begin
      if SVG_Drawing
@@ -839,11 +750,8 @@ begin
          svg_image_LOGIN__bas_droite
      else
          begin
-         fBitmaps.LOGIN.BkColor:= _Couleur_Fond;
-         fBitmaps.LOGIN.Draw( Canvas,
-                                 Rect.Right -fBitmaps.LOGIN.Width -1,
-                                 Rect.Bottom-fBitmaps.LOGIN.Height-1,
-                                 0);
+         //fBitmaps.LOGIN.BkColor:= _Couleur_Fond;
+         fBitmaps.LOGIN.Draw( Canvas, TRectF.Create( Rect), 0);
          end;
 end;
 
@@ -856,12 +764,12 @@ procedure TDrawInfo.image_MEN_AT_WORK__centre(_Couleur_Fond: TColor);
    begin
         ImageList:= fBitmaps.MEN_AT_WORK;
         R:= Rect;
-        dx:= (R.Right -ImageList.Width -R.Left) div 2;
-        dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
-        InflateRect( R, -dx, -dy);
+        //dx:= (R.Right -ImageList.Width -R.Left) div 2;
+        //dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
+        //InflateRect( R, -dx, -dy);
 
-        ImageList.BkColor:= _Couleur_Fond;
-        ImageList.Draw( Canvas, R.Left, R.Top, 0);
+        //ImageList.BkColor:= _Couleur_Fond;
+        ImageList.Draw( Canvas, TRectF.Create( Rect), 0);
    end;
 begin
      if SVG_Drawing
@@ -880,12 +788,12 @@ procedure TDrawInfo.image_DOSSIER_KDE_PAR_POSTE__centre(_Couleur_Fond: TColor);
    begin
         ImageList:= fBitmaps.DOSSIER_KDE_PAR_POSTE;
         R:= Rect;
-        dx:= (R.Right -ImageList.Width -R.Left) div 2;
-        dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
-        InflateRect( R, -dx, -dy);
+        //dx:= (R.Right -ImageList.Width -R.Left) div 2;
+        //dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
+        //InflateRect( R, -dx, -dy);
 
-        ImageList.BkColor:= _Couleur_Fond;
-        ImageList.Draw( Canvas, R.Left, R.Top, 0);
+        //ImageList.BkColor:= _Couleur_Fond;
+        ImageList.Draw( Canvas, TRectF.Create( Rect), 0);
    end;
 begin
      if SVG_Drawing
@@ -895,17 +803,5 @@ begin
          GDI;
 end;
 
-{$IFNDEF MSWINDOWS}
-{ TFont }
-
-procedure TFont.Assign( _Source: TFont);
-begin
-     if _Source= nil then exit;
-
-     Name:= _Source.Name;
-     Size:= _Source.Size;
-end;
-
-{$ENDIF}
 end.
 

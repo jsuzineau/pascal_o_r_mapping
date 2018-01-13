@@ -37,7 +37,7 @@ uses
     ubeClusterElement,
     uContextes,
     uVide,
-    Windows, SysUtils, Classes, Graphics, Controls;
+    Windows, SysUtils, Classes, FMX.Graphics, FMX.Controls;
 
 type
  TbeChamp
@@ -76,7 +76,7 @@ begin
      then
          begin
          CP.Titre:= 'Référence à un champ';
-         CP.Font.Name:= sys_SmallFonts;
+         CP.Font.Family:= sys_SmallFonts;
          CP.Font.Size:= 6;
          end;
 

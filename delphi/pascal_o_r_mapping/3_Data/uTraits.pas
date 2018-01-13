@@ -1,4 +1,4 @@
-unit uTraits;
+﻿unit uTraits;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -31,9 +31,11 @@ uses
     uContextes,
     uDrawInfo,
     uSVG,
+    System.UITypes,
     {$IFDEF MSWINDOWS}
-    Graphics,
+    FMX.Graphics,
     {$ENDIF}
+    System.Math.Vectors,
     SysUtils, Classes;
 
 type
@@ -267,7 +269,7 @@ var
    W8: Integer;//Width  div 8
    x1, y1, x2, y2: Integer;
    XBezier: Integer;
-   Points: array[1..4] of TPoint;
+   Points: TPolygon;
    procedure D( x, y: Integer);
    begin
         x1:= x;
@@ -322,8 +324,9 @@ begin
        a_Bas   : A(XLigne ,YBas   );
        end;
 
-     P( 1, x1, y1);
-     P( 4, x2, y2);
+     SetLength( Points, 4);
+     P( 0, x1, y1);
+     P( 3, x2, y2);
 
      //P( 2, (XMilieu+x1)div 2, (YMilieu+y1)div 2);
      //P( 3, (XMilieu+x2)div 2, (YMilieu+y2)div 2);
@@ -333,8 +336,8 @@ begin
          XBezier:= XMilieu
      else
          XBezier:= XLigne;
+     P( 1, XBezier, YMilieu);
      P( 2, XBezier, YMilieu);
-     P( 3, XBezier, YMilieu);
 
      DrawInfo.PolyBezier( Points);
 
@@ -395,7 +398,7 @@ begin
      if DrawInfo.Contexte = ct_PL_SAL then exit;
      
      OldPenColor:= DrawInfo.CouleurLigne;
-     DrawInfo.CouleurLigne:= clBlue;
+     DrawInfo.CouleurLigne:= TColorRec.Blue;
 
      sl.Iterateur_Start;
      try

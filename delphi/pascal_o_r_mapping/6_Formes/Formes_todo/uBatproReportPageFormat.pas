@@ -32,7 +32,7 @@ uses
     uhDessinnateur,
     upoolG_PAR,
     ufAccueil_Erreur,
-    Windows, SysUtils, Classes, ExtCtrls, Graphics, Grids, Printers;
+    Windows, SysUtils, Classes, ExtCtrls, FMX.Graphicso, Grids, Printers;
 
 type
  TBatproReportPageFormat
@@ -338,10 +338,10 @@ begin
 
      SommetTitre:= HauteurLogo;
 
-     Canvas.Brush.Color:= clInfoBk;
-      Canvas.Pen.Style:= psClear;
+     Canvas.Fill.Color:= TColorRec.SysInfoBk;
+      Canvas.Stroke.Dash:= TStrokeDash.Clear;
         Canvas.Rectangle( 0, SommetTitre, Largeur, SommetTitre + Titre);
-      Canvas.Pen.Style:= psSolid;
+      Canvas.Stroke.Dash:= TStrokeDash.Solid;
 
       Canvas.Font.Assign( fTitre);
       Canvas.Font.Height:= Titre div 3;
@@ -351,7 +351,7 @@ begin
                       +Titre div 2
                       -LineHeight( Canvas.Font) div 2,
                       sTitre);
-     Canvas.Brush.Color:= clWhite;
+     Canvas.Fill.Color:= TColorRec.White;
 end;
 
 procedure TBatproReportPageFormat.Dessinne_ColumnHeader(Canvas: TCanvas);

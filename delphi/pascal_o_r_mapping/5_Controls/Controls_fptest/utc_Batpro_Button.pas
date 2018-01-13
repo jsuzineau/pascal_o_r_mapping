@@ -29,7 +29,7 @@ uses
   uClean,
   ucBatpro_Button,
   TestFrameWork,
-  SysUtils, Classes, Forms, Controls, Dialogs;
+  SysUtils, Classes, FMX.Forms, FMX.Controls, Dialogs;
 
 type
  Ttc_Batpro_Button

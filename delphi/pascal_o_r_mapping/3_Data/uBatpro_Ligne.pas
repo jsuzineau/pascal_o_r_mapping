@@ -52,7 +52,7 @@ uses
     uhFiltre_Ancetre,
     ufAccueil_Erreur,
   {$IFNDEF FPC}
-  Graphics, Windows, DBTables, ComCtrls,
+  FMX.Graphics, Windows, DBTables, ComCtrls,
   {$ENDIF}
   Classes, SysUtils, DB, Types,
   SQLExpr;
@@ -1167,7 +1167,7 @@ begin
      then
          begin
          CP.Libelle:= 'Groupe';
-         CP.Font.Name:= sys_Times_New_Roman;
+         CP.Font.Family:= sys_Times_New_Roman;
          CP.Font.Size:= 12;
          end;
 
@@ -1195,7 +1195,7 @@ begin
      then
          begin
          CP.Libelle:= 'GroupeTitle';
-         CP.Font.Name:= sys_Times_New_Roman;
+         CP.Font.Family:= sys_Times_New_Roman;
          CP.Font.Size:= 12;
          end;
 

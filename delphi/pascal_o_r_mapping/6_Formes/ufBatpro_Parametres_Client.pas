@@ -28,7 +28,7 @@ uses
   uClean,
   uuStrings,
   uOD_Forms,
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
   Dialogs, Registry, StdCtrls, WinSock, ExtCtrls;
 
 type

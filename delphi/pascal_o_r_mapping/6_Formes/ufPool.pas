@@ -31,8 +31,8 @@ uses
 
     ufpBas,
     
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ActnList, StdCtrls, ComCtrls, Buttons, ExtCtrls, CheckLst, Menus;
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
+  Dialogs, ActnList, StdCtrls, ComCtrls, Buttons, ExtCtrls, CheckLst, FMX.Menus;
 
 type
   TfPool = class(TfpBas)

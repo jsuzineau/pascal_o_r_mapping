@@ -32,9 +32,9 @@ uses
   
   ufpBas,
   ucChampsGrid,
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
   Dialogs, DBCtrls, Grids, DBGrids, ActnList, StdCtrls, ComCtrls, Buttons,
-  ExtCtrls, DB, Menus;
+  ExtCtrls, DB, FMX.Menus;
 
 type
  TfBase

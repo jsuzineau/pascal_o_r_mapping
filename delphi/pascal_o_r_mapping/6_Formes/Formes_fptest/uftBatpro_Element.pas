@@ -25,13 +25,13 @@ unit uftBatpro_Element;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
   Dialogs, ActnList, StdCtrls, ComCtrls, Buttons, ExtCtrls, Grids,
   ufpBas,
   uhDessinnateur,
   uBatpro_Element,
   ubeString,
-  ubeClusterElement, Menus;
+  ubeClusterElement, FMX.Menus;
 
 const
      ncClusterDebut= 0;

@@ -25,7 +25,7 @@ uses
     JclCompression,
     JclSimpleXml,
     uOOoChrono,
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, ValEdit, ShellAPI, Registry,
   Spin,StrUtils;
 

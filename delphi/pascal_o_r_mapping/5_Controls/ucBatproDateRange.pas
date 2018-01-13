@@ -29,7 +29,7 @@ uses
     uSGBD,
     uuStrings,
     uDataUtilsU,
-  SysUtils, Classes, Controls, StdCtrls, Mask;
+  SysUtils, Classes, FMX.Controls, StdCtrls, Mask;
 
 type
  TBatproDateRange
@@ -87,7 +87,7 @@ end;
 constructor TBatproDateRange.Create( AOwner: TComponent);
 begin
      inherited;
-     Font.Name:= 'Courier New';
+     Font.Family:= 'Courier New';
      Font.Size:= 8;
      Width:= 183;
      Default_EditMask;

@@ -43,7 +43,7 @@ uses
     ufAccueil_Erreur,
 
   {$IFNDEF FPC}
-  Graphics, Forms, Dialogs,
+  FMX.Graphics, FMX.Forms, Dialogs,
   {$ENDIF}
   SysUtils, Classes, DB, DBTables,
   SimpleDS, DBClient, Provider, TypInfo, SQLExpr;

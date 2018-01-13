@@ -1,4 +1,4 @@
-unit uDessin;
+﻿unit uDessin;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -25,7 +25,7 @@ unit uDessin;
 interface
 
 uses
-    Windows, SysUtils, Graphics, Types;
+    Windows, SysUtils, FMX.Graphics, Types;
 
 procedure Dessinne_Coche( Canvas: TCanvas;
                           CouleurFond, CouleurCoche: TColor;
@@ -54,6 +54,7 @@ var
    W, H, W3, H3, W5, H5: Integer;
    OldPenWidth: Integer;
    OldColor: TColor;
+   P1, P2, P3: TPointF;
    procedure WH_from_R;
    begin
         W:= R.Right  - R.Left;
@@ -69,32 +70,34 @@ begin
      with Canvas
      do
        begin
-       OldColor:= Brush.Color;
-       Brush.Color:= CouleurFond;
+       OldColor:= Fill.Color;
+       Fill.Color:= CouleurFond;
        FillRect( R);
-       Brush.Color:= OldColor;
+       Fill.Color:= OldColor;
        if Coche
        then
            begin
-           OldPenWidth:= Pen.Width;
-           OldColor   := Pen.Color;
+           OldPenWidth:= Stroke.Thickness;
+           OldColor   := Stroke.Color;
 
            // on rétrécit R de 1/5
            WH_from_R;
            InflateRect( R, -W5, -H5);
            WH_from_R;
 
-           Pen.Color:= CouleurCoche;
-           MoveTo( R.Left, R.Top+H3);
+           P1:= PointF( R.Left   , R.Top   +H3);
+           P2:= PointF( R.Left+W3, R.Bottom   );
+           P3:= PointF( R.Right  , R.Top      );
+           Stroke.Color:= CouleurCoche;
 
-           Pen.Width:= 1;
-           LineTo( R.Left+W3, R.Bottom);
+           Stroke.Thickness:= 1;
+           DrawLine( P1, P2);
 
-           Pen.Width:= 2;
-           LineTo( R.Right, R.Top);
+           Stroke.Thickness:= 2;
+           DrawLine( P2, P3);
 
-           Pen.Color:= OldColor;
-           Pen.Width:= OldPenWidth;
+           Stroke.Color:= OldColor;
+           Stroke.Thickness:= OldPenWidth;
            end;
        end;
 end;
@@ -122,31 +125,29 @@ begin
      with Canvas
      do
        begin
-       OldColor:= Brush.Color;
-       Brush.Color:= CouleurFond;
+       OldColor:= Fill.Color;
+       Fill.Color:= CouleurFond;
        FillRect( R);
-       Brush.Color:= OldColor;
+       Fill.Color:= OldColor;
        if X
        then
            begin
-           OldPenWidth:= Pen.Width;
-           OldColor   := Pen.Color;
+           OldPenWidth:= Stroke.Thickness;
+           OldColor   := Stroke.Color;
 
            // on rétrécit R de 1/5
            WH_from_R;
            InflateRect( R, -W5, -H5);
            WH_from_R;
 
-           Pen.Color:= CouleurCoche;
-           Pen.Width:= 2;
-           MoveTo( R.Left , R.Top   );
-           LineTo( R.Right, R.Bottom);
+           Stroke.Color:= CouleurCoche;
+           Stroke.Thickness:= 2;
 
-           MoveTo( R.Right, R.Top   );
-           LineTo( R.Left , R.Bottom);
+           DrawLine( PointF( R.Left , R.Top),PointF( R.Right, R.Bottom));
+           DrawLine( PointF( R.Right, R.Top),PointF( R.Left , R.Bottom));
 
-           Pen.Color:= OldColor;
-           Pen.Width:= OldPenWidth;
+           Stroke.Color:= OldColor;
+           Stroke.Thickness:= OldPenWidth;
            end;
        end;
 end;
@@ -173,12 +174,12 @@ begin
      P[2]:= R.BottomRight;
      P[3]:= Point( R.Left, R.Bottom);
      P[4]:= P[0];
-     OldPenWidth  := C.Pen.Width;
+     OldPenWidth  := C.Stroke.Thickness;
      try
-        C.Pen.Width:= 0;
+        C.Stroke.Thickness:= 0;
         C.Polyline( P);
      finally
-            C.Pen.Width  := OldPenWidth;
+            C.Stroke.Thickness  := OldPenWidth;
             end;
 end;
 

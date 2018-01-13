@@ -43,8 +43,8 @@ uses
     ufpBas,
     ufAccueil_Erreur,
 
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ActnList, StdCtrls, ComCtrls, Buttons, ExtCtrls, Menus;
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
+  Dialogs, ActnList, StdCtrls, ComCtrls, Buttons, ExtCtrls, FMX.Menus;
 
 type
  TfSchemateur

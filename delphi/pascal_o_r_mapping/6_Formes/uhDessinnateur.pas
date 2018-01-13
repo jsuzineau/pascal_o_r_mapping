@@ -58,7 +58,7 @@ uses
     ufBloqueur,
     ufBitmaps,
 
-  SysUtils,Forms, Classes, Windows, Graphics, Menus, Grids, Dialogs, Controls,
+  SysUtils,FMX.Forms, Classes, Windows, FMX.Graphics, FMX.Menus, Grids, Dialogs, FMX.Controls,
   ucBatpro_StringGrid;
 
 type
@@ -402,7 +402,7 @@ begin
      cVisible:= Ajoute_Boolean( Visible, 'Visible', False);
      cVisible.OnChange.Abonne( Self, Visible_Change);
 
-     bsTitre:= TbeString.Create( nil, _Titre, clWhite, bea_Gauche);
+     bsTitre:= TbeString.Create( nil, _Titre, TColorRec.White, bea_Gauche);
      slLignes:=TBatpro_StringList.CreateE(ClassName+'('+_Titre+').slLignes',_Classe_Elements);
      Index:= -1;
      Visible:= EXE_INI.ReadBool( ini_Options, ClassName+'_'+id, True);
@@ -668,7 +668,7 @@ begin
      sg.OnMouseDown:= sgMouseDown;
      Old_sgSelectCell:= sg.OnSelectCell;
      sg.OnSelectCell:= sgSelectCell;
-     Fond:= clBtnFace;
+     Fond:= TColorRec.SysBtnFace;
      PopupDefaut:= unPopupDefaut;
      MMColonne:= -1;
      MMLigne  := -1;
@@ -703,25 +703,25 @@ procedure ThDessinnateur.DrawCell_Table_Defaut;
 begin
      if DI.Gris
      then
-         DI.Canvas.Brush.Color:= DI.Couleur_Jour_Non_Ouvrable
+         DI.Canvas.Fill.Color:= DI.Couleur_Jour_Non_Ouvrable
      else
-         DI.Canvas.Brush.Color:= DI.Fond;
+         DI.Canvas.Fill.Color:= DI.Fond;
      DI.Canvas.FillRect( DI.Rect);
 
      {
      if Gris
      then
          begin
-         Canvas.Brush.Color:= clBlack;
-         Canvas.Brush.Style:= bsFDiagonal;
-         Canvas.Pen  .Style:= psClear;
+         Canvas.Fill.Color:= TColorRec.Black;
+         Canvas.Fill.Kind:= bsFDiagonal;
+         Canvas.Stroke  .Style:= TStrokeDash.Clear;
            Canvas.Rectangle( Rect);
-         Canvas.Pen  .Style:= psSolid;
-         Canvas.Brush.Style:= bsSolid;
+         Canvas.Stroke  .Style:= TStrokeDash.Solid;
+         Canvas.Fill.Kind:= TBrushKind.Solid;
          end
      else
          begin
-         Canvas.Brush.Color:= clWhite;
+         Canvas.Fill.Color:= TColorRec.White;
          Canvas.FillRect( Rect);
          end;
      }
@@ -748,11 +748,11 @@ begin
              if uBatpro_Element_Afficher_Grille
              then
                  begin
-                 DI.Canvas.Pen.Style:= psSolid;
-                 DI.Canvas.Pen.Color:= clBlack;
+                 DI.Canvas.Stroke.Dash:= TStrokeDash.Solid;
+                 DI.Canvas.Stroke.Color:= TColorRec.Black;
                  end
              else
-                 DI.Canvas.Pen.Style:= psClear;
+                 DI.Canvas.Stroke.Dash:= TStrokeDash.Clear;
          if Assigned(be)
          then
              be.Draw( DI)

@@ -25,7 +25,7 @@ unit ucBatproComboBox;
 interface
 
 uses
-    Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+    Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs,
     StdCtrls, DB, DBCtrls;
 
 const
@@ -155,8 +155,8 @@ var
    LargeurMax: Integer;
    NullChar: Char;
 begin
-     if    (Font.Name= sys_Courier_New)
-        or (Font.Name= sys_Arial      )
+     if    (Font.Family= sys_Courier_New)
+        or (Font.Family= sys_Arial      )
      then
          NullChar:=Chr(151) // — tiret pleine largeur
      else

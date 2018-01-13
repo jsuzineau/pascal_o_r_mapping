@@ -76,7 +76,7 @@ procedure TtcReal_Formatter.Dot_to_DecimalSeparator(var S: String);
 var
    I: Integer;
 begin
-     for I:= 1 to Length( S) do if S[I]= '.' then S[I]:= DecimalSeparator;
+     for I:= 1 to Length( S) do if S[I]= '.' then S[I]:= FormatSettings.DecimalSeparator;
 end;
 
 procedure TtcReal_Formatter.TestValue( _Value: Extended; see, s00, s000: String);

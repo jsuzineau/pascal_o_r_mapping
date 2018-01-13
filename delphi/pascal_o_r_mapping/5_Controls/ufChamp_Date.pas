@@ -25,7 +25,7 @@ unit ufChamp_Date;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controlso, FMX.Forms,
   Dialogs, ComCtrls, CommCtrl, ExtCtrls;
 
 type

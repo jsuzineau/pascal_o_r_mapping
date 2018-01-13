@@ -1,4 +1,4 @@
-unit uForms;
+﻿unit uForms;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -85,7 +85,7 @@ implementation
 {$IFDEF uForms_console}
 {$ELSE}
 uses
-    Windows, SysUtils,Forms, Dialogs;
+    Windows, SysUtils,FMX.Forms, FMX.Dialogs;
 {$ENDIF}
 
 var

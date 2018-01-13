@@ -38,9 +38,9 @@ uses
 
     ufpBas,
     ufAccueil_Erreur,
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
   Dialogs, Printers, Grids, ActnList, StdCtrls, ComCtrls, Buttons, ExtCtrls,
-  Spin, Gauges, Clipbrd, Consts, Menus;
+  Spin, Gauges, Clipbrd, Consts, FMX.Menus;
 
 type
  TfBatproReport

@@ -43,7 +43,7 @@ uses
     ufBatpro_MySQL,
     ufBatpro_Parametres_Client,
 
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Windows, Messages, SysUtils, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms, Dialogs,
   ExtCtrls, StdCtrls, Buttons, DB, ComCtrls;
 
 type
@@ -508,7 +508,7 @@ end;
 
 procedure TfAccueil.Affichage_lisible;
 begin
-     m.Font.Name:= 'Courier New';
+     m.Font.Family:= 'Courier New';
      m.Font.Size:= 8;
 end;
 

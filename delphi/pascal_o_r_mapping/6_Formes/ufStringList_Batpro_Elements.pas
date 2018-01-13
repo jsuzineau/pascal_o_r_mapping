@@ -25,13 +25,13 @@ unit ufStringList_Batpro_Elements;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
   Dialogs,
     uBatpro_StringList,
   ufpBas, Grids, ActnList, StdCtrls, ComCtrls, Buttons, ExtCtrls,
   uhDessinnateur,
   uDataClasses,
-  uVide, Menus;
+  uVide, FMX.Menus;
 
 type
  TfStringList_Batpro_Elements

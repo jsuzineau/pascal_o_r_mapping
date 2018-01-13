@@ -1,4 +1,4 @@
-unit uReal_Formatter;
+﻿unit uReal_Formatter;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -25,7 +25,8 @@ unit uReal_Formatter;
 interface
 
 uses
-    SysUtils, Classes,
+    System.SysUtils,
+    Classes,
     u_sys_;
 
 function Format_Float( Value: Double; Tronque: Boolean= False;
@@ -58,7 +59,7 @@ var
         Result:= I > 0;
         if Result
         then
-            Result:= Text[I] = DecimalSeparator;
+            Result:= Text[I] = FormatSettings.DecimalSeparator;
    end;
    function Valeur_Zero: Boolean;
    var
@@ -68,7 +69,7 @@ var
         for J:= 1 to Length( Text)
         do
           begin
-          Result:= Text[ J] in ['+', '-', '0', DecimalSeparator, ' '];
+          Result:= Text[ J] in ['+', '-', '0', FormatSettings.DecimalSeparator, ' '];
           if not Result then break;
           end;
    end;
@@ -85,7 +86,7 @@ else                              DisplayFormat:= '###########0.'+sPrecision;
 
      if Tronque //fait rapidement, redondant avec (not FF.currency)
      then
-         if Pos( DecimalSeparator, Text) > 0
+         if Pos( FormatSettings.DecimalSeparator, Text) > 0
          then
              begin
              //Suppression des 0

@@ -34,7 +34,7 @@ uses
     u_sys_Batpro_Element,
     uDrawInfo,
     uBatpro_Element,
-    Windows, SysUtils, Classes, Graphics, Controls, Dialogs;
+    Windows, SysUtils, Classes, FMX.Graphics, FMX.Controls, Dialogs;
 
 type
  TbeExtended
@@ -84,7 +84,7 @@ begin
      then
          begin
          CP.Titre:= 'Valeur (nombre réel)';
-         CP.Font.Name:= sys_SmallFonts;
+         CP.Font.Family:= sys_SmallFonts;
          CP.Font.Size:= 6;
          end;
 
@@ -117,7 +117,7 @@ begin
      then
          Fond:= clRed
      else
-         Fond:= clWhite;
+         Fond:= TColorRec.White;
 end;
 
 procedure TbeExtended.Inc_E( Delta: Extended; _Delta_S: String= '');

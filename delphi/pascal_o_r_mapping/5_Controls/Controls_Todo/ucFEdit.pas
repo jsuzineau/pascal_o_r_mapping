@@ -7,7 +7,7 @@ unit ucFEdit;
 interface
 uses
     Windows,
-    Messages, SysUtils, Classes, Graphics, Controls, Forms,
+    Messages, SysUtils, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
     Dialogs, StdCtrls;
 
 const

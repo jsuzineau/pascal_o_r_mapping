@@ -1,4 +1,4 @@
-unit uParametres_Ligne_de_commande;
+﻿unit uParametres_Ligne_de_commande;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -79,11 +79,14 @@ type
   private
     procedure To_StringList;
     procedure From_StringList;
+  //code à reprendre pour FMX
+  (*
   {$IFNDEF FPC}
   public
     function To_Atom: ATOM;
     procedure From_Atom( _Atom: ATOM);
   {$ENDIF}
+  *)
   //Nom utilisateur
   public
     function NomUtilisateur: String;
@@ -165,6 +168,8 @@ begin
      Parametre7        := Values['Parametre7'        ];
 end;
 
+//code à reprendre pour FMX
+(*
 {$IFNDEF FPC}
 function TParametres_Ligne_de_commande.To_Atom: ATOM;
 begin
@@ -181,6 +186,7 @@ begin
      From_StringList;
 end;
 {$ENDIF}
+*)
 
 function TParametres_Ligne_de_commande.NomUtilisateur: String;
 {$IFDEF MSWINDOWS}

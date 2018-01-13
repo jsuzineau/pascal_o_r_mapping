@@ -33,7 +33,7 @@ uses
     uChamp,
     uChamps,
     ucBatproMaskElement,
-    Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+    Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs,
     ExtCtrls, StdCtrls;
 
 type
@@ -257,7 +257,7 @@ begin
 
      Set_Control_Pos( bme, aWidth);
      bme.Font.Height := -11            ;
-     bme.Font.Name   := 'Courier New'  ;
+     bme.Font.Family   := 'Courier New'  ;
      bme.MaxLength   := aMaxLength     ;
      bme.OnChange    := bmeChange      ;
      bme.OnKeydown   := bmeKeyDown     ;

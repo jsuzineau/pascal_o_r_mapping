@@ -25,7 +25,7 @@ unit uf_Valeur_monetaire_en_lettres;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
   Dialogs,
   ufpBas, StdCtrls, ActnList, ComCtrls, Buttons, ExtCtrls;
 

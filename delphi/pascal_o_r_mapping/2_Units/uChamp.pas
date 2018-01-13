@@ -1,4 +1,4 @@
-unit uChamp;
+﻿unit uChamp;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -32,14 +32,11 @@ uses
     u_sys_,
     uPublieur,
     uChampDefinition,
-    {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-    udmf,
-    ufChamp_Date  ,
-    ufChamp_Lookup,
-    {$IFEND}
+    //udmf,
+    //ufChamp_Date  ,
+    //ufChamp_Lookup,
   {$IFDEF MSWINDOWS}
   Windows,
-  Grids,
   {$ENDIF}
   SysUtils, Classes,DB;
 
@@ -92,21 +89,19 @@ type
     procedure LookupKey_Change;
     procedure Init_Lookup_Common( _LookupKey: TChamp;
                                   _OnGetLookupListItems: TOnGetLookupListItems);
-    {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-    procedure Init_dmf_Lookup( dmf: Tdmf; _LookupKey: TChamp);
-    {$IFEND}
+    //procedure Init_dmf_Lookup( dmf: Tdmf; _LookupKey: TChamp);
     procedure Init_Lookup( _LookupKey: TChamp;
                            _OnGetLookupListItems: TOnGetLookupListItems;
                            _Valeur_courante: String);
   public
-    {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-    constructor Create_dmf_Lookup( _Owner: TObject;
+
+    {constructor Create_dmf_Lookup( _Owner: TObject;
                                    _Definition: TChampDefinition;
                                    _Valeur    : Pointer;
                                    dmf: Tdmf;
                                    _LookupKey: TChamp;
                                    _Save_to_database: TAbonnement_Objet_Proc);
-    {$IFEND}
+    }
     constructor Create_Lookup( _Owner: TObject;
                                _Definition: TChampDefinition;
                                _Valeur    : Pointer;
@@ -148,14 +143,14 @@ type
   public
     procedure Serialise  ( S: TStream);
     procedure DeSerialise( S: TStream);
-  {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
   //Edition in situ dans un TChampsGrid
+  {
   public
     procedure InplaceEditUpdateContents( iel: TInplaceEditList);
     procedure InplaceEditChange        ;
     procedure InplaceEditKeyDown       ( var Key: Word; Shift: TShiftState);
     procedure InplaceEditDecroche      ;
-  {$IFEND}
+  }
   //Valeur minimale
   private
     procedure Applique_MinValue;
@@ -445,7 +440,7 @@ procedure TChamp.SetChaine(Value: String);
      begin
           Enleve(  #32);//l'espace standard
           Enleve( #160);//l'espace insécable
-          case DecimalSeparator
+          case FormatSettings.DecimalSeparator
           of
             '.': Remplace( ',', '.');
             ',': Remplace( '.', ',');
@@ -507,7 +502,7 @@ begin
      Result:= False;
      if ReadOnly then exit;
 
-     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+     {
      if Definition.Is_Lookup
      then
          begin
@@ -542,7 +537,7 @@ begin
            end;
          Publie_Modifications;
          end;
-     {$IFEND}
+     }
 end;
 
 procedure TChamp.LookupKey_Change;
@@ -582,7 +577,7 @@ begin
          LookupKey.OnChange.Abonne( Self, LookupKey_Change);
 end;
 
-{$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+{
 procedure TChamp.Init_dmf_Lookup( dmf: Tdmf; _LookupKey: TChamp);
 var
    I: Integer;
@@ -611,7 +606,7 @@ begin
      Create( _Owner, _Definition, _Valeur, _Save_to_database);
      Init_dmf_Lookup( dmf, _LookupKey);
 end;
-{$IFEND}
+}
 
 procedure TChamp.Init_Lookup( _LookupKey: TChamp;
                               _OnGetLookupListItems: TOnGetLookupListItems;
@@ -929,7 +924,7 @@ begin
        end;
 end;
 
-{$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+{
 procedure TChamp.InplaceEditUpdateContents( iel: TInplaceEditList);
 begin
      Definition.fcbChamp_InplaceEditUpdateContents( iel, Self);
@@ -949,7 +944,7 @@ procedure TChamp.InplaceEditDecroche;
 begin
      Definition.fcbChamp_InplaceEditDecroche;
 end;
-{$IFEND}
+}
 
 procedure TChamp.Applique_MinValue;
 begin

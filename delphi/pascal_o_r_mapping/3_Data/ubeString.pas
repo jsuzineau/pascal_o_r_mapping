@@ -25,7 +25,7 @@ unit ubeString;
 interface
 
 uses
-    Windows, SysUtils, Classes, Graphics, Controls,
+    Windows, SysUtils, Classes, FMX.Graphics, FMX.Controls,
 
     uBatpro_StringList,
 
@@ -82,7 +82,7 @@ begin
      then
          begin
          CP.Titre:= 'Chaine de caractères';
-         CP.Font.Name:= sys_Courier_New;
+         CP.Font.Family:= sys_Courier_New;
          CP.Font.Size:= 8;
          with CP.Font do Style:= Style + [fsBold];
          end;

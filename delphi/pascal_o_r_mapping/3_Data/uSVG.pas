@@ -1,4 +1,4 @@
-unit uSVG;
+﻿unit uSVG;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -31,10 +31,12 @@ uses
     uuStrings,
   {$IFDEF MSWINDOWS}
   JclSimpleXml,
-  Windows,Graphics,
+  System.UITypes,
+  Windows,FMX.Graphics,
   {$ELSE}
   XMLRead,XMLWrite,DOM, FPimage,
   {$ENDIF}
+  System.Math.Vectors,
   SysUtils, Classes, Types;
 
 type
@@ -143,7 +145,7 @@ type
                         _stroke: TColor;
                         _stroke_width: Integer): TJclSimpleXMLElem;
     function polygon( _eRoot: TJclSimpleXMLElem;
-                      _points: array of TPoint;
+                      _points: TPolygon;
                       _Color: TColor;
                       _Pen_Color: TColor;
                       _Pen_Width: Integer): TJclSimpleXMLElem;
@@ -519,7 +521,7 @@ var
    iColor: Longint;
    C: TRGBQuad;
 begin
-     iColor:= ColorToRGB( Color);
+     iColor:= TColorRec.ColorToRGB( Color);
      Longint(C):= iColor; //la conversion en TRGBQuad ne doit pas être correcte
                           //rouge et bleu sont inversés
                           // du coup on les réinverse ci-dessous
@@ -743,12 +745,13 @@ begin
 end;
 
 function TSVGDocument.polygon( _eRoot: TJclSimpleXMLElem;
-                               _points: array of TPoint;
+                               _points: TPolygon;
                                _Color: TColor;
                                _Pen_Color: TColor;
                                _Pen_Width: Integer): TJclSimpleXMLElem;
 var
    i: Integer;
+   sX, sY: String;
    points: String;
    fill: String;
    stroke: String;
@@ -762,7 +765,9 @@ begin
        then
            points:= points + ' ';
 
-       points:= points+IntToStr(_points[i].X)+','+IntToStr(_points[i].Y);
+       Str(_points[i].X, sX);
+       Str(_points[i].Y, sY);
+       points:= points+sX+','+sY;
        end;
      fill  := svgColor( _Color);
      stroke:= svgColor( _Pen_Color);

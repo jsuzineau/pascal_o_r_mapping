@@ -33,7 +33,7 @@ uses
     uChamps,
     ucChampsGrid,
     TestFrameWork,
-    Windows, SysUtils, Classes, Controls, DB, Grids,Dialogs, StdCtrls, Buttons, Forms;
+    Windows, SysUtils, Classes, FMX.Controls, DB, Grids,Dialogs, StdCtrls, Buttons, FMX.Forms;
 
 type
  Ttc_ChampsGrid

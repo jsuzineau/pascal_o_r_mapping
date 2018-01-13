@@ -37,7 +37,7 @@ uses
     ucChamp_DateTimePicker,
     ucChamp_Integer_SpinEdit,
     ucChamp_Float_SpinEdit,
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
   Dialogs, ExtCtrls,
   ucBatpro_Shape;
 
@@ -266,31 +266,31 @@ begin
      if Valeur
      then
          begin
-         with sSelection.Brush
+         with sSelection.Fill
          do
            begin
-           Style:= bsSolid;
-           Color:= clBlack;
+           Style:= TBrushKind.Solid;
+           Color:= TColorRec.Black;
            end;
-         with sSelection.Pen
+         with sSelection.Stroke
          do
            begin
-           Style:= psSolid;
-           Color:= clBlack;
+           Style:= TStrokeDash.Solid;
+           Color:= TColorRec.Black;
            end;
          if CanFocus then SetFocus;
          end
      else
          begin
-         with sSelection.Brush
+         with sSelection.Fill
          do
            begin
            Style:= bsClear;
            end;
-         with sSelection.Pen
+         with sSelection.Stroke
          do
            begin
-           Style:= psClear;
+           Style:= TStrokeDash.Clear;
            end;
          end;
 end;

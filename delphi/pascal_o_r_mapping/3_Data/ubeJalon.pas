@@ -40,7 +40,7 @@ uses
     uDessin,
     {$ENDIF}
   {$IFDEF MSWINDOWS}
-  Windows, Graphics, Controls,
+  Windows, FMX.Graphics, FMX.Controls,
   {$ENDIF}
   SysUtils, Classes;
 
@@ -55,7 +55,7 @@ type
     constructor Create( un_sl: TBatpro_StringList;
                         _Forme: TTypeJalon;
                         _CouleurJalon: TColor;
-                        _CouleurJalon_Contour : TColor= clBlack);
+                        _CouleurJalon_Contour : TColor= TColorRec.Black);
     procedure Draw(DrawInfo: TDrawInfo); override;
     function Cell_Width( DrawInfo: TDrawInfo): Integer; override;
   //Affichage SVG
@@ -80,7 +80,7 @@ end;
 constructor TbeJalon.Create( un_sl: TBatpro_StringList;
                              _Forme               : TTypeJalon;
                              _CouleurJalon        : TColor;
-                             _CouleurJalon_Contour: TColor= clBlack);
+                             _CouleurJalon_Contour: TColor= TColorRec.Black);
 var
    CP: IblG_BECP;
 begin

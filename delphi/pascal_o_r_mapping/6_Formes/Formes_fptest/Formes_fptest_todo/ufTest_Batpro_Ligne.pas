@@ -25,7 +25,7 @@ unit ufTest_Batpro_Ligne;
 interface
 
 uses
-    Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+    Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
     Dialogs, Spin, StdCtrls, ActnList, ComCtrls, Buttons, ExtCtrls,
     uClean,
     ucChamp_Integer_SpinEdit,

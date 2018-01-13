@@ -25,11 +25,11 @@ unit ufTestChampGrid;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
   Dialogs,
     uBatpro_StringList,
   ufpBas, Grids, ucChampsGrid, ActnList, StdCtrls, ComCtrls, Buttons,
-  ExtCtrls, Menus;
+  ExtCtrls, FMX.Menus;
 
 type
  TfTestChampGrid

@@ -26,7 +26,7 @@ interface
 
 uses
     uForms,
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs,
   ComCtrls, ToolWin, ImgList, StdActns, ActnList;
 
 type

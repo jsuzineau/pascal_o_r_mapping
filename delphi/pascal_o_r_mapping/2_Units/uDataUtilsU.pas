@@ -1,4 +1,4 @@
-unit uDataUtilsU;
+﻿unit uDataUtilsU;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -32,10 +32,9 @@ uses
     u_sys_,
     uuStrings,
     ufAccueil_Erreur,
-  SysUtils, Classes, DB, DBTables, TypInfo,
-  {$IFNDEF FPC}
-  Graphics, Forms, Dialogs, Controls,DBCtrls,StdCtrls,
-  {$ENDIF}
+  SysUtils, Classes, DB, TypInfo,
+  FMX.Graphics, FMX.Forms, FMX.Dialogs, FMX.Controls,FMX.StdCtrls,
+  FMX.ListBox,
   DBClient,Math, Types, DateUtils, Variants;
 
 function Lettre_from_NumeroJour( I: Integer): String;
@@ -195,9 +194,6 @@ function Echappe_SQL( S: String): String;
 procedure CopyLine( Source, Cible: TClientDataset);
 
 {$IFNDEF FPC}
-const
-     nbNavigation: TButtonSet= [nbFirst, nbPrior, nbNext, nbLast];
-
 procedure ComboBox_from_Dataset( cb: TComboBox; ds: TDataset;
                                  FieldNames: array of String; Separator: String = '');
 {$ENDIF}
@@ -462,7 +458,7 @@ var
         Result:= I > 0;
         if Result
         then
-            Result:= Text[I] = DecimalSeparator;
+            Result:= Text[I] = FormatSettings.DecimalSeparator;
    end;
    function Valeur_Zero: Boolean; //'  0   '
    begin
@@ -550,9 +546,9 @@ begin
      if Tronque //fait rapidement, redondant avec (not FF.currency)
      then
          if    (not FF_currency)     //On garde les 0 sur les valeurs monétaires
-            or (Pos( DecimalSeparator+sPrecision, Text) > 0)
+            or (Pos( FormatSettings.DecimalSeparator+sPrecision, Text) > 0)
          then
-             if Pos( DecimalSeparator, Text) > 0 //pas de tronquage
+             if Pos( FormatSettings.DecimalSeparator, Text) > 0 //pas de tronquage
              then                                //si pas de virgule
                  begin
                  //Suppression des 0
@@ -643,13 +639,13 @@ begin
          begin
          while Point_Present
          do
-           S[I]:= DateSeparator
+           S[I]:= FormatSettings.DateSeparator
          end
-     else if (Pos(DateSeparator, S) = 0) and (Length( S) = 6)
+     else if (Pos(FormatSettings.DateSeparator, S) = 0) and (Length( S) = 6)
      then//format ddmmyy
          begin
-         Insert( DateSeparator, S, 5);
-         Insert( DateSeparator, S, 3);
+         Insert( FormatSettings.DateSeparator, S, 5);
+         Insert( FormatSettings.DateSeparator, S, 3);
          end;
 
      DF.AsString:= S;

@@ -37,7 +37,7 @@ uses
     uPublieur,
     uTri_Ancetre,
     uDockable,
-  SysUtils, Classes, Controls, Forms, ExtCtrls,Graphics,StdCtrls,Types, Math;
+  SysUtils, Classes, FMX.Controls, FMX.Forms, ExtCtrls,FMX.Graphicso,StdCtrls,Types, Math;
 
 type
  TDockable_Event= procedure ( _dk: TDockable) of object;

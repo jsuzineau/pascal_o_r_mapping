@@ -35,7 +35,7 @@ uses
 
     ufAccueil_Erreur,
 
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs,
   StdCtrls, Buttons, DB, DBCtrls, ExtCtrls, Math, DBTables;
 
 type

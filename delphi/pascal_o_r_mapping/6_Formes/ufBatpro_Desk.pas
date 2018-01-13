@@ -27,7 +27,7 @@ interface
 uses
     uClean,
     uBatpro_StringList,
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
   Dialogs, ExtCtrls, ActnList;
 
 type

@@ -8,7 +8,7 @@ interface
 
 uses
     Windows,
-    Messages, SysUtils, Classes, Graphics, Controls, Forms,
+    Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
     Dialogs, StdCtrls;
 const
      ucIEdit_MaxInteger=  2147483647;

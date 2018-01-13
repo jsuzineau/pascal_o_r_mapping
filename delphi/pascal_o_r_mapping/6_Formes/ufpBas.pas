@@ -37,8 +37,8 @@ uses
     ufBatpro_Form,
     ufAccueil,
 
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, Buttons, ExtCtrls, ComCtrls, ActnList, Menus;
+  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs,
+  StdCtrls, Buttons, ExtCtrls, ComCtrls, ActnList, FMX.Menus;
 
 type
  TfpBas

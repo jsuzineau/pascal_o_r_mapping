@@ -1,4 +1,4 @@
-unit uChampDefinition;
+﻿unit uChampDefinition;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -34,12 +34,12 @@ uses
     {$ENDIF}
   SysUtils, Classes,
   {$IFDEF MSWINDOWS}
-  Forms, Graphics,Grids,
+  FMX.Forms, FMX.Graphics,
   {$ENDIF}
   DB;
 
 type
- {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+ {
  TfcbChamp
  =
   class( TForm)
@@ -51,7 +51,7 @@ type
     procedure InplaceEditDecroche                                                ; virtual; abstract;
   end;
  TfcbChamp_class= class of TfcbChamp;
- {$IFEND}
+ }
 
  TChampDefinition
  =
@@ -72,9 +72,7 @@ type
   //Gestion des lookups
   private
     procedure Init_Lookup( _LookupKey: TChampDefinition);
-    {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-    function GetfcbChamp: TfcbChamp;
-    {$IFEND}
+    //function GetfcbChamp: TfcbChamp;
     procedure SetMinValue(const Value: double);
   public
     LookupKey: TChampDefinition;
@@ -88,11 +86,9 @@ type
   public
     function Largeur( Font: TFont): Integer;
   {$ENDIF}
-  {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
   //Gestion des modifications dans TChampGrid
-  public
-    function GetEditStyle: TEditStyle;
-  {$IFEND}
+  //public
+  //  function GetEditStyle: TEditStyle;
   //Formatage des flottants
   public
     Flottant_Tronque: Boolean;
@@ -100,8 +96,8 @@ type
     Flottant_Separateur_Milliers: Boolean;
     Flottant_DisplayFormat: String;
     function Format_Float( Value: Double): String;
-  {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
   //Gestion de l'éditeur
+  {
   private
     FfcbChamp: TfcbChamp;
   public
@@ -111,7 +107,7 @@ type
     procedure fcbChamp_InplaceEditChange        ;
     procedure fcbChamp_InplaceEditKeyDown       ( var Key: Word; Shift: TShiftState);
     procedure fcbChamp_InplaceEditDecroche      ;
-  {$IFEND}
+  }
   //Gestion des valeurs minimales
   private
     FMinValue   : double;
@@ -166,10 +162,8 @@ begin
      Flottant_Separateur_Milliers:= True;
      Flottant_DisplayFormat:= '';
 
-     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-     fcbChamp_class:= nil;
-     FfcbChamp     := nil;
-     {$IFEND}
+     //fcbChamp_class:= nil;
+     //FfcbChamp     := nil;
 
      FHasMinValue:= False;
 end;
@@ -220,7 +214,8 @@ begin
      Result:= LargeurTexte( Font, S);
 end;
 {$ENDIF}
-{$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+
+{
 function TChampDefinition.GetEditStyle: TEditStyle;
 begin
      if Is_Lookup
@@ -277,6 +272,5 @@ begin
      if fcbChamp = nil then exit;
      FfcbChamp.InplaceEditDecroche;
 end;
-
-{$IFEND}
+}
 end.

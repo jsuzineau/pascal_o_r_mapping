@@ -38,7 +38,7 @@ uses
     uContextes,
     uVide,
   {$IFDEF MSWINDOWS}
-  Windows, Graphics, Controls,
+  Windows, FMX.Graphics, FMX.Controls,
   {$ENDIF}
   SysUtils, Classes;
 
@@ -169,7 +169,7 @@ begin
          begin
          CP.Titre:= 'Référence à un <'+ref.ClassParams.Titre+'>';
          {$IFDEF MSWINDOWS}
-         CP.Font.Name:= ref.ClassParams.Font.Name;
+         CP.Font.Family:= ref.ClassParams.Font.Family;
          CP.Font.Size:= ref.ClassParams.Font.Size;
          {$ENDIF}
          end;

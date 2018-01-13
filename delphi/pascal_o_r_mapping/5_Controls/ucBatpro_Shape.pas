@@ -25,7 +25,7 @@ unit ucBatpro_Shape;
 interface
 
 uses
-  SysUtils, Classes, Controls, ExtCtrls, Types, Graphics;
+  SysUtils, Classes, FMX.Controls, ExtCtrls, Types, FMX.Graphics;
 
 type
  TBatpro_ShapeType
@@ -75,13 +75,13 @@ begin
      with Canvas
      do
        begin
-       Pen := Self.Pen;
-       Brush := Self.Brush;
-       X := Pen.Width div 2;
+       Stroke := Self.Stroke;
+       Fill := Self.Fill;
+       X := Stroke.Thickness div 2;
        Y := X;
-       W := Width - Pen.Width + 1;
-       H := Height - Pen.Width + 1;
-       if Pen.Width = 0
+       W := Width - Stroke.Thickness + 1;
+       H := Height - Stroke.Thickness + 1;
+       if Stroke.Thickness = 0
        then
            begin
            Dec(W);

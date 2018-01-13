@@ -28,10 +28,10 @@ uses
     uForms,
     uBatpro_StringList,
     ufpBas,
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
   Dialogs, ShellAPI, StdCtrls, ActnList, ComCtrls, Buttons, ExtCtrls, Spin,
   {$IFDEF MSWINDOWS}jpeg,{$ENDIF}
-  Menus;
+  FMX.Menus;
 
 type
  TfHelp_Creator

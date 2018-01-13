@@ -44,9 +44,9 @@ uses
     uhTriColonneChamps_StringGrid,
     uhDessinnateur,
     ufpBas,
-    Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+    Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs,
     ActnList, ComCtrls, StdCtrls, Buttons, ExtCtrls, Grids, DBGrids,
-    Db, DBTables, FMTBcd, Provider, SqlExpr, DBClient, Menus;
+    Db, DBTables, FMTBcd, Provider, SqlExpr, DBClient, FMX.Menus;
 
 type
  TfRechercheBatpro_Ligne

@@ -39,7 +39,7 @@ uses
     {$IFNDEF FPC}
     Windows, Messages,
     {$ENDIF}
-    //Dialogs, Forms,
+    //Dialogs, FMX.Forms,
     SysUtils, Registry, SQLExpr;
 
 type

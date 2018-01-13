@@ -47,7 +47,7 @@ implementation
 {$IFDEF uOD_Forms_console}
 {$ELSE}
 uses
-    Forms, Dialogs;
+    FMX.Forms, FMX.Dialogs;
 {$ENDIF}
 
 function uOD_Forms_EXE_Name: String;

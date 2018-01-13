@@ -31,7 +31,7 @@ uses
     uDataUtilsU,
     uParametre,
     ufAccueil_Erreur,
-  SysUtils, Classes, Controls, StdCtrls;
+  SysUtils, Classes, FMX.Controls, StdCtrls;
 
 type
  TBatproSQLMask
@@ -86,7 +86,7 @@ end;
 constructor TBatproSQLMask.Create( AOwner: TComponent);
 begin
      inherited;
-     Font.Name:= 'Courier New';
+     Font.Family:= 'Courier New';
      Font.Size:= 8;
      Width:= 183;
      FDoc:= nil;

@@ -38,7 +38,7 @@ uses
     uChamp,
     uChampDefinition,
     ufChampsGrid_Colonnes,
-    Windows, SysUtils, Classes, Controls, DB, Grids,Dialogs, StdCtrls, Buttons,
+    Windows, SysUtils, Classes, FMX.Controls, DB, Grids,Dialogs, StdCtrls, Buttons,
     uForms;
 
 type

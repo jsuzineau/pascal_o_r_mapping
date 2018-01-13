@@ -26,7 +26,7 @@ interface
 
 uses
     uClean,
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
   Dialogs, StdCtrls, Buttons, ExtCtrls;
 
 type

@@ -38,7 +38,7 @@ uses
     uBatpro_Element,
     uBatpro_Ligne,
   {$IFDEF MSWINDOWS}
-  Graphics, Dialogs,
+  FMX.Graphics, Dialogs,
   {$ENDIF} 
   SysUtils, Classes, DB;
 

@@ -44,10 +44,10 @@ uses
     uhDessinnateur,
     ufpBas,
 
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs,
   ActnList, ComCtrls, StdCtrls, Buttons, ExtCtrls, Grids, DBGrids,
   Db, DBTables, FMTBcd, Provider, SqlExpr, DBClient, ucDockableScrollBox,
-  Menus;
+  FMX.Menus;
 
 type
  TfRechercheBatpro_Ligne_DockableScrollBox

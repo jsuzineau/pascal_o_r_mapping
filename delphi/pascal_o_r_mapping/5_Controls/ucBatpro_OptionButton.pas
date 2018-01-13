@@ -26,7 +26,7 @@ interface
 
 uses
     ucBatpro_SpeedButton,
-  SysUtils, Classes, Controls, SRColBtn, Graphics;
+  SysUtils, Classes, FMX.Controls, SRColBtn, FMX.Graphics;
 
 type
  TBatpro_OptionButton

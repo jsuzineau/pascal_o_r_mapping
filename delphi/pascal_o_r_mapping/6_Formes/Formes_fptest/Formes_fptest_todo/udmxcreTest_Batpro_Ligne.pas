@@ -25,7 +25,7 @@ unit udmxcreTest_Batpro_Ligne;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
   Dialogs,
   udmxCreator, FMTBcd, DB, SqlExpr;
 

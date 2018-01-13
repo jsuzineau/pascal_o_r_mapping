@@ -30,7 +30,7 @@ uses
     uClean,
     uDrawInfo,
     uBatpro_Element,
-  SysUtils, Classes, Graphics;
+  SysUtils, Classes, FMX.Graphics;
 
 type
  TbeListe_Batpro_Elements
@@ -187,7 +187,7 @@ begin
      if    (slListe.Count = 0)
         and not DrawInfo.Gris
      then
-         Result:= clWhite;
+         Result:= TColorRec.White;
 end;
 
 procedure TbeListe_Batpro_Elements.{svg}Draw(DrawInfo: TDrawInfo);

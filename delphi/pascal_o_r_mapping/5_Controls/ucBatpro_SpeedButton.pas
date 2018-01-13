@@ -25,7 +25,7 @@ unit ucBatpro_SpeedButton;
 interface
 
 uses
-  SysUtils, Classes, Controls, SRColBtn, Graphics;
+  SysUtils, Classes, FMX.Controls, SRColBtn, FMX.Graphics;
 
 type
  TBatpro_SpeedButton

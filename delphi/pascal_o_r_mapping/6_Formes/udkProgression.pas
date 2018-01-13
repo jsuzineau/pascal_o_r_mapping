@@ -27,7 +27,7 @@ interface
 uses
     uOD_Forms,
     uDockable,
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs,
   Gauges, StdCtrls, ExtCtrls, ucBatpro_Shape, Buttons;
 
 type

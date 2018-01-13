@@ -25,7 +25,7 @@ unit ucDockScrollbox;
 interface
 
 uses
-    SysUtils, Classes, Controls, Forms, ExtCtrls,Graphics,
+    SysUtils, Classes, FMX.Controls, FMX.Forms, ExtCtrls,FMX.Graphics,
     uBatpro_StringList,
     uClean,
     u_sys_,

@@ -27,7 +27,7 @@ interface
 uses
     SysUtils, Classes,
     {$IFDEF MSWINDOWS}
-    Graphics, Windows, Grids,
+    FMX.Graphics, Windows, Grids,
     {$ENDIF}
     Types,
     uBatpro_StringList,

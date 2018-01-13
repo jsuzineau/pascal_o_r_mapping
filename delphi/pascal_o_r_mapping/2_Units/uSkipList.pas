@@ -1,4 +1,4 @@
-unit uSkipList;
+﻿unit uSkipList;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -242,7 +242,7 @@ begin
      Result
      :=
         ChaineDe( MaxLevel-Level, '|')
-       +ChaineDe( Level         , '•') + Libelle_interne;
+       +ChaineDe( Level         , {'•'}'.') + Libelle_interne;
 end;
 
 { TSkipList_Item_Header }

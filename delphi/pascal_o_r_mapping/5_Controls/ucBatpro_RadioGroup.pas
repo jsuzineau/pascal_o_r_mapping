@@ -25,7 +25,7 @@ unit ucBatpro_RadioGroup;
 interface
 
 uses
-  SysUtils, Classes, Controls, StdCtrls, ExtCtrls,
+  SysUtils, Classes, FMX.Controls, StdCtrls, ExtCtrls,
   uClean,
   u_sys_;
 

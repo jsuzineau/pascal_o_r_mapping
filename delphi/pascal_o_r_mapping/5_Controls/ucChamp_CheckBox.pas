@@ -25,7 +25,7 @@ unit ucChamp_CheckBox;
 interface
 
 uses
-    SysUtils, Classes, Controls, StdCtrls,
+    SysUtils, Classes, FMX.Controls, StdCtrls,
     uChamps,
     uChamp;
 

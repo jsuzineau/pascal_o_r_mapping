@@ -25,7 +25,7 @@ unit ufChamp_Lookup;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
   Dialogs, ComCtrls, CommCtrl, ExtCtrls, StdCtrls,
     uBatpro_StringList;
 

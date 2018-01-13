@@ -16,7 +16,7 @@ unit ufOOoModelSelect;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
   Dialogs, Buttons, StdCtrls, FileCtrl, ExtCtrls,
   uUNO_DeskTop;
 

@@ -208,7 +208,7 @@ var
         if not Result then exit;
 
         //Virgule
-        Result:= Texte[I] = DecimalSeparator;
+        Result:= Texte[I] = FormatSettings.DecimalSeparator;
    end;
    procedure Espace_Precedent;
    begin
@@ -227,7 +227,7 @@ var
         do
           begin
           TJ:= Texte[J];
-          Result:= (TJ in ['+','-',' ','0']) or (TJ = DecimalSeparator);
+          Result:= (TJ in ['+','-',' ','0']) or (TJ = FormatSettings.DecimalSeparator);
           Inc(J);
           end;
    end;
@@ -248,7 +248,7 @@ begin
 
      Texte:= FormatFloat( DisplayFormat, FF_Value);
      I            := Length(Texte);
-     IVirgule     := Pos( DecimalSeparator           , Texte);
+     IVirgule     := Pos( FormatSettings.DecimalSeparator           , Texte);
 
      if IVirgule > 0 //pas de tronquage
      then            //si pas de virgule

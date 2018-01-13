@@ -27,7 +27,7 @@ interface
 uses
     uClean,
     uEXE_INI,
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, uOD_Forms, Dialogs,
+  Windows, Messages, SysUtils, Classes, FMX.Graphicso, FMX.Controls, uOD_Forms, Dialogs,
   ExtCtrls, ActnList, ComCtrls, IniFiles,
   IdBaseComponent, IdComponent, IdTCPServer, IdCmdTCPServer, IdFTPList,
   IdExplicitTLSClientServerBase, IdFTPServer, StdCtrls, IdFTPListOutput,

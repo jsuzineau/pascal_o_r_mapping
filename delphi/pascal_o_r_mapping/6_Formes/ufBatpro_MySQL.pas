@@ -27,7 +27,7 @@ interface
 uses
     uClean,
     uMySQL,
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
   Dialogs, StdCtrls, Buttons;
 
 type

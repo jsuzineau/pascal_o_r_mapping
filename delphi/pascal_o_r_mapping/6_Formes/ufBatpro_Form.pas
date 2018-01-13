@@ -42,7 +42,7 @@ uses
 
     ufBatpro_Desk,
     ufAccueil_Erreur,
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Windows, Messages, SysUtils, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms, Dialogs,
   IniFiles, StdCtrls, ExtCtrls, DB, ComCtrls, ucBatproMasque;
 
 type
@@ -103,7 +103,7 @@ var
    fAffiche: TfBatpro_Form = nil;
    ufBatpro_Form_slExecute: TBatpro_StringList;
    ufBatpro_Form_Bandeau_from_: TPublieur= nil;
-   ufBatpro_Form_Couleur_societe: TColor= clWhite;
+   ufBatpro_Form_Couleur_societe: TColor= TColorRec.White;
    ufBatpro_Form_Nom_Societe: String= '';
    ufBatpro_Form_code_util: String= '';
 

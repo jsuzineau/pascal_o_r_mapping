@@ -44,9 +44,9 @@ uses
     uhDessinnateur,
     ufpBas,
 
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Windows, Messages, SysUtils, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms, Dialogs,
   ActnList, ComCtrls, StdCtrls, Buttons, ExtCtrls, Grids, DBGrids,
-  Db, DBTables, FMTBcd, Provider, SqlExpr, DBClient, ucChampsGrid, Menus;
+  Db, DBTables, FMTBcd, Provider, SqlExpr, DBClient, ucChampsGrid, FMX.Menus;
 
 type
  TfRechercheBatpro_Ligne_ChampGrid

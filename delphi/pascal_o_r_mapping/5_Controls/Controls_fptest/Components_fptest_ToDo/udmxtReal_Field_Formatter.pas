@@ -153,7 +153,7 @@ procedure TdmxtReal_Field_Formatter.Dot_to_DecimalSeparator( var S: String);
 var
    I: Integer;
 begin
-     for I:= 1 to Length( S) do if S[I]= '.' then S[I]:= DecimalSeparator;
+     for I:= 1 to Length( S) do if S[I]= '.' then S[I]:= FormatSettings.DecimalSeparator;
 end;
 
 procedure TdmxtReal_Field_Formatter.TestValue( _Value: Extended;

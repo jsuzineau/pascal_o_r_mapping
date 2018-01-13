@@ -28,7 +28,7 @@ uses
   u_sys_,
   uClean,
   uBatpro_StringList,
-  SysUtils, Classes, Controls, ExtCtrls, StdCtrls, Graphics, Windows, Forms;
+  SysUtils, Classes, FMX.Controls, ExtCtrls, StdCtrls, FMX.Graphics, Windows, FMX.Forms;
 
 type
  TBatpro_Button
@@ -100,7 +100,7 @@ begin
      inherited;
      m:= TMemo.Create( Self);
      m.Parent:= Self;
-     m.Color:= clBtnFace;
+     m.Color:= TColorRec.SysBtnFace;
      m.ReadOnly:= True;
      m.Align:= alClient;
      m.BorderStyle:= bsNone;

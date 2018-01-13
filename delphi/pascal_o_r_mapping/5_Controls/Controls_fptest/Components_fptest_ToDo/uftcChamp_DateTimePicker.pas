@@ -35,7 +35,7 @@ uses
 
     upool_Ancetre_Ancetre,
 
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
   Dialogs, ComCtrls, ucBatproDateTimePicker, SqlExpr, DB, StdCtrls,
   ucChamp_Label, ucChamp_DateTimePicker;
 
@@ -90,7 +90,7 @@ begin
      then
          begin
          CP.Libelle:= 'Test_Champ_DateTimePicker';
-         CP.Font.Name:= sys_Times_New_Roman;
+         CP.Font.Family:= sys_Times_New_Roman;
          CP.Font.Size:= 12;
          end;
 

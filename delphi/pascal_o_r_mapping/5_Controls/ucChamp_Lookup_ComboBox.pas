@@ -25,7 +25,7 @@ unit ucChamp_Lookup_ComboBox;
 interface
 
 uses
-    SysUtils, Classes, Controls, StdCtrls,
+    SysUtils, Classes, FMX.Controls, StdCtrls,
     uBatpro_StringList,
     uClean,
     uChamps,

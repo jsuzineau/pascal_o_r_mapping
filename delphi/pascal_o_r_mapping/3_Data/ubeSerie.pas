@@ -29,7 +29,7 @@ uses
     u_sys_,
     uBatpro_Element,
   {$IFDEF MSWINDOWS}
-  Graphics,
+  FMX.Graphics,
   {$ENDIF}
   SysUtils, Classes;
 
@@ -64,7 +64,7 @@ begin
          begin
          CP.Libelle:= 'classe Série générique';
          {$IFDEF MSWINDOWS}
-         CP.Font.Name:= sys_SmallFonts;
+         CP.Font.Family:= sys_SmallFonts;
          CP.Font.Size:= 6;
          with CP.Font do Style:= Style + [fsBold];
          {$ENDIF}

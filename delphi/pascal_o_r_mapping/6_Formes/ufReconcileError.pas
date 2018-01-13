@@ -19,7 +19,7 @@ unit ufReconcileError;
 interface
 
 uses
-  SysUtils, Windows, Variants, Messages, Classes, Graphics, Controls, Forms,
+  SysUtils, Windows, Variants, Messages, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
   Dialogs, StdCtrls, Grids, DB, DBClient, Provider, ExtCtrls;
 
 const

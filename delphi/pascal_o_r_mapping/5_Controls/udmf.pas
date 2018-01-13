@@ -27,7 +27,7 @@ interface
 uses
   uLookupConnection_Ancetre,
     uBatpro_StringList,
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, 
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controlso, FMX.Forms,
   StdCtrls, DB, DBClient;
 
 type
