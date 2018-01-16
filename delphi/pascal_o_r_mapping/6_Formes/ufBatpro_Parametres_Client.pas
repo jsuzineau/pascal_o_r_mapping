@@ -55,7 +55,7 @@ function fBatpro_Parametres_Client: TfBatpro_Parametres_Client;
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 function fBatpro_Parametres_Client: TfBatpro_Parametres_Client;
 begin

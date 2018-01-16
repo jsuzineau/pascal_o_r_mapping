@@ -5,7 +5,7 @@ object fOOoModelSelect: TfOOoModelSelect
   Height = 286
   Caption = 'Choix d'#39'un mod'#232'le'
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
+
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'

@@ -43,7 +43,7 @@ procedure Bloque( _F: TForm; _Proc: TAbonnement_Objet_Proc);
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 procedure Bloque( _F: TForm; _Proc: TAbonnement_Objet_Proc);
 var

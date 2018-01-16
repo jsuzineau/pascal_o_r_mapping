@@ -71,7 +71,7 @@ uses
     uDataUtilsU,
     uDataUtilsF;
 
-{$R *.dfm}
+{$R *.fmx}
 
 (*
 procedure Affecte( Resultat, Valeur: TIntegerField);

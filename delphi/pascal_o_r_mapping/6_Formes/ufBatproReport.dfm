@@ -73,7 +73,7 @@ inherited fBatproReport: TfBatproReport
         Top = 40
         Width = 43
         Height = 32
-        Font.Charset = DEFAULT_CHARSET
+
         Font.Color = clWindowText
         Font.Height = -19
         Font.Name = 'Arial'
@@ -246,7 +246,7 @@ inherited fBatproReport: TfBatproReport
     Top = 483
   end
   object FontDialog: TFontDialog
-    Font.Charset = DEFAULT_CHARSET
+
     Font.Color = clWindowText
     Font.Height = -11
     Font.Name = 'MS Sans Serif'

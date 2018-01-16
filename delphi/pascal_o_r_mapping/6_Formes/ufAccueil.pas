@@ -54,7 +54,6 @@ type
   class(TForm)
     Label1: TLabel;
     Panel2: TPanel;
-    Image1: TImage;
     bOK: TBitBtn;
     bEnregistrer: TButton;
     SaveDialog: TSaveDialog;
@@ -154,7 +153,7 @@ uses
     uMailTo,
     uClean, ufAccueil_Erreur;
 
-{$R *.dfm}
+{$R *.fmx}
 
 procedure Memo_Goto_end( _Memo: FMX.Memo.TMemo);
 begin

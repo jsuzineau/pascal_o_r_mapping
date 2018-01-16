@@ -50,7 +50,7 @@ function fPool: TfPool;
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FfPool: TfPool;

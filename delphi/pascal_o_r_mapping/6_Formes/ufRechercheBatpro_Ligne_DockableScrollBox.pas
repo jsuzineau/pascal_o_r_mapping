@@ -102,7 +102,7 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 procedure TfRechercheBatpro_Ligne_DockableScrollBox.Loaded;
 begin

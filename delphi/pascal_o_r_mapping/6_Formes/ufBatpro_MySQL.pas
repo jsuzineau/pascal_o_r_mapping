@@ -59,7 +59,7 @@ function fBatpro_MySQL: TfBatpro_MySQL;
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FfBatpro_MySQL: TfBatpro_MySQL;

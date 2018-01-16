@@ -65,7 +65,7 @@ function fBatpro_Informix: TfBatpro_Informix;
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FfBatpro_Informix: TfBatpro_Informix;

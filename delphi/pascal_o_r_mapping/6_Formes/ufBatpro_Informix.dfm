@@ -5,7 +5,7 @@ object fBatpro_Informix: TfBatpro_Informix
   ClientHeight = 133
   ClientWidth = 557
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
+
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'

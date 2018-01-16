@@ -64,7 +64,7 @@ inherited fPool: TfPool
     Width = 455
     Height = 308
     Align = alClient
-    Font.Charset = DEFAULT_CHARSET
+
     Font.Color = clWindowText
     Font.Height = -11
     Font.Name = 'Courier New'

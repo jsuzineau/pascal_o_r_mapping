@@ -112,7 +112,7 @@ procedure ufBatpro_Form_Termine_Animation;
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    Precedentes: TList;

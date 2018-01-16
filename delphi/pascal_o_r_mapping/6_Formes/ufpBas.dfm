@@ -151,7 +151,7 @@ inherited fpBas: TfpBas
       Width = 352
       Height = 57
       Align = alClient
-      Font.Charset = DEFAULT_CHARSET
+
       Font.Color = clWindowText
       Font.Height = -11
       Font.Name = 'Courier New'

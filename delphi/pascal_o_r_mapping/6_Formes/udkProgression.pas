@@ -70,7 +70,7 @@ implementation
 uses
     uClean;
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FdkProgression: TdkProgression;

@@ -58,7 +58,7 @@ function fSchemateur: TfSchemateur;
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FfSchemateur: TfSchemateur= nil;

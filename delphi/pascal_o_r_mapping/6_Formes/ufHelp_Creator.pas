@@ -96,7 +96,7 @@ uses
     uClean,
     u_sys_, Types;
 
-{$R *.dfm}
+{$R *.fmx}
 var
    FfHelp_Creator: TfHelp_Creator;
 

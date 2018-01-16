@@ -181,7 +181,7 @@ function ufOpenDocument_DelphiReportEngine_Execute( _NomDocument: String): Boole
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 function ufOpenDocument_DelphiReportEngine_Execute( _NomDocument: String): Boolean;
 var

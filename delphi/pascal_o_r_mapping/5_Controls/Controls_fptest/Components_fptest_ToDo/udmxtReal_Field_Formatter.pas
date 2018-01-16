@@ -71,7 +71,7 @@ implementation
 uses
     uClean;
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FdmxtReal_Field_Formatter: TdmxtReal_Field_Formatter;

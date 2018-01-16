@@ -5,7 +5,7 @@ object ftcChamp_DateTimePicker: TftcChamp_DateTimePicker
   Height = 149
   Caption = 'ftcChamp_DateTimePicker'
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
+
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'

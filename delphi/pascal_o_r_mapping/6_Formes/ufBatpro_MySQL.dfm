@@ -5,7 +5,7 @@ object fBatpro_MySQL: TfBatpro_MySQL
   ClientHeight = 134
   ClientWidth = 195
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
+
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'

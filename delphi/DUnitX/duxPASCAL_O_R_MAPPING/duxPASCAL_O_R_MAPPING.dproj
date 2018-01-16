@@ -214,6 +214,10 @@
         <DCCReference Include="..\..\pascal_o_r_mapping\5_Controls\ucChamp_CheckBox.pas"/>
         <DCCReference Include="..\..\pascal_o_r_mapping\5_Controls\ucChamp_Integer_SpinEdit.pas"/>
         <DCCReference Include="..\..\pascal_o_r_mapping\5_Controls\ucBatpro_Shape.pas"/>
+        <DCCReference Include="Unit1.pas">
+            <Form>Form1</Form>
+            <FormType>fmx</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

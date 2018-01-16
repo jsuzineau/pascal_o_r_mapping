@@ -67,7 +67,7 @@ function fMailTo: TfMailTo;
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FfMailTo: TfMailTo= nil;

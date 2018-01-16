@@ -98,7 +98,7 @@ object fReconcileError: TfReconcileError
       Width = 69
       Height = 13
       Caption = 'Modification'
-      Font.Charset = DEFAULT_CHARSET
+
       Font.Color = clBlack
       Font.Height = -11
       Font.Name = 'Default'

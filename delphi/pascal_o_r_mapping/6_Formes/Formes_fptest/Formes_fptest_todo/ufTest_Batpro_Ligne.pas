@@ -53,7 +53,7 @@ function fTest_Batpro_Ligne: TfTest_Batpro_Ligne;
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FfTest_Batpro_Ligne: TfTest_Batpro_Ligne;

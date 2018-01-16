@@ -5,7 +5,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
   Height = 656
   Caption = 'fOpenDocument_DelphiReportEngine'
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
+
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
@@ -349,7 +349,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
         Width = 1126
         Height = 594
         Align = alClient
-        Font.Charset = DEFAULT_CHARSET
+
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'Courier New'
@@ -371,7 +371,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
         Width = 1126
         Height = 553
         Align = alClient
-        Font.Charset = DEFAULT_CHARSET
+
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'Courier New'
@@ -425,7 +425,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
         Width = 1126
         Height = 553
         Align = alClient
-        Font.Charset = DEFAULT_CHARSET
+
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'Courier New'
@@ -479,7 +479,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
         Width = 1126
         Height = 594
         Align = alClient
-        Font.Charset = DEFAULT_CHARSET
+
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'Courier New'
@@ -499,7 +499,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
         Width = 1126
         Height = 594
         Align = alClient
-        Font.Charset = DEFAULT_CHARSET
+
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'Courier New'
@@ -520,7 +520,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
         Width = 1126
         Height = 594
         Align = alClient
-        Font.Charset = DEFAULT_CHARSET
+
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'Courier New'
@@ -541,7 +541,7 @@ object fOpenDocument_DelphiReportEngine: TfOpenDocument_DelphiReportEngine
         Width = 1126
         Height = 594
         Align = alClient
-        Font.Charset = DEFAULT_CHARSET
+
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'Courier New'

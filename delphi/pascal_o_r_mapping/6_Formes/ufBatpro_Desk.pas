@@ -85,7 +85,7 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 procedure TfBatpro_Desk.FormCreate(Sender: TObject);
 begin

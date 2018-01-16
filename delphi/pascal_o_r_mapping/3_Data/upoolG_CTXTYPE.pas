@@ -73,7 +73,7 @@ uses
 {implementation_uses_key}
     udmDatabase;
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FpoolG_CTXTYPE: TpoolG_CTXTYPE;

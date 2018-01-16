@@ -133,7 +133,8 @@ uses
   ucChamp_Lookup_ComboBox in '..\..\pascal_o_r_mapping\5_Controls\ucChamp_Lookup_ComboBox.pas',
   ucChamp_CheckBox in '..\..\pascal_o_r_mapping\5_Controls\ucChamp_CheckBox.pas',
   ucChamp_Integer_SpinEdit in '..\..\pascal_o_r_mapping\5_Controls\ucChamp_Integer_SpinEdit.pas',
-  ucBatpro_Shape in '..\..\pascal_o_r_mapping\5_Controls\ucBatpro_Shape.pas';
+  ucBatpro_Shape in '..\..\pascal_o_r_mapping\5_Controls\ucBatpro_Shape.pas',
+  Unit1 in 'Unit1.pas' {Form1};
 
 var
   runner : ITestRunner;

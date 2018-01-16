@@ -149,7 +149,7 @@ function fBatproReport: TfBatproReport;
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 
 var

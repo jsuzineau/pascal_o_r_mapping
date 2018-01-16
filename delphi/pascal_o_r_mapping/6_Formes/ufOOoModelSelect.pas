@@ -46,7 +46,7 @@ function fOOoModelSelect: TfOOoModelSelect;
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FfOOoModelSelect: TfOOoModelSelect= nil;

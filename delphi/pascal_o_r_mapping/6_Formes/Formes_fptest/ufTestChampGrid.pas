@@ -50,7 +50,7 @@ implementation
 uses
     uClean;
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FfTestChampGrid: TfTestChampGrid;

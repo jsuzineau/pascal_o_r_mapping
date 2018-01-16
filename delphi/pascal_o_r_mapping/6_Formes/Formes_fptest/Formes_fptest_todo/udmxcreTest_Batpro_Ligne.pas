@@ -62,7 +62,7 @@ uses
     uDataUtilsF,
     udmDatabase;
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FdmxcreTest_Batpro_Ligne: TdmxcreTest_Batpro_Ligne;

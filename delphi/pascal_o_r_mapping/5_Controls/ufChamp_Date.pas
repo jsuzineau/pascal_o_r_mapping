@@ -49,7 +49,7 @@ implementation
 uses
     uClean, Types;
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FfChamp_Date: TfChamp_Date;

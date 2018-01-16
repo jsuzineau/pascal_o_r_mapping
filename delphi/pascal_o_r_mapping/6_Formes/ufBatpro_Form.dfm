@@ -6,7 +6,7 @@ object fBatpro_Form: TfBatpro_Form
   ClientHeight = 228
   ClientWidth = 354
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
+
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
@@ -34,7 +34,7 @@ object fBatpro_Form: TfBatpro_Form
       Align = alClient
       Caption = 'lSociete'
       Color = 16744576
-      Font.Charset = DEFAULT_CHARSET
+
       Font.Color = clWindowText
       Font.Height = -11
       Font.Name = 'Courier New'
@@ -53,7 +53,7 @@ object fBatpro_Form: TfBatpro_Form
       Alignment = taRightJustify
       Caption = '23:59:59'
       Color = 16744576
-      Font.Charset = DEFAULT_CHARSET
+
       Font.Color = clWindowText
       Font.Height = -11
       Font.Name = 'Courier New'

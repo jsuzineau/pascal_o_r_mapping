@@ -218,7 +218,7 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 const
      inik_Mot_de_passe= 'Mot_de_passe';

@@ -85,7 +85,7 @@ uses
 {implementation_uses_key}
     udmDatabase;
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FpoolG_BECP: TpoolG_BECP;

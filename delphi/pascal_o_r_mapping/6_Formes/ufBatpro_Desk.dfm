@@ -6,7 +6,7 @@ object fBatpro_Desk: TfBatpro_Desk
   ClientWidth = 247
   Color = clBtnFace
   DockSite = True
-  Font.Charset = DEFAULT_CHARSET
+
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'

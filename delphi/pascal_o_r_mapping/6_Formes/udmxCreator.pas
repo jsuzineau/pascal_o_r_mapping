@@ -75,7 +75,7 @@ type
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 procedure TdmxCreator.DataModuleCreate(Sender: TObject);
 begin

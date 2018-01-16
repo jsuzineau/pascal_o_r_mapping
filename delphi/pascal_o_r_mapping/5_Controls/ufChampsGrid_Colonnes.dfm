@@ -5,7 +5,7 @@ object fChampsGrid_Colonnes: TfChampsGrid_Colonnes
   Height = 403
   Caption = 'fChampsGrid_Colonnes'
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
+
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'

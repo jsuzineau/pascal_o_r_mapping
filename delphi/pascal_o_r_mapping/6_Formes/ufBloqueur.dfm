@@ -9,7 +9,7 @@ object fBloqueur: TfBloqueur
   ClientHeight = 622
   ClientWidth = 1134
   Color = clWhite
-  Font.Charset = DEFAULT_CHARSET
+
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'

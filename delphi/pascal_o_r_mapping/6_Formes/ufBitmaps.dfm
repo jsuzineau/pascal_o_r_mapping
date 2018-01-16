@@ -5,7 +5,7 @@ object fBitmaps: TfBitmaps
   ClientHeight = 249
   ClientWidth = 790
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
+
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'

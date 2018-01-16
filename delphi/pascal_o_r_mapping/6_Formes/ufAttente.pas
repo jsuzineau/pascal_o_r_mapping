@@ -46,7 +46,7 @@ function fAttente: TfAttente;
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 function fAttente: TfAttente;
 begin

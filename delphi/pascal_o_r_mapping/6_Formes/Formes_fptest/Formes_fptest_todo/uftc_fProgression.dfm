@@ -5,7 +5,7 @@ object ftc_fProgression: Tftc_fProgression
   Height = 150
   Caption = 'ftc_fProgression'
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
+
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'

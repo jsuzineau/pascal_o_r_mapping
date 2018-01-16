@@ -58,7 +58,7 @@ uses
     uuStrings,
     U_BTP;
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    Ff_Valeur_monetaire_en_lettres: Tf_Valeur_monetaire_en_lettres;

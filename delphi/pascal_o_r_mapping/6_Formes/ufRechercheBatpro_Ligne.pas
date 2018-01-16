@@ -111,7 +111,7 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 procedure TfRechercheBatpro_Ligne.Loaded;
 begin

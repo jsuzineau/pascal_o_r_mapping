@@ -77,7 +77,7 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 { TblTest_Champ_DateTimePicker }
 

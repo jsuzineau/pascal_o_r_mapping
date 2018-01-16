@@ -78,7 +78,7 @@ implementation
 uses
     uClean;
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FfProgression: TfProgression;

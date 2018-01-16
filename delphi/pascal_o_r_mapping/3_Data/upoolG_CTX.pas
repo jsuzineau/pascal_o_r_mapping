@@ -80,7 +80,7 @@ function poolG_CTX: TpoolG_CTX;
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FpoolG_CTX: TpoolG_CTX;

@@ -6,7 +6,7 @@ object fcbBase: TfcbBase
   ClientHeight = 188
   ClientWidth = 225
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
+
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'

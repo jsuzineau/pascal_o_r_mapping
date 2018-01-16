@@ -103,7 +103,7 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 procedure TfRechercheBatpro_Ligne_ChampGrid.Loaded;
 begin

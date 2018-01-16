@@ -796,7 +796,7 @@ procedure uPool_Vide;
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 procedure Traite_TABLE_SANS_ID;
 var

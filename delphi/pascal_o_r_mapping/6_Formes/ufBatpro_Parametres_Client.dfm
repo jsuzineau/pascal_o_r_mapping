@@ -5,7 +5,7 @@ object fBatpro_Parametres_Client: TfBatpro_Parametres_Client
   ClientHeight = 661
   ClientWidth = 1008
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
+
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
@@ -21,7 +21,7 @@ object fBatpro_Parametres_Client: TfBatpro_Parametres_Client
     Width = 1008
     Height = 620
     Align = alClient
-    Font.Charset = DEFAULT_CHARSET
+
     Font.Color = clWindowText
     Font.Height = -11
     Font.Name = 'Courier'

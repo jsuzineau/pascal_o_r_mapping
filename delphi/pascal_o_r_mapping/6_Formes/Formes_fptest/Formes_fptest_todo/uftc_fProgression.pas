@@ -49,7 +49,7 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 procedure Tftc_fProgression.bDemarreClick(Sender: TObject);
 begin

@@ -6,7 +6,7 @@ object fFlyer: TfFlyer
   ClientHeight = 51
   ClientWidth = 422
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
+
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'

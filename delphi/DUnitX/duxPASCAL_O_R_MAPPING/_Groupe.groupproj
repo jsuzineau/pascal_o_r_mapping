@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{0EB6D155-77AD-437C-9416-4497EFCA448A}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\..\pascal_o_r_mapping\2_Units\OD_DelphiReportEngine_Units.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="duxPASCAL_O_R_MAPPING.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="OD_DelphiReportEngine_Units">
+        <MSBuild Projects="..\..\pascal_o_r_mapping\2_Units\OD_DelphiReportEngine_Units.dproj"/>
+    </Target>
+    <Target Name="OD_DelphiReportEngine_Units:Clean">
+        <MSBuild Projects="..\..\pascal_o_r_mapping\2_Units\OD_DelphiReportEngine_Units.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="OD_DelphiReportEngine_Units:Make">
+        <MSBuild Projects="..\..\pascal_o_r_mapping\2_Units\OD_DelphiReportEngine_Units.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="duxPASCAL_O_R_MAPPING">
+        <MSBuild Projects="duxPASCAL_O_R_MAPPING.dproj"/>
+    </Target>
+    <Target Name="duxPASCAL_O_R_MAPPING:Clean">
+        <MSBuild Projects="duxPASCAL_O_R_MAPPING.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="duxPASCAL_O_R_MAPPING:Make">
+        <MSBuild Projects="duxPASCAL_O_R_MAPPING.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="OD_DelphiReportEngine_Units;duxPASCAL_O_R_MAPPING"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="OD_DelphiReportEngine_Units:Clean;duxPASCAL_O_R_MAPPING:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="OD_DelphiReportEngine_Units:Make;duxPASCAL_O_R_MAPPING:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

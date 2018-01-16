@@ -57,7 +57,7 @@ implementation
 uses
     uClean;
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FfStringList_Batpro_Elements: TfStringList_Batpro_Elements;

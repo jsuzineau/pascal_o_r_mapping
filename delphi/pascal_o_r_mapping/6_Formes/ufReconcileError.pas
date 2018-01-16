@@ -90,7 +90,7 @@ function HandleReconcileError(DataSet: TDataSet;  UpdateKind: TUpdateKind;
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 type
   PFieldData = ^TFieldData;

@@ -80,7 +80,7 @@ type
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 { TfBase }
 

@@ -6,7 +6,7 @@ object fChamp_Date: TfChamp_Date
   ClientHeight = 157
   ClientWidth = 194
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
+
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'

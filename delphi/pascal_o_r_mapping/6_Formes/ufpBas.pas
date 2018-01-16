@@ -117,7 +117,7 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 { TfpBas }
 

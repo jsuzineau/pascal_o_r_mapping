@@ -54,7 +54,7 @@ implementation
 uses
     uClean, Types;
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FfChamp_Lookup: TfChamp_Lookup;

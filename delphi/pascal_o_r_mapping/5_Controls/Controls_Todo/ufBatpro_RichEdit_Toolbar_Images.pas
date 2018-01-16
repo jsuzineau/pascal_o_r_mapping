@@ -49,7 +49,7 @@ implementation
 uses
     uClean;
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FfBatpro_RichEdit_Toolbar_Images: TfBatpro_RichEdit_Toolbar_Images;

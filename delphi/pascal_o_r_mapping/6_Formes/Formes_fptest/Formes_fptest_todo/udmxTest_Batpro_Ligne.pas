@@ -72,7 +72,7 @@ uses
     uClean,
     udmxcreTest_Batpro_Ligne;
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FdmxTest_Batpro_Ligne: TdmxTest_Batpro_Ligne;

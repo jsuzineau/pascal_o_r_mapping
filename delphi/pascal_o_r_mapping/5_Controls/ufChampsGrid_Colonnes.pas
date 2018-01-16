@@ -47,7 +47,7 @@ function fChampsGrid_Colonnes: TfChampsGrid_Colonnes;
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FfChampsGrid_Colonnes: TfChampsGrid_Colonnes;

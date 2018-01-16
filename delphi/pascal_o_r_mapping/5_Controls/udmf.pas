@@ -59,7 +59,7 @@ implementation
 uses
     uClean;
 
-{$R *.dfm}
+{$R *.fmx}
 
 procedure Tdmf.FormCreate(Sender: TObject);
 var

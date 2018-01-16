@@ -745,7 +745,7 @@ procedure sl_ToutDeselectionner( _sl: TBatpro_StringList);
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 //########################### TBatpro_Element ##################################
 

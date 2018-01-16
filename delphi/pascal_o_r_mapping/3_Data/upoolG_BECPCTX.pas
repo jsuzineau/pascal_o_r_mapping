@@ -81,7 +81,7 @@ function poolG_BECPCTX: TpoolG_BECPCTX;
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FpoolG_BECPCTX: TpoolG_BECPCTX;

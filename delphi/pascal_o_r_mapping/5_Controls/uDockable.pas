@@ -156,7 +156,7 @@ function Dockable_from_sl( _sl: TBatpro_StringList; _I: Integer): TDockable;
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 procedure Create_Dockable( var _Reference; _Classe: TDockableClass;
                            _Parent: TFmxObject);

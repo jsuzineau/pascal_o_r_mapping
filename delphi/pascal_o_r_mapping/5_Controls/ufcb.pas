@@ -49,7 +49,7 @@ implementation
 uses
     uClean;
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    Ffcb: Tfcb;

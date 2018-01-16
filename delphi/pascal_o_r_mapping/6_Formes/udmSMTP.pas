@@ -59,7 +59,7 @@ function dmSMTP: TdmSMTP;
 
 implementation
 
-{$R *.dfm}
+{$R *.fmx}
 
 var
    FdmSMTP: TdmSMTP;
