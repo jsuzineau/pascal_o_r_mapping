@@ -32,7 +32,7 @@ uses
     ufAccueil_Erreur,
     ufpBas,
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
-  Dialogs, ActnList, StdCtrls, ComCtrls, Buttons, ExtCtrls, FMX.Menus, Types;
+  FMX.Dialogs, FMX.ActnList, FMX.StdCtrls, FMX.ComCtrls, Buttons, FMX.ExtCtrls, FMX.Menus, Types;
 
 type
  TfMailTo

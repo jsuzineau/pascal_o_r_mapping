@@ -38,7 +38,7 @@ function HauteurTexte( F: TFont; S: String; Largeur: Integer): Integer;
 function HauteurTexte_2( F: TFont; S: String; Largeur: Integer): Integer;
 function LargeurTexte( F: TFont; S: String                  ): Integer;
 
-function NbChars( F: TFont; Width: Integer): Integer;
+function NbChars( F: TFont; Width: Single): Single;
 
 procedure Aligne_Sommet( Source, Cible: TControl);
 
@@ -151,7 +151,7 @@ begin
 
      //code à reprendre pour FMX
      {
-     if fsBold in F.Style
+     if TFontStyle.fsBold in F.Style
      then
          fnWeight:= FW_BOLD
      else
@@ -286,7 +286,7 @@ begin
             end;
 end;
 
-function NbChars( F: TFont; Width: Integer): Integer;
+function NbChars( F: TFont; Width: Single): Single;
 var
    TW: Integer;
 begin
@@ -299,7 +299,7 @@ begin
         then
             Result:= 1
         else
-            Result:= Width div TW;
+            Result:= Width / TW;
      finally
             WinUtils_Contexte.Termine;
             end;
@@ -431,7 +431,7 @@ var
 begin
      //code à reprendre pour FMX
      {
-     P:= Point( Source.Left, Source.Top);
+     P:= PointF( Source.Left, Source.Top);
      P:= Source.Parent.ClientToScreen( P);
      P:= Cible.Parent.ScreenToClient( P);
      Cible.Top := P.Y;

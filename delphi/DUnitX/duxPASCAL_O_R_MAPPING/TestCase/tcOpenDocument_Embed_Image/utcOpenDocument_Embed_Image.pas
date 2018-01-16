@@ -8,7 +8,7 @@ uses
     uOD_Batpro_Table,
     uOD_Niveau,
     uBatpro_OD_Printer,
-  DUnitX.TestFramework;
+  DUnitX.TestFramework, System.SysUtils, Winapi.Windows, Winapi.ShellAPI;
 
 type
 
@@ -91,7 +91,7 @@ begin
           sl.AddObject( bl.sCle, bl);
         until 0 <> FindNext( sr);
      finally
-            FindClose( sr);
+            System.SysUtils.FindClose( sr);
             end;
 
 end;
@@ -142,7 +142,8 @@ begin
                                      [jpg.RepertoireImages],
                                      [], [],
                                      [jpg.t,png.t,bmp.t]);
-     OpenDocument( Resultat);
+     //OpenDocument( Resultat);
+     ShellExecute(0, 'OPEN', PChar(Resultat), '', '', SW_SHOWNORMAL);
 end;
 
 initialization

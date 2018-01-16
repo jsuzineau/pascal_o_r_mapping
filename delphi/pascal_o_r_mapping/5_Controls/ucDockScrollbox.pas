@@ -1,4 +1,4 @@
-unit ucDockScrollbox;
+﻿unit ucDockScrollbox;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -25,13 +25,14 @@ unit ucDockScrollbox;
 interface
 
 uses
-    SysUtils, Classes, FMX.Controls, FMX.Forms, ExtCtrls,FMX.Graphics,
+    SysUtils, Classes, FMX.Controls, FMX.Forms, FMX.ExtCtrls,FMX.Graphics,
     uBatpro_StringList,
     uClean,
     u_sys_,
     uWinUtils,
     uPublieur,
-    uDockable;
+    uDockable,
+    FMX.Layouts, System.UITypes, FMX.StdCtrls;
 
 type
  TDockScrollbox
@@ -132,13 +133,13 @@ begin
      if Old_Visible then Hide;
      try
         Bas:= Calcule_Hauteur;
-        ClientHeight:= Bas + HauteurLigne;
+        Height:= Bas + HauteurLigne;
 
         p:= TPanel.Create( nil);
         p.Parent:= Self;
-        p.Top:= Bas;
-        p.Align:= alTop;
-        p.DockSite:= True;
+        p.Position.X:= Bas;
+        //p.Align:= alTop;
+        //p.DockSite:= True;
         p.Height:= HauteurLigne;
 
         Create_Dockable( dk, Classe_dockable, p);
@@ -151,13 +152,15 @@ begin
 
         TDockable(dk).DockableScrollbox_Suppression:= DemandeSuppression;
 
+        {
         if Zebrage
         then
             if Odd( I)
             then
-                TDockable(dk).Color:= Zebrage1
+                TDockable(dk).Brush.Color:= Zebrage1
             else
                 TDockable(dk).Color:= Zebrage2;
+        }
      finally
             if Old_Visible then Show;
             end;
@@ -215,7 +218,7 @@ begin
 
      Result:= Dockable_from_sl( slDockable, slDockable.Count - 1);
 
-     ClientHeight:= Calcule_Hauteur;
+     Height:= Calcule_Hauteur;
 end;
 
 procedure TDockScrollbox.Vide;

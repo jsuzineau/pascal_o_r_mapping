@@ -17,21 +17,6 @@ object fProgression: TfProgression
   OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
-  object dsb: TDockScrollbox
-    Left = 0
-    Top = 0
-    Width = 422
-    Height = 214
-    Align = alClient
-    BevelInner = bvNone
-    BevelOuter = bvNone
-    BorderStyle = bsNone
-    TabOrder = 0
-    HauteurLigne = 51
-    Zebrage = False
-    Zebrage1 = clBlack
-    Zebrage2 = clBlack
-  end
   object tAutoHide: TTimer
     Enabled = False
     Interval = 2000

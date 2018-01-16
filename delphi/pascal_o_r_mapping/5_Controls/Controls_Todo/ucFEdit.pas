@@ -8,7 +8,7 @@ interface
 uses
     Windows,
     Messages, SysUtils, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
-    Dialogs, StdCtrls;
+    FMX.Dialogs, FMX.StdCtrls;
 
 const
      ucFEdit_MaxExtended =  1.09E4932;

@@ -36,7 +36,7 @@ uses
     upool_Ancetre_Ancetre,
 
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
-  Dialogs, ComCtrls, ucBatproDateTimePicker, SqlExpr, DB, StdCtrls,
+  FMX.Dialogs, FMX.ComCtrls, ucBatproDateTimePicker, SqlExpr, DB, FMX.StdCtrls,
   ucChamp_Label, ucChamp_DateTimePicker;
 
 type

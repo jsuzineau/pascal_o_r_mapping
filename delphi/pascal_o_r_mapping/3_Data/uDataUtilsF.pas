@@ -1,4 +1,4 @@
-unit uDataUtilsF;
+﻿unit uDataUtilsF;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -43,13 +43,11 @@ uses
     ufAccueil_Erreur,
 
   {$IFNDEF FPC}
-  FMX.Graphics, FMX.Forms, Dialogs,
+  FMX.Graphics, FMX.Forms, FMX.Dialogs,
   {$ENDIF}
-  SysUtils, Classes, DB, DBTables,
+  SysUtils, Classes, Data.DB,
   SimpleDS, DBClient, Provider, TypInfo, SQLExpr;
 
-function RefreshQuery( Q   : TQuery        ;
-                       _Afficher_Erreur: Boolean= True): Boolean; overload;
 function RefreshQuery( SQLQ: TSQLQuery     ;
                        _Afficher_Erreur: Boolean= True;
                        _Contexte: String= ''): Boolean; overload;
@@ -62,26 +60,20 @@ function RefreshQuery( D: TDataset;
 
 function DatasetDetail_Update( D: TDataset): Boolean;
 
-function ExecSQLQuery( Q   : TQuery                   ): Boolean; overload;
 function ExecSQLQuery( SQLQ: TSQLQuery                ): Boolean; overload;
-function ExecSQLQuery( Q   : TQuery; QueryText: String): Boolean; overload;
 function ExecSQLQuery( SQLQ: TSQLQuery; QueryText: String): Boolean; overload;
-function ExecSQLQuery_db( Q: TQuery; DB: TDatabase): Boolean;
 function ExecSQLQuery_sqlc( SQLQ: TSQLQuery; sqlc: TSQLConnection): Boolean;
 function ExecQuery( sqlc: TSQLConnection; SQL: String): Boolean;
 
-function SetQuery( Q: TQuery   ; QueryText: String): Boolean; overload;
 function SetQuery( sqlq: TSQLQuery; cd: TClientDataset;QueryText: String): Boolean; overload;
 
 function SetSQLQuery( Q: TSQLQuery; QueryText: String): Boolean;
 
-function Ouvre_Database( db: TDatabase): Boolean;
 function Ouvre_SQLConnection( sqlc: TSQLConnection;
                               _Afficher_Erreur: Boolean= True): Boolean;
 
 function Ouvre( Dataset: TDataset): Boolean;
 
-function NamePath_from_Q( Q: TQuery): String;
 function NamePath_from_C( C: TComponent): String;
 function Requete_Log( Q: TDataset): String;
 function AfficheRequete( Q: TDataset): Boolean;
@@ -91,8 +83,7 @@ function ConnectionText( D: TDataset): String;
 function Dataset_from_ClientDataset( CD: TClientDataset): TDataset;
 function SQLQuery_from_ClientDataset( CD: TClientDataset): TSQLQuery;
 
-procedure Assure_D_is_TQuery( Contexte: String; D: TDataSet);
-procedure Assure_D_is_TQuery_TClientDatasetTSQLQuery( Contexte: String; D: TDataSet);
+procedure Assure_D_is_TClientDatasetTSQLQuery( Contexte: String; D: TDataSet);
 
 function Copie_Champs( Source, Cible: TDataSet): Boolean;
 function Copie_Champs_sans_controle_type( Source, Cible: TDataSet): Boolean;
@@ -297,7 +288,7 @@ end;
 
 function sRequestDisplayStr( sRequete_NamePath, sSQL: String;
                              slParams: TBatpro_StringList;
-                             FieldList: TFieldList;
+                             FieldList: Data.DB.TFieldList;
                              MasterSource: String): String;
 var
    I: Integer;
@@ -313,10 +304,10 @@ begin
      for I:= 0 to FieldList.Count - 1
      do
        begin
-       sFieldKind:= String_from_FieldKind( FieldList.Fields[I].FieldKind);
-       sDataType := String_from_FieldType( FieldList.Fields[I].DataType );
+       sFieldKind:= String_from_FieldKind( (TObject(FieldList[I])as TField).FieldKind);
+       sDataType := String_from_FieldType( (TObject(FieldList[I])as TField).DataType );
 
-       sField:= FieldList.Fields[I].FieldName+': '+sDataType+', '+sFieldKind;
+       sField:= (TObject(FieldList[I])as TField).FieldName+': '+sDataType+', '+sFieldKind;
        sFields:= sFields+ Indente( s_Indentation, sField)+#13#10;
        end;
      Result
@@ -344,11 +335,6 @@ end;
 function NamePath_from_C( C: TComponent): String;
 begin
      Result:= sdm_from_Owner( C) +'.'+ C.Name;
-end;
-
-function NamePath_from_Q( Q: TQuery): String;
-begin
-     Result:= NamePath_from_C( Q);
 end;
 
 procedure FormatParams( sl: TBatpro_StringList; p: TParams);
@@ -383,12 +369,6 @@ begin
      finally
             Free_nil( sl);
             end;
-end;
-
-function Create_ParamList_from_Query( Q: TQuery): TBatpro_StringList;overload;
-begin
-     Result:= TBatpro_StringList.Create;
-     FormatParams( Result, Q.Params);
 end;
 
 function Create_ParamList_from_Query( SQLQ: TSQLQuery): TBatpro_StringList;overload;
@@ -427,65 +407,10 @@ end;
 
 function Create_ParamList_from_Query( D: TDataset): TBatpro_StringList;overload;
 begin
-     if D is TQuery         then Result:=Create_ParamList_from_Query(TQuery        (D))
-else if D is TSQLQuery      then Result:=Create_ParamList_from_Query(TSQLQuery     (D))
+     if D is TSQLQuery      then Result:=Create_ParamList_from_Query(TSQLQuery     (D))
 else if D is TSimpleDataset then Result:=Create_ParamList_from_Query(TSimpleDataset(D))
 else if D is TClientDataset then Result:=Create_ParamList_from_Query(TClientDataset(D))
 else                             Result:=TBatpro_StringList.Create;
-end;
-
-procedure TraiteExceptionRequete( Q: TQuery; E: Exception; var Resultat: Boolean;
-                                 _Afficher_Erreur: Boolean= True);overload;
-var
-   sdm: String;
-   slParam: TBatpro_StringList;
-begin
-     sdm:= sdm_from_Owner( q);
-
-     slParam:= Create_ParamList_from_Query( Q);
-       if _Afficher_Erreur
-       then
-           fAccueil_Erreur( sRequestFailed(E,NamePath_from_Q(Q),QueryText( q),slParam),
-                        'Erreur SGBD')
-       else
-           fAccueil_Log( sRequestFailed(E,NamePath_from_Q(Q),QueryText( q),slParam),
-                        'Erreur SGBD');
-     Free_nil( slParam);
-
-     Resultat:= False;
-end;
-
-//à revoir provient de freepascal, pas trop cohérent en delphi
-//car TSQLConnection n'hérite pas de tdatabase
-function sParametres_Connection( _d: TDatabase): String;
-var
-   sqlc: TSQLConnection;
-begin
-     if Affecte( sqlc, TSQLConnection, _d)
-     then
-         Result
-         :=
-            'Paramètres de connection:'#13#10
-            {$IFDEF FPC}
-           +'HostName='+sqlc.HostName+#13#10
-           +'DatabaseName='+sqlc.DatabaseName+#13#10
-           +'UserName='+sqlc.UserName+#13#10
-           +'Password='+sqlc.Password+#13#10
-            {$ELSE}
-           +sqlc.Params.Text
-            {$ENDIF}
-     else if Assigned(_d)
-     then
-         Result
-         :=
-            'Paramètres de connection:'#13#10
-           +'DatabaseName='+_d.DatabaseName+#13#10
-           +_d.Params.Text
-     else
-         Result
-         :=
-            'Paramètres de connection:'#13#10
-           +'  connection non affectée';
 end;
 
 procedure TraiteExceptionRequete( SQLQ: TSQLQuery; E: Exception; var Resultat: Boolean; sqlc: TSQLConnection=nil;
@@ -602,8 +527,7 @@ function TraiteExceptionRequete( D: TDataset; E: Exception; var Resultat: Boolea
                                  _Afficher_Erreur: Boolean= True): Boolean;overload;
 begin
      Result:= True;
-     if D is TQuery         then TraiteExceptionRequete(TQuery        (D),E,Resultat,_Afficher_Erreur)
-else if D is TSQLQuery      then TraiteExceptionRequete(TSQLQuery     (D),E,Resultat, nil, _Afficher_Erreur)
+     if D is TSQLQuery      then TraiteExceptionRequete(TSQLQuery     (D),E,Resultat, nil, _Afficher_Erreur)
 else if D is TSimpleDataset then TraiteExceptionRequete(TSimpleDataset(D),E,Resultat,_Afficher_Erreur)
 else if D is TClientDataset then TraiteExceptionRequete(TClientDataset(D),E,Resultat,_Afficher_Erreur)
 else                             Result:= False;
@@ -686,8 +610,7 @@ end;
 
 function QueryText( D: TDataset): String;
 begin
-     if D is TQuery         then Result:=TQuery        (D).SQL.Text
-else if D is TSQLQuery      then Result:=TSQLQuery     (D).SQL.Text
+     if D is TSQLQuery      then Result:=TSQLQuery     (D).SQL.Text
 else if D is TSimpleDataset then Result:=TSimpleDataset(D).DataSet.CommandText
 else if D is TClientDataset then Result:=ClientDataset_QueryText( TClientDataset(D))
 else                             Result:=sys_Vide;
@@ -695,8 +618,7 @@ end;
 
 function ConnectionText( D: TDataset): String;
 begin
-     if D is TQuery         then Result:=TQuery        (D).Database.Params.Text
-else if D is TSQLQuery      then Result:=TSQLQuery     (D).SQLConnection.Params.Text
+     if D is TSQLQuery      then Result:=TSQLQuery     (D).SQLConnection.Params.Text
 else if D is TSimpleDataset then Result:=TSimpleDataset(D).Connection.Params.Text
 else if D is TClientDataset then Result:=ClientDataset_ConnectionText( TClientDataset(D))
 else                             Result:=sys_Vide;
@@ -775,28 +697,6 @@ begin
      Result:= AfficheRequete_Interne( q, False);
 end;
 
-function SetQuery( Q: TQuery; QueryText: String): Boolean; overload;
-begin
-     Result:= False;
-     with Q
-     do
-       try
-          //DisableControls;// ok pour DisableControls / Evenements
-          Close;
-          SQL.Text:= QueryText;
-          try
-             Open;
-             Result:= True;
-          except
-                on E: Exception
-                do
-                  TraiteExceptionRequete( Q, E, Result);
-                end;
-       finally
-              //EnableControls;
-              end;
-end;
-
 function SetSQLQuery( Q: TSQLQuery; QueryText: String): Boolean;
 begin
      Result:= False;
@@ -835,46 +735,6 @@ begin
                 on E: Exception
                 do
                   TraiteExceptionRequete( sqlQ, E, Result);
-                end;
-       finally
-              //EnableControls;
-              end;
-end;
-
-function RefreshQuery( Q: TQuery;
-                       _Afficher_Erreur: Boolean= True): Boolean; overload;
-var
-   sdm: String;
-   rle: TRequete_Log_Entry;
-begin
-     if ModeDEBUG_1
-     then
-         begin
-         sdm:= sdm_from_Owner( Q);
-         fAccueil_Log(
-             Format( 'Appel de la procédure uDataUtils.RefreshQuery sur %s.%s',
-                     [sdm, q.Name])
-                     );
-         end;
-
-     rle:= Log_SQL.LogQ( Q);
-
-     with Q
-     do
-       try
-          //DisableControls;// ok pour DisableControls / Evenements
-          Close;
-          try
-             Open;
-             if Assigned( rle) then rle.Stop;
-             Result:= True;
-          except
-                on E: Exception//EDBEngineError
-                do
-                  begin
-                  TraiteExceptionRequete( Q, E, Result, _Afficher_Erreur);
-                  Close;
-                  end;
                 end;
        finally
               //EnableControls;
@@ -1019,8 +879,7 @@ end;
 function RefreshQuery( D: TDataset;
                        _Afficher_Erreur: Boolean= True): Boolean; overload;
 begin
-          if D is TQuery         then Result:= RefreshQuery( TQuery        (D),_Afficher_Erreur)
-     else if D is TSQLQuery      then Result:= RefreshQuery( TSQLQuery     (D),_Afficher_Erreur)
+          if D is TSQLQuery      then Result:= RefreshQuery( TSQLQuery     (D),_Afficher_Erreur)
      else if D is TSimpleDataset then Result:= RefreshQuery( TSimpleDataset(D),_Afficher_Erreur)
      else if D is TClientDataset then Result:= RefreshQuery( TClientDataset(D),_Afficher_Erreur)
      else
@@ -1077,35 +936,6 @@ begin
               end;
 end;
 
-function ExecSQLQuery( Q: TQuery): Boolean; overload;
-var
-   sdm: String;
-   rle: TRequete_Log_Entry;
-begin
-     if ModeDEBUG_1
-     then
-         begin
-         sdm:= sdm_from_Owner( Q);
-         fAccueil_Log(
-             Format( 'Appel de la procédure ExecSQLQuery sur %s.%s',
-                     [sdm, q.Name])
-                     );
-         end;
-
-     rle:= Log_SQL.LogQ( Q);
-     with Q
-     do
-       try
-          ExecSQL;
-          if Assigned( rle) then rle.Stop;
-          Result:= True;
-       except
-             on E: Exception//EDBEngineError
-             do
-               TraiteExceptionRequete( Q, E, Result);
-             end;
-end;
-
 function ExecSQLQuery( SQLQ: TSQLQuery): Boolean; overload;
 var
    sdm: String;
@@ -1133,37 +963,6 @@ begin
              on E: Exception//EDBEngineError
              do
                TraiteExceptionRequete( SQLQ, E, Result);
-             end;
-end;
-
-function ExecSQLQuery( Q: TQuery; QueryText: String): Boolean;
-var
-   sdm: String;
-   rle: TRequete_Log_Entry;
-begin
-     if ModeDEBUG_1
-     then
-         begin
-         sdm:= sdm_from_Owner( Q);
-         fAccueil_Log(
-             Format( 'Appel de la procédure ExecSQLQuery sur %s.%s',
-                     [sdm, q.Name])
-                     );
-         end;
-
-     with Q
-     do
-       try
-          Close;
-          SQL.Text:= QueryText;
-          rle:= Log_SQL.LogQ( Q);
-          ExecSQL;
-          if Assigned( rle) then rle.Stop;
-          Result:= True;
-       except
-             on E: Exception//EDBEngineError
-             do
-               TraiteExceptionRequete( Q, E, Result);
              end;
 end;
 
@@ -1195,36 +994,6 @@ begin
              on E: Exception//EDBEngineError
              do
                TraiteExceptionRequete( SQLQ, E, Result);
-             end;
-end;
-
-function ExecSQLQuery_db( Q: TQuery; DB: TDatabase): Boolean;
-var
-   sdm: String;
-   rle: TRequete_Log_Entry;
-begin
-     if ModeDEBUG_1
-     then
-         begin
-         sdm:= sdm_from_Owner( Q);
-         fAccueil_Log(
-             Format( 'Appel de la procédure TDatabase.Execute sur %s.%s',
-                     [sdm, q.Name])
-                     );
-         end;
-
-     rle:= Log_SQL.LogQ( Q);
-
-     with Q
-     do
-       try
-          DB.Execute( Q.SQL.Text);
-          if Assigned( rle) then rle.Stop;
-          Result:= True;
-       except
-             on E: Exception//EDBEngineError
-             do
-               TraiteExceptionRequete( Q, E, Result);
              end;
 end;
 
@@ -1299,51 +1068,6 @@ begin
                ExecCommande( StrToK( FinCommande, SQL));
          until SQL = '';
          end;
-end;
-
-function Ouvre_Database( db: TDatabase): Boolean;
-var
-   S, sdm: String;
-begin
-     sdm:= sdm_from_Owner( db);
-
-     Result:= False;
-     try
-        if ModeDEBUG_1
-        then
-            begin
-            fAccueil_Log( Format( 'Ouverture de la database %s.%s',
-                                            [sdm, db.Name])
-                                 );
-            end;
-
-        db.Connected:= True;
-        Result:= True;
-     except
-           on E: Exception
-           do
-             begin
-
-             S
-             :=
-               Format( 'L''ouverture de la database %s.%s à échoué'#13#10+
-                       'Classe de l''exception :'#13#10+
-                       s_Indentation+'%s'#13#10+
-                       'Message de l''exception:'#13#10+
-                       '%s'#13#10+
-                       'Paramètres de la database:'#13#10+
-                       'AliasName   : %s'#13#10+
-                       'DatabaseName: %s (interne au source Delphi)'#13#10+
-                       'DriverName  : %s'#13#10,
-                       [ sdm, db.Name,
-                         E.ClassName, Indente( s_Indentation, E.Message),
-                         db.AliasName, db.DatabaseName,db.DriverName]
-                      );
-
-
-             fAccueil_Erreur( S, 'Echec de la connection au SGBD');
-             end;
-           end;
 end;
 
 function Ouvre_SQLConnection( sqlc: TSQLConnection;
@@ -1470,20 +1194,8 @@ begin
            end;
 end;
 
-procedure Assure_D_is_TQuery( Contexte: String; D: TDataSet);
+procedure Assure_D_is_TClientDatasetTSQLQuery( Contexte: String; D: TDataSet);
 begin
-     if not (D is TQuery)
-     then
-         uForms_ShowMessage( Format( 'Problème à signaler au développeur'#13#10+
-                              '%s.%s est utilisé dans %s alors '#13#10+
-                              'qu''il n''est pas de type TQuery.',
-                              [ sdm_from_Owner(D),D.Name,Contexte]));
-end;
-
-procedure Assure_D_is_TQuery_TClientDatasetTSQLQuery( Contexte: String; D: TDataSet);
-begin
-     if D is TQuery then exit;
-
      if D is TClientDataset
      then
          if SQLQuery_from_ClientDataset( TClientDataset(D)) <> nil

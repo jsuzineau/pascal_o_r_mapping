@@ -26,8 +26,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  Dialogs,
-  ufpBas, StdCtrls, ActnList, ComCtrls, Buttons, ExtCtrls;
+  FMX.Dialogs,
+  ufpBas, FMX.StdCtrls, FMX.ActnList, FMX.ComCtrls, Buttons, FMX.ExtCtrls;
 
 type
  Tf_Valeur_monetaire_en_lettres

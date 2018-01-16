@@ -1,4 +1,4 @@
-unit udmBatpro_DataModule;
+﻿unit udmBatpro_DataModule;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -43,14 +43,12 @@ uses
     udmDatabase,
 
     ufAccueil_Erreur,
-    {$IFDEF MSWINDOWS}
-    ufClientDataset_Delta,
+    //ufClientDataset_Delta,
     ufReconcileError,
     ufProgression,
-    {$ENDIF}
 
   SysUtils, Classes, 
-  DB, DBTables, DBClient, SQLExpr;
+  DB, DBClient, SQLExpr;
 
 type
  TypeDataset
@@ -74,7 +72,7 @@ type
     DataSets_Type: array of TypeDataset;
     DatasetCount : Integer;
 
-    DBDataSets   : array of TDBDataset ;
+    //DBDataSets   : array of TDBDataset ;
 
     FOuvert: Boolean;
     FLectureSeule: Boolean;
@@ -272,8 +270,7 @@ var
    D: TDataset;
    function C_Convient: Boolean;
    begin
-        Result:=    (C is TDBDataset    )
-                 or (C is TClientDataset);
+        Result:= C is TClientDataset;
    end;
 begin
      DatasetCount:= 0;
@@ -287,7 +284,6 @@ begin
        end;
 
      SetLength( DataSets     , DatasetCount);
-     SetLength( DBDataSets   , DatasetCount);
      SetLength( DataSets_Type, DatasetCount);
      ID:= 0;
      for I:= 0 to ComponentCount-1
@@ -301,12 +297,6 @@ begin
 
            DataSets[ID]:= D;
            D.Tag:= ID;
-
-           if D is TDBDataSet
-           then
-               DBDataSets[ID]:= TDBDataSet( D)
-           else // normalement on n'arrive ici qu'avec les TClientDataset
-               DBDataSets[ID]:= nil;
 
            DataSets_Type[ID]:= Register_Dataset( D);
 
@@ -390,34 +380,10 @@ end;
 
 procedure TdmBatpro_DataModule.Traite_ModeOuverture(D: TDataset);
 var
-   B: TBDEDataset;
    C: TClientDataset;
    Typ: TypeDataset;
 begin
-          if D is TBDEDataset
-     then
-         begin
-         B:= TBDEDataset( D);
-
-         Typ:= DataSets_Type[ B.Tag];
-
-         // Gestion de TBDEDataset.CachedUpdates
-         B.CachedUpdates:=     Edition_en_memoire_cache
-                           and (not LectureSeule)
-                           and Assigned( B.UpdateObject)
-                           and (Typ = td_Edition);
-
-         // Gestion de TTable.ReadOnly et TQuery.RequestLive
-              if B is TTable
-         then
-             TTable(B).ReadOnly   := LectureSeule  or (Typ <> td_Edition)
-         else if B is TQuery
-         then
-             TQuery(B).RequestLive:=     (not Edition_en_memoire_cache)
-                                     and (not LectureSeule            )
-                                     and (Typ = td_Edition            );
-         end
-     else if D is TClientDataset
+          if D is TClientDataset
      then
          begin
          C:= TClientDataset( D);
@@ -569,20 +535,16 @@ begin
        begin
        D:= Datasets[I];
        Poste( D);
-       if D is TBDEDataset
-       then
-           Modifications_presentes:= Modifications_presentes or
-                                     TBDEDataset(D).UpdatesPending
-       else if D is TClientDataset
+       if D is TClientDataset
        then
            if     (TClientDataset(D).ChangeCount   > 0       )
               and (TClientDataset(D).ProviderName <> sys_Vide)
            then
                begin
                {$IFDEF MSWINDOWS}
-               if ModeDEBUG_1
-               then
-                   fClientDataset_Delta.Execute( TClientDataset(D));
+               //if ModeDEBUG_1
+               //then
+               //    fClientDataset_Delta.Execute( TClientDataset(D));
                {$ENDIF}
                Modifications_presentes:= True;
                end;
@@ -706,16 +668,7 @@ begin
      do
        begin
        D:= Datasets[I];
-            if D is TBDEDataSet
-       then
-           begin
-           with TBDEDataSet( D)
-           do
-             if UpdatesPending
-             then
-                 CancelUpdates;
-           end
-       else if D is TClientDataSet
+            if D is TClientDataSet
        then
            TClientDataSet( D).CancelUpdates;
        end;

@@ -1,4 +1,4 @@
-unit uTemporaire;
+﻿unit uTemporaire;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -57,7 +57,7 @@ implementation
 
 function TTemporaire.RepertoireTemp: String;
 var
-   buffer: array[0..MAX_PATH] of AnsiChar;
+   buffer: array[0..MAX_PATH] of WideChar;
 begin
      GetTempPath( length( buffer), buffer);
      Result:= StrPas( buffer);
@@ -65,10 +65,10 @@ end;
 
 function TTemporaire.Nouveau_Fichier( Prefixe: String): String;
 var
-   TempFileName: array[0..MAX_PATH] of AnsiChar;
+   TempFileName: array[0..MAX_PATH] of WideChar;
 begin
-     GetTempFileName(  PAnsiChar( RepertoireTemp),
-                       PAnsiChar( Prefixe       ), 0, TempFileName);
+     GetTempFileName(  PWideChar( RepertoireTemp),
+                       PWideChar( Prefixe       ), 0, TempFileName);
      Result:= StrPas( TempFileName);
 end;
 

@@ -26,7 +26,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  Dialogs, ComCtrls, CommCtrl, ExtCtrls, StdCtrls,
+  FMX.Dialogs, FMX.ComCtrls, CommCtrl, FMX.ExtCtrls, FMX.StdCtrls,
     uBatpro_StringList;
 
 type

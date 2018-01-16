@@ -25,8 +25,8 @@ unit ucBatproDateTimePicker;
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs,
-  ComCtrls, Commctrl, db, DBCtrls;
+  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
+  FMX.ComCtrls, Commctrl, db, DBCtrls;
 
 // établi en s'inspirant du code de TDBEdit de l'unité DBCtrls
 type

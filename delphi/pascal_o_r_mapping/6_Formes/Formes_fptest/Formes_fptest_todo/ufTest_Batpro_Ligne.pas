@@ -26,7 +26,7 @@ interface
 
 uses
     Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-    Dialogs, Spin, StdCtrls, ActnList, ComCtrls, Buttons, ExtCtrls,
+    FMX.Dialogs, Spin, FMX.StdCtrls, FMX.ActnList, FMX.ComCtrls, Buttons, FMX.ExtCtrls,
     uClean,
     ucChamp_Integer_SpinEdit,
     ucChamp_Edit,

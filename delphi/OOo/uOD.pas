@@ -61,7 +61,7 @@ uses
     ufOpenDocument_DelphiReportEngine,
     ufMailTo,
     ufMEL,
-    Windows,FMX.Controls,Dialogs,Variants, ComObj, FMX.Menus,
+    Windows,FMX.Controls,FMX.Dialogs,Variants, ComObj, FMX.Menus,
     {$ENDIF}
 
   SysUtils, Classes, DB, Types;

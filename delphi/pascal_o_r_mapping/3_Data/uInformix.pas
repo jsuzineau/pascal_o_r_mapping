@@ -1,4 +1,4 @@
-unit uInformix;
+﻿unit uInformix;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -39,7 +39,7 @@ uses
     {$IFNDEF FPC}
     Windows, Messages,
     {$ENDIF}
-    //Dialogs, FMX.Forms,
+    //FMX.Dialogs, FMX.Forms,
     SysUtils, Registry, SQLExpr;
 
 type
@@ -285,14 +285,14 @@ end;
 procedure TInformix.SetNet32;
 begin
      {$IFNDEF FPC}
-     WinExec( PChar('C:\informix_client\bin\setnet32.exe'), SW_SHOWNORMAL);
+     WinExec( PAnsiChar('C:\informix_client\bin\setnet32.exe'), SW_SHOWNORMAL);
      {$ENDIF}
 end;
 
 procedure TInformix.DBPing;
 begin
      {$IFNDEF FPC}
-     WinExec( PChar('C:\informix_client\bin\dbping.exe'), SW_SHOWNORMAL);
+     WinExec( PAnsiChar('C:\informix_client\bin\dbping.exe'), SW_SHOWNORMAL);
      {$ENDIF}
 end;
 

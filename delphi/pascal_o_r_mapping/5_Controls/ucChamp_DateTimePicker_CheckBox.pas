@@ -28,7 +28,7 @@ uses
     uReels,
     uChamps,
     uChamp,
-  SysUtils, Classes, FMX.Controls, ComCtrls, DB, StdCtrls, ExtCtrls;
+  SysUtils, Classes, FMX.Controls, FMX.ComCtrls, DB, FMX.StdCtrls, FMX.ExtCtrls;
 
 type
  TChamp_DateTimePicker_CheckBox

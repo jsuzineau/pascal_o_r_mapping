@@ -1,4 +1,4 @@
-unit uAide;
+﻿unit uAide;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -45,7 +45,7 @@ type
     function Aide_Batpro( Command: Word; Data: Integer;var CallHelp: Boolean): Boolean;
     function Aide_nulle( Command: Word; Data: Integer;var CallHelp: Boolean): Boolean;
   public
-    Aide: THelpEvent;
+    //Aide: THelpEvent; non traduit pour l'instant: n'existe pas en FMX
     procedure Accroche_Aide_Batpro;
     procedure Accroche_Aide_nulle;
     procedure Desaccroche;
@@ -124,6 +124,7 @@ var
 begin
      NomAide:= sys_Sommaire;
 
+     {
      ActiveForm := Screen.ActiveCustomForm;
      if Assigned(ActiveForm)
      then
@@ -133,6 +134,7 @@ begin
          then
              NomAide:= ActiveForm.Name;
          end;
+     }
      if ModeHELP_CREATOR
      then
          Result
@@ -157,20 +159,20 @@ end;
 
 procedure TObjet_Aide.Accroche_Aide_Batpro;
 begin
-     Aide:= Aide_Batpro;
-     {$IFDEF MSWINDOWS} Application.OnHelp:= Aide; {$ENDIF}
+     //Aide:= Aide_Batpro;
+     //Application.OnHelp:= Aide;
 end;
 
 procedure TObjet_Aide.Accroche_Aide_nulle;
 begin
-     Aide:= Aide_nulle;
-     {$IFDEF MSWINDOWS} Application.OnHelp:= Aide; {$ENDIF}
+     //Aide:= Aide_nulle;
+     //Application.OnHelp:= Aide;
 end;
 
 procedure TObjet_Aide.Desaccroche;
 begin
-     Aide:= nil;
-     {$IFDEF MSWINDOWS} Application.OnHelp:= Aide; {$ENDIF}
+     //Aide:= nil;
+     //Application.OnHelp:= Aide;
 end;
 
 constructor TObjet_Aide.Create;

@@ -26,7 +26,7 @@ interface
 
 uses
     uOD_Forms,
-  SysUtils, Classes, Dialogs, Variants;
+  SysUtils, Classes, FMX.Dialogs, Variants;
 
 type
  Tprocedure_OD_Error_CallBack= procedure ( _Message: String) of Object;

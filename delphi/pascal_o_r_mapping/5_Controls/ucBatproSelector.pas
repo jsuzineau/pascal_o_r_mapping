@@ -26,8 +26,8 @@ interface
 
 uses
     uForms,
-    Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs,
-    DB, DBCtrls, StdCtrls, Buttons;
+    Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
+    DB, DBCtrls, FMX.StdCtrls, Buttons;
 
 type
  TBatproSelector

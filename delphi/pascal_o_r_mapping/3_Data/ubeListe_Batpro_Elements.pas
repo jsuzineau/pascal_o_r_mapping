@@ -194,7 +194,7 @@ procedure TbeListe_Batpro_Elements.{svg}Draw(DrawInfo: TDrawInfo);
 begin
      inherited;
      //Dessinne_Bordure( DrawInfo);
-     //DrawJalon( DrawInfo, tj_Losange, clRed);
+     //DrawJalon( DrawInfo, tj_Losange, TColorRec.Red);
 end;
 
 function TbeListe_Batpro_Elements.GetBordure: Boolean;

@@ -1,4 +1,4 @@
-unit uBatpro_OD_TextTableManager;
+﻿unit uBatpro_OD_TextTableManager;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -34,7 +34,7 @@ uses
     uBatpro_StringList,
     u_sys_,
     uuStrings,
-    uUNO_ParagraphStyle,
+    //uUNO_ParagraphStyle,
     uOOoStrings,
     uOpenDocument,
     uOD_SurTitre,

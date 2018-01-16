@@ -26,10 +26,10 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
-  Dialogs,
+  FMX.Dialogs,
     uBatpro_StringList,
-  ufpBas, Grids, ucChampsGrid, ActnList, StdCtrls, ComCtrls, Buttons,
-  ExtCtrls, FMX.Menus;
+  ufpBas, Grids, ucChampsGrid, FMX.ActnList, FMX.StdCtrls, FMX.ComCtrls, Buttons,
+  FMX.ExtCtrls, FMX.Menus;
 
 type
  TfTestChampGrid

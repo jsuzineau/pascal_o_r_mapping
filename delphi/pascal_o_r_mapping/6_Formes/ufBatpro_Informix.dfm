@@ -1,9 +1,9 @@
 object fBatpro_Informix: TfBatpro_Informix
   Left = 192
   Top = 107
-  Width = 573
-  Height = 172
   Caption = 'fBatpro_Informix'
+  ClientHeight = 133
+  ClientWidth = 557
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -87,18 +87,20 @@ object fBatpro_Informix: TfBatpro_Informix
     Top = 104
     Width = 75
     Height = 25
+    Kind = bkCancel
+    NumGlyphs = 2
     TabOrder = 4
     OnClick = bCancelClick
-    Kind = bkCancel
   end
   object bOK: TBitBtn
     Left = 8
     Top = 104
     Width = 75
     Height = 25
+    Kind = bkOK
+    NumGlyphs = 2
     TabOrder = 5
     OnClick = bOKClick
-    Kind = bkOK
   end
   object bDBPing: TButton
     Left = 304

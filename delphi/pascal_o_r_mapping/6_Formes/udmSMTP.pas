@@ -1,4 +1,4 @@
-unit udmSMTP;
+﻿unit udmSMTP;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -27,12 +27,12 @@ interface
 uses
     uClean,
     uEXE_INI,
-  Windows, Messages, SysUtils, Classes, FMX.Graphicso, FMX.Controls, uOD_Forms, Dialogs,
-  ExtCtrls, ActnList, ComCtrls, IniFiles,
+  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, uOD_Forms, FMX.Dialogs,
+  FMX.ExtCtrls, FMX.ActnList, IniFiles,
   IdBaseComponent, IdComponent, IdTCPServer, IdCmdTCPServer, IdFTPList,
-  IdExplicitTLSClientServerBase, IdFTPServer, StdCtrls, IdFTPListOutput,
+  IdExplicitTLSClientServerBase, IdFTPServer, FMX.StdCtrls, IdFTPListOutput,
   IdTCPConnection, IdTCPClient, IdMessageClient, IdSMTPBase, IdSMTP,
-  IdMessageCoder, IdMessageCoderMIME, IdMessage,IdCommandHandlers, Buttons,
+  IdMessageCoder, IdMessageCoderMIME, IdMessage,IdCommandHandlers,
   IdCmdTCPClient, IdContext, IdServerIOHandler, IdSSL,
   IdSSLOpenSSL,IdIOHandler, IdSchedulerOfThread, IdYarn;
 
@@ -91,9 +91,9 @@ begin
 
      if smtp.Username = ''
      then
-         smtp.AuthType:= atNone
+         smtp.AuthType:= satNone
      else
-         smtp.AuthType:= atDefault;
+         smtp.AuthType:= satDefault;
      smtp.MailAgent:= ChangeFileExt( ExtractFileName( uOD_Forms_EXE_Name), '');
 end;
 

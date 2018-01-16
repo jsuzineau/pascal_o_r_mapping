@@ -25,8 +25,8 @@ unit ufcb;
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs,
-  Grids, DBGrids, ExtCtrls, DB;
+  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
+  Grids, DBGrids, FMX.ExtCtrls, DB;
 
 type
   Tfcb = class(TForm)
@@ -84,7 +84,7 @@ begin
 
      SystemParametersInfo( SPI_GETWORKAREA, 0, @WorkArea, 0);
 
-     P:= C.Parent.ClientToScreen( Point( C.Left, C.Top+C.Height));
+     P:= C.Parent.ClientToScreen( PointF( C.Left, C.Top+C.Height));
      with P
      do
        begin

@@ -4,18 +4,25 @@ inherited fHelp_Creator: TfHelp_Creator
   PixelsPerInch = 96
   TextHeight = 13
   inherited sLog: TSplitter
-    Top = 410
+    Top = 150
+    ExplicitTop = 410
   end
   inherited pBas: TPanel
-    Top = 416
+    Top = 156
     Height = 72
+    ExplicitTop = 416
+    ExplicitHeight = 72
     inherited pFermer: TPanel
       Left = 683
       Width = 129
       Height = 70
+      ExplicitLeft = 683
+      ExplicitWidth = 129
+      ExplicitHeight = 70
       inherited bAbandon: TBitBtn
         Left = 16
         Visible = False
+        ExplicitLeft = 16
       end
       object bKomposer: TButton
         Left = 24
@@ -125,56 +132,70 @@ inherited fHelp_Creator: TfHelp_Creator
       OnClick = Button1Click
     end
   end
+  inherited StatusBar1: TStatusBar
+    Top = 131
+  end
+  inherited pLog: TPanel
+    Top = 59
+  end
   object Panel1: TPanel [5]
     Left = 0
     Top = 18
-    Width = 813
-    Height = 392
+    Width = 354
+    Height = 41
     Align = alClient
     Caption = 'Panel1'
     TabOrder = 4
+    ExplicitWidth = 813
+    ExplicitHeight = 392
     object Splitter1: TSplitter
       Left = 1
-      Top = 205
-      Width = 811
+      Top = -146
+      Width = 352
       Height = 6
       Cursor = crVSplit
       Align = alBottom
       Color = clLime
       ParentColor = False
+      ExplicitTop = 205
+      ExplicitWidth = 811
     end
     object m: TMemo
       Left = 1
       Top = 1
-      Width = 811
+      Width = 352
       Height = 204
       Align = alClient
       Lines.Strings = (
         'm')
       TabOrder = 0
+      ExplicitWidth = 811
     end
     object Panel2: TPanel
       Left = 1
-      Top = 211
-      Width = 811
+      Top = -140
+      Width = 352
       Height = 180
       Align = alBottom
       Caption = 'Panel2'
       TabOrder = 1
+      ExplicitTop = 211
+      ExplicitWidth = 811
       object Label1: TLabel
         Left = 1
         Top = 1
-        Width = 809
+        Width = 350
         Height = 13
         Align = alTop
         Caption = 
           '"pattern" pour cr'#233'ation du HTML. %0:s = titre de la fiche , %1:s' +
           ' = nom du fichier de l'#39'image (sans r'#233'pertoire)'
+        ExplicitWidth = 502
       end
       object mHTMLPattern: TMemo
         Left = 1
         Top = 14
-        Width = 809
+        Width = 350
         Height = 165
         Align = alClient
         Lines.Strings = (
@@ -190,6 +211,7 @@ inherited fHelp_Creator: TfHelp_Creator
           '</body>'
           '</html>')
         TabOrder = 0
+        ExplicitWidth = 809
       end
     end
   end

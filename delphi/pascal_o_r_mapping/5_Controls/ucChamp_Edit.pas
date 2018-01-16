@@ -1,4 +1,4 @@
-unit ucChamp_Edit;
+﻿unit ucChamp_Edit;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -25,7 +25,7 @@ unit ucChamp_Edit;
 interface
 
 uses
-    SysUtils, Classes, FMX.Controlso, StdCtrls,
+    SysUtils, Classes, FMX.Controls, FMX.StdCtrls,FMX.Edit,
     uChamps,
     uChamp;
 
@@ -36,7 +36,7 @@ type
   //Général
   protected
     procedure Loaded; override;
-    procedure Change; override;
+    procedure Change; //override;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;

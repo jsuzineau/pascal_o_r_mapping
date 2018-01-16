@@ -1,9 +1,9 @@
 object fBatpro_MySQL: TfBatpro_MySQL
   Left = 192
   Top = 107
-  Width = 211
-  Height = 173
   Caption = 'fBatpro_MySQL'
+  ClientHeight = 134
+  ClientWidth = 195
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -81,17 +81,19 @@ object fBatpro_MySQL: TfBatpro_MySQL
     Top = 104
     Width = 75
     Height = 25
+    Kind = bkOK
+    NumGlyphs = 2
     TabOrder = 4
     OnClick = bOKClick
-    Kind = bkOK
   end
   object bCancel: TBitBtn
     Left = 112
     Top = 104
     Width = 75
     Height = 25
+    Kind = bkCancel
+    NumGlyphs = 2
     TabOrder = 5
     OnClick = bCancelClick
-    Kind = bkCancel
   end
 end

@@ -26,8 +26,8 @@ interface
 
 uses
     uForms,
-  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs,
-  ComCtrls, ToolWin, ImgList, StdActns, ActnList;
+  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
+  FMX.ComCtrls, ToolWin, ImgList, StdActns, FMX.ActnList;
 
 type
   TfBatpro_RichEdit_Toolbar_Images = class(TForm)

@@ -26,7 +26,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  Dialogs, ActnList, StdCtrls, ComCtrls, Buttons, ExtCtrls, Grids,
+  FMX.Dialogs, FMX.ActnList, FMX.StdCtrls, FMX.ComCtrls, Buttons, FMX.ExtCtrls, Grids,
   ufpBas,
   uhDessinnateur,
   uBatpro_Element,
@@ -84,7 +84,7 @@ begin
         sg.RowCount:= 1;
 
 
-        bs1:= TbeString.Create( nil, 'Regroupement', clBlue, bea_Centre_Horiz);
+        bs1:= TbeString.Create( nil, 'Regroupement', TColorRec.Blue, bea_Centre_Horiz);
         bs1.Cree_Cluster;
         bs1.Cluster.Initialise;
 

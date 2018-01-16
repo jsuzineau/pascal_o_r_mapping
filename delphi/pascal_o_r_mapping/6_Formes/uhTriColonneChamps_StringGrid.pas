@@ -26,7 +26,7 @@ interface
 
 uses
     Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
-    Dialogs, FMTBcd, DB, Provider, DBClient, SqlExpr, Grids, DBGrids, StdCtrls,
+    FMX.Dialogs, FMTBcd, DB, Provider, DBClient, SqlExpr, Grids, DBGrids, FMX.StdCtrls,
     uClean,
     u_sys_,
     uuStrings,

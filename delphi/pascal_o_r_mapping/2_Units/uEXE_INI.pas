@@ -1,4 +1,4 @@
-unit uEXE_INI;
+﻿unit uEXE_INI;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -44,6 +44,10 @@ type
  TEXE_INIFile
  =
   class( TINIFile)
+  //Gestion du cycle de vie
+  public
+    constructor Create(const AFileName: string);
+    destructor Destroy; override;
   private
     function GetToolTip(Index: String): Boolean;
     procedure SetToolTip(Index: String; Value: Boolean);
@@ -85,8 +89,17 @@ type
     property Chemin_Local: String read GetChemin_Local write SetChemin_Local;
     function Chemin_Local_Program_Files( _NomApplication: String): String;
     function Chemin_Local_from_NomApplication( _NomApplication: String): String;
+  //OS
+  public
+    os: String;
+  //Utilitaires
+  public
+    function Assure_String( _iniKey: String; _iniDefault: String= ''): String;
+    function Assure_Double( _iniKey: String; _iniDefault: Double= 0 ): Double;
   end;
 
+const
+     inis_Options= 'Options';
 var
    EXE_INI_Global: TEXE_INIFile= nil;
    EXE_INI       : TEXE_INIFile= nil;
@@ -363,6 +376,52 @@ begin
      sChemin_Program_files:= IncludeTrailingPathDelimiter( sChemin_Program_files);
 
      Result:= sChemin_Program_files+'Batpro'+PathDelim+_NomApplication+PathDelim;
+end;
+
+constructor TEXE_INIFile.Create(const AFileName: string);
+begin
+     inherited;
+     os
+     :=
+     {$IFDEF LINUX}
+       'Linux.'
+     {$ELSE}
+       'Windows.'
+     {$ENDIF};
+end;
+
+destructor TEXE_INIFile.Destroy;
+begin
+
+     inherited;
+end;
+
+function TEXE_INIFile.Assure_Double( _iniKey: String; _iniDefault: Double): Double;
+var
+   siniDefault: String;
+   sResult: String;
+   Code: Integer;
+begin
+     Str( _iniDefault, siniDefault);
+     sResult:= Assure_String( _iniKey, siniDefault);
+     Val( sResult, Result, Code);
+     if 0 <> Code
+     then
+         Result:= _iniDefault;
+end;
+
+function TEXE_INIFile.Assure_String( _iniKey, _iniDefault: String): String;
+var
+   iniKey: String;
+begin
+     iniKey:= os+_iniKey;
+     Result:= ReadString( inis_Options, iniKey, '#');
+     if '#' = Result
+     then
+         begin
+         Result:= _iniDefault;
+         WriteString( inis_Options, iniKey, Result);
+         end;
 end;
 
 function TEXE_INIFile.Chemin_Local_from_NomApplication( _NomApplication: String): String;

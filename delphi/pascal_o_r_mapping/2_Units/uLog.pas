@@ -28,9 +28,7 @@ interface
 uses
     uBatpro_StringList,
     uClean,
-    {$IFNDEF FPC}
     uAide,
-    {$ENDIF}
     uNetWork,
     SysUtils, Classes;
 

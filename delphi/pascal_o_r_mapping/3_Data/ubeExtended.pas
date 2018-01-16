@@ -34,7 +34,7 @@ uses
     u_sys_Batpro_Element,
     uDrawInfo,
     uBatpro_Element,
-    Windows, SysUtils, Classes, FMX.Graphics, FMX.Controls, Dialogs;
+    Windows, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Dialogs;
 
 type
  TbeExtended
@@ -115,7 +115,7 @@ begin
      S:= _S;
      if Value < 0
      then
-         Fond:= clRed
+         Fond:= TColorRec.Red
      else
          Fond:= TColorRec.White;
 end;

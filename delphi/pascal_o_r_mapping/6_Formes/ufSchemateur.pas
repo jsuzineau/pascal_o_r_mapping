@@ -44,7 +44,7 @@ uses
     ufAccueil_Erreur,
 
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  Dialogs, ActnList, StdCtrls, ComCtrls, Buttons, ExtCtrls, FMX.Menus;
+  FMX.Dialogs, FMX.ActnList, FMX.StdCtrls, FMX.ComCtrls, Buttons, FMX.ExtCtrls, FMX.Menus;
 
 type
  TfSchemateur

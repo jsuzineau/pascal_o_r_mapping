@@ -1,4 +1,4 @@
-unit ufBatpro_MySQL;
+﻿unit ufBatpro_MySQL;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -28,7 +28,7 @@ uses
     uClean,
     uMySQL,
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  Dialogs, StdCtrls, Buttons;
+  FMX.Dialogs, FMX.StdCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.Controls;
 
 type
   TfBatpro_MySQL = class(TForm)

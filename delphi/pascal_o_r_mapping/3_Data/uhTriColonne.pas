@@ -32,7 +32,7 @@ uses
     uuStrings,
     uDataUtilsU,
   {$IFDEF MSWINDOWS}
-  Variants, Grids, DBGrids, StdCtrls, FMX.Controls,
+  Variants, Grids, DBGrids, FMX.StdCtrls, FMX.Controls,
   {$ENDIF}
   SysUtils, Classes,
   FMTBcd, DB, Provider, DBClient, SqlExpr;

@@ -51,6 +51,7 @@ type
     Label5: TLabel;
     MEN_AT_WORK: TImageList;
     Label6: TLabel;
+    iBrosse_FDIAGONAL: TImage;
   public
     { Déclarations publiques }
     function bBrosse_Solide           : TBitmap;

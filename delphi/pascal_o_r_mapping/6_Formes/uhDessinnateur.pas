@@ -58,7 +58,7 @@ uses
     ufBloqueur,
     ufBitmaps,
 
-  SysUtils,FMX.Forms, Classes, Windows, FMX.Graphics, FMX.Menus, Grids, Dialogs, FMX.Controls,
+  SysUtils,FMX.Forms, Classes, Windows, FMX.Graphics, FMX.Menus, Grids, FMX.Dialogs, FMX.Controls,
   ucBatpro_StringGrid;
 
 type
@@ -714,7 +714,7 @@ begin
          begin
          Canvas.Fill.Color:= TColorRec.Black;
          Canvas.Fill.Kind:= bsFDiagonal;
-         Canvas.Stroke  .Style:= TStrokeDash.Clear;
+         Canvas.Stroke  .Style:= TStrokeDash.Custom;
            Canvas.Rectangle( Rect);
          Canvas.Stroke  .Style:= TStrokeDash.Solid;
          Canvas.Fill.Kind:= TBrushKind.Solid;
@@ -752,7 +752,7 @@ begin
                  DI.Canvas.Stroke.Color:= TColorRec.Black;
                  end
              else
-                 DI.Canvas.Stroke.Dash:= TStrokeDash.Clear;
+                 DI.Canvas.Stroke.Dash:= TStrokeDash.Custom;
          if Assigned(be)
          then
              be.Draw( DI)

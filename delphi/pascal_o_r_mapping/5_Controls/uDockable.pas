@@ -1,4 +1,4 @@
-unit uDockable;
+﻿unit uDockable;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -34,11 +34,11 @@ uses
     ucChamp_Label,
     ucChamp_Lookup_ComboBox,
     ucChamp_CheckBox,
-    ucChamp_DateTimePicker,
+    //ucChamp_DateTimePicker,
     ucChamp_Integer_SpinEdit,
-    ucChamp_Float_SpinEdit,
+    //ucChamp_Float_SpinEdit,
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  Dialogs, ExtCtrls,
+  FMX.Dialogs, FMX.ExtCtrls, System.UITypes,FMX.Types,
   ucBatpro_Shape;
 
 type
@@ -149,7 +149,7 @@ type
  TDockableClass= class of TDockable;
 
 procedure Create_Dockable( var _Reference; _Classe: TDockableClass;
-                           _Parent: TWinControl);
+                           _Parent: TFmxObject);
 procedure Destroy_Dockable( _Dockable: TDockable);
 
 function Dockable_from_sl( _sl: TBatpro_StringList; _I: Integer): TDockable;
@@ -159,15 +159,15 @@ implementation
 {$R *.dfm}
 
 procedure Create_Dockable( var _Reference; _Classe: TDockableClass;
-                           _Parent: TWinControl);
+                           _Parent: TFmxObject);
 begin
      TDockable( _Reference):= _Classe.Create( nil);
      TDockable( _Reference).Parent:= _Parent;
      TDockable( _Reference).Show;
      TDockable( _Reference).Left:= 0;
      TDockable( _Reference).Top := 0;
-     TDockable( _Reference).Align:= alClient;
-     TDockable( _Reference).BorderStyle:= bsNone;
+     //TDockable( _Reference).Align:= alClient;
+     //TDockable( _Reference).BorderStyle:= bsNone;
 end;
 
 procedure Destroy_Dockable( _Dockable: TDockable);
@@ -191,9 +191,9 @@ begin
      pValide_Change:= TPublieur.Create( Name+'.pValide_Change');
      FObjet:= nil;
      FValide := True;
-     OnHelp:= Application.OnHelp;
-     HelpContext:= 1;
-     HelpFile:= Name;
+     //OnHelp:= Application.OnHelp;
+     //HelpContext:= 1;
+     //HelpFile:= Name;
      sSelection.Batpro_Shape:= bstCursor;
      SetLength( Colonnes , 0);
      SetLength( Surtitres, 0);
@@ -262,35 +262,35 @@ end;
 procedure TDockable.Affiche_Selection( Valeur: Boolean);
 begin
      Selected:= Valeur;
-     
+
      if Valeur
      then
          begin
          with sSelection.Fill
          do
            begin
-           Style:= TBrushKind.Solid;
+           Kind:= TBrushKind.Solid;
            Color:= TColorRec.Black;
            end;
          with sSelection.Stroke
          do
            begin
-           Style:= TStrokeDash.Solid;
+           Dash:= TStrokeDash.Solid;
            Color:= TColorRec.Black;
            end;
-         if CanFocus then SetFocus;
+         //SetFocused( Self);
          end
      else
          begin
          with sSelection.Fill
          do
            begin
-           Style:= bsClear;
+           Kind:= TBrushKind.None;
            end;
          with sSelection.Stroke
          do
            begin
-           Style:= TStrokeDash.Clear;
+           Dash:= TStrokeDash.Custom;
            end;
          end;
 end;
@@ -375,14 +375,8 @@ begin
            else if C is TChamp_CheckBox
                                       then TChamp_CheckBox( C)
                                                             .Enabled := Valeur_Enabled
-           else if C is TChamp_DateTimePicker
-                                      then TChamp_DateTimePicker( C)
-                                                            .Enabled := Valeur_Enabled
            else if C is TChamp_Integer_SpinEdit
                                       then TChamp_Integer_SpinEdit( C)
-                                                            .ReadOnly:= Valeur_ReadOnly
-           else if C is TChamp_Float_SpinEdit
-                                       then TChamp_Float_SpinEdit( C)
                                                             .ReadOnly:= Valeur_ReadOnly;
            end;
        end;

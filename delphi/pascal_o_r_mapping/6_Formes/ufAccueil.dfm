@@ -1,9 +1,9 @@
 object fAccueil: TfAccueil
   Left = 838
   Top = 182
-  Width = 592
-  Height = 533
   Caption = 'Journal de l'#39'ex'#233'cution du programme'
+  ClientHeight = 494
+  ClientWidth = 576
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,7 +20,7 @@ object fAccueil: TfAccueil
   object Label1: TLabel
     Left = 0
     Top = 0
-    Width = 584
+    Width = 576
     Height = 20
     Align = alTop
     Alignment = taCenter
@@ -32,16 +32,18 @@ object fAccueil: TfAccueil
     Font.Name = 'MS Sans Serif'
     Font.Style = []
     ParentFont = False
+    ExplicitWidth = 584
   end
   object Panel2: TPanel
     Left = 0
     Top = 20
     Width = 91
-    Height = 479
+    Height = 474
     Align = alLeft
     BevelOuter = bvNone
     TabOrder = 0
     OnMouseDown = Panel2MouseDown
+    ExplicitHeight = 479
     object Image1: TImage
       Left = 0
       Top = 0
@@ -6390,9 +6392,10 @@ object fAccueil: TfAccueil
       Width = 75
       Height = 25
       Caption = 'Continuer'
+      Kind = bkOK
+      NumGlyphs = 2
       TabOrder = 0
       Visible = False
-      Kind = bkOK
     end
     object bEnregistrer: TButton
       Left = 3
@@ -6530,14 +6533,20 @@ object fAccueil: TfAccueil
   object pc: TPageControl
     Left = 91
     Top = 20
-    Width = 493
-    Height = 479
+    Width = 485
+    Height = 474
     ActivePage = tsHistorique
     Align = alClient
     TabOrder = 1
     OnChange = pcChange
+    ExplicitWidth = 493
+    ExplicitHeight = 479
     object tsLigne_Courante: TTabSheet
       Caption = 'Ligne courante'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object m: TMemo
         Left = 42
         Top = 41
@@ -6626,6 +6635,10 @@ object fAccueil: TfAccueil
     object tsHistorique: TTabSheet
       Caption = 'Historique'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object mHistorique: TMemo
         Left = 0
         Top = 0
@@ -6646,6 +6659,10 @@ object fAccueil: TfAccueil
     object tsHistorique_Developpeur: TTabSheet
       Caption = 'Historique D'#233'veloppeur'
       ImageIndex = 2
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object mHistorique_Developpeur: TMemo
         Left = 0
         Top = 0

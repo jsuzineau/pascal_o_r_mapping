@@ -66,7 +66,7 @@ begin
          {$IFDEF MSWINDOWS}
          CP.Font.Family:= sys_SmallFonts;
          CP.Font.Size:= 6;
-         with CP.Font do Style:= Style + [fsBold];
+         with CP.Font do Style:= Style + [TFontStyle.fsBold];
          {$ENDIF}
          end;
 

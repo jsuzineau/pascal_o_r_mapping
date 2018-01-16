@@ -1,4 +1,4 @@
-unit ufpBas;
+﻿unit ufpBas;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -37,25 +37,27 @@ uses
     ufBatpro_Form,
     ufAccueil,
 
-  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs,
-  StdCtrls, Buttons, ExtCtrls, ComCtrls, ActnList, FMX.Menus;
+  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
+  FMX.StdCtrls, FMX.ExtCtrls, FMX.Memo, FMX.ActnList, FMX.Menus, Vcl.Menus,
+  System.Actions, Vcl.ActnList, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.Buttons,
+  Vcl.ExtCtrls, Vcl.Controls;
 
 type
  TfpBas
  =
   class(TfBatpro_Form)
-    al: TActionList;
+    al: FMX.ActnList.TActionList;
     pBas: TPanel;
     pFermer: TPanel;
-    bAbandon: TBitBtn;
+    bAbandon: FMX.StdCtrls.TButton;
     StatusBar1: TStatusBar;
-    bValidation: TBitBtn;
+    bValidation: FMX.StdCtrls.TButton;
     aValidation: TAction;
     aAbandon: TAction;
     sLog: TSplitter;
     pLog: TPanel;
     lLog: TLabel;
-    mLog: TMemo;
+    mLog: FMX.Memo.TMemo;
     pmValidation: TPopupMenu;
     miModele: TMenuItem;
     miOPN_fpBas: TMenuItem;
@@ -104,7 +106,7 @@ type
     pPostExecute: TPublieur;
   //Accés à la liste d'actions
   protected
-    function ActionList: TActionList; override;
+    function ActionList: FMX.ActnList.TActionList; override;
   //OPN_Requeteur
   public
     function OPN_Requeteur_SQL: String; virtual;
@@ -155,8 +157,8 @@ begin
      if not bAbandon.Visible
      then
          begin
-         bValidation.Kind:= bkClose;
-         bValidation.Caption:= loc_Fermer;
+         //bValidation.Kind:= bkClose;
+         bValidation.Text:= loc_Fermer;
          aValidation.Caption:= loc_Fermer;
          aAbandon.ShortCut:= scNone;
          end;
@@ -180,7 +182,7 @@ begin
      else
          begin
          if     Execute_Running
-            or (fsModal in FFormState)
+            //or (fsModal in FFormState) à traduire en FMX
          then
              if bAbandon.Visible
              then
@@ -205,7 +207,7 @@ begin
          end;
 
      if     Execute_Running
-        or (fsModal in FFormState)
+        //or (fsModal in FFormState) à traduire en FMX
      then
          if bAbandon.Visible
          then
@@ -261,7 +263,7 @@ begin
 
      Dimensionner;
 
-     Refresh;
+     //Refresh;
 end;
 
 procedure TfpBas.AfficheLog; //pour abonnement à fAccueil
@@ -307,8 +309,8 @@ begin
      Result:= inherited PreExecute;
      Valide:= False;
      fAccueil.pAfficheLog.Abonne( Self, AfficheLog);
-     bValidation.Kind:= bkCustom;
-     bAbandon   .Kind:= bkCustom;
+     //bValidation.Kind:= bkCustom;
+     //bAbandon   .Kind:= bkCustom;
      bValidation.ModalResult:= mrNone;
      bAbandon   .ModalResult:= mrNone;
      bValidation.Action:= aValidation;
@@ -324,7 +326,7 @@ begin
      pPostExecute.Publie;
 end;
 
-function TfpBas.ActionList: TActionList;
+function TfpBas.ActionList: FMX.ActnList.TActionList;
 begin
      Result:= al;
 end;

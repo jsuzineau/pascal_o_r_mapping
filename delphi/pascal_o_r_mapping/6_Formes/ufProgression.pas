@@ -1,4 +1,4 @@
-unit ufProgression;
+﻿unit ufProgression;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -28,8 +28,8 @@ uses
     uOD_Forms,
   uProgression,
   udkProgression,
-  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs,
-  Gauges, StdCtrls, ExtCtrls, ucDockScrollbox, Buttons;
+  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Types, FMX.Forms, FMX.Dialogs,
+  FMX.StdCtrls, FMX.ExtCtrls, ucDockScrollbox, Vcl.ExtCtrls;
 
 type
  TfProgression
@@ -106,7 +106,7 @@ var
    Secondes: Word;
    procedure Rafraichir;
    begin
-        Refresh;
+        //Refresh; à traduire en FMX
         //uOD_Forms_ProcessMessages;
    end;
 begin

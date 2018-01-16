@@ -1,4 +1,4 @@
-unit uChamps_persistance;
+﻿unit uChamps_persistance;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -34,7 +34,7 @@ uses
     udmDatabase,
     udmBatpro_DataModule,
   SysUtils, Classes,
-  FMTBcd, DB, SqlExpr, DBXpress;
+  FMTBcd, DB, SqlExpr;
 
 type
  TChamps_persistance

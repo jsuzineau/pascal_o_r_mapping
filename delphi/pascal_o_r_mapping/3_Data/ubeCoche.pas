@@ -112,12 +112,12 @@ end;
 
 procedure TbeCoche.Draw( DrawInfo: TDrawInfo);
 begin
-     Dessinne_Coche( DrawInfo.Canvas, Fond, clBlue, DrawInfo.Rect, ref.Selected);
+     Dessinne_Coche( DrawInfo.Canvas, Fond, TColorRec.Blue, DrawInfo.Rect, ref.Selected);
 end;
 
 procedure TbeCoche.svgDraw( DrawInfo: TDrawInfo);
 begin
-     DrawInfo.svgDessinne_Coche( Fond, clBlue, ref.Selected);
+     DrawInfo.svgDessinne_Coche( Fond, TColorRec.Blue, ref.Selected);
 end;
 
 function TbeCoche.Cell_Width( DrawInfo: TDrawInfo): Integer;

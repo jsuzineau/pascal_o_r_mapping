@@ -39,7 +39,7 @@ uses
     ufpBas,
     ufAccueil_Erreur,
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  Dialogs, Printers, Grids, ActnList, StdCtrls, ComCtrls, Buttons, ExtCtrls,
+  FMX.Dialogs, Printers, Grids, FMX.ActnList, FMX.StdCtrls, FMX.ComCtrls, Buttons, FMX.ExtCtrls,
   Spin, Gauges, Clipbrd, Consts, FMX.Menus;
 
 type

@@ -25,7 +25,7 @@ unit ucChamp_Memo;
 interface
 
 uses
-    SysUtils, Classes, FMX.Controlso, StdCtrls,
+    SysUtils, Classes, FMX.Controlso, FMX.StdCtrls,
     uChamps,
     uChamp;
 

@@ -1,4 +1,4 @@
-unit ufBatpro_Parametres_Client;
+﻿unit ufBatpro_Parametres_Client;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -29,7 +29,8 @@ uses
   uuStrings,
   uOD_Forms,
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  Dialogs, Registry, StdCtrls, WinSock, ExtCtrls;
+  FMX.Dialogs, Registry, FMX.StdCtrls, WinSock, FMX.ExtCtrls, Vcl.Dialogs,
+  Vcl.StdCtrls, Vcl.Controls, Vcl.ExtCtrls, FMX.Memo;
 
 type
  TfBatpro_Parametres_Client
@@ -144,7 +145,7 @@ var
       Aliases: String;
    begin
         S:= Fixe_Min( NomPort, 10) + '=>';
-        port:= getservbyname( PChar(NomPort), nil);
+        port:= getservbyname( PAnsiChar(NomPort), nil);
         if port = nil
         then
             begin
@@ -179,7 +180,7 @@ begin
      sd.InitialDir:= ExtractFilePath( uOD_Forms_EXE_Name)+'etc\';
 
      WSAStartup($202, sData);
-     m.Clear;
+     m.Lines.Clear;
      try
         r:= TRegistry.Create;
 

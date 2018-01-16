@@ -1,10 +1,10 @@
 object fBatpro_Form: TfBatpro_Form
   Left = 644
   Top = 363
-  Width = 370
-  Height = 267
   BorderIcons = [biSystemMenu, biMinimize, biMaximize, biHelp]
   Caption = 'fBatpro_Form'
+  ClientHeight = 228
+  ClientWidth = 354
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,7 +20,7 @@ object fBatpro_Form: TfBatpro_Form
   object pSociete: TPanel
     Left = 0
     Top = 0
-    Width = 362
+    Width = 354
     Height = 18
     Align = alTop
     BevelOuter = bvNone
@@ -29,7 +29,7 @@ object fBatpro_Form: TfBatpro_Form
     object lSociete: TLabel
       Left = 0
       Top = 0
-      Width = 290
+      Width = 298
       Height = 18
       Align = alClient
       Caption = 'lSociete'
@@ -41,9 +41,11 @@ object fBatpro_Form: TfBatpro_Form
       Font.Style = []
       ParentColor = False
       ParentFont = False
+      ExplicitWidth = 56
+      ExplicitHeight = 14
     end
     object lHeure: TLabel
-      Left = 290
+      Left = 298
       Top = 0
       Width = 56
       Height = 18
@@ -58,15 +60,7 @@ object fBatpro_Form: TfBatpro_Form
       Font.Style = []
       ParentColor = False
       ParentFont = False
-    end
-    object animation: TAnimate
-      Left = 346
-      Top = 0
-      Width = 16
-      Height = 18
-      Align = alRight
-      CommonAVI = aviFindComputer
-      StopFrame = 8
+      ExplicitHeight = 14
     end
   end
 end

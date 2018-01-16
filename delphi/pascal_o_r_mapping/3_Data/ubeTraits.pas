@@ -82,7 +82,7 @@ begin
          CP.Titre:= 'Fond de grille pour les dessins entre cellules';
          CP.Font.Family:= sys_Courier_New;
          CP.Font.Size:= 8;
-         with CP.Font do Style:= Style + [fsBold];
+         with CP.Font do Style:= Style + [TFontStyle.fsBold];
          end;
 
      inherited Create( un_sl);

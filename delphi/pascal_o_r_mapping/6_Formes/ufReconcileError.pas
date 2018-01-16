@@ -1,4 +1,4 @@
-//créé par Fichier/Nouveau/dialogue/Dialogue de conciliation
+﻿//créé par Fichier/Nouveau/dialogue/Dialogue de conciliation
 {*****************************************************************}
 {                                                                 }
 {     Bibliothèque de composants visuels Delphi                   }
@@ -19,8 +19,9 @@ unit ufReconcileError;
 interface
 
 uses
-  SysUtils, Windows, Variants, Messages, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
-  Dialogs, StdCtrls, Grids, DB, DBClient, Provider, ExtCtrls;
+  SysUtils, Windows, Variants, Messages, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
+  FMX.Dialogs, FMX.StdCtrls, DB, DBClient, Provider, FMX.ExtCtrls,
+  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Graphics, Vcl.Controls, Vcl.Grids;
 
 const
   ActionStr: array[TReconcileAction] of string = ('Ignorer', 'Abandon', 'Fusion',

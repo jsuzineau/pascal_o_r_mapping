@@ -25,7 +25,7 @@ unit uBatproReportPage;
 interface
 
 uses
-    Windows, SysUtils, Classes, FMX.Graphicso, Printers, ExtCtrls,
+    Windows, SysUtils, Classes, FMX.Graphicso, Printers, FMX.ExtCtrls,
     uBatproReportPageFormat;
 
 type

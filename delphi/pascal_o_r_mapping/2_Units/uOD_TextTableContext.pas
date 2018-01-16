@@ -1,4 +1,4 @@
-unit uOD_TextTableContext;
+﻿unit uOD_TextTableContext;
 {                                                                               |
     Part of package pOpenDocument_DelphiReportEngine                            |
                                                                                 |
@@ -24,9 +24,7 @@ uses
     uOD_Styles,
     uOpenDocument,
   SysUtils, Classes,
-  {$IFDEF MSWINDOWS}
-  Windows, Variants, Dialogs, Grids,
-  {$ENDIF}
+  Windows, Variants, FMX.Dialogs,FMX.Grid,
   DB;
 
 type

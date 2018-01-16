@@ -1,4 +1,4 @@
-unit ubeClusterElement;
+﻿unit ubeClusterElement;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -27,7 +27,7 @@ interface
 uses
     SysUtils, Classes,
     {$IFDEF MSWINDOWS}
-    FMX.Graphics, Windows, Grids,
+    FMX.Graphics, Windows, FMX.Grid,
     {$ENDIF}
     Types,
     uBatpro_StringList,
@@ -117,12 +117,13 @@ begin
 
      Bounds:= beCluster.Cluster.Bounds;
      sg:= DrawInfo.sg;
+     {
      if DrawInfo.Impression
      then
          sg_GridLineWidth:= 0
      else
          sg_GridLineWidth:= sg.GridLineWidth;
-
+     }
 
      OffsetX:= 0;
      for I:= Bounds.Left to DrawInfo.Col-1 do Inc( OffsetX, sg.ColWidths [I]+sg_GridLineWidth);

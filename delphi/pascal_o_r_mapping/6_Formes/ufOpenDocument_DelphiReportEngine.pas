@@ -26,7 +26,7 @@ uses
     JclSimpleXml,
     uOOoChrono,
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, ValEdit, ShellAPI, Registry,
+  FMX.Dialogs, FMX.StdCtrls, FMX.ExtCtrls, FMX.ComCtrls, Grids, ValEdit, ShellAPI, Registry,
   Spin,StrUtils;
 
 type

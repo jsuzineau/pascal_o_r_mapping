@@ -44,8 +44,8 @@ uses
     uhDessinnateur,
     ufpBas,
 
-  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs,
-  ActnList, ComCtrls, StdCtrls, Buttons, ExtCtrls, Grids, DBGrids,
+  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
+  FMX.ActnList, FMX.ComCtrls, FMX.StdCtrls, Buttons, FMX.ExtCtrls, Grids, DBGrids,
   Db, DBTables, FMTBcd, Provider, SqlExpr, DBClient, ucDockableScrollBox,
   FMX.Menus;
 

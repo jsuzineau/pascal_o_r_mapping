@@ -27,7 +27,7 @@ interface
 uses
     JclSimpleXml,
     uOOoStrings,
-  Windows, SysUtils, Classes, FMX.Forms, Dialogs;
+  Windows, SysUtils, Classes, FMX.Forms, FMX.Dialogs;
 
 //Gestion JclSimpleXMLElem
 procedure FullName_Split( _FullName: String; var NameSpace, Name: String);

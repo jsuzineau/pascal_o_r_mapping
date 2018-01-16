@@ -38,7 +38,7 @@ uses
     uPublieur,
     uTri_Ancetre,
     uDockable,
-  SysUtils, Classes, FMX.Controls, FMX.Forms, ExtCtrls,FMX.Graphics,StdCtrls,Types;
+  SysUtils, Classes, FMX.Controls, FMX.Forms, FMX.ExtCtrls,FMX.Graphics,FMX.StdCtrls,Types;
 
 type
  TDockable_Event= procedure ( _dk: TDockable) of object;
@@ -420,7 +420,7 @@ begin
      L.Caption:= _Titre + sTri;
      L.Tag   := I;
      L.Transparent:= False;
-     with L.Font do Style:= Style + [fsBold];
+     with L.Font do Style:= Style + [TFontStyle.fsBold];
      L.Alignment:= C_Alignment;
      L.OnMouseDown:= Colonne_MouseDown;
      L.Show;
@@ -448,7 +448,7 @@ begin
            lTotal.Alignment:= taRightJustify;
            lTotal.Tag   := I;
            lTotal.Transparent:= False;
-           with lTotal.Font do Style:= Style + [fsBold];
+           with lTotal.Font do Style:= Style + [TFontStyle.fsBold];
            lTotal.Alignment:= C_Alignment;
            lTotal.OnMouseDown:= lTotal_MouseDown;
            lTotal.Show;

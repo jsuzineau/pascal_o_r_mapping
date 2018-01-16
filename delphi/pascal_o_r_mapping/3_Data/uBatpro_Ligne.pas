@@ -1,4 +1,4 @@
-unit uBatpro_Ligne;
+﻿unit uBatpro_Ligne;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -52,10 +52,10 @@ uses
     uhFiltre_Ancetre,
     ufAccueil_Erreur,
   {$IFNDEF FPC}
-  FMX.Graphics, Windows, DBTables, ComCtrls,
+  FMX.Graphics, Windows,
   {$ENDIF}
   Classes, SysUtils, DB, Types,
-  SQLExpr;
+  SQLExpr, VCL.ComCtrls;
 
 type
  TGroupe     = class;

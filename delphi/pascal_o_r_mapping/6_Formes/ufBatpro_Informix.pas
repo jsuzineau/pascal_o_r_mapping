@@ -1,4 +1,4 @@
-unit ufBatpro_Informix;
+﻿unit ufBatpro_Informix;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -27,8 +27,8 @@ interface
 uses
     uClean,
     uInformix,
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controlso, FMX.Forms,
-  Dialogs, StdCtrls, Buttons;
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
+  FMX.Dialogs, FMX.StdCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.Controls;
 
 type
  TfBatpro_Informix

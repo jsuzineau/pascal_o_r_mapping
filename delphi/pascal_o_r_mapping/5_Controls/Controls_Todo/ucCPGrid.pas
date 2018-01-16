@@ -36,7 +36,7 @@ uses
     uChampDefinitions,
     uChamp,
     uChampDefinition,
-    Windows, SysUtils, Classes, FMX.Controls, DB, Grids,Dialogs, StdCtrls, Buttons;
+    Windows, SysUtils, Classes, FMX.Controls, DB, Grids,FMX.Dialogs, FMX.StdCtrls, Buttons;
 
 type
 
@@ -120,7 +120,7 @@ begin
      if not _from_Selection then exit;
 
      iel:= InplaceEditor as TInplaceEditList;
-     P:= Point( iel.BoundsRect.Left, iel.BoundsRect.Bottom);
+     P:= PointF( iel.BoundsRect.Left, iel.BoundsRect.Bottom);
      P:= ClientToScreen( P);
      if Champ.Edite( P)
      then

@@ -1,9 +1,9 @@
 object fBatpro_Desk: TfBatpro_Desk
   Left = 252
   Top = 114
-  Width = 263
-  Height = 152
   Caption = 'fBatpro_Desk'
+  ClientHeight = 113
+  ClientWidth = 247
   Color = clBtnFace
   DockSite = True
   Font.Charset = DEFAULT_CHARSET

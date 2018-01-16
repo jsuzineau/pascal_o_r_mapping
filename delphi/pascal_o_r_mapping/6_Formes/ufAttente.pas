@@ -27,7 +27,7 @@ interface
 uses
     uClean,
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
-  Dialogs, StdCtrls, Buttons, ExtCtrls;
+  FMX.Dialogs, FMX.StdCtrls, Buttons, FMX.ExtCtrls;
 
 type
   TfAttente = class(TForm)

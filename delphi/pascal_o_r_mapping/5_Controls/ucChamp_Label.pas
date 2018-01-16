@@ -28,7 +28,7 @@ uses
     u_sys_,
     uChamps,
     uChamp,
-    SysUtils, Classes, FMX.Controls, StdCtrls;
+    SysUtils, Classes, FMX.Controls, FMX.StdCtrls;
 
 type
  TChamp_Label

@@ -27,8 +27,8 @@ interface
 uses
     uOD_Forms,
   udkProgression,
-  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs,
-  Gauges, StdCtrls, ExtCtrls, ucDockScrollbox;
+  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
+  Gauges, FMX.StdCtrls, FMX.ExtCtrls, ucDockScrollbox;
 
 type
  TfFlyer

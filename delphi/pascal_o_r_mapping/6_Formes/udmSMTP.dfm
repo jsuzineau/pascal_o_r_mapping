@@ -2,8 +2,6 @@ object dmSMTP: TdmSMTP
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Left = 638
-  Top = 310
   Height = 155
   Width = 138
   object Message: TIdMessage
@@ -22,7 +20,6 @@ object dmSMTP: TdmSMTP
   end
   object smtp: TIdSMTP
     MailAgent = 'Batpro Sauvegarde'
-    AuthType = atNone
     Host = 'smtp.free.net'
     SASLMechanisms = <>
     Left = 48

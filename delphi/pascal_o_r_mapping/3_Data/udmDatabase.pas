@@ -1,4 +1,4 @@
-unit udmDatabase;
+﻿unit udmDatabase;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -48,10 +48,10 @@ uses
 
     ufAccueil_Erreur,
 
-  Windows, SysUtils, Messages, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs,
-  Db, DBTables, DBXpress, SqlExpr, Registry, IniFiles,StdCtrls,
+  Windows, SysUtils, Messages, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
+  Db, SqlExpr, Registry, IniFiles,FMX.StdCtrls,
   FMTBcd, Provider, DBClient,
-  ucbvCustomConnection;
+  ucbvCustomConnection, Data.DBXInformix, Data.DBXMSSQL, FMX.Listbox;
 
 type
  TCherche_table_Func= function ( tabname: String): Boolean of object;
@@ -805,7 +805,7 @@ begin
      if _cb = nil then exit;
 
      Fill_with_databases( _cb.Items);
-     _cb.Sorted:= True;
+     //_cb.Sorted:= True; à traduire en FMX
 end;
 
 function TdmDatabase.ExecQuery(_SQL: String): Boolean;

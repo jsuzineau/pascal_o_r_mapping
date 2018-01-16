@@ -1,4 +1,4 @@
-unit uNetwork;
+﻿unit uNetwork;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -32,7 +32,7 @@ uses
     uuStrings,
     uClean,
     uEXE_INI,
-    Windows, SysUtils, Classes, WinSock, IniFiles, Math, Dialogs;
+    Windows, SysUtils, Classes, WinSock, IniFiles, Math, FMX.Dialogs;
 
 type
  TTypeNetwork= (tn_application, tn_informix, tn_mysql);
@@ -108,7 +108,7 @@ end;
 
 function TNetWork.Get_Nom_Hote: String;
 var
-   hostname: array[0..2048] of char;
+   hostname: array[0..2048] of AnsiChar;
    MessageSysteme: PChar;
 begin
      if 0 <> gethostname( hostname, sizeof(hostname)-1)
@@ -244,7 +244,7 @@ end;
 
 function TNetwork.IP_Principale: TInAddr;
 var
-   hostname: array[0..2048] of char;
+   hostname: array[0..2048] of ansichar;
    MessageSysteme: PChar;
    HostEnt: PHostEnt;
    IP: PInAddr;

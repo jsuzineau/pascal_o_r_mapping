@@ -28,7 +28,7 @@ uses
   uLookupConnection_Ancetre,
     uBatpro_StringList,
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controlso, FMX.Forms,
-  StdCtrls, DB, DBClient;
+  FMX.StdCtrls, DB, DBClient;
 
 type
  Tdmf

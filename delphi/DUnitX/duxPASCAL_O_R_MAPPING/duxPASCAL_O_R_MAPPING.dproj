@@ -95,6 +95,7 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>(vide)</Manifest_File>
         <DCC_UsePackage>jcl;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_UnitSearchPath>C:\_freepascal\pascal_o_r_mapping\pascal_o_r_mapping\3_Data;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -108,10 +109,6 @@
         </DelphiCompile>
         <DCCReference Include="TestCase\tcOpenDocument_Embed_Image\utcOpenDocument_Embed_Image.pas"/>
         <DCCReference Include="TestCase\tcOpenDocument_Embed_Image\Elements\Test\ublTest.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uVide.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uBatpro_OD_Printer.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uOD_Niveau.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uOD_Batpro_Table.pas"/>
         <DCCReference Include="..\..\pascal_o_r_mapping\2_Units\uEXE_INI.pas"/>
         <DCCReference Include="..\..\pascal_o_r_mapping\2_Units\uBinary_Tree.pas"/>
         <DCCReference Include="..\..\pascal_o_r_mapping\2_Units\ubtInteger.pas"/>
@@ -186,83 +183,37 @@
         <DCCReference Include="..\..\pascal_o_r_mapping\2_Units\u_sys_.pas"/>
         <DCCReference Include="..\..\pascal_o_r_mapping\2_Units\uBatpro_Registry.pas"/>
         <DCCReference Include="..\..\pascal_o_r_mapping\2_Units\uBatpro_StringList.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uRequete.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uSuppression.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uSVG.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uTraits.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uTri.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uXML.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\u_db_Formes.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\u_InformixLob.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\u_ini_Formes.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\u_loc_Formes.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\u_sys_Batpro_Element.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uBatpro_Element.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uBatpro_Ligne.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uBatpro_OD_SpreadSheet_Manager.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uBatpro_OD_TextFieldsCreator.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uBatpro_OD_TextTableManager.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uBatproFiltre.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\ubeChamp.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\ubeClusterElement.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\ubeCoche.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\ubeCurseur.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\ubeExtended.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\ubeJalon.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\ubeListe_Batpro_Elements.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uberef.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\ubeSerie.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\ubeString.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\ubeTraits.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\ublG_BECP.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\ublG_BECPCTX.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\ublG_CTX.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\ublG_CTXTYPE.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uCD_from_Params.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uCD_from_SL.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uChamps_persistance.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uCharge_100.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uCharMap.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uContextes.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uDataUtils.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uDataUtilsF.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\udmBatpro_DataModule.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\udmDatabase.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uDrawInfo.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uGlobal_INI.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uhAggregation.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uhfG_BECP.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uhfG_BECPCTX.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uhfG_CTX.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uhfG_CTXTYPE.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uhField.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uhFiltre.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uhRequete.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uhrG_BECP.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uhrG_BECPCTX.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uhrG_CTX.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uhTriColonne.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uInformix.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uINI_Batpro_OD_Report.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uMailTo.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uMotsCles.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uMySQL.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uOD_BatproTextTableContext.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uOD_Champ.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uOOo_NomChamp_utilisateur.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uParametres_Ancetre.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uPool.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\upool_Ancetre_Ancetre.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\upoolG_BECP.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\upoolG_BECPCTX.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\upoolG_CTX.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\upoolG_CTXTYPE.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uPostgres.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\3_Data\uRegistry.pas"/>
         <DCCReference Include="..\..\pascal_o_r_mapping\5_Controls\uWinUtils.pas"/>
         <DCCReference Include="..\..\pascal_o_r_mapping\1_LCL\mswindows\uWindows.pas"/>
         <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufBitmaps.pas"/>
         <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\uImpression_Font_Size_Multiplier.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\uAide.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufHelp_Creator.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufpBas.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufBatpro_Form.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufBatpro_Desk.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\uHorloge.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\5_Controls\ucBatproMasque.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\5_Controls\ucBatproMaskElement.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\5_Controls\uEdit_WANTTAB.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufAccueil.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\4_Components\ucbvCustomConnection.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\4_Components\ucBatproVerifieur.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufBatpro_Informix.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufBatpro_MySQL.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufBatpro_Parametres_Client.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\udmSMTP.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufProgression.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufReconcileError.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\udkProgression.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\5_Controls\ucDockScrollbox.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\5_Controls\uDockable.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\5_Controls\ucChamp_Edit.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\5_Controls\ucChamp_Label.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\5_Controls\ucChamp_Lookup_ComboBox.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\5_Controls\ucChamp_CheckBox.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\5_Controls\ucChamp_Integer_SpinEdit.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\5_Controls\ucBatpro_Shape.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

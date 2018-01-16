@@ -25,7 +25,7 @@
 interface
 
 uses
-    Windows, SysUtils, FMX.Graphics, Types;
+    Windows, SysUtils, FMX.Graphics, Types, System.MAth.Vectors;
 
 procedure Dessinne_Coche( Canvas: TCanvas;
                           CouleurFond, CouleurCoche: TColor;
@@ -166,13 +166,13 @@ end;
 
 procedure FrameRect_0( C: TCanvas; R: TRect);
 var
-   P: array[0..4] of TPoint;
+   P: TPolygon;
    OldPenWidth: Integer;
 begin
      P[0]:= R.TopLeft;
-     P[1]:= Point( R.Right, R.Top);
+     P[1]:= PointF( R.Right, R.Top);
      P[2]:= R.BottomRight;
-     P[3]:= Point( R.Left, R.Bottom);
+     P[3]:= PointF( R.Left, R.Bottom);
      P[4]:= P[0];
      OldPenWidth  := C.Stroke.Thickness;
      try

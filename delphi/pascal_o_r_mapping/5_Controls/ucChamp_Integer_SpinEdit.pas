@@ -1,4 +1,4 @@
-unit ucChamp_Integer_SpinEdit;
+﻿unit ucChamp_Integer_SpinEdit;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -27,7 +27,7 @@ interface
 uses
     uChamps,
     uChamp,
-  SysUtils, Classes, FMX.Controlso, StdCtrls, Spin;
+  SysUtils, Classes, FMX.Controls, FMX.StdCtrls, VCL.Samples.Spin;
 
 type
  TChamp_Integer_SpinEdit

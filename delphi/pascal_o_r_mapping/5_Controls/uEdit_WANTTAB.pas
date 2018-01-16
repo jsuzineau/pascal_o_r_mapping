@@ -25,7 +25,7 @@ unit uEdit_WANTTAB;
 interface
 
 uses
-    SysUtils, Windows, Messages, Classes, StdCtrls;
+    SysUtils, Windows, Messages, Classes, FMX.StdCtrls, FMX.Edit;
 
 type
  TEdit_WANTTAB

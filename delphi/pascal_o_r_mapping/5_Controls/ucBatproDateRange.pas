@@ -29,7 +29,7 @@ uses
     uSGBD,
     uuStrings,
     uDataUtilsU,
-  SysUtils, Classes, FMX.Controls, StdCtrls, Mask;
+  SysUtils, Classes, FMX.Controls, FMX.StdCtrls, Mask;
 
 type
  TBatproDateRange

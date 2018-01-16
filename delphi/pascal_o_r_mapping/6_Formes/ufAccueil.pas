@@ -1,4 +1,4 @@
-unit ufAccueil;
+﻿unit ufAccueil;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -31,20 +31,22 @@ uses
     uBatpro_StringList,
     uPublieur,
     uVersion,
-    uFTP,
+    //uFTP,
     uNetwork,
     uLog,
     uWinUtils,
 
     udmDatabase,
 
-    udllOOoDelphiReportEngineAutomation_Register,// pour assurer l'initialisation
+    //udllOOoDelphiReportEngineAutomation_Register,// pour assurer l'initialisation
     ufBatpro_Informix,
     ufBatpro_MySQL,
     ufBatpro_Parametres_Client,
 
-  Windows, Messages, SysUtils, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms, Dialogs,
-  ExtCtrls, StdCtrls, Buttons, DB, ComCtrls;
+  Windows, Messages, SysUtils, Classes,
+  FMX.Types, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
+  FMX.ExtCtrls, FMX.StdCtrls, FMX.Memo, DB, Vcl.ExtCtrls, Vcl.Dialogs, Vcl.StdCtrls,
+  Vcl.ComCtrls, Vcl.Buttons, Vcl.Graphics, Vcl.Controls;
 
 type
  TfAccueil
@@ -69,14 +71,14 @@ type
     bVariables_d_environnement: TButton;
     pc: TPageControl;
     tsLigne_Courante: TTabSheet;
-    m: TMemo;
+    m: FMX.Memo.TMemo;
     tsHistorique: TTabSheet;
-    mHistorique: TMemo;
+    mHistorique: FMX.Memo.TMemo;
     Panel1: TPanel;
     bTeleassistance: TButton;
     bParametres: TButton;
     tsHistorique_Developpeur: TTabSheet;
-    mHistorique_Developpeur: TMemo;
+    mHistorique_Developpeur: FMX.Memo.TMemo;
     Panel3: TPanel;
     Panel4: TPanel;
     Panel5: TPanel;
@@ -141,7 +143,7 @@ type
 
 function fAccueil: TfAccueil;
 
-procedure Memo_Goto_end( _Memo: TMemo);
+procedure Memo_Goto_end( _Memo: FMX.Memo.TMemo);
 
 implementation
 
@@ -154,7 +156,7 @@ uses
 
 {$R *.dfm}
 
-procedure Memo_Goto_end( _Memo: TMemo);
+procedure Memo_Goto_end( _Memo: FMX.Memo.TMemo);
 begin
      _Memo.SelStart:= Length( _Memo.Text)-1;
      _Memo.SelLength:= 1;
@@ -309,7 +311,7 @@ begin
      then
          begin
          Show;
-         Refresh;
+         //Refresh;   à traduire en FMX
          end;
 end;
 
@@ -336,7 +338,7 @@ function TfAccueil.Erreur( _Message_Developpeur: String; _Message: String = ''):
      procedure Do_Show;
      begin
          Show;
-         Refresh;
+         //Refresh; à traduire en FMX
          Result:= True;
      end;
      procedure Do_ShowModal;
@@ -467,10 +469,11 @@ begin
        + Network.Nom_Hote                + '_'
        + FormatDateTime( 'yyyy"_"mm"_"dd"_"hh"h"nn"min"ss', Now)
        + '_log_hier.zip';
-     FTP.PutStrings( mHistorique_Developpeur.Lines, NomFichier, False);
-     FTP.PutDirectoryZip( ExcludeTrailingPathDelimiter( uLog.Log.Repertoire), NomZIPLogs, False);
-     FTP.PutDirectoryZip( ExcludeTrailingPathDelimiter( uLog.Log.Repertoire_Hier), NomZIPLogs_Hier, False);
-     MessageDlg('Transfert effectué avec succés', mtInformation, [mbOK], 0);
+     //à traduire en FMX
+     //FTP.PutStrings( mHistorique_Developpeur.Lines, NomFichier, False);
+     //FTP.PutDirectoryZip( ExcludeTrailingPathDelimiter( uLog.Log.Repertoire), NomZIPLogs, False);
+     //FTP.PutDirectoryZip( ExcludeTrailingPathDelimiter( uLog.Log.Repertoire_Hier), NomZIPLogs_Hier, False);
+     //MessageDlg('Transfert effectué avec succés', mtInformation, [mbOK], 0);
 end;
 
 procedure TfAccueil.bInformixClick(Sender: TObject);

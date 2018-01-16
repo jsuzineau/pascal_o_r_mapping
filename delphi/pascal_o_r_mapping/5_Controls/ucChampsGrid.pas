@@ -38,7 +38,7 @@ uses
     uChamp,
     uChampDefinition,
     ufChampsGrid_Colonnes,
-    Windows, SysUtils, Classes, FMX.Controls, DB, Grids,Dialogs, StdCtrls, Buttons,
+    Windows, SysUtils, Classes, FMX.Controls, DB, Grids,FMX.Dialogs, FMX.StdCtrls, Buttons,
     uForms;
 
 type
@@ -315,7 +315,7 @@ begin
          if Assigned( Champ)
          then
              begin
-             P:= Point( iec.BoundsRect.Left, iec.BoundsRect.Bottom);
+             P:= PointF( iec.BoundsRect.Left, iec.BoundsRect.Bottom);
              //if Assigned( Parent)
              //then
              //    P:= Parent.ClientToScreen( P);

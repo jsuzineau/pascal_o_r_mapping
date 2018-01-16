@@ -28,7 +28,7 @@ uses
     uClean,
     uReels,
     uContrainte,
-  SysUtils, Classes, FMX.Controls, ComCtrls, DB, StdCtrls, ExtCtrls, FMX.Graphics;
+  SysUtils, Classes, FMX.Controls, FMX.ComCtrls, DB, FMX.StdCtrls, FMX.ExtCtrls, FMX.Graphics;
 
 type
  TBatpro_Contrainte

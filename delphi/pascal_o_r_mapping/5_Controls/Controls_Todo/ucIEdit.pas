@@ -9,7 +9,7 @@ interface
 uses
     Windows,
     Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-    Dialogs, StdCtrls;
+    FMX.Dialogs, FMX.StdCtrls;
 const
      ucIEdit_MaxInteger=  2147483647;
      ucIEdit_MinInteger= -2147483647;

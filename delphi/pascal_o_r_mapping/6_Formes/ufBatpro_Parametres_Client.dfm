@@ -1,9 +1,9 @@
 object fBatpro_Parametres_Client: TfBatpro_Parametres_Client
   Left = 305
   Top = 114
-  Width = 1024
-  Height = 700
   Caption = 'fBatpro_Parametres_Client'
+  ClientHeight = 661
+  ClientWidth = 1008
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,8 +18,8 @@ object fBatpro_Parametres_Client: TfBatpro_Parametres_Client
   object m: TMemo
     Left = 0
     Top = 41
-    Width = 1016
-    Height = 625
+    Width = 1008
+    Height = 620
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -35,10 +35,11 @@ object fBatpro_Parametres_Client: TfBatpro_Parametres_Client
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1016
+    Width = 1008
     Height = 41
     Align = alTop
     TabOrder = 1
+    ExplicitWidth = 1016
     object bSaveAs: TButton
       Left = 40
       Top = 8

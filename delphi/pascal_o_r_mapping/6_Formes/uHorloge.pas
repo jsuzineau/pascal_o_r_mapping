@@ -27,7 +27,7 @@ interface
 uses
     uClean,
     uPublieur,
-  SysUtils, Classes,ExtCtrls;
+  SysUtils, Classes,FMX.ExtCtrls,FMX.Types;
 
 
 type

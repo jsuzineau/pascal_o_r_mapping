@@ -28,7 +28,7 @@ uses
   uClean,
   ufProgression,
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
-  Dialogs, StdCtrls;
+  FMX.Dialogs, FMX.StdCtrls;
 
 type
   Tftc_fProgression = class(TForm)

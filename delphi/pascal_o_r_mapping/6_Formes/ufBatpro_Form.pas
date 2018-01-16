@@ -1,4 +1,4 @@
-unit ufBatpro_Form;
+﻿unit ufBatpro_Form;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -37,22 +37,20 @@ uses
     uEtat,
     uHorloge,
 
-    udmxG3_UTI,
-    //upoolG_PAR,
-
     ufBatpro_Desk,
     ufAccueil_Erreur,
-  Windows, Messages, SysUtils, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms, Dialogs,
-  IniFiles, StdCtrls, ExtCtrls, DB, ComCtrls, ucBatproMasque;
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
+  IniFiles, FMX.StdCtrls, FMX.ExtCtrls, DB, ucBatproMasque,
+  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Controls;
 
 type
  TfBatpro_Form
   =
   class(TfBatpro_Form_Ancetre)
-    pSociete: TPanel;
-    lSociete: TLabel;
+    pSociete: FMX.StdCtrls.TPanel;
+    lSociete: FMX.StdCtrls.TLabel;
     lHeure: TLabel;
-    animation: TAnimate;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -192,11 +190,13 @@ var
    WorkArea: TRect;
    W, H: Integer;
 begin
+     {à revoir pour FMX
      SystemParametersInfo( SPI_GETWORKAREA, 0, @WorkArea, 0);
      W:= WorkArea.Right  - WorkArea.Left;
      H:= WorkArea.Bottom - WorkArea.Top ;
      Left:= WorkArea.Left + (W - Width ) div 2;
      Top := WorkArea.Top  + (H - Height) div 2;
+     }
 end;
 
 procedure TfBatpro_Form.Dimensionne_sur_WORKAREA;
@@ -204,6 +204,7 @@ var
    WorkArea: TRect;
    W, H: Integer;
 begin
+     { à revoir pour FMX
      SystemParametersInfo( SPI_GETWORKAREA, 0, @WorkArea, 0);
      W:= WorkArea.Right  - WorkArea.Left;
      H:= WorkArea.Bottom - WorkArea.Top ;
@@ -211,6 +212,7 @@ begin
      Top   := WorkArea.Top ;
      Width := W;
      Height:= H;
+     }
 end;
 
 procedure TfBatpro_Form.FormCreate(Sender: TObject);
@@ -231,9 +233,10 @@ begin
      //Horloge.HeureChange.Abonne( Self, Horloge_Change);
      lHeure.Visible:= False;
 
-     OnHelp:= Objet_Aide.Aide;
-     HelpContext:= 1;
-     HelpFile:= Name;
+     //à revoir pour FMX
+     //OnHelp:= Objet_Aide.Aide;
+     //HelpContext:= 1;
+     //HelpFile:= Name;
 
      Execute_Running:= False;
 
@@ -261,7 +264,7 @@ begin
 
      if fAffiche = Self then fAffiche:= nil;
 
-     OnHelp:= nil;
+     //OnHelp:= nil;
      //Horloge.HeureChange.Desabonne( Self, Horloge_Change);
      inherited;
 end;
@@ -316,10 +319,11 @@ begin
      if Batpro_Desk
      then
          begin
-         ManualDock( fBatpro_Desk, nil, alClient);
+         //à revoir pour FMX
+         //ManualDock( fBatpro_Desk, nil, alClient);
          fBatpro_Desk.FenetreCourante:= Self;
          fBatpro_Desk.Caption:= Caption;
-         Align:= alClient;
+         //Align:= alClient;
          //Left:= 0;
          //Top:= 0;
          //Width := fBatpro_Desk.ClientWidth ;
@@ -396,15 +400,15 @@ end;
 
 procedure TfBatpro_Form.Bandeau_from_;
 var
-   N: Integer;
+   N: Single;
    SD: String;
 begin
      SD:= FormatDateTime( 'dddddd', Now);
      N:= NbChars( lSociete.Font, lSociete.Width);
-     pSociete.Color:= ufBatpro_Form_Couleur_societe;
-     lSociete.Color:= ufBatpro_Form_Couleur_Societe;
+     //pSociete.Color:= ufBatpro_Form_Couleur_societe;
+     //lSociete.Color:= ufBatpro_Form_Couleur_Societe;
      lHeure.Color  := ufBatpro_Form_Couleur_Societe;
-     lSociete.Caption:= Justifie( [ufBatpro_Form_code_util+' '+ufBatpro_Form_Nom_Societe,SD], N);
+     lSociete.Text:= Justifie( [ufBatpro_Form_code_util+' '+ufBatpro_Form_Nom_Societe,SD], Trunc(N));
 end;
 
 procedure TfBatpro_Form.DoShow;
@@ -434,7 +438,7 @@ end;
 
 procedure TfBatpro_Form.Horloge_Change;
 begin
-     lHeure.Caption:= '>'+ThousandSeparator+'<'+Horloge.sHeure;
+     lHeure.Caption:= '>'+FormatSettings.ThousandSeparator+'<'+Horloge.sHeure;
      lHeure.Refresh;
 end;
 
@@ -492,12 +496,12 @@ end;
 
 procedure TfBatpro_Form.Demarre_Animation;
 begin
-     animation.Active := True;
+     //animation.Active := True;
 end;
 
 procedure TfBatpro_Form.Termine_Animation;
 begin
-     animation.Active := False;
+     //animation.Active := False;
 end;
 
 function TfBatpro_Form.Is_Sommet_Execute: Boolean;

@@ -28,7 +28,7 @@ uses
     uClean,
     uPublieur,
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  Dialogs, ExtCtrls;
+  FMX.Dialogs, FMX.ExtCtrls;
 
 type
   TfBloqueur = class(TForm)

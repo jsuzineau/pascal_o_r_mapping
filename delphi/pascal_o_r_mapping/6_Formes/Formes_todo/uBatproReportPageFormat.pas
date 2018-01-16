@@ -32,7 +32,7 @@ uses
     uhDessinnateur,
     upoolG_PAR,
     ufAccueil_Erreur,
-    Windows, SysUtils, Classes, ExtCtrls, FMX.Graphicso, Grids, Printers;
+    Windows, SysUtils, Classes, FMX.ExtCtrls, FMX.Graphicso, Grids, Printers;
 
 type
  TBatproReportPageFormat
@@ -168,7 +168,7 @@ begin
        begin
        Name:= 'Arial';
        Size:= 14;
-       Style:= Style + [fsBold, fsUnderline];
+       Style:= Style + [TFontStyle.fsBold, TFontStyle.fsUnderline];
        Color:= clNavy;
        end;
 
@@ -339,7 +339,7 @@ begin
      SommetTitre:= HauteurLogo;
 
      Canvas.Fill.Color:= TColorRec.SysInfoBk;
-      Canvas.Stroke.Dash:= TStrokeDash.Clear;
+      Canvas.Stroke.Dash:= TStrokeDash.Custom;
         Canvas.Rectangle( 0, SommetTitre, Largeur, SommetTitre + Titre);
       Canvas.Stroke.Dash:= TStrokeDash.Solid;
 

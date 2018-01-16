@@ -1,8 +1,6 @@
 inherited fpBas: TfpBas
   Left = 376
   Top = 139
-  Width = 817
-  Height = 609
   Caption = 'fpBas'
   OldCreateOrder = True
   OnShow = FormShow
@@ -10,36 +8,40 @@ inherited fpBas: TfpBas
   TextHeight = 13
   object sLog: TSplitter [0]
     Left = 0
-    Top = 478
-    Width = 809
+    Top = 131
+    Width = 354
     Height = 6
     Cursor = crVSplit
     Align = alBottom
     Color = clLime
     ParentColor = False
     Visible = False
+    ExplicitTop = 478
+    ExplicitWidth = 809
   end
   inherited pSociete: TPanel
-    Width = 809
     TabOrder = 1
+    ExplicitWidth = 809
     inherited lSociete: TLabel
-      Width = 737
+      Width = 56
+      Height = 14
     end
     inherited lHeure: TLabel
       Left = 753
-    end
-    inherited animation: TAnimate
-      Left = 737
+      Height = 14
+      ExplicitLeft = 753
     end
   end
   object pBas: TPanel
     Left = 0
-    Top = 437
-    Width = 809
+    Top = 90
+    Width = 354
     Height = 41
     Align = alBottom
     ParentBackground = False
     TabOrder = 0
+    ExplicitTop = 437
+    ExplicitWidth = 809
     object pFermer: TPanel
       Left = 576
       Top = 1
@@ -56,7 +58,6 @@ inherited fpBas: TfpBas
         Action = aAbandon
         Cancel = True
         Caption = 'Abandon (F9)'
-        TabOrder = 0
         Glyph.Data = {
           DE010000424DDE01000000000000760000002800000024000000120000000100
           0400000000006801000000000000000000001000000000000000000000000000
@@ -75,6 +76,7 @@ inherited fpBas: TfpBas
           3333333333333333333888330000333333333333333333333333333333333333
           0000}
         NumGlyphs = 2
+        TabOrder = 0
       end
       object bValidation: TBitBtn
         Left = 8
@@ -83,8 +85,6 @@ inherited fpBas: TfpBas
         Height = 25
         Action = aValidation
         Caption = 'Validation (F7)'
-        PopupMenu = pmValidation
-        TabOrder = 1
         Glyph.Data = {
           DE010000424DDE01000000000000760000002800000024000000120000000100
           0400000000006801000000000000000000001000000000000000000000000000
@@ -103,13 +103,15 @@ inherited fpBas: TfpBas
           333A333333333333333338330000333333333333333333333333333333333333
           0000}
         NumGlyphs = 2
+        PopupMenu = pmValidation
+        TabOrder = 1
       end
     end
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 556
-    Width = 809
+    Top = 209
+    Width = 354
     Height = 19
     AutoHint = True
     Font.Charset = ANSI_CHARSET
@@ -119,29 +121,34 @@ inherited fpBas: TfpBas
     Font.Style = []
     Panels = <>
     UseSystemFont = False
+    ExplicitTop = 556
+    ExplicitWidth = 809
   end
   object pLog: TPanel
     Left = 0
-    Top = 484
-    Width = 809
+    Top = 137
+    Width = 354
     Height = 72
     Align = alBottom
     Caption = 'pLog'
     ParentBackground = False
     TabOrder = 3
     Visible = False
+    ExplicitTop = 484
+    ExplicitWidth = 809
     object lLog: TLabel
       Left = 1
       Top = 1
-      Width = 807
+      Width = 352
       Height = 13
       Align = alTop
       Caption = 'Journal des op'#233'rations'
+      ExplicitWidth = 106
     end
     object mLog: TMemo
       Left = 1
       Top = 14
-      Width = 807
+      Width = 352
       Height = 57
       Align = alClient
       Font.Charset = DEFAULT_CHARSET

@@ -1,4 +1,4 @@
-unit ucBatproMaskElement;
+﻿unit ucBatproMaskElement;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -28,15 +28,14 @@ uses
     uForms,
     uBatpro_StringList,
     uSGBD,
-      uEdit_WANTTAB,
-    uDBEdit_WANTTAB,
+    uEdit_WANTTAB,
     uChamps,
     uChamp,
 
     ufAccueil_Erreur,
 
-  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs,
-  StdCtrls, Buttons, DB, DBCtrls, ExtCtrls, Math, DBTables;
+  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
+  FMX.StdCtrls, DB, FMX.ExtCtrls, Math,System.UITypes, FMX.Edit, FMX.Types;
 
 type
  TBatproMaskElementDefault = (bmed_Aucun, bmed_Premier, bmed_Dernier);
@@ -66,7 +65,6 @@ type
   private
     ButtonWidth: Integer;
     _E: TEdit_WANTTAB;
-    DBE: TDBEdit_WANTTAB;
     L: TLabel;
     B: TSpeedButton;
     EChanging: Boolean;
@@ -82,8 +80,9 @@ type
     procedure EChange( Sender: TObject);
     procedure EEnter ( Sender: TObject);
     procedure EExit  ( Sender: TObject);
-    procedure EKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure EKeyUp  ( Sender: TObject; var Key: Word; Shift: TShiftState);
+
+    procedure EKeyDown( Sender: TObject; var Key: Word; var KeyChar: WideChar; Shift: TShiftState);
+    procedure EKeyUp  ( Sender: TObject; var Key: Word; var KeyChar: WideChar; Shift: TShiftState);
 
     function  Execute: Boolean;
 
@@ -100,7 +99,7 @@ type
   protected
     { Déclarations protégées }
     procedure Resize; override;
-    procedure CreateWnd; override;
+    procedure CreateWnd; //override;  à revoir pour FMX
 
     procedure Go;
     procedure GoNext;
@@ -123,7 +122,7 @@ type
     procedure Reset;
     procedure _from_Query( Q: TDataset);
     procedure _from_Champs( CS: TChamps; _bl: TObject; _id: Integer);
-    procedure SetFocus; override;
+    procedure SetFocus;// override; à revoir pour FMX
     procedure SelectAll;
     procedure slChamps_from_Q_Fields(Q: TDataset);
     procedure slChamps_from_Champs(CS: TChamps);
@@ -298,7 +297,7 @@ implementation
 uses
     uDataUtilsU,
     uWinUtils,
-    u_sys_, uClean, Mask;
+    u_sys_, uClean;
 
 procedure Register;
 begin
@@ -312,9 +311,6 @@ begin
      inherited;
 
      SQLConstraint_DecoreValeur:= nil;
-
-     BevelInner:= bvNone;
-     BevelOuter:= bvNone;
 
      VK_RETURN_Execute:= True;
      TraiterTabulation:= False;
@@ -331,20 +327,20 @@ begin
      FLectureSeule:= False;
 
      B:= TSpeedButton.Create( Self);
-     with B do ControlStyle:= ControlStyle + [csReplicatable];
+     //with B do ControlStyle:= ControlStyle + [csReplicatable];
      B.Width := ButtonWidth;
      B.Height:= ButtonWidth;
      B.Visible:= True;
      B.Parent:= Self;
      B.OnClick:= BClick;
      Bitmap:= Windows.LoadBitmap( 0, PChar(OBM_COMBO));
-     B.Glyph.Handle:= Bitmap;
+     //B.Glyph.Handle:= Bitmap;
      b.Cursor:= crArrow;
 
      EChanging:= False;
 
      _E:= TEdit_WANTTAB.Create( Self);
-     with _E do ControlStyle:= ControlStyle + [csReplicatable];
+     //with _E do ControlStyle:= ControlStyle + [csReplicatable];
      _E.Visible:= True;
      _E.Parent:= Self;
      _E.OnChange := EChange ;
@@ -353,6 +349,7 @@ begin
      _E.OnKeyDown:= EKeyDown;
      _E.OnKeyUp  := EKeyUp  ;
 
+     {
      DBE:= TDBEdit_WANTTAB.Create( Self);
      DBE.Visible:= False;
      DBE.Parent:= Self;
@@ -361,6 +358,7 @@ begin
      DBE.OnExit   := EExit   ;
      DBE.OnKeyDown:= EKeyDown;
      DBE.OnKeyUp  := EKeyUp  ;
+     }
 
      L:= TLabel.Create( Self);
      L.Visible := False;
@@ -395,29 +393,31 @@ end;
 
 procedure TBatproMaskElement.Positionne;
 var
-   Largeur, Hauteur: Integer;
+   Largeur, Hauteur: Single;
 begin
      //Calcul largeur
-     Largeur:= ClientWidth;
+     Largeur:= Width;
      if not IsLabel
      then
          Largeur:= Largeur-ButtonWidth;
 
-     Hauteur:= ClientHeight;
+     Hauteur:= Height;
 
-     _E.Left  := 0;
+     _E.Position.X  := 0;
      _E.Width := Largeur;
      _E.Height:= Hauteur;
 
+     {
      DBE.Left  := 0;
      DBE.Width := Largeur;
      DBE.Height:= Hauteur;
+     }
 
-     L.Left  := 0;
+     L.Position.X:= 0;
      L.Width := Largeur;
      L.Height:= Hauteur;
 
-     B.Left  := Largeur;
+     B.Position.X:= Largeur;
      B.Height:= Hauteur;
 end;
 
@@ -461,13 +461,13 @@ begin
      DoChange;
 
      uForms_ProcessMessages;
-     B.Refresh;
+     //B.Refresh;
 end;
 
 procedure TBatproMaskElement.BClick(Sender: TObject);
 begin
      SetFocus;
-     
+
      if bme5DataSource = nil
      then
          try
@@ -484,22 +484,24 @@ procedure TBatproMaskElement.TraiteHauteur;
 var
    Largeur: Integer;
 begin
+     //vraisemblablement à revoir avec la notion de margin/padding de FMX
+
      //if not HandleAllocated then exit;
      if IsLabel
      then
          begin
-         Largeur:= LargeurTexte(L.Font,L.Caption)+2*GetSystemMetrics(SM_CXEDGE);
-         ClientWidth:= Largeur;
+         Largeur:= LargeurTexte(L.Font,L.Text)+2*GetSystemMetrics(SM_CXEDGE);
+         Width:= Largeur;
 
-         ClientHeight:= LineHeight( L.Font)+2*GetSystemMetrics(SM_CYEDGE)+1;
+         Height:= LineHeight( L.Font)+2*GetSystemMetrics(SM_CYEDGE)+1;
          end
      else
          begin
          Largeur:= LargeurTexte( _E.Font, StringOfChar('W', _E.MaxLength+1))+
                    2*GetSystemMetrics(SM_CXEDGE);
-         ClientWidth:= Largeur + ButtonWidth;
+         Width:= Largeur + ButtonWidth;
 
-         ClientHeight:= Max( LineHeight( _E.Font)+2*GetSystemMetrics(SM_CYEDGE)+1,
+         Height:= Max( LineHeight( _E.Font)+2*GetSystemMetrics(SM_CYEDGE)+1,
                              ButtonWidth);
          end;
 end;
@@ -512,9 +514,11 @@ begin
 end;
 
 procedure TBatproMaskElement.EKeyDown( Sender: TObject;
-                                       var Key: Word; Shift: TShiftState);
+                                       var Key: Word;
+                                       var KeyChar: WideChar;
+                                       Shift: TShiftState);
 begin
-     KeyDown( Key, Shift);
+     KeyDown( Key, KeyChar, Shift);
      case Key
      of
        VK_F8:
@@ -538,7 +542,9 @@ begin
 end;
 
 procedure TBatproMaskElement.EKeyUp  ( Sender: TObject;
-                                       var Key: Word; Shift: TShiftState);
+                                       var Key: Word;
+                                       var KeyChar: WideChar;
+                                       Shift: TShiftState);
 begin
      case Key
      of
@@ -548,7 +554,7 @@ begin
              GoPrevious;
        VK_F9:
          GoPrevious;
-       VK_LEFT:      
+       VK_LEFT:
          if SelStart = 0
          then
              GoPrevious;
@@ -698,14 +704,14 @@ end;
 
 function TBatproMaskElement.GetMaxLength: Integer;
 begin
-          if L  .Visible then Result:= Length( L.Caption)//à vérifier, n'a peut être pas de sens
-     else if DBE.Visible then Result:= DBE.MaxLength
+          if L  .Visible then Result:= Length( L.Text)//à vérifier, n'a peut être pas de sens
+    // else if DBE.Visible then Result:= DBE.MaxLength
      else                     Result:= _E .MaxLength;
 end;
 
 procedure TBatproMaskElement.SetMaxLength(Value: Integer);
 begin
-     DBE.MaxLength:= Value;
+     //DBE.MaxLength:= Value;
      _E .MaxLength:= Value;
      //TraiteHauteur;
 end;
@@ -714,8 +720,8 @@ function TBatproMaskElement.GetText: String;
 //var
 //   DBE_F: TField;
 begin
-          if L  .Visible then Result:= L.Caption
-     else if DBE.Visible
+          if L  .Visible then Result:= L.Text
+     else {if DBE.Visible
      then
          begin
          // mis en commentaire 2004 09 17
@@ -731,7 +737,7 @@ begin
 
          Result:= DBE.Text;
          end
-     else
+     else }
          Result:= _E .Text;
 end;
 
@@ -740,8 +746,8 @@ var
    D: TDataset;
    F: TField;
 begin
-          if L  .Visible then L.Caption:= Value
-     else if DBE.Visible
+          if L  .Visible then L.Text:= Value
+     {else if DBE.Visible
      then
          begin
          F:= nil;
@@ -786,6 +792,7 @@ begin
                  end;
              end;
          end
+     }
      else
          _E .Text:= Value;
 end;
@@ -793,9 +800,10 @@ end;
 function TBatproMaskElement.GetSelStart: Integer;
 begin
           if L  .Visible then Result:= 0
-     else if DBE.Visible
+     {else if DBE.Visible
      then
          Result:= DBE.SelStart
+     }
      else
          Result:= _E .SelStart;
 end;
@@ -803,9 +811,10 @@ end;
 procedure TBatproMaskElement.SetSelStart(Value: Integer);
 begin
           if L  .Visible then begin end
-     else if DBE.Visible
+     {else if DBE.Visible
      then
          DBE.SelStart:= Value
+     }
      else
          _E .SelStart:= Value;
 end;
@@ -813,16 +822,18 @@ end;
 procedure TBatproMaskElement.SetCharCase( Value: TEditCharCase);
 begin
      //L
-     DBE.CharCase:= Value;
+     //DBE.CharCase:= Value;
      _E .CharCase:= Value;
 end;
 
 function TBatproMaskElement.GetCharCase: TEditCharCase;
 begin
-          if L  .Visible then Result:= ecNormal
+          if L  .Visible then Result:= TEditCharCase.ecNormal
+     {
      else if DBE.Visible
      then
          Result:= DBE.CharCase
+     }
      else
          Result:=  _E.CharCase;
 end;
@@ -838,11 +849,13 @@ begin
          GoNext
      else
          begin
+         {
          if DBE.Visible
          then
              CE:= DBE
+
          else
-             CE:= _E ;
+         }    CE:= _E ;
 
          if CE.CanFocus
          then
@@ -857,11 +870,11 @@ procedure TBatproMaskElement.SelectAll;
 begin
      if IsLabel then exit;
      
-     if DBE.Visible
+     {if DBE.Visible
      then
          DBE.SelectAll
      else
-         _E .SelectAll;
+     }    _E .SelectAll;
 end;
 
 procedure TBatproMaskElement.Setbme0Previous( Value: TBatproMaskElement);
@@ -872,7 +885,7 @@ end;
 
 procedure TBatproMaskElement.TraitePrevious;
 var
-   NewLeft: Integer;
+   NewLeft: Single;
 begin
      if not AutoLayout then exit;
      if Assigned( Fbme0Previous)
@@ -881,8 +894,8 @@ begin
          NewLeft:= Fbme0Previous.Left+Fbme0Previous.Width;
          if IsLabel
          then
-             Inc( NewLeft, 3);
-         Left:= NewLeft;
+             NewLeft:= NewLeft+ 3;
+         Position.X:= NewLeft;
          end;
 end;
 
@@ -919,10 +932,10 @@ var
 begin
      Fbme5DataSource:= Value;
 
-     DBE.DataSource:= Fbme5DataSource;
+     //DBE.DataSource:= Fbme5DataSource;
 
      DBE_Visible:= Assigned( Fbme5DataSource);
-     DBE.Visible:=     DBE_Visible;
+     //DBE.Visible:=     DBE_Visible;
      _E .Visible:= not DBE_Visible;
 end;
 
@@ -930,7 +943,7 @@ procedure TBatproMaskElement.Setbme6DataField(const Value: string);
 begin
      Fbme6DataField:= Value;
 
-     DBE.DataField:= Fbme6DataField;
+     //DBE.DataField:= Fbme6DataField;
 end;
 
 procedure TBatproMaskElement.Set_DataSource_DataField( DS: TDataSource;
@@ -945,8 +958,8 @@ begin
      if Assigned( bme7LabelLibelle)
      then
          begin
-         bme7LabelLibelle.Caption:= TextLibelle;
-         bme7LabelLibelle.Refresh;
+         bme7LabelLibelle.Text:= TextLibelle;
+         //bme7LabelLibelle.Refresh;
          end;
 end;
 
@@ -1106,7 +1119,7 @@ begin
      FLectureSeule:= Value;
 
       _E.ReadOnly:= FLectureSeule;
-     DBE.ReadOnly:= FLectureSeule;
+     //DBE.ReadOnly:= FLectureSeule;
 end;
 
 function TBatproMaskElement.GetLectureSeule: Boolean;
@@ -1205,30 +1218,34 @@ end;
 
 function TBatproMaskElement.getColorEdit: TColor;
 begin
+     {
      if DBE.Visible
      then
          Result:= DBE.Color
      else
-         Result:= _E .Color;
+     }
+     //    Result:= _E.Color;
 end;
 
 procedure TBatproMaskElement.setColorEdit(const Value: TColor);
 begin
+     {
      if DBE.Visible
      then
          DBE.Color:= Value
      else
          _E .Color:= Value;
+     }
 end;
 
 procedure TBatproMaskElement.SetIsLabel(Value: Boolean);
 begin
      FIsLabel:= Value;
      L  .Visible:= True ;
-     DBE.Visible:= False;
+     //DBE.Visible:= False;
      _E .Visible:= False;
      B  .Visible:= False;
-     B  .Left:= 0;
+     B  .Position.X:= 0;
 end;
 
 function TBatproMaskElement.Do_SQLConstraint_DecoreValeur( _Valeur: String): String;

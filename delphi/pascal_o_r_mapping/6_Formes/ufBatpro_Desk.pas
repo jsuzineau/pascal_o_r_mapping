@@ -1,4 +1,4 @@
-unit ufBatpro_Desk;
+﻿unit ufBatpro_Desk;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -27,8 +27,11 @@ interface
 uses
     uClean,
     uBatpro_StringList,
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
-  Dialogs, ExtCtrls, ActnList;
+  Windows, Messages, SysUtils, Variants, Classes,
+  System.UITypes, System.Actions,
+  FMX.Graphics, FMX.Controls, FMX.Forms,
+  FMX.Dialogs, FMX.ActnList,
+  FMX.Types, Vcl.ExtCtrls, Vcl.ActnList;
 
 type
  TfBatpro_Form_Ancetre
@@ -36,19 +39,19 @@ type
   class(TForm)
   //Accés à la liste d'actions
   protected
-    function ActionList: TActionList; virtual; abstract;
+    function ActionList: FMX.ActnList.TActionList; virtual; abstract;
   end;
  Tprocedure_AUTOEXEC= procedure of object;
  TfBatpro_Desk
  =
   class(TForm)
-    tCreate: TTimer;
-    al: TActionList;
+    tCreate: FMX.Types.TTimer;
+    al: FMX.ActnList.TActionList;
     procedure FormCreate(Sender: TObject);
     procedure tCreateTimer(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   protected
-    procedure WndProc(var Message: TMessage); override;
+    procedure WndProc(var Message: TMessage); //override;
   //Dimensionnement                                                .
   public
     procedure Centre_sur_WORKAREA( _Width, _Height: Integer);
@@ -140,7 +143,7 @@ begin
      then
          begin
          FenetreCourante.Hide;
-         FenetreCourante.ManualFloat( Rect(0,0,FenetreCourante.UndockWidth, FenetreCourante.UndockHeight));
+         //FenetreCourante.ManualFloat( Rect(0,0,FenetreCourante.UndockWidth, FenetreCourante.UndockHeight));
          FenetreCourante:= nil;
          end;
 end;
@@ -174,9 +177,9 @@ end;
 
 procedure TfBatpro_Desk.ActionList_from_FenetreCourante;
 var
-   ActionList: TActionList;
+   ActionList: FMX.ActnList.TActionList;
    I: Integer;
-   a: TAction;
+   a: FMX.ActnList.TAction;
    aFenetreCourante: TContainedAction;
 begin
      if nil = FenetreCourante then exit;
@@ -189,7 +192,7 @@ begin
        aFenetreCourante:= ActionList.Actions[ I];
        if aFenetreCourante = nil then continue;
 
-       a:= TAction.Create( Self);
+       a:= FMX.ActnList.TAction.Create( Self);
        if a= nil then continue;
 
        a.Assign( aFenetreCourante);

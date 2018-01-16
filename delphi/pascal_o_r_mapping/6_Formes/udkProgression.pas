@@ -1,4 +1,4 @@
-unit udkProgression;
+﻿unit udkProgression;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -27,8 +27,8 @@ interface
 uses
     uOD_Forms,
     uDockable,
-  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs,
-  Gauges, StdCtrls, ExtCtrls, ucBatpro_Shape, Buttons;
+  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
+  FMX.StdCtrls, FMX.ExtCtrls, ucBatpro_Shape, VCL.Samples.Gauges;
 
 type
  TdkProgression
@@ -98,16 +98,16 @@ procedure TdkProgression.Demarre( Titre: String; Min, Max: Integer;
                                   _Interruptible: Boolean= False);
 begin
      if Max <= Min then Max:= Min+1;
-     Label1.Caption:= Titre;
+     Label1.Text:= Titre;
      g.MinValue:= Min;
      g.MaxValue:= Max;
      g.Progress:= Min;
-     lCompte.Caption:= '';
+     lCompte.Text:= '';
      ModeFlyer:= Max = Min + 1;
      g.Visible:= not ModeFlyer;
      pInterrompre.Visible:= _Interruptible;
 
-     ClientHeight:= p.Height;
+     ClientHeight:= Trunc( p.Height);
      //Show;
 
      //Refresh;
@@ -143,9 +143,9 @@ begin
      Progress:= Progress + Value;
      if ModeFlyer
      then
-         lCompte.Caption:= Format( '%d', [FProgress])
+         lCompte.Text:= Format( '%d', [FProgress])
      else
-         lCompte.Caption:= Format( '%d de %d', [g.Progress, g.MaxValue]);
+         lCompte.Text:= Format( '%d de %d', [g.Progress, g.MaxValue]);
      //if Visible and Enabled
      //then
      //    begin
@@ -156,7 +156,7 @@ end;
 
 procedure TdkProgression.bInterrompreClick(Sender: TObject);
 begin
-     Interrompre:= bInterrompre.Down;
+     Interrompre:= bInterrompre.IsPressed;
 end;
 
 initialization

@@ -1,4 +1,4 @@
-unit ucChamp_Lookup_ComboBox;
+﻿unit ucChamp_Lookup_ComboBox;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -25,11 +25,13 @@ unit ucChamp_Lookup_ComboBox;
 interface
 
 uses
-    SysUtils, Classes, FMX.Controls, StdCtrls,
+    SysUtils, Classes, FMX.Controls, FMX.StdCtrls,
     uBatpro_StringList,
     uClean,
     uChamps,
-    uChamp;
+    uChamp,
+    FMX.ListBox
+    ;
 
 type
  TChamp_Lookup_ComboBox
@@ -38,7 +40,7 @@ type
   //Général
   protected
     procedure Loaded; override;
-    procedure Change; override;
+    procedure Change;// override;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -102,7 +104,7 @@ end;
 procedure TChamp_Lookup_ComboBox.Loaded;
 begin
      inherited;
-     Style:= csDropDownList;
+     //Style:= csDropDownList;
 end;
 
 function TChamp_Lookup_ComboBox.Champ_OK: Boolean;

@@ -1,4 +1,4 @@
-unit uMailTo;
+﻿unit uMailTo;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -32,15 +32,13 @@ uses
     uBatpro_StringList,
     uVersion,
     uNetwork,
-    {$IFDEF MSWINDOWS}udmSMTP,{$ENDIF}
+    udmSMTP,
 
     udmDatabase,
-    udmxG3_UTI,
 
-    upoolG_TRC,
     ufAccueil_Erreur,
-  {$IFDEF MSWINDOWS} FMX.Forms, {$ENDIF}
-  SysUtils, Classes, ShellAPI, Windows, MAPI, Dialogs, uOD_Forms, JclMapi,
+  FMX.Forms,FMX.Types,
+  SysUtils, Classes, ShellAPI, Windows, MAPI, FMX.Dialogs, uOD_Forms, JclMapi,
   IdMessage, IdMessageClient, IdAttachmentFile, IdMessageCoder,
   IdMessageCoderUUE, IdMessageCoderMIME, IdEMailAddress;
 
@@ -246,13 +244,10 @@ begin
      Formate_Liste( S, #13#10, '  ulReserved: Cardinal= $'+IntToHex( ulReserved, 8));
      Formate_Liste( S, #13#10, 'Résultat de l''appel à MAPISendMail: '+LogString_from_Resultat_MAPISendMail( Result));
 
-     Log.Print( S);
-     if Result = SUCCESS_SUCCESS
+     uLog.Log.Print( S);
+     if Result <> SUCCESS_SUCCESS
      then
-         poolG_TRC.Trace( 'BED', 'Mail envoyé avec succés')
-     else
          begin
-         poolG_TRC.Trace( 'BED', 'Echec MapiSendMail, code '+IntToStr( Result));
          fAccueil_Erreur( 'Echec MapiSendMail:'#13#10+LogString_from_Resultat_MAPISendMail( Result))
          end;
 end;
@@ -267,9 +262,9 @@ var
    NbPiecesJointes: Integer;
    mfd: PaMapiFileDesc;
    iMFD: Integer;
-   Mainform_handle: Thandle;
+   Mainform_handle: TWindowHandle;
 begin
-     Log.Print( 'MailTo; début');
+     uLog.Log.Print( 'MailTo; début');
 
      _Body:= Escape_HTML( _Body);
 
@@ -283,7 +278,7 @@ begin
          ulReserved:= 0;
          flFlags   := 0;
          nPosition := 0;
-         lpszPathName:= PChar( _PiecesJointes[iMFD]);
+         lpszPathName:= PAnsiChar( _PiecesJointes[iMFD]);
          lpszFileName:= nil;
          lpFileType  := nil;
          end;
@@ -293,7 +288,7 @@ begin
      then
          _From:= 'FDENIAUD@emfa.fr';
 
-     Log.Print( 'MailTo; _From = >'+_From+'<');
+     uLog.Log.Print( 'MailTo; _From = >'+_From+'<');
      if _From = ''
      then
          pFrom:= nil
@@ -303,8 +298,8 @@ begin
 
          mrdFrom.ulReserved  := 0;
          mrdFrom.ulRecipClass:= MAPI_ORIG;
-         mrdFrom.lpszName    := PChar( _From);
-         mrdFrom.lpszAddress := PChar( 'SMTP:'+_From);
+         mrdFrom.lpszName    := PAnsiChar( _From);
+         mrdFrom.lpszAddress := PAnsiChar( 'SMTP:'+_From);
          mrdFrom.ulEIDSize   := 0;
          mrdFrom.lpEntryID   := nil;
          end;
@@ -312,15 +307,15 @@ begin
 
      mrd.ulReserved  := 0;
      mrd.ulRecipClass:= MAPI_TO;
-     mrd.lpszName    := PChar( _To);
-     mrd.lpszAddress := PChar( 'SMTP:'+_To);
+     mrd.lpszName    := PAnsiChar( _To);
+     mrd.lpszAddress := PAnsiChar( 'SMTP:'+_To);
      mrd.ulEIDSize   := 0;
      mrd.lpEntryID   := nil;
 
 
      mm.ulReserved        := 0;
-     mm.lpszSubject       := PChar( _Subject);
-     mm.lpszNoteText      := PChar( _Body   );
+     mm.lpszSubject       := PAnsiChar( _Subject);
+     mm.lpszNoteText      := PAnsiChar( _Body   );
      mm.lpszMessageType   := nil;
      mm.lpszDateReceived  := nil;
      mm.lpszConversationID:= nil;
@@ -335,18 +330,18 @@ begin
      else
          mm.lpFiles       := PMapiFileDesc(mfd);
 
-     Log.Print( 'MailTo; avant MapiSendMail ');
+     uLog.Log.Print( 'MailTo; avant MapiSendMail ');
 
-     Mainform_handle:= 0;
-{$IFDEF MSWINDOWS} if Assigned(Application.MainForm)then Mainform_handle:= Application.MainForm.Handle; {$ENDIF}
+     Mainform_handle:= nil;
+     if Assigned(Application.MainForm)then Mainform_handle:= Application.MainForm.Handle;
 
      Result
      :=
        SUCCESS_SUCCESS
        =
-       uMailTo_MAPISendMail( 0, Mainform_handle, mm, 0, 0);
+       uMailTo_MAPISendMail( 0, Trunc(Mainform_handle.Scale), mm, 0, 0);
 
-     Log.Print( 'MailTo; fin');
+     uLog.Log.Print( 'MailTo; fin');
 end;
 
 function MailTo_Direct( _From: String; _To: TStrings; _Subject, _Body: String; _PiecesJointes: array of String): Boolean; overload;
@@ -362,9 +357,9 @@ var
    mfd: PaMapiFileDesc;
    iMFD: Integer;
 
-   Mainform_handle: Thandle;
+   Mainform_handle: TWindowHandle;
 begin
-     Log.Print( 'MailTo; début');
+     uLog.Log.Print( 'MailTo; début');
 
      _Body:= Escape_HTML( _Body);
 
@@ -378,7 +373,7 @@ begin
          ulReserved:= 0;
          flFlags   := 0;
          nPosition := 0;
-         lpszPathName:= PChar( _PiecesJointes[iMFD]);
+         lpszPathName:= PAnsiChar( _PiecesJointes[iMFD]);
          lpszFileName:= nil;
          lpFileType  := nil;
          end;
@@ -388,7 +383,7 @@ begin
      then
          _From:= 'FDENIAUD@emfa.fr';
 
-     Log.Print( 'MailTo; _From = >'+_From+'<');
+     uLog.Log.Print( 'MailTo; _From = >'+_From+'<');
      if _From = ''
      then
          pFrom:= nil
@@ -398,8 +393,8 @@ begin
 
          mrdFrom.ulReserved  := 0;
          mrdFrom.ulRecipClass:= MAPI_ORIG;
-         mrdFrom.lpszName    := PChar( _From);
-         mrdFrom.lpszAddress := PChar( 'SMTP:'+_From);
+         mrdFrom.lpszName    := PAnsiChar( _From);
+         mrdFrom.lpszAddress := PAnsiChar( 'SMTP:'+_From);
          mrdFrom.ulEIDSize   := 0;
          mrdFrom.lpEntryID   := nil;
          end;
@@ -415,8 +410,8 @@ begin
      //  begin
      //  mrd[I].ulReserved  := 0;
      //  mrd[I].ulRecipClass:= MAPI_TO;
-     //  mrd[I].lpszName    := '';//PChar( _To[I]);
-     //  mrd[I].lpszAddress := PChar( 'SMTP:'+_To[I]+';');
+     //  mrd[I].lpszName    := '';//PAnsiChar( _To[I]);
+     //  mrd[I].lpszAddress := PAnsiChar( 'SMTP:'+_To[I]+';');
      //  mrd[I].ulEIDSize   := 0;
      //  mrd[I].lpEntryID   := nil;
      //  end;
@@ -428,15 +423,15 @@ begin
      SetLength( mrd, 1);
      mrd[0].ulReserved  := 0;
      mrd[0].ulRecipClass:= MAPI_TO;
-     mrd[0].lpszName    := 'Plusieurs destinataires';//PChar( _To[I]);
-     mrd[0].lpszAddress := PChar( 'SMTP:'+Destinataires);
+     mrd[0].lpszName    := 'Plusieurs destinataires';//PAnsiChar( _To[I]);
+     mrd[0].lpszAddress := PAnsiChar( 'SMTP:'+Destinataires);
      mrd[0].ulEIDSize   := 0;
      mrd[0].lpEntryID   := nil;
 
 
      mm.ulReserved        := 0;
-     mm.lpszSubject       := PChar( _Subject);
-     mm.lpszNoteText      := PChar( _Body   );
+     mm.lpszSubject       := PAnsiChar( _Subject);
+     mm.lpszNoteText      := PAnsiChar( _Body   );
      mm.lpszMessageType   := nil;
      mm.lpszDateReceived  := nil;
      mm.lpszConversationID:= nil;
@@ -451,16 +446,16 @@ begin
      else
          mm.lpFiles       := PMapiFileDesc(mfd);
 
-     Log.Print( 'MailTo; avant MapiSendMail ');
-     Mainform_handle:= 0;
-{$IFDEF MSWINDOWS} if Assigned(Application.MainForm)then Mainform_handle:= Application.MainForm.Handle; {$ENDIF}
+     uLog.Log.Print( 'MailTo; avant MapiSendMail ');
+     Mainform_handle:= nil;
+     if Assigned(Application.MainForm)then Mainform_handle:= Application.MainForm.Handle;
 
      Result
      :=
        SUCCESS_SUCCESS
        =
-       uMailTo_MAPISendMail( 0, Mainform_handle, mm, 0, 0);
-     Log.Print( 'MailTo; fin');
+       uMailTo_MAPISendMail( 0, Trunc(Mainform_handle.Scale), mm, 0, 0);
+     uLog.Log.Print( 'MailTo; fin');
 end;
 
 function MailTo_SMTP( _From: String; _To: TStrings; _Subject, _Body: String; _PiecesJointes: array of String): Boolean;
@@ -483,8 +478,7 @@ begin
         Repertoire_Temp
        +'MEL_'
        +Network.Nom_Hote+'_'
-       +FormatDateTime('yyyymmdd"_"hh"h"nn',Now)+'_'
-       +dmxG3_UTI_soc+'_'+dmxG3_UTI_ets+'_'+dmxG3_UTI_code_util+'.eml';
+       +FormatDateTime('yyyymmdd"_"hh"h"nn',Now)+'.eml';
 
      Message:= TIdMessage.Create( nil);
 
@@ -505,14 +499,9 @@ begin
      //    Message.SaveToFile( Modele);
      //    end;
 
-     if     (_From = '')
-        and ('EMFA' = UpperCase( dmDatabase.Database))
-     then
-         _From:= 'FDENIAUD@emfa.fr';
-
      Message.From.Address:= _From;
 
-     Log.Print( 'MailTo, ajout destinataires');
+     uLog.Log.Print( 'MailTo, ajout destinataires');
      case uMailTo_Envoi_Destinataires
      of
        ed_Groupe_en_un_Libelle_Destinataires,
@@ -522,12 +511,12 @@ begin
          do
            begin
            sRecipient:= _To.Strings[I];
-           Log.Print( sRecipient);
+           uLog.Log.Print( sRecipient);
            Recipient:= Message.Recipients.Add;
            Recipient.Address:= sRecipient;
            end;
        end;
-     Log.Print( 'MailTo, fin ajout destinataires');
+     uLog.Log.Print( 'MailTo, fin ajout destinataires');
 
      Message.ContentType:= '';
      Message.Subject  := _Subject;
@@ -542,13 +531,11 @@ begin
      Message.SaveToFile( Mail);
 
      try
-        {$IFDEF MSWINDOWS}dmSMTP.EnvoiMail( Message);{$ENDIF}
-        poolG_TRC.Trace( 'BED', 'Mail envoyé avec succés')
+        dmSMTP.EnvoiMail( Message);
      except
            on E: Exception
            do
              begin
-             poolG_TRC.Trace( 'BED', 'Echec Mail, '+E.Message);
              fAccueil_Erreur( 'uMailTo.MailTo_SMTP:'#13#10+E.Message, 'Echec de l''envoi du mail');
              end;
            end;
@@ -583,7 +570,7 @@ begin
 
        //pas de champ où mettre le _From ?
 
-       Log.Print( 'MailTo, ajout destinataires');
+       uLog.Log.Print( 'MailTo, ajout destinataires');
        case uMailTo_Envoi_Destinataires
        of
          ed_Groupe_en_un_Libelle_Destinataires:
@@ -593,7 +580,7 @@ begin
            do
              begin
              sRecipient:= _To.Strings[I];
-             Log.Print( sRecipient);
+             uLog.Log.Print( sRecipient);
              Recipients.Add( sRecipient);
              end;
          ed_un_par_ligne_Libelle_adresse:
@@ -601,11 +588,11 @@ begin
            do
              begin
              sRecipient:= _To.Strings[I];
-             Log.Print( sRecipient);
+             uLog.Log.Print( sRecipient);
              Recipients.Add( sRecipient, sRecipient);
              end;
          end;
-       Log.Print( 'MailTo, fin ajout destinataires');
+       uLog.Log.Print( 'MailTo, fin ajout destinataires');
 
        Subject := AnsiString(_Subject);
        Body := AnsiString(_Body);
@@ -615,7 +602,6 @@ begin
          Attachments.Add(AnsiString(_PiecesJointes[I]));
        try
           Send(uMailTo_MAPI_Afficher_dialogue{=afficher dialogue});
-          poolG_TRC.Trace( 'BED', 'Mail envoyé avec succés');
        except
              on E: EJclMapiError
              do
@@ -625,7 +611,6 @@ begin
                   'L''envoi du mail a échoué.'#13#10
                  +'Windows a retourné l''erreur suivante '#13#10
                  +E.Message;
-               poolG_TRC.Trace( 'BED', 'Echec Mail, '+E.Message);
                fAccueil_Erreur( 'uMailTo.MailTo:'#13#10+sErreur, sErreur);
                end;
              end;

@@ -1,4 +1,4 @@
-unit ucbvCustomConnection;
+﻿unit ucbvCustomConnection;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -27,7 +27,7 @@ interface
 uses
     uForms,
     SysUtils, Classes, 
-    DB, DBTables, SQLExpr;
+    DB, SQLExpr;
 
 { TbvCustomConnection
 le préfixe bv est impropre car on ne descend pas de TBatproVerifieur.
@@ -88,19 +88,6 @@ procedure TbvCustomConnection.Loaded;
                     'Ceci peut générer un plantage sur les machines n''ayant '+
                     'pas la même configuration que la machine de développement');
    end;
-   procedure Traite_Database( db: TDatabase);
-   begin
-        if db.Connected
-        then
-            Erreur( bvGetNamePath( db)+' est connecté dés la création. '+
-                    'Ceci peut générer un plantage sur les machines n''ayant '+
-                    'pas la même configuration que la machine de développement');
-        if db.AliasName <> sys_Vide
-        then
-            Erreur( bvGetNamePath( db)+' a une valeur d''alias dés la création. '+
-                    'Ceci peut générer un plantage sur les machines n''ayant '+
-                    'pas la même configuration que la machine de développement');
-   end;
 begin
      inherited;
 
@@ -111,11 +98,7 @@ begin
          begin
               if FCustomConnection is TSQLConnection
          then
-             Traite_SQLConnection( TSQLConnection(FCustomConnection))
-         else if FCustomConnection is TDatabase
-         then
-             Traite_Database( TDatabase(FCustomConnection));
-
+             Traite_SQLConnection( TSQLConnection(FCustomConnection));
          end;
 end;
 

@@ -25,7 +25,7 @@ unit ucBitBtn_antirebond;
 interface
 
 uses
-  SysUtils, Classes, FMX.Controls, ExtCtrls, Types, FMX.Graphics,Buttons;
+  SysUtils, Classes, FMX.Controls, FMX.ExtCtrls, Types, FMX.Graphics,Buttons;
 
 type
  TBitBtn_antirebond

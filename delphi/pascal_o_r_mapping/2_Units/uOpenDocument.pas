@@ -1,4 +1,4 @@
-unit uOpenDocument;
+﻿unit uOpenDocument;
 {                                                                               |
     Part of package pOpenDocument_DelphiReportEngine                            |
                                                                                 |
@@ -1808,8 +1808,8 @@ begin
          '&'       : X:= '&amp;' ;
          ''''      : X:= '&apos;';
          '"'       : X:= '&quot;';
-         ' '       ,
-         #128..#255: X:= '&#x'+IntToHex( Ord(C),2)+';';
+         ' '       {,
+         #128..#255}: X:= '&#x'+IntToHex( Ord(C),2)+';';
          else        X:= C;
          end;
        Result:= Result + X;

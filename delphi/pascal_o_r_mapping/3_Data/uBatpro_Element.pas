@@ -49,7 +49,7 @@ uses
   //Windows,
   System.UITypes,
   FMX.Menus, FMX.Controls, Types, FMX.Graphics, FMX.TextLayout,
-  FMX.Types,
+  FMX.Types,FMX.Dialogs,
   System.Math.Vectors,
   SysUtils, Classes;
 
@@ -1646,13 +1646,13 @@ begin
      FPopupMenu:= TPopupMenu.Create( nil);
 
      miContexteFont:= TMenuItem.Create( FPopupMenu);
-     FPopupMenu.Items.Add( miContexteFont);
-     miContexteFont.Caption:= 'Police';
+     FPopupMenu.AddObject( miContexteFont);
+     miContexteFont.Text:= 'Police';
      miContexteFont.OnClick:= miContexteFontCLick;
 
      miBulle:= TMenuItem.Create( FPopupMenu);
-     FPopupMenu.Items.Add( miBulle);
-     miBulle.Caption:= 'Bulle d''aide '+ClassName;
+     FPopupMenu.AddObject( miBulle);
+     miBulle.Text:= 'Bulle d''aide '+ClassName;
      miBulle.OnClick:= miBulleCLick;
 end;
 
@@ -1683,9 +1683,7 @@ end;
 
 procedure TBatpro_Element.EditeBulle(Contexte: Integer);
 begin
-     {$IFDEF MSWINDOWS}
-     MessageBox( 0, PChar( String( classname)), 'EditeBulle', 0);
-     {$ENDIF}
+     ShowMessage( classname);
 end;
 
 function TBatpro_Element.Index: Integer;
@@ -1726,8 +1724,10 @@ begin
          do
            begin
            Couleur_Brosse:= TColorRec.Black;
-           Canvas.Fill.Kind:= bsFDiagonal;
-           StyleLigne:= TStrokeDash.Clear;
+           //Canvas.Fill.Kind:= bsFDiagonal; pas évident à traduire en fmx
+           Canvas.Fill.Kind:= TBrushKind.Bitmap;
+           Canvas.Fill.Bitmap.Assign( fBitmaps.iBrosse_FDIAGONAL);
+           StyleLigne:= TStrokeDash.Custom;//à revoir, traduction rapide pour Clear
            Rectangle( Rect);
            StyleLigne:= TStrokeDash.Solid;
            Canvas.Fill.Kind:= TBrushKind.Solid;
@@ -1747,7 +1747,7 @@ var
    dx , dy ,
    dx2, dy2,
    rayon: Integer;
-   Polygone: array of TPoint;
+   Polygone: TPolygon;
    function StartX_from_DebutFin_( DebutFin_: Boolean): Integer;
    begin
         if DebutFin_
@@ -1773,9 +1773,9 @@ var
 
           CouleurLigne:= CouleurJalon_Contour;
           SetLength( Polygone, 3);
-          Polygone[0]:= Point( Centre.X+dx2, Rect.Top);
-          Polygone[1]:= Point( Centre.X    , Rect.Bottom      );
-          Polygone[2]:= Point( Centre.X-dx2, Rect.Top);
+          Polygone[0]:= PointF( Centre.X+dx2, Rect.Top);
+          Polygone[1]:= PointF( Centre.X    , Rect.Bottom      );
+          Polygone[2]:= PointF( Centre.X-dx2, Rect.Top);
 
           Polygon( Polygone);
           end;
@@ -1785,7 +1785,7 @@ var
       CoefficientEpaisseur: double;
       c_dy2, c_dy4: Integer;
       Sommet: Integer;
-      Pointe: TPoint;
+      Pointe: TPointF;
       procedure Calcule_c_dy;
       begin
            c_dy2    := Trunc( CoefficientEpaisseur * dy2);
@@ -1821,19 +1821,19 @@ var
           //if DebutFin_
           //then
           //    begin //Debut v-
-          //    Polygone[0]:= Point( Rect.Left   , Sommet     );
-          //    Polygone[1]:= Point( Centre.X    , Rect.Bottom);
-          //    Polygone[2]:= Point( Centre.X+dx2_c_dx4, Centre.Y   );
-          //    Polygone[3]:= Point( Border.Right, Centre.Y   );
-          //    Polygone[4]:= Point( Border.Right, Sommet     );
+          //    Polygone[0]:= PointF( Rect.Left   , Sommet     );
+          //    Polygone[1]:= PointF( Centre.X    , Rect.Bottom);
+          //    Polygone[2]:= PointF( Centre.X+dx2_c_dx4, Centre.Y   );
+          //    Polygone[3]:= PointF( Border.Right, Centre.Y   );
+          //    Polygone[4]:= PointF( Border.Right, Sommet     );
           //    end
           //else
           //    begin //Fin   -v
-          //    Polygone[0]:= Point( Rect.Right  , Sommet     );
-          //    Polygone[1]:= Point( Centre.X    , Rect.Bottom);
-          //    Polygone[2]:= Point( Centre.X-dx2_c_dx4, Centre.Y   );
-          //    Polygone[3]:= Point( Border.Left , Centre.Y   );
-          //    Polygone[4]:= Point( Border.Left , Sommet     );
+          //    Polygone[0]:= PointF( Rect.Right  , Sommet     );
+          //    Polygone[1]:= PointF( Centre.X    , Rect.Bottom);
+          //    Polygone[2]:= PointF( Centre.X-dx2_c_dx4, Centre.Y   );
+          //    Polygone[3]:= PointF( Border.Left , Centre.Y   );
+          //    Polygone[4]:= PointF( Border.Left , Sommet     );
           //    end;
 
           Pointe.x:= Centre.x;
@@ -1841,23 +1841,23 @@ var
           if DebutFin_
           then
               begin //Debut v-
-              Polygone[0]:= Point( Pointe.x-c_dy2, Sommet     );
+              Polygone[0]:= PointF( Pointe.x-c_dy2, Sommet     );
               if Polygone[0].x < Rect.Left    then Polygone[0].x:= Rect.Left;
               Polygone[1]:= Pointe;
-              Polygone[2]:= Point( Pointe.x+c_dy4, Centre.Y   );
+              Polygone[2]:= PointF( Pointe.x+c_dy4, Centre.Y   );
               if Polygone[2].x > Border.Right then Polygone[2].x:= Border.Right;
-              Polygone[3]:= Point( Border.Right, Centre.Y   );
-              Polygone[4]:= Point( Border.Right, Sommet     );
+              Polygone[3]:= PointF( Border.Right, Centre.Y   );
+              Polygone[4]:= PointF( Border.Right, Sommet     );
               end
           else
               begin //Fin   -v
-              Polygone[0]:= Point( Pointe.x+c_dy2 , Sommet     );
+              Polygone[0]:= PointF( Pointe.x+c_dy2 , Sommet     );
               if Polygone[0].x > Rect.Right   then Polygone[0].x:= Rect.Right;
               Polygone[1]:= Pointe;
-              Polygone[2]:= Point( Pointe.x-c_dy4, Centre.Y   );
+              Polygone[2]:= PointF( Pointe.x-c_dy4, Centre.Y   );
               if Polygone[2].x < Border.Left  then Polygone[2].x:= Border.Left;
-              Polygone[3]:= Point( Border.Left , Centre.Y   );
-              Polygone[4]:= Point( Border.Left , Sommet     );
+              Polygone[3]:= PointF( Border.Left , Centre.Y   );
+              Polygone[4]:= PointF( Border.Left , Sommet     );
               end;
 
           CouleurLigne:= CouleurJalon_Contour;
@@ -1880,10 +1880,7 @@ begin
        Border:= Rect;
 
        InflateRect( Rect, -3, -3);
-       {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
        Centre:= CenterPoint( Rect);
-       {$ELSE}
-       {$IFEND}
        dx:= Rect.Right  - Rect.Left;
        dy:= Rect.Bottom - Rect.Top ;
        dx2:= dx div 2; dy2:= dy div 2;
@@ -1909,10 +1906,10 @@ begin
            //CouleurLigne:= CouleurJalon_Contour;
 
            //SetLength( Polygone, 4);
-           //Polygone[0]:= Point( Centre.X      , Rect.Top+dy4   );
-           //Polygone[1]:= Point( Rect.Right-dx4, Centre.Y       );
-           //Polygone[2]:= Point( Centre.X      , Rect.Bottom-dy4);
-           //Polygone[3]:= Point( Rect.Left+dx4 , Centre.Y       );
+           //Polygone[0]:= PointF( Centre.X      , Rect.Top+dy4   );
+           //Polygone[1]:= PointF( Rect.Right-dx4, Centre.Y       );
+           //Polygone[2]:= PointF( Centre.X      , Rect.Bottom-dy4);
+           //Polygone[3]:= PointF( Rect.Left+dx4 , Centre.Y       );
            //Canvas.Polygon( Polygone);
 
            DrawInfo.image_LOSANGE__centre(Couleur_Fond( DrawInfo));
@@ -1971,9 +1968,9 @@ begin
            CouleurLigne:= CouleurJalon_Contour;
 
            SetLength( Polygone, 3);
-           Polygone[0]:= Point( Rect.Left , Rect.Top   );
-           Polygone[1]:= Point( Rect.Right, Centre.Y   );
-           Polygone[2]:= Point( Rect.Left , Rect.Bottom);
+           Polygone[0]:= PointF( Rect.Left , Rect.Top   );
+           Polygone[1]:= PointF( Rect.Right, Centre.Y   );
+           Polygone[2]:= PointF( Rect.Left , Rect.Bottom);
            Polygon( Polygone);
            end;
          tj_Jalon_Debut:
@@ -2084,9 +2081,9 @@ var
    Largeur, Hauteur: Integer;
    XGauche, XDroite,
    X1, X2: Integer;
-   Old_Pen_Style: TPenStyle;
+   Old_Pen_Style: TStrokeDash;
    Old_Pen_Color: TColor;
-   Old_Brush_Style: TBrushStyle;
+   Old_Brush_Style: TBrushKind;
    Old_Brush_Color: TColor;
    Trunc_nPourcentage: Integer;
 begin
@@ -2147,7 +2144,7 @@ begin
      with DrawInfo.Rect
      do
        Y:= Top + Muldiv( Bottom - Top, 3, 4);
-     Dessinne_Pourcentage_interne_interne( DrawInfo, Index, Pourcentage, nPourcentage, Y,clRed);
+     Dessinne_Pourcentage_interne_interne( DrawInfo, Index, Pourcentage, nPourcentage, Y,TColorRec.Red);
 end;
 
 procedure TBatpro_Serie.{svg}Dessinne_Pourcentage( DrawInfo: TDrawInfo);
@@ -2162,7 +2159,7 @@ begin
      with DrawInfo.Rect
      do
        Y:= Top;
-     Dessinne_Pourcentage_interne_interne( DrawInfo, Index, Pourcentage_2, nPourcentage_2, Y, clBlue);
+     Dessinne_Pourcentage_interne_interne( DrawInfo, Index, Pourcentage_2, nPourcentage_2, Y, TColorRec.Blue);
 end;
 
 procedure TBatpro_Serie.{svg}Dessinne_Pourcentage_2( DrawInfo: TDrawInfo);
@@ -2287,8 +2284,8 @@ end;
 procedure TBatpro_Serie.Affiche_nJour( DrawInfo: TDrawInfo; _nJour: Integer);
 var
    OldFont: TFont;
+   R: TRectF;
 begin
-     {$IFNDEF FPC}
      if not VerticalHorizontal_( DrawInfo.Contexte) then exit;
      OldFont:= TFont.Create;
      with DrawInfo
@@ -2297,12 +2294,13 @@ begin
        OldFont.Assign( Canvas.Font);
          Canvas.Font.Family:= sys_Arial; // sys_SmallFonts, 7, Bold
          Canvas.Font.Size:= 8;
-         //with Canvas.Font do Style:= Style + [fsBold];
-         Canvas.TextOut( Rect.Left+3, Rect.Top+3, snJour_from_nJour( _nJour));
+         //with Canvas.Font do Style:= Style + [TFontStyle.fsBold];
+         R:= TRectF.Create( Rect);
+         InflateRect( R, -3, -3);
+         Canvas.FillText( R, snJour_from_nJour( _nJour), False,1,[],TTextAlign.Leading);
        Canvas.Font.Assign( OldFont);
        end;
      FreeAndNil( OldFont);
-     {$ENDIF}
 end;
 
 procedure TBatpro_Serie.svgAffiche_nJour( _DrawInfo: TDrawInfo; _nJour: Integer);
@@ -2316,11 +2314,10 @@ end;
 
 procedure TBatpro_Serie.{svg}DrawTraitHorizontal( DrawInfo: TDrawInfo; R: TRect;
                                              TrameSolide_:Boolean);
-{$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
 var
-   Polygone: array of TPoint;
+   Polygone: TPolygon;
    OldBrushColor: TColor;
-   OldBitmap: TBitmap;
+   OldBitmap: TBrushBitmap;
    YC, dy2, c_dy2: Integer;
    Sommet: Integer;
    Motif: TBitmap;
@@ -2337,16 +2334,16 @@ begin
      Sommet:= YC-c_dy2;
 
      SetLength( Polygone, 4);
-     Polygone[0]:= Point( R.Left , Sommet);
-     Polygone[1]:= Point( R.Right, Sommet);
-     Polygone[2]:= Point( R.Right, YC    );
-     Polygone[3]:= Point( R.Left , YC    );
+     Polygone[0]:= PointF( R.Left , Sommet);
+     Polygone[1]:= PointF( R.Right, Sommet);
+     Polygone[2]:= PointF( R.Right, YC    );
+     Polygone[3]:= PointF( R.Left , YC    );
 
      with DrawInfo
      do
        begin
        OldBitmap:= Canvas.Fill.Bitmap;
-       Canvas.Fill.Bitmap:= Motif;
+       Canvas.Fill.Bitmap.Assign( Motif);
          OldBrushColor:= Couleur_Brosse;
          Couleur_Brosse:= Couleur;
            Polygon( Polygone);
@@ -2354,17 +2351,12 @@ begin
        Canvas.Fill.Bitmap:= OldBitmap;
        end;
 end;
-{$ELSE}
-begin
-end;
-{$IFEND}
 
 procedure TBatpro_Serie.{svg}DrawDemiLigne( DrawInfo: TDrawInfo; R: TRect; TrameSolide_: Boolean);
-{$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
 var
-   Polygone: array of TPoint;
+   Polygone: TPolygon;
    OldBrushColor: TColor;
-   OldBitmap: TBitmap;
+   OldBitmap: TBrushBitmap;
    YC: Integer;
    Bas: Integer;
    Motif: TBitmap;
@@ -2379,16 +2371,16 @@ begin
      Bas:= R.Bottom;
 
      SetLength( Polygone, 4);
-     Polygone[0]:= Point( R.Left , YC);
-     Polygone[1]:= Point( R.Right, YC);
-     Polygone[2]:= Point( R.Right, Bas);
-     Polygone[3]:= Point( R.Left , Bas);
+     Polygone[0]:= PointF( R.Left , YC);
+     Polygone[1]:= PointF( R.Right, YC);
+     Polygone[2]:= PointF( R.Right, Bas);
+     Polygone[3]:= PointF( R.Left , Bas);
 
      with DrawInfo
      do
        begin
        OldBitmap:= Canvas.Fill.Bitmap;
-       Canvas.Fill.Bitmap:= Motif;
+       Canvas.Fill.Bitmap.Assign( Motif);
          OldBrushColor:= Couleur_Brosse;
          Couleur_Brosse:= Couleur;
            Polygon( Polygone);
@@ -2396,38 +2388,33 @@ begin
        Canvas.Fill.Bitmap:= OldBitmap;
        end;
 end;
-{$ELSE}
-begin
-end;
-{$IFEND}
 
 procedure TBatpro_Serie.{svg}DrawDemiLigne_Pointille( DrawInfo: TDrawInfo;
                                                  R: TRect; TrameSolide_: Boolean);
-{$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
 var
    W, X1_3, X2_3, YC: Integer;
    Bas: Integer;
    Motif: TBitmap;
    procedure Bloc( _Debut, _Fin: Integer);
    var
-      Polygone: array of TPoint;
+      Polygone: TPolygon;
       OldBrushColor: TColor;
-      OldBitmap: TBitmap;
-      OldPenStyle: TPenStyle;
+      OldBitmap: TBrushBitmap;
+      OldPenStyle: TStrokeDash;
    begin
         SetLength( Polygone, 4);
-        Polygone[0]:= Point( _Debut, YC);
-        Polygone[1]:= Point( _Fin  , YC);
-        Polygone[2]:= Point( _Fin  , Bas);
-        Polygone[3]:= Point( _Debut, Bas);
+        Polygone[0]:= PointF( _Debut, YC);
+        Polygone[1]:= PointF( _Fin  , YC);
+        Polygone[2]:= PointF( _Fin  , Bas);
+        Polygone[3]:= PointF( _Debut, Bas);
 
         with DrawInfo
         do
           begin
           OldBitmap  := Canvas.Fill.Bitmap;
           OldPenStyle:= StyleLigne;
-          Canvas.Fill.Bitmap:= Motif;
-          StyleLigne   := TStrokeDash.Clear;
+          Canvas.Fill.Bitmap.Assign( Motif);
+          StyleLigne   := TStrokeDash.Custom;
             OldBrushColor:= Couleur_Brosse;
             Couleur_Brosse:= Couleur;
               Polygon( Polygone);
@@ -2453,10 +2440,6 @@ begin
      Bloc( R.Left, X1_3);
      Bloc( X2_3, R.Right);
 end;
-{$ELSE}
-begin
-end;
-{$IFEND}
 
 procedure TBatpro_Serie.{svg}DrawDemiLigne_Points( DrawInfo: TDrawInfo;
                                                  R: TRect; TrameSolide_: Boolean);
@@ -2466,21 +2449,21 @@ var
    Bas: Integer;
    procedure Bloc( _Debut, _Fin: Integer);
    var
-      Polygone: array of TPoint;
+      Polygone: TPolygon;
       OldBrushColor: TColor;
-      OldPenStyle: TPenStyle;
+      OldPenStyle: TStrokeDash;
    begin
         SetLength( Polygone, 4);
-        Polygone[0]:= Point( _Debut, YC);
-        Polygone[1]:= Point( _Fin  , YC);
-        Polygone[2]:= Point( _Fin  , Bas);
-        Polygone[3]:= Point( _Debut, Bas);
+        Polygone[0]:= PointF( _Debut, YC);
+        Polygone[1]:= PointF( _Fin  , YC);
+        Polygone[2]:= PointF( _Fin  , Bas);
+        Polygone[3]:= PointF( _Debut, Bas);
 
         with DrawInfo
         do
           begin
           OldPenStyle:= StyleLigne;
-          StyleLigne   := TStrokeDash.Clear;
+          StyleLigne   := TStrokeDash.Custom;
             OldBrushColor:= Couleur_Brosse;
             Couleur_Brosse:= Couleur;
               Polygon( Polygone);
@@ -3350,9 +3333,9 @@ begin
      Result.Assign( ClassFont( DrawInfo));
      if Gras
      then
-         Result.Style:= Result.Style + [fsBold]
+         Result.Style:= Result.Style + [TFontStyle.fsBold]
      else
-         Result.Style:= Result.Style - [fsBold];
+         Result.Style:= Result.Style - [TFontStyle.fsBold];
      {$ELSE}
      {$IFEND}
 end;
@@ -3625,7 +3608,7 @@ begin
        then
            Inc( LargeurTotaleSG, _Largeur)
        else
-           Inc( LargeurTotaleSG, _DrawInfo.sg.ColWidths [I]);
+           Inc( LargeurTotaleSG, Trunc( _DrawInfo.sg.Columns[I].Width));
        end;
 
      LargeurTotaleDemandee:= be.Cell_Width( _DrawInfo);
@@ -3666,10 +3649,10 @@ begin
        then
            Inc( HauteurTotaleSG, _Hauteur)
        else
-           Inc( HauteurTotaleSG, _DrawInfo.sg.RowHeights[J]);
+           Inc( HauteurTotaleSG, Trunc( _DrawInfo.sg.Columns[J].Height));
        end;
 
-     HauteurTotaleDemandee:= be.Cell_Height( _DrawInfo, _DrawInfo.sg.ColWidths[ _Colonne]);
+     HauteurTotaleDemandee:= be.Cell_Height( _DrawInfo, Trunc( _DrawInfo.sg.Columns[_Colonne].Width));
 
      HauteurManquante:= HauteurTotaleDemandee - HauteurTotaleSG;
      if HauteurManquante > 0

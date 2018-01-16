@@ -25,8 +25,8 @@ unit ucBatproComboBox;
 interface
 
 uses
-    Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs,
-    StdCtrls, DB, DBCtrls;
+    Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
+    FMX.StdCtrls, DB, DBCtrls;
 
 const
      Separateur_par_defaut= ' | ';

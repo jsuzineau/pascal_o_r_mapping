@@ -25,7 +25,8 @@ unit ucBatpro_Shape;
 interface
 
 uses
-  SysUtils, Classes, FMX.Controls, ExtCtrls, Types, FMX.Graphics;
+  SysUtils, Classes, FMX.Controls, FMX.ExtCtrls, Types, FMX.Graphics, FMX.Objects,
+  System.Math.Vectors;
 
 type
  TBatpro_ShapeType
@@ -69,23 +70,23 @@ end;
 
 procedure TBatpro_Shape.Paint;
 var
-   X, Y, W, H, S: Integer;
-   P: array of TPoint;
+   X, Y, W, H, S: Single;
+   P: TPolygon;
 begin
      with Canvas
      do
        begin
-       Stroke := Self.Stroke;
+       Stroke.Assign( Self.Stroke);
        Fill := Self.Fill;
-       X := Stroke.Thickness div 2;
+       X := Stroke.Thickness / 2;
        Y := X;
        W := Width - Stroke.Thickness + 1;
        H := Height - Stroke.Thickness + 1;
        if Stroke.Thickness = 0
        then
            begin
-           Dec(W);
-           Dec(H);
+           W:= W-1;
+           H:= H-1;
            end;
        if W < H
        then
@@ -95,26 +96,29 @@ begin
        if FBatpro_Shape in [bstSquare, bstRoundSquare, bstCircle, bstCursor]
        then
            begin
-           Inc(X, (W - S) div 2);
-           Inc(Y, (H - S) div 2);
+           X:= X+ (W - S) / 2;
+           Y:= Y+ (H - S) / 2;
            W := S;
            H := S;
            end;
        case FBatpro_Shape
        of
          bstRectangle, bstSquare:
-           Rectangle(X, Y, X + W, Y + H);
+           //Rectangle(X, Y, X + W, Y + H);
+           ;
          bstRoundRect, bstRoundSquare:
-           RoundRect(X, Y, X + W, Y + H, S div 4, S div 4);
+           //RoundRect(X, Y, X + W, Y + H, S div 4, S div 4);
+           ;
          bstCircle, bstEllipse:
-           Ellipse(X, Y, X + W, Y + H);
+           //Ellipse(X, Y, X + W, Y + H);
+           ;
          bstCursor:
            begin
            SetLength( P, 3);
-           P[0]:= Point( X  , Y        );
-           P[1]:= Point( X+W, Y+H div 2);
-           P[2]:= Point( X  , Y+H      );
-           Polygon( P);
+           P[0]:= PointF( X  , Y        );
+           P[1]:= PointF( X+W, Y+H / 2);
+           P[2]:= PointF( X  , Y+H      );
+           //Polygon( P);
            end;
          end;
        end;
@@ -126,7 +130,7 @@ begin
      then
          begin
          FBatpro_Shape:= Value;
-         Invalidate;
+         //Invalidate;
          end;
 end;
 

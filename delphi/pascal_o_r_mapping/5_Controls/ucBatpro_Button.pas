@@ -28,7 +28,7 @@ uses
   u_sys_,
   uClean,
   uBatpro_StringList,
-  SysUtils, Classes, FMX.Controls, ExtCtrls, StdCtrls, FMX.Graphics, Windows, FMX.Forms;
+  SysUtils, Classes, FMX.Controls, FMX.ExtCtrls, FMX.StdCtrls, FMX.Graphics, Windows, FMX.Forms;
 
 type
  TBatpro_Button

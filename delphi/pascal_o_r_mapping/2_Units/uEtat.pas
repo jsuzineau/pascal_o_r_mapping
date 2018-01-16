@@ -25,17 +25,28 @@ unit uEtat;
 interface
 
 uses
-  SysUtils, Windows, Messages, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs;
+  SysUtils, Windows, Messages, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs;
 
 type
-  Etat = class(TObject)
+  TEtat = class(TObject)
   public
     _01__Nom: string;
+    procedure Change( _S: String);
   end;
-  
 
+
+var Etat: TEtat= nil;
 implementation
 
 
 
+{ TEtat }
+
+procedure TEtat.Change(_S: String);
+begin
+     //il faudrait retrouver l'implémentation originale
+end;
+
+initialization
+              Etat:= TEtat.Create;
 end.

@@ -1,4 +1,4 @@
-unit ucBatproMasque;
+﻿unit ucBatproMasque;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -33,8 +33,8 @@ uses
     uChamp,
     uChamps,
     ucBatproMaskElement,
-    Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs,
-    ExtCtrls, StdCtrls;
+    Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
+    FMX.ExtCtrls, FMX.StdCtrls, System.UITypes;
 
 type
  TBatproMasqueStyle = (bms_Libelle, bms_Change, bms_PreExecute_after_SetChamps);
@@ -48,11 +48,11 @@ type
     FAfterExecute: TAfterExecute;
     FStyles  : TBatproMasqueStyles;
     FDefault:  TBatproMaskElementDefault;
-    XMax   : Integer;
-    Hauteur: Integer;
+    XMax   : Single;
+    Hauteur: Single;
     FLectureSeule: Boolean;
     procedure bmeChange(Sender: TObject);
-    procedure bmeKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure bmeKeyDown( Sender: TObject; var Key: Word; var KeyChar: WideChar; Shift: TShiftState);
     procedure bmeEnter( Sender: TObject);
     procedure bmeExit ( Sender: TObject);
     procedure bmeAfterExecute( Sender: TObject; ExecuteResult: Boolean);
@@ -65,7 +65,7 @@ type
     AutoLayout: Boolean;
     Premier, Dernier: TBatproMaskElement;
     Elements: array of TBatproMaskElement;
-    procedure CreateWnd; override;
+    procedure CreateWnd; //override; à revoir pour FMX
     procedure Loaded; override;
     procedure Resize; override;
     procedure Change; virtual;
@@ -76,10 +76,10 @@ type
     constructor Create(AOwner: TComponent); override;
     procedure PreExecute;
     procedure Set_Element_Pos(bme:TBatproMaskElement;aWidth,aMaxLength:Integer;
-                              aCharCase: TEditCharCase = ecNormal);
+                              aCharCase: TEditCharCase = TEditCharCase.ecNormal);
     procedure Set_Element_Pos_2(bme:TBatproMaskElement;aMaxLength:Integer;
-                                aCharCase: TEditCharCase = ecNormal);
-    procedure Set_Control_Pos(  c:TControl          ;aWidth           :Integer);
+                                aCharCase: TEditCharCase = TEditCharCase.ecNormal);
+    procedure Set_Control_Pos(  c:TControl          ;aWidth           :Single);
 
     procedure Set_Element_Links( bme: TBatproMaskElement;
                                  abme0Previous, abme1Next:TBatproMaskElement);
@@ -98,7 +98,7 @@ type
     procedure Free_CB(var cb: TCheckBox);
     function OutputString( Separateur: String; UseLibelle: Boolean): String;
     procedure Reset;
-    procedure SetFocus; override;
+    procedure SetFocus; //override; à revoir pour FMX
     property LectureSeule: Boolean read GetLectureSeule write SetLectureSeule;
     property TraiterTabulation: Boolean write SetTraiterTabulation;
   published
@@ -160,7 +160,7 @@ type
     property bm1ID: String read FID write FID;
   //Contrainte SQL
   public
-    function SQLConstraint: String; 
+    function SQLConstraint: String;
   //Couleur de fond de l'éditeur
   public
     procedure setColorEdit(const Value: TColor);
@@ -207,7 +207,7 @@ begin
      bCreer:= TButton.Create( Self);
      bCreer.Visible:= True;
      bCreer.Parent:= Self;
-     bCreer.Caption:= 'Créer';
+     bCreer.Text:= 'Créer';
      bCreer.Width  := 35;
      bCreer.Height := 20;
 end;
@@ -224,40 +224,40 @@ begin
      Dernier:= bme;
 end;
 
-procedure TBatproMasque.Set_Control_Pos( c: TControl; aWidth: Integer);
+procedure TBatproMasque.Set_Control_Pos( c: TControl; aWidth: Single);
 begin
      if c = nil then exit;
 
      if C is TLabel
      then
          begin
-         c.Left  := XMax;
-         c.Top   := 3;
+         c.Position.X  := XMax;
+         c.Position.Y   := 3;
          end
      else
          begin
          if     (C is TBatproMaskElement)
             and TBatproMaskElement(C).IsLabel
          then
-             Inc( XMax, 3);
-         c.Left  := XMax   ;
-         c.Top   := 0;
+             XMax:= XMax+ 3;
+         c.Position.X  := XMax   ;
+         c.Position.Y   := 0;
          c.Height:= Hauteur;
          end;
      c.Width := aWidth ;
 
-     Inc( XMax, aWidth);
+     XMax:= XMax+ aWidth;
 end;
 
 procedure TBatproMasque.Set_Element_Pos( bme: TBatproMaskElement;
                                          aWidth, aMaxLength :Integer;
-                                         aCharCase: TEditCharCase = ecNormal);
+                                         aCharCase: TEditCharCase = TEditCharCase.ecNormal);
 begin
      if bme = nil then exit;
 
      Set_Control_Pos( bme, aWidth);
-     bme.Font.Height := -11            ;
-     bme.Font.Family   := 'Courier New'  ;
+     //bme.Font.Height := -11            ; à revoir pour FMX
+     //bme.Font.Family   := 'Courier New'  ;
      bme.MaxLength   := aMaxLength     ;
      bme.OnChange    := bmeChange      ;
      bme.OnKeydown   := bmeKeyDown     ;
@@ -331,7 +331,7 @@ begin
 
         XMax:= 0;
 
-        Premier.Left:= 0;
+        Premier.Position.X:= 0;
         bme:= Premier;
         while Assigned( bme)
         do
@@ -346,13 +346,13 @@ begin
           bme:= bme.bme1Next;
           end;
 
-        XMax:= Dernier.Left+Dernier.Width;
+        XMax:= Dernier.Position.X+Dernier.Width;
         if Assigned( bCreer)
         then
             Set_Control_Pos( bCreer,  bCreer.Width);
 
-        Inc( XMax, 8);//8 pour marge texte
-        Set_Control_Pos( bm_lLIBELLE,  ClientWidth - XMax);
+        XMax:= XMax+ 8;//8 pour marge texte
+        Set_Control_Pos( bm_lLIBELLE,  Width - XMax);
         //ClientHeight:= Dernier.Height;
      finally
             Layout_running:= False;
@@ -441,7 +441,7 @@ procedure TBatproMasque.Cree_L(var l: TLabel);
 begin
      l:= TLabel.Create( Self);
      l.Parent:= Self;
-     l.Transparent:= True;
+     //l.Transparent:= True;
 end;
 
 procedure TBatproMasque.Free_L(var l: TLabel);
@@ -611,10 +611,12 @@ procedure TBatproMasque.Send_Tab_to_parent;
 var
    F: TCustomForm;
 begin
+     { à revoir pour FMX
      F:= GetParentForm( Self);
      if F.Visible
      then
          F.Perform( CM_DIALOGKEY, VK_TAB, 0);
+     }
 end;
 
 function TBatproMasque.GetComponent: TComponent;
@@ -637,9 +639,9 @@ begin
      Result:= Assigned( bCreer);
 end;
 
-procedure TBatproMasque.bmeKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TBatproMasque.bmeKeyDown( Sender: TObject; var Key: Word; var KeyChar: WideChar; Shift: TShiftState);
 begin
-     KeyDown( Key, Shift);
+     KeyDown( Key, KeyChar, Shift);
 end;
 
 procedure TBatproMasque.bmeEnter(Sender: TObject);

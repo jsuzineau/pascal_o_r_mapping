@@ -26,8 +26,8 @@ interface
 
 uses
     uForms,
-  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, Dialogs,
-  Grids, DBGrids, ExtCtrls, StdCtrls, Buttons, db, dbctrls, dbtables;
+  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
+  Grids, DBGrids, FMX.ExtCtrls, FMX.StdCtrls, Buttons, db, dbctrls, dbtables;
 
 type
  TExecuteFunction= function :Boolean of object;

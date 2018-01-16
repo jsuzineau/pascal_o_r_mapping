@@ -6,8 +6,8 @@ unit ucPanBMP;
 interface
 
 uses
-    Windows, Messages, SysUtils, Classes, FMX.Graphicsoooo, FMX.Controls, FMX.Forms, Dialogs,
-    ExtCtrls, StdCtrls, Themes,
+    Windows, Messages, SysUtils, Classes, FMX.Graphicsoooo, FMX.Controls, FMX.Forms, FMX.Dialogs,
+    FMX.ExtCtrls, FMX.StdCtrls, Themes,
     ucImaTrs;
 
 type
@@ -368,7 +368,7 @@ begin
      try
         OldBrush.Assign( Canvas.Fill);
 
-        Canvas.Stroke.Dash:= TStrokeDash.Clear;
+        Canvas.Stroke.Dash:= TStrokeDash.Custom;
         Canvas.Fill.Assign( FBrush);
         Canvas.Font:= Self.Font;
         H := Canvas.TextHeight('0');

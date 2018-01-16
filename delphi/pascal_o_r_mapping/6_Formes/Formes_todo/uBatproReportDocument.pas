@@ -33,7 +33,7 @@ uses
     uBatproReportPage,
     uBatproReportPageFormat,
     ufAccueil_Erreur,
-  Windows, SysUtils, Classes, FMX.Graphicso,Printers,Grids,ExtCtrls,
+  Windows, SysUtils, Classes, FMX.Graphicso,Printers,Grids,FMX.ExtCtrls,
   Gauges;
 
 type

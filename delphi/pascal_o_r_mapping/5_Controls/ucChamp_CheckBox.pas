@@ -1,4 +1,4 @@
-unit ucChamp_CheckBox;
+﻿unit ucChamp_CheckBox;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -25,7 +25,7 @@ unit ucChamp_CheckBox;
 interface
 
 uses
-    SysUtils, Classes, FMX.Controls, StdCtrls,
+    SysUtils, Classes, FMX.Controls, FMX.StdCtrls,
     uChamps,
     uChamp;
 
@@ -142,7 +142,7 @@ begin
      try
         Champs_Changing:= True;
 
-        Checked:= Champ.Chaine = ValueTrue;
+        IsChecked:= Champ.Chaine = ValueTrue;
      finally
             Champs_Changing:= False;
             end;
@@ -154,7 +154,7 @@ begin
      try
         Champs_Changing:= True;
 
-        if Checked
+        if isChecked
         then
             Champ.Chaine:= ValueTrue
         else

@@ -138,7 +138,7 @@ type
                       _Color: TColor;
                       _Pen_Color: TColor;
                       _Pen_Width: Integer): TJclSimpleXMLElem;
-    function svg_PolyBezier( _points: array of TPoint;
+    function svg_PolyBezier( _points: TPolygon;
                          _Pen_Color: TColor;
                          _Pen_Width: Integer): TJclSimpleXMLElem;
     function image( _x, _y, _width, _height: Integer;
@@ -357,7 +357,7 @@ begin
      Result:= svg.polygon( eCell, _points, _Color, _Pen_Color, _Pen_Width)
 end;
 
-function TDrawInfo.svg_PolyBezier( _points: array of TPoint;
+function TDrawInfo.svg_PolyBezier( _points: TPolygon;
                                _Pen_Color: TColor;
                                _Pen_Width: Integer): TJclSimpleXMLElem;
 begin

@@ -124,7 +124,7 @@ begin
      then
          begin
          CP.Libelle:= 'Test';
-         CP.Font.Name:= sys_Times_New_Roman;
+         CP.Font.Family:= sys_Times_New_Roman;
          CP.Font.Size:= 12;
          end;
 

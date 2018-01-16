@@ -33,8 +33,8 @@ uses
   ufpBas,
   ucChampsGrid,
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  Dialogs, DBCtrls, Grids, DBGrids, ActnList, StdCtrls, ComCtrls, Buttons,
-  ExtCtrls, DB, FMX.Menus;
+  FMX.Dialogs, DBCtrls, Grids, DBGrids, FMX.ActnList, FMX.StdCtrls, FMX.ComCtrls, Buttons,
+  FMX.ExtCtrls, DB, FMX.Menus;
 
 type
  TfBase

@@ -32,7 +32,7 @@ uses
     ufpBas,
     
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
-  Dialogs, ActnList, StdCtrls, ComCtrls, Buttons, ExtCtrls, CheckLst, FMX.Menus;
+  FMX.Dialogs, FMX.ActnList, FMX.StdCtrls, FMX.ComCtrls, Buttons, FMX.ExtCtrls, CheckLst, FMX.Menus;
 
 type
   TfPool = class(TfpBas)

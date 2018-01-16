@@ -26,7 +26,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
-  Dialogs, FMTBcd, Provider, DBClient, DB, SqlExpr,
+  FMX.Dialogs, FMTBcd, Provider, DBClient, DB, SqlExpr,
   ucBatproVerifieur,
   ucbvQuery_Datasource,
   uhRequete,

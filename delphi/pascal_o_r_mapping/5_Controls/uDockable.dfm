@@ -1,9 +1,9 @@
 object Dockable: TDockable
   Left = 317
   Top = 130
-  Width = 866
-  Height = 636
   Caption = 'Dockable'
+  ClientHeight = 597
+  ClientWidth = 850
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,16 +18,4 @@ object Dockable: TDockable
   OnMouseWheelUp = FormMouseWheelUp
   PixelsPerInch = 96
   TextHeight = 13
-  object sSelection: TBatpro_Shape
-    Left = 0
-    Top = 0
-    Width = 12
-    Height = 602
-    Align = alLeft
-    Brush.Style = bsClear
-    Pen.Style = psClear
-    Shape = stCircle
-    OnMouseDown = sSelectionMouseDown
-    Batpro_Shape = bstRectangle
-  end
 end

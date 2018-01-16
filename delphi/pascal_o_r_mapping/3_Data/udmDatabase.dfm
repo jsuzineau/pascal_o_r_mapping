@@ -2,14 +2,10 @@ object dmDatabase: TdmDatabase
   OldCreateOrder = True
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Left = 982
-  Top = 240
   Height = 466
   Width = 1090
   object sqlc: TSQLConnection
     DriverName = 'Informix'
-    GetDriverFunc = 'getSQLDriverINFORMIX'
-    LibraryName = 'dbexpinf.dll'
     LoginPrompt = False
     Params.Strings = (
       'DriverName=Informix'
@@ -21,19 +17,11 @@ object dmDatabase: TdmDatabase
       'Informix TransIsolation=ReadCommited'
       'Trim Char=True'
       'User_Name=batpro')
-    VendorLib = 'isqlt07c.dll'
     Left = 48
     Top = 16
   end
-  object bvccSQLC: TbvCustomConnection
-    bvcc0CustomConnection = sqlc
-    Left = 440
-    Top = 64
-  end
   object sqlcINFORMIX: TSQLConnection
     DriverName = 'Informix'
-    GetDriverFunc = 'getSQLDriverINFORMIX'
-    LibraryName = 'dbexpinf.dll'
     LoginPrompt = False
     Params.Strings = (
       'DriverName=Informix'
@@ -44,14 +32,11 @@ object dmDatabase: TdmDatabase
       'LocaleCode=0000'
       'Informix TransIsolation=ReadCommited'
       'Trim Char=True')
-    VendorLib = 'isqlt07c.dll'
     Left = 560
     Top = 16
   end
   object sqlcSYSMASTER: TSQLConnection
     DriverName = 'Informix'
-    GetDriverFunc = 'getSQLDriverINFORMIX'
-    LibraryName = 'dbexpinf.dll'
     LoginPrompt = False
     Params.Strings = (
       'DriverName=Informix'
@@ -62,7 +47,6 @@ object dmDatabase: TdmDatabase
       'LocaleCode=0000'
       'Informix TransIsolation=ReadCommited'
       'Trim Char=True')
-    VendorLib = 'isqlt07c.dll'
     Left = 656
     Top = 16
   end
@@ -202,25 +186,8 @@ object dmDatabase: TdmDatabase
     Left = 192
     Top = 208
   end
-  object bvccMYSQL: TbvCustomConnection
-    bvcc0CustomConnection = sqlcGED
-    Left = 848
-    Top = 64
-  end
-  object bvccINFORMIX: TbvCustomConnection
-    bvcc0CustomConnection = sqlcINFORMIX
-    Left = 560
-    Top = 64
-  end
-  object bvccSYSMASTER: TbvCustomConnection
-    bvcc0CustomConnection = sqlcSYSMASTER
-    Left = 752
-    Top = 64
-  end
   object sqlcGED: TSQLConnection
     DriverName = 'dbxmysql'
-    GetDriverFunc = 'getSQLDriverMYSQL50'
-    LibraryName = 'dbxopenmysql50.dll'
     LoginPrompt = False
     Params.Strings = (
       'DriverName=dbxmysql'
@@ -228,14 +195,11 @@ object dmDatabase: TdmDatabase
       'Password='
       'User_Name=root'
       'Hostname=')
-    VendorLib = 'libmysql.dll'
     Left = 848
     Top = 136
   end
   object sqlcMYSQL: TSQLConnection
     DriverName = 'dbxmysql'
-    GetDriverFunc = 'getSQLDriverMYSQL50'
-    LibraryName = 'dbxopenmysql50.dll'
     LoginPrompt = False
     Params.Strings = (
       'HostName=192.168.1.30'
@@ -245,16 +209,12 @@ object dmDatabase: TdmDatabase
       'BlobSize=-1'
       'ErrorResourceFile='
       'LocaleCode=0000')
-    VendorLib = 'libmysql.dll'
     Left = 848
     Top = 16
   end
   object sqlcPostgres_vitavoom: TSQLConnection
     DriverName = 'PostgreSQL'
-    GetDriverFunc = 'getSQLDriverPOSTGRESQL'
-    LibraryName = 'dbexppge.dll'
     LoginPrompt = False
-    VendorLib = 'LIBPQ.DLL'
     Left = 952
     Top = 16
   end
@@ -298,15 +258,8 @@ object dmDatabase: TdmDatabase
     Left = 48
     Top = 208
   end
-  object bvccPostgres_vitavoom: TbvCustomConnection
-    bvcc0CustomConnection = sqlcPostgres_vitavoom
-    Left = 952
-    Top = 64
-  end
   object sqlcPostgres: TSQLConnection
     DriverName = 'DevartPostgreSQL'
-    GetDriverFunc = 'getSQLDriverPostgreSQL'
-    LibraryName = 'dbexppgsql.dll'
     LoginPrompt = False
     Params.Strings = (
       'BlobSize=-1'
@@ -315,20 +268,12 @@ object dmDatabase: TdmDatabase
       'DataBase='
       'User_Name='
       'Password=')
-    VendorLib = 'dbexppgsql.dll'
     Left = 952
     Top = 120
-  end
-  object bvccPostgres: TbvCustomConnection
-    bvcc0CustomConnection = sqlcPostgres
-    Left = 952
-    Top = 168
   end
   object sqlcSQLSERVER: TSQLConnection
     ConnectionName = 'MSSQLConnection'
     DriverName = 'MSSQL'
-    GetDriverFunc = 'getSQLDriverMSSQL'
-    LibraryName = 'dbexpmss.dll'
     LoginPrompt = False
     Params.Strings = (
       'DriverName=MSSQL'
@@ -341,7 +286,6 @@ object dmDatabase: TdmDatabase
       'LocaleCode=0000'
       'MSSQL TransIsolation=ReadCommited'
       'OS Authentication=False')
-    VendorLib = 'oledb'
     Left = 576
     Top = 288
   end
@@ -383,8 +327,6 @@ object dmDatabase: TdmDatabase
   object SQLConnection1: TSQLConnection
     ConnectionName = 'MSSQLConnection'
     DriverName = 'MSSQL'
-    GetDriverFunc = 'getSQLDriverMSSQL'
-    LibraryName = 'dbexpmss.dll'
     LoginPrompt = False
     Params.Strings = (
       'DriverName=MSSQL'
@@ -397,7 +339,6 @@ object dmDatabase: TdmDatabase
       'LocaleCode=0000'
       'MSSQL TransIsolation=ReadCommited'
       'OS Authentication=False')
-    VendorLib = 'oledb'
     Left = 752
     Top = 288
   end

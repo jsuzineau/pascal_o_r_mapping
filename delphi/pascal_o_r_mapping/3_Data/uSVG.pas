@@ -150,7 +150,7 @@ type
                       _Pen_Color: TColor;
                       _Pen_Width: Integer): TJclSimpleXMLElem;
     function PolyBezier( _eRoot: TJclSimpleXMLElem;
-                         _points: array of TPoint;
+                         _points: TPolygon;
                          _Pen_Color: TColor;
                          _Pen_Width: Integer): TJclSimpleXMLElem;
     function image( _eRoot: TJclSimpleXMLElem;
@@ -782,7 +782,7 @@ begin
 end;
 
 function TSVGDocument.PolyBezier( _eRoot: TJclSimpleXMLElem;
-                                  _points: array of TPoint;
+                                  _points: TPolygon;
                                   _Pen_Color: TColor;
                                   _Pen_Width: Integer): TJclSimpleXMLElem;
 var
@@ -790,6 +790,15 @@ var
    d: String;
    stroke: String;
    style: String;
+   function X_Y( _i: Integer): String;
+   var
+      sX, sY: String;
+   begin
+        Str(_points[_i].X, sX);
+        Str(_points[_i].Y, sY);
+        Result:= sX+','+sY;
+   end;
+
 begin
      d:= '';
      for i:= Low( _points) div 4 to High( _points) div 4
@@ -802,10 +811,10 @@ begin
        d
        :=
           d
-         +'M '+IntToStr(_points[i  ].X)+','+IntToStr(_points[i  ].Y)+' '
-         +'C '+IntToStr(_points[i+1].X)+','+IntToStr(_points[i+1].Y)+' '
-              +IntToStr(_points[i+2].X)+','+IntToStr(_points[i+2].Y)+' '
-              +IntToStr(_points[i+3].X)+','+IntToStr(_points[i+3].Y);
+         +'M '+X_Y( i  )+' '
+         +'C '+X_Y( i+1)+' '
+              +X_Y( i+2)+' '
+              +X_Y( i+3);
        end;
      stroke:= svgColor( _Pen_Color);
      style

@@ -26,7 +26,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
-  Dialogs,
+  FMX.Dialogs,
   udmxCreator, FMTBcd, DB, SqlExpr;
 
 type

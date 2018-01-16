@@ -26,7 +26,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controlso, FMX.Forms,
-  Dialogs, ComCtrls, CommCtrl, ExtCtrls;
+  FMX.Dialogs, FMX.ComCtrls, CommCtrl, FMX.ExtCtrls;
 
 type
   TfChamp_Date = class(TForm)
