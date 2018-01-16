@@ -95,7 +95,7 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>(vide)</Manifest_File>
         <DCC_UsePackage>jcl;$(DCC_UsePackage)</DCC_UsePackage>
-        <DCC_UnitSearchPath>C:\_freepascal\pascal_o_r_mapping\pascal_o_r_mapping\3_Data;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\3_Data;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
