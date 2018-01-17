@@ -1,4 +1,4 @@
-unit ucBitBtn_antirebond;
+﻿unit ucBitBtn_antirebond;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -25,7 +25,7 @@ unit ucBitBtn_antirebond;
 interface
 
 uses
-  SysUtils, Classes, FMX.Controls, FMX.ExtCtrls, Types, FMX.Graphics,Buttons;
+  SysUtils, Classes, FMX.Controls, FMX.ExtCtrls, Types, FMX.Graphics,ucBitBtn;
 
 type
  TBitBtn_antirebond

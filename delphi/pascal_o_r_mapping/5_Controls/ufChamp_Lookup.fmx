@@ -1,38 +1,47 @@
 object fChamp_Lookup: TfChamp_Lookup
   Left = 423
   Top = 201
-  BorderStyle = bsNone
+  BorderStyle = None
   Caption = 'fChamp_Lookup'
   ClientHeight = 157
   ClientWidth = 194
-  Color = clBtnFace
-
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Sans Serif'
-  Font.Style = []
-  OldCreateOrder = False
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop, iPhone, iPad]
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  PixelsPerInch = 96
-  TextHeight = 13
+  Left = 423
+  Top = 201
+  DesignerMasterStyle = 0
   object Panel1: TPanel
-    Left = 0
-    Top = 0
-    Width = 194
-    Height = 157
-    Align = alClient
-    Text = 'Panel1'
+    Align = Client
+    Size.Width = 194.000000000000000000
+    Size.Height = 157.000000000000000000
+    Size.PlatformDefault = False
     TabOrder = 0
     object lb: TListBox
-      Left = 0
-      Top = 0
-      Width = 192
-      Height = 157
-      ItemHeight = 13
+      Size.Width = 192.000000000000000000
+      Size.Height = 157.000000000000000000
+      Size.PlatformDefault = False
       TabOrder = 0
       OnClick = lbClick
-      OnKeyDown = lbKeyDown
+      DisableFocusEffect = True
+      ItemHeight = 13.000000000000000000
+      DefaultItemStyles.ItemStyle = ''
+      DefaultItemStyles.GroupHeaderStyle = ''
+      DefaultItemStyles.GroupFooterStyle = ''
+      Viewport.Width = 188.000000000000000000
+      Viewport.Height = 153.000000000000000000
+      object Calendar1: TCalendar
+        Date = 43117.000000000000000000
+        Position.X = 112.000000000000000000
+        Position.Y = 96.000000000000000000
+        Size.Width = 180.000000000000000000
+        Size.Height = 160.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        OnKeyDown = Calendar1KeyDown
+      end
     end
   end
 end

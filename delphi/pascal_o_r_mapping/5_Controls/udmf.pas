@@ -1,4 +1,4 @@
-unit udmf;
+﻿unit udmf;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -27,8 +27,9 @@ interface
 uses
   uLookupConnection_Ancetre,
     uBatpro_StringList,
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controlso, FMX.Forms,
-  FMX.StdCtrls, DB, DBClient;
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
+  FMX.StdCtrls, DB, DBClient, FMX.Types, FMX.Controls.Presentation,
+  FMX.ScrollBox, FMX.Memo;
 
 type
  Tdmf

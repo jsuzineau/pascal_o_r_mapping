@@ -28,13 +28,18 @@ package OD_DelphiReportEngine_Units;
 {$IMPLICITBUILD ON}
 
 requires
-  rtl;
+  rtl,
+  fmx,
+  dbrtl,
+  dsnap,
+  Jcl;
 
 contains
   u_db_ in 'u_db_.pas',
   u_db_Composants in 'u_db_Composants.pas',
   u_ini_ in 'u_ini_.pas',
   u_loc_ in 'u_loc_.pas',
+  u_loc_Formes in 'u_loc_Formes.pas',
   u_reg_ in 'u_reg_.pas',
   u_sys_ in 'u_sys_.pas',
   uBatpro_Registry in 'uBatpro_Registry.pas',
@@ -59,9 +64,9 @@ contains
   ufAccueil_Erreur in 'ufAccueil_Erreur.pas',
   uForms in 'uForms.pas',
   uhFiltre_Ancetre in 'uhFiltre_Ancetre.pas',
+  uHorloge in 'uHorloge.pas',
   uIntervalle in 'uIntervalle.pas',
   uJCL in 'uJCL.pas',
-  uLog in 'uLog.pas',
   uLookupConnection_Ancetre in 'uLookupConnection_Ancetre.pas',
   uNetwork in 'uNetwork.pas',
   uOD_Column in 'uOD_Column.pas',
@@ -106,6 +111,7 @@ contains
   uuStrings in 'uuStrings.pas',
   uVersion in 'uVersion.pas',
   uWinUtils in 'uWinUtils.pas',
-  uAide in 'uAide.pas';
+  uDessin in '..\1_LCL\uDessin.pas',
+  uWindows in '..\1_LCL\mswindows\uWindows.pas';
 
 end.

@@ -1,9 +1,9 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{AEB319EA-4302-4214-AA9D-25E8C2F5ACD6}</ProjectGuid>
+        <ProjectGuid>{DEC951CA-7922-49A0-B7FA-79384A5E00CC}</ProjectGuid>
         <MainSource>OD_DelphiReportEngine_Units.dpk</MainSource>
         <ProjectVersion>18.3</ProjectVersion>
-        <FrameworkType>FMX</FrameworkType>
+        <FrameworkType>None</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
@@ -86,10 +86,15 @@
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="rtl.dcp"/>
+        <DCCReference Include="fmx.dcp"/>
+        <DCCReference Include="dbrtl.dcp"/>
+        <DCCReference Include="dsnap.dcp"/>
+        <DCCReference Include="Jcl.dcp"/>
         <DCCReference Include="u_db_.pas"/>
         <DCCReference Include="u_db_Composants.pas"/>
         <DCCReference Include="u_ini_.pas"/>
         <DCCReference Include="u_loc_.pas"/>
+        <DCCReference Include="u_loc_Formes.pas"/>
         <DCCReference Include="u_reg_.pas"/>
         <DCCReference Include="u_sys_.pas"/>
         <DCCReference Include="uBatpro_Registry.pas"/>
@@ -114,9 +119,9 @@
         <DCCReference Include="ufAccueil_Erreur.pas"/>
         <DCCReference Include="uForms.pas"/>
         <DCCReference Include="uhFiltre_Ancetre.pas"/>
+        <DCCReference Include="uHorloge.pas"/>
         <DCCReference Include="uIntervalle.pas"/>
         <DCCReference Include="uJCL.pas"/>
-        <DCCReference Include="uLog.pas"/>
         <DCCReference Include="uLookupConnection_Ancetre.pas"/>
         <DCCReference Include="uNetwork.pas"/>
         <DCCReference Include="uOD_Column.pas"/>
@@ -161,7 +166,8 @@
         <DCCReference Include="uuStrings.pas"/>
         <DCCReference Include="uVersion.pas"/>
         <DCCReference Include="uWinUtils.pas"/>
-        <DCCReference Include="uAide.pas"/>
+        <DCCReference Include="..\1_LCL\uDessin.pas"/>
+        <DCCReference Include="..\1_LCL\mswindows\uWindows.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

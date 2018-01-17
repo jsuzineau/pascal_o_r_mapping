@@ -1,4 +1,4 @@
-unit ucDockableScrollbox;
+﻿unit ucDockableScrollbox;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -38,7 +38,9 @@ uses
     uPublieur,
     uTri_Ancetre,
     uDockable,
-  SysUtils, Classes, FMX.Controls, FMX.Forms, FMX.ExtCtrls,FMX.Graphics,FMX.StdCtrls,Types;
+  SysUtils, Classes,
+  FMX.Controls, FMX.Forms, FMX.ExtCtrls,FMX.Graphics,FMX.StdCtrls,Types,
+  System.UITypes, FMX.Objects, FMX.Types, FMX.Memo;
 
 type
  TDockable_Event= procedure ( _dk: TDockable) of object;
@@ -76,7 +78,7 @@ type
   //Scrollbar
   public
     s: TScrollBar;
-    procedure s_Scroll( Sender: TObject; ScrollCode: TScrollCode; var ScrollPos: Integer);
+    procedure s_Change( Sender: TObject);
     procedure _from_Scroll;
     procedure s_Set_MinMax;
   //Classe des dockables
@@ -229,12 +231,12 @@ type
                               _Total   : TDockableScrollbox_Total = dsbt_Aucun);
     procedure Enleve_Colonnes;
     procedure Initialise_Colonnes( _Premier: Boolean= False);
-    procedure Colonne_MouseDown(Sender:TObject;Button:TMouseButton;Shift:TShiftState;X,Y:Integer);
+    procedure Colonne_MouseDown(Sender:TObject;Button:TMouseButton;Shift:TShiftState;X,Y:Single);
   //Gestion de la totalisation
   private
     Traiter_Totaux: Boolean;
     slChamps_abonnements: TBatpro_StringList;
-    procedure lTotal_MouseDown(Sender:TObject;Button:TMouseButton;Shift:TShiftState;X,Y:Integer);
+    procedure lTotal_MouseDown(Sender:TObject;Button:TMouseButton;Shift:TShiftState;X,Y:Single);
     procedure RecalculeTotaux;
   //Gestion du tri
   public
@@ -302,37 +304,37 @@ begin
      //Gestion de l'entete des colonnes
      pColumnHeader:= TPanel.Create( Self);
      pColumnHeader.Parent:= Self;
-     pColumnHeader.Top  := 0;
-     pColumnHeader.Left := 0;
-     pColumnHeader.Align:= alTop;
-     pColumnHeader.ParentBackground:= False;
-     pColumnHeader.BevelOuter:= bvNone;
+     pColumnHeader.Position.Y  := 0;
+     pColumnHeader.Position.X := 0;
+     pColumnHeader.Align:= TAlignLayout.Top;
+     //pColumnHeader.ParentBackground:= False;
+     //pColumnHeader.BevelOuter:= bvNone;
 
      //Gestion du pied des colonnes
      Traiter_Totaux:= False;
      pColumnFooter:= TPanel.Create( Self);
      pColumnFooter.Parent:= Self;
-     pColumnFooter.Top  := 0;
-     pColumnFooter.Left := 0;
-     pColumnFooter.Align:= alBottom;
-     pColumnFooter.ParentBackground:= False;
-     pColumnFooter.BevelOuter:= bvNone;
+     pColumnFooter.Position.Y  := 0;
+     pColumnFooter.Position.X := 0;
+     pColumnFooter.Align:= TAlignLayout.Bottom;
+     //pColumnFooter.ParentBackground:= False;
+     //pColumnFooter.BevelOuter:= bvNone;
 
      //Le scrollbox
      p:= TPanel.Create( Self);
      p.Parent:= Self;
-     p.Top  := 0;
-     p.Left := 0;
-     p.Align:= alClient;
-     p.ParentBackground:= False;
+     p.Position.Y  := 0;
+     p.Position.X := 0;
+     p.Align:= TALignLAyout.alClient;
+     //p.ParentBackground:= False;
 
      s:= TScrollBar.Create( Self);
      s.Parent:= Self;
-     s.Top  := 0;
-     s.Left := 0;
-     s.Align:= alRight;
-     s.Kind:= sbVertical;
-     s.OnScroll:= s_Scroll;
+     s.Position.Y  := 0;
+     s.Position.X := 0;
+     s.Align:= TALignLAyout.alRight;
+     s.Orientation:= TOrientation.Vertical;
+     s.OnChange:= s_Change;
 
      //pColumnHeader.Parent:= dsb;
      //pColumnHeader.Caption:= 'truc';
@@ -380,19 +382,19 @@ procedure TDockableScrollbox.Ajoute_Colonne( _C: TControl;
 var
    I, NewLength: Integer;
    L: TLabel;
-   _TopLeft: TPoint;
+   _TopLeft: TPointF;
    sTri: String;
-   C_Alignment: TAlignment;
+   C_Alignment: TTextAlign;
 begin
      I:= Length(Colonnes);
      NewLength:= I+1;
      SetLength( Colonnes, NewLength);
 
-     _TopLeft:= pColumnHeader.ScreenToClient( _C.ClientToScreen( Point(0,0)));
+     _TopLeft:= _C.Position.Point;
 
-          if _C is TLabel then C_Alignment:= TLabel(_C).Alignment
-     else if _C is TMemo  then C_Alignment:= TMemo (_C).Alignment
-     else                      C_Alignment:= taLeftJustify;
+          if _C is TLabel then C_Alignment:= TLabel(_C).TextAlign
+     else if _C is TMemo  then C_Alignment:= TMemo (_C).TextAlign
+     else                      C_Alignment:= TTextAlign.Leading;
 
      if Tri = nil
      then
@@ -413,17 +415,17 @@ begin
      L:= TLabel.Create( Self);
      L.Parent:= pColumnHeader;
      L.AutoSize:= False;
-     L.Top   := 2;
-     L.Left  := _TopLeft.X;
+     L.Position.Y   := 2;
+     L.Position.X  := _TopLeft.X;
      L.Width := _C.Width;
-     L.Height:= pColumnHeader.ClientHeight- L.Top;
-     L.Caption:= _Titre + sTri;
+     L.Height:= pColumnHeader.Height- L.Position.Y;
+     L.Text:= _Titre + sTri;
      L.Tag   := I;
-     L.Transparent:= False;
+     //L.Transparent:= False;
      with L.Font do Style:= Style + [TFontStyle.fsBold];
-     L.Alignment:= C_Alignment;
+     L.TextAlign:= C_Alignment;
      L.OnMouseDown:= Colonne_MouseDown;
-     L.Show;
+     L.Visible:= True;
 
 
      with Colonnes[I]
@@ -440,18 +442,18 @@ begin
            lTotal:= TLabel.Create( Self);
            lTotal.Parent:= pColumnFooter;
            lTotal.AutoSize:= False;
-           lTotal.Top   := 2;
-           lTotal.Left  := _TopLeft.X;
+           lTotal.Position.Y   := 2;
+           lTotal.Position.X  := _TopLeft.X;
            lTotal.Width := _C.Width;
-           lTotal.Height:= pColumnFooter.ClientHeight-lTotal.Top;
-           lTotal.Caption:= 'TOTAL';
-           lTotal.Alignment:= taRightJustify;
+           lTotal.Height:= pColumnFooter.Height-lTotal.Position.Y;
+           lTotal.Text:= 'TOTAL';
+           lTotal.TextAlign:= TTextAlign.Trailing;
            lTotal.Tag   := I;
-           lTotal.Transparent:= False;
+           //lTotal.Transparent:= False;
            with lTotal.Font do Style:= Style + [TFontStyle.fsBold];
-           lTotal.Alignment:= C_Alignment;
+           lTotal.TextAlign:= C_Alignment;
            lTotal.OnMouseDown:= lTotal_MouseDown;
-           lTotal.Show;
+           lTotal.Visible:= True;
            end
        else
            lTotal:= nil;
@@ -509,7 +511,7 @@ begin
      SetLength( Colonnes , 0);
 end;
 
-procedure TDockableScrollbox.Colonne_MouseDown( Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+procedure TDockableScrollbox.Colonne_MouseDown( Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Single);
 var
    C: TControl;
    I: Integer;
@@ -543,7 +545,7 @@ end;
 procedure TDockableScrollbox.lTotal_MouseDown( Sender: TObject;
                                                Button: TMouseButton;
                                                Shift: TShiftState;
-                                               X, Y: Integer);
+                                               X, Y: Single);
 begin
 
 end;
@@ -607,10 +609,10 @@ begin
            dsbt_Decimal:
              if Definitions[J] = nil
              then
-                 lTotal.Caption:= FloatToStr( Colonne_Total[J])
+                 lTotal.Text:= FloatToStr( Colonne_Total[J])
              else
-                 lTotal.Caption:= Definitions[J].Format_Float( Colonne_Total[J]);
-           dsbt_Heure  : lTotal.Caption:= sHeure    ( Colonne_Total[J]);
+                 lTotal.Text:= Definitions[J].Format_Float( Colonne_Total[J]);
+           dsbt_Heure  : lTotal.Text:= sHeure    ( Colonne_Total[J]);
            end;
          end;
 end;
@@ -671,12 +673,12 @@ begin
      if sl = nil then exit;
 
      pColumnHeader.Height:= 17;
-     pColumnHeader.Hide;
+     pColumnHeader.Visible:= False;
 
      pColumnFooter.Height:= 17;
-     pColumnFooter.Hide;
+     pColumnFooter.Visible:= False;
 
-     p.Refresh;
+     //p.Refresh;
 
      Bas:= 0;
 
@@ -684,7 +686,7 @@ begin
      for I:= 0 to sl.Count - 1
      do
        begin
-       if Bas > p.ClientHeight then break;
+       if Bas > p.Height then break;
 
        Bas:= Bas + HauteurLigne;
 
@@ -692,15 +694,16 @@ begin
 
        pa:= TPanel.Create( nil);
        pa.Parent:= p;
-       pa.Top:= Bas;
-       pa.Align:= alTop;
+       pa.Position.Y:= Bas;
+       pa.Align:= TAlignLayout.Top;
        pa.Height:= HauteurLigne;
+       {
        if BordureLignes
        then
            pa.BevelOuter:= bvRaised
        else
            pa.BevelOuter:= bvNone;
-
+       }
        Create_Dockable( dk, Classe_dockable, pa);
 
        slDockable.AddObject( sys_Vide, dk);
@@ -717,6 +720,7 @@ begin
        dk.DockableScrollbox_Suivant    := DockableScrollbox_Suivant  ;
        dk.DockableScrollbox_Nouveau    := DockableScrollbox_Nouveau  ;
 
+       {
        if Zebrage
        then
            if Odd( I)
@@ -724,6 +728,7 @@ begin
                dk.Color:= Zebrage1
            else
                dk.Color:= Zebrage2;
+       }
 
        dk.Traite_LectureSeule( FLectureSeule);
 
@@ -735,8 +740,8 @@ begin
            if Length(Colonnes) > 0
            then
                begin
-               pColumnHeader.Show;
-               pa.Top:= Bas;
+               pColumnHeader.Visible:= True;
+               pa.Position.Y:= Bas;
                Bas:= Bas + HauteurLigne;
                pColumnFooter.Visible:= Traiter_Totaux;
                end;
@@ -751,7 +756,7 @@ begin
 
      s_Set_MinMax;
      uProgression_Termine;
-     
+
      if Traiter_Totaux
      then
          RecalculeTotaux;
@@ -822,8 +827,8 @@ procedure TDockableScrollbox.Vide;
 var
    iDockable: Integer;
 begin
-     s.PageSize:= 1;
-     s.Position:= 0;
+     //s.PageSize:= 1;
+     s.Value:= 0;
      sl_Offset:= 0;
 
      Selection:= nil;
@@ -834,7 +839,7 @@ begin
      do
        Supprime_dockable( iDockable);
 
-     p.Caption:= FTextVide;
+     //p.Caption:= FTextVide;
 end;
 
 procedure TDockableScrollbox.Dockable_Avant_Suppression(Sender: TObject);
@@ -1107,11 +1112,9 @@ begin
        end;
 end;
 
-procedure TDockableScrollbox.s_Scroll( Sender: TObject;
-                                       ScrollCode: TScrollCode;
-                                       var ScrollPos: Integer);
+procedure TDockableScrollbox.s_Change( Sender: TObject);
 begin
-     sl_Offset:= ScrollPos;
+     sl_Offset:= Trunc(s.Value);
      Verifie_sl_Offset;
 
      _from_Scroll;
@@ -1123,7 +1126,7 @@ var
    dk: TDockable;
    iSL: Integer;
 begin
-     s.Position:= sl_Offset;
+     s.Value:= sl_Offset;
      for iDockable:= 0 to slDockable.Count - 1
      do
        begin
@@ -1178,11 +1181,11 @@ begin
 
      if not s_Enabled then exit;
 
-     s.Position:=0;
-     s.PageSize:= 1;
+     s.Value:=0;
+     //s.PageSize:= 1;
      s.Min:= 0;
      s.Max:= sl.Count;
-     s.PageSize:= slDockable.Count;
+     //s.PageSize:= slDockable.Count;
 end;
 
 procedure TDockableScrollbox.Resize;

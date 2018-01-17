@@ -1,4 +1,4 @@
-unit ucBatpro_Button;
+﻿unit ucBatpro_Button;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -25,10 +25,12 @@ unit ucBatpro_Button;
 interface
 
 uses
-  u_sys_,
-  uClean,
-  uBatpro_StringList,
-  SysUtils, Classes, FMX.Controls, FMX.ExtCtrls, FMX.StdCtrls, FMX.Graphics, Windows, FMX.Forms;
+    u_sys_,
+    uClean,
+    uBatpro_StringList,
+  SysUtils, Classes,
+  FMX.Controls, FMX.ExtCtrls, FMX.StdCtrls, FMX.Graphics, Windows, FMX.Forms,
+  FMX.Memo, FMX.Types;
 
 type
  TBatpro_Button
@@ -54,15 +56,15 @@ type
   private
     FOnGoNext    : TNotifyEvent;
     FOnGoPrevious: TNotifyEvent;
-    FwcNext     : TWinControl;
-    FwcPrevious : TWinControl;
+    FwcNext     : TFMXObject;
+    FwcPrevious : TFMXObject;
     procedure GoNext;
     procedure GoPrevious;
   published
     property OnGoNext     : TNotifyEvent      read FOnGoNext      write FOnGoNext    ;
     property OnGoPrevious : TNotifyEvent      read FOnGoPrevious  write FOnGoPrevious;
-    property wcNext     : TWinControl      read FwcNext      write FwcNext     ;
-    property wcPrevious : TWinControl      read FwcPrevious  write FwcPrevious ;
+    property wcNext     : TFMXObject      read FwcNext      write FwcNext     ;
+    property wcPrevious : TFMXObject      read FwcPrevious  write FwcPrevious ;
   //Gestion de l'état enfoncé
   private
     FDown: Boolean;
@@ -73,7 +75,7 @@ type
     property Down: Boolean read FDown write SetDown;
   //Gestion clavier
   private
-    procedure mKeyDown( Sender:TObject;var Key:Word;Shift:TShiftState);
+    procedure mKeyDown( Sender: TObject; var Key: Word; var KeyChar: WideChar; Shift: TShiftState);
   //Gestion aprés chargement
   public
     procedure Apres_Chargement;
@@ -100,11 +102,11 @@ begin
      inherited;
      m:= TMemo.Create( Self);
      m.Parent:= Self;
-     m.Color:= TColorRec.SysBtnFace;
+     //m.Color:= TColorRec.SysBtnFace;
      m.ReadOnly:= True;
-     m.Align:= alClient;
-     m.BorderStyle:= bsNone;
-     BevelWidth:= 2;
+     //m.Align:= alClient;
+     //m.BorderStyle:= bsNone;
+     //BevelWidth:= 2;
      slBatpro_Buttons.AddObject( sys_Vide, Self);
 end;
 
@@ -127,10 +129,10 @@ end;
 
 procedure TBatpro_Button.Apres_Chargement;
 begin
-     m.Text     := Caption;
+     //m.Text     := Caption;
      m.OnClick  := mClick;
      m.OnKeyDown:= mKeyDown;
-     m.Cursor   := crArrow;
+     //m.Cursor   := crArrow;
 end;
 
 procedure TBatpro_Button.GoNext;
@@ -138,9 +140,11 @@ begin
      if Assigned( OnGoNext)
      then
          OnGoNext( Self);
+     { non traduit pour FMX
      if Assigned( wcNext)
      then
          wcNext.SetFocus;
+     }
 end;
 
 procedure TBatpro_Button.GoPrevious;
@@ -148,24 +152,30 @@ begin
      if Assigned( OnGoPrevious)
      then
          OnGoPrevious( Self);
+     { non traduit pour FMX
      if Assigned( wcPrevious)
      then
          wcPrevious.SetFocus;
+     }
 end;
 
 procedure TBatpro_Button.SetDown(const Value: Boolean);
 begin
      FDown := Value;
+     { non traduit pour FMX
      if Down
      then
          BevelOuter:= bvLowered
      else
          BevelOuter:= bvRaised;
      Refresh;
+     }
 end;
 
-procedure TBatpro_Button.mKeyDown( Sender: TObject; var Key: Word;
-                                  Shift: TShiftState);
+procedure TBatpro_Button.mKeyDown( Sender: TObject;
+                                   var Key: Word;
+                                   var KeyChar: WideChar;
+                                   Shift: TShiftState);
 begin
      case Key
      of

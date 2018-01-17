@@ -1,4 +1,4 @@
-unit ucBatpro_RadioGroup;
+﻿unit ucBatpro_RadioGroup;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -27,12 +27,14 @@ interface
 uses
   SysUtils, Classes, FMX.Controls, FMX.StdCtrls, FMX.ExtCtrls,
   uClean,
-  u_sys_;
+  u_sys_,
+  FMX.Memo;
 
 type
  TBatpro_RadioGroup
  =
-  class( TRadioGroup)
+  //class( TRadioGroup)
+  class( TPanel)
   private
     { Déclarations privées }
     Loaded_OK: Boolean;
@@ -48,7 +50,7 @@ type
   protected
     { Déclarations protégées }
     procedure Resize; override;
-    procedure CreateWnd; override;
+    procedure CreateWnd; //override;
     procedure Loaded; override;
   public
     { Déclarations publiques }
@@ -82,19 +84,19 @@ begin
      ButtonHeight:= 16;
 
      Button:= TButton.Create( Self);
-     with Button do ControlStyle:= ControlStyle + [csReplicatable];
+     //with Button do ControlStyle:= ControlStyle + [csReplicatable];
      Button.Width := ButtonWidth;
      Button.Height:= ButtonHeight;
      Button.Visible:= True;
      Button.Parent:= Self;
      Button.OnClick:= ButtonClick;
-     Button.Cursor:= crArrow;
-     Button.Caption:= sButton_Modif;
+     //Button.Cursor:= crArrow;
+     Button.Text:= sButton_Modif;
 
      Memo:= TMemo.Create( Self);
      Memo.Parent:= Self;
      Memo.Visible:= False;
-     Memo.ScrollBars:= ssVertical;
+     //Memo.ScrollBars:= ssVertical;
 
      Loaded_OK:= False;
      Old_ItemIndex:= -1;
@@ -102,6 +104,7 @@ end;
 
 destructor TBatpro_RadioGroup.Destroy;
 begin
+     {
      if Loaded_OK
      then
          begin
@@ -115,16 +118,19 @@ begin
          else
              Items.SaveToFile( sNomFichier);
          end;
+     }
      inherited;
 end;
 
 procedure TBatpro_RadioGroup.Apply_Old_ItemIndex;
 begin
+     {
      if Old_ItemIndex >= Items.Count
      then
          Old_ItemIndex:= Items.Count-1;
 
      ItemIndex:= Old_ItemIndex;
+     }
 end;
 
 procedure TBatpro_RadioGroup.Loaded;
@@ -138,7 +144,7 @@ begin
      Button.Name:= Name + '_Button';
      Memo  .Name:= Name + '_Memo'  ;
 
-     Old_ItemIndex:= ItemIndex;
+     //Old_ItemIndex:= ItemIndex;
 
      if Assigned( Owner)
      then
@@ -152,6 +158,7 @@ begin
 
      sl:= TStringList.Create;
      try
+        {
         sl.Text:= Items.Text;
         if FileExists( sNomFichier)
         then
@@ -165,6 +172,7 @@ begin
                   Items.Add( sl.Strings[ I]);
                 end;
             end;
+        }
      finally
             Free_nil( sl);
             end;
@@ -177,18 +185,20 @@ begin
      if Memo.Visible
      then
          begin
-         Items.Text:= Memo.Lines.Text;
-         Button.Caption:= sButton_Modif;
-         Memo.Hide;
+         //Items.Text:= Memo.Lines.Text;
+         Button.Text:= sButton_Modif;
+         Visible:= False;
          Apply_Old_ItemIndex;
          end
      else
          begin
+         {
          Memo.Lines.Text:= Items.Text;
          Old_ItemIndex:= ItemIndex;
          Items.Text:= sys_Vide;
          Button.Caption:= sButton_Sauver;
          Memo.Show;
+         }
          end;
 end;
 
@@ -196,13 +206,13 @@ procedure TBatpro_RadioGroup.Positionne;
 const
      Marge= 4;
 begin
-     Button.Top := 0;
-     Button.Left:= ClientWidth -2 -ButtonWidth;
+     Button.Position.Y := 0;
+     Button.Position.X:= Width -2 -ButtonWidth;
 
-     Memo.Left:= Marge;
-     Memo.Top := Button.Top+Button.Height;
-     Memo.Width := ClientWidth -2*Marge;
-     Memo.Height:= ClientHeight-Marge-Memo.Top;
+     Memo.Position.X:= Marge;
+     Memo.Position.Y := Button.Position.Y+Button.Height;
+     Memo.Width := Width -2*Marge;
+     Memo.Height:= Height-Marge-Memo.Position.Y;
 end;
 
 procedure TBatpro_RadioGroup.Resize;

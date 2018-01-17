@@ -1,4 +1,4 @@
-unit ucBatpro_OptionButton;
+﻿unit ucBatpro_OptionButton;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -26,7 +26,7 @@ interface
 
 uses
     ucBatpro_SpeedButton,
-  SysUtils, Classes, FMX.Controls, SRColBtn, FMX.Graphics;
+  SysUtils, Classes, FMX.Controls, FMX.Graphics;
 
 type
  TBatpro_OptionButton
@@ -54,14 +54,14 @@ end;
 constructor TBatpro_OptionButton.Create( AOwner: TComponent);
 begin
      inherited;
-     AllowAllUp:= True;
+     //AllowAllUp:= True;
 end;
 
 
 procedure TBatpro_OptionButton.Definit_Parametres;
 begin
      inherited;
-     Grouped:= True;
+     //Grouped:= True;
 end;
 
 end.

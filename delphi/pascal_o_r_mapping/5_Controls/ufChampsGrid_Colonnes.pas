@@ -1,4 +1,4 @@
-unit ufChampsGrid_Colonnes;
+﻿unit ufChampsGrid_Colonnes;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -27,17 +27,18 @@ interface
 uses
     uClean,
     uBatpro_StringList,
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controlso, FMX.Forms,
-  FMX.Dialogs, Grids, ValEdit, FMX.StdCtrls, Buttons, FMX.ExtCtrls;
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
+  FMX.Dialogs, FMX.Grid, FMX.StdCtrls, FMX.ExtCtrls, ucBitBtn, FMX.Memo, System.UITypes,
+  FMX.ScrollBox, FMX.Types, FMX.Controls.Presentation;
 
 type
  TfChampsGrid_Colonnes
  =
   class(TForm)
     Panel1: TPanel;
-    bOK: TBitBtn;
-    bCancel: TBitBtn;
-    vle: TValueListEditor;
+    bOK: TButton;
+    bCancel: TButton;
+    m: TMemo;
   // Méthodes
   public
     function Execute( sl: TBatpro_StringList): Boolean;
@@ -61,11 +62,11 @@ end;
 
 function TfChampsGrid_Colonnes.Execute( sl: TBatpro_StringList): Boolean;
 begin
-     vle.Strings.Assign( sl);
+     m.Lines.Assign( sl);
      Result:= ShowModal = mrOK;
      if Result
      then
-         sl.Assign( vle.Strings);
+         sl.Assign( m.Lines);
 end;
 
 initialization

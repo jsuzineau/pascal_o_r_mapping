@@ -1,4 +1,4 @@
-unit ucBatproSelector;
+﻿unit ucBatproSelector;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -27,12 +27,13 @@ interface
 uses
     uForms,
     Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-    DB, DBCtrls, FMX.StdCtrls, Buttons;
+    DB, FMX.StdCtrls, FMX.Edit;
 
 type
  TBatproSelector
  =
-  class(TDBEdit)
+  //class(TDBEdit)
+  class(TEdit)
   private
     { Déclarations privées }
     FDropDownCount: Integer;
@@ -45,15 +46,20 @@ type
     { Déclarations protégées }
     procedure Resize; override;
     procedure Click; override;
-    procedure CreateWnd; override;
+    procedure CreateWnd; //override;
   public
     { Déclarations publiques }
     constructor Create(AOwner: TComponent); override;
+  //modif rapide en attendant mise à jour pour FMX
+  private
+    FDatasource: TDatasource;
+    FDataField: String;
   published
     { Déclarations publiées }
     property DropDownCount: Integer read FDropDownCount write FDropDownCount;
-    property DataSource;
-    property DataField;
+
+    property DataSource: TDatasource read FDatasource write FDatasource;
+    property DataField: String read FDataField write FDataField;
     property Visible;
   end;
 
@@ -61,7 +67,7 @@ procedure Register;
 
 implementation
 
-uses                
+uses
     ufcb;
 
 procedure Register;
@@ -86,19 +92,19 @@ begin
      B.Parent:= Self;
      B.OnClick:= BClick;
      Bitmap:= Windows.LoadBitmap( 0, PChar(OBM_COMBO));
-     B.Glyph.Handle:= Bitmap;
+     //B.Glyph.Handle:= Bitmap;
      //DeleteObject(Bitmap);génère une erreur:TBitmap ne doit pas faire de copie
-     b.Cursor:= crArrow;
+     //b.Cursor:= crArrow;
 end;
 
 procedure TBatproSelector.Positionne;
 var
-   Largeur: Integer;
+   Largeur: Single;
 begin
      //uForms_ShowMessage( '1');
-     Largeur:= ClientWidth-ButtonWidth;
-     B.Left:= Largeur;
-     B.Height:= ClientHeight;
+     Largeur:= Width-ButtonWidth;
+     B.Position.X:= Largeur;
+     B.Height:= Height;
 end;
 
 (*
@@ -120,7 +126,7 @@ begin
      fcb.Execute( Self, DropDownCount, DataSource,
                   DataSource.DataSet.FieldByName(DataField));
      uForms_ProcessMessages;
-     B.Refresh;
+     //B.Refresh;
 
      inherited Click;
 end;

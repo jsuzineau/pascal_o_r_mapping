@@ -1,4 +1,4 @@
-unit ufChamp_Lookup;
+﻿unit ufChamp_Lookup;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -26,18 +26,20 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, FMX.ComCtrls, CommCtrl, FMX.ExtCtrls, FMX.StdCtrls,
-    uBatpro_StringList;
+  FMX.Dialogs, FMX.ExtCtrls, FMX.StdCtrls,
+  uBatpro_StringList, FMX.Layouts, FMX.ListBox, FMX.Types,
+  FMX.Controls.Presentation, FMX.Calendar, System.UITypes;
 
 type
   TfChamp_Lookup = class(TForm)
     Panel1: TPanel;
     lb: TListBox;
-    procedure lbKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    Calendar1: TCalendar;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure lbClick(Sender: TObject);
+    procedure Calendar1KeyDown(Sender: TObject; var Key: Word;
+      var KeyChar: Char; Shift: TShiftState);
   private
     { Déclarations privées }
   public
@@ -87,6 +89,7 @@ var
 begin
      Left:= Position.X;
      Top := Position.Y;
+     {
      SystemParametersInfo( SPI_GETWORKAREA, 0, @WorkArea, 0);
      if BoundsRect.Bottom > WorkArea.Bottom
      then
@@ -94,6 +97,7 @@ begin
      if BoundsRect.Right > WorkArea.Right
      then
          Left:= WorkArea.Right - Width;
+     }
 
      lb.ItemIndex:= Keys.IndexOf( Cle);
 
@@ -107,8 +111,8 @@ begin
          end;
 end;
 
-procedure TfChamp_Lookup.lbKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TfChamp_Lookup.Calendar1KeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
 begin
      case Key
      of

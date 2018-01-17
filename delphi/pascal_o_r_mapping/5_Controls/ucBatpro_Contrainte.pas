@@ -1,4 +1,4 @@
-unit ucBatpro_Contrainte;
+﻿unit ucBatpro_Contrainte;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -28,7 +28,9 @@ uses
     uClean,
     uReels,
     uContrainte,
-  SysUtils, Classes, FMX.Controls, FMX.ComCtrls, DB, FMX.StdCtrls, FMX.ExtCtrls, FMX.Graphics;
+  SysUtils, Classes,
+  FMX.Controls, DB, FMX.StdCtrls, FMX.ExtCtrls, FMX.Graphics,
+  FMX.ListBox, FMX.Edit, FMX.DateTimeCtrls;
 
 type
  TBatpro_Contrainte
@@ -40,7 +42,7 @@ type
     destructor Destroy; override;
   //Méthodes surchargées
   protected
-    procedure CreateWnd; override;
+    procedure CreateWnd; //override; non traité pour FMX
     procedure Loaded; override;
     procedure Resize; override;
   public
@@ -88,7 +90,7 @@ type
     procedure dtpDropDown(Sender: TObject);
     procedure dtpCloseUp(Sender: TObject);
   public
-    dtp: TDateTimePicker;
+    dtp: TDateEdit;
   //Gestion de l'affichage
   private
     first_Layout_ok: Boolean;
@@ -180,7 +182,7 @@ begin
      lLibelle:= TLabel.Create( Self);
      lLibelle.Name:= 'lLibelle';
      lLibelle.Parent:= Self;
-     lLibelle.Caption:= '';
+     lLibelle.Text:= '';
 
      cbOperateur:= TComboBox.Create( Self);
      cbOperateur.Name:= 'cbOperateur';
@@ -194,13 +196,13 @@ begin
      e.OnChange:= eChange;
 
      dtpChange_actif:= True;
-     dtp:= TDateTimePicker.Create( Self);
+     dtp:= TDateEdit.Create( Self);
      dtp.Name:= 'dtp';
      dtp.Parent:= Self;
      dtp.DateTime:= Now;
      dtp.OnChange  := dtpChange;
-     dtp.OnDropDown:= dtpDropDown;
-     dtp.OnCloseUp := dtpCloseUp;
+     //dtp.OnDropDown:= dtpDropDown;
+     //dtp.OnCloseUp := dtpCloseUp;
 
      first_Layout_ok:= False;
 end;
@@ -221,17 +223,17 @@ var
    begin
         if _Avant = nil
         then
-            _Apres.Left:= _Left
+            _Apres.Position.X:= _Left
         else
-            _Apres.Left:= _Avant.Left+_Avant.Width;
-        _Apres.Top := _Top;
+            _Apres.Position.X:= _Avant.Position.X+_Avant.Width;
+        _Apres.Position.Y := _Top;
    end;
 
 begin
      IsDate:= FContrainte.IsDate;
 
      cb.Width:= 15;
-     cb.Checked:= FContrainte.Active;
+     cb.isChecked:= FContrainte.Active;
 
      lLibelle.AutoSize:= True;
 
@@ -251,7 +253,7 @@ begin
        else                     cbOperateur.Items.Add( 'est aprés');
        end;
 
-     cbOperateur.Style:= csDropDownList;
+     //cbOperateur.Style:= csDropDownList;
      cbOperateur.ItemIndex:= Integer( FContrainte.Operateur);
 
      e  .Visible:= not IsDate;
@@ -264,13 +266,13 @@ begin
      Enchaine( cbOperateur, e          );
      Enchaine( cbOperateur, dtp        );
 
-     e.Width:= ClientWidth - e.Left-Marge_horizontale;
-     with e do Anchors:= Anchors + [akRight];
+     e.Width:= Width - e.Position.X-Marge_horizontale;
+     //with e do Anchors:= Anchors + [akRight];
 
-     dtp.Width:= ClientWidth - dtp.Left-Marge_horizontale;
-     with dtp do Anchors:= Anchors + [akRight];
+     dtp.Width:= Width - dtp.Position.X-Marge_horizontale;
+     //with dtp do Anchors:= Anchors + [akRight];
 
-     ClientHeight:= cbOperateur.Top+cbOperateur.Height+Marge_verticale;
+     Height:= cbOperateur.Position.Y+cbOperateur.Height+Marge_verticale;
 
      first_Layout_ok:= True;
 end;
@@ -339,7 +341,7 @@ end;
 
 function TBatpro_Contrainte.GetContrainte: TContrainte;
 begin
-     FContrainte.Active   := cb.Checked;
+     FContrainte.Active   := cb.isChecked;
      FContrainte.Operateur:= TContrainte_Operateur( cbOperateur.ItemIndex);
      case FContrainte.TypeOperande
      of
@@ -354,12 +356,12 @@ end;
 
 function TBatpro_Contrainte.GetLibelle: String;
 begin
-     Result:= lLibelle.Caption;
+     Result:= lLibelle.Text;
 end;
 
 procedure TBatpro_Contrainte.SetLibelle(const Value: String);
 begin
-     lLibelle.Caption:= Value;
+     lLibelle.Text:= Value;
      if first_Layout_ok
      then
          Layout;
@@ -492,7 +494,7 @@ procedure TBatpro_Contrainte.Change_Active;
 begin
      if not Active
      then
-         cb.Checked:= True
+         cb.isChecked:= True
      else
          Change;
 end;

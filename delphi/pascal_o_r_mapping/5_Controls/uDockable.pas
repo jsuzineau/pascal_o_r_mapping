@@ -39,7 +39,7 @@ uses
     //ucChamp_Float_SpinEdit,
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
   FMX.Dialogs, FMX.ExtCtrls, System.UITypes,FMX.Types,
-  ucBatpro_Shape;
+  ucBatpro_Shape, FMX.Objects;
 
 type
  TDockableScrollbox_Total
@@ -68,12 +68,14 @@ type
  =
   class( TForm)
     sSelection: TBatpro_Shape;
-    procedure FormClick(Sender: TObject);
     procedure sSelectionMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-    procedure DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure FormMouseWheelDown(Sender: TObject; Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
-    procedure FormMouseWheelUp(Sender: TObject; Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
     procedure FormDblClick(Sender: TObject);
+    procedure FormMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Single);
+    procedure FormMouseWheel(Sender: TObject; Shift: TShiftState;
+      WheelDelta: Integer; var Handled: Boolean);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
+      Shift: TShiftState);
   public
     { Déclarations publiques }
     function Imprime: Boolean; virtual;
@@ -295,14 +297,17 @@ begin
          end;
 end;
 
-procedure TDockable.FormClick(Sender: TObject);
-begin
-     Do_DockableScrollbox_Selection;
-end;
-
 procedure TDockable.FormDblClick(Sender: TObject);
 begin
      Do_DockableScrollbox_Validation;
+end;
+
+procedure TDockable.FormKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+     if not Traite_KeyDown( Key, Shift)
+     then
+         inherited;
 end;
 
 procedure TDockable.sSelectionMouseDown( Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -421,23 +426,17 @@ begin
        end;
 end;
 
-procedure TDockable.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TDockable.FormMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Single);
 begin
-     if not Traite_KeyDown( Key, Shift)
-     then
-         inherited;
+     Do_DockableScrollbox_Selection;
 end;
 
-procedure TDockable.FormMouseWheelDown(Sender: TObject; Shift: TShiftState;
-  MousePos: TPoint; var Handled: Boolean);
+procedure TDockable.FormMouseWheel(Sender: TObject; Shift: TShiftState;
+  WheelDelta: Integer; var Handled: Boolean);
 begin
-     Do_DockableScrollbox_Suivant  ;
-end;
-
-procedure TDockable.FormMouseWheelUp(Sender: TObject; Shift: TShiftState;
-  MousePos: TPoint; var Handled: Boolean);
-begin
-     Do_DockableScrollbox_Precedent;
+           if 0 < WheelDelta then Do_DockableScrollbox_Precedent
+     else  if WheelDelta > 0 then Do_DockableScrollbox_Suivant;
 end;
 
 end.

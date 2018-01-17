@@ -38,9 +38,8 @@ uses
     ufAccueil,
 
   Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-  FMX.StdCtrls, FMX.ExtCtrls, FMX.Memo, FMX.ActnList, FMX.Menus, Vcl.Menus,
-  System.Actions, Vcl.ActnList, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.Buttons,
-  Vcl.ExtCtrls, Vcl.Controls;
+  FMX.StdCtrls, FMX.ExtCtrls, FMX.Memo, FMX.ActnList, FMX.Menus, System.UITypes,
+  System.Actions;
 
 type
  TfpBas
@@ -125,7 +124,7 @@ constructor TfpBas.Create(_Owner: TComponent);
 begin
      inherited;
      pPostExecute:= TPublieur.Create( ClassName+'.pPostExecute');
-     miClassName.Caption:= 'Nom de la classe: '+ClassName;
+     miClassName.Text:= 'Nom de la classe: '+ClassName;
 end;
 
 destructor TfpBas.Destroy;
@@ -252,7 +251,7 @@ begin
      if FAfficher_Log
      then
          begin
-         sLog.Top:= pLog.Top;
+         sLog.Position.Y:= pLog.Position.Y;
          fAccueil.publieur_LogChange.Abonne( Self, LogChange);
          LogChange;
          end
@@ -281,7 +280,7 @@ end;
 procedure TfpBas.mLogMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-     if    (mbRight = Button)
+     if    (TMouseButton.mbRight = Button)
         and(ssCtrl in Shift)
      then
          fAccueil.Execute;
@@ -315,7 +314,7 @@ begin
      bAbandon   .ModalResult:= mrNone;
      bValidation.Action:= aValidation;
      bAbandon.Action:= aAbandon;
-     miValidation_AfficherLog.Checked:= Afficher_Log;
+     miValidation_AfficherLog.isChecked:= Afficher_Log;
 end;
 
 procedure TfpBas.PostExecute;
@@ -348,8 +347,8 @@ end;
 
 procedure TfpBas.miValidation_AfficherLogClick(Sender: TObject);
 begin
-     with miValidation_AfficherLog do Checked:= not Checked;
-     Afficher_Log:= miValidation_AfficherLog.Checked;
+     with miValidation_AfficherLog do isChecked:= not IsChecked;
+     Afficher_Log:= miValidation_AfficherLog.isChecked;
 end;
 
 function TfpBas.OPN_Requeteur_SQL: String;

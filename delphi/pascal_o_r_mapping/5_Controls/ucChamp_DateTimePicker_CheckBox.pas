@@ -1,4 +1,4 @@
-unit ucChamp_DateTimePicker_CheckBox;
+﻿unit ucChamp_DateTimePicker_CheckBox;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -28,7 +28,7 @@ uses
     uReels,
     uChamps,
     uChamp,
-  SysUtils, Classes, FMX.Controls, FMX.ComCtrls, DB, FMX.StdCtrls, FMX.ExtCtrls;
+  SysUtils, Classes, FMX.Controls, DB, FMX.StdCtrls, FMX.ExtCtrls, FMX.DateTimeCtrls;
 
 type
  TChamp_DateTimePicker_CheckBox
@@ -47,7 +47,7 @@ type
   private
     procedure dtpChange( Sender: TObject);
   public
-    dtp: TDateTimePicker;
+    dtp: TDateEdit;
   //Gestion de l'affichage
   private
     procedure Layout;
@@ -96,7 +96,7 @@ begin
      cbDTP.Parent:= Self;
      cbDTP.OnClick:= cbDTPClick;
 
-     dtp:= TDateTimePicker.Create( Self);
+     dtp:= TDateEdit.Create( Self);
      dtp.Parent:= Self;
      dtp.OnChange:= dtpChange;
 
@@ -114,14 +114,14 @@ end;
 
 procedure TChamp_DateTimePicker_CheckBox.Layout;
 begin
-     cbDTP.Top  :=0;
-     cbDTP.Left := 0;
+     cbDTP.Position.Y  :=0;
+     cbDTP.Position.X := 0;
      cbDTP.Width:= 15;
 
-     dtp.Left:= 15;
-     dtp.Top:= 0;
-     dtp.Width:= ClientWidth - dtp.Left;
-     with dtp do Anchors:= Anchors + [akRight];
+     dtp.Position.X:= 15;
+     dtp.Position.Y:= 0;
+     dtp.Width:= Width - dtp.Position.X;
+     //with dtp do Anchors:= Anchors + [akRight];
 end;
 
 function TChamp_DateTimePicker_CheckBox.Champ_OK: Boolean;
@@ -174,7 +174,7 @@ begin
           else         Value:= 0;
           end;
         ValueDefined:= not Reel_Zero( Value);
-        cbDTP.Checked:= ValueDefined;
+        cbDTP.isChecked:= ValueDefined;
         if ValueDefined
         then
             dtp.DateTime:= Value;
@@ -192,7 +192,7 @@ begin
      try
         Champs_Changing:= True;
 
-        if cbDTP.Checked
+        if cbDTP.isChecked
         then
             Value:= dtp.DateTime
         else
@@ -223,7 +223,7 @@ end;
 
 procedure TChamp_DateTimePicker_CheckBox.cbDTPClick(Sender: TObject);
 begin
-     dtp.Enabled:= cbDTP.Checked;
+     dtp.Enabled:= cbDTP.isChecked;
      _to_Champs;
 end;
 

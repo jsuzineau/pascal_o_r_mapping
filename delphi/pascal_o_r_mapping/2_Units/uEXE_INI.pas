@@ -380,6 +380,7 @@ end;
 
 constructor TEXE_INIFile.Create(const AFileName: string);
 begin
+     ForceDirectories( ExtractFilePath( AFileName));
      inherited;
      os
      :=

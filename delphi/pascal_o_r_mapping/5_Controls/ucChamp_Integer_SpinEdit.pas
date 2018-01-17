@@ -27,16 +27,15 @@ interface
 uses
     uChamps,
     uChamp,
-  SysUtils, Classes, FMX.Controls, FMX.StdCtrls, VCL.Samples.Spin;
+  SysUtils, Classes, FMX.Controls, FMX.StdCtrls, FMX.SpinBox;
 
 type
  TChamp_Integer_SpinEdit
  =
-  class( TSpinEdit, IChampsComponent)
+  class( TSpinBox, IChampsComponent)
   //Général
   protected
     procedure Loaded; override;
-    procedure Change; override;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -64,6 +63,7 @@ type
   //accesseur à partir de l'interface
   private
     function GetComponent: TComponent;
+    procedure Change;
   end;
 
 procedure Register;

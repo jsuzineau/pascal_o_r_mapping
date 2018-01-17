@@ -1,4 +1,4 @@
-unit ucBatproSQLMask;
+﻿unit ucBatproSQLMask;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -31,7 +31,7 @@ uses
     uDataUtilsU,
     uParametre,
     ufAccueil_Erreur,
-  SysUtils, Classes, FMX.Controls, FMX.StdCtrls;
+  SysUtils, Classes, FMX.Controls, FMX.StdCtrls, FMX.Edit, FMX.Memo;
 
 type
  TBatproSQLMask
@@ -212,7 +212,7 @@ begin
      then
          L:= b4_Libelle
      else
-         L:= b3_Label.Caption;
+         L:= b3_Label.Text;
 
      Result:= L+' '+Result;
 end;

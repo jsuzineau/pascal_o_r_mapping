@@ -1,4 +1,4 @@
-unit ucBatproDateRange;
+﻿unit ucBatproDateRange;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -29,12 +29,13 @@ uses
     uSGBD,
     uuStrings,
     uDataUtilsU,
-  SysUtils, Classes, FMX.Controls, FMX.StdCtrls, Mask;
+  SysUtils, Classes, FMX.Controls, FMX.StdCtrls, FMX.Edit;
 
 type
  TBatproDateRange
  =
-  class(TMaskEdit)
+  //class(TMaskEdit) à traiter pour FMX
+  class(TEdit)
   private
     { Déclarations privées }
     D1, D2: String;
@@ -81,7 +82,7 @@ end;
 
 procedure TBatproDateRange.Default_EditMask;
 begin
-     EditMask:= '99/99/9999\<\= X \<\=99/99/9999;1;_';
+     //EditMask:= '99/99/9999\<\= X \<\=99/99/9999;1;_';
 end;
 
 constructor TBatproDateRange.Create( AOwner: TComponent);

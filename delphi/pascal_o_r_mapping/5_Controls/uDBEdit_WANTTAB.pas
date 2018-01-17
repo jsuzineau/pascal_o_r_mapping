@@ -25,12 +25,12 @@ unit uDBEdit_WANTTAB;
 interface
 
 uses
-    SysUtils, Windows, Messages, Classes, DBCtrls;
+    SysUtils, Windows, Messages, Classes, FMX.Edit;
 
 type
  TDBEdit_WANTTAB
  =
-  class( TDBEdit)
+  class( TEdit)
   private
     procedure WMGetDlgCode(var Message: TWMGetDlgCode); message WM_GETDLGCODE;
   end;

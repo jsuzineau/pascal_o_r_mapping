@@ -1,4 +1,4 @@
-unit ufChamp_Date;
+﻿unit ufChamp_Date;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -25,18 +25,17 @@ unit ufChamp_Date;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controlso, FMX.Forms,
-  FMX.Dialogs, FMX.ComCtrls, CommCtrl, FMX.ExtCtrls;
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
+  FMX.Dialogs, CommCtrl, FMX.ExtCtrls, FMX.Types, FMX.Controls.Presentation,
+  FMX.Calendar, System.UITypes;
 
 type
   TfChamp_Date = class(TForm)
-    mc: TMonthCalendar;
-    procedure mcKeyDown(Sender: TObject; var Key: Word;
+    c: TCalendar;
+    procedure cKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
   private
     { Déclarations privées }
-  protected
-    procedure WndProc(var Message: TMessage); override;
   public
     { Déclarations publiques }
     function Execute( Position: TPoint; var D: TDateTime): Boolean;
@@ -65,8 +64,10 @@ function TfChamp_Date.Execute( Position: TPoint; var D: TDateTime): Boolean;
 var
    WorkArea: TRect;
 begin
+
      Left:= Position.X;
      Top := Position.Y;
+     {
      SystemParametersInfo( SPI_GETWORKAREA, 0, @WorkArea, 0);
      if BoundsRect.Bottom > WorkArea.Bottom
      then
@@ -74,16 +75,17 @@ begin
      if BoundsRect.Right > WorkArea.Right
      then
          Left:= WorkArea.Right - Width;
+     }
 
-     mc.Date:= Int( D);
+     c.Date:= Int( D);
      Result:= ShowModal = mrOK;
      if Result
      then
-         D:= Int(mc.Date)+Frac(D);
+         D:= Int(c.Date)+Frac(D);
 end;
 
-procedure TfChamp_Date.mcKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TfChamp_Date.cKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
 begin
      case Key
      of
@@ -91,16 +93,6 @@ begin
        VK_ESCAPE,
        VK_CANCEL: ModalResult:= mrCancel;
        end;
-end;
-
-procedure TfChamp_Date.WndProc(var Message: TMessage);
-begin
-     inherited;
-     if     (Message.Msg = WM_NOTIFY)
-     then
-         if TWMNotify(Message).NMHdr^.code =  MCN_SELECT
-         then
-             ModalResult:= mrOk;
 end;
 
 initialization

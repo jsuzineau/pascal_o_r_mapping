@@ -1,4 +1,4 @@
-unit ucBatpro_SpeedButton;
+﻿unit ucBatpro_SpeedButton;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -25,12 +25,13 @@ unit ucBatpro_SpeedButton;
 interface
 
 uses
-  SysUtils, Classes, FMX.Controls, SRColBtn, FMX.Graphics;
+  SysUtils, Classes, FMX.Controls, FMX.Graphics, FMX.stdctrls, System.UITypes;
 
 type
  TBatpro_SpeedButton
  =
-  class(TSRColorButton)
+  //class(TSRColorButton)
+  class(TButton)
   //Gestion du cycle de vie
   public
     constructor Create(AOwner: TComponent); override;
@@ -39,11 +40,11 @@ type
     procedure Loaded; override;
   //Gestion de la souris
   protected
-    procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
-    procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Integer); override;
+    procedure MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Single);  override;
+    procedure MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Single);  override;
   //Gestion du changement de Down
   protected
-    procedure SetDown( newValue: boolean); override;
+    procedure SetIsPressed( const newValue: boolean); override;
   //Gestion de la couleur
   private
     FColorDown: TColor;
@@ -90,8 +91,8 @@ begin
      ColorStartUp:= $00F3F3EF;//gris foncé
      ColorDown     := $00ECFFEC;//vert pastel
      ColorStartDown:= $0028FF28;//vert foncé
-     GradientStyle:= gsVertical;
-     GradientDirection:= gdDownRight;
+     //GradientStyle:= gsVertical;
+     //GradientDirection:= gdDownRight;
 end;
 
 procedure TBatpro_SpeedButton.Loaded;
@@ -102,28 +103,26 @@ end;
 
 procedure TBatpro_SpeedButton.Color_from_;
 begin
-     if Down
+     if Pressed
      then
          begin
-         Color      := ColorDown;
-         Color_Start:= ColorStartDown;
+         //Color      := ColorDown;
+         //Color_Start:= ColorStartDown;
          end
      else
          begin
-         Color      := ColorUp;
-         Color_Start:= ColorStartUp;
+         //Color      := ColorUp;
+         //Color_Start:= ColorStartUp;
          end;
 end;
 
-procedure TBatpro_SpeedButton.MouseDown(Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
+procedure TBatpro_SpeedButton.MouseDown(Button: TMouseButton; Shift: TShiftState; X, Y: Single);
 begin
      inherited;
 
 end;
 
-procedure TBatpro_SpeedButton.MouseUp(Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
+procedure TBatpro_SpeedButton.MouseUp(Button: TMouseButton; Shift: TShiftState; X, Y: Single);
 begin
      inherited;
      Color_from_;
@@ -153,7 +152,7 @@ begin
      Color_from_;
 end;
 
-procedure TBatpro_SpeedButton.SetDown(newValue: boolean);
+procedure TBatpro_SpeedButton.SetIsPressed( const newValue: boolean);
 begin
      inherited;
      Color_from_;

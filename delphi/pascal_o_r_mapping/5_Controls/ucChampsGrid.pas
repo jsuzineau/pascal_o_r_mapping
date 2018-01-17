@@ -1,4 +1,4 @@
-unit ucChampsGrid;
+﻿unit ucChampsGrid;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -38,12 +38,13 @@ uses
     uChamp,
     uChampDefinition,
     ufChampsGrid_Colonnes,
-    Windows, SysUtils, Classes, FMX.Controls, DB, Grids,FMX.Dialogs, FMX.StdCtrls, Buttons,
+    Windows, SysUtils, Classes, FMX.Controls, DB, FMX.Grid,FMX.Dialogs, FMX.StdCtrls,
     uForms;
 
 type
  TChampsGrid = class;
 
+ {
  TInplaceEdit_Champ
  =
   class( TInplaceEditList)
@@ -68,7 +69,7 @@ type
   public
     property Color;
   end;
-
+}
  TChampsGrid
  =
   class( TStringGrid)
@@ -102,9 +103,9 @@ type
     procedure InplaceEdit_EditButtonClick( Sender: TObject);
     procedure Cellule_Vide(X, Y: Integer);
   protected
-    function CreateEditor: TInplaceEdit; override;
-    procedure SetEditText(ACol, ARow: Longint; const Value: string); override;
-    function GetEditStyle(ACol, ARow: Longint): TEditStyle; override;
+    //function CreateEditor: TInplaceEdit; override;
+    procedure SetEditText(ACol, ARow: Longint; const Value: string); //override;
+    //function GetEditStyle(ACol, ARow: Longint): TEditStyle; override;
   //Rafraichissement
   public
     procedure Refresh_from_sl;
@@ -118,7 +119,7 @@ type
   //Gestion de l'affichage
   protected
     procedure DrawCell( ACol, ARow: Longint; ARect: TRect;
-              AState: TGridDrawState); override;
+              AState: TGridDrawState);// override;
   //Gestion du clic
   protected
     procedure Click; override;
@@ -151,7 +152,8 @@ type
     procedure Real_ColCount_from_slColonnes;
   //Gestion de la sélection
   protected
-    function SelectCell(ACol, ARow: Longint): Boolean; override;
+    //function SelectCell(ACol, ARow: Longint): Boolean; override;
+    procedure SelectCell( ACol, ARow: Integer); //override;
   //Recopie vers le bas
   public
     procedure Recopie_vers_le_bas;
@@ -163,7 +165,7 @@ type
     property OnNouveau: TNotifyEvent read FOnNouveau write FOnNouveau;
   //Gestion du clavier
   protected
-    procedure KeyDown(var Key: Word; Shift: TShiftState); override;
+    procedure KeyDown(var Key: Word; var KeyChar: WideChar; Shift: TShiftState); override;
   //Gestion de la liste de choix
   private
     procedure InplaceEditListGetPickListItems(ACol, ARow: Integer; Items: TStrings);
@@ -191,7 +193,7 @@ begin
 end;
 
 { TInplaceEdit_Champ }
-
+{
 constructor TInplaceEdit_Champ.Create( _Owner: TChampsGrid;
                                        _OnEditButtonClick: TNotifyEvent;
                                        _OnGetPickListItems: TOnGetPickListItems);
@@ -254,7 +256,7 @@ begin
      else
          inherited;
 end;
-
+}
 { TChampsGrid }
 
 constructor TChampsGrid.Create(AOwner: TComponent);
@@ -269,15 +271,15 @@ begin
      ButtonWidth:= GetSystemMetrics(SM_CXVSCROLL);
 
      sbColonnes:= TSpeedButton.Create( Self);
-     with sbColonnes do ControlStyle:= ControlStyle + [csReplicatable];
+     //with sbColonnes do ControlStyle:= ControlStyle + [csReplicatable];
      sbColonnes.Width := ButtonWidth;
      sbColonnes.Height:= ButtonWidth;
      sbColonnes.Visible:= True;
      sbColonnes.Parent:= Self;
      sbColonnes.OnClick:= sbColonnesClick;
      Bitmap:= Windows.LoadBitmap( 0, PChar(OBM_COMBO));
-     sbColonnes.Glyph.Handle:= Bitmap;
-     sbColonnes.Cursor:= crArrow;
+     //sbColonnes.Glyph.Handle:= Bitmap;
+     //sbColonnes.Cursor:= crArrow;
 
      Classe_Elements:= TObject;
      slbts_:= True;
@@ -296,7 +298,7 @@ end;
 
 procedure TChampsGrid.InplaceEdit_EditButtonClick(Sender: TObject);
 var
-   iec: TInplaceEdit_Champ;
+   //iec: TInplaceEdit_Champ;
 
    Champs: TChamps;
    Champ: TChamp;
@@ -304,6 +306,7 @@ var
    Chaine: String;
    P: TPoint;
 begin
+     {
      iec:= InplaceEditor as TInplaceEdit_Champ;
 
      Champs:= Champs_from_Row(  Row);
@@ -329,13 +332,14 @@ begin
                  end;
              end;
          end;
+     }
 end;
-
+{
 function TChampsGrid.CreateEditor: TInplaceEdit;
 begin
      Result:= TInplaceEdit_Champ.Create( Self, InplaceEdit_EditButtonClick, InplaceEditListGetPickListItems);
 end;
-
+}
 function TChampsGrid.Definition( I: Integer): TChampDefinition;
 var
    O: TObject;
@@ -344,16 +348,18 @@ begin
      if RowCount < 1 then exit;
      if (I < 0) or (Real_ColCount <= I) then exit;
 
+     {
      O:= Objects[ I, 0];
      if O = nil then exit;
      if not (O is TChampDefinition) then exit;
 
      Result:= TChampDefinition( O);
+     }
 end;
 
 procedure TChampsGrid.Cellule_Vide( X, Y: Integer);
 begin
-     Objects[ X, Y]:= nil;
+     //Objects[ X, Y]:= nil;
      Cells  [ X, Y]:= sys_Vide;
 end;
 
@@ -389,19 +395,19 @@ begin
            then
                begin
                Cells  [ I, 0]:= Champ_Titre;
-               Objects[ I, 0]:= ChampDefinition;
+               //Objects[ I, 0]:= ChampDefinition;
                end;
            end;
        end;
 end;
 
 procedure TChampsGrid.Desaffecte_source;
-var
-   iec: TInplaceEdit_Champ;
+//var
+//   iec: TInplaceEdit_Champ;
 begin
      Fsl := nil;
      Fbts:= nil;
-
+     {
      if     Affecte( iec, TInplaceEdit_Champ, InplaceEditor)
         and Assigned( iec.C)
      then
@@ -411,6 +417,7 @@ begin
          end;
 
      HideEditor;
+     }
 end;
 
 procedure TChampsGrid._from_source;
@@ -440,8 +447,8 @@ begin
      //Dimensionnement de la grille
      RowCount:= 1+ NbLignes;
 
-     FixedRows:= 1;
-     FixedCols:= 0;
+     //FixedRows:= 1;
+     //FixedCols:= 0;
 
 
      Titres_from_Definitions;
@@ -498,12 +505,13 @@ begin
            begin
            for IColonne:= 0 to Real_ColCount-1
            do
-             if     (J        = Row)
-                and (IColonne = Col)
-                and Assigned( InplaceEditor)
-                and InplaceEditor.Visible
+             if False//    (J        = Row)
+                //and (IColonne = Col)
+                //and Assigned( InplaceEditor)
+                //and InplaceEditor.Visible
              then
                  begin
+                 {
                  if InplaceEditor.Focused
                  then
                      begin
@@ -515,6 +523,7 @@ begin
                      Champ:= Champs.Champ_from_Field( Champ_Nom);
                      Champ.InplaceEditUpdateContents( InplaceEditor as TInplaceEdit_Champ);
                      end;
+                 }
                  end
              else
                  begin
@@ -526,7 +535,7 @@ begin
                  else
                      begin
                      Cells  [IColonne, J]:= Champ.Chaine;
-                     Objects[IColonne, J]:= Champ;
+                     //Objects[IColonne, J]:= Champ;
                      end;
                  end;
            end;
@@ -541,7 +550,7 @@ begin
        for J:= 0 to RowCount -1
        do
          begin
-         L:= LargeurTexte( Font, Cells[IColonne, J]);
+         L:= LargeurTexte( TextSettings.Font, Cells[IColonne, J]);
 
          Champs:= Champs_from_Row( J);
          if Assigned( Champs)
@@ -564,7 +573,7 @@ begin
              end;
          if LargeurColonne < L then LargeurColonne:= L;
          end;
-       ColWidths[ IColonne]:= GridLineWidth + LargeurColonne+2*CXEDGE;
+       Columns[ IColonne].Width:= {GridLineWidth +} LargeurColonne+2*CXEDGE;
        end;
 end;
 
@@ -582,6 +591,7 @@ begin
      if Champs = nil then exit;
 
      Champ:= Champs.Champ_from_Field( slColonnes.Names[ ACol]);
+     {
      if      Assigned( Champ)
         and (Champ.Chaine <> Value)
      then
@@ -593,8 +603,10 @@ begin
          InplaceEditor.SelStart := OldSelStart ;
          InplaceEditor.SelLength:= OldSelLength;
          end;
+     }
 end;
 
+{
 function TChampsGrid.GetEditStyle( ACol, ARow: Integer): TEditStyle;
 var
    ChampDefinition: TChampDefinition;
@@ -606,7 +618,7 @@ begin
      then
          Result:= ChampDefinition.GetEditStyle;
 end;
-
+}
 procedure TChampsGrid.Get_bl_at_Row( _Row: Integer; var bl);
 var
    Index: Integer;
@@ -636,11 +648,13 @@ var
 begin
      Result:= nil;
 
+     {
      O:= Objects[ X, Y];
      if O = nil then exit;
      if not (O is TChamp) then exit;
 
      Result:= TChamp(O);
+     }
 end;
 
 function TChampsGrid.Champ_courant: TChamp;
@@ -655,14 +669,18 @@ var
    ChampDefinition: TChampDefinition;
    procedure Aligne_a_gauche;
    begin
+        {
         SetTextAlign( Canvas.Handle, TA_LEFT);
         Canvas.TextRect(ARect,ARect.Left+2,ARect.Top+2,Cells[ACol,ARow]);
+        }
    end;
    procedure Aligne_a_droite;
    begin
+        {
         SetTextAlign( Canvas.Handle, TA_RIGHT);
         Canvas.TextRect(ARect,ARect.Right-2,ARect.Top+2,Cells[ACol,ARow]);
         SetTextAlign( Canvas.Handle, TA_LEFT);
+        }
    end;
    procedure Coche;
    var
@@ -678,7 +696,7 @@ var
         Champ:= Champ_from_XY( ACol, ARow);
         if Champ = nil then exit;
 
-        Dessinne_Coche( Canvas, Color, Font.Color, ARect, Champ.asBoolean);
+        //Dessinne_Coche( Canvas, Color, Font.Color, ARect, Champ.asBoolean);
    end;
 begin
      //on est obligé de casser l'héritage, du coup les codes sources des
@@ -710,6 +728,7 @@ begin
 
 
      // TCustomDrawGrid.DrawCell
+     {
      if Assigned(OnDrawCell) then
      begin
        if UseRightToLeftAlignment then
@@ -724,6 +743,7 @@ begin
        OnDrawCell(Self, ACol, ARow, ARect, AState);
        if UseRightToLeftAlignment then ChangeGridOrientation(True);
      end;
+     }
 end;
 
 procedure TChampsGrid.Click;
@@ -745,7 +765,7 @@ begin
              do
                asBoolean:= not asBoolean;
 
-             DrawCell( Col, Row, CellRect( Col, Row), [gdSelected, gdFocused]);
+             //DrawCell( Col, Row, CellRect( Col, Row), [gdSelected, gdFocused]);
              end;
          end;
 end;
@@ -853,7 +873,7 @@ end;
 procedure TChampsGrid.SetReal_ColCount(const Value: Integer);
 begin
      FReal_ColCount:= Value;
-     ColCount:= Real_ColCount;
+     //ColCount:= Real_ColCount;
 end;
 
 procedure TChampsGrid.Real_ColCount_from_slColonnes;
@@ -861,11 +881,12 @@ begin
      Real_ColCount:= slColonnes.Count;
 end;
 
-function TChampsGrid.SelectCell( ACol, ARow: Integer): Boolean;
+procedure TChampsGrid.SelectCell( ACol, ARow: Integer);
 var
    ChampDefinition: TChampDefinition;
    C: TChamp;
 begin
+     {
      Result:= inherited SelectCell( ACol, ARow);
      if not Result then exit;
 
@@ -882,6 +903,7 @@ begin
                  with C do asBoolean:= not asBoolean;
              Refresh;
              end;
+     }
 end;
 
 procedure TChampsGrid.Recopie_vers_le_bas;
@@ -906,7 +928,7 @@ begin
      if Au_dessus = nil then exit;
      Courant.Chaine:= Au_dessus.Chaine;
      Row:= Ligne + 1;
-     DrawCell( Colonne, Ligne, CellRect( Colonne, Ligne), []);
+     //DrawCell( Colonne, Ligne, CellRect( Colonne, Ligne), []);
 end;
 
 procedure TChampsGrid.Do_OnNouveau;
@@ -916,7 +938,7 @@ begin
          OnNouveau( Self);
 end;
 
-procedure TChampsGrid.KeyDown(var Key: Word; Shift: TShiftState);
+procedure TChampsGrid.KeyDown(var Key: Word; var KeyChar: WideChar; Shift: TShiftState);
 begin
      case Key
      of

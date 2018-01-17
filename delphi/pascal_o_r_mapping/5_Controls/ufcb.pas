@@ -1,4 +1,4 @@
-unit ufcb;
+﻿unit ufcb;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -26,11 +26,11 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-  Grids, DBGrids, FMX.ExtCtrls, DB;
+  FMX.Grid, FMX.ExtCtrls, DB, System.Types;
 
 type
   Tfcb = class(TForm)
-    dbg: TDBGrid;
+    dbg: TGrid;
     procedure dbgCellClick(Column: TColumn);
     procedure dbgKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -62,10 +62,10 @@ end;
 function Tfcb.Execute( C: TControl; DropDownRows: Integer;
                        ds: TDataSource; F: TField): Boolean;
 var
-   HauteurLigne: Integer;
-   Largeur, Hauteur: Integer;
+   HauteurLigne: Single;
+   Largeur, Hauteur: Single;
    WorkArea: TRect;
-   P: TPoint;
+   P: TPointF;
    Colonne: TColumn;
    LargeurColonne: Integer;
 begin
@@ -74,9 +74,11 @@ begin
      do
        begin
        HauteurLigne:= Canvas.TextHeight('Wg') + 3;
+       {
        if dgRowLines in Options
        then
            Inc( HauteurLigne, 1(*GridLineWidth*));
+       }
        end;
 
      Largeur:= C.Width;
@@ -84,7 +86,7 @@ begin
 
      SystemParametersInfo( SPI_GETWORKAREA, 0, @WorkArea, 0);
 
-     P:= C.Parent.ClientToScreen( PointF( C.Left, C.Top+C.Height));
+     //P:= C.Parent.ClientToScreen( PointF( C.Left, C.Top+C.Height));
      with P
      do
        begin
@@ -93,12 +95,13 @@ begin
        if Y < WorkArea.Top    then Y:= WorkArea.Top           ;
        if Y > WorkArea.Bottom then Y:= WorkArea.Bottom-Hauteur;
 
-       Left  := X;
-       Top   := Y;
-       Width := Largeur;
-       ClientHeight:= Hauteur;
+       Left  := Trunc(X);
+       Top   := Trunc(Y);
+       Width := Trunc(Largeur);
+       Height:= Trunc(Hauteur);
        end;
 
+     {
      dbg.DataSource:= ds;
      dbg.ReadOnly:= True;
 
@@ -112,18 +115,21 @@ begin
 
      dbg.Columns.Clear;
      dbg.DataSource:= nil;
+     }
 end;
 
 procedure Tfcb.dbgCellClick(Column: TColumn);
 begin
-     ModalResult:= mrOK;
+     //ModalResult:= mrOK;
 end;
 
 procedure Tfcb.dbgKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
+     {
      if Key in [VK_RETURN, VK_ESCAPE]
      then
          ModalResult:= mrOK;
+     }
 end;
 
 initialization

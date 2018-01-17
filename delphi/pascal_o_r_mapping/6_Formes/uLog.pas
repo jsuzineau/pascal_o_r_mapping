@@ -154,9 +154,7 @@ end;
 
 procedure TLog.Affiche;
 begin
-     {$IFNDEF FPC}
      ShowURL( NomFichier);
-     {$ENDIF}
 end;
 
 initialization

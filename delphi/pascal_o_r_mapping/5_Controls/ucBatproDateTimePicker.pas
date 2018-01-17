@@ -1,4 +1,4 @@
-unit ucBatproDateTimePicker;
+﻿unit ucBatproDateTimePicker;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -26,18 +26,18 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-  FMX.ComCtrls, Commctrl, db, DBCtrls;
+  db, FMX.DateTimeCtrls;
 
 // établi en s'inspirant du code de TDBEdit de l'unité DBCtrls
 type
  TBatproDateTimePicker
  =
-  class(TDateTimePicker)
+  class(TDateEdit)
   private
     { Déclarations privées }
     Changing: Boolean;
     IsNull: Boolean;
-    FDataLink: TFieldDataLink;
+    //FDataLink: TFieldDataLink;
     procedure ActiveChange(Sender: TObject);
     procedure DataChange(Sender: TObject);
     procedure EditingChange(Sender: TObject);
@@ -49,12 +49,12 @@ type
     procedure SetDataSource(Value: TDataSource);
     procedure SetReadOnly(Value: Boolean);
     procedure UpdateData(Sender: TObject);
-    procedure CNNotify(var Message: TWMNotify); message CN_NOTIFY;
+    procedure CNNotify(var Message: TWMNotify); //message CN_NOTIFY;
     procedure WMPaint(var Message: TWMPaint); message WM_PAINT;
     procedure _from_DataLink;
   protected
     { Déclarations protégées }
-    procedure Change; override;
+    procedure Change;// override;
     procedure Loaded; override;
     procedure Notification(AComponent:TComponent;Operation:TOperation);override;
   public
@@ -88,6 +88,7 @@ begin
      Enabled:= False;
      Changing:= False;
      IsNull:= False;
+     {
      ControlStyle := ControlStyle + [csReplicatable];
      FDataLink := TFieldDataLink.Create;
      FDataLink.Control := Self;
@@ -95,12 +96,13 @@ begin
      FDataLink.OnEditingChange := EditingChange;
      FDataLink.OnUpdateData := UpdateData;
      FDataLink.OnActiveChange := ActiveChange;
+     }
      ShowCheckbox:= True;
 end;
 
 destructor  TBatproDateTimePicker.Destroy;
 begin
-     Free_nil( FDataLink);
+     //Free_nil( FDataLink);
      inherited Destroy;
 end;
 
@@ -116,6 +118,7 @@ begin
      if Changing then exit;
      try
         Changing:= True;
+        {
         Enabled:= FDataLink.Field <> nil;
         if Enabled
         then
@@ -127,6 +130,7 @@ begin
                 DateTime:= NewValue;
             Checked:= not IsNull;
             end;
+        }
      finally
             Changing:= False;
             end;
@@ -146,55 +150,59 @@ end;
 
 procedure TBatproDateTimePicker.EditingChange(Sender: TObject);
 begin
-     Enabled := FDataLink.Editing;
+     //Enabled := FDataLink.Editing;
 end;
 
 function  TBatproDateTimePicker.GetDataField: string;
 begin
-     Result := FDataLink.FieldName;
+     //Result := FDataLink.FieldName;
 end;
 
 function  TBatproDateTimePicker.GetDataSource: TDataSource;
 begin
-     Result := FDataLink.DataSource;
+     //Result := FDataLink.DataSource;
 end;
 
 function  TBatproDateTimePicker.GetField: TField;
 begin
-     Result := FDataLink.Field;
+     //Result := FDataLink.Field;
 end;
 
 function  TBatproDateTimePicker.GetReadOnly: Boolean;
 begin
-     Result := FDataLink.ReadOnly;
+     //Result := FDataLink.ReadOnly;
 end;
 
 procedure TBatproDateTimePicker.SetDataField(const Value: string);
 begin
-     FDataLink.FieldName := Value;
+     //FDataLink.FieldName := Value;
 end;
 
 procedure TBatproDateTimePicker.SetDataSource(Value: TDataSource);
 begin
+     {
      if not (FDataLink.DataSourceFixed and (csLoading in ComponentState))
      then
          FDataLink.DataSource := Value;
 
      if Value <> nil then Value.FreeNotification(Self);
+     }
 end;
 
 procedure TBatproDateTimePicker.SetReadOnly(Value: Boolean);
 begin
-     FDataLink.ReadOnly := Value;
+     //FDataLink.ReadOnly := Value;
 end;
 
 procedure TBatproDateTimePicker.UpdateData(Sender: TObject);
 begin
+     {
      if Checked
      then
          FDataLink.Field.AsDateTime:= DateTime
      else
          FDataLink.Field.Clear;
+     }
 end;
 
 procedure TBatproDateTimePicker.Change;
@@ -208,9 +216,11 @@ begin
             then
                 Date:= SysUtils.Date;
             IsNull:= False;
+            {
             FDataLink.Edit;
             FDataLink.Modified;
             FDataLink.UpdateRecord;
+            }
          finally
                 Changing:= False;
                 end;
@@ -227,10 +237,12 @@ procedure TBatproDateTimePicker.Notification( AComponent:TComponent;
                                               Operation:TOperation);
 begin
      inherited Notification(AComponent, Operation);
+     {
      if (Operation = opRemove) and (FDataLink <> nil) and
         (AComponent = DataSource)
      then
          DataSource := nil;
+     }
 end;
 
 procedure TBatproDateTimePicker.CNNotify( var Message: TWMNotify);
@@ -238,7 +250,7 @@ var
   AllowChange: Boolean;
 begin
      inherited;
-
+     {
      with Message, NMHdr^
      do
        begin
@@ -266,6 +278,7 @@ begin
            inherited;
          end;
        end;
+     }
 end;
 
 end.

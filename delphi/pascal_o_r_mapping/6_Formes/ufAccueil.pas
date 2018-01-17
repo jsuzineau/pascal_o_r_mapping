@@ -45,8 +45,8 @@ uses
 
   Windows, Messages, SysUtils, Classes,
   FMX.Types, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-  FMX.ExtCtrls, FMX.StdCtrls, FMX.Memo, DB, Vcl.ExtCtrls, Vcl.Dialogs, Vcl.StdCtrls,
-  Vcl.ComCtrls, Vcl.Buttons, Vcl.Graphics, Vcl.Controls;
+  FMX.ExtCtrls, FMX.StdCtrls, FMX.Memo, DB, ucBitBtn,
+  FMX.Controls.Presentation, FMX.TabControl, FMX.ScrollBox,System.UITypes;
 
 type
  TfAccueil
@@ -68,21 +68,17 @@ type
     bInformix: TButton;
     bMySQL: TButton;
     bVariables_d_environnement: TButton;
-    pc: TPageControl;
-    tsLigne_Courante: TTabSheet;
     m: FMX.Memo.TMemo;
-    tsHistorique: TTabSheet;
     mHistorique: FMX.Memo.TMemo;
-    Panel1: TPanel;
     bTeleassistance: TButton;
     bParametres: TButton;
-    tsHistorique_Developpeur: TTabSheet;
     mHistorique_Developpeur: FMX.Memo.TMemo;
-    Panel3: TPanel;
-    Panel4: TPanel;
-    Panel5: TPanel;
     bOPN: TButton;
     bOPN_Requeteur: TButton;
+    tc: TTabControl;
+    tiErreur_Courante: TTabItem;
+    tiHistorique: TTabItem;
+    tiHistorique_Developpeur: TTabItem;
     procedure bEnregistrerClick(Sender: TObject);
     procedure bTerminerClick(Sender: TObject);
     procedure bTuerClick(Sender: TObject);
@@ -173,7 +169,7 @@ end;
 procedure TfAccueil.FormCreate(Sender: TObject);
 begin
      inherited;
-     Label1.Caption:= uOD_Forms_Title + ' - ' + GetVersionProgramme;
+     Label1.Text:= uOD_Forms_Title + ' - ' + GetVersionProgramme;
      publieur_LogChange:= TPublieur.Create('fAccueil.publieur_LogChange');
      pAfficheLog       := TPublieur.Create('fAccueil.pAfficheLog');
      Has_Log:= False;
@@ -196,8 +192,8 @@ var
    Body: String;
 begin
      if mrYes<>MessageDlg('Souhaitez vous envoyer automatiquement par mail les '+
-                          'messages d''erreurs à ADINFO ?', mtConfirmation,
-                          [mbYes, mbNo], 0)
+                          'messages d''erreurs à ADINFO ?', TMsgDlgType.mtConfirmation,
+                          [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0)
      then
          exit;
 
@@ -363,10 +359,10 @@ begin
      else
          Add( _Message_Developpeur, _Message);
          
-     pc.ActivePage:= tsLigne_Courante;
+     tc.ActiveTab:= tiErreur_Courante;
 
      Visible:= False;
-     if cbErreurModal.Checked
+     if cbErreurModal.IsChecked
      then
          Do_ShowModal
      else
@@ -407,7 +403,7 @@ end;
 procedure TfAccueil.tExecuteTimer(Sender: TObject);
 begin
      tExecute.Enabled:= False;
-     pc.ActivePage:= tsHistorique;
+     tc.ActiveTab:= tiHistorique;
      mHistorique.SetFocus;
      Add( ' ', ' ');
 end;
@@ -421,7 +417,7 @@ procedure TfAccueil.Send_Errors;
 begin
      if Has_Errors
      then
-         bFTP.Click;
+         bFTPClick( nil);
 end;
 
 procedure TfAccueil.Dataset_Log_row(ds: TDataset);
@@ -503,7 +499,7 @@ end;
 procedure TfAccueil.Panel2MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-     if Button = mbRight
+     if Button = TMouseButton.mbRight
      then
          Affichage_lisible;
 end;
@@ -539,8 +535,8 @@ end;
 
 procedure TfAccueil.pcChange(Sender: TObject);
 begin
-     if tsHistorique            =pc.ActivePage then Memo_Goto_end(mHistorique            )
-else if tsHistorique_Developpeur=pc.ActivePage then Memo_Goto_end(mHistorique_Developpeur);
+     if tiHistorique            =tc.ActiveTab then Memo_Goto_end(mHistorique            )
+else if tiHistorique_Developpeur=tc.ActiveTab then Memo_Goto_end(mHistorique_Developpeur);
 end;
 
 procedure TfAccueil.bOPNClick(Sender: TObject);

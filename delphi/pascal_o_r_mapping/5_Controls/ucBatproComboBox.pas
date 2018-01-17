@@ -1,4 +1,4 @@
-unit ucBatproComboBox;
+﻿unit ucBatproComboBox;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -26,7 +26,7 @@ interface
 
 uses
     Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-    FMX.StdCtrls, DB, DBCtrls;
+    FMX.StdCtrls, DB, FMX.ListBox;
 
 const
      Separateur_par_defaut= ' | ';
@@ -46,7 +46,7 @@ type
     FDataSource: TDataSource;
     FKeyField  : String;
     FLabelField: String;
-    FDataLink: TFieldDataLink;
+    //FDataLink: TFieldDataLink;
     FIsNull: Boolean;
     FSeparateur: String;
     FDisplayKey: Boolean;
@@ -62,11 +62,13 @@ type
     procedure SetIsNull(Value: Boolean);
   protected
     { Déclarations protégées }
-    procedure Change; override;
-    procedure KeyDown(var Key: Word; Shift: TShiftState); override;
+    procedure Change; //override;
+    procedure KeyDown(var Key: Word; var KeyChar: WideChar; Shift: TShiftState); override;
+    {
     procedure ComboWndProc( var Message: TMessage; ComboWnd: HWnd;
                             ComboProc: Pointer); override;
-    procedure Select; override;
+    }
+    procedure Select; //override;
   public
     { Déclarations publiques }
     constructor Create(AOwner: TComponent); override;
@@ -104,11 +106,12 @@ begin
 
      inherited Create( AOwner);
 
+     {
      FDataLink:= TFieldDataLink.Create;
      FDataLink.Control := Self;
      FDataLink.OnActiveChange:= ActiveChange;
      FDataLink.OnDataChange  := DataChange  ;
-
+     }
      FIsNull:= True;
 
      FDisplayKey:= False;
@@ -117,12 +120,13 @@ end;
 
 destructor TBatproComboBox.Destroy;
 begin
-     Free_nil( FDataLink);
+     //Free_nil( FDataLink);
      inherited;
 end;
 
 procedure TBatproComboBox.SetDataSource(Value: TDataSource);
 begin
+     {
      if not (FDataLink.DataSourceFixed and (csLoading in ComponentState))
      then
          begin
@@ -132,12 +136,13 @@ begin
      if Value <> nil
      then
          Value.FreeNotification( Self);
+     }
 end;
 
 procedure TBatproComboBox.SetKeyField(const Value: string);
 begin
      FKeyField:= Value;
-     FDataLink.FieldName:= Value;
+     //FDataLink.FieldName:= Value;
 end;
 
 procedure TBatproComboBox.SetLabelField(const Value: string);
@@ -155,11 +160,13 @@ var
    LargeurMax: Integer;
    NullChar: Char;
 begin
+     {
      if    (Font.Family= sys_Courier_New)
         or (Font.Family= sys_Arial      )
      then
          NullChar:=Chr(151) // — tiret pleine largeur
      else
+     }
          NullChar:= '-';    // - le signe moins
      Chaine_Nulle:= StringOfChar(NullChar, 3); //LargeurMax inconnu à ce point
 
@@ -226,6 +233,7 @@ var
    ValeurTexte: String;
    Cle: TField;
 begin
+     { à revoir pour FMX
      I:= ItemIndex;
 
      FIsNull:= I = 0;
@@ -236,9 +244,9 @@ begin
      then
          begin
          ValeurTexte:= Items.Strings[I];
-         if Text <> ValeurTexte
+         if Self.Text <> ValeurTexte
          then
-             I:= Items.IndexOf( Text);
+             I:= Items.IndexOf( Self.Text);
          end;
 
      bcbl_Trouve:= I > 0;
@@ -258,7 +266,7 @@ begin
                                  [])
      else
          begin
-         Chaine:= Text;
+         Chaine:= Self.Text;
          FIsNull:= Chaine = sys_Vide;
          if not FIsNull
          then
@@ -279,6 +287,7 @@ begin
                                      []);
              end;
          end;
+     }
 end;
 
 procedure TBatproComboBox.ActiveChange(Sender: TObject);
@@ -294,7 +303,8 @@ end;
 procedure TBatproComboBox.Change;
 begin
      To_Datasource;
-     inherited Change;
+     //à revoir pour FMX
+     //inherited Change;
 end;
 
 procedure TBatproComboBox.Select;
@@ -303,13 +313,15 @@ begin
      inherited;
 end;
 
-procedure TBatproComboBox.KeyDown(var Key: Word; Shift: TShiftState);
+procedure TBatproComboBox.KeyDown(var Key: Word; var KeyChar: WideChar; Shift: TShiftState);
 begin
+     { à revoir pour FMX
      if Key = VK_F8
      then
          DroppedDown:= not DroppedDown
      else
          inherited KeyDown( Key, Shift);
+     }
 end;
 
 procedure TBatproComboBox.Vide;
@@ -327,6 +339,7 @@ begin
      Clear;
 end;
 
+{ à revoir pour FMX
 procedure TBatproComboBox.ComboWndProc( var Message: TMessage;
                                         ComboWnd: HWnd; ComboProc: Pointer);
 begin
@@ -336,6 +349,7 @@ begin
      else
          inherited ComboWndProc( Message, ComboWnd, ComboProc);
 end;
+}
 
 procedure TBatproComboBox.SetIsNull(Value: Boolean);
 begin
