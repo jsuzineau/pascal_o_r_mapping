@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<test-results name="C:\_freepascal\pascal_o_r_mapping\delphi\DUnitX\duxPASCAL_O_R_MAPPING\Win32\Debug\duxPASCAL_O_R_MAPPING.exe" total="1" errors="0" failures="0" ignored="0" inconclusive="0" not-run="0" skipped="0" invalid="0" date="2018-01-17" time="3.735">
+  <culture-info current-culture="en" current-uiculture="en" />
+  <test-suite type="Assembly" name="duxPASCAL_O_R_MAPPING.exe" executed="true" result="Success" success="True" time="3.735" asserts="0">
+    <results>
+        <test-suite type="Namespace" name="utcOpenDocument_Embed_Image" executed="true" result="Success" success="True" time="3.734" asserts="0" >
+          <results>
+              <test-suite type="Fixture" name="TtcOpenDocument_Embed_Image" executed="True" result="Success" success="True" time="3.734" >
+                <results>
+                  <test-case name="test_Embed_Image.test_Embed_Image" executed="True" result="Success" success="True" time="3.631" asserts="0" />
+                </results>
+              </test-suite>
+          </results>
+        </test-suite>
+    </results>
+  </test-suite>
+</test-results>

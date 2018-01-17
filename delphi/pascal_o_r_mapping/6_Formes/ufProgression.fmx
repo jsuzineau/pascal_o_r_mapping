@@ -1,27 +1,37 @@
 object fProgression: TfProgression
   Left = 631
   Top = 275
-  BorderStyle = bsNone
-  Text = 'fProgression'
+  BorderStyle = None
+  Caption = 'fProgression'
   ClientHeight = 214
   ClientWidth = 422
-  Color = clBtnFace
-
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Sans Serif'
-  Font.Style = []
-  OldCreateOrder = False
-  Position = poScreenCenter
+  Position = ScreenCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop, iPhone, iPad]
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  PixelsPerInch = 96
-  TextHeight = 13
+  Left = 631
+  Top = 275
+  DesignerMasterStyle = 0
   object tAutoHide: TTimer
     Enabled = False
     Interval = 2000
     OnTimer = tAutoHideTimer
     Left = 13
     Top = 13
+  end
+  object dsb: TDockScrollbox
+    Align = Client
+    Size.Width = 422.000000000000000000
+    Size.Height = 214.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    HauteurLigne = 24
+    Zebrage = False
+    Zebrage1 = clBlack
+    Zebrage2 = clBlack
+    Viewport.Width = 422.000000000000000000
+    Viewport.Height = 214.000000000000000000
   end
 end

@@ -28,7 +28,7 @@ uses
     uOOoDelphiReportEngineLog,
 
   {$IFDEF MSWINDOWS}Windows,{pour MulDiv}{$ENDIF}
-  SysUtils, Classes, Math;
+  SysUtils, Classes, Math, System.Zip;
 
 type
  TOD_Root_Styles
@@ -65,6 +65,7 @@ type
     is_Calc: Boolean;
   private
     F: TJclZipUpdateArchive;
+    zf: TZipFile;
     Repertoire_Extraction: String;
     function Ensure_style_text( _NomStyle, _NomStyleParent: String;
                                           _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TJclSimpleXMLElem;
@@ -508,7 +509,13 @@ var
    procedure Do_Open;
    begin
         OOoChrono.Stop( 'Ouverture de l''archive zip');
-        F.ListFiles;
+        try
+           F.ListFiles;
+        except
+              on E: Exception
+              do
+                OOoChrono.Stop( 'Echec du listage des fichiers du zip:'+E.Message);
+              end;
         OOoChrono.Stop( 'Listage des fichiers du zip');
    end;
 begin
@@ -520,6 +527,9 @@ begin
      slStyles_Cellule_Properties:= TODStringList.Create;
 
      Teste_ouverture;
+//     zf:= TZipFile.Create;
+//     zf.Open( Nom, zmReadWrite);
+
      F:= TJclZipUpdateArchive.Create( Nom);
      try
         Do_Open;

@@ -46,6 +46,7 @@ type
   private
     jpg, png, bmp: TtcOpenDocument_Embed_Image_type_image;
   public
+    [TestCase('test_Embed_Image','')]
     procedure test_Embed_Image;
   end;
 

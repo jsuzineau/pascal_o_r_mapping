@@ -187,34 +187,116 @@ object dmDatabase: TdmDatabase
     Top = 208
   end
   object sqlcGED: TSQLConnection
-    DriverName = 'dbxmysql'
+    DriverName = 'MySQL'
     LoginPrompt = False
     Params.Strings = (
-      'DriverName=dbxmysql'
-      'Database=batpro_ged'
-      'Password='
-      'User_Name=root'
-      'Hostname=')
+      'DriverUnit=Data.DBXMySQL'
+      
+        'DriverPackageLoader=TDBXDynalinkDriverLoader,DbxCommonDriver250.' +
+        'bpl'
+      
+        'DriverAssemblyLoader=Borland.Data.TDBXDynalinkDriverLoader,Borla' +
+        'nd.Data.DbxCommonDriver,Version=24.0.0.0,Culture=neutral,PublicK' +
+        'eyToken=91d62ebb5b0d1b1b'
+      
+        'MetaDataPackageLoader=TDBXMySqlMetaDataCommandFactory,DbxMySQLDr' +
+        'iver250.bpl'
+      
+        'MetaDataAssemblyLoader=Borland.Data.TDBXMySqlMetaDataCommandFact' +
+        'ory,Borland.Data.DbxMySQLDriver,Version=24.0.0.0,Culture=neutral' +
+        ',PublicKeyToken=91d62ebb5b0d1b1b'
+      'GetDriverFunc=getSQLDriverMYSQL'
+      'LibraryName=dbxmys.dll'
+      'LibraryNameOsx=libsqlmys.dylib'
+      'VendorLib=LIBMYSQL.dll'
+      'VendorLibWin64=libmysql.dll'
+      'VendorLibOsx=libmysqlclient.dylib'
+      'HostName=ServerName'
+      'Database=DBNAME'
+      'User_Name=user'
+      'Password=password'
+      'MaxBlobSize=-1'
+      'LocaleCode=0000'
+      'Compressed=False'
+      'Encrypted=False'
+      'BlobSize=-1'
+      'ErrorResourceFile=')
     Left = 848
     Top = 136
   end
   object sqlcMYSQL: TSQLConnection
-    DriverName = 'dbxmysql'
+    DriverName = 'MySQL'
     LoginPrompt = False
     Params.Strings = (
-      'HostName=192.168.1.30'
-      'Database=a'
-      'User_Name=root'
-      'Password='
+      'DriverUnit=Data.DBXMySQL'
+      
+        'DriverPackageLoader=TDBXDynalinkDriverLoader,DbxCommonDriver250.' +
+        'bpl'
+      
+        'DriverAssemblyLoader=Borland.Data.TDBXDynalinkDriverLoader,Borla' +
+        'nd.Data.DbxCommonDriver,Version=24.0.0.0,Culture=neutral,PublicK' +
+        'eyToken=91d62ebb5b0d1b1b'
+      
+        'MetaDataPackageLoader=TDBXMySqlMetaDataCommandFactory,DbxMySQLDr' +
+        'iver250.bpl'
+      
+        'MetaDataAssemblyLoader=Borland.Data.TDBXMySqlMetaDataCommandFact' +
+        'ory,Borland.Data.DbxMySQLDriver,Version=24.0.0.0,Culture=neutral' +
+        ',PublicKeyToken=91d62ebb5b0d1b1b'
+      'GetDriverFunc=getSQLDriverMYSQL'
+      'LibraryName=dbxmys.dll'
+      'LibraryNameOsx=libsqlmys.dylib'
+      'VendorLib=LIBMYSQL.dll'
+      'VendorLibWin64=libmysql.dll'
+      'VendorLibOsx=libmysqlclient.dylib'
+      'HostName=ServerName'
+      'Database=DBNAME'
+      'User_Name=user'
+      'Password=password'
+      'MaxBlobSize=-1'
+      'LocaleCode=0000'
+      'Compressed=False'
+      'Encrypted=False'
       'BlobSize=-1'
-      'ErrorResourceFile='
-      'LocaleCode=0000')
+      'ErrorResourceFile=')
     Left = 848
     Top = 16
   end
   object sqlcPostgres_vitavoom: TSQLConnection
-    DriverName = 'PostgreSQL'
+    DriverName = 'MySQL'
     LoginPrompt = False
+    Params.Strings = (
+      'DriverUnit=Data.DBXMySQL'
+      
+        'DriverPackageLoader=TDBXDynalinkDriverLoader,DbxCommonDriver250.' +
+        'bpl'
+      
+        'DriverAssemblyLoader=Borland.Data.TDBXDynalinkDriverLoader,Borla' +
+        'nd.Data.DbxCommonDriver,Version=24.0.0.0,Culture=neutral,PublicK' +
+        'eyToken=91d62ebb5b0d1b1b'
+      
+        'MetaDataPackageLoader=TDBXMySqlMetaDataCommandFactory,DbxMySQLDr' +
+        'iver250.bpl'
+      
+        'MetaDataAssemblyLoader=Borland.Data.TDBXMySqlMetaDataCommandFact' +
+        'ory,Borland.Data.DbxMySQLDriver,Version=24.0.0.0,Culture=neutral' +
+        ',PublicKeyToken=91d62ebb5b0d1b1b'
+      'GetDriverFunc=getSQLDriverMYSQL'
+      'LibraryName=dbxmys.dll'
+      'LibraryNameOsx=libsqlmys.dylib'
+      'VendorLib=LIBMYSQL.dll'
+      'VendorLibWin64=libmysql.dll'
+      'VendorLibOsx=libmysqlclient.dylib'
+      'HostName=ServerName'
+      'Database=DBNAME'
+      'User_Name=user'
+      'Password=password'
+      'MaxBlobSize=-1'
+      'LocaleCode=0000'
+      'Compressed=False'
+      'Encrypted=False'
+      'BlobSize=-1'
+      'ErrorResourceFile=')
     Left = 952
     Top = 16
   end
@@ -259,16 +341,41 @@ object dmDatabase: TdmDatabase
     Top = 208
   end
   object sqlcPostgres: TSQLConnection
-    DriverName = 'DevartPostgreSQL'
+    DriverName = 'MySQL'
     LoginPrompt = False
     Params.Strings = (
+      'DriverUnit=Data.DBXMySQL'
+      
+        'DriverPackageLoader=TDBXDynalinkDriverLoader,DbxCommonDriver250.' +
+        'bpl'
+      
+        'DriverAssemblyLoader=Borland.Data.TDBXDynalinkDriverLoader,Borla' +
+        'nd.Data.DbxCommonDriver,Version=24.0.0.0,Culture=neutral,PublicK' +
+        'eyToken=91d62ebb5b0d1b1b'
+      
+        'MetaDataPackageLoader=TDBXMySqlMetaDataCommandFactory,DbxMySQLDr' +
+        'iver250.bpl'
+      
+        'MetaDataAssemblyLoader=Borland.Data.TDBXMySqlMetaDataCommandFact' +
+        'ory,Borland.Data.DbxMySQLDriver,Version=24.0.0.0,Culture=neutral' +
+        ',PublicKeyToken=91d62ebb5b0d1b1b'
+      'GetDriverFunc=getSQLDriverMYSQL'
+      'LibraryName=dbxmys.dll'
+      'LibraryNameOsx=libsqlmys.dylib'
+      'VendorLib=LIBMYSQL.dll'
+      'VendorLibWin64=libmysql.dll'
+      'VendorLibOsx=libmysqlclient.dylib'
+      'HostName=ServerName'
+      'Database=DBNAME'
+      'User_Name=user'
+      'Password=password'
+      'MaxBlobSize=-1'
+      'LocaleCode=0000'
+      'Compressed=False'
+      'Encrypted=False'
       'BlobSize=-1'
-      'HostName='
-      'SchemaName='
-      'DataBase='
-      'User_Name='
-      'Password=')
-    Left = 952
+      'ErrorResourceFile=')
+    Left = 960
     Top = 120
   end
   object sqlcSQLSERVER: TSQLConnection

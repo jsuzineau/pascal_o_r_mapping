@@ -51,7 +51,8 @@ uses
   Windows, SysUtils, Messages, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
   Db, SqlExpr, Registry, IniFiles,FMX.StdCtrls,
   FMTBcd, Provider, DBClient,
-  ucbvCustomConnection, Data.DBXInformix, Data.DBXMSSQL, FMX.Listbox;
+  ucbvCustomConnection, Data.DBXInformix, Data.DBXMSSQL, FMX.Listbox,
+  Data.DBXMySQL;
 
 type
  TCherche_table_Func= function ( tabname: String): Boolean of object;
@@ -63,7 +64,6 @@ type
  =
   class(TDataModule)
     sqlc: TSQLConnection;
-    bvccSQLC: TbvCustomConnection;
     sqlcINFORMIX: TSQLConnection;
     sqlcSYSMASTER: TSQLConnection;
     sqlqSYSDATABASE: TSQLQuery;
@@ -93,9 +93,6 @@ type
     cdPG_DATABASES: TClientDataSet;
     pPG_DATABASES: TDataSetProvider;
     dsPG_DATABASES: TDataSource;
-    bvccMYSQL: TbvCustomConnection;
-    bvccINFORMIX: TbvCustomConnection;
-    bvccSYSMASTER: TbvCustomConnection;
     sqlcGED: TSQLConnection;
     sqlcMYSQL: TSQLConnection;
     sqlcPostgres_vitavoom: TSQLConnection;
@@ -106,9 +103,7 @@ type
     dsSHOW_DATABASES: TDataSource;
     cdPG_DATABASESdatname: TStringField;
     cdSHOW_DATABASESDatabase: TStringField;
-    bvccPostgres_vitavoom: TbvCustomConnection;
     sqlcPostgres: TSQLConnection;
-    bvccPostgres: TbvCustomConnection;
     sqlcSQLSERVER: TSQLConnection;
     sqlqSYS_DATABASES: TSQLQuery;
     cdSYS_DATABASES: TClientDataSet;
@@ -218,7 +213,7 @@ var
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 const
      inik_Mot_de_passe= 'Mot_de_passe';

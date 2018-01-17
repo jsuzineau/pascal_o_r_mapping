@@ -28,7 +28,8 @@ uses
     uOD_Forms,
     uDockable,
   Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-  FMX.StdCtrls, FMX.ExtCtrls, ucBatpro_Shape, VCL.Samples.Gauges;
+  FMX.StdCtrls, FMX.ExtCtrls, ucBatpro_Shape, FMX.Controls.Presentation,
+  FMX.Types, FMX.Objects;
 
 type
  TdkProgression
@@ -37,10 +38,10 @@ type
     p: TPanel;
     pLabels: TPanel;
     lcompte: TLabel;
-    Label1: TLabel;
-    g: TGauge;
+    lTitre: TLabel;
     pInterrompre: TPanel;
     bInterrompre: TSpeedButton;
+    pb: TProgressBar;
     procedure bInterrompreClick(Sender: TObject);
   //Gestion du cycle de vie
   public
@@ -49,15 +50,15 @@ type
   //Début et fin
   public
     ModeFlyer: Boolean;
-    procedure Demarre( Titre: String; Min, Max: Integer; _Interruptible: Boolean= False);
+    procedure Demarre( Titre: String; Min, Max: Single; _Interruptible: Boolean= False);
   //Progression
   private
-    FProgress: Integer;
-    function  GetProgress: Integer;
-    procedure SetProgress(const Value: Integer);
+    FProgress: Single;
+    function  GetProgress: Single;
+    procedure SetProgress(const Value: Single);
   public
-    procedure AddProgress( Value: Integer);
-    property Progress: Integer read GetProgress write SetProgress;
+    procedure AddProgress( Value: Single);
+    property Progress: Single read GetProgress write SetProgress;
   //Interruption
   public
     Interrompre: Boolean;
@@ -94,17 +95,17 @@ begin
      inherited;
 end;
 
-procedure TdkProgression.Demarre( Titre: String; Min, Max: Integer;
+procedure TdkProgression.Demarre( Titre: String; Min, Max: Single;
                                   _Interruptible: Boolean= False);
 begin
      if Max <= Min then Max:= Min+1;
-     Label1.Text:= Titre;
-     g.MinValue:= Min;
-     g.MaxValue:= Max;
-     g.Progress:= Min;
+     lTitre.Text:= Titre;
+     pb.Min:= Min;
+     pb.Max:= Max;
+     pb.Value:= Min;
      lCompte.Text:= '';
      ModeFlyer:= Max = Min + 1;
-     g.Visible:= not ModeFlyer;
+     pb.Visible:= not ModeFlyer;
      pInterrompre.Visible:= _Interruptible;
 
      ClientHeight:= Trunc( p.Height);
@@ -114,22 +115,22 @@ begin
      //uOD_Forms_ProcessMessages;
 end;
 
-function TdkProgression.GetProgress: Integer;
+function TdkProgression.GetProgress: Single;
 begin
      if ModeFlyer
      then
          Result:= FProgress
      else
-         Result:= g.Progress;
+         Result:= pb.Value;
 end;
 
-procedure TdkProgression.SetProgress(const Value: Integer);
+procedure TdkProgression.SetProgress(const Value: Single);
 begin
      if ModeFlyer
      then
          FProgress:= Value
      else
-         g.Progress:= Value;
+         pb.Value:= Value;
      //if Visible and Enabled
      //then
      //    begin
@@ -138,14 +139,14 @@ begin
      //    end;
 end;
 
-procedure TdkProgression.AddProgress(Value: Integer);
+procedure TdkProgression.AddProgress( Value: Single);
 begin
      Progress:= Progress + Value;
      if ModeFlyer
      then
          lCompte.Text:= Format( '%d', [FProgress])
      else
-         lCompte.Text:= Format( '%d de %d', [g.Progress, g.MaxValue]);
+         lCompte.Text:= Format( '%d de %d', [pb.Value, pb.Max]);
      //if Visible and Enabled
      //then
      //    begin

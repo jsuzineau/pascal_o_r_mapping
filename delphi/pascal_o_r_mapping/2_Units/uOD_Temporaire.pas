@@ -20,7 +20,7 @@ uses
   {$IFDEF MSWINDOWS}
   Windows, FMX.Dialogs, ShellAPI,
   {$ENDIF}
-  SysUtils, Classes;
+  SysUtils, Classes, System.IOUtils;
 
 type
  TOD_Temporaire
@@ -87,43 +87,15 @@ end;
 
 
 function TOD_Temporaire.RepertoireSysteme: String;
-{$IFDEF MSWINDOWS}
-var
-   buffer: array[0..MAX_PATH] of AnsiChar;
 begin
-     GetTempPathA( length( buffer), buffer);
-     Result:= StrPas( buffer);
+     Result:= System.IOUtils.TPath.GetTempPath;
 end;
-{$ELSE}
-begin
-     Result:= GetTempDir;
-end;
-{$ENDIF}
 
 function TOD_Temporaire.Nouveau_Fichier( Prefixe: String): String;
-{$IFDEF MSWINDOWS}
-var
-   TempFileName: array[0..MAX_PATH] of AnsiChar;
 begin
-     GetTempFileNameA(  PAnsiChar( RepertoireTemp),
-                       PAnsiChar( Prefixe       ), 0, TempFileName);
-     Result:= StrPas( TempFileName);
+     //à revoir : le préfixe n'est pas pris en compte
+     Result:= System.IOUtils.TPath.GetTempFileName;
 end;
-{$ELSE}
-var
-   sl: TStringList;
-begin
-     Result:= GetTempFileName( RepertoireTemp, Prefixe);
-     //WriteLn( 'TOD_Temporaire.Nouveau_Fichier: GetTempFileName( RepertoireTemp= ',RepertoireTemp,',Prefixe=',Prefixe,')=',Result);
-     sl:= TStringList.Create;
-     try
-        sl.Text:= 'PlaceHolder';
-        sl.SaveToFile( Result);
-     finally
-            FreeAndNil( sl);
-            end;
-end;
-{$ENDIF}
 
 function TOD_Temporaire.Nouveau_Repertoire( Prefixe: String): String;
 begin

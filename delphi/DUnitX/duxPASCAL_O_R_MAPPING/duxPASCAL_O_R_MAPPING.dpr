@@ -45,7 +45,8 @@ uses
   ufProgression in '..\..\pascal_o_r_mapping\6_Formes\ufProgression.pas',
   ufReconcileError in '..\..\pascal_o_r_mapping\6_Formes\ufReconcileError.pas',
   udkProgression in '..\..\pascal_o_r_mapping\6_Formes\udkProgression.pas',
-  uLog in '..\..\pascal_o_r_mapping\6_Formes\uLog.pas';
+  uLog in '..\..\pascal_o_r_mapping\6_Formes\uLog.pas',
+  uDockable in '..\..\pascal_o_r_mapping\5_Controls\uDockable.pas';
 
 var
   runner : ITestRunner;

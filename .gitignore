@@ -24,7 +24,8 @@ log
 *.lfm~
 *.dbg
 *.or
-*.exe                                           
+*.exe      
+*.dll                                     
 .gitignore~
 /.project
 libmysql.dll
