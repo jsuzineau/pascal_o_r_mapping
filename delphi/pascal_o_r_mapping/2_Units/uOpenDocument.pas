@@ -16,7 +16,7 @@
 interface
 
 uses
-    Xml.XMLIntf,
+    Xml.omnixmldom, Xml.XMLIntf,
     Xml.XMLDoc,
     uOD_Temporaire,
     uOD_Error,
@@ -515,7 +515,7 @@ procedure TOpenDocument.XML_from_Repertoire_Extraction;
          NomFichier:= IncludeTrailingPathDelimiter( Repertoire_Extraction)+_FileName;
 
         _xml:= LoadXMLDocument( NomFichier);
-
+        _xml.Options:= _xml.Options-[doNodeAutoCreate];
         _xml.Active:= True;
         (*_xml.IndentString:= '  ';
         with _xml do Options:= Options + [sxoAutoEncodeValue];*)

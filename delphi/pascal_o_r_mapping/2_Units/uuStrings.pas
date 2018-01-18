@@ -31,7 +31,7 @@ uses
     u_sys_,
 
   {$IFDEF MSWINDOWS}Windows, {$ENDIF}
-  SysUtils, Classes, Types;
+  SysUtils, Classes, Types, System.IOUtils;
 
 const
      NbCaracteres_StatusBar= 110; //mesuré en police Courier New taille 8
@@ -948,38 +948,16 @@ begin
 end;
 
 function String_from_File( _FileName: String): String;
-var
-   F: File;
-   Longueur: Integer;
 begin
      Result:= '';
      if not FileExists( _FileName) then exit;
 
-     AssignFile( F, _FileName);
-     try
-        Reset( F, 1);
-        Longueur:= FileSize( F);
-        if 0 = Longueur then exit;
-        SetLength( Result, Longueur);
-        BlockRead( F, Result[1], Longueur);
-     finally
-            CloseFile( F);
-            end;
+     Result:= System.IOUtils.TFile.ReadAllText( _FileName);
 end;
 
 procedure String_to_File( _FileName: String; _S: String);
-var
-   F: File;
 begin
-     if '' = _S then exit;
-
-     AssignFile( F, _FileName);
-     try
-        ReWrite( F, 1);
-        BlockWrite( F, _S[1], Length( _S));
-     finally
-            CloseFile( F);
-            end;
+     System.IOUtils.TFile.WriteAllText( _FileName, _S);
 end;
 
 function Char_Count( _C: Char; _S: String): Integer;

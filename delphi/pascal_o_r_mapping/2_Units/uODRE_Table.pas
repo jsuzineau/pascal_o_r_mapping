@@ -16,7 +16,7 @@ unit uODRE_Table;
 interface
 
 uses
-    Xml.XMLIntf,
+    Xml.omnixmldom, Xml.XMLIntf,
     uOpenDocument,
     uOD_JCL,
     uOD_Column,

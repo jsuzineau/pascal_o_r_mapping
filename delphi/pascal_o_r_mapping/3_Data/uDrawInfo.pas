@@ -27,7 +27,7 @@ interface
 
 uses
     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-    Xml.XMLIntf,
+    Xml.omnixmldom, Xml.XMLIntf,
     {$ELSE}
     DOM,
     {$IFEND}

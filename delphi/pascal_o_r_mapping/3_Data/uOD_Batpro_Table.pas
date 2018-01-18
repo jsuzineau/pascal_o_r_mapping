@@ -26,7 +26,7 @@ interface
 
 uses
     {$IFDEF MSWINDOWS}
-    Xml.XMLIntf,
+    Xml.omnixmldom, Xml.XMLIntf,
     {$ELSE}
     DOM,
     {$ENDIF}

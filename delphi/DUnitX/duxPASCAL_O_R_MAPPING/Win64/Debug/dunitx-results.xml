@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<test-results name="C:\_freepascal\pascal_o_r_mapping\delphi\DUnitX\duxPASCAL_O_R_MAPPING\Win64\Debug\duxPASCAL_O_R_MAPPING.exe" total="1" errors="0" failures="0" ignored="0" inconclusive="0" not-run="0" skipped="0" invalid="0" date="2018-01-18" time="37.636">
+<test-results name="C:\_freepascal\pascal_o_r_mapping\delphi\DUnitX\duxPASCAL_O_R_MAPPING\Win64\Debug\duxPASCAL_O_R_MAPPING.exe" total="1" errors="0" failures="0" ignored="0" inconclusive="0" not-run="0" skipped="0" invalid="0" date="2018-01-18" time="1.954">
   <culture-info current-culture="en" current-uiculture="en" />
-  <test-suite type="Assembly" name="duxPASCAL_O_R_MAPPING.exe" executed="true" result="Success" success="True" time="37.636" asserts="0">
+  <test-suite type="Assembly" name="duxPASCAL_O_R_MAPPING.exe" executed="true" result="Success" success="True" time="1.954" asserts="0">
     <results>
-        <test-suite type="Namespace" name="utcOpenDocument_Embed_Image" executed="true" result="Success" success="True" time="37.636" asserts="0" >
+        <test-suite type="Namespace" name="utcOpenDocument_Embed_Image" executed="true" result="Success" success="True" time="1.954" asserts="0" >
           <results>
-              <test-suite type="Fixture" name="TtcOpenDocument_Embed_Image" executed="True" result="Success" success="True" time="37.636" >
+              <test-suite type="Fixture" name="TtcOpenDocument_Embed_Image" executed="True" result="Success" success="True" time="1.954" >
                 <results>
-                  <test-case name="test_Embed_Image.test_Embed_Image" executed="True" result="Success" success="True" time="37.632" asserts="0" />
+                  <test-case name="test_Embed_Image.test_Embed_Image" executed="True" result="Success" success="True" time="1.951" asserts="0" />
                 </results>
               </test-suite>
           </results>

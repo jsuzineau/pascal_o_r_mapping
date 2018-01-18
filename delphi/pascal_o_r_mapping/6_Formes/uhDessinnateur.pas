@@ -27,7 +27,7 @@ interface
 uses
     uOD_Forms,
     {$IFDEF MSWINDOWS}
-    Xml.XMLIntf,
+    Xml.omnixmldom, Xml.XMLIntf,
     {$ELSE}
     DOM,
     {$ENDIF}

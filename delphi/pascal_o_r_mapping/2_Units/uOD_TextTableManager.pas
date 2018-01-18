@@ -16,7 +16,7 @@ unit uOD_TextTableManager;
 interface
 
 uses
-    Xml.XMLIntf,
+    Xml.omnixmldom, Xml.XMLIntf,
     uOOoStrings,
     uOpenDocument,
     uOD_SurTitre,

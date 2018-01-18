@@ -23,7 +23,7 @@ uses
     uOOoStringList,
     uOpenDocument,
     JclCompression,
-    Xml.XMLIntf,
+    Xml.omnixmldom, Xml.XMLIntf,
     uOOoChrono,
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
   FMX.Dialogs, FMX.StdCtrls, FMX.ExtCtrls, FMX.ComCtrls, Grids, ValEdit, ShellAPI, Registry,

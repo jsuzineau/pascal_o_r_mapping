@@ -30,7 +30,7 @@ uses
     uClean,
     uuStrings,
   {$IFDEF MSWINDOWS}
-  Xml.XMLIntf,
+  Xml.omnixmldom, Xml.XMLIntf,
   Xml.XMLDoc,
   System.UITypes,
   Windows,FMX.Graphics,
@@ -203,7 +203,7 @@ begin
 
      sNode:= StrToK( '/', Path);
      Name:= Name_from_FullName( sNode);
-     Result:= _e.ChildNodes[ Name];
+     Result:= _e.ChildNodes.FindNode( Name);
      Result:= Elem_from_path( Result, Path);
 end;
 
@@ -271,7 +271,7 @@ begin
 
      PropertyName:= Get_Property_Name( _e, _FullName);
 
-     p:= _e.AttributeNodes[ PropertyName];
+     p:= _e.AttributeNodes.FindNode( PropertyName);
 
      Result:= p = nil;
      if Result then exit;
@@ -307,7 +307,7 @@ begin
      if _e = nil then exit;
 
      PropertyName:= Get_Property_Name( _e, _FullName);
-     p:= _e.AttributeNodes[ PropertyName];
+     p:= _e.AttributeNodes.FindNode( PropertyName);
 
      if Assigned( p)
      then

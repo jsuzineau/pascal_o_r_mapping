@@ -30,7 +30,7 @@ uses
     uForms,
     uEXE_INI,
     {$IFNDEF FPC}
-    Xml.XMLIntf,
+    Xml.omnixmldom, Xml.XMLIntf,
 	  uUNO_DeskTop,
  	  uUNO_PropertyValue,
     {$ELSE}

@@ -30,7 +30,7 @@ uses
     uOD_TextTableContext,
     uOD_Error,
     uOD_JCL,
-  SysUtils, Classes, Types, Xml.XMLIntf;
+  SysUtils, Classes, Types, Xml.omnixmldom, Xml.XMLIntf;
 
 type
  Tprocedure_OD_Patch_CallBack= procedure ( _D: TOpenDocument) of object;

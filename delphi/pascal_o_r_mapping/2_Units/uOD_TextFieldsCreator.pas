@@ -16,7 +16,7 @@ unit uOD_TextFieldsCreator;
 interface
 
 uses
-    Xml.XMLIntf,
+    Xml.omnixmldom, Xml.XMLIntf,
     uOpenDocument,
   SysUtils, Classes, DB,
   Types;

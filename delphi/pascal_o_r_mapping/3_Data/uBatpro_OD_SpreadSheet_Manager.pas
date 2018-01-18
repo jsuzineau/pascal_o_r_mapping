@@ -48,7 +48,7 @@ uses
 
     ufAccueil_Erreur,
   {$IFDEF MSWINDOWS}
-  Xml.XMLIntf,
+  Xml.omnixmldom, Xml.XMLIntf,
   Windows, //pour CopyFile
   {$ELSE}
   DOM,

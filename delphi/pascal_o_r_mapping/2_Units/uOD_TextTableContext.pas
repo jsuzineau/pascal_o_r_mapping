@@ -16,7 +16,7 @@
 interface
 
 uses
-    Xml.XMLIntf,
+    Xml.omnixmldom, Xml.XMLIntf,
     uOOoStrings,
     uOD_Merge,
     uOD_TextFieldsCreator,
