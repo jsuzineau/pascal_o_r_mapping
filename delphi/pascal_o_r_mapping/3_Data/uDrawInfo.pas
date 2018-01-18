@@ -27,7 +27,7 @@ interface
 
 uses
     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-    JclSimpleXml,
+    Xml.XMLIntf,
     {$ELSE}
     DOM,
     {$IFEND}
@@ -81,87 +81,87 @@ type
   public
     SVG_Drawing: Boolean;
     svg: TSVGDocument;
-    eCell: TJclSimpleXMLElem;
-    procedure Init_SVG( _svg: TSVGDocument; _eCell: TJclSimpleXMLElem);
+    eCell: IXMLNode;
+    procedure Init_SVG( _svg: TSVGDocument; _eCell: IXMLNode);
     function _rect( _R: TRect;
                    _Color: TColor;
                    _Pen_Color: TColor;
-                   _Pen_Width: Integer): TJclSimpleXMLElem;
+                   _Pen_Width: Integer): IXMLNode;
     function rect_pattern( _R: TRect;
                            _pattern: String;
                            _Pen_Color: TColor;
-                           _Pen_Width: Integer): TJclSimpleXMLElem;
+                           _Pen_Width: Integer): IXMLNode;
     function rect_hachures_slash( _R: TRect;
                                   _Pen_Color: TColor;
-                                  _Pen_Width: Integer): TJclSimpleXMLElem;
+                                  _Pen_Width: Integer): IXMLNode;
     function rect_hachures_backslash( _R: TRect;
                                       _Pen_Color: TColor;
-                                      _Pen_Width: Integer): TJclSimpleXMLElem;
-    function rect_uni( _R: TRect; _Color: TColor): TJclSimpleXMLElem;
+                                      _Pen_Width: Integer): IXMLNode;
+    function rect_uni( _R: TRect; _Color: TColor): IXMLNode;
     function rect_vide( _R: TRect;
                         _Pen_Color: TColor;
-                        _Pen_Width: Integer): TJclSimpleXMLElem;
+                        _Pen_Width: Integer): IXMLNode;
     function _ellipse( _R: TRect;
                    _Color: TColor;
                    _Pen_Color: TColor;
-                   _Pen_Width: Integer): TJclSimpleXMLElem;
+                   _Pen_Width: Integer): IXMLNode;
     function text( _X, _Y: Integer;
                    _Text, _Font_Family: String;
                    _Font_Size: Integer;
-                   _Font_Family_Generic: String = 'sans-serif'): TJclSimpleXMLElem;
+                   _Font_Family_Generic: String = 'sans-serif'): IXMLNode;
     function text_a_Gauche(
                    _X, _Y: Integer;
                    _Text, _Font_Family: String;
                    _Font_Size: Integer;
-                   _Font_Family_Generic: String = 'sans-serif'): TJclSimpleXMLElem;
+                   _Font_Family_Generic: String = 'sans-serif'): IXMLNode;
     function text_au_Milieu(
                    _X, _Y: Integer;
                    _Text, _Font_Family: String;
                    _Font_Size: Integer;
-                   _Font_Family_Generic: String = 'sans-serif'): TJclSimpleXMLElem;
+                   _Font_Family_Generic: String = 'sans-serif'): IXMLNode;
     function text_a_Droite(
                    _X, _Y: Integer;
                    _Text, _Font_Family: String;
                    _Font_Size: Integer;
-                   _Font_Family_Generic: String = 'sans-serif'): TJclSimpleXMLElem;
+                   _Font_Family_Generic: String = 'sans-serif'): IXMLNode;
     function text_rotate( _X, _Y: Integer;
                           _Text, _Font_Family: String;
                           _Font_Size: Integer;
-                          _Rotate: Integer): TJclSimpleXMLElem;
+                          _Rotate: Integer): IXMLNode;
     function line( _x1, _y1, _x2, _y2: Integer;
                    _stroke: TColor;
-                   _stroke_width: Integer): TJclSimpleXMLElem;
+                   _stroke_width: Integer): IXMLNode;
     function line_dash( _x1, _y1, _x2, _y2: Integer;
                         _stroke: TColor;
-                        _stroke_width: Integer): TJclSimpleXMLElem;
+                        _stroke_width: Integer): IXMLNode;
     function svg_polygon( _points: TPolygon;
                       _Color: TColor;
                       _Pen_Color: TColor;
-                      _Pen_Width: Integer): TJclSimpleXMLElem;
+                      _Pen_Width: Integer): IXMLNode;
     function svg_PolyBezier( _points: TPolygon;
                          _Pen_Color: TColor;
-                         _Pen_Width: Integer): TJclSimpleXMLElem;
+                         _Pen_Width: Integer): IXMLNode;
     function image( _x, _y, _width, _height: Integer;
-                    _xlink_href: String): TJclSimpleXMLElem;
+                    _xlink_href: String): IXMLNode;
     function image_from_id( _x, _y, _width, _height: Integer;
-                            _idImage: String): TJclSimpleXMLElem;
-    function image_DOCSINGL( _x, _y: Integer): TJclSimpleXMLElem;
-    function image_LOSANGE ( _x, _y: Integer): TJclSimpleXMLElem;
-    function image_LOGIN   ( _x, _y: Integer): TJclSimpleXMLElem;
+                            _idImage: String): IXMLNode;
+    function image_DOCSINGL( _x, _y: Integer): IXMLNode;
+    function image_LOSANGE ( _x, _y: Integer): IXMLNode;
+    function image_LOGIN   ( _x, _y: Integer): IXMLNode;
 
     function image_from_id_centre( _width, _height: Integer;
-                                       _idImage: String): TJclSimpleXMLElem;
-    function svg_image_DOCSINGL_centre: TJclSimpleXMLElem;
-    function svg_image_LOSANGE__centre: TJclSimpleXMLElem;
-    function svg_image_LOGIN__centre: TJclSimpleXMLElem;
-    function svg_image_MEN_AT_WORK__centre: TJclSimpleXMLElem;
-    function svg_image_DOSSIER_KDE_PAR_POSTE__centre: TJclSimpleXMLElem;
+                                       _idImage: String): IXMLNode;
+    function svg_image_DOCSINGL_centre: IXMLNode;
+    function svg_image_LOSANGE__centre: IXMLNode;
+    function svg_image_LOGIN__centre: IXMLNode;
+    function svg_image_MEN_AT_WORK__centre: IXMLNode;
+    function svg_image_DOSSIER_KDE_PAR_POSTE__centre: IXMLNode;
 
     function image_from_id_bas_droite( _width, _height: Integer;
-                                       _idImage: String): TJclSimpleXMLElem;
-    function svg_image_DOCSINGL_bas_droite: TJclSimpleXMLElem;
-    function image_LOSANGE__bas_droite: TJclSimpleXMLElem;
-    function svg_image_LOGIN__bas_droite: TJclSimpleXMLElem;
+                                       _idImage: String): IXMLNode;
+    function svg_image_DOCSINGL_bas_droite: IXMLNode;
+    function image_LOSANGE__bas_droite: IXMLNode;
+    function svg_image_LOGIN__bas_droite: IXMLNode;
     procedure svgDessinne_Coche( _CouleurFond, _CouleurCoche: TColor;
                                  _Coche: Boolean);
   //Méthodes
@@ -245,7 +245,7 @@ begin                   // on garde Rect_Original pour dessinner le fond
          Rect.Bottom:=  Rect.Top+ 20;
 end;
 
-procedure TDrawInfo.Init_SVG( _svg: TSVGDocument; _eCell: TJclSimpleXMLElem);
+procedure TDrawInfo.Init_SVG( _svg: TSVGDocument; _eCell: IXMLNode);
 begin
      svg  := _svg;
      eCell:= _eCell;
@@ -254,46 +254,46 @@ end;
 
 function TDrawInfo._rect( _R: TRect; _Color: TColor;
                           _Pen_Color: TColor;
-                          _Pen_Width: Integer): TJclSimpleXMLElem;
+                          _Pen_Width: Integer): IXMLNode;
 begin
      Result:= svg.rect( eCell, _R, _Color, _Pen_Color, _Pen_Width);
 end;
 
 function TDrawInfo.rect_pattern( _R: TRect; _pattern: String;
                                  _Pen_Color: TColor;
-                                 _Pen_Width: Integer): TJclSimpleXMLElem;
+                                 _Pen_Width: Integer): IXMLNode;
 begin
      Result:= svg.rect_pattern( eCell, _R, _pattern, _Pen_Color, _Pen_Width);
 end;
 
 function TDrawInfo.rect_hachures_slash( _R: TRect;
                                         _Pen_Color: TColor;
-                                        _Pen_Width: Integer): TJclSimpleXMLElem;
+                                        _Pen_Width: Integer): IXMLNode;
 begin
      Result:= rect_pattern( _R, 'Hachures_Slash', _Pen_Color, _Pen_Width);
 end;
 
 function TDrawInfo.rect_hachures_backslash( _R: TRect;
                                             _Pen_Color: TColor;
-                                            _Pen_Width: Integer): TJclSimpleXMLElem;
+                                            _Pen_Width: Integer): IXMLNode;
 begin
      Result:= rect_pattern( _R, 'Hachures_BackSlash', _Pen_Color, _Pen_Width);
 end;
 
-function TDrawInfo.rect_uni(_R: TRect; _Color: TColor): TJclSimpleXMLElem;
+function TDrawInfo.rect_uni(_R: TRect; _Color: TColor): IXMLNode;
 begin
      Result:= _rect( _R, _Color, _Color, 1);
 end;
 
 function TDrawInfo.rect_vide( _R: TRect;
                               _Pen_Color: TColor;
-                              _Pen_Width: Integer): TJclSimpleXMLElem;
+                              _Pen_Width: Integer): IXMLNode;
 begin
      Result:= svg.rect_vide( eCell, _R, _Pen_Width, _Pen_Color);
 end;
 
 function TDrawInfo._ellipse( _R: TRect;
-                             _Color, _Pen_Color: TColor;_Pen_Width: Integer): TJclSimpleXMLElem;
+                             _Color, _Pen_Color: TColor;_Pen_Width: Integer): IXMLNode;
 begin
      Result:= svg.ellipse( eCell, _R, _Color, _Pen_Color, _Pen_Width);
 end;
@@ -301,7 +301,7 @@ end;
 function TDrawInfo.text( _X, _Y: Integer;
                          _Text, _Font_Family: String;
                          _Font_Size: Integer;
-                         _Font_Family_Generic: String): TJclSimpleXMLElem;
+                         _Font_Family_Generic: String): IXMLNode;
 begin
      Result:= svg.text( eCell, _X, _Y, _Text, _Font_Family, _Font_Size, _Font_Family_Generic);
 end;
@@ -309,7 +309,7 @@ end;
 function TDrawInfo.text_a_Gauche( _X, _Y: Integer;
                          _Text, _Font_Family: String;
                          _Font_Size: Integer;
-                         _Font_Family_Generic: String): TJclSimpleXMLElem;
+                         _Font_Family_Generic: String): IXMLNode;
 begin
      Result:= svg.text_a_Gauche( eCell, _X, _Y, _Text, _Font_Family, _Font_Size, _Font_Family_Generic);
 end;
@@ -317,7 +317,7 @@ end;
 function TDrawInfo.text_au_Milieu( _X, _Y: Integer;
                          _Text, _Font_Family: String;
                          _Font_Size: Integer;
-                         _Font_Family_Generic: String): TJclSimpleXMLElem;
+                         _Font_Family_Generic: String): IXMLNode;
 begin
      Result:= svg.text_au_Milieu( eCell, _X, _Y, _Text, _Font_Family, _Font_Size, _Font_Family_Generic);
 end;
@@ -325,26 +325,26 @@ end;
 function TDrawInfo.text_a_Droite( _X, _Y: Integer;
                          _Text, _Font_Family: String;
                          _Font_Size: Integer;
-                         _Font_Family_Generic: String): TJclSimpleXMLElem;
+                         _Font_Family_Generic: String): IXMLNode;
 begin
      Result:= svg.text_a_Droite( eCell, _X, _Y, _Text, _Font_Family, _Font_Size, _Font_Family_Generic);
 end;
 
 function TDrawInfo.text_rotate( _X, _Y: Integer;
                                 _Text, _Font_Family: String;
-                                _Font_Size, _Rotate: Integer): TJclSimpleXMLElem;
+                                _Font_Size, _Rotate: Integer): IXMLNode;
 begin
      Result:= svg.text_rotate( eCell, _X, _Y, _Text, _Font_Family, _Font_Size, _Rotate);
 end;
 
 function TDrawInfo.line( _x1, _y1, _x2, _y2: Integer;
-                         _stroke: TColor; _stroke_width: Integer): TJclSimpleXMLElem;
+                         _stroke: TColor; _stroke_width: Integer): IXMLNode;
 begin
      Result:= svg.line( eCell, _x1, _y1, _x2, _y2, _stroke, _stroke_width);
 end;
 
 function TDrawInfo.line_dash( _x1, _y1, _x2, _y2: Integer;
-                              _stroke: TColor; _stroke_width: Integer): TJclSimpleXMLElem;
+                              _stroke: TColor; _stroke_width: Integer): IXMLNode;
 begin
      Result:= svg.line_dash( eCell, _x1, _y1, _x2, _y2, _stroke, _stroke_width);
 end;
@@ -352,31 +352,31 @@ end;
 function TDrawInfo.svg_polygon( _points: TPolygon;
                             _Color: TColor;
                             _Pen_Color: TColor;
-                            _Pen_Width: Integer): TJclSimpleXMLElem;
+                            _Pen_Width: Integer): IXMLNode;
 begin
      Result:= svg.polygon( eCell, _points, _Color, _Pen_Color, _Pen_Width)
 end;
 
 function TDrawInfo.svg_PolyBezier( _points: TPolygon;
                                _Pen_Color: TColor;
-                               _Pen_Width: Integer): TJclSimpleXMLElem;
+                               _Pen_Width: Integer): IXMLNode;
 begin
      Result:= svg.PolyBezier( eCell, _points, _Pen_Color, _Pen_Width);
 end;
 
 function TDrawInfo.image( _x, _y, _width, _height: Integer;
-                          _xlink_href: String): TJclSimpleXMLElem;
+                          _xlink_href: String): IXMLNode;
 begin
      Result:= svg.image( eCell, _x, _y, _width, _height, _xlink_href);
 end;
 
 function TDrawInfo.image_from_id( _x, _y, _width, _height: Integer;
-                                  _idImage: String): TJclSimpleXMLElem;
+                                  _idImage: String): IXMLNode;
 begin
      Result:= image( _x, _y, _width, _height, 'url(#'+_idImage+')');;
 end;
 
-function TDrawInfo.image_DOCSINGL(_x, _y: Integer): TJclSimpleXMLElem;
+function TDrawInfo.image_DOCSINGL(_x, _y: Integer): IXMLNode;
 begin
      Result
      :=
@@ -386,7 +386,7 @@ begin
                       fBitmaps.svgDOCSINGL_id    );
 end;
 
-function TDrawInfo.image_LOSANGE(_x, _y: Integer): TJclSimpleXMLElem;
+function TDrawInfo.image_LOSANGE(_x, _y: Integer): IXMLNode;
 begin
      Result
      :=
@@ -396,7 +396,7 @@ begin
                       fBitmaps.svgLOSANGE_id    );
 end;
 
-function TDrawInfo.image_LOGIN(_x, _y: Integer): TJclSimpleXMLElem;
+function TDrawInfo.image_LOGIN(_x, _y: Integer): IXMLNode;
 begin
      Result
      :=
@@ -407,7 +407,7 @@ begin
 end;
 
 function TDrawInfo.image_from_id_centre( _width, _height: Integer;
-                                             _idImage: String): TJclSimpleXMLElem;
+                                             _idImage: String): IXMLNode;
 var
    dx, dy: Integer;
    R: TRect;
@@ -419,7 +419,7 @@ begin
      Result:= image_from_id( R.Left, R.Top, _width, _height, _idImage);
 end;
 
-function TDrawInfo.svg_image_DOCSINGL_centre: TJclSimpleXMLElem;
+function TDrawInfo.svg_image_DOCSINGL_centre: IXMLNode;
 begin
      Result
      :=
@@ -428,7 +428,7 @@ begin
                                  fBitmaps.svgDOCSINGL_id    );
 end;
 
-function TDrawInfo.svg_image_LOSANGE__centre: TJclSimpleXMLElem;
+function TDrawInfo.svg_image_LOSANGE__centre: IXMLNode;
 begin
      Result
      :=
@@ -437,7 +437,7 @@ begin
                                  fBitmaps.svgLOSANGE_id    );
 end;
 
-function TDrawInfo.svg_image_LOGIN__centre: TJclSimpleXMLElem;
+function TDrawInfo.svg_image_LOGIN__centre: IXMLNode;
 begin
      Result
      :=
@@ -446,7 +446,7 @@ begin
                                  fBitmaps.svgLOGIN_id    );
 end;
 
-function TDrawInfo.svg_image_MEN_AT_WORK__centre: TJclSimpleXMLElem;
+function TDrawInfo.svg_image_MEN_AT_WORK__centre: IXMLNode;
 begin
      Result
      :=
@@ -455,7 +455,7 @@ begin
                                  fBitmaps.svgMEN_AT_WORK_id    );
 end;
 
-function TDrawInfo.svg_image_DOSSIER_KDE_PAR_POSTE__centre: TJclSimpleXMLElem;
+function TDrawInfo.svg_image_DOSSIER_KDE_PAR_POSTE__centre: IXMLNode;
 begin
      Result
      :=
@@ -465,7 +465,7 @@ begin
 end;
 
 function TDrawInfo.image_from_id_bas_droite( _width, _height: Integer;
-                                             _idImage: String): TJclSimpleXMLElem;
+                                             _idImage: String): IXMLNode;
 var
    x, y: Integer;
    R: TRect;
@@ -476,7 +476,7 @@ begin
      Result:= image_from_id( x, y, _width, _height, _idImage);
 end;
 
-function TDrawInfo.svg_image_DOCSINGL_bas_droite: TJclSimpleXMLElem;
+function TDrawInfo.svg_image_DOCSINGL_bas_droite: IXMLNode;
 begin
      Result
      :=
@@ -485,7 +485,7 @@ begin
                                  fBitmaps.svgDOCSINGL_id    );
 end;
 
-function TDrawInfo.image_LOSANGE__bas_droite: TJclSimpleXMLElem;
+function TDrawInfo.image_LOSANGE__bas_droite: IXMLNode;
 begin
      Result
      :=
@@ -494,7 +494,7 @@ begin
                                  fBitmaps.svgLOSANGE_id    );
 end;
 
-function TDrawInfo.svg_image_LOGIN__bas_droite: TJclSimpleXMLElem;
+function TDrawInfo.svg_image_LOGIN__bas_droite: IXMLNode;
 begin
      Result
      :=

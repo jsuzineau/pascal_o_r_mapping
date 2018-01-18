@@ -30,7 +30,7 @@ uses
     uForms,
     uEXE_INI,
     {$IFNDEF FPC}
-    JclSimpleXml,
+    Xml.XMLIntf,
 	  uUNO_DeskTop,
  	  uUNO_PropertyValue,
     {$ELSE}
@@ -609,9 +609,9 @@ procedure TOD.Traite_image( document: String; ODImage, NomFichierImage: String);
 var
    OD: TOpenDocument;
    urlImage: String;
-   procedure TI_Root( _eRoot: TJclSimpleXMLElem);
+   procedure TI_Root( _eRoot: IXMLNode);
    var
-      eDF, eDI: TJclSimpleXMLElem;
+      eDF, eDI: IXMLNode;
    begin
         eDF:= OD.Cherche_Item( _eRoot, 'draw:frame', ['draw:name'], [ODImage]);
         if Assigned( eDF)
@@ -648,9 +648,9 @@ procedure TOD.Traite_Logos( document: String);
 var
    NomFichierLogo: String;
    OD: TOpenDocument;
-   procedure TI_Root( _eRoot: TJclSimpleXMLElem; ODImage, NomFichierImage: String);
+   procedure TI_Root( _eRoot: IXMLNode; ODImage, NomFichierImage: String);
    var
-      eDF, eDI: TJclSimpleXMLElem;
+      eDF, eDI: IXMLNode;
       urlImage: String;
    begin
         {$IFNDEF FPC}

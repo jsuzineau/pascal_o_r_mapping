@@ -48,7 +48,7 @@ uses
 
     ufAccueil_Erreur,
   {$IFDEF MSWINDOWS}
-  JclSimpleXml,
+  Xml.XMLIntf,
   Windows, //pour CopyFile
   {$ELSE}
   DOM,
@@ -70,7 +70,7 @@ type
     NomFichier: String;
     D: TOpenDocument;
     C: TOD_TextTableContext;//créé pour Append_Row, pas trop propre on est en tableur pas en texte
-    eTABLE: TJclSimpleXMLElem;
+    eTABLE: IXMLNode;
   //Gestion de la ligne courante
   private
     FnRow: Integer;
@@ -151,7 +151,7 @@ begin
      D:= TOpenDocument.Create( NomFichier);
      C:= TOD_TextTableContext.Create( D);
      eTABLE:= D.Get_xmlContent_SPREADSHEET_first_TABLE;
-     eTABLE.Items.Clear;
+     eTABLe.ChildNodes.Clear;
      FnRow:= -1;
      ROW:= nil;
      FNombreColonnes:= 0;

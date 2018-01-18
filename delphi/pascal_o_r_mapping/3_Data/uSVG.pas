@@ -30,7 +30,8 @@ uses
     uClean,
     uuStrings,
   {$IFDEF MSWINDOWS}
-  JclSimpleXml,
+  Xml.XMLIntf,
+  Xml.XMLDoc,
   System.UITypes,
   Windows,FMX.Graphics,
   {$ELSE}
@@ -60,111 +61,111 @@ type
   public
     Nom: String;
   public
-    xml: TJclSimpleXml;
+    xml: TXMLDocument;
   //Gestion des properties
   private
-    function Get_Property_Name( _e: TJclSimpleXMLElem; _FullName: String): String;
+    function Get_Property_Name( _e: IXMLNode; _FullName: String): String;
   public
-    function not_Get_Property( _e: TJclSimpleXMLElem;
+    function not_Get_Property( _e: IXMLNode;
                                _FullName: String;
                                out _Value: String): Boolean;
-    function not_Test_Property( _e: TJclSimpleXMLElem;
+    function not_Test_Property( _e: IXMLNode;
                                 _FullName: String;
                                 _Values: array of String): Boolean;
-    procedure Set_Property( _e: TJclSimpleXMLElem;
+    procedure Set_Property( _e: IXMLNode;
                             _Fullname, _Value: String); overload;
-    procedure Set_Property( _e: TJclSimpleXMLElem;
+    procedure Set_Property( _e: IXMLNode;
                             _Fullname: String; _Value: Integer); overload;
-    procedure Delete_Property( _e: TJclSimpleXMLElem; _Fullname: String);
+    procedure Delete_Property( _e: IXMLNode; _Fullname: String);
   //Gestion des items
   public
-    function Cherche_Item( _eRoot: TJclSimpleXMLElem; _FullName: String;
+    function Cherche_Item( _eRoot: IXMLNode; _FullName: String;
                            _Properties_Names,
-                           _Properties_Values: array of String): TJclSimpleXMLElem;
-    function Cherche_Item_Recursif( _eRoot: TJclSimpleXMLElem;
+                           _Properties_Values: array of String): IXMLNode;
+    function Cherche_Item_Recursif( _eRoot: IXMLNode;
                                     _FullName: String;
                                     _Properties_Names,
-                                    _Properties_Values: array of String): TJclSimpleXMLElem;
-    function Assure_Item( _eRoot: TJclSimpleXMLElem; _FullName: String;
+                                    _Properties_Values: array of String): IXMLNode;
+    function Assure_Item( _eRoot: IXMLNode; _FullName: String;
                            _Properties_Names,
-                           _Properties_Values: array of String): TJclSimpleXMLElem;
-    procedure Supprime_Item( _e: TJclSimpleXMLElem);
+                           _Properties_Values: array of String): IXMLNode;
+    procedure Supprime_Item( _e: IXMLNode);
   //Gestion SVG
   public
     function svgColor( Color: TColor): String;
-    function rect( _eRoot: TJclSimpleXMLElem;
+    function rect( _eRoot: IXMLNode;
                    _R: TRect;
                    _Color: TColor;
                    _Pen_Color: TColor;
-                   _Pen_Width: Integer): TJclSimpleXMLElem;
-    function rect_pattern( _eRoot: TJclSimpleXMLElem;
+                   _Pen_Width: Integer): IXMLNode;
+    function rect_pattern( _eRoot: IXMLNode;
                            _R: TRect;
                            _pattern: String;
                            _Pen_Color: TColor;
-                           _Pen_Width: Integer): TJclSimpleXMLElem;
-    function rect_vide( _eRoot: TJclSimpleXMLElem;
+                           _Pen_Width: Integer): IXMLNode;
+    function rect_vide( _eRoot: IXMLNode;
                         _R: TRect;
                         _Pen_Color: TColor;
-                        _Pen_Width: Integer): TJclSimpleXMLElem;
-    function ellipse( _eRoot: TJclSimpleXMLElem;
+                        _Pen_Width: Integer): IXMLNode;
+    function ellipse( _eRoot: IXMLNode;
                    _R: TRect;
                    _Color: TColor;
                    _Pen_Color: TColor;
-                   _Pen_Width: Integer): TJclSimpleXMLElem;
-    function text( _eRoot: TJclSimpleXMLElem;
+                   _Pen_Width: Integer): IXMLNode;
+    function text( _eRoot: IXMLNode;
                    _X, _Y: Integer;
                    _Text, _Font_Family: String;
                    _Font_Size: Integer;
-                   _Font_Family_Generic: String = 'sans-serif'): TJclSimpleXMLElem;
-    function text_a_Gauche( _eRoot: TJclSimpleXMLElem;
+                   _Font_Family_Generic: String = 'sans-serif'): IXMLNode;
+    function text_a_Gauche( _eRoot: IXMLNode;
                    _X, _Y: Integer;
                    _Text, _Font_Family: String;
                    _Font_Size: Integer;
-                   _Font_Family_Generic: String = 'sans-serif'): TJclSimpleXMLElem;
-    function text_au_Milieu( _eRoot: TJclSimpleXMLElem;
+                   _Font_Family_Generic: String = 'sans-serif'): IXMLNode;
+    function text_au_Milieu( _eRoot: IXMLNode;
                    _X, _Y: Integer;
                    _Text, _Font_Family: String;
                    _Font_Size: Integer;
-                   _Font_Family_Generic: String = 'sans-serif'): TJclSimpleXMLElem;
-    function text_a_Droite( _eRoot: TJclSimpleXMLElem;
+                   _Font_Family_Generic: String = 'sans-serif'): IXMLNode;
+    function text_a_Droite( _eRoot: IXMLNode;
                    _X, _Y: Integer;
                    _Text, _Font_Family: String;
                    _Font_Size: Integer;
-                   _Font_Family_Generic: String = 'sans-serif'): TJclSimpleXMLElem;
-    function text_rotate( _eRoot: TJclSimpleXMLElem;
+                   _Font_Family_Generic: String = 'sans-serif'): IXMLNode;
+    function text_rotate( _eRoot: IXMLNode;
                           _X, _Y: Integer;
                           _Text, _Font_Family: String;
                           _Font_Size: Integer;
-                          _Rotate: Integer): TJclSimpleXMLElem;
-    function line( _eRoot: TJclSimpleXMLElem;
+                          _Rotate: Integer): IXMLNode;
+    function line( _eRoot: IXMLNode;
                    _x1, _y1, _x2, _y2: Integer;
                    _stroke: TColor;
-                   _stroke_width: Integer): TJclSimpleXMLElem;
-    function line_dash( _eRoot: TJclSimpleXMLElem;
+                   _stroke_width: Integer): IXMLNode;
+    function line_dash( _eRoot: IXMLNode;
                         _x1, _y1, _x2, _y2: Integer;
                         _stroke: TColor;
-                        _stroke_width: Integer): TJclSimpleXMLElem;
-    function polygon( _eRoot: TJclSimpleXMLElem;
+                        _stroke_width: Integer): IXMLNode;
+    function polygon( _eRoot: IXMLNode;
                       _points: TPolygon;
                       _Color: TColor;
                       _Pen_Color: TColor;
-                      _Pen_Width: Integer): TJclSimpleXMLElem;
-    function PolyBezier( _eRoot: TJclSimpleXMLElem;
+                      _Pen_Width: Integer): IXMLNode;
+    function PolyBezier( _eRoot: IXMLNode;
                          _points: TPolygon;
                          _Pen_Color: TColor;
-                         _Pen_Width: Integer): TJclSimpleXMLElem;
-    function image( _eRoot: TJclSimpleXMLElem;
+                         _Pen_Width: Integer): IXMLNode;
+    function image( _eRoot: IXMLNode;
                     _x, _y, _width, _height: Integer;
-                    _xlink_href: String): TJclSimpleXMLElem;
-    procedure Dessinne_Coche( _eRoot: TJclSimpleXMLElem;
+                    _xlink_href: String): IXMLNode;
+    procedure Dessinne_Coche( _eRoot: IXMLNode;
                     _CouleurFond, _CouleurCoche: TColor;
                     _R: TRect;
                     _Coche: Boolean);
   end;
 
 function Name_from_FullName( _FullName: String): String;
-function Elem_from_path( _e: TJclSimpleXMLElem; Path: String):TJclSimpleXMLElem;
-function Cree_path( _e: TJclSimpleXMLElem; Path: String):TJclSimpleXMLElem;
+function Elem_from_path( _e: IXMLNode; Path: String):IXMLNode;
+function Cree_path( _e: IXMLNode; Path: String):IXMLNode;
 
 implementation
 
@@ -191,7 +192,7 @@ begin
          Result:= NameSpace;
 end;
 
-function Elem_from_path( _e: TJclSimpleXMLElem; Path: String):TJclSimpleXMLElem;
+function Elem_from_path( _e: IXMLNode; Path: String):IXMLNode;
 var
    sNode: String;
    Name: String;
@@ -202,20 +203,20 @@ begin
 
      sNode:= StrToK( '/', Path);
      Name:= Name_from_FullName( sNode);
-     Result:= _e.Items.ItemNamed[ Name];
+     Result:= _e.ChildNodes[ Name];
      Result:= Elem_from_path( Result, Path);
 end;
 
-function Cree_path( _e: TJclSimpleXMLElem; Path: String):TJclSimpleXMLElem;
+function Cree_path( _e: IXMLNode; Path: String):IXMLNode;
 var
-   FullName: String;
+   NodeName: String;
 begin
      Result:= _e;
      if _e = nil  then exit;
      if Path = '' then exit;
 
-     FullName:= StrToK( '/', Path);
-     Result:= _e.Items.Add( FullName);
+     NodeName:= StrToK( '/', Path);
+     Result:= _e.AddChild( NodeName);
      Result:= Cree_path( Result, Path);
 end;
 
@@ -225,10 +226,11 @@ constructor TSVGDocument.Create( _Nom: String);
 begin
      Nom:= _Nom;
 
-     xml:= TJclSimpleXml.Create;
+     xml:= TXMLDocument.Create( nil);
+     {
      xml.IndentString:= '  ';
      with xml do Options:= Options + [sxoAutoEncodeValue];
-
+     }
      if Nom <> ''
      then
          xml.LoadFromFile( Nom);
@@ -241,12 +243,12 @@ begin
      inherited;
 end;
 
-function TSVGDocument.Get_Property_Name( _e: TJclSimpleXMLElem; _FullName: String): String;
+function TSVGDocument.Get_Property_Name( _e: IXMLNode; _FullName: String): String;
 var
    _e_NameSpace: String;
    Name: String;
 begin
-     _e_NameSpace:= _e.NameSpace;
+     _e_NameSpace:= _e.Prefix;
      if _e_NameSpace = ''
      then
          Result:= _FullName
@@ -257,27 +259,27 @@ begin
          end;
 end;
 
-function TSVGDocument.not_Get_Property( _e: TJclSimpleXMLElem;
+function TSVGDocument.not_Get_Property( _e: IXMLNode;
                                          _FullName: String;
                                          out _Value: String): Boolean;
 var
    PropertyName: String;
-   p: TJclSimpleXMLProp;
+   p: IXMLNode;
 begin
      Result:= _e = nil;
      if Result then exit;
 
      PropertyName:= Get_Property_Name( _e, _FullName);
 
-     p:= _e.Properties.ItemNamed[ PropertyName];
+     p:= _e.AttributeNodes[ PropertyName];
 
      Result:= p = nil;
      if Result then exit;
 
-     _Value:= p.Value;
+     _Value:= p.Text;
 end;
 
-function TSVGDocument.not_Test_Property( _e: TJclSimpleXMLElem;
+function TSVGDocument.not_Test_Property( _e: IXMLNode;
                                           _FullName: String;
                                           _Values: array of String): Boolean;
 var
@@ -296,42 +298,32 @@ begin
        end;
 end;
 
-procedure TSVGDocument.Set_Property( _e: TJclSimpleXMLElem;
+procedure TSVGDocument.Set_Property( _e: IXMLNode;
                                       _Fullname, _Value: String);
 var
    PropertyName: String;
-   p: TJclSimpleXMLProp;
+   p: IXMLNode;
 begin
      if _e = nil then exit;
 
      PropertyName:= Get_Property_Name( _e, _FullName);
-     p:= _e.Properties.ItemNamed[ PropertyName];
+     p:= _e.AttributeNodes[ PropertyName];
 
      if Assigned( p)
      then
-         p.Value:= _Value
+         p.Text:= _Value
      else
-         _e.Properties.Add( _Fullname, _Value);
+         _e.SetAttribute( _Fullname, _Value);
 end;
 
-procedure TSVGDocument.Set_Property( _e: TJclSimpleXMLElem; _Fullname: String; _Value: Integer);
-var
-   PropertyName: String;
-   p: TJclSimpleXMLProp;
+procedure TSVGDocument.Set_Property( _e: IXMLNode; _Fullname: String; _Value: Integer);
 begin
      if _e = nil then exit;
 
-     PropertyName:= Get_Property_Name( _e, _FullName);
-     p:= _e.Properties.ItemNamed[ PropertyName];
-
-     if Assigned( p)
-     then
-         p.IntValue:= _Value
-     else
-         _e.Properties.Add( _Fullname, _Value);
+     _e.SetAttribute( _Fullname, _Value);
 end;
 
-procedure TSVGDocument.Delete_Property( _e: TJclSimpleXMLElem; _Fullname: String);
+procedure TSVGDocument.Delete_Property( _e: IXMLNode; _Fullname: String);
 var
    PropertyName: String;
 begin
@@ -339,15 +331,15 @@ begin
 
      PropertyName:= Get_Property_Name( _e, _FullName);
 
-     _e.Properties.Delete( PropertyName);
+     _e.AttributeNodes.Delete( PropertyName);
 end;
 
-function TSVGDocument.Cherche_Item( _eRoot: TJclSimpleXMLElem; _FullName: String;
+function TSVGDocument.Cherche_Item( _eRoot: IXMLNode; _FullName: String;
                                      _Properties_Names ,
-                                     _Properties_Values: array of String): TJclSimpleXMLElem;
+                                     _Properties_Values: array of String): IXMLNode;
 var
    I: Integer;
-   e: TJclSimpleXMLElem;
+   e: IXMLNode;
    iProperties: Integer;
    Properties_Values: array of String;
    Arreter: Boolean;
@@ -358,12 +350,12 @@ begin
 
      SetLength( Properties_Values, Length( _Properties_Names));
 
-     for I:= 0 to _eRoot.Items.Count - 1
+     for I:= 0 to _eRoot.ChildNodes.Count - 1
      do
        begin
-       e:= _eRoot.Items.Item[ I];
+       e:= _eRoot.ChildNodes[ I];
        if e = nil                 then continue;
-       if e.FullName <> _FullName then continue;
+       if e.NodeName <> _FullName then continue;
 
        Arreter:= False;
        for iProperties:= Low( _Properties_Names) to High( _Properties_Names)
@@ -399,12 +391,12 @@ begin
        end;
 end;
 
-function TSVGDocument.Cherche_Item_Recursif( _eRoot: TJclSimpleXMLElem; _FullName: String;
+function TSVGDocument.Cherche_Item_Recursif( _eRoot: IXMLNode; _FullName: String;
                                               _Properties_Names ,
-                                              _Properties_Values: array of String): TJclSimpleXMLElem;
+                                              _Properties_Values: array of String): IXMLNode;
 var
    I: Integer;
-   e: TJclSimpleXMLElem;
+   e: IXMLNode;
    Properties_Values: array of String;
    Arreter: Boolean;
    procedure Traite_Properties;
@@ -441,14 +433,14 @@ begin
 
      SetLength( Properties_Values, Length( _Properties_Names));
 
-     for I:= 0 to _eRoot.Items.Count - 1
+     for I:= 0 to _eRoot.ChildNodes.Count - 1
      do
        begin
-       e:= _eRoot.Items.Item[ I];
+       e:= _eRoot.ChildNodes[ I];
        if e = nil                 then continue;
 
        Arreter:= False;
-       if e.FullName = _FullName
+       if e.NodeName = _FullName
        then
            Traite_Properties
        else
@@ -463,16 +455,16 @@ begin
        end;
 end;
 
-function TSVGDocument.Assure_Item( _eRoot: TJclSimpleXMLElem; _FullName: String;
+function TSVGDocument.Assure_Item( _eRoot: IXMLNode; _FullName: String;
                                     _Properties_Names ,
-                                    _Properties_Values: array of String): TJclSimpleXMLElem;
+                                    _Properties_Values: array of String): IXMLNode;
 var
    iProperties: Integer;
 begin
      Result:= Cherche_Item( _eRoot, _FullName, _Properties_Names, _Properties_Values);
      if Assigned( Result) then exit;
 
-     Result:= _eRoot.Items.Add( _FullName);
+     Result:= _eRoot.AddChild( _FullName);
      if Result = nil then exit;
 
      for iProperties:= Low( _Properties_Names) to High( _Properties_Names)
@@ -482,20 +474,16 @@ begin
                      _Properties_Values[ iProperties]);
 end;
 
-procedure TSVGDocument.Supprime_Item( _e: TJclSimpleXMLElem);
+procedure TSVGDocument.Supprime_Item( _e: IXMLNode);
 var
-   Parent: TJclSimpleXMLElem;
-   CONTAINER: TJclSimpleXMLElems;
+   Parent: IXMLNode;
 begin
      if _e = nil then exit;
 
-     Parent:= _e.Parent;
+     Parent:= _e.ParentNode;
      if Parent= nil then exit;
 
-     CONTAINER:= Parent.Items;
-     if CONTAINER = nil then exit;
-     
-     CONTAINER.Delete( CONTAINER.IndexOf( _e));
+     Parent.ChildNodes.Remove( _e);
 end;
 
 procedure TSVGDocument.Save;
@@ -528,18 +516,18 @@ begin
      Result:= Format('rgb(%d,%d,%d)',[C.rgbBlue, C.rgbGreen, C.rgbRed]);
 end;
 
-function TSVGDocument.rect( _eRoot: TJclSimpleXMLElem;
+function TSVGDocument.rect( _eRoot: IXMLNode;
                             _R: TRect;
                             _Color: TColor;
                             _Pen_Color: TColor;
-                            _Pen_Width: Integer): TJclSimpleXMLElem;
+                            _Pen_Width: Integer): IXMLNode;
 var
    x, y, width, height: Integer;
    fill: String;
    stroke: String;
    style: String;
 begin
-     Result:= _eRoot.Items.Add( 'rect');
+     Result:= _eRoot.AddChild( 'rect');
 
      x     := _R.Left;
      y     := _R.Top ;
@@ -559,18 +547,18 @@ begin
      Set_Property( Result, 'style' , style );
 end;
 
-function TSVGDocument.ellipse( _eRoot: TJclSimpleXMLElem;
+function TSVGDocument.ellipse( _eRoot: IXMLNode;
                                _R: TRect;
                                _Color,
                                _Pen_Color: TColor;
-                               _Pen_Width: Integer): TJclSimpleXMLElem;
+                               _Pen_Width: Integer): IXMLNode;
 var
    cx, cy, rx, ry: Integer;
    fill: String;
    stroke: String;
    style: String;
 begin
-     Result:= _eRoot.Items.Add( 'ellipse');
+     Result:= _eRoot.AddChild( 'ellipse');
 
      cx    := (_R.Left+_R.Right ) div 2;
      cy    := (_R.Top +_R.Bottom) div 2;
@@ -590,18 +578,18 @@ begin
      Set_Property( Result, 'style', style);
 end;
 
-function TSVGDocument.rect_pattern( _eRoot: TJclSimpleXMLElem;
+function TSVGDocument.rect_pattern( _eRoot: IXMLNode;
                                     _R: TRect;
                                     _pattern: String;
                                     _Pen_Color: TColor;
-                                    _Pen_Width: Integer): TJclSimpleXMLElem;
+                                    _Pen_Width: Integer): IXMLNode;
 var
    x, y, width, height: Integer;
    fill: String;
    stroke: String;
    style: String;
 begin
-     Result:= _eRoot.Items.Add( 'rect');
+     Result:= _eRoot.AddChild( 'rect');
 
      x     := _R.Left;
      y     := _R.Top ;
@@ -621,17 +609,17 @@ begin
      Set_Property( Result, 'style' , style );
 end;
 
-function TSVGDocument.rect_vide( _eRoot: TJclSimpleXMLElem;
+function TSVGDocument.rect_vide( _eRoot: IXMLNode;
                                  _R: TRect;
                                  _Pen_Color: TColor;
-                                 _Pen_Width: Integer): TJclSimpleXMLElem;
+                                 _Pen_Width: Integer): IXMLNode;
 var
    x, y, width, height: Integer;
    fill: String;
    stroke: String;
    style: String;
 begin
-     Result:= _eRoot.Items.Add( 'rect');
+     Result:= _eRoot.AddChild( 'rect');
 
      x     := _R.Left;
      y     := _R.Top ;
@@ -651,15 +639,15 @@ begin
      Set_Property( Result, 'style' , style );
 end;
 
-function TSVGDocument.text( _eRoot: TJclSimpleXMLElem;
+function TSVGDocument.text( _eRoot: IXMLNode;
                             _X, _Y: Integer;
                             _Text, _Font_Family: String;
                             _Font_Size: Integer;
-                            _Font_Family_Generic: String = 'sans-serif'): TJclSimpleXMLElem;
+                            _Font_Family_Generic: String = 'sans-serif'): IXMLNode;
 var
    font_family: String;
 begin
-     Result:= _eRoot.Items.Add( 'text');
+     Result:= _eRoot.AddChild( 'text');
 
      font_family:= _Font_Family+','+_Font_Family_Generic;
 
@@ -667,46 +655,46 @@ begin
      Set_Property( Result, 'y'                , _Y+_Font_Size);
      Set_Property( Result, 'font_family'      , font_family  );
      Set_Property( Result, 'font-size'        , IntToStr(_Font_Size)+'pt');
-     Result.Value:= _Text
+     Result.Text:= _Text;
 end;
 
-function TSVGDocument.text_a_Gauche(  _eRoot: TJclSimpleXMLElem;
+function TSVGDocument.text_a_Gauche(  _eRoot: IXMLNode;
                                       _X, _Y: Integer;
                                       _Text, _Font_Family: String;
                                       _Font_Size: Integer;
-                                      _Font_Family_Generic: String): TJclSimpleXMLElem;
+                                      _Font_Family_Generic: String): IXMLNode;
 begin
      Result:= text( _eRoot, _X, _Y, _Text, _Font_Family, _Font_Size, _Font_Family_Generic);
      Set_Property( Result, 'text-anchor'  , 'start');
 end;
 
-function TSVGDocument.text_au_Milieu( _eRoot: TJclSimpleXMLElem;
+function TSVGDocument.text_au_Milieu( _eRoot: IXMLNode;
                                       _X, _Y: Integer;
                                       _Text, _Font_Family: String;
                                       _Font_Size: Integer;
-                                      _Font_Family_Generic: String): TJclSimpleXMLElem;
+                                      _Font_Family_Generic: String): IXMLNode;
 begin
      Result:= text( _eRoot, _X, _Y, _Text, _Font_Family, _Font_Size, _Font_Family_Generic);
      Set_Property( Result, 'text-anchor'  , 'middle');
 end;
 
-function TSVGDocument.text_a_Droite( _eRoot: TJclSimpleXMLElem;
+function TSVGDocument.text_a_Droite( _eRoot: IXMLNode;
                                      _X, _Y: Integer;
                                      _Text, _Font_Family: String;
                                      _Font_Size: Integer;
-                                     _Font_Family_Generic: String): TJclSimpleXMLElem;
+                                     _Font_Family_Generic: String): IXMLNode;
 begin
      Result:= text( _eRoot, _X, _Y, _Text, _Font_Family, _Font_Size, _Font_Family_Generic);
      Set_Property( Result, 'text-anchor'  , 'end');
 end;
 
-function TSVGDocument.text_rotate(  _eRoot: TJclSimpleXMLElem;
+function TSVGDocument.text_rotate(  _eRoot: IXMLNode;
                                     _X, _Y: Integer;
                                     _Text, _Font_Family: String;
-                                    _Font_Size, _Rotate: Integer): TJclSimpleXMLElem;
+                                    _Font_Size, _Rotate: Integer): IXMLNode;
 var
    sTransform: String;
-   eG: TJclSimpleXMLElem;
+   eG: IXMLNode;
 begin
      if _Rotate=0
      then
@@ -714,19 +702,19 @@ begin
      else
          begin
          sTransform:= 'rotate('+InTToStr(_Rotate)+')';
-         eG:= _eRoot.Items.Add( 'g');
+         eG:= _eRoot.AddChild( 'g');
          Set_Property( eG, 'transform', sTransform);
          text( eG, _X, _Y, _Text, _Font_Family, _Font_Size);
          Result:= eG;
          end;
 end;
 
-function TSVGDocument.line( _eRoot: TJclSimpleXMLElem;
+function TSVGDocument.line( _eRoot: IXMLNode;
                             _x1, _y1, _x2, _y2: Integer;
                             _stroke: TColor;
-                            _stroke_width: Integer): TJclSimpleXMLElem;
+                            _stroke_width: Integer): IXMLNode;
 begin
-     Result:= _eRoot.Items.Add( 'line');
+     Result:= _eRoot.AddChild( 'line');
      Set_Property( Result, 'x1'          , _x1               );
      Set_Property( Result, 'y1'          , _y1               );
      Set_Property( Result, 'x2'          , _x2               );
@@ -735,20 +723,20 @@ begin
      Set_Property( Result, 'stroke-width', _stroke_width     );
 end;
 
-function TSVGDocument.line_dash( _eRoot: TJclSimpleXMLElem;
+function TSVGDocument.line_dash( _eRoot: IXMLNode;
                                  _x1, _y1, _x2, _y2: Integer;
                                  _stroke: TColor;
-                                 _stroke_width: Integer): TJclSimpleXMLElem;
+                                 _stroke_width: Integer): IXMLNode;
 begin
      Result:= line( _eRoot, _x1, _y1, _x2, _y2, _stroke, _stroke_width);
      Set_Property( Result, 'stroke-dasharray', '5, 5');
 end;
 
-function TSVGDocument.polygon( _eRoot: TJclSimpleXMLElem;
+function TSVGDocument.polygon( _eRoot: IXMLNode;
                                _points: TPolygon;
                                _Color: TColor;
                                _Pen_Color: TColor;
-                               _Pen_Width: Integer): TJclSimpleXMLElem;
+                               _Pen_Width: Integer): IXMLNode;
 var
    i: Integer;
    sX, sY: String;
@@ -776,15 +764,15 @@ begin
        Format(  'fill:%s;stroke-width:%d;stroke:%s',
                [ fill   , _Pen_Width    , stroke]);
 
-     Result:= _eRoot.Items.Add( 'polygon');
+     Result:= _eRoot.AddChild( 'polygon');
      Set_Property( Result, 'points', points);
      Set_Property( Result, 'style' , style );
 end;
 
-function TSVGDocument.PolyBezier( _eRoot: TJclSimpleXMLElem;
+function TSVGDocument.PolyBezier( _eRoot: IXMLNode;
                                   _points: TPolygon;
                                   _Pen_Color: TColor;
-                                  _Pen_Width: Integer): TJclSimpleXMLElem;
+                                  _Pen_Width: Integer): IXMLNode;
 var
    i: Integer;
    d: String;
@@ -822,16 +810,16 @@ begin
        Format(  'stroke-width:0.2;stroke:%s;fill:none',
                [ {_Pen_Width     ,} stroke]);
 
-     Result:= _eRoot.Items.Add( 'path');
+     Result:= _eRoot.AddChild( 'path');
      Set_Property( Result, 'd'     , d     );
      Set_Property( Result, 'style' , style );
 end;
 
-function TSVGDocument.image( _eRoot: TJclSimpleXMLElem;
+function TSVGDocument.image( _eRoot: IXMLNode;
                              _x, _y, _width, _height: Integer;
-                             _xlink_href: String): TJclSimpleXMLElem;
+                             _xlink_href: String): IXMLNode;
 begin
-     Result:= _eRoot.Items.Add( 'image');
+     Result:= _eRoot.AddChild( 'image');
      Set_Property( Result, 'x'         , _x     );
      Set_Property( Result, 'y'         , _y     );
      Set_Property( Result, 'width'     , _width );
@@ -839,7 +827,7 @@ begin
      Set_Property( Result, 'xlink_href', _xlink_href);
 end;
 
-procedure TSVGDocument.Dessinne_Coche( _eRoot: TJclSimpleXMLElem;
+procedure TSVGDocument.Dessinne_Coche( _eRoot: IXMLNode;
                              _CouleurFond, _CouleurCoche: TColor;
                              _R: TRect; _Coche: Boolean);
 var

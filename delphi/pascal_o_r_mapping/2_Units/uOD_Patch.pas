@@ -30,7 +30,7 @@ uses
     uOD_TextTableContext,
     uOD_Error,
     uOD_JCL,
-  SysUtils, Classes, Types, JCLSimpleXML;
+  SysUtils, Classes, Types, Xml.XMLIntf;
 
 type
  Tprocedure_OD_Patch_CallBack= procedure ( _D: TOpenDocument) of object;
@@ -111,7 +111,7 @@ type
     Renomme_Branche_Racine_FieldName_Avant,
     Renomme_Branche_Racine_FieldName_Apres: String;
     Renomme_Branche_OD_Patch_CallBack: Tprocedure_OD_Patch_CallBack;
-    procedure Renomme_Branche_CallBack( _e: TJclSimpleXMLElem);
+    procedure Renomme_Branche_CallBack( _e: IXMLNode);
   public
     procedure Renomme_Branche( _D: TOpenDocument;
                                _Racine_FieldName_Avant,
@@ -432,7 +432,7 @@ begin
                                _IgnoreCase);
 end;
 
-procedure TOD_Patch.Renomme_Branche_CallBack( _e: TJclSimpleXMLElem);
+procedure TOD_Patch.Renomme_Branche_CallBack( _e: IXMLNode);
 var
    Name: String;
    NewName: String;
@@ -472,7 +472,7 @@ procedure TOD_Patch.Renomme_Table( _D: TOpenDocument;
                                    _New_Name: String);
 var
    C: TOD_TextTableContext;
-   eTable: TJclSimpleXMLElem;
+   eTable: IXMLNode;
 begin
      C:= TOD_TextTableContext.Create( _D);
      try

@@ -16,7 +16,7 @@ unit uOD_SpreadsheetManager;
 interface
 
 uses
-    JclSimpleXml,
+    Xml.XMLIntf,
     uOOoStrings,
     uOD_Column,
     uOD_JCL,
@@ -49,7 +49,7 @@ type
     NomFichier: String;
     D: TOpenDocument;
     C: TOD_TextTableContext;//créé pour Append_Row, pas trop propre on est en tableur pas en texte
-    eTABLE: TJclSimpleXMLElem;
+    eTABLE: IXMLNode;
   //Gestion de la ligne courante
   private
     FnRow: Integer;

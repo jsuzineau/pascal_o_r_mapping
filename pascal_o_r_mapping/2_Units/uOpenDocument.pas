@@ -776,8 +776,6 @@ end;*)
 { TOpenDocument }
 
 constructor TOpenDocument.Create( _Nom: String);
-var
-   I: Integer;
    procedure Calcule_is_Calc;
    var
       Ext: String;

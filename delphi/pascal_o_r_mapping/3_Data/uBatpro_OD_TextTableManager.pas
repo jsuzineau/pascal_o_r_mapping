@@ -26,7 +26,7 @@ interface
 
 uses
     {$IFDEF MSWINDOWS}
-    JclSimpleXml,
+    Xml.XMLIntf,
     {$ELSE}
     DOM,
     {$ENDIF}

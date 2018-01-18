@@ -25,53 +25,53 @@ unit uOD_JCL;
 interface
 
 uses
-    JclSimpleXml,
+    Xml.XMLIntf,
     uOOoStrings,
   Windows, SysUtils, Classes, FMX.Forms, FMX.Dialogs;
 
 //Gestion JclSimpleXMLElem
 procedure FullName_Split( _FullName: String; var NameSpace, Name: String);
 function Name_from_FullName( _FullName: String): String;
-function Elem_from_path( _e: TJclSimpleXMLElem; Path: String):TJclSimpleXMLElem;
-function Cree_path     ( _e: TJclSimpleXMLElem; Path: String):TJclSimpleXMLElem;
-function Assure_path   ( _e: TJclSimpleXMLElem; Path: String):TJclSimpleXMLElem;
-function Text_from_path( _Root: TJclSimpleXMLElem; _Path: String): String;
+function Elem_from_path( _e: IXMLNode; Path: String):IXMLNode;
+function Cree_path     ( _e: IXMLNode; Path: String):IXMLNode;
+function Assure_path   ( _e: IXMLNode; Path: String):IXMLNode;
+function Text_from_path( _Root: IXMLNode; _Path: String): String;
 
 //Gestion Properties
-function Get_Property_Name( _e: TJclSimpleXMLElem; _FullName: String): String;
-function not_Get_Property( _e: TJclSimpleXMLElem;
+function Get_Property_Name( _e: IXMLNode; _FullName: String): String;
+function not_Get_Property( _e: IXMLNode;
                            _FullName: String;
                            out _Value: String): Boolean;
-function not_Get_Property_from_path( const _eRoot   : TJclSimpleXMLElem;
+function not_Get_Property_from_path( const _eRoot   : IXMLNode;
                                      const _Path    : String;
                                      const _FullName: String;
                                      out   _Value   : String): Boolean;
-function not_Test_Property( _e: TJclSimpleXMLElem;
+function not_Test_Property( _e: IXMLNode;
                             _FullName: String;
                             _Values: array of String): Boolean;
-procedure Set_Property( _e: TJclSimpleXMLElem;
+procedure Set_Property( _e: IXMLNode;
                         _Fullname, _Value: String);
-procedure Delete_Property( _e: TJclSimpleXMLElem; _Fullname: String);
+procedure Delete_Property( _e: IXMLNode; _Fullname: String);
 
 function double_from_StrCM( _sCM: String): double;//"0.635cm"
 function StrCM_from_double( _d  : double): String;//"0.635cm"
 
 //Gestion Items
-function Cherche_Item( _eRoot: TJclSimpleXMLElem; _FullName: String;
+function Cherche_Item( _eRoot: IXMLNode; _FullName: String;
                        _Properties_Names ,
-                       _Properties_Values: array of String): TJclSimpleXMLElem;
-function Cherche_Item_Recursif( _eRoot: TJclSimpleXMLElem; _FullName: String;
+                       _Properties_Values: array of String): IXMLNode;
+function Cherche_Item_Recursif( _eRoot: IXMLNode; _FullName: String;
                                 _Properties_Names ,
-                                _Properties_Values: array of String): TJclSimpleXMLElem;
-function Ensure_Item( _eRoot: TJclSimpleXMLElem; _FullName: String;
+                                _Properties_Values: array of String): IXMLNode;
+function Ensure_Item( _eRoot: IXMLNode; _FullName: String;
                       _Properties_Names ,
-                      _Properties_Values: array of String): TJclSimpleXMLElem;
-function Add_Item( _eRoot: TJclSimpleXMLElem; _FullName: String;
+                      _Properties_Values: array of String): IXMLNode;
+function Add_Item( _eRoot: IXMLNode; _FullName: String;
                       _Properties_Names,
-                      _Properties_Values: array of String): TJclSimpleXMLElem;
-procedure Copie_Item( _Source, _Cible: TJclSimpleXMLElem);
+                      _Properties_Values: array of String): IXMLNode;
+procedure Copie_Item( _Source, _Cible: IXMLNode);
 
-procedure RemoveChilds( _e: TJclSimpleXMLElem);
+procedure RemoveChilds( _e: IXMLNode);
 
 implementation
 
@@ -100,7 +100,7 @@ begin
          Result:= NameSpace;
 end;
 
-function Elem_from_path( _e: TJclSimpleXMLElem; Path: String):TJclSimpleXMLElem;
+function Elem_from_path( _e: IXMLNode; Path: String):IXMLNode;
 var
    sNode: String;
    Name: String;
@@ -111,24 +111,24 @@ begin
 
      sNode:= StrToK( '/', Path);
      Name:= Name_from_FullName( sNode);
-     Result:= _e.Items.ItemNamed[ Name];
+     Result:= _e.ChildNodes[ Name];
      Result:= Elem_from_path( Result, Path);
 end;
 
-function Cree_path( _e: TJclSimpleXMLElem; Path: String):TJclSimpleXMLElem;
+function Cree_path( _e: IXMLNode; Path: String):IXMLNode;
 var
-   FullName: String;
+   NodeName: String;
 begin
      Result:= _e;
      if _e = nil  then exit;
      if Path = '' then exit;
 
-     FullName:= StrToK( '/', Path);
-     Result:= _e.Items.Add( FullName);
+     NodeName:= StrToK( '/', Path);
+     Result:= _e.AddChild( NodeName);
      Result:= Cree_path( Result, Path);
 end;
 
-function Assure_path   ( _e: TJclSimpleXMLElem; Path: String):TJclSimpleXMLElem;
+function Assure_path   ( _e: IXMLNode; Path: String):IXMLNode;
 begin
      Result:= Elem_from_path( _e, Path);
      if Result = nil
@@ -136,26 +136,26 @@ begin
          Result:= Cree_path( _e, Path);
 end;
 
-function Text_from_path( _Root: TJclSimpleXMLElem; _Path: String): String;
+function Text_from_path( _Root: IXMLNode; _Path: String): String;
 var
-   e: TJclSimpleXMLElem;
+   e: IXMLNode;
 begin
      Result:= '';
 
      e:= Elem_from_path( _Root, _Path);
      if e= nil then exit;
 
-     Result:= e.Value;
+     Result:= e.Text;
 end;
 
 //Gestion Properties
 
-function Get_Property_Name( _e: TJclSimpleXMLElem; _FullName: String): String;
+function Get_Property_Name( _e: IXMLNode; _FullName: String): String;
 var
    _e_NameSpace: String;
    Name: String;
 begin
-     _e_NameSpace:= _e.NameSpace;
+     _e_NameSpace:= _e.Prefix;
      if _e_NameSpace = ''
      then
          Result:= _FullName
@@ -166,32 +166,32 @@ begin
          end;
 end;
 
-function not_Get_Property( _e: TJclSimpleXMLElem;
+function not_Get_Property( _e: IXMLNode;
                            _FullName: String;
                            out _Value: String): Boolean;
 var
    PropertyName: String;
-   p: TJclSimpleXMLProp;
+   p: IXMLNode;
 begin
      Result:= _e = nil;
      if Result then exit;
 
      PropertyName:= Get_Property_Name( _e, _FullName);
 
-     p:= _e.Properties.ItemNamed[ PropertyName];
+     p:= _e.AttributeNodes[ PropertyName];
 
      Result:= p = nil;
      if Result then exit;
 
-     _Value:= p.Value;
+     _Value:= p.Text;
 end;
 
-function not_Get_Property_from_path( const _eRoot   : TJclSimpleXMLElem;
+function not_Get_Property_from_path( const _eRoot   : IXMLNode;
                                      const _Path    : String;
                                      const _FullName: String;
                                      out   _Value   : String): Boolean;
 var
-   e: TJclSimpleXMLElem;
+   e: IXMLNode;
 begin
      e:= Elem_from_path( _eRoot, _Path);
      Result:= e = nil;
@@ -200,7 +200,7 @@ begin
      Result:= not_Get_Property( e, _FullName, _Value);
 end;
 
-function not_Test_Property( _e: TJclSimpleXMLElem;
+function not_Test_Property( _e: IXMLNode;
                             _FullName: String;
                             _Values: array of String): Boolean;
 var
@@ -219,25 +219,25 @@ begin
        end;
 end;
 
-procedure Set_Property( _e: TJclSimpleXMLElem;
+procedure Set_Property( _e: IXMLNode;
                         _Fullname, _Value: String);
 var
    PropertyName: String;
-   p: TJclSimpleXMLProp;
+   p: IXMLNode;
 begin
      if _e = nil then exit;
 
      PropertyName:= Get_Property_Name( _e, _FullName);
-     p:= _e.Properties.ItemNamed[ PropertyName];
+     p:= _e.AttributeNodes[ PropertyName];
 
      if Assigned( p)
      then
-         p.Value:= _Value
+         p.Text:= _Value
      else
-         _e.Properties.Add( _Fullname, _Value);
+         _e.SetAttribute( _Fullname, _Value);
 end;
 
-procedure Delete_Property( _e: TJclSimpleXMLElem; _Fullname: String);
+procedure Delete_Property( _e: IXMLNode; _Fullname: String);
 var
    PropertyName: String;
 begin
@@ -245,17 +245,17 @@ begin
 
      PropertyName:= Get_Property_Name( _e, _FullName);
 
-     _e.Properties.Delete( PropertyName);
+     _e.AttributeNodes.Delete( PropertyName);
 end;
 
 //Gestion Items
 
-function Cherche_Item( _eRoot: TJclSimpleXMLElem; _FullName: String;
+function Cherche_Item( _eRoot: IXMLNode; _FullName: String;
                        _Properties_Names ,
-                       _Properties_Values: array of String): TJclSimpleXMLElem;
+                       _Properties_Values: array of String): IXMLNode;
 var
    I: Integer;
-   e: TJclSimpleXMLElem;
+   e: IXMLNode;
    iProperties: Integer;
    Properties_Values: array of String;
    Arreter: Boolean;
@@ -266,12 +266,12 @@ begin
 
      SetLength( Properties_Values, Length( _Properties_Names));
 
-     for I:= 0 to _eRoot.Items.Count - 1
+     for I:= 0 to _eRoot.ChildNodes.Count - 1
      do
        begin
-       e:= _eRoot.Items.Item[ I];
+       e:= _eRoot.ChildNodes[ I];
        if e = nil                 then continue;
-       if e.FullName <> _FullName then continue;
+       if e.NodeName <> _FullName then continue;
 
        Arreter:= False;
        for iProperties:= Low( _Properties_Names) to High( _Properties_Names)
@@ -307,12 +307,12 @@ begin
        end;
 end;
 
-function Cherche_Item_Recursif( _eRoot: TJclSimpleXMLElem; _FullName: String;
+function Cherche_Item_Recursif( _eRoot: IXMLNode; _FullName: String;
                                 _Properties_Names ,
-                                _Properties_Values: array of String): TJclSimpleXMLElem;
+                                _Properties_Values: array of String): IXMLNode;
 var
    I: Integer;
-   e: TJclSimpleXMLElem;
+   e: IXMLNode;
    Properties_Values: array of String;
    Arreter: Boolean;
    procedure Traite_Properties;
@@ -349,14 +349,14 @@ begin
 
      SetLength( Properties_Values, Length( _Properties_Names));
 
-     for I:= 0 to _eRoot.Items.Count - 1
+     for I:= 0 to _eRoot.ChildNodes.Count - 1
      do
        begin
-       e:= _eRoot.Items.Item[ I];
+       e:= _eRoot.ChildNodes[ I];
        if e = nil                 then continue;
 
        Arreter:= False;
-       if e.FullName = _FullName
+       if e.NodeName = _FullName
        then
            Traite_Properties
        else
@@ -371,9 +371,9 @@ begin
        end;
 end;
 
-function Ensure_Item( _eRoot: TJclSimpleXMLElem; _FullName: String;
+function Ensure_Item( _eRoot: IXMLNode; _FullName: String;
                       _Properties_Names ,
-                      _Properties_Values: array of String): TJclSimpleXMLElem;
+                      _Properties_Values: array of String): IXMLNode;
 begin
      Result:= Cherche_Item( _eRoot, _FullName, _Properties_Names, _Properties_Values);
      if Assigned( Result) then exit;
@@ -381,13 +381,13 @@ begin
      Result:= Add_Item( _eRoot, _FullName, _Properties_Names, _Properties_Values);
 end;
 
-function Add_Item( _eRoot: TJclSimpleXMLElem; _FullName: String;
+function Add_Item( _eRoot: IXMLNode; _FullName: String;
                       _Properties_Names,
-                      _Properties_Values: array of String): TJclSimpleXMLElem;
+                      _Properties_Values: array of String): IXMLNode;
 var
    iProperties: Integer;
 begin
-     Result:= _eRoot.Items.Add( _FullName);
+     Result:= _eRoot.AddChild( _FullName);
      if Result = nil then exit;
 
      for iProperties:= Low( _Properties_Names) to High( _Properties_Names)
@@ -397,33 +397,33 @@ begin
                      _Properties_Values[ iProperties]);
 end;
 
-procedure Copie_Item( _Source, _Cible: TJclSimpleXMLElem);
+procedure Copie_Item( _Source, _Cible: IXMLNode);
    procedure Copie_Properties;
    var
       iProperties: Integer;
-      P: TJclSimpleXMLProp;
+      P: IXMLNode;
    begin
-        for iProperties:= 0 to _Source.PropertyCount-1
+        for iProperties:= 0 to _Source.AttributeNodes.Count-1
         do
           begin
-          P:= _Source.Properties.Item[ iProperties];
+          P:= _Source.AttributeNodes[ iProperties];
           if P = nil then continue;
 
-          Set_Property( _Cible, P.FullName, P.Value);
+          Set_Property( _Cible, P.NodeName, p.Text);
           end;
    end;
    procedure Copie_Items;
    var
       I: Integer;
-      eSource, eCible: TJclSimpleXMLElem;
+      eSource, eCible: IXMLNode;
    begin
-        for I:= 0 to _Source.Items.Count - 1
+        for I:= 0 to _Source.ChildNodes.Count - 1
         do
           begin
-          eSource:= _Source.Items.Item[ I];
+          eSource:= _Source.ChildNodes[ I];
           if eSource = nil then continue;
 
-          eCible:= _Cible.Items.Add( eSource.FullName);
+          eCible:= _Cible.AddChild( eSource.NodeName);
           Copie_Item( eSource, eCible);
           end;
    end;
@@ -435,7 +435,7 @@ begin
 
      Copie_Items;
 
-     _Cible.Value:= _Source.Value;
+     _Cible.Text:= _Source.Text;
 end;
 
 function double_from_StrCM( _sCM: String): double;//"0.635cm"
@@ -458,9 +458,9 @@ begin
      Result:= TrimLeft( Result) + 'cm';
 end;
 
-procedure RemoveChilds( _e: TJclSimpleXMLElem);
+procedure RemoveChilds( _e: IXMLNode);
 begin
-     _e.Items.Clear;
+     _e.ChildNodes.Clear;
 end;
 
 end.

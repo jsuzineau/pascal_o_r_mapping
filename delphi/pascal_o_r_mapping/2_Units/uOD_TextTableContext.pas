@@ -16,7 +16,7 @@
 interface
 
 uses
-    JclSimpleXml,
+    Xml.XMLIntf,
     uOOoStrings,
     uOD_Merge,
     uOD_TextFieldsCreator,
@@ -38,14 +38,14 @@ type
   class
   //Cycle de vie
   public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem); virtual;
+    constructor Create( _C: TOD_TextTableContext; _eRoot: IXMLNode); virtual;
     destructor Destroy; override;
   //Attributs
   public
     C: TOD_TextTableContext;
     D: TOpenDocument;
-    eRoot: TJclSimpleXMLElem;
-    e: TJclSimpleXMLElem;
+    eRoot: IXMLNode;
+    e: IXMLNode;
   //Méthodes
   public
     function  not_Get_Property( _FullName: String; out _Value: String): Boolean;
@@ -81,18 +81,18 @@ type
   class( TOD_XML_Element)
   //Cycle de vie
   public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem); override;
+    constructor Create( _C: TOD_TextTableContext; _eRoot: IXMLNode); override;
   //Style automatique
   private
-    FStyle_Automatique: TJclSimpleXMLElem;
+    FStyle_Automatique: IXMLNode;
     function Nom_Style_automatique( _NomStyle: String; _Gras: Boolean = False;
                                     _DeltaSize: Integer= 0; _Size: Integer= 0;
                                     _SizePourcent: Integer= 100): String;
     procedure Applique_Style( _NomStyle: String);
-    function GetStyle_Automatique: TJclSimpleXMLElem;
+    function GetStyle_Automatique: IXMLNode;
   public
     Is_Header: boolean;
-    property Style_Automatique: TJclSimpleXMLElem read GetStyle_Automatique;
+    property Style_Automatique: IXMLNode read GetStyle_Automatique;
     procedure Set_Style( _NomStyle: String; _Gras: Boolean = False;
                          _DeltaSize: Integer= 0; _Size: Integer= 0;
                          _SizePourcent: Integer= 100);
@@ -103,7 +103,7 @@ type
   class( TOD_XML_Element)
   //Cycle de vie
   public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem); override;
+    constructor Create( _C: TOD_TextTableContext; _eRoot: IXMLNode); override;
   end;
 
  TOD_IMAGE
@@ -111,7 +111,7 @@ type
   class( TOD_XML_Element)
   //Cycle de vie
   public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem); override;
+    constructor Create( _C: TOD_TextTableContext; _eRoot: IXMLNode); override;
   //Méthodes
   public
     procedure Set_Filename( _Filename: String);
@@ -122,7 +122,7 @@ type
   class( TOD_XML_Element)
   //Cycle de vie
   public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem); override;
+    constructor Create( _C: TOD_TextTableContext; _eRoot: IXMLNode); override;
   //Méthodes
   public
     function NewImage_as_Character: TOD_IMAGE;
@@ -133,7 +133,7 @@ type
   class( TOD_XML_Element)
   //Cycle de vie
   public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem); override;
+    constructor Create( _C: TOD_TextTableContext; _eRoot: IXMLNode); override;
   //Nom
   private
     function  GetNom: String;
@@ -147,7 +147,7 @@ type
   class( TOD_XML_Element)
   //Cycle de vie
   public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem); override;
+    constructor Create( _C: TOD_TextTableContext; _eRoot: IXMLNode); override;
   //Méthodes
   public
     procedure SetPositionCM( _PositionCM: double);
@@ -159,7 +159,7 @@ type
   class( TOD_XML_Element)
   //Cycle de vie
   public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem); override;
+    constructor Create( _C: TOD_TextTableContext; _eRoot: IXMLNode); override;
   //Méthodes
   public
     function Cree_TAB_STOP( _A: TOD_Style_Alignment): TOD_TAB_STOP;
@@ -170,7 +170,7 @@ type
   class( TOD_XML_Element)
   //Cycle de vie
   public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem); override;
+    constructor Create( _C: TOD_TextTableContext; _eRoot: IXMLNode); override;
   //Méthodes
   public
     function TAB_STOPS: TOD_TAB_STOPS;
@@ -181,22 +181,22 @@ type
   class( TOD_XML_Element)
   //Cycle de vie
   public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem); override;
+    constructor Create( _C: TOD_TextTableContext; _eRoot: IXMLNode); override;
   //Méthodes
   public
     function NewFrame: TOD_FRAME;
     function NewTable: TOD_TABLE;
   //Style automatique
   private
-    FStyle_Automatique: TJclSimpleXMLElem;
+    FStyle_Automatique: IXMLNode;
     function Nom_Style_automatique( _NomStyle: String; _Gras: Boolean = False;
                                     _DeltaSize: Integer= 0; _Size: Integer= 0;
                                     _SizePourcent: Integer= 100): String;
     procedure Applique_Style( _NomStyle: String);
-    function GetStyle_Automatique: TJclSimpleXMLElem;
+    function GetStyle_Automatique: IXMLNode;
   public
     Is_Header: boolean;
-    property Style_Automatique: TJclSimpleXMLElem read GetStyle_Automatique;
+    property Style_Automatique: IXMLNode read GetStyle_Automatique;
     procedure Set_Style( _NomStyle: String; _Gras: Boolean = False;
                          _DeltaSize: Integer= 0; _Size: Integer= 0;
                          _SizePourcent: Integer= 100);
@@ -212,7 +212,7 @@ type
   class( TOD_XML_Element)
   //Cycle de vie
   public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem); override;
+    constructor Create( _C: TOD_TextTableContext; _eRoot: IXMLNode); override;
   //Ajout d'un nouveau paragraphe
   public
     function NewParagraph: TOD_PARAGRAPH;
@@ -250,7 +250,7 @@ type
   class( TOD_XML_Element)
   //Cycle de vie
   public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem); override;
+    constructor Create( _C: TOD_TextTableContext; _eRoot: IXMLNode); override;
   //Ajout d'une nouvelle cellule
   public
     function NewCell( _Column: Integer): TOD_TABLE_CELL;
@@ -275,7 +275,7 @@ type
   class( TOD_XML_Element)
   //Cycle de vie
   public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem); override;
+    constructor Create( _C: TOD_TextTableContext; _eRoot: IXMLNode); override;
   //Ajout d'une nouvelle ligne
   public
     function NewRow: TOD_TABLE_ROW;
@@ -286,7 +286,7 @@ type
   class( TOD_XML_Element)
   //Cycle de vie
   public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem); override;
+    constructor Create( _C: TOD_TextTableContext; _eRoot: IXMLNode); override;
   end;
 
  TOD_TABLE_COLUMN
@@ -294,7 +294,7 @@ type
   class( TOD_XML_Element)
   //Cycle de vie
   public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem); override;
+    constructor Create( _C: TOD_TextTableContext; _eRoot: IXMLNode); override;
   //Dimensionnement
   public
     procedure Dimensionne( _NbColonnes: Integer);
@@ -322,7 +322,7 @@ type
     Bordures_Verticales_Colonnes: Boolean;
     D: TOpenDocument;
 
-    eTABLE: TJclSimpleXMLElem;
+    eTABLE: IXMLNode;
 
     TABLE_HEADER_ROWS: TOD_TABLE_HEADER_ROWS;
 
@@ -405,8 +405,8 @@ type
                               _Bordure_fin_table: Boolean);
   //Recherche de la table dans le XML
   public
-    function  Is_Table( _e: TJclSimpleXMLElem): boolean;
-    function  Cherche_table: TJclSimpleXMLElem;
+    function  Is_Table( _e: IXMLNode): boolean;
+    function  Cherche_table: IXMLNode;
   //Nombre de lignes
   public
     RowCount: Integer;
@@ -436,7 +436,7 @@ implementation
 
 { TOD_XML_Element }
 
-constructor TOD_XML_Element.Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem);
+constructor TOD_XML_Element.Create( _C: TOD_TextTableContext; _eRoot: IXMLNode);
 begin
      C:= _C;
      D:= _C.D;
@@ -451,12 +451,12 @@ end;
 
 function TOD_XML_Element.GetText: String;
 begin
-     Result:= e.Value;
+     Result:= e.Text;
 end;
 
 procedure TOD_XML_Element.SetText( _Value: String);
 begin
-     e.Value:= _Value;
+     e.Text:= _Value;
 end;
 
 function TOD_XML_Element.not_Get_Property( _FullName: String; out _Value: String): Boolean;
@@ -526,7 +526,7 @@ end;
 
 { TOD_SPAN }
 
-constructor TOD_SPAN.Create(_C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem);
+constructor TOD_SPAN.Create(_C: TOD_TextTableContext; _eRoot: IXMLNode);
 begin
      inherited;
      e:= Cree_path( eRoot, 'text:span');
@@ -589,7 +589,7 @@ begin
      Applique_Style( NomStyleApplique);
 end;
 
-function TOD_SPAN.GetStyle_Automatique: TJclSimpleXMLElem;
+function TOD_SPAN.GetStyle_Automatique: IXMLNode;
    procedure Cree;
    var
       NomStyleApplique: String;
@@ -612,7 +612,7 @@ end;
 
 { TOD_TAB }
 
-constructor TOD_TAB.Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem);
+constructor TOD_TAB.Create( _C: TOD_TextTableContext; _eRoot: IXMLNode);
 begin
      inherited;
      e:= Cree_path( eRoot, 'text:tab');
@@ -620,7 +620,7 @@ end;
 
 { TOD_IMAGE }
 
-constructor TOD_IMAGE.Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem);
+constructor TOD_IMAGE.Create( _C: TOD_TextTableContext; _eRoot: IXMLNode);
 begin
      inherited;
      e:= Cree_path( eRoot, 'draw:image');
@@ -632,16 +632,16 @@ var
    url: String;
 begin
      url:= D.URL_from_WindowsFileName( _Filename);
-     e.Properties.Add( 'xlink:href'      , url                       );
-     e.Properties.Add( 'xlink:type'      , 'simple'                  );
-     e.Properties.Add( 'xlink:show'      , 'embed'                   );
-     e.Properties.Add( 'xlink:actuate'   , 'onLoad'                  );
-     e.Properties.Add( 'draw:filter-name', '&lt;Tous les formats&gt;');// localisé?
+     e.SetAttribute( 'xlink:href'      , url                       );
+     e.SetAttribute( 'xlink:type'      , 'simple'                  );
+     e.SetAttribute( 'xlink:show'      , 'embed'                   );
+     e.SetAttribute( 'xlink:actuate'   , 'onLoad'                  );
+     e.SetAttribute( 'draw:filter-name', '&lt;Tous les formats&gt;');// localisé?
 end;
 
 { TOD_FRAME }
 
-constructor TOD_FRAME.Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem);
+constructor TOD_FRAME.Create( _C: TOD_TextTableContext; _eRoot: IXMLNode);
 begin
      inherited;
      e:= Cree_path( eRoot, 'draw:frame');
@@ -649,13 +649,13 @@ end;
 
 function TOD_FRAME.NewImage_as_Character: TOD_IMAGE;
 begin
-     e.Properties.Add( 'text:anchor-type', 'as-char');
+     e.SetAttribute( 'text:anchor-type', 'as-char');
      Result:= TOD_IMAGE.Create( C, e);
 end;
 
 { TOD_TAB_STOP }
 
-constructor TOD_TAB_STOP.Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem);
+constructor TOD_TAB_STOP.Create( _C: TOD_TextTableContext; _eRoot: IXMLNode);
 begin
      inherited;
      e:= Cree_path( eRoot, 'style:tab-stop');
@@ -682,7 +682,7 @@ end;
 
 { TOD_TAB_STOPS }
 
-constructor TOD_TAB_STOPS.Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem);
+constructor TOD_TAB_STOPS.Create( _C: TOD_TextTableContext; _eRoot: IXMLNode);
 begin
      inherited;
      e:= Assure_path( eRoot, 'style:tab-stops');
@@ -696,7 +696,7 @@ end;
 
 { TOD_PARAGRAPH_PROPERTIES }
 
-constructor TOD_PARAGRAPH_PROPERTIES.Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem);
+constructor TOD_PARAGRAPH_PROPERTIES.Create( _C: TOD_TextTableContext; _eRoot: IXMLNode);
 begin
      inherited;
      e:= Assure_path( eRoot, 'style:paragraph-properties');
@@ -709,7 +709,7 @@ end;
 
 { TOD_PARAGRAPH }
 
-constructor TOD_PARAGRAPH.Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem);
+constructor TOD_PARAGRAPH.Create( _C: TOD_TextTableContext; _eRoot: IXMLNode);
 begin
      inherited;
      e:= Cree_path( eRoot, 'text:p');
@@ -757,7 +757,7 @@ begin
      Applique_Style( NomStyleApplique);
 end;
 
-function TOD_PARAGRAPH.GetStyle_Automatique: TJclSimpleXMLElem;
+function TOD_PARAGRAPH.GetStyle_Automatique: IXMLNode;
    procedure Cree;
    var
       NomStyleApplique: String;
@@ -799,7 +799,7 @@ end;
 
 { TOD_TABLE }
 
-constructor TOD_TABLE.Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem);
+constructor TOD_TABLE.Create( _C: TOD_TextTableContext; _eRoot: IXMLNode);
 begin
      inherited;
      e:= Cree_path( eRoot, 'table:table');
@@ -822,7 +822,7 @@ end;
 
 { TOD_TABLE_CELL }
 
-constructor TOD_TABLE_CELL.Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem);
+constructor TOD_TABLE_CELL.Create( _C: TOD_TextTableContext; _eRoot: IXMLNode);
 begin
      inherited;
      e:= Cree_path( eRoot, 'table:table-cell');
@@ -890,7 +890,7 @@ end;
 
 { TOD_TABLE_ROW }
 
-constructor TOD_TABLE_ROW.Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem);
+constructor TOD_TABLE_ROW.Create( _C: TOD_TextTableContext; _eRoot: IXMLNode);
 begin
      inherited;
      e:= Cree_path( eRoot, 'table:table-row');
@@ -912,7 +912,7 @@ var
    C: TOD_TABLE_CELL;
    P: TOD_PARAGRAPH;
 begin
-     e.Clear;
+     e.ChildNodes.Clear;
 
      SetLength( Cells, _Number_of_Cells);
      SetLength( Paragraphs, _Number_of_Cells);
@@ -958,12 +958,12 @@ var
    C: TOD_TABLE_CELL;
 begin
      C:= Cells[ _Index];
-     e.Items.Remove( C.e);
+     e.ChildNodes.Remove( C.e);
 end;
 
 { TOD_TABLE_HEADER_ROWS }
 
-constructor TOD_TABLE_HEADER_ROWS.Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem);
+constructor TOD_TABLE_HEADER_ROWS.Create( _C: TOD_TextTableContext; _eRoot: IXMLNode);
 begin
      inherited;
      e:= D.Ensure_Item( eRoot, 'table:table-header-rows', [],[]);
@@ -976,7 +976,7 @@ end;
 
 { TOD_SOFT_PAGE_BREAK }
 
-constructor TOD_SOFT_PAGE_BREAK.Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem);
+constructor TOD_SOFT_PAGE_BREAK.Create( _C: TOD_TextTableContext; _eRoot: IXMLNode);
 begin
      inherited;
      e:= Cree_path( eRoot, 'text:soft-page-break');
@@ -984,7 +984,7 @@ end;
 
 { TOD_TABLE_COLUMN }
 
-constructor TOD_TABLE_COLUMN.Create( _C: TOD_TextTableContext; _eRoot: TJclSimpleXMLElem);
+constructor TOD_TABLE_COLUMN.Create( _C: TOD_TextTableContext; _eRoot: IXMLNode);
 begin
      inherited;
      e:= Cree_path( eRoot, 'table:table-column');
@@ -992,7 +992,7 @@ end;
 
 procedure TOD_TABLE_COLUMN.Dimensionne( _NbColonnes: Integer);
 begin
-     e.Properties.Add( 'table:number-columns-repeated', IntToStr( _NbColonnes));
+     e.SetAttribute( 'table:number-columns-repeated', IntToStr( _NbColonnes));
 end;
 
 procedure TOD_TABLE_COLUMN.Duplique( _odc: TOD_TABLE_COLUMN; _NomTable: String);
@@ -1012,7 +1012,7 @@ end;
 
 procedure TOD_TABLE_COLUMN.Style( _NomColonne: String; _Largeur: double; _Relatif: Boolean);
 begin
-     e.Properties.Add( 'table:style-name', _NomColonne);
+     e.SetAttribute( 'table:style-name', _NomColonne);
      D.Add_style_table_column( _NomColonne, _Largeur, _Relatif);
 end;
 
@@ -1249,7 +1249,7 @@ end;
 
 procedure TOD_TextTableContext.Insere_table( Nouveau_Modele: Boolean);
 var
-   eTEXT : TJclSimpleXMLElem;
+   eTEXT : IXMLNode;
 begin
      if not Nouveau_Modele then exit;
 
@@ -1261,7 +1261,7 @@ end;
 
 procedure TOD_TextTableContext.NewPage;
 var
-   eTEXT, eTABLE_PROPERTIES: TJclSimpleXMLElem;
+   eTEXT, eTABLE_PROPERTIES: IXMLNode;
    Nom_New_TABLE: String;
    New_TABLE: TOD_TABLE;
 
@@ -1311,11 +1311,11 @@ begin
      D.Set_Property( eTABLE_PROPERTIES, 'table:align'    , 'margins');//mis "au cas où"
      D.Set_Property( eTABLE_PROPERTIES, 'style:width'    , '17cm'   );//mis "au cas où"
 
-     index_TABLE:= eTEXT.Items.IndexOf( eTABLE);
+     index_TABLE:= eTEXT.ChildNodes.IndexOf( eTABLE);
      //au cas où eTABLE serait lui aussi dans un paragraphe.
-     if index_TABLE = -1 then index_TABLE:= eTEXT.Items.IndexOf( eTABLE.Parent);
+     if index_TABLE = -1 then index_TABLE:= eTEXT.ChildNodes.IndexOf( eTABLE.ParentNode);
 
-     current_index_New_TABLE:= eTEXT.Items.IndexOf( New_TABLE.e);
+     current_index_New_TABLE:= eTEXT.ChildNodes.IndexOf( New_TABLE.e);
 
      eTABLE:= New_TABLE.e;
      TABLE_HEADER_ROWS:= nil;
@@ -1328,7 +1328,7 @@ begin
      if (index_TABLE = -1) or (current_index_New_TABLE= -1) then exit;
 
      index_New_TABLE:= index_TABLE + 1;
-     eTEXT.Items.Move( current_index_New_TABLE, index_New_TABLE);
+     eTEXT.ChildNodes.Insert( index_New_TABLE, New_TABLE.e);
 end;
 
 function TOD_TextTableContext.Nom_MasquerTitreColonnes: String;
@@ -1382,7 +1382,7 @@ end;
 
 procedure TOD_TextTableContext.Formate_Titre( _X, _Y: Integer);
 var
-   eTABLE_CELL_PROPERTIES: TJclSimpleXMLElem;
+   eTABLE_CELL_PROPERTIES: IXMLNode;
    procedure Set_Property( _PropName, _PropValue: String);
    begin
         D.Set_Property( eTABLE_CELL_PROPERTIES, _PropName, _PropValue);
@@ -1405,7 +1405,7 @@ const
      border_Ligne_continue= '0.05pt solid #000000';
      border_Pas_de_ligne  = 'none';
 var
-   eTABLE_CELL_PROPERTIES: TJclSimpleXMLElem;
+   eTABLE_CELL_PROPERTIES: IXMLNode;
    border_top, border_bottom: String;
    procedure Set_Property( _PropName, _PropValue: String);
    begin
@@ -1443,7 +1443,7 @@ procedure TOD_TextTableContext.Bordure_Bottom( _X, _Y: Integer);
 const
      border_Ligne_continue= '0.05pt solid #000000';
 var
-   eTABLE_CELL_PROPERTIES: TJclSimpleXMLElem;
+   eTABLE_CELL_PROPERTIES: IXMLNode;
    procedure Set_Property( _PropName, _PropValue: String);
    begin
         D.Set_Property( eTABLE_CELL_PROPERTIES, _PropName, _PropValue);
@@ -1473,30 +1473,30 @@ begin
          end;
 end;
 
-function TOD_TextTableContext.Is_Table( _e: TJclSimpleXMLElem): boolean;
+function TOD_TextTableContext.Is_Table( _e: IXMLNode): boolean;
 var
    Name: String;
 begin
      Result:= False;
 
      if _e = nil                                    then exit;
-     if 'table:table' <> _e.FullName                then exit;
+     if 'table:table' <> _e.NodeName                then exit;
      if D.not_Get_Property( _e, 'table:name', Name) then exit;
 
      Result:= Name = Nom;
 end;
 
-function TOD_TextTableContext.Cherche_table: TJclSimpleXMLElem;
-     function C( _Root: TJclSimpleXMLElem): TJclSimpleXMLElem;
+function TOD_TextTableContext.Cherche_table: IXMLNode;
+     function C( _Root: IXMLNode): IXMLNode;
      var
         I: Integer;
-        e: TJclSimpleXMLElem;
+        e: IXMLNode;
      begin
           Result:= nil;
-          for I:= 0 to _Root.Items.Count - 1
+          for I:= 0 to _Root.ChildNodes.Count - 1
           do
             begin
-            e:= _Root.Items.Item[ I];
+            e:= _Root.ChildNodes[ I];
             if Is_Table( e)
             then
                 Result:= e
@@ -1506,7 +1506,7 @@ function TOD_TextTableContext.Cherche_table: TJclSimpleXMLElem;
             end;
      end;
 begin
-     Result:= C( D.xmlContent.Root);
+     Result:= C( D.xmlContent.DocumentElement);
 end;
 
 function TOD_TextTableContext.NewRow: TOD_TABLE_ROW;

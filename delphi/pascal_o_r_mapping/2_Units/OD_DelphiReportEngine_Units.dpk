@@ -32,7 +32,8 @@ requires
   fmx,
   dbrtl,
   dsnap,
-  Jcl;
+  Jcl,
+  xmlrtl;
 
 contains
   u_db_ in 'u_db_.pas',

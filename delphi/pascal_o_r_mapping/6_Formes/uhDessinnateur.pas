@@ -27,7 +27,7 @@ interface
 uses
     uOD_Forms,
     {$IFDEF MSWINDOWS}
-    JclSimpleXml,
+    Xml.XMLIntf,
     {$ELSE}
     DOM,
     {$ENDIF}
@@ -1354,11 +1354,11 @@ var
    iCol, iRow: Integer;
    TC: TypeCellule;
    svg: TSVGDocument;
-   eSVG: TJclSimpleXMLElem;
-   eDEFS: TJclSimpleXMLElem;
+   eSVG: IXMLNode;
+   eDEFS: IXMLNodeo;
 begin
      svg:= TSVGDocument.Create( '');
-     eSVG:= svg.xml.Root.Items.Add('svg');
+     eSVG:= svg.xml.DocumentElement.AddChild('svg');
      svg.Set_Property( eSVG, 'xmlns'  , 'http://www.w3.org/2000/svg');
      svg.Set_Property( eSVG, 'version', '1.1');
      svg.Set_Property( eSVG, 'width' , IntToStr(sg.Width ));
@@ -1366,7 +1366,7 @@ begin
      svg.Set_Property( eSVG, 'viewBox', '0 0 '+IntToStr(sg.Width)+' '+IntToStr(sg.Height));
 
      try
-        eDEFS:= eSVG.Items.Add( 'defs');
+        eDEFS:= eSVG.AddChild( 'defs');
         eDEFS.Value
         :=
            fBitmaps.svgDOCSINGL
@@ -1421,7 +1421,7 @@ begin
               //    Canvas.DrawFocusRect(Rect);
               end;
             end;
-          Result:= svg.xml.Root.SaveToString;
+          Result:= svg.xml.DocumentElement.SaveToString;
      finally
             DI.Init_SVG( nil, nil);
             Free_nil( svg);

@@ -16,7 +16,7 @@ unit uOD_TextFieldsCreator;
 interface
 
 uses
-    JclSimpleXml,
+    Xml.XMLIntf,
     uOpenDocument,
   SysUtils, Classes, DB,
   Types;
@@ -216,12 +216,12 @@ end;
 procedure TOD_TextFieldsCreator.Search_and_Replace( _Search, _Replace_by: String;
                                                     _KeepValue: Boolean= False);
    procedure Avant_Apres_decl( _Avant, _Apres: String);
-      procedure Traite_Root( _Root: TJclSimpleXMLElem);
+      procedure Traite_Root( _Root: IXMLNode);
       var
-         e: TJclSimpleXMLElem;
+         e: IXMLNode;
          function Get_Item_Apres: Boolean;
          var
-            eApres: TJclSimpleXMLElem;
+            eApres: IXMLNode;
          begin
               eApres:= D.Cherche_Item_Recursif( _Root,'text:user-field-decl',
                                            ['office:value-type', 'text:name'],
@@ -254,8 +254,8 @@ procedure TOD_TextFieldsCreator.Search_and_Replace( _Search, _Replace_by: String
              end;
       end;
    begin
-        Traite_Root( D.xmlContent.Root);
-        Traite_Root( D.xmlStyles .Root);
+        Traite_Root( D.xmlContent.DocumentElement);
+        Traite_Root( D.xmlStyles .DocumentElement);
 
         //On assure que le paramètre sera déclaré même si la boucle précédente
         //ne l'a pas trouvé
@@ -264,9 +264,9 @@ procedure TOD_TextFieldsCreator.Search_and_Replace( _Search, _Replace_by: String
         D.DetruitChamp( _Avant);
    end;
    procedure Avant_Apres_get( _Avant, _Apres: String);
-      procedure Traite_Root( _Root: TJclSimpleXMLElem);
+      procedure Traite_Root( _Root: IXMLNode);
       var
-         e: TJclSimpleXMLElem;
+         e: IXMLNode;
          function Get_Item: Boolean;
          begin
               e:= D.Cherche_Item_Recursif( _Root,'text:user-field-get',
@@ -277,13 +277,13 @@ procedure TOD_TextFieldsCreator.Search_and_Replace( _Search, _Replace_by: String
            while Get_Item
            do
              begin
-             e.Value:= _Apres;
+             e.Text:= _Apres;
              D.Set_Property( e, 'text:name', _Apres);
              end;
       end;
    begin
-        Traite_Root( D.xmlContent.Root);
-        Traite_Root( D.xmlStyles .Root);
+        Traite_Root( D.xmlContent.DocumentElement);
+        Traite_Root( D.xmlStyles .DocumentElement);
    end;
 begin
      Avant_Apres_decl( _Search, _Replace_by);
@@ -327,9 +327,9 @@ var
           Result:= StringReplace( Result, Avant, Apres, Flags);
           end;
    end;
-   procedure Traite_Root( _Root: TJclSimpleXMLElem);
+   procedure Traite_Root( _Root: IXMLNode);
    var
-      e: TJclSimpleXMLElem;
+      e: IXMLNode;
       Value: String;
       function Get_Item: Boolean;
       begin
@@ -353,8 +353,8 @@ begin
      if _IgnoreCase
      then
          Flags:= Flags+[rfIgnoreCase];
-     Traite_Root( D.xmlContent.Root);
-     Traite_Root( D.xmlStyles .Root);
+     Traite_Root( D.xmlContent.DocumentElement);
+     Traite_Root( D.xmlStyles .DocumentElement);
 end;
 
 end.

@@ -16,13 +16,13 @@
 interface
 
 uses
-    JclCompression,
-    JclSimpleXml,
-    JclStreams,
+    Xml.XMLIntf,
+    Xml.XMLDoc,
     uOD_Temporaire,
     uOD_Error,
     uOD_JCL,
     uOOoStrings,
+    uuStrings,
     uOOoChrono,
     uOOoStringList,
     uOOoDelphiReportEngineLog,
@@ -47,7 +47,7 @@ type
     function CompareStrings(const S1:String;const S2:String):Integer;override;
   end;
 
- TEnumere_field_Racine_Callback= procedure ( _e: TJclSimpleXMLElem) of object;
+ TEnumere_field_Racine_Callback= procedure ( _e: IXMLNode) of object;
 
  TOpenDocument
  =
@@ -56,7 +56,14 @@ type
   public
     constructor Create( _Nom: String);
     destructor Destroy; override;
-  //Enregistrement des modifications
+  //Extraction
+  public
+    Repertoire_Extraction: String;
+  //Persistance
+  private
+    procedure XML_from_Repertoire_Extraction;
+    procedure Repertoire_Extraction_from_XML;
+    procedure Extrait;
   public
     procedure Save;
   //Attributs
@@ -64,89 +71,86 @@ type
     Nom: String;
     is_Calc: Boolean;
   private
-    F: TJclZipUpdateArchive;
-    zf: TZipFile;
-    Repertoire_Extraction: String;
     function Ensure_style_text( _NomStyle, _NomStyleParent: String;
-                                          _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TJclSimpleXMLElem;
+                                          _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): IXMLNode;
     function Find_style_family_multiroot(_NomStyle: String;
-      _Root: TOD_Root_Styles; _family: String): TJclSimpleXMLElem;
+      _Root: TOD_Root_Styles; _family: String): IXMLNode;
     function Find_style_text( _NomStyle: String;
-                              _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TJclSimpleXMLElem;
+                              _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): IXMLNode;
     function Find_style_text_multiroot(_NomStyle: String;
-      _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TJclSimpleXMLElem;
+      _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): IXMLNode;
   public
-    xmlMeta             : TJclSimpleXml;
-    xmlSettings         : TJclSimpleXml;
-    xmlMETA_INF_manifest: TJclSimpleXml;
-    xmlContent          : TJclSimpleXml;
-    xmlStyles           : TJclSimpleXml;
+    xmlMeta             : IXMLDocument;
+    xmlSettings         : IXMLDocument;
+    xmlMETA_INF_manifest: IXMLDocument;
+    xmlContent          : IXMLDocument;
+    xmlStyles           : IXMLDocument;
     function CheminFichier_temporaire( _NomFichier: String): String;
   //Méthodes d'accés au XML
   public
     //Text
-    function Get_xmlContent_TEXT: TJclSimpleXMLElem;
-    function Get_xmlContent_USER_FIELD_DECLS: TJclSimpleXMLElem;
-    function Get_xmlContent_AUTOMATIC_STYLES: TJclSimpleXMLElem;
+    function Get_xmlContent_TEXT: IXMLNode;
+    function Get_xmlContent_USER_FIELD_DECLS: IXMLNode;
+    function Get_xmlContent_AUTOMATIC_STYLES: IXMLNode;
 
-    function Get_xmlStyles_STYLES: TJclSimpleXMLElem;
-    function Get_xmlStyles_AUTOMATIC_STYLES: TJclSimpleXMLElem;
-    function Get_xmlStyles_MASTER_STYLES: TJclSimpleXMLElem;
+    function Get_xmlStyles_STYLES: IXMLNode;
+    function Get_xmlStyles_AUTOMATIC_STYLES: IXMLNode;
+    function Get_xmlStyles_MASTER_STYLES: IXMLNode;
 
-    function Get_STYLES( _Root: TOD_Root_Styles): TJclSimpleXMLElem;
+    function Get_STYLES( _Root: TOD_Root_Styles): IXMLNode;
 
     //Spreadsheet
-    function Get_xmlContent_SPREADSHEET: TJclSimpleXMLElem;
-    function Get_xmlContent_SPREADSHEET_first_TABLE: TJclSimpleXMLElem;
-    function Get_xmlContent_SPREADSHEET_NAMED_EXPRESSIONS: TJclSimpleXMLElem;
+    function Get_xmlContent_SPREADSHEET: IXMLNode;
+    function Get_xmlContent_SPREADSHEET_first_TABLE: IXMLNode;
+    function Get_xmlContent_SPREADSHEET_NAMED_EXPRESSIONS: IXMLNode;
   //Gestion des properties //deprecated -> uOD_JCL
   public
-    function not_Get_Property( _e: TJclSimpleXMLElem;    //deprecated -> uOD_JCL
+    function not_Get_Property( _e: IXMLNode;    //deprecated -> uOD_JCL
                                _FullName: String;
                                out _Value: String): Boolean;
-    function not_Test_Property( _e: TJclSimpleXMLElem;   //deprecated -> uOD_JCL
+    function not_Test_Property( _e: IXMLNode;   //deprecated -> uOD_JCL
                                 _FullName: String;
                                 _Values: array of String): Boolean;
-    procedure Set_Property( _e: TJclSimpleXMLElem;       //deprecated -> uOD_JCL
+    procedure Set_Property( _e: IXMLNode;       //deprecated -> uOD_JCL
                             _Fullname, _Value: String);
-    procedure Delete_Property( _e: TJclSimpleXMLElem; _Fullname: String);
+    procedure Delete_Property( _e: IXMLNode; _Fullname: String);
   //Gestion des items //deprecated -> uOD_JCL
   public
-    function Cherche_Item( _eRoot: TJclSimpleXMLElem; _FullName: String; //deprecated -> uOD_JCL
+    function Cherche_Item( _eRoot: IXMLNode; _FullName: String; //deprecated -> uOD_JCL
                            _Properties_Names,
-                           _Properties_Values: array of String): TJclSimpleXMLElem;
-    function Cherche_Item_Recursif( _eRoot: TJclSimpleXMLElem; //deprecated -> uOD_JCL
+                           _Properties_Values: array of String): IXMLNode;
+    function Cherche_Item_Recursif( _eRoot: IXMLNode; //deprecated -> uOD_JCL
                                     _FullName: String;
                                     _Properties_Names,
-                                    _Properties_Values: array of String): TJclSimpleXMLElem;
-    function Ensure_Item( _eRoot: TJclSimpleXMLElem; _FullName: String;//deprecated -> uOD_JCL
+                                    _Properties_Values: array of String): IXMLNode;
+    function Ensure_Item( _eRoot: IXMLNode; _FullName: String;//deprecated -> uOD_JCL
                            _Properties_Names,
-                           _Properties_Values: array of String): TJclSimpleXMLElem;
-    function Add_Item( _eRoot: TJclSimpleXMLElem; _FullName: String;//deprecated -> uOD_JCL
+                           _Properties_Values: array of String): IXMLNode;
+    function Add_Item( _eRoot: IXMLNode; _FullName: String;//deprecated -> uOD_JCL
                            _Properties_Names,
-                           _Properties_Values: array of String): TJclSimpleXMLElem;
-    procedure Supprime_Item( _e: TJclSimpleXMLElem);//deprecated -> uOD_JCL
-    procedure Copie_Item( _Source, _Cible: TJclSimpleXMLElem);//deprecated -> uOD_JCL
+                           _Properties_Values: array of String): IXMLNode;
+    procedure Supprime_Item( _e: IXMLNode);//deprecated -> uOD_JCL
+    procedure Copie_Item( _Source, _Cible: IXMLNode);//deprecated -> uOD_JCL
   //Gestion des noms de cellules (tableur)
   public
-    function  Named_Range_Cherche( _Nom: String): TJclSimpleXMLElem;
-    function  Named_Range_Assure ( _Nom: String): TJclSimpleXMLElem;
+    function  Named_Range_Cherche( _Nom: String): IXMLNode;
+    function  Named_Range_Assure ( _Nom: String): IXMLNode;
     procedure Named_Range_Set    ( _Nom, _Base_Cell, _Cell_Range: String);
   //Méthodes créées pour compatibilité OOo
   private
-    function Cherche_field( _Name: String): TJclSimpleXMLElem;
+    function Cherche_field( _Name: String): IXMLNode;
     function Find_style_family( _NomStyle: String;
                                 _Root: TOD_Root_Styles;
-                                _family: String): TJclSimpleXMLElem;
+                                _family: String): IXMLNode;
   public
     procedure Enumere_field_Racine( _Racine_Name: String; _CallBack: TEnumere_field_Racine_Callback);
     function Find_style_paragraph( _NomStyle: String;
-                            _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TJclSimpleXMLElem;
+                            _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): IXMLNode;
     function Find_style_paragraph_multiroot( _NomStyle: String;
-                                     _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TJclSimpleXMLElem;
-    function Contient_Style_Enfant( _eRoot: TJclSimpleXMLElem;
+                                     _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): IXMLNode;
+    function Contient_Style_Enfant( _eRoot: IXMLNode;
                                     _NomStyleParent: String): Boolean;
-    function Utilise_Style( _eRoot: TJclSimpleXMLElem;
+    function Utilise_Style( _eRoot: IXMLNode;
                             _NomStyle: String): Boolean;
     function Style_NameFromDisplayName( _DisplayName: String): String;
     function Style_DisplayNameFromName( _Name: String): String;
@@ -155,10 +159,8 @@ type
   public
     procedure Set_Field( _Name, _Value: String);
     procedure Get_Fields( _sl: TOOoStringList);
-    procedure Set_Fields( _sl: TOOoStringList);
     function Field_Value( _Name: String): String;
     procedure Add_FieldGet( _Name: String);
-    procedure Set_StylesXML( _Styles: String);
 
     procedure Add_style_table_column( _NomStyle: String; _Column_Width: double; _Relatif: Boolean);
     procedure Duplique_Style_Colonne( _NomStyle_Source, _NomStyle_Cible: String);
@@ -168,7 +170,7 @@ type
   private
     function  Add_style( _NomStyle, _NomStyleParent: String;
                          _Root: TOD_Root_Styles;
-                         _family, _class: String): TJclSimpleXMLElem;
+                         _family, _class: String): IXMLNode;
     function  Add_style_with_text_properties( _NomStyle: String;
                                               _Root: TOD_Root_Styles;
                                               _family,
@@ -177,13 +179,13 @@ type
                                               _Gras: Boolean;
                                               _DeltaSize: Integer;
                                               _Size: Integer;
-                                              _SizePourcent: Integer): TJclSimpleXMLElem;
+                                              _SizePourcent: Integer): IXMLNode;
     function  Add_automatic_style( _NomStyleParent: String;
                                    _Gras: Boolean;
                                    _DeltaSize: Integer;
                                    _Size: Integer;
                                    _SizePourcent: Integer;
-                                   out _eStyle: TJclSimpleXMLElem;
+                                   out _eStyle: IXMLNode;
                                    _Is_Header: Boolean;
                                    _family,
                                    _class,
@@ -196,9 +198,9 @@ type
     function  style_paragraph_not_found( _NomStyle: String;
                                       _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): Boolean;
     function  Add_style_paragraph( _NomStyle, _NomStyleParent: String;
-                            _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TJclSimpleXMLElem;
+                            _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): IXMLNode;
     function  Ensure_style_paragraph( _NomStyle, _NomStyleParent: String;
-                            _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TJclSimpleXMLElem;
+                            _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): IXMLNode;
     procedure Rename_style_paragraph( _NomStyle_Avant, _NomStyle_Apres: String;
                                       _Root: TOD_Root_Styles= ors_xmlStyles_STYLES);
     function  Add_automatic_style_paragraph( _NomStyleParent: String;
@@ -211,14 +213,14 @@ type
                                         _DeltaSize: Integer;
                                         _Size: Integer;
                                         _SizePourcent: Integer;
-                                        out _eStyle: TJclSimpleXMLElem;
+                                        out _eStyle: IXMLNode;
                                         _Is_Header: Boolean): String; overload;
   //Styles de caractères automatiques
   private
     Automatic_style_text_number: Integer;
   public
     function  Add_style_text( _NomStyle, _NomStyleParent: String;
-                              _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TJclSimpleXMLElem;
+                              _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): IXMLNode;
     function  Add_automatic_style_text( _NomStyleParent: String;
                                         _Gras: Boolean;
                                         _DeltaSize: Integer;
@@ -229,15 +231,15 @@ type
                                         _DeltaSize: Integer;
                                         _Size: Integer;
                                         _SizePourcent: Integer;
-                                        out _eStyle: TJclSimpleXMLElem;
+                                        out _eStyle: IXMLNode;
                                         _Is_Header: Boolean): String; overload;
   //Styles de cellule automatique
   private
     slStyles_Cellule_Properties: TODStringList;
   public
-    function  Ensure_automatic_style_table_cell( _NomTable: String; _X, _Y: Integer): TJclSimpleXMLElem;
-    function  Add_automatic_style_table_cell( _NomTable: String; _X, _Y: Integer): TJclSimpleXMLElem;
-    function  Ensure_automatic_style_table_cell_properties( _NomTable: String; _X, _Y: Integer): TJclSimpleXMLElem;
+    function  Ensure_automatic_style_table_cell( _NomTable: String; _X, _Y: Integer): IXMLNode;
+    function  Add_automatic_style_table_cell( _NomTable: String; _X, _Y: Integer): IXMLNode;
+    function  Ensure_automatic_style_table_cell_properties( _NomTable: String; _X, _Y: Integer): IXMLNode;
   //Changer le style parent d'un style donné
   public
     procedure Change_style_parent( _NomStyle, _NomStyleParent: String);
@@ -250,7 +252,7 @@ type
                            CreeTextFields: Boolean): Boolean;
   //Suppression des valeurs pour toute une sous-branche
   private
-    procedure Field_Vide_Branche_CallBack( _e: TJclSimpleXMLElem);
+    procedure Field_Vide_Branche_CallBack( _e: IXMLNode);
   public
     procedure Field_Vide_Branche( _Racine_FieldName: String);
   //Propriétés TextDocument
@@ -289,46 +291,58 @@ type
     procedure Freeze_fields;
   //Enlève les styles inutilisés
   private
-    procedure Try_Delete_Style( _eStyle: TJclSimpleXMLElem);
+    procedure Try_Delete_Style( _eStyle: IXMLNode);
   public
     procedure Delete_unused_styles;
   //Propriétés de table
   public
-    function Get_Table_Properties( _NomTable: String): TJclSimpleXMLElem;
+    function Get_Table_Properties( _NomTable: String): IXMLNode;
     function Get_Table_Width     ( _NomTable: String): String;
   //Propriétés de cellule
   private
     Cell_Style: String;
   public
     procedure SetCellPadding( _NomTable: String; _X, _Y: Integer; Padding_cm: double);
-    procedure Apply_Cell_Style( e: TJclSimpleXMLElem);
+    procedure Apply_Cell_Style( e: IXMLNode);
   //Affichage
   public
     procedure Show;
   //ajout d'espaces
   public
-    procedure AddSpace( _e: TJclSimpleXMLElem; _c: Integer);
+    procedure AddSpace( _e: IXMLNode; _c: Integer);
   //Ajout de texte
   public
-    procedure AddText ( _e: TJclSimpleXMLElem; _Value: String;
+    procedure AddText ( _e: IXMLNode; _Value: String;
                         _Escape_XML: Boolean= False; _Gras: Boolean= False); overload;
     procedure AddText ( _Value: String;
                         _Escape_XML: Boolean= False; _Gras: Boolean= False); overload;
-    function Append_SOFT_PAGE_BREAK( _eRoot: TJclSimpleXMLElem): TJclSimpleXMLElem;
+    function Append_SOFT_PAGE_BREAK( _eRoot: IXMLNode): IXMLNode;
   //Largeur_imprimable
   public
     function Largeur_Imprimable: double;
   //Entete
   public
-    function FirstHeader: TJclSimpleXMLElem;
+    function FirstHeader: IXMLNode;
   //Style caractères gras
   public
     Name_style_text_bold: String;
     procedure Ensure_style_text_bold;
+  //mimetype file
+  private
+    function mimetype_filename: String;
+    function Getmimetype: String;
+    procedure Setmimetype( _mimetype: String);
+  public
+    property mimetype: String read Getmimetype write Setmimetype;
+  //Gestion modèle/document
+  public
+    Is_template: Boolean;
+    procedure Is_template_from_extension;
+    procedure MIMETYPE_and_MANIFEST_MEDIA_TYPE_from_Is_template;
   end;
 
 //Gestion tables
-function Cree_table( _e: TJclSimpleXMLElem; _Nom: String):TJclSimpleXMLElem;
+function Cree_table( _e: IXMLNode; _Nom: String):IXMLNode;
 
 function CellName_from_XY( X, Y: Integer): String;
 procedure XY_from_CellName( CellName: String; var X, Y: Integer);
@@ -430,13 +444,13 @@ begin
               +CellName_from_XY( Right, Bottom);
 end;
 
-function Cree_table( _e: TJclSimpleXMLElem; _Nom: String):TJclSimpleXMLElem;
+function Cree_table( _e: IXMLNode; _Nom: String):IXMLNode;
 begin
      //Result:= Cree_path( _e, 'text:p/table:table');
      Result:= Cree_path( _e, 'table:table');
      if Result = nil then exit;
 
-     Result.Properties.Add( 'table:name', _Nom);
+     Result.SetAttribute( 'table:name', _Nom);
      Cree_path( Result, 'table:table-header-rows/table:table-row/table:table-cell');
      Cree_path( Result,                         'table:table-row/table:table-cell');
 
@@ -453,15 +467,6 @@ end;
 { TOpenDocument }
 
 constructor TOpenDocument.Create( _Nom: String);
-var
-   I: Integer;
-   item,
-   iMimeType,
-   iMeta_xml,
-   iSettings_xml,
-   iMETA_INF_manifest_xml,
-   iContent_xml,
-   iStyles_xml : TJCLCompressionItem;
    procedure Calcule_is_Calc;
    var
       Ext: String;
@@ -472,25 +477,81 @@ var
             ('.OTS' = Ext)
           or('.ODS' = Ext);
    end;
-   procedure Traite( var _item: TJCLCompressionItem);
-   begin
-        _item:= item;
-        _item.Selected:= True;
-   end;
-   procedure Cree_XML( _item: TJCLCompressionItem; var _xml: TJclSimpleXml);
+begin
+     Automatic_style_paragraph_number:= 0;
+     Automatic_style_text_number:= 0;
+     Nom:= _Nom;
+     Calcule_is_Calc;
+     Is_template_from_extension;
+
+     slStyles_Cellule_Properties:= TODStringList.Create;
+
+     Extrait;
+
+     XML_from_Repertoire_Extraction;
+end;
+
+destructor TOpenDocument.Destroy;
+begin
+     FreeAndNil( xmlMeta             );
+     FreeAndNil( xmlSettings         );
+     FreeAndNil( xmlMETA_INF_manifest);
+     FreeAndNil( xmlContent          );
+     FreeAndNil( xmlStyles           );
+
+     FreeAndNil( slStyles_Cellule_Properties);
+
+     ChDir( ExtractFilePath( Nom));
+     OD_Temporaire.DetruitRepertoire( Repertoire_Extraction);
+
+     inherited;
+end;
+
+procedure TOpenDocument.XML_from_Repertoire_Extraction;
+   procedure Cree_XML( _FileName: String; var _xml: IXMLDocument);
    var
-      Stream: TStream;
+      NomFichier: String;
    begin
-        _xml:= TJclSimpleXml.Create;
-        _xml.IndentString:= '  ';
+         NomFichier:= IncludeTrailingPathDelimiter( Repertoire_Extraction)+_FileName;
 
-        Stream:= _item.Stream;
+        _xml:= LoadXMLDocument( NomFichier);
 
-        with _xml do Options:= Options + [sxoAutoEncodeValue];
-        _xml.LoadFromStream( Stream);
+        _xml.Active:= True;
+        (*_xml.IndentString:= '  ';
+        with _xml do Options:= Options + [sxoAutoEncodeValue];*)
 
-        OOoChrono.Stop( 'Chargement en objet du fichier xml '+item.PackedName);
+        OOoChrono.Stop( 'Chargement en objet du fichier xml '+_FileName);
    end;
+begin
+     OOoChrono.Stop( 'Extraction des fichiers xml');
+
+     Cree_XML( 'meta.xml'             , xmlMeta             );
+     Cree_XML( 'settings.xml'         , xmlSettings         );
+     Cree_XML( 'META-INF'+PathDelim+'manifest.xml', xmlMETA_INF_manifest);
+     Cree_XML( 'content.xml'          , xmlContent          );
+     Cree_XML( 'styles.xml'           , xmlStyles           );
+end;
+
+procedure TOpenDocument.Repertoire_Extraction_from_XML;
+   procedure Sauve_XML( _FileName: String; var _xml: IXMLDocument);
+   var
+      NomFichier: String;
+   begin
+        NomFichier:= IncludeTrailingPathDelimiter( Repertoire_Extraction)+_FileName;
+        _xml.SaveToFile( NomFichier);
+   end;
+begin
+     MIMETYPE_and_MANIFEST_MEDIA_TYPE_from_Is_template;
+     Sauve_XML( 'meta.xml'             , xmlMeta             );
+     Sauve_XML( 'settings.xml'         , xmlSettings         );
+     Sauve_XML( 'META-INF'+PathDelim+'manifest.xml', xmlMETA_INF_manifest);
+     Sauve_XML( 'content.xml'          , xmlContent          );
+     Sauve_XML( 'styles.xml'           , xmlStyles           );
+end;
+
+procedure TOpenDocument.Extrait;
+var
+   zf: TZipFile;
    procedure Teste_ouverture;
    var
       FTest: File;
@@ -510,81 +571,90 @@ var
    begin
         OOoChrono.Stop( 'Ouverture de l''archive zip');
         try
-           F.ListFiles;
+           zf.Open( Nom, zmRead);
         except
               on E: Exception
               do
-                OOoChrono.Stop( 'Echec du listage des fichiers du zip:'+E.Message);
+                OOoChrono.Stop( 'Echec de l''ouverture de l''archive zip:'+E.Message);
               end;
-        OOoChrono.Stop( 'Listage des fichiers du zip');
+        OOoChrono.Stop( 'Fin ouverture de l''archive zip');
    end;
 begin
-     Automatic_style_paragraph_number:= 0;
-     Automatic_style_text_number:= 0;
-     Nom:= _Nom;
-     Calcule_is_Calc;
-
-     slStyles_Cellule_Properties:= TODStringList.Create;
+     Repertoire_Extraction:= OD_Temporaire.Nouveau_Repertoire( 'OD');
 
      Teste_ouverture;
-//     zf:= TZipFile.Create;
-//     zf.Open( Nom, zmReadWrite);
 
-     F:= TJclZipUpdateArchive.Create( Nom);
+     zf:= TZipFile.Create;
      try
-        Do_Open;
-     except
-           on E: Exception
-           do
-             begin
-             OD_Error.Execute(  'Impossible d''ouvrir le fichier '+Nom+', une seconde tentative sera faite aprés un délai de 5 s:'#13#10
-                               +E.Message);
-             Sleep( 5000);
-             Do_Open;
-             end;
-           end;
-     iMimeType    := nil;
-     iMeta_xml    := nil;
-     iSettings_xml:= nil;
-     iContent_xml := nil;
-     iStyles_xml  := nil;
-     for I:= 0 to F.ItemCount-1
-     do
-       begin
-       item:= F.Items[I];
-
-            if item.PackedName = 'mimetype'     then Traite( iMimeType    )
-       else if item.PackedName = 'meta.xml'     then Traite( iMeta_xml    )
-       else if item.PackedName = 'settings.xml' then Traite( iSettings_xml)
-       else if item.PackedName = 'META-INF\manifest.xml' then Traite( iMETA_INF_manifest_xml)
-       else if item.PackedName = 'content.xml'  then Traite( iContent_xml )
-       else if item.PackedName = 'styles.xml'   then Traite( iStyles_xml  );
-       end;
-     OOoChrono.Stop( 'Recherche des fichiers xml');
-
-     Repertoire_Extraction:= OD_Temporaire.Nouveau_Repertoire( 'OD');
-     F.ExtractSelected( Repertoire_Extraction);
-
-     OOoChrono.Stop( 'Extraction des fichiers xml');
-
-     Cree_XML( iMeta_xml             , xmlMeta             );
-     Cree_XML( iSettings_xml         , xmlSettings         );
-     Cree_XML( iMETA_INF_manifest_xml, xmlMETA_INF_manifest);
-     Cree_XML( iContent_xml          , xmlContent          );
-     Cree_XML( iStyles_xml           , xmlStyles           );
+        try
+           Do_Open;
+        except
+              on E: Exception
+              do
+                begin
+                OD_Error.Execute(  'Impossible d''ouvrir le fichier '+Nom+', une seconde tentative sera faite aprés un délai de 5 s:'#13#10
+                                  +E.Message);
+                Sleep( 5000);
+                Do_Open;
+                end;
+              end;
+        zf.ExtractAll( IncludeTrailingPathDelimiter( Repertoire_Extraction));
+        zf.Close;
+     finally
+            FreeAndNil( zf);
+            end;
+     OOoChrono.Stop( 'aprés Extraction des fichiers xml');
 end;
 
-destructor TOpenDocument.Destroy;
+procedure TOpenDocument.Save;
+const
+     s_mimetype='mimetype';
+var
+   zf: TZipFile;
+   procedure Ajoute_SousRepertoire( _SousRepertoire: String);
+   var
+      F: TSearchRec;
+      Erreur: Integer;
+      DiskDirPath,
+      ZipDirPath,
+      DiskFileName,
+      ZipFileName: String;
+   begin
+        ZipDirPath:= _SousRepertoire;
+        DiskDirPath:= IncludeTrailingPathDelimiter( Repertoire_Extraction)
+                            +_SousRepertoire;
+        if 0 = FindFirst( DiskDirPath+'*', faAnyFile, F)
+        then
+            repeat
+                  DiskFileName:= DiskDirPath+F.Name;
+                  ZipFileName := ZipDirPath+F.Name;
+                  if (F.Attr and faDirectory) = faDirectory
+                  then
+                      begin
+                      if     (F.Name <> '.')
+                         and (F.Name <> '..')
+                      then
+                          Ajoute_SousRepertoire( ZipFileName+PathDelim)
+                      end
+                  else if s_mimetype <> F.Name
+                  then
+                      zf.Add( DiskFileName, ZipFileName);
+            until FindNext(F)<>0;
+        FindClose( F);
+   end;
 begin
-     FreeAndNil( xmlContent);
-     FreeAndNil( xmlStyles );
-     FreeAndNil( F);
-     FreeAndNil( slStyles_Cellule_Properties);
+     Repertoire_Extraction_from_XML;
+     //TZipFile.ZipDirectoryContents( Nom, Repertoire_Extraction);
 
-     ChDir( ExtractFilePath( Nom));
-     OD_Temporaire.DetruitRepertoire( Repertoire_Extraction);
-
-     inherited;
+     zf:= TZipFile.Create;
+     try
+        zf.Open( Nom, zmWrite);
+        zf.Add( IncludeTrailingPathDelimiter( Repertoire_Extraction)+s_mimetype, s_mimetype, zcStored);
+        Ajoute_SousRepertoire( '');
+        zf.Close;
+     finally
+            FreeAndNil( zf);
+            end;
 end;
 
 function TOpenDocument.CheminFichier_temporaire( _NomFichier: String): String;
@@ -623,50 +693,50 @@ begin
            Result[I]:= '\';
 end;
 
-function TOpenDocument.Get_xmlContent_TEXT: TJclSimpleXMLElem;
+function TOpenDocument.Get_xmlContent_TEXT: IXMLNode;
 begin
-     Result:= Elem_from_path( xmlContent.Root, 'office:body/office:text')
+     Result:= Elem_from_path( xmlContent.DocumentElement, 'office:body/office:text')
 end;
 
-function TOpenDocument.Get_xmlContent_USER_FIELD_DECLS: TJclSimpleXMLElem;
+function TOpenDocument.Get_xmlContent_USER_FIELD_DECLS: IXMLNode;
 const
      USER_FIELD_DECLS_path='office:body/office:text/text:user-field-decls';
 begin
-     Result:= Elem_from_path( xmlContent.Root, USER_FIELD_DECLS_path);
+     Result:= Elem_from_path( xmlContent.DocumentElement, USER_FIELD_DECLS_path);
      if Assigned( Result) then exit;
 
-     Result:= Cree_path( xmlContent.Root, USER_FIELD_DECLS_path);
+     Result:= Cree_path( xmlContent.DocumentElement, USER_FIELD_DECLS_path);
 end;
 
-function TOpenDocument.Get_xmlContent_AUTOMATIC_STYLES: TJclSimpleXMLElem;
+function TOpenDocument.Get_xmlContent_AUTOMATIC_STYLES: IXMLNode;
 begin
-     Result:= Elem_from_path( xmlContent.Root, 'office:automatic-styles');
+     Result:= Elem_from_path( xmlContent.DocumentElement, 'office:automatic-styles');
 end;
 
-function TOpenDocument.Get_xmlContent_SPREADSHEET: TJclSimpleXMLElem;
+function TOpenDocument.Get_xmlContent_SPREADSHEET: IXMLNode;
 begin
      Result
      :=
-       Elem_from_path( xmlContent.Root,
+       Elem_from_path( xmlContent.DocumentElement,
                        'office:body/office:spreadsheet');
 end;
 
-function TOpenDocument.Get_xmlContent_SPREADSHEET_first_TABLE: TJclSimpleXMLElem;
+function TOpenDocument.Get_xmlContent_SPREADSHEET_first_TABLE: IXMLNode;
 var
-   eRoot: TJclSimpleXMLElem;
-   e: TJclSimpleXMLElem;
+   eRoot: IXMLNode;
+   e: IXMLNode;
    I: Integer;
 begin
      Result:= nil;
      eRoot:= Get_xmlContent_SPREADSHEET;
 
-     for I:= 0 to eRoot.Items.Count -1
+     for I:= 0 to eRoot.ChildNodes.Count -1
      do
        begin
-       e:= eRoot.Items.Item[0];
+       e:= eRoot.ChildNodes[0];
        if e = nil then continue;
 
-       if 'table' = Name_from_FullName( e.Name)
+       if 'table' = Name_from_FullName( e.NodeName)
        then
            begin
            Result:= e;
@@ -675,57 +745,57 @@ begin
        end;
 end;
 
-function TOpenDocument.Get_xmlContent_SPREADSHEET_NAMED_EXPRESSIONS: TJclSimpleXMLElem;
+function TOpenDocument.Get_xmlContent_SPREADSHEET_NAMED_EXPRESSIONS: IXMLNode;
 begin
      Result
      :=
-       Elem_from_path( xmlContent.Root,
+       Elem_from_path( xmlContent.DocumentElement,
                        'office:body/office:spreadsheet/table:named-expressions');
 end;
 
-function TOpenDocument.Get_xmlStyles_STYLES: TJclSimpleXMLElem;
+function TOpenDocument.Get_xmlStyles_STYLES: IXMLNode;
 begin
-     Result:= Elem_from_path( xmlStyles.Root,'office:styles')
+     Result:= Elem_from_path( xmlStyles.DocumentElement,'office:styles')
 end;
 
-function TOpenDocument.Get_xmlStyles_AUTOMATIC_STYLES: TJclSimpleXMLElem;
+function TOpenDocument.Get_xmlStyles_AUTOMATIC_STYLES: IXMLNode;
 begin
-     Result:= Elem_from_path( xmlStyles.Root, 'office:automatic-styles');
+     Result:= Elem_from_path( xmlStyles.DocumentElement, 'office:automatic-styles');
 end;
 
-function TOpenDocument.Get_xmlStyles_MASTER_STYLES: TJclSimpleXMLElem;
+function TOpenDocument.Get_xmlStyles_MASTER_STYLES: IXMLNode;
 begin
-     Result:= Elem_from_path( xmlStyles.Root, 'office:master-styles');
+     Result:= Elem_from_path( xmlStyles.DocumentElement, 'office:master-styles');
 end;
 
-function TOpenDocument.not_Get_Property( _e: TJclSimpleXMLElem;
+function TOpenDocument.not_Get_Property( _e: IXMLNode;
                                          _FullName: String;
                                          out _Value: String): Boolean;
 begin
      Result:= uOD_JCL.not_Get_Property( _e, _FullName, _Value);
 end;
 
-function TOpenDocument.not_Test_Property( _e: TJclSimpleXMLElem;
+function TOpenDocument.not_Test_Property( _e: IXMLNode;
                                           _FullName: String;
                                           _Values: array of String): Boolean;
 begin
      Result:= uOD_JCL.not_Test_Property( _e, _FullName, _Values);
 end;
 
-procedure TOpenDocument.Set_Property( _e: TJclSimpleXMLElem;
+procedure TOpenDocument.Set_Property( _e: IXMLNode;
                                       _Fullname, _Value: String);
 begin
      uOD_JCL.Set_Property( _e, _Fullname, _Value);
 end;
 
-procedure TOpenDocument.Delete_Property( _e: TJclSimpleXMLElem; _Fullname: String);
+procedure TOpenDocument.Delete_Property( _e: IXMLNode; _Fullname: String);
 begin
      uOD_JCL.Delete_Property( _e, _FullName);
 end;
 
 procedure TOpenDocument.Set_Field( _Name, _Value: String);
 var
-   e: TJclSimpleXMLElem;
+   e: IXMLNode;
 begin
      e:= Ensure_Item( Get_xmlContent_USER_FIELD_DECLS, 'text:user-field-decl',
                       ['text:name'],
@@ -739,9 +809,9 @@ end;
 
 procedure TOpenDocument.Get_Fields( _sl: TOOoStringList);
 var
-   eUSER_FIELD_DECLS: TJclSimpleXMLElem;
+   eUSER_FIELD_DECLS: IXMLNode;
    I: Integer;
-   e: TJclSimpleXMLElem;
+   e: IXMLNode;
    Name, String_Value: String;
 begin
      _sl.Clear;
@@ -749,12 +819,12 @@ begin
      eUSER_FIELD_DECLS:= Get_xmlContent_USER_FIELD_DECLS;
      if eUSER_FIELD_DECLS = nil then exit;
 
-     for I:= 0 to eUSER_FIELD_DECLS.Items.Count - 1
+     for I:= 0 to eUSER_FIELD_DECLS.ChildNodes.Count - 1
      do
        begin
-       e:= eUSER_FIELD_DECLS.Items.Item[ I];
+       e:= eUSER_FIELD_DECLS.ChildNodes[ I];
        if e = nil                     then continue;
-       if e.FullName <> 'text:user-field-decl' then continue;
+       if e.NodeName <> 'text:user-field-decl' then continue;
 
        if not_Get_Property( e, 'text:name'          , Name        ) then continue;
        if not_Get_Property( e, 'office:string-value', String_Value) then continue;
@@ -764,77 +834,25 @@ begin
      OOoChrono.Stop( 'Extraction des TextFields');
 end;
 
-procedure TOpenDocument.Set_Fields( _sl: TOOoStringList);
-var
-   eUSER_FIELD_DECLS: TJclSimpleXMLElem;
-   I: Integer;
-   Line, FieldName, Value: String;
-   e: TJclSimpleXMLElem;
-   s: TStringStream;
-
-begin
-     eUSER_FIELD_DECLS:= Get_xmlContent_USER_FIELD_DECLS;
-     if eUSER_FIELD_DECLS = nil then exit;
-
-     RemoveChilds( eUSER_FIELD_DECLS);
-
-     for I:= 0 to _sl.Count - 1
-     do
-       begin
-       Line     := _sl.Strings[I];
-       FieldName:= StrTok( '=', Line);
-       Value    := Line;
-
-       e:= eUSER_FIELD_DECLS.Items.Add( 'text:user-field-decl');
-       if e= nil then continue;
-
-       e.Properties.Add( 'office:value-type'  ,'string'  );
-       e.Properties.Add( 'office:string-value', Value    );
-       e.Properties.Add( 'text:name'          , FieldName);
-       end;
-
-     s:= TStringStream.Create( xmlContent.SaveToString);
-     try
-        F.AddFile( 'content.xml', s);
-        F.Compress;
-     finally
-            FreeAndNil( s);
-            end;
-end;
-
 procedure TOpenDocument.Add_FieldGet( _Name: String);
 var
-   eTEXT: TJclSimpleXMLElem;
-   eP: TJclSimpleXMLElem;
-   eUSER_FIELD_GET: TJclSimpleXMLElem;
+   eTEXT: IXMLNode;
+   eP: IXMLNode;
+   eUSER_FIELD_GET: IXMLNode;
 begin
      eTEXT:= Get_xmlContent_TEXT;
      if eTEXT = nil then exit;
 
-     eP:= eTEXT.Items.Add( 'text:p');
+     eP:= eTEXT.AddChild( 'text:p');
      if eP = nil then exit;
 
-     eUSER_FIELD_GET:= eP.Items.Add( 'text:user-field-get');
+     eUSER_FIELD_GET:= eP.AddChild( 'text:user-field-get');
      if eUSER_FIELD_GET = nil then exit;
 
-     eUSER_FIELD_GET.Properties.Add( 'text:name', _Name);
+     eUSER_FIELD_GET.SetAttribute( 'text:name', _Name);
 end;
 
-procedure TOpenDocument.Set_StylesXML( _Styles: String);
-var
-   s: TStringStream;
-begin
-     xmlStyles.LoadFromString( _Styles);
-     s:= TStringStream.Create( xmlStyles.SaveToString);
-     try
-        F.AddFile( 'styles.xml', s);
-        F.Compress;
-     finally
-            FreeAndNil( s);
-            end;
-end;
-
-function TOpenDocument.Get_STYLES( _Root: TOD_Root_Styles): TJclSimpleXMLElem;
+function TOpenDocument.Get_STYLES( _Root: TOD_Root_Styles): IXMLNode;
 begin
      case _Root
      of
@@ -848,12 +866,12 @@ end;
 function TOpenDocument.Add_style( _NomStyle,
                                   _NomStyleParent: String;
                                   _Root: TOD_Root_Styles;
-                                  _family, _class: String): TJclSimpleXMLElem;
+                                  _family, _class: String): IXMLNode;
 var
    Name: String;
    Parent_Style_Name: String;
-   eSTYLES: TJclSimpleXMLElem;
-   e: TJclSimpleXMLElem;
+   eSTYLES: IXMLNode;
+   e: IXMLNode;
 begin
      Result:= nil;
      Name             := Style_NameFromDisplayName( _NomStyle      );
@@ -862,27 +880,27 @@ begin
      eSTYLES:= Get_STYLES( _Root);
      if eSTYLES = nil then exit;
 
-     e:= eSTYLES.Items.Add( 'style:style');
+     e:= eSTYLES.AddChild( 'style:style');
      if e= nil then exit;
 
-     e.Properties.Add( 'style:name'             , Name             );
-     e.Properties.Add( 'style:display-name'     , _NomStyle        );
-     e.Properties.Add( 'style:parent-style-name', Parent_Style_Name);
-     e.Properties.Add( 'style:family'           , _family          );
+     e.SetAttribute( 'style:name'             , Name             );
+     e.SetAttribute( 'style:display-name'     , _NomStyle        );
+     e.SetAttribute( 'style:parent-style-name', Parent_Style_Name);
+     e.SetAttribute( 'style:family'           , _family          );
      if _class <> ''
      then
-         e.Properties.Add( 'style:class'        , _class           );
+         e.SetAttribute( 'style:class'        , _class           );
 
      Result:= e;
 end;
 
 function TOpenDocument.Add_style_paragraph( _NomStyle, _NomStyleParent: String;
-                                            _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TJclSimpleXMLElem;
+                                            _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): IXMLNode;
 begin
      Result:= Add_style( _NomStyle, _NomStyleParent, _Root, 'paragraph','text');
 end;
 
-function TOpenDocument.Add_style_text( _NomStyle, _NomStyleParent: String; _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TJclSimpleXMLElem;
+function TOpenDocument.Add_style_text( _NomStyle, _NomStyleParent: String; _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): IXMLNode;
 begin
      Result:= Add_style( _NomStyle, _NomStyleParent, _Root, 'text','');
 end;
@@ -895,9 +913,9 @@ function TOpenDocument.Add_style_with_text_properties( _NomStyle: String;
                                                        _Gras: Boolean;
                                                        _DeltaSize,
                                                        _Size,
-                                                       _SizePourcent: Integer): TJclSimpleXMLElem;
+                                                       _SizePourcent: Integer): IXMLNode;
 var
-   eTEXT_PROPERTIES: TJclSimpleXMLElem;
+   eTEXT_PROPERTIES: IXMLNode;
    Font_size: Integer;
    sFont_Size: String;
 begin
@@ -949,7 +967,7 @@ function TOpenDocument.Add_automatic_style( _NomStyleParent: String;
                                             _DeltaSize,
                                             _Size,
                                             _SizePourcent: Integer;
-                                            out _eStyle: TJclSimpleXMLElem;
+                                            out _eStyle: IXMLNode;
                                             _Is_Header: Boolean;
                                             _family,
                                             _class,
@@ -957,7 +975,7 @@ function TOpenDocument.Add_automatic_style( _NomStyleParent: String;
                                             var _number_counter: Integer): String;
 var
    Style_Root: TOD_Root_Styles;
-   eTEXT_PROPERTIES: TJclSimpleXMLElem;
+   eTEXT_PROPERTIES: IXMLNode;
    Font_size: Integer;
    sFont_Size: String;
 begin
@@ -991,7 +1009,7 @@ function TOpenDocument.Add_automatic_style_paragraph( _NomStyleParent: String;
                                                       _DeltaSize,
                                                       _Size,
                                                       _SizePourcent: Integer;
-                                                      out _eStyle: TJclSimpleXMLElem;
+                                                      out _eStyle: IXMLNode;
                                                       _Is_Header: Boolean): String;
 begin
      Result:= Add_automatic_style( _NomStyleParent,
@@ -1012,7 +1030,7 @@ function TOpenDocument.Add_automatic_style_text( _NomStyleParent: String;
                                                       _DeltaSize,
                                                       _Size,
                                                       _SizePourcent: Integer;
-                                                      out _eStyle: TJclSimpleXMLElem;
+                                                      out _eStyle: IXMLNode;
                                                       _Is_Header: Boolean): String;
 begin
      Result:= Add_automatic_style( _NomStyleParent,
@@ -1034,7 +1052,7 @@ function TOpenDocument.Add_automatic_style_paragraph( _NomStyleParent: String;
                                                       _Size: Integer;
                                                       _SizePourcent: Integer): String;
 var
-   e: TJclSimpleXMLElem;
+   e: IXMLNode;
 begin
      Result:= Add_automatic_style_paragraph( _NomStyleParent,
                                              _Gras,
@@ -1051,7 +1069,7 @@ function TOpenDocument.Add_automatic_style_text( _NomStyleParent: String;
                                                       _Size: Integer;
                                                       _SizePourcent: Integer): String;
 var
-   e: TJclSimpleXMLElem;
+   e: IXMLNode;
 begin
      Result:= Add_automatic_style_text( _NomStyleParent,
                                              _Gras,
@@ -1064,10 +1082,10 @@ end;
 
 function TOpenDocument.Font_size_from_Style( _NomStyle: String): Integer;
 var
-   eSTYLE: TJclSimpleXMLElem;
+   eSTYLE: IXMLNode;
    NomStyle_Parent: String;
 
-   eTEXT_PROPERTIES: TJclSimpleXMLElem;
+   eTEXT_PROPERTIES: IXMLNode;
    sFont_Size: String;
 begin
      Result:= 0;
@@ -1100,10 +1118,10 @@ begin
          end;
 end;
 
-function TOpenDocument.Get_Table_Properties( _NomTable: String): TJclSimpleXMLElem;
+function TOpenDocument.Get_Table_Properties( _NomTable: String): IXMLNode;
 var
-   eSTYLES: TJclSimpleXMLElem;
-   eSTYLE: TJclSimpleXMLElem;
+   eSTYLES: IXMLNode;
+   eSTYLE: IXMLNode;
 begin
      Result:= nil;
      eSTYLES:= Get_xmlContent_AUTOMATIC_STYLES;
@@ -1122,7 +1140,7 @@ end;
 
 function TOpenDocument.Get_Table_Width(_NomTable: String): String;
 var
-   eTABLE_PROPERTIES: TJclSimpleXMLElem;
+   eTABLE_PROPERTIES: IXMLNode;
 begin
      Result:= '';
      eTABLE_PROPERTIES:= Get_Table_Properties( _NomTable);
@@ -1131,7 +1149,7 @@ end;
 
 procedure TOpenDocument.SetCellPadding( _NomTable: String; _X, _Y: Integer; Padding_cm: double);
 var
-   eTABLE_CELL_PROPERTIES: TJclSimpleXMLElem;
+   eTABLE_CELL_PROPERTIES: IXMLNode;
    sPadding: String;
 begin
      eTABLE_CELL_PROPERTIES:= Ensure_automatic_style_table_cell_properties( _NomTable, _X, _Y);
@@ -1144,7 +1162,7 @@ begin
      //<style:table-cell-properties fo:padding="0cm" fo:border-left="" fo:border-right="none" fo:border-top="0.05pt dotted #000000" fo:border-bottom="0.05pt solid #000000"/>
 end;
 
-procedure TOpenDocument.Apply_Cell_Style( e: TJclSimpleXMLElem);
+procedure TOpenDocument.Apply_Cell_Style( e: IXMLNode);
 begin
      Set_Property( e, 'table:style-name', Cell_Style);
 end;
@@ -1152,10 +1170,10 @@ end;
 
 procedure TOpenDocument.Add_style_table_column( _NomStyle: String; _Column_Width: double; _Relatif: Boolean);
 var
-   eSTYLES: TJclSimpleXMLElem;
-   eSTYLE: TJclSimpleXMLElem;
+   eSTYLES: IXMLNode;
+   eSTYLE: IXMLNode;
 
-   eTABLE_COLUMN_PROPERTIES: TJclSimpleXMLElem;
+   eTABLE_COLUMN_PROPERTIES: IXMLNode;
 
    sColumn_Width: String;
 
@@ -1178,8 +1196,8 @@ begin
        Ensure_Item( eSTYLE,'style:table-column-properties',[],[]);
      if eTABLE_COLUMN_PROPERTIES= nil then exit;
 
-     eTABLE_COLUMN_PROPERTIES.Properties.Delete( 'column-width');
-     eTABLE_COLUMN_PROPERTIES.Properties.Delete( 'rel-column-width');
+     eTABLE_COLUMN_PROPERTIES.AttributeNodes.Delete( 'column-width');
+     eTABLE_COLUMN_PROPERTIES.AttributeNodes.Delete( 'rel-column-width');
 
      if _Relatif
      then
@@ -1199,9 +1217,9 @@ end;
 
 procedure TOpenDocument.Duplique_Style_Colonne( _NomStyle_Source, _NomStyle_Cible: String);
 var
-   eSTYLES: TJclSimpleXMLElem;
+   eSTYLES: IXMLNode;
 
-   eSTYLE_Source, eSTYLE_Cible: TJclSimpleXMLElem;
+   eSTYLE_Source, eSTYLE_Cible: IXMLNode;
 begin
      eSTYLES:= Get_xmlContent_AUTOMATIC_STYLES;
      if eSTYLES = nil then exit;
@@ -1233,7 +1251,7 @@ begin
 end;
 
 function TOpenDocument.Ensure_style_paragraph( _NomStyle, _NomStyleParent: String;
-                                               _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TJclSimpleXMLElem;
+                                               _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): IXMLNode;
 var
    StyleName: String;
 begin
@@ -1257,7 +1275,7 @@ end;
 procedure TOpenDocument.Rename_style_paragraph( _NomStyle_Avant, _NomStyle_Apres: String;
                                                _Root: TOD_Root_Styles= ors_xmlStyles_STYLES);
 var
-   e: TJclSimpleXMLElem;
+   e: IXMLNode;
    StyleName_Apres: String;
 begin
      e:= Find_style_paragraph( _NomStyle_Avant, _Root);
@@ -1270,7 +1288,7 @@ begin
 end;
 
 function TOpenDocument.Ensure_style_text( _NomStyle, _NomStyleParent: String;
-                                          _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TJclSimpleXMLElem;
+                                          _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): IXMLNode;
 var
    StyleName: String;
 begin
@@ -1290,11 +1308,11 @@ begin
          end;
 end;
 
-function TOpenDocument.Ensure_automatic_style_table_cell( _NomTable: String; _X, _Y: Integer): TJclSimpleXMLElem;
+function TOpenDocument.Ensure_automatic_style_table_cell( _NomTable: String; _X, _Y: Integer): IXMLNode;
 var
    CellName: String;
    NomStyle: String;
-   eSTYLES: TJclSimpleXMLElem;
+   eSTYLES: IXMLNode;
 begin
      Result:= nil;
      eSTYLES:= Get_STYLES( ors_xmlContent_AUTOMATIC_STYLES);
@@ -1307,11 +1325,11 @@ begin
                            [NomStyle    , 'table-cell'  ]);
 end;
 
-function TOpenDocument.Add_automatic_style_table_cell( _NomTable: String; _X, _Y: Integer): TJclSimpleXMLElem;
+function TOpenDocument.Add_automatic_style_table_cell( _NomTable: String; _X, _Y: Integer): IXMLNode;
 var
    CellName: String;
    NomStyle: String;
-   eSTYLES: TJclSimpleXMLElem;
+   eSTYLES: IXMLNode;
 begin
      Result:= nil;
      eSTYLES:= Get_STYLES( ors_xmlContent_AUTOMATIC_STYLES);
@@ -1325,29 +1343,31 @@ begin
 end;
 
 function TOpenDocument.Ensure_automatic_style_table_cell_properties( _NomTable: String;
-                                                        _X, _Y: Integer): TJclSimpleXMLElem;
+                                                        _X, _Y: Integer): IXMLNode;
 var
    sCle: String;
    I: Integer;
    procedure Get_from_XML;
    var
-      eStyle: TJclSimpleXMLElem;
+      eStyle: IXMLNode;
    begin                                 
         eStyle:= Add_automatic_style_table_cell( _NomTable, _X, _Y);
         if eStyle = nil then exit;
 
         Result:= Add_Item( eStyle, 'style:table-cell-properties',[],[]);
-        slStyles_Cellule_Properties.AddObject( sCle, Result);
+        //slStyles_Cellule_Properties.AddObject( sCle, Result);
    end;
+   {
    procedure Get_from_sl;
    var
       O: TObject;
    begin
         O:= slStyles_Cellule_Properties.Objects[ I];
         if O = nil                      then exit;
-        if not (O is TJclSimpleXMLElem) then exit;
-        Result:= TJclSimpleXMLElem( O);
+        if not (O is IXMLNode) then exit;
+        Result:= IXMLNode( O);
    end;
+   }
 begin
      Result:= nil;
 
@@ -1355,14 +1375,14 @@ begin
      I:= slStyles_Cellule_Properties.IndexOf( sCle);
      if I = -1
      then
-         Get_from_XML
+         Get_from_XML{
      else
-         Get_from_sl;
+         Get_from_sl};
 end;
 
 procedure TOpenDocument.Change_style_parent( _NomStyle, _NomStyleParent: String);
 var
-   e: TJclSimpleXMLElem;
+   e: IXMLNode;
    StyleName: String;
 begin
      e:= Find_style_paragraph( _NomStyle);
@@ -1381,11 +1401,11 @@ begin
          end;
 end;
 
-function TOpenDocument.Cherche_field( _Name: String): TJclSimpleXMLElem;
+function TOpenDocument.Cherche_field( _Name: String): IXMLNode;
 var
-   eUSER_FIELD_DECLS: TJclSimpleXMLElem;
+   eUSER_FIELD_DECLS: IXMLNode;
    I: Integer;
-   e: TJclSimpleXMLElem;
+   e: IXMLNode;
    Name: String;
 begin
      Result:= nil;
@@ -1393,12 +1413,12 @@ begin
      eUSER_FIELD_DECLS:= Get_xmlContent_USER_FIELD_DECLS;
      if eUSER_FIELD_DECLS = nil then exit;
 
-     for I:= 0 to eUSER_FIELD_DECLS.Items.Count - 1
+     for I:= 0 to eUSER_FIELD_DECLS.ChildNodes.Count - 1
      do
        begin
-       e:= eUSER_FIELD_DECLS.Items.Item[ I];
+       e:= eUSER_FIELD_DECLS.ChildNodes[ I];
        if e = nil                     then continue;
-       if e.FullName <> 'text:user-field-decl' then continue;
+       if e.NodeName <> 'text:user-field-decl' then continue;
 
        if not_Get_Property( e, 'text:name', Name) then continue;
 
@@ -1416,9 +1436,9 @@ var
 procedure TOpenDocument.Enumere_field_Racine( _Racine_Name: String;
                                               _CallBack: TEnumere_field_Racine_Callback);
 var
-   eUSER_FIELD_DECLS: TJclSimpleXMLElem;
+   eUSER_FIELD_DECLS: IXMLNode;
    I: Integer;
-   e: TJclSimpleXMLElem;
+   e: IXMLNode;
    Name: String;
 begin
      if not Assigned( _CallBack) then exit;
@@ -1426,13 +1446,13 @@ begin
      eUSER_FIELD_DECLS:= Get_xmlContent_USER_FIELD_DECLS;
      if eUSER_FIELD_DECLS = nil then exit;
 
-     for I:= 0 to eUSER_FIELD_DECLS.Items.Count - 1
+     for I:= 0 to eUSER_FIELD_DECLS.ChildNodes.Count - 1
      do
        begin
        Inc( debug_count);
-       e:= eUSER_FIELD_DECLS.Items.Item[ I];
+       e:= eUSER_FIELD_DECLS.ChildNodes[ I];
        if e = nil                     then continue;
-       if e.FullName <> 'text:user-field-decl' then continue;
+       if e.NodeName <> 'text:user-field-decl' then continue;
 
        if not_Get_Property( e, 'text:name', Name) then continue;
 
@@ -1442,9 +1462,9 @@ begin
        end;
 end;
 
-function TOpenDocument.Cherche_Item( _eRoot: TJclSimpleXMLElem; _FullName: String;
+function TOpenDocument.Cherche_Item( _eRoot: IXMLNode; _FullName: String;
                                      _Properties_Names ,
-                                     _Properties_Values: array of String): TJclSimpleXMLElem;
+                                     _Properties_Values: array of String): IXMLNode;
 begin
      Result
      :=
@@ -1452,9 +1472,9 @@ begin
                                    _Properties_Names , _Properties_Values);
 end;
 
-function TOpenDocument.Cherche_Item_Recursif( _eRoot: TJclSimpleXMLElem; _FullName: String;
+function TOpenDocument.Cherche_Item_Recursif( _eRoot: IXMLNode; _FullName: String;
                                               _Properties_Names ,
-                                              _Properties_Values: array of String): TJclSimpleXMLElem;
+                                              _Properties_Values: array of String): IXMLNode;
 begin
      Result
      :=
@@ -1463,9 +1483,9 @@ begin
                                             _Properties_Values);
 end;
 
-function TOpenDocument.Ensure_Item( _eRoot: TJclSimpleXMLElem; _FullName: String;
+function TOpenDocument.Ensure_Item( _eRoot: IXMLNode; _FullName: String;
                                     _Properties_Names ,
-                                    _Properties_Values: array of String): TJclSimpleXMLElem;
+                                    _Properties_Values: array of String): IXMLNode;
 begin
      Result
      :=
@@ -1473,9 +1493,9 @@ begin
                                   _Properties_Names, _Properties_Values);
 end;
 
-function TOpenDocument.Add_Item( _eRoot: TJclSimpleXMLElem; _FullName: String;
+function TOpenDocument.Add_Item( _eRoot: IXMLNode; _FullName: String;
                                     _Properties_Names,
-                                    _Properties_Values: array of String): TJclSimpleXMLElem;
+                                    _Properties_Values: array of String): IXMLNode;
 begin
      Result
      :=
@@ -1483,14 +1503,14 @@ begin
                                   _Properties_Names, _Properties_Values);
 end;
 
-procedure TOpenDocument.Copie_Item( _Source, _Cible: TJclSimpleXMLElem);
+procedure TOpenDocument.Copie_Item( _Source, _Cible: IXMLNode);
 begin
      uOD_JCL.Copie_Item( _Source, _Cible);
 end;
 
 function TOpenDocument.Find_style_family( _NomStyle: String;
                                           _Root: TOD_Root_Styles;
-                                          _family: String): TJclSimpleXMLElem;
+                                          _family: String): IXMLNode;
 var
    Name: String;
 begin
@@ -1504,21 +1524,21 @@ begin
 end;
 
 function TOpenDocument.Find_style_paragraph( _NomStyle: String;
-                                               _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TJclSimpleXMLElem;
+                                               _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): IXMLNode;
 begin
      Result:= Find_style_family( _NomStyle, _Root, 'paragraph');
 end;
 
 function TOpenDocument.Find_style_text( _NomStyle: String;
-                                        _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TJclSimpleXMLElem;
+                                        _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): IXMLNode;
 begin
      Result:= Find_style_family( _NomStyle, _Root, 'text');
 end;
 
 function TOpenDocument.Find_style_family_multiroot( _NomStyle: String;
                                                     _Root: TOD_Root_Styles;
-                                                    _family: String): TJclSimpleXMLElem;
-     function CR( _R: TOD_Root_Styles): TJclSimpleXMLElem;
+                                                    _family: String): IXMLNode;
+     function CR( _R: TOD_Root_Styles): IXMLNode;
      begin
           Result:= Find_style_family( _NomStyle, _R, _family);
      end;
@@ -1535,18 +1555,18 @@ begin
 end;
 
 function TOpenDocument.Find_style_paragraph_multiroot( _NomStyle: String;
-                                                       _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TJclSimpleXMLElem;
+                                                       _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): IXMLNode;
 begin
      Result:= Find_style_family_multiroot( _NomStyle, _Root, 'paragraph');
 end;
 
 function TOpenDocument.Find_style_text_multiroot( _NomStyle: String;
-                                                  _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TJclSimpleXMLElem;
+                                                  _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): IXMLNode;
 begin
      Result:= Find_style_family_multiroot( _NomStyle, _Root, 'paragraph');
 end;
 
-function TOpenDocument.Contient_Style_Enfant( _eRoot: TJclSimpleXMLElem;
+function TOpenDocument.Contient_Style_Enfant( _eRoot: IXMLNode;
                                               _NomStyleParent: String): Boolean;
 begin
      Result
@@ -1559,7 +1579,7 @@ begin
                      ['paragraph'   ,_NomStyleParent          ]);
 end;
 
-function TOpenDocument.Utilise_Style( _eRoot: TJclSimpleXMLElem;
+function TOpenDocument.Utilise_Style( _eRoot: IXMLNode;
                                       _NomStyle: String): Boolean;
 begin
      Result:=nil<>Cherche_Item_Recursif(_eRoot,'text:p'   ,['text:style-name'],[_NomStyle]);
@@ -1592,7 +1612,7 @@ begin
          Result:= Text_Traite_Field( FieldName, FieldContent, CreeTextFields)
 end;
 
-procedure TOpenDocument.Field_Vide_Branche_CallBack( _e: TJclSimpleXMLElem);
+procedure TOpenDocument.Field_Vide_Branche_CallBack( _e: IXMLNode);
 begin
      Set_Property( _e, 'office:string-value', '');
 end;
@@ -1648,7 +1668,7 @@ end;
 
 function TOpenDocument.Text_Lire( _Nom: String; _Default: String= ''): String;
 var
-   e: TJclSimpleXMLElem;
+   e: IXMLNode;
 begin
      Result:= _Default;
 
@@ -1660,7 +1680,7 @@ end;
 
 procedure TOpenDocument.Text_Ecrire( _Nom: String; _Valeur: String);
 var
-   e: TJclSimpleXMLElem;
+   e: IXMLNode;
 begin
      e:= Cherche_field( _Nom);
      if e = nil then exit;
@@ -1693,8 +1713,8 @@ end;
 
 procedure TOpenDocument.DetruitChamp(Champ: String);
 var
-   eUSER_FIELD_DECLS: TJclSimpleXMLElem;
-   e: TJclSimpleXMLElem;
+   eUSER_FIELD_DECLS: IXMLNode;
+   e: IXMLNode;
 begin
      eUSER_FIELD_DECLS:= Get_xmlContent_USER_FIELD_DECLS;
      if eUSER_FIELD_DECLS = nil then exit;
@@ -1702,26 +1722,7 @@ begin
      e:= Cherche_field( Champ);
      if e = nil then exit;
 
-     eUSER_FIELD_DECLS.Items.Remove( e);
-end;
-
-procedure TOpenDocument.Save;
-var
-   nfContent: String;
-   nfStyles : String;
-begin
-     nfContent:= OD_Temporaire.Nouveau_Fichier('');
-     nfStyles := OD_Temporaire.Nouveau_Fichier('');
-     xmlContent.SaveToFile( nfContent, seUTF8);
-     xmlStyles .SaveToFile( nfStyles , seUTF8);
-     try
-        F.AddFile( 'content.xml', nfContent);
-        F.AddFile( 'styles.xml' , nfStyles );
-        F.Compress;
-     finally
-            DeleteFile( nfContent);
-            DeleteFile( nfStyles );
-            end;
+     eUSER_FIELD_DECLS.ChildNodes.Remove( e);
 end;
 
 function TOpenDocument.Style_NameFromDisplayName( _DisplayName: String): String;
@@ -1769,7 +1770,7 @@ end;
 
 function TOpenDocument.Field_Value(_Name: String): String;
 var
-   e: TJclSimpleXMLElem;
+   e: IXMLNode;
    String_Value: String;
 begin
      Result:= '';
@@ -1781,23 +1782,16 @@ begin
      Result:= String_Value;
 end;
 
-procedure TOpenDocument.Supprime_Item( _e: TJclSimpleXMLElem);
+procedure TOpenDocument.Supprime_Item( _e: IXMLNode);
 var
-   Parent: TJclSimpleXMLElem;
-   CONTAINER: TJclSimpleXMLElems;
-   //Index: Integer;
+   Parent: IXMLNode;
 begin
      if _e = nil then exit;
 
-     Parent:= _e.Parent;
+     Parent:= _e.ParentNode;
      if Parent= nil then exit;
 
-     CONTAINER:= Parent.Items;
-     if CONTAINER = nil then exit;
-
-     //Index:= CONTAINER.IndexOf( _e);
-     //CONTAINER.Delete( Index);
-     CONTAINER.Remove( _e);
+     Parent.ChildNodes.Remove( _e);
 end;
 
 function TOpenDocument.Escape_XML( S: String): String;
@@ -1826,7 +1820,7 @@ begin
        end;
 end;
 
-procedure TOpenDocument.AddSpace( _e: TJclSimpleXMLElem; _c: Integer);
+procedure TOpenDocument.AddSpace( _e: IXMLNode; _c: Integer);
 begin
      if _c < 1 then exit;
 
@@ -1837,7 +1831,7 @@ begin
          Add_Item( _e, 'text:s', ['text:c'], [IntToStr( _c)]);
 end;
 
-procedure TOpenDocument.AddText( _e: TJclSimpleXMLElem; _Value: String;
+procedure TOpenDocument.AddText( _e: IXMLNode; _Value: String;
                                  _Escape_XML: Boolean= False;
                                  _Gras: Boolean= False);
 var
@@ -1846,22 +1840,22 @@ var
    S: String;
    procedure Ajoute_SautLigne;
    begin
-        _e.Items.Add('text:line-break');
+        _e.AddChild('text:line-break');
    end;
    procedure Ajoute_Tabulation;
    begin
-        _e.Items.Add('text:tab');
+        _e.AddChild('text:tab');
    end;
    procedure Ajoute_S;
    var
-      span: TJclSimpleXMLElem;
+      span: IXMLNode;
    begin
         if S = '' then exit;
 
         if _Escape_XML
         then
             S:= Escape_XML( S);
-        span:= _e.Items.Add( 'text:span', S);
+        span:= _e.AddChild( 'text:span', S);
         if _Gras then Set_Property( span, 'text:style-name', Name_style_text_bold);
         S:= '';
    end;
@@ -1947,41 +1941,37 @@ begin
 end;
 
 procedure TOpenDocument.Freeze_fields;
-    procedure Traite_USER_FIELD_GET( _e: TJclSimpleXMLElem);
+    procedure Traite_USER_FIELD_GET( _e: IXMLNode);
     var
        FieldName: String;
        I: Integer;
-       Parent: TJclSimpleXMLElem;
-       CONTAINER: TJclSimpleXMLElems;
-       eSPAN: TJclSimpleXMLElem;
+       Parent: IXMLNode;
+       eSPAN: IXMLNode;
        Value: String;
     begin
          if _e = nil then exit;
 
          if not_Get_Property( _e, 'text:name', FieldName) then exit;
 
-         Parent:= _e.Parent;
+         Parent:= _e.ParentNode;
          if Parent= nil then exit;
 
-         CONTAINER:= Parent.Items;
-         if CONTAINER = nil then exit;
 
-         I:= CONTAINER.IndexOf( _e);
-         eSPAN:= CONTAINER.Insert( 'text:span', I);
+         I:= Parent.ChildNodes.IndexOf( _e);
+         eSPAN:= Parent.AddChild('text:span', I);
          if eSPAN = nil then exit;
 
          Value:= Field_Value( FieldName);
          AddText( eSPAN, Value, False);
 
-         CONTAINER.Remove( _e);
+         Parent.ChildNodes.Remove( _e);
     end;
-    procedure Traite_DATE( _e: TJclSimpleXMLElem);
+    procedure Traite_DATE( _e: IXMLNode);
     var
        I: Integer;
        DataStyleName, DateFixe: String;
-       Parent: TJclSimpleXMLElem;
-       CONTAINER: TJclSimpleXMLElems;
-       eSPAN: TJclSimpleXMLElem;
+       Parent: IXMLNode;
+       eSPAN: IXMLNode;
        Value: String;
        procedure Insecable_to_Space;
        var
@@ -1994,7 +1984,7 @@ procedure TOpenDocument.Freeze_fields;
               begin
               if Value[J] = #160
               then
-                  Value[J]:= #32; 
+                  Value[J]:= #32;
               end;
        end;
     begin
@@ -2008,14 +1998,11 @@ procedure TOpenDocument.Freeze_fields;
          then
              DateFixe:= '';
 
-         Parent:= _e.Parent;
+         Parent:= _e.ParentNode;
          if Parent= nil then exit;
 
-         CONTAINER:= Parent.Items;
-         if CONTAINER = nil then exit;
-
-         I:= CONTAINER.IndexOf( _e);
-         eSPAN:= CONTAINER.Insert( 'text:span', I);
+         I:= Parent.ChildNodes.IndexOf( _e);
+         eSPAN:= Parent.AddChild( 'text:span', I);
          if eSPAN = nil then exit;
 
          //il faudrait aller interpréter le style fourni par DataStyleName
@@ -2023,15 +2010,14 @@ procedure TOpenDocument.Freeze_fields;
          //Insecable_to_Space;
          AddText( eSPAN, Value, False);
 
-         CONTAINER.Remove( _e);
+         Parent.ChildNodes.Remove( _e);
     end;
-    procedure Traite_TIME( _e: TJclSimpleXMLElem);
+    procedure Traite_TIME( _e: IXMLNode);
     var
        I: Integer;
        DataStyleName, DateFixe: String;
-       Parent: TJclSimpleXMLElem;
-       CONTAINER: TJclSimpleXMLElems;
-       eSPAN: TJclSimpleXMLElem;
+       Parent: IXMLNode;
+       eSPAN: IXMLNode;
        Value: String;
     begin
          if _e = nil then exit;
@@ -2044,42 +2030,39 @@ procedure TOpenDocument.Freeze_fields;
          then
              DateFixe:= '';
 
-         Parent:= _e.Parent;
+         Parent:= _e.ParentNode;
          if Parent= nil then exit;
 
-         CONTAINER:= Parent.Items;
-         if CONTAINER = nil then exit;
-
-         I:= CONTAINER.IndexOf( _e);
-         eSPAN:= CONTAINER.Insert( 'text:span', I);
+         I:= Parent.ChildNodes.IndexOf( _e);
+         eSPAN:= Parent.AddChild( 'text:span', I);
          if eSPAN = nil then exit;
 
          //il faudrait aller interpréter le style fourni par DataStyleName
          Value:= FormatDateTime( 'tt', Now);
          AddText( eSPAN, Value, False);
 
-         CONTAINER.Remove( _e);
+         Parent.ChildNodes.Remove( _e);
     end;
-    procedure T( _e: TJclSimpleXMLElem);
+    procedure T( _e: IXMLNode);
     var
        I: Integer;
     begin
          if _e = nil then exit;
 
-              if _e.FullName = 'text:user-field-get' then Traite_USER_FIELD_GET( _e)
-         else if _e.FullName = 'text:date'           then Traite_DATE( _e)
-         else if _e.FullName = 'text:time'           then Traite_TIME( _e)
+              if _e.NodeName = 'text:user-field-get' then Traite_USER_FIELD_GET( _e)
+         else if _e.NodeName = 'text:date'           then Traite_DATE( _e)
+         else if _e.NodeName = 'text:time'           then Traite_TIME( _e)
          else
-             for I:= 0 to _e.Items.Count-1
+             for I:= 0 to _e.ChildNodes.Count-1
              do
-               T( _e.Items.Item[ I]);
+               T( _e.ChildNodes[ I]);
     end;
     procedure Efface_Declarations;
     var
-       e: TJclSimpleXMLElem;
+       e: IXMLNode;
     begin
          e:= Get_xmlContent_USER_FIELD_DECLS;
-         e.Clear;
+         e.ChildNodes.Clear;
 
          while True
          do
@@ -2096,7 +2079,7 @@ begin
      Efface_Declarations;
 end;
 
-procedure TOpenDocument.Try_Delete_Style( _eStyle: TJclSimpleXMLElem);
+procedure TOpenDocument.Try_Delete_Style( _eStyle: IXMLNode);
 var
    Style_Name: String;
 begin
@@ -2117,16 +2100,16 @@ end;
 
 procedure TOpenDocument.Delete_unused_styles;
 var
-   eSTYLES: TJclSimpleXMLElem;
+   eSTYLES: IXMLNode;
    I: Integer;
-   e: TJclSimpleXMLElem;
+   e: IXMLNode;
 begin
      eSTYLES:= Get_xmlStyles_STYLES;
-     I:= eSTYLES.Items.Count - 1;
+     I:= eSTYLES.ChildNodes.Count - 1;
      while I >= 0
      do
        begin
-       e:= eSTYLES.Items.Item[ I];
+       e:= eSTYLES.ChildNodes[ I];
        Try_Delete_Style( e);
        Dec( I);
        end;
@@ -2135,9 +2118,9 @@ end;
 procedure TOpenDocument.Efface_Styles_Table( _NomTable: String);
 var
    Prefixe: String;
-   eAUTOMATIC_STYLES: TJclSimpleXMLElem;
+   eAUTOMATIC_STYLES: IXMLNode;
    I: Integer;
-   e: TJclSimpleXMLElem;
+   e: IXMLNode;
    Name: String;
    function Supprimer: Boolean;
    begin
@@ -2159,11 +2142,11 @@ begin
      slStyles_Cellule_Properties.Clear;
 
      eAUTOMATIC_STYLES:= Get_xmlContent_AUTOMATIC_STYLES;
-     I:= eAUTOMATIC_STYLES.Items.Count - 1;
+     I:= eAUTOMATIC_STYLES.ChildNodes.Count - 1;
      while I >= 0
      do
        begin
-       e:= eAUTOMATIC_STYLES.Items.Item[ I];
+       e:= eAUTOMATIC_STYLES.ChildNodes[ I];
        if Supprimer
        then
            Supprime_Item( e);
@@ -2171,7 +2154,7 @@ begin
        end;
 end;
 
-function TOpenDocument.Named_Range_Cherche( _Nom: String): TJclSimpleXMLElem;
+function TOpenDocument.Named_Range_Cherche( _Nom: String): IXMLNode;
 begin
      Result:= Cherche_Item( Get_xmlContent_SPREADSHEET_NAMED_EXPRESSIONS,
                             'table:named-range',
@@ -2179,7 +2162,7 @@ begin
                             [_Nom        ]);
 end;
 
-function TOpenDocument.Named_Range_Assure( _Nom: String): TJclSimpleXMLElem;
+function TOpenDocument.Named_Range_Assure( _Nom: String): IXMLNode;
 begin
      Result:= Ensure_Item( Get_xmlContent_SPREADSHEET_NAMED_EXPRESSIONS,
                            'table:named-range',
@@ -2189,7 +2172,7 @@ end;
 
 procedure TOpenDocument.Named_Range_Set( _Nom, _Base_Cell, _Cell_Range: String);
 var
-   e: TJclSimpleXMLElem;
+   e: IXMLNode;
 begin
      e:= Named_Range_Assure( _Nom);
      if e = nil then exit;
@@ -2205,7 +2188,7 @@ end;
 
 function TOpenDocument.Largeur_Imprimable: double;
 var
-   ePage_Layout_Properties: TJclSimpleXMLElem;
+   ePage_Layout_Properties: IXMLNode;
    sPage_width  : String;
    sMargin_left : String;
    sMargin_right: String;
@@ -2231,7 +2214,7 @@ begin
      Result:= dPage_width - dMargin_left - dMargin_right;
 end;
 
-function TOpenDocument.FirstHeader: TJclSimpleXMLElem;
+function TOpenDocument.FirstHeader: IXMLNode;
 begin
      Result
      :=
@@ -2240,7 +2223,7 @@ end;
 
 procedure TOpenDocument.Ensure_style_text_bold;
 var
-   e: TJclSimpleXMLElem;
+   e: IXMLNode;
 begin
      Name_style_text_bold:= 'bold';
      e
@@ -2254,9 +2237,85 @@ begin
                                        0,0,100);
 end;
 
-function TOpenDocument.Append_SOFT_PAGE_BREAK( _eRoot: TJclSimpleXMLElem): TJclSimpleXMLElem;
+function TOpenDocument.Append_SOFT_PAGE_BREAK( _eRoot: IXMLNode): IXMLNode;
 begin
      Result:= Cree_path( _eRoot, 'text:soft-page-break');
+end;
+
+procedure TOpenDocument.Is_template_from_extension;
+var
+   Extension: String;
+begin
+     Is_template:= False;
+
+     Extension:= UpperCase( ExtractFileExt( Nom));
+     if 4 > Length(Extension) then exit;
+
+                                     // .ODT .OTT .ODS .OTS
+     Is_template:= 'T'=Extension[3]; // 1234 1234 1234 1234
+end;
+
+function TOpenDocument.mimetype_filename: String;
+begin
+     Result:= IncludeTrailingPathDelimiter( Repertoire_Extraction)+'mimetype';
+end;
+
+function TOpenDocument.Getmimetype: String;
+begin
+     Result:= String_from_File( mimetype_filename);
+end;
+
+procedure TOpenDocument.Setmimetype( _mimetype: String);
+begin
+     String_to_File( mimetype_filename, _mimetype);
+end;
+
+procedure TOpenDocument.MIMETYPE_and_MANIFEST_MEDIA_TYPE_from_Is_template;
+const
+     sTemplate='-template';
+var
+   sMIMETYPE: String;
+   sMIMETYPE_is_template: Boolean;
+   procedure Traite_Document;
+   begin
+        sMIMETYPE:= Delete_suffix( sMIMETYPE, sTemplate);
+   end;
+   procedure Traite_Template;
+   begin
+        sMIMETYPE:= sMIMETYPE + sTemplate;
+   end;
+   procedure Modifie_mimetype;
+   begin
+        if Is_template
+        then
+            Traite_Template
+        else
+            Traite_Document;
+   end;
+   procedure Enregistre;
+   var
+      root, e: IXMLNode;
+   begin
+        //modification fichier mimetype
+        mimetype:= sMIMETYPE;
+
+        //modification manifest.xml
+        root:= xmlMETA_INF_manifest.DocumentElement;
+        e:= Cherche_Item_Recursif( root,
+                                   'manifest:file-entry',
+                                   ['manifest:full-path'],
+                                   ['/']);
+       if nil = e then exit;
+       uOD_JCL.Set_Property( e, 'manifest:media-type', sMIMETYPE);
+   end;
+begin
+     sMIMETYPE:= mimetype;
+     sMIMETYPE_is_template:= String_has_suffix( sMIMETYPE, sTemplate);
+     if sMIMETYPE_is_template <> Is_template
+     then
+         Modifie_mimetype;
+
+     Enregistre;
 end;
 
 end.

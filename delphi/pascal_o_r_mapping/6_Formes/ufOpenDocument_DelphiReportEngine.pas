@@ -23,7 +23,7 @@ uses
     uOOoStringList,
     uOpenDocument,
     JclCompression,
-    JclSimpleXml,
+    Xml.XMLIntf,
     uOOoChrono,
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
   FMX.Dialogs, FMX.StdCtrls, FMX.ExtCtrls, FMX.ComCtrls, Grids, ValEdit, ShellAPI, Registry,
@@ -159,7 +159,7 @@ type
     function Execute( _NomDocument: String): Boolean;
   //Composition du Treeview
   private
-    procedure tv_Add( _tv: TTreeView; _e: TJclSimpleXMLElem; _Parent: TTreeNode = nil);
+    procedure tv_Add( _tv: TTreeView; _e: IXMLNode; _Parent: TTreeNode = nil);
   //Surcharge de la méthode de gestion des messages
   protected
     procedure WndProc(var Message: TMessage); override;
@@ -715,17 +715,17 @@ begin
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.Affiche_XMLs;
-   procedure To_tv( _xml: TJclSimpleXml; _tv: TTreeView; _m: TMemo);
+   procedure To_tv( _xml: TXMLDocument; _tv: TTreeView; _m: TMemo);
    begin
         _m.Text:= _xml.SaveToString;
         OOoChrono.Stop( 'Chargement de l''objet XML dans le memo '+_m.Name);
 
         _tv.Items.Clear;
-        tv_add( _tv, _XML.Root);
+        tv_add( _tv, _XML.DocumentElement);
         _tv.FullExpand;
         OOoChrono.Stop( 'Chargement de l''objet XML dans le TreeView '+_tv.Name);
    end;
-   procedure To_m( _xml: TJclSimpleXml; _m: TMemo);
+   procedure To_m( _xml: TXMLDocument; _m: TMemo);
    begin
         _m.Text:= _xml.SaveToString;
         OOoChrono.Stop( 'Chargement de l''objet XML dans le memo '+_m.Name);
@@ -903,7 +903,7 @@ begin
      From_Document;
 end;
 
-procedure TfOpenDocument_DelphiReportEngine.tv_Add( _tv: TTreeView; _e: TJclSimpleXMLElem;
+procedure TfOpenDocument_DelphiReportEngine.tv_Add( _tv: TTreeView; _e: IXMLNode;
                                                     _Parent: TTreeNode = nil);
 var
    I: Integer;
@@ -915,15 +915,15 @@ begin
      do
        begin
        if Properties <> '' then Properties:= Properties + '     ';
-       with _e.Properties.Item[I]
+       with _e.AttributeNodes[I]
        do
          Properties:= Properties+Name+': '+Value;
        end;
-     tn:= _tv.Items.AddChild( _Parent, '<'+_e.FullName+' '+Properties+' >'+_e.AnsiValue);
+     tn:= _tv.Items.AddChild( _Parent, '<'+_e.NodeName+' '+Properties+' >'+_e.AnsiValue);
      
-     for I:= 0 to _e.Items.count - 1
+     for I:= 0 to _e.ChildNodes.count - 1
      do
-       tv_Add( _tv, _e.Items.Item[I], tn);
+       tv_Add( _tv, _e.ChildNodes[I], tn);
 end;
 
 procedure TfOpenDocument_DelphiReportEngine.FormCloseQuery( Sender: TObject;
@@ -1043,7 +1043,7 @@ var
    Nom: String;
    I: Integer;
 begin
-     Nom:= lbODRE_Table.Items[lbODRE_Table.ItemIndex];
+     Nom:= lbODRE_Table.ChildNodes[lbODRE_Table.ItemIndex];
      ODRE_Table:= TODRE_Table.Create( Nom);
      ODRE_Table.Pas_de_persistance:= False;
      ODRE_Table.from_Doc( OD_TextTableContext);

@@ -16,7 +16,7 @@ unit uOD_TextTableManager;
 interface
 
 uses
-    JclSimpleXml,
+    Xml.XMLIntf,
     uOOoStrings,
     uOpenDocument,
     uOD_SurTitre,

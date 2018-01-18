@@ -16,7 +16,7 @@ unit uODRE_Table;
 interface
 
 uses
-    JclSimpleXml,
+    Xml.XMLIntf,
     uOpenDocument,
     uOD_JCL,
     uOD_Column,
@@ -82,7 +82,7 @@ type
    rowTitre, rowSurTitre: TOD_TABLE_ROW;
    procedure Dimensionne_Colonnes_interne( _C: TOD_TextTableContext);
    function Cree_Paragraphe_Tabule_interne( _C: TOD_TextTableContext;
-                                            _root: TJclSimpleXMLElem;
+                                            _root: IXMLNode;
                                             _Is_Header: Boolean;
                                             _OD_Styles: TOD_Styles;
                                             _NewPage: Boolean): TOD_PARAGRAPH;
@@ -351,7 +351,7 @@ begin
 end;
 
 function TODRE_Table.Cree_Paragraphe_Tabule_interne( _C: TOD_TextTableContext;
-                                                     _root: TJclSimpleXMLElem;
+                                                     _root: IXMLNode;
                                                      _Is_Header: Boolean;
                                                      _OD_Styles: TOD_Styles;
                                                      _NewPage: Boolean): TOD_PARAGRAPH;
