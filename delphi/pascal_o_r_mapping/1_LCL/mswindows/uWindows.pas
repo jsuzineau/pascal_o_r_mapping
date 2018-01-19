@@ -24,21 +24,27 @@ unit uWindows;
 
 interface
 
+{$IFDEF MSWINDOWS}
 uses
     Windows;
+{$ENDIF}
 
 var
    //bords non 3D
-   CXBORDER, CYBORDER: Integer;
+   CXBORDER: Integer= 1;
+   CYBORDER: Integer= 1;
    //bords 3D
-   CXEDGE  , CYEDGE  : Integer;
+   CXEDGE: Integer= 1;
+   CYEDGE: Integer= 1;
 
 implementation
 
 initialization
+              {$IFDEF MSWINDOWS}
               CXBORDER:= GetSystemMetrics( SM_CXBORDER);
               CYBORDER:= GetSystemMetrics( SM_CYBORDER);
               CXEDGE:= GetSystemMetrics( SM_CXEDGE);
               CYEDGE:= GetSystemMetrics( SM_CYEDGE);
+              {$ENDIF}
 finalization
 end.

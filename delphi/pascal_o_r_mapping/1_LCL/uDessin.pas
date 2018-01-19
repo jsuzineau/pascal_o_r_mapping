@@ -25,7 +25,7 @@
 interface
 
 uses
-    Windows, SysUtils, FMX.Graphics, Types, System.Math.Vectors, System.UITypes;
+    SysUtils, FMX.Graphics, Types, System.Math.Vectors, System.UITypes;
 
 procedure Dessinne_Coche( Canvas: TCanvas;
                           CouleurFond, CouleurCoche: TColor;

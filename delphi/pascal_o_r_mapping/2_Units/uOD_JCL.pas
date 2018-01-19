@@ -27,7 +27,7 @@ interface
 uses
     Xml.omnixmldom, Xml.XMLIntf,
     uOOoStrings,
-  Windows, SysUtils, Classes, FMX.Forms, FMX.Dialogs;
+  SysUtils, Classes, FMX.Forms, FMX.Dialogs;
 
 //Gestion JclSimpleXMLElem
 procedure FullName_Split( _FullName: String; var NameSpace, Name: String);

@@ -7,7 +7,7 @@
             <Dependencies/>
         </Projects>
         <Projects Include="..\..\pascal_o_r_mapping\5_Controls\OD_DelphiReportEngine_Controls.dproj">
-            <Dependencies/>
+            <Dependencies>..\..\pascal_o_r_mapping\2_Units\OD_DelphiReportEngine_Units.dproj</Dependencies>
         </Projects>
         <Projects Include="duxPASCAL_O_R_MAPPING.dproj">
             <Dependencies>..\..\pascal_o_r_mapping\2_Units\OD_DelphiReportEngine_Units.dproj;..\..\pascal_o_r_mapping\5_Controls\OD_DelphiReportEngine_Controls.dproj</Dependencies>
@@ -29,13 +29,13 @@
     <Target Name="OD_DelphiReportEngine_Units:Make">
         <MSBuild Projects="..\..\pascal_o_r_mapping\2_Units\OD_DelphiReportEngine_Units.dproj" Targets="Make"/>
     </Target>
-    <Target Name="OD_DelphiReportEngine_Controls">
+    <Target Name="OD_DelphiReportEngine_Controls" DependsOnTargets="OD_DelphiReportEngine_Units">
         <MSBuild Projects="..\..\pascal_o_r_mapping\5_Controls\OD_DelphiReportEngine_Controls.dproj"/>
     </Target>
-    <Target Name="OD_DelphiReportEngine_Controls:Clean">
+    <Target Name="OD_DelphiReportEngine_Controls:Clean" DependsOnTargets="OD_DelphiReportEngine_Units:Clean">
         <MSBuild Projects="..\..\pascal_o_r_mapping\5_Controls\OD_DelphiReportEngine_Controls.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="OD_DelphiReportEngine_Controls:Make">
+    <Target Name="OD_DelphiReportEngine_Controls:Make" DependsOnTargets="OD_DelphiReportEngine_Units:Make">
         <MSBuild Projects="..\..\pascal_o_r_mapping\5_Controls\OD_DelphiReportEngine_Controls.dproj" Targets="Make"/>
     </Target>
     <Target Name="duxPASCAL_O_R_MAPPING" DependsOnTargets="OD_DelphiReportEngine_Units;OD_DelphiReportEngine_Controls">

@@ -25,7 +25,7 @@ unit uEtat;
 interface
 
 uses
-  SysUtils, Windows, Messages, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs;
+  SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs;
 
 type
   TEtat = class(TObject)

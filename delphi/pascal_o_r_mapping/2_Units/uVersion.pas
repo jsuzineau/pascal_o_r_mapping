@@ -1,4 +1,4 @@
-unit uVersion;
+﻿unit uVersion;
 {Copyright © 1998, 1999 Jean SUZINEAU}
 interface
 
@@ -190,7 +190,7 @@ function CompareVersions( _Fichier1, _Fichier2: String): Integer; //-1 si 1 < 2
                                                                   // 0 si 1 = 2
                                                                   //+1 si 1 > 2
 begin
-     Result:= '';
+     Result:= 0;
 end;
 {$ENDIF}
 

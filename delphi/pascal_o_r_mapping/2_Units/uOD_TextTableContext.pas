@@ -24,7 +24,7 @@ uses
     uOD_Styles,
     uOpenDocument,
   SysUtils, Classes,
-  Windows, Variants, FMX.Dialogs,FMX.Grid,
+  Variants, FMX.Dialogs,FMX.Grid,
   DB;
 
 type

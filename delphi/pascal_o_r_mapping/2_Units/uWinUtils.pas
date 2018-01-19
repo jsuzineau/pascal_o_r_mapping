@@ -1,6 +1,6 @@
 ﻿unit uWinUtils;
 
-// Copyright (C) Jean SUZINEAU 1997, 2000
+// Copyright (C) Jean SUZINEAU 1997, 2017
 
 interface
 
@@ -13,32 +13,37 @@ uses
     uuStrings,
 
   Classes,
-  //Windows,
   System.UITypes,
   FMX.Graphics, FMX.Controls, FMX.Menus,
   //FMX.CheckLst,
-  SysUtils,
-  ShlObj, ActiveX, FMX.StdCtrls, FMX.ExtCtrls, FMX.Consts;
+  System.SysUtils,
+  {$IFDEF MSWINDOWS}
+  Windows,
+  ShlObj, ActiveX,
+  {$ENDIF}
+  FMX.StdCtrls, FMX.ExtCtrls, FMX.Consts, FMX.TextLayout, System.Types, System.IOUtils;
 
 function sGetLastError: String;
 
 procedure TraiteLastError( Messag: String);
 
+{$IFDEF MSWINDOWS}
 function SelectionnneRepertoire( Parent: HWnd;
                                  Titre: String; var Path: String): Boolean;
+{$ENDIF}
 
 procedure Enable_MenuItem( MenuItem: TMenuItem; Enabled: Boolean);
 
 procedure Concat_Espace( var S1: String; S2, Espace: String);
 
 procedure Oriente_Fonte( Orientation: Integer; F: TFont);
-function LineHeight( F: TFont): Integer;
+function LineHeight( _F: TFont): Single;
 
-function HauteurTexte( F: TFont; S: String; Largeur: Integer): Integer;
-function HauteurTexte_2( F: TFont; S: String; Largeur: Integer): Integer;
-function LargeurTexte( F: TFont; S: String                  ): Integer;
+function HauteurTexte  ( _F: TFont; _S: String; _Largeur: Single): Single;
+function HauteurTexte_2( _F: TFont; _S: String; _Largeur: Single): Single;
+function LargeurTexte  ( _F: TFont; _S: String                  ): Single;
 
-function NbChars( F: TFont; Width: Single): Single;
+function NbChars( _F: TFont; _Width: Single): Integer;
 
 procedure Aligne_Sommet( Source, Cible: TControl);
 
@@ -62,88 +67,15 @@ procedure uWinUtils_Control_Color( Color: TColor; FMX.Controls: array of TContro
 }
 function uWinUtils_RepertoireTemporaire: String;
 
+function MulDiv( _Value, _Numerateur, _Denominateur: Integer):Integer;
+
 implementation
-
-type
- TWinUtils_Contexte
- =
-  class
-  //Gestion du cycle de vie
-  public
-    constructor Create;
-    destructor Destroy; override;
-  //Graphique
-  public
-    C: TCanvas;
-    C_Font: TFont;
-
-    procedure Init( F: TFont);
-    procedure Termine;
-
-    function DrawText_interne( S:String;var lpRect:TRect;uFormat:UINT):Integer;
-    function DrawText        ( F: TFont;
-                               S:String;var lpRect:TRect;uFormat:UINT):Integer;
-  end;
-
-var
-   WinUtils_Contexte: TWinUtils_Contexte= nil;
-
-{ TWinUtils_Contexte }
-
-constructor TWinUtils_Contexte.Create;
-begin
-     C:= TCanvas.Create;
-     C_Font:= TFont.Create;
-end;
-
-destructor TWinUtils_Contexte.Destroy;
-begin
-     //Graphique
-     Free_nil( C_Font);
-     Free_nil( C);
-
-     inherited;
-end;
-
-procedure TWinUtils_Contexte.Init( F: TFont);
-begin
-     //code à reprendre pour FMX
-     //C.Handle:= GetDC(0);
-     C_Font.Assign( C.Font);
-     C.Font.Assign( F);
-end;
-
-procedure TWinUtils_Contexte.Termine;
-begin
-     C.Font.Assign( C_Font);
-     //code à reprendre pour FMX
-     //ReleaseDC( 0, C.Handle);
-end;
-
-function TWinUtils_Contexte.DrawText_interne( S: String;
-                                              var lpRect: TRect;
-                                              uFormat: UINT): Integer;
-begin
-     //code à reprendre pour FMX
-     //Result:= Windows.DrawText( C.Handle, PChar(S), Length(S), lpRect, uFormat);
-end;
-
-function TWinUtils_Contexte.DrawText( F: TFont; S: String; var lpRect: TRect;
-                                      uFormat: UINT): Integer;
-begin
-     try
-        Init( F);
-        Result:= DrawText_interne( S, lpRect, uFormat);
-     finally
-            Termine;
-            end;
-end;
 
 { uWinUtils }
 
 procedure Oriente_Fonte( Orientation: Integer; F: TFont);
 var
-   Fonte: HFont;
+//   Fonte: HFont;
    fnWeight: Integer;
    fdwPitchAndFamily: Cardinal;
 begin
@@ -175,90 +107,99 @@ begin
      }
 end;
 
-function HauteurTexte( F: TFont; S: String; Largeur: Integer): Integer;
+function HauteurTexte( _F: TFont; _S: String; _Largeur: Single): Single;
 var
-   CALCRECT: TRect;
+   tl: TTextLayout;
+   MaxSize: TPointF;
 begin
-     //Impossible de gérer l'orientation de la fonte ici
-     //DrawText le gére pas en DT_CALCRECT.
-     //Il semble le gérer dans les autres cas.
-     CALCRECT:= Rect(0,0,Largeur,0);
-     WinUtils_Contexte.DrawText( F, S, CALCRECT, DT_CALCRECT or DT_WORDBREAK);
-     Result:= CALCRECT.Bottom;
-end;
+     Result:= 0;
+     if sys_Vide = _S then exit;
 
-function LargeurTexte( F: TFont; S: String): Integer;
-var
-   SL: TBatpro_StringList;
-   I:Integer;
-   W, Max: Integer;
-   function LargeurLigne( S: String): Integer;
-   var
-      CALCRECT: TRect;
-   begin
-        CALCRECT:= Rect(0,0,0,0);
-        WinUtils_Contexte.DrawText_interne( S, CALCRECT, DT_CALCRECT);
-        Result:= CALCRECT.Right;
-   end;
-begin
-     if S = sys_Vide
-     then
-         begin
-         Result:= 0;
-         exit;
-         end;
+     MaxSize:= TTextLayout.MaxLayoutSize;
+     MaxSize.X:= _Largeur;
 
-     //Impossible de gérer l'orientation de la fonte ici
-     //GetTextExtentPoint32, appelé par TextWidth, ne le gère pas
-     SL:= TBatpro_StringList.Create;
-       SL.Text:= S;
-       try
-          WinUtils_Contexte.Init( F);
-          Max:= 0;
-          for I:= 0 to SL.Count-1
-          do
-            begin
-            //W:= C.TextWidth( SL.Strings[I]);
-            W:= LargeurLigne( SL.Strings[I]);
-            if W > Max then Max:= W;
-            end;
-          Result:= Max;
-       finally
-              WinUtils_Contexte.Termine;
-              end;
-     FreeAndnil( SL);
-end;
-
-function LineHeight( F: TFont): Integer;
-begin
+     tl:= TTextLayoutManager.DefaultTextLayout.Create;
      try
-        WinUtils_Contexte.Init( F);
-        //code à reprendre pour FMX
-        //Result:= WinUtils_Contexte.C.TextHeight( 'Wg');
+        tl.BeginUpdate;
+        tl.TopLeft := TPointF.Create(0, 0);
+        tl.MaxSize := MaxSize;
+        tl.WordWrap:= True;
+        tl.Font.Assign( _F);
+        tl.Text:= _S;
+        Result:= tl.Height;
      finally
-            WinUtils_Contexte.Termine;
+            FreeAndNil( tl);
             end;
 end;
 
-function HauteurTexte_2( F: TFont; S: String; Largeur: Integer): Integer;
+function LargeurTexte( _F: TFont; _S: String): Single;
+var
+   tl: TTextLayout;
+   sl: TBatpro_StringList;
+   I:Integer;
+   w, Max: Single;
+begin
+     Result:= 0;
+     if sys_Vide = _S then exit;
+
+     tl:= TTextLayoutManager.DefaultTextLayout.Create;
+     try
+        tl.Font.Assign( _F);
+        //Impossible de gérer l'orientation de la fonte ici
+        //GetTextExtentPoint32, appelé par TextWidth, ne le gère pas
+        sl:= TBatpro_StringList.Create;
+        try
+           sl.Text:= _S;
+           Max:= 0;
+           for I:= 0 to sl.Count-1
+           do
+             begin
+             tl.Text:= sl.Strings[I];
+             w:= tl.Width;
+             if w > Max then Max:= w;
+             end;
+           Result:= Max;
+        finally
+               FreeAndnil( sl);
+               end;
+     finally
+            FreeAndNil( tl);
+            end;
+end;
+
+function LineHeight( _F: TFont): Single;
+var
+   tl: TTextLayout;
+begin
+     tl:= TTextLayoutManager.DefaultTextLayout.Create;
+     try
+        tl.BeginUpdate;
+        tl.Font.Assign( _F);
+        tl.Text:= 'Wg';
+        Result:= tl.Height;
+     finally
+            FreeAndNil( tl);
+            end;
+end;
+
+function HauteurTexte_2( _F: TFont; _S: String; _Largeur: Single): Single;
 var
    sl: TStringList;
    I: Integer;
-   W: Integer;
    sLigne, sInsert: String;
    Old_Length: Integer;
    LS: Integer;
 begin
      sl:= TStringList.Create;
      try
-        sl.Text:= S;
+        sl.Text:= _S;
         I:= 0;
         while I < sl.Count
         do
           begin
           sLigne:= sl[I];
           sInsert:= '';
-          while LargeurTexte( F, sLigne) > Largeur
+          while LargeurTexte( _F, sLigne) > _Largeur
           do
             if not Wordbreak( sLigne, sInsert)
             then
@@ -272,48 +213,46 @@ begin
               end;
           Inc( I);
           end;
-        S:= sl.Text;
-        LS:= Length( S);
+        _S:= sl.Text;
+        LS:= Length( _S);
         if     (LS > 2)
-           and (S[LS-1]= #13)
-           and (S[LS  ]= #10)
+           and (_S[LS-1]= #13)
+           and (_S[LS  ]= #10)
         then
-            Delete( S, LS-1, 2);
+            Delete( _S, LS-1, 2);
 
-        Result:= HauteurTexte( F, S, Largeur);
+        Result:= HauteurTexte( _F, _S, _Largeur);
      finally
             Free_nil( sl);
             end;
 end;
 
-function NbChars( F: TFont; Width: Single): Single;
+function NbChars( _F: TFont; _Width: Single): Integer;
 var
-   TW: Integer;
+   tl: TTextLayout;
+   TextWidth: Single;
+   TW: Single;
 begin
+     tl:= TTextLayoutManager.DefaultTextLayout.Create;
      try
-        WinUtils_Contexte.Init( F);
-
-        //code à reprendre pour FMX
-        //TW:= WinUtils_Contexte.C.TextWidth( 'W');
-        if TW = 0
-        then
-            Result:= 1
-        else
-            Result:= Width / TW;
+        tl.BeginUpdate;
+        tl.Font.Assign( _F);
+        TextWidth:= _Width-tl.Padding.Left-tl.Padding.Right;
+        tl.Text:= 'W';
+        TW:= tl.Width;
      finally
-            WinUtils_Contexte.Termine;
+            FreeAndNil( tl);
             end;
+     if TW = 0
+     then
+         Result:= 1
+     else
+         Result:= Trunc( TextWidth / TW);
 end;
 
 function sGetLastError: String;
-var
-   MessageSysteme: PChar;
 begin
-     FormatMessage( FORMAT_MESSAGE_FROM_SYSTEM or
-                    FORMAT_MESSAGE_ALLOCATE_BUFFER,
-                    nil, GetLastError,
-                    0, @MessageSysteme, 0, nil);
-     Result:= StrPas(MessageSysteme);
+     Result:= SysErrorMessage( GetLastError);
 end;
 
 procedure TraiteLastError( Messag: String);
@@ -342,6 +281,8 @@ begin
          end;
 end;
 *)
+
+{$IFDEF MSWINDOWS}
 (*
 int CALLBACK BrowseCallbackProc(
     HWND hwnd,
@@ -350,6 +291,7 @@ int CALLBACK BrowseCallbackProc(
     LPARAM lpData
     );
 *)
+
 //function(Wnd: HWND; uMsg: UINT; lParam, lpData: LPARAM): Integer stdcall;
 function BrowseCallbackProc( Wnd: HWND; uMsg: UINT; lPARAM: LPARAM;
                              lpData: LPARAM): Integer; stdcall;
@@ -395,7 +337,41 @@ begin
      malloc.Free( Display);
      }
 end;
-
+{$ENDIF}
+{ version Apple OSX, source: http://jed-software.com/blog/?p=538
+uses MacApi.AppKit, MacApi.Foundation, Macapi.CocoaTypes;
+function SelectDirectory(const ATitle: string; var ADir: string): Boolean;
+var
+  LOpenDir: NSOpenPanel;
+  LInitialDir: NSURL;
+  LDlgResult: NSInteger;
+begin
+  Result := False;
+  LOpenDir := TNSOpenPanel.Wrap(TNSOpenPanel.OCClass.openPanel);
+  LOpenDir.setAllowsMultipleSelection(False);
+  LOpenDir.setCanChooseFiles(False);
+  LOpenDir.setCanChooseDirectories(True);
+  if ADir <> '' then
+  begin
+    LInitialDir := TNSURL.Create;
+    LInitialDir.initFileURLWithPath(NSSTR(ADir));
+    LOpenDir.setDirectoryURL(LInitialDir);
+  end;
+  if ATitle <> '' then
+    LOpenDir.setTitle(NSSTR(ATitle));
+  LOpenDir.retain;
+  try
+    LDlgResult := LOpenDir.runModal;
+    if LDlgResult = NSOKButton then
+    begin
+      ADir := string(TNSUrl.Wrap(LOpenDir.URLs.objectAtIndex(0)).relativePath.UTF8String);
+      Result := True;
+    end;
+  finally
+    LOpenDir.release;
+  end;
+end;
+}
 procedure Enable_MenuItem( MenuItem: TMenuItem; Enabled: Boolean);
 var
    I: Integer;
@@ -438,6 +414,12 @@ begin
      }
 end;
 
+{$IFNDEF MSWINDOWS}
+function Try_ShortPathName( var Path: String): Boolean;
+begin
+     Result:= True;
+end;
+{$ELSE}
 function Try_ShortPathName( var Path: String): Boolean;
 var
    Buffer: array[0..1024] of Char;
@@ -456,7 +438,7 @@ begin
          Result:= Pos(' ', Path) = 0;
          end;
 end;
-
+{$ENDIF}
 //code à reprendre pour FMX
 {
 procedure CheckAll( cb: TCheckListBox);
@@ -546,22 +528,16 @@ end;
 }
 
 function uWinUtils_RepertoireTemporaire: String;
-var
-   lpstrRepertoireTemporaire: PChar;
 begin
-     lpstrRepertoireTemporaire:= StrAlloc( MAX_PATH);
-     try
-        GetTempPath( MAX_PATH, lpstrRepertoireTemporaire);
-        Result:= StrPas( lpstrRepertoireTemporaire);
-     finally
-            StrDispose( lpstrRepertoireTemporaire);
-            end;
+     Result:= System.IOUtils.TPath.GetTempPath;
 end;
 
-initialization
-              WinUtils_Contexte:= TWinUtils_Contexte.Create;
-finalization
-              Free_nil( WinUtils_Contexte);
+function MulDiv( _Value, _Numerateur, _Denominateur: Integer):Integer;
+begin
+     Result:= (_Value * _Numerateur) div _Denominateur;
+end;
+
+
 end.
 
 

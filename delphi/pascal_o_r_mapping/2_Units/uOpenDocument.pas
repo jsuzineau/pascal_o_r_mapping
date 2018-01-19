@@ -26,8 +26,8 @@ uses
     uOOoChrono,
     uOOoStringList,
     uOOoDelphiReportEngineLog,
+    uWinUtils{pour MulDiv},
 
-  {$IFDEF MSWINDOWS}Windows,{pour MulDiv}{$ENDIF}
   SysUtils, Classes, Math, System.Zip;
 
 type

@@ -1331,7 +1331,11 @@ begin
      then
          if SizeOf(Data) = F.Datasize
          then
+             {$IFNDEF ANDROID}
              if F.GetData( @Data)
+             {$ELSE}
+             if False //improbable sous android, sqllite ne connait pas le type date
+             {$ENDIF}
              then
                  if Data = 0
                  then

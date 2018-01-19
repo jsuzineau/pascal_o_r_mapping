@@ -1,4 +1,4 @@
-unit uOD_SpreadsheetManager;
+﻿unit uOD_SpreadsheetManager;
 {                                                                               |
     Part of package pOpenDocument_DelphiReportEngine                            |
                                                                                 |
@@ -27,12 +27,7 @@ uses
     uOD_Temporaire,
     uOD_TextTableContext,
     uOpenDocument,
-  SysUtils,
-  {$IFDEF MSWINDOWS}
-  Windows,{pour CopyFile}
-  {$ELSE}
-  fileutil,
-  {$ENDIF}
+  SysUtils,System.IOUtils,
   Classes, DB;
 
 type
@@ -120,7 +115,7 @@ begin
          NomFichierModele:= ExtractFilePath( ParamStr(0))+ NomFichierModele;
 
      NomFichier:= OD_Temporaire.Nouveau_ODS( 'OD_SpreadSheet');
-     CopyFile( PChar(NomFichierModele), PChar( NomFichier), False);
+     TDirectory.Copy( NomFichierModele, NomFichier);
 
      Ouvert:= False;
 

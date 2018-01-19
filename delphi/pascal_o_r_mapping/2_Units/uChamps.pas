@@ -86,7 +86,9 @@ type
     property q    : TDataset read Fq ;
     property sl   : TslChamp read Fsl;
 
+    {$IFNDEF ANDROID}
     function   ShortString_from_   (var Memory:ShortString;Field:String;Persistant:Boolean=True): TChamp;
+    {$ENDIF}
     function   String_from_String  (var Memory:   String;Field:String;Persistant:Boolean=True): TChamp;
     function   String_from_Memo    (var Memory:   String;Field:String;Persistant:Boolean=True): TChamp;
     function   String_from_Blob    (var Memory:   String;Field:String;Persistant:Boolean=True): TChamp;
@@ -102,7 +104,9 @@ type
     function DateTime_from_Date    (var Memory:TDateTime;Field:String;Persistant:Boolean=True): TChamp;
     function DateTime_from_        (var Memory:TDateTime;Field:String;Persistant:Boolean=True): TChamp;
     function Cree_Champ_ID         (var Memory:  Integer): TChamp;
+    {$IFNDEF ANDROID}
     function Ajoute_ShortString    (var Memory:ShortString;Field:String;Persistant:Boolean=True): TChamp;
+    {$ENDIF}
     function Ajoute_String         (var Memory:   String;Field:String;Persistant:Boolean=True): TChamp;
     function Ajoute_Integer        (var Memory:  Integer;Field:String;Persistant:Boolean=True): TChamp;
     function Ajoute_SmallInt       (var Memory:  Integer;Field:String;Persistant:Boolean=True): TChamp;
@@ -464,11 +468,13 @@ begin
                   ' de type '+TypeField+' n''a pas été trouvé');
 end;
 
+{$IFNDEF ANDROID}
 function TChamps.ShortString_from_ ( var Memory: ShortString; Field: String;
                                      Persistant: Boolean): TChamp;
 begin
      Result:= Ajoute_ShortString( Memory, Field, Persistant);
 end;
+{$ENDIF}
 
 function TChamps.String_from_String   (var Memory:String   ;Field:String;Persistant:Boolean): TChamp;
 var
@@ -885,10 +891,12 @@ begin
          end;
 end;
 
+{$IFNDEF ANDROID}
 function TChamps.Ajoute_ShortString(var Memory: ShortString; Field: String; Persistant: Boolean): TChamp;
 begin
      Result:= Ajoute( @Memory, Field, ftFixedChar, Persistant, nil);
 end;
+{$ENDIF}
 
 function TChamps.Ajoute_String(var Memory: String; Field: String; Persistant: Boolean): TChamp;
 begin
@@ -967,8 +975,10 @@ begin
                    ftSmallint : AsSmallInt:= PInteger ( Valeur)^;
                    ftBCD      : AsBCD     := PCurrency( Valeur)^;
                    ftDateTime : AsDateTime:= PDateTime( Valeur)^;
+                   {$IFNDEF ANDROID}
                    ftTimeStamp: AsSQLTimeStamp
                     :=DateTimeToSQLTimeStamp(PDateTime( Valeur)^);
+                   {$ENDIF}
                    ftFloat    : AsFloat   := PDouble  ( Valeur)^;
                    end;
                end;

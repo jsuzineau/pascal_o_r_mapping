@@ -1,4 +1,4 @@
-unit uOD_Printer;
+﻿unit uOD_Printer;
 {                                                                               |
     Part of package pOpenDocument_DelphiReportEngine                            |
                                                                                 |
@@ -23,12 +23,7 @@ uses
     uODRE_Table,
     uOD_TextTableManager,
     uOOoStrings,
-  {$IFDEF MSWINDOWS}
-  Windows,{pour CopyFile}
-  {$ELSE}
-  fileutil,
-  {$ENDIF}
-  SysUtils, Classes, DB;
+  SysUtils, Classes, DB, System.IOUtils;
 
 type
  TOD_Printer
@@ -149,7 +144,7 @@ begin
          end;
 
      NomFichier:= OD_Temporaire.Nouveau_ODT( 'OD_Printer');
-     CopyFile( PChar(NomFichierModele), PChar( NomFichier), False);
+     TDirectory.Copy( NomFichierModele, NomFichier);
 
      {$IFNDEF FPC}
      if not FileExists( NomFichier) //2015/01/27: temporisation éventuelle

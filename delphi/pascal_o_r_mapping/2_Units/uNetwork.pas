@@ -32,7 +32,10 @@ uses
     uuStrings,
     uClean,
     uEXE_INI,
-    Windows, SysUtils, Classes, WinSock, IniFiles, Math, FMX.Dialogs;
+    {$IFNDEF ANDROID}
+    Windows, WinSock,
+    {$ENDIF}
+    SysUtils, Classes, IniFiles, Math, FMX.Dialogs;
 
 type
  TTypeNetwork= (tn_application, tn_informix, tn_mysql);
@@ -64,9 +67,12 @@ type
     procedure RemovePort_Interne(Port: String);
   public
     Nom_Hote: String;
+
+  {$IFNDEF ANDROID}
   //Adresse IP principale
   public
     function IP_Principale: TInAddr;
+  {$ENDIF}
   //Port de la machine courante
   public
     function GetPort: String;
@@ -107,6 +113,11 @@ begin
 end;
 
 function TNetWork.Get_Nom_Hote: String;
+{$IFDEF ANDROID}
+begin
+     Result:= 'android';
+end;
+{$ELSE}
 var
    hostname: array[0..2048] of AnsiChar;
    MessageSysteme: PChar;
@@ -123,7 +134,7 @@ begin
          end;
      Result:= StrPas( hostname);
 end;
-
+{$ENDIF}
 procedure TNetWork.Set_Ports_Instances;
 var
    I: Integer;
@@ -199,12 +210,14 @@ begin
            Result:= Strings[ Count - 1];
 end;
 
+{$IFNDEF ANDROID}
 procedure Init_WSA;
 var
   LData: TWSAData;
 begin
      WSAStartup($202, LData);
 end;
+{$ENDIF}
 
 procedure TNetwork.Get_Instances( _sl: TBatpro_StringList);
 var
@@ -242,6 +255,7 @@ begin
      INI.EraseSection( uNetWork_inis_Ports_Instances);
 end;
 
+{$IFNDEF ANDROID}
 function TNetwork.IP_Principale: TInAddr;
 var
    hostname: array[0..2048] of ansichar;
@@ -282,9 +296,11 @@ begin
              end;
          end;
 end;
-
+{$ENDIF}
 initialization
+              {$IFNDEF ANDROID}
               Init_WSA;
+              {$ENDIF}
               uNetWork_NomExecutable:= UpperCase( ChangeFileExt( ExtractFileName( ParamStr(0)), sys_Vide));
               Network:= TNetwork.Create;
 finalization

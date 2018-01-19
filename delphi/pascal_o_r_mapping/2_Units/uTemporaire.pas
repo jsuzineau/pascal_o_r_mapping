@@ -27,10 +27,7 @@ interface
 uses
     uClean,
 
-  {$IFDEF MSWINDOWS}
-  Windows,
-  {$ENDIF}
-  SysUtils, Classes;
+  SysUtils, Classes, System.IOUtils;
 
 type
  TTemporaire
@@ -56,20 +53,14 @@ implementation
 { TTemporaire }
 
 function TTemporaire.RepertoireTemp: String;
-var
-   buffer: array[0..MAX_PATH] of WideChar;
 begin
-     GetTempPath( length( buffer), buffer);
-     Result:= StrPas( buffer);
+     Result:= System.IOUtils.TPath.GetTempPath;
 end;
 
 function TTemporaire.Nouveau_Fichier( Prefixe: String): String;
-var
-   TempFileName: array[0..MAX_PATH] of WideChar;
 begin
-     GetTempFileName(  PWideChar( RepertoireTemp),
-                       PWideChar( Prefixe       ), 0, TempFileName);
-     Result:= StrPas( TempFileName);
+     //à revoir : le préfixe n'est pas pris en compte
+     Result:= System.IOUtils.TPath.GetTempFileName;
 end;
 
 function TTemporaire.Nouveau_Repertoire( Prefixe: String): String;

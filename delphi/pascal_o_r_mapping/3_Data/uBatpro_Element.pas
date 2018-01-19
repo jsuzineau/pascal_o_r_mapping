@@ -1492,11 +1492,6 @@ begin
      Result:= 0;
 end;
 
-function MulDiv( _Value, _Numerateur, _Denominateur: Integer):Integer;
-begin
-     Result:= (_Value * _Numerateur) div _Denominateur;
-end;
-
 function TBatpro_Element.Cell_Height_Interne( DrawInfo: TDrawInfo;
                                               F: TFont;
                                               Texte: String;

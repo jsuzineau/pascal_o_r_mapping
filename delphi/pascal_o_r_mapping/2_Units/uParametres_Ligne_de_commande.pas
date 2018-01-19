@@ -30,8 +30,8 @@ uses
     uClean,
     uuStrings,
     uBatpro_StringList,
-  {$IFNDEF FPC}
   uWinUtils,
+  {$IFDEF MSWINDOWS}
   Windows,
   {$ENDIF}
   SysUtils, Classes;
@@ -92,7 +92,9 @@ type
     function NomUtilisateur: String;
   //MailSlot server
   private
+    {$IF Defined(MSWINDOWS) and not Defined(FPC)}
     hMailSlot: THandle;
+    {$ENDIF}
     procedure Cree_MailSlot;
     procedure Ferme_MailSlot;
   public
@@ -208,7 +210,7 @@ end;
 {$ENDIF}
 
 procedure TParametres_Ligne_de_commande.Cree_MailSlot;
-{$IFNDEF FPC}
+{$IF Defined(MSWINDOWS) and not Defined(FPC)}
 var
    NomExe: String;
    RacineNomMailSlot: String;
@@ -258,7 +260,7 @@ end;
 {$ENDIF}
 
 procedure TParametres_Ligne_de_commande.Ferme_MailSlot;
-{$IFNDEF FPC}
+{$IF Defined(MSWINDOWS) and not Defined(FPC)}
 begin
      CloseHandle( hMailSlot);
 end;
@@ -268,7 +270,7 @@ end;
 {$ENDIF}
 
 function TParametres_Ligne_de_commande.From_MailSlot: Boolean;
-{$IFNDEF FPC}
+{$IF Defined(MSWINDOWS) and not Defined(FPC)}
 var
    NextSize: DWORD;
    Lus: DWORD;
@@ -304,7 +306,7 @@ end;
 
 
 procedure TParametres_Ligne_de_commande.To_MailSlot( _NomMailSlot: String);
-{$IFNDEF FPC}
+{$IF Defined(MSWINDOWS) and not Defined(FPC)}
 var
    NomMailSlot_Client: String;
    hMailSlot_Client: THandle;
@@ -340,7 +342,7 @@ end;
 
 
 function TParametres_Ligne_de_commande.not_MailSlot_existe( _NomMailSlot: String): Boolean;
-{$IFNDEF FPC}
+{$IF Defined(MSWINDOWS) and not Defined(FPC)}
 var
    NomMailSlot_Client: String;
    hMailSlot_Client: THandle;

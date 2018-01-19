@@ -1,4 +1,4 @@
-unit uUseCases;
+﻿unit uUseCases;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -104,7 +104,11 @@ begin
            PackageHandle:= uc.PackageHandle;
            if PackageHandle <> 0
            then
-               UnloadPackage( PackageHandle)
+               begin
+               {$IFDEF MSWINDOWS}
+               UnloadPackage( PackageHandle);
+               {$ENDIF}
+               end
            else
                begin    // le use case vide
                uc.Free;
@@ -149,7 +153,9 @@ begin
      if FileFound
      then
          begin
+         {$IFDEF MSWINDOWS}
          LoadPackage( NomFichierPackage);
+         {$ENDIF}
          I:= sl.IndexOf( NomFichierPackage);
          if I = -1 //si non trouvé, on prend le use case vide en n°0
          then
@@ -277,7 +283,9 @@ begin
      do
        begin
        uc:= TUseCase( sl.Objects[I]);
+       {$IFDEF MSWINDOWS}
        S.Add( GetVersionModule( uc.PackageHandle));
+       {$ENDIF}
        end;
 end;
 

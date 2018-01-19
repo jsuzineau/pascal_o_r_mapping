@@ -38,7 +38,7 @@ uses
   {$IFDEF MSWINDOWS}
   Windows,
   {$ENDIF}
-  SysUtils, Classes,DB;
+  SysUtils, Classes,DB, System.Types;
 
 type
  PtrBoolean= ^Boolean;
@@ -79,7 +79,7 @@ type
     procedure Publie_Modifications( Sauver: Boolean = True);// à appeler aprés une modif de Valeur^
   //Gestion des modifications dans TChampsGrid
   public
-    function Edite( Position: TPoint): Boolean;
+    function Edite( Position: TPointF): Boolean;
   //Gestion des lookups
   public
     LookupKey: TChamp;
@@ -378,7 +378,9 @@ begin
 
      case Definition.Typ
      of
+       {$IFNDEF ANDROID}
        ftFixedChar: Result:= PShortString( Valeur)^;
+       {$ENDIF}
        ftString  : Result:= PString  ( Valeur)^;
        ftMemo    : Result:= PString  ( Valeur)^;
        ftBlob    : Result:= PString  ( Valeur)^;
@@ -476,7 +478,9 @@ begin
      then
          case Definition.Typ
          of
+           {$IFNDEF ANDROID}
            ftFixedChar: PShortString( Valeur)^:= Value;
+           {$ENDIF}
            ftString  : PString  ( Valeur)^:= Value;
            ftMemo    : PString  ( Valeur)^:= Value;
            ftBlob    : PString  ( Valeur)^:= Value;
@@ -493,7 +497,7 @@ begin
      Publie_Modifications;
 end;
 
-function TChamp.Edite( Position: TPoint): Boolean;
+function TChamp.Edite( Position: TPointF): Boolean;
 {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
 var
    sCle, sLibelle: String;
@@ -666,7 +670,9 @@ begin
 
      case Definition.Typ
      of
+       {$IFNDEF ANDROID}
        ftFixedChar: PShortString( Valeur)^:= F.AsString;
+       {$ENDIF}
        ftString  : PString  ( Valeur)^:= F.AsString;
        ftMemo    : PString  ( Valeur)^:= F.AsString;
        ftBlob    : PString  ( Valeur)^:= F.AsString;
@@ -685,7 +691,9 @@ function TChamp.GetasDatetime: TDatetime;
 begin
      case Definition.Typ
      of
+       {$IFNDEF ANDROID}
        ftFixedChar: Result:= StrToDateTime( PShortString  ( Valeur)^);
+       {$ENDIF}
        ftString  : Result:= StrToDateTime( PString  ( Valeur)^);
        ftMemo    : Result:= StrToDateTime( PString  ( Valeur)^);
        ftBlob    : Result:= StrToDateTime( PString  ( Valeur)^);
@@ -707,7 +715,9 @@ begin
      then
          case Definition.Typ
          of
+           {$IFNDEF ANDROID}
            ftFixedChar: PShortString( Valeur)^:= DateTimeToStr( Value);
+           {$ENDIF}
            ftString  : PString  ( Valeur)^:= DateTimeToStr( Value);
            ftMemo    : PString  ( Valeur)^:= DateTimeToStr( Value);
            ftBlob    : PString  ( Valeur)^:= DateTimeToStr( Value);
@@ -729,7 +739,9 @@ function TChamp.GetasDouble: Double;
 begin
      case Definition.Typ
      of
+       {$IFNDEF ANDROID}
        ftFixedChar: Result:= StrToFloat( PShortString  ( Valeur)^);
+       {$ENDIF}
        ftString  : Result:= StrToFloat( PString  ( Valeur)^);
        ftMemo    : Result:= StrToFloat( PString  ( Valeur)^);
        ftBlob    : Result:= StrToFloat( PString  ( Valeur)^);
@@ -751,7 +763,9 @@ begin
      then
          case Definition.Typ
          of
+           {$IFNDEF ANDROID}
            ftFixedChar: PShortString( Valeur)^:= FloatToStr( Value);
+           {$ENDIF}
            ftString  : PString  ( Valeur)^:= FloatToStr( Value);
            ftMemo    : PString  ( Valeur)^:= FloatToStr( Value);
            ftBlob    : PString  ( Valeur)^:= FloatToStr( Value);
@@ -772,7 +786,9 @@ function TChamp.GetasBoolean: Boolean;
 begin
      case Definition.Typ
      of
+       {$IFNDEF ANDROID}
        ftFixedChar: Result:= StrToBool( PShortString  ( Valeur)^);
+       {$ENDIF}
        ftString  : Result:= StrToBool( PString  ( Valeur)^);
        ftMemo    : Result:= StrToBool( PString  ( Valeur)^);
        ftBlob    : Result:= StrToBool( PString  ( Valeur)^);
@@ -794,7 +810,9 @@ begin
      then
          case Definition.Typ
          of
+           {$IFNDEF ANDROID}
            ftFixedChar:PShortString( Valeur)^:= BoolToStr( Value);
+           {$ENDIF}
            ftString  : PString  ( Valeur)^:= BoolToStr( Value);
            ftMemo    : PString  ( Valeur)^:= BoolToStr( Value);
            ftBlob    : PString  ( Valeur)^:= BoolToStr( Value);
@@ -815,7 +833,9 @@ function TChamp.GetasInteger: Integer;
 begin
      case Definition.Typ
      of
+       {$IFNDEF ANDROID}
        ftFixedChar:Result:= StrToInt( PShortString  ( Valeur)^);
+       {$ENDIF}
        ftString  : Result:= StrToInt( PString  ( Valeur)^);
        ftMemo    : Result:= StrToInt( PString  ( Valeur)^);
        ftBlob    : Result:= StrToInt( PString  ( Valeur)^);
@@ -837,7 +857,9 @@ begin
      then
          case Definition.Typ
          of
+           {$IFNDEF ANDROID}
            ftFixedChar:PShortString  ( Valeur)^:= IntToStr( Value);
+           {$ENDIF}
            ftString  : PString  ( Valeur)^:= IntToStr( Value);
            ftMemo    : PString  ( Valeur)^:= IntToStr( Value);
            ftBlob    : PString  ( Valeur)^:= IntToStr( Value);
@@ -857,8 +879,11 @@ end;
 procedure TChamp.Serialise(S: TStream);
     procedure Traite_ShortString;
     begin
+         {$IFNDEF ANDROID}
          S.Write( PShortString( Valeur)^[0], 1+Length( PShortString( Valeur)^));
-    end;
+         {$ENDIF
+    }end;
+
     procedure Traite_String;
     var
        Longueur: Cardinal;
@@ -893,8 +918,14 @@ procedure TChamp.DeSerialise(S: TStream);
        Longueur: Byte;
     begin
          S.Read( Longueur, SizeOf( Longueur));
+
+         {$IFNDEF ANDROID}
          SetLength( PShortString( Valeur)^, Longueur);
          S.Read( PShortString( Valeur)^[1], Longueur);
+         {$ELSE}
+         //cas trés improbable mais pour bien faire
+         //il faudrait au moins lire un buffer de la même taille
+         {$ENDIF}
     end;
     procedure Traite_String;
     var
