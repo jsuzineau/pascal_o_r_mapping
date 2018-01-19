@@ -23,7 +23,7 @@ unit uBatpro_Registry;
 |                                                                               }
 
 interface
-
+{$IFDEF MSWINDOWS}
 uses
     SysUtils, Classes, Registry,
     u_sys_,
@@ -42,9 +42,10 @@ type
     function LitChaine( Nom, ValeurParDefaut: String): String;
   end;
 
+{$ENDIF}
 implementation
 
-
+{$IFDEF MSWINDOWS}
 { TBatpro_Registry }
 
 constructor TBatpro_Registry.Create;
@@ -82,5 +83,5 @@ begin
      else
          Result:= ValeurParDefaut;
 end;
-
+{$ENDIF}
 end.

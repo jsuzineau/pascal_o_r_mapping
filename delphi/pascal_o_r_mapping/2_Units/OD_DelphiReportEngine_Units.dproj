@@ -6,7 +6,7 @@
         <FrameworkType>None</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <Platform Condition="'$(Platform)'==''">Win64</Platform>
+        <Platform Condition="'$(Platform)'==''">Android</Platform>
         <TargetedPlatforms>19</TargetedPlatforms>
         <AppType>Package</AppType>
     </PropertyGroup>
@@ -103,7 +103,6 @@
         <DCCReference Include="fmx.dcp"/>
         <DCCReference Include="dbrtl.dcp"/>
         <DCCReference Include="dsnap.dcp"/>
-        <DCCReference Include="Jcl.dcp"/>
         <DCCReference Include="xmlrtl.dcp"/>
         <DCCReference Include="u_db_.pas"/>
         <DCCReference Include="u_db_Composants.pas"/>

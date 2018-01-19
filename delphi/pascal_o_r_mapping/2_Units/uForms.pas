@@ -85,7 +85,8 @@ implementation
 {$IFDEF uForms_console}
 {$ELSE}
 uses
-    Windows, SysUtils,FMX.Forms, FMX.Dialogs;
+    FMX.Forms, FMX.Dialogs,
+    System.SysUtils, System.UITypes;
 {$ENDIF}
 
 var
@@ -231,26 +232,44 @@ end;
 
 procedure uForms_MessageBox( _Caption, _Prompt: String);
 begin
-     MessageBox( GetFocus,
-                 PChar( _Prompt),
-                 PChar( _Caption),
-                 MB_OK);
+     ShowMessage( _Caption+#13#10+_Prompt);
 end;
 function uForms_Message_Yes( _Caption, _Prompt: String; _Default_No: Boolean= False): Boolean;
 var
-   Flags: Longint;
+   mdbDefault: TMsgDlgBtn;
 begin
-     Flags:= MB_YESNO or MB_ICONQUESTION;
      if _Default_No
      then
-         Flags:= Flags or MB_DEFBUTTON2;
+         mdbDefault:= TMsgDlgBtn.mbNo
+     else
+         mdbDefault:= TMsgDlgBtn.mbYes;
+
      Result
      :=
        IDYES
        =
-       MessageBox( GetFocus, PChar( _Prompt), PChar( _Caption), Flags);
+       MessageDlg( _Caption+#13#10+_Prompt,
+                   TMsgDlgType.mtConfirmation,
+                   [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo],
+                   0, mdbDefault);
 end;
 
+{$IFNDEF MSWINDOWS}
+function uForms_Charge_Paquet( NomPaquet: String): Boolean;
+begin
+     Result:= True;
+end;
+
+function uForms_Variables_d_environnement: String;
+begin
+     Result:= '';
+end;
+
+function uForms_Lance_Programme( EXE_FileName: String; Parametres: String = ''): Boolean;
+begin
+     Result:= True;
+end;
+{$ELSE}
 function uForms_Charge_Paquet( NomPaquet: String): Boolean;
 var
    NomFichierPackage: String;
@@ -329,7 +348,6 @@ begin
             FreeEnvironmentStrings( ES);
             end;
 end;
-
 function uForms_Lance_Programme( EXE_FileName: String; Parametres: String = ''): Boolean;
 var
    si: TStartupInfo;
@@ -345,8 +363,9 @@ begin
      then
          WaitForInputIdle( pi.hProcess, INFINITE);
 end;
+{$ENDIF} //else IFNDEF MSWINDOWS
 
-{$ENDIF}
+{$ENDIF} //else IFDEF uForms_console
 
 function uForms_EXE_Name: String;
 begin

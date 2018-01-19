@@ -32,7 +32,6 @@ requires
   fmx,
   dbrtl,
   dsnap,
-  Jcl,
   xmlrtl;
 
 contains

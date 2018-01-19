@@ -313,7 +313,8 @@ type
   //Ajout de texte
   public
     procedure AddText ( _e: IXMLNode; _Value: String;
-                        _Escape_XML: Boolean= False; _Gras: Boolean= False); overload;
+                        _Escape_XML: Boolean= False; _Gras: Boolean= False;
+                        _e_is_span: Boolean = False); overload;
     procedure AddText ( _Value: String;
                         _Escape_XML: Boolean= False; _Gras: Boolean= False); overload;
     function Append_SOFT_PAGE_BREAK( _eRoot: IXMLNode): IXMLNode;
@@ -515,7 +516,7 @@ procedure TOpenDocument.XML_from_Repertoire_Extraction;
          NomFichier:= IncludeTrailingPathDelimiter( Repertoire_Extraction)+_FileName;
 
         _xml:= LoadXMLDocument( NomFichier);
-        _xml.Options:= _xml.Options-[doNodeAutoCreate];
+        _xml.Options:= _xml.Options-[doNodeAutoCreate]+[doNodeAutoIndent];
         _xml.Active:= True;
         (*_xml.IndentString:= '  ';
         with _xml do Options:= Options + [sxoAutoEncodeValue];*)
@@ -1833,7 +1834,8 @@ end;
 
 procedure TOpenDocument.AddText( _e: IXMLNode; _Value: String;
                                  _Escape_XML: Boolean= False;
-                                 _Gras: Boolean= False);
+                                 _Gras: Boolean= False;
+                                 _e_is_span: Boolean = False);
 var
    I: Integer;
    C: Char;
@@ -1848,15 +1850,21 @@ var
    end;
    procedure Ajoute_S;
    var
-      span: IXMLNode;
+      eSPAN: IXMLNode;
    begin
         if S = '' then exit;
 
         if _Escape_XML
         then
             S:= Escape_XML( S);
-        span:= _e.AddChild( 'text:span', S);
-        if _Gras then Set_Property( span, 'text:style-name', Name_style_text_bold);
+
+        if _e_is_span
+        then
+            eSPAN:= _e
+        else
+            eSPAN:= _e.AddChild( 'text:span');
+        eSPAN.Text:= S;
+        if _Gras then Set_Property( eSPAN, 'text:style-name', Name_style_text_bold);
         S:= '';
    end;
    procedure Traite_Espaces;
@@ -1962,7 +1970,7 @@ procedure TOpenDocument.Freeze_fields;
          if eSPAN = nil then exit;
 
          Value:= Field_Value( FieldName);
-         AddText( eSPAN, Value, False);
+         AddText( eSPAN, Value, False, False, True);
 
          Parent.ChildNodes.Remove( _e);
     end;
@@ -2008,7 +2016,7 @@ procedure TOpenDocument.Freeze_fields;
          //il faudrait aller interpréter le style fourni par DataStyleName
          Value:= FormatDateTime( 'dddddd', Now);
          //Insecable_to_Space;
-         AddText( eSPAN, Value, False);
+         AddText( eSPAN, Value, False, False, True);
 
          Parent.ChildNodes.Remove( _e);
     end;
@@ -2039,7 +2047,7 @@ procedure TOpenDocument.Freeze_fields;
 
          //il faudrait aller interpréter le style fourni par DataStyleName
          Value:= FormatDateTime( 'tt', Now);
-         AddText( eSPAN, Value, False);
+         AddText( eSPAN, Value, False, False, True);
 
          Parent.ChildNodes.Remove( _e);
     end;

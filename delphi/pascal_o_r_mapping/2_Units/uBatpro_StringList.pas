@@ -1,4 +1,4 @@
-unit uBatpro_StringList;
+﻿unit uBatpro_StringList;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -25,7 +25,9 @@ unit uBatpro_StringList;
 interface
 
 uses
-    JCLDebug,
+    {$IFDEF MSWINDOWS}
+       JCLDebug,
+    {$ENDIF}
     uClean,
     SysUtils, Classes;
 
@@ -286,7 +288,9 @@ procedure CheckClass( var Resultat; Classe: TClass);
                   +'( $'+IntToHex(Integer(Pointer(Resultat)),8)+', '+Classe.ClassName+'):'#13#10
                   +_E.Message);
           sl.Add( 'Pile d''appels:');
+          {$IFDEF MSWINDOWS}
           JclLastExceptStackListToStrings( sl, True, True, True, True);
+          {$ENDIF}
 
           uClean_Log( sl.Text);
           Free_nil( sl);

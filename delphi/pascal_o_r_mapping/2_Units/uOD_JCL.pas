@@ -102,16 +102,28 @@ end;
 
 function Elem_from_path( _e: IXMLNode; Path: String):IXMLNode;
 var
-   sNode: String;
-   Name: String;
+   FullName: String;
+   NameSpace, Name: String;
 begin
      Result:= _e;
      if _e = nil  then exit;
      if Path = '' then exit;
 
-     sNode:= StrToK( '/', Path);
-     Name:= Name_from_FullName( sNode);
+     FullName:= StrToK( '/', Path);
+     Name:= Name_from_FullName( FullName);
      Result:= _e.ChildNodes.FindNode( Name);
+     if nil = Result
+     then
+         Result:= _e.ChildNodes.FindNode( FullName);
+     if (nil = Result) and ('text:user-field-decls'=FullName)
+     then
+         begin
+         Result:= _e.ChildNodes.Nodes[1];
+         if 'text:user-field-decls' <> Result.NodeName
+         then
+             Result:= nil;
+         end;
+
      Result:= Elem_from_path( Result, Path);
 end;
 

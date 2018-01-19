@@ -13,7 +13,7 @@ uses
     uuStrings,
 
   Classes,
-  Windows,
+  //Windows,
   System.UITypes,
   FMX.Graphics, FMX.Controls, FMX.Menus,
   //FMX.CheckLst,
