@@ -10,7 +10,10 @@
             <Dependencies>..\..\pascal_o_r_mapping\2_Units\OD_DelphiReportEngine_Units.dproj</Dependencies>
         </Projects>
         <Projects Include="duxPASCAL_O_R_MAPPING.dproj">
-            <Dependencies>..\..\pascal_o_r_mapping\2_Units\OD_DelphiReportEngine_Units.dproj;..\..\pascal_o_r_mapping\5_Controls\OD_DelphiReportEngine_Controls.dproj</Dependencies>
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\tools\test_OD_DelphiReportEngine\test.dproj">
+            <Dependencies/>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -38,23 +41,32 @@
     <Target Name="OD_DelphiReportEngine_Controls:Make" DependsOnTargets="OD_DelphiReportEngine_Units:Make">
         <MSBuild Projects="..\..\pascal_o_r_mapping\5_Controls\OD_DelphiReportEngine_Controls.dproj" Targets="Make"/>
     </Target>
-    <Target Name="duxPASCAL_O_R_MAPPING" DependsOnTargets="OD_DelphiReportEngine_Units;OD_DelphiReportEngine_Controls">
+    <Target Name="duxPASCAL_O_R_MAPPING">
         <MSBuild Projects="duxPASCAL_O_R_MAPPING.dproj"/>
     </Target>
-    <Target Name="duxPASCAL_O_R_MAPPING:Clean" DependsOnTargets="OD_DelphiReportEngine_Units:Clean;OD_DelphiReportEngine_Controls:Clean">
+    <Target Name="duxPASCAL_O_R_MAPPING:Clean">
         <MSBuild Projects="duxPASCAL_O_R_MAPPING.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="duxPASCAL_O_R_MAPPING:Make" DependsOnTargets="OD_DelphiReportEngine_Units:Make;OD_DelphiReportEngine_Controls:Make">
+    <Target Name="duxPASCAL_O_R_MAPPING:Make">
         <MSBuild Projects="duxPASCAL_O_R_MAPPING.dproj" Targets="Make"/>
     </Target>
+    <Target Name="test">
+        <MSBuild Projects="..\..\tools\test_OD_DelphiReportEngine\test.dproj"/>
+    </Target>
+    <Target Name="test:Clean">
+        <MSBuild Projects="..\..\tools\test_OD_DelphiReportEngine\test.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="test:Make">
+        <MSBuild Projects="..\..\tools\test_OD_DelphiReportEngine\test.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="OD_DelphiReportEngine_Units;OD_DelphiReportEngine_Controls;duxPASCAL_O_R_MAPPING"/>
+        <CallTarget Targets="OD_DelphiReportEngine_Units;OD_DelphiReportEngine_Controls;duxPASCAL_O_R_MAPPING;test"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="OD_DelphiReportEngine_Units:Clean;OD_DelphiReportEngine_Controls:Clean;duxPASCAL_O_R_MAPPING:Clean"/>
+        <CallTarget Targets="OD_DelphiReportEngine_Units:Clean;OD_DelphiReportEngine_Controls:Clean;duxPASCAL_O_R_MAPPING:Clean;test:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="OD_DelphiReportEngine_Units:Make;OD_DelphiReportEngine_Controls:Make;duxPASCAL_O_R_MAPPING:Make"/>
+        <CallTarget Targets="OD_DelphiReportEngine_Units:Make;OD_DelphiReportEngine_Controls:Make;duxPASCAL_O_R_MAPPING:Make;test:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

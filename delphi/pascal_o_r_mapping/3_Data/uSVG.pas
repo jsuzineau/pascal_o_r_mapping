@@ -29,21 +29,12 @@ uses
     uOOoChrono,
     uClean,
     uuStrings,
-  {$IFDEF MSWINDOWS}
-  Xml.omnixmldom, Xml.XMLIntf,
-  Xml.XMLDoc,
-  System.UITypes,
-  Windows,FMX.Graphics,
-  {$ELSE}
-  XMLRead,XMLWrite,DOM, FPimage,
-  {$ENDIF}
-  System.Math.Vectors,
-  SysUtils, Classes, Types;
+
+  System.SysUtils, System.Classes, System.Types, System.UITypes, System.Math.Vectors,
+  Xml.omnixmldom, Xml.XMLIntf, Xml.XMLDoc,
+  FMX.Graphics;
 
 type
- {$IFNDEF MSWINDOWS}
- TColor=Cardinal;
- {$ENDIF}
  { TSVGDocument }
 
  TSVGDocument
@@ -506,14 +497,10 @@ end;
 
 function TSVGDocument.svgColor( Color: TColor): String;
 var
-   iColor: Longint;
-   C: TRGBQuad;
+   C: TColorRec;
 begin
-     iColor:= TColorRec.ColorToRGB( Color);
-     Longint(C):= iColor; //la conversion en TRGBQuad ne doit pas être correcte
-                          //rouge et bleu sont inversés
-                          // du coup on les réinverse ci-dessous
-     Result:= Format('rgb(%d,%d,%d)',[C.rgbBlue, C.rgbGreen, C.rgbRed]);
+     C.Color:= Color;
+     Result:= Format('rgb(%d,%d,%d)',[C.R, C.G, C.B]);
 end;
 
 function TSVGDocument.rect( _eRoot: IXMLNode;

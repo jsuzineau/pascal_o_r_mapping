@@ -48,11 +48,13 @@ uses
 
     ufAccueil_Erreur,
 
-  Windows, SysUtils, Messages, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-  Db, SqlExpr, Registry, IniFiles,FMX.StdCtrls,
+  System.SysUtils, System.Classes,
+  FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
+  Data.Db, Data.SqlExpr, IniFiles,
+  FMX.StdCtrls,
   FMTBcd, Provider, DBClient,
-  ucbvCustomConnection, Data.DBXInformix, Data.DBXMSSQL, FMX.Listbox,
-  Data.DBXMySQL;
+  ucbvCustomConnection,
+  FMX.Listbox, Data.DBXInformix, Data.DBXMySQL, Data.DBXMSSQL;
 
 type
  TCherche_table_Func= function ( tabname: String): Boolean of object;

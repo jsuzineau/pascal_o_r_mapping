@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2018/01/20 14:01:29.149,=C:\_delphi\Unit1.pas</Transaction>
+    <Transaction>2018/01/20 14:07:33.586,C:\_freepascal\pascal_o_r_mapping\delphi\tools\test_OD_DelphiReportEngine\ufTest.pas=C:\_delphi\Unit1.pas</Transaction>
+    <Transaction>2018/01/20 14:07:33.586,C:\_freepascal\pascal_o_r_mapping\delphi\tools\test_OD_DelphiReportEngine\ufTest.fmx=C:\_delphi\Unit1.fmx</Transaction>
+    <Transaction>2018/01/20 14:07:49.247,C:\_freepascal\pascal_o_r_mapping\delphi\tools\test_OD_DelphiReportEngine\test.dproj=C:\_delphi\Project1.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

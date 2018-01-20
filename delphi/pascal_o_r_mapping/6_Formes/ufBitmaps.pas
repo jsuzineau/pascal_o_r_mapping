@@ -25,8 +25,7 @@
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes,
-  Vcl.ImgList, Vcl.Controls, Vcl.Graphics, Vcl.ExtCtrls, Vcl.StdCtrls,
+  System.SysUtils, System.Variants, System.Classes,
   System.ImageList,
   FMX.Dialogs,FMX.Forms,
   FMX.ImgList, FMX.Controls, FMX.Graphics, FMX.ExtCtrls, FMX.StdCtrls, FMX.Objects,

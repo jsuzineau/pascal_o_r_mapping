@@ -28,7 +28,7 @@ uses
     uClean,
     uEXE_INI,
     uContextes,
-  Windows, SysUtils, Classes;
+  System.SysUtils, System.Classes;
 
 type
  TContexte_Integer_Array= array[ct_Min..ct_Max] of Integer;

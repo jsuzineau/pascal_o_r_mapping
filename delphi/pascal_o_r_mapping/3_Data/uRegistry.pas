@@ -1,4 +1,4 @@
-unit uRegistry;
+﻿unit uRegistry;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -27,10 +27,10 @@ interface
 uses
     uSGBD,
     {$IFDEF MSWINDOWS}
-    Windows,
+    Windows, Registry,
     {$ENDIF}
 
-    SysUtils, Classes, Registry;
+    SysUtils, Classes;
 
 const
      sys_batpro     = 'batpro';// nom de la base par défaut
@@ -56,8 +56,10 @@ const
      regv_Database   = 'Database';
      regv_SchemaName = 'SchemaName';
 
+{$IFDEF MSWINDOWS}
 var
    Registry_Informix: TRegistry= nil;
+{$ENDIF}
 
 procedure Initialise_Registry_Informix;
 
@@ -66,11 +68,13 @@ implementation
 
 procedure Initialise_Registry_Informix;
 begin
+     {$IFDEF MSWINDOWS}
      if Assigned( Registry_Informix) then exit;
 
      Registry_Informix:= TRegistry.Create;
      Registry_Informix.RootKey:= HKEY_LOCAL_MACHINE;
      Registry_Informix.OpenKey( regk_Batpro_Informix, True);
+     {$ENDIF}
 end;
 
 initialization
@@ -78,7 +82,9 @@ initialization
               then
                   Initialise_Registry_Informix;
 finalization
+            {$IFDEF MSWINDOWS}
             FreeAndNil( Registry_Informix);
+            {$ENDIF}
 end.
 
 

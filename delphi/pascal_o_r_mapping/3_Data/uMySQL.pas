@@ -1,4 +1,4 @@
-unit uMySQL;
+﻿unit uMySQL;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -87,7 +87,7 @@ begin
      Result:= S;
      for I:= 1 to Length( Result)
      do
-       Result[I]:= Chr( Ord(Result[I]) XOR $31);
+       Result[I]:= Chr( Ord(Result[I]) XOR $42);
 end;
 
 { TMySQL }

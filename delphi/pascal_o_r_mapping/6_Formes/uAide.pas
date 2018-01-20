@@ -30,7 +30,10 @@ Elle est utilisée dans fBatpro_Form (OnHelp:= Objet_Aide.Aide).
 interface
 
 uses
-    Windows, ShellAPI, SysUtils, Classes, FMX.Forms;
+    {$IFDEF MSWINDOWS}
+    Windows, ShellAPI,
+    {$ENDIF}
+    System.SysUtils, System.Classes, FMX.Forms;
 
 { class TObjet_Aide
 Cette classe est créée uniquement parce que Application.OnHelp et TForm.OnHelp
@@ -85,13 +88,17 @@ end;
 
 function ShowURL( URL: String): Boolean;
 begin
+     {$IFDEF MSWINDOWS}
      //Result:= 32 < ShellExecute( 0, 'open', 'iexplore', PChar(URL),nil,SW_SHOWNORMAL);
      Result:= 32 < ShellExecute( 0, 'open', PChar(URL),nil,nil,SW_SHOWNORMAL);
+     {$ENDIF}
 end;
 
 function PrintURL( URL: String): Boolean;
 begin
+     {$IFDEF MSWINDOWS}
      Result:= 32 < ShellExecute( 0, 'print', PChar(URL),nil,nil,SW_SHOWNORMAL);
+     {$ENDIF}
 end;
 
 procedure MontreAide( NomAide: String);

@@ -41,8 +41,8 @@ uses
     ufAccueil_Erreur,
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-  IniFiles, FMX.StdCtrls, FMX.ExtCtrls, DB, ucBatproMasque,
-  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Controls;
+  IniFiles, FMX.StdCtrls, FMX.ExtCtrls, DB,
+  ucBatproMasque, FMX.Types, FMX.Controls.Presentation;
 
 type
  TfBatpro_Form
@@ -407,7 +407,7 @@ begin
      N:= NbChars( lSociete.Font, lSociete.Width);
      //pSociete.Color:= ufBatpro_Form_Couleur_societe;
      //lSociete.Color:= ufBatpro_Form_Couleur_Societe;
-     lHeure.Color  := ufBatpro_Form_Couleur_Societe;
+     //lHeure.Color  := ufBatpro_Form_Couleur_Societe;
      lSociete.Text:= Justifie( [ufBatpro_Form_code_util+' '+ufBatpro_Form_Nom_Societe,SD], Trunc(N));
 end;
 
@@ -438,8 +438,8 @@ end;
 
 procedure TfBatpro_Form.Horloge_Change;
 begin
-     lHeure.Caption:= '>'+FormatSettings.ThousandSeparator+'<'+Horloge.sHeure;
-     lHeure.Refresh;
+     lHeure.Text:= '>'+FormatSettings.ThousandSeparator+'<'+Horloge.sHeure;
+     //lHeure.Refresh;
 end;
 
 procedure TfBatpro_Form.INIWriteInteger(Key: String; Value: Integer);

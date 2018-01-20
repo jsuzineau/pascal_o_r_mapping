@@ -27,11 +27,11 @@ interface
 uses
     uClean,
     uBatpro_StringList,
-  Windows, Messages, SysUtils, Variants, Classes,
-  System.UITypes, System.Actions,
+  System.SysUtils, System.Variants, System.Classes,
+  System.UITypes, System.Actions, System.Types,
   FMX.Graphics, FMX.Controls, FMX.Forms,
   FMX.Dialogs, FMX.ActnList,
-  FMX.Types, Vcl.ExtCtrls, Vcl.ActnList;
+  FMX.Types;
 
 type
  TfBatpro_Form_Ancetre
@@ -51,7 +51,7 @@ type
     procedure tCreateTimer(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   protected
-    procedure WndProc(var Message: TMessage); //override;
+    //procedure WndProc(var Message: TMessage); //override;
   //Dimensionnement                                                .
   public
     procedure Centre_sur_WORKAREA( _Width, _Height: Integer);
@@ -101,7 +101,7 @@ var
    W, H: Integer;
 begin
 
-     SystemParametersInfo( SPI_GETWORKAREA, 0, @WorkArea, 0);
+     //SystemParametersInfo( SPI_GETWORKAREA, 0, @WorkArea, 0);
      W:= WorkArea.Right  - WorkArea.Left;
      H:= WorkArea.Bottom - WorkArea.Top ;
      Left:= WorkArea.Left + (W - _Width ) div 2;
@@ -115,7 +115,7 @@ var
    WorkArea: TRect;
    W, H: Integer;
 begin
-     SystemParametersInfo( SPI_GETWORKAREA, 0, @WorkArea, 0);
+     //SystemParametersInfo( SPI_GETWORKAREA, 0, @WorkArea, 0);
      W:= WorkArea.Right  - WorkArea.Left;
      H:= WorkArea.Bottom - WorkArea.Top ;
      Left  := WorkArea.Left;
@@ -131,7 +131,7 @@ begin
      if Assigned( ufBatpro_Desk_GetMainWindow)
      then
          ufBatpro_Desk_GetMainWindow;
-         
+
      if Assigned( ufBatpro_Desk_fMainWindow_Execute)
      then
          ufBatpro_Desk_fMainWindow_Execute;
@@ -216,20 +216,22 @@ begin
      procedure_AUTOEXEC:= _procedure_AUTOEXEC;
      swm_AUTOEXEC       := _swm_AUTOEXEC       ;
 
-     wm_AUTOEXEC:= RegisterWindowMessage( PChar( swm_AUTOEXEC));
+     //wm_AUTOEXEC:= RegisterWindowMessage( PChar( swm_AUTOEXEC));
 
      AUTOEXEC_actif:= Assigned( procedure_AUTOEXEC);
 end;
 
+{
 procedure TfBatpro_Desk.WndProc(var Message: TMessage);
 begin
      inherited;
 
      if not AUTOEXEC_actif                then exit;
-     if wm_AUTOEXEC <> Message.Msg        then exit;
-     if not Assigned( procedure_AUTOEXEC) then exit;
+     //if wm_AUTOEXEC <> Message.Msg        then exit;
+     //if not Assigned( procedure_AUTOEXEC) then exit;
 
-     procedure_AUTOEXEC;
+     //procedure_AUTOEXEC;
 end;
+}
 
 end.

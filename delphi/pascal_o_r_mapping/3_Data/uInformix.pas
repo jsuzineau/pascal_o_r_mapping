@@ -36,11 +36,11 @@ uses
 
     ufAccueil_Erreur,
 
-    {$IFNDEF FPC}
-    Windows, Messages,
+    {$IFDEF MSWINDOWS}
+    Windows, Messages, Registry,
     {$ENDIF}
     //FMX.Dialogs, FMX.Forms,
-    SysUtils, Registry, SQLExpr;
+    SysUtils, SQLExpr;
 
 type
  TInformix
@@ -70,11 +70,9 @@ type
     Password : String;
     procedure Efface;
     function Vide: Boolean;
-  {$IFNDEF FPC}
   //initialisation à partir d'une SQLConnection
   public
     procedure _from_sqlc( _sqlc: TSQLConnection);
-  {$ENDIF}
   //Appel utilitaires
   public
     procedure SetNet32;
@@ -133,10 +131,12 @@ function TInformix.Lit_simple( NomValeur: String; Crypter: Boolean): String;
 var
    ValeurBrute: String;
 begin
+     {$IFDEF MSWINDOWS}
      if Registry_Informix.ValueExists( NomValeur)
      then
          ValeurBrute:= Registry_Informix.ReadString( NomValeur)
      else
+     {$ENDIF}
          ValeurBrute:= EXE_INI.ReadString( inis_informix, NomValeur, sys_Vide);
 
      if Crypter
@@ -164,7 +164,9 @@ begin
      EXE_INI.WriteString( inis_informix, NomValeur, ValeurBrute);
      try
         Initialise_Registry_Informix;
+        {$IFDEF MSWINDOWS}
         Registry_Informix.WriteString( NomValeur, ValeurBrute);
+        {$ENDIF}
      except
            on E: Exception
            do
@@ -184,6 +186,11 @@ begin
 end;
 
 procedure TInformix.Set_INFORMIXSERVER(Value: String);
+{$IFNDEF MSWINDOWS}
+begin
+
+end;
+{$ELSE}
 const
      regk_INFORMIXSERVER= 'INFORMIXSERVER';
 var
@@ -250,12 +257,11 @@ begin
      //wmsc.Msg:= WM_SETTINGCHANGE;
      //wmsc.Flag:= 0;
      //wmsc.Section:= PChar('Environment');
-     {$IFNDEF FPC}
      if Modifie
      then
          SendNotifyMessage( HWND_BROADCAST, WM_SETTINGCHANGE, 0, Integer(Pointer(PChar('Environment'))));
-     {$ENDIF}    
 end;
+{$ENDIF}
 
 procedure TInformix.SetHostName(const Value: String);
 begin
@@ -263,7 +269,6 @@ begin
      Set_INFORMIXSERVER( HostName);
 end;
 
-{$IFNDEF FPC}
 procedure TInformix._from_sqlc( _sqlc: TSQLConnection);
 var
    NewHostName: String;
@@ -280,18 +285,17 @@ begin
      User_Name:= Valeur( 'User_Name');
      Password := Valeur( 'Password' );
 end;
-{$ENDIF}
 
 procedure TInformix.SetNet32;
 begin
-     {$IFNDEF FPC}
+     {$IFDEF MSWINDOWS}
      WinExec( PAnsiChar('C:\informix_client\bin\setnet32.exe'), SW_SHOWNORMAL);
      {$ENDIF}
 end;
 
 procedure TInformix.DBPing;
 begin
-     {$IFNDEF FPC}
+     {$IFDEF MSWINDOWS}
      WinExec( PAnsiChar('C:\informix_client\bin\dbping.exe'), SW_SHOWNORMAL);
      {$ENDIF}
 end;

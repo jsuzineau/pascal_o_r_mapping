@@ -26,23 +26,11 @@
 interface
 
 uses
-    {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-    Xml.omnixmldom, Xml.XMLIntf,
-    {$ELSE}
-    DOM,
-    {$IFEND}
     uSVG,
-    {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
     ufBitmaps,
-    {$IFEND}
-  {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-  FMX.Graphics, Windows, Types, FMX.Grid, FMX.Controls,
-  {$ELSE}
-  XMLRead,XMLWrite,
-  {$IFEND}
-  System.UITypes,
-  System.Math.Vectors,FMX.ImgList,
-  SysUtils, Classes;
+  System.SysUtils, System.Classes, System.UITypes, System.Math.Vectors,
+  Xml.omnixmldom, Xml.XMLIntf,
+  FMX.Graphics, System.Types, FMX.Grid, FMX.Controls, FMX.ImgList;
 const
      Couleur_Jour_Non_Ouvrable_1_2     =  TColorRec.LtGray ;
      Couleur_Jour_Non_Ouvrable_3       =  TColorRec.MedGray;
