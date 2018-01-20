@@ -28,8 +28,8 @@ uses
     u_sys_,
     uClean,
     uBatpro_StringList,
-  SysUtils, Classes,
-  FMX.Controls, FMX.ExtCtrls, FMX.StdCtrls, FMX.Graphics, Windows, FMX.Forms,
+  SysUtils, Classes, System.UITypes,
+  FMX.Controls, FMX.ExtCtrls, FMX.StdCtrls, FMX.Graphics, FMX.Forms,
   FMX.Memo, FMX.Types;
 
 type
@@ -179,9 +179,9 @@ procedure TBatpro_Button.mKeyDown( Sender: TObject;
 begin
      case Key
      of
-       VK_RETURN: Click;
-       VK_UP    : GoPrevious;
-       VK_DOWN  : GoNext;
+       vkReturn: Click;
+       vkUp    : GoPrevious;
+       vkDown  : GoNext;
        end
 end;
 

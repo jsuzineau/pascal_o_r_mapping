@@ -33,8 +33,9 @@ uses
     uChamp,
     uChamps,
     ucBatproMaskElement,
-    Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-    FMX.ExtCtrls, FMX.StdCtrls, System.UITypes;
+  System.SysUtils, System.Classes,
+  FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
+  FMX.ExtCtrls, FMX.StdCtrls, System.UITypes;
 
 type
  TBatproMasqueStyle = (bms_Libelle, bms_Change, bms_PreExecute_after_SetChamps);

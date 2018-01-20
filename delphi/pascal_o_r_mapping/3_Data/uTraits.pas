@@ -261,26 +261,26 @@ end;
 
 procedure TTrait.{svg}Dessinne( DrawInfo: TDrawInfo);
 var
-   XGauche, XDroite, XMilieu, XLigne: Integer;
-   YHaut  , YBas   , YMilieu: Integer;
-   W: Integer;
-   W4: Integer;//Width  div 4
-   H4: Integer;//Height div 4
-   W8: Integer;//Width  div 8
-   x1, y1, x2, y2: Integer;
-   XBezier: Integer;
+   XGauche, XDroite, XMilieu, XLigne: Single;
+   YHaut  , YBas   , YMilieu: Single;
+   W: Single;
+   W4: Single;//Width  / 4
+   H4: Single;//Height / 4
+   W8: Single;//Width  / 8
+   x1, y1, x2, y2: Single;
+   XBezier: Single;
    Points: TPolygon;
-   procedure D( x, y: Integer);
+   procedure D( x, y: Single);
    begin
         x1:= x;
         y1:= y;
    end;
-   procedure A( x, y: Integer);
+   procedure A( x, y: Single);
    begin
         x2:= x;
         y2:= y;
    end;
-   procedure P( Indice, _x, _y: Integer);
+   procedure P( Indice: Integer; _x, _y: Single);
    begin
         with Points[ Indice]
         do
@@ -292,17 +292,17 @@ var
 begin
      XGauche:= DrawInfo.Rect.Left  ;
      XDroite:= DrawInfo.Rect.Right ;
-     XMilieu:= (XGauche + XDroite) div 2;
+     XMilieu:= (XGauche + XDroite) / 2;
 
 
      YHaut  := DrawInfo.Rect.Top   ;
      YBas   := DrawInfo.Rect.Bottom;
-     YMilieu:= (YHaut + YBas) div 2;
+     YMilieu:= (YHaut + YBas) / 2;
 
      W := XDroite - XGauche;
-     W4:= W div 4;
-     W8:= W div 8;
-     H4:= (YBas    - YHaut  ) div 4;
+     W4:= W / 4;
+     W8:= W / 8;
+     H4:= (YBas    - YHaut  ) / 4;
 
      XLigne:= XGauche+W8+Trunc( Self.a * (W-W4));//marge de W8
                                                  //a: position relative de la ligne verticale
@@ -328,8 +328,8 @@ begin
      P( 0, x1, y1);
      P( 3, x2, y2);
 
-     //P( 2, (XMilieu+x1)div 2, (YMilieu+y1)div 2);
-     //P( 3, (XMilieu+x2)div 2, (YMilieu+y2)div 2);
+     //P( 2, (XMilieu+x1)/ 2, (YMilieu+y1)/ 2);
+     //P( 3, (XMilieu+x2)/ 2, (YMilieu+y2)/ 2);
      if      IsDebutLigne
         and (Arrivee = a_Droite)
      then

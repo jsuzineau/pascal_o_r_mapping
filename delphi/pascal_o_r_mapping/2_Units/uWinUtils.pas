@@ -67,7 +67,9 @@ procedure uWinUtils_Control_Color( Color: TColor; FMX.Controls: array of TContro
 }
 function uWinUtils_RepertoireTemporaire: String;
 
-function MulDiv( _Value, _Numerateur, _Denominateur: Integer):Integer;
+function MulDiv( _Value, _Numerateur, _Denominateur: Integer):Integer; overload;
+
+function MulDiv( _Value, _Numerateur, _Denominateur: Single):Single; overload;
 
 implementation
 
@@ -532,9 +534,14 @@ begin
      Result:= System.IOUtils.TPath.GetTempPath;
 end;
 
-function MulDiv( _Value, _Numerateur, _Denominateur: Integer):Integer;
+function MulDiv( _Value, _Numerateur, _Denominateur: Integer):Integer; overload;
 begin
      Result:= (_Value * _Numerateur) div _Denominateur;
+end;
+
+function MulDiv( _Value, _Numerateur, _Denominateur: Single):Single; overload;
+begin
+     Result:= (_Value * _Numerateur) / _Denominateur;
 end;
 
 

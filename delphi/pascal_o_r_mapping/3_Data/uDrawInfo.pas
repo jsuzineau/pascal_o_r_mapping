@@ -63,8 +63,8 @@ type
   public
     Canvas: TCanvas;
     Col, Row: Integer;
-    Rect_Original: TRect; //pour échapper au bornage de la hauteur dans planning production
-    Rect: TRect;
+    Rect_Original: TRectF; //pour échapper au bornage de la hauteur dans planning production
+    Rect: TRectF;
     Impression: Boolean;
     procedure Init_Draw( _Canvas: TCanvas; _Col, _Row: Integer; _Rect: TRect;
                          _Impression: Boolean);
@@ -83,73 +83,73 @@ type
     svg: TSVGDocument;
     eCell: IXMLNode;
     procedure Init_SVG( _svg: TSVGDocument; _eCell: IXMLNode);
-    function _rect( _R: TRect;
+    function _rect( _R: TRectF;
                    _Color: TColor;
                    _Pen_Color: TColor;
-                   _Pen_Width: Integer): IXMLNode;
-    function rect_pattern( _R: TRect;
+                   _Pen_Width: Single): IXMLNode;
+    function rect_pattern( _R: TRectF;
                            _pattern: String;
                            _Pen_Color: TColor;
-                           _Pen_Width: Integer): IXMLNode;
-    function rect_hachures_slash( _R: TRect;
+                           _Pen_Width: Single): IXMLNode;
+    function rect_hachures_slash( _R: TRectF;
                                   _Pen_Color: TColor;
-                                  _Pen_Width: Integer): IXMLNode;
-    function rect_hachures_backslash( _R: TRect;
+                                  _Pen_Width: Single): IXMLNode;
+    function rect_hachures_backslash( _R: TRectF;
                                       _Pen_Color: TColor;
-                                      _Pen_Width: Integer): IXMLNode;
-    function rect_uni( _R: TRect; _Color: TColor): IXMLNode;
-    function rect_vide( _R: TRect;
+                                      _Pen_Width: Single): IXMLNode;
+    function rect_uni( _R: TRectF; _Color: TColor): IXMLNode;
+    function rect_vide( _R: TRectF;
                         _Pen_Color: TColor;
-                        _Pen_Width: Integer): IXMLNode;
-    function _ellipse( _R: TRect;
+                        _Pen_Width: Single): IXMLNode;
+    function _ellipse( _R: TRectF;
                    _Color: TColor;
                    _Pen_Color: TColor;
-                   _Pen_Width: Integer): IXMLNode;
-    function text( _X, _Y: Integer;
+                   _Pen_Width: Single): IXMLNode;
+    function text( _X, _Y: Single;
                    _Text, _Font_Family: String;
                    _Font_Size: Integer;
                    _Font_Family_Generic: String = 'sans-serif'): IXMLNode;
     function text_a_Gauche(
-                   _X, _Y: Integer;
+                   _X, _Y: Single;
                    _Text, _Font_Family: String;
                    _Font_Size: Integer;
                    _Font_Family_Generic: String = 'sans-serif'): IXMLNode;
     function text_au_Milieu(
-                   _X, _Y: Integer;
+                   _X, _Y: Single;
                    _Text, _Font_Family: String;
                    _Font_Size: Integer;
                    _Font_Family_Generic: String = 'sans-serif'): IXMLNode;
     function text_a_Droite(
-                   _X, _Y: Integer;
+                   _X, _Y: Single;
                    _Text, _Font_Family: String;
                    _Font_Size: Integer;
                    _Font_Family_Generic: String = 'sans-serif'): IXMLNode;
-    function text_rotate( _X, _Y: Integer;
+    function text_rotate( _X, _Y: Single;
                           _Text, _Font_Family: String;
                           _Font_Size: Integer;
                           _Rotate: Integer): IXMLNode;
-    function line( _x1, _y1, _x2, _y2: Integer;
+    function line( _x1, _y1, _x2, _y2: Single;
                    _stroke: TColor;
-                   _stroke_width: Integer): IXMLNode;
-    function line_dash( _x1, _y1, _x2, _y2: Integer;
+                   _stroke_width: Single): IXMLNode;
+    function line_dash( _x1, _y1, _x2, _y2: Single;
                         _stroke: TColor;
-                        _stroke_width: Integer): IXMLNode;
+                        _stroke_width: Single): IXMLNode;
     function svg_polygon( _points: TPolygon;
                       _Color: TColor;
                       _Pen_Color: TColor;
-                      _Pen_Width: Integer): IXMLNode;
+                      _Pen_Width: Single): IXMLNode;
     function svg_PolyBezier( _points: TPolygon;
-                         _Pen_Color: TColor;
-                         _Pen_Width: Integer): IXMLNode;
-    function image( _x, _y, _width, _height: Integer;
+                             _Pen_Color: TColor;
+                             _Pen_Width: Single): IXMLNode;
+    function image( _x, _y, _width, _height: Single;
                     _xlink_href: String): IXMLNode;
-    function image_from_id( _x, _y, _width, _height: Integer;
+    function image_from_id( _x, _y, _width, _height: Single;
                             _idImage: String): IXMLNode;
-    function image_DOCSINGL( _x, _y: Integer): IXMLNode;
-    function image_LOSANGE ( _x, _y: Integer): IXMLNode;
-    function image_LOGIN   ( _x, _y: Integer): IXMLNode;
+    function image_DOCSINGL( _x, _y: Single): IXMLNode;
+    function image_LOSANGE ( _x, _y: Single): IXMLNode;
+    function image_LOGIN   ( _x, _y: Single): IXMLNode;
 
-    function image_from_id_centre( _width, _height: Integer;
+    function image_from_id_centre( _width, _height: Single;
                                        _idImage: String): IXMLNode;
     function svg_image_DOCSINGL_centre: IXMLNode;
     function svg_image_LOSANGE__centre: IXMLNode;
@@ -157,7 +157,7 @@ type
     function svg_image_MEN_AT_WORK__centre: IXMLNode;
     function svg_image_DOSSIER_KDE_PAR_POSTE__centre: IXMLNode;
 
-    function image_from_id_bas_droite( _width, _height: Integer;
+    function image_from_id_bas_droite( _width, _height: Single;
                                        _idImage: String): IXMLNode;
     function svg_image_DOCSINGL_bas_droite: IXMLNode;
     function image_LOSANGE__bas_droite: IXMLNode;
@@ -169,27 +169,27 @@ type
     procedure Borne_Hauteur;
   //abstraction SVG /Canvas
   private
-    XTortue, YTortue: Integer;//graphiques tortue, point courant MoveTo/LineTo
+    XTortue, YTortue: Single;//graphiques tortue, point courant MoveTo/LineTo
     FCouleurLigne: TColor;
     FCouleur_Brosse: TColor;
-    FLargeurLigne: Integer;
+    FLargeurLigne: Single;
     FStyleLigne: TStrokeDash;
     procedure SetCouleurLigne(const Value: TColor);
     procedure SetCouleur_Brosse(const Value: TColor);
-    procedure SetLargeurLigne(const Value: Integer);
+    procedure SetLargeurLigne(const Value: Single);
     procedure SetStyleLigne(const Value: TStrokeDash);
   public
     property CouleurLigne: TColor read FCouleurLigne write SetCouleurLigne;
     property Couleur_Brosse: TColor read FCouleur_Brosse write SetCouleur_Brosse;
-    property LargeurLigne: Integer read FLargeurLigne write SetLargeurLigne;
+    property LargeurLigne: Single read FLargeurLigne write SetLargeurLigne;
     property StyleLigne: TStrokeDash read FStyleLigne write SetStyleLigne;
-    procedure MoveTo( X, Y: Integer);
-    procedure LineTo( X, Y: Integer);
-    procedure Contour_Rectangle( _R: TRect; _Couleur: TColor);
-    procedure Remplit_Rectangle( _R: TRect; _Couleur: TColor);
-    procedure Rectangle( X1, Y1, X2, Y2: Integer); overload;
-    procedure Rectangle( _R: TRect); overload;
-    procedure Ellipse( X1, Y1, X2, Y2: Integer);
+    procedure MoveTo( X, Y: Single);
+    procedure LineTo( X, Y: Single);
+    procedure Contour_Rectangle( _R: TRectF; _Couleur: TColor);
+    procedure Remplit_Rectangle( _R: TRectF; _Couleur: TColor);
+    procedure Rectangle( X1, Y1, X2, Y2: Single); overload;
+    procedure Rectangle( _R: TRectF); overload;
+    procedure Ellipse( X1, Y1, X2, Y2: Single);
     procedure Polygon(const Points: TPolygon);
     procedure PolyBezier(const Points: TPolygon);
     procedure image_DOCSINGL_bas_droite( _Couleur_Fond: TColor);
@@ -252,53 +252,53 @@ begin
      SVG_Drawing:= Assigned( svg);
 end;
 
-function TDrawInfo._rect( _R: TRect; _Color: TColor;
+function TDrawInfo._rect( _R: TRectF; _Color: TColor;
                           _Pen_Color: TColor;
-                          _Pen_Width: Integer): IXMLNode;
+                          _Pen_Width: Single): IXMLNode;
 begin
      Result:= svg.rect( eCell, _R, _Color, _Pen_Color, _Pen_Width);
 end;
 
-function TDrawInfo.rect_pattern( _R: TRect; _pattern: String;
+function TDrawInfo.rect_pattern( _R: TRectF; _pattern: String;
                                  _Pen_Color: TColor;
-                                 _Pen_Width: Integer): IXMLNode;
+                                 _Pen_Width: Single): IXMLNode;
 begin
      Result:= svg.rect_pattern( eCell, _R, _pattern, _Pen_Color, _Pen_Width);
 end;
 
-function TDrawInfo.rect_hachures_slash( _R: TRect;
+function TDrawInfo.rect_hachures_slash( _R: TRectF;
                                         _Pen_Color: TColor;
-                                        _Pen_Width: Integer): IXMLNode;
+                                        _Pen_Width: Single): IXMLNode;
 begin
      Result:= rect_pattern( _R, 'Hachures_Slash', _Pen_Color, _Pen_Width);
 end;
 
-function TDrawInfo.rect_hachures_backslash( _R: TRect;
+function TDrawInfo.rect_hachures_backslash( _R: TRectF;
                                             _Pen_Color: TColor;
-                                            _Pen_Width: Integer): IXMLNode;
+                                            _Pen_Width: Single): IXMLNode;
 begin
      Result:= rect_pattern( _R, 'Hachures_BackSlash', _Pen_Color, _Pen_Width);
 end;
 
-function TDrawInfo.rect_uni(_R: TRect; _Color: TColor): IXMLNode;
+function TDrawInfo.rect_uni(_R: TRectF; _Color: TColor): IXMLNode;
 begin
      Result:= _rect( _R, _Color, _Color, 1);
 end;
 
-function TDrawInfo.rect_vide( _R: TRect;
+function TDrawInfo.rect_vide( _R: TRectF;
                               _Pen_Color: TColor;
-                              _Pen_Width: Integer): IXMLNode;
+                              _Pen_Width: Single): IXMLNode;
 begin
-     Result:= svg.rect_vide( eCell, _R, _Pen_Width, _Pen_Color);
+     Result:= svg.rect_vide( eCell, _R, _Pen_Color, _Pen_Width);
 end;
 
-function TDrawInfo._ellipse( _R: TRect;
-                             _Color, _Pen_Color: TColor;_Pen_Width: Integer): IXMLNode;
+function TDrawInfo._ellipse( _R: TRectF;
+                             _Color, _Pen_Color: TColor;_Pen_Width: Single): IXMLNode;
 begin
      Result:= svg.ellipse( eCell, _R, _Color, _Pen_Color, _Pen_Width);
 end;
 
-function TDrawInfo.text( _X, _Y: Integer;
+function TDrawInfo.text( _X, _Y: Single;
                          _Text, _Font_Family: String;
                          _Font_Size: Integer;
                          _Font_Family_Generic: String): IXMLNode;
@@ -306,7 +306,7 @@ begin
      Result:= svg.text( eCell, _X, _Y, _Text, _Font_Family, _Font_Size, _Font_Family_Generic);
 end;
 
-function TDrawInfo.text_a_Gauche( _X, _Y: Integer;
+function TDrawInfo.text_a_Gauche( _X, _Y: Single;
                          _Text, _Font_Family: String;
                          _Font_Size: Integer;
                          _Font_Family_Generic: String): IXMLNode;
@@ -314,7 +314,7 @@ begin
      Result:= svg.text_a_Gauche( eCell, _X, _Y, _Text, _Font_Family, _Font_Size, _Font_Family_Generic);
 end;
 
-function TDrawInfo.text_au_Milieu( _X, _Y: Integer;
+function TDrawInfo.text_au_Milieu( _X, _Y: Single;
                          _Text, _Font_Family: String;
                          _Font_Size: Integer;
                          _Font_Family_Generic: String): IXMLNode;
@@ -322,7 +322,7 @@ begin
      Result:= svg.text_au_Milieu( eCell, _X, _Y, _Text, _Font_Family, _Font_Size, _Font_Family_Generic);
 end;
 
-function TDrawInfo.text_a_Droite( _X, _Y: Integer;
+function TDrawInfo.text_a_Droite( _X, _Y: Single;
                          _Text, _Font_Family: String;
                          _Font_Size: Integer;
                          _Font_Family_Generic: String): IXMLNode;
@@ -330,21 +330,21 @@ begin
      Result:= svg.text_a_Droite( eCell, _X, _Y, _Text, _Font_Family, _Font_Size, _Font_Family_Generic);
 end;
 
-function TDrawInfo.text_rotate( _X, _Y: Integer;
+function TDrawInfo.text_rotate( _X, _Y: Single;
                                 _Text, _Font_Family: String;
                                 _Font_Size, _Rotate: Integer): IXMLNode;
 begin
      Result:= svg.text_rotate( eCell, _X, _Y, _Text, _Font_Family, _Font_Size, _Rotate);
 end;
 
-function TDrawInfo.line( _x1, _y1, _x2, _y2: Integer;
-                         _stroke: TColor; _stroke_width: Integer): IXMLNode;
+function TDrawInfo.line( _x1, _y1, _x2, _y2: Single;
+                         _stroke: TColor; _stroke_width: Single): IXMLNode;
 begin
      Result:= svg.line( eCell, _x1, _y1, _x2, _y2, _stroke, _stroke_width);
 end;
 
-function TDrawInfo.line_dash( _x1, _y1, _x2, _y2: Integer;
-                              _stroke: TColor; _stroke_width: Integer): IXMLNode;
+function TDrawInfo.line_dash( _x1, _y1, _x2, _y2: Single;
+                              _stroke: TColor; _stroke_width: Single): IXMLNode;
 begin
      Result:= svg.line_dash( eCell, _x1, _y1, _x2, _y2, _stroke, _stroke_width);
 end;
@@ -352,31 +352,31 @@ end;
 function TDrawInfo.svg_polygon( _points: TPolygon;
                             _Color: TColor;
                             _Pen_Color: TColor;
-                            _Pen_Width: Integer): IXMLNode;
+                            _Pen_Width: Single): IXMLNode;
 begin
      Result:= svg.polygon( eCell, _points, _Color, _Pen_Color, _Pen_Width)
 end;
 
 function TDrawInfo.svg_PolyBezier( _points: TPolygon;
                                _Pen_Color: TColor;
-                               _Pen_Width: Integer): IXMLNode;
+                               _Pen_Width: Single): IXMLNode;
 begin
      Result:= svg.PolyBezier( eCell, _points, _Pen_Color, _Pen_Width);
 end;
 
-function TDrawInfo.image( _x, _y, _width, _height: Integer;
+function TDrawInfo.image( _x, _y, _width, _height: Single;
                           _xlink_href: String): IXMLNode;
 begin
      Result:= svg.image( eCell, _x, _y, _width, _height, _xlink_href);
 end;
 
-function TDrawInfo.image_from_id( _x, _y, _width, _height: Integer;
+function TDrawInfo.image_from_id( _x, _y, _width, _height: Single;
                                   _idImage: String): IXMLNode;
 begin
      Result:= image( _x, _y, _width, _height, 'url(#'+_idImage+')');;
 end;
 
-function TDrawInfo.image_DOCSINGL(_x, _y: Integer): IXMLNode;
+function TDrawInfo.image_DOCSINGL(_x, _y: Single): IXMLNode;
 begin
      Result
      :=
@@ -386,7 +386,7 @@ begin
                       fBitmaps.svgDOCSINGL_id    );
 end;
 
-function TDrawInfo.image_LOSANGE(_x, _y: Integer): IXMLNode;
+function TDrawInfo.image_LOSANGE(_x, _y: Single): IXMLNode;
 begin
      Result
      :=
@@ -396,7 +396,7 @@ begin
                       fBitmaps.svgLOSANGE_id    );
 end;
 
-function TDrawInfo.image_LOGIN(_x, _y: Integer): IXMLNode;
+function TDrawInfo.image_LOGIN(_x, _y: Single): IXMLNode;
 begin
      Result
      :=
@@ -406,15 +406,15 @@ begin
                       fBitmaps.svgLOGIN_id    );
 end;
 
-function TDrawInfo.image_from_id_centre( _width, _height: Integer;
+function TDrawInfo.image_from_id_centre( _width, _height: Single;
                                              _idImage: String): IXMLNode;
 var
-   dx, dy: Integer;
-   R: TRect;
+   dx, dy: Single;
+   R: TRectF;
 begin
      R:= Rect;
-     dx:= (R.Right -_width -R.Left) div 2;
-     dy:= (R.Bottom-_height-R.Top ) div 2;
+     dx:= (R.Right -_width -R.Left) / 2;
+     dy:= (R.Bottom-_height-R.Top ) / 2;
      InflateRect( R, -dx, -dy);
      Result:= image_from_id( R.Left, R.Top, _width, _height, _idImage);
 end;
@@ -464,11 +464,11 @@ begin
                                  fBitmaps.svgDOSSIER_KDE_PAR_POSTE_id    );
 end;
 
-function TDrawInfo.image_from_id_bas_droite( _width, _height: Integer;
+function TDrawInfo.image_from_id_bas_droite( _width, _height: Single;
                                              _idImage: String): IXMLNode;
 var
-   x, y: Integer;
-   R: TRect;
+   x, y: Single;
+   R: TRectF;
 begin
      R:= Rect;
      x:= R.Right -_width ;
@@ -525,7 +525,7 @@ begin
          Canvas.Fill.Color:= FCouleur_Brosse;
 end;
 
-procedure TDrawInfo.SetLargeurLigne(const Value: Integer);
+procedure TDrawInfo.SetLargeurLigne(const Value: Single);
 begin
      FLargeurLigne := Value;
      if not SVG_Drawing
@@ -541,13 +541,13 @@ begin
          Canvas.Stroke.Dash:= FStyleLigne;
 end;
 
-procedure TDrawInfo.MoveTo(X, Y: Integer);
+procedure TDrawInfo.MoveTo(X, Y: Single);
 begin
      XTortue:= X;
      YTortue:= Y;
 end;
 
-procedure TDrawInfo.LineTo(X, Y: Integer);
+procedure TDrawInfo.LineTo(X, Y: Single);
 begin
      if SVG_Drawing
      then
@@ -569,7 +569,7 @@ begin
          Canvas.DrawLine( PointF(XTortue, YTortue),PointF(X, Y), 1);
 end;
 
-procedure TDrawInfo.Contour_Rectangle( _R: TRect; _Couleur: TColor);
+procedure TDrawInfo.Contour_Rectangle( _R: TRectF; _Couleur: TColor);
 begin
      if SVG_Drawing
      then
@@ -583,7 +583,7 @@ begin
 
 end;
 
-procedure TDrawInfo.Remplit_Rectangle( _R: TRect; _Couleur: TColor);
+procedure TDrawInfo.Remplit_Rectangle( _R: TRectF; _Couleur: TColor);
      procedure GDI;
      var
         OldColor: TColor;
@@ -634,27 +634,27 @@ begin
          end;
 end;
 
-procedure TDrawInfo.Rectangle(X1, Y1, X2, Y2: Integer);
+procedure TDrawInfo.Rectangle( X1, Y1, X2, Y2: Single);
 begin
      if SVG_Drawing
      then
-         _rect( Classes.Rect( X1, Y1, X2, Y2),
+         _rect( RectF( X1, Y1, X2, Y2),
                 Couleur_Brosse, CouleurLigne, LargeurLigne)
      else
          Canvas.DrawRect( RectF(X1, Y1, X2, Y2), 0, 0, [], 1);
 end;
 
-procedure TDrawInfo.Ellipse( X1, Y1, X2, Y2: Integer);
+procedure TDrawInfo.Ellipse( X1, Y1, X2, Y2: Single);
 begin
      if SVG_Drawing
      then
-         _ellipse( Classes.Rect( X1, Y1, X2, Y2),
+         _ellipse( RectF( X1, Y1, X2, Y2),
                    Couleur_Brosse, CouleurLigne, LargeurLigne)
      else
          Canvas.DrawEllipse( RectF(X1, Y1, X2, Y2), 1);
 end;
 
-procedure TDrawInfo.Rectangle( _R: TRect);
+procedure TDrawInfo.Rectangle( _R: TRectF);
 begin
      Rectangle( _R.Left, _R.Top, _R.Right, _R.Bottom);
 end;
@@ -675,8 +675,8 @@ procedure TDrawInfo.image_DOCSINGL_centre( _Couleur_Fond: TColor);
    procedure GDI;
    var
       ImageList: TImageList;
-      dx, dy: Integer;
-      R: TRect;
+      dx, dy: Single;
+      R: TRectF;
    begin
         ImageList:= fBitmaps.DOCSINGL;
         R:= Rect;
@@ -699,8 +699,8 @@ procedure TDrawInfo.image_LOSANGE__centre(_Couleur_Fond: TColor);
    procedure GDI;
    var
       ImageList: TImageList;
-      dx, dy: Integer;
-      R: TRect;
+      dx, dy: Single;
+      R: TRectF;
    begin
         ImageList:= fBitmaps.LOSANGE;
         R:= Rect;
@@ -723,8 +723,8 @@ procedure TDrawInfo.image_LOGIN__centre(_Couleur_Fond: TColor);
    procedure GDI;
    var
       ImageList: TImageList;
-      dx, dy: Integer;
-      R: TRect;
+      dx, dy: Single;
+      R: TRectF;
    begin
         ImageList:= fBitmaps.LOGIN;
         R:= Rect;
@@ -759,8 +759,8 @@ procedure TDrawInfo.image_MEN_AT_WORK__centre(_Couleur_Fond: TColor);
    procedure GDI;
    var
       ImageList: TImageList;
-      dx, dy: Integer;
-      R: TRect;
+      dx, dy: Single;
+      R: TRectF;
    begin
         ImageList:= fBitmaps.MEN_AT_WORK;
         R:= Rect;
@@ -783,8 +783,8 @@ procedure TDrawInfo.image_DOSSIER_KDE_PAR_POSTE__centre(_Couleur_Fond: TColor);
    procedure GDI;
    var
       ImageList: TImageList;
-      dx, dy: Integer;
-      R: TRect;
+      dx, dy: Single;
+      R: TRectF;
    begin
         ImageList:= fBitmaps.DOSSIER_KDE_PAR_POSTE;
         R:= Rect;

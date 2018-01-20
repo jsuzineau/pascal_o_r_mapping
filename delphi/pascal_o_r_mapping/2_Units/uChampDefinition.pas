@@ -84,7 +84,7 @@ type
   {$IFDEF MSWINDOWS}
   //Gestion de la largeur maxi d'affichage
   public
-    function Largeur( Font: TFont): Integer;
+    function Largeur( Font: TFont): Single;
   {$ENDIF}
   //Gestion des modifications dans TChampGrid
   //public
@@ -206,7 +206,7 @@ begin
 end;
 
 {$IFDEF MSWINDOWS}
-function TChampDefinition.Largeur(Font: TFont): Integer;
+function TChampDefinition.Largeur(Font: TFont): Single;
 var
    S: String;
 begin

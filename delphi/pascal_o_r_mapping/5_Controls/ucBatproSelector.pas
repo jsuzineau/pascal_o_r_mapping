@@ -26,8 +26,10 @@ interface
 
 uses
     uForms,
-    Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-    DB, FMX.StdCtrls, FMX.Edit;
+    System.SysUtils, System.Classes,
+    FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
+    Data.DB,
+    FMX.StdCtrls, FMX.Edit;
 
 type
  TBatproSelector
@@ -76,12 +78,12 @@ begin
 end;
 
 constructor TBatproSelector.Create(AOwner: TComponent);
-var
-   Bitmap: HBitmap;
+//var
+//   Bitmap: HBitmap;
 begin
      FDropDownCount:= 12;
      inherited;
-     ButtonWidth:= GetSystemMetrics(SM_CXVSCROLL);
+     ButtonWidth:= 10;//GetSystemMetrics(SM_CXVSCROLL);
 
      ReadOnly:= True;
 
@@ -91,7 +93,7 @@ begin
      B.Visible:= True;
      B.Parent:= Self;
      B.OnClick:= BClick;
-     Bitmap:= Windows.LoadBitmap( 0, PChar(OBM_COMBO));
+     //Bitmap:= Windows.LoadBitmap( 0, PChar(OBM_COMBO));
      //B.Glyph.Handle:= Bitmap;
      //DeleteObject(Bitmap);génère une erreur:TBitmap ne doit pas faire de copie
      //b.Cursor:= crArrow;

@@ -6,7 +6,7 @@
         <MainSource>duxPASCAL_O_R_MAPPING.dpr</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <Platform Condition="'$(Platform)'==''">Android</Platform>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>19</TargetedPlatforms>
         <AppType>Console</AppType>
     </PropertyGroup>

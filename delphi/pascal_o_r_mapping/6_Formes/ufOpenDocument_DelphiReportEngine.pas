@@ -22,7 +22,6 @@ uses
     uOOoStrings,
     uOOoStringList,
     uOpenDocument,
-    JclCompression,
     Xml.omnixmldom, Xml.XMLIntf,
     uOOoChrono,
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,

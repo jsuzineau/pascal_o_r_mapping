@@ -38,7 +38,10 @@ uses
 
     ufAccueil_Erreur,
   FMX.Forms,FMX.Types,
-  SysUtils, Classes, ShellAPI, Windows, MAPI, FMX.Dialogs, uOD_Forms, JclMapi,
+  SysUtils, Classes, ShellAPI, Windows, MAPI, FMX.Dialogs, uOD_Forms,
+  {$IFDEF MSWINDOWS}
+  JclMapi,
+  {$ENDIF}
   IdMessage, IdMessageClient, IdAttachmentFile, IdMessageCoder,
   IdMessageCoderUUE, IdMessageCoderMIME, IdEMailAddress;
 
@@ -541,6 +544,7 @@ begin
            end;
 end;
 
+{$IFDEF MSWINDOWS}
 var
    FJclEmail: TJclEmail= nil;
 
@@ -616,14 +620,19 @@ begin
              end;
        end;
 end;
-
+{$ENDIF}
 function MailTo( _From: String; _To: TStrings; _Subject, _Body: String; _PiecesJointes: array of String): Boolean;
 begin
+     {$IFDEF MSWINDOWS}
      if uMailTo_utiliser_SMTP
      then
+     {$ENDIF}
          Result:= MailTo_SMTP( _From, _To, _Subject, _Body, _PiecesJointes)
+     {$IFDEF MSWINDOWS}
      else
-         Result:= MailTo_MAPI( _From, _To, _Subject, _Body, _PiecesJointes);
+         Result:= MailTo_MAPI( _From, _To, _Subject, _Body, _PiecesJointes)
+     {$ENDIF}
+         ;
 end;
 
 
@@ -652,7 +661,9 @@ initialization
 finalization
             EXE_INI_Poste.WriteBool( 'mapi', inik_uMailTo_MAPI_Afficher_dialogue, uMailTo_MAPI_Afficher_dialogue);
             EXE_INI.WriteBool( 'smtp', 'Utiliser pour l''envoi de tous les mails', uMailTo_utiliser_SMTP);
+            {$IFDEF MSWINDOWS}
             Free_nil( FJclEmail);
+            {$ENDIF}
 end.
 
 

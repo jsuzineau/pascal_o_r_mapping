@@ -25,8 +25,12 @@
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-  FMX.Grid, FMX.ExtCtrls, DB, System.Types;
+  System.SysUtils, System.Classes,
+  FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
+  FMX.Grid, FMX.ExtCtrls,
+  Data.DB,
+  System.Types, System.Rtti, FMX.Grid.Style, FMX.Types,
+  FMX.Controls.Presentation, FMX.ScrollBox;
 
 type
   Tfcb = class(TForm)
@@ -84,7 +88,7 @@ begin
      Largeur:= C.Width;
      Hauteur:=   DropDownRows * HauteurLigne;
 
-     SystemParametersInfo( SPI_GETWORKAREA, 0, @WorkArea, 0);
+     //SystemParametersInfo( SPI_GETWORKAREA, 0, @WorkArea, 0);
 
      //P:= C.Parent.ClientToScreen( PointF( C.Left, C.Top+C.Height));
      with P

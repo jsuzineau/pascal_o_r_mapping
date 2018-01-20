@@ -61,7 +61,7 @@ const
      sys_TblG_BECPCTX: String='TblG_BECPCTX';
 
      //Batpro_Element_Marge= 2; //bordure
-     Batpro_Element_Marge: Integer = 0; //bordure
+     Batpro_Element_Marge: Single = 0; //bordure
 
 type
  TbeAlignementH= (bea_Gauche, bea_Centre_Horiz , bea_Droite);
@@ -129,22 +129,22 @@ type
     destructor Destroy; override;
   //Gestion de la taille en pixels
   protected
-    Retrait_Texte: Integer;
-    function Cell_Width_Interne (DrawInfo: TDrawInfo;F:TFont;Texte:String):Integer;
+    Retrait_Texte: Single;
+    function Cell_Width_Interne (DrawInfo: TDrawInfo;F:TFont;Texte:String):Single;
     function Cell_Height_Interne(DrawInfo: TDrawInfo;F:TFont;Texte:String;
-                                 Cell_Width: Integer): Integer;
-    function MargeX( DrawInfo: TDrawInfo): Integer;
-    function MargeY( DrawInfo: TDrawInfo): Integer;
-    function  Width_Externe_from_Interne( DrawInfo: TDrawInfo; Valeur: Integer): Integer;
-    function Height_Externe_from_Interne( DrawInfo: TDrawInfo; Valeur: Integer): Integer;
-    function  Width_Interne_from_Externe( DrawInfo: TDrawInfo; Valeur: Integer): Integer;
-    function Height_Interne_from_Externe( DrawInfo: TDrawInfo; Valeur: Integer): Integer;
-    function Rect_Interne_from_Externe( DrawInfo: TDrawInfo; Valeur: TRect): TRect;
-    function Rect_Externe_from_Interne( DrawInfo: TDrawInfo; Valeur: TRect): TRect;
-    function Rectangle_Aligne( R: TRect; Alignement: TbeAlignement; Largeur, Hauteur: Integer):TRect;
+                                 Cell_Width: Single): Single;
+    function MargeX( DrawInfo: TDrawInfo): Single;
+    function MargeY( DrawInfo: TDrawInfo): Single;
+    function  Width_Externe_from_Interne( DrawInfo: TDrawInfo; Valeur: Single): Single;
+    function Height_Externe_from_Interne( DrawInfo: TDrawInfo; Valeur: Single): Single;
+    function  Width_Interne_from_Externe( DrawInfo: TDrawInfo; Valeur: Single): Single;
+    function Height_Interne_from_Externe( DrawInfo: TDrawInfo; Valeur: Single): Single;
+    function Rect_Interne_from_Externe( DrawInfo: TDrawInfo; Valeur: TRectF): TRectF;
+    function Rect_Externe_from_Interne( DrawInfo: TDrawInfo; Valeur: TRectF): TRectF;
+    function Rectangle_Aligne( R: TRectF; Alignement: TbeAlignement; Largeur, Hauteur: Single):TRectF;
   public
-    function Cell_Height( DrawInfo: TDrawInfo; Cell_Width: Integer): Integer; virtual;
-    function Cell_Width( DrawInfo: TDrawInfo): Integer; virtual;
+    function Cell_Height( DrawInfo: TDrawInfo; Cell_Width: Single): Single; virtual;
+    function Cell_Width( DrawInfo: TDrawInfo): Single; virtual;
   //Gestion de l'orientation
   public
     function OrientationTexte( DrawInfo: TDrawInfo): Integer; virtual;
@@ -202,14 +202,14 @@ type
   public
     Aggrandir_a_l_impression: Boolean;
     function {svg}Draw_Text( DrawInfo: TDrawInfo; Alignement: TbeAlignement;
-                             Text: String; Font: TFont): Integer; virtual;
+                             Text: String; Font: TFont): Single; virtual;
     procedure Draw( DrawInfo: TDrawInfo); virtual;
     function MulDiv_Color( Color: TColor; Mul_, Div_: Integer): TColor;
     function _3D_Clair( Color: TColor): TColor;
     function _3D_Sombre( Color: TColor): TColor;
-    function OffsetPoint( P: TPoint; dx, dy: Integer): TPoint;
+    function OffsetPoint( P: TPointF; dx, dy: Single): TPointF;
     function OffsetPointF( P: TPointF; dx, dy: Single): TPointF;
-    procedure DrawFrameButton_Color( Canvas: TCanvas; Color: TColor; R: TRect);
+    procedure DrawFrameButton_Color( Canvas: TCanvas; Color: TColor; R: TRectF);
     procedure {svg}Dessinne_Fond( DrawInfo: TDrawInfo); virtual;
     function Get_Alignement( Contexte: Integer): TbeAlignement; virtual;
     function VerticalHorizontal_( Contexte: Integer): Boolean; virtual;
@@ -377,10 +377,10 @@ type
   private
     EtatInitial: Boolean;
     FDebut       , FFin       : Integer;
-    procedure {svg}DrawTraitHorizontal    ( DrawInfo: TDrawInfo; R:TRect;TrameSolide_:Boolean);
-    procedure {svg}DrawDemiLigne          ( DrawInfo: TDrawInfo; R:TRect;TrameSolide_:Boolean);
-    procedure {svg}DrawDemiLigne_Pointille( DrawInfo: TDrawInfo; R:TRect;TrameSolide_:Boolean);
-    procedure {svg}DrawDemiLigne_Points   ( DrawInfo: TDrawInfo; R:TRect;TrameSolide_:Boolean);
+    procedure {svg}DrawTraitHorizontal    ( DrawInfo: TDrawInfo; R:TRectF;TrameSolide_:Boolean);
+    procedure {svg}DrawDemiLigne          ( DrawInfo: TDrawInfo; R:TRectF;TrameSolide_:Boolean);
+    procedure {svg}DrawDemiLigne_Pointille( DrawInfo: TDrawInfo; R:TRectF;TrameSolide_:Boolean);
+    procedure {svg}DrawDemiLigne_Points   ( DrawInfo: TDrawInfo; R:TRectF;TrameSolide_:Boolean);
   public
     be: TBatpro_Element;
     CellDebut: Boolean;
@@ -441,7 +441,7 @@ type
                                                          _Index: Integer;
                                                          _Pourcentage: double;
                                                          _nPourcentage: double;
-                                                         _Y: Integer;
+                                                         _Y: Single;
                                                          _Color: TColor);
     procedure {svg}Dessinne_Pourcentage_interne( DrawInfo: TDrawInfo; Index: Integer);
   public
@@ -462,7 +462,7 @@ type
     be: TBatpro_Element;
     Bounds: TRect;//attention, ici coordonnées de cellules, pas celles de pixels
     Grains: array of array of TBatpro_Element;
-    Largeur, Hauteur: Integer;
+    Largeur, Hauteur: Single;
     Colonne_LargeurMaxi,
       Ligne_HauteurMaxi: Integer;
     constructor Create( _be: TBatpro_Element);
@@ -471,12 +471,12 @@ type
     function SingleRow: Boolean;
     procedure CalculeLargeur( _DrawInfo: TDrawInfo;
                               _Colonne, _Ligne: Integer;
-                              var _Largeur: Integer);
+                              var _Largeur: Single);
     procedure CalculeHauteur( _DrawInfo: TDrawInfo;
                               _Colonne, _Ligne: Integer;
-                              var _Hauteur: Integer);
-    procedure Check_LargeurTotale( var _LargeurTotale: Integer);
-    procedure Check_HauteurTotale( var _HauteurTotale: Integer);
+                              var _Hauteur: Single);
+    procedure Check_LargeurTotale( var _LargeurTotale: Single);
+    procedure Check_HauteurTotale( var _HauteurTotale: Single);
     function Cherche( _Grain: TBatpro_Element): TPoint;
   //Affichage de l'état du cluster
   public
@@ -742,10 +742,18 @@ procedure slExtrait_SousListe( Source: TBatpro_StringList; sCle: String; Cible: 
 
 procedure sl_ToutSelectionner( _sl: TBatpro_StringList);
 procedure sl_ToutDeselectionner( _sl: TBatpro_StringList);
+function CenterPointF(const Rect: TRectF): TPointF;
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
+
+function CenterPointF(const Rect: TRectF): TPointF;
+begin
+  Result.X := (Rect.Right - Rect.Left) / 2 + Rect.Left;
+  Result.Y := (Rect.Bottom - Rect.Top) / 2 + Rect.Top;
+end;
+
 
 //########################### TBatpro_Element ##################################
 
@@ -954,17 +962,17 @@ begin
      DrawInfo.Contour_Rectangle( DrawInfo.Rect, TColorRec.Black);
 end;
 
-function TBatpro_Element.Rectangle_Aligne( R: TRect;
+function TBatpro_Element.Rectangle_Aligne( R: TRectF;
                                            Alignement: TbeAlignement;
-                                           Largeur, Hauteur: Integer): TRect;
+                                           Largeur, Hauteur: Single): TRectF;
 var
-   DW2, DH2: Integer;
+   DW2, DH2: Single;
 begin
-     Result.TopLeft    := Point(R.Left        , R.Top        );
-     Result.BottomRight:= Point(R.Left+Largeur, R.Top+Hauteur);
+     Result.TopLeft    := PointF(R.Left        , R.Top        );
+     Result.BottomRight:= PointF(R.Left+Largeur, R.Top+Hauteur);
 
-     DW2:= ((R.Right -R.Left) - Largeur) div 2;
-     DH2:= ((R.Bottom-R.Top ) - Hauteur) div 2;
+     DW2:= ((R.Right -R.Left) - Largeur) / 2;
+     DH2:= ((R.Bottom-R.Top ) - Hauteur) / 2;
      if DH2 < 0
      then
          begin
@@ -987,11 +995,11 @@ begin
 end;
 
 function TBatpro_Element.{svg}Draw_Text( DrawInfo: TDrawInfo; Alignement: TbeAlignement;
-                                    Text: String; Font: TFont): Integer;
+                                    Text: String; Font: TFont): Single;
 var
    tl: TTextLayout;
-   R, CALCRECT: TRect;
-   TextW, TextH: Integer;
+   R, CALCRECT: TRectF;
+   TextW, TextH: Single;
    uFormat: Cardinal;
    OrientationTexte_: Integer;
 begin
@@ -1067,7 +1075,7 @@ var
    Serie_not_CellDebut: Boolean;
    procedure Traite_Serie_not_CellDebut; //spécial pour demi-ligne sur planning production
    var
-      R: TRect;
+      R: TRectF;
    begin
         if not (Serie.Style in [ss_DemiLigne,ss_DemiLigne_Pointille, ss_DemiLigne_Points]) then exit;
 
@@ -1146,7 +1154,7 @@ var
    Serie_not_CellDebut: Boolean;
    procedure Traite_Serie_not_CellDebut; //spécial pour demi-ligne sur planning production
    var
-      R: TRect;
+      R: TRectF;
    begin
         if not (Serie.Style in [ss_DemiLigne,ss_DemiLigne_Pointille, ss_DemiLigne_Points]) then exit;
 
@@ -1351,11 +1359,11 @@ begin
      Result:= MulDiv_Color( Color, Mul_, Div_);
 end;
 
-function TBatpro_Element.OffsetPoint( P: TPoint; dx, dy: Integer): TPoint;
+function TBatpro_Element.OffsetPoint( P: TPointF; dx, dy: Single): TPointF;
 begin
      Result:= P;
-     Inc( Result.X, dx);
-     Inc( Result.Y, dy);
+     Result.X:= Result.X+dx;
+     Result.Y:= Result.Y+dy;
 end;
 
 function TBatpro_Element.OffsetPointF(P: TPointF; dx, dy: Single): TPointF;
@@ -1366,7 +1374,7 @@ begin
 end;
 
 procedure TBatpro_Element.DrawFrameButton_Color( Canvas: TCanvas; Color: TColor;
-                                                 R: TRect);
+                                                 R: TRectF);
 var
    PolyClair: TPolygon;
    OldColor: TColor;
@@ -1495,12 +1503,12 @@ end;
 function TBatpro_Element.Cell_Height_Interne( DrawInfo: TDrawInfo;
                                               F: TFont;
                                               Texte: String;
-                                              Cell_Width: Integer): Integer;
+                                              Cell_Width: Single): Single;
 begin
 	 {$IFNDEF FPC}
      if OrientationTexte( DrawInfo) = 900
      then
-         Result:=   MulDiv( LargeurTexte( F, Texte), 105, 100)
+         Result:=   LargeurTexte( F, Texte)* 105/ 100
      else
          Result:=   HauteurTexte( F, Texte,
                                   Width_Interne_from_Externe( DrawInfo, Cell_Width)
@@ -1511,7 +1519,7 @@ begin
      {$ENDIF}
 end;
 
-function TBatpro_Element.MargeY( DrawInfo: TDrawInfo): Integer;
+function TBatpro_Element.MargeY( DrawInfo: TDrawInfo): Single;
 begin
      {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
      if DrawInfo.Fixe
@@ -1524,19 +1532,19 @@ begin
      {$IFEND}
 end;
 
-function TBatpro_Element.Height_Externe_from_Interne( DrawInfo: TDrawInfo; Valeur: Integer): Integer;
+function TBatpro_Element.Height_Externe_from_Interne( DrawInfo: TDrawInfo; Valeur: Single): Single;
 begin
      Result:= Valeur + 2 * MargeY( DrawInfo);
 end;
 
 function TBatpro_Element.Height_Interne_from_Externe( DrawInfo: TDrawInfo;
-                                                      Valeur: Integer): Integer;
+                                                      Valeur: Single): Single;
 begin
      Result:= Valeur - 2 * MargeY( DrawInfo);
 end;
 
 function TBatpro_Element.Cell_Height( DrawInfo: TDrawInfo;
-                                      Cell_Width: Integer): Integer;
+                                      Cell_Width: Single): Single;
 begin
      Result:= Cell_Height_Interne( DrawInfo,
                                    ClassFont( DrawInfo),
@@ -1547,12 +1555,12 @@ end;
 
 function TBatpro_Element.Cell_Width_Interne( DrawInfo: TDrawInfo;
                                              F: TFont;
-                                             Texte: String): Integer;
+                                             Texte: String): Single;
 begin
      {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
      if OrientationTexte( DrawInfo) = 900
      then
-         Result:= MulDiv( LineHeight( F), 105, 100)
+         Result:= LineHeight( F)* 105 / 100
      else
          Result:= LargeurTexte( F, Texte);
      if Assigned( Cluster)
@@ -1561,7 +1569,7 @@ begin
      {$IFEND}
 end;
 
-function TBatpro_Element.MargeX( DrawInfo: TDrawInfo): Integer;
+function TBatpro_Element.MargeX( DrawInfo: TDrawInfo): Single;
 begin
      {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
      if DrawInfo.Fixe
@@ -1574,18 +1582,18 @@ begin
      {$IFEND}
 end;
 
-function TBatpro_Element.Width_Externe_from_Interne( DrawInfo: TDrawInfo;Valeur: Integer): Integer;
+function TBatpro_Element.Width_Externe_from_Interne( DrawInfo: TDrawInfo;Valeur: Single): Single;
 begin
      Result:= Valeur + 2 * MargeX( DrawInfo) + Retrait_Texte;
 end;
 
 function TBatpro_Element.Width_Interne_from_Externe( DrawInfo: TDrawInfo;
-                                                     Valeur: Integer): Integer;
+                                                     Valeur: Single): Single;
 begin
      Result:= Valeur - 2 * MargeX( DrawInfo) - Retrait_Texte;
 end;
 
-function TBatpro_Element.Cell_Width( DrawInfo: TDrawInfo): Integer;
+function TBatpro_Element.Cell_Width( DrawInfo: TDrawInfo): Single;
 begin
      Result:= Cell_Width_Interne( DrawInfo,
                                   ClassFont( DrawInfo),
@@ -1596,23 +1604,23 @@ begin
 end;
 
 function TBatpro_Element.Rect_Interne_from_Externe( DrawInfo: TDrawInfo;
-                                                    Valeur: TRect): TRect;
+                                                    Valeur: TRectF): TRectF;
 begin
      Result:= Valeur;
-     InflateRect( Result, - MargeX( DrawInfo) -Retrait_Texte div 2, - MargeY( DrawInfo));
+     InflateRect( Result, - MargeX( DrawInfo) -Retrait_Texte / 2, - MargeY( DrawInfo));
      if Retrait_Texte <> 0
      then
-         OffsetRect( Result, Retrait_Texte div 2, 0);
+         OffsetRect( Result, Retrait_Texte / 2, 0);
 end;
 
 function TBatpro_Element.Rect_Externe_from_Interne( DrawInfo: TDrawInfo;
-                                                    Valeur: TRect): TRect;
+                                                    Valeur: TRectF): TRectF;
 begin
      Result:= Valeur;
-     InflateRect( Result, + MargeX( DrawInfo) +Retrait_Texte div 2, + MargeY( DrawInfo));
+     InflateRect( Result, + MargeX( DrawInfo) +Retrait_Texte / 2, + MargeY( DrawInfo));
      if Retrait_Texte <> 0
      then
-         OffsetRect( Result, -Retrait_Texte div 2, 0);
+         OffsetRect( Result, -Retrait_Texte / 2, 0);
 end;
 
 function TBatpro_Element.MouseDown( Button: TMouseButton;
@@ -1738,13 +1746,13 @@ procedure TBatpro_Element.{svg}DrawJalon( DrawInfo: TDrawInfo; Forme: TTypeJalon
                                      Note: Boolean= False);
 var
    //Jalon
-   Centre: TPoint;
-   Border: TRect;
+   Centre: TPointF;
+   Border: TRectF;
    dx , dy ,
    dx2, dy2,
-   rayon: Integer;
+   rayon: Single;
    Polygone: TPolygon;
-   function StartX_from_DebutFin_( DebutFin_: Boolean): Integer;
+   function StartX_from_DebutFin_( DebutFin_: Boolean): Single;
    begin
         if DebutFin_
         then
@@ -1754,7 +1762,7 @@ var
    end;
    procedure Draw_Jalon_Debut_Fin( DebutFin_: Boolean);
    var
-      StartX: Integer;
+      StartX: Single;
    begin
         StartX:= StartX_from_DebutFin_( DebutFin_);
 
@@ -1779,13 +1787,13 @@ var
    procedure Draw_Jalon_Trait_Epais_Debut_Fin( DebutFin_: Boolean);
    var
       CoefficientEpaisseur: double;
-      c_dy2, c_dy4: Integer;
-      Sommet: Integer;
+      c_dy2, c_dy4: Single;
+      Sommet: Single;
       Pointe: TPointF;
       procedure Calcule_c_dy;
       begin
            c_dy2    := Trunc( CoefficientEpaisseur * dy2);
-           c_dy4    := c_dy2 div 2;
+           c_dy4    := c_dy2 / 2;
       end;
    begin
         if Assigned(Serie)
@@ -1876,10 +1884,10 @@ begin
        Border:= Rect;
 
        InflateRect( Rect, -3, -3);
-       Centre:= CenterPoint( Rect);
+       Centre:= CenterPointF( Rect);
        dx:= Rect.Right  - Rect.Left;
        dy:= Rect.Bottom - Rect.Top ;
-       dx2:= dx div 2; dy2:= dy div 2;
+       dx2:= dx / 2; dy2:= dy / 2;
 
        case Forme
        of
@@ -1927,9 +1935,9 @@ begin
            // forme  •
            if dx < dy
            then
-               rayon:= dx div 2
+               rayon:= dx / 2
            else
-               rayon:= dy div 2;
+               rayon:= dy / 2;
            if rayon = 0 then rayon:= 1;
 
            CouleurLigne:= CouleurJalon;
@@ -1949,9 +1957,9 @@ begin
            // forme  •
            if dx < dy
            then
-               rayon:= dx div 5
+               rayon:= dx / 5
            else
-               rayon:= dy div 5;
+               rayon:= dy / 5;
            if rayon = 0 then rayon:= 1;
 
            CouleurLigne:= CouleurJalon;
@@ -2071,12 +2079,12 @@ procedure TBatpro_Serie.{svg}Dessinne_Pourcentage_interne_interne( _DrawInfo: TD
                                                                    _Index: Integer;
                                                                    _Pourcentage: double;
                                                                    _nPourcentage: double;
-                                                                   _Y: Integer;
+                                                                   _Y: Single;
                                                                    _Color: TColor);
 var
-   Largeur, Hauteur: Integer;
+   Largeur, Hauteur: Single;
    XGauche, XDroite,
-   X1, X2: Integer;
+   X1, X2: Single;
    Old_Pen_Style: TStrokeDash;
    Old_Pen_Color: TColor;
    Old_Brush_Style: TBrushKind;
@@ -2094,7 +2102,7 @@ begin
      Largeur:= XDroite-XGauche;
      with _DrawInfo.Rect
      do
-       Hauteur:= (Bottom - Top) div 4;
+       Hauteur:= (Bottom - Top) / 4;
 
           if _Index < Trunc_nPourcentage
      then
@@ -2135,7 +2143,7 @@ end;
 
 procedure TBatpro_Serie.{svg}Dessinne_Pourcentage_interne( DrawInfo: TDrawInfo; Index: Integer);
 var
-   Y: Integer;
+   Y: Single;
 begin
      with DrawInfo.Rect
      do
@@ -2150,7 +2158,7 @@ end;
 
 procedure TBatpro_Serie.{svg}Dessinne_Pourcentage_2_interne( DrawInfo: TDrawInfo; Index: Integer);
 var
-   Y: Integer;
+   Y: Single;
 begin
      with DrawInfo.Rect
      do
@@ -2308,14 +2316,14 @@ begin
        text( Rect.Left+3, Rect.Top+3, snJour_from_nJour( _nJour), sys_Arial,8);
 end;
 
-procedure TBatpro_Serie.{svg}DrawTraitHorizontal( DrawInfo: TDrawInfo; R: TRect;
+procedure TBatpro_Serie.{svg}DrawTraitHorizontal( DrawInfo: TDrawInfo; R: TRectF;
                                              TrameSolide_:Boolean);
 var
    Polygone: TPolygon;
    OldBrushColor: TColor;
    OldBitmap: TBrushBitmap;
-   YC, dy2, c_dy2: Integer;
-   Sommet: Integer;
+   YC, dy2, c_dy2: Single;
+   Sommet: Single;
    Motif: TBitmap;
 begin
      if TrameSolide_
@@ -2324,8 +2332,8 @@ begin
      else
          Motif:= fBitmaps.bBrosse_Solide;
 
-     YC := (R.Top+R.Bottom) div 2;
-     dy2:= (R.Bottom-R.Top) div 2;
+     YC := (R.Top+R.Bottom) / 2;
+     dy2:= (R.Bottom-R.Top) / 2;
      c_dy2:= Trunc( CoefficientEpaisseur * dy2);
      Sommet:= YC-c_dy2;
 
@@ -2348,13 +2356,13 @@ begin
        end;
 end;
 
-procedure TBatpro_Serie.{svg}DrawDemiLigne( DrawInfo: TDrawInfo; R: TRect; TrameSolide_: Boolean);
+procedure TBatpro_Serie.{svg}DrawDemiLigne( DrawInfo: TDrawInfo; R: TRectF; TrameSolide_: Boolean);
 var
    Polygone: TPolygon;
    OldBrushColor: TColor;
    OldBitmap: TBrushBitmap;
-   YC: Integer;
-   Bas: Integer;
+   YC: Single;
+   Bas: Single;
    Motif: TBitmap;
 begin
      if TrameSolide_
@@ -2363,7 +2371,7 @@ begin
      else
          Motif:= fBitmaps.bBrosse_Solide;
 
-     YC := (R.Top+R.Bottom) div 2;
+     YC := (R.Top+R.Bottom) / 2;
      Bas:= R.Bottom;
 
      SetLength( Polygone, 4);
@@ -2386,12 +2394,12 @@ begin
 end;
 
 procedure TBatpro_Serie.{svg}DrawDemiLigne_Pointille( DrawInfo: TDrawInfo;
-                                                 R: TRect; TrameSolide_: Boolean);
+                                                 R: TRectF; TrameSolide_: Boolean);
 var
-   W, X1_3, X2_3, YC: Integer;
-   Bas: Integer;
+   W, X1_3, X2_3, YC: Single;
+   Bas: Single;
    Motif: TBitmap;
-   procedure Bloc( _Debut, _Fin: Integer);
+   procedure Bloc( _Debut, _Fin: Single);
    var
       Polygone: TPolygon;
       OldBrushColor: TColor;
@@ -2430,7 +2438,7 @@ begin
      X1_3:= R.Left+MulDiv(W,1,3);
      X2_3:= R.Left+MulDiv(W,2,3);
 
-     YC := (R.Top+R.Bottom) div 2;
+     YC := (R.Top+R.Bottom) / 2;
      Bas:= R.Bottom;
 
      Bloc( R.Left, X1_3);
@@ -2438,12 +2446,12 @@ begin
 end;
 
 procedure TBatpro_Serie.{svg}DrawDemiLigne_Points( DrawInfo: TDrawInfo;
-                                                 R: TRect; TrameSolide_: Boolean);
+                                                 R: TRectF; TrameSolide_: Boolean);
 {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
 var
-   W, X1_3, X2_3, YC: Integer;
-   Bas: Integer;
-   procedure Bloc( _Debut, _Fin: Integer);
+   W, X1_3, X2_3, YC: Single;
+   Bas: Single;
+   procedure Bloc( _Debut, _Fin: Single);
    var
       Polygone: TPolygon;
       OldBrushColor: TColor;
@@ -2472,7 +2480,7 @@ begin
      X1_3:= R.Left+MulDiv(W,1,3);
      X2_3:= R.Left+MulDiv(W,2,3);
 
-     YC := (R.Top+R.Bottom) div 2;
+     YC := (R.Top+R.Bottom) / 2;
      Bas:= R.Bottom;
 
      Bloc( R.Left, X1_3);
@@ -2486,10 +2494,10 @@ end;
 procedure TBatpro_Serie.Ligne_Serie   ( DrawInfo: TDrawInfo;nJour:Integer);
 {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
 var
-   XC, YC: Integer;
+   XC, YC: Single;
    OldColor: TColor;
 
-   R: TRect;
+   R: TRectF;
 begin
      Dessinne_Fond( DrawInfo);
      Affiche_nJour( DrawInfo, nJour);
@@ -2503,7 +2511,7 @@ begin
        if VerticalHorizontal_( Contexte)
        then
            begin
-           XC:= (Rect.Left+Rect.Right) div 2;
+           XC:= (Rect.Left+Rect.Right) / 2;
            Moveto( XC, Rect.Top   );
            LineTo( XC, Rect.Bottom);
            end
@@ -2513,7 +2521,7 @@ begin
            of
              ss_TraitFin:
                begin
-               YC:= (Rect.Top+Rect.Bottom) div 2;
+               YC:= (Rect.Top+Rect.Bottom) / 2;
                Moveto( Rect.Left , YC);
                LineTo( Rect.Right, YC);
                end;
@@ -2555,9 +2563,9 @@ end;
 procedure TBatpro_Serie.svgLigne_Serie( _DrawInfo: TDrawInfo; nJour: Integer);
 {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
 var
-   XC, YC: Integer;
+   XC, YC: Single;
 
-   R: TRect;
+   R: TRectF;
 begin
      {svg}Dessinne_Fond( _DrawInfo);
      svgAffiche_nJour( _DrawInfo, nJour);
@@ -2568,7 +2576,7 @@ begin
        if VerticalHorizontal_( Contexte)
        then
            begin
-           XC:= (Rect.Left+Rect.Right) div 2;
+           XC:= (Rect.Left+Rect.Right) / 2;
            _DrawInfo.line( XC, Rect.Top, XC, Rect.Bottom, Couleur, 0);
            end
        else
@@ -2577,7 +2585,7 @@ begin
            of
              ss_TraitFin:
                begin
-               YC:= (Rect.Top+Rect.Bottom) div 2;
+               YC:= (Rect.Top+Rect.Bottom) / 2;
                _DrawInfo.line( Rect.Left , YC, Rect.Right, YC, Couleur, 0);
                end;
              ss_TraitEpais:
@@ -2616,12 +2624,12 @@ end;
 procedure TBatpro_Serie.Ligne_VisibleDebut( DrawInfo: TDrawInfo; nJour: Integer);
 {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
 var
-   XC, YC: Integer;
-   W2: Integer;//Width  div 2
-   H2: Integer;//Height div 2
+   XC, YC: Single;
+   W2: Single;//Width  / 2
+   H2: Single;//Height / 2
    OldColor: TColor;
 
-   R, Rdot, Rsolid: TRect;
+   R, Rdot, Rsolid: TRectF;
 begin
      Dessinne_Fond( DrawInfo);
      Affiche_nJour( DrawInfo, nJour);
@@ -2633,8 +2641,8 @@ begin
        if VerticalHorizontal_( Contexte)
        then
            begin
-           XC:= (Rect.Left+Rect.Right ) div 2;
-           H2:= (Rect.Bottom-Rect.Top ) div 2;
+           XC:= (Rect.Left+Rect.Right ) / 2;
+           H2:= (Rect.Bottom-Rect.Top ) / 2;
            StyleLigne:= TStrokeDash.Dot;
            Moveto( XC, Rect.Top      );
            LineTo( XC, Rect.Top   +H2);
@@ -2648,8 +2656,8 @@ begin
            of
              ss_TraitFin:
                begin
-               YC:= (Rect.Top +Rect.Bottom) div 2;
-               W2:= (Rect.Right -Rect.Left) div 2;
+               YC:= (Rect.Top +Rect.Bottom) / 2;
+               W2:= (Rect.Right -Rect.Left) / 2;
                StyleLigne:= TStrokeDash.Dot;
                Moveto( Rect.Left   , YC);
                LineTo( Rect.Left+W2, YC);
@@ -2661,7 +2669,7 @@ begin
                begin
                R:= Rect;
                InflateRect( R, 0, -3);
-               W2:= (R.Right -R.Left) div 2;
+               W2:= (R.Right -R.Left) / 2;
                Rdot:= R; with Rdot do Right:= Left+W2;
                DrawTraitHorizontal( DrawInfo, Rdot, True);
 
@@ -2672,7 +2680,7 @@ begin
                begin
                R:= Rect;
                InflateRect( R, 0, -3);
-               W2:= (R.Right -R.Left) div 2;
+               W2:= (R.Right -R.Left) / 2;
                Rdot:= R; with Rdot do Right:= Left+W2;
                DrawDemiLigne( DrawInfo, Rdot, True);
 
@@ -2683,7 +2691,7 @@ begin
                begin
                R:= Rect;
                InflateRect( R, 0, -3);
-               W2:= (R.Right -R.Left) div 2;
+               W2:= (R.Right -R.Left) / 2;
                Rdot:= R; with Rdot do Right:= Left+W2;
                DrawDemiLigne_Pointille( DrawInfo, Rdot, True);
 
@@ -2694,7 +2702,7 @@ begin
                begin
                R:= Rect;
                InflateRect( R, 0, -3);
-               W2:= (R.Right -R.Left) div 2;
+               W2:= (R.Right -R.Left) / 2;
                Rdot:= R; with Rdot do Right:= Left+W2;
                DrawDemiLigne_Points( DrawInfo, Rdot, True);
 
@@ -2714,12 +2722,12 @@ end;
 procedure TBatpro_Serie.svgLigne_VisibleDebut( _DrawInfo: TDrawInfo; nJour: Integer);
 {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
 var
-   XC, YC: Integer;
-   W2: Integer;//Width  div 2
-   H2: Integer;//Height div 2
+   XC, YC: Single;
+   W2: Single;//Width  / 2
+   H2: Single;//Height / 2
    OldColor: TColor;
 
-   R, Rdot, Rsolid: TRect;
+   R, Rdot, Rsolid: TRectF;
 begin
      {svg}Dessinne_Fond( _DrawInfo);
      svgAffiche_nJour( _DrawInfo, nJour);
@@ -2731,8 +2739,8 @@ begin
        if VerticalHorizontal_( Contexte)
        then
            begin
-           XC:= (Rect.Left+Rect.Right ) div 2;
-           H2:= (Rect.Bottom-Rect.Top ) div 2;
+           XC:= (Rect.Left+Rect.Right ) / 2;
+           H2:= (Rect.Bottom-Rect.Top ) / 2;
            _DrawInfo.line_dash( XC, Rect.Top   , XC, Rect.Top   +H2, Couleur, 1);
            _DrawInfo.line     ( XC, Rect.Top+H2, XC, Rect.Bottom   , Couleur, 1);
            end
@@ -2742,8 +2750,8 @@ begin
            of
              ss_TraitFin:
                begin
-               YC:= (Rect.Top +Rect.Bottom) div 2;
-               W2:= (Rect.Right -Rect.Left) div 2;
+               YC:= (Rect.Top +Rect.Bottom) / 2;
+               W2:= (Rect.Right -Rect.Left) / 2;
                _DrawInfo.line_dash( Rect.Left   , YC, Rect.Left+W2, YC, Couleur, 1);
                _DrawInfo.line     ( Rect.Left+W2, YC, Rect.Right  , YC, Couleur, 1);
                end;
@@ -2751,7 +2759,7 @@ begin
                begin
                R:= Rect;
                InflateRect( R, 0, -3);
-               W2:= (R.Right -R.Left) div 2;
+               W2:= (R.Right -R.Left) / 2;
                Rdot:= R; with Rdot do Right:= Left+W2;
                {svg}DrawTraitHorizontal( _DrawInfo, Rdot, True);
 
@@ -2762,7 +2770,7 @@ begin
                begin
                R:= Rect;
                InflateRect( R, 0, -3);
-               W2:= (R.Right -R.Left) div 2;
+               W2:= (R.Right -R.Left) / 2;
                Rdot:= R; with Rdot do Right:= Left+W2;
                {svg}DrawDemiLigne( _DrawInfo, Rdot, True);
 
@@ -2773,7 +2781,7 @@ begin
                begin
                R:= Rect;
                InflateRect( R, 0, -3);
-               W2:= (R.Right -R.Left) div 2;
+               W2:= (R.Right -R.Left) / 2;
                Rdot:= R; with Rdot do Right:= Left+W2;
                {svg}DrawDemiLigne_Pointille( _DrawInfo, Rdot, True);
 
@@ -2784,7 +2792,7 @@ begin
                begin
                R:= Rect;
                InflateRect( R, 0, -3);
-               W2:= (R.Right -R.Left) div 2;
+               W2:= (R.Right -R.Left) / 2;
                Rdot:= R; with Rdot do Right:= Left+W2;
                {svg}DrawDemiLigne_Points( _DrawInfo, Rdot, True);
 
@@ -2804,11 +2812,11 @@ end;
 procedure TBatpro_Serie.Ligne_DebutSerie( DrawInfo: TDrawInfo; nJour:Integer);
 {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
 var
-   XC, YC: Integer;
-   W4: Integer;//Width  div 4
-   H4: Integer;//Height div 4
+   XC, YC: Single;
+   W4: Single;//Width  / 4
+   H4: Single;//Height / 4
    OldColor: TColor;
-   R: TRect;
+   R: TRectF;
 begin
      Dessinne_Fond( DrawInfo);
      Affiche_nJour( DrawInfo, nJour);
@@ -2818,12 +2826,12 @@ begin
        begin
        OldColor:= CouleurLigne;
        CouleurLigne:= Couleur;
-       W4:= (Rect.Right -Rect.Left) div 4;
-       H4:= (Rect.Bottom-Rect.Top ) div 4;
+       W4:= (Rect.Right -Rect.Left) / 4;
+       H4:= (Rect.Bottom-Rect.Top ) / 4;
        if VerticalHorizontal_( Contexte)
        then
            begin
-           XC:= (Rect.Left+Rect.Right ) div 2;
+           XC:= (Rect.Left+Rect.Right ) / 2;
            Moveto( XC           , Rect.Top    +H4);
            LineTo( XC           , Rect.Bottom    );
 
@@ -2837,7 +2845,7 @@ begin
            of
              ss_TraitFin:
                begin
-               YC:= (Rect.Top +Rect.Bottom) div 2;
+               YC:= (Rect.Top +Rect.Bottom) / 2;
                // -
                Moveto( Rect.Left +W4  , YC);
                LineTo( Rect.Right     , YC);
@@ -2878,11 +2886,11 @@ end;
 procedure TBatpro_Serie.svgLigne_DebutSerie( _DrawInfo: TDrawInfo; nJour: Integer);
 {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
 var
-   XC, YC: Integer;
-   W4: Integer;//Width  div 4
-   H4: Integer;//Height div 4
+   XC, YC: Single;
+   W4: Single;//Width  / 4
+   H4: Single;//Height / 4
    //OldColor: TColor;
-   R: TRect;
+   R: TRectF;
 begin
      {svg}Dessinne_Fond( _DrawInfo);
      svgAffiche_nJour( _DrawInfo, nJour);
@@ -2892,12 +2900,12 @@ begin
        begin
        //OldColor:= CouleurLigne;
        CouleurLigne:= Couleur;
-       W4:= (Rect.Right -Rect.Left) div 4;
-       H4:= (Rect.Bottom-Rect.Top ) div 4;
+       W4:= (Rect.Right -Rect.Left) / 4;
+       H4:= (Rect.Bottom-Rect.Top ) / 4;
        if VerticalHorizontal_( Contexte)
        then
            begin
-           XC:= (Rect.Left+Rect.Right ) div 2;
+           XC:= (Rect.Left+Rect.Right ) / 2;
            _DrawInfo.line( XC           , Rect.Top+H4,XC           , Rect.Bottom, Couleur, 1);
            _DrawInfo.line( Rect.Left +W4, Rect.Top+H4,Rect.Right-W4, Rect.Top+H4, Couleur, 1);
            end
@@ -2907,7 +2915,7 @@ begin
            of
              ss_TraitFin:
                begin
-               YC:= (Rect.Top +Rect.Bottom) div 2;
+               YC:= (Rect.Top +Rect.Bottom) / 2;
                // -
                _DrawInfo.line( Rect.Left +W4, YC            , Rect.Right   , YC            , Couleur, 1);
                // |
@@ -2945,11 +2953,11 @@ end;
 procedure TBatpro_Serie.Ligne_FinSerie( DrawInfo: TDrawInfo; nJour:Integer);
 {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
 var
-   XC, YC: Integer;
-   W4: Integer;//Width  div 4
-   H4: Integer;//Height div 4
+   XC, YC: Single;
+   W4: Single;//Width  / 4
+   H4: Single;//Height / 4
    OldColor: TColor;
-   R: TRect;
+   R: TRectF;
 begin
      Dessinne_Fond( DrawInfo);
      Affiche_nJour( DrawInfo, nJour);
@@ -2959,12 +2967,12 @@ begin
        begin
        OldColor:= CouleurLigne;
        CouleurLigne:= Couleur;
-       W4:= (Rect.Right -Rect.Left) div 4;
-       H4:= (Rect.Bottom-Rect.Top ) div 4;
+       W4:= (Rect.Right -Rect.Left) / 4;
+       H4:= (Rect.Bottom-Rect.Top ) / 4;
        if VerticalHorizontal_( Contexte)
        then
            begin
-           XC:= (Rect.Left+Rect.Right ) div 2;
+           XC:= (Rect.Left+Rect.Right ) / 2;
            Moveto( XC           , Rect.Top      );
            LineTo( XC           , Rect.Bottom-H4);
            Moveto( Rect.Left +W4, Rect.Bottom-H4);
@@ -2977,7 +2985,7 @@ begin
            of
              ss_TraitFin:
                begin
-               YC:= (Rect.Top +Rect.Bottom) div 2;
+               YC:= (Rect.Top +Rect.Bottom) / 2;
                // -
                Moveto( Rect.Left    , YC);
                LineTo( Rect.Right-W4, YC);
@@ -3023,11 +3031,11 @@ end;
 procedure TBatpro_Serie.svgLigne_FinSerie(_DrawInfo: TDrawInfo; nJour: Integer);
 {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
 var
-   XC, YC: Integer;
-   W4: Integer;//Width  div 4
-   H4: Integer;//Height div 4
+   XC, YC: Single;
+   W4: Single;//Width  / 4
+   H4: Single;//Height / 4
    //OldColor: TColor;
-   R: TRect;
+   R: TRectF;
 begin
      {svg}Dessinne_Fond( _DrawInfo);
      svgAffiche_nJour( _DrawInfo, nJour);
@@ -3037,12 +3045,12 @@ begin
        begin
        //OldColor:= CouleurLigne;
        CouleurLigne:= Couleur;
-       W4:= (Rect.Right -Rect.Left) div 4;
-       H4:= (Rect.Bottom-Rect.Top ) div 4;
+       W4:= (Rect.Right -Rect.Left) / 4;
+       H4:= (Rect.Bottom-Rect.Top ) / 4;
        if VerticalHorizontal_( Contexte)
        then
            begin
-           XC:= (Rect.Left+Rect.Right ) div 2;
+           XC:= (Rect.Left+Rect.Right ) / 2;
            _DrawInfo.line( XC           , Rect.Top      , XC           , Rect.Bottom-H4, Couleur, 1);
            _DrawInfo.line( Rect.Left +W4, Rect.Bottom-H4, Rect.Right-W4, Rect.Bottom-H4, Couleur, 1);
            end
@@ -3052,7 +3060,7 @@ begin
            of
              ss_TraitFin:
                begin
-               YC:= (Rect.Top +Rect.Bottom) div 2;
+               YC:= (Rect.Top +Rect.Bottom) / 2;
                // -
                _DrawInfo.line( Rect.Left    , YC, Rect.Right-W4, YC, Couleur, 1);
                // |
@@ -3095,12 +3103,12 @@ end;
 procedure TBatpro_Serie.Ligne_VisibleFin( DrawInfo: TDrawInfo; nJour:Integer);
 {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
 var
-   XC, YC: Integer;
-   W2: Integer;//Width  div 2
-   H2: Integer;//Height div 2
+   XC, YC: Single;
+   W2: Single;//Width  / 2
+   H2: Single;//Height / 2
    OldColor: TColor;
 
-   R, Rdot, Rsolid: TRect;
+   R, Rdot, Rsolid: TRectF;
 begin
      Dessinne_Fond( DrawInfo);
      Affiche_nJour( DrawInfo, nJour);
@@ -3114,8 +3122,8 @@ begin
        if VerticalHorizontal_( Contexte)
        then
            begin
-           XC:= (Rect.Left+Rect.Right ) div 2;
-           H2:= (Rect.Bottom-Rect.Top ) div 2;
+           XC:= (Rect.Left+Rect.Right ) / 2;
+           H2:= (Rect.Bottom-Rect.Top ) / 2;
            Moveto( XC, Rect.Top      );
            LineTo( XC, Rect.Top   +H2);
            StyleLigne:= TStrokeDash.Dot;
@@ -3128,8 +3136,8 @@ begin
            of
              ss_TraitFin:
                begin
-               YC:= (Rect.Top +Rect.Bottom) div 2;
-               W2:= (Rect.Right -Rect.Left) div 2;
+               YC:= (Rect.Top +Rect.Bottom) / 2;
+               W2:= (Rect.Right -Rect.Left) / 2;
                Moveto( Rect.Left   , YC);
                LineTo( Rect.Left+W2, YC);
                StyleLigne:= TStrokeDash.Dot;
@@ -3140,7 +3148,7 @@ begin
                begin
                R:= Rect;
                InflateRect( R, 0, -3);
-               W2:= (R.Right -R.Left) div 2;
+               W2:= (R.Right -R.Left) / 2;
                Rsolid:= R; with Rsolid do Right:= Left+W2;
                DrawTraitHorizontal( DrawInfo, Rsolid, False);
 
@@ -3151,7 +3159,7 @@ begin
                begin
                R:= Rect;
                InflateRect( R, 0, -3);
-               W2:= (R.Right -R.Left) div 2;
+               W2:= (R.Right -R.Left) / 2;
                Rsolid:= R; with Rsolid do Right:= Left+W2;
                DrawDemiLigne( DrawInfo, Rsolid, False);
 
@@ -3162,7 +3170,7 @@ begin
                begin
                R:= Rect;
                InflateRect( R, 0, -3);
-               W2:= (R.Right -R.Left) div 2;
+               W2:= (R.Right -R.Left) / 2;
                Rsolid:= R; with Rsolid do Right:= Left+W2;
                DrawDemiLigne_Pointille( DrawInfo, Rsolid, False);
 
@@ -3173,7 +3181,7 @@ begin
                begin
                R:= Rect;
                InflateRect( R, 0, -3);
-               W2:= (R.Right -R.Left) div 2;
+               W2:= (R.Right -R.Left) / 2;
                Rsolid:= R; with Rsolid do Right:= Left+W2;
                DrawDemiLigne_Points( DrawInfo, Rsolid, False);
 
@@ -3194,12 +3202,12 @@ end;
 procedure TBatpro_Serie.svgLigne_VisibleFin( _DrawInfo: TDrawInfo; nJour: Integer);
 {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
 var
-   XC, YC: Integer;
-   W2: Integer;//Width  div 2
-   H2: Integer;//Height div 2
+   XC, YC: Single;
+   W2: Single;//Width  / 2
+   H2: Single;//Height / 2
    OldColor: TColor;
 
-   R, Rdot, Rsolid: TRect;
+   R, Rdot, Rsolid: TRectF;
 begin
      {svg}Dessinne_Fond( _DrawInfo);
      svgAffiche_nJour( _DrawInfo, nJour);
@@ -3213,8 +3221,8 @@ begin
        if VerticalHorizontal_( Contexte)
        then
            begin
-           XC:= (Rect.Left+Rect.Right ) div 2;
-           H2:= (Rect.Bottom-Rect.Top ) div 2;
+           XC:= (Rect.Left+Rect.Right ) / 2;
+           H2:= (Rect.Bottom-Rect.Top ) / 2;
            _DrawInfo.line     ( XC, Rect.Top      ,XC, Rect.Top   +H2, Couleur, 1);
            _DrawInfo.line_dash( XC, Rect.Top   +H2,XC, Rect.Bottom   , Couleur, 1);
            end
@@ -3224,8 +3232,8 @@ begin
            of
              ss_TraitFin:
                begin
-               YC:= (Rect.Top +Rect.Bottom) div 2;
-               W2:= (Rect.Right -Rect.Left) div 2;
+               YC:= (Rect.Top +Rect.Bottom) / 2;
+               W2:= (Rect.Right -Rect.Left) / 2;
                _DrawInfo.line     ( Rect.Left   , YC, Rect.Left+W2, YC, Couleur, 1);
                _DrawInfo.line_dash( Rect.Left+W2, YC, Rect.Right  , YC, Couleur, 1);
                end;
@@ -3233,7 +3241,7 @@ begin
                begin
                R:= Rect;
                InflateRect( R, 0, -3);
-               W2:= (R.Right -R.Left) div 2;
+               W2:= (R.Right -R.Left) / 2;
                Rsolid:= R; with Rsolid do Right:= Left+W2;
                {svg}DrawTraitHorizontal( _DrawInfo, Rsolid, False);
 
@@ -3244,7 +3252,7 @@ begin
                begin
                R:= Rect;
                InflateRect( R, 0, -3);
-               W2:= (R.Right -R.Left) div 2;
+               W2:= (R.Right -R.Left) / 2;
                Rsolid:= R; with Rsolid do Right:= Left+W2;
                {svg}DrawDemiLigne( _DrawInfo, Rsolid, False);
 
@@ -3255,7 +3263,7 @@ begin
                begin
                R:= Rect;
                InflateRect( R, 0, -3);
-               W2:= (R.Right -R.Left) div 2;
+               W2:= (R.Right -R.Left) / 2;
                Rsolid:= R; with Rsolid do Right:= Left+W2;
                {svg}DrawDemiLigne_Pointille( _DrawInfo, Rsolid, False);
 
@@ -3266,7 +3274,7 @@ begin
                begin
                R:= Rect;
                InflateRect( R, 0, -3);
-               W2:= (R.Right -R.Left) div 2;
+               W2:= (R.Right -R.Left) / 2;
                Rsolid:= R; with Rsolid do Right:= Left+W2;
                {svg}DrawDemiLigne_Points( _DrawInfo, Rsolid, False);
 
@@ -3559,7 +3567,10 @@ begin
      if J >= Hauteur then begin Hauteur:= J +1;Largeur_Hauteur_Change:=True;end;
      if Largeur_Hauteur_Change
      then
-         SetLength( Grains, Largeur, Hauteur);
+         //####### Trunc A REVERIFIER
+         //normalement Largeur/Hauteur sont en pixels
+         //et Grains en cellules de grilles
+         SetLength( Grains, Trunc(Largeur), Trunc(Hauteur));
      Grains[I,J]:= _Grain;
 end;
 
@@ -3586,14 +3597,14 @@ end;
 
 procedure TBatpro_Cluster.CalculeLargeur( _DrawInfo: TDrawInfo;
                                           _Colonne, _Ligne: Integer;
-                                          var _Largeur: Integer);
+                                          var _Largeur: Single);
 var
-   I,
-   NbColonnesCluster,
+   I: Integer;
+   NbColonnesCluster: Integer;
    LargeurTotaleSG,
    LargeurTotaleDemandee,
    LargeurManquante,
-   LargeurManquanteElement: Integer;
+   LargeurManquanteElement: Single;
 begin
      {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
      LargeurTotaleSG:= 0;
@@ -3602,9 +3613,9 @@ begin
        begin
        if I = _Colonne
        then
-           Inc( LargeurTotaleSG, _Largeur)
+           LargeurTotaleSG:= LargeurTotaleSG + _Largeur
        else
-           Inc( LargeurTotaleSG, Trunc( _DrawInfo.sg.Columns[I].Width));
+           LargeurTotaleSG:= LargeurTotaleSG + _DrawInfo.sg.Columns[I].Width;
        end;
 
      LargeurTotaleDemandee:= be.Cell_Width( _DrawInfo);
@@ -3614,8 +3625,8 @@ begin
      then
          begin
          NbColonnesCluster:= Bounds.Right - _Colonne + 1;
-         LargeurManquanteElement:= LargeurManquante div NbColonnesCluster;
-         Inc( _Largeur, LargeurManquanteElement);
+         LargeurManquanteElement:= LargeurManquante / NbColonnesCluster;
+         _Largeur:= _Largeur + LargeurManquanteElement;
          end;
      if Colonne_LargeurMaxi <> 0
      then
@@ -3627,14 +3638,14 @@ end;
 
 procedure TBatpro_Cluster.CalculeHauteur( _DrawInfo: TDrawInfo;
                                           _Colonne, _Ligne: Integer;
-                                          var _Hauteur: Integer);
+                                          var _Hauteur: Single);
 var
    J,
-   NbLignesCluster,
+   NbLignesCluster: Integer;
    HauteurTotaleSG,
    HauteurTotaleDemandee,
    HauteurManquante,
-   HauteurManquanteElement: Integer;
+   HauteurManquanteElement: Single;
 begin
      {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
      HauteurTotaleSG:= 0;
@@ -3643,9 +3654,9 @@ begin
        begin
        if J = _Ligne
        then
-           Inc( HauteurTotaleSG, _Hauteur)
+           HauteurTotaleSG:= HauteurTotaleSG + _Hauteur
        else
-           Inc( HauteurTotaleSG, Trunc( _DrawInfo.sg.Columns[J].Height));
+           HauteurTotaleSG:= HauteurTotaleSG + _DrawInfo.sg.Columns[J].Height;
        end;
 
      HauteurTotaleDemandee:= be.Cell_Height( _DrawInfo, Trunc( _DrawInfo.sg.Columns[_Colonne].Width));
@@ -3655,8 +3666,8 @@ begin
      then
          begin
          NbLignesCluster:= Bounds.Bottom - _Ligne + 1;
-         HauteurManquanteElement:= HauteurManquante div NbLignesCluster;
-         Inc( _Hauteur, HauteurManquanteElement);
+         HauteurManquanteElement:= HauteurManquante / NbLignesCluster;
+         _Hauteur:= _Hauteur + HauteurManquanteElement;
          end;
      if Ligne_HauteurMaxi <> 0
      then
@@ -3666,7 +3677,7 @@ begin
      {$IFEND}
 end;
 
-procedure TBatpro_Cluster.Check_LargeurTotale(var _LargeurTotale: Integer);
+procedure TBatpro_Cluster.Check_LargeurTotale(var _LargeurTotale: Single);
 var
    NbColonnesCluster: Integer;
 begin
@@ -3675,7 +3686,7 @@ begin
      NbColonnesCluster:= Bounds.Right - Bounds.Left;
      if NbColonnesCluster = 0 then exit;
 
-     Largeur:= _LargeurTotale div NbColonnesCluster;
+     Largeur:= _LargeurTotale / NbColonnesCluster;
      if Colonne_LargeurMaxi < Largeur
      then
          begin
@@ -3684,7 +3695,7 @@ begin
          end;
 end;
 
-procedure TBatpro_Cluster.Check_HauteurTotale(var _HauteurTotale: Integer);
+procedure TBatpro_Cluster.Check_HauteurTotale(var _HauteurTotale: Single);
 var
    NbLignesCluster: Integer;
 begin
@@ -3693,7 +3704,7 @@ begin
      NbLignesCluster:= Bounds.Bottom - Bounds.Top;
      if NbLignesCluster = 0 then exit;
 
-     Hauteur:= _HauteurTotale div NbLignesCluster;
+     Hauteur:= _HauteurTotale / NbLignesCluster;
      if Ligne_HauteurMaxi < Hauteur
      then
          begin
@@ -3708,8 +3719,8 @@ begin
      :=
         Format(  'Horizontalement de %d à %d'+sys_N
                 +'Verticalement   de %d à %d'+sys_N
-                +'Largeur: %d'+sys_N
-                +'Hauteur: %d',
+                +'Largeur: %f'+sys_N
+                +'Hauteur: %f',
                [
                Bounds.Left, Bounds.Right ,
                Bounds.Top , Bounds.Bottom,

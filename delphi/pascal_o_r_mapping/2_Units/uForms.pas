@@ -86,6 +86,9 @@ implementation
 {$ELSE}
 uses
     FMX.Forms, FMX.Dialogs,
+    {$IFDEF MSWINDOWS}
+    Windows,
+    {$ENDIF}
     System.SysUtils, System.UITypes;
 {$ENDIF}
 

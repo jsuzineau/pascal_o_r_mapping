@@ -25,8 +25,9 @@
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-  db, FMX.DateTimeCtrls;
+  System.SysUtils, System.Classes,
+  FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
+  Data.db, FMX.DateTimeCtrls;
 
 // établi en s'inspirant du code de TDBEdit de l'unité DBCtrls
 type
@@ -49,12 +50,9 @@ type
     procedure SetDataSource(Value: TDataSource);
     procedure SetReadOnly(Value: Boolean);
     procedure UpdateData(Sender: TObject);
-    procedure CNNotify(var Message: TWMNotify); //message CN_NOTIFY;
-    procedure WMPaint(var Message: TWMPaint); message WM_PAINT;
     procedure _from_DataLink;
   protected
     { Déclarations protégées }
-    procedure Change;// override;
     procedure Loaded; override;
     procedure Notification(AComponent:TComponent;Operation:TOperation);override;
   public
@@ -141,13 +139,6 @@ begin
      _from_DataLink;
 end;
 
-procedure TBatproDateTimePicker.WMPaint(var Message: TWMPaint);
-begin
-     _from_DataLink;
-
-     inherited;
-end;
-
 procedure TBatproDateTimePicker.EditingChange(Sender: TObject);
 begin
      //Enabled := FDataLink.Editing;
@@ -205,28 +196,6 @@ begin
      }
 end;
 
-procedure TBatproDateTimePicker.Change;
-begin
-     if not Changing
-     then
-         try
-            Changing:= True;
-
-            if IsNull
-            then
-                Date:= SysUtils.Date;
-            IsNull:= False;
-            {
-            FDataLink.Edit;
-            FDataLink.Modified;
-            FDataLink.UpdateRecord;
-            }
-         finally
-                Changing:= False;
-                end;
-     inherited Change;
-end;
-
 procedure TBatproDateTimePicker.Loaded;
 begin
      inherited Loaded;
@@ -242,42 +211,6 @@ begin
         (AComponent = DataSource)
      then
          DataSource := nil;
-     }
-end;
-
-procedure TBatproDateTimePicker.CNNotify( var Message: TWMNotify);
-var
-  AllowChange: Boolean;
-begin
-     inherited;
-     {
-     with Message, NMHdr^
-     do
-       begin
-       case code
-       of
-         DTN_CLOSEUP:
-           begin
-           end;
-         DTN_DATETIMECHANGE:
-           begin
-           end;
-         DTN_DROPDOWN:
-           begin
-           end;
-         DTN_USERSTRING:
-           begin
-           with PNMDateTimeString(NMHdr)^
-           do
-             begin
-             AllowChange:= FDataLink.Edit;
-             dwFlags := Ord(not AllowChange);
-             end;
-           end;
-         else
-           inherited;
-         end;
-       end;
      }
 end;
 

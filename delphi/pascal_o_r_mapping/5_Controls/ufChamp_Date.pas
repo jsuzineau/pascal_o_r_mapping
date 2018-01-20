@@ -25,9 +25,11 @@
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, CommCtrl, FMX.ExtCtrls, FMX.Types, FMX.Controls.Presentation,
-  FMX.Calendar, System.UITypes;
+  System.SysUtils, System.Variants, System.Classes,System.Types,
+  FMX.Graphics, FMX.Controls, FMX.Forms,
+  FMX.Dialogs, FMX.ExtCtrls, FMX.Types, FMX.Controls.Presentation,
+  FMX.Calendar,
+  System.UITypes;
 
 type
   TfChamp_Date = class(TForm)
@@ -38,7 +40,7 @@ type
     { Déclarations privées }
   public
     { Déclarations publiques }
-    function Execute( Position: TPoint; var D: TDateTime): Boolean;
+    function Execute( _Position: TPoint; var D: TDateTime): Boolean;
   end;
 
 function fChamp_Date: TfChamp_Date;
@@ -46,7 +48,7 @@ function fChamp_Date: TfChamp_Date;
 implementation
 
 uses
-    uClean, Types;
+    uClean;
 
 {$R *.fmx}
 
@@ -60,13 +62,12 @@ end;
 
 { TfChamp_Date }
 
-function TfChamp_Date.Execute( Position: TPoint; var D: TDateTime): Boolean;
+function TfChamp_Date.Execute( _Position: TPoint; var D: TDateTime): Boolean;
 var
    WorkArea: TRect;
 begin
-
-     Left:= Position.X;
-     Top := Position.Y;
+     Left:= _Position.X;
+     Top := _Position.Y;
      {
      SystemParametersInfo( SPI_GETWORKAREA, 0, @WorkArea, 0);
      if BoundsRect.Bottom > WorkArea.Bottom
@@ -89,9 +90,9 @@ procedure TfChamp_Date.cKeyDown(Sender: TObject; var Key: Word;
 begin
      case Key
      of
-       VK_RETURN: ModalResult:= mrOk;
-       VK_ESCAPE,
-       VK_CANCEL: ModalResult:= mrCancel;
+       vkReturn: ModalResult:= mrOk;
+       vkEscape,
+       vkCancel: ModalResult:= mrCancel;
        end;
 end;
 

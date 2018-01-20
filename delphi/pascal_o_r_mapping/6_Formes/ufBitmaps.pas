@@ -29,7 +29,8 @@ uses
   Vcl.ImgList, Vcl.Controls, Vcl.Graphics, Vcl.ExtCtrls, Vcl.StdCtrls,
   System.ImageList,
   FMX.Dialogs,FMX.Forms,
-  FMX.ImgList, FMX.Controls, FMX.Graphics, FMX.ExtCtrls, FMX.StdCtrls, FMX.Objects;
+  FMX.ImgList, FMX.Controls, FMX.Graphics, FMX.ExtCtrls, FMX.StdCtrls, FMX.Objects,
+  FMX.Types, FMX.Controls.Presentation;
 
 type
   TfBitmaps = class(TForm)

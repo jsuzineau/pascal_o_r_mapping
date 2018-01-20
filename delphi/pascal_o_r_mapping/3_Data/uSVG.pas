@@ -75,7 +75,7 @@ type
     procedure Set_Property( _e: IXMLNode;
                             _Fullname, _Value: String); overload;
     procedure Set_Property( _e: IXMLNode;
-                            _Fullname: String; _Value: Integer); overload;
+                            _Fullname: String; _Value: Single); overload;
     procedure Delete_Property( _e: IXMLNode; _Fullname: String);
   //Gestion des items
   public
@@ -94,72 +94,72 @@ type
   public
     function svgColor( Color: TColor): String;
     function rect( _eRoot: IXMLNode;
-                   _R: TRect;
+                   _R: TRectF;
                    _Color: TColor;
                    _Pen_Color: TColor;
-                   _Pen_Width: Integer): IXMLNode;
+                   _Pen_Width: Single): IXMLNode;
     function rect_pattern( _eRoot: IXMLNode;
-                           _R: TRect;
+                           _R: TRectF;
                            _pattern: String;
                            _Pen_Color: TColor;
-                           _Pen_Width: Integer): IXMLNode;
+                           _Pen_Width: Single): IXMLNode;
     function rect_vide( _eRoot: IXMLNode;
-                        _R: TRect;
+                        _R: TRectF;
                         _Pen_Color: TColor;
-                        _Pen_Width: Integer): IXMLNode;
+                        _Pen_Width: Single): IXMLNode;
     function ellipse( _eRoot: IXMLNode;
-                   _R: TRect;
+                   _R: TRectF;
                    _Color: TColor;
                    _Pen_Color: TColor;
-                   _Pen_Width: Integer): IXMLNode;
+                   _Pen_Width: Single): IXMLNode;
     function text( _eRoot: IXMLNode;
-                   _X, _Y: Integer;
+                   _X, _Y: Single;
                    _Text, _Font_Family: String;
                    _Font_Size: Integer;
                    _Font_Family_Generic: String = 'sans-serif'): IXMLNode;
     function text_a_Gauche( _eRoot: IXMLNode;
-                   _X, _Y: Integer;
+                   _X, _Y: Single;
                    _Text, _Font_Family: String;
                    _Font_Size: Integer;
                    _Font_Family_Generic: String = 'sans-serif'): IXMLNode;
     function text_au_Milieu( _eRoot: IXMLNode;
-                   _X, _Y: Integer;
+                   _X, _Y: Single;
                    _Text, _Font_Family: String;
                    _Font_Size: Integer;
                    _Font_Family_Generic: String = 'sans-serif'): IXMLNode;
     function text_a_Droite( _eRoot: IXMLNode;
-                   _X, _Y: Integer;
+                   _X, _Y: Single;
                    _Text, _Font_Family: String;
                    _Font_Size: Integer;
                    _Font_Family_Generic: String = 'sans-serif'): IXMLNode;
     function text_rotate( _eRoot: IXMLNode;
-                          _X, _Y: Integer;
+                          _X, _Y: Single;
                           _Text, _Font_Family: String;
                           _Font_Size: Integer;
                           _Rotate: Integer): IXMLNode;
     function line( _eRoot: IXMLNode;
-                   _x1, _y1, _x2, _y2: Integer;
+                   _x1, _y1, _x2, _y2: Single;
                    _stroke: TColor;
-                   _stroke_width: Integer): IXMLNode;
+                   _stroke_width: Single): IXMLNode;
     function line_dash( _eRoot: IXMLNode;
-                        _x1, _y1, _x2, _y2: Integer;
+                        _x1, _y1, _x2, _y2: Single;
                         _stroke: TColor;
-                        _stroke_width: Integer): IXMLNode;
+                        _stroke_width: Single): IXMLNode;
     function polygon( _eRoot: IXMLNode;
                       _points: TPolygon;
                       _Color: TColor;
                       _Pen_Color: TColor;
-                      _Pen_Width: Integer): IXMLNode;
+                      _Pen_Width: Single): IXMLNode;
     function PolyBezier( _eRoot: IXMLNode;
                          _points: TPolygon;
                          _Pen_Color: TColor;
-                         _Pen_Width: Integer): IXMLNode;
+                         _Pen_Width: Single): IXMLNode;
     function image( _eRoot: IXMLNode;
-                    _x, _y, _width, _height: Integer;
+                    _x, _y, _width, _height: Single;
                     _xlink_href: String): IXMLNode;
     procedure Dessinne_Coche( _eRoot: IXMLNode;
                     _CouleurFond, _CouleurCoche: TColor;
-                    _R: TRect;
+                    _R: TRectF;
                     _Coche: Boolean);
   end;
 
@@ -316,7 +316,7 @@ begin
          _e.SetAttribute( _Fullname, _Value);
 end;
 
-procedure TSVGDocument.Set_Property( _e: IXMLNode; _Fullname: String; _Value: Integer);
+procedure TSVGDocument.Set_Property( _e: IXMLNode; _Fullname: String; _Value: Single);
 begin
      if _e = nil then exit;
 
@@ -517,12 +517,12 @@ begin
 end;
 
 function TSVGDocument.rect( _eRoot: IXMLNode;
-                            _R: TRect;
+                            _R: TRectF;
                             _Color: TColor;
                             _Pen_Color: TColor;
-                            _Pen_Width: Integer): IXMLNode;
+                            _Pen_Width: Single): IXMLNode;
 var
-   x, y, width, height: Integer;
+   x, y, width, height: Single;
    fill: String;
    stroke: String;
    style: String;
@@ -537,7 +537,7 @@ begin
      stroke:= svgColor( _Pen_Color);
      style
      :=
-       Format(  'fill:%s;stroke-width:%d;stroke:%s',
+       Format(  'fill:%s;stroke-width:%f;stroke:%s',
                [ fill   , _Pen_Width    , stroke]);
 
      Set_Property( Result, 'x'     , x     );
@@ -548,27 +548,27 @@ begin
 end;
 
 function TSVGDocument.ellipse( _eRoot: IXMLNode;
-                               _R: TRect;
+                               _R: TRectF;
                                _Color,
                                _Pen_Color: TColor;
-                               _Pen_Width: Integer): IXMLNode;
+                               _Pen_Width: Single): IXMLNode;
 var
-   cx, cy, rx, ry: Integer;
+   cx, cy, rx, ry: Single;
    fill: String;
    stroke: String;
    style: String;
 begin
      Result:= _eRoot.AddChild( 'ellipse');
 
-     cx    := (_R.Left+_R.Right ) div 2;
-     cy    := (_R.Top +_R.Bottom) div 2;
+     cx    := (_R.Left+_R.Right ) / 2;
+     cy    := (_R.Top +_R.Bottom) / 2;
      rx    := _R.Right - cx;
      ry    := _R.Bottom- cy;
      fill  := svgColor( _Color);
      stroke:= svgColor( _Pen_Color);
      style
      :=
-       Format(  'fill:%s;stroke-width:%d;stroke:%s',
+       Format(  'fill:%s;stroke-width:%f;stroke:%s',
                [ fill   , _Pen_Width    , stroke]);
 
      Set_Property( Result, 'cx'   , cx   );
@@ -579,12 +579,12 @@ begin
 end;
 
 function TSVGDocument.rect_pattern( _eRoot: IXMLNode;
-                                    _R: TRect;
+                                    _R: TRectF;
                                     _pattern: String;
                                     _Pen_Color: TColor;
-                                    _Pen_Width: Integer): IXMLNode;
+                                    _Pen_Width: Single): IXMLNode;
 var
-   x, y, width, height: Integer;
+   x, y, width, height: Single;
    fill: String;
    stroke: String;
    style: String;
@@ -599,7 +599,7 @@ begin
      stroke:= svgColor( _Pen_Color);
      style
      :=
-       Format(  'fill:%s;stroke-width:%d;stroke:%s',
+       Format(  'fill:%s;stroke-width:%f;stroke:%s',
                [ fill   , _Pen_Width    , stroke]);
 
      Set_Property( Result, 'x'     , x     );
@@ -610,11 +610,11 @@ begin
 end;
 
 function TSVGDocument.rect_vide( _eRoot: IXMLNode;
-                                 _R: TRect;
+                                 _R: TRectF;
                                  _Pen_Color: TColor;
-                                 _Pen_Width: Integer): IXMLNode;
+                                 _Pen_Width: Single): IXMLNode;
 var
-   x, y, width, height: Integer;
+   x, y, width, height: Single;
    fill: String;
    stroke: String;
    style: String;
@@ -629,7 +629,7 @@ begin
      stroke:= svgColor( _Pen_Color);
      style
      :=
-       Format(  'fill:%s;stroke-width:%d;stroke:%s',
+       Format(  'fill:%s;stroke-width:%f;stroke:%s',
                [ fill   , _Pen_Width    , stroke]);
 
      Set_Property( Result, 'x'     , x     );
@@ -640,7 +640,7 @@ begin
 end;
 
 function TSVGDocument.text( _eRoot: IXMLNode;
-                            _X, _Y: Integer;
+                            _X, _Y: Single;
                             _Text, _Font_Family: String;
                             _Font_Size: Integer;
                             _Font_Family_Generic: String = 'sans-serif'): IXMLNode;
@@ -659,7 +659,7 @@ begin
 end;
 
 function TSVGDocument.text_a_Gauche(  _eRoot: IXMLNode;
-                                      _X, _Y: Integer;
+                                      _X, _Y: Single;
                                       _Text, _Font_Family: String;
                                       _Font_Size: Integer;
                                       _Font_Family_Generic: String): IXMLNode;
@@ -669,7 +669,7 @@ begin
 end;
 
 function TSVGDocument.text_au_Milieu( _eRoot: IXMLNode;
-                                      _X, _Y: Integer;
+                                      _X, _Y: Single;
                                       _Text, _Font_Family: String;
                                       _Font_Size: Integer;
                                       _Font_Family_Generic: String): IXMLNode;
@@ -679,7 +679,7 @@ begin
 end;
 
 function TSVGDocument.text_a_Droite( _eRoot: IXMLNode;
-                                     _X, _Y: Integer;
+                                     _X, _Y: Single;
                                      _Text, _Font_Family: String;
                                      _Font_Size: Integer;
                                      _Font_Family_Generic: String): IXMLNode;
@@ -689,7 +689,7 @@ begin
 end;
 
 function TSVGDocument.text_rotate(  _eRoot: IXMLNode;
-                                    _X, _Y: Integer;
+                                    _X, _Y: Single;
                                     _Text, _Font_Family: String;
                                     _Font_Size, _Rotate: Integer): IXMLNode;
 var
@@ -710,9 +710,9 @@ begin
 end;
 
 function TSVGDocument.line( _eRoot: IXMLNode;
-                            _x1, _y1, _x2, _y2: Integer;
+                            _x1, _y1, _x2, _y2: Single;
                             _stroke: TColor;
-                            _stroke_width: Integer): IXMLNode;
+                            _stroke_width: Single): IXMLNode;
 begin
      Result:= _eRoot.AddChild( 'line');
      Set_Property( Result, 'x1'          , _x1               );
@@ -724,9 +724,9 @@ begin
 end;
 
 function TSVGDocument.line_dash( _eRoot: IXMLNode;
-                                 _x1, _y1, _x2, _y2: Integer;
+                                 _x1, _y1, _x2, _y2: Single;
                                  _stroke: TColor;
-                                 _stroke_width: Integer): IXMLNode;
+                                 _stroke_width: Single): IXMLNode;
 begin
      Result:= line( _eRoot, _x1, _y1, _x2, _y2, _stroke, _stroke_width);
      Set_Property( Result, 'stroke-dasharray', '5, 5');
@@ -736,7 +736,7 @@ function TSVGDocument.polygon( _eRoot: IXMLNode;
                                _points: TPolygon;
                                _Color: TColor;
                                _Pen_Color: TColor;
-                               _Pen_Width: Integer): IXMLNode;
+                               _Pen_Width: Single): IXMLNode;
 var
    i: Integer;
    sX, sY: String;
@@ -761,7 +761,7 @@ begin
      stroke:= svgColor( _Pen_Color);
      style
      :=
-       Format(  'fill:%s;stroke-width:%d;stroke:%s',
+       Format(  'fill:%s;stroke-width:%f;stroke:%s',
                [ fill   , _Pen_Width    , stroke]);
 
      Result:= _eRoot.AddChild( 'polygon');
@@ -772,7 +772,7 @@ end;
 function TSVGDocument.PolyBezier( _eRoot: IXMLNode;
                                   _points: TPolygon;
                                   _Pen_Color: TColor;
-                                  _Pen_Width: Integer): IXMLNode;
+                                  _Pen_Width: Single): IXMLNode;
 var
    i: Integer;
    d: String;
@@ -816,7 +816,7 @@ begin
 end;
 
 function TSVGDocument.image( _eRoot: IXMLNode;
-                             _x, _y, _width, _height: Integer;
+                             _x, _y, _width, _height: Single;
                              _xlink_href: String): IXMLNode;
 begin
      Result:= _eRoot.AddChild( 'image');
@@ -829,19 +829,19 @@ end;
 
 procedure TSVGDocument.Dessinne_Coche( _eRoot: IXMLNode;
                              _CouleurFond, _CouleurCoche: TColor;
-                             _R: TRect; _Coche: Boolean);
+                             _R: TRectF; _Coche: Boolean);
 var
-   W, H, W3, H3, W5, H5: Integer;
+   W, H, W3, H3, W5, H5: Single;
    procedure WH_from_R;
    begin
         W:= _R.Right  - _R.Left;
         H:= _R.Bottom - _R.Top ;
 
-        W3:= W div 3;
-        H3:= H div 3;
+        W3:= W / 3;
+        H3:= H / 3;
 
-        W5:= W div 5;
-        H5:= H div 5;
+        W5:= W / 5;
+        H5:= H / 5;
    end;
 begin
      rect( _eRoot, _R, _CouleurFond, _CouleurFond, 1);

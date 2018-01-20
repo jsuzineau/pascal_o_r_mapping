@@ -25,10 +25,13 @@
 interface
 
 uses
-  uLookupConnection_Ancetre,
+    uLookupConnection_Ancetre,
     uBatpro_StringList,
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.StdCtrls, DB, DBClient, FMX.Types, FMX.Controls.Presentation,
+  System.SysUtils, System.Variants, System.Classes,
+  FMX.Graphics, FMX.Controls, FMX.Forms,
+  FMX.StdCtrls,
+  Data.DB, Datasnap.DBClient,
+  FMX.Types, FMX.Controls.Presentation,
   FMX.ScrollBox, FMX.Memo;
 
 type

@@ -27,6 +27,7 @@ interface
 uses
     uForms,
     uBatpro_StringList,
+    uWindows,
     uSGBD,
     uEdit_WANTTAB,
     uChamps,
@@ -34,8 +35,9 @@ uses
 
     ufAccueil_Erreur,
 
-  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-  FMX.StdCtrls, DB, FMX.ExtCtrls, Math,System.UITypes, FMX.Edit, FMX.Types;
+  System.SysUtils, System.Classes, System.UITypes,
+  FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
+  FMX.StdCtrls, Data.DB, FMX.ExtCtrls, Math, FMX.Edit, FMX.Types;
 
 type
  TBatproMaskElementDefault = (bmed_Aucun, bmed_Premier, bmed_Dernier);
@@ -94,7 +96,6 @@ type
     procedure Debranche_EChange;
     procedure Rebranche_EChange;
     procedure Traite_EChange_Ajourne;
-    procedure WMPaint(var Message: TWMPaint); message WM_PAINT;
     procedure Clear_Nexts;
   protected
     { Déclarations protégées }
@@ -305,8 +306,8 @@ begin
 end;
 
 constructor TBatproMaskElement.Create(AOwner: TComponent);
-var
-   Bitmap: HBitmap;
+//var
+//   Bitmap: HBitmap;
 begin
      inherited;
 
@@ -323,7 +324,7 @@ begin
 
      PreExecution:= False;
 
-     ButtonWidth:= GetSystemMetrics(SM_CXVSCROLL);
+     ButtonWidth:= 10;//GetSystemMetrics(SM_CXVSCROLL);
      FLectureSeule:= False;
 
      B:= TSpeedButton.Create( Self);
@@ -333,7 +334,7 @@ begin
      B.Visible:= True;
      B.Parent:= Self;
      B.OnClick:= BClick;
-     Bitmap:= Windows.LoadBitmap( 0, PChar(OBM_COMBO));
+     //Bitmap:= Windows.LoadBitmap( 0, PChar(OBM_COMBO));
      //B.Glyph.Handle:= Bitmap;
      b.Cursor:= crArrow;
 
@@ -482,7 +483,7 @@ end;
 
 procedure TBatproMaskElement.TraiteHauteur;
 var
-   Largeur: Integer;
+   Largeur: Single;
 begin
      //vraisemblablement à revoir avec la notion de margin/padding de FMX
 
@@ -490,18 +491,18 @@ begin
      if IsLabel
      then
          begin
-         Largeur:= LargeurTexte(L.Font,L.Text)+2*GetSystemMetrics(SM_CXEDGE);
+         Largeur:= LargeurTexte(L.Font,L.Text)+2*CXEDGE;
          Width:= Largeur;
 
-         Height:= LineHeight( L.Font)+2*GetSystemMetrics(SM_CYEDGE)+1;
+         Height:= LineHeight( L.Font)+2*CYEDGE+1;
          end
      else
          begin
          Largeur:= LargeurTexte( _E.Font, StringOfChar('W', _E.MaxLength+1))+
-                   2*GetSystemMetrics(SM_CXEDGE);
+                   2*CXEDGE;
          Width:= Largeur + ButtonWidth;
 
-         Height:= Max( LineHeight( _E.Font)+2*GetSystemMetrics(SM_CYEDGE)+1,
+         Height:= Max( LineHeight( _E.Font)+2*CYEDGE+1,
                              ButtonWidth);
          end;
 end;
@@ -521,9 +522,9 @@ begin
      KeyDown( Key, KeyChar, Shift);
      case Key
      of
-       VK_F8:
+       vkF8:
          Execute;
-       VK_TAB:
+       vkTab:
               if ssShift in Shift
          then
              GoPrevious
@@ -532,7 +533,7 @@ begin
              Execute
          else
              GoNext;
-       VK_RETURN:
+       vkReturn:
          if VK_RETURN_Execute
          then
              Execute
@@ -548,13 +549,13 @@ procedure TBatproMaskElement.EKeyUp  ( Sender: TObject;
 begin
      case Key
      of
-       VK_BACK:
+       vkBack:
          if Length( Text) = 0
          then
              GoPrevious;
-       VK_F9:
+       vkF9:
          GoPrevious;
-       VK_LEFT:
+       vkLeft:
          if SelStart = 0
          then
              GoPrevious;
@@ -919,11 +920,6 @@ begin
      if Assigned( FAfterExecute)
      then
          FAfterExecute( Self, ExecuteResult);
-end;
-
-procedure TBatproMaskElement.WMPaint(var Message: TWMPaint);
-begin
-     inherited;
 end;
 
 procedure TBatproMaskElement.Setbme5DataSource(Value: TDataSource);

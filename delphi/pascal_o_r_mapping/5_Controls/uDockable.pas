@@ -37,9 +37,13 @@ uses
     //ucChamp_DateTimePicker,
     ucChamp_Integer_SpinEdit,
     //ucChamp_Float_SpinEdit,
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, FMX.ExtCtrls, System.UITypes,FMX.Types,
-  ucBatpro_Shape, FMX.Objects;
+  System.SysUtils, System.Variants, System.Classes, System.IOUtils,
+  FMX.Graphics, FMX.Controls, FMX.Forms,
+  FMX.Dialogs, FMX.ExtCtrls,
+  System.UITypes,
+  FMX.Types,
+  ucBatpro_Shape,
+  FMX.Objects;
 
 type
  TDockableScrollbox_Total
@@ -341,15 +345,15 @@ begin
      Result:= True;
      case Key
      of
-       VK_UP    : Do_DockableScrollbox_Precedent;
-       VK_DOWN  : Do_DockableScrollbox_Suivant  ;
-       VK_RETURN:
+       VKUP    : Do_DockableScrollbox_Precedent;
+       VKDOWN  : Do_DockableScrollbox_Suivant  ;
+       VKRETURN:
          if ssShift	in Shift
          then
              Do_DockableScrollbox_Precedent
          else
              Do_DockableScrollbox_Suivant;
-       VK_INSERT: Do_DockableScrollbox_Nouveau  ;
+       VKINSERT: Do_DockableScrollbox_Nouveau  ;
        else     Result:= False;
        end;
 end;

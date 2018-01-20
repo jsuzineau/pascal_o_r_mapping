@@ -25,9 +25,6 @@
 interface
 
 uses
-    {$IFDEF MSWINDOWS}
-       JCLDebug,
-    {$ENDIF}
     uClean,
     SysUtils, Classes;
 
@@ -288,9 +285,7 @@ procedure CheckClass( var Resultat; Classe: TClass);
                   +'( $'+IntToHex(Integer(Pointer(Resultat)),8)+', '+Classe.ClassName+'):'#13#10
                   +_E.Message);
           sl.Add( 'Pile d''appels:');
-          {$IFDEF MSWINDOWS}
-          JclLastExceptStackListToStrings( sl, True, True, True, True);
-          {$ENDIF}
+          sl.Add( _E.StackTrace);
 
           uClean_Log( sl.Text);
           Free_nil( sl);

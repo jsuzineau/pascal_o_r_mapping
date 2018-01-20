@@ -31,6 +31,9 @@ requires
   rtl,
   fmx,
   dbrtl,
+  {$IFDEF MSWINDOWS}
+  jcl,
+  {$ENDIF}
   dsnap,
   xmlrtl;
 

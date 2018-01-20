@@ -25,9 +25,11 @@
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
+  System.SysUtils, System.Variants, System.Classes,System.Types,
+  FMX.Graphics, FMX.Controls, FMX.Forms,
   FMX.Dialogs, FMX.ExtCtrls, FMX.StdCtrls,
-  uBatpro_StringList, FMX.Layouts, FMX.ListBox, FMX.Types,
+  uBatpro_StringList,
+  FMX.Layouts, FMX.ListBox, FMX.Types,
   FMX.Controls.Presentation, FMX.Calendar, System.UITypes;
 
 type
@@ -54,7 +56,7 @@ function fChamp_Lookup: TfChamp_Lookup;
 implementation
 
 uses
-    uClean, Types;
+    uClean;
 
 {$R *.fmx}
 
@@ -116,9 +118,9 @@ procedure TfChamp_Lookup.Calendar1KeyDown(Sender: TObject; var Key: Word;
 begin
      case Key
      of
-       VK_RETURN: ModalResult:= mrOk;
-       VK_ESCAPE,
-       VK_CANCEL: ModalResult:= mrCancel;
+       vkReturn: ModalResult:= mrOk;
+       vkEscape,
+       vkCancel: ModalResult:= mrCancel;
        end;
 end;
 

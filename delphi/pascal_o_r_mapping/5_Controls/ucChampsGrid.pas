@@ -38,8 +38,13 @@ uses
     uChamp,
     uChampDefinition,
     ufChampsGrid_Colonnes,
-    Windows, SysUtils, Classes, FMX.Controls, DB, FMX.Grid,FMX.Dialogs, FMX.StdCtrls,
-    uForms;
+    System.SysUtils, System.Classes,
+    FMX.Controls,
+    Data.DB,
+    FMX.Grid,FMX.Dialogs, FMX.StdCtrls,
+    uForms,
+
+    System.Math.Vectors, System.Types, System.UITypes;
 
 type
  TChampsGrid = class;
@@ -262,13 +267,13 @@ end;
 constructor TChampsGrid.Create(AOwner: TComponent);
 var
    ButtonWidth: Integer;
-   Bitmap: HBitmap;
+   //Bitmap: HBitmap;
 begin
      inherited;
       FColonnes:= TBatpro_StringList.Create;
      slColonnes:= TBatpro_StringList.Create;
 
-     ButtonWidth:= GetSystemMetrics(SM_CXVSCROLL);
+     ButtonWidth:= 10;//GetSystemMetrics(SM_CXVSCROLL);
 
      sbColonnes:= TSpeedButton.Create( Self);
      //with sbColonnes do ControlStyle:= ControlStyle + [csReplicatable];
@@ -277,7 +282,7 @@ begin
      sbColonnes.Visible:= True;
      sbColonnes.Parent:= Self;
      sbColonnes.OnClick:= sbColonnesClick;
-     Bitmap:= Windows.LoadBitmap( 0, PChar(OBM_COMBO));
+     //Bitmap:= Windows.LoadBitmap( 0, PChar(OBM_COMBO));
      //sbColonnes.Glyph.Handle:= Bitmap;
      //sbColonnes.Cursor:= crArrow;
 
@@ -479,7 +484,7 @@ var
    Champ_Nom: String;
    Champ: TChamp;
    ChampDefinition: TChampDefinition;
-   L, LargeurColonne: Integer;
+   L, LargeurColonne: Single;
 begin
      if Donnees_indisponibles then exit;
 
@@ -564,7 +569,7 @@ begin
                  if    (ChampDefinition.Typ in [ftDate, ftDateTime])
                     or ChampDefinition.Is_Lookup
                  then
-                     Inc( L, GetSystemMetrics( SM_CXVSCROLL))
+                     L:= L + 10{GetSystemMetrics( SM_CXVSCROLL)}
                  (*else if ChampDefinition.Typ = ftBoolean
                  then
                      L:= 30*);
@@ -942,13 +947,13 @@ procedure TChampsGrid.KeyDown(var Key: Word; var KeyChar: WideChar; Shift: TShif
 begin
      case Key
      of
-       VK_DOWN:
+       vkDown:
          if Row < RowCount-1
          then
              inherited
          else
              Do_OnNouveau;
-       VK_INSERT:
+       vkInsert:
          Do_OnNouveau;
        else
            inherited;
