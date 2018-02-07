@@ -1,0 +1,25 @@
+object fSearch_and_replace: TfSearch_and_replace
+  Left = 200
+  Height = 240
+  Top = 1018
+  Width = 320
+  Caption = 'fSearch_and_replace'
+  ClientHeight = 240
+  ClientWidth = 320
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnDropFiles = FormDropFiles
+  LCLVersion = '1.8.0.6'
+  object m: TMemo
+    Left = 0
+    Height = 240
+    Top = 0
+    Width = 320
+    Align = alClient
+    Lines.Strings = (
+      'm'
+    )
+    OnDragOver = mDragOver
+    TabOrder = 0
+  end
+end
