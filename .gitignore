@@ -9,6 +9,14 @@ lib
 log
 *.o
 *.ppu
+*.dcu
+*.~1~
+*.~2~
+*.~3~
+*.~4~
+*.~5~
+*.~6~
+*.~7~
 *.~4gl
 *.~dti
 *.~ml
@@ -19,8 +27,11 @@ log
 *.lps~
 *.lfm~
 *.dbg
+*.rsm
 *.or
 *.exe
+*.dll
+__history
 .gitignore~
 /.project
 libmysql.dll
