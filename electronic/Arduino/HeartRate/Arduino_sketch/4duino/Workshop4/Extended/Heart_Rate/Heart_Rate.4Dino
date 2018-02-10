@@ -1,0 +1,119 @@
+  posn = x - 12 ;                        // x - left - 8
+  if (posn < 0)
+    posn = 0 ;
+  else if (posn > 299)                    // width - 17)
+    posn = 319 ;                       // maxvalue-minvalue
+  else
+// Define LOG_MESSAGES to a serial port to send SPE errors messages to. Do not use the same Serial port as SPE
+//#define LOG_MESSAGES Serial
+
+%%Display%%.DefineResetLine ;      // *Replaced* at compile time with define for reset line connected to the display
+%%Display%%.DefineDisplaySerialx ; // *Replaced* at compile time with define the Serial Port connected to the display
+
+#include "Heart_RateConst.h"
+
+%%Display%%.IncludeSerial_4DLib ;          // *Replaced* at compile time with an Include the Serial Library relevant to the display
+%%Display%%.IncludeSerial_Const4D ;        // *Replaced* at compile time with an Include the Constants file relevant to the display
+
+%%Display%%.AssignDisplaySerialtoLibrary ; // *Replaced* at compile time with an Assign of the correct Serial port to the correct library
+
+// Uncomment to use ESP8266
+//#define ESPRESET 17
+//#include <SoftwareSerial.h>
+//#define ESPserial SerialS
+//SoftwareSerial SerialS(8, 9) ;
+// Uncomment next 2 lines to use ESP8266 with ESP8266 library from https://github.com/itead/ITEADLIB_Arduino_WeeESP8266
+//#include "ESP8266.h"
+//ESP8266 wifi(SerialS,19200);
+
+// routine to handle Serial errors
+void mycallback(int ErrCode, unsigned char Errorbyte)
+{
+#ifdef LOG_MESSAGES
+  const char *Error4DText[] = {"OK\0", "Timeout\0", "NAK\0", "Length\0", "Invalid\0"} ;
+  LOG_MESSAGES.print(F("Serial 4D Library reports error ")) ;
+  LOG_MESSAGES.print(Error4DText[ErrCode]) ;
+  if (ErrCode == Err4D_NAK)
+  {
+    LOG_MESSAGES.print(F(" returned data= ")) ;
+    LOG_MESSAGES.println(Errorbyte) ;
+  }
+  else
+    LOG_MESSAGES.println(F("")) ;
+  while (1) ; // you can return here, or you can loop
+#else
+  // Pin 13 has an LED connected on most Arduino boards. Just give it a name
+#define led 13
+  while (1)
+  {
+    digitalWrite(led, HIGH);   // turn the LED on (HIGH is the voltage level)
+    delay(200);                // wait for a second
+    digitalWrite(led, LOW);    // turn the LED off by making the voltage LOW
+    delay(200);                // wait for a second
+  }
+#endif
+}
+// end of routine to handle Serial errors
+
+word hndl ;
+
+void setup()
+{
+// Ucomment to use the Serial link to the PC for debugging
+//  Serial.begin(115200) ;        // serial to USB port
+// Note! The next statement will stop the sketch from running until the serial monitor is started
+//       If it is not present the monitor will be missing the initial writes
+//    while (!Serial) ;             // wait for serial to be established
+
+  pinMode(RESETLINE, OUTPUT);       // Display reset pin
+%%Display%%.Toggle_Reset_On ;       // *Replaced* at compile time with correct rest on logic for the attached display
+  delay(100);                       // wait for it to be recognised
+%%Display%%.Toggle_Reset_Off ;      // *Replaced* at compile time with correct rest off logic for the attached display
+// Uncomment when using ESP8266
+//  pinMode(ESPRESET, OUTPUT);        // ESP reset pin
+//  digitalWrite(ESPRESET, 1);        // Reset ESP
+//  delay(100);                       // wait for it t
+//  digitalWrite(ESPRESET, 0);        // Release ESP reset
+  delay(3000) ;                     // give display time to startup
+
+  // now start display as Serial lines should have 'stabilised'
+  %%Display%%.DisplaySerial.Begin_Speed ; // *Replaced* at compile time with command to start the serial port at the correct speed
+  Display.TimeLimit4D = 5000 ;      // 5 second timeout on all commands
+  Display.Callback4D = mycallback ;
+
+// uncomment if using ESP8266
+//  ESPserial.begin(115200) ;         // assume esp set to 115200 baud, it's default setting
+                                    // what we need to do is attempt to flip it to 19200
+                                    // the maximum baud rate at which software serial actually works
+                                    // if we run a program without resetting the ESP it will already be 19200
+                                    // and hence the next command will not be understood or executed
+//  ESPserial.println("AT+UART_CUR=19200,8,1,0,0\r\n") ;
+//  ESPserial.end() ;
+//  delay(10) ;                         // Necessary to allow for baud rate changes
+//  ESPserial.begin(19200) ;            // start again at a resonable baud rate
+  Display.gfx_ScreenMode(LANDSCAPE_R) ; // change manually if orientation change
+  Display.putstr("Mounting...\n");
+  if (!(Display.file_Mount()))
+  {                            "NoName1.txf"
+    while(!(Display.file_Mount()))     "NoName1.dat"  "NoName1.gci"
+    {
+      Display.putstr("Drive not mounted...");
+      delay(200);
+      Display.gfx_Cls();
+      delay(200);
+    }
+  }
+//hFontn = Display.file_LoadImageControl("NoName1.dnn", "NoName1.gnn", 1); // Open handle to access uSD fonts, uncomment if required and change nn to font number
+//hstrings = Display.file_Open("HEART_~1.txf", 'r') ;                            // Open handle to access uSD strings, uncomment if required
+  hndl = Display.file_LoadImageControl("HEART_~1.dat", "HEART_~1.gci", 1);
+  // put your setup code here, to run once:
+  Display.img_Show(hndl,iSlider1) ; // gsX show initialy, if required
+  Display.img_ClearAttributes(hndl, iSlider1, I_TOUCH_DISABLE); // gsX set to enable touch, only need to do this once
+} // end Setup **do not alter, remove or duplicate this line**
+
+void loop()
+{
+  // put your main code here, to run repeatedly:
+}
+
+
