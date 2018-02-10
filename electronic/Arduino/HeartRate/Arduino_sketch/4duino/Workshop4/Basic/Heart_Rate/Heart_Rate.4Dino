@@ -86,17 +86,174 @@ void setup()
 //  ESPserial.begin(19200) ;            // start again at a resonable baud rate
   Display.gfx_ScreenMode(LANDSCAPE) ; // change manually if orientation change
   // put your setup code here, to run once:
+  Display.touch_Set(TOUCH_ENABLE);                            // enable the touch screen
 
+  fHeart_Rate_setup();
+} // end Setup **do not alter, remove or duplicate this line**
+
+class TButton
+  {
+  public:
+  word state, x, y, buttonColour, txtColour, font, txtWidth, txtHeight;
+  char *text;
+  word width, height;
+  TButton( word _state, word _x, word _y, word _buttonColour, word _txtColour,
+           word _font, word _txtWidth, word _txtHeight, char *_text, word _width, word _height)
+    : state(_state), x(_x), y(_y),
+      buttonColour(_buttonColour), txtColour(_txtColour), font(_font),
+      txtWidth(_txtWidth), txtHeight(_txtHeight), text(_text), width(_width), height(_height)
+    {
+    }
+  void Draw()
+     {
+     Display.gfx_Button(state, x, y, buttonColour, txtColour, font, txtWidth, txtHeight, text) ;
+     }
+  boolean Touch( word _x, word _y)
+     {
+     boolean Result=((x <= _x)&&(_x <= x+width) && (y <= _y)&&(_y <= y+height));
+     return Result;
+     }
+  };
+class TIntLabel: public TButton
+  {
+  public:
+  long *lValue;
+  char cValue[80];
+  TIntLabel( word _state, word _x, word _y, word _buttonColour, word _txtColour,
+           word _font, word _txtWidth, word _txtHeight, long *_lValue, word _width, word _height)
+   :TButton( _state, _x, _y, _buttonColour, _txtColour,
+           _font, _txtWidth, _txtHeight, cValue, _width, _height),
+    lValue( _lValue)
+    {
+    }
+  void Draw()
+     {
+     sprintf( cValue, "%d", *lValue);
+     TButton::Draw();
+     }
+
+  };
+class TSlider
+  {
+  public:
+  word mode, x1, y1, x2, y2, colour, scale, value;
+  TSlider ( word _mode, word _x1, word _y1, word _x2, word _y2, word _colour, word _scale, word _value)
+    :
+     mode( _mode),
+     x1( _x1),
+     y1( _y1),
+     x2( _x2),
+     y2( _y2),
+     colour( _colour),
+     scale( _scale),
+     value( _value)
+     {
+     }
+   void Draw()
+     {
+     Display.gfx_Slider( mode, x1, y1, x2, y2, colour, scale, value);
+     }
+   boolean is_Horizontal() { return (x2-x1) >  (y2-y1); }
+   boolean is_Vertical  () { return (x2-x1) <= (y2-y1); }
+   word xyValue( word _x, word _y)
+     {
+     if   (is_Horizontal()) return _x-x1;
+     else                   return _y-y1;
+     }
+   word xyScale()
+     {
+     if   (is_Horizontal()) return x2-x1;
+     else                   return y2-y1;
+     }
+   boolean Touch( word _x, word _y)
+     {
+     boolean Result=((x1 <= _x)&&(_x <= x2) && (y1 <= _y)&&(_y <= y2));
+     if (Result)
+       {
+       value= (xyValue( _x, _y)*scale) / xyScale();
+       Draw();
+       }
+
+     return Result;
+     }
+  };
+
+enum eTForm { fNone, fHeart_Rate, fRange};
+typedef enum eTForm TForm;
+
+TForm f= fNone;
+
+void fHeart_Rate_setup()
+  {
+  f= fHeart_Rate;
   attachInterrupt( digitalPinToInterrupt(2), interrupt, RISING);
 
   digitalWrite(13, HIGH);
 
-  //Display.print("Coucou\r\n");
+  Display.gfx_BGcolour(BLACK) ;
   Display.gfx_Cls();                    // clear the screen
   Initialise();
   pinMode(13, OUTPUT);
   digitalWrite(13, LOW);
-} // end Setup **do not alter, remove or duplicate this line**
+  }
+void fHeart_Rate_unsetup()
+  {
+  f= fNone;
+  detachInterrupt( digitalPinToInterrupt(2));
+  }
+
+unsigned long old_y=0;
+const int w4duino_dx=320; const int w4duino_max_x= w4duino_dx-1;
+const int w4duino_dy=240; const int w4duino_max_y= w4duino_dy-1;
+//const int pouls_min=20; const int pouls_max=200;
+long pouls_min=40; long pouls_max=100;
+const unsigned long ms_from_minute=60000;
+const unsigned long ms_from_seconde=1000;
+long temps_largeur_ecran= 30; //30s : 2 largeur d'écran par minute
+
+//Display.gfx_Slider(SLIDER_RAISED, 42, 49, 285, 68, TURQUOISE, 100, 40) ;  // sX
+     TSlider sTemps( SLIDER_RAISED, 42, 49, 285, 68, TURQUOISE, 60, 30);
+//Display.gfx_Slider(SLIDER_RAISED, 42, 98, 282, 117, TURQUOISE, 100, 40) ;  // sMin
+       TSlider sMin( SLIDER_RAISED, 42, 98, 282, 117, TURQUOISE, 100, 40);
+//Display.gfx_Slider(SLIDER_RAISED, 42, 148, 282, 168, TURQUOISE, 100, 40) ;  // sMax
+       TSlider sMax( SLIDER_RAISED, 42, 148, 282, 168, TURQUOISE, 200, 40);
+
+//Display.gfx_Button(1, 140, 196, SILVER, BLACK, FONT3, 1, 1, "OK") ; // bOK Width=29 Height=21
+         TButton bOK(1, 140, 196, SILVER, BLACK, FONT3, 1, 1, "OK",29,21);
+
+//Display.gfx_Button(1, 175, 22, WHITE, BLACK, FONT1, 1, 1, "Temps") ; // bTemps Width=48 Height=17
+         TIntLabel bTemps(1, 175, 22, WHITE, BLACK, FONT1, 1, 1, &temps_largeur_ecran,48,17);
+//Display.gfx_Button(1, 156, 79, WHITE, BLACK, FONT1, 1, 1, "Min") ; // bMin Width=34 Height=17
+         TIntLabel bMin(1, 156, 79, WHITE, BLACK, FONT1, 1, 1, &pouls_min,34,17);
+//Display.gfx_Button(1, 153, 127, WHITE, BLACK, FONT1, 1, 1, "Max") ; // bMax Width=34 Height=17
+         TIntLabel bMax(1, 153, 127, WHITE, BLACK, FONT1, 1, 1, &pouls_max,34,17);
+
+
+void fRange_setup()
+  {
+  f= fRange;
+
+  sTemps.value= temps_largeur_ecran;
+  sMin  .value= pouls_min          ;
+  sMax  .value= pouls_max          ;
+
+  // Form1 1.1 generated 10/02/2018 16:58:12
+  Display.gfx_BGcolour(WHITE) ;
+  Display.gfx_Cls() ;
+  Display.gfx_Button(1, 42, 22, WHITE, BLACK, FONT1, 1, 1, "Echelle de temps") ; // bEchelle_Temps Width=125 Height=17
+  Display.gfx_Button(1, 42, 79, WHITE, BLACK, FONT1, 1, 1, "Pouls minimum") ; // bEchelle_Pouls Width=104 Height=17
+  Display.gfx_Button(1, 42, 127, WHITE, BLACK, FONT1, 1, 1, "Pouls maximum") ; // Button7 Width=104 Height=17
+
+  sTemps.Draw(); bTemps.Draw();
+  sMin  .Draw(); bMin  .Draw();
+  sMax  .Draw(); bMax  .Draw();
+  bOK   .Draw();
+
+  }
+void fRange_unsetup()
+  {
+  f= fNone;
+  }
 
 //on déclare en volatile toutes les variables accédées dans l'interruption (car thread différent)
 const unsigned char Ts_Size=20;
@@ -140,16 +297,8 @@ void Log_to_File()
 
   }
 
-unsigned long old_y=0;
 void Display_Ti( unsigned char _i)
   {
-  const int w4duino_dx=320; const int w4duino_max_x= w4duino_dx-1;
-  const int w4duino_dy=240; const int w4duino_max_y= w4duino_dy-1;
-  //const int pouls_min=20; const int pouls_max=200;
-  const int pouls_min=40; const int pouls_max=100;
-  const unsigned long ms_from_minute=60000;
-  const double cx= 2*(double)w4duino_dx / (double)ms_from_minute;//2 largeur d'écran par minute
-  const double cy= (double)w4duino_dy / (pouls_max-pouls_min);
   unsigned char i_1= _i > 0 ? _i-1 : Ts_Max;
   unsigned long T_1= Ts[ i_1];
   unsigned long T  = Ts[_i  ];
@@ -157,6 +306,8 @@ void Display_Ti( unsigned char _i)
   if (delta==0) return;
   double pouls= double(ms_from_minute) / (double)delta;
   if ((pouls<pouls_min)||(pouls_max<pouls)) return;
+  double cx= (double)w4duino_dx / (double)(temps_largeur_ecran*ms_from_seconde);
+  double cy= (double)w4duino_dy / (pouls_max-pouls_min);
   unsigned long y= w4duino_dy-cy*(pouls-pouls_min);
   unsigned long dx= round(delta * cx);
   unsigned long largeur= w4duino_dx-dx;
@@ -207,11 +358,48 @@ void Initialise()
     }
   }
 
+void fHeart_Rate_loop()
+  {
+  Traite_data();
+  digitalWrite(13, state);
+  word wTOUCH_STATUS = Display.touch_Get( TOUCH_STATUS);
+  if (TOUCH_PRESSED == wTOUCH_STATUS)
+    {
+    fHeart_Rate_unsetup();
+    fRange_setup();
+    }
+  }
+
+void fRange_loop()
+  {
+  word wTOUCH_STATUS = Display.touch_Get( TOUCH_STATUS);
+  boolean isPressed= TOUCH_PRESSED == wTOUCH_STATUS;
+  boolean isMoving = TOUCH_MOVING == wTOUCH_STATUS;
+  word x = Display.touch_Get(TOUCH_GETX);
+  word y = Display.touch_Get(TOUCH_GETY);
+  if (isPressed || isMoving)
+    {
+          if (sTemps.Touch( x, y)) { temps_largeur_ecran= sTemps.value; bTemps.Draw();}
+    else  if (sMin  .Touch( x, y)) { pouls_min          = sMin  .value; bMin  .Draw();}
+    else  if (sMax  .Touch( x, y)) { pouls_max          = sMax  .value; bMax  .Draw();}
+    }
+  if ((isPressed)&&(bOK.Touch( x, y)))
+    {
+    fRange_unsetup();
+    fHeart_Rate_setup();
+    }
+  }
+
+
 void loop()
 {
   // put your main code here, to run repeatedly:
-  Traite_data();
-  digitalWrite(13, state);
+  switch (f)
+    {
+    case fNone      :                     break;
+    case fHeart_Rate: fHeart_Rate_loop(); break;
+    case fRange     : fRange_loop     (); break;
+    }
 }
 
 

@@ -20,7 +20,7 @@ Form
     Name                         Form1
     Alias                        Form1
     Bgtype                       Color
-    Color                        BLACK
+    Color                        WHITE
     Image                        (None)
     Source.Height                0
     Source.Left                  0
@@ -32,4 +32,192 @@ Form
     OnTouchMoving                ''
     OnTouchPressed               ''
     OnTouchReleased              ''
+end
+Slider
+    Name                         Slider1
+    Alias                        sX
+    Color                        TURQUOISE
+    Height                       20
+    Left                         42
+    Mode                         Raised
+    Outlined                     No
+    OutlineColor                 WHITE
+    Pattern                      Fine
+    Scale                        100
+    ThumbColor                   WHITE
+    Top                          49
+    Value                        40
+    Width                        244
+end
+Button
+    Name                         Button1
+    Alias                        bEchelle_Temps
+    ButtonColor                  WHITE
+    Caption                      'Echelle de temps'
+    Color                        BLACK
+    Font                         FONT1
+    Index                        0
+    Left                         42
+    Outlined                     No
+    OutlineColor                 WHITE
+    Pattern                      Fine
+    State                        Released
+    SelTextBG                    LIME
+    SelTextColor                 BLUE
+    TextHeight                   1
+    TextWidth                    1
+    Top                          22
+    Value                        50
+end
+Button
+    Name                         Button2
+    Alias                        bTemps
+    ButtonColor                  WHITE
+    Caption                      Temps
+    Color                        BLACK
+    Font                         FONT1
+    Index                        0
+    Left                         175
+    Outlined                     No
+    OutlineColor                 WHITE
+    Pattern                      Fine
+    State                        Released
+    SelTextBG                    LIME
+    SelTextColor                 BLUE
+    TextHeight                   1
+    TextWidth                    1
+    Top                          22
+    Value                        50
+end
+Button
+    Name                         Button3
+    Alias                        bEchelle_Pouls
+    ButtonColor                  WHITE
+    Caption                      'Pouls minimum'
+    Color                        BLACK
+    Font                         FONT1
+    Index                        0
+    Left                         42
+    Outlined                     No
+    OutlineColor                 WHITE
+    Pattern                      Fine
+    State                        Released
+    SelTextBG                    LIME
+    SelTextColor                 BLUE
+    TextHeight                   1
+    TextWidth                    1
+    Top                          79
+    Value                        50
+end
+Button
+    Name                         Button4
+    Alias                        bMin
+    ButtonColor                  WHITE
+    Caption                      Min
+    Color                        BLACK
+    Font                         FONT1
+    Index                        0
+    Left                         156
+    Outlined                     No
+    OutlineColor                 WHITE
+    Pattern                      Fine
+    State                        Released
+    SelTextBG                    LIME
+    SelTextColor                 BLUE
+    TextHeight                   1
+    TextWidth                    1
+    Top                          79
+    Value                        50
+end
+Slider
+    Name                         Slider2
+    Alias                        sMin
+    Color                        TURQUOISE
+    Height                       20
+    Left                         42
+    Mode                         Raised
+    Outlined                     No
+    OutlineColor                 WHITE
+    Pattern                      Fine
+    Scale                        100
+    ThumbColor                   WHITE
+    Top                          98
+    Value                        40
+    Width                        241
+end
+Button
+    Name                         Button5
+    Alias                        bMax
+    ButtonColor                  WHITE
+    Caption                      Max
+    Color                        BLACK
+    Font                         FONT1
+    Index                        0
+    Left                         153
+    Outlined                     No
+    OutlineColor                 WHITE
+    Pattern                      Fine
+    State                        Released
+    SelTextBG                    LIME
+    SelTextColor                 BLUE
+    TextHeight                   1
+    TextWidth                    1
+    Top                          127
+    Value                        50
+end
+Slider
+    Name                         Slider3
+    Alias                        sMax
+    Color                        TURQUOISE
+    Height                       21
+    Left                         42
+    Mode                         Raised
+    Outlined                     No
+    OutlineColor                 WHITE
+    Pattern                      Fine
+    Scale                        100
+    ThumbColor                   WHITE
+    Top                          148
+    Value                        40
+    Width                        241
+end
+Button
+    Name                         Button6
+    Alias                        bOK
+    ButtonColor                  SILVER
+    Caption                      OK
+    Color                        BLACK
+    Font                         FONT3
+    Index                        0
+    Left                         140
+    Outlined                     No
+    OutlineColor                 WHITE
+    Pattern                      Fine
+    State                        Released
+    SelTextBG                    LIME
+    SelTextColor                 BLUE
+    TextHeight                   1
+    TextWidth                    1
+    Top                          196
+    Value                        50
+end
+Button
+    Name                         Button7
+    Alias                        Button7
+    ButtonColor                  WHITE
+    Caption                      'Pouls maximum'
+    Color                        BLACK
+    Font                         FONT1
+    Index                        0
+    Left                         42
+    Outlined                     No
+    OutlineColor                 WHITE
+    Pattern                      Fine
+    State                        Released
+    SelTextBG                    LIME
+    SelTextColor                 BLUE
+    TextHeight                   1
+    TextWidth                    1
+    Top                          127
+    Value                        50
 end
