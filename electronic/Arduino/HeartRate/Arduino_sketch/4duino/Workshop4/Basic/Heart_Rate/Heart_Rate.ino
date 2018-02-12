@@ -59,10 +59,10 @@ void mycallback(int ErrCode, unsigned char Errorbyte)
 void setup()
 {
 // Ucomment to use the Serial link to the PC for debugging
-//  Serial.begin(115200) ;        // serial to USB port
+  Serial.begin(115200) ;        // serial to USB port
 // Note! The next statement will stop the sketch from running until the serial monitor is started
 //       If it is not present the monitor will be missing the initial writes
-//    while (!Serial) ;             // wait for serial to be established
+    while (!Serial) ;             // wait for serial to be established
 
   pinMode(RESETLINE, OUTPUT);       // Display reset pin
 digitalWrite(RESETLINE, 1);       // Reset Display, using shield
@@ -201,6 +201,8 @@ void fHeart_Rate_setup()
   Initialise();
   pinMode(13, OUTPUT);
   digitalWrite(13, LOW);
+
+  Calcul_cx_cy();
   }
 void fHeart_Rate_unsetup()
   {
@@ -265,7 +267,10 @@ void fRange_unsetup()
 const unsigned char Ts_Size=20;
 const unsigned char Ts_Max=Ts_Size-1;
 volatile unsigned long Ts[Ts_Size];
+volatile unsigned long ys[Ts_Size];
+volatile unsigned long dxs[Ts_Size];
 volatile unsigned char Written[Ts_Size];
+volatile unsigned char Calc[Ts_Size];
 volatile unsigned char iTs=0;
 volatile unsigned char state = LOW; //alternance des interruptions
 
@@ -295,27 +300,54 @@ void Log_to_File()
     {
     if (Written[i]) continue;
 
-    Display_Ti( i);
+    Calcul_Ti( i);
+    //Display_Ti( i);
     //F.println( String(Ts[i]));
     Written[i]= true;
     }
+
+  Display_T();
+
   //F.close();
 
   }
 
-void Display_Ti( unsigned char _i)
+double cx= 1;
+double cy= 1;
+void Calcul_cx_cy()
+  {
+  cx= (double)w4duino_dx / (double)(temps_largeur_ecran*ms_from_seconde);
+  cy= (double)w4duino_dy / (pouls_max-pouls_min);
+  }
+void Calcul_Ti( unsigned char _i)
   {
   unsigned char i_1= _i > 0 ? _i-1 : Ts_Max;
   unsigned long T_1= Ts[ i_1];
   unsigned long T  = Ts[_i  ];
   unsigned long delta= T - T_1;
-  if (delta==0) return;
-  double pouls= double(ms_from_minute) / (double)delta;
-  if ((pouls<pouls_min)||(pouls_max<pouls)) return;
-  double cx= (double)w4duino_dx / (double)(temps_largeur_ecran*ms_from_seconde);
-  double cy= (double)w4duino_dy / (pouls_max-pouls_min);
-  unsigned long y= w4duino_dy-cy*(pouls-pouls_min);
-  unsigned long dx= round(delta * cx);
+  unsigned long y= 0;
+  unsigned long dx= 0;
+  if (0==delta)
+    {
+     y=  ys[i_1];
+    dx= dxs[i_1];
+    }
+  else
+    {
+    double pouls= double(ms_from_minute) / (double)delta;
+    if (pouls<pouls_min) pouls= pouls_min;
+    if (pouls_max<pouls) pouls= pouls_max;
+     y= w4duino_dy-cy*(pouls-pouls_min);
+    dx= 2*round(delta * cx);
+    }
+   ys[_i]=  y;
+  dxs[_i]= dx;
+  Calc[_i]=true;
+  }
+void Display_Ti( unsigned char _i)
+  {
+  unsigned long  y=  ys[_i];
+  unsigned long dx= dxs[_i];
   unsigned long largeur= w4duino_dx-dx;
   unsigned long old_x= largeur;
 
@@ -338,11 +370,40 @@ void Display_Ti( unsigned char _i)
   old_y=y;
   }
 
+void Display_T()
+  {
+  Display.gfx_Cls();
+  unsigned char offset=iTs+1;
+  unsigned long x= 0;
+  for (unsigned char j=0; j<=Ts_Max; j++)
+    {
+    unsigned char i= (offset+j) % Ts_Size;
+    //if (!Calc[i]) break;
+
+    unsigned char i_1= i > 0 ? i-1 : Ts_Max;
+    //if (!Calc[i_1]) break;
+
+    //unsigned long T_1= Ts[i_1];
+    //unsigned long T  = Ts[i  ];
+    //unsigned long delta= T - T_1;
+    //if (0>delta) break;
+
+    unsigned long y_1= ys[i_1];
+    unsigned long y  = ys[i  ];
+    unsigned long dx = dxs[i  ];
+    Display.gfx_Line(x, y_1, x+dx, y, GREEN);
+    Serial.print( x);
+    Serial.print( " ");
+    x+=dx;
+    }
+  Serial.println( " ");
+  }
 void interrupt()
   {
   state= !state;
   Ts[iTs]= millis();
   Written[iTs]=false;
+  Calc   [iTs]=false;
   iTs= Ts_Max == iTs ? 0 : iTs+1;
   }
 
