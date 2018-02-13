@@ -53,10 +53,10 @@ void mycallback(int ErrCode, unsigned char Errorbyte)
 void setup()
 {
 // Ucomment to use the Serial link to the PC for debugging
-  Serial.begin(115200) ;        // serial to USB port
+//  Serial.begin(115200) ;        // serial to USB port
 // Note! The next statement will stop the sketch from running until the serial monitor is started
 //       If it is not present the monitor will be missing the initial writes
-    while (!Serial) ;             // wait for serial to be established
+//    while (!Serial) ;             // wait for serial to be established
 
   pinMode(RESETLINE, OUTPUT);       // Display reset pin
 %%Display%%.Toggle_Reset_On ;       // *Replaced* at compile time with correct rest on logic for the attached display
@@ -258,14 +258,27 @@ void fRange_unsetup()
   }
 
 //on déclare en volatile toutes les variables accédées dans l'interruption (car thread différent)
-const unsigned char Ts_Size=20;
-const unsigned char Ts_Max=Ts_Size-1;
-volatile unsigned long Ts[Ts_Size];
-volatile unsigned long ys[Ts_Size];
-volatile unsigned long dxs[Ts_Size];
-volatile unsigned char Written[Ts_Size];
-volatile unsigned char Calc[Ts_Size];
-volatile unsigned char iTs=0;
+const unsigned char Ps_Size=40;
+const unsigned char Ps_Max=Ps_Size-1;
+class Pulsation
+ {
+ public:
+   unsigned long T;
+   unsigned long y;
+   unsigned long dx;
+   unsigned char Written;
+   unsigned char Calc;
+   void Initialise()
+    {
+    T      = 0   ;
+    y      = 0   ;
+    dx     = 0   ;
+    Written= true;
+    Calc   = true;
+    }
+ };
+volatile Pulsation Ps[ Ps_Size];
+volatile unsigned char iPs=0;
 volatile unsigned char state = LOW; //alternance des interruptions
 
 //String NomFichier="";
@@ -275,9 +288,9 @@ void Log_to_File()
   {
   unsigned char All_written= true;
 
-  for (unsigned char i=0; i<=Ts_Max; i++)
+  for (unsigned char i=0; i<=Ps_Max; i++)
     {
-    if (Written[i]) continue;
+    if (Ps[i].Written) continue;
 
     All_written= false;
     break;
@@ -290,14 +303,14 @@ void Log_to_File()
   linuxNomFichier.toCharArray( lpstrNomFichier, taille);
   File F= FileSystem.open( lpstrNomFichier, FILE_APPEND);
   */
-  for (unsigned char i=0; i<=Ts_Max; i++)
+  for (unsigned char i=0; i<=Ps_Max; i++)
     {
-    if (Written[i]) continue;
+    if (Ps[i].Written) continue;
 
     Calcul_Ti( i);
     //Display_Ti( i);
-    //F.println( String(Ts[i]));
-    Written[i]= true;
+    //F.println( String(Ps[i].T));
+    Ps[i].Written= true;
     }
 
   Display_T();
@@ -315,16 +328,16 @@ void Calcul_cx_cy()
   }
 void Calcul_Ti( unsigned char _i)
   {
-  unsigned char i_1= _i > 0 ? _i-1 : Ts_Max;
-  unsigned long T_1= Ts[ i_1];
-  unsigned long T  = Ts[_i  ];
-  unsigned long delta= T - T_1;
+  unsigned char i_1= _i > 0 ? _i-1 : Ps_Max;
+  volatile Pulsation &P_1=Ps[ i_1];
+  volatile Pulsation &P  =Ps[_i  ];
+  unsigned long delta= P.T - P_1.T;
   unsigned long y= 0;
   unsigned long dx= 0;
   if (0==delta)
     {
-     y=  ys[i_1];
-    dx= dxs[i_1];
+     y=  P_1.y;
+    dx=  P_1.dx;
     }
   else
     {
@@ -332,16 +345,17 @@ void Calcul_Ti( unsigned char _i)
     if (pouls<pouls_min) pouls= pouls_min;
     if (pouls_max<pouls) pouls= pouls_max;
      y= w4duino_dy-cy*(pouls-pouls_min);
-    dx= 2*round(delta * cx);
+    dx= round(delta * cx);
     }
-   ys[_i]=  y;
-  dxs[_i]= dx;
-  Calc[_i]=true;
+  P.y   =  y;
+  P.dx  = dx;
+  P.Calc=true;
   }
 void Display_Ti( unsigned char _i)
   {
-  unsigned long  y=  ys[_i];
-  unsigned long dx= dxs[_i];
+  volatile Pulsation &P  =Ps[ _i  ];
+  unsigned long  y= P. y;
+  unsigned long dx= P.dx;
   unsigned long largeur= w4duino_dx-dx;
   unsigned long old_x= largeur;
 
@@ -364,59 +378,109 @@ void Display_Ti( unsigned char _i)
   old_y=y;
   }
 
+class TPoint
+  {
+  public:
+  int x;
+  int y;
+  boolean Out()
+    {
+    return (x<0)||(w4duino_max_x<x);
+    }
+  };
+class TPolyLine
+  {
+  private:
+    void Draw_interne( word _color)
+      {
+      for (unsigned char i=1; i<Ps_Size; i++)
+        {
+        TPoint &p_1=points[i-1]; if(p_1.Out()) continue;
+        TPoint &p  =points[i  ]; if(p  .Out()) continue;
+        if (p_1.x>p.x) continue;
+
+        for (char j=0;j<3;j++)
+          Display.gfx_Line(p_1.x,p_1.y+j, p.x, p.y+j, _color);
+        }
+      }
+  public:
+    TPoint points[Ps_Size];
+    TPolyLine()
+      {
+      for (unsigned char i=1; i<Ps_Size; i++)
+        {
+        TPoint &p=points[i];
+        p.x= 0;
+        p.y= 0;
+        }
+      }
+    void Set_point( unsigned char _i, int x, int y)
+      {
+      TPoint &p=points[_i];
+      p.x= x;
+      p.y= y;
+      }
+    void   Draw() {Draw_interne( GREEN);}
+    void UnDraw() {Draw_interne( BLACK);}
+  };
+
+TPolyLine Old_Line;
 void Display_T()
   {
-  Display.gfx_Cls();
-  unsigned char offset=iTs+1;
-  unsigned long x= 0;
-  for (unsigned char j=0; j<=Ts_Max; j++)
+  TPolyLine Line;
+
+  //Display.gfx_Cls();
+  unsigned char offset=iPs;
+  long x= w4duino_max_x;
+  for (int j=0; j>=-Ps_Max; j--)
     {
-    unsigned char i= (offset+j) % Ts_Size;
-    //if (!Calc[i]) break;
+    int int_i= (offset+j) % Ps_Size;
+    if (int_i<0) int_i+= Ps_Size;//le modulo C++ peut être négatif
+    unsigned char i= int_i;
+    unsigned char i_1= i > 0 ? i-1 : Ps_Max;
 
-    unsigned char i_1= i > 0 ? i-1 : Ts_Max;
-    //if (!Calc[i_1]) break;
-
-    //unsigned long T_1= Ts[i_1];
-    //unsigned long T  = Ts[i  ];
-    //unsigned long delta= T - T_1;
-    //if (0>delta) break;
-
-    unsigned long y_1= ys[i_1];
-    unsigned long y  = ys[i  ];
-    unsigned long dx = dxs[i  ];
-    Display.gfx_Line(x, y_1, x+dx, y, GREEN);
-    Serial.print( x);
-    Serial.print( " ");
-    x+=dx;
+    volatile Pulsation &P_1=Ps[ i_1];
+    volatile Pulsation &P  =Ps[ i  ];
+    unsigned long y_1= P_1.y;
+    unsigned long y  = P  .y;
+    unsigned long dx = P  .dx;
+    //Display.gfx_Line(x-dx,y_1, x, y, GREEN);
+    Line.Set_point( i_1, x-dx, y_1);
+    Line.Set_point( i  , x   , y  );
+    //Serial.print( x);
+    //Serial.print( i);
+    //Serial.print( " ");
+    x-=dx;
     }
-  Serial.println( " ");
+  //Serial.println( " ");
+
+  Old_Line.UnDraw();
+  Line.Draw();
+  Old_Line=Line;
   }
 void interrupt()
   {
   state= !state;
-  Ts[iTs]= millis();
-  Written[iTs]=false;
-  Calc   [iTs]=false;
-  iTs= Ts_Max == iTs ? 0 : iTs+1;
+  volatile Pulsation &P  =Ps[ iPs];
+  P.T= millis();
+  P.Written=false;
+  P.Calc   =false;
+  iPs= Ps_Max == iPs ? 0 : iPs+1;
   }
 
 void Traite_data()
   {
   /*
-  for (unsigned char i=0; i<=Ts_Max; i++)
-    Bridge.put( String(i), String(Ts[i]));
+  for (unsigned char i=0; i<=Ps_Max; i++)
+    Bridge.put( String(i), String(Ps[i].T));
   */
   Log_to_File();
   }
 
 void Initialise()
   {
-  for (unsigned char i=0; i<=Ts_Max; i++)
-    {
-    Ts[i]=0;
-    Written[i]= true;
-    }
+  for (unsigned char i=0; i<=Ps_Max; i++)
+     Ps[i].Initialise();
   }
 
 void fHeart_Rate_loop()
