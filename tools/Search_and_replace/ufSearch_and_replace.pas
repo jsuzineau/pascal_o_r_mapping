@@ -5,8 +5,8 @@ unit ufSearch_and_replace;
 interface
 
 uses
-    uuStrings, ufXML_Editor, Classes, SysUtils, FileUtil, Forms, Controls,
-    Graphics, Dialogs, StdCtrls, ExtCtrls, LazUTF8;
+    uuStrings, ufXML_Editor, ufRemplacements, Classes, SysUtils, FileUtil,
+    Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls;
 
 type
 
@@ -16,26 +16,23 @@ type
  =
   class(TForm)
    bTest: TButton;
+   bParametres: TButton;
    e: TEdit;
    l: TLabel;
    m: TMemo;
    p: TPanel;
+   procedure bParametresClick(Sender: TObject);
    procedure bTestClick(Sender: TObject);
    procedure FormCreate(Sender: TObject);
    procedure FormDestroy(Sender: TObject);
    procedure FormDropFiles(Sender: TObject; const FileNames: array of String);
-   procedure mDragOver(Sender, Source: TObject; X, Y: Integer;
-    State: TDragState; var Accept: Boolean);
   private
-    function Remplacements_NomFichier: String;
-    procedure Remplacements_Charge;
-    procedure Remplacements_Sauve;
     procedure Traite( _FileName: String);
-    procedure Traite_Chaine( var _S: String);
     function HexString( _S: String): String;
   private
     BOM: String;
     fAvant, fApres: TfXML_Editor;
+    fRemplacements: TfRemplacements;
   end;
 
 var
@@ -49,10 +46,21 @@ implementation
 
 procedure TfSearch_and_replace.FormCreate(Sender: TObject);
 begin
-     Remplacements_Charge;
      Assure_fXML_Editor( fAvant, 'fAvant');
      Assure_fXML_Editor( fApres, 'fApres');
+     Assure_fRemplacements( fRemplacements, 'fRemplacements');
+
+     fRemplacements.Charge;
+
      BOM:= #$EF+#$BB+#$BF;
+     m.Lines.Text:= '';
+     e.Text:= '';
+     l.Caption:= '';
+end;
+
+procedure TfSearch_and_replace.FormDestroy(Sender: TObject);
+begin
+     fRemplacements.Sauve;
 end;
 
 procedure TfSearch_and_replace.bTestClick(Sender: TObject);
@@ -61,16 +69,16 @@ var
 begin
      S:= BOM+e.Text;
      fAvant.Affiche( BOM+S+' Hex:'+HexString( S));
-     Traite_Chaine( S);
+     fRemplacements.Traite_Chaine( S);
      fApres.Affiche( BOM+S+' Hex:'+HexString( S));
      l.Caption:= S;
      fAvant.Show;
      fApres.Show;
 end;
 
-procedure TfSearch_and_replace.FormDestroy(Sender: TObject);
+procedure TfSearch_and_replace.bParametresClick(Sender: TObject);
 begin
-     Remplacements_Sauve;
+     fRemplacements.Show;
 end;
 
 procedure TfSearch_and_replace.FormDropFiles( Sender: TObject; const FileNames: array of String);
@@ -82,41 +90,6 @@ begin
        Traite( FileNames[I]);
 end;
 
-procedure TfSearch_and_replace.mDragOver( Sender, Source: TObject;
-                                          X, Y: Integer; State: TDragState; var Accept: Boolean);
-begin
-     Accept:= False;
-end;
-
-function TfSearch_and_replace.Remplacements_NomFichier: String;
-begin
-     Result
-     :=
-        IncludeTrailingPathDelimiter(ExtractFilePath( Application.ExeName))
-       +'etc'+PathDelim
-       +'Remplacements.ini';
-end;
-
-procedure TfSearch_and_replace.Remplacements_Charge;
-var
-   nf: String;
-begin
-     nf:= Remplacements_NomFichier;
-     if not FileExists( nf) then exit;
-
-     m.Lines.LoadFromFile( nf);
-end;
-
-procedure TfSearch_and_replace.Remplacements_Sauve;
-var
-   nf: String;
-begin
-     nf:= Remplacements_NomFichier;
-     ForceDirectories( ExtractFilePath(nf));
-
-     m.Lines.SaveToFile( nf);
-end;
-
 procedure TfSearch_and_replace.Traite(_FileName: String);
 var
    S: String;
@@ -124,35 +97,15 @@ var
 begin
      S:= String_from_File( _FileName);
 
-     Traite_Chaine( S);
+     fRemplacements.Traite_Chaine( S);
 
      FileName_New
      :=
        ChangeFileExt( _FileName, '_new'+ExtractFileExt( _FileName));
      String_to_File( FileName_New, S);
-end;
-
-procedure TfSearch_and_replace.Traite_Chaine( var _S: String);
-var
-   I: Integer;
-
-   procedure Traite_Remplacement( _I: Integer);
-   var
-      sSearch, sReplace: String;
-   begin
-        sSearch := m.Lines.Names         [ I];
-        sReplace:= m.Lines.ValueFromIndex[ I];
-        //S:= UTF8StringReplace( S, sSearch, sReplace, [rfReplaceAll]);
-        _S:= StringReplace( _S, sSearch, sReplace, [rfReplaceAll]);
-   end;
-begin
-     //SynEdit gère mal en UTF8 les caractères accentués par un deuxième caractère.
-     //il accentue le caractère d'aprés au lieu d'accentuer le caractère d'avant
-     //"VREME E DA V̌ARVIM" devient "VREME E DA VǍRVIM" dans l'éditeur de source de lazarus et synedit
-     //_S:= StringReplace( _S, 'õ', #$CC#$8C'A', [rfReplaceAll]);
-     for I:= 0 to m.Lines.Count-1
-     do
-       Traite_Remplacement( I);
+     m.Lines.Add( '');
+     m.Lines.Add( 'Traitement terminé de '+_FileName);
+     m.Lines.Add( '');
 end;
 
 function TfSearch_and_replace.HexString( _S: String): String;

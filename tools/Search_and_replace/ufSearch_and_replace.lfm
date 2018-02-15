@@ -1,60 +1,71 @@
 object fSearch_and_replace: TfSearch_and_replace
-  Left = 950
-  Height = 240
-  Top = 1144
-  Width = 320
+  Left = 1169
+  Height = 264
+  Top = 1132
+  Width = 308
+  AllowDropFiles = True
   Caption = 'fSearch_and_replace'
-  ClientHeight = 240
-  ClientWidth = 320
+  ClientHeight = 264
+  ClientWidth = 308
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnDropFiles = FormDropFiles
   LCLVersion = '1.8.0.6'
-  object m: TMemo
-    Left = 0
-    Height = 190
-    Top = 0
-    Width = 320
-    Align = alClient
-    Lines.Strings = (
-      'm'
-    )
-    OnDragOver = mDragOver
-    TabOrder = 0
-  end
   object p: TPanel
     Left = 0
-    Height = 50
-    Top = 190
-    Width = 320
+    Height = 104
+    Top = 160
+    Width = 308
     Align = alBottom
-    ClientHeight = 50
-    ClientWidth = 320
-    TabOrder = 1
+    ClientHeight = 104
+    ClientWidth = 308
+    TabOrder = 0
     object e: TEdit
-      Left = 16
+      Left = 8
       Height = 27
       Top = 8
-      Width = 80
+      Width = 291
+      Anchors = [akTop, akLeft, akRight]
       TabOrder = 0
       Text = 'e'
     end
     object bTest: TButton
-      Left = 113
+      Left = 9
       Height = 25
-      Top = 12
+      Top = 40
       Width = 75
-      Caption = 'bTest'
+      Caption = 'Test'
       OnClick = bTestClick
       TabOrder = 1
     end
     object l: TLabel
-      Left = 202
+      Left = 8
       Height = 17
-      Top = 14
+      Top = 68
       Width = 4
       Caption = 'l'
       ParentColor = False
     end
+    object bParametres: TButton
+      Left = 176
+      Height = 25
+      Top = 40
+      Width = 123
+      Anchors = [akTop, akRight]
+      Caption = 'Paramètres'
+      OnClick = bParametresClick
+      TabOrder = 2
+    end
+  end
+  object m: TMemo
+    Left = 0
+    Height = 160
+    Top = 0
+    Width = 308
+    Align = alClient
+    Lines.Strings = (
+      'm'
+    )
+    TabOrder = 1
   end
 end
