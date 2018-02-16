@@ -1,7 +1,7 @@
 object fSearch_and_replace: TfSearch_and_replace
-  Left = 1169
+  Left = 731
   Height = 264
-  Top = 1132
+  Top = 300
   Width = 308
   AllowDropFiles = True
   Caption = 'fSearch_and_replace'
@@ -10,6 +10,7 @@ object fSearch_and_replace: TfSearch_and_replace
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnDropFiles = FormDropFiles
+  Position = poScreenCenter
   LCLVersion = '1.8.0.6'
   object p: TPanel
     Left = 0
@@ -22,7 +23,7 @@ object fSearch_and_replace: TfSearch_and_replace
     TabOrder = 0
     object e: TEdit
       Left = 8
-      Height = 27
+      Height = 23
       Top = 8
       Width = 291
       Anchors = [akTop, akLeft, akRight]
@@ -40,9 +41,9 @@ object fSearch_and_replace: TfSearch_and_replace
     end
     object l: TLabel
       Left = 8
-      Height = 17
+      Height = 15
       Top = 68
-      Width = 4
+      Width = 3
       Caption = 'l'
       ParentColor = False
     end

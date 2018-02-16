@@ -55,6 +55,7 @@
         <Filename Value="ufRemplacements.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fRemplacements"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit3>
     </Units>
