@@ -44,6 +44,9 @@ uses
   SysUtils, Classes, DB;
 
 type
+
+ { TBatpro_OD_Printer }
+
  TBatpro_OD_Printer
  =
   class
@@ -65,7 +68,8 @@ type
                       ParametresValeurs: array of string;
                       NomMaitres  : array of String;
                       Maitres     : array of TBatpro_Ligne;
-                      Details     : array of TOD_Batpro_Table): String; overload;
+                      Details     : array of TOD_Batpro_Table;
+                      _Freeze_fields: Boolean= False): String; overload;
   end;
 
 var
@@ -138,11 +142,11 @@ begin
 end;
 
 function TBatpro_OD_Printer.Execute( NomFichierModele, sTitreEtat: String;
-                                     ParametresNoms,
-                                     ParametresValeurs: array of string;
-                                     NomMaitres  : array of String;
-                                     Maitres     : array of TBatpro_Ligne;
-                                     Details     : array of TOD_Batpro_Table): String;
+                                     ParametresNoms, ParametresValeurs: array of string;
+                                     NomMaitres: array of String;
+                                     Maitres: array of TBatpro_Ligne;
+                                     Details: array of TOD_Batpro_Table;
+                                     _Freeze_fields: Boolean= False): String;
 var
    NomFichier: String;
    I, Longueur: Integer;
@@ -186,7 +190,9 @@ begin
         do
           Batpro_OD_TextTableManager.Remplit( NomFichierModele, Details[I]);
 
-        D.Freeze_fields;
+        if _Freeze_fields
+        then
+            D.Freeze_fields;
         //D.Delete_unused_styles;
      finally
             Ferme;

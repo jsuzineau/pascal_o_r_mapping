@@ -51,6 +51,7 @@ type
   private
     sl: TBatpro_StringList;
     hdmSession: ThdmSession;
+    procedure Table_Calendrier;
     procedure Table_globale;
     procedure Table_par_Tag;
   public
@@ -69,6 +70,31 @@ destructor TodSession.Destroy;
 begin
      FreeAndNil( sl);
      inherited Destroy;
+end;
+
+procedure TodSession.Table_Calendrier;
+var
+   tCalendrier: TOD_Batpro_Table;
+   nCalendrier: TOD_Niveau;
+begin
+     Ajoute_Parametre( 'Debut', DateTimeToStr( Trunc(hdmSession.hdmCalendrier.Debut)));
+     Ajoute_Parametre( 'Fin'  , DateTimeToStr( Trunc(hdmSession.hdmCalendrier.Fin  )));
+     tCalendrier:= Ajoute_Table( 'tCalendrier');
+     tCalendrier.Pas_de_persistance:= True;
+     tCalendrier.AddColumn( 40, '  '      );
+     tCalendrier.AddColumn( 20, 'Jour');
+     tCalendrier.AddColumn( 20, 'Cumul '#13#10'sur semaine');
+     tCalendrier.AddColumn( 20, 'Cumul '#13#10'global');
+     tCalendrier.AddColumn( 89, '');
+
+     nCalendrier:= tCalendrier.AddNiveau( 'Root');
+     nCalendrier.Charge_sl( hdmSession.hdmCalendrier.sl);
+     nCalendrier.Ajoute_Column_Avant( 'D'                  , 0, 0);
+     nCalendrier.Ajoute_Column_Avant( 'Cumul_Jour_Total'   , 1, 1);
+     nCalendrier.Ajoute_Column_Avant( 'Cumul_Semaine_Total', 2, 2);
+     nCalendrier.Ajoute_Column_Avant( 'Cumul_Global_Total' , 3, 3);
+     nCalendrier.Ajoute_Column_Avant( 'BoldLine' , 4, 4);
+
 end;
 
 procedure TodSession.Table_globale;
@@ -124,6 +150,7 @@ procedure TodSession.Init( _hdmSession: ThdmSession);
 begin
      inherited Init;
      hdmSession:= _hdmSession;
+     Table_calendrier;
      Table_globale;
      Table_par_Tag;
 end;

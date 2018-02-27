@@ -379,15 +379,19 @@ var
         Cumul_Semaine.Add_Depassement( Depassement);
         Cumul_Global .Add_Depassement( Depassement);
    end;
+   procedure hdmCalendrier_from_Precedent;
+   begin
+        if Assigned( Precedent)
+        then
+            hdmCalendrier_Affecte( Precedent.Beginning, Cumul_Jour, Cumul_Semaine, Cumul_Global);
+   end;
    procedure Jour_Change;
    begin
         if Assigned( bl)
         then
             Traite_Cumul_Depassement;
 
-        if Assigned( Precedent)
-        then
-            hdmCalendrier_Affecte( Precedent.Beginning, Cumul_Jour, Cumul_Semaine, Cumul_Global);
+        hdmCalendrier_from_Precedent;
 
         if blWork.Semaine_Differente( Precedent)
         then
@@ -465,6 +469,7 @@ begin
          bl.Cumul_Semaine:= Cumul_Semaine; bl.FinSemaine:= True;
          bl.Cumul_Jour   := Cumul_Jour   ; bl.FinJour   := True;
          end;
+     hdmCalendrier_from_Precedent;
      Result:= True;
 end;
 

@@ -108,6 +108,10 @@ type
     procedure Ajout_Cumul( out _Cumul: TCalendrier_Cumul; _Prefixe: String);
   public
     Cumul_Jour, Cumul_Semaine, Cumul_Global: TCalendrier_Cumul;
+  //BoldLine
+  public
+    BoldLine: Boolean;
+    procedure BoldLine_from_D;
   end;
 
  TIterateur_Calendrier
@@ -286,6 +290,9 @@ begin
      Ajout_Cumul( Cumul_Jour   , 'Cumul_Jour'   );
      Ajout_Cumul( Cumul_Semaine, 'Cumul_Semaine');
      Ajout_Cumul( Cumul_Global , 'Cumul_Global' );
+
+     Ajoute_Boolean( BoldLine, 'BoldLine', False);
+     cD.OnChange.Abonne( Self, BoldLine_from_D);
 end;
 
 destructor TblCalendrier.Destroy;
@@ -324,6 +331,11 @@ begin
 
      _Cumul.cDepassement:= Ajoute_Float( _Cumul.Cumul.Depassement, Prefixe+'Depassement', False);
      _Cumul.cDepassement.OnGetChaine:= _Cumul.Depassement_GetChaine;
+end;
+
+procedure TblCalendrier.BoldLine_from_D;
+begin
+     BoldLine:= 2 = DayOfWeek( D);
 end;
 
 end.

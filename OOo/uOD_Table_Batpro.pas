@@ -47,6 +47,7 @@ type
     function  Editer_Modele_Impression_interne: String; override;
     function  Composer              : String; override;
   public
+    Freeze_fields: Boolean;
     function Ajoute_Table( _Nom: String; _Bordure_Ligne: Boolean= True): TOD_Batpro_Table;
   end;
 
@@ -57,6 +58,7 @@ implementation
 constructor TOD_Table_Batpro.Create;
 begin
      inherited;
+     Freeze_fields:= False;
 end;
 
 destructor TOD_Table_Batpro.Destroy;
@@ -95,7 +97,8 @@ begin
                                     TitreEtat,
                                     ParametresNoms, ParametresValeurs,
                                     Maitres_Titre, Maitres_bl,
-                                    Tables);
+                                    Tables,
+                                    Freeze_fields);
      Traite_Logos( Result);
 end;
 

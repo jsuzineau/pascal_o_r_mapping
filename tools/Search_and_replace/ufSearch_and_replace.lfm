@@ -1,5 +1,5 @@
 object fSearch_and_replace: TfSearch_and_replace
-  Left = 731
+  Left = 271
   Height = 264
   Top = 300
   Width = 308
@@ -23,7 +23,7 @@ object fSearch_and_replace: TfSearch_and_replace
     TabOrder = 0
     object e: TEdit
       Left = 8
-      Height = 23
+      Height = 27
       Top = 8
       Width = 291
       Anchors = [akTop, akLeft, akRight]
@@ -41,9 +41,9 @@ object fSearch_and_replace: TfSearch_and_replace
     end
     object l: TLabel
       Left = 8
-      Height = 15
+      Height = 17
       Top = 68
-      Width = 3
+      Width = 4
       Caption = 'l'
       ParentColor = False
     end
