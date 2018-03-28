@@ -45,10 +45,11 @@ type
   class( TOD_Table_Batpro)
   //cycle de vie
   public
-    constructor Create;
+    constructor Create( _Afficher_Depassement: Boolean);
     destructor Destroy; override;
   //Gestion état
   private
+    Afficher_Depassement: Boolean;
     sl: TBatpro_StringList;
     t: TOD_Batpro_Table;
     n: TOD_Niveau;
@@ -60,8 +61,9 @@ implementation
 
 { TodCalendrier }
 
-constructor TodCalendrier.Create;
+constructor TodCalendrier.Create(_Afficher_Depassement: Boolean);
 begin
+     Afficher_Depassement:= _Afficher_Depassement;
      sl:= TBatpro_StringList.Create;
      FNomFichier_Modele:= ExtractFilePath(ParamStr(0))+'Calendrier.ott';
 end;
@@ -80,25 +82,47 @@ begin
      Ajoute_Parametre( 'Fin'  , DateTimeToStr( Trunc(_hdmCalendrier.Fin  )));
      t:= Ajoute_Table( 't');
      t.Pas_de_persistance:= True;
-     t.AddColumn( 15, '  '      );
-     t.AddColumn( 20, 'Jour');
-     t.AddColumn( 20, 'Dépassement');
-     t.AddColumn( 20, 'Semaine');
-     t.AddColumn( 20, 'Dépassement');
-     t.AddColumn( 20, 'Global');
-     t.AddColumn( 20, 'Dépassement');
-     t.AddSurtitre(1,2,'Cumul Jour'   );
-     t.AddSurtitre(3,4,'Cumul Semaine');
-     t.AddSurtitre(5,6,'Cumul Global' );
+     if Afficher_Depassement
+     then
+         begin
+         t.AddColumn( 15, '  '      );
+         t.AddColumn( 20, 'Jour');
+         t.AddColumn( 20, 'Dépassement');
+         t.AddColumn( 20, 'Semaine');
+         t.AddColumn( 20, 'Dépassement');
+         t.AddColumn( 20, 'Global');
+         t.AddColumn( 20, 'Dépassement');
+         t.AddSurtitre(1,2,'Cumul Jour'   );
+         t.AddSurtitre(3,4,'Cumul Semaine');
+         t.AddSurtitre(5,6,'Cumul Global' );
+         end
+     else
+         begin
+         t.AddColumn( 15, '  '      );
+         t.AddColumn( 20, 'Jour');
+         t.AddColumn( 20, 'Cumul '#13#10'sur semaine');
+         t.AddColumn( 20, 'Cumul '#13#10'global');
+         end;
      n:= t.AddNiveau( 'Root');
      n.Charge_sl( _hdmCalendrier.sl);
-     n.Ajoute_Column_Avant( 'D'          , 0, 0);
-     n.Ajoute_Column_Avant( 'Cumul_Jour_Total'         , 1, 1);
-     n.Ajoute_Column_Avant( 'Cumul_Jour_Depassement'   , 2, 2);
-     n.Ajoute_Column_Avant( 'Cumul_Semaine_Total'      , 3, 3);
-     n.Ajoute_Column_Avant( 'Cumul_Semaine_Depassement', 4, 4);
-     n.Ajoute_Column_Avant( 'Cumul_Global_Total'       , 5, 5);
-     n.Ajoute_Column_Avant( 'Cumul_Global_Depassement' , 6, 6);
+     if Afficher_Depassement
+     then
+         begin
+         n.Ajoute_Column_Avant( 'D'          , 0, 0);
+         n.Ajoute_Column_Avant( 'Cumul_Jour_Total'         , 1, 1);
+         n.Ajoute_Column_Avant( 'Cumul_Jour_Depassement'   , 2, 2);
+         n.Ajoute_Column_Avant( 'Cumul_Semaine_Total'      , 3, 3);
+         n.Ajoute_Column_Avant( 'Cumul_Semaine_Depassement', 4, 4);
+         n.Ajoute_Column_Avant( 'Cumul_Global_Total'       , 5, 5);
+         n.Ajoute_Column_Avant( 'Cumul_Global_Depassement' , 6, 6);
+         end
+     else
+         begin
+         n.Ajoute_Column_Avant( 'D'                  , 0, 0);
+         n.Ajoute_Column_Avant( 'Cumul_Jour_Total'   , 1, 1);
+         n.Ajoute_Column_Avant( 'Cumul_Semaine_Total', 2, 2);
+         n.Ajoute_Column_Avant( 'Cumul_Global_Total' , 3, 3);
+         end;
 end;
 
 end.

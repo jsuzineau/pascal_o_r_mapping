@@ -46,6 +46,7 @@ type
   cbRestreindre_a_un_Tag: TCheckBox;
   cbEcrire_arrondi: TCheckBox;
   cbHeures_Supplementaires: TCheckBox;
+  cbDepassement: TCheckBox;
   deDebut: TDateEdit;
   deFin: TDateEdit;
   ds: TDockableScrollbox;
@@ -257,7 +258,7 @@ var
    od: TodCalendrier;
    Resultat: String;
 begin
-     od:= TodCalendrier.Create;
+     od:= TodCalendrier.Create( cbDepassement.Checked);
      try
         od.Init( hdmSession.hdmCalendrier);
         Resultat:= od.Visualiser;
@@ -274,7 +275,7 @@ var
    od: TodCalendrier;
    Resultat: String;
 begin
-     od:= TodCalendrier.Create;
+     od:= TodCalendrier.Create( cbDepassement.Checked);
      try
         od.Init( hdmSession.hdmCalendrier);
         Resultat:= od.Editer_Modele_Impression;

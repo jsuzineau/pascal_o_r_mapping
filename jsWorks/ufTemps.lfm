@@ -1,7 +1,7 @@
 object fTemps: TfTemps
-  Left = 101
+  Left = 545
   Height = 397
-  Top = 50
+  Top = 181
   Width = 923
   Caption = 'fTemps'
   ClientHeight = 397
@@ -9,7 +9,7 @@ object fTemps: TfTemps
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '1.8.0.1'
+  LCLVersion = '1.8.0.6'
   object Panel1: TPanel
     Left = 0
     Height = 128
@@ -47,7 +47,7 @@ object fTemps: TfTemps
       Left = 8
       Height = 17
       Top = 8
-      Width = 43
+      Width = 41
       Caption = 'Début'
       FocusControl = deDebut
       ParentColor = False
@@ -56,7 +56,7 @@ object fTemps: TfTemps
       Left = 113
       Height = 17
       Top = 8
-      Width = 21
+      Width = 20
       Caption = 'Fin'
       FocusControl = deFin
       ParentColor = False
@@ -104,7 +104,7 @@ object fTemps: TfTemps
       Left = 408
       Height = 24
       Top = 56
-      Width = 165
+      Width = 161
       Caption = 'Restreindre à un Tag'
       OnClick = cbRestreindre_a_un_TagClick
       TabOrder = 6
@@ -149,7 +149,7 @@ object fTemps: TfTemps
       Left = 227
       Height = 17
       Top = 5
-      Width = 58
+      Width = 57
       Caption = 'Semaine'
       ParentColor = False
     end
@@ -183,7 +183,7 @@ object fTemps: TfTemps
       Left = 416
       Height = 24
       Top = 2
-      Width = 79
+      Width = 78
       Caption = 'Arrondi'
       OnChange = cbEcrire_arrondiChange
       TabOrder = 13
@@ -192,7 +192,7 @@ object fTemps: TfTemps
       Left = 415
       Height = 24
       Top = 28
-      Width = 84
+      Width = 82
       Caption = 'H.Suppl.'
       OnChange = cbHeures_SupplementairesChange
       TabOrder = 14
@@ -205,6 +205,14 @@ object fTemps: TfTemps
       Caption = 'M'
       OnClick = bodSession_ModeleClick
       TabOrder = 15
+    end
+    object cbDepassement: TCheckBox
+      Left = 541
+      Height = 24
+      Top = 96
+      Width = 118
+      Caption = 'Dépassement'
+      TabOrder = 16
     end
   end
   object ds: TDockableScrollbox
