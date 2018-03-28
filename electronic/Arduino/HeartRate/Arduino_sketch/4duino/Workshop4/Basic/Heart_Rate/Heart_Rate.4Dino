@@ -1,5 +1,6 @@
 #include <SPI.h>
 #include <math.h>
+#include "arduinoFFT.h"
 
 // Define LOG_MESSAGES to a serial port to send SPE errors messages to. Do not use the same Serial port as SPE
 //#define LOG_MESSAGES Serial
@@ -266,6 +267,7 @@ class Pulsation
    unsigned long T;
    unsigned long y;
    unsigned long dx;
+   unsigned long dt;
    unsigned char Written;
    unsigned char Calc;
    void Initialise()
@@ -349,6 +351,7 @@ void Calcul_Ti( unsigned char _i)
     }
   P.y   =  y;
   P.dx  = dx;
+  P.dt  =delta;
   P.Calc=true;
   }
 void Display_Ti( unsigned char _i)
@@ -458,6 +461,82 @@ void Display_T()
   Line.Draw();
   Old_Line=Line;
   }
+//calcul fft
+double d_map(double x, double in_min, double in_max, double out_min, double out_max)
+{
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+const uint16_t n=64;
+double sample_dt=0;
+double sample_t[n];
+double sample_y_real[n];
+double sample_y_imaginary[n];
+double samplingFrequency=0;
+double f_max=0;
+double Periode_max=0;
+void Calcul_FFT()
+  {
+  unsigned char offset=iPs;
+  //calcul intervalle x
+  unsigned long dt_sum=0;
+  unsigned long t_max= Ps[iPs].T;
+
+  for (int j=0; j>=-Ps_Max; j--)
+    {
+    int int_i= (offset+j) % Ps_Size;
+    if (int_i<0) int_i+= Ps_Size;//le modulo C++ peut être négatif
+    unsigned char i= int_i;
+
+    volatile Pulsation &P  =Ps[ i  ];
+    dt_sum+= P.dt;
+    }
+  //Calcul intervalle élémentaire
+  sample_dt= dt_sum / n;
+  samplingFrequency= 1000/sample_dt;
+  //calcul du vecteur des x
+  double t=t_max;
+  for (int j=n-1; j>=0; j--)
+    {
+    sample_t[j]= t;
+    t-=sample_dt;
+    }
+  //interpolation du vecteur des y
+  dt_sum=0;
+  for (int j=0; j>=-Ps_Max; j--)
+    {
+    int int_i= (offset+j) % Ps_Size;
+    if (int_i<0) int_i+= Ps_Size;//le modulo C++ peut être négatif
+    unsigned char i= int_i;
+    unsigned char i_1= i > 0 ? i-1 : Ps_Max;
+
+    volatile Pulsation &P_1=Ps[ i_1];
+    volatile Pulsation &P  =Ps[ i  ];
+
+    unsigned long y_1= P_1.y;
+    unsigned long y  = P  .y;
+    unsigned long t  = P  .T;
+    unsigned long t_1= P_1.T;
+
+    int i_sample= (n-1)-(int)(dt_sum/sample_dt);
+    while ((i_sample>=0)&&(sample_t[i_sample] > t_1))
+      {
+      sample_y_real[i_sample]= d_map(sample_t[i_sample], t_1, t, y_1, y);
+      i_sample--;
+      }
+
+    dt_sum+= P.dt;
+    }
+  // FFT
+  arduinoFFT FFT = arduinoFFT(); /* Create FFT object */
+  FFT.Windowing(sample_y_real, n, FFT_WIN_TYP_HAMMING, FFT_FORWARD);  /* Weigh data */
+  FFT.Compute(sample_y_real, sample_y_imaginary, n, FFT_FORWARD); /* Compute FFT */
+  FFT.ComplexToMagnitude(sample_y_real, sample_y_imaginary, n);
+  f_max = FFT.MajorPeak(sample_y_real, n, samplingFrequency);
+  Periode_max= 1.0/f_max;
+  }
+
+
+
 void interrupt()
   {
   state= !state;
