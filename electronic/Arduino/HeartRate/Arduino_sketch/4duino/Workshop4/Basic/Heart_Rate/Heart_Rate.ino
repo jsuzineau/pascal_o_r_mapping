@@ -60,10 +60,10 @@ void mycallback(int ErrCode, unsigned char Errorbyte)
 void setup()
 {
 // Ucomment to use the Serial link to the PC for debugging
-//  Serial.begin(115200) ;        // serial to USB port
+  Serial.begin(115200) ;        // serial to USB port
 // Note! The next statement will stop the sketch from running until the serial monitor is started
 //       If it is not present the monitor will be missing the initial writes
-//    while (!Serial) ;             // wait for serial to be established
+    while (!Serial) ;             // wait for serial to be established
 
   pinMode(RESETLINE, OUTPUT);       // Display reset pin
 digitalWrite(RESETLINE, 1);       // Reset Display, using shield
@@ -120,6 +120,25 @@ class TButton
      boolean Result=((x <= _x)&&(_x <= x+width) && (y <= _y)&&(_y <= y+height));
      return Result;
      }
+  };
+class TByteLabel: public TButton
+  {
+  public:
+  byte *bValue;
+  char cValue[80];
+  TByteLabel( word _state, word _x, word _y, word _buttonColour, word _txtColour,
+           word _font, word _txtWidth, word _txtHeight, byte *_bValue, word _width, word _height)
+   :TButton( _state, _x, _y, _buttonColour, _txtColour,
+           _font, _txtWidth, _txtHeight, cValue, _width, _height),
+    bValue( _bValue)
+    {
+    }
+  void Draw()
+     {
+     sprintf( cValue, "%d", *bValue);
+     TButton::Draw();
+     }
+
   };
 class TIntLabel: public TButton
   {
@@ -211,14 +230,15 @@ void fHeart_Rate_unsetup()
   detachInterrupt( digitalPinToInterrupt(2));
   }
 
-unsigned long old_y=0;
-const int w4duino_dx=320; const int w4duino_max_x= w4duino_dx-1;
-const int w4duino_dy=240; const int w4duino_max_y= w4duino_dy-1;
+bool is_FFT= false;
+word old_y=0;
+const int  w4duino_dx=320; const int w4duino_max_x= w4duino_dx-1;
+const byte w4duino_dy=240; const int w4duino_max_y= w4duino_dy-1;
 //const int pouls_min=20; const int pouls_max=200;
-long pouls_min=40; long pouls_max=100;
-const unsigned long ms_from_minute=60000;
-const unsigned long ms_from_seconde=1000;
-long temps_largeur_ecran= 30; //30s : 2 largeur d'écran par minute
+byte pouls_min=40; byte pouls_max=100;
+const word ms_from_minute=60000;
+const word ms_from_seconde=1000;
+byte temps_largeur_ecran= 30; //30s : 2 largeur d'écran par minute
 
 //Display.gfx_Slider(SLIDER_RAISED, 42, 49, 285, 68, TURQUOISE, 100, 40) ;  // sX
      TSlider sTemps( SLIDER_RAISED, 42, 49, 285, 68, TURQUOISE, 60, 30);
@@ -229,13 +249,15 @@ long temps_largeur_ecran= 30; //30s : 2 largeur d'écran par minute
 
 //Display.gfx_Button(1, 140, 196, SILVER, BLACK, FONT3, 1, 1, "OK") ; // bOK Width=29 Height=21
          TButton bOK(1, 140, 196, SILVER, BLACK, FONT3, 1, 1, "OK",29,21);
+//Display.gfx_Button(1, 48, 196, RED, YELLOW, FONT3, 1, 1, "FFT") ; // bFFT Width=37 Height=21
+        TButton bFFT(1, 48, 196, RED, YELLOW, FONT3, 1, 1, "FFT",37,21);
 
 //Display.gfx_Button(1, 175, 22, WHITE, BLACK, FONT1, 1, 1, "Temps") ; // bTemps Width=48 Height=17
-         TIntLabel bTemps(1, 175, 22, WHITE, BLACK, FONT1, 1, 1, &temps_largeur_ecran,48,17);
+   TByteLabel bTemps(1, 175, 22, WHITE, BLACK, FONT1, 1, 1, &temps_largeur_ecran,48,17);
 //Display.gfx_Button(1, 156, 79, WHITE, BLACK, FONT1, 1, 1, "Min") ; // bMin Width=34 Height=17
-         TIntLabel bMin(1, 156, 79, WHITE, BLACK, FONT1, 1, 1, &pouls_min,34,17);
+     TByteLabel bMin(1, 156, 79, WHITE, BLACK, FONT1, 1, 1, &pouls_min,34,17);
 //Display.gfx_Button(1, 153, 127, WHITE, BLACK, FONT1, 1, 1, "Max") ; // bMax Width=34 Height=17
-         TIntLabel bMax(1, 153, 127, WHITE, BLACK, FONT1, 1, 1, &pouls_max,34,17);
+     TByteLabel bMax(1, 153, 127, WHITE, BLACK, FONT1, 1, 1, &pouls_max,34,17);
 
 
 void fRange_setup()
@@ -257,6 +279,7 @@ void fRange_setup()
   sMin  .Draw(); bMin  .Draw();
   sMax  .Draw(); bMax  .Draw();
   bOK   .Draw();
+  bFFT  .Draw();
 
   }
 void fRange_unsetup()
@@ -265,17 +288,17 @@ void fRange_unsetup()
   }
 
 //on déclare en volatile toutes les variables accédées dans l'interruption (car thread différent)
-const unsigned char Ps_Size=40;
-const unsigned char Ps_Max=Ps_Size-1;
+const byte Ps_Size=40;
+const byte Ps_Max=Ps_Size-1;
 class Pulsation
  {
  public:
    unsigned long T;
-   unsigned long y;
-   unsigned long dx;
-   unsigned long dt;
-   unsigned char Written;
-   unsigned char Calc;
+   byte y;
+   byte dx;
+   word dt;
+   byte Written;
+   byte Calc;
    void Initialise()
     {
     T      = 0   ;
@@ -286,17 +309,17 @@ class Pulsation
     }
  };
 volatile Pulsation Ps[ Ps_Size];
-volatile unsigned char iPs=0;
-volatile unsigned char state = LOW; //alternance des interruptions
+volatile byte iPs=0;
+volatile byte state = LOW; //alternance des interruptions
 
 //String NomFichier="";
 //String linuxNomFichier= "";
 //String urlNomFichier="";
 void Log_to_File()
   {
-  unsigned char All_written= true;
+  bool All_written= true;
 
-  for (unsigned char i=0; i<=Ps_Max; i++)
+  for (byte i=0; i<=Ps_Max; i++)
     {
     if (Ps[i].Written) continue;
 
@@ -311,7 +334,7 @@ void Log_to_File()
   linuxNomFichier.toCharArray( lpstrNomFichier, taille);
   File F= FileSystem.open( lpstrNomFichier, FILE_APPEND);
   */
-  for (unsigned char i=0; i<=Ps_Max; i++)
+  for (byte i=0; i<=Ps_Max; i++)
     {
     if (Ps[i].Written) continue;
 
@@ -321,7 +344,13 @@ void Log_to_File()
     Ps[i].Written= true;
     }
 
-  Display_T();
+  if (is_FFT)
+    {
+     Calcul_FFT();
+    Display_FFT();
+    }
+  else
+    Display_T();
 
   //F.close();
 
@@ -334,14 +363,14 @@ void Calcul_cx_cy()
   cx= (double)w4duino_dx / (double)(temps_largeur_ecran*ms_from_seconde);
   cy= (double)w4duino_dy / (pouls_max-pouls_min);
   }
-void Calcul_Ti( unsigned char _i)
+void Calcul_Ti( byte _i)
   {
-  unsigned char i_1= _i > 0 ? _i-1 : Ps_Max;
+  byte i_1= _i > 0 ? _i-1 : Ps_Max;
   volatile Pulsation &P_1=Ps[ i_1];
   volatile Pulsation &P  =Ps[_i  ];
-  unsigned long delta= P.T - P_1.T;
-  unsigned long y= 0;
-  unsigned long dx= 0;
+  word delta= P.T - P_1.T;
+  byte y= 0;
+  byte dx= 0;
   if (0==delta)
     {
      y=  P_1.y;
@@ -360,13 +389,13 @@ void Calcul_Ti( unsigned char _i)
   P.dt  =delta;
   P.Calc=true;
   }
-void Display_Ti( unsigned char _i)
+void Display_Ti( byte _i)
   {
   volatile Pulsation &P  =Ps[ _i  ];
-  unsigned long  y= P. y;
-  unsigned long dx= P.dx;
-  unsigned long largeur= w4duino_dx-dx;
-  unsigned long old_x= largeur;
+  byte  y= P. y;
+  byte dx= P.dx;
+  int largeur= w4duino_dx-dx;
+  int old_x= largeur;
 
   Display.gfx_ScreenCopyPaste(dx, 0, 0, 0, largeur, w4duino_dy);
   //Display.gfx_Line(w4duino_max_x, 0, w4duino_max_x, w4duino_max_y, BLACK);   // draw line, can be patterned();
@@ -391,7 +420,7 @@ class TPoint
   {
   public:
   int x;
-  int y;
+  byte y;
   boolean Out()
     {
     return (x<0)||(w4duino_max_x<x);
@@ -402,13 +431,13 @@ class TPolyLine
   private:
     void Draw_interne( word _color)
       {
-      for (unsigned char i=1; i<Ps_Size; i++)
+      for (byte i=1; i<Ps_Size; i++)
         {
         TPoint &p_1=points[i-1]; if(p_1.Out()) continue;
         TPoint &p  =points[i  ]; if(p  .Out()) continue;
         if (p_1.x>p.x) continue;
 
-        for (char j=0;j<3;j++)
+        for (byte j=0;j<3;j++)
           Display.gfx_Line(p_1.x,p_1.y+j, p.x, p.y+j, _color);
         }
       }
@@ -416,14 +445,14 @@ class TPolyLine
     TPoint points[Ps_Size];
     TPolyLine()
       {
-      for (unsigned char i=1; i<Ps_Size; i++)
+      for (byte i=1; i<Ps_Size; i++)
         {
         TPoint &p=points[i];
         p.x= 0;
         p.y= 0;
         }
       }
-    void Set_point( unsigned char _i, int x, int y)
+    void Set_point( byte _i, int x, byte y)
       {
       TPoint &p=points[_i];
       p.x= x;
@@ -439,20 +468,20 @@ void Display_T()
   TPolyLine Line;
 
   //Display.gfx_Cls();
-  unsigned char offset=iPs;
-  long x= w4duino_max_x;
-  for (int j=0; j>=-Ps_Max; j--)
+  byte offset=iPs;
+  int x= w4duino_max_x;
+  for (char j=0; j>=-Ps_Max; j--)
     {
-    int int_i= (offset+j) % Ps_Size;
+    char int_i= (offset+j) % Ps_Size;
     if (int_i<0) int_i+= Ps_Size;//le modulo C++ peut être négatif
-    unsigned char i= int_i;
-    unsigned char i_1= i > 0 ? i-1 : Ps_Max;
+    byte i= int_i;
+    byte i_1= i > 0 ? i-1 : Ps_Max;
 
     volatile Pulsation &P_1=Ps[ i_1];
     volatile Pulsation &P  =Ps[ i  ];
-    unsigned long y_1= P_1.y;
-    unsigned long y  = P  .y;
-    unsigned long dx = P  .dx;
+    byte y_1= P_1.y;
+    byte y  = P  .y;
+    byte dx = P  .dx;
     //Display.gfx_Line(x-dx,y_1, x, y, GREEN);
     Line.Set_point( i_1, x-dx, y_1);
     Line.Set_point( i  , x   , y  );
@@ -472,26 +501,42 @@ double d_map(double x, double in_min, double in_max, double out_min, double out_
 {
   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
-const uint16_t n=64;
+const byte n=64;
+const byte n2=n>>1;//=n/2
+const byte FFT_dx= w4duino_max_x / n2;
 double sample_dt=0;
-double sample_t[n];
 double sample_y_real[n];
-double sample_y_imaginary[n];
-double samplingFrequency=0;
-double f_max=0;
 double Periode_max=0;
+
+#define SCL_INDEX 0x00
+#define SCL_TIME 0x01
+#define SCL_FREQUENCY 0x02
+#define SCL_PLOT 0x03
+
 void Calcul_FFT()
   {
-  unsigned char offset=iPs;
+  double sample_t[n];
+  double sample_y_imaginary[n];
+  double samplingFrequency=0;
+  double f_max=0;
+
+  /*
+  for (byte i=0; i<n; i++)
+    {
+    sample_y_real[i]=0;
+    sample_y_imaginary[i]=0;
+    }
+ */
+  byte offset=iPs;
   //calcul intervalle x
-  unsigned long dt_sum=0;
+  word dt_sum=0;
   unsigned long t_max= Ps[iPs].T;
 
-  for (int j=0; j>=-Ps_Max; j--)
+  for (char j=0; j>=-Ps_Max; j--)
     {
     int int_i= (offset+j) % Ps_Size;
     if (int_i<0) int_i+= Ps_Size;//le modulo C++ peut être négatif
-    unsigned char i= int_i;
+    byte i= int_i;
 
     volatile Pulsation &P  =Ps[ i  ];
     dt_sum+= P.dt;
@@ -501,29 +546,29 @@ void Calcul_FFT()
   samplingFrequency= 1000/sample_dt;
   //calcul du vecteur des x
   double t=t_max;
-  for (int j=n-1; j>=0; j--)
+  for (char j=n-1; j>=0; j--)
     {
     sample_t[j]= t;
     t-=sample_dt;
     }
   //interpolation du vecteur des y
   dt_sum=0;
-  for (int j=0; j>=-Ps_Max; j--)
+  for (char j=0; j>=-Ps_Max; j--)
     {
-    int int_i= (offset+j) % Ps_Size;
+    char int_i= (offset+j) % Ps_Size;
     if (int_i<0) int_i+= Ps_Size;//le modulo C++ peut être négatif
-    unsigned char i= int_i;
-    unsigned char i_1= i > 0 ? i-1 : Ps_Max;
+    byte i= int_i;
+    byte i_1= i > 0 ? i-1 : Ps_Max;
 
     volatile Pulsation &P_1=Ps[ i_1];
     volatile Pulsation &P  =Ps[ i  ];
 
-    unsigned long y_1= P_1.y;
-    unsigned long y  = P  .y;
+    byte y_1= P_1.y;
+    byte y  = P  .y;
     unsigned long t  = P  .T;
     unsigned long t_1= P_1.T;
 
-    int i_sample= (n-1)-(int)(dt_sum/sample_dt);
+    byte i_sample= (n-1)-(int)(dt_sum/sample_dt);
     while ((i_sample>=0)&&(sample_t[i_sample] > t_1))
       {
       sample_y_real[i_sample]= d_map(sample_t[i_sample], t_1, t, y_1, y);
@@ -533,14 +578,86 @@ void Calcul_FFT()
     dt_sum+= P.dt;
     }
   // FFT
-  arduinoFFT FFT = arduinoFFT(); /* Create FFT object */
-  FFT.Windowing(sample_y_real, n, FFT_WIN_TYP_HAMMING, FFT_FORWARD);  /* Weigh data */
-  FFT.Compute(sample_y_real, sample_y_imaginary, n, FFT_FORWARD); /* Compute FFT */
-  FFT.ComplexToMagnitude(sample_y_real, sample_y_imaginary, n);
-  f_max = FFT.MajorPeak(sample_y_real, n, samplingFrequency);
+  arduinoFFT FFT= arduinoFFT( sample_y_real, sample_y_imaginary, n, samplingFrequency);
+  FFT.Windowing( FFT_WIN_TYP_HAMMING, FFT_FORWARD);
+  FFT.Compute( FFT_FORWARD);
+  FFT.ComplexToMagnitude();
+  f_max = FFT.MajorPeak();
   Periode_max= 1.0/f_max;
+
+
+  Serial.println("Computed magnitudes:");
+  PrintVector(sample_y_real, n2, SCL_FREQUENCY, samplingFrequency);
+  Serial.println(f_max, 6);
+  Serial.print("Periode:");
+  Serial.println(Periode_max, 6);
+
   }
 
+//duplicated from sample arduinoFFT / FFT_01
+void PrintVector(double *vData, uint16_t bufferSize, uint8_t scaleType, double samplingFrequency)
+{
+  for (uint16_t i = 0; i < bufferSize; i++)
+  {
+    double abscissa;
+    /* Print abscissa value */
+    switch (scaleType)
+    {
+      case SCL_INDEX:
+        abscissa = (i * 1.0);
+	break;
+      case SCL_TIME:
+        abscissa = ((i * 1.0) / samplingFrequency);
+	break;
+      case SCL_FREQUENCY:
+        abscissa = ((i * 1.0 * samplingFrequency) / n);
+	break;
+    }
+    Serial.print(abscissa, 6);
+    if(scaleType==SCL_FREQUENCY)
+      Serial.print("Hz");
+    Serial.print(" ");
+    Serial.println(vData[i], 4);
+  }
+  Serial.println();
+}
+
+void Display_FFT()
+  {
+  TPolyLine Line;
+
+  double FFT_ymax= 0;
+  for (byte j=0; j< n2; j++)
+    {
+    double FFT_y= sample_y_real[j];
+    if (FFT_y > FFT_ymax) FFT_ymax= FFT_y;
+    }
+  //Serial.print("FFT_ymax: ");Serial.println(FFT_ymax,6);
+
+  double FFT_cy= (double)w4duino_dy / FFT_ymax;
+  //Serial.print("FFT_cy: ");Serial.println(FFT_cy,6);
+
+  double FFT_y_1= sample_y_real[0];
+  byte y_1= (int)(FFT_y_1*FFT_cy);
+  //Serial.print(y_1);Serial.print(" ");
+  int x_1= 0;
+  Line.Set_point( 0, x_1, y_1);
+  for (byte j=1; j< n2; j++)
+    {
+    double FFT_y  = sample_y_real[j  ];
+    byte y  = (int)(FFT_y  *FFT_cy);
+    int x  = j*FFT_dx;
+
+    //Serial.print(y);Serial.print(" ");
+
+    Line.Set_point( j, x, y);
+    }
+  //Serial.println();
+
+  Old_Line.UnDraw();
+  Line.Draw();
+  Old_Line=Line;
+  }
 
 
 void interrupt()
@@ -564,7 +681,7 @@ void Traite_data()
 
 void Initialise()
   {
-  for (unsigned char i=0; i<=Ps_Max; i++)
+  for (byte i=0; i<=Ps_Max; i++)
      Ps[i].Initialise();
   }
 
@@ -586,7 +703,7 @@ void fRange_loop()
   boolean isPressed= TOUCH_PRESSED == wTOUCH_STATUS;
   boolean isMoving = TOUCH_MOVING == wTOUCH_STATUS;
   word x = Display.touch_Get(TOUCH_GETX);
-  word y = Display.touch_Get(TOUCH_GETY);
+  byte y = Display.touch_Get(TOUCH_GETY);
   if (isPressed || isMoving)
     {
           if (sTemps.Touch( x, y)) { temps_largeur_ecran= sTemps.value; bTemps.Draw();}
@@ -595,6 +712,13 @@ void fRange_loop()
     }
   if ((isPressed)&&(bOK.Touch( x, y)))
     {
+    is_FFT= false;
+    fRange_unsetup();
+    fHeart_Rate_setup();
+    }
+  if ((isPressed)&&(bFFT.Touch( x, y)))
+    {
+    is_FFT= true;
     fRange_unsetup();
     fHeart_Rate_setup();
     }
