@@ -221,3 +221,23 @@ Button
     Top                          127
     Value                        50
 end
+Button
+    Name                         Button8
+    Alias                        bFFT
+    ButtonColor                  RED
+    Caption                      FFT
+    Color                        YELLOW
+    Font                         FONT3
+    Index                        0
+    Left                         48
+    Outlined                     No
+    OutlineColor                 WHITE
+    Pattern                      Fine
+    State                        Released
+    SelTextBG                    LIME
+    SelTextColor                 BLUE
+    TextHeight                   1
+    TextWidth                    1
+    Top                          196
+    Value                        50
+end
