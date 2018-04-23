@@ -2308,105 +2308,50 @@ end;
 
 procedure TOpenDocument.AddHtml( _e: TDOMNode; _Value: String);
 var
-   I: Integer;
-   C: Char;
-   S: String;
-   procedure Ajoute_SautLigne;
-   begin
-        Cree_path( _e, 'text:line-break');
-   end;
-   procedure Ajoute_Tabulation;
-   begin
-        Cree_path( _e, 'text:tab');
-   end;
-   procedure Ajoute_S;
+   html: TXMLDocument;
+   procedure Cree_html;
    var
-      eSpan, eText: TDomNode;
+      ss: TStringStream;
    begin
-        if S = '' then exit;
-
-        if _Escape_XML
-        then
-            S:= Escape_XML( S);
-        eSpan:= Cree_path( _e, 'text:span');
-        if _Gras then Set_Property( eSpan, 'text:style-name', Name_style_text_bold);
-        eText:= _e.OwnerDocument.CreateTextNode( S);
-        eSpan.AppendChild( eText);
-        S:= '';
+        ss:= TStringStream.Create( _Value);
+        try
+           ReadXMLFile( html, ss);
+        finally
+               FreeAndNil( ss);
+               end;
    end;
-   procedure Traite_Espaces;
+   procedure Traite_html_node( _od_Parent, _html_Parent: TDOMNode);
    var
-      L: Integer;
-      function Index: Integer;
-      begin
-           Result:= I+L-1;
-      end;
+      NodeName: String;
+      od_node: TDOMNode;
+      cn: TDOMNodeList;
+      n: TDOMNode;
+      i: Integer;
    begin
-        S:= S + C;
-        Ajoute_S;
+        NodeName:= _html_Parent.NodeName;
+        od_node:= nil;
+             if '#text'=NodeName then AddText( _od_Parent, _html_Parent.NodeValue)
+        else                          AddText( _od_Parent, 'balise html non geree: <'+_html_Parent.NodeName+'>'#13#10);
 
-        L:= 2;//le premier caractère a déjà été testé
-        while     (Index <= Length( _Value))
-              and (_Value[Index] = ' ')
+        if nil = od_node then od_node:= _od_Parent;
+
+        cn:= _html_Parent.ChildNodes;
+        for i:= 0 to cn.Count-1
         do
-          Inc( L);
-        if Index <= Length( _Value)
-        then
-            Dec( L);
-
-        AddSpace( _e, L-1); // le premier espace est déjà rajouté
-
-        Inc( I, L-1); // on se place sur le dernier caractère
-   end;
-   procedure Traite_SautLigne_Windows_Mac;
-   begin
-        Ajoute_S;
-        Ajoute_SautLigne;
-        if     (I < Length( _Value))
-           and (_Value[I+1] = #10)
-        then
-            Inc( I);
-
-   end;
-   procedure Traite_SautLigne_Linux;
-   begin
-        Ajoute_S;
-        Ajoute_SautLigne;
-   end;
-   procedure Traite_Tabulation;
-   begin
-        Ajoute_S;
-        Ajoute_Tabulation;
-   end;
-   procedure Traite_non_imprimable;
-   begin
-        S:= S+' ';
+          begin
+          n:= cn.Item[i];
+          if nil = n then continue;
+          Traite_html_node( od_node, n);
+          end;
    end;
 begin
-     S:= '';
-     I:= 1;
-     while I<= Length( _Value)
-     do
-       begin
-       C:= _Value[ I];
-       case C
-       of
-         #0..#8  : Traite_non_imprimable;
-         #9      : Traite_Tabulation;
-         #10     : Traite_SautLigne_Linux;
-         #11,
-         #12     : Traite_non_imprimable;
-         #13     : Traite_SautLigne_Windows_Mac;
-         #14..#31: Traite_non_imprimable;
-         ' '     : Traite_Espaces;
-         //désactivé, on travaille en UTF8
-         //#128..#255: S:= S + ' &#x'+IntToHex( Ord(C),2)+'; ';
-         else        S:= S + C;
-         end;
-       Inc( I);
-       end;
+     Cree_html;
+     try
+        Traite_html_node( _e, html.DocumentElement);
+     finally
+            FreeAndNil( html);
+            end;
 
-     Ajoute_S;
 end;
 
 procedure TOpenDocument.AddText( _Value: String; _Escape_XML: Boolean= False;

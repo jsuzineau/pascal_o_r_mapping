@@ -5,9 +5,10 @@ unit utcOpenDocument_AddHTML;
 interface
 
 uses
-  uOD_Temporaire,
-  uOpenDocument,
- Classes, SysUtils, fpcunit, testutils, testregistry;
+    uOD_JCL,
+    uOD_Temporaire,
+    uOpenDocument,
+ Classes, SysUtils, fpcunit, testutils, testregistry,FileUtil,LCLIntf,DOM;
 
 type
  TtcOpenDocument_AddHTML
@@ -39,8 +40,12 @@ begin
 end;
 
 procedure TtcOpenDocument_AddHTML.TestHookUp;
+var
+   e: TDOMNode;
 begin
-     od.AddHtml( '<p><strong>yujy</strong>ujf<em>yujC</em>LP<u>100</u>&#x2F;70-<span style="color:#e60000">D4-H</span>T<span style="background-color:#ff9900">4.80 </span>( s<strong style="color:#ff9900"><u>imple pare</u></strong>ment BA 15)<br/><br/>ftrh<br/>rtfj<br/><br/>rtjrtj test jean</p>');
+     e:= Cree_path( od.Get_xmlContent_TEXT, 'text:p');
+
+     od.AddHtml( e, '<p><strong>yujy</strong>ujf<em>yujC</em>LP<u>100</u>&#x2F;70-<span style="color:#e60000">D4-H</span>T<span style="background-color:#ff9900">4.80 </span>( s<strong style="color:#ff9900"><u>imple pare</u></strong>ment BA 15)<br/><br/>ftrh<br/>rtfj<br/><br/>rtjrtj test jean</p>');
 
      //OpenDocument( IncludeTrailingPathDelimiter( od.Repertoire_Extraction)+'content.xml');
      //OpenDocument( IncludeTrailingPathDelimiter( od.Repertoire_Extraction)+'styles.xml');
