@@ -432,6 +432,10 @@ type
     procedure AddText ( _Value: String;
                         _Escape_XML: Boolean= False; _Gras: Boolean= False); overload;
     function Append_SOFT_PAGE_BREAK( _eRoot: TDOMNode): TDOMNode;
+  //Ajout de HTML
+  public
+    procedure AddHtml( _e: TDOMNode; _Value: String); overload;
+    procedure AddHtml(_Value: String); overload;
   //Largeur_imprimable
   public
     function Largeur_Imprimable: double;
@@ -2302,10 +2306,118 @@ begin
      Ajoute_S;
 end;
 
+procedure TOpenDocument.AddHtml( _e: TDOMNode; _Value: String);
+var
+   I: Integer;
+   C: Char;
+   S: String;
+   procedure Ajoute_SautLigne;
+   begin
+        Cree_path( _e, 'text:line-break');
+   end;
+   procedure Ajoute_Tabulation;
+   begin
+        Cree_path( _e, 'text:tab');
+   end;
+   procedure Ajoute_S;
+   var
+      eSpan, eText: TDomNode;
+   begin
+        if S = '' then exit;
+
+        if _Escape_XML
+        then
+            S:= Escape_XML( S);
+        eSpan:= Cree_path( _e, 'text:span');
+        if _Gras then Set_Property( eSpan, 'text:style-name', Name_style_text_bold);
+        eText:= _e.OwnerDocument.CreateTextNode( S);
+        eSpan.AppendChild( eText);
+        S:= '';
+   end;
+   procedure Traite_Espaces;
+   var
+      L: Integer;
+      function Index: Integer;
+      begin
+           Result:= I+L-1;
+      end;
+   begin
+        S:= S + C;
+        Ajoute_S;
+
+        L:= 2;//le premier caractère a déjà été testé
+        while     (Index <= Length( _Value))
+              and (_Value[Index] = ' ')
+        do
+          Inc( L);
+        if Index <= Length( _Value)
+        then
+            Dec( L);
+
+        AddSpace( _e, L-1); // le premier espace est déjà rajouté
+
+        Inc( I, L-1); // on se place sur le dernier caractère
+   end;
+   procedure Traite_SautLigne_Windows_Mac;
+   begin
+        Ajoute_S;
+        Ajoute_SautLigne;
+        if     (I < Length( _Value))
+           and (_Value[I+1] = #10)
+        then
+            Inc( I);
+
+   end;
+   procedure Traite_SautLigne_Linux;
+   begin
+        Ajoute_S;
+        Ajoute_SautLigne;
+   end;
+   procedure Traite_Tabulation;
+   begin
+        Ajoute_S;
+        Ajoute_Tabulation;
+   end;
+   procedure Traite_non_imprimable;
+   begin
+        S:= S+' ';
+   end;
+begin
+     S:= '';
+     I:= 1;
+     while I<= Length( _Value)
+     do
+       begin
+       C:= _Value[ I];
+       case C
+       of
+         #0..#8  : Traite_non_imprimable;
+         #9      : Traite_Tabulation;
+         #10     : Traite_SautLigne_Linux;
+         #11,
+         #12     : Traite_non_imprimable;
+         #13     : Traite_SautLigne_Windows_Mac;
+         #14..#31: Traite_non_imprimable;
+         ' '     : Traite_Espaces;
+         //désactivé, on travaille en UTF8
+         //#128..#255: S:= S + ' &#x'+IntToHex( Ord(C),2)+'; ';
+         else        S:= S + C;
+         end;
+       Inc( I);
+       end;
+
+     Ajoute_S;
+end;
+
 procedure TOpenDocument.AddText( _Value: String; _Escape_XML: Boolean= False;
                                  _Gras: Boolean= False);
 begin
      AddText( Get_xmlContent_TEXT, _Value, _Escape_XML, _Gras);
+end;
+
+procedure TOpenDocument.AddHtml(_Value: String);
+begin
+     AddHtml(Get_xmlContent_TEXT, _Value);
 end;
 
 procedure TOpenDocument.Freeze_fields;
