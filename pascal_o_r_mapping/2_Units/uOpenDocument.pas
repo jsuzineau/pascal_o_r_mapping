@@ -53,7 +53,7 @@ type
  TODStringList
  =
   class( TStringList)
-  //MÈthodes surchargÈes
+  //M√©thodes surcharg√©es
   protected
     (*function CompareStrings(const S1:String;const S2:String):Integer;override;*)
   end;
@@ -80,7 +80,7 @@ type
     procedure Abonne   ( _Objet: TObject; _Proc: TAbonnement_Objet_Proc);
     procedure Desabonne( _Objet: TObject; _Proc: TAbonnement_Objet_Proc);
     procedure Publie( _Name, _Value: String);
-  //ParamËtree
+  //Param√®tree
   public
     Name, Value: String;
   end;
@@ -105,8 +105,8 @@ type
   protected
     function Find_Style: TDOMNode; virtual; abstract;
   protected
-    Format_e: TDOMNode; //non rÈentrant/multithread
-    Format_Result: String; //non rÈentrant/multithread
+    Format_e: TDOMNode; //non r√©entrant/multithread
+    Format_Result: String; //non r√©entrant/multithread
     function number_style_SHORT_from_(_e: TDOMNode): Boolean;
     function number_textual_from_(_e: TDOMNode): Boolean;
     function Format_from_number_style(_e: TDOMNode; _Short, _Long: String): String;
@@ -115,7 +115,7 @@ type
     procedure Add_Text;
     procedure Traite_Node; virtual; abstract;
   public
-    function Format: String; //non rÈentrant/multithread
+    function Format: String; //non r√©entrant/multithread
   end;
 
  TStyle_DateTime_class= class of TStyle_DateTime;
@@ -187,7 +187,7 @@ type
     xmlContent          : TXMLDocument;
     xmlStyles           : TXMLDocument;
     function CheminFichier_temporaire( _NomFichier: String): String;
-  //MÈthodes d'accÈs au XML
+  //M√©thodes d'acc√©s au XML
   public
     //Text
     function Get_xmlContent_TEXT: TDOMNode;
@@ -239,7 +239,7 @@ type
     function  Named_Range_Cherche( _Nom: String): TDOMNode;
     function  Named_Range_Assure ( _Nom: String): TDOMNode;
     procedure Named_Range_Set    ( _Nom, _Base_Cell, _Cell_Range: String);
-  //MÈthodes crÈÈes pour compatibilitÈ OOo
+  //M√©thodes cr√©√©es pour compatibilit√© OOo
   private
     function Cherche_field( _Name: String): TDOMNode;
     procedure Enumere_field_Racine( _Racine_Name: String; _CallBack: TEnumere_field_Racine_Callback);
@@ -258,7 +258,7 @@ type
     function Style_NameFromDisplayName( _DisplayName: String): String;
     function Style_DisplayNameFromName( _Name: String): String;
     procedure Efface_Styles_Table( _NomTable: String);
-  //MÈthodes crÈÈes pour OpenDocument_DelphiReportEngine.exe
+  //M√©thodes cr√©√©es pour OpenDocument_DelphiReportEngine.exe
   public
     procedure Fields_Visite( _fv: TFields_Visitor);
     procedure Set_Field( _Name, _Value: String);
@@ -318,7 +318,7 @@ type
                                         _SizePourcent: Integer;
                                         out _eStyle: TDOMNode;
                                         _Is_Header: Boolean): String; overload;
-  //Styles de caractËres automatiques
+  //Styles de caract√®res automatiques
   private
     Automatic_style_text_number: Integer;
   public
@@ -343,7 +343,7 @@ type
     function  Ensure_automatic_style_table_cell( _NomTable: String; _X, _Y: Integer): TDOMNode;
     function  Add_automatic_style_table_cell( _NomTable: String; _X, _Y: Integer): TDOMNode;
     function  Ensure_automatic_style_table_cell_properties( _NomTable: String; _X, _Y: Integer): TDOMNode;
-  //Changer le style parent d'un style donnÈ
+  //Changer le style parent d'un style donn√©
   public
     procedure Change_style_parent( _NomStyle, _NomStyleParent: String);
   //Styles de date
@@ -352,7 +352,7 @@ type
   //Styles de Time
   public
     function Find_Time_style( _NomStyle: String;_Root: TOD_Root_Styles): TDOMNode;
-  //GÈnÈral
+  //G√©n√©ral
   private
     function Text_Traite_Field( FieldName, FieldContent: String;
                                 CreeTextFields: Boolean): Boolean;
@@ -364,24 +364,24 @@ type
     procedure Field_Vide_Branche_CallBack( _e: TDOMNode);
   public
     procedure Field_Vide_Branche( _Racine_FieldName: String);
-  //PropriÈtÈs TextDocument
+  //Propri√©t√©s TextDocument
   public
     function  Text_Lire  ( _Nom: String; _Default: String= ''): String;
     procedure Text_Ecrire( _Nom: String; _Valeur : String);
-  //PropriÈtÈs Calc
+  //Propri√©t√©s Calc
   public
 
-  //AccÈs ‡ une cellule par son nom
+  //Acc√©s √† une cellule par son nom
   public
     procedure Calc_SetText( _Name, _Value: String);
     function  Calc_GetText( _Name: String): String;
     property  Calc_Text[ _Name: String]: String read Calc_GetText write Calc_SetText;
     function  Calc_Lire  ( _Nom: String; _Default: String= ''): String;
     procedure Calc_Ecrire( _Nom: String; _Valeur : String);
-  //ContrÙle d'existence d'un champ
+  //Contr√¥le d'existence d'un champ
   public
     function Existe( FieldName: String): Boolean;
-  //Lecture de paramËtres
+  //Lecture de param√®tres
   public
     function  Lire  ( _Nom: String; _Default: String= ''): String;
     procedure Ecrire( _Nom: String; _Valeur : String);
@@ -395,19 +395,19 @@ type
   //Echappement d'une chaine en XML
   public
     function Escape_XML( S: String): String;
-  //Remplace les rÈfÈrences de champs par leur valeur
+  //Remplace les r√©f√©rences de champs par leur valeur
   public
     procedure Freeze_fields;
-  //EnlËve les styles inutilisÈs
+  //Enl√®ve les styles inutilis√©s
   private
     procedure Try_Delete_Style( _eStyle: TDOMNode);
   public
     procedure Delete_unused_styles;
-  //PropriÈtÈs de table
+  //Propri√©t√©s de table
   public
     function Get_Table_Properties( _NomTable: String): TDOMNode;
     function Get_Table_Width     ( _NomTable: String): String;
-  //PropriÈtÈs de cellule
+  //Propri√©t√©s de cellule
   private
     Cell_Style: String;
   public
@@ -442,7 +442,7 @@ type
   //Entete
   public
     function FirstHeader: TDOMNode;
-  //Style caractËres gras
+  //Style caract√®res gras
   public
     Name_style_text_bold: String;
     procedure Ensure_style_text_bold;
@@ -468,7 +468,7 @@ type
     procedure Setmimetype( _mimetype: String);
   public
     property mimetype: String read Getmimetype write Setmimetype;
-  //Gestion modËle/document
+  //Gestion mod√®le/document
   public
     Is_template: Boolean;
     procedure Is_template_from_extension;
@@ -556,9 +556,9 @@ var
         then
             raise EXY_from_CellName_Exception
                   .
-                   Create(  'La syntaxe du numÈro de ligne ('+sY+') '
+                   Create(  'La syntaxe du num√©ro de ligne ('+sY+') '
                            +'est incorrecte dans '
-                           +'la rÈfÈrence de cellule ('+CellName+')');
+                           +'la r√©f√©rence de cellule ('+CellName+')');
    end;
 begin
      CellName:= UpperCase( CellName);
@@ -1620,7 +1620,7 @@ begin
      if eSTYLE_Cible = nil then exit;
 
      Copie_Item( eSTYLE_Source, eSTYLE_Cible);
-     Set_Property( eSTYLE_Cible, 'style:name', _NomStyle_Cible);//ÈcrasÈ par Copie_Item
+     Set_Property( eSTYLE_Cible, 'style:name', _NomStyle_Cible);//√©cras√© par Copie_Item
 end;
 
 function TOpenDocument.Ensure_style_paragraph( _NomStyle, _NomStyleParent: String;
@@ -1773,7 +1773,7 @@ begin
 end;
 
 function TOpenDocument.Cherche_field( _Name: String): TDOMNode;
-//2017 04 21: passage de "case insensitive" ‡ "case sensitive"
+//2017 04 21: passage de "case insensitive" √† "case sensitive"
 begin
      Result
      :=
@@ -2011,7 +2011,7 @@ begin
      //    Cell.Formula:= _Value
      //else
      //    OOoDelphiReportEngineLog.Entree(  'TOOo_Document_Context.Calc_SetText: '
-     //                                      +'Èchec  ‡ la dÈfinition de '+_Name );
+     //                                      +'√©chec  √† la d√©finition de '+_Name );
 end;
 
 function TOpenDocument.Calc_Lire( _Nom: String; _Default: String= ''): String;
@@ -2242,7 +2242,7 @@ var
         S:= S + C;
         Ajoute_S;
 
-        L:= 2;//le premier caractËre a dÈj‡ ÈtÈ testÈ
+        L:= 2;//le premier caract√®re a d√©j√† √©t√© test√©
         while     (Index <= Length( _Value))
               and (_Value[Index] = ' ')
         do
@@ -2251,9 +2251,9 @@ var
         then
             Dec( L);
 
-        AddSpace( _e, L-1); // le premier espace est dÈj‡ rajoutÈ
+        AddSpace( _e, L-1); // le premier espace est d√©j√† rajout√©
 
-        Inc( I, L-1); // on se place sur le dernier caractËre
+        Inc( I, L-1); // on se place sur le dernier caract√®re
    end;
    procedure Traite_SautLigne_Windows_Mac;
    begin
@@ -2296,7 +2296,7 @@ begin
          #13     : Traite_SautLigne_Windows_Mac;
          #14..#31: Traite_non_imprimable;
          ' '     : Traite_Espaces;
-         //dÈsactivÈ, on travaille en UTF8
+         //d√©sactiv√©, on travaille en UTF8
          //#128..#255: S:= S + ' &#x'+IntToHex( Ord(C),2)+'; ';
          else        S:= S + C;
          end;
@@ -2345,7 +2345,7 @@ var
         S:= S + C;
         Ajoute_S;
 
-        L:= 2;//le premier caractËre a dÈj‡ ÈtÈ testÈ
+        L:= 2;//le premier caract√®re a d√©j√† √©t√© test√©
         while     (Index <= Length( _Value))
               and (_Value[Index] = ' ')
         do
@@ -2354,9 +2354,9 @@ var
         then
             Dec( L);
 
-        AddSpace( _e, L-1); // le premier espace est dÈj‡ rajoutÈ
+        AddSpace( _e, L-1); // le premier espace est d√©j√† rajout√©
 
-        Inc( I, L-1); // on se place sur le dernier caractËre
+        Inc( I, L-1); // on se place sur le dernier caract√®re
    end;
    procedure Traite_SautLigne_Windows_Mac;
    begin
@@ -2399,7 +2399,7 @@ begin
          #13     : Traite_SautLigne_Windows_Mac;
          #14..#31: Traite_non_imprimable;
          ' '     : Traite_Espaces;
-         //dÈsactivÈ, on travaille en UTF8
+         //d√©sactiv√©, on travaille en UTF8
          //#128..#255: S:= S + ' &#x'+IntToHex( Ord(C),2)+'; ';
          else        S:= S + C;
          end;
@@ -2497,7 +2497,7 @@ procedure TOpenDocument.Freeze_fields;
          then
              DataStyleName:='';
 
-         if not_Get_Property( _e, 'text:fixed', DateFixe) // non utilisÈ pour l'instant
+         if not_Get_Property( _e, 'text:fixed', DateFixe) // non utilis√© pour l'instant
          then
              DateFixe:= '';
 
@@ -2573,7 +2573,7 @@ begin
      if Utilise_Style( Get_xmlStyles_MASTER_STYLES, Style_Name) then exit;
      if Utilise_Style( Get_xmlContent_TEXT        , Style_Name) then exit;
 
-     OOoDelphiReportEngineLog.Entree( 'Style '+Style_Name+' inutilisÈ.');
+     OOoDelphiReportEngineLog.Entree( 'Style '+Style_Name+' inutilis√©.');
      Supprime_Item( _eStyle);
 end;
 
