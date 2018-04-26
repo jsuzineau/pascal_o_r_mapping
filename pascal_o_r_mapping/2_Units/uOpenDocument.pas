@@ -3004,6 +3004,8 @@ var
       begin
            span:= TOD_SPAN.Create( Self, _od_Parent);
            try
+              span.Set_Style( _NomStyleParent, False);
+              NomStyle:= span.NomStyleApplique;
               Traite_Couleur( span);
               od_node:= span.e;
            finally
@@ -3076,6 +3078,7 @@ var
         //extraction rustique de la couleur, il faudrait extraire proprement tous les éléments de style html
         if ('#text' =NodeName) or uOD_JCL.not_Get_Property( _html_Parent, 'style', html_style) then html_style:= '';
         html_color:= '';
+        //background-color:
         if 1= pos( 'color:', html_style)
         then
             begin

@@ -1,0 +1,71 @@
+object fTest: TfTest
+  Left = 697
+  Height = 300
+  Top = 394
+  Width = 635
+  Caption = 'Expression Parser'
+  ClientHeight = 300
+  ClientWidth = 635
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  OnClose = FormClose
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  LCLVersion = '1.8.0.6'
+  object m: TMemo
+    Left = 0
+    Height = 226
+    Top = 50
+    Width = 392
+    Align = alClient
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Lucida Console'
+    ParentFont = False
+    ReadOnly = True
+    TabOrder = 1
+  end
+  object e: TEdit
+    Left = 0
+    Height = 24
+    Top = 276
+    Width = 635
+    Align = alBottom
+    OnKeyPress = eKeyPress
+    TabOrder = 0
+  end
+  object msl: TMemo
+    Left = 392
+    Height = 226
+    Top = 50
+    Width = 243
+    Align = alRight
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Lucida Console'
+    ParentFont = False
+    ReadOnly = True
+    TabOrder = 2
+  end
+  object Panel1: TPanel
+    Left = 0
+    Height = 50
+    Top = 0
+    Width = 635
+    Align = alTop
+    ClientHeight = 50
+    ClientWidth = 635
+    TabOrder = 3
+    object bAuto: TButton
+      Left = 11
+      Height = 25
+      Top = 10
+      Width = 75
+      Caption = 'bAuto'
+      OnClick = bAutoClick
+      TabOrder = 0
+    end
+  end
+end
