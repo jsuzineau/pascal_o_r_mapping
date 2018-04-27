@@ -27,18 +27,37 @@ interface
 
 uses
     uOD_Forms,
- SysUtils, Classes;
+ SysUtils, Classes, DOM;
 
 const
      sys_Vide= '';
 
-function StrToK( Key: String; var S: String): String;
+function StrToK( Key: String; var S: String): String; overload;
+function StrToK( Key: DOMString; var S: DOMString): DOMString; overload;
 
 procedure Modele_inexistant( _NomFichierModele: String);
 
 implementation
 
-function StrToK( Key: String; var S: String): String;
+function StrToK( Key: String; var S: String): String; overload;
+var
+   I: Integer;
+begin
+     I:= Pos( Key, S);
+     if I = 0
+     then
+         begin
+         Result:= S;
+         S:= '';
+         end
+     else
+         begin
+         Result:= Copy( S, 1, I-1);
+         Delete( S, 1, (I-1)+Length( Key));
+         end;
+end;
+
+function StrToK( Key: DOMString; var S: DOMString): DOMString; overload;
 var
    I: Integer;
 begin

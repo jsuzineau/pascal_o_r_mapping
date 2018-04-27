@@ -32,7 +32,7 @@ uses
 
 //Gestion JclSimpleXMLElem
 procedure FullName_Split( _FullName: String; var NameSpace, Name: String);
-function Name_from_FullName( _FullName: String): String;
+function Name_from_FullName( _FullName: DOMString): DOMString;
 function Elem_from_path( _e: TDOMNode; Path: String):TDOMNode;
 function Cree_path     ( _e: TDOMNode; Path: String):TDOMNode;
 function Assure_path   ( _e: TDOMNode; Path: String):TDOMNode;
@@ -105,9 +105,9 @@ begin
          end;
 end;
 
-function Name_from_FullName( _FullName: String): String;
+function Name_from_FullName( _FullName: DOMString): DOMString;
 var
-   NameSpace: String;
+   NameSpace: DOMString;
 begin
      NameSpace:= StrToK( ':', _FullName);
      Result:= _FullName;

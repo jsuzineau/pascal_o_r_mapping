@@ -150,6 +150,8 @@ type
  TOD_PARAGRAPH_PROPERTIES=class;
  TOD_TEXT_PROPERTIES=class;
 
+ { TOD_XML_Element }
+
  TOD_XML_Element
  =
   class
@@ -169,10 +171,10 @@ type
     procedure  Delete_Property( _Fullname: String);
   //Text
   private
-    function  GetText: String;
-    procedure SetText( _Value: String);
+    function  GetText: DOMString;
+    procedure SetText( _Value: DOMString);
   public
-    property Text: String read getText write SetText;
+    property Text: DOMString read GetText write SetText;
   //Insertion de texte
   public
     procedure AddText ( _Value: String;
@@ -187,7 +189,7 @@ type
                                   _DeltaSize: Integer= 0;
                                   _Size: Integer= 0;
                                   _SizePourcent: Integer= 100);
-    procedure Add_CR_NL;
+    procedure Add_Line_Break;
     function AddTab: TOD_TAB;
     function AddSpan: TOD_SPAN;
   //Style automatique
@@ -615,9 +617,6 @@ type
   public
     function URL_from_WindowsFileName( FileName: String): String;
     function WindowsFileName_from_URL( FileName: String): String;
-  //Echappement d'une chaine en XML
-  public
-    function Escape_XML( S: String): String;
   //Remplace les références de champs par leur valeur
   public
     procedure Freeze_fields;
@@ -650,15 +649,13 @@ type
     procedure AddSpace( _e: TDOMNode; _c: Integer);
   //Ajout de texte
   public
-    procedure AddText ( _e: TDOMNode; _Value: String;
-                        _Escape_XML: Boolean= False; _Gras: Boolean= False); overload;
-    procedure AddText ( _Value: String;
-                        _Escape_XML: Boolean= False; _Gras: Boolean= False); overload;
+    procedure AddText_( _e: TDOMNode; _Value: String; _Gras: Boolean= False); overload;
+    procedure AddText_(               _Value: String; _Gras: Boolean= False); overload;
     function Append_SOFT_PAGE_BREAK( _eRoot: TDOMNode): TDOMNode;
   //Ajout de HTML
   public
-    procedure AddHtml( _e: TDOMNode; _Value: String); overload;
-    procedure AddHtml(_Value: String); overload;
+    procedure AddHtml( _e: TDOMNode; _Value: String; _Gras: Boolean= False); overload;
+    procedure AddHtml(_Value: String; _Gras: Boolean= False); overload;
   //Largeur_imprimable
   public
     function Largeur_Imprimable: double;
@@ -961,7 +958,7 @@ end;
 
 procedure TStyle_Date.Traite_Node;
 var
-   NodeName: String;
+   NodeName: DOMString;
 begin
      NodeName:= Format_e.NodeName;
           if NodeName =  'number:day'         then Add_Format        ( 'd'  , 'dd'  )
@@ -983,7 +980,7 @@ end;
 
 procedure TStyle_Time.Traite_Node;
 var
-   NodeName: String;
+   NodeName: DOMString;
 begin
      NodeName:= Format_e.NodeName;
           if NodeName =  'number:hours'       then Add_Format( 'h', 'hh')
@@ -1108,12 +1105,12 @@ begin
      inherited;
 end;
 
-function TOD_XML_Element.GetText: String;
+function TOD_XML_Element.GetText: DOMString;
 begin
      Result:= e.TextContent;
 end;
 
-procedure TOD_XML_Element.SetText( _Value: String);
+procedure TOD_XML_Element.SetText( _Value: DOMString);
 begin
      e.TextContent:= _Value;
 end;
@@ -1133,12 +1130,8 @@ begin
      uOD_JCL.Delete_Property( e, _Fullname);
 end;
 
-procedure TOD_XML_Element.AddText_with_span( _Value,
-                                             _NomStyle: String;
-                                             _Gras: Boolean;
-                                             _DeltaSize,
-                                             _Size,
-                                             _SizePourcent: Integer);
+procedure TOD_XML_Element.AddText_with_span(_Value: String; _NomStyle: String;
+ _Gras: Boolean; _DeltaSize: Integer; _Size: Integer; _SizePourcent: Integer);
 var
    span: TOD_SPAN;
 begin
@@ -1165,12 +1158,12 @@ begin
      then
          AddText_with_span(_Value,_NomStyle,_Gras,_DeltaSize,_Size,_SizePourcent)
      else
-         D.AddText( e, _Value, False, _Gras);
+         D.AddHtml( e, _Value, _Gras);
 end;
 
-procedure TOD_XML_Element.Add_CR_NL;
+procedure TOD_XML_Element.Add_Line_Break;
 begin
-     D.AddText( e, #13#10);
+     Cree_path( e, 'text:line-break');
 end;
 
 function TOD_XML_Element.AddTab: TOD_TAB;
@@ -1183,7 +1176,9 @@ begin
      Result:= TOD_SPAN.Create( D, e);
 end;
 
-function TOD_XML_Element.Nom_Style_automatique( _NomStyle: String; _Gras: Boolean; _DeltaSize, _Size, _SizePourcent: Integer): String;
+function TOD_XML_Element.Nom_Style_automatique(_NomStyle: String;
+ _Gras: Boolean; _DeltaSize: Integer; _Size: Integer; _SizePourcent: Integer
+ ): String;
 begin
      Result:= D.Add_automatic_style_text( _NomStyle,
                                       _Gras,
@@ -2798,32 +2793,6 @@ begin
      FreeAndNil( _e);
 end;
 
-function TOpenDocument.Escape_XML( S: String): String;
-var
-   I: Integer;
-   C: Char;
-   X: String;
-begin
-     Result:= '';
-     for I:= 1 to Length( S)
-     do
-       begin
-       C:= S[I];
-       case C
-       of
-         '<'       : X:= '&lt;'  ;
-         '>'       : X:= '&gt;'  ;
-         '&'       : X:= '&amp;' ;
-         ''''      : X:= '&apos;';
-         '"'       : X:= '&quot;';
-         ' '       ,
-         #128..#255: X:= '&#x'+IntToHex( Ord(C),2)+';';
-         else        X:= C;
-         end;
-       Result:= Result + X;
-       end;
-end;
-
 procedure TOpenDocument.AddSpace( _e: TDOMNode; _c: Integer);
 begin
      if _c < 1 then exit;
@@ -2835,9 +2804,7 @@ begin
          Add_Item( _e, 'text:s', ['text:c'], [IntToStr( _c)]);
 end;
 
-procedure TOpenDocument.AddText( _e: TDOMNode; _Value: String;
-                                 _Escape_XML: Boolean= False;
-                                 _Gras: Boolean= False);
+procedure TOpenDocument.AddText_( _e: TDOMNode; _Value: String; _Gras: Boolean= False);
 var
    I: Integer;
    C: Char;
@@ -2856,9 +2823,6 @@ var
    begin
         if S = '' then exit;
 
-        if _Escape_XML
-        then
-            S:= Escape_XML( S);
         eSpan:= Cree_path( _e, 'text:span');
         if _Gras then Set_Property( eSpan, 'text:style-name', Name_style_text_bold);
         eText:= _e.OwnerDocument.CreateTextNode( S);
@@ -2940,7 +2904,7 @@ begin
      Ajoute_S;
 end;
 
-procedure TOpenDocument.AddHtml( _e: TDOMNode; _Value: String);
+procedure TOpenDocument.AddHtml( _e: TDOMNode; _Value: String; _Gras: Boolean= False);
 var
    html: TXMLDocument;
    p: TCSS_Style_Parser_PYACC;
@@ -3035,18 +2999,6 @@ var
            od_node:= _e.OwnerDocument.CreateTextNode( NodeValue);
            _od_Parent.AppendChild( od_node);
       end;
-      procedure Traite_p;
-      var
-         p: TOD_PARAGRAPH;
-      begin
-           p:= TOD_PARAGRAPH.Create( Self, _od_Parent);
-           try
-              Traite_parsed_styles( p);
-              od_node:= p.e;
-           finally
-                  FreeAndNil( p);
-                  end;
-      end;
       procedure Traite_br;
       begin
            od_node:= Cree_path( _od_Parent, 'text:line-break');
@@ -3065,6 +3017,22 @@ var
                   FreeAndNil( span);
                   end;
       end;
+      procedure Traite_p;
+      var
+         p: TOD_PARAGRAPH;
+      begin
+           p:= TOD_PARAGRAPH.Create( Self, _od_Parent);
+           try
+              Traite_parsed_styles( p);
+              od_node:= p.e;
+           finally
+                  FreeAndNil( p);
+                  end;
+      end;
+      procedure Set_Bold;
+      begin
+           p.sl.Values[ 'font-weight']:= 'bold';
+      end;
       procedure Traite_strong;
       var
          span: TOD_SPAN;
@@ -3074,7 +3042,7 @@ var
            try
               span.Set_Style( _NomStyleParent, False);
               NomStyle:= span.NomStyleApplique;
-              p.sl.Values[ 'font-weight']:= 'bold';
+              Set_Bold;
 
               tp:= span.TEXT_PROPERTIES[_NomStyleParent];
               Traite_parsed_styles_interne( tp);
@@ -3157,18 +3125,19 @@ var
         if ('#text' =NodeName) or uOD_JCL.not_Get_Property( _html_Parent, 'style', html_style) then html_style:= '';
 
         Parse_html_style;
+        if _Gras then Set_Bold;
 
         od_node:= nil;
         NomStyle:= '';
 
              if '#text' =NodeName then Traite_text
-        else if 'p'     =NodeName then Traite_p
+        else if 'p'     =NodeName then Traite_span //Traite_p text:p can't be nested
         else if 'br'    =NodeName then Traite_br
         else if 'span'  =NodeName then Traite_span
         else if 'strong'=NodeName then Traite_strong
         else if 'em'    =NodeName then Traite_em
         else if 'u'     =NodeName then Traite_u
-        else                          AddText( _od_Parent, 'balise html non geree: <'+_html_Parent.NodeName+'>'#13#10);
+        else                           AddText_( _od_Parent, 'balise html non geree: <'+_html_Parent.NodeName+'>'#13#10);
 
         if nil = od_node then od_node:= _od_Parent;
         if '' = NomStyle then NomStyle:= _NomStyleParent;
@@ -3179,7 +3148,7 @@ begin
      if not_Cree_html
      then
          begin
-         AddText( _e, _Value);
+         AddText_( _e, _Value, _Gras);
          exit;
          end;
      try
@@ -3195,15 +3164,14 @@ begin
 
 end;
 
-procedure TOpenDocument.AddText( _Value: String; _Escape_XML: Boolean= False;
-                                 _Gras: Boolean= False);
+procedure TOpenDocument.AddText_( _Value: String; _Gras: Boolean= False);
 begin
-     AddText( Get_xmlContent_TEXT, _Value, _Escape_XML, _Gras);
+     AddText_( Get_xmlContent_TEXT, _Value, _Gras);
 end;
 
-procedure TOpenDocument.AddHtml(_Value: String);
+procedure TOpenDocument.AddHtml(_Value: String; _Gras: Boolean= False);
 begin
-     AddHtml(Get_xmlContent_TEXT, _Value);
+     AddHtml(Get_xmlContent_TEXT, _Value, _Gras);
 end;
 
 procedure TOpenDocument.Freeze_fields;
@@ -3229,7 +3197,7 @@ procedure TOpenDocument.Freeze_fields;
          FreeAndNil( _e);
 
          Value:= Field_Value( FieldName);
-         AddText( eSPAN, Value, False);
+         AddHtml( eSPAN, Value);
     end;
     procedure Traite_DATE_TIME( _e: TDOMNode; _Root: TOD_Root_Styles; _sdtClass: TStyle_DateTime_class; _Default_Format: String);
     var
@@ -3298,7 +3266,7 @@ procedure TOpenDocument.Freeze_fields;
 
          Value:= Value_from_;
          //Insecable_to_Space;
-         AddText( eSPAN, Value, False);
+         AddHtml( eSPAN, Value);
     end;
     procedure Traite_DATE( _e: TDOMNode; _Root: TOD_Root_Styles);
     begin
