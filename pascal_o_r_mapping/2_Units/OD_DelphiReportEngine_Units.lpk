@@ -21,7 +21,7 @@
         </ExecuteBefore>
       </Other>
     </CompilerOptions>
-    <Files Count="88">
+    <Files Count="89">
       <Item1>
         <Filename Value="DBTables.pas"/>
         <UnitName Value="DBTables"/>
@@ -374,6 +374,10 @@
         <Filename Value="CSS_Style_Parser/generated/uCSS_Style_Parser_PYACC.pas"/>
         <UnitName Value="uCSS_Style_Parser_PYACC"/>
       </Item88>
+      <Item89>
+        <Filename Value="xmlwrite_sans_sauts_de_ligne.pas"/>
+        <UnitName Value="XMLWrite_sans_sauts_de_ligne"/>
+      </Item89>
     </Files>
     <RequiredPkgs Count="3">
       <Item1>

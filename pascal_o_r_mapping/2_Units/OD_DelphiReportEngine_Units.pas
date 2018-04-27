@@ -25,7 +25,7 @@ uses
  uSkipList, uskString, uStringArray, u_sys_, uTemporaire, uTri_Ancetre, 
  uUseCase, uUseCases, uuStrings, uVersion, uLog, uNetwork, uhFiltre_Ancetre, 
  uDimensions_from_pasjpeg, uDimensions_Image, uPNG_File, uBMP_File, 
- uCSS_Style_Parser_PYACC, LazarusPackageIntf;
+ uCSS_Style_Parser_PYACC, XMLWrite_sans_sauts_de_ligne, LazarusPackageIntf;
 
 implementation
 

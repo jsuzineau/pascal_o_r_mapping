@@ -36,11 +36,12 @@ uses
     uOOoChrono,
     uOOoStringList,
     uOOoDelphiReportEngineLog,
+    XMLWrite_sans_sauts_de_ligne,
 
   {$IFDEF LINUX}
   clocale,
   {$ENDIF}
-  SysUtils, Classes, XMLRead,XMLWrite,DOM,Zipper, Math, FileUtil;
+  SysUtils, Classes, XMLRead,DOM,Zipper, Math, FileUtil;
 
 type
  TOD_Root_Styles
