@@ -54,6 +54,11 @@ begin
      od.Ensure_style_text_bold;
      od.AddHtml( od.Get_xmlContent_TEXT, html);
 
+     e:= Cree_path( od.Get_xmlContent_TEXT, 'text:p');
+     od.AddHtml( e, 'test & a > b et c< d');
+     e:= Cree_path( od.Get_xmlContent_TEXT, 'text:p');
+     od.AddHtml( e, '< test ');
+
      //OpenDocument( IncludeTrailingPathDelimiter( od.Repertoire_Extraction)+'content.xml');
      //OpenDocument( IncludeTrailingPathDelimiter( od.Repertoire_Extraction)+'styles.xml');
      od.Freeze_fields;

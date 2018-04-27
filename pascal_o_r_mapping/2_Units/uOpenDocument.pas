@@ -41,7 +41,7 @@ uses
   {$IFDEF LINUX}
   clocale,
   {$ENDIF}
-  SysUtils, Classes, XMLRead,DOM,Zipper, Math, FileUtil;
+  SysUtils, Classes, XMLRead, DOM,Zipper, Math, FileUtil;
 
 type
  TOD_Root_Styles
@@ -2944,13 +2944,23 @@ procedure TOpenDocument.AddHtml( _e: TDOMNode; _Value: String);
 var
    html: TXMLDocument;
    p: TCSS_Style_Parser_PYACC;
-   procedure Cree_html;
+   function not_Cree_html: Boolean;
    var
       ss: TStringStream;
    begin
+        Result:= True;
+        if 1 <> Pos( '<', _Value) then exit;
+
         ss:= TStringStream.Create( _Value);
         try
-           ReadXMLFile( html, ss);
+           try
+              ReadXMLFile( html, ss);
+              Result:= False;
+           except
+                 on E: Exception
+                 do
+                   Result:= True;
+                 end;
         finally
                FreeAndNil( ss);
                end;
@@ -3166,7 +3176,12 @@ var
         Traite_ChildNodes;
    end;
 begin
-     Cree_html;
+     if not_Cree_html
+     then
+         begin
+         AddText( _e, _Value);
+         exit;
+         end;
      try
         p:= TCSS_Style_Parser_PYACC.Create;
         try
