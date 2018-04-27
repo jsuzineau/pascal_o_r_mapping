@@ -24,22 +24,25 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="5">
+    <RequiredPackages Count="6">
       <Item1>
-        <PackageName Value="OD_DelphiReportEngine_Controls"/>
+        <PackageName Value="ndyacclexlib"/>
       </Item1>
       <Item2>
-        <PackageName Value="fpcunittestrunner"/>
+        <PackageName Value="OD_DelphiReportEngine_Controls"/>
       </Item2>
       <Item3>
-        <PackageName Value="OD_DelphiReportEngine_Units"/>
+        <PackageName Value="fpcunittestrunner"/>
       </Item3>
       <Item4>
-        <PackageName Value="LCL"/>
+        <PackageName Value="OD_DelphiReportEngine_Units"/>
       </Item4>
       <Item5>
-        <PackageName Value="FCL"/>
+        <PackageName Value="LCL"/>
       </Item5>
+      <Item6>
+        <PackageName Value="FCL"/>
+      </Item6>
     </RequiredPackages>
     <Units Count="17">
       <Unit0>

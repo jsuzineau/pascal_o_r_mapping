@@ -18,7 +18,7 @@ object fTest: TfTest
     Left = 0
     Height = 226
     Top = 50
-    Width = 392
+    Width = 635
     Align = alClient
     Font.Color = clWindowText
     Font.Height = -11
@@ -36,19 +36,6 @@ object fTest: TfTest
     OnKeyPress = eKeyPress
     TabOrder = 0
   end
-  object msl: TMemo
-    Left = 392
-    Height = 226
-    Top = 50
-    Width = 243
-    Align = alRight
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Lucida Console'
-    ParentFont = False
-    ReadOnly = True
-    TabOrder = 2
-  end
   object Panel1: TPanel
     Left = 0
     Height = 50
@@ -57,7 +44,7 @@ object fTest: TfTest
     Align = alTop
     ClientHeight = 50
     ClientWidth = 635
-    TabOrder = 3
+    TabOrder = 2
     object bAuto: TButton
       Left = 11
       Height = 25

@@ -6,7 +6,7 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
-        <OtherUnitFiles Value="../0_uWinUtils;.;../7_sources_externes/synapse/source/lib"/>
+        <OtherUnitFiles Value="../0_uWinUtils;.;../7_sources_externes/synapse/source/lib;CSS_Style_Parser/generated"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -16,9 +16,12 @@
       </Parsing>
       <Other>
         <CustomOptions Value="-dWINDOWS_GRAPHIC"/>
+        <ExecuteBefore>
+          <Command Value="/bin/bash $PkgDir(OD_DelphiReportEngine_Units)/CSS_Style_Parser/build.sh"/>
+        </ExecuteBefore>
       </Other>
     </CompilerOptions>
-    <Files Count="87">
+    <Files Count="88">
       <Item1>
         <Filename Value="DBTables.pas"/>
         <UnitName Value="DBTables"/>
@@ -367,14 +370,21 @@
         <Filename Value="uBMP_File.pas"/>
         <UnitName Value="uBMP_File"/>
       </Item87>
+      <Item88>
+        <Filename Value="CSS_Style_Parser/generated/uCSS_Style_Parser_PYACC.pas"/>
+        <UnitName Value="uCSS_Style_Parser_PYACC"/>
+      </Item88>
     </Files>
-    <RequiredPkgs Count="2">
+    <RequiredPkgs Count="3">
       <Item1>
-        <PackageName Value="LCLBase"/>
+        <PackageName Value="ndyacclexlib"/>
       </Item1>
       <Item2>
-        <PackageName Value="LazUtils"/>
+        <PackageName Value="LCLBase"/>
       </Item2>
+      <Item3>
+        <PackageName Value="LazUtils"/>
+      </Item3>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

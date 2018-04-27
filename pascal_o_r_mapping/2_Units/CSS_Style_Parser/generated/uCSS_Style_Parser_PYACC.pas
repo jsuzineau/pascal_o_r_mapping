@@ -40,21 +40,23 @@ type YYSType = record
 var yylval : YYSType;
 
 type
-  TCSS_Style_Parser_PLEX = class(TStreamLexer)
+ TCSS_Style_Parser_PLEX
+ =
+  class(TStreamLexer)
   public
-    function parse() : integer; override;
+    function Parse: integer; override;
   end;
 
-  TWriteCallback = procedure( _Name, _Value: String) of object;
-  ECSS_Style_Parser_PYACC_Exception = class(Exception);
-  TCSS_Style_Parser_PYACC = class(TCustomParser)
-  private
-    writecallback: TWriteCallback;
+ TWriteCallback = procedure( _Name, _Value: String) of object;
+ ECSS_Style_Parser_PYACC_Exception = class(Exception);
+ TCSS_Style_Parser_PYACC
+ =
+  class( TCustomParser)
   public
     sl: TBatpro_StringList;
     constructor Create;
     destructor Destroy; override;
-    function parse(AStream: TStream; AWriteCB: TWriteCallback) : integer; reintroduce;
+    function Parse( _s: TStream) : integer; reintroduce;
   end;
 
 implementation
@@ -67,11 +69,11 @@ end;
 
 destructor TCSS_Style_Parser_PYACC.Destroy;
 begin
-     FreeAndnil( sl);
+     FreeAndNil( sl);
      inherited;
 end;
 
-function TCSS_Style_Parser_PYACC.parse(AStream: TStream; AWriteCB: TWriteCallback) : integer;
+function TCSS_Style_Parser_PYACC.Parse( _s: TStream) : integer;
 
 var 
   lexer : TCSS_Style_Parser_PLEX;
@@ -82,7 +84,7 @@ var
 
 procedure yyaction ( yyruleno : Integer );
   (* local definitions: *)
-// source: yyparse.cod line# 48
+// source: yyparse.cod line# 50
 begin
   (* actions: *)
   case yyruleno of
@@ -96,7 +98,7 @@ begin
        end;
 4 : begin
          // source: uCSS_Style_Parser_PYACC.y line#40
-         sl.Values[yyv[yysp-2].yyString]:= yyv[yysp-0].yyString; writecallback( yyv[yysp-2].yyString, yyv[yysp-0].yyString)
+         sl.Values[yyv[yysp-2].yyString]:= yyv[yysp-0].yyString;
        end;
 5 : begin
          yyval := yyv[yysp-0];
@@ -143,7 +145,7 @@ begin
 19 : begin
          yyval := yyv[yysp-0];
        end;
-// source: yyparse.cod line# 52
+// source: yyparse.cod line# 54
   end;
 end(*yyaction*);
 
@@ -424,7 +426,7 @@ yytokens : array [256..yymaxtoken] of YYTokenRec = (
 { 275: } ( tokenname: 'DELIM' )
 );
 
-// source: yyparse.cod line# 57
+// source: yyparse.cod line# 59
 
 const _error = 256; (* error token *)
 
@@ -505,8 +507,8 @@ label parse, next, error, errlab, shift, reduce, accept, abort;
 begin(*yyparse*)
 
   (* initialize: *)
-  lexer := TCSS_Style_Parser_PLEX.Create(AStream, nil);
-  writecallback := AWriteCB;
+  sl.Clear;
+  lexer := TCSS_Style_Parser_PLEX.Create( _s, nil);
   try
 
   yystate := 0; yychar := -1; yynerrs := 0; yyerrflag := 0; yysp := 0;

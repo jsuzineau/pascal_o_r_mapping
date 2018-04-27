@@ -22,7 +22,6 @@ type
    bAuto: TButton;
     m: TMemo;
     e: TEdit;
-    msl: TMemo;
     Panel1: TPanel;
     procedure bAutoClick(Sender: TObject);
     procedure eKeyPress(Sender: TObject; var Key: Char);
@@ -56,6 +55,7 @@ end;
 
 procedure TfTest.bAutoClick(Sender: TObject);
 begin
+     Parse( 'color:#e60000');
      Parse( 'color:#e60000;background-color:#ff9900;font-style: italic;font-weight: bold;');
 end;
 
@@ -97,7 +97,6 @@ begin
                 m.Lines.Add( E.Message);
               end;
         Result:= True;
-        msl.Lines.Text:= p.sl.Text;
      finally
             ss.Free;
      end;

@@ -26,6 +26,7 @@ unit uOpenDocument;
 interface
 
 uses
+    uCSS_Style_Parser_PYACC,
     uDimensions_Image,
     uPublieur,
     uOD_Temporaire,
@@ -2941,6 +2942,7 @@ end;
 procedure TOpenDocument.AddHtml( _e: TDOMNode; _Value: String);
 var
    html: TXMLDocument;
+   p: TCSS_Style_Parser_PYACC;
    procedure Cree_html;
    var
       ss: TStringStream;
@@ -2955,27 +2957,67 @@ var
    procedure Traite_html_node( _od_Parent, _html_Parent: TDOMNode; _NomStyleParent: String);
    var
       html_style:String;
-      html_color: String;
-      NodeName: String;
-      NodeValue: String;
+      NodeName: DOMString;
+      NodeValue: DOMString;
       od_node: TDOMNode;
-      cn: TDOMNodeList;
-      n: TDOMNode;
-      i: Integer;
       NomStyle: String;
-      procedure Traite_Couleur_interne( _tp:TOD_TEXT_PROPERTIES);
+      procedure Traite_parsed_styles_interne( _tp:TOD_TEXT_PROPERTIES);
+         procedure T( _html_style_name, _od_style_name: String);
+         var
+            i: Integer;
+            Value: String;
+         begin
+              i:= p.sl.IndexOfName( _html_style_name);
+              if -1 = i then exit;
+
+              Value:= p.sl.ValueFromIndex[ i];
+
+              _tp.Set_Property( _od_style_name, Value);
+         end;
+         procedure T_font_weight;
+         var
+            i: Integer;
+            Value: String;
+         begin
+              i:= p.sl.IndexOfName( 'font-weight');
+              if -1 = i then exit;
+
+              Value:= p.sl.ValueFromIndex[ i];
+
+              _tp.Set_Property( 'fo:font-weight'           , Value);
+              _tp.Set_Property( 'style:font-weight-asian'  , Value);
+              _tp.Set_Property( 'style:font-weight-complex', Value);
+         end;
+         procedure T_font_style;
+         var
+            i: Integer;
+            Value: String;
+         begin
+              i:= p.sl.IndexOfName( 'font-style');
+              if -1 = i then exit;
+
+              Value:= p.sl.ValueFromIndex[ i];
+
+              _tp.Set_Property( 'fo:font-style'           , Value);
+              _tp.Set_Property( 'style:font-style-asian'  , Value);
+              _tp.Set_Property( 'style:font-style-complex', Value);
+         end;
       begin
-           if '' = html_color then exit;
-           _tp.Set_Property( 'fo:color', html_color);
+           if 0 = p.sl.Count then exit;
+
+           T( 'color'           , 'fo:color'           );
+           T( 'background-color', 'fo:background-color');
+           T_font_weight;
+           T_font_style;
       end;
 
-      procedure Traite_Couleur( _o: TOD_XML_Element);
+      procedure Traite_parsed_styles( _o: TOD_XML_Element);
       var
          tp:TOD_TEXT_PROPERTIES;
       begin
-           if '' = html_color then exit;
+           if 0 = p.sl.Count then exit;
            tp:= _o.TEXT_PROPERTIES[_NomStyleParent];
-           Traite_Couleur_interne( tp);
+           Traite_parsed_styles_interne( tp);
       end;
       procedure Traite_text;
       begin
@@ -2988,7 +3030,7 @@ var
       begin
            p:= TOD_PARAGRAPH.Create( Self, _od_Parent);
            try
-              Traite_Couleur( p);
+              Traite_parsed_styles( p);
               od_node:= p.e;
            finally
                   FreeAndNil( p);
@@ -3006,7 +3048,7 @@ var
            try
               span.Set_Style( _NomStyleParent, False);
               NomStyle:= span.NomStyleApplique;
-              Traite_Couleur( span);
+              Traite_parsed_styles( span);
               od_node:= span.e;
            finally
                   FreeAndNil( span);
@@ -3021,12 +3063,10 @@ var
            try
               span.Set_Style( _NomStyleParent, False);
               NomStyle:= span.NomStyleApplique;
+              p.sl.Values[ 'font-weight']:= 'bold';
 
               tp:= span.TEXT_PROPERTIES[_NomStyleParent];
-              tp.Set_Property( 'fo:font-weight'           , 'bold');
-              tp.Set_Property( 'style:font-weight-asian'  , 'bold');
-              tp.Set_Property( 'style:font-weight-complex', 'bold');
-              Traite_Couleur( span);
+              Traite_parsed_styles_interne( tp);
               od_node:= span.e;
            finally
                   FreeAndNil( span);
@@ -3042,10 +3082,8 @@ var
               span.Set_Style( _NomStyleParent, False);
               NomStyle:= span.NomStyleApplique;
               tp:= span.TEXT_PROPERTIES[_NomStyleParent];
-              tp.Set_Property( 'fo:font-style'           , 'italic');
-              tp.Set_Property( 'style:font-style-asian'  , 'italic');
-              tp.Set_Property( 'style:font-style-complex', 'italic');
-              Traite_Couleur_interne( tp);
+              p.sl.Values[ 'font-style']:= 'italic';
+              Traite_parsed_styles_interne( tp);
               od_node:= span.e;
            finally
                   FreeAndNil( span);
@@ -3065,11 +3103,40 @@ var
               tp.Set_Property( 'style:text-underline-color', 'font-color');
               tp.Set_Property( 'style:text-underline-style', 'solid'     );
               tp.Set_Property( 'style:text-underline-width', 'auto'      );
-              Traite_Couleur_interne( tp);
+              Traite_parsed_styles_interne( tp);
               od_node:= span.e;
            finally
                   FreeAndNil( span);
                   end;
+      end;
+      procedure Parse_html_style;
+      var
+         ss: TStringStream;
+      begin
+           p.sl.Clear;
+           if '' = html_style then exit;
+
+           ss:= TStringStream.Create( html_style);
+           try
+              p.Parse( ss);
+           finally
+                  FreeAndNil( ss);
+                  end;
+      end;
+      procedure Traite_ChildNodes;
+      var
+         i: Integer;
+         cn: TDOMNodeList;
+         n: TDOMNode;
+      begin
+           cn:= _html_Parent.ChildNodes;
+           for i:= 0 to cn.Count-1
+           do
+             begin
+             n:= cn.Item[i];
+             if nil = n then continue;
+             Traite_html_node( od_node, n, NomStyle);
+             end;
       end;
    begin
         NodeName:= _html_Parent.NodeName;
@@ -3077,14 +3144,8 @@ var
 
         //extraction rustique de la couleur, il faudrait extraire proprement tous les éléments de style html
         if ('#text' =NodeName) or uOD_JCL.not_Get_Property( _html_Parent, 'style', html_style) then html_style:= '';
-        html_color:= '';
-        //background-color:
-        if 1= pos( 'color:', html_style)
-        then
-            begin
-            StrToK( 'color:', html_style);
-            html_color:=StrToK( ';', html_style);
-            end;
+
+        Parse_html_style;
 
         od_node:= nil;
         NomStyle:= '';
@@ -3101,19 +3162,17 @@ var
         if nil = od_node then od_node:= _od_Parent;
         if '' = NomStyle then NomStyle:= _NomStyleParent;
 
-        cn:= _html_Parent.ChildNodes;
-        for i:= 0 to cn.Count-1
-        do
-          begin
-          n:= cn.Item[i];
-          if nil = n then continue;
-          Traite_html_node( od_node, n, NomStyle);
-          end;
+        Traite_ChildNodes;
    end;
 begin
      Cree_html;
      try
-        Traite_html_node( _e, html.DocumentElement,'');
+        p:= TCSS_Style_Parser_PYACC.Create;
+        try
+           Traite_html_node( _e, html.DocumentElement,'');
+        finally
+               FreeAndNil( p);
+               end;
      finally
             FreeAndNil( html);
             end;

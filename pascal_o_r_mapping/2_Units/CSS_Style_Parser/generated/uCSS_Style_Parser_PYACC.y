@@ -37,7 +37,7 @@ declarationlist : declaration
                 | declarationlist ';' declaration;
 
 declaration     :   /*empty*/
-                  | property ':' value { sl.Values[$<String>1]:= $<String>3; writecallback( $<String>1, $<String>3)};
+                  | property ':' value { sl.Values[$<String>1]:= $<String>3;};
 property        : IDENT;
 value           : any | ATKEYWORD;
 any             :

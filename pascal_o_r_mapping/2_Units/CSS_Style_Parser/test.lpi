@@ -45,7 +45,7 @@
         <PackageName Value="LCLBase"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="4">
+    <Units Count="3">
       <Unit0>
         <Filename Value="test.dpr"/>
         <IsPartOfProject Value="True"/>
@@ -61,10 +61,6 @@
         <Filename Value="generated/expr.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit2>
-      <Unit3>
-        <Filename Value="uStreamLexer.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -90,7 +86,6 @@
     </Linking>
     <Other>
       <ExecuteBefore>
-        <Command Value="/bin/bash $(ProjPath )build.sh"/>
         <ShowAllMessages Value="True"/>
         <CompileReasons Run="False"/>
       </ExecuteBefore>
