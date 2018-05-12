@@ -33,7 +33,10 @@ uses
     uBatpro_Ligne,
  Classes, SysUtils,db;
 
-const nom_html= 'tcOpenDocument_AddHTML.html';
+const nom_html  = 'tcOpenDocument_AddHTML.html';
+const nom_html_2= 'tcOpenDocument_AddHTML_2.html';
+const nom_html_3= 'tcOpenDocument_AddHTML_3.html';
+const nom_html_4= 'tcOpenDocument_AddHTML_4.html';
 type
 
  { TblTest_HTML }
@@ -49,6 +52,7 @@ type
   public
     Nom: String;
     html: String;
+    procedure Load_html( _Nom_Fichier: String);
   end;
 
  TIterateur_Test_HTML
@@ -145,6 +149,11 @@ end;
 destructor TblTest_HTML.Destroy;
 begin
      inherited Destroy;
+end;
+
+procedure TblTest_HTML.Load_html( _Nom_Fichier: String);
+begin
+     html:= String_from_File( _Nom_Fichier);
 end;
 
 end.

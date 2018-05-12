@@ -26,6 +26,7 @@ unit uOpenDocument;
 interface
 
 uses
+    uLog,
     uCSS_Style_Parser_PYACC,
     uDimensions_Image,
     uPublieur,
@@ -2937,17 +2938,49 @@ var
       od_node: TDOMNode;
       NomStyle: String;
       procedure Traite_parsed_styles_interne( _tp:TOD_TEXT_PROPERTIES);
-         procedure T( _html_style_name, _od_style_name: String);
+         procedure T_Color( _html_style_name, _od_style_name: String);
          var
             i: Integer;
             Value: String;
+            Couleur: String;
+            procedure Couleur_from_RGB;
+            var
+               S: String;
+               sR, sG, sB: String;
+               R, G, B: Integer;
+               hR, hG, hB: String;
+               procedure Try_convert( _S: String; var _I: Integer);
+               begin
+                    if TryStrToInt( _S, _I) then exit;
+                    _I:= 0;
+               end;
+            begin
+                 S:= Value;
+                 StrTok( '(',S);
+
+                 sR:= StrTok( ',',S);
+                 sG:= StrTok( ',',S);
+                 sB:= StrTok( ')',S);
+
+                 Try_convert( sR, R);
+                 Try_convert( sG, G);
+                 Try_convert( sB, B);
+
+                 hR:= IntToHex( R, 2);
+                 hG:= IntToHex( G, 2);
+                 hB:= IntToHex( B, 2);
+
+                 Couleur:= '#'+hR+hG+hB;
+            end;
          begin
               i:= p.sl.IndexOfName( _html_style_name);
               if -1 = i then exit;
 
               Value:= p.sl.ValueFromIndex[ i];
-
-              _tp.Set_Property( _od_style_name, Value);
+                    if 1 = Pos('RGB(', UpperCase(Value)) then Couleur_from_RGB
+              else                                            Couleur:= Value;
+              Log.PrintLn( ClassNAme+'.AddHtml::T_Color:Couleur_from_RGB: Value='+Value+' , Couleur='+Couleur);
+              _tp.Set_Property( _od_style_name, Couleur);
          end;
          procedure T_font_weight;
          var
@@ -2980,8 +3013,8 @@ var
       begin
            if 0 = p.sl.Count then exit;
 
-           T( 'color'           , 'fo:color'           );
-           T( 'background-color', 'fo:background-color');
+           T_Color( 'color'           , 'fo:color'           );
+           T_Color( 'background-color', 'fo:background-color');
            T_font_weight;
            T_font_style;
       end;
@@ -3097,7 +3130,13 @@ var
 
            ss:= TStringStream.Create( html_style);
            try
-              p.Parse( ss);
+              try
+                 p.Parse( ss);
+              except
+                    on E: Exception
+                    do
+                      Log.PrintLn( 'Echec de '+ClassName+'.AddHTML::Traite_html_node::Parse_html_style: '+html_style+#13#10+E.Message);
+                    end;
            finally
                   FreeAndNil( ss);
                   end;
@@ -3131,11 +3170,13 @@ var
         NomStyle:= '';
 
              if '#text' =NodeName then Traite_text
-        else if 'p'     =NodeName then Traite_span //Traite_p text:p can't be nested
         else if 'br'    =NodeName then Traite_br
+        else if 'em'    =NodeName then Traite_em
+        else if 'ins'   =NodeName then Traite_span
+        else if 'del'   =NodeName then Traite_span
+        else if 'p'     =NodeName then Traite_span //Traite_p text:p can't be nested
         else if 'span'  =NodeName then Traite_span
         else if 'strong'=NodeName then Traite_strong
-        else if 'em'    =NodeName then Traite_em
         else if 'u'     =NodeName then Traite_u
         else                           AddText_( _od_Parent, 'balise html non geree: <'+_html_Parent.NodeName+'>'#13#10);
 

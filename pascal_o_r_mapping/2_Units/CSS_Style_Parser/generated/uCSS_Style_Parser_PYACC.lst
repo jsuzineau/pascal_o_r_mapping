@@ -55,9 +55,10 @@ state 5:
 	DIMENSION	shift 16
 	URI	shift 17
 	UNICODE_RANGE	shift 18
-	INCLUDES	shift 19
-	DASHMATCH	shift 20
-	DELIM	shift 21
+	FUNCTION_	shift 19
+	INCLUDES	shift 20
+	DASHMATCH	shift 21
+	DELIM	shift 22
 	.	error
 
 	any	goto 7
@@ -74,7 +75,7 @@ state 6:
 	.	error
 
 	property	goto 1
-	declaration	goto 22
+	declaration	goto 23
 
 state 7:
 
@@ -90,9 +91,9 @@ state 8:
 
 state 9:
 
-	any : ':' _	(19)
+	any : ':' _	(20)
 
-	.	reduce 19
+	.	reduce 20
 
 state 10:
 
@@ -150,25 +151,98 @@ state 18:
 
 state 19:
 
+	any : FUNCTION_ _ paramlist ')'
+	paramlist : _	(21)
+
+	':'	shift 9
+	IDENT	shift 10
+	STRING_	shift 12
+	HASH	shift 13
+	NUMBER	shift 14
+	PERCENTAGE	shift 15
+	DIMENSION	shift 16
+	URI	shift 17
+	UNICODE_RANGE	shift 18
+	FUNCTION_	shift 19
+	INCLUDES	shift 20
+	DASHMATCH	shift 21
+	DELIM	shift 22
+	')'	reduce 21
+	','	reduce 21
+	.	error
+
+	paramlist	goto 24
+	any	goto 25
+
+state 20:
+
 	any : INCLUDES _	(17)
 
 	.	reduce 17
 
-state 20:
+state 21:
 
 	any : DASHMATCH _	(18)
 
 	.	reduce 18
 
-state 21:
+state 22:
 
 	any : DELIM _	(13)
 
 	.	reduce 13
 
-state 22:
+state 23:
 
 	declarationlist : declarationlist ';' declaration _	(2)
 
 	.	reduce 2
+
+state 24:
+
+	any : FUNCTION_ paramlist _ ')'
+	paramlist : paramlist _ ',' any
+
+	')'	shift 26
+	','	shift 27
+	.	error
+
+state 25:
+
+	paramlist : any _	(22)
+
+	.	reduce 22
+
+state 26:
+
+	any : FUNCTION_ paramlist ')' _	(19)
+
+	.	reduce 19
+
+state 27:
+
+	paramlist : paramlist ',' _ any
+
+	':'	shift 9
+	IDENT	shift 10
+	STRING_	shift 12
+	HASH	shift 13
+	NUMBER	shift 14
+	PERCENTAGE	shift 15
+	DIMENSION	shift 16
+	URI	shift 17
+	UNICODE_RANGE	shift 18
+	FUNCTION_	shift 19
+	INCLUDES	shift 20
+	DASHMATCH	shift 21
+	DELIM	shift 22
+	.	error
+
+	any	goto 28
+
+state 28:
+
+	paramlist : paramlist ',' any _	(23)
+
+	.	reduce 23
 

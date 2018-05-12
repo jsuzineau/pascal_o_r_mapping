@@ -26,22 +26,23 @@ w 	        [ \t\r\n\f]*
 
 %%
 
-({ident})                                                                                      begin  yylval.yyString:= yytext; return( IDENT        ); Writeln('IDENT        :',yytext); end;
-@({ident})                                                                                     begin  yylval.yyString:= yytext; return( ATKEYWORD    ); Writeln('ATKEYWORD    :',yytext); end;
-({string})                                                                                     begin  yylval.yyString:= yytext; return( STRING_      ); Writeln('STRING_      :',yytext); end;
-({badstring})                                                                                  begin  yylval.yyString:= yytext; return( BAD_STRING   ); Writeln('BAD_STRING   :',yytext); end;
-({baduri})                                                                                     begin  yylval.yyString:= yytext; return( BAD_URI      ); Writeln('BAD_URI      :',yytext); end;
-({badcomment})                                                                                 begin  yylval.yyString:= yytext; return( BAD_COMMENT  ); Writeln('BAD_COMMENT  :',yytext); end;
-#({name})                                                                                      begin  yylval.yyString:= yytext; return( HASH         ); Writeln('HASH         :',yytext); end;
-({num})                                                                                        begin  yylval.yyString:= yytext; return( NUMBER       ); Writeln('NUMBER       :',yytext); end;
-({num})%                                                                                       begin  yylval.yyString:= yytext; return( PERCENTAGE   ); Writeln('PERCENTAGE   :',yytext); end;
-({num})({ident})                                                                               begin  yylval.yyString:= yytext; return( DIMENSION    ); Writeln('DIMENSION    :',yytext); end;
-url\(({w})({string})({w})\)|url\(({w})([!#$%&*-\[\]-~]|({nonascii})|({escape}))*({w})\)        begin  yylval.yyString:= yytext; return( URI          ); Writeln('URI          :',yytext); end;
-u\+[0-9a-f?]({1,6})(-[0-9a-f]({1,6}))?                                                         begin  yylval.yyString:= yytext; return( UNICODE_RANGE); Writeln('UNICODE_RANGE:',yytext); end;
-\<\!\-\-                                                                                       begin  yylval.yyString:= yytext; return( CDO          ); Writeln('CDO          :',yytext); end;
-\-\-\>                                                                                         begin  yylval.yyString:= yytext; return( CDC          ); Writeln('CDC          :',yytext); end;
+({ident})                                                                                      begin  yylval.yyString:= yytext; return( IDENT        ); Log.PrintLn('IDENT        :'+yytext); end;
+@({ident})                                                                                     begin  yylval.yyString:= yytext; return( ATKEYWORD    ); Log.PrintLn('ATKEYWORD    :'+yytext); end;
+({string})                                                                                     begin  yylval.yyString:= yytext; return( STRING_      ); Log.PrintLn('STRING_      :'+yytext); end;
+({badstring})                                                                                  begin  yylval.yyString:= yytext; return( BAD_STRING   ); Log.PrintLn('BAD_STRING   :'+yytext); end;
+({baduri})                                                                                     begin  yylval.yyString:= yytext; return( BAD_URI      ); Log.PrintLn('BAD_URI      :'+yytext); end;
+({badcomment})                                                                                 begin  yylval.yyString:= yytext; return( BAD_COMMENT  ); Log.PrintLn('BAD_COMMENT  :'+yytext); end;
+#({name})                                                                                      begin  yylval.yyString:= yytext; return( HASH         ); Log.PrintLn('HASH         :'+yytext); end;
+({num})                                                                                        begin  yylval.yyString:= yytext; return( NUMBER       ); Log.PrintLn('NUMBER       :'+yytext); end;
+({num})%                                                                                       begin  yylval.yyString:= yytext; return( PERCENTAGE   ); Log.PrintLn('PERCENTAGE   :'+yytext); end;
+({num})({ident})                                                                               begin  yylval.yyString:= yytext; return( DIMENSION    ); Log.PrintLn('DIMENSION    :'+yytext); end;
+url\(({w})({string})({w})\)|url\(({w})([!#$%&*-\[\]-~]|({nonascii})|({escape}))*({w})\)        begin  yylval.yyString:= yytext; return( URI          ); Log.PrintLn('URI          :'+yytext); end;
+u\+[0-9a-f?]({1,6})(-[0-9a-f]({1,6}))?                                                         begin  yylval.yyString:= yytext; return( UNICODE_RANGE); Log.PrintLn('UNICODE_RANGE:'+yytext); end;
+\<\!\-\-                                                                                       begin  yylval.yyString:= yytext; return( CDO          ); Log.PrintLn('CDO          :'+yytext); end;
+\-\-\>                                                                                         begin  yylval.yyString:= yytext; return( CDC          ); Log.PrintLn('CDC          :'+yytext); end;
 \:                                                                                             returnc(yytext[1]);
 \;                                                                                             returnc(yytext[1]);
+\,                                                                                             returnc(yytext[1]);
 \{                                                                                             returnc(yytext[1]);
 \}                                                                                             returnc(yytext[1]);
 \(                                                                                             returnc(yytext[1]);
@@ -49,7 +50,7 @@ u\+[0-9a-f?]({1,6})(-[0-9a-f]({1,6}))?                                          
 \[                                                                                             returnc(yytext[1]);
 \]                                                                                             returnc(yytext[1]);
 [ \t\r\n\f]+                                                                                   ;
-\/\*[^*]*\*+([^/*][^*]*\*+)*\/                                                                 begin  yylval.yyString:= yytext; return( COMMENT      ); Writeln('COMMENT      :',yytext); end;
-({ident})\(                                                                                    begin  yylval.yyString:= yytext; return( FUNCTION_    ); Writeln('FUNCTION_    :',yytext); end;
-~=                                                                                             begin  yylval.yyString:= yytext; return( INCLUDES     ); Writeln('INCLUDES     :',yytext); end;
-|=                                                                                             begin  yylval.yyString:= yytext; return( DASHMATCH    ); Writeln('DASHMATCH    :',yytext); end;
+\/\*[^*]*\*+([^/*][^*]*\*+)*\/                                                                 begin  yylval.yyString:= yytext; return( COMMENT      ); Log.PrintLn('COMMENT      :'+yytext); end;
+({ident})\(                                                                                    begin  yylval.yyString:= yytext; return( FUNCTION_    ); Log.PrintLn('FUNCTION_    :'+yytext); end;
+~=                                                                                             begin  yylval.yyString:= yytext; return( INCLUDES     ); Log.PrintLn('INCLUDES     :'+yytext); end;
+|=                                                                                             begin  yylval.yyString:= yytext; return( DASHMATCH    ); Log.PrintLn('DASHMATCH    :'+yytext); end;

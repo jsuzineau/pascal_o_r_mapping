@@ -6,6 +6,7 @@ unit uCSS_Style_Parser_PYACC;
 interface
 
 uses
+    uLog,
     uBatpro_StringList,
     SysUtils, Classes, yacclib, lexlib, uStreamLexer;
 
@@ -97,8 +98,8 @@ begin
 3 : begin
        end;
 4 : begin
-         // source: uCSS_Style_Parser_PYACC.y line#40
-         sl.Values[yyv[yysp-2].yyString]:= yyv[yysp-0].yyString;
+         // source: uCSS_Style_Parser_PYACC.y line#41
+         sl.Values[yyv[yysp-2].yyString]:= yyv[yysp-0].yyString;Log.PrintLn( 'declaration: Values['+yyv[yysp-2].yyString+']:= '+yyv[yysp-0].yyString)
        end;
 5 : begin
          yyval := yyv[yysp-0];
@@ -143,7 +144,20 @@ begin
          yyval := yyv[yysp-0];
        end;
 19 : begin
+         // source: uCSS_Style_Parser_PYACC.y line#56
+         yyval.yyString:= yyv[yysp-2].yyString+yyv[yysp-1].yyString+')';Log.PrintLn( 'any: '+yyval.yyString);
+       end;
+20 : begin
          yyval := yyv[yysp-0];
+       end;
+21 : begin
+       end;
+22 : begin
+         yyval := yyv[yysp-0];
+       end;
+23 : begin
+         // source: uCSS_Style_Parser_PYACC.y line#61
+         yyval.yyString:= yyv[yysp-2].yyString+','+yyv[yysp-0].yyString;Log.PrintLn( 'paramlist: '+yyval.yyString);
        end;
 // source: yyparse.cod line# 54
   end;
@@ -164,10 +178,10 @@ type YYARec = record
 
 const
 
-yynacts   = 22;
-yyngotos  = 7;
-yynstates = 23;
-yynrules  = 19;
+yynacts   = 53;
+yyngotos  = 10;
+yynstates = 29;
+yynrules  = 23;
 yymaxtoken = 275;
 
 yya : array [1..yynacts] of YYARec = (
@@ -193,13 +207,14 @@ yya : array [1..yynacts] of YYARec = (
   ( sym: 266; act: 16 ),
   ( sym: 267; act: 17 ),
   ( sym: 268; act: 18 ),
-  ( sym: 273; act: 19 ),
-  ( sym: 274; act: 20 ),
-  ( sym: 275; act: 21 ),
+  ( sym: 272; act: 19 ),
+  ( sym: 273; act: 20 ),
+  ( sym: 274; act: 21 ),
+  ( sym: 275; act: 22 ),
 { 6: }
   ( sym: 257; act: 4 ),
   ( sym: 0; act: -3 ),
-  ( sym: 59; act: -3 )
+  ( sym: 59; act: -3 ),
 { 7: }
 { 8: }
 { 9: }
@@ -213,9 +228,45 @@ yya : array [1..yynacts] of YYARec = (
 { 17: }
 { 18: }
 { 19: }
+  ( sym: 58; act: 9 ),
+  ( sym: 257; act: 10 ),
+  ( sym: 259; act: 12 ),
+  ( sym: 263; act: 13 ),
+  ( sym: 264; act: 14 ),
+  ( sym: 265; act: 15 ),
+  ( sym: 266; act: 16 ),
+  ( sym: 267; act: 17 ),
+  ( sym: 268; act: 18 ),
+  ( sym: 272; act: 19 ),
+  ( sym: 273; act: 20 ),
+  ( sym: 274; act: 21 ),
+  ( sym: 275; act: 22 ),
+  ( sym: 41; act: -21 ),
+  ( sym: 44; act: -21 ),
 { 20: }
 { 21: }
 { 22: }
+{ 23: }
+{ 24: }
+  ( sym: 41; act: 26 ),
+  ( sym: 44; act: 27 ),
+{ 25: }
+{ 26: }
+{ 27: }
+  ( sym: 58; act: 9 ),
+  ( sym: 257; act: 10 ),
+  ( sym: 259; act: 12 ),
+  ( sym: 263; act: 13 ),
+  ( sym: 264; act: 14 ),
+  ( sym: 265; act: 15 ),
+  ( sym: 266; act: 16 ),
+  ( sym: 267; act: 17 ),
+  ( sym: 268; act: 18 ),
+  ( sym: 272; act: 19 ),
+  ( sym: 273; act: 20 ),
+  ( sym: 274; act: 21 ),
+  ( sym: 275; act: 22 )
+{ 28: }
 );
 
 yyg : array [1..yyngotos] of YYARec = (
@@ -232,7 +283,7 @@ yyg : array [1..yyngotos] of YYARec = (
   ( sym: -5; act: 8 ),
 { 6: }
   ( sym: -4; act: 1 ),
-  ( sym: -3; act: 22 )
+  ( sym: -3; act: 23 ),
 { 7: }
 { 8: }
 { 9: }
@@ -246,9 +297,18 @@ yyg : array [1..yyngotos] of YYARec = (
 { 17: }
 { 18: }
 { 19: }
+  ( sym: -7; act: 24 ),
+  ( sym: -6; act: 25 ),
 { 20: }
 { 21: }
 { 22: }
+{ 23: }
+{ 24: }
+{ 25: }
+{ 26: }
+{ 27: }
+  ( sym: -6; act: 28 )
+{ 28: }
 );
 
 yyd : array [0..yynstates-1] of Integer = (
@@ -261,7 +321,7 @@ yyd : array [0..yynstates-1] of Integer = (
 { 6: } 0,
 { 7: } -6,
 { 8: } -4,
-{ 9: } -19,
+{ 9: } -20,
 { 10: } -8,
 { 11: } -7,
 { 12: } -12,
@@ -271,10 +331,16 @@ yyd : array [0..yynstates-1] of Integer = (
 { 16: } -11,
 { 17: } -14,
 { 18: } -16,
-{ 19: } -17,
-{ 20: } -18,
-{ 21: } -13,
-{ 22: } -2
+{ 19: } 0,
+{ 20: } -17,
+{ 21: } -18,
+{ 22: } -13,
+{ 23: } -2,
+{ 24: } 0,
+{ 25: } -22,
+{ 26: } -19,
+{ 27: } 0,
+{ 28: } -23
 );
 
 yyal : array [0..yynstates-1] of Integer = (
@@ -284,7 +350,39 @@ yyal : array [0..yynstates-1] of Integer = (
 { 3: } 5,
 { 4: } 7,
 { 5: } 7,
-{ 6: } 20,
+{ 6: } 21,
+{ 7: } 24,
+{ 8: } 24,
+{ 9: } 24,
+{ 10: } 24,
+{ 11: } 24,
+{ 12: } 24,
+{ 13: } 24,
+{ 14: } 24,
+{ 15: } 24,
+{ 16: } 24,
+{ 17: } 24,
+{ 18: } 24,
+{ 19: } 24,
+{ 20: } 39,
+{ 21: } 39,
+{ 22: } 39,
+{ 23: } 39,
+{ 24: } 39,
+{ 25: } 41,
+{ 26: } 41,
+{ 27: } 41,
+{ 28: } 54
+);
+
+yyah : array [0..yynstates-1] of Integer = (
+{ 0: } 3,
+{ 1: } 4,
+{ 2: } 4,
+{ 3: } 6,
+{ 4: } 6,
+{ 5: } 20,
+{ 6: } 23,
 { 7: } 23,
 { 8: } 23,
 { 9: } 23,
@@ -297,36 +395,16 @@ yyal : array [0..yynstates-1] of Integer = (
 { 16: } 23,
 { 17: } 23,
 { 18: } 23,
-{ 19: } 23,
-{ 20: } 23,
-{ 21: } 23,
-{ 22: } 23
-);
-
-yyah : array [0..yynstates-1] of Integer = (
-{ 0: } 3,
-{ 1: } 4,
-{ 2: } 4,
-{ 3: } 6,
-{ 4: } 6,
-{ 5: } 19,
-{ 6: } 22,
-{ 7: } 22,
-{ 8: } 22,
-{ 9: } 22,
-{ 10: } 22,
-{ 11: } 22,
-{ 12: } 22,
-{ 13: } 22,
-{ 14: } 22,
-{ 15: } 22,
-{ 16: } 22,
-{ 17: } 22,
-{ 18: } 22,
-{ 19: } 22,
-{ 20: } 22,
-{ 21: } 22,
-{ 22: } 22
+{ 19: } 38,
+{ 20: } 38,
+{ 21: } 38,
+{ 22: } 38,
+{ 23: } 38,
+{ 24: } 40,
+{ 25: } 40,
+{ 26: } 40,
+{ 27: } 53,
+{ 28: } 53
 );
 
 yygl : array [0..yynstates-1] of Integer = (
@@ -350,9 +428,15 @@ yygl : array [0..yynstates-1] of Integer = (
 { 17: } 8,
 { 18: } 8,
 { 19: } 8,
-{ 20: } 8,
-{ 21: } 8,
-{ 22: } 8
+{ 20: } 10,
+{ 21: } 10,
+{ 22: } 10,
+{ 23: } 10,
+{ 24: } 10,
+{ 25: } 10,
+{ 26: } 10,
+{ 27: } 10,
+{ 28: } 11
 );
 
 yygh : array [0..yynstates-1] of Integer = (
@@ -375,10 +459,16 @@ yygh : array [0..yynstates-1] of Integer = (
 { 16: } 7,
 { 17: } 7,
 { 18: } 7,
-{ 19: } 7,
-{ 20: } 7,
-{ 21: } 7,
-{ 22: } 7
+{ 19: } 9,
+{ 20: } 9,
+{ 21: } 9,
+{ 22: } 9,
+{ 23: } 9,
+{ 24: } 9,
+{ 25: } 9,
+{ 26: } 9,
+{ 27: } 10,
+{ 28: } 10
 );
 
 yyr : array [1..yynrules] of YYRRec = (
@@ -400,7 +490,11 @@ yyr : array [1..yynrules] of YYRRec = (
 { 16: } ( len: 1; sym: -6; symname: 'any' ),
 { 17: } ( len: 1; sym: -6; symname: 'any' ),
 { 18: } ( len: 1; sym: -6; symname: 'any' ),
-{ 19: } ( len: 1; sym: -6; symname: 'any' )
+{ 19: } ( len: 3; sym: -6; symname: 'any' ),
+{ 20: } ( len: 1; sym: -6; symname: 'any' ),
+{ 21: } ( len: 0; sym: -7; symname: 'paramlist' ),
+{ 22: } ( len: 1; sym: -7; symname: 'paramlist' ),
+{ 23: } ( len: 3; sym: -7; symname: 'paramlist' )
 );
 
 yytokens : array [256..yymaxtoken] of YYTokenRec = (
@@ -533,7 +627,7 @@ next:
       yychar := lexer.parse(); if yychar<0 then yychar := 0;
     end;
 
-  {$IFDEF YYDEBUG}writeln('state ', yystate, yycharsym(yychar));{$ENDIF}
+  {$IFDEF YYDEBUG}Log.PrintLn('state '+IntToStr( yystate)+ yycharsym(yychar));{$ENDIF}
 
   (* determine parse action: *)
 
@@ -566,10 +660,9 @@ errlab:
         begin
           {$IFDEF YYDEBUG}
             if yysp>1 then
-              writeln('error recovery pops state ', yys[yysp], ', uncovers ',
-                      yys[yysp-1])
+              Log.PrintLn('error recovery pops state '+ IntToStr(yys[yysp])+ ', uncovers '+IntToStr(yys[yysp-1]))
             else
-              writeln('error recovery fails ... abort');
+              Log.PrintLn('error recovery fails ... abort');
           {$ENDIF}
           dec(yysp);
         end;
@@ -579,7 +672,7 @@ errlab:
     end
   else                                  (* no shift yet; discard symbol *)
     begin
-      {$IFDEF YYDEBUG}writeln('error recovery discards ' + yycharsym(yychar));{$ENDIF}
+      {$IFDEF YYDEBUG}Log.PrintLn('error recovery discards ' + yycharsym(yychar));{$ENDIF}
       if yychar=0 then goto abort; (* end of input; abort *)
       yychar := -1; goto next;     (* clear lookahead char and try again *)
     end;
@@ -597,7 +690,7 @@ reduce:
 
   (* execute action, pop rule from stack, and go to next state: *)
 
-  {$IFDEF YYDEBUG}writeln('reduce ' + IntToStr(-yyn) {$IFDEF YYEXTRADEBUG} + ' rule ' + yyr[-yyn].symname {$ENDIF});{$ENDIF}
+  {$IFDEF YYDEBUG}Log.PrintLn('reduce ' + IntToStr(-yyn) {$IFDEF YYEXTRADEBUG} + ' rule ' + yyr[-yyn].symname {$ENDIF});{$ENDIF}
 
   yyflag := yyfnone; yyaction(-yyn);
   dec(yysp, yyr[-yyn].len);

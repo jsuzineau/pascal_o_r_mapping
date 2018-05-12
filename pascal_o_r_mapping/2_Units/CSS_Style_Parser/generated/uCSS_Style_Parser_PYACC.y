@@ -4,6 +4,7 @@ unit uCSS_Style_Parser_PYACC;
 interface
 
 uses
+    uLog,
     uBatpro_StringList,
     SysUtils, Classes, yacclib, lexlib, uStreamLexer;
 
@@ -37,7 +38,7 @@ declarationlist : declaration
                 | declarationlist ';' declaration;
 
 declaration     :   /*empty*/
-                  | property ':' value { sl.Values[$<String>1]:= $<String>3;};
+                  | property ':' value { sl.Values[$<String>1]:= $<String>3;Log.PrintLn( 'declaration: Values['+$<String>1+']:= '+$<String>3)};
 property        : IDENT;
 value           : any | ATKEYWORD;
 any             :
@@ -52,8 +53,13 @@ any             :
                   | UNICODE_RANGE
                   | INCLUDES
                   | DASHMATCH
+                  | FUNCTION_ paramlist ')' { $<String>$:= $<String>1+$<String>2+')';Log.PrintLn( 'any: '+$<String>$);}
                   | ':'
                   ;
+paramlist     : /*empty*/
+                | any
+                | paramlist ',' any { $<String>$:= $<String>1+','+$<String>3;Log.PrintLn( 'paramlist: '+$<String>$);}
+                ;
 
 %%
 
