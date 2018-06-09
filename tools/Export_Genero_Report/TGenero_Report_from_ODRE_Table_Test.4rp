@@ -27,10 +27,10 @@
             <THEAD name="Head1" type="any">
               <ROW name="Row2">
                 <COL name="GR_COL">
-                  <WORDBOX name="GR_WORDBOX" text="N°" class="grwTableStringColumnTitle" anchorX="1" textAlignment="center" floatingBehavior="enclosed"/>
+                  <HTMLBOX url="{{&quot;data:text/html,N%C2%B0&quot;}}" name="GR_WORDBOX" class="grwTableStringColumnTitle" anchorX="1" textAlignment="center" floatingBehavior="enclosed"/>
                 </COL>
                 <COL name="GR_COL1">
-                  <WORDBOX name="GR_WORDBOX1" text="Libellé" class="grwTableStringColumnTitle" anchorX="1" textAlignment="center" floatingBehavior="enclosed"/>
+                  <HTMLBOX url="{{&quot;data:text/html,Libell%C3%A9&quot;}}" name="GR_WORDBOX1" class="grwTableStringColumnTitle" anchorX="1" textAlignment="center" floatingBehavior="enclosed"/>
                 </COL>
               </ROW>
             </THEAD>
@@ -40,12 +40,12 @@
                   <COL name="GR_COL2">
                     <rtl:input-variable name="Corps.sqlqTEST.NewGroup" type="FGLNumeric" expectedLocation="expectedHere"/>
                     <rtl:input-variable name="Corps.sqlqTEST.id" type="FGLString" expectedLocation="expectedHere"/>
-                    <WORDBOX name="GR_WORDBOX2" text="{{Corps.sqlqTEST.id}}" class="grwTableStringColumnValue" anchorX="1" fontBold="{{(Corps.sqlqTEST.NewGroup==1)}}" textAlignment="left" floatingBehavior="enclosed"/>
+                    <HTMLBOX url="{{&quot;data:text/html,&quot;+Corps.sqlqTEST.id.urlEncode()}}" name="GR_WORDBOX2" class="grwTableStringColumnValue" anchorX="1" fontBold="{{(Corps.sqlqTEST.NewGroup==1)}}" textAlignment="left" floatingBehavior="enclosed"/>
                   </COL>
                   <COL name="GR_COL3">
                     <rtl:input-variable name="Corps.sqlqTEST.NewGroup" type="FGLNumeric" expectedLocation="expectedHere"/>
                     <rtl:input-variable name="Corps.sqlqTEST.libelle" type="FGLString" expectedLocation="expectedHere"/>
-                    <WORDBOX name="GR_WORDBOX3" text="{{Corps.sqlqTEST.libelle}}" class="grwTableStringColumnValue" anchorX="1" fontBold="{{(Corps.sqlqTEST.NewGroup==1)}}" textAlignment="left" floatingBehavior="enclosed"/>
+                    <HTMLBOX url="{{&quot;data:text/html,&quot;+Corps.sqlqTEST.libelle.urlEncode()}}" name="GR_WORDBOX3" class="grwTableStringColumnValue" anchorX="1" fontBold="{{(Corps.sqlqTEST.NewGroup==1)}}" textAlignment="left" floatingBehavior="enclosed"/>
                   </COL>
                 </ROW>
               </rtl:match>

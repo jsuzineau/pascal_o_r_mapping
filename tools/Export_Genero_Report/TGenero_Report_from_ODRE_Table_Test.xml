@@ -11,21 +11,21 @@
   </FirstPageHeader>
   <OnEveryRow>
     <Print>
-      <Item name="Corps.sqlqTEST.id" type="INTEGER" value="1" isNull="0"/>
+      <Item name="Corps.sqlqTEST.id" type="" value="1" isNull="0"/>
       <Item name="Corps.sqlqTEST.libelle" type="TEXT" value="test 1" isNull="0"/>
       <Item name="Corps.sqlqTEST.NewGroup" type="INTEGER" value="0" isNull="0"/>
     </Print>
   </OnEveryRow>
   <OnEveryRow>
     <Print>
-      <Item name="Corps.sqlqTEST.id" type="INTEGER" value="2" isNull="0"/>
+      <Item name="Corps.sqlqTEST.id" type="" value="2" isNull="0"/>
       <Item name="Corps.sqlqTEST.libelle" type="TEXT" value="test2" isNull="0"/>
       <Item name="Corps.sqlqTEST.NewGroup" type="INTEGER" value="1" isNull="0"/>
     </Print>
   </OnEveryRow>
   <OnEveryRow>
     <Print>
-      <Item name="Corps.sqlqTEST.id" type="INTEGER" value="3" isNull="0"/>
+      <Item name="Corps.sqlqTEST.id" type="" value="3" isNull="0"/>
       <Item name="Corps.sqlqTEST.libelle" type="TEXT" value="test3" isNull="0"/>
       <Item name="Corps.sqlqTEST.NewGroup" type="INTEGER" value="0" isNull="0"/>
     </Print>
