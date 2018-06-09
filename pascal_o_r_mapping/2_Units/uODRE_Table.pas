@@ -410,14 +410,14 @@ begin
 
      Largeur_Imprimable:= _C.D.Largeur_Imprimable;
 
-     Result:= TOD_PARAGRAPH.Create( _C, _root);
+     Result:= TOD_PARAGRAPH.Create( _C.D, _root);
      Result.Is_Header:= _Is_Header;
 
-     Delete_Property( Result.Style_Automatique, 'style:class');
+     Delete_Property( Result.Style_Automatique[_C.NomStyleColonne], 'style:class');
      if _NewPage
      then
-         Set_Property( Result.PARAGRAPH_PROPERTIES.e, 'fo:break-before','page');
-     TabStops:= Result.PARAGRAPH_PROPERTIES.TAB_STOPS;
+         Set_Property( Result.PARAGRAPH_PROPERTIES[_C.NomStyleColonne].e, 'fo:break-before','page');
+     TabStops:= Result.PARAGRAPH_PROPERTIES[_C.NomStyleColonne].TAB_STOPS;
 
      if Length( Columns) = 0 then exit;
 

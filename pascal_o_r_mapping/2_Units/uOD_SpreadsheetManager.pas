@@ -186,7 +186,7 @@ end;
 
 procedure TOD_SpreadsheetManager.Append_Row;
 begin
-     ROW:= TOD_TABLE_ROW.Create( C, eTABLE);
+     ROW:= TOD_TABLE_ROW.Create( C.D, eTABLE);
      Inc( FnRow);
      if NombreColonnes > 0
      then

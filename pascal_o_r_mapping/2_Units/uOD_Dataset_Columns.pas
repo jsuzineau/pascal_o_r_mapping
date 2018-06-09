@@ -27,6 +27,7 @@ interface
 
 uses
     uOOoStrings,
+    uOpenDocument,
     uLog,
     uOD_Dataset_Column,
     uOD_TextTableContext,

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="9"/>
+    <Version Value="10"/>
     <General>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
@@ -24,24 +24,27 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="5">
+    <RequiredPackages Count="6">
       <Item1>
-        <PackageName Value="OD_DelphiReportEngine_Controls"/>
+        <PackageName Value="ndyacclexlib"/>
       </Item1>
       <Item2>
-        <PackageName Value="fpcunittestrunner"/>
+        <PackageName Value="OD_DelphiReportEngine_Controls"/>
       </Item2>
       <Item3>
-        <PackageName Value="OD_DelphiReportEngine_Units"/>
+        <PackageName Value="fpcunittestrunner"/>
       </Item3>
       <Item4>
-        <PackageName Value="LCL"/>
+        <PackageName Value="OD_DelphiReportEngine_Units"/>
       </Item4>
       <Item5>
-        <PackageName Value="FCL"/>
+        <PackageName Value="LCL"/>
       </Item5>
+      <Item6>
+        <PackageName Value="FCL"/>
+      </Item6>
     </RequiredPackages>
-    <Units Count="16">
+    <Units Count="19">
       <Unit0>
         <Filename Value="fuPASCAL_O_R_MAPPING.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -111,13 +114,25 @@
         <Filename Value="../../GPL/uCode_barre_pdf417.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit15>
+      <Unit16>
+        <Filename Value="TestCase/tcOpenDocument_AddHTML/utcOpenDocument_AddHTML.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="TestCase/tcOpenDocument_AddHTML/Elements/Test_HTML/ublTest_HTML.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="tcOpenDocument_AddHTML_3.html"/>
+        <IsPartOfProject Value="True"/>
+      </Unit18>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../pascal_o_r_mapping/3_Data;Elements/Test;TestCase/tcOpenDocument_Embed_Image;TestCase/tcOpenDocument_Embed_Image/Elements/Test;TestCase/tcWinUtils;TestCase/tcWinUtils/Elements/TestWinUtils;TestCase/tcDockableScrollbox;TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox;TestCase/tcCode_barre_pdf417;../../GPL;TestCase/tcOpenDocument"/>
+      <OtherUnitFiles Value="../../pascal_o_r_mapping/3_Data;Elements/Test;TestCase/tcOpenDocument_Embed_Image;TestCase/tcOpenDocument_Embed_Image/Elements/Test;TestCase/tcWinUtils;TestCase/tcWinUtils/Elements/TestWinUtils;TestCase/tcDockableScrollbox;TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox;TestCase/tcCode_barre_pdf417;../../GPL;TestCase/tcOpenDocument;TestCase/tcOpenDocument_AddHTML;TestCase/tcOpenDocument_AddHTML/Elements/Test_HTML"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>

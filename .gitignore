@@ -77,3 +77,8 @@ tools/Generateur/Generateur_de_code/Parametres
 tools/Generateur/Generateur_de_code/Source
 tools/Generateur/Generateur
 jsWorks/etc/_Configuration.First-Boss.ini
+tools/Search_and_replace/Search_and_replace
+.lazarus
+.config
+pascal_o_r_mapping/2_Units/CSS_Style_Parser/test
+pascal_o_r_mapping/7_sources_externes/ndyacclex/src/yacc/ndyacc
