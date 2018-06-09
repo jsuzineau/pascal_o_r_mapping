@@ -158,6 +158,11 @@ function String_suffix_index( _S, _Suffix: String): Integer;
 function String_has_suffix( _S, _Suffix: String): Boolean;
 function Delete_suffix( _S, _Suffix: String): String;
 
+//taken from http://forum.lazarus.freepascal.org/index.php?topic=15088.0
+function EncodeUrl(url: string): string;
+function DecodeUrl(url: string): string;
+
+
 implementation
 
 { Indente
@@ -1121,6 +1126,58 @@ begin
      LSuffix:= Length( _Suffix);
      iSuffix:= String_suffix_index( _S, _Suffix);
      Delete( Result, iSuffix, LSuffix);
+end;
+
+//taken from http://forum.lazarus.freepascal.org/index.php?topic=15088.0
+function EncodeUrl(url: string): string;
+var
+   x: integer;
+const
+     SafeMask = ['A'..'Z', '0'..'9', 'a'..'z', '*', '@', '.', '_', '-'];
+begin
+     //Init
+     Result:= '';
+
+     for x := 1 to Length(url)
+     do
+       begin
+       //Check if we have a safe char
+            if url[x] in SafeMask then Result:= Result + url[x] //Append all other chars
+       else if url[x] = ' '       then Result:= Result + '+'    //Append space
+       else                            Result:= Result + '%' + IntToHex(Ord(url[x]), 2); //Convert to hex
+     end;
+end;
+
+//taken from http://forum.lazarus.freepascal.org/index.php?topic=15088.0
+function DecodeUrl(url: string): string;
+var
+   x: integer;
+   ch: string;
+   sVal: string;
+begin
+     //Init
+     Result:= '';
+     x := 1;
+     while x <= Length(url)
+     do
+       begin
+       //Get single char
+       ch := url[x];
+
+            if ch =  '+' then Result:= Result + ' ' //Append space
+       else if ch <> '%' then Result:= Result + ch  //Append other chars
+       else
+           begin
+           //Get value
+           sVal := Copy(url, x + 1, 2);
+           //Convert sval to int then to char
+           Result:= Result + char(StrToInt('$' + sVal));
+           //Inc counter by 2
+           Inc(x, 2);
+           end;
+       //Inc counter
+       Inc(x);
+       end;
 end;
 
 end.

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectSession>
-    <Version Value="9"/>
+    <Version Value="10"/>
     <BuildModes Active="Default"/>
-    <Units Count="34">
+    <Units Count="36">
       <Unit0>
         <Filename Value="Export_Genero_Report_linux.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -11,7 +11,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="83"/>
+        <UsageCount Value="103"/>
       </Unit0>
       <Unit1>
         <Filename Value="ufExport_Genero_Report.pas"/>
@@ -19,24 +19,23 @@
         <ComponentName Value="fExport_Genero_Report"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufExport_Genero_Report"/>
         <TopLine Value="30"/>
-        <CursorPos X="56" Y="52"/>
-        <UsageCount Value="83"/>
+        <CursorPos X="24" Y="39"/>
+        <UsageCount Value="103"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uGenero_Report_from_ODRE_Table"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="338"/>
-        <CursorPos X="51" Y="355"/>
-        <UsageCount Value="83"/>
+        <TopLine Value="398"/>
+        <CursorPos X="75" Y="424"/>
+        <UsageCount Value="103"/>
         <Bookmarks Count="2">
-          <Item0 X="13" Y="774" ID="1"/>
-          <Item1 X="40" Y="133" ID="2"/>
+          <Item0 X="46" Y="422" ID="1"/>
+          <Item1 X="11" Y="547" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
       </Unit2>
@@ -45,24 +44,23 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="2"/>
-        <UsageCount Value="75"/>
+        <UsageCount Value="95"/>
         <DefaultSyntaxHighlighter Value="XML"/>
       </Unit3>
       <Unit4>
         <Filename Value="uGenero_Report_from_Dataset.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uGenero_Report_from_Dataset"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="150"/>
-        <CursorPos Y="186"/>
-        <UsageCount Value="59"/>
+        <TopLine Value="194"/>
+        <CursorPos Y="235"/>
+        <UsageCount Value="79"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="../../../../Public/tmp/storeorder_avec_before_group.xml"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="18"/>
-        <UsageCount Value="33"/>
+        <UsageCount Value="31"/>
         <DefaultSyntaxHighlighter Value="XML"/>
       </Unit5>
       <Unit6>
@@ -70,16 +68,15 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="515"/>
         <CursorPos Y="544"/>
-        <UsageCount Value="18"/>
+        <UsageCount Value="16"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit6>
       <Unit7>
         <Filename Value="../../pascal_o_r_mapping/2_Units/uOD_JCL.pas"/>
-        <UnitName Value="uOD_JCL"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="83"/>
         <CursorPos X="5" Y="118"/>
-        <UsageCount Value="35"/>
+        <UsageCount Value="33"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit7>
       <Unit8>
@@ -87,48 +84,48 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="46"/>
         <CursorPos X="9" Y="59"/>
-        <UsageCount Value="19"/>
+        <UsageCount Value="17"/>
       </Unit8>
       <Unit9>
         <Filename Value="../../pascal_o_r_mapping/3_Data/Automatic/ublAutomatic.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="347"/>
         <CursorPos X="47" Y="362"/>
-        <UsageCount Value="19"/>
+        <UsageCount Value="17"/>
       </Unit9>
       <Unit10>
         <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/src/base/db.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="96"/>
         <CursorPos Y="117"/>
-        <UsageCount Value="19"/>
+        <UsageCount Value="17"/>
       </Unit10>
       <Unit11>
         <Filename Value="/usr/share/fpcsrc/2.6.4/packages/fcl-db/tests/sqldbtoolsunit.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="113"/>
         <CursorPos Y="129"/>
-        <UsageCount Value="19"/>
+        <UsageCount Value="17"/>
       </Unit11>
       <Unit12>
         <Filename Value="Export_Genero_Report.lpi"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="39"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="5"/>
         <DefaultSyntaxHighlighter Value="XML"/>
       </Unit12>
       <Unit13>
         <Filename Value="Test.xml"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="19" Y="20"/>
-        <UsageCount Value="15"/>
+        <UsageCount Value="13"/>
         <DefaultSyntaxHighlighter Value="XML"/>
       </Unit13>
       <Unit14>
         <Filename Value="../../../../Public/tmp/storeorder _avec_first_page_header.xml"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="6" Y="14"/>
-        <UsageCount Value="16"/>
+        <UsageCount Value="14"/>
         <DefaultSyntaxHighlighter Value="XML"/>
       </Unit14>
       <Unit15>
@@ -136,27 +133,25 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="40"/>
         <CursorPos Y="53"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit15>
       <Unit16>
         <Filename Value="../../../../Public/tmp/uOD_IOO.pas"/>
-        <UnitName Value="uOD_IOO"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1149"/>
         <CursorPos Y="1174"/>
-        <UsageCount Value="27"/>
+        <UsageCount Value="25"/>
         <Bookmarks Count="1">
           <Item0 X="38" Y="1176" ID="3"/>
         </Bookmarks>
       </Unit16>
       <Unit17>
         <Filename Value="../../pascal_o_r_mapping/2_Units/uOD_TextTableManager.pas"/>
-        <UnitName Value="uOD_TextTableManager"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="369"/>
         <CursorPos X="69" Y="402"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="27"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit17>
       <Unit18>
@@ -164,23 +159,22 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="22"/>
         <CursorPos X="2" Y="40"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="6"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit18>
       <Unit19>
         <Filename Value="TGenero_Report_from_ODRE_Table_Template.xml"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="8"/>
         <CursorPos X="4" Y="11"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="36"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="XML"/>
       </Unit19>
       <Unit20>
         <Filename Value="TGenero_Report_from_ODRE_Table_Test.xml"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="4"/>
-        <CursorPos X="19" Y="9"/>
-        <UsageCount Value="26"/>
+        <EditorIndex Value="6"/>
+        <CursorPos X="132" Y="24"/>
+        <UsageCount Value="36"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="XML"/>
       </Unit20>
@@ -189,73 +183,71 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="10"/>
         <CursorPos X="99" Y="15"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="6"/>
         <DefaultSyntaxHighlighter Value="XML"/>
       </Unit21>
       <Unit22>
         <Filename Value="TGenero_Report_from_ODRE_Table_Template.4rp"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="5"/>
         <CursorPos Y="21"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="36"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="XML"/>
       </Unit22>
       <Unit23>
         <Filename Value="../../pascal_o_r_mapping/2_Units/uODRE_Table.pas"/>
-        <UnitName Value="uODRE_Table"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="435"/>
         <CursorPos X="36" Y="448"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="24"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit23>
       <Unit24>
         <Filename Value="../../../../Public/tmp/storeorder.xml"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="20"/>
         <DefaultSyntaxHighlighter Value="XML"/>
       </Unit24>
       <Unit25>
         <Filename Value="TGenero_Report_from_ODRE_Table_Test.4rp"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="2"/>
         <CursorPos Y="38"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="31"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="XML"/>
       </Unit25>
       <Unit26>
         <Filename Value="../../pascal_o_r_mapping/2_Units/uOD_Dataset_Columns.pas"/>
-        <UnitName Value="uOD_Dataset_Columns"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="277"/>
         <CursorPos X="33" Y="315"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="19"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit26>
       <Unit27>
         <Filename Value="/media/jean/USB DISK/TGenero_Report_from_ODRE_Table_Test.4rp"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="15"/>
         <DefaultSyntaxHighlighter Value="XML"/>
       </Unit27>
       <Unit28>
         <Filename Value="/media/jean/USB DISK/SalesList_MapChart.xml"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="33" Y="5"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="15"/>
         <DefaultSyntaxHighlighter Value="XML"/>
       </Unit28>
       <Unit29>
         <Filename Value="/media/jean/USB DISK/SalesList_MapChart.4rp"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="15"/>
         <DefaultSyntaxHighlighter Value="XML"/>
       </Unit29>
       <Unit30>
         <Filename Value="/media/jean/USB DISK/OrderReportXML/Table.4rp"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="15"/>
         <DefaultSyntaxHighlighter Value="XML"/>
       </Unit30>
       <Unit31>
@@ -263,146 +255,167 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="70"/>
         <CursorPos X="293" Y="36"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="15"/>
         <DefaultSyntaxHighlighter Value="XML"/>
       </Unit31>
       <Unit32>
         <Filename Value="../../../../batpro/source/src/IOO/uOD_IOO.pas"/>
-        <UnitName Value="uOD_IOO"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1039"/>
         <CursorPos X="52" Y="1060"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit32>
       <Unit33>
         <Filename Value="../../pascal_o_r_mapping/2_Units/uOD_TextFieldsCreator.pas"/>
-        <UnitName Value="uOD_TextFieldsCreator"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="145"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit33>
+      <Unit34>
+        <Filename Value="../../../../03_travail/Export_Genero_Report modification html/ac4_100.4rp"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="288"/>
+        <CursorPos X="177" Y="312"/>
+        <UsageCount Value="20"/>
+        <Bookmarks Count="1">
+          <Item0 X="162" Y="319" ID="3"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="XML"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="../../pascal_o_r_mapping/2_Units/uuStrings.pas"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="141"/>
+        <CursorPos X="20" Y="162"/>
+        <UsageCount Value="20"/>
+        <Bookmarks Count="2">
+          <Item0 Y="162" ID="5"/>
+          <Item1 Y="1133" ID="7"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit35>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="105" Column="36" TopLine="87"/>
+        <Caret Line="754" TopLine="723"/>
       </Position1>
       <Position2>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="215" Column="55" TopLine="183"/>
+        <Caret Line="766" Column="14" TopLine="738"/>
       </Position2>
       <Position3>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="291" Column="51" TopLine="212"/>
+        <Caret Line="132" Column="40" TopLine="102"/>
       </Position3>
       <Position4>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="123" Column="43" TopLine="87"/>
+        <Caret Line="769" Column="55" TopLine="741"/>
       </Position4>
       <Position5>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="314" TopLine="296"/>
+        <Caret Line="131" Column="42" TopLine="111"/>
       </Position5>
       <Position6>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="634" TopLine="585"/>
+        <Caret Line="358" Column="34" TopLine="357"/>
       </Position6>
       <Position7>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="181" Column="62" TopLine="152"/>
+        <Caret Line="775" Column="44" TopLine="746"/>
       </Position7>
       <Position8>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="91" Column="5" TopLine="72"/>
+        <Caret Line="763" Column="51" TopLine="741"/>
       </Position8>
       <Position9>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="183" Column="32" TopLine="162"/>
+        <Caret Line="131" Column="16" TopLine="112"/>
       </Position9>
       <Position10>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="127" TopLine="98"/>
+        <Caret Line="408" Column="13" TopLine="395"/>
       </Position10>
       <Position11>
-        <Filename Value="uGenero_Report_from_Dataset.pas"/>
-        <Caret Line="155" Column="44" TopLine="138"/>
+        <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
+        <Caret Line="429" Column="8" TopLine="413"/>
       </Position11>
       <Position12>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="333" Column="20" TopLine="309"/>
+        <Caret Line="552" Column="11" TopLine="530"/>
       </Position12>
       <Position13>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="129" Column="48" TopLine="109"/>
+        <Caret Line="429" Column="8" TopLine="405"/>
       </Position13>
       <Position14>
-        <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="354" Column="39" TopLine="334"/>
+        <Filename Value="../../../../03_travail/Export_Genero_Report modification html/ac4_100.4rp"/>
+        <Caret Line="321" Column="34" TopLine="288"/>
       </Position14>
       <Position15>
-        <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="314" Column="19" TopLine="208"/>
+        <Filename Value="../../../../03_travail/Export_Genero_Report modification html/ac4_100.4rp"/>
+        <Caret Line="319" Column="34" TopLine="288"/>
       </Position15>
       <Position16>
-        <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="222" Column="50" TopLine="202"/>
+        <Filename Value="../../../../03_travail/Export_Genero_Report modification html/ac4_100.4rp"/>
+        <Caret Line="321" Column="34" TopLine="288"/>
       </Position16>
       <Position17>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="148" TopLine="148"/>
+        <Caret Line="559" Column="103" TopLine="529"/>
       </Position17>
       <Position18>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="354" Column="53" TopLine="336"/>
+        <Caret Line="422" Column="37" TopLine="399"/>
       </Position18>
       <Position19>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="358" Column="24" TopLine="335"/>
+        <Caret Line="555" TopLine="523"/>
       </Position19>
       <Position20>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="110" Column="63" TopLine="89"/>
+        <Caret Line="421" Column="79" TopLine="398"/>
       </Position20>
       <Position21>
-        <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="247" Column="66" TopLine="224"/>
+        <Filename Value="uGenero_Report_from_Dataset.pas"/>
+        <Caret Line="175" Column="56" TopLine="150"/>
       </Position21>
       <Position22>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="754" TopLine="723"/>
       </Position22>
       <Position23>
-        <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="766" Column="14" TopLine="738"/>
+        <Filename Value="../../pascal_o_r_mapping/2_Units/uuStrings.pas"/>
+        <Caret Line="162" TopLine="139"/>
       </Position23>
       <Position24>
-        <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="132" Column="40" TopLine="102"/>
+        <Filename Value="../../pascal_o_r_mapping/2_Units/uuStrings.pas"/>
+        <Caret Line="1132" TopLine="1118"/>
       </Position24>
       <Position25>
-        <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="769" Column="55" TopLine="741"/>
+        <Filename Value="../../pascal_o_r_mapping/2_Units/uuStrings.pas"/>
+        <Caret Line="163" TopLine="141"/>
       </Position25>
       <Position26>
-        <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="131" Column="42" TopLine="111"/>
+        <Filename Value="../../pascal_o_r_mapping/2_Units/uuStrings.pas"/>
+        <Caret Line="1152" TopLine="1111"/>
       </Position26>
       <Position27>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="358" Column="34" TopLine="357"/>
       </Position27>
       <Position28>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="775" Column="44" TopLine="746"/>
+        <Caret Line="433" Column="99" TopLine="399"/>
       </Position28>
       <Position29>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="763" Column="51" TopLine="741"/>
+        <Caret Line="422" Column="46" TopLine="399"/>
       </Position29>
       <Position30>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
-        <Caret Line="131" Column="16" TopLine="112"/>
+        <Caret Line="547" Column="11" TopLine="525"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>

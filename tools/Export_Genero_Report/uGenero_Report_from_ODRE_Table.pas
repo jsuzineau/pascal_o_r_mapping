@@ -419,14 +419,16 @@ begin
        eCOL:= AC( eROW, 'COL');
        Nomme( eCOL, 'GR_COL');
 
-       eWORDBOX:= AC( eCOL, 'WORDBOX');
+       eWORDBOX:= AC( eCOL, 'HTMLBOX');
        Nomme( eWORDBOX, 'GR_WORDBOX');
 
        Set_Property( eWORDBOX, 'class'           , 'grwTableStringColumnTitle');
        Set_Property( eWORDBOX, 'anchorX'         , '1'                        );
        Set_Property( eWORDBOX, 'floatingBehavior', 'enclosed'                 );
        Set_Property( eWORDBOX, 'textAlignment'   , 'center'                   );
-       Set_Property( eWORDBOX, 'text'            , OD_Column.Titre            );
+       //Set_Property( eWORDBOX, 'text'            , OD_Column.Titre            );
+       //url="{{&quot;data:text/html,&quot;+com.libelle_string.urlEncode()}}"
+       Set_Property( eWORDBOX, 'url'            , '{{"data:text/html,'+EncodeUrl( OD_Column.Titre)+'"}}');
        end;
 end;
 
@@ -542,14 +544,16 @@ var
           RIV_Gras( eCOL);
           RIV( eCOL, FieldPath, 'FGLString');
 
-          eWORDBOX:= AC( eCOL, 'WORDBOX');
+          eWORDBOX:= AC( eCOL, 'HTMLBOX');
           Nomme( eWORDBOX, 'GR_WORDBOX');
 
           Set_Property( eWORDBOX, 'class'           , 'grwTableStringColumnValue');
           Set_Property( eWORDBOX, 'anchorX'         , '1'                        );
           Set_Property( eWORDBOX, 'floatingBehavior', 'enclosed'                 );
           Set_Property( eWORDBOX, 'textAlignment'   , 'left'                     );
-          Set_Property( eWORDBOX, 'text'            , '{{'+FieldPath+'}}');
+          //Set_Property( eWORDBOX, 'text'            , '{{'+FieldPath+'}}');
+          //url="{{&quot;data:text/html,&quot;+com.libelle_string.urlEncode()}}"
+          Set_Property( eWORDBOX, 'url'            , '{{"data:text/html,"+'+FieldPath+'.urlEncode()}}');
           if BoldExpr <> ''
           then
               Set_Property( eWORDBOX, 'fontBold'         , BoldExpr);
@@ -569,20 +573,20 @@ begin
          begin
          eROW:= AC( erp_Niveau, 'ROW');
          Nomme(eROW, 'GR_ROW');
-         TraiteLigne( eROW, OD_Dataset_Columns.FAvant, OD_Dataset_Columns.Avant_Triggered);
-         TraiteLigne( eROW, OD_Dataset_Columns.FApres, OD_Dataset_Columns.Apres_Triggered);
+         TraiteLigne( eROW, OD_Dataset_Columns.Avant.DCA, OD_Dataset_Columns.Avant.Triggered);
+         TraiteLigne( eROW, OD_Dataset_Columns.Apres.DCA, OD_Dataset_Columns.Apres.Triggered);
          end
      else
          begin
          eROW:= AC( erp_Niveau, 'ROW');
          Nomme(eROW, 'GR_ROW');
-         TraiteLigne( eROW, OD_Dataset_Columns.FAvant, OD_Dataset_Columns.Avant_Triggered);
+         TraiteLigne( eROW, OD_Dataset_Columns.Avant.DCA, OD_Dataset_Columns.Avant.Triggered);
 
          rp_TraiteDataset( erp_Niveau, iDataset+1);
 
          eROW:= AC( erp_Niveau, 'ROW');
          Nomme(eROW, 'GR_ROW');
-         TraiteLigne( eROW, OD_Dataset_Columns.FApres, OD_Dataset_Columns.Apres_Triggered);
+         TraiteLigne( eROW, OD_Dataset_Columns.Apres.DCA, OD_Dataset_Columns.Apres.Triggered);
          end;
 end;
 
@@ -665,13 +669,13 @@ begin
            end
        else
            begin
-           if Length(OD_Dataset_Columns.FAvant) > 0
+           if Length(OD_Dataset_Columns.Avant.DCA) > 0
            then
-               TraiteLigne( eBeforeGroup_Print, OD_Dataset_Columns.Avant_Triggered);
+               TraiteLigne( eBeforeGroup_Print, OD_Dataset_Columns.Avant.Triggered);
            xml_TraiteDataset( eBalise, iDataset+1);
-           if Length(OD_Dataset_Columns.FApres) > 0
+           if Length(OD_Dataset_Columns.Apres.DCA) > 0
            then
-               TraiteLigne( eAfterGroup_Print, OD_Dataset_Columns.Apres_Triggered);
+               TraiteLigne( eAfterGroup_Print, OD_Dataset_Columns.Apres.Triggered);
            end;
        ds.Next;
        end;
@@ -765,8 +769,8 @@ begin
 
         dc:= ODRE_Table.AddDataset( sqlq);
         dc.OD_Styles:= OD_Styles;
-        dc.Column_Avant( 'id'     , 0, 0);
-        dc.Column_Avant( 'libelle', 1, 1);
+        dc.Avant.Column_SetDebutFin( 'id'     , 0, 0);
+        dc.Avant.Column_SetDebutFin( 'libelle', 1, 1);
 
 
         grc.Ajoute_Parametre( 'T1','Titre 1');
