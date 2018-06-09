@@ -28,6 +28,7 @@
       <Unit2>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="410"/>
         <CursorPos Y="431"/>
@@ -209,10 +210,9 @@
       </Unit24>
       <Unit25>
         <Filename Value="TGenero_Report_from_ODRE_Table_Test.4rp"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
         <TopLine Value="11"/>
-        <CursorPos Y="38"/>
+        <CursorPos X="139" Y="26"/>
         <UsageCount Value="21"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="XML"/>
