@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="9"/>
+    <Version Value="10"/>
     <General>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
@@ -13,9 +13,6 @@
     <i18n>
       <EnableI18N LFM="False"/>
     </i18n>
-    <VersionInfo>
-      <StringTable ProductVersion=""/>
-    </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
     </BuildModes>
@@ -29,10 +26,10 @@
     </RunParams>
     <RequiredPackages Count="3">
       <Item1>
-        <PackageName Value="SQLDBLaz"/>
+        <PackageName Value="OD_DelphiReportEngine_Controls"/>
       </Item1>
       <Item2>
-        <PackageName Value="OD_DelphiReportEngine_Controls_linux"/>
+        <PackageName Value="SQLDBLaz"/>
       </Item2>
       <Item3>
         <PackageName Value="LCL"/>
@@ -49,12 +46,10 @@
         <ComponentName Value="fExport_Genero_Report"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufExport_Genero_Report"/>
       </Unit1>
       <Unit2>
         <Filename Value="uGenero_Report_from_ODRE_Table.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uGenero_Report_from_ODRE_Table"/>
       </Unit2>
       <Unit3>
         <Filename Value="Genero_Report_XML_Template.xml"/>
@@ -63,7 +58,6 @@
       <Unit4>
         <Filename Value="uGenero_Report_from_Dataset.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="uGenero_Report_from_Dataset"/>
       </Unit4>
     </Units>
   </ProjectOptions>
