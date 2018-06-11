@@ -44,7 +44,7 @@
         <PackageName Value="FCL"/>
       </Item6>
     </RequiredPackages>
-    <Units Count="19">
+    <Units Count="20">
       <Unit0>
         <Filename Value="fuPASCAL_O_R_MAPPING.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -126,13 +126,17 @@
         <Filename Value="tcOpenDocument_AddHTML_3.html"/>
         <IsPartOfProject Value="True"/>
       </Unit18>
+      <Unit19>
+        <Filename Value="TestCase/tcStrings/utcStrings.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit19>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../pascal_o_r_mapping/3_Data;Elements/Test;TestCase/tcOpenDocument_Embed_Image;TestCase/tcOpenDocument_Embed_Image/Elements/Test;TestCase/tcWinUtils;TestCase/tcWinUtils/Elements/TestWinUtils;TestCase/tcDockableScrollbox;TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox;TestCase/tcCode_barre_pdf417;../../GPL;TestCase/tcOpenDocument;TestCase/tcOpenDocument_AddHTML;TestCase/tcOpenDocument_AddHTML/Elements/Test_HTML"/>
+      <OtherUnitFiles Value="../../pascal_o_r_mapping/3_Data;Elements/Test;TestCase/tcOpenDocument_Embed_Image;TestCase/tcOpenDocument_Embed_Image/Elements/Test;TestCase/tcWinUtils;TestCase/tcWinUtils/Elements/TestWinUtils;TestCase/tcDockableScrollbox;TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox;TestCase/tcCode_barre_pdf417;../../GPL;TestCase/tcOpenDocument;TestCase/tcOpenDocument_AddHTML;TestCase/tcOpenDocument_AddHTML/Elements/Test_HTML;TestCase/tcStrings"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>

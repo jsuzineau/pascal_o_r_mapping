@@ -7,7 +7,7 @@ uses
   utcWinUtils, uftcWinUtils, utcDockableScrollbox,
   uhdmTestDockableScrollbox, ublTestDockableScrollbox, udkTestDockableScrollbox,
   uhdmTestWinUtils, ublTestWinUtils, utcCode_barre_pdf417, ucDockableScrollbox,
-  uCode_barre_pdf417, utcOpenDocument_AddHTML;
+  uCode_barre_pdf417, utcOpenDocument_AddHTML, utcStrings;
 
 {$R *.res}
 
