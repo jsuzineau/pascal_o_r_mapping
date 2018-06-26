@@ -42,7 +42,8 @@ uses
   {$IFDEF LINUX}
   clocale,
   {$ENDIF}
-  SysUtils, Classes, XMLRead, DOM,Zipper, Math, FileUtil;
+  SysUtils, Classes, XMLRead, DOM,Zipper, Math, FileUtil,
+  SAX_HTML, DOM_HTML;
 
 type
  TOD_Root_Styles
@@ -2907,24 +2908,30 @@ end;
 
 procedure TOpenDocument.AddHtml( _e: TDOMNode; _Value: String; _Gras: Boolean= False);
 var
-   html: TXMLDocument;
+   html: THTMLDocument;
+   html_root: TDOMNode;
    p: TCSS_Style_Parser_PYACC;
    function not_Cree_html: Boolean;
    var
       ss: TStringStream;
    begin
+        html_root:= nil;
         Result:= True;
         if 1 <> Pos( '<', _Value) then exit;
 
         ss:= TStringStream.Create( _Value);
         try
            try
-              ReadXMLFile( html, ss);
-              Result:= False;
+              ReadHTMLFile( html, ss);
+              html_root:= html.FirstChild;
+              Result:= html_root = nil;
            except
                  on E: Exception
                  do
+                   begin
+                   Log.PrintLn('Echec de '+ClassName+'.AddHtml: _Value=>'+_Value+'<'#13#10'Message: '+E.Message);
                    Result:= True;
+                   end;
                  end;
         finally
                FreeAndNil( ss);
@@ -3170,13 +3177,17 @@ var
         NomStyle:= '';
 
              if '#text' =NodeName then Traite_text
+        else if 'body'  =NodeName then begin end
         else if 'br'    =NodeName then Traite_br
         else if 'em'    =NodeName then Traite_em
+        else if 'head'  =NodeName then begin end
+        else if 'html'  =NodeName then begin end
         else if 'ins'   =NodeName then Traite_span
         else if 'del'   =NodeName then Traite_span
         else if 'p'     =NodeName then Traite_span //Traite_p text:p can't be nested
         else if 'span'  =NodeName then Traite_span
         else if 'strong'=NodeName then Traite_strong
+        else if 'title' =NodeName then begin end
         else if 'u'     =NodeName then Traite_u
         else                           AddText_( _od_Parent, 'balise html non geree: <'+_html_Parent.NodeName+'>'#13#10);
 
@@ -3195,7 +3206,13 @@ begin
      try
         p:= TCSS_Style_Parser_PYACC.Create;
         try
-           Traite_html_node( _e, html.DocumentElement,'');
+           //Traite_html_node( _e, html.DocumentElement,'');
+           while Assigned( html_root)
+           do
+             begin
+             Traite_html_node( _e, html_root, '');
+             html_root:=html_root.NextSibling;
+             end;
         finally
                FreeAndNil( p);
                end;
