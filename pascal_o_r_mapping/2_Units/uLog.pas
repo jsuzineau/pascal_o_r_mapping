@@ -61,6 +61,7 @@ type
     function Nom: String;
     function  Repertoire_from_Date( _Date: TDateTime): String;
     function  Repertoire_Hier: String;
+    procedure NomFichier_from_Repertoire;
     procedure Print( S: String);
     procedure PrintLn( S: String);
     procedure Affiche;
@@ -134,8 +135,9 @@ begin
      DateDebut:= Now;
      Date_Hier:= DateDebut-1;
      Repertoire:= Repertoire_from_Date( DateDebut);
-     NomFichier:= Repertoire +Nom;
      ForceDirectories( Repertoire);
+
+     NomFichier_from_Repertoire;
 end;
 
 destructor TLog.Destroy;
@@ -159,6 +161,11 @@ begin
      :=
        ChangeFileExt( ExtractFileName(uClean_EXE_Name),
                       '.'+uClean_NetWork_Nom_Hote+'.txt')
+end;
+
+procedure TLog.NomFichier_from_Repertoire;
+begin
+     NomFichier:= Repertoire +Nom;
 end;
 
 function TLog.Ouvre(var _T: Text): Boolean;

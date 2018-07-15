@@ -162,9 +162,17 @@ begin
      Result:= s_Validation_Response = http_getS( URL);
 end;
 
+function http_isapi_Valide: Boolean;
+var
+   URL: String;
+begin
+     URL:= 'http://localhost/isapi_pm/'+s_Validation;
+     Result:= s_Validation_Response = http_getS( URL);
+end;
+
 function http_PortMapper_OK: boolean;
 begin
-     Result:= http_Port_Valide( port_http_PortMapper);
+     Result:= http_Port_Valide( port_http_PortMapper) or http_isapi_Valide;
 end;
 
 procedure Execute_par_Run_Command( _Nom_Executable:String);

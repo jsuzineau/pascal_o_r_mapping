@@ -122,12 +122,12 @@ procedure ThAutomatic_AUT.Traite_HTTP;
       sDatabase: String;
       slDatabases: TBatpro_StringList;
    begin
-        if not dmDatabase.Ouvert then dmDatabase.Ouvre_db;
+        if not dmDatabase.jsDataConnexion.Ouvert then dmDatabase.Ouvre_db;
 
-        sDatabase:= dmDatabase.sqlc.DatabaseName;
+        sDatabase:= dmDatabase.jsDataConnexion.DataBase;
         slDatabases:= TBatpro_StringList.Create( sDatabase);
         try
-           dmDatabase.Fill_with_databases( slDatabases);
+           dmDatabase.jsDataConnexion.Fill_with_databases( slDatabases);
            if 0 = slDatabases.Count then slDatabases.Add( sDatabase);
            HTTP_Interface.Send_JSON( slDatabases.JSON);
         finally
@@ -136,11 +136,11 @@ procedure ThAutomatic_AUT.Traite_HTTP;
    end;
    procedure Traite_Database_Set;
    begin
-        if dmDatabase.sqlc.DatabaseName <> HTTP_Interface.uri
+        if dmDatabase.jsDataConnexion.DataBase <> HTTP_Interface.uri
         then
             begin
-            dmDatabase.sqlc.Close;
-            dmDatabase.sqlc.DatabaseName:= HTTP_Interface.uri;
+            dmDatabase.jsDataConnexion.Ferme_db;
+            dmDatabase.jsDataConnexion.DataBase:= HTTP_Interface.uri;
             dmDatabase.Ouvre_db;
             end;
         Traite_Databases;

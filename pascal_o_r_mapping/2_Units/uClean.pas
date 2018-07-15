@@ -110,7 +110,8 @@ uses
 
 function uClean_EXE_Name: String;
 begin
-     Result:= ParamStr( 0);
+     //Result:= ParamStr( 0);
+     Result:= GetModuleName(HINSTANCE);
 end;
 
 function Repertoire_from_( _NomFichier: String): String;

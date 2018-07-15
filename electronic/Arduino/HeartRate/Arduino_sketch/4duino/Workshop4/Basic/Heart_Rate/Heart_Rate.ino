@@ -4,6 +4,7 @@
 //
 #include <SPI.h>
 #include <math.h>
+#include <avr/wdt.h>
 #include "arduinoFFT.h"
 
 // Define LOG_MESSAGES to a serial port to send SPE errors messages to. Do not use the same Serial port as SPE
@@ -19,6 +20,9 @@
 
 Picaso_Serial_4DLib Display(&DisplaySerial);
 
+#include "uButton.h"
+#include "uByteLabel.h"
+#include "uSlider.h"
 // Uncomment to use ESP8266
 //#define ESPRESET 17
 //#include <SoftwareSerial.h>
@@ -60,10 +64,10 @@ void mycallback(int ErrCode, unsigned char Errorbyte)
 void setup()
 {
 // Ucomment to use the Serial link to the PC for debugging
-  Serial.begin(115200) ;        // serial to USB port
+//  Serial.begin(115200) ;        // serial to USB port
 // Note! The next statement will stop the sketch from running until the serial monitor is started
 //       If it is not present the monitor will be missing the initial writes
-    while (!Serial) ;             // wait for serial to be established
+//    while (!Serial) ;             // wait for serial to be established
 
   pinMode(RESETLINE, OUTPUT);       // Display reset pin
 digitalWrite(RESETLINE, 1);       // Reset Display, using shield
@@ -96,113 +100,8 @@ digitalWrite(RESETLINE, 0);       // Release Display Reset, using shield
   Display.touch_Set(TOUCH_ENABLE);                            // enable the touch screen
 
   fHeart_Rate_setup();
+  //wdt_enable(WDTO_2S);
 } // end Setup **do not alter, remove or duplicate this line**
-
-class TButton
-  {
-  public:
-  word state, x, y, buttonColour, txtColour, font, txtWidth, txtHeight;
-  char *text;
-  word width, height;
-  TButton( word _state, word _x, word _y, word _buttonColour, word _txtColour,
-           word _font, word _txtWidth, word _txtHeight, char *_text, word _width, word _height)
-    : state(_state), x(_x), y(_y),
-      buttonColour(_buttonColour), txtColour(_txtColour), font(_font),
-      txtWidth(_txtWidth), txtHeight(_txtHeight), text(_text), width(_width), height(_height)
-    {
-    }
-  void Draw()
-     {
-     Display.gfx_Button(state, x, y, buttonColour, txtColour, font, txtWidth, txtHeight, text) ;
-     }
-  boolean Touch( word _x, word _y)
-     {
-     boolean Result=((x <= _x)&&(_x <= x+width) && (y <= _y)&&(_y <= y+height));
-     return Result;
-     }
-  };
-class TByteLabel: public TButton
-  {
-  public:
-  byte *bValue;
-  char cValue[80];
-  TByteLabel( word _state, word _x, word _y, word _buttonColour, word _txtColour,
-           word _font, word _txtWidth, word _txtHeight, byte *_bValue, word _width, word _height)
-   :TButton( _state, _x, _y, _buttonColour, _txtColour,
-           _font, _txtWidth, _txtHeight, cValue, _width, _height),
-    bValue( _bValue)
-    {
-    }
-  void Draw()
-     {
-     sprintf( cValue, "%d", *bValue);
-     TButton::Draw();
-     }
-
-  };
-class TIntLabel: public TButton
-  {
-  public:
-  long *lValue;
-  char cValue[80];
-  TIntLabel( word _state, word _x, word _y, word _buttonColour, word _txtColour,
-           word _font, word _txtWidth, word _txtHeight, long *_lValue, word _width, word _height)
-   :TButton( _state, _x, _y, _buttonColour, _txtColour,
-           _font, _txtWidth, _txtHeight, cValue, _width, _height),
-    lValue( _lValue)
-    {
-    }
-  void Draw()
-     {
-     sprintf( cValue, "%d", *lValue);
-     TButton::Draw();
-     }
-
-  };
-class TSlider
-  {
-  public:
-  word mode, x1, y1, x2, y2, colour, scale, value;
-  TSlider ( word _mode, word _x1, word _y1, word _x2, word _y2, word _colour, word _scale, word _value)
-    :
-     mode( _mode),
-     x1( _x1),
-     y1( _y1),
-     x2( _x2),
-     y2( _y2),
-     colour( _colour),
-     scale( _scale),
-     value( _value)
-     {
-     }
-   void Draw()
-     {
-     Display.gfx_Slider( mode, x1, y1, x2, y2, colour, scale, value);
-     }
-   boolean is_Horizontal() { return (x2-x1) >  (y2-y1); }
-   boolean is_Vertical  () { return (x2-x1) <= (y2-y1); }
-   word xyValue( word _x, word _y)
-     {
-     if   (is_Horizontal()) return _x-x1;
-     else                   return _y-y1;
-     }
-   word xyScale()
-     {
-     if   (is_Horizontal()) return x2-x1;
-     else                   return y2-y1;
-     }
-   boolean Touch( word _x, word _y)
-     {
-     boolean Result=((x1 <= _x)&&(_x <= x2) && (y1 <= _y)&&(_y <= y2));
-     if (Result)
-       {
-       value= (xyValue( _x, _y)*scale) / xyScale();
-       Draw();
-       }
-
-     return Result;
-     }
-  };
 
 enum eTForm { fNone, fHeart_Rate, fRange};
 typedef enum eTForm TForm;
@@ -230,7 +129,7 @@ void fHeart_Rate_unsetup()
   detachInterrupt( digitalPinToInterrupt(2));
   }
 
-bool is_FFT= false;
+bool is_FFT= true;
 word old_y=0;
 const int  w4duino_dx=320; const int w4duino_max_x= w4duino_dx-1;
 const byte w4duino_dy=240; const int w4duino_max_y= w4duino_dy-1;
@@ -368,25 +267,27 @@ void Calcul_Ti( byte _i)
   byte i_1= _i > 0 ? _i-1 : Ps_Max;
   volatile Pulsation &P_1=Ps[ i_1];
   volatile Pulsation &P  =Ps[_i  ];
-  word delta= P.T - P_1.T;
+  word dt=0;
+  if ((0!=P.T)&&(0!=P_1.T))
+    dt= P.T - P_1.T;
   byte y= 0;
   byte dx= 0;
-  if (0==delta)
+  if (0==dt)
     {
      y=  P_1.y;
     dx=  P_1.dx;
     }
   else
     {
-    double pouls= double(ms_from_minute) / (double)delta;
+    double pouls= double(ms_from_minute) / (double)dt;
     if (pouls<pouls_min) pouls= pouls_min;
     if (pouls_max<pouls) pouls= pouls_max;
      y= w4duino_dy-cy*(pouls-pouls_min);
-    dx= round(delta * cx);
+    dx= round(dt * cx);
     }
   P.y   =  y;
   P.dx  = dx;
-  P.dt  =delta;
+  P.dt  =dt;
   P.Calc=true;
   }
 void Display_Ti( byte _i)
@@ -406,7 +307,7 @@ void Display_Ti( byte _i)
 
   /*
   Serial.print( "pouls: "); Serial.print( pouls);
-  Serial.print( " delta: "); Serial.print( delta);
+  Serial.print( " dt: "); Serial.print( delta);
   Serial.print( " cx: "); Serial.print( cx);
   Serial.print( " dx: "); Serial.print( dx);
   Serial.print( " y: "); Serial.print( y);
@@ -463,18 +364,22 @@ class TPolyLine
   };
 
 TPolyLine Old_Line;
+byte iPs_from_offset( byte _iPs_Original, char _offset)
+  {
+  char int_i= (_iPs_Original+_offset) % Ps_Size;
+  if (int_i<0) int_i+= Ps_Size;//le modulo C++ peut être négatif
+  return int_i;
+  }
 void Display_T()
   {
   TPolyLine Line;
 
   //Display.gfx_Cls();
-  byte offset=iPs;
+  byte iPs_Original=iPs;
   int x= w4duino_max_x;
   for (char j=0; j>=-Ps_Max; j--)
     {
-    char int_i= (offset+j) % Ps_Size;
-    if (int_i<0) int_i+= Ps_Size;//le modulo C++ peut être négatif
-    byte i= int_i;
+    byte i= iPs_from_offset( iPs_Original, j);
     byte i_1= i > 0 ? i-1 : Ps_Max;
 
     volatile Pulsation &P_1=Ps[ i_1];
@@ -515,49 +420,61 @@ double Periode_max=0;
 
 void Calcul_FFT()
   {
+//  Serial.println("Calcul_FFT(), début");
   double sample_t[n];
   double sample_y_imaginary[n];
   double samplingFrequency=0;
   double f_max=0;
 
-  /*
   for (byte i=0; i<n; i++)
     {
     sample_y_real[i]=0;
     sample_y_imaginary[i]=0;
     }
- */
-  byte offset=iPs;
+
+  byte iPs_Original=iPs;
   //calcul intervalle x
   word dt_sum=0;
-  unsigned long t_max= Ps[iPs].T;
+  byte iPs_tmax=iPs_from_offset( iPs_Original, -1);
+  unsigned long t_max= Ps[iPs_tmax].T;
+//  Serial.print("tmax:");
+//  Serial.println(t_max);
 
   for (char j=0; j>=-Ps_Max; j--)
     {
-    int int_i= (offset+j) % Ps_Size;
-    if (int_i<0) int_i+= Ps_Size;//le modulo C++ peut être négatif
-    byte i= int_i;
+    byte i= iPs_from_offset( iPs_Original, j);
 
     volatile Pulsation &P  =Ps[ i  ];
     dt_sum+= P.dt;
     }
   //Calcul intervalle élémentaire
+//  Serial.print("dt_sum:");
+//  Serial.println(dt_sum);
   sample_dt= dt_sum / n;
+//  Serial.print("sample_dt:");
+  //Serial.println(sample_dt,6);
   samplingFrequency= 1000/sample_dt;
+  //Serial.print("samplingFrequency:");
+  //Serial.println(samplingFrequency,6);
   //calcul du vecteur des x
+  //Serial.println("Vecteur des x:");
   double t=t_max;
   for (char j=n-1; j>=0; j--)
     {
+    //Serial.print((int)j);
+    //Serial.print(", t:");
+    //Serial.print(t);
+    //Serial.print(" ");
     sample_t[j]= t;
     t-=sample_dt;
     }
+  //Serial.println();
   //interpolation du vecteur des y
+  //Serial.println("Interpolation:");
   dt_sum=0;
   for (char j=0; j>=-Ps_Max; j--)
     {
-    char int_i= (offset+j) % Ps_Size;
-    if (int_i<0) int_i+= Ps_Size;//le modulo C++ peut être négatif
-    byte i= int_i;
+    byte i= iPs_from_offset( iPs_Original, j);
     byte i_1= i > 0 ? i-1 : Ps_Max;
 
     volatile Pulsation &P_1=Ps[ i_1];
@@ -568,32 +485,60 @@ void Calcul_FFT()
     unsigned long t  = P  .T;
     unsigned long t_1= P_1.T;
 
-    byte i_sample= (n-1)-(int)(dt_sum/sample_dt);
+    char i_sample= (n-1)-(int)(dt_sum/sample_dt);
+    //Serial.print(i);
+    //Serial.print(": t:");
+    //Serial.print(t);
+    //Serial.print(" y:");
+    //Serial.print(y);
+    //Serial.print(" t_1:");
+    //Serial.print(t_1);
+    //Serial.print(" y_1:");
+    //Serial.print(y_1);
+    //Serial.print(" i_sample:");
+    //Serial.println((int)i_sample);
+
     while ((i_sample>=0)&&(sample_t[i_sample] > t_1))
       {
-      sample_y_real[i_sample]= d_map(sample_t[i_sample], t_1, t, y_1, y);
+      double &yreal= sample_y_real[i_sample];
+      yreal= d_map(sample_t[i_sample], t_1, t, y_1, y);
+      //Serial.print((int)i_sample);Serial.print(", ");Serial.print(yreal,12);Serial.print(" ");
       i_sample--;
       }
+    //Serial.println();
 
     dt_sum+= P.dt;
     }
   // FFT
+  Log_FFT("aprés interpolation:");
   arduinoFFT FFT= arduinoFFT( sample_y_real, sample_y_imaginary, n, samplingFrequency);
   FFT.Windowing( FFT_WIN_TYP_HAMMING, FFT_FORWARD);
+  Log_FFT("aprés windowing:");
   FFT.Compute( FFT_FORWARD);
+  Log_FFT("aprés compute:");
   FFT.ComplexToMagnitude();
+  Log_FFT("aprés ComplexToMagnitude:");
   f_max = FFT.MajorPeak();
   Periode_max= 1.0/f_max;
 
 
-  Serial.println("Computed magnitudes:");
-  PrintVector(sample_y_real, n2, SCL_FREQUENCY, samplingFrequency);
-  Serial.println(f_max, 6);
-  Serial.print("Periode:");
-  Serial.println(Periode_max, 6);
-
+  //Serial.println("Computed magnitudes:");
+  //PrintVector(sample_y_real, n2, SCL_FREQUENCY, samplingFrequency);
+  //Serial.println(f_max, 6);
+  //Serial.print("Periode:");
+  //Serial.println(Periode_max, 6);
+  //
   }
 
+void Log_FFT( const char *message)
+  {
+  //Serial.println(message);
+  for (char i=0; i<n; i++)
+    {
+    double &yreal= sample_y_real[i];
+    //Serial.print(yreal,12);Serial.print(" ");
+    }
+  }
 //duplicated from sample arduinoFFT / FFT_01
 void PrintVector(double *vData, uint16_t bufferSize, uint8_t scaleType, double samplingFrequency)
 {
@@ -613,25 +558,28 @@ void PrintVector(double *vData, uint16_t bufferSize, uint8_t scaleType, double s
         abscissa = ((i * 1.0 * samplingFrequency) / n);
 	break;
     }
-    Serial.print(abscissa, 6);
-    if(scaleType==SCL_FREQUENCY)
-      Serial.print("Hz");
-    Serial.print(" ");
-    Serial.println(vData[i], 4);
+    //Serial.print(abscissa, 6);
+    //if(scaleType==SCL_FREQUENCY)
+      //Serial.print("Hz");
+    //Serial.print(" ");
+    //Serial.println(vData[i], 4);
   }
-  Serial.println();
+  //Serial.println();
 }
 
 void Display_FFT()
   {
+  //Serial.println("Display_FFT(), début");
   TPolyLine Line;
 
   double FFT_ymax= 0;
   for (byte j=0; j< n2; j++)
     {
     double FFT_y= sample_y_real[j];
+    //Serial.print(FFT_y,12);Serial.print(" ");
     if (FFT_y > FFT_ymax) FFT_ymax= FFT_y;
     }
+  //Serial.println();
   //Serial.print("FFT_ymax: ");Serial.println(FFT_ymax,6);
 
   double FFT_cy= (double)w4duino_dy / FFT_ymax;
@@ -654,9 +602,12 @@ void Display_FFT()
     }
   //Serial.println();
 
+  //Serial.println("Display_FFT(), avant Old_Line.UnDraw();");
   Old_Line.UnDraw();
+  //Serial.println("Display_FFT(), avant Line.Draw();");
   Line.Draw();
   Old_Line=Line;
+  //Serial.println("Display_FFT(), fin");
   }
 
 
@@ -734,6 +685,7 @@ void loop()
     case fHeart_Rate: fHeart_Rate_loop(); break;
     case fRange     : fRange_loop     (); break;
     }
+  //wdt_reset();
 }
 
 
