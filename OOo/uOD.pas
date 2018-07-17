@@ -26,16 +26,22 @@ unit uOD;
 interface
 
 uses
+    uDimensions_Image,
     uOD_Forms,
+    uLog,
     uForms,
     uEXE_INI,
-    {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+    uPublieur,
+    {$IFDEF WINDOWS_GRAPHIC}
+    uUNO_DeskTop,
+    uUNO_PropertyValue,
+    {$ENDIF}
+    {$IFNDEF FPC}
     DOM,
-	  uUNO_DeskTop,
- 	  uUNO_PropertyValue,
     {$ELSE}
 	  DOM,
-    {$IFEND}
+    {$ENDIF}
+    uMailTo,
     uVersion,
     uBatpro_StringList,
     u_sys_,
@@ -45,22 +51,35 @@ uses
     uChamp,
     uChamps,
     uVide,
+    uBatpro_Element,
     uBatpro_Ligne,
     uOOoStrings,
     uINI_Batpro_OD_Report,
     uOD_Temporaire,
     uOpenDocument,
+    uHTTP_Interface,
 
     ufAccueil_Erreur,
-    {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-    ufOOo_NomFichier_Modele,
-    (*ufOpenDocument_DelphiReportEngine,*)
+    {$IFDEF FPC}
+    blcksock, sockets, Synautil, FileUtil,
+    {$ENDIF}
+    {$IFDEF WINDOWS_GRAPHIC}
     ufMailTo,
     ufMEL,
+    {$ENDIF}
+    {$IFNDEF FPC}
+    ufOOo_NomFichier_Modele,
+    (*ufOpenDocument_DelphiReportEngine,*)
     Windows,Controls,Dialogs,Variants, ComObj, Menus,
-    {$IFEND}
+    {$ENDIF}
 
-  SysUtils, Classes, DB;
+  {$IFDEF LINUX}
+  baseunix,
+  {$ENDIF}
+  {$IFDEF WINDOWS_GRAPHIC}
+  Menus, Variants, ComObj,
+  {$ENDIF}
+  SysUtils, Classes, DB, Types, Process;
 
 type
  {$IFDEF FPC}
@@ -110,9 +129,10 @@ type
     ReadOnly: Boolean;
     TitreEtat: String;
     ParametresNoms, ParametresValeurs: array of String;
+    procedure Ajoute_Parametre( _Nom, _Valeur: String);
+  public
     procedure Init; virtual;
     procedure Termine; virtual;
-    procedure Ajoute_Parametre( _Nom, _Valeur: String);
   //Fonctionnement par liste de modèles
   private
     function Masque_Modeles_interne: String;
@@ -147,16 +167,24 @@ type
     procedure SendMail( _Document: String);
   public
     SendMail_Active: Boolean;
+    SendMail_From   ,
     SendMail_To     ,
     SendMail_Subject,
     SendMail_Body   ,
     SendMail_G_MEL_fonction: String;
+    SendMail_Attachments: TStringDynArray;
+    procedure SendMail_Add_Attachment( _Attachment: String);
   //Prévisualisation
   public
     Previsualiser: Boolean;
   //Impression
   public
     NbExemplaires: Integer;
+  //Conversion PDF
+  public
+    function Executable_soffice: String;
+    function PDF_from_( _Nom_ODT: String): String;
+    function Format_Sortie_from_( _Nom_ODT: String): String;
   end;
 
 const
@@ -200,10 +228,12 @@ var
    Cartouche: String;
 begin
      SendMail_Active:= False;
+     SendMail_From   := '';
      SendMail_To     := '';
      SendMail_Subject:= '';
      SendMail_Body   := '';
      SendMail_G_MEL_fonction:= '';
+     SetLength( SendMail_Attachments, 0);
 
      TitreEtat:= sys_Vide;
      SetLength( ParametresNoms   , 0);
@@ -220,6 +250,20 @@ begin
        + ', version: '+ GetVersionProgramme
        {$IFNDEF FPC}+ ', '+poolG_PAM.version_V6{$ENDIF};
      Ajoute_Parametre( 'Cartouche', Cartouche);
+end;
+
+procedure TOD.SendMail_Add_Attachment( _Attachment: String);
+var
+   NewLength, iFin, I: Integer;
+begin
+     NewLength:= Length(SendMail_Attachments)+1;
+     iFin:= NewLength-1;
+     SetLength( SendMail_Attachments, NewLength);
+     for I:= High(SendMail_Attachments) downto 1
+     do
+       SendMail_Attachments[I]:= SendMail_Attachments[I-1];
+
+     SendMail_Attachments[0]:= _Attachment;
 end;
 
 function TOD.Repertoire_Prefixe_Existe( Repertoire, Prefixe: String;
@@ -486,6 +530,7 @@ begin
          end;*)
      {$ENDIF} 
      Termine;
+     Result:= Format_Sortie_from_( Result);
 
      if SendMail_Active
      then
@@ -754,15 +799,16 @@ procedure TOD.SendMail( _Document: String);
 var
    NomfichierPDF: String;
 begin
-     {$IFNDEF FPC}
-     (*NomfichierPDF:= UNO_DeskTop.Save_as_PDF( _Document);
+     NomfichierPDF:= Format_Sortie_from_( _Document);
+     SendMail_Add_Attachment( NomfichierPDF);
 
+     {$IFDEF WINDOWS_GRAPHIC}
      if SendMail_G_MEL_fonction <> ''
      then
          fMEL.Execute( SendMail_G_MEL_fonction,
                        SendMail_To,
                        SendMail_Subject,
-                       [NomfichierPDF],
+                       SendMail_Attachments,
                        Previsualiser,
                        SendMail_Body
                        )
@@ -770,10 +816,147 @@ begin
          fMailTo.Execute( SendMail_To,
                           SendMail_Subject,
                           SendMail_Body,
-                          [NomfichierPDF],
-                          Previsualiser);*)
+                          SendMail_Attachments,
+                          Previsualiser);
+     {$ELSE}
+     MailTo( SendMail_From, SendMail_To, SendMail_Subject, SendMail_Body, SendMail_Attachments);
      {$ENDIF}
 end;
+function TOD.Executable_soffice: String;
+var
+   inik_Executable_soffice: String;
+     procedure Valeur_par_defaut;
+     begin
+          {$IFDEF LINUX}
+          Result:= '/usr/bin/soffice';
+          {$ELSE}
+          Result:= 'C:\Program Files (x86)\LibreOffice 4\program\soffice.exe';
+          {$ENDIF}
+     end;
+begin
+     inik_Executable_soffice:= EXE_INI.os+'Executable_soffice';
+     Result:= EXE_INI.ReadString( 'Options', inik_Executable_soffice, '#');
+     if '#' = Result
+     then
+         begin
+         Valeur_par_defaut;
+         EXE_INI.WriteString( 'Options', inik_Executable_soffice, Result);
+         end;
+end;
+
+function TOD.Format_Sortie_from_(_Nom_ODT: String): String;
+var
+   Ecrire_PDF: Boolean;
+   procedure Initialise_Ecrire_PDF;
+   var
+      s: String;
+   begin
+        s:= EXE_INI.ReadString( 'Options', 'Ecrire_PDF', '#');
+        if '#' = s
+        then
+            begin
+            s:= '0';
+            EXE_INI.WriteString( 'Options', 'Ecrire_PDF', s);
+            end;
+        Ecrire_PDF:= '1'=Trim(s);
+   end;
+begin
+     Result:= _Nom_ODT;
+
+     Initialise_Ecrire_PDF;
+     if not Ecrire_PDF then exit;
+
+     Result:= PDF_from_( _Nom_ODT);
+
+end;
+
+function TOD.PDF_from_(_Nom_ODT: String): String;
+{$IFDEF WINDOWS_GRAPHIC}
+begin
+     Result:= UNO_DeskTop.Save_as_PDF( _Nom_ODT);
+end;
+{$ELSE}
+var
+   Extension: String;
+   p: TProcess;
+   sl: TStringList;
+   Ligne_commande: String;
+   procedure Compose_Ligne_commande;
+   var
+      I: Integer;
+   begin
+        Ligne_commande
+        :=
+          {$IFDEF MSWINDOWS}
+          '"'+
+          {$ENDIF}
+          p.Executable
+          {$IFDEF MSWINDOWS}
+          +'"'
+          {$ENDIF}
+          ;
+        for I:= 0 to p.Parameters.Count-1
+        do
+          Formate_Liste( Ligne_commande, ' ', p.Parameters.Strings[I]);
+   end;
+begin
+     Result:= _Nom_ODT;
+
+     Extension:= UpperCase(ExtractFileExt( _Nom_ODT));
+     Log.Println( ClassName+'.Format_Sortie_from_, extension="'+Extension+'"');
+
+     if 'PDF'= Extension then exit;
+
+     {$IFDEF LINUX}
+     FpChmod( _Nom_ODT,
+                 S_IRUSR or S_IWUSR
+              or S_IRGRP or S_IWGRP
+              or S_IROTH or S_IWOTH);
+     {$ENDIF}
+
+     Result:= ChangeFileExt( _Nom_ODT, '.pdf');
+
+     sl:= TStringList.Create;
+     try
+        p:= TProcess.Create(nil);
+        p.Executable:= Executable_soffice;
+        p.Parameters.Add('--headless');
+        p.Parameters.Add('--convert-to');
+        p.Parameters.Add('pdf');
+        p.Parameters.Add('--outdir');
+        p.Parameters.Add(ExtractFilePath( _Nom_ODT));
+        p.Parameters.Add(_Nom_ODT);
+        p.Options:= p.Options + [poWaitOnExit,poUsePipes];
+        Compose_Ligne_commande;
+        p.Execute;
+        Log.Println( p.Executable);
+        Log.Println( p.Parameters.Text);
+
+        sl.LoadFromStream( p.Output);
+        Log.PrintLn( 'TOD.Format_Sortie_from_('+_Nom_ODT+'), retour de soffice:'#13#10
+                              +sl.Text+#13#10'fin retour');
+        sl.Clear;
+        sl.LoadFromStream( p.Stderr);
+        Log.PrintLn( 'TOD.Format_Sortie_from_('+_Nom_ODT+'), stderr de soffice:'#13#10
+                              +sl.Text+#13#10'fin retour');
+        Log.PrintLn( 'TOD.Format_Sortie_from_('+_Nom_ODT+'), GetCurrentDir:'+GetCurrentDir);
+        Log.PrintLn( 'TOD.Format_Sortie_from_('+_Nom_ODT+'), Ligne de commande OpenOffice pour test: '+Ligne_commande);
+     finally
+            Free_nil( sl);
+            Free_nil( p);
+            end;
+
+     {$IFDEF LINUX}
+     FpChmod( Result,
+                 S_IRUSR or S_IWUSR
+              or S_IRGRP or S_IWGRP
+              or S_IROTH or S_IWOTH);
+     {$ENDIF}
+     if not FileExists( Result) then Result:= _Nom_ODT;
+
+     Log.PrintLn( 'TOD.Format_Sortie_from_('+_Nom_ODT+'), Result= '+Result);
+end;
+{$ENDIF}
 
 initialization
 finalization

@@ -43,10 +43,10 @@ type
   //Gestion état
   protected
     Tables: array of TOD_Batpro_Table;
-    procedure Init; override;
     function  Editer_Modele_Impression_interne: String; override;
     function  Composer              : String; override;
   public
+    procedure Init; override;
     function Ajoute_Table( _Nom: String; _Bordure_Ligne: Boolean= True): TOD_Batpro_Table;
   end;
 

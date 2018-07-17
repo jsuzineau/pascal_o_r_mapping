@@ -44,7 +44,7 @@
         <PackageName Value="FCL"/>
       </Item6>
     </RequiredPackages>
-    <Units Count="20">
+    <Units Count="23">
       <Unit0>
         <Filename Value="fuPASCAL_O_R_MAPPING.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -130,13 +130,25 @@
         <Filename Value="TestCase/tcStrings/utcStrings.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit19>
+      <Unit20>
+        <Filename Value="../../OOo/uOD.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="TestCase/tcOD/utcOD.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="../../pascal_o_r_mapping/7_sources_externes/synapse/source/lib/blcksock.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit22>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../pascal_o_r_mapping/3_Data;Elements/Test;TestCase/tcOpenDocument_Embed_Image;TestCase/tcOpenDocument_Embed_Image/Elements/Test;TestCase/tcWinUtils;TestCase/tcWinUtils/Elements/TestWinUtils;TestCase/tcDockableScrollbox;TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox;TestCase/tcCode_barre_pdf417;../../GPL;TestCase/tcOpenDocument;TestCase/tcOpenDocument_AddHTML;TestCase/tcOpenDocument_AddHTML/Elements/Test_HTML;TestCase/tcStrings"/>
+      <OtherUnitFiles Value="../../pascal_o_r_mapping/3_Data;Elements/Test;TestCase/tcOpenDocument_Embed_Image;TestCase/tcOpenDocument_Embed_Image/Elements/Test;TestCase/tcWinUtils;TestCase/tcWinUtils/Elements/TestWinUtils;TestCase/tcDockableScrollbox;TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox;TestCase/tcCode_barre_pdf417;../../GPL;TestCase/tcOpenDocument;TestCase/tcOpenDocument_AddHTML;TestCase/tcOpenDocument_AddHTML/Elements/Test_HTML;TestCase/tcStrings;TestCase/tcOD;../../OOo;../../pascal_o_r_mapping/7_sources_externes/synapse/source/lib"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
