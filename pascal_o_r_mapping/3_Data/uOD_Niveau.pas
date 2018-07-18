@@ -342,14 +342,13 @@ begin
          do
            begin
            FieldName:= StrToK( ',', Composition_local);
+           if '' = FieldName then continue;
 
            Champ:= Niveau.Champs_Courant.Champ_from_Field( FieldName);
-           if Assigned( Champ)
-           then
-               begin
-               ODC:= Column[ FieldName];
-               ODC.from_Doc( Prefixe_set, _C);
-               end;
+           if nil = Champ then continue;
+
+           ODC:= Column[ FieldName];
+           ODC.from_Doc( Prefixe_set, _C);
            end;
          end;
 end;
