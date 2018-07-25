@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+#  Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
+#          http://www.mars42.com                                               |
+#                                                                              |
+#  Copyright 2018 Jean SUZINEAU - MARS42                                       |
+#                                                                              |
+#  This program is free software: you can redistribute it and/or modify        |
+#  it under the terms of the GNU Lesser General Public License as published by |
+#  the Free Software Foundation, either version 3 of the License, or           |
+#  (at your option) any later version.                                         |
+#                                                                              |
+#  This program is distributed in the hope that it will be useful,             |
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+#  GNU Lesser General Public License for more details.                         |
+#                                                                              |
+#  You should have received a copy of the GNU Lesser General Public License    |
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.       |
+#                                                                              |
+-->
+ <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <_name>Jupe</_name>
+  <id>com.mars42.skirt</id>
+  <dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
+  <dependency type="executable" location="extensions">jupe.py</dependency>
+  <dependency type="executable" location="extensions">inkex.py</dependency>
+  <param name="hauteur_av"          type="float" min="0.1"  max="1000.0"  precision="5"  _gui-text="hauteur_av"         >420.0</param>
+  <param name="hauteur_ar"          type="float" min="0.1"  max="1000.0"  precision="5"  _gui-text="hauteur_ar"         >530.0</param>
+  <param name="ourlet_bas"          type="float" min="0.1"  max="1000.0"  precision="5"  _gui-text="ourlet_bas"         >  5.0</param>
+  <param name="assemblage_ceinture" type="float" min="0.1"  max="1000.0"  precision="5"  _gui-text="assemblage_ceinture">  5.0</param>
+  <param name="rayon_disque"        type="float" min="0.1"  max="1000.0"  precision="5"  _gui-text="rayon_disque"       > 57.5</param>
+  <effect>
+    <object-type>all</object-type>
+    <effects-menu>
+      <submenu _name="Mars42"/>
+    </effects-menu>
+  </effect>
+  <script>
+    <command reldir="extensions" interpreter="python">jupe.py</command>
+  </script>
+</inkscape-extension>
+
