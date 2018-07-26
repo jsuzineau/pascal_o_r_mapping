@@ -65,14 +65,34 @@ class JupeEffect(inkex.Effect):
         self.uu_rayon_cote_ar= self.uu_from_mm( self.rayon_cote_ar)
         self.uu_bord         = self.uu_from_mm( 100)
 
-        #parent = self.current_layer
+        #svg = self.current_layer
         svg = self.document.getroot()
         self.svg_text_FontHeight=24;
 
-        if   'ogType_Complet'            == self.ogType : self.Complet  ( svg)
-        elif 'ogType_Moitie'             == self.ogType : self.Moitie   ( svg)
-        elif 'ogType_Quartiers'          == self.ogType : self.Quartiers( svg)
-        elif 'ogType_Quartiers_en_place' == self.ogType : self.Quartiers_en_place( svg)
+        # This finds center of current view in inkscape
+        t = 'translate(%s,%s)' % (self.view_center[0], self.view_center[1] )
+
+        # Make a nice useful name
+        g_attribs = { inkex.addNS('label','inkscape'): 'Patron Jupe',
+                      #inkex.addNS('transform-center-x','inkscape'): str(-bbox_center[0]),
+                      #inkex.addNS('transform-center-y','inkscape'): str(-bbox_center[1]),
+                      'transform': t,
+                      'info':
+                              'hauteur_av...: %f'        %(self.hauteur_av                    )
+                             +'hauteur_ar...: %f'        %(self.hauteur_ar                    )
+                             +'rayon_av.....: %f, 2*: %f'%(self.rayon_av     , 2*self.rayon_av     )
+                             +'rayon_ar.....: %f, 2*: %f'%(self.rayon_ar     , 2*self.rayon_ar     )
+                             +'rayon_cote...: %f, 2*: %f'%(self.rayon_cote   , 2*self.rayon_cote   )
+                             +'rayon_cote_av: %f, 2*: %f'%(self.rayon_cote_av, 2*self.rayon_cote_av)
+                             +'rayon_cote_ar: %f, 2*: %f'%(self.rayon_cote_ar, 2*self.rayon_cote_ar)
+                    }
+        # add the group to the document's current layer
+        g = inkex.etree.SubElement(svg, 'g', g_attribs )
+
+        if   'ogType_Complet'            == self.ogType : self.Complet  ( g)
+        elif 'ogType_Moitie'             == self.ogType : self.Moitie   ( g)
+        elif 'ogType_Quartiers'          == self.ogType : self.Quartiers( g)
+        elif 'ogType_Quartiers_en_place' == self.ogType : self.Quartiers_en_place( g)
 
 
     def Quartiers( self, _svg):
@@ -113,10 +133,10 @@ class JupeEffect(inkex.Effect):
         self.Q7( _svg);
         self.svg_Log_xy( _svg, self.uu_rayon_cote_av/4, self.uu_rayon_av+self.uu_rayon_disque)
 
-    def Q4( self, _svg, _transform=''): self.svg_bord( _svg, self.uu_rayon_cote_av,self.uu_rayon_cote  , self.uu_rayon_cote_av, self.uu_rayon_av, 0, 1, 1, _transform)
-    def Q5( self, _svg, _transform=''): self.svg_bord( _svg, self.uu_rayon_cote_av,self.uu_rayon_cote  , self.uu_rayon_cote_av, self.uu_rayon_av, 1, 1, 1, _transform)
-    def Q6( self, _svg, _transform=''): self.svg_bord( _svg, self.uu_rayon_cote_av,self.uu_rayon_av    , self.uu_rayon_cote_av, self.uu_rayon_av, 2, 1, 1, _transform)
-    def Q7( self, _svg, _transform=''): self.svg_bord( _svg, self.uu_rayon_cote_av,self.uu_rayon_av    , self.uu_rayon_cote_av, self.uu_rayon_av, 3, 1, 1, _transform)
+    def Q4( self, _svg, _transform=''): self.svg_bord( _svg, self.uu_rayon_cote_av,self.uu_rayon_cote  , self.uu_rayon_cote_av, self.uu_rayon_av, 0, 1, 1, _transform, 'Q4')
+    def Q5( self, _svg, _transform=''): self.svg_bord( _svg, self.uu_rayon_cote_av,self.uu_rayon_cote  , self.uu_rayon_cote_av, self.uu_rayon_av, 1, 1, 1, _transform, 'Q5')
+    def Q6( self, _svg, _transform=''): self.svg_bord( _svg, self.uu_rayon_cote_av,self.uu_rayon_av    , self.uu_rayon_cote_av, self.uu_rayon_av, 2, 1, 1, _transform, 'Q6')
+    def Q7( self, _svg, _transform=''): self.svg_bord( _svg, self.uu_rayon_cote_av,self.uu_rayon_av    , self.uu_rayon_cote_av, self.uu_rayon_av, 3, 1, 1, _transform, 'Q7')
     def Moitie( self, _svg):
         self.svg_text   ( _svg, self.uu_rayon_cote_av-self.uu_rayon_disque/2, self.uu_rayon_av, 'AV')
         self.svg_ellipse( _svg, self.uu_rayon_disque ,self.uu_rayon_disque, self.uu_rayon_cote_av, self.uu_rayon_av, 1, 2)
@@ -154,9 +174,12 @@ class JupeEffect(inkex.Effect):
             return inkex.unittouu(param)
         except AttributeError:
             return self.unittouu(param)
-    def svg_bord(self, _parent, _rx, _ry, _cx, _cy, _pi_2_start=0, _pi_2_length=4, _offset_disque=0, _transform=''):
-       self.svg_ellipse( _parent, _rx, _ry, _cx, _cy, _pi_2_start, _pi_2_length, _offset_disque, _transform)
-       self.svg_ellipse( _parent, _rx-self.uu_bord, _ry-self.uu_bord, _cx, _cy, _pi_2_start, _pi_2_length, _offset_disque, _transform)
+    def svg_bord(self, _parent, _rx, _ry, _cx, _cy, _pi_2_start=0, _pi_2_length=4, _offset_disque=0, _transform='', _label=''):
+        g_attribs = { inkex.addNS('label','inkscape'): _label}
+        g = inkex.etree.SubElement(_parent, 'g', g_attribs)
+
+        self.svg_ellipse( g, _rx, _ry, _cx, _cy, _pi_2_start, _pi_2_length, _offset_disque, _transform)
+        self.svg_ellipse( g, _rx-self.uu_bord, _ry-self.uu_bord, _cx, _cy, _pi_2_start, _pi_2_length, _offset_disque, _transform)
     def svg_ellipse(self, _parent, _rx, _ry, _cx, _cy, _pi_2_start=0, _pi_2_length=4, _offset_disque=0, _transform=''):
         style = {   'stroke'        : '#000000',
                     'stroke-width'  : '1',
