@@ -36,83 +36,160 @@ class JupeEffect(inkex.Effect):
         except:
             self.tty = open(os.devnull, 'w')  # '/dev/null' for POSIX, 'nul' for Windows.
 
-        self.OptionParser.add_option('', '--hauteur_av'         , action = 'store', type = 'float', dest = 'hauteur_av'         , default = '0', help = '')
-        self.OptionParser.add_option('', '--hauteur_ar'         , action = 'store', type = 'float', dest = 'hauteur_ar'         , default = '0', help = '')
-        self.OptionParser.add_option('', '--ourlet_bas'         , action = 'store', type = 'float', dest = 'ourlet_bas'         , default = '0', help = '')
-        self.OptionParser.add_option('', '--assemblage_ceinture', action = 'store', type = 'float', dest = 'assemblage_ceinture', default = '0', help = '')
-        self.OptionParser.add_option('', '--rayon_disque'       , action = 'store', type = 'float', dest = 'rayon_disque'       , default = '0', help = '')
+        self.OptionParser.add_option('', '--active-tab'         , action = 'store', type = 'string', dest = 'active_tab'         , default = '0', help = '')
+        self.OptionParser.add_option('', '--hauteur_av'         , action = 'store', type = 'float' , dest = 'hauteur_av'         , default = '0', help = '')
+        self.OptionParser.add_option('', '--hauteur_ar'         , action = 'store', type = 'float' , dest = 'hauteur_ar'         , default = '0', help = '')
+        self.OptionParser.add_option('', '--ourlet_bas'         , action = 'store', type = 'float' , dest = 'ourlet_bas'         , default = '0', help = '')
+        self.OptionParser.add_option('', '--assemblage_ceinture', action = 'store', type = 'float' , dest = 'assemblage_ceinture', default = '0', help = '')
+        self.OptionParser.add_option('', '--rayon_disque'       , action = 'store', type = 'float' , dest = 'rayon_disque'       , default = '0', help = '')
+        self.OptionParser.add_option('', '--ogType'             , action = 'store', type = 'string', dest = 'ogType'             , default = '0', help = '')
     def effect(self):
-        hauteur_av         = self.options.hauteur_av
-        hauteur_ar         = self.options.hauteur_ar
-        ourlet_bas         = self.options.ourlet_bas
-        assemblage_ceinture= self.options.assemblage_ceinture
-        rayon_disque       = self.options.rayon_disque
+        self.hauteur_av         = self.options.hauteur_av
+        self.hauteur_ar         = self.options.hauteur_ar
+        self.ourlet_bas         = self.options.ourlet_bas
+        self.assemblage_ceinture= self.options.assemblage_ceinture
+        self.rayon_disque       = self.options.rayon_disque
+        self.ogType             = self.options.ogType
 
-        rayon_av     = rayon_disque+assemblage_ceinture+ourlet_bas+hauteur_av
-        rayon_ar     = rayon_disque+assemblage_ceinture+ourlet_bas+hauteur_ar
-        rayon_cote   = (rayon_av+rayon_ar)/2
-        rayon_cote_av=(rayon_cote+rayon_av)/2
-        rayon_cote_ar=(rayon_cote+rayon_ar)/2
+        self.rayon_av     = self.rayon_from_hauteur( self.hauteur_av)
+        self.rayon_ar     = self.rayon_from_hauteur( self.hauteur_ar)
+        self.rayon_cote   = (self.rayon_av+self.rayon_ar)/2
+        self.rayon_cote_av=(self.rayon_cote+self.rayon_av)/2
+        self.rayon_cote_ar=(self.rayon_cote+self.rayon_ar)/2
 
-        uu_rayon_disque = self.get_unittouu(str(rayon_disque )+'mm')
-        uu_rayon_av     = self.get_unittouu(str(rayon_av     )+'mm')
-        uu_rayon_ar     = self.get_unittouu(str(rayon_ar     )+'mm')
-        uu_rayon_cote   = self.get_unittouu(str(rayon_cote   )+'mm')
-        uu_rayon_cote_av= self.get_unittouu(str(rayon_cote_av)+'mm')
-        uu_rayon_cote_ar= self.get_unittouu(str(rayon_cote_ar)+'mm')
+        self.uu_rayon_disque = self.uu_from_mm( self.rayon_disque )
+        self.uu_rayon_av     = self.uu_from_mm( self.rayon_av     )
+        self.uu_rayon_ar     = self.uu_from_mm( self.rayon_ar     )
+        self.uu_rayon_cote   = self.uu_from_mm( self.rayon_cote   )
+        self.uu_rayon_cote_av= self.uu_from_mm( self.rayon_cote_av)
+        self.uu_rayon_cote_ar= self.uu_from_mm( self.rayon_cote_ar)
+        self.uu_bord         = self.uu_from_mm( 100)
 
-        svg = self.document.getroot()
         #parent = self.current_layer
-        parent=svg
-        self.svg_text( parent, uu_rayon_cote_av-uu_rayon_disque/2, uu_rayon_av, 'AV')
-        self.draw_SVG_ellipse(uu_rayon_disque ,uu_rayon_disque, uu_rayon_cote_av, uu_rayon_av, parent,math.pi/2  ,math.pi)
-        self.draw_SVG_ellipse(uu_rayon_cote_av,uu_rayon_av    , uu_rayon_cote_av, uu_rayon_av, parent,3/2*math.pi,math.pi/2)
-        self.draw_SVG_ellipse(uu_rayon_cote_av,uu_rayon_cote  , uu_rayon_cote_av, uu_rayon_av, parent,math.pi/2  ,math.pi/2)
-        self.addline_x= uu_rayon_cote_av/4
-        self.addline_y= uu_rayon_av+uu_rayon_disque
+        svg = self.document.getroot()
+        self.svg_text_FontHeight=24;
+
+        if   'ogType_Complet'            == self.ogType : self.Complet  ( svg)
+        elif 'ogType_Moitie'             == self.ogType : self.Moitie   ( svg)
+        elif 'ogType_Quartiers'          == self.ogType : self.Quartiers( svg)
+        elif 'ogType_Quartiers_en_place' == self.ogType : self.Quartiers_en_place( svg)
+
+
+    def Quartiers( self, _svg):
+        y=0;
+        y_step=200
+
+        cx= 2*self.uu_rayon_cote_av
+        cy= self.uu_rayon_av
+        #self.createGuide( cx, cy, 0)
+        self.Q4( _svg, 'translate(%f,%f) rotate(%f,%f,%f)'%(-cx,y-cy,-135,cx,cy));
+
+        y+=y_step;
+        cx= 0#self.uu_rayon_cote_av
+        cy= self.uu_rayon_av
+        self.Q5( _svg, 'translate(%f,%f) rotate(%f,%f,%f)'%(3.0/2*self.uu_rayon_cote_av,y-cy,135,cx,cy));
+
+        y+=y_step;
+        cx= 0
+        cy= self.uu_rayon_av
+        self.Q6( _svg, 'translate(%f,%f) rotate(%f,%f,%f)'%(-cx,y-cy,+45,cx,cy));
+
+        y+=y_step;
+        cx= self.uu_rayon_cote_av
+        cy= 0
+        self.Q7( _svg, 'translate(%f,%f) rotate(%f,%f,%f)'%(-cx,y-cy,-45,cx,cy));
+
+        y+=y_step
+        self.svg_Log_xy( _svg, 0, y)
+        #self.Q4( _svg);
+        #self.Q5( _svg);
+        #self.Q6( _svg);
+        #self.Q7( _svg);
+
+    def Quartiers_en_place( self, _svg):
+        self.Q4( _svg);
+        self.Q5( _svg);
+        self.Q6( _svg);
+        self.Q7( _svg);
+        self.svg_Log_xy( _svg, self.uu_rayon_cote_av/4, self.uu_rayon_av+self.uu_rayon_disque)
+
+    def Q4( self, _svg, _transform=''): self.svg_bord( _svg, self.uu_rayon_cote_av,self.uu_rayon_cote  , self.uu_rayon_cote_av, self.uu_rayon_av, 0, 1, 1, _transform)
+    def Q5( self, _svg, _transform=''): self.svg_bord( _svg, self.uu_rayon_cote_av,self.uu_rayon_cote  , self.uu_rayon_cote_av, self.uu_rayon_av, 1, 1, 1, _transform)
+    def Q6( self, _svg, _transform=''): self.svg_bord( _svg, self.uu_rayon_cote_av,self.uu_rayon_av    , self.uu_rayon_cote_av, self.uu_rayon_av, 2, 1, 1, _transform)
+    def Q7( self, _svg, _transform=''): self.svg_bord( _svg, self.uu_rayon_cote_av,self.uu_rayon_av    , self.uu_rayon_cote_av, self.uu_rayon_av, 3, 1, 1, _transform)
+    def Moitie( self, _svg):
+        self.svg_text   ( _svg, self.uu_rayon_cote_av-self.uu_rayon_disque/2, self.uu_rayon_av, 'AV')
+        self.svg_ellipse( _svg, self.uu_rayon_disque ,self.uu_rayon_disque, self.uu_rayon_cote_av, self.uu_rayon_av, 1, 2)
+        self.svg_ellipse( _svg, self.uu_rayon_cote_av,self.uu_rayon_av    , self.uu_rayon_cote_av, self.uu_rayon_av, 2, 1)
+        self.svg_ellipse( _svg, self.uu_rayon_cote_av,self.uu_rayon_cote  , self.uu_rayon_cote_av, self.uu_rayon_av, 1, 1)
+        self.svg_Log_xy ( _svg, self.uu_rayon_cote_av/4, self.uu_rayon_av+self.uu_rayon_disque)
+
+    def Complet( self, _svg):
+        self.svg_text   ( _svg, self.uu_rayon_cote_av-self.uu_rayon_disque/2, self.uu_rayon_av, 'AV')
+        self.svg_ellipse( _svg, self.uu_rayon_disque ,self.uu_rayon_disque, self.uu_rayon_cote_av, self.uu_rayon_av, 0,4)
+        self.svg_ellipse( _svg, self.uu_rayon_cote_av,self.uu_rayon_av    , self.uu_rayon_cote_av, self.uu_rayon_av, 2,2)
+        self.svg_ellipse( _svg, self.uu_rayon_cote_av,self.uu_rayon_cote  , self.uu_rayon_cote_av, self.uu_rayon_av, 0,2)
+        self.svg_Log_xy ( _svg, self.uu_rayon_cote_av/4, self.uu_rayon_av+self.uu_rayon_disque)
+
+
+    def svg_Log_xy( self, _svg, _x, _y):
+        self.addline_x= _x
+        self.addline_y= _y
         self.addline_text_height=14
-        self.addline( parent, 'hauteur_av...: %f'        %(hauteur_av                    ))
-        self.addline( parent, 'hauteur_ar...: %f'        %(hauteur_ar                    ))
-        self.addline( parent, 'rayon_av.....: %f, 2*: %f'%(rayon_av     , 2*rayon_av     ))
-        self.addline( parent, 'rayon_ar.....: %f, 2*: %f'%(rayon_ar     , 2*rayon_ar     ))
-        self.addline( parent, 'rayon_cote...: %f, 2*: %f'%(rayon_cote   , 2*rayon_cote   ))
-        self.addline( parent, 'rayon_cote_av: %f, 2*: %f'%(rayon_cote_av, 2*rayon_cote_av))
-        self.addline( parent, 'rayon_cote_ar: %f, 2*: %f'%(rayon_cote_ar, 2*rayon_cote_ar))
+        self.addline( _svg, 'hauteur_av...: %f'        %(self.hauteur_av                    ))
+        self.addline( _svg, 'hauteur_ar...: %f'        %(self.hauteur_ar                    ))
+        self.addline( _svg, 'rayon_av.....: %f, 2*: %f'%(self.rayon_av     , 2*self.rayon_av     ))
+        self.addline( _svg, 'rayon_ar.....: %f, 2*: %f'%(self.rayon_ar     , 2*self.rayon_ar     ))
+        self.addline( _svg, 'rayon_cote...: %f, 2*: %f'%(self.rayon_cote   , 2*self.rayon_cote   ))
+        self.addline( _svg, 'rayon_cote_av: %f, 2*: %f'%(self.rayon_cote_av, 2*self.rayon_cote_av))
+        self.addline( _svg, 'rayon_cote_ar: %f, 2*: %f'%(self.rayon_cote_ar, 2*self.rayon_cote_ar))
         #print >>self.tty,
+    def uu_from_mm( self, _mm):
+        return self.get_unittouu(str(_mm )+'mm')
+    def rayon_from_hauteur( self, _hauteur):
+        return self.rayon_disque+self.assemblage_ceinture+self.ourlet_bas+_hauteur
     def get_unittouu(self, param):
         " for 0.48 and 0.91 compatibility "
         try:
             return inkex.unittouu(param)
         except AttributeError:
             return self.unittouu(param)
-    def draw_SVG_ellipse(self, rx, ry, cx, cy, parent, _start=0.0, _length=2*math.pi, transform='' ):
+    def svg_bord(self, _parent, _rx, _ry, _cx, _cy, _pi_2_start=0, _pi_2_length=4, _offset_disque=0, _transform=''):
+       self.svg_ellipse( _parent, _rx, _ry, _cx, _cy, _pi_2_start, _pi_2_length, _offset_disque, _transform)
+       self.svg_ellipse( _parent, _rx-self.uu_bord, _ry-self.uu_bord, _cx, _cy, _pi_2_start, _pi_2_length, _offset_disque, _transform)
+    def svg_ellipse(self, _parent, _rx, _ry, _cx, _cy, _pi_2_start=0, _pi_2_length=4, _offset_disque=0, _transform=''):
         style = {   'stroke'        : '#000000',
                     'stroke-width'  : '1',
                     'fill'          : 'none'            }
-        end= _start + _length
+        start = _pi_2_start *math.pi/2.0
+        length= _pi_2_length*math.pi/2.0
+        end= start + length
         ell_attribs = {'style':simplestyle.formatStyle(style),
-            inkex.addNS('cx','sodipodi')        :str(cx),
-            inkex.addNS('cy','sodipodi')        :str(cy),
-            inkex.addNS('rx','sodipodi')        :str(rx),
-            inkex.addNS('ry','sodipodi')        :str(ry),
-            inkex.addNS('start','sodipodi')     :str(_start),
-            inkex.addNS('end','sodipodi')       :str( end),
+            inkex.addNS('cx','sodipodi')        :str(_cx),
+            inkex.addNS('cy','sodipodi')        :str(_cy),
+            inkex.addNS('rx','sodipodi')        :str(_rx),
+            inkex.addNS('ry','sodipodi')        :str(_ry),
+            inkex.addNS('start','sodipodi')     :str(start),
+            inkex.addNS('end','sodipodi')       :str(end  ),
             inkex.addNS('open','sodipodi')      :'true',    #all ellipse sectors we will draw are open
             inkex.addNS('type','sodipodi')      :'arc',
-            'transform'                         :transform
+            'transform'                         :_transform
                 }
-        ell = inkex.etree.SubElement(parent, inkex.addNS('path','svg'), ell_attribs)
-    def svg_text( self, _parent, _cx, _cy, _text):
-        font_height = 24
-        text_style = { 'font-size': str(font_height),
+        ell = inkex.etree.SubElement( _parent, inkex.addNS('path','svg'), ell_attribs)
+        self.svg_text( _parent, _cx+95.0/100*_rx, _cy, str(4*_offset_disque+_pi_2_start), _transform+'translate(%f,%f) rotate(%f,%f,%f)'%(0,self.svg_text_FontHeight,start*180/math.pi+10,_cx,_cy))
+    def svg_text( self, _parent, _cx, _cy, _text, transform=''):
+        text_style = { 'font-size': str(self.svg_text_FontHeight),
                        'font-family': 'arial',
                        'text-anchor': 'middle',
-                       'text-align': 'center'#,
+                       'text-align': 'center',
+                       'text-anchor':'middle',
+                       'alignment-baseline':'central'
                        #'fill': path_stroke
                        }
         text_atts = {'style':simplestyle.formatStyle(text_style),
                      'x': str(_cx),
-                     'y': str(_cy)}
+                     'y': str(_cy),
+                     'transform':transform}
         text = inkex.etree.SubElement(_parent, 'text', text_atts)
         text.text = _text
     def add_text(self, node, text, position, text_height=24):

@@ -25,11 +25,22 @@
   <dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
   <dependency type="executable" location="extensions">jupe.py</dependency>
   <dependency type="executable" location="extensions">inkex.py</dependency>
-  <param name="hauteur_av"          type="float" min="0.1"  max="1000.0"  precision="5"  _gui-text="hauteur_av"         >420.0</param>
-  <param name="hauteur_ar"          type="float" min="0.1"  max="1000.0"  precision="5"  _gui-text="hauteur_ar"         >530.0</param>
-  <param name="ourlet_bas"          type="float" min="0.1"  max="1000.0"  precision="5"  _gui-text="ourlet_bas"         >  5.0</param>
-  <param name="assemblage_ceinture" type="float" min="0.1"  max="1000.0"  precision="5"  _gui-text="assemblage_ceinture">  5.0</param>
-  <param name="rayon_disque"        type="float" min="0.1"  max="1000.0"  precision="5"  _gui-text="rayon_disque"       > 57.5</param>
+  <param name='active-tab' type="notebook">
+    <page name="title" _gui-text="Your Title">
+      <param name="hauteur_av"          type="float" min="0.1"  max="1000.0"  precision="5"  _gui-text="hauteur_av"         >420.0</param>
+      <param name="hauteur_ar"          type="float" min="0.1"  max="1000.0"  precision="5"  _gui-text="hauteur_ar"         >530.0</param>
+      <param name="ourlet_bas"          type="float" min="0.1"  max="1000.0"  precision="5"  _gui-text="ourlet_bas"         >  5.0</param>
+      <param name="assemblage_ceinture" type="float" min="0.1"  max="1000.0"  precision="5"  _gui-text="assemblage_ceinture">  5.0</param>
+      <param name="rayon_disque"        type="float" min="0.1"  max="1000.0"  precision="5"  _gui-text="rayon_disque"       > 57.5</param>
+      <param name="ogType" _gui-text="Type" type="optiongroup">
+	      <!-- underscores indicate translatability -->
+	      <_option value="ogType_Complet"  >Complet  </_option>
+	      <_option value="ogType_Moitie"   >Moitié   </_option>
+	      <_option value="ogType_Quartiers">Quartiers</_option>
+	      <_option value="ogType_Quartiers_en_place">Quartiers en place</_option>
+      </param>
+    </page>
+  </param>
   <effect>
     <object-type>all</object-type>
     <effects-menu>
