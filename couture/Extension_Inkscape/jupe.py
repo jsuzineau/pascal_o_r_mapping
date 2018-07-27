@@ -28,6 +28,21 @@ import sys
 import inkex
 import simplestyle
 
+__version__ = '0.2'
+
+def points_to_svgd(p, close=True):
+    """ convert list of points (x,y) pairs
+        into a closed SVG path list
+    """
+    f = p[0]
+    p = p[1:]
+    svgd = 'M%.4f,%.4f' % f
+    for x in p:
+        svgd += 'L%.4f,%.4f' % x
+    if close:
+        svgd += 'z'
+    return svgd
+
 class JupeEffect(inkex.Effect):
     def __init__(self):
         inkex.Effect.__init__(self)
@@ -44,6 +59,7 @@ class JupeEffect(inkex.Effect):
         self.OptionParser.add_option('', '--rayon_disque'       , action = 'store', type = 'float' , dest = 'rayon_disque'       , default = '0', help = '')
         self.OptionParser.add_option('', '--ogType'             , action = 'store', type = 'string', dest = 'ogType'             , default = '0', help = '')
     def effect(self):
+        print >>self.tty, 'effect début'
         self.hauteur_av         = self.options.hauteur_av
         self.hauteur_ar         = self.options.hauteur_ar
         self.ourlet_bas         = self.options.ourlet_bas
@@ -70,13 +86,13 @@ class JupeEffect(inkex.Effect):
         self.svg_text_FontHeight=24;
 
         # This finds center of current view in inkscape
-        t = 'translate(%s,%s)' % (self.view_center[0], self.view_center[1] )
+        #t = 'translate(%s,%s)' % (self.view_center[0], self.view_center[1] )
 
         # Make a nice useful name
         g_attribs = { inkex.addNS('label','inkscape'): 'Patron Jupe',
                       #inkex.addNS('transform-center-x','inkscape'): str(-bbox_center[0]),
                       #inkex.addNS('transform-center-y','inkscape'): str(-bbox_center[1]),
-                      'transform': t,
+                      #'transform': t,
                       'info':
                               'hauteur_av...: %f'        %(self.hauteur_av                    )
                              +'hauteur_ar...: %f'        %(self.hauteur_ar                    )
@@ -88,14 +104,30 @@ class JupeEffect(inkex.Effect):
                     }
         # add the group to the document's current layer
         g = inkex.etree.SubElement(svg, 'g', g_attribs )
+        print >>self.tty, 'effect'
 
         if   'ogType_Complet'            == self.ogType : self.Complet  ( g)
         elif 'ogType_Moitie'             == self.ogType : self.Moitie   ( g)
         elif 'ogType_Quartiers'          == self.ogType : self.Quartiers( g)
+        elif 'ogType_Quartiers_Ligne'    == self.ogType : self.Quartiers_Ligne( g)
         elif 'ogType_Quartiers_en_place' == self.ogType : self.Quartiers_en_place( g)
 
 
     def Quartiers( self, _svg):
+        print >>self.tty, 'Quartiers début'
+        y=0;
+        y=self.svg_Q( _svg, self.uu_rayon_cote_av, self.uu_rayon_cote   , y, 4)
+        y=self.svg_Q( _svg, self.uu_rayon_cote   , self.uu_rayon_cote_av, y, 5)
+        y=self.svg_Q( _svg, self.uu_rayon_cote_av, self.uu_rayon_av     , y, 6)
+        y=self.svg_Q( _svg, self.uu_rayon_av     , self.uu_rayon_cote_av, y, 7)
+        self.svg_Log_xy( _svg, 0, y)
+
+        #self.Q4( _svg);
+        #self.Q5( _svg);
+        #self.Q6( _svg);
+        #self.Q7( _svg);
+        self.Quartiers_Ligne( _svg)
+    def Quartiers_Ligne( self, _svg):
         y=0;
         y_step=200
 
@@ -174,6 +206,40 @@ class JupeEffect(inkex.Effect):
             return inkex.unittouu(param)
         except AttributeError:
             return self.unittouu(param)
+    def svg_Q(self, _parent, _r1, _r2, _y, _numero):
+        r = lambda i : _r1+i*(_r2-_r1)/90.0
+        ri = lambda i : r(i)-self.uu_bord
+        cosd= lambda i : math.cos( i*math.pi/180.0)
+        sind= lambda i : math.sin( i*math.pi/180.0)
+        a_from_i= lambda i : 180.0+45.0+i
+        xexterieur= lambda i : r (i)*cosd(a_from_i(i))
+        xinterieur= lambda i : ri(i)*cosd(a_from_i(i))
+        yexterieur= lambda i : r (i)*sind(a_from_i(i))
+        yinterieur= lambda i : ri(i)*sind(a_from_i(i))
+        x0     = xexterieur( 0.0   )
+        ytop   = yexterieur( 90.0/2)
+        ybottom= yinterieur( 0.0   )
+        yheight=ybottom-ytop
+        points = []
+        points.extend( [ (xexterieur(i),yexterieur(i)) for i in range( 0, 91    ) ])
+        points.extend( [ (xinterieur(i),yinterieur(i)) for i in range(90, -1, -1) ])
+        path = points_to_svgd( points )
+        name= 'pQ%i'%(_numero)
+        print >>self.tty, path
+        style = {   'stroke'        : '#000000',
+                    'stroke-width'  : '1',
+                    'fill'          : 'none'            }
+        mypath_attribs= {
+                        'style'    : simplestyle.formatStyle(style),
+                        'd'        : path,
+                        'transform': 'translate(%f,%f)'%(-x0, _y-ytop)
+                        }
+        g_attribs = { inkex.addNS('label','inkscape'): name}
+        g = inkex.etree.SubElement(_parent, 'g', g_attribs)
+
+        p = inkex.etree.SubElement(g, inkex.addNS('path','svg'), mypath_attribs )
+        self.svg_text( g, -x0, 2*self.svg_text_FontHeight, name, 'translate(%f,%f)'%(0,_y))
+        return _y+yheight
     def svg_bord(self, _parent, _rx, _ry, _cx, _cy, _pi_2_start=0, _pi_2_length=4, _offset_disque=0, _transform='', _label=''):
         g_attribs = { inkex.addNS('label','inkscape'): _label}
         g = inkex.etree.SubElement(_parent, 'g', g_attribs)
@@ -181,7 +247,7 @@ class JupeEffect(inkex.Effect):
         self.svg_ellipse( g, _rx, _ry, _cx, _cy, _pi_2_start, _pi_2_length, _offset_disque, _transform)
         self.svg_ellipse( g, _rx-self.uu_bord, _ry-self.uu_bord, _cx, _cy, _pi_2_start, _pi_2_length, _offset_disque, _transform)
     def svg_ellipse(self, _parent, _rx, _ry, _cx, _cy, _pi_2_start=0, _pi_2_length=4, _offset_disque=0, _transform=''):
-        style = {   'stroke'        : '#000000',
+        style = {   'stroke'        : '#FF0000',
                     'stroke-width'  : '1',
                     'fill'          : 'none'            }
         start = _pi_2_start *math.pi/2.0
@@ -199,7 +265,7 @@ class JupeEffect(inkex.Effect):
             'transform'                         :_transform
                 }
         ell = inkex.etree.SubElement( _parent, inkex.addNS('path','svg'), ell_attribs)
-        self.svg_text( _parent, _cx+95.0/100*_rx, _cy, str(4*_offset_disque+_pi_2_start), _transform+'translate(%f,%f) rotate(%f,%f,%f)'%(0,self.svg_text_FontHeight,start*180/math.pi+10,_cx,_cy))
+        self.svg_text( _parent, _cx+95.0/100*_rx, _cy, 'eQ%i'%(4*_offset_disque+_pi_2_start), _transform+'translate(%f,%f) rotate(%f,%f,%f)'%(0,self.svg_text_FontHeight,start*180/math.pi+10,_cx,_cy))
     def svg_text( self, _parent, _cx, _cy, _text, transform=''):
         text_style = { 'font-size': str(self.svg_text_FontHeight),
                        'font-family': 'arial',
@@ -237,5 +303,6 @@ class JupeEffect(inkex.Effect):
 
 
 e=JupeEffect()
-e.affect();
+e.affect()
+
 

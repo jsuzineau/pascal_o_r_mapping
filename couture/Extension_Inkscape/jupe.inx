@@ -37,7 +37,8 @@
 	      <_option value="ogType_Complet"  >Complet  </_option>
 	      <_option value="ogType_Moitie"   >Moitié   </_option>
 	      <_option value="ogType_Quartiers">Quartiers</_option>
-	      <_option value="ogType_Quartiers_en_place">Quartiers en place</_option>
+	      <_option value="ogType_Quartiers_Ligne">Quartiers ligne</_option>
+	      <_option value="ogType_Quartiers_en_place">Quartiers ligne en place</_option>
       </param>
     </page>
   </param>
