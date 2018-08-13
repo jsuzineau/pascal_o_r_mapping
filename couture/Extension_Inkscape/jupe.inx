@@ -34,11 +34,12 @@
       <param name="rayon_disque"        type="float" min="0.1"  max="1000.0"  precision="5"  _gui-text="rayon_disque"       > 57.5</param>
       <param name="ogType" _gui-text="Type" type="optiongroup">
 	      <!-- underscores indicate translatability -->
-	      <_option value="ogType_Complet"  >Complet  </_option>
-	      <_option value="ogType_Moitie"   >Moitié   </_option>
-	      <_option value="ogType_Quartiers">Quartiers</_option>
-	      <_option value="ogType_Quartiers_Ligne">Quartiers ligne</_option>
-	      <_option value="ogType_Quartiers_en_place">Quartiers ligne en place</_option>
+	      <_option value="ogType_Quartiers"              >version 5 Quartiers</_option>
+	      <_option value="ogType_Quartiers_non_complexes">version 4 Quartiers non complexes</_option>
+	      <_option value="ogType_Quartiers_Ligne"        >version 3 Quartiers ligne</_option>
+	      <_option value="ogType_Quartiers_en_place"     >version 2 Quartiers ligne en place</_option>
+	      <_option value="ogType_Moitie"                 >version 1 Moitié   </_option>
+	      <_option value="ogType_Complet"                >version 0 Complet  </_option>
       </param>
     </page>
   </param>

@@ -23,12 +23,18 @@
 import math
 import os
 import sys
+import cmath
 #sys.path.append('/usr/share/inkscape/extensions')
 
 import inkex
 import simplestyle
 
 __version__ = '0.2'
+
+def complexes_to_points(cs):
+    points=[]
+    points.extend( [ (c.real,c.imag) for c in cs ])
+    return points
 
 def points_to_svgd(p, close=True):
     """ convert list of points (x,y) pairs
@@ -106,14 +112,28 @@ class JupeEffect(inkex.Effect):
         g = inkex.etree.SubElement(svg, 'g', g_attribs )
         print >>self.tty, 'effect'
 
-        if   'ogType_Complet'            == self.ogType : self.Complet  ( g)
-        elif 'ogType_Moitie'             == self.ogType : self.Moitie   ( g)
-        elif 'ogType_Quartiers'          == self.ogType : self.Quartiers( g)
-        elif 'ogType_Quartiers_Ligne'    == self.ogType : self.Quartiers_Ligne( g)
-        elif 'ogType_Quartiers_en_place' == self.ogType : self.Quartiers_en_place( g)
+        if   'ogType_Quartiers'              == self.ogType : self.Quartiers              ( g)
+        elif 'ogType_Quartiers_non_complexes'== self.ogType : self.Quartiers_non_complexes( g)
+        elif 'ogType_Quartiers_Ligne'        == self.ogType : self.Quartiers_Ligne        ( g)
+        elif 'ogType_Quartiers_en_place'     == self.ogType : self.Quartiers_en_place     ( g)
+        elif 'ogType_Moitie'                 == self.ogType : self.Moitie                 ( g)
+        elif 'ogType_Complet'                == self.ogType : self.Complet                ( g)
 
 
     def Quartiers( self, _svg):
+        print >>self.tty, 'Quartiers début'
+        y=0;
+        y=self.svg_Qc( _svg, self.uu_rayon_cote_ar, self.uu_rayon_cote   , y, 0)
+        y=self.svg_Qc( _svg, self.uu_rayon_cote   , self.uu_rayon_cote_ar, y, 1)#coupure
+        y=self.svg_Qc( _svg, self.uu_rayon_cote_ar, self.uu_rayon_ar     , y, 2)
+        y=self.svg_Qc( _svg, self.uu_rayon_ar     , self.uu_rayon_cote_ar, y, 3)
+
+        y=self.svg_Qc( _svg, self.uu_rayon_cote_av, self.uu_rayon_cote   , y, 4)
+        y=self.svg_Qc( _svg, self.uu_rayon_cote   , self.uu_rayon_cote_av, y, 5)#coupure
+        y=self.svg_Qc( _svg, self.uu_rayon_cote_av, self.uu_rayon_av     , y, 6)
+        y=self.svg_Qc( _svg, self.uu_rayon_av     , self.uu_rayon_cote_av, y, 7)
+        self.svg_Log_xy( _svg, 0, y)
+    def Quartiers_non_complexes( self, _svg):
         print >>self.tty, 'Quartiers début'
         y=0;
         y=self.svg_Q( _svg, self.uu_rayon_cote_av, self.uu_rayon_cote   , y, 4)
@@ -126,7 +146,7 @@ class JupeEffect(inkex.Effect):
         #self.Q5( _svg);
         #self.Q6( _svg);
         #self.Q7( _svg);
-        self.Quartiers_Ligne( _svg)
+        #self.Quartiers_Ligne( _svg)
     def Quartiers_Ligne( self, _svg):
         y=0;
         y_step=200
@@ -239,6 +259,45 @@ class JupeEffect(inkex.Effect):
 
         p = inkex.etree.SubElement(g, inkex.addNS('path','svg'), mypath_attribs )
         self.svg_text( g, -x0, 2*self.svg_text_FontHeight, name, 'translate(%f,%f)'%(0,_y))
+        return _y+yheight
+    def svg_Qc(self, _parent, _r1, _r2, _y, _numero):
+        r = lambda i : _r1+i*(_r2-_r1)/90.0
+        ri = lambda i : r(i)-self.uu_bord
+        d= lambda i : cmath.rect(1, i*math.pi/180.0)
+        a_from_i= lambda i : 180.0+45.0+i
+        exterieur= lambda i : r (i)*d(a_from_i(i))
+        interieur= lambda i : ri(i)*d(a_from_i(i))
+        p0 =exterieur(  0.0)
+        p90=exterieur( 90.0)
+        cMise_a_niveau=cmath.rect( 1, -cmath.phase( p90-p0))
+        Mise_a_niveau= lambda c: ((c-p0)*cMise_a_niveau)+p0
+        cs = []
+        cs.extend( [ Mise_a_niveau(exterieur(i)) for i in range( 0, 91    ) ])
+        cs.extend( [ Mise_a_niveau(interieur(i)) for i in range(90, -1, -1) ])
+        pLeft  = min( cs, key= lambda c: c.real)
+        pRight = max( cs, key= lambda c: c.real)
+        ptop   = min( cs, key= lambda c: c.imag)
+        pbottom= max( cs, key= lambda c: c.imag)
+        pCentreHorizontal=(pLeft+pRight)/2;
+        xCentre=400-pCentreHorizontal.real
+        yheight=(pbottom-ptop).imag
+        points = complexes_to_points( cs)
+        path = points_to_svgd( points )
+        name= 'pQ%i'%(_numero)
+        print >>self.tty, path
+        style = {   'stroke'        : '#000000',
+                    'stroke-width'  : '1',
+                    'fill'          : 'none'            }
+        mypath_attribs= {
+                        'style'    : simplestyle.formatStyle(style),
+                        'd'        : path,
+                        'transform': 'translate(%f,%f)'%(xCentre, _y-ptop.imag)
+                        }
+        g_attribs = { inkex.addNS('label','inkscape'): name}
+        g = inkex.etree.SubElement(_parent, 'g', g_attribs)
+
+        p = inkex.etree.SubElement(g, inkex.addNS('path','svg'), mypath_attribs )
+        self.svg_text( g, xCentre, 2*self.svg_text_FontHeight, name, 'translate(%f,%f)'%(0,_y))
         return _y+yheight
     def svg_bord(self, _parent, _rx, _ry, _cx, _cy, _pi_2_start=0, _pi_2_length=4, _offset_disque=0, _transform='', _label=''):
         g_attribs = { inkex.addNS('label','inkscape'): _label}
