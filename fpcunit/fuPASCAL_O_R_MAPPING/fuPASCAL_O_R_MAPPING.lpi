@@ -24,27 +24,30 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="6">
+    <RequiredPackages Count="7">
       <Item1>
-        <PackageName Value="ndyacclexlib"/>
+        <PackageName Value="TAChartLazarusPkg"/>
       </Item1>
       <Item2>
-        <PackageName Value="OD_DelphiReportEngine_Controls"/>
+        <PackageName Value="ndyacclexlib"/>
       </Item2>
       <Item3>
-        <PackageName Value="fpcunittestrunner"/>
+        <PackageName Value="OD_DelphiReportEngine_Controls"/>
       </Item3>
       <Item4>
-        <PackageName Value="OD_DelphiReportEngine_Units"/>
+        <PackageName Value="fpcunittestrunner"/>
       </Item4>
       <Item5>
-        <PackageName Value="LCL"/>
+        <PackageName Value="OD_DelphiReportEngine_Units"/>
       </Item5>
       <Item6>
-        <PackageName Value="FCL"/>
+        <PackageName Value="LCL"/>
       </Item6>
+      <Item7>
+        <PackageName Value="FCL"/>
+      </Item7>
     </RequiredPackages>
-    <Units Count="24">
+    <Units Count="25">
       <Unit0>
         <Filename Value="fuPASCAL_O_R_MAPPING.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -146,6 +149,12 @@
         <Filename Value="TestCase/tcDataUtilsU/utcDataUtilsU.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit23>
+      <Unit24>
+        <Filename Value="TestCase/tcDataUtilsU/uftcDataUtilsU.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ftcDataUtilsU"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit24>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

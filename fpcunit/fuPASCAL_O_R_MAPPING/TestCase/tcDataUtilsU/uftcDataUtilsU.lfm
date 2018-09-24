@@ -1,0 +1,42 @@
+object ftcDataUtilsU: TftcDataUtilsU
+  Left = 724
+  Height = 378
+  Top = 1022
+  Width = 639
+  Caption = 'ftcDataUtilsU'
+  ClientHeight = 378
+  ClientWidth = 639
+  LCLVersion = '1.8.4.0'
+  object c: TChart
+    Left = 0
+    Height = 378
+    Top = 0
+    Width = 639
+    AxisList = <    
+      item
+        Grid.Visible = False
+        Marks.LabelBrush.Style = bsClear
+        Minors = <>
+        Title.LabelFont.Orientation = 900
+        Title.LabelBrush.Style = bsClear
+      end    
+      item
+        Grid.Visible = False
+        Alignment = calBottom
+        Marks.LabelBrush.Style = bsClear
+        Minors = <>
+        Title.LabelBrush.Style = bsClear
+      end>
+    Foot.Brush.Color = clBtnFace
+    Foot.Font.Color = clBlue
+    Title.Brush.Color = clBtnFace
+    Title.Font.Color = clBlue
+    Title.Text.Strings = (
+      'TAChart'
+    )
+    Align = alClient
+    object cls: TLineSeries
+      ShowPoints = True
+    end
+  end
+end

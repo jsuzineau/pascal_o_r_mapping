@@ -8,6 +8,8 @@ uses
     uLog,
     uDataUtilsU,
     uReels,
+    uuStrings,
+    uftcDataUtilsU,
  Classes, SysUtils, fpcunit, testutils, testregistry;
 
 type
@@ -187,41 +189,56 @@ procedure TtcDataUtilsU.Test_with_Corrige_Arrondi_;
         if Obtenu <> _Attendu then F;
    end;
    procedure Compare;
+   const
+        Start= -10000;
+        Range= 100;
    var
       I: Integer;
       D  ,
       D_A,
       D_CA,
       D_R: Double;
+      Delta: Double;
+      sCSV: String;
       procedure F;
       var
          sD  ,
          sD_A,
          sD_CA,
          sD_R,
+         sDelta,
          S: String;
 
       begin
-           sD  :=FloatToStr( D  );
-           sD_A:=FloatToStr( D_A);
+           sD   :=FloatToStr( D   );
+           sD_A :=FloatToStr( D_A );
            sD_CA:=FloatToStr( D_CA);
-           sD_R:=FloatToStr( D_R);
+           sD_R :=FloatToStr( D_R );
+           sDelta:= FloatToStr( Delta);
            S:=  'D  : '+sD  +' D_A: '+sD_A+' D_CA: '+sD_CA+' D_R: '+sD_R;
            Log.PrintLn( S);
+           sCSV:= sCSV+sD+';'+sD_A+' ;'+sD_CA+';'+sD_R+';'+sDelta+#13#10;
+           ftcDataUtilsU.cls.AddXY( D, Delta);
            //Fail( S);
       end;
    begin
-        for I:= -10000 to 10000
+        sCSV:= 'D;D_A;D_CA;D_R,delta'#13#10;
+        ftcDataUtilsU.cls.Clear;
+
+        //for I:= -10000 to 10000
+        for I:= Start to Start+Range
         do
           begin
-          D:= I/1000;
+          D:= I/10000;
           D_A:= Arrondi_00( D);
           D_CA:= Corrige_Arrondi_00( D);
           D_R:=   Round_00( D);
-          if     Reel_Zero( D_A  - D_R)
-             and Reel_Zero( D_CA - D_R) then continue;
+          Delta:= D_CA-D_A;
+          //if Reel_Zero( D_A  - D_CA) then continue;
           F;
           end;
+        String_to_File( Log.Repertoire+ChangeFileExt(Log.Nom, '.csv'), sCSV);
+        ftcDataUtilsU.Show;
    end;
 begin
      T(  100.9248,  100.92);
