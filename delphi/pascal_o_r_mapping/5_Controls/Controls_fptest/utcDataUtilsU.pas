@@ -41,23 +41,23 @@ type
   published
 
     // Test methods
-    procedure Test_Arrondi_00;
+    procedure Test_Arrondi_Arithmetique_00;
   end;
 
 implementation
 
 { TtcDataUtilsU }
 
-procedure TtcDataUtilsU.Test_Arrondi_00;
+procedure TtcDataUtilsU.Test_Arrondi_Arithmetique_00;
 var
    Quantite, PrixUnitaire, MontantFourni, MontantAttendu: Double;
      procedure T( Fourni, Attendu: Double);
      var
         Obtenu: Double;
      begin
-          Obtenu:= Arrondi_00( Fourni);
+          Obtenu:= Arrondi_Arithmetique_00( Fourni);
           Check( Attendu = Obtenu,
-                 Format( 'Arrondi_00: Fourni: %f  Attendu: %f Obtenu: %f',[Fourni, Attendu, Obtenu]));
+                 Format( 'Arrondi_Arithmetique_00: Fourni: %f  Attendu: %f Obtenu: %f',[Fourni, Attendu, Obtenu]));
      end;
 
 begin

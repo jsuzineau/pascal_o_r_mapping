@@ -23,10 +23,9 @@ type
    procedure SetUp; override;
    procedure TearDown; override;
   published
-   procedure Test_Arrondi_;
-   procedure Test_Arrondi_00;
+   procedure Test_Arrondi_Arithmetique_;
+   procedure Test_Arrondi_Arithmetique_00;
    procedure Test_with_Round;
-   procedure Test_with_Corrige_Arrondi_;
   end;
 
 implementation
@@ -34,6 +33,19 @@ implementation
 function Round_00( _D: Double): Double;
 begin
      Result:= Round( _D*100)/100;
+end;
+
+function Bug_Arrondi_( E: Double): Double; // ancienne version boguée
+var
+   Frac_E, Int_E: Double;
+   Frac_E_10: Int64;
+begin
+      Int_E:=  Int(E);
+     Frac_E:= Frac(E);
+     Frac_E_10:= Round( Frac_E * 10); //SetRoundMode( rmNearest) effectué en initialisation
+          if Frac_E_10 < -5 then Result:= Int_E - 1
+     else if Frac_E_10 < +5 then Result:= Int_E
+     else                        Result:= Int_E + 1;
 end;
 
 function Corrige_Arrondi_( E: Double): Double;
@@ -54,7 +66,7 @@ begin
      Result:= Corrige_Arrondi_( E * 100 ) / 100 ;
 end;
 
-procedure TtcDataUtilsU.Test_Arrondi_;
+procedure TtcDataUtilsU.Test_Arrondi_Arithmetique_;
    procedure T( _Valeur: Double; _Attendu: Double);
    var
       Obtenu: Double;
@@ -72,37 +84,11 @@ procedure TtcDataUtilsU.Test_Arrondi_;
                  +'Obtenu : '+sObtenu +#13#10);
       end;
    begin
-        Obtenu:= Arrondi_( _Valeur);
+        Obtenu:= Arrondi_Arithmetique_( _Valeur);
         if Obtenu <> _Attendu then F;
    end;
 begin
      T( 0.48, 0);
-end;
-
-procedure TtcDataUtilsU.Test_Arrondi_00;
-   procedure T( _Valeur: Double; _Attendu: Double);
-   var
-      Obtenu: Double;
-      procedure F;
-      var
-         sValeur ,
-         sAttendu,
-         sObtenu : String;
-      begin
-           sValeur :=FloatToStr( _Valeur );
-           sAttendu:=FloatToStr( _Attendu);
-           sObtenu :=FloatToStr(  Obtenu );
-           Fail(  'Valeur : '+sValeur +#13#10
-                 +'Attendu: '+sAttendu+#13#10
-                 +'Obtenu : '+sObtenu +#13#10);
-      end;
-   begin
-        Obtenu:= Arrondi_00( _Valeur);
-        if Obtenu <> _Attendu then F;
-   end;
-begin
-     T(  100.9248,  100.92);
-     T( -100.9248, -100.92);
 end;
 
 procedure TtcDataUtilsU.Test_with_Round;
@@ -154,7 +140,7 @@ procedure TtcDataUtilsU.Test_with_Round;
         do
           begin
           D:= I/1000;
-          D_A:= Arrondi_00( D);
+          D_A:= Arrondi_Arithmetique_00( D);
           D_R:=   Round_00( D);
           Delta:= D_A - D_R;
           if Reel_Zero( Delta) then continue;
@@ -167,7 +153,7 @@ begin
      Compare;
 end;
 
-procedure TtcDataUtilsU.Test_with_Corrige_Arrondi_;
+procedure TtcDataUtilsU.Test_Arrondi_Arithmetique_00;
    procedure T( _Valeur: Double; _Attendu: Double);
     var
        Obtenu: Double;
@@ -185,7 +171,7 @@ procedure TtcDataUtilsU.Test_with_Corrige_Arrondi_;
                   +'Obtenu : '+sObtenu +#13#10);
        end;
    begin
-        Obtenu:= Corrige_Arrondi_00( _Valeur);
+        Obtenu:= Arrondi_Arithmetique_00( _Valeur);
         if Obtenu <> _Attendu then F;
    end;
    procedure Compare;
@@ -196,33 +182,27 @@ procedure TtcDataUtilsU.Test_with_Corrige_Arrondi_;
       I: Integer;
       D  ,
       D_A,
-      D_CA,
       D_R: Double;
-      Delta: Double;
       sCSV: String;
       procedure F;
       var
          sD  ,
          sD_A,
-         sD_CA,
          sD_R,
-         sDelta,
          S: String;
 
       begin
            sD   :=FloatToStr( D   );
            sD_A :=FloatToStr( D_A );
-           sD_CA:=FloatToStr( D_CA);
            sD_R :=FloatToStr( D_R );
-           sDelta:= FloatToStr( Delta);
-           S:=  'D  : '+sD  +' D_A: '+sD_A+' D_CA: '+sD_CA+' D_R: '+sD_R;
+           S:=  'D  : '+sD  +' D_A: '+sD_A+' D_R: '+sD_R;
            Log.PrintLn( S);
-           sCSV:= sCSV+sD+';'+sD_A+' ;'+sD_CA+';'+sD_R+';'+sDelta+#13#10;
-           ftcDataUtilsU.cls.AddXY( D, Delta);
+           sCSV:= sCSV+sD+';'+sD_A+' ;'+sD_R+#13#10;
+           ftcDataUtilsU.cls.AddXY( D, D_A);
            //Fail( S);
       end;
    begin
-        sCSV:= 'D;D_A;D_CA;D_R,delta'#13#10;
+        sCSV:= 'D;D_A;D_R'#13#10;
         ftcDataUtilsU.cls.Clear;
 
         //for I:= -10000 to 10000
@@ -230,11 +210,8 @@ procedure TtcDataUtilsU.Test_with_Corrige_Arrondi_;
         do
           begin
           D:= I/10000;
-          D_A:= Arrondi_00( D);
-          D_CA:= Corrige_Arrondi_00( D);
+          D_A:= Arrondi_Arithmetique_00( D);
           D_R:=   Round_00( D);
-          Delta:= D_CA-D_A;
-          //if Reel_Zero( D_A  - D_CA) then continue;
           F;
           end;
         String_to_File( Log.Repertoire+ChangeFileExt(Log.Nom, '.csv'), sCSV);

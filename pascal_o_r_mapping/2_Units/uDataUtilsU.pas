@@ -231,10 +231,10 @@ function BlocTotal_Devis( TypeLibelle: TBlocTotalLibelle;
 function PourCent( Partie, Total: Double): Double;
 function Partie( PourCent, Total: Double): Double;
 
-function Arrondi_   ( E: Double): Double;
-function Arrondi_0  ( E: Double): Double;
-function Arrondi_00 ( E: Double): Double;
-function Arrondi_000( E: Double): Double;
+function Arrondi_Arithmetique_   ( E: Double): Double;
+function Arrondi_Arithmetique_0  ( E: Double): Double;
+function Arrondi_Arithmetique_00 ( E: Double): Double;
+function Arrondi_Arithmetique_000( E: Double): Double;
 
 function Arrondi_quart_d_heure_inferieur( _NBHeures: double):double;
 function Test_Arrondi_quart_d_heure_inferieur:String;
@@ -1827,32 +1827,32 @@ begin
          Result:= (PourCent/100) * Total;
 end;
 
-function Arrondi_( E: Double): Double;
+function Arrondi_Arithmetique_( E: Double): Double;
 var
    Frac_E, Int_E: Double;
-   Frac_E_10: Int64;
+   Frac_E_10: Double;
 begin
       Int_E:=  Int(E);
      Frac_E:= Frac(E);
-     Frac_E_10:= Round( Frac_E * 10); //SetRoundMode( rmNearest) effectué en initialisation
+     Frac_E_10:= Frac_E * 10;
           if Frac_E_10 < -5 then Result:= Int_E - 1
      else if Frac_E_10 < +5 then Result:= Int_E
      else                        Result:= Int_E + 1;
 end;
 
-function Arrondi_0  ( E: Double): Double;
+function Arrondi_Arithmetique_0  ( E: Double): Double;
 begin
-     Result:= Arrondi_( E * 10  ) / 10  ;
+     Result:= Arrondi_Arithmetique_( E * 10  ) / 10  ;
 end;
 
-function Arrondi_00 ( E: Double): Double;
+function Arrondi_Arithmetique_00 ( E: Double): Double;
 begin
-     Result:= Arrondi_( E * 100 ) / 100 ;
+     Result:= Arrondi_Arithmetique_( E * 100 ) / 100 ;
 end;
 
-function Arrondi_000( E: Double): Double;
+function Arrondi_Arithmetique_000( E: Double): Double;
 begin
-     Result:= Arrondi_( E * 1000) / 1000;
+     Result:= Arrondi_Arithmetique_( E * 1000) / 1000;
 end;
 
 function Arrondi_quart_d_heure_inferieur( _NBHeures: double):double;
