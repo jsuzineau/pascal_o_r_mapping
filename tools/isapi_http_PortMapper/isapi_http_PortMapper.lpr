@@ -271,31 +271,6 @@ var
    nPort: Integer;
 
    Has_Body: Boolean;
-   Content_Length: Integer;
-
-   procedure Traite_Content_Length;
-   const
-        s_Content_Length='content-length:';
-   var
-      NBLignes: Integer;
-      I: Integer;
-      s: String;
-   begin
-        NBLignes:= slData.Count;
-        if 0 = NBLignes then exit;
-
-        for I:= 0 to NBLignes-1
-        do
-          begin
-          s:= LowerCase( slData[I]);
-          if 1 <> Pos(s_Content_Length, s) then continue;
-
-          StrToK(s_Content_Length, s);
-          Has_Body:= TryStrToInt( s, Content_Length);
-          ISAPI_Log_WriteLn( 'content-length:'+s);
-          break;
-          end;
-   end;
    procedure Send_Not_found;
    begin
         WriteClient( 'HTTP/1.0 404' + CRLF);
@@ -404,11 +379,7 @@ begin
 
         ISAPI_Log_WriteLn( 'Data:'+ Data);
 
-        Has_Body:= False;
-        Content_Length:= 0;
-        Traite_Content_Length;
-        while (slData.Count > 0) and ('' <> slData[0]) do slData.Delete(0);
-        if (slData.Count>0)and('' = slData[0]) then slData.Delete(0);
+        Has_Body:= slData.Count > 0;
 
         // Now write the document to the output stream
         uri:= PathInfo;
