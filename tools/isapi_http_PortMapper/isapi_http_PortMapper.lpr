@@ -100,6 +100,7 @@ procedure TISAPI_Session.ISAPI_Log_WriteLn( _S: String);
 var
    dwSizeOfBuffer: DWord;
 begin
+     _S:= 'TISAPI_Session($'+IntToHex(Int64(Pointer(Self)), 16)+'):'+_S;
      Log.PrintLn( _S);
      _S:=_S+',';
      dwSizeOfBuffer:= Length( _S);
@@ -169,9 +170,17 @@ begin
         try
            if '' = _Body
            then
-               Result:= c.Get( _URL)
+               begin
+               ISAPI_Log_WriteLn( '  c.Get( _URL)');
+               Result:= c.Get( _URL);
+               end
            else
+               begin
+               ISAPI_Log_WriteLn( '  c.FormPost( _URL, _Body)');
+               ISAPI_Log_WriteLn( _Body);
                Result:= c.FormPost( _URL, _Body);
+               end;
+           ISAPI_Log_WriteLn( '  aprés c.Get / c.FormPost');
            Parse_headers;
            ISAPI_Log_WriteLn( '####Headers#####');
            ISAPI_Log_WriteLn( c.ResponseHeaders.Text);
@@ -283,6 +292,7 @@ var
 
           StrToK(s_Content_Length, s);
           Has_Body:= TryStrToInt( s, Content_Length);
+          ISAPI_Log_WriteLn( 'content-length:'+s);
           break;
           end;
    end;
@@ -388,7 +398,7 @@ begin
             ISAPI_Log_WriteLn( 'Lecture');
             //pas trop propre si l'on a de l'UTF8
             SetLength( Data, ECB.cbAvailable);
-            Move( ECB.lpbData, Data[1], ECB.cbAvailable);
+            Move( ECB.lpbData^, Data[1], ECB.cbAvailable);
             slData.Text:= Data;
             end;
 
