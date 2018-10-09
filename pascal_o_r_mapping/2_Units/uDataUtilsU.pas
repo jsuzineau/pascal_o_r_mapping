@@ -544,7 +544,7 @@ begin
      if DisplayFormat = sys_Vide
      then
          DisplayFormat:= '###,###,###,##0.'+sPrecision;
-     Text:= FormatFloat( DisplayFormat, FF_Value);
+     Text:= French_FormatFloat( DisplayFormat, FF_Value);//FormatFloat( DisplayFormat, FF_Value);
      I:= Length(Text);
 
      if Tronque //fait rapidement, redondant avec (not FF.currency)
@@ -1549,9 +1549,9 @@ begin
      if btl_Sans = TypeLibelle
      then
          begin
-         ligneHT := Format_Float( HT );
-         ligneTVA:= Format_Float( TVA);
-         ligneTTC:= Format_Float( TTC);
+         ligneHT := Format_Float( HT , False, 2, True);
+         ligneTVA:= Format_Float( TVA, False, 2, True);
+         ligneTTC:= Format_Float( TTC, False, 2, True);
          end
      else
          begin
@@ -1559,31 +1559,31 @@ begin
          of
            bttv_20:
              begin
-             valeurHT := Trim( Format_Float( HT ));
-             valeurTVA:= Trim( Format_Float( TVA));
-             valeurTTC:= Trim( Format_Float( TTC));
+             valeurHT := Trim( Format_Float( HT , False, 2, True));
+             valeurTVA:= Trim( Format_Float( TVA, False, 2, True));
+             valeurTTC:= Trim( Format_Float( TTC, False, 2, True));
              L:= 20;
              Formate_valeurs;
              end;
            bttv_DisplayFormat:
              begin
-             valeurHT := FormateChaine( Format_Float( HT ),20);
-             valeurTVA:= FormateChaine( Format_Float( TVA),20);
-             valeurTTC:= FormateChaine( Format_Float( TTC),20);
+             valeurHT := FormateChaine( Format_Float( HT , False, 2, True),20);
+             valeurTVA:= FormateChaine( Format_Float( TVA, False, 2, True),20);
+             valeurTTC:= FormateChaine( Format_Float( TTC, False, 2, True),20);
              end;
            bttv_Valeur:
              begin
-             valeurHT := Trim( Format_Float( HT ));
-             valeurTVA:= Trim( Format_Float( TVA));
-             valeurTTC:= Trim( Format_Float( TTC));
+             valeurHT := Trim( Format_Float( HT , False, 2, True));
+             valeurTVA:= Trim( Format_Float( TVA, False, 2, True));
+             valeurTTC:= Trim( Format_Float( TTC, False, 2, True));
              L:= Max(Max(Length(valeurHT),Length(valeurTVA)),Length(valeurTTC));
              Formate_valeurs;
              end;
            else
              begin
-             valeurHT := Format_Float( HT );
-             valeurTVA:= Format_Float( TVA);
-             valeurTTC:= Format_Float( TTC);
+             valeurHT := Format_Float( HT , False, 2, True);
+             valeurTVA:= Format_Float( TVA, False, 2, True);
+             valeurTTC:= Format_Float( TTC, False, 2, True);
              end;
            end;
 

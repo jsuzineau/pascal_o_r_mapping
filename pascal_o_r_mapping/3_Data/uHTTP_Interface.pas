@@ -36,7 +36,7 @@ uses
     uEXE_INI,
     uOD_Temporaire,
  {$ifdef fpc}
- {fglExt,} blcksock, sockets, Synautil,process,
+ fglExt,blcksock, sockets, Synautil,process,
    {$ifdef android}
    Laz_And_Controls,
    {$else}
@@ -1243,7 +1243,7 @@ procedure THTTP_Interface.Loop_body;
 var
    LastError: Integer;
 begin
-     if Execute_LaunchURL
+     if False//Execute_LaunchURL   //désactivé en dehors d'Adibat
      then
          if Modal
          then

@@ -28,6 +28,7 @@ interface
 uses
     uForms,
     uClean,
+    uChrono,
     uNetwork,
     uLog,
     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
@@ -51,7 +52,8 @@ uses
 function RefreshQuery( Q   : TQuery        ;
                        _Afficher_Erreur: Boolean= True): Boolean; overload;
 function RefreshQuery( SQLQ: TSQLQuery     ;
-                       _Afficher_Erreur: Boolean= True): Boolean; overload;
+                       _Afficher_Erreur: Boolean= True;
+                       _Contexte: String= ''): Boolean; overload;
 function RefreshQuery( SD  : TSimpleDataset;
                        _Afficher_Erreur: Boolean= True): Boolean; overload;
 function RefreshQuery( CD: TBufDataSet;
@@ -98,6 +100,10 @@ function Copie_Champs( Source, Cible: TDataSet): Boolean;
 function Copie_Champs_sans_controle_type( Source, Cible: TDataSet): Boolean;
 
 function Assure_fkCalculated( Contexte: String; F: TField): Boolean;
+
+procedure FormatParams( sl: TBatpro_StringList; p: TParams);
+
+function Params_to_Str( _p: TParams): String;
 
 function Create_ParamList_from_Query( D: TDataset): TBatpro_StringList;overload;
 
@@ -156,9 +162,7 @@ type
     procedure Afficher;
   end;
 
-var
-   Log_SQL: TLog_SQL= nil;
-
+function Log_SQL: TLog_SQL;
 
 function Table_exists( _sqlc: TDatabase; _NomTable: String): Boolean;
 
@@ -368,6 +372,19 @@ begin
          end;
 end;
 
+function Params_to_Str( _p: TParams): String;
+var
+   sl: TBatpro_StringList;
+begin
+     sl:= TBatpro_StringList.Create;
+     try
+        FormatParams( sl, _p);
+        Result:= sl.Text;
+     finally
+            Free_nil( sl);
+            end;
+end;
+
 function Create_ParamList_from_Query( Q: TQuery): TBatpro_StringList;overload;
 begin
      Result:= TBatpro_StringList.Create;
@@ -413,7 +430,7 @@ begin
      if D is TQuery         then Result:=Create_ParamList_from_Query(TQuery        (D))
 else if D is TSQLQuery      then Result:=Create_ParamList_from_Query(TSQLQuery     (D))
 else if D is TSimpleDataset then Result:=Create_ParamList_from_Query(TSimpleDataset(D))
-else if D is TBufDataSet  then Result:=Create_ParamList_from_Query(TBufDataSet (D))
+else if D is TBufDataSet    then Result:=Create_ParamList_from_Query(TBufDataSet (D))
 else                             Result:=TBatpro_StringList.Create;
 end;
 
@@ -447,10 +464,14 @@ begin
          Result
          :=
             'Paramètres de connection:'#13#10
+            {$IFDEF FPC}
            +'HostName='+sqlc.HostName+#13#10
            +'DatabaseName='+sqlc.DatabaseName+#13#10
            +'UserName='+sqlc.UserName+#13#10
            +'Password='+sqlc.Password+#13#10
+            {$ELSE}
+           +sqlc.Params.Text
+            {$ENDIF}
      else if Assigned(_d)
      then
          Result
@@ -458,7 +479,7 @@ begin
             'Paramètres de connection:'#13#10
            +'DatabaseName='+_d.DatabaseName+#13#10
            +_d.Params.Text
-     else 
+     else
          Result
          :=
             'Paramètres de connection:'#13#10
@@ -466,7 +487,8 @@ begin
 end;
 
 procedure TraiteExceptionRequete( SQLQ: TSQLQuery; E: Exception; var Resultat: Boolean; sqlc: TDatabase=nil;
-                                 _Afficher_Erreur: Boolean= True);overload;
+                                 _Afficher_Erreur: Boolean= True;
+                                 _Contexte: String= '');overload;
 var
    sdm: String;
    slParam: TBatpro_StringList;
@@ -486,12 +508,14 @@ begin
      slParam:= Create_ParamList_from_Query( SQLQ);
      if _Afficher_Erreur
      then
-         fAccueil_Erreur(  sRequestFailed(E,NamePath_from_C(SQLQ),QueryText( SQLQ),slParam)+#13#10
+         fAccueil_Erreur(  _Contexte
+                          +sRequestFailed(E,NamePath_from_C(SQLQ),QueryText( SQLQ),slParam)+#13#10
                           +'Paramètres de connection:'#13#10
                           +sqlc_Params_Text,
                           'Erreur SGBD')
      else
-         fAccueil_Log(  sRequestFailed(E,NamePath_from_C(SQLQ),QueryText( SQLQ),slParam)+#13#10
+         fAccueil_Log(   _Contexte
+                        +sRequestFailed(E,NamePath_from_C(SQLQ),QueryText( SQLQ),slParam)+#13#10
                         +'Paramètres de connection:'#13#10
                         +sqlc_Params_Text,
                         'Erreur SGBD');
@@ -856,7 +880,8 @@ begin
 end;
 
 function RefreshQuery( SQLQ: TSQLQuery;
-                       _Afficher_Erreur: Boolean= True): Boolean; overload;
+                       _Afficher_Erreur: Boolean= True;
+                       _Contexte: String= ''): Boolean; overload;
 var
    sdm: String;
    rle: TRequete_Log_Entry;
@@ -886,7 +911,7 @@ begin
                 on E: Exception//EDBEngineError
                 do
                   begin
-                  TraiteExceptionRequete( SQLQ, E, Result);
+                  TraiteExceptionRequete( SQLQ, E, Result, sqlq.Database,_Afficher_Erreur, _Contexte);
                   Close;
                   end;
                 end;
@@ -1335,7 +1360,9 @@ begin
                                             [sdm, sqlc.Name])
                                  );
             end;
+        Chrono.Stop( 'Ouvre_SQLConnection, Avant');
         sqlc.Connected:= True;
+        Chrono.Stop( 'Ouvre_SQLConnection, aprés sqlc.Connected:= True;');
         Result:= True;
      except
            on E: Exception
@@ -1685,6 +1712,18 @@ end;
 
 { TLog_SQL }
 
+var
+   FLog_SQL: TLog_SQL= nil;
+
+function Log_SQL: TLog_SQL;
+begin
+     if nil = FLog_SQL
+     then
+         FLog_SQL:= TLog_SQL.Create;
+
+     Result:= FLog_SQL;
+end;
+
 constructor TLog_SQL.Create;
 begin
      sl:= TBatpro_StringList.Create;
@@ -1856,7 +1895,6 @@ begin
 end;
 
 initialization
-              Log_SQL:= TLog_SQL.Create;
 finalization
-              Free_nil( Log_SQL);
+              Free_nil( FLog_SQL);
 end.
