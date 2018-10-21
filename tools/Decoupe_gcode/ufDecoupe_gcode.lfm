@@ -1,18 +1,19 @@
 object fDecoupe_gcode: TfDecoupe_gcode
-  Left = 823
+  Left = 661
   Height = 364
-  Top = 955
+  Top = 232
   Width = 542
   Caption = 'fDecoupe_gcode'
-  ClientHeight = 364
+  ClientHeight = 344
   ClientWidth = 542
   Menu = mm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '1.6.0.4'
+  Position = poScreenCenter
+  LCLVersion = '1.8.0.6'
   object m: TMemo
     Left = 0
-    Height = 195
+    Height = 175
     Top = 74
     Width = 542
     Align = alClient
@@ -26,7 +27,7 @@ object fDecoupe_gcode: TfDecoupe_gcode
     Cursor = crVSplit
     Left = 0
     Height = 5
-    Top = 269
+    Top = 249
     Width = 542
     Align = alBottom
     Color = clLime
@@ -36,7 +37,7 @@ object fDecoupe_gcode: TfDecoupe_gcode
   object mVariables: TMemo
     Left = 0
     Height = 90
-    Top = 274
+    Top = 254
     Width = 542
     Align = alBottom
     Lines.Strings = (
@@ -56,7 +57,7 @@ object fDecoupe_gcode: TfDecoupe_gcode
     TabOrder = 3
     object seNb: TSpinEdit
       Left = 128
-      Height = 27
+      Height = 23
       Top = 39
       Width = 50
       TabOrder = 0
@@ -73,15 +74,15 @@ object fDecoupe_gcode: TfDecoupe_gcode
     end
     object Label1: TLabel
       Left = 18
-      Height = 17
+      Height = 15
       Top = 12
-      Width = 47
+      Width = 36
       Caption = 'Source'
       ParentColor = False
     end
     object eSource: TEdit
       Left = 72
-      Height = 27
+      Height = 23
       Top = 8
       Width = 433
       Anchors = [akTop, akLeft, akRight]
