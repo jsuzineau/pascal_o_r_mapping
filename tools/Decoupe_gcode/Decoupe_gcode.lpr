@@ -7,7 +7,7 @@ uses
  cthreads,
  {$ENDIF}{$ENDIF}
  Interfaces, // this includes the LCL widgetset
- Forms, uEXE_INI, ufDecoupe_gcode, uFichierGCODE
+ Forms, uEXE_INI, ufDecoupe_gcode, uFichierGCODE, ufFichierGCODE, ufAfficher
  { you can add units after this };
 
 {$R *.res}

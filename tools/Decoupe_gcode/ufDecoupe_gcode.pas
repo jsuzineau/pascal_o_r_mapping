@@ -7,6 +7,7 @@ interface
 uses
     uEXE_INI,
     uFichierGCODE,
+    ufFichierGCODE,
  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Menus,
  StdCtrls, ExtCtrls, Spin;
 
@@ -15,28 +16,25 @@ type
  { TfDecoupe_gcode }
 
  TfDecoupe_gcode = class(TForm)
-  bDecoupe_en: TButton;
+  bAfficher: TButton;
   bChoix: TButton;
+  bDecoupe_en: TButton;
+  bReprendre: TButton;
   eSource: TEdit;
   Label1: TLabel;
-  m: TMemo;
-  mVariables: TMemo;
-  miOuvrir: TMenuItem;
-  miFichier: TMenuItem;
-  mm: TMainMenu;
   od: TOpenDialog;
-  Panel1: TPanel;
   seNb: TSpinEdit;
-  Splitter1: TSplitter;
+  seReprendre: TSpinEdit;
+  procedure bAfficherClick(Sender: TObject);
   procedure bChoixClick(Sender: TObject);
   procedure bDecoupe_enClick(Sender: TObject);
+  procedure bReprendreClick(Sender: TObject);
   procedure FormCreate(Sender: TObject);
   procedure FormDestroy(Sender: TObject);
-  procedure miOuvrirClick(Sender: TObject);
  private
-  { private declarations }
- public
-  { public declarations }
+  procedure Afficher;
+  procedure Decoupe;
+  procedure Reprendre;
  end;
 
 var
@@ -58,35 +56,35 @@ begin
      EXE_INI.WriteString('Options', 'Source',eSource.Text);
 end;
 
-procedure TfDecoupe_gcode.miOuvrirClick(Sender: TObject);
-var
-   F: TFichierGCODE;
+procedure TfDecoupe_gcode.bChoixClick(Sender: TObject);
 begin
-     m.Clear;
-     F:= TFichierGCODE.Create;
-     try
-        F.Charge( eSource.Text);
-        m.Lines.Add( IntToStr(Length(F.Montees))+' montées');
-        m.Lines.Add( 'G92 E0 final en position '+IntToStr(F.Cherche_Reverse('G92 E0')));
-        m.Lines.Add( 'Fin de ligne '+F.sFin_Ligne);
-        m.Lines.Add( 'START_GCODE:'#13#10'>'+F.sSTART_GCODE+'<');
-        m.Lines.Add( 'END_GCODE:'#13#10'>'+F.sEND_GCODE+'<');
+     od.FileName:= eSource.Text;
+     if od.Execute
+     then
+         eSource.Text:= od.FileName;
+end;
 
-        m.Lines.Add( 'START_GCODE en position :'+IntToStr(F.Cherche(F.sSTART_GCODE)));
-        m.Lines.Add( 'END_GCODE   en position :'+IntToStr(F.Cherche(F.sEND_GCODE  )));
-        m.Lines.Add( 'Fin START_GCODE en position :'+IntToStr(F.Fin_START_GCODE));
-        m.Lines.Add( 'Debut_END_GCODE en position :'+IntToStr(F.Debut_END_GCODE));
-        m.Lines.Add( 'Premiere_Couche en position :'+IntToStr(F.Premiere_Couche));
-        m.Lines.Add( 'Header Premier fichier:'#13#10'>'+F.Header(True)+'<');
-        m.Lines.Add( 'Header fichiers suivant:'#13#10'>'+F.Header(False)+'<');
-        m.Lines.Add( 'Footer:'#13#10'>'+F.Footer+'<');
-        mVariables.Text:= F.slVariables.Text;
-     finally
-            FreeAndNil(F);
-            end;
+procedure TfDecoupe_gcode.bAfficherClick(Sender: TObject);
+begin
+     Afficher;
 end;
 
 procedure TfDecoupe_gcode.bDecoupe_enClick(Sender: TObject);
+begin
+     Decoupe;
+end;
+
+procedure TfDecoupe_gcode.bReprendreClick(Sender: TObject);
+begin
+     Reprendre;
+end;
+
+procedure TfDecoupe_gcode.Afficher;
+begin
+     TfFichierGCODE.Create( eSource.Text).Show;
+end;
+
+procedure TfDecoupe_gcode.Decoupe;
 var
    F: TFichierGCODE;
 begin
@@ -99,13 +97,21 @@ begin
             end;
 end;
 
-procedure TfDecoupe_gcode.bChoixClick(Sender: TObject);
+procedure TfDecoupe_gcode.Reprendre;
+var
+   F: TFichierGCODE;
+   Nom: String;
 begin
-     od.FileName:= eSource.Text;
-     if od.Execute
-     then
-         eSource.Text:= od.FileName;
+     F:= TFichierGCODE.Create;
+     try
+        F.Charge( eSource.Text);
+        Nom:= F.Reprendre( seReprendre.Value);
+        TfFichierGCODE.Create( Nom).Show;
+     finally
+            FreeAndNil(F);
+            end;
 end;
+
 
 end.
 

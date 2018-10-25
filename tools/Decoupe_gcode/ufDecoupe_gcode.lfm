@@ -4,117 +4,85 @@ object fDecoupe_gcode: TfDecoupe_gcode
   Top = 232
   Width = 542
   Caption = 'fDecoupe_gcode'
-  ClientHeight = 344
+  ClientHeight = 364
   ClientWidth = 542
-  Menu = mm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '1.8.0.6'
-  object m: TMemo
-    Left = 0
-    Height = 175
-    Top = 74
-    Width = 542
-    Align = alClient
-    Lines.Strings = (
-      'm'
-    )
-    ScrollBars = ssAutoBoth
-    TabOrder = 0
-  end
-  object Splitter1: TSplitter
-    Cursor = crVSplit
-    Left = 0
-    Height = 5
-    Top = 249
-    Width = 542
-    Align = alBottom
-    Color = clLime
+  LCLVersion = '1.8.4.0'
+  object Label1: TLabel
+    Left = 18
+    Height = 15
+    Top = 12
+    Width = 36
+    Caption = 'Source'
     ParentColor = False
-    ResizeAnchor = akBottom
   end
-  object mVariables: TMemo
-    Left = 0
-    Height = 90
-    Top = 254
-    Width = 542
-    Align = alBottom
-    Lines.Strings = (
-      'mVariables'
-    )
-    ScrollBars = ssAutoBoth
+  object eSource: TEdit
+    Left = 72
+    Height = 23
+    Top = 8
+    Width = 433
+    Anchors = [akTop, akLeft, akRight]
+    TabOrder = 0
+    Text = 'eSource'
+  end
+  object bChoix: TButton
+    Left = 508
+    Height = 27
+    Top = 8
+    Width = 30
+    Anchors = [akTop, akRight]
+    Caption = '...'
+    OnClick = bChoixClick
+    TabOrder = 1
+  end
+  object bAfficher: TButton
+    Left = 10
+    Height = 25
+    Top = 45
+    Width = 75
+    Caption = 'Afficher'
+    OnClick = bAfficherClick
     TabOrder = 2
   end
-  object Panel1: TPanel
-    Left = 0
-    Height = 74
-    Top = 0
-    Width = 542
-    Align = alTop
-    ClientHeight = 74
-    ClientWidth = 542
+  object bDecoupe_en: TButton
+    Left = 6
+    Height = 25
+    Top = 95
+    Width = 107
+    Caption = 'Découper en'
+    OnClick = bDecoupe_enClick
     TabOrder = 3
-    object seNb: TSpinEdit
-      Left = 128
-      Height = 23
-      Top = 39
-      Width = 50
-      TabOrder = 0
-      Value = 20
-    end
-    object bDecoupe_en: TButton
-      Left = 14
-      Height = 25
-      Top = 39
-      Width = 107
-      Caption = 'Découper en'
-      OnClick = bDecoupe_enClick
-      TabOrder = 1
-    end
-    object Label1: TLabel
-      Left = 18
-      Height = 15
-      Top = 12
-      Width = 36
-      Caption = 'Source'
-      ParentColor = False
-    end
-    object eSource: TEdit
-      Left = 72
-      Height = 23
-      Top = 8
-      Width = 433
-      Anchors = [akTop, akLeft, akRight]
-      TabOrder = 2
-      Text = 'eSource'
-    end
-    object bChoix: TButton
-      Left = 508
-      Height = 27
-      Top = 8
-      Width = 30
-      Anchors = [akTop, akRight]
-      Caption = '...'
-      OnClick = bChoixClick
-      TabOrder = 3
-    end
   end
-  object mm: TMainMenu
-    left = 64
-    top = 24
-    object miFichier: TMenuItem
-      Caption = '&Fichier'
-      object miOuvrir: TMenuItem
-        Caption = '&Ouvrir'
-        ShortCut = 16463
-        OnClick = miOuvrirClick
-      end
-    end
+  object seNb: TSpinEdit
+    Left = 120
+    Height = 23
+    Top = 95
+    Width = 50
+    TabOrder = 4
+    Value = 20
+  end
+  object bReprendre: TButton
+    Left = 8
+    Height = 25
+    Top = 136
+    Width = 186
+    Caption = 'Reprendre à partir de la couche'
+    OnClick = bReprendreClick
+    TabOrder = 5
+  end
+  object seReprendre: TSpinEdit
+    Left = 204
+    Height = 23
+    Top = 137
+    Width = 50
+    MaxValue = 0
+    TabOrder = 6
   end
   object od: TOpenDialog
     Filter = 'Tous les fichiers|*.*|Fichiers gcode|*.gcode'
-    left = 256
-    top = 44
+    left = 440
+    top = 144
   end
 end

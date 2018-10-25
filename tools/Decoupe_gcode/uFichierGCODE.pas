@@ -43,13 +43,21 @@ type
     S: String;
   public
     procedure Charge( _NomFichier: String);
+    function Extrait_Ligne( _Debut_Ligne: Integer): String;
+    function nExtrait_Ligne( _Debut_Ligne: Integer): String;
   //Montées
   public
     Montees: array of TG1_Z;
     procedure Parse;
+    function sMontees: String;
   public
     function Cherche( _Commande: String): Integer;
     function Cherche_Reverse( _Commande: String): Integer;
+  //Couches
+  public
+    Couches: array of TG1_Z;
+    function sCouches: String;
+    function G1_Z_Libelle( _G1_Z: TG1_Z): String;
   //Fin de ligne
   public
     Fin_Ligne: String;
@@ -80,6 +88,9 @@ type
     procedure Decoupe( _Nb: Integer);
   private
     procedure Tranche( _NumeroFichier: Integer; _Debut, _NbCouches: Integer);
+  //Reprise à partir d'une couche donnée
+  public
+    function Reprendre( _iCouche: Integer): String;
   //Variables
   public
     slVariables: TStringList;
@@ -129,6 +140,32 @@ begin
      Parse;
 end;
 
+function TFichierGCODE.Extrait_Ligne( _Debut_Ligne: Integer): String;
+var
+   I: Integer;
+   C: Char;
+   function GetC: Char;
+   begin
+        C:= S[I];
+        Result:= C;
+   end;
+begin
+     Result:= '';
+     I:= _Debut_Ligne;
+     while     (I< Length(S))
+           and not (GetC in [#13,#10])
+     do
+       begin
+       Result:= Result + C;
+       Inc( I);
+       end;
+end;
+
+function TFichierGCODE.nExtrait_Ligne(_Debut_Ligne: Integer): String;
+begin
+     Result:= IntToStr( _Debut_Ligne)+'>'+Extrait_Ligne( _Debut_Ligne);
+end;
+
 procedure TFichierGCODE.Parse;
 var
    Longueur_S: Integer;
@@ -156,7 +193,16 @@ var
               if not (D in [#13, #10]) then break;
               Fin_Ligne:= Fin_Ligne+D;
         until J>=Longueur_S;
-
+        Delete( Fin_Ligne, 3, Length( Fin_Ligne));
+        if Length(Fin_Ligne) >1
+        then
+            begin
+            if Fin_Ligne[2] = #13
+            then
+                Delete( Fin_Ligne, 2, Length( Fin_Ligne))
+            else
+                if Fin_Ligne[1] = #10 then Fin_Ligne:= #10;
+            end;
    end;
    procedure Cree_Montee;
    var
@@ -244,6 +290,20 @@ var
         Commande:= sEND_GCODE;
         Debut_END_GCODE:= Cherche( Commande);
    end;
+   procedure Trouve_Couches;
+   var
+      NbCouches: Integer;
+      iMontee, iCouche: Integer;
+   begin
+        NbCouches:= High(Montees) - Montee_Premiere_Couche +1;
+        SetLength( Couches, NbCouches);
+        for iCouche:= Low(Couches) to High(Couches)
+        do
+          begin
+          iMontee:= Montee_Premiere_Couche+iCouche;
+          Couches[iCouche]:= Montees[iMontee];
+          end;
+   end;
 begin
      Fin_Ligne:= '';
 
@@ -280,6 +340,32 @@ begin
      Trouve_Fin_START_GCODE;
      Trouve_Debut_END_GCODE;
      Trouve_Premiere_Couche;
+     Trouve_Couches;
+end;
+
+function TFichierGCODE.G1_Z_Libelle(_G1_Z: TG1_Z): String;
+begin
+     Result:= _G1_Z.sZ+':'+Extrait_Ligne( _G1_Z.Index);
+end;
+
+function TFichierGCODE.sMontees: String;
+var
+   I: Integer;
+begin
+     Result:= '';
+     for I:= Low(Montees) to High(Montees)
+     do
+       Formate_Liste( Result, #13#10, 'Montée '+Format( '%.2d',[I])+': '+G1_Z_Libelle( Montees[I]));
+end;
+
+function TFichierGCODE.sCouches: String;
+var
+   I: Integer;
+begin
+     Result:= '';
+     for I:= Low(Couches) to High(Couches)
+     do
+       Formate_Liste( Result, #13#10, 'Couche '+Format( '%.2d',[I])+': '+G1_Z_Libelle(Couches[I]));
 end;
 
 function TFichierGCODE.Cherche( _Commande: String): Integer;
@@ -412,6 +498,7 @@ var
    IndexDebut, IndexFin: Integer;
    sTranche: String;
    NomTranche: String;
+   sFileName: String;
 begin
      Fin:= _Debut+_NbCouches;
      if Fin>High( Montees) then Fin:= -1;
@@ -430,13 +517,57 @@ begin
        +'; '+Ligne(IndexFin+1)
        +Footer;
 
+     {
      NomTranche
      :=
         ChangeFileExt(NomFichier,'')
        +'_'+IntToStr( _NumeroFichier)
        +ExtractFileExt(NomFichier);
+     }
+     sFileName:= ExtractFileName( NomFichier);
+     Insert( IntToStr( _NumeroFichier)+'_', sFileName,4);
+     NomTranche
+     :=
+         ExtractFilePath( NomFichier)
+        +sFileName;
      String_to_File( NomTranche, sTranche);
 end;
+
+function TFichierGCODE.Reprendre( _iCouche: Integer): String;
+var
+   Debut, Fin: Integer;
+   IndexDebut, IndexFin: Integer;
+   sTranche: String;
+   NomTranche: String;
+   sFileName: String;
+begin
+     Debut:= Montee_Premiere_Couche+_iCouche;
+     Fin:= High( Montees);
+
+     IndexDebut:= Montees[Debut].Index;
+     if Fin = -1
+     then
+         IndexFin:= Debut_END_GCODE-1
+     else
+         IndexFin:= Montees[Fin].Index-1;
+
+     sTranche
+     :=
+        Header( False)
+       +Copy( S, IndexDebut, IndexFin-IndexDebut+1)
+       +'; '+Ligne(IndexFin+1)
+       +Footer;
+
+     sFileName:= ExtractFileName( NomFichier);
+     Insert( 'reprise_couche_'+IntToStr( Debut)+'_', sFileName,4);
+     NomTranche
+     :=
+         ExtractFilePath( NomFichier)
+        +sFileName;
+     String_to_File( NomTranche, sTranche);
+     Result:= NomTranche;
+end;
+
 
 end.
 
