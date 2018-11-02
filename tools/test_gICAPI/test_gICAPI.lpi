@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="10"/>
+    <General>
+      <SessionStorage Value="InProjectDir"/>
+      <MainUnit Value="0"/>
+      <Title Value="test_gICAPI"/>
+      <ResourceType Value="res"/>
+      <UseXPManifest Value="True"/>
+    </General>
+    <i18n>
+      <EnableI18N LFM="False"/>
+    </i18n>
+    <BuildModes Count="4">
+      <Item1 Name="Windows Debug" Default="True"/>
+      <Item2 Name="Windows Release">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;Elements/Work;../pascal_o_r_mapping/8_Web;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../../pascal_o_r_mapping/3_Data;../../pascal_o_r_mapping/7_sources_externes/synapse/source/lib"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <SyntaxMode Value="Delphi"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <Optimizations>
+              <OptimizationLevel Value="3"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+            <Options>
+              <Win32>
+                <GraphicApplication Value="True"/>
+              </Win32>
+            </Options>
+          </Linking>
+        </CompilerOptions>
+      </Item2>
+      <Item3 Name="Debug">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;Elements/Work;../pascal_o_r_mapping/8_Web;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../../pascal_o_r_mapping/3_Data;../../pascal_o_r_mapping/7_sources_externes/synapse/source/lib"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <SyntaxMode Value="Delphi"/>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <Checks>
+              <IOChecks Value="True"/>
+              <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
+            </Checks>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <DebugInfoType Value="dsDwarf2Set"/>
+              <UseExternalDbgSyms Value="True"/>
+            </Debugging>
+          </Linking>
+        </CompilerOptions>
+      </Item3>
+      <Item4 Name="Release">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;Elements/Work;../pascal_o_r_mapping/8_Web;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../../pascal_o_r_mapping/3_Data;../../pascal_o_r_mapping/7_sources_externes/synapse/source/lib"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <SyntaxMode Value="Delphi"/>
+            </SyntaxOptions>
+          </Parsing>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <DebugInfoType Value="dsDwarf2Set"/>
+              <UseExternalDbgSyms Value="True"/>
+            </Debugging>
+          </Linking>
+        </CompilerOptions>
+      </Item4>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+        <CommandLineParams Value="1"/>
+      </local>
+    </RunParams>
+    <RequiredPackages Count="2">
+      <Item1>
+        <PackageName Value="OD_DelphiReportEngine_Units"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
+    </RequiredPackages>
+    <Units Count="3">
+      <Unit0>
+        <Filename Value="test_gICAPI.lpr"/>
+        <IsPartOfProject Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="../../pascal_o_r_mapping/3_Data/uPool.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="../../pascal_o_r_mapping/7_sources_externes/synapse/source/lib/blcksock.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit2>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;Elements/Work;../pascal_o_r_mapping/8_Web;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../../pascal_o_r_mapping/3_Data;../../pascal_o_r_mapping/7_sources_externes/synapse/source/lib"/>
+    </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <SyntaxMode Value="Delphi"/>
+        <IncludeAssertionCode Value="True"/>
+      </SyntaxOptions>
+    </Parsing>
+    <CodeGeneration>
+      <Checks>
+        <IOChecks Value="True"/>
+        <RangeChecks Value="True"/>
+        <OverflowChecks Value="True"/>
+        <StackChecks Value="True"/>
+      </Checks>
+      <TargetOS Value="win64"/>
+    </CodeGeneration>
+    <Linking>
+      <Debugging>
+        <DebugInfoType Value="dsDwarf2Set"/>
+        <UseExternalDbgSyms Value="True"/>
+      </Debugging>
+    </Linking>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="3">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+    </Exceptions>
+  </Debugging>
+</CONFIG>

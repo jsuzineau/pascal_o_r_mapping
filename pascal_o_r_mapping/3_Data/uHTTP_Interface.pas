@@ -67,6 +67,7 @@ type
     procedure Send_CSS(_CSS: String);
     procedure Send_WOFF(_WOFF: String);
     procedure Send_WOFF2(_WOFF2: String);
+    procedure Send_ICO(_ICO: String);
     procedure Send_MIME_from_Extension(_S, _Extension: String);
     function MIME_from_Extension( _Extension: String): String;
     procedure Send_Not_found;
@@ -375,6 +376,11 @@ begin
      Send_Data( 'font/woff2', _WOFF2);
 end;
 
+procedure THTTP_Interface.Send_ICO(_ICO: String);
+begin
+     Send_Data( 'image/x-icon', _ICO);
+end;
+
 function THTTP_Interface.MIME_from_Extension(_Extension: String): String;
 begin
      Result:= '';
@@ -398,6 +404,7 @@ begin
      else if '.map'   = _Extension then Send_JS   ( _S)
      else if '.woff'  = _Extension then Send_WOFF ( _S)
      else if '.woff2' = _Extension then Send_WOFF2( _S)
+     else if '.ico'   = _Extension then Send_ICO  ( _S)
      else
          begin
          Send_HTML( _S);

@@ -1,0 +1,9 @@
+{
+"titre": "Racine","action": "RacineClick","image": "","is_group": true,"children":
+  [
+  {"titre": "B1","action": "B1Click","image": "","is_group": true,"children":[]},
+  {"titre": "B2","action": "B2Click","image": "","is_group": true,"children":[]},
+  {"titre": "B3","action": "B3Click","image": "","is_group": true,"children":[]}
+  ]
+}
+
