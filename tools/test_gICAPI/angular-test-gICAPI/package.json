@@ -20,7 +20,12 @@
     "@angular/platform-browser": "~7.0.0",
     "@angular/platform-browser-dynamic": "~7.0.0",
     "@angular/router": "~7.0.0",
+    "@types/jquery": "^3.3.22",
     "core-js": "^2.5.4",
+    "jquery": "^3.3.1",
+    "metro-ui": "^3.0.15",
+    "metro4": "^4.2.26",
+    "metro4-dist": "^4.2.26",
     "rxjs": "^6.3.3",
     "zone.js": "~0.8.26"
   },

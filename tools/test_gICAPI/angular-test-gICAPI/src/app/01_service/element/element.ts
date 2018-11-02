@@ -1,8 +1,10 @@
 export class Element
   {
-  titre: string= '';
-  action: string='';
-  image: string= '';
+  id    : string= '';
+  class : string= '';
+  image : string= '';
+  titre : string= '';
+  hint  : string= '';
   is_group: boolean=false;
   children: Array<Element>= [];
 
