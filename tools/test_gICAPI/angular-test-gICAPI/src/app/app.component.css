@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'Metro';
+    font-style: normal;
+    font-weight: 400;
+    src: 
+      local('Metro'),
+      local('Metro-Regular'),      
+      url('../../node_modules/metro4-dist/mif/metro.svg' ) format('svg'     ),
+      url('../../node_modules/metro4-dist/mif/metro.ttf' ) format('truetype'),
+      url('../../node_modules/metro4-dist/mif/metro.woff') format('woff'    );
+  }
