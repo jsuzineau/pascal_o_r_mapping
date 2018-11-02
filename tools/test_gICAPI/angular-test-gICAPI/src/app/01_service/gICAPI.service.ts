@@ -76,7 +76,7 @@ export class TgICAPI
     console.error( this.constructor.name + '::handleError', error);
     return Observable.throw(error);
     }
-  private data_Promise(): Promise<Element>  
+  public data_Promise(): Promise<Element>  
   {
     //const url= API_URL + '/Data';
     const url= 'Data';

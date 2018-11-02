@@ -84,3 +84,4 @@ tools/Generateur/Generateur_de_code/Source
 tools/Generateur/Generateur
 jsWorks/etc/_Configuration.First-Boss.ini
 /tools/Search_and_replace/Search_and_replace
+/tools/test_gICAPI/angular-test-gICAPI/src/assets/Data.json

@@ -1,22 +1,36 @@
 <!--The content below is only a placeholder and can be replaced.-->
+<button (click)="parent()">Parent</button>
 <div class="tile-area tile-area-scheme-dark fg-white" style="height: 100%; max-height: 100% !important;">
-  <span *ngFor="let e of data().children">
-    <div *ngIf="e.is_group" [id]="e.id" [class]="e.class">
-      <span class="tile-group-title">{{ e.titre }}</span>
-      <div class="tile-container">
-        <div *ngFor="let f of e.children" [id]="f.id" [class]="f.class" data-role="tile">
-            <div class="tile-content iconic zooming-out">
-                <div class="slide">
-                    <span [class]="f.image"></span>       
-                </div>
-                <span class="tile-label">{{ f.titre }}</span>
-                <div class="slide-over">
-                    {{ f.hint }}
-                </div>
-            </div>
+  <span *ngIf="courant">
+    <span *ngFor="let e of courant.children">
+      <div *ngIf="e.is_group" [id]="e.id" [class]="e.class">
+        <span class="tile-group-title">{{ e.titre }}</span>
+        <div class="tile-container">
+          <div *ngFor="let f of e.children" [id]="f.id" [class]="f.class" (click)="action(f)" data-role="tile">
+              <div class="tile-content iconic zooming-out">
+                  <div class="slide">
+                      <span [class]="f.image"></span>       
+                  </div>
+                  <span class="tile-label">{{ f.titre }}</span>
+                  <div class="slide-over">
+                      {{ f.hint }}
+                  </div>
+              </div>
+          </div>
+        </div>  
+      </div>
+      <div *ngIf="!e.is_group" [id]="e.id" [class]="e.class" (click)="action(e)" data-role="tile">
+        <div class="tile-content iconic zooming-out">
+          <div class="slide">
+              <span [class]="e.image"></span>       
+          </div>
+          <span class="tile-label">{{ e.titre }}</span>
+          <div class="slide-over">
+              {{ e.hint }}
+          </div>
         </div>
-      </div>  
-    </div>
-  </span>
+      </div>
+    </span>
+  </span>  
 </div>
 <router-outlet></router-outlet>
