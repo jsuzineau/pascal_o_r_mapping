@@ -1,8 +1,43 @@
 {
-"titre": "Racine",
-"action": "RacineClick",
-"image": "",
+"id"      : "racine",
+"image"   : "",
+"titre"   : "Racine",
+"hint"    : "",
 "is_group": true,
-"children": []
+"children":
+  [
+    {
+    "id"      : "groupe",
+    "class"   : "tile-group double",
+    "image"   : "",
+    "titre"   : "Groupe",
+    "hint"    : "",
+    "is_group": true,
+    "children":
+      [
+        {
+        "id"       : "dossier",
+        "class"    : "tile click bg-teal fg-white",
+        "animation": "tile-content iconic slide-down-2",
+        "image"    : "icon mif-folder-open",
+        "titre"    : "dossier",
+        "hint"     : "Permet d'accéder aux répertoires du dossier",
+        "is_group" : false,
+        "children" :
+          [
+            {
+            "id"      : "lanceur_1",
+            "class"   : "click tile bg-cobalt fg-white",
+            "image"   : "icon mif-organization",
+            "titre"   : "Lanceur n°1",
+            "hint"    : "",
+            "is_group": false,
+            "children":[]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
 

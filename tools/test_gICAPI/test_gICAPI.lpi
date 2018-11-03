@@ -102,7 +102,6 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <CommandLineParams Value="1"/>
       </local>
     </RunParams>
     <RequiredPackages Count="2">

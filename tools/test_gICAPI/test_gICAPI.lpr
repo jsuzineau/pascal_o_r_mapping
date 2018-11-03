@@ -159,7 +159,7 @@ begin
      HTTP_Interface.Start;
      //String_to_File( ChangeFileExt( ParamStr(0), '_URL.txt'),HTTP_Interface.URL);
      Ecrit_URL;
-     if ParamCount > 0 then OpenURL( HTTP_Interface.URL);
+     if ParamCount = 0 then OpenURL( HTTP_Interface.URL);
      repeat
            sleep(1000);
      until False;
