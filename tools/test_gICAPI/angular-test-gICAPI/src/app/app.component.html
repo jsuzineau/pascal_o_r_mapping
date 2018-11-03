@@ -7,7 +7,7 @@
         <span class="tile-group-title">{{ e.titre }}</span>
         <div class="tile-container">
           <div *ngFor="let f of e.children" [id]="f.id" [class]="f.class" (click)="action(f)" data-role="tile">
-              <div class="tile-content iconic zooming-out">
+              <div [class]="f.animation">
                   <div class="slide">
                       <span [class]="f.image"></span>       
                   </div>
@@ -20,7 +20,7 @@
         </div>  
       </div>
       <div *ngIf="!e.is_group" [id]="e.id" [class]="e.class" (click)="action(e)" data-role="tile">
-        <div class="tile-content iconic zooming-out">
+        <div [class]="e.animation">
           <div class="slide">
               <span [class]="e.image"></span>       
           </div>
