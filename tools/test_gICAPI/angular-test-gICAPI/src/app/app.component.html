@@ -1,5 +1,5 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<button (click)="parent()">Parent</button>
+<button *ngIf="parents.length" (click)="parent()">Parent</button>
 <div class="tile-area tile-area-scheme-dark fg-white" style="height: 100%; max-height: 100% !important;">
   <span *ngIf="courant">
     <span *ngFor="let e of courant.children">
