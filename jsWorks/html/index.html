@@ -179,7 +179,7 @@ m_jsWorks.controller('ctrl_jsWorks', function ($scope,$http)
     {
     if ($scope.Work.id == undefined) return;
     Work_JSON= JSON.stringify( $scope.Work);
-    $http.get("Work_Set"+$scope.Work.id+"&"+Work_JSON).success( function(response)
+    $http.post("Work_Set"+$scope.Work.id,$scope.Work).success( function(response)
       {
       $scope.Work= response;
       $scope._from_Project();

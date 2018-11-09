@@ -26,16 +26,99 @@ unit uReal_Formatter;
 interface
 
 uses
+    uLog,
     SysUtils, Classes,
     u_sys_;
 
 function Format_Float( Value: Double; Tronque: Boolean= False;
-                       Precision: Integer= 2): String;
+                       Precision: Integer= 2;
+                       _Separateur_Milliers: Boolean= False;
+                       _DisplayFormat: String= ''): String;
+
+var
+   uReal_Formatter_Log: Boolean= False;
+
+//Fonction provisoire car bugs dans freepascal 3:
+// - pas de séparateur de milliers dans certains cas
+// - l'espace insécable en unicode #$00A0
+function French_FormatFloat( _Format: String; _Value: Extended): String;
+function Ansi_French_FormatFloat( _Format: String; _Value: Extended): String;
+function Space_French_FormatFloat( _Format: String; _Value: Extended): String;
+function ThousandSeparator_FormatFloat( _Format: String; _Value: Extended; _ThousandSeparator: String): String;
 
 implementation
 
-function Format_Float( Value: Double; Tronque: Boolean= False;
-                       Precision: Integer= 2): String;
+//Fonction provisoire car bugs dans freepascal 3:
+// - pas de séparateur de milliers dans certains cas
+// - l'espace insécable en unicode #$00A0
+function French_FormatFloat( _Format: String; _Value: Extended): String;
+begin
+     Result:= ThousandSeparator_FormatFloat( _Format, _Value, #$00A0);
+end;
+
+function Ansi_French_FormatFloat( _Format: String; _Value: Extended): String;
+begin
+     Result:= ThousandSeparator_FormatFloat( _Format, _Value, #$A0);
+end;
+
+function Space_French_FormatFloat( _Format: String; _Value: Extended): String;
+begin
+     Result:= ThousandSeparator_FormatFloat( _Format, _Value, ' ');
+end;
+
+function ThousandSeparator_FormatFloat( _Format: String; _Value: Extended; _ThousandSeparator: String): String;
+var
+   iPoint: Integer;
+   procedure Traite_Float;
+   var
+      iDecimalSeparator: Integer;
+      iMax: Integer;
+      I: Integer;
+   begin
+        if 2 < iPoint
+        then
+            Delete( _Format, 1, iPoint-2);
+        Result:= FormatFloat( _Format, _Value);
+        iDecimalSeparator:= Pos( DefaultFormatSettings.DecimalSeparator, Result);
+        if 0 = iDecimalSeparator
+        then
+            iDecimalSeparator:= Length( Result)+1;
+
+        for I:= iDecimalSeparator-1 downto 2
+        do
+          begin
+          if (I-iDecimalSeparator) mod 3  = 0 then Insert(_ThousandSeparator, Result, I);
+          end;
+   end;
+   procedure Traite_Integer;
+   var
+      nValue: Integer;
+      iFin: Integer;
+      I: Integer;
+   begin
+        nValue:= Trunc( _Value);
+        Result:= IntToStr( nValue);
+        iFin:= Length( Result);
+        for I:= iFin-1 downto 2
+        do
+          if (I-iFin) mod 3  = 0
+          then
+              Insert(_ThousandSeparator, Result, I);
+   end;
+begin
+     iPoint:= Pos( '.', _Format);
+     if iPoint < Length( _Format)
+     then
+         Traite_Float
+     else
+         Traite_Integer;
+end;
+
+function Format_Float( Value: Double;
+                       Tronque: Boolean= False;
+                       Precision: Integer= 2;
+                       _Separateur_Milliers: Boolean= False;
+                       _DisplayFormat: String= ''): String;
 var
    Text: String;
    I: Integer;
@@ -71,10 +154,32 @@ var
 begin
      sPrecisionChar:= '0';
 
-     sPrecision:= StringOfChar( sPrecisionChar, Precision);
-     DisplayFormat:= '###,###,###,##0.'+sPrecision;
+     if 0 = Precision
+     then
+         sPrecision:= ''
+     else
+         sPrecision:= StringOfChar( sPrecisionChar, Precision);
 
-     Text:= FormatFloat( DisplayFormat, Value);
+     if '' <> _DisplayFormat then DisplayFormat:= _DisplayFormat
+else if _Separateur_Milliers then DisplayFormat:= '###,###,###,##0.'+sPrecision//'###,###,###,##0.'+sPrecision
+else                              DisplayFormat:= '###########0.'+sPrecision;
+
+     if uReal_Formatter_Log
+     then
+         begin
+         Log.PrintLn( 'uReal_Formatter.Format_Float: DisplayFormat='+DisplayFormat);
+         Log.PrintLn( 'uReal_Formatter.Format_Float: DefaultFormatSettings= >'+DefaultFormatSettings.ThousandSeparator+'<');
+         DefaultFormatSettings.ThousandSeparator:= ' ';
+         Log.PrintLn( 'uReal_Formatter.Format_Float: test:'+FormatFloat( '###,###,###,##0.00',9999.99));
+         end;
+     Text:= French_FormatFloat( DisplayFormat, Value);//FormatFloat( DisplayFormat, Value);
+     if uReal_Formatter_Log
+     then
+         begin
+         Log.PrintLn( 'uReal_Formatter.Format_Float: Text='+Text);
+         Log.PrintLn( 'uReal_Formatter.Format_Float: test sur Value:'+FormatFloat( '###,###,###,##0.00',Value));
+         end;
+
      I:= Length(Text);
 
      if Tronque //fait rapidement, redondant avec (not FF.currency)

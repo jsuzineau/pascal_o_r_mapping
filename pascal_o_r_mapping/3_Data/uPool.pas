@@ -68,7 +68,7 @@ uses
 
 
 var
-   table_sans_id: array[1..414{415}] of String=
+   table_sans_id: array[1..416] of String=
    (
 'syscolumns',
 'sysconstraints',
@@ -428,6 +428,8 @@ var
 'rp_rcg',
 'sav_ot',
 'sav_type',
+'source4gl',
+'sourcel4gl',
 'st4_blc',
 'st4_enc',
 'st4_visa',
@@ -528,11 +530,15 @@ type
   //Chargement par clé
   private
     sqlq_SELECT: TSQLQuery;
+    procedure Ajoute_au_filtre( var bl);
     procedure Select( var bl);
   protected
     procedure Ajoute( var bl); //passé de private à protected pour TpoolJSON
   public
     Select_Enabled: Boolean;
+    Select_Afficher_Erreur: Boolean;
+    Select_Echec: Boolean;
+    Select_Continuer_apres_premier_echec: Boolean;
   //Gestion de l'insertion
   private
     procedure Compose_INSERT;
@@ -561,7 +567,7 @@ type
     procedure Get_Interne_from_Memory( var bl);
     procedure Nouveau_Interne( var bl; Source: TBatpro_Ligne= nil);
   public
-    procedure Nouveau_Base( var bl); virtual;
+    procedure Nouveau_Base( out bl); virtual;
   //Arbres binaires
   public
     btsCle: TbtString;
@@ -704,6 +710,9 @@ type
   protected
     function SQLWHERE_ContraintesChamps: String; virtual;
   //méthode d'ajout dans les listes
+  private
+    procedure Ajout_dans_listes_par_id( bl: TBatpro_Ligne);
+    procedure Ajout_dans_listes_par_Cle( bl: TBatpro_Ligne);
   protected
     procedure Ajout_Interne( bl: TBatpro_Ligne); virtual;
   //Gestion du modèle
@@ -776,9 +785,12 @@ type
     procedure bl_from_id( _id: Integer; out _bl);
     procedure Set_bl_from_id( _id: Integer; _bl: TBatpro_Ligne);
     function Iterateur_id: TIterateur;
+  //Création d'une ligne en mémoire sans connection à la base de données
+  public
+    procedure Cree_en_memoire( var _bl);
   //Gestion communication HTTP avec pages html Angular / JSON
   public
-    function Traite_HTTP: Boolean; override;
+    function Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boolean; override;
   //spécial Gestion bases Microsoft Access en Freepascal
   private
     procedure SetUsePrimaryKeyAsKey( _Value: Boolean);
@@ -787,6 +799,8 @@ type
   end;
 
   Tprocedure_sCle_Change= procedure ( _bl: TBatpro_Ligne) of object;
+  TGet_pool= function : TPool;
+
 
 var
    slPool: TBatpro_StringList= nil;
@@ -862,7 +876,7 @@ begin
         //  if p = nil then continue;
         //  //uClean_Log( '  '+p.Name);
         //  end;
-        //uClean_Log( 'Vidage des pools');
+        uClean_Log( 'Vidage des pools');
         for I:= 0 to slPool.Count - 1
         do
           begin
@@ -871,7 +885,7 @@ begin
           uPool_Vide_contexte:= p.Name;
           p.Vide;
           end;
-        //uClean_Log( 'Fin du vidage des pools');
+        uClean_Log( 'Fin du vidage des pools');
      finally
             uBatpro_Ligne_vidage_des_pools_en_cours:= False;
             uPool_Vide_contexte:= '';
@@ -964,7 +978,12 @@ begin
 
      Tid_Premiere_fois:= True;
      Pas_de_champ_id:= False;
+
      Select_Enabled:= True;
+     Select_Afficher_Erreur:= True;
+     Select_Echec:= False;
+     Select_Continuer_apres_premier_echec:= True;
+
      dernier_id_actif:= False;
 
      cd_from_Insert:= TBufDataset.Create( nil);
@@ -1074,10 +1093,8 @@ procedure TPool.To_SQLQuery_Params( SQLQuery: TSQLQuery);
 begin
 end;
 
-procedure TPool.Ajoute( var bl);
+procedure TPool.Ajoute_au_filtre(var bl);
 begin
-     Ajout_Interne( TBatpro_Ligne( bl));
-
      if Assigned( hf)
      then
          begin
@@ -1088,18 +1105,31 @@ begin
          end;
 end;
 
+procedure TPool.Ajoute( var bl);
+begin
+     Ajout_Interne( TBatpro_Ligne( bl));
+
+     Ajoute_au_filtre( bl);
+end;
+
 procedure TPool.Select( var bl);
 begin
      TBatpro_Ligne( bl):= nil;
 
      if not Select_Enabled then exit;
+     if Select_Echec and not Select_Continuer_apres_premier_echec then exit;
 
      sqlq_SELECT.Database:= Connection;
      To_SQLQuery_Params( sqlq_SELECT);
      try
         //uLog.Log.Print( Classname+' SELECT');
         //uClean_Log( Classname+' SELECT');
-        if not RefreshQuery( sqlq_SELECT) then exit;
+        Select_Echec
+        :=
+          not RefreshQuery( sqlq_SELECT, Select_Afficher_Erreur,
+                            'Echec de '+ClassName+'.Select: '#13#10);
+
+        if Select_Echec then exit;
 
         if sqlq_SELECT.IsEmpty then exit;
 
@@ -1328,7 +1358,7 @@ begin
        end;
 end;
 
-procedure TPool.Nouveau_Base( var bl);
+procedure TPool.Nouveau_Base( out bl);
 var
    _id: Integer;
 begin
@@ -1338,6 +1368,7 @@ begin
      if Recuperer
      then
          begin
+         sqlqID_Recuperation.Close;
          sqlqID_Recuperation.Database:= Connection;
          if RefreshQuery( sqlqID_Recuperation)
          then
@@ -1346,6 +1377,7 @@ begin
 
              _id:= sqlqID_Recuperation.FieldByName('id').AsInteger;
              end;
+         sqlqID_Recuperation.Close;
          end;
 
      //Sinon on crée une nouvelle ligne
@@ -1401,7 +1433,7 @@ begin
             or (NomTable = 'syscolumns')
             or (NomTable = 'sysindexes')
             or (NomTable = 'sysconstraints')
-            or (NomTable = 'source4gl' )
+            //or (NomTable = 'source4gl' )
             or (NomTable = 'bc_mdp'    )
             or (NomTable = 'g3_uti'    )
             )
@@ -1431,11 +1463,15 @@ begin
      :=
        'select count(*) as Resultat from '+NomTable+ToutCharger_SQL_suffixe;
      (*dmxG3_UTI.To_SQLQuery_Params( sqlq_SELECT_ALL_count);*)
-     if not RefreshQuery( sqlq_SELECT_ALL_count)
-     then
-         Result:= 0
-     else
-         Result:= sqlq_SELECT_ALL_count.FieldByName('Resultat').AsInteger;
+     try
+        if not RefreshQuery( sqlq_SELECT_ALL_count)
+        then
+            Result:= 0
+        else
+            Result:= sqlq_SELECT_ALL_count.FieldByName('Resultat').AsInteger;
+     finally
+            sqlq_SELECT_ALL_count.Close;
+            end;
 end;
 
 procedure TPool.ToutCharger(  slLoaded: TBatpro_StringList = nil;
@@ -1911,12 +1947,23 @@ begin
      Traite( slFiltre);
 end;
 
-procedure TPool.Ajout_Interne( bl: TBatpro_Ligne);
+procedure TPool.Ajout_dans_listes_par_id( bl: TBatpro_Ligne);
+begin
+     if not Pas_de_champ_id
+     then
+         Set_bl_from_id( TBatpro_Ligne( bl).id  , bl);
+end;
+
+procedure TPool.Ajout_dans_listes_par_Cle( bl: TBatpro_Ligne);
 begin
      slT.AddObject( TBatpro_Ligne( bl).sCle, TBatpro_Ligne( bl));
-
-     Set_bl_from_id( TBatpro_Ligne( bl).id  , bl);
      btsCle.Ajoute( TBatpro_Ligne( bl).sCle, TBatpro_Ligne( bl));
+end;
+
+procedure TPool.Ajout_Interne( bl: TBatpro_Ligne);
+begin
+     Ajout_dans_listes_par_id ( bl);
+     Ajout_dans_listes_par_Cle( bl);
 end;
 
 procedure TPool.SetNomTable(const Value: String);
@@ -2087,44 +2134,75 @@ var
    bl: TBatpro_Ligne;
    I: TIterateur;
    sClean_Log_Start: String;
+   s: String;
+   Log_bl: Boolean;
 begin
-     //uClean_Log( '  '+Name+':TPool.Vide début');
-     pVide_Avant.Publie;
-     //uClean_Log( '   aprés pVide_Avant.Publie');
+     Log_bl:= (NomTable = 'ged_type_document');
+     try
+        uLog.Log.PrintLn( '  '+Name+':TPool.Vide début');
+        pVide_Avant.Publie;
+        uLog.Log.PrintLn( '   aprés pVide_Avant.Publie');
 
-     //while slT.Count > 0
-     //do
-     //  begin
-     //  bl:= Batpro_Ligne_from_sl( slT, 0);
-     //  if bl = nil
-     //  then
-     //      slT.Delete( 0)
-     //  else
-     //      Decharge_Seulement( bl);
-     //  end;
+        //while slT.Count > 0
+        //do
+        //  begin
+        //  bl:= Batpro_Ligne_from_sl( slT, 0);
+        //  if bl = nil
+        //  then
+        //      slT.Delete( 0)
+        //  else
+        //      Decharge_Seulement( bl);
+        //  end;
 
-     //sClean_Log_Start:= ClassName+':TPool.Vide;'+IntToStr(slT.Count)+' lignes Start';
-     //uClean_Log_Start( sClean_Log_Start);
-     I:= slT.Iterateur_interne;
+        //sClean_Log_Start:= ClassName+':TPool.Vide;'+IntToStr(slT.Count)+' lignes Start';
+        //uClean_Log_Start( sClean_Log_Start);
+        I:= slT.Iterateur_interne;
 
-     while I.Continuer
-     do
-       begin
-       if I.not_Suivant_interne( bl) then continue;
-       I.Supprime_courant;
-       bl_nil( bl);
-       end;
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant_interne( bl) then continue;
+          I.Supprime_courant;
+          if Log_bl
+          then
+              if Assigned( bl)
+              then
+                  begin
+                  s:= '';
+                  Formate_Liste_Indentation( s, #13#10, '     ', bl.Listing_Champs(#13#10));
+                  uLog.Log.PrintLn( '   '+ClassName+'.Vide: avant déchargement ligne:'+s);
+                  end
+              else
+                  begin
+                  s:= 'nil';
+                  uLog.Log.PrintLn( '   '+ClassName+'.Vide: avant déchargement d''une ligne à nil:'+s);
+                  end
+          else
+              s:= '';
+          bl_nil( bl);
 
-     //uClean_Log_Succes( sClean_Log_Start);
+          if Log_bl
+          then
+              uLog.Log.PrintLn( '   '+ClassName+'.Vide: aprés déchargement ligne:'+s);
+          end;
 
-     //uClean_Log( '   avant slT.Clear');
-     slT     .Clear;
-     //uClean_Log( '   avant slFiltre.Clear');
-     slFiltre.Clear;
-     //uClean_Log( '   avant btsCle.Clear');
-     btsCle.Vide;
-     //uClean_Log( '  '+Name+':TPool.Vide fin');
-     Tid_Vide;
+       // uClean_Log_Succes( sClean_Log_Start);
+
+        uLog.Log.PrintLn( '   avant slT.Clear');
+        slT     .Clear;
+        uLog.Log.PrintLn( '   avant slFiltre.Clear');
+        slFiltre.Clear;
+        uLog.Log.PrintLn( '   avant btsCle.Clear');
+        btsCle.Vide;
+        uLog.Log.PrintLn( '  '+Name+':TPool.Vide fin');
+        Tid_Vide;
+
+     except
+           on E: Exception
+           do
+             uLog.Log.PrintLn( '  '+Name+':TPool.Vide une exception '+E.ClassName+' a été levée:'#13#10
+                               +E.Message);
+           end;
 end;
 
 procedure TPool.GetLookupListItems( _Current_Key: String;
@@ -2468,11 +2546,16 @@ begin
                                  S_bl_from_id, Tid_Delete, False);
 end;
 
-function TPool.Traite_HTTP: Boolean;
+function TPool.Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boolean;
    function http_ToutCharger: Boolean;
    begin
         ToutCharger();
-        HTTP_Interface.Send_JSON( slT.JSON);
+        _HTTP_Interface.Send_JSON( slT.JSON);
+        Result:= True;
+   end;
+   function http_Filtre: Boolean;
+   begin
+        _HTTP_Interface.Send_JSON( slFiltre.JSON);
         Result:= True;
    end;
    function http_Get: Boolean;
@@ -2481,7 +2564,7 @@ function TPool.Traite_HTTP: Boolean;
       id: Integer;
       bl: TBatpro_Ligne;
    begin
-        sID:= HTTP_Interface.uri;
+        sID:= _HTTP_Interface.uri;
         Result:= TryStrToInt( sID, id);
         if not Result then exit;
 
@@ -2489,7 +2572,7 @@ function TPool.Traite_HTTP: Boolean;
         Result:= Assigned( bl);
         if not Result then exit;
 
-        HTTP_Interface.Send_JSON( bl.JSON);
+        _HTTP_Interface.Send_JSON( bl.JSON);
    end;
    function http_Set: Boolean;
    var
@@ -2498,8 +2581,12 @@ function TPool.Traite_HTTP: Boolean;
       JSON: String;
       bl: TBatpro_Ligne;
    begin
-        sID:= StrToK( '&',HTTP_Interface.uri);
-        JSON:= DecodeURLElement( HTTP_Interface.uri);
+        sID:= _HTTP_Interface.uri;
+        JSON:= _HTTP_Interface.body;
+        uLog.Log.PrintLn( ClassName+'.Traite_HTTP: http_Set: ');
+        uLog.Log.PrintLn( 'JSON: ');
+        uLog.Log.PrintLn( JSON);
+        uLog.Log.PrintLn( '############################################');
 
         Result:= TryStrToInt( sID, id);
         if not Result then exit;
@@ -2509,19 +2596,47 @@ function TPool.Traite_HTTP: Boolean;
         if not Result then exit;
 
         bl.JSON:= JSON;
-        HTTP_Interface.Send_JSON( bl.JSON);
+        _HTTP_Interface.Send_JSON( bl.JSON);
+   end;
+   function http_Delete: Boolean;
+   var
+      sID: String;
+      id: Integer;
+      bl: TBatpro_Ligne;
+   begin
+        sID:= _HTTP_Interface.uri;
+        Result:= TryStrToInt( sID, id);
+        if not Result then exit;
+
+        Get_Interne_from_id( id, bl);
+        Result:= Assigned( bl);
+        if not Result then exit;
+
+        Supprimer( bl);
+
+        _HTTP_Interface.Send_Text( '1');
    end;
 begin
-          if '' = HTTP_Interface.uri         then Result:= http_ToutCharger
-     else if HTTP_Interface.Prefixe( '_Get') then Result:= http_Get
-     else if HTTP_Interface.Prefixe( '_Set') then Result:= http_Set
-     else                                         Result:= False;
+          if '' = _HTTP_Interface.uri            then Result:= http_ToutCharger
+     else if _HTTP_Interface.Prefixe( '_Filtre') then Result:= http_Filtre
+     else if _HTTP_Interface.Prefixe( '_Get'   ) then Result:= http_Get
+     else if _HTTP_Interface.Prefixe( '_Set'   ) then Result:= http_Set
+     else if _HTTP_Interface.Prefixe( '_Delete') then Result:= http_Delete
+     else                                            Result:= False;
 end;
 
 function TPool.r: TRequete;
 begin
      Result:= uRequete.Requete;
 end;
+
+procedure TPool.Cree_en_memoire( var _bl);
+begin
+     TBatpro_Ligne( _bl):= Cree_Element( nil);
+     Ajout_dans_listes_par_Cle( TBatpro_Ligne( _bl));
+     Ajoute_au_filtre( TBatpro_Ligne( _bl));
+end;
+
 
 initialization
               slPool:= TBatpro_StringList.Create;

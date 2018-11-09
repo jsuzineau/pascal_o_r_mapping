@@ -3,7 +3,7 @@ unit uHTTP_Interface;
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
                                                                                 |
-    Copyright 2014 Jean SUZINEAU - MARS42                                       |
+    Copyright 2014,2018 Jean SUZINEAU - MARS42                                       |
                                                                                 |
     This program is free software: you can redistribute it and/or modify        |
     it under the terms of the GNU Lesser General Public License as published by |
@@ -25,92 +25,236 @@ unit uHTTP_Interface;
 interface
 
 uses
+    uForms,
     uClean,
+    uChrono,
     uuStrings,
     uBatpro_StringList,
     uBatpro_Element,
     uPublieur,
     uLog,
     uEXE_INI,
+    uOD_Temporaire,
  {$ifdef fpc}
-		   {fglExt,} blcksock, sockets, Synautil,
-		   {$ifdef android}
-       Laz_And_Controls,
-     {$else}
-		     fphttpclient,
-		   {$endif}
+ fglExt,blcksock, sockets, Synautil,process,
+   {$ifdef android}
+   Laz_And_Controls,
+   {$else}
+     fphttpclient,
+   {$endif}
  {$endif}
- Classes, SysUtils,process;
+ Classes, SysUtils;
 
 type
+ THTTP_Interface_thread = class;
+
+ THTTP_Interface= class;
+ TslHTTP_Interface= class;
+
+ { THTTP_Interfaces }
+
+ THTTP_Interfaces
+ =
+  class
+  //Gestion du cycle de vie
+  public
+    constructor Create;
+    destructor Destroy; override;
+  //Liste des interfaces
+  public
+    sl: TslHTTP_Interface;
+    procedure Ajoute( _hi: THTTP_Interface);
+    procedure Enleve( _hi: THTTP_Interface);
+    function _from_Name( _Name: String): THTTP_Interface;
+  //Attributs
+  public
+    slPool: Tslpool_Ancetre_Ancetre;
+  //enregistrement d'un pool
+  public
+    procedure Register_pool( _pool: Tpool_Ancetre_Ancetre);
+  //Gestion multitâche
+  public
+    procedure Verification_http_inactif;
+  //LaunchURL_Callback
+  public
+    slLaunchURL_Callback: TStringList;
+    procedure Set_LaunchURL_Callback( _Name, _Value: String);
+    function LaunchURL_Callback( _Name: String): String;
+  end;
 
  { THTTP_Interface }
 
  THTTP_Interface
  =
-  class( TThread)
+  class( THTTP_Interface_Ancetre)
   //Gestion du cycle de vie
   public
-    constructor Create;
+    constructor Create( _Name: String);
     destructor Destroy; override;
   //Attributs
   public
+    Name: String;
     S: TTCPBlockSocket;
+    DocumentRoot: String;
     Racine: String;
-    slPool: Tslpool_Ancetre_Ancetre;
+  //Gestion de fichiers
+  private
+    function Traite_Prefixe_Fichier( _Prefixe: String): Boolean;
+    function Content_type_from_NomFichier( _NomFichier: String): String;
   //méthodes d'envoi de données
+  private
+    procedure Send_Header( _Content_type: String; _Content_Length: Integer; _Filename: String= '');
   public
-    procedure Send_Data(_Content_type, _Data: String);
-    procedure Send_HTML(_HTML: String);
-    procedure Send_JSON(_JSON: String);
-    procedure Send_JS(_JS: String);
-    procedure Send_CSS(_CSS: String);
-    procedure Send_WOFF(_WOFF: String);
-    procedure Send_WOFF2(_WOFF2: String);
-    procedure Send_MIME_from_Extension(_S, _Extension: String);
-    function MIME_from_Extension( _Extension: String): String;
-    procedure Send_Not_found;
+    procedure Send_Data(_Content_type, _Data: String);           override;
+    procedure Send_Fichier( _NomFichier: String);                override;
+    procedure Send_HTML(_HTML: String);                          override;
+    procedure Send_JSON(_JSON: String);                          override;
+    procedure Send_Text(_Text: String);                          override;
+    procedure Send_JS(_JS: String);                              override;
+    procedure Send_CSS(_CSS: String);                            override;
+    procedure Send_WOFF(_WOFF: String);                          override;
+    procedure Send_WOFF2(_WOFF2: String);                        override;
+    procedure Send_MIME_from_Extension(_S, _Extension: String);  override;
+    function MIME_from_Extension( _Extension: String): String;   override;
+    procedure Send_Not_found;                                    override;
+    procedure Traite_fichier( _NomFichier: String); overload;
     procedure Traite_racine;
+    procedure Traite_fichier; overload;
   //enregistrement d'un pool
   private
-    procedure Traite_pool;
-  public
-    procedure Register_pool( _pool: Tpool_Ancetre_Ancetre);
+    function Traite_pool: Boolean;
   //gestion de callbacks
   private
     function Traite_slP_slO: Boolean;
   public
     slP: TslAbonnement_Procedure;
     slO: TslAbonnement_Objet;
+  //Gestion de la racine
+  public
+    procedure Init_from_ClassName( _ClassName: String; _Objet: TObject; _Proc: TAbonnement_Objet_Proc);
   //Traitement des appels
   public
-    uri: String;
-    function Prefixe( _Prefixe: String): Boolean;
+    function Prefixe( _Prefixe: String): Boolean; override;
     procedure Traite( _uri: String);
-  //Gestion de l'exécution, partie commune
+  //Traitement du Chrono
+  private
+    function Traite_Chrono: Boolean;
+  //URL_PortMapper
+  private
+    URL_PortMapper: String;
+    procedure URL_PortMapper_from_ini;
+  //Gestion de l'exécution
   private
     ListenerSocket, ConnectionSocket: TTCPBlockSocket;
+    URL: String;
     procedure AttendConnection(ASocket: TTCPBlockSocket);
-    procedure Terminaison;
-  private
-     Execute_Running: Boolean;
-  protected
-     procedure Execute; override;
+    procedure Loop_body;
+    procedure Loop_end;
+    procedure do_fgl_call_LaunchURL( _CallBack: String);
   public
-    //Terminated: Boolean;
-    function URL: String;
-    function Initialisation: String;
+    Terminated: Boolean;
+
+    Modal: Boolean;
+    Execute_LaunchURL: Boolean;
     function Init: String;
-    procedure fgl_LaunchURL( _URL: String);
-  //Gestion de l'exécution monotâche
-  public
-    procedure Run;
+    procedure Run( _Modal: Boolean= True);
+    procedure LaunchURL;
+  //Ouvrir_hors_Web_component
+  private
+    Ouvrir_hors_Web_component: Boolean;
+    procedure Lire_Ouvrir_hors_Web_component;
+    procedure Ouverture_hors_Web_component;
+
   //Validation pour le PortMapper
   public
     procedure Traite_Validation;
+  //Gestion multitâche
+  public
+    th: THTTP_Interface_thread;
+    procedure Verification_http_inactif;
+    procedure Synchronize( _Method: TThreadMethod);
+  //version "synchronize" de fgl_putfile
+  private
+    fgl_putfile_interne_CriticalSection: TRTLCriticalSection;
+    fgl_putfile_interne_NomFichier_cote_serveur: String;
+    fgl_putfile_interne_NomFichier_cote_client : String;
+    procedure fgl_putfile_interne;
+  public
+    procedure fgl_putfile( _NomFichier_cote_serveur, _NomFichier_cote_client: String);
+  //lg_HTTP_Interface_Terminate
+  private
+    procedure do_lg_HTTP_Interface_Terminate;
+  public
+    procedure lg_HTTP_Interface_Terminate;
+  //version "synchronize" de fgl_putfile
+  private
+    lg_Traite_Fichier_Genere_interne_CriticalSection: TRTLCriticalSection;
+    lg_Traite_Fichier_Genere_Fonction: String;
+    lg_Traite_Fichier_Genere_Fichier_genere: String;
+    procedure lg_Traite_Fichier_Genere_interne;
+  public
+    procedure lg_Traite_Fichier_Genere( _Fonction, _Fichier_genere: String);
+  //LaunchURL_Callback
+  private
+   function  GetLaunchURL_Callback: String;
+   procedure SetLaunchURL_Callback(_Value: String);
+  public
+    property LaunchURL_Callback: String read GetLaunchURL_Callback write SetLaunchURL_Callback;
   end;
 
+  TIterateur_HTTP_Interface
+ =
+  class( TIterateur)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: THTTP_Interface);
+    function  not_Suivant( var _Resultat: THTTP_Interface): Boolean;
+  end;
+
+ TslHTTP_Interface
+ =
+  class( TBatpro_StringList)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_HTTP_Interface;
+    function Iterateur_Decroissant: TIterateur_HTTP_Interface;
+  end;
+
+ THTTP_Interface_thread
+ =
+  class(TThread)
+  //Gestion du cycle de vie
+  public
+    constructor Create;
+  //Méthodes
+  protected
+    procedure Execute; override;
+  //Attributs
+  public
+    hi: THTTP_Interface;
+  end;
+
+const
+     uHTTP_Interface_DefaultLaunchURL_Callback='affiche_url';
+     uHTTP_Interface_Socket_TimeOut= 1000;
+     uHTTP_Interface_Loop_body_TimeOut=1000;
+     uHTTP_Interface_Terminer_Sleep=uHTTP_Interface_Loop_body_TimeOut+4000;//+ 4 secondes au pif
+
+function HTTP_Interfaces: THTTP_Interfaces;
 function HTTP_Interface: THTTP_Interface;
+
+function blHTTP_Interface_from_sl_sCle( sl: TBatpro_StringList; sCle: String): THTTP_Interface;
+
+function fgl_check_synchronize( n:integer): integer; cdecl;
+function fgl_http_fermer( n:integer): integer; cdecl;
+function fgl_http_set_launchurl_callback( n:integer): integer; cdecl;
+function fgl_ouverture_hors_web_component( n:integer): integer; cdecl;
 
 function http_getS( _URL: String): String;
 
@@ -120,6 +264,55 @@ const
 procedure Assure_http_PortMapper;
 
 implementation
+
+function fgl_check_synchronize( n:integer): integer; cdecl;
+begin
+     //Log.PrintLn(  'uHTTP_Interface.fgl_check_synchronize');
+     CheckSynchronize();
+     Result:=  0;
+end;
+
+function fgl_http_set_launchurl_callback( n:integer): integer; cdecl;
+var
+   LaunchURL_Callback: String;
+   Name: String;
+   hi: THTTP_Interface;
+begin
+     LaunchURL_Callback:= popString;
+     Name:= popString;
+     Result:= 0;
+
+     HTTP_Interfaces.Set_LaunchURL_Callback( Name, LaunchURL_Callback);
+end;
+
+function fgl_http_fermer( n:integer): integer; cdecl;
+var
+   Name: String;
+   hi: THTTP_Interface;
+begin
+     Name:= popString;
+     Result:=  0;
+
+     hi:= HTTP_Interfaces._from_Name( Name);
+     if nil = hi then exit;
+
+     Log.PrintLn(  'uHTTP_Interface.fgl_http_fermer("'+Name+'"): Arrêt du http');
+     hi.Terminated:= True;
+end;
+
+function fgl_ouverture_hors_web_component( n:integer): integer; cdecl;
+var
+   Name: String;
+   hi: THTTP_Interface;
+begin
+     Name:= popString;
+     Result:=  0;
+
+     hi:= HTTP_Interfaces._from_Name( Name);
+     if nil = hi then exit;
+
+     hi.Ouverture_hors_Web_component;
+end;
 
 const
      s_Validation         ='Validation';
@@ -244,7 +437,6 @@ var
    end;
    procedure Compose_NomFichier;
    const
-        inik_http_PortMapper= 'http_PortMapper';
         NomExecutable
         =
          {$IFDEF LINUX}
@@ -253,11 +445,18 @@ var
            'http_PortMapper.exe'
          {$ENDIF}
          ;
+   var
+      inik_http_PortMapper: String;
+      Repertoire_racine: String;
    begin
-        NomFichier:= EXE_INI.ReadString( inis_Options,inik_http_PortMapper,'#');
+        inik_http_PortMapper:= EXE_INI.os+ 'http_PortMapper';
+        NomFichier:= EXE_INI.ReadString('Options',inik_http_PortMapper,'#');
         if '#' <> NomFichier then exit;
 
-        Repertoire:= IncludeTrailingPathDelimiter(GetCurrentDir);
+        Repertoire_racine:= uClean_Racine_from_EXE( uForms_EXE_Name);
+
+        //Repertoire:= IncludeTrailingPathDelimiter(GetCurrentDir);
+        Repertoire:= IncludeTrailingPathDelimiter(Repertoire_racine);
         Log.Println('Lance_http_PortMapper: Repertoire:'+Repertoire);
         NomFichier:= Repertoire+NomExecutable;
         EXE_INI.WriteString(inis_Options,inik_http_PortMapper,NomFichier);
@@ -282,6 +481,146 @@ begin
      Lance_http_PortMapper;
 end;
 
+{ THTTP_Interfaces }
+
+var
+   FHTTP_Interfaces: THTTP_Interfaces= nil;
+
+function HTTP_Interfaces: THTTP_Interfaces;
+begin
+     if nil = FHTTP_Interfaces
+     then
+         FHTTP_Interfaces:= THTTP_Interfaces.Create;
+     Result:= FHTTP_Interfaces;
+end;
+
+constructor THTTP_Interfaces.Create;
+begin
+     Log.PrintLn( 'THTTP_Interfaces.Create: début');
+     slPool:= Tslpool_Ancetre_Ancetre.Create( ClassName+'.slPool');
+     sl:= TslHTTP_Interface.Create( ClassName+'.sl');
+     slLaunchURL_Callback:= TStringList.Create;
+end;
+
+destructor THTTP_Interfaces.Destroy;
+begin
+     Free_nil( slLaunchURL_Callback);
+     Free_nil( sl);
+     Free_nil( slPool);
+     inherited Destroy;
+end;
+
+procedure THTTP_Interfaces.Ajoute( _hi: THTTP_Interface);
+begin
+     if nil = _hi then exit;
+
+     sl.AddObject( _hi.Name, _hi);
+end;
+
+procedure THTTP_Interfaces.Enleve(_hi: THTTP_Interface);
+var
+   I: Integer;
+begin
+     I:= sl.IndexOfObject( _hi);
+     if -1 = I then exit;
+     sl.Delete(I);
+end;
+
+function THTTP_Interfaces._from_Name( _Name: String): THTTP_Interface;
+begin
+     Result:= blHTTP_Interface_from_sl_sCle( sl, _Name);
+     if Assigned( Result) then exit;
+
+     Log.PrintLn( 'HTTP_Interfaces._from_Name: HTTP_Interface non trouvé pour Name = '+_Name);
+end;
+
+procedure THTTP_Interfaces.Register_pool(_pool: Tpool_Ancetre_Ancetre);
+var
+   pool_sCle: String;
+begin
+     pool_sCle:= _pool.NomTable_public;
+     if -1 = slPool.IndexOf( pool_sCle)
+     then
+         slPool.AddObject( pool_sCle, _pool);
+end;
+
+procedure THTTP_Interfaces.Verification_http_inactif;
+var
+   I: TIterateur_HTTP_Interface;
+   hi: THTTP_Interface;
+begin
+     Log.PrintLn( 'HTTP_Interfaces.Verification_http_inactif; début');
+     I:= sl.Iterateur;
+     Log.PrintLn( 'HTTP_Interfaces.Verification_http_inactif; avant while I.Continuer');
+     while I.Continuer
+     do
+       begin
+       Log.PrintLn( 'HTTP_Interfaces.Verification_http_inactif; avant if I.not_Suivant( hi) then continue;');
+       if I.not_Suivant( hi) then continue;
+
+       Log.PrintLn( 'HTTP_Interfaces.Verification_http_inactif; avant hi.Verification_http_inactif;');
+       hi.Verification_http_inactif;
+       end;
+     Log.PrintLn( 'HTTP_Interfaces.Verification_http_inactif; fin');
+end;
+
+procedure THTTP_Interfaces.Set_LaunchURL_Callback( _Name, _Value: String);
+begin
+     slLaunchURL_Callback.Values[_Name]:= _Value;
+     Log.PrintLn( 'HTTP_Interfaces.Set_LaunchURL_Callback( '+_Name+', '+_Value+')');
+end;
+
+function THTTP_Interfaces.LaunchURL_Callback( _Name: String): String;
+var
+   I: Integer;
+begin
+     I:= slLaunchURL_Callback.IndexOfName( _Name);
+     if -1 = I
+     then
+         Result:= uHTTP_Interface_DefaultLaunchURL_Callback
+     else
+         Result:= slLaunchURL_Callback.ValueFromIndex[ I];
+end;
+
+{ TIterateur_HTTP_Interface }
+
+function TIterateur_HTTP_Interface.not_Suivant( var _Resultat: THTTP_Interface): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_HTTP_Interface.Suivant( var _Resultat: THTTP_Interface);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TslHTTP_Interface }
+
+constructor TslHTTP_Interface.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, THTTP_Interface);
+end;
+
+destructor TslHTTP_Interface.Destroy;
+begin
+     inherited;
+end;
+
+class function TslHTTP_Interface.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_HTTP_Interface;
+end;
+
+function TslHTTP_Interface.Iterateur: TIterateur_HTTP_Interface;
+begin
+     Result:= TIterateur_HTTP_Interface( Iterateur_interne);
+end;
+
+function TslHTTP_Interface.Iterateur_Decroissant: TIterateur_HTTP_Interface;
+begin
+     Result:= TIterateur_HTTP_Interface( Iterateur_interne_Decroissant);
+end;
+
 { THTTP_Interface }
 
 var
@@ -291,60 +630,152 @@ function HTTP_Interface: THTTP_Interface;
 begin
      if nil = FHTTP_Interface
      then
-         FHTTP_Interface:= THTTP_Interface.Create;
+         FHTTP_Interface:= THTTP_Interface.Create( 'HTTP_Interface');
      Result:= FHTTP_Interface;
 end;
 
-constructor THTTP_Interface.Create;
+function blHTTP_Interface_from_sl_sCle( sl: TBatpro_StringList; sCle: String): THTTP_Interface;
 begin
-     inherited Create( True);
-     FreeOnTerminate:= False;
+     _Classe_from_sl_sCle( Result, THTTP_Interface, sl, sCle);
+end;
+
+constructor THTTP_Interface.Create( _Name: String);
+begin
+     Name:= _Name;
+     Terminated:= True;
 
      S:= nil;
+     DocumentRoot:= IncludeTrailingPathDelimiter( uClean_HTML_from_EXE( uClean_EXE_Name));
      Racine:= '';
-     slPool:= Tslpool_Ancetre_Ancetre.Create( ClassName+'.slPool');
      slP   := TslAbonnement_Procedure.Create( ClassName+'.slP');
      slO   := TslAbonnement_Objet    .Create( ClassName+'.slO');
 
      slO.Ajoute( 'Validation', Self, Traite_Validation);
 
-     Execute_Running:= False;
+     URL_PortMapper_from_ini;
+
+     Lire_Ouvrir_hors_Web_component;
+
+     th:= nil;
+     Modal:= True;
+     InitCriticalSection( fgl_putfile_interne_CriticalSection);
+     InitCriticalSection( lg_Traite_Fichier_Genere_interne_CriticalSection);
+
+     HTTP_Interfaces.Ajoute(Self);
 end;
 
 destructor THTTP_Interface.Destroy;
 begin
-     Terminate;
+     HTTP_Interfaces.Enleve( Self);
 
-     Terminaison;
-     Free_nil( slPool);
+     DoneCriticalSection( lg_Traite_Fichier_Genere_interne_CriticalSection);
+     DoneCriticalSection( fgl_putfile_interne_CriticalSection);
      Free_nil( slP   );
      Free_nil( slO   );
      inherited Destroy;
 end;
 
-procedure THTTP_Interface.Send_Data( _Content_type, _Data: String);
+procedure THTTP_Interface.Lire_Ouvrir_hors_Web_component;
+var
+   Identifier: String;
+   sOuvrir_hors_Web_component: String;
 begin
+     Ouvrir_hors_Web_component:= False;
+
+     Identifier:= EXE_INI.os+ClassName+'.Ouvrir_hors_Web_component';
+     sOuvrir_hors_Web_component
+     :=
+       EXE_INI.ReadString( 'Options', Identifier, '#');
+     if '#' = sOuvrir_hors_Web_component
+     then
+         EXE_INI.WriteString( 'Options', Identifier, '0')
+     else
+         Ouvrir_hors_Web_component:= '1' = sOuvrir_hors_Web_component;
+
+end;
+
+procedure THTTP_Interface.Init_from_ClassName(_ClassName: String; _Objet: TObject; _Proc: TAbonnement_Objet_Proc);
+begin
+     Racine:= _ClassName;
+     if Racine = '' then exit;
+
+     if 'T' = UpperCase( Racine[1])
+     then
+         Delete( Racine, 1, 1);
+
+     Log.PrintLn('Racine='+Racine);
+     slO.Ajoute( Racine, _Objet, _Proc);
+end;
+
+procedure THTTP_Interface.Send_Header( _Content_type: String;
+                                       _Content_Length: Integer; _Filename: String= '');
+begin
+     Log.Println( ClassName+'.Send_Header( '+_Content_type+', '+IntToStr(_Content_Length)+', '+_Filename+')');
      S.SendString('HTTP/1.0 200' + CRLF);
-     S.SendString('Content-type: '+_Content_type + CRLF);
-     S.SendString('Content-length: ' + IntTostr(Length(_Data)) + CRLF);
+     if _Content_type <> ''
+     then
+         S.SendString('Content-type: '+_Content_type + CRLF);
+     if _Filename <> ''
+     then
+         S.SendString('Content-Disposition: attachment; filename="'+ExtractFileName(_Filename)+'"'+CRLF);
+     S.SendString('Content-length: ' + IntTostr( _Content_Length) + CRLF);
      S.SendString('Connection: close' + CRLF);
      S.SendString('Date: ' + Rfc822DateTime(now) + CRLF);
      S.SendString('Server: http_jsWorks' + CRLF);
      S.SendString('' + CRLF);
+     //  if S.lasterror <> 0 then HandleError;
+end;
 
-    //  if S.lasterror <> 0 then HandleError;
+procedure THTTP_Interface.Send_Data( _Content_type, _Data: String);
+var
+   Morceau: String;
+begin
+     Send_Header( _Content_type, Length(_Data));
 
-     S.SendString(_Data);
+     //découpage en kilo-octets
+     while Length(_Data) > 0
+     do
+       begin
+       Morceau:= StrReadString(_Data, 1024);
+       S.SendString(Morceau);
+       end;
+end;
+
+procedure THTTP_Interface.Send_Fichier( _NomFichier: String);
+   procedure Traite;
+   var
+      Content_type: String;
+      Contenu_Fichier: String;
+   begin
+        Content_type   :=Content_type_from_NomFichier( _NomFichier);
+        Contenu_Fichier:= String_from_File( _NomFichier);
+        Send_Data( Content_type, Contenu_Fichier);
+   end;
+begin
+     Log.PrintLn( ClassName+'.Send_Fichier('''+_NomFichier+''')');
+     if FileExists( _NomFichier)
+     then
+         Traite
+     else
+         Send_Not_found;
 end;
 
 procedure THTTP_Interface.Send_HTML( _HTML: String);
 begin
-     Send_Data( 'Text/Html', _HTML);
+     Send_Data( 'text/html', _HTML);
 end;
 
 procedure THTTP_Interface.Send_JSON( _JSON: String);
 begin
-     Send_Data( 'text/json;charset=utf-8', _JSON);
+     //Send_Data( 'text/json;charset=utf-8', _JSON);
+     Send_Data( 'application/json;charset=utf-8', _JSON);
+     //Send_Data( 'text/json;charset=iso-8859-1', _JSON);
+     //Send_Data( 'text/json', _JSON);
+end;
+
+procedure THTTP_Interface.Send_Text(_Text: String);
+begin
+     Send_Data( 'text/plain;charset=utf-8', _Text);
 end;
 
 procedure THTTP_Interface.Send_JS(_JS: String);
@@ -399,29 +830,85 @@ end;
 
 procedure THTTP_Interface.Send_Not_found;
 begin
+     Log.PrintLn( ClassName+'.Send_Not_found');
      S.SendString('HTTP/1.0 404' + CRLF);
 end;
 
-procedure THTTP_Interface.Traite_racine;
+function THTTP_Interface.Content_type_from_NomFichier( _NomFichier: String): String;
 var
-   sl: TStringList;
+   Extension: String;
 begin
-     sl:= TStringList.Create;
-     sl.LoadFromFile( Racine);
-     Send_HTML( sl.Text);
-     FreeAndNil( sl);
+     Extension:= LowerCase( ExtractFileExt( _NomFichier));
+
+     //Pages web
+          if '.css'  = Extension then Result:= 'text/css'
+     else if '.js'   = Extension then Result:= 'application/javascript'
+     else if '.gif'  = Extension then Result:= 'image/gif'
+     else if '.png'  = Extension then Result:= 'image/png'
+     else if '.jpg'  = Extension then Result:= 'image/jpeg'
+     else if '.htm'  = Extension then Result:= 'text/html'
+     else if '.html' = Extension then Result:= 'text/html'
+
+     //PDF
+     else if '.pdf'  = Extension then Result:= 'application/pdf'
+
+     //Open Document
+     else if '.odt'  = Extension then Result:= 'application/vnd.oasis.opendocument.text'
+     else if '.ott'  = Extension then Result:= 'application/vnd.oasis.opendocument.text-template'
+     else if '.ods'  = Extension then Result:= 'application/vnd.oasis.opendocument.spreadsheet'
+     else if '.odg'  = Extension then Result:= 'application/vnd.oasis.opendocument.graphics'
+     else if '.odp'  = Extension then Result:= 'application/vnd.oasis.opendocument.presentation'
+
+     //Microsoft
+     else if '.doc'  = Extension then Result:= 'application/msword'
+     else if '.docx' = Extension then Result:= 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+     else if '.xls'  = Extension then Result:= 'application/vnd.ms-excel'
+     else if '.xlsx' = Extension then Result:= 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+     else if '.ppt'  = Extension then Result:= 'application/vnd.ms-powerpoint'
+     else if '.pptx' = Extension then Result:= 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+
+     else if '.' = Extension then Result:= 'application/octet-stream'
+     else                         Result:= '';
 end;
 
-procedure THTTP_Interface.Register_pool(_pool: Tpool_Ancetre_Ancetre);
+procedure THTTP_Interface.Traite_fichier( _NomFichier: String);
+var
+   Chemin: String;
 begin
-     slPool.AddObject( _pool.NomTable_public, _pool);
+     DoDirSeparators( _NomFichier);
+     Chemin:= DocumentRoot+Racine+DirectorySeparator+_NomFichier;
+     //WriteLn( 'THTTP_Interface.Traite_fichier, Racine= '+Racine+'  Chemin= '+Chemin);
+     if FileExists( Chemin)
+     then
+         Send_Fichier( Chemin)
+     else
+         Send_Not_found;
+end;
+
+procedure THTTP_Interface.Traite_racine;
+begin
+     Traite_fichier( 'index.html');
+end;
+
+procedure THTTP_Interface.Traite_fichier;
+begin
+     Log.PrintLn( ClassName+'.Traite_fichier: '+uri+' OK');
+     Traite_fichier( uri);
 end;
 
 function THTTP_Interface.Prefixe( _Prefixe: String): Boolean;
+var
+   Prefixe_lowercase: String;
+   Longueur: Integer;
 begin
-     Result:= 1=Pos( _Prefixe, uri);
+     Prefixe_lowercase:= LowerCase( _Prefixe);
+
+     Result:= 1=Pos( Prefixe_lowercase, uri_lowercase);
      if not Result then exit;
-     StrTok( _Prefixe, uri);
+
+     Longueur:= Length( _Prefixe);
+     Delete( uri          , 1, Longueur);
+     Delete( uri_lowercase, 1, Longueur);
 end;
 
 function THTTP_Interface.Traite_slP_slO: Boolean;
@@ -430,6 +917,7 @@ function THTTP_Interface.Traite_slP_slO: Boolean;
       I: Integer;
       ap: TAbonnement_Procedure;
    begin
+        Log.PrintLn( ClassName+'.Traite_slP_slO: Traite_slP');
         Result:= False;
         for I:= 0 to slP.Count - 1
         do
@@ -438,6 +926,8 @@ function THTTP_Interface.Traite_slP_slO: Boolean;
 
           ap:= Abonnement_Procedure_from_sl( slP, I);
           if nil = ap then continue;
+
+          Log.PrintLn( ClassName+'.Traite_slP_slO: Traite_slP '+slP[I]+' OK');
 
           ap.DoProc;
           Result:= True;
@@ -449,6 +939,7 @@ function THTTP_Interface.Traite_slP_slO: Boolean;
       I: Integer;
       ao: TAbonnement_Objet;
    begin
+        Log.PrintLn( ClassName+'.Traite_slP_slO: Traite_slO');
         Result:= False;
         for I:= 0 to slO.Count - 1
         do
@@ -457,6 +948,8 @@ function THTTP_Interface.Traite_slP_slO: Boolean;
 
           ao:= Abonnement_Objet_from_sl( slO, I);
           if nil = ao then continue;
+
+          Log.PrintLn( ClassName+'.Traite_slP_slO: Traite_slO '+slO[I]+' OK');
 
           ao.DoProc;
           Result:= True;
@@ -471,12 +964,23 @@ begin
      if Result then exit;
 end;
 
-procedure THTTP_Interface.Traite_pool;
+function THTTP_Interface.Traite_Prefixe_Fichier( _Prefixe: String): Boolean;
+begin
+     Result:= Prefixe( _Prefixe);
+     if not Result then exit;
+
+     Log.PrintLn( ClassName+'.Traite_Prefixe_Fichier '+_Prefixe+' OK');
+
+     Traite_fichier(_Prefixe+uri);
+end;
+
+function THTTP_Interface.Traite_pool: Boolean;
 var
    I: TIterateur_pool_Ancetre_Ancetre;
    pool: Tpool_Ancetre_Ancetre;
 begin
-     I:= slPool.Iterateur;
+     Result:= False;
+     I:= HTTP_Interfaces.slPool.Iterateur;
 
      while I.Continuer
      do
@@ -485,44 +989,100 @@ begin
 
        if not Prefixe( pool.NomTable_public) then continue;
 
-       if not pool.Traite_HTTP
-       then
-           Send_Not_found;
-       exit; //Sortie normale
+       Log.PrintLn( ClassName+'.Traite_pool '+pool.NomTable_public+' OK');
+       Result:= pool.Traite_HTTP( Self);
+       if Result then exit;
        end;
+end;
 
-     Send_Not_found; //Erreur, aucun pool trouvé
+function THTTP_Interface.Traite_Chrono: Boolean;
+begin
+     Result:= Prefixe( 'Chrono');
+     if not Result then exit;
+
+     Log.PrintLn( ClassName+'.Traite_Chrono OK');
+     Send_JSON( '"'+Chrono.Get_Liste+'"');
 end;
 
 procedure THTTP_Interface.Traite( _uri: String);
 begin
+     Log.PrintLn( ClassName+'.Traite '+_uri+' début');
      uri:= _uri;
+     //WriteLn('THTTP_Interface.Traite uri='+uri);
 
      StrTok( '/', uri);
+
+     uri_lowercase:= LowerCase( uri);
+
      if '' = uri
      then
          Traite_racine
-     else if not Traite_slP_slO
+     else if not Traite_Prefixe_Fichier( 'image/')
+     then if not Traite_Prefixe_Fichier( 'js/')
+     then if not Traite_Prefixe_Fichier( 'css/')
+     then if not Traite_slP_slO
+     then if not Traite_pool
+     then if not Traite_Chrono
+     then        Traite_fichier;
+     Log.PrintLn( ClassName+'.Traite '+_uri+' fin');
+end;
+
+procedure THTTP_Interface.URL_PortMapper_from_ini;
+var
+   inik_URL_PortMapper: String;
+begin
+     inik_URL_PortMapper:= EXE_INI.os+'URL_PortMapper';
+
+     URL_PortMapper:= EXE_INI.ReadString( 'Options', inik_URL_PortMapper, '#');
+     if '#' = URL_PortMapper
      then
-         Traite_pool  ;
+         begin
+         URL_PortMapper:= EXE_INI.ReadString( 'Options', 'URL_PortMapper', '#');
+         if '#' = URL_PortMapper
+         then
+             URL_PortMapper:= 'http://localhost:1500/';
+         EXE_INI.WriteString( 'Options', inik_URL_PortMapper, URL_PortMapper);
+         end;
 end;
 
 procedure THTTP_Interface.AttendConnection(ASocket: TTCPBlockSocket);
 var
    timeout: integer;
    s: string;
-   method, uri, protocol: string;
+   method, protocol: string;
    OutputDataString: string;
    ResultCode: integer;
+   Content_Length: Integer;
+   Has_Body: Boolean;
    function Prefixe( _Prefixe: String): Boolean;
    begin
         Result:= 1=Pos( _Prefixe,uri);
         if not Result then exit;
         StrTok( _Prefixe, uri);
    end;
+   procedure Traite_Content_Length;
+   var
+      sContent_Length: String;
+   begin
+        StrToK( ':', s);
+        sContent_Length:= Trim( s);
+        Log.PrintLn('Valeur content-length:>'+sContent_Length+'<');
+
+        Has_Body:= TryStrToInt( sContent_Length, Content_Length);
+        Log.PrintLn('Valeur Has_Body: '+BoolToStr( Has_Body, True));
+   end;
+   procedure RecvBody;
+   begin
+        body:= ASocket.RecvBufferStr( Content_Length,
+                                      uHTTP_Interface_Socket_TimeOut);
+        Log.PrintLn('Body:');
+        Log.PrintLn( body);
+   end;
 begin
      Self.S:= ASocket;
 
+     Log.PrintLn('Socket remote: '+ASocket.GetRemoteSinIP+':'+IntToStr(ASocket.GetRemoteSinPort));
+     Log.PrintLn('Socket local : '+ASocket.GetLocalSinIP +':'+IntToStr(ASocket.GetLocalSinPort ));
      timeout := 120000;
 
      Log.PrintLn('Received headers+document from browser:');
@@ -530,104 +1090,283 @@ begin
      //read request line
      s := ASocket.RecvString(timeout);
      Log.PrintLn(s);
-     method := fetch(s, ' ');
-     uri := fetch(s, ' ');
-     protocol := fetch(s, ' ');
+     method  := fetch(s, ' ');
+     uri     := fetch(s, ' ');
+     protocol:= fetch(s, ' ');
+     body:= '';
+     Has_Body:= False;
 
      //read request headers
      repeat
            s:= ASocket.RecvString(Timeout);
            Log.PrintLn(s);
-     until s = '';
+           if 1 = Pos('content-length', LowerCase(s))
+           then
+               Traite_Content_Length;
+     until (s = '');
+
+     if Has_Body
+     then
+         RecvBody;
 
      // Now write the document to the output stream
-     Traite( uri);
+     Traite( uri);//à revoir, uri est un attribut, il est déjà affecté
 end;
 
-function THTTP_Interface.URL: String;
+procedure THTTP_Interface.Verification_http_inactif;
+begin
+     Log.PrintLn( 'HTTP_Interface.Verification_http_inactif; début Name='+Name);
+     if not Terminated
+     then
+         begin
+         Terminated:= True;
+         Sleep( uHTTP_Interface_Terminer_Sleep);
+         end;
+
+     if Assigned( th)
+     then
+         Log.PrintLn(  ClassName+'.Verification_http_inactif: risque de plantage, '
+                      +'le thread http est affecté, peut-être que '
+                      +'la fonction fgl_http_fermer() n''a pas été appelée dans le 4gl'
+                      +'à la fermeture de la dernière interface html d''une fonction freepascal');
+end;
+
+procedure THTTP_Interface.Synchronize( _Method: TThreadMethod);
+begin
+     if Modal
+     then
+         _Method()
+     else
+         if Assigned(th)
+         then
+             th.Synchronize( _Method);
+end;
+
+procedure THTTP_Interface.fgl_putfile_interne;
+begin
+     Log.PrintLn(  ClassName+'.fgl_putfile_interne: avant exécution synchronisée de fgl_putfile');
+     fglExt.fgl_putfile( fgl_putfile_interne_NomFichier_cote_serveur,
+                         fgl_putfile_interne_NomFichier_cote_client );
+     Log.PrintLn(  ClassName+'.fgl_putfile_interne: aprés exécution synchronisée de fgl_putfile');
+     fgl_putfile_interne_NomFichier_cote_serveur:= '';
+end;
+
+procedure THTTP_Interface.fgl_putfile( _NomFichier_cote_serveur, _NomFichier_cote_client: String);
+begin
+     Log.PrintLn(  ClassName+'.fgl_putfile: avant EnterCriticalsection');
+     EnterCriticalsection( fgl_putfile_interne_CriticalSection);
+     try
+        fgl_putfile_interne_NomFichier_cote_serveur:= _NomFichier_cote_serveur;
+        fgl_putfile_interne_NomFichier_cote_client := _NomFichier_cote_client ;
+
+        Log.PrintLn(  ClassName+'.fgl_putfile: avant Synchronize');
+        Synchronize( fgl_putfile_interne);
+     finally
+            Log.PrintLn(  ClassName+'.fgl_putfile: avant LeaveCriticalsection');
+            LeaveCriticalsection( fgl_putfile_interne_CriticalSection);
+            end;
+     Log.PrintLn(  ClassName+'.fgl_putfile: fin');
+end;
+
+procedure THTTP_Interface.do_lg_HTTP_Interface_Terminate;
+begin
+     fglExt.lg_HTTP_Interface_Terminate;
+end;
+
+procedure THTTP_Interface.lg_HTTP_Interface_Terminate;
+begin
+     Synchronize( do_lg_HTTP_Interface_Terminate);
+end;
+
+procedure THTTP_Interface.lg_Traite_Fichier_Genere_interne;
+begin
+     Log.PrintLn(  ClassName+'.lg_Traite_Fichier_Genere_interne: avant exécution synchronisée de lg_Traite_Fichier_Genere');
+     fglExt.lg_Traite_Fichier_Genere( lg_Traite_Fichier_Genere_Fonction,
+                                      lg_Traite_Fichier_Genere_Fichier_genere );
+     Log.PrintLn(  ClassName+'.lg_Traite_Fichier_Genere_interne: aprés exécution synchronisée de lg_Traite_Fichier_Genere');
+     lg_Traite_Fichier_Genere_Fichier_genere:= '';
+end;
+
+procedure THTTP_Interface.lg_Traite_Fichier_Genere( _Fonction, _Fichier_genere: String);
+begin
+     Log.PrintLn(  ClassName+'.lg_Traite_Fichier_Genere: avant EnterCriticalsection');
+     EnterCriticalsection( lg_Traite_Fichier_Genere_interne_CriticalSection);
+     try
+        lg_Traite_Fichier_Genere_Fonction      := _Fonction;
+        lg_Traite_Fichier_Genere_Fichier_genere:= _Fichier_genere ;
+
+        Log.PrintLn(  ClassName+'.lg_Traite_Fichier_Genere: avant Synchronize');
+        Synchronize( lg_Traite_Fichier_Genere_interne);
+     finally
+            Log.PrintLn(  ClassName+'.lg_Traite_Fichier_Genere: avant LeaveCriticalsection');
+            LeaveCriticalsection( lg_Traite_Fichier_Genere_interne_CriticalSection);
+            end;
+     Log.PrintLn(  ClassName+'.lg_Traite_Fichier_Genere: fin');
+end;
+
+function THTTP_Interface.GetLaunchURL_Callback: String;
+begin
+     Result:= HTTP_Interfaces.LaunchURL_Callback( Name);
+end;
+
+procedure THTTP_Interface.SetLaunchURL_Callback( _Value: String);
+begin
+     HTTP_Interfaces.Set_LaunchURL_Callback( Name, _Value);
+end;
+
+function THTTP_Interface.Init: String;
 var
-   IP: String;
    Port: Integer;
 begin
-     Result:= '';
-     if nil = ListenerSocket then exit;
+     Verification_http_inactif;
 
-     IP:= 'localhost';//provisoire à revoir
-     //Port:= '1500';
-     Port:= ListenerSocket.GetLocalSinPort;
-     Result:= 'http://'+IP+':'+IntToStr(Port)+'/';
-     Log.Println( ClassName+'.URL= '+Result);
-end;
+     Terminated:= False;
 
-function THTTP_Interface.Initialisation: String;
-begin
+     Assure_http_PortMapper;
+
      ListenerSocket  := TTCPBlockSocket.Create;
      ConnectionSocket:= TTCPBlockSocket.Create;
 
      ListenerSocket.CreateSocket;
      ListenerSocket.setLinger(true,10);
      //ListenerSocket.bind('0.0.0.0','1500');
-     ListenerSocket.bind('localhost','0');
+     ListenerSocket.bind('127.0.0.1','0');
      ListenerSocket.listen;
+     Port:= ListenerSocket.GetLocalSinPort;
 
+     URL:= URL_PortMapper+IntToStr(Port)+'/';
      Result:= URL;
+     Execute_LaunchURL:= True;
 end;
 
-procedure THTTP_Interface.Terminaison;
+procedure THTTP_Interface.Loop_body;
+var
+   LastError: Integer;
 begin
-     while Execute_Running
-     do
-       Sleep( 1000);
+     if False//Execute_LaunchURL   //désactivé en dehors d'Adibat
+     then
+         if Modal
+         then
+             LaunchURL
+         else
+             Synchronize( LaunchURL);
+
+     if not ListenerSocket.canread( uHTTP_Interface_Loop_body_TimeOut) then exit;
+
+     ConnectionSocket.Socket := ListenerSocket.accept;
+     LastError:= ConnectionSocket.lasterror;
+     if 0 <> LastError
+     then
+         Log.PrintLn('Attending Connection. Error code (0=Success): '+IntToStr(LastError));
+     AttendConnection(ConnectionSocket);
+     ConnectionSocket.CloseSocket;
+end;
+
+procedure THTTP_Interface.Loop_end;
+begin
      FreeAndNil( ListenerSocket  );
      FreeAndNil( ConnectionSocket);
+     HTTP_Interfaces.Set_LaunchURL_Callback( Name, uHTTP_Interface_DefaultLaunchURL_Callback);
+     Log.PrintLn('http_run terminé');
 end;
 
-procedure THTTP_Interface.Execute;
+{ début THTTP_Interface_thread}
+constructor THTTP_Interface_thread.Create;
 begin
-     if nil = ListenerSocket then exit;
-
-     try
-        Execute_Running:= True;
-        repeat
-          if not ListenerSocket.canread( 1000) then continue;
-
-          ConnectionSocket.Socket := ListenerSocket.accept;
-          Log.PrintLn('Attending Connection. Error code (0=Success): '+IntToStr(ConnectionSocket.lasterror));
-          AttendConnection(ConnectionSocket);
-          ConnectionSocket.CloseSocket;
-        until Terminated;
-     finally
-            Execute_Running:= False;
-            end;
+     hi:= nil;
+     FreeOnTerminate := True;
+     inherited Create(True);
 end;
 
-function THTTP_Interface.Init: String;
+procedure THTTP_Interface_thread.Execute;
 begin
-     Terminaison;
+     if hi = nil
+     then
+         begin
+         exit;
+         end;
+     while not (Terminated or hi.Terminated)
+     do
+       hi.Loop_body;
 
-     Assure_http_PortMapper;
-
-     Result:= Initialisation;
-
-     fgl_LaunchURL( Result);
+     hi.Loop_end;
+     if hi.th = Self then hi.th:= nil;
 end;
 
-procedure THTTP_Interface.Run;
+{ fin THTTP_Interface_thread}
+
+procedure THTTP_Interface.Run( _Modal: Boolean= True);
+    procedure Cas_Modal;
+    begin
+         Log.PrintLn(  ClassName+'.Run::Cas_Modal: Début exécution en monotâche');
+         while not Terminated
+         do
+           Loop_body;
+         Loop_end;
+    end;
+    procedure Cas_Multitache;
+    begin
+         Log.PrintLn(  ClassName+'.Run::Cas_Multitache: Début exécution en multithread');
+         th:= THTTP_Interface_thread.Create;
+         Log.PrintLn(  ClassName+'.Run::Cas_Multitache: aprés création thread secondaire');
+         th.hi:= Self;
+         th.Start;
+         Log.PrintLn(  ClassName+'.Run::Cas_Multitache: aprés démarrage thread secondaire');
+    end;
 begin
-     Execute;
+     Modal:= _Modal;
+     if Modal
+     then
+         Cas_Modal
+     else
+         Cas_Multitache;
 end;
 
-procedure THTTP_Interface.fgl_LaunchURL(_URL: String);
-var
-   lpstrURL: PChar;
-   buff: array[0..2048] of Char;
+procedure THTTP_Interface.do_fgl_call_LaunchURL(_CallBack: String);
 begin
      {$IFDEF FPC}
-     lpstrURL:= PChar( _URL);
+     Log.PrintLn('uHTTP_Interface.LaunchURL: avant fgl_call( '''+_CallBack+''', 1); '+URL);
+     pushString( URL);
+     fgl_call( PChar(_CallBack), 1);
+     Log.PrintLn('uHTTP_Interface.LaunchURL: aprés fgl_call( '''+_CallBack+''', 1); '+URL);
+     {$ENDIF}
+end;
 
-     StrCopy(  buff, lpstrURL);
-     //pushquote( buff,sizeof(buff));
-     //fgl_call( 'affiche_url', 1);
+procedure THTTP_Interface.Ouverture_hors_Web_component;
+begin
+     do_fgl_call_LaunchURL( uHTTP_Interface_DefaultLaunchURL_Callback);
+end;
+
+procedure THTTP_Interface.LaunchURL;
+   procedure Traite_fgl;
+   var
+      LaunchURL_Callback: String;
+   begin
+        LaunchURL_Callback:= HTTP_Interfaces.LaunchURL_Callback( Name);
+        //provisoire, appel du callback qui ouvre un nouvel onglet
+        //si le callback défini n'est pas le callback par défaut (cas webcomponent)
+        Log.PrintLn('uHTTP_Interface.LaunchURL: LaunchURL_Callback='+LaunchURL_Callback);
+        Log.PrintLn('uHTTP_Interface.LaunchURL: uHTTP_Interface_DefaultLaunchURL_Callback='+uHTTP_Interface_DefaultLaunchURL_Callback);
+        if     Ouvrir_hors_Web_component
+           and (uHTTP_Interface_DefaultLaunchURL_Callback <> LaunchURL_Callback)
+        then
+            Ouverture_hors_Web_component;
+
+        //Appel du callback défini
+        do_fgl_call_LaunchURL( LaunchURL_Callback);
+   end;
+   procedure Traite_direct;
+   begin
+        Log.PrintLn('uHTTP_Interface.LaunchURL: ShowURL( URL); '+URL);
+        ShowURL( URL);
+   end;
+begin
+     Execute_LaunchURL:= False;
+     {$IFDEF LINUX}
+     Traite_fgl;
+     {$ELSE}
+     //Traite_direct;
+     Traite_fgl;
      {$ENDIF}
 end;
 

@@ -1098,6 +1098,31 @@ type
     function Iterateur_Decroissant: TIterateur_Batpro_Element;
   end;
 
+ THTTP_Interface_Ancetre
+ =
+  class
+  //méthodes d'envoi de données
+  public
+    procedure Send_Data(_Content_type, _Data: String);         virtual;abstract;
+    procedure Send_Fichier( _NomFichier: String);              virtual;abstract;
+    procedure Send_HTML(_HTML: String);                        virtual;abstract;
+    procedure Send_JSON(_JSON: String);                        virtual;abstract;
+    procedure Send_Text(_Text: String);                        virtual;abstract;
+    procedure Send_JS(_JS: String);                            virtual;abstract;
+    procedure Send_CSS(_CSS: String);                          virtual;abstract;
+    procedure Send_WOFF(_WOFF: String);                        virtual;abstract;
+    procedure Send_WOFF2(_WOFF2: String);                      virtual;abstract;
+    procedure Send_MIME_from_Extension(_S, _Extension: String);virtual;abstract;
+    function MIME_from_Extension( _Extension: String): String; virtual;abstract;
+    procedure Send_Not_found;                                  virtual;abstract;
+  //Traitement des appels
+  public
+    uri: String;
+    uri_lowercase: String;
+    body: String;
+    function Prefixe( _Prefixe: String): Boolean;              virtual;abstract;
+  end;
+
  Tpool_Ancetre_Ancetre
  =
   class( TDataModule)
@@ -1116,8 +1141,10 @@ type
     property NomTable_public: String read FNomTable;
   //Gestion communication HTTP avec pages html Angular / JSON
   public
-    function Traite_HTTP: Boolean; virtual; abstract;
+    function Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boolean; virtual; abstract;
   end;
+
+ TGet_pool_Ancetre_Ancetre= function : Tpool_Ancetre_Ancetre;
 
  TIterateur_pool_Ancetre_Ancetre
  =
