@@ -1,4 +1,4 @@
-export class Element
+export class TElement
   {
   id    : string= '';
   class : string= '';
@@ -6,7 +6,7 @@ export class Element
   titre : string= '';
   hint  : string= '';
   is_group: boolean=false;
-  children: Array<Element>= [];
+  children: Array<TElement>= [];
 
   constructor(values: Object = {})
     {
@@ -17,4 +17,5 @@ export class Element
     return 0 == this.children.length;  
     }  
   }
-export var Element_Vide= new Element({titre: "Element_Vide", action: "Element_Vide",image:"Element_Vide"});
+
+export var Element_Vide= new TElement({titre: "Element_Vide", action: "Element_Vide",image:"Element_Vide"});

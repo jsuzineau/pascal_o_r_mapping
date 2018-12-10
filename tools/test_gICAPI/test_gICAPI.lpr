@@ -62,7 +62,7 @@ var
   begin
        Log.PrintLn( 'Action '+uri);
        HTTP_Interface.Send_JSON('"true"');
-end;
+  end;
   procedure Traite_Data;
   var
      NomFichier: String;
