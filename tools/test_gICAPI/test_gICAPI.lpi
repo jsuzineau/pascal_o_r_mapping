@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="10"/>
+    <Version Value="11"/>
     <General>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
@@ -19,7 +19,7 @@
           <Version Value="11"/>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;Elements/Work;../pascal_o_r_mapping/8_Web;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../../pascal_o_r_mapping/3_Data;../../pascal_o_r_mapping/7_sources_externes/synapse/source/lib"/>
+            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;Elements/Work;../pascal_o_r_mapping/8_Web;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../../pascal_o_r_mapping/3_Data;../../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;../../pascal_o_r_mapping/2_Units"/>
           </SearchPaths>
           <Parsing>
             <SyntaxOptions>
@@ -50,7 +50,7 @@
           <Version Value="11"/>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;Elements/Work;../pascal_o_r_mapping/8_Web;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../../pascal_o_r_mapping/3_Data;../../pascal_o_r_mapping/7_sources_externes/synapse/source/lib"/>
+            <OtherUnitFiles Value="../../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../../pascal_o_r_mapping/3_Data;../../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;../../pascal_o_r_mapping/2_Units"/>
           </SearchPaths>
           <Parsing>
             <SyntaxOptions>
@@ -79,7 +79,7 @@
           <Version Value="11"/>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;Elements/Work;../pascal_o_r_mapping/8_Web;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../../pascal_o_r_mapping/3_Data;../../pascal_o_r_mapping/7_sources_externes/synapse/source/lib"/>
+            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;Elements/Work;../pascal_o_r_mapping/8_Web;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../../pascal_o_r_mapping/3_Data;../../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;../../pascal_o_r_mapping/2_Units"/>
           </SearchPaths>
           <Parsing>
             <SyntaxOptions>
@@ -100,19 +100,23 @@
       <Version Value="2"/>
     </PublishOptions>
     <RunParams>
-      <local>
-        <FormatVersion Value="1"/>
-      </local>
+      <FormatVersion Value="2"/>
+      <Modes Count="1">
+        <Mode0 Name="default"/>
+      </Modes>
     </RunParams>
-    <RequiredPackages Count="2">
+    <RequiredPackages Count="3">
       <Item1>
-        <PackageName Value="OD_DelphiReportEngine_Units"/>
+        <PackageName Value="LazUtils"/>
       </Item1>
       <Item2>
-        <PackageName Value="LCL"/>
+        <PackageName Value="LCLBase"/>
       </Item2>
+      <Item3>
+        <PackageName Value="LCL"/>
+      </Item3>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="5">
       <Unit0>
         <Filename Value="test_gICAPI.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -125,13 +129,21 @@
         <Filename Value="../../pascal_o_r_mapping/7_sources_externes/synapse/source/lib/blcksock.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="../../pascal_o_r_mapping/2_Units/ujsDataContexte.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="../../pascal_o_r_mapping/2_Units/uNetwork.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit4>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;Elements/Work;../pascal_o_r_mapping/8_Web;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../../pascal_o_r_mapping/3_Data;../../pascal_o_r_mapping/7_sources_externes/synapse/source/lib"/>
+      <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;Elements/Work;../pascal_o_r_mapping/8_Web;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../../pascal_o_r_mapping/3_Data;../../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;../../pascal_o_r_mapping/2_Units"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>

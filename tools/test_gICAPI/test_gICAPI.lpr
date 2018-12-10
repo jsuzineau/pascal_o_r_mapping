@@ -23,15 +23,16 @@ program test_gICAPI;
 {Adapted from The Micro Pascal WebServer, http://wiki.freepascal.org/Networking }
 
 {$mode objfpc}{$H+}
+{$IFDEF MSWINDOWS}
 {$apptype console}
+{$ENDIF}
 
 uses
   {$IFDEF UNIX}
   cthreads,
   {$ENDIF}
-  uBatpro_StringList, uuStrings,
-  uPool, upoolG_BECP, uHTTP_Interface,
-  uLog, Interfaces, // this includes the LCL widgetset
+  uBatpro_StringList, uuStrings, uPool, upoolG_BECP, uHTTP_Interface, uLog,
+  ujsDataContexte, uNetwork, Interfaces, // this includes the LCL widgetset
 Classes, blcksock, sockets, Synautil,SysUtils,LCLIntf;
 
 procedure Traite_angular_test_gICAPI;

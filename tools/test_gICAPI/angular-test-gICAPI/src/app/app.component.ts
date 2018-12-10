@@ -13,7 +13,7 @@ import { R3_VIEW_CONTAINER_REF_FACTORY } from '@angular/core/src/ivy_switch/runt
 })
 export class AppComponent 
   {
-  title = 'angular-test-giCAPI';
+  title = 'angular-test-gICAPI';
   parents:Array<Element>=[];
   courant:Element=null;
   constructor(private gICAPI:TgICAPI)
