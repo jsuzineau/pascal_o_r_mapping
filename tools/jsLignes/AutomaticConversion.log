@@ -1,0 +1,13 @@
+jsLignes.lpi Note: Définitions -dBorland -dVer150 -dDelphi7 -dCompiler6_Up -dPUREPASCAL ajoutées dans les options personnalisées
+ Progress: Tous les fichiers d'unités ont été trouvés
+ : 
+ : *** Conversion des fichiers unités appartenant au projet/paquet **
+ufjsLignes.pas Note: Codage modifié de ISO-8859-1 en "UTF-8"
+ufjsLignes.pas Note: Codage modifié de ISO-8859-1 en "UTF-8"
+ufjsLignes.pas Note: Unité "Windows" remplacée par "LCLIntf, LCLType, LMessages" dans la section "uses".
+uthjsLignes.pas Note: Codage modifié de ISO-8859-1 en "UTF-8"
+ : 
+ : *** Conversion des fichiers d'unités trouvés lors de la conversion ***
+uWinUtils.pas Note: Unité "Windows" remplacée par "LCLIntf, LCLType, LMessages" dans la section "uses".
+ Progress: La conversion a pris : 00:00:31
+ : Conversion prête.
