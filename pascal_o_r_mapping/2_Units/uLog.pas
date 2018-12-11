@@ -32,7 +32,7 @@ uses
     {$IFNDEF FPC}
     uAide,
     {$ENDIF}
-    uNetWork,
+    uNetwork,
   {$IFDEF WINDOWS}
   Windows,
   {$ENDIF}

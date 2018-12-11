@@ -1,7 +1,7 @@
 object ftcDataUtilsU: TftcDataUtilsU
-  Left = 724
+  Left = 721
   Height = 378
-  Top = 1022
+  Top = 1019
   Width = 639
   Caption = 'ftcDataUtilsU'
   ClientHeight = 378

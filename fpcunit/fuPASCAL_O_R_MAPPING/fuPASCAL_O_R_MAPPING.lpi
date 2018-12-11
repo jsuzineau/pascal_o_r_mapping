@@ -153,6 +153,7 @@
         <Filename Value="TestCase/tcDataUtilsU/uftcDataUtilsU.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="ftcDataUtilsU"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit24>
     </Units>
