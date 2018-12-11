@@ -83,7 +83,7 @@ begin
      Traite_Nomfichier;
 
      SysUtils.ExecuteProcess(MeldCommand,[NomGauche,NomDroite]);
-
+     Application.Terminate;
 end;
 
 end.

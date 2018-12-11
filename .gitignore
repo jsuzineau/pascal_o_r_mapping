@@ -94,3 +94,5 @@ jsWorks/etc/_Configuration.First-Boss.ini
 *.~dpr
 *.~dsk
 *.~pas
+/tools/jsMelder/jsMelder
+/jsWorks/udmBatpro_DataModule.lfm

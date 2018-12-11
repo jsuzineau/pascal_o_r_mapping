@@ -26,6 +26,8 @@ uses
     uClean,
     uBatpro_StringList,
 
+    uBatpro_Element,
+
     ublDevelopment,
     ublCategorie,
     ublState,
@@ -67,7 +69,7 @@ type
     function Bug  ( _nProject: Integer): TblDevelopment;
   //Gestion communication HTTP avec pages html Angular / JSON
   public
-    function Traite_HTTP: Boolean; override;
+    function Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boolean; override;
   end;
 
 function poolDevelopment: TpoolDevelopment;
@@ -164,20 +166,20 @@ begin
      Result.Save_to_database;
 end;
 
-function TpoolDevelopment.Traite_HTTP: Boolean;
+function TpoolDevelopment.Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boolean;
      function http_from_Project: Boolean;
      var
         sidProject: String;
         idProject: Integer;
         sl: TBatpro_StringList;
      begin
-          sidProject:= HTTP_Interface.uri;
+          sidProject:= _HTTP_Interface.uri;
           Result:= TryStrToInt( sidProject, idProject);
           if not Result then exit;
 
           sl:= TBatpro_StringList.Create;
           Charge_Project( idProject, sl);
-          HTTP_Interface.Send_JSON( sl.JSON);
+          _HTTP_Interface.Send_JSON( sl.JSON);
           FreeAndNil( sl);
      end;
      function http_Point: Boolean;
@@ -186,7 +188,7 @@ function TpoolDevelopment.Traite_HTTP: Boolean;
         idProject: Integer;
         bl: TblDevelopment;
      begin
-          sidProject:= HTTP_Interface.uri;
+          sidProject:= _HTTP_Interface.uri;
           Result:= TryStrToInt( sidProject, idProject);
           if not Result then exit;
 
@@ -194,7 +196,7 @@ function TpoolDevelopment.Traite_HTTP: Boolean;
           Result:= Assigned( bl);
           if not Result then exit;
 
-          HTTP_Interface.Send_JSON( bl.JSON);
+          _HTTP_Interface.Send_JSON( bl.JSON);
      end;
      function http_Bug: Boolean;
      var
@@ -202,7 +204,7 @@ function TpoolDevelopment.Traite_HTTP: Boolean;
         idProject: Integer;
         bl: TblDevelopment;
      begin
-          sidProject:= HTTP_Interface.uri;
+          sidProject:= _HTTP_Interface.uri;
           Result:= TryStrToInt( sidProject, idProject);
           if not Result then exit;
 
@@ -210,15 +212,15 @@ function TpoolDevelopment.Traite_HTTP: Boolean;
           Result:= Assigned( bl);
           if not Result then exit;
 
-          HTTP_Interface.Send_JSON( bl.JSON);
+          _HTTP_Interface.Send_JSON( bl.JSON);
      end;
 begin
-     Result:=inherited Traite_HTTP;
+     Result:=inherited Traite_HTTP( _HTTP_Interface);
      if Result then exit;
 
-          if HTTP_Interface.Prefixe('_from_Project')then Result:= http_from_Project
-     else if HTTP_Interface.Prefixe('_Point'       )then Result:= http_Point
-     else if HTTP_Interface.Prefixe('_Bug'         )then Result:= http_Bug
+          if _HTTP_Interface.Prefixe('_from_Project')then Result:= http_from_Project
+     else if _HTTP_Interface.Prefixe('_Point'       )then Result:= http_Point
+     else if _HTTP_Interface.Prefixe('_Bug'         )then Result:= http_Bug
      else                                                Result:= False;
 end;
 

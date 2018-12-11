@@ -29,9 +29,23 @@ uses
   {$IFDEF UNIX}
   cthreads,
   {$ENDIF}
-  uBatpro_StringList, uuStrings, ublCategorie, ublDevelopment, ublProject,
-  ublState, ublWork, uhfCategorie, uhfDevelopment, uhfJour_ferie, uhfProject,
-  uhfState, uhfWork, upoolCategorie, upoolDevelopment, upoolProject, upoolState,
+  uBatpro_StringList,
+  uuStrings,
+  ublCategorie,
+  ublDevelopment,
+  ublProject,
+  ublState,
+  ublWork,
+  uhfCategorie,
+  uhfDevelopment,
+  uhfJour_ferie,
+  uhfProject,
+  uhfState,
+  uhfWork,
+  upoolCategorie,
+  upoolDevelopment,
+  upoolProject,
+  upoolState,
   upoolWork, uPool, upoolG_BECP, uHTTP_Interface, ublAutomatic, upoolAutomatic,
   uContexteClasse, ujpNom_de_la_classe, ujpSQL_CREATE_TABLE,
   ujpPHP_Doctrine_Has_Column, ujpCSharp_Champs_persistants, ujpPascal_Affecte,
@@ -89,6 +103,8 @@ begin
      else                                                   Traite_Fichier;
 end;
 
+var
+   HTTP_Interface_URL: String= '';
 procedure Ecrit_URL;
 var
    S: String;
@@ -105,21 +121,24 @@ var
         Write( S);
    end;
 begin
-     S:= HTTP_Interface.URL;
+     //HTTP_Interface.Init_from_ClassName();
+     S:= HTTP_Interface.Init;
      //Version_avec_complement;
      Version_brute;
+     HTTP_Interface_URL:= S;
 end;
 begin
+     uHTTP_Interface.Assurer_http_PortMapper:= False;
      poolCategorie.ToutCharger;
      poolState    .ToutCharger;
      //poolProject  .ToutCharger;
 
-     HTTP_Interface.Racine:= ExtractFilePath(ParamStr(0))+'..'+PathDelim+'www'+PathDelim+'index.html';
-     HTTP_Interface.Register_pool( poolProject    );
-     HTTP_Interface.Register_pool( poolWork       );
-     HTTP_Interface.Register_pool( poolDevelopment);
-     HTTP_Interface.Register_pool( poolCategorie  );
-     HTTP_Interface.Register_pool( poolState      );
+     HTTP_Interface.Racine:= '';
+     HTTP_Interfaces.Register_pool( poolProject    );
+     HTTP_Interfaces.Register_pool( poolWork       );
+     HTTP_Interfaces.Register_pool( poolDevelopment);
+     HTTP_Interfaces.Register_pool( poolCategorie  );
+     HTTP_Interfaces.Register_pool( poolState      );
      //HTTP_Interface.Register_pool( poolAutomatic  ); à voir, conflit avec uhAutomatic_ATB
      HTTP_Interface.slP.Ajoute( 'Test_AUT/', @Traite_Test_AUT);
 
@@ -127,16 +146,25 @@ begin
      hAutomatic_ATB.Execute_SQL( 'select * from Work limit 0,100');
      hAutomatic_AUT.Execute_SQL( 'select * from Work limit 0,100');
 
-     HTTP_Interface.Init;
-
-     //Exécution monotâche
-     //HTTP_Interface.Run;
-
-     //Exécution asynchrone en thread séparé
-     HTTP_Interface.Start;
-     //String_to_File( ChangeFileExt( ParamStr(0), '_URL.txt'),HTTP_Interface.URL);
      Ecrit_URL;
-     if ParamCount > 0 then OpenURL( HTTP_Interface.URL);
+     //HTTP_Interface.Run( True);
+     HTTP_Interface.Run( False);
+     {
+     function ThttpRequete_securise.HTTP_Init: String;
+     begin
+          hi.Init_from_ClassName( ClassName, Self, HTTP_Traite);
+
+          Result:= hi.Init;
+     end;
+     procedure ThttpRequete_securise.Execute;
+     begin
+          Log.PrintLn( 'Ecoute sur: '+ HTTP_Init);
+          hi.Run( False);
+          Log.PrintLn('http_run terminé');
+     end;
+     }
+
+     if ParamCount > 0 then OpenURL( HTTP_Interface_URL);
      repeat
            sleep(1000);
      until False;

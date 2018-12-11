@@ -530,6 +530,7 @@ type
   //Chargement par clé
   private
     jsdcSELECT: TjsDataContexte;
+    procedure Ajoute_au_filtre( var bl);
     procedure Select( var bl);
   protected
     procedure Ajoute( var bl); //passé de private à protected pour TpoolJSON
@@ -702,6 +703,9 @@ type
   protected
     function SQLWHERE_ContraintesChamps: String; virtual;
   //méthode d'ajout dans les listes
+  private
+    procedure Ajout_dans_listes_par_id( bl: TBatpro_Ligne);
+    procedure Ajout_dans_listes_par_Cle( bl: TBatpro_Ligne);
   protected
     procedure Ajout_Interne( bl: TBatpro_Ligne); virtual;
   //Gestion du modèle
@@ -774,9 +778,12 @@ type
     procedure bl_from_id( _id: Integer; out _bl);
     procedure Set_bl_from_id( _id: Integer; _bl: TBatpro_Ligne);
     function Iterateur_id: TIterateur;
+  //Création d'une ligne en mémoire sans connection à la base de données
+  public
+    procedure Cree_en_memoire( var _bl);
   //Gestion communication HTTP avec pages html Angular / JSON
   public
-    function Traite_HTTP: Boolean; override;
+    function Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boolean; override;
   //spécial Gestion bases Microsoft Access en Freepascal
   private
     procedure SetUsePrimaryKeyAsKey( _Value: Boolean);
@@ -1088,10 +1095,8 @@ begin
        +'#################################';
 end;
 
-procedure TPool.Ajoute( var bl);
+procedure TPool.Ajoute_au_filtre(var bl);
 begin
-     Ajout_Interne( TBatpro_Ligne( bl));
-
      if Assigned( hf)
      then
          begin
@@ -1100,6 +1105,13 @@ begin
          then
              slFiltre.AddObject( TBatpro_Ligne( bl).sCle, TBatpro_Ligne( bl));
          end;
+end;
+
+procedure TPool.Ajoute( var bl);
+begin
+     Ajout_Interne( TBatpro_Ligne( bl));
+
+     Ajoute_au_filtre( bl);
 end;
 
 procedure TPool.Select( var bl);
@@ -1899,12 +1911,23 @@ begin
      Traite( slFiltre);
 end;
 
-procedure TPool.Ajout_Interne( bl: TBatpro_Ligne);
+procedure TPool.Ajout_dans_listes_par_id( bl: TBatpro_Ligne);
+begin
+     if not Pas_de_champ_id
+     then
+         Set_bl_from_id( TBatpro_Ligne( bl).id  , bl);
+end;
+
+procedure TPool.Ajout_dans_listes_par_Cle( bl: TBatpro_Ligne);
 begin
      slT.AddObject( TBatpro_Ligne( bl).sCle, TBatpro_Ligne( bl));
-
-     Set_bl_from_id( TBatpro_Ligne( bl).id  , bl);
      btsCle.Ajoute( TBatpro_Ligne( bl).sCle, TBatpro_Ligne( bl));
+end;
+
+procedure TPool.Ajout_Interne( bl: TBatpro_Ligne);
+begin
+     Ajout_dans_listes_par_id ( bl);
+     Ajout_dans_listes_par_Cle( bl);
 end;
 
 procedure TPool.SetNomTable(const Value: String);
@@ -2470,11 +2493,16 @@ begin
                                  S_bl_from_id, Tid_Delete, False);
 end;
 
-function TPool.Traite_HTTP: Boolean;
+function TPool.Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boolean;
    function http_ToutCharger: Boolean;
    begin
         ToutCharger();
-        HTTP_Interface.Send_JSON( slT.JSON);
+        _HTTP_Interface.Send_JSON( slT.JSON);
+        Result:= True;
+   end;
+   function http_Filtre: Boolean;
+   begin
+        _HTTP_Interface.Send_JSON( slFiltre.JSON);
         Result:= True;
    end;
    function http_Get: Boolean;
@@ -2483,7 +2511,7 @@ function TPool.Traite_HTTP: Boolean;
       id: Integer;
       bl: TBatpro_Ligne;
    begin
-        sID:= HTTP_Interface.uri;
+        sID:= _HTTP_Interface.uri;
         Result:= TryStrToInt( sID, id);
         if not Result then exit;
 
@@ -2491,7 +2519,7 @@ function TPool.Traite_HTTP: Boolean;
         Result:= Assigned( bl);
         if not Result then exit;
 
-        HTTP_Interface.Send_JSON( bl.JSON);
+        _HTTP_Interface.Send_JSON( bl.JSON);
    end;
    function http_Set: Boolean;
    var
@@ -2500,8 +2528,12 @@ function TPool.Traite_HTTP: Boolean;
       JSON: String;
       bl: TBatpro_Ligne;
    begin
-        sID:= StrToK( '&',HTTP_Interface.uri);
-        JSON:= DecodeURLElement( HTTP_Interface.uri);
+        sID:= _HTTP_Interface.uri;
+        JSON:= _HTTP_Interface.body;
+        uLog.Log.PrintLn( ClassName+'.Traite_HTTP: http_Set: ');
+        uLog.Log.PrintLn( 'JSON: ');
+        uLog.Log.PrintLn( JSON);
+        uLog.Log.PrintLn( '############################################');
 
         Result:= TryStrToInt( sID, id);
         if not Result then exit;
@@ -2511,19 +2543,47 @@ function TPool.Traite_HTTP: Boolean;
         if not Result then exit;
 
         bl.JSON:= JSON;
-        HTTP_Interface.Send_JSON( bl.JSON);
+        _HTTP_Interface.Send_JSON( bl.JSON);
+   end;
+   function http_Delete: Boolean;
+   var
+      sID: String;
+      id: Integer;
+      bl: TBatpro_Ligne;
+   begin
+        sID:= _HTTP_Interface.uri;
+        Result:= TryStrToInt( sID, id);
+        if not Result then exit;
+
+        Get_Interne_from_id( id, bl);
+        Result:= Assigned( bl);
+        if not Result then exit;
+
+        Supprimer( bl);
+
+        _HTTP_Interface.Send_Text( '1');
    end;
 begin
-          if '' = HTTP_Interface.uri         then Result:= http_ToutCharger
-     else if HTTP_Interface.Prefixe( '_Get') then Result:= http_Get
-     else if HTTP_Interface.Prefixe( '_Set') then Result:= http_Set
-     else                                         Result:= False;
+          if '' = _HTTP_Interface.uri            then Result:= http_ToutCharger
+     else if _HTTP_Interface.Prefixe( '_Filtre') then Result:= http_Filtre
+     else if _HTTP_Interface.Prefixe( '_Get'   ) then Result:= http_Get
+     else if _HTTP_Interface.Prefixe( '_Set'   ) then Result:= http_Set
+     else if _HTTP_Interface.Prefixe( '_Delete') then Result:= http_Delete
+     else                                            Result:= False;
 end;
 
 function TPool.r: TRequete;
 begin
      Result:= uRequete.Requete;
 end;
+
+procedure TPool.Cree_en_memoire( var _bl);
+begin
+     TBatpro_Ligne( _bl):= Cree_Element( nil);
+     Ajout_dans_listes_par_Cle( TBatpro_Ligne( _bl));
+     Ajoute_au_filtre( TBatpro_Ligne( _bl));
+end;
+
 
 initialization
               slPool:= TBatpro_StringList.Create;

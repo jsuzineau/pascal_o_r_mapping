@@ -75,7 +75,7 @@ type
     function Start( _nProject: Integer): TblWork;
   //Gestion communication HTTP avec pages html Angular / JSON
   public
-    function Traite_HTTP: Boolean; override;
+    function Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boolean; override;
   //Chargement d'une période
   public
     procedure Charge_Periode( _Debut, _Fin: TDateTime; _idTag: Integer= 0; _slLoaded: TBatpro_StringList = nil);
@@ -168,20 +168,20 @@ begin
      Result.Save_to_database;
 end;
 
-function TpoolWork.Traite_HTTP: Boolean;
+function TpoolWork.Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boolean;
      function http_from_Project: Boolean;
      var
         sidProject: String;
         idProject: Integer;
         sl: TBatpro_StringList;
      begin
-          sidProject:= HTTP_Interface.uri;
+          sidProject:= _HTTP_Interface.uri;
           Result:= TryStrToInt( sidProject, idProject);
           if not Result then exit;
 
           sl:= TBatpro_StringList.Create;
           Charge_Project( idProject, sl);
-          HTTP_Interface.Send_JSON( sl.JSON);
+          _HTTP_Interface.Send_JSON( sl.JSON);
           FreeAndNil( sl);
      end;
      function http_Start: Boolean;
@@ -190,7 +190,7 @@ function TpoolWork.Traite_HTTP: Boolean;
         idProject: Integer;
         bl: TblWork;
      begin
-          sidProject:= HTTP_Interface.uri;
+          sidProject:= _HTTP_Interface.uri;
           Result:= TryStrToInt( sidProject, idProject);
           if not Result then exit;
 
@@ -198,7 +198,7 @@ function TpoolWork.Traite_HTTP: Boolean;
           Result:= Assigned( bl);
           if not Result then exit;
 
-          HTTP_Interface.Send_JSON( bl.JSON);
+          _HTTP_Interface.Send_JSON( bl.JSON);
      end;
      function http_Stop: Boolean;
      var
@@ -206,7 +206,7 @@ function TpoolWork.Traite_HTTP: Boolean;
         idWork: Integer;
         bl: TblWork;
      begin
-          sidWork:= HTTP_Interface.uri;
+          sidWork:= _HTTP_Interface.uri;
           Result:= TryStrToInt( sidWork, idWork);
           if not Result then exit;
 
@@ -215,16 +215,16 @@ function TpoolWork.Traite_HTTP: Boolean;
           if not Result then exit;
 
           bl.Stop;
-          HTTP_Interface.Send_JSON( bl.JSON);
+          _HTTP_Interface.Send_JSON( bl.JSON);
      end;
 begin
-     Result:=inherited Traite_HTTP;
+     Result:=inherited Traite_HTTP( _HTTP_Interface);
      if Result then exit;
 
-          if HTTP_Interface.Prefixe('_Start')       then Result:= http_Start
-     else if HTTP_Interface.Prefixe('_Stop' )       then Result:= http_Stop
-     else if HTTP_Interface.Prefixe('_from_Project')then Result:= http_from_Project
-     else                                                Result:= False;
+          if _HTTP_Interface.Prefixe('_Start')       then Result:= http_Start
+     else if _HTTP_Interface.Prefixe('_Stop' )       then Result:= http_Stop
+     else if _HTTP_Interface.Prefixe('_from_Project')then Result:= http_from_Project
+     else                                                 Result:= False;
 end;
 
 procedure TpoolWork.Charge_Periode( _Debut, _Fin: TDateTime; _idTag: Integer= 0;

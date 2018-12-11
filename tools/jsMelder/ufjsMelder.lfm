@@ -1,9 +1,9 @@
 object fjsMelder: TfjsMelder
-  Left = 416
+  Left = 502
   Height = 240
   Top = 146
   Width = 320
   Caption = 'fjsMelder'
   OnCreate = FormCreate
-  LCLVersion = '1.6.0.2'
+  LCLVersion = '2.0.0.1'
 end
