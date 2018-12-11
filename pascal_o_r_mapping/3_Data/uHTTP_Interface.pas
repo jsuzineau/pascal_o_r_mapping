@@ -114,13 +114,14 @@ type
     procedure Send_CSS(_CSS: String);                            override;
     procedure Send_WOFF(_WOFF: String);                          override;
     procedure Send_WOFF2(_WOFF2: String);                        override;
+    procedure Send_ICO(_ICO: String);                            override;
     procedure Send_MIME_from_Extension(_S, _Extension: String);  override;
     function MIME_from_Extension( _Extension: String): String;   override;
     procedure Send_Not_found;                                    override;
     procedure Traite_fichier( _NomFichier: String); overload;
     procedure Traite_racine;
     procedure Traite_fichier; overload;
-  //enregistrement d'un pool
+  //Traitement d'un pool
   private
     function Traite_pool: Boolean;
   //gestion de callbacks
@@ -261,6 +262,9 @@ function http_getS( _URL: String): String;
 const
      port_http_PortMapper= '1500';
 
+var
+   Assurer_http_PortMapper: Boolean= True;
+
 procedure Assure_http_PortMapper;
 
 implementation
@@ -355,9 +359,17 @@ begin
      Result:= s_Validation_Response = http_getS( URL);
 end;
 
+function http_isapi_Valide: Boolean;
+var
+   URL: String;
+begin
+     URL:= 'http://localhost/isapi_pm/'+s_Validation;
+     Result:= s_Validation_Response = http_getS( URL);
+end;
+
 function http_PortMapper_OK: boolean;
 begin
-     Result:= http_Port_Valide( port_http_PortMapper);
+     Result:= http_Port_Valide( port_http_PortMapper) or http_isapi_Valide;
 end;
 
 procedure Execute_par_Run_Command( _Nom_Executable:String);
@@ -450,7 +462,7 @@ var
       Repertoire_racine: String;
    begin
         inik_http_PortMapper:= EXE_INI.os+ 'http_PortMapper';
-        NomFichier:= EXE_INI.ReadString('Options',inik_http_PortMapper,'#');
+        NomFichier:= EXE_INI.ReadString(inis_Options,inik_http_PortMapper,'#');
         if '#' <> NomFichier then exit;
 
         Repertoire_racine:= uClean_Racine_from_EXE( uForms_EXE_Name);
@@ -476,6 +488,8 @@ end;
 
 procedure Assure_http_PortMapper;
 begin
+     if not Assurer_http_PortMapper then exit;
+
      if http_PortMapper_OK then exit;
 
      Lance_http_PortMapper;
@@ -798,6 +812,11 @@ begin
      Send_Data( 'font/woff2', _WOFF2);
 end;
 
+procedure THTTP_Interface.Send_ICO(_ICO: String);
+begin
+     Send_Data( 'image/x-icon', _ICO);
+end;
+
 function THTTP_Interface.MIME_from_Extension(_Extension: String): String;
 begin
      Result:= '';
@@ -821,6 +840,7 @@ begin
      else if '.map'   = _Extension then Send_JS   ( _S)
      else if '.woff'  = _Extension then Send_WOFF ( _S)
      else if '.woff2' = _Extension then Send_WOFF2( _S)
+     else if '.ico'   = _Extension then Send_ICO  ( _S)
      else
          begin
          Send_HTML( _S);

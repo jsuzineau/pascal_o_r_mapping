@@ -128,6 +128,7 @@ begin
      HTTP_Interface_URL:= S;
 end;
 begin
+     uHTTP_Interface.Assurer_http_PortMapper:= False;
      poolCategorie.ToutCharger;
      poolState    .ToutCharger;
      //poolProject  .ToutCharger;
