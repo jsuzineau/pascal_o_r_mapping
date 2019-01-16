@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectSession>
-    <Version Value="11"/>
+    <Version Value="10"/>
     <BuildModes Active="Debug"/>
     <Units Count="151">
       <Unit0>
         <Filename Value="http_jsWorks.lpr"/>
         <IsPartOfProject Value="True"/>
+<<<<<<< HEAD
         <TopLine Value="19"/>
+=======
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="108"/>
+        <CursorPos X="25" Y="108"/>
+>>>>>>> cd6ee54ad4adaa580597944c44417af010a4bdb0
         <UsageCount Value="203"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -18,7 +24,11 @@
         <ComponentName Value="Pool"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+<<<<<<< HEAD
         <EditorIndex Value="9"/>
+=======
+        <EditorIndex Value="7"/>
+>>>>>>> cd6ee54ad4adaa580597944c44417af010a4bdb0
         <TopLine Value="16"/>
         <CursorPos Y="43"/>
         <UsageCount Value="203"/>
@@ -37,7 +47,11 @@
       <Unit3>
         <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
         <IsPartOfProject Value="True"/>
+<<<<<<< HEAD
         <EditorIndex Value="4"/>
+=======
+        <EditorIndex Value="2"/>
+>>>>>>> cd6ee54ad4adaa580597944c44417af010a4bdb0
         <TopLine Value="16"/>
         <CursorPos X="67" Y="30"/>
         <UsageCount Value="210"/>
@@ -114,7 +128,11 @@
         <Filename Value="Elements/Development/upoolDevelopment.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
+<<<<<<< HEAD
         <EditorIndex Value="6"/>
+=======
+        <EditorIndex Value="4"/>
+>>>>>>> cd6ee54ad4adaa580597944c44417af010a4bdb0
         <TopLine Value="47"/>
         <CursorPos X="66" Y="76"/>
         <UsageCount Value="200"/>
@@ -209,7 +227,11 @@
         <Filename Value="Elements/Project/upoolProject.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
+<<<<<<< HEAD
         <EditorIndex Value="8"/>
+=======
+        <EditorIndex Value="6"/>
+>>>>>>> cd6ee54ad4adaa580597944c44417af010a4bdb0
         <TopLine Value="43"/>
         <CursorPos Y="78"/>
         <UsageCount Value="200"/>
@@ -558,7 +580,11 @@
         <Filename Value="Elements/Work/upoolWork.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
+<<<<<<< HEAD
         <EditorIndex Value="5"/>
+=======
+        <EditorIndex Value="3"/>
+>>>>>>> cd6ee54ad4adaa580597944c44417af010a4bdb0
         <TopLine Value="56"/>
         <CursorPos X="74" Y="79"/>
         <UsageCount Value="200"/>
@@ -790,7 +816,11 @@
         <ComponentName Value="pool_Ancetre_Ancetre"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
+<<<<<<< HEAD
         <EditorIndex Value="7"/>
+=======
+        <EditorIndex Value="5"/>
+>>>>>>> cd6ee54ad4adaa580597944c44417af010a4bdb0
         <TopLine Value="1130"/>
         <CursorPos X="87" Y="1147"/>
         <UsageCount Value="102"/>
@@ -1154,10 +1184,16 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="5651"/>
         <CursorPos Y="5670"/>
+<<<<<<< HEAD
         <UsageCount Value="71"/>
         <DefaultSyntaxHighlighter Value="CSS"/>
       </Unit131>
       <Unit132>
+=======
+        <UsageCount Value="75"/>
+      </Unit140>
+      <Unit141>
+>>>>>>> cd6ee54ad4adaa580597944c44417af010a4bdb0
         <Filename Value="../pascal_o_r_mapping/3_Data/uTri.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="247"/>
@@ -1295,11 +1331,18 @@
       </Unit148>
       <Unit149>
         <Filename Value="log/2018_12_11/http_jsWorks.First-Boss.txt"/>
+<<<<<<< HEAD
         <EditorIndex Value="3"/>
         <TopLine Value="243"/>
         <CursorPos X="65" Y="272"/>
         <UsageCount Value="32"/>
         <Loaded Value="True"/>
+=======
+        <EditorIndex Value="-1"/>
+        <TopLine Value="243"/>
+        <CursorPos X="65" Y="272"/>
+        <UsageCount Value="11"/>
+>>>>>>> cd6ee54ad4adaa580597944c44417af010a4bdb0
         <DefaultSyntaxHighlighter Value="None"/>
       </Unit149>
       <Unit150>
@@ -1310,7 +1353,7 @@
         <Loaded Value="True"/>
       </Unit150>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="29" HistoryIndex="28">
       <Position1>
         <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
         <Caret Line="175" TopLine="152"/>
@@ -1427,15 +1470,14 @@
         <Filename Value="http_jsWorks.lpr"/>
         <Caret Line="108" Column="25" TopLine="108"/>
       </Position29>
+<<<<<<< HEAD
       <Position30>
         <Filename Value="http_jsWorks.lpr"/>
         <Caret TopLine="19"/>
       </Position30>
+=======
+>>>>>>> cd6ee54ad4adaa580597944c44417af010a4bdb0
     </JumpHistory>
-    <RunParams>
-      <FormatVersion Value="2"/>
-      <Modes Count="0" ActiveMode="default"/>
-    </RunParams>
   </ProjectSession>
   <Debugging>
     <Watches Count="6">

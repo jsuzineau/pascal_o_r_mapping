@@ -1,0 +1,11 @@
+object wm_http_PortMapper: Twm_http_PortMapper
+  OldCreateOrder = False
+  Actions = <>
+  OnRequest = Request
+  CreateSession = False
+  Height = 282
+  HorizontalOffset = 638
+  VerticalOffset = 334
+  Width = 316
+  PPI = 96
+end
