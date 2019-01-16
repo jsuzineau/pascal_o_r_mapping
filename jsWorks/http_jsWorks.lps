@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectSession>
-    <Version Value="11"/>
-    <BuildModes Active="Debug"/>
-    <Units Count="68">
+    <Version Value="10"/>
+    <BuildModes Active="Windows Debug"/>
+    <Units Count="71">
       <Unit0>
         <Filename Value="http_jsWorks.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -377,14 +377,31 @@
         <IsPartOfProject Value="True"/>
         <UsageCount Value="20"/>
       </Unit67>
+      <Unit68>
+        <Filename Value="C:/lazarus/lcl/interfaces/win32/win32wscontrols.pp"/>
+        <UnitName Value="Win32WSControls"/>
+        <TopLine Value="200"/>
+        <CursorPos Y="217"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit68>
+      <Unit69>
+        <Filename Value="etc/_Configuration.ini"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="7"/>
+        <CursorPos Y="35"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Ini"/>
+      </Unit69>
+      <Unit70>
+        <Filename Value="etc/_Configuration.ini~"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="None"/>
+      </Unit70>
     </Units>
-    <General>
-      <ActiveWindowIndexAtStart Value="-1"/>
-    </General>
     <JumpHistory HistoryIndex="-1"/>
-    <RunParams>
-      <FormatVersion Value="2"/>
-      <Modes Count="0" ActiveMode=""/>
-    </RunParams>
   </ProjectSession>
 </CONFIG>
