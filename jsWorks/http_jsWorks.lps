@@ -7,7 +7,7 @@
       <Unit0>
         <Filename Value="http_jsWorks.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit0>
       <Unit1>
         <Filename Value="../pascal_o_r_mapping/3_Data/uPool.pas"/>
@@ -15,299 +15,299 @@
         <ComponentName Value="Pool"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit1>
       <Unit2>
         <Filename Value="../pascal_o_r_mapping/7_sources_externes/synapse/source/lib/blcksock.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit2>
       <Unit3>
         <Filename Value="../pascal_o_r_mapping/3_Data/uHTTP_Interface.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit3>
       <Unit4>
         <Filename Value="Elements/Categorie/ublCategorie.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit4>
       <Unit5>
         <Filename Value="Elements/Categorie/uhfCategorie.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit5>
       <Unit6>
         <Filename Value="Elements/Categorie/upoolCategorie.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit6>
       <Unit7>
         <Filename Value="Elements/Development/ublDevelopment.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit7>
       <Unit8>
         <Filename Value="Elements/Development/udkDevelopment.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit8>
       <Unit9>
         <Filename Value="Elements/Development/uhfDevelopment.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit9>
       <Unit10>
         <Filename Value="Elements/Development/upoolDevelopment.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit10>
       <Unit11>
         <Filename Value="Elements/Jour_Ferie/ublJour_ferie.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit11>
       <Unit12>
         <Filename Value="Elements/Jour_Ferie/uhfJour_ferie.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit12>
       <Unit13>
         <Filename Value="Elements/Jour_Ferie/upoolJour_ferie.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit13>
       <Unit14>
         <Filename Value="Elements/Project/ublProject.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit14>
       <Unit15>
         <Filename Value="Elements/Project/udkProject_EDIT.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit15>
       <Unit16>
         <Filename Value="Elements/Project/udkProject_LABEL.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit16>
       <Unit17>
         <Filename Value="Elements/Project/ufProject.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit17>
       <Unit18>
         <Filename Value="Elements/Project/uhfProject.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit18>
       <Unit19>
         <Filename Value="Elements/Project/upoolProject.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit19>
       <Unit20>
         <Filename Value="Elements/Session/ublSession.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit20>
       <Unit21>
         <Filename Value="Elements/Session/udkSession.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit21>
       <Unit22>
         <Filename Value="Elements/Session/uhdmsession.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit22>
       <Unit23>
         <Filename Value="Elements/State/ublState.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit23>
       <Unit24>
         <Filename Value="Elements/State/uhfState.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit24>
       <Unit25>
         <Filename Value="Elements/State/upoolState.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit25>
       <Unit26>
         <Filename Value="Elements/Tag/ublTAG.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit26>
       <Unit27>
         <Filename Value="Elements/Tag/udkTag_LABEL.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit27>
       <Unit28>
         <Filename Value="Elements/Tag/udkTag_LABEL_od.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit28>
       <Unit29>
         <Filename Value="Elements/Tag/udkWork_haTag_from_Description_LABEL.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit29>
       <Unit30>
         <Filename Value="Elements/Tag/udkWork_haTag_LABEL.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit30>
       <Unit31>
         <Filename Value="Elements/Tag/ufTag.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
         <UnitName Value="ufTAG"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit31>
       <Unit32>
         <Filename Value="Elements/Tag/uhfTAG.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit32>
       <Unit33>
         <Filename Value="Elements/Tag/uodTag.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit33>
       <Unit34>
         <Filename Value="Elements/Tag/upoolTag.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
         <UnitName Value="upoolTAG"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit34>
       <Unit35>
         <Filename Value="Elements/Tag_Development/ublTAG_DEVELOPMENT.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit35>
       <Unit36>
         <Filename Value="Elements/Tag_Development/ufTAG_DEVELOPMENT.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit36>
       <Unit37>
         <Filename Value="Elements/Tag_Development/uhfTAG_DEVELOPMENT.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit37>
       <Unit38>
         <Filename Value="Elements/Tag_Development/upoolTag_Development.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
         <UnitName Value="upoolTAG_DEVELOPMENT"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit38>
       <Unit39>
         <Filename Value="Elements/Tag_Work/ublTAG_WORK.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit39>
       <Unit40>
         <Filename Value="Elements/Tag_Work/ufTAG_WORK.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit40>
       <Unit41>
         <Filename Value="Elements/Tag_Work/uhfTAG_WORK.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit41>
       <Unit42>
         <Filename Value="Elements/Tag_Work/upoolTag_Work.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
         <UnitName Value="upoolTAG_WORK"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit42>
       <Unit43>
         <Filename Value="Elements/Type_Tag/ublType_Tag.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit43>
       <Unit44>
         <Filename Value="Elements/Type_Tag/udkType_Tag_EDIT.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit44>
       <Unit45>
         <Filename Value="Elements/Type_Tag/ufType_Tag.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit45>
       <Unit46>
         <Filename Value="Elements/Type_Tag/uhfType_Tag.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit46>
       <Unit47>
         <Filename Value="Elements/Type_Tag/upoolType_Tag.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit47>
       <Unit48>
         <Filename Value="Elements/Work/ublWork.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit48>
       <Unit49>
         <Filename Value="Elements/Work/udkWork.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit49>
       <Unit50>
         <Filename Value="Elements/Work/uhfWork.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit50>
       <Unit51>
         <Filename Value="Elements/Work/uodWork_from_Period.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit51>
       <Unit52>
         <Filename Value="Elements/Work/upoolWork.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit52>
       <Unit53>
         <Filename Value="../pascal_o_r_mapping/8_Web/uhATB.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit53>
       <Unit54>
         <Filename Value="../Generation_de_code/uhAutomatic_ATB.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit54>
       <Unit55>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/upoolAutomatic.pas"/>
@@ -315,93 +315,99 @@
         <ComponentName Value="poolAutomatic"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit55>
       <Unit56>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/ublAutomatic.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit56>
       <Unit57>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/uContexteClasse.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit57>
       <Unit58>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler/uPatternHandler.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit58>
       <Unit59>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General/ujpNom_de_la_classe.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit59>
       <Unit60>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL/ujpSQL_CREATE_TABLE.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit60>
       <Unit61>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine/ujpPHP_Doctrine_Has_Column.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit61>
       <Unit62>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp/ujpCSharp_Champs_persistants.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit62>
       <Unit63>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal/ujpPascal_Affecte.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit63>
       <Unit64>
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/uJoinPoint.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit64>
       <Unit65>
         <Filename Value="../pascal_o_r_mapping/8_Web/uhAUT.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit65>
       <Unit66>
         <Filename Value="../Generation_de_code/uhAutomatic_AUT.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit66>
       <Unit67>
         <Filename Value="../pascal_o_r_mapping/2_Units/uNetwork.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="1317"/>
       </Unit67>
       <Unit68>
         <Filename Value="C:/lazarus/lcl/interfaces/win32/win32wscontrols.pp"/>
         <UnitName Value="Win32WSControls"/>
         <TopLine Value="200"/>
         <CursorPos Y="217"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="659"/>
         <Loaded Value="True"/>
       </Unit68>
       <Unit69>
         <Filename Value="etc/_Configuration.ini"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="7"/>
         <CursorPos Y="35"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="659"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Ini"/>
       </Unit69>
       <Unit70>
-        <Filename Value="etc/_Configuration.ini~"/>
-        <EditorIndex Value="-1"/>
-        <UsageCount Value="10"/>
-        <DefaultSyntaxHighlighter Value="None"/>
+        <Filename Value="tests_http/python/jsWorks.py"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="17" Y="10"/>
+        <UsageCount Value="659"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Python"/>
       </Unit70>
     </Units>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory Count="1">
+      <Position1>
+        <Filename Value="tests_http/python/jsWorks.py"/>
+      </Position1>
+    </JumpHistory>
   </ProjectSession>
 </CONFIG>

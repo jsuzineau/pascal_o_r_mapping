@@ -1,0 +1,4 @@
+ autant de fois que nécessaire:
+   pacman -Syuu
+ensuite   
+   pacman -S mingw64/mingw-w64-x86_64-gdb
