@@ -43,189 +43,12 @@ uses
 type
  TOD_TextTableContext = class;
 
- TOD_TAB = class;
- TOD_SPAN= class;
-
- TOD_XML_Element
- =
-  class
-  //Cycle de vie
-  public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TDOMNode); virtual;
-    destructor Destroy; override;
-  //Attributs
-  public
-    C: TOD_TextTableContext;
-    D: TOpenDocument;
-    eRoot: TDOMNode;
-    e: TDOMNode;
-  //Méthodes
-  public
-    function  not_Get_Property( _NodeName: String; out _Value: String): Boolean;
-    procedure     Set_Property( _NodeName,             _Value: String);
-    procedure  Delete_Property( _Fullname: String);
-  //Text
-  private
-    function  GetText: String;
-    procedure SetText( _Value: String);
-  public
-    property Text: String read getText write SetText;
-  //Insertion de texte
-  public
-    procedure AddText ( _Value: String;
-                        _NomStyle: String= '';
-                        _Gras: Boolean = False;
-                        _DeltaSize: Integer= 0;
-                        _Size: Integer= 0;
-                        _SizePourcent: Integer= 100);
-    procedure AddText_with_span(  _Value: String;
-                                  _NomStyle: String= '';
-                                  _Gras: Boolean = False;
-                                  _DeltaSize: Integer= 0;
-                                  _Size: Integer= 0;
-                                  _SizePourcent: Integer= 100);
-    procedure Add_CR_NL;
-    function AddTab: TOD_TAB;
-    function AddSpan: TOD_SPAN;
-  end;
-
- TOD_SPAN
- =
-  class( TOD_XML_Element)
-  //Cycle de vie
-  public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TDOMNode); override;
-  //Style automatique
-  private
-    FStyle_Automatique: TDOMNode;
-    function Nom_Style_automatique( _NomStyle: String; _Gras: Boolean = False;
-                                    _DeltaSize: Integer= 0; _Size: Integer= 0;
-                                    _SizePourcent: Integer= 100): String;
-    procedure Applique_Style( _NomStyle: String);
-    function GetStyle_Automatique: TDOMNode;
-  public
-    Is_Header: boolean;
-    property Style_Automatique: TDOMNode read GetStyle_Automatique;
-    procedure Set_Style( _NomStyle: String; _Gras: Boolean = False;
-                         _DeltaSize: Integer= 0; _Size: Integer= 0;
-                         _SizePourcent: Integer= 100);
-  end;
-
- TOD_TAB
- =
-  class( TOD_XML_Element)
-  //Cycle de vie
-  public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TDOMNode); override;
-  end;
-
- TOD_IMAGE
- =
-  class( TOD_XML_Element)
-  //Cycle de vie
-  public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TDOMNode); override;
-  //Méthodes
-  public
-    procedure Set_xlink_href( _xlink_href: String);
-  end;
-
- TOD_FRAME
- =
-  class( TOD_XML_Element)
-  //Cycle de vie
-  public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TDOMNode); override;
-  //Méthodes
-  public
-    function NewImage_as_Character( _Filename: String): TOD_IMAGE;
-  end;
-
- TOD_TABLE
- =
-  class( TOD_XML_Element)
-  //Cycle de vie
-  public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TDOMNode); override;
-  //Nom
-  private
-    function  GetNom: String;
-    procedure SetNom( _Value: String);
-  public
-    property Nom: String read getNom write SetNom;
-  end;
-
- TOD_TAB_STOP
- =
-  class( TOD_XML_Element)
-  //Cycle de vie
-  public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TDOMNode); override;
-  //Méthodes
-  public
-    procedure SetPositionCM( _PositionCM: double);
-    procedure SetStyle( _A: TOD_Style_Alignment);
-  end;
-
- TOD_TAB_STOPS
- =
-  class( TOD_XML_Element)
-  //Cycle de vie
-  public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TDOMNode); override;
-  //Méthodes
-  public
-    function Cree_TAB_STOP( _A: TOD_Style_Alignment): TOD_TAB_STOP;
-  end;
-
- TOD_PARAGRAPH_PROPERTIES
- =
-  class( TOD_XML_Element)
-  //Cycle de vie
-  public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TDOMNode); override;
-  //Méthodes
-  public
-    function TAB_STOPS: TOD_TAB_STOPS;
-  end;
-
- TOD_PARAGRAPH
- =
-  class( TOD_XML_Element)
-  //Cycle de vie
-  public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TDOMNode); override;
-  //Méthodes
-  public
-    function NewFrame: TOD_FRAME;
-    function NewTable: TOD_TABLE;
-  //Style automatique
-  private
-    FStyle_Automatique: TDOMNode;
-    function Nom_Style_automatique( _NomStyle: String; _Gras: Boolean = False;
-                                    _DeltaSize: Integer= 0; _Size: Integer= 0;
-                                    _SizePourcent: Integer= 100): String;
-    procedure Applique_Style( _NomStyle: String);
-    function GetStyle_Automatique: TDOMNode;
-  public
-    Is_Header: boolean;
-    property Style_Automatique: TDOMNode read GetStyle_Automatique;
-    procedure Set_Style( _NomStyle: String; _Gras: Boolean = False;
-                         _DeltaSize: Integer= 0; _Size: Integer= 0;
-                         _SizePourcent: Integer= 100);
-  // PARAGRAPH_PROPERTIES
-  public
-    FPARAGRAPH_PROPERTIES: TOD_PARAGRAPH_PROPERTIES;
-    function GetPARAGRAPH_PROPERTIES: TOD_PARAGRAPH_PROPERTIES;
-    property PARAGRAPH_PROPERTIES: TOD_PARAGRAPH_PROPERTIES read GetPARAGRAPH_PROPERTIES;
-  end;
-
  TOD_TABLE_CELL
  =
   class( TOD_XML_Element)
   //Cycle de vie
   public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TDOMNode); override;
+    constructor Create( _D: TOpenDocument; _eRoot: TDOMNode); override;
   //Ajout d'un nouveau paragraphe
   public
     function NewParagraph: TOD_PARAGRAPH;
@@ -263,7 +86,7 @@ type
   class( TOD_XML_Element)
   //Cycle de vie
   public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TDOMNode); override;
+    constructor Create( _D: TOpenDocument; _eRoot: TDOMNode); override;
   //Ajout d'une nouvelle cellule
   public
     function NewCell( _Column: Integer): TOD_TABLE_CELL;
@@ -288,18 +111,10 @@ type
   class( TOD_XML_Element)
   //Cycle de vie
   public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TDOMNode); override;
+    constructor Create( _D: TOpenDocument; _eRoot: TDOMNode); override;
   //Ajout d'une nouvelle ligne
   public
     function NewRow: TOD_TABLE_ROW;
-  end;
-
- TOD_SOFT_PAGE_BREAK
- =
-  class( TOD_XML_Element)
-  //Cycle de vie
-  public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TDOMNode); override;
   end;
 
  TOD_TABLE_COLUMN
@@ -307,7 +122,7 @@ type
   class( TOD_XML_Element)
   //Cycle de vie
   public
-    constructor Create( _C: TOD_TextTableContext; _eRoot: TDOMNode); override;
+    constructor Create( _D: TOpenDocument; _eRoot: TDOMNode); override;
   //Dimensionnement
   public
     procedure Dimensionne( _NbColonnes: Integer);
@@ -446,405 +261,9 @@ type
 
 implementation
 
-{ TOD_XML_Element }
-
-constructor TOD_XML_Element.Create( _C: TOD_TextTableContext; _eRoot: TDOMNode);
-begin
-     C:= _C;
-     D:= _C.D;
-     eRoot:= _eRoot;
-end;
-
-destructor TOD_XML_Element.Destroy;
-begin
-
-     inherited;
-end;
-
-function TOD_XML_Element.GetText: String;
-begin
-     Result:= e.TextContent;
-end;
-
-procedure TOD_XML_Element.SetText( _Value: String);
-begin
-     e.TextContent:= _Value;
-end;
-
-function TOD_XML_Element.not_Get_Property( _NodeName: String; out _Value: String): Boolean;
-begin
-     Result:= uOD_JCL.not_Get_Property( e, _NodeName, _Value);
-end;
-
-procedure TOD_XML_Element.Set_Property( _NodeName, _Value: String);
-begin
-     uOD_JCL.Set_Property( e, _NodeName, _Value);
-end;
-
-procedure TOD_XML_Element.Delete_Property(_Fullname: String);
-begin
-     uOD_JCL.Delete_Property( e, _Fullname);
-end;
-
-procedure TOD_XML_Element.AddText_with_span( _Value,
-                                             _NomStyle: String;
-                                             _Gras: Boolean;
-                                             _DeltaSize,
-                                             _Size,
-                                             _SizePourcent: Integer);
-var
-   span: TOD_SPAN;
-begin
-     span:= AddSpan;
-     span.Set_Style( _NomStyle, _Gras, _DeltaSize, _Size, _SizePourcent);
-     span.AddText( _Value);
-     FreeAndNil( span);
-end;
-
-procedure TOD_XML_Element.AddText( _Value: String;
-                                   _NomStyle: String= '';
-                                   _Gras: Boolean = False;
-                                   _DeltaSize: Integer= 0;
-                                   _Size: Integer= 0;
-                                   _SizePourcent: Integer= 100);
-begin
-     if Trim( _Value) = '' then exit;
-
-     if    (_DeltaSize <> 0) or (_Size <> 0)
-        or (
-              (_SizePourcent <>   0)
-           and(_SizePourcent <> 100)
-           )
-     then
-         AddText_with_span(_Value,_NomStyle,_Gras,_DeltaSize,_Size,_SizePourcent)
-     else
-         D.AddText( e, _Value, False, _Gras);
-end;
-
-procedure TOD_XML_Element.Add_CR_NL;
-begin
-     D.AddText( e, #13#10);
-end;
-
-function TOD_XML_Element.AddTab: TOD_TAB;
-begin
-     Result:= TOD_TAB.Create( C, e);
-end;
-
-function TOD_XML_Element.AddSpan: TOD_SPAN;
-begin
-     Result:= TOD_SPAN.Create( C, e);
-end;
-
-{ TOD_SPAN }
-
-constructor TOD_SPAN.Create(_C: TOD_TextTableContext; _eRoot: TDOMNode);
-begin
-     inherited;
-     e:= Cree_path( eRoot, 'text:span');
-     FStyle_Automatique:= nil;
-     Is_Header:= False;
-end;
-
-function TOD_SPAN.Nom_Style_automatique( _NomStyle: String;
-                                         _Gras: Boolean;
-                                         _DeltaSize,
-                                         _Size,
-                                         _SizePourcent: Integer): String;
-begin
-     if      _Gras
-        and (_DeltaSize = 0)
-        and (_Size = 0)
-        and ((_SizePourcent=100) or (_SizePourcent=0))
-     then
-         Result:= D.Name_style_text_bold
-     else
-         Result:= D.Add_automatic_style_text( _NomStyle,
-                                          _Gras,
-                                          _DeltaSize,
-                                          _Size,
-                                          _SizePourcent,
-                                          FStyle_Automatique,
-                                          Is_Header
-                                          );
-end;
-
-procedure TOD_SPAN.Applique_Style(_NomStyle: String);
-var
-   Style_Name: String;
-begin
-     Style_Name:= D.Style_NameFromDisplayName( _NomStyle);
-
-     Set_Property( 'text:style-name', Style_Name);
-end;
-
-procedure TOD_SPAN.Set_Style( _NomStyle: String;
-                              _Gras: Boolean;
-                              _DeltaSize, _Size, _SizePourcent: Integer);
-var
-   NomStyleApplique: String;
-begin
-     if    _Gras or (_DeltaSize <> 0) or (_Size <> 0)
-        or (
-              (_SizePourcent <>   0)
-           and(_SizePourcent <> 100)
-           )
-     then
-         NomStyleApplique:= Nom_Style_automatique( _NomStyle,
-                                                   _Gras,
-                                                   _DeltaSize,
-                                                   _Size,
-                                                   _SizePourcent)
-     else
-         NomStyleApplique:= _NomStyle;
-
-     Applique_Style( NomStyleApplique);
-end;
-
-function TOD_SPAN.GetStyle_Automatique: TDOMNode;
-   procedure Cree;
-   var
-      NomStyleApplique: String;
-      NomStyleParent: String;
-   begin
-        if Is_Header
-        then
-            NomStyleParent:= 'Table_20_Heading' //à revoir, vient de TOD_PARAGRAPH
-        else
-            NomStyleParent:= C.NomStyleColonne;
-        NomStyleApplique:= Nom_Style_automatique( NomStyleParent);
-        Applique_Style( NomStyleApplique);
-   end;
-begin
-     if nil = FStyle_Automatique
-     then
-         Cree;
-     Result:= FStyle_Automatique;
-end;
-
-{ TOD_TAB }
-
-constructor TOD_TAB.Create( _C: TOD_TextTableContext; _eRoot: TDOMNode);
-begin
-     inherited;
-     e:= Cree_path( eRoot, 'text:tab');
-end;
-
-{ TOD_IMAGE }
-
-constructor TOD_IMAGE.Create( _C: TOD_TextTableContext; _eRoot: TDOMNode);
-begin
-     inherited;
-     e:= Cree_path( eRoot, 'draw:image');
-
-end;
-
-procedure TOD_IMAGE.Set_xlink_href( _xlink_href: String);
-begin
-     D.Set_Property( e, 'xlink:href'      , _xlink_href                );
-     D.Set_Property( e, 'xlink:type'      , 'simple'                  );
-     D.Set_Property( e, 'xlink:show'      , 'embed'                   );
-     D.Set_Property( e, 'xlink:actuate'   , 'onLoad'                  );
-     D.Set_Property( e, 'draw:filter-name', '&lt;Tous les formats&gt;');// localisé?
-end;
-
-{ TOD_FRAME }
-
-constructor TOD_FRAME.Create( _C: TOD_TextTableContext; _eRoot: TDOMNode);
-begin
-     inherited;
-     e:= Cree_path( eRoot, 'draw:frame');
-end;
-
-function TOD_FRAME.NewImage_as_Character( _Filename: String): TOD_IMAGE;
-var
-   dfp: TDimensions_Image;
-   svgWidth, svgHeight: String;
-begin
-     dfp:= D.Embed_Image( _Filename);
-     try
-        svgWidth := dfp.svgWidth ;
-        svgHeight:= dfp.svgHeight;
-        D.Set_Property( e, 'text:anchor-type', 'as-char');
-        if '' <> svgWidth  then D.Set_Property( e, 'svg:width' , svgWidth );
-        if '' <> svgHeight then D.Set_Property( e, 'svg:height', svgHeight);
-        Result:= TOD_IMAGE.Create( C, e);
-        Result.Set_xlink_href( dfp.URL);
-     finally
-            FreeAndNil( dfp);
-            end;
-end;
-
-{ TOD_TAB_STOP }
-
-constructor TOD_TAB_STOP.Create( _C: TOD_TextTableContext; _eRoot: TDOMNode);
-begin
-     inherited;
-     e:= Cree_path( eRoot, 'style:tab-stop');
-end;
-
-procedure TOD_TAB_STOP.SetPositionCM(_PositionCM: double);
-var
-   sPositionCM: String;
-begin
-     sPositionCM:= StrCM_from_double( _PositionCM);
-     Set_Property( 'style:position', sPositionCM);
-end;
-
-procedure TOD_TAB_STOP.SetStyle(_A: TOD_Style_Alignment);
-begin
-     case _A
-     of
-       osa_Left  : Delete_Property( 'style:type');
-       osa_Center:    Set_Property( 'style:type', 'center');
-       osa_Right :    Set_Property( 'style:type', 'right' );
-       else        Delete_Property( 'style:type');
-       end;
-end;
-
-{ TOD_TAB_STOPS }
-
-constructor TOD_TAB_STOPS.Create( _C: TOD_TextTableContext; _eRoot: TDOMNode);
-begin
-     inherited;
-     e:= Assure_path( eRoot, 'style:tab-stops');
-end;
-
-function TOD_TAB_STOPS.Cree_TAB_STOP( _A: TOD_Style_Alignment): TOD_TAB_STOP;
-begin
-     Result:= TOD_TAB_STOP.Create( C, e);
-     Result.SetStyle( _A);
-end;
-
-{ TOD_PARAGRAPH_PROPERTIES }
-
-constructor TOD_PARAGRAPH_PROPERTIES.Create( _C: TOD_TextTableContext; _eRoot: TDOMNode);
-begin
-     inherited;
-     e:= Assure_path( eRoot, 'style:paragraph-properties');
-end;
-
-function TOD_PARAGRAPH_PROPERTIES.TAB_STOPS: TOD_TAB_STOPS;
-begin
-     Result:= TOD_TAB_STOPS.Create( C, e);
-end;
-
-{ TOD_PARAGRAPH }
-
-constructor TOD_PARAGRAPH.Create( _C: TOD_TextTableContext; _eRoot: TDOMNode);
-begin
-     inherited;
-     e:= Cree_path( eRoot, 'text:p');
-     FStyle_Automatique:= nil;
-     FPARAGRAPH_PROPERTIES:= nil;
-     Is_Header:= False;
-end;
-
-function TOD_PARAGRAPH.Nom_Style_automatique( _NomStyle: String; _Gras: Boolean; _DeltaSize, _Size, _SizePourcent: Integer): String;
-begin
-     Result:= D.Add_automatic_style_paragraph( _NomStyle,
-                                               _Gras,
-                                               _DeltaSize,
-                                               _Size,
-                                               _SizePourcent,
-                                               FStyle_Automatique,
-                                               Is_Header
-                                               );
-end;
-
-procedure TOD_PARAGRAPH.Applique_Style( _NomStyle: String);
-var
-   Style_Name: String;
-begin
-     Style_Name:= D.Style_NameFromDisplayName( _NomStyle);
-
-     Set_Property( 'text:style-name', Style_Name);
-end;
-
-procedure TOD_PARAGRAPH.Set_Style( _NomStyle: String; _Gras: Boolean = False;
-                                   _DeltaSize: Integer= 0; _Size: Integer= 0; _SizePourcent: Integer= 100);
-var
-   NomStyleApplique: String;
-begin
-     if    _Gras or (_DeltaSize <> 0) or (_Size <> 0)
-        or (
-              (_SizePourcent <>   0)
-           and(_SizePourcent <> 100)
-           )
-     then
-         NomStyleApplique:= Nom_Style_automatique( _NomStyle, _Gras, _DeltaSize, _Size, _SizePourcent)
-     else
-         NomStyleApplique:= _NomStyle;
-
-     Applique_Style( NomStyleApplique);
-end;
-
-function TOD_PARAGRAPH.GetStyle_Automatique: TDOMNode;
-   procedure Cree;
-   var
-      NomStyleApplique: String;
-      NomStyleParent: String;
-   begin
-        if Is_Header
-        then
-            NomStyleParent:= 'Table_20_Heading'
-        else
-            NomStyleParent:= C.NomStyleColonne;
-        NomStyleApplique:= Nom_Style_automatique( NomStyleParent);
-        Applique_Style( NomStyleApplique);
-   end;
-begin
-     if nil = FStyle_Automatique
-     then
-         Cree;
-     Result:= FStyle_Automatique;
-end;
-
-function TOD_PARAGRAPH.NewFrame: TOD_FRAME;
-begin
-     Result:= TOD_FRAME.Create( C, e);
-end;
-
-function TOD_PARAGRAPH.NewTable: TOD_TABLE;
-begin
-     Result:= TOD_TABLE.Create( C, e);
-end;
-
-function TOD_PARAGRAPH.GetPARAGRAPH_PROPERTIES: TOD_PARAGRAPH_PROPERTIES;
-begin
-     if nil = FPARAGRAPH_PROPERTIES
-     then
-         FPARAGRAPH_PROPERTIES:= TOD_PARAGRAPH_PROPERTIES.Create( C, Style_Automatique);
-
-     Result:= FPARAGRAPH_PROPERTIES;
-end;
-
-{ TOD_TABLE }
-
-constructor TOD_TABLE.Create( _C: TOD_TextTableContext; _eRoot: TDOMNode);
-begin
-     inherited;
-     e:= Cree_path( eRoot, 'table:table');
-     Cree_path( e, 'table:table-header-rows/table:table-row/table:table-cell');
-     Cree_path( e,                         'table:table-row/table:table-cell');
-end;
-
-function TOD_TABLE.GetNom: String;
-begin
-     if D.not_Get_Property( e, 'table:name', Result)
-     then
-         Result:= '';
-
-end;
-
-procedure TOD_TABLE.SetNom( _Value: String);
-begin
-     D.Set_Property( e, 'table:name', _Value);
-end;
-
 { TOD_TABLE_CELL }
 
-constructor TOD_TABLE_CELL.Create( _C: TOD_TextTableContext; _eRoot: TDOMNode);
+constructor TOD_TABLE_CELL.Create( _D: TOpenDocument; _eRoot: TDOMNode);
 begin
      inherited;
      e:= Cree_path( eRoot, 'table:table-cell');
@@ -855,7 +274,7 @@ end;
 
 function TOD_TABLE_CELL.NewParagraph: TOD_PARAGRAPH;
 begin
-     Result:= TOD_PARAGRAPH.Create( C, e);
+     Result:= TOD_PARAGRAPH.Create( D, e);
 end;
 
 function TOD_TABLE_CELL.GetValue_Type: String;
@@ -912,7 +331,7 @@ end;
 
 { TOD_TABLE_ROW }
 
-constructor TOD_TABLE_ROW.Create( _C: TOD_TextTableContext; _eRoot: TDOMNode);
+constructor TOD_TABLE_ROW.Create( _D: TOpenDocument; _eRoot: TDOMNode);
 begin
      inherited;
      e:= Cree_path( eRoot, 'table:table-row');
@@ -921,7 +340,7 @@ end;
 
 function TOD_TABLE_ROW.NewCell( _Column: Integer): TOD_TABLE_CELL;
 begin
-     Result:= TOD_TABLE_CELL.Create( C, e);
+     Result:= TOD_TABLE_CELL.Create( D, e);
      Result.Context:= Context;
      Result.Row   := Row;
      Result.Column:= _Column;
@@ -985,7 +404,7 @@ end;
 
 { TOD_TABLE_HEADER_ROWS }
 
-constructor TOD_TABLE_HEADER_ROWS.Create( _C: TOD_TextTableContext; _eRoot: TDOMNode);
+constructor TOD_TABLE_HEADER_ROWS.Create( _D: TOpenDocument; _eRoot: TDOMNode);
 begin
      inherited;
      e:= D.Ensure_Item( eRoot, 'table:table-header-rows', [],[]);
@@ -993,20 +412,12 @@ end;
 
 function TOD_TABLE_HEADER_ROWS.NewRow: TOD_TABLE_ROW;
 begin
-     Result:= TOD_TABLE_ROW.Create( C, e);
-end;
-
-{ TOD_SOFT_PAGE_BREAK }
-
-constructor TOD_SOFT_PAGE_BREAK.Create( _C: TOD_TextTableContext; _eRoot: TDOMNode);
-begin
-     inherited;
-     e:= Cree_path( eRoot, 'text:soft-page-break');
+     Result:= TOD_TABLE_ROW.Create( D, e);
 end;
 
 { TOD_TABLE_COLUMN }
 
-constructor TOD_TABLE_COLUMN.Create( _C: TOD_TextTableContext; _eRoot: TDOMNode);
+constructor TOD_TABLE_COLUMN.Create( _D: TOpenDocument; _eRoot: TDOMNode);
 begin
      inherited;
      e:= Cree_path( eRoot, 'table:table-column');
@@ -1309,7 +720,7 @@ var
           Previous_odc:= ODCs[I];
           if Previous_odc = nil then continue;
 
-          New_odc:= TOD_TABLE_COLUMN.Create( Self, eTABLE);
+          New_odc:= TOD_TABLE_COLUMN.Create( D, eTABLE);
           New_odc.Duplique( Previous_odc, Nom_New_TABLE);
 
           ODCs[I]:= New_odc;
@@ -1321,7 +732,7 @@ begin
 
      Calcule_Nom_New_TABLE;
 
-     New_TABLE:= TOD_TABLE.Create( Self, eTEXT);
+     New_TABLE:= TOD_TABLE.Create( D, eTEXT);
      New_TABLE.Nom:= Nom_New_TABLE;
      D.Set_Property( New_TABLE.e, 'table:style-name', Nom_New_TABLE);
 
@@ -1518,7 +929,7 @@ end;
 
 function TOD_TextTableContext.NewRow: TOD_TABLE_ROW;
 begin
-     Result:= TOD_TABLE_ROW.Create( Self, eTABLE);
+     Result:= TOD_TABLE_ROW.Create( D, eTABLE);
      Result.Row:= RowCount;
      Result.Context:= Self;
      Inc( RowCount);
@@ -1528,7 +939,7 @@ function TOD_TextTableContext.NewHeaderRow: TOD_TABLE_ROW;
 begin
      if TABLE_HEADER_ROWS = nil
      then
-         TABLE_HEADER_ROWS:= TOD_TABLE_HEADER_ROWS.Create( Self, eTABLE);
+         TABLE_HEADER_ROWS:= TOD_TABLE_HEADER_ROWS.Create( D, eTABLE);
      Result:= TABLE_HEADER_ROWS.NewRow;
      Result.Row:= RowCount;
      Result.Context:= Self;
@@ -1537,7 +948,7 @@ end;
 
 function TOD_TextTableContext.New_Soft_page_break: TOD_SOFT_PAGE_BREAK;
 begin
-     Result:= TOD_SOFT_PAGE_BREAK.Create( Self, eTABLE);
+     Result:= TOD_SOFT_PAGE_BREAK.Create( D, eTABLE);
 end;
 
 procedure TOD_TextTableContext.Efface;
@@ -1583,6 +994,10 @@ begin
      do
        Inc( Somme_ColumnLengths, _ColumnLengths[I]);
 
+     //Peut se produire si LibreOffice "optimise"
+     //en supprimant les variables non utilisées
+     if 0 = Somme_ColumnLengths then Somme_ColumnLengths:= 1;
+
      SetLength( ODCs, Length( _ColumnLengths));
 
      for I:= iDebut to iFin
@@ -1601,7 +1016,7 @@ begin
 
        if eTABLE = nil then continue;
 
-       tc:= TOD_TABLE_COLUMN.Create( Self, eTABLE);
+       tc:= TOD_TABLE_COLUMN.Create( D, eTABLE);
        tc.Style( NomColonne, CL, Relatif);
 
        ODCs[I]:= tc;

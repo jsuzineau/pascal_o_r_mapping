@@ -1361,7 +1361,7 @@ begin
         if not Result
         then
             begin
-            WriteLn( ClassName+'.Integer_from: IsEmpty ');
+            uLog.Log.PrintLn( ClassName+'.Integer_from: IsEmpty ');
             exit;
             end;
 
@@ -1369,7 +1369,7 @@ begin
         if not Result
         then
             begin
-            WriteLn( ClassName+'.Integer_from: Champs.Count = 0');
+            uLog.Log.PrintLn( ClassName+'.Integer_from: Champs.Count = 0');
             exit;
             end;
 
@@ -1378,7 +1378,7 @@ begin
         if not Result
         then
             begin
-            WriteLn( ClassName+'.Integer_from: Champ_by_Index( 0) = nil');
+            uLog.Log.PrintLn( ClassName+'.Integer_from: Champ_by_Index( 0) = nil');
             exit;
             end;
 

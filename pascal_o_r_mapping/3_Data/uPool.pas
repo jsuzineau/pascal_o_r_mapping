@@ -936,12 +936,12 @@ end;
 
 constructor TPool.Create(_sl: TBatpro_StringList);
 begin
-     Writeln( ClassName+'.Create;, début');
+     uLog.Log.PrintLn( ClassName+'.Create;, début');
      Load_sqlQuery_Context_class:= TLoad_sqlQuery_Context;
 
-     Writeln( ClassName+'.Create;, avant jsdcSELECT:= Cree_Contexte');
+     uLog.Log.PrintLn( ClassName+'.Create;, avant jsdcSELECT:= Cree_Contexte');
      jsdcSELECT        := Cree_Contexte( ClassName+'.jsdcSELECT'        );
-     Writeln( ClassName+'.Create;, aprés jsdcSELECT:= Cree_Contexte');
+     uLog.Log.PrintLn( ClassName+'.Create;, aprés jsdcSELECT:= Cree_Contexte');
      jsdcLoad          := Cree_Contexte( ClassName+'.jsdcLoad'          );
      jsdcSELECT_from_id:= Cree_Contexte( ClassName+'.jsdcSELECT_from_id');
 
@@ -966,9 +966,9 @@ begin
 
      Load_N_rows_by_id_ORDER_BY:= '';
 
-     Writeln( ClassName+'.Create;, avant inherited Create( _sl);');
+     uLog.Log.PrintLn( ClassName+'.Create;, avant inherited Create( _sl);');
      inherited Create( _sl);
-     Writeln( ClassName+'.Create;, fin');
+     uLog.Log.PrintLn( ClassName+'.Create;, fin');
 end;
 
 destructor TPool.Destroy;
@@ -1006,7 +1006,7 @@ procedure TPool.DataModuleCreate(Sender: TObject);
 begin
      inherited;
 
-     Writeln( ClassName+'.DataModuleCreate, début');
+     uLog.Log.PrintLn( ClassName+'.DataModuleCreate, début');
      slPool.AddObject( Name, Self);
 
      slT     := TBatpro_StringList.CreateE(ClassName+'.slT', Classe_Elements);
@@ -1051,7 +1051,7 @@ begin
                                            Classe_Elements);
 
     Pas_de_champ_id:= -1 <> slTABLE_SANS_ID.IndexOf( NomTable);
-    Writeln( ClassName+'.DataModuleCreate, fin');
+    uLog.Log.PrintLn( ClassName+'.DataModuleCreate, fin');
 end;
 
 procedure TPool.DataModuleDestroy(Sender: TObject);
@@ -1336,7 +1336,7 @@ var
 begin
      _id:= 0;
 
-     writeln( ClassName+'.Nouveau_Base: Recuperer=', Recuperer);
+     uLog.Log.PrintLn( ClassName+'.Nouveau_Base: Recuperer='+BoolToStr( Recuperer));
      //Recherche un id d'un éventuel plantage précédent (ligne non initialisée)
      if Recuperer
      then
@@ -1350,7 +1350,7 @@ begin
              end;
          end;
 
-     writeln( ClassName+'.Nouveau_Base: _id=', _id);
+     uLog.Log.PrintLn( ClassName+'.Nouveau_Base: _id='+IntToStr( _id));
      //Sinon on crée une nouvelle ligne
      if _id= 0
      then
@@ -1358,15 +1358,15 @@ begin
          if not is_Base //mis au cas où, normalement is_Base = True quand on vient ici
          then
              Params_INSERT;
-         writeln( ClassName+'.Nouveau_Base: avant jsdcINSERT.ExecSQLQuery');
+         uLog.Log.PrintLn( ClassName+'.Nouveau_Base: avant jsdcINSERT.ExecSQLQuery');
          if jsdcINSERT.ExecSQLQuery
          then
              _id:= jsdcINSERT.Last_Insert_id( NomTable);
-         writeln( ClassName+'.Nouveau_Base: aprés jsdcINSERT.ExecSQLQuery _id = ', _id);
+         uLog.Log.PrintLn( ClassName+'.Nouveau_Base: aprés jsdcINSERT.ExecSQLQuery _id = '+IntToStr( _id));
          end;
-     writeln( ClassName+'.Nouveau_Base: avant Get_Interne_from_id( _id, bl); _id = ', _id);
+     uLog.Log.PrintLn( ClassName+'.Nouveau_Base: avant Get_Interne_from_id( _id, bl); _id = '+IntToStr( _id));
      Get_Interne_from_id( _id, bl);
-     writeln( ClassName+'.Nouveau_Base: aprés Get_Interne_from_id( _id, bl);');
+     uLog.Log.PrintLn( ClassName+'.Nouveau_Base: aprés Get_Interne_from_id( _id, bl);');
 end;
 
 procedure TPool.Get_Interne_from_id( _id: Integer; out bl);
@@ -1381,7 +1381,7 @@ begin
 end;
 
 procedure TPool.Load_from_sqlq_SELECT_ALL(  slLoaded: TBatpro_StringList = nil;
-                                                      btsLoaded: TbtString          = nil;
+                                                      btsLoaded: TbtString= nil;
                                                       Vider: Boolean = True);
 begin
      Load_sqlQuery( jsdcSELECT_ALL, slLoaded, btsLoaded, Vider);
@@ -1934,7 +1934,7 @@ procedure TPool.SetNomTable(const Value: String);
 var
    SQL: String;
 begin
-     Writeln( ClassName+'.SetNomTable, début');
+     uLog.Log.PrintLn( ClassName+'.SetNomTable, début');
      FNomTable := Value;
 
      if (*    (Length( NomTable) > 3) à réactiver quand il n'y aura plus le pb avec a_not
@@ -1957,11 +1957,11 @@ begin
            +'from          '#13#10
            +'    '+NomTable+#13#10
            +SQLWHERE_ContraintesChamps;
-     Writeln( ClassName+'.SetNomTable, avant jsdcSELECT.SQL:= SQL;');
+     uLog.Log.PrintLn( ClassName+'.SetNomTable, avant jsdcSELECT.SQL:= SQL;');
      jsdcSELECT.SQL:= SQL;
-     Writeln( ClassName+'.SetNomTable, aprés jsdcSELECT.SQL:= SQL;');
+     uLog.Log.PrintLn( ClassName+'.SetNomTable, aprés jsdcSELECT.SQL:= SQL;');
 
-     Writeln( ClassName+'.SetNomTable, avant jsdcSELECT_from_id.SQL');
+     uLog.Log.PrintLn( ClassName+'.SetNomTable, avant jsdcSELECT_from_id.SQL');
      jsdcSELECT_from_id.SQL
      :=
          'select        '#13#10
@@ -1970,11 +1970,11 @@ begin
         +'    '+NomTable+#13#10
         +'where         '#13#10
         +'     '+IDFieldName+' = :id ';
-     Writeln( ClassName+'.SetNomTable, aprés jsdcSELECT_from_id.SQL');
+     uLog.Log.PrintLn( ClassName+'.SetNomTable, aprés jsdcSELECT_from_id.SQL');
 
-     Writeln( ClassName+'.SetNomTable, avant Compose_INSERT;');
+     uLog.Log.PrintLn( ClassName+'.SetNomTable, avant Compose_INSERT;');
      Compose_INSERT;
-     Writeln( ClassName+'.SetNomTable, fin');
+     uLog.Log.PrintLn( ClassName+'.SetNomTable, fin');
 end;
 
 function TPool.SQL_INSERT: String;
@@ -1999,9 +1999,9 @@ end;
 
 procedure TPool.Params_INSERT;
 begin
-     writeln( ClassName+'.Params_INSERT: avant To_Params ( jsdcINSERT.Params);');
+     uLog.Log.PrintLn( ClassName+'.Params_INSERT: avant To_Params ( jsdcINSERT.Params);');
      To_Params ( jsdcINSERT.Params);
-     writeln( ClassName+'.Params_INSERT: aprés To_Params ( jsdcINSERT.Params);');
+     uLog.Log.PrintLn( ClassName+'.Params_INSERT: aprés To_Params ( jsdcINSERT.Params);');
 end;
 
 procedure TPool.Charge_Modele;
@@ -2207,12 +2207,12 @@ begin
      if nil = uPool_Default_jsDataConnexion
      then
          begin
-         WriteLn( ClassName+'.Connection: uPool_Default_jsDataConnexion = nil');
+         uLog.Log.PrintLn( ClassName+'.Connection: uPool_Default_jsDataConnexion = nil');
          uPool_Default_jsDataConnexion:= dmDatabase.jsDataConnexion;
-         WriteLn( ClassName+'.Connection: aprés uPool_Default_jsDataConnexion:= dmDatabase.jsDataConnexion;');
+         uLog.Log.PrintLn( ClassName+'.Connection: aprés uPool_Default_jsDataConnexion:= dmDatabase.jsDataConnexion;');
          end;
      Result:= uPool_Default_jsDataConnexion;
-     WriteLn( ClassName+'.Connection: Fin');
+     uLog.Log.PrintLn( ClassName+'.Connection: Fin');
 end;
 
 procedure TPool.Vider_table;

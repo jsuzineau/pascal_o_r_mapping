@@ -4,6 +4,7 @@
 
 unit OD_DelphiReportEngine_Units;
 
+{$warn 5023 off : no warning about unused units}
 interface
 
 uses
@@ -25,7 +26,7 @@ uses
  uUseCase, uUseCases, uuStrings, uVersion, uLog, uNetwork, uhFiltre_Ancetre, 
  uDimensions_from_pasjpeg, uDimensions_Image, uPNG_File, uBMP_File, 
  ujsDataContexte, uSQLite3, uRegistry, uDataUtilsF, uVide, uSQLite3_SQLQuery, 
- uSQLite3_libsqlite3, LazarusPackageIntf;
+ uSQLite3_libsqlite3, uCSS_Style_Parser_PYACC, uStreamLexer, LazarusPackageIntf;
 
 implementation
 

@@ -27,7 +27,12 @@ uses
  cthreads,
  {$ENDIF}{$ENDIF}
  Interfaces, // this includes the LCL widgetset
- Forms, datetimectrls, uXML, ublG_BECP, ublG_BECPCTX, ublG_CTX, ublG_CTXTYPE,
+ Forms,
+ datetimectrls,
+ {$IFDEF MSWINDOWS}
+ windows,
+ {$ENDIF}
+ uXML, ublG_BECP, ublG_BECPCTX, ublG_CTX, ublG_CTXTYPE,
  uhfG_BECP, uhfG_BECPCTX, uhfG_CTX, uhfG_CTXTYPE, upoolG_BECP, upoolG_BECPCTX,
  upoolG_CTX, upoolG_CTXTYPE, ublAutomatic, uPatternHandler, uJoinPoint,
  uGenerateur_de_code_Ancetre, ujpCSharp_Conteneurs, ujpCSharp_Contenus,
@@ -79,6 +84,11 @@ uses
 {$R *.res}
 
 begin
+ {$IFDEF trucMSWINDOWS} //enlever truc pour afficher la console
+ AllocConsole;      // in Windows unit
+ IsConsole := True; // in System unit
+ SysInitStdIO;      // in System unit
+ {$ENDIF}
  RequireDerivedFormResource := True;
  Application.Initialize;
  Application.CreateForm(TfjsWorks, fjsWorks);

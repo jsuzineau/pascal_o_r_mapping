@@ -24,6 +24,7 @@ interface
 
 uses
     uClean,
+    uLog,
     uBatpro_StringList,
     uDataUtilsU,
     uSGBD,
@@ -109,7 +110,7 @@ end;
 
 procedure TpoolWork.DataModuleCreate(Sender: TObject);
 begin
-     Writeln( ClassName+'.DataModuleCreate, début');
+     uLog.Log.PrintLn( ClassName+'.DataModuleCreate, début');
      NomTable:= 'Work';
      Classe_Elements:= TblWork;
      Classe_Filtre:= ThfWork;
@@ -120,7 +121,7 @@ begin
      ChampTri['Beginning']:= +1;
 
      ublTag.poolWork_Charge_Tag:= Charge_Tag;
-     Writeln( ClassName+'.DataModuleCreate, fin');
+     uLog.Log.PrintLn( ClassName+'.DataModuleCreate, fin');
 end;
 
 function TpoolWork.Get( _id: integer): TblWork;
@@ -158,9 +159,9 @@ end;
 
 function TpoolWork.Start( _nProject: Integer): TblWork;
 begin
-     Writeln('TpoolWork.Start: Nouveau_Base( Result): début');
+     uLog.Log.PrintLn('TpoolWork.Start: Nouveau_Base( Result): début');
      Nouveau_Base( Result);
-     if Result = nil then writeln('TpoolWork.Start: Nouveau_Base( Result) -> nil');
+     if Result = nil then uLog.Log.PrintLn('TpoolWork.Start: Nouveau_Base( Result) -> nil');
      if Result = nil then exit;
 
      Result.nProject:= _nProject;

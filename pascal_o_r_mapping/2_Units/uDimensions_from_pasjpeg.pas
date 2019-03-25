@@ -164,7 +164,9 @@ procedure FormatMessage(CurInfo: j_common_ptr; var buffer: string);
 begin
   if CurInfo=nil then exit;
   {$ifdef FPC_Debug_Image}
+    {$ifdef LINUX}
      writeln('FormatMessage ',buffer);
+    {$endif}
   {$endif}
 end;
 

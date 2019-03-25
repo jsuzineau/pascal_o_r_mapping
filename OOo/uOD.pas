@@ -174,7 +174,7 @@ begin
      Repertoire_racine:= uClean_Racine_from_EXE( uOD_Forms_EXE_Name);
 
      Result:= Repertoire_racine+PathDelim+sys_modeles_np+PathDelim;
-     {$IFDEF FPC}
+     {$IFDEF LINUX}
      WriteLn( 'Résultat uOD_repertoire_standard : ', Result);
      {$ENDIF}
 end;

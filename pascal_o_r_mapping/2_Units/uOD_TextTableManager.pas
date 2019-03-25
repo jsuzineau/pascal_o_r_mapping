@@ -666,7 +666,7 @@ var
                      end;
                  end;
              end;
-           Paragraph.Add_CR_NL;
+           Paragraph.Add_Line_Break;
       end;
    begin
         if High( OD_Datasets) < iDataset then exit;

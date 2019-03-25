@@ -6,7 +6,7 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
-        <OtherUnitFiles Value="../0_uWinUtils;.;../7_sources_externes/synapse/source/lib"/>
+        <OtherUnitFiles Value="../0_uWinUtils;.;../7_sources_externes/synapse/source/lib;CSS_Style_Parser/generated;../7_sources_externes/ndyacclex/src"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -18,7 +18,7 @@
         <CustomOptions Value="-dWINDOWS_GRAPHIC"/>
       </Other>
     </CompilerOptions>
-    <Files Count="95">
+    <Files Count="97">
       <Item1>
         <Filename Value="DBTables.pas"/>
         <UnitName Value="DBTables"/>
@@ -400,6 +400,14 @@
         <Filename Value="uSQLite3_libsqlite3.pas"/>
         <UnitName Value="uSQLite3_libsqlite3"/>
       </Item95>
+      <Item96>
+        <Filename Value="CSS_Style_Parser/generated/uCSS_Style_Parser_PYACC.pas"/>
+        <UnitName Value="uCSS_Style_Parser_PYACC"/>
+      </Item96>
+      <Item97>
+        <Filename Value="../7_sources_externes/ndyacclex/src/uStreamLexer.pas"/>
+        <UnitName Value="uStreamLexer"/>
+      </Item97>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>
