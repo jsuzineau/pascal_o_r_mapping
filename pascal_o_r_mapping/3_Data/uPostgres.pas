@@ -33,6 +33,10 @@ uses
     ujsDataContexte,
     uSGBD,
     ufAccueil_Erreur,
+    {$IFDEF FPC}
+    pqconnection,
+    SQLDB,
+    {$ENDIF}
   SysUtils, Classes;
 
 type
@@ -54,6 +58,11 @@ type
   public
     procedure Assure_initialisation;
     procedure Ecrire; override;
+  //Connexion
+  protected
+    function Cree_SQLConnection: TSQLConnection; override;
+  public
+    function sqlc_p: TPQConnection;
   //Attributs
   public
     SchemaName: String;
@@ -154,6 +163,16 @@ begin
      EXE_INI.WriteString( inis_Postgres, NomValeur, ValeurBrute);
 end;
 
+function TPostgres.Cree_SQLConnection: TSQLConnection;
+begin
+     Result:= TPQConnection.Create( nil);
+end;
+
+function TPostgres.sqlc_p: TPQConnection;
+begin
+     Result:= sqlc as TPQConnection;
+end;
+
 procedure TPostgres.Prepare;
 begin
 		   inherited Prepare;
@@ -170,11 +189,15 @@ begin
        and (User_Name <> sys_Vide)
        and (Database  <> sys_Vide);
 
-     WriteParam( 'HostName'  , HostName  );
-     WriteParam( 'User_Name' , User_Name );
-     WriteParam( 'Password'  , Password  );
-     WriteParam( 'DataBase'  , Database  );
-     WriteParam( 'SchemaName', SchemaName);
+     sqlc.HostName:= HostName;
+     sqlc.UserName:= User_Name;
+     sqlc.Password:= Password;
+     sqlc.DatabaseName:= DataBase;
+     //WriteParam( 'HostName'  , HostName  );
+     //WriteParam( 'User_Name' , User_Name );
+     //WriteParam( 'Password'  , Password  );
+     //WriteParam( 'DataBase'  , Database  );
+     //WriteParam( 'SchemaName', SchemaName);
 end;
 
 procedure TPostgres.Ouvre_db;

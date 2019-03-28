@@ -96,3 +96,5 @@ jsWorks/etc/_Configuration.First-Boss.ini
 *.~pas
 /tools/jsMelder/jsMelder
 /jsWorks/udmBatpro_DataModule.lfm
+pascal_o_r_mapping/2_Units/CSS_Style_Parser/test
+pascal_o_r_mapping/7_sources_externes/ndyacclex/src/yacc/ndyacc

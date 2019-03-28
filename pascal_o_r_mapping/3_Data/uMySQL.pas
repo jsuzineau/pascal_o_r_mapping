@@ -66,9 +66,9 @@ type
   public
     procedure Assure_initialisation;
     procedure Ecrire; override;
-	 //Connexion
-	 protected
-	   function Cree_SQLConnection: TSQLConnection; override;
+  //Connexion
+  protected
+    function Cree_SQLConnection: TSQLConnection; override;
   //Attributs
   public
     Version  : String;
