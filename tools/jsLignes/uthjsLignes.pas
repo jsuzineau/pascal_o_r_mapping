@@ -151,9 +151,10 @@ begin
 
                if SearchRec.Attr and faDirectory = 0
                then
-                   //if (Ext = '.PAS') or (Ext = '.DPR') or (Ext = '.PP' ) or (Ext = '.INC') or
-                   //   (Ext = '.ASP') or (Ext = '.PHP') or (Ext = '.4GL') or (Ext = '.PER')
-                   if (Ext = '.HTML') or (Ext = '.HTM')
+                   if (Ext = '.PAS') or (Ext = '.DPR') or (Ext = '.PP' ) or (Ext = '.INC') or
+                      (Ext = '.ASP') or (Ext = '.PHP') or (Ext = '.4GL') or (Ext = '.PER') or
+                      (Ext = '.JS' ) or (Ext = '.CSS')
+                   //if (Ext = '.HTML') or (Ext = '.HTM')
                    then
                        CreeNode( NombreLignes(Path, NomFichier))
                    else
