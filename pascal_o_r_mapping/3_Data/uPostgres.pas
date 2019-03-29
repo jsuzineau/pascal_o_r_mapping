@@ -30,6 +30,7 @@ uses
     u_sys_,
     uRegistry,
     uEXE_INI,
+    uBatpro_StringList,
     ujsDataContexte,
     uSGBD,
     ufAccueil_Erreur,
@@ -41,7 +42,8 @@ uses
 
 type
 
-	{ TPostgres }
+
+{ TPostgres }
 
  TPostgres
  =
@@ -63,18 +65,50 @@ type
     function Cree_SQLConnection: TSQLConnection; override;
   public
     function sqlc_p: TPQConnection;
-  //Attributs
+  //Contexte
+  protected
+    function Classe_Contexte: TjsDataContexte_class; override;
   public
-    SchemaName: String;
+    jsdc_p: TjsDataContexte_SQLQuery;
+  //Méthodes
   public
     procedure Prepare; override;
     procedure Ouvre_db; override;
     procedure Ferme_db; override;
     procedure Keep_Connection; override;
     procedure Do_not_Keep_Connection; override;
+  //Schema
+  public
+    SchemaName: String;
+    procedure Set_Schema( _SchemaName: String= '');
   //Last_Insert_id
   public
     function Last_Insert_id( _NomTable: String): Integer; override;
+  //Liste des tables
+  public
+    procedure GetTableNames( _List:TStrings); override;
+  end;
+
+ { TjsDataContexte_Postgres }
+
+ TjsDataContexte_Postgres
+ =
+  class( TjsDataContexte_SQLQuery)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Name: String); override;
+    destructor Destroy; override;
+  //Connection
+  private
+    jsDataConnexion_Postgres: TPostgres;
+  protected
+    procedure SetConnection(_Value: TjsDataConnexion); override;
+  //Listage d'un champ vers une liste
+  protected
+    procedure Liste_Champ_initialize; override;
+  //Liste des tables
+  public
+    procedure GetTableNames( _List:TStrings); override;
   end;
 
 const
@@ -99,7 +133,6 @@ end;
 constructor TPostgres.Create( _SGBD: TSGBD);
 begin
      inherited Create( _SGBD);
-     SchemaName:= 'public';
      Initialized:= False;
 
      {$ifndef android}
@@ -120,6 +153,9 @@ begin
      Lit( regv_PassWord  , PassWord , True);
      Lit( regv_Database  , DataBase );
      Lit( regv_SchemaName, SchemaName );
+     if '' = SchemaName
+     then
+         SchemaName:= 'public';
      Initialized:= True;
 end;
 
@@ -173,6 +209,11 @@ begin
      Result:= sqlc as TPQConnection;
 end;
 
+function TPostgres.Classe_Contexte: TjsDataContexte_class;
+begin
+     Result:= TjsDataContexte_Postgres;
+end;
+
 procedure TPostgres.Prepare;
 begin
 		   inherited Prepare;
@@ -202,22 +243,33 @@ end;
 
 procedure TPostgres.Ouvre_db;
 begin
-		   inherited Ouvre_db;
+     inherited Ouvre_db;
+     Set_Schema;
 end;
 
 procedure TPostgres.Ferme_db;
 begin
-		   inherited Ferme_db;
+     inherited Ferme_db;
 end;
 
 procedure TPostgres.Keep_Connection;
 begin
-		   inherited Keep_Connection;
+     inherited Keep_Connection;
 end;
 
 procedure TPostgres.Do_not_Keep_Connection;
 begin
-		   inherited Do_not_Keep_Connection;
+     inherited Do_not_Keep_Connection;
+end;
+
+procedure TPostgres.Set_Schema( _SchemaName: String= '');
+begin
+     if '' <> _SchemaName
+     then
+         SchemaName:= _SchemaName;
+     DoCommande( 'set search_path to '+SchemaName);
+                //123456789012345678901234567890123456789012345678901234567890123456789
+                //         1         2         3         4         5         6
 end;
 
 function TPostgres.Last_Insert_id( _NomTable: String): Integer;
@@ -227,5 +279,54 @@ begin
      SQL:= 'select currval( '''+_NomTable+'_SEQ'')';
      Contexte.Integer_from( SQL, Result);
 end;
+
+procedure TPostgres.GetTableNames(_List: TStrings);
+begin
+     Contexte.GetTableNames( _List);
+end;
+
+{ TjsDataContexte_Postgres }
+
+constructor TjsDataContexte_Postgres.Create(_Name: String);
+begin
+     inherited Create( _Name);
+     jsDataConnexion_Postgres:= nil;
+end;
+
+destructor TjsDataContexte_Postgres.Destroy;
+begin
+     inherited Destroy;
+end;
+
+procedure TjsDataContexte_Postgres.SetConnection( _Value: TjsDataConnexion);
+begin
+     if Affecte_( jsDataConnexion_Postgres, TPostgres, _Value)
+     then
+         raise Exception.Create( ClassName+'.SetConnection: Wrong type');
+     inherited SetConnection( _Value);
+end;
+
+procedure TjsDataContexte_Postgres.Liste_Champ_initialize;
+begin
+     inherited Liste_Champ_initialize;
+     Charge_Champs;
+end;
+
+procedure TjsDataContexte_Postgres.GetTableNames(_List: TStrings);
+var
+   SQL: String;
+begin
+     SQL
+     :=
+        'SELECT                   '#13#10
+       +'      tablename          '#13#10
+       +'FROM                     '#13#10
+       +'    pg_catalog.pg_tables '#13#10
+       +'WHERE                    '#13#10
+       +' schemaname = '''+jsDataConnexion_Postgres.SchemaName+''''#13#10;
+
+     Liste_Champ( SQL, 'tablename', _List);
+end;
+
 
 end.

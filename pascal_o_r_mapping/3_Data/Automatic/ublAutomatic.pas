@@ -28,6 +28,7 @@ uses
     uClean,
     u_sys_,
     uBatpro_StringList,
+    uEXE_INI,
     ujsDataContexte,
     uChampDefinition,
     uChamp,
@@ -492,6 +493,7 @@ var
    F: TField;
    fb: TFieldBuffer;
 begin
+     jsdc.Charge_Champs;
      I:= jsdc.Champs.Iterateur;
      while I.Continuer
      do
@@ -807,7 +809,7 @@ begin
      NomFichierProjet:= uOD_Forms_EXE_Name;
      INI
      :=
-       TIniFile.Create( ChangeFileExt(NomFichierProjet,'_Dico_Delphi.ini'));
+       TIniFile.Create( ChangeFileExt(EXE_INI.FileName,'_Generateur_de_code.ini'));
      try
         sRepSource    := INI.ReadString( 'Options', 'sRepSource'    ,ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'patterns'  +PathDelim);
         sRepParametres:= INI.ReadString( 'Options', 'sRepParametres',ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'Parametres'+PathDelim);

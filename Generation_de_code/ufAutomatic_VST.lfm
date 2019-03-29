@@ -1,23 +1,23 @@
 object fAutomatic_VST: TfAutomatic_VST
-  Left = 346
+  Left = 861
   Height = 413
-  Top = 1100
-  Width = 596
+  Top = 1115
+  Width = 666
   Caption = 'fAutomatic_VST'
   ClientHeight = 413
-  ClientWidth = 596
+  ClientWidth = 666
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poDesktopCenter
-  LCLVersion = '1.8.0.3'
+  LCLVersion = '1.8.4.0'
   object Panel1: TPanel
     Left = 0
     Height = 106
     Top = 0
-    Width = 596
+    Width = 666
     Align = alTop
     ClientHeight = 106
-    ClientWidth = 596
+    ClientWidth = 666
     TabOrder = 0
     object bExecute: TButton
       Left = 8
@@ -31,12 +31,11 @@ object fAutomatic_VST: TfAutomatic_VST
     end
     object e: TEdit
       Left = 88
-      Height = 27
+      Height = 38
       Top = 40
-      Width = 496
+      Width = 494
       Anchors = [akTop, akLeft, akRight]
       TabOrder = 1
-      Text = 'select * from a_cht  where phase <> "0" limit 0,100'
     end
     object bGenere: TButton
       Left = 11
@@ -58,20 +57,31 @@ object fAutomatic_VST: TfAutomatic_VST
     end
     object cbDatabases: TComboBox
       Left = 95
-      Height = 29
+      Height = 38
       Top = 11
       Width = 100
       ItemHeight = 0
       TabOrder = 4
       Text = 'cbDatabases'
     end
+    object bSaveSQL: TButton
+      Left = 584
+      Height = 25
+      Top = 48
+      Width = 75
+      Anchors = [akTop, akRight]
+      Caption = 'bSaveSQL'
+      OnClick = bSaveSQLClick
+      TabOrder = 5
+    end
   end
   object vst: TVirtualStringTree
     Left = 0
     Height = 307
     Top = 106
-    Width = 596
+    Width = 666
     Align = alClient
+    DefaultNodeHeight = 21
     DefaultText = 'Node'
     Header.AutoSizeIndex = 0
     Header.Columns = <>

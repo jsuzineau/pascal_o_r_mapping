@@ -493,7 +493,7 @@ begin
      NomFichierProjet:= uOD_Forms_EXE_Name;
      INI
      :=
-       TIniFile.Create( ChangeFileExt(NomFichierProjet,'_Dico_Delphi.ini'));
+       TIniFile.Create( ChangeFileExt(EXE_INI.FileName,'_Generateur_de_code.ini'));
      try
         sRepSource    := INI.ReadString( 'Options', 'sRepSource', ExtractFilePath(NomFichierProjet)+'Generateur_de_code\patterns\');
         sRepParametres:= INI.ReadString( 'Options', 'sRepParametres', ExtractFilePath(NomFichierProjet)+'Generateur_de_code\Parametres\');

@@ -9,6 +9,7 @@ uses
     u_sys_,
     uChrono,
     ufAccueil_Erreur,
+    uVide,
     uuStrings,
     uBatpro_StringList,
     uDataUtilsF,
@@ -246,6 +247,8 @@ type
      function Champ_by_Index( _Index    : Integer): TjsDataContexte_Champ;
      function     Find_Champ( _Champ_Nom: String ): TjsDataContexte_Champ;
      function   Assure_Champ( _Champ_Nom: String ): TjsDataContexte_Champ; virtual;abstract;
+     procedure Charge_Champs; virtual;
+     procedure Champs_Vide;
    //Accesseurs
    public
      function   String_from_( _Champ_Nom: String; var Memory: String   ): TjsDataContexte_Champ;
@@ -281,9 +284,11 @@ type
      function String_from( _SQL: String; var _Resultat: String; _Index: Integer= 0): Boolean; overload;
      function String_from( _SQL, _NomChamp: String; var _Resultat: String): Boolean; overload;
      function String_from( _SQL, _NomChamp: String; _Params: TParams; out _Resultat: String): Boolean; overload;
-	  //Listage d'un champ vers une liste
-	  public
-	    procedure Liste_Champ( _SQL, _NomChamp: String; _Resultat: TStrings);
+   //Listage d'un champ vers une liste
+   protected
+     procedure Liste_Champ_initialize; virtual;
+   public
+     procedure Liste_Champ( _SQL, _NomChamp: String; _Resultat: TStrings);
    //Requete SQL pour message erreur
    public
      function sResultat_from_Requete( _SQL: String): String;
@@ -292,7 +297,7 @@ type
      procedure GetFieldNames(const _TableName: String; _List: TStrings);
    //Liste des tables
    public
-     procedure GetTableNames( _List:TStrings);
+     procedure GetTableNames( _List:TStrings); virtual;
    //Liste des schemas
    public
      procedure GetSchemaNames( _List:TStrings);
@@ -316,6 +321,9 @@ type
      procedure First;        override;
      function EoF: Boolean;  override;
      procedure Next;         override;
+   //Champs
+   public
+     procedure Charge_Champs; override;
    //Contexte Dataset
    protected
      ds: TDataset;
@@ -345,7 +353,7 @@ type
      function Cree_SQLConnection: TSQLConnection; virtual;
    public
      sqlc: TSQLConnection;
-   //Attributs de connexion
+   //Méthodes
    public
      procedure Prepare; override;
      procedure Ouvre_db; override;
@@ -391,7 +399,7 @@ type
    //Liste des schemas
    public
      procedure GetSchemaNames( _List:TStrings); override;
-			end;
+   end;
 
   { TjsDataContexte_SQLQuery }
 
@@ -1271,6 +1279,16 @@ begin
      Result:= jsDataContexte_Champ_from_sl_sCle( Champs, _Champ_Nom);
 end;
 
+procedure TjsDataContexte.Charge_Champs;
+begin
+
+end;
+
+procedure TjsDataContexte.Champs_Vide;
+begin
+     Vide_StringList( Champs);
+end;
+
 function TjsDataContexte.  String_from_( _Champ_Nom: String; var Memory: String   ): TjsDataContexte_Champ;
 begin
      Result:= Assure_Champ( _Champ_Nom);
@@ -1503,6 +1521,11 @@ begin
             end;
 end;
 
+procedure TjsDataContexte.Liste_Champ_initialize;
+begin
+
+end;
+
 procedure TjsDataContexte.Liste_Champ( _SQL, _NomChamp: String;
 		                                     _Resultat: TStrings);
 var
@@ -1515,6 +1538,7 @@ begin
         First;
         if IsEmpty then exit;
 
+        Liste_Champ_initialize;
         C:= Find_Champ( _NomChamp);
         if nil = C then exit;
 
@@ -1615,19 +1639,34 @@ begin
      ds.Next;
 end;
 
-function TjsDataContexte_Dataset.Assure_Champ( _Champ_Nom: String): TjsDataContexte_Champ;
+procedure TjsDataContexte_Dataset.Charge_Champs;
 var
-   F: TField;
+   I: Integer;
+begin
+     inherited Charge_Champs;
+     for I:= 0 to ds.FieldCount-1
+     do
+       Assure_Champ( ds.Fields[I].FieldName);
+end;
+
+function TjsDataContexte_Dataset.Assure_Champ( _Champ_Nom: String): TjsDataContexte_Champ;
+   procedure Cree_Champ;
+   var
+      F: TField;
+   begin
+        F:= ds_FindField( _Champ_Nom);
+        Result:= TjsDataContexte_Champ_Dataset.Create( _Champ_Nom, F);
+        if nil = Result
+        then
+            raise Exception.Create( ClassName+'.Assure_Champ: '
+                                    +'Echec de TjsDataContexte_Champ_Dataset.Create');
+        Champs.AddObject( _Champ_Nom, Result);
+   end;
 begin
      Result:= Find_Champ( _Champ_Nom);
      if Assigned( Result) then exit;
 
-     F:= ds_FindField( _Champ_Nom);
-     Result:= TjsDataContexte_Champ_Dataset.Create( _Champ_Nom, F);
-     if nil = Result
-     then
-         raise Exception.Create( ClassName+'.Assure_Champ: '
-                                 +'Echec de TjsDataContexte_Champ_Dataset.Create');
+     Cree_Champ;
 end;
 
 { TjsDataContexte_SQLQuery }
@@ -1674,6 +1713,7 @@ end;
 
 function TjsDataContexte_SQLQuery.RefreshQuery: Boolean;
 begin
+     Champs_Vide;
      Result:= uDataUtilsF.RefreshQuery( sqlq);
      if Result
      then
@@ -1684,6 +1724,7 @@ end;
 
 function TjsDataContexte_SQLQuery.ExecSQLQuery: Boolean;
 begin
+     Champs_Vide;
      Result:= uDataUtilsF.ExecSQLQuery( sqlq);
 end;
 

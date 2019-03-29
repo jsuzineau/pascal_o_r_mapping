@@ -65,8 +65,6 @@ function poolAutomatic: TpoolAutomatic;
 
 implementation
 
-
-
 var
    FpoolAutomatic: TpoolAutomatic= nil;
 

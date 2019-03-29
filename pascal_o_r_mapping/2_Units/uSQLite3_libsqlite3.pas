@@ -960,11 +960,13 @@ end;
 
 function TjsDataContexte_libsqlite3.RefreshQuery: Boolean;
 begin
+     Champs_Vide;
      Result:= Prepare_and_Bind_and_Step;
 end;
 
 function TjsDataContexte_libsqlite3.ExecSQLQuery: Boolean;
 begin
+     Champs_Vide;
      Result:= Prepare_and_Bind_and_Step( False);
 end;
 

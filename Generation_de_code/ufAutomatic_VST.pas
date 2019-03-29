@@ -27,6 +27,10 @@ interface
 uses
     uClean,
     u_sys_,
+    uLog,
+    uSGBD,
+    uEXE_INI,
+    uChrono,
     uBatpro_StringList,
     uChampDefinition,
     uChampDefinitions,
@@ -61,6 +65,7 @@ type
     bExecute: TButton;
     bGenere: TButton;
     bGenere_Tout: TButton;
+    bSaveSQL: TButton;
     cbDatabases: TComboBox;
     e: TEdit;
     Panel1: TPanel;
@@ -68,6 +73,7 @@ type
     procedure bExecuteClick(Sender: TObject);
     procedure bGenereClick(Sender: TObject);
     procedure bGenere_ToutClick(Sender: TObject);
+    procedure bSaveSQLClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   //Liste de lignes
@@ -76,9 +82,13 @@ type
   //Execution du SQL
   public
     procedure Execute_SQL;
+    procedure Genere( _NomTable: String);
   //Gestionnaire du VST
   private
     hVST: ThVST;
+  //clé ini pour enregistrer le sql
+  private
+    inik_SQL: String;
   end;
 
 function fAutomatic_VST: TfAutomatic_VST;
@@ -105,6 +115,13 @@ begin
 
      dmDatabase.jsDataConnexion.Fill_with_databases( cbDatabases.Items);
      cbDatabases.Text:= dmDatabase.jsDataConnexion.DataBase;
+     inik_SQL:= ClassName+'.e.Text';
+     e.Text:= EXE_INI.ReadString( inis_Options, inik_SQL, '');
+end;
+
+procedure TfAutomatic_VST.bSaveSQLClick(Sender: TObject);
+begin
+     EXE_INI.WriteString( inis_Options, inik_SQL, e.Text);
 end;
 
 procedure TfAutomatic_VST.FormDestroy(Sender: TObject);
@@ -133,12 +150,21 @@ begin
      hVST._from_sl;
 end;
 
+procedure TfAutomatic_VST.Genere( _NomTable: String);
+var
+   bl: TblAutomatic;
+begin
+     if sl.Count = 0                               then exit;
+     if Affecte_( bl, TblAutomatic, sl.Objects[0]) then exit;
+
+     bl.Genere_code( _NomTable);
+end;
+
 procedure TfAutomatic_VST.bGenereClick(Sender: TObject);
 var
    bl: TblAutomatic;
    SQL: String;
    NomTable: String;
-
 begin
      if sl.Count = 0                               then exit;
      if Affecte_( bl, TblAutomatic, sl.Objects[0]) then exit;
@@ -157,7 +183,7 @@ begin
          NomTable:= 'Nouveau';
      if not InputQuery( 'Génération de code', 'Suffixe d''identification (nom de la table)', NomTable) then exit;
 
-     bl.Genere_code( NomTable);
+     Genere( NomTable);
 end;
 
 procedure TfAutomatic_VST.bGenere_ToutClick(Sender: TObject);
@@ -165,7 +191,10 @@ var
    Old_Database: String;
    sl: TStringList;
    I: Integer;
+   NomTable: String;
+   sChrono: String;
 begin
+     Chrono.Start;
      dmDatabase.jsDataConnexion.Ferme_db;
      Old_Database:= dmDatabase.jsDataConnexion.DataBase;
      try
@@ -177,9 +206,16 @@ begin
            for I:= 0 to sl.Count -1
            do
              begin
-             e.Text:= 'select * from '+sl[I]+' limit 0,5';
+             NomTable:= sl[I];
+             Chrono.Stop( 'Début traitement '+NomTable);
+             case SGBD
+             of
+               sgbd_MySQL   : e.Text:= 'select * from '+NomTable+' limit 0,1';
+               sgbd_Postgres: e.Text:= 'select * from '+NomTable+' limit 1'  ;
+               else SGBD_non_gere( Classname+'.bGenere_ToutClick');
+               end;
              bExecute.Click;
-             bGenere.Click;
+             Genere( UpperCase( NomTable));
              end;
         finally
                FreeAndNil( sl);
@@ -187,6 +223,10 @@ begin
      finally
             dmDatabase.jsDataConnexion.DataBase:= Old_Database;
             end;
+     Chrono.Stop( 'Fin de la génération');
+     sChrono:= Chrono.Get_Liste;
+     Log.PrintLn( sChrono);
+     ShowMessage( sChrono);
 end;
 
 initialization
