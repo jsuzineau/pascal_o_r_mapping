@@ -150,19 +150,22 @@ end;
 constructor TPatternHandler.Create( _g: TGenerateur_de_code_Ancetre;
                                     _Source: String;
                                     _slParametres: TBatpro_StringList);
+var
+   Source_FullPath: String;
 begin
      g:= _g;
 
      Source         := _Source         ;
      slParametres   := _slParametres;
 
+     Source_FullPath:= g.sRepSource+Source;
      slSource:= TBatpro_StringList.Create;
-     if not FileExists( Source)
+     if not FileExists( Source_FullPath)
      then
          uForms_ShowMessage( 'Introuvable '+Source);
      slLog  := TBatpro_StringList.Create;
 
-     slSource.LoadFromFile( g.sRepSource+Source);
+     slSource.LoadFromFile( Source_FullPath);
      slLog.Add( 'Original de '+Source);
      slLog.Add( slSource.Text);
 

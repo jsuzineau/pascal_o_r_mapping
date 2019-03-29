@@ -40,12 +40,12 @@ type
     TSGBD
     =
      (
-     sgbd_Informix,
-     sgbd_MySQL   ,
-     sgbd_Postgres,
-     sgbd_SQLServer,
-     sgbd_SQLite3,
-     sgbd_SQLite_Android
+     sgbd_Informix,  //0
+     sgbd_MySQL   ,  //1
+     sgbd_Postgres,  //2
+     sgbd_SQLServer, //3
+     sgbd_SQLite3,   //4
+     sgbd_SQLite_Android //5
      );
 const
      sSGBDs: array[Low(TSGBD)..High(TSGBD)] of String

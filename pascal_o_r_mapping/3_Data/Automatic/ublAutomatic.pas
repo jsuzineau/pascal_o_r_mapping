@@ -814,6 +814,9 @@ begin
         sRepSource    := INI.ReadString( 'Options', 'sRepSource'    ,ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'patterns'  +PathDelim);
         sRepParametres:= INI.ReadString( 'Options', 'sRepParametres',ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'Parametres'+PathDelim);
         sRepCible     := INI.ReadString( 'Options', 'sRepCible'     ,ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'Source'    +PathDelim);
+        ForceDirectories( sRepSource    );
+        ForceDirectories( sRepParametres);
+        ForceDirectories( sRepCible     );
         INI.WriteString( 'Options', 'sRepSource', sRepSource);
         INI.WriteString( 'Options', 'sRepCible' , sRepCible );
 
