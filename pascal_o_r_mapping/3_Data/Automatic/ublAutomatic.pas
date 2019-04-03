@@ -109,6 +109,11 @@ uses
     ujpPHP_Doctrine_HasMany,
     ujpPHP_Doctrine_HasOne,
 
+    //Angular_TypeScript
+    ujpAngular_TypeScript_NomFichierElement,
+    ujpAngular_TypeScript_NomClasseElement,
+    ujpAngular_TypeScript_declaration_champs,
+
     SysUtils, Classes, DB, Inifiles, FileUtil;
 
 type
@@ -1038,7 +1043,12 @@ begin
                 //PHP / Doctrine
                 jpPHP_Doctrine_Has_Column,
                 jpPHP_Doctrine_HasMany,
-                jpPHP_Doctrine_HasOne
+                jpPHP_Doctrine_HasOne,
+
+                //Angular_TypeScript
+                jpAngular_TypeScript_NomFichierElement,
+                jpAngular_TypeScript_NomClasseElement,
+                jpAngular_TypeScript_declaration_champs
                 ]
                 );
 end;
