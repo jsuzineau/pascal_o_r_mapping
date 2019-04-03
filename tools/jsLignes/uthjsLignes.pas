@@ -153,8 +153,8 @@ begin
                then
                    if (Ext = '.PAS') or (Ext = '.DPR') or (Ext = '.PP' ) or (Ext = '.INC') or
                       (Ext = '.ASP') or (Ext = '.PHP') or (Ext = '.4GL') or (Ext = '.PER') or
-                      (Ext = '.JS' ) or (Ext = '.CSS')
-                   //if (Ext = '.HTML') or (Ext = '.HTM')
+                      (Ext = '.JS' ) or (Ext = '.TS' ) or (Ext = '.CSS') or (Ext = '.CS') or
+                      (Ext = '.HTML') or (Ext = '.HTM')
                    then
                        CreeNode( NombreLignes(Path, NomFichier))
                    else
