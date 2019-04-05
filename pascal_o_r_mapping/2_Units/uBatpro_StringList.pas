@@ -157,7 +157,7 @@ type
 
     procedure Iterateur_Start;
     procedure Iterateur_Stop;
-    procedure Iterateur_Suivant( var _Resultat);
+    procedure Iterateur_Suivant( out _Resultat);
     procedure Iterateur_Supprime_courant;
     function  Iterateur_EOF: Boolean;
   //Création d'itérateur (nouvelle mouture de l'itérateur: 2011/11/09)
@@ -563,7 +563,7 @@ begin
      FIterateur_running:= False;
 end;
 
-procedure TBatpro_StringList.Iterateur_Suivant( var _Resultat);
+procedure TBatpro_StringList.Iterateur_Suivant( out _Resultat);
 begin
      _Classe_from_sl( _Resultat, Classe_Elements, Self, nIterateur_Suivant);
      Inc( nIterateur_Suivant);
