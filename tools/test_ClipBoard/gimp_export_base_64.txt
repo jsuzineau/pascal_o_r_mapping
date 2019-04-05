@@ -1,0 +1,3 @@
+python fu -> console
+puis
+open(gimp.image_list()[0].filename, "rb").read().encode('base64')

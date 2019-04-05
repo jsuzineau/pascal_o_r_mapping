@@ -23,7 +23,7 @@ uses
   uCode_barre_pdf417, 
   utcSQLite, 
   udmSQLite, 
-  ufSQLite, tcSQLITE_LastInsertId;
+  ufSQLite, tcSQLITE_LastInsertId, utcOpenDocument_AddHTML, ublTest_HTML;
 
 {$R *.res}
 

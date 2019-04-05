@@ -1,0 +1,42 @@
+object ftest_ClipBoard: Tftest_ClipBoard
+  Left = 930
+  Height = 240
+  Top = 136
+  Width = 320
+  Caption = 'ftest_ClipBoard'
+  ClientHeight = 240
+  ClientWidth = 320
+  OnCreate = FormCreate
+  LCLVersion = '2.0.0.4'
+  object m: TMemo
+    Left = 0
+    Height = 190
+    Top = 50
+    Width = 320
+    Align = alClient
+    Lines.Strings = (
+      'm'
+    )
+    ScrollBars = ssAutoBoth
+    TabOrder = 0
+  end
+  object Panel1: TPanel
+    Left = 0
+    Height = 50
+    Top = 0
+    Width = 320
+    Align = alTop
+    ClientHeight = 50
+    ClientWidth = 320
+    TabOrder = 1
+    object Button1: TButton
+      Left = 22
+      Height = 25
+      Top = 13
+      Width = 75
+      Caption = 'Button1'
+      OnClick = Button1Click
+      TabOrder = 0
+    end
+  end
+end

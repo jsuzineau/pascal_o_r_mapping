@@ -18,7 +18,7 @@
         <CustomOptions Value="-dWINDOWS_GRAPHIC"/>
       </Other>
     </CompilerOptions>
-    <Files Count="97">
+    <Files Count="98">
       <Item1>
         <Filename Value="DBTables.pas"/>
         <UnitName Value="DBTables"/>
@@ -408,6 +408,10 @@
         <Filename Value="../7_sources_externes/ndyacclex/src/uStreamLexer.pas"/>
         <UnitName Value="uStreamLexer"/>
       </Item97>
+      <Item98>
+        <Filename Value="uMimeType.pas"/>
+        <UnitName Value="uMimeType"/>
+      </Item98>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>

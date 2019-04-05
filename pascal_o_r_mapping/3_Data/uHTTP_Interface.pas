@@ -27,6 +27,7 @@ interface
 uses
     uForms,
     uClean,
+    uMimeType,
     uChrono,
     uuStrings,
     uBatpro_StringList,
@@ -817,23 +818,20 @@ begin
      Send_Data( 'image/x-icon', _ICO);
 end;
 
-function THTTP_Interface.MIME_from_Extension(_Extension: String): String;
-begin
-     Result:= '';
-
-          if '.svg' = _Extension then Result:= 'image/svg+xml'
-     else if '.eot' = _Extension then Result:= 'application/vnd.ms-fontobject'
-     else if '.ttf' = _Extension then Result:= 'application/x-font-truetype';
-
-end;
-
 procedure THTTP_Interface.Send_MIME_from_Extension( _S, _Extension: String);
-var
-   MIME: String;
+     function not_Traite_MIME: Boolean;
+     var
+        MIME: String;
+     begin
+          MIME:= MIME_from_Extension( _Extension);
+          Result:= '' = MIME;
+          if Result then exit;
+
+          Send_Data( MIME, _S)
+     else
+     end;
 begin
-     MIME:= MIME_from_Extension( _Extension);
-          if MIME <> ''            then Send_Data( MIME, _S)
-     else if '.html'  = _Extension then Send_HTML ( _S)
+          if '.html'  = _Extension then Send_HTML ( _S)
      else if '.js'    = _Extension then Send_JS   ( _S)
      else if '.json'  = _Extension then Send_JSON ( _S)
      else if '.css'   = _Extension then Send_CSS  ( _S)
@@ -841,7 +839,8 @@ begin
      else if '.woff'  = _Extension then Send_WOFF ( _S)
      else if '.woff2' = _Extension then Send_WOFF2( _S)
      else if '.ico'   = _Extension then Send_ICO  ( _S)
-     else
+     else if not not_Traite_MIME
+     then
          begin
          Send_HTML( _S);
          Log.PrintLn( '#### Extension inconnue '+_Extension+' pour :'#13#10+uri);
@@ -855,40 +854,8 @@ begin
 end;
 
 function THTTP_Interface.Content_type_from_NomFichier( _NomFichier: String): String;
-var
-   Extension: String;
 begin
-     Extension:= LowerCase( ExtractFileExt( _NomFichier));
-
-     //Pages web
-          if '.css'  = Extension then Result:= 'text/css'
-     else if '.js'   = Extension then Result:= 'application/javascript'
-     else if '.gif'  = Extension then Result:= 'image/gif'
-     else if '.png'  = Extension then Result:= 'image/png'
-     else if '.jpg'  = Extension then Result:= 'image/jpeg'
-     else if '.htm'  = Extension then Result:= 'text/html'
-     else if '.html' = Extension then Result:= 'text/html'
-
-     //PDF
-     else if '.pdf'  = Extension then Result:= 'application/pdf'
-
-     //Open Document
-     else if '.odt'  = Extension then Result:= 'application/vnd.oasis.opendocument.text'
-     else if '.ott'  = Extension then Result:= 'application/vnd.oasis.opendocument.text-template'
-     else if '.ods'  = Extension then Result:= 'application/vnd.oasis.opendocument.spreadsheet'
-     else if '.odg'  = Extension then Result:= 'application/vnd.oasis.opendocument.graphics'
-     else if '.odp'  = Extension then Result:= 'application/vnd.oasis.opendocument.presentation'
-
-     //Microsoft
-     else if '.doc'  = Extension then Result:= 'application/msword'
-     else if '.docx' = Extension then Result:= 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-     else if '.xls'  = Extension then Result:= 'application/vnd.ms-excel'
-     else if '.xlsx' = Extension then Result:= 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-     else if '.ppt'  = Extension then Result:= 'application/vnd.ms-powerpoint'
-     else if '.pptx' = Extension then Result:= 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
-
-     else if '.' = Extension then Result:= 'application/octet-stream'
-     else                         Result:= '';
+     Result:= MimeType_from_Extension( ExtractFileExt( _NomFichier));
 end;
 
 procedure THTTP_Interface.Traite_fichier( _NomFichier: String);
