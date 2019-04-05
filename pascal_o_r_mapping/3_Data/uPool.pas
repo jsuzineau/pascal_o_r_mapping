@@ -2351,6 +2351,8 @@ var
            Result:= iDesc;
       end;
    begin
+        iAsc := 0;
+        iDesc:= 0;
         select:= LowerCase( _Order_By);
         while Get_iAsc  <> 0 do Delete( select, iAsc , Length( sAsc ));
         while Get_iDesc <> 0 do Delete( select, iDesc, Length( sDesc));
@@ -2392,7 +2394,7 @@ begin
             end;
 end;
 
-procedure TPool.Get_Interne_from_SQLid( _SQL: String; var bl; _fID: String= 'id');
+procedure TPool.Get_Interne_from_SQLid( _SQL: String; out bl; _fID: String= 'id');
 var
    id: Integer;
 begin
