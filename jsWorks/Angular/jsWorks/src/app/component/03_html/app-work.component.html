@@ -1,0 +1,47 @@
+  <h2>Liste des works</h2>
+
+  <div *ngIf="works">
+    <table class="works">
+      <tr>
+        <th>Nom         </th>
+        <th>Mot de passe</th>
+        <th>Niveau      </th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let work of works">
+        <td>
+          <span (click)="onClick( work)" class="work_nom">
+            <span *ngIf="!work.modifie">{{work.nom                                                             }}</span>
+            <span *ngIf= "work.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="work.nom"/></span>
+          </span>
+        </td>
+        <td>
+          <span (click)="onClick( work)" class="work_mot_de_passe">
+            <span *ngIf="!work.modifie">{{work.mot_de_passe                                                             }}</span>
+            <span *ngIf= "work.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="work.mot_de_passe"/></span>
+          </span>
+        </td>
+        <td>
+          <span (click)="onClick( work)" class="work_niveau">
+            <span *ngIf="!work.modifie">{{work.niveau                                                             }}</span>
+            <span *ngIf= "work.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="work.niveau"/></span>
+          </span>
+        </td>
+        <td>
+          <span (click)="onClick( work)" class="work_Valider">
+            <button *ngIf="work.modifie" (click)='work.Valide()'>Valider</button>
+          </span>
+        </td>
+        <td>
+          <span class="work_LogTo">
+            <button (click)='LogTo( work)'>S'identifier comme ...</button>
+          </span>
+        </td>
+      </tr>
+    </table>
+    <div class="works_Nouveau">
+      <button (click)='works_Nouveau()'>Nouveau</button>
+    </div>
+  </div>
+
