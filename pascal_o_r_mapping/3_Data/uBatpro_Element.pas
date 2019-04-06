@@ -1116,7 +1116,6 @@ type
     procedure Send_WOFF2(_WOFF2: String);                      virtual;abstract;
     procedure Send_ICO(_ICO: String);                          virtual;abstract;
     procedure Send_MIME_from_Extension(_S, _Extension: String);virtual;abstract;
-    function MIME_from_Extension( _Extension: String): String; virtual;abstract;
     procedure Send_Not_found;                                  virtual;abstract;
   //Traitement des appels
   public

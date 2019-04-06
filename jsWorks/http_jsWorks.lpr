@@ -29,27 +29,16 @@ uses
   {$IFDEF UNIX}
   cthreads,
   {$ENDIF}
-  uBatpro_StringList,
-  uuStrings,
-  ublCategorie,
-  ublDevelopment,
-  ublProject,
-  ublState,
-  ublWork,
-  uhfCategorie,
-  uhfDevelopment,
-  uhfJour_ferie,
-  uhfProject,
-  uhfState,
-  uhfWork,
-  upoolCategorie,
-  upoolDevelopment,
-  upoolProject,
-  upoolState,
+  uBatpro_StringList, uuStrings, ublCategorie, ublDevelopment, ublProject,
+  ublState, ublWork, uhfCategorie, uhfDevelopment, uhfJour_ferie, uhfProject,
+  uhfState, uhfWork, upoolCategorie, upoolDevelopment, upoolProject, upoolState,
   upoolWork, uPool, upoolG_BECP, uHTTP_Interface, ublAutomatic, upoolAutomatic,
   uContexteClasse, ujpNom_de_la_classe, ujpSQL_CREATE_TABLE,
   ujpPHP_Doctrine_Has_Column, ujpCSharp_Champs_persistants, ujpPascal_Affecte,
-  uJoinPoint, uPatternHandler, uhATB, uhAUT, uLog, Interfaces, // this includes the LCL widgetset
+  uJoinPoint, ujpAngular_TypeScript_NomFichierElement,
+  ujpAngular_TypeScript_NomClasseElement,
+  ujpAngular_TypeScript_declaration_champs, uPatternHandler, uhATB, uhAUT, uLog,
+  Interfaces, // this includes the LCL widgetset
 Classes, blcksock, sockets, Synautil,SysUtils,LCLIntf, uhAutomatic_ATB, uhAutomatic_AUT;
 
 procedure Traite_Test_AUT;

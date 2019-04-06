@@ -117,7 +117,6 @@ type
     procedure Send_WOFF2(_WOFF2: String);                        override;
     procedure Send_ICO(_ICO: String);                            override;
     procedure Send_MIME_from_Extension(_S, _Extension: String);  override;
-    function MIME_from_Extension( _Extension: String): String;   override;
     procedure Send_Not_found;                                    override;
     procedure Traite_fichier( _NomFichier: String); overload;
     procedure Traite_racine;
@@ -821,14 +820,13 @@ end;
 procedure THTTP_Interface.Send_MIME_from_Extension( _S, _Extension: String);
      function not_Traite_MIME: Boolean;
      var
-        MIME: String;
+        MimeType: String;
      begin
-          MIME:= MIME_from_Extension( _Extension);
-          Result:= '' = MIME;
+          MimeType:= MimeType_from_Extension( _Extension);
+          Result:= '' = MimeType;
           if Result then exit;
 
-          Send_Data( MIME, _S)
-     else
+          Send_Data( MimeType, _S);
      end;
 begin
           if '.html'  = _Extension then Send_HTML ( _S)
