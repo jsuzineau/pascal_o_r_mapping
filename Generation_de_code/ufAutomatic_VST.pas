@@ -210,8 +210,10 @@ begin
              Chrono.Stop( 'Début traitement '+NomTable);
              case SGBD
              of
+               sgbd_Informix: e.Text:= 'select first 1 * from '+NomTable;
                sgbd_MySQL   : e.Text:= 'select * from '+NomTable+' limit 0,1';
                sgbd_Postgres: e.Text:= 'select * from '+NomTable+' limit 1'  ;
+               sgbd_SQLite3 : e.Text:= 'select * from '+NomTable+' limit 1';
                else SGBD_non_gere( Classname+'.bGenere_ToutClick');
                end;
              bExecute.Click;
