@@ -100,3 +100,4 @@ pascal_o_r_mapping/2_Units/CSS_Style_Parser/test
 pascal_o_r_mapping/7_sources_externes/ndyacclex/src/yacc/ndyacc
 tools/Generateur/etc/_Configuration_Generateur_de_code.ini
 /tools/Generateur/libcurl.lib
+/jsWorks/etc/_Configuration_Generateur_de_code.ini
