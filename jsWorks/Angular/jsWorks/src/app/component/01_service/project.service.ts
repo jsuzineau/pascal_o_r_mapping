@@ -6,7 +6,6 @@ import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 import { environment    } from '../../../environments/environment';
 
-import { SessionService} from './session.service';
 import { Project   } from './element/project';
 
 const API_URL = environment.api_url;
