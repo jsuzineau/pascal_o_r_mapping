@@ -4,6 +4,7 @@ import { Nom_de_la_classeService} from '../NomTableMinuscule.service';
 @Injectable()
 export class Nom_de_la_classe
   {
+  id: number;
   //Angular_TypeScript_declaration_champs
   // champs calculés (supprimés dans to_ServerValue() )
   SID: string= '';

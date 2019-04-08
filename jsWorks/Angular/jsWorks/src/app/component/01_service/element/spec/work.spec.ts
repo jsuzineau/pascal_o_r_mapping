@@ -1,15 +1,15 @@
-import {WORK} from '../work';
+import {Work} from '../work';
 
-describe('WORK', () =>
+describe('Work', () =>
   {
   it('devrait créer une instance', () =>
     {
-    expect(new WORK()).toBeTruthy();
+    expect(new Work()).toBeTruthy();
     });
   /*
   it('devrait accepter le passage de valeurs d\'attributs dans le constructeur', () =>
     {
-    const u = new WORK(
+    const u = new Work(
       {
       nom   : 'jean',
       niveau: 1

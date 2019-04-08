@@ -73,7 +73,10 @@ type
 
     procedure DoCommande( Commande: String);          override;
     function ExecQuery( _SQL: String): Boolean;          override;
-  //Contexte
+ //Récupération du nom des bases
+ public
+   procedure Fill_with_databases( _s: TStrings); override;
+ //Contexte
   protected
     function Classe_Contexte: TjsDataContexte_class; override;
   public
@@ -200,6 +203,7 @@ type
   //Champs
   public
     function Assure_Champ( _Champ_Nom: String): TjsDataContexte_Champ; override;
+    procedure Charge_Champs; override;
   //Last_Insert_id
   public
     function last_insert_rowid: Integer;
@@ -377,6 +381,11 @@ function TSQLite3_libsqlite3.ExecQuery( _SQL: String): Boolean;
 begin                   //==> peut-être à déplacer dans TjsDataContexte
      Contexte.SQL:= _SQL;
      Result:= Contexte.ExecSQLQuery;
+end;
+
+procedure TSQLite3_libsqlite3.Fill_with_databases(_s: TStrings);
+begin
+     _s.Text:= Database;
 end;
 
 function TSQLite3_libsqlite3.Classe_Contexte: TjsDataContexte_class;
@@ -1029,6 +1038,16 @@ begin
      F.Index:= Column_Index_from_Name( _Champ_Nom);
      F.Typ  := Column_Type( F.Index);
      jsdcc.F:= F;
+end;
+
+procedure TjsDataContexte_libsqlite3.Charge_Champs;
+var
+   I: Integer;
+begin
+     inherited Charge_Champs;
+     for I:= 0 to slNomColonnes.Count-1
+     do
+       Assure_Champ( slNomColonnes[I]);
 end;
 
 function TjsDataContexte_libsqlite3.last_insert_rowid: Integer;

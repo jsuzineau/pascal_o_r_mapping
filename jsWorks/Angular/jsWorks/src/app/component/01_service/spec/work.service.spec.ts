@@ -1,9 +1,9 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClient, HttpHandler} from '@angular/common/http';
 
-import { WORKService } from '../work.service';
+import { WorkService } from '../work.service';
 
-describe('WORKService', () =>
+describe('WorkService', () =>
   {
   beforeEach(() =>
     {
@@ -11,14 +11,14 @@ describe('WORKService', () =>
       {
       providers:
         [
-        WORKService,
+        WorkService,
         HttpClient,
         HttpHandler,
         ]
       });
     });
 
-  it('should be created', inject([WORKService], (service: WORKService) =>
+  it('should be created', inject([WorkService], (service: WorkService) =>
     {
     expect(service).toBeTruthy();
     }));

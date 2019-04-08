@@ -1,9 +1,9 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClient, HttpHandler} from '@angular/common/http';
 
-import { PROJECTService } from '../project.service';
+import { ProjectService } from '../project.service';
 
-describe('PROJECTService', () =>
+describe('ProjectService', () =>
   {
   beforeEach(() =>
     {
@@ -11,14 +11,14 @@ describe('PROJECTService', () =>
       {
       providers:
         [
-        PROJECTService,
+        ProjectService,
         HttpClient,
         HttpHandler,
         ]
       });
     });
 
-  it('should be created', inject([PROJECTService], (service: PROJECTService) =>
+  it('should be created', inject([ProjectService], (service: ProjectService) =>
     {
     expect(service).toBeTruthy();
     }));

@@ -5,25 +5,25 @@ import {  Component,
 import { Router                  } from '@angular/router';
 
 import { SessionService          } from './01_service/session.service';
-import { PROJECTService } from './01_service/project.service';
-import { PROJECT        } from './01_service/element/project';
+import { ProjectService } from './01_service/project.service';
+import { Project        } from './01_service/element/project';
 
 @Component({
   selector: 'app-project',
   templateUrl: './03_html/app-project.component.html',
   styleUrls: ['./03_html/app-project.component.css'],
-  providers: [PROJECTService, SessionService],
+  providers: [ProjectService, SessionService],
   })
 
-export class AppPROJECTComponent implements OnInit
+export class AppProjectComponent implements OnInit
   {
-  public get session(): PROJECT
+  public get session(): Project
     {
     return SessionService.static_session;
     }
-  public u: PROJECT|null= null;
-  public projects: Array<PROJECT>;
-  constructor(private router: Router, private service: PROJECTService, private ses: SessionService)
+  public u: Project|null= null;
+  public projects: Array<Project>;
+  constructor(private router: Router, private service: ProjectService, private ses: SessionService)
     {
     }
   not_Session(): Boolean
@@ -46,7 +46,7 @@ export class AppPROJECTComponent implements OnInit
           });
         });
     }
-  onClick( _u: PROJECT)
+  onClick( _u: Project)
     {
     this.u= _u;
     this.u.modifie= true;
@@ -61,7 +61,7 @@ export class AppPROJECTComponent implements OnInit
         }
       }
     }
-  LogTo( _u: PROJECT)
+  LogTo( _u: Project)
     {
     this.ses.Session_from_Login( _u)
       .then(  _u =>
@@ -72,7 +72,7 @@ export class AppPROJECTComponent implements OnInit
     }
   projects_Nouveau()
     {
-    this.service.Insert( new PROJECT)
+    this.service.Insert( new Project)
       .then( _u =>
         {
         this.projects.push( _u);

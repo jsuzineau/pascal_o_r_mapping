@@ -5,25 +5,25 @@ import {  Component,
 import { Router                  } from '@angular/router';
 
 import { SessionService          } from './01_service/session.service';
-import { WORKService } from './01_service/work.service';
-import { WORK        } from './01_service/element/work';
+import { WorkService } from './01_service/work.service';
+import { Work        } from './01_service/element/work';
 
 @Component({
   selector: 'app-work',
   templateUrl: './03_html/app-work.component.html',
   styleUrls: ['./03_html/app-work.component.css'],
-  providers: [WORKService, SessionService],
+  providers: [WorkService, SessionService],
   })
 
-export class AppWORKComponent implements OnInit
+export class AppWorkComponent implements OnInit
   {
-  public get session(): WORK
+  public get session(): Work
     {
     return SessionService.static_session;
     }
-  public u: WORK|null= null;
-  public works: Array<WORK>;
-  constructor(private router: Router, private service: WORKService, private ses: SessionService)
+  public u: Work|null= null;
+  public works: Array<Work>;
+  constructor(private router: Router, private service: WorkService, private ses: SessionService)
     {
     }
   not_Session(): Boolean
@@ -46,7 +46,7 @@ export class AppWORKComponent implements OnInit
           });
         });
     }
-  onClick( _u: WORK)
+  onClick( _u: Work)
     {
     this.u= _u;
     this.u.modifie= true;
@@ -61,7 +61,7 @@ export class AppWORKComponent implements OnInit
         }
       }
     }
-  LogTo( _u: WORK)
+  LogTo( _u: Work)
     {
     this.ses.Session_from_Login( _u)
       .then(  _u =>
@@ -72,7 +72,7 @@ export class AppWORKComponent implements OnInit
     }
   works_Nouveau()
     {
-    this.service.Insert( new WORK)
+    this.service.Insert( new Work)
       .then( _u =>
         {
         this.works.push( _u);

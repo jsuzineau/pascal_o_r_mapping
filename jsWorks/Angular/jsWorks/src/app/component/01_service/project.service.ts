@@ -7,12 +7,12 @@ import 'rxjs/add/operator/map';
 import { environment    } from '../../../environments/environment';
 
 import { SessionService} from './session.service';
-import { PROJECT   } from './element/project';
+import { Project   } from './element/project';
 
 const API_URL = environment.api_url;
 
 @Injectable()
-export class PROJECTService
+export class ProjectService
   {
   // private headers = new HttpHeaders({'Content-Type': 'application/json'});
   private headers = new HttpHeaders({'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'});
@@ -26,64 +26,64 @@ export class PROJECTService
     return Observable.throw(error);
     }
 
-  public Delete( _u: PROJECT): PROJECTService
+  public Delete( _u: Project): ProjectService
     {
-    const url= API_URL + '/PROJECT_Delete.php' + SessionService.SID + PROJECT.id_parameter( _u.id);
+    const url= API_URL + '/Project_Delete.php' + SessionService.SID + Project.id_parameter( _u.id);
     this.http.get(  url, {headers: this.headers});
     return this;
     }
-  public Get( _id: number): Promise<PROJECT>
+  public Get( _id: number): Promise<Project>
     {
-      const url= API_URL + '/PROJECT_Get.php' + SessionService.SID + PROJECT.id_parameter( _id);
+      const url= API_URL + '/Project_Get.php' + SessionService.SID + Project.id_parameter( _id);
       return this.http
-        .get<PROJECT>(  url, {headers: this.headers})
-        .map<PROJECT,PROJECT>( _u =>
+        .get<Project>(  url, {headers: this.headers})
+        .map<Project,Project>( _u =>
           {
-          const Result: PROJECT= new PROJECT( _u);
+          const Result: Project= new Project( _u);
           Result.service= this;
           return Result;
           })
         .toPromise();
     }
-  public Insert( _u: PROJECT): Promise<PROJECT>
+  public Insert( _u: Project): Promise<Project>
     {
-      const url= API_URL + '/PROJECT_Insert.php' + SessionService.SID;
+      const url= API_URL + '/Project_Insert.php' + SessionService.SID;
       return this.http
-        .post<PROJECT>( url, JSON.stringify( _u), {headers: this.headers})
-        .map<PROJECT,PROJECT>( _u =>
+        .post<Project>( url, JSON.stringify( _u), {headers: this.headers})
+        .map<Project,Project>( _u =>
           {
-          const Result: PROJECT= new PROJECT( _u);
+          const Result: Project= new Project( _u);
           Result.service= this;
           return Result;
           })
         .toPromise();
     }
-  public Set( _u: PROJECT): Promise<PROJECT>
+  public Set( _u: Project): Promise<Project>
     {
-      const u: PROJECT= _u.to_ServerValue();
+      const u: Project= _u.to_ServerValue();
 
-      const url= API_URL + '/PROJECT_Set.php' + SessionService.SID + PROJECT.id_parameter( u.id);
+      const url= API_URL + '/Project_Set.php' + SessionService.SID + Project.id_parameter( u.id);
       return this.http
-        .post<PROJECT>( url, JSON.stringify( u), {headers: this.headers})
-        .map<PROJECT,PROJECT>( _u =>
+        .post<Project>( url, JSON.stringify( u), {headers: this.headers})
+        .map<Project,Project>( _u =>
           {
-          const Result: PROJECT= new PROJECT( _u);
+          const Result: Project= new Project( _u);
           Result.service= this;
           return Result;
           })
         .toPromise();
     }
-  public All(): Promise<Array<PROJECT>>
+  public All(): Promise<Array<Project>>
     {
-      const url= API_URL + '/PROJECT.php' + SessionService.SID;
+      const url= API_URL + '/Project.php' + SessionService.SID;
       return this.http
-        .get<Array<PROJECT>>( url, {headers: this.headers})
-        .map<Array<PROJECT>, Array<PROJECT>>( _utilisateurs =>
+        .get<Array<Project>>( url, {headers: this.headers})
+        .map<Array<Project>, Array<Project>>( _utilisateurs =>
           {
-          const Result= Array<PROJECT>();
+          const Result= Array<Project>();
           for( let _u of _utilisateurs)
             {
-            const u: PROJECT= new PROJECT( _u);
+            const u: Project= new Project( _u);
             u.service= this;
             Result.push( u);
             }
