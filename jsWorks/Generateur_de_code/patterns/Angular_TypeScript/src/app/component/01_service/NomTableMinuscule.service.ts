@@ -6,7 +6,6 @@ import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 import { environment    } from '../../../environments/environment';
 
-import { SessionService} from './session.service';
 import { Nom_de_la_classe   } from './element/NomTableMinuscule';
 
 const API_URL = environment.api_url;
@@ -28,13 +27,13 @@ export class Nom_de_la_classeService
 
   public Delete( _u: Nom_de_la_classe): Nom_de_la_classeService
     {
-    const url= API_URL + '/Nom_de_la_classe_Delete.php' + SessionService.SID + Nom_de_la_classe.id_parameter( _u.id);
+    const url= API_URL + '/Nom_de_la_classe_Delete.php?' + Nom_de_la_classe.id_parameter( _u.id);
     this.http.get(  url, {headers: this.headers});
     return this;
     }
   public Get( _id: number): Promise<Nom_de_la_classe>
     {
-      const url= API_URL + '/Nom_de_la_classe_Get.php' + SessionService.SID + Nom_de_la_classe.id_parameter( _id);
+      const url= API_URL + '/Nom_de_la_classe_Get.php?' + Nom_de_la_classe.id_parameter( _id);
       return this.http
         .get<Nom_de_la_classe>(  url, {headers: this.headers})
         .map<Nom_de_la_classe,Nom_de_la_classe>( _u =>
@@ -47,7 +46,7 @@ export class Nom_de_la_classeService
     }
   public Insert( _u: Nom_de_la_classe): Promise<Nom_de_la_classe>
     {
-      const url= API_URL + '/Nom_de_la_classe_Insert.php' + SessionService.SID;
+      const url= API_URL + '/Nom_de_la_classe_Insert.php';
       return this.http
         .post<Nom_de_la_classe>( url, JSON.stringify( _u), {headers: this.headers})
         .map<Nom_de_la_classe,Nom_de_la_classe>( _u =>
@@ -62,7 +61,7 @@ export class Nom_de_la_classeService
     {
       const u: Nom_de_la_classe= _u.to_ServerValue();
 
-      const url= API_URL + '/Nom_de_la_classe_Set.php' + SessionService.SID + Nom_de_la_classe.id_parameter( u.id);
+      const url= API_URL + '/Nom_de_la_classe_Set.php?' + Nom_de_la_classe.id_parameter( u.id);
       return this.http
         .post<Nom_de_la_classe>( url, JSON.stringify( u), {headers: this.headers})
         .map<Nom_de_la_classe,Nom_de_la_classe>( _u =>
@@ -75,7 +74,7 @@ export class Nom_de_la_classeService
     }
   public All(): Promise<Array<Nom_de_la_classe>>
     {
-      const url= API_URL + '/Nom_de_la_classe.php' + SessionService.SID;
+      const url= API_URL + '/Nom_de_la_classe.php';
       return this.http
         .get<Array<Nom_de_la_classe>>( url, {headers: this.headers})
         .map<Array<Nom_de_la_classe>, Array<Nom_de_la_classe>>( _utilisateurs =>

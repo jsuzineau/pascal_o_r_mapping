@@ -6,7 +6,6 @@ import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 import { environment    } from '../../../environments/environment';
 
-import { SessionService} from './session.service';
 import { Work   } from './element/work';
 
 const API_URL = environment.api_url;
@@ -28,13 +27,13 @@ export class WorkService
 
   public Delete( _u: Work): WorkService
     {
-    const url= API_URL + '/Work_Delete.php' + SessionService.SID + Work.id_parameter( _u.id);
+    const url= API_URL + '/Work_Delete.php?' + Work.id_parameter( _u.id);
     this.http.get(  url, {headers: this.headers});
     return this;
     }
   public Get( _id: number): Promise<Work>
     {
-      const url= API_URL + '/Work_Get.php' + SessionService.SID + Work.id_parameter( _id);
+      const url= API_URL + '/Work_Get.php?' + Work.id_parameter( _id);
       return this.http
         .get<Work>(  url, {headers: this.headers})
         .map<Work,Work>( _u =>
@@ -47,7 +46,7 @@ export class WorkService
     }
   public Insert( _u: Work): Promise<Work>
     {
-      const url= API_URL + '/Work_Insert.php' + SessionService.SID;
+      const url= API_URL + '/Work_Insert.php';
       return this.http
         .post<Work>( url, JSON.stringify( _u), {headers: this.headers})
         .map<Work,Work>( _u =>
@@ -62,7 +61,7 @@ export class WorkService
     {
       const u: Work= _u.to_ServerValue();
 
-      const url= API_URL + '/Work_Set.php' + SessionService.SID + Work.id_parameter( u.id);
+      const url= API_URL + '/Work_Set.php?' + Work.id_parameter( u.id);
       return this.http
         .post<Work>( url, JSON.stringify( u), {headers: this.headers})
         .map<Work,Work>( _u =>
@@ -75,7 +74,7 @@ export class WorkService
     }
   public All(): Promise<Array<Work>>
     {
-      const url= API_URL + '/Work.php' + SessionService.SID;
+      const url= API_URL + '/Work.php';
       return this.http
         .get<Array<Work>>( url, {headers: this.headers})
         .map<Array<Work>, Array<Work>>( _utilisateurs =>

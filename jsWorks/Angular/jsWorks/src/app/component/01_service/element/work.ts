@@ -15,7 +15,7 @@ export class Work
   modifie: Boolean= false;
   service: WorkService= null;
 
-  public static id_parameter( _id: number) { return '&id=' + _id; }
+  public static id_parameter( _id: number) { return 'id=' + _id; }
 
   constructor(values: Object = {})
     {

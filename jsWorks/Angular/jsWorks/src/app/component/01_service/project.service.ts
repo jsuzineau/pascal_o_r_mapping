@@ -27,13 +27,13 @@ export class ProjectService
 
   public Delete( _u: Project): ProjectService
     {
-    const url= API_URL + '/Project_Delete.php' + SessionService.SID + Project.id_parameter( _u.id);
+    const url= API_URL + '/Project_Delete.php?' + Project.id_parameter( _u.id);
     this.http.get(  url, {headers: this.headers});
     return this;
     }
   public Get( _id: number): Promise<Project>
     {
-      const url= API_URL + '/Project_Get.php' + SessionService.SID + Project.id_parameter( _id);
+      const url= API_URL + '/Project_Get.php?' + Project.id_parameter( _id);
       return this.http
         .get<Project>(  url, {headers: this.headers})
         .map<Project,Project>( _u =>
@@ -46,7 +46,7 @@ export class ProjectService
     }
   public Insert( _u: Project): Promise<Project>
     {
-      const url= API_URL + '/Project_Insert.php' + SessionService.SID;
+      const url= API_URL + '/Project_Insert.php';
       return this.http
         .post<Project>( url, JSON.stringify( _u), {headers: this.headers})
         .map<Project,Project>( _u =>
@@ -61,7 +61,7 @@ export class ProjectService
     {
       const u: Project= _u.to_ServerValue();
 
-      const url= API_URL + '/Project_Set.php' + SessionService.SID + Project.id_parameter( u.id);
+      const url= API_URL + '/Project_Set.php?' + Project.id_parameter( u.id);
       return this.http
         .post<Project>( url, JSON.stringify( u), {headers: this.headers})
         .map<Project,Project>( _u =>
@@ -74,7 +74,7 @@ export class ProjectService
     }
   public All(): Promise<Array<Project>>
     {
-      const url= API_URL + '/Project.php' + SessionService.SID;
+      const url= API_URL + '/Project.php';
       return this.http
         .get<Array<Project>>( url, {headers: this.headers})
         .map<Array<Project>, Array<Project>>( _utilisateurs =>
