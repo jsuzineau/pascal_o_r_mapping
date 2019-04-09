@@ -9,7 +9,7 @@
         <th></th>
         <th></th>
       </tr>
-      <tr *ngFor="let NomTableMinuscule of NomTableMinuscules">
+      <tr *ngFor="let NomTableMinuscule of NomTableMinuscules.Elements">
         <td>
           <span (click)="onClick( NomTableMinuscule)" class="NomTableMinuscule_nom">
             <span *ngIf="!NomTableMinuscule.modifie">{{NomTableMinuscule.nom                                                             }}</span>

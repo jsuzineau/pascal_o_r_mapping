@@ -9,7 +9,7 @@
         <th></th>
         <th></th>
       </tr>
-      <tr *ngFor="let project of projects">
+      <tr *ngFor="let project of projects.Elements">
         <td>
           <span (click)="onClick( project)" class="project_nom">
             <span *ngIf="!project.modifie">{{project.nom                                                             }}</span>
