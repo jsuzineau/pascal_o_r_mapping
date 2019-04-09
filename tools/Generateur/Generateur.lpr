@@ -13,7 +13,8 @@ uses
  ujpAngular_TypeScript_NomClasseElement,
  ujpAngular_TypeScript_declaration_champs, ujpPHP_Doctrine_Has_Column,
  ujpCSharp_Champs_persistants, ujpPascal_Affecte, ujpSQL_CREATE_TABLE,
- ujpNom_de_la_table, uMenuHandler, ufAutomatic_Genere_tout_sl
+ ujpNom_de_la_table, uMenuHandler, uAngular_TypeScript_ApplicationHandler,
+ ufAutomatic_Genere_tout_sl
  { you can add units after this };
 
 {$R *.res}

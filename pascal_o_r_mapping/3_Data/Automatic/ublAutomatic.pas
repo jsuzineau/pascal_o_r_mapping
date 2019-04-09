@@ -43,6 +43,7 @@ uses
     uPatternHandler,
     uMenuHandler,
     ucsMenuHandler,
+    uAngular_TypeScript_ApplicationHandler,
     uGenerateur_de_code_Ancetre,
     uContexteClasse,
     uContexteMembre,
@@ -305,6 +306,17 @@ type
   public
     procedure slPatternHandler_from_sRepSource;
     procedure slPatternHandler_Produit;
+  //Gestion de la génération au niveau global de l'application (basés sur liste des tables)
+  public
+    Application_Created: Boolean;
+    MenuHandler                          : TMenuHandler;
+    csMenuHandler                        : TcsMenuHandler;
+    Angular_TypeScript_ApplicationHandler: TAngular_TypeScript_ApplicationHandler;
+  private
+    procedure Application_Create;
+  public
+    procedure Application_Produit;
+    procedure Application_Destroy;
   end;
 
 function Generateur_de_code: TGenerateur_de_code;
@@ -598,9 +610,6 @@ var
    phPHP_Perso_Set: TPatternHandler;
    }
 
-   MenuHandler: TMenuHandler;
-   csMenuHandler: TcsMenuHandler;
-
    INI: TIniFile;
 
    //Gestion des détails
@@ -803,7 +812,9 @@ var
            slPatternHandler_Produit;
            //Produit;
            slLog.Add( 'aprés Produit');
-           csMenuHandler.Add( cc.Nom_de_la_table, NbDetails = 0, True(*cc.CalculeSaisi_*));
+           MenuHandler                          .Add( cc.Nom_de_la_table, NbDetails = 0);
+           csMenuHandler                        .Add( cc.Nom_de_la_table, NbDetails = 0, True(*cc.CalculeSaisi_*));
+           Angular_TypeScript_ApplicationHandler.Add( cc, NbDetails = 0);
            slLog.Add( 'MenuHandler.Add');
         finally
                FreeAndNil( cc)
@@ -846,16 +857,15 @@ begin
         CreePatternHandler_PHP_Doctrine( phPHP_Doctrine_record, phPHP_Doctrine_table);
         CreePatternHandler_PHP_Perso( phPHP_Perso_c, phPHP_Perso_Delete, phPHP_Perso_Insert, phPHP_Perso_Set);
         }
-
-        MenuHandler  := TMenuHandler  .Create( Self);
-        csMenuHandler:= TcsMenuHandler.Create( Self);
+        if not Application_Created
+        then
+            Application_Create;
         try
            S:= '';
            Premiere_Classe:= True;
 
            Visite;
 
-           csMenuHandler.Produit;
            slLog.Add( S);
         finally
                {
@@ -888,8 +898,6 @@ begin
                FreeAndNil( phPHP_Perso_Set);
                }
                slPatternHandler.Vide;
-               FreeAndNil( MenuHandler);
-               FreeAndNil( csMenuHandler);
                end;
         slLog.SaveToFile( sRepCible+'suPatterns_from_MCD.log');
      finally
@@ -965,6 +973,29 @@ begin
        if I.not_Suivant( ph) then continue;
        ph.Produit;
        end;
+end;
+
+procedure TGenerateur_de_code.Application_Create;
+begin
+     MenuHandler                          := TMenuHandler                          .Create( Self);
+     csMenuHandler                        := TcsMenuHandler                        .Create( Self);
+     Angular_TypeScript_ApplicationHandler:= TAngular_TypeScript_ApplicationHandler.Create( Self);
+     Application_Created:= True;
+end;
+
+procedure TGenerateur_de_code.Application_Produit;
+begin
+     MenuHandler                          .Produit;
+     csMenuHandler                        .Produit;
+     Angular_TypeScript_ApplicationHandler.Produit;
+end;
+
+procedure TGenerateur_de_code.Application_Destroy;
+begin
+     Application_Created:= False;
+     FreeAndNil( MenuHandler                          );
+     FreeAndNil( csMenuHandler                        );
+     FreeAndNil( Angular_TypeScript_ApplicationHandler);
 end;
 
 procedure TGenerateur_de_code.Initialise(_a: array of TJoinPoint);
@@ -1051,6 +1082,7 @@ begin
                 jpAngular_TypeScript_declaration_champs
                 ]
                 );
+     Application_Created:= False;
 end;
 
 initialization

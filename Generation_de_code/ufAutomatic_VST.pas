@@ -183,7 +183,12 @@ begin
          NomTable:= 'Nouveau';
      if not InputQuery( 'Génération de code', 'Suffixe d''identification (nom de la table)', NomTable) then exit;
 
-     Genere( NomTable);
+     try
+        Genere( NomTable);
+        Generateur_de_code.Application_Produit;
+     finally
+            Generateur_de_code.Application_Destroy;
+            end;
 end;
 
 procedure TfAutomatic_VST.bGenere_ToutClick(Sender: TObject);
@@ -203,22 +208,27 @@ begin
            sl:= TStringList.Create;
            Requete.GetTableNames( sl);
            fAutomatic_Genere_tout_sl.Execute( sl);
-           for I:= 0 to sl.Count -1
-           do
-             begin
-             NomTable:= sl[I];
-             Chrono.Stop( 'Début traitement '+NomTable);
-             case SGBD
-             of
-               sgbd_Informix: e.Text:= 'select first 1 * from '+NomTable;
-               sgbd_MySQL   : e.Text:= 'select * from '+NomTable+' limit 0,1';
-               sgbd_Postgres: e.Text:= 'select * from '+NomTable+' limit 1'  ;
-               sgbd_SQLite3 : e.Text:= 'select * from '+NomTable+' limit 1';
-               else SGBD_non_gere( Classname+'.bGenere_ToutClick');
-               end;
-             bExecute.Click;
-             Genere( UpperCase( NomTable));
-             end;
+           try
+              for I:= 0 to sl.Count -1
+              do
+                begin
+                NomTable:= sl[I];
+                Chrono.Stop( 'Début traitement '+NomTable);
+                case SGBD
+                of
+                  sgbd_Informix: e.Text:= 'select first 1 * from '+NomTable;
+                  sgbd_MySQL   : e.Text:= 'select * from '+NomTable+' limit 0,1';
+                  sgbd_Postgres: e.Text:= 'select * from '+NomTable+' limit 1'  ;
+                  sgbd_SQLite3 : e.Text:= 'select * from '+NomTable+' limit 1';
+                  else SGBD_non_gere( Classname+'.bGenere_ToutClick');
+                  end;
+                bExecute.Click;
+                Genere( NomTable);
+                end;
+              Generateur_de_code.Application_Produit;
+           finally
+                  Generateur_de_code.Application_Destroy;
+                  end;
         finally
                FreeAndNil( sl);
                end;

@@ -41,6 +41,7 @@ const
      s_RepertoireCSharp      = 'CSharp'                                  +PathDelim;
      s_RepertoirePHP_Doctrine= 'PHP'+PathDelim+'Doctrine'                +PathDelim;
      s_RepertoirePHP_Perso   = 'PHP'+PathDelim+'Perso'                   +PathDelim;
+     s_RepertoireAngular_TypeScript= 'Angular_TypeScript'                +PathDelim;
 const
    TailleMaximumIdentificateur = 15;
 
