@@ -6,6 +6,7 @@ import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 import { environment    } from '../../../environments/environment';
 
+import { Result_List} from './result_list';
 import { Nom_de_la_classe   } from './element/NomTableMinuscule';
 
 const API_URL = environment.api_url;
@@ -25,66 +26,66 @@ export class Nom_de_la_classeService
     return Observable.throw(error);
     }
 
-  public Delete( _u: Nom_de_la_classe): Nom_de_la_classeService
+  public Delete( _e: Nom_de_la_classe): Nom_de_la_classeService
     {
-    const url= API_URL + '/Nom_de_la_classe_Delete.php?' + Nom_de_la_classe.id_parameter( _u.id);
+    const url= API_URL + '/Nom_de_la_classe_Delete' + Nom_de_la_classe.id_parameter( _e.id);
     this.http.get(  url, {headers: this.headers});
     return this;
     }
   public Get( _id: number): Promise<Nom_de_la_classe>
     {
-      const url= API_URL + '/Nom_de_la_classe_Get.php?' + Nom_de_la_classe.id_parameter( _id);
+      const url= API_URL + '/Nom_de_la_classe_Get' + Nom_de_la_classe.id_parameter( _id);
       return this.http
         .get<Nom_de_la_classe>(  url, {headers: this.headers})
-        .map<Nom_de_la_classe,Nom_de_la_classe>( _u =>
+        .map<Nom_de_la_classe,Nom_de_la_classe>( _e =>
           {
-          const Result: Nom_de_la_classe= new Nom_de_la_classe( _u);
+          const Result: Nom_de_la_classe= new Nom_de_la_classe( _e);
           Result.service= this;
           return Result;
           })
         .toPromise();
     }
-  public Insert( _u: Nom_de_la_classe): Promise<Nom_de_la_classe>
+  public Insert( _e: Nom_de_la_classe): Promise<Nom_de_la_classe>
     {
-      const url= API_URL + '/Nom_de_la_classe_Insert.php';
+      const url= API_URL + '/Nom_de_la_classe_Insert';
       return this.http
-        .post<Nom_de_la_classe>( url, JSON.stringify( _u), {headers: this.headers})
-        .map<Nom_de_la_classe,Nom_de_la_classe>( _u =>
+        .post<Nom_de_la_classe>( url, JSON.stringify( _e), {headers: this.headers})
+        .map<Nom_de_la_classe,Nom_de_la_classe>( _e =>
           {
-          const Result: Nom_de_la_classe= new Nom_de_la_classe( _u);
+          const Result: Nom_de_la_classe= new Nom_de_la_classe( _e);
           Result.service= this;
           return Result;
           })
         .toPromise();
     }
-  public Set( _u: Nom_de_la_classe): Promise<Nom_de_la_classe>
+  public Set( _e: Nom_de_la_classe): Promise<Nom_de_la_classe>
     {
-      const u: Nom_de_la_classe= _u.to_ServerValue();
+      const e: Nom_de_la_classe= _e.to_ServerValue();
 
-      const url= API_URL + '/Nom_de_la_classe_Set.php?' + Nom_de_la_classe.id_parameter( u.id);
+      const url= API_URL + '/Nom_de_la_classe_Set' + Nom_de_la_classe.id_parameter( e.id);
       return this.http
-        .post<Nom_de_la_classe>( url, JSON.stringify( u), {headers: this.headers})
-        .map<Nom_de_la_classe,Nom_de_la_classe>( _u =>
+        .post<Nom_de_la_classe>( url, JSON.stringify( e), {headers: this.headers})
+        .map<Nom_de_la_classe,Nom_de_la_classe>( _e =>
           {
-          const Result: Nom_de_la_classe= new Nom_de_la_classe( _u);
+          const Result: Nom_de_la_classe= new Nom_de_la_classe( _e);
           Result.service= this;
           return Result;
           })
         .toPromise();
     }
-  public All(): Promise<Array<Nom_de_la_classe>>
+  public All(): Promise<Result_List<Nom_de_la_classe>>
     {
-      const url= API_URL + '/Nom_de_la_classe.php';
+      const url= API_URL + '/Nom_de_la_classe';
       return this.http
-        .get<Array<Nom_de_la_classe>>( url, {headers: this.headers})
-        .map<Array<Nom_de_la_classe>, Array<Nom_de_la_classe>>( _utilisateurs =>
+        .get<Result_List<Nom_de_la_classe>>( url, {headers: this.headers})
+        .map<Result_List<Nom_de_la_classe>, Result_List<Nom_de_la_classe>>( _rl =>
           {
-          const Result= Array<Nom_de_la_classe>();
-          for( let _u of _utilisateurs)
+          const Result= new Result_List<Nom_de_la_classe>();
+          for( let _e of _rl.Elements)
             {
-            const u: Nom_de_la_classe= new Nom_de_la_classe( _u);
-            u.service= this;
-            Result.push( u);
+            const e: Nom_de_la_classe= new Nom_de_la_classe( _e);
+            e.service= this;
+            Result.Elements.push( e);
             }
           return Result;
           })

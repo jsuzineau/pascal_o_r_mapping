@@ -8,9 +8,9 @@ import { AppWorkComponent     } from './component/app-work.component';
 
 const routes: Routes =
   [
-    { path: '', redirectTo: '/session', pathMatch: 'full' },
-        { path: 'project'   , component: AppProjectComponent   },
-        { path: 'work'   , component: AppWorkComponent   },
+    { path: '', redirectTo: '/work', pathMatch: 'full' },
+    { path: 'project', component: AppProjectComponent},
+    { path: 'work'   , component: AppWorkComponent},
     
     // { path: 'detail/:id', component: HeroDetailComponent },
   ];

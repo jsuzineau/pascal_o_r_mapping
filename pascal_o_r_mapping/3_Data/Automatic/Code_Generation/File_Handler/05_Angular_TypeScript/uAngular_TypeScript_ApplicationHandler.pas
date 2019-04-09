@@ -44,10 +44,15 @@ type
   //Attributs
   private
     g: TGenerateur_de_code_Ancetre;
+    APP_MODULE_TS        : TPatternHandler;
     APP_ROUTING_MODULE_TS: TPatternHandler;
   public
+    sAPP_MODULE_TS_IMPORT_LIST : String;
+    sAPP_MODULE_TS_DECLARATIONS: String;
+
     sAPP_ROUTING_MODULE_TS_IMPORT_LIST: String;
     sAPP_ROUTING_MODULE_TS_ROUTES: String;
+
     slParametres: TBatpro_StringList;
     procedure Init;
     procedure Add( _cc: TContexteClasse; IsRelation: Boolean);
@@ -57,6 +62,9 @@ type
 implementation
 
 const
+     s_APP_MODULE_TS_IMPORT_LIST_Key = '//APP_MODULE_TS_IMPORT_LIST';
+     s_APP_MODULE_TS_DECLARATIONS_Key= '//APP_MODULE_TS_DECLARATIONS';
+
      s_APP_ROUTING_MODULE_TS_IMPORT_LIST_Key= '//APP_ROUTING_MODULE_TS_IMPORT_LIST';
      s_APP_ROUTING_MODULE_TS_ROUTES_Key     = '//APP_ROUTING_MODULE_TS_ROUTES';
 
@@ -67,12 +75,14 @@ begin
      g:= _g;
 
      slParametres:= TBatpro_StringList.Create;
+     APP_MODULE_TS        :=TPatternHandler.Create( g, s_RepertoireAngular_TypeScript+'app.module.ts'        ,slParametres);
      APP_ROUTING_MODULE_TS:=TPatternHandler.Create( g, s_RepertoireAngular_TypeScript+'app-routing.module.ts',slParametres);
      Init;
 end;
 
 destructor TAngular_TypeScript_ApplicationHandler.Destroy;
 begin
+     FreeAndNil( APP_MODULE_TS        );
      FreeAndNil( APP_ROUTING_MODULE_TS);
      FreeAndNil( slParametres);
      inherited;
@@ -80,35 +90,67 @@ end;
 
 procedure TAngular_TypeScript_ApplicationHandler.Init;
 begin
+     sAPP_MODULE_TS_IMPORT_LIST := '';
+     sAPP_MODULE_TS_DECLARATIONS:= '';
+
      sAPP_ROUTING_MODULE_TS_IMPORT_LIST:= '';
      sAPP_ROUTING_MODULE_TS_ROUTES     := '';
 end;
 
 procedure TAngular_TypeScript_ApplicationHandler.Add( _cc: TContexteClasse; IsRelation: Boolean);
+     procedure Traite_import_list( var _import_list: String);
+     begin
+          Formate_Liste
+           (
+           _import_list,
+           #13#10,
+           'import { App'+_cc.Nom_de_la_classe+'Component} from ''./component/app-'+_cc.NomTableMinuscule+'.component'';'
+           );
+     end;
 begin
+     //APP_MODULE_TS
+     Traite_import_list( sAPP_MODULE_TS_IMPORT_LIST);
      Formate_Liste
       (
-      sAPP_ROUTING_MODULE_TS_IMPORT_LIST,
-      #13#10,
-      'import { App'+_cc.Nom_de_la_classe+'Component     } from ''./component/app-'+_cc.NomTableMinuscule+'.component'';'
+      sAPP_MODULE_TS_DECLARATIONS,
+      #13#10'    ',
+      'App'+_cc.Nom_de_la_classe+'Component,'
       );
+
+     //APP_ROUTING_MODULE_TS
+     Traite_import_list( sAPP_ROUTING_MODULE_TS_IMPORT_LIST);
      Formate_Liste
       (
       sAPP_ROUTING_MODULE_TS_ROUTES,
       #13#10'    ',
-      '    { path: '''+_cc.NomTableMinuscule+'''   , component: App'+_cc.Nom_de_la_classe+'Component   },'
+      '{ path: '''+_cc.NomTableMinuscule+'''   , component: App'+_cc.Nom_de_la_classe+'Component},'
       );
 end;
 
 procedure TAngular_TypeScript_ApplicationHandler.Produit;
+   procedure Finalise( var _sListe: String; _Terminateur: String);
+   begin
+        if _sListe <> '' then _sListe:= _sListe+_Terminateur;
+   end;
 begin
-     if sAPP_ROUTING_MODULE_TS_IMPORT_LIST <> '' then sAPP_ROUTING_MODULE_TS_IMPORT_LIST:= sAPP_ROUTING_MODULE_TS_IMPORT_LIST+#13#10;
-     if sAPP_ROUTING_MODULE_TS_ROUTES      <> '' then sAPP_ROUTING_MODULE_TS_ROUTES     := sAPP_ROUTING_MODULE_TS_ROUTES     +#13#10'    ';
+     //Finalisation
+     Finalise( sAPP_MODULE_TS_IMPORT_LIST        , #13#10      );
+     Finalise( sAPP_MODULE_TS_DECLARATIONS       , #13#10'    ');
 
+     Finalise( sAPP_ROUTING_MODULE_TS_IMPORT_LIST, #13#10      );
+     Finalise( sAPP_ROUTING_MODULE_TS_ROUTES     , #13#10'    ');
+
+     //Paramètres
      slParametres.Clear;
+
+     slParametres.Values[s_APP_MODULE_TS_IMPORT_LIST_Key ]:= sAPP_MODULE_TS_IMPORT_LIST;
+     slParametres.Values[s_APP_MODULE_TS_DECLARATIONS_Key]:= sAPP_MODULE_TS_DECLARATIONS;
+
      slParametres.Values[s_APP_ROUTING_MODULE_TS_IMPORT_LIST_Key]:= sAPP_ROUTING_MODULE_TS_IMPORT_LIST;
      slParametres.Values[s_APP_ROUTING_MODULE_TS_ROUTES_Key     ]:= sAPP_ROUTING_MODULE_TS_ROUTES     ;
 
+     //Production
+     APP_MODULE_TS        .Produit;
      APP_ROUTING_MODULE_TS.Produit;
 end;
 

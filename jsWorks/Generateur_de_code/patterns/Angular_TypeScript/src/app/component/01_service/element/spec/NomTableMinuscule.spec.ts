@@ -9,13 +9,13 @@ describe('Nom_de_la_classe', () =>
   /*
   it('devrait accepter le passage de valeurs d\'attributs dans le constructeur', () =>
     {
-    const u = new Nom_de_la_classe(
+    const e = new Nom_de_la_classe(
       {
       nom   : 'jean',
       niveau: 1
       });
-    expect(u.nom   ).toEqual('jean');
-    expect(u.niveau).toEqual(1     );
+    expect(e.nom   ).toEqual('jean');
+    expect(e.niveau).toEqual(1     );
     });
   */  
   });

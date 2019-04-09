@@ -4,6 +4,7 @@ import {  Component,
                                  } from '@angular/core';
 import { Router                  } from '@angular/router';
 
+import { Result_List} from './01_service/result_list';
 import { WorkService } from './01_service/work.service';
 import { Work        } from './01_service/element/work';
 
@@ -16,8 +17,8 @@ import { Work        } from './01_service/element/work';
 
 export class AppWorkComponent implements OnInit
   {
-  public u: Work|null= null;
-  public works: Array<Work>;
+  public e: Work|null= null;
+  public works: Result_List<Work>;
   constructor(private router: Router, private service: WorkService)
     {
     }
@@ -26,34 +27,34 @@ export class AppWorkComponent implements OnInit
     this.service.All()
       .then( _works =>
         {
-        this.works= _works;
-        this.works.forEach( _u =>
+        this.works= new Result_List<Work>(_works);
+        this.works.Elements.forEach( _e =>
           {
-          _u.service= this.service;
+          _e.service= this.service;
           });
         });
     }
-  onClick( _u: Work)
+  onClick( _e: Work)
     {
-    this.u= _u;
-    this.u.modifie= true;
+    this.e= _e;
+    this.e.modifie= true;
     }
   onKeyDown( event): void
     {
     if (13 === event.keyCode)
       {
-      if (this.u)
+      if (this.e)
         {
-        this.u.Valide();
+        this.e.Valide();
         }
       }
     }
   works_Nouveau()
     {
     this.service.Insert( new Work)
-      .then( _u =>
+      .then( _e =>
         {
-        this.works.push( _u);
+        this.works.Elements.push( _e);
         }
         );
     }

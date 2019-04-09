@@ -8,18 +8,14 @@ import { HttpClientModule,
 import { RouterModule    } from '@angular/router';
 
 import { AppComponent } from './component/app.component';
-import { AppProjectComponent     } from './component/app-project.component';
-import { AppWorkComponent     } from './component/app-work.component';
-
+//APP_MODULE_TS_IMPORT_LIST
 import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations:
     [
     AppComponent,
-    AppProjectComponent,
-    AppWorkComponent,
-    
+    //APP_MODULE_TS_DECLARATIONS
     ],
   imports:
     [

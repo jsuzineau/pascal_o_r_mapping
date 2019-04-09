@@ -4,6 +4,7 @@ import {  Component,
                                  } from '@angular/core';
 import { Router                  } from '@angular/router';
 
+import { Result_List} from './01_service/result_list';
 import { ProjectService } from './01_service/project.service';
 import { Project        } from './01_service/element/project';
 
@@ -16,8 +17,8 @@ import { Project        } from './01_service/element/project';
 
 export class AppProjectComponent implements OnInit
   {
-  public u: Project|null= null;
-  public projects: Array<Project>;
+  public e: Project|null= null;
+  public projects: Result_List<Project>;
   constructor(private router: Router, private service: ProjectService)
     {
     }
@@ -26,34 +27,34 @@ export class AppProjectComponent implements OnInit
     this.service.All()
       .then( _projects =>
         {
-        this.projects= _projects;
-        this.projects.forEach( _u =>
+        this.projects= new Result_List<Project>(_projects);
+        this.projects.Elements.forEach( _e =>
           {
-          _u.service= this.service;
+          _e.service= this.service;
           });
         });
     }
-  onClick( _u: Project)
+  onClick( _e: Project)
     {
-    this.u= _u;
-    this.u.modifie= true;
+    this.e= _e;
+    this.e.modifie= true;
     }
   onKeyDown( event): void
     {
     if (13 === event.keyCode)
       {
-      if (this.u)
+      if (this.e)
         {
-        this.u.Valide();
+        this.e.Valide();
         }
       }
     }
   projects_Nouveau()
     {
     this.service.Insert( new Project)
-      .then( _u =>
+      .then( _e =>
         {
-        this.projects.push( _u);
+        this.projects.Elements.push( _e);
         }
         );
     }

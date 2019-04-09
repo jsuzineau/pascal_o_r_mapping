@@ -4,6 +4,7 @@ import {  Component,
                                  } from '@angular/core';
 import { Router                  } from '@angular/router';
 
+import { Result_List} from './01_service/result_list';
 import { Nom_de_la_classeService } from './01_service/NomTableMinuscule.service';
 import { Nom_de_la_classe        } from './01_service/element/NomTableMinuscule';
 
@@ -16,8 +17,8 @@ import { Nom_de_la_classe        } from './01_service/element/NomTableMinuscule'
 
 export class AppNom_de_la_classeComponent implements OnInit
   {
-  public u: Nom_de_la_classe|null= null;
-  public NomTableMinuscules: Array<Nom_de_la_classe>;
+  public e: Nom_de_la_classe|null= null;
+  public NomTableMinuscules: Result_List<Nom_de_la_classe>;
   constructor(private router: Router, private service: Nom_de_la_classeService)
     {
     }
@@ -26,34 +27,34 @@ export class AppNom_de_la_classeComponent implements OnInit
     this.service.All()
       .then( _NomTableMinuscules =>
         {
-        this.NomTableMinuscules= _NomTableMinuscules;
-        this.NomTableMinuscules.forEach( _u =>
+        this.NomTableMinuscules= new Result_List<Nom_de_la_classe>(_NomTableMinuscules);
+        this.NomTableMinuscules.Elements.forEach( _e =>
           {
-          _u.service= this.service;
+          _e.service= this.service;
           });
         });
     }
-  onClick( _u: Nom_de_la_classe)
+  onClick( _e: Nom_de_la_classe)
     {
-    this.u= _u;
-    this.u.modifie= true;
+    this.e= _e;
+    this.e.modifie= true;
     }
   onKeyDown( event): void
     {
     if (13 === event.keyCode)
       {
-      if (this.u)
+      if (this.e)
         {
-        this.u.Valide();
+        this.e.Valide();
         }
       }
     }
   NomTableMinuscules_Nouveau()
     {
     this.service.Insert( new Nom_de_la_classe)
-      .then( _u =>
+      .then( _e =>
         {
-        this.NomTableMinuscules.push( _u);
+        this.NomTableMinuscules.Elements.push( _e);
         }
         );
     }

@@ -19,7 +19,7 @@
           <Version Value="11"/>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;Elements/Work;../pascal_o_r_mapping/8_Web;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../pascal_o_r_mapping/2_Units;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript"/>
+            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;Elements/Work;../pascal_o_r_mapping/8_Web;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../pascal_o_r_mapping/2_Units;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler/05_Angular_TypeScript"/>
           </SearchPaths>
           <Parsing>
             <SyntaxOptions>
@@ -50,7 +50,7 @@
           <Version Value="11"/>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;Elements/Work;../pascal_o_r_mapping/8_Web;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../pascal_o_r_mapping/2_Units;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript"/>
+            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;Elements/Work;../pascal_o_r_mapping/8_Web;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../pascal_o_r_mapping/2_Units;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler/05_Angular_TypeScript"/>
           </SearchPaths>
           <Parsing>
             <SyntaxOptions>
@@ -79,7 +79,7 @@
           <Version Value="11"/>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;Elements/Work;../pascal_o_r_mapping/8_Web;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../pascal_o_r_mapping/2_Units;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript"/>
+            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;Elements/Work;../pascal_o_r_mapping/8_Web;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../pascal_o_r_mapping/2_Units;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler/05_Angular_TypeScript"/>
           </SearchPaths>
           <Parsing>
             <SyntaxOptions>
@@ -117,7 +117,7 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="71">
+    <Units Count="72">
       <Unit0>
         <Filename Value="http_jsWorks.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -435,13 +435,17 @@
         <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript/ujpAngular_TypeScript_NomFichierElement.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit70>
+      <Unit71>
+        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler/05_Angular_TypeScript/uAngular_TypeScript_ApplicationHandler.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit71>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;Elements/Work;../pascal_o_r_mapping/8_Web;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../pascal_o_r_mapping/2_Units;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript"/>
+      <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;Elements/Work;../pascal_o_r_mapping/8_Web;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../pascal_o_r_mapping/2_Units;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler/05_Angular_TypeScript"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>

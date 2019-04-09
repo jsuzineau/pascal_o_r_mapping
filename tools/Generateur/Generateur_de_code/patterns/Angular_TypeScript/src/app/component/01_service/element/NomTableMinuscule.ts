@@ -21,7 +21,7 @@ export class Nom_de_la_classe
     {
     if (!this.service) { return; }
     this.service.Set( this)
-    .then( _u => { Object.assign(this, _u); });
+    .then( _e => { Object.assign(this, _e); });
     }
   public to_ServerValue(): Nom_de_la_classe
     {

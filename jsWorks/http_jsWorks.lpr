@@ -37,8 +37,8 @@ uses
   ujpPHP_Doctrine_Has_Column, ujpCSharp_Champs_persistants, ujpPascal_Affecte,
   uJoinPoint, ujpAngular_TypeScript_NomFichierElement,
   ujpAngular_TypeScript_NomClasseElement,
-  ujpAngular_TypeScript_declaration_champs, uPatternHandler, uhATB, uhAUT, uLog,
-  Interfaces, // this includes the LCL widgetset
+  ujpAngular_TypeScript_declaration_champs, uPatternHandler,
+  uAngular_TypeScript_ApplicationHandler, uhATB, uhAUT, uLog, Interfaces, // this includes the LCL widgetset
 Classes, blcksock, sockets, Synautil,SysUtils,LCLIntf, uhAutomatic_ATB, uhAutomatic_AUT;
 
 procedure Traite_Test_AUT;
@@ -132,8 +132,8 @@ begin
      HTTP_Interface.slP.Ajoute( 'Test_AUT/', @Traite_Test_AUT);
 
      //hAutomatic_ATB.Execute_SQL( 'select * from a_cht  where phase <> "0" limit 0,100');
-     hAutomatic_ATB.Execute_SQL( 'select * from Work limit 0,100');
-     hAutomatic_AUT.Execute_SQL( 'select * from Work limit 0,100');
+     //hAutomatic_ATB.Execute_SQL( 'select * from Work limit 0,100');
+     //hAutomatic_AUT.Execute_SQL( 'select * from Work limit 0,100');
 
      Ecrit_URL;
      //HTTP_Interface.Run( True);

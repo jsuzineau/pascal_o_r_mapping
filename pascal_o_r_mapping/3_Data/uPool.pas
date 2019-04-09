@@ -2505,6 +2505,16 @@ function TPool.Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boolean;
         _HTTP_Interface.Send_JSON( slFiltre.JSON);
         Result:= True;
    end;
+   function http_Insert: Boolean;
+   var
+      bl: TBatpro_Ligne;
+   begin
+        Nouveau_Base( bl);
+        Result:= Assigned( bl);
+        if not Result then exit;
+
+        _HTTP_Interface.Send_JSON( bl.JSON);
+   end;
    function http_Get: Boolean;
    var
       sID: String;
@@ -2566,6 +2576,7 @@ function TPool.Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boolean;
 begin
           if '' = _HTTP_Interface.uri            then Result:= http_ToutCharger
      else if _HTTP_Interface.Prefixe( '_Filtre') then Result:= http_Filtre
+     else if _HTTP_Interface.Prefixe( '_Insert') then Result:= http_Insert
      else if _HTTP_Interface.Prefixe( '_Get'   ) then Result:= http_Get
      else if _HTTP_Interface.Prefixe( '_Set'   ) then Result:= http_Set
      else if _HTTP_Interface.Prefixe( '_Delete') then Result:= http_Delete

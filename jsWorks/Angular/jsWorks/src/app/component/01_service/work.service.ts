@@ -6,6 +6,7 @@ import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 import { environment    } from '../../../environments/environment';
 
+import { Result_List} from './result_list';
 import { Work   } from './element/work';
 
 const API_URL = environment.api_url;
@@ -25,66 +26,66 @@ export class WorkService
     return Observable.throw(error);
     }
 
-  public Delete( _u: Work): WorkService
+  public Delete( _e: Work): WorkService
     {
-    const url= API_URL + '/Work_Delete.php?' + Work.id_parameter( _u.id);
+    const url= API_URL + '/Work_Delete' + Work.id_parameter( _e.id);
     this.http.get(  url, {headers: this.headers});
     return this;
     }
   public Get( _id: number): Promise<Work>
     {
-      const url= API_URL + '/Work_Get.php?' + Work.id_parameter( _id);
+      const url= API_URL + '/Work_Get' + Work.id_parameter( _id);
       return this.http
         .get<Work>(  url, {headers: this.headers})
-        .map<Work,Work>( _u =>
+        .map<Work,Work>( _e =>
           {
-          const Result: Work= new Work( _u);
+          const Result: Work= new Work( _e);
           Result.service= this;
           return Result;
           })
         .toPromise();
     }
-  public Insert( _u: Work): Promise<Work>
+  public Insert( _e: Work): Promise<Work>
     {
-      const url= API_URL + '/Work_Insert.php';
+      const url= API_URL + '/Work_Insert';
       return this.http
-        .post<Work>( url, JSON.stringify( _u), {headers: this.headers})
-        .map<Work,Work>( _u =>
+        .post<Work>( url, JSON.stringify( _e), {headers: this.headers})
+        .map<Work,Work>( _e =>
           {
-          const Result: Work= new Work( _u);
+          const Result: Work= new Work( _e);
           Result.service= this;
           return Result;
           })
         .toPromise();
     }
-  public Set( _u: Work): Promise<Work>
+  public Set( _e: Work): Promise<Work>
     {
-      const u: Work= _u.to_ServerValue();
+      const e: Work= _e.to_ServerValue();
 
-      const url= API_URL + '/Work_Set.php?' + Work.id_parameter( u.id);
+      const url= API_URL + '/Work_Set' + Work.id_parameter( e.id);
       return this.http
-        .post<Work>( url, JSON.stringify( u), {headers: this.headers})
-        .map<Work,Work>( _u =>
+        .post<Work>( url, JSON.stringify( e), {headers: this.headers})
+        .map<Work,Work>( _e =>
           {
-          const Result: Work= new Work( _u);
+          const Result: Work= new Work( _e);
           Result.service= this;
           return Result;
           })
         .toPromise();
     }
-  public All(): Promise<Array<Work>>
+  public All(): Promise<Result_List<Work>>
     {
-      const url= API_URL + '/Work.php';
+      const url= API_URL + '/Work';
       return this.http
-        .get<Array<Work>>( url, {headers: this.headers})
-        .map<Array<Work>, Array<Work>>( _utilisateurs =>
+        .get<Result_List<Work>>( url, {headers: this.headers})
+        .map<Result_List<Work>, Result_List<Work>>( _rl =>
           {
-          const Result= Array<Work>();
-          for( let _u of _utilisateurs)
+          const Result= new Result_List<Work>();
+          for( let _e of _rl.Elements)
             {
-            const u: Work= new Work( _u);
-            u.service= this;
-            Result.push( u);
+            const e: Work= new Work( _e);
+            e.service= this;
+            Result.Elements.push( e);
             }
           return Result;
           })

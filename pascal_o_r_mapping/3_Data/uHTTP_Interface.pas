@@ -201,6 +201,10 @@ type
    procedure SetLaunchURL_Callback(_Value: String);
   public
     property LaunchURL_Callback: String read GetLaunchURL_Callback write SetLaunchURL_Callback;
+  //Gestion des requêtes multi-origine Cross-Origin Request CORS
+  //valeur de l'entête Access-Control-Allow-Origin, * en dev, à restreindre en prod
+  public
+    CORS_Value: String;
   end;
 
   TIterateur_HTTP_Interface
@@ -675,6 +679,8 @@ begin
      InitCriticalSection( fgl_putfile_interne_CriticalSection);
      InitCriticalSection( lg_Traite_Fichier_Genere_interne_CriticalSection);
 
+     CORS_Value:= '*';
+
      HTTP_Interfaces.Ajoute(Self);
 end;
 
@@ -736,6 +742,8 @@ begin
      S.SendString('Connection: close' + CRLF);
      S.SendString('Date: ' + Rfc822DateTime(now) + CRLF);
      S.SendString('Server: http_jsWorks' + CRLF);
+
+     S.SendString('Access-Control-Allow-Origin: '+CORS_Value + CRLF);
      S.SendString('' + CRLF);
      //  if S.lasterror <> 0 then HandleError;
 end;
