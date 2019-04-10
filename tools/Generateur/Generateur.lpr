@@ -11,7 +11,8 @@ uses
  ublAutomatic, uRequete, upoolG_CTX, uhVST, ufAccueil, uContexteClasse,
  uJoinPoint, ujpAngular_TypeScript_NomFichierElement,
  ujpAngular_TypeScript_NomClasseElement,
- ujpAngular_TypeScript_declaration_champs, ujpPHP_Doctrine_Has_Column,
+ ujpAngular_TypeScript_declaration_champs,
+ ujpAngular_TypeScript_html_editeurs_champs, ujpPHP_Doctrine_Has_Column,
  ujpCSharp_Champs_persistants, ujpPascal_Affecte, ujpSQL_CREATE_TABLE,
  ujpNom_de_la_table, uMenuHandler, uAngular_TypeScript_ApplicationHandler,
  ufAutomatic_Genere_tout_sl

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class Result_List<T>
+export class TResult_List<T>
   {
     Nom       : string='';
     JSON_Debut: number=-1;

@@ -2,15 +2,19 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AppProjectComponent     } from './component/app-project.component';
-import { AppWorkComponent     } from './component/app-work.component';
+import { TclProject} from './01_Elements/Project/uclProject';
+import { TcProject} from './01_Elements/Project/ucProject';
+import { TclWork} from './01_Elements/Work/uclWork';
+import { TcWork} from './01_Elements/Work/ucWork';
 
 
 const routes: Routes =
   [
-    { path: '', redirectTo: '/work', pathMatch: 'full' },
-    { path: 'project', component: AppProjectComponent},
-    { path: 'work'   , component: AppWorkComponent},
+    { path: '', redirectTo: '/Works', pathMatch: 'full' },
+    { path: 'Projects'   , component: TclProject},
+    { path: 'Project'   , component: TcProject},
+    { path: 'Works'   , component: TclWork},
+    { path: 'Work'   , component: TcWork},
     
     // { path: 'detail/:id', component: HeroDetailComponent },
   ];

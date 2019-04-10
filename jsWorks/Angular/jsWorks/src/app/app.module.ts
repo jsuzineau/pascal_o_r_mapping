@@ -8,8 +8,10 @@ import { HttpClientModule,
 import { RouterModule    } from '@angular/router';
 
 import { AppComponent } from './component/app.component';
-import { AppProjectComponent     } from './component/app-project.component';
-import { AppWorkComponent     } from './component/app-work.component';
+import { TclProject} from './01_Elements/Project/uclProject';
+import { TcProject} from './01_Elements/Project/ucProject';
+import { TclWork} from './01_Elements/Work/uclWork';
+import { TcWork} from './01_Elements/Work/ucWork';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -17,8 +19,10 @@ import { AppRoutingModule } from './app-routing.module';
   declarations:
     [
     AppComponent,
-    AppProjectComponent,
-    AppWorkComponent,
+    TclProject,
+    TcProject,
+    TclWork,
+    TcWork,
     
     ],
   imports:

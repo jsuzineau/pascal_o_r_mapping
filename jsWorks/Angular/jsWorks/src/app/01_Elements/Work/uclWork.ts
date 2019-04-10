@@ -9,15 +9,14 @@ import { TsWork} from './usWork';
 import { TeWork} from './ueWork';
 
 @Component({
-  selector: 'cWork',
-  templateUrl: './ucWork.html',
-  styleUrls: ['./ucWork.css'],
+  selector: 'clWork',
+  templateUrl: './uclWork.html',
+  styleUrls: ['./uclWork.css'],
   providers: [TsWork],
   })
 
-export class TcWork implements OnInit
+export class TclWork implements OnInit
   {
-  @Input() id: number=-1;  
   public e: TeWork|null= null;
   public Works: TResult_List<TeWork>;
   constructor(private router: Router, private service: TsWork)
@@ -25,7 +24,7 @@ export class TcWork implements OnInit
     }
   ngOnInit(): void
     {
-    this.service.All()
+    this.service.All_id_Libelle()
       .then( _Works =>
         {
         this.Works= new TResult_List<TeWork>(_Works);

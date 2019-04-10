@@ -114,6 +114,7 @@ uses
     ujpAngular_TypeScript_NomFichierElement,
     ujpAngular_TypeScript_NomClasseElement,
     ujpAngular_TypeScript_declaration_champs,
+    ujpAngular_TypeScript_html_editeurs_champs,
 
     SysUtils, Classes, DB, Inifiles, FileUtil;
 
@@ -1079,7 +1080,8 @@ begin
                 //Angular_TypeScript
                 jpAngular_TypeScript_NomFichierElement,
                 jpAngular_TypeScript_NomClasseElement,
-                jpAngular_TypeScript_declaration_champs
+                jpAngular_TypeScript_declaration_champs,
+                jpAngular_TypeScript_html_editeurs_champs
                 ]
                 );
      Application_Created:= False;

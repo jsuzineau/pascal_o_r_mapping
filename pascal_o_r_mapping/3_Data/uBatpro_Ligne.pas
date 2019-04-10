@@ -52,7 +52,9 @@ uses
     uChamps_persistance,
     uhFiltre_Ancetre,
     ufAccueil_Erreur,
-  {$IFNDEF FPC}
+  {$IFDEF FPC}
+  fpjson,
+  {$ELSE}
   Graphics, Windows, DBTables, ComCtrls,
   {$ENDIF}
   Classes, SysUtils, DB, Types,
@@ -236,6 +238,7 @@ type
              {$ENDIF}
              ;
      function JSON_Persistants: String; override;
+     function JSON_id_Libelle: String; override;
  //Listing des champs pour déboguage
   public
     function Listing_Champs( Separateur: String): String; override;
@@ -1157,6 +1160,25 @@ end;
 function TBatpro_Ligne.JSON_Persistants: String;
 begin
      Result:= '{'+Champs.JSON_Persistants+Aggregations.JSON_Persistants+'}';
+end;
+
+function TBatpro_Ligne.JSON_id_Libelle: String;
+begin
+     (*
+     Result
+     :=
+        '{'
+       +Format( '"%s":"%s",',['id'     , StringToJSONString(IntToStr(id))])
+       +Format( '"%s":"%s" ',['Libelle', StringToJSONString(GetLibelle)])
+       +'}';
+     *)
+     Result
+     :=
+        '{'
+       +Champs.JSON
+       +Format( '"%s":"%s",',['Libelle', StringToJSONString(GetLibelle)])
+       +Aggregations.JSON
+       +'}';
 end;
 
 {$IFDEF FPC}

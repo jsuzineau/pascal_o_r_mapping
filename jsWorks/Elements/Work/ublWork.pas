@@ -539,6 +539,8 @@ begin
 
      csSession:= Ajoute_String( FsSession,'sSession', False);
      csSession.OnGetChaine:= sSession_GetChaine;
+
+     cLibelle:= cBeginning;
 end;
 
 destructor TblWork.Destroy;

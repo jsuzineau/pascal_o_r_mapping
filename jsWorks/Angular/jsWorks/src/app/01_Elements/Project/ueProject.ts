@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { ProjectService} from '../project.service';
+import { TsProject} from './usProject';
 
 @Injectable()
-export class Project
+export class TeProject
   {
   id: number;
       Name: string;
   // champs calculés (supprimés dans to_ServerValue() )
   SID: string= '';
   modifie: Boolean= false;
-  service: ProjectService= null;
+  service: TsProject= null;
 
   public static id_parameter( _id: number) { return 'id=' + _id; }
 
@@ -23,9 +23,9 @@ export class Project
     this.service.Set( this)
     .then( _e => { Object.assign(this, _e); });
     }
-  public to_ServerValue(): Project
+  public to_ServerValue(): TeProject
     {
-    const Result: Project= new Project( this);
+    const Result: TeProject= new TeProject( this);
 
     delete Result.SID;
     delete Result.service;

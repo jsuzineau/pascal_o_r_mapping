@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { WorkService} from '../work.service';
+import { TsWork} from './usWork';
 
 @Injectable()
-export class Work
+export class TeWork
   {
   id: number;
       nProject: number;
@@ -13,7 +13,7 @@ export class Work
   // champs calculés (supprimés dans to_ServerValue() )
   SID: string= '';
   modifie: Boolean= false;
-  service: WorkService= null;
+  service: TsWork= null;
 
   public static id_parameter( _id: number) { return 'id=' + _id; }
 
@@ -27,9 +27,9 @@ export class Work
     this.service.Set( this)
     .then( _e => { Object.assign(this, _e); });
     }
-  public to_ServerValue(): Work
+  public to_ServerValue(): TeWork
     {
-    const Result: Work= new Work( this);
+    const Result: TeWork= new TeWork( this);
 
     delete Result.SID;
     delete Result.service;

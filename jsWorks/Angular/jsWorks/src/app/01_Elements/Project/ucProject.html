@@ -1,7 +1,7 @@
-  <h2>Liste des projects</h2>
+  <h2>Liste des Projects</h2>
 
-  <div *ngIf="projects">
-    <table class="projects">
+  <div *ngIf="Projects">
+    <table class="Projects">
       <tr>
         <th>Nom         </th>
         <th>Mot de passe</th>
@@ -9,39 +9,39 @@
         <th></th>
         <th></th>
       </tr>
-      <tr *ngFor="let project of projects.Elements">
+      <tr *ngFor="let Project of Projects.Elements">
         <td>
-          <span (click)="onClick( project)" class="project_nom">
-            <span *ngIf="!project.modifie">{{project.nom                                                             }}</span>
-            <span *ngIf= "project.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="project.nom"/></span>
+          <span (click)="onClick( Project)" class="Project_nom">
+            <span *ngIf="!Project.modifie">{{Project.nom                                                             }}</span>
+            <span *ngIf= "Project.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="Project.nom"/></span>
           </span>
         </td>
         <td>
-          <span (click)="onClick( project)" class="project_mot_de_passe">
-            <span *ngIf="!project.modifie">{{project.mot_de_passe                                                             }}</span>
-            <span *ngIf= "project.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="project.mot_de_passe"/></span>
+          <span (click)="onClick( Project)" class="Project_mot_de_passe">
+            <span *ngIf="!Project.modifie">{{Project.mot_de_passe                                                             }}</span>
+            <span *ngIf= "Project.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="Project.mot_de_passe"/></span>
           </span>
         </td>
         <td>
-          <span (click)="onClick( project)" class="project_niveau">
-            <span *ngIf="!project.modifie">{{project.niveau                                                             }}</span>
-            <span *ngIf= "project.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="project.niveau"/></span>
+          <span (click)="onClick( Project)" class="Project_niveau">
+            <span *ngIf="!Project.modifie">{{Project.niveau                                                             }}</span>
+            <span *ngIf= "Project.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="Project.niveau"/></span>
           </span>
         </td>
         <td>
-          <span (click)="onClick( project)" class="project_Valider">
-            <button *ngIf="project.modifie" (click)='project.Valide()'>Valider</button>
+          <span (click)="onClick( Project)" class="Project_Valider">
+            <button *ngIf="Project.modifie" (click)='Project.Valide()'>Valider</button>
           </span>
         </td>
         <td>
-          <span class="project_LogTo">
-            <button (click)='LogTo( project)'>S'identifier comme ...</button>
+          <span class="Project_LogTo">
+            <button (click)='LogTo( Project)'>S'identifier comme ...</button>
           </span>
         </td>
       </tr>
     </table>
-    <div class="projects_Nouveau">
-      <button (click)='projects_Nouveau()'>Nouveau</button>
+    <div class="Projects_Nouveau">
+      <button (click)='Projects_Nouveau()'>Nouveau</button>
     </div>
   </div>
 

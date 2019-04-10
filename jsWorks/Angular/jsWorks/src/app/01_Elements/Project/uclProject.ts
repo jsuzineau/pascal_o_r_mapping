@@ -9,15 +9,14 @@ import { TsProject} from './usProject';
 import { TeProject} from './ueProject';
 
 @Component({
-  selector: 'cProject',
-  templateUrl: './ucProject.html',
-  styleUrls: ['./ucProject.css'],
+  selector: 'clProject',
+  templateUrl: './uclProject.html',
+  styleUrls: ['./uclProject.css'],
   providers: [TsProject],
   })
 
-export class TcProject implements OnInit
+export class TclProject implements OnInit
   {
-  @Input() id: number=-1;  
   public e: TeProject|null= null;
   public Projects: TResult_List<TeProject>;
   constructor(private router: Router, private service: TsProject)
@@ -25,7 +24,7 @@ export class TcProject implements OnInit
     }
   ngOnInit(): void
     {
-    this.service.All()
+    this.service.All_id_Libelle()
       .then( _Projects =>
         {
         this.Projects= new TResult_List<TeProject>(_Projects);

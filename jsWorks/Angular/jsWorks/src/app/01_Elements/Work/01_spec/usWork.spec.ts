@@ -1,9 +1,9 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClient, HttpHandler} from '@angular/common/http';
 
-import { Nom_de_la_classeService } from '../NomTableMinuscule.service';
+import { TsWork } from '../usWork';
 
-describe('Nom_de_la_classeService', () =>
+describe('TsWork', () =>
   {
   beforeEach(() =>
     {
@@ -11,14 +11,14 @@ describe('Nom_de_la_classeService', () =>
       {
       providers:
         [
-        Nom_de_la_classeService,
+        TsWork,
         HttpClient,
         HttpHandler,
         ]
       });
     });
 
-  it('should be created', inject([Nom_de_la_classeService], (service: Nom_de_la_classeService) =>
+  it('should be created', inject([TsWork], (service: TsWork) =>
     {
     expect(service).toBeTruthy();
     }));

@@ -1,15 +1,15 @@
-import {Project} from '../project';
+import {TeWork} from '../ueWork';
 
-describe('Project', () =>
+describe('TWork', () =>
   {
   it('devrait créer une instance', () =>
     {
-    expect(new Project()).toBeTruthy();
+    expect(new TeWork()).toBeTruthy();
     });
   /*
   it('devrait accepter le passage de valeurs d\'attributs dans le constructeur', () =>
     {
-    const e = new Project(
+    const e = new TWork(
       {
       nom   : 'jean',
       niveau: 1

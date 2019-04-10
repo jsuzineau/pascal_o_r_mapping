@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Nom_de_la_classeService} from '../NomTableMinuscule.service';
+import { TsNom_de_la_classe} from './usNom_de_la_classe';
 
 @Injectable()
-export class Nom_de_la_classe
+export class TeNom_de_la_classe
   {
   id: number;
   //Angular_TypeScript_declaration_champs
   // champs calculés (supprimés dans to_ServerValue() )
   SID: string= '';
   modifie: Boolean= false;
-  service: Nom_de_la_classeService= null;
+  service: TsNom_de_la_classe= null;
 
   public static id_parameter( _id: number) { return 'id=' + _id; }
 
@@ -23,9 +23,9 @@ export class Nom_de_la_classe
     this.service.Set( this)
     .then( _e => { Object.assign(this, _e); });
     }
-  public to_ServerValue(): Nom_de_la_classe
+  public to_ServerValue(): TeNom_de_la_classe
     {
-    const Result: Nom_de_la_classe= new Nom_de_la_classe( this);
+    const Result: TeNom_de_la_classe= new TeNom_de_la_classe( this);
 
     delete Result.SID;
     delete Result.service;

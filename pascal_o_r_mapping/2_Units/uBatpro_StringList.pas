@@ -68,6 +68,7 @@ type
                {$ENDIF}
                ;
       function JSON_Persistants: String; virtual;
+      function JSON_id_Libelle: String; virtual;
   end;
 
  T_Iterateur_Count= function :Integer of Object;
@@ -194,6 +195,7 @@ type
     function JSON: String; virtual;
     function JSON_Persistants: String; virtual;
     function JSON_Persistants_Complet: String;
+    function JSON_id_Libelle: String;
   //
   //public
   //  procedure S_Object_from_Index( _Index: Integer; out _S: String; out _O: TObject);
@@ -827,6 +829,64 @@ begin
 
 end;
 
+function TBatpro_StringList.JSON_id_Libelle: String;
+var
+   Debut, Fin: Integer;
+   I: Integer;
+   O: TObject;
+   sJSON: String;
+   iJSON: Integer;
+   function notTraite_JSONProvider: Boolean;
+   var
+      JSONProvider: TJSONProvider;
+   begin
+        JSONProvider:= TJSONProvider_from_Object( O);
+        Result:= JSONProvider = nil;
+        if Result then exit;
+
+        sJSON:= JSONProvider.JSON_id_Libelle;
+   end;
+   function notTraite_Batpro_StringList: Boolean;
+   var
+      Batpro_StringList: TBatpro_StringList;
+   begin
+
+        Result:= Affecte_( Batpro_StringList, TBatpro_StringList, O);
+        if Result then exit;
+
+        sJSON:= Batpro_StringList.JSON;
+   end;
+begin
+     Debut:= JSON_Debut; if Debut < 0                     then Debut:= 0;
+     Fin  := JSON_Fin  ; if (-1 = Fin) or (Fin > Count-1) then Fin  := Count-1;
+     Result:= '[';
+     iJSON:= 0;
+     for I:= Debut to Fin
+     do
+       begin
+       O:= Objects[I];
+            if notTraite_JSONProvider
+       then if notTraite_Batpro_StringList
+       then    sJSON:= '"'+StringToJSONString(Strings[ I])+'"';
+
+       if iJSON > 0
+       then
+           Result:= Result + ',';
+       Result:= Result + sJSON;
+       Inc( iJSON);
+       end;
+     Result:= Result+']';
+     Result
+     :=
+        '{'
+       +'"Nom":"'+StringToJSONString(Nom)+'",'
+       +'"JSON_Debut":'+IntToStr( JSON_Debut)+','
+       +'"JSON_Fin":'  +IntToStr( JSON_Fin  )+','
+       +'"Count":'     +IntToStr( Count  )+','
+       +'"Elements":'+Result
+       +'}';
+end;
+
 (*
 procedure TBatpro_StringList.S_Object_from_Index( _Index: Integer;
                                                   out _S: String;
@@ -863,6 +923,11 @@ begin
 end;
 
 function TJSONProvider.JSON_Persistants: String;
+begin
+
+end;
+
+function TJSONProvider.JSON_id_Libelle: String;
 begin
 
 end;

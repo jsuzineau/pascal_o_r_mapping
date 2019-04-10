@@ -100,30 +100,54 @@ end;
 procedure TAngular_TypeScript_ApplicationHandler.Add( _cc: TContexteClasse; IsRelation: Boolean);
      procedure Traite_import_list( var _import_list: String);
      begin
+          // cl component list Liste de lignes
           Formate_Liste
            (
            _import_list,
            #13#10,
-           'import { App'+_cc.Nom_de_la_classe+'Component} from ''./component/app-'+_cc.NomTableMinuscule+'.component'';'
+           'import { Tcl'+_cc.Nom_de_la_classe+'} from ''./01_Elements/'+_cc.Nom_de_la_classe+'/ucl'+_cc.Nom_de_la_classe+''';'
+           );
+          //c component Détail
+          Formate_Liste
+           (
+           _import_list,
+           #13#10,
+           'import { Tc'+_cc.Nom_de_la_classe+'} from ''./01_Elements/'+_cc.Nom_de_la_classe+'/uc'+_cc.Nom_de_la_classe+''';'
            );
      end;
 begin
      //APP_MODULE_TS
      Traite_import_list( sAPP_MODULE_TS_IMPORT_LIST);
+     //cl
      Formate_Liste
       (
       sAPP_MODULE_TS_DECLARATIONS,
       #13#10'    ',
-      'App'+_cc.Nom_de_la_classe+'Component,'
+      'Tcl'+_cc.Nom_de_la_classe+','
+      );
+     //c
+     Formate_Liste
+      (
+      sAPP_MODULE_TS_DECLARATIONS,
+      #13#10'    ',
+      'Tc'+_cc.Nom_de_la_classe+','
       );
 
      //APP_ROUTING_MODULE_TS
      Traite_import_list( sAPP_ROUTING_MODULE_TS_IMPORT_LIST);
+     //cl
      Formate_Liste
       (
       sAPP_ROUTING_MODULE_TS_ROUTES,
       #13#10'    ',
-      '{ path: '''+_cc.NomTableMinuscule+'''   , component: App'+_cc.Nom_de_la_classe+'Component},'
+      '{ path: '''+_cc.Nom_de_la_classe+'s''   , component: Tcl'+_cc.Nom_de_la_classe+'},'
+      );
+     //c
+     Formate_Liste
+      (
+      sAPP_ROUTING_MODULE_TS_ROUTES,
+      #13#10'    ',
+      '{ path: '''+_cc.Nom_de_la_classe+'''   , component: Tc'+_cc.Nom_de_la_classe+'},'
       );
 end;
 

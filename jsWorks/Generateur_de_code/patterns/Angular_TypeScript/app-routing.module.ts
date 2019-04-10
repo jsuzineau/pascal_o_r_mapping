@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes =
   [
-    { path: '', redirectTo: '/session', pathMatch: 'full' },
+    { path: '', redirectTo: '/Works', pathMatch: 'full' },
     //APP_ROUTING_MODULE_TS_ROUTES
     // { path: 'detail/:id', component: HeroDetailComponent },
   ];
