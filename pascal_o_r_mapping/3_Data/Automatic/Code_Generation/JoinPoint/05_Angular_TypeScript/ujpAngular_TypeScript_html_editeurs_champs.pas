@@ -75,12 +75,12 @@ begin
        +'<tr>'
        +'  <td>'+_cm.sNomChamp+':</td>'
        +'<td>'
-       +'<span (click)="onClick( '+_cm.cc.Nom_de_la_classe+')" class="'+_cm.cc.Nom_de_la_classe+'_'+_cm.sNomChamp+'">'
-       +'  <span *ngIf="!'+_cm.cc.Nom_de_la_classe+'.modifie">{{'+_cm.cc.Nom_de_la_classe+'.'+_cm.sNomChamp+'}}</span>'
-       +'  <span *ngIf= "'+_cm.cc.Nom_de_la_classe+'.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="'+_cm.cc.Nom_de_la_classe+'.'+_cm.sNomChamp+'"/></span>'
+       +'<span (click)="onClick( e)" class="'+_cm.cc.Nom_de_la_classe+'_'+_cm.sNomChamp+'">'
+       +'  <span *ngIf="!e.modifie">{{e.'+_cm.sNomChamp+'}}</span>'
+       +'  <span *ngIf= "e.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="e.'+_cm.sNomChamp+'"/></span>'
        +'</span>'
-       +'/td'
-       +'/tr';
+       +'</td>'
+       +'</tr>';
 end;
 
 procedure TjpAngular_TypeScript_html_editeurs_champs.Finalise;

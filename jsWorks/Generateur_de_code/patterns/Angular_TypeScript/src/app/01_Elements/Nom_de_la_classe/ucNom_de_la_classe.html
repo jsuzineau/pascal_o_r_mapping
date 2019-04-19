@@ -1,47 +1,16 @@
-  <h2>Liste des Nom_de_la_classes</h2>
-
-  <div *ngIf="Nom_de_la_classes">
-    <table class="Nom_de_la_classes">
+  <div *ngIf="e">
+    <table>
+      <!-- Angular_TypeScript_html_editeurs_champs -->
       <tr>
-        <th>Nom         </th>
-        <th>Mot de passe</th>
-        <th>Niveau      </th>
-        <th></th>
-        <th></th>
-      </tr>
-      <tr *ngFor="let Nom_de_la_classe of Nom_de_la_classes.Elements">
         <td>
-          <span (click)="onClick( Nom_de_la_classe)" class="Nom_de_la_classe_nom">
-            <span *ngIf="!Nom_de_la_classe.modifie">{{Nom_de_la_classe.nom                                                             }}</span>
-            <span *ngIf= "Nom_de_la_classe.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="Nom_de_la_classe.nom"/></span>
-          </span>
-        </td>
-        <td>
-          <span (click)="onClick( Nom_de_la_classe)" class="Nom_de_la_classe_mot_de_passe">
-            <span *ngIf="!Nom_de_la_classe.modifie">{{Nom_de_la_classe.mot_de_passe                                                             }}</span>
-            <span *ngIf= "Nom_de_la_classe.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="Nom_de_la_classe.mot_de_passe"/></span>
-          </span>
-        </td>
-        <td>
-          <span (click)="onClick( Nom_de_la_classe)" class="Nom_de_la_classe_niveau">
-            <span *ngIf="!Nom_de_la_classe.modifie">{{Nom_de_la_classe.niveau                                                             }}</span>
-            <span *ngIf= "Nom_de_la_classe.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="Nom_de_la_classe.niveau"/></span>
-          </span>
-        </td>
-        <td>
-          <span (click)="onClick( Nom_de_la_classe)" class="Nom_de_la_classe_Valider">
-            <button *ngIf="Nom_de_la_classe.modifie" (click)='Nom_de_la_classe.Valide()'>Valider</button>
-          </span>
-        </td>
-        <td>
-          <span class="Nom_de_la_classe_LogTo">
-            <button (click)='LogTo( Nom_de_la_classe)'>S'identifier comme ...</button>
+          <span (click)="onClick( e)" class="Nom_de_la_classe_Valider">
+            <button *ngIf="e.modifie" (click)='e.Valide()'>Valider</button>
           </span>
         </td>
       </tr>
     </table>
-    <div class="Nom_de_la_classes_Nouveau">
+    <!-- <div class="Nom_de_la_classes_Nouveau">
       <button (click)='Nom_de_la_classes_Nouveau()'>Nouveau</button>
-    </div>
+    </div> -->
   </div>
 

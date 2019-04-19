@@ -1,47 +1,20 @@
-  <h2>Liste des Works</h2>
-
-  <div *ngIf="Works">
-    <table class="Works">
+  <div *ngIf="e">
+    <table>
+      <tr>  <td>nProject:</td><td><span (click)="onClick( e)" class="Work_nProject">  <span *ngIf="!e.modifie">{{e.nProject}}</span>  <span *ngIf= "e.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="e.nProject"/></span></span></td></tr>
+<tr>  <td>Beginning:</td><td><span (click)="onClick( e)" class="Work_Beginning">  <span *ngIf="!e.modifie">{{e.Beginning}}</span>  <span *ngIf= "e.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="e.Beginning"/></span></span></td></tr>
+<tr>  <td>End:</td><td><span (click)="onClick( e)" class="Work_End">  <span *ngIf="!e.modifie">{{e.End}}</span>  <span *ngIf= "e.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="e.End"/></span></span></td></tr>
+<tr>  <td>Description:</td><td><span (click)="onClick( e)" class="Work_Description">  <span *ngIf="!e.modifie">{{e.Description}}</span>  <span *ngIf= "e.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="e.Description"/></span></span></td></tr>
+<tr>  <td>nUser:</td><td><span (click)="onClick( e)" class="Work_nUser">  <span *ngIf="!e.modifie">{{e.nUser}}</span>  <span *ngIf= "e.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="e.nUser"/></span></span></td></tr>
       <tr>
-        <th>Nom         </th>
-        <th>Mot de passe</th>
-        <th>Niveau      </th>
-        <th></th>
-        <th></th>
-      </tr>
-      <tr *ngFor="let Work of Works.Elements">
         <td>
-          <span (click)="onClick( Work)" class="Work_nom">
-            <span *ngIf="!Work.modifie">{{Work.nom                                                             }}</span>
-            <span *ngIf= "Work.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="Work.nom"/></span>
-          </span>
-        </td>
-        <td>
-          <span (click)="onClick( Work)" class="Work_mot_de_passe">
-            <span *ngIf="!Work.modifie">{{Work.mot_de_passe                                                             }}</span>
-            <span *ngIf= "Work.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="Work.mot_de_passe"/></span>
-          </span>
-        </td>
-        <td>
-          <span (click)="onClick( Work)" class="Work_niveau">
-            <span *ngIf="!Work.modifie">{{Work.niveau                                                             }}</span>
-            <span *ngIf= "Work.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="Work.niveau"/></span>
-          </span>
-        </td>
-        <td>
-          <span (click)="onClick( Work)" class="Work_Valider">
-            <button *ngIf="Work.modifie" (click)='Work.Valide()'>Valider</button>
-          </span>
-        </td>
-        <td>
-          <span class="Work_LogTo">
-            <button (click)='LogTo( Work)'>S'identifier comme ...</button>
+          <span (click)="onClick( e)" class="Work_Valider">
+            <button *ngIf="e.modifie" (click)='e.Valide()'>Valider</button>
           </span>
         </td>
       </tr>
     </table>
-    <div class="Works_Nouveau">
+    <!-- <div class="Works_Nouveau">
       <button (click)='Works_Nouveau()'>Nouveau</button>
-    </div>
+    </div> -->
   </div>
 

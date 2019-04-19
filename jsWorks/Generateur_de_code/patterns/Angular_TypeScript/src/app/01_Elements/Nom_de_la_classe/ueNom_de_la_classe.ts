@@ -11,7 +11,7 @@ export class TeNom_de_la_classe
   modifie: Boolean= false;
   service: TsNom_de_la_classe= null;
 
-  public static id_parameter( _id: number) { return 'id=' + _id; }
+  public static id_parameter( _id: number) { return /*'id=' +*/ _id; }
 
   constructor(values: Object = {})
     {

@@ -24,7 +24,7 @@
         </td>
         <td>
           <span (click)="onClick( Nom_de_la_classe)" class="Nom_de_la_classe_Valider">
-            <button *ngIf="Nom_de_la_classe.modifie" (click)='Nom_de_la_classe.Valide()'>Valider</button>
+            <!-- <button *ngIf="Nom_de_la_classe.modifie" (click)='Nom_de_la_classe.Valide()'>Valider</button> -->
           </span>
         </td>
       </tr>
@@ -34,7 +34,7 @@
     </div>
     </td>
     <td *ngIf="e">
-    <cNom_de_la_classe [id]="e.id">  
+    <cNom_de_la_classe [e]="e">  
     </cNom_de_la_classe>  
     </td>  
     </tr>

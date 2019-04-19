@@ -24,7 +24,7 @@
         </td>
         <td>
           <span (click)="onClick( Work)" class="Work_Valider">
-            <button *ngIf="Work.modifie" (click)='Work.Valide()'>Valider</button>
+            <!-- <button *ngIf="Work.modifie" (click)='Work.Valide()'>Valider</button> -->
           </span>
         </td>
       </tr>
@@ -34,7 +34,7 @@
     </div>
     </td>
     <td *ngIf="e">
-    <cWork [id]="e.id">  
+    <cWork [e]="e">  
     </cWork>  
     </td>  
     </tr>

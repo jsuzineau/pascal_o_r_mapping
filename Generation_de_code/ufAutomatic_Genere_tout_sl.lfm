@@ -1,7 +1,7 @@
 inherited fAutomatic_Genere_tout_sl: TfAutomatic_Genere_tout_sl
   Left = 677
   Height = 238
-  Top = 1018
+  Top = 525
   Width = 563
   Caption = 'fAutomatic_Genere_tout_sl'
   ClientHeight = 238
@@ -20,25 +20,42 @@ inherited fAutomatic_Genere_tout_sl: TfAutomatic_Genere_tout_sl
     end
   end
   inherited sLog: TSplitter
-    Top = 139
+    Top = 137
     Width = 563
   end
   inherited pBas: TPanel
-    Top = 98
+    Top = 96
     Width = 563
     ClientWidth = 563
     TabOrder = 2
     inherited pFermer: TPanel
       Left = 330
     end
+    object bFromINI: TButton[1]
+      Left = 8
+      Height = 25
+      Top = 8
+      Width = 75
+      Caption = 'bFromINI'
+      OnClick = bFromINIClick
+      TabOrder = 1
+    end
+    object bToINI: TButton[2]
+      Left = 96
+      Height = 25
+      Top = 8
+      Width = 75
+      Caption = 'bToINI'
+      OnClick = bToINIClick
+      TabOrder = 2
+    end
   end
   inherited StatusBar1: TStatusBar
-    Height = 21
-    Top = 217
+    Top = 215
     Width = 563
   end
   inherited pLog: TPanel
-    Top = 145
+    Top = 143
     Width = 563
     ClientWidth = 563
     inherited lLog: TLabel
@@ -46,11 +63,14 @@ inherited fAutomatic_Genere_tout_sl: TfAutomatic_Genere_tout_sl
     end
     inherited mLog: TMemo
       Width = 561
+      Lines.Strings = (
+        'mLog'
+      )
     end
   end
   object m: TMemo[5]
     Left = 0
-    Height = 80
+    Height = 78
     Top = 18
     Width = 563
     Align = alClient

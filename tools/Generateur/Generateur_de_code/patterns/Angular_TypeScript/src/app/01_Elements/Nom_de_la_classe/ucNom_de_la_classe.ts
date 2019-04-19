@@ -39,14 +39,5 @@ export class TcNom_de_la_classe implements OnInit
         }
       }
     }
-  Nom_de_la_classes_Nouveau()
-    {
-    this.service.Insert( new TeNom_de_la_classe)
-      .then( _e =>
-        {
-        this.Nom_de_la_classes.Elements.push( _e);
-        }
-        );
-    }
   }
 

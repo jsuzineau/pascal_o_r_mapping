@@ -15,7 +15,7 @@ export class TeWork
   modifie: Boolean= false;
   service: TsWork= null;
 
-  public static id_parameter( _id: number) { return 'id=' + _id; }
+  public static id_parameter( _id: number) { return /*'id=' +*/ _id; }
 
   constructor(values: Object = {})
     {

@@ -87,7 +87,11 @@ type
     destructor Destroy; override;
   //Attributs
   public
-    sRepSource, sRepCible, sRepParametres: String;
+    sRepSource     ,
+    sRepCible      ,
+    sRepParametres ,
+    sRepListeTables,
+    sRepListeChamps: String;
   //Méthodes
   public
     function dbx_from_Type( Typ: String): String;

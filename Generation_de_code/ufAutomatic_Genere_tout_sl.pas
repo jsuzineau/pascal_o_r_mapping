@@ -5,9 +5,8 @@ unit ufAutomatic_Genere_tout_sl;
 interface
 
 uses
-    uClean,
-    ufpBas,
- Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls;
+    uClean, ufpBas, uEXE_INI, Classes, SysUtils, FileUtil, Forms, Controls,
+    Graphics, Dialogs, StdCtrls, ExtCtrls, Buttons, ComCtrls, ActnList, Menus;
 
 type
 
@@ -16,7 +15,11 @@ type
  TfAutomatic_Genere_tout_sl
  =
   class(TfpBas)
+   bFromINI: TButton;
+   bToINI: TButton;
     m: TMemo;
+    procedure bFromINIClick(Sender: TObject);
+    procedure bToINIClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   //pré- et post- exécution
   protected
@@ -28,6 +31,9 @@ type
   //attributs
   public
     s: TStrings;
+  //persistance
+  private
+    NomFichier: String;
   end;
 
 function fAutomatic_Genere_tout_sl: TfAutomatic_Genere_tout_sl;
@@ -50,6 +56,17 @@ procedure TfAutomatic_Genere_tout_sl.FormCreate(Sender: TObject);
 begin
      inherited;
      Maximiser:= False;
+     NomFichier:= ChangeFileExt( EXE_INI.FileName, ClassName+'.txt');
+end;
+
+procedure TfAutomatic_Genere_tout_sl.bFromINIClick(Sender: TObject);
+begin
+     m.Lines.LoadFromFile( NomFichier);
+end;
+
+procedure TfAutomatic_Genere_tout_sl.bToINIClick(Sender: TObject);
+begin
+     m.Lines.SaveToFile( NomFichier);
 end;
 
 function TfAutomatic_Genere_tout_sl.PreExecute: Boolean;

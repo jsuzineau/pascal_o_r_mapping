@@ -1176,7 +1176,7 @@ begin
      :=
         '{'
        +Champs.JSON
-       +Format( '"%s":"%s",',['Libelle', StringToJSONString(GetLibelle)])
+       +Format( ',"%s":"%s"',['Libelle', StringToJSONString(GetLibelle)])
        +Aggregations.JSON
        +'}';
 end;

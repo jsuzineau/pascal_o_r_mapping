@@ -17,27 +17,16 @@ import { TeWork} from './ueWork';
 
 export class TcWork implements OnInit
   {
-  @Input() id: number=-1;  
-  public e: TeWork|null= null;
-  public Works: TResult_List<TeWork>;
+   
+    @Input() public e: TeWork|null= null;
   constructor(private router: Router, private service: TsWork)
     {
     }
   ngOnInit(): void
     {
-    this.service.All()
-      .then( _Works =>
-        {
-        this.Works= new TResult_List<TeWork>(_Works);
-        this.Works.Elements.forEach( _e =>
-          {
-          _e.service= this.service;
-          });
-        });
     }
-  onClick( _e: TeWork)
+  onClick()
     {
-    this.e= _e;
     this.e.modifie= true;
     }
   onKeyDown( event): void
@@ -49,15 +38,6 @@ export class TcWork implements OnInit
         this.e.Valide();
         }
       }
-    }
-  Works_Nouveau()
-    {
-    this.service.Insert( new TeWork)
-      .then( _e =>
-        {
-        this.Works.Elements.push( _e);
-        }
-        );
     }
   }
 

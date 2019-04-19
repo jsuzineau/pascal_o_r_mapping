@@ -17,27 +17,16 @@ import { TeNom_de_la_classe} from './ueNom_de_la_classe';
 
 export class TcNom_de_la_classe implements OnInit
   {
-  @Input() id: number=-1;  
-  public e: TeNom_de_la_classe|null= null;
-  public Nom_de_la_classes: TResult_List<TeNom_de_la_classe>;
+   
+    @Input() public e: TeNom_de_la_classe|null= null;
   constructor(private router: Router, private service: TsNom_de_la_classe)
     {
     }
   ngOnInit(): void
     {
-    this.service.All()
-      .then( _Nom_de_la_classes =>
-        {
-        this.Nom_de_la_classes= new TResult_List<TeNom_de_la_classe>(_Nom_de_la_classes);
-        this.Nom_de_la_classes.Elements.forEach( _e =>
-          {
-          _e.service= this.service;
-          });
-        });
     }
-  onClick( _e: TeNom_de_la_classe)
+  onClick()
     {
-    this.e= _e;
     this.e.modifie= true;
     }
   onKeyDown( event): void
@@ -49,15 +38,6 @@ export class TcNom_de_la_classe implements OnInit
         this.e.Valide();
         }
       }
-    }
-  Nom_de_la_classes_Nouveau()
-    {
-    this.service.Insert( new TeNom_de_la_classe)
-      .then( _e =>
-        {
-        this.Nom_de_la_classes.Elements.push( _e);
-        }
-        );
     }
   }
 

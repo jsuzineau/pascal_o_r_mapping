@@ -828,14 +828,20 @@ begin
      :=
        TIniFile.Create( ChangeFileExt(EXE_INI.FileName,'_Generateur_de_code.ini'));
      try
-        sRepSource    := INI.ReadString( 'Options', 'sRepSource'    ,ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'patterns'  +PathDelim);
-        sRepParametres:= INI.ReadString( 'Options', 'sRepParametres',ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'Parametres'+PathDelim);
-        sRepCible     := INI.ReadString( 'Options', 'sRepCible'     ,ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'Source'    +PathDelim);
-        ForceDirectories( sRepSource    );
-        ForceDirectories( sRepParametres);
-        ForceDirectories( sRepCible     );
+        sRepSource     := INI.ReadString( 'Options', 'sRepSource'     ,ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'patterns'  +PathDelim);
+        sRepParametres := INI.ReadString( 'Options', 'sRepParametres' ,ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'Parametres'+PathDelim);
+        sRepCible      := INI.ReadString( 'Options', 'sRepCible'      ,ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'Source'    +PathDelim);
+        sRepListeTables:= INI.ReadString( 'Options', 'sRepListeTables',ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'Listes'    +PathDelim+'Tables'+PathDelim);
+        sRepListeChamps:= INI.ReadString( 'Options', 'sRepListeChamps',ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'Listes'    +PathDelim+'Champs'+PathDelim);
+        ForceDirectories( sRepSource     );
+        ForceDirectories( sRepParametres );
+        ForceDirectories( sRepCible      );
+        ForceDirectories( sRepListeTables);
+        ForceDirectories( sRepListeChamps);
         INI.WriteString( 'Options', 'sRepSource', sRepSource);
         INI.WriteString( 'Options', 'sRepCible' , sRepCible );
+        INI.WriteString( 'Options', 'sRepListeTables' , sRepListeTables);
+        INI.WriteString( 'Options', 'sRepListeChamps' , sRepListeChamps);
 
         slLog.Clear;
         slParametres.Clear;

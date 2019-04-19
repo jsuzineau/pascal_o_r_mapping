@@ -17,27 +17,16 @@ import { TeProject} from './ueProject';
 
 export class TcProject implements OnInit
   {
-  @Input() id: number=-1;  
-  public e: TeProject|null= null;
-  public Projects: TResult_List<TeProject>;
+   
+    @Input() public e: TeProject|null= null;
   constructor(private router: Router, private service: TsProject)
     {
     }
   ngOnInit(): void
     {
-    this.service.All()
-      .then( _Projects =>
-        {
-        this.Projects= new TResult_List<TeProject>(_Projects);
-        this.Projects.Elements.forEach( _e =>
-          {
-          _e.service= this.service;
-          });
-        });
     }
-  onClick( _e: TeProject)
+  onClick()
     {
-    this.e= _e;
     this.e.modifie= true;
     }
   onKeyDown( event): void
@@ -49,15 +38,6 @@ export class TcProject implements OnInit
         this.e.Valide();
         }
       }
-    }
-  Projects_Nouveau()
-    {
-    this.service.Insert( new TeProject)
-      .then( _e =>
-        {
-        this.Projects.Elements.push( _e);
-        }
-        );
     }
   }
 
