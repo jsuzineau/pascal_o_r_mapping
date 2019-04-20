@@ -87,18 +87,18 @@ type
     destructor Destroy; override;
   //Attributs
   public
-    sRepListeTables,
-    sRepListeChamps,
-    sRepSource     ,
-    sRepParametres ,
-    sRepResultat      : String;
+    sRepertoireListeTables,
+    sRepertoireListeChamps,
+    sRepertoireTemplate   ,
+    sRepertoireParametres ,
+    sRepertoireResultat      : String;
   //Méthodes
   public
     function dbx_from_Type( Typ: String): String;
     function TailleNom_Quote( S: String): String;
-  //PatternHandler
+  //TemplateHandler
   public
-    procedure Cree_PatternHandler( var _Reference;
+    procedure Cree_TemplateHandler( var _Reference;
                                    _Source: String;
                                    _slParametres: TBatpro_StringList= nil); virtual; abstract;
   end;

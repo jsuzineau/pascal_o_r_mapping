@@ -1,4 +1,4 @@
-unit uPatternHandler;
+unit uTemplateHandler;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -33,9 +33,9 @@ uses
 
 type
 
- { TPatternHandler }
+ { TTemplateHandler }
 
- TPatternHandler
+ TTemplateHandler
  =
   class
   //Gestion du cycle de vie
@@ -65,18 +65,18 @@ type
     slLog: TBatpro_StringList;
   end;
 
- TIterateur_PatternHandler
+ TIterateur_TemplateHandler
  =
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: TPatternHandler);
-    function  not_Suivant( var _Resultat: TPatternHandler): Boolean;
+    procedure Suivant( var _Resultat: TTemplateHandler);
+    function  not_Suivant( var _Resultat: TTemplateHandler): Boolean;
   end;
 
- { TslPatternHandler }
+ { TslTemplateHandler }
 
- TslPatternHandler
+ TslTemplateHandler
  =
   class( TBatpro_StringList)
   //Gestion du cycle de vie
@@ -87,67 +87,67 @@ type
   protected
     class function Classe_Iterateur: TIterateur_Class; override;
   public
-    function Iterateur: TIterateur_PatternHandler;
-    function Iterateur_Decroissant: TIterateur_PatternHandler;
+    function Iterateur: TIterateur_TemplateHandler;
+    function Iterateur_Decroissant: TIterateur_TemplateHandler;
   end;
 
-function PatternHandler_from_sl( sl: TBatpro_StringList; Index: Integer): TPatternHandler;
-function PatternHandler_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TPatternHandler;
+function TemplateHandler_from_sl( sl: TBatpro_StringList; Index: Integer): TTemplateHandler;
+function TemplateHandler_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TTemplateHandler;
 
 implementation
 
-function PatternHandler_from_sl( sl: TBatpro_StringList; Index: Integer): TPatternHandler;
+function TemplateHandler_from_sl( sl: TBatpro_StringList; Index: Integer): TTemplateHandler;
 begin
-     _Classe_from_sl( Result, TPatternHandler, sl, Index);
+     _Classe_from_sl( Result, TTemplateHandler, sl, Index);
 end;
 
-function PatternHandler_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TPatternHandler;
+function TemplateHandler_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TTemplateHandler;
 begin
-     _Classe_from_sl_sCle( Result, TPatternHandler, sl, sCle);
+     _Classe_from_sl_sCle( Result, TTemplateHandler, sl, sCle);
 end;
 
-{ TIterateur_PatternHandler }
+{ TIterateur_TemplateHandler }
 
-function TIterateur_PatternHandler.not_Suivant( var _Resultat: TPatternHandler): Boolean;
+function TIterateur_TemplateHandler.not_Suivant( var _Resultat: TTemplateHandler): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_PatternHandler.Suivant( var _Resultat: TPatternHandler);
+procedure TIterateur_TemplateHandler.Suivant( var _Resultat: TTemplateHandler);
 begin
      Suivant_interne( _Resultat);
 end;
 
-{ TslPatternHandler }
+{ TslTemplateHandler }
 
-constructor TslPatternHandler.Create( _Nom: String= '');
+constructor TslTemplateHandler.Create( _Nom: String= '');
 begin
-     inherited CreateE( _Nom, TPatternHandler);
+     inherited CreateE( _Nom, TTemplateHandler);
 end;
 
-destructor TslPatternHandler.Destroy;
+destructor TslTemplateHandler.Destroy;
 begin
      inherited;
 end;
 
-class function TslPatternHandler.Classe_Iterateur: TIterateur_Class;
+class function TslTemplateHandler.Classe_Iterateur: TIterateur_Class;
 begin
-     Result:= TIterateur_PatternHandler;
+     Result:= TIterateur_TemplateHandler;
 end;
 
-function TslPatternHandler.Iterateur: TIterateur_PatternHandler;
+function TslTemplateHandler.Iterateur: TIterateur_TemplateHandler;
 begin
-     Result:= TIterateur_PatternHandler( Iterateur_interne);
+     Result:= TIterateur_TemplateHandler( Iterateur_interne);
 end;
 
-function TslPatternHandler.Iterateur_Decroissant: TIterateur_PatternHandler;
+function TslTemplateHandler.Iterateur_Decroissant: TIterateur_TemplateHandler;
 begin
-     Result:= TIterateur_PatternHandler( Iterateur_interne_Decroissant);
+     Result:= TIterateur_TemplateHandler( Iterateur_interne_Decroissant);
 end;
 
-{ TPatternHandler }
+{ TTemplateHandler }
 
-constructor TPatternHandler.Create( _g: TGenerateur_de_code_Ancetre;
+constructor TTemplateHandler.Create( _g: TGenerateur_de_code_Ancetre;
                                     _Source: String;
                                     _slParametres: TBatpro_StringList);
 var
@@ -158,7 +158,7 @@ begin
      Source         := _Source         ;
      slParametres   := _slParametres;
 
-     Source_FullPath:= g.sRepSource+Source;
+     Source_FullPath:= g.sRepertoireTemplate+Source;
      slSource:= TBatpro_StringList.Create;
      if not FileExists( Source_FullPath)
      then
@@ -173,7 +173,7 @@ begin
 
 end;
 
-destructor TPatternHandler.Destroy;
+destructor TTemplateHandler.Destroy;
 begin
      if Pos( 'udmd', Source) <> 0
      then
@@ -184,12 +184,12 @@ begin
      inherited;
 end;
 
-function TPatternHandler.Calcule_NomCible: String;
+function TTemplateHandler.Calcule_NomCible: String;
 begin
-     Result:= g.sRepResultat+RemplaceParametres( Source);
+     Result:= g.sRepertoireResultat+RemplaceParametres( Source);
 end;
 
-function TPatternHandler.RemplaceParametres( S: String): String;
+function TTemplateHandler.RemplaceParametres( S: String): String;
 var
    I: Integer;
    OldKey, NewKey: String;
@@ -206,7 +206,7 @@ begin
        end;
 end;
 
-procedure TPatternHandler.Produit;
+procedure TTemplateHandler.Produit;
 var
    CibleName: String;
    Chemin: String;

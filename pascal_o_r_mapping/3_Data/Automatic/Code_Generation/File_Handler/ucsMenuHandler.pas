@@ -28,7 +28,7 @@ interface
 uses
     uBatpro_StringList,
     uGenerateur_de_code_Ancetre,
-    uPatternHandler,
+    uTemplateHandler,
     SysUtils, Classes;
 
 type
@@ -45,7 +45,7 @@ type
   //Attributs
   private
     g: TGenerateur_de_code_Ancetre;
-    phCS, phDesigner: TPatternHandler;
+    phCS, phDesigner: TTemplateHandler;
   public
     sCreation,
     sAddRange_Base,
@@ -83,8 +83,8 @@ begin
      g:= _g;
 
      slParametres:= TBatpro_StringList.Create(ClassName+'.slParametres');
-     phCS      :=TPatternHandler.Create(g,s_RepertoireCSharp+s_MenuHandler_Form_Name+         '.cs',slParametres);
-     phDesigner:=TPatternHandler.Create(g,s_RepertoireCSharp+s_MenuHandler_Form_Name+'.Designer.cs',slParametres);
+     phCS      :=TTemplateHandler.Create(g,s_RepertoireCSharp+s_MenuHandler_Form_Name+         '.cs',slParametres);
+     phDesigner:=TTemplateHandler.Create(g,s_RepertoireCSharp+s_MenuHandler_Form_Name+'.Designer.cs',slParametres);
 
      Init;
 end;

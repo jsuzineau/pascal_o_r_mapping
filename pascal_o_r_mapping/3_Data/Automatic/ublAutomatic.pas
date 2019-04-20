@@ -40,7 +40,7 @@ uses
     uBatpro_Ligne,
 
     //Code generation
-    uPatternHandler,
+    uTemplateHandler,
     uMenuHandler,
     ucsMenuHandler,
     uAngular_TypeScript_ApplicationHandler,
@@ -115,6 +115,9 @@ uses
     ujpAngular_TypeScript_NomClasseElement,
     ujpAngular_TypeScript_declaration_champs,
     ujpAngular_TypeScript_html_editeurs_champs,
+
+    ujpFile,
+    uApplicationJoinPointFile,
 
     SysUtils, Classes, DB, Inifiles, FileUtil;
 
@@ -282,6 +285,9 @@ type
   public
     constructor Create;
     destructor Destroy; override;
+  //INI
+  private
+    procedure _From_INI;
   //Divers
   private
     a: array of TJoinPoint;
@@ -289,24 +295,44 @@ type
   public
     bl: TBatpro_Ligne;
     procedure Execute( _bl: TBatpro_Ligne; _Suffixe: String);
+  //jpFile
+  public
+    sljpFile: TsljpFile;
+    function  Cree_jpFile( _nfKey: String): TjpFile;
+  //Création des jpFile par lecture du répertoire de listes de champs
+  private
+    procedure sljpFile_from_sRepertoireListeChamps_FileFound( _FileIterator: TFileIterator);
+  public
+    procedure sljpFile_from_sRepertoireListeChamps;
+    procedure sljpFile_Produit;
+  //ApplicationJoinPointFile
+  public
+    slApplicationJoinPointFile: TslApplicationJoinPointFile;
+    function  Cree_ApplicationJoinPointFile( _nfKey: String): TApplicationJoinPointFile;
+  //Création des ApplicationJoinPointFile par lecture du répertoire de listes de tables
+  private
+    procedure slApplicationJoinPointFile_from_sRepertoireListeTables_FileFound( _FileIterator: TFileIterator);
+  public
+    procedure slApplicationJoinPointFile_from_sRepertoireListeTables;
+    procedure slApplicationJoinPointFile_Produit;
+  //TemplateHandler
+  public
+    slTemplateHandler: TslTemplateHandler;
+    procedure Cree_TemplateHandler( var _Reference;
+                                   _Source: String;
+                                   _slParametres: TBatpro_StringList= nil); override; overload;
+    function  Cree_TemplateHandler( _Source: String;
+                                   _slParametres: TBatpro_StringList= nil): TTemplateHandler; overload;
+
+  //Création des TemplateHandler par lecture du répertoire de modèles
+  private
+    procedure slTemplateHandler_from_sRepertoireTemplate_FileFound( _FileIterator: TFileIterator);
+  public
+    procedure slTemplateHandler_from_sRepertoireTemplate;
+    procedure slTemplateHandler_Produit;
   //Paramètres
   private
     slParametres: TBatpro_StringList;
-  //PatternHandler
-  public
-    slPatternHandler: TslPatternHandler;
-    procedure Cree_PatternHandler( var _Reference;
-                                   _Source: String;
-                                   _slParametres: TBatpro_StringList= nil); override; overload;
-    function  Cree_PatternHandler( _Source: String;
-                                   _slParametres: TBatpro_StringList= nil): TPatternHandler; overload;
-
-  //Création des PatternHandler par lecture du répertoire de modèles
-  private
-    procedure slPatternHandler_from_sRepModeles_FileFound( _FileIterator: TFileIterator);
-  public
-    procedure slPatternHandler_from_sRepModeles;
-    procedure slPatternHandler_Produit;
   //Gestion de la génération au niveau global de l'application (basés sur liste des tables)
   public
     Application_Created: Boolean;
@@ -570,14 +596,40 @@ end;
 
 destructor TGenerateur_de_code.Destroy;
 begin
+     FreeAndNil( sljpFile);
+     FreeAndNil( slTemplateHandler);
      FreeAndNil( slParametres);
-     FreeAndNil( slPatternHandler);
      inherited Destroy;
+end;
+
+procedure TGenerateur_de_code._From_INI;
+var
+   NomFichierProjet: String;
+   Path: String;
+   INI: TIniFile;
+   function iRead( _Key, _DefaultValue: String): String;
+   begin
+        Result:= INI.ReadString( 'Options', _Key, _DefaultValue);
+        ForceDirectories( Result);
+        INI.WriteString( 'Options', _Key, Result);
+   end;
+begin
+     NomFichierProjet:= uOD_Forms_EXE_Name;
+     Path:= ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim;
+     INI:= TIniFile.Create( ChangeFileExt(EXE_INI.FileName,'_Generateur_de_code.ini'));
+     try
+        sRepertoireListeTables:= iRead( 'sRepertoireListeTables',Path+'01_Listes'    +PathDelim+'Tables'+PathDelim);
+        sRepertoireListeChamps:= iRead( 'sRepertoireListeChamps',Path+PathDelim+'01_Listes'    +PathDelim+'Champs'+PathDelim);
+        sRepertoireTemplate   := iRead( 'sRepertoireTemplate'   ,Path+PathDelim+'03_Template'  +PathDelim);
+        sRepertoireParametres := iRead( 'sRepertoireParametres' ,Path+PathDelim+'04_Parametres'+PathDelim);
+        sRepertoireResultat   := iRead( 'sRepertoireResultat'   ,Path+PathDelim+'05_Resultat'  +PathDelim);
+     finally
+            FreeAndNil( INI);
+            end;
 end;
 
 procedure TGenerateur_de_code.Execute( _bl: TBatpro_Ligne; _Suffixe: String);
 var
-   NomFichierProjet: String;
    cc: TContexteClasse;
 
    {
@@ -598,20 +650,18 @@ var
    phPAS_BL   ,
    phPAS_HF   ,
    phPAS_TC   ,
-   phDPK       : TPatternHandler;
+   phDPK       : TTemplateHandler;
 
-   phCS_ML     : TPatternHandler;
+   phCS_ML     : TTemplateHandler;
 
-   phPHP_Doctrine_record: TPatternHandler;
-   phPHP_Doctrine_table : TPatternHandler;
+   phPHP_Doctrine_record: TTemplateHandler;
+   phPHP_Doctrine_table : TTemplateHandler;
 
-   phPHP_Perso_c     : TPatternHandler;
-   phPHP_Perso_Delete: TPatternHandler;
-   phPHP_Perso_Insert: TPatternHandler;
-   phPHP_Perso_Set: TPatternHandler;
+   phPHP_Perso_c     : TTemplateHandler;
+   phPHP_Perso_Delete: TTemplateHandler;
+   phPHP_Perso_Insert: TTemplateHandler;
+   phPHP_Perso_Set: TTemplateHandler;
    }
-
-   INI: TIniFile;
 
    //Gestion des détails
    NbDetails: Integer;
@@ -624,75 +674,75 @@ var
    slAggregations:TStringList;
 
    {
-   procedure CreePatternHandler( out phPAS, phDFM: TPatternHandler; Racine: String);
+   procedure CreeTemplateHandler( out phPAS, phDFM: TTemplateHandler; Racine: String);
    var
-      sRepRacine: String;
+      sRepertoireRacine: String;
    begin
-        sRepRacine:= s_RepertoirePascal_paquet+'u'+Racine+s_Nom_de_la_classe;
-        phPAS:= Cree_PatternHandler(  sRepRacine+'.pas',slParametres);
-        phDFM:= Cree_PatternHandler(  sRepRacine+'.dfm',slParametres);
+        sRepertoireRacine:= s_RepertoirePascal_paquet+'u'+Racine+s_Nom_de_la_classe;
+        phPAS:= Cree_TemplateHandler(  sRepertoireRacine+'.pas',slParametres);
+        phDFM:= Cree_TemplateHandler(  sRepertoireRacine+'.dfm',slParametres);
    end;
 
-   procedure CreePatternHandler_pool( out phPAS: TPatternHandler);
+   procedure CreeTemplateHandler_pool( out phPAS: TTemplateHandler);
    var
-      sRepRacine: String;
+      sRepertoireRacine: String;
    begin
-        sRepRacine:= s_RepertoirePascal_paquet+'upool'+s_Nom_de_la_classe;
-        phPAS:= Cree_PatternHandler(  sRepRacine+'.pas',slParametres);
+        sRepertoireRacine:= s_RepertoirePascal_paquet+'upool'+s_Nom_de_la_classe;
+        phPAS:= Cree_TemplateHandler(  sRepertoireRacine+'.pas',slParametres);
    end;
 
-   procedure CreePatternHandler_BL( out phPAS: TPatternHandler);
+   procedure CreeTemplateHandler_BL( out phPAS: TTemplateHandler);
    var
-      sRepRacine: String;
+      sRepertoireRacine: String;
    begin
-        sRepRacine:= s_RepertoirePascal_paquet+'ubl'+s_Nom_de_la_classe;
-        phPAS:= Cree_PatternHandler(  sRepRacine+'.pas',slParametres);
+        sRepertoireRacine:= s_RepertoirePascal_paquet+'ubl'+s_Nom_de_la_classe;
+        phPAS:= Cree_TemplateHandler(  sRepertoireRacine+'.pas',slParametres);
    end;
 
-   procedure CreePatternHandler_HF( out phPAS: TPatternHandler);
+   procedure CreeTemplateHandler_HF( out phPAS: TTemplateHandler);
    var
-      sRepRacine: String;
+      sRepertoireRacine: String;
    begin
-        sRepRacine:= s_RepertoirePascal_paquet+'uhf'+s_Nom_de_la_classe;
-        phPAS:= Cree_PatternHandler(  sRepRacine+'.pas',slParametres);
+        sRepertoireRacine:= s_RepertoirePascal_paquet+'uhf'+s_Nom_de_la_classe;
+        phPAS:= Cree_TemplateHandler(  sRepertoireRacine+'.pas',slParametres);
    end;
 
-   procedure CreePatternHandler_TC( out phPAS: TPatternHandler);
+   procedure CreeTemplateHandler_TC( out phPAS: TTemplateHandler);
    var
-      sRepRacine: String;
+      sRepertoireRacine: String;
    begin
-        sRepRacine:= s_RepertoirePascal_dunit+'utc'+s_Nom_de_la_classe;
-        phPAS:= Cree_PatternHandler(  sRepRacine+'.pas',slParametres);
+        sRepertoireRacine:= s_RepertoirePascal_dunit+'utc'+s_Nom_de_la_classe;
+        phPAS:= Cree_TemplateHandler(  sRepertoireRacine+'.pas',slParametres);
    end;
 
-   procedure CreePatternHandler_DPK( out phDPK: TPatternHandler);
+   procedure CreeTemplateHandler_DPK( out phDPK: TTemplateHandler);
    var
-      sRepRacine: String;
+      sRepertoireRacine: String;
    begin
-        sRepRacine:= s_RepertoirePascal_paquet+'p'+s_Nom_de_la_classe;
-        phDPK:= Cree_PatternHandler(  sRepRacine+'.dpk',slParametres);
+        sRepertoireRacine:= s_RepertoirePascal_paquet+'p'+s_Nom_de_la_classe;
+        phDPK:= Cree_TemplateHandler(  sRepertoireRacine+'.dpk',slParametres);
    end;
 
-   procedure CreePatternHandler_ML( out phCS: TPatternHandler);
+   procedure CreeTemplateHandler_ML( out phCS: TTemplateHandler);
    var
-      sRepRacine: String;
+      sRepertoireRacine: String;
    begin
-        sRepRacine:= s_RepertoireCSharp+'Tml'+s_Nom_de_la_table;
-        phCS:= Cree_PatternHandler(  sRepRacine+'.CS',slParametres);
+        sRepertoireRacine:= s_RepertoireCSharp+'Tml'+s_Nom_de_la_table;
+        phCS:= Cree_TemplateHandler(  sRepertoireRacine+'.CS',slParametres);
    end;
 
-   procedure CreePatternHandler_PHP_Doctrine( out phRecord, phTable: TPatternHandler);
+   procedure CreeTemplateHandler_PHP_Doctrine( out phRecord, phTable: TTemplateHandler);
    begin
-        phRecord:= Cree_PatternHandler(  s_RepertoirePHP_Doctrine+    s_Nom_de_la_table+'.class.php',slParametres);
-        phTable := Cree_PatternHandler(  s_RepertoirePHP_Doctrine+'t'+s_Nom_de_la_table+'.class.php',slParametres);
+        phRecord:= Cree_TemplateHandler(  s_RepertoirePHP_Doctrine+    s_Nom_de_la_table+'.class.php',slParametres);
+        phTable := Cree_TemplateHandler(  s_RepertoirePHP_Doctrine+'t'+s_Nom_de_la_table+'.class.php',slParametres);
    end;
 
-   procedure CreePatternHandler_PHP_Perso( out phPHP_Perso_c, phPHP_Perso_Delete, phPHP_Perso_Insert, phPHP_Perso_Set: TPatternHandler);
+   procedure CreeTemplateHandler_PHP_Perso( out phPHP_Perso_c, phPHP_Perso_Delete, phPHP_Perso_Insert, phPHP_Perso_Set: TTemplateHandler);
    begin
-        phPHP_Perso_c     := Cree_PatternHandler(  s_RepertoirePHP_Perso+'cpool'+s_Nom_de_la_table+       '.php',slParametres);
-        phPHP_Perso_Delete:= Cree_PatternHandler(  s_RepertoirePHP_Perso+        s_Nom_de_la_table+'_Delete.php',slParametres);
-        phPHP_Perso_Insert:= Cree_PatternHandler(  s_RepertoirePHP_Perso+        s_Nom_de_la_table+'_Insert.php',slParametres);
-        phPHP_Perso_Set   := Cree_PatternHandler(  s_RepertoirePHP_Perso+        s_Nom_de_la_table+   '_Set.php',slParametres);
+        phPHP_Perso_c     := Cree_TemplateHandler(  s_RepertoirePHP_Perso+'cpool'+s_Nom_de_la_table+       '.php',slParametres);
+        phPHP_Perso_Delete:= Cree_TemplateHandler(  s_RepertoirePHP_Perso+        s_Nom_de_la_table+'_Delete.php',slParametres);
+        phPHP_Perso_Insert:= Cree_TemplateHandler(  s_RepertoirePHP_Perso+        s_Nom_de_la_table+'_Insert.php',slParametres);
+        phPHP_Perso_Set   := Cree_TemplateHandler(  s_RepertoirePHP_Perso+        s_Nom_de_la_table+   '_Set.php',slParametres);
    end;
    }
    procedure Traite_Champ( _C: TChamp);
@@ -711,6 +761,7 @@ var
         //cm:= TContexteMembre.Create( cc, _fb.jsdcc.Nom, _fb.sType, '');
         try
            uJoinPoint_VisiteMembre( cm, a);
+           sljpFile.VisiteMembre( cm);
         finally
                FreeAndNil( cm);
                end;
@@ -760,6 +811,7 @@ var
            slParametres.Clear;
 
            uJoinPoint_Initialise( cc, a);
+           sljpFile.Initialise( cc);
 
            I:= bl.Champs.sl.Iterateur;
            while I.Continuer
@@ -772,16 +824,20 @@ var
            //Gestion des détails
            slDetails:= TStringList.Create;
            try
-              nfDetails:= sRepParametres+cc.Nom_de_la_classe+'.Details.txt';
+              nfDetails:= sRepertoireParametres+cc.Nom_de_la_classe+'.Details.txt';
               if FileExists( nfDetails)
               then
                   slDetails.LoadFromFile( nfDetails);
               NbDetails:= slDetails.Count;
               for J:= 0 to NbDetails-1
               do
+                begin
                 uJoinPoint_VisiteDetail( slDetails.Names[J],
                                          slDetails.ValueFromIndex[J],
                                          a);
+                sljpFile.VisiteDetail( slDetails.Names[J],
+                                       slDetails.ValueFromIndex[J]);
+                end;
            finally
                   slDetails.SaveToFile( nfDetails);
                   FreeAndNil( slDetails);
@@ -790,16 +846,20 @@ var
            //Gestion des aggrégations
            slAggregations:= TStringList.Create;
            try
-              nfAggregations:= sRepParametres+cc.Nom_de_la_classe+'.Aggregations.txt';
+              nfAggregations:= sRepertoireParametres+cc.Nom_de_la_classe+'.Aggregations.txt';
               if FileExists( nfAggregations)
               then
                   slAggregations.LoadFromFile( nfAggregations);
               NbAggregations:= slAggregations.Count;
               for J:= 0 to NbAggregations-1
               do
+                begin
                 uJoinPoint_VisiteAggregation( slAggregations.Names[J],
                                          slAggregations.ValueFromIndex[J],
                                          a);
+                sljpFile.VisiteAggregation( slAggregations.Names[J],
+                                            slAggregations.ValueFromIndex[J]);
+                end;
            finally
                   slAggregations.SaveToFile( nfAggregations);
                   FreeAndNil( slAggregations);
@@ -807,10 +867,12 @@ var
 
            //Fermeture des chaines
            uJoinPoint_Finalise( a);
+           sljpFile.Finalise;
 
            uJoinPoint_To_Parametres( slParametres, a);
+           sljpFile.To_Parametres( slParametres);
 
-           slPatternHandler_Produit;
+           slTemplateHandler_Produit;
            //Produit;
            slLog.Add( 'aprés Produit');
            MenuHandler                          .Add( cc.Nom_de_la_table, NbDetails = 0);
@@ -823,97 +885,149 @@ var
    end;
 begin
      bl:= _bl;
-     NomFichierProjet:= uOD_Forms_EXE_Name;
-     INI
-     :=
-       TIniFile.Create( ChangeFileExt(EXE_INI.FileName,'_Generateur_de_code.ini'));
+     slLog.Clear;
+     slParametres.Clear;
+     sljpFile_from_sRepertoireListeChamps;
+     slTemplateHandler_from_sRepertoireTemplate;
+
+     {
+     CreeTemplateHandler( phPAS_DMCRE, phDFM_DMCRE, 'dmxcre');
+     CreeTemplateHandler( phPAS_F    , phDFM_F    , 'f'     );
+     CreeTemplateHandler( phPAS_FCB  , phDFM_FCB  , 'fcb'   );
+     CreeTemplateHandler( phPAS_DKD  , phDFM_DKD  , 'dkd'   );
+     CreeTemplateHandler( phPAS_FD  , phDFM_FD  , 'fd'   );
+     CreeTemplateHandler_pool( phPAS_POOL);
+     CreeTemplateHandler_BL( phPAS_BL);
+     CreeTemplateHandler_HF( phPAS_HF);
+     CreeTemplateHandler_TC( phPAS_TC);
+     CreeTemplateHandler_DPK( phDPK);
+
+     CreeTemplateHandler_ML( phCS_ML);
+
+     CreeTemplateHandler_PHP_Doctrine( phPHP_Doctrine_record, phPHP_Doctrine_table);
+     CreeTemplateHandler_PHP_Perso( phPHP_Perso_c, phPHP_Perso_Delete, phPHP_Perso_Insert, phPHP_Perso_Set);
+     }
+     if not Application_Created
+     then
+         Application_Create;
      try
-        sRepListeTables:= INI.ReadString( 'Options', 'sRepListeTables',ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'01_Listes' +PathDelim+'Tables'+PathDelim);
-        sRepListeChamps:= INI.ReadString( 'Options', 'sRepListeChamps',ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'01_Listes' +PathDelim+'Champs'+PathDelim);
-        sRepModeles    := INI.ReadString( 'Options', 'sRepModeles'    ,ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'03_Modeles'+PathDelim);
-        sRepParametres := INI.ReadString( 'Options', 'sRepParametres' ,ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'Parametres'+PathDelim);
-        sRepResultat      := INI.ReadString( 'Options', 'sRepResultat'      ,ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'05_Resultat'    +PathDelim);
-        ForceDirectories( sRepModeles     );
-        ForceDirectories( sRepParametres );
-        ForceDirectories( sRepResultat      );
-        ForceDirectories( sRepListeTables);
-        ForceDirectories( sRepListeChamps);
-        INI.WriteString( 'Options', 'sRepModeles', sRepModeles);
-        INI.WriteString( 'Options', 'sRepResultat' , sRepResultat );
-        INI.WriteString( 'Options', 'sRepListeTables' , sRepListeTables);
-        INI.WriteString( 'Options', 'sRepListeChamps' , sRepListeChamps);
+        S:= '';
+        Premiere_Classe:= True;
 
-        slLog.Clear;
-        slParametres.Clear;
-        slPatternHandler_from_sRepModeles;
+        Visite;
 
-        {
-        CreePatternHandler( phPAS_DMCRE, phDFM_DMCRE, 'dmxcre');
-        CreePatternHandler( phPAS_F    , phDFM_F    , 'f'     );
-        CreePatternHandler( phPAS_FCB  , phDFM_FCB  , 'fcb'   );
-        CreePatternHandler( phPAS_DKD  , phDFM_DKD  , 'dkd'   );
-        CreePatternHandler( phPAS_FD  , phDFM_FD  , 'fd'   );
-        CreePatternHandler_pool( phPAS_POOL);
-        CreePatternHandler_BL( phPAS_BL);
-        CreePatternHandler_HF( phPAS_HF);
-        CreePatternHandler_TC( phPAS_TC);
-        CreePatternHandler_DPK( phDPK);
-
-        CreePatternHandler_ML( phCS_ML);
-
-        CreePatternHandler_PHP_Doctrine( phPHP_Doctrine_record, phPHP_Doctrine_table);
-        CreePatternHandler_PHP_Perso( phPHP_Perso_c, phPHP_Perso_Delete, phPHP_Perso_Insert, phPHP_Perso_Set);
-        }
-        if not Application_Created
-        then
-            Application_Create;
-        try
-           S:= '';
-           Premiere_Classe:= True;
-
-           Visite;
-
-           slLog.Add( S);
-        finally
-               {
-               FreeAndNil( phPAS_DMCRE);
-               FreeAndNil( phPAS_POOL );
-               FreeAndNil( phPAS_F    );
-               FreeAndNil( phPAS_FCB  );
-               FreeAndNil( phPAS_DKD  );
-
-               FreeAndNil( phDFM_DMCRE);
-               FreeAndNil( phDFM_F    );
-               FreeAndNil( phDFM_FCB  );
-               FreeAndNil( phDFM_DKD  );
-
-               FreeAndNil( phDFM_FD  );
-               FreeAndNil( phPAS_FD  );
-
-               FreeAndNil( phPAS_BL   );
-               FreeAndNil( phPAS_HF   );
-               FreeAndNil( phPAS_TC   );
-
-               FreeAndNil( phCS_ML   );
-
-               FreeAndNil( phPHP_Doctrine_record);
-               FreeAndNil( phPHP_Doctrine_table );
-
-               FreeAndNil( phPHP_Perso_c     );
-               FreeAndNil( phPHP_Perso_Delete);
-               FreeAndNil( phPHP_Perso_Insert);
-               FreeAndNil( phPHP_Perso_Set);
-               }
-               slPatternHandler.Vide;
-               end;
-        slLog.SaveToFile( sRepResultat+ChangeFileExt( ExtractFileName( uClean_EXE_Name), '.log'));
+        slLog.Add( S);
      finally
-            FreeAndNil( INI);
+            {
+            FreeAndNil( phPAS_DMCRE);
+            FreeAndNil( phPAS_POOL );
+            FreeAndNil( phPAS_F    );
+            FreeAndNil( phPAS_FCB  );
+            FreeAndNil( phPAS_DKD  );
+
+            FreeAndNil( phDFM_DMCRE);
+            FreeAndNil( phDFM_F    );
+            FreeAndNil( phDFM_FCB  );
+            FreeAndNil( phDFM_DKD  );
+
+            FreeAndNil( phDFM_FD  );
+            FreeAndNil( phPAS_FD  );
+
+            FreeAndNil( phPAS_BL   );
+            FreeAndNil( phPAS_HF   );
+            FreeAndNil( phPAS_TC   );
+
+            FreeAndNil( phCS_ML   );
+
+            FreeAndNil( phPHP_Doctrine_record);
+            FreeAndNil( phPHP_Doctrine_table );
+
+            FreeAndNil( phPHP_Perso_c     );
+            FreeAndNil( phPHP_Perso_Delete);
+            FreeAndNil( phPHP_Perso_Insert);
+            FreeAndNil( phPHP_Perso_Set);
+            }
+            slTemplateHandler.Vide;
+            sljpFile.Vide;
+            end;
+     slLog.SaveToFile( sRepertoireResultat+ChangeFileExt( ExtractFileName( uClean_EXE_Name), '.log'));
+end;
+
+procedure ublAutomatic_EnumFiles( _sRepertoire: String; _ffe: TFileFoundEvent; _Mask: String= '*.*');
+var
+   fs: TFileSearcher;
+begin
+     fs:= TFileSearcher.Create;
+     try
+        fs.OnFileFound:= _ffe;
+        fs.Search( _sRepertoire, _Mask);
+     finally
+            FreeAndNil( fs);
             end;
 end;
 
-function TGenerateur_de_code.Cree_PatternHandler( _Source: String;
-                                                  _slParametres: TBatpro_StringList= nil): TPatternHandler;
+function TGenerateur_de_code.Cree_jpFile(_nfKey: String): TjpFile;
+begin
+     Result:= jpFile_from_sl_sCle( sljpFile, _nfKey);
+     if nil <> Result then exit;
+
+     Result:= TjpFile.Create( _nfKey);
+     sljpFile.AddObject( _nfKey, Result);
+end;
+
+procedure TGenerateur_de_code.sljpFile_from_sRepertoireListeChamps_FileFound( _FileIterator: TFileIterator);
+var
+   NomFichier_Key: String;
+begin
+     if _FileIterator.IsDirectory then exit;
+
+     NomFichier_Key:= _FileIterator.FileName;
+
+     Cree_jpFile( NomFichier_Key);
+end;
+
+procedure TGenerateur_de_code.sljpFile_from_sRepertoireListeChamps;
+begin
+     ublAutomatic_EnumFiles( sRepertoireListeChamps, sljpFile_from_sRepertoireListeChamps_FileFound, s_key_mask);
+end;
+
+procedure TGenerateur_de_code.sljpFile_Produit;
+begin
+
+end;
+
+function TGenerateur_de_code.Cree_ApplicationJoinPointFile(_nfKey: String): TApplicationJoinPointFile;
+begin
+     Result:= ApplicationJoinPointFile_from_sl_sCle( slApplicationJoinPointFile, _nfKey);
+     if nil <> Result then exit;
+
+     Result:= TApplicationJoinPointFile.Create( _nfKey);
+     slApplicationJoinPointFile.AddObject( _nfKey, Result);
+end;
+
+procedure TGenerateur_de_code.slApplicationJoinPointFile_from_sRepertoireListeTables_FileFound( _FileIterator: TFileIterator);
+var
+   NomFichier_Key: String;
+begin
+     if _FileIterator.IsDirectory then exit;
+
+     NomFichier_Key:= _FileIterator.FileName;
+
+     Cree_ApplicationJoinPointFile( NomFichier_Key);
+end;
+
+procedure TGenerateur_de_code.slApplicationJoinPointFile_from_sRepertoireListeTables;
+begin
+     ublAutomatic_EnumFiles( sRepertoireListeTables, slApplicationJoinPointFile_from_sRepertoireListeTables_FileFound, s_key_mask);
+end;
+
+procedure TGenerateur_de_code.slApplicationJoinPointFile_Produit;
+begin
+
+end;
+
+function TGenerateur_de_code.Cree_TemplateHandler( _Source: String;
+                                                  _slParametres: TBatpro_StringList= nil): TTemplateHandler;
 var
    slParametres_local: TBatpro_StringList;
 begin
@@ -925,55 +1039,47 @@ begin
 
      Result
      :=
-       PatternHandler_from_sl_sCle( slPatternHandler, _Source);
+       TemplateHandler_from_sl_sCle( slTemplateHandler, _Source);
      if nil = Result
      then
          begin
-         Result:= TPatternHandler.Create( Self, _Source, slParametres_local);
-         slPatternHandler.AddObject( _Source, Result);
+         Result:= TTemplateHandler.Create( Self, _Source, slParametres_local);
+         slTemplateHandler.AddObject( _Source, Result);
          end
      else
          Result.slParametres:= slParametres_local;
 end;
 
-procedure TGenerateur_de_code.Cree_PatternHandler( var _Reference;
+procedure TGenerateur_de_code.Cree_TemplateHandler( var _Reference;
                                                    _Source: String;
                                                    _slParametres: TBatpro_StringList= nil);
 begin
-     TPatternHandler(_Reference):= Cree_PatternHandler( _Source, _slParametres);
+     TTemplateHandler(_Reference):= Cree_TemplateHandler( _Source, _slParametres);
 end;
 
-procedure TGenerateur_de_code.slPatternHandler_from_sRepModeles_FileFound( _FileIterator: TFileIterator);
+procedure TGenerateur_de_code.slTemplateHandler_from_sRepertoireTemplate_FileFound( _FileIterator: TFileIterator);
 var
    Source: String;
 begin
      if _FileIterator.IsDirectory then exit;
 
      Source:= _FileIterator.FileName;
-     Delete( Source, 1, Length( sRepModeles));
+     Delete( Source, 1, Length( sRepertoireTemplate));
 
-     Cree_PatternHandler( Source);
+     Cree_TemplateHandler( Source);
 end;
 
-procedure TGenerateur_de_code.slPatternHandler_from_sRepModeles;
-var
-   fs: TFileSearcher;
+procedure TGenerateur_de_code.slTemplateHandler_from_sRepertoireTemplate;
 begin
-     fs:= TFileSearcher.Create;
-     try
-        fs.OnFileFound:= slPatternHandler_from_sRepModeles_FileFound;
-        fs.Search( sRepModeles, '*.*');
-     finally
-            FreeAndNil( fs);
-            end;
+     ublAutomatic_EnumFiles( sRepertoireTemplate, slTemplateHandler_from_sRepertoireTemplate_FileFound);
 end;
 
-procedure TGenerateur_de_code.slPatternHandler_Produit;
+procedure TGenerateur_de_code.slTemplateHandler_Produit;
 var
-   I: TIterateur_PatternHandler;
-   ph: TPatternHandler;
+   I: TIterateur_TemplateHandler;
+   ph: TTemplateHandler;
 begin
-     I:= slPatternHandler.Iterateur;
+     I:= slTemplateHandler.Iterateur;
      while I.Continuer
      do
        begin
@@ -984,6 +1090,8 @@ end;
 
 procedure TGenerateur_de_code.Application_Create;
 begin
+     _From_INI;
+     slApplicationJoinPointFile_from_sRepertoireListeTables;
      MenuHandler                          := TMenuHandler                          .Create( Self);
      csMenuHandler                        := TcsMenuHandler                        .Create( Self);
      Angular_TypeScript_ApplicationHandler:= TAngular_TypeScript_ApplicationHandler.Create( Self);
@@ -1000,6 +1108,7 @@ end;
 procedure TGenerateur_de_code.Application_Destroy;
 begin
      Application_Created:= False;
+     slApplicationJoinPointFile.Vide;
      FreeAndNil( MenuHandler                          );
      FreeAndNil( csMenuHandler                        );
      FreeAndNil( Angular_TypeScript_ApplicationHandler);
@@ -1019,8 +1128,9 @@ end;
 constructor TGenerateur_de_code.Create;
 begin
      inherited Create;
-     slParametres:= TBatpro_StringList.Create;
-     slPatternHandler:= TslPatternHandler.Create( ClassName+'.slPatternHandler');
+     sljpFile         := TsljpFile         .Create( ClassName+'.sljpFile'         );
+     slTemplateHandler:= TslTemplateHandler.Create( ClassName+'.slTemplateHandler');
+     slParametres     := TBatpro_StringList.Create;
      Initialise(
                 [
                 //General

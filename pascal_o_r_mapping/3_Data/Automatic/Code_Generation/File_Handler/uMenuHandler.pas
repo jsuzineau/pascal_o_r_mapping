@@ -28,7 +28,7 @@ interface
 uses
     uGenerateur_de_code_Ancetre,
     uBatpro_StringList,
-    uPatternHandler,
+    uTemplateHandler,
     SysUtils, Classes;
 
 type
@@ -45,7 +45,7 @@ type
   //Attributs
   private
     g: TGenerateur_de_code_Ancetre;
-    PAS, DFM: TPatternHandler;
+    PAS, DFM: TTemplateHandler;
   public
     sMenu_Base_DFM,
     sMenu_Relation_DFM,
@@ -76,8 +76,8 @@ begin
      g:= _g;
 
      slParametres:= TBatpro_StringList.Create;
-     PAS:=TPatternHandler.Create( g, s_RepertoirePascal+'u'+s_MenuHandler_Form_Name+'.pas',slParametres);
-     DFM:=TPatternHandler.Create( g, s_RepertoirePascal+'u'+s_MenuHandler_Form_Name+'.dfm',slParametres);
+     PAS:=TTemplateHandler.Create( g, s_RepertoirePascal+'u'+s_MenuHandler_Form_Name+'.pas',slParametres);
+     DFM:=TTemplateHandler.Create( g, s_RepertoirePascal+'u'+s_MenuHandler_Form_Name+'.dfm',slParametres);
      Init;
 end;
 

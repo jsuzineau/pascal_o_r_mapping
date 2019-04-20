@@ -27,7 +27,7 @@ uses
     uGenerateur_de_code_Ancetre,
     uBatpro_StringList,
     uContexteClasse,
-    uPatternHandler,
+    uTemplateHandler,
     SysUtils, Classes;
 
 type
@@ -44,8 +44,8 @@ type
   //Attributs
   private
     g: TGenerateur_de_code_Ancetre;
-    APP_MODULE_TS        : TPatternHandler;
-    APP_ROUTING_MODULE_TS: TPatternHandler;
+    APP_MODULE_TS        : TTemplateHandler;
+    APP_ROUTING_MODULE_TS: TTemplateHandler;
   public
     sAPP_MODULE_TS_IMPORT_LIST : String;
     sAPP_MODULE_TS_DECLARATIONS: String;
@@ -75,8 +75,8 @@ begin
      g:= _g;
 
      slParametres:= TBatpro_StringList.Create;
-     APP_MODULE_TS        :=TPatternHandler.Create( g, s_RepertoireAngular_TypeScript+'app.module.ts'        ,slParametres);
-     APP_ROUTING_MODULE_TS:=TPatternHandler.Create( g, s_RepertoireAngular_TypeScript+'app-routing.module.ts',slParametres);
+     APP_MODULE_TS        :=TTemplateHandler.Create( g, s_RepertoireAngular_TypeScript+'app.module.ts'        ,slParametres);
+     APP_ROUTING_MODULE_TS:=TTemplateHandler.Create( g, s_RepertoireAngular_TypeScript+'app-routing.module.ts',slParametres);
      Init;
 end;
 

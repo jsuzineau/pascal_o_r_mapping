@@ -53,6 +53,9 @@ type
     slCle: TStringList;
     slLibelle :TStringList;
     slIndex   :TStringList;
+  //Recherche/remplacement par les valeurs dans un modèle
+  public
+    function Produit( _Prefixe, _sModele: String): String;
   end;
 
 implementation
@@ -72,7 +75,7 @@ begin
      NbChamps:= _NbChamps;
 
      slCle:= TStringList.Create;
-     nfCle:= g.sRepParametres+Nom_de_la_table+'.Cle.txt';
+     nfCle:= g.sRepertoireParametres+Nom_de_la_table+'.Cle.txt';
      if FileExists( nfCle)
      then
          slCle.LoadFromFile( nfCle)
@@ -81,7 +84,7 @@ begin
 
      //Gestion du libellé
      slLibelle:= TStringList.Create;
-     nfLibelle:= g.sRepParametres+Nom_de_la_classe+'.libelle.txt';
+     nfLibelle:= g.sRepertoireParametres+Nom_de_la_classe+'.libelle.txt';
      if FileExists( nfLibelle)
      then
          slLibelle.LoadFromFile( nfLibelle)
@@ -95,6 +98,13 @@ begin
      FreeAndNil( slCle);
      FreeAndNil( slLibelle);
      inherited Destroy;
+end;
+
+function TContexteClasse.Produit( _Prefixe, _sModele: String): String;
+begin
+     Result:= StringReplace( Result, _Prefixe+'Nom_de_la_table'  ,Nom_de_la_table  ,[rfReplaceAll,rfIgnoreCase]);
+     Result:= StringReplace( Result, _Prefixe+'Nom_de_la_classe' ,Nom_de_la_classe ,[rfReplaceAll,rfIgnoreCase]);
+     Result:= StringReplace( Result, _Prefixe+'NomTableMinuscule',NomTableMinuscule,[rfReplaceAll,rfIgnoreCase]);
 end;
 
 end.

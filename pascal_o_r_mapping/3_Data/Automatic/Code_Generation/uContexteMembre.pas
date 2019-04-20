@@ -85,6 +85,9 @@ type
     procedure Traite_TDATETIME  ;
     procedure Traite_GRAPHIC    ;
     procedure Traite_MEMO       ;
+  //Recherche/remplacement par les valeurs dans un modèle
+  public
+    function Produit( _Prefixe, _sModele: String): String;
   end;
 
 
@@ -111,7 +114,8 @@ begin
      CleEtrangere:= _CleEtrangere;
 
      sTypChamp_UPPERCASE:= UpperCase( sTypChamp);
-     sTyp:= sTypChamp;sTyp_TS:= sTypChamp;
+     sTyp               := sTypChamp;
+     sTyp_TS            := sTypChamp;
 
           if'NCHAR'      =sTypChamp_UPPERCASE then Traite_NCHAR
      else if'TEXT'       =sTypChamp_UPPERCASE then Traite_TEXT
@@ -156,4 +160,16 @@ procedure TContexteMembre.Traite_DATE      ; begin sTyp:='TDateTime';sTyp_TS:='D
 procedure TContexteMembre.Traite_TDATETIME ; begin                   sTyp_TS:='Date'  ;end;//à surveiller, peut-être DateTime
 procedure TContexteMembre.Traite_GRAPHIC   ; begin sTyp:='String'   ;sTyp_TS:='string';end;
 procedure TContexteMembre.Traite_MEMO      ; begin sTyp:='String'   ;sTyp_TS:='string';end;
+
+function TContexteMembre.Produit( _Prefixe, _sModele: String): String;
+begin
+     Result:= StringReplace( Result, _Prefixe+'Libelle'                    ,sLibelle                    ,[rfReplaceAll,rfIgnoreCase]);
+     Result:= StringReplace( Result, _Prefixe+'NomChamp_database'          ,sNomChamp_database          ,[rfReplaceAll,rfIgnoreCase]);
+     Result:= StringReplace( Result, _Prefixe+'NomChamp'                   ,sNomChamp                   ,[rfReplaceAll,rfIgnoreCase]);
+     Result:= StringReplace( Result, _Prefixe+'TypChamp_UPPERCASE'         ,sTypChamp_UPPERCASE         ,[rfReplaceAll,rfIgnoreCase]);
+     Result:= StringReplace( Result, _Prefixe+'TypChamp'                   ,sTypChamp                   ,[rfReplaceAll,rfIgnoreCase]);
+     Result:= StringReplace( Result, _Prefixe+'Typ_TS'                     ,sTyp_TS                     ,[rfReplaceAll,rfIgnoreCase]);
+     Result:= StringReplace( Result, _Prefixe+'Typ'                        ,sTyp                        ,[rfReplaceAll,rfIgnoreCase]);
+end;
+
 end.

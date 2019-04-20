@@ -77,7 +77,7 @@ procedure TjpSQL_Order_By_Key.Initialise(_cc: TContexteClasse);
 begin
      inherited;
      //Gestion de l'order by
-     nfOrder_By:= cc.g.sRepParametres+cc.Nom_de_la_classe+'.order_by.txt';
+     nfOrder_By:= cc.g.sRepertoireParametres+cc.Nom_de_la_classe+'.order_by.txt';
           if FileExists(   nfOrder_By) then slOrder_by.LoadFromFile( nfOrder_By)
      else if FileExists( cc.nfLibelle) then slOrder_by.LoadFromFile( cc.nfLibelle );
 end;
