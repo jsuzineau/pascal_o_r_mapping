@@ -63,6 +63,19 @@ type
   private
     Log_Actif: Boolean;
     slLog: TBatpro_StringList;
+  //Répertoire racine
+  protected
+    function GetRepertoire: String; virtual;
+  end;
+
+ { TApplicationTemplateHandler }
+
+ TApplicationTemplateHandler
+ =
+  class( TTemplateHandler)
+  //Répertoire racine
+  protected
+    function GetRepertoire: String; override;
   end;
 
  TIterateur_TemplateHandler
@@ -145,6 +158,13 @@ begin
      Result:= TIterateur_TemplateHandler( Iterateur_interne_Decroissant);
 end;
 
+{ TApplicationTemplateHandler }
+
+function TApplicationTemplateHandler.GetRepertoire: String;
+begin
+     Result:= g.sRepertoireApplicationTemplate;
+end;
+
 { TTemplateHandler }
 
 constructor TTemplateHandler.Create( _g: TGenerateur_de_code_Ancetre;
@@ -158,7 +178,7 @@ begin
      Source         := _Source         ;
      slParametres   := _slParametres;
 
-     Source_FullPath:= g.sRepertoireTemplate+Source;
+     Source_FullPath:= GetRepertoire+Source;
      slSource:= TBatpro_StringList.Create;
      if not FileExists( Source_FullPath)
      then
@@ -172,6 +192,11 @@ begin
      slCible:= TBatpro_StringList.Create;
 
 end;
+function TTemplateHandler.GetRepertoire: String;
+begin
+     Result:= g.sRepertoireTemplate;
+end;
+
 
 destructor TTemplateHandler.Destroy;
 begin

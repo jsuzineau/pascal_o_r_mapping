@@ -250,7 +250,7 @@ begin
      else
          Valeur:= Valeur + sSeparateur;
 
-     Valeur:= Valeur+ c.Produit( 'Classe.', sElement);
+     Valeur:= Valeur+ _cc.Produit( 'Classe.', sElement);
 end;
 
 procedure TApplicationJoinPointFile.Finalise;

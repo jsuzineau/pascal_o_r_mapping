@@ -91,6 +91,7 @@ type
     sRepertoireListeChamps,
     sRepertoireTemplate   ,
     sRepertoireParametres ,
+    sRepertoireApplicationTemplate  ,
     sRepertoireResultat      : String;
   //Méthodes
   public

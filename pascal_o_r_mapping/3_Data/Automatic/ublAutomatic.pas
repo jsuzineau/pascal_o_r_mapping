@@ -333,6 +333,17 @@ type
   //Paramètres
   private
     slParametres: TBatpro_StringList;
+  //ApplicationTemplateHandler
+  public
+    slApplicationTemplateHandler: TslTemplateHandler;
+    function  Cree_ApplicationTemplateHandler( _Source: String; _slParametres: TBatpro_StringList= nil): TTemplateHandler;
+  //Création des TemplateHandler par lecture du répertoire de modèles
+  private
+    procedure slApplicationTemplateHandler_from_sRepertoireApplicationTemplate_FileFound( _FileIterator: TFileIterator);
+  public
+    procedure slApplicationTemplateHandler_from_sRepertoireApplicationTemplate;
+    procedure slApplicationTemplateHandler_Produit;
+
   //Gestion de la génération au niveau global de l'application (basés sur liste des tables)
   public
     Application_Created: Boolean;
@@ -618,11 +629,12 @@ begin
      Path:= ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim;
      INI:= TIniFile.Create( ChangeFileExt(EXE_INI.FileName,'_Generateur_de_code.ini'));
      try
-        sRepertoireListeTables:= iRead( 'sRepertoireListeTables',Path+'01_Listes'    +PathDelim+'Tables'+PathDelim);
-        sRepertoireListeChamps:= iRead( 'sRepertoireListeChamps',Path+PathDelim+'01_Listes'    +PathDelim+'Champs'+PathDelim);
-        sRepertoireTemplate   := iRead( 'sRepertoireTemplate'   ,Path+PathDelim+'03_Template'  +PathDelim);
-        sRepertoireParametres := iRead( 'sRepertoireParametres' ,Path+PathDelim+'04_Parametres'+PathDelim);
-        sRepertoireResultat   := iRead( 'sRepertoireResultat'   ,Path+PathDelim+'05_Resultat'  +PathDelim);
+        sRepertoireListeTables        := iRead( 'sRepertoireListeTables',Path+'01_Listes'             +PathDelim+'Tables'+PathDelim);
+        sRepertoireListeChamps        := iRead( 'sRepertoireListeChamps',Path+'01_Listes'             +PathDelim+'Champs'+PathDelim);
+        sRepertoireTemplate           := iRead( 'sRepertoireTemplate'   ,Path+'03_Template'           +PathDelim);
+        sRepertoireParametres         := iRead( 'sRepertoireParametres' ,Path+'04_Parametres'         +PathDelim);
+        sRepertoireApplicationTemplate:= iRead( 'sApplicationTemplate'  ,Path+'05_ApplicationTemplate'+PathDelim);
+        sRepertoireResultat           := iRead( 'sRepertoireResultat'   ,Path+'06_Resultat'           +PathDelim);
      finally
             FreeAndNil( INI);
             end;
@@ -1088,6 +1100,61 @@ begin
        end;
 end;
 
+function TGenerateur_de_code.Cree_ApplicationTemplateHandler( _Source: String; _slParametres: TBatpro_StringList): TTemplateHandler;
+var
+   slParametres_local: TBatpro_StringList;
+begin
+     if nil = _slParametres
+     then
+         slParametres_local:= slParametres
+     else
+         slParametres_local:= _slParametres;
+
+     Result
+     :=
+       TemplateHandler_from_sl_sCle( slTemplateHandler, _Source);
+     if nil = Result
+     then
+         begin
+         Result:= TApplicationTemplateHandler.Create( Self, _Source, slParametres_local);
+         slTemplateHandler.AddObject( _Source, Result);
+         end
+     else
+         Result.slParametres:= slParametres_local;
+end;
+
+procedure TGenerateur_de_code.slApplicationTemplateHandler_from_sRepertoireApplicationTemplate_FileFound( _FileIterator: TFileIterator);
+var
+   Source: String;
+begin
+     if _FileIterator.IsDirectory then exit;
+
+     Source:= _FileIterator.FileName;
+     Delete( Source, 1, Length( sRepertoireApplicationTemplate));
+
+     Cree_ApplicationTemplateHandler( Source);
+end;
+
+procedure TGenerateur_de_code.slApplicationTemplateHandler_from_sRepertoireApplicationTemplate;
+begin
+     ublAutomatic_EnumFiles( sRepertoireApplicationTemplate, slApplicationTemplateHandler_from_sRepertoireApplicationTemplate_FileFound);
+end;
+
+procedure TGenerateur_de_code.slApplicationTemplateHandler_Produit;
+var
+   I: TIterateur_TemplateHandler;
+   ph: TTemplateHandler;
+begin
+     I:= slTemplateHandler.Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( ph) then continue;
+       ph.Produit;
+       end;
+end;
+
+
 procedure TGenerateur_de_code.Application_Create;
 begin
      _From_INI;
@@ -1095,6 +1162,8 @@ begin
      MenuHandler                          := TMenuHandler                          .Create( Self);
      csMenuHandler                        := TcsMenuHandler                        .Create( Self);
      Angular_TypeScript_ApplicationHandler:= TAngular_TypeScript_ApplicationHandler.Create( Self);
+
+     slApplicationTemplateHandler_from_sRepertoireApplicationTemplate;
      Application_Created:= True;
 end;
 
@@ -1103,6 +1172,7 @@ begin
      MenuHandler                          .Produit;
      csMenuHandler                        .Produit;
      Angular_TypeScript_ApplicationHandler.Produit;
+     slApplicationTemplateHandler_Produit;
 end;
 
 procedure TGenerateur_de_code.Application_Destroy;
@@ -1112,6 +1182,7 @@ begin
      FreeAndNil( MenuHandler                          );
      FreeAndNil( csMenuHandler                        );
      FreeAndNil( Angular_TypeScript_ApplicationHandler);
+     slApplicationTemplateHandler.Vide;
 end;
 
 procedure TGenerateur_de_code.Initialise(_a: array of TJoinPoint);
