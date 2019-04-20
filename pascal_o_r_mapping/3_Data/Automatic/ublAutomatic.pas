@@ -301,11 +301,11 @@ type
     function  Cree_PatternHandler( _Source: String;
                                    _slParametres: TBatpro_StringList= nil): TPatternHandler; overload;
 
-  //Création des PatternHandler par lecture du répertoire de patterns
+  //Création des PatternHandler par lecture du répertoire de modèles
   private
-    procedure slPatternHandler_from_sRepSource_FileFound( _FileIterator: TFileIterator);
+    procedure slPatternHandler_from_sRepModeles_FileFound( _FileIterator: TFileIterator);
   public
-    procedure slPatternHandler_from_sRepSource;
+    procedure slPatternHandler_from_sRepModeles;
     procedure slPatternHandler_Produit;
   //Gestion de la génération au niveau global de l'application (basés sur liste des tables)
   public
@@ -828,24 +828,24 @@ begin
      :=
        TIniFile.Create( ChangeFileExt(EXE_INI.FileName,'_Generateur_de_code.ini'));
      try
-        sRepSource     := INI.ReadString( 'Options', 'sRepSource'     ,ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'patterns'  +PathDelim);
+        sRepListeTables:= INI.ReadString( 'Options', 'sRepListeTables',ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'01_Listes' +PathDelim+'Tables'+PathDelim);
+        sRepListeChamps:= INI.ReadString( 'Options', 'sRepListeChamps',ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'01_Listes' +PathDelim+'Champs'+PathDelim);
+        sRepModeles    := INI.ReadString( 'Options', 'sRepModeles'    ,ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'03_Modeles'+PathDelim);
         sRepParametres := INI.ReadString( 'Options', 'sRepParametres' ,ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'Parametres'+PathDelim);
-        sRepCible      := INI.ReadString( 'Options', 'sRepCible'      ,ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'Source'    +PathDelim);
-        sRepListeTables:= INI.ReadString( 'Options', 'sRepListeTables',ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'Listes'    +PathDelim+'Tables'+PathDelim);
-        sRepListeChamps:= INI.ReadString( 'Options', 'sRepListeChamps',ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'Listes'    +PathDelim+'Champs'+PathDelim);
-        ForceDirectories( sRepSource     );
+        sRepResultat      := INI.ReadString( 'Options', 'sRepResultat'      ,ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'05_Resultat'    +PathDelim);
+        ForceDirectories( sRepModeles     );
         ForceDirectories( sRepParametres );
-        ForceDirectories( sRepCible      );
+        ForceDirectories( sRepResultat      );
         ForceDirectories( sRepListeTables);
         ForceDirectories( sRepListeChamps);
-        INI.WriteString( 'Options', 'sRepSource', sRepSource);
-        INI.WriteString( 'Options', 'sRepCible' , sRepCible );
+        INI.WriteString( 'Options', 'sRepModeles', sRepModeles);
+        INI.WriteString( 'Options', 'sRepResultat' , sRepResultat );
         INI.WriteString( 'Options', 'sRepListeTables' , sRepListeTables);
         INI.WriteString( 'Options', 'sRepListeChamps' , sRepListeChamps);
 
         slLog.Clear;
         slParametres.Clear;
-        slPatternHandler_from_sRepSource;
+        slPatternHandler_from_sRepModeles;
 
         {
         CreePatternHandler( phPAS_DMCRE, phDFM_DMCRE, 'dmxcre');
@@ -906,7 +906,7 @@ begin
                }
                slPatternHandler.Vide;
                end;
-        slLog.SaveToFile( sRepCible+'suPatterns_from_MCD.log');
+        slLog.SaveToFile( sRepResultat+ChangeFileExt( ExtractFileName( uClean_EXE_Name), '.log'));
      finally
             FreeAndNil( INI);
             end;
@@ -943,26 +943,26 @@ begin
      TPatternHandler(_Reference):= Cree_PatternHandler( _Source, _slParametres);
 end;
 
-procedure TGenerateur_de_code.slPatternHandler_from_sRepSource_FileFound( _FileIterator: TFileIterator);
+procedure TGenerateur_de_code.slPatternHandler_from_sRepModeles_FileFound( _FileIterator: TFileIterator);
 var
    Source: String;
 begin
      if _FileIterator.IsDirectory then exit;
 
      Source:= _FileIterator.FileName;
-     Delete( Source, 1, Length( sRepSource));
+     Delete( Source, 1, Length( sRepModeles));
 
      Cree_PatternHandler( Source);
 end;
 
-procedure TGenerateur_de_code.slPatternHandler_from_sRepSource;
+procedure TGenerateur_de_code.slPatternHandler_from_sRepModeles;
 var
    fs: TFileSearcher;
 begin
      fs:= TFileSearcher.Create;
      try
-        fs.OnFileFound:= slPatternHandler_from_sRepSource_FileFound;
-        fs.Search( sRepSource, '*.*');
+        fs.OnFileFound:= slPatternHandler_from_sRepModeles_FileFound;
+        fs.Search( sRepModeles, '*.*');
      finally
             FreeAndNil( fs);
             end;

@@ -8,7 +8,7 @@
       <Unit0>
         <Filename Value="Generateur.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="7"/>
         <CursorPos X="48" Y="17"/>
         <UsageCount Value="207"/>
         <Loaded Value="True"/>
@@ -32,7 +32,7 @@
         <ComponentName Value="fAutomatic_VST"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="9"/>
         <TopLine Value="152"/>
         <CursorPos X="6" Y="160"/>
         <UsageCount Value="207"/>
@@ -52,14 +52,13 @@
       <Unit4>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\ublAutomatic.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="822"/>
-        <CursorPos X="72" Y="847"/>
+        <TopLine Value="286"/>
+        <CursorPos X="37" Y="299"/>
         <UsageCount Value="222"/>
         <Bookmarks Count="3">
           <Item0 Y="720" ID="5"/>
           <Item1 X="2" Y="991" ID="2"/>
-          <Item2 X="16" Y="833" ID="1"/>
+          <Item2 X="9" Y="835" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -157,7 +156,7 @@
         <ComponentName Value="fAutomatic_Genere_tout_sl"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="10"/>
         <TopLine Value="60"/>
         <CursorPos X="85" Y="72"/>
         <UsageCount Value="219"/>
@@ -180,7 +179,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="6"/>
-        <UsageCount Value="116"/>
+        <UsageCount Value="127"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit18>
       <Unit19>
@@ -188,7 +187,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="6"/>
-        <UsageCount Value="116"/>
+        <UsageCount Value="127"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit19>
       <Unit20>
@@ -197,26 +196,26 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="52"/>
         <CursorPos X="101" Y="57"/>
-        <UsageCount Value="116"/>
+        <UsageCount Value="127"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit20>
       <Unit21>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\File_Handler\05_Angular_TypeScript\uAngular_TypeScript_ApplicationHandler.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="131"/>
         <CursorPos X="100" Y="140"/>
-        <UsageCount Value="105"/>
+        <UsageCount Value="116"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit21>
       <Unit22>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\05_Angular_TypeScript\ujpAngular_TypeScript_html_editeurs_champs.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="65"/>
         <CursorPos Y="80"/>
-        <UsageCount Value="45"/>
+        <UsageCount Value="56"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit22>
@@ -225,7 +224,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="487"/>
         <CursorPos X="8" Y="507"/>
-        <UsageCount Value="16"/>
+        <UsageCount Value="15"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit23>
       <Unit24>
@@ -233,7 +232,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1395"/>
         <CursorPos Y="1421"/>
-        <UsageCount Value="45"/>
+        <UsageCount Value="44"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit24>
       <Unit25>
@@ -241,7 +240,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="34"/>
         <CursorPos X="52" Y="34"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="1"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit25>
       <Unit26>
@@ -249,7 +248,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="75"/>
         <CursorPos X="126" Y="96"/>
-        <UsageCount Value="45"/>
+        <UsageCount Value="44"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit26>
       <Unit27>
@@ -257,7 +256,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="85"/>
         <CursorPos X="7" Y="105"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="3"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit27>
       <Unit28>
@@ -267,7 +266,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="22"/>
-        <UsageCount Value="25"/>
+        <UsageCount Value="24"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit28>
       <Unit29>
@@ -275,7 +274,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="4"/>
         <CursorPos X="114" Y="10"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="22"/>
         <DefaultSyntaxHighlighter Value="Ini"/>
       </Unit29>
       <Unit30>
@@ -283,7 +282,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="193"/>
         <CursorPos X="10" Y="214"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="16"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit30>
       <Unit31>
@@ -291,7 +290,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1339"/>
         <CursorPos X="69" Y="1363"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="6"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit31>
       <Unit32>
@@ -299,7 +298,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="34"/>
         <CursorPos X="29" Y="47"/>
-        <UsageCount Value="14"/>
+        <UsageCount Value="13"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit32>
       <Unit33>
@@ -307,7 +306,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1756"/>
         <CursorPos X="34" Y="1778"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="5"/>
       </Unit33>
       <Unit34>
         <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufBatpro_Form.pas"/>
@@ -317,35 +316,35 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="38"/>
         <CursorPos Y="59"/>
-        <UsageCount Value="30"/>
+        <UsageCount Value="29"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit34>
       <Unit35>
         <Filename Value="Generateur_de_code\patterns\PHP\Perso\cpoolNom_de_la_table.php"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="41" Y="26"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="3"/>
         <DefaultSyntaxHighlighter Value="PHP"/>
       </Unit35>
       <Unit36>
         <Filename Value="Generateur_de_code\patterns\PHP\Perso\Nom_de_la_table_Delete.php"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="97" Y="28"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="3"/>
         <DefaultSyntaxHighlighter Value="PHP"/>
       </Unit36>
       <Unit37>
         <Filename Value="Generateur_de_code\patterns\PHP\Perso\Nom_de_la_table_Insert.php"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="21" Y="28"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="3"/>
         <DefaultSyntaxHighlighter Value="PHP"/>
       </Unit37>
       <Unit38>
         <Filename Value="Generateur_de_code\patterns\PHP\Perso\Nom_de_la_table_Set.php"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="26" Y="35"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="3"/>
         <DefaultSyntaxHighlighter Value="PHP"/>
       </Unit38>
       <Unit39>
@@ -353,7 +352,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="70"/>
         <CursorPos Y="93"/>
-        <UsageCount Value="40"/>
+        <UsageCount Value="39"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit39>
       <Unit40>
@@ -364,7 +363,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1871"/>
         <CursorPos Y="1885"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="23"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit40>
       <Unit41>
@@ -372,7 +371,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="19"/>
         <CursorPos X="84" Y="46"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="2"/>
         <DefaultSyntaxHighlighter Value="PHP"/>
       </Unit41>
       <Unit42>
@@ -380,7 +379,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="810"/>
         <CursorPos Y="828"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="5"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit42>
       <Unit43>
@@ -388,7 +387,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="101"/>
         <CursorPos Y="115"/>
-        <UsageCount Value="35"/>
+        <UsageCount Value="34"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit43>
       <Unit44>
@@ -396,7 +395,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="62"/>
         <CursorPos X="32" Y="87"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="2"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit44>
       <Unit45>
@@ -404,13 +403,13 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="4"/>
         <CursorPos X="7" Y="4"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="2"/>
         <DefaultSyntaxHighlighter Value="PHP"/>
       </Unit45>
       <Unit46>
         <Filename Value="E:\03_php\test_login\lock.php"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="2"/>
         <DefaultSyntaxHighlighter Value="PHP"/>
       </Unit46>
       <Unit47>
@@ -418,13 +417,13 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="50"/>
         <CursorPos Y="86"/>
-        <UsageCount Value="3"/>
+        <UsageCount Value="2"/>
         <DefaultSyntaxHighlighter Value="PHP"/>
       </Unit47>
       <Unit48>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uDataUtilsU.pas"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="25"/>
+        <UsageCount Value="24"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit48>
       <Unit49>
@@ -432,24 +431,24 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="307"/>
         <CursorPos X="36" Y="337"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="23"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit49>
       <Unit50>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\uGenerateur_de_code_Ancetre.pas"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="77"/>
-        <CursorPos X="20" Y="93"/>
-        <UsageCount Value="62"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="80"/>
+        <CursorPos X="17" Y="94"/>
+        <UsageCount Value="68"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit50>
       <Unit51>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\File_Handler\uPatternHandler.pas"/>
-        <EditorIndex Value="3"/>
-        <TopLine Value="135"/>
-        <CursorPos X="23" Y="153"/>
-        <UsageCount Value="51"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="137"/>
+        <CursorPos X="38" Y="151"/>
+        <UsageCount Value="57"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit51>
@@ -458,15 +457,15 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="163"/>
         <CursorPos X="2" Y="38"/>
-        <UsageCount Value="32"/>
+        <UsageCount Value="31"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit52>
       <Unit53>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\uContexteMembre.pas"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="12"/>
         <TopLine Value="93"/>
         <CursorPos X="32" Y="116"/>
-        <UsageCount Value="76"/>
+        <UsageCount Value="82"/>
         <Bookmarks Count="1">
           <Item0 X="32" Y="116" ID="4"/>
         </Bookmarks>
@@ -478,14 +477,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="339"/>
         <CursorPos X="47" Y="341"/>
-        <UsageCount Value="19"/>
+        <UsageCount Value="18"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit54>
       <Unit55>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uBatpro_StringList.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="6"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit55>
       <Unit56>
@@ -493,7 +492,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="294"/>
         <CursorPos X="6" Y="312"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit56>
       <Unit57>
@@ -501,7 +500,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1036"/>
         <CursorPos Y="1050"/>
-        <UsageCount Value="14"/>
+        <UsageCount Value="13"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit57>
       <Unit58>
@@ -509,7 +508,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1193"/>
         <CursorPos X="6" Y="1207"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <Bookmarks Count="1">
           <Item0 X="6" Y="1289" ID="3"/>
         </Bookmarks>
@@ -519,7 +518,7 @@
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uSQLite3.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="14"/>
-        <UsageCount Value="6"/>
+        <UsageCount Value="5"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit59>
       <Unit60>
@@ -527,13 +526,13 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1239"/>
         <CursorPos X="70" Y="1263"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="3"/>
       </Unit60>
       <Unit61>
         <Filename Value="Generateur_Dico_Delphi.ini"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="97" Y="3"/>
-        <UsageCount Value="4"/>
+        <UsageCount Value="3"/>
         <DefaultSyntaxHighlighter Value="Ini"/>
       </Unit61>
       <Unit62>
@@ -541,7 +540,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="86"/>
         <CursorPos X="6" Y="88"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="1"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit62>
       <Unit63>
@@ -549,23 +548,25 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="43"/>
         <CursorPos X="6" Y="51"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="1"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit63>
       <Unit64>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uEXE_INI.pas"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="11"/>
         <TopLine Value="166"/>
         <CursorPos X="4" Y="225"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="28"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit64>
       <Unit65>
         <Filename Value="etc\_Configuration_Generateur_de_code.ini"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="39" Y="3"/>
-        <UsageCount Value="11"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <CursorPos X="97" Y="3"/>
+        <UsageCount Value="16"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Ini"/>
       </Unit65>
       <Unit66>
@@ -573,279 +574,281 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="674"/>
         <CursorPos Y="688"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="10"/>
       </Unit66>
       <Unit67>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\04_PHP_Doctrine\ujpPHP_Doctrine_HasOne.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="28"/>
-        <CursorPos X="80" Y="30"/>
-        <UsageCount Value="1"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit67>
-      <Unit68>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\00_General\ujpNomTableMinuscule.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="38"/>
-        <CursorPos X="4" Y="50"/>
-        <UsageCount Value="1"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit68>
-      <Unit69>
         <Filename Value="Generateur_de_code\patterns\Angular_TypeScript\src\app\component\01_service\element\NomTableMinuscule.ts"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="26" Y="5"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="6"/>
         <DefaultSyntaxHighlighter Value="None"/>
-      </Unit69>
-      <Unit70>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\00_General\ujpNom_de_la_classe.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="44"/>
-        <CursorPos X="4" Y="50"/>
-        <UsageCount Value="1"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit70>
-      <Unit71>
+      </Unit67>
+      <Unit68>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_declaration_champs.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="58"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="6"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit71>
-      <Unit72>
+      </Unit68>
+      <Unit69>
         <Filename Value="..\..\jsWorks\etc\_Configuration.ini"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="23"/>
         <CursorPos X="115" Y="23"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="9"/>
         <DefaultSyntaxHighlighter Value="Ini"/>
-      </Unit72>
-      <Unit73>
+      </Unit69>
+      <Unit70>
         <Filename Value="..\..\..\14_pascal_o_r_mapping_branch_TjsDataContexte\tools\Generateur\etc\_Configuration.ini"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="6"/>
         <CursorPos Y="30"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="1"/>
         <DefaultSyntaxHighlighter Value="Ini"/>
-      </Unit73>
-      <Unit74>
+      </Unit70>
+      <Unit71>
         <Filename Value="C:\lazarus\lcl\include\control.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="3555"/>
         <CursorPos Y="3568"/>
-        <UsageCount Value="2"/>
-      </Unit74>
-      <Unit75>
+        <UsageCount Value="1"/>
+      </Unit71>
+      <Unit72>
         <Filename Value="Generateur_de_code\patterns\Pascal\pNom_de_la_classe\ublNom_de_la_classe.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="25"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="1"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit75>
-      <Unit76>
+      </Unit72>
+      <Unit73>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\05_Angular_TypeScript\ujpAngular_TypeScript_app-routing.module.ts_routes.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="41"/>
         <CursorPos X="25" Y="51"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="1"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit76>
-      <Unit77>
+      </Unit73>
+      <Unit74>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_creation_champs.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="51"/>
         <CursorPos X="39" Y="69"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="1"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit77>
-      <Unit78>
+      </Unit74>
+      <Unit75>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_uses_ubl.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="44"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="1"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit78>
-      <Unit79>
+      </Unit75>
+      <Unit76>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_f_implementation_uses_key.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="59"/>
         <CursorPos X="31" Y="64"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="1"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit79>
-      <Unit80>
+      </Unit76>
+      <Unit77>
         <Filename Value="Generateur_de_code\patterns\Angular_TypeScript\app-routing.module.ts"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="6"/>
-        <UsageCount Value="51"/>
+        <UsageCount Value="50"/>
         <DefaultSyntaxHighlighter Value="None"/>
-      </Unit80>
-      <Unit81>
+      </Unit77>
+      <Unit78>
         <Filename Value="..\..\jsWorks\Generateur_de_code\patterns\Angular_TypeScript\src\app\component\01_service\NomTableMinuscule.service.ts"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="14" Y="14"/>
-        <UsageCount Value="2"/>
+        <UsageCount Value="1"/>
         <DefaultSyntaxHighlighter Value="None"/>
-      </Unit81>
-      <Unit82>
+      </Unit78>
+      <Unit79>
         <Filename Value="Generateur_de_code\Source\Angular_TypeScript\app-routing.module.ts"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="51" Y="21"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
         <DefaultSyntaxHighlighter Value="None"/>
-      </Unit82>
-      <Unit83>
+      </Unit79>
+      <Unit80>
         <Filename Value="Generateur_de_code\patterns\Angular_TypeScript\app.module.ts"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="18" Y="17"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="25"/>
         <DefaultSyntaxHighlighter Value="None"/>
-      </Unit83>
-      <Unit84>
+      </Unit80>
+      <Unit81>
         <Filename Value="Generateur_de_code\Source\Angular_TypeScript\app.module.ts"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="4"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="6"/>
         <DefaultSyntaxHighlighter Value="None"/>
-      </Unit84>
-      <Unit85>
+      </Unit81>
+      <Unit82>
         <Filename Value="..\..\..\00_Bricolage\Telephone\Xiao_Mi_A2\Xiao_Mi_A2.scad"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="124"/>
         <CursorPos X="27" Y="137"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
         <DefaultSyntaxHighlighter Value="JScript"/>
-      </Unit85>
-      <Unit86>
+      </Unit82>
+      <Unit83>
         <Filename Value="..\..\..\00_Bricolage\Telephone\Xiao_Mi_A2\Dock\interne.scad"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="34"/>
         <CursorPos X="15" Y="53"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
         <DefaultSyntaxHighlighter Value="JScript"/>
+      </Unit83>
+      <Unit84>
+        <Filename Value="Generateur_de_code\.gitignore"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="None"/>
+      </Unit84>
+      <Unit85>
+        <Filename Value="..\..\.gitignore"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="76"/>
+        <CursorPos X="22" Y="100"/>
+        <UsageCount Value="15"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="None"/>
+      </Unit85>
+      <Unit86>
+        <Filename Value="..\..\jsWorks\etc\_Configuration_Generateur_de_code.ini"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="88" Y="3"/>
+        <UsageCount Value="15"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Ini"/>
       </Unit86>
     </Units>
     <OtherDefines Count="1">
       <Define0 Value="WINDOWS_GRAPHIC"/>
     </OtherDefines>
-    <JumpHistory Count="29" HistoryIndex="28">
+    <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\05_Angular_TypeScript\ujpAngular_TypeScript_html_editeurs_champs.pas"/>
-        <Caret Line="49" Column="45" TopLine="35"/>
+        <Filename Value="..\..\.gitignore"/>
+        <Caret Line="82" Column="37" TopLine="76"/>
       </Position1>
       <Position2>
-        <Filename Value="..\..\Generation_de_code\ufAutomatic_VST.pas"/>
-        <Caret Line="210" Column="26" TopLine="200"/>
+        <Filename Value="..\..\.gitignore"/>
+        <Caret Line="88" Column="36" TopLine="76"/>
       </Position2>
       <Position3>
-        <Filename Value="..\..\Generation_de_code\ufAutomatic_Genere_tout_sl.pas"/>
-        <Caret Line="10" Column="14"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\ublAutomatic.pas"/>
+        <Caret Line="835" Column="70" TopLine="822"/>
       </Position3>
       <Position4>
-        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uEXE_INI.pas"/>
-        <Caret Line="591" TopLine="528"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\ublAutomatic.pas"/>
+        <Caret Line="838" Column="39" TopLine="822"/>
       </Position4>
       <Position5>
-        <Filename Value="..\..\Generation_de_code\ufAutomatic_Genere_tout_sl.pas"/>
-        <Caret Line="10" Column="14" TopLine="10"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\ublAutomatic.pas"/>
+        <Caret Line="842" Column="66" TopLine="822"/>
       </Position5>
       <Position6>
-        <Filename Value="..\..\Generation_de_code\ufAutomatic_Genere_tout_sl.pas"/>
-        <Caret Line="9" Column="78" TopLine="8"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\File_Handler\uPatternHandler.pas"/>
+        <Caret Line="153" Column="23" TopLine="135"/>
       </Position6>
       <Position7>
-        <Filename Value="..\..\Generation_de_code\ufAutomatic_Genere_tout_sl.pas"/>
-        <Caret Line="21" Column="5" TopLine="13"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\uGenerateur_de_code_Ancetre.pas"/>
+        <Caret Line="93" TopLine="80"/>
       </Position7>
       <Position8>
-        <Filename Value="..\..\Generation_de_code\ufAutomatic_Genere_tout_sl.pas"/>
-        <Caret Line="55" Column="6" TopLine="53"/>
+        <Filename Value="..\..\jsWorks\etc\_Configuration_Generateur_de_code.ini"/>
+        <Caret Line="2" Column="79"/>
       </Position8>
       <Position9>
-        <Filename Value="..\..\Generation_de_code\ufAutomatic_Genere_tout_sl.pas"/>
-        <Caret Line="21" Column="15" TopLine="7"/>
+        <Filename Value="etc\_Configuration_Generateur_de_code.ini"/>
+        <Caret Line="2" Column="88"/>
       </Position9>
       <Position10>
-        <Filename Value="..\..\Generation_de_code\ufAutomatic_Genere_tout_sl.pas"/>
-        <Caret Line="58" Column="6" TopLine="54"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\ublAutomatic.pas"/>
+        <Caret Line="835" Column="62" TopLine="824"/>
       </Position10>
       <Position11>
-        <Filename Value="..\..\Generation_de_code\ufAutomatic_Genere_tout_sl.pas"/>
-        <Caret Line="63" Column="12" TopLine="54"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\ublAutomatic.pas"/>
+        <Caret Line="299" Column="37" TopLine="286"/>
       </Position11>
       <Position12>
-        <Filename Value="..\..\Generation_de_code\ufAutomatic_Genere_tout_sl.pas"/>
-        <Caret Line="64" Column="32" TopLine="50"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\ublAutomatic.pas"/>
+        <Caret Line="301" Column="37" TopLine="286"/>
       </Position12>
       <Position13>
-        <Filename Value="..\..\Generation_de_code\ufAutomatic_Genere_tout_sl.pas"/>
-        <Caret Line="69" Column="30" TopLine="50"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\ublAutomatic.pas"/>
+        <Caret Line="835" Column="155" TopLine="822"/>
       </Position13>
       <Position14>
-        <Filename Value="..\..\Generation_de_code\ufAutomatic_Genere_tout_sl.pas"/>
-        <Caret Line="59" Column="34" TopLine="45"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\ublAutomatic.pas"/>
+        <Caret Line="915" Column="52" TopLine="901"/>
       </Position14>
       <Position15>
-        <Filename Value="..\..\Generation_de_code\ufAutomatic_Genere_tout_sl.pas"/>
-        <Caret Line="72" Column="85" TopLine="60"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\ublAutomatic.pas"/>
+        <Caret Line="928" Column="56" TopLine="905"/>
       </Position15>
       <Position16>
-        <Filename Value="..\..\Generation_de_code\ufAutomatic_Genere_tout_sl.pas"/>
-        <Caret Line="71" Column="85" TopLine="59"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\ublAutomatic.pas"/>
+        <Caret Line="932" Column="50" TopLine="909"/>
       </Position16>
       <Position17>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\ublAutomatic.pas"/>
-        <Caret Line="1084" Column="58" TopLine="1065"/>
+        <Caret Line="933" Column="39" TopLine="910"/>
       </Position17>
       <Position18>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\ublAutomatic.pas"/>
-        <Caret Line="870" Column="42" TopLine="857"/>
+        <Caret Line="940" Column="53" TopLine="926"/>
       </Position18>
       <Position19>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\ublAutomatic.pas"/>
-        <Caret Line="985" Column="2" TopLine="971"/>
+        <Caret Line="943" Column="58" TopLine="926"/>
       </Position19>
       <Position20>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\uContexteMembre.pas"/>
-        <Caret Line="116" Column="32" TopLine="103"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\ublAutomatic.pas"/>
+        <Caret Line="948" Column="4" TopLine="926"/>
       </Position20>
       <Position21>
-        <Filename Value="..\..\Generation_de_code\ufAutomatic_VST.pas"/>
-        <Caret Line="210" Column="26" TopLine="206"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\ublAutomatic.pas"/>
+        <Caret Line="952" Column="6" TopLine="929"/>
       </Position21>
       <Position22>
-        <Filename Value="..\..\Generation_de_code\ufAutomatic_VST.pas"/>
-        <Caret Line="85" Column="15" TopLine="72"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\ublAutomatic.pas"/>
+        <Caret Line="953" Column="14" TopLine="930"/>
       </Position22>
       <Position23>
-        <Filename Value="..\..\Generation_de_code\ufAutomatic_VST.pas"/>
-        <Caret Line="160" Column="6" TopLine="152"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\File_Handler\uPatternHandler.pas"/>
+        <Caret Line="189" Column="29" TopLine="175"/>
       </Position23>
       <Position24>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\ublAutomatic.pas"/>
-        <Caret Line="248" Column="15" TopLine="233"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\File_Handler\uPatternHandler.pas"/>
+        <Caret Line="44" Column="26" TopLine="30"/>
       </Position24>
       <Position25>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\ublAutomatic.pas"/>
-        <Caret Line="555" Column="6" TopLine="553"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\File_Handler\uPatternHandler.pas"/>
+        <Caret Line="50" Column="5" TopLine="30"/>
       </Position25>
       <Position26>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\ublAutomatic.pas"/>
-        <Caret Line="291" Column="15" TopLine="277"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\File_Handler\uPatternHandler.pas"/>
+        <Caret Line="51" Column="7" TopLine="30"/>
       </Position26>
       <Position27>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\ublAutomatic.pas"/>
-        <Caret Line="833" Column="16" TopLine="815"/>
+        <Caret Line="955" Column="27" TopLine="932"/>
       </Position27>
       <Position28>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\uGenerateur_de_code_Ancetre.pas"/>
-        <Caret Line="94" Column="20" TopLine="77"/>
+        <Filename Value="..\..\.gitignore"/>
+        <Caret Line="83" Column="48" TopLine="76"/>
       </Position28>
       <Position29>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\uGenerateur_de_code_Ancetre.pas"/>
-        <Caret Line="93" Column="20" TopLine="77"/>
+        <Filename Value="..\..\jsWorks\etc\_Configuration_Generateur_de_code.ini"/>
+        <Caret Line="3" Column="13"/>
       </Position29>
+      <Position30>
+        <Filename Value="etc\_Configuration_Generateur_de_code.ini"/>
+        <Caret Line="3" Column="5"/>
+      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

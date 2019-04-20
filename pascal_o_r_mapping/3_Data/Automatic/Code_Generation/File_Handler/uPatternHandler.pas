@@ -186,7 +186,7 @@ end;
 
 function TPatternHandler.Calcule_NomCible: String;
 begin
-     Result:= g.sRepCible+RemplaceParametres( Source);
+     Result:= g.sRepResultat+RemplaceParametres( Source);
 end;
 
 function TPatternHandler.RemplaceParametres( S: String): String;
