@@ -1176,9 +1176,9 @@ begin
      :=
         '{'
        +Champs.JSON
-       +Format( ',"%s":"%s"',['Libelle', StringToJSONString(GetLibelle)])
-       +Aggregations.JSON
-       +'}';
+       +Format( ',"%s":"%s"',['Libelle', StringToJSONString(GetLibelle)]);
+     Formate_Liste( Result, ',',Aggregations.JSON);
+     Result:= Result + '}';
 end;
 
 {$IFDEF FPC}

@@ -296,6 +296,15 @@ object fjsWorks: TfjsWorks
             OnClick = bBeginning_FromClick
             TabOrder = 2
           end
+          object bHTTP: TButton
+            Left = 104
+            Height = 25
+            Top = 1
+            Width = 47
+            Caption = 'HTTP'
+            OnClick = bHTTPClick
+            TabOrder = 3
+          end
         end
         object dsbWork: TDockableScrollbox
           Left = 1

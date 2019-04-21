@@ -136,7 +136,7 @@ type
   //Traitement des appels
   public
     function Prefixe( _Prefixe: String): Boolean; override;
-    procedure Traite( _uri: String);
+    procedure Traite;
   //Traitement du Chrono
   private
     function Traite_Chrono: Boolean;
@@ -997,10 +997,9 @@ begin
      Send_JSON( '"'+Chrono.Get_Liste+'"');
 end;
 
-procedure THTTP_Interface.Traite( _uri: String);
+procedure THTTP_Interface.Traite;
 begin
-     Log.PrintLn( ClassName+'.Traite '+_uri+' début');
-     uri:= _uri;
+     Log.PrintLn( ClassName+'.Traite '+uri+' début');
      //WriteLn('THTTP_Interface.Traite uri='+uri);
 
      StrTok( '/', uri);
@@ -1017,7 +1016,7 @@ begin
      then if not Traite_pool
      then if not Traite_Chrono
      then        Traite_fichier;
-     Log.PrintLn( ClassName+'.Traite '+_uri+' fin');
+     Log.PrintLn( ClassName+'.Traite '+uri+' fin');
 end;
 
 procedure THTTP_Interface.URL_PortMapper_from_ini;
@@ -1102,8 +1101,7 @@ begin
      then
          RecvBody;
 
-     // Now write the document to the output stream
-     Traite( uri);//à revoir, uri est un attribut, il est déjà affecté
+     Synchronize( Traite); //modifié avec Synchronize pour utilisation dans jsWorks
 end;
 
 procedure THTTP_Interface.Verification_http_inactif;

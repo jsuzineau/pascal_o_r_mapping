@@ -950,7 +950,7 @@ var
    Champ_Valeur: String;
 begin
      try
-        uChamp_Publier_Modifications:= False;
+        //uChamp_Publier_Modifications:= False;
 
         nCount:= Count;
         for I:= 0 to nCount - 1
@@ -960,6 +960,7 @@ begin
           Champ_Nom:= Field_from_Index( I);
 
           Champ_Valeur:= _jso.Elements[Champ_Nom].AsString;
+          if C.Chaine= Champ_Valeur then continue;
 
           C.Chaine:= Champ_Valeur;
           end;

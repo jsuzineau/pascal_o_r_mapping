@@ -3507,7 +3507,8 @@ __webpack_require__.r(__webpack_exports__);
 var environment = {
     production: false,
     //api_url:'http://localhost:1500/64528',
-    api_url: 'http://localhost:54033',
+    //api_url:'http://localhost:54033',
+    api_url: '',
 };
 /*
  * For easier debugging in development mode, you can import the following file
