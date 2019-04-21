@@ -295,7 +295,7 @@ begin
      Integer_from_Integer( nProject       , 'nProject'       );
      Integer_from_Integer( nCreationWork  , 'nCreationWork'  );
      Integer_from_Integer( nSolutionWork  , 'nSolutionWork'  );
-     String_from_        ( Description    , 'Description'    );
+     cLibelle:= String_from_        ( Description    , 'Description'    );
      Integer_from_Integer( nDemander      , 'nDemander'      );
      Integer_from_Integer( nSheetref      , 'nSheetref'      );
      String_from_        ( Solution       , 'Solution'       );

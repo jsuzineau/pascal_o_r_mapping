@@ -232,8 +232,7 @@ begin
      Champs.ChampDefinitions.NomTable:= 'Project';
 
      //champs persistants
-     Champs.  String_from_String ( Name           , 'Name'           );
-
+     cLibelle:= Champs.  String_from_String ( Name           , 'Name'           );
 end;
 
 destructor TblProject.Destroy;

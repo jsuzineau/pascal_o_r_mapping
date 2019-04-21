@@ -1,0 +1,43 @@
+  <h2>Liste des Tag_Developments</h2>
+
+  <div *ngIf="Tag_Developments">
+    <table><tr>
+    <td> 
+    <table class="Tag_Developments">
+      <tr>
+        <th>id     </th>
+        <th>Libellé</th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let Tag_Development of Tag_Developments.Elements">
+        <td>
+          <span (click)="onClick( Tag_Development)" class="Tag_Development_id">
+            <span *ngIf="!Tag_Development.modifie">{{Tag_Development.id}}</span>
+            <span *ngIf= "Tag_Development.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="Tag_Development.id"/></span>
+          </span>
+        </td>
+        <td>
+          <span (click)="onClick( Tag_Development)" class="Tag_Development_Libelle">
+            <span *ngIf="!Tag_Development.modifie">{{Tag_Development.Libelle}}</span>
+            <span *ngIf= "Tag_Development.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="Tag_Development.Libelle"/></span>
+          </span>
+        </td>
+        <td>
+          <span (click)="onClick( Tag_Development)" class="Tag_Development_Valider">
+            <!-- <button *ngIf="Tag_Development.modifie" (click)='Tag_Development.Valide()'>Valider</button> -->
+          </span>
+        </td>
+      </tr>
+    </table>
+    <div class="Tag_Developments_Nouveau">
+      <button (click)='Tag_Developments_Nouveau()'>Nouveau</button>
+    </div>
+    </td>
+    <td *ngIf="e">
+    <cTag_Development [e]="e">  
+    </cTag_Development>  
+    </td>  
+    </tr>
+    </table>
+  </div>
+

@@ -1,0 +1,43 @@
+  <h2>Liste des Developments</h2>
+
+  <div *ngIf="Developments">
+    <table><tr>
+    <td> 
+    <table class="Developments">
+      <tr>
+        <th>id     </th>
+        <th>Libellé</th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let Development of Developments.Elements">
+        <td>
+          <span (click)="onClick( Development)" class="Development_id">
+            <span *ngIf="!Development.modifie">{{Development.id}}</span>
+            <span *ngIf= "Development.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="Development.id"/></span>
+          </span>
+        </td>
+        <td>
+          <span (click)="onClick( Development)" class="Development_Libelle">
+            <span *ngIf="!Development.modifie">{{Development.Libelle}}</span>
+            <span *ngIf= "Development.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="Development.Libelle"/></span>
+          </span>
+        </td>
+        <td>
+          <span (click)="onClick( Development)" class="Development_Valider">
+            <!-- <button *ngIf="Development.modifie" (click)='Development.Valide()'>Valider</button> -->
+          </span>
+        </td>
+      </tr>
+    </table>
+    <div class="Developments_Nouveau">
+      <button (click)='Developments_Nouveau()'>Nouveau</button>
+    </div>
+    </td>
+    <td *ngIf="e">
+    <cDevelopment [e]="e">  
+    </cDevelopment>  
+    </td>  
+    </tr>
+    </table>
+  </div>
+

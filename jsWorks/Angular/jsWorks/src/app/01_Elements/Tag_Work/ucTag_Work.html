@@ -1,0 +1,17 @@
+  <div *ngIf="e">
+    <table>
+      <tr>  <td>idTag:</td><td><span (click)="onClick( e)" class="Tag_Work_idTag">  <span *ngIf="!e.modifie">{{e.idTag}}</span>  <span *ngIf= "e.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="e.idTag"/></span></span></td></tr>
+<tr>  <td>idWork:</td><td><span (click)="onClick( e)" class="Tag_Work_idWork">  <span *ngIf="!e.modifie">{{e.idWork}}</span>  <span *ngIf= "e.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="e.idWork"/></span></span></td></tr>
+      <tr>
+        <td>
+          <span (click)="onClick( e)" class="Tag_Work_Valider">
+            <button *ngIf="e.modifie" (click)='e.Valide()'>Valider</button>
+          </span>
+        </td>
+      </tr>
+    </table>
+    <!-- <div class="Tag_Works_Nouveau">
+      <button (click)='Tag_Works_Nouveau()'>Nouveau</button>
+    </div> -->
+  </div>
+

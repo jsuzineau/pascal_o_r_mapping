@@ -8,8 +8,22 @@ import { HttpClientModule,
 import { RouterModule    } from '@angular/router';
 
 import { AppComponent } from './component/app.component';
+import { TclCategorie} from './01_Elements/Categorie/uclCategorie';
+import { TcCategorie} from './01_Elements/Categorie/ucCategorie';
+import { TclDevelopment} from './01_Elements/Development/uclDevelopment';
+import { TcDevelopment} from './01_Elements/Development/ucDevelopment';
 import { TclProject} from './01_Elements/Project/uclProject';
 import { TcProject} from './01_Elements/Project/ucProject';
+import { TclState} from './01_Elements/State/uclState';
+import { TcState} from './01_Elements/State/ucState';
+import { TclTag} from './01_Elements/Tag/uclTag';
+import { TcTag} from './01_Elements/Tag/ucTag';
+import { TclTag_Development} from './01_Elements/Tag_Development/uclTag_Development';
+import { TcTag_Development} from './01_Elements/Tag_Development/ucTag_Development';
+import { TclTag_Work} from './01_Elements/Tag_Work/uclTag_Work';
+import { TcTag_Work} from './01_Elements/Tag_Work/ucTag_Work';
+import { TclType_Tag} from './01_Elements/Type_Tag/uclType_Tag';
+import { TcType_Tag} from './01_Elements/Type_Tag/ucType_Tag';
 import { TclWork} from './01_Elements/Work/uclWork';
 import { TcWork} from './01_Elements/Work/ucWork';
 
@@ -19,8 +33,22 @@ import { AppRoutingModule } from './app-routing.module';
   declarations:
     [
     AppComponent,
+    TclCategorie,
+    TcCategorie,
+    TclDevelopment,
+    TcDevelopment,
     TclProject,
     TcProject,
+    TclState,
+    TcState,
+    TclTag,
+    TcTag,
+    TclTag_Development,
+    TcTag_Development,
+    TclTag_Work,
+    TcTag_Work,
+    TclType_Tag,
+    TcType_Tag,
     TclWork,
     TcWork,
     

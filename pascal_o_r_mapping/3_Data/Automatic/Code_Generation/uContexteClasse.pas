@@ -102,6 +102,7 @@ end;
 
 function TContexteClasse.Produit( _Prefixe, _sModele: String): String;
 begin
+     Result:= _sModele;
      Result:= StringReplace( Result, _Prefixe+'Nom_de_la_table'  ,Nom_de_la_table  ,[rfReplaceAll,rfIgnoreCase]);
      Result:= StringReplace( Result, _Prefixe+'Nom_de_la_classe' ,Nom_de_la_classe ,[rfReplaceAll,rfIgnoreCase]);
      Result:= StringReplace( Result, _Prefixe+'NomTableMinuscule',NomTableMinuscule,[rfReplaceAll,rfIgnoreCase]);

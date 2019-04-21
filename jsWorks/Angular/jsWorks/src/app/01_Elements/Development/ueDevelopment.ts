@@ -1,0 +1,47 @@
+import { Injectable } from '@angular/core';
+import { TsDevelopment} from './usDevelopment';
+
+@Injectable()
+export class TeDevelopment
+  {
+  id: number;
+      nProject: number;
+    nState: number;
+    nCreationWork: number;
+    nSolutionWork: number;
+    Description: string;
+    Steps: string;
+    Origin: string;
+    Solution: string;
+    nCategorie: number;
+    isBug: number;
+    nDemander: number;
+    nSheetRef: number;
+  // champs calculés (supprimés dans to_ServerValue() )
+  SID: string= '';
+  modifie: Boolean= false;
+  service: TsDevelopment= null;
+
+  public static id_parameter( _id: number) { return /*'id=' +*/ _id; }
+
+  constructor(values: Object = {})
+    {
+    Object.assign(this, values);
+    }
+  public Valide(): void
+    {
+    if (!this.service) { return; }
+    this.service.Set( this)
+    .then( _e => { Object.assign(this, _e); });
+    }
+  public to_ServerValue(): TeDevelopment
+    {
+    const Result: TeDevelopment= new TeDevelopment( this);
+
+    delete Result.SID;
+    delete Result.service;
+    delete Result.modifie;
+
+    return Result;
+    }
+  }

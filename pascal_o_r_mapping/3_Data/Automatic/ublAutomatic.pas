@@ -608,8 +608,10 @@ end;
 destructor TGenerateur_de_code.Destroy;
 begin
      FreeAndNil( sljpFile);
+     FreeAndNil( slApplicationJoinPointFile);
      FreeAndNil( slTemplateHandler);
      FreeAndNil( slParametres);
+     FreeAndNil( slApplicationTemplateHandler);
      inherited Destroy;
 end;
 
@@ -820,6 +822,7 @@ var
         cc:= TContexteClasse.Create( Self, _Suffixe,
                                      bl.Champs.ChampDefinitions.Persistant_Count);
         try
+           slApplicationJoinPointFile.VisiteClasse( cc);
            slParametres.Clear;
 
            uJoinPoint_Initialise( cc, a);
@@ -1117,7 +1120,7 @@ begin
      then
          begin
          Result:= TApplicationTemplateHandler.Create( Self, _Source, slParametres_local);
-         slTemplateHandler.AddObject( _Source, Result);
+         slApplicationTemplateHandler.AddObject( _Source, Result);
          end
      else
          Result.slParametres:= slParametres_local;
@@ -1145,7 +1148,7 @@ var
    I: TIterateur_TemplateHandler;
    ph: TTemplateHandler;
 begin
-     I:= slTemplateHandler.Iterateur;
+     I:= slApplicationTemplateHandler.Iterateur;
      while I.Continuer
      do
        begin
@@ -1157,18 +1160,21 @@ end;
 
 procedure TGenerateur_de_code.Application_Create;
 begin
-     _From_INI;
      slApplicationJoinPointFile_from_sRepertoireListeTables;
      MenuHandler                          := TMenuHandler                          .Create( Self);
      csMenuHandler                        := TcsMenuHandler                        .Create( Self);
      Angular_TypeScript_ApplicationHandler:= TAngular_TypeScript_ApplicationHandler.Create( Self);
 
      slApplicationTemplateHandler_from_sRepertoireApplicationTemplate;
+
      Application_Created:= True;
+     slApplicationJoinPointFile.Initialise;
 end;
 
 procedure TGenerateur_de_code.Application_Produit;
 begin
+     slApplicationJoinPointFile.Finalise;
+     slApplicationJoinPointFile.To_Parametres( slParametres);
      MenuHandler                          .Produit;
      csMenuHandler                        .Produit;
      Angular_TypeScript_ApplicationHandler.Produit;
@@ -1199,9 +1205,12 @@ end;
 constructor TGenerateur_de_code.Create;
 begin
      inherited Create;
-     sljpFile         := TsljpFile         .Create( ClassName+'.sljpFile'         );
-     slTemplateHandler:= TslTemplateHandler.Create( ClassName+'.slTemplateHandler');
-     slParametres     := TBatpro_StringList.Create;
+     _From_INI;
+     sljpFile                    := TsljpFile                  .Create( ClassName+'.sljpFile'         );
+     slApplicationJoinPointFile  := TslApplicationJoinPointFile.Create( ClassName+'.slApplicationJoinPointFile'         );
+     slTemplateHandler           := TslTemplateHandler         .Create( ClassName+'.slTemplateHandler');
+     slParametres                := TBatpro_StringList         .Create;
+     slApplicationTemplateHandler:= TslTemplateHandler         .Create( ClassName+'.slApplicationTemplateHandler');
      Initialise(
                 [
                 //General

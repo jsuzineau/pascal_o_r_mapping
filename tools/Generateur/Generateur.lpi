@@ -203,7 +203,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="Generateur"/>
+      <Filename Value="..\..\jsWorks\Generateur"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>

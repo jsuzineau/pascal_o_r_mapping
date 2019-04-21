@@ -37,7 +37,7 @@ uses
   ujpPHP_Doctrine_Has_Column, ujpCSharp_Champs_persistants, ujpPascal_Affecte,
   uJoinPoint, ujpAngular_TypeScript_NomFichierElement,
   ujpAngular_TypeScript_NomClasseElement,
-  ujpAngular_TypeScript_declaration_champs, uPatternHandler,
+  ujpAngular_TypeScript_declaration_champs,
   uAngular_TypeScript_ApplicationHandler, uhATB, uhAUT, uLog, Interfaces, // this includes the LCL widgetset
 Classes, blcksock, sockets, Synautil,SysUtils,LCLIntf, uhAutomatic_ATB, uhAutomatic_AUT;
 

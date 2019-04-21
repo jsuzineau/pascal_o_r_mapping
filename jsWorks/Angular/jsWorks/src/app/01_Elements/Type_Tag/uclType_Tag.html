@@ -1,0 +1,43 @@
+  <h2>Liste des Type_Tags</h2>
+
+  <div *ngIf="Type_Tags">
+    <table><tr>
+    <td> 
+    <table class="Type_Tags">
+      <tr>
+        <th>id     </th>
+        <th>Libellé</th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let Type_Tag of Type_Tags.Elements">
+        <td>
+          <span (click)="onClick( Type_Tag)" class="Type_Tag_id">
+            <span *ngIf="!Type_Tag.modifie">{{Type_Tag.id}}</span>
+            <span *ngIf= "Type_Tag.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="Type_Tag.id"/></span>
+          </span>
+        </td>
+        <td>
+          <span (click)="onClick( Type_Tag)" class="Type_Tag_Libelle">
+            <span *ngIf="!Type_Tag.modifie">{{Type_Tag.Libelle}}</span>
+            <span *ngIf= "Type_Tag.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="Type_Tag.Libelle"/></span>
+          </span>
+        </td>
+        <td>
+          <span (click)="onClick( Type_Tag)" class="Type_Tag_Valider">
+            <!-- <button *ngIf="Type_Tag.modifie" (click)='Type_Tag.Valide()'>Valider</button> -->
+          </span>
+        </td>
+      </tr>
+    </table>
+    <div class="Type_Tags_Nouveau">
+      <button (click)='Type_Tags_Nouveau()'>Nouveau</button>
+    </div>
+    </td>
+    <td *ngIf="e">
+    <cType_Tag [e]="e">  
+    </cType_Tag>  
+    </td>  
+    </tr>
+    </table>
+  </div>
+
