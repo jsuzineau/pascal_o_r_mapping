@@ -6,8 +6,13 @@ import { HttpClientModule,
          HttpClientXsrfModule
                          } from '@angular/common/http';
 import { RouterModule    } from '@angular/router';
+import { EditorModule } from '@tinymce/tinymce-angular';
+
 
 import { AppComponent } from './component/app.component';
+import { CustomComponent } from './component/custom.component';
+import { Custom_Component_Works} from './01_Elements/Work/Custom_Component_Works';
+import { Custom_Component_Work} from './01_Elements/Work/Custom_Component_Work';
 //APP_MODULE_TS_IMPORT_LIST
 import { AppRoutingModule } from './app-routing.module';
 
@@ -15,6 +20,9 @@ import { AppRoutingModule } from './app-routing.module';
   declarations:
     [
     AppComponent,
+    CustomComponent,
+    Custom_Component_Works,
+    Custom_Component_Work,
     //APP_MODULE_TS_DECLARATIONS
     ],
   imports:
@@ -24,7 +32,8 @@ import { AppRoutingModule } from './app-routing.module';
     HttpModule,
     HttpClientModule,
     HttpClientXsrfModule.disable(),
-    AppRoutingModule
+    AppRoutingModule,
+    EditorModule
     ],
   providers: [],
   bootstrap: [AppComponent]

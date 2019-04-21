@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
+import { CustomComponent } from './component/custom.component';
+import { Custom_Component_Works} from './01_Elements/Work/Custom_Component_Works';
 import { TclCategorie} from './01_Elements/Categorie/uclCategorie';
 import { TcCategorie} from './01_Elements/Categorie/ucCategorie';
 import { TclDevelopment} from './01_Elements/Development/uclDevelopment';
@@ -25,6 +27,8 @@ import { TcWork} from './01_Elements/Work/ucWork';
 const routes: Routes =
   [
     { path: '', redirectTo: '/Works', pathMatch: 'full' },
+    { path: 'custom', component: CustomComponent},
+    { path: 'Custom_Component_Works', component: Custom_Component_Works},
     { path: 'Categories'   , component: TclCategorie},
     { path: 'Categorie'   , component: TcCategorie},
     { path: 'Developments'   , component: TclDevelopment},

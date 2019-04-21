@@ -2847,6 +2847,188 @@ var TsType_Tag = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/01_Elements/Work/Custom_Component_Work.css":
+/*!************************************************************!*\
+  !*** ./src/app/01_Elements/Work/Custom_Component_Work.css ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwLzAxX0VsZW1lbnRzL1dvcmsvQ3VzdG9tX0NvbXBvbmVudF9Xb3JrLmNzcyJ9 */"
+
+/***/ }),
+
+/***/ "./src/app/01_Elements/Work/Custom_Component_Work.html":
+/*!*************************************************************!*\
+  !*** ./src/app/01_Elements/Work/Custom_Component_Work.html ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "  <div *ngIf=\"e\">\r\n    <table>\r\n      <tr>  <td>nProject:</td><td><span (click)=\"onClick( e)\" class=\"Work_nProject\">  <span *ngIf=\"!e.modifie\">{{e.nProject}}</span>  <span *ngIf= \"e.modifie\"><input type=\"text\" (keydown)=\"onKeyDown($event)\" [(ngModel)]=\"e.nProject\"/></span></span></td></tr>\r\n<tr>  <td>Beginning:</td><td><span (click)=\"onClick( e)\" class=\"Work_Beginning\">  <span *ngIf=\"!e.modifie\">{{e.Beginning}}</span>  <span *ngIf= \"e.modifie\"><input type=\"text\" (keydown)=\"onKeyDown($event)\" [(ngModel)]=\"e.Beginning\"/></span></span></td></tr>\r\n<tr>  <td>End:</td><td><span (click)=\"onClick( e)\" class=\"Work_End\">  <span *ngIf=\"!e.modifie\">{{e.End}}</span>  <span *ngIf= \"e.modifie\"><input type=\"text\" (keydown)=\"onKeyDown($event)\" [(ngModel)]=\"e.End\"/></span></span></td></tr>\r\n<tr>  \r\n  <td>Description:</td>\r\n  <td>\r\n    <span (click)=\"onClick( e)\" class=\"Work_Description\">  \r\n      <span *ngIf=\"!e.modifie\">{{e.Description}}</span>  \r\n      <span *ngIf= \"e.modifie\">\r\n        <input type=\"text\" (keydown)=\"onKeyDown($event)\" [(ngModel)]=\"e.Description\"/>\r\n        <editor [init]=\"tinyMceSettings\" (keydown)=\"onKeyDown($event)\" [(ngModel)]=\"e.Description\"></editor>\r\n      </span>\r\n    </span>\r\n  </td>\r\n</tr>\r\n<tr>  <td>nUser:</td><td><span (click)=\"onClick( e)\" class=\"Work_nUser\">  <span *ngIf=\"!e.modifie\">{{e.nUser}}</span>  <span *ngIf= \"e.modifie\"><input type=\"text\" (keydown)=\"onKeyDown($event)\" [(ngModel)]=\"e.nUser\"/></span></span></td></tr>\r\n      <tr>\r\n        <td>\r\n          <span (click)=\"onClick( e)\" class=\"Work_Valider\">\r\n            <button *ngIf=\"e.modifie\" (click)='e.Valide()'>Valider</button>\r\n          </span>\r\n        </td>\r\n      </tr>\r\n    </table>\r\n    <!-- <div class=\"Works_Nouveau\">\r\n      <button (click)='Works_Nouveau()'>Nouveau</button>\r\n    </div> -->\r\n  </div>\r\n\r\n"
+
+/***/ }),
+
+/***/ "./src/app/01_Elements/Work/Custom_Component_Work.ts":
+/*!***********************************************************!*\
+  !*** ./src/app/01_Elements/Work/Custom_Component_Work.ts ***!
+  \***********************************************************/
+/*! exports provided: Custom_Component_Work */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Custom_Component_Work", function() { return Custom_Component_Work; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _usWork__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./usWork */ "./src/app/01_Elements/Work/usWork.ts");
+/* harmony import */ var _ueWork__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ueWork */ "./src/app/01_Elements/Work/ueWork.ts");
+
+
+
+
+
+var Custom_Component_Work = /** @class */ (function () {
+    function Custom_Component_Work(router, service) {
+        this.router = router;
+        this.service = service;
+        this.e = null;
+        this.tinyMceSettings = {
+            skin_url: '/assets/tinymce/skins/ui/oxide',
+            //inline: false,
+            //statusbar: false,
+            //browser_spellcheck: true,
+            //height: 320,
+            //plugins: 'fullscreen link',
+            plugins: 'link',
+        };
+    }
+    Custom_Component_Work.prototype.ngOnInit = function () {
+    };
+    Custom_Component_Work.prototype.onClick = function () {
+        this.e.modifie = true;
+    };
+    Custom_Component_Work.prototype.onKeyDown = function (event) {
+        if (13 === event.keyCode) {
+            if (this.e) {
+                this.e.Valide();
+            }
+        }
+    };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])(),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", _ueWork__WEBPACK_IMPORTED_MODULE_4__["TeWork"])
+    ], Custom_Component_Work.prototype, "e", void 0);
+    Custom_Component_Work = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'Custom_Component_Work',
+            template: __webpack_require__(/*! ./Custom_Component_Work.html */ "./src/app/01_Elements/Work/Custom_Component_Work.html"),
+            providers: [_usWork__WEBPACK_IMPORTED_MODULE_3__["TsWork"]],
+            styles: [__webpack_require__(/*! ./Custom_Component_Work.css */ "./src/app/01_Elements/Work/Custom_Component_Work.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], _usWork__WEBPACK_IMPORTED_MODULE_3__["TsWork"]])
+    ], Custom_Component_Work);
+    return Custom_Component_Work;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/01_Elements/Work/Custom_Component_Works.css":
+/*!*************************************************************!*\
+  !*** ./src/app/01_Elements/Work/Custom_Component_Works.css ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwLzAxX0VsZW1lbnRzL1dvcmsvQ3VzdG9tX0NvbXBvbmVudF9Xb3Jrcy5jc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/01_Elements/Work/Custom_Component_Works.html":
+/*!**************************************************************!*\
+  !*** ./src/app/01_Elements/Work/Custom_Component_Works.html ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "  <h2>Liste des Works</h2>\r\n\r\n  <div *ngIf=\"Works\">\r\n    <table><tr>\r\n    <td> \r\n    <table class=\"Works\">\r\n      <tr>\r\n        <th>id     </th>\r\n        <th>Libellé</th>\r\n        <th></th>\r\n      </tr>\r\n      <tr *ngFor=\"let Work of Works.Elements\">\r\n        <td>\r\n          <span (click)=\"onClick( Work)\" class=\"Work_id\">\r\n             {{Work.id}}\r\n          </span>\r\n        </td>\r\n        <td>\r\n          <span (click)=\"onClick( Work)\" class=\"Work_Libelle\">\r\n              {{Work.Libelle}}\r\n          </span>\r\n        </td>\r\n        <td>\r\n          <span (click)=\"onClick( Work)\" class=\"Work_Valider\">\r\n            <!-- <button *ngIf=\"Work.modifie\" (click)='Work.Valide()'>Valider</button> -->\r\n          </span>\r\n        </td>\r\n      </tr>\r\n    </table>\r\n    <div class=\"Works_Nouveau\">\r\n      <button (click)='Works_Nouveau()'>Nouveau</button>\r\n    </div>\r\n    </td>\r\n    <td *ngIf=\"e\">\r\n    <Custom_Component_Work [e]=\"e\">  \r\n    </Custom_Component_Work>  \r\n    </td>  \r\n    </tr>\r\n    </table>\r\n  </div>\r\n\r\n"
+
+/***/ }),
+
+/***/ "./src/app/01_Elements/Work/Custom_Component_Works.ts":
+/*!************************************************************!*\
+  !*** ./src/app/01_Elements/Work/Custom_Component_Works.ts ***!
+  \************************************************************/
+/*! exports provided: Custom_Component_Works */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Custom_Component_Works", function() { return Custom_Component_Works; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _uResult_List__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../uResult_List */ "./src/app/01_Elements/uResult_List.ts");
+/* harmony import */ var _usWork__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./usWork */ "./src/app/01_Elements/Work/usWork.ts");
+/* harmony import */ var _ueWork__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ueWork */ "./src/app/01_Elements/Work/ueWork.ts");
+
+
+
+
+
+
+var Custom_Component_Works = /** @class */ (function () {
+    function Custom_Component_Works(router, service) {
+        this.router = router;
+        this.service = service;
+        this.e = null;
+    }
+    Custom_Component_Works.prototype.ngOnInit = function () {
+        var _this = this;
+        this.service.All_id_Libelle()
+            .then(function (_Works) {
+            _this.Works = new _uResult_List__WEBPACK_IMPORTED_MODULE_3__["TResult_List"](_Works);
+            _this.Works.Elements.forEach(function (_e) {
+                _e.service = _this.service;
+            });
+        });
+    };
+    Custom_Component_Works.prototype.onClick = function (_e) {
+        this.e = _e;
+    };
+    Custom_Component_Works.prototype.onKeyDown = function (event) {
+        if (13 === event.keyCode) {
+            if (this.e) {
+                this.e.Valide();
+            }
+        }
+    };
+    Custom_Component_Works.prototype.Works_Nouveau = function () {
+        var _this = this;
+        this.service.Insert(new _ueWork__WEBPACK_IMPORTED_MODULE_5__["TeWork"])
+            .then(function (_e) {
+            _this.Works.Elements.push(_e);
+        });
+    };
+    Custom_Component_Works = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'Custom_Component_Works',
+            template: __webpack_require__(/*! ./Custom_Component_Works.html */ "./src/app/01_Elements/Work/Custom_Component_Works.html"),
+            providers: [_usWork__WEBPACK_IMPORTED_MODULE_4__["TsWork"]],
+            styles: [__webpack_require__(/*! ./Custom_Component_Works.css */ "./src/app/01_Elements/Work/Custom_Component_Works.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], _usWork__WEBPACK_IMPORTED_MODULE_4__["TsWork"]])
+    ], Custom_Component_Works);
+    return Custom_Component_Works;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/01_Elements/Work/ucWork.css":
 /*!*********************************************!*\
   !*** ./src/app/01_Elements/Work/ucWork.css ***!
@@ -3249,24 +3431,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _01_Elements_Categorie_uclCategorie__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./01_Elements/Categorie/uclCategorie */ "./src/app/01_Elements/Categorie/uclCategorie.ts");
-/* harmony import */ var _01_Elements_Categorie_ucCategorie__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./01_Elements/Categorie/ucCategorie */ "./src/app/01_Elements/Categorie/ucCategorie.ts");
-/* harmony import */ var _01_Elements_Development_uclDevelopment__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./01_Elements/Development/uclDevelopment */ "./src/app/01_Elements/Development/uclDevelopment.ts");
-/* harmony import */ var _01_Elements_Development_ucDevelopment__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./01_Elements/Development/ucDevelopment */ "./src/app/01_Elements/Development/ucDevelopment.ts");
-/* harmony import */ var _01_Elements_Project_uclProject__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./01_Elements/Project/uclProject */ "./src/app/01_Elements/Project/uclProject.ts");
-/* harmony import */ var _01_Elements_Project_ucProject__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./01_Elements/Project/ucProject */ "./src/app/01_Elements/Project/ucProject.ts");
-/* harmony import */ var _01_Elements_State_uclState__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./01_Elements/State/uclState */ "./src/app/01_Elements/State/uclState.ts");
-/* harmony import */ var _01_Elements_State_ucState__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./01_Elements/State/ucState */ "./src/app/01_Elements/State/ucState.ts");
-/* harmony import */ var _01_Elements_Tag_uclTag__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./01_Elements/Tag/uclTag */ "./src/app/01_Elements/Tag/uclTag.ts");
-/* harmony import */ var _01_Elements_Tag_ucTag__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./01_Elements/Tag/ucTag */ "./src/app/01_Elements/Tag/ucTag.ts");
-/* harmony import */ var _01_Elements_Tag_Development_uclTag_Development__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./01_Elements/Tag_Development/uclTag_Development */ "./src/app/01_Elements/Tag_Development/uclTag_Development.ts");
-/* harmony import */ var _01_Elements_Tag_Development_ucTag_Development__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./01_Elements/Tag_Development/ucTag_Development */ "./src/app/01_Elements/Tag_Development/ucTag_Development.ts");
-/* harmony import */ var _01_Elements_Tag_Work_uclTag_Work__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./01_Elements/Tag_Work/uclTag_Work */ "./src/app/01_Elements/Tag_Work/uclTag_Work.ts");
-/* harmony import */ var _01_Elements_Tag_Work_ucTag_Work__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./01_Elements/Tag_Work/ucTag_Work */ "./src/app/01_Elements/Tag_Work/ucTag_Work.ts");
-/* harmony import */ var _01_Elements_Type_Tag_uclType_Tag__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./01_Elements/Type_Tag/uclType_Tag */ "./src/app/01_Elements/Type_Tag/uclType_Tag.ts");
-/* harmony import */ var _01_Elements_Type_Tag_ucType_Tag__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./01_Elements/Type_Tag/ucType_Tag */ "./src/app/01_Elements/Type_Tag/ucType_Tag.ts");
-/* harmony import */ var _01_Elements_Work_uclWork__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./01_Elements/Work/uclWork */ "./src/app/01_Elements/Work/uclWork.ts");
-/* harmony import */ var _01_Elements_Work_ucWork__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./01_Elements/Work/ucWork */ "./src/app/01_Elements/Work/ucWork.ts");
+/* harmony import */ var _component_custom_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./component/custom.component */ "./src/app/component/custom.component.ts");
+/* harmony import */ var _01_Elements_Work_Custom_Component_Works__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./01_Elements/Work/Custom_Component_Works */ "./src/app/01_Elements/Work/Custom_Component_Works.ts");
+/* harmony import */ var _01_Elements_Categorie_uclCategorie__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./01_Elements/Categorie/uclCategorie */ "./src/app/01_Elements/Categorie/uclCategorie.ts");
+/* harmony import */ var _01_Elements_Categorie_ucCategorie__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./01_Elements/Categorie/ucCategorie */ "./src/app/01_Elements/Categorie/ucCategorie.ts");
+/* harmony import */ var _01_Elements_Development_uclDevelopment__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./01_Elements/Development/uclDevelopment */ "./src/app/01_Elements/Development/uclDevelopment.ts");
+/* harmony import */ var _01_Elements_Development_ucDevelopment__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./01_Elements/Development/ucDevelopment */ "./src/app/01_Elements/Development/ucDevelopment.ts");
+/* harmony import */ var _01_Elements_Project_uclProject__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./01_Elements/Project/uclProject */ "./src/app/01_Elements/Project/uclProject.ts");
+/* harmony import */ var _01_Elements_Project_ucProject__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./01_Elements/Project/ucProject */ "./src/app/01_Elements/Project/ucProject.ts");
+/* harmony import */ var _01_Elements_State_uclState__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./01_Elements/State/uclState */ "./src/app/01_Elements/State/uclState.ts");
+/* harmony import */ var _01_Elements_State_ucState__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./01_Elements/State/ucState */ "./src/app/01_Elements/State/ucState.ts");
+/* harmony import */ var _01_Elements_Tag_uclTag__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./01_Elements/Tag/uclTag */ "./src/app/01_Elements/Tag/uclTag.ts");
+/* harmony import */ var _01_Elements_Tag_ucTag__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./01_Elements/Tag/ucTag */ "./src/app/01_Elements/Tag/ucTag.ts");
+/* harmony import */ var _01_Elements_Tag_Development_uclTag_Development__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./01_Elements/Tag_Development/uclTag_Development */ "./src/app/01_Elements/Tag_Development/uclTag_Development.ts");
+/* harmony import */ var _01_Elements_Tag_Development_ucTag_Development__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./01_Elements/Tag_Development/ucTag_Development */ "./src/app/01_Elements/Tag_Development/ucTag_Development.ts");
+/* harmony import */ var _01_Elements_Tag_Work_uclTag_Work__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./01_Elements/Tag_Work/uclTag_Work */ "./src/app/01_Elements/Tag_Work/uclTag_Work.ts");
+/* harmony import */ var _01_Elements_Tag_Work_ucTag_Work__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./01_Elements/Tag_Work/ucTag_Work */ "./src/app/01_Elements/Tag_Work/ucTag_Work.ts");
+/* harmony import */ var _01_Elements_Type_Tag_uclType_Tag__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./01_Elements/Type_Tag/uclType_Tag */ "./src/app/01_Elements/Type_Tag/uclType_Tag.ts");
+/* harmony import */ var _01_Elements_Type_Tag_ucType_Tag__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./01_Elements/Type_Tag/ucType_Tag */ "./src/app/01_Elements/Type_Tag/ucType_Tag.ts");
+/* harmony import */ var _01_Elements_Work_uclWork__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./01_Elements/Work/uclWork */ "./src/app/01_Elements/Work/uclWork.ts");
+/* harmony import */ var _01_Elements_Work_ucWork__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./01_Elements/Work/ucWork */ "./src/app/01_Elements/Work/ucWork.ts");
+
+
 
 
 
@@ -3291,24 +3477,26 @@ __webpack_require__.r(__webpack_exports__);
 
 var routes = [
     { path: '', redirectTo: '/Works', pathMatch: 'full' },
-    { path: 'Categories', component: _01_Elements_Categorie_uclCategorie__WEBPACK_IMPORTED_MODULE_4__["TclCategorie"] },
-    { path: 'Categorie', component: _01_Elements_Categorie_ucCategorie__WEBPACK_IMPORTED_MODULE_5__["TcCategorie"] },
-    { path: 'Developments', component: _01_Elements_Development_uclDevelopment__WEBPACK_IMPORTED_MODULE_6__["TclDevelopment"] },
-    { path: 'Development', component: _01_Elements_Development_ucDevelopment__WEBPACK_IMPORTED_MODULE_7__["TcDevelopment"] },
-    { path: 'Projects', component: _01_Elements_Project_uclProject__WEBPACK_IMPORTED_MODULE_8__["TclProject"] },
-    { path: 'Project', component: _01_Elements_Project_ucProject__WEBPACK_IMPORTED_MODULE_9__["TcProject"] },
-    { path: 'States', component: _01_Elements_State_uclState__WEBPACK_IMPORTED_MODULE_10__["TclState"] },
-    { path: 'State', component: _01_Elements_State_ucState__WEBPACK_IMPORTED_MODULE_11__["TcState"] },
-    { path: 'Tags', component: _01_Elements_Tag_uclTag__WEBPACK_IMPORTED_MODULE_12__["TclTag"] },
-    { path: 'Tag', component: _01_Elements_Tag_ucTag__WEBPACK_IMPORTED_MODULE_13__["TcTag"] },
-    { path: 'Tag_Developments', component: _01_Elements_Tag_Development_uclTag_Development__WEBPACK_IMPORTED_MODULE_14__["TclTag_Development"] },
-    { path: 'Tag_Development', component: _01_Elements_Tag_Development_ucTag_Development__WEBPACK_IMPORTED_MODULE_15__["TcTag_Development"] },
-    { path: 'Tag_Works', component: _01_Elements_Tag_Work_uclTag_Work__WEBPACK_IMPORTED_MODULE_16__["TclTag_Work"] },
-    { path: 'Tag_Work', component: _01_Elements_Tag_Work_ucTag_Work__WEBPACK_IMPORTED_MODULE_17__["TcTag_Work"] },
-    { path: 'Type_Tags', component: _01_Elements_Type_Tag_uclType_Tag__WEBPACK_IMPORTED_MODULE_18__["TclType_Tag"] },
-    { path: 'Type_Tag', component: _01_Elements_Type_Tag_ucType_Tag__WEBPACK_IMPORTED_MODULE_19__["TcType_Tag"] },
-    { path: 'Works', component: _01_Elements_Work_uclWork__WEBPACK_IMPORTED_MODULE_20__["TclWork"] },
-    { path: 'Work', component: _01_Elements_Work_ucWork__WEBPACK_IMPORTED_MODULE_21__["TcWork"] },
+    { path: 'custom', component: _component_custom_component__WEBPACK_IMPORTED_MODULE_4__["CustomComponent"] },
+    { path: 'Custom_Component_Works', component: _01_Elements_Work_Custom_Component_Works__WEBPACK_IMPORTED_MODULE_5__["Custom_Component_Works"] },
+    { path: 'Categories', component: _01_Elements_Categorie_uclCategorie__WEBPACK_IMPORTED_MODULE_6__["TclCategorie"] },
+    { path: 'Categorie', component: _01_Elements_Categorie_ucCategorie__WEBPACK_IMPORTED_MODULE_7__["TcCategorie"] },
+    { path: 'Developments', component: _01_Elements_Development_uclDevelopment__WEBPACK_IMPORTED_MODULE_8__["TclDevelopment"] },
+    { path: 'Development', component: _01_Elements_Development_ucDevelopment__WEBPACK_IMPORTED_MODULE_9__["TcDevelopment"] },
+    { path: 'Projects', component: _01_Elements_Project_uclProject__WEBPACK_IMPORTED_MODULE_10__["TclProject"] },
+    { path: 'Project', component: _01_Elements_Project_ucProject__WEBPACK_IMPORTED_MODULE_11__["TcProject"] },
+    { path: 'States', component: _01_Elements_State_uclState__WEBPACK_IMPORTED_MODULE_12__["TclState"] },
+    { path: 'State', component: _01_Elements_State_ucState__WEBPACK_IMPORTED_MODULE_13__["TcState"] },
+    { path: 'Tags', component: _01_Elements_Tag_uclTag__WEBPACK_IMPORTED_MODULE_14__["TclTag"] },
+    { path: 'Tag', component: _01_Elements_Tag_ucTag__WEBPACK_IMPORTED_MODULE_15__["TcTag"] },
+    { path: 'Tag_Developments', component: _01_Elements_Tag_Development_uclTag_Development__WEBPACK_IMPORTED_MODULE_16__["TclTag_Development"] },
+    { path: 'Tag_Development', component: _01_Elements_Tag_Development_ucTag_Development__WEBPACK_IMPORTED_MODULE_17__["TcTag_Development"] },
+    { path: 'Tag_Works', component: _01_Elements_Tag_Work_uclTag_Work__WEBPACK_IMPORTED_MODULE_18__["TclTag_Work"] },
+    { path: 'Tag_Work', component: _01_Elements_Tag_Work_ucTag_Work__WEBPACK_IMPORTED_MODULE_19__["TcTag_Work"] },
+    { path: 'Type_Tags', component: _01_Elements_Type_Tag_uclType_Tag__WEBPACK_IMPORTED_MODULE_20__["TclType_Tag"] },
+    { path: 'Type_Tag', component: _01_Elements_Type_Tag_ucType_Tag__WEBPACK_IMPORTED_MODULE_21__["TcType_Tag"] },
+    { path: 'Works', component: _01_Elements_Work_uclWork__WEBPACK_IMPORTED_MODULE_22__["TclWork"] },
+    { path: 'Work', component: _01_Elements_Work_ucWork__WEBPACK_IMPORTED_MODULE_23__["TcWork"] },
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
@@ -3346,26 +3534,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _angular_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/http */ "./node_modules/@angular/http/fesm5/http.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _component_app_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./component/app.component */ "./src/app/component/app.component.ts");
-/* harmony import */ var _01_Elements_Categorie_uclCategorie__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./01_Elements/Categorie/uclCategorie */ "./src/app/01_Elements/Categorie/uclCategorie.ts");
-/* harmony import */ var _01_Elements_Categorie_ucCategorie__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./01_Elements/Categorie/ucCategorie */ "./src/app/01_Elements/Categorie/ucCategorie.ts");
-/* harmony import */ var _01_Elements_Development_uclDevelopment__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./01_Elements/Development/uclDevelopment */ "./src/app/01_Elements/Development/uclDevelopment.ts");
-/* harmony import */ var _01_Elements_Development_ucDevelopment__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./01_Elements/Development/ucDevelopment */ "./src/app/01_Elements/Development/ucDevelopment.ts");
-/* harmony import */ var _01_Elements_Project_uclProject__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./01_Elements/Project/uclProject */ "./src/app/01_Elements/Project/uclProject.ts");
-/* harmony import */ var _01_Elements_Project_ucProject__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./01_Elements/Project/ucProject */ "./src/app/01_Elements/Project/ucProject.ts");
-/* harmony import */ var _01_Elements_State_uclState__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./01_Elements/State/uclState */ "./src/app/01_Elements/State/uclState.ts");
-/* harmony import */ var _01_Elements_State_ucState__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./01_Elements/State/ucState */ "./src/app/01_Elements/State/ucState.ts");
-/* harmony import */ var _01_Elements_Tag_uclTag__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./01_Elements/Tag/uclTag */ "./src/app/01_Elements/Tag/uclTag.ts");
-/* harmony import */ var _01_Elements_Tag_ucTag__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./01_Elements/Tag/ucTag */ "./src/app/01_Elements/Tag/ucTag.ts");
-/* harmony import */ var _01_Elements_Tag_Development_uclTag_Development__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./01_Elements/Tag_Development/uclTag_Development */ "./src/app/01_Elements/Tag_Development/uclTag_Development.ts");
-/* harmony import */ var _01_Elements_Tag_Development_ucTag_Development__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./01_Elements/Tag_Development/ucTag_Development */ "./src/app/01_Elements/Tag_Development/ucTag_Development.ts");
-/* harmony import */ var _01_Elements_Tag_Work_uclTag_Work__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./01_Elements/Tag_Work/uclTag_Work */ "./src/app/01_Elements/Tag_Work/uclTag_Work.ts");
-/* harmony import */ var _01_Elements_Tag_Work_ucTag_Work__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./01_Elements/Tag_Work/ucTag_Work */ "./src/app/01_Elements/Tag_Work/ucTag_Work.ts");
-/* harmony import */ var _01_Elements_Type_Tag_uclType_Tag__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./01_Elements/Type_Tag/uclType_Tag */ "./src/app/01_Elements/Type_Tag/uclType_Tag.ts");
-/* harmony import */ var _01_Elements_Type_Tag_ucType_Tag__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./01_Elements/Type_Tag/ucType_Tag */ "./src/app/01_Elements/Type_Tag/ucType_Tag.ts");
-/* harmony import */ var _01_Elements_Work_uclWork__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./01_Elements/Work/uclWork */ "./src/app/01_Elements/Work/uclWork.ts");
-/* harmony import */ var _01_Elements_Work_ucWork__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./01_Elements/Work/ucWork */ "./src/app/01_Elements/Work/ucWork.ts");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _tinymce_tinymce_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @tinymce/tinymce-angular */ "./node_modules/@tinymce/tinymce-angular/fesm5/tinymce-tinymce-angular.js");
+/* harmony import */ var _component_app_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./component/app.component */ "./src/app/component/app.component.ts");
+/* harmony import */ var _component_custom_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./component/custom.component */ "./src/app/component/custom.component.ts");
+/* harmony import */ var _01_Elements_Work_Custom_Component_Works__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./01_Elements/Work/Custom_Component_Works */ "./src/app/01_Elements/Work/Custom_Component_Works.ts");
+/* harmony import */ var _01_Elements_Work_Custom_Component_Work__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./01_Elements/Work/Custom_Component_Work */ "./src/app/01_Elements/Work/Custom_Component_Work.ts");
+/* harmony import */ var _01_Elements_Categorie_uclCategorie__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./01_Elements/Categorie/uclCategorie */ "./src/app/01_Elements/Categorie/uclCategorie.ts");
+/* harmony import */ var _01_Elements_Categorie_ucCategorie__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./01_Elements/Categorie/ucCategorie */ "./src/app/01_Elements/Categorie/ucCategorie.ts");
+/* harmony import */ var _01_Elements_Development_uclDevelopment__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./01_Elements/Development/uclDevelopment */ "./src/app/01_Elements/Development/uclDevelopment.ts");
+/* harmony import */ var _01_Elements_Development_ucDevelopment__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./01_Elements/Development/ucDevelopment */ "./src/app/01_Elements/Development/ucDevelopment.ts");
+/* harmony import */ var _01_Elements_Project_uclProject__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./01_Elements/Project/uclProject */ "./src/app/01_Elements/Project/uclProject.ts");
+/* harmony import */ var _01_Elements_Project_ucProject__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./01_Elements/Project/ucProject */ "./src/app/01_Elements/Project/ucProject.ts");
+/* harmony import */ var _01_Elements_State_uclState__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./01_Elements/State/uclState */ "./src/app/01_Elements/State/uclState.ts");
+/* harmony import */ var _01_Elements_State_ucState__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./01_Elements/State/ucState */ "./src/app/01_Elements/State/ucState.ts");
+/* harmony import */ var _01_Elements_Tag_uclTag__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./01_Elements/Tag/uclTag */ "./src/app/01_Elements/Tag/uclTag.ts");
+/* harmony import */ var _01_Elements_Tag_ucTag__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./01_Elements/Tag/ucTag */ "./src/app/01_Elements/Tag/ucTag.ts");
+/* harmony import */ var _01_Elements_Tag_Development_uclTag_Development__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./01_Elements/Tag_Development/uclTag_Development */ "./src/app/01_Elements/Tag_Development/uclTag_Development.ts");
+/* harmony import */ var _01_Elements_Tag_Development_ucTag_Development__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./01_Elements/Tag_Development/ucTag_Development */ "./src/app/01_Elements/Tag_Development/ucTag_Development.ts");
+/* harmony import */ var _01_Elements_Tag_Work_uclTag_Work__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./01_Elements/Tag_Work/uclTag_Work */ "./src/app/01_Elements/Tag_Work/uclTag_Work.ts");
+/* harmony import */ var _01_Elements_Tag_Work_ucTag_Work__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./01_Elements/Tag_Work/ucTag_Work */ "./src/app/01_Elements/Tag_Work/ucTag_Work.ts");
+/* harmony import */ var _01_Elements_Type_Tag_uclType_Tag__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./01_Elements/Type_Tag/uclType_Tag */ "./src/app/01_Elements/Type_Tag/uclType_Tag.ts");
+/* harmony import */ var _01_Elements_Type_Tag_ucType_Tag__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./01_Elements/Type_Tag/ucType_Tag */ "./src/app/01_Elements/Type_Tag/ucType_Tag.ts");
+/* harmony import */ var _01_Elements_Work_uclWork__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./01_Elements/Work/uclWork */ "./src/app/01_Elements/Work/uclWork.ts");
+/* harmony import */ var _01_Elements_Work_ucWork__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./01_Elements/Work/ucWork */ "./src/app/01_Elements/Work/ucWork.ts");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+
+
+
+
 
 
 
@@ -3398,25 +3594,28 @@ var AppModule = /** @class */ (function () {
     AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
             declarations: [
-                _component_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"],
-                _01_Elements_Categorie_uclCategorie__WEBPACK_IMPORTED_MODULE_7__["TclCategorie"],
-                _01_Elements_Categorie_ucCategorie__WEBPACK_IMPORTED_MODULE_8__["TcCategorie"],
-                _01_Elements_Development_uclDevelopment__WEBPACK_IMPORTED_MODULE_9__["TclDevelopment"],
-                _01_Elements_Development_ucDevelopment__WEBPACK_IMPORTED_MODULE_10__["TcDevelopment"],
-                _01_Elements_Project_uclProject__WEBPACK_IMPORTED_MODULE_11__["TclProject"],
-                _01_Elements_Project_ucProject__WEBPACK_IMPORTED_MODULE_12__["TcProject"],
-                _01_Elements_State_uclState__WEBPACK_IMPORTED_MODULE_13__["TclState"],
-                _01_Elements_State_ucState__WEBPACK_IMPORTED_MODULE_14__["TcState"],
-                _01_Elements_Tag_uclTag__WEBPACK_IMPORTED_MODULE_15__["TclTag"],
-                _01_Elements_Tag_ucTag__WEBPACK_IMPORTED_MODULE_16__["TcTag"],
-                _01_Elements_Tag_Development_uclTag_Development__WEBPACK_IMPORTED_MODULE_17__["TclTag_Development"],
-                _01_Elements_Tag_Development_ucTag_Development__WEBPACK_IMPORTED_MODULE_18__["TcTag_Development"],
-                _01_Elements_Tag_Work_uclTag_Work__WEBPACK_IMPORTED_MODULE_19__["TclTag_Work"],
-                _01_Elements_Tag_Work_ucTag_Work__WEBPACK_IMPORTED_MODULE_20__["TcTag_Work"],
-                _01_Elements_Type_Tag_uclType_Tag__WEBPACK_IMPORTED_MODULE_21__["TclType_Tag"],
-                _01_Elements_Type_Tag_ucType_Tag__WEBPACK_IMPORTED_MODULE_22__["TcType_Tag"],
-                _01_Elements_Work_uclWork__WEBPACK_IMPORTED_MODULE_23__["TclWork"],
-                _01_Elements_Work_ucWork__WEBPACK_IMPORTED_MODULE_24__["TcWork"],
+                _component_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"],
+                _component_custom_component__WEBPACK_IMPORTED_MODULE_8__["CustomComponent"],
+                _01_Elements_Work_Custom_Component_Works__WEBPACK_IMPORTED_MODULE_9__["Custom_Component_Works"],
+                _01_Elements_Work_Custom_Component_Work__WEBPACK_IMPORTED_MODULE_10__["Custom_Component_Work"],
+                _01_Elements_Categorie_uclCategorie__WEBPACK_IMPORTED_MODULE_11__["TclCategorie"],
+                _01_Elements_Categorie_ucCategorie__WEBPACK_IMPORTED_MODULE_12__["TcCategorie"],
+                _01_Elements_Development_uclDevelopment__WEBPACK_IMPORTED_MODULE_13__["TclDevelopment"],
+                _01_Elements_Development_ucDevelopment__WEBPACK_IMPORTED_MODULE_14__["TcDevelopment"],
+                _01_Elements_Project_uclProject__WEBPACK_IMPORTED_MODULE_15__["TclProject"],
+                _01_Elements_Project_ucProject__WEBPACK_IMPORTED_MODULE_16__["TcProject"],
+                _01_Elements_State_uclState__WEBPACK_IMPORTED_MODULE_17__["TclState"],
+                _01_Elements_State_ucState__WEBPACK_IMPORTED_MODULE_18__["TcState"],
+                _01_Elements_Tag_uclTag__WEBPACK_IMPORTED_MODULE_19__["TclTag"],
+                _01_Elements_Tag_ucTag__WEBPACK_IMPORTED_MODULE_20__["TcTag"],
+                _01_Elements_Tag_Development_uclTag_Development__WEBPACK_IMPORTED_MODULE_21__["TclTag_Development"],
+                _01_Elements_Tag_Development_ucTag_Development__WEBPACK_IMPORTED_MODULE_22__["TcTag_Development"],
+                _01_Elements_Tag_Work_uclTag_Work__WEBPACK_IMPORTED_MODULE_23__["TclTag_Work"],
+                _01_Elements_Tag_Work_ucTag_Work__WEBPACK_IMPORTED_MODULE_24__["TcTag_Work"],
+                _01_Elements_Type_Tag_uclType_Tag__WEBPACK_IMPORTED_MODULE_25__["TclType_Tag"],
+                _01_Elements_Type_Tag_ucType_Tag__WEBPACK_IMPORTED_MODULE_26__["TcType_Tag"],
+                _01_Elements_Work_uclWork__WEBPACK_IMPORTED_MODULE_27__["TclWork"],
+                _01_Elements_Work_ucWork__WEBPACK_IMPORTED_MODULE_28__["TcWork"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -3424,10 +3623,11 @@ var AppModule = /** @class */ (function () {
                 _angular_http__WEBPACK_IMPORTED_MODULE_4__["HttpModule"],
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_5__["HttpClientModule"],
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_5__["HttpClientXsrfModule"].disable(),
-                _app_routing_module__WEBPACK_IMPORTED_MODULE_25__["AppRoutingModule"]
+                _app_routing_module__WEBPACK_IMPORTED_MODULE_29__["AppRoutingModule"],
+                _tinymce_tinymce_angular__WEBPACK_IMPORTED_MODULE_6__["EditorModule"]
             ],
             providers: [],
-            bootstrap: [_component_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"]]
+            bootstrap: [_component_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
@@ -3455,7 +3655,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!--The content below is only a placeholder and can be replaced.-->\r\n<div style=\"text-align:center\">\r\n  <h1>\r\n    Welcome to {{ title }}!\r\n  </h1>\r\n</div>\r\n<nav>\r\n  <a routerLink=\"/Categories\" routerLinkActive=\"active\">Categories</a>\r\n  <a routerLink=\"/Developments\" routerLinkActive=\"active\">Developments</a>\r\n  <a routerLink=\"/Projects\" routerLinkActive=\"active\">Projects</a>\r\n  <a routerLink=\"/States\" routerLinkActive=\"active\">States</a>\r\n  <a routerLink=\"/Tags\" routerLinkActive=\"active\">Tags</a>\r\n  <a routerLink=\"/Tag_Developments\" routerLinkActive=\"active\">Tag_Developments</a>\r\n  <a routerLink=\"/Tag_Works\" routerLinkActive=\"active\">Tag_Works</a>\r\n  <a routerLink=\"/Type_Tags\" routerLinkActive=\"active\">Type_Tags</a>\r\n  <a routerLink=\"/Works\" routerLinkActive=\"active\">Works</a>\r\n</nav>\r\n<router-outlet></router-outlet>\r\n\r\n"
+module.exports = "<!--The content below is only a placeholder and can be replaced.-->\r\n<div style=\"text-align:center\">\r\n  <h1>\r\n    Welcome to {{ title }}!\r\n  </h1>\r\n</div>\r\n<nav>\r\n    <a routerLink=\"/custom\" routerLinkActive=\"active\">Custom</a>\r\n  <a routerLink=\"/Categories\" routerLinkActive=\"active\">Categories</a>\r\n  <a routerLink=\"/Developments\" routerLinkActive=\"active\">Developments</a>\r\n  <a routerLink=\"/Projects\" routerLinkActive=\"active\">Projects</a>\r\n  <a routerLink=\"/States\" routerLinkActive=\"active\">States</a>\r\n  <a routerLink=\"/Tags\" routerLinkActive=\"active\">Tags</a>\r\n  <a routerLink=\"/Tag_Developments\" routerLinkActive=\"active\">Tag_Developments</a>\r\n  <a routerLink=\"/Tag_Works\" routerLinkActive=\"active\">Tag_Works</a>\r\n  <a routerLink=\"/Type_Tags\" routerLinkActive=\"active\">Type_Tags</a>\r\n  <a routerLink=\"/Works\" routerLinkActive=\"active\">Works</a>\r\n</nav>\r\n<router-outlet></router-outlet>\r\n"
 
 /***/ }),
 
@@ -3491,6 +3691,60 @@ var AppComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/component/custom.component.css":
+/*!************************************************!*\
+  !*** ./src/app/component/custom.component.css ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudC9jdXN0b20uY29tcG9uZW50LmNzcyJ9 */"
+
+/***/ }),
+
+/***/ "./src/app/component/custom.component.html":
+/*!*************************************************!*\
+  !*** ./src/app/component/custom.component.html ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<a href=\"index_AngularJS.html\">ancien code en AngularJS</a>\r\n<Custom_Component_Works></Custom_Component_Works>\r\n\r\n"
+
+/***/ }),
+
+/***/ "./src/app/component/custom.component.ts":
+/*!***********************************************!*\
+  !*** ./src/app/component/custom.component.ts ***!
+  \***********************************************/
+/*! exports provided: CustomComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CustomComponent", function() { return CustomComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+
+
+var CustomComponent = /** @class */ (function () {
+    function CustomComponent() {
+        this.title = 'jsWorks';
+    }
+    CustomComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'custom',
+            template: __webpack_require__(/*! ./custom.component.html */ "./src/app/component/custom.component.html"),
+            styles: [__webpack_require__(/*! ./custom.component.css */ "./src/app/component/custom.component.css")]
+        })
+    ], CustomComponent);
+    return CustomComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/environments/environment.ts":
 /*!*****************************************!*\
   !*** ./src/environments/environment.ts ***!
@@ -3507,7 +3761,7 @@ __webpack_require__.r(__webpack_exports__);
 var environment = {
     production: false,
     //api_url:'http://localhost:1500/64528',
-    //api_url:'http://localhost:54033',
+    //api_url:'http://localhost:55334',
     api_url: '',
 };
 /*

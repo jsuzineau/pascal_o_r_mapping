@@ -202,7 +202,11 @@ type
   public
     property LaunchURL_Callback: String read GetLaunchURL_Callback write SetLaunchURL_Callback;
   //Gestion des requêtes multi-origine Cross-Origin Request CORS
-  //valeur de l'entête Access-Control-Allow-Origin, * en dev, à restreindre en prod
+  //valeur de l'entête Access-Control-Allow-Origin,
+  // * en dev,
+  // à restreindre en prod: Access-Control-Allow-Origin: https://developer.mozilla.org
+  private
+    procedure Charge_CORS_Value;
   public
     CORS_Value: String;
   end;
@@ -679,7 +683,7 @@ begin
      InitCriticalSection( fgl_putfile_interne_CriticalSection);
      InitCriticalSection( lg_Traite_Fichier_Genere_interne_CriticalSection);
 
-     CORS_Value:= '*';
+     Charge_CORS_Value;
 
      HTTP_Interfaces.Ajoute(Self);
 end;
@@ -744,6 +748,15 @@ begin
      S.SendString('Server: http_jsWorks' + CRLF);
 
      S.SendString('Access-Control-Allow-Origin: '+CORS_Value + CRLF);
+     //d'aprés https://developer.mozilla.org/fr/docs/Web/HTTP/Headers/Access-Control-Allow-Origin#CORS_et_le_cache
+     if '*'<>CORS_Value
+     then
+         begin
+         S.SendString('Vary: Origin'+ CRLF);
+         //d'aprés https://developer.mozilla.org/fr/docs/Web/HTTP/Headers/Origin#Syntaxe
+         S.SendString('Origin: '+ CRLF); //il faudrait peut-être mettre le domaine de l'appelant
+         end;
+
      S.SendString('' + CRLF);
      //  if S.lasterror <> 0 then HandleError;
 end;
@@ -1203,6 +1216,23 @@ end;
 procedure THTTP_Interface.SetLaunchURL_Callback( _Value: String);
 begin
      HTTP_Interfaces.Set_LaunchURL_Callback( Name, _Value);
+end;
+
+procedure THTTP_Interface.Charge_CORS_Value;
+//Gestion des requêtes multi-origine Cross-Origin Request CORS
+//valeur de l'entête Access-Control-Allow-Origin,
+// * en dev,
+// à restreindre en prod: Access-Control-Allow-Origin: https://developer.mozilla.org
+const
+    inik_CORS='THTTP_Interface.Access-Control-Allow-Origin_CORS';
+begin
+     CORS_Value:= EXE_INI.ReadString( inis_Options, inik_CORS, '#');
+     if '#' = CORS_Value
+     then
+         begin
+         CORS_Value:= 'http://localhost:4200';//l'url utilisée par ng serve pour mise au point Angular
+         EXE_INI.WriteString( inis_Options, inik_CORS, CORS_Value);
+         end;
 end;
 
 function THTTP_Interface.Init: String;

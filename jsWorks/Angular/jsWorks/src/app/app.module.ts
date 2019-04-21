@@ -6,8 +6,13 @@ import { HttpClientModule,
          HttpClientXsrfModule
                          } from '@angular/common/http';
 import { RouterModule    } from '@angular/router';
+import { EditorModule } from '@tinymce/tinymce-angular';
+
 
 import { AppComponent } from './component/app.component';
+import { CustomComponent } from './component/custom.component';
+import { Custom_Component_Works} from './01_Elements/Work/Custom_Component_Works';
+import { Custom_Component_Work} from './01_Elements/Work/Custom_Component_Work';
 import { TclCategorie} from './01_Elements/Categorie/uclCategorie';
 import { TcCategorie} from './01_Elements/Categorie/ucCategorie';
 import { TclDevelopment} from './01_Elements/Development/uclDevelopment';
@@ -33,6 +38,9 @@ import { AppRoutingModule } from './app-routing.module';
   declarations:
     [
     AppComponent,
+    CustomComponent,
+    Custom_Component_Works,
+    Custom_Component_Work,
     TclCategorie,
     TcCategorie,
     TclDevelopment,
@@ -60,7 +68,8 @@ import { AppRoutingModule } from './app-routing.module';
     HttpModule,
     HttpClientModule,
     HttpClientXsrfModule.disable(),
-    AppRoutingModule
+    AppRoutingModule,
+    EditorModule
     ],
   providers: [],
   bootstrap: [AppComponent]

@@ -78303,6 +78303,605 @@ var VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["Version"]('7.2.12'
 
 /***/ }),
 
+/***/ "./node_modules/@tinymce/tinymce-angular/fesm5/tinymce-tinymce-angular.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/@tinymce/tinymce-angular/fesm5/tinymce-tinymce-angular.js ***!
+  \********************************************************************************/
+/*! exports provided: EditorComponent, EditorModule, ɵa */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EditorComponent", function() { return EditorComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EditorModule", function() { return EditorModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ɵa", function() { return Events; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+
+
+
+
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+var Events = /** @class */ (function () {
+    function Events() {
+        this.onBeforePaste = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onBlur = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onClick = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onContextMenu = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onCopy = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onCut = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onDblclick = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onDrag = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onDragDrop = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onDragEnd = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onDragGesture = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onDragOver = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onDrop = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onFocus = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onFocusIn = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onFocusOut = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onKeyDown = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onKeyPress = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onKeyUp = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onMouseDown = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onMouseEnter = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onMouseLeave = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onMouseMove = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onMouseOut = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onMouseOver = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onMouseUp = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onPaste = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onSelectionChange = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onActivate = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onAddUndo = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onBeforeAddUndo = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onBeforeExecCommand = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onBeforeGetContent = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onBeforeRenderUI = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onBeforeSetContent = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onChange = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onClearUndos = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onDeactivate = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onDirty = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onExecCommand = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onGetContent = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onHide = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onInit = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onLoadContent = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onNodeChange = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onPostProcess = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onPostRender = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onPreInit = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onPreProcess = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onProgressState = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onRedo = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onRemove = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onReset = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onSaveContent = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onSetAttrib = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onObjectResizeStart = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onObjectResized = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onObjectSelected = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onSetContent = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onShow = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onSubmit = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onUndo = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onVisualAid = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+    }
+    Events.propDecorators = {
+        onBeforePaste: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onBlur: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onClick: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onContextMenu: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onCopy: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onCut: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onDblclick: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onDrag: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onDragDrop: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onDragEnd: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onDragGesture: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onDragOver: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onDrop: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onFocus: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onFocusIn: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onFocusOut: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onKeyDown: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onKeyPress: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onKeyUp: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onMouseDown: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onMouseEnter: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onMouseLeave: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onMouseMove: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onMouseOut: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onMouseOver: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onMouseUp: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onPaste: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onSelectionChange: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onActivate: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onAddUndo: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onBeforeAddUndo: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onBeforeExecCommand: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onBeforeGetContent: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onBeforeRenderUI: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onBeforeSetContent: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onChange: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onClearUndos: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onDeactivate: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onDirty: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onExecCommand: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onGetContent: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onHide: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onInit: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onLoadContent: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onNodeChange: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onPostProcess: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onPostRender: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onPreInit: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onPreProcess: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onProgressState: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onRedo: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onRemove: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onReset: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onSaveContent: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onSetAttrib: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onObjectResizeStart: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onObjectResized: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onObjectSelected: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onSetContent: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onShow: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onSubmit: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onUndo: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        onVisualAid: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }]
+    };
+    return Events;
+}());
+/** @type {?} */
+var validEvents = [
+    'onActivate',
+    'onAddUndo',
+    'onBeforeAddUndo',
+    'onBeforeExecCommand',
+    'onBeforeGetContent',
+    'onBeforeRenderUI',
+    'onBeforeSetContent',
+    'onBeforePaste',
+    'onBlur',
+    'onChange',
+    'onClearUndos',
+    'onClick',
+    'onContextMenu',
+    'onCopy',
+    'onCut',
+    'onDblclick',
+    'onDeactivate',
+    'onDirty',
+    'onDrag',
+    'onDragDrop',
+    'onDragEnd',
+    'onDragGesture',
+    'onDragOver',
+    'onDrop',
+    'onExecCommand',
+    'onFocus',
+    'onFocusIn',
+    'onFocusOut',
+    'onGetContent',
+    'onHide',
+    'onInit',
+    'onKeyDown',
+    'onKeyPress',
+    'onKeyUp',
+    'onLoadContent',
+    'onMouseDown',
+    'onMouseEnter',
+    'onMouseLeave',
+    'onMouseMove',
+    'onMouseOut',
+    'onMouseOver',
+    'onMouseUp',
+    'onNodeChange',
+    'onObjectResizeStart',
+    'onObjectResized',
+    'onObjectSelected',
+    'onPaste',
+    'onPostProcess',
+    'onPostRender',
+    'onPreProcess',
+    'onProgressState',
+    'onRedo',
+    'onRemove',
+    'onReset',
+    'onSaveContent',
+    'onSelectionChange',
+    'onSetAttrib',
+    'onSetContent',
+    'onShow',
+    'onSubmit',
+    'onUndo',
+    'onVisualAid'
+];
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/** @type {?} */
+var bindHandlers = function (ctx, editor, initEvent) {
+    validEvents.forEach(function (eventName) {
+        /** @type {?} */
+        var eventEmitter = ctx[eventName];
+        if (eventEmitter.observers.length > 0) {
+            if (eventName === 'onInit') {
+                ctx.ngZone.run(function () { return eventEmitter.emit({ event: initEvent, editor: editor }); });
+            }
+            else {
+                editor.on(eventName.substring(2), ctx.ngZone.run(function () { return function (event) { return eventEmitter.emit({ event: event, editor: editor }); }; }));
+            }
+        }
+    });
+};
+/** @type {?} */
+var unique = 0;
+/** @type {?} */
+var uuid = function (prefix) {
+    /** @type {?} */
+    var date = new Date();
+    /** @type {?} */
+    var time = date.getTime();
+    /** @type {?} */
+    var random = Math.floor(Math.random() * 1000000000);
+    unique++;
+    return prefix + '_' + random + unique + String(time);
+};
+/** @type {?} */
+var isTextarea = function (element) {
+    return typeof element !== 'undefined' && element.tagName.toLowerCase() === 'textarea';
+};
+/** @type {?} */
+var normalizePluginArray = function (plugins) {
+    if (typeof plugins === 'undefined' || plugins === '') {
+        return [];
+    }
+    return Array.isArray(plugins) ? plugins : plugins.split(' ');
+};
+/** @type {?} */
+var mergePlugins = function (initPlugins, inputPlugins) {
+    return normalizePluginArray(initPlugins).concat(normalizePluginArray(inputPlugins));
+};
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/** @type {?} */
+var injectScriptTag = function (scriptId, doc, url, callback) {
+    /** @type {?} */
+    var scriptTag = doc.createElement('script');
+    scriptTag.type = 'application/javascript';
+    scriptTag.id = scriptId;
+    scriptTag.addEventListener('load', callback);
+    scriptTag.src = url;
+    if (doc.head) {
+        doc.head.appendChild(scriptTag);
+    }
+};
+/** @type {?} */
+var create = function () {
+    return {
+        listeners: [],
+        scriptId: uuid('tiny-script'),
+        scriptLoaded: false
+    };
+};
+/** @type {?} */
+var load = function (state, doc, url, callback) {
+    if (state.scriptLoaded) {
+        callback();
+    }
+    else {
+        state.listeners.push(callback);
+        if (!doc.getElementById(state.scriptId)) {
+            injectScriptTag(state.scriptId, doc, url, function () {
+                state.listeners.forEach(function (fn) { return fn(); });
+                state.scriptLoaded = true;
+            });
+        }
+    }
+};
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/**
+ * Copyright (c) 2017-present, Ephox, Inc.
+ *
+ * This source code is licensed under the Apache 2 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+/** @type {?} */
+var getTinymce = function () {
+    /** @type {?} */
+    var w = typeof window !== 'undefined' ? ((/** @type {?} */ (window))) : undefined;
+    return w && w.tinymce ? w.tinymce : null;
+};
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/** @type {?} */
+var scriptState = create();
+/** @type {?} */
+var EDITOR_COMPONENT_VALUE_ACCESSOR = {
+    provide: _angular_forms__WEBPACK_IMPORTED_MODULE_1__["NG_VALUE_ACCESSOR"],
+    useExisting: Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["forwardRef"])(function () { return EditorComponent; }),
+    multi: true
+};
+var EditorComponent = /** @class */ (function (_super) {
+    Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"])(EditorComponent, _super);
+    function EditorComponent(elementRef, ngZone, platformId) {
+        var _this = _super.call(this) || this;
+        _this.platformId = platformId;
+        _this.element = undefined;
+        _this.cloudChannel = '5';
+        _this.apiKey = '';
+        _this.id = '';
+        _this.toolbar = null;
+        _this.onTouchedCallback = function () { };
+        _this.onChangeCallback = function (x) { };
+        _this.elementRef = elementRef;
+        _this.ngZone = ngZone;
+        _this.initialise = _this.initialise.bind(_this);
+        return _this;
+    }
+    Object.defineProperty(EditorComponent.prototype, "disabled", {
+        get: /**
+         * @return {?}
+         */
+        function () {
+            return this._disabled;
+        },
+        set: /**
+         * @param {?} val
+         * @return {?}
+         */
+        function (val) {
+            this._disabled = val;
+            if (this.editor && this.editor.initialized) {
+                this.editor.setMode(val ? 'readonly' : 'design');
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    EditorComponent.prototype.writeValue = /**
+     * @param {?} value
+     * @return {?}
+     */
+    function (value) {
+        this.initialValue = value || this.initialValue;
+        value = value || '';
+        if (this.editor && this.editor.initialized && typeof value === 'string') {
+            this.editor.setContent(value);
+        }
+    };
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    EditorComponent.prototype.registerOnChange = /**
+     * @param {?} fn
+     * @return {?}
+     */
+    function (fn) {
+        this.onChangeCallback = fn;
+    };
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    EditorComponent.prototype.registerOnTouched = /**
+     * @param {?} fn
+     * @return {?}
+     */
+    function (fn) {
+        this.onTouchedCallback = fn;
+    };
+    /**
+     * @param {?} isDisabled
+     * @return {?}
+     */
+    EditorComponent.prototype.setDisabledState = /**
+     * @param {?} isDisabled
+     * @return {?}
+     */
+    function (isDisabled) {
+        if (this.editor) {
+            this.editor.setMode(isDisabled ? 'readonly' : 'design');
+        }
+        else if (isDisabled) {
+            this.init = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, this.init, { readonly: true });
+        }
+    };
+    /**
+     * @return {?}
+     */
+    EditorComponent.prototype.ngAfterViewInit = /**
+     * @return {?}
+     */
+    function () {
+        if (Object(_angular_common__WEBPACK_IMPORTED_MODULE_3__["isPlatformBrowser"])(this.platformId)) {
+            this.id = this.id || uuid('tiny-angular');
+            this.inline =
+                typeof this.inline !== 'undefined' ? (typeof this.inline === 'boolean' ? this.inline : true) : this.init && this.init.inline;
+            this.createElement();
+            if (getTinymce() !== null) {
+                this.initialise();
+            }
+            else if (this.element && this.element.ownerDocument) {
+                /** @type {?} */
+                var doc = this.element.ownerDocument;
+                /** @type {?} */
+                var channel = this.cloudChannel;
+                /** @type {?} */
+                var apiKey = this.apiKey;
+                load(scriptState, doc, "https://cloud.tinymce.com/" + channel + "/tinymce.min.js?apiKey=" + apiKey, this.initialise);
+            }
+        }
+    };
+    /**
+     * @return {?}
+     */
+    EditorComponent.prototype.ngOnDestroy = /**
+     * @return {?}
+     */
+    function () {
+        if (getTinymce() !== null) {
+            getTinymce().remove(this.editor);
+        }
+    };
+    /**
+     * @return {?}
+     */
+    EditorComponent.prototype.createElement = /**
+     * @return {?}
+     */
+    function () {
+        /** @type {?} */
+        var tagName = typeof this.tagName === 'string' ? this.tagName : 'div';
+        this.element = document.createElement(this.inline ? tagName : 'textarea');
+        if (this.element) {
+            this.element.id = this.id;
+            if (isTextarea(this.element)) {
+                this.element.style.visibility = 'hidden';
+            }
+            this.elementRef.nativeElement.appendChild(this.element);
+        }
+    };
+    /**
+     * @return {?}
+     */
+    EditorComponent.prototype.initialise = /**
+     * @return {?}
+     */
+    function () {
+        var _this = this;
+        /** @type {?} */
+        var finalInit = Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__assign"])({}, this.init, { target: this.element, inline: this.inline, readonly: this.disabled, plugins: mergePlugins(this.init && this.init.plugins, this.plugins), toolbar: this.toolbar || (this.init && this.init.toolbar), setup: function (editor) {
+                _this.editor = editor;
+                editor.on('init', function (e) {
+                    _this.initEditor(e, editor);
+                });
+                if (_this.init && typeof _this.init.setup === 'function') {
+                    _this.init.setup(editor);
+                }
+            } });
+        if (isTextarea(this.element)) {
+            this.element.style.visibility = '';
+        }
+        this.ngZone.runOutsideAngular(function () {
+            getTinymce().init(finalInit);
+        });
+    };
+    /**
+     * @private
+     * @param {?} initEvent
+     * @param {?} editor
+     * @return {?}
+     */
+    EditorComponent.prototype.initEditor = /**
+     * @private
+     * @param {?} initEvent
+     * @param {?} editor
+     * @return {?}
+     */
+    function (initEvent, editor) {
+        var _this = this;
+        if (typeof this.initialValue === 'string') {
+            this.ngZone.run(function () { return editor.setContent(_this.initialValue); });
+        }
+        editor.on('blur', function () { return _this.ngZone.run(function () { return _this.onTouchedCallback(); }); });
+        editor.on('setcontent', function (_a) {
+            var content = _a.content, format = _a.format;
+            return format === 'html' && content && _this.ngZone.run(function () { return _this.onChangeCallback(content); });
+        });
+        editor.on('change keyup undo redo', function () { return _this.ngZone.run(function () { return _this.onChangeCallback(editor.getContent()); }); });
+        bindHandlers(this, editor, initEvent);
+    };
+    EditorComponent.decorators = [
+        { type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"], args: [{
+                    selector: 'editor',
+                    template: '<ng-template></ng-template>',
+                    providers: [EDITOR_COMPONENT_VALUE_ACCESSOR],
+                    styles: [':host { display: block; }']
+                }] }
+    ];
+    /** @nocollapse */
+    EditorComponent.ctorParameters = function () { return [
+        { type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["ElementRef"] },
+        { type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["NgZone"] },
+        { type: Object, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_2__["PLATFORM_ID"],] }] }
+    ]; };
+    EditorComponent.propDecorators = {
+        cloudChannel: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Input"] }],
+        apiKey: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Input"] }],
+        init: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Input"] }],
+        id: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Input"] }],
+        initialValue: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Input"] }],
+        inline: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Input"] }],
+        tagName: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Input"] }],
+        plugins: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Input"] }],
+        toolbar: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Input"] }],
+        disabled: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Input"] }]
+    };
+    return EditorComponent;
+}(Events));
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+var EditorModule = /** @class */ (function () {
+    function EditorModule() {
+    }
+    EditorModule.decorators = [
+        { type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"], args: [{
+                    imports: [_angular_common__WEBPACK_IMPORTED_MODULE_3__["CommonModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormsModule"]],
+                    declarations: [EditorComponent],
+                    exports: [EditorComponent]
+                },] }
+    ];
+    return EditorModule;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+
+
+//# sourceMappingURL=tinymce-tinymce-angular.js.map
+
+/***/ }),
+
 /***/ "./node_modules/rxjs-compat/_esm5/Observable.js":
 /*!******************************************************!*\
   !*** ./node_modules/rxjs-compat/_esm5/Observable.js ***!
