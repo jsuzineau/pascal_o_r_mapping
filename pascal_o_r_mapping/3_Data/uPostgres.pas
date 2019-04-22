@@ -77,10 +77,13 @@ type
     procedure Ferme_db; override;
     procedure Keep_Connection; override;
     procedure Do_not_Keep_Connection; override;
+
+    procedure Fill_with_databases( _s: TStrings); override;
   //Schema
   public
     SchemaName: String;
     procedure Set_Schema( _SchemaName: String= '');
+    procedure GetSchemaNames( _List:TStrings);
   //Last_Insert_id
   public
     function Last_Insert_id( _NomTable: String): Integer; override;
@@ -109,6 +112,15 @@ type
   //Liste des tables
   public
     procedure GetTableNames( _List:TStrings); override;
+  //Liste des views
+  public
+    procedure AddViewNames( _List:TStrings);
+  //Liste des bases de données
+  public
+    procedure Fill_with_databases( _s: TStrings); override;
+  //Liste des schémas
+  public
+    procedure GetSchemaNames( _List:TStrings);
   end;
 
 const
@@ -216,7 +228,7 @@ end;
 
 procedure TPostgres.Prepare;
 begin
-		   inherited Prepare;
+     inherited Prepare;
      Database_indefinie:= DataBase = sys_Vide;
      if Database_indefinie
      then
@@ -262,6 +274,11 @@ begin
      inherited Do_not_Keep_Connection;
 end;
 
+procedure TPostgres.Fill_with_databases(_s: TStrings);
+begin
+     Contexte.Fill_with_databases(_s);
+end;
+
 procedure TPostgres.Set_Schema( _SchemaName: String= '');
 begin
      if '' <> _SchemaName
@@ -270,6 +287,11 @@ begin
      DoCommande( 'set search_path to '+SchemaName);
                 //123456789012345678901234567890123456789012345678901234567890123456789
                 //         1         2         3         4         5         6
+end;
+
+procedure TPostgres.GetSchemaNames(_List: TStrings);
+begin
+     jsdc.GetSchemaNames( _List);
 end;
 
 function TPostgres.Last_Insert_id( _NomTable: String): Integer;
@@ -326,6 +348,50 @@ begin
        +' schemaname = '''+jsDataConnexion_Postgres.SchemaName+''''#13#10;
 
      Liste_Champ( SQL, 'tablename', _List);
+     AddViewNames( _List);
+end;
+
+procedure TjsDataContexte_Postgres.AddViewNames(_List: TStrings);
+var
+   SQL: String;
+   sl: TStringList;
+begin
+     SQL
+     :=
+        'SELECT                   '#13#10
+       +'      viewname           '#13#10
+       +'FROM                     '#13#10
+       +'    pg_catalog.pg_views  '#13#10
+       +'WHERE                    '#13#10
+       +' schemaname = '''+jsDataConnexion_Postgres.SchemaName+''''#13#10;
+
+     sl:= TStringList.Create;
+     try
+        Liste_Champ( SQL, 'viewname', sl);
+        _List.AddStrings( sl);
+     finally
+            Free_nil( sl);
+            end;
+end;
+
+
+procedure TjsDataContexte_Postgres.Fill_with_databases(_s: TStrings);
+var
+   SQL: String;
+begin
+     SQL
+     :=
+        'SELECT                   '#13#10
+       +'      datname            '#13#10
+       +'FROM                     '#13#10
+       +'    pg_database          '#13#10;
+
+     Liste_Champ( SQL, 'datname', _s);
+end;
+
+procedure TjsDataContexte_Postgres.GetSchemaNames(_List: TStrings);
+begin
+     jsDataConnexion_Postgres.sqlc_p.GetSchemaNames( _List);
 end;
 
 

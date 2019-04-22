@@ -9,7 +9,8 @@ uses
  Interfaces, // this includes the LCL widgetset
  Forms, virtualtreeview_package, synafpc, ufGenerateur, ufAutomatic_VST,
  ublAutomatic, uRequete, upoolG_CTX, uhVST, ufAccueil, uContexteClasse,
- uApplicationJoinPointFile, uJoinPoint, ujpFile,
+ uApplicationJoinPointFile, ublPostgres_Foreign_Key, uhfPostgres_Foreign_Key,
+ upoolPostgres_Foreign_Key, uJoinPoint, ujpFile,
  ujpAngular_TypeScript_NomFichierElement,
  ujpAngular_TypeScript_NomClasseElement,
  ujpAngular_TypeScript_declaration_champs,

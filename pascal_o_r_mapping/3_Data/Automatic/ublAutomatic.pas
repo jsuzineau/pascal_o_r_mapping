@@ -29,6 +29,7 @@ uses
     u_sys_,
     uBatpro_StringList,
     uEXE_INI,
+    uSGBD,
     ujsDataContexte,
     uChampDefinition,
     uChamp,
@@ -38,6 +39,9 @@ uses
 
     uBatpro_Element,
     uBatpro_Ligne,
+    ublPostgres_Foreign_Key,
+
+    upoolPostgres_Foreign_Key,
 
     //Code generation
     uTemplateHandler,
@@ -355,6 +359,9 @@ type
   public
     procedure Application_Produit;
     procedure Application_Destroy;
+  //Alimentation des Parametres d'aprés les contraintes PostgreSQL
+  public
+    procedure Parametres_from_Postgres_Foreign_Key( _slNomTables: TStringList);
   end;
 
 function Generateur_de_code: TGenerateur_de_code;
@@ -1189,6 +1196,79 @@ begin
      FreeAndNil( csMenuHandler                        );
      FreeAndNil( Angular_TypeScript_ApplicationHandler);
      slApplicationTemplateHandler.Vide;
+end;
+
+procedure TGenerateur_de_code.Parametres_from_Postgres_Foreign_Key( _slNomTables: TStringList);
+var
+   slDetails     : TStringList;
+   slAggregations: TStringList;
+   sl            : TslPostgres_Foreign_Key;
+
+   nfDetails     : String;
+
+   I: Integer;
+   NomTable: String;
+
+   procedure Postgres;
+   var
+      iPFK: TIterateur_Postgres_Foreign_Key;
+      bl: TblPostgres_Foreign_Key;
+      Detail_Nom, Detail_Type: String;
+      nfAggregations: String;
+      Aggregation_Nom, Aggregation_Type: String;
+   begin
+        iPFK:= sl.Iterateur;
+        while iPFK.Continuer
+        do
+          begin
+          if iPFK.not_Suivant( bl) then continue;
+
+          Detail_Nom := bl.FOREIGN_KEY;
+          Detail_Type:= bl.Reference_Table;
+          slDetails.Values[Detail_Nom]:= Detail_Type;
+
+          nfAggregations:= sRepertoireParametres+bl.Reference_Table+'.Aggregations.txt';
+          if FileExists( nfAggregations)
+          then
+              slAggregations.LoadFromFile( nfAggregations)
+          else
+              slAggregations.Clear;
+
+          Aggregation_Nom := NomTable+'_'+bl.FOREIGN_KEY;
+          Aggregation_Type:= NomTable;
+          slAggregations.Values[Aggregation_Nom]:= Aggregation_Type;
+
+          slAggregations.SaveToFile( nfAggregations);
+          end;
+   end;
+begin
+     if not sgbdPOSTGRES then exit;
+
+     slDetails     := TStringList            .Create;
+     slAggregations:= TStringList            .Create;
+     sl            := TslPostgres_Foreign_Key.Create( ClassName+'.Parametres_from_Postgres_Foreign_Key::sl');
+     try
+        for I:= 0 to _slNomTables.Count -1
+        do
+          begin
+          NomTable:= _slNomTables[I];
+          nfDetails:= sRepertoireParametres+NomTable+'.Details.txt';
+          if FileExists( nfDetails)
+          then
+              slDetails.LoadFromFile( nfDetails)
+          else
+              slDetails.Clear;
+
+          poolPostgres_Foreign_Key.Charge_Table( NomTable, sl);
+          Postgres;
+          slDetails.SaveToFile( nfDetails);
+          end;
+     finally
+            FreeAndNil( slDetails);
+            FreeAndNil( slAggregations);
+            Free_nil( sl);
+            end;
+
 end;
 
 procedure TGenerateur_de_code.Initialise(_a: array of TJoinPoint);

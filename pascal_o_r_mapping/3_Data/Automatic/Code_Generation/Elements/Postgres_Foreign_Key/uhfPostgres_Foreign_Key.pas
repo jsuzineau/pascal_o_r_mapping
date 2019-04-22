@@ -1,4 +1,4 @@
-unit ufcbNom_de_la_classe;
+unit uhfPostgres_Foreign_Key;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
@@ -23,58 +23,15 @@ unit ufcbNom_de_la_classe;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, DB, StdCtrls, Buttons, ExtCtrls, Grids, DBGrids,
-  ufcbBase;
+    SysUtils, Classes, DB,
+    uhFiltre;
 
 type
- TfcbNom_de_la_classe
+ ThfPostgres_Foreign_Key
  =
-  class(TfcbBase)
-  private
-    { Déclarations privées }
-  public
-    { Déclarations publiques }
+  class( ThFiltre)
   end;
-
-function fcbNom_de_la_classe: TfcbNom_de_la_classe;
-
-function DerouleNom_de_la_classe( E: TObject; Resultat: TIntegerField):Boolean;
 
 implementation
 
-uses
-    uClean,
-    upoolNom_de_la_classe,
-    ufNom_de_la_classe;
-
-{$R *.dfm}
-
-var
-   FfcbNom_de_la_classe: TfcbNom_de_la_classe;
-
-function fcbNom_de_la_classe: TfcbNom_de_la_classe;
-begin
-     Clean_Get( Result, FfcbNom_de_la_classe, TfcbNom_de_la_classe);
-end;
-
-var
-   FiltreNom_de_la_classe: String = '';
-
-function DerouleNom_de_la_classe(E: TObject; Resultat: TIntegerField): Boolean;
-begin
-     fcbNom_de_la_classe.eFiltre.Text:= FiltreNom_de_la_classe;
-//     Result
-//     :=
-//       fcbNom_de_la_classe.DerouleListe( E, dmaNom_de_la_classe.ds, fNom_de_la_classe.Execute,
-//                                 Resultat, dmaNom_de_la_classe.qNumero);
-     FiltreNom_de_la_classe:= fcbNom_de_la_classe.eFiltre.Text;
-     Result:= False;
-end;
-
-
-initialization
-              Clean_Create ( FfcbNom_de_la_classe, TfcbNom_de_la_classe);
-finalization
-              Clean_Destroy( FfcbNom_de_la_classe);
 end.

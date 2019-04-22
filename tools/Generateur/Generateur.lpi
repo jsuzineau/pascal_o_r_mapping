@@ -25,7 +25,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="..\..\Generation_de_code;..\..\pascal_o_r_mapping\3_Data\Automatic;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\File_Handler;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\00_General;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\01_SQL;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\02_Pascal;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\03_CSharp;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\04_PHP_Doctrine;..\..\pascal_o_r_mapping\7_sources_externes\synapse\source\lib;..\..\pascal_o_r_mapping\6_Formes;..\..\pascal_o_r_mapping\3_Data;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\05_Angular_TypeScript;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\File_Handler\05_Angular_TypeScript"/>
+            <OtherUnitFiles Value="..\..\Generation_de_code;..\..\pascal_o_r_mapping\3_Data\Automatic;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\File_Handler;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\00_General;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\01_SQL;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\02_Pascal;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\03_CSharp;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\04_PHP_Doctrine;..\..\pascal_o_r_mapping\7_sources_externes\synapse\source\lib;..\..\pascal_o_r_mapping\6_Formes;..\..\pascal_o_r_mapping\3_Data;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\05_Angular_TypeScript;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\File_Handler\05_Angular_TypeScript;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\Elements\Postgres_Foreign_Key"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -81,7 +81,7 @@
         <PackageName Value="LCL"/>
       </Item4>
     </RequiredPackages>
-    <Units Count="26">
+    <Units Count="29">
       <Unit0>
         <Filename Value="Generateur.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -197,17 +197,29 @@
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\uApplicationJoinPointFile.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit25>
+      <Unit26>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\Elements\Postgres_Foreign_Key\ublPostgres_Foreign_Key.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\Elements\Postgres_Foreign_Key\uhfPostgres_Foreign_Key.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\Elements\Postgres_Foreign_Key\upoolPostgres_Foreign_Key.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit28>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="..\..\jsWorks\Generateur"/>
+      <Filename Value="E:\01_Projets\16_ibat\00_local\Generateur\Generateur"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\..\Generation_de_code;..\..\pascal_o_r_mapping\3_Data\Automatic;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\File_Handler;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\00_General;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\01_SQL;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\02_Pascal;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\03_CSharp;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\04_PHP_Doctrine;..\..\pascal_o_r_mapping\7_sources_externes\synapse\source\lib;..\..\pascal_o_r_mapping\6_Formes;..\..\pascal_o_r_mapping\3_Data;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\05_Angular_TypeScript;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\File_Handler\05_Angular_TypeScript"/>
+      <OtherUnitFiles Value="..\..\Generation_de_code;..\..\pascal_o_r_mapping\3_Data\Automatic;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\File_Handler;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\00_General;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\01_SQL;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\02_Pascal;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\03_CSharp;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\04_PHP_Doctrine;..\..\pascal_o_r_mapping\7_sources_externes\synapse\source\lib;..\..\pascal_o_r_mapping\6_Formes;..\..\pascal_o_r_mapping\3_Data;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\JoinPoint\05_Angular_TypeScript;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\File_Handler\05_Angular_TypeScript;..\..\pascal_o_r_mapping\3_Data\Automatic\Code_Generation\Elements\Postgres_Foreign_Key"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

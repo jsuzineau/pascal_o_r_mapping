@@ -41,6 +41,7 @@ uses
     uhFiltre_Ancetre,
     uRequete,
 
+    uPostgres,
     udmDatabase,
 
     uBatpro_Ligne,
@@ -66,13 +67,20 @@ type
     bGenere: TButton;
     bGenere_Tout: TButton;
     bSaveSQL: TButton;
+    bGenereFromQueryFile: TButton;
+    bod: TButton;
     cbDatabases: TComboBox;
+    cbSchemas: TComboBox;
     e: TEdit;
+    eQueryFileName: TEdit;
+    od: TOpenDialog;
     Panel1: TPanel;
     vst: TVirtualStringTree;
     procedure bExecuteClick(Sender: TObject);
     procedure bGenereClick(Sender: TObject);
+    procedure bGenereFromQueryFileClick(Sender: TObject);
     procedure bGenere_ToutClick(Sender: TObject);
+    procedure bodClick(Sender: TObject);
     procedure bSaveSQLClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -89,6 +97,7 @@ type
   //clé ini pour enregistrer le sql
   private
     inik_SQL: String;
+    inik_QueryFileName: String;
   end;
 
 function fAutomatic_VST: TfAutomatic_VST;
@@ -115,8 +124,20 @@ begin
 
      dmDatabase.jsDataConnexion.Fill_with_databases( cbDatabases.Items);
      cbDatabases.Text:= dmDatabase.jsDataConnexion.DataBase;
+
+     cbSchemas.Visible:= sgbdPOSTGRES;
+     if cbSchemas.Visible
+     then
+         begin
+         (dmDatabase.jsDataConnexion as TPostgres).GetSchemaNames( cbSchemas.Items);
+         cbSchemas.Text:= (dmDatabase.jsDataConnexion as TPostgres).SchemaName;
+         end;
+
      inik_SQL:= ClassName+'.e.Text';
      e.Text:= EXE_INI.ReadString( inis_Options, inik_SQL, '');
+
+     inik_QueryFileName:= ClassName+'.QueryFileName';
+     eQueryFileName.Text:= EXE_INI.ReadString( inis_Options, inik_QueryFileName, '');
 end;
 
 procedure TfAutomatic_VST.bSaveSQLClick(Sender: TObject);
@@ -138,6 +159,9 @@ begin
      Old_Database:= dmDatabase.jsDataConnexion.DataBase;
      try
         dmDatabase.jsDataConnexion.DataBase:= cbDatabases.Text;
+        if sgbdPOSTGRES
+        then
+            (dmDatabase.jsDataConnexion as TPostgres).Set_Schema( cbSchemas.Text);
         Execute_SQL;
      finally
             dmDatabase.jsDataConnexion.DataBase:= Old_Database;
@@ -203,12 +227,17 @@ begin
      dmDatabase.jsDataConnexion.Ferme_db;
      Old_Database:= dmDatabase.jsDataConnexion.DataBase;
      try
+        dmDatabase.jsDataConnexion.Ferme_db;
         dmDatabase.jsDataConnexion.DataBase:= cbDatabases.Text;
+        if sgbdPOSTGRES
+        then
+            (dmDatabase.jsDataConnexion as TPostgres).Set_Schema( cbSchemas.Text);
         try
            sl:= TStringList.Create;
            Requete.GetTableNames( sl);
            fAutomatic_Genere_tout_sl.Execute( sl);
            try
+              Generateur_de_code.Parametres_from_Postgres_Foreign_Key( sl);
               for I:= 0 to sl.Count -1
               do
                 begin
@@ -239,6 +268,35 @@ begin
      sChrono:= Chrono.Get_Liste;
      Log.PrintLn( sChrono);
      ShowMessage( sChrono);
+end;
+
+procedure TfAutomatic_VST.bodClick(Sender: TObject);
+begin
+     od.FileName:= eQueryFileName.Text;
+     if od.Execute
+     then
+         eQueryFileName.Text:= od.FileName;
+end;
+
+procedure TfAutomatic_VST.bGenereFromQueryFileClick(Sender: TObject);
+var
+   FileName: String;
+   SQL: String;
+   NomTable: String;
+begin
+     FileName:= eQueryFileName.Text;
+     eQueryFileName.Text:= FileName;
+     EXE_INI.WriteString( inis_Options, inik_QueryFileName, FileName);
+     NomTable:= ChangeFileExt( ExtractFileName( FileName), '');
+     SQL:= String_from_File( FileName);
+     poolAutomatic.Charge( SQL, sl);
+     hVST._from_sl;
+     try
+        Genere( NomTable);
+        Generateur_de_code.Application_Produit;
+     finally
+            Generateur_de_code.Application_Destroy;
+            end;
 end;
 
 initialization

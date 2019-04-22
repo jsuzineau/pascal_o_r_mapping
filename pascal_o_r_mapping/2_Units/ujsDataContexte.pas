@@ -31,8 +31,8 @@ type
      destructor Destroy; override;
    //SGBD
    private
-	    FSGBD: TSGBD;
-	    FsSGBD: String;
+    FSGBD: TSGBD;
+    FsSGBD: String;
    public
      property SGBD: TSGBD   read FSGBD;
      property sSGBD: String read FsSGBD;
@@ -44,20 +44,19 @@ type
      property HostName: String read FHostName write SetHostName;
    //User_Name
    public
-	    User_Name: String;
+     User_Name: String;
    //Password
    public
-	    Password : String;
+     Password : String;
    //Database
    public
      DataBase : String;
    //Attributs
    public
-
      Database_indefinie: Boolean;
-	    Ouvrable: Boolean;
+     Ouvrable: Boolean;
      Ouvert: Boolean;
-	    procedure Prepare; virtual;
+     procedure Prepare; virtual;
      procedure Ouvre_db; virtual;
      procedure Ferme_db; virtual;
      procedure Keep_Connection; virtual;
@@ -298,6 +297,9 @@ type
    //Liste des tables
    public
      procedure GetTableNames( _List:TStrings); virtual;
+   //Liste des bases de données
+   public
+     procedure Fill_with_databases( _s: TStrings); virtual;
    //Liste des schemas
    public
      procedure GetSchemaNames( _List:TStrings);
@@ -555,7 +557,7 @@ end;
 
 procedure TjsDataConnexion_SQLQuery.Fill_with_databases(_s: TStrings);
 begin
-		   inherited Fill_with_databases(_s);
+     inherited Fill_with_databases(_s);
      if _s = nil then exit;
 
      if not sqlc.Connected
@@ -1595,6 +1597,11 @@ end;
 procedure TjsDataContexte.GetTableNames( _List: TStrings);
 begin
      Connection.GetTableNames( _List);
+end;
+
+procedure TjsDataContexte.Fill_with_databases(_s: TStrings);
+begin
+     Connection.Fill_with_databases( _s);
 end;
 
 procedure TjsDataContexte.GetSchemaNames( _List: TStrings);
