@@ -118,13 +118,13 @@
     </PublishOptions>
     <RunParams>
       <local>
-        <CommandLineParams Value="E:\temp\test\Session.ott"/>
+        <CommandLineParams Value="\home\jean\01_Projets\01_pascal_o_r_mapping\jsWorks\Session.ott"/>
       </local>
       <FormatVersion Value="2"/>
       <Modes Count="1">
         <Mode0 Name="default">
           <local>
-            <CommandLineParams Value="E:\temp\test\Session.ott"/>
+            <CommandLineParams Value="\home\jean\01_Projets\01_pascal_o_r_mapping\jsWorks\Session.ott"/>
           </local>
         </Mode0>
       </Modes>

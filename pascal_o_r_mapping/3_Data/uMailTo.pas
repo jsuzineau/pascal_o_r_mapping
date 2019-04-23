@@ -39,7 +39,7 @@ uses
     udmDatabase,
 
     ufAccueil_Erreur,
-  {$IFDEF WINDOWS_GRAPHIC}
+  {$IFNDEF FPC}
      Forms, COMObj,
   {$ENDIF}
   mimemess,mimepart,smtpsend,synautil,

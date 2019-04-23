@@ -155,7 +155,7 @@
       <Unit14>
         <Filename Value="..\..\OOo\uOD_Table_Batpro.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="24"/>
+        <EditorIndex Value="22"/>
         <CursorPos X="12" Y="32"/>
         <UsageCount Value="173"/>
         <Loaded Value="True"/>
@@ -621,10 +621,9 @@
       </Unit69>
       <Unit70>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uOpenDocument.pas"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="14"/>
         <TopLine Value="1543"/>
-        <CursorPos X="35" Y="1556"/>
+        <CursorPos X="81" Y="1557"/>
         <UsageCount Value="57"/>
         <Bookmarks Count="3">
           <Item0 Y="1171" ID="3"/>
@@ -663,7 +662,7 @@
       </Unit73>
       <Unit74>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uOD_Batpro_Table.pas"/>
-        <EditorIndex Value="25"/>
+        <EditorIndex Value="23"/>
         <UsageCount Value="45"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -779,7 +778,7 @@
       </Unit87>
       <Unit88>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uOD_Niveau.pas"/>
-        <EditorIndex Value="18"/>
+        <EditorIndex Value="16"/>
         <TopLine Value="323"/>
         <CursorPos X="86" Y="347"/>
         <UsageCount Value="40"/>
@@ -788,7 +787,7 @@
       </Unit88>
       <Unit89>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uOD_TextTableManager.pas"/>
-        <EditorIndex Value="23"/>
+        <EditorIndex Value="21"/>
         <TopLine Value="1038"/>
         <CursorPos X="56" Y="1072"/>
         <UsageCount Value="40"/>
@@ -820,7 +819,7 @@
       </Unit92>
       <Unit93>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uOD_Champ.pas"/>
-        <EditorIndex Value="22"/>
+        <EditorIndex Value="20"/>
         <TopLine Value="81"/>
         <CursorPos Y="119"/>
         <UsageCount Value="40"/>
@@ -871,7 +870,7 @@
       </Unit98>
       <Unit99>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uOD_JCL.pas"/>
-        <EditorIndex Value="17"/>
+        <EditorIndex Value="15"/>
         <TopLine Value="113"/>
         <CursorPos Y="137"/>
         <UsageCount Value="28"/>
@@ -883,9 +882,10 @@
       </Unit99>
       <Unit100>
         <Filename Value="..\..\OOo\uOD.pas"/>
-        <EditorIndex Value="21"/>
-        <TopLine Value="864"/>
-        <CursorPos X="27" Y="870"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="19"/>
+        <TopLine Value="62"/>
+        <CursorPos Y="79"/>
         <UsageCount Value="12"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -1040,16 +1040,16 @@
       </Unit118>
       <Unit119>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uMailTo.pas"/>
-        <EditorIndex Value="19"/>
-        <TopLine Value="480"/>
-        <CursorPos X="22" Y="494"/>
+        <EditorIndex Value="17"/>
+        <TopLine Value="25"/>
+        <CursorPos X="15" Y="42"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit119>
       <Unit120>
         <Filename Value="..\..\pascal_o_r_mapping\3_Data\uPool.pas"/>
-        <EditorIndex Value="20"/>
+        <EditorIndex Value="18"/>
         <TopLine Value="599"/>
         <CursorPos X="57" Y="599"/>
         <UsageCount Value="11"/>
@@ -1058,18 +1058,16 @@
       </Unit120>
       <Unit121>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\paszlib\src\zipper.pp"/>
-        <EditorIndex Value="15"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="360"/>
         <CursorPos X="14" Y="372"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit121>
       <Unit122>
         <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\paszlib\src\zstream.pp"/>
-        <EditorIndex Value="16"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="6"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit122>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
@@ -1173,24 +1171,24 @@
         <Caret Line="1556" Column="35" TopLine="1542"/>
       </Position25>
       <Position26>
-        <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\paszlib\src\zipper.pp"/>
-        <Caret Line="372" Column="14" TopLine="360"/>
+        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uOpenDocument.pas"/>
+        <Caret Line="1569" Column="88" TopLine="1550"/>
       </Position26>
       <Position27>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uOpenDocument.pas"/>
-        <Caret Line="1569" Column="88" TopLine="1550"/>
+        <Caret Line="1556" Column="35" TopLine="1542"/>
       </Position27>
       <Position28>
-        <Filename Value="C:\lazarus\fpc\3.0.4\source\packages\paszlib\src\zstream.pp"/>
-        <Caret Line="32" Column="17" TopLine="18"/>
+        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uOpenDocument.pas"/>
+        <Caret Line="46" Column="52" TopLine="25"/>
       </Position28>
       <Position29>
         <Filename Value="..\..\pascal_o_r_mapping\2_Units\uOpenDocument.pas"/>
-        <Caret Line="1556" Column="35" TopLine="1542"/>
+        <Caret Line="1557" Column="81" TopLine="1543"/>
       </Position29>
       <Position30>
-        <Filename Value="..\..\pascal_o_r_mapping\2_Units\uOpenDocument.pas"/>
-        <Caret Line="46" Column="52" TopLine="25"/>
+        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uMailTo.pas"/>
+        <Caret Line="42" Column="15" TopLine="25"/>
       </Position30>
     </JumpHistory>
     <RunParams>

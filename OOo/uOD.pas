@@ -76,7 +76,7 @@ uses
   {$IFDEF LINUX}
   baseunix,
   {$ENDIF}
-  {$IFDEF WINDOWS_GRAPHIC}
+  {$IFNDEF FPC}
   Menus, Variants, ComObj,
   {$ENDIF}
   SysUtils, Classes, DB, Types, Process;
