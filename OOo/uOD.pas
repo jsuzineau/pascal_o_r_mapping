@@ -32,7 +32,7 @@ uses
     uForms,
     uEXE_INI,
     uPublieur,
-    {$IFDEF WINDOWS_GRAPHIC}
+    {$IFNDEF FPC}
     uUNO_DeskTop,
     uUNO_PropertyValue,
     {$ENDIF}
@@ -63,7 +63,7 @@ uses
     {$IFDEF FPC}
     blcksock, sockets, Synautil, FileUtil,
     {$ENDIF}
-    {$IFDEF WINDOWS_GRAPHIC}
+    {$IFNDEF FPC}
     ufMailTo,
     ufMEL,
     {$ENDIF}
@@ -802,7 +802,7 @@ begin
      NomfichierPDF:= Format_Sortie_from_( _Document);
      SendMail_Add_Attachment( NomfichierPDF);
 
-     {$IFDEF WINDOWS_GRAPHIC}
+     {$IFNDEF FPC}
      if SendMail_G_MEL_fonction <> ''
      then
          fMEL.Execute( SendMail_G_MEL_fonction,
@@ -871,7 +871,7 @@ begin
 end;
 
 function TOD.PDF_from_(_Nom_ODT: String): String;
-{$IFDEF WINDOWS_GRAPHIC}
+{$IFNDEF FPC}
 begin
      Result:= UNO_DeskTop.Save_as_PDF( _Nom_ODT);
 end;

@@ -491,7 +491,7 @@ if uMailTo_utiliser_SMTP
          Result:= MailTo_Outlook( _From, _To, _Subject, _Body, _PiecesJointes);
          {$ENDIF}
 *)
-         {$IFDEF WINDOWS_GRAPHIC}
+         {$IFNDEF FPC}
          //2015/04/13
          Result:= MailTo_Outlook( _From, _To, _Subject, _Body, _PiecesJointes);
          {$ELSE}

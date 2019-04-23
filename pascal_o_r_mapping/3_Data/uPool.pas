@@ -596,7 +596,7 @@ type
     Load_by_id_TrierslLoaded: Boolean;
   public
     procedure Get_Interne_from_id( _id: Integer; var bl);
-    procedure Get_Interne_from_SQLid( _SQL: String; var bl; _fID: String= 'id');
+    procedure Get_Interne_from_SQLid( _SQL: String; out bl; _fID: String= 'id');
     procedure Load_by_id( Dataset: TDataset; fID: TField;
                           slLoaded : TBatpro_StringList = nil;
                           btsLoaded: TbtString          = nil); overload;
