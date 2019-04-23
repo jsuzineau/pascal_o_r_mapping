@@ -159,7 +159,7 @@ end;
 
 constructor TblOD_Affectation.Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre);
 begin
-     inherited Create(_sl, _q, _pool);
+     inherited Create(_sl, _jsdc, _pool);
      DCs_set:= nil;
 
      NomChamp:= '';

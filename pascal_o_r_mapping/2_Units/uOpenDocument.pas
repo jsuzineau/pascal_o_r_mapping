@@ -416,6 +416,8 @@ type
     xmlStyles           : TXMLDocument;
     function CheminFichier_temporaire( _NomFichier: String): String;
   //Méthodes d'accés au XML
+  private
+    Get_xmlContent_USER_FIELD_DECLS_Premier: Boolean;
   public
     //Text
     function Get_xmlContent_TEXT: TDOMNode;
@@ -1425,6 +1427,7 @@ var
           or('.ODS' = Ext);
    end;
 begin
+     Get_xmlContent_USER_FIELD_DECLS_Premier:= True;
      Automatic_style_paragraph_number:= 0;
      Automatic_style_text_number:= 0;
      pChange:= TPublieur.Create( Classname+'.pChange');
@@ -1706,9 +1709,27 @@ end;
 
 function TOpenDocument.Get_xmlContent_USER_FIELD_DECLS: TDOMNode;
 const
-     USER_FIELD_DECLS_path='office:body/office:text/text:user-field-decls';
+     OFFICE_TEXT_path='office:body/office:text';
+     USER_FIELD_DECLS_path=OFFICE_TEXT_path+'/text:user-field-decls';
+     procedure Verifie_Position;
+     var
+        eOFFICE_TEXT: TDOMNode;
+        eOFFICE_TEXT_first_child: TDOMNode;
+     begin
+          Get_xmlContent_USER_FIELD_DECLS_Premier:= False;
+
+          eOFFICE_TEXT:= Assure_path( xmlContent.DocumentElement, OFFICE_TEXT_path);
+          eOFFICE_TEXT_first_child:= eOFFICE_TEXT.FirstChild;
+
+          if Result = eOFFICE_TEXT_first_child then exit;
+
+          eOFFICE_TEXT.InsertBefore( Result, eOFFICE_TEXT_first_child);
+     end;
 begin
      Result:= Assure_path( xmlContent.DocumentElement, USER_FIELD_DECLS_path);
+     if Get_xmlContent_USER_FIELD_DECLS_Premier
+     then
+         Verifie_Position;
 end;
 
 function TOpenDocument.Get_xmlContent_AUTOMATIC_STYLES: TDOMNode;

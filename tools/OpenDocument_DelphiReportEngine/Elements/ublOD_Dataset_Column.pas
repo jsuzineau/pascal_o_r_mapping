@@ -146,7 +146,7 @@ end;
 
 constructor TblOD_Dataset_Column.Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre);
 begin
-     inherited Create(_sl, _q, _pool);
+     inherited Create(_sl, _jsdc, _pool);
 end;
 
 destructor TblOD_Dataset_Column.Destroy;
