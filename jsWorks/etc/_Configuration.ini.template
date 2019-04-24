@@ -12,17 +12,9 @@ Choisir le SGBD en se basant sur le nom de l'exécutable=0
 =#     );
 SGBD=4
 
-[MySQL_]
-HostName=FIRST-BOSS
-DataBase=jsWorks
-User_Name=ODBC
-Password=
-Version=51
-
 [MySQL]
 HostName=localhost
 DataBase=jsWorks
-;DataBase=a
 User_Name=root
 Password=
 Version=55
@@ -32,17 +24,6 @@ HostName=ORDINA
 DataBase=jsWorks
 User_Name=jean
 Password=PKTCEH
-
-<<<<<<< HEAD:jsWorks/etc/_Configuration.ini
-[SQLite3__]
-DataBase=C:\_freepascal\pascal_o_r_mapping\base_SQLite3\jsWorks.sqlite
-=======
-[SQLite3]
-DataBase=C:\_freepascal\jsWorks.sqlite
->>>>>>> 3a1098f1b197cfc08175220e281c855519dbf241:jsWorks/etc/_Configuration.ini.template
-
-[SQLite3_]
-DataBase=/home/jean/pascal_o_r_mapping/pascal_o_r_mapping/base_SQLite3/jsWorks.sqlite
 
 [SQLite3]
 DataBase=/home/jean/pascal_o_r_mapping/jsWorks.sqlite

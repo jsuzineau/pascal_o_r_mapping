@@ -23,9 +23,9 @@ program jsWorks;
 {$mode objfpc}{$H+}
 
 uses
- {$IFDEF UNIX}{$IFDEF UseCThreads}
+ {$IFDEF UNIX}
  cthreads,
- {$ENDIF}{$ENDIF}
+ {$ENDIF}
  Interfaces, // this includes the LCL widgetset
  Forms,
  datetimectrls,
@@ -36,6 +36,7 @@ uses
  uhfG_CTX, uhfG_CTXTYPE, upoolG_BECP, upoolG_BECPCTX, upoolG_CTX,
  upoolG_CTXTYPE, ublAutomatic, uJoinPoint,
  ujpAngular_TypeScript_declaration_champs, uGenerateur_de_code_Ancetre,
+ upoolPostgres_Foreign_Key, uhfPostgres_Foreign_Key, ublPostgres_Foreign_Key,
  uAngular_TypeScript_ApplicationHandler, ujpCSharp_Conteneurs,
  ujpCSharp_Contenus, ujpCSharp_DocksDetails, ujpCSharp_DocksDetails_Affiche,
  ujpCSharp_Champs_persistants, ujpCSharp_Chargement_Conteneurs,
