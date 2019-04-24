@@ -16,12 +16,9 @@
       </Parsing>
       <Other>
         <CustomOptions Value="-dWINDOWS_GRAPHIC"/>
-        <ExecuteBefore>
-          <Command Value="/bin/bash $PkgDir(OD_DelphiReportEngine_Units)/CSS_Style_Parser/build.sh"/>
-        </ExecuteBefore>
       </Other>
     </CompilerOptions>
-    <Files Count="89">
+    <Files Count="90">
       <Item1>
         <Filename Value="DBTables.pas"/>
         <UnitName Value="DBTables"/>
@@ -378,6 +375,10 @@
         <Filename Value="xmlwrite_sans_sauts_de_ligne.pas"/>
         <UnitName Value="XMLWrite_sans_sauts_de_ligne"/>
       </Item89>
+      <Item90>
+        <Filename Value="uMimeType.pas"/>
+        <UnitName Value="uMimeType"/>
+      </Item90>
     </Files>
     <RequiredPkgs Count="3">
       <Item1>

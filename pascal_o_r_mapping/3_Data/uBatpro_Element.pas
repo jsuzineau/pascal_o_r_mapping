@@ -1079,8 +1079,8 @@ type
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: TBatpro_Element);
-    function  not_Suivant( var _Resultat: TBatpro_Element): Boolean;
+    procedure Suivant( out _Resultat: TBatpro_Element);
+    function  not_Suivant( out _Resultat: TBatpro_Element): Boolean;
   end;
 
  TslBatpro_Element
@@ -1112,6 +1112,7 @@ type
     procedure Send_CSS(_CSS: String);                          virtual;abstract;
     procedure Send_WOFF(_WOFF: String);                        virtual;abstract;
     procedure Send_WOFF2(_WOFF2: String);                      virtual;abstract;
+    procedure Send_ICO(_ICO: String);                          virtual;abstract;
     procedure Send_MIME_from_Extension(_S, _Extension: String);virtual;abstract;
     function MIME_from_Extension( _Extension: String): String; virtual;abstract;
     procedure Send_Not_found;                                  virtual;abstract;
@@ -1123,28 +1124,8 @@ type
     function Prefixe( _Prefixe: String): Boolean;              virtual;abstract;
   end;
 
- Tpool_Ancetre_Ancetre
- =
-  class( TDataModule)
-  //Gestion de la clé
-  public
-    procedure sCle_Change( _bl: TBatpro_element); virtual; 
-  //Suppression
-  public
-    procedure Supprimer( var bl); virtual; abstract;
-  //Nom de la table
-  protected
-    FNomTable: String;
-    procedure SetNomTable(const Value: String); virtual; abstract;
-    property NomTable: String read FNomTable write SetNomTable;
-  public
-    property NomTable_public: String read FNomTable;
-  //Gestion communication HTTP avec pages html Angular / JSON
-  public
-    function Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boolean; virtual; abstract;
-  end;
-
- TGet_pool_Ancetre_Ancetre= function : Tpool_Ancetre_Ancetre;
+ { Tpool_Ancetre_Ancetre }
+ Tpool_Ancetre_Ancetre= class;
 
  TIterateur_pool_Ancetre_Ancetre
  =
@@ -1170,6 +1151,28 @@ type
     function Iterateur_Decroissant: TIterateur_pool_Ancetre_Ancetre;
   end;
 
+ Tpool_Ancetre_Ancetre
+ =
+  class( TDataModule)
+  //Gestion de la clé
+  public
+    procedure sCle_Change( _bl: TBatpro_element); virtual; 
+  //Suppression
+  public
+    procedure Supprimer( var bl); virtual; abstract;
+  //Nom de la table
+  protected
+    FNomTable: String;
+    procedure SetNomTable(const Value: String); virtual; abstract;
+    property NomTable: String read FNomTable write SetNomTable;
+  public
+    property NomTable_public: String read FNomTable;
+  //Gestion communication HTTP avec pages html Angular / JSON
+  public
+    function Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boolean; virtual; abstract;
+  end;
+
+ TGet_pool_Ancetre_Ancetre= function : Tpool_Ancetre_Ancetre;
  Tfunction_pool_Ancetre_Ancetre= function : Tpool_Ancetre_Ancetre;
 
  ThAggregation= class;
@@ -3197,12 +3200,12 @@ end;
 
 { TIterateur_Batpro_Element }
 
-function TIterateur_Batpro_Element.not_Suivant( var _Resultat: TBatpro_Element): Boolean;
+function TIterateur_Batpro_Element.not_Suivant( out _Resultat: TBatpro_Element): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_Batpro_Element.Suivant( var _Resultat: TBatpro_Element);
+procedure TIterateur_Batpro_Element.Suivant( out _Resultat: TBatpro_Element);
 begin
      Suivant_interne( _Resultat);
 end;

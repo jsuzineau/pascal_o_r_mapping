@@ -27,6 +27,7 @@ interface
 
 uses
     uLog,
+    uMimeType,
     uCSS_Style_Parser_PYACC,
     uDimensions_Image,
     uPublieur,
@@ -42,8 +43,8 @@ uses
   {$IFDEF LINUX}
   clocale,
   {$ENDIF}
-  SysUtils, Classes, XMLRead, DOM,Zipper, Math, FileUtil,
-  SAX_HTML, DOM_HTML;
+  SysUtils, Classes, XMLRead, DOM,Zipper, zstream, Math, FileUtil,
+  SAX_HTML, DOM_HTML,httpsend,base64;
 
 type
  TOD_Root_Styles
@@ -415,6 +416,8 @@ type
     xmlStyles           : TXMLDocument;
     function CheminFichier_temporaire( _NomFichier: String): String;
   //Méthodes d'accés au XML
+  private
+    Get_xmlContent_USER_FIELD_DECLS_Premier: Boolean;
   public
     //Text
     function Get_xmlContent_TEXT: TDOMNode;
@@ -1424,6 +1427,7 @@ var
           or('.ODS' = Ext);
    end;
 begin
+     Get_xmlContent_USER_FIELD_DECLS_Premier:= True;
      Automatic_style_paragraph_number:= 0;
      Automatic_style_text_number:= 0;
      pChange:= TPublieur.Create( Classname+'.pChange');
@@ -1541,13 +1545,30 @@ var
       ZipDirPath,
       DiskFileName,
       ZipFileName: String;
+      procedure AjouteMIMETYPE;
+      var
+         zfe: TZipFileEntry;
+      begin
+           F.Name:= 'mimetype';
+           DiskFileName:= DiskDirPath+F.Name;
+           ZipFileName := ZipDirPath+F.Name;
+           zfe:= Zipper.Entries.AddFileEntry( DiskFileName, ZipFileName);
+           zfe.CompressionLevel:= clnone;
+      end;
    begin
         ZipDirPath:= _SousRepertoire;
         DiskDirPath:= IncludeTrailingPathDelimiter( Repertoire_Extraction)
                             +_SousRepertoire;
+        //Le fichier mimetype doit être ajouté en premier et non compressé
+        if ''=_SousRepertoire
+        then
+            AjouteMIMETYPE;
         if 0 = FindFirst( DiskDirPath+'*', faAnyFile, F)
         then
             repeat
+                  //Le fichier mimetype de la racine est ajouté séparément ci-dessus
+                  if (''=_SousRepertoire) and ('mimetype' = F.Name)then continue;
+
                   DiskFileName:= DiskDirPath+F.Name;
                   ZipFileName := ZipDirPath+F.Name;
                   if (F.Attr and faDirectory) = faDirectory
@@ -1705,9 +1726,34 @@ end;
 
 function TOpenDocument.Get_xmlContent_USER_FIELD_DECLS: TDOMNode;
 const
-     USER_FIELD_DECLS_path='office:body/office:text/text:user-field-decls';
+     OFFICE_TEXT_path='office:body/office:text';
+     USER_FIELD_DECLS_path=OFFICE_TEXT_path+'/text:user-field-decls';
+     SEQUENCE_DECLS_path=OFFICE_TEXT_path+'/text:sequence-decls';
+     procedure Verifie_Position;
+     var
+        eOFFICE_TEXT: TDOMNode;
+        eOFFICE_TEXT_first_child: TDOMNode;
+        eSEQUENCE_DECLS: TDOMNode;
+     begin
+          Get_xmlContent_USER_FIELD_DECLS_Premier:= False;
+
+          eOFFICE_TEXT:= Assure_path( xmlContent.DocumentElement, OFFICE_TEXT_path);
+          eOFFICE_TEXT_first_child:= eOFFICE_TEXT.FirstChild;
+
+          if Result = eOFFICE_TEXT_first_child then exit;
+
+          eOFFICE_TEXT.InsertBefore( Result, eOFFICE_TEXT_first_child);
+
+          eSEQUENCE_DECLS:= Elem_from_path( xmlContent.DocumentElement, SEQUENCE_DECLS_path);
+          if nil = eSEQUENCE_DECLS then exit;
+
+          eOFFICE_TEXT.InsertBefore( eSEQUENCE_DECLS, Result);
+     end;
 begin
      Result:= Assure_path( xmlContent.DocumentElement, USER_FIELD_DECLS_path);
+     if Get_xmlContent_USER_FIELD_DECLS_Premier
+     then
+         Verifie_Position;
 end;
 
 function TOpenDocument.Get_xmlContent_AUTOMATIC_STYLES: TDOMNode;
@@ -2906,6 +2952,53 @@ begin
      Ajoute_S;
 end;
 
+//Copié collé de http://wiki.freepascal.org/Synapse#Downloading_files
+function DownloadHTTP(URL, TargetFile: string): Boolean;
+// Download file; retry if necessary.
+// Could use Synapse HttpGetBinary, but that doesn't deal
+// with result codes (i.e. it happily downloads a 404 error document)
+const
+  MaxRetries = 3;
+var
+  HTTPGetResult: Boolean;
+  HTTPSender: THTTPSend;
+  RetryAttempt: Integer;
+begin
+  Result := False;
+  RetryAttempt := 1;
+  HTTPSender := THTTPSend.Create;
+  try
+    try
+      // Try to get the file
+      HTTPGetResult := HTTPSender.HTTPMethod('GET', URL);
+      while (HTTPGetResult = False) and (RetryAttempt < MaxRetries) do
+      begin
+        Sleep(500 * RetryAttempt);
+        HTTPSender.Clear;
+        HTTPGetResult := HTTPSender.HTTPMethod('GET', URL);
+        RetryAttempt := RetryAttempt + 1;
+      end;
+      // If we have an answer from the server, check if the file
+      // was sent to us.
+      case HTTPSender.Resultcode of
+        100..299:
+          begin
+            HTTPSender.Document.SaveToFile(TargetFile);
+            Result := True;
+          end; //informational, success
+        300..399: Result := False; // redirection. Not implemented, but could be.
+        400..499: Result := False; // client error; 404 not found etc
+        500..599: Result := False; // internal server error
+        else Result := False; // unknown code
+      end;
+    except
+      // We don't care for the reason for this error; the download failed.
+      Result := False;
+    end;
+  finally
+    HTTPSender.Free;
+  end;
+end;
 procedure TOpenDocument.AddHtml( _e: TDOMNode; _Value: String; _Gras: Boolean= False);
 var
    html: THTMLDocument;
@@ -3128,6 +3221,72 @@ var
                   FreeAndNil( span);
                   end;
       end;
+      procedure Traite_img;
+      var
+         src: String;
+         NomFichierImage: String;
+         Frame: TOD_FRAME;
+         Image: TOD_IMAGE;
+         procedure Traite_http;
+         begin
+              //<img alt="Menu creation order.png" src="http://wiki.lazarus.freepascal.org/images/6/69/Menu_creation_order.png" width="610" height="253">
+              NomFichierImage:= OD_Temporaire.Nouveau_Extension( ChangeFileExt(ExtractFileName( src),''), ExtractFileExt( src));
+              DownloadHTTP( src, NomFichierImage);
+         end;
+         procedure Traite_data;
+         var
+            mimetype: String;
+            encodage: String;
+            extension: String;
+            ss: TStringStream;
+            bds: TBase64DecodingStream;
+            fs: TFileStream;
+         begin
+              //<img src="data:image/png;base64,iVBO
+              NomFichierImage:='';
+              StrToK( 'data:', src);
+              mimetype := StrToK( ';', src);
+              encodage := StrToK( ',', src);
+
+              extension:= Extension_from_mimetype( mimetype);
+              if '' = extension then exit;
+
+              NomFichierImage:= OD_Temporaire.Nouveau_Extension( 'IMG', extension);
+              ss:= TStringStream.Create( src);
+              try
+                 bds:= TBase64DecodingStream.Create( ss);
+                 try
+                    fs:= TFileStream.Create( NomFichierImage, fmCreate);
+                    try
+                       fs.CopyFrom( bds, bds.Size);
+                    finally
+                           FreeAndNil( fs);
+                           end;
+                 finally
+                        FreeAndNil( bds);
+                        end;
+              finally
+                     FreeAndNil( ss);
+                     end;
+         end;
+      begin
+           if not_Get_Property( _html_Parent, 'src', src) then exit;
+                if 1=Pos('http:', src) then Traite_http
+           else if 1=Pos('data:', src) then Traite_data
+           else                             exit;
+
+           if '' = NomFichierImage then exit;
+           Frame:= TOD_FRAME.Create( Self, _od_Parent);
+           try
+              Image:= Frame.NewImage_as_Character( NomFichierImage);
+              try
+              finally
+                     FreeAndNil( Image);
+                     end;
+           finally
+                  FreeAndNil( Frame);
+                  end;
+      end;
       procedure Parse_html_style;
       var
          ss: TStringStream;
@@ -3189,6 +3348,7 @@ var
         else if 'strong'=NodeName then Traite_strong
         else if 'title' =NodeName then begin end
         else if 'u'     =NodeName then Traite_u
+        else if 'img'   =NodeName then Traite_img
         else                           AddText_( _od_Parent, 'balise html non geree: <'+_html_Parent.NodeName+'>'#13#10);
 
         if nil = od_node then od_node:= _od_Parent;
