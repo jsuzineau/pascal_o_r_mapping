@@ -43,7 +43,7 @@ uses
   {$IFDEF LINUX}
   clocale,
   {$ENDIF}
-  SysUtils, Classes, XMLRead, DOM,Zipper, Math, FileUtil,
+  SysUtils, Classes, XMLRead, DOM,Zipper, zstream, Math, FileUtil,
   SAX_HTML, DOM_HTML,httpsend,base64;
 
 type
@@ -1545,13 +1545,30 @@ var
       ZipDirPath,
       DiskFileName,
       ZipFileName: String;
+      procedure AjouteMIMETYPE;
+      var
+         zfe: TZipFileEntry;
+      begin
+           F.Name:= 'mimetype';
+           DiskFileName:= DiskDirPath+F.Name;
+           ZipFileName := ZipDirPath+F.Name;
+           zfe:= Zipper.Entries.AddFileEntry( DiskFileName, ZipFileName);
+           zfe.CompressionLevel:= clnone;
+      end;
    begin
         ZipDirPath:= _SousRepertoire;
         DiskDirPath:= IncludeTrailingPathDelimiter( Repertoire_Extraction)
                             +_SousRepertoire;
+        //Le fichier mimetype doit être ajouté en premier et non compressé
+        if ''=_SousRepertoire
+        then
+            AjouteMIMETYPE;
         if 0 = FindFirst( DiskDirPath+'*', faAnyFile, F)
         then
             repeat
+                  //Le fichier mimetype de la racine est ajouté séparément ci-dessus
+                  if (''=_SousRepertoire) and ('mimetype' = F.Name)then continue;
+
                   DiskFileName:= DiskDirPath+F.Name;
                   ZipFileName := ZipDirPath+F.Name;
                   if (F.Attr and faDirectory) = faDirectory
@@ -1711,10 +1728,12 @@ function TOpenDocument.Get_xmlContent_USER_FIELD_DECLS: TDOMNode;
 const
      OFFICE_TEXT_path='office:body/office:text';
      USER_FIELD_DECLS_path=OFFICE_TEXT_path+'/text:user-field-decls';
+     SEQUENCE_DECLS_path=OFFICE_TEXT_path+'/text:sequence-decls';
      procedure Verifie_Position;
      var
         eOFFICE_TEXT: TDOMNode;
         eOFFICE_TEXT_first_child: TDOMNode;
+        eSEQUENCE_DECLS: TDOMNode;
      begin
           Get_xmlContent_USER_FIELD_DECLS_Premier:= False;
 
@@ -1724,6 +1743,11 @@ const
           if Result = eOFFICE_TEXT_first_child then exit;
 
           eOFFICE_TEXT.InsertBefore( Result, eOFFICE_TEXT_first_child);
+
+          eSEQUENCE_DECLS:= Elem_from_path( xmlContent.DocumentElement, SEQUENCE_DECLS_path);
+          if nil = eSEQUENCE_DECLS then exit;
+
+          eOFFICE_TEXT.InsertBefore( eSEQUENCE_DECLS, Result);
      end;
 begin
      Result:= Assure_path( xmlContent.DocumentElement, USER_FIELD_DECLS_path);
