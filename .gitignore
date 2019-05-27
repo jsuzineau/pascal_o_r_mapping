@@ -82,3 +82,8 @@ tools/Search_and_replace/Search_and_replace
 .config
 pascal_o_r_mapping/2_Units/CSS_Style_Parser/test
 pascal_o_r_mapping/7_sources_externes/ndyacclex/src/yacc/ndyacc
+/jsWorks/Angular/jsWorks/node_modules
+/jsWorks/Angular/jsWorks/dist
+/jsWorks/Generateur_de_code/06_Resultat
+/tools/Generateur/Generateur_de_code/04_Parametres
+/tools/Generateur/Generateur_de_code/06_Resultat
