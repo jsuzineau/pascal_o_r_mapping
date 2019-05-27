@@ -23,15 +23,22 @@ program jsWorks;
 {$mode objfpc}{$H+}
 
 uses
- {$IFDEF UNIX}{$IFDEF UseCThreads}
+ {$IFDEF UNIX}
  cthreads,
- {$ENDIF}{$ENDIF}
+ {$ENDIF}
  Interfaces, // this includes the LCL widgetset
- Forms, datetimectrls, uXML, ublG_BECP, ublG_BECPCTX, ublG_CTX, ublG_CTXTYPE,
- uhfG_BECP, uhfG_BECPCTX, uhfG_CTX, uhfG_CTXTYPE, upoolG_BECP, upoolG_BECPCTX,
- upoolG_CTX, upoolG_CTXTYPE, ublAutomatic, uPatternHandler, uJoinPoint,
- uGenerateur_de_code_Ancetre, ujpCSharp_Conteneurs, ujpCSharp_Contenus,
- ujpCSharp_DocksDetails, ujpCSharp_DocksDetails_Affiche,
+ Forms,
+ datetimectrls,
+ {$IFDEF MSWINDOWS}
+ windows,
+ {$ENDIF}
+ uXML, ublG_BECP, ublG_BECPCTX, ublG_CTX, ublG_CTXTYPE, uhfG_BECP, uhfG_BECPCTX,
+ uhfG_CTX, uhfG_CTXTYPE, upoolG_BECP, upoolG_BECPCTX, upoolG_CTX,
+ upoolG_CTXTYPE, ublAutomatic, uJoinPoint,
+ ujpAngular_TypeScript_declaration_champs, uGenerateur_de_code_Ancetre,
+ upoolPostgres_Foreign_Key, uhfPostgres_Foreign_Key, ublPostgres_Foreign_Key,
+ uAngular_TypeScript_ApplicationHandler, ujpCSharp_Conteneurs,
+ ujpCSharp_Contenus, ujpCSharp_DocksDetails, ujpCSharp_DocksDetails_Affiche,
  ujpCSharp_Champs_persistants, ujpCSharp_Chargement_Conteneurs,
  ujpPHP_Doctrine_Has_Column, ujpPHP_Doctrine_HasOne, ujpPHP_Doctrine_HasMany,
  ujpNom_de_la_classe, ujpNom_de_la_table, ujpNomTableMinuscule,
@@ -79,6 +86,11 @@ uses
 {$R *.res}
 
 begin
+ {$IFDEF trucMSWINDOWS} //enlever truc pour afficher la console
+ AllocConsole;      // in Windows unit
+ IsConsole := True; // in System unit
+ SysInitStdIO;      // in System unit
+ {$ENDIF}
  RequireDerivedFormResource := True;
  Application.Initialize;
  Application.CreateForm(TfjsWorks, fjsWorks);

@@ -70,9 +70,11 @@ uses
 const
      //nom de la classe TBatpro_Element
      sys_TBatpro_Element: String='TBatpro_Element';
-     //nom de la classe de paramètres TBatpro_Element
+     //nom de la classe de paramÃ¨tres TBatpro_Element
      sys_TblG_BECP   : String='TblG_BECP';
      sys_TblG_BECPCTX: String='TblG_BECPCTX';
+     sys_TpoolG_BECP   : String='TpoolG_BECP';
+     sys_TpoolG_BECPCTX: String='TpoolG_BECPCTX';
 
      //Batpro_Element_Marge= 2; //bordure
      Batpro_Element_Marge: Integer = 0; //bordure
@@ -98,7 +100,7 @@ const
     {$ENDIF}
 
 {$IFNDEF WINDOWS_GRAPHIC}
-const //recopié de l'unité Graphics
+const //recopiÃ© de l'unitÃ© Graphics
   psSolid = FPCanvas.psSolid;
   psDash = FPCanvas.psDash;
   psDot = FPCanvas.psDot;
@@ -135,7 +137,7 @@ const //recopié de l'unité Graphics
   bsDiagCross = FPCanvas.bsDiagCross;
 {$ENDIF}
 
-{début de l'unité uDrawInfo déplacée}
+{dÃ©but de l'unitÃ© uDrawInfo dÃ©placÃ©e}
 const
      {$IFDEF FPC}
      clBlack = TColor($000000);
@@ -197,7 +199,7 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-  //Méthodes
+  //MÃ©thodes
   public
     procedure Resize( _ColCount: Integer= -1; _RowCount: Integer= -1);
     procedure Charge_Cell( _Colonne, _Ligne:Integer; _be: TBatpro_Element; _Contexte: Integer);
@@ -389,7 +391,7 @@ type
     Canvas: TCanvas;
   public
     Col, Row: Integer;
-    Rect_Original: TRect; //pour échapper au bornage de la hauteur dans planning production
+    Rect_Original: TRect; //pour Ã©chapper au bornage de la hauteur dans planning production
     Rect: TRect;
     Impression: Boolean;
     procedure Init_Draw( _Canvas: TCanvas; _Col, _Row: Integer; _Rect: TRect;
@@ -490,7 +492,7 @@ type
     function svg_image_LOGIN__bas_droite: TDOMNode;
     procedure svgDessinne_Coche( _CouleurFond, _CouleurCoche: TColor;
                                  _Coche: Boolean);
-  //Méthodes
+  //MÃ©thodes
   public
     procedure Borne_Hauteur;
   //abstraction SVG /Canvas
@@ -531,8 +533,8 @@ type
     procedure Traite_Grille_impression( _Afficher_Grille: Boolean);
   end;
 
-{fin de l'unité uDrawInfo déplacée}
-{début de l'unité uTraits déplacée}
+{fin de l'unitÃ© uDrawInfo dÃ©placÃ©e}
+{dÃ©but de l'unitÃ© uTraits dÃ©placÃ©e}
  TArete
  =
   (
@@ -568,7 +570,7 @@ type
     x1,y1,
     x2,y2: Integer;
     IndiceColonne: Integer;
-  //Clé
+  //ClÃ©
   public
     function sCle: String;
   //Progressions
@@ -595,7 +597,7 @@ type
     Depart, Arrivee: TArete;
     a: double;
     IsDebutLigne, IsFinLigne: Boolean;
-  //Méthodes
+  //MÃ©thodes
   public
     procedure {svg}Dessinne(  DrawInfo: TDrawInfo);
   end;
@@ -609,7 +611,7 @@ type
   //Attributs
   public
     sl: TBatpro_StringList;
-  //Méthodes
+  //MÃ©thodes
   public
     function Ajoute( _Ligne: TLigne;
                       _Depart, _Arrivee: TArete): TTrait;
@@ -617,7 +619,7 @@ type
     procedure Vide;
   end;
 
-{fin de l'unité uTraits déplacée}
+{fin de l'unitÃ© uTraits dÃ©placÃ©e}
 
   {$IFNDEF WINDOWS_GRAPHIC}
 
@@ -666,7 +668,7 @@ type
  IBatpro_Element_Editeur
  =
   interface
-  ['{64BF044D-1965-45D8-9DA5-389664F8F606}']//généré dans Delphi par(Maj+Ctrl+G)
+  ['{64BF044D-1965-45D8-9DA5-389664F8F606}']//gÃ©nÃ©rÃ© dans Delphi par(Maj+Ctrl+G)
     function Edite( be: TBatpro_Element): Boolean;
   end;
 
@@ -714,13 +716,13 @@ type
   public
     Contenu_statique: String;
     function Contenu( Contexte: Integer; Col, Row: Integer): String; virtual;
-  //Gestion de la sélection
+  //Gestion de la sÃ©lection
   protected
     FSelected: Boolean;
     procedure SetSelected( Value: Boolean); virtual;
   public
     property Selected: Boolean read FSelected write SetSelected;
-  //Gestion des séries
+  //Gestion des sÃ©ries
   public
     Serie: TBatpro_Serie;
     procedure Cree_Serie;
@@ -729,18 +731,18 @@ type
     Cluster:TBatpro_Cluster;
     procedure Cree_Cluster;
     function sEtatCluster: String;
-  //Gestion de l'édition
+  //Gestion de l'Ã©dition
   public
     function Edite: Boolean; virtual;
-  //Flag de création, à gérer classe par classe
+  //Flag de crÃ©ation, Ã  gÃ©rer classe par classe
   protected
     Creating: Boolean;
-  //Général
+  //GÃ©nÃ©ral
   public
     sl: TBatpro_StringList;
     Fond: TColor;
     Tag: TObject;
-  //Paramètres de classe
+  //ParamÃ¨tres de classe
   private
     function Batpro_ElementClassesParams_nil: Boolean;
   protected
@@ -791,15 +793,15 @@ type
   //Gestion de la souris
   public
     function MouseDown( Button: TMouseButton; Shift: TShiftState): Boolean; virtual;
-  //Gestion de la clé
+  //Gestion de la clÃ©
   public
     function sCle: String; virtual;
     function Index: Integer;
     procedure sl_from_sCle;
-  //Connection entre éléments
+  //Connection entre Ã©lÃ©ments
   public
-    // méthode ajoutée pour le planning pour assurer la mise à jour
-    // des aggrégations faibles lors de la destruction de l'élément aggégé be .
+    // mÃ©thode ajoutÃ©e pour le planning pour assurer la mise Ã  jour
+    // des aggrÃ©gations faibles lors de la destruction de l'Ã©lÃ©ment aggÃ©gÃ© be .
     procedure Unlink( be: TBatpro_Element); virtual;
   //Suppression de la connection dans la base
   public
@@ -815,7 +817,7 @@ type
   public
     property Bordure: Boolean read GetBordure write FBordure;
     procedure {svg}Dessinne_Bordure( DrawInfo: TDrawInfo);
-  //Aggrégeurs : liste des objets ThAggregation qui contiennent cet objet
+  //AggrÃ©geurs : liste des objets ThAggregation qui contiennent cet objet
   private
     FAggregeurs: TBatpro_StringList;
     function GetAggregeurs: TBatpro_StringList;
@@ -828,13 +830,13 @@ type
     FConnectes: TslBatpro_Element;
     function GetConnecteurs: TslBatpro_Element;
     function GetConnectes: TslBatpro_Element;
-    //Fonctionne à l'endroit sur Self.FConnecteurs
+    //Fonctionne Ã  l'endroit sur Self.FConnecteurs
     procedure Connecteurs_Ajoute( _be: TBatpro_Element; _Nom: String= '');
     procedure Connecteurs_Enleve( _be: TBatpro_Element);
   public
     property Connecteurs: TslBatpro_Element read GetConnecteurs;
     property Connectes: TslBatpro_Element read GetConnectes;
-    //On fonctionne à l'envers sur  _be.FConnecteurs
+    //On fonctionne Ã  l'envers sur  _be.FConnecteurs
     procedure Connect_To( _be: TBatpro_Element; _Nom: String= '');
     procedure Unconnect_To( var _be; _Contexte: String= '');
   //Gestion des traits de connection
@@ -844,8 +846,8 @@ type
   public
     property Traits: TTraits read GetTraits;
   //BECP: Batpro_ElementClassParams
-  //alternative à l'interface IblG_BECP utilisée précédemment
-  //jeu de méthodes seulement définies dans TblG_BECP
+  //alternative Ã  l'interface IblG_BECP utilisÃ©e prÃ©cÃ©demment
+  //jeu de mÃ©thodes seulement dÃ©finies dans TblG_BECP
   public
     asBECP: TBatpro_ElementClassParams;
     function BECP_GetNomClasse: String; virtual;
@@ -863,7 +865,7 @@ type
     procedure BECP_Edit_ContexteFont( Contexte: Integer); virtual;
 
     procedure BECP_Save_to_database; virtual;
-  //Aggrégations
+  //AggrÃ©gations
   private
     FAggregations: TAggregations;
     function GetAggregations: TAggregations;
@@ -874,11 +876,11 @@ type
                                Classe_Aggregation: ThAggregation_class= nil);
   public
     property Aggregations: TAggregations read GetAggregations;
-  //Listing des champs pour déboguage
+  //Listing des champs pour dÃ©boguage
   public
     function Listing_Champs( Separateur: String): String; virtual;
     function Listing( Indentation: String): String; virtual;
-  //Vérification de la cohérence
+  //VÃ©rification de la cohÃ©rence
   public
     procedure Verifie_coherence( var _log: String); virtual;
   end;
@@ -925,7 +927,7 @@ type
   //Attributs
   public
     be: TBatpro_element;
-  //Méthodes
+  //MÃ©thodes
     function GetNomClasse: String;
     function GetLibelle  : String;
     function GetContexteFont( Contexte: Integer): TFont ;
@@ -952,8 +954,8 @@ type
   end;
 
  //provisoire
- //pas trés propre au niveau norme de nommage
- //mis pour éviter un gros chercher/remplacer
+ //pas trÃ©s propre au niveau norme de nommage
+ //mis pour Ã©viter un gros chercher/remplacer
  IblG_BECP= TBatpro_ElementClassParams;
 
  TBatpro_Element_Class= class of TBatpro_Element;
@@ -1010,7 +1012,7 @@ type
     nPourcentage: double;
     Pourcentage_2: double;
     nPourcentage_2: double;
-  //Gestion de la visibilité
+  //Gestion de la visibilitÃ©
   private
     // Debut <= VisibleDebut <= VisibleFin <= Fin
     FVisibleDebut: Integer;
@@ -1047,7 +1049,7 @@ type
     EtatInitial: Boolean;
   public
     be: TBatpro_Element;
-    Bounds: TRect;//attention, ici coordonnées de cellules, pas celles de pixels
+    Bounds: TRect;//attention, ici coordonnÃ©es de cellules, pas celles de pixels
     Grains: array of array of TBatpro_Element;
     Largeur, Hauteur: Integer;
     Colonne_LargeurMaxi,
@@ -1065,7 +1067,7 @@ type
     procedure Check_LargeurTotale( var _LargeurTotale: Integer);
     procedure Check_HauteurTotale( var _HauteurTotale: Integer);
     function Cherche( _Grain: TBatpro_Element): TPoint;
-  //Affichage de l'état du cluster
+  //Affichage de l'Ã©tat du cluster
   public
     function sEtat: String;
   end;
@@ -1090,7 +1092,7 @@ type
   public
     constructor Create( _Nom: String= ''); override;
     destructor Destroy; override;
-  //Création d'itérateur
+  //CrÃ©ation d'itÃ©rateur
   protected
     class function Classe_Iterateur: TIterateur_Class; override;
   public
@@ -1101,7 +1103,7 @@ type
  THTTP_Interface_Ancetre
  =
   class
-  //méthodes d'envoi de données
+  //mÃ©thodes d'envoi de donnÃ©es
   public
     procedure Send_Data(_Content_type, _Data: String);         virtual;abstract;
     procedure Send_Fichier( _NomFichier: String);              virtual;abstract;
@@ -1114,7 +1116,6 @@ type
     procedure Send_WOFF2(_WOFF2: String);                      virtual;abstract;
     procedure Send_ICO(_ICO: String);                          virtual;abstract;
     procedure Send_MIME_from_Extension(_S, _Extension: String);virtual;abstract;
-    function MIME_from_Extension( _Extension: String): String; virtual;abstract;
     procedure Send_Not_found;                                  virtual;abstract;
   //Traitement des appels
   public
@@ -1151,10 +1152,18 @@ type
     function Iterateur_Decroissant: TIterateur_pool_Ancetre_Ancetre;
   end;
 
+ Tpool_Ancetre_Ancetre_Class= class of Tpool_Ancetre_Ancetre;
+
  Tpool_Ancetre_Ancetre
  =
-  class( TDataModule)
-  //Gestion de la clé
+  class( TBatpro_Element)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _sl: TBatpro_StringList);reintroduce;virtual;
+    destructor Destroy; override;
+  public
+    class function Name: String;
+  //Gestion de la clÃ©
   public
     procedure sCle_Change( _bl: TBatpro_element); virtual; 
   //Suppression
@@ -1170,9 +1179,16 @@ type
   //Gestion communication HTTP avec pages html Angular / JSON
   public
     function Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boolean; virtual; abstract;
+  //Logique de classe pour la gestion des instances
+  private
+    class var Fclass_sl: Tslpool_Ancetre_Ancetre;
+  public
+    class function class_sl: Tslpool_Ancetre_Ancetre;
+    class procedure class_Create (               var Reference ; Classe: Tpool_Ancetre_Ancetre_Class);
+    class procedure class_Destroy(               var Reference                                      );
+    class procedure class_Get    ( out Resultat; var Reference ; Classe: Tpool_Ancetre_Ancetre_Class);
   end;
 
- TGet_pool_Ancetre_Ancetre= function : Tpool_Ancetre_Ancetre;
  Tfunction_pool_Ancetre_Ancetre= function : Tpool_Ancetre_Ancetre;
 
  ThAggregation= class;
@@ -1193,7 +1209,7 @@ type
   public
     constructor Create( _Nom: String= ''); override;
     destructor Destroy; override;
-  //Création d'itérateur
+  //CrÃ©ation d'itÃ©rateur
   protected
     class function Classe_Iterateur: TIterateur_Class; override;
   public
@@ -1217,19 +1233,19 @@ type
     Parent: TBatpro_Element;
     pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre;
     function sl: TBatpro_StringList; // provisioire, retourne self
-  //Intermédiaire de chargement pour gérer les aggrégeurs
+  //IntermÃ©diaire de chargement pour gÃ©rer les aggrÃ©geurs
   protected
     slCharge: TBatpro_StringList;
     procedure Cree_slCharge; virtual;
     procedure Ajoute_slCharge;
-  //Méthodes
+  //MÃ©thodes
   public
     function Is_Vide: Boolean;
     function Contient( be: TBatpro_Element): Boolean;
   //Vidage
   public
     procedure Vide; virtual;
-  //Chargement de tous les détails
+  //Chargement de tous les dÃ©tails
   public
     procedure Charge; virtual;
   //Chargement 1 fois
@@ -1237,12 +1253,12 @@ type
     Assure_Charge_premier: Boolean;
   public
     procedure Assure_Charge;
-  //Connection / Déconnection simple
+  //Connection / DÃ©connection simple
   public
     procedure Ajoute( be: TBatpro_Element); virtual;
     procedure Enleve( _be: TBatpro_Element; _Index: Integer= -1); virtual;
     procedure Deconnecte;           virtual;
-  //Déconnection avec suppression des connections dans la base de données
+  //DÃ©connection avec suppression des connections dans la base de donnÃ©es
   public
     procedure Supprime_Connection( be: TBatpro_Element; Index: Integer= -1); virtual;
     procedure Supprime_Connections; virtual;
@@ -1252,17 +1268,17 @@ type
   //Suppression
   public
     procedure Delete_from_database; virtual;
-  //Gestion de la copie depuis une autre aggrégation
+  //Gestion de la copie depuis une autre aggrÃ©gation
   public
     procedure Copy_from( _hAggregation: ThAggregation); virtual;
   //Export JSON, JavaScript Object Notation
   public
     function JSON: String; override;
     function JSON_Persistants: String; override;
-  //Type d'aggrégation: forte ou faible
+  //Type d'aggrÃ©gation: forte ou faible
   public
     Forte: Boolean;
-  //Listing des champs pour déboguage
+  //Listing des champs pour dÃ©boguage
   public
     function Listing( Indentation: String): String; virtual;
   end;
@@ -1274,16 +1290,16 @@ type
   public
     constructor Create( _Parent: TBatpro_Element);
     destructor Destroy; override;
-  //Paramètres constant au cours du cycle de vie
+  //ParamÃ¨tres constant au cours du cycle de vie
   public
     Parent: TBatpro_Element;
-  //Paramètres modifiés à chaque utilisation
+  //ParamÃ¨tres modifiÃ©s Ã  chaque utilisation
   private
     hAggregation_class  : ThAggregation_class;
     Batpro_Element_Class: TBatpro_Element_Class;
     pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre;
     Is_Forte            : Boolean;
-  //Méthodes
+  //MÃ©thodes
   public
     procedure I( _hAggregation_class  : ThAggregation_class  ;
                  _Batpro_Element_Class: TBatpro_Element_Class;
@@ -1315,7 +1331,7 @@ type
     Create_Params: ThAggregation_Create_Params;
     Create_Aggregation: TCreate_Aggregation_procedure;
     sl: TslhAggregation;
-  //Accés
+  //AccÃ©s
   private
     function  Get_by_Name( Name: String): ThAggregation;
     procedure Set_by_Name( Name: String; const Value: ThAggregation);
@@ -1324,10 +1340,10 @@ type
              read  Get_by_Name
              write Set_by_Name; default;
     function Iterateur: TIterateur_hAggregation;
-  //Déconnection simple
+  //DÃ©connection simple
   public
     procedure Deconnecte;
-  //Déconnection avec suppression de la connection dans la base de données
+  //DÃ©connection avec suppression de la connection dans la base de donnÃ©es
   public
     procedure Supprime_Connections;
   //Export JSON, JavaScript Object Notation
@@ -1337,7 +1353,7 @@ type
   //Suppression
   public
     procedure Delete_from_database; 
-  //Listing des champs pour déboguage
+  //Listing des champs pour dÃ©boguage
   public
     function Listing( Indentation: String): String;
   end;
@@ -1399,7 +1415,7 @@ procedure Vide_StringGrid( _sg: TStringGridWeb);
 
 procedure Vide_StringGrid_Liste( _sg: TStringGridWeb);
 
-{Début de l'ancienne unité uDessin}
+{DÃ©but de l'ancienne unitÃ© uDessin}
 procedure Dessinne_Coche( Canvas: TCanvas;
                           CouleurFond, CouleurCoche: TColor;
                           R: TRect;
@@ -1416,21 +1432,19 @@ procedure Dessinne_Coche_X( Canvas: TCanvas;
                       Coche_X, Coche, X: String);
 
 procedure FrameRect_0( C: TCanvas; R: TRect);
-{Fin de l'ancienne unité uDessin}
-{Début de l'ancienne unité uWindows}
+{Fin de l'ancienne unitÃ© uDessin}
+{DÃ©but de l'ancienne unitÃ© uWindows}
 var
    //bords non 3D
    CXBORDER, CYBORDER: Integer;
    //bords 3D
    CXEDGE  , CYEDGE  : Integer;
-{Fin de l'ancienne unité uWindows}
+{Fin de l'ancienne unitÃ© uWindows}
 
 
 implementation
 
-{$R *.dfm}
-
-{Début de l'ancienne unité uDessin}
+{DÃ©but de l'ancienne unitÃ© uDessin}
 procedure Dessinne_Coche( Canvas: TCanvas;
                           CouleurFond, CouleurCoche: TColor;
                           R: TRect;
@@ -1464,7 +1478,7 @@ begin
            OldPenWidth:= Pen.Width;
            OldColor   := Pen.Color;
 
-           // on rétrécit R de 1/5
+           // on rÃ©trÃ©cit R de 1/5
            WH_from_R;
            InflateRect( R, -W5, -H5);
            WH_from_R;
@@ -1517,7 +1531,7 @@ begin
            OldPenWidth:= Pen.Width;
            OldColor   := Pen.Color;
 
-           // on rétrécit R de 1/5
+           // on rÃ©trÃ©cit R de 1/5
            WH_from_R;
            InflateRect( R, -W5, -H5);
            WH_from_R;
@@ -1566,7 +1580,7 @@ begin
             C.Pen.Width  := OldPenWidth;
             end;
 end;
-{Fin de l'ancienne unité uDessin}
+{Fin de l'ancienne unitÃ© uDessin}
 
 procedure Vide_StringGrid( _sg: TStringGridWeb);
 var
@@ -1879,7 +1893,7 @@ var
    Ligne: Integer;
    Max: Integer;
 begin
-     //première passe sur les cellules non-clusters
+     //premiÃ¨re passe sur les cellules non-clusters
      for Ligne:= 0 to RowCount-1
      do
        begin
@@ -1911,7 +1925,7 @@ begin
      then
          _ColonneFin:= ColCount-1;
 
-     //première passe sur les cellules non-clusters
+     //premiÃ¨re passe sur les cellules non-clusters
      for Colonne:= _ColonneDebut to _ColonneFin
      do
        begin
@@ -1938,7 +1952,7 @@ var
    Colonne: Integer;
    Largeur, LargeurMax: Integer;
 begin
-     //première passe de détection de la largeur maxi
+     //premiÃ¨re passe de dÃ©tection de la largeur maxi
      LargeurMax:= 0;
      for Colonne:= _ColonneDebut to _ColonneFin
      do
@@ -1949,7 +1963,7 @@ begin
            LargeurMax:= Largeur;
        end;
 
-     //Seconde passe pour égaliser
+     //Seconde passe pour Ã©galiser
      for Colonne:= _ColonneDebut to _ColonneFin
      do
        ColWidths[ Colonne]:= LargeurMax;
@@ -1960,7 +1974,7 @@ var
    Ligne: Integer;
    Hauteur, HauteurMax: Integer;
 begin
-     //première passe de détection de la Hauteur maxi
+     //premiÃ¨re passe de dÃ©tection de la Hauteur maxi
      HauteurMax:= 0;
      for Ligne:= _LigneDebut to _LigneFin
      do
@@ -1971,7 +1985,7 @@ begin
            HauteurMax:= Hauteur;
        end;
 
-     //Seconde passe pour égaliser
+     //Seconde passe pour Ã©galiser
      for Ligne:= _LigneDebut to _LigneFin
      do
        RowHeights[ Ligne]:= HauteurMax;
@@ -2127,7 +2141,7 @@ begin
      Objects[_Col, _Row]:= _Value;
 end;
 
-{début de l'unité uDrawInfo déplacée}
+{dÃ©but de l'unitÃ© uDrawInfo dÃ©placÃ©e}
 function MulDiv( Nombre, Numerateur, Denominateur: Integer): Integer;
 begin
      Result:= (Nombre*Numerateur) div Denominateur;
@@ -2875,8 +2889,8 @@ begin
 end;
 {$ENDIF}
 
-{fin de l'unité uDrawInfo déplacée}
-{début de l'unité uTraits déplacée}
+{fin de l'unitÃ© uDrawInfo dÃ©placÃ©e}
+{dÃ©but de l'unitÃ© uTraits dÃ©placÃ©e}
 function Ligne_from_sl( sl: TStringList; Index: Integer): TLigne;
 begin
      _Classe_from_sl( Result, TLigne, sl, Index);
@@ -3166,7 +3180,7 @@ procedure TTraits.Vide;
 begin
      Vide_StringList( sl);
 end;
-{fin de l'unité uTraits déplacée}
+{fin de l'unitÃ© uTraits dÃ©placÃ©e}
 
 //########################### TBatpro_Element ##################################
 
@@ -3310,7 +3324,7 @@ begin
      if O = nil
      then
          begin
-         Result:= Result+'   pointeur à nil';
+         Result:= Result+'   pointeur Ã  nil';
          exit;
          end;
 
@@ -3319,7 +3333,7 @@ begin
      if not (O is TBatpro_Element) then exit;
 
      be:= TBatpro_Element(O);
-     Result:= Result+ '   Clé de liste: >'+be.sCle+'<'+ sys_N;
+     Result:= Result+ '   ClÃ© de liste: >'+be.sCle+'<'+ sys_N;
      Result:= Result+ '   Texte de cellule:'+sys_N;
      Result:= Result+ be.Cell[0]+sys_N;
      Result:= Result+ '   Texte de bulle d''aide:'+sys_N;
@@ -3336,11 +3350,11 @@ begin
      if Index < 0
      then
          begin
-         Messag:= 'Erreur à signaler au développeur: '+sys_N+
+         Messag:= 'Erreur Ã  signaler au dÃ©veloppeur: '+sys_N+
                   'Contexte: '+Contexte_si_erreur+sys_N+
-                  'uBatpro_Element.Place: l''index est négatif. '+
+                  'uBatpro_Element.Place: l''index est nÃ©gatif. '+
                   IntToStr( Index)+sys_N+
-                  Description_Objet('Description de l''objet concerné:', O);
+                  Description_Objet('Description de l''objet concernÃ©:', O);
          if Modal_si_erreur
          then
              fAccueil_Erreur( Messag)
@@ -3366,14 +3380,14 @@ begin
                      )
              then
                  begin
-                 Messag:= 'Erreur à signaler au développeur: '+sys_N+
+                 Messag:= 'Erreur Ã  signaler au dÃ©veloppeur: '+sys_N+
                           'Contexte: '+Contexte_si_erreur+sys_N+
                           'uBatpro_Element.Place: la position '+
                           IntToStr(Index)+
                           'n''est pas vide dans la liste'+sys_N+
-                          Description_Objet( 'Objet déjà présent dans la liste:',
+                          Description_Objet( 'Objet dÃ©jÃ  prÃ©sent dans la liste:',
                                                      sl.Objects[Index])+sys_N+
-                          Description_Objet('Nouvel objet à placer:', O);
+                          Description_Objet('Nouvel objet Ã  placer:', O);
                  if Modal_si_erreur
                  then
                      fAccueil_Erreur( Messag)
@@ -3667,7 +3681,7 @@ begin
                     SetBkMode( DrawInfo.Canvas.Handle, OPAQUE);
                     end;
              {$ELSE}
-             {$WARNING TBatpro_Element.Draw_Text cas linux non codé }
+             {$WARNING TBatpro_Element.Draw_Text cas linux non codÃ© }
              //Log.Prin
              {$ENDIF}
            {$ENDIF}
@@ -3683,7 +3697,7 @@ procedure TBatpro_Element.Draw( DrawInfo: TDrawInfo);
 var
    Alignement: TbeAlignement;
    Serie_not_CellDebut: Boolean;
-   procedure Traite_Serie_not_CellDebut; //spécial pour demi-ligne sur planning production
+   procedure Traite_Serie_not_CellDebut; //spÃ©cial pour demi-ligne sur planning production
    var
       R: TRect;
    begin
@@ -3760,7 +3774,7 @@ procedure TBatpro_Element.svgDraw( DrawInfo: TDrawInfo);
 var
    Alignement: TbeAlignement;
    Serie_not_CellDebut: Boolean;
-   procedure Traite_Serie_not_CellDebut; //spécial pour demi-ligne sur planning production
+   procedure Traite_Serie_not_CellDebut; //spÃ©cial pour demi-ligne sur planning production
    var
       R: TRect;
    begin
@@ -4024,7 +4038,7 @@ begin
      Result:= @Batpro_ElementClassesParams = nil;
      if Result
      then
-         fAccueil_Erreur(  'Erreur à signaler au développeur: '+sys_N
+         fAccueil_Erreur(  'Erreur Ã  signaler au dÃ©veloppeur: '+sys_N
                           +'Batpro_ElementClassesParams = nil'+sys_N
                           +'probablement upoolG_BECP n''est pas inclue dans le projet');
 end;
@@ -4079,8 +4093,8 @@ begin
      Result
      :=
           (ClassName=sys_TBatpro_Element)
-       or (ClassName=sys_TblG_BECP      )
-       or (ClassName=sys_TblG_BECPCTX   );
+       or (ClassName=sys_TblG_BECP      )or (ClassName=sys_TpoolG_BECP      )
+       or (ClassName=sys_TblG_BECPCTX   )or (ClassName=sys_TpoolG_BECPCTX   );
      if Result then exit;
 
      if Batpro_ElementClassesParams_nil then exit;
@@ -4334,7 +4348,7 @@ end;
 procedure TBatpro_Element.{svg}Dessinne_Gris( DrawInfo: TDrawInfo);
 begin
      {$IFDEF WINDOWS_GRAPHIC}
-     if False//Gris essai désactivé
+     if False//Gris essai dÃ©sactivÃ©
      then
          with DrawInfo
          do
@@ -4545,7 +4559,7 @@ begin
            end;
          tj_Ellipse:
            begin
-           // forme  •
+           // forme  Â•
            if dx < dy
            then
                rayon:= dx div 2
@@ -4567,7 +4581,7 @@ begin
            end;
          tj_Puce:
            begin
-           // forme  •
+           // forme  Â•
            if dx < dy
            then
                rayon:= dx div 5
@@ -4725,7 +4739,7 @@ begin
        beCluster.Draw( DrawInfo);
      DrawInfo.Rect         := OriginalRect;
      DrawInfo.Rect_Original:= OriginalRect_Original;
-     //Il faudrait peut-être gérer le clipping
+     //Il faudrait peut-Ãªtre gÃ©rer le clipping
      //==> comment vont se dessinner les lignes de la grille ?
 end;
 {$ELSE}
@@ -4775,13 +4789,13 @@ begin
        OffsetRect( DrawInfo.Rect, Origine.x, Origine.y);
        beCluster.svgDraw( DrawInfo);
      DrawInfo.Rect:= OriginalRect;
-     //Il faudrait peut-être gérer le clipping
+     //Il faudrait peut-Ãªtre gÃ©rer le clipping
      //==> comment vont se dessinner les lignes de la grille ?
 end;
 
 function TbeClusterElement.Cell_Height( DrawInfo: TDrawInfo; Cell_Width: Integer): Integer;
 begin
-     //pas évident que cet algo soit OK
+     //pas Ã©vident que cet algo soit OK
      if     Assigned( beCluster)
         and Assigned( beCluster.Cluster)
         and beCluster.Cluster.SingleRow
@@ -4862,7 +4876,7 @@ begin
      then
          Result:= beCluster.sEtatCluster
      else
-         Result:= 'Erreur à signaler au développeur: '+
+         Result:= 'Erreur Ã  signaler au dÃ©veloppeur: '+
                   'TbeClusterElement.beCluster = nil';
 end;
 
@@ -6169,12 +6183,12 @@ end;
 
 procedure TBatpro_Element.Unlink( be: TBatpro_Element);
 begin
-     // rien à faire à ce niveau
+     // rien Ã  faire Ã  ce niveau
 end;
 
 procedure TBatpro_Element.Supprime_Connection(be: TBatpro_Element);
 begin
-     // rien à faire à ce niveau
+     // rien Ã  faire Ã  ce niveau
 end;
 
 function TBatpro_Element.sEtatCluster: String;
@@ -6183,7 +6197,7 @@ begin
      then
          Result:= Cluster.sEtat
      else
-         Result:= 'Pas de cluster pour cet élément';
+         Result:= 'Pas de cluster pour cet Ã©lÃ©ment';
 end;
 
 function TBatpro_Element.Edite: Boolean;
@@ -6201,7 +6215,7 @@ end;
 function TBatpro_Element.Egale( be: TBatpro_Element): Boolean;
 begin
      Result:= Self = be; //ici juste une comparaison de pointeurs
-end;                     //on peut le raffiner dans les classes dérivées
+end;                     //on peut le raffiner dans les classes dÃ©rivÃ©es
 
 function TBatpro_Element.Cree_Fonte( DrawInfo: TDrawInfo; Gras: Boolean): TFont;
 begin
@@ -6276,7 +6290,7 @@ begin
      then
          begin
          fAccueil_Log(  'TBatpro_Element.Unconnect_To: '
-                       +'paramètre _be invalide; Classname: '+ClassName+' '
+                       +'paramÃ¨tre _be invalide; Classname: '+ClassName+' '
                        +_Contexte);
          exit;
          end;
@@ -6288,7 +6302,7 @@ begin
               do
                 begin
                 fAccueil_Log(  'TBatpro_Element.Unconnect_To: '
-                              +'paramètre _be invalide; Classname: '+ClassName+' '+_Contexte);
+                              +'paramÃ¨tre _be invalide; Classname: '+ClassName+' '+_Contexte);
                 end;
               end;
      finally
@@ -6365,13 +6379,13 @@ end;
 procedure TBatpro_Element.Get_Aggregation( var Resultat; var Fha; Name: String;
                                            Classe_Aggregation: ThAggregation_class= nil);
 begin
-     //Création éventuelle
+     //CrÃ©ation Ã©ventuelle
      if ThAggregation( Fha) = nil
      then
          begin
          ThAggregation( Fha):= Aggregations[Name];
 
-         //contrôle de la classe de l'instance obtenue
+         //contrÃ´le de la classe de l'instance obtenue
          if     Assigned( ThAggregation( Fha))
             and Assigned( Classe_Aggregation)
          then
@@ -6380,7 +6394,7 @@ begin
                  ThAggregation( Fha):= nil;
          end;
 
-     //Affectation au résultat
+     //Affectation au rÃ©sultat
      ThAggregation( Resultat):= ThAggregation( Fha);
 end;
 
@@ -6437,7 +6451,7 @@ begin
          end;
 
      //Remarque: les tableaux multidimensionnels delphi
-     //           sont plutôt (ligne,colonne)
+     //           sont plutÃ´t (ligne,colonne)
      //          mais ici on travaille en (colonne,ligne)
      I:= _Colonne - Bounds.Left;
      J:= _Ligne   - Bounds.Top;
@@ -6593,8 +6607,8 @@ function TBatpro_Cluster.sEtat: String;
 begin
      Result
      :=
-        Format(  'Horizontalement de %d à %d'+sys_N
-                +'Verticalement   de %d à %d'+sys_N
+        Format(  'Horizontalement de %d Ã  %d'+sys_N
+                +'Verticalement   de %d Ã  %d'+sys_N
                 +'Largeur: %d'+sys_N
                 +'Hauteur: %d',
                [
@@ -6679,9 +6693,59 @@ end;
 
 { Tpool_Ancetre_Ancetre }
 
-procedure Tpool_Ancetre_Ancetre.sCle_Change( _bl: TBatpro_Element);
+constructor Tpool_Ancetre_Ancetre.Create( _sl: TBatpro_StringList);
+begin
+     inherited Create( _sl);
+end;
+
+destructor Tpool_Ancetre_Ancetre.Destroy;
+begin
+     inherited Destroy;
+end;
+
+class function Tpool_Ancetre_Ancetre.Name: String;
+begin
+     Result:= ClassName;
+end;
+
+procedure Tpool_Ancetre_Ancetre.sCle_Change(_bl: TBatpro_element);
 begin
 
+end;
+
+class function Tpool_Ancetre_Ancetre.class_sl: Tslpool_Ancetre_Ancetre;
+begin
+     if nil = Fclass_sl
+     then
+         Fclass_sl:= Tslpool_Ancetre_Ancetre.Create( ClassName+'.slInstances');
+     Result:= Fclass_sl;
+end;
+
+class procedure Tpool_Ancetre_Ancetre.class_Create( var Reference; Classe: Tpool_Ancetre_Ancetre_Class);
+var
+   Nom: String;
+begin
+     //if Assigned(Chrono) then Chrono.Stop( 'Clean_Create , dÃ©but');
+     Tpool_Ancetre_Ancetre(Reference):= Classe.Create( class_sl);
+     //Liste.Add( @Reference);
+     Nom:= Tpool_Ancetre_Ancetre(Reference).Name;
+     //Noms.Add( Nom);
+     class_sl.AddObject( Nom, Tpool_Ancetre_Ancetre(Reference));
+     //if Assigned(Chrono) then Chrono.Stop( 'Clean_Create ( '+Nom+')');
+end;
+
+class procedure Tpool_Ancetre_Ancetre.class_Destroy(var Reference);
+begin
+     Clean_Destroy( Reference);
+end;
+
+class procedure Tpool_Ancetre_Ancetre.class_Get( out Resultat; var Reference; Classe: Tpool_Ancetre_Ancetre_Class);
+begin
+     if not Assigned( Tpool_Ancetre_Ancetre( Reference))
+     then
+         class_Create( Reference, Classe);
+
+     Tpool_Ancetre_Ancetre( Resultat):= Tpool_Ancetre_Ancetre( Reference);
 end;
 
 { TIterateur_pool_Ancetre_Ancetre }
@@ -6847,7 +6911,7 @@ begin
            Old_Count:= sl.Count;
            Supprime_Connection( be, 0);
            //Pas trop propre
-           //mis suite à un bloquage dans le planning
+           //mis suite Ã  un bloquage dans le planning
            if Old_Count = sl.Count
            then
                sl.Delete( 0);
@@ -6945,7 +7009,7 @@ begin
      then
          begin
          fAccueil_Erreur(  'ThAggregation.Delete_from_database: '
-                          +ClassName+': aucun pool défini pour la suppression');
+                          +ClassName+': aucun pool dÃ©fini pour la suppression');
          exit;
          end;
      Charge;
@@ -6956,7 +7020,7 @@ begin
        Trash:= be;
        pool_Ancetre_Ancetre.Supprimer( Trash);
 
-       //dans certains cas le parent est prévenu de la suppression, (planning)
+       //dans certains cas le parent est prÃ©venu de la suppression, (planning)
        //dans d'autres non
        ibe:= sl.IndexOfObject( be);
        if ibe <> -1
@@ -7242,7 +7306,8 @@ end;
 
 
 initialization
-              {Début de l'ancienne unité uWindows}
+              Tpool_Ancetre_Ancetre.Fclass_sl:= nil;
+              {DÃ©but de l'ancienne unitÃ© uWindows}
               {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
               CXBORDER:= GetSystemMetrics( SM_CXBORDER);
               CYBORDER:= GetSystemMetrics( SM_CYBORDER);
@@ -7254,6 +7319,6 @@ initialization
               CXEDGE:= 1;
               CYEDGE:= 1;
               {$IFEND}
-              {Fin de l'ancienne unité uWindows}
+              {Fin de l'ancienne unitÃ© uWindows}
 finalization
 end.
