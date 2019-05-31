@@ -2225,6 +2225,14 @@ public native int pOnListViewDrawItemWidgetTextColor(long pasobj, int position, 
 public native String pOnListViewDrawItemWidgetText(long pasobj, int position, String widgetText);
 public native Bitmap pOnListViewDrawItemWidgetImage(long pasobj, int position, String widgetText);
 
+public java.lang.Object jMidiManager_jCreate(long _Self) {
+  return (java.lang.Object)(new jMidiManager(this,_Self)); 
+}
+  
+public native void pOnMidiManagerDeviceAdded(long pasobj, int deviceId, String deviceName, String productId, String manufacture);
+public native void pOnMidiManagerDeviceRemoved(long pasobj, int deviceId, String deviceName, String productId, String manufacture);
+
+
 public  java.lang.Object jPanel_Create(long pasobj ) {
   return (java.lang.Object)(new jPanel(this.activity,this,pasobj));
 }

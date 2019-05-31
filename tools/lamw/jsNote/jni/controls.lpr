@@ -532,7 +532,29 @@ begin
    ), position, widgetText);
 end;
 
-const NativeMethods: array[0..56] of JNINativeMethod = (
+{ Class:     com_example_appactionbartabdemo1_Controls
+  Method:    pOnMidiManagerDeviceAdded
+  Signature: (JILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V }
+procedure pOnMidiManagerDeviceAdded(PEnv: PJNIEnv; this: JObject;
+ pasobj: JLong; deviceId: JInt; deviceName: JString; productId: JString;
+ manufacture: JString); cdecl;
+begin
+  Java_Event_pOnMidiManagerDeviceAdded(PEnv, this, TObject(pasobj), deviceId,
+   deviceName, productId, manufacture);
+end;
+
+{ Class:     com_example_appactionbartabdemo1_Controls
+  Method:    pOnMidiManagerDeviceRemoved
+  Signature: (JILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V }
+procedure pOnMidiManagerDeviceRemoved(PEnv: PJNIEnv; this: JObject;
+ pasobj: JLong; deviceId: JInt; deviceName: JString; productId: JString;
+ manufacture: JString); cdecl;
+begin
+  Java_Event_pOnMidiManagerDeviceRemoved(PEnv, this, TObject(pasobj), deviceId,
+   deviceName, productId, manufacture);
+end;
+
+const NativeMethods: array[0..58] of JNINativeMethod = (
    (name: 'pAppOnCreate';
     signature: '(Landroid/content/Context;Landroid/widget/RelativeLayout;'
      +'Landroid/content/Intent;)V';
@@ -704,7 +726,13 @@ const NativeMethods: array[0..56] of JNINativeMethod = (
     fnPtr: @pOnListViewDrawItemWidgetText; ),
    (name: 'pOnListViewDrawItemWidgetImage';
     signature: '(JILjava/lang/String;)Landroid/graphics/Bitmap;';
-    fnPtr: @pOnListViewDrawItemWidgetImage; )
+    fnPtr: @pOnListViewDrawItemWidgetImage; ),
+   (name: 'pOnMidiManagerDeviceAdded';
+    signature: '(JILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V';
+    fnPtr: @pOnMidiManagerDeviceAdded; ),
+   (name: 'pOnMidiManagerDeviceRemoved';
+    signature: '(JILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V';
+    fnPtr: @pOnMidiManagerDeviceRemoved; )
 );
 
 function RegisterNativeMethodsArray(PEnv: PJNIEnv; className: PChar;
@@ -866,7 +894,11 @@ exports
   pOnListViewDrawItemWidgetText name 'Java_com_example_appactionbartabdemo1_'
    +'Controls_pOnListViewDrawItemWidgetText',
   pOnListViewDrawItemWidgetImage name 'Java_com_example_appactionbartabdemo1_'
-   +'Controls_pOnListViewDrawItemWidgetImage';
+   +'Controls_pOnListViewDrawItemWidgetImage',
+  pOnMidiManagerDeviceAdded name 'Java_com_example_appactionbartabdemo1_'
+   +'Controls_pOnMidiManagerDeviceAdded',
+  pOnMidiManagerDeviceRemoved name 'Java_com_example_appactionbartabdemo1_'
+   +'Controls_pOnMidiManagerDeviceRemoved';
 
 {%endregion}
 
