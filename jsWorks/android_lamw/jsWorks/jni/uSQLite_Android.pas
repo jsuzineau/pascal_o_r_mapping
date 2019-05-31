@@ -69,6 +69,8 @@ type
     procedure DoScript  ( NomFichierScriptSQL: String); override;
     procedure Reconnecte; override;
   //Contexte
+  protected
+    function Classe_Contexte: TjsDataContexte_class; override;
   public
     jsdc: TjsDataContexte_SQLite_Android;
   //Last_Insert_id
@@ -231,7 +233,6 @@ begin
      {$ifndef android}
      Assure_initialisation;
      {$endif}
-     Classe_Contexte:= TjsDataContexte_SQLite_Android;
      jsdc:= TjsDataContexte_SQLite_Android.Create( ClassName+'.jsdc');
      Contexte:= jsdc;
      jsdc.SetConnection( Self);
@@ -313,27 +314,32 @@ end;
 
 procedure TSQLite_Android.Fill_with_databases(_s: TStrings);
 begin
-		   inherited Fill_with_databases(_s);
+     inherited Fill_with_databases(_s);
 end;
 
 procedure TSQLite_Android.DoCommande(Commande: String);
 begin
-		   inherited DoCommande(Commande);
+
 end;
 
 function TSQLite_Android.ExecQuery(_SQL: String): Boolean;
 begin
-		   Result:=inherited ExecQuery(_SQL);
+     Result:= False;
 end;
 
 procedure TSQLite_Android.DoScript(NomFichierScriptSQL: String);
 begin
-		   inherited DoScript(NomFichierScriptSQL);
+     inherited DoScript(NomFichierScriptSQL);
 end;
 
 procedure TSQLite_Android.Reconnecte;
 begin
 		   inherited Reconnecte;
+end;
+
+function TSQLite_Android.Classe_Contexte: TjsDataContexte_class;
+begin
+     Result:= TjsDataContexte_SQLite_Android;
 end;
 
 function TSQLite_Android.Last_Insert_id( _NomTable: String): Integer;

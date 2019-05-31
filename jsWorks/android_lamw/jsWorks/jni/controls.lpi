@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="10"/>
+    <Version Value="11"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
@@ -14,18 +14,17 @@
       <Title Value="controls"/>
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
-      <XPManifest>
-        <TextName Value="CompanyName.ProductName.AppName"/>
-        <TextDesc Value="Your application description."/>
-      </XPManifest>
     </General>
-    <CustomData Count="6">
-      <Item0 Name="LAMW" Value="GUI"/>
-      <Item1 Name="LamwVersion" Value="0.7"/>
-      <Item2 Name="NdkPath" Value="C:\lamw\android-ndk-r10e-windows-x86\"/>
-      <Item3 Name="Package" Value="com.mars42.jsworks.jsworks"/>
-      <Item4 Name="SdkPath" Value="C:\lamw\android-sdk-windows\"/>
-      <Item5 Name="StartModule" Value="fjsWorks"/>
+    <CustomData Count="9">
+      <Item0 Name="BuildSystem" Value="Gradle"/>
+      <Item1 Name="LAMW" Value="GUI"/>
+      <Item2 Name="LamwVersion" Value="0.8.4"/>
+      <Item3 Name="NdkApi" Value="android-22"/>
+      <Item4 Name="NdkPath" Value="C:\Users\root\LAMW\sdk\ndk-bundle\"/>
+      <Item5 Name="Package" Value="com.mars42.jsworks.jsworks"/>
+      <Item6 Name="SdkPath" Value="C:\Users\root\LAMW\sdk\"/>
+      <Item7 Name="StartModule" Value="fjsWorks"/>
+      <Item8 Name="Theme" Value="DeviceDefault"/>
     </CustomData>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
@@ -34,9 +33,10 @@
       <Version Value="2"/>
     </PublishOptions>
     <RunParams>
-      <local>
-        <FormatVersion Value="1"/>
-      </local>
+      <FormatVersion Value="2"/>
+      <Modes Count="1">
+        <Mode0 Name="default"/>
+      </Modes>
     </RunParams>
     <RequiredPackages Count="3">
       <Item1>
@@ -60,7 +60,7 @@
         <ComponentName Value="fjsWorks"/>
         <HasResources Value="True"/>
         <CustomData Count="1">
-          <Item0 Name="jControls" Value="jButton;jForm;jMenu;jPanel;jTextView;TjChamp_Edit"/>
+          <Item0 Name="jControls" Value="jButton;jMenu;jPanel;jTextView"/>
         </CustomData>
       </Unit1>
       <Unit2>
@@ -117,7 +117,7 @@
         <ComponentName Value="fTest_SQLiteDataAccess"/>
         <HasResources Value="True"/>
         <CustomData Count="1">
-          <Item0 Name="jControls" Value="jButton;jForm;jSqliteCursor;jSqliteDataAccess;jTextView"/>
+          <Item0 Name="jControls" Value="jButton;jSqliteCursor;jSqliteDataAccess;jTextView"/>
         </CustomData>
       </Unit13>
       <Unit14>
@@ -130,7 +130,7 @@
         <ComponentName Value="fUtilitaires"/>
         <HasResources Value="True"/>
         <CustomData Count="1">
-          <Item0 Name="jControls" Value="jButton;jForm"/>
+          <Item0 Name="jControls" Value="jButton"/>
         </CustomData>
       </Unit15>
       <Unit16>
@@ -139,7 +139,7 @@
         <ComponentName Value="fWork"/>
         <HasResources Value="True"/>
         <CustomData Count="1">
-          <Item0 Name="jControls" Value="jButton;jEditText;jForm;jPanel;jTextView;TjChamp_Edit"/>
+          <Item0 Name="jControls" Value="jButton;jEditText;jPanel;jTextView"/>
         </CustomData>
       </Unit16>
     </Units>
@@ -148,10 +148,10 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="..\libs\armeabi-v7a\libcontrols"/>
+      <Filename Value="..\libs\armeabi\libcontrols"/>
     </Target>
     <SearchPaths>
-      <Libraries Value="C:\lamw\android-ndk-r10e-windows-x86\platforms\android-17\arch-arm\usr\lib\;C:\lamw\android-ndk-r10e-windows-x86\toolchains\arm-linux-androideabi-4.9\prebuilt\windows\lib\gcc\arm-linux-androideabi\4.9\"/>
+      <Libraries Value="C:\Users\root\LAMW\sdk\ndk-bundle\platforms\android-22\arch-arm\usr\lib\;C:\Users\root\LAMW\sdk\ndk-bundle\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\lib\gcc\arm-linux-androideabi\4.9.x\"/>
       <OtherUnitFiles Value="..\..\..\Elements\Work;..\..\..\Elements\Tag;..\..\..\..\pascal_o_r_mapping\7_sources_externes\synapse\source\lib;..\..\..\Elements\Tag_Work;..\..\..\Elements\Type_Tag;..\..\..\..\pascal_o_r_mapping\3_Data"/>
       <UnitOutputDirectory Value="..\obj\controls"/>
     </SearchPaths>
@@ -181,7 +181,7 @@
       </Options>
     </Linking>
     <Other>
-      <CustomOptions Value="-Xd -CfSoft -CpARMV7A -XParm-linux-androideabi- -FDC:\lamw\android-ndk-r10e-windows-x86\toolchains\arm-linux-androideabi-4.9\prebuilt\windows\bin"/>
+      <CustomOptions Value="-Xd -CfSoft -CpARMV6 -XParm-linux-androideabi- -FDC:\Users\root\LAMW\sdk\ndk-bundle\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\bin"/>
     </Other>
   </CompilerOptions>
   <Debugging>
