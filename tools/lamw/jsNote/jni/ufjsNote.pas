@@ -20,12 +20,15 @@ type
       jCheckBox1: jCheckBox;
       jEditText1: jEditText;
       jEditText2: jEditText;
+      il: jImageList;
       jImageView1: jImageView;
+      jImageView2: jImageView;
       jListView1: jListView;
       jPanel1: jPanel;
       jPanel2: jPanel;
       jPanel3: jPanel;
       jPanel4: jPanel;
+      jPanel5: jPanel;
       jTextView1: jTextView;
       jTextView2: jTextView;
       jTextView3: jTextView;
@@ -146,3 +149,4 @@ begin
 end;
 
 end.
+

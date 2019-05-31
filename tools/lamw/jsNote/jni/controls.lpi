@@ -56,8 +56,9 @@
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fjsNote"/>
         <HasResources Value="True"/>
-        <CustomData Count="1">
-          <Item0 Name="jControls" Value="jActionBarTab;jButton;jCheckBox;jEditText;jImageView;jListView;jPanel;jTextView"/>
+        <CustomData Count="2">
+          <Item0 Name="fclControls"/>
+          <Item1 Name="jControls" Value="jActionBarTab;jButton;jCheckBox;jEditText;jForm;jImageList;jImageView;jListView;jPanel;jTextView"/>
         </CustomData>
       </Unit1>
     </Units>

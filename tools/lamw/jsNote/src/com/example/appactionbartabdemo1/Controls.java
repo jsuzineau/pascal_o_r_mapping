@@ -2195,6 +2195,10 @@ public java.lang.Object jEditText_Create(long pasobj ) {
   return (java.lang.Object)( new jEditText(this.activity,this,pasobj));
 }
 
+public java.lang.Object jImageList_jCreate(long _Self) {
+  return (java.lang.Object)(new jImageList(this,_Self));
+}
+
 public  java.lang.Object jImageView_Create(long pasobj ) {
   return (java.lang.Object)( new jImageView(this.activity,this,pasobj));
 }
