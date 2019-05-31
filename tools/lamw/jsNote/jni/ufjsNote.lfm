@@ -120,6 +120,31 @@ object fjsNote: TfjsNote
       GravityInParent = lgNone
       OnClick = jButton1Click
     end
+    object jImageView3: jImageView
+      Left = 5
+      Top = 4
+      Width = 72
+      Height = 134
+      MarginLeft = 0
+      MarginTop = 0
+      MarginRight = 0
+      MarginBottom = 0
+      Enabled = True
+      Visible = True
+      Id = 5
+      PosRelativeToAnchor = []
+      PosRelativeToParent = []
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      ImageIndex = 0
+      Images = il
+      BackgroundColor = colbrDefault
+      ImageScaleType = scaleCenter
+      GravityInParent = lgNone
+      RoundedShape = False
+      left = 28
+      top = 28
+    end
   end
   object jPanel2: jPanel
     Left = 4
@@ -384,7 +409,7 @@ object fjsNote: TfjsNote
       WidgetTextColor = colbrDefault
     end
   end
-  object jPanel5: jPanel
+  object pCle_Sol_8vb: jPanel
     Left = 4
     Top = 644
     Width = 386
@@ -403,6 +428,7 @@ object fjsNote: TfjsNote
     BackgroundColor = colbrLimeGreen
     MinPinchZoomFactor = 0.25
     MaxPinchZoomFactor = 4
+    OnFlingGesture = pCle_Sol_8vbFlingGesture
     object jImageView2: jImageView
       Left = 5
       Top = 4
@@ -427,9 +453,9 @@ object fjsNote: TfjsNote
       RoundedShape = False
     end
   end
-  object jActionBarTab1: jActionBarTab
-    OnTabSelected = jActionBarTab1TabSelected
-    OnUnSelected = jActionBarTab1UnSelected
+  object abt: jActionBarTab
+    OnTabSelected = abtTabSelected
+    OnUnSelected = abtUnSelected
     left = 205
     top = 16
   end

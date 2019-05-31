@@ -14,7 +14,7 @@ type
   { TfjsNote }
 
   TfjsNote = class(jForm)
-      jActionBarTab1: jActionBarTab;
+      abt: jActionBarTab;
       jButton1: jButton;
       jButton2: jButton;
       jCheckBox1: jCheckBox;
@@ -23,19 +23,20 @@ type
       il: jImageList;
       jImageView1: jImageView;
       jImageView2: jImageView;
+      jImageView3: jImageView;
       jListView1: jListView;
       jPanel1: jPanel;
       jPanel2: jPanel;
       jPanel3: jPanel;
       jPanel4: jPanel;
-      jPanel5: jPanel;
+      pCle_Sol_8vb: jPanel;
       jTextView1: jTextView;
       jTextView2: jTextView;
       jTextView3: jTextView;
 
       procedure fjsNoteJNIPrompt(Sender: TObject);
-      procedure jActionBarTab1TabSelected(Sender: TObject; view: jObject; title: string);
-      procedure jActionBarTab1UnSelected(Sender: TObject; view: jObject; title: string);
+      procedure abtTabSelected(Sender: TObject; view: jObject; title: string);
+      procedure abtUnSelected(Sender: TObject; view: jObject; title: string);
       procedure jButton1Click(Sender: TObject);
       procedure jButton2Click(Sender: TObject);
       procedure jCheckBox1Click(Sender: TObject);
@@ -43,6 +44,8 @@ type
       procedure jPanel2FlingGesture(Sender: TObject; flingGesture: TFlingGesture);
       procedure jPanel4FlingGesture(Sender: TObject; flingGesture: TFlingGesture);
       procedure jTextView3Click(Sender: TObject);
+      procedure pCle_Sol_8vbFlingGesture(Sender: TObject;
+        flingGesture: TFlingGesture);
 
     private
       {private declarations}
@@ -69,22 +72,24 @@ begin
     jTextView3.TextTypeFace:= tfBold;
     jImageView1.SetImageByResIdentifier('ic_bullet_red');    //...\res\drawable-xxx
     jCheckBox1.Checked:= True;
+    pCle_Sol_8vb.MatchParent;
 
-    jActionBarTab1.Add('NAME', jPanel1.View{sheet view}, 'ic_bullet_green');    // ...\res\drawable-xxx
-    jActionBarTab1.Add('ADDRESS', jPanel2.View {sheet view}, 'ic_bullet_yellow'); //...\res\drawable-xxx
-    jActionBarTab1.Add('ADDLIST', jPanel4.View{sheet view}, jPanel3.View {custom tab view!});
+    abt.Add('NAME', jPanel1.View{sheet view}, 'ic_bullet_green');    // ...\res\drawable-xxx
+    abt.Add('ADDRESS', jPanel2.View {sheet view}, 'ic_bullet_yellow'); //...\res\drawable-xxx
+    abt.Add('ADDLIST', jPanel4.View{sheet view}, jPanel3.View {custom tab view!});
+    abt.Add('Clé Sol 8vb', pCle_Sol_8vb.View{sheet view}, jPanel4.View {custom tab view!});
 
     Self.SetTabNavigationModeActionBar;  //this is needed!!!
 
 end;
 
-procedure TfjsNote.jActionBarTab1TabSelected(Sender: TObject;
+procedure TfjsNote.abtTabSelected(Sender: TObject;
   view: jObject; title: string);
 begin
     //ShowMessage('Tab Selected: '+title);
 end;
 
-procedure TfjsNote.jActionBarTab1UnSelected(Sender: TObject;
+procedure TfjsNote.abtUnSelected(Sender: TObject;
   view: jObject; title: string);
 begin
    //ShowMessage('Tab Un Selected: '+title);
@@ -113,15 +118,15 @@ end;
 
 procedure TfjsNote.jCheckBox1Click(Sender: TObject);
 begin
-  jActionBarTab1.SelectTabByIndex(2);
+  abt.SelectTabByIndex(2);
 end;
 
 procedure TfjsNote.jPanel1FlingGesture(Sender: TObject;
   flingGesture: TFlingGesture);
 begin
    case flingGesture of
-     fliLeftToRight: jActionBarTab1.SelectTabByIndex(2);
-     fliRightToLeft: jActionBarTab1.SelectTabByIndex(1);
+     fliLeftToRight: abt.SelectTabByIndex(2);
+     fliRightToLeft: abt.SelectTabByIndex(1);
   end;
 end;
 
@@ -129,8 +134,8 @@ procedure TfjsNote.jPanel2FlingGesture(Sender: TObject;
   flingGesture: TFlingGesture);
 begin
    case flingGesture of
-     fliLeftToRight: jActionBarTab1.SelectTabByIndex(0);
-     fliRightToLeft: jActionBarTab1.SelectTabByIndex(2);
+     fliLeftToRight: abt.SelectTabByIndex(0);
+     fliRightToLeft: abt.SelectTabByIndex(2);
   end;
 end;
 
@@ -138,14 +143,23 @@ procedure TfjsNote.jPanel4FlingGesture(Sender: TObject;
   flingGesture: TFlingGesture);
 begin
   case flingGesture of
-    fliLeftToRight: jActionBarTab1.SelectTabByIndex(1);
-    fliRightToLeft: jActionBarTab1.SelectTabByIndex(0);
+    fliLeftToRight: abt.SelectTabByIndex(1);
+    fliRightToLeft: abt.SelectTabByIndex(3);
   end;
 end;
 
 procedure TfjsNote.jTextView3Click(Sender: TObject);
 begin
-  jActionBarTab1.SelectTabByIndex(2);
+  abt.SelectTabByIndex(2);
+end;
+
+procedure TfjsNote.pCle_Sol_8vbFlingGesture( Sender: TObject; flingGesture: TFlingGesture);
+begin
+     case flingGesture
+     of
+       fliLeftToRight: abt.SelectTabByIndex(2);
+       fliRightToLeft: abt.SelectTabByIndex(0);
+     end;
 end;
 
 end.
