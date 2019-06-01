@@ -41,10 +41,13 @@
         <Mode0 Name="default"/>
       </Modes>
     </RunParams>
-    <RequiredPackages Count="1">
+    <RequiredPackages Count="2">
       <Item1>
-        <PackageName Value="tfpandroidbridge_pack"/>
+        <PackageName Value="OD_DelphiReportEngine_Units"/>
       </Item1>
+      <Item2>
+        <PackageName Value="tfpandroidbridge_pack"/>
+      </Item2>
     </RequiredPackages>
     <Units Count="2">
       <Unit0>
@@ -58,7 +61,7 @@
         <HasResources Value="True"/>
         <CustomData Count="2">
           <Item0 Name="fclControls"/>
-          <Item1 Name="jControls" Value="jActionBarTab;jButton;jCheckBox;jEditText;jForm;jImageList;jImageView;jListView;jMidiManager;jPanel;jTextView"/>
+          <Item1 Name="jControls" Value="jActionBarTab;jButton;jForm;jMidiManager;jPanel;jWebView"/>
         </CustomData>
       </Unit1>
     </Units>

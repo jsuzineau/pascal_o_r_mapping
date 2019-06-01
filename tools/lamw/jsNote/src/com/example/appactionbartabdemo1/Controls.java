@@ -2187,44 +2187,6 @@ public  java.lang.Object jButton_Create(long pasobj ) {
   return (java.lang.Object)( new jButton(this.activity,this,pasobj));
 }
 
-public  java.lang.Object jCheckBox_Create(long pasobj ) {
-  return (java.lang.Object)( new jCheckBox(this.activity,this,pasobj));
-}
-
-public java.lang.Object jEditText_Create(long pasobj ) {
-  return (java.lang.Object)( new jEditText(this.activity,this,pasobj));
-}
-
-public java.lang.Object jImageList_jCreate(long _Self) {
-  return (java.lang.Object)(new jImageList(this,_Self));
-}
-
-public  java.lang.Object jImageView_Create(long pasobj ) {
-  return (java.lang.Object)( new jImageView(this.activity,this,pasobj));
-}
-
-public  java.lang.Object jListView_Create2(long pasobj,  int widget, String widgetTxt, Bitmap bmp, int txtDecorated, int itemLay, int textSizeDecorated, int textAlign, int textPosition) {
-  return (java.lang.Object)(new jListView(this.activity,this,pasobj,widget,widgetTxt,bmp,txtDecorated,itemLay,textSizeDecorated, textAlign, textPosition));
-}
-public  java.lang.Object jListView_Create3(long pasobj,  int widget, String widgetTxt, int txtDecorated, int itemLay, int textSizeDecorated, int textAlign, int textPosition) {
-  return (java.lang.Object)(new jListView(this.activity,this,pasobj,widget,widgetTxt, null,txtDecorated,itemLay,textSizeDecorated, textAlign, textPosition));
-}
-public native void pOnClickWidgetItem(long pasobj, int position, boolean checked);
-public native void pOnClickImageItem(long pasobj, int position);
-public native void pOnClickCaptionItem(long pasobj, int position, String caption);
-public native void pOnClickItemTextLeft(long pasobj, int position, String caption);
-public native void pOnClickItemTextCenter(long pasobj, int position, String caption);
-public native void pOnClickItemTextRight(long pasobj, int position, String caption);
-public native void pOnListViewLongClickCaptionItem(long pasobj, int position, String caption);
-public native int pOnListViewDrawItemCaptionColor(long pasobj, int position, String caption);
-public native int pOnListViewDrawItemBackgroundColor(long pasobj, int position);
-public native Bitmap pOnListViewDrawItemBitmap(long pasobj, int position, String caption);
-public native void pOnWidgeItemLostFocus(long pasobj, int position, String widgetText);
-public native void pOnListViewScrollStateChanged(long pasobj, int firstVisibleItem, int visibleItemCount, int totalItemCount, boolean lastItemReached);
-public native int pOnListViewDrawItemWidgetTextColor(long pasobj, int position, String widgetText);
-public native String pOnListViewDrawItemWidgetText(long pasobj, int position, String widgetText);
-public native Bitmap pOnListViewDrawItemWidgetImage(long pasobj, int position, String widgetText);
-
 public java.lang.Object jMidiManager_jCreate(long _Self) {
   return (java.lang.Object)(new jMidiManager(this,_Self)); 
 }
@@ -2237,8 +2199,9 @@ public  java.lang.Object jPanel_Create(long pasobj ) {
   return (java.lang.Object)(new jPanel(this.activity,this,pasobj));
 }
 
-public  java.lang.Object jTextView_Create(long pasobj) {
-  return (java.lang.Object)( new jTextView(this.activity,this,pasobj));
+public  java.lang.Object jWebView_Create(long pasobj ) {
+   return (java.lang.Object)( new jWebView(this.activity,this,pasobj));
 }
+public native int pOnWebViewStatus(long pasobj, int EventType, String url);
 
 }

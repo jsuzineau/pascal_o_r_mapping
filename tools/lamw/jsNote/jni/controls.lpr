@@ -384,155 +384,6 @@ begin
 end;
 
 { Class:     com_example_appactionbartabdemo1_Controls
-  Method:    pOnClickWidgetItem
-  Signature: (JIZ)V }
-procedure pOnClickWidgetItem(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
- position: JInt; checked: JBoolean); cdecl;
-begin
-  Java_Event_pOnClickWidgetItem(PEnv, this, TObject(pasobj), position, checked);
-end;
-
-{ Class:     com_example_appactionbartabdemo1_Controls
-  Method:    pOnClickImageItem
-  Signature: (JI)V }
-procedure pOnClickImageItem(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
- position: JInt); cdecl;
-begin
-  Java_Event_pOnClickImageItem(PEnv, this, TObject(pasobj), position);
-end;
-
-{ Class:     com_example_appactionbartabdemo1_Controls
-  Method:    pOnClickCaptionItem
-  Signature: (JILjava/lang/String;)V }
-procedure pOnClickCaptionItem(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
- position: JInt; caption: JString); cdecl;
-begin
-  Java_Event_pOnClickCaptionItem(PEnv, this, TObject(pasobj), position, caption
-   );
-end;
-
-{ Class:     com_example_appactionbartabdemo1_Controls
-  Method:    pOnClickItemTextLeft
-  Signature: (JILjava/lang/String;)V }
-procedure pOnClickItemTextLeft(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
- position: JInt; caption: JString); cdecl;
-begin
-  Java_Event_pOnClickItemTextLeft(PEnv, this, TObject(pasobj), position, caption
-   );
-end;
-
-{ Class:     com_example_appactionbartabdemo1_Controls
-  Method:    pOnClickItemTextCenter
-  Signature: (JILjava/lang/String;)V }
-procedure pOnClickItemTextCenter(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
- position: JInt; caption: JString); cdecl;
-begin
-  Java_Event_pOnClickItemTextCenter(PEnv, this, TObject(pasobj), position,
-   caption);
-end;
-
-{ Class:     com_example_appactionbartabdemo1_Controls
-  Method:    pOnClickItemTextRight
-  Signature: (JILjava/lang/String;)V }
-procedure pOnClickItemTextRight(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
- position: JInt; caption: JString); cdecl;
-begin
-  Java_Event_pOnClickItemTextRight(PEnv, this, TObject(pasobj), position,
-   caption);
-end;
-
-{ Class:     com_example_appactionbartabdemo1_Controls
-  Method:    pOnListViewLongClickCaptionItem
-  Signature: (JILjava/lang/String;)V }
-procedure pOnListViewLongClickCaptionItem(PEnv: PJNIEnv; this: JObject;
- pasobj: JLong; position: JInt; caption: JString); cdecl;
-begin
-  Java_Event_pOnListViewLongClickCaptionItem(PEnv, this, TObject(pasobj),
-   position, caption);
-end;
-
-{ Class:     com_example_appactionbartabdemo1_Controls
-  Method:    pOnListViewDrawItemCaptionColor
-  Signature: (JILjava/lang/String;)I }
-function pOnListViewDrawItemCaptionColor(PEnv: PJNIEnv; this: JObject;
- pasobj: JLong; position: JInt; caption: JString): JInt; cdecl;
-begin
-  Result:=Java_Event_pOnListViewDrawItemCaptionColor(PEnv, this, TObject(pasobj
-   ), position, caption);
-end;
-
-{ Class:     com_example_appactionbartabdemo1_Controls
-  Method:    pOnListViewDrawItemBackgroundColor
-  Signature: (JI)I }
-function pOnListViewDrawItemBackgroundColor(PEnv: PJNIEnv; this: JObject;
- pasobj: JLong; position: JInt): JInt; cdecl;
-begin
-  Result:=Java_Event_pOnListViewDrawItemBackgroundColor(PEnv, this, TObject(
-   pasobj), position);
-end;
-
-{ Class:     com_example_appactionbartabdemo1_Controls
-  Method:    pOnListViewDrawItemBitmap
-  Signature: (JILjava/lang/String;)Landroid/graphics/Bitmap; }
-function pOnListViewDrawItemBitmap(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
- position: JInt; caption: JString): JObject; cdecl;
-begin
-  Result:=Java_Event_pOnListViewDrawItemBitmap(PEnv, this, TObject(pasobj),
-   position, caption);
-end;
-
-{ Class:     com_example_appactionbartabdemo1_Controls
-  Method:    pOnWidgeItemLostFocus
-  Signature: (JILjava/lang/String;)V }
-procedure pOnWidgeItemLostFocus(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
- position: JInt; widgetText: JString); cdecl;
-begin
-  Java_Event_pOnWidgeItemLostFocus(PEnv, this, TObject(pasobj), position,
-   widgetText);
-end;
-
-{ Class:     com_example_appactionbartabdemo1_Controls
-  Method:    pOnListViewScrollStateChanged
-  Signature: (JIIIZ)V }
-procedure pOnListViewScrollStateChanged(PEnv: PJNIEnv; this: JObject;
- pasobj: JLong; firstVisibleItem: JInt; visibleItemCount: JInt;
- totalItemCount: JInt; lastItemReached: JBoolean); cdecl;
-begin
-  Java_Event_pOnListViewScrollStateChanged(PEnv, this, TObject(pasobj),
-   firstVisibleItem, visibleItemCount, totalItemCount, lastItemReached);
-end;
-
-{ Class:     com_example_appactionbartabdemo1_Controls
-  Method:    pOnListViewDrawItemWidgetTextColor
-  Signature: (JILjava/lang/String;)I }
-function pOnListViewDrawItemWidgetTextColor(PEnv: PJNIEnv; this: JObject;
- pasobj: JLong; position: JInt; widgetText: JString): JInt; cdecl;
-begin
-  Result:=Java_Event_pOnListViewDrawItemWidgetTextColor(PEnv, this, TObject(
-   pasobj), position, widgetText);
-end;
-
-{ Class:     com_example_appactionbartabdemo1_Controls
-  Method:    pOnListViewDrawItemWidgetText
-  Signature: (JILjava/lang/String;)Ljava/lang/String; }
-function pOnListViewDrawItemWidgetText(PEnv: PJNIEnv; this: JObject;
- pasobj: JLong; position: JInt; widgetText: JString): JString; cdecl;
-begin
-  Result:=Java_Event_pOnListViewDrawItemWidgetText(PEnv, this, TObject(pasobj),
-   position, widgetText);
-end;
-
-{ Class:     com_example_appactionbartabdemo1_Controls
-  Method:    pOnListViewDrawItemWidgetImage
-  Signature: (JILjava/lang/String;)Landroid/graphics/Bitmap; }
-function pOnListViewDrawItemWidgetImage(PEnv: PJNIEnv; this: JObject;
- pasobj: JLong; position: JInt; widgetText: JString): JObject; cdecl;
-begin
-  Result:=Java_Event_pOnListViewDrawItemWidgetImage(PEnv, this, TObject(pasobj
-   ), position, widgetText);
-end;
-
-{ Class:     com_example_appactionbartabdemo1_Controls
   Method:    pOnMidiManagerDeviceAdded
   Signature: (JILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V }
 procedure pOnMidiManagerDeviceAdded(PEnv: PJNIEnv; this: JObject;
@@ -554,7 +405,17 @@ begin
    deviceName, productId, manufacture);
 end;
 
-const NativeMethods: array[0..58] of JNINativeMethod = (
+{ Class:     com_example_appactionbartabdemo1_Controls
+  Method:    pOnWebViewStatus
+  Signature: (JILjava/lang/String;)I }
+function pOnWebViewStatus(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
+ EventType: JInt; url: JString): JInt; cdecl;
+begin
+  Result:=Java_Event_pOnWebViewStatus(PEnv, this, TObject(pasobj), EventType,
+   url);
+end;
+
+const NativeMethods: array[0..44] of JNINativeMethod = (
    (name: 'pAppOnCreate';
     signature: '(Landroid/content/Context;Landroid/widget/RelativeLayout;'
      +'Landroid/content/Intent;)V';
@@ -682,57 +543,15 @@ const NativeMethods: array[0..58] of JNINativeMethod = (
    (name: 'pOnActionBarTabUnSelected';
     signature: '(JLandroid/view/View;Ljava/lang/String;)V';
     fnPtr: @pOnActionBarTabUnSelected; ),
-   (name: 'pOnClickWidgetItem';
-    signature: '(JIZ)V';
-    fnPtr: @pOnClickWidgetItem; ),
-   (name: 'pOnClickImageItem';
-    signature: '(JI)V';
-    fnPtr: @pOnClickImageItem; ),
-   (name: 'pOnClickCaptionItem';
-    signature: '(JILjava/lang/String;)V';
-    fnPtr: @pOnClickCaptionItem; ),
-   (name: 'pOnClickItemTextLeft';
-    signature: '(JILjava/lang/String;)V';
-    fnPtr: @pOnClickItemTextLeft; ),
-   (name: 'pOnClickItemTextCenter';
-    signature: '(JILjava/lang/String;)V';
-    fnPtr: @pOnClickItemTextCenter; ),
-   (name: 'pOnClickItemTextRight';
-    signature: '(JILjava/lang/String;)V';
-    fnPtr: @pOnClickItemTextRight; ),
-   (name: 'pOnListViewLongClickCaptionItem';
-    signature: '(JILjava/lang/String;)V';
-    fnPtr: @pOnListViewLongClickCaptionItem; ),
-   (name: 'pOnListViewDrawItemCaptionColor';
-    signature: '(JILjava/lang/String;)I';
-    fnPtr: @pOnListViewDrawItemCaptionColor; ),
-   (name: 'pOnListViewDrawItemBackgroundColor';
-    signature: '(JI)I';
-    fnPtr: @pOnListViewDrawItemBackgroundColor; ),
-   (name: 'pOnListViewDrawItemBitmap';
-    signature: '(JILjava/lang/String;)Landroid/graphics/Bitmap;';
-    fnPtr: @pOnListViewDrawItemBitmap; ),
-   (name: 'pOnWidgeItemLostFocus';
-    signature: '(JILjava/lang/String;)V';
-    fnPtr: @pOnWidgeItemLostFocus; ),
-   (name: 'pOnListViewScrollStateChanged';
-    signature: '(JIIIZ)V';
-    fnPtr: @pOnListViewScrollStateChanged; ),
-   (name: 'pOnListViewDrawItemWidgetTextColor';
-    signature: '(JILjava/lang/String;)I';
-    fnPtr: @pOnListViewDrawItemWidgetTextColor; ),
-   (name: 'pOnListViewDrawItemWidgetText';
-    signature: '(JILjava/lang/String;)Ljava/lang/String;';
-    fnPtr: @pOnListViewDrawItemWidgetText; ),
-   (name: 'pOnListViewDrawItemWidgetImage';
-    signature: '(JILjava/lang/String;)Landroid/graphics/Bitmap;';
-    fnPtr: @pOnListViewDrawItemWidgetImage; ),
    (name: 'pOnMidiManagerDeviceAdded';
     signature: '(JILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V';
     fnPtr: @pOnMidiManagerDeviceAdded; ),
    (name: 'pOnMidiManagerDeviceRemoved';
     signature: '(JILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V';
-    fnPtr: @pOnMidiManagerDeviceRemoved; )
+    fnPtr: @pOnMidiManagerDeviceRemoved; ),
+   (name: 'pOnWebViewStatus';
+    signature: '(JILjava/lang/String;)I';
+    fnPtr: @pOnWebViewStatus; )
 );
 
 function RegisterNativeMethodsArray(PEnv: PJNIEnv; className: PChar;
@@ -865,40 +684,12 @@ exports
    +'_pOnActionBarTabSelected',
   pOnActionBarTabUnSelected name 'Java_com_example_appactionbartabdemo1_'
    +'Controls_pOnActionBarTabUnSelected',
-  pOnClickWidgetItem name 'Java_com_example_appactionbartabdemo1_Controls_'
-   +'pOnClickWidgetItem',
-  pOnClickImageItem name 'Java_com_example_appactionbartabdemo1_Controls_'
-   +'pOnClickImageItem',
-  pOnClickCaptionItem name 'Java_com_example_appactionbartabdemo1_Controls_'
-   +'pOnClickCaptionItem',
-  pOnClickItemTextLeft name 'Java_com_example_appactionbartabdemo1_Controls_'
-   +'pOnClickItemTextLeft',
-  pOnClickItemTextCenter name 'Java_com_example_appactionbartabdemo1_Controls_'
-   +'pOnClickItemTextCenter',
-  pOnClickItemTextRight name 'Java_com_example_appactionbartabdemo1_Controls_'
-   +'pOnClickItemTextRight',
-  pOnListViewLongClickCaptionItem name 'Java_com_example_appactionbartabdemo1_'
-   +'Controls_pOnListViewLongClickCaptionItem',
-  pOnListViewDrawItemCaptionColor name 'Java_com_example_appactionbartabdemo1_'
-   +'Controls_pOnListViewDrawItemCaptionColor',
-  pOnListViewDrawItemBackgroundColor name 'Java_com_example_appactionbartabdemo'
-   +'1_Controls_pOnListViewDrawItemBackgroundColor',
-  pOnListViewDrawItemBitmap name 'Java_com_example_appactionbartabdemo1_'
-   +'Controls_pOnListViewDrawItemBitmap',
-  pOnWidgeItemLostFocus name 'Java_com_example_appactionbartabdemo1_Controls_'
-   +'pOnWidgeItemLostFocus',
-  pOnListViewScrollStateChanged name 'Java_com_example_appactionbartabdemo1_'
-   +'Controls_pOnListViewScrollStateChanged',
-  pOnListViewDrawItemWidgetTextColor name 'Java_com_example_appactionbartabdemo'
-   +'1_Controls_pOnListViewDrawItemWidgetTextColor',
-  pOnListViewDrawItemWidgetText name 'Java_com_example_appactionbartabdemo1_'
-   +'Controls_pOnListViewDrawItemWidgetText',
-  pOnListViewDrawItemWidgetImage name 'Java_com_example_appactionbartabdemo1_'
-   +'Controls_pOnListViewDrawItemWidgetImage',
   pOnMidiManagerDeviceAdded name 'Java_com_example_appactionbartabdemo1_'
    +'Controls_pOnMidiManagerDeviceAdded',
   pOnMidiManagerDeviceRemoved name 'Java_com_example_appactionbartabdemo1_'
-   +'Controls_pOnMidiManagerDeviceRemoved';
+   +'Controls_pOnMidiManagerDeviceRemoved',
+  pOnWebViewStatus name 'Java_com_example_appactionbartabdemo1_Controls_'
+   +'pOnWebViewStatus';
 
 {%endregion}
 

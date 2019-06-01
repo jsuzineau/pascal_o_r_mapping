@@ -1,6 +1,6 @@
 object fjsNote: TfjsNote
-  Left = 301
-  Top = 0
+  Left = 469
+  Top = 91
   Width = 394
   Height = 763
   MarginLeft = 0
@@ -32,121 +32,9 @@ object fjsNote: TfjsNote
     BackgroundColor = colbrBeige
     MinPinchZoomFactor = 0.25
     MaxPinchZoomFactor = 4
-    OnFlingGesture = pTab1FlingGesture
-    object jTextView1: jTextView
-      Left = 5
-      Top = 5
-      Width = 38
-      Height = 20
-      MarginLeft = 5
-      MarginTop = 5
-      MarginRight = 5
-      MarginBottom = 5
-      Enabled = True
-      Visible = True
-      Id = 7271715
-      PosRelativeToAnchor = []
-      PosRelativeToParent = [rpTop, rpLeft]
-      LayoutParamWidth = lpWrapContent
-      LayoutParamHeight = lpWrapContent
-      Text = 'Name:'
-      Alignment = taLeft
-      BackgroundColor = colbrDefault
-      FontColor = colbrLimeGreen
-      FontSize = 0
-      TextTypeFace = tfNormal
-      FontSizeUnit = unitDefault
-      GravityInParent = lgNone
-    end
-    object jEditText1: jEditText
-      Tag = 1
-      Left = 5
-      Top = 40
-      Width = 376
-      Height = 39
-      MarginLeft = 5
-      MarginTop = 10
-      MarginRight = 5
-      MarginBottom = 10
-      Enabled = True
-      Visible = True
-      Anchor = jTextView1
-      Id = 4813408
-      PosRelativeToAnchor = [raBelow]
-      PosRelativeToParent = []
-      LayoutParamWidth = lpMatchParent
-      LayoutParamHeight = lpWrapContent
-      Text = 'Lazarus'
-      Alignment = taLeft
-      InputTypeEx = itxText
-      MaxTextLength = 300
-      BackgroundColor = colbrDefault
-      FontColor = colbrDefault
-      FontSize = 0
-      HintTextColor = colbrSilver
-      ScrollBarStyle = scrNone
-      MaxLines = 1
-      HorScrollBar = True
-      VerScrollBar = False
-      WrappingLine = False
-      Editable = True
-      FontSizeUnit = unitDefault
-      CloseSoftInputOnEnter = True
-      CapSentence = False
-      GravityInParent = lgNone
-    end
-    object jButton1: jButton
-      Left = 2
-      Top = 93
-      Width = 382
-      Height = 50
-      MarginLeft = 2
-      MarginTop = 4
-      MarginRight = 2
-      MarginBottom = 4
-      Enabled = True
-      Visible = True
-      Anchor = jEditText1
-      Id = 0
-      PosRelativeToAnchor = [raBelow]
-      PosRelativeToParent = []
-      LayoutParamWidth = lpMatchParent
-      LayoutParamHeight = lpWrapContent
-      Text = 'Ok'
-      BackgroundColor = colbrDefault
-      FontColor = colbrLimeGreen
-      FontSize = 0
-      FontSizeUnit = unitDefault
-      GravityInParent = lgNone
-      OnClick = jButton1Click
-    end
-    object jImageView3: jImageView
-      Left = 0
-      Top = 207
-      Width = 257
-      Height = 377
-      MarginLeft = 0
-      MarginTop = 0
-      MarginRight = 0
-      MarginBottom = 0
-      Enabled = True
-      Visible = True
-      Anchor = bNote
-      Id = 5
-      PosRelativeToAnchor = [raBelow]
-      PosRelativeToParent = []
-      LayoutParamWidth = lpTwoThirdOfParent
-      LayoutParamHeight = lpHalfOfParent
-      ImageIndex = 0
-      Images = il
-      BackgroundColor = colbrDefault
-      ImageScaleType = scaleFitCenter
-      GravityInParent = lgNone
-      RoundedShape = False
-    end
     object bNote: jButton
       Left = 5
-      Top = 152
+      Top = 700
       Width = 376
       Height = 50
       MarginLeft = 5
@@ -155,10 +43,9 @@ object fjsNote: TfjsNote
       MarginBottom = 5
       Enabled = True
       Visible = True
-      Anchor = jButton1
       Id = 7271716
-      PosRelativeToAnchor = [raBelow]
-      PosRelativeToParent = []
+      PosRelativeToAnchor = []
+      PosRelativeToParent = [rpBottom]
       LayoutParamWidth = lpMatchParent
       LayoutParamHeight = lpWrapContent
       Text = 'bNote'
@@ -169,285 +56,35 @@ object fjsNote: TfjsNote
       GravityInParent = lgNone
       OnClick = bNoteClick
     end
-  end
-  object pTab2: jPanel
-    Left = 4
-    Top = 303
-    Width = 386
-    Height = 190
-    MarginLeft = 4
-    MarginTop = 4
-    MarginRight = 4
-    MarginBottom = 4
-    Enabled = True
-    Visible = False
-    Id = 1
-    PosRelativeToAnchor = []
-    PosRelativeToParent = []
-    LayoutParamWidth = lpMatchParent
-    LayoutParamHeight = lpOneQuarterOfParent
-    BackgroundColor = colbrPeachPuff
-    MinPinchZoomFactor = 0.25
-    MaxPinchZoomFactor = 4
-    OnFlingGesture = pTab2FlingGesture
-    object jTextView2: jTextView
-      Left = 167
-      Top = 5
-      Width = 51
-      Height = 20
-      MarginLeft = 5
-      MarginTop = 5
-      MarginRight = 5
-      MarginBottom = 5
-      Enabled = True
-      Visible = True
-      Id = 506422
-      PosRelativeToAnchor = []
-      PosRelativeToParent = [rpTop, rpCenterHorizontal]
-      LayoutParamWidth = lpWrapContent
-      LayoutParamHeight = lpWrapContent
-      Text = 'Address:'
-      Alignment = taLeft
-      BackgroundColor = colbrDefault
-      FontColor = colbrMidnightBlue
-      FontSize = 0
-      TextTypeFace = tfNormal
-      FontSizeUnit = unitDefault
-      GravityInParent = lgNone
-    end
-    object jEditText2: jEditText
-      Tag = 1
-      Left = 5
-      Top = 40
-      Width = 376
-      Height = 39
-      MarginLeft = 5
-      MarginTop = 10
-      MarginRight = 5
-      MarginBottom = 10
-      Enabled = True
-      Visible = True
-      Anchor = jTextView2
-      Id = 3792120
-      PosRelativeToAnchor = [raBelow]
-      PosRelativeToParent = []
-      LayoutParamWidth = lpMatchParent
-      LayoutParamHeight = lpWrapContent
-      Text = 'World'
-      Alignment = taLeft
-      InputTypeEx = itxText
-      MaxTextLength = 300
-      BackgroundColor = colbrDefault
-      FontColor = colbrDefault
-      FontSize = 0
-      HintTextColor = colbrSilver
-      ScrollBarStyle = scrNone
-      MaxLines = 1
-      HorScrollBar = True
-      VerScrollBar = False
-      WrappingLine = False
-      Editable = True
-      FontSizeUnit = unitDefault
-      CloseSoftInputOnEnter = True
-      CapSentence = False
-      GravityInParent = lgNone
-    end
-    object jButton2: jButton
-      Left = 2
-      Top = 93
-      Width = 382
-      Height = 50
-      MarginLeft = 2
-      MarginTop = 4
-      MarginRight = 2
-      MarginBottom = 4
-      Enabled = True
-      Visible = True
-      Anchor = jEditText2
-      Id = 0
-      PosRelativeToAnchor = [raBelow]
-      PosRelativeToParent = []
-      LayoutParamWidth = lpMatchParent
-      LayoutParamHeight = lpWrapContent
-      Text = 'Ok'
-      BackgroundColor = colbrDefault
-      FontColor = colbrMidnightBlue
-      FontSize = 0
-      FontSizeUnit = unitDefault
-      GravityInParent = lgNone
-      OnClick = jButton2Click
-    end
-  end
-  object pTab3_custom_tab_view: jPanel
-    Left = 0
-    Top = 496
-    Width = 394
-    Height = 95
-    MarginLeft = 0
-    MarginTop = 0
-    MarginRight = 0
-    MarginBottom = 0
-    Enabled = True
-    Visible = False
-    Id = 2
-    PosRelativeToAnchor = []
-    PosRelativeToParent = []
-    LayoutParamWidth = lpMatchParent
-    LayoutParamHeight = lpOneEighthOfParent
-    BackgroundColor = colbrDefault
-    MinPinchZoomFactor = 0.25
-    MaxPinchZoomFactor = 4
-    object jCheckBox1: jCheckBox
-      Left = 339
-      Top = 31
-      Width = 55
-      Height = 32
-      MarginLeft = 0
-      MarginTop = 0
-      MarginRight = 0
-      MarginBottom = 0
-      Enabled = True
-      Visible = True
-      Id = 3232535
-      PosRelativeToAnchor = []
-      PosRelativeToParent = [rpRight, rpCenterVertical]
-      LayoutParamWidth = lpWrapContent
-      LayoutParamHeight = lpWrapContent
-      Text = 'Add'
-      BackgroundColor = colbrDefault
-      FontColor = colbrTomato
-      FontSize = 12
-      Checked = False
-      FontSizeUnit = unitDefault
-    end
-    object jTextView3: jTextView
-      Left = 32
-      Top = 38
-      Width = 22
-      Height = 18
-      MarginLeft = 0
-      MarginTop = 30
-      MarginRight = 0
-      MarginBottom = 0
-      Enabled = True
-      Visible = True
-      Anchor = jImageView1
-      Id = 0
-      PosRelativeToAnchor = [raToRightOf]
-      PosRelativeToParent = [rpCenterVertical]
-      LayoutParamWidth = lpWrapContent
-      LayoutParamHeight = lpWrapContent
-      Text = 'LIST'
-      Alignment = taLeft
-      BackgroundColor = colbrDefault
-      FontColor = colbrSteelBlue
-      FontSize = 12
-      TextTypeFace = tfNormal
-      FontSizeUnit = unitDefault
-      GravityInParent = lgNone
-    end
-    object jImageView1: jImageView
-      Tag = 1
+    object wv: jWebView
       Left = 0
-      Top = 31
-      Width = 32
-      Height = 32
+      Top = 0
+      Width = 386
+      Height = 695
       MarginLeft = 0
       MarginTop = 0
       MarginRight = 0
       MarginBottom = 0
       Enabled = True
       Visible = True
-      Id = 7721927
-      PosRelativeToAnchor = []
-      PosRelativeToParent = [rpLeft, rpCenterVertical]
-      LayoutParamWidth = lpWrapContent
-      LayoutParamHeight = lpWrapContent
-      ImageIndex = 0
-      BackgroundColor = colbrDefault
-      ImageScaleType = scaleCenter
-      GravityInParent = lgNone
-      RoundedShape = False
-    end
-  end
-  object pTab3: jPanel
-    Left = 4
-    Top = 595
-    Width = 386
-    Height = 152
-    MarginLeft = 4
-    MarginTop = 4
-    MarginRight = 4
-    MarginBottom = 4
-    Enabled = True
-    Visible = False
-    Id = 3
-    PosRelativeToAnchor = []
-    PosRelativeToParent = []
-    LayoutParamWidth = lpMatchParent
-    LayoutParamHeight = lpOneFifthOfParent
-    BackgroundColor = colbrLimeGreen
-    MinPinchZoomFactor = 0.25
-    MaxPinchZoomFactor = 4
-    OnFlingGesture = pTab3FlingGesture
-    object jListView1: jListView
-      Tag = 2
-      Left = 5
-      Top = 5
-      Width = 376
-      Height = 142
-      MarginLeft = 5
-      MarginTop = 5
-      MarginRight = 5
-      MarginBottom = 5
-      Enabled = True
-      Visible = True
-      Id = 0
-      PosRelativeToAnchor = []
-      PosRelativeToParent = [rpCenterInParent]
+      Anchor = bNote
+      Id = 7271717
+      PosRelativeToAnchor = [raAbove]
+      PosRelativeToParent = []
       LayoutParamWidth = lpMatchParent
       LayoutParamHeight = lpMatchParent
-      BackgroundColor = colbrGreenYellow
-      FontColor = colbrRed
-      FontSize = 0
-      WidgetItem = wgNone
-      Delimiter = '|'
-      TextDecorated = txtNormal
-      ItemLayout = layImageTextWidget
-      TextSizeDecorated = sdNone
-      TextAlign = alLeft
-      TextPosition = posCenter
-      TextWordWrap = False
-      EnableOnClickTextLeft = False
-      EnableOnClickTextCenter = False
-      EnableOnClickTextRight = False
-      HighLightSelectedItemColor = colbrRed
-      FontSizeUnit = unitDefault
-      ItemPaddingTop = 40
-      ItemPaddingBottom = 40
-      ItemPaddingLeft = 10
-      ItemPaddingRight = 10
-      TextMarginLeft = 10
-      TextMarginRight = 10
-      TextMarginInner = 2
-      WidgetTextColor = colbrDefault
+      JavaScript = True
+      BackgroundColor = colbrDefault
+      ZoomControl = True
+      OnStatus = wvStatus
     end
-  end
-  object abt: jActionBarTab
-    OnTabSelected = abtTabSelected
-    OnUnSelected = abtUnSelected
-    left = 205
-    top = 16
-  end
-  object il: jImageList
-    Images.Strings = (
-      'Cle_Sol_8vb.PNG'
-    )
-    left = 216
-    top = 672
   end
   object mm: jMidiManager
     left = 280
     top = 24
+  end
+  object abt: jActionBarTab
+    left = 233
+    top = 44
   end
 end
