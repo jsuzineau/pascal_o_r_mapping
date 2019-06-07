@@ -18,10 +18,12 @@ type
   TfjsNote = class(jForm)
       bNote: jButton;
       abt: jActionBarTab;
+      bStart: jButton;
       wv: jWebView;
       mm: jMidiManager;
       pTab1: jPanel;
 
+      procedure bStartClick(Sender: TObject);
       procedure fjsNoteJNIPrompt(Sender: TObject);
       procedure bNoteClick(Sender: TObject);
       procedure wvStatus(Sender: TObject; Status: TWebViewStatus; URL: String;var CanNavi: Boolean);
@@ -50,14 +52,24 @@ begin
     SetTabNavigationModeActionBar;  //this is needed!!!
 end;
 
+procedure TfjsNote.bStartClick(Sender: TObject);
+begin
+     if MM.Active
+     then
+         begin
+         MM.Close;
+         bStart.Text:= 'Start';
+         end
+     else
+         begin
+         MM.OpenInput('D1P0');
+         bStart.Text:= 'Stop';
+         end;
+end;
+
 procedure TfjsNote.bNoteClick(Sender: TObject);
 begin
-     MM.OpenInput('D1P0');
-     try
-        PlayRandomNote;
-     finally
-            MM.Close;
-            end;
+     PlayRandomNote;
 end;
 
 procedure TfjsNote.wvStatus( Sender: TObject; Status: TWebViewStatus; URL: String; var CanNavi: Boolean);
@@ -129,22 +141,18 @@ end;
 
 procedure TfjsNote.PlayNote( _N: Integer);
 begin
-     MM.OpenInput('D1P0');
-     try
-        if not MM.Active then exit;
+     if not MM.Active then exit;
 
-        ShowMessage(ClassName+'.PlayNote: '+IntToStr( _N));
-        //MM.SetChPatch(1, 67{tenor sax});
-        //MM.SetChPatch(1, 20);//orgue
-        //MM.SetChPatch(1, 41);//violon
-        MM.SetChPatch(1, 53);//choeur Aaah
-        MM.SetChVol(1, 90);  // channel 1 volume 90
-        MM.PlayChNoteVol(1, _N, 80);  // play the note
-        Sleep(500);  // wait a little
-        MM.PlayChNoteVol(1, _N, 0); // silence the note
-     finally
-            MM.Close;
-            end;
+     ShowMessage(ClassName+'.PlayNote: '+IntToStr( _N));
+     //MM.SetChPatch(1, 67{tenor sax});
+     //MM.SetChPatch(1, 20);//orgue
+     //MM.SetChPatch(1, 41);//violon
+     //MM.SetChPatch(1, 53);//choeur Aaah
+     MM.SetChPatch(1, 1);//Acoustic Grand Piano
+     MM.SetChVol(1, 90);  // channel 1 volume 90
+     MM.PlayChNoteVol(1, _N, 80);  // play the note
+     //Sleep(500);  // wait a little
+     //MM.PlayChNoteVol(1, _N, 0); // silence the note
 end;
 
 

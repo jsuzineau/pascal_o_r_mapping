@@ -1,0 +1,7 @@
+{
+  "name": "jsNote",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

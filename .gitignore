@@ -106,3 +106,12 @@ tools/Generateur/etc/_Configuration_Generateur_de_code.ini
 /tools/lamw/jsNote/libs
 /tools/lamw/jsNote/obj
 *.bak2
+/tools/jsNote/Cordova/node_modules
+/tools/jsNote/Cordova_Angular/Angular/node_modules
+/tools/jsNote/Cordova_Angular/Cordova/node_modules
+/tools/jsNote/html5_seul/backup
+/tools/jsNote/ionic/backup
+/tools/jsNote/pas2js/backup
+
+
+

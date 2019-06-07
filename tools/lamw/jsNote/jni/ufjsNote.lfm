@@ -33,20 +33,21 @@ object fjsNote: TfjsNote
     MinPinchZoomFactor = 0.25
     MaxPinchZoomFactor = 4
     object bNote: jButton
-      Left = 5
+      Left = 87
       Top = 700
-      Width = 376
+      Width = 77
       Height = 50
-      MarginLeft = 5
+      MarginLeft = 0
       MarginTop = 5
-      MarginRight = 5
+      MarginRight = 0
       MarginBottom = 5
       Enabled = True
       Visible = True
+      Anchor = bStart
       Id = 7271716
-      PosRelativeToAnchor = []
+      PosRelativeToAnchor = [raToRightOf]
       PosRelativeToParent = [rpBottom]
-      LayoutParamWidth = lpMatchParent
+      LayoutParamWidth = lpOneFifthOfParent
       LayoutParamHeight = lpWrapContent
       Text = 'bNote'
       BackgroundColor = colbrDefault
@@ -77,6 +78,30 @@ object fjsNote: TfjsNote
       BackgroundColor = colbrDefault
       ZoomControl = True
       OnStatus = wvStatus
+    end
+    object bStart: jButton
+      Left = 5
+      Top = 700
+      Width = 77
+      Height = 50
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Visible = True
+      Id = 7271718
+      PosRelativeToAnchor = []
+      PosRelativeToParent = [rpBottom, rpLeft]
+      LayoutParamWidth = lpOneFifthOfParent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Start'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = bStartClick
     end
   end
   object mm: jMidiManager
