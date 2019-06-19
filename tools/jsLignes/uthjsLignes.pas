@@ -92,32 +92,38 @@ var
    FileName: String;
    F: File;
    TailleF: Integer;
+   LS: Integer;
    S: String;
-   SP: PChar;
-   LongueurFinLigne: Integer;
+   I: Integer;
 begin
      FileName:= Path+PathDelim+NomFichier;
      AssignFile( F, FileName);
      FileMode:= 0;
      Reset( F, 1);
      TailleF:= FileSize(F);
-     SetLength( S, TailleF+1);
+     LS:= TailleF+1;
+     SetLength( S, LS);
      BlockRead( F, S[1], TailleF);
      CloseFile( F);
-     S[ Length(S)]:= #0;
-     SP:= @S[1];
+     S[ LS]:= #0;
 
-     LongueurFinLigne:= Length( FinLigne);
      Result:= 1;
-     repeat
-           SP:= StrPos( SP, FinLigne);
-           if Assigned( SP)
-           then
-               begin
-               Inc( Result);
-               Inc( SP, LongueurFinLigne);
-               end;
-     until SP =  nil;
+     I:= 1;
+     while I <= LS
+     do
+       begin
+       case S[I]
+       of
+         #13:
+           begin
+           Inc(Result);
+           if (I < LS) and (#10 = S[I+1]) then Inc(I);
+           end;
+         #10:
+           Inc(Result);
+         end;
+       Inc(I);
+       end;
 end;
 
 function TthjsLignes.TraiteRepertoire(Parent: TTreeNode; Path: String): Int64;
