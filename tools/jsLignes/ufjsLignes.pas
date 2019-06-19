@@ -71,9 +71,13 @@ end;
 
 procedure TfjsLignes.FormClose(Sender: TObject; var Action: TCloseAction);
 var
+   RootPath: String;
    FileName: String;
 begin
-     FileName:= eRootPath.Text+'\jsLignes.Exclus.txt';
+     RootPath:= eRootPath.Text;
+     if '' = RootPath then exit;
+
+     FileName:= eRootPath.Text+PathDelim+'jsLignes.Exclus.txt';
      mExclus.Lines.SaveToFile( FileName);
 end;
 
@@ -81,7 +85,7 @@ procedure TfjsLignes.eRootPathChange(Sender: TObject);
 var
    FileName: String;
 begin
-     FileName:= eRootPath.Text+'\jsLignes.Exclus.txt';
+     FileName:= eRootPath.Text+PathDelim+'jsLignes.Exclus.txt';
      if FileExists( FileName)
      then
          mExclus.Lines.LoadFromFile( FileName);

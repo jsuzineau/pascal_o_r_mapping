@@ -81,7 +81,7 @@ var
    Pages: Extended;
 begin
      Pages:= Taille / NbLignes_Pages;
-     Libelle:= Format('%7.2f pages, %6d lignes, %s',[Pages,Taille,NomFichier]);
+     Libelle:= Format('%.6d  %7.2f pages, %6d lignes, %s',[Taille, Pages,Taille,NomFichier]);
      if Exclu
      then
          Libelle:= '      ('+Libelle+')';
