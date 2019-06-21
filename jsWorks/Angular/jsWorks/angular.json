@@ -20,7 +20,7 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
             ],
             "styles": [
               "src/styles.css"
@@ -29,7 +29,7 @@
               "node_modules/tinymce/tinymce.min.js",
               "node_modules/tinymce/themes/silver/theme.js",
               "node_modules/tinymce/plugins/link/plugin.js",      
-              //"node_modules/tinymce/plugins/fullscreen/plugin.js",        
+              "node_modules/tinymce/plugins/lists/plugin.js",      
             ],
             "es5BrowserSupport": true
           },

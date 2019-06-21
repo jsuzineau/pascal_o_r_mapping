@@ -7,6 +7,7 @@ interface
 uses
     uClean,
     ucDockableScrollbox,
+    uOD_Temporaire,
 
     ublTag,
     upoolTag,
@@ -19,6 +20,7 @@ uses
     ublSession,
     uhdmSession,
     udkSession, uodCalendrier,
+
  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, EditBtn,
  StdCtrls, Buttons, ExtCtrls,LCLIntf, dateutils,Clipbrd;
 
@@ -43,6 +45,7 @@ type
   bNextMonth: TButton;
   bNextWeek: TButton;
   bodSession_Modele: TButton;
+  bRep: TButton;
   cbRestreindre_a_un_Tag: TCheckBox;
   cbEcrire_arrondi: TCheckBox;
   cbHeures_Supplementaires: TCheckBox;
@@ -70,6 +73,7 @@ type
   procedure bCurrentWeekClick(Sender: TObject);
   procedure bPreviousMonthClick(Sender: TObject);
   procedure bPreviousWeekClick(Sender: TObject);
+  procedure bRepClick(Sender: TObject);
   procedure bSessionClick(Sender: TObject);
   procedure bTo_logClick(Sender: TObject);
   procedure cbEcrire_arrondiChange(Sender: TObject);
@@ -183,6 +187,13 @@ end;
 procedure TfTemps.bPreviousWeekClick(Sender: TObject);
 begin
      Semaine( deDebut.Date, -1);
+end;
+
+procedure TfTemps.bRepClick(Sender: TObject);
+begin
+     if not OpenDocument( OD_Temporaire.RepertoireTemp)
+     then
+         ShowMessage( 'OpenDocument failed on '+OD_Temporaire.RepertoireTemp);
 end;
 
 procedure TfTemps.bNextWeekClick(Sender: TObject);

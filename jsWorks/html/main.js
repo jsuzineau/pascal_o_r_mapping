@@ -2896,12 +2896,14 @@ var Custom_Component_Work = /** @class */ (function () {
         this.e = null;
         this.tinyMceSettings = {
             skin_url: '/assets/tinymce/skins/ui/oxide',
+            //skin_url: '/assets/tinymce/skins/',
             //inline: false,
             //statusbar: false,
             //browser_spellcheck: true,
             //height: 320,
             //plugins: 'fullscreen link',
-            plugins: 'link',
+            toolbar: "numlist bullist",
+            plugins: 'link, lists',
         };
     }
     Custom_Component_Work.prototype.ngOnInit = function () {

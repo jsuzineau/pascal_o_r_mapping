@@ -29,7 +29,8 @@ export class Custom_Component_Work implements OnInit
        //browser_spellcheck: true,
        //height: 320,
        //plugins: 'fullscreen link',
-       plugins: 'link',
+       toolbar: "numlist bullist",
+       plugins: 'link, lists',
        };
       constructor(private router: Router, private service: TsWork)
     {
