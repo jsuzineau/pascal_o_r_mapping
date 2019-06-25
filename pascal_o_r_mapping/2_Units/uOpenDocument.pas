@@ -3689,6 +3689,21 @@ var
 
         Traite_ChildNodes;
    end;
+   procedure Traite_html_ChildNodes;
+   var
+      i: Integer;
+      cn: TDOMNodeList;
+      n: TDOMNode;
+   begin
+        cn:= html.ChildNodes;
+        for i:= 0 to cn.Count-1
+        do
+          begin
+          n:= cn.Item[i];
+          if nil = n then continue;
+          Traite_html_node( _e, n, '', '');
+          end;
+   end;
 begin
      if not_Cree_html
      then
@@ -3700,12 +3715,13 @@ begin
         p:= TCSS_Style_Parser_PYACC.Create;
         try
            //Traite_html_node( _e, html.DocumentElement,'');
-           while Assigned( html_root)
-           do
-             begin
-             Traite_html_node( _e, html_root, '', '');
-             html_root:=html_root.NextSibling;
-             end;
+           //while Assigned( html_root)
+           //do
+           //  begin
+           //  Traite_html_node( _e, html_root, '', '');
+           //  html_root:=html_root.NextSibling;
+           //  end;
+           Traite_html_ChildNodes;
         finally
                FreeAndNil( p);
                end;

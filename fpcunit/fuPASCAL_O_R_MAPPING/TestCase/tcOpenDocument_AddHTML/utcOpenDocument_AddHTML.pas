@@ -79,12 +79,13 @@ begin
        bl:= TblTest_HTML.Create( sl, nil, nil);
        bl.Nom:= 'Ligne '+IntToStr( i);
        sl.AddObject( bl.sCle, bl);
-       case i mod 4
+       case i mod 5
        of
          1: bl.Load_html( nom_html  );
          2: bl.Load_html( nom_html_2);
          3: bl.Load_html( nom_html_3);
-         0: bl.Load_html( nom_html_4);
+         4: bl.Load_html( nom_html_4);
+         0: bl.Load_html( nom_html_5);
          end;
        end;
 end;
