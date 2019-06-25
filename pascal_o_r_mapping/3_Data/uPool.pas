@@ -32,15 +32,21 @@ uses
     u_sys_,
     uClean,
     uuStrings,
+    uVide,
     uChrono,
+    ubtInteger,
     ubtString,
     uLookupConnection_Ancetre,
-    ujsDataContexte,
+    uChampDefinition,
     uChamp,
     uChamps,
     uCD_from_Params,
+    //uDataClasses,
     uDataUtilsF,
-    udmDatabase,
+    udmDatabase,{AUTOOPENUNIT udmDatabase}
+    (*udmxG3_UTI,*)
+    upool_Ancetre_Ancetre,
+    uMySQL,
 
     uRequete,
 
@@ -48,40 +54,457 @@ uses
     uBatpro_Ligne,
     uPublieur,
     uhFiltre,
+    (*ufProgression,*)
     ufAccueil_Erreur,
     uTri,
     uSuppression,
 
     uHTTP_Interface,
   {$ifdef fpc}
-  blcksock, Synautil, fphttpclient,
+  blcksock, sockets, Synautil, fphttpclient,
   {$endif}
   SysUtils, Variants, Classes,
-  FMTBcd, DB, mysql51conn, SQLDB, Math, BufDataSet;
+  FMTBcd, DB, mysql51conn, SQLDB, DBXpress,  Math, BufDataSet;
 
 
 var
-   table_sans_id: array[1..1] of String=
-   ('');
+   table_sans_id: array[1..416] of String=
+   (
+'syscolumns',
+'sysconstraints',
+'sysindexes',
+'sysprocedures',
+'systables',
+'tables',
+'columns',
+'a_aff',
+'a_aff2',
+'a_bud',
+'a_calc',
+'a_cap',
+'a_cpt',
+'a_dat',
+'a_dep',
+'a_fg4',
+'a_his',
+'a_lse',
+'a_pha',
+'a_pla_liaison',
+'a_rep',
+'a_rep6',
+'a_sin',
+'a_voe',
+'ac4_adl',
+'ac4_ap1',
+'ac4_ap2',
+'ac4_ap3',
+'ac4_apblocs',
+'ac4_bloc6',
+'ac4_blocs',
+'ac4_cpt',
+'ac4_dmd',
+'ac4_msg',
+'ac4_par',
+'ac4_rel',
+'ac4_sce',
+'ac4_sig',
+'ac4_w006',
+'ac4_w0_1',
+'ac4_w111',
+'ac4_w254',
+'ac4_w_11',
+'ac4_wpc1',
+'ac4_wver',
+'am_ahisto',
+'am_amort',
+'am_atype',
+'am_famimmo',
+'b_cod',
+'b_dscml',
+'b_pxb',
+'b_seq',
+'bc_mdp',
+'bom_item_part',
+'bom_optim_part',
+'bom_option_part',
+'bp_aco',
+'bp_adr',
+'bp_ass',
+'bp_at1',
+'bp_ava',
+'bp_bjour',
+'bp_ccp',
+'bp_cgp',
+'bp_chap',
+'bp_co1',
+'bp_co2',
+'bp_cod',
+'bp_cou',
+'bp_ctr',
+'bp_dad2',
+'bp_dads',
+'bp_det',
+'bp_droicp',
+'bp_eap',
+'bp_enf',
+'bp_etr',
+'bp_for',
+'bp_hi1',
+'bp_hi2',
+'bp_inf',
+'bp_nom',
+'bp_ofo',
+'bp_ope',
+'bp_paj',
+'bp_pare',
+'bp_pau',
+'bp_pet',
+'bp_pr1',
+'bp_pr2',
+'bp_prof',
+'bp_psa2',
+'bp_qet',
+'bp_rb2',
+'bp_rb3',
+'bp_rb4',
+'bp_rb5',
+'bp_rbi',
+'bp_rbs',
+'bp_sai0',
+'bp_sit',
+'bp_sitc',
+'bp_smi',
+'bp_st1',
+'bp_st2',
+'bp_sta',
+'bp_tb1',
+'bp_tb2',
+'bp_tex',
+'bp_vac',
+'calc1',
+'calc6',
+'cg_acticom',
+'cg_anahisto',
+'cg_banque',
+'cg_bbc',
+'cg_bilan',
+'cg_bloc',
+'cg_bor',
+'cg_budget',
+'cg_chrono',
+'cg_chropre',
+'cg_cptcrbi',
+'cg_cptgen',
+'cg_cptres',
+'cg_ctpart',
+'cg_devise',
+'cg_dossier',
+'cg_effcom',
+'cg_effparam',
+'cg_errint',
+'cg_fouregl3',
+'cg_fourmagnet',
+'cg_gesbil',
+'cg_hbilan',
+'cg_hchrono',
+'cg_hcptres',
+'cg_journal',
+'cg_lettre',
+'cg_libelle',
+'cg_lignebi',
+'cg_lignecr',
+'cg_mdpay',
+'cg_modlett',
+'cg_modpaie',
+'cg_note',
+'cg_nouvcli',
+'cg_ori',
+'cg_paramagee',
+'cg_parambal',
+'cg_paramexe',
+'cg_paramgl',
+'cg_paramsdos',
+'cg_parbnp',
+'cg_pchrono',
+'cg_poste',
+'cg_radcrbi',
+'cg_radtiers',
+'cg_relan',
+'cg_relint',
+'cg_relsuite',
+'cg_remche',
+'cg_remisebanq',
+'cg_resulselect',
+'cg_rfl',
+'cg_rfp',
+'cg_rfp0',
+'cg_rfp2',
+'cg_scenario',
+'cg_tempojour',
+'cg_tva0',
+'cg_tva2',
+'cg_tvahis',
+'cg_uti',
+'cg_vparunip',
+'client',
+'co_modele',
+'co_publipostage',
+'code_asc',
+'consultations',
+'d_chap',
+'d_dos',
+'d_not',
+'delta_client',
+'devis',
+'dna',
+'e_far',
+'e_pha',
+'e_wb',
+'e_wb4',
+'e_wb5',
+'e_ws300',
+'eblocs',
+'ecobat',
+'ecout_mo',
+'edcal',
+'edescriptif',
+'edescriptifml',
+'edi_s',
+'efdivers',
+'efiltre',
+'efr_gestion',
+'ememoire',
+'entete',
+'esynthese',
+'etape1',
+'etape2',
+'etexte',
+'f5_affaire',
+'f5_arh',
+'f5_cfmult',
+'f5_cfmult1',
+'f5_cfx',
+'f5_cfx2',
+'f5_classe',
+'f5_constante',
+'f5_cpt',
+'f5_degr',
+'f5_effet',
+'f5_encli',
+'f5_lft',
+'f5_mdp',
+'f5_msg',
+'f5_param',
+'f5_pkg',
+'f5_pro',
+'f5_ref',
+'f5_rem2',
+'f5_remise',
+'f5_remise1',
+'f5_serifact',
+'f5_speciaux',
+'f5_stata',
+'f5_statc',
+'f5_statci',
+'f5_statp',
+'f5_t1',
+'f5_texte',
+'f5_texteh',
+'f5_tpx',
+'f5_trp',
+'f_app',
+'f_fpd',
+'f_ptc',
+'f_ptg1',
+'f_ptg2',
+'f_rpx',
+'f_sit',
+'f_trs',
+'f_txt',
+'fab_corps',
+'fab_fiche',
+'formule',
+'g3_uti',
+'g_ban2',
+'g_bdom',
+'g_bic',
+'g_blocs',
+'g_car',
+'g_ccg',
+'g_cex',
+'g_cir',
+'g_cli2',
+'g_clici',
+'g_clii',
+'g_clirib',
+'g_cor',
+'g_cpt5',
+'g_cpv',
+'g_ctr',
+'g_ctrcir',
+'g_dat',
+'g_dev1',
+'g_dev2',
+'g_doc',
+'g_e1',
+'g_e2',
+'g_e3',
+'g_fab',
+'g_for',
+'g_frs0',
+'g_frs1',
+'g_frs2',
+'g_frsi',
+'g_grp',
+'g_hfo',
+'g_i1',
+'g_i2',
+'g_i3',
+'g_ioom',
+'g_lag',
+'g_msg',
+'g_msq',
+'g_refa',
+'g_refc',
+'g_rem',
+'g_rfo',
+'g_rfr',
+'g_sepa',
+'g_sepa1',
+'g_tf1',
+'g_tmp',
+'g_ttechnal',
+'g_uni',
+'g_zfo',
+'i_ec',
+'i_rc',
+'import1',
+'liaison',
+'ligne',
+'lignes',
+'list',
+'logo',
+'mdp',
+'medecins',
+'modele',
+'mult',
+'p_cal',
+'p_cod',
+'p_ftrv',
+'p_ftrv1',
+'p_ftrv2',
+'p_ftrv3',
+'p_ftrv_ch',
+'p_ftrv_mo',
+'p_ftrv_mtl',
+'p_ftrv_mtx',
+'p_maa',
+'p_not',
+'p_par',
+'p_prz',
+//'p_qlf', en cours champ id ajouté  à la main pour CLAPOT
+'p_slm',
+'p_tmo',
+'p_trf',
+'p_txi',
+'p_wprc',
+'p_wprc1',
+'patients',
+'pl_rap',
+'pm_car',
+'pm_cgp',
+'pm_chap',
+'pm_eve',
+'pm_inf',
+'pm_kms',
+'pm_mvt',
+'pr_contact',
+'pr_interv',
+'pr_role',
+'quote',
+'quote_item',
+'quoteoption',
+'rp_crx',
+'rp_rcg',
+'sav_ot',
+'sav_type',
+'source4gl',
+'sourcel4gl',
+'st4_blc',
+'st4_enc',
+'st4_visa',
+'tableau',
+'versions',
+'vf_dem_appro_det_v31',
+'vf_dem_appro_mai_v31',
+'vf_heures',
+'vf_menu',
+'vf_minutes',
+'vf_prix',
+'vf_qte',
+'vf_rapport_impu',
+'vf_rapport_impu_det',
+'vf_rapport_salar',
+'vf_rapport_salar_det',
+'viteDict',
+'viteDict_champ',
+'vite_etat',
+'vite_etat_champ',
+'vitefait',
+'w_cht1',
+'w_deb',
+'w_debm',
+'w_ecr',
+'w_err',
+'w_etcli',
+'w_gl',
+'w_lig',
+'w_lig1',
+'w_met',
+'w_point',
+'w_proges2',
+'w_scal',
+'w_sdcharp',
+'wa_calc',
+'wbud',
+'wcg_balance',
+'we_piq',
+'wfamo',
+'wl',
+'wost',
+'wp_not',
+'wreg',
+'wsitu3',
+'x_ce',
+'x_mate',
+'x_mate_genr',
+'x_ouvr_fami',
+'x_ouvr_list_mat',
+'x_ouvr_ouvr',
+'x_text_ce',
+'x_text_fami',
+'xlpro',
+'xlpro1',
+'xprov_oo',
+'z_maitre'
+);
 slTABLE_SANS_ID: TBatpro_StringList= nil;
 
 
 type
  TPool= class;
-
- { TLoad_sqlQuery_Context }
-
  TLoad_sqlQuery_Context
  =
   class
   //Gestion du cycle de vie
   public
-    constructor Create( _pool: TPool; _jsdc: TjsDataContexte); virtual;
+    constructor Create( _pool: TPool; _sqlq: TSQLQuery); virtual;
     destructor Destroy; override;
   //Attributs
   public
     pool: TPool;
-    jsdc: TjsDataContexte;
+    sqlq: TSQLQuery;
+    fID: TField;
     id: Integer;
     bl: TBatpro_Ligne;
   //Traitement de la ligne courante de sqlq
@@ -97,55 +520,52 @@ type
  TPool
  =
   class( Tpool_Ancetre_Ancetre)
+    procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleDestroy(Sender: TObject);
+
   //Gestion du cycle de vie
   public
-    constructor Create( _sl: TBatpro_StringList); override;
+    constructor Create( AOwner: TComponent); override;
     destructor Destroy; override;
-
-    procedure AfterConstruction; override;
-    procedure BeforeDestruction; override;
-
-    procedure DataModuleCreate (Sender: TObject); virtual;
-    procedure DataModuleDestroy(Sender: TObject); virtual;
-
-  //Gestion des contextes
-  private
-    function Cree_Contexte( _Name: String): TjsDataContexte;
   //Chargement par clé
   private
-    jsdcSELECT: TjsDataContexte;
+    sqlq_SELECT: TSQLQuery;
     procedure Ajoute_au_filtre( var bl);
     procedure Select( var bl);
   protected
     procedure Ajoute( var bl); //passé de private à protected pour TpoolJSON
   public
     Select_Enabled: Boolean;
+    Select_Afficher_Erreur: Boolean;
+    Select_Echec: Boolean;
+    Select_Continuer_apres_premier_echec: Boolean;
   //Gestion de l'insertion
   private
     procedure Compose_INSERT;
-    procedure Insert_then_Select( out bl);
+    procedure Insert_then_Select( var bl);
   private
-    jsdcCD_FROM_INSERT: TjsDataContexte_CD_from_Params;
-    procedure Select_from_Insert(out bl);
+    cd_from_Insert: TBufDataSet;
+    procedure Select_from_Insert(var bl);
   protected
     is_Base: Boolean;
-    jsdcINSERT: TjsDataContexte;
+    sqlq_INSERT: TSQLQuery;
     function SQL_INSERT: String; virtual;
     procedure Params_INSERT; virtual;
   //Gestion de la création de l'id
   public
     dernier_id: Integer;
     dernier_id_actif: Boolean;
+    function Last_Insert_id: Integer; virtual;
   //Attributs
   public
     slT: TBatpro_StringList;
     pChange, pLoad: TPublieur;
   protected
     Creer_si_non_trouve: Boolean;
-    procedure To_Params( _Params: TParams); virtual; abstract;
-    procedure Get_Interne( out bl; _Created: PBoolean= nil);
-    procedure Get_Interne_from_Memory( out bl);
-    procedure Nouveau_Interne( out bl; Source: TBatpro_Ligne= nil);
+    procedure To_SQLQuery_Params( SQLQuery: TSQLQuery); virtual;
+    procedure Get_Interne( var bl; _Created: PBoolean= nil);
+    procedure Get_Interne_from_Memory( var bl);
+    procedure Nouveau_Interne( var bl; Source: TBatpro_Ligne= nil);
   public
     procedure Nouveau_Base( out bl); virtual;
   //Arbres binaires
@@ -154,10 +574,10 @@ type
   //Gestion de la classe des éléments
   public
     Classe_Elements: TBatpro_Ligne_Class;       // un seule classe
-    function Cree_Element( _jsdc: TjsDataContexte): TBatpro_Ligne; virtual; // permet de sélectionner des classes différentes
+    function Cree_Element( Dataset: TDataset): TBatpro_Ligne; virtual; // permet de sélectionner des classes différentes
   //Récupération d'id
   private
-    jsdcID_Recuperation: TjsDataContexte;
+    sqlqID_Recuperation: TSQLQuery;
   protected
     SQL_Recuperation: String;
   //Nom de la table
@@ -165,7 +585,7 @@ type
     procedure SetNomTable(const Value: String); override;
   //Chargement par id
   private
-    jsdcSELECT_from_id: TjsDataContexte;
+    sqlq_SELECT_from_id: TSQLQuery;
     procedure _Select_from_id( _id: Integer; var bl);
   private
     IDFieldName: String;
@@ -175,13 +595,14 @@ type
     Load_by_id_TrierFiltre  : Boolean;
     Load_by_id_TrierslLoaded: Boolean;
   public
-    procedure Get_Interne_from_id( _id: Integer; out bl);
+    procedure Get_Interne_from_id( _id: Integer; var bl);
     procedure Get_Interne_from_SQLid( _SQL: String; out bl; _fID: String= 'id');
-    procedure Load_by_id( _jsdc: TjsDataContexte;
+    procedure Load_by_id( Dataset: TDataset; fID: TField;
                           slLoaded : TBatpro_StringList = nil;
                           btsLoaded: TbtString          = nil); overload;
   private
-    jsdcLoad_by_id: TjsDataContexte;
+    sqlqLoad_by_id: TSQLQuery;
+    sqlqLoad_by_idid: TLongintField;
   public
     procedure Load_by_id( _SQL      : String                   ;
                           _slLoaded : TBatpro_StringList = nil ;
@@ -191,7 +612,8 @@ type
   // Load_N_rows_by_id
   public
     Load_N_rows_by_id_ORDER_BY: String;//pour contraintes éphémères sur A_PLA
-    procedure Load_N_rows_by_id( _jsdc: TjsDataContexte;
+    procedure Load_N_rows_by_id( Dataset: TDataset;
+                                 fID: TField;
                                  slLoaded : TBatpro_StringList = nil;
                                  btsLoaded: TbtString          = nil;
                                  N: Integer= -1);
@@ -206,7 +628,7 @@ type
     //                             N: Integer= -1);
   //Chargement direct du contenu d'un SQLQuery
   private
-    procedure Load_sqlQuery( _jsdc: TjsDataContexte;
+    procedure Load_sqlQuery( _sqlq: TSQLQuery;
                              _slLoaded : TBatpro_StringList = nil ;
                              _btsLoaded: TbtString          = nil ;
                              _Vider    : Boolean            = True);
@@ -214,7 +636,8 @@ type
     Load_sqlQuery_Context_class: TLoad_sqlQuery_Context_class;
   //Chargement direct sans passer par le champ id
   private
-    jsdcLoad: TjsDataContexte;
+    sqlqLoad: TSQLQuery;
+
   public
     procedure Load( _SQL      : String                   ;
                     _slLoaded : TBatpro_StringList = nil ;
@@ -227,9 +650,9 @@ type
                                          Vider: Boolean = True);
   //Chargement de toutes les lignes
   private
-    jsdcSELECT_ALL_count: TjsDataContexte;
+    sqlq_SELECT_ALL_count: TSQLQuery;
   public//en public juste pour uaA_PST
-    jsdcSELECT_ALL: TjsDataContexte;
+    sqlq_SELECT_ALL      : TSQLQuery;
     ToutCharger_SQL_suffixe: String;
     procedure Verifie_ToutCharger_SQL_suffixe;
     procedure ToutCharger_prepare_sqlq_SELECT_ALL;
@@ -244,7 +667,7 @@ type
   //Gestion de la clé
   protected
     sCle: String;
-    procedure Nouveau_from_Cle( blNouveau: TBatpro_Ligne); virtual; abstract;
+    procedure Nouveau_from_Cle( blNouveau: TBatpro_Ligne); virtual;
   public
     procedure sCle_Change( _bl: TBatpro_Element); override;
   //Filtre
@@ -313,7 +736,7 @@ type
     Recuperer: Boolean;
   //Gestion des lookups
   public
-    procedure GetLookupListItems( {%H-}_Current_Key: String;
+    procedure GetLookupListItems( _Current_Key: String;
                                   _Keys, _Labels: TStrings;
                                   _Connection_Ancetre: TLookupConnection_Ancetre;
                                   _CodeId_: Boolean= False); virtual;
@@ -322,7 +745,7 @@ type
     procedure Cree_nul( var _bl; _Classe_Element_null: TBatpro_Ligne_Class= nil);
   //Gestion de la connection
   public
-    function Connection: TjsDataConnexion; virtual;
+    function Connection: TDatabase; virtual;
   //Objet de requete
   public
     function r: TRequete; virtual;
@@ -376,6 +799,8 @@ type
   end;
 
   Tprocedure_sCle_Change= procedure ( _bl: TBatpro_Ligne) of object;
+  TGet_pool= function : TPool;
+
 
 var
    slPool: TBatpro_StringList= nil;
@@ -386,11 +811,12 @@ procedure Reinitialise_pools;//pour passage d'informix à MySQL
 
 var
    uPool_Vide_contexte: String = '';
-   uPool_Default_jsDataConnexion: TjsDataConnexion= nil;
 
 procedure uPool_Vide;
 
 implementation
+
+{$R *.lfm}
 
 procedure Traite_TABLE_SANS_ID;
 var
@@ -450,7 +876,7 @@ begin
         //  if p = nil then continue;
         //  //uClean_Log( '  '+p.Name);
         //  end;
-        //uClean_Log( 'Vidage des pools');
+        uClean_Log( 'Vidage des pools');
         for I:= 0 to slPool.Count - 1
         do
           begin
@@ -459,7 +885,7 @@ begin
           uPool_Vide_contexte:= p.Name;
           p.Vide;
           end;
-        //uClean_Log( 'Fin du vidage des pools');
+        uClean_Log( 'Fin du vidage des pools');
      finally
             uBatpro_Ligne_vidage_des_pools_en_cours:= False;
             uPool_Vide_contexte:= '';
@@ -469,12 +895,12 @@ end;
 
 { TLoad_sqlQuery_Context }
 
-constructor TLoad_sqlQuery_Context.Create( _pool: TPool;
-                                           _jsdc: TjsDataContexte);
+constructor TLoad_sqlQuery_Context.Create( _pool: TPool; _sqlq: TSQLQuery);
 begin
      inherited Create;
      pool:= _pool;
-     jsdc:= _jsdc;
+     sqlq:= _sqlq;
+     fID:= _sqlq.FindField( 'id');
 end;
 
 destructor TLoad_sqlQuery_Context.Destroy;
@@ -487,9 +913,9 @@ function TLoad_sqlQuery_Context.not_loaded: Boolean;
 begin
      Result:= True;
 
-     id:= jsdc.id;
-     if -1 = id then exit;
+     if fID= nil then exit;
 
+     id:= fID.AsInteger;
      pool.bl_from_id( id, bl);
      Result:= bl = nil;
 end;
@@ -499,7 +925,7 @@ begin
      if not_loaded
      then
          begin
-         bl:= pool.Cree_Element( jsdc);
+         bl:= pool.Cree_Element( sqlq);
          pool.Ajoute( bl);
          end;
 end;
@@ -508,89 +934,74 @@ end;
 
 procedure TPool.SetUsePrimaryKeyAsKey( _Value: Boolean);
 begin
-     jsdcSELECT          .UsePrimaryKeyAsKey:= _Value;
-     jsdcLoad            .UsePrimaryKeyAsKey:= _Value;
-     jsdcSELECT_from_id  .UsePrimaryKeyAsKey:= _Value;
-     jsdcSELECT_ALL_count.UsePrimaryKeyAsKey:= _Value;
-     jsdcSELECT_ALL      .UsePrimaryKeyAsKey:= _Value;
-     jsdcID_Recuperation .UsePrimaryKeyAsKey:= _Value;
-     jsdcINSERT          .UsePrimaryKeyAsKey:= _Value;
-     jsdcLoad_by_id      .UsePrimaryKeyAsKey:= _Value;
+     sqlq_SELECT          .UsePrimaryKeyAsKey:= _Value;
+     sqlqLoad             .UsePrimaryKeyAsKey:= _Value;
+     sqlq_SELECT_from_id  .UsePrimaryKeyAsKey:= _Value;
+     sqlq_SELECT_ALL_count.UsePrimaryKeyAsKey:= _Value;
+     sqlq_SELECT_ALL      .UsePrimaryKeyAsKey:= _Value;
+     sqlqID_Recuperation  .UsePrimaryKeyAsKey:= _Value;
+     sqlq_INSERT          .UsePrimaryKeyAsKey:= _Value;
+     sqlqLoad_by_id       .UsePrimaryKeyAsKey:= _Value;
 end;
 
-constructor TPool.Create(_sl: TBatpro_StringList);
+constructor TPool.Create(AOwner: TComponent);
 begin
-     uLog.Log.PrintLn( ClassName+'.Create;, début');
      Load_sqlQuery_Context_class:= TLoad_sqlQuery_Context;
 
-     uLog.Log.PrintLn( ClassName+'.Create;, avant jsdcSELECT:= Cree_Contexte');
-     jsdcSELECT        := Cree_Contexte( ClassName+'.jsdcSELECT'        );
-     uLog.Log.PrintLn( ClassName+'.Create;, aprés jsdcSELECT:= Cree_Contexte');
-     jsdcLoad          := Cree_Contexte( ClassName+'.jsdcLoad'          );
-     jsdcSELECT_from_id:= Cree_Contexte( ClassName+'.jsdcSELECT_from_id');
+     sqlq_SELECT:= TSQLQuery.Create( Self);
+     sqlq_SELECT.Name:= 'sqlq_SELECT';
 
-     jsdcSELECT_ALL_count:= Cree_Contexte( ClassName+'.jsdcSELECT_ALL_count');
+     sqlqLoad:= TSQLQuery.Create( Self);
+     sqlqLoad.Name:= 'sqlqLoad';
 
-     jsdcSELECT_ALL    := Cree_Contexte( ClassName+'.jsdcSELECT_ALL');
+     sqlq_SELECT_from_id:= TSQLQuery.Create( Self);
+     sqlq_SELECT_from_id.Name:= 'sqlq_SELECT_from_id';
+
+     sqlq_SELECT_ALL_count:= TSQLQuery.Create( Self);
+     sqlq_SELECT_ALL_count.Name:= 'sqlq_SELECT_ALL_count';
+
+     sqlq_SELECT_ALL:= TSQLQuery.Create( Self);
+     sqlq_SELECT_ALL.Name:= 'sqlq_SELECT_ALL';
 
      SQL_Recuperation:= '';
-     jsdcID_Recuperation:=Cree_Contexte( ClassName+'.jsdcID_Recuperation');
+     sqlqID_Recuperation:= TSQLQuery.Create( Self);
+     sqlqID_Recuperation.Name:= 'sqlqID_Recuperation';
 
-     jsdcINSERT:= Cree_Contexte( ClassName+'.jsdcINSERT');
+     sqlq_INSERT:= TSQLQuery.Create( Self);
+     sqlq_INSERT.Name:= 'sqlq_INSERT';
 
-     jsdcLoad_by_id    := Cree_Contexte( ClassName+'.jsdcLoad_by_id');
-     jsdcLoad_by_id.Create_id_field;
+     sqlqLoad_by_id:= TSQLQuery.Create( Self);
+     sqlqLoad_by_id.Name:= 'sqlqLoad_by_id';
+     sqlqLoad_by_idid:= TIntegerField.Create( sqlqLoad_by_id);
+     sqlqLoad_by_idid.FieldName:= 'id';
+     sqlqLoad_by_idid.DataSet:= sqlqLoad_by_id;
 
      Tid_Premiere_fois:= True;
      Pas_de_champ_id:= False;
+
      Select_Enabled:= True;
+     Select_Afficher_Erreur:= True;
+     Select_Echec:= False;
+     Select_Continuer_apres_premier_echec:= True;
+
      dernier_id_actif:= False;
 
-     jsdcCD_FROM_INSERT:= TjsDataContexte_CD_from_Params.Create(ClassName+'.jsdcCD_FROM_INSERT');
+     cd_from_Insert:= TBufDataset.Create( nil);
 
      Load_N_rows_by_id_ORDER_BY:= '';
 
-     uLog.Log.PrintLn( ClassName+'.Create;, avant inherited Create( _sl);');
-     inherited Create( _sl);
-     uLog.Log.PrintLn( ClassName+'.Create;, fin');
+     inherited;
 end;
 
 destructor TPool.Destroy;
 begin
-     Free_nil( jsdcSELECT);
-     Free_nil( jsdcLoad  );
-     Free_nil( jsdcSELECT_from_id);
-     Free_nil( jsdcSELECT_ALL_count);
-     Free_nil( jsdcSELECT_ALL);
-     Free_nil( jsdcID_Recuperation);
-     Free_nil( jsdcINSERT);
-     Free_nil( jsdcLoad_by_id);
-     Free_nil( jsdcCD_FROM_INSERT);
+
      inherited;
 end;
-
-function TPool.Cree_Contexte( _Name: String): TjsDataContexte;
-begin
-     Result:= Connection.Cree_Contexte( _Name);
-end;
-
-procedure TPool.AfterConstruction;
-begin
-     inherited AfterConstruction;
-     DataModuleCreate( Self);
-end;
-
-procedure TPool.BeforeDestruction;
-begin
-     DataModuleDestroy( Self);
-     inherited BeforeDestruction;
-end;
-
 procedure TPool.DataModuleCreate(Sender: TObject);
 begin
      inherited;
 
-     uLog.Log.PrintLn( ClassName+'.DataModuleCreate, début');
      slPool.AddObject( Name, Self);
 
      slT     := TBatpro_StringList.CreateE(ClassName+'.slT', Classe_Elements);
@@ -627,7 +1038,7 @@ begin
     Recuperer:= Trim( SQL_Recuperation) <> sys_Vide;
     if Recuperer
     then
-        jsdcID_Recuperation.SQL:= SQL_Recuperation;
+        sqlqID_Recuperation.SQL.Text:= SQL_Recuperation;
 
     ToutCharger_direct_effectue:= False;
 
@@ -635,14 +1046,14 @@ begin
                                            Classe_Elements);
 
     Pas_de_champ_id:= -1 <> slTABLE_SANS_ID.IndexOf( NomTable);
-    uLog.Log.PrintLn( ClassName+'.DataModuleCreate, fin');
 end;
 
 procedure TPool.DataModuleDestroy(Sender: TObject);
 var
    I: Integer;
 begin
-
+     Free_nil( cd_from_Insert);
+     
      Free_nil( slPremier);
      Free_nil( Suppression);
      Free_nil( pFiltreChange);
@@ -668,7 +1079,6 @@ begin
      inherited;
 end;
 
-
 function TPool.SQLWHERE_ContraintesChamps: String;
 begin
      Result
@@ -677,6 +1087,10 @@ begin
        +'Erreur à signaler au développeur:'#13#10
        +'  fonction '+Name+'.SQLWHERE_ContraintesChamps non codée'#13#10
        +'#################################';
+end;
+
+procedure TPool.To_SQLQuery_Params( SQLQuery: TSQLQuery);
+begin
 end;
 
 procedure TPool.Ajoute_au_filtre(var bl);
@@ -703,25 +1117,34 @@ begin
      TBatpro_Ligne( bl):= nil;
 
      if not Select_Enabled then exit;
+     if Select_Echec and not Select_Continuer_apres_premier_echec then exit;
 
-     To_Params( jsdcSELECT.Params);
+     sqlq_SELECT.Database:= Connection;
+     To_SQLQuery_Params( sqlq_SELECT);
      try
         //uLog.Log.Print( Classname+' SELECT');
         //uClean_Log( Classname+' SELECT');
-        if not jsdcSELECT.RefreshQuery then exit;
+        Select_Echec
+        :=
+          not RefreshQuery( sqlq_SELECT, Select_Afficher_Erreur,
+                            'Echec de '+ClassName+'.Select: '#13#10);
 
-        if jsdcSELECT.IsEmpty then exit;
+        if Select_Echec then exit;
 
-        TBatpro_Ligne( bl):= Cree_Element( jsdcSELECT);
+        if sqlq_SELECT.IsEmpty then exit;
+
+        TBatpro_Ligne( bl):= Cree_Element( sqlq_SELECT);
         Ajoute( bl);
      finally
-            jsdcSELECT.Close;
+            sqlq_SELECT.Close;
             end;
 
      pChange.Publie;
 end;
 
 procedure TPool.ToutCharger_direct;
+var
+   bl: TBatpro_Ligne;
 begin
      if ToutCharger_direct_effectue then exit;
 
@@ -731,7 +1154,7 @@ begin
      ToutCharger_direct_effectue:= True;
 end;
 
-procedure TPool.Load_sqlQuery( _jsdc     : TjsDataContexte;
+procedure TPool.Load_sqlQuery( _sqlq: TSQLQuery;
                                _slLoaded : TBatpro_StringList= nil ;
                                _btsLoaded: TbtString         = nil ;
                                _Vider    : Boolean           = True);
@@ -747,15 +1170,15 @@ begin
          end;
 
      try
-        Chrono.Stop( Name+'.Load_sqlQuery( '+_jsdc.Name+') avant exécution');
-        if not _jsdc.RefreshQuery then exit;
-        Chrono.Stop( Name+'.Load_sqlQuery( '+_jsdc.Name+') aprés exécution');
+        Chrono.Stop( Name+'.Load_sqlQuery( '+_sqlq.Name+') avant exécution');
+        if not RefreshQuery( _sqlq) then exit;
+        Chrono.Stop( Name+'.Load_sqlQuery( '+_sqlq.Name+') aprés exécution');
 
-        if _jsdc.IsEmpty then exit;
+        if _sqlq.IsEmpty then exit;
 
-        Load_sqlQuery_Context:= Load_sqlQuery_Context_class.Create( Self, _jsdc);
-        _jsdc.First;
-        while not _jsdc.Eof
+        Load_sqlQuery_Context:= Load_sqlQuery_Context_class.Create( Self, _sqlq);
+        _sqlq.First;
+        while not _sqlq.Eof
         do
           begin
           Load_sqlQuery_Context.Traite_Ligne;
@@ -763,10 +1186,10 @@ begin
           if Assigned(  _slLoaded) then  _slLoaded.AddObject( bl.sCle, bl);
           if Assigned( _btsLoaded) then _btsLoaded.Ajoute   ( bl.sCle, bl);
 
-          _jsdc.Next;
+          _sqlq.Next;
           end;
      finally
-            _jsdc.Close;
+            _sqlq.Close;
             end;
 end;
 
@@ -774,12 +1197,13 @@ procedure TPool.Load( _SQL: String;
                       _slLoaded: TBatpro_StringList;
                       _btsLoaded: TbtString; _Params: TParams);
 begin
-     jsdcLoad.SQL:= _SQL;
+     sqlqLoad.Database:= Connection;
+     sqlqLoad.SQL.Text:= _SQL;
      if Assigned( _Params)
      then
-         jsdcLoad.Params.Assign( _Params);
+         sqlqLoad.Params.Assign( _Params);
 
-     Load_sqlQuery( jsdcLoad, _slLoaded, _btsLoaded);
+     Load_sqlQuery( sqlqLoad, _slLoaded, _btsLoaded);
 end;
 
 procedure TPool._Select_from_id( _id: Integer; var bl);
@@ -788,29 +1212,30 @@ begin
      try
         if _id = 0 then exit;
 
-        with jsdcSELECT_from_id.Params
+        sqlq_SELECT_from_id.Database:= Connection;
+        with sqlq_SELECT_from_id.Params
         do
           ParamByName( 'id').AsInteger:= _id;
-        if not jsdcSELECT_from_id.RefreshQuery then exit;
+        if not RefreshQuery( sqlq_SELECT_from_id) then exit;
 
-        if jsdcSELECT_from_id.IsEmpty then exit;
+        if sqlq_SELECT_from_id.IsEmpty then exit;
 
-        TBatpro_Ligne( bl):= Cree_Element( jsdcSELECT_from_id);
+        TBatpro_Ligne( bl):= Cree_Element( sqlq_SELECT_from_id);
         Ajoute( bl);
      finally
-            jsdcSELECT_from_id.Close;
+            sqlq_SELECT_from_id.Close;
             end;
      // pLoad.Publie est appelé au niveau de Load_by_id
 end;
 
-procedure TPool.Select_from_Insert(out bl);
+procedure TPool.Select_from_Insert(var bl);
 begin
-     jsdcCD_FROM_INSERT._from_Params( jsdcINSERT.Params);
-     TBatpro_Ligne( bl):= Cree_Element( jsdcCD_FROM_INSERT);
+     CD_from_Params.Execute( cd_from_Insert, sqlq_INSERT.Params);
+     TBatpro_Ligne( bl):= Cree_Element( cd_from_Insert);
      Ajoute( bl);
 end;
 
-procedure TPool.Insert_then_Select(out bl);
+procedure TPool.Insert_then_Select(var bl);
 var
    //T: TTransactionDesc;
    //Param: TParam;
@@ -826,7 +1251,8 @@ begin
      try
         //uLog.Log.Print( Classname+' INSERT_THEN_SELECT');
         //uClean_Log( Classname+' INSERT_THEN_SELECT');
-        if not jsdcINSERT.ExecSQLQuery then exit;
+        sqlq_INSERT.Database:= Connection;
+        if not ExecSQLQuery( sqlq_INSERT) then exit;
      finally
             (*Connection.Commit( T);*)
             end;
@@ -840,9 +1266,9 @@ begin
          then
              id:= dernier_id + 1
          else
-             id:= jsdcINSERT.Last_Insert_id( NomTable);
+             id:= Last_Insert_id;
 
-         with jsdcINSERT.Params
+         with sqlq_INSERT.Params
          do
            ParamByName( 'id').AsInteger:= id;
 
@@ -858,12 +1284,12 @@ begin
          Select( bl);
 end;
 
-procedure TPool.Get_Interne_from_Memory(out bl);
+procedure TPool.Get_Interne_from_Memory(var bl);
 begin
      _Classe_from_sl_sCle( bl, Classe_Elements, slT, sCle);
 end;
 
-procedure TPool.Get_Interne( out bl; _Created: PBoolean= nil);
+procedure TPool.Get_Interne( var bl; _Created: PBoolean= nil);
 begin
      if Assigned( _Created) then _Created^:= False;
 
@@ -878,7 +1304,12 @@ begin
      if Assigned( _Created) then _Created^:= False;
 end;
 
-procedure TPool.Nouveau_Interne(out bl; Source: TBatpro_Ligne= nil);
+procedure TPool.Nouveau_from_Cle(blNouveau: TBatpro_Ligne);
+begin
+
+end;
+
+procedure TPool.Nouveau_Interne(var bl; Source: TBatpro_Ligne= nil);
 var
    Cible: TBatpro_Ligne;
 begin
@@ -914,46 +1345,57 @@ begin
          end;
 end;
 
+function TPool.Last_Insert_id: Integer;
+begin
+     Result:= 0;
+     case SGBD
+     of
+       sgbd_Informix: Result:= r.LAST_INSERT_ID_INFORMIX;
+       sgbd_MySQL   : Result:= r.LAST_INSERT_ID_MySQL   ;
+       sgbd_Postgres: Result:= r.LAST_INSERT_ID_Postgres( NomTable);
+       sgbd_SQLite3 : Result:= r.LAST_INSERT_ID_SQLite3;
+       else           SGBD_non_gere( 'TPool.Last_Insert_id');
+       end;
+end;
+
 procedure TPool.Nouveau_Base( out bl);
 var
    _id: Integer;
 begin
      _id:= 0;
 
-     uLog.Log.PrintLn( ClassName+'.Nouveau_Base: Recuperer='+BoolToStr( Recuperer));
      //Recherche un id d'un éventuel plantage précédent (ligne non initialisée)
      if Recuperer
      then
          begin
-         if jsdcID_Recuperation.RefreshQuery
+         sqlqID_Recuperation.Close;
+         sqlqID_Recuperation.Database:= Connection;
+         if RefreshQuery( sqlqID_Recuperation)
          then
              begin
-             jsdcID_Recuperation.First;
+             sqlqID_Recuperation.First;
 
-             _id:= jsdcID_Recuperation.Assure_Champ('id').AsInteger;
+             _id:= sqlqID_Recuperation.FieldByName('id').AsInteger;
              end;
+         sqlqID_Recuperation.Close;
          end;
 
-     uLog.Log.PrintLn( ClassName+'.Nouveau_Base: _id='+IntToStr( _id));
      //Sinon on crée une nouvelle ligne
      if _id= 0
      then
          begin
+         sqlq_INSERT.Database:= Connection;
          if not is_Base //mis au cas où, normalement is_Base = True quand on vient ici
          then
              Params_INSERT;
-         uLog.Log.PrintLn( ClassName+'.Nouveau_Base: avant jsdcINSERT.ExecSQLQuery');
-         if jsdcINSERT.ExecSQLQuery
+         if ExecSQLQuery( sqlq_INSERT)
          then
-             _id:= jsdcINSERT.Last_Insert_id( NomTable);
-         uLog.Log.PrintLn( ClassName+'.Nouveau_Base: aprés jsdcINSERT.ExecSQLQuery _id = '+IntToStr( _id));
+             _id:= Last_Insert_id;
          end;
-     uLog.Log.PrintLn( ClassName+'.Nouveau_Base: avant Get_Interne_from_id( _id, bl); _id = '+IntToStr( _id));
      Get_Interne_from_id( _id, bl);
-     uLog.Log.PrintLn( ClassName+'.Nouveau_Base: aprés Get_Interne_from_id( _id, bl);');
 end;
 
-procedure TPool.Get_Interne_from_id( _id: Integer; out bl);
+procedure TPool.Get_Interne_from_id( _id: Integer; var bl);
 begin
      Pointer( bl):= nil;
      if _id = 0 then exit;
@@ -965,10 +1407,11 @@ begin
 end;
 
 procedure TPool.Load_from_sqlq_SELECT_ALL(  slLoaded: TBatpro_StringList = nil;
-                                                      btsLoaded: TbtString= nil;
+                                                      btsLoaded: TbtString          = nil;
                                                       Vider: Boolean = True);
 begin
-     Load_sqlQuery( jsdcSELECT_ALL, slLoaded, btsLoaded, Vider);
+     sqlq_SELECT_ALL.Database:= Connection;
+     Load_sqlQuery( sqlq_SELECT_ALL, slLoaded, btsLoaded, Vider);
 end;
 
 procedure TPool.Verifie_ToutCharger_SQL_suffixe;
@@ -990,7 +1433,7 @@ begin
             or (NomTable = 'syscolumns')
             or (NomTable = 'sysindexes')
             or (NomTable = 'sysconstraints')
-            or (NomTable = 'source4gl' )
+            //or (NomTable = 'source4gl' )
             or (NomTable = 'bc_mdp'    )
             or (NomTable = 'g3_uti'    )
             )
@@ -1004,7 +1447,7 @@ procedure TPool.ToutCharger_prepare_sqlq_SELECT_ALL;
 begin
      Verifie_ToutCharger_SQL_suffixe;
 
-     jsdcSELECT_ALL.SQL
+     sqlq_SELECT_ALL.SQL.Text
      :=
        'select '+sSELECT+' from '+NomTable+ToutCharger_SQL_suffixe;
 
@@ -1015,15 +1458,20 @@ function TPool.ToutCharger_Count: Integer;
 begin
      Verifie_ToutCharger_SQL_suffixe;
 
-     jsdcSELECT_ALL_count.SQL
+     sqlq_SELECT_ALL_count.Database:= Connection;
+     sqlq_SELECT_ALL_count.SQL.Text
      :=
        'select count(*) as Resultat from '+NomTable+ToutCharger_SQL_suffixe;
      (*dmxG3_UTI.To_SQLQuery_Params( sqlq_SELECT_ALL_count);*)
-     if not jsdcSELECT_ALL_count.RefreshQuery
-     then
-         Result:= 0
-     else
-         Result:= jsdcSELECT_ALL_count.Assure_Champ('Resultat').AsInteger;
+     try
+        if not RefreshQuery( sqlq_SELECT_ALL_count)
+        then
+            Result:= 0
+        else
+            Result:= sqlq_SELECT_ALL_count.FieldByName('Resultat').AsInteger;
+     finally
+            sqlq_SELECT_ALL_count.Close;
+            end;
 end;
 
 procedure TPool.ToutCharger(  slLoaded: TBatpro_StringList = nil;
@@ -1044,10 +1492,11 @@ begin
            end;
 end;
 
-procedure TPool.Load_N_rows_by_id( _jsdc: TjsDataContexte;
-                                   slLoaded: TBatpro_StringList;
-                                   btsLoaded: TbtString;
-                                   N: Integer);
+procedure TPool.Load_N_rows_by_id( Dataset: TDataset;
+                                              fID: TField;
+                                              slLoaded: TBatpro_StringList;
+                                              btsLoaded: TbtString;
+                                              N: Integer);
 var
    I: Integer;
    ID_a_charger: Boolean;
@@ -1057,13 +1506,15 @@ var
    //NBDataset, NBCharges: Integer;
    procedure Traite_sqlqLoad_N_rows_by_id;
    var
-      jsdcLoad_N_rows_by_id: TjsDataContexte;
+      sqlqLoad_N_rows_by_id: TSQLQuery;
    begin
         if sIDs = sys_Vide then exit;
 
-        jsdcLoad_N_rows_by_id:= Cree_Contexte( ClassName+'.Load_N_rows_by_id::Traite_sqlqLoad_N_rows_by_id::jsdcLoad_N_rows_by_id');
+        sqlqLoad_N_rows_by_id:= TSQLQuery.Create( nil);
         try
-           jsdcLoad_N_rows_by_id.SQL
+           sqlqLoad_N_rows_by_id.Database:= Connection;
+
+           sqlqLoad_N_rows_by_id.SQL.Text
            :=
               'select '+sSELECT
              +' from '+NomTable
@@ -1071,7 +1522,7 @@ var
              +Load_N_rows_by_id_ORDER_BY;
 
            try
-              Load_sqlQuery( jsdcLoad_N_rows_by_id, slLoaded, btsLoaded, False);
+              Load_sqlQuery( sqlqLoad_N_rows_by_id, slLoaded, btsLoaded, False);
            except
                  on E: Exception
                  do
@@ -1087,7 +1538,7 @@ var
            sIDs:= sys_Vide;
            NbIDs:= 0;
         finally
-               Free_nil( jsdcLoad_N_rows_by_id);
+               Free_nil( sqlqLoad_N_rows_by_id);
                end;
    end;
    function Pas_de_limite: Boolean;
@@ -1096,7 +1547,7 @@ var
    end;
    function Continuer: Boolean;
    begin
-        Result:= not _jsdc.Eof;
+        Result:= not Dataset.Eof;
         if not Result then exit;
 
         Result:= Pas_de_limite;
@@ -1121,7 +1572,7 @@ begin
         while Continuer
         do
           begin
-          iID:= _jsdc.id;
+          iID:= fID.AsInteger ;
           sID:= IntToStr( iID);
           ID_a_charger:= Tid_Premiere_fois;
           if not ID_a_charger
@@ -1149,7 +1600,7 @@ begin
               Traite_sqlqLoad_N_rows_by_id;
 
           //Inc( NBDataset);
-          _jsdc.Next;
+          Dataset.Next;
           Inc( I);
           end;
 
@@ -1180,27 +1631,27 @@ begin
         //then
         //    fAccueil_Erreur(  'Fin poolG_FAM.Load_N_rows_by_id');
         //AfficheRequete( sqlq_SELECT_ALL);
-        Chrono.Stop( Name+'.Load_N_rows_by_id( '+_jsdc.Name+') fin (avant publication)');
+        Chrono.Stop( Name+'.Load_N_rows_by_id( '+Dataset.Name+') fin (avant publication)');
      finally
             pLoad.Publie;
             end;
 end;
 
-procedure TPool.Load_by_id( _jsdc: TjsDataContexte;
-                            slLoaded: TBatpro_StringList = nil;
-                            btsLoaded: TbtString          = nil);
+procedure TPool.Load_by_id( Dataset: TDataset; fID: TField;
+                                        slLoaded: TBatpro_StringList = nil;
+                                       btsLoaded: TbtString          = nil);
 begin
      //Direct_Load_by_id( TSQLQuery(Dataset).SQL.Text, 'id', slLoaded, btsLoaded);
      //exit;
 
-     Chrono.Stop( Name+'.Load_by_id( '+_jsdc.Name+') début');
-     if not _jsdc.RefreshQuery then exit;
-     Chrono.Stop( Name+'.Load_by_id( '+_jsdc.Name+') aprés exécution de '+_jsdc.Name);
+     Chrono.Stop( Name+'.Load_by_id( '+Dataset.Name+') début');
+     if not RefreshQuery( Dataset) then exit;
+     Chrono.Stop( Name+'.Load_by_id( '+Dataset.Name+') aprés exécution de '+Dataset.Name);
 
-     _jsdc.First;
-     Load_N_rows_by_id( _jsdc, slLoaded, btsLoaded);
-     _jsdc.Close;
-     Chrono.Stop( Name+'.Load_by_id( '+_jsdc.Name+') aprés Load_N_rows_by_id');
+     Dataset.First;
+     Load_N_rows_by_id( Dataset, fID, slLoaded, btsLoaded);
+     Dataset.Close;
+     Chrono.Stop( Name+'.Load_by_id( '+Dataset.Name+') aprés Load_N_rows_by_id');
 end;
 
 procedure TPool.Load_by_id( _SQL      : String                   ;
@@ -1208,17 +1659,18 @@ procedure TPool.Load_by_id( _SQL      : String                   ;
                             _btsLoaded: TbtString          = nil ;
                             _fID      : String             = 'id';
                             _Params   : TParams            = nil);
-begin
-     jsdcLoad_by_id.SQL:= _SQL;
+begin                      
+     sqlqLoad_by_id.Database:= Connection;
+     sqlqLoad_by_id.SQL.Text:= _SQL;
      if Assigned( _Params)
      then
-         jsdcLoad_by_id.Params.Assign( _Params);
+         sqlqLoad_by_id.Params.Assign( _Params);
      (*sqlqLoad_by_id.ParamCheck:= Assigned( _Params);*)
-     jsdcLoad_by_id.id_FielName:= _fID;
+     sqlqLoad_by_idid.FieldName:= _fID;
      //if Assigned( _Params)
      //then
      //    AfficheRequete( sqlqLoad_by_id);
-     Load_by_id( jsdcLoad_by_id, _slLoaded, _btsLoaded);
+     Load_by_id( sqlqLoad_by_id, sqlqLoad_by_idid, _slLoaded, _btsLoaded);
 end;
 
 //procedure TPool.Direct_Load_N_rows_by_id( MySQLResult: TMySQLResult;
@@ -1464,9 +1916,9 @@ begin
      Suppression.Decharge_Seulement( btsCle,[ slT, slFiltre], bl);
 end;
 
-function TPool.Cree_Element( _jsdc: TjsDataContexte): TBatpro_Ligne;
+function TPool.Cree_Element( Dataset: TDataset): TBatpro_Ligne;
 begin
-     Result:= Classe_Elements.Create( slT, _jsdc, Self);
+     Result:= Classe_Elements.Create( slT, Dataset, Self);
 end;
 
 procedure TPool.sCle_Change( _bl: TBatpro_Element);
@@ -1518,7 +1970,6 @@ procedure TPool.SetNomTable(const Value: String);
 var
    SQL: String;
 begin
-     uLog.Log.PrintLn( ClassName+'.SetNomTable, début');
      FNomTable := Value;
 
      if (*    (Length( NomTable) > 3) à réactiver quand il n'y aura plus le pb avec a_not
@@ -1541,12 +1992,9 @@ begin
            +'from          '#13#10
            +'    '+NomTable+#13#10
            +SQLWHERE_ContraintesChamps;
-     uLog.Log.PrintLn( ClassName+'.SetNomTable, avant jsdcSELECT.SQL:= SQL;');
-     jsdcSELECT.SQL:= SQL;
-     uLog.Log.PrintLn( ClassName+'.SetNomTable, aprés jsdcSELECT.SQL:= SQL;');
+     sqlq_SELECT.SQL.Text:= SQL;
 
-     uLog.Log.PrintLn( ClassName+'.SetNomTable, avant jsdcSELECT_from_id.SQL');
-     jsdcSELECT_from_id.SQL
+     sqlq_SELECT_from_id.SQL.Text
      :=
          'select        '#13#10
         +'      *       '#13#10
@@ -1554,11 +2002,8 @@ begin
         +'    '+NomTable+#13#10
         +'where         '#13#10
         +'     '+IDFieldName+' = :id ';
-     uLog.Log.PrintLn( ClassName+'.SetNomTable, aprés jsdcSELECT_from_id.SQL');
 
-     uLog.Log.PrintLn( ClassName+'.SetNomTable, avant Compose_INSERT;');
      Compose_INSERT;
-     uLog.Log.PrintLn( ClassName+'.SetNomTable, fin');
 end;
 
 function TPool.SQL_INSERT: String;
@@ -1566,9 +2011,8 @@ begin
      is_Base:= True;//True pour appeler insertion par id seul (pas d'appel à To_SQLQuery_Params)
      case SGBD
      of
-       sgbd_SQLite3       : Result:= 'insert into '+NomTable+' default values';
-       sgbd_SQLite_Android: Result:= 'insert into '+NomTable+' default values';
-       else                 Result:= 'insert into '+NomTable+'(id) values (0)';
+       sgbd_SQLite3: Result:= 'insert into '+NomTable+' default values';
+       else          Result:= 'insert into '+NomTable+'(id) values (0)';
      end;
 end;
 
@@ -1578,14 +2022,12 @@ var
 begin
      SQL:= SQL_INSERT;
 
-     jsdcINSERT.SQL:= SQL;
+     sqlq_INSERT.SQL.Text:= SQL;
 end;
 
 procedure TPool.Params_INSERT;
 begin
-     uLog.Log.PrintLn( ClassName+'.Params_INSERT: avant To_Params ( jsdcINSERT.Params);');
-     To_Params ( jsdcINSERT.Params);
-     uLog.Log.PrintLn( ClassName+'.Params_INSERT: aprés To_Params ( jsdcINSERT.Params);');
+     To_SQLQuery_Params ( sqlq_INSERT);
 end;
 
 procedure TPool.Charge_Modele;
@@ -1614,23 +2056,27 @@ var
    SQL, sIDs: String;
    NbIDs: Integer;
    procedure Traite_sqlq_SELECT_ALL;
+   var
+      fID: TField;
    begin
         if sIDs = sys_Vide then exit;
 
         SQL:=  'select * from '+NomTable+' where id in ('+sIDs+')';
 
-        jsdcSELECT_ALL.SQL:= SQL;
-        if not jsdcSELECT_ALL.RefreshQuery then exit;
-        jsdcSELECT_ALL.First;
-        while not jsdcSELECT_ALL.EOF
+        sqlq_SELECT_ALL.Database:= Connection;
+        sqlq_SELECT_ALL.SQL.Text:= SQL;
+        if not RefreshQuery( sqlq_SELECT_ALL) then exit;
+        fID:= sqlq_SELECT_ALL.FieldByName( 'id');
+        sqlq_SELECT_ALL.First;
+        while not sqlq_SELECT_ALL.EOF
         do
           begin
-          bl_from_id( jsdcSELECT_ALL.id, bl);
+          bl_from_id( fID.AsInteger, bl);
           if Assigned( bl)
           then
-              bl.Recharge( jsdcSELECT_ALL);
+              bl.Recharge( sqlq_SELECT_ALL);
 
-          jsdcSELECT_ALL.Next;
+          sqlq_SELECT_ALL.Next;
           end;
         sIDs:= sys_Vide;
         NbIDs:= 0;
@@ -1667,17 +2113,18 @@ begin
      if bl = nil then exit;
 
      try
-        with jsdcSELECT_from_id.Params
+        sqlq_SELECT_from_id.Database:= Connection;
+        with sqlq_SELECT_from_id.Params
         do
           ParamByName( 'id').AsInteger:= _id;
-        if not jsdcSELECT_from_id.RefreshQuery then exit;
+        if not RefreshQuery( sqlq_SELECT_from_id) then exit;
 
-        if jsdcSELECT_from_id.IsEmpty then exit;
+        if sqlq_SELECT_from_id.IsEmpty then exit;
 
-        bl.Recharge( jsdcSELECT_from_id);
+        bl.Recharge( sqlq_SELECT_from_id);
 
      finally
-            jsdcSELECT_from_id.Close;
+            sqlq_SELECT_from_id.Close;
             pChange.Publie;
             end;
 end;
@@ -1686,45 +2133,76 @@ procedure TPool.Vide;
 var
    bl: TBatpro_Ligne;
    I: TIterateur;
-   //sClean_Log_Start: String;
+   sClean_Log_Start: String;
+   s: String;
+   Log_bl: Boolean;
 begin
-     //uClean_Log( '  '+Name+':TPool.Vide début');
-     pVide_Avant.Publie;
-     //uClean_Log( '   aprés pVide_Avant.Publie');
+     Log_bl:= (NomTable = 'ged_type_document');
+     try
+        uLog.Log.PrintLn( '  '+Name+':TPool.Vide début');
+        pVide_Avant.Publie;
+        uLog.Log.PrintLn( '   aprés pVide_Avant.Publie');
 
-     //while slT.Count > 0
-     //do
-     //  begin
-     //  bl:= Batpro_Ligne_from_sl( slT, 0);
-     //  if bl = nil
-     //  then
-     //      slT.Delete( 0)
-     //  else
-     //      Decharge_Seulement( bl);
-     //  end;
+        //while slT.Count > 0
+        //do
+        //  begin
+        //  bl:= Batpro_Ligne_from_sl( slT, 0);
+        //  if bl = nil
+        //  then
+        //      slT.Delete( 0)
+        //  else
+        //      Decharge_Seulement( bl);
+        //  end;
 
-     //sClean_Log_Start:= ClassName+':TPool.Vide;'+IntToStr(slT.Count)+' lignes Start';
-     //uClean_Log_Start( sClean_Log_Start);
-     I:= slT.Iterateur_interne;
+        //sClean_Log_Start:= ClassName+':TPool.Vide;'+IntToStr(slT.Count)+' lignes Start';
+        //uClean_Log_Start( sClean_Log_Start);
+        I:= slT.Iterateur_interne;
 
-     while I.Continuer
-     do
-       begin
-       if I.not_Suivant_interne( bl) then continue;
-       I.Supprime_courant;
-       bl_nil( bl);
-       end;
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant_interne( bl) then continue;
+          I.Supprime_courant;
+          if Log_bl
+          then
+              if Assigned( bl)
+              then
+                  begin
+                  s:= '';
+                  Formate_Liste_Indentation( s, #13#10, '     ', bl.Listing_Champs(#13#10));
+                  uLog.Log.PrintLn( '   '+ClassName+'.Vide: avant déchargement ligne:'+s);
+                  end
+              else
+                  begin
+                  s:= 'nil';
+                  uLog.Log.PrintLn( '   '+ClassName+'.Vide: avant déchargement d''une ligne à nil:'+s);
+                  end
+          else
+              s:= '';
+          bl_nil( bl);
 
-     //uClean_Log_Succes( sClean_Log_Start);
+          if Log_bl
+          then
+              uLog.Log.PrintLn( '   '+ClassName+'.Vide: aprés déchargement ligne:'+s);
+          end;
 
-     //uClean_Log( '   avant slT.Clear');
-     slT     .Clear;
-     //uClean_Log( '   avant slFiltre.Clear');
-     slFiltre.Clear;
-     //uClean_Log( '   avant btsCle.Clear');
-     btsCle.Vide;
-     //uClean_Log( '  '+Name+':TPool.Vide fin');
-     Tid_Vide;
+       // uClean_Log_Succes( sClean_Log_Start);
+
+        uLog.Log.PrintLn( '   avant slT.Clear');
+        slT     .Clear;
+        uLog.Log.PrintLn( '   avant slFiltre.Clear');
+        slFiltre.Clear;
+        uLog.Log.PrintLn( '   avant btsCle.Clear');
+        btsCle.Vide;
+        uLog.Log.PrintLn( '  '+Name+':TPool.Vide fin');
+        Tid_Vide;
+
+     except
+           on E: Exception
+           do
+             uLog.Log.PrintLn( '  '+Name+':TPool.Vide une exception '+E.ClassName+' a été levée:'#13#10
+                               +E.Message);
+           end;
 end;
 
 procedure TPool.GetLookupListItems( _Current_Key: String;
@@ -1786,27 +2264,19 @@ begin
      TBatpro_Ligne( _bl):= _Classe_Element_null.Create( slT, nil, Self);
 end;
 
-function TPool.Connection: TjsDataConnexion;
+function TPool.Connection: TDatabase;
 begin
-     if nil = uPool_Default_jsDataConnexion
-     then
-         begin
-         uLog.Log.PrintLn( ClassName+'.Connection: uPool_Default_jsDataConnexion = nil');
-         uPool_Default_jsDataConnexion:= dmDatabase.jsDataConnexion;
-         uLog.Log.PrintLn( ClassName+'.Connection: aprés uPool_Default_jsDataConnexion:= dmDatabase.jsDataConnexion;');
-         end;
-     Result:= uPool_Default_jsDataConnexion;
-     uLog.Log.PrintLn( ClassName+'.Connection: Fin');
+     Result:= dmDatabase.sqlc;
 end;
 
 procedure TPool.Vider_table;
 begin
-     Connection.DoCommande( 'truncate '+NomTable);
+     dmDatabase.DoCommande( 'truncate '+NomTable);
 end;
 
 procedure TPool.Detruire_table;
 begin
-     Connection.DoCommande( 'drop table '+NomTable);
+     dmDatabase.DoCommande( 'drop table '+NomTable);
 end;
 
 procedure TPool.Supprimer_par_id( _SQL: String;
@@ -1816,22 +2286,23 @@ var
    bl: TBatpro_Ligne;
    Log_erreurs: String;
 begin
-     jsdcLoad_by_id.SQL:= _SQL;
+     sqlqLoad_by_id.Database:= Connection;
+     sqlqLoad_by_id.SQL.Text:= _SQL;
      if Assigned( _P)
      then
-         jsdcLoad_by_id.Params.Assign( _P);
+         sqlqLoad_by_id.Params.Assign( _P);
      (*sqlqLoad_by_id.ParamCheck:= Assigned( _P);*)
-     jsdcLoad_by_id.id_FielName:= _fID;
+     sqlqLoad_by_idid.FieldName:= _fID;
 
-     if not jsdcLoad_by_id.RefreshQuery then exit;
+     if not RefreshQuery( sqlqLoad_by_id) then exit;
      try
         Log_erreurs:= '';
-        jsdcLoad_by_id.First;
-        while not jsdcLoad_by_id.Eof
+        sqlqLoad_by_id.First;
+        while not sqlqLoad_by_id.Eof
         do
           begin
           try
-             Get_Interne_from_id( jsdcLoad_by_id.id, bl);
+             Get_Interne_from_id( sqlqLoad_by_idid.Value, bl);
              if Assigned(bl)
              then
                  Supprimer( bl);
@@ -1840,10 +2311,10 @@ begin
                 do
                   Formate_Liste( Log_erreurs, #13#10, E.Message);
                 end;
-          jsdcLoad_by_id.Next;
+          sqlqLoad_by_id.Next;
           end;
      finally
-            jsdcLoad_by_id.Close;
+            sqlqLoad_by_id.Close;
             end;
      if Log_erreurs <> ''
      then
@@ -2084,27 +2555,10 @@ function TPool.Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boolean;
         _HTTP_Interface.Send_JSON( slT.JSON);
         Result:= True;
    end;
-   function http_ToutCharger_id_Libelle: Boolean;
-   begin
-        ToutCharger();
-        _HTTP_Interface.Send_JSON( slT.JSON_id_Libelle);
-        Result:= True;
-        uLog.Log.PrintLn( ClassName+'.Traite_HTTP::http_ToutCharger_id_Libelle');
-   end;
    function http_Filtre: Boolean;
    begin
         _HTTP_Interface.Send_JSON( slFiltre.JSON);
         Result:= True;
-   end;
-   function http_Insert: Boolean;
-   var
-      bl: TBatpro_Ligne;
-   begin
-        Nouveau_Base( bl);
-        Result:= Assigned( bl);
-        if not Result then exit;
-
-        _HTTP_Interface.Send_JSON( bl.JSON);
    end;
    function http_Get: Boolean;
    var
@@ -2165,14 +2619,12 @@ function TPool.Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boolean;
         _HTTP_Interface.Send_Text( '1');
    end;
 begin
-          if '' = _HTTP_Interface.uri                then Result:= http_ToutCharger
-     else if _HTTP_Interface.Prefixe( '_Filtre'    ) then Result:= http_Filtre
-     else if _HTTP_Interface.Prefixe( '_id_Libelle') then Result:= http_ToutCharger_id_Libelle
-     else if _HTTP_Interface.Prefixe( '_Insert'    ) then Result:= http_Insert
-     else if _HTTP_Interface.Prefixe( '_Get'       ) then Result:= http_Get
-     else if _HTTP_Interface.Prefixe( '_Set'       ) then Result:= http_Set
-     else if _HTTP_Interface.Prefixe( '_Delete'    ) then Result:= http_Delete
-     else                                                 Result:= False;
+          if '' = _HTTP_Interface.uri            then Result:= http_ToutCharger
+     else if _HTTP_Interface.Prefixe( '_Filtre') then Result:= http_Filtre
+     else if _HTTP_Interface.Prefixe( '_Get'   ) then Result:= http_Get
+     else if _HTTP_Interface.Prefixe( '_Set'   ) then Result:= http_Set
+     else if _HTTP_Interface.Prefixe( '_Delete') then Result:= http_Delete
+     else                                            Result:= False;
 end;
 
 function TPool.r: TRequete;

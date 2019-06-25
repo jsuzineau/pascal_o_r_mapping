@@ -28,9 +28,6 @@ uses
     uClean,
     u_sys_,
     uBatpro_StringList,
-    uEXE_INI,
-    uSGBD,
-    ujsDataContexte,
     uChampDefinition,
     uChamp,
     uChamps,
@@ -39,15 +36,10 @@ uses
 
     uBatpro_Element,
     uBatpro_Ligne,
-    ublPostgres_Foreign_Key,
-
-    upoolPostgres_Foreign_Key,
 
     //Code generation
-    uTemplateHandler,
+    uPatternHandler,
     uMenuHandler,
-    ucsMenuHandler,
-    uAngular_TypeScript_ApplicationHandler,
     uGenerateur_de_code_Ancetre,
     uContexteClasse,
     uContexteMembre,
@@ -114,16 +106,7 @@ uses
     ujpPHP_Doctrine_HasMany,
     ujpPHP_Doctrine_HasOne,
 
-    //Angular_TypeScript
-    ujpAngular_TypeScript_NomFichierElement,
-    ujpAngular_TypeScript_NomClasseElement,
-    ujpAngular_TypeScript_declaration_champs,
-    ujpAngular_TypeScript_html_editeurs_champs,
-
-    ujpFile,
-    uApplicationJoinPointFile,
-
-    SysUtils, Classes, DB, Inifiles, FileUtil;
+    SysUtils, Classes, DB, Inifiles;
 
 type
  { TFieldBuffer }
@@ -133,13 +116,13 @@ type
   class( TBatpro_Element)
   //Gestion du cycle de vie
   public
-    constructor Create( _sl: TBatpro_StringList; _Champs: TChamps; _jsdcc: TjsDataContexte_Champ);
+    constructor Create( _sl: TBatpro_StringList; _Champs: TChamps; _F: TField);
     destructor Destroy; override;
   //Attributs
   public
     Champs: TChamps;
     C: TChamp;
-    jsdcc: TjsDataContexte_Champ;
+    F: TField;
   //Méthodes
   public
     procedure Traite; virtual;
@@ -241,11 +224,11 @@ type
   class( TBatpro_Ligne)
   //Gestion du cycle de vie
   public
-    constructor Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre); override;
+    constructor Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre); override;
     destructor Destroy; override;
   //Attributs
   public
-    jsdc: TjsDataContexte;
+    q: TDataset;
     slFields: TslFieldBuffer;
   //Import des champs depuis un dataset
   public
@@ -289,9 +272,6 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-  //INI
-  private
-    procedure _From_INI;
   //Divers
   private
     a: array of TJoinPoint;
@@ -299,69 +279,6 @@ type
   public
     bl: TBatpro_Ligne;
     procedure Execute( _bl: TBatpro_Ligne; _Suffixe: String);
-  //jpFile
-  public
-    sljpFile: TsljpFile;
-    function  Cree_jpFile( _nfKey: String): TjpFile;
-  //Création des jpFile par lecture du répertoire de listes de champs
-  private
-    procedure sljpFile_from_sRepertoireListeChamps_FileFound( _FileIterator: TFileIterator);
-  public
-    procedure sljpFile_from_sRepertoireListeChamps;
-    procedure sljpFile_Produit;
-  //ApplicationJoinPointFile
-  public
-    slApplicationJoinPointFile: TslApplicationJoinPointFile;
-    function  Cree_ApplicationJoinPointFile( _nfKey: String): TApplicationJoinPointFile;
-  //Création des ApplicationJoinPointFile par lecture du répertoire de listes de tables
-  private
-    procedure slApplicationJoinPointFile_from_sRepertoireListeTables_FileFound( _FileIterator: TFileIterator);
-  public
-    procedure slApplicationJoinPointFile_from_sRepertoireListeTables;
-    procedure slApplicationJoinPointFile_Produit;
-  //TemplateHandler
-  public
-    slTemplateHandler: TslTemplateHandler;
-    procedure Cree_TemplateHandler( var _Reference;
-                                   _Source: String;
-                                   _slParametres: TBatpro_StringList= nil); override; overload;
-    function  Cree_TemplateHandler( _Source: String;
-                                   _slParametres: TBatpro_StringList= nil): TTemplateHandler; overload;
-
-  //Création des TemplateHandler par lecture du répertoire de modèles
-  private
-    procedure slTemplateHandler_from_sRepertoireTemplate_FileFound( _FileIterator: TFileIterator);
-  public
-    procedure slTemplateHandler_from_sRepertoireTemplate;
-    procedure slTemplateHandler_Produit;
-  //Paramètres
-  private
-    slParametres: TBatpro_StringList;
-  //ApplicationTemplateHandler
-  public
-    slApplicationTemplateHandler: TslTemplateHandler;
-    function  Cree_ApplicationTemplateHandler( _Source: String; _slParametres: TBatpro_StringList= nil): TTemplateHandler;
-  //Création des TemplateHandler par lecture du répertoire de modèles
-  private
-    procedure slApplicationTemplateHandler_from_sRepertoireApplicationTemplate_FileFound( _FileIterator: TFileIterator);
-  public
-    procedure slApplicationTemplateHandler_from_sRepertoireApplicationTemplate;
-    procedure slApplicationTemplateHandler_Produit;
-
-  //Gestion de la génération au niveau global de l'application (basés sur liste des tables)
-  public
-    Application_Created: Boolean;
-    MenuHandler                          : TMenuHandler;
-    csMenuHandler                        : TcsMenuHandler;
-    Angular_TypeScript_ApplicationHandler: TAngular_TypeScript_ApplicationHandler;
-  private
-    procedure Application_Create;
-  public
-    procedure Application_Produit;
-    procedure Application_Destroy;
-  //Alimentation des Parametres d'aprés les contraintes PostgreSQL
-  public
-    procedure Parametres_from_Postgres_Foreign_Key( _slNomTables: TStringList);
   end;
 
 function Generateur_de_code: TGenerateur_de_code;
@@ -411,11 +328,11 @@ end;
 
 constructor TFieldBuffer.Create( _sl: TBatpro_StringList;
                                  _Champs: TChamps;
-                                 _jsdcc: TjsDataContexte_Champ);
+                                 _F: TField);
 begin
      inherited Create( _sl);
      Champs:= _Champs;
-     jsdcc:= _jsdcc;
+     F:= _F;
      C:= nil;
      Traite;
 end;
@@ -435,7 +352,7 @@ end;
 procedure TStringFieldBuffer.Traite;
 begin
      inherited Traite;
-     C:= Champs.String_from_( Value, jsdcc.Nom);
+     C:= Champs.String_from_( Value, F.FieldName);
 end;
 
 { TIntegerFieldBuffer }
@@ -443,7 +360,7 @@ end;
 procedure TIntegerFieldBuffer.Traite;
 begin
      inherited Traite;
-     C:= Champs.Integer_from_( Value, jsdcc.Nom);
+     C:= Champs.Integer_from_( Value, F.FieldName);
 end;
 
 { TDateTimeFieldBuffer }
@@ -451,7 +368,7 @@ end;
 procedure TDateTimeFieldBuffer.Traite;
 begin
      inherited Traite;
-     C:= Champs.DateTime_from_( Value, jsdcc.Nom);
+     C:= Champs.DateTime_from_( Value, F.FieldName);
 end;
 
 { TDoubleFieldBuffer }
@@ -459,7 +376,7 @@ end;
 procedure TDoubleFieldBuffer.Traite;
 begin
      inherited Traite;
-     C:= Champs.Double_from_( Value, jsdcc.Nom);
+     C:= Champs.Double_from_( Value, F.FieldName);
 end;
 
 { TCurrencyFieldBuffer }
@@ -467,7 +384,7 @@ end;
 procedure TCurrencyFieldBuffer.Traite;
 begin
      inherited Traite;
-     C:= Champs.Currency_from_( Value, jsdcc.Nom);
+     C:= Champs.Currency_from_( Value, F.FieldName);
 end;
 
 { TBooleanFieldBuffer }
@@ -475,7 +392,7 @@ end;
 procedure TBooleanFieldBuffer.Traite;
 begin
      inherited Traite;
-     C:= Champs.Boolean_from_( Value, jsdcc.Nom);
+     C:= Champs.Boolean_from_( Value, F.FieldName);
 end;
 
 { TIterateur_Automatic }
@@ -520,7 +437,7 @@ end;
 { TblAutomatic }
 
 constructor TblAutomatic.Create( _sl: TBatpro_StringList;
-                                 _jsdc: TjsDataContexte;
+                                 _q: TDataset;
                                  _pool: Tpool_Ancetre_Ancetre);
 var
    CP: IblG_BECP;
@@ -534,9 +451,9 @@ begin
          CP.Font.Size:= 12;
          end;
 
-     inherited Create(_sl, _jsdc, _pool);
+     inherited Create(_sl, _q, _pool);
 
-     jsdc:= _jsdc;
+     q:= _q;
      slFields:= TslFieldBuffer.Create( ClassName+'.slFields');
      Ajoute_Champs;
 end;
@@ -550,42 +467,42 @@ end;
 
 procedure TblAutomatic.Ajoute_Champs;
 var
-   I: TIterateur_jsDataContexte_Champ;
-   jsdcc: TjsDataContexte_Champ;
+   I: Integer;
    F: TField;
    fb: TFieldBuffer;
 begin
-     jsdc.Charge_Champs;
-     I:= jsdc.Champs.Iterateur;
-     while I.Continuer
+     if q = nil then exit;
+
+     for I:= 0 to q.FieldCount-1
      do
        begin
-       if I.not_Suivant( jsdcc) then continue;
-       if     ('id'      = jsdcc.Nom)
+       F:= q.Fields.Fields[I];
+       if F = nil then continue;
+       if     ('id'      = F.FieldName)
           and (
-                 (ftInteger = jsdcc.Info.FieldType)
-              or (ftAutoInc = jsdcc.Info.FieldType)
+                 (ftInteger = F.DataType )
+              or (ftAutoInc = F.DataType )
               )
        then
            continue;
 
-       case jsdcc.Info.FieldType
+       case F.DataType
        of
          ftFixedChar,
          ftString   ,
          ftMemo     ,
          ftGuid     ,
-         ftBlob     : fb:= TStringFieldBuffer  .Create( sl, Champs, jsdcc);
-         ftDate     : fb:= TDateTimeFieldBuffer.Create( sl, Champs, jsdcc);
+         ftBlob     : fb:= TStringFieldBuffer  .Create( sl, Champs, F);
+         ftDate     : fb:= TDateTimeFieldBuffer.Create( sl, Champs, F);
          ftAutoInc  ,
          ftInteger  ,
-         ftSmallint : fb:= TIntegerFieldBuffer .Create( sl, Champs, jsdcc);
-         ftBCD      : fb:= TDoubleFieldBuffer  .Create( sl, Champs, jsdcc);
+         ftSmallint : fb:= TIntegerFieldBuffer .Create( sl, Champs, F);
+         ftBCD      : fb:= TDoubleFieldBuffer  .Create( sl, Champs, F);
          ftDateTime ,
-         ftTimeStamp: fb:= TDateTimeFieldBuffer.Create( sl, Champs, jsdcc);
-         ftFloat    : fb:= TDoubleFieldBuffer  .Create( sl, Champs, jsdcc);
-         ftCurrency : fb:= TCurrencyFieldBuffer.Create( sl, Champs, jsdcc);
-         ftBoolean  : fb:= TBooleanFieldBuffer .Create( sl, Champs, jsdcc);
+         ftTimeStamp: fb:= TDateTimeFieldBuffer.Create( sl, Champs, F);
+         ftFloat    : fb:= TDoubleFieldBuffer  .Create( sl, Champs, F);
+         ftCurrency : fb:= TCurrencyFieldBuffer.Create( sl, Champs, F);
+         ftBoolean  : fb:= TBooleanFieldBuffer .Create( sl, Champs, F);
          else         fb:= nil;
          end;
        if fb = nil then continue;
@@ -614,46 +531,15 @@ end;
 
 destructor TGenerateur_de_code.Destroy;
 begin
-     FreeAndNil( sljpFile);
-     FreeAndNil( slApplicationJoinPointFile);
-     FreeAndNil( slTemplateHandler);
-     FreeAndNil( slParametres);
-     FreeAndNil( slApplicationTemplateHandler);
      inherited Destroy;
-end;
-
-procedure TGenerateur_de_code._From_INI;
-var
-   NomFichierProjet: String;
-   Path: String;
-   INI: TIniFile;
-   function iRead( _Key, _DefaultValue: String): String;
-   begin
-        Result:= INI.ReadString( 'Options', _Key, _DefaultValue);
-        ForceDirectories( Result);
-        INI.WriteString( 'Options', _Key, Result);
-   end;
-begin
-     NomFichierProjet:= uOD_Forms_EXE_Name;
-     Path:= ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim;
-     INI:= TIniFile.Create( ChangeFileExt(EXE_INI.FileName,'_Generateur_de_code.ini'));
-     try
-        sRepertoireListeTables        := iRead( 'sRepertoireListeTables',Path+'01_Listes'             +PathDelim+'Tables'+PathDelim);
-        sRepertoireListeChamps        := iRead( 'sRepertoireListeChamps',Path+'01_Listes'             +PathDelim+'Champs'+PathDelim);
-        sRepertoireTemplate           := iRead( 'sRepertoireTemplate'   ,Path+'03_Template'           +PathDelim);
-        sRepertoireParametres         := iRead( 'sRepertoireParametres' ,Path+'04_Parametres'         +PathDelim);
-        sRepertoireApplicationTemplate:= iRead( 'sApplicationTemplate'  ,Path+'05_ApplicationTemplate'+PathDelim);
-        sRepertoireResultat           := iRead( 'sRepertoireResultat'   ,Path+'06_Resultat'           +PathDelim);
-     finally
-            FreeAndNil( INI);
-            end;
 end;
 
 procedure TGenerateur_de_code.Execute( _bl: TBatpro_Ligne; _Suffixe: String);
 var
+   NomFichierProjet: String;
    cc: TContexteClasse;
+   sTaggedValues: String;
 
-   {
    phPAS_DMCRE,
    phPAS_POOL ,
    phPAS_F    ,
@@ -661,6 +547,7 @@ var
    phPAS_DKD  ,
 
    phDFM_DMCRE,
+   phDFM_POOL ,
    phDFM_F    ,
    phDFM_FCB  ,
    phDFM_DKD  ,
@@ -671,18 +558,23 @@ var
    phPAS_BL   ,
    phPAS_HF   ,
    phPAS_TC   ,
-   phDPK       : TTemplateHandler;
+   phDPK       : TPatternHandler;
 
-   phCS_ML     : TTemplateHandler;
+   phCS_ML     : TPatternHandler;
 
-   phPHP_Doctrine_record: TTemplateHandler;
-   phPHP_Doctrine_table : TTemplateHandler;
+   phPHP_Doctrine_record: TPatternHandler;
+   phPHP_Doctrine_table : TPatternHandler;
 
-   phPHP_Perso_c     : TTemplateHandler;
-   phPHP_Perso_Delete: TTemplateHandler;
-   phPHP_Perso_Insert: TTemplateHandler;
-   phPHP_Perso_Set: TTemplateHandler;
-   }
+   phPHP_Perso_c     : TPatternHandler;
+   phPHP_Perso_Delete: TPatternHandler;
+   phPHP_Perso_Insert: TPatternHandler;
+   phPHP_Perso_Set: TPatternHandler;
+
+   slParametres: TBatpro_StringList;
+
+   MenuHandler: TMenuHandler;
+
+   INI: TIniFile;
 
    //Gestion des détails
    NbDetails: Integer;
@@ -694,83 +586,82 @@ var
    nfAggregations: String;
    slAggregations:TStringList;
 
-   {
-   procedure CreeTemplateHandler( out phPAS, phDFM: TTemplateHandler; Racine: String);
+   procedure CreePatternHandler( var phPAS, phDFM: TPatternHandler; Racine: String);
    var
-      sRepertoireRacine: String;
+      sRepRacine: String;
    begin
-        sRepertoireRacine:= s_RepertoirePascal_paquet+'u'+Racine+s_Nom_de_la_classe;
-        phPAS:= Cree_TemplateHandler(  sRepertoireRacine+'.pas',slParametres);
-        phDFM:= Cree_TemplateHandler(  sRepertoireRacine+'.dfm',slParametres);
+        sRepRacine:= sRepSource+'u'+Racine+s_Nom_de_la_classe;
+        phPAS:= TPatternHandler.Create( sRepRacine+'.pas',sRepCible,slParametres);
+        phDFM:= TPatternHandler.Create( sRepRacine+'.dfm',sRepCible,slParametres);
    end;
 
-   procedure CreeTemplateHandler_pool( out phPAS: TTemplateHandler);
+   procedure CreePatternHandler_BL( var phPAS: TPatternHandler);
    var
-      sRepertoireRacine: String;
+      sRepRacine: String;
    begin
-        sRepertoireRacine:= s_RepertoirePascal_paquet+'upool'+s_Nom_de_la_classe;
-        phPAS:= Cree_TemplateHandler(  sRepertoireRacine+'.pas',slParametres);
+        sRepRacine:= sRepSource+'ubl'+s_Nom_de_la_classe;
+        phPAS:= TPatternHandler.Create( sRepRacine+'.pas',sRepCible,slParametres);
    end;
 
-   procedure CreeTemplateHandler_BL( out phPAS: TTemplateHandler);
+   procedure CreePatternHandler_HF( var phPAS: TPatternHandler);
    var
-      sRepertoireRacine: String;
+      sRepRacine: String;
    begin
-        sRepertoireRacine:= s_RepertoirePascal_paquet+'ubl'+s_Nom_de_la_classe;
-        phPAS:= Cree_TemplateHandler(  sRepertoireRacine+'.pas',slParametres);
+        sRepRacine:= sRepSource+'uhf'+s_Nom_de_la_classe;
+        phPAS:= TPatternHandler.Create( sRepRacine+'.pas',sRepCible,slParametres);
    end;
 
-   procedure CreeTemplateHandler_HF( out phPAS: TTemplateHandler);
+   procedure CreePatternHandler_TC( var phPAS: TPatternHandler);
    var
-      sRepertoireRacine: String;
+      sRepRacine: String;
    begin
-        sRepertoireRacine:= s_RepertoirePascal_paquet+'uhf'+s_Nom_de_la_classe;
-        phPAS:= Cree_TemplateHandler(  sRepertoireRacine+'.pas',slParametres);
+        sRepRacine:= sRepSource+'utc'+s_Nom_de_la_classe;
+        phPAS:= TPatternHandler.Create( sRepRacine+'.pas',sRepCible+'dunit'+PathDelim,slParametres);
    end;
 
-   procedure CreeTemplateHandler_TC( out phPAS: TTemplateHandler);
+   procedure CreePatternHandler_DPK( var phDPK: TPatternHandler);
    var
-      sRepertoireRacine: String;
+      sRepRacine: String;
    begin
-        sRepertoireRacine:= s_RepertoirePascal_dunit+'utc'+s_Nom_de_la_classe;
-        phPAS:= Cree_TemplateHandler(  sRepertoireRacine+'.pas',slParametres);
+        sRepRacine:= sRepSource+'p'+s_Nom_de_la_classe;
+        phDPK:= TPatternHandler.Create( sRepRacine+'.dpk',sRepCible,slParametres);
    end;
 
-   procedure CreeTemplateHandler_DPK( out phDPK: TTemplateHandler);
+   procedure CreePatternHandler_ML( var phCS: TPatternHandler);
    var
-      sRepertoireRacine: String;
+      sRepRacine: String;
    begin
-        sRepertoireRacine:= s_RepertoirePascal_paquet+'p'+s_Nom_de_la_classe;
-        phDPK:= Cree_TemplateHandler(  sRepertoireRacine+'.dpk',slParametres);
+        sRepRacine:= sRepSource+'Tml'+s_Nom_de_la_table;
+        phCS:= TPatternHandler.Create( sRepRacine+'.CS',sRepCible,slParametres);
    end;
 
-   procedure CreeTemplateHandler_ML( out phCS: TTemplateHandler);
+   procedure CreePatternHandler_PHP_Doctrine( var phRecord, phTable: TPatternHandler);
    var
-      sRepertoireRacine: String;
+      sRepSource_PHP_Doctrine: String;
    begin
-        sRepertoireRacine:= s_RepertoireCSharp+'Tml'+s_Nom_de_la_table;
-        phCS:= Cree_TemplateHandler(  sRepertoireRacine+'.CS',slParametres);
+        sRepSource_PHP_Doctrine:= sRepSource+'PHP'+PathDelim+'Doctrine'+PathDelim;
+        phRecord:= TPatternHandler.Create( sRepSource_PHP_Doctrine+s_Nom_de_la_table+'.class.php',sRepCible,slParametres);
+        phTable := TPatternHandler.Create( sRepSource_PHP_Doctrine+'t'+s_Nom_de_la_table+'.class.php',sRepCible,slParametres);
    end;
 
-   procedure CreeTemplateHandler_PHP_Doctrine( out phRecord, phTable: TTemplateHandler);
+   procedure CreePatternHandler_PHP_Perso( var phPHP_Perso_c, phPHP_Perso_Delete, phPHP_Perso_Insert, phPHP_Perso_Set: TPatternHandler);
+   var
+      sRepSource_PHP_Perso: String;
    begin
-        phRecord:= Cree_TemplateHandler(  s_RepertoirePHP_Doctrine+    s_Nom_de_la_table+'.class.php',slParametres);
-        phTable := Cree_TemplateHandler(  s_RepertoirePHP_Doctrine+'t'+s_Nom_de_la_table+'.class.php',slParametres);
+        sRepSource_PHP_Perso:= sRepSource+'PHP'+PathDelim+'Perso'+PathDelim;
+        phPHP_Perso_c     := TPatternHandler.Create( sRepSource_PHP_Perso+'cpool'+s_Nom_de_la_table+       '.php',sRepCible,slParametres);
+        phPHP_Perso_Delete:= TPatternHandler.Create( sRepSource_PHP_Perso+        s_Nom_de_la_table+'_Delete.php',sRepCible,slParametres);
+        phPHP_Perso_Insert:= TPatternHandler.Create( sRepSource_PHP_Perso+        s_Nom_de_la_table+'_Insert.php',sRepCible,slParametres);
+        phPHP_Perso_Set   := TPatternHandler.Create( sRepSource_PHP_Perso+        s_Nom_de_la_table+   '_Set.php',sRepCible,slParametres);
    end;
 
-   procedure CreeTemplateHandler_PHP_Perso( out phPHP_Perso_c, phPHP_Perso_Delete, phPHP_Perso_Insert, phPHP_Perso_Set: TTemplateHandler);
-   begin
-        phPHP_Perso_c     := Cree_TemplateHandler(  s_RepertoirePHP_Perso+'cpool'+s_Nom_de_la_table+       '.php',slParametres);
-        phPHP_Perso_Delete:= Cree_TemplateHandler(  s_RepertoirePHP_Perso+        s_Nom_de_la_table+'_Delete.php',slParametres);
-        phPHP_Perso_Insert:= Cree_TemplateHandler(  s_RepertoirePHP_Perso+        s_Nom_de_la_table+'_Insert.php',slParametres);
-        phPHP_Perso_Set   := Cree_TemplateHandler(  s_RepertoirePHP_Perso+        s_Nom_de_la_table+   '_Set.php',slParametres);
-   end;
-   }
    procedure Traite_Champ( _C: TChamp);
    var
       d: TChampDefinition;
       sNomChamp: String;
       cm: TContexteMembre;
+      sParametre: String;
+      sDeclarationParametre: String;
    begin
         d:= _C.Definition;
         if not d.Persistant then exit;//pour éviter le champ Selected
@@ -779,61 +670,74 @@ var
         if 'id' = LowerCase( sNomChamp) then exit;
 
         cm:= TContexteMembre.Create( Self, cc, sNomChamp, d.sType, '');
-        //cm:= TContexteMembre.Create( cc, _fb.jsdcc.Nom, _fb.sType, '');
+        //cm:= TContexteMembre.Create( cc, _fb.F.FieldName, _fb.sType, '');
         try
            uJoinPoint_VisiteMembre( cm, a);
-           sljpFile.VisiteMembre( cm);
-        finally
-               FreeAndNil( cm);
-               end;
+
+           sParametre:= ' _'+cm.sNomChamp;
+           sDeclarationParametre:= sParametre+': '+cm.sTyp;
+           finally
+                  FreeAndNil( cm);
+                  end;
    end;
-   {
    procedure Produit;
+   var
+      RepertoirePascal: String;
+      RepertoireCSharp: String;
+      RepertoirePHP_Doctrine: String;
+      RepertoirePHP_Perso   : String;
+
+      RepertoirePaquet: String;
    begin
-        phPAS_DMCRE.Produit;
-        phPAS_POOL .Produit;
-        phPAS_F    .Produit;
-        phPAS_FCB  .Produit;
-        phPAS_DKD  .Produit;
+        RepertoirePascal      := 'Pascal'                            +PathDelim;
+        RepertoirePaquet      := RepertoirePascal+cc.Nom_de_la_classe+PathDelim;
+        RepertoireCSharp      := 'CSharp'                            +PathDelim;
+        RepertoirePHP_Doctrine:= 'PHP'+PathDelim+'Doctrine'          +PathDelim;
+        RepertoirePHP_Perso   := 'PHP'+PathDelim+'Perso'             +PathDelim;
 
-        phDFM_DMCRE.Produit;
-        phDFM_F    .Produit;
-        phDFM_FCB  .Produit;
-        phDFM_DKD  .Produit;
+        phPAS_DMCRE.Produit( RepertoirePascal);
+        phPAS_POOL .Produit( RepertoirePaquet);
+        phPAS_F    .Produit( RepertoirePascal);
+        phPAS_FCB  .Produit( RepertoirePascal);
+        phPAS_DKD  .Produit( RepertoirePascal);
 
-        phDFM_FD   .Produit;
-        phPAS_FD   .Produit;
+        phDFM_DMCRE.Produit( RepertoirePascal);
+        phDFM_POOL .Produit( RepertoirePaquet);
+        phDFM_F    .Produit( RepertoirePascal);
+        phDFM_FCB  .Produit( RepertoirePascal);
+        phDFM_DKD  .Produit( RepertoirePascal);
 
-        phPAS_BL   .Produit;
-        phPAS_HF   .Produit;
-        phPAS_TC   .Produit;
-        phDPK      .Produit;
+        phDFM_FD   .Produit( RepertoirePaquet);
+        phPAS_FD   .Produit( RepertoirePaquet);
 
-        phCS_ML    .Produit;
+        phPAS_BL   .Produit( RepertoirePaquet);
+        phPAS_HF   .Produit( RepertoirePaquet);
+        phPAS_TC   .Produit( RepertoirePascal);
+        phDPK      .Produit( RepertoirePaquet);
 
-        phPHP_Doctrine_record.Produit;
-        phPHP_Doctrine_table .Produit;
+        phCS_ML    .Produit( RepertoireCSharp);
 
-        phPHP_Perso_c     .Produit;
-        phPHP_Perso_Delete.Produit;
-        phPHP_Perso_Insert.Produit;
-        phPHP_Perso_Set   .Produit;
+        phPHP_Doctrine_record.Produit(RepertoirePHP_Doctrine);
+        phPHP_Doctrine_table .Produit(RepertoirePHP_Doctrine);
+
+        phPHP_Perso_c     .Produit(RepertoirePHP_Perso);
+        phPHP_Perso_Delete.Produit(RepertoirePHP_Perso);
+        phPHP_Perso_Insert.Produit(RepertoirePHP_Perso);
+        phPHP_Perso_Set.Produit(RepertoirePHP_Perso);
    end;
-   }
    procedure Visite;
    var
       I: TIterateur_Champ;
       J: Integer;
+      fb: TFieldBuffer;
       C: TChamp;
    begin
         cc:= TContexteClasse.Create( Self, _Suffixe,
                                      bl.Champs.ChampDefinitions.Persistant_Count);
         try
-           slApplicationJoinPointFile.VisiteClasse( cc);
            slParametres.Clear;
 
            uJoinPoint_Initialise( cc, a);
-           sljpFile.Initialise( cc);
 
            I:= bl.Champs.sl.Iterateur;
            while I.Continuer
@@ -846,20 +750,16 @@ var
            //Gestion des détails
            slDetails:= TStringList.Create;
            try
-              nfDetails:= sRepertoireParametres+cc.Nom_de_la_classe+'.Details.txt';
+              nfDetails:= sRepParametres+cc.Nom_de_la_classe+'.Details.txt';
               if FileExists( nfDetails)
               then
                   slDetails.LoadFromFile( nfDetails);
               NbDetails:= slDetails.Count;
               for J:= 0 to NbDetails-1
               do
-                begin
                 uJoinPoint_VisiteDetail( slDetails.Names[J],
                                          slDetails.ValueFromIndex[J],
                                          a);
-                sljpFile.VisiteDetail( slDetails.Names[J],
-                                       slDetails.ValueFromIndex[J]);
-                end;
            finally
                   slDetails.SaveToFile( nfDetails);
                   FreeAndNil( slDetails);
@@ -868,20 +768,16 @@ var
            //Gestion des aggrégations
            slAggregations:= TStringList.Create;
            try
-              nfAggregations:= sRepertoireParametres+cc.Nom_de_la_classe+'.Aggregations.txt';
+              nfAggregations:= sRepParametres+cc.Nom_de_la_classe+'.Aggregations.txt';
               if FileExists( nfAggregations)
               then
                   slAggregations.LoadFromFile( nfAggregations);
               NbAggregations:= slAggregations.Count;
               for J:= 0 to NbAggregations-1
               do
-                begin
                 uJoinPoint_VisiteAggregation( slAggregations.Names[J],
                                          slAggregations.ValueFromIndex[J],
                                          a);
-                sljpFile.VisiteAggregation( slAggregations.Names[J],
-                                            slAggregations.ValueFromIndex[J]);
-                end;
            finally
                   slAggregations.SaveToFile( nfAggregations);
                   FreeAndNil( slAggregations);
@@ -889,386 +785,94 @@ var
 
            //Fermeture des chaines
            uJoinPoint_Finalise( a);
-           sljpFile.Finalise;
 
            uJoinPoint_To_Parametres( slParametres, a);
-           sljpFile.To_Parametres( slParametres);
 
-           slTemplateHandler_Produit;
-           //Produit;
-           slLog.Add( 'aprés Produit');
-           MenuHandler                          .Add( cc.Nom_de_la_table, NbDetails = 0);
-           csMenuHandler                        .Add( cc.Nom_de_la_table, NbDetails = 0, True(*cc.CalculeSaisi_*));
-           Angular_TypeScript_ApplicationHandler.Add( cc, NbDetails = 0);
-           slLog.Add( 'MenuHandler.Add');
+           Produit;
+           //slLog.Add( 'aprés Produit');
+           //csMenuHandler.Add( cc.NomTable, NbDetails = 0, cc.CalculeSaisi_);
+           //slLog.Add( 'MenuHandler.Add');
         finally
                FreeAndNil( cc)
                end;
    end;
 begin
      bl:= _bl;
-     slLog.Clear;
-     slParametres.Clear;
-     sljpFile_from_sRepertoireListeChamps;
-     slTemplateHandler_from_sRepertoireTemplate;
-
-     {
-     CreeTemplateHandler( phPAS_DMCRE, phDFM_DMCRE, 'dmxcre');
-     CreeTemplateHandler( phPAS_F    , phDFM_F    , 'f'     );
-     CreeTemplateHandler( phPAS_FCB  , phDFM_FCB  , 'fcb'   );
-     CreeTemplateHandler( phPAS_DKD  , phDFM_DKD  , 'dkd'   );
-     CreeTemplateHandler( phPAS_FD  , phDFM_FD  , 'fd'   );
-     CreeTemplateHandler_pool( phPAS_POOL);
-     CreeTemplateHandler_BL( phPAS_BL);
-     CreeTemplateHandler_HF( phPAS_HF);
-     CreeTemplateHandler_TC( phPAS_TC);
-     CreeTemplateHandler_DPK( phDPK);
-
-     CreeTemplateHandler_ML( phCS_ML);
-
-     CreeTemplateHandler_PHP_Doctrine( phPHP_Doctrine_record, phPHP_Doctrine_table);
-     CreeTemplateHandler_PHP_Perso( phPHP_Perso_c, phPHP_Perso_Delete, phPHP_Perso_Insert, phPHP_Perso_Set);
-     }
-     if not Application_Created
-     then
-         Application_Create;
-     try
-        S:= '';
-        Premiere_Classe:= True;
-
-        Visite;
-
-        slLog.Add( S);
-     finally
-            {
-            FreeAndNil( phPAS_DMCRE);
-            FreeAndNil( phPAS_POOL );
-            FreeAndNil( phPAS_F    );
-            FreeAndNil( phPAS_FCB  );
-            FreeAndNil( phPAS_DKD  );
-
-            FreeAndNil( phDFM_DMCRE);
-            FreeAndNil( phDFM_F    );
-            FreeAndNil( phDFM_FCB  );
-            FreeAndNil( phDFM_DKD  );
-
-            FreeAndNil( phDFM_FD  );
-            FreeAndNil( phPAS_FD  );
-
-            FreeAndNil( phPAS_BL   );
-            FreeAndNil( phPAS_HF   );
-            FreeAndNil( phPAS_TC   );
-
-            FreeAndNil( phCS_ML   );
-
-            FreeAndNil( phPHP_Doctrine_record);
-            FreeAndNil( phPHP_Doctrine_table );
-
-            FreeAndNil( phPHP_Perso_c     );
-            FreeAndNil( phPHP_Perso_Delete);
-            FreeAndNil( phPHP_Perso_Insert);
-            FreeAndNil( phPHP_Perso_Set);
-            }
-            slTemplateHandler.Vide;
-            sljpFile.Vide;
-            end;
-     slLog.SaveToFile( sRepertoireResultat+ChangeFileExt( ExtractFileName( uClean_EXE_Name), '.log'));
-end;
-
-procedure ublAutomatic_EnumFiles( _sRepertoire: String; _ffe: TFileFoundEvent; _Mask: String= '*.*');
-var
-   fs: TFileSearcher;
-begin
-     fs:= TFileSearcher.Create;
-     try
-        fs.OnFileFound:= _ffe;
-        fs.Search( _sRepertoire, _Mask);
-     finally
-            FreeAndNil( fs);
-            end;
-end;
-
-function TGenerateur_de_code.Cree_jpFile(_nfKey: String): TjpFile;
-begin
-     Result:= jpFile_from_sl_sCle( sljpFile, _nfKey);
-     if nil <> Result then exit;
-
-     Result:= TjpFile.Create( _nfKey);
-     sljpFile.AddObject( _nfKey, Result);
-end;
-
-procedure TGenerateur_de_code.sljpFile_from_sRepertoireListeChamps_FileFound( _FileIterator: TFileIterator);
-var
-   NomFichier_Key: String;
-begin
-     if _FileIterator.IsDirectory then exit;
-
-     NomFichier_Key:= _FileIterator.FileName;
-
-     Cree_jpFile( NomFichier_Key);
-end;
-
-procedure TGenerateur_de_code.sljpFile_from_sRepertoireListeChamps;
-begin
-     ublAutomatic_EnumFiles( sRepertoireListeChamps, sljpFile_from_sRepertoireListeChamps_FileFound, s_key_mask);
-end;
-
-procedure TGenerateur_de_code.sljpFile_Produit;
-begin
-
-end;
-
-function TGenerateur_de_code.Cree_ApplicationJoinPointFile(_nfKey: String): TApplicationJoinPointFile;
-begin
-     Result:= ApplicationJoinPointFile_from_sl_sCle( slApplicationJoinPointFile, _nfKey);
-     if nil <> Result then exit;
-
-     Result:= TApplicationJoinPointFile.Create( _nfKey);
-     slApplicationJoinPointFile.AddObject( _nfKey, Result);
-end;
-
-procedure TGenerateur_de_code.slApplicationJoinPointFile_from_sRepertoireListeTables_FileFound( _FileIterator: TFileIterator);
-var
-   NomFichier_Key: String;
-begin
-     if _FileIterator.IsDirectory then exit;
-
-     NomFichier_Key:= _FileIterator.FileName;
-
-     Cree_ApplicationJoinPointFile( NomFichier_Key);
-end;
-
-procedure TGenerateur_de_code.slApplicationJoinPointFile_from_sRepertoireListeTables;
-begin
-     ublAutomatic_EnumFiles( sRepertoireListeTables, slApplicationJoinPointFile_from_sRepertoireListeTables_FileFound, s_key_mask);
-end;
-
-procedure TGenerateur_de_code.slApplicationJoinPointFile_Produit;
-begin
-
-end;
-
-function TGenerateur_de_code.Cree_TemplateHandler( _Source: String;
-                                                  _slParametres: TBatpro_StringList= nil): TTemplateHandler;
-var
-   slParametres_local: TBatpro_StringList;
-begin
-     if nil = _slParametres
-     then
-         slParametres_local:= slParametres
-     else
-         slParametres_local:= _slParametres;
-
-     Result
+     NomFichierProjet:= uOD_Forms_EXE_Name;
+     INI
      :=
-       TemplateHandler_from_sl_sCle( slTemplateHandler, _Source);
-     if nil = Result
-     then
-         begin
-         Result:= TTemplateHandler.Create( Self, _Source, slParametres_local);
-         slTemplateHandler.AddObject( _Source, Result);
-         end
-     else
-         Result.slParametres:= slParametres_local;
-end;
-
-procedure TGenerateur_de_code.Cree_TemplateHandler( var _Reference;
-                                                   _Source: String;
-                                                   _slParametres: TBatpro_StringList= nil);
-begin
-     TTemplateHandler(_Reference):= Cree_TemplateHandler( _Source, _slParametres);
-end;
-
-procedure TGenerateur_de_code.slTemplateHandler_from_sRepertoireTemplate_FileFound( _FileIterator: TFileIterator);
-var
-   Source: String;
-begin
-     if _FileIterator.IsDirectory then exit;
-
-     Source:= _FileIterator.FileName;
-     Delete( Source, 1, Length( sRepertoireTemplate));
-
-     Cree_TemplateHandler( Source);
-end;
-
-procedure TGenerateur_de_code.slTemplateHandler_from_sRepertoireTemplate;
-begin
-     ublAutomatic_EnumFiles( sRepertoireTemplate, slTemplateHandler_from_sRepertoireTemplate_FileFound);
-end;
-
-procedure TGenerateur_de_code.slTemplateHandler_Produit;
-var
-   I: TIterateur_TemplateHandler;
-   ph: TTemplateHandler;
-begin
-     I:= slTemplateHandler.Iterateur;
-     while I.Continuer
-     do
-       begin
-       if I.not_Suivant( ph) then continue;
-       ph.Produit;
-       end;
-end;
-
-function TGenerateur_de_code.Cree_ApplicationTemplateHandler( _Source: String; _slParametres: TBatpro_StringList): TTemplateHandler;
-var
-   slParametres_local: TBatpro_StringList;
-begin
-     if nil = _slParametres
-     then
-         slParametres_local:= slParametres
-     else
-         slParametres_local:= _slParametres;
-
-     Result
-     :=
-       TemplateHandler_from_sl_sCle( slTemplateHandler, _Source);
-     if nil = Result
-     then
-         begin
-         Result:= TApplicationTemplateHandler.Create( Self, _Source, slParametres_local);
-         slApplicationTemplateHandler.AddObject( _Source, Result);
-         end
-     else
-         Result.slParametres:= slParametres_local;
-end;
-
-procedure TGenerateur_de_code.slApplicationTemplateHandler_from_sRepertoireApplicationTemplate_FileFound( _FileIterator: TFileIterator);
-var
-   Source: String;
-begin
-     if _FileIterator.IsDirectory then exit;
-
-     Source:= _FileIterator.FileName;
-     Delete( Source, 1, Length( sRepertoireApplicationTemplate));
-
-     Cree_ApplicationTemplateHandler( Source);
-end;
-
-procedure TGenerateur_de_code.slApplicationTemplateHandler_from_sRepertoireApplicationTemplate;
-begin
-     ublAutomatic_EnumFiles( sRepertoireApplicationTemplate, slApplicationTemplateHandler_from_sRepertoireApplicationTemplate_FileFound);
-end;
-
-procedure TGenerateur_de_code.slApplicationTemplateHandler_Produit;
-var
-   I: TIterateur_TemplateHandler;
-   ph: TTemplateHandler;
-begin
-     I:= slApplicationTemplateHandler.Iterateur;
-     while I.Continuer
-     do
-       begin
-       if I.not_Suivant( ph) then continue;
-       ph.Produit;
-       end;
-end;
-
-
-procedure TGenerateur_de_code.Application_Create;
-begin
-     slApplicationJoinPointFile_from_sRepertoireListeTables;
-     MenuHandler                          := TMenuHandler                          .Create( Self);
-     csMenuHandler                        := TcsMenuHandler                        .Create( Self);
-     Angular_TypeScript_ApplicationHandler:= TAngular_TypeScript_ApplicationHandler.Create( Self);
-
-     slApplicationTemplateHandler_from_sRepertoireApplicationTemplate;
-
-     Application_Created:= True;
-     slApplicationJoinPointFile.Initialise;
-end;
-
-procedure TGenerateur_de_code.Application_Produit;
-begin
-     slApplicationJoinPointFile.Finalise;
-     slApplicationJoinPointFile.To_Parametres( slParametres);
-     MenuHandler                          .Produit;
-     csMenuHandler                        .Produit;
-     Angular_TypeScript_ApplicationHandler.Produit;
-     slApplicationTemplateHandler_Produit;
-end;
-
-procedure TGenerateur_de_code.Application_Destroy;
-begin
-     Application_Created:= False;
-     slApplicationJoinPointFile.Vide;
-     FreeAndNil( MenuHandler                          );
-     FreeAndNil( csMenuHandler                        );
-     FreeAndNil( Angular_TypeScript_ApplicationHandler);
-     slApplicationTemplateHandler.Vide;
-end;
-
-procedure TGenerateur_de_code.Parametres_from_Postgres_Foreign_Key( _slNomTables: TStringList);
-var
-   slDetails     : TStringList;
-   slAggregations: TStringList;
-   sl            : TslPostgres_Foreign_Key;
-
-   nfDetails     : String;
-
-   I: Integer;
-   NomTable: String;
-
-   procedure Postgres;
-   var
-      iPFK: TIterateur_Postgres_Foreign_Key;
-      bl: TblPostgres_Foreign_Key;
-      Detail_Nom, Detail_Type: String;
-      nfAggregations: String;
-      Aggregation_Nom, Aggregation_Type: String;
-   begin
-        iPFK:= sl.Iterateur;
-        while iPFK.Continuer
-        do
-          begin
-          if iPFK.not_Suivant( bl) then continue;
-
-          Detail_Nom := bl.FOREIGN_KEY;
-          Detail_Type:= bl.Reference_Table;
-          slDetails.Values[Detail_Nom]:= Detail_Type;
-
-          nfAggregations:= sRepertoireParametres+bl.Reference_Table+'.Aggregations.txt';
-          if FileExists( nfAggregations)
-          then
-              slAggregations.LoadFromFile( nfAggregations)
-          else
-              slAggregations.Clear;
-
-          Aggregation_Nom := NomTable+'_'+bl.FOREIGN_KEY;
-          Aggregation_Type:= NomTable;
-          slAggregations.Values[Aggregation_Nom]:= Aggregation_Type;
-
-          slAggregations.SaveToFile( nfAggregations);
-          end;
-   end;
-begin
-     if not sgbdPOSTGRES then exit;
-
-     slDetails     := TStringList            .Create;
-     slAggregations:= TStringList            .Create;
-     sl            := TslPostgres_Foreign_Key.Create( ClassName+'.Parametres_from_Postgres_Foreign_Key::sl');
+       TIniFile.Create( ChangeFileExt(NomFichierProjet,'_Dico_Delphi.ini'));
      try
-        for I:= 0 to _slNomTables.Count -1
-        do
-          begin
-          NomTable:= _slNomTables[I];
-          nfDetails:= sRepertoireParametres+NomTable+'.Details.txt';
-          if FileExists( nfDetails)
-          then
-              slDetails.LoadFromFile( nfDetails)
-          else
-              slDetails.Clear;
+        sRepSource    := INI.ReadString( 'Options', 'sRepSource'    ,ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'patterns'  +PathDelim);
+        sRepParametres:= INI.ReadString( 'Options', 'sRepParametres',ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'Parametres'+PathDelim);
+        sRepCible     := INI.ReadString( 'Options', 'sRepCible'     ,ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim+'Source'    +PathDelim);
+        INI.WriteString( 'Options', 'sRepSource', sRepSource);
+        INI.WriteString( 'Options', 'sRepCible' , sRepCible );
 
-          poolPostgres_Foreign_Key.Charge_Table( NomTable, sl);
-          Postgres;
-          slDetails.SaveToFile( nfDetails);
-          end;
+        slParametres:= TBatpro_StringList.Create;
+        slLog.Clear;
+        try
+           CreePatternHandler( phPAS_DMCRE, phDFM_DMCRE, 'dmxcre');
+           CreePatternHandler( phPAS_POOL , phDFM_POOL , 'pool'  );
+           CreePatternHandler( phPAS_F    , phDFM_F    , 'f'     );
+           CreePatternHandler( phPAS_FCB  , phDFM_FCB  , 'fcb'   );
+           CreePatternHandler( phPAS_DKD  , phDFM_DKD  , 'dkd'   );
+           CreePatternHandler( phPAS_FD  , phDFM_FD  , 'fd'   );
+           CreePatternHandler_BL( phPAS_BL);
+           CreePatternHandler_HF( phPAS_HF);
+           CreePatternHandler_TC( phPAS_TC);
+           CreePatternHandler_DPK( phDPK);
+           CreePatternHandler_ML( phCS_ML);
+           CreePatternHandler_PHP_Doctrine( phPHP_Doctrine_record, phPHP_Doctrine_table);
+           CreePatternHandler_PHP_Perso( phPHP_Perso_c, phPHP_Perso_Delete, phPHP_Perso_Insert, phPHP_Perso_Set);
+           MenuHandler:= TMenuHandler.Create( sRepSource, sRepCible);
+
+           try
+              S:= '';
+              Premiere_Classe:= True;
+
+              Visite;
+
+              //csMenuHandler.Produit;
+              slLog.Add( S);
+           finally
+                  FreeAndNil( MenuHandler);
+                  FreeAndNil( phPAS_DMCRE);
+                  FreeAndNil( phPAS_POOL );
+                  FreeAndNil( phPAS_F    );
+                  FreeAndNil( phPAS_FCB  );
+                  FreeAndNil( phPAS_DKD  );
+
+                  FreeAndNil( phDFM_DMCRE);
+                  FreeAndNil( phDFM_POOL );
+                  FreeAndNil( phDFM_F    );
+                  FreeAndNil( phDFM_FCB  );
+                  FreeAndNil( phDFM_DKD  );
+
+                  FreeAndNil( phDFM_FD  );
+                  FreeAndNil( phPAS_FD  );
+
+                  FreeAndNil( phPAS_BL   );
+                  FreeAndNil( phPAS_HF   );
+                  FreeAndNil( phPAS_TC   );
+
+                  FreeAndNil( phCS_ML   );
+
+                  FreeAndNil( phPHP_Doctrine_record);
+                  FreeAndNil( phPHP_Doctrine_table );
+
+                  FreeAndNil( phPHP_Perso_c     );
+                  FreeAndNil( phPHP_Perso_Delete);
+                  FreeAndNil( phPHP_Perso_Insert);
+                  FreeAndNil( phPHP_Perso_Set);
+       end;
+        finally
+               slLog.SaveToFile( sRepCible+'suPatterns_from_MCD.log');
+               FreeAndNil( slParametres);
+               end;
      finally
-            FreeAndNil( slDetails);
-            FreeAndNil( slAggregations);
-            Free_nil( sl);
+            FreeAndNil( INI);
             end;
-
 end;
 
 procedure TGenerateur_de_code.Initialise(_a: array of TJoinPoint);
@@ -1285,12 +889,6 @@ end;
 constructor TGenerateur_de_code.Create;
 begin
      inherited Create;
-     _From_INI;
-     sljpFile                    := TsljpFile                  .Create( ClassName+'.sljpFile'         );
-     slApplicationJoinPointFile  := TslApplicationJoinPointFile.Create( ClassName+'.slApplicationJoinPointFile'         );
-     slTemplateHandler           := TslTemplateHandler         .Create( ClassName+'.slTemplateHandler');
-     slParametres                := TBatpro_StringList         .Create;
-     slApplicationTemplateHandler:= TslTemplateHandler         .Create( ClassName+'.slApplicationTemplateHandler');
      Initialise(
                 [
                 //General
@@ -1351,16 +949,9 @@ begin
                 //PHP / Doctrine
                 jpPHP_Doctrine_Has_Column,
                 jpPHP_Doctrine_HasMany,
-                jpPHP_Doctrine_HasOne,
-
-                //Angular_TypeScript
-                jpAngular_TypeScript_NomFichierElement,
-                jpAngular_TypeScript_NomClasseElement,
-                jpAngular_TypeScript_declaration_champs,
-                jpAngular_TypeScript_html_editeurs_champs
+                jpPHP_Doctrine_HasOne
                 ]
                 );
-     Application_Created:= False;
 end;
 
 initialization

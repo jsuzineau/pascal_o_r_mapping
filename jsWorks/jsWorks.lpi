@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="11"/>
+    <Version Value="10"/>
     <General>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
@@ -23,7 +23,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;../OOo;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/6_Formes;Elements/Tag;Elements/Work;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;../pascal_o_r_mapping/3_Data/JSON;../pascal_o_r_mapping/3_Data/Tuleap;Elements/Calendrier;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler/05_Angular_TypeScript;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/Elements/Postgres_Foreign_Key"/>
+            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;../OOo;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/6_Formes;Elements/Tag;Elements/Work;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;../pascal_o_r_mapping/3_Data/JSON;../pascal_o_r_mapping/3_Data/Tuleap;Elements/Calendrier"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -52,7 +52,7 @@
           </Linking>
         </CompilerOptions>
       </Item2>
-      <Item3 Name="Linux Debug">
+      <Item3 Name="Debug">
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
@@ -60,7 +60,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;../OOo;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/6_Formes;Elements/Tag;Elements/Work;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;../pascal_o_r_mapping/3_Data/JSON;../pascal_o_r_mapping/3_Data/Tuleap;Elements/Calendrier;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler/05_Angular_TypeScript;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/Elements/Postgres_Foreign_Key"/>
+            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;../OOo;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/6_Formes;Elements/Tag;Elements/Work;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;../pascal_o_r_mapping/3_Data/JSON;../pascal_o_r_mapping/3_Data/Tuleap;Elements/Calendrier"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -93,7 +93,7 @@
           </Linking>
         </CompilerOptions>
       </Item3>
-      <Item4 Name="Linux Release">
+      <Item4 Name="Release">
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
@@ -101,7 +101,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;../OOo;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/6_Formes;Elements/Tag;Elements/Work;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;../pascal_o_r_mapping/3_Data/JSON;../pascal_o_r_mapping/3_Data/Tuleap;Elements/Calendrier;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler/05_Angular_TypeScript;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/Elements/Postgres_Foreign_Key"/>
+            <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;../OOo;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/6_Formes;Elements/Tag;Elements/Work;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;../pascal_o_r_mapping/3_Data/JSON;../pascal_o_r_mapping/3_Data/Tuleap;Elements/Calendrier"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -133,10 +133,9 @@
       <Version Value="2"/>
     </PublishOptions>
     <RunParams>
-      <FormatVersion Value="2"/>
-      <Modes Count="1">
-        <Mode0 Name="default"/>
-      </Modes>
+      <local>
+        <FormatVersion Value="1"/>
+      </local>
     </RunParams>
     <RequiredPackages Count="6">
       <Item1>
@@ -158,7 +157,7 @@
         <PackageName Value="LCL"/>
       </Item6>
     </RequiredPackages>
-    <Units Count="128">
+    <Units Count="123">
       <Unit0>
         <Filename Value="jsWorks.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -737,26 +736,6 @@
         <Filename Value="Elements/Calendrier/uhdmCalendrier.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit122>
-      <Unit123>
-        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler/05_Angular_TypeScript/uAngular_TypeScript_ApplicationHandler.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit123>
-      <Unit124>
-        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript/ujpAngular_TypeScript_declaration_champs.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit124>
-      <Unit125>
-        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/Elements/Postgres_Foreign_Key/ublPostgres_Foreign_Key.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit125>
-      <Unit126>
-        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/Elements/Postgres_Foreign_Key/uhfPostgres_Foreign_Key.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit126>
-      <Unit127>
-        <Filename Value="../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/Elements/Postgres_Foreign_Key/upoolPostgres_Foreign_Key.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit127>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -766,7 +745,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;../OOo;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/6_Formes;Elements/Tag;Elements/Work;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;../pascal_o_r_mapping/3_Data/JSON;../pascal_o_r_mapping/3_Data/Tuleap;Elements/Calendrier;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler/05_Angular_TypeScript;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/Elements/Postgres_Foreign_Key"/>
+      <OtherUnitFiles Value="../pascal_o_r_mapping/3_Data;../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;../OOo;../Generation_de_code;../pascal_o_r_mapping/3_Data/Automatic;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/File_Handler;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/00_General;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../pascal_o_r_mapping/3_Data/Automatic/Code_Generation;../pascal_o_r_mapping/6_Formes;Elements/Tag;Elements/Work;Elements/Categorie;Elements/Development;Elements/Jour_Ferie;Elements/Project;Elements/Session;Elements/State;Elements/Tag_Development;Elements/Tag_Work;Elements/Type_Tag;../pascal_o_r_mapping/3_Data/JSON;../pascal_o_r_mapping/3_Data/Tuleap;Elements/Calendrier"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

@@ -78,7 +78,7 @@ type
   class( TBatpro_Ligne)
   //Gestion du cycle de vie
   public
-    constructor Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre); override;
+    constructor Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre); override;
     destructor Destroy; override;
   //champs persistants
   public
@@ -274,7 +274,7 @@ end;
 
 { TblDevelopment }
 
-constructor TblDevelopment.Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre);
+constructor TblDevelopment.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
 var
    CP: IblG_BECP;
 begin
@@ -295,7 +295,7 @@ begin
      Integer_from_Integer( nProject       , 'nProject'       );
      Integer_from_Integer( nCreationWork  , 'nCreationWork'  );
      Integer_from_Integer( nSolutionWork  , 'nSolutionWork'  );
-     cLibelle:= String_from_        ( Description    , 'Description'    );
+     String_from_        ( Description    , 'Description'    );
      Integer_from_Integer( nDemander      , 'nDemander'      );
      Integer_from_Integer( nSheetref      , 'nSheetref'      );
      String_from_        ( Solution       , 'Solution'       );

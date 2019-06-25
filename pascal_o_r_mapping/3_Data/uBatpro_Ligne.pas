@@ -39,7 +39,6 @@ uses
     uBatpro_Element,
     uhAggregation,
 
-    ujsDataContexte,
     uChampDefinition,
     uChamp,
     uChamps,
@@ -52,17 +51,13 @@ uses
     uChamps_persistance,
     uhFiltre_Ancetre,
     ufAccueil_Erreur,
-  {$IFDEF FPC}
-  fpjson,
-  {$ELSE}
+  {$IFNDEF FPC}
   Graphics, Windows, DBTables, ComCtrls,
   {$ENDIF}
   Classes, SysUtils, DB, Types,
   SQLDB;
 
 type
-    TjsDataContexte         = ujsDataContexte.TjsDataContexte;
-    TjsDataContexte_SQLQuery=ujsDataContexte.TjsDataContexte_SQLQuery;
  TGroupe     = class;
  TGroupeTitle= class;
 
@@ -73,11 +68,11 @@ type
   class( TBatpro_Element)
   //Cycle de vie
   public
-    constructor Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre); virtual;
+    constructor Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre); virtual;
     destructor Destroy; override;
   // Persistance à partir du dataset principal
   protected
-    Fjsdc: TjsDataContexte;
+    Fq: TDataset;
   public
     Modified: Boolean;
   //Persistance XML
@@ -154,7 +149,7 @@ type
     procedure Copy_from_( _Source: TBatpro_Ligne; _Desactiver_Publications: Boolean= True);
   //Rechargement
   public
-    procedure Recharge( _jsdc: TjsDataContexte); virtual;
+    procedure Recharge( _q: TDataset); virtual;
   // id sous forme de chaine en hexadécimal pour les clés
   public
     class function sCle_ID_from_( _id: Integer): String;
@@ -170,7 +165,7 @@ type
     procedure Rafraichit_Champs_Calcules; virtual;
   //Gestion de la connection
   public
-    class function jsDataConnexion: TjsDataConnexion; virtual;
+    class function SQLConnection: TDatabase; virtual;
   //Gestion des champ de code et de libelle
   public
     cCode   : TChamp;
@@ -238,7 +233,6 @@ type
              {$ENDIF}
              ;
      function JSON_Persistants: String; override;
-     function JSON_id_Libelle: String; override;
  //Listing des champs pour déboguage
   public
     function Listing_Champs( Separateur: String): String; override;
@@ -247,14 +241,12 @@ type
 
  TBatpro_Ligne_Class= class of TBatpro_Ligne;
 
- { TGroupe }
-
  TGroupe
  =
   class( TBatpro_Ligne)
   //Cycle de vie
   public
-    constructor Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre); override;
+    constructor Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre); override;
     destructor Destroy; override;
   //Attributs
   public
@@ -263,14 +255,12 @@ type
     GroupSize        : Integer;
   end;
 
- { TGroupeTitle }
-
  TGroupeTitle
  =
   class( TBatpro_Ligne)
   //Cycle de vie
   public
-    constructor Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre); override;
+    constructor Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre); override;
     destructor Destroy; override;
   //Attributs
   public
@@ -403,7 +393,7 @@ procedure BooleanFieldValue( _bl: TBatpro_Ligne; _FielName: String;
 begin
      _C:= _bl.Champs.Champ_from_Field( _FielName);
      if      Assigned( _C)
-        and ( _C.Definition.Info.jsDataType = jsdt_Boolean)
+        and ( _C.Definition.Typ = ftBoolean)
      then
          _B:= PtrBoolean( _C.Valeur)^
      else
@@ -415,7 +405,7 @@ procedure IntegerFieldValue( _bl: TBatpro_Ligne; _FielName: String;
 begin
      _C:= _bl.Champs.Champ_from_Field( _FielName);
      if      Assigned( _C)
-        and ( _C.Definition.Info.jsDataType = jsdt_Integer)
+        and ( _C.Definition.Typ = ftInteger)
      then
          _I:= PInteger( _C.Valeur)^
      else
@@ -427,7 +417,7 @@ procedure StringFieldValue( _bl: TBatpro_Ligne; _FielName: String;
 begin
      _C:= _bl.Champs.Champ_from_Field( _FielName);
      if      Assigned( _C)
-        and ( _C.Definition.Info.jsDataType = jsdt_String)
+        and ( _C.Definition.Typ = ftString)
      then
          _S:= _C.Chaine
      else
@@ -445,20 +435,16 @@ end;
 
 { TBatpro_Ligne }
 
-constructor TBatpro_Ligne.Create( _sl: TBatpro_StringList;
-                                  _jsdc: TjsDataContexte;
+constructor TBatpro_Ligne.Create( _sl: TBatpro_StringList; _q: TDataset;
                                   _pool: Tpool_Ancetre_Ancetre);
 begin
+
      inherited Create( _sl);
-     Fjsdc  := _jsdc;
+     Fq  := _q;
      pool:= _pool;
      Modified:= False;
 
-     if Fjsdc= nil
-     then
-         Fjsdc:= jsDataContexte_Dataset_Null;
-
-     Champs:= TChamps.Create( ClassName, Fjsdc, Save_to_database);
+     Champs:= TChamps.Create( ClassName, Fq, Save_to_database);
 
      Passe_le_filtre:= True;
 
@@ -534,20 +520,20 @@ end;
 
 procedure TBatpro_Ligne.Save_to_database;
 begin
-     Modified:= not Champs_persistance.Save_to_database( Champs, jsDataConnexion);
+     Modified:= not Champs_persistance.Save_to_database( Champs, SQLConnection);
      Rafraichit_Champs_Calcules;
 end;
 
 procedure TBatpro_Ligne.Insert_into_database;
 begin
-     Modified:= not Champs_persistance.Insert_into_database( Champs, jsDataConnexion);
+     Modified:= not Champs_persistance.Insert_into_database( Champs, SQLConnection);
 end;
 
 function TBatpro_Ligne.Delete_from_database: Boolean;
 begin
      Aggregations.Delete_from_database;
      Supprime_Connections;
-     Result:= Champs_persistance.Delete_from_database( Champs, jsDataConnexion);
+     Result:= Champs_persistance.Delete_from_database( Champs, SQLConnection);
 end;
 
 function TBatpro_Ligne.GetChamps: TChamps;
@@ -917,10 +903,10 @@ begin
             end;
 end;
 
-procedure TBatpro_Ligne.Recharge( _jsdc: TjsDataContexte);
+procedure TBatpro_Ligne.Recharge( _q: TDataset);
 begin
-     Fjsdc:= _jsdc;
-     Champs.Recharge( Fjsdc);
+     Fq:= _q;
+     Champs.Recharge( Fq);
 end;
 
 class function TBatpro_Ligne.sCle_ID_from_( _id: Integer): String;
@@ -938,9 +924,9 @@ begin
 
 end;
 
-class function TBatpro_Ligne.jsDataConnexion: TjsDataConnexion;
+class function TBatpro_Ligne.SQLConnection: TDatabase;
 begin
-     Result:= dmDatabase.jsDataConnexion;
+     Result:= dmDatabase.sqlc;
 end;
 
 function TBatpro_Ligne.Champ_a_editer( Contexte: Integer): TChamp;
@@ -1162,25 +1148,6 @@ begin
      Result:= '{'+Champs.JSON_Persistants+Aggregations.JSON_Persistants+'}';
 end;
 
-function TBatpro_Ligne.JSON_id_Libelle: String;
-begin
-     (*
-     Result
-     :=
-        '{'
-       +Format( '"%s":"%s",',['id'     , StringToJSONString(IntToStr(id))])
-       +Format( '"%s":"%s" ',['Libelle', StringToJSONString(GetLibelle)])
-       +'}';
-     *)
-     Result
-     :=
-        '{'
-       +Champs.JSON
-       +Format( ',"%s":"%s"',['Libelle', StringToJSONString(GetLibelle)]);
-     Formate_Liste( Result, ',',Aggregations.JSON);
-     Result:= Result + '}';
-end;
-
 {$IFDEF FPC}
 procedure TBatpro_Ligne.SetJSON(_Value: String);
 begin
@@ -1227,9 +1194,7 @@ end;
 
 { TGroupe }
 
-constructor TGroupe.Create( _sl: TBatpro_StringList;
-                            _jsdc: TjsDataContexte;
-                            _pool: Tpool_Ancetre_Ancetre);
+constructor TGroupe.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
 var
    CP: IblG_BECP;
 begin
@@ -1257,9 +1222,7 @@ end;
 
 { TGroupeTitle }
 
-constructor TGroupeTitle.Create( _sl: TBatpro_StringList;
-                                 _jsdc: TjsDataContexte;
-                                 _pool: Tpool_Ancetre_Ancetre);
+constructor TGroupeTitle.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
 var
    CP: IblG_BECP;
 begin

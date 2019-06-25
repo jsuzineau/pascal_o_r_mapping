@@ -50,7 +50,7 @@ type
  TpoolDevelopment
  =
   class( TPool)
-    procedure DataModuleCreate(Sender: TObject);  override;
+    procedure DataModuleCreate(Sender: TObject);
   //Filtre
   public
     hfDevelopment: ThfDevelopment;
@@ -76,14 +76,14 @@ function poolDevelopment: TpoolDevelopment;
 
 implementation
 
-
+{$R *.lfm}
 
 var
    FpoolDevelopment: TpoolDevelopment;
 
 function poolDevelopment: TpoolDevelopment;
 begin
-     TPool.class_Get( Result, FpoolDevelopment, TpoolDevelopment);
+     Clean_Get( Result, FpoolDevelopment, TpoolDevelopment);
 end;
 
 { TpoolDevelopment }
@@ -226,6 +226,7 @@ end;
 
 
 initialization
+              Clean_Create ( FpoolDevelopment, TpoolDevelopment);
 finalization
-              TPool.class_Destroy( FpoolDevelopment);
+              Clean_destroy( FpoolDevelopment);
 end.

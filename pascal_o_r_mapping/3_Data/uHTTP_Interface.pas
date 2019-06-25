@@ -27,7 +27,6 @@ interface
 uses
     uForms,
     uClean,
-    uMimeType,
     uChrono,
     uuStrings,
     uBatpro_StringList,
@@ -117,6 +116,7 @@ type
     procedure Send_WOFF2(_WOFF2: String);                        override;
     procedure Send_ICO(_ICO: String);                            override;
     procedure Send_MIME_from_Extension(_S, _Extension: String);  override;
+    function MIME_from_Extension( _Extension: String): String;   override;
     procedure Send_Not_found;                                    override;
     procedure Traite_fichier( _NomFichier: String); overload;
     procedure Traite_racine;
@@ -136,7 +136,7 @@ type
   //Traitement des appels
   public
     function Prefixe( _Prefixe: String): Boolean; override;
-    procedure Traite;
+    procedure Traite( _uri: String);
   //Traitement du Chrono
   private
     function Traite_Chrono: Boolean;
@@ -201,14 +201,6 @@ type
    procedure SetLaunchURL_Callback(_Value: String);
   public
     property LaunchURL_Callback: String read GetLaunchURL_Callback write SetLaunchURL_Callback;
-  //Gestion des requêtes multi-origine Cross-Origin Request CORS
-  //valeur de l'entête Access-Control-Allow-Origin,
-  // * en dev,
-  // à restreindre en prod: Access-Control-Allow-Origin: https://developer.mozilla.org
-  private
-    procedure Charge_CORS_Value;
-  public
-    CORS_Value: String;
   end;
 
   TIterateur_HTTP_Interface
@@ -683,8 +675,6 @@ begin
      InitCriticalSection( fgl_putfile_interne_CriticalSection);
      InitCriticalSection( lg_Traite_Fichier_Genere_interne_CriticalSection);
 
-     Charge_CORS_Value;
-
      HTTP_Interfaces.Ajoute(Self);
 end;
 
@@ -746,17 +736,6 @@ begin
      S.SendString('Connection: close' + CRLF);
      S.SendString('Date: ' + Rfc822DateTime(now) + CRLF);
      S.SendString('Server: http_jsWorks' + CRLF);
-
-     S.SendString('Access-Control-Allow-Origin: '+CORS_Value + CRLF);
-     //d'aprés https://developer.mozilla.org/fr/docs/Web/HTTP/Headers/Access-Control-Allow-Origin#CORS_et_le_cache
-     if '*'<>CORS_Value
-     then
-         begin
-         S.SendString('Vary: Origin'+ CRLF);
-         //d'aprés https://developer.mozilla.org/fr/docs/Web/HTTP/Headers/Origin#Syntaxe
-         S.SendString('Origin: '+ CRLF); //il faudrait peut-être mettre le domaine de l'appelant
-         end;
-
      S.SendString('' + CRLF);
      //  if S.lasterror <> 0 then HandleError;
 end;
@@ -838,19 +817,23 @@ begin
      Send_Data( 'image/x-icon', _ICO);
 end;
 
-procedure THTTP_Interface.Send_MIME_from_Extension( _S, _Extension: String);
-     function not_Traite_MIME: Boolean;
-     var
-        MimeType: String;
-     begin
-          MimeType:= MimeType_from_Extension( _Extension);
-          Result:= '' = MimeType;
-          if Result then exit;
-
-          Send_Data( MimeType, _S);
-     end;
+function THTTP_Interface.MIME_from_Extension(_Extension: String): String;
 begin
-          if '.html'  = _Extension then Send_HTML ( _S)
+     Result:= '';
+
+          if '.svg' = _Extension then Result:= 'image/svg+xml'
+     else if '.eot' = _Extension then Result:= 'application/vnd.ms-fontobject'
+     else if '.ttf' = _Extension then Result:= 'application/x-font-truetype';
+
+end;
+
+procedure THTTP_Interface.Send_MIME_from_Extension( _S, _Extension: String);
+var
+   MIME: String;
+begin
+     MIME:= MIME_from_Extension( _Extension);
+          if MIME <> ''            then Send_Data( MIME, _S)
+     else if '.html'  = _Extension then Send_HTML ( _S)
      else if '.js'    = _Extension then Send_JS   ( _S)
      else if '.json'  = _Extension then Send_JSON ( _S)
      else if '.css'   = _Extension then Send_CSS  ( _S)
@@ -858,8 +841,7 @@ begin
      else if '.woff'  = _Extension then Send_WOFF ( _S)
      else if '.woff2' = _Extension then Send_WOFF2( _S)
      else if '.ico'   = _Extension then Send_ICO  ( _S)
-     else if not not_Traite_MIME
-     then
+     else
          begin
          Send_HTML( _S);
          Log.PrintLn( '#### Extension inconnue '+_Extension+' pour :'#13#10+uri);
@@ -873,8 +855,40 @@ begin
 end;
 
 function THTTP_Interface.Content_type_from_NomFichier( _NomFichier: String): String;
+var
+   Extension: String;
 begin
-     Result:= MimeType_from_Extension( ExtractFileExt( _NomFichier));
+     Extension:= LowerCase( ExtractFileExt( _NomFichier));
+
+     //Pages web
+          if '.css'  = Extension then Result:= 'text/css'
+     else if '.js'   = Extension then Result:= 'application/javascript'
+     else if '.gif'  = Extension then Result:= 'image/gif'
+     else if '.png'  = Extension then Result:= 'image/png'
+     else if '.jpg'  = Extension then Result:= 'image/jpeg'
+     else if '.htm'  = Extension then Result:= 'text/html'
+     else if '.html' = Extension then Result:= 'text/html'
+
+     //PDF
+     else if '.pdf'  = Extension then Result:= 'application/pdf'
+
+     //Open Document
+     else if '.odt'  = Extension then Result:= 'application/vnd.oasis.opendocument.text'
+     else if '.ott'  = Extension then Result:= 'application/vnd.oasis.opendocument.text-template'
+     else if '.ods'  = Extension then Result:= 'application/vnd.oasis.opendocument.spreadsheet'
+     else if '.odg'  = Extension then Result:= 'application/vnd.oasis.opendocument.graphics'
+     else if '.odp'  = Extension then Result:= 'application/vnd.oasis.opendocument.presentation'
+
+     //Microsoft
+     else if '.doc'  = Extension then Result:= 'application/msword'
+     else if '.docx' = Extension then Result:= 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+     else if '.xls'  = Extension then Result:= 'application/vnd.ms-excel'
+     else if '.xlsx' = Extension then Result:= 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+     else if '.ppt'  = Extension then Result:= 'application/vnd.ms-powerpoint'
+     else if '.pptx' = Extension then Result:= 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+
+     else if '.' = Extension then Result:= 'application/octet-stream'
+     else                         Result:= '';
 end;
 
 procedure THTTP_Interface.Traite_fichier( _NomFichier: String);
@@ -1010,9 +1024,10 @@ begin
      Send_JSON( '"'+Chrono.Get_Liste+'"');
 end;
 
-procedure THTTP_Interface.Traite;
+procedure THTTP_Interface.Traite( _uri: String);
 begin
-     Log.PrintLn( ClassName+'.Traite '+uri+' début');
+     Log.PrintLn( ClassName+'.Traite '+_uri+' début');
+     uri:= _uri;
      //WriteLn('THTTP_Interface.Traite uri='+uri);
 
      StrTok( '/', uri);
@@ -1029,7 +1044,7 @@ begin
      then if not Traite_pool
      then if not Traite_Chrono
      then        Traite_fichier;
-     Log.PrintLn( ClassName+'.Traite '+uri+' fin');
+     Log.PrintLn( ClassName+'.Traite '+_uri+' fin');
 end;
 
 procedure THTTP_Interface.URL_PortMapper_from_ini;
@@ -1114,7 +1129,8 @@ begin
      then
          RecvBody;
 
-     Synchronize( Traite); //modifié avec Synchronize pour utilisation dans jsWorks
+     // Now write the document to the output stream
+     Traite( uri);//à revoir, uri est un attribut, il est déjà affecté
 end;
 
 procedure THTTP_Interface.Verification_http_inactif;
@@ -1216,23 +1232,6 @@ end;
 procedure THTTP_Interface.SetLaunchURL_Callback( _Value: String);
 begin
      HTTP_Interfaces.Set_LaunchURL_Callback( Name, _Value);
-end;
-
-procedure THTTP_Interface.Charge_CORS_Value;
-//Gestion des requêtes multi-origine Cross-Origin Request CORS
-//valeur de l'entête Access-Control-Allow-Origin,
-// * en dev,
-// à restreindre en prod: Access-Control-Allow-Origin: https://developer.mozilla.org
-const
-    inik_CORS='THTTP_Interface.Access-Control-Allow-Origin_CORS';
-begin
-     CORS_Value:= EXE_INI.ReadString( inis_Options, inik_CORS, '#');
-     if '#' = CORS_Value
-     then
-         begin
-         CORS_Value:= 'http://localhost:4200';//l'url utilisée par ng serve pour mise au point Angular
-         EXE_INI.WriteString( inis_Options, inik_CORS, CORS_Value);
-         end;
 end;
 
 function THTTP_Interface.Init: String;

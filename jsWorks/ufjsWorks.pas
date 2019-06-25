@@ -25,7 +25,6 @@ unit ufjsWorks;
 interface
 
 uses
-    uLog,
     uChamp,
     uChamps,
     uuStrings,
@@ -69,12 +68,10 @@ uses
     ufTest_neo4j,
     ufTULEAP, sqlite3conn,
 
-    uHTTP_Interface,
-
   Classes, SysUtils, FileUtil, DateTimePicker, Forms, Controls, Graphics,
   Dialogs, StdCtrls, ExtCtrls, Buttons, Menus, ucChampsGrid,
   ucDockableScrollbox, ucChamp_DateTimePicker, ucChamp_Edit, ucChamp_Memo,
-  ucChamp_Lookup_ComboBox, uDockable, dateutils,LCLIntf;
+  ucChamp_Lookup_ComboBox, uDockable, dateutils;
 
 type
 
@@ -98,7 +95,6 @@ type
    bNew_Tag_Project_from_Selection: TButton;
    bNew_Tag_Client_from_Selection: TButton;
    bBeginning_From: TButton;
-   bHTTP: TButton;
    bVST: TButton;
    ceBeginning: TChamp_Edit;
    ceEnd: TChamp_Edit;
@@ -151,7 +147,6 @@ type
    procedure bBugClick(Sender: TObject);
    procedure bCategorie_to_TagClick(Sender: TObject);
    procedure bDescription_to_TagClick(Sender: TObject);
-   procedure bHTTPClick(Sender: TObject);
    procedure bNEO4JClick(Sender: TObject);
    procedure bNew_Tag_Client_from_SelectionClick(Sender: TObject);
    procedure bNew_Tag_Project_from_SelectionClick(Sender: TObject);
@@ -191,9 +186,6 @@ type
   private
     blDevelopment: TblDevelopment;
     procedure _from_Development;
-  //HTTP
-  private
-    procedure HTTP;
   end;
 
 var
@@ -211,7 +203,7 @@ begin
 
      dmDatabase.Ouvre_db;
 
-     Caption:= Caption+' - '+dmDatabase.jsDataConnexion.Base_sur;
+     Caption:= Caption+' - '+dmDatabase.Base_sur;
      poolCategorie.ToutCharger;
      poolState    .ToutCharger;
 
@@ -232,7 +224,7 @@ begin
      dsbTag.Tri:= poolTag.Tri;
      dsbTag.Filtre:= poolTag.hfTag;
 
-     dtpBeginning_From.Date:= Now-30;
+     dtpBeginning_From.Date:= EncodeDate( YearOf(Now), MonthOf(Now)-1, DayOf( Now));
 end;
 
 destructor TfjsWorks.Destroy;
@@ -254,20 +246,11 @@ end;
 procedure TfjsWorks.Traite_Beginning_From;
 var
    D: TDateTime;
-   slWork: TslWork;
 begin
      D:= dtpBeginning_From.Date;
-
-     slWork:= TslWork.Create( ClassName+'slWork');
-     try
-        //poolWork.ToutCharger();
-        poolWork.Charge_Periode( D, Now, 0, slWork);
-        poolWork.TrierFiltre;
-        slWork.Charger_Tags;
-     finally
-            FreeAndNil( slWork);
-            end;
-
+     //poolWork       .ToutCharger();
+     poolWork       .Charge_Periode( D, Now);
+     poolWork.TrierFiltre;
      //poolDevelopment.ToutCharger();
      _from_pool;
 end;
@@ -418,11 +401,6 @@ begin
      poolWork.Tag_from_Description;
 end;
 
-procedure TfjsWorks.bHTTPClick(Sender: TObject);
-begin
-     HTTP;
-end;
-
 procedure TfjsWorks.bNEO4JClick(Sender: TObject);
 begin
      fTest_neo4j.Show;
@@ -493,110 +471,6 @@ begin
      blWork.haTag_from_Description.Enleve( blTag);
      blWork.Tag( blTag);
      _from_Work;
-end;
-
-procedure Traite_Test_AUT;
-var
-   Repertoire: String;
-   uri: String;
-  procedure Traite_Racine;
-  var
-     NomFichier: String;
-     S: String;
-  begin
-       NomFichier:= Repertoire+SetDirSeparators( 'index.html');
-       if FileExists( NomFichier)
-       then
-           begin
-           S:= String_from_File( NomFichier);
-           HTTP_Interface.Send_HTML( S);
-           Log.PrintLn( 'Envoi racine ');
-           end
-       else
-           begin
-           HTTP_Interface.Send_Not_found;
-           Log.PrintLn( '#### Fichier non trouvé :'#13#10+uri);
-           end;
-  end;
-  procedure Traite_Fichier;
-  var
-     NomFichier: String;
-     Extension: String;
-     S: String;
-  begin
-       NomFichier:= Repertoire+SetDirSeparators( uri);
-       if FileExists( NomFichier)
-       then
-           begin
-           Log.PrintLn( 'Envoi fichier '#13#10+uri);
-           Extension:= LowerCase(ExtractFileExt(uri));
-           S:= String_from_File( NomFichier);
-           HTTP_Interface.Send_MIME_from_Extension( S, Extension);
-           end
-       else
-           begin
-           HTTP_Interface.Send_Not_found;
-           Log.PrintLn( '#### Fichier non trouvé :'#13#10+uri);
-           end;
-  end;
-begin
-     Repertoire:= 'C:\_freepascal\Test_angular_ui_tree\';
-     uri:= HTTP_Interface.uri;
-          if '' = uri                                  then Traite_Racine
-     else                                                   Traite_Fichier;
-end;
-procedure TfjsWorks.HTTP;
-var
-   HTTP_Interface_URL: String= '';
-   procedure Ecrit_URL;
-   var
-      S: String;
-   begin
-        //HTTP_Interface.Init_from_ClassName();
-        S:= HTTP_Interface.Init;
-        Caption:= Caption + ' - web sur '+ S;
-        HTTP_Interface_URL:= S;
-   end;
-begin
-     if Assigned(HTTP_Interface.th) then exit;//http déjà en cours
-
-     uHTTP_Interface.Assurer_http_PortMapper:= False;
-     poolCategorie.ToutCharger;
-     poolState    .ToutCharger;
-     //poolProject  .ToutCharger;
-
-     HTTP_Interface.Racine:= '';
-     HTTP_Interfaces.Register_pool( poolProject    );
-     HTTP_Interfaces.Register_pool( poolWork       );
-     HTTP_Interfaces.Register_pool( poolDevelopment);
-     HTTP_Interfaces.Register_pool( poolCategorie  );
-     HTTP_Interfaces.Register_pool( poolState      );
-     //HTTP_Interface.Register_pool( poolAutomatic  ); à voir, conflit avec uhAutomatic_ATB
-     HTTP_Interface.slP.Ajoute( 'Test_AUT/', @Traite_Test_AUT);
-
-     //hAutomatic_ATB.Execute_SQL( 'select * from a_cht  where phase <> "0" limit 0,100');
-     //hAutomatic_ATB.Execute_SQL( 'select * from Work limit 0,100');
-     //hAutomatic_AUT.Execute_SQL( 'select * from Work limit 0,100');
-
-     Ecrit_URL;
-     //HTTP_Interface.Run( True);
-     HTTP_Interface.Run( False);
-     {
-     function ThttpRequete_securise.HTTP_Init: String;
-     begin
-          hi.Init_from_ClassName( ClassName, Self, HTTP_Traite);
-
-          Result:= hi.Init;
-     end;
-     procedure ThttpRequete_securise.Execute;
-     begin
-          Log.PrintLn( 'Ecoute sur: '+ HTTP_Init);
-          hi.Run( False);
-          Log.PrintLn('http_run terminé');
-     end;
-     }
-
-     OpenURL( HTTP_Interface_URL);
 end;
 
 end.
