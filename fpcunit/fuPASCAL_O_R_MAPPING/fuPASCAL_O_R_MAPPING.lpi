@@ -13,8 +13,38 @@
     <i18n>
       <EnableI18N LFM="False"/>
     </i18n>
-    <BuildModes Count="1">
-      <Item1 Name="default" Default="True"/>
+    <BuildModes Count="2">
+      <Item1 Name="Debug" Default="True"/>
+      <Item2 Name="Release">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <Target>
+            <Filename Value="fuPASCAL_O_R_MAPPING"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="../../pascal_o_r_mapping/3_Data;Elements/Test;TestCase/tcOpenDocument_Embed_Image;TestCase/tcOpenDocument_Embed_Image/Elements/Test;TestCase/tcWinUtils;TestCase/tcWinUtils/Elements/TestWinUtils;TestCase/tcDockableScrollbox;TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox;TestCase/tcCode_barre_pdf417;../../GPL;TestCase/tcOpenDocument;TestCase/tcSQLite;TestCase/tcSQLITE_LastInsertId;TestCase/tcOpenDocument_AddHTML;TestCase/tcOpenDocument_AddHTML/Elements/Test_HTML"/>
+            <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <SyntaxMode Value="Delphi"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <Optimizations>
+              <OptimizationLevel Value="3"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+          </Linking>
+        </CompilerOptions>
+      </Item2>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -161,9 +191,13 @@
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
+    <Target>
+      <Filename Value="fuPASCAL_O_R_MAPPING"/>
+    </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
       <OtherUnitFiles Value="../../pascal_o_r_mapping/3_Data;Elements/Test;TestCase/tcOpenDocument_Embed_Image;TestCase/tcOpenDocument_Embed_Image/Elements/Test;TestCase/tcWinUtils;TestCase/tcWinUtils/Elements/TestWinUtils;TestCase/tcDockableScrollbox;TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox;TestCase/tcCode_barre_pdf417;../../GPL;TestCase/tcOpenDocument;TestCase/tcOpenDocument_AddHTML;TestCase/tcOpenDocument_AddHTML/Elements/Test_HTML;TestCase/tcStrings;TestCase/tcOD;../../OOo;../../pascal_o_r_mapping/7_sources_externes/synapse/source/lib;TestCase/tcDataUtilsU"/>
+      <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>

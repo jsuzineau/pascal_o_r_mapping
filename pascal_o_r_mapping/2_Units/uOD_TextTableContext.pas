@@ -994,6 +994,10 @@ begin
      do
        Inc( Somme_ColumnLengths, _ColumnLengths[I]);
 
+     //Peut se produire si LibreOffice "optimise"
+     //en supprimant les variables non utilisées
+     if 0 = Somme_ColumnLengths then Somme_ColumnLengths:= 1;
+
      SetLength( ODCs, Length( _ColumnLengths));
 
      for I:= iDebut to iFin

@@ -37,6 +37,7 @@ const nom_html  = 'tcOpenDocument_AddHTML.html';
 const nom_html_2= 'tcOpenDocument_AddHTML_2.html';
 const nom_html_3= 'tcOpenDocument_AddHTML_3.html';
 const nom_html_4= 'tcOpenDocument_AddHTML_4.html';
+const nom_html_5= 'tcOpenDocument_AddHTML_Test_ul_li.html';
 type
 
  { TblTest_HTML }

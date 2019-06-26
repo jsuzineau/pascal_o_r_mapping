@@ -300,6 +300,30 @@ type
                                     _SizePourcent: Integer= 100): String; override;
   end;
 
+ { TOD_LIST }
+
+ TOD_LIST
+ =
+  class( TOD_XML_Element)
+  //Cycle de vie
+  public
+    constructor Create( _D: TOpenDocument; _eRoot: TDOMNode); override;
+  //Style
+  public
+    Style: String;
+    function Cree_Style: String;
+  end;
+
+ { TOD_LIST_ITEM }
+
+ TOD_LIST_ITEM
+ =
+  class( TOD_XML_Element)
+  //Cycle de vie
+  public
+    constructor Create( _D: TOpenDocument; _eRoot: TDOMNode); override;
+  end;
+
  TOD_TAB
  =
   class( TOD_XML_Element)
@@ -501,6 +525,16 @@ type
     procedure Duplique_Style_Colonne( _NomStyle_Source, _NomStyle_Cible: String);
 
     function Font_size_from_Style( _NomStyle: String): Integer;
+  //Styles de liste
+  private
+    Automatic_list_style_number: Integer;
+    procedure Add_List_level_label_alignment( _eList_level_properties: TDOMNode; _left: String);
+    procedure Add_list_level_properties( _eList_level_style_bullet: TDOMNode; _left: String);
+    procedure Add_list_level_style_bullet( _eListStyle: TDOMNode; _level, _left, _bullet_char: String);
+    function  Add_list_style( _NomStyle: String;
+                              _Root: TOD_Root_Styles): TDOMNode;
+    function  Add_automatic_list_style( out _eStyle: TDOMNode; _Is_Header: Boolean= False): String; overload;
+    function  Add_automatic_list_style( _Is_Header: Boolean= False): String; overload;
   //Styles
   private
     function  Add_style( _NomStyle, _NomStyleParent: String;
@@ -710,7 +744,18 @@ function RangeName_from_Rect( Left, Top, Right, Bottom: Integer): String;
 
 function MulDiv( Nombre, Numerateur, Denominateur: Integer): Integer;
 
+function Root_Styles_from_Is_Header( _Is_Header: Boolean): TOD_Root_Styles;
+
 implementation
+
+function Root_Styles_from_Is_Header( _Is_Header: Boolean): TOD_Root_Styles;
+begin
+     if _Is_Header
+     then
+         Result:= ors_xmlStyles_AUTOMATIC_STYLES
+     else
+         Result:= ors_xmlContent_AUTOMATIC_STYLES;
+end;
 
 function MulDiv( Nombre, Numerateur, Denominateur: Integer): Integer;
 begin
@@ -1293,6 +1338,30 @@ begin
                                           );
 end;
 
+{ TOD_LIST }
+
+constructor TOD_LIST.Create( _D: TOpenDocument; _eRoot: TDOMNode);
+begin
+     inherited;
+     e:= Cree_path( eRoot, 'text:list');
+     Style:= '';
+end;
+
+function TOD_LIST.Cree_Style: String;
+begin
+     Style:= D.Add_automatic_list_style( Is_Header);
+     D.Set_Property( e, 'text:style-name', Style);
+     Result:= Style;
+end;
+
+{ TOD_LIST_ITEM }
+
+constructor TOD_LIST_ITEM.Create( _D: TOpenDocument; _eRoot: TDOMNode);
+begin
+     inherited;
+     e:= Cree_path( eRoot, 'text:list-item');
+end;
+
 { TOD_TAB }
 
 constructor TOD_TAB.Create( _D: TOpenDocument; _eRoot: TDOMNode);
@@ -1332,14 +1401,17 @@ var
    dfp: TDimensions_Image;
    svgWidth, svgHeight: String;
 begin
+     Result:= TOD_IMAGE.Create( D, e);
+     D.Set_Property( e, 'text:anchor-type', 'as-char');
+
      dfp:= D.Embed_Image( _Filename);
+     if nil = dfp then exit;
+
      try
         svgWidth := dfp.svgWidth ;
         svgHeight:= dfp.svgHeight;
-        D.Set_Property( e, 'text:anchor-type', 'as-char');
         if '' <> svgWidth  then D.Set_Property( e, 'svg:width' , svgWidth );
         if '' <> svgHeight then D.Set_Property( e, 'svg:height', svgHeight);
-        Result:= TOD_IMAGE.Create( D, e);
         Result.Set_xlink_href( dfp.URL);
      finally
             FreeAndNil( dfp);
@@ -1428,8 +1500,9 @@ var
    end;
 begin
      Get_xmlContent_USER_FIELD_DECLS_Premier:= True;
+     Automatic_list_style_number     :=0;
      Automatic_style_paragraph_number:= 0;
-     Automatic_style_text_number:= 0;
+     Automatic_style_text_number     := 0;
      pChange:= TPublieur.Create( Classname+'.pChange');
      Nom:= _Nom;
      Calcule_is_Calc;
@@ -1937,6 +2010,209 @@ begin
        ors_xmlContent_AUTOMATIC_STYLES: Result:= Get_xmlContent_AUTOMATIC_STYLES;
        else                             Result:= nil;
        end;
+end;
+
+function TOpenDocument.Add_list_style(_NomStyle: String; _Root: TOD_Root_Styles): TDOMNode;
+var
+   Name: String;
+   eSTYLES: TDOMNode;
+   e: TDOMNode;
+begin
+     Result:= nil;
+     Name:= Style_NameFromDisplayName( _NomStyle);
+
+     eSTYLES:= Get_STYLES( _Root);
+     if nil = eSTYLES then exit;
+
+     e:= Cree_path( eSTYLES, 'text:list-style');
+     if nil = e then exit;
+
+     Set_Property(e, 'style:name', Name);
+
+     Result:= e;
+end;
+
+function TOpenDocument.Add_automatic_list_style( out _eStyle: TDOMNode; _Is_Header: Boolean= False): String;
+const
+     bullet_char_1='•';//'&#x25CF;'U25CF
+     bullet_char_2='◦';//'&#x25CB;'U25CB
+     bullet_char_3='▪';//'&#x25A0;'U25A0
+var
+   Name: String;
+begin
+     Result:= '';
+
+     Name:= 'ODL'+IntToStr( Automatic_list_style_number);
+
+     _eStyle:= Add_list_style( Name, Root_Styles_from_Is_Header( _Is_Header));
+     if nil = _eStyle then exit;
+
+     Result:= Name;
+     Inc( Automatic_list_style_number);
+
+     Add_list_level_style_bullet( _eStyle,  '1', '1.0cm', bullet_char_1);
+     Add_list_level_style_bullet( _eStyle,  '2', '1.5cm', bullet_char_2);
+     Add_list_level_style_bullet( _eStyle,  '3', '2.0cm', bullet_char_3);
+     Add_list_level_style_bullet( _eStyle,  '4', '2.5cm', bullet_char_1);
+     Add_list_level_style_bullet( _eStyle,  '5', '3.0cm', bullet_char_2);
+     Add_list_level_style_bullet( _eStyle,  '6', '3.5cm', bullet_char_3);
+     Add_list_level_style_bullet( _eStyle,  '7', '4.0cm', bullet_char_1);
+     Add_list_level_style_bullet( _eStyle,  '8', '4.5cm', bullet_char_2);
+     Add_list_level_style_bullet( _eStyle,  '9', '5.0cm', bullet_char_3);
+     Add_list_level_style_bullet( _eStyle, '10', '5.5cm', bullet_char_1);
+end;
+
+(*
+<text:list-style style:name="L1">
+text:level= "1" fo:margin-left="1.27cm"  text:list-tab-stop-position="1.27cm"/>
+text:level= "2" fo:margin-left="1.905cm" text:list-tab-stop-position="1.905cm"/>
+text:level= "3" fo:margin-left="2.54cm"  text:list-tab-stop-position="2.54cm"/>
+text:level= "4" fo:margin-left="3.175cm" text:list-tab-stop-position="3.175cm"/>
+text:level= "5" fo:margin-left="3.81cm"  text:list-tab-stop-position="3.81cm"/>
+text:level= "6" fo:margin-left="4.445cm" text:list-tab-stop-position="4.445cm"/>
+text:level= "7" fo:margin-left="5.08cm"  text:list-tab-stop-position="5.08cm"/>
+text:level= "8" fo:margin-left="5.715cm" text:list-tab-stop-position="5.715cm"/>
+text:level= "9" fo:margin-left="6.35cm"  text:list-tab-stop-position="6.35cm"/>
+text:level="10" fo:margin-left="6.985cm" text:list-tab-stop-position="6.985cm"/>
+</text:list-style>
+
+*)
+procedure TOpenDocument.Add_list_level_style_bullet( _eListStyle: TDOMNode;
+                                                     _level, _left, _bullet_char: String);
+const
+     Bullet_Style_display_name='Bullet Symbols';
+     Bullet_Style='Bullet_20_Symbols';
+var
+   e: TDOMNode;
+   procedure Assure_Bullet_20_Symbols;
+   var
+      eBullet_Style: TDOMNode;
+      eProperties: TDOMNode;
+   begin
+        //Styles.xml
+        //<style:style style:name="Bullet_20_Symbols" style:family="text" style:display-name="Bullet Symbols">
+        //  <style:text-properties fo:font-family="OpenSymbol" style:font-name="OpenSymbol" style:font-charset="x-symbol" style:font-name-asian="OpenSymbol" style:font-family-asian="OpenSymbol" style:font-name-complex="OpenSymbol" style:font-charset-asian="x-symbol" style:font-family-complex="OpenSymbol" style:font-charset-complex="x-symbol"/>
+        //</style:style>
+        eBullet_Style:= Find_style_text( Bullet_Style_display_name);
+        if Assigned( eBullet_Style) then exit;
+
+        eBullet_Style:= Add_style_text( Bullet_Style_display_name, '');
+
+        eProperties:= Cree_path( eBullet_Style, 'style:text-properties');
+
+        Set_Property( eProperties, 'fo:font-family'            , 'OpenSymbol');
+        Set_Property( eProperties, 'style:font-name'           , 'OpenSymbol');
+        Set_Property( eProperties, 'style:font-charset'        , 'x-symbol'  );
+
+        Set_Property( eProperties, 'style:font-family-asian'   , 'OpenSymbol');
+        Set_Property( eProperties, 'style:font-name-asian'     , 'OpenSymbol');
+        Set_Property( eProperties, 'style:font-charset-asian'  , 'x-symbol'  );
+
+        Set_Property( eProperties, 'style:font-family-complex' , 'OpenSymbol');
+        Set_Property( eProperties, 'style:font-name-complex'   , 'OpenSymbol');
+        Set_Property( eProperties, 'style:font-charset-complex', 'x-symbol'  );
+   end;
+begin
+     e:= Cree_path( _eListStyle, 'text:list-level-style-bullet');
+     Set_Property(e, 'text:level'      , _level);
+     Assure_Bullet_20_Symbols;
+     Set_Property(e, 'text:style-name' , Bullet_Style);
+     Set_Property(e, 'text:bullet-char', _bullet_char);
+     Add_list_level_properties( e, _left);
+end;
+
+procedure TOpenDocument.Add_list_level_properties( _eList_level_style_bullet: TDOMNode;
+                                                   _left: String);
+var
+   e: TDOMNode;
+begin
+     e:= Cree_path( _eList_level_style_bullet, 'style:list-level-properties');
+     Set_Property(e, 'text:list-level-position-and-space-mode', 'label-alignment');
+     Add_List_level_label_alignment( e, _left);
+end;
+
+procedure TOpenDocument.Add_List_level_label_alignment( _eList_level_properties: TDOMNode; _left: String);
+var
+   e: TDOMNode;
+begin
+     e:= Cree_path( _eList_level_properties, 'style:list-level-label-alignment');
+     Set_Property( e, 'fo:margin-left'             , _left);
+     Set_Property( e, 'fo:text-indent'             , '-0.635cm');
+     Set_Property( e, 'text:label-followed-by'     , 'listtab');
+     Set_Property( e, 'text:list-tab-stop-position', _left);
+end;
+
+(*
+<text:list-style style:name="L1">
+  <text:list-level-style-bullet text:level="1" text:style-name="Bullet_20_Symbols" text:bullet-char="•">
+    <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
+      <style:list-level-label-alignment fo:margin-left="1.27cm" fo:text-indent="-0.635cm" text:label-followed-by="listtab" text:list-tab-stop-position="1.27cm"/>
+    </style:list-level-properties>
+  </text:list-level-style-bullet>
+
+  <text:list-level-style-bullet text:level="2" text:style-name="Bullet_20_Symbols" text:bullet-char="◦">
+    <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
+      <style:list-level-label-alignment fo:margin-left="1.905cm" fo:text-indent="-0.635cm" text:label-followed-by="listtab" text:list-tab-stop-position="1.905cm"/>
+    </style:list-level-properties>
+  </text:list-level-style-bullet>
+
+  <text:list-level-style-bullet text:level="3" text:style-name="Bullet_20_Symbols" text:bullet-char="▪">
+    <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
+      <style:list-level-label-alignment fo:margin-left="2.54cm" fo:text-indent="-0.635cm" text:label-followed-by="listtab" text:list-tab-stop-position="2.54cm"/>
+    </style:list-level-properties>
+  </text:list-level-style-bullet>
+
+  <text:list-level-style-bullet text:level="4" text:style-name="Bullet_20_Symbols" text:bullet-char="•">
+    <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
+      <style:list-level-label-alignment fo:margin-left="3.175cm" fo:text-indent="-0.635cm" text:label-followed-by="listtab" text:list-tab-stop-position="3.175cm"/>
+    </style:list-level-properties>
+  </text:list-level-style-bullet>
+
+  <text:list-level-style-bullet text:level="5" text:style-name="Bullet_20_Symbols" text:bullet-char="◦">
+    <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
+      <style:list-level-label-alignment fo:margin-left="3.81cm" fo:text-indent="-0.635cm" text:label-followed-by="listtab" text:list-tab-stop-position="3.81cm"/>
+    </style:list-level-properties>
+  </text:list-level-style-bullet>
+
+  <text:list-level-style-bullet text:level="6" text:style-name="Bullet_20_Symbols" text:bullet-char="▪">
+    <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
+      <style:list-level-label-alignment fo:margin-left="4.445cm" fo:text-indent="-0.635cm" text:label-followed-by="listtab" text:list-tab-stop-position="4.445cm"/>
+    </style:list-level-properties>
+  </text:list-level-style-bullet>
+
+  <text:list-level-style-bullet text:level="7" text:style-name="Bullet_20_Symbols" text:bullet-char="•">
+    <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
+      <style:list-level-label-alignment fo:margin-left="5.08cm" fo:text-indent="-0.635cm" text:label-followed-by="listtab" text:list-tab-stop-position="5.08cm"/>
+    </style:list-level-properties>
+  </text:list-level-style-bullet>
+
+  <text:list-level-style-bullet text:level="8" text:style-name="Bullet_20_Symbols" text:bullet-char="◦">
+    <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
+      <style:list-level-label-alignment fo:margin-left="5.715cm" fo:text-indent="-0.635cm" text:label-followed-by="listtab" text:list-tab-stop-position="5.715cm"/>
+    </style:list-level-properties>
+  </text:list-level-style-bullet>
+
+  <text:list-level-style-bullet text:level="9" text:style-name="Bullet_20_Symbols" text:bullet-char="▪">
+    <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
+      <style:list-level-label-alignment fo:margin-left="6.35cm" fo:text-indent="-0.635cm" text:label-followed-by="listtab" text:list-tab-stop-position="6.35cm"/>
+    </style:list-level-properties>
+  </text:list-level-style-bullet>
+
+  <text:list-level-style-bullet text:level="10" text:style-name="Bullet_20_Symbols" text:bullet-char="•">
+    <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
+      <style:list-level-label-alignment fo:margin-left="6.985cm" fo:text-indent="-0.635cm" text:label-followed-by="listtab" text:list-tab-stop-position="6.985cm"/>
+    </style:list-level-properties>
+  </text:list-level-style-bullet>
+
+</text:list-style>
+
+*)
+
+function TOpenDocument.Add_automatic_list_style( _Is_Header: Boolean= False): String;
+var
+   eStyle: TDOMNode;
+begin
+     Result:= Add_automatic_list_style( eStyle, _Is_Header);
 end;
 
 function TOpenDocument.Add_style( _NomStyle,
@@ -3030,13 +3306,14 @@ var
                FreeAndNil( ss);
                end;
    end;
-   procedure Traite_html_node( _od_Parent, _html_Parent: TDOMNode; _NomStyleParent: String);
+   procedure Traite_html_node( _od_Parent, _html_Parent: TDOMNode; _NomStyleParent: String; _list_style: String);
    var
       html_style:String;
       NodeName: DOMString;
       NodeValue: DOMString;
       od_node: TDOMNode;
       NomStyle: String;
+      list_style: String;
       procedure Traite_parsed_styles_interne( _tp:TOD_TEXT_PROPERTIES);
          procedure T_Color( _html_style_name, _od_style_name: String);
          var
@@ -3221,6 +3498,58 @@ var
                   FreeAndNil( span);
                   end;
       end;
+      procedure Traite_ul;
+      var
+         //textbox: TDOMNode;
+         Parent: TDOMNode;
+         Parent_NodeName: String;
+         list: TOD_LIST;
+      begin
+           Parent:= _od_Parent;
+           Parent_NodeName:= Parent.NodeName;
+           while   ('text:p'    = Parent_NodeName)
+                 or('text:span' = Parent_NodeName)
+           do
+             begin
+             Parent:= Parent.ParentNode;
+             Parent_NodeName:= Parent.NodeName;
+             end;
+           //table:table-cell
+           //Log.PrintLn( ClassName+'.AddHTML::Traite_ul: _od_Parent.NodeName='+Parent.NodeName);
+           list:= TOD_LIST.Create( Self, Parent);
+           try
+              od_node:= list.e;
+              if '' = list_style
+              then
+                  list_style:= list.Cree_Style;
+           finally
+                  FreeAndNil( list);
+                  end;
+      end;
+      procedure Traite_li;
+      //<style:style style:name="troc" style:family="paragraph" style:list-style-name="L1" style:parent-style-name="_5f_t_5f_Root_5f_Pied"/>
+      var
+         list_item: TOD_LIST_ITEM;
+         p: TOD_PARAGRAPH;
+         eStyle: TDOMNode;
+      begin
+           list_item:= TOD_LIST_ITEM.Create( Self, _od_Parent);
+           try
+              od_node:= list_item.e;
+           finally
+                  FreeAndNil( list_item);
+                  end;
+           p:= TOD_PARAGRAPH.Create( Self, od_node);
+           try
+              Traite_parsed_styles( p);
+              od_node:= p.e;
+              eStyle:= p.GetStyle_Automatique( _NomStyleParent);
+              Set_Property( eStyle, 'style:list-style-name', list_style);
+              NomStyle:= p.NomStyleApplique;
+           finally
+                  FreeAndNil( p);
+                  end;
+      end;
       procedure Traite_img;
       var
          src: String;
@@ -3319,7 +3648,7 @@ var
              begin
              n:= cn.Item[i];
              if nil = n then continue;
-             Traite_html_node( od_node, n, NomStyle);
+             Traite_html_node( od_node, n, NomStyle, list_style);
              end;
       end;
    begin
@@ -3334,27 +3663,45 @@ var
 
         od_node:= nil;
         NomStyle:= '';
+        list_style:= _list_style;
 
              if '#text' =NodeName then Traite_text
         else if 'body'  =NodeName then begin end
         else if 'br'    =NodeName then Traite_br
+        else if 'del'   =NodeName then Traite_span
         else if 'em'    =NodeName then Traite_em
         else if 'head'  =NodeName then begin end
         else if 'html'  =NodeName then begin end
+        else if 'img'   =NodeName then Traite_img
         else if 'ins'   =NodeName then Traite_span
-        else if 'del'   =NodeName then Traite_span
+        else if 'li'    =NodeName then Traite_li
         else if 'p'     =NodeName then Traite_span //Traite_p text:p can't be nested
         else if 'span'  =NodeName then Traite_span
         else if 'strong'=NodeName then Traite_strong
         else if 'title' =NodeName then begin end
         else if 'u'     =NodeName then Traite_u
-        else if 'img'   =NodeName then Traite_img
+        else if 'ul'    =NodeName then Traite_ul
         else                           AddText_( _od_Parent, 'balise html non geree: <'+_html_Parent.NodeName+'>'#13#10);
 
         if nil = od_node then od_node:= _od_Parent;
         if '' = NomStyle then NomStyle:= _NomStyleParent;
 
         Traite_ChildNodes;
+   end;
+   procedure Traite_html_ChildNodes;
+   var
+      i: Integer;
+      cn: TDOMNodeList;
+      n: TDOMNode;
+   begin
+        cn:= html.ChildNodes;
+        for i:= 0 to cn.Count-1
+        do
+          begin
+          n:= cn.Item[i];
+          if nil = n then continue;
+          Traite_html_node( _e, n, '', '');
+          end;
    end;
 begin
      if not_Cree_html
@@ -3367,12 +3714,13 @@ begin
         p:= TCSS_Style_Parser_PYACC.Create;
         try
            //Traite_html_node( _e, html.DocumentElement,'');
-           while Assigned( html_root)
-           do
-             begin
-             Traite_html_node( _e, html_root, '');
-             html_root:=html_root.NextSibling;
-             end;
+           //while Assigned( html_root)
+           //do
+           //  begin
+           //  Traite_html_node( _e, html_root, '', '');
+           //  html_root:=html_root.NextSibling;
+           //  end;
+           Traite_html_ChildNodes;
         finally
                FreeAndNil( p);
                end;

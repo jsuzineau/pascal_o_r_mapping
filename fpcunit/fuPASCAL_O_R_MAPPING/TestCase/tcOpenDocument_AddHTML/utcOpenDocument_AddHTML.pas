@@ -68,9 +68,12 @@ end;
 
 procedure TtcOpenDocument_AddHTML_type_HTML.Cree_Donnees;
 var
+   Path: String;
    i: Integer;
    bl: TblTest_HTML;
 begin
+     Path:= ExtractFilePath(ParamStr(0));
+
      sl:= TslTest_HTML.Create( ClassName+'.sl');
 
      for i:= 1 to 5
@@ -79,12 +82,13 @@ begin
        bl:= TblTest_HTML.Create( sl, nil, nil);
        bl.Nom:= 'Ligne '+IntToStr( i);
        sl.AddObject( bl.sCle, bl);
-       case i mod 4
+       case i mod 5
        of
-         1: bl.Load_html( nom_html  );
-         2: bl.Load_html( nom_html_2);
-         3: bl.Load_html( nom_html_3);
-         0: bl.Load_html( nom_html_4);
+         1: bl.Load_html( Path+nom_html  );
+         2: bl.Load_html( Path+nom_html_2);
+         3: bl.Load_html( Path+nom_html_3);
+         4: bl.Load_html( Path+nom_html_4);
+         0: bl.Load_html( Path+nom_html_5);
          end;
        end;
 end;
@@ -117,6 +121,7 @@ end;
 
 procedure TtcOpenDocument_AddHTML.TestHookUp;
 var
+   Path: String;
    NomFichierModele: String;
    Resultat: String;
    od: TOpenDocument;
@@ -127,9 +132,10 @@ var
         Result:= Cree_path( od.Get_xmlContent_TEXT, 'text:p');
    end;
 begin
-     html:= String_from_File( nom_html);
+     Path:= ExtractFilePath(ParamStr(0));
+     html:= String_from_File( Path+nom_html);
 
-     NomFichierModele:= ExtractFilePath(ParamStr(0))+'tcOpenDocument_AddHTML.odt';
+     NomFichierModele:= Path+'tcOpenDocument_AddHTML.odt';
 
      {
      Batpro_OD_Printer.AssureModele( NomFichierModele,
