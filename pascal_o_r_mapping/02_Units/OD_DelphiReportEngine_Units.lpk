@@ -6,7 +6,7 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
-        <OtherUnitFiles Value="../0_uWinUtils;.;../7_sources_externes/synapse/source/lib;CSS_Style_Parser/generated;../7_sources_externes/ndyacclex/src"/>
+        <OtherUnitFiles Value="../00_uWinUtils;.;../07_sources_externes/synapse/source/lib;CSS_Style_Parser/generated;../07_sources_externes/ndyacclex/src"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -405,7 +405,7 @@
         <UnitName Value="uCSS_Style_Parser_PYACC"/>
       </Item96>
       <Item97>
-        <Filename Value="../7_sources_externes/ndyacclex/src/uStreamLexer.pas"/>
+        <Filename Value="../07_sources_externes/ndyacclex/src/uStreamLexer.pas"/>
         <UnitName Value="uStreamLexer"/>
       </Item97>
       <Item98>
