@@ -156,6 +156,9 @@ begin
      od.AddHtml( New_p, html);
      od.AddHtml( New_p, 'test & a > b et c< d');
      od.AddHtml( New_p, '< test ');
+     od.AddHtml( New_p, 'truc <br/> troc');
+     od.AddHtml( New_p, '<html>truc <br/> troc encadrés par balise html</html>');
+     od.AddHtml( New_p, '<html><body>truc <br/> troc encadrés par balise html/body</body></html>');
 
      //OpenDocument( IncludeTrailingPathDelimiter( od.Repertoire_Extraction)+'content.xml');
      //OpenDocument( IncludeTrailingPathDelimiter( od.Repertoire_Extraction)+'styles.xml');
