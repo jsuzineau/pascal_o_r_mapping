@@ -96,8 +96,8 @@ jsWorks/etc/_Configuration.First-Boss.ini
 *.~pas
 /tools/jsMelder/jsMelder
 /jsWorks/udmBatpro_DataModule.lfm
-pascal_o_r_mapping/2_Units/CSS_Style_Parser/test
-pascal_o_r_mapping/7_sources_externes/ndyacclex/src/yacc/ndyacc
+pascal_o_r_mapping/02_Units/CSS_Style_Parser/test
+pascal_o_r_mapping/07_sources_externes/ndyacclex/src/yacc/ndyacc
 tools/Generateur/etc/_Configuration_Generateur_de_code.ini
 /tools/Generateur/libcurl.lib
 /jsWorks/etc/_Configuration_Generateur_de_code.ini
@@ -112,7 +112,4 @@ tools/Generateur/etc/_Configuration_Generateur_de_code.ini
 /tools/jsNote/html5_seul/backup
 /tools/jsNote/ionic/backup
 /tools/jsNote/pas2js/backup
-
-
-
 jsLignes.Exclus.txt
