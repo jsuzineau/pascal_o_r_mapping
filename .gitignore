@@ -113,3 +113,4 @@ tools/Generateur/etc/_Configuration_Generateur_de_code.ini
 /tools/jsNote/ionic/backup
 /tools/jsNote/pas2js/backup
 jsLignes.Exclus.txt
+*.map

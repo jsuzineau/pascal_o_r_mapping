@@ -1,0 +1,109 @@
+object fTest: TfTest
+  Left = 885
+  Height = 490
+  Top = 1105
+  Width = 793
+  AlphaBlend = False
+  AlphaBlendValue = 255
+  Caption = 'fTest'
+  ClientHeight = 490
+  ClientWidth = 793
+  object b: TWButton
+    Left = 8
+    Height = 25
+    Top = 16
+    Width = 91
+    Caption = 'b'
+    TabOrder = 0
+    OnClick = bClick
+  end
+  object l: TWLabel
+    Left = 104
+    Height = 21
+    Top = 20
+    Width = 680
+    AutoSize = False
+    Caption = 'l'
+    ParentColor = False
+  end
+  object lProxy: TWLabel
+    Left = 104
+    Height = 21
+    Top = 56
+    Width = 684
+    AutoSize = False
+    Caption = 'lProxy'
+    ParentColor = False
+  end
+  object bProxy: TWButton
+    Left = 8
+    Height = 25
+    Top = 48
+    Width = 91
+    Caption = 'bProxy'
+    TabOrder = 1
+    OnClick = bProxyClick
+  end
+  object lCallBack: TWLabel
+    Left = 8
+    Height = 21
+    Top = 83
+    Width = 752
+    AutoSize = False
+    Caption = 'lCallBack'
+    ParentColor = False
+  end
+  object bAffiche_target: TWButton
+    Left = 8
+    Height = 25
+    Top = 112
+    Width = 224
+    Caption = 'bAffiche_target'
+    TabOrder = 2
+    OnClick = bAffiche_targetClick
+  end
+  object lAffiche_Target: TWLabel
+    Left = 240
+    Height = 17
+    Top = 119
+    Width = 546
+    AutoSize = False
+    Caption = 'lAffiche_Target'
+    ParentColor = False
+  end
+  object lAffiche_proxy: TWLabel
+    Left = 240
+    Height = 17
+    Top = 150
+    Width = 546
+    AutoSize = False
+    Caption = 'lAffiche_proxy'
+    ParentColor = False
+  end
+  object bAffiche_proxy: TWButton
+    Left = 8
+    Height = 25
+    Top = 150
+    Width = 224
+    Caption = 'bAffiche_proxy'
+    TabOrder = 3
+    OnClick = bAffiche_proxyClick
+  end
+  object wce: TWChamp_Edit
+    Left = 16
+    Height = 38
+    Top = 184
+    Width = 251
+    TabOrder = 4
+    Text = 'wce'
+    Field = 'a'
+  end
+  object WEdit1: TWEdit
+    Left = 16
+    Height = 38
+    Top = 236
+    Width = 80
+    TabOrder = 5
+    Text = 'WEdit1'
+  end
+end

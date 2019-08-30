@@ -1,0 +1,169 @@
+{@PAS2JS_BEGIN}
+  BeginUpdate;
+  try
+    Left := 885;
+    Height := 490;
+    Top := 1105;
+    Width := 793;
+    AlphaBlend := False;
+    AlphaBlendValue := 255;
+    Caption := 'fTest';
+    ClientHeight := 490;
+    ClientWidth := 793;
+    b := TWButton.Create(Self);
+    b.BeginUpdate;
+    try
+      b.Parent := Self;
+      b.Left := 8;
+      b.Height := 25;
+      b.Top := 16;
+      b.Width := 91;
+      b.Caption := 'b';
+      b.TabOrder := 0;
+      b.OnClick := bClick;
+    finally
+      b.EndUpdate;
+    end;
+    l := TWLabel.Create(Self);
+    l.BeginUpdate;
+    try
+      l.Parent := Self;
+      l.Left := 104;
+      l.Height := 21;
+      l.Top := 20;
+      l.Width := 680;
+      l.AutoSize := False;
+      l.Caption := 'l';
+      l.ParentColor := False;
+    finally
+      l.EndUpdate;
+    end;
+    lProxy := TWLabel.Create(Self);
+    lProxy.BeginUpdate;
+    try
+      lProxy.Parent := Self;
+      lProxy.Left := 104;
+      lProxy.Height := 21;
+      lProxy.Top := 56;
+      lProxy.Width := 684;
+      lProxy.AutoSize := False;
+      lProxy.Caption := 'lProxy';
+      lProxy.ParentColor := False;
+    finally
+      lProxy.EndUpdate;
+    end;
+    bProxy := TWButton.Create(Self);
+    bProxy.BeginUpdate;
+    try
+      bProxy.Parent := Self;
+      bProxy.Left := 8;
+      bProxy.Height := 25;
+      bProxy.Top := 48;
+      bProxy.Width := 91;
+      bProxy.Caption := 'bProxy';
+      bProxy.TabOrder := 1;
+      bProxy.OnClick := bProxyClick;
+    finally
+      bProxy.EndUpdate;
+    end;
+    lCallBack := TWLabel.Create(Self);
+    lCallBack.BeginUpdate;
+    try
+      lCallBack.Parent := Self;
+      lCallBack.Left := 8;
+      lCallBack.Height := 21;
+      lCallBack.Top := 83;
+      lCallBack.Width := 752;
+      lCallBack.AutoSize := False;
+      lCallBack.Caption := 'lCallBack';
+      lCallBack.ParentColor := False;
+    finally
+      lCallBack.EndUpdate;
+    end;
+    bAffiche_target := TWButton.Create(Self);
+    bAffiche_target.BeginUpdate;
+    try
+      bAffiche_target.Parent := Self;
+      bAffiche_target.Left := 8;
+      bAffiche_target.Height := 25;
+      bAffiche_target.Top := 112;
+      bAffiche_target.Width := 224;
+      bAffiche_target.Caption := 'bAffiche_target';
+      bAffiche_target.TabOrder := 2;
+      bAffiche_target.OnClick := bAffiche_targetClick;
+    finally
+      bAffiche_target.EndUpdate;
+    end;
+    lAffiche_Target := TWLabel.Create(Self);
+    lAffiche_Target.BeginUpdate;
+    try
+      lAffiche_Target.Parent := Self;
+      lAffiche_Target.Left := 240;
+      lAffiche_Target.Height := 17;
+      lAffiche_Target.Top := 119;
+      lAffiche_Target.Width := 546;
+      lAffiche_Target.AutoSize := False;
+      lAffiche_Target.Caption := 'lAffiche_Target';
+      lAffiche_Target.ParentColor := False;
+    finally
+      lAffiche_Target.EndUpdate;
+    end;
+    lAffiche_proxy := TWLabel.Create(Self);
+    lAffiche_proxy.BeginUpdate;
+    try
+      lAffiche_proxy.Parent := Self;
+      lAffiche_proxy.Left := 240;
+      lAffiche_proxy.Height := 17;
+      lAffiche_proxy.Top := 150;
+      lAffiche_proxy.Width := 546;
+      lAffiche_proxy.AutoSize := False;
+      lAffiche_proxy.Caption := 'lAffiche_proxy';
+      lAffiche_proxy.ParentColor := False;
+    finally
+      lAffiche_proxy.EndUpdate;
+    end;
+    bAffiche_proxy := TWButton.Create(Self);
+    bAffiche_proxy.BeginUpdate;
+    try
+      bAffiche_proxy.Parent := Self;
+      bAffiche_proxy.Left := 8;
+      bAffiche_proxy.Height := 25;
+      bAffiche_proxy.Top := 150;
+      bAffiche_proxy.Width := 224;
+      bAffiche_proxy.Caption := 'bAffiche_proxy';
+      bAffiche_proxy.TabOrder := 3;
+      bAffiche_proxy.OnClick := bAffiche_proxyClick;
+    finally
+      bAffiche_proxy.EndUpdate;
+    end;
+    wce := TWChamp_Edit.Create(Self);
+    wce.BeginUpdate;
+    try
+      wce.Parent := Self;
+      wce.Left := 16;
+      wce.Height := 38;
+      wce.Top := 184;
+      wce.Width := 251;
+      wce.TabOrder := 4;
+      wce.Text := 'wce';
+      wce.Field := 'a';
+    finally
+      wce.EndUpdate;
+    end;
+    WEdit1 := TWEdit.Create(Self);
+    WEdit1.BeginUpdate;
+    try
+      WEdit1.Parent := Self;
+      WEdit1.Left := 16;
+      WEdit1.Height := 38;
+      WEdit1.Top := 236;
+      WEdit1.Width := 80;
+      WEdit1.TabOrder := 5;
+      WEdit1.Text := 'WEdit1';
+    finally
+      WEdit1.EndUpdate;
+    end;
+  finally
+    EndUpdate;
+  end;
+{@PAS2JS_END}
