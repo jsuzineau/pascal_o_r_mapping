@@ -23,6 +23,7 @@ type
   bAffiche_target: TWButton;
   lAffiche_Target: TWLabel;
   wce: TWChamp_Edit;
+  wce1: TWChamp_Edit;
   WEdit1: TWEdit;
   procedure bAffiche_proxyClick(Sender: TObject);
   procedure bAffiche_targetClick(Sender: TObject);
@@ -48,8 +49,10 @@ begin
      inherited Loaded;
      {$I ufTest.wfm}
      tric:= TJSChamps.Create;
-     tric.OnSet2:= @proxy_OnSet;
+     tric.Properties['a']:= 'affecté par TfTest.Loaded;';
+     tric.OnSet.Add( @proxy_OnSet);
      wce.Champs:= tric;
+     wce1.Champs:= tric;
 end;
 
 procedure TfTest.bClick(Sender: TObject);

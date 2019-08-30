@@ -140,25 +140,39 @@
     wce.BeginUpdate;
     try
       wce.Parent := Self;
-      wce.Left := 16;
+      wce.Left := 8;
       wce.Height := 38;
       wce.Top := 184;
-      wce.Width := 251;
+      wce.Width := 760;
       wce.TabOrder := 4;
       wce.Text := 'wce';
       wce.Field := 'a';
     finally
       wce.EndUpdate;
     end;
+    wce1 := TWChamp_Edit.Create(Self);
+    wce1.BeginUpdate;
+    try
+      wce1.Parent := Self;
+      wce1.Left := 8;
+      wce1.Height := 38;
+      wce1.Top := 232;
+      wce1.Width := 760;
+      wce1.TabOrder := 5;
+      wce1.Text := 'wce1';
+      wce1.Field := 'a';
+    finally
+      wce1.EndUpdate;
+    end;
     WEdit1 := TWEdit.Create(Self);
     WEdit1.BeginUpdate;
     try
       WEdit1.Parent := Self;
-      WEdit1.Left := 16;
+      WEdit1.Left := 32;
       WEdit1.Height := 38;
-      WEdit1.Top := 236;
+      WEdit1.Top := 283;
       WEdit1.Width := 80;
-      WEdit1.TabOrder := 5;
+      WEdit1.TabOrder := 6;
       WEdit1.Text := 'WEdit1';
     finally
       WEdit1.EndUpdate;

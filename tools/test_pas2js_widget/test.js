@@ -2148,6 +2148,101 @@ rtl.module("Classes",["System","RTLConsts","Types","SysUtils"],function () {
       return Result;
     };
   });
+  this.TListNotification = {"0": "lnAdded", lnAdded: 0, "1": "lnExtracted", lnExtracted: 1, "2": "lnDeleted", lnDeleted: 2};
+  rtl.createClass($mod,"TListEnumerator",pas.System.TObject,function () {
+    this.$init = function () {
+      pas.System.TObject.$init.call(this);
+      this.FList = null;
+      this.FPosition = 0;
+    };
+    this.$final = function () {
+      this.FList = undefined;
+      pas.System.TObject.$final.call(this);
+    };
+    this.Create$1 = function (AList) {
+      pas.System.TObject.Create.call(this);
+      this.FList = AList;
+      this.FPosition = -1;
+    };
+    this.GetCurrent = function () {
+      var Result = undefined;
+      Result = this.FList.Get(this.FPosition);
+      return Result;
+    };
+    this.MoveNext = function () {
+      var Result = false;
+      this.FPosition += 1;
+      Result = this.FPosition < this.FList.GetCount();
+      return Result;
+    };
+  });
+  rtl.createClass($mod,"TList",pas.System.TObject,function () {
+    this.$init = function () {
+      pas.System.TObject.$init.call(this);
+      this.FList = null;
+    };
+    this.$final = function () {
+      this.FList = undefined;
+      pas.System.TObject.$final.call(this);
+    };
+    this.Get = function (Index) {
+      var Result = undefined;
+      Result = this.FList.Get(Index);
+      return Result;
+    };
+    this.Notify = function (aValue, Action) {
+      if (pas.System.Assigned(aValue)) ;
+      if (Action === 1) ;
+    };
+    this.GetCount = function () {
+      var Result = 0;
+      Result = this.FList.FCount;
+      return Result;
+    };
+    this.Create$1 = function () {
+      pas.System.TObject.Create.call(this);
+      this.FList = $mod.TFPList.$create("Create");
+    };
+    this.Destroy = function () {
+      if (this.FList != null) this.Clear();
+      pas.SysUtils.FreeAndNil({p: this, get: function () {
+          return this.p.FList;
+        }, set: function (v) {
+          this.p.FList = v;
+        }});
+    };
+    this.Add = function (Item) {
+      var Result = 0;
+      Result = this.FList.Add(Item);
+      if (pas.System.Assigned(Item)) this.Notify(Item,0);
+      return Result;
+    };
+    this.Clear = function () {
+      while (this.FList.FCount > 0) this.Delete(this.GetCount() - 1);
+    };
+    this.Delete = function (Index) {
+      var V = undefined;
+      V = this.FList.Get(Index);
+      this.FList.Delete(Index);
+      if (pas.System.Assigned(V)) this.Notify(V,2);
+    };
+    this.GetEnumerator = function () {
+      var Result = null;
+      Result = $mod.TListEnumerator.$create("Create$1",[this]);
+      return Result;
+    };
+    this.IndexOf = function (Item) {
+      var Result = 0;
+      Result = this.FList.IndexOf(Item);
+      return Result;
+    };
+    this.Remove = function (Item) {
+      var Result = 0;
+      Result = this.IndexOf(Item);
+      if (Result !== -1) this.Delete(Result);
+      return Result;
+    };
+  });
   rtl.createClass($mod,"TPersistent",pas.System.TObject,function () {
     this.AssignError = function (Source) {
       var SourceName = "";
@@ -5469,22 +5564,30 @@ rtl.module("uJSChamps",["System","Classes","SysUtils","JS"],function () {
     this.$init = function () {
       this.proxy = null;
       this.OnSet = null;
-      this.OnSet2 = null;
       this.handler = null;
     };
     this.$final = function () {
       this.proxy = undefined;
       this.OnSet = undefined;
-      this.OnSet2 = undefined;
       this.handler = undefined;
     };
     this.proxy_OnSet = function (_propertyKey, _value) {
-      if (this.OnSet != null) this.OnSet(_propertyKey,_value);
-      if (this.OnSet2 != null) this.OnSet2(_propertyKey,_value);
+      var jsv = undefined;
+      var os = null;
+      var $in1 = this.OnSet.GetEnumerator();
+      try {
+        while ($in1.MoveNext()) {
+          jsv = $in1.GetCurrent();
+          if (!pas.System.Assigned(jsv)) continue;
+          os = jsv;
+          os(_propertyKey,_value);
+        }
+      } finally {
+        $in1 = rtl.freeLoc($in1)
+      };
     };
     this.Create$2 = function () {
-      this.OnSet = null;
-      this.OnSet2 = null;
+      this.OnSet = pas.Classes.TList.$create("Create$1");
       this.handler = null;
       this.handler=
       {
@@ -5528,12 +5631,12 @@ rtl.module("ucWChamp_Edit",["System","SysUtils","Classes","Controls","StdCtrls",
       this._to_Champs();
     };
     this.SetChamps = function (Value) {
-      if ((this.FChamps != null) && rtl.eqCallback(rtl.createCallback(this,"Champs_OnSet"),this.FChamps.OnSet)) this.FChamps.OnSet = null;
+      if (this.FChamps != null) this.FChamps.OnSet.Remove(rtl.createCallback(this,"Champs_OnSet"));
       this.FChamps = null;
       this.SetText("");
       this.FChamps = Value;
       if (!this.Champ_OK()) return;
-      this.FChamps.OnSet = rtl.createCallback(this,"Champs_OnSet");
+      this.FChamps.OnSet.Add(rtl.createCallback(this,"Champs_OnSet"));
       this._from_Champs();
     };
     this.Champ_OK = function () {
@@ -5545,14 +5648,14 @@ rtl.module("ucWChamp_Edit",["System","SysUtils","Classes","Controls","StdCtrls",
     };
     this.Champs_OnSet = function (_propertyKey, _value) {
       if (this.Champs_Changing) return;
-      if (this.FField !== JSON.stringify(_propertyKey)) return;
+      if (this.FField !== _propertyKey.toString()) return;
       this._from_Champs_interne(_value);
     };
     this._from_Champs_interne = function (_Value) {
       if (this.Champs_Changing) return;
       try {
         this.Champs_Changing = true;
-        this.SetText(JSON.stringify(_Value));
+        this.SetText("" + _Value);
       } finally {
         this.Champs_Changing = false;
       };
@@ -5590,6 +5693,7 @@ rtl.module("ufTest",["System","JS","Classes","SysUtils","Graphics","Controls","F
       this.bAffiche_target = null;
       this.lAffiche_Target = null;
       this.wce = null;
+      this.wce1 = null;
       this.WEdit1 = null;
       this.tric = null;
     };
@@ -5604,6 +5708,7 @@ rtl.module("ufTest",["System","JS","Classes","SysUtils","Graphics","Controls","F
       this.bAffiche_target = undefined;
       this.lAffiche_Target = undefined;
       this.wce = undefined;
+      this.wce1 = undefined;
       this.WEdit1 = undefined;
       this.tric = undefined;
       pas.WebCtrls.TWForm.$final.call(this);
@@ -5769,25 +5874,39 @@ rtl.module("ufTest",["System","JS","Classes","SysUtils","Graphics","Controls","F
         this.wce.BeginUpdate();
         try {
           this.wce.SetParent(this);
-          this.wce.SetLeft(16);
+          this.wce.SetLeft(8);
           this.wce.SetHeight(38);
           this.wce.SetTop(184);
-          this.wce.SetWidth(251);
+          this.wce.SetWidth(760);
           this.wce.SetTabOrder(4);
           this.wce.SetText("wce");
           this.wce.FField = "a";
         } finally {
           this.wce.EndUpdate();
         };
+        this.wce1 = pas.ucWChamp_Edit.TWChamp_Edit.$create("Create$1",[this]);
+        this.wce1.BeginUpdate();
+        try {
+          this.wce1.SetParent(this);
+          this.wce1.SetLeft(8);
+          this.wce1.SetHeight(38);
+          this.wce1.SetTop(232);
+          this.wce1.SetWidth(760);
+          this.wce1.SetTabOrder(5);
+          this.wce1.SetText("wce1");
+          this.wce1.FField = "a";
+        } finally {
+          this.wce1.EndUpdate();
+        };
         this.WEdit1 = pas.WebCtrls.TWEdit.$create("Create$1",[this]);
         this.WEdit1.BeginUpdate();
         try {
           this.WEdit1.SetParent(this);
-          this.WEdit1.SetLeft(16);
+          this.WEdit1.SetLeft(32);
           this.WEdit1.SetHeight(38);
-          this.WEdit1.SetTop(236);
+          this.WEdit1.SetTop(283);
           this.WEdit1.SetWidth(80);
-          this.WEdit1.SetTabOrder(5);
+          this.WEdit1.SetTabOrder(6);
           this.WEdit1.SetText("WEdit1");
         } finally {
           this.WEdit1.EndUpdate();
@@ -5796,8 +5915,10 @@ rtl.module("ufTest",["System","JS","Classes","SysUtils","Graphics","Controls","F
         this.EndUpdate();
       };
       this.tric = pas.uJSChamps.TJSChamps.$create("Create$2");
-      this.tric.OnSet2 = rtl.createCallback(this,"proxy_OnSet");
+      this.tric["a"] = "affecté par TfTest.Loaded;";
+      this.tric.OnSet.Add(rtl.createCallback(this,"proxy_OnSet"));
       this.wce.SetChamps(this.tric);
+      this.wce1.SetChamps(this.tric);
     };
     this.proxy_OnSet = function (_propertyKey, _value) {
       this.lCallBack.SetText((("Callback: " + JSON.stringify(_propertyKey)) + "=") + JSON.stringify(_value));

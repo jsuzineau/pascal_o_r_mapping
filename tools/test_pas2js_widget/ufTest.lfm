@@ -90,20 +90,29 @@ object fTest: TfTest
     OnClick = bAffiche_proxyClick
   end
   object wce: TWChamp_Edit
-    Left = 16
+    Left = 8
     Height = 38
     Top = 184
-    Width = 251
+    Width = 760
     TabOrder = 4
     Text = 'wce'
     Field = 'a'
   end
-  object WEdit1: TWEdit
-    Left = 16
+  object wce1: TWChamp_Edit
+    Left = 8
     Height = 38
-    Top = 236
-    Width = 80
+    Top = 232
+    Width = 760
     TabOrder = 5
+    Text = 'wce1'
+    Field = 'a'
+  end
+  object WEdit1: TWEdit
+    Left = 32
+    Height = 38
+    Top = 283
+    Width = 80
+    TabOrder = 6
     Text = 'WEdit1'
   end
 end

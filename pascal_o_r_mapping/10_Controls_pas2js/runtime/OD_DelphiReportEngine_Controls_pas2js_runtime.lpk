@@ -30,8 +30,7 @@
         <CustomOptions Value="-dPas2js -O- -Jc"/>
         <CompilerPath Value=""/>
         <ExecuteBefore>
-          <Command Value="$Pas2js() -O- -Jc -vbq OD_DelphiReportEngine_Controls_pas2js_runtime.pas"/>
-          <ScanForMakeMsgs Value="True"/>
+          <Command Value="/home/jean/01_Projets/17_sources_externes/Pas2JS_Widget/pas2js/linux/pas2js_build  $(ProjFile)"/>
         </ExecuteBefore>
         <CreateMakefileOnBuild Value="True"/>
       </Other>

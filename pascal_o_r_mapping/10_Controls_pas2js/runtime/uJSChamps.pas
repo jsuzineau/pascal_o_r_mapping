@@ -17,6 +17,7 @@ type
    end;
 
   TOnSet= procedure( _propertyKey, _value: TJSObject) of object;
+
   { TJSChamps }
 
   TJSChamps
@@ -25,8 +26,7 @@ type
    //proxy
    public
      proxy: TJSProxy;
-     OnSet: TOnSet;
-     OnSet2: TOnSet;//pas propre provisoire pour tests
+     OnSet: TList;
    private
      handler: TJSObject;
      procedure proxy_OnSet( _propertyKey, _value: TJSObject);
@@ -41,8 +41,7 @@ implementation
 
 constructor TJSChamps.Create;
 begin
-     OnSet:= nil;
-     OnSet2:=nil;
+     OnSet:= TList.Create;
      handler:= nil;
      asm
         this.handler=
@@ -60,9 +59,17 @@ begin
 end;
 
 procedure TJSChamps.proxy_OnSet( _propertyKey, _value: TJSObject);
+var
+   jsv: JSValue;
+   os: TOnSet;
 begin
-     if Assigned( OnSet) then OnSet( _propertyKey, _value);
-     if Assigned( OnSet2) then OnSet2( _propertyKey, _value);
+     for jsv in OnSet
+     do
+       begin
+       if not Assigned( jsv)  then continue;
+       os := TOnSet(jsv);
+       os( _propertyKey, _value);
+       end;
 end;
 
 end.

@@ -92,23 +92,24 @@ procedure TWChamp_Edit.Champs_OnSet(_propertyKey, _value: TJSObject);
 begin
      if Champs_Changing then exit;
 
-     if Field <> TJSJSON.stringify( _propertyKey) then exit;
+
+     if Field <> _propertyKey.toString then exit;
 
      _from_Champs_interne( _value);
 end;
 
 procedure TWChamp_Edit.SetChamps(Value: TJSChamps);
 begin
-     if Assigned( FChamps) and (@Champs_OnSet = FChamps.OnSet)
+     if Assigned( FChamps)
      then
-         FChamps.OnSet:= nil;
+         FChamps.OnSet.Remove(@Champs_OnSet);
 
      FChamps:= nil;
      Text:= '';
      FChamps:= Value;
      if not Champ_OK then exit;
 
-     FChamps.OnSet:= @Champs_OnSet;
+     FChamps.OnSet.Add( @Champs_OnSet);
      _from_Champs;
 end;
 
@@ -126,7 +127,7 @@ begin
      try
         Champs_Changing:= True;
 
-        Text:= TJSJSON.stringify( _Value);
+        Text:= String( _Value);
      finally
             Champs_Changing:= False;
             end;
