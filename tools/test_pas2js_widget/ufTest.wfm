@@ -177,6 +177,20 @@
     finally
       WEdit1.EndUpdate;
     end;
+    bAutre_Form := TWButton.Create(Self);
+    bAutre_Form.BeginUpdate;
+    try
+      bAutre_Form.Parent := Self;
+      bAutre_Form.Left := 31;
+      bAutre_Form.Height := 25;
+      bAutre_Form.Top := 340;
+      bAutre_Form.Width := 187;
+      bAutre_Form.Caption := 'bAutre_Form';
+      bAutre_Form.TabOrder := 7;
+      bAutre_Form.OnClick := bAutre_FormClick;
+    finally
+      bAutre_Form.EndUpdate;
+    end;
   finally
     EndUpdate;
   end;

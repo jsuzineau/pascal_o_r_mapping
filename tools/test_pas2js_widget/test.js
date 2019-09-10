@@ -5677,6 +5677,71 @@ rtl.module("ucWChamp_Edit",["System","SysUtils","Classes","Controls","StdCtrls",
     $r.addProperty("Field",0,rtl.string,"FField","FField");
   });
 });
+rtl.module("ufAutre_Form",["System","JS","Classes","SysUtils","Graphics","Controls","Forms","WebCtrls"],function () {
+  "use strict";
+  var $mod = this;
+  rtl.createClass($mod,"TfAutre_Form",pas.WebCtrls.TWForm,function () {
+    this.$init = function () {
+      pas.WebCtrls.TWForm.$init.call(this);
+      this.bfTest = null;
+      this.WLabel1 = null;
+    };
+    this.$final = function () {
+      this.bfTest = undefined;
+      this.WLabel1 = undefined;
+      pas.WebCtrls.TWForm.$final.call(this);
+    };
+    this.bfTestClick = function (Sender) {
+      pas.ufTest.fTest.Show();
+    };
+    this.Loaded = function () {
+      pas.Forms.TCustomForm.Loaded.call(this);
+      this.BeginUpdate();
+      try {
+        this.SetLeft(878);
+        this.SetHeight(240);
+        this.SetTop(1048);
+        this.SetWidth(320);
+        this.SetAlphaBlend(false);
+        this.SetAlphaBlendValue(255);
+        this.SetText("fAutre_Form");
+        this.SetClientHeight(240);
+        this.SetClientWidth(320);
+        this.WLabel1 = pas.WebCtrls.TWLabel.$create("Create$1",[this]);
+        this.WLabel1.BeginUpdate();
+        try {
+          this.WLabel1.SetParent(this);
+          this.WLabel1.SetLeft(30);
+          this.WLabel1.SetHeight(17);
+          this.WLabel1.SetTop(24);
+          this.WLabel1.SetWidth(65);
+          this.WLabel1.SetAutoSize(false);
+          this.WLabel1.SetText("Truc");
+          this.WLabel1.SetParentColor(false);
+        } finally {
+          this.WLabel1.EndUpdate();
+        };
+        this.bfTest = pas.WebCtrls.TWButton.$create("Create$1",[this]);
+        this.bfTest.BeginUpdate();
+        try {
+          this.bfTest.SetParent(this);
+          this.bfTest.SetLeft(39);
+          this.bfTest.SetHeight(25);
+          this.bfTest.SetTop(81);
+          this.bfTest.SetWidth(211);
+          this.bfTest.SetText("bfTest");
+          this.bfTest.SetTabOrder(0);
+          this.bfTest.FOnClick = rtl.createCallback(this,"bfTestClick");
+        } finally {
+          this.bfTest.EndUpdate();
+        };
+      } finally {
+        this.EndUpdate();
+      };
+    };
+  });
+  this.fAutre_Form = null;
+},["ufTest"]);
 rtl.module("ufTest",["System","JS","Classes","SysUtils","Graphics","Controls","Forms","WebCtrls","StdCtrls","uJSChamps","ucWChamp_Edit"],function () {
   "use strict";
   var $mod = this;
@@ -5692,6 +5757,7 @@ rtl.module("ufTest",["System","JS","Classes","SysUtils","Graphics","Controls","F
       this.lCallBack = null;
       this.bAffiche_target = null;
       this.lAffiche_Target = null;
+      this.bAutre_Form = null;
       this.wce = null;
       this.wce1 = null;
       this.WEdit1 = null;
@@ -5707,6 +5773,7 @@ rtl.module("ufTest",["System","JS","Classes","SysUtils","Graphics","Controls","F
       this.lCallBack = undefined;
       this.bAffiche_target = undefined;
       this.lAffiche_Target = undefined;
+      this.bAutre_Form = undefined;
       this.wce = undefined;
       this.wce1 = undefined;
       this.WEdit1 = undefined;
@@ -5718,6 +5785,9 @@ rtl.module("ufTest",["System","JS","Classes","SysUtils","Graphics","Controls","F
     };
     this.bAffiche_targetClick = function (Sender) {
       this.lAffiche_Target.SetText(pas.JS.ToString(this.tric["a"]));
+    };
+    this.bAutre_FormClick = function (Sender) {
+      pas.ufAutre_Form.fAutre_Form.Show();
     };
     this.bClick = function (Sender) {
       if ("Truc" === this.l.GetText()) {
@@ -5911,6 +5981,20 @@ rtl.module("ufTest",["System","JS","Classes","SysUtils","Graphics","Controls","F
         } finally {
           this.WEdit1.EndUpdate();
         };
+        this.bAutre_Form = pas.WebCtrls.TWButton.$create("Create$1",[this]);
+        this.bAutre_Form.BeginUpdate();
+        try {
+          this.bAutre_Form.SetParent(this);
+          this.bAutre_Form.SetLeft(31);
+          this.bAutre_Form.SetHeight(25);
+          this.bAutre_Form.SetTop(340);
+          this.bAutre_Form.SetWidth(187);
+          this.bAutre_Form.SetText("bAutre_Form");
+          this.bAutre_Form.SetTabOrder(7);
+          this.bAutre_Form.FOnClick = rtl.createCallback(this,"bAutre_FormClick");
+        } finally {
+          this.bAutre_Form.EndUpdate();
+        };
       } finally {
         this.EndUpdate();
       };
@@ -5925,8 +6009,8 @@ rtl.module("ufTest",["System","JS","Classes","SysUtils","Graphics","Controls","F
     };
   });
   this.fTest = null;
-});
-rtl.module("program",["System","Forms","ufTest","uJSChamps"],function () {
+},["ufAutre_Form"]);
+rtl.module("program",["System","Forms","ufTest","uJSChamps","ufAutre_Form"],function () {
   "use strict";
   var $mod = this;
   $mod.$main = function () {
@@ -5935,6 +6019,11 @@ rtl.module("program",["System","Forms","ufTest","uJSChamps"],function () {
         return this.p.fTest;
       }, set: function (v) {
         this.p.fTest = v;
+      }});
+    pas.Forms.Application().CreateForm(pas.ufAutre_Form.TfAutre_Form,{p: pas.ufAutre_Form, get: function () {
+        return this.p.fAutre_Form;
+      }, set: function (v) {
+        this.p.fAutre_Form = v;
       }});
     pas.Forms.Application().Run();
   };

@@ -22,11 +22,15 @@ type
   lCallBack: TWLabel;
   bAffiche_target: TWButton;
   lAffiche_Target: TWLabel;
+  bAutre_Form: TWButton;
   wce: TWChamp_Edit;
   wce1: TWChamp_Edit;
+  WDataGrid1: TWDataGrid;
   WEdit1: TWEdit;
+  WPanel1: TWPanel;
   procedure bAffiche_proxyClick(Sender: TObject);
   procedure bAffiche_targetClick(Sender: TObject);
+  procedure bAutre_FormClick(Sender: TObject);
   procedure bClick(Sender: TObject);
   procedure bProxyClick(Sender: TObject);
  private
@@ -44,6 +48,8 @@ var
 
 implementation
 
+uses
+     ufAutre_Form;
 procedure TfTest.Loaded;
 begin
      inherited Loaded;
@@ -81,6 +87,11 @@ end;
 procedure TfTest.bAffiche_targetClick(Sender: TObject);
 begin
      lAffiche_Target.Caption:= JS.toString( tric.Properties['a']);
+end;
+
+procedure TfTest.bAutre_FormClick(Sender: TObject);
+begin
+     fAutre_Form.Show;
 end;
 
 procedure TfTest.bAffiche_proxyClick(Sender: TObject);

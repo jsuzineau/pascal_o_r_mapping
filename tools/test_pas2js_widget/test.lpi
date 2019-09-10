@@ -24,18 +24,24 @@
       <FormatVersion Value="2"/>
       <Modes Count="0"/>
     </RunParams>
-    <RequiredPackages Count="3">
+    <RequiredPackages Count="5">
       <Item1>
-        <PackageName Value="OD_DelphiReportEngine_Controls_pas2js_runtime"/>
+        <PackageName Value="FCL"/>
       </Item1>
       <Item2>
-        <PackageName Value="pas2js_widget"/>
+        <PackageName Value="Pas2JS_Designer_Package"/>
       </Item2>
       <Item3>
-        <PackageName Value="pas2js_rtl"/>
+        <PackageName Value="OD_DelphiReportEngine_Controls_pas2js_runtime"/>
       </Item3>
+      <Item4>
+        <PackageName Value="pas2js_widget"/>
+      </Item4>
+      <Item5>
+        <PackageName Value="pas2js_rtl"/>
+      </Item5>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="4">
       <Unit0>
         <Filename Value="test.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -50,6 +56,12 @@
         <Filename Value="../../pascal_o_r_mapping/10_Controls_pas2js/runtime/uJSChamps.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="ufAutre_Form.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fAutre_Form"/>
+        <HasResources Value="True"/>
+      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

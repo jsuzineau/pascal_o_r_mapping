@@ -3,13 +3,14 @@ program test;
 {$mode delphi}{$H+}
 
 uses
- Interfaces, Forms, ufTest, uJSChamps;
+ Interfaces, Forms, ufTest, uJSChamps, ufAutre_Form;
 
 {$R *.res}
 
 begin
  Application.Initialize;
  Application.CreateForm(TfTest, fTest);
+ Application.CreateForm(TfAutre_Form, fAutre_Form);
  Application.Run;
 end.
 

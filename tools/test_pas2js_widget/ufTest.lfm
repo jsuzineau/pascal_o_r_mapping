@@ -1,7 +1,7 @@
 object fTest: TfTest
   Left = 885
   Height = 490
-  Top = 1105
+  Top = 1104
   Width = 793
   AlphaBlend = False
   AlphaBlendValue = 255
@@ -114,5 +114,52 @@ object fTest: TfTest
     Width = 80
     TabOrder = 6
     Text = 'WEdit1'
+  end
+  object bAutre_Form: TWButton
+    Left = 31
+    Height = 25
+    Top = 340
+    Width = 187
+    Caption = 'bAutre_Form'
+    TabOrder = 7
+    OnClick = bAutre_FormClick
+  end
+  object WDataGrid1: TWDataGrid
+    Left = 24
+    Height = 100
+    Top = 376
+    Width = 200
+    Columns = <    
+      item
+        Alignment = taLeftJustify
+        Color = clWhite
+        Format = cfString
+        Tag = 0
+        ValueChecked = '1'
+        ValueUnchecked = '0'
+        Visible = True
+      end    
+      item
+        Alignment = taLeftJustify
+        Color = clWhite
+        Format = cfString
+        Tag = 0
+        ValueChecked = '1'
+        ValueUnchecked = '0'
+        Visible = True
+      end>
+    ColumnClickSorts = True
+    DefaultColWidth = -1
+    DefaultRowHeight = -1
+    ShowHeader = True
+    TabOrder = 8
+  end
+  object WPanel1: TWPanel
+    Left = 272
+    Height = 122
+    Top = 304
+    Width = 352
+    Caption = 'WPanel1'
+    TabOrder = 9
   end
 end

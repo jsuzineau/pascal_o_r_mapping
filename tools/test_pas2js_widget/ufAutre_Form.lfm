@@ -1,0 +1,37 @@
+object fAutre_Form: TfAutre_Form
+  Left = 877
+  Height = 240
+  Top = 1047
+  Width = 320
+  AlphaBlend = False
+  AlphaBlendValue = 255
+  Caption = 'fAutre_Form'
+  ClientHeight = 240
+  ClientWidth = 320
+  object WLabel1: TWLabel
+    Left = 30
+    Height = 17
+    Top = 24
+    Width = 65
+    AutoSize = False
+    Caption = 'Truc'
+    ParentColor = False
+  end
+  object bfTest: TWButton
+    Left = 39
+    Height = 25
+    Top = 81
+    Width = 211
+    Caption = 'bfTest'
+    TabOrder = 0
+    OnClick = bfTestClick
+  end
+  object MySQL56Connection1: TMySQL56Connection
+    Connected = False
+    LoginPrompt = False
+    KeepConnection = False
+    SkipLibraryVersionCheck = False
+    left = 116
+    top = 171
+  end
+end

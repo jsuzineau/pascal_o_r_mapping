@@ -1,0 +1,44 @@
+{@PAS2JS_BEGIN}
+  BeginUpdate;
+  try
+    Left := 878;
+    Height := 240;
+    Top := 1048;
+    Width := 320;
+    AlphaBlend := False;
+    AlphaBlendValue := 255;
+    Caption := 'fAutre_Form';
+    ClientHeight := 240;
+    ClientWidth := 320;
+    WLabel1 := TWLabel.Create(Self);
+    WLabel1.BeginUpdate;
+    try
+      WLabel1.Parent := Self;
+      WLabel1.Left := 30;
+      WLabel1.Height := 17;
+      WLabel1.Top := 24;
+      WLabel1.Width := 65;
+      WLabel1.AutoSize := False;
+      WLabel1.Caption := 'Truc';
+      WLabel1.ParentColor := False;
+    finally
+      WLabel1.EndUpdate;
+    end;
+    bfTest := TWButton.Create(Self);
+    bfTest.BeginUpdate;
+    try
+      bfTest.Parent := Self;
+      bfTest.Left := 39;
+      bfTest.Height := 25;
+      bfTest.Top := 81;
+      bfTest.Width := 211;
+      bfTest.Caption := 'bfTest';
+      bfTest.TabOrder := 0;
+      bfTest.OnClick := bfTestClick;
+    finally
+      bfTest.EndUpdate;
+    end;
+  finally
+    EndUpdate;
+  end;
+{@PAS2JS_END}
