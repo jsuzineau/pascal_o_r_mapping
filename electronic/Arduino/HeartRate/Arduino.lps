@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectSession>
-    <Version Value="9"/>
+    <Version Value="11"/>
     <BuildModes Active="Default"/>
     <Units Count="15">
       <Unit0>
@@ -17,7 +17,7 @@
         <ComponentName Value="fArduino"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <UnitName Value="ufArduino"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="113"/>
         <CursorPos X="30" Y="122"/>
         <UsageCount Value="68"/>
@@ -111,7 +111,6 @@
       </Unit12>
       <Unit13>
         <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
-        <UnitName Value="synaser"/>
         <EditorIndex Value="2"/>
         <TopLine Value="231"/>
         <CursorPos Y="252"/>
@@ -120,15 +119,13 @@
       </Unit13>
       <Unit14>
         <Filename Value="/usr/share/fpcsrc/2.6.4/rtl/linux/termios.inc"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="922"/>
         <CursorPos X="4" Y="937"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit14>
     </Units>
-    <JumpHistory Count="27" HistoryIndex="26">
+    <JumpHistory Count="26" HistoryIndex="25">
       <Position1>
         <Filename Value="ufArduino.pas"/>
         <Caret Line="140" TopLine="126"/>
@@ -231,13 +228,13 @@
       </Position25>
       <Position26>
         <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
-        <Caret TopLine="7"/>
-      </Position26>
-      <Position27>
-        <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
         <Caret Line="252" TopLine="231"/>
-      </Position27>
+      </Position26>
     </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode="default"/>
+    </RunParams>
   </ProjectSession>
   <Debugging>
     <BreakPoints Count="1">
