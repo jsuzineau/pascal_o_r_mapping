@@ -5,11 +5,12 @@ unit ufAMS_Spectrometer;
 interface
 
 uses
+    uuStrings,
+    uAMS_AS7265x,
   Classes, SysUtils, FileUtil,  Forms, Controls,TAGraph, TASources, TASeries,
   Graphics, Dialogs, StdCtrls, ExtCtrls, ComCtrls, Serial, LazSerial, lazsynaser;
 
 type
-
   { TfAMS_Spectrometer }
 
   TfAMS_Spectrometer = class(TForm)
@@ -33,13 +34,11 @@ type
    procedure bDemarrer_linuxClick(Sender: TObject);
    procedure FormCreate(Sender: TObject);
    procedure lsRxData(Sender: TObject);
-   procedure lsStatus(Sender: TObject; Reason: THookSerialReason;
-     const Value: string);
-   procedure Panel1Click(Sender: TObject);
   private
     Continuer: Boolean;
   public
     Start: TDateTime;
+    function Interprete_Valeur( _S: String): TAS7265x_Data;
     procedure Ajoute_Valeur( _S: String);
   //Gestion boutons
   public
@@ -65,25 +64,47 @@ implementation
 
 {$R *.lfm}
 
-function StrToK( Key: String; var S: String): String;
-var
-   I: Integer;
+{ TfAMS_Spectrometer }
+
+procedure TfAMS_Spectrometer.FormCreate(Sender: TObject);
 begin
-     I:= Pos( Key, S);
-     if I = 0
-     then
-         begin
-         Result:= S;
-         S:= '';
-         end
-     else
-         begin
-         Result:= Copy( S, 1, I-1);
-         Delete( S, 1, (I-1)+Length( Key));
-         end;
+     bStop.Hide;
+     {$IFDEF LINUX}
+     ls.Device:= '/dev/ttyUSB0';
+     {$ENDIF}
+     m.Lines.Add( uAMS_AS7265x_Verifie_constantes);
 end;
 
-{ TfAMS_Spectrometer }
+procedure TfAMS_Spectrometer.bParametresClick(Sender: TObject);
+begin
+     ls.ShowSetupDialog;
+end;
+
+procedure TfAMS_Spectrometer.Boutons_Initialise;
+begin
+     bDemarrer_linux.Hide;
+     bDemarrer.Hide;
+     bStop.Show;
+     bFermer.Hide;
+end;
+
+procedure TfAMS_Spectrometer.Boutons_Finalise;
+begin
+     bDemarrer_linux.Show;
+     bDemarrer.Show;
+     bFermer.Show;
+end;
+
+procedure TfAMS_Spectrometer.bDemarrerClick(Sender: TObject);
+begin
+     Continuer:= True;
+     cls.Clear;
+     Start:= Now;
+
+     Tampon:= '';
+     ls.Open;
+     Boutons_Initialise;
+end;
 
 procedure TfAMS_Spectrometer.bDemarrer_linuxClick(Sender: TObject);
 var
@@ -128,96 +149,6 @@ begin
      Application.Terminate;
 end;
 
-procedure TfAMS_Spectrometer.bParametresClick(Sender: TObject);
-begin
-     ls.ShowSetupDialog;
-end;
-
-procedure TfAMS_Spectrometer.bDemarrerClick(Sender: TObject);
-begin
-     Continuer:= True;
-     cls.Clear;
-     Start:= Now;
-
-     Tampon:= '';
-     ls.Open;
-     Boutons_Initialise;
-end;
-
-procedure TfAMS_Spectrometer.FormCreate(Sender: TObject);
-begin
-     bStop.Hide;
-end;
-
-procedure TfAMS_Spectrometer.lsRxData(Sender: TObject);
-var
-   S: String;
-   I: Integer;
-  procedure delchar( _c: Char);
-  var
-     I: Integer;
-  begin
-       I:= Pos( _c, S);
-       if 0 = I then exit;
-       Delete( S, I, 1);
-  end;
-begin
-     Tampon:= Tampon+ls.ReadData;
-     if not Continuer then ls.Close;
-
-     I:= Pos( #10, Tampon);
-     if I = 0 then exit;
-
-     S:= StrToK( #10, Tampon);
-     delchar(#13);
-     Ajoute_Valeur( S);
-end;
-
-procedure TfAMS_Spectrometer.lsStatus(Sender: TObject;Reason: THookSerialReason; const Value: string);
-begin
-
-end;
-
-procedure TfAMS_Spectrometer.Panel1Click(Sender: TObject);
-begin
-
-end;
-
-procedure TfAMS_Spectrometer.Ajoute_Valeur(_S: String);
-var
-   I: Integer;
-   Secondes: double;
-   sSecondes: String;
-begin
-     Secondes:= (Now-Start)*24*3600;
-     sSecondes:= IntToStr( Trunc(Secondes));
-     while Length(sSecondes)<4 do sSecondes:= ' '+sSecondes;
-     m.Lines.Add( sSecondes+' s:'+_S);
-     if TryStrToInt( _S, I)
-     then
-         if (I>30) and (I<200)
-         then
-             begin
-             cls.AddXY( Secondes, I);
-             if cls.Count > 50 then cls.Delete(0);
-             end;
-end;
-
-procedure TfAMS_Spectrometer.Boutons_Initialise;
-begin
-     bDemarrer_linux.Hide;
-     bDemarrer.Hide;
-     bStop.Show;
-     bFermer.Hide;
-end;
-
-procedure TfAMS_Spectrometer.Boutons_Finalise;
-begin
-     bDemarrer_linux.Show;
-     bDemarrer.Show;
-     bFermer.Show;
-end;
-
 procedure TfAMS_Spectrometer.Serie_initialise;
 begin
      //AssignFile( T, '/dev/ttyUSB0');
@@ -260,6 +191,94 @@ procedure TfAMS_Spectrometer.Serie_Finalise;
 begin
      //CloseFile( T);
      SerClose( sh);
+end;
+
+procedure TfAMS_Spectrometer.lsRxData(Sender: TObject);
+var
+   S: String;
+   I: Integer;
+  procedure delchar( _c: Char);
+  var
+     I: Integer;
+  begin
+       I:= Pos( _c, S);
+       if 0 = I then exit;
+       Delete( S, I, 1);
+  end;
+begin
+     Tampon:= Tampon+ls.ReadData;
+     if not Continuer then ls.Close;
+
+     I:= Pos( #10, Tampon);
+     if I = 0 then exit;
+
+     S:= StrToK( #10, Tampon);
+     delchar(#13);
+     if '' = S then exit;
+
+     Ajoute_Valeur( S);
+end;
+
+
+function TfAMS_Spectrometer.Interprete_Valeur(_S: String): TAS7265x_Data;
+//1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 OK
+//123456789012345678901234567890123456789012345678901234567890123456789
+//         1         2         3         4         5         6
+var
+   iData, iLongueur_Onde: Integer;
+   sValeur: String;
+   Valeur: Double;
+begin
+     FillChar( Result, SizeOf(Result), 0);
+     iData:= 0;
+
+     while _S <> ''
+     do
+       begin
+       iLongueur_Onde:= longueur_onde_from_data( iData);
+       sValeur:= StrToK( ',' , _S);
+
+       if not TryStrToFloat( sValeur, Valeur, DefaultFormatSettings)
+       then
+           Valeur:= -1;
+       Result[iLongueur_Onde]:= Valeur;
+       Inc( iData);
+       if iData > 17 then break;
+       end;
+end;
+
+procedure TfAMS_Spectrometer.Ajoute_Valeur(_S: String);
+var
+   Data: TAS7265x_Data;
+   I: Integer;
+   lo: Integer;
+   Valeur: double;
+begin
+     Data:= Interprete_Valeur( _S);
+     m.Lines.Add( _S);
+     cls.Clear;
+
+     for I:= Low(Data) to High(Data)
+     do
+       begin
+       Valeur:= Data[I];
+       if Valeur > 0
+       then
+           begin
+           lo:= longueurs_onde[I];
+           cls.AddXY( lo, Valeur, IntToStr(lo));
+           end;
+       end;
+     {
+     if TryStrToInt( _S, I)
+     then
+         if (I>30) and (I<200)
+         then
+             begin
+             cls.AddXY( Secondes, I);
+             if cls.Count > 50 then cls.Delete(0);
+             end;
+     }
 end;
 
 end.

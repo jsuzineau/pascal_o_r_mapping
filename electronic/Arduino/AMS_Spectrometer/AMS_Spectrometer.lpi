@@ -26,18 +26,21 @@
       <FormatVersion Value="2"/>
       <Modes Count="0"/>
     </RunParams>
-    <RequiredPackages Count="3">
+    <RequiredPackages Count="4">
       <Item1>
-        <PackageName Value="TAChartLazarusPkg"/>
+        <PackageName Value="OD_DelphiReportEngine_Units"/>
       </Item1>
       <Item2>
-        <PackageName Value="LazSerialPort"/>
+        <PackageName Value="TAChartLazarusPkg"/>
       </Item2>
       <Item3>
-        <PackageName Value="LCL"/>
+        <PackageName Value="LazSerialPort"/>
       </Item3>
+      <Item4>
+        <PackageName Value="LCL"/>
+      </Item4>
     </RequiredPackages>
-    <Units Count="2">
+    <Units Count="3">
       <Unit0>
         <Filename Value="AMS_Spectrometer.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -49,6 +52,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit1>
+      <Unit2>
+        <Filename Value="uAMS_AS7265x.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit2>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
