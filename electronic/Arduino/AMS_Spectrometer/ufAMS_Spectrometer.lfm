@@ -1,33 +1,24 @@
 object fAMS_Spectrometer: TfAMS_Spectrometer
-  Left = 737
+  Left = 765
   Height = 481
-  Top = 1165
-  Width = 562
+  Top = 1254
+  Width = 752
   Caption = 'fAMS_Spectrometer'
   ClientHeight = 481
-  ClientWidth = 562
+  ClientWidth = 752
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   LCLVersion = '2.0.0.4'
   WindowState = wsMaximized
   object Panel1: TPanel
     Left = 0
-    Height = 23
+    Height = 96
     Top = 0
-    Width = 562
+    Width = 752
     Align = alTop
-    ClientHeight = 23
-    ClientWidth = 562
+    ClientHeight = 96
+    ClientWidth = 752
     TabOrder = 0
-    object bDemarrer_linux: TButton
-      Left = 259
-      Height = 19
-      Top = 0
-      Width = 75
-      Caption = 'Démarrer'
-      OnClick = bDemarrer_linuxClick
-      TabOrder = 0
-      Visible = False
-    end
     object bStop: TButton
       Left = 85
       Height = 19
@@ -35,7 +26,7 @@ object fAMS_Spectrometer: TfAMS_Spectrometer
       Width = 75
       Caption = 'Arrêter'
       OnClick = bStopClick
-      TabOrder = 1
+      TabOrder = 0
     end
     object bFermer: TButton
       Left = 172
@@ -44,7 +35,7 @@ object fAMS_Spectrometer: TfAMS_Spectrometer
       Width = 75
       Caption = 'Fermer'
       OnClick = bFermerClick
-      TabOrder = 2
+      TabOrder = 1
     end
     object bDemarrer: TButton
       Left = 3
@@ -53,7 +44,7 @@ object fAMS_Spectrometer: TfAMS_Spectrometer
       Width = 75
       Caption = 'Démarrer'
       OnClick = bDemarrerClick
-      TabOrder = 3
+      TabOrder = 2
     end
     object bParametres: TButton
       Left = 356
@@ -62,27 +53,124 @@ object fAMS_Spectrometer: TfAMS_Spectrometer
       Width = 75
       Caption = 'Parametres'
       OnClick = bParametresClick
+      TabOrder = 3
+    end
+    object bATCDATA: TButton
+      Left = 104
+      Height = 25
+      Top = 24
+      Width = 75
+      Caption = 'ATCDATA'
+      OnClick = bATCDATAClick
       TabOrder = 4
+    end
+    object bATVERSW: TButton
+      Left = 187
+      Height = 25
+      Top = 24
+      Width = 75
+      Caption = 'ATVERSW'
+      OnClick = bATVERSWClick
+      TabOrder = 5
+    end
+    object bATTEMP: TButton
+      Left = 351
+      Height = 25
+      Top = 24
+      Width = 75
+      Caption = 'ATTEMP'
+      OnClick = bATTEMPClick
+      TabOrder = 6
+    end
+    object bATVERHW: TButton
+      Left = 269
+      Height = 25
+      Top = 24
+      Width = 75
+      Caption = 'ATVERHW'
+      OnClick = bATVERHWClick
+      TabOrder = 7
+    end
+    object bATDATA: TButton
+      Left = 8
+      Height = 25
+      Top = 24
+      Width = 75
+      Caption = 'ATDATA'
+      OnClick = bATDATAClick
+      TabOrder = 8
+    end
+    object eCommande: TEdit
+      Left = 96
+      Height = 38
+      Top = 56
+      Width = 112
+      TabOrder = 9
+      Text = 'eCommande'
+    end
+    object Label1: TLabel
+      Left = 8
+      Height = 21
+      Top = 64
+      Width = 80
+      Caption = 'Commande'
+      ParentColor = False
+    end
+    object bEnvoyer: TButton
+      Left = 216
+      Height = 25
+      Top = 63
+      Width = 75
+      Caption = 'Envoyer'
+      OnClick = bEnvoyerClick
+      TabOrder = 10
+    end
+    object bATINTTIME_255: TButton
+      Left = 435
+      Height = 25
+      Top = 24
+      Width = 147
+      Caption = 'ATINTTIME=255'
+      OnClick = bATINTTIME_255Click
+      TabOrder = 11
+    end
+    object bPLU_from_Courant: TButton
+      Left = 320
+      Height = 25
+      Top = 64
+      Width = 160
+      Caption = 'PLU_from_Courant'
+      OnClick = bPLU_from_CourantClick
+      TabOrder = 12
+    end
+    object cbUse_PLU: TCheckBox
+      Left = 496
+      Height = 25
+      Top = 64
+      Width = 123
+      Caption = 'Utiliser la PLU'
+      OnChange = cbUse_PLUChange
+      TabOrder = 13
     end
   end
   object PageControl1: TPageControl
     Left = 0
-    Height = 458
-    Top = 23
-    Width = 562
+    Height = 385
+    Top = 96
+    Width = 752
     ActivePage = tsGraphe
     Align = alClient
     TabIndex = 0
     TabOrder = 1
     object tsGraphe: TTabSheet
       Caption = 'Graphe'
-      ClientHeight = 423
-      ClientWidth = 552
+      ClientHeight = 350
+      ClientWidth = 742
       object c: TChart
         Left = 0
-        Height = 423
+        Height = 350
         Top = 0
-        Width = 552
+        Width = 742
         AxisList = <        
           item
             Marks.LabelBrush.Style = bsClear
@@ -110,15 +198,18 @@ object fAMS_Spectrometer: TfAMS_Spectrometer
         Align = alClient
         object cls: TLineSeries
         end
+        object cbs: TBarSeries
+          BarBrush.Color = clRed
+        end
       end
     end
     object tsLog: TTabSheet
       Caption = 'Log'
-      ClientHeight = 423
-      ClientWidth = 552
-      object m: TMemo
+      ClientHeight = 350
+      ClientWidth = 742
+      object mLog: TMemo
         Left = 0
-        Height = 423
+        Height = 382
         Top = 0
         Width = 552
         Align = alClient
@@ -139,7 +230,6 @@ object fAMS_Spectrometer: TfAMS_Spectrometer
     StopBits = sbOne
     Device = 'COM3'
     RcvLineCRLF = False
-    OnRxData = lsRxData
     left = 251
     top = 91
   end
