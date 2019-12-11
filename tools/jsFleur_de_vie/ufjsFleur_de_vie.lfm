@@ -1,11 +1,11 @@
 object fjsFleur_de_vie: TfjsFleur_de_vie
-  Left = 888
+  Left = 820
   Height = 319
-  Top = 0
-  Width = 525
+  Top = 257
+  Width = 685
   Caption = 'fjsFleur_de_vie'
   ClientHeight = 319
-  ClientWidth = 525
+  ClientWidth = 685
   OnCreate = FormCreate
   Position = poScreenCenter
   LCLVersion = '2.0.0.4'
@@ -13,7 +13,7 @@ object fjsFleur_de_vie: TfjsFleur_de_vie
     Left = 0
     Height = 269
     Top = 50
-    Width = 525
+    Width = 685
     Align = alClient
     Lines.Strings = (
       'm'
@@ -25,15 +25,15 @@ object fjsFleur_de_vie: TfjsFleur_de_vie
     Left = 0
     Height = 50
     Top = 0
-    Width = 525
+    Width = 685
     Align = alTop
     ClientHeight = 50
-    ClientWidth = 525
+    ClientWidth = 685
     TabOrder = 1
     object fseE: TFloatSpinEdit
       Left = 8
       Height = 23
-      Top = 8
+      Top = 16
       Width = 208
       DecimalPlaces = 12
       MinValue = 0
@@ -53,11 +53,54 @@ object fjsFleur_de_vie: TfjsFleur_de_vie
     object seI_Start: TSpinEdit
       Left = 232
       Height = 23
-      Top = 8
+      Top = 16
       Width = 112
       MaxValue = 0
       TabOrder = 2
       Value = 1
     end
+    object bStop: TButton
+      Left = 432
+      Height = 25
+      Top = 16
+      Width = 75
+      Caption = 'Stop'
+      OnClick = bStopClick
+      TabOrder = 3
+      Visible = False
+    end
+    object Label1: TLabel
+      Left = 12
+      Height = 15
+      Top = 1
+      Width = 60
+      Caption = 'Ecartement'
+      ParentColor = False
+    end
+    object seMaxThreads: TSpinEdit
+      Left = 516
+      Height = 23
+      Top = 16
+      Width = 112
+      MaxValue = 0
+      TabOrder = 4
+      Value = 1
+    end
+  end
+  object Label2: TLabel
+    Left = 233
+    Height = 15
+    Top = 1
+    Width = 24
+    Caption = 'Start'
+    ParentColor = False
+  end
+  object Label3: TLabel
+    Left = 514
+    Height = 15
+    Top = 0
+    Width = 61
+    Caption = 'Nb Threads'
+    ParentColor = False
   end
 end
