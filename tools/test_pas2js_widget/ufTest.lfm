@@ -1,7 +1,7 @@
 object fTest: TfTest
-  Left = 885
+  Left = 1127
   Height = 490
-  Top = 1104
+  Top = 1551
   Width = 793
   AlphaBlend = False
   AlphaBlendValue = 255

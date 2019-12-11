@@ -1,7 +1,7 @@
 object fAutre_Form: TfAutre_Form
-  Left = 877
+  Left = 1077
   Height = 240
-  Top = 1047
+  Top = 680
   Width = 320
   AlphaBlend = False
   AlphaBlendValue = 255

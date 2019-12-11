@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+#  Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
+#          http://www.mars42.com                                               |
+#                                                                              |
+#  Copyright 2018 Jean SUZINEAU - MARS42                                       |
+#                                                                              |
+#  This program is free software: you can redistribute it and/or modify        |
+#  it under the terms of the GNU Lesser General Public License as published by |
+#  the Free Software Foundation, either version 3 of the License, or           |
+#  (at your option) any later version.                                         |
+#                                                                              |
+#  This program is distributed in the hope that it will be useful,             |
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+#  GNU Lesser General Public License for more details.                         |
+#                                                                              |
+#  You should have received a copy of the GNU Lesser General Public License    |
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.       |
+#                                                                              |
+-->
+ <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+  <_name>Jupe simple</_name>
+  <id>com.mars42.simpleskirt</id>
+  <dependency type="extension">org.inkscape.output.svg.inkscape</dependency>
+  <dependency type="executable" location="extensions">jupe_simple.py</dependency>
+  <dependency type="executable" location="extensions">inkex.py</dependency>
+  <param name='active-tab' type="notebook">
+    <page name="title" _gui-text="Your Title">
+      <param name="hauteur_av"          type="float" min="0.1"  max="1000.0"  precision="5"  _gui-text="hauteur_av"         >420.0</param>
+      <param name="hauteur_ar"          type="float" min="0.1"  max="1000.0"  precision="5"  _gui-text="hauteur_ar"         >530.0</param>
+      <param name="ourlet_bas"          type="float" min="0.1"  max="1000.0"  precision="5"  _gui-text="ourlet_bas"         >  5.0</param>
+      <param name="assemblage_ceinture" type="float" min="0.1"  max="1000.0"  precision="5"  _gui-text="assemblage_ceinture">  5.0</param>
+      <param name="rayon_disque"        type="float" min="0.1"  max="1000.0"  precision="5"  _gui-text="rayon_disque"       >131.0</param>
+      <param name="ogType" _gui-text="Type" type="optiongroup">
+	      <!-- underscores indicate translatability -->
+	      <_option value="ogType_Quartiers"              >version 5 Quartiers</_option>
+	      <_option value="ogType_Quartiers_non_complexes">version 4 Quartiers non complexes</_option>
+	      <_option value="ogType_Quartiers_Ligne"        >version 3 Quartiers ligne</_option>
+	      <_option value="ogType_Quartiers_en_place"     >version 2 Quartiers ligne en place</_option>
+	      <_option value="ogType_Moitie"                 >version 1 Moitié   </_option>
+	      <_option value="ogType_Complet"                >version 0 Complet  </_option>
+      </param>
+    </page>
+  </param>
+  <effect>
+    <object-type>all</object-type>
+    <effects-menu>
+      <submenu _name="Mars42"/>
+    </effects-menu>
+  </effect>
+  <script>
+    <command reldir="extensions" interpreter="python">jupe_simple.py</command>
+  </script>
+</inkscape-extension>
+

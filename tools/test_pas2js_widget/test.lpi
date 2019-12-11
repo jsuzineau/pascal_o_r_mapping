@@ -24,22 +24,25 @@
       <FormatVersion Value="2"/>
       <Modes Count="0"/>
     </RunParams>
-    <RequiredPackages Count="5">
+    <RequiredPackages Count="6">
       <Item1>
-        <PackageName Value="FCL"/>
+        <PackageName Value="OD_DelphiReportEngine_Controls_pas2js_designer"/>
       </Item1>
       <Item2>
-        <PackageName Value="Pas2JS_Designer_Package"/>
+        <PackageName Value="FCL"/>
       </Item2>
       <Item3>
-        <PackageName Value="OD_DelphiReportEngine_Controls_pas2js_runtime"/>
+        <PackageName Value="Pas2JS_Designer_Package"/>
       </Item3>
       <Item4>
-        <PackageName Value="pas2js_widget"/>
+        <PackageName Value="OD_DelphiReportEngine_Controls_pas2js_runtime"/>
       </Item4>
       <Item5>
-        <PackageName Value="pas2js_rtl"/>
+        <PackageName Value="pas2js_widget"/>
       </Item5>
+      <Item6>
+        <PackageName Value="pas2js_rtl"/>
+      </Item6>
     </RequiredPackages>
     <Units Count="4">
       <Unit0>
