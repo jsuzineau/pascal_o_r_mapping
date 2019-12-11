@@ -50,6 +50,33 @@ begin
                                +_Rayon, //_Zmax: integer= 2;
                                +_Rayon,_m); //_Rayon: integer=2): Integer;
 end;
+{
+type
+  { TthCalcul }
+
+  TthTrancheX
+  =
+   class( TThread)
+   public
+     constructor Create( _I_Start: Integer);
+   protected
+     procedure T( _Rayon: Integer);
+     procedure Execute; override;
+   //Display
+   private
+     Display_S: String;
+     procedure Do_Display;
+     procedure Display( _Display_S: String);
+   //Display_Clear
+   private
+     procedure Do_Display_Clear;
+     procedure Display_Clear;
+   //I_Start
+   private
+     I_Start: Integer;
+   end;
+ }
+
 function Fleur_de_vie_NbSpheres( _Xmin: integer=-2;
                                  _Xmax: integer= 2;
                                  _Ymin: integer=-2;
