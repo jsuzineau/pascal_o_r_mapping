@@ -1,12 +1,13 @@
 object fjsFleur_de_vie: TfjsFleur_de_vie
   Left = 888
   Height = 319
-  Top = 1319
+  Top = 0
   Width = 525
   Caption = 'fjsFleur_de_vie'
   ClientHeight = 319
   ClientWidth = 525
   OnCreate = FormCreate
+  Position = poScreenCenter
   LCLVersion = '2.0.0.4'
   object m: TMemo
     Left = 0
@@ -31,7 +32,7 @@ object fjsFleur_de_vie: TfjsFleur_de_vie
     TabOrder = 1
     object fseE: TFloatSpinEdit
       Left = 8
-      Height = 36
+      Height = 23
       Top = 8
       Width = 208
       DecimalPlaces = 12
@@ -51,7 +52,7 @@ object fjsFleur_de_vie: TfjsFleur_de_vie
     end
     object seI_Start: TSpinEdit
       Left = 232
-      Height = 36
+      Height = 23
       Top = 8
       Width = 112
       MaxValue = 0
