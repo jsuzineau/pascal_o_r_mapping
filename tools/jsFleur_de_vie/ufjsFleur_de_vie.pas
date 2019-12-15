@@ -47,6 +47,7 @@ implementation
 procedure TfjsFleur_de_vie.FormCreate(Sender: TObject);
 begin
      th:= nil;
+     m.Lines.Add(Format('1/(s60*sat2)= %s, sqrt(2)=%s', [FloatToStr(1/(s60*sat2)), FloatToStr(sqrt(2))]));
 end;
 
 procedure TfjsFleur_de_vie.bStartClick(Sender: TObject);
