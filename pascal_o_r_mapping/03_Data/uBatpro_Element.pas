@@ -329,6 +329,7 @@ type
 {$IFNDEF WINDOWS_GRAPHIC}
  TStringGrid= TStringGridWeb;
  TBrushStyle = TFPBrushStyle;
+
  TBrush
  =
   record
@@ -337,6 +338,7 @@ type
   end;
 
  TPenStyle=TFPPenStyle;
+
  TPen
  =
   record
@@ -349,9 +351,12 @@ type
  TCanvas
  =
   class( TFPCustomCanvas)
+  private
+    FFBrush: TBrush;
+    FFPen  : TPen  ;
   public
-    Brush: TBrush;
-    Pen: TPen;
+    property Brush: TBrush read FFBrush write FFBrush;
+    property Pen  : TPen   read FFPen   write FFPen  ;
   end;
  TFontStyle=(fsBold, fsItalic);
  TFontStyles= set of TFontStyle;
@@ -897,7 +902,7 @@ type
     constructor Create( un_sl: TBatpro_StringList; _beCluster: TBatpro_Element);
     procedure Draw(DrawInfo: TDrawInfo); override;
 
-    function Cell_Height( DrawInfo: TDrawInfo; Cell_Width: Integer): Integer; override;
+    function Cell_Height( _DrawInfo: TDrawInfo; _Cell_Width: Integer): Integer; override;
     procedure CalculeLargeur( DrawInfo: TDrawInfo;
                               Colonne, Ligne: Integer;
                               var Largeur: Integer);
@@ -4793,7 +4798,7 @@ begin
      //==> comment vont se dessinner les lignes de la grille ?
 end;
 
-function TbeClusterElement.Cell_Height( DrawInfo: TDrawInfo; Cell_Width: Integer): Integer;
+function TbeClusterElement.Cell_Height( _DrawInfo: TDrawInfo; _Cell_Width: Integer): Integer;
 begin
      //pas évident que cet algo soit OK
      if     Assigned( beCluster)
@@ -4802,10 +4807,10 @@ begin
      then
          // si 1 seule ligne, on postule que le cluster a toute la largeur
          // qu'il demande
-         Result:= beCluster.Cell_Height( DrawInfo,
-                                         beCluster.Cell_Width( DrawInfo))
+         Result:= beCluster.Cell_Height( _DrawInfo,
+                                         beCluster.Cell_Width( _DrawInfo))
      else
-         Result:= inherited Cell_Height( DrawInfo, Cell_Width);
+         Result:= inherited Cell_Height( _DrawInfo, _Cell_Width);
 end;
 
 procedure TbeClusterElement.CalculeLargeur( DrawInfo: TDrawInfo;

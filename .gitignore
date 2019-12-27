@@ -114,3 +114,4 @@ tools/Generateur/etc/_Configuration_Generateur_de_code.ini
 /tools/jsNote/pas2js/backup
 jsLignes.Exclus.txt
 *.map
+tools/jsFleur_de_vie/jsFleur_de_vie

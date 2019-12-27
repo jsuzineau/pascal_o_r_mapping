@@ -1154,7 +1154,12 @@ end;
 
 function TBatpro_Ligne.GetJSON: String;
 begin
-     Result:= '{'+Champs.JSON+Aggregations.JSON+'}';
+     Result
+     :=
+        '{'
+       +Champs.JSON;
+     Formate_Liste( Result, ',',Aggregations.JSON);
+     Result:= Result + '}';
 end;
 
 function TBatpro_Ligne.JSON_Persistants: String;
