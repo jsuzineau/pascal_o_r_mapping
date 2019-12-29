@@ -40,6 +40,7 @@ uses
     uTri_Ancetre,
     uhFiltre_Ancetre,
     uRequete,
+    ujsDataContexte,
 
     uPostgres,
     udmDatabase,
@@ -54,7 +55,7 @@ uses
     ufAutomatic_Genere_tout_sl,
 
   Classes, SysUtils, FileUtil, Forms,
-  Controls, Graphics, Dialogs, StdCtrls, ExtCtrls, VirtualTrees, ucChampsGrid;
+  Controls, Graphics, Dialogs, StdCtrls, ExtCtrls, VirtualTrees, ucChampsGrid, sqldb;
 
 type
 
@@ -69,6 +70,7 @@ type
     bSaveSQL: TButton;
     bGenereFromQueryFile: TButton;
     bod: TButton;
+    Button1: TButton;
     cbDatabases: TComboBox;
     cbSchemas: TComboBox;
     e: TEdit;
@@ -82,6 +84,7 @@ type
     procedure bGenere_ToutClick(Sender: TObject);
     procedure bodClick(Sender: TObject);
     procedure bSaveSQLClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   //Liste de lignes
@@ -122,7 +125,15 @@ begin
 
      hVST:= ThVST.Create( vst, sl, poolAutomatic.Tri, poolAutomatic.hf);
 
-     dmDatabase.jsDataConnexion.Fill_with_databases( cbDatabases.Items);
+     try
+        dmDatabase.jsDataConnexion.Fill_with_databases( cbDatabases.Items);
+     except
+           on e: Exception
+           do
+             begin
+             ShowMessage( e.Message);
+             end;
+           end;
      cbDatabases.Text:= dmDatabase.jsDataConnexion.DataBase;
 
      cbSchemas.Visible:= sgbdPOSTGRES;
@@ -143,6 +154,13 @@ end;
 procedure TfAutomatic_VST.bSaveSQLClick(Sender: TObject);
 begin
      EXE_INI.WriteString( inis_Options, inik_SQL, e.Text);
+end;
+
+procedure TfAutomatic_VST.Button1Click(Sender: TObject);
+begin
+     with dmDatabase.jsDataConnexion as TjsDataConnexion_SQLQuery
+     do
+       sqlc.Transaction:= sqlt;
 end;
 
 procedure TfAutomatic_VST.FormDestroy(Sender: TObject);
@@ -249,6 +267,7 @@ begin
                   sgbd_MySQL   : e.Text:= 'select * from '+NomTable+' limit 0,1';
                   sgbd_Postgres: e.Text:= 'select * from '+NomTable+' limit 1'  ;
                   sgbd_SQLite3 : e.Text:= 'select * from '+NomTable+' limit 1';
+                  sgbd_ODBC_Access: e.Text:= 'select top 1 * from '+NomTable;
                   else SGBD_non_gere( Classname+'.bGenere_ToutClick');
                   end;
                 bExecute.Click;

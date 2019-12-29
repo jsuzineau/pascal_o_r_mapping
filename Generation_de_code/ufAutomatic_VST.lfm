@@ -111,6 +111,15 @@ object fAutomatic_VST: TfAutomatic_VST
       OnClick = bodClick
       TabOrder = 9
     end
+    object Button1: TButton
+      Left = 12
+      Height = 25
+      Top = 1
+      Width = 75
+      Caption = 'Button1'
+      OnClick = Button1Click
+      TabOrder = 10
+    end
   end
   object vst: TVirtualStringTree
     Left = 0

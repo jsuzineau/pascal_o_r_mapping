@@ -6,7 +6,7 @@ interface
 
 uses
     udmDatabase,
-    ufAutomatic_VST,
+    ufAutomatic_VST, odbcconn, sqldb,
  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs;
 
 type

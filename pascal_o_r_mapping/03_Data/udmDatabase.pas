@@ -41,6 +41,7 @@ uses
     uPostgres,
     uSQLServer,
     uSQLite3,
+    uODBC_Access,
     {$ifdef android}
     uSQLite_Android,
     {$endif}
@@ -163,6 +164,7 @@ begin
        {$ifdef android}
        sgbd_SQLite_Android: Classe_jsDataConnexion:= TSQLite_Android;
        {$endif}
+       sgbd_ODBC_Access: Classe_jsDataConnexion:= TODBC_Access;
        else
            raise Exception.Create( ClassName+'.Initialise: sbgd non géré: '+sSGBDs[SGBD]);
        end;

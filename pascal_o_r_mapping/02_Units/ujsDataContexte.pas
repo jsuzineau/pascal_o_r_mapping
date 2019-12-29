@@ -348,8 +348,10 @@ type
    //Transaction
    protected
      function Cree_SQLTransaction: TSQLTransaction; virtual;
-   protected
+   public
      sqlt: TSQLTransaction;
+   protected
+     procedure Connecte_transaction; virtual;
    //Connexion
    protected
      function Cree_SQLConnection: TSQLConnection; virtual;
@@ -428,7 +430,7 @@ type
      function IsEmpty: Boolean;      override;
      procedure Close;                override;
    //Contexte SQLQuery
-   private
+   protected
      sqlq: TSQLQuery;
    //Champ id
    private
@@ -491,7 +493,7 @@ begin
      inherited Create( _SGBD);
      sqlt:= Cree_SQLTransaction;
      sqlc:= Cree_SQLConnection;
-     sqlc.Transaction:= sqlt;
+     Connecte_transaction;
 
      Contexte:= Cree_Contexte( ClassName+'.Contexte');
      Affecte( jsdc, TjsDataContexte_SQLQuery, Contexte);
@@ -510,6 +512,11 @@ function TjsDataConnexion_SQLQuery.Cree_SQLTransaction: TSQLTransaction;
 begin
      Result:= TSQLTransaction.Create( nil);
      with Result do Options:= Options+[stoUseImplicit];
+end;
+
+procedure TjsDataConnexion_SQLQuery.Connecte_transaction;
+begin
+     sqlc.Transaction:= sqlt;
 end;
 
 function TjsDataConnexion_SQLQuery.Cree_SQLConnection: TSQLConnection;

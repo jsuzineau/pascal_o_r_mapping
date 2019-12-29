@@ -45,7 +45,8 @@ type
      sgbd_Postgres,  //2
      sgbd_SQLServer, //3
      sgbd_SQLite3,   //4
-     sgbd_SQLite_Android //5
+     sgbd_SQLite_Android, //5
+     sgbd_ODBC_Access //6
      );
 const
      sSGBDs: array[Low(TSGBD)..High(TSGBD)] of String
@@ -56,7 +57,8 @@ const
       'Postgres',
       'SQLServer',
       'SQLite3',
-      'SQLite_Android'
+      'SQLite_Android',
+      'ODBC_Access'
       );
 
 var
@@ -76,6 +78,7 @@ function sgbdPOSTGRES        : Boolean;
 function sgbdSQLServer       : Boolean;
 function sgbdSQLite3         : Boolean;
 function sgbdSQLite_Android  : Boolean;
+function sgbdODBC_Access            : Boolean;
 
 function sgbd_Substr( _NomChamp: String; _Debut, _Fin: Integer): String;
 
@@ -106,6 +109,7 @@ var
    uSGBD_OPN_SQLServer     : TSGBD_OPN_CallBack = nil;
    uSGBD_OPN_SQLite3       : TSGBD_OPN_CallBack = nil;
    uSGBD_OPN_SQLite_Android: TSGBD_OPN_CallBack = nil;
+   uSGBD_OPN_ODBC_Access   : TSGBD_OPN_CallBack = nil;
 
 implementation
 
@@ -157,6 +161,7 @@ begin
        sgbd_SQLServer       : begin sgbd_DateSQL_function:= DateSQL_ISO8601   ; sgbd_DateTimeSQL_function:= DateTime_ISO8601_sans_quotes; end;
        sgbd_SQLite3         : begin sgbd_DateSQL_function:= DateSQL_Y4MD_Tiret; sgbd_DateTimeSQL_function:= DateTimeSQL_sans_quotes     ; end;
        sgbd_SQLite_Android  : begin sgbd_DateSQL_function:= DateSQL_Y4MD_Tiret; sgbd_DateTimeSQL_function:= DateTimeSQL_sans_quotes     ; end;
+       sgbd_ODBC_Access     : begin sgbd_DateSQL_function:= DateSQL_Y4MD_Tiret; sgbd_DateTimeSQL_function:= DateTimeSQL_sans_quotes     ; end;
        else                   SGBD_non_gere( 'uSGBD.SGBD_Set');
        end;
      pSGBDChange.Publie;
@@ -204,6 +209,11 @@ begin
      Result:= sgbd_SQLite_Android = SGBD;
 end;
 
+function sgbdODBC_Access: Boolean;
+begin
+     Result:= sgbd_ODBC_Access = SGBD;
+end;
+
 function sgbd_Substr( _NomChamp: String; _Debut, _Fin: Integer): String;
 var
    Longueur: Integer;
@@ -217,6 +227,7 @@ begin
        sgbd_SQLServer     : Result:= Format( 'substring( %s,%d,%d)'         ,[_NomChamp, _Debut, Longueur]);
        sgbd_SQLite3       : Result:= Format( 'substr( %s,%d,%d)'            ,[_NomChamp, _Debut, Longueur]);
        sgbd_SQLite_Android: Result:= Format( 'substr( %s,%d,%d)'            ,[_NomChamp, _Debut, Longueur]);
+       sgbd_ODBC_Access   : Result:= Format( 'substr( %s,%d,%d)'            ,[_NomChamp, _Debut, Longueur]);
        else                 SGBD_non_gere( 'uSGBD.sgbd_Substr');
        end;
 
@@ -226,9 +237,10 @@ function sgbd_First( _NbLignes: Integer = 1): String;
 begin
      case SGBD
      of
-       sgbd_Informix : Result:= 'first '+IntToStr( _NbLignes);
-       sgbd_SQLServer: Result:= 'top '  +IntToStr( _NbLignes);
-       else            Result:= '';
+       sgbd_Informix   : Result:= 'first '+IntToStr( _NbLignes);
+       sgbd_SQLServer  : Result:= 'top '  +IntToStr( _NbLignes);
+       sgbd_ODBC_Access: Result:= 'top '  +IntToStr( _NbLignes);
+       else              Result:= '';
        end;
 end;
 
@@ -305,6 +317,13 @@ begin
          uSGBD_OPN_SQLite_Android;
 end;
 
+procedure Do_uSGBD_OPN_ODBC_Access;
+begin
+     if Assigned( uSGBD_OPN_ODBC_Access)
+     then
+         uSGBD_OPN_ODBC_Access;
+end;
+
 procedure uSGBD_OPN;
 begin
      if not uClean_fMot_de_passe_OPN_OK( 'OPN') then exit;
@@ -317,6 +336,7 @@ begin
        sgbd_SQLServer     : Do_uSGBD_OPN_SQLServer;
        sgbd_SQLite3       : Do_uSGBD_OPN_SQLite3;
        sgbd_SQLite_Android: Do_uSGBD_OPN_SQLite_Android;
+       sgbd_ODBC_Access   : Do_uSGBD_OPN_ODBC_Access;
        else                 SGBD_non_gere( 'uSGBD_OPN');
        end;
 end;
@@ -333,6 +353,7 @@ begin
        sgbd_SQLServer      : uClean_UsesCase_Execute( 'Requeteur_SQLServer'   ,[_SQL]);
        sgbd_SQLite3        : uClean_UsesCase_Execute( 'Requeteur_SQLite3' ,[_SQL]);
        sgbd_SQLite_Android : uClean_UsesCase_Execute( 'Requeteur_SQLite_Android' ,[_SQL]);
+       sgbd_ODBC_Access    : uClean_UsesCase_Execute( 'Requeteur_ODBC_Access' ,[_SQL]);
        else                  SGBD_non_gere( 'uSGBD_OPN_Requeteur');
        end;
 end;

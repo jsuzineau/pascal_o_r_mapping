@@ -332,7 +332,7 @@ type
 
  TBrush
  =
-  record
+  class
   Color: TColor;
   Style: TBrushStyle;
   end;
@@ -341,7 +341,7 @@ type
 
  TPen
  =
-  record
+  class
   Color: TColor;
   Width: Integer;
   Mode : TFPPenMode;

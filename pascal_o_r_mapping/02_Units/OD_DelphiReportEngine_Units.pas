@@ -27,7 +27,7 @@ uses
  uDimensions_from_pasjpeg, uDimensions_Image, uPNG_File, uBMP_File, 
  ujsDataContexte, uSQLite3, uRegistry, uVide, uSQLite3_SQLQuery, 
  uSQLite3_libsqlite3, uCSS_Style_Parser_PYACC, uStreamLexer, uMimeType, 
- LazarusPackageIntf;
+ uODBC_Access, LazarusPackageIntf;
 
 implementation
 
