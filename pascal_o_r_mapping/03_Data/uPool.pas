@@ -164,6 +164,8 @@ type
   protected
     procedure SetNomTable(const Value: String); override;
   //Chargement par id
+  protected
+    function id_FieldName: String; virtual;
   private
     jsdcSELECT_from_id: TjsDataContexte;
     procedure _Select_from_id( _id: Integer; var bl);
@@ -790,7 +792,7 @@ begin
 
         with jsdcSELECT_from_id.Params
         do
-          ParamByName( 'id').AsInteger:= _id;
+          ParamByName( id_FieldName).AsInteger:= _id;
         if not jsdcSELECT_from_id.RefreshQuery then exit;
 
         if jsdcSELECT_from_id.IsEmpty then exit;
@@ -844,9 +846,9 @@ begin
 
          with jsdcINSERT.Params
          do
-           ParamByName( 'id').AsInteger:= id;
+           ParamByName( id_FieldName).AsInteger:= id;
 
-         //Param:= sqlq_INSERT.Params.CreateParam( ftInteger, 'id', ptInput);
+         //Param:= sqlq_INSERT.Params.CreateParam( ftInteger, id_FieldName, ptInput);
          //Param.AsInteger:= Last_Insert_id;
 
          Select_from_Insert( bl);
@@ -930,7 +932,7 @@ begin
              begin
              jsdcID_Recuperation.First;
 
-             _id:= jsdcID_Recuperation.Assure_Champ('id').AsInteger;
+             _id:= jsdcID_Recuperation.Assure_Champ(id_FieldName).AsInteger;
              end;
          end;
 
@@ -1067,7 +1069,7 @@ var
            :=
               'select '+sSELECT
              +' from '+NomTable
-             +' where '+IDFieldName+' in ('+sIDs+')'
+             +' where '+id_FieldName+' in ('+sIDs+')'
              +Load_N_rows_by_id_ORDER_BY;
 
            try
@@ -1190,7 +1192,7 @@ procedure TPool.Load_by_id( _jsdc: TjsDataContexte;
                             slLoaded: TBatpro_StringList = nil;
                             btsLoaded: TbtString          = nil);
 begin
-     //Direct_Load_by_id( TSQLQuery(Dataset).SQL.Text, 'id', slLoaded, btsLoaded);
+     //Direct_Load_by_id( TSQLQuery(Dataset).SQL.Text, id_FieldName, slLoaded, btsLoaded);
      //exit;
 
      Chrono.Stop( Name+'.Load_by_id( '+_jsdc.Name+') début');
@@ -1242,7 +1244,7 @@ end;
 //        //    fAccueil_Log(  'poolG_FAM.Load_N_rows_by_id'#13#10
 //        //                  +sIDS);
 //
-//        ToutCharger_SQL_suffixe:= ' where '+IDFieldName+' in ('+sIDs+')';
+//        ToutCharger_SQL_suffixe:= ' where '+ID_FieldName+' in ('+sIDs+')';
 //
 //        Chrono.Stop( Name+'.Direct_Load_N_rows_by_id.Traite_sqlq_SELECT_ALL, avant ToutCharger');
 //        ToutCharger( slLoaded, btsLoaded, False);
@@ -1553,12 +1555,17 @@ begin
         +'from          '#13#10
         +'    '+NomTable+#13#10
         +'where         '#13#10
-        +'     '+IDFieldName+' = :id ';
+        +'     '+id_FieldName+' = :'+id_FieldName+' ';
      uLog.Log.PrintLn( ClassName+'.SetNomTable, aprés jsdcSELECT_from_id.SQL');
 
      uLog.Log.PrintLn( ClassName+'.SetNomTable, avant Compose_INSERT;');
      Compose_INSERT;
      uLog.Log.PrintLn( ClassName+'.SetNomTable, fin');
+end;
+
+function TPool.id_FieldName: String;
+begin
+     Result:= IDFieldName;
 end;
 
 function TPool.SQL_INSERT: String;
@@ -1669,7 +1676,7 @@ begin
      try
         with jsdcSELECT_from_id.Params
         do
-          ParamByName( 'id').AsInteger:= _id;
+          ParamByName( id_FieldName).AsInteger:= _id;
         if not jsdcSELECT_from_id.RefreshQuery then exit;
 
         if jsdcSELECT_from_id.IsEmpty then exit;
@@ -1939,7 +1946,7 @@ begin
      if Pas_de_champ_id then exit;
 
      try
-        Requete.Integer_from('select Min(id) as id from '+NomTable,'id',Result);
+        Requete.Integer_from('select Min('+id_FieldName+') as Resultat from '+NomTable,'Resultat',Result);
      except
            on Exception do Result:= 0;
            end;
@@ -1951,7 +1958,7 @@ begin
      if Pas_de_champ_id then exit;
 
      try
-        Requete.Integer_from('select Max(id) as id from '+NomTable,'id',Result);
+        Requete.Integer_from('select Max('+id_FieldName+') as Resultat from '+NomTable,'Resultat',Result);
      except
            on Exception do Result:= 0;
            end;

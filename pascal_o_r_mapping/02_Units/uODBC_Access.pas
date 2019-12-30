@@ -176,6 +176,11 @@ begin
      {$ELSE}
      Result:= nil;
      {$ENDIF}
+     if Assigned( Result)
+     then
+         //Result.CharSet:= 'latin1';
+         Result.CharSet:= 'utf8';
+         //Result.CharSet:= 'cp850';
 end;
 
 procedure TODBC_Access.Prepare;
