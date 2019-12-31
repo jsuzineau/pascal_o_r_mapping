@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="10"/>
+    <Version Value="11"/>
     <General>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
@@ -23,7 +23,6 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../../pascal_o_r_mapping/2_Units"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <CodeGeneration>
@@ -50,19 +49,23 @@
       <Version Value="2"/>
     </PublishOptions>
     <RunParams>
-      <local>
-        <FormatVersion Value="1"/>
-      </local>
+      <FormatVersion Value="2"/>
+      <Modes Count="1">
+        <Mode0 Name="default"/>
+      </Modes>
     </RunParams>
-    <RequiredPackages Count="2">
+    <RequiredPackages Count="3">
       <Item1>
-        <PackageName Value="SynEdit"/>
+        <PackageName Value="OD_DelphiReportEngine_Units"/>
       </Item1>
       <Item2>
-        <PackageName Value="LCL"/>
+        <PackageName Value="SynEdit"/>
       </Item2>
+      <Item3>
+        <PackageName Value="LCL"/>
+      </Item3>
     </RequiredPackages>
-    <Units Count="6">
+    <Units Count="5">
       <Unit0>
         <Filename Value="Decoupe_gcode.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -79,23 +82,19 @@
         <IsPartOfProject Value="True"/>
       </Unit2>
       <Unit3>
-        <Filename Value="../../pascal_o_r_mapping/2_Units/uEXE_INI.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit3>
-      <Unit4>
         <Filename Value="ufFichierGCODE.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fFichierGCODE"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit4>
-      <Unit5>
+      </Unit3>
+      <Unit4>
         <Filename Value="ufAfficher.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fAfficher"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit5>
+      </Unit4>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -105,7 +104,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../pascal_o_r_mapping/2_Units"/>
+      <OtherUnitFiles Value="../../pascal_o_r_mapping/02_Units"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
