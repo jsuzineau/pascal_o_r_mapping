@@ -38,9 +38,26 @@ uses
   {$ELSE}
   SQLExpr,
   {$ENDIF}
-  SysUtils, Classes;
+  SysUtils, Classes,IniFiles;
 
 type
+
+ { TiniFileDSN }
+
+ TiniFileDSN
+ =
+  class( TINIFile)
+  //Gestion du cycle de vie
+  public
+    constructor Create(const AFileName: string; AEscapeLineFeeds : Boolean = False); overload; override;
+    destructor Destroy; override;
+  //DBQ
+  private
+    function GetDBQ: String;
+    procedure SetDBQ( _DBQ: String);
+  public
+    property DBQ: String read GetDBQ write SetDBQ;
+  end;
 
  { TODBC_Access }
 
@@ -62,9 +79,13 @@ type
   //Connexion
   protected
     function Cree_SQLConnection: TSQLConnection; override;
-  //Attributs
+  //FileDSN
+  private
+    FFileDSN: String;
+    procedure SetFileDSN( _FileDSN: String);
   public
-    FileDSN: String;
+    property FileDSN: String read FFileDSN write SetFileDSN;
+  //Attributs
   public
     procedure Prepare; override;
     procedure Ouvre_db; override;
@@ -81,6 +102,11 @@ type
   //Contexte
   protected
     function Classe_Contexte: TjsDataContexte_class; override;
+  //iniFileDSN
+  private
+    FiniFileDSN: TiniFileDSN;
+  public
+    function iniFileDSN: TiniFileDSN;
   end;
 
  { TjsDataContexte_SQLQuery_ODBC_Access }
@@ -112,6 +138,32 @@ begin
        Result[I]:= Chr( Ord(Result[I]) XOR $31);
 end;
 
+{ TiniFileDSN }
+
+constructor TiniFileDSN.Create( const AFileName: string; AEscapeLineFeeds: Boolean);
+begin
+     inherited Create(AFileName, AEscapeLineFeeds);
+end;
+
+destructor TiniFileDSN.Destroy;
+begin
+     inherited Destroy;
+end;
+
+const
+     TiniFileDSN_inis_ODBC='ODBC';
+     TiniFileDSN_inik_DBQ ='DBQ';
+
+function TiniFileDSN.GetDBQ: String;
+begin
+     Result:= ReadString( TiniFileDSN_inis_ODBC, TiniFileDSN_inik_DBQ, 'etc\ODBC_Access.dsn');
+end;
+
+procedure TiniFileDSN.SetDBQ( _DBQ: String);
+begin
+     WriteString( TiniFileDSN_inis_ODBC, TiniFileDSN_inik_DBQ, _DBQ);
+end;
+
 { TjsDataContexte_SQLQuery_ODBC_Access }
 
 constructor TjsDataContexte_SQLQuery_ODBC_Access.Create(_Name: String);
@@ -133,6 +185,7 @@ begin
      inherited Create( _SGBD);
 
      FileDSN:= '';
+     FiniFileDSN:= nil;
      Initialized:= False;
 
      {$ifndef android}
@@ -142,13 +195,16 @@ end;
 
 destructor TODBC_Access.Destroy;
 begin
+     FreeAndNil( FiniFileDSN);
      inherited;
 end;
 
 procedure TODBC_Access.Assure_initialisation;
 begin
      if Initialized then exit;
-     Lit( inik_FileDSN, FileDSN);
+     Lit( inik_FileDSN, FFileDSN);
+     FreeAndNil( FiniFileDSN);//inutile, mais au cas où ...
+
      if FileDSN = ''
      then
          begin
@@ -181,6 +237,12 @@ begin
          //Result.CharSet:= 'latin1';
          Result.CharSet:= 'utf8';
          //Result.CharSet:= 'cp850';
+end;
+
+procedure TODBC_Access.SetFileDSN( _FileDSN: String);
+begin
+     FFileDSN:= _FileDSN;
+     FreeAndNil( FiniFileDSN);
 end;
 
 procedure TODBC_Access.Prepare;
@@ -236,6 +298,14 @@ end;
 function TODBC_Access.Classe_Contexte: TjsDataContexte_class;
 begin
      Result:= TjsDataContexte_SQLQuery_ODBC_Access;
+end;
+
+function TODBC_Access.iniFileDSN: TiniFileDSN;
+begin
+     if nil = FiniFileDSN
+     then
+         FiniFileDSN:= TiniFileDSN.Create( FileDSN);
+     Result:= FiniFileDSN;
 end;
 
 procedure TODBC_Access.Lit( NomValeur: String; out Valeur: String; _Mot_de_passe: Boolean= False);

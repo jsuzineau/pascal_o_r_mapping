@@ -157,9 +157,10 @@ type
 
     Modal: Boolean;
     Execute_LaunchURL: Boolean;
-    function Init: String;
+    function Init( _IP: String='127.0.0.0'; _Port: Integer=0): String;
     procedure Run( _Modal: Boolean= True);
     procedure LaunchURL;
+    function Test_Port( _Port: Integer):Boolean;
   //Ouvrir_hors_Web_component
   private
     Ouvrir_hors_Web_component: Boolean;
@@ -1235,7 +1236,25 @@ begin
          end;
 end;
 
-function THTTP_Interface.Init: String;
+function THTTP_Interface.Test_Port( _Port: Integer): Boolean;
+var
+   s: TTCPBlockSocket;
+begin
+     Result:= False;
+     s:= TTCPBlockSocket.Create;
+     try
+        s.CreateSocket;
+        s.setLinger(true,10);
+        s.bind('0.0.0.0',IntToStr( _Port));
+        s.Listen;
+
+        Result:= _Port = s.GetLocalSinPort;
+     finally
+            FreeAndnil( s);
+            end;
+end;
+
+function THTTP_Interface.Init( _IP: String='127.0.0.0'; _Port: Integer=0): String;
 var
    Port: Integer;
 begin
@@ -1251,7 +1270,8 @@ begin
      ListenerSocket.CreateSocket;
      ListenerSocket.setLinger(true,10);
      //ListenerSocket.bind('0.0.0.0','1500');
-     ListenerSocket.bind('127.0.0.1','0');
+     //ListenerSocket.bind('127.0.0.1','0');
+     ListenerSocket.bind(_IP,IntToStr(_Port));
      ListenerSocket.listen;
      Port:= ListenerSocket.GetLocalSinPort;
 
