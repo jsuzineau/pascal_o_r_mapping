@@ -91,6 +91,9 @@ type
   //Reprise à partir d'une couche donnée
   public
     function Reprendre( _iCouche: Integer): String;
+  //Conversion outil T -> pause à Y symbolisant une couleur
+  public
+    function Outil_T_PauseY( _nb_outils: Integer; _dy: Integer): String;
   //Variables
   public
     slVariables: TStringList;
@@ -566,6 +569,34 @@ begin
         +sFileName;
      String_to_File( NomTranche, sTranche);
      Result:= NomTranche;
+end;
+
+function TFichierGCODE.Outil_T_PauseY( _nb_outils: Integer; _dy: Integer): String;
+var
+   I: Integer;
+   sCommentaire: String;
+   NomCible: String;
+   procedure T( _I: Integer);
+   var
+      sOutil: String;
+      sY: String;
+      sPause: String;
+   begin
+        sOutil:= 'T'+IntToStr( _I);
+        sY:= IntToStr( _I*_dy);
+        sPause:= 'G1 X0 Y'+sY+' E0'#13#10'G92 E0';
+        Formate_Liste( sCommentaire, #13#10, ';'+sOutil+' converti en '+StringReplace( sPause, #13#10, '\n', [rfReplaceAll]));
+        S:= StringReplace( S, sOutil, sPause, [rfReplaceAll]);
+   end;
+begin
+     sCommentaire:= ';Outil_T_PauseY, '+IntToStr( _nb_outils)+' outils, _dy='+IntToStr( _dy);
+     NomCible:= ChangeFileExt( NomFichier, '_Outil_T_PauseY.'+ExtractFileExt( NomFichier));
+     for I:= 0 to _nb_outils-1
+     do
+       T(I);
+     Insert( sCommentaire+#13#10, S, 1);
+     String_to_File( NomCible, S);
+     Result:= NomCible;
 end;
 
 

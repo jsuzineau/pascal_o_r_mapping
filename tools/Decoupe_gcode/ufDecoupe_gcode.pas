@@ -19,15 +19,21 @@ type
   bAfficher: TButton;
   bChoix: TButton;
   bDecoupe_en: TButton;
+  bOutil_T_PauseY: TButton;
   bReprendre: TButton;
   eSource: TEdit;
   Label1: TLabel;
+  Label2: TLabel;
+  Label3: TLabel;
   od: TOpenDialog;
   seNb: TSpinEdit;
+  seOutil_T_PauseY_dy: TSpinEdit;
+  seOutil_T_PauseY_nb_outils: TSpinEdit;
   seReprendre: TSpinEdit;
   procedure bAfficherClick(Sender: TObject);
   procedure bChoixClick(Sender: TObject);
   procedure bDecoupe_enClick(Sender: TObject);
+  procedure bOutil_T_PauseYClick(Sender: TObject);
   procedure bReprendreClick(Sender: TObject);
   procedure FormCreate(Sender: TObject);
   procedure FormDestroy(Sender: TObject);
@@ -35,6 +41,7 @@ type
   procedure Afficher;
   procedure Decoupe;
   procedure Reprendre;
+  procedure Outil_T_PauseY;
  end;
 
 var
@@ -74,6 +81,11 @@ begin
      Decoupe;
 end;
 
+procedure TfDecoupe_gcode.bOutil_T_PauseYClick(Sender: TObject);
+begin
+     Outil_T_PauseY;
+end;
+
 procedure TfDecoupe_gcode.bReprendreClick(Sender: TObject);
 begin
      Reprendre;
@@ -106,6 +118,22 @@ begin
      try
         F.Charge( eSource.Text);
         Nom:= F.Reprendre( seReprendre.Value);
+        TfFichierGCODE.Create( Nom).Show;
+     finally
+            FreeAndNil(F);
+            end;
+end;
+
+procedure TfDecoupe_gcode.Outil_T_PauseY;
+var
+   F: TFichierGCODE;
+   Nom: String;
+begin
+     F:= TFichierGCODE.Create;
+     try
+        F.Charge( eSource.Text);
+        Nom:= F.Outil_T_PauseY( seOutil_T_PauseY_nb_outils.Value,
+                                seOutil_T_PauseY_dy       .Value);
         TfFichierGCODE.Create( Nom).Show;
      finally
             FreeAndNil(F);
