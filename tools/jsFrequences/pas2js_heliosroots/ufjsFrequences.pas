@@ -17,12 +17,12 @@ type
  { TfjsFrequences }
 
  TfjsFrequences = class(TWForm)
-  wieOctaveFactor: TWIntegertEdit;
+  weOctaveFactor: TWEdit;
   WLabel1: TWLabel;
-  wl: TWLabel;
-  wlCPL_G3: TWLabel;
+  wm: TWMemo;
+  wmCPL_G3: TWMemo;
   WPanel1: TWPanel;
-  procedure wieOctaveFactorChange(Sender: TObject);
+  procedure weOctaveFactorChange(Sender: TObject);
  public
   procedure Loaded; override;
  end;
@@ -37,12 +37,15 @@ procedure TfjsFrequences.Loaded;
 begin
      inherited Loaded;
      {$I ufjsFrequences.wfm}
-     wlCPL_G3.Caption:= CPL_G3.Liste;
+     wmCPL_G3.Caption:= CPL_G3.Liste;
 end;
 
-procedure TfjsFrequences.wieOctaveFactorChange(Sender: TObject);
+procedure TfjsFrequences.weOctaveFactorChange(Sender: TObject);
+var
+   OctaveFactor: Integer;
 begin
-     wl.Caption:= Frequences.Liste( wieOctaveFactor.Value);
+     if not TryStrToInt( weOctaveFactor.Text, OctaveFactor) then exit;
+     wm.Caption:= Frequences.Liste( OctaveFactor);
 end;
 
 end.

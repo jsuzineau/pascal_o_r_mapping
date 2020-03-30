@@ -26,35 +26,36 @@ object fjsFrequences: TfjsFrequences
       Caption = 'Octave factor'
       ParentColor = False
     end
-    object wieOctaveFactor: TWIntegertEdit
-      Left = 216
+    object weOctaveFactor: TWEdit
+      Left = 208
       Height = 34
-      Top = 0
-      Width = 107
-      Alignment = taRightJustify
+      Top = 8
+      Width = 184
       TabOrder = 0
-      Text = '0'
-      OnChange = wieOctaveFactorChange
+      Text = 'weOctaveFactor'
+      OnChange = weOctaveFactorChange
     end
   end
-  object wl: TWLabel
-    Left = 385
+  object wm: TWMemo
+    Left = 347
     Height = 442
     Top = 48
-    Width = 408
+    Width = 446
     Align = alRight
-    AutoSize = False
-    Caption = 'wl'
-    ParentColor = False
+    Lines.Strings = (
+      'wm'
+    )
+    TabOrder = 1
   end
-  object wlCPL_G3: TWLabel
+  object wmCPL_G3: TWMemo
     Left = 0
     Height = 442
     Top = 48
-    Width = 385
+    Width = 347
     Align = alClient
-    AutoSize = False
-    Caption = 'wlCPL_G3'
-    ParentColor = False
+    Lines.Strings = (
+      'wmCPL_G3'
+    )
+    TabOrder = 2
   end
 end

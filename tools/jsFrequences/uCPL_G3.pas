@@ -70,20 +70,28 @@ function TCPL_G3.Liste: String;
 var
    I: Integer;
    NbCoherent, NbDeCoherent, NbNeutre: Integer;
+   function sNb( _Nb: Integer; _S: String): String;
+   var
+      dPourcent: double;
+   begin
+        dPourcent:= (_Nb/CPL_G3_NbPorteuses)*100;
+        Result:= IntToStr(_Nb)+_S+' soit '+FloatToStr( dPourcent)+'% '#13#10
+   end;
 begin
      NbCoherent  := 0;
      NbDeCoherent:= 0;
      Result:= 'Fréquences porteuses CPL G3';
      for I:= Low(F) to High(F)
      do
-       Result:= Result+'<br>'+ IntToStr(I+1)+': '+uFrequence.sFrequence( F[I])+' '+Frequences.sMatch( 7, F[I], NbCoherent, NbDeCoherent);
+       Result:= Result+#13#10+ IntToStr(I+1)+': '+uFrequence.sFrequence( F[I])+' '+Frequences.sMatch( 7, F[I], NbCoherent, NbDeCoherent);
      NbNeutre:= CPL_G3_NbPorteuses-NbCoherent-NbDeCoherent;
+
      Result
      :=
-        Result+'<br>'
-       +IntToStr(NbCoherent  )+' cohérentes <br>'
-       +IntToStr(NbDeCoherent)+' décohérentes <br>'
-       +IntToStr(NbNeutre    )+' neutres <br>';
+        Result+#13#10
+       +sNb( NbCoherent  , ' fréquences cohérentes'  )
+       +sNb( NbDeCoherent, ' fréquences décohérentes')
+       +sNb( NbNeutre    , ' fréquences neutres'     );
 end;
 
 { TCPL_G3 }

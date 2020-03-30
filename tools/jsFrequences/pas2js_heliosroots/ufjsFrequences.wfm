@@ -36,53 +36,50 @@
       finally
         WLabel1.EndUpdate;
       end;
-      wieOctaveFactor := TWIntegertEdit.Create(WPanel1);
-      wieOctaveFactor.BeginUpdate;
+      weOctaveFactor := TWEdit.Create(WPanel1);
+      weOctaveFactor.BeginUpdate;
       try
-        wieOctaveFactor.Parent := WPanel1;
-        wieOctaveFactor.Left := 216;
-        wieOctaveFactor.Height := 34;
-        wieOctaveFactor.Top := 0;
-        wieOctaveFactor.Width := 107;
-        wieOctaveFactor.Alignment := taRightJustify;
-        wieOctaveFactor.TabOrder := 0;
-        wieOctaveFactor.Text := '0';
-        wieOctaveFactor.OnChange := wieOctaveFactorChange;
+        weOctaveFactor.Parent := WPanel1;
+        weOctaveFactor.Left := 208;
+        weOctaveFactor.Height := 34;
+        weOctaveFactor.Top := 8;
+        weOctaveFactor.Width := 184;
+        weOctaveFactor.TabOrder := 0;
+        weOctaveFactor.Text := 'weOctaveFactor';
+        weOctaveFactor.OnChange := weOctaveFactorChange;
       finally
-        wieOctaveFactor.EndUpdate;
+        weOctaveFactor.EndUpdate;
       end;
     finally
       WPanel1.EndUpdate;
     end;
-    wl := TWLabel.Create(Self);
-    wl.BeginUpdate;
+    wm := TWMemo.Create(Self);
+    wm.BeginUpdate;
     try
-      wl.Parent := Self;
-      wl.Left := 385;
-      wl.Height := 442;
-      wl.Top := 48;
-      wl.Width := 408;
-      wl.Align := alRight;
-      wl.AutoSize := False;
-      wl.Caption := 'wl';
-      wl.ParentColor := False;
+      wm.Parent := Self;
+      wm.Left := 347;
+      wm.Height := 442;
+      wm.Top := 48;
+      wm.Width := 446;
+      wm.Align := alRight;
+      wm.Lines.Add('wm');
+      wm.TabOrder := 1;
     finally
-      wl.EndUpdate;
+      wm.EndUpdate;
     end;
-    wlCPL_G3 := TWLabel.Create(Self);
-    wlCPL_G3.BeginUpdate;
+    wmCPL_G3 := TWMemo.Create(Self);
+    wmCPL_G3.BeginUpdate;
     try
-      wlCPL_G3.Parent := Self;
-      wlCPL_G3.Left := 0;
-      wlCPL_G3.Height := 442;
-      wlCPL_G3.Top := 48;
-      wlCPL_G3.Width := 385;
-      wlCPL_G3.Align := alClient;
-      wlCPL_G3.AutoSize := False;
-      wlCPL_G3.Caption := 'wlCPL_G3';
-      wlCPL_G3.ParentColor := False;
+      wmCPL_G3.Parent := Self;
+      wmCPL_G3.Left := 0;
+      wmCPL_G3.Height := 442;
+      wmCPL_G3.Top := 48;
+      wmCPL_G3.Width := 347;
+      wmCPL_G3.Align := alClient;
+      wmCPL_G3.Lines.Add('wmCPL_G3');
+      wmCPL_G3.TabOrder := 2;
     finally
-      wlCPL_G3.EndUpdate;
+      wmCPL_G3.EndUpdate;
     end;
   finally
     EndUpdate;

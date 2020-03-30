@@ -56,28 +56,28 @@ begin
      Bas := Frequence*uFrequences_Bas_factor;
      Haut:= Frequence*uFrequences_Haut_factor;
      //Result:= uFrequence.sFrequence( Frequence);
-     Result:= uFrequence.sFrequence( Bas)+' - '+uFrequence.sFrequence( Haut);
+     Result:= uFrequence.sFrequence( Bas)+' / '+uFrequence.sFrequence( Frequence)+' / '+uFrequence.sFrequence( Haut);
 end;
 
 function TFrequences.Liste( _OctaveFactor: Integer): String;
 var
    I: Integer;
 begin
-     Result:= 'Fréquences cohérentes';
+     Result:= 'Octave Factor: '+IntToStr(_OctaveFactor)+'<br>Fréquences cohérentes';
      for I:= Low(uFrequences_coherent) to High(uFrequences_coherent)
      do
-       Result:= Result+'<br>'+ sFrequence( _OctaveFactor, uFrequences_coherent[I]);
+       Result:= Result+#13#10+ sFrequence( _OctaveFactor, uFrequences_coherent[I]);
      for I:= Low(uFrequences_coherent) to High(uFrequences_coherent)
      do
-       Result:= Result+'<br>'+ sFrequence( _OctaveFactor+1, uFrequences_coherent[I]);
+       Result:= Result+#13#10+ sFrequence( _OctaveFactor+1, uFrequences_coherent[I]);
 
-     Result:= Result+'<br>'+ 'Fréquences décohérentes';
+     Result:= Result+#13#10+ 'Fréquences décohérentes';
      for I:= Low(uFrequences_decoherent) to High(uFrequences_decoherent)
      do
-       Result:= Result+'<br>'+ sFrequence( _OctaveFactor, uFrequences_decoherent[I]);
+       Result:= Result+#13#10+ sFrequence( _OctaveFactor, uFrequences_decoherent[I]);
      for I:= Low(uFrequences_decoherent) to High(uFrequences_decoherent)
      do
-       Result:= Result+'<br>'+ sFrequence( _OctaveFactor+1, uFrequences_decoherent[I]);
+       Result:= Result+#13#10+ sFrequence( _OctaveFactor+1, uFrequences_decoherent[I]);
 end;
 
 function TFrequences.Match_Base(_OctaveFactor: Integer; _Base: double; _Frequence: double; _Prefixe: String; var _Nb: Integer): String;
