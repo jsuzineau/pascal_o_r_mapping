@@ -1,0 +1,90 @@
+{@PAS2JS_BEGIN}
+  BeginUpdate;
+  try
+    Left := 916;
+    Height := 490;
+    Top := 1272;
+    Width := 793;
+    AlphaBlend := False;
+    AlphaBlendValue := 255;
+    Caption := 'fjsFrequences';
+    ClientHeight := 490;
+    ClientWidth := 793;
+    WPanel1 := TWPanel.Create(Self);
+    WPanel1.BeginUpdate;
+    try
+      WPanel1.Parent := Self;
+      WPanel1.Left := 0;
+      WPanel1.Height := 48;
+      WPanel1.Top := 0;
+      WPanel1.Width := 793;
+      WPanel1.Align := alTop;
+      WPanel1.ClientHeight := 48;
+      WPanel1.ClientWidth := 793;
+      WPanel1.TabOrder := 0;
+      WLabel1 := TWLabel.Create(WPanel1);
+      WLabel1.BeginUpdate;
+      try
+        WLabel1.Parent := WPanel1;
+        WLabel1.Left := 24;
+        WLabel1.Height := 40;
+        WLabel1.Top := 7;
+        WLabel1.Width := 183;
+        WLabel1.AutoSize := False;
+        WLabel1.Caption := 'Octave factor';
+        WLabel1.ParentColor := False;
+      finally
+        WLabel1.EndUpdate;
+      end;
+      wieOctaveFactor := TWIntegertEdit.Create(WPanel1);
+      wieOctaveFactor.BeginUpdate;
+      try
+        wieOctaveFactor.Parent := WPanel1;
+        wieOctaveFactor.Left := 216;
+        wieOctaveFactor.Height := 34;
+        wieOctaveFactor.Top := 0;
+        wieOctaveFactor.Width := 107;
+        wieOctaveFactor.Alignment := taRightJustify;
+        wieOctaveFactor.TabOrder := 0;
+        wieOctaveFactor.Text := '0';
+        wieOctaveFactor.OnChange := wieOctaveFactorChange;
+      finally
+        wieOctaveFactor.EndUpdate;
+      end;
+    finally
+      WPanel1.EndUpdate;
+    end;
+    wl := TWLabel.Create(Self);
+    wl.BeginUpdate;
+    try
+      wl.Parent := Self;
+      wl.Left := 385;
+      wl.Height := 442;
+      wl.Top := 48;
+      wl.Width := 408;
+      wl.Align := alRight;
+      wl.AutoSize := False;
+      wl.Caption := 'wl';
+      wl.ParentColor := False;
+    finally
+      wl.EndUpdate;
+    end;
+    wlCPL_G3 := TWLabel.Create(Self);
+    wlCPL_G3.BeginUpdate;
+    try
+      wlCPL_G3.Parent := Self;
+      wlCPL_G3.Left := 0;
+      wlCPL_G3.Height := 442;
+      wlCPL_G3.Top := 48;
+      wlCPL_G3.Width := 385;
+      wlCPL_G3.Align := alClient;
+      wlCPL_G3.AutoSize := False;
+      wlCPL_G3.Caption := 'wlCPL_G3';
+      wlCPL_G3.ParentColor := False;
+    finally
+      wlCPL_G3.EndUpdate;
+    end;
+  finally
+    EndUpdate;
+  end;
+{@PAS2JS_END}
