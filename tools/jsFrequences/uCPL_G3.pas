@@ -75,23 +75,24 @@ var
       dPourcent: double;
    begin
         dPourcent:= (_Nb/CPL_G3_NbPorteuses)*100;
-        Result:= IntToStr(_Nb)+_S+' soit '+FloatToStr( dPourcent)+'% '#13#10
+        Result:= IntToStr(_Nb)+_S+' soit '+ Format( '%.2f', [ dPourcent])+'% des fréquences porteuses'+uFrequence_Separateur_Lignes;
    end;
 begin
      NbCoherent  := 0;
      NbDeCoherent:= 0;
-     Result:= 'Fréquences porteuses CPL G3';
+     Result:= '';
      for I:= Low(F) to High(F)
      do
-       Result:= Result+#13#10+ IntToStr(I+1)+': '+uFrequence.sFrequence( F[I])+' '+Frequences.sMatch( 7, F[I], NbCoherent, NbDeCoherent);
+       Result:= Result+uFrequence_Separateur_Lignes+ IntToStr(I+1)+': '+uFrequence.sFrequence( F[I])+' '+Frequences.sMatch( 7, F[I], NbCoherent, NbDeCoherent);
      NbNeutre:= CPL_G3_NbPorteuses-NbCoherent-NbDeCoherent;
 
      Result
      :=
-        Result+#13#10
+        'Fréquences porteuses CPL G3'+uFrequence_Separateur_Lignes
        +sNb( NbCoherent  , ' fréquences cohérentes'  )
        +sNb( NbDeCoherent, ' fréquences décohérentes')
-       +sNb( NbNeutre    , ' fréquences neutres'     );
+       +sNb( NbNeutre    , ' fréquences neutres'     )
+       +Result;
 end;
 
 { TCPL_G3 }

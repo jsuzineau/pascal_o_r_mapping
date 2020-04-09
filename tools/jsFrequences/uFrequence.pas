@@ -9,6 +9,9 @@ uses
 
 function sFrequence( _Frequence: double): String;
 
+var
+   uFrequence_Separateur_Lignes: String= #13#10;
+
 implementation
 
 function sFrequence( _Frequence: double): String;
