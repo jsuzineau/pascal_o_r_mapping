@@ -2400,11 +2400,12 @@ rtl.module("uCPL_G3",["System","Classes","SysUtils","uFrequence","uFrequences"],
 rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","Classes","SysUtils","JS","Web"],function () {
   "use strict";
   var $mod = this;
+  var $impl = $mod.$impl;
   rtl.createClass($mod,"TfjsFrequences",pas.System.TObject,function () {
     this.$init = function () {
       pas.System.TObject.$init.call(this);
       this.d = null;
-      this.b = null;
+      this.bCPL_G3 = null;
       this.iOctave = null;
       this.iFrequence = null;
       this.sFrequence = null;
@@ -2412,7 +2413,7 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","Clas
     };
     this.$final = function () {
       this.d = undefined;
-      this.b = undefined;
+      this.bCPL_G3 = undefined;
       this.iOctave = undefined;
       this.iFrequence = undefined;
       this.sFrequence = undefined;
@@ -2420,28 +2421,19 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","Clas
       pas.System.TObject.$final.call(this);
     };
     this.Create$1 = function () {
-      this.Cree_Interface();
+      this.Connecte_Interface();
       return this;
     };
-    this.Cree_Interface = function () {
-      this.d = document.createElement("div");
-      document.body.append(this.d);
-      this.b = document.createElement("button");
-      this.b.textContent = "CPL G3";
-      this.b.onclick = rtl.createCallback(this,"bClick");
-      this.d.append(this.b);
-      this.d.append("Octave :");
-      this.iOctave = document.createElement("input");
-      this.d.append(this.iOctave);
+    this.Connecte_Interface = function () {
+      this.d = $impl.element_from_id("d");
+      this.bCPL_G3 = $impl.button_from_id("bCPL_G3");
+      this.bCPL_G3.onclick = rtl.createCallback(this,"bClick");
+      this.iOctave = $impl.input_from_id("iOctave");
       this.iOctave.oninput = rtl.createCallback(this,"iOctaveInput");
-      this.d.append("Fréquence :");
-      this.iFrequence = document.createElement("input");
-      this.d.append(this.iFrequence);
+      this.iFrequence = $impl.input_from_id("iFrequence");
       this.iFrequence.oninput = rtl.createCallback(this,"iFrequenceInput");
-      this.sFrequence = document.createElement("span");
-      this.d.append(this.sFrequence);
-      this.divResultat = document.createElement("div");
-      document.body.append(this.divResultat);
+      this.sFrequence = $impl.element_from_id("sFrequence");
+      this.divResultat = $impl.element_from_id("divResultat");
     };
     this.bClick = function (_Event) {
       var Result = false;
@@ -2472,6 +2464,25 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","Clas
       return Result;
     };
   });
+},null,function () {
+  "use strict";
+  var $mod = this;
+  var $impl = $mod.$impl;
+  $impl.element_from_id = function (_id) {
+    var Result = null;
+    Result = document.getElementById(_id);
+    return Result;
+  };
+  $impl.button_from_id = function (_id) {
+    var Result = null;
+    Result = document.getElementById(_id);
+    return Result;
+  };
+  $impl.input_from_id = function (_id) {
+    var Result = null;
+    Result = document.getElementById(_id);
+    return Result;
+  };
 });
 rtl.module("program",["System","JS","Classes","SysUtils","Web","ufjsFrequences","uFrequence"],function () {
   "use strict";

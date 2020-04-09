@@ -23,12 +23,12 @@ type
   //Interface
   public
     d: TJSHTMLElement;
-    b: TJSHTMLButtonElement;
+    bCPL_G3: TJSHTMLButtonElement;
     iOctave: TJSHTMLInputElement;
     iFrequence: TJSHTMLInputElement;
     sFrequence: TJSHTMLElement;
     divResultat: TJSHTMLElement;
-    procedure Cree_Interface;
+    procedure Connecte_Interface;
     function bClick( _Event: TJSMouseEvent): boolean;
     function iOctaveInput( _Event: TEventListenerEvent): boolean;
     function iFrequenceInput( _Event: TEventListenerEvent): boolean;
@@ -36,11 +36,25 @@ type
 
 implementation
 
+function element_from_id( _id: String): TJSHTMLElement;
+begin
+     Result:= TJSHTMLElement( document.getElementById(_id));
+end;
+
+function button_from_id( _id: String): TJSHTMLButtonElement;
+begin
+     Result:= TJSHTMLButtonElement(document.getElementById(_id))
+end;
+
+function input_from_id( _id: String): TJSHTMLInputElement;
+begin
+     Result:= TJSHTMLInputElement(document.getElementById(_id))
+end;
 { TfjsFrequences }
 
 constructor TfjsFrequences.Create;
 begin
-     Cree_Interface;
+     Connecte_Interface;
 end;
 
 destructor TfjsFrequences.Destroy;
@@ -48,32 +62,21 @@ begin
      inherited Destroy;
 end;
 
-procedure TfjsFrequences.Cree_Interface;
+procedure TfjsFrequences.Connecte_Interface;
 begin
-     d:= TJSHTMLElement( document.createElement('div'));
-     document.body.append( d);
+     d:= element_from_id('d');
 
-     b:= TJSHTMLButtonElement( document.createElement('button'));
-     b.textContent:= 'CPL G3';
-     b.onclick:= @bClick;
-     d.append(b);
+     bCPL_G3:= button_from_id( 'bCPL_G3');
+     bCPL_G3.onclick:= @bClick;
 
-     d.append( 'Octave :');
-
-     iOctave:= TJSHTMLInputElement(document.createElement('input'));
-     d.append(iOctave);
+     iOctave:= input_from_id('iOctave');
      iOctave.oninput:=@iOctaveInput;
 
-     d.append( 'Fréquence :');
-
-     iFrequence:= TJSHTMLInputElement(document.createElement('input'));
-     d.append(iFrequence);
+     iFrequence:= input_from_id( 'iFrequence');
      iFrequence.oninput:=@iFrequenceInput;
-     sFrequence:= TJSHTMLElement(document.createElement('span'));
-     d.append(sFrequence);
+     sFrequence:= element_from_id('sFrequence');
 
-     divResultat:= TJSHTMLElement( document.createElement('div'));
-     document.body.append( divResultat);
+     divResultat:= element_from_id('divResultat');
 end;
 
 function TfjsFrequences.bClick(_Event: TJSMouseEvent): boolean;
