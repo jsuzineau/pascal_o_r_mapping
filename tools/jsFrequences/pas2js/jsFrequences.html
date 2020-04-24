@@ -3,38 +3,59 @@
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js" integrity="sha256-oSgtFCCmHWRPQ/JmR4OoZ3Xke1Pw4v50uh6pLcu+fIc=" crossorigin="anonymous"></script>
+  <!--
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js" integrity="sha256-Olnajf3o9kfkFGloISwP1TslJiWUDd7IYmfC+GdCKd4=" crossorigin="anonymous"></script>
+  -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.js" integrity="sha256-65VrZtDIgFNXMsE+kzBqH4uB8vpABjMijjAnb9x8ViY=" crossorigin="anonymous"></script>
   <title>jsFrequences</title>
   <script src="jsFrequences.js"></script>
 </head>
 <body>
+  <h1>Bandes de fréquences cohérentes/incohérentes pour une octave donnée</h1>
+  <div id="d">
+     Octave:
+     <input id ="iOctave" />
+  </div>
+  <canvas id="cOctave" height="100"></canvas>
+  <div id="dOctave">
+  </div>
+  <h1>Bandes de fréquences cohérentes/incohérentes autour d'une fréquence donnée</h1>
+  <div id="d">
+     Fréquence :
+     <input id="iFrequence" />
+     <span id="sFrequence"> </span>
+  </div>
+  <canvas id="cFrequence" height="100"></canvas>
+  <div id="dFrequence">
+  </div>
+  <div>
+    Référence utilisée pour les fréquences cohérentes/incohérentes:<br>
+    <a href="https://file.scirp.org/pdf/JCT_2018030914283777.pdf?fbclid=IwAR1mjnXL7HgTqEZCtDn2OqNWU4xorx4g-3RxhSRGSQz8vTIL3Yx2skDGPfY">
+    Journal of Cancer Therapy, Favourable and Unfavourable EMF Frequency Patterns in Cancer: Perspectives for Improved Therapy and Prevention
+    </a>
+  </div>
+  <h1>Positionnement des fréquences porteuses de la norme CPL G3 par rapport aux bandes de fréquences cohérentes/incohérentes</h1>
   <ul>
-     <li>Référence utilisée pour les fréquences cohérentes/incohérentes:<br>
-         <a href="https://file.scirp.org/pdf/JCT_2018030914283777.pdf?fbclid=IwAR1mjnXL7HgTqEZCtDn2OqNWU4xorx4g-3RxhSRGSQz8vTIL3Yx2skDGPfY">
-         Journal of Cancer Therapy, Favourable and Unfavourable EMF Frequency Patterns in Cancer: Perspectives for Improved Therapy and Prevention
-         </a>
-      </li>
       <li>Référence utilisée pour le CPL G3:
           <a href="http://www.santepublique-editions.fr/objects/Specification_de_la_couche_physique_CPL_G3.pdf">
           SPECIFICATION DE LA COUCHE PHYSIQUE CPL G3
           </a>
       </li>
-      <li>Code source Freepascal/pas2js sous licence LGPL:
-          <a href="https://github.com/jsuzineau/pascal_o_r_mapping/tree/TjsDataContexte/tools/jsFrequences">
-          https://github.com/jsuzineau/pascal_o_r_mapping/tree/TjsDataContexte/tools/jsFrequences
-          </a>
-      </li>
   </ul>
-  <div id="d">
+  <div >
      <button id="bCPL_G3">CPL G3</button>
-     Octave:
-     <input id ="iOctave" />
-     Fréquence :
-     <input id="iFrequence" />
-     <span id="sFrequence"> </span>
   </div>
-  <div id="divResultat">
+  <div id="dCPL_G3">
   </div>
-
+  <h1>Code source Freepascal/pas2js sous licence LGPL:</h1>
+  <div >
+     <a href="https://github.com/jsuzineau/pascal_o_r_mapping/tree/TjsDataContexte/tools/jsFrequences">
+              https://github.com/jsuzineau/pascal_o_r_mapping/tree/TjsDataContexte/tools/jsFrequences
+     </a>
+  </div>
+  <div id="dInfos">
+  </div>
   <script>
   rtl.run();
 

@@ -15,11 +15,9 @@
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
-    <CustomData Count="4">
+    <CustomData Count="2">
       <Item0 Name="MaintainHTML" Value="1"/>
-      <Item1 Name="PasJSHTMLFile" Value="project1.html"/>
-      <Item2 Name="PasJSPort" Value="0"/>
-      <Item3 Name="PasJSWebBrowserProject" Value="1"/>
+      <Item1 Name="PasJSWebBrowserProject" Value="1"/>
     </CustomData>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
