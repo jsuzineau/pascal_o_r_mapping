@@ -23,16 +23,19 @@ type
  TFrequences
  =
   class
-
   //Affichage de l'harmonique d'une fréquence
+  private
+    function Boundaries( _Octave, _NbOctaves: Integer; _Base: TDoubleDynArray): TDoubleDynArray;
+    function Centers   ( _Octave, _NbOctaves: Integer; _Base: TDoubleDynArray): TDoubleDynArray;
   public
     function sFrequence( _Octave: Integer; _Base: double): String;
 
-    function aCoherent_boundaries( _Octave: Integer): TDoubleDynArray;
-    function aDeCoherent_boundaries( _Octave: Integer): TDoubleDynArray;
-    function aCoherent_centers( _Octave: Integer): TDoubleDynArray;
-    function aDeCoherent_centers( _Octave: Integer): TDoubleDynArray;
+    function   aCoherent_boundaries( _Octave, _NbOctaves: Integer): TDoubleDynArray;
+    function aDeCoherent_boundaries( _Octave, _NbOctaves: Integer): TDoubleDynArray;
+    function   aCoherent_centers( _Octave, _NbOctaves: Integer): TDoubleDynArray;
+    function aDeCoherent_centers( _Octave, _NbOctaves: Integer): TDoubleDynArray;
     function Liste( _Octave: Integer): String;
+    procedure Log_Frequences(_Titre: String; _Frequences: TDoubleDynArray);
 
     function Liste_from_Frequence( _Frequence: double): String;
 
@@ -90,64 +93,74 @@ begin
      Result:= uFrequence.sFrequence( Bas)+' / '+uFrequence.sFrequence( Frequence)+' / '+uFrequence.sFrequence( Haut);
 end;
 
-function TFrequences.aCoherent_boundaries(_Octave: Integer): TDoubleDynArray;
+function TFrequences.Boundaries( _Octave, _NbOctaves: Integer; _Base: TDoubleDynArray): TDoubleDynArray;
 var
-   I: Integer;
+   LBase, O, I, iResult: Integer;
    procedure Traite_Frequence;
    var
       Frequence, Bas, Haut: double;
    begin
-        Frequence:= Harmonique( uFrequences_coherent[I], _Octave);
+        Frequence:= Harmonique( _Base[I], _Octave+O);
         Bas := Frequence*uFrequences_Bas_factor;
         Haut:= Frequence*uFrequences_Haut_factor;
-        Result[2*I+0]:= Bas;
-        Result[2*I+1]:= Haut;
+        Result[O*LBase+2*I+0]:= Bas;
+        Result[O*LBase+2*I+1]:= Haut;
    end;
 begin
-     SetLength( Result, 2*Length(uFrequences_coherent));
-     for I:= Low(uFrequences_coherent) to High(uFrequences_coherent)
+     LBase:= 2*Length( _Base);
+     SetLength( Result, _NbOctaves*LBase);
+     for O:= 0 to _NbOctaves-1
      do
-       Traite_Frequence;
+       for I:= Low(_Base) to High(_Base)
+       do
+         Traite_Frequence;
 end;
 
-function TFrequences.aDeCoherent_boundaries(_Octave: Integer): TDoubleDynArray;
-var
-   I: Integer;
-   procedure Traite_Frequence;
-   var
-      Frequence, Bas, Haut: double;
-   begin
-        Frequence:= Harmonique( uFrequences_decoherent[I], _Octave);
-        Bas := Frequence*uFrequences_Bas_factor;
-        Haut:= Frequence*uFrequences_Haut_factor;
-        Result[2*I+0]:= Bas;
-        Result[2*I+1]:= Haut;
-   end;
+function TFrequences.aCoherent_boundaries( _Octave, _NbOctaves: Integer): TDoubleDynArray;
 begin
-     SetLength( Result, 2*Length(uFrequences_decoherent));
-     for I:= Low(uFrequences_decoherent) to High(uFrequences_decoherent)
-     do
-       Traite_Frequence;
+     Result:= Boundaries( _Octave, _NbOctaves, uFrequences_coherent);
 end;
 
-function TFrequences.aCoherent_centers(_Octave: Integer): TDoubleDynArray;
-var
-   I: Integer;
+function TFrequences.aDeCoherent_boundaries( _Octave, _NbOctaves: Integer): TDoubleDynArray;
 begin
-     SetLength( Result, Length(uFrequences_coherent));
-     for I:= Low(uFrequences_coherent) to High(uFrequences_coherent)
-     do
-       Result[I]:= Harmonique( uFrequences_coherent[I], _Octave);
+     Result:= Boundaries( _Octave, _NbOctaves, uFrequences_decoherent);
 end;
 
-function TFrequences.aDeCoherent_centers(_Octave: Integer): TDoubleDynArray;
+function TFrequences.Centers( _Octave, _NbOctaves: Integer; _Base: TDoubleDynArray): TDoubleDynArray;
+var
+   LBase, O, I, iResult: Integer;
+begin
+     LBase:= Length(_Base);
+     SetLength( Result, _NbOctaves*LBase);
+     for O:= 0 to _NbOctaves-1
+     do
+       for I:= Low(_Base) to High(_Base)
+       do
+         Result[O*LBase+I]:= Harmonique( _Base[I], _Octave+O);
+end;
+
+function TFrequences.aCoherent_centers( _Octave, _NbOctaves: Integer): TDoubleDynArray;
+begin
+     Result:= Centers( _Octave, _NbOctaves, uFrequences_coherent);
+end;
+
+function TFrequences.aDeCoherent_centers( _Octave, _NbOctaves: Integer): TDoubleDynArray;
+begin
+     Result:= Centers( _Octave, _NbOctaves, uFrequences_decoherent);
+end;
+
+procedure TFrequences.Log_Frequences( _Titre: String; _Frequences: TDoubleDynArray);
 var
    I: Integer;
+   F: double;
 begin
-     SetLength( Result, Length(uFrequences_decoherent));
-     for I:= Low(uFrequences_decoherent) to High(uFrequences_decoherent)
+     WriteLn( _Titre);
+     for I:= Low(_Frequences) to High(_Frequences)
      do
-       Result[I]:= Harmonique( uFrequences_decoherent[I], _Octave);
+       begin
+       F:= _Frequences[I];
+       WriteLn( I, ':', uFrequence.sFrequence( F));
+       end;
 end;
 
 function TFrequences.Liste( _Octave: Integer): String;
@@ -158,21 +171,11 @@ begin
      for I:= Low(uFrequences_coherent) to High(uFrequences_coherent)
      do
        Result:= Result+uFrequence_Separateur_Lignes+ sFrequence( _Octave, uFrequences_coherent[I]);
-     (*
-     for I:= Low(uFrequences_coherent) to High(uFrequences_coherent)
-     do
-       Result:= Result+uFrequence_Separateur_Lignes+ sFrequence( _Octave+1, uFrequences_coherent[I]);
-     *)
 
      Result:= Result+uFrequence_Separateur_Lignes+ 'Fréquences décohérentes';
      for I:= Low(uFrequences_decoherent) to High(uFrequences_decoherent)
      do
        Result:= Result+uFrequence_Separateur_Lignes+ sFrequence( _Octave, uFrequences_decoherent[I]);
-     (*
-     for I:= Low(uFrequences_decoherent) to High(uFrequences_decoherent)
-     do
-       Result:= Result+uFrequence_Separateur_Lignes+ sFrequence( _Octave+1, uFrequences_decoherent[I]);
-     *)
 end;
 
 function TFrequences.Match_Base(_Octave: Integer; _Base: double; _Frequence: double; _Prefixe: String; var _Nb: Integer): String;

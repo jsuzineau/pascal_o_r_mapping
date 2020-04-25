@@ -95,9 +95,6 @@ begin
        +Result;
 end;
 
-{ TCPL_G3 }
-
-
 {$ifndef PAS2JS}
 initialization
 

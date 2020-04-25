@@ -1815,11 +1815,6 @@ rtl.module("SysUtils",["System","RTLConsts","JS"],function () {
     return Result;
   };
   this.TFloatFormat = {"0": "ffFixed", ffFixed: 0, "1": "ffGeneral", ffGeneral: 1, "2": "ffExponent", ffExponent: 2, "3": "ffNumber", ffNumber: 3, "4": "ffCurrency", ffCurrency: 4};
-  this.FloatToStr = function (Value) {
-    var Result = "";
-    Result = $mod.FloatToStrF(Value,1,15,0);
-    return Result;
-  };
   this.FloatToStrF = function (Value, format, Precision, Digits) {
     var Result = "";
     var DS = "";
@@ -2182,7 +2177,7 @@ rtl.module("Math",["System","SysUtils"],function () {
 rtl.module("uFrequence",["System","Classes","SysUtils","Math"],function () {
   "use strict";
   var $mod = this;
-  this.sFrequence = function (_Frequence, _digits) {
+  this.sFrequence = function (_Frequence, _digits, _Separateur) {
     var Result = "";
     function s_from_d(_d) {
       var Result = "";
@@ -2195,19 +2190,19 @@ rtl.module("uFrequence",["System","Classes","SysUtils","Math"],function () {
       return Result;
     };
     function Hz() {
-      Result = s_from_d(_Frequence) + "  Hz";
+      Result = s_from_d(_Frequence) + _Separateur + "Hz";
     };
     function KHz() {
-      Result = s_from_d(_Frequence / 1E3) + " KHz";
+      Result = s_from_d(_Frequence / 1E3) + _Separateur + "KHz";
     };
     function MHz() {
-      Result = s_from_d(_Frequence / 1E6) + " MHz";
+      Result = s_from_d(_Frequence / 1E6) + _Separateur + "MHz";
     };
     function GHz() {
-      Result = s_from_d(_Frequence / 1E9) + " GHz";
+      Result = s_from_d(_Frequence / 1E9) + _Separateur + "GHz";
     };
     function THz() {
-      Result = s_from_d(_Frequence / 1E12) + " THz";
+      Result = s_from_d(_Frequence / 1E12) + _Separateur + "THz";
     };
     if (_Frequence < 1E3) {
       Hz()}
@@ -2232,6 +2227,49 @@ rtl.module("uFrequences",["System","uFrequence","Classes","SysUtils","Math","Typ
   this.uFrequences_Bas_factor = 1 - (0.85 / 100);
   this.uFrequences_Haut_factor = 1 + (0.85 / 100);
   rtl.createClass($mod,"TFrequences",pas.System.TObject,function () {
+    this.Boundaries = function (_Octave, _NbOctaves, _Base) {
+      var $Self = this;
+      var Result = [];
+      var LBase = 0;
+      var O = 0;
+      var I = 0;
+      function Traite_Frequence() {
+        var Frequence = 0.0;
+        var Bas = 0.0;
+        var Haut = 0.0;
+        Frequence = $Self.Harmonique(_Base[I],_Octave + O);
+        Bas = Frequence * 0.9915;
+        Haut = Frequence * 1.0085;
+        Result[(O * LBase) + (2 * I) + 0] = Bas;
+        Result[(O * LBase) + (2 * I) + 1] = Haut;
+      };
+      LBase = 2 * rtl.length(_Base);
+      Result = rtl.arraySetLength(Result,0.0,_NbOctaves * LBase);
+      for (var $l1 = 0, $end2 = _NbOctaves - 1; $l1 <= $end2; $l1++) {
+        O = $l1;
+        for (var $l3 = 0, $end4 = rtl.length(_Base) - 1; $l3 <= $end4; $l3++) {
+          I = $l3;
+          Traite_Frequence();
+        };
+      };
+      return Result;
+    };
+    this.Centers = function (_Octave, _NbOctaves, _Base) {
+      var Result = [];
+      var LBase = 0;
+      var O = 0;
+      var I = 0;
+      LBase = rtl.length(_Base);
+      Result = rtl.arraySetLength(Result,0.0,_NbOctaves * LBase);
+      for (var $l1 = 0, $end2 = _NbOctaves - 1; $l1 <= $end2; $l1++) {
+        O = $l1;
+        for (var $l3 = 0, $end4 = rtl.length(_Base) - 1; $l3 <= $end4; $l3++) {
+          I = $l3;
+          Result[(O * LBase) + I] = this.Harmonique(_Base[I],_Octave + O);
+        };
+      };
+      return Result;
+    };
     this.sFrequence = function (_Octave, _Base) {
       var Result = "";
       var Frequence = 0.0;
@@ -2240,69 +2278,27 @@ rtl.module("uFrequences",["System","uFrequence","Classes","SysUtils","Math","Typ
       Frequence = this.Harmonique(_Base,_Octave);
       Bas = Frequence * 0.9915;
       Haut = Frequence * 1.0085;
-      Result = pas.uFrequence.sFrequence(Bas,6) + " \/ " + pas.uFrequence.sFrequence(Frequence,6) + " \/ " + pas.uFrequence.sFrequence(Haut,6);
+      Result = pas.uFrequence.sFrequence(Bas,6," ") + " \/ " + pas.uFrequence.sFrequence(Frequence,6," ") + " \/ " + pas.uFrequence.sFrequence(Haut,6," ");
       return Result;
     };
-    this.aCoherent_boundaries = function (_Octave) {
-      var $Self = this;
+    this.aCoherent_boundaries = function (_Octave, _NbOctaves) {
       var Result = [];
-      var I = 0;
-      function Traite_Frequence() {
-        var Frequence = 0.0;
-        var Bas = 0.0;
-        var Haut = 0.0;
-        Frequence = $Self.Harmonique($mod.uFrequences_coherent[I],_Octave);
-        Bas = Frequence * 0.9915;
-        Haut = Frequence * 1.0085;
-        Result[(2 * I) + 0] = Bas;
-        Result[(2 * I) + 1] = Haut;
-      };
-      Result = rtl.arraySetLength(Result,0.0,2 * rtl.length($mod.uFrequences_coherent));
-      for (var $l1 = 0, $end2 = rtl.length($mod.uFrequences_coherent) - 1; $l1 <= $end2; $l1++) {
-        I = $l1;
-        Traite_Frequence();
-      };
+      Result = this.Boundaries(_Octave,_NbOctaves,$mod.uFrequences_coherent);
       return Result;
     };
-    this.aDeCoherent_boundaries = function (_Octave) {
-      var $Self = this;
+    this.aDeCoherent_boundaries = function (_Octave, _NbOctaves) {
       var Result = [];
-      var I = 0;
-      function Traite_Frequence() {
-        var Frequence = 0.0;
-        var Bas = 0.0;
-        var Haut = 0.0;
-        Frequence = $Self.Harmonique($mod.uFrequences_decoherent[I],_Octave);
-        Bas = Frequence * 0.9915;
-        Haut = Frequence * 1.0085;
-        Result[(2 * I) + 0] = Bas;
-        Result[(2 * I) + 1] = Haut;
-      };
-      Result = rtl.arraySetLength(Result,0.0,2 * rtl.length($mod.uFrequences_decoherent));
-      for (var $l1 = 0, $end2 = rtl.length($mod.uFrequences_decoherent) - 1; $l1 <= $end2; $l1++) {
-        I = $l1;
-        Traite_Frequence();
-      };
+      Result = this.Boundaries(_Octave,_NbOctaves,$mod.uFrequences_decoherent);
       return Result;
     };
-    this.aCoherent_centers = function (_Octave) {
+    this.aCoherent_centers = function (_Octave, _NbOctaves) {
       var Result = [];
-      var I = 0;
-      Result = rtl.arraySetLength(Result,0.0,rtl.length($mod.uFrequences_coherent));
-      for (var $l1 = 0, $end2 = rtl.length($mod.uFrequences_coherent) - 1; $l1 <= $end2; $l1++) {
-        I = $l1;
-        Result[I] = this.Harmonique($mod.uFrequences_coherent[I],_Octave);
-      };
+      Result = this.Centers(_Octave,_NbOctaves,$mod.uFrequences_coherent);
       return Result;
     };
-    this.aDeCoherent_centers = function (_Octave) {
+    this.aDeCoherent_centers = function (_Octave, _NbOctaves) {
       var Result = [];
-      var I = 0;
-      Result = rtl.arraySetLength(Result,0.0,rtl.length($mod.uFrequences_decoherent));
-      for (var $l1 = 0, $end2 = rtl.length($mod.uFrequences_decoherent) - 1; $l1 <= $end2; $l1++) {
-        I = $l1;
-        Result[I] = this.Harmonique($mod.uFrequences_decoherent[I],_Octave);
-      };
+      Result = this.Centers(_Octave,_NbOctaves,$mod.uFrequences_decoherent);
       return Result;
     };
     this.Liste = function (_Octave) {
@@ -2324,7 +2320,7 @@ rtl.module("uFrequences",["System","uFrequence","Classes","SysUtils","Math","Typ
       var Result = "";
       var Octave = 0;
       Octave = this.Octave_from_Frequence(_Frequence);
-      Result = "Fréquence: " + pas.uFrequence.sFrequence(_Frequence,6) + pas.uFrequence.uFrequence_Separateur_Lignes + this.Liste(Octave);
+      Result = "Fréquence: " + pas.uFrequence.sFrequence(_Frequence,6," ") + pas.uFrequence.uFrequence_Separateur_Lignes + this.Liste(Octave);
       return Result;
     };
     this.Match_Base = function (_Octave, _Base, _Frequence, _Prefixe, _Nb) {
@@ -2445,7 +2441,7 @@ rtl.module("uCPL_G3",["System","Classes","SysUtils","uFrequence","uFrequences"],
       Result = "";
       for (var $l1 = 0, $end2 = rtl.length($Self.F) - 1; $l1 <= $end2; $l1++) {
         I = $l1;
-        Result = Result + pas.uFrequence.uFrequence_Separateur_Lignes + pas.SysUtils.IntToStr(I + 1) + ": " + pas.uFrequence.sFrequence($Self.F[I],6) + " " + pas.uFrequences.Frequences().sMatch(7,$Self.F[I],{get: function () {
+        Result = Result + pas.uFrequence.uFrequence_Separateur_Lignes + pas.SysUtils.IntToStr(I + 1) + ": " + pas.uFrequence.sFrequence($Self.F[I],6," ") + " " + pas.uFrequences.Frequences().sMatch(7,$Self.F[I],{get: function () {
             return NbCoherent;
           }, set: function (v) {
             NbCoherent = v;
@@ -2489,7 +2485,173 @@ rtl.module("ChartJS",["System","JS","Web"],function () {
     };
   });
 });
-rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","Classes","SysUtils","JS","Web","Math","ChartJS","Types"],function () {
+rtl.module("uFrequencesCharter",["System","uFrequence","uFrequences","Classes","SysUtils","JS","Web","Math","ChartJS","Types"],function () {
+  "use strict";
+  var $mod = this;
+  var $impl = $mod.$impl;
+  rtl.createClass($mod,"TFrequencesCharter",pas.System.TObject,function () {
+    this.$init = function () {
+      pas.System.TObject.$init.call(this);
+      this.config = null;
+      this.Octave = 0;
+      this.NbOctaves = 0;
+      this.Coherent_Boundaries = [];
+      this.DeCoherent_Boundaries = [];
+      this.Coherent_Centers = [];
+      this.DeCoherent_Centers = [];
+      this.rouge = "";
+      this.vert = "";
+    };
+    this.$final = function () {
+      this.config = undefined;
+      this.Coherent_Boundaries = undefined;
+      this.DeCoherent_Boundaries = undefined;
+      this.Coherent_Centers = undefined;
+      this.DeCoherent_Centers = undefined;
+      pas.System.TObject.$final.call(this);
+    };
+    this.Create$1 = function () {
+      return this;
+    };
+    this.Push_dataset = function (_Name, _Color, _BkColor, _y, _Data) {
+      var $Self = this;
+      var dataset = null;
+      function Push_Data() {
+        var I = 0;
+        for (var $l1 = 0, $end2 = rtl.length(_Data) - 1; $l1 <= $end2; $l1++) {
+          I = $l1;
+          dataset.data.push(pas.ChartJS.TChartXYData.$create("new$1",[_Data[I],_y]));
+        };
+      };
+      dataset = new Object();
+      dataset.label = _Name;
+      dataset.borderColor = _Color;
+      dataset.backgroundColor = _BkColor;
+      dataset.showLine = false;
+      dataset.data = new Array();
+      Push_Data();
+      $Self.config.data.datasets.push(dataset);
+    };
+    this.Axes = function () {
+      var x = null;
+      var y = null;
+      x = new Object();
+      x.type = "linear";
+      x.id = "x-axis-0";
+      y = new Object();
+      y.type = "linear";
+      y.id = "y-axis-0";
+      this.config.options.scales = new Object();
+      this.config.options.scales.xAxes = new Array(x);
+      this.config.options.scales.yAxes = new Array(y);
+    };
+    this.Cree_Options = function () {
+      var oa = null;
+      var o = null;
+      oa = new Object();
+      oa.annotations = new Array();
+      o = new Object();
+      o.annotation = oa;
+      this.config.options = o;
+      this.Axes();
+    };
+    this.Plugin_annotation_box = function (_XMin, _XMax, _YMin, _YMax, _Color) {
+      var a = null;
+      a = new Object();
+      a.drawTime = "beforeDatasetsDraw";
+      a.type = "box";
+      a.xScaleID = "x-axis-0";
+      a.yScaleID = "y-axis-0";
+      a.xMin = _XMin;
+      a.xMax = _XMax;
+      a.yMin = _YMin;
+      a.yMax = _YMax;
+      a.backgroundColor = _Color;
+      a.borderColor = _Color;
+      a.borderWidth = 1;
+      this.config.options.annotation.annotations.push(a);
+    };
+    this.Plugin_annotation_line = function (_Value, _label_position) {
+      var a = null;
+      a = new Object();
+      a.drawTime = "beforeDatasetsDraw";
+      a.type = "line";
+      a.mode = "vertical";
+      a.scaleID = "x-axis-0";
+      a.value = _Value;
+      a.borderColor = "black";
+      a.borderWidth = 1;
+      a.label = new Object();
+      a.label.content = pas.uFrequence.sFrequence(_Value,6," ");
+      a.label.position = _label_position;
+      a.label.enabled = true;
+      this.config.options.annotation.annotations.push(a);
+    };
+    this.Plugin_annotations = function (_Centers, _Boundaries, _Color, _label_position) {
+      var I2 = 0;
+      var I = 0;
+      var L = 0;
+      var L2 = 0;
+      var V1 = 0.0;
+      var V2 = 0.0;
+      L = rtl.length(_Boundaries);
+      L2 = Math.floor(L / 2);
+      for (var $l1 = 0, $end2 = L2 - 1; $l1 <= $end2; $l1++) {
+        I2 = $l1;
+        I = 0 + (2 * I2);
+        V1 = _Boundaries[I + 0];
+        V2 = _Boundaries[I + 1];
+        this.Plugin_annotation_box(V1,V2,1,3,_Color);
+        this.Plugin_annotation_line(_Centers[I2],_label_position);
+      };
+    };
+    this.Bandes_from_Octave = function (_Octave, _NbOctaves) {
+      this.Octave = _Octave;
+      this.NbOctaves = _NbOctaves;
+      this.rouge = "rgba(255, 128, 128, 50)";
+      this.vert = "rgba(128, 255, 128, 50)";
+      this.Coherent_Boundaries = pas.uFrequences.Frequences().aCoherent_boundaries(this.Octave,this.NbOctaves);
+      this.DeCoherent_Boundaries = pas.uFrequences.Frequences().aDeCoherent_boundaries(this.Octave,this.NbOctaves);
+      this.Coherent_Centers = pas.uFrequences.Frequences().aCoherent_centers(this.Octave,this.NbOctaves);
+      this.DeCoherent_Centers = pas.uFrequences.Frequences().aDeCoherent_centers(this.Octave,this.NbOctaves);
+      this.config = new Object();
+      this.config.type = "scatter";
+      this.config.data = new Object();
+      this.Cree_Options();
+      this.Plugin_annotations(this.Coherent_Centers,this.Coherent_Boundaries,this.vert,"top");
+      this.Plugin_annotations(this.DeCoherent_Centers,this.DeCoherent_Boundaries,this.rouge,"bottom");
+      this.config.data.datasets = new Array();
+      this.Push_dataset("Décohérentes",this.rouge,this.rouge,1,this.DeCoherent_Centers);
+      this.Push_dataset("Cohérentes",this.vert,this.vert,3,this.Coherent_Centers);
+    };
+    this.Draw_Chart_from_Octave = function (_Octave, _Canvas_Name) {
+      this.Bandes_from_Octave(_Octave,1);
+      new Chart(_Canvas_Name,this.config);
+    };
+    this.Draw_Chart_from_Frequence = function (_Libelle, _Frequence, _Canvas_Name) {
+      this.Bandes_from_Octave(pas.uFrequences.Frequences().Octave_from_Frequence(_Frequence),1);
+      this.Push_dataset(_Libelle,"blue","blue",2.5,[_Frequence]);
+      new Chart(_Canvas_Name,this.config);
+    };
+    this.Draw_Chart_from_Frequences = function (_Octave, _NbOctaves, _Libelle, _Frequences, _Canvas_Name) {
+      this.Bandes_from_Octave(_Octave,_NbOctaves);
+      this.Push_dataset(_Libelle,"blue","blue",2.5,_Frequences);
+      new Chart(_Canvas_Name,this.config);
+    };
+  });
+  this.FrequencesCharter = function () {
+    var Result = null;
+    if (null === $impl.FFrequencesCharter) $impl.FFrequencesCharter = $mod.TFrequencesCharter.$create("Create$1");
+    Result = $impl.FFrequencesCharter;
+    return Result;
+  };
+},null,function () {
+  "use strict";
+  var $mod = this;
+  var $impl = $mod.$impl;
+  $impl.FFrequencesCharter = null;
+});
+rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","uFrequencesCharter","Classes","SysUtils","JS","Web","Math","ChartJS","Types"],function () {
   "use strict";
   var $mod = this;
   var $impl = $mod.$impl;
@@ -2497,7 +2659,6 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","Clas
     this.$init = function () {
       pas.System.TObject.$init.call(this);
       this.d = null;
-      this.bCPL_G3 = null;
       this.iOctave = null;
       this.iFrequence = null;
       this.sFrequence = null;
@@ -2508,7 +2669,6 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","Clas
     };
     this.$final = function () {
       this.d = undefined;
-      this.bCPL_G3 = undefined;
       this.iOctave = undefined;
       this.iFrequence = undefined;
       this.sFrequence = undefined;
@@ -2524,8 +2684,6 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","Clas
     };
     this.Connecte_Interface = function () {
       this.d = $impl.element_from_id("d");
-      this.bCPL_G3 = $impl.button_from_id("bCPL_G3");
-      this.bCPL_G3.onclick = rtl.createCallback(this,"bClick");
       this.iOctave = $impl.input_from_id("iOctave");
       this.iOctave.oninput = rtl.createCallback(this,"iOctaveInput");
       this.iFrequence = $impl.input_from_id("iFrequence");
@@ -2534,14 +2692,9 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","Clas
       this.dOctave = $impl.element_from_id("dOctave");
       this.dFrequence = $impl.element_from_id("dFrequence");
       this.dCPL_G3 = $impl.element_from_id("dCPL_G3");
-      this.dCPL_G3.innerHTML = pas.uCPL_G3.CPL_G3().Liste();
+      this.Traite_CPL_G3();
       this.dInfos = $impl.element_from_id("dInfos");
-      this.dInfos.innerHTML = "compilé avec pas2js version " + "1.4.20" + "<br>" + "target: " + "ECMAScript5" + " - " + "Browser" + "<br>" + "os: " + "Browser" + "<br>" + "cpu: " + "ECMAScript5" + "<br>" + "compilé le " + "2020\/4\/24" + " à " + " 6:11:17" + "<br>" + "langue du navigateur: " + window.navigator.language;
-    };
-    this.bClick = function (_Event) {
-      var Result = false;
-      this.dCPL_G3.innerHTML = pas.uCPL_G3.CPL_G3().Liste();
-      return Result;
+      this.dInfos.innerHTML = "compilé avec pas2js version " + "1.4.20" + "<br>" + "target: " + "ECMAScript5" + " - " + "Browser" + "<br>" + "os: " + "Browser" + "<br>" + "cpu: " + "ECMAScript5" + "<br>" + "compilé le " + "2020\/4\/25" + " à " + " 2: 5:42" + "<br>" + "langue du navigateur: " + window.navigator.language;
     };
     this.iOctaveInput = function (_Event) {
       var Result = false;
@@ -2551,7 +2704,7 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","Clas
         }, set: function (v) {
           Octave = v;
         }})) return Result;
-      this.Draw_Chart_from_Octave(Octave);
+      pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Octave(Octave,"cOctave");
       this.dOctave.innerHTML = pas.uFrequences.Frequences().Liste(Octave);
       return Result;
     };
@@ -2563,245 +2716,14 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","Clas
         }, set: function (v) {
           Frequence = v;
         }})) return Result;
-      this.Draw_Chart_from_Frequence(Frequence);
+      pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Frequence(pas.uFrequence.sFrequence(Frequence,6," "),Frequence,"cFrequence");
       this.dFrequence.innerHTML = pas.uFrequences.Frequences().Liste_from_Frequence(Frequence);
-      this.sFrequence.innerHTML = pas.uFrequence.sFrequence(Frequence,6);
+      this.sFrequence.innerHTML = pas.uFrequence.sFrequence(Frequence,6," ");
       return Result;
     };
-    this.Draw_Chart_from_Octave = function (_Octave) {
-      var $Self = this;
-      var config = null;
-      var Coherent_Boundaries = [];
-      var DeCoherent_Boundaries = [];
-      var Coherent_Centers = [];
-      var DeCoherent_Centers = [];
-      var rouge = "";
-      var vert = "";
-      function Push_dataset(_Name, _Color, _BkColor, _y, _Data) {
-        var dataset = null;
-        function Push_Data() {
-          var I = 0;
-          for (var $l1 = 0, $end2 = rtl.length(_Data) - 1; $l1 <= $end2; $l1++) {
-            I = $l1;
-            dataset.data.push(pas.ChartJS.TChartXYData.$create("new$1",[_Data[I],_y]));
-          };
-        };
-        dataset = new Object();
-        dataset.label = _Name;
-        dataset.borderColor = _Color;
-        dataset.backgroundColor = _BkColor;
-        dataset.showLine = false;
-        dataset.data = new Array();
-        Push_Data();
-        config.data.datasets.push(dataset);
-      };
-      function Axes() {
-        var x = null;
-        var y = null;
-        x = new Object();
-        x.type = "linear";
-        x.id = "x-axis-0";
-        y = new Object();
-        y.type = "linear";
-        y.id = "y-axis-0";
-        config.options.scales = new Object();
-        config.options.scales.xAxes = new Array(x);
-        config.options.scales.yAxes = new Array(y);
-      };
-      function Cree_Options() {
-        var oa = null;
-        var o = null;
-        oa = new Object();
-        oa.annotations = new Array();
-        o = new Object();
-        o.annotation = oa;
-        config.options = o;
-        Axes();
-      };
-      function Plugin_annotation(_XMin, _XMax, _YMin, _YMax, _Color) {
-        var a = null;
-        a = new Object();
-        a.drawTime = "beforeDatasetsDraw";
-        a.type = "box";
-        a.xScaleID = "x-axis-0";
-        a.yScaleID = "y-axis-0";
-        a.xMin = _XMin;
-        a.xMax = _XMax;
-        a.yMin = _YMin;
-        a.yMax = _YMax;
-        a.backgroundColor = _Color;
-        a.borderColor = _Color;
-        a.borderWidth = 1;
-        config.options.annotation.annotations.push(a);
-      };
-      function Plugin_annotation_line(_Value) {
-        var a = null;
-        a = new Object();
-        a.drawTime = "beforeDatasetsDraw";
-        a.type = "line";
-        a.mode = "vertical";
-        a.scaleID = "x-axis-0";
-        a.value = _Value;
-        a.borderColor = "black";
-        a.borderWidth = 1;
-        a.label = new Object();
-        a.label.content = pas.SysUtils.FloatToStr(_Value);
-        a.label.enabled = true;
-        config.options.annotation.annotations.push(a);
-      };
-      function Plugin_annotations(_Centers, _Boundaries, _Color) {
-        var I2 = 0;
-        var I = 0;
-        var L = 0;
-        var L2 = 0;
-        var V1 = 0.0;
-        var V2 = 0.0;
-        L = rtl.length(_Boundaries);
-        L2 = Math.floor(L / 2);
-        for (var $l1 = 0, $end2 = L2 - 1; $l1 <= $end2; $l1++) {
-          I2 = $l1;
-          I = 0 + (2 * I2);
-          V1 = _Boundaries[I + 0];
-          V2 = _Boundaries[I + 1];
-          Plugin_annotation(V1,V2,1,3,_Color);
-          Plugin_annotation_line(_Centers[I2]);
-        };
-      };
-      rouge = "rgba(255, 128, 128, 50)";
-      vert = "rgba(128, 255, 128, 50)";
-      Coherent_Boundaries = pas.uFrequences.Frequences().aCoherent_boundaries(_Octave);
-      DeCoherent_Boundaries = pas.uFrequences.Frequences().aDeCoherent_boundaries(_Octave);
-      Coherent_Centers = pas.uFrequences.Frequences().aCoherent_centers(_Octave);
-      DeCoherent_Centers = pas.uFrequences.Frequences().aDeCoherent_centers(_Octave);
-      config = new Object();
-      config.type = "scatter";
-      config.data = new Object();
-      Cree_Options();
-      Plugin_annotations(Coherent_Centers,Coherent_Boundaries,vert);
-      Plugin_annotations(DeCoherent_Centers,DeCoherent_Boundaries,rouge);
-      config.data.datasets = new Array();
-      Push_dataset("Bas",rouge,rouge,1,DeCoherent_Centers);
-      Push_dataset("Haut",vert,vert,3,Coherent_Centers);
-      new Chart("cOctave",config);
-    };
-    this.Draw_Chart_from_Frequence = function (_Frequence) {
-      var $Self = this;
-      var Octave = 0;
-      var config = null;
-      var Coherent_Boundaries = [];
-      var DeCoherent_Boundaries = [];
-      var Coherent_Centers = [];
-      var DeCoherent_Centers = [];
-      var rouge = "";
-      var vert = "";
-      function Push_dataset(_Name, _Color, _BkColor, _y, _Data) {
-        var dataset = null;
-        function Push_Data() {
-          var I = 0;
-          for (var $l1 = 0, $end2 = rtl.length(_Data) - 1; $l1 <= $end2; $l1++) {
-            I = $l1;
-            dataset.data.push(pas.ChartJS.TChartXYData.$create("new$1",[_Data[I],_y]));
-          };
-        };
-        dataset = new Object();
-        dataset.label = _Name;
-        dataset.borderColor = _Color;
-        dataset.backgroundColor = _BkColor;
-        dataset.showLine = false;
-        dataset.data = new Array();
-        Push_Data();
-        config.data.datasets.push(dataset);
-      };
-      function Axes() {
-        var x = null;
-        var y = null;
-        x = new Object();
-        x.type = "linear";
-        x.id = "x-axis-0";
-        y = new Object();
-        y.type = "linear";
-        y.id = "y-axis-0";
-        config.options.scales = new Object();
-        config.options.scales.xAxes = new Array(x);
-        config.options.scales.yAxes = new Array(y);
-      };
-      function Cree_Options() {
-        var oa = null;
-        var o = null;
-        oa = new Object();
-        oa.annotations = new Array();
-        o = new Object();
-        o.annotation = oa;
-        config.options = o;
-        Axes();
-      };
-      function Plugin_annotation(_XMin, _XMax, _YMin, _YMax, _Color) {
-        var a = null;
-        a = new Object();
-        a.drawTime = "beforeDatasetsDraw";
-        a.type = "box";
-        a.xScaleID = "x-axis-0";
-        a.yScaleID = "y-axis-0";
-        a.xMin = _XMin;
-        a.xMax = _XMax;
-        a.yMin = _YMin;
-        a.yMax = _YMax;
-        a.backgroundColor = _Color;
-        a.borderColor = _Color;
-        a.borderWidth = 1;
-        config.options.annotation.annotations.push(a);
-      };
-      function Plugin_annotation_line(_Value) {
-        var a = null;
-        a = new Object();
-        a.drawTime = "beforeDatasetsDraw";
-        a.type = "line";
-        a.mode = "vertical";
-        a.scaleID = "x-axis-0";
-        a.value = _Value;
-        a.borderColor = "black";
-        a.borderWidth = 1;
-        a.label = new Object();
-        a.label.content = pas.SysUtils.FloatToStr(_Value);
-        a.label.enabled = true;
-        config.options.annotation.annotations.push(a);
-      };
-      function Plugin_annotations(_Centers, _Boundaries, _Color) {
-        var I2 = 0;
-        var I = 0;
-        var L = 0;
-        var L2 = 0;
-        var V1 = 0.0;
-        var V2 = 0.0;
-        L = rtl.length(_Boundaries);
-        L2 = Math.floor(L / 2);
-        for (var $l1 = 0, $end2 = L2 - 1; $l1 <= $end2; $l1++) {
-          I2 = $l1;
-          I = 0 + (2 * I2);
-          V1 = _Boundaries[I + 0];
-          V2 = _Boundaries[I + 1];
-          Plugin_annotation(V1,V2,1,3,_Color);
-          Plugin_annotation_line(_Centers[I2]);
-        };
-      };
-      Octave = pas.uFrequences.Frequences().Octave_from_Frequence(_Frequence);
-      rouge = "rgba(255, 128, 128, 50)";
-      vert = "rgba(128, 255, 128, 50)";
-      Coherent_Boundaries = pas.uFrequences.Frequences().aCoherent_boundaries(Octave);
-      DeCoherent_Boundaries = pas.uFrequences.Frequences().aDeCoherent_boundaries(Octave);
-      Coherent_Centers = pas.uFrequences.Frequences().aCoherent_centers(Octave);
-      DeCoherent_Centers = pas.uFrequences.Frequences().aDeCoherent_centers(Octave);
-      config = new Object();
-      config.type = "scatter";
-      config.data = new Object();
-      Cree_Options();
-      Plugin_annotations(Coherent_Centers,Coherent_Boundaries,vert);
-      Plugin_annotations(DeCoherent_Centers,DeCoherent_Boundaries,rouge);
-      config.data.datasets = new Array();
-      Push_dataset("Bas",rouge,rouge,1,DeCoherent_Centers);
-      Push_dataset("Haut",vert,vert,3,Coherent_Centers);
-      Push_dataset("Frequence","blue","blue",2.5,[_Frequence]);
-      new Chart("cFrequence",config);
+    this.Traite_CPL_G3 = function () {
+      pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Frequences(7,2,"Porteuses CPL G3",pas.uCPL_G3.CPL_G3().F,"cCPL_G3");
+      this.dCPL_G3.innerHTML = pas.uCPL_G3.CPL_G3().Liste();
     };
   });
 },null,function () {
@@ -2813,18 +2735,13 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","Clas
     Result = document.getElementById(_id);
     return Result;
   };
-  $impl.button_from_id = function (_id) {
-    var Result = null;
-    Result = document.getElementById(_id);
-    return Result;
-  };
   $impl.input_from_id = function (_id) {
     var Result = null;
     Result = document.getElementById(_id);
     return Result;
   };
 });
-rtl.module("program",["System","JS","Classes","SysUtils","Web","ufjsFrequences","uFrequence"],function () {
+rtl.module("program",["System","JS","Classes","SysUtils","Web","ufjsFrequences","uFrequence","uFrequencesCharter"],function () {
   "use strict";
   var $mod = this;
   $mod.$main = function () {
