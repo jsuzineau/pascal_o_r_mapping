@@ -3,6 +3,12 @@
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- pris dans demojitsimeet de Michael Van Canneyt pour test Bootstrap -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
+  <script src="https://code.jquery.com/jquery-3.3.1.js" type="text/javascript"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+  <!-- fin ajout pour bootstrap -->
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js" integrity="sha256-oSgtFCCmHWRPQ/JmR4OoZ3Xke1Pw4v50uh6pLcu+fIc=" crossorigin="anonymous"></script>
   <!--
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js" integrity="sha256-Olnajf3o9kfkFGloISwP1TslJiWUDd7IYmfC+GdCKd4=" crossorigin="anonymous"></script>
@@ -12,47 +18,149 @@
   <script src="jsFrequences.js"></script>
 </head>
 <body>
-  <h1>Bandes de fréquences cohérentes/incohérentes pour une octave donnée</h1>
-  <div id="d">
-     Octave:
-     <input id ="iOctave" />
-  </div>
-  <canvas id="cOctave" height="100"></canvas>
-  <div id="dOctave">
-  </div>
-  <div>
-    Référence utilisée pour les fréquences cohérentes/incohérentes:<br>
-    <a href="https://file.scirp.org/pdf/JCT_2018030914283777.pdf?fbclid=IwAR1mjnXL7HgTqEZCtDn2OqNWU4xorx4g-3RxhSRGSQz8vTIL3Yx2skDGPfY">
-    Journal of Cancer Therapy, Favourable and Unfavourable EMF Frequency Patterns in Cancer: Perspectives for Improved Therapy and Prevention
-    </a>
-  </div>
-  <h1>Bandes de fréquences cohérentes/incohérentes autour d'une fréquence donnée</h1>
-  <div id="d">
-     Fréquence :
-     <input id="iFrequence" />
-     <span id="sFrequence"> </span>
-  </div>
-  <canvas id="cFrequence" height="100"></canvas>
-  <div id="dFrequence">
-  </div>
-  <h1>Positionnement des fréquences porteuses de la norme CPL G3 par rapport aux bandes de fréquences cohérentes/incohérentes</h1>
-  <ul>
-      <li>Référence utilisée pour le CPL G3:
-          <a href="http://www.santepublique-editions.fr/objects/Specification_de_la_couche_physique_CPL_G3.pdf">
-          SPECIFICATION DE LA COUCHE PHYSIQUE CPL G3
-          </a>
-      </li>
-  </ul>
-  <canvas id="cCPL_G3" height="100"></canvas>
-  <div id="dCPL_G3">
-  </div>
-  <h1>Code source Freepascal/pas2js sous licence LGPL:</h1>
-  <div >
-     <a href="https://github.com/jsuzineau/pascal_o_r_mapping/tree/TjsDataContexte/tools/jsFrequences">
-              https://github.com/jsuzineau/pascal_o_r_mapping/tree/TjsDataContexte/tools/jsFrequences
-     </a>
-  </div>
-  <div id="dInfos">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header" id="chOctave">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#Octave" aria-expanded="true" aria-controls="Octave">
+            Bandes de fréquences cohérentes/incohérentes pour une octave donnée
+          </button>
+        </h5>
+      </div>
+      <div id="Octave" class="collapse" aria-labelledby="chOctave">
+        <div class="card-body">
+          <div class="form-group">
+             <label for="iOctave">Octave</label>
+             <input id="iOctave" class="form-control" aria-describedby="lOctave" value="0"/>
+             <small id="lOctave" class="form-text text-muted">Octave de la bande de fréquences à afficher, 0 pour l'octave de base</small>
+          </div>
+          <canvas id="cOctave" height="100"></canvas>
+          <div id="dOctave">
+          </div>
+          <div>
+            Référence utilisée pour les fréquences cohérentes/incohérentes:<br>
+            <a href="https://file.scirp.org/pdf/JCT_2018030914283777.pdf?fbclid=IwAR1mjnXL7HgTqEZCtDn2OqNWU4xorx4g-3RxhSRGSQz8vTIL3Yx2skDGPfY">
+            Journal of Cancer Therapy, Favourable and Unfavourable EMF Frequency Patterns in Cancer: Perspectives for Improved Therapy and Prevention
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header" id="chFrequence">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#Frequence" aria-expanded="true" aria-controls="Frequence">
+            Bandes de fréquences cohérentes/incohérentes autour d'une fréquence donnée
+          </button>
+        </h5>
+      </div>
+      <div id="Frequence" class="collapse" aria-labelledby="chFrequence">
+        <div class="card-body">
+           <div>
+              <label for="iFrequence">Fréquence</label>
+              <span class="form-control" >
+                <input id="iFrequence" aria-describedby="lFrequence" value="440"/>
+                <span id="sFrequence"> </span>
+              </span>
+              <small id="lFrequence" class="form-text text-muted">Fréquence à afficher en Herz</small>
+           </div>
+           <canvas id="cFrequence" height="100"></canvas>
+           <div id="dFrequence">
+           </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header" id="ch432Hz">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#g432Hz" aria-expanded="true" aria-controls="g432Hz">
+            La gamme 432Hz est dans les fréquences cohérentes, mais il y a des écarts
+          </button>
+        </h5>
+      </div>
+      <div id="g432Hz" class="collapse" aria-labelledby="ch432Hz">
+        <div class="card-body">
+          <canvas id="c432Hz" height="100"></canvas>
+          <div id="d432Hz">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header" id="ch418Hz">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#g418Hz" aria-expanded="true" aria-controls="g418Hz">
+            La gamme 418 Hz est dans les fréquences décohérentes, mais il y a des écarts
+          </button>
+        </h5>
+      </div>
+      <div id="g418Hz" class="collapse" aria-labelledby="ch418Hz">
+        <div class="card-body">
+          <canvas id="c418Hz" height="100"></canvas>
+          <div id="d418Hz">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header" id="ch440Hz">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#g440Hz" aria-expanded="true" aria-controls="g440Hz">
+            Certaines notes de la gamme standard 440Hz sont décohérentes, d'autres neutres
+          </button>
+        </h5>
+      </div>
+      <div id="g440Hz" class="collapse" aria-labelledby="ch440Hz">
+        <div class="card-body">
+          <canvas id="c440Hz" height="100"></canvas>
+          <div id="d440Hz">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header" id="chCPL_G3">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#CPL_G3" aria-expanded="true" aria-controls="CPL_G3">
+            Compteur électrique Linky: un tiers des 36 fréquences porteuses de la norme CPL G3  sont cohérentes
+          </button>
+        </h5>
+      </div>
+      <div id="CPL_G3" class="collapse" aria-labelledby="chCPL_G3">
+        <div class="card-body">
+          <ul>
+              <li>Référence utilisée pour le CPL G3:
+                  <a href="http://www.santepublique-editions.fr/objects/Specification_de_la_couche_physique_CPL_G3.pdf">
+                  SPECIFICATION DE LA COUCHE PHYSIQUE CPL G3
+                  </a>
+              </li>
+          </ul>
+          <canvas id="cCPL_G3" height="100"></canvas>
+          <div id="dCPL_G3">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header" id="chInfos">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#Infos" aria-expanded="true" aria-controls="Infos">
+            Code source Freepascal/pas2js sous licence LGPL
+          </button>
+        </h5>
+      </div>
+      <div id="Infos" class="collapse" aria-labelledby="chInfos">
+        <div class="card-body">
+          <div >
+             <a href="https://github.com/jsuzineau/pascal_o_r_mapping/tree/TjsDataContexte/tools/jsFrequences">
+                      https://github.com/jsuzineau/pascal_o_r_mapping/tree/TjsDataContexte/tools/jsFrequences
+             </a>
+          </div>
+          <div id="dInfos">
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <script>
   rtl.run();

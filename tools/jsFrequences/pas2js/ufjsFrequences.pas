@@ -8,7 +8,7 @@ interface
 uses
     uFrequence,
     uFrequences,
-    uCPL_G3,
+    uCPL_G3, uGamme,
     uFrequencesCharter,
  Classes, SysUtils, JS, Web, Math, ChartJS, Types;
 
@@ -25,7 +25,6 @@ type
     destructor Destroy; override;
   //Interface
   public
-    d: TJSHTMLElement;
     iOctave: TJSHTMLInputElement;
     iFrequence: TJSHTMLInputElement;
     sFrequence: TJSHTMLElement;
@@ -36,7 +35,10 @@ type
     procedure Connecte_Interface;
     function iOctaveInput( _Event: TEventListenerEvent): boolean;
     function iFrequenceInput( _Event: TEventListenerEvent): boolean;
+    procedure Traite_Octave;
+    procedure Traite_Frequence;
     procedure Traite_CPL_G3;
+    procedure Traite_Gamme_Temperee( _Diapason: Integer; _Gamme_Temperee: TGamme_Temperee);
   end;
 
 implementation
@@ -71,8 +73,6 @@ end;
 
 procedure TfjsFrequences.Connecte_Interface;
 begin
-     d:= element_from_id('d');
-
      iOctave:= input_from_id('iOctave');
      iOctave.oninput:=@iOctaveInput;
 
@@ -85,6 +85,12 @@ begin
      dOctave   := element_from_id('dOctave'   );
      dFrequence:= element_from_id('dFrequence');
 
+     Traite_Octave;
+     Traite_Frequence;
+
+     Traite_Gamme_Temperee( 418, Gamme_418Hz);
+     Traite_Gamme_Temperee( 432, Gamme_432Hz);
+     Traite_Gamme_Temperee( 440, Gamme_440Hz);
 
      dCPL_G3:= element_from_id('dCPL_G3');
      Traite_CPL_G3;
@@ -100,13 +106,12 @@ begin
        +'langue du navigateur: '+window.navigator.language;
 end;
 
-procedure TfjsFrequences.Traite_CPL_G3;
+function TfjsFrequences.iOctaveInput(_Event: TEventListenerEvent): boolean;
 begin
-     FrequencesCharter.Draw_Chart_from_Frequences( 7, 2, 'Porteuses CPL G3' , CPL_G3.F, 'cCPL_G3');
-     dCPL_G3.innerHTML:= CPL_G3.Liste;
+     Traite_Octave;
 end;
 
-function TfjsFrequences.iOctaveInput(_Event: TEventListenerEvent): boolean;
+procedure TfjsFrequences.Traite_Octave;
 var
    Octave: Integer;
 begin
@@ -117,6 +122,11 @@ begin
 end;
 
 function TfjsFrequences.iFrequenceInput(_Event: TEventListenerEvent): boolean;
+begin
+     Traite_Frequence;
+end;
+
+procedure TfjsFrequences.Traite_Frequence;
 var
    Frequence: double;
 begin
@@ -125,6 +135,23 @@ begin
      FrequencesCharter.Draw_Chart_from_Frequence( uFrequence.sFrequence( Frequence), Frequence, 'cFrequence');
      dFrequence.innerHTML:= Frequences.Liste_from_Frequence( Frequence);
      sFrequence .innerHTML:= uFrequence.sFrequence( Frequence);
+end;
+
+procedure TfjsFrequences.Traite_CPL_G3;
+begin
+     FrequencesCharter.Draw_Chart_from_Frequences( 7, 2, 'Porteuses CPL G3' , CPL_G3.F, 'cCPL_G3');
+     dCPL_G3.innerHTML:= CPL_G3.Liste;
+end;
+
+procedure TfjsFrequences.Traite_Gamme_Temperee( _Diapason: Integer; _Gamme_Temperee: TGamme_Temperee);
+var
+   sDiapason: String;
+begin
+     WriteLn( ClassName+'.Traite_Gamme_Temperee(',_Diapason);
+     sDiapason:= IntToStr( _Diapason);
+     WriteLn( 'sDiapason: ',sDiapason);
+     FrequencesCharter.Draw_Chart_from_Frequences( 0, 1, 'Gamme tempérée diapason '+sDiapason+' Hz' , _Gamme_Temperee.Base, 'c'+sDiapason+'Hz');
+     element_from_id('d'+sDiapason+'Hz').innerHTML:= _Gamme_Temperee.Liste(0);
 end;
 
 end.

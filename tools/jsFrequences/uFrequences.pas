@@ -35,7 +35,6 @@ type
     function   aCoherent_centers( _Octave, _NbOctaves: Integer): TDoubleDynArray;
     function aDeCoherent_centers( _Octave, _NbOctaves: Integer): TDoubleDynArray;
     function Liste( _Octave: Integer): String;
-    procedure Log_Frequences(_Titre: String; _Frequences: TDoubleDynArray);
 
     function Liste_from_Frequence( _Frequence: double): String;
 
@@ -147,20 +146,6 @@ end;
 function TFrequences.aDeCoherent_centers( _Octave, _NbOctaves: Integer): TDoubleDynArray;
 begin
      Result:= Centers( _Octave, _NbOctaves, uFrequences_decoherent);
-end;
-
-procedure TFrequences.Log_Frequences( _Titre: String; _Frequences: TDoubleDynArray);
-var
-   I: Integer;
-   F: double;
-begin
-     WriteLn( _Titre);
-     for I:= Low(_Frequences) to High(_Frequences)
-     do
-       begin
-       F:= _Frequences[I];
-       WriteLn( I, ':', uFrequence.sFrequence( F));
-       end;
 end;
 
 function TFrequences.Liste( _Octave: Integer): String;

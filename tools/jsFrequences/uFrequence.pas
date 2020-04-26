@@ -5,12 +5,17 @@ unit uFrequence;
 interface
 
 uses
- Classes, SysUtils,Math;
+ Classes, SysUtils,Math, Types;
 
 function sFrequence( _Frequence: double; _digits: Integer=6; _Separateur: String= ' '): String;
 
 var
    uFrequence_Separateur_Lignes: String= #13#10;
+
+procedure Log_Frequences(_Titre: String; _Frequences: TDoubleDynArray);
+
+function Note( _Index: Integer): String;
+function Note_Latine( _Index: Integer): String;
 
 implementation
 
@@ -37,6 +42,58 @@ begin
      else if _Frequence < 1E9  then MHz
      else if _Frequence < 1E12 then GHz
      else                           THz;
+end;
+
+procedure Log_Frequences( _Titre: String; _Frequences: TDoubleDynArray);
+var
+   I: Integer;
+   F: double;
+begin
+     WriteLn( _Titre);
+     for I:= Low(_Frequences) to High(_Frequences)
+     do
+       begin
+       F:= _Frequences[I];
+       WriteLn( I, ':', sFrequence( F));
+       end;
+end;
+
+function Note( _Index: Integer): String;
+begin
+     case _Index mod 12
+     of
+        0: Result:= 'C';
+        1: Result:= 'C#';
+        2: Result:= 'D';
+        3: Result:= 'Eb';
+        4: Result:= 'E';
+        5: Result:= 'F';
+        6: Result:= 'F#';
+        7: Result:= 'G';
+        8: Result:= 'G#';
+        9: Result:= 'A';
+       10: Result:= 'Bb';
+       11: Result:= 'B';
+       end;
+end;
+
+function Note_Latine( _Index: Integer): String;
+begin
+     case _Index mod 12
+     of
+        0: Result:= 'do';
+        1: Result:= 'do#';
+        2: Result:= 'ré';
+        3: Result:= 'ré#';
+        4: Result:= 'mi';
+        5: Result:= 'fa';
+        6: Result:= 'fa#';
+        7: Result:= 'sol';
+        8: Result:= 'sol#';
+        9: Result:= 'la';
+       10: Result:= 'la#';
+       11: Result:= 'si';
+       end;
 end;
 
 end.

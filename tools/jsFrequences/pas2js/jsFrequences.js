@@ -1463,6 +1463,26 @@ rtl.module("System",[],function () {
     };
     return Result;
   };
+  this.Writeln = function () {
+    var i = 0;
+    var l = 0;
+    var s = "";
+    l = arguments.length - 1;
+    if ($impl.WriteCallBack != null) {
+      for (var $l1 = 0, $end2 = l; $l1 <= $end2; $l1++) {
+        i = $l1;
+        $impl.WriteCallBack(arguments[i],i === l);
+      };
+    } else {
+      s = $impl.WriteBuf;
+      for (var $l3 = 0, $end4 = l; $l3 <= $end4; $l3++) {
+        i = $l3;
+        s = s + ("" + arguments[i]);
+      };
+      console.log(s);
+      $impl.WriteBuf = "";
+    };
+  };
   $mod.$init = function () {
     rtl.exitcode = 0;
   };
@@ -1470,6 +1490,8 @@ rtl.module("System",[],function () {
   "use strict";
   var $mod = this;
   var $impl = $mod.$impl;
+  $impl.WriteBuf = "";
+  $impl.WriteCallBack = null;
   $impl.valint = function (S, MinVal, MaxVal, Code) {
     var Result = 0;
     var x = 0.0;
@@ -1815,6 +1837,11 @@ rtl.module("SysUtils",["System","RTLConsts","JS"],function () {
     return Result;
   };
   this.TFloatFormat = {"0": "ffFixed", ffFixed: 0, "1": "ffGeneral", ffGeneral: 1, "2": "ffExponent", ffExponent: 2, "3": "ffNumber", ffNumber: 3, "4": "ffCurrency", ffCurrency: 4};
+  this.FloatToStr = function (Value) {
+    var Result = "";
+    Result = $mod.FloatToStrF(Value,1,15,0);
+    return Result;
+  };
   this.FloatToStrF = function (Value, format, Precision, Digits) {
     var Result = "";
     var DS = "";
@@ -2173,8 +2200,15 @@ rtl.module("Web",["System","Types","JS"],function () {
 rtl.module("Math",["System","SysUtils"],function () {
   "use strict";
   var $mod = this;
+  this.IfThen = function (val, ifTrue, ifFalse) {
+    var Result = 0;
+    if (val) {
+      Result = ifTrue}
+     else Result = ifFalse;
+    return Result;
+  };
 });
-rtl.module("uFrequence",["System","Classes","SysUtils","Math"],function () {
+rtl.module("uFrequence",["System","Classes","SysUtils","Math","Types"],function () {
   "use strict";
   var $mod = this;
   this.sFrequence = function (_Frequence, _digits, _Separateur) {
@@ -2216,6 +2250,34 @@ rtl.module("uFrequence",["System","Classes","SysUtils","Math"],function () {
     return Result;
   };
   this.uFrequence_Separateur_Lignes = "\r\n";
+  this.Note_Latine = function (_Index) {
+    var Result = "";
+    var $tmp1 = _Index % 12;
+    if ($tmp1 === 0) {
+      Result = "do"}
+     else if ($tmp1 === 1) {
+      Result = "do#"}
+     else if ($tmp1 === 2) {
+      Result = "ré"}
+     else if ($tmp1 === 3) {
+      Result = "ré#"}
+     else if ($tmp1 === 4) {
+      Result = "mi"}
+     else if ($tmp1 === 5) {
+      Result = "fa"}
+     else if ($tmp1 === 6) {
+      Result = "fa#"}
+     else if ($tmp1 === 7) {
+      Result = "sol"}
+     else if ($tmp1 === 8) {
+      Result = "sol#"}
+     else if ($tmp1 === 9) {
+      Result = "la"}
+     else if ($tmp1 === 10) {
+      Result = "la#"}
+     else if ($tmp1 === 11) Result = "si";
+    return Result;
+  };
 });
 rtl.module("uFrequences",["System","uFrequence","Classes","SysUtils","Math","Types"],function () {
   "use strict";
@@ -2468,6 +2530,75 @@ rtl.module("uCPL_G3",["System","Classes","SysUtils","uFrequence","uFrequences"],
   var $impl = $mod.$impl;
   $impl.FCPL_G3 = null;
 });
+rtl.module("uGamme",["System","uFrequence","Classes","SysUtils","Math","Types"],function () {
+  "use strict";
+  var $mod = this;
+  var $impl = $mod.$impl;
+  rtl.createClass($mod,"TGamme_Temperee",pas.System.TObject,function () {
+    this.$init = function () {
+      pas.System.TObject.$init.call(this);
+      this.Diapason = 0.0;
+      this.Base = rtl.arraySetLength(null,0.0,12);
+    };
+    this.$final = function () {
+      this.Base = undefined;
+      pas.System.TObject.$final.call(this);
+    };
+    this.Create$1 = function (_Diapason) {
+      this.Diapason = _Diapason;
+      this.Calcule();
+      return this;
+    };
+    this.Calcule = function () {
+      var I = 0;
+      for (I = 0; I <= 11; I++) this.Base[I] = this.Diapason * Math.pow(2,(I - 9) / 12);
+    };
+    this.sFrequence = function (_Octave, _Base) {
+      var Result = "";
+      var Frequence = 0.0;
+      Frequence = this.Harmonique(_Base,_Octave);
+      Result = pas.uFrequence.sFrequence(Frequence,6," ");
+      return Result;
+    };
+    this.Liste = function (_Octave) {
+      var Result = "";
+      var I = 0;
+      Result = "Octave: " + pas.SysUtils.IntToStr(_Octave) + pas.uFrequence.uFrequence_Separateur_Lignes + "Gamme tempérée, diapason " + pas.SysUtils.FloatToStr(this.Diapason) + " Hz";
+      for (I = 0; I <= 11; I++) Result = Result + pas.uFrequence.uFrequence_Separateur_Lignes + this.sFrequence(_Octave,this.Base[I]);
+      return Result;
+    };
+    this.Harmonique = function (_Frequence, _Octave) {
+      var Result = 0.0;
+      Result = _Frequence * Math.pow(2,_Octave);
+      return Result;
+    };
+  });
+  this.Gamme_418Hz = function () {
+    var Result = null;
+    if (null === $impl.FGamme_418Hz) $impl.FGamme_418Hz = $mod.TGamme_Temperee.$create("Create$1",[418]);
+    Result = $impl.FGamme_418Hz;
+    return Result;
+  };
+  this.Gamme_432Hz = function () {
+    var Result = null;
+    if (null === $impl.FGamme_432Hz) $impl.FGamme_432Hz = $mod.TGamme_Temperee.$create("Create$1",[432]);
+    Result = $impl.FGamme_432Hz;
+    return Result;
+  };
+  this.Gamme_440Hz = function () {
+    var Result = null;
+    if (null === $impl.FGamme_440Hz) $impl.FGamme_440Hz = $mod.TGamme_Temperee.$create("Create$1",[440]);
+    Result = $impl.FGamme_440Hz;
+    return Result;
+  };
+},null,function () {
+  "use strict";
+  var $mod = this;
+  var $impl = $mod.$impl;
+  $impl.FGamme_418Hz = null;
+  $impl.FGamme_432Hz = null;
+  $impl.FGamme_440Hz = null;
+});
 rtl.module("ChartJS",["System","JS","Web"],function () {
   "use strict";
   var $mod = this;
@@ -2499,8 +2630,11 @@ rtl.module("uFrequencesCharter",["System","uFrequence","uFrequences","Classes","
       this.DeCoherent_Boundaries = [];
       this.Coherent_Centers = [];
       this.DeCoherent_Centers = [];
-      this.rouge = "";
+      this.bleu = "";
+      this.gris = "";
       this.vert = "";
+      this.gris_fonce = "";
+      this.vert_fonce = "";
     };
     this.$final = function () {
       this.config = undefined;
@@ -2571,7 +2705,7 @@ rtl.module("uFrequencesCharter",["System","uFrequence","uFrequences","Classes","
       a.borderWidth = 1;
       this.config.options.annotation.annotations.push(a);
     };
-    this.Plugin_annotation_line = function (_Value, _label_position) {
+    this.Plugin_annotation_line = function (_Value, _label_position, _Note_index, _Background_Color) {
       var a = null;
       a = new Object();
       a.drawTime = "beforeDatasetsDraw";
@@ -2582,12 +2716,15 @@ rtl.module("uFrequencesCharter",["System","uFrequence","uFrequences","Classes","
       a.borderColor = "black";
       a.borderWidth = 1;
       a.label = new Object();
-      a.label.content = pas.uFrequence.sFrequence(_Value,6," ");
+      a.label.backgroundColor = _Background_Color;
+      if (-1 === _Note_index) {
+        a.label.content = pas.uFrequence.sFrequence(_Value,6," ")}
+       else a.label.content = pas.uFrequence.Note_Latine(_Note_index);
       a.label.position = _label_position;
       a.label.enabled = true;
       this.config.options.annotation.annotations.push(a);
     };
-    this.Plugin_annotations = function (_Centers, _Boundaries, _Color, _label_position) {
+    this.Plugin_annotations = function (_Centers, _Boundaries, _Box_Color, _Line_Color, _Frequence_Note_, _label_position) {
       var I2 = 0;
       var I = 0;
       var L = 0;
@@ -2601,15 +2738,18 @@ rtl.module("uFrequencesCharter",["System","uFrequence","uFrequences","Classes","
         I = 0 + (2 * I2);
         V1 = _Boundaries[I + 0];
         V2 = _Boundaries[I + 1];
-        this.Plugin_annotation_box(V1,V2,1,3,_Color);
-        this.Plugin_annotation_line(_Centers[I2],_label_position);
+        this.Plugin_annotation_box(V1,V2,1,3,_Box_Color);
+        this.Plugin_annotation_line(_Centers[I2],_label_position,pas.Math.IfThen(_Frequence_Note_,-1,I2),_Line_Color);
       };
     };
-    this.Bandes_from_Octave = function (_Octave, _NbOctaves) {
+    this.Bandes_from_Octave = function (_Octave, _NbOctaves, _Frequence_Note_) {
       this.Octave = _Octave;
       this.NbOctaves = _NbOctaves;
-      this.rouge = "rgba(255, 128, 128, 50)";
+      this.bleu = "blue";
+      this.gris = "rgba(192, 192, 192, 50)";
+      this.gris_fonce = "rgba(128, 128, 128, 50)";
       this.vert = "rgba(128, 255, 128, 50)";
+      this.vert_fonce = "rgba(  0, 192,   0, 50)";
       this.Coherent_Boundaries = pas.uFrequences.Frequences().aCoherent_boundaries(this.Octave,this.NbOctaves);
       this.DeCoherent_Boundaries = pas.uFrequences.Frequences().aDeCoherent_boundaries(this.Octave,this.NbOctaves);
       this.Coherent_Centers = pas.uFrequences.Frequences().aCoherent_centers(this.Octave,this.NbOctaves);
@@ -2618,24 +2758,24 @@ rtl.module("uFrequencesCharter",["System","uFrequence","uFrequences","Classes","
       this.config.type = "scatter";
       this.config.data = new Object();
       this.Cree_Options();
-      this.Plugin_annotations(this.Coherent_Centers,this.Coherent_Boundaries,this.vert,"top");
-      this.Plugin_annotations(this.DeCoherent_Centers,this.DeCoherent_Boundaries,this.rouge,"bottom");
+      this.Plugin_annotations(this.Coherent_Centers,this.Coherent_Boundaries,this.vert,this.vert_fonce,_Frequence_Note_,"top");
+      this.Plugin_annotations(this.DeCoherent_Centers,this.DeCoherent_Boundaries,this.gris,this.gris_fonce,_Frequence_Note_,"bottom");
       this.config.data.datasets = new Array();
-      this.Push_dataset("Décohérentes",this.rouge,this.rouge,1,this.DeCoherent_Centers);
+      this.Push_dataset("Décohérentes",this.gris,this.gris,1,this.DeCoherent_Centers);
       this.Push_dataset("Cohérentes",this.vert,this.vert,3,this.Coherent_Centers);
     };
     this.Draw_Chart_from_Octave = function (_Octave, _Canvas_Name) {
-      this.Bandes_from_Octave(_Octave,1);
+      this.Bandes_from_Octave(_Octave,1,true);
       new Chart(_Canvas_Name,this.config);
     };
     this.Draw_Chart_from_Frequence = function (_Libelle, _Frequence, _Canvas_Name) {
-      this.Bandes_from_Octave(pas.uFrequences.Frequences().Octave_from_Frequence(_Frequence),1);
-      this.Push_dataset(_Libelle,"blue","blue",2.5,[_Frequence]);
+      this.Bandes_from_Octave(pas.uFrequences.Frequences().Octave_from_Frequence(_Frequence),1,true);
+      this.Push_dataset(_Libelle,this.bleu,this.bleu,2.5,[_Frequence]);
       new Chart(_Canvas_Name,this.config);
     };
     this.Draw_Chart_from_Frequences = function (_Octave, _NbOctaves, _Libelle, _Frequences, _Canvas_Name) {
-      this.Bandes_from_Octave(_Octave,_NbOctaves);
-      this.Push_dataset(_Libelle,"blue","blue",2.5,_Frequences);
+      this.Bandes_from_Octave(_Octave,_NbOctaves,false);
+      this.Push_dataset(_Libelle,this.bleu,this.bleu,2.5,_Frequences);
       new Chart(_Canvas_Name,this.config);
     };
   });
@@ -2651,14 +2791,13 @@ rtl.module("uFrequencesCharter",["System","uFrequence","uFrequences","Classes","
   var $impl = $mod.$impl;
   $impl.FFrequencesCharter = null;
 });
-rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","uFrequencesCharter","Classes","SysUtils","JS","Web","Math","ChartJS","Types"],function () {
+rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","uGamme","uFrequencesCharter","Classes","SysUtils","JS","Web","Math","ChartJS","Types"],function () {
   "use strict";
   var $mod = this;
   var $impl = $mod.$impl;
   rtl.createClass($mod,"TfjsFrequences",pas.System.TObject,function () {
     this.$init = function () {
       pas.System.TObject.$init.call(this);
-      this.d = null;
       this.iOctave = null;
       this.iFrequence = null;
       this.sFrequence = null;
@@ -2668,7 +2807,6 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","uFre
       this.dInfos = null;
     };
     this.$final = function () {
-      this.d = undefined;
       this.iOctave = undefined;
       this.iFrequence = undefined;
       this.sFrequence = undefined;
@@ -2683,7 +2821,6 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","uFre
       return this;
     };
     this.Connecte_Interface = function () {
-      this.d = $impl.element_from_id("d");
       this.iOctave = $impl.input_from_id("iOctave");
       this.iOctave.oninput = rtl.createCallback(this,"iOctaveInput");
       this.iFrequence = $impl.input_from_id("iFrequence");
@@ -2691,39 +2828,58 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","uFre
       this.sFrequence = $impl.element_from_id("sFrequence");
       this.dOctave = $impl.element_from_id("dOctave");
       this.dFrequence = $impl.element_from_id("dFrequence");
+      this.Traite_Octave();
+      this.Traite_Frequence();
+      this.Traite_Gamme_Temperee(418,pas.uGamme.Gamme_418Hz());
+      this.Traite_Gamme_Temperee(432,pas.uGamme.Gamme_432Hz());
+      this.Traite_Gamme_Temperee(440,pas.uGamme.Gamme_440Hz());
       this.dCPL_G3 = $impl.element_from_id("dCPL_G3");
       this.Traite_CPL_G3();
       this.dInfos = $impl.element_from_id("dInfos");
-      this.dInfos.innerHTML = "compilé avec pas2js version " + "1.4.20" + "<br>" + "target: " + "ECMAScript5" + " - " + "Browser" + "<br>" + "os: " + "Browser" + "<br>" + "cpu: " + "ECMAScript5" + "<br>" + "compilé le " + "2020\/4\/25" + " à " + " 2: 5:42" + "<br>" + "langue du navigateur: " + window.navigator.language;
+      this.dInfos.innerHTML = "compilé avec pas2js version " + "1.4.20" + "<br>" + "target: " + "ECMAScript5" + " - " + "Browser" + "<br>" + "os: " + "Browser" + "<br>" + "cpu: " + "ECMAScript5" + "<br>" + "compilé le " + "2020\/4\/26" + " à " + " 3:16:34" + "<br>" + "langue du navigateur: " + window.navigator.language;
     };
     this.iOctaveInput = function (_Event) {
       var Result = false;
+      this.Traite_Octave();
+      return Result;
+    };
+    this.iFrequenceInput = function (_Event) {
+      var Result = false;
+      this.Traite_Frequence();
+      return Result;
+    };
+    this.Traite_Octave = function () {
       var Octave = 0;
       if (!pas.SysUtils.TryStrToInt(this.iOctave.value,{get: function () {
           return Octave;
         }, set: function (v) {
           Octave = v;
-        }})) return Result;
+        }})) return;
       pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Octave(Octave,"cOctave");
       this.dOctave.innerHTML = pas.uFrequences.Frequences().Liste(Octave);
-      return Result;
     };
-    this.iFrequenceInput = function (_Event) {
-      var Result = false;
+    this.Traite_Frequence = function () {
       var Frequence = 0.0;
       if (!pas.SysUtils.TryStrToFloat$1(this.iFrequence.value,{get: function () {
           return Frequence;
         }, set: function (v) {
           Frequence = v;
-        }})) return Result;
+        }})) return;
       pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Frequence(pas.uFrequence.sFrequence(Frequence,6," "),Frequence,"cFrequence");
       this.dFrequence.innerHTML = pas.uFrequences.Frequences().Liste_from_Frequence(Frequence);
       this.sFrequence.innerHTML = pas.uFrequence.sFrequence(Frequence,6," ");
-      return Result;
     };
     this.Traite_CPL_G3 = function () {
       pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Frequences(7,2,"Porteuses CPL G3",pas.uCPL_G3.CPL_G3().F,"cCPL_G3");
       this.dCPL_G3.innerHTML = pas.uCPL_G3.CPL_G3().Liste();
+    };
+    this.Traite_Gamme_Temperee = function (_Diapason, _Gamme_Temperee) {
+      var sDiapason = "";
+      pas.System.Writeln(this.$classname + ".Traite_Gamme_Temperee(",_Diapason);
+      sDiapason = pas.SysUtils.IntToStr(_Diapason);
+      pas.System.Writeln("sDiapason: ",sDiapason);
+      pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Frequences(0,1,"Gamme tempérée diapason " + sDiapason + " Hz",_Gamme_Temperee.Base.slice(0),"c" + sDiapason + "Hz");
+      $impl.element_from_id("d" + sDiapason + "Hz").innerHTML = _Gamme_Temperee.Liste(0);
     };
   });
 },null,function () {
@@ -2741,7 +2897,7 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","uFre
     return Result;
   };
 });
-rtl.module("program",["System","JS","Classes","SysUtils","Web","ufjsFrequences","uFrequence","uFrequencesCharter"],function () {
+rtl.module("program",["System","JS","Classes","SysUtils","Web","ufjsFrequences","uFrequence","uGamme","uFrequencesCharter"],function () {
   "use strict";
   var $mod = this;
   $mod.$main = function () {
