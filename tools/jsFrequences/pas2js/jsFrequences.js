@@ -2340,7 +2340,7 @@ rtl.module("uFrequences",["System","uFrequence","Classes","SysUtils","Math","Typ
       Frequence = this.Harmonique(_Base,_Octave);
       Bas = Frequence * 0.9915;
       Haut = Frequence * 1.0085;
-      Result = pas.uFrequence.sFrequence(Bas,6," ") + " \/ " + pas.uFrequence.sFrequence(Frequence,6," ") + " \/ " + pas.uFrequence.sFrequence(Haut,6," ");
+      Result = "Min: " + pas.uFrequence.sFrequence(Bas,6," ") + " \/ Centre: " + pas.uFrequence.sFrequence(Frequence,6," ") + " \/ Max: " + pas.uFrequence.sFrequence(Haut,6," ");
       return Result;
     };
     this.aCoherent_boundaries = function (_Octave, _NbOctaves) {
@@ -2366,12 +2366,12 @@ rtl.module("uFrequences",["System","uFrequence","Classes","SysUtils","Math","Typ
     this.Liste = function (_Octave) {
       var Result = "";
       var I = 0;
-      Result = "Octave: " + pas.SysUtils.IntToStr(_Octave) + pas.uFrequence.uFrequence_Separateur_Lignes + "Fréquences cohérentes";
+      Result = "Octave: " + pas.SysUtils.IntToStr(_Octave) + pas.uFrequence.uFrequence_Separateur_Lignes + "Bandes de fréquences cohérentes";
       for (var $l1 = 0, $end2 = rtl.length($mod.uFrequences_coherent) - 1; $l1 <= $end2; $l1++) {
         I = $l1;
         Result = Result + pas.uFrequence.uFrequence_Separateur_Lignes + this.sFrequence(_Octave,$mod.uFrequences_coherent[I]);
       };
-      Result = Result + pas.uFrequence.uFrequence_Separateur_Lignes + "Fréquences décohérentes";
+      Result = Result + pas.uFrequence.uFrequence_Separateur_Lignes + "Bandes de fréquences décohérentes";
       for (var $l3 = 0, $end4 = rtl.length($mod.uFrequences_decoherent) - 1; $l3 <= $end4; $l3++) {
         I = $l3;
         Result = Result + pas.uFrequence.uFrequence_Separateur_Lignes + this.sFrequence(_Octave,$mod.uFrequences_decoherent[I]);
@@ -2394,7 +2394,7 @@ rtl.module("uFrequences",["System","uFrequence","Classes","SysUtils","Math","Typ
       Bas = F * 0.9915;
       Haut = F * 1.0085;
       if ((Bas <= _Frequence) && (_Frequence <= Haut)) {
-        Result = _Prefixe + " " + this.sFrequence(_Octave,_Base);
+        Result = _Prefixe + " dans la bande " + this.sFrequence(_Octave,_Base);
         _Nb.set(_Nb.get() + 1);
       } else Result = "";
       return Result;
@@ -2836,7 +2836,7 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","uGam
       this.dCPL_G3 = $impl.element_from_id("dCPL_G3");
       this.Traite_CPL_G3();
       this.dInfos = $impl.element_from_id("dInfos");
-      this.dInfos.innerHTML = "compilé avec pas2js version " + "1.4.20" + "<br>" + "target: " + "ECMAScript5" + " - " + "Browser" + "<br>" + "os: " + "Browser" + "<br>" + "cpu: " + "ECMAScript5" + "<br>" + "compilé le " + "2020\/4\/26" + " à " + " 3:16:34" + "<br>" + "langue du navigateur: " + window.navigator.language;
+      this.dInfos.innerHTML = "compilé avec pas2js version " + "1.4.20" + "<br>" + "target: " + "ECMAScript5" + " - " + "Browser" + "<br>" + "os: " + "Browser" + "<br>" + "cpu: " + "ECMAScript5" + "<br>" + "compilé le " + "2020\/4\/26" + " à " + "16:28:46" + "<br>" + "langue du navigateur: " + window.navigator.language;
     };
     this.iOctaveInput = function (_Event) {
       var Result = false;

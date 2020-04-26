@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,13 +17,32 @@
   <title>jsFrequences</title>
   <script src="jsFrequences.js"></script>
 </head>
+<style>
+  body {
+    background-color: #eee;
+    margin: auto;
+  }
+</style>
 <body>
   <div class="container-fluid">
+    <div class="row mt-3 ml-1 text-muted">
+      <p>Ce programme est le résultat d'une réflexion à la lecture de l'article ci-dessous, j'espère ne pas avoir fait d'erreurs:</p>
+      <p><a target="_blank" href="https://file.scirp.org/pdf/JCT_2018030914283777.pdf?fbclid=IwAR1mjnXL7HgTqEZCtDn2OqNWU4xorx4g-3RxhSRGSQz8vTIL3Yx2skDGPfY">
+      Journal of Cancer Therapy, Favourable and Unfavourable EMF Frequency Patterns in Cancer: Perspectives for Improved Therapy and Prevention
+      </a></p>
+      <p>
+      Cela concerne des ondes électromagnétiques.<br>
+      Dans l'article les fréquences favorables de ces ondes sont également appelées fréquences cohérentes.<br>
+      Ci-dessous les fréquences cohérentes favorables sont affichées en fond <em style="background-color:#80FF80;">vert </em>
+      et les décohérentes en fond <em style="background-color:#C0C0C0;">gris</em><br>
+      L'effet se manifeste dans une zone de + ou -0,85% autour de la fréquence, cela fait une bande de fréquence.
+      </p>
+    </div>
     <div class="card">
       <div class="card-header" id="chOctave">
         <h5 class="mb-0">
           <button class="btn btn-link" data-toggle="collapse" data-target="#Octave" aria-expanded="true" aria-controls="Octave">
-            Bandes de fréquences cohérentes/incohérentes pour une octave donnée
+            Cliquez ici pour voir ces bandes pour une octave donnée
           </button>
         </h5>
       </div>
@@ -37,12 +56,6 @@
           <canvas id="cOctave" height="100"></canvas>
           <div id="dOctave">
           </div>
-          <div>
-            Référence utilisée pour les fréquences cohérentes/incohérentes:<br>
-            <a href="https://file.scirp.org/pdf/JCT_2018030914283777.pdf?fbclid=IwAR1mjnXL7HgTqEZCtDn2OqNWU4xorx4g-3RxhSRGSQz8vTIL3Yx2skDGPfY">
-            Journal of Cancer Therapy, Favourable and Unfavourable EMF Frequency Patterns in Cancer: Perspectives for Improved Therapy and Prevention
-            </a>
-          </div>
         </div>
       </div>
     </div>
@@ -50,7 +63,7 @@
       <div class="card-header" id="chFrequence">
         <h5 class="mb-0">
           <button class="btn btn-link" data-toggle="collapse" data-target="#Frequence" aria-expanded="true" aria-controls="Frequence">
-            Bandes de fréquences cohérentes/incohérentes autour d'une fréquence donnée
+            Pour les voir autour d'une fréquence donnée
           </button>
         </h5>
       </div>
@@ -58,10 +71,14 @@
         <div class="card-body">
            <div>
               <label for="iFrequence">Fréquence</label>
-              <span class="form-control" >
-                <input id="iFrequence" aria-describedby="lFrequence" value="440"/>
-                <span id="sFrequence"> </span>
-              </span>
+              <div class="row" id="controls">
+                <div class="col-md-6">
+                  <input id="iFrequence" class="form-control" aria-describedby="lFrequence" value="440"/>
+                </div>
+                <div class="col-md-6">
+                  <span id="sFrequence"> </span>
+                </div>
+              </div>
               <small id="lFrequence" class="form-text text-muted">Fréquence à afficher en Herz</small>
            </div>
            <canvas id="cFrequence" height="100"></canvas>
@@ -70,11 +87,19 @@
         </div>
       </div>
     </div>
+    <div class="row mt-3 ml-1 text-muted">
+      <p>
+      L'article traite d'ondes électromagnétiques mais la vue des résultats fait penser à la musique (ondes acoustiques).<br>
+      Cela rappelle les 12 demi-tons de la gamme tempérée.<br>
+      La répartition des bandes est proche de la gamme tempérée mais ce n'est pas exactement çà.<br>
+      Je n'ai pas trouvé non plus de correspondance avec la gamme pythagoricienne.
+      </p>
+    </div>
     <div class="card">
       <div class="card-header" id="ch432Hz">
         <h5 class="mb-0">
           <button class="btn btn-link" data-toggle="collapse" data-target="#g432Hz" aria-expanded="true" aria-controls="g432Hz">
-            La gamme 432Hz est dans les fréquences cohérentes, mais il y a des écarts
+            Comme les bandes ont une certaine largeur, la gamme à 432Hz entre quand même entièrement dans les fréquences cohérentes.
           </button>
         </h5>
       </div>
@@ -90,7 +115,7 @@
       <div class="card-header" id="ch418Hz">
         <h5 class="mb-0">
           <button class="btn btn-link" data-toggle="collapse" data-target="#g418Hz" aria-expanded="true" aria-controls="g418Hz">
-            La gamme 418 Hz est dans les fréquences décohérentes, mais il y a des écarts
+            Et la gamme à 418 Hz est pile dans les fréquences décohérentes
           </button>
         </h5>
       </div>
@@ -106,7 +131,7 @@
       <div class="card-header" id="ch440Hz">
         <h5 class="mb-0">
           <button class="btn btn-link" data-toggle="collapse" data-target="#g440Hz" aria-expanded="true" aria-controls="g440Hz">
-            Certaines notes de la gamme standard 440Hz sont décohérentes, d'autres neutres
+            Certaines notes de la gamme standard à 440Hz sont décohérentes, d'autres neutres
           </button>
         </h5>
       </div>
@@ -118,23 +143,26 @@
         </div>
       </div>
     </div>
+    <div class="row mt-3 ml-1 text-muted">
+      <p>
+      Compteur électrique Linky<br><br>
+      Je me suis intéressé également aux fréquences utilisées pour la communication des compteurs Linky.<br>
+      Ils utilisent la norme CPL G3 dont j'ai trouvé une documentation ici:
+      <a target="_blank" href="http://www.santepublique-editions.fr/objects/Specification_de_la_couche_physique_CPL_G3.pdf">
+      SPECIFICATION DE LA COUCHE PHYSIQUE CPL G3
+      </a>
+      </p>
+    </div>
     <div class="card">
       <div class="card-header" id="chCPL_G3">
         <h5 class="mb-0">
           <button class="btn btn-link" data-toggle="collapse" data-target="#CPL_G3" aria-expanded="true" aria-controls="CPL_G3">
-            Compteur électrique Linky: un tiers des 36 fréquences porteuses de la norme CPL G3  sont cohérentes
+            Les résultats sont mitigés: un tiers des 36 fréquences porteuses sont cohérentes
           </button>
         </h5>
       </div>
       <div id="CPL_G3" class="collapse" aria-labelledby="chCPL_G3">
         <div class="card-body">
-          <ul>
-              <li>Référence utilisée pour le CPL G3:
-                  <a href="http://www.santepublique-editions.fr/objects/Specification_de_la_couche_physique_CPL_G3.pdf">
-                  SPECIFICATION DE LA COUCHE PHYSIQUE CPL G3
-                  </a>
-              </li>
-          </ul>
           <canvas id="cCPL_G3" height="100"></canvas>
           <div id="dCPL_G3">
           </div>
@@ -152,7 +180,7 @@
       <div id="Infos" class="collapse" aria-labelledby="chInfos">
         <div class="card-body">
           <div >
-             <a href="https://github.com/jsuzineau/pascal_o_r_mapping/tree/TjsDataContexte/tools/jsFrequences">
+             <a target="_blank" href="https://github.com/jsuzineau/pascal_o_r_mapping/tree/TjsDataContexte/tools/jsFrequences">
                       https://github.com/jsuzineau/pascal_o_r_mapping/tree/TjsDataContexte/tools/jsFrequences
              </a>
           </div>

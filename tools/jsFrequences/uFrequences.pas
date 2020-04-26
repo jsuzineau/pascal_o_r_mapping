@@ -89,7 +89,7 @@ begin
      Bas := Frequence*uFrequences_Bas_factor;
      Haut:= Frequence*uFrequences_Haut_factor;
      //Result:= uFrequence.sFrequence( Frequence);
-     Result:= uFrequence.sFrequence( Bas)+' / '+uFrequence.sFrequence( Frequence)+' / '+uFrequence.sFrequence( Haut);
+     Result:= 'Min: '+uFrequence.sFrequence( Bas)+' / Centre: '+uFrequence.sFrequence( Frequence)+' / Max: '+uFrequence.sFrequence( Haut);
 end;
 
 function TFrequences.Boundaries( _Octave, _NbOctaves: Integer; _Base: TDoubleDynArray): TDoubleDynArray;
@@ -152,12 +152,12 @@ function TFrequences.Liste( _Octave: Integer): String;
 var
    I: Integer;
 begin
-     Result:= 'Octave: '+IntToStr(_Octave)+uFrequence_Separateur_Lignes+'Fréquences cohérentes';
+     Result:= 'Octave: '+IntToStr(_Octave)+uFrequence_Separateur_Lignes+'Bandes de fréquences cohérentes';
      for I:= Low(uFrequences_coherent) to High(uFrequences_coherent)
      do
        Result:= Result+uFrequence_Separateur_Lignes+ sFrequence( _Octave, uFrequences_coherent[I]);
 
-     Result:= Result+uFrequence_Separateur_Lignes+ 'Fréquences décohérentes';
+     Result:= Result+uFrequence_Separateur_Lignes+ 'Bandes de fréquences décohérentes';
      for I:= Low(uFrequences_decoherent) to High(uFrequences_decoherent)
      do
        Result:= Result+uFrequence_Separateur_Lignes+ sFrequence( _Octave, uFrequences_decoherent[I]);
@@ -173,7 +173,7 @@ begin
      if (Bas <= _Frequence) and (_Frequence <= Haut)
      then
          begin
-         Result:= _Prefixe+' '+ sFrequence( _Octave, _Base);
+         Result:= _Prefixe+' dans la bande '+ sFrequence( _Octave, _Base);
          Inc( _Nb);
          end
      else
