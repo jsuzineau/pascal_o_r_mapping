@@ -115,3 +115,4 @@ tools/Generateur/etc/_Configuration_Generateur_de_code.ini
 jsLignes.Exclus.txt
 *.map
 tools/jsFleur_de_vie/jsFleur_de_vie
+tools/jsFrequences/pas2js/*.mp3
