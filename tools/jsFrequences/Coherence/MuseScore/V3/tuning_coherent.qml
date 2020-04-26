@@ -24,7 +24,7 @@ import FileIO 3.0
 
 MuseScore {
     version: "3.0.5"
-    menuPath: "Plugins.Playback.Tuning"
+    menuPath: "Plugins.Playback.TuningCoherent"
     description: "Apply various temperaments and tunings"
     pluginType: "dialog"
     width: 550
