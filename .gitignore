@@ -116,3 +116,4 @@ jsLignes.Exclus.txt
 *.map
 tools/jsFleur_de_vie/jsFleur_de_vie
 tools/jsFrequences/pas2js/*.mp3
+tools/jsFrequences/pas2js/MuseScore
