@@ -584,13 +584,15 @@ var
    begin
         sOutil:= 'T'+IntToStr( _I);
         sY:= IntToStr( _I*_dy);
-        sPause:= 'G1 X0 Y'+sY+' E0'#13#10'G92 E0';
+
+
+        sPause:= 'M300'#13#10'M25'#13#10'G1 X0 Y'+sY+' E0'#13#10'G92 E0';
         Formate_Liste( sCommentaire, #13#10, ';'+sOutil+' converti en '+StringReplace( sPause, #13#10, '\n', [rfReplaceAll]));
         S:= StringReplace( S, sOutil, sPause, [rfReplaceAll]);
    end;
 begin
      sCommentaire:= ';Outil_T_PauseY, '+IntToStr( _nb_outils)+' outils, _dy='+IntToStr( _dy);
-     NomCible:= ChangeFileExt( NomFichier, '_Outil_T_PauseY.'+ExtractFileExt( NomFichier));
+     NomCible:= ChangeFileExt( NomFichier, '_Outil_T_PauseY'+ExtractFileExt( NomFichier));
      for I:= 0 to _nb_outils-1
      do
        T(I);
