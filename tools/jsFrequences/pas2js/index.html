@@ -54,7 +54,8 @@
              <small id="lOctave" class="form-text text-muted">
                Octave de la bande de fréquences à afficher, saisir 0 pour l'octave de base<br>
                Elle correspond à l'octave 3 de la notation latine ( Do Ré Mi Fa Sol La Si)<br>
-               et à l'octave 4 de la notation anglo-saxonne (C D E F G A B)
+               et à l'octave 4 de la notation anglo-saxonne (C D E F G A B)<br>
+               Les octave 40 et 41 correspondent à la lumière visible.
              </small>
           </div>
           <canvas id="cOctave" height="100"></canvas>
@@ -216,7 +217,341 @@
               et activé par le menu Plugin/Gestionnaires de Plugins, <br>
               il faut régler le diapason sur 432 Hz dans le menu Affichage/Synthétiseur/Réglage du Diapason (et faire Enregistrer dans la partition), <br>
               sélectionner toutes les mesures de la partition <br>
-              et dans le menu Plugins/Playback/TuningCoherent, choisir le tempérament Cohérent puis "Apply".
+              et dans le menu Plugins/Playback/TuningCoherent, choisir le tempérament Cohérent <br>
+              puis "Apply" pour appliquer la modification aux mesures sélectionnées.<br>
+              <br>
+              Voici une comparaison avec la gamme pythagoricienne (source <a target="_blank" href="https://fr.wikipedia.org/wiki/Accord_pythagoricien">Wikipedia</a>) <br>
+              Les écarts sont mesurés en Cents définis par la formule suivante:
+              <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                <semantics>
+                 <mrow>
+                  <mn>1200</mn>
+                  <mo stretchy="false">⋅</mo>
+                  <mrow>
+                   <mo fence="true" stretchy="false">(</mo>
+                   <mrow>
+                    <mfrac>
+                     <mrow>
+                      <mi>ln</mi>
+                      <mrow>
+                       <mo fence="true" stretchy="false">(</mo>
+                       <mrow>
+                        <mfrac>
+                         <mrow>
+                          <mi mathvariant="italic">Fréquence&nbsp;note</mi>
+                         </mrow>
+                         <mrow>
+                          <mi mathvariant="italic">Fréquence&nbsp;note&nbsp;standard</mi>
+                         </mrow>
+                        </mfrac>
+                       </mrow>
+                       <mo fence="true" stretchy="false">)</mo>
+                      </mrow>
+                     </mrow>
+                     <mrow>
+                      <mi>ln</mi>
+                      <mrow>
+                       <mo fence="true" stretchy="false">(</mo>
+                       <mrow>
+                        <mn>2</mn>
+                       </mrow>
+                       <mo fence="true" stretchy="false">)</mo>
+                      </mrow>
+                     </mrow>
+                    </mfrac>
+                   </mrow>
+                   <mo fence="true" stretchy="false">)</mo>
+                  </mrow>
+                 </mrow>
+                 <annotation encoding="StarMath 5.0">1200 cdot ( { ln( {Fréquence note} over {Fréquence note standard} ) } over { ln(2) } )  </annotation>
+                </semantics>
+               </math> <br>
+
+		<style type="text/css">
+                @page {  }
+                table { border-collapse:collapse; border-spacing:0; empty-cells:show }
+                td, th { vertical-align:top; font-size:10pt;}
+                h1, h2, h3, h4, h5, h6 { clear:both;}
+                p { white-space: nowrap; }
+                ol, ul { margin:0; padding:0;}
+                li { list-style: none; margin:0; padding:0;}
+                /* "li span.odfLiEnd" - IE 7 issue*/
+                li span. { clear: both; line-height:0; width:0; height:0; margin:0; padding:0; }
+                span.footnodeNumber { padding-right:1em; }
+                span.annotation_style_by_filter { font-size:95%; font-family:Arial; background-color:#fff000;  margin:0; border:0; padding:0;  }
+                span.heading_numbering { margin-right: 0.8rem; }* { margin:0;}
+                .ta1 { writing-mode:lr-tb; }
+                .Default { font-family:Liberation Sans; }
+                .ce1 { font-family:Liberation Serif; vertical-align:middle; text-align:center ! important; font-size:10pt; font-style:normal; text-shadow:none; text-decoration:none ! important; font-weight:bold; }
+                .ce2 { font-family:Liberation Serif; text-align:center ! important; font-size:10pt; font-style:normal; text-shadow:none; text-decoration:none ! important; font-weight:bold; }
+                .ce3 { font-family:Liberation Serif; font-size:10pt; font-style:italic; text-shadow:none; text-decoration:none ! important; font-weight:normal; }
+                .ce4 { font-family:Liberation Serif; font-size:10pt; font-style:normal; text-shadow:none; text-decoration:none ! important; font-weight:normal; }
+                .ce5 { font-family:Liberation Sans; vertical-align:middle; }
+                .co1 { width:2.258cm; }
+                .ro1 { height:1.236cm; }
+                .ro2 { height:0.841cm; }
+                .ro3 { height:0.46cm; }
+                .ro4 { height:0.452cm; }
+                /* ODF styles with no properties representable as CSS */
+                 { }
+                </style>
+		<table border="1" cellspacing="0" cellpadding="0" class="ta1">
+			<colgroup>
+				<col width="99"/>
+				<col width="99"/>
+				<col width="99"/>
+			</colgroup>
+			<tr class="ro1">
+				<td colspan="3" style="text-align:left;width:2.258cm; " class="ce1">
+					<p>Ecart en cents
+						<br/>Par rapport à la gamme courante
+						<br/>(gamme à tempérament égal)
+					</p>
+				</td>
+			</tr>
+			<tr class="ro2">
+				<td style="text-align:left;width:2.258cm; " class="ce2">
+					<p>Note</p>
+				</td>
+				<td style="text-align:left;width:2.258cm; " class="ce2">
+					<p>Pythagoricien</p>
+				</td>
+				<td style="text-align:left;width:2.258cm; " class="Default">
+					<p>Cohérent</p>
+				</td>
+			</tr>
+			<tr class="ro3">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>ré</p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>0</p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce5">
+					<p>-1,96</p>
+				</td>
+			</tr>
+			<tr class="ro3">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>mi♭</p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>-9,775</p>
+				</td>
+				<td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
+					<p>-13,48</p>
+				</td>
+			</tr>
+			<tr class="ro3">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>ré♯</p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>13,685</p>
+				</td>
+			</tr>
+			<tr class="ro3">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>fa♭ </p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>-19,55</p>
+				</td>
+				<td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
+					<p>1,96</p>
+				</td>
+			</tr>
+			<tr class="ro3">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>mi</p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>3,91</p>
+				</td>
+			</tr>
+			<tr class="ro4">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>fa</p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>-5,865</p>
+				</td>
+				<td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
+					<p>-8,50</p>
+				</td>
+			</tr>
+			<tr class="ro4">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>mi♯</p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>17,595</p>
+				</td>
+			</tr>
+			<tr class="ro4">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>sol♭ </p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>-15,64</p>
+				</td>
+				<td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
+					<p>6,81</p>
+				</td>
+			</tr>
+			<tr class="ro4">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>fa♯</p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>7,82</p>
+				</td>
+			</tr>
+			<tr class="ro4">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>sol</p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>-1,955</p>
+				</td>
+				<td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
+					<p>-3,91</p>
+				</td>
+			</tr>
+			<tr class="ro4">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>fa♯♯ </p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>21,505</p>
+				</td>
+			</tr>
+			<tr class="ro4">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>la♭</p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>-11,73</p>
+				</td>
+				<td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
+					<p>-13,87</p>
+				</td>
+			</tr>
+			<tr class="ro4">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>sol♯</p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>11,73</p>
+				</td>
+			</tr>
+			<tr class="ro4">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>si♭♭ </p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>-21,505</p>
+				</td>
+				<td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
+					<p>0,00</p>
+				</td>
+			</tr>
+			<tr class="ro4">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>la</p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>1,955</p>
+				</td>
+			</tr>
+			<tr class="ro4">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>si♭</p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>-7,82</p>
+				</td>
+				<td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
+					<p>-9,82</p>
+				</td>
+			</tr>
+			<tr class="ro4">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>la♯</p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>15,64</p>
+				</td>
+			</tr>
+			<tr class="ro4">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>do♭ </p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>-17,595</p>
+				</td>
+				<td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
+					<p>3,91</p>
+				</td>
+			</tr>
+			<tr class="ro4">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>si</p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>5,865</p>
+				</td>
+			</tr>
+			<tr class="ro4">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>do</p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>-3,91</p>
+				</td>
+				<td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
+					<p>-5,87</p>
+				</td>
+			</tr>
+			<tr class="ro4">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>si♯</p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>19,55</p>
+				</td>
+			</tr>
+			<tr class="ro4">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>ré♭ </p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>-13,865</p>
+				</td>
+				<td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
+					<p>-14,97</p>
+				</td>
+			</tr>
+			<tr class="ro4">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>do♯</p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>9,775</p>
+				</td>
+			</tr>
+			<tr class="ro3">
+				<td style="text-align:left;width:2.258cm; " class="ce3">
+					<p>ré</p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce4">
+					<p>0</p>
+				</td>
+				<td style="text-align:right; width:2.258cm; " class="ce5">
+					<p>-1,96</p>
+				</td>
+			</tr>
+		</table>
              </p>
            </div>
         </div>
@@ -236,7 +571,7 @@
       <div class="card-header" id="chCPL_G3">
         <h5 class="mb-0">
           <button class="btn btn-link" data-toggle="collapse" data-target="#CPL_G3" aria-expanded="true" aria-controls="CPL_G3">
-            Les résultats sont mitigés: un tiers des 36 fréquences porteuses sont cohérentes
+            Les résultats sont mitigés: un tiers des 36 fréquences porteuses sont cohérentes, un quart décohérentes
           </button>
         </h5>
       </div>
@@ -260,7 +595,11 @@
         <div class="card-body">
            <div class="row mt-3 ml-1 text-muted">
              <p>
-             J'ai utilisé la référence suivante pour la conversion des fréquences en couleurs d'écran (le rendu doit varier un peu d'un écran à l'autre): <br>
+             Le rendu doit varier un peu d'un écran à l'autre <br>
+             et sur certaines longueurs d'onde dans le rouge l'écran ne peut faire la différence, <br>
+             on obtient la même couleur pour des fréquences /longueurs d'onde différentes. <br>
+             J'ai été surpris de voir le rouge arriver sur fa sol, je l'aurais plutôt attendu autour du do...<br>
+             J'ai utilisé la référence suivante pour la conversion des fréquences en couleurs d'écran: <br>
              <a target="_blank" href="https://web.archive.org/web/20190528182100/http://www.physics.sfasu.edu/astro/color/spectra.html">
              http://www.physics.sfasu.edu/astro/color/spectra.html
              </a><br>
@@ -273,7 +612,6 @@
              <a target="_blank" href="https://fr.wikipedia.org/wiki/Spectre_%C3%A9lectromagn%C3%A9tique">
              https://fr.wikipedia.org/wiki/Spectre_électromagnétique
              </a><br>
-             J'ai été surpris de voir le rouge arriver sur fa sol, je l'aurais plutôt attendu autour du do...
              </p>
            </div>
           <canvas id="cCouleur" height="100"></canvas>

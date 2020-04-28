@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+ <semantics>
+  <mrow>
+   <mn>1200</mn>
+   <mo stretchy="false">⋅</mo>
+   <mrow>
+    <mo fence="true" stretchy="false">(</mo>
+    <mrow>
+     <mfrac>
+      <mrow>
+       <mi>ln</mi>
+       <mrow>
+        <mo fence="true" stretchy="false">(</mo>
+        <mrow>
+         <mfrac>
+          <mrow>
+           <mi mathvariant="italic">Fréquence</mi>
+           <mi mathvariant="italic">note</mi>
+          </mrow>
+          <mrow>
+           <mi mathvariant="italic">Fréquence</mi>
+           <mi mathvariant="italic">note</mi>
+           <mi mathvariant="italic">standard</mi>
+          </mrow>
+         </mfrac>
+        </mrow>
+        <mo fence="true" stretchy="false">)</mo>
+       </mrow>
+      </mrow>
+      <mrow>
+       <mi>ln</mi>
+       <mrow>
+        <mo fence="true" stretchy="false">(</mo>
+        <mrow>
+         <mn>2</mn>
+        </mrow>
+        <mo fence="true" stretchy="false">)</mo>
+       </mrow>
+      </mrow>
+     </mfrac>
+    </mrow>
+    <mo fence="true" stretchy="false">)</mo>
+   </mrow>
+  </mrow>
+  <annotation encoding="StarMath 5.0">1200 cdot ( { ln( {Fréquence note} over {Fréquence note standard} ) } over { ln(2) } )  </annotation>
+ </semantics>
+</math>

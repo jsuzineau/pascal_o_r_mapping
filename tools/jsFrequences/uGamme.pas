@@ -29,7 +29,8 @@ type
   //Affichage de l'harmonique d'une fréquence
   public
     function Frequences( _Octave, _NbOctaves: Integer): TDoubleDynArray;
-    function sFrequence( _Octave: Integer; _Base: double): String;
+    function sFrequence(_Octave: Integer; _Base: double; _Note_Index: Integer
+     ): String;
 
     function Liste( _Octave: Integer): String;
   private
@@ -98,12 +99,12 @@ begin
      Result:= _Frequence*(2**_Octave)
 end;
 
-function TGamme_Temperee.sFrequence(_Octave: Integer; _Base: double): String;
+function TGamme_Temperee.sFrequence(_Octave: Integer; _Base: double; _Note_Index: Integer): String;
 var
    Frequence: double;
 begin
      Frequence:= Harmonique( _Base, _Octave);
-     Result:= uFrequence.sFrequence( Frequence);
+     Result:= Note_Latine(_Note_Index)+' '+uFrequence.sFrequence( Frequence);
 end;
 
 function TGamme_Temperee.Frequences( _Octave, _NbOctaves: Integer): TDoubleDynArray;
@@ -126,7 +127,7 @@ begin
      Result:= '<pre>Octave: '+IntToStr(_Octave)+uFrequence_Separateur_Lignes+'Gamme tempérée, diapason '+FloatToStr( Diapason)+' Hz';
      for I:= Low(Base) to High(Base)
      do
-       Result:= Result+uFrequence_Separateur_Lignes+ sFrequence( _Octave, Base[I]);
+       Result:= Result+uFrequence_Separateur_Lignes+ sFrequence( _Octave, Base[I],I);
      Result:= Result+'</pre>';
 end;
 

@@ -44,8 +44,10 @@ function Frequence_from_Longueur_onde( _Longueur_onde: Nanometres): Hertz;
 
 function RGB_from_Frequency_hex ( _Frequence: Hertz): String;
 function RGB_from_Frequency_rgba( _Frequence: Hertz; _Alpha: double): String;
+function RGB_from_Frequency_tag( _Frequence: Hertz): String;
 
-function Is_Visible( _Frequence_Min, _Frequence_Max: double): Boolean;
+function Is_Visible( _Frequence_Min, _Frequence_Max: double): Boolean;overload;
+function Is_Visible( _Frequence: double): Boolean;overload;
 
 implementation
 
@@ -172,12 +174,36 @@ begin
      //WriteLn( 'Frequence:', _Frequence, ' couleur: ',Result);
 end;
 
-function Is_Visible( _Frequence_Min, _Frequence_Max: double): Boolean;
+function RGB_from_Frequency_tag( _Frequence: Hertz): String;
+var
+   Longueur_onde: Nanometres;
+   Red, Green, Blue: double;
+   R, G, B: Byte;
+   hex: String;
+begin
+     Longueur_onde:= Longueur_onde_from_Frequence( _Frequence);
+     RGB_from_Longueur_onde( Longueur_onde, Red, Green, Blue);
+     R:= Round( 255*Red );
+     G:= Round( 255*Green);
+     B:= Round( 255*Blue);
+     hex:= RGB_from_Frequency_hex( _Frequence);
+     Result
+     :=
+        '<em style="background-color:'+hex+';">'
+       +Format('longueur d''onde: %f nm  Rouge: %.3d; Vert: %.3d; Bleu: %.3d soit %s', [ Longueur_onde, R, G, B, hex])
+       +'</em>';
+end;
+function Is_Visible( _Frequence_Min, _Frequence_Max: double): Boolean; overload;
 begin
      Result:= False;
      if _Frequence_Max < Couleur_Frequence_Min then exit;
      if _Frequence_Min > Couleur_Frequence_Max then exit;
      Result:= True;
+end;
+
+function Is_Visible( _Frequence: double): Boolean;overload;
+begin
+     Result:=(Couleur_Frequence_Min<=_Frequence)and(_Frequence<=Couleur_Frequence_Max);
 end;
 
 end.

@@ -2259,7 +2259,206 @@ rtl.module("uFrequence",["System","Classes","SysUtils","Math","Types"],function 
     return Result;
   };
 });
-rtl.module("uFrequences",["System","uFrequence","Classes","SysUtils","Math","Types"],function () {
+rtl.module("uCouleur",["System","Classes","SysUtils","Math"],function () {
+  "use strict";
+  var $mod = this;
+  this.Nanometres_from_metre = 1E9;
+  this.SpeedOfLight = 2.9979E8;
+  this.Couleur_WavelengthMinimum = 380;
+  this.Couleur_WavelengthMaximum = 780;
+  this.Couleur_Frequence_Min = 299790000 / (780 / 1000000000);
+  this.Couleur_Frequence_Max = 299790000 / (380 / 1000000000);
+  this.Vision_from_Longueur_onde = function (_Longueur_onde) {
+    var Result = 0.0;
+    function Up(_Debut, _Fin) {
+      var Result = 0.0;
+      Result = (_Longueur_onde - _Debut) / (_Fin - _Debut);
+      return Result;
+    };
+    function Down(_Debut, _Fin) {
+      var Result = 0.0;
+      Result = (_Fin - _Longueur_onde) / (_Fin - _Debut);
+      return Result;
+    };
+    var $tmp1 = pas.System.Trunc(_Longueur_onde);
+    if (($tmp1 >= 380) && ($tmp1 <= 419)) {
+      Result = 0.3 + (0.7 * Up(380,420))}
+     else if (($tmp1 >= 420) && ($tmp1 <= 700)) {
+      Result = 1.0}
+     else if (($tmp1 >= 701) && ($tmp1 <= 780)) {
+      Result = 0.3 + (0.7 * Down(700,780))}
+     else {
+      Result = 0.0;
+    };
+    return Result;
+  };
+  var Gamma = 0.80;
+  this.RGB_from_Longueur_onde = function (_Longueur_onde, _Red, _Green, _Blue) {
+    var Factor = 0.0;
+    function Up(_Debut, _Fin) {
+      var Result = 0.0;
+      Result = (_Longueur_onde - _Debut) / (_Fin - _Debut);
+      return Result;
+    };
+    function Down(_Debut, _Fin) {
+      var Result = 0.0;
+      Result = (_Fin - _Longueur_onde) / (_Fin - _Debut);
+      return Result;
+    };
+    function RGB(_R, _G, _B) {
+      _Red.set(_R);
+      _Green.set(_G);
+      _Blue.set(_B);
+    };
+    function Adjust(Color, Factor) {
+      var Result = 0.0;
+      Result = 0;
+      if (0 === Color) return Result;
+      Result = Math.pow(Color * Factor,0.8);
+      return Result;
+    };
+    var $tmp1 = pas.System.Trunc(_Longueur_onde);
+    if (($tmp1 >= 380) && ($tmp1 <= 439)) {
+      RGB(Down(380,440),0,1)}
+     else if (($tmp1 >= 440) && ($tmp1 <= 489)) {
+      RGB(0,Up(440,490),1)}
+     else if (($tmp1 >= 490) && ($tmp1 <= 509)) {
+      RGB(0,1,Down(490,510))}
+     else if (($tmp1 >= 510) && ($tmp1 <= 579)) {
+      RGB(Up(510,580),1,0)}
+     else if (($tmp1 >= 580) && ($tmp1 <= 644)) {
+      RGB(1,Down(580,644),0)}
+     else if (($tmp1 >= 645) && ($tmp1 <= 780)) {
+      RGB(1,0,0)}
+     else {
+      RGB(0,0,0);
+    };
+    Factor = $mod.Vision_from_Longueur_onde(_Longueur_onde);
+    _Red.set(Adjust(_Red.get(),Factor));
+    _Green.set(Adjust(_Green.get(),Factor));
+    _Blue.set(Adjust(_Blue.get(),Factor));
+  };
+  this.RGB_from_Longueur_onde_hex = function (_Longueur_onde) {
+    var Result = "";
+    var Red = 0.0;
+    var Green = 0.0;
+    var Blue = 0.0;
+    function T(_d) {
+      var Result = "";
+      var b = 0;
+      b = Math.round(255 * _d);
+      Result = pas.SysUtils.IntToHex(b,2);
+      return Result;
+    };
+    $mod.RGB_from_Longueur_onde(_Longueur_onde,{get: function () {
+        return Red;
+      }, set: function (v) {
+        Red = v;
+      }},{get: function () {
+        return Green;
+      }, set: function (v) {
+        Green = v;
+      }},{get: function () {
+        return Blue;
+      }, set: function (v) {
+        Blue = v;
+      }});
+    Result = "#" + T(Red) + T(Green) + T(Blue);
+    return Result;
+  };
+  this.RGB_from_Longueur_onde_rgba = function (_Longueur_onde, _Alpha) {
+    var Result = "";
+    var Red = 0.0;
+    var Green = 0.0;
+    var Blue = 0.0;
+    function T(_d) {
+      var Result = "";
+      var b = 0;
+      b = Math.round(255 * _d);
+      Result = pas.SysUtils.IntToStr(b);
+      return Result;
+    };
+    $mod.RGB_from_Longueur_onde(_Longueur_onde,{get: function () {
+        return Red;
+      }, set: function (v) {
+        Red = v;
+      }},{get: function () {
+        return Green;
+      }, set: function (v) {
+        Green = v;
+      }},{get: function () {
+        return Blue;
+      }, set: function (v) {
+        Blue = v;
+      }});
+    Result = pas.SysUtils.Format("rgba( %s, %s, %s, %f)",[T(Red),T(Green),T(Blue),_Alpha]);
+    return Result;
+  };
+  this.Longueur_onde_from_Frequence = function (_Frequence) {
+    var Result = 0.0;
+    Result = 1000000000 * (299790000 / _Frequence);
+    return Result;
+  };
+  this.RGB_from_Frequency_hex = function (_Frequence) {
+    var Result = "";
+    var Longueur_onde = 0.0;
+    Longueur_onde = $mod.Longueur_onde_from_Frequence(_Frequence);
+    Result = $mod.RGB_from_Longueur_onde_hex(Longueur_onde);
+    return Result;
+  };
+  this.RGB_from_Frequency_rgba = function (_Frequence, _Alpha) {
+    var Result = "";
+    var Longueur_onde = 0.0;
+    Longueur_onde = $mod.Longueur_onde_from_Frequence(_Frequence);
+    Result = $mod.RGB_from_Longueur_onde_rgba(Longueur_onde,_Alpha);
+    return Result;
+  };
+  this.RGB_from_Frequency_tag = function (_Frequence) {
+    var Result = "";
+    var Longueur_onde = 0.0;
+    var Red = 0.0;
+    var Green = 0.0;
+    var Blue = 0.0;
+    var R = 0;
+    var G = 0;
+    var B = 0;
+    var hex = "";
+    Longueur_onde = $mod.Longueur_onde_from_Frequence(_Frequence);
+    $mod.RGB_from_Longueur_onde(Longueur_onde,{get: function () {
+        return Red;
+      }, set: function (v) {
+        Red = v;
+      }},{get: function () {
+        return Green;
+      }, set: function (v) {
+        Green = v;
+      }},{get: function () {
+        return Blue;
+      }, set: function (v) {
+        Blue = v;
+      }});
+    R = Math.round(255 * Red);
+    G = Math.round(255 * Green);
+    B = Math.round(255 * Blue);
+    hex = $mod.RGB_from_Frequency_hex(_Frequence);
+    Result = '<em style="background-color:' + hex + ';">' + pas.SysUtils.Format("longueur d'onde: %f nm  Rouge: %.3d; Vert: %.3d; Bleu: %.3d soit %s",[Longueur_onde,R,G,B,hex]) + "<\/em>";
+    return Result;
+  };
+  this.Is_Visible = function (_Frequence_Min, _Frequence_Max) {
+    var Result = false;
+    Result = false;
+    if (_Frequence_Max < 3.8434615384615388E14) return Result;
+    if (_Frequence_Min > 788921052631579) return Result;
+    Result = true;
+    return Result;
+  };
+  this.Is_Visible$1 = function (_Frequence) {
+    var Result = false;
+    Result = (3.8434615384615388E14 <= _Frequence) && (_Frequence <= 788921052631579);
+    return Result;
+  };
+});
+rtl.module("uFrequences",["System","uFrequence","uCouleur","Classes","SysUtils","Math","Types"],function () {
   "use strict";
   var $mod = this;
   var $impl = $mod.$impl;
@@ -2321,6 +2520,7 @@ rtl.module("uFrequences",["System","uFrequence","Classes","SysUtils","Math","Typ
       Bas = Frequence * 0.9915;
       Haut = Frequence * 1.0085;
       Result = pas.uFrequence.Note_Latine(_Note_Index) + " Min: " + pas.uFrequence.sFrequence(Bas,6," ") + " \/ Centre: " + pas.uFrequence.sFrequence(Frequence,6," ") + " \/ Max: " + pas.uFrequence.sFrequence(Haut,6," ");
+      if (pas.uCouleur.Is_Visible$1(Frequence)) Result = Result + " " + pas.uCouleur.RGB_from_Frequency_tag(Frequence);
       return Result;
     };
     this.aCoherent_boundaries = function (_Octave, _NbOctaves) {
@@ -2543,18 +2743,18 @@ rtl.module("uGamme",["System","uFrequence","Classes","SysUtils","Math","Types"],
       var I = 0;
       for (I = 0; I <= 11; I++) this.Base[I] = this.Diapason * Math.pow(2,(I - 9) / 12);
     };
-    this.sFrequence = function (_Octave, _Base) {
+    this.sFrequence = function (_Octave, _Base, _Note_Index) {
       var Result = "";
       var Frequence = 0.0;
       Frequence = this.Harmonique(_Base,_Octave);
-      Result = pas.uFrequence.sFrequence(Frequence,6," ");
+      Result = pas.uFrequence.Note_Latine(_Note_Index) + " " + pas.uFrequence.sFrequence(Frequence,6," ");
       return Result;
     };
     this.Liste = function (_Octave) {
       var Result = "";
       var I = 0;
       Result = "<pre>Octave: " + pas.SysUtils.IntToStr(_Octave) + pas.uFrequence.uFrequence_Separateur_Lignes + "Gamme tempérée, diapason " + pas.SysUtils.FloatToStr(this.Diapason) + " Hz";
-      for (I = 0; I <= 11; I++) Result = Result + pas.uFrequence.uFrequence_Separateur_Lignes + this.sFrequence(_Octave,this.Base[I]);
+      for (I = 0; I <= 11; I++) Result = Result + pas.uFrequence.uFrequence_Separateur_Lignes + this.sFrequence(_Octave,this.Base[I],I);
       Result = Result + "<\/pre>";
       return Result;
     };
@@ -2589,134 +2789,6 @@ rtl.module("uGamme",["System","uFrequence","Classes","SysUtils","Math","Types"],
   $impl.FGamme_418Hz = null;
   $impl.FGamme_432Hz = null;
   $impl.FGamme_440Hz = null;
-});
-rtl.module("uCouleur",["System","Classes","SysUtils","Math"],function () {
-  "use strict";
-  var $mod = this;
-  this.Nanometres_from_metre = 1E9;
-  this.SpeedOfLight = 2.9979E8;
-  this.Couleur_WavelengthMinimum = 380;
-  this.Couleur_WavelengthMaximum = 780;
-  this.Couleur_Frequence_Min = 299790000 / (780 / 1000000000);
-  this.Couleur_Frequence_Max = 299790000 / (380 / 1000000000);
-  this.Vision_from_Longueur_onde = function (_Longueur_onde) {
-    var Result = 0.0;
-    function Up(_Debut, _Fin) {
-      var Result = 0.0;
-      Result = (_Longueur_onde - _Debut) / (_Fin - _Debut);
-      return Result;
-    };
-    function Down(_Debut, _Fin) {
-      var Result = 0.0;
-      Result = (_Fin - _Longueur_onde) / (_Fin - _Debut);
-      return Result;
-    };
-    var $tmp1 = pas.System.Trunc(_Longueur_onde);
-    if (($tmp1 >= 380) && ($tmp1 <= 419)) {
-      Result = 0.3 + (0.7 * Up(380,420))}
-     else if (($tmp1 >= 420) && ($tmp1 <= 700)) {
-      Result = 1.0}
-     else if (($tmp1 >= 701) && ($tmp1 <= 780)) {
-      Result = 0.3 + (0.7 * Down(700,780))}
-     else {
-      Result = 0.0;
-    };
-    return Result;
-  };
-  var Gamma = 0.80;
-  this.RGB_from_Longueur_onde = function (_Longueur_onde, _Red, _Green, _Blue) {
-    var Factor = 0.0;
-    function Up(_Debut, _Fin) {
-      var Result = 0.0;
-      Result = (_Longueur_onde - _Debut) / (_Fin - _Debut);
-      return Result;
-    };
-    function Down(_Debut, _Fin) {
-      var Result = 0.0;
-      Result = (_Fin - _Longueur_onde) / (_Fin - _Debut);
-      return Result;
-    };
-    function RGB(_R, _G, _B) {
-      _Red.set(_R);
-      _Green.set(_G);
-      _Blue.set(_B);
-    };
-    function Adjust(Color, Factor) {
-      var Result = 0.0;
-      Result = 0;
-      if (0 === Color) return Result;
-      Result = Math.pow(Color * Factor,0.8);
-      return Result;
-    };
-    var $tmp1 = pas.System.Trunc(_Longueur_onde);
-    if (($tmp1 >= 380) && ($tmp1 <= 439)) {
-      RGB(Down(380,440),0,1)}
-     else if (($tmp1 >= 440) && ($tmp1 <= 489)) {
-      RGB(0,Up(440,490),1)}
-     else if (($tmp1 >= 490) && ($tmp1 <= 509)) {
-      RGB(0,1,Down(490,510))}
-     else if (($tmp1 >= 510) && ($tmp1 <= 579)) {
-      RGB(Up(510,580),1,0)}
-     else if (($tmp1 >= 580) && ($tmp1 <= 644)) {
-      RGB(1,Down(580,644),0)}
-     else if (($tmp1 >= 645) && ($tmp1 <= 780)) {
-      RGB(1,0,0)}
-     else {
-      RGB(0,0,0);
-    };
-    Factor = $mod.Vision_from_Longueur_onde(_Longueur_onde);
-    _Red.set(Adjust(_Red.get(),Factor));
-    _Green.set(Adjust(_Green.get(),Factor));
-    _Blue.set(Adjust(_Blue.get(),Factor));
-  };
-  this.RGB_from_Longueur_onde_rgba = function (_Longueur_onde, _Alpha) {
-    var Result = "";
-    var Red = 0.0;
-    var Green = 0.0;
-    var Blue = 0.0;
-    function T(_d) {
-      var Result = "";
-      var b = 0;
-      b = Math.round(255 * _d);
-      Result = pas.SysUtils.IntToStr(b);
-      return Result;
-    };
-    $mod.RGB_from_Longueur_onde(_Longueur_onde,{get: function () {
-        return Red;
-      }, set: function (v) {
-        Red = v;
-      }},{get: function () {
-        return Green;
-      }, set: function (v) {
-        Green = v;
-      }},{get: function () {
-        return Blue;
-      }, set: function (v) {
-        Blue = v;
-      }});
-    Result = pas.SysUtils.Format("rgba( %s, %s, %s, %f)",[T(Red),T(Green),T(Blue),_Alpha]);
-    return Result;
-  };
-  this.Longueur_onde_from_Frequence = function (_Frequence) {
-    var Result = 0.0;
-    Result = 1000000000 * (299790000 / _Frequence);
-    return Result;
-  };
-  this.RGB_from_Frequency_rgba = function (_Frequence, _Alpha) {
-    var Result = "";
-    var Longueur_onde = 0.0;
-    Longueur_onde = $mod.Longueur_onde_from_Frequence(_Frequence);
-    Result = $mod.RGB_from_Longueur_onde_rgba(Longueur_onde,_Alpha);
-    return Result;
-  };
-  this.Is_Visible = function (_Frequence_Min, _Frequence_Max) {
-    var Result = false;
-    Result = false;
-    if (_Frequence_Max < 3.8434615384615388E14) return Result;
-    if (_Frequence_Min > 788921052631579) return Result;
-    Result = true;
-    return Result;
-  };
 });
 rtl.module("ChartJS",["System","JS","Web"],function () {
   "use strict";
@@ -3034,7 +3106,7 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","uGam
       this.dCouleur = $impl.element_from_id("dCouleur");
       this.Traite_Couleur();
       this.dInfos = $impl.element_from_id("dInfos");
-      this.dInfos.innerHTML = "compilé avec pas2js version " + "1.4.20" + "<br>" + "target: " + "ECMAScript5" + " - " + "Browser" + "<br>" + "os: " + "Browser" + "<br>" + "cpu: " + "ECMAScript5" + "<br>" + "compilé le " + "2020\/4\/28" + " à " + " 1:50:20" + "<br>" + "langue du navigateur: " + window.navigator.language;
+      this.dInfos.innerHTML = "compilé avec pas2js version " + "1.4.20" + "<br>" + "target: " + "ECMAScript5" + " - " + "Browser" + "<br>" + "os: " + "Browser" + "<br>" + "cpu: " + "ECMAScript5" + "<br>" + "compilé le " + "2020\/4\/28" + " à " + "10:21:40" + "<br>" + "langue du navigateur: " + window.navigator.language;
     };
     this.iOctaveInput = function (_Event) {
       var Result = false;
@@ -3048,12 +3120,14 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","uGam
     };
     this.Traite_Octave = function () {
       var Octave = 0;
+      this.iOctave = $impl.input_from_id("iOctave");
       if (!pas.SysUtils.TryStrToInt(this.iOctave.value,{get: function () {
           return Octave;
         }, set: function (v) {
           Octave = v;
         }})) return;
       pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Octave(Octave,"cOctave",1,true);
+      this.dOctave = $impl.element_from_id("dOctave");
       this.dOctave.innerHTML = pas.uFrequences.Frequences().Liste(Octave,1);
     };
     this.Traite_Frequence = function () {

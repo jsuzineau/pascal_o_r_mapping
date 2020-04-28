@@ -120,9 +120,11 @@ procedure TfjsFrequences.Traite_Octave;
 var
    Octave: Integer;
 begin
+     iOctave:= input_from_id('iOctave');
      if not TryStrToInt( iOctave.value, Octave) then exit;
 
      FrequencesCharter.Draw_Chart_from_Octave( Octave, 'cOctave');
+     dOctave   := element_from_id('dOctave'   );
      dOctave.innerHTML:= Frequences.Liste( Octave);
 end;
 

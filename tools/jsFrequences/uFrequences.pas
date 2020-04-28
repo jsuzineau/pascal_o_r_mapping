@@ -6,6 +6,7 @@ interface
 
 uses
     uFrequence,
+    uCouleur,
  Classes, SysUtils, Math, Types;
 
 const
@@ -91,6 +92,9 @@ begin
      Haut:= Frequence*uFrequences_Haut_factor;
      //Result:= uFrequence.sFrequence( Frequence);
      Result:= Note_Latine(_Note_Index)+' Min: '+uFrequence.sFrequence( Bas)+' / Centre: '+uFrequence.sFrequence( Frequence)+' / Max: '+uFrequence.sFrequence( Haut);
+     if Is_Visible( Frequence)
+     then
+         Result:= Result + ' '+RGB_from_Frequency_tag( Frequence);
 end;
 
 function TFrequences.Boundaries( _Octave, _NbOctaves: Integer; _Base: TDoubleDynArray): TDoubleDynArray;
