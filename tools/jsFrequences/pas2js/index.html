@@ -97,129 +97,18 @@
       L'article traite d'ondes électromagnétiques mais la vue des résultats fait penser à la musique (ondes acoustiques).<br>
       Cela rappelle les 12 demi-tons de la gamme tempérée.<br>
       La répartition des bandes est proche de la gamme tempérée mais ce n'est pas exactement çà.<br>
-      Je n'ai pas trouvé non plus de correspondance avec la gamme pythagoricienne.
       </p>
     </div>
     <div class="card">
-      <div class="card-header" id="ch432Hz">
+      <div class="card-header" id="chPythagoricien">
         <h5 class="mb-0">
-          <button class="btn btn-link" data-toggle="collapse" data-target="#g432Hz" aria-expanded="true" aria-controls="g432Hz">
-            Comme les bandes ont une certaine largeur, la gamme à 432Hz entre quand même entièrement dans les fréquences cohérentes.
+          <button class="btn btn-link" data-toggle="collapse" data-target="#Pythagoricien" aria-expanded="true" aria-controls="Pythagoricien">
+          Je n'ai pas trouvé non plus de correspondance avec la gamme pythagoricienne.
           </button>
         </h5>
       </div>
-      <div id="g432Hz" class="collapse" aria-labelledby="ch432Hz">
+      <div id="Pythagoricien" class="collapse" aria-labelledby="chPythagoricien">
         <div class="card-body">
-          <canvas id="c432Hz" height="100"></canvas>
-          <div id="d432Hz">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header" id="ch418Hz">
-        <h5 class="mb-0">
-          <button class="btn btn-link" data-toggle="collapse" data-target="#g418Hz" aria-expanded="true" aria-controls="g418Hz">
-            Et la gamme à 418 Hz est pile dans les fréquences décohérentes
-          </button>
-        </h5>
-      </div>
-      <div id="g418Hz" class="collapse" aria-labelledby="ch418Hz">
-        <div class="card-body">
-          <canvas id="c418Hz" height="100"></canvas>
-          <div id="d418Hz">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header" id="ch440Hz">
-        <h5 class="mb-0">
-          <button class="btn btn-link" data-toggle="collapse" data-target="#g440Hz" aria-expanded="true" aria-controls="g440Hz">
-            Certaines notes de la gamme standard à 440Hz sont décohérentes, d'autres neutres
-          </button>
-        </h5>
-      </div>
-      <div id="g440Hz" class="collapse" aria-labelledby="ch440Hz">
-        <div class="card-body">
-          <canvas id="c440Hz" height="100"></canvas>
-          <div id="d440Hz">
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header" id="chAudio">
-        <h5 class="mb-0">
-          <button class="btn btn-link" data-toggle="collapse" data-target="#Audio" aria-expanded="true" aria-controls="Audio">
-          Bien-sûr j'ai eu envie de voir ce que cela donnait comme son.
-          </button>
-        </h5>
-      </div>
-      <div id="Audio" class="collapse" aria-labelledby="chAudio">
-        <div class="card-body">
-           <div class="row mt-3 ml-1 text-muted">
-             <p>
-              J'ai fait mes premiers tests en créant des fichiers audio avec <a target="_blank" href="https://www.audacityteam.org/">Audacity</a>
-              par le menu Générer/Tonalité.<br>
-              La gamme au diapason 440 Hz
-              <audio controls>
-                <source src="Gamme_440Hz.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio>
-              <br>
-              La gamme au diapason 432 Hz
-              <audio controls>
-                <source src="Gamme_432Hz.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio>
-              <br>
-              La gamme des fréquences cohérentes
-              <audio controls>
-                <source src="Gamme_Coherence.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio>
-              <br>
-              La gamme des fréquences cohérentes avec tous les demis tons
-              <audio controls>
-                <source src="Coherence.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio>
-              <br>
-              Montée de la gamme avec succession note tempérée 432 Hz puis note cohérente
-              <audio controls>
-                <source src="Gamme_432Hz-Coherent.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio>
-              <br>
-              Gamme avec note tempérée 432 Hz et note cohérente jouée en même temps
-              <audio controls>
-                <source src="2_pistes.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio>
-              <br>
-              En stéréo, si je ne me trompe pas, la note tempérée 432 Hz est jouée à gauche et la note cohérente jouée à droite en même temps
-              <audio controls>
-                <source src="Stereo.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio>
-              <br>
-              Et la gamme des fréquences décohérentes
-              <audio controls>
-                <source src="DeCoherence.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio><br>
-              Pour pouvoir voir ce que cela donne sur une partition complète,
-              j'ai modifié également un plugin de <a target="_blank" href="https://musescore.org/fr">MuseScore</a> pour utiliser les notes cohérentes.<br>
-              Pour MuseScore 2: <a target="_blank" href="MuseScore/V2/tuning_coherent.qml">tuning_coherent.qml</a><br>
-              Pour MuseScore 3: <a target="_blank" href="MuseScore/V3/tuning_coherent.qml">tuning_coherent.qml</a><br>
-              Une fois le plugin installé dans Documents\MuseScore(2 ou 3)\Plugins <br>
-              et activé par le menu Plugin/Gestionnaires de Plugins, <br>
-              il faut régler le diapason sur 432 Hz dans le menu Affichage/Synthétiseur/Réglage du Diapason (et faire Enregistrer dans la partition), <br>
-              sélectionner toutes les mesures de la partition <br>
-              et dans le menu Plugins/Playback/TuningCoherent, choisir le tempérament Cohérent <br>
-              puis "Apply" pour appliquer la modification aux mesures sélectionnées.<br>
-              <br>
               Voici une comparaison avec la gamme pythagoricienne (source <a target="_blank" href="https://fr.wikipedia.org/wiki/Accord_pythagoricien">Wikipedia</a>) <br>
               Les écarts sont mesurés en Cents définis par la formule suivante:
               <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
@@ -266,6 +155,7 @@
                  <annotation encoding="StarMath 5.0">1200 cdot ( { ln( {Fréquence note} over {Fréquence note standard} ) } over { ln(2) } )  </annotation>
                 </semantics>
                </math> <br>
+               L'écart en cents est négatif pour une note plus grave que le standard, et positif pour une note plus aigue<br>
 
 		<style type="text/css">
                 @page {  }
@@ -552,6 +442,128 @@
 				</td>
 			</tr>
 		</table>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header" id="ch432Hz">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#g432Hz" aria-expanded="true" aria-controls="g432Hz">
+            Comme les bandes ont une certaine largeur, la gamme à 432Hz entre quand même entièrement dans les fréquences cohérentes.
+          </button>
+        </h5>
+      </div>
+      <div id="g432Hz" class="collapse" aria-labelledby="ch432Hz">
+        <div class="card-body">
+          <canvas id="c432Hz" height="100"></canvas>
+          <div id="d432Hz">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header" id="ch418Hz">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#g418Hz" aria-expanded="true" aria-controls="g418Hz">
+            Et la gamme à 418 Hz est pile dans les fréquences décohérentes
+          </button>
+        </h5>
+      </div>
+      <div id="g418Hz" class="collapse" aria-labelledby="ch418Hz">
+        <div class="card-body">
+          <canvas id="c418Hz" height="100"></canvas>
+          <div id="d418Hz">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header" id="ch440Hz">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#g440Hz" aria-expanded="true" aria-controls="g440Hz">
+            Certaines notes de la gamme standard à 440Hz sont décohérentes, d'autres neutres
+          </button>
+        </h5>
+      </div>
+      <div id="g440Hz" class="collapse" aria-labelledby="ch440Hz">
+        <div class="card-body">
+          <canvas id="c440Hz" height="100"></canvas>
+          <div id="d440Hz">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header" id="chAudio">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#Audio" aria-expanded="true" aria-controls="Audio">
+          Bien-sûr j'ai eu envie de voir ce que cela donnait comme son.
+          </button>
+        </h5>
+      </div>
+      <div id="Audio" class="collapse" aria-labelledby="chAudio">
+        <div class="card-body">
+           <div class="row mt-3 ml-1 text-muted">
+             <p>
+              J'ai fait mes premiers tests en créant des fichiers audio avec <a target="_blank" href="https://www.audacityteam.org/">Audacity</a>
+              par le menu Générer/Tonalité.<br>
+              La gamme au diapason 440 Hz
+              <audio controls>
+                <source src="Gamme_440Hz.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+              </audio>
+              <br>
+              La gamme au diapason 432 Hz
+              <audio controls>
+                <source src="Gamme_432Hz.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+              </audio>
+              <br>
+              La gamme des fréquences cohérentes
+              <audio controls>
+                <source src="Gamme_Coherence.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+              </audio>
+              <br>
+              La gamme des fréquences cohérentes avec tous les demis tons
+              <audio controls>
+                <source src="Coherence.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+              </audio>
+              <br>
+              Montée de la gamme avec succession note tempérée 432 Hz puis note cohérente
+              <audio controls>
+                <source src="Gamme_432Hz-Coherent.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+              </audio>
+              <br>
+              Gamme avec note tempérée 432 Hz et note cohérente jouée en même temps
+              <audio controls>
+                <source src="2_pistes.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+              </audio>
+              <br>
+              En stéréo, si je ne me trompe pas, la note tempérée 432 Hz est jouée à gauche et la note cohérente jouée à droite en même temps
+              <audio controls>
+                <source src="Stereo.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+              </audio>
+              <br>
+              Et la gamme des fréquences décohérentes
+              <audio controls>
+                <source src="DeCoherence.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+              </audio><br>
+              Pour pouvoir voir ce que cela donne sur une partition complète,
+              j'ai modifié également un plugin de <a target="_blank" href="https://musescore.org/fr">MuseScore</a> pour utiliser les notes cohérentes.<br>
+              Pour MuseScore 2: <a target="_blank" href="MuseScore/V2/tuning_coherent.qml">tuning_coherent.qml</a><br>
+              Pour MuseScore 3: <a target="_blank" href="MuseScore/V3/tuning_coherent.qml">tuning_coherent.qml</a><br>
+              Une fois le plugin installé dans Documents\MuseScore(2 ou 3)\Plugins <br>
+              et activé par le menu Plugin/Gestionnaires de Plugins, <br>
+              il faut régler le diapason sur 432 Hz dans le menu Affichage/Synthétiseur/Réglage du Diapason (et faire Enregistrer dans la partition), <br>
+              sélectionner toutes les mesures de la partition <br>
+              et dans le menu Plugins/Playback/TuningCoherent, choisir le tempérament Cohérent <br>
+              puis "Apply" pour appliquer la modification aux mesures sélectionnées.<br>
              </p>
            </div>
         </div>
