@@ -4,7 +4,7 @@ program jsFrequences;
 
 uses
  JS, Classes, SysUtils, Web, ufjsFrequences, uFrequence, uGamme,
- uFrequencesCharter;
+ uFrequencesCharter, uCouleur;
 
 begin
      uFrequence_Separateur_Lignes:= '<br>';

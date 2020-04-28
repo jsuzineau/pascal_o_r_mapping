@@ -81,18 +81,18 @@ function Note_Latine( _Index: Integer): String;
 begin
      case _Index mod 12
      of
-        0: Result:= 'do';
-        1: Result:= 'do#';
-        2: Result:= 'ré';
-        3: Result:= 'ré#';
-        4: Result:= 'mi';
-        5: Result:= 'fa';
-        6: Result:= 'fa#';
-        7: Result:= 'sol';
+        0: Result:= 'do  ';
+        1: Result:= 'do# ';
+        2: Result:= 'ré  ';
+        3: Result:= 'ré# ';
+        4: Result:= 'mi  ';
+        5: Result:= 'fa  ';
+        6: Result:= 'fa# ';
+        7: Result:= 'sol ';
         8: Result:= 'sol#';
-        9: Result:= 'la';
-       10: Result:= 'la#';
-       11: Result:= 'si';
+        9: Result:= 'la  ';
+       10: Result:= 'la# ';
+       11: Result:= 'si  ';
        end;
 end;
 

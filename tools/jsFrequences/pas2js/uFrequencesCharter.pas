@@ -8,7 +8,8 @@ interface
 uses
     uFrequence,
     uFrequences,
- Classes, SysUtils, JS, Web, Math, ChartJS, Types;
+    uCouleur,
+ Classes, SysUtils, JS, Web, Math, ChartJS, Types, strutils;
 
 type
  { TFrequencesCharter }
@@ -39,14 +40,13 @@ type
    procedure Cree_Options;
    procedure Plugin_annotation_box( _XMin, _XMax, _YMin, _YMax: double; _Color: String);
    procedure Plugin_annotation_line(_Value: double; _label_position: string='center'; _Note_index: Integer=-1; _Background_Color: String='rgba(128, 128, 255, 50)');
-   procedure Plugin_annotations(_Centers, _Boundaries: TDoubleDynArray;
-    _Box_Color, _Line_Color: String; _Frequence_Note_: Boolean=True;
- _label_position: string='center');
-   procedure Bandes_from_Octave(_Octave, _NbOctaves: Integer;
-    _Frequence_Note_: Boolean);
+   procedure Plugin_annotations( _Centers, _Boundaries: TDoubleDynArray;
+                                 _Box_Color, _Line_Color: String; _Frequence_Note_: Boolean=True; _label_on_top: Boolean=False);
+   procedure Bandes_from_Octave(_Octave, _NbOctaves: Integer; _Frequence_Note_: Boolean);
   public
-    procedure Draw_Chart_from_Octave   ( _Octave   : Integer; _Canvas_Name: String);
-    procedure Draw_Chart_from_Frequence(_Libelle: String; _Frequence: double; _Canvas_Name: String);
+    procedure Draw_Chart_from_Octave(_Octave: Integer; _Canvas_Name: String;
+     _NbOctaves: Integer=1; _Frequence_Note_: Boolean=True);
+    procedure Draw_Chart_from_Frequence(_Libelle: String; _Frequence: double; _Canvas_Name: String; _NbOctaves: Integer=1);
     procedure Draw_Chart_from_Frequences(_Octave, _NbOctaves: Integer; _Libelle: String; _Frequences: TDoubleDynArray; _Canvas_Name: String);
   end;
 
@@ -253,10 +253,13 @@ begin
      TChartOptions_with_annotation(config.options).annotation.annotations.push( a);
 end;
 
-procedure TFrequencesCharter.Plugin_annotations( _Centers, _Boundaries: TDoubleDynArray; _Box_Color, _Line_Color: String; _Frequence_Note_:Boolean= True; _label_position: string= 'center');
+procedure TFrequencesCharter.Plugin_annotations( _Centers, _Boundaries: TDoubleDynArray; _Box_Color, _Line_Color: String;
+                                                 _Frequence_Note_: Boolean; _label_on_top: Boolean);
 var
    I2, I, L, L2: Integer;
-   V1, V2: double;
+   V1, V2, C: double;
+   label_position: String;
+   Visible_ydebut, Visible_yfin: double;
 begin
      L:= Length( _Boundaries);
      L2:= L div 2;
@@ -266,9 +269,25 @@ begin
        I:= Low( _Boundaries)+2*I2;
        V1:= _Boundaries[I+0];
        V2:= _Boundaries[I+1];
+       C := _Centers   [I2 ];
+       label_position:= IfThen( _label_on_top, 'top', 'bottom');
+       if _label_on_top
+       then
+           begin
+           Visible_ydebut:= 2.2;
+           Visible_yfin  := 2.6;
+           end
+       else
+           begin
+           Visible_ydebut:= 1.2;
+           Visible_yfin  := 1.6;
+           end;
        //Writeln( _Color, ' ', V1, ' ', V2);
        Plugin_annotation_box( V1, V2, 1, 3, _Box_Color);
-       Plugin_annotation_line( _Centers[I2], _label_position, IfThen(_Frequence_Note_,-1, I2), _Line_Color);
+       if Is_Visible( V1, V2)
+       then
+           Plugin_annotation_box( V1, V2, Visible_ydebut, Visible_yfin, RGB_from_Frequency_rgba( C, 1));
+       Plugin_annotation_line( C, label_position, IfThen(_Frequence_Note_,-1, I2), _Line_Color);
        end;
 end;
 
@@ -278,11 +297,11 @@ begin
      NbOctaves:= _NbOctaves;
 
      bleu:= 'blue';
-     //rouge:= 'rgba(255, 128, 128, 50)';
-     gris      := 'rgba(192, 192, 192, 50)';
-     gris_fonce:= 'rgba(128, 128, 128, 50)';
-     vert      := 'rgba(128, 255, 128, 50)';
-     vert_fonce:= 'rgba(  0, 192,   0, 50)';
+     //rouge:= 'rgba(255, 128, 128, 1)';
+     gris      := 'rgba(192, 192, 192, 1)';
+     gris_fonce:= 'rgba(128, 128, 128, 1)';
+     vert      := 'rgba(128, 255, 128, 1)';
+     vert_fonce:= 'rgba(  0, 192,   0, 1)';
 
      Coherent_Boundaries:= Frequences.  aCoherent_boundaries(Octave, NbOctaves);
      DeCoherent_Boundaries:= Frequences.aDeCoherent_boundaries(Octave, NbOctaves);
@@ -295,24 +314,24 @@ begin
      config.type_ := 'scatter';
      config.data := TChartData.new;
      Cree_Options;
-     Plugin_annotations(   Coherent_Centers,   Coherent_Boundaries, vert, vert_fonce,_Frequence_Note_, 'top'   );
-     Plugin_annotations( DeCoherent_Centers, DeCoherent_Boundaries, gris, gris_fonce,_Frequence_Note_, 'bottom');
+     Plugin_annotations(   Coherent_Centers,   Coherent_Boundaries, vert, vert_fonce,_Frequence_Note_, True );
+     Plugin_annotations( DeCoherent_Centers, DeCoherent_Boundaries, gris, gris_fonce,_Frequence_Note_, False);
 
      config.data.datasets_ := TJSArray.new;
      Push_dataset( 'Décohérentes' , gris, gris, 1, DeCoherent_Centers);
      Push_dataset( 'Cohérentes', vert , vert , 3,   Coherent_Centers);
 end;
 
-procedure TFrequencesCharter.Draw_Chart_from_Octave( _Octave: Integer; _Canvas_Name: String);
+procedure TFrequencesCharter.Draw_Chart_from_Octave( _Octave: Integer; _Canvas_Name: String; _NbOctaves: Integer=1; _Frequence_Note_: Boolean= True);
 begin
-     Bandes_from_Octave( _Octave, 1, True);
+     Bandes_from_Octave( _Octave, _NbOctaves, _Frequence_Note_);
 
      TChart.new( _Canvas_Name, config);
 end;
 
-procedure TFrequencesCharter.Draw_Chart_from_Frequence( _Libelle: String; _Frequence: double; _Canvas_Name: String);
+procedure TFrequencesCharter.Draw_Chart_from_Frequence( _Libelle: String; _Frequence: double; _Canvas_Name: String; _NbOctaves: Integer=1);
 begin
-     Bandes_from_Octave( Frequences.Octave_from_Frequence( _Frequence), 1, True);
+     Bandes_from_Octave( Frequences.Octave_from_Frequence( _Frequence), _NbOctaves, True);
 
      Push_dataset( _Libelle, bleu, bleu, 2.5, [_Frequence]);
 

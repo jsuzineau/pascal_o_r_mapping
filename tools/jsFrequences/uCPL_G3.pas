@@ -88,11 +88,12 @@ begin
 
      Result
      :=
-        'Fréquences porteuses CPL G3'+uFrequence_Separateur_Lignes
+        '<pre>Fréquences porteuses CPL G3'+uFrequence_Separateur_Lignes
        +sNb( NbCoherent  , ' fréquences cohérentes'  )
        +sNb( NbDeCoherent, ' fréquences décohérentes')
        +sNb( NbNeutre    , ' fréquences neutres'     )
        +Result;
+     Result:= Result+'</pre>';
 end;
 
 {$ifndef PAS2JS}

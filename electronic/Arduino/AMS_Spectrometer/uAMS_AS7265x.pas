@@ -25,6 +25,7 @@ const
 //Data
 // 12 13 14 15 16 17 6 7 8 9 10 11 0 1 2 3 4 5
 
+//relation longueur d'onde / couleur: https://academo.org/demos/wavelength-to-colour-relationship/
 const
      longueurs_onde                 : array[0..17] of integer= ( 410    ,435    ,460    ,485    ,510    ,535    ,560    ,585    ,610    ,645    ,680,705,730,760,810,860,900,940);
      Couleurs                       : array[0..17] of TColor = ( $DB007E,$FF0023,$FF7B00,$FFEA00,$00FF00,$00FF70,$00FFC3,$00EFFF,$009BFF,$0000FF,224,192,160,128, 96, 64, 32,  0);

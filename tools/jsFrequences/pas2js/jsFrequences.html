@@ -208,7 +208,8 @@
                 <source src="DeCoherence.mp3" type="audio/mpeg">
                 Your browser does not support the audio element.
               </audio><br>
-              J'ai modifié également un plugin de MuseScore pour utiliser les notes cohérentes.<br>
+              Pour pouvoir voir ce que cela donne sur une partition complète,
+              j'ai modifié également un plugin de <a target="_blank" href="https://musescore.org/fr">MuseScore</a> pour utiliser les notes cohérentes.<br>
               Pour MuseScore 2: <a target="_blank" href="MuseScore/V2/tuning_coherent.qml">tuning_coherent.qml</a><br>
               Pour MuseScore 3: <a target="_blank" href="MuseScore/V3/tuning_coherent.qml">tuning_coherent.qml</a><br>
               Une fois le plugin installé dans Documents\MuseScore(2 ou 3)\Plugins <br>
@@ -243,6 +244,40 @@
         <div class="card-body">
           <canvas id="cCPL_G3" height="100"></canvas>
           <div id="dCPL_G3">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header" id="chCouleur">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#Couleur" aria-expanded="true" aria-controls="Couleur">
+            Et en matière de couleurs ...
+          </button>
+        </h5>
+      </div>
+      <div id="Couleur" class="collapse" aria-labelledby="chCouleur">
+        <div class="card-body">
+           <div class="row mt-3 ml-1 text-muted">
+             <p>
+             J'ai utilisé la référence suivante pour la conversion des fréquences en couleurs d'écran (le rendu doit varier un peu d'un écran à l'autre): <br>
+             <a target="_blank" href="https://web.archive.org/web/20190528182100/http://www.physics.sfasu.edu/astro/color/spectra.html">
+             http://www.physics.sfasu.edu/astro/color/spectra.html
+             </a><br>
+             et plus particulièrement le code Delphi de :<br>
+             <a target="_blank" href="https://web.archive.org/web/20190612221227/http://efg2.com/Lab/ScienceAndEngineering/Spectra.htm">
+             http://efg2.com/Lab/ScienceAndEngineering/Spectra.htm
+             </a><br>
+             (ces sites web d'il y a plus de 20 ans n'existant plus, les liens pointent vers des copies)<br>
+             J'ai vérifié rapidement le résultat à l'aide des données de
+             <a target="_blank" href="https://fr.wikipedia.org/wiki/Spectre_%C3%A9lectromagn%C3%A9tique">
+             https://fr.wikipedia.org/wiki/Spectre_électromagnétique
+             </a><br>
+             J'ai été surpris de voir le rouge arriver sur fa sol, je l'aurais plutôt attendu autour du do...
+             </p>
+           </div>
+          <canvas id="cCouleur" height="100"></canvas>
+          <div id="dCouleur">
           </div>
         </div>
       </div>

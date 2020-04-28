@@ -31,6 +31,7 @@ type
     dOctave: TJSHTMLElement;
     dFrequence: TJSHTMLElement;
     dCPL_G3: TJSHTMLElement;
+    dCouleur: TJSHTMLElement;
     dInfos: TJSHTMLElement;
     procedure Connecte_Interface;
     function iOctaveInput( _Event: TEventListenerEvent): boolean;
@@ -38,6 +39,7 @@ type
     procedure Traite_Octave;
     procedure Traite_Frequence;
     procedure Traite_CPL_G3;
+    procedure Traite_Couleur;
     procedure Traite_Gamme_Temperee( _Diapason: Integer; _Gamme_Temperee: TGamme_Temperee);
   end;
 
@@ -95,6 +97,9 @@ begin
      dCPL_G3:= element_from_id('dCPL_G3');
      Traite_CPL_G3;
 
+     dCouleur:= element_from_id('dCouleur');
+     Traite_Couleur;
+
      dInfos:= element_from_id('dInfos');
      dInfos.innerHTML
      :=
@@ -143,13 +148,20 @@ begin
      dCPL_G3.innerHTML:= CPL_G3.Liste;
 end;
 
+procedure TfjsFrequences.Traite_Couleur;
+const Octave=40;
+begin
+     FrequencesCharter.Draw_Chart_from_Octave( Octave, 'cCouleur', 2, False);
+     dCouleur.innerHTML:= Frequences.Liste( Octave, 2);
+end;
+
 procedure TfjsFrequences.Traite_Gamme_Temperee( _Diapason: Integer; _Gamme_Temperee: TGamme_Temperee);
 var
    sDiapason: String;
 begin
-     WriteLn( ClassName+'.Traite_Gamme_Temperee(',_Diapason);
+     //WriteLn( ClassName+'.Traite_Gamme_Temperee(',_Diapason);
      sDiapason:= IntToStr( _Diapason);
-     WriteLn( 'sDiapason: ',sDiapason);
+     //WriteLn( 'sDiapason: ',sDiapason);
      FrequencesCharter.Draw_Chart_from_Frequences( 0, 1, 'Gamme tempérée diapason '+sDiapason+' Hz' , _Gamme_Temperee.Base, 'c'+sDiapason+'Hz');
      element_from_id('d'+sDiapason+'Hz').innerHTML:= _Gamme_Temperee.Liste(0);
 end;

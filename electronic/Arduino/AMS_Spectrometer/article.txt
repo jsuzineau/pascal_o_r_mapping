@@ -1,1 +1,4 @@
 https://www.open-electronics.org/lets-build-a-spectrometer/
+
+//relation longueur d'onde / couleur: https://academo.org/demos/wavelength-to-colour-relationship/
+
