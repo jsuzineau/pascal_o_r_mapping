@@ -27,6 +27,7 @@ interface
 
 uses
     uFrequence,
+    uResonances_de_Schumann,
     uFrequences,
     uCPL_G3, uGamme,
     uFrequencesCharter,
@@ -61,6 +62,7 @@ type
     procedure Traite_CPL_G3;
     procedure Traite_Couleur;
     procedure Traite_Gamme_Temperee( _Diapason: Integer; _Gamme_Temperee: TGamme_Temperee);
+    procedure Traite_Resonances_de_Schumann;
   end;
 
 implementation
@@ -126,6 +128,8 @@ begin
      dCouleur:= element_from_id('dCouleur');
      Traite_Couleur;
 
+     Traite_Resonances_de_Schumann;
+
      dInfos:= element_from_id('dInfos');
      dInfos.innerHTML
      :=
@@ -185,14 +189,14 @@ end;
 
 procedure TfjsFrequences.Traite_CPL_G3;
 begin
-     FrequencesCharter.Draw_Chart_from_Frequences( 7, 2, 'Porteuses CPL G3' , CPL_G3.F, 'cCPL_G3');
+     FrequencesCharter.Draw_Chart_from_Frequences( 7, 2, 'Porteuses CPL G3' , CPL_G3.F, 'cCPL_G3', 1,18);
      dCPL_G3.innerHTML:= CPL_G3.Liste;
 end;
 
 procedure TfjsFrequences.Traite_Couleur;
 const Octave=40;
 begin
-     FrequencesCharter.Draw_Chart_from_Octave( Octave, 'cCouleur', 2, False);
+     FrequencesCharter.Draw_Chart_from_Octave( Octave, 'cCouleur', 2, False, 5, 18);
      dCouleur.innerHTML:= Frequences.Liste( Octave, 2);
 end;
 
@@ -205,6 +209,12 @@ begin
      //WriteLn( 'sDiapason: ',sDiapason);
      FrequencesCharter.Draw_Chart_from_Frequences( 0, 1, 'Gamme tempérée diapason '+sDiapason+' Hz' , _Gamme_Temperee.Base, 'c'+sDiapason+'Hz');
      element_from_id('d'+sDiapason+'Hz').innerHTML:= _Gamme_Temperee.Liste(0);
+end;
+
+procedure TfjsFrequences.Traite_Resonances_de_Schumann;
+begin
+     FrequencesCharter.Draw_Chart_from_Frequences( -5, 3, 'Résonances de Schumann' , uResonances_de_Schumann_frequences, 'cResonances_de_Schumann', 0, 25);
+     element_from_id('dResonances_de_Schumann').innerHTML:= Resonances_de_Schumann.Liste;
 end;
 
 end.

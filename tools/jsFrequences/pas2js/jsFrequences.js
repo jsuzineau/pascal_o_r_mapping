@@ -2696,24 +2696,36 @@ rtl.module("uFrequences",["System","uFrequence","uCouleur","Classes","SysUtils",
   this.uFrequences_Bas_factor = 1 - (0.85 / 100);
   this.uFrequences_Haut_factor = 1 + (0.85 / 100);
   rtl.createClass($mod,"TFrequences",pas.System.TObject,function () {
-    this.Boundaries = function (_Octave, _NbOctaves, _Base) {
+    this.Boundaries = function (_Octave, _NbOctaves, _Base, _iDebut, _iFin) {
       var $Self = this;
       var Result = [];
       var LBase = 0;
+      var TailleResult = 0;
       var O = 0;
       var I = 0;
       function Traite_Frequence() {
         var Frequence = 0.0;
         var Bas = 0.0;
         var Haut = 0.0;
+        var iBase = 0;
+        var iResult = 0;
         Frequence = $Self.Harmonique(_Base[I],_Octave + O);
         Bas = Frequence * 0.9915;
         Haut = Frequence * 1.0085;
-        Result[(O * LBase) + (2 * I) + 0] = Bas;
-        Result[(O * LBase) + (2 * I) + 1] = Haut;
+        iBase = (O * LBase) + I;
+        if (iBase < _iDebut) return;
+        if (_iFin < iBase) return;
+        iResult = 2 * (iBase - _iDebut);
+        Result[iResult + 0] = Bas;
+        Result[iResult + 1] = Haut;
       };
-      LBase = 2 * rtl.length(_Base);
-      Result = rtl.arraySetLength(Result,0.0,_NbOctaves * LBase);
+      LBase = rtl.length(_Base);
+      if (-1 === _iDebut) {
+        _iDebut = 0;
+        _iFin = (_NbOctaves * LBase) - 1;
+      };
+      TailleResult = 2 * ((_iFin - _iDebut) + 1);
+      Result = rtl.arraySetLength(Result,0.0,TailleResult);
       for (var $l1 = 0, $end2 = _NbOctaves - 1; $l1 <= $end2; $l1++) {
         O = $l1;
         for (var $l3 = 0, $end4 = rtl.length(_Base) - 1; $l3 <= $end4; $l3++) {
@@ -2723,18 +2735,30 @@ rtl.module("uFrequences",["System","uFrequence","uCouleur","Classes","SysUtils",
       };
       return Result;
     };
-    this.Centers = function (_Octave, _NbOctaves, _Base) {
+    this.Centers = function (_Octave, _NbOctaves, _Base, _iDebut, _iFin) {
       var Result = [];
       var LBase = 0;
+      var TailleResult = 0;
       var O = 0;
       var I = 0;
+      var iBase = 0;
+      var iResult = 0;
       LBase = rtl.length(_Base);
-      Result = rtl.arraySetLength(Result,0.0,_NbOctaves * LBase);
+      if (-1 === _iDebut) {
+        _iDebut = 0;
+        _iFin = (_NbOctaves * LBase) - 1;
+      };
+      TailleResult = (_iFin - _iDebut) + 1;
+      Result = rtl.arraySetLength(Result,0.0,TailleResult);
       for (var $l1 = 0, $end2 = _NbOctaves - 1; $l1 <= $end2; $l1++) {
         O = $l1;
         for (var $l3 = 0, $end4 = rtl.length(_Base) - 1; $l3 <= $end4; $l3++) {
           I = $l3;
-          Result[(O * LBase) + I] = this.Harmonique(_Base[I],_Octave + O);
+          iBase = (O * LBase) + I;
+          if (iBase < _iDebut) continue;
+          if (_iFin < iBase) continue;
+          iResult = iBase - _iDebut;
+          Result[iResult] = this.Harmonique(_Base[I],_Octave + O);
         };
       };
       return Result;
@@ -2751,35 +2775,47 @@ rtl.module("uFrequences",["System","uFrequence","uCouleur","Classes","SysUtils",
       if (pas.uCouleur.Is_Visible$1(Frequence)) Result = pas.uCouleur.RGB_from_Frequency_tag_begin(Frequence) + Result + " " + pas.uCouleur.RGB_from_Frequency_tag_body(Frequence) + pas.uCouleur.RGB_from_Frequency_tag_end();
       return Result;
     };
-    this.aCoherent_boundaries = function (_Octave, _NbOctaves) {
+    this.aCoherent_boundaries = function (_Octave, _NbOctaves, _iDebut, _iFin) {
       var Result = [];
-      Result = this.Boundaries(_Octave,_NbOctaves,$mod.uFrequences_coherent);
+      Result = this.Boundaries(_Octave,_NbOctaves,$mod.uFrequences_coherent,_iDebut,_iFin);
       return Result;
     };
-    this.aDeCoherent_boundaries = function (_Octave, _NbOctaves) {
+    this.aDeCoherent_boundaries = function (_Octave, _NbOctaves, _iDebut, _iFin) {
       var Result = [];
-      Result = this.Boundaries(_Octave,_NbOctaves,$mod.uFrequences_decoherent);
+      Result = this.Boundaries(_Octave,_NbOctaves,$mod.uFrequences_decoherent,_iDebut,_iFin);
       return Result;
     };
-    this.aCoherent_centers = function (_Octave, _NbOctaves) {
+    this.aCoherent_centers = function (_Octave, _NbOctaves, _iDebut, _iFin) {
       var Result = [];
-      Result = this.Centers(_Octave,_NbOctaves,$mod.uFrequences_coherent);
+      Result = this.Centers(_Octave,_NbOctaves,$mod.uFrequences_coherent,_iDebut,_iFin);
       return Result;
     };
-    this.aDeCoherent_centers = function (_Octave, _NbOctaves) {
+    this.aDeCoherent_centers = function (_Octave, _NbOctaves, _iDebut, _iFin) {
       var Result = [];
-      Result = this.Centers(_Octave,_NbOctaves,$mod.uFrequences_decoherent);
+      Result = this.Centers(_Octave,_NbOctaves,$mod.uFrequences_decoherent,_iDebut,_iFin);
       return Result;
     };
-    this.Liste = function (_Octave, _NbOctaves) {
+    this.Liste = function (_Octave, _NbOctaves, _iDebut, _iFin) {
       var Result = "";
+      var LBase = 0;
       var I = 0;
       var O = 0;
+      var iBase = 0;
+      var iResult = 0;
+      LBase = rtl.length($mod.uFrequences_coherent);
+      if (-1 === _iDebut) {
+        _iDebut = 0;
+        _iFin = (_NbOctaves * LBase) - 1;
+      };
       Result = "<pre>Octave: " + pas.SysUtils.IntToStr(_Octave) + pas.uFrequence.uFrequence_Separateur_Lignes + "Bandes de fréquences cohérentes";
       for (var $l1 = _Octave, $end2 = (_Octave + _NbOctaves) - 1; $l1 <= $end2; $l1++) {
         O = $l1;
         for (var $l3 = 0, $end4 = rtl.length($mod.uFrequences_coherent) - 1; $l3 <= $end4; $l3++) {
           I = $l3;
+          iBase = ((O - _Octave) * LBase) + I;
+          if (iBase < _iDebut) continue;
+          if (_iFin < iBase) continue;
+          iResult = iBase - _iDebut;
           Result = Result + pas.uFrequence.uFrequence_Separateur_Lignes + this.sFrequence(O,$mod.uFrequences_coherent[I],I);
         };
       };
@@ -2788,6 +2824,10 @@ rtl.module("uFrequences",["System","uFrequence","uCouleur","Classes","SysUtils",
         O = $l5;
         for (var $l7 = 0, $end8 = rtl.length($mod.uFrequences_decoherent) - 1; $l7 <= $end8; $l7++) {
           I = $l7;
+          iBase = ((O - _Octave) * LBase) + I;
+          if (iBase < _iDebut) continue;
+          if (_iFin < iBase) continue;
+          iResult = iBase - _iDebut;
           Result = Result + pas.uFrequence.uFrequence_Separateur_Lignes + this.sFrequence(O,$mod.uFrequences_decoherent[I],I);
         };
       };
@@ -2798,7 +2838,7 @@ rtl.module("uFrequences",["System","uFrequence","uCouleur","Classes","SysUtils",
       var Result = "";
       var Octave = 0;
       Octave = this.Octave_from_Frequence(_Frequence);
-      Result = "<pre>Fréquence: " + pas.uFrequence.sFrequence(_Frequence,6," ") + pas.uFrequence.uFrequence_Separateur_Lignes + this.Liste(Octave,1);
+      Result = "<pre>Fréquence: " + pas.uFrequence.sFrequence(_Frequence,6," ") + pas.uFrequence.uFrequence_Separateur_Lignes + this.Liste(Octave,1,-1,-1);
       Result = Result + "<\/pre>";
       return Result;
     };
@@ -2872,6 +2912,50 @@ rtl.module("uFrequences",["System","uFrequence","uCouleur","Classes","SysUtils",
   var $mod = this;
   var $impl = $mod.$impl;
   $impl.FFrequences = null;
+});
+rtl.module("uResonances_de_Schumann",["System","uFrequence","uFrequences","Classes","SysUtils","Math","Types"],function () {
+  "use strict";
+  var $mod = this;
+  var $impl = $mod.$impl;
+  this.uResonances_de_Schumann_source = "https:\/\/fr.wikipedia.org\/wiki\/R%C3%A9sonances_de_Schumann";
+  this.uResonances_de_Schumann_frequences = [7.83,14.1,20.3,26.4,32.4];
+  rtl.createClass($mod,"TResonances_de_Schumann",pas.System.TObject,function () {
+    this.Create$1 = function () {
+      return this;
+    };
+    this.Liste = function () {
+      var Result = "";
+      var NbCoherent = 0;
+      var NbDeCoherent = 0;
+      var I = 0;
+      Result = "<pre>Résonances de Schumann, source " + $mod.uResonances_de_Schumann_source + pas.uFrequence.uFrequence_Separateur_Lignes;
+      for (var $l1 = 0, $end2 = rtl.length($mod.uResonances_de_Schumann_frequences) - 1; $l1 <= $end2; $l1++) {
+        I = $l1;
+        Result = Result + pas.uFrequence.uFrequence_Separateur_Lignes + pas.SysUtils.IntToStr(I + 1) + ": " + pas.uFrequence.sFrequence($mod.uResonances_de_Schumann_frequences[I],6," ") + " " + pas.uFrequences.Frequences().sMatch(-5,$mod.uResonances_de_Schumann_frequences[I],{get: function () {
+            return NbCoherent;
+          }, set: function (v) {
+            NbCoherent = v;
+          }},{get: function () {
+            return NbDeCoherent;
+          }, set: function (v) {
+            NbDeCoherent = v;
+          }});
+      };
+      Result = Result + "<\/pre>";
+      return Result;
+    };
+  });
+  this.Resonances_de_Schumann = function () {
+    var Result = null;
+    if (null === $impl.FResonances_de_Schumann) $impl.FResonances_de_Schumann = $mod.TResonances_de_Schumann.$create("Create$1");
+    Result = $impl.FResonances_de_Schumann;
+    return Result;
+  };
+},null,function () {
+  "use strict";
+  var $mod = this;
+  var $impl = $mod.$impl;
+  $impl.FResonances_de_Schumann = null;
 });
 rtl.module("uCPL_G3",["System","Classes","SysUtils","uFrequence","uFrequences"],function () {
   "use strict";
@@ -3207,7 +3291,8 @@ rtl.module("uFrequencesCharter",["System","uFrequence","uFrequences","uCouleur",
       a.label.enabled = true;
       this.config.options.annotation.annotations.push(a);
     };
-    this.Plugin_annotations = function (_Centers, _Boundaries, _Box_Color, _Line_Color, _Frequence_Note_, _label_on_top) {
+    this.Plugin_annotations = function (_Centers, _Boundaries, _Box_Color, _Line_Color, _Frequence_Note_, _label_on_top, _iDebut) {
+      var iDebut = 0;
       var I2 = 0;
       var I = 0;
       var L = 0;
@@ -3218,6 +3303,7 @@ rtl.module("uFrequencesCharter",["System","uFrequence","uFrequences","uCouleur",
       var label_position = "";
       var Visible_ydebut = 0.0;
       var Visible_yfin = 0.0;
+      iDebut = pas.Math.IfThen(-1 === _iDebut,0,_iDebut);
       L = rtl.length(_Boundaries);
       L2 = Math.floor(L / 2);
       for (var $l1 = 0, $end2 = L2 - 1; $l1 <= $end2; $l1++) {
@@ -3236,10 +3322,10 @@ rtl.module("uFrequencesCharter",["System","uFrequence","uFrequences","uCouleur",
         };
         this.Plugin_annotation_box(V1,V2,1,3,_Box_Color);
         if (pas.uCouleur.Is_Visible(V1,V2)) this.Plugin_annotation_box(V1,V2,Visible_ydebut,Visible_yfin,pas.uCouleur.RGB_from_Frequency_rgba(C,1));
-        this.Plugin_annotation_line(C,label_position,pas.Math.IfThen(_Frequence_Note_,-1,I2),_Line_Color);
+        this.Plugin_annotation_line(C,label_position,pas.Math.IfThen(_Frequence_Note_,-1,iDebut + I2),_Line_Color);
       };
     };
-    this.Bandes_from_Octave = function (_Octave, _NbOctaves, _Frequence_Note_) {
+    this.Bandes_from_Octave = function (_Octave, _NbOctaves, _Frequence_Note_, _iDebut, _iFin) {
       this.Octave = _Octave;
       this.NbOctaves = _NbOctaves;
       this.bleu = "blue";
@@ -3247,16 +3333,16 @@ rtl.module("uFrequencesCharter",["System","uFrequence","uFrequences","uCouleur",
       this.gris_fonce = "rgba(128, 128, 128, 1)";
       this.vert = "rgba(128, 255, 128, 1)";
       this.vert_fonce = "rgba(  0, 192,   0, 1)";
-      this.Coherent_Boundaries = pas.uFrequences.Frequences().aCoherent_boundaries(this.Octave,this.NbOctaves);
-      this.DeCoherent_Boundaries = pas.uFrequences.Frequences().aDeCoherent_boundaries(this.Octave,this.NbOctaves);
-      this.Coherent_Centers = pas.uFrequences.Frequences().aCoherent_centers(this.Octave,this.NbOctaves);
-      this.DeCoherent_Centers = pas.uFrequences.Frequences().aDeCoherent_centers(this.Octave,this.NbOctaves);
+      this.Coherent_Boundaries = pas.uFrequences.Frequences().aCoherent_boundaries(this.Octave,this.NbOctaves,_iDebut,_iFin);
+      this.DeCoherent_Boundaries = pas.uFrequences.Frequences().aDeCoherent_boundaries(this.Octave,this.NbOctaves,_iDebut,_iFin);
+      this.Coherent_Centers = pas.uFrequences.Frequences().aCoherent_centers(this.Octave,this.NbOctaves,_iDebut,_iFin);
+      this.DeCoherent_Centers = pas.uFrequences.Frequences().aDeCoherent_centers(this.Octave,this.NbOctaves,_iDebut,_iFin);
       this.config = new Object();
       this.config.type = "scatter";
       this.config.data = new Object();
       this.Cree_Options();
-      this.Plugin_annotations(this.Coherent_Centers,this.Coherent_Boundaries,this.vert,this.vert_fonce,_Frequence_Note_,true);
-      this.Plugin_annotations(this.DeCoherent_Centers,this.DeCoherent_Boundaries,this.gris,this.gris_fonce,_Frequence_Note_,false);
+      this.Plugin_annotations(this.Coherent_Centers,this.Coherent_Boundaries,this.vert,this.vert_fonce,_Frequence_Note_,true,_iDebut);
+      this.Plugin_annotations(this.DeCoherent_Centers,this.DeCoherent_Boundaries,this.gris,this.gris_fonce,_Frequence_Note_,false,_iDebut);
       this.config.data.datasets = new Array();
       this.Push_dataset("Décohérentes",this.gris,this.gris,1,this.DeCoherent_Centers);
       this.Push_dataset("Cohérentes",this.vert,this.vert,3,this.Coherent_Centers);
@@ -3274,17 +3360,17 @@ rtl.module("uFrequencesCharter",["System","uFrequence","uFrequences","uCouleur",
       Canvas = document.getElementById(_Canvas_Name);
       Canvas.height = pas.System.Trunc(100 * dpr);
     };
-    this.Draw_Chart_from_Octave = function (_Octave, _Canvas_Name, _NbOctaves, _Frequence_Note_) {
-      this.Bandes_from_Octave(_Octave,_NbOctaves,_Frequence_Note_);
+    this.Draw_Chart_from_Octave = function (_Octave, _Canvas_Name, _NbOctaves, _Frequence_Note_, _iDebut, _iFin) {
+      this.Bandes_from_Octave(_Octave,_NbOctaves,_Frequence_Note_,_iDebut,_iFin);
       this.Cree_Chart(_Canvas_Name);
     };
     this.Draw_Chart_from_Frequence = function (_Libelle, _Frequence, _Canvas_Name, _NbOctaves, _Frequence_Note_) {
-      this.Bandes_from_Octave(pas.uFrequences.Frequences().Octave_from_Frequence(_Frequence),_NbOctaves,_Frequence_Note_);
+      this.Bandes_from_Octave(pas.uFrequences.Frequences().Octave_from_Frequence(_Frequence),_NbOctaves,_Frequence_Note_,-1,-1);
       this.Push_dataset(_Libelle,this.bleu,this.bleu,2.5,[_Frequence]);
       this.Cree_Chart(_Canvas_Name);
     };
-    this.Draw_Chart_from_Frequences = function (_Octave, _NbOctaves, _Libelle, _Frequences, _Canvas_Name) {
-      this.Bandes_from_Octave(_Octave,_NbOctaves,false);
+    this.Draw_Chart_from_Frequences = function (_Octave, _NbOctaves, _Libelle, _Frequences, _Canvas_Name, _iDebut, _iFin) {
+      this.Bandes_from_Octave(_Octave,_NbOctaves,false,_iDebut,_iFin);
       this.Push_dataset(_Libelle,this.bleu,this.bleu,2.5,_Frequences);
       this.Cree_Chart(_Canvas_Name);
     };
@@ -3301,7 +3387,7 @@ rtl.module("uFrequencesCharter",["System","uFrequence","uFrequences","uCouleur",
   var $impl = $mod.$impl;
   $impl.FFrequencesCharter = null;
 });
-rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","uGamme","uFrequencesCharter","Classes","SysUtils","JS","Web","Math","ChartJS","Types"],function () {
+rtl.module("ufjsFrequences",["System","uFrequence","uResonances_de_Schumann","uFrequences","uCPL_G3","uGamme","uFrequencesCharter","Classes","SysUtils","JS","Web","Math","ChartJS","Types"],function () {
   "use strict";
   var $mod = this;
   var $impl = $mod.$impl;
@@ -3353,8 +3439,9 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","uGam
       this.Traite_CPL_G3();
       this.dCouleur = $impl.element_from_id("dCouleur");
       this.Traite_Couleur();
+      this.Traite_Resonances_de_Schumann();
       this.dInfos = $impl.element_from_id("dInfos");
-      this.dInfos.innerHTML = "compilé avec pas2js version " + "1.4.20" + "<br>" + "target: " + "ECMAScript5" + " - " + "Browser" + "<br>" + "os: " + "Browser" + "<br>" + "cpu: " + "ECMAScript5" + "<br>" + "compilé le " + "2020\/4\/30" + " à " + " 1:59:21" + "<br>" + "langue du navigateur: " + window.navigator.language + "<br>" + "window.devicePixelRatio: " + pas.SysUtils.FloatToStr(window.devicePixelRatio);
+      this.dInfos.innerHTML = "compilé avec pas2js version " + "1.4.20" + "<br>" + "target: " + "ECMAScript5" + " - " + "Browser" + "<br>" + "os: " + "Browser" + "<br>" + "cpu: " + "ECMAScript5" + "<br>" + "compilé le " + "2020\/4\/30" + " à " + "23:45:55" + "<br>" + "langue du navigateur: " + window.navigator.language + "<br>" + "window.devicePixelRatio: " + pas.SysUtils.FloatToStr(window.devicePixelRatio);
     };
     this.iOctaveInput = function (_Event) {
       var Result = false;
@@ -3378,9 +3465,9 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","uGam
         }})) return;
       iOctave_Note = $impl.input_from_id("iOctave_Note");
       Octave_Note = iOctave_Note.checked;
-      pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Octave(Octave,"cOctave",1,!Octave_Note);
+      pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Octave(Octave,"cOctave",1,!Octave_Note,-1,-1);
       this.dOctave = $impl.element_from_id("dOctave");
-      this.dOctave.innerHTML = pas.uFrequences.Frequences().Liste(Octave,1);
+      this.dOctave.innerHTML = pas.uFrequences.Frequences().Liste(Octave,1,-1,-1);
     };
     this.Traite_Frequence = function () {
       var iFrequence_Note = null;
@@ -3398,19 +3485,23 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","uGam
       this.sFrequence.innerHTML = pas.uFrequence.sFrequence(Frequence,6," ");
     };
     this.Traite_CPL_G3 = function () {
-      pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Frequences(7,2,"Porteuses CPL G3",pas.uCPL_G3.CPL_G3().F,"cCPL_G3");
+      pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Frequences(7,2,"Porteuses CPL G3",pas.uCPL_G3.CPL_G3().F,"cCPL_G3",1,18);
       this.dCPL_G3.innerHTML = pas.uCPL_G3.CPL_G3().Liste();
     };
     var Octave = 40;
     this.Traite_Couleur = function () {
-      pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Octave(40,"cCouleur",2,false);
-      this.dCouleur.innerHTML = pas.uFrequences.Frequences().Liste(40,2);
+      pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Octave(40,"cCouleur",2,false,5,18);
+      this.dCouleur.innerHTML = pas.uFrequences.Frequences().Liste(40,2,-1,-1);
     };
     this.Traite_Gamme_Temperee = function (_Diapason, _Gamme_Temperee) {
       var sDiapason = "";
       sDiapason = pas.SysUtils.IntToStr(_Diapason);
-      pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Frequences(0,1,"Gamme tempérée diapason " + sDiapason + " Hz",_Gamme_Temperee.Base.slice(0),"c" + sDiapason + "Hz");
+      pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Frequences(0,1,"Gamme tempérée diapason " + sDiapason + " Hz",_Gamme_Temperee.Base.slice(0),"c" + sDiapason + "Hz",-1,-1);
       $impl.element_from_id("d" + sDiapason + "Hz").innerHTML = _Gamme_Temperee.Liste(0);
+    };
+    this.Traite_Resonances_de_Schumann = function () {
+      pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Frequences(-5,3,"Résonances de Schumann",pas.uResonances_de_Schumann.uResonances_de_Schumann_frequences,"cResonances_de_Schumann",0,25);
+      $impl.element_from_id("dResonances_de_Schumann").innerHTML = pas.uResonances_de_Schumann.Resonances_de_Schumann().Liste();
     };
   });
 },null,function () {

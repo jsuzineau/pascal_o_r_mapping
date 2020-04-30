@@ -1,29 +1,29 @@
 <!doctype html>
-<!--
-{                                                                               |
-    Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
-            http://www.mars42.com                                               |
-                                                                                |
-    Copyright 2020 Jean SUZINEAU - MARS42                                       |
-                                                                                |
-    This program is free software: you can redistribute it and/or modify        |
-    it under the terms of the GNU Lesser General Public License as published by |
-    the Free Software Foundation, either version 3 of the License, or           |
-    (at your option) any later version.                                         |
-                                                                                |
-    This program is distributed in the hope that it will be useful,             |
-    but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    GNU Lesser General Public License for more details.                         |
-                                                                                |
-    You should have received a copy of the GNU Lesser General Public License    |
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.       |
-                                                                                |
-|                                                                               }
--->
 <html lang="fr">
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <!--
+  {                                                                               |
+      Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
+              http://www.mars42.com                                               |
+                                                                                  |
+      Copyright 2020 Jean SUZINEAU - MARS42                                       |
+                                                                                  |
+      This program is free software: you can redistribute it and/or modify        |
+      it under the terms of the GNU Lesser General Public License as published by |
+      the Free Software Foundation, either version 3 of the License, or           |
+      (at your option) any later version.                                         |
+                                                                                  |
+      This program is distributed in the hope that it will be useful,             |
+      but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+      GNU Lesser General Public License for more details.                         |
+                                                                                  |
+      You should have received a copy of the GNU Lesser General Public License    |
+      along with this program.  If not, see <http://www.gnu.org/licenses/>.       |
+                                                                                  |
+  |                                                                               }
+  -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- pris dans demojitsimeet de Michael Van Canneyt pour test Bootstrap -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
@@ -737,13 +737,44 @@
       <div id="CPL_G3" class="collapse" aria-labelledby="chCPL_G3">
         <div class="card-body">
           <p class="text-wrap">
-            Notez la différence de type de répartition entre les bandes de fréquence et les porteuses CPL G3.
+            Notez la différence de type de répartition entre les bandes de
+            fréquence et les porteuses CPL G3.
           </p>
           <p class="text-wrap">
-            Pour les bandes de fréquences cohérentes/décohérentes l'écart entre deux bandes augmente de 6% de la fréquence en passant d'une bande à la suivante, et la largeur augmente progressivement (2 x 0.85% de la fréquence).
+            Pour les bandes de fréquences cohérentes/décohérentes l'écart
+            entre deux bandes augmente de 6% de la fréquence en passant
+            d'une bande à la suivante, et la largeur augmente
+            progressivement (2 x 0.85% de la fréquence).
           </p>
           <p class="text-wrap">
-            Pour le CPL G3, l'écart en fréquence est fixe, on a juste divisé en 36 la bande que lui a affecté l'autorité des télécommunications.
+            Pour le CPL G3, l'écart en fréquence est fixe, on a juste
+            divisé en 36 la bande de 36 KHz à 90 KHz que lui a affecté
+            l'autorité des télécommunications. (je simplifie : la norme CPL G3
+            comporte également d'autres bandes de fréquences utilisées
+            dans d'autres pays)
+          </p>
+          <p class="text-wrap">
+            Je n'ai pas encore eu le temps de regarder mais à priori on
+            trouverait une situation similaire sur l'ADSL, le Wifi, la 5G...
+          </p>
+          <p class="text-wrap">
+            J'imagine que les alimentations à découpage (ordinateurs,
+            chargeurs de téléphone portable par exemple), la fréquence
+            de fonctionnement des processeurs d'ordinateur et de leur mémoire
+            doivent également avoir un impact.
+          </p>
+          <p class="text-wrap">
+            Le CPL G3 a été conçu pour émettre sur 36 fréquences en même temps
+            en partie parce ce que le réseau électrique est déjà trés trés
+            bruité, avec 36 fréquences on est à peu prés sûr d'en avoir au moins
+            une de bonne, sur laquelle l'information arrivera à bon port.
+          </p>
+          <p class="text-wrap">
+            Si les résultats de l'article sur la notion de bande de fréquences
+            favorables se vérifie, il faudra sans doute faire évoluer nos
+            systèmes électroniques pour "qu'ils chantent juste" en fonctionnant
+            sur des fréquences et des combinaisons de fréquences favorables
+            à la vie.
           </p>
           <canvas id="cCPL_G3" height="100"></canvas>
           <div id="dCPL_G3">
@@ -802,6 +833,65 @@
            </div>
           <canvas id="cCouleur" height="100"></canvas>
           <div id="dCouleur">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-3 ml-1 text-muted text-wrap">
+      <p class="text-wrap">
+        Cette arrangement de fréquences électromagnétique impliqué dans le
+        fonctionnement des cellules vivantes pourrait trouver ses origines
+        dans l'arrangement des champs électromagnétiques terrestres présents
+        dans l'atmosphère et dans les minéraux présents à la surface de la Terre.
+      </p>
+      <p class="text-wrap">
+      Dans l'article
+      <a  target="_blank" href="https://www.heartmath.org/research/featured-research/earth-as-a-dynamic-body/">
+        Earth as a Dynamic Body – Electrically and Electromagnetically
+      </a>
+      il est développé que les mouvements tectoniques de la Terre,
+      par la compression des roches, peuvent casser des liaisons chimiques
+      peroxydes (je ne suis pas sûr de ma traduction).
+      Le phénomène est connu sous le nom de batteries rocheuses (rock batteries).
+      Cela déclenche des courants électriques et des ondes électromagnétiques
+      entre la profondeur et la surface de la Terre, ainsi qu'une grande
+      variété de phénomènes comme une ionisation de l'atmosphère, des ondes
+      accoustiques basse fréquence inaudibles, génération d'eau oxygénée
+      dans l'eau. Cela peut déclencher l'émission à la surface de la Terre
+      d'un rayonnement infrarouge qui peut faire croire à tort aux satellites
+      météo que la surface de la Terre se réchauffe à un endroit alors que
+      ce rayonnement est d'origine chimique. Tous ces signaux peuvent aider à
+      prévoir un tremblement de terre.
+      </p>
+      <p class="text-wrap">
+      Par ailleurs les arbres seraient capables de percevoir par leurs racines
+      ces phénomènes électromagnétiques.
+      L'institut HeartMath a un programme de recherche à ce sujet :
+      <a target="_blank" href="https://www.heartmath.org/research/featured-research/#tree-research">
+      Tree Research
+      </a>
+      (vous verrez des arbres équipés pour un électroencéphalogramme ...)
+      </p>
+      <p class="text-wrap">
+      Je suis allé aussi creuser du coté des
+      <a target="_blank" href="https://fr.wikipedia.org/wiki/R%C3%A9sonances_de_Schumann">
+      résonances de Schuman
+      </a>
+      dans le magnétisme terrestre.
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-header" id="chResonances_de_Schumann">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#Resonances_de_Schumann" aria-expanded="true" aria-controls="Resonances_de_Schumann">
+            une des fréquences est dans une bande décohérente, les autres non.
+          </button>
+        </h5>
+      </div>
+      <div id="Resonances_de_Schumann" class="collapse" aria-labelledby="chResonances_de_Schumann">
+        <div class="card-body">
+          <canvas id="cResonances_de_Schumann" height="100"></canvas>
+          <div id="dResonances_de_Schumann">
           </div>
         </div>
       </div>
