@@ -1,3 +1,23 @@
+{                                                                               |
+    Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
+            http://www.mars42.com                                               |
+                                                                                |
+    Copyright 2020 Jean SUZINEAU - MARS42                                       |
+                                                                                |
+    This program is free software: you can redistribute it and/or modify        |
+    it under the terms of the GNU Lesser General Public License as published by |
+    the Free Software Foundation, either version 3 of the License, or           |
+    (at your option) any later version.                                         |
+                                                                                |
+    This program is distributed in the hope that it will be useful,             |
+    but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    GNU Lesser General Public License for more details.                         |
+                                                                                |
+    You should have received a copy of the GNU Lesser General Public License    |
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.       |
+                                                                                |
+|                                                                               }
 unit uCouleur;
 
 {$mode objfpc}
@@ -45,6 +65,9 @@ function Frequence_from_Longueur_onde( _Longueur_onde: Nanometres): Hertz;
 function RGB_from_Frequency_hex ( _Frequence: Hertz): String;
 function RGB_from_Frequency_rgba( _Frequence: Hertz; _Alpha: double): String;
 function RGB_from_Frequency_tag( _Frequence: Hertz): String;
+function RGB_from_Frequency_tag_begin( _Frequence: Hertz): String;
+function RGB_from_Frequency_tag_body ( _Frequence: Hertz): String;
+function RGB_from_Frequency_tag_end                      : String;
 
 function Is_Visible( _Frequence_Min, _Frequence_Max: double): Boolean;overload;
 function Is_Visible( _Frequence: double): Boolean;overload;
@@ -189,9 +212,38 @@ begin
      hex:= RGB_from_Frequency_hex( _Frequence);
      Result
      :=
-        '<em style="background-color:'+hex+';">'
+        RGB_from_Frequency_tag_begin( _Frequence)
        +Format('longueur d''onde: %f nm  Rouge: %.3d; Vert: %.3d; Bleu: %.3d soit %s', [ Longueur_onde, R, G, B, hex])
-       +'</em>';
+       +RGB_from_Frequency_tag_end;
+end;
+function RGB_from_Frequency_tag_begin( _Frequence: Hertz): String;
+var
+   hex: String;
+begin
+     hex:= RGB_from_Frequency_hex( _Frequence);
+     Result:= '<em style="background-color:'+hex+';">'
+end;
+function RGB_from_Frequency_tag_body ( _Frequence: Hertz): String;
+var
+   Longueur_onde: Nanometres;
+   Red, Green, Blue: double;
+   R, G, B: Byte;
+   hex: String;
+begin
+     Longueur_onde:= Longueur_onde_from_Frequence( _Frequence);
+     RGB_from_Longueur_onde( Longueur_onde, Red, Green, Blue);
+     R:= Round( 255*Red );
+     G:= Round( 255*Green);
+     B:= Round( 255*Blue);
+     hex:= RGB_from_Frequency_hex( _Frequence);
+     Result
+     :=
+       Format( 'longueur d''onde: %f nm  Rouge: %.3d; Vert: %.3d; Bleu: %.3d soit %s',
+               [ Longueur_onde, R, G, B, hex]);
+end;
+function RGB_from_Frequency_tag_end: String;
+begin
+     Result:= '</em>';
 end;
 function Is_Visible( _Frequence_Min, _Frequence_Max: double): Boolean; overload;
 begin

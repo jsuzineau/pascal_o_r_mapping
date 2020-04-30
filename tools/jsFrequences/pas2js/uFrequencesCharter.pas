@@ -1,3 +1,23 @@
+{                                                                               |
+    Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
+            http://www.mars42.com                                               |
+                                                                                |
+    Copyright 2020 Jean SUZINEAU - MARS42                                       |
+                                                                                |
+    This program is free software: you can redistribute it and/or modify        |
+    it under the terms of the GNU Lesser General Public License as published by |
+    the Free Software Foundation, either version 3 of the License, or           |
+    (at your option) any later version.                                         |
+                                                                                |
+    This program is distributed in the hope that it will be useful,             |
+    but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    GNU Lesser General Public License for more details.                         |
+                                                                                |
+    You should have received a copy of the GNU Lesser General Public License    |
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.       |
+                                                                                |
+|                                                                               }
 unit uFrequencesCharter;
 
 {$mode objfpc}
@@ -31,6 +51,7 @@ type
    bleu: String;
    gris, vert: String;
    gris_fonce, vert_fonce: String;
+   slCanvas: TStringList;
   //Méthodes
   private
    function Low_Frequency_Boundary: Double;
@@ -43,10 +64,11 @@ type
    procedure Plugin_annotations( _Centers, _Boundaries: TDoubleDynArray;
                                  _Box_Color, _Line_Color: String; _Frequence_Note_: Boolean=True; _label_on_top: Boolean=False);
    procedure Bandes_from_Octave(_Octave, _NbOctaves: Integer; _Frequence_Note_: Boolean);
+   procedure Cree_Chart( _Canvas_Name: String);
+   procedure Dimensionne_Canvas( _Canvas_Name: String);
   public
-    procedure Draw_Chart_from_Octave(_Octave: Integer; _Canvas_Name: String;
-     _NbOctaves: Integer=1; _Frequence_Note_: Boolean=True);
-    procedure Draw_Chart_from_Frequence(_Libelle: String; _Frequence: double; _Canvas_Name: String; _NbOctaves: Integer=1);
+    procedure Draw_Chart_from_Octave(_Octave: Integer; _Canvas_Name: String;_NbOctaves: Integer=1; _Frequence_Note_: Boolean=True);
+    procedure Draw_Chart_from_Frequence(_Libelle: String; _Frequence: double; _Canvas_Name: String; _NbOctaves: Integer=1; _Frequence_Note_: Boolean=True);
     procedure Draw_Chart_from_Frequences(_Octave, _NbOctaves: Integer; _Libelle: String; _Frequences: TDoubleDynArray; _Canvas_Name: String);
   end;
 
@@ -133,11 +155,12 @@ end;
 
 constructor TFrequencesCharter.Create;
 begin
-
+     slCanvas:= TStringList.Create;
 end;
 
 destructor TFrequencesCharter.Destroy;
 begin
+     FreeAndNil( slCanvas);
      inherited Destroy;
 end;
 
@@ -322,20 +345,42 @@ begin
      Push_dataset( 'Cohérentes', vert , vert , 3,   Coherent_Centers);
 end;
 
+procedure TFrequencesCharter.Dimensionne_Canvas(_Canvas_Name: String);
+var
+   Canvas: TJSHTMLCanvasElement;
+   dpr: double;
+begin
+     if -1 <> slCanvas.IndexOf( _Canvas_Name) then exit;
+
+     slCanvas.Add( _Canvas_Name);
+
+     dpr:= window.devicePixelRatio;
+     Canvas:= TJSHTMLCanvasElement(document.getElementById(_Canvas_Name));
+     Canvas.height:= Trunc(100*dpr);
+end;
+
+procedure TFrequencesCharter.Cree_Chart( _Canvas_Name: String);
+begin
+     Dimensionne_Canvas( _Canvas_Name);
+     TChart.new( _Canvas_Name, config);
+end;
+
 procedure TFrequencesCharter.Draw_Chart_from_Octave( _Octave: Integer; _Canvas_Name: String; _NbOctaves: Integer=1; _Frequence_Note_: Boolean= True);
 begin
      Bandes_from_Octave( _Octave, _NbOctaves, _Frequence_Note_);
 
-     TChart.new( _Canvas_Name, config);
+     Cree_Chart( _Canvas_Name);
 end;
 
-procedure TFrequencesCharter.Draw_Chart_from_Frequence( _Libelle: String; _Frequence: double; _Canvas_Name: String; _NbOctaves: Integer=1);
+procedure TFrequencesCharter.Draw_Chart_from_Frequence( _Libelle: String;
+                                                        _Frequence: double; _Canvas_Name: String; _NbOctaves: Integer;
+                                                        _Frequence_Note_: Boolean);
 begin
-     Bandes_from_Octave( Frequences.Octave_from_Frequence( _Frequence), _NbOctaves, True);
+     Bandes_from_Octave( Frequences.Octave_from_Frequence( _Frequence), _NbOctaves, _Frequence_Note_);
 
      Push_dataset( _Libelle, bleu, bleu, 2.5, [_Frequence]);
 
-     TChart.new( _Canvas_Name, config);
+     Cree_Chart( _Canvas_Name);
 end;
 
 procedure TFrequencesCharter.Draw_Chart_from_Frequences( _Octave, _NbOctaves: Integer; _Libelle: String; _Frequences: TDoubleDynArray; _Canvas_Name: String);
@@ -343,7 +388,7 @@ begin
      Bandes_from_Octave( _Octave, _NbOctaves, False);
      Push_dataset( _Libelle, bleu, bleu, 2.5, _Frequences);
 
-     TChart.new( _Canvas_Name, config);
+     Cree_Chart( _Canvas_Name);
 end;
 
 end.

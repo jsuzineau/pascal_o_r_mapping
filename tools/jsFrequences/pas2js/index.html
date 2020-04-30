@@ -1,4 +1,26 @@
 <!doctype html>
+<!--
+{                                                                               |
+    Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
+            http://www.mars42.com                                               |
+                                                                                |
+    Copyright 2020 Jean SUZINEAU - MARS42                                       |
+                                                                                |
+    This program is free software: you can redistribute it and/or modify        |
+    it under the terms of the GNU Lesser General Public License as published by |
+    the Free Software Foundation, either version 3 of the License, or           |
+    (at your option) any later version.                                         |
+                                                                                |
+    This program is distributed in the hope that it will be useful,             |
+    but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    GNU Lesser General Public License for more details.                         |
+                                                                                |
+    You should have received a copy of the GNU Lesser General Public License    |
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.       |
+                                                                                |
+|                                                                               }
+-->
 <html lang="fr">
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
@@ -24,18 +46,80 @@
   }
 </style>
 <body>
-  <div class="container-fluid">
-    <div class="row mt-3 ml-1 text-muted">
-      <p>Ce programme est le résultat d'une réflexion à la lecture de l'article ci-dessous, j'espère ne pas avoir fait d'erreurs:</p>
-      <p><a target="_blank" href="https://file.scirp.org/pdf/JCT_2018030914283777.pdf?fbclid=IwAR1mjnXL7HgTqEZCtDn2OqNWU4xorx4g-3RxhSRGSQz8vTIL3Yx2skDGPfY">
-      Journal of Cancer Therapy, Favourable and Unfavourable EMF Frequency Patterns in Cancer: Perspectives for Improved Therapy and Prevention
-      </a></p>
-      <p>
-      Cela concerne des ondes électromagnétiques.<br>
-      Dans l'article les fréquences favorables de ces ondes sont également appelées fréquences cohérentes.<br>
-      Ci-dessous les fréquences cohérentes favorables sont affichées en fond <em style="background-color:#80FF80;">vert </em>
-      et les décohérentes en fond <em style="background-color:#C0C0C0;">gris</em><br>
-      L'effet se manifeste dans une zone de + ou -0,85% autour de la fréquence, cela fait une bande de fréquence.
+  <div class="container">
+    <div class="mt-3 ml-1 text-muted text-wrap">
+      <p class="text-wrap">
+        Ce programme est le résultat d'une réflexion à la lecture
+        de l'article ci-dessous, j'espère ne pas avoir fait d'erreurs:
+      </p>
+      <p class="text-wrap">
+        <a target="_blank" href="https://file.scirp.org/pdf/JCT_2018030914283777.pdf?fbclid=IwAR1mjnXL7HgTqEZCtDn2OqNWU4xorx4g-3RxhSRGSQz8vTIL3Yx2skDGPfY">
+        Journal of Cancer Therapy, Favourable and Unfavourable EMF Frequency
+        Patterns in Cancer: Perspectives for Improved Therapy and Prevention
+        </a>
+      </p>
+      <p class="text-wrap">
+        J'ai découvert cet article lors d'un "live" de la
+        <a target="_blank" href="https://www.resonancescience.org/">Resonance Academy</a>
+        où Nassim Haramein et William Brown nous ont donné le lien ci-dessus.
+      </p>
+      <p class="text-wrap">
+        L'article est le recoupement de 219 études médicales sur des ondes
+        électromagnétiques à des fréquences diverses.
+      </p>
+      <p class="text-wrap">
+        Apparemment nos cellules utilisent des ondes électromagnétiques
+        pour communiquer entre elles par le biais d'états vibratoires
+        et de résonnances complexes.
+        Dans certains cas, une cellule soumise à une onde électromagnétique
+        extérieure au tissu cellulaire va perdre cette communication. Elle va
+        se croire seule et isolée. Cela peut entre autres déclencher
+        sa reproduction anarchique (cancer).
+        Je simplifie à l'extrême sur ce point, pour avoir une idée plus exacte
+        et détaillée, mieux vaut se plonger dans l'article original en anglais.
+        Moyennant une inscription gratuite email/mot de passe, vous pouvez aussi
+        trouver plus d'information en français à ce sujet sur le site Resonance Science:
+        <a target="_blank" href="https://fr.resonancescience.org/products/module-6-implications-et-applications/categories/2606336/posts/8696217">
+        6.3.6 Mitochondries et signaux électromagnétiques
+        </a>
+      </p>
+      <p class="text-wrap">
+        Dans l'article les fréquences favorables de ces ondes sont également
+        appelées fréquences cohérentes.
+      </p>
+      <p class="text-wrap">
+        Pour comparaison ces fréquences ont été ramenées dans une octave de base
+        autour de 400Hz, zone de la fréquence des diapasons en musique,
+        en les décalant autant que nécessaire d'un certain nombre
+        d'octaves (divisions ou multiplications par 2 successives).
+        Par exemple le 465 Mhz défavorable absorbé par des tissus cancéreux
+        est ramené à 443,20 Hz en le divisant 20 fois par 2 (20 octaves).
+      </p>
+      <p class="text-wrap">
+        En suivant ce procédé les résultats se sont regroupés dans cette octave
+        de base autour 12 fréquences favorables.
+      </p>
+      <p class="text-wrap">
+        L'effet favorable se manifeste dans une zone de + ou -0,85%
+        autour de la fréquence cohérente, cela fait une bande de fréquence.<br>
+        Quand on s'éloigne plus loin de la fréquence de 0,85 à 1,25%,
+        le niveau de cohérence baisse progressivement.<br>
+        De 1,25 à 2,5 % on passe dans une zone défavorable
+        et l'on va atteindre un maximum de chaos et de dissonance entre 2,5 et 3%.
+      </p>
+      <p class="text-wrap">
+        Les fréquences cohérentes sont pratiquement organisées
+        commes les demi-tons de la gamme musicale standard.<br>
+        D'un demi ton à un demi-ton à un demi-ton supérieur (Do à Do# par exemple)
+        on a une progression d'environ 6%.<br>
+        Et donc à 3% on est pile entre deux demi-tons ce qui fait une dissonnance.
+      </p>
+      <p class="text-wrap">
+        Ci-dessous les fréquences cohérentes favorables sont affichées
+        en fond <em style="background-color:#80FF80;">vert </em>
+        et les fréquences décohérentes vont se présenter comme une gamme
+        en fond <em style="background-color:#C0C0C0;">gris</em>
+        intercalée entre les fréquences favorables.
       </p>
     </div>
     <div class="card">
@@ -50,12 +134,17 @@
         <div class="card-body">
           <div class="form-group">
              <label for="iOctave">Octave</label>
-             <input id="iOctave" class="form-control" aria-describedby="lOctave" value="0"/>
+             <input id="iOctave" type="number" class="form-control" aria-describedby="lOctave" value="0"/>
              <small id="lOctave" class="form-text text-muted">
                Octave de la bande de fréquences à afficher, saisir 0 pour l'octave de base<br>
                Elle correspond à l'octave 3 de la notation latine ( Do Ré Mi Fa Sol La Si)<br>
                et à l'octave 4 de la notation anglo-saxonne (C D E F G A B)<br>
                Les octave 40 et 41 correspondent à la lumière visible.
+             </small>
+             <input id="iOctave_Note"  type="checkbox" class="form-check-input" aria-describedby="lOctave_Note" value="" />
+             <label for="iOctave_Note" class="form-check-label">Afficher la note</label>
+             <small id="lOctave_Note" class="form-text text-muted">
+               Afficher la note au lieu de la fréquence pour les bandes
              </small>
           </div>
           <canvas id="cOctave" height="100"></canvas>
@@ -74,17 +163,22 @@
       </div>
       <div id="Frequence" class="collapse" aria-labelledby="chFrequence">
         <div class="card-body">
-           <div>
+          <div class="form-group">
               <label for="iFrequence">Fréquence</label>
               <div class="row" id="controls">
                 <div class="col-md-6">
-                  <input id="iFrequence" class="form-control" aria-describedby="lFrequence" value="440"/>
+                  <input id="iFrequence" type="number" class="form-control" aria-describedby="lFrequence" value="440"/>
                 </div>
                 <div class="col-md-6">
                   <span id="sFrequence"> </span>
                 </div>
               </div>
               <small id="lFrequence" class="form-text text-muted">Fréquence à afficher en Herz</small>
+             <input id="iFrequence_Note"  type="checkbox" class="form-check-input" aria-describedby="lFrequence_Note" value="" />
+             <label for="iFrequence_Note" class="form-check-label">Afficher la note</label>
+             <small id="lFrequence_Note" class="form-text text-muted">
+               Afficher la note au lieu de la fréquence pour les bandes
+             </small>
            </div>
            <canvas id="cFrequence" height="100"></canvas>
            <div id="dFrequence">
@@ -93,10 +187,16 @@
       </div>
     </div>
     <div class="row mt-3 ml-1 text-muted">
-      <p>
-      L'article traite d'ondes électromagnétiques mais la vue des résultats fait penser à la musique (ondes acoustiques).<br>
-      Cela rappelle les 12 demi-tons de la gamme tempérée.<br>
-      La répartition des bandes est proche de la gamme tempérée mais ce n'est pas exactement çà.<br>
+      <p class="text-wrap">
+        L'article traite d'ondes électromagnétiques mais la vue des résultats
+        fait penser à la musique (ondes acoustiques).
+      </p>
+      <p class="text-wrap">
+        Cela rappelle les 12 demi-tons de la gamme tempérée.<br>
+      </p>
+      <p class="text-wrap">
+        La répartition des bandes est proche de la gamme tempérée mais
+        ce n'est pas exactement çà.
       </p>
     </div>
     <div class="card">
@@ -109,339 +209,346 @@
       </div>
       <div id="Pythagoricien" class="collapse" aria-labelledby="chPythagoricien">
         <div class="card-body">
-              Voici une comparaison avec la gamme pythagoricienne (source <a target="_blank" href="https://fr.wikipedia.org/wiki/Accord_pythagoricien">Wikipedia</a>) <br>
-              Les écarts sont mesurés en Cents définis par la formule suivante:
-              <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
-                <semantics>
+          <p class="text-wrap">
+            Voici une comparaison avec la gamme pythagoricienne (source <a target="_blank" href="https://fr.wikipedia.org/wiki/Accord_pythagoricien">Wikipedia</a>)
+          </p>
+          <p class="text-wrap">
+            Les écarts sont mesurés en Cents définis par la formule suivante:
+            <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+              <semantics>
+               <mrow>
+                <mn>1200</mn>
+                <mo stretchy="false">⋅</mo>
+                <mrow>
+                 <mo fence="true" stretchy="false">(</mo>
                  <mrow>
-                  <mn>1200</mn>
-                  <mo stretchy="false">⋅</mo>
-                  <mrow>
-                   <mo fence="true" stretchy="false">(</mo>
+                  <mfrac>
                    <mrow>
-                    <mfrac>
+                    <mi>ln</mi>
+                    <mrow>
+                     <mo fence="true" stretchy="false">(</mo>
                      <mrow>
-                      <mi>ln</mi>
-                      <mrow>
-                       <mo fence="true" stretchy="false">(</mo>
+                      <mfrac>
                        <mrow>
-                        <mfrac>
-                         <mrow>
-                          <mi mathvariant="italic">Fréquence&nbsp;note</mi>
-                         </mrow>
-                         <mrow>
-                          <mi mathvariant="italic">Fréquence&nbsp;note&nbsp;standard</mi>
-                         </mrow>
-                        </mfrac>
+                        <mi mathvariant="italic">Fréquence&nbsp;note</mi>
                        </mrow>
-                       <mo fence="true" stretchy="false">)</mo>
-                      </mrow>
-                     </mrow>
-                     <mrow>
-                      <mi>ln</mi>
-                      <mrow>
-                       <mo fence="true" stretchy="false">(</mo>
                        <mrow>
-                        <mn>2</mn>
+                        <mi mathvariant="italic">Fréquence&nbsp;note&nbsp;standard</mi>
                        </mrow>
-                       <mo fence="true" stretchy="false">)</mo>
-                      </mrow>
+                      </mfrac>
                      </mrow>
-                    </mfrac>
+                     <mo fence="true" stretchy="false">)</mo>
+                    </mrow>
                    </mrow>
-                   <mo fence="true" stretchy="false">)</mo>
-                  </mrow>
+                   <mrow>
+                    <mi>ln</mi>
+                    <mrow>
+                     <mo fence="true" stretchy="false">(</mo>
+                     <mrow>
+                      <mn>2</mn>
+                     </mrow>
+                     <mo fence="true" stretchy="false">)</mo>
+                    </mrow>
+                   </mrow>
+                  </mfrac>
                  </mrow>
-                 <annotation encoding="StarMath 5.0">1200 cdot ( { ln( {Fréquence note} over {Fréquence note standard} ) } over { ln(2) } )  </annotation>
-                </semantics>
-               </math> <br>
-               L'écart en cents est négatif pour une note plus grave que le standard, et positif pour une note plus aigue<br>
-
-		<style type="text/css">
-                @page {  }
-                table { border-collapse:collapse; border-spacing:0; empty-cells:show }
-                td, th { vertical-align:top; font-size:10pt;}
-                h1, h2, h3, h4, h5, h6 { clear:both;}
-                p { white-space: nowrap; }
-                ol, ul { margin:0; padding:0;}
-                li { list-style: none; margin:0; padding:0;}
-                /* "li span.odfLiEnd" - IE 7 issue*/
-                li span. { clear: both; line-height:0; width:0; height:0; margin:0; padding:0; }
-                span.footnodeNumber { padding-right:1em; }
-                span.annotation_style_by_filter { font-size:95%; font-family:Arial; background-color:#fff000;  margin:0; border:0; padding:0;  }
-                span.heading_numbering { margin-right: 0.8rem; }* { margin:0;}
-                .ta1 { writing-mode:lr-tb; }
-                .Default { font-family:Liberation Sans; }
-                .ce1 { font-family:Liberation Serif; vertical-align:middle; text-align:center ! important; font-size:10pt; font-style:normal; text-shadow:none; text-decoration:none ! important; font-weight:bold; }
-                .ce2 { font-family:Liberation Serif; text-align:center ! important; font-size:10pt; font-style:normal; text-shadow:none; text-decoration:none ! important; font-weight:bold; }
-                .ce3 { font-family:Liberation Serif; font-size:10pt; font-style:italic; text-shadow:none; text-decoration:none ! important; font-weight:normal; }
-                .ce4 { font-family:Liberation Serif; font-size:10pt; font-style:normal; text-shadow:none; text-decoration:none ! important; font-weight:normal; }
-                .ce5 { font-family:Liberation Sans; vertical-align:middle; }
-                .co1 { width:2.258cm; }
-                .ro1 { height:1.236cm; }
-                .ro2 { height:0.841cm; }
-                .ro3 { height:0.46cm; }
-                .ro4 { height:0.452cm; }
-                /* ODF styles with no properties representable as CSS */
-                 { }
-                </style>
-		<table border="1" cellspacing="0" cellpadding="0" class="ta1">
-			<colgroup>
-				<col width="99"/>
-				<col width="99"/>
-				<col width="99"/>
-			</colgroup>
-			<tr class="ro1">
-				<td colspan="3" style="text-align:left;width:2.258cm; " class="ce1">
-					<p>Ecart en cents
-						<br/>Par rapport à la gamme courante
-						<br/>(gamme à tempérament égal)
-					</p>
-				</td>
-			</tr>
-			<tr class="ro2">
-				<td style="text-align:left;width:2.258cm; " class="ce2">
-					<p>Note</p>
-				</td>
-				<td style="text-align:left;width:2.258cm; " class="ce2">
-					<p>Pythagoricien</p>
-				</td>
-				<td style="text-align:left;width:2.258cm; " class="Default">
-					<p>Cohérent</p>
-				</td>
-			</tr>
-			<tr class="ro3">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>ré</p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>0</p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce5">
-					<p>-1,96</p>
-				</td>
-			</tr>
-			<tr class="ro3">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>mi♭</p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>-9,775</p>
-				</td>
-				<td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
-					<p>-13,48</p>
-				</td>
-			</tr>
-			<tr class="ro3">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>ré♯</p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>13,685</p>
-				</td>
-			</tr>
-			<tr class="ro3">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>fa♭ </p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>-19,55</p>
-				</td>
-				<td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
-					<p>1,96</p>
-				</td>
-			</tr>
-			<tr class="ro3">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>mi</p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>3,91</p>
-				</td>
-			</tr>
-			<tr class="ro4">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>fa</p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>-5,865</p>
-				</td>
-				<td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
-					<p>-8,50</p>
-				</td>
-			</tr>
-			<tr class="ro4">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>mi♯</p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>17,595</p>
-				</td>
-			</tr>
-			<tr class="ro4">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>sol♭ </p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>-15,64</p>
-				</td>
-				<td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
-					<p>6,81</p>
-				</td>
-			</tr>
-			<tr class="ro4">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>fa♯</p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>7,82</p>
-				</td>
-			</tr>
-			<tr class="ro4">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>sol</p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>-1,955</p>
-				</td>
-				<td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
-					<p>-3,91</p>
-				</td>
-			</tr>
-			<tr class="ro4">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>fa♯♯ </p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>21,505</p>
-				</td>
-			</tr>
-			<tr class="ro4">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>la♭</p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>-11,73</p>
-				</td>
-				<td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
-					<p>-13,87</p>
-				</td>
-			</tr>
-			<tr class="ro4">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>sol♯</p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>11,73</p>
-				</td>
-			</tr>
-			<tr class="ro4">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>si♭♭ </p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>-21,505</p>
-				</td>
-				<td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
-					<p>0,00</p>
-				</td>
-			</tr>
-			<tr class="ro4">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>la</p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>1,955</p>
-				</td>
-			</tr>
-			<tr class="ro4">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>si♭</p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>-7,82</p>
-				</td>
-				<td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
-					<p>-9,82</p>
-				</td>
-			</tr>
-			<tr class="ro4">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>la♯</p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>15,64</p>
-				</td>
-			</tr>
-			<tr class="ro4">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>do♭ </p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>-17,595</p>
-				</td>
-				<td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
-					<p>3,91</p>
-				</td>
-			</tr>
-			<tr class="ro4">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>si</p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>5,865</p>
-				</td>
-			</tr>
-			<tr class="ro4">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>do</p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>-3,91</p>
-				</td>
-				<td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
-					<p>-5,87</p>
-				</td>
-			</tr>
-			<tr class="ro4">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>si♯</p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>19,55</p>
-				</td>
-			</tr>
-			<tr class="ro4">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>ré♭ </p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>-13,865</p>
-				</td>
-				<td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
-					<p>-14,97</p>
-				</td>
-			</tr>
-			<tr class="ro4">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>do♯</p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>9,775</p>
-				</td>
-			</tr>
-			<tr class="ro3">
-				<td style="text-align:left;width:2.258cm; " class="ce3">
-					<p>ré</p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce4">
-					<p>0</p>
-				</td>
-				<td style="text-align:right; width:2.258cm; " class="ce5">
-					<p>-1,96</p>
-				</td>
-			</tr>
-		</table>
+                 <mo fence="true" stretchy="false">)</mo>
+                </mrow>
+               </mrow>
+               <annotation encoding="StarMath 5.0">1200 cdot ( { ln( {Fréquence note} over {Fréquence note standard} ) } over { ln(2) } )  </annotation>
+              </semantics>
+            </math>
+          </p>
+          <p class="text-wrap">
+               L'écart en cents est négatif pour une note plus grave que le standard, et positif pour une note plus aigue.
+          </p>
+          <p class="text-wrap">
+	    <style type="text/css">
+            @page {  }
+            table { border-collapse:collapse; border-spacing:0; empty-cells:show }
+            td, th { vertical-align:top; font-size:10pt;}
+            h1, h2, h3, h4, h5, h6 { clear:both;}
+            p { white-space: nowrap; }
+            ol, ul { margin:0; padding:0;}
+            li { list-style: none; margin:0; padding:0;}
+            /* "li span.odfLiEnd" - IE 7 issue*/
+            li span. { clear: both; line-height:0; width:0; height:0; margin:0; padding:0; }
+            span.footnodeNumber { padding-right:1em; }
+            span.annotation_style_by_filter { font-size:95%; font-family:Arial; background-color:#fff000;  margin:0; border:0; padding:0;  }
+            span.heading_numbering { margin-right: 0.8rem; }* { margin:0;}
+            .ta1 { writing-mode:lr-tb; }
+            .Default { font-family:Liberation Sans; }
+            .ce1 { font-family:Liberation Serif; vertical-align:middle; text-align:center ! important; font-size:10pt; font-style:normal; text-shadow:none; text-decoration:none ! important; font-weight:bold; }
+            .ce2 { font-family:Liberation Serif; text-align:center ! important; font-size:10pt; font-style:normal; text-shadow:none; text-decoration:none ! important; font-weight:bold; }
+            .ce3 { font-family:Liberation Serif; font-size:10pt; font-style:italic; text-shadow:none; text-decoration:none ! important; font-weight:normal; }
+            .ce4 { font-family:Liberation Serif; font-size:10pt; font-style:normal; text-shadow:none; text-decoration:none ! important; font-weight:normal; }
+            .ce5 { font-family:Liberation Sans; vertical-align:middle; }
+            .co1 { width:2.258cm; }
+            .ro1 { height:1.236cm; }
+            .ro2 { height:0.841cm; }
+            .ro3 { height:0.46cm; }
+            .ro4 { height:0.452cm; }
+            /* ODF styles with no properties representable as CSS */
+             { }
+            </style>
+	    <table border="1" cellspacing="0" cellpadding="0" class="ta1">
+		    <colgroup>
+			    <col width="99"/>
+			    <col width="99"/>
+			    <col width="99"/>
+		    </colgroup>
+		    <tr class="ro1">
+			    <td colspan="3" style="text-align:left;width:2.258cm; " class="ce1">
+				    <p>Ecart en cents
+					    <br/>Par rapport à la gamme courante
+					    <br/>(gamme à tempérament égal)
+				    </p>
+			    </td>
+		    </tr>
+		    <tr class="ro2">
+			    <td style="text-align:left;width:2.258cm; " class="ce2">
+				    <p>Note</p>
+			    </td>
+			    <td style="text-align:left;width:2.258cm; " class="ce2">
+				    <p>Pythagoricien</p>
+			    </td>
+			    <td style="text-align:left;width:2.258cm; " class="Default">
+				    <p>Cohérent</p>
+			    </td>
+		    </tr>
+		    <tr class="ro3">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>ré</p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>0</p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce5">
+				    <p>-1,96</p>
+			    </td>
+		    </tr>
+		    <tr class="ro3">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>mi♭</p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>-9,775</p>
+			    </td>
+			    <td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
+				    <p>-13,48</p>
+			    </td>
+		    </tr>
+		    <tr class="ro3">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>ré♯</p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>13,685</p>
+			    </td>
+		    </tr>
+		    <tr class="ro3">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>fa♭ </p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>-19,55</p>
+			    </td>
+			    <td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
+				    <p>1,96</p>
+			    </td>
+		    </tr>
+		    <tr class="ro3">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>mi</p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>3,91</p>
+			    </td>
+		    </tr>
+		    <tr class="ro4">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>fa</p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>-5,865</p>
+			    </td>
+			    <td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
+				    <p>-8,50</p>
+			    </td>
+		    </tr>
+		    <tr class="ro4">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>mi♯</p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>17,595</p>
+			    </td>
+		    </tr>
+		    <tr class="ro4">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>sol♭ </p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>-15,64</p>
+			    </td>
+			    <td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
+				    <p>6,81</p>
+			    </td>
+		    </tr>
+		    <tr class="ro4">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>fa♯</p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>7,82</p>
+			    </td>
+		    </tr>
+		    <tr class="ro4">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>sol</p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>-1,955</p>
+			    </td>
+			    <td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
+				    <p>-3,91</p>
+			    </td>
+		    </tr>
+		    <tr class="ro4">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>fa♯♯ </p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>21,505</p>
+			    </td>
+		    </tr>
+		    <tr class="ro4">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>la♭</p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>-11,73</p>
+			    </td>
+			    <td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
+				    <p>-13,87</p>
+			    </td>
+		    </tr>
+		    <tr class="ro4">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>sol♯</p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>11,73</p>
+			    </td>
+		    </tr>
+		    <tr class="ro4">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>si♭♭ </p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>-21,505</p>
+			    </td>
+			    <td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
+				    <p>0,00</p>
+			    </td>
+		    </tr>
+		    <tr class="ro4">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>la</p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>1,955</p>
+			    </td>
+		    </tr>
+		    <tr class="ro4">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>si♭</p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>-7,82</p>
+			    </td>
+			    <td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
+				    <p>-9,82</p>
+			    </td>
+		    </tr>
+		    <tr class="ro4">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>la♯</p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>15,64</p>
+			    </td>
+		    </tr>
+		    <tr class="ro4">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>do♭ </p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>-17,595</p>
+			    </td>
+			    <td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
+				    <p>3,91</p>
+			    </td>
+		    </tr>
+		    <tr class="ro4">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>si</p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>5,865</p>
+			    </td>
+		    </tr>
+		    <tr class="ro4">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>do</p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>-3,91</p>
+			    </td>
+			    <td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
+				    <p>-5,87</p>
+			    </td>
+		    </tr>
+		    <tr class="ro4">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>si♯</p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>19,55</p>
+			    </td>
+		    </tr>
+		    <tr class="ro4">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>ré♭ </p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>-13,865</p>
+			    </td>
+			    <td rowspan="2" style="text-align:right; width:2.258cm; " class="ce5">
+				    <p>-14,97</p>
+			    </td>
+		    </tr>
+		    <tr class="ro4">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>do♯</p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>9,775</p>
+			    </td>
+		    </tr>
+		    <tr class="ro3">
+			    <td style="text-align:left;width:2.258cm; " class="ce3">
+				    <p>ré</p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce4">
+				    <p>0</p>
+			    </td>
+			    <td style="text-align:right; width:2.258cm; " class="ce5">
+				    <p>-1,96</p>
+			    </td>
+		    </tr>
+	      </table>
+            </p>
         </div>
       </div>
     </div>
@@ -504,79 +611,119 @@
       <div id="Audio" class="collapse" aria-labelledby="chAudio">
         <div class="card-body">
            <div class="row mt-3 ml-1 text-muted">
-             <p>
-              J'ai fait mes premiers tests en créant des fichiers audio avec <a target="_blank" href="https://www.audacityteam.org/">Audacity</a>
-              par le menu Générer/Tonalité.<br>
-              La gamme au diapason 440 Hz
-              <audio controls>
-                <source src="Gamme_440Hz.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio>
-              <br>
-              La gamme au diapason 432 Hz
-              <audio controls>
-                <source src="Gamme_432Hz.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio>
-              <br>
-              La gamme des fréquences cohérentes
-              <audio controls>
-                <source src="Gamme_Coherence.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio>
-              <br>
-              La gamme des fréquences cohérentes avec tous les demis tons
-              <audio controls>
-                <source src="Coherence.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio>
-              <br>
-              Montée de la gamme avec succession note tempérée 432 Hz puis note cohérente
-              <audio controls>
-                <source src="Gamme_432Hz-Coherent.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio>
-              <br>
-              Gamme avec note tempérée 432 Hz et note cohérente jouée en même temps
-              <audio controls>
-                <source src="2_pistes.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio>
-              <br>
-              En stéréo, si je ne me trompe pas, la note tempérée 432 Hz est jouée à gauche et la note cohérente jouée à droite en même temps
-              <audio controls>
-                <source src="Stereo.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio>
-              <br>
-              Et la gamme des fréquences décohérentes
-              <audio controls>
-                <source src="DeCoherence.mp3" type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio><br>
-              Pour pouvoir voir ce que cela donne sur une partition complète,
-              j'ai modifié également un plugin de <a target="_blank" href="https://musescore.org/fr">MuseScore</a> pour utiliser les notes cohérentes.<br>
-              Pour MuseScore 2: <a target="_blank" href="MuseScore/V2/tuning_coherent.qml">tuning_coherent.qml</a><br>
-              Pour MuseScore 3: <a target="_blank" href="MuseScore/V3/tuning_coherent.qml">tuning_coherent.qml</a><br>
-              Une fois le plugin installé dans Documents\MuseScore(2 ou 3)\Plugins <br>
-              et activé par le menu Plugin/Gestionnaires de Plugins, <br>
-              il faut régler le diapason sur 432 Hz dans le menu Affichage/Synthétiseur/Réglage du Diapason (et faire Enregistrer dans la partition), <br>
-              sélectionner toutes les mesures de la partition <br>
-              et dans le menu Plugins/Playback/TuningCoherent, choisir le tempérament Cohérent <br>
-              puis "Apply" pour appliquer la modification aux mesures sélectionnées.<br>
+             <p class="text-wrap">
+               J'ai fait mes premiers tests en créant des fichiers audio avec
+               <a target="_blank" href="https://www.audacityteam.org/">Audacity</a>
+               par le menu Générer/Tonalité.
+             </p>
+             <p class="text-wrap">
+               La gamme au diapason 440 Hz
+               <audio controls>
+                 <source src="Gamme_440Hz.mp3" type="audio/mpeg">
+                 Your browser does not support the audio element.
+               </audio>
+             </p>
+             <p class="text-wrap">
+               La gamme au diapason 432 Hz
+               <audio controls>
+                 <source src="Gamme_432Hz.mp3" type="audio/mpeg">
+                 Your browser does not support the audio element.
+               </audio>
+             </p>
+             <p class="text-wrap">
+               La gamme des fréquences cohérentes
+               <audio controls>
+                 <source src="Gamme_Coherence.mp3" type="audio/mpeg">
+                 Your browser does not support the audio element.
+               </audio>
+             </p>
+             <p class="text-wrap">
+               La gamme des fréquences cohérentes avec tous les demis tons
+               <audio controls>
+                 <source src="Coherence.mp3" type="audio/mpeg">
+                 Your browser does not support the audio element.
+               </audio>
+             </p>
+             <p class="text-wrap">
+               Montée de la gamme avec succession note tempérée 432 Hz puis note cohérente
+               <audio controls>
+                 <source src="Gamme_432Hz-Coherent.mp3" type="audio/mpeg">
+                 Your browser does not support the audio element.
+               </audio>
+             </p>
+             <p class="text-wrap">
+               Gamme avec note tempérée 432 Hz et note cohérente jouée en même temps
+               <audio controls>
+                 <source src="2_pistes.mp3" type="audio/mpeg">
+                 Your browser does not support the audio element.
+               </audio>
+             </p>
+             <p class="text-wrap">
+               En stéréo, si je ne me trompe pas, la note tempérée 432 Hz
+               est jouée à gauche et la note cohérente jouée à droite en même temps
+               <audio controls>
+                 <source src="Stereo.mp3" type="audio/mpeg">
+                 Your browser does not support the audio element.
+               </audio>
+             </p>
+             <p class="text-wrap">
+               Et la gamme des fréquences décohérentes
+               <audio controls>
+                 <source src="DeCoherence.mp3" type="audio/mpeg">
+                 Your browser does not support the audio element.
+               </audio>
+             </p>
+             <p class="text-wrap">
+               Pour pouvoir voir ce que cela donne sur une partition complète,
+               j'ai modifié également un plugin de
+               <a target="_blank" href="https://musescore.org/fr">MuseScore</a>
+               pour utiliser les notes cohérentes.
+             </p>
+             <p class="text-wrap">
+               Pour MuseScore 2:
+               <a target="_blank" href="MuseScore/V2/tuning_coherent.qml">tuning_coherent.qml</a>
+             </p>
+             <p class="text-wrap">
+               Pour MuseScore 3:
+               <a target="_blank" href="MuseScore/V3/tuning_coherent.qml">tuning_coherent.qml</a>
+             </p>
+             <p class="text-wrap">
+               Une fois le plugin installé dans Documents\MuseScore(2 ou 3)\Plugins
+             </p>
+             <p class="text-wrap">
+               et activé par le menu Plugin/Gestionnaires de Plugins,
+             </p>
+             <p class="text-wrap">
+               il faut régler le diapason sur 432 Hz
+               dans le menu Affichage/Synthétiseur/Réglage du Diapason
+               (et faire Enregistrer dans la partition),
+             </p>
+             <p class="text-wrap">
+               sélectionner toutes les mesures de la partition
+             </p>
+             <p class="text-wrap">
+               et dans le menu Plugins/Playback/TuningCoherent, choisir le tempérament Cohérent
+             </p>
+             <p class="text-wrap">
+               puis "Apply" pour appliquer la modification aux mesures sélectionnées.
              </p>
            </div>
         </div>
       </div>
     </div>
     <div class="row mt-3 ml-1 text-muted">
-      <p>
-      Compteur électrique Linky<br><br>
-      Je me suis intéressé également aux fréquences utilisées pour la communication des compteurs Linky.<br>
-      Ils utilisent la norme CPL G3 dont j'ai trouvé une documentation ici:
-      <a target="_blank" href="http://www.santepublique-editions.fr/objects/Specification_de_la_couche_physique_CPL_G3.pdf">
-      SPECIFICATION DE LA COUCHE PHYSIQUE CPL G3
-      </a>
+      <p class="text-wrap">
+        Compteur électrique Linky<br>
+      </p>
+      <p class="text-wrap">
+        Je me suis intéressé également aux fréquences utilisées
+        pour la communication des compteurs Linky.
+      </p>
+      <p class="text-wrap">
+        Ils utilisent la norme CPL G3 dont j'ai trouvé une documentation ici:
+        <a target="_blank" href="http://www.santepublique-editions.fr/objects/Specification_de_la_couche_physique_CPL_G3.pdf">
+        SPECIFICATION DE LA COUCHE PHYSIQUE CPL G3
+        </a>
       </p>
     </div>
     <div class="card">
@@ -589,6 +736,15 @@
       </div>
       <div id="CPL_G3" class="collapse" aria-labelledby="chCPL_G3">
         <div class="card-body">
+          <p class="text-wrap">
+            Notez la différence de type de répartition entre les bandes de fréquence et les porteuses CPL G3.
+          </p>
+          <p class="text-wrap">
+            Pour les bandes de fréquences cohérentes/décohérentes l'écart entre deux bandes augmente de 6% de la fréquence en passant d'une bande à la suivante, et la largeur augmente progressivement (2 x 0.85% de la fréquence).
+          </p>
+          <p class="text-wrap">
+            Pour le CPL G3, l'écart en fréquence est fixe, on a juste divisé en 36 la bande que lui a affecté l'autorité des télécommunications.
+          </p>
           <canvas id="cCPL_G3" height="100"></canvas>
           <div id="dCPL_G3">
           </div>
@@ -606,24 +762,42 @@
       <div id="Couleur" class="collapse" aria-labelledby="chCouleur">
         <div class="card-body">
            <div class="row mt-3 ml-1 text-muted">
-             <p>
-             Le rendu doit varier un peu d'un écran à l'autre <br>
-             et sur certaines longueurs d'onde dans le rouge l'écran ne peut faire la différence, <br>
-             on obtient la même couleur pour des fréquences /longueurs d'onde différentes. <br>
-             J'ai été surpris de voir le rouge arriver sur fa sol, je l'aurais plutôt attendu autour du do...<br>
-             J'ai utilisé la référence suivante pour la conversion des fréquences en couleurs d'écran: <br>
-             <a target="_blank" href="https://web.archive.org/web/20190528182100/http://www.physics.sfasu.edu/astro/color/spectra.html">
-             http://www.physics.sfasu.edu/astro/color/spectra.html
-             </a><br>
-             et plus particulièrement le code Delphi de :<br>
-             <a target="_blank" href="https://web.archive.org/web/20190612221227/http://efg2.com/Lab/ScienceAndEngineering/Spectra.htm">
-             http://efg2.com/Lab/ScienceAndEngineering/Spectra.htm
-             </a><br>
-             (ces sites web d'il y a plus de 20 ans n'existant plus, les liens pointent vers des copies)<br>
-             J'ai vérifié rapidement le résultat à l'aide des données de
-             <a target="_blank" href="https://fr.wikipedia.org/wiki/Spectre_%C3%A9lectromagn%C3%A9tique">
-             https://fr.wikipedia.org/wiki/Spectre_électromagnétique
-             </a><br>
+             <p class="text-wrap">
+               Le rendu doit varier un peu d'un écran à l'autre&nbsp;
+             </p>
+             <p class="text-wrap">
+               et sur certaines longueurs d'onde dans le rouge l'écran ne peut faire la différence,
+             </p>
+             <p class="text-wrap">
+               on obtient la même couleur pour des fréquences /longueurs d'onde différentes.
+             </p>
+             <p class="text-wrap">
+               J'ai été surpris de voir le rouge arriver sur fa sol, je l'aurais plutôt attendu autour du do...
+             </p>
+             <p class="text-wrap">
+               J'ai utilisé la référence suivante pour la conversion des fréquences en couleurs d'écran:
+             </p>
+             <p class="text-wrap">
+               <a target="_blank" href="https://web.archive.org/web/20190528182100/http://www.physics.sfasu.edu/astro/color/spectra.html">
+               http://www.physics.sfasu.edu/astro/color/spectra.html
+               </a>
+             </p>
+             <p class="text-wrap">
+               et plus particulièrement le code Delphi de :
+             </p>
+             <p class="text-wrap">
+               <a target="_blank" href="https://web.archive.org/web/20190612221227/http://efg2.com/Lab/ScienceAndEngineering/Spectra.htm">
+               http://efg2.com/Lab/ScienceAndEngineering/Spectra.htm
+               </a>
+             </p>
+             <p class="text-wrap">
+               (ces sites web d'il y a plus de 20 ans n'existant plus, les liens pointent vers des copies)
+             </p>
+             <p class="text-wrap">
+               J'ai vérifié rapidement le résultat à l'aide des données de
+               <a target="_blank" href="https://fr.wikipedia.org/wiki/Spectre_%C3%A9lectromagn%C3%A9tique">
+               https://fr.wikipedia.org/wiki/Spectre_électromagnétique
+               </a>
              </p>
            </div>
           <canvas id="cCouleur" height="100"></canvas>

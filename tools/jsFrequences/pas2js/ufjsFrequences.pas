@@ -1,3 +1,23 @@
+{                                                                               |
+    Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
+            http://www.mars42.com                                               |
+                                                                                |
+    Copyright 2020 Jean SUZINEAU - MARS42                                       |
+                                                                                |
+    This program is free software: you can redistribute it and/or modify        |
+    it under the terms of the GNU Lesser General Public License as published by |
+    the Free Software Foundation, either version 3 of the License, or           |
+    (at your option) any later version.                                         |
+                                                                                |
+    This program is distributed in the hope that it will be useful,             |
+    but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    GNU Lesser General Public License for more details.                         |
+                                                                                |
+    You should have received a copy of the GNU Lesser General Public License    |
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.       |
+                                                                                |
+|                                                                               }
 unit ufjsFrequences;
 
 {$mode objfpc}
@@ -77,10 +97,16 @@ procedure TfjsFrequences.Connecte_Interface;
 begin
      iOctave:= input_from_id('iOctave');
      iOctave.oninput:=@iOctaveInput;
+     iOctave.onchange:=@iOctaveInput;
+
+     input_from_id('iOctave_Note').oninput:=@iOctaveInput;
+
 
      iFrequence:= input_from_id( 'iFrequence');
      iFrequence.oninput:=@iFrequenceInput;
+     iFrequence.onchange:=@iFrequenceInput;
      sFrequence:= element_from_id('sFrequence');
+     input_from_id('iFrequence_Note').oninput:=@iFrequenceInput;
 
      //cFrequence
      //Draw_Chart;
@@ -108,7 +134,9 @@ begin
        +'os: '+{$I %FPCTARGETOS%}+'<br>'
        +'cpu: '+{$I %FPCTARGETCPU%}+'<br>'
        +'compilé le '+{$I %DATE%}+' à '+{$I %TIME%}+'<br>'
-       +'langue du navigateur: '+window.navigator.language;
+       +'langue du navigateur: '+window.navigator.language+'<br>'
+       +'window.devicePixelRatio: '+FloatToStr(window.devicePixelRatio)
+       ;
 end;
 
 function TfjsFrequences.iOctaveInput(_Event: TEventListenerEvent): boolean;
@@ -118,12 +146,18 @@ end;
 
 procedure TfjsFrequences.Traite_Octave;
 var
+   iOctave_Note: TJSHTMLInputElement;
    Octave: Integer;
+   Octave_Note: Boolean;
 begin
      iOctave:= input_from_id('iOctave');
      if not TryStrToInt( iOctave.value, Octave) then exit;
 
-     FrequencesCharter.Draw_Chart_from_Octave( Octave, 'cOctave');
+     iOctave_Note:= input_from_id('iOctave_Note');
+     //Writeln('iOctave_Note.checked', iOctave_Note.checked);
+     Octave_Note:= iOctave_Note.checked;
+
+     FrequencesCharter.Draw_Chart_from_Octave( Octave, 'cOctave', 1, not Octave_Note);
      dOctave   := element_from_id('dOctave'   );
      dOctave.innerHTML:= Frequences.Liste( Octave);
 end;
@@ -135,11 +169,16 @@ end;
 
 procedure TfjsFrequences.Traite_Frequence;
 var
+   iFrequence_Note: TJSHTMLInputElement;
+   Frequence_Note: Boolean;
    Frequence: double;
 begin
      if not TryStrToFloat( iFrequence.value, Frequence) then exit;
 
-     FrequencesCharter.Draw_Chart_from_Frequence( uFrequence.sFrequence( Frequence), Frequence, 'cFrequence');
+     iFrequence_Note:= input_from_id('iFrequence_Note');
+     Frequence_Note:= iFrequence_Note.checked;
+
+     FrequencesCharter.Draw_Chart_from_Frequence( uFrequence.sFrequence( Frequence), Frequence, 'cFrequence', 1, not Frequence_Note);
      dFrequence.innerHTML:= Frequences.Liste_from_Frequence( Frequence);
      sFrequence .innerHTML:= uFrequence.sFrequence( Frequence);
 end;

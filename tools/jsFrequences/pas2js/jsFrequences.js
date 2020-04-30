@@ -1503,6 +1503,7 @@ rtl.module("System",[],function () {
 rtl.module("Types",["System"],function () {
   "use strict";
   var $mod = this;
+  this.TDuplicates = {"0": "dupIgnore", dupIgnore: 0, "1": "dupAccept", dupAccept: 1, "2": "dupError", dupError: 2};
 });
 rtl.module("JS",["System","Types"],function () {
   "use strict";
@@ -1542,6 +1543,10 @@ rtl.module("RTLConsts",["System"],function () {
   this.SArgumentMissing = 'Missing argument in format "%s"';
   this.SInvalidFormat = 'Invalid format specifier : "%s"';
   this.SInvalidArgIndex = 'Invalid argument index in format: "%s"';
+  this.SListCapacityError = "List capacity (%s) exceeded.";
+  this.SListIndexError = "List index (%s) out of bounds";
+  this.SDuplicateString = "String list does not allow duplicates";
+  this.SErrFindNeedsSortedList = "Cannot use find on unsorted list";
 });
 rtl.module("SysUtils",["System","RTLConsts","JS"],function () {
   "use strict";
@@ -1565,6 +1570,27 @@ rtl.module("SysUtils",["System","RTLConsts","JS"],function () {
   });
   this.TrimLeft = function (S) {
     return S.replace(/^[\s\uFEFF\xA0\x00-\x1f]+/,'');
+  };
+  this.CompareStr = function (s1, s2) {
+    var l1 = s1.length;
+    var l2 = s2.length;
+    if (l1<=l2){
+      var s = s2.substr(0,l1);
+      if (s1<s){ return -1;
+      } else if (s1>s){ return 1;
+      } else { return l1<l2 ? -1 : 0; };
+    } else {
+      var s = s1.substr(0,l2);
+      if (s<s2){ return -1;
+      } else { return 1; };
+    };
+  };
+  this.CompareText = function (s1, s2) {
+    var l1 = s1.toLowerCase();
+    var l2 = s2.toLowerCase();
+    if (l1>l2){ return 1;
+    } else if (l1<l2){ return -1;
+    } else { return 0; };
   };
   this.Format = function (Fmt, Args) {
     var Result = "";
@@ -2164,6 +2190,196 @@ rtl.module("Classes",["System","RTLConsts","Types","SysUtils"],function () {
   "use strict";
   var $mod = this;
   var $impl = $mod.$impl;
+  rtl.createClass($mod,"EListError",pas.SysUtils.Exception,function () {
+  });
+  rtl.createClass($mod,"EStringListError",$mod.EListError,function () {
+  });
+  rtl.createClass($mod,"TPersistent",pas.System.TObject,function () {
+  });
+  rtl.createClass($mod,"TStrings",$mod.TPersistent,function () {
+    this.$init = function () {
+      $mod.TPersistent.$init.call(this);
+      this.FAlwaysQuote = false;
+      this.FUpdateCount = 0;
+    };
+    this.Error = function (Msg, Data) {
+      throw $mod.EStringListError.$create("CreateFmt",[Msg,[pas.SysUtils.IntToStr(Data)]]);
+    };
+    this.GetCapacity = function () {
+      var Result = 0;
+      Result = this.GetCount();
+      return Result;
+    };
+    this.DoCompareText = function (s1, s2) {
+      var Result = 0;
+      Result = pas.SysUtils.CompareText(s1,s2);
+      return Result;
+    };
+    this.Create$1 = function () {
+      pas.System.TObject.Create.call(this);
+      this.FAlwaysQuote = false;
+      return this;
+    };
+    this.IndexOf = function (S) {
+      var Result = 0;
+      Result = 0;
+      while ((Result < this.GetCount()) && (this.DoCompareText(this.Get(Result),S) !== 0)) Result = Result + 1;
+      if (Result === this.GetCount()) Result = -1;
+      return Result;
+    };
+  });
+  rtl.recNewT($mod,"TStringItem",function () {
+    this.FString = "";
+    this.FObject = null;
+    this.$eq = function (b) {
+      return (this.FString === b.FString) && (this.FObject === b.FObject);
+    };
+    this.$assign = function (s) {
+      this.FString = s.FString;
+      this.FObject = s.FObject;
+      return this;
+    };
+  });
+  this.TStringsSortStyle = {"0": "sslNone", sslNone: 0, "1": "sslUser", sslUser: 1, "2": "sslAuto", sslAuto: 2};
+  rtl.createClass($mod,"TStringList",$mod.TStrings,function () {
+    this.$init = function () {
+      $mod.TStrings.$init.call(this);
+      this.FList = [];
+      this.FCount = 0;
+      this.FOnChange = null;
+      this.FOnChanging = null;
+      this.FDuplicates = 0;
+      this.FCaseSensitive = false;
+      this.FSortStyle = 0;
+    };
+    this.$final = function () {
+      this.FList = undefined;
+      this.FOnChange = undefined;
+      this.FOnChanging = undefined;
+      $mod.TStrings.$final.call(this);
+    };
+    this.GetSorted = function () {
+      var Result = false;
+      Result = this.FSortStyle in rtl.createSet(1,2);
+      return Result;
+    };
+    this.Grow = function () {
+      var NC = 0;
+      NC = this.GetCapacity();
+      if (NC >= 256) {
+        NC = NC + Math.floor(NC / 4)}
+       else if (NC === 0) {
+        NC = 4}
+       else NC = NC * 4;
+      this.SetCapacity(NC);
+    };
+    this.CheckIndex = function (AIndex) {
+      if ((AIndex < 0) || (AIndex >= this.FCount)) this.Error(pas.RTLConsts.SListIndexError,AIndex);
+    };
+    this.Changed = function () {
+      if (this.FUpdateCount === 0) {
+        if (this.FOnChange != null) this.FOnChange(this);
+      };
+    };
+    this.Changing = function () {
+      if (this.FUpdateCount === 0) if (this.FOnChanging != null) this.FOnChanging(this);
+    };
+    this.Get = function (Index) {
+      var Result = "";
+      this.CheckIndex(Index);
+      Result = this.FList[Index].FString;
+      return Result;
+    };
+    this.GetCapacity = function () {
+      var Result = 0;
+      Result = rtl.length(this.FList);
+      return Result;
+    };
+    this.GetCount = function () {
+      var Result = 0;
+      Result = this.FCount;
+      return Result;
+    };
+    this.SetCapacity = function (NewCapacity) {
+      if (NewCapacity < 0) this.Error(pas.RTLConsts.SListCapacityError,NewCapacity);
+      if (NewCapacity !== this.GetCapacity()) this.FList = rtl.arraySetLength(this.FList,$mod.TStringItem,NewCapacity);
+    };
+    this.InsertItem = function (Index, S) {
+      this.InsertItem$1(Index,S,null);
+    };
+    this.InsertItem$1 = function (Index, S, O) {
+      var It = $mod.TStringItem.$new();
+      this.Changing();
+      if (this.FCount === this.GetCapacity()) this.Grow();
+      It.FString = S;
+      It.FObject = O;
+      this.FList.splice(Index,0,It);
+      this.FCount += 1;
+      this.Changed();
+    };
+    this.DoCompareText = function (s1, s2) {
+      var Result = 0;
+      if (this.FCaseSensitive) {
+        Result = pas.SysUtils.CompareStr(s1,s2)}
+       else Result = pas.SysUtils.CompareText(s1,s2);
+      return Result;
+    };
+    this.Add = function (S) {
+      var Result = 0;
+      if (!(this.FSortStyle === 2)) {
+        Result = this.FCount}
+       else if (this.Find(S,{get: function () {
+          return Result;
+        }, set: function (v) {
+          Result = v;
+        }})) {
+        var $tmp1 = this.FDuplicates;
+        if ($tmp1 === 0) {
+          return Result}
+         else if ($tmp1 === 2) this.Error(pas.RTLConsts.SDuplicateString,0);
+      };
+      this.InsertItem(Result,S);
+      return Result;
+    };
+    this.Find = function (S, Index) {
+      var Result = false;
+      var L = 0;
+      var R = 0;
+      var I = 0;
+      var CompareRes = 0;
+      Result = false;
+      Index.set(-1);
+      if (!this.GetSorted()) throw $mod.EListError.$create("Create$1",[pas.RTLConsts.SErrFindNeedsSortedList]);
+      L = 0;
+      R = this.GetCount() - 1;
+      while (L <= R) {
+        I = L + Math.floor((R - L) / 2);
+        CompareRes = this.DoCompareText(S,this.FList[I].FString);
+        if (CompareRes > 0) {
+          L = I + 1}
+         else {
+          R = I - 1;
+          if (CompareRes === 0) {
+            Result = true;
+            if (this.FDuplicates !== 1) L = I;
+          };
+        };
+      };
+      Index.set(L);
+      return Result;
+    };
+    this.IndexOf = function (S) {
+      var Result = 0;
+      if (!this.GetSorted()) {
+        Result = $mod.TStrings.IndexOf.call(this,S)}
+       else if (!this.Find(S,{get: function () {
+          return Result;
+        }, set: function (v) {
+          Result = v;
+        }})) Result = -1;
+      return Result;
+    };
+  });
   $mod.$init = function () {
     $impl.ClassList = Object.create(null);
   };
@@ -2413,7 +2629,14 @@ rtl.module("uCouleur",["System","Classes","SysUtils","Math"],function () {
     Result = $mod.RGB_from_Longueur_onde_rgba(Longueur_onde,_Alpha);
     return Result;
   };
-  this.RGB_from_Frequency_tag = function (_Frequence) {
+  this.RGB_from_Frequency_tag_begin = function (_Frequence) {
+    var Result = "";
+    var hex = "";
+    hex = $mod.RGB_from_Frequency_hex(_Frequence);
+    Result = '<em style="background-color:' + hex + ';">';
+    return Result;
+  };
+  this.RGB_from_Frequency_tag_body = function (_Frequence) {
     var Result = "";
     var Longueur_onde = 0.0;
     var Red = 0.0;
@@ -2441,7 +2664,12 @@ rtl.module("uCouleur",["System","Classes","SysUtils","Math"],function () {
     G = Math.round(255 * Green);
     B = Math.round(255 * Blue);
     hex = $mod.RGB_from_Frequency_hex(_Frequence);
-    Result = '<em style="background-color:' + hex + ';">' + pas.SysUtils.Format("longueur d'onde: %f nm  Rouge: %.3d; Vert: %.3d; Bleu: %.3d soit %s",[Longueur_onde,R,G,B,hex]) + "<\/em>";
+    Result = pas.SysUtils.Format("longueur d'onde: %f nm  Rouge: %.3d; Vert: %.3d; Bleu: %.3d soit %s",[Longueur_onde,R,G,B,hex]);
+    return Result;
+  };
+  this.RGB_from_Frequency_tag_end = function () {
+    var Result = "";
+    Result = "<\/em>";
     return Result;
   };
   this.Is_Visible = function (_Frequence_Min, _Frequence_Max) {
@@ -2520,7 +2748,7 @@ rtl.module("uFrequences",["System","uFrequence","uCouleur","Classes","SysUtils",
       Bas = Frequence * 0.9915;
       Haut = Frequence * 1.0085;
       Result = pas.uFrequence.Note_Latine(_Note_Index) + " Min: " + pas.uFrequence.sFrequence(Bas,6," ") + " \/ Centre: " + pas.uFrequence.sFrequence(Frequence,6," ") + " \/ Max: " + pas.uFrequence.sFrequence(Haut,6," ");
-      if (pas.uCouleur.Is_Visible$1(Frequence)) Result = Result + " " + pas.uCouleur.RGB_from_Frequency_tag(Frequence);
+      if (pas.uCouleur.Is_Visible$1(Frequence)) Result = pas.uCouleur.RGB_from_Frequency_tag_begin(Frequence) + Result + " " + pas.uCouleur.RGB_from_Frequency_tag_body(Frequence) + pas.uCouleur.RGB_from_Frequency_tag_end();
       return Result;
     };
     this.aCoherent_boundaries = function (_Octave, _NbOctaves) {
@@ -2887,6 +3115,7 @@ rtl.module("uFrequencesCharter",["System","uFrequence","uFrequences","uCouleur",
       this.vert = "";
       this.gris_fonce = "";
       this.vert_fonce = "";
+      this.slCanvas = null;
     };
     this.$final = function () {
       this.config = undefined;
@@ -2894,9 +3123,11 @@ rtl.module("uFrequencesCharter",["System","uFrequence","uFrequences","uCouleur",
       this.DeCoherent_Boundaries = undefined;
       this.Coherent_Centers = undefined;
       this.DeCoherent_Centers = undefined;
+      this.slCanvas = undefined;
       pas.System.TObject.$final.call(this);
     };
     this.Create$1 = function () {
+      this.slCanvas = pas.Classes.TStringList.$create("Create$1");
       return this;
     };
     this.Push_dataset = function (_Name, _Color, _BkColor, _y, _Data) {
@@ -3030,19 +3261,32 @@ rtl.module("uFrequencesCharter",["System","uFrequence","uFrequences","uCouleur",
       this.Push_dataset("Décohérentes",this.gris,this.gris,1,this.DeCoherent_Centers);
       this.Push_dataset("Cohérentes",this.vert,this.vert,3,this.Coherent_Centers);
     };
-    this.Draw_Chart_from_Octave = function (_Octave, _Canvas_Name, _NbOctaves, _Frequence_Note_) {
-      this.Bandes_from_Octave(_Octave,_NbOctaves,_Frequence_Note_);
+    this.Cree_Chart = function (_Canvas_Name) {
+      this.Dimensionne_Canvas(_Canvas_Name);
       new Chart(_Canvas_Name,this.config);
     };
-    this.Draw_Chart_from_Frequence = function (_Libelle, _Frequence, _Canvas_Name, _NbOctaves) {
-      this.Bandes_from_Octave(pas.uFrequences.Frequences().Octave_from_Frequence(_Frequence),_NbOctaves,true);
+    this.Dimensionne_Canvas = function (_Canvas_Name) {
+      var Canvas = null;
+      var dpr = 0.0;
+      if (-1 !== this.slCanvas.IndexOf(_Canvas_Name)) return;
+      this.slCanvas.Add(_Canvas_Name);
+      dpr = window.devicePixelRatio;
+      Canvas = document.getElementById(_Canvas_Name);
+      Canvas.height = pas.System.Trunc(100 * dpr);
+    };
+    this.Draw_Chart_from_Octave = function (_Octave, _Canvas_Name, _NbOctaves, _Frequence_Note_) {
+      this.Bandes_from_Octave(_Octave,_NbOctaves,_Frequence_Note_);
+      this.Cree_Chart(_Canvas_Name);
+    };
+    this.Draw_Chart_from_Frequence = function (_Libelle, _Frequence, _Canvas_Name, _NbOctaves, _Frequence_Note_) {
+      this.Bandes_from_Octave(pas.uFrequences.Frequences().Octave_from_Frequence(_Frequence),_NbOctaves,_Frequence_Note_);
       this.Push_dataset(_Libelle,this.bleu,this.bleu,2.5,[_Frequence]);
-      new Chart(_Canvas_Name,this.config);
+      this.Cree_Chart(_Canvas_Name);
     };
     this.Draw_Chart_from_Frequences = function (_Octave, _NbOctaves, _Libelle, _Frequences, _Canvas_Name) {
       this.Bandes_from_Octave(_Octave,_NbOctaves,false);
       this.Push_dataset(_Libelle,this.bleu,this.bleu,2.5,_Frequences);
-      new Chart(_Canvas_Name,this.config);
+      this.Cree_Chart(_Canvas_Name);
     };
   });
   this.FrequencesCharter = function () {
@@ -3091,9 +3335,13 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","uGam
     this.Connecte_Interface = function () {
       this.iOctave = $impl.input_from_id("iOctave");
       this.iOctave.oninput = rtl.createCallback(this,"iOctaveInput");
+      this.iOctave.onchange = rtl.createCallback(this,"iOctaveInput");
+      $impl.input_from_id("iOctave_Note").oninput = rtl.createCallback(this,"iOctaveInput");
       this.iFrequence = $impl.input_from_id("iFrequence");
       this.iFrequence.oninput = rtl.createCallback(this,"iFrequenceInput");
+      this.iFrequence.onchange = rtl.createCallback(this,"iFrequenceInput");
       this.sFrequence = $impl.element_from_id("sFrequence");
+      $impl.input_from_id("iFrequence_Note").oninput = rtl.createCallback(this,"iFrequenceInput");
       this.dOctave = $impl.element_from_id("dOctave");
       this.dFrequence = $impl.element_from_id("dFrequence");
       this.Traite_Octave();
@@ -3106,7 +3354,7 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","uGam
       this.dCouleur = $impl.element_from_id("dCouleur");
       this.Traite_Couleur();
       this.dInfos = $impl.element_from_id("dInfos");
-      this.dInfos.innerHTML = "compilé avec pas2js version " + "1.4.20" + "<br>" + "target: " + "ECMAScript5" + " - " + "Browser" + "<br>" + "os: " + "Browser" + "<br>" + "cpu: " + "ECMAScript5" + "<br>" + "compilé le " + "2020\/4\/28" + " à " + "10:21:40" + "<br>" + "langue du navigateur: " + window.navigator.language;
+      this.dInfos.innerHTML = "compilé avec pas2js version " + "1.4.20" + "<br>" + "target: " + "ECMAScript5" + " - " + "Browser" + "<br>" + "os: " + "Browser" + "<br>" + "cpu: " + "ECMAScript5" + "<br>" + "compilé le " + "2020\/4\/30" + " à " + " 1:59:21" + "<br>" + "langue du navigateur: " + window.navigator.language + "<br>" + "window.devicePixelRatio: " + pas.SysUtils.FloatToStr(window.devicePixelRatio);
     };
     this.iOctaveInput = function (_Event) {
       var Result = false;
@@ -3119,25 +3367,33 @@ rtl.module("ufjsFrequences",["System","uFrequence","uFrequences","uCPL_G3","uGam
       return Result;
     };
     this.Traite_Octave = function () {
+      var iOctave_Note = null;
       var Octave = 0;
+      var Octave_Note = false;
       this.iOctave = $impl.input_from_id("iOctave");
       if (!pas.SysUtils.TryStrToInt(this.iOctave.value,{get: function () {
           return Octave;
         }, set: function (v) {
           Octave = v;
         }})) return;
-      pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Octave(Octave,"cOctave",1,true);
+      iOctave_Note = $impl.input_from_id("iOctave_Note");
+      Octave_Note = iOctave_Note.checked;
+      pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Octave(Octave,"cOctave",1,!Octave_Note);
       this.dOctave = $impl.element_from_id("dOctave");
       this.dOctave.innerHTML = pas.uFrequences.Frequences().Liste(Octave,1);
     };
     this.Traite_Frequence = function () {
+      var iFrequence_Note = null;
+      var Frequence_Note = false;
       var Frequence = 0.0;
       if (!pas.SysUtils.TryStrToFloat$1(this.iFrequence.value,{get: function () {
           return Frequence;
         }, set: function (v) {
           Frequence = v;
         }})) return;
-      pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Frequence(pas.uFrequence.sFrequence(Frequence,6," "),Frequence,"cFrequence",1);
+      iFrequence_Note = $impl.input_from_id("iFrequence_Note");
+      Frequence_Note = iFrequence_Note.checked;
+      pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Frequence(pas.uFrequence.sFrequence(Frequence,6," "),Frequence,"cFrequence",1,!Frequence_Note);
       this.dFrequence.innerHTML = pas.uFrequences.Frequences().Liste_from_Frequence(Frequence);
       this.sFrequence.innerHTML = pas.uFrequence.sFrequence(Frequence,6," ");
     };
