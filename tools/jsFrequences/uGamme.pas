@@ -144,7 +144,7 @@ function TGamme_Temperee.Liste( _Octave: Integer): String;
 var
    I: Integer;
 begin
-     Result:= '<pre>Octave: '+IntToStr(_Octave)+uFrequence_Separateur_Lignes+'Gamme tempérée, diapason '+FloatToStr( Diapason)+' Hz';
+     Result:= '<pre>'+IntToStr(_Octave)+uFrequence_Separateur_Lignes+'Gamme tempérée, diapason '+FloatToStr( Diapason)+' Hz';
      for I:= Low(Base) to High(Base)
      do
        Result:= Result+uFrequence_Separateur_Lignes+ sFrequence( _Octave, Base[I],I);

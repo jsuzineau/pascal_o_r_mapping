@@ -211,10 +211,40 @@ begin
      x.type_ := 'linear';
      //x.type_ := 'logarithmic';
      x.id    := 'x-axis-0';
-
+     asm
+     x.ticks=
+       {
+       callback:
+         function(value, index, values)
+           {
+           console.log( value);
+           if (rtl.isNumber(value))
+             {
+             return pas.uFrequence.sFrequence(value,6," ",true);
+             }
+           else
+             {
+             return value;
+             }
+           }
+       }
+     end;
+         ;
      y := TChartScaleCartesian.new;
      y.type_ := 'linear';
      y.id    := 'y-axis-0';
+     asm
+     y.ticks=
+     //ticks:
+       {
+       // Include a dollar sign in the ticks
+       callback:
+         function(value, index, values)
+           {
+           return " ";
+           }
+       }
+     end;
 
      config.options.scales := TChartScalesConfiguration.new;
      config.options.scales.xAxes_ := TJSArray.new(x);
@@ -273,7 +303,7 @@ begin
      //a.label_.content:= FloatToStr( _Value);
      if -1 = _Note_index
      then
-         a.label_.content:= uFrequence.sFrequence( _Value)
+         a.label_.content:= uFrequence.sFrequence( _Value, 6, ' ', False)
      else
          a.label_.content:= Note_Latine( _Note_index);
      a.label_.position:= _label_position;
@@ -341,8 +371,10 @@ begin
      DeCoherent_Boundaries:= Frequences.aDeCoherent_boundaries(Octave, NbOctaves, _iDebut, _iFin);
        Coherent_Centers:= Frequences.  aCoherent_centers(Octave, NbOctaves, _iDebut, _iFin);
      DeCoherent_Centers:= Frequences.aDeCoherent_centers(Octave, NbOctaves, _iDebut, _iFin);
-     //Log_Frequences( 'Coherent_Centers', Coherent_Centers);
-     //Log_Frequences( 'DeCoherent_Centers', DeCoherent_Centers);
+     Log_Frequences( 'Coherent_Boundaries', Coherent_Boundaries);
+     Log_Frequences( 'DeCoherent_Boundaries', DeCoherent_Boundaries);
+     Log_Frequences( 'Coherent_Centers', Coherent_Centers);
+     Log_Frequences( 'DeCoherent_Centers', DeCoherent_Centers);
 
      config := TChartConfiguration.new;
      config.type_ := 'scatter';

@@ -221,30 +221,30 @@ begin
          _iFin := _NbOctaves*LBase-1;
          end;
 
-     Result:= '<pre>Octave: '+IntToStr(_Octave)+uFrequence_Separateur_Lignes+'Bandes de fréquences cohérentes';
-     for O:= _Octave to _Octave+_NbOctaves-1
+     Result:= '<pre>'+Liste_Octaves( _Octave, _NbOctaves)+uFrequence_Separateur_Lignes+'Bandes de fréquences cohérentes';
+     for O:= 0 to _NbOctaves-1
      do
        for I:= Low(uFrequences_coherent) to High(uFrequences_coherent)
        do
          begin
-         iBase:=(O-_Octave)*LBase+I;
+         iBase:=O*LBase+I;
          if iBase < _iDebut then continue;
          if _iFin <  iBase  then continue;
          iResult:= iBase-_iDebut;
-         Result:= Result+uFrequence_Separateur_Lignes+ sFrequence( O, uFrequences_coherent[I], I);
+         Result:= Result+uFrequence_Separateur_Lignes+ sFrequence( _Octave+O, uFrequences_coherent[I], I);
          end;
 
      Result:= Result+uFrequence_Separateur_Lignes+ 'Bandes de fréquences décohérentes';
-     for O:= _Octave to _Octave+_NbOctaves-1
+     for O:= 0 to _NbOctaves-1
      do
        for I:= Low(uFrequences_decoherent) to High(uFrequences_decoherent)
        do
          begin
-         iBase:=(O-_Octave)*LBase+I;
+         iBase:=O*LBase+I;
          if iBase < _iDebut then continue;
          if _iFin <  iBase  then continue;
          iResult:= iBase-_iDebut;
-         Result:= Result+uFrequence_Separateur_Lignes+ sFrequence( O, uFrequences_decoherent[I], I);
+         Result:= Result+uFrequence_Separateur_Lignes+ sFrequence( _Octave+O, uFrequences_decoherent[I], I);
          end;
      Result:= Result+'</pre>';
 end;
