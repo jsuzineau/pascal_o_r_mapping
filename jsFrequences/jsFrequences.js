@@ -2538,6 +2538,9 @@ rtl.module("uFrequence",["System","Classes","SysUtils","Math","Types","strutils"
     function THz() {
       Result = s_from_d(_Frequence / 1E12) + U(_Separateur + "THz");
     };
+    function PHz() {
+      Result = s_from_d(_Frequence / 1E15) + U(_Separateur + "PHz");
+    };
     if (_Frequence < 1E3) {
       Hz()}
      else if (_Frequence < 1E6) {
@@ -2546,7 +2549,11 @@ rtl.module("uFrequence",["System","Classes","SysUtils","Math","Types","strutils"
       MHz()}
      else if (_Frequence < 1E12) {
       GHz()}
-     else THz();
+     else if (_Frequence < 1E15) {
+      THz()}
+     else if (_Frequence < 1E18) {
+      PHz()}
+     else Hz();
     return Result;
   };
   this.uFrequence_Separateur_Lignes = "\r\n";
@@ -3542,8 +3549,9 @@ rtl.module("ufjsFrequences",["System","uFrequence","uResonances_de_Schumann","uF
       this.dCouleur = $impl.element_from_id("dCouleur");
       this.Traite_Couleur();
       this.Traite_Resonances_de_Schumann();
+      this.Traite_Proton();
       this.dInfos = $impl.element_from_id("dInfos");
-      this.dInfos.innerHTML = "compilé avec pas2js version " + "1.4.20" + "<br>" + "target: " + "ECMAScript5" + " - " + "Browser" + "<br>" + "os: " + "Browser" + "<br>" + "cpu: " + "ECMAScript5" + "<br>" + "compilé le " + "2020\/5\/1" + " à " + " 3:43:37" + "<br>" + "langue du navigateur: " + window.navigator.language + "<br>" + "window.devicePixelRatio: " + pas.SysUtils.FloatToStr(window.devicePixelRatio);
+      this.dInfos.innerHTML = "compilé avec pas2js version " + "1.4.20" + "<br>" + "target: " + "ECMAScript5" + " - " + "Browser" + "<br>" + "os: " + "Browser" + "<br>" + "cpu: " + "ECMAScript5" + "<br>" + "compilé le " + "2020\/5\/4" + " à " + "15:23:14" + "<br>" + "langue du navigateur: " + window.navigator.language + "<br>" + "window.devicePixelRatio: " + pas.SysUtils.FloatToStr(window.devicePixelRatio);
     };
     this.iOctaveInput = function (_Event) {
       var Result = false;
@@ -3604,6 +3612,12 @@ rtl.module("ufjsFrequences",["System","uFrequence","uResonances_de_Schumann","uF
     this.Traite_Resonances_de_Schumann = function () {
       pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Frequences(-5,3,"Résonances de Schumann",pas.uResonances_de_Schumann.uResonances_de_Schumann_frequences,"cResonances_de_Schumann",0,25);
       $impl.element_from_id("dResonances_de_Schumann").innerHTML = pas.uResonances_de_Schumann.Resonances_de_Schumann().Liste();
+    };
+    this.Traite_Proton = function () {
+      var Frequence = 0.0;
+      Frequence = 5.667758E22;
+      pas.uFrequencesCharter.FrequencesCharter().Draw_Chart_from_Frequence(pas.uFrequence.sFrequence(Frequence,6," ",true),Frequence,"cProton",1,false);
+      $impl.element_from_id("dProton").innerHTML = pas.uFrequences.Frequences().Liste_from_Frequence(Frequence);
     };
   });
 },null,function () {
