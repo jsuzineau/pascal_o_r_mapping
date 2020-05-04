@@ -63,6 +63,7 @@ type
     procedure Traite_Couleur;
     procedure Traite_Gamme_Temperee( _Diapason: Integer; _Gamme_Temperee: TGamme_Temperee);
     procedure Traite_Resonances_de_Schumann;
+    procedure Traite_Proton;
   end;
 
 implementation
@@ -129,6 +130,7 @@ begin
      Traite_Couleur;
 
      Traite_Resonances_de_Schumann;
+     Traite_Proton;
 
      dInfos:= element_from_id('dInfos');
      dInfos.innerHTML
@@ -215,6 +217,15 @@ procedure TfjsFrequences.Traite_Resonances_de_Schumann;
 begin
      FrequencesCharter.Draw_Chart_from_Frequences( -5, 3, 'Résonances de Schumann' , uResonances_de_Schumann_frequences, 'cResonances_de_Schumann', 0, 25);
      element_from_id('dResonances_de_Schumann').innerHTML:= Resonances_de_Schumann.Liste;
+end;
+
+procedure TfjsFrequences.Traite_Proton;
+var
+   Frequence: double;
+begin
+     Frequence:= 5.667758E22;
+     FrequencesCharter.Draw_Chart_from_Frequence( uFrequence.sFrequence( Frequence), Frequence, 'cProton', 1, False);
+     element_from_id('dProton').innerHTML:= Frequences.Liste_from_Frequence( Frequence);
 end;
 
 end.

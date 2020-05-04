@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <office:document xmlns:presentation="urn:oasis:names:tc:opendocument:xmlns:presentation:1.0" xmlns:grddl="http://www.w3.org/2003/g/data-view#" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:dom="http://www.w3.org/2001/xml-events" xmlns:script="urn:oasis:names:tc:opendocument:xmlns:script:1.0" xmlns:form="urn:oasis:names:tc:opendocument:xmlns:form:1.0" xmlns:math="http://www.w3.org/1998/Math/MathML" xmlns:draw="urn:oasis:names:tc:opendocument:xmlns:drawing:1.0" xmlns:dr3d="urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0" xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0" xmlns:formx="urn:openoffice:names:experimental:ooxml-odf-interop:xmlns:form:1.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ooo="http://openoffice.org/2004/office" xmlns:loext="urn:org:documentfoundation:names:experimental:office:xmlns:loext:1.0" xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0" xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0" xmlns:field="urn:openoffice:names:experimental:ooo-ms-interop:xmlns:field:1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0" xmlns:config="urn:oasis:names:tc:opendocument:xmlns:config:1.0" xmlns:calcext="urn:org:documentfoundation:names:experimental:calc:xmlns:calcext:1.0" xmlns:svg="urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0" xmlns:of="urn:oasis:names:tc:opendocument:xmlns:of:1.2" xmlns:chart="urn:oasis:names:tc:opendocument:xmlns:chart:1.0" xmlns:rpt="http://openoffice.org/2005/report" xmlns:table="urn:oasis:names:tc:opendocument:xmlns:table:1.0" xmlns:css3t="http://www.w3.org/TR/css3-text/" xmlns:number="urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0" xmlns:ooow="http://openoffice.org/2004/writer" xmlns:oooc="http://openoffice.org/2004/calc" xmlns:tableooo="http://openoffice.org/2009/table" xmlns:drawooo="http://openoffice.org/2010/draw" office:version="1.2" office:mimetype="application/vnd.oasis.opendocument.spreadsheet">
- <office:meta><meta:creation-date>2020-04-20T22:26:19.438858675</meta:creation-date><dc:date>2020-04-20T23:43:04.032486261</dc:date><meta:editing-duration>PT35M12S</meta:editing-duration><meta:editing-cycles>5</meta:editing-cycles><meta:generator>LibreOffice/6.3.5.2$Linux_X86_64 LibreOffice_project/30$Build-2</meta:generator><meta:document-statistic meta:table-count="1" meta:cell-count="73" meta:object-count="0"/></office:meta>
+ <office:meta><meta:creation-date>2020-04-20T22:26:19.438858675</meta:creation-date><dc:date>2020-05-02T08:05:03.446541441</dc:date><meta:editing-duration>P3DT16H39M14S</meta:editing-duration><meta:editing-cycles>6</meta:editing-cycles><meta:generator>LibreOffice/6.3.5.2$Linux_X86_64 LibreOffice_project/30$Build-2</meta:generator><meta:document-statistic meta:table-count="1" meta:cell-count="74" meta:object-count="0"/></office:meta>
  <office:settings>
   <config:config-item-set config:name="ooo:view-settings">
    <config:config-item config:name="VisibleAreaTop" config:type="int">0</config:config-item>
    <config:config-item config:name="VisibleAreaLeft" config:type="int">4515</config:config-item>
    <config:config-item config:name="VisibleAreaWidth" config:type="int">14845</config:config-item>
-   <config:config-item config:name="VisibleAreaHeight" config:type="int">6321</config:config-item>
+   <config:config-item config:name="VisibleAreaHeight" config:type="int">9308</config:config-item>
    <config:config-item-map-indexed config:name="Views">
     <config:config-item-map-entry>
      <config:config-item config:name="ViewId" config:type="string">view1</config:config-item>
      <config:config-item-map-named config:name="Tables">
       <config:config-item-map-entry config:name="Feuille1">
-       <config:config-item config:name="CursorPositionX" config:type="int">7</config:config-item>
-       <config:config-item config:name="CursorPositionY" config:type="int">1</config:config-item>
+       <config:config-item config:name="CursorPositionX" config:type="int">5</config:config-item>
+       <config:config-item config:name="CursorPositionY" config:type="int">2</config:config-item>
        <config:config-item config:name="HorizontalSplitMode" config:type="short">0</config:config-item>
        <config:config-item config:name="VerticalSplitMode" config:type="short">0</config:config-item>
        <config:config-item config:name="HorizontalSplitPosition" config:type="int">0</config:config-item>
        <config:config-item config:name="VerticalSplitPosition" config:type="int">0</config:config-item>
        <config:config-item config:name="ActiveSplitRange" config:type="short">2</config:config-item>
-       <config:config-item config:name="PositionLeft" config:type="int">2</config:config-item>
+       <config:config-item config:name="PositionLeft" config:type="int">1</config:config-item>
        <config:config-item config:name="PositionRight" config:type="int">0</config:config-item>
        <config:config-item config:name="PositionTop" config:type="int">0</config:config-item>
        <config:config-item config:name="PositionBottom" config:type="int">0</config:config-item>
@@ -32,7 +32,7 @@
       </config:config-item-map-entry>
      </config:config-item-map-named>
      <config:config-item config:name="ActiveTable" config:type="string">Feuille1</config:config-item>
-     <config:config-item config:name="HorizontalScrollbarWidth" config:type="int">1284</config:config-item>
+     <config:config-item config:name="HorizontalScrollbarWidth" config:type="int">1211</config:config-item>
      <config:config-item config:name="ZoomType" config:type="short">0</config:config-item>
      <config:config-item config:name="ZoomValue" config:type="int">160</config:config-item>
      <config:config-item config:name="PageViewZoomValue" config:type="int">60</config:config-item>
@@ -73,6 +73,15 @@
    <config:config-item config:name="SaveVersionOnClose" config:type="boolean">false</config:config-item>
    <config:config-item config:name="GridColor" config:type="int">12632256</config:config-item>
    <config:config-item config:name="PrinterName" config:type="string">PIXMA_MG3650</config:config-item>
+   <config:config-item-map-indexed config:name="ForbiddenCharacters">
+    <config:config-item-map-entry>
+     <config:config-item config:name="Language" config:type="string">en</config:config-item>
+     <config:config-item config:name="Country" config:type="string">US</config:config-item>
+     <config:config-item config:name="Variant" config:type="string"/>
+     <config:config-item config:name="BeginLine" config:type="string"/>
+     <config:config-item config:name="EndLine" config:type="string"/>
+    </config:config-item-map-entry>
+   </config:config-item-map-indexed>
    <config:config-item config:name="EmbedFonts" config:type="boolean">false</config:config-item>
    <config:config-item config:name="IsSnapToRaster" config:type="boolean">false</config:config-item>
    <config:config-item config:name="RasterResolutionX" config:type="int">1000</config:config-item>
@@ -97,7 +106,9 @@
  </office:settings>
  <office:scripts>
   <office:script script:language="ooo:Basic">
-   <ooo:libraries xmlns:ooo="http://openoffice.org/2004/office" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+   <ooo:libraries xmlns:ooo="http://openoffice.org/2004/office" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <ooo:library-embedded ooo:name="Standard"/>
+   </ooo:libraries>
   </office:script>
  </office:scripts>
  <office:font-face-decls>
@@ -179,6 +190,9 @@
   <style:style style:name="ro1" style:family="table-row">
    <style:table-row-properties style:row-height="0.452cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
   </style:style>
+  <style:style style:name="ro2" style:family="table-row">
+   <style:table-row-properties style:row-height="1.632cm" fo:break-before="auto" style:use-optimal-row-height="true"/>
+  </style:style>
   <style:style style:name="ta1" style:family="table" style:master-page-name="Default">
    <style:table-properties table:display="true" style:writing-mode="lr-tb"/>
   </style:style>
@@ -191,15 +205,6 @@
   </style:style>
   <style:style style:name="ce2" style:family="table-cell" style:parent-style-name="Default" style:data-style-name="N2"/>
   <style:style style:name="ce3" style:family="table-cell" style:parent-style-name="Default">
-   <style:table-cell-properties style:text-align-source="fix" style:repeat-content="false"/>
-   <style:paragraph-properties fo:text-align="end" fo:margin-left="0cm"/>
-  </style:style>
-  <style:style style:name="ce6" style:family="table-cell" style:parent-style-name="Default">
-   <style:table-cell-properties style:text-align-source="fix" style:repeat-content="false"/>
-   <style:paragraph-properties fo:text-align="center" fo:margin-left="0cm"/>
-  </style:style>
-  <style:style style:name="ce7" style:family="table-cell" style:parent-style-name="Default" style:data-style-name="N2"/>
-  <style:style style:name="ce8" style:family="table-cell" style:parent-style-name="Default">
    <style:table-cell-properties style:text-align-source="fix" style:repeat-content="false"/>
    <style:paragraph-properties fo:text-align="end" fo:margin-left="0cm"/>
   </style:style>
@@ -243,7 +248,7 @@
      <text:p><text:sheet-name>???</text:sheet-name><text:s/>(<text:title>???</text:title>)</text:p>
     </style:region-left>
     <style:region-right>
-     <text:p><text:date style:data-style-name="N2" text:date-value="2020-04-28">00/00/0000</text:date>, <text:time style:data-style-name="N2" text:time-value="02:40:27.941986556">00:00:00</text:time></text:p>
+     <text:p><text:date style:data-style-name="N2" text:date-value="2020-05-02">00/00/0000</text:date>, <text:time style:data-style-name="N2" text:time-value="02:40:27.941986556">00:00:00</text:time></text:p>
     </style:region-right>
    </style:header>
    <style:header-left style:display="false"/>
@@ -258,25 +263,25 @@
    <table:calculation-settings table:automatic-find-labels="false" table:use-regular-expressions="false" table:use-wildcards="true"/>
    <table:table table:name="Feuille1" table:style-name="ta1">
     <table:table-column table:style-name="co1" table:number-columns-repeated="2" table:default-cell-style-name="Default"/>
-    <table:table-column table:style-name="co1" table:number-columns-repeated="2" table:default-cell-style-name="ce7"/>
-    <table:table-column table:style-name="co1" table:default-cell-style-name="ce8"/>
-    <table:table-column table:style-name="co1" table:default-cell-style-name="ce7"/>
-    <table:table-column table:style-name="co2" table:default-cell-style-name="ce7"/>
-    <table:table-column table:style-name="co1" table:default-cell-style-name="ce7"/>
+    <table:table-column table:style-name="co1" table:number-columns-repeated="2" table:default-cell-style-name="ce2"/>
+    <table:table-column table:style-name="co1" table:default-cell-style-name="ce3"/>
+    <table:table-column table:style-name="co1" table:default-cell-style-name="ce2"/>
+    <table:table-column table:style-name="co2" table:default-cell-style-name="ce2"/>
+    <table:table-column table:style-name="co1" table:default-cell-style-name="ce2"/>
     <table:table-row table:style-name="ro1">
      <table:table-cell table:number-columns-repeated="2"/>
-     <table:table-cell table:style-name="ce6" office:value-type="string" calcext:value-type="string" table:number-columns-spanned="2" table:number-rows-spanned="1">
+     <table:table-cell table:style-name="ce1" office:value-type="string" calcext:value-type="string" table:number-columns-spanned="2" table:number-rows-spanned="1">
       <text:p>432Hz</text:p>
      </table:table-cell>
      <table:covered-table-cell table:style-name="Default"/>
      <table:table-cell table:style-name="Default"/>
-     <table:table-cell table:style-name="ce6" office:value-type="string" calcext:value-type="string" table:number-columns-spanned="3" table:number-rows-spanned="1">
+     <table:table-cell table:style-name="ce1" office:value-type="string" calcext:value-type="string" table:number-columns-spanned="2" table:number-rows-spanned="1">
       <text:p>cohérent</text:p>
      </table:table-cell>
-     <table:covered-table-cell table:style-name="ce6"/>
-     <table:covered-table-cell table:style-name="Default"/>
+     <table:covered-table-cell table:style-name="ce1"/>
+     <table:table-cell table:style-name="Default"/>
     </table:table-row>
-    <table:table-row table:style-name="ro1">
+    <table:table-row table:style-name="ro2">
      <table:table-cell table:number-columns-repeated="2"/>
      <table:table-cell table:style-name="Default"/>
      <table:table-cell table:style-name="Default" table:formula="of:=EXP(LN(2)/12)" office:value-type="float" office:value="1.0594630943593" calcext:value-type="float">
@@ -285,15 +290,11 @@
      <table:table-cell table:style-name="Default" table:formula="of:=[.D2]^12" office:value-type="float" office:value="2" calcext:value-type="float">
       <text:p>2</text:p>
      </table:table-cell>
-     <table:table-cell table:style-name="Default" office:value-type="string" calcext:value-type="string">
-      <text:p>cohérent</text:p>
+     <table:table-cell table:style-name="Default" office:value-type="string" calcext:value-type="string"><text:p>Fréquence</text:p><text:p>En Hz</text:p>
      </table:table-cell>
-     <table:table-cell table:style-name="Default" office:value-type="string" calcext:value-type="string">
-      <text:p>cohérent/432Hz</text:p>
+     <table:table-cell table:style-name="Default" office:value-type="string" calcext:value-type="string"><text:p>écart en cents </text:p><text:p>par rapport </text:p><text:p>À la gamme 432Hz</text:p><text:p/>
      </table:table-cell>
-     <table:table-cell table:style-name="Default" office:value-type="string" calcext:value-type="string">
-      <text:p>cents depuis 432</text:p>
-     </table:table-cell>
+     <table:table-cell table:style-name="Default"/>
     </table:table-row>
     <table:table-row table:style-name="ro1">
      <table:table-cell table:number-columns-repeated="2"/>
@@ -312,8 +313,8 @@
      <table:table-cell table:formula="of:=1200*(LN([.F3]/[.D3])/LN(2))" office:value-type="float" office:value="-5.86500259616189" calcext:value-type="float">
       <text:p>-5,87</text:p>
      </table:table-cell>
-     <table:table-cell table:formula="of:=1200*(LN([.F3]/[.F4])/LN(2))" office:value-type="float" office:value="-90.8958456730863" calcext:value-type="float">
-      <text:p>-90,90</text:p>
+     <table:table-cell office:value-type="string" calcext:value-type="string">
+      <text:p>do</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="ro1">
@@ -331,8 +332,8 @@
      <table:table-cell table:formula="of:=1200*(LN([.F4]/[.D4])/LN(2))" office:value-type="float" office:value="-14.9691569230754" calcext:value-type="float">
       <text:p>-14,97</text:p>
      </table:table-cell>
-     <table:table-cell table:formula="of:=1200*(LN([.F4]/[.F5])/LN(2))" office:value-type="float" office:value="-113.014156057689" calcext:value-type="float">
-      <text:p>-113,01</text:p>
+     <table:table-cell office:value-type="string" calcext:value-type="string">
+      <text:p>do#</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="ro1">
@@ -352,8 +353,8 @@
      <table:table-cell table:formula="of:=1200*(LN([.F5]/[.D5])/LN(2))" office:value-type="float" office:value="-1.95500086538701" calcext:value-type="float">
       <text:p>-1,96</text:p>
      </table:table-cell>
-     <table:table-cell table:formula="of:=1200*(LN([.F5]/[.F6])/LN(2))" office:value-type="float" office:value="-88.4700485455853" calcext:value-type="float">
-      <text:p>-88,47</text:p>
+     <table:table-cell office:value-type="string" calcext:value-type="string">
+      <text:p>ré</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="ro1">
@@ -370,8 +371,8 @@
      <table:table-cell table:formula="of:=1200*(LN([.F6]/[.D6])/LN(2))" office:value-type="float" office:value="-13.4849523198016" calcext:value-type="float">
       <text:p>-13,48</text:p>
      </table:table-cell>
-     <table:table-cell table:formula="of:=1200*(LN([.F6]/[.F7])/LN(2))" office:value-type="float" office:value="-115.43995318519" calcext:value-type="float">
-      <text:p>-115,44</text:p>
+     <table:table-cell office:value-type="string" calcext:value-type="string">
+      <text:p>ré #</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="ro1">
@@ -391,8 +392,8 @@
      <table:table-cell table:formula="of:=1200*(LN([.F7]/[.D7])/LN(2))" office:value-type="float" office:value="1.955000865388" calcext:value-type="float">
       <text:p>1,96</text:p>
      </table:table-cell>
-     <table:table-cell table:formula="of:=1200*(LN([.F7]/[.F8])/LN(2))" office:value-type="float" office:value="-89.5486002555637" calcext:value-type="float">
-      <text:p>-89,55</text:p>
+     <table:table-cell office:value-type="string" calcext:value-type="string">
+      <text:p>mi</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="ro1">
@@ -412,8 +413,8 @@
      <table:table-cell table:formula="of:=1200*(LN([.F8]/[.D8])/LN(2))" office:value-type="float" office:value="-8.49639887904868" calcext:value-type="float">
       <text:p>-8,50</text:p>
      </table:table-cell>
-     <table:table-cell table:formula="of:=1200*(LN([.F8]/[.F9])/LN(2))" office:value-type="float" office:value="-115.311063621387" calcext:value-type="float">
-      <text:p>-115,31</text:p>
+     <table:table-cell office:value-type="string" calcext:value-type="string">
+      <text:p>fa</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="ro1">
@@ -430,8 +431,8 @@
      <table:table-cell table:formula="of:=1200*(LN([.F9]/[.D9])/LN(2))" office:value-type="float" office:value="6.81466474233809" calcext:value-type="float">
       <text:p>6,81</text:p>
      </table:table-cell>
-     <table:table-cell table:formula="of:=1200*(LN([.F9]/[.F10])/LN(2))" office:value-type="float" office:value="-89.2753335268875" calcext:value-type="float">
-      <text:p>-89,28</text:p>
+     <table:table-cell office:value-type="string" calcext:value-type="string">
+      <text:p>fa #</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="ro1">
@@ -451,8 +452,8 @@
      <table:table-cell table:formula="of:=1200*(LN([.F10]/[.D10])/LN(2))" office:value-type="float" office:value="-3.91000173077467" calcext:value-type="float">
       <text:p>-3,91</text:p>
      </table:table-cell>
-     <table:table-cell table:formula="of:=1200*(LN([.F10]/[.F11])/LN(2))" office:value-type="float" office:value="-90.0400700505856" calcext:value-type="float">
-      <text:p>-90,04</text:p>
+     <table:table-cell office:value-type="string" calcext:value-type="string">
+      <text:p>sol</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="ro1">
@@ -470,8 +471,8 @@
      <table:table-cell table:formula="of:=1200*(LN([.F11]/[.D11])/LN(2))" office:value-type="float" office:value="-13.8699316801891" calcext:value-type="float">
       <text:p>-13,87</text:p>
      </table:table-cell>
-     <table:table-cell table:formula="of:=1200*(LN([.F11]/[.F12])/LN(2))" office:value-type="float" office:value="-113.869931680189" calcext:value-type="float">
-      <text:p>-113,87</text:p>
+     <table:table-cell office:value-type="string" calcext:value-type="string">
+      <text:p>sol #</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="ro1">
@@ -491,7 +492,9 @@
      <table:table-cell table:formula="of:=1200*(LN([.F12]/[.D12])/LN(2))" office:value-type="float" office:value="0" calcext:value-type="float">
       <text:p>0,00</text:p>
      </table:table-cell>
-     <table:table-cell/>
+     <table:table-cell office:value-type="string" calcext:value-type="string">
+      <text:p>la</text:p>
+     </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="ro1">
      <table:table-cell table:number-columns-repeated="3"/>
@@ -507,8 +510,8 @@
      <table:table-cell table:formula="of:=1200*(LN([.F13]/[.D13])/LN(2))" office:value-type="float" office:value="-9.81727129916954" calcext:value-type="float">
       <text:p>-9,82</text:p>
      </table:table-cell>
-     <table:table-cell table:formula="of:=1200*(LN([.F13]/[.F12])/LN(2))" office:value-type="float" office:value="90.1827287008308" calcext:value-type="float">
-      <text:p>90,18</text:p>
+     <table:table-cell office:value-type="string" calcext:value-type="string">
+      <text:p>la #</text:p>
      </table:table-cell>
     </table:table-row>
     <table:table-row table:style-name="ro1">
@@ -528,9 +531,21 @@
      <table:table-cell table:formula="of:=1200*(LN([.F14]/[.D14])/LN(2))" office:value-type="float" office:value="3.91000173077475" calcext:value-type="float">
       <text:p>3,91</text:p>
      </table:table-cell>
-     <table:table-cell table:formula="of:=1200*(LN([.F14]/[.F13])/LN(2))" office:value-type="float" office:value="113.727273029944" calcext:value-type="float">
-      <text:p>113,73</text:p>
+     <table:table-cell office:value-type="string" calcext:value-type="string">
+      <text:p>si</text:p>
      </table:table-cell>
+    </table:table-row>
+    <table:table-row table:style-name="ro1" table:number-rows-repeated="3">
+     <table:table-cell table:number-columns-repeated="2"/>
+     <table:table-cell table:style-name="Default" table:number-columns-repeated="6"/>
+    </table:table-row>
+    <table:table-row table:style-name="ro1">
+     <table:table-cell table:number-columns-repeated="2"/>
+     <table:table-cell table:style-name="Default" table:number-columns-repeated="2"/>
+     <table:table-cell table:style-name="Default" office:value-type="string" calcext:value-type="string">
+      <text:p>1200*(LN(F3/D3)/LN(2))</text:p>
+     </table:table-cell>
+     <table:table-cell table:style-name="Default" table:number-columns-repeated="3"/>
     </table:table-row>
    </table:table>
    <table:named-expressions/>

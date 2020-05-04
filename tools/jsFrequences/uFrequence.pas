@@ -74,12 +74,15 @@ function sFrequence( _Frequence: double; _digits: Integer=6; _Separateur: String
    procedure MHz;begin Result:= s_from_d( _Frequence/1E6 )+U(_Separateur+'MHz'); end;
    procedure GHz;begin Result:= s_from_d( _Frequence/1E9 )+U(_Separateur+'GHz'); end;
    procedure THz;begin Result:= s_from_d( _Frequence/1E12)+U(_Separateur+'THz'); end;
+   procedure PHz;begin Result:= s_from_d( _Frequence/1E15)+U(_Separateur+'PHz'); end;
 begin
           if _Frequence < 1E3  then  Hz
      else if _Frequence < 1E6  then KHz
      else if _Frequence < 1E9  then MHz
      else if _Frequence < 1E12 then GHz
-     else                           THz;
+     else if _Frequence < 1E15 then THz
+     else if _Frequence < 1E18 then PHz
+     else                            Hz;
 end;
 
 procedure Log_Frequences( _Titre: String; _Frequences: TDoubleDynArray);
