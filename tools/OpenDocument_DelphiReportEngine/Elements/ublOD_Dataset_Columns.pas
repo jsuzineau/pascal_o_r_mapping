@@ -502,8 +502,8 @@ begin
        blDC:= haDC.Ajoute( bl.NomChamp);
        if nil = blDC then continue;
 
-       blDC.Debut:= Min( bl.Colonne, blDC.Debut);
-       blDC.Fin  := Max( bl.Colonne, blDC.Fin  );
+       blDC.Debut:= ifthen( -1 = blDC.Debut, bl.Colonne, Min( bl.Colonne, blDC.Debut));
+       blDC.Fin  := ifthen( -1 = blDC.Fin  , bl.Colonne, Max( bl.Colonne, blDC.Fin  ));
        end;
      //blParent.DCs.to_Doc( blParent.DCs.Prefixe_Table, C);
      blParent.Table_To_Doc;

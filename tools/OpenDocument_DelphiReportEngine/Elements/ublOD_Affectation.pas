@@ -37,7 +37,7 @@ uses
     uBatpro_Element,
     uBatpro_Ligne,
 
- Classes, SysUtils, DB;
+ Classes, SysUtils, DB,Dialogs;
 
 type
 
@@ -65,6 +65,7 @@ type
                                            _Keys, _Labels: TStrings;
                                            _Connection_Ancetre: TLookupConnection_Ancetre;
                                            _CodeId_: Boolean= False);
+    procedure NomChamp_Libelle_Change;
   //Gestion du Hint
   public
     function Contenu( Contexte: Integer; Col, Row: Integer): String; override;
@@ -167,6 +168,7 @@ begin
 
      NomChamp_Libelle:= '';
      cNomChamp_Libelle:= Champs.String_Lookup ( NomChamp_Libelle, 'NomChamp_Libelle', cNomChamp, NomChamp_Libelle_GetLookupListItems, '');
+     cNomChamp_Libelle.OnChange.Abonne( Self, NomChamp_Libelle_Change);
 
      cLibelle:= cNomChamp;
 
@@ -177,6 +179,8 @@ begin
      inherited Destroy;
 end;
 
+const
+     TblOD_Affectation_NomChamp_Nouveau='<Nouveau>';
 procedure TblOD_Affectation.NomChamp_Libelle_GetLookupListItems( _Current_Key: String;
                                                          _Keys, _Labels: TStrings;
                                                          _Connection_Ancetre: TLookupConnection_Ancetre;
@@ -191,12 +195,22 @@ begin
 
      _Keys  .Add( '');
      _Labels.Add( '<Aucun>');
+     _Keys  .Add( TblOD_Affectation_NomChamp_Nouveau);
+     _Labels.Add( TblOD_Affectation_NomChamp_Nouveau);
      for DC in DCs_set.DCa
      do
        begin
        _Keys  .Add( DC.FieldName);
        _Labels.Add( DC.FieldName);
        end;
+end;
+
+procedure TblOD_Affectation.NomChamp_Libelle_Change;
+begin
+     if not(TblOD_Affectation_NomChamp_Nouveau=NomChamp_Libelle)                    then exit;
+     if not InputQuery('Ajout de champ','Donnez le nouveau nom de champ:',NomChamp_Libelle) then exit;
+     cNomChamp_Libelle.Publie_Modifications;
+     cNomChamp.asString:= NomChamp_Libelle;
 end;
 
 function TblOD_Affectation.Contenu( Contexte: Integer; Col, Row: Integer): String;

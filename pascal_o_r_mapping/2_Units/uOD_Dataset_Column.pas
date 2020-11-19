@@ -64,8 +64,8 @@ implementation
 constructor TOD_Dataset_Column.Create( _FieldName: String);
 begin
      FieldName:= _FieldName;
-     Debut    := 0;
-     Fin      := 0;
+     Debut    := -1;
+     Fin      := -1;
 end;
 
 destructor TOD_Dataset_Column.Destroy;
