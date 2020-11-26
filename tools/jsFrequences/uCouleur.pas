@@ -95,7 +95,7 @@ begin
 end;
 
 procedure RGB_from_Longueur_onde( _Longueur_onde: Nanometres;
-                                  var _Red, _Green, _Blue: double); overload;
+                                  var _Red, _Green, _Blue: double);
 var
    Factor: double;
    function Up( _Debut, _Fin: double): double;

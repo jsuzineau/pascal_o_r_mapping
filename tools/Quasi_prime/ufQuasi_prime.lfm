@@ -1,0 +1,43 @@
+object fQuasi_prime: TfQuasi_prime
+  Left = 518
+  Height = 240
+  Top = 1274
+  Width = 320
+  Caption = 'fQuasi_prime'
+  ClientHeight = 240
+  ClientWidth = 320
+  OnCreate = FormCreate
+  LCLVersion = '2.0.6.0'
+  object m: TMemo
+    Left = 0
+    Height = 190
+    Top = 50
+    Width = 320
+    Align = alClient
+    Lines.Strings = (
+      'm'
+    )
+    ScrollBars = ssAutoBoth
+    TabOrder = 0
+  end
+  object Panel1: TPanel
+    Left = 0
+    Height = 50
+    Top = 0
+    Width = 320
+    Align = alTop
+    ClientHeight = 50
+    ClientWidth = 320
+    TabOrder = 1
+    object spe: TSpinEdit
+      Left = 8
+      Height = 35
+      Top = 8
+      Width = 139
+      MaxValue = 0
+      OnChange = speChange
+      TabOrder = 0
+      Value = 1891
+    end
+  end
+end

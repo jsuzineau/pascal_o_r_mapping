@@ -37,7 +37,7 @@ uses
  upoolG_CTXTYPE, ublAutomatic, uJoinPoint,
  ujpAngular_TypeScript_declaration_champs, uGenerateur_de_code_Ancetre,
  upoolPostgres_Foreign_Key, uhfPostgres_Foreign_Key, ublPostgres_Foreign_Key,
- uAngular_TypeScript_ApplicationHandler, ujpCSharp_Conteneurs,
+ uAngular_TypeScript_ApplicationHandler, uTemplateHandler, ujpCSharp_Conteneurs,
  ujpCSharp_Contenus, ujpCSharp_DocksDetails, ujpCSharp_DocksDetails_Affiche,
  ujpCSharp_Champs_persistants, ujpCSharp_Chargement_Conteneurs,
  ujpPHP_Doctrine_Has_Column, ujpPHP_Doctrine_HasOne, ujpPHP_Doctrine_HasMany,

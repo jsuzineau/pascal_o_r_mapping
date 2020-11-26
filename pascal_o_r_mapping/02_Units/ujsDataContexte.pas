@@ -51,6 +51,9 @@ type
    //Database
    public
      DataBase : String;
+   //Initialisation des paramètres
+   protected
+     procedure InitParams;virtual;
    //Attributs
    public
      Database_indefinie: Boolean;
@@ -150,7 +153,7 @@ type
      function asString  : String   ; virtual;
      function asDate    : TDateTime; virtual;
      function asDateTime: TDateTime; virtual;
-     function asInteger : Integer  ; virtual;
+     function asInteger : LargeInt ; virtual;
      function asCurrency: Currency ; virtual;
      function asDouble  : double   ; virtual;
      function asBoolean : Boolean  ; virtual;
@@ -177,7 +180,7 @@ type
      function asString  : String   ; override;
      function asDate    : TDateTime; override;
      function asDateTime: TDateTime; override;
-     function asInteger : Integer  ; override;
+     function asInteger : LargeInt ; override;
      function asCurrency: Currency ; override;
      function asDouble  : double   ; override;
      function asBoolean : Boolean  ; override;
@@ -419,6 +422,9 @@ type
      jsDataConnexion_SQLQuery: TjsDataConnexion_SQLQuery;
    protected
      procedure SetConnection(_Value: TjsDataConnexion); override;
+   //Listage d'un champ vers une liste
+   protected
+     procedure Liste_Champ_initialize; override;
    //SQL
    protected
      procedure SetSQL( _SQL: String); override;
@@ -761,13 +767,10 @@ begin
      FSGBD := _SGBD;
      FsSGBD:= sSGBDs[ FSGBD];
 
-     DataBase := '';
-     FHostName:= '';
-     User_Name:= '';
-     Password := '';
+     InitParams;
 
-	    Database_indefinie:= True;
-	    Ouvrable:= False;
+     Database_indefinie:= True;
+     Ouvrable:= False;
 
      Contexte:= nil;
 end;
@@ -780,6 +783,14 @@ end;
 procedure TjsDataConnexion.SetHostName( const Value: String);
 begin
      FHostName:= Value;
+end;
+
+procedure TjsDataConnexion.InitParams;
+begin
+     DataBase := '';
+     FHostName:= '';
+     User_Name:= '';
+     Password := '';
 end;
 
 procedure TjsDataConnexion.Prepare;
@@ -953,7 +964,7 @@ begin
      Info.FieldType_Default( ftDateTime);
 end;
 
-function TjsDataContexte_Champ.asInteger: Integer;
+function TjsDataContexte_Champ.asInteger: LargeInt;
 begin
      Result:= 0;
      Info.jsDataType:= jsdt_Integer;
@@ -1095,8 +1106,9 @@ begin
 
 end;
 
-function TjsDataContexte_Champ_Dataset.asInteger: Integer;
+function TjsDataContexte_Champ_Dataset.asInteger: LargeInt;
 var
+   linf   : TLargeintField;
    inf    : TLongintField ;
    sif    : TSmallIntField;
    sf     : TStringField  ;
@@ -1108,7 +1120,7 @@ var
       S: String;
    begin
         S:= sf.Value;
-        if not TryStrToInt( S, Result)
+        if not TryStrToInt64( S, Result)
         then
             Result:= -1;
    end;
@@ -1116,7 +1128,8 @@ begin
      Result:=inherited asInteger;
 
      if nil = F then exit;
-          if Affecte(     inf, TLongintField , F) then Result:= inf.Value
+          if Affecte(    linf, TLargeintField, F) then Result:= linf.Value
+     else if Affecte(     inf, TLongintField , F) then Result:= inf.Value
      else if Affecte(     sif, TSmallIntField, F) then Result:= sif.Value
      else if Affecte(      sf, TStringField  , F) then Traite_StringField
      else if Affecte(      ff, TFloatField   , F) then Result:= Trunc(   ff.Value     )
@@ -1725,13 +1738,22 @@ begin
      sqlq.DataBase:= jsDataConnexion_SQLQuery.sqlc;
 end;
 
+procedure TjsDataContexte_SQLQuery.Liste_Champ_initialize;
+begin
+     inherited Liste_Champ_initialize;
+     Charge_Champs;
+end;
+
 function TjsDataContexte_SQLQuery.RefreshQuery: Boolean;
 begin
      Champs_Vide;
      Result:= uDataUtilsF.RefreshQuery( sqlq);
      if Result
      then
-         fID:= sqlq.FindField( id_FielName)
+         begin
+         fID:= sqlq.FindField( id_FielName);
+         Charge_Champs;
+         end
      else
          fID:= nil;
 end;

@@ -132,7 +132,7 @@ type
     function asString  : String   ; override;
     function asDate    : TDateTime; override;
     function asDateTime: TDateTime; override;
-    function asInteger : Integer  ; override;
+    function asInteger : LargeInt ; override;
     function asCurrency: Currency ; override;
     function asDouble  : double   ; override;
     function asBoolean : Boolean  ; override;
@@ -640,7 +640,7 @@ begin
      Result:= F.asDateTime;
 end;
 
-function TjsDataContexte_Champ_libsqlite3.asInteger: Integer;
+function TjsDataContexte_Champ_libsqlite3.asInteger: LargeInt;
 begin
      inherited;
      Result:= F.asInteger;

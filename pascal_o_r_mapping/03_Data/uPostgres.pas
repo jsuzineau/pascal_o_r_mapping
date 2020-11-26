@@ -106,9 +106,6 @@ type
     jsDataConnexion_Postgres: TPostgres;
   protected
     procedure SetConnection(_Value: TjsDataConnexion); override;
-  //Listage d'un champ vers une liste
-  protected
-    procedure Liste_Champ_initialize; override;
   //Liste des tables
   public
     procedure GetTableNames( _List:TStrings); override;
@@ -326,12 +323,6 @@ begin
      then
          raise Exception.Create( ClassName+'.SetConnection: Wrong type');
      inherited SetConnection( _Value);
-end;
-
-procedure TjsDataContexte_Postgres.Liste_Champ_initialize;
-begin
-     inherited Liste_Champ_initialize;
-     Charge_Champs;
 end;
 
 procedure TjsDataContexte_Postgres.GetTableNames(_List: TStrings);

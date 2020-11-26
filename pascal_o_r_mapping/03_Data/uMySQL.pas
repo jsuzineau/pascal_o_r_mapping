@@ -58,6 +58,9 @@ type
   public
     constructor Create( _SGBD: TSGBD); override;
     destructor Destroy; override;
+  //Initialisation des paramètres
+  protected
+    procedure InitParams;override;
   //Persistance dans la base de registre
   private
     Initialized: Boolean;
@@ -109,13 +112,6 @@ constructor TMySQL.Create(_SGBD: TSGBD);
 begin
      inherited Create( _SGBD);
 
-     Version  := '50';
-     Initialized:= False;
-
-     {$ifndef android}
-     Assure_initialisation;
-     {$endif}
-
      sqlqSHOW_DATABASES:= TSQLQuery.Create(nil);
      sqlqSHOW_DATABASES.SQL.Text:= 'show databases';
 end;
@@ -124,6 +120,17 @@ destructor TMySQL.Destroy;
 begin
      FreeAndnil( sqlqSHOW_DATABASES);
      inherited;
+end;
+
+procedure TMySQL.InitParams;
+begin
+     inherited InitParams;
+     Version  := '50';
+     Initialized:= False;
+
+     {$ifndef android}
+     Assure_initialisation;
+     {$endif}
 end;
 
 procedure TMySQL.Assure_initialisation;
