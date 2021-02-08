@@ -33,9 +33,9 @@ uses
   ublState, ublWork, uhfCategorie, uhfDevelopment, uhfJour_ferie, uhfProject,
   uhfState, uhfWork, upoolCategorie, upoolDevelopment, upoolProject, upoolState,
   upoolWork, uPool, upoolG_BECP, uHTTP_Interface, ublAutomatic, upoolAutomatic,
-  uContexteClasse, ujpNom_de_la_classe, ujpSQL_CREATE_TABLE,
-  ujpPHP_Doctrine_Has_Column, ujpCSharp_Champs_persistants, ujpPascal_Affecte,
-  uJoinPoint, ujpAngular_TypeScript_NomFichierElement,
+  uContexteClasse, ublPostgres_Foreign_Key, ujpNom_de_la_classe,
+  ujpSQL_CREATE_TABLE, ujpPHP_Doctrine_Has_Column, ujpCSharp_Champs_persistants,
+  ujpPascal_Affecte, uJoinPoint, ujpAngular_TypeScript_NomFichierElement,
   ujpAngular_TypeScript_NomClasseElement,
   ujpAngular_TypeScript_declaration_champs,
   uAngular_TypeScript_ApplicationHandler, uhATB, uhAUT, uLog, Interfaces, // this includes the LCL widgetset

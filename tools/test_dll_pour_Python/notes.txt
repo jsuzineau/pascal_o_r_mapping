@@ -1,0 +1,6 @@
+-désactiver dans le projet l'option de link  -framework Python (çà doit être pour MacOS)
+-créer un lien symbolique dans le répertoire du projet vers la dll python:
+  ln -s /usr/lib/x86_64-linux-gnu/libpython2.7.so.1.0 ./libpython2.7.so
+-Compiler
+-faire un lien symbolique avec le bon nom vers la dll créée par Freepascal:
+  ln -s libpyminmod.so PyMinMod.so

@@ -9,7 +9,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="39" Y="21"/>
-        <UsageCount Value="68"/>
+        <UsageCount Value="70"/>
       </Unit0>
       <Unit1>
         <Filename Value="ufArduino.pas"/>
@@ -17,13 +17,10 @@
         <ComponentName Value="fArduino"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="113"/>
-        <CursorPos X="30" Y="122"/>
-        <UsageCount Value="68"/>
-        <Bookmarks Count="2">
-          <Item0 Y="109" ID="1"/>
-          <Item1 Y="216" ID="2"/>
+        <CursorPos X="8" Y="23"/>
+        <UsageCount Value="70"/>
+        <Bookmarks Count="1">
+          <Item0 Y="216" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -103,18 +100,20 @@
       <Unit12>
         <Filename Value="01_sources_externes/LazSerial/LazSerial/lazserial.pas"/>
         <UnitName Value="LazSerial"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="34"/>
-        <CursorPos X="16" Y="62"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="215"/>
+        <CursorPos X="32" Y="246"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit12>
       <Unit13>
         <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="231"/>
-        <CursorPos Y="252"/>
-        <UsageCount Value="11"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="187"/>
+        <UsageCount Value="12"/>
+        <Bookmarks Count="1">
+          <Item0 X="19" Y="569" ID="1"/>
+        </Bookmarks>
         <Loaded Value="True"/>
       </Unit13>
       <Unit14>
@@ -128,107 +127,106 @@
     <JumpHistory Count="26" HistoryIndex="25">
       <Position1>
         <Filename Value="ufArduino.pas"/>
-        <Caret Line="140" TopLine="126"/>
+        <Caret Line="142" Column="40" TopLine="142"/>
       </Position1>
       <Position2>
         <Filename Value="ufArduino.pas"/>
-        <Caret Line="141" TopLine="126"/>
+        <Caret Line="149" Column="40" TopLine="149"/>
       </Position2>
       <Position3>
         <Filename Value="ufArduino.pas"/>
-        <Caret Line="140" TopLine="126"/>
+        <Caret Line="47" Column="32" TopLine="32"/>
       </Position3>
       <Position4>
         <Filename Value="ufArduino.pas"/>
-        <Caret Line="141" TopLine="126"/>
+        <Caret Line="208" TopLine="182"/>
       </Position4>
       <Position5>
         <Filename Value="ufArduino.pas"/>
-        <Caret Line="140" TopLine="126"/>
+        <Caret Line="110" TopLine="105"/>
       </Position5>
       <Position6>
         <Filename Value="ufArduino.pas"/>
-        <Caret Line="132" Column="44" TopLine="126"/>
+        <Caret Line="204" Column="25" TopLine="204"/>
       </Position6>
       <Position7>
         <Filename Value="ufArduino.pas"/>
-        <Caret Line="105" Column="2" TopLine="105"/>
+        <Caret Line="159" Column="6" TopLine="132"/>
       </Position7>
       <Position8>
         <Filename Value="ufArduino.pas"/>
-        <Caret Line="114" Column="3" TopLine="112"/>
+        <Caret Line="109" TopLine="96"/>
       </Position8>
       <Position9>
         <Filename Value="ufArduino.pas"/>
-        <Caret Line="131" Column="20" TopLine="119"/>
+        <Caret Line="92" Column="21" TopLine="65"/>
       </Position9>
       <Position10>
-        <Filename Value="ufArduino.pas"/>
-        <Caret Line="106" TopLine="80"/>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
+        <Caret Line="252" TopLine="231"/>
       </Position10>
       <Position11>
-        <Filename Value="ufArduino.pas"/>
-        <Caret Line="147" Column="3" TopLine="144"/>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
+        <Caret Line="441" Column="96" TopLine="417"/>
       </Position11>
       <Position12>
-        <Filename Value="ufArduino.pas"/>
-        <Caret Line="154" Column="3" TopLine="151"/>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
       </Position12>
       <Position13>
-        <Filename Value="ufArduino.pas"/>
-        <Caret Line="40" Column="42" TopLine="34"/>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
+        <Caret Line="569" Column="19" TopLine="543"/>
       </Position13>
       <Position14>
-        <Filename Value="ufArduino.pas"/>
-        <Caret Line="157" Column="22" TopLine="134"/>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
+        <Caret Line="1819" Column="3" TopLine="1809"/>
       </Position14>
       <Position15>
-        <Filename Value="ufArduino.pas"/>
-        <Caret Line="179" Column="28" TopLine="167"/>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
+        <Caret Line="629" Column="14" TopLine="607"/>
       </Position15>
       <Position16>
-        <Filename Value="ufArduino.pas"/>
-        <Caret Line="142" Column="40" TopLine="142"/>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
+        <Caret Line="2112" Column="3" TopLine="2108"/>
       </Position16>
       <Position17>
-        <Filename Value="ufArduino.pas"/>
-        <Caret Line="149" Column="40" TopLine="149"/>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
+        <Caret Line="569" Column="19" TopLine="547"/>
       </Position17>
       <Position18>
-        <Filename Value="ufArduino.pas"/>
-        <Caret Line="47" Column="32" TopLine="32"/>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
+        <Caret Line="1819" Column="3" TopLine="1809"/>
       </Position18>
       <Position19>
-        <Filename Value="ufArduino.pas"/>
-        <Caret Line="208" TopLine="182"/>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
+        <Caret Line="629" Column="14" TopLine="607"/>
       </Position19>
       <Position20>
-        <Filename Value="ufArduino.pas"/>
-        <Caret Line="110" TopLine="105"/>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
+        <Caret Line="2112" Column="3" TopLine="2069"/>
       </Position20>
       <Position21>
-        <Filename Value="ufArduino.pas"/>
-        <Caret Line="204" Column="25" TopLine="204"/>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
+        <Caret Line="463" Column="19" TopLine="438"/>
       </Position21>
       <Position22>
-        <Filename Value="ufArduino.pas"/>
-        <Caret Line="159" Column="6" TopLine="132"/>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
+        <Caret Line="1155" Column="79" TopLine="1140"/>
       </Position22>
       <Position23>
-        <Filename Value="ufArduino.pas"/>
-        <Caret Line="109" TopLine="96"/>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
+        <Caret TopLine="262"/>
       </Position23>
       <Position24>
-        <Filename Value="ufArduino.pas"/>
-        <Caret Line="92" Column="21" TopLine="65"/>
+        <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
+        <Caret Line="475" Column="19" TopLine="438"/>
       </Position24>
       <Position25>
-        <Filename Value="01_sources_externes/LazSerial/LazSerial/lazserial.pas"/>
-        <Caret Line="62" Column="16" TopLine="34"/>
+        <Filename Value="ufArduino.pas"/>
+        <Caret Line="122" Column="30" TopLine="113"/>
       </Position25>
       <Position26>
         <Filename Value="01_sources_externes/LazSerial/LazSerial/synaser.pas"/>
-        <Caret Line="252" TopLine="231"/>
+        <Caret Line="1242" Column="34" TopLine="1242"/>
       </Position26>
     </JumpHistory>
     <RunParams>
