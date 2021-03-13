@@ -25,8 +25,8 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <SearchPaths>
-            <IncludeFiles Value="..\..\pascal_o_r_mapping\6_Formes;$(ProjOutDir)"/>
-            <OtherUnitFiles Value="..\..\pascal_o_r_mapping\6_Formes;Elements;..\..\pascal_o_r_mapping\3_Data;Elements\OpenDocument_DelphiReportEngine_Test;..\..\OOo;Elements\ODRE_Table;..\..\pascal_o_r_mapping\7_sources_externes\synapse\source\lib"/>
+            <IncludeFiles Value="..\..\pascal_o_r_mapping\06_Formes;$(ProjOutDir)"/>
+            <OtherUnitFiles Value="..\..\pascal_o_r_mapping\06_Formes;Elements;..\..\pascal_o_r_mapping\03_Data;Elements\OpenDocument_DelphiReportEngine_Test;..\..\OOo;Elements\ODRE_Table;..\..\pascal_o_r_mapping\07_sources_externes\synapse\source\lib"/>
           </SearchPaths>
           <Parsing>
             <SyntaxOptions>
@@ -65,8 +65,8 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <SearchPaths>
-            <IncludeFiles Value="..\..\pascal_o_r_mapping\6_Formes;$(ProjOutDir)"/>
-            <OtherUnitFiles Value="..\..\pascal_o_r_mapping\6_Formes;Elements;..\..\pascal_o_r_mapping\3_Data;Elements\OpenDocument_DelphiReportEngine_Test;..\..\OOo;Elements\ODRE_Table;..\..\pascal_o_r_mapping\7_sources_externes\synapse\source\lib"/>
+            <IncludeFiles Value="..\..\pascal_o_r_mapping\06_Formes;$(ProjOutDir)"/>
+            <OtherUnitFiles Value="..\..\pascal_o_r_mapping\06_Formes;Elements;..\..\pascal_o_r_mapping\03_Data;Elements\OpenDocument_DelphiReportEngine_Test;..\..\OOo;Elements\ODRE_Table;..\..\pascal_o_r_mapping\07_sources_externes\synapse\source\lib"/>
           </SearchPaths>
           <Parsing>
             <SyntaxOptions>
@@ -149,7 +149,7 @@
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="..\..\pascal_o_r_mapping\6_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
+        <Filename Value="..\..\pascal_o_r_mapping\06_Formes\ufOpenDocument_DelphiReportEngine.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fOpenDocument_DelphiReportEngine"/>
         <HasResources Value="True"/>
@@ -176,7 +176,7 @@
         <IsPartOfProject Value="True"/>
       </Unit6>
       <Unit7>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\uBatpro_Element.pas"/>
+        <Filename Value="..\..\pascal_o_r_mapping\03_Data\uBatpro_Element.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="pool_Ancetre_Ancetre"/>
         <HasResources Value="True"/>
@@ -249,12 +249,12 @@
         <ResourceBaseClass Value="Form"/>
       </Unit19>
       <Unit20>
-        <Filename Value="..\..\pascal_o_r_mapping\3_Data\upoolG_BECP.pas"/>
+        <Filename Value="..\..\pascal_o_r_mapping\03_Data\upoolG_BECP.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
       </Unit20>
       <Unit21>
-        <Filename Value="..\..\pascal_o_r_mapping\7_sources_externes\synapse\source\lib\blcksock.pas"/>
+        <Filename Value="..\..\pascal_o_r_mapping\07_sources_externes\synapse\source\lib\blcksock.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit21>
       <Unit22>
@@ -270,8 +270,8 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <SearchPaths>
-      <IncludeFiles Value="..\..\pascal_o_r_mapping\6_Formes;$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\..\pascal_o_r_mapping\6_Formes;Elements;..\..\pascal_o_r_mapping\3_Data;Elements\OpenDocument_DelphiReportEngine_Test;..\..\OOo;..\..\pascal_o_r_mapping\7_sources_externes\synapse\source\lib"/>
+      <IncludeFiles Value="..\..\pascal_o_r_mapping\06_Formes;$(ProjOutDir)"/>
+      <OtherUnitFiles Value="..\..\pascal_o_r_mapping\06_Formes;Elements;..\..\pascal_o_r_mapping\03_Data;Elements\OpenDocument_DelphiReportEngine_Test;..\..\OOo;..\..\pascal_o_r_mapping\07_sources_externes\synapse\source\lib"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>

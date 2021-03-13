@@ -1042,7 +1042,7 @@ end;
 function String_from_File( _FileName: String): String;
 var
    F: File;
-   Longueur: Integer;
+   Longueur: Int64;
 begin
      Result:= '';
      if not FileExists( _FileName) then exit;

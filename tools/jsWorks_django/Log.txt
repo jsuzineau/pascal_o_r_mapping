@@ -1,0 +1,11 @@
+- Settings.py: modification nom base de données
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'jsWorks.sqlite',
+    }
+}
+
+- python manage.py startapp app
+- python manage.py inspectdb > app\models.py
+
