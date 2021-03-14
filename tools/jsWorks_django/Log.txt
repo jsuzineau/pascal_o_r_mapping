@@ -8,4 +8,6 @@ DATABASES = {
 
 - python manage.py startapp app
 - python manage.py inspectdb > app\models.py
-
+- mise au point models.py, settings.py,url.py,view.py ...
+- python manage.py migrate
+//- python manage.py makemigrations app

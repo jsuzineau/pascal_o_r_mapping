@@ -9,15 +9,16 @@ from django.db import models
 
 
 class Categorie(models.Model):
-  id         =models.AutoField(                                      blank=True,null=True)
+#  id         =models.AutoField(                                      blank=True,null=True)
   Symbol     =models.CharField(db_column='Symbol'     ,max_length= 5,blank=True,null=True)
   Description=models.CharField(db_column='Description',max_length=42,blank=True,null=True)
+  def __str__(self): return self.Symbol
   class Meta:
     managed =False
     db_table='Categorie'
 
 class Contact(models.Model):
-  id       =models.   AutoField(                                    blank=True,null=True)
+#  id       =models.   AutoField(                                    blank=True,null=True)
   nProject =models.IntegerField(db_column='nProject'               ,blank=True,null=True)
   nTContact=models.IntegerField(db_column='nTContact'              ,blank=True,null=True)
   Value    =models.   CharField(db_column='Value'    ,max_length=42,blank=True,null=True)
@@ -26,7 +27,7 @@ class Contact(models.Model):
     db_table= 'Contact'
 
 class Demander(models.Model):
-  id      =models.   AutoField(                                   blank=True, null=True)
+#  id      =models.   AutoField(                                   blank=True, null=True)
   nProject=models.IntegerField(db_column='nProject',              blank=True, null=True)
   Name    =models.   CharField(db_column='Name'    ,max_length=42,blank=True, null=True)
   Tel     =models.   CharField(db_column='Tel'     ,max_length=42,blank=True, null=True)
@@ -36,7 +37,7 @@ class Demander(models.Model):
 
 
 class Development(models.Model):
-  id           =models.   AutoField(blank=True, null=True)
+#  id           =models.   AutoField(blank=True, null=True)
   nProject     =models.IntegerField(db_column='nProject'     ,blank=True,null=True)
   nState       =models.IntegerField(db_column='nState'       ,blank=True,null=True)
   nCreationWork=models.IntegerField(db_column='nCreationWork',blank=True,null=True)
@@ -49,13 +50,14 @@ class Development(models.Model):
   isBug        =models.BooleanField(db_column='isBug'        ,blank=True,null=True)# This field type is a guess.
   nDemander    =models.IntegerField(db_column='nDemander'    ,blank=True,null=True)
   nSheetRef    =models.IntegerField(db_column='nSheetRef'    ,blank=True,null=True)
+  def __str__(self): return self.Description
   class Meta:
     managed  = False
     db_table = 'Development'
 
 
 class JourFerie(models.Model):
-  id  = models.AutoField(                 blank=True, null=True)
+#  id  = models.AutoField(                 blank=True, null=True)
   Jour= models.DateField(db_column='Jour',blank=True, null=True)
   class Meta:
     managed = False
@@ -63,15 +65,16 @@ class JourFerie(models.Model):
 
 
 class Project(models.Model):
-  id  = models.AutoField(                                 blank=True, null=True)
-  name= models.CharField(db_column='Name', max_length=42, blank=True, null=True)
+#  id  = models.AutoField(                                 blank=True, null=True)
+  Name= models.CharField(db_column='Name', max_length=42, blank=True, null=True)
+  def __str__(self): return self.Name
   class Meta:
     managed = False
     db_table= 'Project'
 
 
 class Sheet(models.Model):
-  id   = models.AutoField(                   blank=True, null=True)
+#  id   = models.AutoField(                   blank=True, null=True)
   Image= models.TextField(db_column='Image', blank=True, null=True)#This field type is a guess.
   class Meta:
     managed = False
@@ -79,7 +82,7 @@ class Sheet(models.Model):
 
 
 class Sheetref(models.Model):
-  id    = models.AutoField(blank=True, null=True)
+#  id    = models.AutoField(blank=True, null=True)
   nSheet= models.IntegerField(db_column='nSheet' , blank=True, null=True)
   Left  = models.IntegerField(db_column='_Left'  , blank=True, null=True)
   Top   = models.IntegerField(db_column='_Top'   , blank=True, null=True)
@@ -91,33 +94,36 @@ class Sheetref(models.Model):
 
 
 class State(models.Model):
-  id         =models.AutoField(                                        blank=True, null=True)
+#  id         =models.AutoField(                                        blank=True, null=True)
   Symbol     =models.CharField(db_column='Symbol'     , max_length= 5, blank=True, null=True)
   Description=models.CharField(db_column='Description', max_length=42, blank=True, null=True)
+  def __str__(self): return self.Symbol
   class Meta:
     managed = False
     db_table= 'State'
 
 
 class TContact(models.Model):
-  id  = models.AutoField(                                 blank=True, null=True)
+#  id  = models.AutoField(                                 blank=True, null=True)
   Name= models.CharField(db_column='Name', max_length=42, blank=True, null=True)
+  def __str__(self): return self.Name
   class Meta:
     managed = False
     db_table= 'TContact'
 
 
 class Tag(models.Model):
-  id    =models.   AutoField(                                 blank=True,null=True)
+#  id    =models.   AutoField(                                 blank=True,null=True)
   idType=models.IntegerField(db_column='idType',              blank=True,null=True)
   Name  =models.   CharField(db_column='Name'  ,max_length=42,blank=True,null=True)
+  def __str__(self): return self.Name
   class Meta:
     managed = False
     db_table= 'Tag'
 
 
 class TagDevelopment(models.Model):
-  id           =models.   AutoField(blank=True, null=True    )
+#  id           =models.   AutoField(blank=True, null=True    )
   idTag        =models.IntegerField(db_column='idTag'        )
   idDevelopment=models.IntegerField(db_column='idDevelopment')
   class Meta:
@@ -126,7 +132,7 @@ class TagDevelopment(models.Model):
 
 
 class TagWork(models.Model):
-  id    =models.   AutoField(                    blank=True, null=True)
+#  id    =models.   AutoField(                    blank=True, null=True)
   idTag =models.IntegerField(db_column='idTag' , blank=True, null=True)
   idWork=models.IntegerField(db_column='idWork', blank=True, null=True)
   class Meta:
@@ -135,37 +141,40 @@ class TagWork(models.Model):
 
 
 class TypeTag(models.Model):
-  id  = models.AutoField(                                 blank=True, null=True)
+#  id  = models.AutoField(                                 blank=True, null=True)
   Name= models.CharField(db_column='Name', max_length=42, blank=True, null=True)
+  def __str__(self): return self.Name
   class Meta:
     managed = False
     db_table= 'Type_Tag'
 
 
 class User(models.Model):
-  id      =models.   AutoField(                                   blank=True,null=True)
+#  id      =models.   AutoField(                                   blank=True,null=True)
   name    =models.   CharField(db_column='Name'    ,max_length=42,blank=True,null=True)
   initials=models.   CharField(db_column='Initials',max_length= 5,blank=True,null=True)
   islogged=models.BooleanField(db_column='isLogged',              blank=True,null=True)
+  def __str__(self): return self.Name
   class Meta:
     managed = False
     db_table= 'User'
 
 
 class Work(models.Model):
-  id         = models.    AutoField(                        blank=True,null=True)
+#  id         = models.    AutoField(                        blank=True,null=True)
   nProject   = models. IntegerField(db_column='nProject'   ,blank=True,null=True)
   Beginning  = models.DateTimeField(db_column='Beginning'  ,blank=True,null=True)
   End        = models.DateTimeField(db_column='End'        ,blank=True,null=True)
   Description= models.    TextField(db_column='Description',blank=True,null=True)
   nUser      = models. IntegerField(db_column='nUser'      ,blank=True,null=True)
+  def __str__(self): return self.Description
   class Meta:
     managed = False
     db_table= 'Work'
 
 
 class g_becp(models.Model):
-  id       = models.AutoField(blank=True, null=True)
+#  id       = models.AutoField(blank=True, null=True)
   nomclasse= models.CharField(max_length=50)
   libelle  = models.CharField(max_length=80, blank=True, null=True)
 
@@ -175,7 +184,7 @@ class g_becp(models.Model):
 
 
 class g_becpctx(models.Model):
-  id        = models.   AutoField(blank=True, null=True)
+#  id        = models.   AutoField(blank=True, null=True)
   nomclasse = models.   CharField(max_length=50)
   contexte  = models.IntegerField()
   logfont   = models. BinaryField(blank=True, null=True)
@@ -186,7 +195,7 @@ class g_becpctx(models.Model):
     db_table= 'g_becpctx'
 
 class g_ctx(models.Model):
-  id          = models.   AutoField(blank=True, null=True)
+#  id          = models.   AutoField(blank=True, null=True)
   contexte    = models.IntegerField()
   contextetype= models.   CharField(max_length=50, blank=True, null=True)
   libelle     = models.   CharField(max_length=80, blank=True, null=True)
@@ -196,7 +205,7 @@ class g_ctx(models.Model):
 
 
 class g_ctxtype(models.Model):
-  id          = models.AutoField(blank=True, null=True)
+#  id          = models.AutoField(blank=True, null=True)
   contextetype= models.CharField(max_length=50)
   hierarchie  = models.CharField(max_length=50, blank=True, null=True)
   libelle     = models.CharField(max_length=80, blank=True, null=True)
