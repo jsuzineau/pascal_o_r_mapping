@@ -1,7 +1,7 @@
 object fTemps: TfTemps
-  Left = 545
+  Left = 542
   Height = 397
-  Top = 181
+  Top = 180
   Width = 923
   Caption = 'fTemps'
   ClientHeight = 397
@@ -9,7 +9,7 @@ object fTemps: TfTemps
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '2.0.6.0'
+  LCLVersion = '2.0.12.0'
   object Panel1: TPanel
     Left = 0
     Height = 128
