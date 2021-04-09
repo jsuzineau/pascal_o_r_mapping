@@ -1,0 +1,71 @@
+object fFileTree: TfFileTree
+  Left = 794
+  Height = 240
+  Top = 1246
+  Width = 518
+  Caption = 'fFileTree'
+  ClientHeight = 240
+  ClientWidth = 518
+  OnCreate = FormCreate
+  LCLVersion = '2.0.12.0'
+  object Panel1: TPanel
+    Left = 0
+    Height = 50
+    Top = 0
+    Width = 518
+    Align = alTop
+    ClientHeight = 50
+    ClientWidth = 518
+    TabOrder = 0
+    object bGetSelection: TButton
+      Left = 15
+      Height = 25
+      Top = 13
+      Width = 139
+      Caption = 'Get Selection'
+      OnClick = bGetSelectionClick
+      TabOrder = 0
+    end
+  end
+  object Panel2: TPanel
+    Left = 0
+    Height = 190
+    Top = 50
+    Width = 518
+    Align = alClient
+    ClientHeight = 190
+    ClientWidth = 518
+    TabOrder = 1
+    object tv: TTreeView
+      Left = 1
+      Height = 188
+      Top = 1
+      Width = 361
+      Align = alClient
+      MultiSelect = True
+      TabOrder = 0
+      Options = [tvoAllowMultiselect, tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
+    end
+    object m: TMemo
+      Left = 367
+      Height = 188
+      Top = 1
+      Width = 150
+      Align = alRight
+      Lines.Strings = (
+        'm'
+      )
+      TabOrder = 1
+    end
+    object Splitter1: TSplitter
+      Left = 362
+      Height = 188
+      Top = 1
+      Width = 5
+      Align = alRight
+      Color = clLime
+      ParentColor = False
+      ResizeAnchor = akRight
+    end
+  end
+end

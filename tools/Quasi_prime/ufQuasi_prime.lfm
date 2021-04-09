@@ -1,7 +1,7 @@
 object fQuasi_prime: TfQuasi_prime
-  Left = 645
+  Left = 643
   Height = 240
-  Top = 1243
+  Top = 1222
   Width = 511
   Caption = 'fQuasi_prime'
   ClientHeight = 240
@@ -79,6 +79,15 @@ object fQuasi_prime: TfQuasi_prime
       Caption = 'bBatch'
       OnClick = bBatchClick
       TabOrder = 1
+    end
+    object Button1: TButton
+      Left = 424
+      Height = 25
+      Top = 20
+      Width = 75
+      Caption = 'Button1'
+      OnClick = Button1Click
+      TabOrder = 2
     end
   end
 end

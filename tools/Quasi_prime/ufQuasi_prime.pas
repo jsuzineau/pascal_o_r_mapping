@@ -5,7 +5,7 @@ unit ufQuasi_prime;
 interface
 
 uses
-    uuStrings, uReels, uQuasi_prime,
+    uuStrings, uReels, uQuasi_prime, ufCanvas,
  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
  Spin, ShellCtrls, ComCtrls, VirtualTrees,math,StrUtils;
 
@@ -15,6 +15,7 @@ type
 
  TfQuasi_prime = class(TForm)
   bBatch: TButton;
+  Button1: TButton;
   Label1: TLabel;
   Label2: TLabel;
   lP1: TLabel;
@@ -23,6 +24,7 @@ type
   Panel1: TPanel;
   spe: TSpinEdit;
   procedure bBatchClick(Sender: TObject);
+  procedure Button1Click(Sender: TObject);
   procedure FormCreate(Sender: TObject);
   procedure speChange(Sender: TObject);
  private
@@ -67,6 +69,11 @@ end;
 procedure TfQuasi_prime.bBatchClick(Sender: TObject);
 begin
      Batch;
+end;
+
+procedure TfQuasi_prime.Button1Click(Sender: TObject);
+begin
+     fCanvas.Show;
 end;
 
 procedure TfQuasi_prime.Batch;

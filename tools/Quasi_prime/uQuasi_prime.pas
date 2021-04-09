@@ -5,44 +5,8 @@ unit uQuasi_prime;
 interface
 
 uses
-    uuStrings,
+    uuStrings, uGeometrie, uGeometrie_old,
  Classes, SysUtils, Math, StrUtils;
-
-type
- { TAffine }
-
- TAffine
- =
-  class
-  s: ValReal;
-  a: ValReal;
-  constructor Create( _s: ValReal);
-  function b: ValReal; virtual;
-  function y( _x: ValReal): ValReal;
-  class function Intersection_x( _D1, _D2: TAffine): ValReal;
-  end;
-
-type
- { TCarre }
-
- TCarre
- =
-  class(TAffine)
-  constructor Create( _s: ValReal);
-  function b: ValReal; override;
-  end;
-
-type
- { TTriangle }
-
- TTriangle
- =
-  class(TAffine)
-  constructor Create( _s: ValReal);
-  function b: ValReal; override;
-  function vertical_edge_x: ValReal;
-  end;
-function Intersection_r_from_i( _i: Integer):ValReal;
 
 type
 
@@ -124,145 +88,6 @@ function Decompose_Test( _i1, _i2: Integer):TCalcul_Test;
 
 implementation
 
-function Carre_a_from_s( _s:ValReal):ValReal; begin Result:=sqrt(_s); end;
-function Triangle_a_from_s( _s: ValReal): ValReal; begin Result:=sqrt((4/sqrt(3))*_s); end;
-function Triangle_circonscrit_r_from_a( _a: ValReal):ValReal;begin Result:=_a/sqrt(3); end;
-
-{ TAffine }
-
-constructor TAffine.Create(_s: ValReal);
-begin
-     s:= _s;
-     a:= 0;
-end;
-
-function TAffine.b: ValReal;
-begin
-     Result:= 0;
-end;
-
-function TAffine.y(_x: ValReal): ValReal;
-begin
-     Result:= a * _x +  b;
-end;
-
-class function TAffine.Intersection_x(_D1, _D2: TAffine): ValReal;
-begin
-     Result:= (_D1.b-_D2.b) / (_D2.a-_D1.a);
-end;
-
-
-{ TCarre }
-constructor TCarre.Create( _s: ValReal);
-begin
-     inherited Create( _s);
-     //a:= -tan(PI/4-PI/6);
-     a:= 1;
-end;
-
-function TCarre.b: ValReal;
-begin
-     //Result:= (Carre_a_from_s( s)/2)/cos(PI/4-PI/6);
-     Result:= Carre_a_from_s( s)/sqrt(2);
-end;
-
-{ TTriangle }
-constructor TTriangle.Create(_s: ValReal);
-begin
-     inherited Create( _s);
-     //a:= sqrt(3);//tan(PI/3);
-     a:= -1/sqrt(3);
-end;
-
-function TTriangle.b: ValReal;
-begin
-     //Result:= Triangle_circonscrit_r_from_a( Triangle_a_from_s( s));
-     Result:= Triangle_a_from_s( s)/3;
-end;
-
-function TTriangle.vertical_edge_x: ValReal;
-begin
-     Result:= -Triangle_a_from_s( s)*(sqrt(3)/6);//=rayon cercle inscrit
-end;
-
-function Intersection_r_from_i( _i: Integer):ValReal;
-var
-   Carre   : TCarre;
-   Triangle: TTriangle;
-   x, y: ValReal;
-begin
-     Carre   := TCarre   .Create( _i);
-     Triangle:= TTriangle.Create( _i);
-     try
-        x:= TAffine.Intersection_x( Triangle, Carre);
-        y:= Triangle.y( x);
-        Result:= sqrt( sqr(x) +sqr(y) )(*/1.0524*);
-     finally
-            FreeAndNil(Carre   );
-            FreeAndNil(Triangle);
-            end;
-end;
-
-{
-x:= TAffine.Intersection_x( Triangle, Carre);
-x:= (Triangle.b-Carre.b) / (Carre.a-Triangle.a);;
-x:= (Triangle_a_from_s( s)/3-Carre_a_from_s( s)/sqrt(2)) / (1+1/sqrt(3));
-x:= (sqrt((4/sqrt(3))*_s)/3-sqrt(_s)/sqrt(2)) / (1+1/sqrt(3));
-x:= sqrt(_s)*(r43/3-1/r2) / (1+1/r3);
-
-y:= Triangle.y( x);
-y:= Triangle.a * x +  Triangle.b;
-y:= -1/sqrt(3) * x +  Triangle_a_from_s( s)/3;
-y:= -1/sqrt(3) * x +  sqrt((4/sqrt(3))*_s)/3;
-y:= -1/r3 * x +  r43*sqrt(_s)/3;
-
-}
-const
-     r2=sqrt(2);
-     r3=sqrt(3);
-     _4r3=4/r3;
-     r43=sqrt(_4r3);
-     a= (r43/3 -1/r2) / _4r3;
-     b= (-1/r3)*a+r43/3;
-     ra2b2=sqrt(sqr(a)+sqr(b));
-function Intersection_r_from_i_direct( _i: Integer):ValReal;
-var
-   ri: ValReal;
-begin
-     ri:= sqrt(_i);
-     Result:= ri * ra2b2;
-end;
-
-type
-  TIntersections
-  =
-   object
-     Mean_r: ValReal;   //mean from current
-     Reverse_r: ValReal;//from which current is the mean
-   end;
-
-function Intersections_from_i( _i: Integer):TIntersections;
-var
-   Carre   : TCarre;
-   Triangle: TTriangle;
-   x, y: ValReal;
-begin
-     Carre   := TCarre   .Create( _i);
-     Triangle:= TTriangle.Create( _i);
-     try
-        x:= TAffine.Intersection_x( Triangle, Carre);
-        y:= Triangle.y( x);
-        Result.Mean_r:= sqrt( sqr(x) +sqr(y) )(*/1.0524*);
-
-        x:= Triangle.vertical_edge_x;
-        y:= Carre.y( x);
-        Result.Reverse_r:= sqrt( sqr(x) +sqr(y));
-     finally
-            FreeAndNil(Carre   );
-            FreeAndNil(Triangle);
-            end;
-end;
-
 
 { TCalcul_Boucle }
 
@@ -293,7 +118,7 @@ end;
 
 function TCalcul_Boucle.Header: String;
 begin
-     Result:= IfThen( Erreur, Format('Erreur: %d <> %d * %d = %d', [i, P1, P2, P1P2]), Format('%d = %d * %d ', [i, P1, P2]));
+     Result:= IfThen( Erreur, Format('Erreur: %d <> %d * %d = %d, mod6: %d', [i, P1, P2, P1P2, i mod 6]), Format('%d = %d * %d , mod6: %d', [i, P1, P2, i mod 6]));
 end;
 
 function TCalcul_Boucle.sP1: String;
@@ -313,7 +138,8 @@ var
    j: Integer;
 begin
      i:= _i;
-     Premier:= 0 = (sqr(i)-1) mod 24;
+     //Premier:= 0 = (sqr(i)-1) mod 24;
+     Premier:= (i mod 6) in [1, 5];
 
      covariance_mean_p1p2_positif:= '';
      covariance_mean_p1p2_negatif:= '';
@@ -331,7 +157,7 @@ begin
 
      if Calcul.Erreur
      then
-         for j:= 1 to 30
+         for j:= 1 to 100
          do
            begin
            Calcul.Mean:= Calcul_Original.Mean + j;
@@ -441,7 +267,7 @@ end;
 function TCalcul_Test.Log_Detail: String;
 begin
      Result:= '';
-     Formate_Liste( Result, #13#10, Format('%s%d * %d = %d', [sErreur_Test, i1, i2, i]));
+     Formate_Liste( Result, #13#10, Format('%s%d * %d = %d, mod6: %d', [sErreur_Test, i1, i2, i, i mod 6]));
      Formate_Liste( Result, #13#10, Log_interne);
      Formate_Liste( Result, #13#10, Format('Intersection_r: %f attendu %f,  %f%%', [Intersection_r, Intersection_r_, (Intersection_r/Intersection_r_)*100]));
      Formate_Liste( Result, #13#10, Format('Mean_Circle_s : %d attendu %d', [Calcul.Mean_Circle_s, Mean_Circle_s_]));

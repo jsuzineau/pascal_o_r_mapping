@@ -1,0 +1,18 @@
+object fCanvas: TfCanvas
+  Left = 879
+  Height = 395
+  Top = 1341
+  Width = 652
+  Caption = 'fCanvas'
+  ClientHeight = 395
+  ClientWidth = 652
+  LCLVersion = '2.0.12.0'
+  object pb: TPaintBox
+    Left = 0
+    Height = 395
+    Top = 0
+    Width = 652
+    Align = alClient
+    OnPaint = pbPaint
+  end
+end
