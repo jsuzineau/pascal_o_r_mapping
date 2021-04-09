@@ -3,7 +3,8 @@ program fuQuasi_prime;
 {$mode objfpc}{$H+}
 
 uses
-  Interfaces, Forms, GuiTestRunner, utcQuasi_prime;
+  Interfaces, Forms, GuiTestRunner, utcGeometrie, utcQuasi_prime, uGeometrie,
+  uGeometrie_old, uGeometrie_Base;
 
 {$R *.res}
 

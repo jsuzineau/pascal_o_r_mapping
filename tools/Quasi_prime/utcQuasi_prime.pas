@@ -41,10 +41,10 @@ var
    c: TCalcul;
 begin
      c:= Decompose( 1891);
-     AssertEquals('P1', C.P1, 31);
-     AssertEquals('P2', C.P2, 61);
-     AssertEquals('Mean', C.Mean, 46);
-     AssertEquals('Distance', C.Distance, 15);
+     AssertEquals('P1', C.Calcul.P1, 31);
+     AssertEquals('P2', C.Calcul.P2, 61);
+     AssertEquals('Mean', C.Calcul.Mean, 46);
+     AssertEquals('Distance', C.Calcul.Distance, 15);
      //Fail('Écrivez votre propre test');
 end;
 

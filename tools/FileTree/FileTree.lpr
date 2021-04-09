@@ -1,4 +1,4 @@
-program Quasi_prime;
+program FileTree;
 
 {$mode objfpc}{$H+}
 
@@ -7,7 +7,7 @@ uses
  cthreads,
  {$ENDIF}{$ENDIF}
  Interfaces, // this includes the LCL widgetset
- Forms, ufQuasi_prime, uQuasi_prime, uGeometrie, ufCanvas
+ Forms, ufFileTree
  { you can add units after this };
 
 {$R *.res}
@@ -16,8 +16,7 @@ begin
  RequireDerivedFormResource:=True;
  Application.Scaled:=True;
  Application.Initialize;
- Application.CreateForm(TfQuasi_prime, fQuasi_prime);
- Application.CreateForm(TfCanvas, fCanvas);
+ Application.CreateForm(TfFileTree, fFileTree);
  Application.Run;
 end.
 

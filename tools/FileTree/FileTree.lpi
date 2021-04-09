@@ -5,7 +5,7 @@
     <General>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
-      <Title Value="Quasi_prime"/>
+      <Title Value="FileTree"/>
       <Scaled Value="True"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
@@ -25,49 +25,28 @@
       <FormatVersion Value="2"/>
       <Modes Count="0"/>
     </RunParams>
-    <RequiredPackages Count="3">
+    <RequiredPackages Count="1">
       <Item1>
-        <PackageName Value="virtualtreeview_package"/>
-      </Item1>
-      <Item2>
-        <PackageName Value="OD_DelphiReportEngine_Units"/>
-      </Item2>
-      <Item3>
         <PackageName Value="LCL"/>
-      </Item3>
+      </Item1>
     </RequiredPackages>
-    <Units Count="5">
+    <Units Count="2">
       <Unit0>
-        <Filename Value="Quasi_prime.lpr"/>
+        <Filename Value="FileTree.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="ufQuasi_prime.pas"/>
+        <Filename Value="ufFileTree.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="fQuasi_prime"/>
-        <HasResources Value="True"/>
+        <ComponentName Value="fFileTree"/>
         <ResourceBaseClass Value="Form"/>
       </Unit1>
-      <Unit2>
-        <Filename Value="uQuasi_prime.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit2>
-      <Unit3>
-        <Filename Value="uGeometrie.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit3>
-      <Unit4>
-        <Filename Value="ufCanvas.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="fCanvas"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit4>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="Quasi_prime"/>
+      <Filename Value="FileTree"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
