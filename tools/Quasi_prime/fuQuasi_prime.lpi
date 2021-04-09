@@ -5,13 +5,9 @@
     <General>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
-      <Title Value="Quasi_prime"/>
-      <Scaled Value="True"/>
+      <Title Value="fuQuasi_prime"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
-      <XPManifest>
-        <DpiAware Value="True"/>
-      </XPManifest>
       <Icon Value="0"/>
     </General>
     <BuildModes Count="1">
@@ -25,39 +21,35 @@
       <FormatVersion Value="2"/>
       <Modes Count="0"/>
     </RunParams>
-    <RequiredPackages Count="3">
+    <RequiredPackages Count="4">
       <Item1>
-        <PackageName Value="virtualtreeview_package"/>
+        <PackageName Value="OD_DelphiReportEngine_Units"/>
       </Item1>
       <Item2>
-        <PackageName Value="OD_DelphiReportEngine_Units"/>
+        <PackageName Value="fpcunittestrunner"/>
       </Item2>
       <Item3>
         <PackageName Value="LCL"/>
       </Item3>
+      <Item4>
+        <PackageName Value="FCL"/>
+      </Item4>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="2">
       <Unit0>
-        <Filename Value="Quasi_prime.lpr"/>
+        <Filename Value="fuQuasi_prime.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="ufQuasi_prime.pas"/>
+        <Filename Value="utcQuasi_prime.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="fQuasi_prime"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
       </Unit1>
-      <Unit2>
-        <Filename Value="uQuasi_prime.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit2>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="Quasi_prime"/>
+      <Filename Value="fuQuasi_prime"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>

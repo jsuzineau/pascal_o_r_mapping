@@ -1,7 +1,7 @@
 object fQuasi_prime: TfQuasi_prime
-  Left = 647
+  Left = 645
   Height = 240
-  Top = 1245
+  Top = 1243
   Width = 511
   Caption = 'fQuasi_prime'
   ClientHeight = 240

@@ -60,6 +60,8 @@ function  Formate_Liste( S: array of String    ; Separateur: String             
 function  Formate_Liste( sl: TBatpro_StringList; Separateur: String; DoubleQuotes: Boolean): String; overload;
 procedure Formate_Liste_Indentation( var _S: String; _Separateur, _Indentation, _Element: String);
 
+procedure Formate_Liste_inverse( var S: String; Separateur, Element: String);
+
 function Formate_Hint( S: array of String): String;
 
 function Formate_Caption( S: array of String): String;
@@ -327,6 +329,17 @@ begin
          S:= S + Separateur;
          
      S:= S + Element;
+end;
+
+procedure Formate_Liste_inverse( var S: String; Separateur, Element: String);
+begin
+     if Element = sys_Vide then exit;
+
+     if S <> sys_Vide
+     then
+         S:= Separateur + S;
+
+     S:= Element + S;
 end;
 
 procedure Formate_Liste_Indentation( var _S: String; _Separateur, _Indentation, _Element: String);
