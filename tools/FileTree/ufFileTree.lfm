@@ -1,7 +1,7 @@
 object fFileTree: TfFileTree
-  Left = 794
+  Left = 701
   Height = 240
-  Top = 1246
+  Top = 431
   Width = 518
   Caption = 'fFileTree'
   ClientHeight = 240

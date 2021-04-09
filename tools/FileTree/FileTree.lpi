@@ -39,6 +39,7 @@
         <Filename Value="ufFileTree.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fFileTree"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit1>
     </Units>
