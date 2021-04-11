@@ -9,12 +9,29 @@ uses
  StdCtrls, ufFileTree, IniFiles, VirtualTrees;
 
 type
+
+ { TTreeData }
+
  TTreeData
  =
   class
+  //Text
+  public
     Text : String;
+  //Key
+  public
     Key  : String;
-    Value: String;
+  //Value
+  private
+    FValue: String;
+    FdValue: TDateTime;
+    procedure SetValue (  _Value: String   );
+    procedure SetdValue( _dValue: TDateTime);
+  public
+    property Value : String    read FValue  write SetValue ;
+    property dValue: TDateTime read FdValue write SetdValue;
+  //IsLeaf
+  public
     IsLeaf: Boolean;
   end;
 
@@ -52,6 +69,7 @@ type
     function Add_Leaf(_Parent: PVirtualNode; _Text, _Key, _Value: String): PVirtualNode;
     function Add_Node(_Parent: PVirtualNode; _Text: String): PVirtualNode;
     function TreeData_from_Node( _Node: PVirtualNode): TTreeData;
+    procedure Compute_Aggregates;
   public
     function Get_Selected: String;
     function Get_Checked: String;
@@ -100,6 +118,24 @@ begin
      S:= S + Element;
 end;
 
+{ TTreeData }
+
+procedure TTreeData.SetValue( _Value: String);
+begin
+     FValue:= _Value;
+
+     if not TryStrToDateTime( FValue, FdValue)
+     then
+         FdValue:= 0;
+end;
+
+procedure TTreeData.SetdValue( _dValue: TDateTime);
+begin
+     FdValue:= _dValue;
+
+     FValue:= FormatDateTime( 'hh:nn', FdValue);
+end;
+
 
 { TfFileVirtualTree }
 
@@ -128,6 +164,7 @@ procedure TfFileVirtualTree.FormCreate(Sender: TObject);
 
           vst_addnode_from_key_value( Key, Value);
           end;
+        Compute_Aggregates;
    end;
 begin
      slFiles:= TStringList.Create;
@@ -278,6 +315,53 @@ begin
      cs:= Node^.CheckState;
      CheckChilds( Node);
      vst.Refresh;
+end;
+
+procedure TfFileVirtualTree.Compute_Aggregates;
+   function Compute_Childs( _Parent: PVirtualNode): TDateTime;
+      procedure Compute_node_dValue;
+      var
+         td: TTreeData;
+         Parent_dValue: TDateTime;
+         vn: PVirtualNode;
+         vn_dValue: TDateTime;
+      begin
+           Parent_dValue:= 0;
+           vn:= vst.GetFirstChild(_Parent);
+           while nil <> vn
+           do
+             begin
+             vn_dValue:= Compute_Childs( vn);
+             Parent_dValue:= Parent_dValue + vn_dValue;
+
+             vn:= vst.GetNextSibling(vn);
+             end;
+           Result:= Parent_dValue;
+
+           td:= TreeData_from_Node( _Parent);
+           if Assigned( td)
+           then
+               td.dValue:= Parent_dValue;
+      end;
+      procedure Compute_leaf_dValue;
+      var
+         td: TTreeData;
+      begin
+           td:= TreeData_from_Node( _Parent);
+           if nil =  td then exit;
+
+           Result:= td.dValue;
+      end;
+   begin
+        Result:= 0;
+        if _Parent^.ChildCount = 0
+        then
+            Compute_leaf_dValue
+        else
+            Compute_node_dValue;
+   end;
+begin
+     Compute_Childs( vst.RootNode);
 end;
 
 function TfFileVirtualTree.Get_Selected: String;

@@ -41,7 +41,7 @@ object fFileVirtualTree: TfFileVirtualTree
       Left = 365
       Height = 25
       Top = 12
-      Width = 99
+      Width = 119
       Caption = 'Show fFileTree'
       OnClick = bfFileTreeClick
       TabOrder = 2
