@@ -1,13 +1,14 @@
 object fCanvas: TfCanvas
   Left = 879
   Height = 643
-  Top = 1341
+  Top = 50
   Width = 652
   Caption = 'fCanvas'
   ClientHeight = 643
   ClientWidth = 652
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  Position = poDesktopCenter
   LCLVersion = '2.0.12.0'
   object pb: TPaintBox
     Left = 0
@@ -37,55 +38,55 @@ object fCanvas: TfCanvas
     end
     object Label1: TLabel
       Left = 224
-      Height = 19
+      Height = 15
       Top = 16
-      Width = 17
+      Width = 13
       Caption = 'P1'
       ParentColor = False
     end
     object lP1: TLabel
       Left = 248
-      Height = 19
+      Height = 15
       Top = 16
-      Width = 21
+      Width = 16
       Caption = 'lP1'
       ParentColor = False
     end
     object Label2: TLabel
       Left = 223
-      Height = 19
+      Height = 15
       Top = 36
-      Width = 17
+      Width = 13
       Caption = 'P2'
       ParentColor = False
     end
     object lP2: TLabel
       Left = 247
-      Height = 19
+      Height = 15
       Top = 36
-      Width = 21
+      Width = 16
       Caption = 'lP2'
       ParentColor = False
     end
     object Label3: TLabel
       Left = 132
-      Height = 19
+      Height = 15
       Top = 15
-      Width = 5
+      Width = 3
       Caption = 'I'
       ParentColor = False
     end
     object lI: TLabel
       Left = 144
-      Height = 19
+      Height = 15
       Top = 15
-      Width = 9
+      Width = 6
       Caption = 'lI'
       ParentColor = False
     end
     object spe: TSpinEdit
       Left = 8
-      Height = 35
+      Height = 23
       Top = 8
       Width = 132
       MaxValue = 0
@@ -95,17 +96,17 @@ object fCanvas: TfCanvas
     end
     object Label4: TLabel
       Left = 300
-      Height = 19
+      Height = 15
       Top = 16
-      Width = 34
+      Width = 27
       Caption = 'coeff'
       ParentColor = False
     end
     object lcoeff_Intersection_r: TLabel
       Left = 342
-      Height = 19
+      Height = 15
       Top = 16
-      Width = 140
+      Width = 106
       Caption = 'lcoeff_Intersection_r'
       ParentColor = False
     end
@@ -119,59 +120,59 @@ object fCanvas: TfCanvas
       TabOrder = 2
     end
     object cbRectangles: TCheckBox
-      Left = 472
-      Height = 25
-      Top = 33
-      Width = 100
+      Left = 488
+      Height = 19
+      Top = 38
+      Width = 77
       Caption = 'Rectangles'
       OnChange = cbRectanglesChange
       TabOrder = 3
     end
     object lErreur: TLabel
       Left = 144
-      Height = 19
+      Height = 15
       Top = 0
-      Width = 43
+      Width = 31
       Caption = 'Erreur'
       ParentColor = False
     end
     object lP1P2: TLabel
       Left = 144
-      Height = 19
+      Height = 15
       Top = 37
-      Width = 34
+      Width = 26
       Caption = 'P1P2'
       ParentColor = False
     end
     object lP2_P1: TLabel
       Left = 323
-      Height = 19
+      Height = 15
       Top = 0
-      Width = 45
+      Width = 34
       Caption = 'lP2_P1'
       ParentColor = False
     end
     object Label5: TLabel
       Left = 275
-      Height = 19
+      Height = 15
       Top = 0
-      Width = 39
+      Width = 31
       Caption = 'P2/P1'
       ParentColor = False
     end
     object Label6: TLabel
       Left = 300
-      Height = 19
+      Height = 15
       Top = 33
-      Width = 74
+      Width = 57
       Caption = 'n boucles: '
       ParentColor = False
     end
     object lnBoucle: TLabel
       Left = 374
-      Height = 19
+      Height = 15
       Top = 33
-      Width = 60
+      Width = 46
       Caption = 'lnBoucle'
       ParentColor = False
     end
