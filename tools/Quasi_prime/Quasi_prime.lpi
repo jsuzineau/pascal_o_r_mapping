@@ -36,7 +36,7 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="5">
+    <Units Count="6">
       <Unit0>
         <Filename Value="Quasi_prime.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -60,8 +60,13 @@
         <Filename Value="ufCanvas.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fCanvas"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit4>
+      <Unit5>
+        <Filename Value="uGeometrie_old.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit5>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
