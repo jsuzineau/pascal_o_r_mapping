@@ -37,6 +37,15 @@ object fFileVirtualTree: TfFileVirtualTree
       OnClick = bGetCheckedClick
       TabOrder = 1
     end
+    object bfFileTree: TButton
+      Left = 365
+      Height = 25
+      Top = 12
+      Width = 99
+      Caption = 'Show fFileTree'
+      OnClick = bfFileTreeClick
+      TabOrder = 2
+    end
   end
   object Panel2: TPanel
     Left = 0

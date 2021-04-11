@@ -6,7 +6,7 @@ interface
 
 uses
  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, ComCtrls,
- StdCtrls, IniFiles, VirtualTrees;
+ StdCtrls, ufFileTree, IniFiles, VirtualTrees;
 
 type
  TTreeData
@@ -25,11 +25,13 @@ type
   class(TForm)
    bGetChecked: TButton;
    bGetSelection: TButton;
+   bfFileTree: TButton;
    m: TMemo;
     Panel1: TPanel;
     Panel2: TPanel;
     Splitter1: TSplitter;
     vst: TVirtualStringTree;
+    procedure bfFileTreeClick(Sender: TObject);
     procedure bGetCheckedClick(Sender: TObject);
     procedure bGetSelectionClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -322,6 +324,11 @@ end;
 procedure TfFileVirtualTree.bGetCheckedClick(Sender: TObject);
 begin
      m.Lines.Text:= Get_Checked;
+end;
+
+procedure TfFileVirtualTree.bfFileTreeClick(Sender: TObject);
+begin
+     fFileTree.Show;
 end;
 
 end.
