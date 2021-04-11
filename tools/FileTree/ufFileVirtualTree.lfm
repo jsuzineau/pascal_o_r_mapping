@@ -1,0 +1,97 @@
+object fFileVirtualTree: TfFileVirtualTree
+  Left = 469
+  Height = 240
+  Top = 483
+  Width = 773
+  Caption = 'fFileVirtualTree'
+  ClientHeight = 240
+  ClientWidth = 773
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  Position = poDesktopCenter
+  LCLVersion = '2.0.12.0'
+  object Panel1: TPanel
+    Left = 0
+    Height = 50
+    Top = 0
+    Width = 773
+    Align = alTop
+    ClientHeight = 50
+    ClientWidth = 773
+    TabOrder = 0
+    object bGetSelection: TButton
+      Left = 15
+      Height = 25
+      Top = 13
+      Width = 139
+      Caption = 'Get Selection'
+      OnClick = bGetSelectionClick
+      TabOrder = 0
+    end
+    object bGetChecked: TButton
+      Left = 171
+      Height = 25
+      Top = 13
+      Width = 139
+      Caption = 'Get checked items'
+      OnClick = bGetCheckedClick
+      TabOrder = 1
+    end
+  end
+  object Panel2: TPanel
+    Left = 0
+    Height = 190
+    Top = 50
+    Width = 773
+    Align = alClient
+    ClientHeight = 190
+    ClientWidth = 773
+    TabOrder = 1
+    object m: TMemo
+      Left = 265
+      Height = 188
+      Top = 1
+      Width = 507
+      Align = alRight
+      Lines.Strings = (
+        'm'
+      )
+      TabOrder = 0
+    end
+    object Splitter1: TSplitter
+      Left = 260
+      Height = 188
+      Top = 1
+      Width = 5
+      Align = alRight
+      Color = clLime
+      ParentColor = False
+      ResizeAnchor = akRight
+    end
+    object vst: TVirtualStringTree
+      Left = 1
+      Height = 188
+      Top = 1
+      Width = 259
+      Align = alClient
+      DefaultNodeHeight = 21
+      DefaultText = 'Node'
+      Header.AutoSizeIndex = 0
+      Header.Columns = <      
+        item
+          Position = 0
+          Text = 'File'
+          Width = 200
+        end      
+        item
+          Position = 1
+          Text = 'Time'
+        end>
+      TabOrder = 2
+      TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning, toEditOnClick]
+      TreeOptions.SelectionOptions = [toMultiSelect]
+      OnGetText = vstGetText
+      OnInitNode = vstInitNode
+    end
+  end
+end

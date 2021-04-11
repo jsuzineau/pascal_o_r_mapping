@@ -16,6 +16,7 @@ type
  =
   class(TForm)
    bGetSelection: TButton;
+   l: TLabel;
    m: TMemo;
     Panel1: TPanel;
     Panel2: TPanel;

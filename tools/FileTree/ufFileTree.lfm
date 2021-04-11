@@ -28,6 +28,14 @@ object fFileTree: TfFileTree
       OnClick = bGetSelectionClick
       TabOrder = 0
     end
+    object l: TLabel
+      Left = 180
+      Height = 19
+      Top = 21
+      Width = 4
+      Caption = 'l'
+      ParentColor = False
+    end
   end
   object Panel2: TPanel
     Left = 0
