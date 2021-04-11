@@ -7,7 +7,7 @@ uses
  cthreads,
  {$ENDIF}{$ENDIF}
  Interfaces, // this includes the LCL widgetset
- Forms, ufQuasi_prime, uQuasi_prime, uGeometrie, ufCanvas
+ Forms, ufQuasi_prime, uQuasi_prime, uGeometrie, ufCanvas, uGeometrie_old
  { you can add units after this };
 
 {$R *.res}
@@ -17,7 +17,6 @@ begin
  Application.Scaled:=True;
  Application.Initialize;
  Application.CreateForm(TfQuasi_prime, fQuasi_prime);
- Application.CreateForm(TfCanvas, fCanvas);
  Application.Run;
 end.
 

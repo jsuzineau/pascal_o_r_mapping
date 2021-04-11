@@ -15,16 +15,10 @@ type
 
  TfQuasi_prime = class(TForm)
   bBatch: TButton;
-  Button1: TButton;
-  Label1: TLabel;
-  Label2: TLabel;
-  lP1: TLabel;
-  lP2: TLabel;
   m: TMemo;
   Panel1: TPanel;
   spe: TSpinEdit;
   procedure bBatchClick(Sender: TObject);
-  procedure Button1Click(Sender: TObject);
   procedure FormCreate(Sender: TObject);
   procedure speChange(Sender: TObject);
  private
@@ -47,7 +41,8 @@ procedure TfQuasi_prime.FormCreate(Sender: TObject);
 begin
      m.Clear;
      //Calcule;
-     Batch;
+     //Batch;
+     spe.Value:= 979;
 end;
 
 procedure TfQuasi_prime.speChange(Sender: TObject);
@@ -57,23 +52,19 @@ end;
 
 procedure TfQuasi_prime.Calcule;
 var
+   f: TfCanvas;
    c: TCalcul;
 begin
-     c:= Decompose( spe.Value);
+     f:= TfCanvas.Calcule( spe.Value);
+     c:= f.c;
+     f.Show;
      m.Lines.Add('');
      m.Lines.Add(c.Log);
-     lP1.Caption:= c.sP1;
-     lP2.Caption:= c.sP2;
 end;
 
 procedure TfQuasi_prime.bBatchClick(Sender: TObject);
 begin
      Batch;
-end;
-
-procedure TfQuasi_prime.Button1Click(Sender: TObject);
-begin
-     fCanvas.Show;
 end;
 
 procedure TfQuasi_prime.Batch;
@@ -93,24 +84,28 @@ var
    begin
         i1:= prime[_j1];
         i2:= prime[_j2];
-        C:= Decompose_Test( i1 , i2);
-        if C.Erreur_Test
-        then
-            begin
-            //m.Lines.Add('');
-            //m.Lines.Add(Format('j1:%d   j2: %d', [_j1, _j2]));
-            //m.Lines.Add(C.Log_Detail);
-            end
-        else
-            begin
-            //m.Lines.Add(C.Log_Detail);
-            Inc(nOK);
-            end;
-        Inc(n);
-       if not C.Calcul.Erreur
-       then
-           m.Lines.Add(C.Log);
-
+        C:= TCalcul_Test.Create;
+        C.Init( i1 , i2);
+        try
+           if C.Erreur_Test
+           then
+               begin
+               //m.Lines.Add('');
+               //m.Lines.Add(Format('j1:%d   j2: %d', [_j1, _j2]));
+               //m.Lines.Add(C.Log_Detail);
+               end
+           else
+               begin
+               //m.Lines.Add(C.Log_Detail);
+               Inc(nOK);
+               end;
+           Inc(n);
+          if not C.Calcul.Erreur
+          then
+              m.Lines.Add(C.Log);
+        finally
+               FreeAndNil( C);
+               end;
    end;
    procedure precedent_suivant;
    var

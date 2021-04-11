@@ -43,7 +43,7 @@ type
   function vertical_edge_x: ValReal;
   end;
 
-function Intersection_r_from_i( _i: Integer):ValReal;
+function Intersection_r_from_i_old( _i: Integer):ValReal;
 
 {
 x:= TAffine_old.Intersection_x( Triangle, Carre);
@@ -67,17 +67,17 @@ const
      a= (r43/3 -1/r2) / _4r3;
      b= (-1/r3)*a+r43/3;
      ra2b2=sqrt(sqr(a)+sqr(b));
-function Intersection_r_from_i_direct( _i: Integer):ValReal;
+function Intersection_r_from_i_direct_old( _i: Integer):ValReal;
 
 type
-  TIntersections
+  TIntersections_old
   =
    object
      Mean_r: ValReal;   //mean from current
      Reverse_r: ValReal;//from which current is the mean
    end;
 
-function Intersections_from_i( _i: Integer):TIntersections;
+function Intersections_from_i_old( _i: Integer):TIntersections_old;
 
 
 implementation
@@ -139,7 +139,7 @@ begin
      Result:= -Triangle_a_from_s( s)*(sqrt(3)/6);//=rayon cercle inscrit
 end;
 
-function Intersection_r_from_i( _i: Integer):ValReal;
+function Intersection_r_from_i_old( _i: Integer):ValReal;
 var
    Carre   : TCarre_old;
    Triangle: TTriangle_old;
@@ -157,7 +157,7 @@ begin
             end;
 end;
 
-function Intersection_r_from_i_direct( _i: Integer):ValReal;
+function Intersection_r_from_i_direct_old( _i: Integer):ValReal;
 var
    ri: ValReal;
 begin
@@ -165,7 +165,7 @@ begin
      Result:= ri * ra2b2;
 end;
 
-function Intersections_from_i( _i: Integer):TIntersections;
+function Intersections_from_i_old( _i: Integer):TIntersections_old;
 var
    Carre   : TCarre_old;
    Triangle: TTriangle_old;

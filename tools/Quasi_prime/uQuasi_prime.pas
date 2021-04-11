@@ -6,7 +6,7 @@ interface
 
 uses
     uuStrings, uGeometrie, uGeometrie_old,
- Classes, SysUtils, Math, StrUtils;
+ Classes, SysUtils, Math, StrUtils,Graphics;
 
 type
 
@@ -36,9 +36,22 @@ type
 
   TCalcul
   =
-   object
+   class
+   //Cycle de vie
+   public
+     constructor Create;
+     destructor Destroy; override;
+
+   //Attributs
+   public
      i: Integer;
-     Premier: Boolean;
+     //Premier: Boolean;
+
+     Carre: TCarre;
+     Triangle: TTriangle;
+     Rectangle1: TRectangle;
+     Rectangle2: TRectangle;
+
      Intersection_r: ValReal;
      Intersection_r_direct: ValReal;
      Calcul_Original, Calcul: TCalcul_Boucle;
@@ -53,18 +66,32 @@ type
 
      Mean_Delta: Integer;
 
-     procedure Decompose( _i: Integer);
+     coeff_Intersection_r: ValReal;
+     ShowRectangles: Boolean;
+
+   //Méthodes
+   public
+     procedure Init( _i: Integer);
      function Log:String;
      function Log_interne:String;
      function sP1: String;
      function sP2: String;
+     function scoeff_Intersection_r: String;
+     procedure Draw( _C: TCanvas);
    end;
 
   { TCalcul_Test }
 
   TCalcul_Test
   =
-   object(TCalcul)
+   class(TCalcul)
+   //Cycle de vie
+   public
+     constructor Create;
+     destructor Destroy; override;
+
+   //Attributs
+   public
      i1, i2: Integer;
      i1i2: Integer;
 
@@ -76,15 +103,11 @@ type
      Distance_s_,
      Distance_ :Int64;
 
-     procedure Decompose_Test( _i1, _i2: Integer);
+     procedure Init( _i1, _i2: Integer);
      function Log_Detail:String;
      function sErreur_Test: String;
      function Log: String;
    end;
-
-function Decompose( _i: Integer):TCalcul;
-
-function Decompose_Test( _i1, _i2: Integer):TCalcul_Test;
 
 implementation
 
@@ -132,14 +155,32 @@ begin
 end;
 
 { TCalcul }
-procedure TCalcul.Decompose(_i: Integer);
+constructor TCalcul.Create;
+begin
+     Carre     := TCarre    .Create;
+     Triangle  := TTriangle .Create;
+     Rectangle1:= TRectangle.Create;
+     Rectangle2:= TRectangle.Create;
+     ShowRectangles:= False;
+end;
+
+destructor TCalcul.Destroy;
+begin
+     FreeAndNil( Carre     );
+     FreeAndNil( Triangle  );
+     FreeAndNil( Rectangle1);
+     FreeAndNil( Rectangle2);
+     inherited Destroy;
+end;
+
+procedure TCalcul.Init( _i: Integer);
 var
-   Intersections: TIntersections;
+   Intersections: TIntersections_old;
    j: Integer;
 begin
      i:= _i;
-     //Premier:= 0 = (sqr(i)-1) mod 24;
-     Premier:= (i mod 6) in [1, 5];
+     //Premier:= 0 = (sqr(i)-1) mod 24; nécessaire non suffisant
+     //Premier:= (i mod 6) in [1, 5];   nécessaire non suffisant
 
      covariance_mean_p1p2_positif:= '';
      covariance_mean_p1p2_negatif:= '';
@@ -147,17 +188,20 @@ begin
 
      i_root:= sqrt(i);
 
-     Intersections:= Intersections_from_i( i);
+     Carre   .Init( i);
+     Triangle.Init( i);
+
+     Intersections:= Intersections_from_i_old( i);
      Intersection_r:= Intersections.Mean_r;
-     //Intersection_r:= Intersection_r_from_i_direct( i);
-     Intersection_r_direct:= Intersection_r_from_i_direct( i);
+     //Intersection_r:= Intersection_r_from_i_direct_old( i);
+     Intersection_r_direct:= Intersection_r_from_i_direct_old( i);
 
      Calcul.Init( i, Intersection_r);
      Calcul_Original:= Calcul;
 
      if Calcul.Erreur
      then
-         for j:= 1 to 100
+         for j:= 1 to 1000
          do
            begin
            Calcul.Mean:= Calcul_Original.Mean + j;
@@ -189,6 +233,11 @@ begin
          Mean_Delta:= 0
      else
          Mean_Delta:= Calcul.Mean-Calcul_Original.Mean;
+
+     Rectangle1.Init( Calcul.P1, Calcul.P2);
+     Rectangle2.Init( Calcul.P2, Calcul.P1);
+
+     coeff_Intersection_r:= Calcul.Intersection_r/Calcul_Original.Intersection_r;
 end;
 
 function TCalcul.sP1: String;
@@ -201,15 +250,59 @@ begin
      Result:= Calcul.sP2;
 end;
 
+function TCalcul.scoeff_Intersection_r: String;
+begin
+     //Result:= Format( '%f', [coeff_Intersection_r]);
+     Result:= FloatToStr(coeff_Intersection_r);
+end;
+
+procedure TCalcul.Draw(_C: TCanvas);
+var
+   Scale: ValReal;
+   cx, cy: Integer;
+begin
+     Scale:= _C.Width / (3*Carre.a);
+     cx:= _C.Width  div 2;
+     cy:= _C.Height div 2;
+
+     _C.Clear;
+     with _C do Pen.Color:= clBlack;
+     with _C do Line( 0, cy, Width,     cy);
+     with _C do Line(cx,  0,    cx, Height);
+     Carre   .Draw( _C, Scale);
+     Triangle.Draw( _C, Scale);
+     if ShowRectangles
+     then
+         begin
+         Rectangle1.Draw( _C, Scale);
+         Rectangle2.Draw( _C, Scale);
+         end;
+     with _C do Brush.Style:= bsClear;
+     with _C do Pen.Color:= clRed;
+     Circle( _C, cx, cy, round( Scale*Calcul_Original.Intersection_r));
+     with _C do Pen.Color:= clBlue;
+     Circle( _C, cx, cy, round( Scale*Calcul.Intersection_r));
+end;
+
 { TCalcul_Test }
 
-procedure TCalcul_Test.Decompose_Test( _i1, _i2: Integer);
+constructor TCalcul_Test.Create;
+begin
+     inherited Create;
+end;
+
+destructor TCalcul_Test.Destroy;
+begin
+     inherited Destroy;
+end;
+
+procedure TCalcul_Test.Init(_i1, _i2: Integer);
 begin
      i1:= _i1;
      i2:= _i2;
 
      i1i2:= i1*i2;
-     Decompose( i1i2);
+     inherited Init( i1i2);
 
      Erreur_Test
      :=
@@ -246,7 +339,7 @@ function TCalcul.Log_interne: String;
 begin
      Result:= '';
      Formate_Liste( Result, #13#10, Calcul.Header);
-     if Premier then Formate_Liste( Result, #13#10, 'Premier');
+     //if Premier then Formate_Liste( Result, #13#10, 'Premier');
      Formate_Liste( Result, #13#10, Format('Intersection_r: %f', [Intersection_r]));
      Formate_Liste( Result, #13#10, Format('Intersection_r_direct: %f', [Intersection_r_direct]));
      Formate_Liste( Result, #13#10, Format('ra2b2: %f', [ra2b2]));
@@ -286,16 +379,6 @@ begin
      //Result:= Format( '%d : %d : %d : %s : %d : %d, %s, %s',[i1i2,i1i2 mod 6,i1i2 mod 24,sens,Mean_Delta, Calcul.P1P2-Calcul_Original.P1P2, covariance_mean_p1p2_negatif, covariance_mean_p1p2_positif]);
      //Result:= Format( '%d : %f : %f : %f: %d , %d, %s',[i1i2, Intersection_r/i_root, Intersection_r_direct/i_root, Calcul.Intersection_r/i_root, Calcul.P1, Calcul.P2, BoolToStr(Calcul.Erreur,True)]);
      Result:= Format( '%-4d : %f : %-2d , %-2d',[i1i2, Calcul.Intersection_r/i_root, Calcul.P1, Calcul.P2]);
-end;
-
-function Decompose( _i: Integer):TCalcul;
-begin
-     Result.Decompose( _i);
-end;
-
-function Decompose_Test( _i1, _i2: Integer):TCalcul_Test;
-begin
-     Result.Decompose_Test( _i1, _i2);
 end;
 
 

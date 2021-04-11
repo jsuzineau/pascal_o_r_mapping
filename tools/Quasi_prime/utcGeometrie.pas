@@ -17,7 +17,6 @@ type
   procedure SetUp; override;
   procedure TearDown; override;
  private
-  procedure Test_TAffine_Create_from_tan_cos( _alpha: ValReal);
   procedure Test_TAffine_Create_from_alpha( _alpha: ValReal);
  published
   procedure Test_TAffine_alpha;
@@ -36,25 +35,13 @@ begin
 
 end;
 
-procedure TtcGeometrie.Test_TAffine_Create_from_tan_cos(_alpha: ValReal);
-var
-   A: TAffine;
-begin
-     A:= TAffine.Create_from_tan_cos( tan(_alpha), cos(_alpha), 1);
-     try
-        AssertEquals( 'test Create_from_tan_cos', A.alpha, _alpha);
-     finally
-            FreeAndNil( A);
-            end;
-end;
-
 procedure TtcGeometrie.Test_TAffine_Create_from_alpha(_alpha: ValReal);
 var
    A: TAffine;
 begin
      A:= TAffine.Create( _alpha, 1);
      try
-        AssertEquals( 'test Create_from_tan_cos', A.alpha, _alpha);
+        AssertEquals( 'test Create_from_alpha', A.alpha, _alpha);
      finally
             FreeAndNil( A);
             end;

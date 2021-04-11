@@ -1,7 +1,7 @@
 object fQuasi_prime: TfQuasi_prime
-  Left = 643
+  Left = 641
   Height = 240
-  Top = 1222
+  Top = 1220
   Width = 511
   Caption = 'fQuasi_prime'
   ClientHeight = 240
@@ -39,38 +39,6 @@ object fQuasi_prime: TfQuasi_prime
       TabOrder = 0
       Value = 1891
     end
-    object Label1: TLabel
-      Left = 168
-      Height = 19
-      Top = 8
-      Width = 17
-      Caption = 'P1'
-      ParentColor = False
-    end
-    object lP1: TLabel
-      Left = 192
-      Height = 19
-      Top = 8
-      Width = 21
-      Caption = 'lP1'
-      ParentColor = False
-    end
-    object lP2: TLabel
-      Left = 191
-      Height = 19
-      Top = 28
-      Width = 21
-      Caption = 'lP2'
-      ParentColor = False
-    end
-    object Label2: TLabel
-      Left = 167
-      Height = 19
-      Top = 28
-      Width = 17
-      Caption = 'P2'
-      ParentColor = False
-    end
     object bBatch: TButton
       Left = 328
       Height = 25
@@ -79,15 +47,6 @@ object fQuasi_prime: TfQuasi_prime
       Caption = 'bBatch'
       OnClick = bBatchClick
       TabOrder = 1
-    end
-    object Button1: TButton
-      Left = 424
-      Height = 25
-      Top = 20
-      Width = 75
-      Caption = 'Button1'
-      OnClick = Button1Click
-      TabOrder = 2
     end
   end
 end
