@@ -23,6 +23,7 @@ type
     tv: TTreeView;
     procedure bGetSelectionClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     slFiles: TStringList;
     procedure tv_addnode_from_key_value( _Key, _Value: String);
@@ -69,6 +70,11 @@ begin
      slFiles:= TStringList.Create;
      slFiles_from_ini_file;
      tv_from_slFiles;
+end;
+
+procedure TfFileTree.FormDestroy(Sender: TObject);
+begin
+     FreeAndNil( slFiles);
 end;
 
 //duplicated for convenience from uuStrings.pas
