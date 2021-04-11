@@ -128,7 +128,7 @@ procedure TCalcul_Boucle.Boucle;
 begin
      Mean_Circle_s:=sqr(Mean);
      Intersection_r:= sqrt( Mean_Circle_s/PI);
-     Distance_s:= Mean_Circle_s - i;
+     Distance_s:= abs(Mean_Circle_s - i);
 
      Distance:=ifthen( Distance_s = 0 , 0, round(sqrt( Distance_s)));
 
