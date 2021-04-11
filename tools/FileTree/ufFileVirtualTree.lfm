@@ -90,6 +90,7 @@ object fFileVirtualTree: TfFileVirtualTree
       TabOrder = 2
       TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning, toEditOnClick]
       TreeOptions.SelectionOptions = [toMultiSelect]
+      OnChecked = vstChecked
       OnGetText = vstGetText
       OnInitNode = vstInitNode
     end

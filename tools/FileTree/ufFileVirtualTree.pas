@@ -34,6 +34,7 @@ type
     procedure bGetSelectionClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure vstChecked(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure vstGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
      Column: TColumnIndex; TextType: TVSTTextType; var CellText: String);
     procedure vstInitNode(Sender: TBaseVirtualTree; ParentNode,
@@ -164,8 +165,7 @@ begin
      Result:= NewNode_from_TreeData( _Parent, td);
 end;
 
-function TfFileVirtualTree.Add_Node(_Parent: PVirtualNode; _Text: String
- ): PVirtualNode;
+function TfFileVirtualTree.Add_Node(_Parent: PVirtualNode; _Text: String): PVirtualNode;
 var
    td: TTreeData;
 begin
@@ -256,6 +256,28 @@ begin
      Node^.CheckType:=ctCheckBox;
 end;
 
+procedure TfFileVirtualTree.vstChecked( Sender: TBaseVirtualTree; Node: PVirtualNode);
+var // This ensures that all children follow the status checked/unchecked of the parent
+   cs: TCheckState;
+   procedure CheckChilds( _Parent: PVirtualNode);
+   var
+      vn: PVirtualNode;
+   begin
+        vn:= vst.GetFirstChild(_Parent);
+        while nil <> vn
+        do
+          begin
+          vn^.CheckState:= cs;
+          CheckChilds( vn);
+          vn:= vst.GetNextSibling(vn);
+          end;
+   end;
+begin
+     cs:= Node^.CheckState;
+     CheckChilds( Node);
+     vst.Refresh;
+end;
+
 function TfFileVirtualTree.Get_Selected: String;
 var
    vn: PVirtualNode;
@@ -267,7 +289,9 @@ begin
      do
        begin
        td:= TreeData_from_Node( vn);
-       Formate_Liste( Result, #13#10, td.Key+' '+td.Value);
+       if td.IsLeaf
+       then
+           Formate_Liste( Result, #13#10, td.Key+' '+td.Value);
        vn:= vst.GetNextSelected( vn);
        end;
 end;
@@ -283,7 +307,9 @@ begin
      do
        begin
        td:= TreeData_from_Node( vn);
-       Formate_Liste( Result, #13#10, td.Key+' '+td.Value);
+       if td.IsLeaf
+       then
+           Formate_Liste( Result, #13#10, td.Key+' '+td.Value);
        vn:= vst.GetNextChecked( vn);
        end;
 end;
