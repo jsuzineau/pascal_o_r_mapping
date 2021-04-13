@@ -121,19 +121,50 @@ end;
 { TTreeData }
 
 procedure TTreeData.SetValue( _Value: String);
+   function Colon_count( _Value: String): Integer;
+   begin
+        Result:= 0;
+        while Pos(':',_Value) > 0
+        do
+          begin
+          StrToK( ':',_Value);
+          Inc(Result);
+          end;
+   end;
+   procedure FdValue_from_FValue;
+   var
+      s: String;
+   begin
+        case Colon_count( FValue)
+        of
+          0: s:= '0:0:'+FValue;
+          1: s:= '0:'  +FValue;
+          2: s:=        FValue;
+          end;
+        if not TryStrToDateTime( s, FdValue)
+        then
+            FdValue:= 0;
+   end;
 begin
      FValue:= _Value;
 
-     if not TryStrToDateTime( FValue, FdValue)
-     then
-         FdValue:= 0;
+     FdValue_from_FValue;
 end;
 
 procedure TTreeData.SetdValue( _dValue: TDateTime);
+   procedure Strip_leading_zeroes;
+   const
+        s='0:';
+   begin
+        while 1=Pos(s, FValue)
+        do
+          Delete( FValue, 1, Length(s));
+   end;
 begin
      FdValue:= _dValue;
 
-     FValue:= FormatDateTime( 'hh:nn', FdValue);
+     FValue:= FormatDateTime( 'h:n:ss', FdValue);
+     Strip_leading_zeroes;
 end;
 
 
@@ -254,7 +285,7 @@ var
             else
                 Node:= Add_Node( Parent, s);
 
-            slNodes.AddObject( sCle, TObject(Parent));
+            slNodes.AddObject( sCle, TObject(Node));
             end
         else
             Node:= PVirtualNode( slNodes.Objects[i]);
