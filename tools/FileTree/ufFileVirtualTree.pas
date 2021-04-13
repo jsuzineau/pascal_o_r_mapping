@@ -43,14 +43,23 @@ type
    bGetChecked: TButton;
    bGetSelection: TButton;
    bfFileTree: TButton;
+   bLoad_from_File: TButton;
+   bOD: TButton;
+   eFileName: TEdit;
+   Label1: TLabel;
+   lCompute_Aggregates: TLabel;
    m: TMemo;
+   od: TOpenDialog;
     Panel1: TPanel;
     Panel2: TPanel;
+    pb: TProgressBar;
     Splitter1: TSplitter;
     vst: TVirtualStringTree;
     procedure bfFileTreeClick(Sender: TObject);
     procedure bGetCheckedClick(Sender: TObject);
     procedure bGetSelectionClick(Sender: TObject);
+    procedure bLoad_from_FileClick(Sender: TObject);
+    procedure bODClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure vstChecked(Sender: TBaseVirtualTree; Node: PVirtualNode);
@@ -73,6 +82,7 @@ type
   public
     function Get_Selected: String;
     function Get_Checked: String;
+    procedure Load_from_File( _FileName: String);
   end;
 
 var
@@ -171,38 +181,7 @@ end;
 { TfFileVirtualTree }
 
 procedure TfFileVirtualTree.FormCreate(Sender: TObject);
-   procedure slFiles_from_ini_file;
-   var
-      ini: TINIFile;
-   begin
-        ini:= TINIFile.Create( 'FileTree.ini');
-        try
-           ini.ReadSectionRaw( 'Files', slFiles);
-        finally
-               FreeAndNil( ini);
-               end;
-   end;
-   procedure tv_from_slFiles;
-   var
-      i: Integer;
-      Key, Value: String;
-   begin
-        for i:= 0 to slFiles.Count-1
-        do
-          begin
-          Key  := slFiles.Names         [ i];
-          Value:= slFiles.ValueFromIndex[ i];
-
-          vst_addnode_from_key_value( Key, Value);
-          end;
-        Compute_Aggregates;
-   end;
 begin
-     slFiles:= TStringList.Create;
-     slFiles_from_ini_file;
-     slNodes:= TStringList.Create;
-     slTreeData:= TStringList.Create;
-     tv_from_slFiles;
 end;
 
 procedure TfFileVirtualTree.FormDestroy(Sender: TObject);
@@ -220,6 +199,60 @@ begin
      Result.Value:= _Value;
      Result.IsLeaf:= _IsLeaf;
      slTreeData.AddObject( _Key, Result);
+end;
+
+procedure TfFileVirtualTree.bLoad_from_FileClick(Sender: TObject);
+begin
+     Load_from_File( eFileName.Text);
+end;
+
+procedure TfFileVirtualTree.bODClick(Sender: TObject);
+begin
+     od.FileName:= eFileName.Text;
+     if od.Execute
+     then
+         eFileName.Text:= od.FileName;
+end;
+
+procedure TfFileVirtualTree.Load_from_File( _FileName: String);
+   procedure slFiles_from_ini_file;
+   var
+      ini: TINIFile;
+   begin
+        ini:= TINIFile.Create( _FileName);
+        try
+           ini.ReadSectionRaw( 'Files', slFiles);
+        finally
+               FreeAndNil( ini);
+               end;
+   end;
+   procedure tv_from_slFiles;
+   var
+      i: Integer;
+      Key, Value: String;
+   begin
+        pb.Min:= -1;
+        pb.Max:= slFiles.Count-1;
+        for i:= 0 to slFiles.Count-1
+        do
+          begin
+          Key  := slFiles.Names         [ i];
+          Value:= slFiles.ValueFromIndex[ i];
+
+          vst_addnode_from_key_value( Key, Value);
+          pb.Position:= i;
+          end;
+        lCompute_Aggregates.Show;
+        Application.ProcessMessages;
+        Compute_Aggregates;
+        lCompute_Aggregates.Hide;
+   end;
+begin
+     slFiles:= TStringList.Create;
+     slFiles_from_ini_file;
+     slNodes:= TStringList.Create;
+     slTreeData:= TStringList.Create;
+     tv_from_slFiles;
 end;
 
 function TfFileVirtualTree.NewNode_from_TreeData( _Parent: PVirtualNode; _td: TTreeData): PVirtualNode;

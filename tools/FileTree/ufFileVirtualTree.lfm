@@ -12,15 +12,15 @@ object fFileVirtualTree: TfFileVirtualTree
   LCLVersion = '2.0.12.0'
   object Panel1: TPanel
     Left = 0
-    Height = 50
+    Height = 98
     Top = 0
     Width = 773
     Align = alTop
-    ClientHeight = 50
+    ClientHeight = 98
     ClientWidth = 773
     TabOrder = 0
     object bGetSelection: TButton
-      Left = 15
+      Left = 159
       Height = 25
       Top = 13
       Width = 139
@@ -29,7 +29,7 @@ object fFileVirtualTree: TfFileVirtualTree
       TabOrder = 0
     end
     object bGetChecked: TButton
-      Left = 171
+      Left = 315
       Height = 25
       Top = 13
       Width = 139
@@ -38,7 +38,7 @@ object fFileVirtualTree: TfFileVirtualTree
       TabOrder = 1
     end
     object bfFileTree: TButton
-      Left = 365
+      Left = 509
       Height = 25
       Top = 12
       Width = 119
@@ -46,19 +46,70 @@ object fFileVirtualTree: TfFileVirtualTree
       OnClick = bfFileTreeClick
       TabOrder = 2
     end
+    object bLoad_from_File: TButton
+      Left = 11
+      Height = 25
+      Top = 12
+      Width = 131
+      Caption = 'Load from file'
+      OnClick = bLoad_from_FileClick
+      TabOrder = 3
+    end
+    object eFileName: TEdit
+      Left = 70
+      Height = 23
+      Top = 44
+      Width = 418
+      TabOrder = 4
+      Text = 'FileTree.ini'
+    end
+    object Label1: TLabel
+      Left = 12
+      Height = 15
+      Top = 46
+      Width = 51
+      Caption = 'File name'
+      ParentColor = False
+    end
+    object bOD: TButton
+      Left = 495
+      Height = 22
+      Top = 44
+      Width = 24
+      Caption = '...'
+      OnClick = bODClick
+      TabOrder = 5
+    end
+    object pb: TProgressBar
+      Left = 1
+      Height = 20
+      Top = 77
+      Width = 771
+      Align = alBottom
+      TabOrder = 6
+    end
+    object lCompute_Aggregates: TLabel
+      Left = 566
+      Height = 15
+      Top = 50
+      Width = 149
+      Caption = 'Computing time aggregates'
+      ParentColor = False
+      Visible = False
+    end
   end
   object Panel2: TPanel
     Left = 0
-    Height = 190
-    Top = 50
+    Height = 142
+    Top = 98
     Width = 773
     Align = alClient
-    ClientHeight = 190
+    ClientHeight = 142
     ClientWidth = 773
     TabOrder = 1
     object m: TMemo
       Left = 265
-      Height = 188
+      Height = 140
       Top = 1
       Width = 507
       Align = alRight
@@ -69,7 +120,7 @@ object fFileVirtualTree: TfFileVirtualTree
     end
     object Splitter1: TSplitter
       Left = 260
-      Height = 188
+      Height = 140
       Top = 1
       Width = 5
       Align = alRight
@@ -79,7 +130,7 @@ object fFileVirtualTree: TfFileVirtualTree
     end
     object vst: TVirtualStringTree
       Left = 1
-      Height = 188
+      Height = 140
       Top = 1
       Width = 259
       Align = alClient
@@ -103,5 +154,10 @@ object fFileVirtualTree: TfFileVirtualTree
       OnGetText = vstGetText
       OnInitNode = vstInitNode
     end
+  end
+  object od: TOpenDialog
+    Filter = 'ini file|*.ini'
+    Left = 531
+    Top = 42
   end
 end
