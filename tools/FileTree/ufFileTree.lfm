@@ -30,9 +30,9 @@ object fFileTree: TfFileTree
     end
     object l: TLabel
       Left = 180
-      Height = 19
+      Height = 15
       Top = 21
-      Width = 4
+      Width = 3
       Caption = 'l'
       ParentColor = False
     end

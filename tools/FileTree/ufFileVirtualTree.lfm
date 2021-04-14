@@ -1,11 +1,11 @@
 object fFileVirtualTree: TfFileVirtualTree
-  Left = 469
+  Left = 418
   Height = 240
-  Top = 483
-  Width = 773
+  Top = 297
+  Width = 793
   Caption = 'fFileVirtualTree'
   ClientHeight = 240
-  ClientWidth = 773
+  ClientWidth = 793
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poDesktopCenter
@@ -14,10 +14,10 @@ object fFileVirtualTree: TfFileVirtualTree
     Left = 0
     Height = 98
     Top = 0
-    Width = 773
+    Width = 793
     Align = alTop
     ClientHeight = 98
-    ClientWidth = 773
+    ClientWidth = 793
     TabOrder = 0
     object bGetSelection: TButton
       Left = 159
@@ -84,7 +84,7 @@ object fFileVirtualTree: TfFileVirtualTree
       Left = 1
       Height = 20
       Top = 77
-      Width = 771
+      Width = 791
       Align = alBottom
       TabOrder = 6
     end
@@ -102,24 +102,13 @@ object fFileVirtualTree: TfFileVirtualTree
     Left = 0
     Height = 142
     Top = 98
-    Width = 773
+    Width = 793
     Align = alClient
     ClientHeight = 142
-    ClientWidth = 773
+    ClientWidth = 793
     TabOrder = 1
-    object m: TMemo
-      Left = 265
-      Height = 140
-      Top = 1
-      Width = 507
-      Align = alRight
-      Lines.Strings = (
-        'm'
-      )
-      TabOrder = 0
-    end
     object Splitter1: TSplitter
-      Left = 260
+      Left = 285
       Height = 140
       Top = 1
       Width = 5
@@ -132,7 +121,7 @@ object fFileVirtualTree: TfFileVirtualTree
       Left = 1
       Height = 140
       Top = 1
-      Width = 259
+      Width = 284
       Align = alClient
       DefaultNodeHeight = 21
       DefaultText = 'Node'
@@ -147,12 +136,67 @@ object fFileVirtualTree: TfFileVirtualTree
           Position = 1
           Text = 'Time'
         end>
-      TabOrder = 2
+      Header.Options = [hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
+      TabOrder = 1
       TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning, toEditOnClick]
       TreeOptions.SelectionOptions = [toMultiSelect]
-      OnChecked = vstChecked
-      OnGetText = vstGetText
-      OnInitNode = vstInitNode
+    end
+    object Panel3: TPanel
+      Left = 290
+      Height = 140
+      Top = 1
+      Width = 502
+      Align = alRight
+      Caption = 'Panel3'
+      ClientHeight = 140
+      ClientWidth = 502
+      TabOrder = 2
+      object m: TMemo
+        Left = 1
+        Height = 66
+        Top = 1
+        Width = 500
+        Align = alTop
+        Lines.Strings = (
+          'm'
+        )
+        TabOrder = 0
+      end
+      object Splitter2: TSplitter
+        Cursor = crVSplit
+        Left = 1
+        Height = 5
+        Top = 67
+        Width = 500
+        Align = alTop
+        Color = clLime
+        ParentColor = False
+        ResizeAnchor = akTop
+      end
+      object vstResult: TVirtualStringTree
+        Left = 1
+        Height = 67
+        Top = 72
+        Width = 500
+        Align = alClient
+        DefaultNodeHeight = 21
+        DefaultText = 'Node'
+        Header.AutoSizeIndex = 0
+        Header.Columns = <        
+          item
+            Position = 0
+            Text = 'File'
+            Width = 200
+          end        
+          item
+            Position = 1
+            Text = 'Time'
+          end>
+        Header.Options = [hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
+        TabOrder = 2
+        TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning, toEditOnClick]
+        TreeOptions.SelectionOptions = [toMultiSelect]
+      end
     end
   end
   object od: TOpenDialog
