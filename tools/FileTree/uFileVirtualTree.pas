@@ -58,6 +58,8 @@ type
     procedure Load_from_StringList( _sl: TStringList);
     function Get_Selected: String;
     function Get_Checked: String;
+    procedure vst_expand_first_level;
+    procedure vst_expand_full;
   private
     function NewTreeData(_Text, _Key, _Value: String; _IsLeaf: Boolean): TTreeData;
     function NewNode_from_TreeData(_Parent: PVirtualNode; _td: TTreeData): PVirtualNode;
@@ -66,7 +68,6 @@ type
     function Add_Node(_Parent: PVirtualNode; _Text: String): PVirtualNode;
     function TreeData_from_Node( _Node: PVirtualNode): TTreeData;
     procedure Compute_Aggregates;
-    procedure vst_expand_first_level;
     procedure internal_Load;
   //vst Events
   private
@@ -367,6 +368,11 @@ begin
        vst.Expanded[ vn]:= True;
        vn:= vst.GetNextSibling(vn);
        end;
+end;
+
+procedure ThVirtualStringTree.vst_expand_full;
+begin
+     vst.FullExpand;
 end;
 
 function ThVirtualStringTree.Get_Selected: String;

@@ -9,6 +9,7 @@ object fFileVirtualTree: TfFileVirtualTree
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poDesktopCenter
+  SessionProperties = 'Width;Height;Panel2.Width;Panel3.Height'
   LCLVersion = '2.0.12.0'
   object Panel1: TPanel
     Left = 0
@@ -203,5 +204,12 @@ object fFileVirtualTree: TfFileVirtualTree
     Filter = 'ini file|*.ini'
     Left = 531
     Top = 42
+  end
+  object ips: TIniPropStorage
+    StoredValues = <>
+    IniFileName = 'Configuration.ini'
+    IniSection = 'fFileVirtualTree'
+    Left = 645
+    Top = 8
   end
 end

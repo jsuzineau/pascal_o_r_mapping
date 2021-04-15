@@ -9,7 +9,7 @@ uses
     uFileVirtualTree,
     ufFileTree,
  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, ComCtrls,
- StdCtrls, IniFiles, VirtualTrees;
+ StdCtrls, IniPropStorage, IniFiles, VirtualTrees;
 
 type
 
@@ -24,6 +24,7 @@ type
    bLoad_from_File: TButton;
    bOD: TButton;
    eFileName: TEdit;
+   ips: TIniPropStorage;
    Label1: TLabel;
    lCompute_Aggregates: TLabel;
    m: TMemo;
@@ -99,6 +100,7 @@ begin
 
      m.Lines .Text:= slResult.Text;
      hvstResult.Load_from_StringList( slResult);
+     hvstResult.vst_expand_full;
 end;
 
 procedure TfFileVirtualTree.bfFileTreeClick(Sender: TObject);
