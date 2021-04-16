@@ -8,8 +8,9 @@ uses
     uFileTree,
     uFileVirtualTree,
     ufFileTree,
+    uFileVirtualTree_odt,
  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, ComCtrls,
- StdCtrls, IniPropStorage, IniFiles, VirtualTrees;
+ StdCtrls, IniPropStorage, IniFiles, VirtualTrees, LCLIntf;
 
 type
 
@@ -98,9 +99,11 @@ begin
      slResult.Text:= hvst.Get_Checked;
      slResult.Sort;
 
-     m.Lines .Text:= slResult.Text;
      hvstResult.Load_from_StringList( slResult);
      hvstResult.vst_expand_full;
+     m.Lines .Text:= slResult.Text+#13#10+hvstResult.render_as_text;
+     m.Lines .SaveToFile('Result.txt');
+     OpenDocument( FileVirtualTree_odt( 'FileTree.odt', hvstResult));
 end;
 
 procedure TfFileVirtualTree.bfFileTreeClick(Sender: TObject);

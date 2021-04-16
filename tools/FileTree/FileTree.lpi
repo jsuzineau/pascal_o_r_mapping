@@ -33,7 +33,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="5">
+    <Units Count="11">
       <Unit0>
         <Filename Value="FileTree.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -60,6 +60,30 @@
         <Filename Value="uFileVirtualTree.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit4>
+      <Unit5>
+        <Filename Value="uFileVirtualTree_odt.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="../../pascal_o_r_mapping/02_Units/uOpenDocument.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="../../pascal_o_r_mapping/02_Units/CSS_Style_Parser/generated/uCSS_Style_Parser_PYACC.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="../../pascal_o_r_mapping/07_sources_externes/ndyacclex/src/uStreamLexer.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="../../pascal_o_r_mapping/07_sources_externes/synapse/source/lib/httpsend.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="Result.txt"/>
+        <IsPartOfProject Value="True"/>
+      </Unit10>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -69,6 +93,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="../../pascal_o_r_mapping/02_Units;../../pascal_o_r_mapping/02_Units/CSS_Style_Parser/generated;../../pascal_o_r_mapping/07_sources_externes/ndyacclex/src;../../pascal_o_r_mapping/07_sources_externes/synapse/source/lib"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>

@@ -22,7 +22,7 @@ unit uOpenDocument;
     along with this program.  If not, see <http://www.gnu.org/licenses/>. 1     |
                                                                                 |
 |                                                                               }
-
+{$mode delphi}
 interface
 
 uses
@@ -403,7 +403,11 @@ type
   //Gestion du cycle de vie
   public
     constructor Create( _Nom: String);
+    constructor Create_from_template( _Template_Filename: String);
     destructor Destroy; override;
+  //initialisation
+  private
+    procedure Init( _Nom: String);
   //Extraction
   public
     Repertoire_Extraction: String;
@@ -1483,6 +1487,40 @@ end;
 { TOpenDocument }
 
 constructor TOpenDocument.Create( _Nom: String);
+begin
+     Init( _Nom);
+end;
+
+constructor TOpenDocument.Create_from_template(_Template_Filename: String);
+var
+   Prefixe: String;
+begin
+     Prefixe:= ChangeFileExt( ExtractFileName(_Template_Filename), '');
+     Nom:= OD_Temporaire.Nouveau_ODT( Prefixe);
+     CopyFile( PChar(_Template_Filename), PChar( Nom), False);
+     Init( Nom);
+end;
+
+destructor TOpenDocument.Destroy;
+begin
+     FreeAndNil( pFields_Change      );
+     FreeAndNil( pFields_Delete      );
+     FreeAndNil( slEmbed_Image       );
+     FreeAndNil( xmlMeta             );
+     FreeAndNil( xmlSettings         );
+     FreeAndNil( xmlMETA_INF_manifest);
+     FreeAndNil( xmlContent          );
+     FreeAndNil( xmlStyles           );
+     FreeAndNil( slStyles_Cellule_Properties);
+
+     ChDir( ExtractFilePath( Nom));
+     //OD_Temporaire.DetruitRepertoire( Repertoire_Extraction);
+
+     FreeAndNil( pChange);
+     inherited;
+end;
+
+procedure TOpenDocument.Init(_Nom: String);
 var
    I: Integer;
    procedure Calcule_is_Calc;
@@ -1514,25 +1552,6 @@ begin
      slEmbed_Image:= TslDimensions_Image.Create( ClassName+'.slEmbed_Image');
      pFields_Change:= TOpenDocument_Fields_Publieur.Create(ClassName+'.pFields_Change');
      pFields_Delete:= TOpenDocument_Fields_Publieur.Create(ClassName+'.pFields_Delete');
-end;
-
-destructor TOpenDocument.Destroy;
-begin
-     FreeAndNil( pFields_Change      );
-     FreeAndNil( pFields_Delete      );
-     FreeAndNil( slEmbed_Image       );
-     FreeAndNil( xmlMeta             );
-     FreeAndNil( xmlSettings         );
-     FreeAndNil( xmlMETA_INF_manifest);
-     FreeAndNil( xmlContent          );
-     FreeAndNil( xmlStyles           );
-     FreeAndNil( slStyles_Cellule_Properties);
-
-     ChDir( ExtractFilePath( Nom));
-     //OD_Temporaire.DetruitRepertoire( Repertoire_Extraction);
-
-     FreeAndNil( pChange);
-     inherited;
 end;
 
 const

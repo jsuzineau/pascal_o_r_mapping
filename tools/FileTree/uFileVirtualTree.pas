@@ -60,13 +60,14 @@ type
     function Get_Checked: String;
     procedure vst_expand_first_level;
     procedure vst_expand_full;
+    function TreeData_from_Node( _Node: PVirtualNode): TTreeData;
+    function render_as_text: String;
   private
     function NewTreeData(_Text, _Key, _Value: String; _IsLeaf: Boolean): TTreeData;
     function NewNode_from_TreeData(_Parent: PVirtualNode; _td: TTreeData): PVirtualNode;
     procedure vst_addnode_from_key_value( _Key, _Value: String);
     function Add_Leaf(_Parent: PVirtualNode; _Text, _Key, _Value: String): PVirtualNode;
     function Add_Node(_Parent: PVirtualNode; _Text: String): PVirtualNode;
-    function TreeData_from_Node( _Node: PVirtualNode): TTreeData;
     procedure Compute_Aggregates;
     procedure internal_Load;
   //vst Events
@@ -247,7 +248,7 @@ function ThVirtualStringTree.Add_Node(_Parent: PVirtualNode; _Text: String): PVi
 var
    td: TTreeData;
 begin
-     td:= NewTreeData( _Text, '', '', False);
+     td:= NewTreeData( _Text, _Text, '', False);
      Result:= NewNode_from_TreeData( _Parent, td);
 end;
 
@@ -459,6 +460,78 @@ begin
          Node^.CheckType:=ctCheckBox
      else
          Node^.CheckType:=ctNone;
+end;
+
+function ThVirtualStringTree.render_as_text: String;
+var
+   sl:TStringList;
+   procedure Iterate_childs( _Parent: PVirtualNode; _Parent_index: integer= -1);
+   const
+        Indent= 4;
+   var
+      vn: PVirtualNode;
+      td: TTreeData;
+      vn_Level: Integer;
+      vn_index: Integer;
+      vn_Text: String;
+      vn_indent: Integer;
+      procedure Line_to_parent;
+      const
+           vertical_line_char='|';
+           horizontal_line_char='-';
+           angle_char='*';
+           crossing_char='L';
+      var
+         i: Integer;
+         Parent_indent: Integer;
+         s: String;
+      begin
+           if -1 = _Parent_index then exit;
+           Parent_indent:= vn_indent-Indent;
+           if Parent_indent < 0 then exit;
+           //vertical line
+           for i:= _Parent_index+1 to vn_index-1
+           do
+             begin
+             s:= sl[i];
+             if angle_char = s[Parent_indent+1]
+             then
+                 s[Parent_indent+1]:= crossing_char
+             else
+                 s[Parent_indent+1]:= vertical_line_char;
+             sl[i]:= s;
+             end;
+           //horizontal line
+           s:= sl[vn_index];
+           s[Parent_indent+1]:= angle_char;
+           for i:= Parent_indent+2 to vn_indent
+           do
+             begin
+             s[i]:= horizontal_line_char;
+             end;
+           sl[vn_index]:= s;
+      end;
+   begin
+        vn:= vst.GetFirstChild(_Parent);
+        while nil <> vn
+        do
+          begin
+          vn_Level:= vst.GetNodeLevel(vn);
+          vn_indent:= vn_Level*Indent;
+          vn_Text:= StringOfChar( ' ', vn_indent);
+          td:= TreeData_from_Node( vn);
+          if nil <> td then vn_Text:= vn_Text + td.Text+' = '+td.Value;
+          vn_index:= sl.Add( vn_Text);
+          Line_to_parent;
+          Iterate_childs( vn, vn_index);
+          vn:= vst.GetNextSibling(vn);
+          end;
+   end;
+begin
+     sl:= TStringList.Create;
+
+     Iterate_childs( vst.RootNode);
+     Result:= sl.Text;
 end;
 
 

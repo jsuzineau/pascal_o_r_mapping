@@ -9,7 +9,7 @@ object fFileVirtualTree: TfFileVirtualTree
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poDesktopCenter
-  SessionProperties = 'Width;Height;Panel2.Width;Panel3.Height'
+  SessionProperties = 'Height;Panel2.Width;Panel3.Height;Width;m.Height'
   LCLVersion = '2.0.12.0'
   object Panel1: TPanel
     Left = 0
@@ -158,9 +158,12 @@ object fFileVirtualTree: TfFileVirtualTree
         Top = 1
         Width = 500
         Align = alTop
+        Font.Name = 'Courier New'
         Lines.Strings = (
           'm'
         )
+        ParentFont = False
+        ScrollBars = ssAutoVertical
         TabOrder = 0
       end
       object Splitter2: TSplitter

@@ -7,7 +7,9 @@ uses
  cthreads,
  {$ENDIF}{$ENDIF}
  Interfaces, // this includes the LCL widgetset
- Forms, ufFileTree, ufFileVirtualTree, uFileTree, uFileVirtualTree
+ Forms, httpsend, uStreamLexer, uOpenDocument, uCSS_Style_Parser_PYACC,
+ ufFileTree, ufFileVirtualTree, uFileTree, uFileVirtualTree,
+ uFileVirtualTree_odt
  { you can add units after this };
 
 {$R *.res}
