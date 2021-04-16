@@ -1,4 +1,3 @@
-{$mode delphi}
 {$DEFINE YYDEBUG}
 {$DEFINE YYEXTRADEBUG}
 

@@ -22,7 +22,6 @@ unit uOpenDocument;
     along with this program.  If not, see <http://www.gnu.org/licenses/>. 1     |
                                                                                 |
 |                                                                               }
-{$mode delphi}
 interface
 
 uses
