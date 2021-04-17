@@ -1,9 +1,9 @@
-object fAMS_Spectrometer: TfAMS_Spectrometer
-  Left = 816
+object fGROVE_barometer_bmp280: TfGROVE_barometer_bmp280
+  Left = 308
   Height = 481
-  Top = 272
+  Top = 264
   Width = 752
-  Caption = 'fAMS_Spectrometer'
+  Caption = 'fGROVE_barometer_bmp280'
   ClientHeight = 481
   ClientWidth = 752
   OnCreate = FormCreate
@@ -56,57 +56,12 @@ object fAMS_Spectrometer: TfAMS_Spectrometer
       OnClick = bParametresClick
       TabOrder = 3
     end
-    object bATCDATA: TButton
-      Left = 104
-      Height = 25
-      Top = 24
-      Width = 75
-      Caption = 'ATCDATA'
-      OnClick = bATCDATAClick
-      TabOrder = 4
-    end
-    object bATVERSW: TButton
-      Left = 187
-      Height = 25
-      Top = 24
-      Width = 75
-      Caption = 'ATVERSW'
-      OnClick = bATVERSWClick
-      TabOrder = 5
-    end
-    object bATTEMP: TButton
-      Left = 351
-      Height = 25
-      Top = 24
-      Width = 75
-      Caption = 'ATTEMP'
-      OnClick = bATTEMPClick
-      TabOrder = 6
-    end
-    object bATVERHW: TButton
-      Left = 269
-      Height = 25
-      Top = 24
-      Width = 75
-      Caption = 'ATVERHW'
-      OnClick = bATVERHWClick
-      TabOrder = 7
-    end
-    object bATDATA: TButton
-      Left = 8
-      Height = 25
-      Top = 24
-      Width = 75
-      Caption = 'ATDATA'
-      OnClick = bATDATAClick
-      TabOrder = 8
-    end
     object eCommande: TEdit
       Left = 96
       Height = 23
       Top = 56
       Width = 112
-      TabOrder = 9
+      TabOrder = 4
       Text = 'eCommande'
     end
     object Label1: TLabel
@@ -117,32 +72,13 @@ object fAMS_Spectrometer: TfAMS_Spectrometer
       Caption = 'Commande'
       ParentColor = False
     end
-    object bEnvoyer: TButton
-      Left = 216
-      Height = 25
-      Top = 63
-      Width = 75
-      Caption = 'Envoyer'
-      OnClick = bEnvoyerClick
-      TabOrder = 10
-    end
-    object bATINTTIME_255: TButton
-      Left = 435
-      Height = 25
-      Top = 24
-      Width = 147
-      Caption = 'ATINTTIME=255'
-      OnClick = bATINTTIME_255Click
-      TabOrder = 11
-    end
     object bPLU_from_Courant: TButton
       Left = 320
       Height = 25
       Top = 64
       Width = 160
       Caption = 'PLU_from_Courant'
-      OnClick = bPLU_from_CourantClick
-      TabOrder = 12
+      TabOrder = 5
     end
     object cbUse_PLU: TCheckBox
       Left = 496
@@ -151,7 +87,7 @@ object fAMS_Spectrometer: TfAMS_Spectrometer
       Width = 92
       Caption = 'Utiliser la PLU'
       OnChange = cbUse_PLUChange
-      TabOrder = 13
+      TabOrder = 6
     end
   end
   object PageControl1: TPageControl
@@ -183,10 +119,6 @@ object fAMS_Spectrometer: TfAMS_Spectrometer
             Alignment = calBottom
             Marks.LabelBrush.Style = bsClear
             Minors = <>
-            Range.Max = 940
-            Range.Min = 410
-            Range.UseMax = True
-            Range.UseMin = True
             Title.LabelBrush.Style = bsClear
           end>
         Foot.Brush.Color = clBtnFace
@@ -197,10 +129,7 @@ object fAMS_Spectrometer: TfAMS_Spectrometer
           'TAChart'
         )
         Align = alClient
-        object cls: TLineSeries
-        end
-        object cbs: TBarSeries
-          BarBrush.Color = clRed
+        object clsPressure: TLineSeries
         end
       end
     end

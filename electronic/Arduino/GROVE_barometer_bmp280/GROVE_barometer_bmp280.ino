@@ -55,34 +55,30 @@ void setup()
 
 void loop()
   {
-  //get and print temperatures
+  //Temperature
   float T=bmp280.getTemperature();
-  Serial.print("Temp: ");
-  Serial.print(T);
-  Serial.println("C"); // The unit for  Celsius because original arduino don't support speical symbols
-  
-  //get and print atmospheric pressure data
+  Serial.print("Temperature="); //°C
+  Serial.println(T);
+
+  //Pressure
   float pressure;
-  Serial.print("Pressure: ");
-  Serial.print(pressure = bmp280.getPressure());
-  Serial.println("Pa");
+  Serial.print("Pressure="); //Pa
+  Serial.println(pressure = bmp280.getPressure());
 
   float p_gagnac=pressure/0.9860911829528476;
-  Serial.print("Pression corrigée 118 m Gagnac: ");
-  Serial.print(p_gagnac);
-  Serial.println("Pa");
+  //Serial.print("Pression_corrigee_118_m_Gagnac=");//Pa
+  //Serial.println(p_gagnac);
 
   
-  //get and print altitude data
-  Serial.print("Altitude: ");
-  Serial.print(bmp280.calcAltitude(pressure));
-  Serial.println("m");
-  
-  Serial.println("\n");//add a line between output of different times.
+  //Altitude
+  //Serial.print("Altitude="); //m
+  //Serial.print(bmp280.calcAltitude(pressure));
+
+  Serial.println("#");//add a line between output of different times.
   
   lcd.clear();
   lcd.setCursor( 0, 0); lcd.print( "P: ");lcd.print( p_gagnac/100);lcd.print( " hPa");
-  lcd.setCursor( 0, 1); lcd.print( "T: ");lcd.print( T);lcd.print( " °C");
+  lcd.setCursor( 0, 1); lcd.print( "T: ");lcd.print( T);lcd.print( " deg C");
 
   delay(1000);
   }
