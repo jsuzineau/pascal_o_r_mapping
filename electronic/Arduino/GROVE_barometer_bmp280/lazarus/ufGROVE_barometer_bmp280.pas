@@ -141,7 +141,7 @@ begin
          Premier:= clsPressure.GetXValue(0);
          Dernier:= clsPressure.GetXValue(iDernier);
          end;
-     if Maintenant - Dernier > _15_min
+     if (Maintenant - Dernier > _15_min)or (iDernier< 3)
      then
          begin
          clsPressure.AddXY( Now, GROVE_barometer_bmp280.Pression_Gagnac/100, ' ');
