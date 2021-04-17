@@ -1,0 +1,174 @@
+object fInfrason: TfInfrason
+  Left = 308
+  Height = 481
+  Top = 264
+  Width = 752
+  Caption = 'fInfrason'
+  ClientHeight = 481
+  ClientWidth = 752
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  Position = poDesktopCenter
+  LCLVersion = '2.0.12.0'
+  WindowState = wsMaximized
+  object Panel1: TPanel
+    Left = 0
+    Height = 96
+    Top = 0
+    Width = 752
+    Align = alTop
+    ClientHeight = 96
+    ClientWidth = 752
+    TabOrder = 0
+    object bStop: TButton
+      Left = 85
+      Height = 19
+      Top = 0
+      Width = 75
+      Caption = 'Arrêter'
+      OnClick = bStopClick
+      TabOrder = 0
+    end
+    object bFermer: TButton
+      Left = 172
+      Height = 19
+      Top = 0
+      Width = 75
+      Caption = 'Fermer'
+      OnClick = bFermerClick
+      TabOrder = 1
+    end
+    object bDemarrer: TButton
+      Left = 3
+      Height = 19
+      Top = 0
+      Width = 75
+      Caption = 'Démarrer'
+      OnClick = bDemarrerClick
+      TabOrder = 2
+    end
+    object bParametres: TButton
+      Left = 356
+      Height = 21
+      Top = 0
+      Width = 75
+      Caption = 'Parametres'
+      OnClick = bParametresClick
+      TabOrder = 3
+    end
+    object eCommande: TEdit
+      Left = 96
+      Height = 23
+      Top = 56
+      Width = 112
+      TabOrder = 4
+      Text = 'eCommande'
+    end
+    object Label1: TLabel
+      Left = 8
+      Height = 15
+      Top = 64
+      Width = 63
+      Caption = 'Commande'
+      ParentColor = False
+    end
+    object bPLU_from_Courant: TButton
+      Left = 320
+      Height = 25
+      Top = 64
+      Width = 160
+      Caption = 'PLU_from_Courant'
+      TabOrder = 5
+    end
+    object cbUse_PLU: TCheckBox
+      Left = 496
+      Height = 19
+      Top = 64
+      Width = 92
+      Caption = 'Utiliser la PLU'
+      OnChange = cbUse_PLUChange
+      TabOrder = 6
+    end
+    object lDelta: TLabel
+      Left = 580
+      Height = 15
+      Top = 35
+      Width = 30
+      Caption = 'lDelta'
+      ParentColor = False
+    end
+  end
+  object PageControl1: TPageControl
+    Left = 0
+    Height = 385
+    Top = 96
+    Width = 752
+    ActivePage = tsGraphe
+    Align = alClient
+    TabIndex = 0
+    TabOrder = 1
+    object tsGraphe: TTabSheet
+      Caption = 'Graphe'
+      ClientHeight = 357
+      ClientWidth = 744
+      object c: TChart
+        Left = 0
+        Height = 357
+        Top = 0
+        Width = 744
+        AxisList = <        
+          item
+            Marks.LabelBrush.Style = bsClear
+            Minors = <>
+            Title.LabelFont.Orientation = 900
+            Title.LabelBrush.Style = bsClear
+          end        
+          item
+            Alignment = calBottom
+            Marks.LabelBrush.Style = bsClear
+            Minors = <>
+            Title.LabelBrush.Style = bsClear
+          end>
+        Foot.Brush.Color = clBtnFace
+        Foot.Font.Color = clBlue
+        Title.Brush.Color = clBtnFace
+        Title.Font.Color = clBlue
+        Title.Text.Strings = (
+          'TAChart'
+        )
+        Align = alClient
+        object clsPressure: TLineSeries
+        end
+      end
+    end
+    object tsLog: TTabSheet
+      Caption = 'Log'
+      ClientHeight = 350
+      ClientWidth = 742
+      object mLog: TMemo
+        Left = 0
+        Height = 382
+        Top = 0
+        Width = 552
+        Align = alClient
+        Lines.Strings = (
+          'm'
+        )
+        ScrollBars = ssAutoBoth
+        TabOrder = 0
+      end
+    end
+  end
+  object ls: TLazSerial
+    Active = False
+    BaudRate = br__9600
+    DataBits = db8bits
+    Parity = pNone
+    FlowControl = fcNone
+    StopBits = sbOne
+    Device = 'COM3'
+    RcvLineCRLF = False
+    Left = 251
+    Top = 91
+  end
+end
