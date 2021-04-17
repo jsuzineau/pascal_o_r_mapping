@@ -6,7 +6,10 @@ interface
 
 uses
     uuStrings,
+    uDataUtilsU,
+    udmDatabase,
     uGROVE_barometer_bmp280,
+    upoolMesure,
   Classes, SysUtils, FileUtil,  Forms, Controls,TAGraph, TASources, TASeries,
   Graphics, Dialogs, StdCtrls, ExtCtrls, ComCtrls, Serial, LazSerial, lazsynaser;
 
@@ -38,6 +41,7 @@ type
    procedure bStopClick(Sender: TObject);
    procedure FormDestroy(Sender: TObject);
   public
+    constructor Create(TheOwner: TComponent); override;
   //Gestion boutons
   public
     procedure Boutons_Initialise;
@@ -57,6 +61,12 @@ implementation
 {$R *.lfm}
 
 { TfGROVE_barometer_bmp280 }
+
+constructor TfGROVE_barometer_bmp280.Create(TheOwner: TComponent);
+begin
+     inherited Create(TheOwner);
+     dmDatabase.Ouvre_db;
+end;
 
 procedure TfGROVE_barometer_bmp280.FormCreate(Sender: TObject);
 begin
@@ -125,6 +135,7 @@ const
 var
    iDernier: Integer;
    Maintenant, Premier, Dernier: ValReal;
+   Pression_hPa: double;
 begin
      AS72651_Command_Result_Log;
 
@@ -144,7 +155,9 @@ begin
      if (Maintenant - Dernier > _15_min)or (iDernier< 3)
      then
          begin
-         clsPressure.AddXY( Now, GROVE_barometer_bmp280.Pression_Gagnac/100, ' ');
+         Pression_hPa:= GROVE_barometer_bmp280.Pression_Gagnac/100;
+         poolMesure.Ajoute( DateTimeSQL_sans_quotes(Maintenant), Pression_hPa);
+         clsPressure.AddXY( Maintenant, Pression_hPa, ' ');
          if Maintenant-Premier > 1 // jour
          then
              clsPressure.Delete(0);

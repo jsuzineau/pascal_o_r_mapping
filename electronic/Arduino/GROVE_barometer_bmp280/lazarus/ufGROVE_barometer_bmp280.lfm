@@ -1,7 +1,7 @@
 object fGROVE_barometer_bmp280: TfGROVE_barometer_bmp280
-  Left = 577
+  Left = 308
   Height = 481
-  Top = 259
+  Top = 264
   Width = 752
   Caption = 'fGROVE_barometer_bmp280'
   ClientHeight = 481
@@ -58,7 +58,7 @@ object fGROVE_barometer_bmp280: TfGROVE_barometer_bmp280
     end
     object eCommande: TEdit
       Left = 96
-      Height = 37
+      Height = 23
       Top = 56
       Width = 112
       TabOrder = 4
@@ -66,9 +66,9 @@ object fGROVE_barometer_bmp280: TfGROVE_barometer_bmp280
     end
     object Label1: TLabel
       Left = 8
-      Height = 19
+      Height = 15
       Top = 64
-      Width = 80
+      Width = 63
       Caption = 'Commande'
       ParentColor = False
     end
@@ -82,9 +82,9 @@ object fGROVE_barometer_bmp280: TfGROVE_barometer_bmp280
     end
     object cbUse_PLU: TCheckBox
       Left = 496
-      Height = 25
+      Height = 19
       Top = 64
-      Width = 123
+      Width = 92
       Caption = 'Utiliser la PLU'
       OnChange = cbUse_PLUChange
       TabOrder = 6
@@ -101,13 +101,13 @@ object fGROVE_barometer_bmp280: TfGROVE_barometer_bmp280
     TabOrder = 1
     object tsGraphe: TTabSheet
       Caption = 'Graphe'
-      ClientHeight = 350
-      ClientWidth = 742
+      ClientHeight = 357
+      ClientWidth = 744
       object c: TChart
         Left = 0
-        Height = 350
+        Height = 357
         Top = 0
-        Width = 742
+        Width = 744
         AxisList = <        
           item
             Marks.LabelBrush.Style = bsClear

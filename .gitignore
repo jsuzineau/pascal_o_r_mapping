@@ -121,3 +121,5 @@ tools/Quasi_prime/Quasi_prime
 tools/Quasi_prime/fuQuasi_prime
 tools/FileTree/FileTree
 electronic/Arduino/GROVE_barometer_bmp280/lazarus/GROVE_barometer_bmp280
+/tools/FileTree/Configuration.ini
+/tools/FileTree

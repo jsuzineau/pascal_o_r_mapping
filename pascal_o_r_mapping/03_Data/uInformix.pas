@@ -91,7 +91,6 @@ type
     sqltSYSMASTER: TSQLTransaction;
     sqlqSYSDATABASES: TSQLQuery;
   public
-    sqlc         : TSQLConnection;
     sqlcSYSMASTER: TSQLConnection;
     procedure Prepare; override;
     procedure Ouvre_db; override;

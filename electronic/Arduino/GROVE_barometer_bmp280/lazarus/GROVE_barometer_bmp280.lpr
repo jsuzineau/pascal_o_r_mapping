@@ -6,13 +6,22 @@ uses
  {$IFDEF UNIX}{$IFDEF UseCThreads}
  cthreads,
  {$ENDIF}{$ENDIF}
+ {$IFDEF MSWINDOWS}
+ windows,
+ {$ENDIF}
  Interfaces, // this includes the LCL widgetset
- Forms, tachartlazaruspkg, LazSerialPort, ufGROVE_barometer_bmp280
+ Forms, tachartlazaruspkg, LazSerialPort, uPool, ufGROVE_barometer_bmp280,
+ ublMesure, upoolMesure, uhfMesure
  { you can add units after this };
 
 {$R *.res}
 
 begin
+ {$IFDEF MSWINDOWS} //enlever truc pour afficher la console
+ AllocConsole;      // in Windows unit
+ IsConsole := True; // in System unit
+ SysInitStdIO;      // in System unit
+ {$ENDIF}
  RequireDerivedFormResource:=True;
  Application.Scaled:=True;
  Application.Initialize;

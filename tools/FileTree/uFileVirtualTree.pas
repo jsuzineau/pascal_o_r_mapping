@@ -466,6 +466,7 @@ function ThVirtualStringTree.render_as_text: String;
 var
    sl:TStringList;
    procedure Iterate_childs( _Parent: PVirtualNode; _Parent_index: integer= -1);
+   type String850= type String(850);
    const
         Indent= 4;
    var
@@ -477,14 +478,14 @@ var
       vn_indent: Integer;
       procedure Line_to_parent;
       const
-           vertical_line_char='|';
-           horizontal_line_char='-';
-           angle_char='*';
-           crossing_char='L';
+           vertical_line_char=#179;//'|';
+           horizontal_line_char=#196;//'-';
+           angle_char=#192;//'*';
+           crossing_char=#195;//'L';
       var
          i: Integer;
          Parent_indent: Integer;
-         s: String;
+         s: String850;
       begin
            if -1 = _Parent_index then exit;
            Parent_indent:= vn_indent-Indent;
@@ -529,6 +530,7 @@ var
    end;
 begin
      sl:= TStringList.Create;
+     sl.DefaultEncoding:= TEncoding.GetEncoding(850);
 
      Iterate_childs( vst.RootNode);
      Result:= sl.Text;
