@@ -103,7 +103,7 @@ begin
      hvstResult.vst_expand_full;
      m.Lines .Text:= slResult.Text+#13#10+hvstResult.render_as_text;
      m.Lines .SaveToFile('Result.txt');
-     OpenDocument( FileVirtualTree_odt( 'FileTree.odt', hvstResult));
+     //OpenDocument( FileVirtualTree_odt( 'FileTree.odt', hvstResult));
 end;
 
 procedure TfFileVirtualTree.bfFileTreeClick(Sender: TObject);

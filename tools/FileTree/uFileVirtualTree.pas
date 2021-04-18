@@ -495,11 +495,13 @@ var
            do
              begin
              s:= sl[i];
-             if angle_char = s[Parent_indent+1]
-             then
-                 s[Parent_indent+1]:= crossing_char
-             else
-                 s[Parent_indent+1]:= vertical_line_char;
+             case s[Parent_indent+1]
+             of
+               crossing_char: begin end;
+               angle_char   : s[Parent_indent+1]:= crossing_char;
+               else
+                   s[Parent_indent+1]:= vertical_line_char;
+               end;
              sl[i]:= s;
              end;
            //horizontal line
