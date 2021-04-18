@@ -1,0 +1,30 @@
+[Options]
+Chemin_Global=
+=#    TSGBD
+#=
+=#     (
+=#     sgbd_Informix,   0
+=#     sgbd_MySQL   ,   1
+=#     sgbd_Postgres,   2
+=#     sgbd_SQLServer,  3
+=#     sgbd_SQLite3     4
+=#     );
+SGBD=4
+TfAutomatic_VST.e.Text=select * from Project limit 1
+
+[mysql]
+Version=57
+HostName=localhost
+DataBase=mysql
+User_Name=root
+Password=
+
+[Postgres]
+HostName=localhost
+DataBase=ibat_jean
+User_Name=postgres
+Password=PKTCEH
+
+[SQLite3]
+DataBase=E:\01_Projets\01_pascal_o_r_mapping\electronic\Arduino\GROVE_barometer_bmp280\lazarus\GROVE_barometer_bmp280.sqlite
+
