@@ -26,6 +26,7 @@ uses
     uClean,
     u_sys_,
     uuStrings,
+    uDataUtilsU,
     uBatpro_StringList,
 
     uBatpro_Element,
@@ -39,6 +40,8 @@ uses
 type
 
 
+ { TblMesure }
+
  TblMesure
  =
   class( TBatpro_Ligne)
@@ -50,11 +53,12 @@ type
   public
     temps: String;
     pression: Double;
+  //Temps
+  public
+    function dTemps: TDateTime;
   //Gestion de la clé
   public
-  
     function sCle: String; override;
-
   end;
 
  TIterateur_Mesure
@@ -168,7 +172,10 @@ begin
      inherited;
 end;
 
-
+function TblMesure.dTemps: TDateTime;
+begin
+     Result:= DateTime_from_DateTimeSQL_sans_quotes( temps);
+end;
 
 function TblMesure.sCle: String;
 begin

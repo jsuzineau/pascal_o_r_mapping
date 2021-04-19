@@ -25,6 +25,7 @@ interface
 uses
   uClean,
   uBatpro_StringList,
+  uDataUtilsU,
 
   ublMesure,
 
@@ -65,6 +66,12 @@ type
   //Ajout d'une nouvelle mesure
   public
     function Ajoute(_temps: String; _pression: Double): TblMesure;
+  //Chargement d'une période
+  public
+    procedure Charge_Periode( _Debut, _Fin: TDatetime; _slLoaded: TBatpro_StringList= nil);
+  //Chargement des dernières 24h
+  public
+    procedure Charge_24h( _slLoaded: TBatpro_StringList= nil);
   end;
 
 function poolMesure: TpoolMesure;
@@ -136,6 +143,40 @@ begin
      Result.temps   := _temps   ;
      Result.pression:= _pression;
      Result.Save_to_database;
+end;
+
+procedure TpoolMesure.Charge_Periode( _Debut, _Fin: TDatetime; _slLoaded: TBatpro_StringList);
+var
+   SQL: String;
+   P: TParams;
+   pDebut, pFin: TParam;
+begin
+     SQL
+     :=
+        'select                                '#13#10
+       +'      Mesure.*                        '#13#10
+       +'from                                  '#13#10
+       +'    Mesure                            '#13#10
+       +'where                                 '#13#10
+       +'     :Debut <= temps and temps <= :Fin'#13#10;
+     P:= TParams.Create;
+     try
+        pDebut:= CreeParam( P, 'Debut');
+        pFin  := CreeParam( P, 'Fin'  );
+        pDebut.AsString:= DateTimeSQL_sans_quotes( _Debut);
+        pFin  .AsString:= DateTimeSQL_sans_quotes( _Fin  );
+        Load( SQL, _slLoaded, nil, P);
+     finally
+            FreeAndNil( P);
+            end;
+end;
+
+procedure TpoolMesure.Charge_24h( _slLoaded: TBatpro_StringList);
+var
+   Maintenant: ValReal;
+begin
+     Maintenant:= Now;
+     Charge_Periode( Maintenant-1, Maintenant, _slLoaded);
 end;
 
 

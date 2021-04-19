@@ -63,6 +63,7 @@ function TryDMYToDate( DMY: String; out DT: TDateTime): Boolean;
 
 function DateTimeSQL( D: TDateTime): String;
 function DateTimeSQL_sans_quotes( D: TDateTime): String;
+function DateTime_from_DateTimeSQL_sans_quotes( _DateTimeSQL: String): TDatetime;
 function DateTime_ISO8601_sans_quotes( D: TDateTime): String;
 
 function DateTimeSQL_sans_quotes_DMY2( D: TDateTime): String;
@@ -280,6 +281,26 @@ end;
 function DateTimeSQL_sans_quotes( D: TDateTime): String;
 begin
      Result:= FormatDateTime( 'yyyy-mm-dd hh:nn:ss', D);
+end;
+
+function DateTime_from_DateTimeSQL_sans_quotes( _DateTimeSQL: String): TDatetime;
+var
+   Year, Month, Day, Hour, Minute, Second: Integer;
+   procedure Decode_to( var _i: Integer; _Separateur: String);
+   var
+      s: string;
+   begin
+        s:= StrToK( _Separateur, _DateTimeSQL);
+        if not TryStrToInt( s, _i) then _i:=0;
+   end;
+begin
+     Decode_to( Year  , '-');
+     Decode_to( Month , '-');
+     Decode_to( Day   , ' ');
+     Decode_to( Hour  , ':');
+     Decode_to( Minute, ':');
+     Decode_to( Second, ' ');
+     Result:= EncodeDateTime( Year, Month, Day, Hour, Minute, Second, 0);
 end;
 
 function DateTime_ISO8601_sans_quotes( D: TDateTime): String;

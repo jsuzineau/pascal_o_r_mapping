@@ -9,9 +9,10 @@ uses
     uDataUtilsU,
     udmDatabase,
     uGROVE_barometer_bmp280,
+    ublMesure,
     upoolMesure,
   Classes, SysUtils, FileUtil,  Forms, Controls,TAGraph, TASources, TASeries,
-  Graphics, Dialogs, StdCtrls, ExtCtrls, ComCtrls, Serial, LazSerial, lazsynaser;
+  Graphics, Dialogs, StdCtrls, ExtCtrls, ComCtrls, Serial, LazSerial, lazsynaser, TAChartAxisUtils;
 
 type
   { TfGROVE_barometer_bmp280 }
@@ -33,6 +34,7 @@ type
    Panel1: TPanel;
    tsGraphe: TTabSheet;
    tsLog: TTabSheet;
+   procedure cAxisList1MarkToText(var AText: String; AMark: Double);
    procedure cbUse_PLUChange(Sender: TObject);
    procedure FormCreate(Sender: TObject);
    procedure bDemarrerClick(Sender: TObject);
@@ -46,11 +48,15 @@ type
   public
     procedure Boutons_Initialise;
     procedure Boutons_Finalise;
-   //AS72651
-   private
-     GROVE_barometer_bmp280: TGROVE_barometer_bmp280;
-     procedure GROVE_barometer_bmp280_Data_change;
-     procedure AS72651_Command_Result_Log;
+  //AS72651
+  private
+    GROVE_barometer_bmp280: TGROVE_barometer_bmp280;
+    procedure GROVE_barometer_bmp280_Data_change;
+    procedure AS72651_Command_Result_Log;
+  //attributs
+  private
+    sl24h: TslMesure;
+    procedure Charge_24h;
   end;
 
 var
@@ -65,6 +71,8 @@ implementation
 constructor TfGROVE_barometer_bmp280.Create(TheOwner: TComponent);
 begin
      inherited Create(TheOwner);
+     sl24h:= TslMesure.Create( ClassName+'.sl24h');
+
      dmDatabase.Ouvre_db;
 end;
 
@@ -82,7 +90,27 @@ end;
 procedure TfGROVE_barometer_bmp280.FormDestroy(Sender: TObject);
 begin
      FreeAndNil( GROVE_barometer_bmp280);
+     FreeAndNil( sl24h);
+     dmDatabase.Ferme_db;
 end;
+
+procedure TfGROVE_barometer_bmp280.Charge_24h;
+var
+   I: TIterateur_Mesure;
+   bl: TblMesure;
+   dTemps: TDateTime;
+begin
+     poolMesure.Charge_24h( sl24h);
+     I:= sl24h.Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( bl) then continue;
+       dTemps:= bl.dTemps;
+       clsPressure.AddXY( dTemps, bl.pression, FormatDateTime('hh:nn',dTemps));
+       end;
+end;
+
 
 procedure TfGROVE_barometer_bmp280.bParametresClick(Sender: TObject);
 begin
@@ -106,6 +134,7 @@ procedure TfGROVE_barometer_bmp280.bDemarrerClick(Sender: TObject);
 begin
      GROVE_barometer_bmp280.Continuer:= True;
      clsPressure.Clear;
+     Charge_24h;
 
      ls.Open;
      Boutons_Initialise;
@@ -173,6 +202,11 @@ end;
 procedure TfGROVE_barometer_bmp280.cbUse_PLUChange(Sender: TObject);
 begin
      GROVE_barometer_bmp280_Data_change;
+end;
+
+procedure TfGROVE_barometer_bmp280.cAxisList1MarkToText(var AText: String; AMark: Double);
+begin
+     AText:= FormatDateTime('hh:nn',AMark);
 end;
 
 
