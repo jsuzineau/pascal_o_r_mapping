@@ -6,15 +6,24 @@ uses
  {$IFDEF UNIX}{$IFDEF UseCThreads}
  cthreads,
  {$ENDIF}{$ENDIF}
+ //{$IFDEF MSWINDOWS} //this added to display the console
+ //Windows,
+ //{$ENDIF}
  Interfaces, // this includes the LCL widgetset
  Forms,
  ufFileTree, ufFileVirtualTree, uFileTree, uFileVirtualTree,
- uFileVirtualTree_odt
- { you can add units after this };
+ uFileVirtualTree_odt;
 
 {$R *.res}
 
 begin
+ (*
+ {$IFDEF MSWINDOWS} //this added to display the console
+ AllocConsole;      // in Windows unit
+ IsConsole := True; // in System unit
+ SysInitStdIO;      // in System unit
+ {$ENDIF}
+ *)
  RequireDerivedFormResource:=True;
  Application.Scaled:=True;
  Application.Initialize;

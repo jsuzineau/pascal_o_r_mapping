@@ -104,6 +104,13 @@ begin
      m.Lines .Text:= slResult.Text+#13#10+hvstResult.render_as_text;
      m.Lines .SaveToFile('Result.txt');
      //OpenDocument( FileVirtualTree_odt( 'FileTree.odt', hvstResult));
+     //OpenDocument( hvstResult.to_fpreport_pdf( 'Result.pdf'));
+
+     {
+     ExecuteProcess( 'txt2pdf.exe',['Result.txt']);
+     OpenDocument( 'Result.pdf');
+     }
+     OpenDocument( hvstResult.fpreport_txt2pdf( 'Result.pdf'));
 end;
 
 procedure TfFileVirtualTree.bfFileTreeClick(Sender: TObject);
