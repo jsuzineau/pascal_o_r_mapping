@@ -13,6 +13,8 @@ uses
 
 function FileVirtualTree_odt( _Template_Filename: String; _hvst: ThVirtualStringTree): String;
 
+function FileVirtualTree_txt_to_odt( _Template_Filename: String; _hvst: ThVirtualStringTree): String;
+
 implementation
 
 function FileVirtualTree_odt( _Template_Filename: String; _hvst: ThVirtualStringTree): String;
@@ -94,5 +96,22 @@ begin
             end;
 end;
 
+function FileVirtualTree_txt_to_odt( _Template_Filename: String; _hvst: ThVirtualStringTree): String;
+var
+   od: TOpenDocument;
+   function New_p: TDOMNode;
+   begin
+        Result:= Cree_path( od.Get_xmlContent_TEXT, 'text:p');
+   end;
+begin
+     od:= TOpenDocument.Create_from_template( _Template_Filename);
+     try
+        od.AddHtml( New_p, _hvst.slFiles.Text+#13#10+_hvst.render_as_text);
+        od.Save;
+        Result:= od.Nom;
+     finally
+            FreeAndNil( od);
+            end;
+end;
 end.
 

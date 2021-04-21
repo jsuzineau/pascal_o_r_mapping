@@ -111,6 +111,8 @@ begin
      OpenDocument( 'Result.pdf');
      }
      OpenDocument( hvstResult.fpreport_txt2pdf( 'Result.pdf'));
+     OpenDocument( FileVirtualTree_txt_to_odt( 'FileVirtualTree_txt_to_odt.odt', hvstResult));
+
 end;
 
 procedure TfFileVirtualTree.bfFileTreeClick(Sender: TObject);
