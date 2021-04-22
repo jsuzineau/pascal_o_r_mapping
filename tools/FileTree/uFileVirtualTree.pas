@@ -753,7 +753,8 @@ begin
      r:=TFPReport.Create(nil);
      rud:=TFPReportUserData.Create(nil);
      try
-        Fnt:='DejaVuSans';
+        //Fnt:='DejaVuSans';
+        Fnt:='Consolas';
         //Fnt:='CourierNewPSMT';
         //Fnt:='UbuntuMono-Regular';
         //Terminate;
