@@ -193,6 +193,12 @@ object fFileVirtualTree: TfFileVirtualTree
         Align = alClient
         DefaultNodeHeight = 21
         DefaultText = 'Node'
+        Font.CharSet = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -16
+        Font.Name = 'Consolas'
+        Font.Pitch = fpFixed
+        Font.Quality = fqDraft
         Header.AutoSizeIndex = 0
         Header.Columns = <        
           item
@@ -205,9 +211,10 @@ object fFileVirtualTree: TfFileVirtualTree
             Text = 'Time'
           end>
         Header.Options = [hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
+        LineStyle = lsSolid
+        ParentFont = False
         TabOrder = 2
         TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning, toEditOnClick]
-        TreeOptions.SelectionOptions = [toMultiSelect]
       end
     end
   end
