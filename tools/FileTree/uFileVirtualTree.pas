@@ -79,6 +79,7 @@ type
     procedure Load_from_StringList( _sl: TStringList);
     function Get_Selected: String;
     function Get_Checked: String;
+    function Get_Checked_Or_Selected: String;
     procedure vst_expand_first_level;
     procedure vst_expand_full;
     function TreeData_from_Node( _Node: PVirtualNode): TTreeData;
@@ -305,6 +306,7 @@ procedure ThVirtualStringTree.Load_from_File(_FileName: String);
    var
       ini: TINIFile;
    begin
+        slFiles.Clear;
         ini:= TINIFile.Create( _FileName);
         try
            ini.ReadSectionRaw( 'Files', slFiles);
@@ -314,6 +316,7 @@ procedure ThVirtualStringTree.Load_from_File(_FileName: String);
    end;
 begin
      slFiles_from_ini_file;
+     vst.Clear;
      internal_Load;
 end;
 
@@ -496,6 +499,36 @@ begin
        then
            Formate_Liste( Result, #13#10, td.Key+'='+td.Value);
        vn:= vst.GetNextChecked( vn);
+       end;
+end;
+
+function ThVirtualStringTree.Get_Checked_Or_Selected: String;
+var
+   vn: PVirtualNode;
+   td: TTreeData;
+begin
+     //Checked
+     Result:= '';
+     vn:= vst.GetFirstChecked;
+     while nil <> vn
+     do
+       begin
+       td:= TreeData_from_Node( vn);
+       if td.IsLeaf
+       then
+           Formate_Liste( Result, #13#10, td.Key+'='+td.Value);
+       vn:= vst.GetNextChecked( vn);
+       end;
+     //Selected
+     vn:= vst.GetFirstSelected;
+     while nil <> vn
+     do
+       begin
+       td:= TreeData_from_Node( vn);
+       if td.IsLeaf
+       then
+           Formate_Liste( Result, #13#10, td.Key+' '+td.Value);
+       vn:= vst.GetNextSelected( vn);
        end;
 end;
 

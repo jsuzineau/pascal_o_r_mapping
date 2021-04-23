@@ -91,7 +91,7 @@ end;
 
 procedure TfFileVirtualTree.bGetSelectionClick(Sender: TObject);
 begin
-     m.Lines.Text:= hvst.Get_Selected;
+     m.Lines.Text:= hvst.Get_Checked_Or_Selected;
 end;
 
 procedure TfFileVirtualTree.bGetCheckedClick(Sender: TObject);
