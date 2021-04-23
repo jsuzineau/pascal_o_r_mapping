@@ -66,6 +66,7 @@ begin
 
      hvst      := ThVirtualStringTree.Create( True , vst      , pb, lCompute_Aggregates);
      hvstResult:= ThVirtualStringTree.Create( False, vstResult, pb, lCompute_Aggregates);
+     m.Lines.Text:='';
 end;
 
 procedure TfFileVirtualTree.FormDestroy(Sender: TObject);

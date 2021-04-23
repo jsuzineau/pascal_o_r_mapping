@@ -216,7 +216,7 @@ procedure TTreeData.SetdValue( _dValue: TDateTime);
 begin
      FdValue:= _dValue;
 
-     FValue:= FormatDateTime( 'h:n:ss', FdValue);
+     FValue:= FormatDateTime( 'd:hh:nn:ss', FdValue);
      Strip_leading_zeroes;
 end;
 
