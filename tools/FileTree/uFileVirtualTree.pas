@@ -806,8 +806,11 @@ begin
      r:=TFPReport.Create(nil);
      rud:=TFPReportUserData.Create(nil);
      try
-        //Fnt:='DejaVuSans';
+        {$IFDEF MSWINDOWS}
         Fnt:='Consolas';
+        {$ELSE}
+        Fnt:='DejaVuSans';
+        {$ENDIF}
         //Fnt:='CourierNewPSMT';
         //Fnt:='UbuntuMono-Regular';
         //Terminate;

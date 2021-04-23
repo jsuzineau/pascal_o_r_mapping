@@ -1496,7 +1496,7 @@ var
 begin
      Prefixe:= ChangeFileExt( ExtractFileName(_Template_Filename), '');
      Nom:= OD_Temporaire.Nouveau_ODT( Prefixe);
-     CopyFile( PChar(_Template_Filename), PChar( Nom), False);
+     CopyFile( PChar(_Template_Filename), PChar( Nom), True);
      Init( Nom);
 end;
 
