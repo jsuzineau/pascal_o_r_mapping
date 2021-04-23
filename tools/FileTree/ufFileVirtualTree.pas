@@ -20,6 +20,7 @@ type
  =
   class(TForm)
    bGetChecked: TButton;
+   bGetChecked_or_Selected: TButton;
    bGetSelection: TButton;
    bfFileTree: TButton;
    bLoad_from_File: TButton;
@@ -40,6 +41,7 @@ type
     vst: TVirtualStringTree;
     procedure bfFileTreeClick(Sender: TObject);
     procedure bGetCheckedClick(Sender: TObject);
+    procedure bGetChecked_or_SelectedClick(Sender: TObject);
     procedure bGetSelectionClick(Sender: TObject);
     procedure bLoad_from_FileClick(Sender: TObject);
     procedure bODClick(Sender: TObject);
@@ -49,6 +51,7 @@ type
     slResult: TStringList;
     hvst: ThVirtualStringTree;
     hvstResult: ThVirtualStringTree;
+    procedure Process_Result;
   end;
 
 var
@@ -76,7 +79,6 @@ begin
      FreeAndNil( hvstResult);
 end;
 
-
 procedure TfFileVirtualTree.bLoad_from_FileClick(Sender: TObject);
 begin
      hvst.Load_from_File( eFileName.Text);
@@ -90,14 +92,8 @@ begin
          eFileName.Text:= od.FileName;
 end;
 
-procedure TfFileVirtualTree.bGetSelectionClick(Sender: TObject);
+procedure TfFileVirtualTree.Process_Result;
 begin
-     m.Lines.Text:= hvst.Get_Checked_Or_Selected;
-end;
-
-procedure TfFileVirtualTree.bGetCheckedClick(Sender: TObject);
-begin
-     slResult.Text:= hvst.Get_Checked;
      slResult.Sort;
 
      hvstResult.Load_from_StringList( slResult);
@@ -113,7 +109,24 @@ begin
      }
      OpenDocument( hvstResult.fpreport_txt2pdf( 'Result.pdf'));
      OpenDocument( FileVirtualTree_txt_to_odt( 'FileVirtualTree_txt_to_odt.odt', hvstResult));
+end;
 
+procedure TfFileVirtualTree.bGetSelectionClick(Sender: TObject);
+begin
+     slResult.Text:= hvst.Get_Selected;
+     Process_Result;
+end;
+
+procedure TfFileVirtualTree.bGetCheckedClick(Sender: TObject);
+begin
+     slResult.Text:= hvst.Get_Checked;
+     Process_Result;
+end;
+
+procedure TfFileVirtualTree.bGetChecked_or_SelectedClick(Sender: TObject);
+begin
+     slResult.Text:= hvst.Get_Checked_or_Selected;
+     Process_Result;
 end;
 
 procedure TfFileVirtualTree.bfFileTreeClick(Sender: TObject);
