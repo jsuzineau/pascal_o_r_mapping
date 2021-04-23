@@ -79,6 +79,7 @@ type
     procedure Load_from_StringList( _sl: TStringList);
     function Get_Selected: String;
     function Get_Checked: String;
+    function Get_Checked_or_Selected: String;
     procedure vst_expand_first_level;
     procedure vst_expand_full;
     function TreeData_from_Node( _Node: PVirtualNode): TTreeData;
@@ -92,6 +93,7 @@ type
     function Add_Node(_Parent: PVirtualNode; _Text: String): PVirtualNode;
     procedure Compute_Aggregates;
     procedure internal_Load;
+    procedure Empty_slTreeData;
   //vst Events
   private
     procedure vstChecked(Sender: TBaseVirtualTree; Node: PVirtualNode);
@@ -106,6 +108,7 @@ type
   private
     slTXT2PDF: TStringList;
     FLineIndex : Integer;
+    txt2pdf_First_Run: Boolean;
     procedure DoFirst(Sender: TObject);
     procedure DoGetEOF(Sender: TObject; var IsEOF: boolean);
     procedure DoGetNames(Sender: TObject; List: TStrings);
@@ -236,6 +239,7 @@ begin
      slNodes   := TStringList.Create;
      slTreeData:= TStringList.Create;
      slTXT2PDF := TStringList.Create;
+     txt2pdf_First_Run:= True;
 
      //assign vst events
      vst.OnChecked := @vstChecked;
@@ -292,12 +296,29 @@ procedure ThVirtualStringTree.internal_Load;
    end;
 begin
      try
+        vst.Clear;
+        slNodes.Clear;
+        Empty_slTreeData;
+
         vst.BeginUpdate;
         vst_from_slFiles;
         vst_expand_first_level;
      finally
             vst.EndUpdate;
             end;
+end;
+
+procedure ThVirtualStringTree.Empty_slTreeData;
+var
+   td: TTreeData;
+begin
+     while slTreeData.Count > 0
+     do
+       begin
+       td:= slTreeData.Objects[0] as TTreeData;
+       slTreeData.Delete(0);
+       FreeAndNil( td);
+       end;
 end;
 
 procedure ThVirtualStringTree.Load_from_File(_FileName: String);
@@ -497,6 +518,38 @@ begin
            Formate_Liste( Result, #13#10, td.Key+'='+td.Value);
        vn:= vst.GetNextChecked( vn);
        end;
+end;
+
+function ThVirtualStringTree.Get_Checked_or_Selected: String;
+   procedure CheckChilds( _Parent: PVirtualNode; _Parent_Checked, _Parent_Selected: Boolean);
+   var
+      vn: PVirtualNode;
+      Checked, Selected: Boolean;
+      td: TTreeData;
+      procedure Process_TreeData;
+      var
+         td: TTreeData;
+      begin
+           td:= TreeData_from_Node( vn);
+           if not td.IsLeaf then exit;
+           Formate_Liste( Result, #13#10, td.Key+'='+td.Value);
+      end;
+   begin
+        vn:= vst.GetFirstChild(_Parent);
+        while nil <> vn
+        do
+          begin
+          Checked:= _Parent_Checked or (csCheckedNormal = vn^.CheckState);
+          Selected:= _Parent_Selected or vst.Selected[vn];
+          if Checked or Selected then Process_TreeData;
+
+          CheckChilds( vn, Checked, Selected);
+          vn:= vst.GetNextSibling(vn);
+          end;
+   end;
+begin
+     Result:= '';
+     CheckChilds( vst.RootNode, False, False);
 end;
 
 procedure ThVirtualStringTree.vstChecked( Sender: TBaseVirtualTree;
@@ -763,7 +816,12 @@ begin
         gTTFontCache.ReadStandardFonts;
         //gTTFontCache.SearchPath.Add('E:\01_Projets\01_pascal_o_r_mapping\tools\FileTree\fonts\');
         gTTFontCache.BuildFontCache;
-        PaperManager.RegisterStandardSizes;
+        if txt2pdf_First_Run
+        then
+            begin
+            PaperManager.RegisterStandardSizes;
+            txt2pdf_First_Run:= False;
+            end;
         // Page
         PG:=TFPReportPage.Create(r);
         PG.Data:=rud;

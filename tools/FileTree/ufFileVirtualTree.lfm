@@ -9,7 +9,7 @@ object fFileVirtualTree: TfFileVirtualTree
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poDesktopCenter
-  SessionProperties = 'Height;Panel2.Width;Panel3.Height;Width;m.Height'
+  SessionProperties = 'Height;m.Height;Panel2.Width;Panel3.Height;Width;eFileName.Text'
   LCLVersion = '2.0.12.0'
   object Panel1: TPanel
     Left = 0
@@ -39,7 +39,7 @@ object fFileVirtualTree: TfFileVirtualTree
       TabOrder = 1
     end
     object bfFileTree: TButton
-      Left = 509
+      Left = 664
       Height = 25
       Top = 12
       Width = 119
@@ -97,6 +97,15 @@ object fFileVirtualTree: TfFileVirtualTree
       Caption = 'Computing time aggregates'
       ParentColor = False
       Visible = False
+    end
+    object bGetChecked_or_Selected: TButton
+      Left = 463
+      Height = 25
+      Top = 12
+      Width = 177
+      Caption = 'Get checked or selected items'
+      OnClick = bGetChecked_or_SelectedClick
+      TabOrder = 7
     end
   end
   object Panel2: TPanel
