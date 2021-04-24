@@ -294,12 +294,19 @@ var
         if not TryStrToInt( s, _i) then _i:=0;
    end;
 begin
+     Result:= 0;
+     if _DateTimeSQL = '' then exit;
+
      Decode_to( Year  , '-');
      Decode_to( Month , '-');
      Decode_to( Day   , ' ');
      Decode_to( Hour  , ':');
      Decode_to( Minute, ':');
      Decode_to( Second, ' ');
+     if (Year= 0) and (Month= 0) and (Day= 0) and (Hour= 0) and (Minute= 0) and (Second= 0)
+     then
+         exit;
+
      Result:= EncodeDateTime( Year, Month, Day, Hour, Minute, Second, 0);
 end;
 

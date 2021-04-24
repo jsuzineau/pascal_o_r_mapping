@@ -1,7 +1,7 @@
 object fGROVE_barometer_bmp280: TfGROVE_barometer_bmp280
-  Left = 404
+  Left = 1056
   Height = 481
-  Top = 264
+  Top = 1250
   Width = 752
   Caption = 'fGROVE_barometer_bmp280'
   ClientHeight = 481
@@ -10,7 +10,6 @@ object fGROVE_barometer_bmp280: TfGROVE_barometer_bmp280
   OnDestroy = FormDestroy
   Position = poDesktopCenter
   LCLVersion = '2.0.12.0'
-  WindowState = wsMaximized
   object Panel1: TPanel
     Left = 0
     Height = 96
@@ -56,38 +55,57 @@ object fGROVE_barometer_bmp280: TfGROVE_barometer_bmp280
       OnClick = bParametresClick
       TabOrder = 3
     end
-    object eCommande: TEdit
-      Left = 96
-      Height = 37
-      Top = 56
-      Width = 112
-      TabOrder = 4
-      Text = 'eCommande'
-    end
-    object Label1: TLabel
+    object b48h: TButton
       Left = 8
-      Height = 19
-      Top = 64
-      Width = 80
-      Caption = 'Commande'
-      ParentColor = False
-    end
-    object bPLU_from_Courant: TButton
-      Left = 320
       Height = 25
-      Top = 64
-      Width = 160
-      Caption = 'PLU_from_Courant'
+      Top = 24
+      Width = 75
+      Caption = '48 h'
+      OnClick = b48hClick
+      TabOrder = 4
+    end
+    object b24h: TButton
+      Left = 88
+      Height = 25
+      Top = 24
+      Width = 75
+      Caption = '24 h '
+      OnClick = b24hClick
       TabOrder = 5
     end
-    object cbUse_PLU: TCheckBox
-      Left = 496
+    object bPeriode: TButton
+      Left = 175
       Height = 25
-      Top = 64
-      Width = 123
-      Caption = 'Utiliser la PLU'
-      OnChange = cbUse_PLUChange
+      Top = 24
+      Width = 75
+      Caption = 'Période'
+      OnClick = bPeriodeClick
       TabOrder = 6
+    end
+    object seHeures: TSpinEdit
+      Left = 261
+      Height = 35
+      Top = 24
+      Width = 79
+      MaxValue = 0
+      TabOrder = 7
+    end
+    object Label1: TLabel
+      Left = 348
+      Height = 19
+      Top = 28
+      Width = 47
+      Caption = 'heures'
+      ParentColor = False
+    end
+    object bTout: TButton
+      Left = 179
+      Height = 25
+      Top = 52
+      Width = 75
+      Caption = 'Tout'
+      OnClick = bToutClick
+      TabOrder = 8
     end
   end
   object PageControl1: TPageControl
@@ -118,6 +136,7 @@ object fGROVE_barometer_bmp280: TfGROVE_barometer_bmp280
           item
             Alignment = calBottom
             Marks.LabelBrush.Style = bsClear
+            Marks.Source = dtics
             Minors = <>
             Title.LabelBrush.Style = bsClear
             OnMarkToText = cAxisList1MarkToText
@@ -163,5 +182,10 @@ object fGROVE_barometer_bmp280: TfGROVE_barometer_bmp280
     RcvLineCRLF = False
     Left = 251
     Top = 91
+  end
+  object dtics: TDateTimeIntervalChartSource
+    Steps = [dtsHour, dtsMinute]
+    Left = 504
+    Top = 48
   end
 end
