@@ -42,6 +42,9 @@ uses
   {$IFDEF LINUX}
   clocale,
   {$ENDIF}
+  {$IFDEF MSWINDOWS}
+  windows,
+  {$ENDIF}
   SysUtils, Classes, XMLRead, DOM,Zipper, zstream, Math, FileUtil,
   SAX_HTML, DOM_HTML,httpsend,base64;
 
@@ -1490,13 +1493,54 @@ begin
      Init( _Nom);
 end;
 
+procedure MyCopyFile( _Source, _Cible: String);
+var
+   FSource, FCible: File;
+   Buffer: array[1..4096] of byte;
+   read, written: Integer;
+begin
+     AssignFile( FSource, _Source);
+     try
+        Reset(FSource, 1);
+        AssignFile( FCible, _Cible);
+        try
+           Rewrite( FCible, 1);
+           repeat
+                 BlockRead ( FSource, Buffer, SizeOf( Buffer), read);
+                 BlockWrite( FCible , Buffer, read           , written);
+           until (read = 0) or (written <> read);
+        finally
+               CloseFile( FCible);
+               end;
+     finally
+            CloseFile( FSource);
+            end;
+end;
+
+procedure XCopy( _Source, _Cible: String);
+begin
+     ExecuteProcess( 'cmd.exe',['/C','xcopy',_Source, _Cible]);
+end;
+
+var temp: Integer= 0;
 constructor TOpenDocument.Create_from_template(_Template_Filename: String);
 var
    Prefixe: String;
 begin
      Prefixe:= ChangeFileExt( ExtractFileName(_Template_Filename), '');
-     Nom:= OD_Temporaire.Nouveau_ODT( Prefixe);
-     CopyFile( PChar(_Template_Filename), PChar( Nom), True);
+     //Nom:= OD_Temporaire.Nouveau_ODT( Prefixe);
+     Nom:= 'temp_'+IntToStr(temp)+'.odt';
+     Inc(temp);
+     (*
+     {$IFDEF MSWINDOWS}
+     Windows.CopyFile( PChar(_Template_Filename), PChar( Nom), False);
+     {$ELSE}
+     CopyFile( PChar(_Template_Filename), PChar( Nom), [cffOverwriteFile], True);
+     {$ENDIF}
+     *)
+     //MyCopyFile( _Template_Filename, Nom);
+     //XCopy( _Template_Filename, Nom);
+     CopyFile( PChar(_Template_Filename), PChar( Nom), [cffOverwriteFile], True);
      Init( Nom);
 end;
 
