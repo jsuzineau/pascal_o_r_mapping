@@ -27,8 +27,14 @@ type
    bOD: TButton;
    bTest_Duration_from_DateTime: TButton;
    eFileName: TEdit;
+   eLoadTime: TEdit;
+   eRunTime: TEdit;
+   eMachineTime: TEdit;
    ips: TIniPropStorage;
    Label1: TLabel;
+   Label2: TLabel;
+   Label3: TLabel;
+   Label4: TLabel;
    lCompute_Aggregates: TLabel;
    m: TMemo;
    od: TOpenDialog;

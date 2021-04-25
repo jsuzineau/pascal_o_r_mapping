@@ -1,11 +1,11 @@
 object fFileVirtualTree: TfFileVirtualTree
-  Left = 418
-  Height = 240
-  Top = 297
-  Width = 793
+  Left = 1024
+  Height = 779
+  Top = 304
+  Width = 1100
   Caption = 'fFileVirtualTree'
-  ClientHeight = 240
-  ClientWidth = 793
+  ClientHeight = 779
+  ClientWidth = 1100
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poDesktopCenter
@@ -15,10 +15,10 @@ object fFileVirtualTree: TfFileVirtualTree
     Left = 0
     Height = 98
     Top = 0
-    Width = 793
+    Width = 1100
     Align = alTop
     ClientHeight = 98
-    ClientWidth = 793
+    ClientWidth = 1100
     TabOrder = 0
     object bGetSelection: TButton
       Left = 159
@@ -85,7 +85,7 @@ object fFileVirtualTree: TfFileVirtualTree
       Left = 1
       Height = 20
       Top = 77
-      Width = 791
+      Width = 1098
       Align = alBottom
       TabOrder = 6
     end
@@ -116,19 +116,65 @@ object fFileVirtualTree: TfFileVirtualTree
       OnClick = bTest_Duration_from_DateTimeClick
       TabOrder = 8
     end
+    object eLoadTime: TEdit
+      Left = 799
+      Height = 23
+      Top = 24
+      Width = 80
+      TabOrder = 9
+      Text = '4:32'
+    end
+    object Label2: TLabel
+      Left = 800
+      Height = 15
+      Top = 8
+      Width = 55
+      Caption = 'Load Time'
+      ParentColor = False
+    end
+    object Label3: TLabel
+      Left = 896
+      Height = 15
+      Top = 8
+      Width = 50
+      Caption = 'Run Time'
+      ParentColor = False
+    end
+    object Label4: TLabel
+      Left = 992
+      Height = 15
+      Top = 8
+      Width = 75
+      Caption = 'Machine Time'
+      ParentColor = False
+    end
+    object eRunTime: TEdit
+      Left = 896
+      Height = 23
+      Top = 24
+      Width = 80
+      TabOrder = 10
+    end
+    object eMachineTime: TEdit
+      Left = 992
+      Height = 23
+      Top = 24
+      Width = 80
+      TabOrder = 11
+    end
   end
   object Panel2: TPanel
     Left = 0
-    Height = 142
+    Height = 681
     Top = 98
-    Width = 793
+    Width = 1100
     Align = alClient
-    ClientHeight = 142
-    ClientWidth = 793
+    ClientHeight = 681
+    ClientWidth = 1100
     TabOrder = 1
     object Splitter1: TSplitter
-      Left = 285
-      Height = 140
+      Left = 592
+      Height = 679
       Top = 1
       Width = 5
       Align = alRight
@@ -138,9 +184,9 @@ object fFileVirtualTree: TfFileVirtualTree
     end
     object vst: TVirtualStringTree
       Left = 1
-      Height = 140
+      Height = 679
       Top = 1
-      Width = 284
+      Width = 591
       Align = alClient
       DefaultNodeHeight = 21
       DefaultText = 'Node'
@@ -161,13 +207,13 @@ object fFileVirtualTree: TfFileVirtualTree
       TreeOptions.SelectionOptions = [toMultiSelect]
     end
     object Panel3: TPanel
-      Left = 290
-      Height = 140
+      Left = 597
+      Height = 679
       Top = 1
       Width = 502
       Align = alRight
       Caption = 'Panel3'
-      ClientHeight = 140
+      ClientHeight = 679
       ClientWidth = 502
       TabOrder = 2
       object m: TMemo
@@ -197,7 +243,7 @@ object fFileVirtualTree: TfFileVirtualTree
       end
       object vstResult: TVirtualStringTree
         Left = 1
-        Height = 67
+        Height = 606
         Top = 72
         Width = 500
         Align = alClient
