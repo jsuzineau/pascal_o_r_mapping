@@ -103,10 +103,29 @@ var
    begin
         Result:= Cree_path( od.Get_xmlContent_TEXT, 'text:p');
    end;
+   procedure AddPageBreak;
+   var
+      p: TOD_PARAGRAPH;
+      Style: String;
+   begin
+        try
+           p:= TOD_PARAGRAPH.Create( od, od.Get_xmlContent_TEXT);
+           Style:= od.Add_automatic_style_paragraph( 'Standard', False, 0, 0, 0, True);
+           p.Applique_Style( Style);
+        finally
+               FreeAndNil( p);
+               end;
+   end;
+   procedure AddPage( _Text: String);
+   begin
+        od.AddHtml( New_p, _Text);
+        AddPageBreak;
+   end;
 begin
      od:= TOpenDocument.Create_from_template( _Template_Filename);
      try
-        od.AddHtml( New_p, _hvst.slFiles.Text+#13#10+_hvst.render_as_text);
+        AddPage( _hvst.slFiles.Text);
+        AddPage( _hvst.render_as_text);
         od.Save;
         Result:= od.Nom;
      finally

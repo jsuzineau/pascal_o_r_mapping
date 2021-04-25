@@ -62,7 +62,7 @@ object fFileVirtualTree: TfFileVirtualTree
       Top = 44
       Width = 418
       TabOrder = 4
-      Text = 'FileTree.ini'
+      Text = 'Select your file name here'
     end
     object Label1: TLabel
       Left = 12
@@ -106,6 +106,15 @@ object fFileVirtualTree: TfFileVirtualTree
       Caption = 'Get checked or selected items'
       OnClick = bGetChecked_or_SelectedClick
       TabOrder = 7
+    end
+    object bTest_Duration_from_DateTime: TButton
+      Left = 718
+      Height = 25
+      Top = 45
+      Width = 65
+      Caption = 'Test'
+      OnClick = bTest_Duration_from_DateTimeClick
+      TabOrder = 8
     end
   end
   object Panel2: TPanel
@@ -221,6 +230,7 @@ object fFileVirtualTree: TfFileVirtualTree
     StoredValues = <>
     IniFileName = 'Configuration.ini'
     IniSection = 'fFileVirtualTree'
+    OnRestoreProperties = ipsRestoreProperties
     Left = 645
     Top = 8
   end

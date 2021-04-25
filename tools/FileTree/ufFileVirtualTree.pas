@@ -8,7 +8,7 @@ uses
     uFileTree,
     uFileVirtualTree,
     ufFileTree,
-    uFileVirtualTree_odt,
+    uFileVirtualTree_odt, uText_to_PDF,
  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, ComCtrls,
  StdCtrls, IniPropStorage, IniFiles, VirtualTrees, LCLIntf;
 
@@ -25,6 +25,7 @@ type
    bfFileTree: TButton;
    bLoad_from_File: TButton;
    bOD: TButton;
+   bTest_Duration_from_DateTime: TButton;
    eFileName: TEdit;
    ips: TIniPropStorage;
    Label1: TLabel;
@@ -45,8 +46,14 @@ type
     procedure bGetSelectionClick(Sender: TObject);
     procedure bLoad_from_FileClick(Sender: TObject);
     procedure bODClick(Sender: TObject);
+    procedure bTest_Duration_from_DateTimeClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure ipsRestoreProperties(Sender: TObject);
+  //Load_from_File
+  private
+    procedure Load_from_File;
+  //Extracting Result
   private
     slResult: TStringList;
     hvst: ThVirtualStringTree;
@@ -78,9 +85,19 @@ begin
      FreeAndNil( hvstResult);
 end;
 
-procedure TfFileVirtualTree.bLoad_from_FileClick(Sender: TObject);
+procedure TfFileVirtualTree.ipsRestoreProperties(Sender: TObject);
+begin
+     Load_from_File;
+end;
+
+procedure TfFileVirtualTree.Load_from_File;
 begin
      hvst.Load_from_File( eFileName.Text);
+end;
+
+procedure TfFileVirtualTree.bLoad_from_FileClick(Sender: TObject);
+begin
+     Load_from_File;
 end;
 
 procedure TfFileVirtualTree.bODClick(Sender: TObject);
@@ -91,23 +108,65 @@ begin
          eFileName.Text:= od.FileName;
 end;
 
+procedure TfFileVirtualTree.bTest_Duration_from_DateTimeClick(Sender: TObject);
+
+     procedure Test( _Day, _Hour, _Minute, _Second: Word);
+     var
+        dt: TDateTime;
+        duration: String;
+     begin
+          dt:= _Day+EncodeTime( _Hour, _Minute, _Second, 0);
+          duration:= Duration_from_DateTime( dt);
+          m.Lines.Add( Format( '%.2d %.2d:%.2d:%.2d => %s',
+                               [_Day, _Hour, _Minute, _Second, duration]));
+     end;
+begin
+     m.Clear;
+     Test( 0, 0, 0, 0);
+     Test( 0, 0, 0, 1);
+     Test( 0, 0, 0,10);
+     Test( 0, 0, 1,10);
+     Test( 0, 0,10,10);
+     Test( 0, 1,10,10);
+     Test( 0,10,10,10);
+     Test( 1,10,10,10);
+     Test(10,10,10,10);
+end;
+
 procedure TfFileVirtualTree.Process_Result;
+var
+   Result_List, Result_Tree, Result_List_Tree: String;
+    procedure OpenDocument_Log( _FileName: String);
+    begin
+         m.Lines.Insert(0,'File generated: '+_FileName);
+         OpenDocument( _FileName);
+    end;
+    procedure Process_PDF( _Text, _PDF_filename: String);
+    begin
+         OpenDocument_Log( Text_to_PDF.Execute( _Text, _PDF_filename));
+    end;
 begin
      slResult.Sort;
 
      hvstResult.Load_from_StringList( slResult);
      hvstResult.vst_expand_full;
-     m.Lines .Text:= slResult.Text+#13#10+hvstResult.render_as_text;
+
+     Result_List:= slResult.Text;
+     Result_Tree:= hvstResult.render_as_text;
+     Result_List_Tree:= Result_List+#13#10+Result_Tree;
+
+     m.Lines .Text:= Result_List_Tree;
      m.Lines .SaveToFile('Result.txt');
-     //OpenDocument( FileVirtualTree_odt( 'FileTree.odt', hvstResult));
-     //OpenDocument( hvstResult.to_fpreport_pdf( 'Result.pdf'));
+     //OpenDocument_Log( FileVirtualTree_odt( 'FileTree.odt', hvstResult));
 
      {
      ExecuteProcess( 'txt2pdf.exe',['Result.txt']);
-     OpenDocument( 'Result.pdf');
+     OpenDocument_Log( 'Result.pdf');
      }
-     OpenDocument( hvstResult.fpreport_txt2pdf( 'Result.pdf'));
-     OpenDocument( FileVirtualTree_txt_to_odt( 'FileVirtualTree_txt_to_odt.odt', hvstResult));
+     Process_PDF( Result_List     , 'Result_List.pdf'     );
+     Process_PDF( Result_Tree     , 'Result_Tree.pdf'     );
+     Process_PDF( Result_List_Tree, 'Result_List_Tree.pdf');
+     OpenDocument_Log( FileVirtualTree_txt_to_odt( 'FileVirtualTree_txt_to_odt.odt', hvstResult));
 end;
 
 procedure TfFileVirtualTree.bGetSelectionClick(Sender: TObject);

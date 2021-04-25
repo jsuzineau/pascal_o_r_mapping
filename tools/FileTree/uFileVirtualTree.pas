@@ -6,30 +6,9 @@ interface
 
 uses
     uFileTree,
- Classes, SysUtils, IniFiles, VirtualTrees, ComCtrls, StdCtrls, Forms,
-    fpreport,fpreportpdfexport, fpTTF;
+ Classes, SysUtils, IniFiles, VirtualTrees, ComCtrls, StdCtrls, Forms, Math, StrUtils;
 
 type
- { TStringList_ReportData }
-
- TStringList_ReportData
- =
-  class( TFPReportData)
-  public
-    sl: TStringList;
-    i: Integer;
-    constructor Create(AOwner: TComponent); override;
-    destructor Destroy; override;
-  protected
-    procedure DoGetValue(const AFieldName: string; var AValue: variant); override;
-    procedure DoInitDataFields; override;
-    procedure DoOpen; override;
-    procedure DoFirst; override;
-    procedure DoNext; override;
-    procedure DoClose; override;
-    function  DoEOF: boolean; override;
-  end;
-
  { TTreeData }
 
  TTreeData
@@ -84,7 +63,6 @@ type
     procedure vst_expand_full;
     function TreeData_from_Node( _Node: PVirtualNode): TTreeData;
     function render_as_text: String;
-    function to_fpreport_pdf( _pdf_filename: String): String;
   private
     function NewTreeData(_Text, _Key, _Value: String; _IsLeaf: Boolean): TTreeData;
     function NewNode_from_TreeData(_Parent: PVirtualNode; _td: TTreeData): PVirtualNode;
@@ -104,73 +82,32 @@ type
     procedure vstInitNode( Sender: TBaseVirtualTree;
                            ParentNode,Node: PVirtualNode;
                            var InitialStates: TVirtualNodeInitStates);
-  //txt2pdf
-  private
-    slTXT2PDF: TStringList;
-    FLineIndex : Integer;
-    txt2pdf_First_Run: Boolean;
-    procedure DoFirst(Sender: TObject);
-    procedure DoGetEOF(Sender: TObject; var IsEOF: boolean);
-    procedure DoGetNames(Sender: TObject; List: TStrings);
-    procedure DoGetNext(Sender: TObject);
-    procedure DoGetValue(Sender: TObject; const AValueName: string; var AValue: variant);
-  public
-    function fpreport_txt2pdf( _pdf_filename: String): String;
   end;
 
+function Duration_from_DateTime( _DateTime: TDateTime): String;
 
 implementation
 
-{ TStringList_ReportData }
-
-constructor TStringList_ReportData.Create(AOwner: TComponent);
+function Duration_from_DateTime( _DateTime: TDateTime): String;
+var
+   Day, Hour, Minute, Second, Millisecond: Word;
 begin
-     inherited Create(AOwner);
-     sl:= TStringList.Create;
-end;
+     Day:= Trunc(_DateTime);
+     DecodeTime( _DateTime, Hour, Minute, Second, Millisecond);
 
-destructor TStringList_ReportData.Destroy;
-begin
-     FreeAndNil( sl);
-     inherited Destroy;
-end;
+     case Day
+     of
+       0:   Result:= '';
+       1:   Result:= IntToStr(Day)+' Day ' ;
+       else Result:= IntToStr(Day)+' Days ';
+       end;
 
-procedure TStringList_ReportData.DoGetValue(const AFieldName: string; var AValue: variant);
-begin
-     AValue:= sl[i];
-end;
+     if (Result<>'') or (Hour<>0) then Result:=Result+Format ('%.1d:',[Hour]);
 
-procedure TStringList_ReportData.DoInitDataFields;
-begin
-     inherited DoInitDataFields;
-     DataFields.AddField('Text',rfkString);
-end;
+          if (Result='') then Result:=       Format ('%.1d:',[Minute])
+     else                     Result:=Result+Format ('%.2d:',[Minute]);
 
-procedure TStringList_ReportData.DoOpen;
-begin
-     inherited DoOpen;
-end;
-
-procedure TStringList_ReportData.DoFirst;
-begin
-     inherited DoFirst;
-     i:= 0;
-end;
-
-procedure TStringList_ReportData.DoNext;
-begin
-     inherited DoNext;
-     Inc(I);
-end;
-
-procedure TStringList_ReportData.DoClose;
-begin
-     inherited DoClose;
-end;
-
-function TStringList_ReportData.DoEOF: boolean;
-begin
-     Result:= i>= sl.Count-1;
+     Result:=Result+Format ('%.2d',[Second]);
 end;
 
 { TTreeData }
@@ -207,19 +144,10 @@ begin
 end;
 
 procedure TTreeData.SetdValue( _dValue: TDateTime);
-   procedure Strip_leading_zeroes;
-   const
-        s='0:';
-   begin
-        while 1=Pos(s, FValue)
-        do
-          Delete( FValue, 1, Length(s));
-   end;
 begin
      FdValue:= _dValue;
 
-     FValue:= FormatDateTime( 'h:n:ss', FdValue);
-     Strip_leading_zeroes;
+     FValue:= Duration_from_DateTime( FdValue);
 end;
 
 
@@ -238,8 +166,6 @@ begin
      slFiles   := TStringList.Create;
      slNodes   := TStringList.Create;
      slTreeData:= TStringList.Create;
-     slTXT2PDF := TStringList.Create;
-     txt2pdf_First_Run:= True;
 
      //assign vst events
      vst.OnChecked := @vstChecked;
@@ -252,7 +178,6 @@ begin
      FreeAndNil( slFiles   );
      FreeAndNil( slNodes   );
      FreeAndNil( slTreeData);//todo: TTreeData not freed( may be freed by vst ?)
-     FreeAndNil( slTXT2PDF );
      inherited Destroy;
 end;
 
@@ -676,230 +601,6 @@ begin
 
      Iterate_childs( vst.RootNode);
      Result:= sl.Text;
-end;
-
-function ThVirtualStringTree.to_fpreport_pdf( _pdf_filename: String): String;
-var
-   r: TFPReport;
-   srd: TStringList_ReportData;
-   p: TFPReportPage;
-   //tb: TFPReportTitleBand;
-   //m: TFPReportMemo;
-   db:TFPReportDataBand;
-   Memo: TFPReportMemo;
-   re: TFPReportExportPDF;
-begin
-     Result:= _pdf_filename;
-
-     PaperManager.RegisterStandardSizes;
-     r:= TFPReport.Create( nil);
-     try
-        r.Author:= 'FileTree';
-        r.Title:=  'FileTree';
-        srd:= TStringList_ReportData.Create( nil);
-        srd.sl.DefaultEncoding:= TEncoding.GetEncoding(850);
-        try
-           srd.sl.Text:= slFiles.Text+#13#10+render_as_text;
-           //srd.sl.Text:= 'A';
-           //srd.sl.Add('A');
-           p:= TFPReportPage.Create( r);
-           p.Orientation:= poPortrait;
-           p.PageSize.PaperName:= 'A4';
-           //p.Font.Name:='Courier New';
-           p.Font.Name:='Ubuntu Mono';
-           { page margins }
-           p.Margins.Left := 30;
-           p.Margins.Top := 20;
-           p.Margins.Right := 30;
-           p.Margins.Bottom := 20;
-
-           {
-           tb:= TFPReportTitleBand.Create( p);
-           tb.Layout.Height := 40;
-
-           m := TFPReportMemo.Create(tb);
-           m.Layout.Left := 5;
-           m.Layout.Top := 0;
-           m.Layout.Width := 140;
-           m.Layout.Height := 15;
-
-           m.Text:= '';
-           }
-           db := TFPReportDataBand.Create(p);
-           db.Layout.Height := 30;
-           db.Data:= srd;
-           Memo := TFPReportMemo.Create(db);
-           Memo.Layout.Left := 30;
-           Memo.Layout.Top := 0;
-           Memo.Layout.Width := 50;
-           Memo.Layout.Height := 5;
-           Memo.Text := '[text]';
-
-           { specify what directories should be used to find TrueType fonts }
-           //gTTFontCache.SearchPath.Add(cFCLReportDemosLocation + '/fonts/');
-           //gTTFontCache.ReadStandardFonts;
-           //gTTFontCache.SearchPath.Add('c:\WINDOWS\Fonts\');
-           //gTTFontCache.SearchPath.Add('c:\WINDOWS\Fonts\COUR.TTF');
-           //gTTFontCache.SearchPath.Add(ExtractFilePath(Application.ExeName));
-           //gTTFontCache.Add(TFPFontCacheItem.Create('c:\WINDOWS\Fonts\COUR.TTF'));
-           gTTFontCache.SearchPath.Add('fonts/');
-
-           gTTFontCache.BuildFontCache;
-
-           r.RunReport;
-           re:= TFPReportExportPDF.Create(nil); // as before, use Self or Nil based on Application class
-           try
-              re.FileName:= Result;
-              r.RenderReport( re);
-           finally
-                  FreeAndNil( re);
-                  end;
-
-        finally
-               FreeAndNil( srd);
-               end;
-     finally
-            FreeAndNil( r);
-            end;
-end;
-
-procedure ThVirtualStringTree.DoGetNames(Sender: TObject; List: TStrings);
-begin
-     List.Add('Line');
-end;
-
-procedure ThVirtualStringTree.DoGetEOF(Sender: TObject; var IsEOF: boolean);
-begin
-     isEOF:=FLineIndex>=slTXT2PDF.Count;
-end;
-
-procedure ThVirtualStringTree.DoFirst(Sender: TObject);
-begin
-     FLineIndex:=0;
-end;
-
-procedure ThVirtualStringTree.DoGetNext(Sender: TObject);
-begin
-     Inc(FLineIndex);
-end;
-
-procedure ThVirtualStringTree.DoGetValue( Sender: TObject;
-                                          const AValueName: string;
-                                          var AValue: variant);
-begin
-     Avalue:=slTXT2PDF[FLineIndex];
-end;
-
-function ThVirtualStringTree.fpreport_txt2pdf(_pdf_filename: String): String;
-var
-   r  : TFPReport;
-   rud: TFPReportUserData;
-   PG : TFPReportPage;
-   PH : TFPReportPageHeaderBand;
-   PF : TFPReportPageFooterBand;
-   DB : TFPReportDataBand;
-   M : TFPReportMemo;
-   PDF : TFPReportExportPDF;
-   Fnt : String;
-
-begin
-     r:=TFPReport.Create(nil);
-     rud:=TFPReportUserData.Create(nil);
-     try
-        {$IFDEF MSWINDOWS}
-        Fnt:='Consolas';
-        {$ELSE}
-        Fnt:='DejaVuSans';
-        {$ENDIF}
-        //Fnt:='CourierNewPSMT';
-        //Fnt:='UbuntuMono-Regular';
-        //Terminate;
-        //slTXT2PDF.LoadFromFile(ParamStr(1));
-        slTXT2PDF.Text:= slFiles.Text+#13#10+render_as_text;
-        gTTFontCache.ReadStandardFonts;
-        //gTTFontCache.SearchPath.Add('E:\01_Projets\01_pascal_o_r_mapping\tools\FileTree\fonts\');
-        gTTFontCache.BuildFontCache;
-        if txt2pdf_First_Run
-        then
-            begin
-            PaperManager.RegisterStandardSizes;
-            txt2pdf_First_Run:= False;
-            end;
-        // Page
-        PG:=TFPReportPage.Create(r);
-        PG.Data:=rud;
-        PG.Orientation := poPortrait;
-        PG.PageSize.PaperName := 'A4';
-        PG.Margins.Left := 15;
-        PG.Margins.Top := 15;
-        PG.Margins.Right := 15;
-        PG.Margins.Bottom := 15;
-        // Page header
-        PH:=TFPReportPageHeaderBand.Create(PG);
-        PH.Layout.Height:=10; // 1 cm.
-        M:=TFPReportMemo.Create(PH);
-        M.Layout.Top:=1;
-        M.Layout.Left:=1;
-        M.Layout.Width:=120;
-        M.Layout.Height:=7;
-        M.Text:=ParamStr(1);
-        M.Font.Name:=Fnt;
-        M.Font.Size:=10;
-        M:=TFPReportMemo.Create(PH);
-        M.Layout.Top:=1;
-        M.Layout.Left:=PG.Layout.Width-41;
-        M.Layout.Width:=40;
-        M.Layout.Height:=7;
-        M.Text:='[Date]';
-        M.Font.Name:=Fnt;
-        M.Font.Size:=10;
-        // Page footer
-        PF:=TFPReportPageFooterBand.Create(PG);
-        PF.Layout.Height:=10; // 1 cm.
-        M:=TFPReportMemo.Create(PF);
-        M.Layout.Top:=1;
-        M.Layout.Left:=1;
-        M.Layout.Width:=40;
-        M.Layout.Height:=7;
-        M.Text:='Page [PageNo]';
-        M.Font.Name:=Fnt;
-        M.Font.Size:=10;
-        // Actual line
-        DB:=TFPReportDataBand.Create(PG);
-        DB.Data:=rud;
-        DB.Layout.Height:=5; // 0.5 cm.
-        DB.StretchMode:=smActualHeight;
-        M:=TFPReportMemo.Create(DB);
-        M.Layout.Top:=1;
-        M.Layout.Left:=1;
-        M.Layout.Width:=PG.Layout.Width-41;
-        M.Layout.Height:=4;
-        M.Text:='[Line]';
-        M.StretchMode:=smActualHeight;
-        M.Font.Name:=Fnt;
-        M.Font.Size:=10;
-        // Set up data
-        rud.OnGetNames:=@DoGetNames;
-        rud.OnNext:=@DoGetNext;
-        rud.OnGetValue:=@DoGetValue;
-        rud.OnGetEOF:=@DoGetEOF;
-        rud.OnFirst:=@DoFirst;
-        // Go !
-        r.RunReport;
-        PDF:=TFPReportExportPDF.Create(nil);
-        try
-          PDF.FileName:=_pdf_filename;
-          r.RenderReport(PDF);
-        finally
-          PDF.Free;
-        end;
-
-     finally
-            FreeAndNil(rud);
-            FreeAndNil(r);
-            end;
-     Result:= _pdf_filename;
-
 end;
 
 end.

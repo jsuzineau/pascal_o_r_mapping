@@ -12,7 +12,7 @@ uses
  Interfaces, // this includes the LCL widgetset
  Forms,
  ufFileTree, ufFileVirtualTree, uFileTree, uFileVirtualTree,
- uFileVirtualTree_odt;
+ uFileVirtualTree_odt, uText_to_PDF;
 
 {$R *.res}
 
