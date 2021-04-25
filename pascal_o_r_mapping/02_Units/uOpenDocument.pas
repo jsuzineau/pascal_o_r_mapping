@@ -204,11 +204,11 @@ type
     function Nom_Style_automatique( _NomStyle: String; _Gras: Boolean = False;
                                     _DeltaSize: Integer= 0; _Size: Integer= 0;
                                     _SizePourcent: Integer= 100): String; virtual;
-    procedure Applique_Style( _NomStyle: String);
     function GetStyle_Automatique( _NomStyleColonne: String): TDOMNode;
   public
     Is_Header: boolean;
     property Style_Automatique[ _NomStyleColonne: String]: TDOMNode read GetStyle_Automatique;
+    procedure Applique_Style( _NomStyle: String);
     procedure Set_Style( _NomStyle: String; _Gras: Boolean = False;
                          _DeltaSize: Integer= 0; _Size: Integer= 0;
                          _SizePourcent: Integer= 100);
@@ -580,14 +580,16 @@ type
                                         _Gras: Boolean;
                                         _DeltaSize: Integer;
                                         _Size: Integer;
-                                        _SizePourcent: Integer): String; overload;
+                                        _SizePourcent: Integer;
+                                        _Page_break_before: Boolean= False): String; overload;
     function  Add_automatic_style_paragraph( _NomStyleParent: String;
                                         _Gras: Boolean;
                                         _DeltaSize: Integer;
                                         _Size: Integer;
                                         _SizePourcent: Integer;
                                         out _eStyle: TDOMNode;
-                                        _Is_Header: Boolean): String; overload;
+                                        _Is_Header: Boolean;
+                                        _Page_break_before: Boolean= False): String; overload;
   //Styles de caractères automatiques
   private
     Automatic_style_text_number: Integer;
@@ -1529,6 +1531,8 @@ var
 begin
      Prefixe:= ChangeFileExt( ExtractFileName(_Template_Filename), '');
      //Nom:= OD_Temporaire.Nouveau_ODT( Prefixe);
+     //Nom:= IncludeTrailingPathDelimiter(OD_Temporaire.RepertoireTemp)+'temp_'+IntToStr(temp)+'.odt';
+     //Nom:= IncludeTrailingPathDelimiter(GetTempDir)+'temp_'+IntToStr(temp)+'.odt';
      Nom:= 'temp_'+IntToStr(temp)+'.odt';
      Inc(temp);
      (*
@@ -2316,10 +2320,15 @@ begin
      Result:= Add_style( _NomStyle, _NomStyleParent, _Root, 'text','');
 end;
 
-function TOpenDocument.Add_style_with_text_properties(_NomStyle: String;
- _Root: TOD_Root_Styles; _family, _class: String; _NomStyleParent: String;
- _Gras: Boolean; _DeltaSize: Integer; _Size: Integer; _SizePourcent: Integer
- ): TDOMNode;
+function TOpenDocument.Add_style_with_text_properties( _NomStyle: String;
+                                                       _Root: TOD_Root_Styles;
+                                                       _family, _class: String;
+                                                       _NomStyleParent: String;
+                                                       _Gras: Boolean;
+                                                       _DeltaSize: Integer;
+                                                       _Size: Integer;
+                                                       _SizePourcent: Integer
+                                                       ): TDOMNode;
 var
    eTEXT_PROPERTIES: TDOMNode;
    Font_size: Integer;
@@ -2410,9 +2419,16 @@ begin
 end;
 
 
-function TOpenDocument.Add_automatic_style_paragraph(_NomStyleParent: String;
- _Gras: Boolean; _DeltaSize: Integer; _Size: Integer; _SizePourcent: Integer;
- out _eStyle: TDOMNode; _Is_Header: Boolean): String;
+function TOpenDocument.Add_automatic_style_paragraph( _NomStyleParent: String;
+                                                      _Gras: Boolean;
+                                                      _DeltaSize: Integer;
+                                                      _Size: Integer;
+                                                      _SizePourcent: Integer;
+                                                      out _eStyle: TDOMNode;
+                                                      _Is_Header: Boolean;
+                                                      _Page_break_before: Boolean= False): String;
+var
+   ePARAGRAPH_PROPERTIES: TDOMNode;
 begin
      Result:= Add_automatic_style( _NomStyleParent,
                                    _Gras,
@@ -2425,11 +2441,25 @@ begin
                                    'text',
                                    'ODP',
                                    Automatic_style_paragraph_number);
+     if not _Page_break_before then exit; // ## à surveiller si d'autres propriétés de paragraphe sont rajoutées
+
+     if _eStyle = nil then exit;
+
+     ePARAGRAPH_PROPERTIES:= Ensure_Item(_eStyle, 'style:paragraph-properties', [], []);
+     if ePARAGRAPH_PROPERTIES = nil then exit;
+
+     if _Page_break_before
+     then
+         Set_Property( ePARAGRAPH_PROPERTIES, 'fo:break-before', 'page');
 end;
 
-function TOpenDocument.Add_automatic_style_text(_NomStyleParent: String;
- _Gras: Boolean; _DeltaSize: Integer; _Size: Integer; _SizePourcent: Integer;
- out _eStyle: TDOMNode; _Is_Header: Boolean): String;
+function TOpenDocument.Add_automatic_style_text( _NomStyleParent: String;
+                                                 _Gras: Boolean;
+                                                 _DeltaSize: Integer;
+                                                 _Size: Integer;
+                                                 _SizePourcent: Integer;
+                                                 out _eStyle: TDOMNode;
+                                                 _Is_Header: Boolean): String;
 begin
      Result:= Add_automatic_style( _NomStyleParent,
                                    _Gras,
@@ -2448,7 +2478,8 @@ function TOpenDocument.Add_automatic_style_paragraph( _NomStyleParent: String;
                                                       _Gras: Boolean;
                                                       _DeltaSize: Integer;
                                                       _Size: Integer;
-                                                      _SizePourcent: Integer): String;
+                                                      _SizePourcent: Integer;
+                                                      _Page_break_before: Boolean= False): String;
 var
    e: TDOMNode;
 begin
@@ -2458,7 +2489,8 @@ begin
                                              _Size,
                                              _SizePourcent,
                                              e,
-                                             False);
+                                             False,
+                                             _Page_break_before);
 end;
 
 function TOpenDocument.Add_automatic_style_text( _NomStyleParent: String;
