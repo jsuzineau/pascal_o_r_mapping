@@ -114,7 +114,10 @@ begin
      od.FileName:= eFileName.Text;
      if od.Execute
      then
-         eFileName.Text:= od.FileName;
+         Begin
+            eFileName.Text:= od.FileName;
+            Load_from_File;
+         end;
 end;
 
 procedure TfFileVirtualTree.bTest_Duration_from_DateTimeClick(Sender: TObject);

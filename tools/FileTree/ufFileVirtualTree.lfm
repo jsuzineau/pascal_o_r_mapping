@@ -282,7 +282,7 @@ object fFileVirtualTree: TfFileVirtualTree
   object tFirst: TTimer
     Interval = 10
     OnTimer = tFirstTimer
-    Left = 10
-    Top = 8
+    Left = 800
+    Top = 48
   end
 end
