@@ -44,6 +44,7 @@ type
     pb: TProgressBar;
     Splitter1: TSplitter;
     Splitter2: TSplitter;
+    tFirst: TTimer;
     vstResult: TVirtualStringTree;
     vst: TVirtualStringTree;
     procedure bfFileTreeClick(Sender: TObject);
@@ -55,7 +56,7 @@ type
     procedure bTest_Duration_from_DateTimeClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure ipsRestoreProperties(Sender: TObject);
+    procedure tFirstTimer(Sender: TObject);
   //Load_from_File
   private
     procedure Load_from_File;
@@ -82,6 +83,7 @@ begin
 
      hvst      := ThVirtualStringTree.Create( True , vst      , pb, lCompute_Aggregates);
      hvstResult:= ThVirtualStringTree.Create( False, vstResult, pb, lCompute_Aggregates);
+     tFirst.Enabled:= True;
 end;
 
 procedure TfFileVirtualTree.FormDestroy(Sender: TObject);
@@ -91,8 +93,9 @@ begin
      FreeAndNil( hvstResult);
 end;
 
-procedure TfFileVirtualTree.ipsRestoreProperties(Sender: TObject);
+procedure TfFileVirtualTree.tFirstTimer(Sender: TObject);
 begin
+     tFirst.Enabled:= False;
      Load_from_File;
 end;
 

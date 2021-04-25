@@ -276,8 +276,13 @@ object fFileVirtualTree: TfFileVirtualTree
     StoredValues = <>
     IniFileName = 'Configuration.ini'
     IniSection = 'fFileVirtualTree'
-    OnRestoreProperties = ipsRestoreProperties
     Left = 645
+    Top = 8
+  end
+  object tFirst: TTimer
+    Interval = 10
+    OnTimer = tFirstTimer
+    Left = 10
     Top = 8
   end
 end
