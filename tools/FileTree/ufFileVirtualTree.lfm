@@ -214,6 +214,8 @@ object fFileVirtualTree: TfFileVirtualTree
       TabOrder = 1
       TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning, toEditOnClick]
       TreeOptions.SelectionOptions = [toMultiSelect]
+      OnChecking = vstChecking
+      OnClick = vstClick
     end
     object Panel3: TPanel
       Left = 792

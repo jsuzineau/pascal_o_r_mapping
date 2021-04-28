@@ -62,6 +62,9 @@ type
     procedure ipsRestoreProperties(Sender: TObject);
     procedure mChange(Sender: TObject);
     procedure tFirstTimer(Sender: TObject);
+    procedure vstChecking(Sender: TBaseVirtualTree; Node: PVirtualNode;
+      var NewState: TCheckState; var Allowed: Boolean);
+    procedure vstClick(Sender: TObject);
   //Load_from_File
   private
     procedure Load_from_File;
@@ -114,6 +117,19 @@ procedure TfFileVirtualTree.tFirstTimer(Sender: TObject);
 begin
      tFirst.Enabled:= False;
      Load_from_File;
+end;
+
+procedure TfFileVirtualTree.vstChecking(Sender: TBaseVirtualTree;
+  Node: PVirtualNode; var NewState: TCheckState; var Allowed: Boolean);
+begin
+   slResult.Text:= hvst.Get_Checked_or_Selected;
+   Process_Result;
+end;
+
+procedure TfFileVirtualTree.vstClick(Sender: TObject);
+begin
+   slResult.Text:= hvst.Get_Checked_or_Selected;
+   Process_Result;
 end;
 
 procedure TfFileVirtualTree.Load_from_File;
@@ -214,8 +230,8 @@ end;
 
 procedure TfFileVirtualTree.bGetChecked_or_SelectedClick(Sender: TObject);
 begin
-     slResult.Text:= hvst.Get_Checked_or_Selected;
-     Process_Result;
+   slResult.Text:= hvst.Get_Checked_or_Selected;
+   Process_Result;
 end;
 
 procedure TfFileVirtualTree.bfFileTreeClick(Sender: TObject);
