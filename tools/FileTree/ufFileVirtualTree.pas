@@ -54,8 +54,11 @@ type
     procedure bLoad_from_FileClick(Sender: TObject);
     procedure bODClick(Sender: TObject);
     procedure bTest_Duration_from_DateTimeClick(Sender: TObject);
+    procedure eLoadTimeChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure ipsRestoreProperties(Sender: TObject);
+    procedure mChange(Sender: TObject);
     procedure tFirstTimer(Sender: TObject);
   //Load_from_File
   private
@@ -91,6 +94,17 @@ begin
      FreeAndNil( slResult  );
      FreeAndNil( hvst      );
      FreeAndNil( hvstResult);
+end;
+
+procedure TfFileVirtualTree.ipsRestoreProperties(Sender: TObject);
+begin
+   uFileVirtualTree.e_Load_Time:=  eLoadTime.Text;
+end;
+
+procedure TfFileVirtualTree.mChange(Sender: TObject);
+begin
+     eMachineTime.Text:= uFileVirtualTree.e_Machine_Time;
+     eRunTime.Text:= uFileVirtualTree.e_Run_Time;
 end;
 
 procedure TfFileVirtualTree.tFirstTimer(Sender: TObject);
@@ -143,6 +157,12 @@ begin
      Test( 0,10,10,10);
      Test( 1,10,10,10);
      Test(10,10,10,10);
+end;
+
+procedure TfFileVirtualTree.eLoadTimeChange(Sender: TObject);
+begin
+   If eLoadTime.Text <> '12345' Then
+  uFileVirtualTree.e_Load_Time:=  eLoadTime.Text;
 end;
 
 procedure TfFileVirtualTree.Process_Result;

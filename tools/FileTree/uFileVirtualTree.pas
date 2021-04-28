@@ -34,6 +34,7 @@ type
     IsLeaf: Boolean;
   end;
 
+   
  { ThVirtualStringTree }
 
  ThVirtualStringTree // VirtualStringTree handler
@@ -83,6 +84,10 @@ type
                            ParentNode,Node: PVirtualNode;
                            var InitialStates: TVirtualNodeInitStates);
   end;
+
+Var
+   e_Load_Time,e_Machine_Time,e_Run_Time:String;
+
 
 function Duration_from_DateTime( _DateTime: TDateTime): String;
 
@@ -478,16 +483,13 @@ var
           end;
    end;
 begin
-     //I don't know why I can't pull the value from the eLoadTime box
-     //if not TryStrToDateTime( Fix_Time(TfFileVirtualTree.eLoadTime.Text), Load_Time) then Load_Time:= 0;
-     if not TryStrToDateTime( Fix_Time('4:32'), Load_Time) then Load_Time:= 0;
+     if not TryStrToDateTime( Fix_Time(e_Load_Time), Load_Time) then Load_Time:= 0;
      Total_Run_Time:=0;
      Total_Machine_Time:=0;
      Result:= '';
      CheckChilds( vst.RootNode, False, False);
-     //I don't know why I can't fill in these text boxes?? 
-     //TfFileVirtualTreee.RunTime.Text:=Duration_From_DateTime(Total_Run_Time);
-     //TfFileVirtualTree.eMachineTime.Text:=Duration_From_DateTime(Total_Machine_Time);
+     e_Run_Time:=Duration_From_DateTime(Total_Run_Time);
+     e_Machine_Time:=Duration_From_DateTime(Total_Machine_Time);
      Formate_Liste( Result, #13#10#13#10, 'Total Run Time: '+Duration_From_DateTime(Total_Machine_Time));
      Result:='Total Time Including Loading: '+Duration_From_DateTime(Total_Run_Time)+#13#10#13#10+Result;
 end;
