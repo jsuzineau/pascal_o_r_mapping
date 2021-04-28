@@ -26,6 +26,7 @@ type
    bLoad_from_File: TButton;
    bOD: TButton;
    bTest_Duration_from_DateTime: TButton;
+   bReport: TButton;
    eFileName: TEdit;
    eLoadTime: TEdit;
    eRunTime: TEdit;
@@ -53,6 +54,7 @@ type
     procedure bGetSelectionClick(Sender: TObject);
     procedure bLoad_from_FileClick(Sender: TObject);
     procedure bODClick(Sender: TObject);
+    procedure bReportClick(Sender: TObject);
     procedure bTest_Duration_from_DateTimeClick(Sender: TObject);
     procedure eLoadTimeChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -73,6 +75,7 @@ type
 
 var
  fFileVirtualTree: TfFileVirtualTree;
+ Result_List, Result_Tree, Result_List_Tree: String;
 
 implementation
 
@@ -134,6 +137,23 @@ begin
          end;
 end;
 
+procedure TfFileVirtualTree.bReportClick(Sender: TObject);
+     procedure OpenDocument_Log( _FileName: String);
+     begin
+          m.Lines.Insert(0,'File generated: '+_FileName);
+          OpenDocument( _FileName);
+     end;
+    procedure Process_PDF( _Text, _PDF_filename: String);
+    begin
+         OpenDocument_Log( Text_to_PDF.Execute( _Text, _PDF_filename));
+    end;
+begin
+     Process_PDF( Result_List     , 'Result_List.pdf'     );
+     Process_PDF( Result_Tree     , 'Result_Tree.pdf'     );
+     Process_PDF( Result_List_Tree, 'Result_List_Tree.pdf');
+     OpenDocument_Log( FileVirtualTree_txt_to_odt( 'FileVirtualTree_txt_to_odt.odt', hvstResult));
+end;
+
 procedure TfFileVirtualTree.bTest_Duration_from_DateTimeClick(Sender: TObject);
 
      procedure Test( _Day, _Hour, _Minute, _Second: Word);
@@ -161,22 +181,11 @@ end;
 
 procedure TfFileVirtualTree.eLoadTimeChange(Sender: TObject);
 begin
-   If eLoadTime.Text <> '12345' Then
+   If eLoadTime.Text <> '' Then
   uFileVirtualTree.e_Load_Time:=  eLoadTime.Text;
 end;
 
 procedure TfFileVirtualTree.Process_Result;
-var
-   Result_List, Result_Tree, Result_List_Tree: String;
-    procedure OpenDocument_Log( _FileName: String);
-    begin
-         m.Lines.Insert(0,'File generated: '+_FileName);
-         OpenDocument( _FileName);
-    end;
-    procedure Process_PDF( _Text, _PDF_filename: String);
-    begin
-         OpenDocument_Log( Text_to_PDF.Execute( _Text, _PDF_filename));
-    end;
 begin
      slResult.Sort;
 
@@ -189,16 +198,6 @@ begin
 
      m.Lines .Text:= Result_List_Tree;
      m.Lines .SaveToFile('Result.txt');
-     //OpenDocument_Log( FileVirtualTree_odt( 'FileTree.odt', hvstResult));
-
-     {
-     ExecuteProcess( 'txt2pdf.exe',['Result.txt']);
-     OpenDocument_Log( 'Result.pdf');
-     }
-     Process_PDF( Result_List     , 'Result_List.pdf'     );
-     Process_PDF( Result_Tree     , 'Result_Tree.pdf'     );
-     Process_PDF( Result_List_Tree, 'Result_List_Tree.pdf');
-     OpenDocument_Log( FileVirtualTree_txt_to_odt( 'FileVirtualTree_txt_to_odt.odt', hvstResult));
 end;
 
 procedure TfFileVirtualTree.bGetSelectionClick(Sender: TObject);

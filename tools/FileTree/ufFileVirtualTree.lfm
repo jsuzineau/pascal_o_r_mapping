@@ -2,10 +2,10 @@ object fFileVirtualTree: TfFileVirtualTree
   Left = 1024
   Height = 779
   Top = 304
-  Width = 1100
+  Width = 1295
   Caption = 'fFileVirtualTree'
   ClientHeight = 779
-  ClientWidth = 1100
+  ClientWidth = 1295
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poDesktopCenter
@@ -15,10 +15,10 @@ object fFileVirtualTree: TfFileVirtualTree
     Left = 0
     Height = 98
     Top = 0
-    Width = 1100
+    Width = 1295
     Align = alTop
     ClientHeight = 98
-    ClientWidth = 1100
+    ClientWidth = 1295
     TabOrder = 0
     object bGetSelection: TButton
       Left = 159
@@ -85,7 +85,7 @@ object fFileVirtualTree: TfFileVirtualTree
       Left = 1
       Height = 20
       Top = 77
-      Width = 1098
+      Width = 1293
       Align = alBottom
       TabOrder = 6
     end
@@ -162,18 +162,27 @@ object fFileVirtualTree: TfFileVirtualTree
       Width = 80
       TabOrder = 11
     end
+    object bReport: TButton
+      Left = 1096
+      Height = 25
+      Top = 24
+      Width = 75
+      Caption = 'Report'
+      OnClick = bReportClick
+      TabOrder = 12
+    end
   end
   object Panel2: TPanel
     Left = 0
     Height = 681
     Top = 98
-    Width = 1100
+    Width = 1295
     Align = alClient
     ClientHeight = 681
-    ClientWidth = 1100
+    ClientWidth = 1295
     TabOrder = 1
     object Splitter1: TSplitter
-      Left = 592
+      Left = 787
       Height = 679
       Top = 1
       Width = 5
@@ -186,7 +195,7 @@ object fFileVirtualTree: TfFileVirtualTree
       Left = 1
       Height = 679
       Top = 1
-      Width = 591
+      Width = 786
       Align = alClient
       DefaultNodeHeight = 21
       DefaultText = 'Node'
@@ -207,7 +216,7 @@ object fFileVirtualTree: TfFileVirtualTree
       TreeOptions.SelectionOptions = [toMultiSelect]
     end
     object Panel3: TPanel
-      Left = 597
+      Left = 792
       Height = 679
       Top = 1
       Width = 502
