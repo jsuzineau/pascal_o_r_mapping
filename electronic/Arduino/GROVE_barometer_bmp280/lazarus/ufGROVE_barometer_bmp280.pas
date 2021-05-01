@@ -196,6 +196,7 @@ procedure TfGROVE_barometer_bmp280.GROVE_barometer_bmp280_Data_change;
 const
      _1_h = 1/24;
      _15_min = 15/(24*60);
+     _5_min = 5/(24*60);
 var
    iDernier: Integer;
    Maintenant: TDateTime;
@@ -216,7 +217,7 @@ begin
          Premier:= clsPressure.GetXValue(0);
          Dernier:= clsPressure.GetXValue(iDernier);
          end;
-     if (Maintenant - Dernier > _15_min)or (iDernier< 3)
+     if (Maintenant - Dernier > _5_min)or (iDernier< 3)
      then
          begin
          Pression_hPa:= GROVE_barometer_bmp280.Pression_Gagnac/100;
