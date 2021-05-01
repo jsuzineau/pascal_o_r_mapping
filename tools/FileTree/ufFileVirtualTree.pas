@@ -56,6 +56,7 @@ type
     procedure bODClick(Sender: TObject);
     procedure bReportClick(Sender: TObject);
     procedure bTest_Duration_from_DateTimeClick(Sender: TObject);
+    procedure eFileNameClick(Sender: TObject);
     procedure eLoadTimeChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -193,6 +194,17 @@ begin
      Test( 0,10,10,10);
      Test( 1,10,10,10);
      Test(10,10,10,10);
+end;
+
+procedure TfFileVirtualTree.eFileNameClick(Sender: TObject);
+begin
+     od.FileName:= eFileName.Text;
+     if od.Execute
+     then
+         Begin
+            eFileName.Text:= od.FileName;
+            Load_from_File;
+         end;
 end;
 
 procedure TfFileVirtualTree.eLoadTimeChange(Sender: TObject);

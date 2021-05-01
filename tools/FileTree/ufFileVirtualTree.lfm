@@ -61,6 +61,7 @@ object fFileVirtualTree: TfFileVirtualTree
       Height = 23
       Top = 44
       Width = 418
+      OnClick = eFileNameClick
       TabOrder = 4
       Text = 'Select your file name here'
     end
@@ -199,7 +200,7 @@ object fFileVirtualTree: TfFileVirtualTree
       Align = alClient
       DefaultNodeHeight = 21
       DefaultText = 'Node'
-      Header.AutoSizeIndex = 0
+      Header.AutoSizeIndex = 1
       Header.Columns = <      
         item
           Position = 0
