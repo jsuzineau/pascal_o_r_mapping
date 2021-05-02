@@ -19,10 +19,7 @@ type
  TfFileVirtualTree
  =
   class(TForm)
-   bGetChecked_or_Selected: TButton;
-   bOD: TButton;
    bReport: TButton;
-   bTest_Duration_from_DateTime: TButton;
    eFileName: TEdit;
    eLoadTime: TEdit;
    ips: TIniPropStorage;
@@ -120,12 +117,16 @@ procedure TfFileVirtualTree.ipsRestoreProperties(Sender: TObject);
 begin
      vst.Header.Columns[0].Width:= ips.ReadInteger( 'vst.Header.Columns[0].Width', 200);
      vst.Header.Columns[1].Width:= ips.ReadInteger( 'vst.Header.Columns[1].Width',  50);
+     vstResult.Header.Columns[0].Width:= ips.ReadInteger( 'vstResult.Header.Columns[0].Width', 200);
+     vstResult.Header.Columns[1].Width:= ips.ReadInteger( 'vstResult.Header.Columns[1].Width',  50);
 end;
 
 procedure TfFileVirtualTree.ipsSaveProperties(Sender: TObject);
 begin
      ips.WriteInteger( 'vst.Header.Columns[0].Width', vst.Header.Columns[0].Width);
      ips.WriteInteger( 'vst.Header.Columns[1].Width', vst.Header.Columns[1].Width);
+     ips.WriteInteger( 'vstResult.Header.Columns[0].Width', vstResult.Header.Columns[0].Width);
+     ips.WriteInteger( 'vstResult.Header.Columns[1].Width', vstResult.Header.Columns[1].Width);
 end;
 
 procedure TfFileVirtualTree.miLoadFrom_FileClick(Sender: TObject);
