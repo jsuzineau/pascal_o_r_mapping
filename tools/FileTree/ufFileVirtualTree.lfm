@@ -2,10 +2,10 @@ object fFileVirtualTree: TfFileVirtualTree
   Left = 1248
   Height = 675
   Top = 695
-  Width = 1327
+  Width = 1358
   Caption = 'fFileVirtualTree'
   ClientHeight = 655
-  ClientWidth = 1327
+  ClientWidth = 1358
   Menu = mm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -16,10 +16,10 @@ object fFileVirtualTree: TfFileVirtualTree
     Left = 0
     Height = 64
     Top = 0
-    Width = 1327
+    Width = 1358
     Align = alTop
     ClientHeight = 64
-    ClientWidth = 1327
+    ClientWidth = 1358
     TabOrder = 0
     object eFileName: TEdit
       Left = 72
@@ -43,7 +43,7 @@ object fFileVirtualTree: TfFileVirtualTree
       Left = 1
       Height = 26
       Top = 37
-      Width = 1325
+      Width = 1356
       Align = alBottom
       TabOrder = 1
     end
@@ -72,7 +72,7 @@ object fFileVirtualTree: TfFileVirtualTree
       ParentColor = False
     end
     object bReport: TButton
-      Left = 1240
+      Left = 1256
       Height = 25
       Top = 6
       Width = 75
@@ -130,18 +130,43 @@ object fFileVirtualTree: TfFileVirtualTree
       ParentFont = False
       Transparent = False
     end
+    object lCount1: TLabel
+      Left = 1168
+      Height = 15
+      Top = 10
+      Width = 7
+      Caption = '#'
+      ParentColor = False
+    end
+    object lCount: TLabel
+      Left = 1184
+      Height = 25
+      Top = 6
+      Width = 51
+      Caption = 'Count'
+      Color = clWhite
+      Font.CharSet = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -19
+      Font.Name = 'Segoe UI'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
+      ParentColor = False
+      ParentFont = False
+      Transparent = False
+    end
   end
   object Panel2: TPanel
     Left = 0
     Height = 591
     Top = 64
-    Width = 1327
+    Width = 1358
     Align = alClient
     ClientHeight = 591
-    ClientWidth = 1327
+    ClientWidth = 1358
     TabOrder = 1
     object Splitter1: TSplitter
-      Left = 691
+      Left = 722
       Height = 589
       Top = 1
       Width = 5
@@ -154,7 +179,7 @@ object fFileVirtualTree: TfFileVirtualTree
       Left = 1
       Height = 589
       Top = 1
-      Width = 690
+      Width = 721
       Align = alClient
       DefaultNodeHeight = 21
       DefaultText = 'Node'
@@ -177,7 +202,7 @@ object fFileVirtualTree: TfFileVirtualTree
       OnClick = vstClick
     end
     object Panel3: TPanel
-      Left = 696
+      Left = 727
       Height = 589
       Top = 1
       Width = 630

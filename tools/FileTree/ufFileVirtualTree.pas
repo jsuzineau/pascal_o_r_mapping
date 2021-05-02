@@ -25,6 +25,8 @@ type
    ips: TIniPropStorage;
    Label1: TLabel;
    Label2: TLabel;
+   lCount1: TLabel;
+   lCount: TLabel;
    lMachineTime: TLabel;
    lMachineTime1: TLabel;
    lCompute_Aggregates: TLabel;
@@ -104,6 +106,7 @@ begin
      tFirst.Enabled:= True;
      lRunTime    .Caption:= '            ';
      lMachineTime.Caption:= '            ';
+     lCount      .Caption:= '      ';
 end;
 
 procedure TfFileVirtualTree.FormDestroy(Sender: TObject);
@@ -119,6 +122,7 @@ begin
      vst.Header.Columns[1].Width:= ips.ReadInteger( 'vst.Header.Columns[1].Width',  50);
      vstResult.Header.Columns[0].Width:= ips.ReadInteger( 'vstResult.Header.Columns[0].Width', 200);
      vstResult.Header.Columns[1].Width:= ips.ReadInteger( 'vstResult.Header.Columns[1].Width',  50);
+     Report_Title:= ips.ReadString( 'Report.Title','Cut List Report');
 end;
 
 procedure TfFileVirtualTree.ipsSaveProperties(Sender: TObject);
@@ -127,6 +131,7 @@ begin
      ips.WriteInteger( 'vst.Header.Columns[1].Width', vst.Header.Columns[1].Width);
      ips.WriteInteger( 'vstResult.Header.Columns[0].Width', vstResult.Header.Columns[0].Width);
      ips.WriteInteger( 'vstResult.Header.Columns[1].Width', vstResult.Header.Columns[1].Width);
+     ips.WriteString ( 'Report.Title',  Report_Title);
 end;
 
 procedure TfFileVirtualTree.miLoadFrom_FileClick(Sender: TObject);
@@ -201,8 +206,8 @@ begin
      hvstResult.Load_from_StringList( slResult);
      hvstResult.vst_expand_full;
 
-     Result_List:= 'Total Machine Run time:'+lMachineTime.Caption+#13#10+'Total Run Time Including Loading: '+lRunTime.Caption+#13#10#13#10+slResult.Text;
-     Result_Tree:= 'Total Machine Run time:'+lMachineTime.Caption+#13#10+'Total Run Time Including Loading: '+lRunTime.Caption+#13#10#13#10+hvstResult.render_as_text;
+     Result_List:= 'Programs To Run:'+lCount.Caption+#13#10+'Total Machine Run Time:'+lMachineTime.Caption+#13#10+'Total Run Time Including Loading: '+lRunTime.Caption+#13#10#13#10+slResult.Text;
+     Result_Tree:= 'Programs To Run:'+lCount.Caption+#13#10+'Total Machine Run Time:'+lMachineTime.Caption+#13#10+'Total Run Time Including Loading: '+lRunTime.Caption+#13#10#13#10+hvstResult.render_as_text;
      Result_List_Tree:= Result_List+#13#10+#13#10+#13#10+Result_Tree;
 
      m.Lines .Text:= Result_List_Tree;
@@ -246,7 +251,7 @@ end;
 
 procedure TfFileVirtualTree.Process_GetChecked_or_Selected;
 begin
-     slResult.Text:= hvst.Get_Checked_or_Selected( eLoadTime, lRunTime, lMachineTime);
+     slResult.Text:= hvst.Get_Checked_or_Selected( eLoadTime, lRunTime, lMachineTime, lCount);
      Process_Result;
 end;
 
