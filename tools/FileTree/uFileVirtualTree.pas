@@ -475,7 +475,6 @@ var
           Checked:= _Parent_Checked or (csCheckedNormal = vn^.CheckState);
           Selected:= _Parent_Selected or vst.Selected[vn];
           if Checked or Selected then Process_TreeData;
-
           CheckChilds( vn, Checked, Selected);
           vn:= vst.GetNextSibling(vn);
           end;
@@ -487,10 +486,8 @@ begin
      Result:= '';
      CheckChilds( vst.RootNode, False, False);
 
-     _lRunTime    .Caption:= Duration_From_DateTime(     RunTime);
-     _lMachineTime.Caption:= Duration_From_DateTime( MachineTime);
-     Formate_Liste( Result, #13#10#13#10, 'Total Run Time: '+Duration_From_DateTime( MachineTime));
-     Result:='Total Time Including Loading: '+Duration_From_DateTime( RunTime)+#13#10#13#10+Result;
+     _lRunTime    .Caption:= '  '+Duration_From_DateTime(     RunTime)+'  ';
+     _lMachineTime.Caption:= '  '+Duration_From_DateTime( MachineTime)+'  ';
 end;
 
 procedure ThVirtualStringTree.vstChecked( Sender: TBaseVirtualTree;

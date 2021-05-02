@@ -141,7 +141,7 @@ object fFileVirtualTree: TfFileVirtualTree
     ClientWidth = 1327
     TabOrder = 1
     object Splitter1: TSplitter
-      Left = 819
+      Left = 691
       Height = 589
       Top = 1
       Width = 5
@@ -154,7 +154,7 @@ object fFileVirtualTree: TfFileVirtualTree
       Left = 1
       Height = 589
       Top = 1
-      Width = 818
+      Width = 690
       Align = alClient
       DefaultNodeHeight = 21
       DefaultText = 'Node'
@@ -177,20 +177,20 @@ object fFileVirtualTree: TfFileVirtualTree
       OnClick = vstClick
     end
     object Panel3: TPanel
-      Left = 824
+      Left = 696
       Height = 589
       Top = 1
-      Width = 502
+      Width = 630
       Align = alRight
       Caption = 'Panel3'
       ClientHeight = 589
-      ClientWidth = 502
+      ClientWidth = 630
       TabOrder = 2
       object m: TMemo
         Left = 1
-        Height = 59
+        Height = 242
         Top = 1
-        Width = 500
+        Width = 628
         Align = alTop
         Font.CharSet = ANSI_CHARSET
         Font.Color = clBlack
@@ -210,8 +210,8 @@ object fFileVirtualTree: TfFileVirtualTree
         Cursor = crVSplit
         Left = 1
         Height = 5
-        Top = 60
-        Width = 500
+        Top = 243
+        Width = 628
         Align = alTop
         Color = clLime
         ParentColor = False
@@ -219,9 +219,9 @@ object fFileVirtualTree: TfFileVirtualTree
       end
       object vstResult: TVirtualStringTree
         Left = 1
-        Height = 523
-        Top = 65
-        Width = 500
+        Height = 340
+        Top = 248
+        Width = 628
         Align = alClient
         DefaultNodeHeight = 21
         DefaultText = 'Node'

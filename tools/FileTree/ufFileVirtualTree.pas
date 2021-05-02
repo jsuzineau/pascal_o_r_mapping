@@ -102,8 +102,8 @@ begin
      hvst      := ThVirtualStringTree.Create( True , vst      , pb, lCompute_Aggregates);
      hvstResult:= ThVirtualStringTree.Create( False, vstResult, pb, lCompute_Aggregates);
      tFirst.Enabled:= True;
-     lRunTime    .Caption:= '';
-     lMachineTime.Caption:= '';
+     lRunTime    .Caption:= '            ';
+     lMachineTime.Caption:= '            ';
 end;
 
 procedure TfFileVirtualTree.FormDestroy(Sender: TObject);
@@ -201,9 +201,9 @@ begin
      hvstResult.Load_from_StringList( slResult);
      hvstResult.vst_expand_full;
 
-     Result_List:= slResult.Text;
-     Result_Tree:= hvstResult.render_as_text;
-     Result_List_Tree:= Result_List+#13#10+Result_Tree;
+     Result_List:= 'Total Machine Run time:'+lMachineTime.Caption+#13#10+'Total Run Time Including Loading: '+lRunTime.Caption+#13#10#13#10+slResult.Text;
+     Result_Tree:= 'Total Machine Run time:'+lMachineTime.Caption+#13#10+'Total Run Time Including Loading: '+lRunTime.Caption+#13#10#13#10+hvstResult.render_as_text;
+     Result_List_Tree:= Result_List+#13#10+#13#10+#13#10+Result_Tree;
 
      m.Lines .Text:= Result_List_Tree;
      m.Lines .SaveToFile('Result.txt');
