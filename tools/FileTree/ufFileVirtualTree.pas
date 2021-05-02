@@ -165,7 +165,8 @@ end;
 
 procedure TfFileVirtualTree.eFileNameChange(Sender: TObject);
 begin
-     Load_from_File;
+     If Not(tFirst.Enabled) Then
+        Load_from_File;
 end;
 
 procedure TfFileVirtualTree.bTest_Duration_from_DateTimeClick(Sender: TObject);
