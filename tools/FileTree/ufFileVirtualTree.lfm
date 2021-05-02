@@ -313,6 +313,21 @@ object fFileVirtualTree: TfFileVirtualTree
         OnClick = miGetChecked_or_SelectedClick
       end
     end
+    object Report: TMenuItem
+      Caption = 'Report'
+      object CutListPDF: TMenuItem
+        Caption = 'Cut List PDF'
+        OnClick = CutListPDFClick
+      end
+      object CutListTreePDF: TMenuItem
+        Caption = 'Cut List Tree PDF'
+        OnClick = CutListTreePDFClick
+      end
+      object Document: TMenuItem
+        Caption = 'Document'
+        OnClick = DocumentClick
+      end
+    end
     object miWindow: TMenuItem
       Caption = '&Window'
       object mifFileTree: TMenuItem

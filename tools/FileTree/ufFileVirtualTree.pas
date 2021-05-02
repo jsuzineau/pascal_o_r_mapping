@@ -33,6 +33,10 @@ type
    lRunTime: TLabel;
    lRunTime1: TLabel;
    m: TMemo;
+   Report: TMenuItem;
+   CutListPDF: TMenuItem;
+   CutListTreePDF: TMenuItem;
+   Document: TMenuItem;
    mifFileTree: TMenuItem;
    miWindow: TMenuItem;
    miGetCheckedItems: TMenuItem;
@@ -56,6 +60,9 @@ type
     procedure bODClick(Sender: TObject);
     procedure bReportClick(Sender: TObject);
     procedure bTest_Duration_from_DateTimeClick(Sender: TObject);
+    procedure CutListPDFClick(Sender: TObject);
+    procedure CutListTreePDFClick(Sender: TObject);
+    procedure DocumentClick(Sender: TObject);
     procedure eFileNameChange(Sender: TObject);
     procedure eFileNameClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -85,7 +92,7 @@ type
   //Result Files
   private
     Result_List, Result_Tree, Result_List_Tree: String;
-    procedure Process_Result_Files;
+    procedure Process_Result_Files(Report_Number:Byte);
   end;
 
 var
@@ -199,6 +206,21 @@ begin
      Test(10,10,10,10);
 end;
 
+procedure TfFileVirtualTree.CutListPDFClick(Sender: TObject);
+begin
+     Process_Result_Files(1);
+end;
+
+procedure TfFileVirtualTree.CutListTreePDFClick(Sender: TObject);
+begin
+     Process_Result_Files(2);
+end;
+
+procedure TfFileVirtualTree.DocumentClick(Sender: TObject);
+begin
+     Process_Result_Files(4);
+end;
+
 procedure TfFileVirtualTree.Process_Result;
 begin
      slResult.Sort;
@@ -214,7 +236,7 @@ begin
      m.Lines .SaveToFile('Result.txt');
 end;
 
-procedure TfFileVirtualTree.Process_Result_Files;
+procedure TfFileVirtualTree.Process_Result_Files(Report_Number:Byte);
      procedure OpenDocument_Log( _FileName: String);
      begin
           m.Lines.Insert(0,'File generated: '+_FileName);
@@ -231,10 +253,14 @@ begin
      ExecuteProcess( 'txt2pdf.exe',['Result.txt']);
      OpenDocument_Log( 'Result.pdf');
      }
-     Process_PDF( Result_List     , 'Result_List.pdf'     );
-     Process_PDF( Result_Tree     , 'Result_Tree.pdf'     );
-     Process_PDF( Result_List_Tree, 'Result_List_Tree.pdf');
-     OpenDocument_Log( FileVirtualTree_txt_to_odt( 'FileVirtualTree_txt_to_odt.odt', hvstResult));
+     If Report_Number=1 Then
+        Process_PDF( Result_List     , 'Result_List.pdf'     );
+     If Report_Number=2 Then
+        Process_PDF( Result_Tree     , 'Result_Tree.pdf'     );
+     If Report_Number=3 Then
+        Process_PDF( Result_List_Tree, 'Result_List_Tree.pdf');
+     If Report_Number=4 Then
+        OpenDocument_Log( FileVirtualTree_txt_to_odt( 'FileVirtualTree_txt_to_odt.odt', hvstResult));
 end;
 
 procedure TfFileVirtualTree.miGetSelectionClick(Sender: TObject);
@@ -280,7 +306,7 @@ end;
 
 procedure TfFileVirtualTree.bReportClick(Sender: TObject);
 begin
-     Process_Result_Files;
+     Process_Result_Files(2);
 end;
 
 procedure TfFileVirtualTree.mifFileTreeClick(Sender: TObject);
