@@ -58,7 +58,10 @@ type
     procedure Load_from_StringList( _sl: TStringList);
     function Get_Selected: String;
     function Get_Checked: String;
-    function Get_Checked_or_Selected: String;
+    function Get_Checked_or_Selected( _eLoadTime   : TEdit;
+                                      _lRunTime    : TLabel;
+                                      _lMachineTime: TLabel
+                                      ): String;
     procedure vst_expand_first_level;
     procedure vst_expand_full;
     function TreeData_from_Node( _Node: PVirtualNode): TTreeData;
@@ -110,9 +113,9 @@ begin
      Result:=Result+Format ('%.2d',[Second]);
 end;
 
-{ TTreeData }
-
-procedure TTreeData.SetValue( _Value: String);
+function DateTime_from_SpecialTime( _SpecialTime: String): TDateTime;
+var
+   s: String;
    function Colon_count( _Value: String): Integer;
    begin
         Result:= 0;
@@ -123,24 +126,24 @@ procedure TTreeData.SetValue( _Value: String);
           Inc(Result);
           end;
    end;
-   procedure FdValue_from_FValue;
-   var
-      s: String;
-   begin
-        case Colon_count( FValue)
-        of
-          0: s:= '0:0:'+FValue;
-          1: s:= '0:'  +FValue;
-          2: s:=        FValue;
-          end;
-        if not TryStrToDateTime( s, FdValue)
-        then
-            FdValue:= 0;
-   end;
 begin
-     FValue:= _Value;
+     case Colon_count( _SpecialTime)
+     of
+       0: s:= '0:0:'+_SpecialTime;
+       1: s:= '0:'  +_SpecialTime;
+       2: s:=        _SpecialTime;
+       end;
+     if not TryStrToDateTime( s, Result)
+     then
+         Result:= 0;
+end;
 
-     FdValue_from_FValue;
+{ TTreeData }
+
+procedure TTreeData.SetValue( _Value: String);
+begin
+     FValue := _Value;
+     FdValue:= DateTime_from_SpecialTime( FValue);
 end;
 
 procedure TTreeData.SetdValue( _dValue: TDateTime);
@@ -445,12 +448,15 @@ begin
        end;
 end;
 
-function ThVirtualStringTree.Get_Checked_or_Selected: String;
+function ThVirtualStringTree.Get_Checked_or_Selected( _eLoadTime   : TEdit;
+                                                      _lRunTime    : TLabel;
+                                                      _lMachineTime: TLabel): String;
+var
+   LoadTime, RunTime, MachineTime : TDateTime;
    procedure CheckChilds( _Parent: PVirtualNode; _Parent_Checked, _Parent_Selected: Boolean);
    var
       vn: PVirtualNode;
       Checked, Selected: Boolean;
-      td: TTreeData;
       procedure Process_TreeData;
       var
          td: TTreeData;
@@ -458,6 +464,8 @@ function ThVirtualStringTree.Get_Checked_or_Selected: String;
            td:= TreeData_from_Node( vn);
            if not td.IsLeaf then exit;
            Formate_Liste( Result, #13#10, td.Key+'='+td.Value);
+           MachineTime:= MachineTime+td.dValue;
+               RunTime:=     RunTime+td.dValue+LoadTime;
       end;
    begin
         vn:= vst.GetFirstChild(_Parent);
@@ -473,8 +481,16 @@ function ThVirtualStringTree.Get_Checked_or_Selected: String;
           end;
    end;
 begin
+        LoadTime:= DateTime_from_SpecialTime( _eLoadTime.Text);
+         RunTime:= 0;
+     MachineTime:= 0;
      Result:= '';
      CheckChilds( vst.RootNode, False, False);
+
+     _lRunTime    .Caption:= Duration_From_DateTime(     RunTime);
+     _lMachineTime.Caption:= Duration_From_DateTime( MachineTime);
+     Formate_Liste( Result, #13#10#13#10, 'Total Run Time: '+Duration_From_DateTime( MachineTime));
+     Result:='Total Time Including Loading: '+Duration_From_DateTime( RunTime)+#13#10#13#10+Result;
 end;
 
 procedure ThVirtualStringTree.vstChecked( Sender: TBaseVirtualTree;
