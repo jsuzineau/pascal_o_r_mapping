@@ -114,6 +114,7 @@ begin
      lRunTime    .Caption:= '            ';
      lMachineTime.Caption:= '            ';
      lCount      .Caption:= '      ';
+     m.text:='';
 end;
 
 procedure TfFileVirtualTree.FormDestroy(Sender: TObject);
