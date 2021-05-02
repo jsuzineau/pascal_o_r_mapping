@@ -1,30 +1,30 @@
 object fFileVirtualTree: TfFileVirtualTree
-  Left = 533
+  Left = 1248
   Height = 675
-  Top = 417
-  Width = 1204
+  Top = 695
+  Width = 1327
   Caption = 'fFileVirtualTree'
   ClientHeight = 655
-  ClientWidth = 1204
+  ClientWidth = 1327
   Menu = mm
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poDesktopCenter
-  SessionProperties = 'eFileName.Text;eLoadTime.Text;Height;m.Height;Panel2.Width;Panel3.Height;Width'
+  SessionProperties = 'eFileName.Text;eLoadTime.Text;Height;m.Height;Panel2.Width;Panel3.Height;Width;Panel3.Width'
   LCLVersion = '2.0.12.0'
   object Panel1: TPanel
     Left = 0
     Height = 64
     Top = 0
-    Width = 1204
+    Width = 1327
     Align = alTop
     ClientHeight = 64
-    ClientWidth = 1204
+    ClientWidth = 1327
     TabOrder = 0
     object eFileName: TEdit
-      Left = 86
+      Left = 72
       Height = 23
-      Top = 4
+      Top = 8
       Width = 442
       OnChange = eFileNameChange
       OnClick = eFileNameClick
@@ -32,9 +32,9 @@ object fFileVirtualTree: TfFileVirtualTree
       Text = 'Select your file name here'
     end
     object Label1: TLabel
-      Left = 12
+      Left = 16
       Height = 15
-      Top = 6
+      Top = 10
       Width = 51
       Caption = 'File name'
       ParentColor = False
@@ -43,7 +43,7 @@ object fFileVirtualTree: TfFileVirtualTree
       Left = 1
       Height = 26
       Top = 37
-      Width = 1202
+      Width = 1325
       Align = alBottom
       TabOrder = 1
     end
@@ -57,73 +57,91 @@ object fFileVirtualTree: TfFileVirtualTree
       Visible = False
     end
     object eLoadTime: TEdit
-      Left = 648
+      Left = 600
       Height = 23
-      Top = 0
+      Top = 8
       Width = 80
       TabOrder = 2
     end
     object Label2: TLabel
-      Left = 572
+      Left = 536
       Height = 15
-      Top = 0
+      Top = 10
       Width = 55
       Caption = 'Load Time'
       ParentColor = False
     end
     object bReport: TButton
-      Left = 1104
+      Left = 1240
       Height = 25
-      Top = 0
+      Top = 6
       Width = 75
       Caption = 'Report'
       OnClick = bReportClick
       TabOrder = 3
     end
     object lRunTime1: TLabel
-      Left = 768
+      Left = 701
       Height = 15
-      Top = 0
+      Top = 10
       Width = 50
       Caption = 'Run Time'
       ParentColor = False
     end
     object lMachineTime1: TLabel
-      Left = 920
+      Left = 936
       Height = 15
-      Top = 0
+      Top = 10
       Width = 75
       Caption = 'Machine Time'
       ParentColor = False
     end
     object lRunTime: TLabel
-      Left = 840
-      Height = 15
-      Top = 0
-      Width = 50
+      Left = 760
+      Height = 25
+      Top = 6
+      Width = 79
       Caption = 'lRunTime'
+      Color = clWhite
+      Font.CharSet = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -19
+      Font.Name = 'Segoe UI'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
       ParentColor = False
+      ParentFont = False
+      Transparent = False
     end
     object lMachineTime: TLabel
-      Left = 1008
-      Height = 15
-      Top = 0
-      Width = 75
+      Left = 1024
+      Height = 25
+      Top = 6
+      Width = 119
       Caption = 'lMachineTime'
+      Color = clWhite
+      Font.CharSet = ANSI_CHARSET
+      Font.Color = clBlack
+      Font.Height = -19
+      Font.Name = 'Segoe UI'
+      Font.Pitch = fpVariable
+      Font.Quality = fqDraft
       ParentColor = False
+      ParentFont = False
+      Transparent = False
     end
   end
   object Panel2: TPanel
     Left = 0
     Height = 591
     Top = 64
-    Width = 1204
+    Width = 1327
     Align = alClient
     ClientHeight = 591
-    ClientWidth = 1204
+    ClientWidth = 1327
     TabOrder = 1
     object Splitter1: TSplitter
-      Left = 696
+      Left = 819
       Height = 589
       Top = 1
       Width = 5
@@ -136,7 +154,7 @@ object fFileVirtualTree: TfFileVirtualTree
       Left = 1
       Height = 589
       Top = 1
-      Width = 695
+      Width = 818
       Align = alClient
       DefaultNodeHeight = 21
       DefaultText = 'Node'
@@ -159,7 +177,7 @@ object fFileVirtualTree: TfFileVirtualTree
       OnClick = vstClick
     end
     object Panel3: TPanel
-      Left = 701
+      Left = 824
       Height = 589
       Top = 1
       Width = 502
@@ -174,13 +192,19 @@ object fFileVirtualTree: TfFileVirtualTree
         Top = 1
         Width = 500
         Align = alTop
-        Font.Name = 'Courier New'
+        Font.CharSet = ANSI_CHARSET
+        Font.Color = clBlack
+        Font.Height = -15
+        Font.Name = 'Consolas'
+        Font.Pitch = fpFixed
+        Font.Quality = fqDraft
         Lines.Strings = (
           'm'
         )
         ParentFont = False
-        ScrollBars = ssAutoVertical
+        ScrollBars = ssAutoBoth
         TabOrder = 0
+        WordWrap = False
       end
       object Splitter2: TSplitter
         Cursor = crVSplit
@@ -234,7 +258,7 @@ object fFileVirtualTree: TfFileVirtualTree
     Top = 32
   end
   object tFirst: TTimer
-    Interval = 10
+    Interval = 100
     OnTimer = tFirstTimer
     Left = 24
     Top = 32
