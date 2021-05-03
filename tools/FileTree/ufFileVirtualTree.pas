@@ -33,10 +33,10 @@ type
    lRunTime: TLabel;
    lRunTime1: TLabel;
    m: TMemo;
-   Report: TMenuItem;
-   CutListPDF: TMenuItem;
-   CutListTreePDF: TMenuItem;
-   Document: TMenuItem;
+   miReport: TMenuItem;
+   miCutListPDF: TMenuItem;
+   miCutListTreePDF: TMenuItem;
+   miDocument: TMenuItem;
    mifFileTree: TMenuItem;
    miWindow: TMenuItem;
    miGetCheckedItems: TMenuItem;
@@ -53,16 +53,16 @@ type
     pb: TProgressBar;
     Splitter1: TSplitter;
     Splitter2: TSplitter;
-    tFirst: TTimer;
-    vstResult: TVirtualStringTree;
+    tReady: TTimer;
+    vstCutList: TVirtualStringTree;
     vst: TVirtualStringTree;
     procedure bGetChecked_or_SelectedClick(Sender: TObject);
     procedure bODClick(Sender: TObject);
     procedure bReportClick(Sender: TObject);
     procedure bTest_Duration_from_DateTimeClick(Sender: TObject);
-    procedure CutListPDFClick(Sender: TObject);
-    procedure CutListTreePDFClick(Sender: TObject);
-    procedure DocumentClick(Sender: TObject);
+    procedure miCutListPDFClick(Sender: TObject);
+    procedure miCutListTreePDFClick(Sender: TObject);
+    procedure miDocumentClick(Sender: TObject);
     procedure eFileNameChange(Sender: TObject);
     procedure eFileNameClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -74,25 +74,33 @@ type
     procedure miGetChecked_or_SelectedClick(Sender: TObject);
     procedure miGetSelectionClick(Sender: TObject);
     procedure miLoadFrom_FileClick(Sender: TObject);
-    procedure tFirstTimer(Sender: TObject);
+    procedure tReadyTimer(Sender: TObject);
     procedure vstChecking(Sender: TBaseVirtualTree; Node: PVirtualNode;
      var NewState: TCheckState; var Allowed: Boolean);
     procedure vstClick(Sender: TObject);
+  //Ready (waiting for loading completed)
+  private
+    Ready: Boolean;
   //Load_from_File
   private
     procedure Load_from_File;
     procedure Select_File;
   //Extracting Result
   private
-    slResult: TStringList;
+    slCutList: TStringList;
     hvst: ThVirtualStringTree;
-    hvstResult: ThVirtualStringTree;
-    procedure Process_Result;
+    hvstCutList: ThVirtualStringTree;
+    procedure Process_CutList;
     procedure Process_GetChecked_or_Selected;
   //Result Files
   private
-    Result_List, Result_Tree, Result_List_Tree: String;
-    procedure Process_Result_Files(Report_Number:Byte);
+    CutList, CutList_Tree, CutList_List_Tree: String;
+    procedure OpenDocument_Log( _FileName: String);
+    procedure Process_PDF( _Text, _PDF_filename: String);
+    procedure Process_CutList_PDF;
+    procedure Process_CutList_Tree_PDF;
+    procedure Process_CutList_PDF_Tree;
+    procedure Process_txt_to_odt;
   end;
 
 var
@@ -106,11 +114,14 @@ implementation
 
 procedure TfFileVirtualTree.FormCreate(Sender: TObject);
 begin
-     slResult  := TStringList.Create;
+     slCutList  := TStringList.Create;
 
-     hvst      := ThVirtualStringTree.Create( True , vst      , pb, lCompute_Aggregates);
-     hvstResult:= ThVirtualStringTree.Create( False, vstResult, pb, lCompute_Aggregates);
-     tFirst.Enabled:= True;
+     hvst       := ThVirtualStringTree.Create( True , vst       , pb, lCompute_Aggregates);
+     hvstCutList:= ThVirtualStringTree.Create( False, vstCutList, pb, lCompute_Aggregates);
+
+     Ready:= False;
+     tReady.Enabled:= True;
+
      lRunTime    .Caption:= '            ';
      lMachineTime.Caption:= '            ';
      lCount      .Caption:= '      ';
@@ -119,42 +130,46 @@ end;
 
 procedure TfFileVirtualTree.FormDestroy(Sender: TObject);
 begin
-     FreeAndNil( slResult  );
+     FreeAndNil( slCutList  );
      FreeAndNil( hvst      );
-     FreeAndNil( hvstResult);
+     FreeAndNil( hvstCutList);
 end;
 
 procedure TfFileVirtualTree.ipsRestoreProperties(Sender: TObject);
 begin
      vst.Header.Columns[0].Width:= ips.ReadInteger( 'vst.Header.Columns[0].Width', 200);
      vst.Header.Columns[1].Width:= ips.ReadInteger( 'vst.Header.Columns[1].Width',  50);
-     vstResult.Header.Columns[0].Width:= ips.ReadInteger( 'vstResult.Header.Columns[0].Width', 200);
-     vstResult.Header.Columns[1].Width:= ips.ReadInteger( 'vstResult.Header.Columns[1].Width',  50);
-     Report_Title:= ips.ReadString( 'Report.Title','Cut List Report');
+     vstCutList.Header.Columns[0].Width:= ips.ReadInteger( 'vstCutList.Header.Columns[0].Width', 200);
+     vstCutList.Header.Columns[1].Width:= ips.ReadInteger( 'vstCutList.Header.Columns[1].Width',  50);
+     Text_to_PDF.Report_Title:= ips.ReadString( 'Text_to_PDF.Report.Title','Cut List Report');
 end;
 
 procedure TfFileVirtualTree.ipsSaveProperties(Sender: TObject);
 begin
      ips.WriteInteger( 'vst.Header.Columns[0].Width', vst.Header.Columns[0].Width);
      ips.WriteInteger( 'vst.Header.Columns[1].Width', vst.Header.Columns[1].Width);
-     ips.WriteInteger( 'vstResult.Header.Columns[0].Width', vstResult.Header.Columns[0].Width);
-     ips.WriteInteger( 'vstResult.Header.Columns[1].Width', vstResult.Header.Columns[1].Width);
-     ips.WriteString ( 'Report.Title',  Report_Title);
+     ips.WriteInteger( 'vstCutList.Header.Columns[0].Width', vstCutList.Header.Columns[0].Width);
+     ips.WriteInteger( 'vstCutList.Header.Columns[1].Width', vstCutList.Header.Columns[1].Width);
+     ips.WriteString ( 'Text_to_PDF.Report.Title',  Text_to_PDF.Report_Title);
 end;
+
 
 procedure TfFileVirtualTree.miLoadFrom_FileClick(Sender: TObject);
 begin
      Load_from_File;
 end;
 
-procedure TfFileVirtualTree.tFirstTimer(Sender: TObject);
+procedure TfFileVirtualTree.tReadyTimer(Sender: TObject);
 begin
-     tFirst.Enabled:= False;
+     Ready:= True;
+     tReady.Enabled:= False;
      Load_from_File;
 end;
 
 procedure TfFileVirtualTree.Load_from_File;
 begin
+     if not Ready then exit;
+
      hvst.Load_from_File( eFileName.Text);
 end;
 
@@ -178,7 +193,7 @@ end;
 
 procedure TfFileVirtualTree.eFileNameChange(Sender: TObject);
 begin
-     If Not(tFirst.Enabled) Then
+     If Not(tReady.Enabled) Then
         Load_from_File;
 end;
 
@@ -207,79 +222,84 @@ begin
      Test(10,10,10,10);
 end;
 
-procedure TfFileVirtualTree.CutListPDFClick(Sender: TObject);
+procedure TfFileVirtualTree.miCutListPDFClick(Sender: TObject);
 begin
-     Process_Result_Files(1);
+     Process_CutList_PDF;
 end;
 
-procedure TfFileVirtualTree.CutListTreePDFClick(Sender: TObject);
+procedure TfFileVirtualTree.miCutListTreePDFClick(Sender: TObject);
 begin
-     Process_Result_Files(2);
+     Process_CutList_Tree_PDF;
 end;
 
-procedure TfFileVirtualTree.DocumentClick(Sender: TObject);
+procedure TfFileVirtualTree.miDocumentClick(Sender: TObject);
 begin
-     Process_Result_Files(4);
+     Process_txt_to_odt;
 end;
 
-procedure TfFileVirtualTree.Process_Result;
+procedure TfFileVirtualTree.Process_CutList;
 begin
-     slResult.Sort;
+     slCutList.Sort;
 
-     hvstResult.Load_from_StringList( slResult);
-     hvstResult.vst_expand_full;
+     hvstCutList.Load_from_StringList( slCutList);
+     hvstCutList.vst_expand_full;
 
-     Result_List:= 'Programs To Run:'+lCount.Caption+#13#10+'Total Machine Run Time:'+lMachineTime.Caption+#13#10+'Total Run Time Including Loading: '+lRunTime.Caption+#13#10#13#10+slResult.Text;
-     Result_Tree:= 'Programs To Run:'+lCount.Caption+#13#10+'Total Machine Run Time:'+lMachineTime.Caption+#13#10+'Total Run Time Including Loading: '+lRunTime.Caption+#13#10#13#10+hvstResult.render_as_text;
-     Result_List_Tree:= Result_List+#13#10+#13#10+#13#10+Result_Tree;
+     CutList:= 'Programs To Run:'+lCount.Caption+#13#10+'Total Machine Run Time:'+lMachineTime.Caption+#13#10+'Total Run Time Including Loading: '+lRunTime.Caption+#13#10#13#10+slCutList.Text;
+     CutList_Tree:= 'Programs To Run:'+lCount.Caption+#13#10+'Total Machine Run Time:'+lMachineTime.Caption+#13#10+'Total Run Time Including Loading: '+lRunTime.Caption+#13#10#13#10+hvstCutList.render_as_text;
+     CutList_List_Tree:= CutList+#13#10+#13#10+#13#10+CutList_Tree;
 
-     m.Lines .Text:= Result_List_Tree;
+     m.Lines .Text:= CutList_List_Tree;
      m.Lines .SaveToFile('Result.txt');
 end;
 
-procedure TfFileVirtualTree.Process_Result_Files(Report_Number:Byte);
-     procedure OpenDocument_Log( _FileName: String);
-     begin
-          m.Lines.Insert(0,'File generated: '+_FileName);
-          OpenDocument( _FileName);
-     end;
-     procedure Process_PDF( _Text, _PDF_filename: String);
-     begin
-          OpenDocument_Log( Text_to_PDF.Execute( _Text, _PDF_filename));
-     end;
+procedure TfFileVirtualTree.OpenDocument_Log(_FileName: String);
 begin
-     //OpenDocument_Log( FileVirtualTree_odt( 'FileTree.odt', hvstResult));
+     m.Lines.Insert(0,'File generated: '+_FileName);
+     OpenDocument( _FileName);
+end;
 
-     {
-     ExecuteProcess( 'txt2pdf.exe',['Result.txt']);
-     OpenDocument_Log( 'Result.pdf');
-     }
-     If Report_Number=1 Then
-        Process_PDF( Result_List     , 'Result_List.pdf'     );
-     If Report_Number=2 Then
-        Process_PDF( Result_Tree     , 'Result_Tree.pdf'     );
-     If Report_Number=3 Then
-        Process_PDF( Result_List_Tree, 'Result_List_Tree.pdf');
-     If Report_Number=4 Then
-        OpenDocument_Log( FileVirtualTree_txt_to_odt( 'FileVirtualTree_txt_to_odt.odt', hvstResult));
+procedure TfFileVirtualTree.Process_PDF(_Text, _PDF_filename: String);
+begin
+     OpenDocument_Log( Text_to_PDF.Execute( _Text, _PDF_filename));
+end;
+
+procedure TfFileVirtualTree.Process_CutList_PDF;
+begin
+     Process_PDF( CutList, 'Result_List.pdf');
+end;
+
+procedure TfFileVirtualTree.Process_CutList_Tree_PDF;
+begin
+     Process_PDF( CutList_Tree, 'Result_Tree.pdf');
+end;
+
+procedure TfFileVirtualTree.Process_CutList_PDF_Tree;
+begin
+     Process_PDF( CutList_List_Tree, 'Result_List_Tree.pdf');
+end;
+
+procedure TfFileVirtualTree.Process_txt_to_odt;
+begin
+     //OpenDocument_Log( FileVirtualTree_odt( 'FileTree.odt', hvstCutList));
+     OpenDocument_Log( FileVirtualTree_txt_to_odt( 'FileVirtualTree_txt_to_odt.odt', hvstCutList));
 end;
 
 procedure TfFileVirtualTree.miGetSelectionClick(Sender: TObject);
 begin
-     slResult.Text:= hvst.Get_Selected;
-     Process_Result;
+     slCutList.Text:= hvst.Get_Selected;
+     Process_CutList;
 end;
 
 procedure TfFileVirtualTree.miGetCheckedItemsClick(Sender: TObject);
 begin
-     slResult.Text:= hvst.Get_Checked;
-     Process_Result;
+     slCutList.Text:= hvst.Get_Checked;
+     Process_CutList;
 end;
 
 procedure TfFileVirtualTree.Process_GetChecked_or_Selected;
 begin
-     slResult.Text:= hvst.Get_Checked_or_Selected( eLoadTime, lRunTime, lMachineTime, lCount);
-     Process_Result;
+     slCutList.Text:= hvst.Get_Checked_or_Selected( eLoadTime, lRunTime, lMachineTime, lCount);
+     Process_CutList;
 end;
 
 procedure TfFileVirtualTree.miGetChecked_or_SelectedClick(Sender: TObject);
@@ -307,7 +327,7 @@ end;
 
 procedure TfFileVirtualTree.bReportClick(Sender: TObject);
 begin
-     Process_Result_Files(2);
+     Process_CutList_Tree_PDF;
 end;
 
 procedure TfFileVirtualTree.mifFileTreeClick(Sender: TObject);

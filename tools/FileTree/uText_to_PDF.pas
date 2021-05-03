@@ -32,6 +32,7 @@ type
     procedure DoGetNext(Sender: TObject);
     procedure DoGetValue(Sender: TObject; const AValueName: string; var AValue: variant);
   public
+    Report_Title:String; 
     function Execute( _Text, _PDF_filename: String): String;
   end;
 Var
