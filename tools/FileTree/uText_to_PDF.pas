@@ -32,6 +32,7 @@ type
     procedure DoGetNext(Sender: TObject);
     procedure DoGetValue(Sender: TObject; const AValueName: string; var AValue: variant);
   public
+    Report_Title:String; 
     function Execute( _Text, _PDF_filename: String): String;
   end;
 
@@ -134,21 +135,21 @@ begin
         PG.Data:=rud;
         PG.Orientation := poPortrait;
         PG.PageSize.PaperName := 'A4';
-        PG.Margins.Left := 15;
-        PG.Margins.Top := 15;
-        PG.Margins.Right := 15;
-        PG.Margins.Bottom := 15;
+        PG.Margins.Left := 10;
+        PG.Margins.Top := 10;
+        PG.Margins.Right := 10;
+        PG.Margins.Bottom := 10;
         // Page header
         PH:=TFPReportPageHeaderBand.Create(PG);
         PH.Layout.Height:=10; // 1 cm.
         M:=TFPReportMemo.Create(PH);
         M.Layout.Top:=1;
         M.Layout.Left:=1;
-        M.Layout.Width:=120;
+        M.Layout.Width:=200;
         M.Layout.Height:=7;
-        M.Text:=ParamStr(1);
+        M.Text:=Report_Title;
         M.Font.Name:=Fnt;
-        M.Font.Size:=10;
+        M.Font.Size:=16;
         M:=TFPReportMemo.Create(PH);
         M.Layout.Top:=1;
         M.Layout.Left:=PG.Layout.Width-41;

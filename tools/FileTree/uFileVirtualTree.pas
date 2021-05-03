@@ -60,8 +60,8 @@ type
     function Get_Checked: String;
     function Get_Checked_or_Selected( _eLoadTime   : TEdit;
                                       _lRunTime    : TLabel;
-                                      _lMachineTime: TLabel
-                                      ): String;
+                                      _lMachineTime: TLabel;
+                                      _lCount      : TLabel): String;
     procedure vst_expand_first_level;
     procedure vst_expand_full;
     function TreeData_from_Node( _Node: PVirtualNode): TTreeData;
@@ -450,9 +450,11 @@ end;
 
 function ThVirtualStringTree.Get_Checked_or_Selected( _eLoadTime   : TEdit;
                                                       _lRunTime    : TLabel;
-                                                      _lMachineTime: TLabel): String;
+                                                      _lMachineTime: TLabel;
+                                                      _lCount      : TLabel): String;
 var
    LoadTime, RunTime, MachineTime : TDateTime;
+   ProgramCount: DWord;
    procedure CheckChilds( _Parent: PVirtualNode; _Parent_Checked, _Parent_Selected: Boolean);
    var
       vn: PVirtualNode;
@@ -466,6 +468,7 @@ var
            Formate_Liste( Result, #13#10, td.Key+'='+td.Value);
            MachineTime:= MachineTime+td.dValue;
                RunTime:=     RunTime+td.dValue+LoadTime;
+           inc(ProgramCount);
       end;
    begin
         vn:= vst.GetFirstChild(_Parent);
@@ -484,13 +487,13 @@ begin
         LoadTime:= DateTime_from_SpecialTime( _eLoadTime.Text);
          RunTime:= 0;
      MachineTime:= 0;
+     ProgramCount:=0;
      Result:= '';
      CheckChilds( vst.RootNode, False, False);
 
-     _lRunTime    .Caption:= Duration_From_DateTime(     RunTime);
-     _lMachineTime.Caption:= Duration_From_DateTime( MachineTime);
-     Formate_Liste( Result, #13#10#13#10, 'Total Run Time: '+Duration_From_DateTime( MachineTime));
-     Result:='Total Time Including Loading: '+Duration_From_DateTime( RunTime)+#13#10#13#10+Result;
+     _lRunTime    .Caption:= '  '+Duration_From_DateTime(     RunTime)+'  ';
+     _lMachineTime.Caption:= '  '+Duration_From_DateTime( MachineTime)+'  ';
+     _lCount      .Caption:= '  '+inttostr(ProgramCount)+'  ';
 end;
 
 procedure ThVirtualStringTree.vstChecked( Sender: TBaseVirtualTree;
