@@ -19,22 +19,21 @@ type
  TfFileVirtualTree
  =
   class(TForm)
-   bGetChecked_or_Selected: TButton;
    bOD: TButton;
    bReport: TButton;
-   bTest_Duration_from_DateTime: TButton;
    eFileName: TEdit;
    eLoadTime: TEdit;
    ips: TIniPropStorage;
    Label1: TLabel;
    Label2: TLabel;
+   Label3: TLabel;
    lCount: TLabel;
    lMachineTime: TLabel;
    lMachineTime1: TLabel;
-   lCompute_Aggregates: TLabel;
    lRunTime: TLabel;
    lRunTime1: TLabel;
-   m: TMemo;
+   mCutList: TMemo;
+   miUnitTesting: TMenuItem;
    miReport: TMenuItem;
    miCutListPDF: TMenuItem;
    miCutListTreePDF: TMenuItem;
@@ -58,10 +57,8 @@ type
     tReady: TTimer;
     vstCutList: TVirtualStringTree;
     vst: TVirtualStringTree;
-    procedure bGetChecked_or_SelectedClick(Sender: TObject);
     procedure bODClick(Sender: TObject);
     procedure bReportClick(Sender: TObject);
-    procedure bTest_Duration_from_DateTimeClick(Sender: TObject);
     procedure miCutListPDFClick(Sender: TObject);
     procedure miCutListTreePDFClick(Sender: TObject);
     procedure miDocumentClick(Sender: TObject);
@@ -76,6 +73,7 @@ type
     procedure miGetChecked_or_SelectedClick(Sender: TObject);
     procedure miGetSelectionClick(Sender: TObject);
     procedure miLoadFrom_FileClick(Sender: TObject);
+    procedure miUnitTestingClick(Sender: TObject);
     procedure tReadyTimer(Sender: TObject);
     procedure vstChecking(Sender: TBaseVirtualTree; Node: PVirtualNode;
      var NewState: TCheckState; var Allowed: Boolean);
@@ -87,14 +85,17 @@ type
   private
     procedure Load_from_File;
     procedure Select_File;
-  //Extracting Result
+  //Unit Testing
+  private
+    procedure UnitTesting;
+  //Extracting CutList
   private
     slCutList: TStringList;
     hvst: ThVirtualStringTree;
     hvstCutList: ThVirtualStringTree;
     procedure Process_CutList;
     procedure Process_GetChecked_or_Selected;
-  //Result Files
+  //CutList Files
   private
     CutList, CutList_Tree, CutList_List_Tree: String;
     procedure OpenDocument_Log( _FileName: String);
@@ -118,8 +119,8 @@ procedure TfFileVirtualTree.FormCreate(Sender: TObject);
 begin
      slCutList  := TStringList.Create;
 
-     hvst       := ThVirtualStringTree.Create( True , vst       , pb, lCompute_Aggregates);
-     hvstCutList:= ThVirtualStringTree.Create( False, vstCutList, pb, lCompute_Aggregates);
+     hvst       := ThVirtualStringTree.Create( True , vst       , pb);
+     hvstCutList:= ThVirtualStringTree.Create( False, vstCutList, pb);
 
      Ready:= False;
      tReady.Enabled:= True;
@@ -127,7 +128,7 @@ begin
      lRunTime    .Caption:= '';//lRunTime.Transparent = True so Caption:= '    ' does nothing more
      lMachineTime.Caption:= '';
      lCount      .Caption:= '';
-     m.text:='';
+     mCutList.text:='';
 end;
 
 procedure TfFileVirtualTree.FormDestroy(Sender: TObject);
@@ -198,8 +199,12 @@ begin
      Load_from_File;
 end;
 
-procedure TfFileVirtualTree.bTest_Duration_from_DateTimeClick(Sender: TObject);
+procedure TfFileVirtualTree.miUnitTestingClick(Sender: TObject);
+begin
+     UnitTesting;
+end;
 
+procedure TfFileVirtualTree.UnitTesting;
      procedure Test( _Day, _Hour, _Minute, _Second: Word);
      var
         dt: TDateTime;
@@ -207,11 +212,94 @@ procedure TfFileVirtualTree.bTest_Duration_from_DateTimeClick(Sender: TObject);
      begin
           dt:= _Day+EncodeTime( _Hour, _Minute, _Second, 0);
           duration:= Duration_from_DateTime( dt);
-          m.Lines.Add( Format( '%.2d %.2d:%.2d:%.2d => %s',
+          mCutList.Lines.Add( Format( '%.2d %.2d:%.2d:%.2d => %s',
                                [_Day, _Hour, _Minute, _Second, duration]));
      end;
+     procedure MakeTestFile_TIniFile; //Slow
+     var
+        ini: TIniFile;
+        procedure Recursive( _Level: Integer; _Root: String);
+        var
+           I: Integer;
+        begin
+             if _Level < 3
+             then
+                 for I:= 0 to 9
+                 do
+                   Recursive( _Level+1, _Root+'Directory_'+IntToStr(I)+'\')
+             else
+               for I:= 0 to 9
+               do
+                 ini.WriteString( 'Files', _Root+'File_'+IntToStr(I), '10');
+        end;
+     begin
+          ini:= TIniFile.Create('TestFile.ini');
+          try
+             Recursive( 0, 'C:\');
+          finally
+                 FreeAndNil( ini);
+                 end;
+     end;
+     procedure MakeTestFile_TFileStream;
+     var
+        fs: TFileStream;
+        procedure fsWriteLn( _S: String);
+        begin
+             _S:= _S+#13#10;
+             fs.Write( _S[1], Length( _S));
+        end;
+        procedure Recursive( _Level: Integer; _Root: String);
+        var
+           I: Integer;
+        begin
+             if _Level < 3
+             then
+                 for I:= 0 to 9
+                 do
+                   Recursive( _Level+1, _Root+'Directory_'+IntToStr(I)+'\')
+             else
+               for I:= 0 to 9
+               do
+                 fsWriteLn( _Root+'File_'+IntToStr(I)+'=10');
+        end;
+     begin
+          fs:= TFileStream.Create('TestFile.ini', fmCreate);
+          try
+             fsWriteLn( '[Files]');
+             Recursive( 0, 'C:\');
+          finally
+                 FreeAndNil( fs);
+                 end;
+     end;
+     procedure MakeTestFile_TStringList;
+     var
+        sl: TStringList;
+        procedure Recursive( _Level: Integer; _Root: String);
+        var
+           I: Integer;
+        begin
+             if _Level < 3
+             then
+                 for I:= 0 to 9
+                 do
+                   Recursive( _Level+1, _Root+'Directory_'+IntToStr(I)+'\')
+             else
+               for I:= 0 to 9
+               do
+                 sl.Add( _Root+'File_'+IntToStr(I)+'=10');
+        end;
+     begin
+          sl:= TStringList.Create;
+          try
+             sl.Add( '[Files]');
+             Recursive( 0, 'C:\');
+          finally
+                 sl.SaveToFile( 'TestFile.ini');
+                 FreeAndNil( sl);
+                 end;
+     end;
 begin
-     m.Clear;
+     mCutList.Clear;
      Test( 0, 0, 0, 0);
      Test( 0, 0, 0, 1);
      Test( 0, 0, 0,10);
@@ -221,6 +309,7 @@ begin
      Test( 0,10,10,10);
      Test( 1,10,10,10);
      Test(10,10,10,10);
+     MakeTestFile_TStringList;
 end;
 
 procedure TfFileVirtualTree.miCutListPDFClick(Sender: TObject);
@@ -249,13 +338,13 @@ begin
      CutList_Tree:= 'Programs To Run:'+lCount.Caption+#13#10+'Total Machine Run Time:'+lMachineTime.Caption+#13#10+'Total Run Time Including Loading: '+lRunTime.Caption+#13#10#13#10+hvstCutList.render_as_text;
      CutList_List_Tree:= CutList+#13#10+#13#10+#13#10+CutList_Tree;
 
-     m.Lines .Text:= CutList_List_Tree;
-     m.Lines .SaveToFile('Result.txt');
+     mCutList.Lines .Text:= CutList_List_Tree;
+     mCutList.Lines .SaveToFile('Result.txt');
 end;
 
 procedure TfFileVirtualTree.OpenDocument_Log(_FileName: String);
 begin
-     m.Lines.Insert(0,'File generated: '+_FileName);
+     mCutList.Lines.Insert(0,'File generated: '+_FileName);
      OpenDocument( _FileName);
 end;
 
@@ -304,11 +393,6 @@ begin
 end;
 
 procedure TfFileVirtualTree.miGetChecked_or_SelectedClick(Sender: TObject);
-begin
-     Process_GetChecked_or_Selected;
-end;
-
-procedure TfFileVirtualTree.bGetChecked_or_SelectedClick(Sender: TObject);
 begin
      Process_GetChecked_or_Selected;
 end;

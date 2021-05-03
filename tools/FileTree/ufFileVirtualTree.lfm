@@ -14,11 +14,11 @@ object fFileVirtualTree: TfFileVirtualTree
   LCLVersion = '2.0.12.0'
   object Panel1: TPanel
     Left = 0
-    Height = 98
+    Height = 80
     Top = 0
     Width = 1000
     Align = alTop
-    ClientHeight = 98
+    ClientHeight = 80
     ClientWidth = 1000
     TabOrder = 0
     object eFileName: TEdit
@@ -51,64 +51,37 @@ object fFileVirtualTree: TfFileVirtualTree
     object pb: TProgressBar
       Left = 1
       Height = 20
-      Top = 77
+      Top = 59
       Width = 998
       Align = alBottom
       TabOrder = 2
     end
-    object lCompute_Aggregates: TLabel
-      Left = 270
-      Height = 15
-      Top = 42
-      Width = 149
-      Caption = 'Computing time aggregates'
-      ParentColor = False
-      Visible = False
-    end
-    object bGetChecked_or_Selected: TButton
-      Left = 15
-      Height = 25
-      Top = 45
-      Width = 225
-      Caption = 'Get checked or selected items'
-      OnClick = bGetChecked_or_SelectedClick
+    object eLoadTime: TEdit
+      Left = 88
+      Height = 23
+      Top = 32
+      Width = 80
       TabOrder = 3
     end
-    object bTest_Duration_from_DateTime: TButton
-      Left = 470
-      Height = 25
-      Top = 45
-      Width = 65
-      Caption = 'Test'
-      OnClick = bTest_Duration_from_DateTimeClick
-      TabOrder = 4
-    end
-    object eLoadTime: TEdit
-      Left = 648
-      Height = 23
-      Top = 0
-      Width = 80
-      TabOrder = 5
-    end
     object Label2: TLabel
-      Left = 572
+      Left = 12
       Height = 15
-      Top = 0
+      Top = 32
       Width = 56
       Caption = 'Load Time'
       ParentColor = False
     end
     object bReport: TButton
-      Left = 752
+      Left = 560
       Height = 25
-      Top = 0
+      Top = 24
       Width = 75
       Caption = 'Report'
       OnClick = bReportClick
-      TabOrder = 6
+      TabOrder = 4
     end
     object lRunTime1: TLabel
-      Left = 579
+      Left = 179
       Height = 15
       Top = 32
       Width = 51
@@ -116,15 +89,15 @@ object fFileVirtualTree: TfFileVirtualTree
       ParentColor = False
     end
     object lMachineTime1: TLabel
-      Left = 548
+      Left = 308
       Height = 15
-      Top = 56
+      Top = 32
       Width = 76
       Caption = 'Machine Time'
       ParentColor = False
     end
     object lRunTime: TLabel
-      Left = 648
+      Left = 248
       Height = 15
       Top = 32
       Width = 51
@@ -132,34 +105,42 @@ object fFileVirtualTree: TfFileVirtualTree
       ParentColor = False
     end
     object lMachineTime: TLabel
-      Left = 648
+      Left = 408
       Height = 15
-      Top = 56
+      Top = 32
       Width = 76
       Caption = 'lMachineTime'
       ParentColor = False
     end
     object lCount: TLabel
-      Left = 840
+      Left = 512
       Height = 15
       Top = 30
-      Width = 33
-      Caption = 'Count'
+      Width = 36
+      Caption = 'lCount'
+      ParentColor = False
+    end
+    object Label3: TLabel
+      Left = 503
+      Height = 15
+      Top = 30
+      Width = 7
+      Caption = '#'
       ParentColor = False
     end
   end
   object Panel2: TPanel
     Left = 0
-    Height = 332
-    Top = 98
+    Height = 350
+    Top = 80
     Width = 1000
     Align = alClient
-    ClientHeight = 332
+    ClientHeight = 350
     ClientWidth = 1000
     TabOrder = 1
     object Splitter1: TSplitter
       Left = 492
-      Height = 330
+      Height = 348
       Top = 1
       Width = 5
       Align = alRight
@@ -169,7 +150,7 @@ object fFileVirtualTree: TfFileVirtualTree
     end
     object vst: TVirtualStringTree
       Left = 1
-      Height = 330
+      Height = 348
       Top = 1
       Width = 491
       Align = alClient
@@ -195,15 +176,15 @@ object fFileVirtualTree: TfFileVirtualTree
     end
     object Panel3: TPanel
       Left = 497
-      Height = 330
+      Height = 348
       Top = 1
       Width = 502
       Align = alRight
       Caption = 'Panel3'
-      ClientHeight = 330
+      ClientHeight = 348
       ClientWidth = 502
       TabOrder = 2
-      object m: TMemo
+      object mCutList: TMemo
         Left = 1
         Height = 66
         Top = 1
@@ -211,11 +192,12 @@ object fFileVirtualTree: TfFileVirtualTree
         Align = alTop
         Font.Name = 'Courier New'
         Lines.Strings = (
-          'm'
+          'mCutList'
         )
         ParentFont = False
-        ScrollBars = ssAutoVertical
+        ScrollBars = ssAutoBoth
         TabOrder = 0
+        WordWrap = False
       end
       object Splitter2: TSplitter
         Cursor = crVSplit
@@ -230,7 +212,7 @@ object fFileVirtualTree: TfFileVirtualTree
       end
       object vstCutList: TVirtualStringTree
         Left = 1
-        Height = 257
+        Height = 275
         Top = 72
         Width = 500
         Align = alClient
@@ -282,6 +264,10 @@ object fFileVirtualTree: TfFileVirtualTree
       object miLoadFrom_File: TMenuItem
         Caption = 'Load'
         OnClick = miLoadFrom_FileClick
+      end
+      object miUnitTesting: TMenuItem
+        Caption = '&Unit Testing'
+        OnClick = miUnitTestingClick
       end
     end
     object miResult: TMenuItem

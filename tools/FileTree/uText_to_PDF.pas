@@ -54,6 +54,23 @@ begin
      Result:= FText_to_PDF;
 end;
 
+type
+ { TfprmText_to_PDF }
+
+ TfprmText_to_PDF
+ =
+  class( TFPReportMemo)
+  protected
+    function GetDateTimeFormat: String; override;
+  end;
+
+{ TfprmText_to_PDF }
+
+function TfprmText_to_PDF.GetDateTimeFormat: String;
+begin
+     Result:='mm-dd-yyyy';
+end;
+
 { TText_to_PDF }
 
 constructor TText_to_PDF.Create;
@@ -103,7 +120,7 @@ var
    PH : TFPReportPageHeaderBand;
    PF : TFPReportPageFooterBand;
    DB : TFPReportDataBand;
-   M : TFPReportMemo;
+   M  : TfprmText_to_PDF;
    PDF : TFPReportExportPDF;
    Fnt : String;
 
@@ -142,7 +159,7 @@ begin
         // Page header
         PH:=TFPReportPageHeaderBand.Create(PG);
         PH.Layout.Height:=10; // 1 cm.
-        M:=TFPReportMemo.Create(PH);
+        M:=TfprmText_to_PDF.Create(PH);
         M.Layout.Top:=1;
         M.Layout.Left:=1;
         M.Layout.Width:=200;
@@ -150,7 +167,7 @@ begin
         M.Text:=Report_Title;
         M.Font.Name:=Fnt;
         M.Font.Size:=16;
-        M:=TFPReportMemo.Create(PH);
+        M:=TfprmText_to_PDF.Create(PH);
         M.Layout.Top:=1;
         M.Layout.Left:=PG.Layout.Width-41;
         M.Layout.Width:=40;
@@ -161,7 +178,7 @@ begin
         // Page footer
         PF:=TFPReportPageFooterBand.Create(PG);
         PF.Layout.Height:=10; // 1 cm.
-        M:=TFPReportMemo.Create(PF);
+        M:=TfprmText_to_PDF.Create(PF);
         M.Layout.Top:=1;
         M.Layout.Left:=1;
         M.Layout.Width:=40;
@@ -176,7 +193,7 @@ begin
         //DB.StretchMode:=smActualHeight;
         DB.Layout.Height:=4; // 0.4 cm.
         DB.StretchMode:=smDontStretch;
-        M:=TFPReportMemo.Create(DB);
+        M:=TfprmText_to_PDF.Create(DB);
         M.Layout.Top:=1;
         M.Layout.Left:=1;
         M.Layout.Width:=PG.Layout.Width-41;

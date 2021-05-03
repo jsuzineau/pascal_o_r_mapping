@@ -41,14 +41,13 @@ type
   class
   //Life cycle management
   public
-    constructor Create( _has_check_boxes: Boolean; _vst: TVirtualStringTree; _pb: TProgressBar; _lCompute_Aggregates: TLabel);
+    constructor Create( _has_check_boxes: Boolean; _vst: TVirtualStringTree; _pb: TProgressBar);
     destructor Destroy; override;
   //Attributes
   public
     has_check_boxes: Boolean;
     vst: TVirtualStringTree;
     pb: TProgressBar;
-    lCompute_Aggregates: TLabel;
     slFiles: TStringList;
     slNodes: TStringList;
     slTreeData: TStringList;
@@ -72,6 +71,7 @@ type
     procedure vst_addnode_from_key_value( _Key, _Value: String);
     function Add_Leaf(_Parent: PVirtualNode; _Text, _Key, _Value: String): PVirtualNode;
     function Add_Node(_Parent: PVirtualNode; _Text: String): PVirtualNode;
+    function Child_from_Key( _Parent: PVirtualNode; _Key: String): PVirtualNode;
     procedure Compute_Aggregates;
     procedure internal_Load;
     procedure Empty_slTreeData;
@@ -158,13 +158,11 @@ end;
 
 constructor ThVirtualStringTree.Create( _has_check_boxes: Boolean;
                                         _vst: TVirtualStringTree;
-                                        _pb: TProgressBar;
-                                        _lCompute_Aggregates: TLabel);
+                                        _pb: TProgressBar);
 begin
      has_check_boxes:= _has_check_boxes;
      vst:= _vst;
      pb:= _pb;
-     lCompute_Aggregates:= _lCompute_Aggregates;
 
      slFiles   := TStringList.Create;
      slNodes   := TStringList.Create;
@@ -201,7 +199,7 @@ begin
 end;
 
 procedure ThVirtualStringTree.internal_Load;
-   procedure vst_from_slFiles;
+   procedure vst_from_slFiles_TStringList;
    var
       i: Integer;
       Key, Value: String;
@@ -211,18 +209,84 @@ procedure ThVirtualStringTree.internal_Load;
         for i:= 0 to slFiles.Count-1
         do
           begin
-          Key  := slFiles.Names         [ i];
-          Value:= slFiles.ValueFromIndex[ i];
+          slFiles.GetNameValue( i, Key, Value);
 
           vst_addnode_from_key_value( Key, Value);
           pb.Position:= i;
           end;
-        lCompute_Aggregates.Show;
         Application.ProcessMessages;
         Compute_Aggregates;
-        lCompute_Aggregates.Hide;
+   end;
+   procedure vst_from_slFiles_StrToK;
+   var
+      s: String;
+      Line:String;
+      i: Integer;
+      Key, Value: String;
+   begin
+        s:= slFiles.Text;
+        pb.Min:= -1;
+        pb.Max:= slFiles.Count-1;
+        i:= 0;
+        while S <> ''
+        do
+          begin                ;
+          Line:= StrToK( slFiles.LineBreak, s);
+          Key:= StrToK( '=', Line);
+          Value:= Line;
+
+          vst_addnode_from_key_value( Key, Value);
+          pb.Position:= i;
+          Inc(i);
+          end;
+        Application.ProcessMessages;
+        Compute_Aggregates;
+   end;
+   procedure vst_from_slFiles;
+   var
+      s: String;
+      s_length: Integer;
+      LineBreak: String;
+      LineBreak_length: Integer;
+      LineStart, LineStop: Integer;
+      Line:String;
+      i: Integer;
+      Equal_Pos: Integer;
+      Value_Start: Integer;
+      Key, Value: String;
+   begin
+        s:= slFiles.Text;
+        s_length:= Length(s);
+        LineBreak:= slFiles.LineBreak;
+        LineBreak_length:= Length( LineBreak);
+        pb.Min:= -1;
+        pb.Max:= slFiles.Count-1;
+        i:= 0;
+        LineStart:= 1;
+        LineStop := 0;
+        while LineStart < s_length
+        do
+          begin                ;
+          LineStop:= PosEx( LineBreak, s, LineStart);
+          if 0 = LineStop then LineStop:= s_length+1;
+
+          Line:= Copy( s, LineStart, LineStop-LineStart);
+          Equal_Pos:= PosEx( '=', s, LineStart);
+          Value_Start:= Equal_Pos+1;
+          Key  := Copy( s, LineStart, Equal_Pos-LineStart);
+          Value:= Copy( s, Value_Start, LineStop-Value_Start);
+
+          vst_addnode_from_key_value( Key, Value);
+          pb.Position:= i;
+
+          LineStart:= LineStop+LineBreak_length;
+          Inc(i);
+          end;
+        Application.ProcessMessages;
+        Compute_Aggregates;
    end;
 begin
+     slFiles.Sort;
      try
         vst.Clear;
         slNodes.Clear;
@@ -288,6 +352,33 @@ begin
      Result:= NewNode_from_TreeData( _Parent, td);
 end;
 
+function ThVirtualStringTree.Child_from_Key( _Parent: PVirtualNode; _Key: String): PVirtualNode;
+var
+   td: TTreeData;
+   vn: PVirtualNode;
+   vn_dValue: TDateTime;
+begin
+     Result:= nil;
+
+     vn:= vst.GetFirstChild(_Parent);
+     while nil <> vn
+     do
+       begin
+       td:= TreeData_from_Node( vn);
+       if Assigned(td)
+       then
+           if 0 = AnsiCompareText( td.Key, _Key) //case insensitive
+           then
+               begin
+               Result:= vn;
+               break;
+               end;
+
+       vn:= vst.GetNextSibling(vn);
+       end;
+
+end;
+
 function ThVirtualStringTree.TreeData_from_Node(_Node: PVirtualNode): TTreeData;
 var
    po: ^TObject;
@@ -307,33 +398,49 @@ const
      Separator='\';
 var
    sTreePath: String;
-   procedure Recursif( Root: String; Parent: PVirtualNode);
+   procedure Recursif( _Root: String; _Parent: PVirtualNode);
    var
       s, sCle: String;
       i: Integer;
       Node: PVirtualNode;
+      procedure Process_with_slNodes;
+      begin
+           i:= slNodes.IndexOf( sCle);
+           if i = -1
+           then
+               begin
+               if sTreePath = ''
+               then
+                   Node:= Add_leaf( _Parent, s, _Key, _Value)
+               else
+                   Node:= Add_Node( _Parent, s);
+
+               slNodes.AddObject( sCle, TObject(Node));
+               end
+           else
+               Node:= PVirtualNode( slNodes.Objects[i]);
+      end;
+      procedure Process_with_Child_from_Key;
+      begin
+           Node:= Child_from_Key( _Parent, s);
+           if Assigned( Node) then exit;
+
+           if sTreePath = ''
+           then
+               Node:= Add_leaf( _Parent, s, _Key, _Value)
+           else
+               Node:= Add_Node( _Parent, s);
+      end;
    begin
         s:= StrTok( Separator, sTreePath);
         if sTreePath = ''
         then             //terminal case for recursion, add Value
             s:= s;
 
-        sCle:= Root;
+        sCle:= _Root;
         Formate_Liste( sCle, Separator, s);
-        i:= slNodes.IndexOf( sCle);
-        if i = -1
-        then
-            begin
-            if sTreePath = ''
-            then
-                Node:= Add_leaf( Parent, s, _Key, _Value)
-            else
-                Node:= Add_Node( Parent, s);
-
-            slNodes.AddObject( sCle, TObject(Node));
-            end
-        else
-            Node:= PVirtualNode( slNodes.Objects[i]);
+        //Process_with_slNodes;
+        Process_with_Child_from_Key;
 
         if sTreePath = ''
         then //terminal case for recursion
