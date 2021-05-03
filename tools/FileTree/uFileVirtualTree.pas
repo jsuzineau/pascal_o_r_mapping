@@ -256,7 +256,7 @@ procedure ThVirtualStringTree.Load_from_File(_FileName: String);
    begin
         ini:= TINIFile.Create( _FileName);
         try
-           ini.ReadSectionRaw( 'Files', slFiles);
+           ini.ReadSectionRaw( 'Log Entries', slFiles);
         finally
                FreeAndNil( ini);
                end;
