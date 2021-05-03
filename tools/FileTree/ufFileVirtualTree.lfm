@@ -4,7 +4,7 @@ object fFileVirtualTree: TfFileVirtualTree
   Top = 417
   Width = 1000
   Caption = 'fFileVirtualTree'
-  ClientHeight = 421
+  ClientHeight = 430
   ClientWidth = 1000
   Menu = mm
   OnCreate = FormCreate
@@ -23,7 +23,7 @@ object fFileVirtualTree: TfFileVirtualTree
     TabOrder = 0
     object eFileName: TEdit
       Left = 86
-      Height = 37
+      Height = 23
       Top = 4
       Width = 418
       OnChange = eFileNameChange
@@ -33,9 +33,9 @@ object fFileVirtualTree: TfFileVirtualTree
     end
     object Label1: TLabel
       Left = 12
-      Height = 19
+      Height = 15
       Top = 12
-      Width = 67
+      Width = 51
       Caption = 'File name'
       ParentColor = False
     end
@@ -58,16 +58,16 @@ object fFileVirtualTree: TfFileVirtualTree
     end
     object eLoadTime: TEdit
       Left = 88
-      Height = 37
+      Height = 23
       Top = 48
       Width = 80
       TabOrder = 3
     end
     object Label2: TLabel
       Left = 12
-      Height = 19
+      Height = 15
       Top = 54
-      Width = 72
+      Width = 56
       Caption = 'Load Time'
       ParentColor = False
     end
@@ -82,65 +82,65 @@ object fFileVirtualTree: TfFileVirtualTree
     end
     object lRunTime1: TLabel
       Left = 179
-      Height = 19
+      Height = 15
       Top = 54
-      Width = 65
+      Width = 51
       Caption = 'Run Time'
       ParentColor = False
     end
     object lMachineTime1: TLabel
       Left = 324
-      Height = 19
+      Height = 15
       Top = 54
-      Width = 96
+      Width = 76
       Caption = 'Machine Time'
       ParentColor = False
     end
     object lRunTime: TLabel
       Left = 248
-      Height = 19
+      Height = 15
       Top = 54
-      Width = 65
+      Width = 51
       Caption = 'lRunTime'
       ParentColor = False
     end
     object lMachineTime: TLabel
       Left = 424
-      Height = 19
+      Height = 15
       Top = 54
-      Width = 96
+      Width = 76
       Caption = 'lMachineTime'
       ParentColor = False
     end
     object lCount: TLabel
       Left = 544
-      Height = 19
+      Height = 15
       Top = 52
-      Width = 45
+      Width = 36
       Caption = 'lCount'
       ParentColor = False
     end
     object Label3: TLabel
       Left = 527
-      Height = 19
+      Height = 15
       Top = 52
-      Width = 9
+      Width = 7
       Caption = '#'
       ParentColor = False
     end
   end
   object Panel2: TPanel
     Left = 0
-    Height = 310
+    Height = 319
     Top = 111
     Width = 1000
     Align = alClient
-    ClientHeight = 310
+    ClientHeight = 319
     ClientWidth = 1000
     TabOrder = 1
     object Splitter1: TSplitter
       Left = 492
-      Height = 308
+      Height = 317
       Top = 1
       Width = 5
       Align = alRight
@@ -150,7 +150,7 @@ object fFileVirtualTree: TfFileVirtualTree
     end
     object vst: TVirtualStringTree
       Left = 1
-      Height = 308
+      Height = 317
       Top = 1
       Width = 491
       Align = alClient
@@ -171,17 +171,17 @@ object fFileVirtualTree: TfFileVirtualTree
       TabOrder = 1
       TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning, toEditOnClick]
       TreeOptions.SelectionOptions = [toMultiSelect]
-      OnChecking = vstChecking
+      OnChecked = vstChecked
       OnClick = vstClick
     end
     object Panel3: TPanel
       Left = 497
-      Height = 308
+      Height = 317
       Top = 1
       Width = 502
       Align = alRight
       Caption = 'Panel3'
-      ClientHeight = 308
+      ClientHeight = 317
       ClientWidth = 502
       TabOrder = 2
       object mCutList: TMemo
@@ -212,7 +212,7 @@ object fFileVirtualTree: TfFileVirtualTree
       end
       object vstCutList: TVirtualStringTree
         Left = 1
-        Height = 235
+        Height = 244
         Top = 72
         Width = 500
         Align = alClient

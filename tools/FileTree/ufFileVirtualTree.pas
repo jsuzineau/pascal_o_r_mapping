@@ -75,8 +75,7 @@ type
     procedure miLoadFrom_FileClick(Sender: TObject);
     procedure miUnitTestingClick(Sender: TObject);
     procedure tReadyTimer(Sender: TObject);
-    procedure vstChecking(Sender: TBaseVirtualTree; Node: PVirtualNode;
-     var NewState: TCheckState; var Allowed: Boolean);
+    procedure vstChecked(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure vstClick(Sender: TObject);
   //Ready (waiting for loading completed)
   private
@@ -167,6 +166,11 @@ begin
      Ready:= True;
      tReady.Enabled:= False;
      Load_from_File;
+end;
+
+procedure TfFileVirtualTree.vstChecked( Sender: TBaseVirtualTree; Node: PVirtualNode);
+begin
+     Process_GetChecked_or_Selected;
 end;
 
 procedure TfFileVirtualTree.Load_from_File;
@@ -393,14 +397,6 @@ begin
 end;
 
 procedure TfFileVirtualTree.miGetChecked_or_SelectedClick(Sender: TObject);
-begin
-     Process_GetChecked_or_Selected;
-end;
-
-procedure TfFileVirtualTree.vstChecking( Sender: TBaseVirtualTree;
-                                         Node: PVirtualNode;
-                                         var NewState: TCheckState;
-                                         var Allowed: Boolean);
 begin
      Process_GetChecked_or_Selected;
 end;
