@@ -32,7 +32,7 @@ type
    lCompute_Aggregates: TLabel;
    lRunTime: TLabel;
    lRunTime1: TLabel;
-   m: TMemo;
+   memo1: TMemo;
    miReport: TMenuItem;
    miCutListPDF: TMenuItem;
    miCutListTreePDF: TMenuItem;
@@ -125,7 +125,7 @@ begin
      lRunTime    .Caption:= '            ';
      lMachineTime.Caption:= '            ';
      lCount      .Caption:= '      ';
-     m.text:='';
+     memo1.text:='';
 end;
 
 procedure TfFileVirtualTree.FormDestroy(Sender: TObject);
@@ -206,11 +206,11 @@ procedure TfFileVirtualTree.bTest_Duration_from_DateTimeClick(Sender: TObject);
      begin
           dt:= _Day+EncodeTime( _Hour, _Minute, _Second, 0);
           duration:= Duration_from_DateTime( dt);
-          m.Lines.Add( Format( '%.2d %.2d:%.2d:%.2d => %s',
+          memo1.Lines.Add( Format( '%.2d %.2d:%.2d:%.2d => %s',
                                [_Day, _Hour, _Minute, _Second, duration]));
      end;
 begin
-     m.Clear;
+     memo1.Clear;
      Test( 0, 0, 0, 0);
      Test( 0, 0, 0, 1);
      Test( 0, 0, 0,10);
@@ -248,13 +248,13 @@ begin
      CutList_Tree:= 'Programs To Run:'+lCount.Caption+#13#10+'Total Machine Run Time:'+lMachineTime.Caption+#13#10+'Total Run Time Including Loading: '+lRunTime.Caption+#13#10#13#10+hvstCutList.render_as_text;
      CutList_List_Tree:= CutList+#13#10+#13#10+#13#10+CutList_Tree;
 
-     m.Lines .Text:= CutList_List_Tree;
-     m.Lines .SaveToFile('Result.txt');
+     memo1.Lines .Text:= CutList_List_Tree;
+     memo1.Lines .SaveToFile('Result.txt');
 end;
 
 procedure TfFileVirtualTree.OpenDocument_Log(_FileName: String);
 begin
-     m.Lines.Insert(0,'File generated: '+_FileName);
+     memo1.Lines.Insert(0,'File generated: '+_FileName);
      OpenDocument( _FileName);
 end;
 

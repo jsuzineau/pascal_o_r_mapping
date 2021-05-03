@@ -211,7 +211,7 @@ object fFileVirtualTree: TfFileVirtualTree
       ClientHeight = 589
       ClientWidth = 630
       TabOrder = 2
-      object m: TMemo
+      object memo1: TMemo
         Left = 1
         Height = 242
         Top = 1
@@ -219,7 +219,7 @@ object fFileVirtualTree: TfFileVirtualTree
         Align = alTop
         Font.CharSet = ANSI_CHARSET
         Font.Color = clBlack
-        Font.Height = -15
+        Font.Height = -13
         Font.Name = 'Consolas'
         Font.Pitch = fpFixed
         Font.Quality = fqDraft
@@ -286,7 +286,7 @@ object fFileVirtualTree: TfFileVirtualTree
     Interval = 10
     OnTimer = tReadyTimer
     Left = 16
-    Top = 72
+    Top = 32
   end
   object mm: TMainMenu
     Left = 64
