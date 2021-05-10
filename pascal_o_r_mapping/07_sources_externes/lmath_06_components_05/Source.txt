@@ -1,0 +1,6 @@
+https://sourceforge.net/projects/lmath-library/
+
+Note that a unit is under GPL: 
+Digital Fourier Transform, which does not require that
+input signal has length of power of two (unit uDSP; note however that this unit
+is distributed under GPL license, and not LGPL)

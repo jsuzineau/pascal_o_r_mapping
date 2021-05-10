@@ -7,7 +7,8 @@ uses
  cthreads,
  {$ENDIF}{$ENDIF}
  Interfaces, // this includes the LCL widgetset
- Forms, tachartlazaruspkg, LazSerialPort, ufInfrason
+ Forms, tachartlazaruspkg, LazSerialPort, uPool, lmcomponents, ufInfrason,
+ ublMesure, uhfMesure, upoolMesure
  { you can add units after this };
 
 {$R *.res}

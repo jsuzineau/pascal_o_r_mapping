@@ -32,6 +32,27 @@ type
      function Log_interne( _Header: String= ''):String;
    end;
 
+  { TPolyedres }
+
+  TPolyedres
+  =
+   class
+   //Cycle de vie
+   public
+     constructor Create;
+     destructor Destroy; override;
+   //Attributs
+   public
+     P: array[3..8] of TPolyedre;
+     Intersections: TIntersection_array;
+   //Méthodes
+   public
+     procedure Init( _i: Integer);
+     procedure Draw( _C: TCanvas; _Scale: ValReal; _Mean: ValReal);
+     function Log( _Intersection_r: ValReal): String;
+     procedure Calcule_Intersections;
+   end;
+
   { TCalcul }
 
   TCalcul
@@ -47,10 +68,9 @@ type
      i: Integer;
      //Premier: Boolean;
 
-     Carre: TCarre;
-     Triangle: TTriangle;
      Rectangle1: TRectangle;
      Rectangle2: TRectangle;
+     P: TPolyedres;
 
      Intersection_r: ValReal;
      Intersection_r_direct: ValReal;
@@ -78,6 +98,7 @@ type
      function sP2: String;
      function scoeff_Intersection_r: String;
      procedure Draw( _C: TCanvas);
+     function Carre: TPolyedre;
    end;
 
   { TCalcul_Test }
@@ -110,7 +131,6 @@ type
    end;
 
 implementation
-
 
 { TCalcul_Boucle }
 
@@ -154,23 +174,124 @@ begin
      Result:= FloatToStr( P2);
 end;
 
+{ TPolyedres }
+
+constructor TPolyedres.Create;
+var
+   iP: Integer;
+begin
+     for iP:= Low(P) to High(P)
+     do
+       P[iP]:= TPolyedre.Create( iP);
+     Intersections.Reset;
+end;
+
+destructor TPolyedres.Destroy;
+var
+   iP: Integer;
+begin
+     for iP:= Low(P) to High(P)
+     do
+       FreeAndNil(P[iP]);
+     inherited Destroy;
+end;
+
+procedure TPolyedres.Init(_i: Integer);
+var
+   iP: Integer;
+begin
+     for iP:= Low(P) to High(P)
+     do
+       P[iP].Init( _i);
+     Calcule_Intersections;
+end;
+
+procedure TPolyedres.Calcule_Intersections;
+var
+   iP1, iP2: Integer;
+   vrpa: TIntersection_array;
+begin
+     Intersections.Reset;
+     for iP1:= Low(P) to High(P)
+     do
+       for iP2:= iP1+1 to High(P)
+       do
+         begin
+         vrpa:= TPolyedre.Intersections( P[iP1], P[iP2]);
+         Intersections.Add( vrpa);
+         end;
+end;
+
+procedure TPolyedres.Draw( _C: TCanvas; _Scale: ValReal; _Mean: ValReal);
+var
+   iP: Integer;
+   iI: Integer;
+   cx, cy: Integer;
+   vrp: TValReal_Point;
+   vrp_r: ValReal;
+   Mean, Mean_sqrt_2: Integer;
+   x, y: Integer;
+   Direct_match, Racine_match: Boolean;
+begin
+     for iP:= Low(P) to High(P)
+     do
+       P[iP].Draw( _C, _Scale);
+
+     cx:= _C.Width  div 2;
+     cy:= _C.Height div 2;
+     with _C do Brush.Style:= bsClear;
+
+     for iI:= Low(Intersections.a) to High(Intersections.a)
+     do
+       begin
+       vrp:= Intersections.a[iI];
+       vrp_r:= vrp.r;
+       Mean       := round( sqrt(PI)*vrp_r);
+       Mean_sqrt_2:= round( sqrt(PI)*vrp_r*sqrt(2));
+       Direct_match:= Mean        = _Mean;
+       Racine_match:= Mean_sqrt_2 = _Mean;
+       if     not Direct_match
+          and not Racine_match
+       then
+           continue;
+       if Direct_match
+       then
+           with _C do Pen.Color:= clGreen
+       else
+           with _C do Pen.Color:= clRed;
+       try
+          x:= cx + round(vrp.x * _Scale);
+          y:= cy - round(vrp.y * _Scale);
+       except
+             on E: Exception
+             do
+               continue;
+             end;
+
+       Circle( _C, x, y, round(_Scale*0.2));
+       end;
+end;
+
 { TCalcul }
 constructor TCalcul.Create;
 begin
-     Carre     := TCarre    .Create;
-     Triangle  := TTriangle .Create;
      Rectangle1:= TRectangle.Create;
      Rectangle2:= TRectangle.Create;
+     P:= TPolyedres.Create;
      ShowRectangles:= False;
 end;
 
 destructor TCalcul.Destroy;
 begin
-     FreeAndNil( Carre     );
-     FreeAndNil( Triangle  );
      FreeAndNil( Rectangle1);
      FreeAndNil( Rectangle2);
+     FreeAndNil( P);
      inherited Destroy;
+end;
+
+function TCalcul.Carre: TPolyedre;
+begin
+     Result:= P.P[4];
 end;
 
 procedure TCalcul.Init( _i: Integer);
@@ -188,8 +309,7 @@ begin
 
      i_root:= sqrt(i);
 
-     Carre   .Init( i);
-     Triangle.Init( i);
+     P.Init( i);
 
      Intersections:= Intersections_from_i_old( i);
      Intersection_r:= Intersections.Mean_r;
@@ -269,8 +389,7 @@ begin
      with _C do Pen.Color:= clBlack;
      with _C do Line( 0, cy, Width,     cy);
      with _C do Line(cx,  0,    cx, Height);
-     Carre   .Draw( _C, Scale);
-     Triangle.Draw( _C, Scale);
+     P.Draw( _C, Scale, Calcul.Mean);
      if ShowRectangles
      then
          begin
@@ -335,6 +454,37 @@ begin
      Formate_Liste( Result, #13#10, 'Erreur: '+BoolToStr(Erreur, True));
 end;
 
+function TPolyedres.Log(_Intersection_r: ValReal): String;
+var
+   iI: Integer;
+   vrp: TIntersection;
+   vrp_r: ValReal;
+   x, y: Integer;
+   Direct_match, Racine_match: Boolean;
+   sMatch: String;
+   vr1, vr2, vr3: ValReal;
+   Mean: Integer;
+   vr: ValReal;
+begin
+     Result:= 'Intersections';
+     for iI:= Low(Intersections.a) to High(Intersections.a)
+     do
+       begin
+       vrp:= Intersections.a[iI];
+       vrp_r:= vrp.r;
+       Direct_match:= (abs(vrp_r - _Intersection_r        ) <= 0.1);
+       Racine_match:= (abs(vrp_r - _Intersection_r/sqrt(2)) <= 0.1);
+            if Direct_match then sMatch:= 'D'
+       else if Racine_match then sMatch:= 'R'
+       else                      sMatch:= '';
+       vr1:= round(sqrt(round(PI*sqr(vrp_r))));
+       Mean:= round(sqrt(PI)*vrp_r);
+       vr3:= sqrt(PI)*vrp_r;
+       vr:= vr1-Mean;
+       Formate_Liste( Result, #13#10, Format('%d',[Mean])+' type '+vrp.s+' '+sMatch);
+       end;
+end;
+
 function TCalcul.Log_interne: String;
 begin
      Result:= '';
@@ -343,13 +493,14 @@ begin
      Formate_Liste( Result, #13#10, Format('Intersection_r: %f', [Intersection_r]));
      Formate_Liste( Result, #13#10, Format('Intersection_r_direct: %f', [Intersection_r_direct]));
      Formate_Liste( Result, #13#10, Format('ra2b2: %f', [ra2b2]));
-     Formate_Liste( Result, #13#10, Calcul_Original.Log_interne('Calcul_Original'));
+     //Formate_Liste( Result, #13#10, Calcul_Original.Log_interne('Calcul_Original'));
      Formate_Liste( Result, #13#10, Calcul         .Log_interne('Calcul'         ));
-     Formate_Liste( Result, #13#10, Format('Calcul.Intersection_r/i_root: %f', [Calcul.Intersection_r/i_root]));
+     //Formate_Liste( Result, #13#10, Format('Calcul.Intersection_r/i_root: %f', [Calcul.Intersection_r/i_root]));
 
-     Formate_Liste( Result, #13#10, Format('i_root            : %f', [i_root            ]));
-     Formate_Liste( Result, #13#10, Format('Reverse_r         : %f', [Reverse_r         ]));
-     Formate_Liste( Result, #13#10, Reverse.Log_interne('Reverse'));
+     //Formate_Liste( Result, #13#10, Format('i_root            : %f', [i_root            ]));
+     //Formate_Liste( Result, #13#10, Format('Reverse_r         : %f', [Reverse_r         ]));
+     //Formate_Liste( Result, #13#10, Reverse.Log_interne('Reverse'));
+     Formate_Liste( Result, #13#10, P.Log( Calcul.Intersection_r));
 end;
 
 function TCalcul.Log: String;

@@ -1,0 +1,1640 @@
+% !TeX program = xelatex
+\documentclass[12pt,a4paper,oneside]{report}
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+\setmainfont{Crimson}
+\setsansfont{Century Gothic}
+\setmonofont[Scale=0.8]{Liberation Mono}
+\usepackage[margin=10pt,font=small,labelfont=bf,labelsep=endash]{caption} % figures and tables caption options
+\usepackage[top=1in, bottom=1in, left=1.5in, right=1.0in]{geometry}
+\usepackage[compact]{titlesec}
+\usepackage{gensymb} % provides Celsius, micro and degree commands
+\titlespacing*{\chapter}{0pt}{-60pt}{10pt}
+\titleformat{\chapter}[display]{\normalfont\LARGE\bfseries}{\chaptertitlename\ \thechapter}{10pt}{}
+\titleformat{\section}[hang]{\normalfont\Large\bfseries}{\thesection\ }{0pt}{}
+\titleformat{\subsubsection}[block]{\normalfont\large\bfseries} % format for label and text
+{} %label (may be counter: \thesection)
+{0pt} % distance between label and text, 0 if no label
+{}
+\titleformat{\paragraph}[runin]{\normalfont\normalsize\bfseries}{}{0pt}{}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\definecolor{darkblue}{RGB}{0,0,128}
+\usepackage[xetex]{hyperref}
+\hypersetup{
+	colorlinks   = true, %Colours links instead of ugly boxes
+	urlcolor     = darkblue, %Colour for external hyperlinks
+	linkcolor    = darkblue, %Colour of internal links
+	citecolor	 = darkblue, %Colour of citations
+	pdftitle	 ={LMComponents Reference},
+	pdfauthor	 ={Viatcheslav Nesterov},
+	pdfsubject	 ={Reference for LMComponents, extension of LMath library},
+	pdfkeywords	 ={pascal, object pascal, mathematics, math, library, science, programming, scientific programming}
+}
+\renewcommand{\labelitemii}{$\bullet$}
+\newcommand{\euler}{\mathrm{e}}
+\newcommand{\keyword}[1]{\textbf{#1}}
+\newcommand{\declarationitem}[1]{{\addfontfeatures{FakeBold=1.3} #1}}
+\newcommand{\descriptiontitle}[1]{{\addfontfeatures{FakeSlant}#1}}
+\newcommand{\code}[1]{\texttt{#1}}  
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\begin{document}
+\title{LMComponents: object-oriented extension of LMath library}
+\author{Viatcheslav Nesterov}
+\maketitle
+\newpage
+\label{toc}\tableofcontents
+\newpage
+% special variable used for calculating some widths.
+\newlength{\tmplength}
+\chapter{Unit lmPointsVec}
+\label{lmPointsVec}
+\index{lmPointsVec}
+\section{Description}
+\code{TPoints} is a class wrapper around \code{TRealPointVector} (see LMath.pdf, Chapter 2). Its properties X[index] and Y[index] provide access to X and Y fields as to separate arrays \code{Float}; if the package was compiled with -dDebug setting, range check is completed for Index. However, use of \code{X} and \code{Y} properties has a considerable penalty on performance. Direct access to underlying array \code{TPoints.Points} is provided for use in time-critical code sections, but in general it is safer to use \code{X} and \code{Y} properties.
+
+If \code{Append} procedure is used for adding new points, \code{Count} is adjusted automatically; by exceeding current \code{Capacity}, memory is automatically reallocated.
+
+In addition, many utility methods and properties are provided, such as \code{MaxX, MaxY, MinX, MinY}; \code{RemovePoints} allows to remove subarray from an arbitrary index; \code{constructor Combine} allows to create \code{TPoints} from two vectors of Float; opposite to it, \code{Extract} is a mean to extract \code{X} or \code{Y} as vector of Float; \code{SortX} and \code{SortY} sort \code{Points} as names suggest.
+\section{Classes, Interfaces, Objects and Records}
+\subsection{ERealPointsException Class}
+\label{lmPointsVec.ERealPointsException}
+\index{ERealPointsException}
+\subsubsection{Hierarchy}
+ERealPointsException {$>$} Exception
+\subsubsection{Description}
+Exception which flags invalid operation with \code{TPoints}.
+ 
+\subsection{TPoints Class}
+\label{lmPointsVec.TPoints}
+\index{TPoints}
+\subsubsection{Hierarchy}
+TPoints {$>$} TObject
+\subsubsection{Declaration}
+\begin{verbatim}
+TPoints = class
+protected
+  function GetBuffer(I: integer): pointer;
+  function GetX(ind:integer):Float;
+  function GetY(ind:integer):Float;
+  procedure SetX(ind:integer; value:Float);
+  procedure SetY(ind:integer; value:Float);
+  function GetPoint(ind:integer):TRealPoint;
+  procedure SetPoint(ind:integer; Value:TRealPoint);
+public
+  Points:TRealPointVector;
+  Capacity:integer;
+  Count:integer;
+  Index:integer;
+  constructor Create(ACapacity:integer);
+  constructor Combine(XVector,YVector:TVector; Lb, Ub:integer);
+  destructor Destroy; override;
+  procedure Append(APoint:TRealPoint);
+  function RemovePoints(Ind: integer; ACount:integer):integer;
+  function Reallocate(Step:integer):integer;
+  procedure FreePoints; virtual;
+  procedure AllocatePoints(ACapacity:integer);
+  procedure SortX(descending:boolean);
+  function MaxX: Float; virtual;
+  function MaxY: Float; virtual;
+  function MinX: Float; virtual;
+  function MinY: Float; virtual;
+  function Range: Float; virtual;
+  function RangeY: Float; virtual;
+  procedure SortY(descending:boolean);
+  procedure ExtractX(var AXVector:TVector; Lb, Ub: integer);
+  procedure ExtractY(var AYVector:TVector; Lb, Ub: integer);
+  property X[I:integer]:Float read GetX write SetX;
+  property Y[I:integer]:Float read GetY write SetY;
+  property ThePoints[I:integer]:TRealPoint read GetPoint write SetPoint; default;
+  property DataBuffer[I:integer]:pointer read GetBuffer;
+end;
+\end{verbatim}
+
+\subsubsection{Properties}
+\begin{itemize}
+	\item[\declarationitem{X}\hfill]
+	\begin{flushleft}
+		\code{public property X[I:integer]: Float;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}]
+	Shortcut to \code{Points[index].X}. By \textit{assigning} X[index], if  \code{Index} $>$ \code{Count-1}, Count is increased to \code{Index+1}. If \code{index} $>$ \code{Capacity} and -dDebug is set, \code{ERealPointException} is raised. 
+	
+	By reading the field, if -dDebug and \code{index} $>$ \code{Count}, then exception is raised.
+	
+	Use of this field has, however, penalty on performance; use direct access to \code{Points} array in time-critical procedures. 
+	\par  \label{lmPointsVec.TPoints-Y}
+	\index{Y}
+	\item[\declarationitem{Y}\hfill]
+	\begin{flushleft}
+		\code{
+			public property Y[I:integer]: Float;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}]
+	Shortcut to \code{Points[index].Y}. See X property above for description of its behaviour. 
+	\par  \label{lmPointsVec.TPoints-ThePoints}
+	\index{ThePoints}
+	\item[\declarationitem{ThePoints}\hfill]
+	\begin{flushleft}
+		\code{
+			public property ThePoints[I:integer]: TRealPoint;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}]
+	Access to \code{Points} with range-check; behaviour is similar to X and Y properties, as well as performance penalty.
+	\par  \label{lmPointsVec.TPoints-DataBuffer}
+	\index{DataBuffer}
+	\item[\declarationitem{DataBuffer}\hfill]
+	\begin{flushleft}
+		\code{
+			public property DataBuffer[I:integer]: pointer;}
+	\end{flushleft}
+	Pointer to Points[I]. Useful for fast low-level filling of the data.
+\end{itemize}
+	
+\subsubsection{Fields}
+\begin{itemize}
+	\label{lmPointsVec.TPoints-Points}
+	\index{Points}
+	\item[\declarationitem{Points}\hfill]
+	\begin{flushleft}
+		\code{
+			public Points:TRealPointVector;}
+	\end{flushleft}
+\item[\descriptiontitle{Description}]
+
+This is actual array of data. Public access to it is provided for direct operations in time-critical program sections. Don't forget to use and adjust \code{Count} and \code{Capacity} fields! Outside time-critical sections, use \code{X}, \code{Y} and \code{ThePoints} properties.
+	
+\par  \label{lmPointsVec.TPoints-Capacity}
+\index{Capacity}
+	\item[\declarationitem{Capacity}\hfill]
+	\begin{flushleft}
+		\code{
+			public Capacity:integer;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}]	
+	This is currently \emph{allocated} \code{Points} length. It should not be confused with \code{Count} which shows number of currently \emph{assigned} points (or, to be exact, highest index of assigned element). If new points are added using \code{Append} method, \code{Count} is updated and memory is automatically reallocated as needed.
+	  
+	\par  \label{lmPointsVec.TPoints-Index}
+	\index{Index}
+	\item[\declarationitem{Index}\hfill]
+	\begin{flushleft}
+		\code{
+			public Index:integer;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}]	
+	General use pointer. After call of \hyperref[lmPointsVec.TPoints-MinX]{MinY, MaxY, MinX, MaxX} functions it points to the first element which has corresponding value.
+	\par  \end{itemize}
+	\par  \label{lmPointsVec.TPoints-Count}
+\index{Count}
+\begin{itemize}
+\item[\declarationitem{Count}\hfill]
+\begin{flushleft}
+	\code{
+		public Count:integer;}
+\end{flushleft}
+\item[\descriptiontitle{Description}]	
+Highest index of assigned element in \code{Points}. It is automatically adjusted when \code{X[index]}, \code{Y[index]} or \code{ThePoints[index]} properties are assigned, when \code{RemovePoints} is used or when \code{Append} procedure is used to add a new point. \code{Append} adds always to \code{Points[Count]} position. Attempt to read beyond \code{Count} raises exception if -dDebug was used. If low-level access to \code{Points} array was used, \code{Count} should be adjusted manually.
+\par  \end{itemize}
+
+\subsubsection{Methods}
+\paragraph{Create}\hspace*{\fill}
+\label{lmPointsVec.TPoints-Create}
+\index{Create}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public constructor Create(ACapacity:integer);}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}]
+	Creates \code{TPoints} object and allocates memory for \code{Points} with \code{Capacity} elements. 
+\end{itemize}
+\paragraph{Combine}\hspace*{\fill}
+\label{lmPointsVec.TPoints-Combine}
+\index{Combine}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public constructor Combine(XVector,YVector:TVector; Lb, Ub:integer);}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}]
+	Creates TPoints object with Points array combined from two arrays of float: \code{XVector} is used to fill \code{X} fields in \code{Points} array; \code{YVector} is for \code{Y} fields. \code{Lb, Ub} are low and upper indexes of the vectors to use. \code{Count} and \code{Capacity} of resulting \code{TPoints} is set to $Ub-Lb$. 
+\end{itemize}
+\paragraph{Destroy}\hspace*{\fill}
+
+\label{lmPointsVec.TPoints-Destroy}
+\index{Destroy}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public destructor Destroy; override;}
+	\end{flushleft}
+\end{itemize}
+\paragraph{Append}\hspace*{\fill}
+\label{lmPointsVec.TPoints-Append}
+\index{Append}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public procedure Append(APoint:TRealPoint);}
+		
+	\end{flushleft}
+	
+	\par
+	\item[\descriptiontitle{Description}]
+	Appends a point to the end (Count position) and increases Count. If Capacity is exceeded, automatically reallocates more space.
+	
+\end{itemize}
+\paragraph{RemovePoints}\hspace*{\fill}
+
+\label{lmPointsVec.TPoints-RemovePoints}
+\index{RemovePoints}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public function RemovePoints(Ind: integer; ACount:integer):integer;}
+		
+	\end{flushleft}
+	
+	\par
+	\item[\descriptiontitle{Description}]
+	removes \code{min(ACount, Count{-}Ind)} points starting from \code{Ind}, moves rest to left. Returns number of actually removed points. Adjusts \code{Count} to new value.
+	
+\end{itemize}
+\paragraph{Reallocate}\hspace*{\fill}
+
+\label{lmPointsVec.TPoints-Reallocate}
+\index{Reallocate}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public function Reallocate(Step:integer):integer;}
+		
+	\end{flushleft}
+	
+	\par
+	\item[\descriptiontitle{Description}]
+	\code{Reallocate(Step:integer)} increases \code{Capacity} by \code{Step}.
+	
+\end{itemize}
+\paragraph{FreePoints}\hspace*{\fill}
+
+\label{lmPointsVec.TPoints-FreePoints}
+\index{FreePoints}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public procedure FreePoints; virtual;}
+	\end{flushleft}
+\item[\descriptiontitle{Description}]
+Frees \code{Points}, sets \code{Count} and \code{Capacity} to zero.	
+\end{itemize}
+\paragraph{AllocatePoints}\hspace*{\fill}
+
+\label{lmPointsVec.TPoints-AllocatePoints}
+\index{AllocatePoints}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public procedure AllocatePoints(ACapacity:integer);}
+		
+	\end{flushleft}
+	
+	\par
+	\item[\descriptiontitle{Description}]
+	AllocatePoints(ACapacity:integer) allocates given capacity; unlike \code{Reallocate} does not take into account preexisting \code{Capacity}.
+	
+\end{itemize}
+\paragraph{MinX, MaxX, MinY, MaxY}
+\label{lmPointsVec.TPoints-MinX}
+\index{MinX}
+\begin{itemize}
+	\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			function MinX: Float; virtual;\\
+			function MaxX: Float; virtual;\\
+			function MinY: Float; virtual;\\
+			function MaxY: float virtual;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}]
+	Return maximal and minimal X and Y values, according to the names. After the call, \hyperref[lmPointsVec.TPoints-Index]{Index} field points to the first found element with this value. These functions use simple linear search. If structure of your data allows more efficient algorithms, override these functions, but don't forget to update Index field. 
+\end{itemize}
+\label{lmPointsVec.TPoints-Range}
+\index{Range}
+\paragraph{Range}
+\begin{itemize}
+\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+	\code{
+		function Range: Float; virtual;}
+\end{flushleft}
+\item[\descriptiontitle{Description}]
+$Range=MaxX-MinX$\label{lmPointsVec.TPoints-RangeY}
+\end{itemize}
+\index{RangeY}
+\paragraph{RangeY}
+\begin{itemize}
+\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+	\code{
+		function RangeY: Float;}
+\end{flushleft}
+\item[\descriptiontitle{Description}]
+$RangeY=MaxY-MinY$
+\end{itemize}
+
+\paragraph{SortX, SortY}\hspace*{\fill}
+\label{lmPointsVec.TPoints-SortX}
+\index{SortX}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public procedure SortX(descending:boolean);
+			public procedure SortY(descending:boolean);}
+	\end{flushleft}
+	
+	\par
+	\item[\descriptiontitle{Description}]
+	Sort \code{Points} by \code{X} or \code{Y}, accordingly; if descending then in descending order, otherwise in ascending.
+\end{itemize}
+\paragraph{ExtractX, ExtractY}\hspace*{\fill}
+
+\label{lmPointsVec.TPoints-ExtractX}
+\index{ExtractX}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public procedure ExtractX(var AXVector:TVector; Lb, Ub: integer);
+			public procedure ExtractY(var AYVector:TVector; Lb, Ub: integer);}
+	\end{flushleft}
+
+	\item[\descriptiontitle{Description}]
+	Extract all X from [Lb..Ub] interval as TVector. If length of AXVector or AYVector is insufficient, it is reallocated. 
+\end{itemize}
+\chapter{Unit lmFilters}
+\label{lmfilters}
+\index{lmfilters}
+\section{Description}
+Unit lmFilters includes several off-line digital filters of a signal which are implemented as non-visual components. You can drop a component on your form, define sampling rate and cut-off frequency, define \code{OnInput} and \code{OnOutput} events and call \code{Filter} method. \code{OnInput} event is called from \code{Filter} method whenever the filtering procedure needs next input value, and \code{OnOutput} when it is ready to return a next value. This technique makes the components independent of a format of data which are filtered.
+
+Currently, implemented are gaussian filter, moving average filter, which are probably the best ``smoothing'' filters for time domain, and median filter which is ideal to remove short spikes preserving sharp edges.
+
+\section{Types}
+\subsection{TInputFunc}
+\label{lmfilters-TInputFunc}
+\index{TInputFunc}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			TInputFunc = function(Index:integer):Float of Object;}
+	\end{flushleft}
+\end{itemize}
+\subsection{TOutputProc}
+\label{lmfilters-TOutputproc}
+\index{TOutputproc}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			TOutputproc = procedure(Val:Float; Index:integer) of Object;}
+	\end{flushleft}
+\end{itemize}
+\section{Classes, Interfaces, Objects and Records}
+\subsection{EFilterException Class}
+\label{lmfilters.EFilterException}
+\index{EFilterException}
+\subsubsection{Hierarchy}
+EFilterException {$>$} exception
+%%%%Description
+\subsection{TDigFilter Class}
+\label{lmfilters.TDigFilter}
+\index{TDigFilter}
+\subsubsection{Hierarchy}
+TDigFilter {$>$} TComponent
+\subsubsection{Declaration}
+	\begin{verbatim}
+		TDigFilter = class(TComponent)
+		protected
+		  FOnInput:TInputFunc;
+		  FOnOutput:TOutputProc;
+		public
+		  procedure Filter(StartIndex, EndIndex:integer); virtual; abstract;
+		published
+		  property OnInput:TInputFunc read FOnInput write FOnInput;
+		  property OnOutput:TOutputProc read FOnOutput write FOnOutput;
+		end;
+		\end{verbatim}
+\subsubsection{Description}
+TDigFilter is an abstract ancestor class for all digital filters. Itself it is never instantiated, but introduces important common behaviour. 
+\subsubsection{Events}
+\begin{itemize}\label{lmfilters.TDigFilter-OnInput}
+	\index{OnInput}
+	\item[\declarationitem{OnInput}\hfill]
+	\begin{flushleft}
+		\code{
+			published property OnInput: TInputFunc read FOnInput write FOnInput;}
+	\end{flushleft}
+	\par \code{function(Index:integer):Float of object;} must provide a value of input signal at index \code{Index}. It is called from \code{Filter}\label{lmfilters.TDigFilter-OnOutput} method.
+	\index{OnOutput}
+	\item[\declarationitem{OnOutput}\hfill]
+	\begin{flushleft}
+		\code{
+			published property OnOutput: TOutputProc read FOnOutput write FOnOutput;}
+	\end{flushleft}
+	\par \code{procedure(Val:Float; Index:integer) of object} receives a value of filtered signal at \code{Index} and can do with it what a user needs. It is called from \code{Filter} method.
+
+	Both OnInput and OnOutput events are called from Filter method, to get next value from the data stream been filtered. This technique makes the filter independent from an actual data format.
+
+	The most simple implementation of these events may be following:
+\begin{verbatim}
+uses uTypes, lmFilters;
+var
+  DataArr:TVector;
+	{.....}
+function Main.MyFilterInputFunc(Index:integer):Float;
+begin
+  Result := DataArr[Index];
+end;
+
+procedure Main.MyFilterOutputProc(Val:Float; Index:integer);
+begin
+  DataArr[Index] := Val;
+end;
+\end{verbatim}
+
+\end{itemize}
+\subsubsection{Fields}
+\begin{itemize}\label{lmfilters.TDigFilter-FOnInput}
+	\index{FOnInput}
+	\item[\declarationitem{FOnInput}\hfill]
+	\begin{flushleft}
+		\code{
+			protected FOnInput:TInputFunc;}
+	\end{flushleft}
+	\par  \label{lmfilters.TDigFilter-FOnOutput}
+	\index{FOnOutput}
+	\item[\declarationitem{FOnOutput}\hfill]
+	\begin{flushleft}
+		\code{
+			protected FOnOutput:TOutputProc;}
+	\end{flushleft}
+	\par  \end{itemize}
+\subsubsection{Methods}
+\paragraph{Filter}\hspace*{\fill}
+\label{lmfilters.TDigFilter-Filter}
+\index{Filter}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public procedure Filter(StartIndex, EndIndex:integer); virtual; abstract;}
+		
+	\end{flushleft}
+	
+	\par
+	\item[\descriptiontitle{Description}]
+	Receives inpus signal values calling \code{OnInput}, makes actual filtering and outputs result calling \code{OnOutput}.
+\end{itemize}
+\subsection{TOneFreqFilter Class}
+\label{lmfilters.TOneFreqFilter}
+\index{TOneFreqFilter}
+\subsubsection{Hierarchy}
+TOneFreqFilter {$>$} \code{TDigFilter} {$>$} 
+TComponent
+\subsubsection{Declaration}
+\begin{verbatim}
+TOneFreqFilter = class(TDigFilter)
+private
+  FSamplingRate : Float;
+  FCutFreq1     : Float;
+public
+  constructor Create(AOwner:TComponent); override;
+  procedure SetupFilter(ASamplingRate, ACutFreq1 : Float); virtual;
+published
+  property SamplingRate : Float read FSamplingRate;
+  property Cutfreq1     : Float read FCutFreq1;
+end;
+\end{verbatim}
+\subsubsection{Description}
+Descendant of \code{TDigFilter} which describes lowpass or highpass filters (but not pass- or stopband) with Infinite Impulse Response. Introduces \code{SamplingRate} and \code{CutFreq1} properties.
+\subsubsection{Properties}
+\begin{itemize}\label{lmfilters.TOneFreqFilter-SamplingRate}
+	\index{SamplingRate}
+	\item[\declarationitem{SamplingRate}\hfill]
+	\begin{flushleft}
+		\code{
+			published property SamplingRate : Float read FSamplingRate;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}]
+	Sampling rate, usually Hz.
+	\label{lmfilters.TOneFreqFilter-Cutfreq1}
+	\index{Cutfreq1}
+	\item[\declarationitem{CutFreq1}\hfill]
+	\begin{flushleft}
+		\code{
+			published property CutFreq1     : Float read FCutFreq1;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}] Cut (or corner) frequency, usually Hz. Must be less then \code{SamplingRate}.
+	\end{itemize}
+\subsubsection{Methods}
+\paragraph{Create}\hspace*{\fill}
+\label{lmfilters.TOneFreqFilter-Create}
+\index{Create}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public constructor Create(AOwner:TComponent); override;}
+	\end{flushleft}
+\item[\descriptiontitle{Description}] Calls \code{inherited Create}, sets \code{SamplingRate} to 14400 and \code{CutFreq1} at 4000.
+\end{itemize}
+\paragraph{SetupFilter}\hspace*{\fill}
+\label{lmfilters.TOneFreqFilter-SetupFilter}
+\index{SetupFilter}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public procedure SetupFilter(ASamplingRate, ACutFreq1 : Float); virtual;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}] Procedure which sets \code{SamplingRate} and \code{CutFrequency}. It must be called before first call of \code{Filter} method.	
+\end{itemize}
+\subsection{TFIRFilter Class}
+\label{lmfilters.TFIRFilter}
+\index{TFIRFilter}
+\subsubsection{Hierarchy}
+TFIRFilter {$>$} \code{TOneFreqFilter} {$>$} \code{TDigFilter} {$>$} 
+TComponent
+\subsubsection{Declaration}
+\begin{verbatim}
+TFIRFilter = class(TOneFreqFilter)
+protected
+  FWinLength : integer;
+  procedure SetWinLength(L:integer); virtual;
+public
+  constructor Create(AOwner:TComponent); override;
+published
+  property WinLength : integer read FWinLength write SetWinLength;
+end;
+\end{verbatim}
+\subsubsection{Description}
+TFIRFilter: Finite Impulse response filter. Abstract class, descendant of \code{TOneFreqFilter} which introduces \code{WinLength} property for the filter window length (or length of the Impulse Response). 
+\subsubsection{Properties}
+\begin{itemize}\label{lmfilters.TFIRFilter-WinLength}
+	\index{WinLength}
+	\item[\declarationitem{WinLength}\hfill]
+	\begin{flushleft}
+		\code{
+			published property WinLength : integer read FWinLength write SetWinLength;}
+	\end{flushleft}
+  \end{itemize}
+\subsubsection{Fields}
+\begin{itemize}\label{lmfilters.TFIRFilter-FWinLength}
+	\index{FWinLength}
+	\item[\declarationitem{FWinLength}\hfill]
+	\begin{flushleft}
+		\code{
+			protected FWinLength: integer;}
+	\end{flushleft}
+\end{itemize}
+\subsubsection{Methods}
+\paragraph{Create}\hspace*{\fill}
+\label{lmfilters.TFIRFilter-Create}
+\index{Create}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public constructor Create(AOwner:TComponent); override;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}] Calls \code{inherited Create}, sets \code{WinLength} to 5.
+\end{itemize}
+\paragraph{SetWinLength}\hspace*{\fill}
+\label{lmfilters.TFIRFilter-SetWinLength}
+\index{SetWinLength}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			protected procedure SetWinLength(L:integer); virtual;}
+	\end{flushleft}
+\item[\descriptiontitle{Description}] Sets \hyperref[lmfilters.TFIRFilter-WinLength]{WinLength} to L.
+\end{itemize}
+\subsection{TMovAvFilter Class}
+\label{lmfilters.TMovAvFilter}
+\index{TMovAvFilter}
+\subsubsection{Hierarchy}
+TMovAvFilter {$>$} \code{TFIRFilter} {$>$} \code{TOneFreqFilter} {$>$} \code{TDigFilter} {$>$} 
+TComponent
+\subsubsection{Declaration}
+\begin{verbatim}
+TMovAvFilter = class(TFIRFilter)
+protected
+  procedure SetWinLength(L:integer); override;
+public
+  procedure Filter(StartIndex, EndIndex:integer); override;
+  procedure SetupFilter(ASamplingRate, ACutFreq:Float); override;
+published
+  property WinLength : integer read FWinLength write SetWinLength;
+end;
+\end{verbatim}
+\subsubsection{Description}
+Implements moving average filter. It is possible to use \hyperref[lmfilters.TMovAvFilter-SetupFilter]{SetupFilter} procedure to set \code{CutFreq1} and \code{SamplingRate} fields or directly set \hyperref[lmfilters.TFIRFilter-WinLength]{WinLength}. In the first case, needed \code{WinLength} is automatically calculated; in the second case, resulting \code{CutFreq1} is automatically found, provided that \code{SamplingRate} was previously set. So, these approaches are mutually exclusive. 
+\subsubsection{Properties}
+\begin{itemize}\label{lmfilters.TMovAvFilter-WinLength}
+	\index{WinLength}
+	\item[\declarationitem{WinLength}\hfill]
+	\begin{flushleft}
+		\code{
+			published property WinLength : integer read FWinLength write SetWinLength;}
+	\end{flushleft}
+ \end{itemize}
+\subsubsection{Methods}
+\paragraph{SetWinLength}
+\label{lmfilters.TMovAvFilter-SetWinLength}
+\index{SetWinLength}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			protected procedure SetWinLength(L:integer); override;}
+	\end{flushleft}
+\item[\descriptiontitle{Description}] Sets WinLength, calculates corresponding \code{CutFreq1}.
+\end{itemize}
+\paragraph{Filter}\hspace*{\fill}
+\label{lmfilters.TMovAvFilter-Filter}
+\index{Filter}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public procedure Filter(StartIndex, EndIndex:integer); override;}
+	\end{flushleft}
+\end{itemize}
+\paragraph{SetupFilter}\hspace*{\fill}
+\label{lmfilters.TMovAvFilter-SetupFilter}
+\index{SetupFilter}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public procedure SetupFilter(ASamplingRate, ACutFreq:Float); override;}
+	\end{flushleft}
+\end{itemize}
+\subsection{TGaussFilter Class}
+\label{lmfilters.TGaussFilter}
+\index{TGaussFilter}
+\subsubsection{Hierarchy}
+TGaussFilter {$>$} \code{TOneFreqFilter} {$>$} \code{TDigFilter} {$>$} TComponent
+\subsubsection{Declaration}
+\begin{verbatim}
+TGaussFilter = class(TOneFreqFilter)
+public
+  constructor Create(AOwner:TComponent); override;
+  procedure SetupFilter(ASamplingRate, ACutFreq1: Float); override;
+  procedure Filter(StartIndex, EndIndex:integer); override;
+end;
+\end{verbatim}
+\subsubsection{Description}
+Implements gaussian filter with the algorithm described in:\\
+Young I.T., L.J. van Vliet. Recursive implementation of the Gaussian Filter. // Signal Processing, 44 (1995) 139-151
+\subsubsection{Methods}
+\paragraph{Create}\hspace*{\fill}
+\label{lmfilters.TGaussFilter-Create}
+\index{Create}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public constructor Create(AOwner:TComponent); override;}
+	\end{flushleft}
+\item[\descriptiontitle{Description}] Calls \code{inherited Create}, calculates all necessary filter coefficients.
+\end{itemize}
+\paragraph{SetupFilter}\hspace*{\fill}
+\label{lmfilters.TGaussFilter-SetupFilter}
+\index{SetupFilter}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public procedure SetupFilter(ASamplingRate, ACutFreq1: Float); override;}
+	\end{flushleft}
+\item[\descriptiontitle{Description}] Sets \code{SamplingRate} and \code{CutFreq1}, calculates corresponding filter coefficients. 
+\end{itemize}
+\paragraph{Filter}\hspace*{\fill}
+\label{lmfilters.TGaussFilter-Filter}
+\index{Filter}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public procedure Filter(StartIndex, EndIndex:integer); override;}
+	\end{flushleft}
+\end{itemize}
+\subsection{TMedianFilter Class}
+\label{lmfilters.TMedianFilter}
+\index{TMedianFilter}
+\subsubsection{Hierarchy}
+TMedianFilter {$>$} \code{TFIRFilter} {$>$} \code{TOneFreqFilter} {$>$} \code{TDigFilter} {$>$} TComponent
+\subsubsection{Declaration}
+\begin{verbatim}
+TMedianFilter = class(TFIRFilter)
+protected
+  function FindMedian:Float;
+  procedure SetWinLength(L:integer); override;
+public
+  constructor Create(AOwner:TComponent); override;
+  procedure filter(StartIndex, EndIndex:integer); override;
+end;
+\end{verbatim}
+\subsubsection{Description}
+Implementation of Median Filter
+\subsubsection{Methods}
+\paragraph{FindMedian}\hspace*{\fill}
+\label{lmfilters.TMedianFilter-FindMedian}
+\index{FindMedian}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{protected function FindMedian:Float;}
+	\end{flushleft}
+\item[\descriptiontitle{Description}] Finds Median of the filtering window. Is called from \code{Filter}.
+\end{itemize}
+\paragraph{SetWinLength}\hspace*{\fill}
+\label{lmfilters.TMedianFilter-SetWinLength}
+\index{SetWinLength}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{protected procedure SetWinLength(L:integer); override;}
+	\end{flushleft}
+\item[\descriptiontitle{Description}] Sets WinLength property, internally allocates buffer for median search. WinLength must be $\ge 3$ and odd.
+\end{itemize}
+\paragraph{Create}\hspace*{\fill}
+\label{lmfilters.TMedianFilter-Create}
+\index{Create}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{public constructor Create(AOwner:TComponent); override;}
+	\end{flushleft}
+\item[\descriptiontitle{Description}] Calls \code{inherited Create}, setting window length to 5, allocates corresponding buffer for median search.
+\end{itemize}
+\paragraph{Filter}\hspace*{\fill}
+\label{lmfilters.TMedianFilter-filter}
+\index{filter}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public procedure Filter(StartIndex, EndIndex:integer); override;}
+	\end{flushleft}
+\end{itemize}
+\section{Functions and Procedures}
+\subsection{GaussCascadeFreq}
+\label{lmfilters-GaussCascadeFreq}
+\index{GaussCascadeFreq}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			function GaussCascadeFreq(Freq1, Freq2:Float):Float;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}]
+	Finds effective cutoff frequency of cascade of 2 gaussian filters.
+\end{itemize}
+\subsection{GaussRiseTime}
+\label{lmfilters-GaussRiseTime}
+\index{GaussRiseTime}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			function GaussRiseTime(Freq:Float):Float;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}]
+	Finds risetime (10--90{\%}) of a gaussian filter with given cut{-}off frequency.
+\end{itemize}
+\subsection{MovAvRiseTime}
+\label{lmfilters-MovAvRiseTime}
+\index{MovAvRiseTime}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			function MovAvRiseTime(SamplingRate:Float; WLength:integer):Float;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}]
+	Risetime of moving average filter (0--100{\%}).
+\end{itemize}
+\subsection{MoveAvCutOffFreq}
+\label{lmfilters-MoveAvCutOffFreq}
+\index{MoveAvCutOffFreq}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			function MoveAvCutOffFreq(SamplingRate:Float; WLength:integer):Float;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}]
+	Cut{-}off frequency of a moving average filter, given sampling rate and window length.
+\end{itemize}
+\subsection{MoveAvFindWindow}
+\label{lmfilters-MoveAvFindWindow}
+\index{MoveAvFindWindow}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			function MoveAvFindWindow(SamplingRate, CutOffFreq:Float):Integer;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}]
+	Finds required window length from desired cut{-}off frequency and given sampling rate.
+\end{itemize}
+\subsection{Register}
+\label{lmfilters-Register}
+\index{Register}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			procedure Register;}
+	\end{flushleft}
+\end{itemize}
+
+\chapter{Unit lmcoordsys}
+\label{lmcoordsys}
+\index{lmcoordsys}
+\section{Description}
+\code{TCoordSys} component implemented in this unit is relatively simple Cartesian coordinate plane for drawing points, lines, graphical primitives and mathematical functions in user's coordinates. Component is derived from TPanel, so, you can place other components, for example, scale edits, on top of it.
+
+Usage: place the component on your form, in the Object Inspector define positions of axes, distance between grid lines (in user space) as well as coordinate limits (\code{MinX, MaxX, MinY, MaxY}). Define \code{TPen} properties which are used for drawing axes, grid lies and user data as well as numeric format for axes numbering.
+
+For drawing of user's data define \hyperref[lmcoordsys.TCoordSys-OnDrawData]{OnDrawdata} event; all your drawing must occur within it. 
+
+Coordinates are converted between user space and screen coordinates with \hyperref[lmcoordsys.TCoordSys-UserToScreen]{UserToScreen}, \hyperref[lmcoordsys.TCoordSys-ScreenToUser]{ScreenToUser}, \hyperref[lmcoordsys.TCoordSys-XUserToScreen]{XUserToScreen}, \hyperref[lmcoordsys.TCoordSys-YScreenToUser]{YUserToScreen}, \hyperref[lmcoordsys.TCoordSys-XScreenToUser]{XScreenToUser} and \hyperref[lmcoordsys.TCoordSys-YScreenToUser]{YScreenToUser} functions, but you seldom need to call them directly. Procedures \hyperref[lmcoordsys.TCoordSys-PutLine]{PutLine}, \hyperref[lmcoordsys.TCoordSys-GoToXY]{GoToXY}, \hyperref[lmcoordsys.TCoordSys-LineTo]{LineTo}, \hyperref[lmcoordsys.TCoordSys-Circle]{Circle}, \hyperref[lmcoordsys.TCoordSys-Aim]{Aim}, \hyperref[lmcoordsys.TCoordSys-FillRect]{FillRect} are provided for drawing graphical primitives and data in user's space. Procedure \hyperref[lmcoordsys.TCoordSys-FastDraw]{FastDraw} serves for fast drawing of arrays of \code{TPoint} sorted for X coordinate; \hyperref[lmcoordsys.TCoordSys-DrawSpline]{DrawSpline} and \hyperref[lmcoordsys.TCoordSys-DrawFunc]{DrawFunc} provide plotting of data and mathematical functions.
+
+\code{Canvas} property is published, allowing to define easily own drawing procedures.
+
+All drawing of user's data must occur in \code{OnDrawData} event, which is called from \code{Paint} procedure.  
+\section{Classes}
+\subsection{TCoordSys Class}\label{lmcoordsys.TCoordSys}
+\index{TCoordSys}
+\subsubsection{Hierarchy}
+TCoordSys {$>$} TPanel
+\subsubsection{Declaration}
+\begin{verbatim}
+TCoordSys = class(TPanel)
+protected
+  function GetFont:TFont;
+  procedure SetXAxisLabel(const ALabel:String);virtual;
+  function GetXAxisLabel:string; virtual;
+  procedure SetYAxisLabel(const ALabel:String);virtual;
+  function GetYAxisLabel:string; virtual;
+  procedure SetMinX(AMinX:Float); virtual;
+  procedure SetMaxX(AMaxX:Float); virtual;
+  procedure SetMinY(AMinY:Float); virtual;
+  procedure SetMaxY(AMaxY:Float); virtual;
+  procedure DrawAxis; virtual;
+  procedure DrawGridLines; virtual;
+  procedure DrawAxisLabels; virtual; abstract; 
+  procedure SetLeftMargin(AMargin:integer); virtual;
+  procedure SetRightMargin(AMargin:integer); virtual;
+  procedure SetLowerMargin(AMargin:integer); virtual;
+  procedure SetUpperMargin(AMargin:integer); virtual;
+  procedure SetXPos(AXPos:Float); virtual;
+  procedure SetYPos(AYPos:Float); virtual;
+  procedure SetXGridDist(AXGridDist:Float); virtual;
+  procedure SetYGridDist(AYGridDist:Float); virtual;
+  procedure SetAxisPen(APen:TPen); virtual;
+  procedure SetGridPen(APen:TPen); virtual;
+  procedure SetOutputPen(APen:TPen); virtual;
+  procedure SetPenPos(APenPos:TRealPoint); virtual;
+  procedure SetGridDir; virtual; abstract;
+public
+  ScaleX, ScaleY:Float;
+  property PenPos: TRealPoint read FPenPos write SetPenPos;
+  constructor Create(AOwner:TComponent); override;
+  destructor Destroy; override;
+  procedure Paint; override;
+  procedure LineTo(APoint:TRealPoint); overload; 
+  procedure LineTo(X,Y:Float); overload;
+  procedure NewLimits(AMinX,AMinY,AMaxX,AMaxY:Float); virtual;
+  procedure XScrollTo(AX:Float); virtual;
+  procedure YScrollTo(AY:Float); virtual;
+  procedure PutLine(P1,P2:TRealPoint); overload;
+  procedure PutLine(X1,Y1,X2,Y2:Float); overload;
+  function UserToScreen(UP:TRealPoint):TPoint;virtual;
+  function  XUserToScreen(X:Float):integer;virtual;
+  function  YUserToScreen(Y:Float):integer;virtual;
+  function  XScreenToUser(X:integer):Float; virtual;
+  function  YScreenToUser(Y:integer):Float; virtual;
+  procedure Circle(Center:TRealPoint; R:integer); virtual;
+  procedure Aim(Center: TRealPoint; R: integer); virtual;
+  procedure FillRect(X1,Y1,X2,Y2:Float); overload;
+  procedure Fillrect(P1,P2:TRealPoint); overload;
+  procedure GoToXY(X,Y:Float);
+  function ScreenToUser(SP:TPoint):TRealPoint; virtual;
+  procedure ReScale(CoeffX, CoeffY:Float);
+  procedure FastDraw(APoints:TRealPointVector; Lb, Ub: integer);
+  procedure DrawSpline(APoints:TPoints; Lb, Ub: integer);
+  procedure DrawFunc(AFunc:TParamFunc; Params:Pointer; LeftX, RightX : Float); virtual;
+published                                    
+  property XAxisLabel:string read FXAxisLabel write FXAxisLabel;
+  property YAxisLabel:string read FYAxisLabel write FYAxisLabel;
+  property MinX:Float read FMinX write SetMinX; 
+  property MinY:Float read FMinY write SetMinY;
+  property MaxX:Float read FMaxX write SetMaxX;
+  property MaxY:Float read FMaxY write SetMaxY;
+  property XPos:Float read FXPos write SetXPos;
+  property YPos:Float read FYPos write SetYPos;
+  property Font:TFont read GetFont;
+  property AxisPen:TPen read FAxisPen write SetAxisPen;
+  property OutputPen:TPen read FOutputPen write SetOutputPen;
+  property GridPen:TPen read FGridPen write SetGridPen;
+  property LeftMargin:integer read FLeftMargin write SetLeftMargin default 0;
+  property RightMargin:integer read FRightMargin write SetRightMargin default 0;
+  property LowerMargin:integer read FLowerMargin write SetLowerMargin default 0;
+  property UpperMargin:integer read FUpperMargin write SetUpperMargin default 0;
+  property XGridDist:Float read FXGridDist write SetXGridDist;
+  property YGridDist:Float read FYGridDist write SetYGridDist;
+  property XGridNumbersPrecision: integer read FXGridNumbersPrecision write FXGridNumbersPrecision default 5;
+  property XGridNumbersDecimals: integer read FXGridNumbersDecimals write FXGridNumbersDecimals default 2;
+  property YGridNumbersPrecision: integer read FYGridNumbersPrecision write FYGridNumbersPrecision default 9;
+  property YGridNumbersDecimals: integer read FYGridNumbersDecimals write FYGridNumbersDecimals default 4;
+  property Canvas;
+  property OnDrawData:TNotifyEvent read FOnPaint write FOnPaint;
+end;
+\end{verbatim}
+\subsubsection{Description}
+TCoordSys
+\subsubsection{Properties}
+\begin{itemize}\label{lmcoordsys.TCoordSys-PenPos}
+\index{PenPos}
+\item[\declarationitem{PenPos}\hfill]
+\begin{flushleft}
+\code{
+public property PenPos: TRealPoint;}
+\end{flushleft}
+
+Starting position for \hyperref[sec:lineto]{LineTo}. It can be set with \hyperref[lmcoordsys.TCoordSys-GoToXY]{GoToXY} method, or assigned directly. Difference is that for direct assignment coordinates must be represented as \code{TRealPoint}, while for \code{GoToXY} as separate \code{X,Y:Float}. \label{lmcoordsys.TCoordSys-XAxisLabel}
+\index{XAxisLabel}
+\item[\declarationitem{XAxisLabel}\hfill]
+\begin{flushleft}
+\code{
+published property XAxisLabel: string;}\label{lmcoordsys.TCoordSys-YAxisLabel}
+\end{flushleft}
+
+Label of X axis.
+\index{YAxisLabel}
+\item[\declarationitem{YAxisLabel}\hfill]
+\begin{flushleft}
+\code{
+published property YAxisLabel: string read FYAxisLabel write FYAxisLabel;}
+\end{flushleft}
+\par Label of Y axis.  
+\index{MinX}
+\item[\declarationitem{MinX,MinY,MaxX,MaxY}\hfill]
+\begin{flushleft}
+\code{
+published property MinX: Float;\\
+published property MinY: Float;\\
+published property MaxX: Float;\\
+published property MaxY: Float;
+}
+\end{flushleft}
+\label{lmcoordsys.TCoordSys-MinX}
+ MinX,MinY,MaxX,MaxY define window bounds in user coordinate space.\label{lmcoordsys.TCoordSys-MinY}
+\index{MinY}
+\index{MaxX}
+\index{MaxY}
+\label{lmcoordsys.TCoordSys-XPos}
+\index{XPos}
+
+\item[\declarationitem{XPos}\hfill]
+\begin{flushleft}
+\code{
+published property XPos: Float;}
+\end{flushleft}
+\label{lmcoordsys.TCoordSys-YPos}
+\item[\descriptiontitle{Description}] Position of X-axis in Y-coordinate. Default is 0 as well as for YPos, such that axes cross at (0,0) point.
+\index{YPos}
+\item[\declarationitem{YPos}\hfill]
+\begin{flushleft}
+\code{
+published property YPos: Float;}
+\end{flushleft}
+\item[\descriptiontitle{Description}] Position of Y-axis in X-coordinate. Default is 0 as well as for XPos, such that axes cross at (0,0) point.
+\label{lmcoordsys.TCoordSys-Font}
+\index{Font}
+\item[\declarationitem{Font}\hfill]
+\begin{flushleft}
+\code{
+published property Font: TFont;}
+
+\end{flushleft}
+
+
+\par  \label{lmcoordsys.TCoordSys-AxisPen}
+\index{AxisPen}
+\item[\declarationitem{AxisPen}\hfill]
+\begin{flushleft}
+\code{
+published property AxisPen: TPen;}
+\end{flushleft}
+
+\par Pen to draw axis.\label{lmcoordsys.TCoordSys-OutputPen}
+\index{OutputPen}
+\item[\declarationitem{OutputPen}\hfill]
+\begin{flushleft}
+\code{
+published property OutputPen: TPen;}
+\end{flushleft}
+
+\par Pen to draw user's output (from OnDrawData event).\label{lmcoordsys.TCoordSys-GridPen}
+\index{GridPen}
+\item[\declarationitem{GridPen}\hfill]
+\begin{flushleft}
+\code{
+published property GridPen: TPen;}
+\end{flushleft}
+
+Pen to draw gridlines.
+\label{lmcoordsys.TCoordSys-LeftMargin}\label{lmcoordsys.TCoordSys-RightMargin}
+\index{LeftMargin}
+\item[\declarationitem{LeftMargin, RightMargin}\hfill]
+\item[\declarationitem{Upper Margin}\hfill]
+\item[\declarationitem{LowerMargin}\hfill]
+\begin{flushleft}
+\code{
+published property LeftMargin: integer; default 0;\\
+published property RightMargin: integer; default 0;\\
+published property LowerMargin: integer; default 0;\\
+published property UpperMargin: integer; default 0;}
+\end{flushleft}
+\par Width of margins, in pixel
+\index{RightMargin}
+\index{LowerMargin}
+\index{UpperMargin}
+\label{lmcoordsys.TCoordSys-XGridDist}
+\index{XGridDist}
+\item[\declarationitem{XGridDist}\hfill]
+\begin{flushleft}
+\code{
+published property XGridDist: Float;}
+\end{flushleft}
+Distance between grid lines or ticks on X axis in user space coordinates. \label{lmcoordsys.TCoordSys-YGridDist}
+\index{YGridDist}
+\item[\declarationitem{YGridDist}\hfill]
+\begin{flushleft}
+\code{
+published property YGridDist: Float;}
+\end{flushleft}
+Distance between grid lines or ticks on Y axis in user space coordinates. 
+
+\label{lmcoordsys.TCoordSys-XGridNumbersPrecision}
+\index{XGridNumbersPrecision}
+\item [\declarationitem{Axis numbering}]
+\begin{flushleft}
+\code{
+published property XGridNumbersPrecision:integer; default 5;\\
+published property XGridNumbersDecimals:integer; default 2;}
+\end{flushleft}
+\par\code{Precision} and \code{Decimal} parameters for \code{FloatToStrF} call for X axis numbering. \label{lmcoordsys.TCoordSys-XGridNumbersDecimals}
+\index{XGridNumbersDecimals}
+\label{lmcoordsys.TCoordSys-YGridNumbersPrecision}
+\index{YGridNumbersPrecision}
+\code{
+published property YGridNumbersPrecision: integer; default 9;\\
+published property YGridNumbersDecimals: integer; default 4;}
+\par \code{Precision} and \code{Decimal} parameters for \code{FloatToStrF} call for Y axis  numbering. \label{lmcoordsys.TCoordSys-YGridNumbersDecimals}
+\index{YGridNumbersDecimals}
+\label{lmcoordsys.TCoordSys-Canvas}
+\index{Canvas}
+\item[\declarationitem{Canvas}\hfill]
+\begin{flushleft}
+\code{
+published property Canvas;}
+\end{flushleft}
+\label{lmcoordsys.TCoordSys-OnDrawData}
+\index{OnDrawData}
+\item[\declarationitem{OnDrawData}\hfill]
+\begin{flushleft}
+\code{
+published property OnDrawData: TNotifyEvent;}
+\end{flushleft}
+All drawing of user data (like \hyperref[lmcoordsys.TCoordSys-DrawFunc]{drawfunction}, \hyperref[lmcoordsys.TCoordSys-FastDraw]{fastdraw}, all user-defined drawing etc.) must be done in this event.\end{itemize}
+\subsubsection{Fields}
+\begin{itemize}\label{lmcoordsys.TCoordSys-ScaleX}
+\index{ScaleX}
+\item[\declarationitem{ScaleX, ScaleY}\hfill]
+\begin{flushleft}
+\code{
+public ScaleX:Float;\\
+public ScaleY:Float;}
+\end{flushleft}
+\end{itemize}
+\par Pixels per user unit. You must never set these values manually; they are automatically recalculated by window risizing or changes of \hyperref[lmcoordsys.TCoordSys-MinX]{MinX}, \hyperref[lmcoordsys.TCoordSys-MinX]{MaxX}, \hyperref[lmcoordsys.TCoordSys-MinY]{MinY}, \hyperref[lmcoordsys.TCoordSys-MinY]{MaxY}. \label{lmcoordsys.TCoordSys-ScaleY}
+\index{ScaleY}
+
+\subsubsection{Methods}
+\paragraph{Create}\hspace*{\fill}
+\label{lmcoordsys.TCoordSys-Create}
+\index{Create}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+public constructor Create(AOwner:TComponent); override;}
+\end{flushleft}
+\item[\descriptiontitle{Description}] Calls \code{inherited Create}, then creates AxisPen, GridPen and OutputPen. 
+\end{itemize}
+\paragraph{Destroy}\hspace*{\fill}
+\label{lmcoordsys.TCoordSys-Destroy}
+\index{Destroy}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+public destructor Destroy; override;}
+\end{flushleft}
+\end{itemize}
+\paragraph{Paint}\hspace*{\fill}
+\label{lmcoordsys.TCoordSys-Paint}
+\index{Paint}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+public procedure Paint; override;}
+\end{flushleft}
+\item[\descriptiontitle{Description}] Calls inherited (TPanel) Paint, then draws axes using \code{AxisPen}, after it draws gridlines and ticks using \code{GridPen} and, finally, sets \code{OutputPen} as active pen and calls \hyperref[lmcoordsys.TCoordSys-OnDrawData]{OnDrawData}, where all user-defined data drawing must occur.
+\end{itemize}
+\paragraph{NewLimits}\hspace*{\fill}
+\label{lmcoordsys.TCoordSys-NewLimits}
+\index{NewLimits}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public procedure NewLimits(AMinX,AMinY,AMaxX,AMaxY:Float); virtual;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}]
+	Sets new window bounds in user coordinate space (MinX, MinY, MaxX,MaxY), calls RedrawCoordSys to reflect changes.
+\end{itemize}
+\paragraph{ReScale}\hspace*{\fill}\label{lmcoordsys.TCoordSys-ReScale}
+\index{ReScale}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public procedure ReScale(CoeffX, CoeffY:Float);}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}]
+	Multiplies all coordinates, axes and grid positions by a factors \code{CoeffX} and \code{CoeffY}. This may be useful for conversion of units of user space, fro example between metric and imperial systems.
+	
+\end{itemize}
+\paragraph{XScrollTo, YScrollTo}\hspace*{\fill}
+\label{lmcoordsys.TCoordSys-XScrollTo}
+\index{XScrollTo}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public procedure XScrollTo(AX:Float); virtual;\\
+			public procedure YScrollTo(AY:Float); virtual;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}]
+	Procedures for scroll in \code{X} or \code{Y} direction: set \code{MinX} to \code{AX} or \code{MinY} to \code{AY}, modify \code{MaxX} or \code{MaxY} accordingly such that scale is preserved. Redraw the coordinate system and user data.
+\end{itemize}
+\paragraph{UserToScreen, XUserToScreen, YUserToScreen}\hspace*{\fill}
+\label{lmcoordsys.TCoordSys-UserToScreen}
+\index{UserToScreen}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public function UserToScreen(UP:TRealPoint):TPoint; virtual;\\
+			public function XUserToScreen(X:Float):integer; virtual;\\
+			public function YUserToScreen(Y:Float):integer; virtual;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}]
+	Convert user space coordinates to screen coordinates.
+\end{itemize}
+
+\paragraph{ScreenToUser, XScreenToUser, YScreenToUser}\hspace*{\fill}
+\label{lmcoordsys.TCoordSys-XScreenToUser}
+\index{XScreenToUser}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public function ScreenToUser(SP:TPoint):TRealPoint; virtual;\\
+			public function XScreenToUser(X:integer):Float; virtual;\\
+			public function YScreenToUser(Y:integer):Float; virtual;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}]
+	Convert screen coordinates to user space coordinates.
+\end{itemize}
+\paragraph{DrawAxis}\hspace*{\fill}
+\label{lmcoordsys.TCoordSys-DrawAxis}
+\index{DrawAxis}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			protected procedure DrawAxis; virtual;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}] Procedure which draws axes. Is automatically called from \code{Paint} method, normally user does not call it manually.
+\end{itemize}
+\paragraph{DrawGridLines}\hspace*{\fill}
+\label{lmcoordsys.TCoordSys-DrawGridLines}
+\index{DrawGridLines}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			protected procedure DrawGridLines; virtual;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}] Procedure for drawing ticks and grids. Called from \code{Paint}.
+\end{itemize}
+
+
+
+
+\paragraph{GoToXY}\hspace*{\fill}\label{lmcoordsys.TCoordSys-GoToXY}
+\index{GoToXY}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			public procedure GoToXY(X,Y:Float);}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}]
+	Sets PenPos property to (X,Y) point. This property is used by LineTo procedure.
+	
+\end{itemize}
+\paragraph{LineTo}\label{sec:lineto}\hspace*{\fill}
+\label{lmcoordsys.TCoordSys-LineTo}
+\index{LineTo}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+public procedure LineTo(APoint:TRealPoint); overload;\\
+public procedure LineTo(X,Y:Float); overload;}
+\end{flushleft}
+\item[\descriptiontitle{Description}]
+Draws line from \hyperref[lmcoordsys.TCoordSys-PenPos]{PenPos} to \code{APoint} or (X,Y) and updates \code{PenPos}.
+\end{itemize}
+
+
+\paragraph{PutLine}\hspace*{\fill}
+\label{lmcoordsys.TCoordSys-PutLine}
+\index{PutLine}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+public procedure PutLine(P1,P2:TRealPoint); overload;\\
+public procedure PutLine(X1,Y1,X2,Y2:Float); overload;}
+\end{flushleft}
+\item[\descriptiontitle{Description}]
+Puts line of OutputColor from (X1,Y1) to (X2,Y2) or from P1 to P2. Unlike \code{LineTo}, does not use or modify \code{PenPos}.
+\end{itemize}
+
+
+\paragraph{Circle}\hspace*{\fill}
+\label{lmcoordsys.TCoordSys-Circle}
+\index{Circle}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+public procedure Circle(Center:TRealPoint; R:integer); virtual;}
+\end{flushleft}
+\item[\descriptiontitle{Description}]
+draws a circle with the \code{Center} in user space coordinates and radius \code{R} in screen pixels.
+\end{itemize}
+\paragraph{Aim}\hspace*{\fill}
+\label{lmcoordsys.TCoordSys-Aim}
+\index{Aim}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+public procedure Aim(Center: TRealPoint; R: integer); virtual;}
+\end{flushleft}
+\item[\descriptiontitle{Description}]
+draws circle with cross. \code{Center} in user space coordinate and radius \code{R} in pixels.
+\end{itemize}
+\paragraph{FillRect}\hspace*{\fill}
+\label{lmcoordsys.TCoordSys-FillRect}
+\index{FillRect}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+public procedure FillRect(X1,Y1,X2,Y2:Float); overload;
+public procedure Fillrect(P1,P2:TRealPoint); overload;}
+\end{flushleft}
+\item[\descriptiontitle{Description}] Draws filled rectangle in user space coordinates.
+\end{itemize}
+
+
+\paragraph{FastDraw}\hspace*{\fill}\label{lmcoordsys.TCoordSys-FastDraw}
+\index{FastDraw}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+public procedure FastDraw(APoints:TRealPointVector; Lb, Ub: integer);}
+\end{flushleft}
+\item[\descriptiontitle{Description}]
+Fast optimized drawing of large ({$>$}10000) arrays of \code{TRealPoint}. Only if "X" is sorted in ascending order
+\end{itemize}
+\paragraph{DrawSpline}\hspace*{\fill}\label{lmcoordsys.TCoordSys-DrawSpline}
+\index{DrawSpline}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+public procedure DrawSpline(APoints:TPoints; Lb, Ub: integer);}
+\end{flushleft}
+\item[\descriptiontitle{Description}]
+Draws spline through the points Apoints[Lb]..APoints[Ub]
+\end{itemize}
+\paragraph{DrawFunc}\hspace*{\fill}\label{lmcoordsys.TCoordSys-DrawFunc}
+\index{DrawFunc}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+public procedure DrawFunc(AFunc:TParamFunc; Params:Pointer; LeftX, RightX : Float); virtual;}
+\end{flushleft}
+\item[\descriptiontitle{Description}]
+Draws \code{TParamFunc (function(X:Float; Params:Pointer):Float} from \code{LeftX} to \code{RightX}. If they are outside MinX..MaxX they are cropped.
+\end{itemize}
+\paragraph{SetMinX, SetMinY, SetMaxX, SetMaxY}\hspace*{\fill}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\label{lmcoordsys.TCoordSys-SetMinX}
+	\label{lmcoordsys.TCoordSys-SetMaxX}
+	\label{lmcoordsys.TCoordSys-SetMinY}
+	\label{lmcoordsys.TCoordSys-SetMaxY}
+	\index{SetMinX}\index{SetMaxX}\index{SetMinY}\index{SetMaxY}
+	\begin{flushleft}
+		\code{protected procedure SetMinX(AMinX:Float); virtual;\\
+			protected procedure SetMaxX(AMaxX:Float); virtual;\\
+			protected procedure SetMinY(AMinY:Float); virtual;\\
+			protected procedure SetMaxY(AMaxY:Float); virtual;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}] Methods to set \hyperref[lmcoordsys.TCoordSys-MinX]{MinX}, \code{MaxX}, \code{MinY}, \code{MaxY} properties. Change limits of drawn user coordinates and rescale the picture.
+\end{itemize}
+\paragraph{SetRightMargin, SetLeftMargin, SetLowerMargin, SetUpperMargin}\hspace*{\fill}
+\label{lmcoordsys.TCoordSys-SetRightMargin}
+\label{lmcoordsys.TCoordSys-SetLowerMargin}
+\label{lmcoordsys.TCoordSys-SetUpperMargin}
+\label{lmcoordsys.TCoordSys-SetLeftMargin}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			protected procedure SetRightMargin(AMargin:integer); virtual;\\
+			protected procedure SetLeftMargin(AMargin:integer); virtual;\\
+			protected procedure SetLowerMargin(AMargin:integer); virtual;\\
+			protected procedure SetUpperMargin(AMargin:integer); virtual;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}] These procedures set margins which are not used for drawing of data. These are methods to set corresponding properties.
+\end{itemize}
+
+\paragraph{SetXGridDist, SetYDist}\hspace*{\fill}
+\label{lmcoordsys.TCoordSys-SetXGridDist}
+\index{SetXGridDist}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			protected procedure SetXGridDist(AXGridDist:Float); virtual;\\
+			protected procedure SetYGridDist(AYGridDist:Float); virtual;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}] Methods to set \hyperref[lmcoordsys.TCoordSys-XGridDist]{XGridDist} and \code{YGridDist} properties.
+\end{itemize}
+\paragraph{SetPenPos}\hspace*{\fill}
+\label{lmcoordsys.TCoordSys-SetPenPos}
+\index{SetPenPos}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			protected procedure SetPenPos(APenPos:TRealPoint); virtual;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}] Method to set \hyperref[lmcoordsys.TCoordSys-PenPos]{PenPos} property (Alternatively, use \hyperref[lmcoordsys.TCoordSys-GoToXY]{GoToXY} procedure).
+\end{itemize}
+\paragraph{SetXPos, SetYPos}\hspace*{\fill}
+\label{lmcoordsys.TCoordSys-SetXPos}
+\index{SetXPos}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			protected procedure SetXPos(AXPos:Float); virtual;\\
+			protected procedure SetYPos(AYPos:Float); virtual;}
+	\end{flushleft}
+	\item[\descriptiontitle{Description}] Methods to set \hyperref[lmcoordsys.TCoordSys-XPos]{XPos} and \code{YPos} properties.
+\end{itemize}
+\paragraph{SetAxisPen, SetGridPen, SetOutputPen}\hspace*{\fill}
+\label{lmcoordsys.TCoordSys-SetAxisPen}
+\index{SetAxisPen}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+	\begin{flushleft}
+		\code{
+			protected procedure SetAxisPen(APen:TPen); virtual;\\
+			protected procedure SetGridPen(APen:TPen); virtual;\\
+			protected procedure SetOutputPen(APen:TPen); virtual;}
+	\end{flushleft}
+	\item[\declarationitem{Declaration}\hfill] Methods to set \hyperref[lmcoordsys.TCoordSys-AxisPen]{AxisPen}, GridPen and OutputPen properties, used for drawing the coordinate system and user's output.
+\end{itemize}
+\section{Functions and Procedures}
+\subsection{Register}
+\label{lmcoordsys-Register}
+\index{Register}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+procedure Register;}
+
+\end{flushleft}
+
+\end{itemize}
+\section{Constants}
+\subsection*{ColorAxis}
+\label{lmcoordsys-ColorAxis}
+\index{ColorAxis}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{ColorAxis      =  clBlack;}
+\end{flushleft}
+\item[\descriptiontitle{Description}]
+Axis color, black.
+\end{itemize}
+\subsection*{ColorBack}
+\label{lmcoordsys-ColorBack}
+\index{ColorBack}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+ColorBack      =  clSilver;}
+\end{flushleft}
+\item[\descriptiontitle{Description}]
+Background color, Light Gray.
+\end{itemize}
+\subsection*{ColorText}
+\label{lmcoordsys-ColorText}
+\index{ColorText}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+ColorText      =  clRed;}
+\end{flushleft}
+\item[\descriptiontitle{Description}]
+Text color, red.
+\end{itemize}
+\subsection*{ColorGridLines}
+\label{lmcoordsys-ColorGridLines}
+\index{ColorGridLines}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+ColorGridLines = clWhite;}
+\end{flushleft}
+\item[\descriptiontitle{Description}]
+Grid lines color, white.
+\end{itemize}
+\subsection*{ColorOutput}
+\label{lmcoordsys-ColorOutput}
+\index{ColorOutput}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+ColorOutput    =  clBlue;}
+\end{flushleft}
+\item[\descriptiontitle{Description}]
+Blue. Default color of user data, put by PutPoint, PutLine, LineTo. May be changed by SetOutputColor
+\end{itemize}
+\subsection*{UpperLimitForFixedFormat}
+\label{lmcoordsys-UpperLimitForFixedFormat}
+\index{UpperLimitForFixedFormat}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+UpperLimitForFixedFormat = 1E7;}
+\end{flushleft}
+\item[\descriptiontitle{Description}]
+everything outside [LowerLimitForFixedFormat..UpperLimitForFixedFormat] is written in ingeneer notation (e.g.1.0E9)
+\end{itemize}
+\subsection*{LowerLimitForFixedFormat}
+\label{lmcoordsys-LowerLimitForFixedFormat}
+\index{LowerLimitForFixedFormat}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+LowerLimitForFixedFormat = 1E-4;}
+\end{flushleft}
+\end{itemize}
+
+\chapter{Unit lmNumericEdits}
+\label{lmnumericedits}
+\index{lmnumericedits}
+\section{Classes, Interfaces, Objects and Records}
+\subsection{TFloatEdit Class}
+\label{lmnumericedits.TFloatEdit}
+\index{TFloatEdit}
+\paragraph{Hierarchy}\hspace*{\fill}
+
+TFloatEdit {$>$} TEdit
+\subsubsection{Declaration}
+\begin{verbatim}
+TFloatEdit = class(TEdit)
+protected
+  procedure TextChanged; override;
+  procedure SetDecimals(ADecimals: Integer); virtual;
+  procedure SetValue(const AValue: Float); virtual;
+  procedure SetValueEmpty(const AValue: Boolean); virtual;
+  procedure KeyPress(var Key: char); override;
+public
+  constructor Create(TheOwner: TComponent); override;
+  procedure PasteFromClipboard; override;
+  function ValueToStr(const AValue: Float): String; virtual;
+published
+  property DecimalPlaces: Integer read FDecimals write SetDecimals default 2;
+  property Value: Float read FValue write SetValue;
+  property ValueEmpty: Boolean read FValueEmpty write SetValueEmpty default False;
+end;
+\end{verbatim}
+\paragraph{Description}\hspace*{\fill}
+
+TFloatEdit\paragraph{Properties}\hspace*{\fill} class defines an Edit component for float numbers. Usage: Drop the component on a form; set and read \code{Value} property. 
+\begin{itemize}\label{lmnumericedits.TFloatEdit-DecimalPlaces}
+\index{DecimalPlaces}
+\item[\declarationitem{DecimalPlaces}\hfill]
+\begin{flushleft}
+\code{
+published property DecimalPlaces: Integer default 2;}
+\end{flushleft}
+\label{lmnumericedits.TFloatEdit-Value}
+\index{Value}
+\item[\declarationitem{Value}\hfill]
+\begin{flushleft}
+\code{
+published property Value: Float;}
+\end{flushleft}
+\label{lmnumericedits.TFloatEdit-ValueEmpty}
+\index{ValueEmpty}
+\item[\declarationitem{ValueEmpty}\hfill]
+\begin{flushleft}
+\code{
+published property ValueEmpty: Boolean default False;}
+\end{flushleft}
+\item[\descriptiontitle{Description}]
+Is \code{true} if \code{Text} contains invalid or empty string. If a user sets \code{ValueEmpty := true}, \code{Text} becomes empty string.
+\end{itemize}
+\paragraph{Methods}\hspace*{\fill}
+
+\paragraph{TextChanged}\hspace*{\fill}
+
+\label{lmnumericedits.TFloatEdit-TextChanged}
+\index{TextChanged}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{protected procedure TextChanged; override;}
+\end{flushleft}
+\item[\descriptiontitle{Description}] Tries to convert \code{Text} to Float. If successful, assigns result of convertion to \code{Value} and sets \code{ValueEmpty} to False. Otherwise, sets \code{ValueEmpty} to True.
+\end{itemize}
+\paragraph{KeyPress}\hspace*{\fill}
+\label{lmnumericedits.TFloatEdit-KeyPress}
+\index{KeyPress}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+protected procedure KeyPress(var Key: char); override;}
+\end{flushleft}
+\item[\descriptiontitle{Description}] Filters out all symbols except decimal digits, ``+'',``-'',``E'',``.'' and ``,''. ``.'' and ``,'' are automatically converted to valid locale-dependent decimal separator.
+\end{itemize}
+\paragraph{Create}\hspace*{\fill}
+\label{lmnumericedits.TFloatEdit-Create}
+\index{Create}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+public constructor Create(TheOwner: TComponent); override;}
+\end{flushleft}
+\end{itemize}
+\paragraph{ValueToStr}\hspace*{\fill}
+\label{lmnumericedits.TFloatEdit-ValueToStr}
+\index{ValueToStr}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+public function ValueToStr(const AValue: Float): String; virtual;}
+\end{flushleft}
+\item[\descriptiontitle{Description}] Converts \code{Value} to \code{String} according to \code{DecimalPlaces}. 
+\end{itemize}
+\section{Functions and Procedures}
+\subsection{Register}
+\label{lmnumericedits-Register}
+\index{Register}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+procedure Register;}
+
+\end{flushleft}
+
+\end{itemize}
+\chapter{Unit lmnumericinputdialogs}
+\label{lmnumericinputdialogs}
+\index{lmnumericinputdialogs}
+\section{Functions and Procedures}
+\subsection{IntervalQuery}
+\label{lmnumericinputdialogs-IntervalQuery}
+\index{IntervalQuery}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+function IntervalQuery(ACaption, APrompt1, APrompt2 : string; var AInterval:TInterval):boolean;}
+
+\end{flushleft}
+
+\par
+\item[\descriptiontitle{Description}]
+input dialog with two float edits. Sets TInterval; one edit is for Low, other for High. Returns True if was closed with OK, false otherwise. If one or both edits do not contain valid values, the dialog cannot be closed with ``OK''.
+
+\end{itemize}
+\subsection{FloatInputDialog}
+\label{lmnumericinputdialogs-FloatInputDialog}
+\index{FloatInputDialog}
+\begin{itemize}\item[\declarationitem{Declaration}\hfill]
+\begin{flushleft}
+\code{
+function FloatInputDialog(const InputCaption, InputPrompt : String; var AValue : Float) : Boolean;}
+\end{flushleft}
+\item[\descriptiontitle{Description}]
+Input dialog for Float input. True if was closed with OK and EditBox contains valid value, false otherwise. 
+\end{itemize}
+\end{document}

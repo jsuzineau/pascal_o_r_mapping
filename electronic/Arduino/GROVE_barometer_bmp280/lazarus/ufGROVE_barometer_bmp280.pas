@@ -5,8 +5,13 @@ unit ufGROVE_barometer_bmp280;
 interface
 
 uses
-    uuStrings, uDataUtilsU, udmDatabase, uGROVE_barometer_bmp280, ublMesure,
-    upoolMesure, Classes, SysUtils, FileUtil, Forms, Controls, TAGraph,
+    uuStrings,
+    uDataUtilsU,
+    udmDatabase,
+    uGROVE_barometer_bmp280,
+    ublMesure,
+    upoolMesure,
+    Classes, SysUtils, FileUtil, Forms, Controls, TAGraph,
     TASources, TASeries, Graphics, Dialogs, StdCtrls, ExtCtrls, ComCtrls, Spin,
     Serial, LazSerial, lazsynaser, TAChartAxisUtils, TAIntervalSources;
 

@@ -28,7 +28,7 @@ interface
 uses
     DOM,
     uOOoStrings,
-  SysUtils, Classes,  Math;
+  SysUtils, Classes,  Math, fgl;
 
 //Gestion JclSimpleXMLElem
 procedure FullName_Split( _FullName: String; var NameSpace, Name: String);
@@ -88,6 +88,25 @@ procedure RemoveChilds( _e:TDOMNode);
 function Find_Node_by_PropertyName( _eRoot: TDOMNode;
                                     _Properties_Names ,
                                     _Properties_Values: array of String): TDOMNode;
+type
+ TCherche_Items_Recursif_List= TFPGObjectList<TDOMNode>;
+
+ { TCherche_Items_Recursif }
+
+ TCherche_Items_Recursif
+ =
+  class
+  //Gestion du cycle de vie
+  public
+    constructor Create( _eRoot: TDOMNode; _NodeName: String;
+                        _Properties_Names ,
+                        _Properties_Values: array of String;
+                        _Property_Value_Case_Insensitive: Boolean= False);
+    destructor Destroy; override;
+  //Attributs
+  public
+    l: TCherche_Items_Recursif_List;
+  end;
 
 implementation
 
@@ -671,6 +690,88 @@ function StrCM_from_double( _d: double): String;//"0.635cm"
 begin
      Str( _d:8:3, Result);
      Result:= TrimLeft( Result) + 'cm';
+end;
+
+
+{ TCherche_Items_Recursif }
+
+constructor TCherche_Items_Recursif.Create( _eRoot: TDOMNode;
+                                            _NodeName: String;
+                                            _Properties_Names, _Properties_Values: array of String;
+                                            _Property_Value_Case_Insensitive: Boolean);
+var
+   I: Integer;
+   e: TDOMNode;
+   Properties_Values: array of String;
+   _Property_Value,
+    Property_Value: String;
+   Arreter: Boolean;
+   procedure Traite_Properties;
+   var
+      iProperties: Integer;
+   begin
+        for iProperties:= Low( _Properties_Names) to High( _Properties_Names)
+        do
+          begin
+          Arreter
+          :=
+            not_Get_Property( e,
+                              _Properties_Names [iProperties],
+                               Properties_Values[iProperties]
+                              );
+          if Arreter then break;
+          end;
+        if Arreter then exit;
+
+        for iProperties:= Low( _Properties_Names) to High( _Properties_Names)
+        do
+          begin
+          _Property_Value:= _Properties_Values[ iProperties];
+           Property_Value:=  Properties_Values[ iProperties];
+
+          if _Property_Value_Case_Insensitive
+          then
+              begin
+              _Property_Value:= LowerCase( _Property_Value);
+               Property_Value:= LowerCase(  Property_Value);
+              end;
+
+          Arreter:= _Property_Value <>  Property_Value;
+          if Arreter then break;
+          end;
+   end;
+begin
+     l:= TCherche_Items_Recursif_List.Create;
+
+     if _eRoot = nil then exit;
+
+     SetLength( Properties_Values, Length( _Properties_Names));
+
+     for I:= 0 to _eRoot.ChildNodes.Count - 1
+     do
+       begin
+       e:= _eRoot.ChildNodes.Item[ I];
+       if e = nil then continue;
+
+       Arreter:= False;
+       if e.NodeName = _NodeName
+       then
+           Traite_Properties
+       else
+           begin
+           e:= Cherche_Item_Recursif( e, _NodeName, _Properties_Names, _Properties_Values);
+           Arreter:= e = nil;
+           end;
+       if Arreter then continue;
+
+       l.Add( e);
+       end;
+end;
+
+destructor TCherche_Items_Recursif.Destroy;
+begin
+     FreeAndNil( l);
+     inherited Destroy;
 end;
 
 end.

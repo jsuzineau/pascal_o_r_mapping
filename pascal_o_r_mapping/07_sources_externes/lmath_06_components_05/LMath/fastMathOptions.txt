@@ -1,0 +1,18 @@
+-CfAVX2 // -Cf is: Select FPU instruction set
+-CpCOREAVX2 // Cp: select instruction set
+
+    Overview: The compiler can now in some cases (which may be extended in the future) take shortcuts to optimize the evaluation of floating point expressions, at the expense of potentially reducing the precision of the results.
+    Notes: Examples of possible optimizations include turning divisions by a value into multiplications with the reciprocal value (not yet implemented), and reordering the terms in a floating point expression.
+    More information: This optimization is only enabled by default at the new optimization level -O4, which enables optimizations that may have (unforeseen) side effects. You can also enable the optimization individually using the -Oofastmath command line option, or by adding {$optimization fastmath} to your source file.
+-OoFASTMATH
+
+-OoLOOPUNROLL
+
+Set target CPU for optimization
+-OpCOREAVX2
+---------------------
+
+-CfAVX2
+-CpCOREAVX2
+-OoFASTMATH
+-OoLOOPUNROLL

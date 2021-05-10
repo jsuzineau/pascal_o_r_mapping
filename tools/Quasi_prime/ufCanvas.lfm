@@ -1,7 +1,7 @@
 object fCanvas: TfCanvas
-  Left = 879
+  Left = 846
   Height = 643
-  Top = 50
+  Top = 245
   Width = 652
   Caption = 'fCanvas'
   ClientHeight = 643
@@ -10,14 +10,6 @@ object fCanvas: TfCanvas
   OnDestroy = FormDestroy
   Position = poDesktopCenter
   LCLVersion = '2.0.12.0'
-  object pb: TPaintBox
-    Left = 0
-    Height = 586
-    Top = 57
-    Width = 652
-    Align = alClient
-    OnPaint = pbPaint
-  end
   object Panel1: TPanel
     Left = 0
     Height = 57
@@ -175,6 +167,46 @@ object fCanvas: TfCanvas
       Width = 46
       Caption = 'lnBoucle'
       ParentColor = False
+    end
+  end
+  object pc: TPageControl
+    Left = 0
+    Height = 586
+    Top = 57
+    Width = 652
+    ActivePage = tsLog
+    Align = alClient
+    TabIndex = 1
+    TabOrder = 1
+    object tsGraphe: TTabSheet
+      Caption = 'tsGraphe'
+      ClientHeight = 558
+      ClientWidth = 644
+      object pb: TPaintBox
+        Left = 0
+        Height = 558
+        Top = 0
+        Width = 644
+        Align = alClient
+        OnPaint = pbPaint
+      end
+    end
+    object tsLog: TTabSheet
+      Caption = 'tsLog'
+      ClientHeight = 558
+      ClientWidth = 644
+      object m: TMemo
+        Left = 0
+        Height = 558
+        Top = 0
+        Width = 644
+        Align = alClient
+        Lines.Strings = (
+          'm'
+        )
+        ScrollBars = ssAutoBoth
+        TabOrder = 0
+      end
     end
   end
 end

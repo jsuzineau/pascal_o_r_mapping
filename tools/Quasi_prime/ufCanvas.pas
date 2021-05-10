@@ -7,7 +7,7 @@ interface
 uses
     uGeometrie, uQuasi_prime,
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
-  ExtCtrls, StdCtrls, Spin, fgl;
+  ExtCtrls, StdCtrls, Spin, ComCtrls, fgl;
 
 type
  TFPGList_Integer= specialize TFPGList<Integer>;
@@ -33,9 +33,13 @@ type
    lP1: TLabel;
    lP1P2: TLabel;
    lP2: TLabel;
-   Panel1: TPanel;
+   m: TMemo;
    pb: TPaintBox;
+   pc: TPageControl;
+   Panel1: TPanel;
    spe: TSpinEdit;
+   tsLog: TTabSheet;
+   tsGraphe: TTabSheet;
    procedure bNextClick(Sender: TObject);
    procedure bPreviousClick(Sender: TObject);
    procedure cbRectanglesChange(Sender: TObject);
@@ -141,6 +145,7 @@ begin
      lnBoucle.Caption:= IntToStr( C.Calcul.nBoucle);
      lErreur.Visible:= C.Calcul.Erreur;
      lP1P2.Visible:= C.Calcul.Erreur;
+     m.Lines.Text:= C.Log;
 end;
 
 procedure TfCanvas.bNextClick(Sender: TObject);

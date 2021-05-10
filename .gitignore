@@ -123,3 +123,6 @@ tools/FileTree/FileTree
 electronic/Arduino/GROVE_barometer_bmp280/lazarus/GROVE_barometer_bmp280
 /tools/FileTree/Configuration.ini
 /tools/FileTree
+/tools/jsWorks_django/app/__pycache__
+/tools/jsWorks_django/app/migrations/__pycache__
+/tools/jsWorks_django/jsWorks_django/__pycache__

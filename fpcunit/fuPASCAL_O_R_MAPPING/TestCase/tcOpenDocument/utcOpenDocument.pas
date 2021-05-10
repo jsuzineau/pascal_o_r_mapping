@@ -7,7 +7,9 @@ interface
 uses
     uOD_Temporaire,
     uOpenDocument,
- Classes, SysUtils, fpcunit, testutils, testregistry, FileUtil,LCLIntf;
+
+    uOD_JCL,
+ Classes, SysUtils, fpcunit, testutils, testregistry, FileUtil,LCLIntf, DOM,dialogs;
 
 type
 
@@ -24,6 +26,7 @@ type
     procedure TearDown; override;
   published
     procedure test_TOpenDocument_Freeze_fields;
+    procedure test_TCherche_Items_Recursif;
   end;
 
 implementation
@@ -55,6 +58,25 @@ begin
      //OpenDocument( IncludeTrailingPathDelimiter( od.Repertoire_Extraction)+'styles.xml');
      OpenDocument( NomODT);
 //     Fail('Écrivez votre propre test');
+end;
+
+procedure TtcOpenDocument.test_TCherche_Items_Recursif;
+var
+   cir: TCherche_Items_Recursif;
+   e: TDOMNode;
+   NomTableau: String;
+begin
+     cir:= TCherche_Items_Recursif.Create( od.Get_xmlContent_TEXT, 'table:table', [], []);
+     try
+        for e in cir.l
+        do
+          begin
+          if not_Get_Property( e, 'table:name', NomTableau) then continue;
+          ShowMessage( NomTableau);
+          end;
+     finally
+            FreeAndNil( cir);
+            end;
 end;
 
 initialization

@@ -40,9 +40,9 @@ TGROVE_barometer_bmp280_Value
   private
     ls: TLazSerial;
     procedure lsRxData(Sender: TObject);
-  //Continuer
+  //Arreter
   public
-    Continuer: Boolean;
+    Arreter: Boolean;
   //Tampon
   public
     Tampon: String;
@@ -55,6 +55,7 @@ TGROVE_barometer_bmp280_Value
     procedure Traite_Mesure;
   public
     Commande_Result: String;
+    Time: DWord;
     Pressure: ValReal;
     Pression_Gagnac: ValReal;
     Mesure_CallBack: TGROVE_barometer_bmp280_Callback;
@@ -91,8 +92,8 @@ var
        Delete( Commande_Result, I, 1);
   end;
 begin
+     if Arreter then exit;
      Tampon:= Tampon+ls.ReadData;
-     if not Continuer then ls.Close;
 
      I:= Pos( #10, Tampon);
      if I = 0 then exit;
@@ -109,14 +110,19 @@ end;
 
 procedure TInfrason.Traite_Mesure;
 var
+   sTime, sPressure: String;
    Erreur: Integer;
 begin
+     sTime:= StrToK( ';', Commande_Result);
+     sPressure:= Commande_Result;
+     if not TryStrToDWord( sTime, Time) then Time:= 0;
+
      Val( Commande_Result, Pressure   , Erreur);
      //coef pression/altitude pour gagnac altitude 118m
      //>>> a=(1-(0.0065*118)/288.15)**5.255
      //>>> a
      //0.9860911829528476
-     Pression_Gagnac:=Pressure/0.9860911829528476;
+     //Pression_Gagnac:=Pressure/0.9860911829528476;
 
      Mesure_CallBack;
 end;

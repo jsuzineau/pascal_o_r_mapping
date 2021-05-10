@@ -84,7 +84,7 @@ object fGROVE_barometer_bmp280: TfGROVE_barometer_bmp280
     end
     object seHeures: TSpinEdit
       Left = 261
-      Height = 35
+      Height = 23
       Top = 24
       Width = 79
       MaxValue = 0
@@ -92,9 +92,9 @@ object fGROVE_barometer_bmp280: TfGROVE_barometer_bmp280
     end
     object Label1: TLabel
       Left = 348
-      Height = 19
+      Height = 15
       Top = 28
-      Width = 47
+      Width = 35
       Caption = 'heures'
       ParentColor = False
     end
@@ -119,13 +119,13 @@ object fGROVE_barometer_bmp280: TfGROVE_barometer_bmp280
     TabOrder = 1
     object tsGraphe: TTabSheet
       Caption = 'Graphe'
-      ClientHeight = 350
-      ClientWidth = 742
+      ClientHeight = 357
+      ClientWidth = 744
       object c: TChart
         Left = 0
-        Height = 350
+        Height = 357
         Top = 0
-        Width = 742
+        Width = 744
         AxisList = <        
           item
             Marks.LabelBrush.Style = bsClear

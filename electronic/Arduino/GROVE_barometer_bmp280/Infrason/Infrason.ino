@@ -55,5 +55,7 @@ void setup()
 
 void loop()
   {
+  Serial.print(millis());
+  Serial.print(";");
   Serial.println(bmp280.getPressure());
   }

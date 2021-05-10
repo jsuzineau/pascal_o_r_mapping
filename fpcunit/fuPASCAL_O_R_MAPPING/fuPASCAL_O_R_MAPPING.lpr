@@ -22,7 +22,8 @@ uses
   ucDockableScrollbox, 
   uCode_barre_pdf417, 
   utcSQLite, 
-  udmSQLite, 
+  udmSQLite,
+  uDataUtilsF,
   ufSQLite, tcSQLITE_LastInsertId, utcOpenDocument_AddHTML, ublTest_HTML;
 
 {$R *.res}

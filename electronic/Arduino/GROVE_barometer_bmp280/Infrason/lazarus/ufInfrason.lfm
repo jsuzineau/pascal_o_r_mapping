@@ -1,7 +1,7 @@
 object fInfrason: TfInfrason
-  Left = 308
+  Left = 585
   Height = 481
-  Top = 264
+  Top = 220
   Width = 752
   Caption = 'fInfrason'
   ClientHeight = 481
@@ -9,6 +9,7 @@ object fInfrason: TfInfrason
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poDesktopCenter
+  SessionProperties = 'ls.Device'
   LCLVersion = '2.0.12.0'
   WindowState = wsMaximized
   object Panel1: TPanel
@@ -103,9 +104,9 @@ object fInfrason: TfInfrason
     Height = 385
     Top = 96
     Width = 752
-    ActivePage = tsGraphe
+    ActivePage = TabSheet1
     Align = alClient
-    TabIndex = 0
+    TabIndex = 3
     TabOrder = 1
     object tsGraphe: TTabSheet
       Caption = 'Graphe'
@@ -158,6 +159,74 @@ object fInfrason: TfInfrason
         TabOrder = 0
       end
     end
+    object tsCoordSys: TTabSheet
+      Caption = 'tsCoordSys'
+      ClientHeight = 357
+      ClientWidth = 744
+      object cs: TCoordSys
+        Left = 0
+        Height = 357
+        Top = 0
+        Width = 744
+        Align = alClient
+        Caption = 'cs'
+        TabOrder = 0
+        XAxisLabel = 'F(Hz)'
+        MinX = -5
+        MinY = 1000
+        MaxX = 5
+        MaxY = 1040
+        OutputPen.Color = clBlue
+        GridPen.Color = clWhite
+        LeftMargin = 1
+        RightMargin = 1
+        LowerMargin = 1
+        UpperMargin = 1
+        XGridNumbersPrecision = 0
+        XGridNumbersDecimals = 0
+        YGridNumbersPrecision = 0
+        YGridNumbersDecimals = 0
+        Canvas.AutoRedraw = False
+        Canvas.Pen.Color = clBlue
+        OnDrawData = csDrawData
+      end
+    end
+    object TabSheet1: TTabSheet
+      Caption = 'TabSheet1'
+      ClientHeight = 357
+      ClientWidth = 744
+      object cFFT: TChart
+        Left = 0
+        Height = 357
+        Top = 0
+        Width = 744
+        AxisList = <        
+          item
+            Marks.LabelBrush.Style = bsClear
+            Minors = <>
+            Range.Max = 1000
+            Title.LabelFont.Orientation = 900
+            Title.LabelBrush.Style = bsClear
+          end        
+          item
+            Alignment = calBottom
+            Marks.LabelBrush.Style = bsClear
+            Marks.Source = ics
+            Minors = <>
+            Title.LabelBrush.Style = bsClear
+          end>
+        Foot.Brush.Color = clBtnFace
+        Foot.Font.Color = clBlue
+        Title.Brush.Color = clBtnFace
+        Title.Font.Color = clBlue
+        Title.Text.Strings = (
+          'TAChart'
+        )
+        Align = alClient
+        object clsFFT: TLineSeries
+        end
+      end
+    end
   end
   object ls: TLazSerial
     Active = False
@@ -166,9 +235,27 @@ object fInfrason: TfInfrason
     Parity = pNone
     FlowControl = fcNone
     StopBits = sbOne
-    Device = 'COM3'
+    Device = 'COM5'
     RcvLineCRLF = False
     Left = 251
     Top = 91
+  end
+  object ips: TIniPropStorage
+    StoredValues = <>
+    IniSection = 'IniPropStorage'
+    Left = 612
+    Top = 60
+  end
+  object ics: TIntervalChartSource
+    Params.NiceSteps = '0.25|0.5|1.0'
+    Left = 265
+    Top = 57
+  end
+  object ChartAxisTransformations1: TChartAxisTransformations
+    Left = 306
+    Top = 24
+    object ChartAxisTransformations1LogarithmAxisTransform1: TLogarithmAxisTransform
+      Base = 2.71828182845905
+    end
   end
 end

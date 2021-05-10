@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <PathDelim Value="\"/>
+    <Name Value="lmComponents"/>
+    <Type Value="RunAndDesignTime"/>
+    <AddToProjectUsesSection Value="True"/>
+    <Author Value="Nesterov"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <PathDelim Value="\"/>
+      <SearchPaths>
+        <IncludeFiles Value="icons"/>
+        <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <CStyleOperator Value="False"/>
+          <IncludeAssertionCode Value="True"/>
+        </SyntaxOptions>
+      </Parsing>
+      <CodeGeneration>
+        <Checks>
+          <IOChecks Value="True"/>
+          <RangeChecks Value="True"/>
+          <OverflowChecks Value="True"/>
+          <StackChecks Value="True"/>
+        </Checks>
+        <VerifyObjMethodCallValidity Value="True"/>
+        <Optimizations>
+          <OptimizationLevel Value="0"/>
+          <VariablesInRegisters Value="True"/>
+        </Optimizations>
+      </CodeGeneration>
+      <Linking>
+        <Debugging>
+          <DebugInfoType Value="dsDwarf2Set"/>
+        </Debugging>
+      </Linking>
+      <Other>
+        <CustomOptions Value="-dNoDMath"/>
+      </Other>
+    </CompilerOptions>
+    <Description Value="Small and simple coordinate system and other utilities
+Ver 2.1: NVFilters added
+Ver 2.2: TCoordSys.Circle added
+Ver 2.3 Largely extended TReals with statistical functions, printout etc
+Ver 2.4 New functions of NVFilters
+Ver 2.5 TMedianFilter
+Ver 2.5.1 TNVCoordSys.[XY]ScrollTo functions added
+Ver 2.6 TFloatEdit component added, icons added
+Ver 2.7 IntervalQuery function added"/>
+    <License Value="GDP"/>
+    <Version Major="2" Minor="7"/>
+    <Files Count="7">
+      <Item1>
+        <Filename Value="lmcoordsys.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="lmcoordsys"/>
+      </Item1>
+      <Item2>
+        <Filename Value="lmfilters.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="lmfilters"/>
+      </Item2>
+      <Item3>
+        <Filename Value="lmnumericedits.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="lmnumericedits"/>
+      </Item3>
+      <Item4>
+        <Filename Value="lmnumericinputdialogs.pas"/>
+        <UnitName Value="lmnumericinputdialogs"/>
+      </Item4>
+      <Item5>
+        <Filename Value="icons\nv_icons.lrs"/>
+        <Type Value="LRS"/>
+      </Item5>
+      <Item6>
+        <Filename Value="lmpointsvec.pp"/>
+        <UnitName Value="lmPointsVec"/>
+      </Item6>
+      <Item7>
+        <Filename Value="lmnumericinputdialogs.lfm"/>
+        <Type Value="LFM"/>
+      </Item7>
+    </Files>
+    <RequiredPkgs Count="3">
+      <Item1>
+        <PackageName Value="lmRegression"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="FCL"/>
+        <MinVersion Major="1" Valid="True"/>
+      </Item3>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+    <CustomOptions Items="ExternHelp" Version="2">
+      <_ExternHelp Items="Count"/>
+    </CustomOptions>
+  </Package>
+</CONFIG>
