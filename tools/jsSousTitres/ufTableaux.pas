@@ -86,6 +86,8 @@ var
    c: TColonne;
 begin
      iTable:= lbTable.ItemIndex;
+     if iTable = -1 then exit;
+
      Tableau:= lbTable.Items.Objects[iTable] as TTableau;
      lTable.Caption:= Tableau.Nom;
      seDebut.Value:= Tableau.Debut;

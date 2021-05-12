@@ -176,14 +176,32 @@ procedure TTableau.Charger;
       cir: TCherche_Items_Recursif;
       e: TDOMNode;
       c: TColonne;
+      sNumber_columns_repeated: String;
+      procedure Cree_Colonnes;
+      var
+         Number_columns_repeated: Integer;
+         i: Integer;
+      begin
+           if not TryStrToInt( sNumber_columns_repeated, Number_columns_repeated)
+           then
+               Number_columns_repeated:= 1;
+           for i:= 1 to Number_columns_repeated
+           do
+             begin
+             c:= TColonne.Create;
+             cl.Add( c);
+             end;
+      end;
    begin
         cir:= TCherche_Items_Recursif.Create( Self.e, 'table:table-column', [], []);
         try
            for e in cir.l
            do
              begin
-             c:= TColonne.Create;
-             cl.Add( c);
+             if not_Get_Property( e, 'table:number-columns-repeated', sNumber_columns_repeated)
+             then
+                 sNumber_columns_repeated:= '1';
+             Cree_Colonnes;
              end;
         finally
                FreeAndNil( cir);

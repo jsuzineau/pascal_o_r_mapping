@@ -558,7 +558,7 @@ begin
      {$IFDEF LINUX}
      if 1= pos( PathDelim+'etc', EXE_INI_Nom)
      then
-         EXE_INI_Nom:= '~'+EXE_INI_Nom;
+         FEXE_INI_Nom:= '~'+EXE_INI_Nom;
      //uClean_Log( 'uEXE_INI initialization: EXE_INI Nom = >'+Nom+'<');
      {$ENDIF}
 

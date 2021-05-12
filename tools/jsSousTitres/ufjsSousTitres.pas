@@ -182,8 +182,10 @@ end;
 
 procedure TfjsSousTitres.ODT_Ouvrir;
 begin
+     ODT_OK:= FileExists( eODT.Text);
+     if not ODT_OK then exit;
+
      fo.Charger( eODT.Text);
-     ODT_OK:= True;
 
      if Assigned( fTableaux)
      then
@@ -194,8 +196,10 @@ end;
 
 procedure TfjsSousTitres.ASS_Ouvrir;
 begin
+     ASS_OK:= FileExists( eASS.Text);
+     if not ASS_OK then exit;
+
      faSource.Charger( eASS.Text);
-     ASS_OK:= True;
      Compare_ASS;
 end;
 

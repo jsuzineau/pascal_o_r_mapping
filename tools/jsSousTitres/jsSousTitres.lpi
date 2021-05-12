@@ -73,6 +73,7 @@
         <Filename Value="ufjsSousTitres.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fjsSousTitres"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit1>
       <Unit2>
@@ -87,6 +88,7 @@
         <Filename Value="ufTableaux.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fTableaux"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit4>
     </Units>

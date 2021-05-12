@@ -2,10 +2,10 @@ object fjsSousTitres: TfjsSousTitres
   Left = 603
   Height = 404
   Top = 200
-  Width = 589
+  Width = 638
   Caption = 'fjsSousTitres'
   ClientHeight = 404
-  ClientWidth = 589
+  ClientWidth = 638
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
@@ -13,33 +13,33 @@ object fjsSousTitres: TfjsSousTitres
   LCLVersion = '2.0.12.0'
   object Panel1: TPanel
     Left = 0
-    Height = 94
+    Height = 114
     Top = 0
-    Width = 589
+    Width = 638
     Align = alTop
-    ClientHeight = 94
-    ClientWidth = 589
+    ClientHeight = 114
+    ClientWidth = 638
     TabOrder = 0
     object Label1: TLabel
       Left = 4
-      Height = 15
+      Height = 19
       Top = 5
-      Width = 61
+      Width = 79
       Caption = 'Fichier ODT'
       ParentColor = False
     end
     object eODT: TEdit
-      Left = 103
-      Height = 23
+      Left = 176
+      Height = 37
       Top = 4
-      Width = 478
+      Width = 454
       Anchors = [akTop, akLeft, akRight]
       OnChange = eODTChange
       TabOrder = 0
       Text = 'eODT'
     end
     object bODT: TButton
-      Left = 70
+      Left = 142
       Height = 25
       Top = 4
       Width = 28
@@ -48,17 +48,17 @@ object fjsSousTitres: TfjsSousTitres
       TabOrder = 1
     end
     object eASS: TEdit
-      Left = 141
-      Height = 23
+      Left = 173
+      Height = 37
       Top = 34
-      Width = 440
+      Width = 457
       Anchors = [akTop, akLeft, akRight]
       OnChange = eASSChange
       TabOrder = 2
       Text = 'eASS'
     end
     object bASS: TButton
-      Left = 108
+      Left = 140
       Height = 25
       Top = 34
       Width = 28
@@ -67,69 +67,69 @@ object fjsSousTitres: TfjsSousTitres
       TabOrder = 3
     end
     object seColonne: TSpinEdit
-      Left = 53
-      Height = 23
-      Top = 64
+      Left = 69
+      Height = 35
+      Top = 73
       Width = 50
       OnChange = seColonneChange
       TabOrder = 4
     end
     object Label3: TLabel
       Left = 5
-      Height = 15
-      Top = 67
-      Width = 45
+      Height = 19
+      Top = 79
+      Width = 57
       Caption = 'Colonne'
       ParentColor = False
     end
     object bMakeASS: TButton
-      Left = 331
-      Height = 25
-      Top = 64
-      Width = 123
+      Left = 349
+      Height = 35
+      Top = 73
+      Width = 142
       Caption = 'Créer le fichier ASS'
       OnClick = bMakeASSClick
       TabOrder = 5
     end
     object bTableaux: TButton
-      Left = 464
-      Height = 25
-      Top = 64
-      Width = 117
+      Left = 492
+      Height = 35
+      Top = 73
+      Width = 138
       Caption = 'Affichage Tableaux'
       OnClick = bTableauxClick
       TabOrder = 6
     end
     object Label4: TLabel
-      Left = 109
-      Height = 15
-      Top = 67
-      Width = 32
+      Left = 125
+      Height = 19
+      Top = 79
+      Width = 41
       Caption = 'Police'
       ParentColor = False
     end
     object seFontSize: TSpinEdit
-      Left = 266
-      Height = 23
-      Top = 65
+      Left = 298
+      Height = 35
+      Top = 73
       Width = 50
       OnChange = seFontSizeChange
       TabOrder = 7
     end
     object eFontName: TEdit
-      Left = 176
-      Height = 23
-      Top = 65
-      Width = 86
+      Left = 200
+      Height = 37
+      Top = 73
+      Width = 96
       OnChange = eFontNameChange
       TabOrder = 8
       Text = 'eFontName'
     end
     object bFont: TButton
-      Left = 147
-      Height = 25
-      Top = 65
-      Width = 20
+      Left = 171
+      Height = 35
+      Top = 73
+      Width = 28
       Caption = '...'
       OnClick = bFontClick
       TabOrder = 9
@@ -137,17 +137,17 @@ object fjsSousTitres: TfjsSousTitres
   end
   object Label2: TLabel
     Left = 4
-    Height = 15
+    Height = 19
     Top = 37
-    Width = 101
+    Width = 131
     Caption = 'Fichier ASS modèle'
     ParentColor = False
   end
   object mResultat: TMemo
     Left = 0
-    Height = 310
-    Top = 94
-    Width = 589
+    Height = 290
+    Top = 114
+    Width = 638
     Align = alClient
     Lines.Strings = (
       'mResultat'
@@ -158,28 +158,29 @@ object fjsSousTitres: TfjsSousTitres
   end
   object odODT: TOpenDialog
     Filter = 'Fichier ODT|*.odt'
-    Left = 160
+    Left = 200
+    Top = 128
   end
   object ips: TIniPropStorage
     StoredValues = <>
-    Left = 312
-    Top = 48
+    Left = 304
+    Top = 128
   end
   object odASS: TOpenDialog
     Filter = 'Fichier ASS|*.ass'
-    Left = 240
-    Top = 32
+    Left = 256
+    Top = 128
   end
   object fd: TFontDialog
     MinFontSize = 0
     MaxFontSize = 0
-    Left = 456
-    Top = 104
+    Left = 352
+    Top = 128
   end
   object tReady: TTimer
     Interval = 500
     OnTimer = tReadyTimer
     Left = 134
-    Top = 126
+    Top = 130
   end
 end
