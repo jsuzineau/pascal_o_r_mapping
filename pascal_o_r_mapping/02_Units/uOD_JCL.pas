@@ -741,7 +741,7 @@ var
           end;
    end;
 begin
-     l:= TCherche_Items_Recursif_List.Create;
+     l:= TCherche_Items_Recursif_List.Create( False);
 
      if _eRoot = nil then exit;
 

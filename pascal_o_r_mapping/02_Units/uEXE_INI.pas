@@ -109,7 +109,6 @@ type
 const
      inis_Options= 'Options';
 
-function EXE_INI_Global: TEXE_INIFile;
 function EXE_INI       : TEXE_INIFile;
 function EXE_INI_Poste : TEXE_INIFile;
 
@@ -128,6 +127,11 @@ procedure uEXE_INI_SetInteger( INI, Section, Key: String; Value  : Integer);
 procedure uEXE_INI_init_android( _EnvironmentDirPath: String);
 
 function DumpCallStack: String;
+
+//exportés pour uEXE_INI_Global
+function EXE_INI_Nom: String;
+function uEXE_INI_Special: Boolean;
+procedure EXE_INI_interne( out _Resultat: TEXE_INIFile; var _FEXE_INI: TEXE_INIFile; _Nom: String);
 
 implementation
 
@@ -217,12 +221,10 @@ end;
 { TEXE_INIFile }
 
 var
-   FEXE_INI_Global: TEXE_INIFile= nil;
    FEXE_INI       : TEXE_INIFile= nil;
    FEXE_INI_Poste : TEXE_INIFile= nil;
 
-   EXE_INI_Global_Nom: String = '';
-   EXE_INI_Nom       : String = '';
+   FEXE_INI_Nom       : String = '';
    EXE_INI_Poste_Nom : String = '';
 
  {taken from Freepascal documentation}
@@ -281,8 +283,9 @@ begin
      _Resultat:= _FEXE_INI;
 end;
 
-function EXE_INI_Global: TEXE_INIFile; begin EXE_INI_interne( Result, FEXE_INI_Global, EXE_INI_Global_Nom); end;
-function EXE_INI       : TEXE_INIFile; begin EXE_INI_interne( Result, FEXE_INI       , EXE_INI_Nom       ); end;
+function EXE_INI_Nom: String; begin Result:= FEXE_INI_Nom; end;
+
+function EXE_INI       : TEXE_INIFile; begin EXE_INI_interne( Result, FEXE_INI       , FEXE_INI_Nom       ); end;
 function EXE_INI_Poste : TEXE_INIFile; begin EXE_INI_interne( Result, FEXE_INI_Poste , EXE_INI_Poste_Nom ); end;
 
 constructor TEXE_INIFile.Create( const AFileName: string; AEscapeLineFeeds: Boolean);
@@ -512,40 +515,43 @@ begin
          Result:= _iniDefault;
 end;
 
+var
+   FuEXE_INI_Special: Boolean= False;
+function uEXE_INI_Special: Boolean; begin Result:= FuEXE_INI_Special; end;
+
 procedure uEXE_INI_init;
 var
    ExeFileName: String;
-   Special: Boolean;
    ModuleName: String;
 begin
      if Trim(uForms_EXE_Name) = ''
      then
          uClean_Log( 'uEXE_INI initialization: uForms_EXE_Name = >'+uForms_EXE_Name+'<');
      ExeFileName:= UpperCase( ExtractFileName( uForms_EXE_Name));
-     Special
+     FuEXE_INI_Special
      :=
            ('BATPRO~1.EXE'      = ExeFileName) //Batpro_Copieur
         or ('BATPRO_ICONES.EXE' = ExeFileName);
-     if Special
+     if FuEXE_INI_Special
      then
          begin
          if 'BATPRO~1.EXE' = ExeFileName //Batpro_Copieur
          then
-             EXE_INI_Nom:= ExtractFilePath( uForms_EXE_Name)+'Batpro_Copieur_Application.ini'
+             FEXE_INI_Nom:= ExtractFilePath( uForms_EXE_Name)+'Batpro_Copieur_Application.ini'
          else
-             EXE_INI_Nom:= ChangeFileExt( uForms_EXE_Name, '.ini');
+             FEXE_INI_Nom:= ChangeFileExt( uForms_EXE_Name, '.ini');
          end
      else
          begin
-         EXE_INI_Nom:= uEXE_INI_INI_from_EXE( uForms_EXE_Name);
-         if not FileExists( EXE_INI_Nom)
+         FEXE_INI_Nom:= uEXE_INI_INI_from_EXE( uForms_EXE_Name);
+         if not FileExists( FEXE_INI_Nom)
          then
              begin
              ModuleName:= GetModuleName( HInstance);
 
              if ModuleName <> ''
              then
-                 EXE_INI_Nom:= uEXE_INI_INI_from_EXE( ModuleName);
+                 FEXE_INI_Nom:= uEXE_INI_INI_from_EXE( ModuleName);
              end;
          end;
 
@@ -556,20 +562,12 @@ begin
      //uClean_Log( 'uEXE_INI initialization: EXE_INI Nom = >'+Nom+'<');
      {$ENDIF}
 
-     if Special
-     then
-         EXE_INI_Global_Nom:= EXE_INI_Nom
-     else
-         EXE_INI_Global_Nom:= EXE_INI.Chemin_Global+'etc'+PathDelim+'_Configuration.ini';
-
-     //uClean_Log( 'uEXE_INI initialization: EXE_INI_Global Nom = >'+EXE_INI_Global_Nom+'<');
 end;
 
 procedure uEXE_INI_init_android( _EnvironmentDirPath: String);
 begin
-     EXE_INI_Nom       := IncludeTrailingPathDelimiter( _EnvironmentDirPath)+'_Configuration.ini';
-     EXE_INI_Global_Nom:= EXE_INI_Nom;
-     EXE_INI_Poste_Nom := EXE_INI_Nom;
+     FEXE_INI_Nom      := IncludeTrailingPathDelimiter( _EnvironmentDirPath)+'_Configuration.ini';
+      EXE_INI_Poste_Nom:= FEXE_INI_Nom;
 end;
 initialization
               Buffer:= StrAlloc( BufferSize);
@@ -578,8 +576,9 @@ initialization
               uEXE_INI_init;
               {$endif}
 finalization
-              Free_nil( FEXE_INI_Global);
-              FEXE_INI.UpdateFile;
+              if Assigned( FEXE_INI)
+              then
+                  FEXE_INI.UpdateFile;
               Free_nil( FEXE_INI);
 
               if Assigned( FEXE_INI_Poste)

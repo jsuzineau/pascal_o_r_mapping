@@ -1,0 +1,185 @@
+object fjsSousTitres: TfjsSousTitres
+  Left = 603
+  Height = 404
+  Top = 200
+  Width = 589
+  Caption = 'fjsSousTitres'
+  ClientHeight = 404
+  ClientWidth = 589
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  Position = poScreenCenter
+  SessionProperties = 'eASS.Text;eODT.Text;Height;lbResultat.Height;lbTable.Width;seColonne.Value;seDebut.Value;Width;mResultat.Font'
+  LCLVersion = '2.0.12.0'
+  object Panel1: TPanel
+    Left = 0
+    Height = 94
+    Top = 0
+    Width = 589
+    Align = alTop
+    ClientHeight = 94
+    ClientWidth = 589
+    TabOrder = 0
+    object Label1: TLabel
+      Left = 4
+      Height = 15
+      Top = 5
+      Width = 61
+      Caption = 'Fichier ODT'
+      ParentColor = False
+    end
+    object eODT: TEdit
+      Left = 103
+      Height = 23
+      Top = 4
+      Width = 478
+      Anchors = [akTop, akLeft, akRight]
+      OnChange = eODTChange
+      TabOrder = 0
+      Text = 'eODT'
+    end
+    object bODT: TButton
+      Left = 70
+      Height = 25
+      Top = 4
+      Width = 28
+      Caption = '...'
+      OnClick = bODTClick
+      TabOrder = 1
+    end
+    object eASS: TEdit
+      Left = 141
+      Height = 23
+      Top = 34
+      Width = 440
+      Anchors = [akTop, akLeft, akRight]
+      OnChange = eASSChange
+      TabOrder = 2
+      Text = 'eASS'
+    end
+    object bASS: TButton
+      Left = 108
+      Height = 25
+      Top = 34
+      Width = 28
+      Caption = '...'
+      OnClick = bASSClick
+      TabOrder = 3
+    end
+    object seColonne: TSpinEdit
+      Left = 53
+      Height = 23
+      Top = 64
+      Width = 50
+      OnChange = seColonneChange
+      TabOrder = 4
+    end
+    object Label3: TLabel
+      Left = 5
+      Height = 15
+      Top = 67
+      Width = 45
+      Caption = 'Colonne'
+      ParentColor = False
+    end
+    object bMakeASS: TButton
+      Left = 331
+      Height = 25
+      Top = 64
+      Width = 123
+      Caption = 'Créer le fichier ASS'
+      OnClick = bMakeASSClick
+      TabOrder = 5
+    end
+    object bTableaux: TButton
+      Left = 464
+      Height = 25
+      Top = 64
+      Width = 117
+      Caption = 'Affichage Tableaux'
+      OnClick = bTableauxClick
+      TabOrder = 6
+    end
+    object Label4: TLabel
+      Left = 109
+      Height = 15
+      Top = 67
+      Width = 32
+      Caption = 'Police'
+      ParentColor = False
+    end
+    object seFontSize: TSpinEdit
+      Left = 266
+      Height = 23
+      Top = 65
+      Width = 50
+      OnChange = seFontSizeChange
+      TabOrder = 7
+    end
+    object eFontName: TEdit
+      Left = 176
+      Height = 23
+      Top = 65
+      Width = 86
+      OnChange = eFontNameChange
+      TabOrder = 8
+      Text = 'eFontName'
+    end
+    object bFont: TButton
+      Left = 147
+      Height = 25
+      Top = 65
+      Width = 20
+      Caption = '...'
+      OnClick = bFontClick
+      TabOrder = 9
+    end
+  end
+  object Label2: TLabel
+    Left = 4
+    Height = 15
+    Top = 37
+    Width = 101
+    Caption = 'Fichier ASS modèle'
+    ParentColor = False
+  end
+  object mResultat: TMemo
+    Left = 0
+    Height = 310
+    Top = 94
+    Width = 589
+    Align = alClient
+    Lines.Strings = (
+      'mResultat'
+    )
+    ScrollBars = ssAutoBoth
+    TabOrder = 1
+    WordWrap = False
+  end
+  object odODT: TOpenDialog
+    Filter = 'Fichier ODT|*.odt'
+    Left = 160
+  end
+  object ips: TIniPropStorage
+    StoredValues = <>
+    Left = 312
+    Top = 48
+  end
+  object odASS: TOpenDialog
+    Filter = 'Fichier ASS|*.ass'
+    Left = 240
+    Top = 32
+  end
+  object fd: TFontDialog
+    MinFontSize = 0
+    MaxFontSize = 0
+    Left = 456
+    Top = 104
+  end
+  object tReady: TTimer
+    Interval = 500
+    OnTimer = tReadyTimer
+    Left = 134
+    Top = 126
+  end
+end

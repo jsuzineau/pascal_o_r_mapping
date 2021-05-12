@@ -18,7 +18,7 @@
         <CustomOptions Value="-dWINDOWS_GRAPHIC"/>
       </Other>
     </CompilerOptions>
-    <Files Count="99">
+    <Files Count="100">
       <Item1>
         <Filename Value="DBTables.pas"/>
         <UnitName Value="DBTables"/>
@@ -416,6 +416,10 @@
         <Filename Value="uODBC_Access.pas"/>
         <UnitName Value="uODBC_Access"/>
       </Item99>
+      <Item100>
+        <Filename Value="uEXE_INI_Global.pas"/>
+        <UnitName Value="uEXE_INI_Global"/>
+      </Item100>
     </Files>
     <RequiredPkgs Count="2">
       <Item1>

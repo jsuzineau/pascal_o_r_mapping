@@ -1,0 +1,122 @@
+object fTableaux: TfTableaux
+  Left = 720
+  Height = 240
+  Top = 271
+  Width = 446
+  Caption = 'fTableaux'
+  ClientHeight = 240
+  ClientWidth = 446
+  OnCreate = FormCreate
+  SessionProperties = 'Height;lbTable.Width;Width;seColonne.Value'
+  LCLVersion = '2.0.12.0'
+  object Panel2: TPanel
+    Left = 105
+    Height = 190
+    Top = 50
+    Width = 341
+    Align = alClient
+    Caption = 'Panel2'
+    ClientHeight = 190
+    ClientWidth = 341
+    TabOrder = 0
+    object Panel3: TPanel
+      Left = 1
+      Height = 41
+      Top = 1
+      Width = 339
+      Align = alTop
+      ClientHeight = 41
+      ClientWidth = 339
+      TabOrder = 0
+      object lTable: TLabel
+        Left = 8
+        Height = 15
+        Top = 11
+        Width = 31
+        Caption = 'lTable'
+        ParentColor = False
+      end
+      object Label4: TLabel
+        Left = 188
+        Height = 15
+        Top = 11
+        Width = 63
+        Caption = 'Ligne début'
+        ParentColor = False
+      end
+      object seDebut: TSpinEdit
+        Left = 255
+        Height = 23
+        Top = 8
+        Width = 50
+        TabOrder = 0
+      end
+      object lNbLignes: TLabel
+        Left = 8
+        Height = 15
+        Top = 25
+        Width = 53
+        Caption = 'lNbLignes'
+        ParentColor = False
+      end
+    end
+    object lbColumn: TListBox
+      Left = 1
+      Height = 147
+      Top = 42
+      Width = 339
+      Align = alClient
+      ItemHeight = 0
+      TabOrder = 1
+    end
+  end
+  object lbTable: TListBox
+    Left = 0
+    Height = 190
+    Top = 50
+    Width = 100
+    Align = alLeft
+    ItemHeight = 0
+    OnClick = lbTableClick
+    TabOrder = 1
+  end
+  object Splitter1: TSplitter
+    Left = 100
+    Height = 190
+    Top = 50
+    Width = 5
+    Color = clLime
+    ParentColor = False
+  end
+  object Panel1: TPanel
+    Left = 0
+    Height = 50
+    Top = 0
+    Width = 446
+    Align = alTop
+    ClientHeight = 50
+    ClientWidth = 446
+    TabOrder = 3
+    object Label3: TLabel
+      Left = 5
+      Height = 15
+      Top = 5
+      Width = 45
+      Caption = 'Colonne'
+      ParentColor = False
+    end
+    object seColonne: TSpinEdit
+      Left = 53
+      Height = 23
+      Top = 3
+      Width = 50
+      OnChange = seColonneChange
+      TabOrder = 0
+    end
+  end
+  object ips: TIniPropStorage
+    StoredValues = <>
+    Left = 340
+    Top = 4
+  end
+end
