@@ -7,7 +7,8 @@ uses
  cthreads,
  {$ENDIF}{$ENDIF}
  Interfaces, // this includes the LCL widgetset
- Forms, ufjsSousTitres, uFichierASS, uFichierODT, ufTableaux
+ Forms, uBatpro_Ligne, ufjsSousTitres, uFichierASS, uFichierODT, ufTableaux,
+ uOD_Table_Batpro, ublSousTitre, uodSousTitre
  { you can add units after this };
 
 {$R *.res}

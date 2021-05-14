@@ -1,4 +1,4 @@
- {******************************************************************
+{******************************************************************
  Non-parametric tests
 ******************************************************************}
 
@@ -20,7 +20,7 @@ procedure Mann_Whitney(N1, N2     : Integer;
 
 { Wilcoxon test
   X[Lb..Ub] and Y[Lb..Ub] are the two samples.
-  Output: the number of non-zero dierences in Ndiff,
+  Output: the number of non-zero differences in Ndiff,
   Wilcoxon's statistic in T
   and the associated normal variable in Eps }
 procedure Wilcoxon(X, Y       : TVector;

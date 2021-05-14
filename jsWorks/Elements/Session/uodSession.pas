@@ -1,9 +1,7 @@
 unit uodSession;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
-            partly as freelance: http://www.mars42.com                          |
-        and partly as employee : http://www.batpro.com                          |
-    Contact: gilles.doutre@batpro.com                                           |
+        http://www.mars42.com                                               |
                                                                                 |
     Copyright 2016 Jean SUZINEAU - MARS42                                       |
                                                                                 |

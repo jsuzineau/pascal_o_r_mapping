@@ -26,8 +26,14 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="Elements\SousTitre;..\..\pascal_o_r_mapping\03_Data;..\..\OOo"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <SyntaxMode Value="Delphi"/>
+            </SyntaxOptions>
+          </Parsing>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
             <Optimizations>
@@ -64,7 +70,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="5">
+    <Units Count="9">
       <Unit0>
         <Filename Value="jsSousTitres.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -91,6 +97,22 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit4>
+      <Unit5>
+        <Filename Value="Elements\SousTitre\ublSousTitre.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="..\..\pascal_o_r_mapping\03_Data\uBatpro_Ligne.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="Elements\SousTitre\uodSousTitre.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="..\..\OOo\uOD_Table_Batpro.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit8>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -101,10 +123,12 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="Elements\SousTitre;..\..\pascal_o_r_mapping\03_Data;..\..\OOo"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>
       <SyntaxOptions>
+        <SyntaxMode Value="Delphi"/>
         <IncludeAssertionCode Value="True"/>
       </SyntaxOptions>
     </Parsing>

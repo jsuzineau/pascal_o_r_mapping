@@ -32,7 +32,7 @@ uses
     ujsDataContexte,
     uSGBD,
     ufAccueil_Erreur,
-  db, sqlite3conn_pour_test, SQLDB, sqlite3, FmtBCD,dateutils,
+  db, sqlite3conn_pour_test, SQLDB, sqlite3dyn, FmtBCD,dateutils,
   SysUtils, Classes;
 
 type

@@ -5,10 +5,12 @@ unit uFichierODT;
 interface
 
 uses
+  uVide,
   uuStrings,
   uOpenDocument,
   uOD_JCL,
- Classes, SysUtils,fgl, DOM, Math;
+  ublSousTitre,
+ Classes, SysUtils,fgl, DOM, Math, generics.Collections;
 
 type
 
@@ -73,6 +75,7 @@ type
   //Méthodes
   public
     procedure Charger( _NomFichier: String);
+    procedure Vider;
   end;
 
 implementation
@@ -237,8 +240,7 @@ var
 begin
      NomFichier:= _NomFichier;
 
-     tl.Clear;
-     FreeAndNil( d);
+     Vider;
      d:= TOpenDocument.Create( NomFichier);
 
      Debut:= 0;
@@ -260,6 +262,12 @@ begin
      finally
             FreeAndNil( cir);
             end;
+end;
+
+procedure TFichierODT.Vider;
+begin
+     tl.Clear;
+     FreeAndNil( d);
 end;
 
 end.

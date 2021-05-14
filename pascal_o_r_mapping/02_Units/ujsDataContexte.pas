@@ -110,7 +110,7 @@ type
   TjsDataConnexion_Class= class of TjsDataConnexion;
 
   PtrBoolean= ^Boolean;
-  TjsDataType
+  TjsDataType // when modified update jsDataType_from_FieldType
   =
    ( jsdt_String, jsdt_Date, jsdt_DateTime, jsdt_Integer, jsdt_Currency, jsdt_Double, jsdt_Boolean, jsdt_ShortString, jsdt_Unknown);
 
@@ -490,7 +490,71 @@ type
     *)
 function jsDataContexte_Dataset_Null: TjsDataContexte_Dataset_Null;
 
+function jsDataType_from_FieldType( _ft: TFieldType):TjsDataType;
+
 implementation
+
+(*
+TFieldType = (ftUnknown, ftString, ftSmallint, ftInteger, ftWord,
+  ftBoolean, ftFloat, ftCurrency, ftBCD, ftDate,  ftTime, ftDateTime,
+  ftBytes, ftVarBytes, ftAutoInc, ftBlob, ftMemo, ftGraphic, ftFmtMemo,
+  ftParadoxOle, ftDBaseOle, ftTypedBinary, ftCursor, ftFixedChar,
+  ftWideString, ftLargeint, ftADT, ftArray, ftReference,
+  ftDataSet, ftOraBlob, ftOraClob, ftVariant, ftInterface,
+  ftIDispatch, ftGuid, ftTimeStamp, ftFMTBcd, ftFixedWideChar, ftWideMemo);
+  TjsDataType
+  =
+   ( jsdt_String, jsdt_Date, jsdt_DateTime, jsdt_Integer, jsdt_Currency, jsdt_Double, jsdt_Boolean, jsdt_ShortString, jsdt_Unknown);
+*)
+function jsDataType_from_FieldType( _ft: TFieldType):TjsDataType;
+begin
+     case _ft
+     of
+       ftFixedChar: Result:= jsdt_ShortString;
+       ftString   : Result:= jsdt_String;
+       ftInteger  : Result:= jsdt_Integer;
+       ftSmallInt : Result:= jsdt_Integer;
+       ftDateTime : Result:= jsdt_DateTime;
+       ftDate     : Result:= jsdt_Date;
+       ftBCD      : Result:= jsdt_Currency;
+       ftFloat    : Result:= jsdt_Double;
+       ftCurrency : Result:= jsdt_Currency;
+       ftBoolean  : Result:= jsdt_Boolean;
+       (*
+       ftUnknown,
+       ftWord,
+       ftTime,
+       ftBytes,
+       ftVarBytes,
+       ftAutoInc,
+       ftBlob,
+       ftMemo,
+       ftGraphic,
+       ftFmtMemo,
+       ftParadoxOle,
+       ftDBaseOle,
+       ftTypedBinary,
+       ftCursor,
+       ftWideString,
+       ftLargeint,
+       ftADT,
+       ftArray,
+       ftReference,
+       ftDataSet,
+       ftOraBlob,
+       ftOraClob,
+       ftVariant,
+       ftInterface,
+       ftIDispatch,
+       ftGuid,
+       ftTimeStamp,
+       ftFMTBcd,
+       ftFixedWideChar,
+       ftWideMemo
+       *)
+       else Result:= jsdt_Unknown;
+       end;
+end;
 
 { TjsDataConnexion_SQLQuery }
 

@@ -232,7 +232,8 @@ begin
          Info.Libelle := Nom;
          Info.Longueur:= Length(Nom);
          Info.FieldType:= ftUnknown;
-         Info.jsDataType:= jsdt_Unknown;
+         //Info.jsDataType:= jsdt_Unknown;
+         Info.jsDataType:= jsDataType_from_FieldType( _Typ);
          end
      else
          Info:= _jsdcc.Info;

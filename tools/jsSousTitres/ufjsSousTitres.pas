@@ -10,9 +10,14 @@ uses
     uuStrings,
     uOD_JCL,
     uDataUtilsU,
+    uFichierASS,
+    uFichierODT,
+    ufTableaux,
+    uodSousTitre,
     Classes, SysUtils,
     Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls, IniPropStorage,
-    Spin, uFichierASS, uFichierODT, ufTableaux, DOM, IniFiles, Math, StrUtils;
+    Spin, ComCtrls, DOM,
+    IniFiles, Math, StrUtils, LCLIntf;
 
 type
 
@@ -22,10 +27,12 @@ type
  =
   class(TForm)
    bASS: TButton;
+   bFont: TButton;
    bMakeASS: TButton;
+   bMakeODT: TButton;
+   bMakeODT_from_ASS: TButton;
    bODT: TButton;
    bTableaux: TButton;
-   bFont: TButton;
    eASS: TEdit;
    eFontName: TEdit;
    eODT: TEdit;
@@ -38,13 +45,17 @@ type
    mResultat: TMemo;
    odASS: TOpenDialog;
    odODT: TOpenDialog;
-   Panel1: TPanel;
+   pc: TPageControl;
    seColonne: TSpinEdit;
    seFontSize: TSpinEdit;
+   tsResultat: TTabSheet;
+   tsParametres: TTabSheet;
    tReady: TTimer;
    procedure bASSClick(Sender: TObject);
    procedure bFontClick(Sender: TObject);
    procedure bMakeASSClick(Sender: TObject);
+   procedure bMakeODTClick(Sender: TObject);
+   procedure bMakeODT_from_ASSClick(Sender: TObject);
    procedure bODTClick(Sender: TObject);
    procedure bTableauxClick(Sender: TObject);
    procedure eASSChange(Sender: TObject);
@@ -71,6 +82,8 @@ type
     procedure ASS_Ouvrir;
     procedure Compare_ASS;
     procedure MakeASS;
+    procedure MakeODT;
+    procedure MakeODT_from_ASS;
   //Affichage
   private
     procedure _from_mResultat_Font;
@@ -134,6 +147,16 @@ begin
      MakeASS;
 end;
 
+procedure TfjsSousTitres.bMakeODTClick(Sender: TObject);
+begin
+     MakeODT;
+end;
+
+procedure TfjsSousTitres.bMakeODT_from_ASSClick(Sender: TObject);
+begin
+     MakeODT_from_ASS;
+end;
+
 procedure TfjsSousTitres.seColonneChange(Sender: TObject);
 begin
      iColonne:= seColonne.Value;
@@ -169,14 +192,14 @@ begin
      if fd.Execute
      then
          begin
-         mResultat.Font:= fd.Font;
+         mResultat.Font:= fd.Font ;
          _from_mResultat_Font;
          end;
 end;
 
 procedure TfjsSousTitres.bTableauxClick(Sender: TObject);
 begin
-     fTableaux.Liste_Tableaux( fo);
+     fTableaux.Liste_Tableaux( fo) ;
      fTableaux.Show;
 end;
 
@@ -220,6 +243,44 @@ begin
      NomFichierSource:= eASS.Text;
      NomFichierCible:= ChangeFileExt( NomFichierSource, FormatDateTime( '_dd_mm_yy_hh"h"nn"m"ss"s"', Now)+'.ass');
      faCible.sl.SaveToFile( NomFichierCible);
+end;
+
+procedure TfjsSousTitres.MakeODT;
+var
+   od: TodSousTitre;
+   Resultat: String;
+begin
+     faCible.Init_from_( faSource);
+     faCible.Charger_slSousTitre( fo, iColonne);
+     od:= TodSousTitre.Create;
+     try
+        od.Init( faCible.slSousTitre);
+        Resultat:= od.Visualiser;
+     finally
+            FreeAndNil( od);
+            end;
+     if not OpenDocument( Resultat)
+     then
+         ShowMessage( 'Echec de OpenDocument sur '+Resultat);
+end;
+
+procedure TfjsSousTitres.MakeODT_from_ASS;
+var
+   od: TodSousTitre;
+   Resultat: String;
+begin
+     faCible.Init_from_( faSource);
+     faCible.Charger_slSousTitre_from_ASS( fo, iColonne);
+     od:= TodSousTitre.Create;
+     try
+        od.Init( faCible.slSousTitre);
+        Resultat:= od.Visualiser;
+     finally
+            FreeAndNil( od);
+            end;
+     if not OpenDocument( Resultat)
+     then
+         ShowMessage( 'Echec de OpenDocument sur '+Resultat);
 end;
 
 end.
