@@ -1,7 +1,7 @@
 object fInfrason: TfInfrason
-  Left = 585
+  Left = 513
   Height = 481
-  Top = 220
+  Top = 257
   Width = 752
   Caption = 'fInfrason'
   ClientHeight = 481
