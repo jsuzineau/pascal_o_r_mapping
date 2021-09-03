@@ -1,22 +1,22 @@
 object fTableaux: TfTableaux
   Left = 758
-  Height = 240
+  Height = 235
   Top = 654
   Width = 446
   Caption = 'fTableaux'
-  ClientHeight = 240
+  ClientHeight = 235
   ClientWidth = 446
   OnCreate = FormCreate
   SessionProperties = 'Height;lbTable.Width;Width;seColonne.Value'
   LCLVersion = '2.0.12.0'
   object Panel2: TPanel
     Left = 105
-    Height = 190
+    Height = 185
     Top = 50
     Width = 341
     Align = alClient
     Caption = 'Panel2'
-    ClientHeight = 190
+    ClientHeight = 185
     ClientWidth = 341
     TabOrder = 0
     object Panel3: TPanel
@@ -30,51 +30,50 @@ object fTableaux: TfTableaux
       TabOrder = 0
       object lTable: TLabel
         Left = 8
-        Height = 19
+        Height = 15
         Top = 16
-        Width = 40
+        Width = 30
         Caption = 'lTable'
         ParentColor = False
       end
       object Label4: TLabel
         Left = 188
-        Height = 19
+        Height = 15
         Top = 16
-        Width = 82
+        Width = 63
         Caption = 'Ligne début'
         ParentColor = False
       end
       object seDebut: TSpinEdit
         Left = 279
-        Height = 35
+        Height = 23
         Top = 8
         Width = 50
         TabOrder = 0
       end
       object lNbLignes: TLabel
         Left = 8
-        Height = 19
+        Height = 15
         Top = 36
-        Width = 69
+        Width = 53
         Caption = 'lNbLignes'
         ParentColor = False
       end
     end
     object lbColumn: TListBox
       Left = 1
-      Height = 120
+      Height = 115
       Top = 69
       Width = 339
       Align = alClient
       ItemHeight = 0
       ScrollWidth = 337
       TabOrder = 1
-      TopIndex = -1
     end
   end
   object lbTable: TListBox
     Left = 0
-    Height = 190
+    Height = 185
     Top = 50
     Width = 100
     Align = alLeft
@@ -82,11 +81,10 @@ object fTableaux: TfTableaux
     OnClick = lbTableClick
     ScrollWidth = 98
     TabOrder = 1
-    TopIndex = -1
   end
   object Splitter1: TSplitter
     Left = 100
-    Height = 190
+    Height = 185
     Top = 50
     Width = 5
     Color = clLime
@@ -103,15 +101,15 @@ object fTableaux: TfTableaux
     TabOrder = 3
     object Label3: TLabel
       Left = 5
-      Height = 19
+      Height = 15
       Top = 10
-      Width = 57
+      Width = 45
       Caption = 'Colonne'
       ParentColor = False
     end
     object seColonne: TSpinEdit
       Left = 69
-      Height = 35
+      Height = 23
       Top = 3
       Width = 50
       MaxValue = 1000
