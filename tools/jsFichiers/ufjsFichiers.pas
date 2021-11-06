@@ -55,8 +55,7 @@ procedure TfjsFichiers.bParcourirClick(Sender: TObject);
 var
    RootPath: String;
 begin
-     RootPath:= eRootPath.Text;
-     if SelectionnneRepertoire( Handle, 'Sélectionnez le répertoire racine', RootPath)
+     if SelectDirectory( 'Sélectionnez le répertoire racine', eRootPath.Text, RootPath)
      then
          eRootPath.Text:= RootPath;
 end;

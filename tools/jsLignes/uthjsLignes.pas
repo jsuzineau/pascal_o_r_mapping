@@ -96,34 +96,43 @@ var
    S: String;
    I: Integer;
 begin
-     FileName:= Path+PathDelim+NomFichier;
-     AssignFile( F, FileName);
-     FileMode:= 0;
-     Reset( F, 1);
-     TailleF:= FileSize(F);
-     LS:= TailleF+1;
-     SetLength( S, LS);
-     BlockRead( F, S[1], TailleF);
-     CloseFile( F);
-     S[ LS]:= #0;
+     Result:= 0;
+     try
+        FileName:= Path+PathDelim+NomFichier;
+        AssignFile( F, FileName);
+        FileMode:= 0;
+        Reset( F, 1);
+        TailleF:= FileSize(F);
+        LS:= TailleF+1;
+        SetLength( S, LS);
+        BlockRead( F, S[1], TailleF);
+        CloseFile( F);
+        S[ LS]:= #0;
 
-     Result:= 1;
-     I:= 1;
-     while I <= LS
-     do
-       begin
-       case S[I]
-       of
-         #13:
-           begin
-           Inc(Result);
-           if (I < LS) and (#10 = S[I+1]) then Inc(I);
+        Result:= 1;
+        I:= 1;
+        while I <= LS
+        do
+          begin
+          case S[I]
+          of
+            #13:
+              begin
+              Inc(Result);
+              if (I < LS) and (#10 = S[I+1]) then Inc(I);
+              end;
+            #10:
+              Inc(Result);
+            end;
+          Inc(I);
+          end;
+
+     except
+           on E: Exception
+           do
+             begin
+             end;
            end;
-         #10:
-           Inc(Result);
-         end;
-       Inc(I);
-       end;
 end;
 
 function TthjsLignes.TraiteRepertoire(Parent: TTreeNode; Path: String): Int64;
@@ -181,6 +190,7 @@ begin
                then
                    Inc( Result, Taille);
          until FindNext( SearchRec) <> 0;
+     FindClose( SearchRec);
      Parent.AlphaSort;
 end;
 
@@ -209,3 +219,16 @@ end;
 initialization
               thjsLignes:= nil;
 end.
+
+
+/home/jean/01_Projets/06_adibat/01_delphi/2010_delphi/01_Batpro_Composants/2_source/Dialer
+/home/jean/01_Projets/06_adibat/01_delphi/2010_delphi/01_Batpro_Composants/07_FreeWare
+/home/jean/01_Projets/06_adibat/01_delphi/2010_delphi/02_Batpro_Formes/01_source/pucDico/suBatpro_Dico
+/home/jean/01_Projets/06_adibat/01_delphi/2010_delphi/06_Batpro_Dico
+/home/jean/01_Projets/06_adibat/01_delphi/2010_delphi/15_TurboSyncD7Full
+/home/jean/01_Projets/06_adibat/01_delphi/2010_delphi/25_Batpro_Sauvegarde/08_sources_externes
+/home/jean/01_Projets/06_adibat/01_delphi/2010_delphi/39_GED/04_StarUML
+/home/jean/01_Projets/06_adibat/01_delphi/2010_delphi/48_site_web
+/home/jean/01_Projets/06_adibat/01_delphi/2010_delphi/sources_externes
+/home/jean/01_Projets/06_adibat/01_delphi/2010_delphi/LGPL/OOoDelphiReportEngine/sources_externes
+/home/jean/01_Projets/06_adibat/01_delphi/2010_delphi/55_php

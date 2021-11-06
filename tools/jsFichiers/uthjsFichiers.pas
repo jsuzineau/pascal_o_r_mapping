@@ -84,7 +84,7 @@ var
    Taille: Int64;
 begin
      Result:= 0;
-     if FindFirstUTF8(Path+'\*.*',faAnyFile,SearchRec) { *Converti depuis FindFirst* } = 0
+     if FindFirst(Path+'\*.*',faAnyFile,SearchRec) { *Converti depuis FindFirst* } = 0
      then
          repeat
                Taille:= SearchRec.Size;
@@ -106,7 +106,8 @@ begin
                        Synchronize( DoChangeNodeText);
                        end;
                Inc( Result, Taille);
-         until FindNextUTF8(SearchRec) { *Converti depuis FindNext* } <> 0;
+         until FindNext(SearchRec) { *Converti depuis FindNext* } <> 0;
+     FindClose(SearchRec);
      Parent.AlphaSort;
 end;
 

@@ -1,7 +1,7 @@
 object fjsFichiers: TfjsFichiers
   Left = 567
   Height = 480
-  Top = 933
+  Top = 1051
   Width = 644
   Caption = 'jsFichiers'
   ClientHeight = 480
@@ -10,14 +10,13 @@ object fjsFichiers: TfjsFichiers
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
-  LCLVersion = '1.4.0.4'
+  LCLVersion = '2.2.0.1'
   object Tree: TTreeView
     Left = 0
     Height = 415
     Top = 65
     Width = 644
     Align = alClient
-    DefaultItemHeight = 16
     Font.Color = clWindowText
     Font.Height = -11
     Font.Name = 'Courier New'
@@ -46,7 +45,7 @@ object fjsFichiers: TfjsFichiers
     end
     object eRootPath: TEdit
       Left = 8
-      Height = 24
+      Height = 32
       Top = 8
       Width = 396
       Anchors = [akTop, akLeft, akRight]
@@ -76,7 +75,7 @@ object fjsFichiers: TfjsFichiers
   object Open_du_Result: TOpenDialog
     FileName = '\\Darkstar\c\resultat_du.txt'
     Filter = 'du XXX > fichier|*.*'
-    left = 288
-    top = 48
+    Left = 288
+    Top = 48
   end
 end
