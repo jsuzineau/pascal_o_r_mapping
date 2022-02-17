@@ -32,8 +32,11 @@ type
  =
  class(TForm)
   b0_Now: TButton;
+  bCurrentDay: TButton;
+  bNextDay: TButton;
   bodCalendrier_Modele: TButton;
   bOK: TBitBtn;
+  bPreviousDay: TButton;
   bSession: TButton;
   bTo_log: TButton;
   bodSession: TButton;
@@ -58,21 +61,25 @@ type
   Label2: TLabel;
   Label3: TLabel;
   Label4: TLabel;
+  Label5: TLabel;
   mResume: TMemo;
   Panel1: TPanel;
   Splitter1: TSplitter;
   procedure b0_NowClick(Sender: TObject);
+  procedure bPreviousMonthClick(Sender: TObject);
   procedure bCurrentMonthClick(Sender: TObject);
   procedure bNextMonthClick(Sender: TObject);
+  procedure bPreviousWeekClick(Sender: TObject);
+  procedure bCurrentWeekClick(Sender: TObject);
   procedure bNextWeekClick(Sender: TObject);
+  procedure bPreviousDayClick(Sender: TObject);
+  procedure bCurrentDayClick(Sender: TObject);
+  procedure bNextDayClick(Sender: TObject);
   procedure bodCalendrierClick(Sender: TObject);
   procedure bodCalendrier_ModeleClick(Sender: TObject);
   procedure bodSessionClick(Sender: TObject);
   procedure bodSession_ModeleClick(Sender: TObject);
   procedure bOKClick(Sender: TObject);
-  procedure bCurrentWeekClick(Sender: TObject);
-  procedure bPreviousMonthClick(Sender: TObject);
-  procedure bPreviousWeekClick(Sender: TObject);
   procedure bRepClick(Sender: TObject);
   procedure bSessionClick(Sender: TObject);
   procedure bTo_logClick(Sender: TObject);
@@ -91,6 +98,7 @@ type
  private
    procedure Semaine( _D: TDateTime; _Delta: Integer=0);
    procedure Mois   ( _D: TDateTime; _Delta: Integer=0);
+   procedure Jour   ( _D: TDateTime; _Delta: Integer=0);
 
  end;
 
@@ -179,6 +187,37 @@ begin
      deFin  .Date:=   EndOfTheMonth( _D);
 end;
 
+procedure TfTemps.Jour(_D: TDateTime; _Delta: Integer);
+begin
+          if _Delta < 0 then _D:= _D-1
+     else if _Delta > 0 then _D:= _D+1;
+
+     deDebut.Date:= _D;
+     deFin  .Date:= _D;
+end;
+
+procedure TfTemps.bRepClick(Sender: TObject);
+begin
+     if not OpenDocument( OD_Temporaire.RepertoireTemp)
+     then
+         ShowMessage( 'OpenDocument failed on '+OD_Temporaire.RepertoireTemp);
+end;
+
+procedure TfTemps.bCurrentDayClick(Sender: TObject);
+begin
+     Jour( Now);
+end;
+
+procedure TfTemps.bPreviousDayClick(Sender: TObject);
+begin
+     Jour( deDebut.Date, -1);
+end;
+
+procedure TfTemps.bNextDayClick(Sender: TObject);
+begin
+     Jour( deDebut.Date, +1);
+end;
+
 procedure TfTemps.bCurrentWeekClick(Sender: TObject);
 begin
      Semaine( Now);
@@ -187,13 +226,6 @@ end;
 procedure TfTemps.bPreviousWeekClick(Sender: TObject);
 begin
      Semaine( deDebut.Date, -1);
-end;
-
-procedure TfTemps.bRepClick(Sender: TObject);
-begin
-     if not OpenDocument( OD_Temporaire.RepertoireTemp)
-     then
-         ShowMessage( 'OpenDocument failed on '+OD_Temporaire.RepertoireTemp);
 end;
 
 procedure TfTemps.bNextWeekClick(Sender: TObject);

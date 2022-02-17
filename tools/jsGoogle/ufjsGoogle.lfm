@@ -1,0 +1,67 @@
+object fjsGoogle: TfjsGoogle
+  Left = 848
+  Height = 305
+  Top = 146
+  Width = 529
+  Caption = 'fjsGoogle'
+  ClientHeight = 305
+  ClientWidth = 529
+  Position = poScreenCenter
+  LCLVersion = '2.2.0.2'
+  object eInputURL: TEdit
+    Left = 8
+    Height = 37
+    Top = 8
+    Width = 512
+    Anchors = [akTop, akLeft, akRight]
+    OnClick = eInputURLClick
+    TabOrder = 0
+    Text = 'eInputURL'
+  end
+  object eOutputURL: TEdit
+    Left = 9
+    Height = 37
+    Top = 180
+    Width = 512
+    Anchors = [akTop, akLeft, akRight]
+    TabOrder = 1
+    Text = 'eOutputURL'
+  end
+  object eParams: TEdit
+    Left = 9
+    Height = 37
+    Top = 48
+    Width = 512
+    Anchors = [akTop, akLeft, akRight]
+    TabOrder = 2
+    Text = 'eParams'
+  end
+  object mParams: TMemo
+    Left = 8
+    Height = 77
+    Top = 95
+    Width = 512
+    Lines.Strings = (
+      'mParams'
+    )
+    TabOrder = 3
+  end
+  object ePasteOnClick: TEdit
+    Left = 8
+    Height = 37
+    Top = 256
+    Width = 512
+    OnClick = ePasteOnClickClick
+    TabOrder = 4
+    Text = 'ePasteOnClick'
+  end
+  object bSetPasteOnClick: TButton
+    Left = 8
+    Height = 25
+    Top = 232
+    Width = 136
+    Caption = 'bSetPasteOnClick'
+    OnClick = bSetPasteOnClickClick
+    TabOrder = 5
+  end
+end

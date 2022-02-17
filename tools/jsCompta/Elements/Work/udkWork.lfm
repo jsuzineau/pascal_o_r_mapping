@@ -1,0 +1,83 @@
+inherited dkWork: TdkWork
+  Left = 704
+  Height = 45
+  Top = 420
+  Width = 226
+  Caption = 'dkWork'
+  ClientHeight = 45
+  ClientWidth = 226
+  inherited sSelection: TBatpro_Shape
+    Height = 45
+  end
+  object clBeginning: TChamp_Label[1]
+    Left = 16
+    Height = 14
+    Top = 2
+    Width = 105
+    AutoSize = False
+    Caption = '2014/05/17 18:30'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    OnDblClick = FormDblClick
+    Field = 'Beginning'
+  end
+  object sbDetruire: TSpeedButton[2]
+    Left = 16
+    Height = 22
+    Hint = 'Supprimer'
+    Top = 19
+    Width = 22
+    Caption = 'D'
+    OnClick = sbDetruireClick
+  end
+  object clDescription: TChamp_Label[3]
+    Left = 40
+    Height = 14
+    Top = 24
+    Width = 182
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    Caption = 'clDescription'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    OnDblClick = FormDblClick
+    Field = 'Description'
+  end
+  object sbCopy_to_current: TSpeedButton[4]
+    Left = 203
+    Height = 22
+    Hint = 'Copie vers courant'
+    Top = 0
+    Width = 22
+    Anchors = [akTop, akRight]
+    Caption = '>'
+    OnClick = sbCopy_to_currentClick
+  end
+  object clName: TChamp_Label[5]
+    Left = 144
+    Height = 13
+    Top = 2
+    Width = 57
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Caption = 'clName'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'Name'
+  end
+  object sbAddTag: TSpeedButton[6]
+    Left = 122
+    Height = 22
+    Top = -2
+    Width = 22
+    Anchors = [akTop, akRight]
+    Caption = '<'
+    OnClick = sbAddTagClick
+  end
+end
