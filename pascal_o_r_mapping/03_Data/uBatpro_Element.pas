@@ -7208,6 +7208,7 @@ begin
           uhAggregation_Deconnecte_contexte:= ha.ClassName;
           ha.Deconnecte;
           end;
+        FreeAndNil( I);
      finally
             uhAggregation_Deconnecte_contexte:= '';
             end;

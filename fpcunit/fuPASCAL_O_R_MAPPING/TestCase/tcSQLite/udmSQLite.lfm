@@ -1,26 +1,27 @@
 object dmSQLite: TdmSQLite
   Left = 574
   Height = 323
-  Top = 1065
+  Top = 339
   Width = 447
   Caption = 'dmSQLite'
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '1.8.0.1'
+  LCLVersion = '2.2.0.4'
   object c: TSQLite3Connection
     Connected = False
     LoginPrompt = False
     DatabaseName = '/home/jean/pascal_o_r_mapping/pascal_o_r_mapping/fpcunit/fuPASCAL_O_R_MAPPING/jsWorks.sqlite'
     KeepConnection = False
     Transaction = t
-    left = 40
-    top = 56
+    AlwaysUseBigint = False
+    Left = 40
+    Top = 56
   end
   object t: TSQLTransaction
     Active = False
     Database = c
-    left = 40
-    top = 8
+    Left = 40
+    Top = 8
   end
   object sqlqOld: TSQLQuery
     PacketRecords = -1
@@ -42,8 +43,9 @@ object dmSQLite: TdmSQLite
     )
     Options = [sqoKeepOpenOnCommit, sqoAutoApplyUpdates, sqoAutoCommit, sqoCancelUpdatesOnRefresh, sqoRefreshUsingSelect]
     Params = <>
-    left = 40
-    top = 112
+    Macros = <>
+    Left = 40
+    Top = 112
     object sqlqOldid: TLongintField
       FieldKind = fkData
       FieldName = 'id'
@@ -67,8 +69,8 @@ object dmSQLite: TdmSQLite
   end
   object ds: TDataSource
     DataSet = sqlds
-    left = 47
-    top = 178
+    Left = 47
+    Top = 178
   end
   object sqlq: TSQLQuery
     PacketRecords = -1
@@ -111,8 +113,9 @@ object dmSQLite: TdmSQLite
     )
     Options = [sqoKeepOpenOnCommit, sqoAutoApplyUpdates, sqoAutoCommit, sqoCancelUpdatesOnRefresh, sqoRefreshUsingSelect]
     Params = <>
-    left = 112
-    top = 112
+    Macros = <>
+    Left = 112
+    Top = 112
     object sqlqid: TLongintField
       FieldKind = fkData
       FieldName = 'id'
@@ -175,8 +178,8 @@ object dmSQLite: TdmSQLite
     PrimaryKey = 'id'
     SaveOnClose = True
     TableName = 'Work'
-    left = 208
-    top = 115
+    Left = 208
+    Top = 115
     object sqldsid: TAutoIncField
       FieldKind = fkData
       FieldName = 'id'

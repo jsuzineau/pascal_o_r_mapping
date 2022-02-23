@@ -1621,6 +1621,7 @@ procedure TOpenDocument.XML_from_Repertoire_Extraction;
       NomFichier: String;
    begin
         NomFichier:= IncludeTrailingPathDelimiter( Repertoire_Extraction)+_FileName;
+        FreeAndNil( _xml);
         ReadXMLFile( _xml, NomFichier);
         (*_xml.IndentString:= '  ';
         with _xml do Options:= Options + [sxoAutoEncodeValue];*)

@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectSession>
-    <Version Value="12"/>
+    <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="12">
+    <Units Count="5">
       <Unit0>
         <Filename Value="jsFichiers.dpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
         <CursorPos X="13" Y="13"/>
-        <UsageCount Value="41"/>
+        <UsageCount Value="360"/>
         <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
         <Filename Value="ufjsFichiers.pas"/>
@@ -21,9 +22,10 @@
         <EditorIndex Value="2"/>
         <TopLine Value="34"/>
         <CursorPos Y="58"/>
-        <UsageCount Value="41"/>
+        <UsageCount Value="360"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
       <Unit2>
         <Filename Value="uthjsFichiers.pas"/>
@@ -32,13 +34,14 @@
         <EditorIndex Value="4"/>
         <TopLine Value="61"/>
         <CursorPos X="15" Y="110"/>
-        <UsageCount Value="41"/>
+        <UsageCount Value="360"/>
         <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
       <Unit3>
         <Filename Value="../../electronic/Arduino/HeartRate/Arduino_sketch/Heart_Rate_Arduino_Yun/www/index.html"/>
         <CursorPos X="41" Y="19"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="180"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="HTML"/>
       </Unit3>
@@ -47,59 +50,10 @@
         <EditorIndex Value="3"/>
         <TopLine Value="68"/>
         <CursorPos X="61" Y="77"/>
-        <UsageCount Value="20"/>
+        <UsageCount Value="180"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="JScript"/>
       </Unit4>
-      <Unit5>
-        <Filename Value="../../jsWorks/html/ThAUT/index.html"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="7"/>
-        <UsageCount Value="11"/>
-        <DefaultSyntaxHighlighter Value="HTML"/>
-      </Unit5>
-      <Unit6>
-        <Filename Value="../../jsWorks/html/ThAUT/AUT.js"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="49"/>
-        <UsageCount Value="11"/>
-        <DefaultSyntaxHighlighter Value="JScript"/>
-      </Unit6>
-      <Unit7>
-        <Filename Value="../../electronic/Arduino/HeartRate/Arduino_sketch/Heart_Rate_Arduino_Yun/www/angular-chart.js"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos Y="42"/>
-        <UsageCount Value="13"/>
-        <DefaultSyntaxHighlighter Value="JScript"/>
-      </Unit7>
-      <Unit8>
-        <Filename Value="../../electronic/Arduino/HeartRate/Arduino_sketch/Heart_Rate_Arduino_Yun/www/angular-chart.css"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="6" Y="49"/>
-        <UsageCount Value="12"/>
-        <DefaultSyntaxHighlighter Value="None"/>
-      </Unit8>
-      <Unit9>
-        <Filename Value="../../../Chart.Scatter-master/Chart.Scatter.js"/>
-        <EditorIndex Value="-1"/>
-        <UsageCount Value="12"/>
-        <DefaultSyntaxHighlighter Value="JScript"/>
-      </Unit9>
-      <Unit10>
-        <Filename Value="../../../Chart.Scatter-master/Chart.Core.js"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="82" Y="40"/>
-        <UsageCount Value="12"/>
-        <DefaultSyntaxHighlighter Value="JScript"/>
-      </Unit10>
-      <Unit11>
-        <Filename Value="../../../../01_pascal_o_r_mapping/tools/jsFichiers/ufjsFichiers.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="35"/>
-        <CursorPos X="9" Y="59"/>
-        <UsageCount Value="10"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit11>
     </Units>
     <JumpHistory Count="8" HistoryIndex="7">
       <Position1>
@@ -136,7 +90,7 @@
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
-      <Modes ActiveMode="default"/>
+      <Modes Count="0" ActiveMode="default"/>
     </RunParams>
   </ProjectSession>
 </CONFIG>

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="11"/>
+    <Version Value="12"/>
     <General>
+      <Flags>
+        <CompatibilityMode Value="True"/>
+      </Flags>
       <SessionStorage Value="InProjectDir"/>
-      <MainUnit Value="0"/>
       <Title Value="jsWorks"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
@@ -138,7 +140,7 @@
         <Mode0 Name="default"/>
       </Modes>
     </RunParams>
-    <RequiredPackages Count="6">
+    <RequiredPackages Count="5">
       <Item1>
         <PackageName Value="DateTimeCtrls"/>
       </Item1>
@@ -152,13 +154,10 @@
         <PackageName Value="OD_DelphiReportEngine_Controls"/>
       </Item4>
       <Item5>
-        <PackageName Value="virtualtreeview_package"/>
-      </Item5>
-      <Item6>
         <PackageName Value="LCL"/>
-      </Item6>
+      </Item5>
     </RequiredPackages>
-    <Units Count="126">
+    <Units Count="121">
       <Unit0>
         <Filename Value="jsWorks.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -663,98 +662,66 @@
         <ResourceBaseClass Value="Form"/>
       </Unit107>
       <Unit108>
-        <Filename Value="ufTest_VirtualTreeView.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="fTest_VirtualTreeView"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit108>
-      <Unit109>
-        <Filename Value="../Generation_de_code/ufAutomatic_VST.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="fAutomatic_VST"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit109>
-      <Unit110>
-        <Filename Value="../pascal_o_r_mapping/06_Formes/uhVST.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit110>
-      <Unit111>
-        <Filename Value="ufTest_neo4j.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="fTest_neo4j"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit111>
-      <Unit112>
         <Filename Value="../pascal_o_r_mapping/03_Data/uNEO4J.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit112>
-      <Unit113>
+      </Unit108>
+      <Unit109>
         <Filename Value="../pascal_o_r_mapping/03_Data/JSON/upoolJSON.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="poolJSON"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit109>
+      <Unit110>
+        <Filename Value="../pascal_o_r_mapping/03_Data/Tuleap/uTuleap.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit110>
+      <Unit111>
+        <Filename Value="Elements/Session/uodSession.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit111>
+      <Unit112>
+        <Filename Value="Elements/Calendrier/uodCalendrier.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit112>
+      <Unit113>
+        <Filename Value="Elements/Calendrier/ublCalendrier.pas"/>
+        <IsPartOfProject Value="True"/>
       </Unit113>
       <Unit114>
-        <Filename Value="ufTULEAP.pas"/>
+        <Filename Value="Elements/Calendrier/uhdmCalendrier.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="fTULEAP"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
       </Unit114>
       <Unit115>
-        <Filename Value="../pascal_o_r_mapping/03_Data/Tuleap/uTuleap.pas"/>
+        <Filename Value="../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/File_Handler/05_Angular_TypeScript/uAngular_TypeScript_ApplicationHandler.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit115>
       <Unit116>
-        <Filename Value="Elements/Session/uodSession.pas"/>
+        <Filename Value="../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript/ujpAngular_TypeScript_declaration_champs.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit116>
       <Unit117>
-        <Filename Value="Elements/Calendrier/uodCalendrier.pas"/>
+        <Filename Value="../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/Elements/Postgres_Foreign_Key/ublPostgres_Foreign_Key.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit117>
       <Unit118>
-        <Filename Value="Elements/Calendrier/ublCalendrier.pas"/>
+        <Filename Value="../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/Elements/Postgres_Foreign_Key/uhfPostgres_Foreign_Key.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit118>
       <Unit119>
-        <Filename Value="Elements/Calendrier/uhdmCalendrier.pas"/>
+        <Filename Value="../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/Elements/Postgres_Foreign_Key/upoolPostgres_Foreign_Key.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit119>
       <Unit120>
-        <Filename Value="../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/File_Handler/05_Angular_TypeScript/uAngular_TypeScript_ApplicationHandler.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit120>
-      <Unit121>
-        <Filename Value="../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript/ujpAngular_TypeScript_declaration_champs.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit121>
-      <Unit122>
-        <Filename Value="../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/Elements/Postgres_Foreign_Key/ublPostgres_Foreign_Key.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit122>
-      <Unit123>
-        <Filename Value="../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/Elements/Postgres_Foreign_Key/uhfPostgres_Foreign_Key.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit123>
-      <Unit124>
-        <Filename Value="../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/Elements/Postgres_Foreign_Key/upoolPostgres_Foreign_Key.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit124>
-      <Unit125>
         <Filename Value="../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/File_Handler/uTemplateHandler.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit125>
+      </Unit120>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="jsWorks"/>
+      <Filename Value="E:/03_travail/Providence/01_jsWorks/jsWorks.exe"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>

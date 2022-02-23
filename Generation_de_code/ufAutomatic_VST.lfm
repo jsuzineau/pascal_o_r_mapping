@@ -9,7 +9,7 @@ object fAutomatic_VST: TfAutomatic_VST
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poDesktopCenter
-  LCLVersion = '2.0.0.4'
+  LCLVersion = '2.2.0.4'
   object Panel1: TPanel
     Left = 0
     Height = 106
@@ -138,7 +138,7 @@ object fAutomatic_VST: TfAutomatic_VST
     TabOrder = 1
   end
   object od: TOpenDialog
-    left = 424
-    top = 72
+    Left = 424
+    Top = 72
   end
 end

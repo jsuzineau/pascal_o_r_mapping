@@ -6,6 +6,7 @@ object fSQLite: TfSQLite
   Caption = 'fSQLite'
   ClientHeight = 701
   ClientWidth = 705
+  Position = poScreenCenter
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   LCLVersion = '1.8.0.1'

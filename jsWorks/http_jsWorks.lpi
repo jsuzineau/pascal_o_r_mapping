@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="11"/>
+    <Version Value="12"/>
     <General>
+      <Flags>
+        <CompatibilityMode Value="True"/>
+      </Flags>
       <SessionStorage Value="InProjectDir"/>
-      <MainUnit Value="0"/>
       <Title Value="http_jsWorks"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
@@ -239,7 +241,7 @@
         <HasResources Value="True"/>
       </Unit25>
       <Unit26>
-        <Filename Value="Elements/Tag/ublTAG.pas"/>
+        <Filename Value="Elements/Tag/ublTag.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit26>
       <Unit27>

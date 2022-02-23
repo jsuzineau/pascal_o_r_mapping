@@ -998,6 +998,7 @@ procedure TBatpro_Ligne.Deconnecte;
 
             be.Unlink( Self);
             end;
+          FreeAndNil(I);
      end;
 begin
      Aggregations.Deconnecte;

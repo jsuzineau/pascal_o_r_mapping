@@ -6,6 +6,7 @@ object ftcWinUtils: TftcWinUtils
   Caption = 'ftcWinUtils'
   ClientHeight = 240
   ClientWidth = 320
+  Position = poScreenCenter
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   LCLVersion = '1.6.0.4'

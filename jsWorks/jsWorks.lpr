@@ -75,12 +75,12 @@ uses
  upoolCategorie, upoolDevelopment, upoolJour_ferie, upoolProject, upoolState,
  upoolWork, ublJour_ferie, udkProject_EDIT, udkProject_LABEL, ufProject,
  udkWork, udkDevelopment, ublSession, uOD_Table_Batpro, ufAutomatic,
- ufAutomatic_VST, uhdmSession, uodSession, ublTag, uhfTag, upoolTag,
+ uhdmSession, uodSession, ublTag, uhfTag, upoolTag,
  upoolTag_Development, uhfTag_Development, ublTag_Development, upoolTag_Work,
  uhfTag_Work, ublTag_Work, udkType_Tag_EDIT, ublType_Tag, upoolType_Tag,
  uhfType_Tag, ufType_Tag, udkTag_LABEL, uodWork_from_Period, udkTag_LABEL_od,
- udkWork_haTag_from_Description_LABEL, ufTest_VirtualTreeView,
- virtualtreeview_package, uhVST, ufTest_neo4j, ufTULEAP, uNEO4J,
+ udkWork_haTag_from_Description_LABEL,
+ uNEO4J,
  uTuleap, upoolJSON;
 
 {$R *.res}
@@ -96,9 +96,6 @@ begin
  Application.CreateForm(TfjsWorks, fjsWorks);
  Application.CreateForm(TfProject, fProject);
  Application.CreateForm(TfTYPE_Tag, fTYPE_Tag);
- Application.CreateForm(TfTest_VirtualTreeView, fTest_VirtualTreeView);
- Application.CreateForm(TfTest_neo4j, fTest_neo4j);
- Application.CreateForm(TfTULEAP, fTULEAP);
  Application.Run;
 end.
 

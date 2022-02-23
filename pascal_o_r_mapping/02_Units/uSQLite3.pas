@@ -26,7 +26,7 @@ uses
     uSQLite3_SQLQuery,
     uSQLite3_libsqlite3;
 
-{$UNDEFINE SQLite3_SQLQuery}
+{$DEFINE SQLite3_SQLQuery}
 type
  TSQLite3
  =

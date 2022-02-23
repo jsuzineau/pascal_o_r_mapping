@@ -64,10 +64,7 @@ uses
     ufProject,
     ufType_Tag,
     ufTag,
-    ufTest_VirtualTreeView,
-    ufAutomatic_VST,
-    ufTest_neo4j,
-    ufTULEAP, sqlite3conn,
+    sqlite3conn,
 
     uHTTP_Interface,
 
@@ -372,7 +369,7 @@ end;
 
 procedure TfjsWorks.bVSTClick(Sender: TObject);
 begin
-     fTest_VirtualTreeView.Show;
+     //fTest_VirtualTreeView.Show;
 end;
 
 procedure TfjsWorks.bPointClick(Sender: TObject);
@@ -395,7 +392,7 @@ end;
 
 procedure TfjsWorks.bAutomatic_VSTClick(Sender: TObject);
 begin
-     fAutomatic_VST.Show;
+     //fAutomatic_VST.Show;
 end;
 
 procedure TfjsWorks.bBeginning_FromClick(Sender: TObject);
@@ -425,7 +422,7 @@ end;
 
 procedure TfjsWorks.bNEO4JClick(Sender: TObject);
 begin
-     fTest_neo4j.Show;
+     //fTest_neo4j.Show;
 end;
 
 procedure TfjsWorks.bNew_Tag_Client_from_SelectionClick(Sender: TObject);
@@ -442,7 +439,7 @@ end;
 
 procedure TfjsWorks.bTULEAPClick(Sender: TObject);
 begin
-     fTULEAP.Show;
+     //fTULEAP.Show;
 end;
 
 procedure TfjsWorks.dsbWorkSelect(Sender: TObject);
