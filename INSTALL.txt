@@ -43,8 +43,4 @@ http_jsWorks is a console application implementing a rustic http server.
 The html part use Google Angular.js and json format to communicate with the server.
 Run http_jsWorks and point your browser at http://localhost:1500/, 
  you should get a web page with functionalities similar to the desktop application.
-
-
-
-
-
+-
