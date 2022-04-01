@@ -32,6 +32,7 @@ uses
     uOD_Batpro_Table,
     uOD_Niveau,
     uOD_Table_Batpro,
+    uEXE_INI,
  Classes, SysUtils;
 
 type
@@ -47,13 +48,16 @@ type
     destructor Destroy; override;
   //Gestion état
   private
+    Facture: String;
     sl: TBatpro_StringList;
     hdmSession: ThdmSession;
     procedure Table_Calendrier;
     procedure Table_globale;
     procedure Table_par_Tag;
+  protected
+    function  Composer: String; override;
   public
-    procedure Init( _hdmSession: ThdmSession); reintroduce;
+    procedure Init( _hdmSession: ThdmSession; _Facture: String= ''); reintroduce;
   end;
 
 implementation
@@ -62,6 +66,7 @@ constructor TodSession.Create;
 begin
      sl:= TBatpro_StringList.Create;
      FNomFichier_Modele:= ExtractFilePath(ParamStr(0))+'Session.ott';
+     Facture:= '';
 end;
 
 destructor TodSession.Destroy;
@@ -144,10 +149,30 @@ begin
      nTag_Session  .Ajoute_Column_Apres( 'Pied'         , 1, 2);
 end;
 
-procedure TodSession.Init( _hdmSession: ThdmSession);
+function TodSession.Composer: String;
+var
+   Repertoire: String;
+begin
+     if ''= Facture
+     then
+         NomFichier:= ''
+     else
+         begin
+         Repertoire:= EXE_INI.Assure_String('Repertoire_Factures');
+         if '' <> Repertoire
+         then
+             Repertoire:= IncludeTrailingPathDelimiter(Repertoire);
+         NomFichier:= Repertoire+Facture+'_Detail.odt';
+         end;
+     Result:=inherited Composer;
+end;
+
+procedure TodSession.Init(_hdmSession: ThdmSession; _Facture: String= '');
 begin
      inherited Init;
      hdmSession:= _hdmSession;
+     Facture:= _Facture;
+     Ajoute_Parametre( 'Facture', Facture);
      Table_calendrier;
      Table_globale;
      Table_par_Tag;

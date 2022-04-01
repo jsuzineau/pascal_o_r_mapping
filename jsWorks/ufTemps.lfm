@@ -1,7 +1,7 @@
 object fTemps: TfTemps
-  Left = 542
+  Left = 577
   Height = 397
-  Top = 180
+  Top = 242
   Width = 923
   Caption = 'fTemps'
   ClientHeight = 397
@@ -252,6 +252,22 @@ object fTemps: TfTemps
       Caption = '+'
       OnClick = bNextDayClick
       TabOrder = 20
+    end
+    object Label6: TLabel
+      Left = 533
+      Height = 21
+      Top = 3
+      Width = 51
+      Caption = 'Facture'
+    end
+    object eFacture: TEdit
+      Left = 532
+      Height = 37
+      Top = 22
+      Width = 252
+      OnEnter = eFactureEnter
+      TabOrder = 21
+      Text = 'eFacture'
     end
   end
   object ds: TDockableScrollbox

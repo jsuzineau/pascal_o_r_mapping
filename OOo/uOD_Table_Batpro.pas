@@ -42,6 +42,7 @@ type
     destructor Destroy; override;
   //Gestion état
   protected
+    NomFichier: String;
     Tables: array of TOD_Batpro_Table;
     procedure Init; override;
     function  Editer_Modele_Impression_interne: String; override;
@@ -59,6 +60,7 @@ constructor TOD_Table_Batpro.Create;
 begin
      inherited;
      Freeze_fields:= False;
+     NomFichier:= '';
 end;
 
 destructor TOD_Table_Batpro.Destroy;
@@ -69,6 +71,7 @@ end;
 procedure TOD_Table_Batpro.Init;
 begin
      inherited;
+     NomFichier:= '';
      SetLength( Tables, 0);
 end;
 
@@ -98,7 +101,8 @@ begin
                                     ParametresNoms, ParametresValeurs,
                                     Maitres_Titre, Maitres_bl,
                                     Tables,
-                                    Freeze_fields);
+                                    Freeze_fields,
+                                    NomFichier);
      Traite_Logos( Result);
 end;
 

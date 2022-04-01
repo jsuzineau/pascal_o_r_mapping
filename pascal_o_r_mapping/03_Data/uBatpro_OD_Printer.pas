@@ -69,7 +69,8 @@ type
                       NomMaitres  : array of String;
                       Maitres     : array of TBatpro_Ligne;
                       Details     : array of TOD_Batpro_Table;
-                      _Freeze_fields: Boolean= False): String; overload;
+                      _Freeze_fields: Boolean= False;
+                      _NomFichier: String=''): String; overload;
   end;
 
 var
@@ -146,7 +147,8 @@ function TBatpro_OD_Printer.Execute( NomFichierModele, sTitreEtat: String;
                                      NomMaitres: array of String;
                                      Maitres: array of TBatpro_Ligne;
                                      Details: array of TOD_Batpro_Table;
-                                     _Freeze_fields: Boolean= False): String;
+                                     _Freeze_fields: Boolean= False;
+                                     _NomFichier   : String = ''): String;
 var
    NomFichier: String;
    I, Longueur: Integer;
@@ -160,7 +162,11 @@ begin
      then
          AssureModele( NomFichierModele, ParametresNoms, NomMaitres, Maitres, Details);
 
-     NomFichier:= OD_Temporaire.Nouveau_ODT( 'OD_Printer');
+     if '' = _NomFichier
+     then
+         NomFichier:= OD_Temporaire.Nouveau_ODT( 'OD_Printer')
+     else
+         NomFichier:= _NomFichier;
      CopyFile( PChar(NomFichierModele), PChar( NomFichier), False);
 
      Ouvre( NomFichier);

@@ -22,7 +22,7 @@ uses
     udkSession, uodCalendrier,
 
  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, EditBtn,
- StdCtrls, Buttons, ExtCtrls,LCLIntf, dateutils,Clipbrd;
+ Buttons, ExtCtrls,LCLIntf, dateutils,Clipbrd, StdCtrls;
 
 type
 
@@ -57,11 +57,13 @@ type
   deFin: TDateEdit;
   ds: TDockableScrollbox;
   dsbTag: TDockableScrollbox;
+  eFacture: TEdit;
   Label1: TLabel;
   Label2: TLabel;
   Label3: TLabel;
   Label4: TLabel;
   Label5: TLabel;
+  Label6: TLabel;
   mResume: TMemo;
   Panel1: TPanel;
   Splitter1: TSplitter;
@@ -87,6 +89,7 @@ type
   procedure cbHeures_SupplementairesChange(Sender: TObject);
   procedure cbRestreindre_a_un_TagClick(Sender: TObject);
   procedure dsClick(Sender: TObject);
+  procedure eFactureEnter(Sender: TObject);
   procedure FormCreate(Sender: TObject);
   procedure FormDestroy(Sender: TObject);
   procedure mResumeEnter(Sender: TObject);
@@ -285,6 +288,11 @@ begin
 
 end;
 
+procedure TfTemps.eFactureEnter(Sender: TObject);
+begin
+     eFacture.Text:= Clipboard.AsText;
+end;
+
 procedure TfTemps.b0_NowClick(Sender: TObject);
 var
    Resultat: String;
@@ -337,7 +345,7 @@ var
 begin
      odSession:= TodSession.Create;
      try
-        odSession.Init( hdmSession);
+        odSession.Init( hdmSession, eFacture.Text);
         Resultat:= odSession.Visualiser;
      finally
             FreeAndNil( odSession);
@@ -354,7 +362,7 @@ var
 begin
      odSession:= TodSession.Create;
      try
-        odSession.Init( hdmSession);
+        odSession.Init( hdmSession, eFacture.Text);
         Resultat:= odSession.Editer_Modele_Impression;
      finally
             FreeAndNil( odSession);
