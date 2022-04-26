@@ -1,0 +1,68 @@
+object ftest_Audacity: Tftest_Audacity
+  Left = 693
+  Height = 240
+  Top = 216
+  Width = 320
+  Caption = 'ftest_Audacity'
+  ClientHeight = 240
+  ClientWidth = 320
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  LCLVersion = '2.2.0.4'
+  object Panel1: TPanel
+    Left = 0
+    Height = 82
+    Top = 0
+    Width = 320
+    Align = alTop
+    ClientHeight = 82
+    ClientWidth = 320
+    TabOrder = 0
+    object eSend: TEdit
+      Left = 10
+      Height = 23
+      Top = 12
+      Width = 222
+      TabOrder = 0
+      Text = 'eSend'
+    end
+    object bSend: TButton
+      Left = 240
+      Height = 25
+      Top = 8
+      Width = 75
+      Caption = 'bSend'
+      Default = True
+      OnClick = bSendClick
+      TabOrder = 1
+    end
+    object bTest_Select_seconds: TButton
+      Left = 8
+      Height = 25
+      Top = 48
+      Width = 128
+      Caption = 'bTest_Select_seconds'
+      OnClick = bTest_Select_secondsClick
+      TabOrder = 2
+    end
+  end
+  object m: TMemo
+    Left = 0
+    Height = 158
+    Top = 82
+    Width = 320
+    Align = alClient
+    Lines.Strings = (
+      'm'
+    )
+    ScrollBars = ssAutoBoth
+    TabOrder = 1
+  end
+  object tStart: TTimer
+    Enabled = False
+    Interval = 10
+    OnTimer = tTimer
+    Left = 273
+    Top = 39
+  end
+end

@@ -1,0 +1,52 @@
+object fjsODP: TfjsODP
+  Left = 693
+  Height = 240
+  Top = 216
+  Width = 554
+  AllowDropFiles = True
+  Caption = 'fjsODP'
+  ClientHeight = 240
+  ClientWidth = 554
+  OnCreate = FormCreate
+  OnDropFiles = FormDropFiles
+  LCLVersion = '2.2.0.4'
+  object Label1: TLabel
+    Left = 9
+    Height = 15
+    Top = 7
+    Width = 79
+    Caption = 'Nom de fichier'
+  end
+  object eFilename: TEdit
+    Left = 101
+    Height = 23
+    Top = 4
+    Width = 424
+    Anchors = [akTop, akLeft, akRight]
+    TabOrder = 0
+    Text = 'eFilename'
+  end
+  object bOF: TButton
+    Left = 526
+    Height = 25
+    Top = 3
+    Width = 24
+    Anchors = [akTop, akRight]
+    Caption = '...'
+    OnClick = bOFClick
+    TabOrder = 1
+  end
+  object bSupprime_animations: TButton
+    Left = 8
+    Height = 25
+    Top = 40
+    Width = 136
+    Caption = 'Supprime animations'
+    OnClick = bSupprime_animationsClick
+    TabOrder = 2
+  end
+  object od: TOpenDialog
+    Filter = 'Présentation Impress ODP|*.odp'
+    Left = 240
+  end
+end
