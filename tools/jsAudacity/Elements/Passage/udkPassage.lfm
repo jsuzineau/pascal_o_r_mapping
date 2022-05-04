@@ -1,0 +1,112 @@
+inherited dkPassage: TdkPassage
+  Left = 704
+  Height = 45
+  Top = 420
+  Width = 717
+  Caption = 'dkPassage'
+  ClientHeight = 45
+  ClientWidth = 717
+  inherited sSelection: TBatpro_Shape
+    Height = 45
+  end
+  object clDebut: TChamp_Label[1]
+    Left = 152
+    Height = 14
+    Top = 2
+    Width = 105
+    AutoSize = False
+    Caption = '2014/05/17 18:30'
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    OnDblClick = FormDblClick
+    Field = 'Debut'
+  end
+  object sbDetruire: TSpeedButton[2]
+    Left = 16
+    Height = 22
+    Hint = 'Supprimer'
+    Top = 1
+    Width = 22
+    Caption = 'D'
+    OnClick = sbDetruireClick
+  end
+  object sbDo_Selection: TSpeedButton[3]
+    Left = 694
+    Height = 22
+    Hint = 'Selection/Play'
+    Top = 0
+    Width = 20
+    Anchors = [akTop, akRight]
+    Caption = '>'
+    OnClick = sbDo_SelectionClick
+  end
+  object clPage: TChamp_Label[4]
+    Left = 65
+    Height = 13
+    Top = 2
+    Width = 57
+    AutoSize = False
+    Caption = 'clPage'
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'Page'
+  end
+  object clFin: TChamp_Label[5]
+    Left = 253
+    Height = 14
+    Top = 2
+    Width = 105
+    AutoSize = False
+    Caption = '2014/05/17 18:30'
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    OnDblClick = FormDblClick
+    Field = 'Fin'
+  end
+  object sbApplique: TSpeedButton[6]
+    Left = 42
+    Height = 22
+    Hint = 'Applique'
+    Top = 1
+    Width = 22
+    Caption = 'A'
+    OnClick = sbAppliqueClick
+  end
+  object cePourcentage: TChamp_Edit[7]
+    Left = 364
+    Height = 21
+    Top = 1
+    Width = 67
+    TabOrder = 0
+    Text = 'cePourcentage'
+    Field = 'Pourcentage'
+  end
+  object sbGetSelection: TSpeedButton[8]
+    Left = 126
+    Height = 22
+    Hint = 'Get selection from Audacity'
+    Top = -1
+    Width = 22
+    Caption = 'G'
+    OnClick = sbGetSelectionClick
+  end
+  object cmTexte: TChamp_Memo[9]
+    Left = 436
+    Height = 39
+    Top = 2
+    Width = 256
+    Anchors = [akTop, akLeft, akRight]
+    Color = clBtnFace
+    Lines.Strings = (
+      'cmTexte'
+    )
+    OnClick = FormClick
+    OnDblClick = FormDblClick
+    ReadOnly = True
+    TabOrder = 1
+    Field = 'Texte'
+  end
+end

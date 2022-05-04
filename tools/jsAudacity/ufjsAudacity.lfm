@@ -1,0 +1,131 @@
+object fjsAudacity: TfjsAudacity
+  Left = 410
+  Height = 649
+  Top = 210
+  Width = 894
+  Caption = 'fjsAudacity'
+  ClientHeight = 649
+  ClientWidth = 894
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  ShowHint = True
+  LCLVersion = '2.2.0.4'
+  object Panel2: TPanel
+    Left = 0
+    Height = 64
+    Top = 0
+    Width = 894
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 64
+    ClientWidth = 894
+    TabOrder = 0
+    object eSend: TEdit
+      Left = 10
+      Height = 23
+      Top = 4
+      Width = 222
+      TabOrder = 0
+      Text = 'eSend'
+    end
+    object bSend: TButton
+      Left = 240
+      Height = 25
+      Top = 4
+      Width = 75
+      Caption = 'bSend'
+      Default = True
+      OnClick = bSendClick
+      TabOrder = 1
+    end
+    object bTest_Select_seconds: TButton
+      Left = 8
+      Height = 25
+      Top = 32
+      Width = 128
+      Caption = 'bTest_Select_seconds'
+      OnClick = bTest_Select_secondsClick
+      TabOrder = 2
+    end
+    object b_from_XLSX: TButton
+      Left = 144
+      Height = 25
+      Top = 32
+      Width = 75
+      Caption = 'b_from_XLSX'
+      OnClick = b_from_XLSXClick
+      TabOrder = 3
+    end
+    object bGetSelectionStart: TButton
+      Left = 232
+      Height = 25
+      Top = 32
+      Width = 75
+      Caption = 'bGetSelectionStart'
+      OnClick = bGetSelectionStartClick
+      TabOrder = 4
+    end
+  end
+  object dsbPassage: TDockableScrollbox
+    Left = 0
+    Height = 435
+    Top = 64
+    Width = 894
+    Align = alClient
+    Caption = 'dsbPassage'
+    ClientHeight = 435
+    ClientWidth = 894
+    TabOrder = 1
+    HauteurLigne = 45
+    BordureLignes = True
+    Zebrage = False
+    Zebrage1 = 15138790
+    Zebrage2 = 16777192
+    _LectureSeule = False
+    OnTraite_Message = dsbPassageTraite_Message
+  end
+  object m: TMemo
+    Left = 0
+    Height = 145
+    Top = 504
+    Width = 894
+    Align = alBottom
+    Lines.Strings = (
+      'm'
+    )
+    ScrollBars = ssAutoBoth
+    TabOrder = 2
+  end
+  object Splitter1: TSplitter
+    Cursor = crVSplit
+    Left = 0
+    Height = 5
+    Top = 499
+    Width = 894
+    Align = alBottom
+    Color = clLime
+    ParentColor = False
+    ResizeAnchor = akBottom
+  end
+  object od: TOpenDialog
+    DefaultExt = '.xls'
+    Filter = 'Excel spreadsheet (*.xls)|*.xls|Excel XML spreadsheet (*.xlsx)|*.xlsx|LibreOffice/OpenOffice spreadsheet (*.ods)|*.ods|Wikitable (pipes) (.wikitable_pipes)|.wikitable_pipes|All files (*.*)|*.*'
+    Options = [ofExtensionDifferent, ofEnableSizing, ofViewDetail]
+    Left = 184
+    Top = 200
+  end
+  object sd: TSaveDialog
+    DefaultExt = '.xls'
+    Filter = 'Excel spreadsheet (*.xls)|*.xls|Excel XML spreadsheet (*.xlsx)|*.xlsx|LibreOffice/OpenOffice spreadsheet (*.ods)|*.ods|Wikitable (wikimedia) (.wikitable_wikimedia)|*.wikitable_wikimedia'
+    Options = [ofOverwritePrompt, ofExtensionDifferent, ofEnableSizing, ofViewDetail]
+    Left = 184
+    Top = 264
+  end
+  object tStart: TTimer
+    Enabled = False
+    Interval = 10
+    OnTimer = tStartTimer
+    Left = 352
+    Top = 8
+  end
+end
