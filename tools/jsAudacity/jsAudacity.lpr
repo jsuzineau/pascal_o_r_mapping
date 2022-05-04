@@ -5,7 +5,7 @@ program jsAudacity;
 uses
   Interfaces, // this includes the LCL widgetset
   Forms, ufjsAudacity, ublPassage, upoolPassage, uhfPassage, udkPassage,
-  LResources, uAudacity, uBatpro_Element;
+  LResources, uAudacity;
 
 {$R *.res}
 

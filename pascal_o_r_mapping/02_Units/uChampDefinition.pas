@@ -62,9 +62,7 @@ type
   class
   public
     Nom       : String;
-  private
     Typ       : TFieldType;
-  public
     Persistant: Boolean;
     Info: TjsDataContexte_Champ_Info;
     property Visible   : Boolean read Info.Visible  write Info.Visible ;

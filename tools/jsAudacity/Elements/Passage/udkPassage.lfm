@@ -109,4 +109,18 @@ inherited dkPassage: TdkPassage
     TabOrder = 1
     Field = 'Texte'
   end
+  object cmNote: TChamp_Memo[10]
+    Left = 151
+    Height = 18
+    Top = 24
+    Width = 280
+    Lines.Strings = (
+      'cmNote'
+    )
+    OnClick = FormClick
+    OnDblClick = FormDblClick
+    ScrollBars = ssAutoVertical
+    TabOrder = 2
+    Field = 'Note'
+  end
 end

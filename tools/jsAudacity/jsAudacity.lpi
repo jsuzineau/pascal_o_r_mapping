@@ -27,7 +27,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="Elements\Passage;..\..\..\01_Projets\01_pascal_o_r_mapping\pascal_o_r_mapping\03_Data"/>
+            <OtherUnitFiles Value="Elements\Passage"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -65,21 +65,24 @@
         <Mode0 Name="default"/>
       </Modes>
     </RunParams>
-    <RequiredPackages Count="4">
+    <RequiredPackages Count="5">
       <Item1>
-        <PackageName Value="OD_DelphiReportEngine_Controls"/>
+        <PackageName Value="OD_DelphiReportEngine_Data"/>
       </Item1>
       <Item2>
-        <PackageName Value="OD_DelphiReportEngine_Units"/>
+        <PackageName Value="OD_DelphiReportEngine_Controls"/>
       </Item2>
       <Item3>
-        <PackageName Value="laz_fpspreadsheet_visual"/>
+        <PackageName Value="OD_DelphiReportEngine_Units"/>
       </Item3>
       <Item4>
-        <PackageName Value="LCL"/>
+        <PackageName Value="laz_fpspreadsheet_visual"/>
       </Item4>
+      <Item5>
+        <PackageName Value="LCL"/>
+      </Item5>
     </RequiredPackages>
-    <Units Count="9">
+    <Units Count="8">
       <Unit0>
         <Filename Value="jsAudacity.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -118,21 +121,17 @@
         <Filename Value="uAudacity.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit7>
-      <Unit8>
-        <Filename Value="..\..\..\01_Projets\01_pascal_o_r_mapping\pascal_o_r_mapping\03_Data\uBatpro_Element.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit8>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="jsAudacity"/>
+      <Filename Value="E:\03_travail\FBU\Ghislaine\jsAudacity\jsAudacity"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="Elements\Passage;..\..\..\01_Projets\01_pascal_o_r_mapping\pascal_o_r_mapping\03_Data"/>
+      <OtherUnitFiles Value="Elements\Passage"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

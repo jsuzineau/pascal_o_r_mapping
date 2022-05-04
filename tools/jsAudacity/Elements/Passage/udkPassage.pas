@@ -50,6 +50,7 @@ type
  =
   class(TDockable)
   cePourcentage: TChamp_Edit;
+  cmNote: TChamp_Memo;
   cmTexte: TChamp_Memo;
   clDebut: TChamp_Label;
   clFin: TChamp_Label;
@@ -90,13 +91,15 @@ begin
      inherited Destroy;
 end;
 
+
 procedure TdkPassage.SetObjet(const Value: TObject);
 begin
      inherited SetObjet(Value);
 
      Affecte( blPassage, TblPassage, Value);
 
-     Champs_Affecte( blPassage, [clDebut, clFin, cePourcentage, clPage, cmTexte]);
+     Champs_Affecte( blPassage,
+                     [clDebut, clFin, cePourcentage, clPage, cmTexte, cmNote]);
 end;
 
 procedure TdkPassage.sbDetruireClick(Sender: TObject);

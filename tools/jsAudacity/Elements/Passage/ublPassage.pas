@@ -81,6 +81,7 @@ type
     Fin  : TDateTime; cFin  : TChamp;
     Pourcentage: Double;
     Texte: String;
+    Note: String;
   //Gestion de la clé
   public
     function sCle: String; override;
@@ -248,7 +249,8 @@ begin
      cFin.Definition.Format_DateTime:= 'hh":"nn":"ss"."zzz';
 
      Double_from_    ( Pourcentage, 'Pourcentage');
-     String_from_Memo( Texte               , 'Texte'               );
+     String_from_Memo( Texte      , 'Texte'      );
+     String_from_Memo( Note       , 'Note'       );
 
      cLibelle:= cDebut;
 end;

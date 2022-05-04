@@ -20,13 +20,8 @@ uses
  uParametres_Ancetre, uPool, upool_Ancetre_Ancetre, upoolG_BECP, 
  upoolG_BECPCTX, upoolG_CTX, upoolG_CTXTYPE, uPostgres, uRequete, 
  uSuppression, uSVG, u_sys_Batpro_Element, uTri, uXML, uTraits, u_db_Formes, 
- ubeChamp, ubeClusterElement, ubeJalon, uberef, ubeSerie, uhRequete, 
- uhrG_BECP, uhrG_BECPCTX, uhrG_CTX, uhTriColonne, ssl_streamsec, blcksock, 
- mimeinln, ssl_cryptlib, pingsend, mimepart, ftpsend, clamsend, imapsend, 
- laz_synapse, slogsend, synafpc, nntpsend, synachar, synautil, ssl_sbb, 
- dnssend, ssl_openssl_lib, mimemess, snmpsend, ldapsend, ssl_openssl, synsock, 
- tlntsend, sntpsend, synamisc, httpsend, synadbg, synaip, synacrypt, synaser, 
- synaicnv, pop3send, ftptsend, smtpsend, synacode, asn1util, LazarusPackageIntf;
+ ubeChamp, ubeClusterElement, ubeJalon, uberef, ubeSerie, uhTriColonne, 
+ LazarusPackageIntf;
 
 implementation
 

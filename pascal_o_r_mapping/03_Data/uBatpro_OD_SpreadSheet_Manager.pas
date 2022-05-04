@@ -188,7 +188,7 @@ end;
 
 procedure TBatpro_OD_SpreadSheet_Manager.Append_Row;
 begin
-     ROW:= TOD_TABLE_ROW.Create( C, eTABLE);
+     ROW:= TOD_TABLE_ROW.Create( D, eTABLE);
      Inc( FnRow);
      if NombreColonnes > 0
      then

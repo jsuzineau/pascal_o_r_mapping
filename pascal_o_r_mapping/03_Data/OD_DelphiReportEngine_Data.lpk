@@ -15,7 +15,7 @@
         </SyntaxOptions>
       </Parsing>
     </CompilerOptions>
-    <Files Count="108">
+    <Files Count="67">
       <Item1>
         <Filename Value="uBatpro_Element.pas"/>
         <UnitName Value="uBatpro_Element"/>
@@ -277,176 +277,12 @@
         <UnitName Value="ubeSerie"/>
       </Item65>
       <Item66>
-        <Filename Value="uhRequete.pas"/>
-        <UnitName Value="uhRequete"/>
-      </Item66>
-      <Item67>
-        <Filename Value="uhrG_BECP.pas"/>
-        <UnitName Value="uhrG_BECP"/>
-      </Item67>
-      <Item68>
-        <Filename Value="uhrG_BECPCTX.pas"/>
-        <UnitName Value="uhrG_BECPCTX"/>
-      </Item68>
-      <Item69>
-        <Filename Value="uhrG_CTX.pas"/>
-        <UnitName Value="uhrG_CTX"/>
-      </Item69>
-      <Item70>
         <Filename Value="uhTriColonne.pas"/>
         <UnitName Value="uhTriColonne"/>
-      </Item70>
-      <Item71>
+      </Item66>
+      <Item67>
         <AddToUsesPkgSection Value="False"/>
-      </Item71>
-      <Item72>
-        <Filename Value="../07_sources_externes/synapse/source/lib/ssl_streamsec.pas"/>
-        <UnitName Value="ssl_streamsec"/>
-      </Item72>
-      <Item73>
-        <Filename Value="../07_sources_externes/synapse/source/lib/blcksock.pas"/>
-        <UnitName Value="blcksock"/>
-      </Item73>
-      <Item74>
-        <Filename Value="../07_sources_externes/synapse/source/lib/mimeinln.pas"/>
-        <UnitName Value="mimeinln"/>
-      </Item74>
-      <Item75>
-        <Filename Value="../07_sources_externes/synapse/source/lib/ssl_cryptlib.pas"/>
-        <UnitName Value="ssl_cryptlib"/>
-      </Item75>
-      <Item76>
-        <Filename Value="../07_sources_externes/synapse/source/lib/pingsend.pas"/>
-        <UnitName Value="pingsend"/>
-      </Item76>
-      <Item77>
-        <Filename Value="../07_sources_externes/synapse/source/lib/mimepart.pas"/>
-        <UnitName Value="mimepart"/>
-      </Item77>
-      <Item78>
-        <Filename Value="../07_sources_externes/synapse/source/lib/ftpsend.pas"/>
-        <UnitName Value="ftpsend"/>
-      </Item78>
-      <Item79>
-        <Filename Value="../07_sources_externes/synapse/source/lib/clamsend.pas"/>
-        <UnitName Value="clamsend"/>
-      </Item79>
-      <Item80>
-        <Filename Value="../07_sources_externes/synapse/source/lib/imapsend.pas"/>
-        <UnitName Value="imapsend"/>
-      </Item80>
-      <Item81>
-        <Filename Value="../07_sources_externes/synapse/source/lib/laz_synapse.pas"/>
-        <UnitName Value="laz_synapse"/>
-      </Item81>
-      <Item82>
-        <Filename Value="../07_sources_externes/synapse/source/lib/slogsend.pas"/>
-        <UnitName Value="slogsend"/>
-      </Item82>
-      <Item83>
-        <Filename Value="../07_sources_externes/synapse/source/lib/synafpc.pas"/>
-        <UnitName Value="synafpc"/>
-      </Item83>
-      <Item84>
-        <Filename Value="../07_sources_externes/synapse/source/lib/nntpsend.pas"/>
-        <UnitName Value="nntpsend"/>
-      </Item84>
-      <Item85>
-        <Filename Value="../07_sources_externes/synapse/source/lib/synachar.pas"/>
-        <UnitName Value="synachar"/>
-      </Item85>
-      <Item86>
-        <Filename Value="../07_sources_externes/synapse/source/lib/synautil.pas"/>
-        <UnitName Value="synautil"/>
-      </Item86>
-      <Item87>
-        <Filename Value="../07_sources_externes/synapse/source/lib/ssl_sbb.pas"/>
-        <UnitName Value="ssl_sbb"/>
-      </Item87>
-      <Item88>
-        <Filename Value="../07_sources_externes/synapse/source/lib/dnssend.pas"/>
-        <UnitName Value="dnssend"/>
-      </Item88>
-      <Item89>
-        <Filename Value="../07_sources_externes/synapse/source/lib/ssl_openssl_lib.pas"/>
-        <UnitName Value="ssl_openssl_lib"/>
-      </Item89>
-      <Item90>
-        <Filename Value="../07_sources_externes/synapse/source/lib/mimemess.pas"/>
-        <UnitName Value="mimemess"/>
-      </Item90>
-      <Item91>
-        <Filename Value="../07_sources_externes/synapse/source/lib/snmpsend.pas"/>
-        <UnitName Value="snmpsend"/>
-      </Item91>
-      <Item92>
-        <Filename Value="../07_sources_externes/synapse/source/lib/ldapsend.pas"/>
-        <UnitName Value="ldapsend"/>
-      </Item92>
-      <Item93>
-        <Filename Value="../07_sources_externes/synapse/source/lib/ssl_openssl.pas"/>
-        <UnitName Value="ssl_openssl"/>
-      </Item93>
-      <Item94>
-        <Filename Value="../07_sources_externes/synapse/source/lib/synsock.pas"/>
-        <UnitName Value="synsock"/>
-      </Item94>
-      <Item95>
-        <Filename Value="../07_sources_externes/synapse/source/lib/tlntsend.pas"/>
-        <UnitName Value="tlntsend"/>
-      </Item95>
-      <Item96>
-        <Filename Value="../07_sources_externes/synapse/source/lib/sntpsend.pas"/>
-        <UnitName Value="sntpsend"/>
-      </Item96>
-      <Item97>
-        <Filename Value="../07_sources_externes/synapse/source/lib/synamisc.pas"/>
-        <UnitName Value="synamisc"/>
-      </Item97>
-      <Item98>
-        <Filename Value="../07_sources_externes/synapse/source/lib/httpsend.pas"/>
-        <UnitName Value="httpsend"/>
-      </Item98>
-      <Item99>
-        <Filename Value="../07_sources_externes/synapse/source/lib/synadbg.pas"/>
-        <UnitName Value="synadbg"/>
-      </Item99>
-      <Item100>
-        <Filename Value="../07_sources_externes/synapse/source/lib/synaip.pas"/>
-        <UnitName Value="synaip"/>
-      </Item100>
-      <Item101>
-        <Filename Value="../07_sources_externes/synapse/source/lib/synacrypt.pas"/>
-        <UnitName Value="synacrypt"/>
-      </Item101>
-      <Item102>
-        <Filename Value="../07_sources_externes/synapse/source/lib/synaser.pas"/>
-        <UnitName Value="synaser"/>
-      </Item102>
-      <Item103>
-        <Filename Value="../07_sources_externes/synapse/source/lib/synaicnv.pas"/>
-        <UnitName Value="synaicnv"/>
-      </Item103>
-      <Item104>
-        <Filename Value="../07_sources_externes/synapse/source/lib/pop3send.pas"/>
-        <UnitName Value="pop3send"/>
-      </Item104>
-      <Item105>
-        <Filename Value="../07_sources_externes/synapse/source/lib/ftptsend.pas"/>
-        <UnitName Value="ftptsend"/>
-      </Item105>
-      <Item106>
-        <Filename Value="../07_sources_externes/synapse/source/lib/smtpsend.pas"/>
-        <UnitName Value="smtpsend"/>
-      </Item106>
-      <Item107>
-        <Filename Value="../07_sources_externes/synapse/source/lib/synacode.pas"/>
-        <UnitName Value="synacode"/>
-      </Item107>
-      <Item108>
-        <Filename Value="../07_sources_externes/synapse/source/lib/asn1util.pas"/>
-        <UnitName Value="asn1util"/>
-      </Item108>
+      </Item67>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="1">
