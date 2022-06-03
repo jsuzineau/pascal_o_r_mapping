@@ -45,6 +45,7 @@ type
     procedure bSendClick(Sender: TObject);
     procedure bTest_Select_secondsClick(Sender: TObject);
     procedure b_from_XLSXClick(Sender: TObject);
+    procedure dsbPassageSelect(Sender: TObject);
     procedure dsbPassageTraite_Message(_dk: TDockable; _iMessage: Integer);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -201,6 +202,11 @@ begin
        end;
      //C:\Users\Jean\AppData\Roaming\audacity\Macros\GetSelectionStart.txt
      //GetSelectionStart
+end;
+
+procedure TfjsAudacity.dsbPassageSelect(Sender: TObject);
+begin
+
 end;
 
 //infludo 25-30 gtes 3-5x /jour

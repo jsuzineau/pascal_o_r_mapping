@@ -117,8 +117,6 @@ inherited dkPassage: TdkPassage
     Lines.Strings = (
       'cmNote'
     )
-    OnClick = FormClick
-    OnDblClick = FormDblClick
     ScrollBars = ssAutoVertical
     TabOrder = 2
     Field = 'Note'

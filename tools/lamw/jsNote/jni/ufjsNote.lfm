@@ -1,30 +1,32 @@
 object fjsNote: TfjsNote
-  Left = 469
-  Top = 91
-  Width = 394
-  Height = 763
   MarginLeft = 0
   MarginTop = 0
   MarginRight = 0
   MarginBottom = 0
   Enabled = True
+  Left = 469
+  Top = 91
+  Width = 394
+  Height = 763
   Text = 'fjsNote'
   ActivityMode = actMain
   BackgroundColor = colbrDefault
   ActionBarTitle = abtDefault
+  AnimationDurationIn = 1500
+  AnimationDurationOut = 1500
+  AnimationMode = animNone
   OnJNIPrompt = fjsNoteJNIPrompt
   object pTab1: jPanel
-    Left = 4
-    Top = 4
-    Width = 386
-    Height = 755
     MarginLeft = 4
     MarginTop = 4
     MarginRight = 4
     MarginBottom = 4
     Enabled = True
+    Left = 4
+    Top = 4
+    Width = 386
+    Height = 755
     Visible = False
-    Id = 0
     PosRelativeToAnchor = []
     PosRelativeToParent = []
     LayoutParamWidth = lpMatchParent
@@ -32,19 +34,21 @@ object fjsNote: TfjsNote
     BackgroundColor = colbrBeige
     MinPinchZoomFactor = 0.25
     MaxPinchZoomFactor = 4
+    AnimationDurationIn = 1500
+    AnimationDurationOut = 1500
+    AnimationMode = animNone
     object bNote: jButton
-      Left = 87
-      Top = 700
-      Width = 77
-      Height = 50
       MarginLeft = 0
       MarginTop = 5
       MarginRight = 0
       MarginBottom = 5
       Enabled = True
+      Left = 87
+      Top = 700
+      Width = 77
+      Height = 50
       Visible = True
       Anchor = bStart
-      Id = 7271716
       PosRelativeToAnchor = [raToRightOf]
       PosRelativeToParent = [rpBottom]
       LayoutParamWidth = lpOneFifthOfParent
@@ -58,18 +62,17 @@ object fjsNote: TfjsNote
       OnClick = bNoteClick
     end
     object wv: jWebView
-      Left = 0
-      Top = 0
-      Width = 386
-      Height = 695
       MarginLeft = 0
       MarginTop = 0
       MarginRight = 0
       MarginBottom = 0
       Enabled = True
+      Left = 0
+      Top = 0
+      Width = 386
+      Height = 695
       Visible = True
       Anchor = bNote
-      Id = 7271717
       PosRelativeToAnchor = [raAbove]
       PosRelativeToParent = []
       LayoutParamWidth = lpMatchParent
@@ -78,19 +81,19 @@ object fjsNote: TfjsNote
       BackgroundColor = colbrDefault
       ZoomControl = True
       OnStatus = wvStatus
+      DomStorage = True
     end
     object bStart: jButton
-      Left = 5
-      Top = 700
-      Width = 77
-      Height = 50
       MarginLeft = 5
       MarginTop = 5
       MarginRight = 5
       MarginBottom = 5
       Enabled = True
+      Left = 5
+      Top = 700
+      Width = 77
+      Height = 50
       Visible = True
-      Id = 7271718
       PosRelativeToAnchor = []
       PosRelativeToParent = [rpBottom, rpLeft]
       LayoutParamWidth = lpOneFifthOfParent
@@ -103,13 +106,63 @@ object fjsNote: TfjsNote
       GravityInParent = lgNone
       OnClick = bStartClick
     end
+    object bStopNote: jButton
+      MarginLeft = 0
+      MarginTop = 5
+      MarginRight = 0
+      MarginBottom = 5
+      Enabled = True
+      Left = 164
+      Top = 700
+      Width = 77
+      Height = 50
+      Visible = True
+      Anchor = bNote
+      PosRelativeToAnchor = [raToRightOf]
+      PosRelativeToParent = [rpBottom]
+      LayoutParamWidth = lpOneFifthOfParent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Stop Note'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = bStopNoteClick
+    end
+    object bfChant: jButton
+      MarginLeft = 0
+      MarginTop = 5
+      MarginRight = 0
+      MarginBottom = 5
+      Enabled = True
+      Left = 241
+      Top = 700
+      Width = 77
+      Height = 50
+      Visible = True
+      Anchor = bStopNote
+      PosRelativeToAnchor = [raToRightOf]
+      PosRelativeToParent = [rpBottom]
+      LayoutParamWidth = lpOneFifthOfParent
+      LayoutParamHeight = lpWrapContent
+      Text = 'bfChant'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = bfChantClick
+      Left = 28
+      Top = 28
+    end
   end
   object mm: jMidiManager
-    left = 280
-    top = 24
+    Left = 280
+    Top = 24
   end
   object abt: jActionBarTab
-    left = 233
-    top = 44
+    Left = 233
+    Top = 44
   end
 end

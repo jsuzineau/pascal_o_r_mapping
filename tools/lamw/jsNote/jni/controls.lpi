@@ -18,16 +18,19 @@
     <i18n>
       <EnableI18N LFM="False"/>
     </i18n>
-    <CustomData Count="9">
+    <CustomData Count="12">
       <Item0 Name="BuildSystem" Value="Ant"/>
       <Item1 Name="LAMW" Value="GUI"/>
-      <Item2 Name="LamwVersion" Value="0.8.4"/>
-      <Item3 Name="NdkApi" Value="android-22"/>
-      <Item4 Name="NdkPath" Value="C:\Users\root\LAMW\sdk\ndk-bundle\"/>
-      <Item5 Name="Package" Value="com.example.appactionbartabdemo1"/>
-      <Item6 Name="SdkPath" Value="C:\Users\root\LAMW\sdk\"/>
-      <Item7 Name="StartModule" Value="fjsNote"/>
-      <Item8 Name="Theme" Value="DeviceDefault"/>
+      <Item2 Name="LamwVersion" Value="0.8.6.1"/>
+      <Item3 Name="MinSdk" Value="23"/>
+      <Item4 Name="NdkApi" Value="android-22"/>
+      <Item5 Name="NdkPath" Value="C:\lamw_manager\LAMW\sdk\ndk-bundle\"/>
+      <Item6 Name="Package" Value="com.example.appactionbartabdemo1"/>
+      <Item7 Name="SdkPath" Value="C:\lamw_manager\LAMW\sdk\"/>
+      <Item8 Name="StartModule" Value="fjsNote"/>
+      <Item9 Name="Support" Value="FALSE"/>
+      <Item10 Name="TargetSdk" Value="30"/>
+      <Item11 Name="Theme" Value="DeviceDefault"/>
     </CustomData>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
@@ -49,7 +52,7 @@
         <PackageName Value="tfpandroidbridge_pack"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="2">
+    <Units Count="4">
       <Unit0>
         <Filename Value="controls.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -64,16 +67,31 @@
           <Item1 Name="jControls" Value="jActionBarTab;jButton;jForm;jMidiManager;jPanel;jWebView"/>
         </CustomData>
       </Unit1>
+      <Unit2>
+        <Filename Value="ufchant.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fChant"/>
+        <HasResources Value="True"/>
+        <UnitName Value="ufChant"/>
+        <CustomData Count="2">
+          <Item0 Name="fclControls"/>
+          <Item1 Name="jControls" Value="jButton;jEditText;jForm;jPanel;jTextView"/>
+        </CustomData>
+      </Unit2>
+      <Unit3>
+        <Filename Value="uAndroid_Midi.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="..\libs\armeabi\libcontrols"/>
+      <Filename Value="..\libs\armeabi-v7a\libcontrols"/>
     </Target>
     <SearchPaths>
-      <Libraries Value="C:\Users\root\LAMW\sdk\ndk-bundle\platforms\android-22\arch-arm\usr\lib\;C:\Users\root\LAMW\sdk\ndk-bundle\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\lib\gcc\arm-linux-androideabi\4.9.x\"/>
+      <Libraries Value="C:\lamw_manager\LAMW\sdk\ndk-bundle\toolchains\llvm\prebuilt\windows-x86_64\sysroot\usr\lib\arm-linux-androideabi\22\;C:\lamw_manager\LAMW\sdk\ndk-bundle\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\lib\gcc\arm-linux-androideabi\4.9.x\"/>
       <UnitOutputDirectory Value="..\obj\controls"/>
     </SearchPaths>
     <Parsing>
@@ -97,7 +115,7 @@
       </Options>
     </Linking>
     <Other>
-      <CustomOptions Value="-Xd -CfSoft -CpARMV6 -XParm-linux-androideabi- -FDC:\Users\root\LAMW\sdk\ndk-bundle\\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\bin"/>
+      <CustomOptions Value="-Xd -CfVFPv3 -CpARMV7A -XParm-linux-androideabi- -FDC:\lamw_manager\LAMW\sdk\ndk-bundle\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\bin"/>
     </Other>
   </CompilerOptions>
   <Debugging>

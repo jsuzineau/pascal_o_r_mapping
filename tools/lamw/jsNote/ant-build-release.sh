@@ -1,4 +1,4 @@
-export PATH=/Users/root/LAMW/apache-ant-1.10.5/bin:$PATH
-export JAVA_HOME=/Program Files/Java/jdk1.8.0_151
-cd /Users/root/LAMW/lazandroidmodulewizard/demos/GUI/AppActionBarTabDemo1/
+export PATH=/lamw_manager/LAMW/apache-ant-1.10.5/bin:$PATH
+export JAVA_HOME=/lamw_manager/LAMW/jdk/zulu-8
+cd /01_Projets/01_pascal_o_r_mapping/tools/lamw/jsNote/
 ant clean release

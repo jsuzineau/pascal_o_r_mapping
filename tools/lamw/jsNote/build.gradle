@@ -5,7 +5,14 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:4.1.3'
+    }
+}
+allprojects {
+    repositories {
+       google()
+       jcenter()
+       maven { url 'https://jitpack.io' }
     }
 }
 apply plugin: 'com.android.application'
@@ -13,12 +20,25 @@ android {
     lintOptions {
        abortOnError false
     }
-    compileSdkVersion 27
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi','armeabi-v7a'
+            universalApk true
+        }
+    }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+    compileSdkVersion 30
     defaultConfig {
-            minSdkVersion 14
-            targetSdkVersion 26
+            minSdkVersion 23
+            targetSdkVersion 30
             versionCode 1
             versionName "1.0"
+            ndk { debugSymbolLevel 'FULL' }
     }
     sourceSets {
         main {
@@ -35,8 +55,19 @@ android {
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
     }
+    buildTypes {
+        debug {
+            debuggable true
+            jniDebuggable true
+        }
+        release {
+            debuggable false
+            jniDebuggable false
+        }
+    }
 }
 dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
 }
  
 task run(type: Exec, dependsOn: ':installDebug') {
@@ -47,7 +78,7 @@ task run(type: Exec, dependsOn: ':installDebug') {
 	}
 }
  
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.4.1'
+wrapper {
+    gradleVersion = '6.6.1'
 }
 //how to use: look for "gradle_readme.txt"

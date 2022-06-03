@@ -5,7 +5,7 @@ library controls;  //by Lamw: Lazarus Android Module Wizard: 7/5/2015 1:29:10]
  
 uses
   Classes, SysUtils, And_jni, And_jni_Bridge, AndroidWidget, Laz_And_Controls,
-  Laz_And_Controls_Events, ufjsNote;
+  Laz_And_Controls_Events, ufjsNote, ufChant, uAndroid_Midi;
 
 {%region /fold 'LAMW generated code'}
 
@@ -15,8 +15,7 @@ uses
 procedure pAppOnCreate(PEnv: PJNIEnv; this: JObject; context: JObject;
  layout: JObject; intent: JObject); cdecl;
 begin
-  Java_Event_pAppOnCreate(PEnv, this, context, layout, intent); fjsNote.Init(
-   gApp);
+  Java_Event_pAppOnCreate(PEnv, this, context, layout, intent); fjsNote.Reinit;
 end;
 
 { Class:     com_example_appactionbartabdemo1_Controls
@@ -97,6 +96,14 @@ end;
 function pAppOnRotate(PEnv: PJNIEnv; this: JObject; rotate: JInt): JInt; cdecl;
 begin
   Result:=Java_Event_pAppOnRotate(PEnv, this, rotate);
+end;
+
+{ Class:     com_example_appactionbartabdemo1_Controls
+  Method:    pAppOnUpdateLayout
+  Signature: ()V }
+procedure pAppOnUpdateLayout(PEnv: PJNIEnv; this: JObject); cdecl;
+begin
+  Java_Event_pAppOnUpdateLayout(PEnv, this);
 end;
 
 { Class:     com_example_appactionbartabdemo1_Controls
@@ -194,11 +201,10 @@ end;
 
 { Class:     com_example_appactionbartabdemo1_Controls
   Method:    pOnClickGeneric
-  Signature: (JI)V }
-procedure pOnClickGeneric(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
- value: JInt); cdecl;
+  Signature: (J)V }
+procedure pOnClickGeneric(PEnv: PJNIEnv; this: JObject; pasobj: JLong); cdecl;
 begin
-  Java_Event_pOnClickGeneric(PEnv, this, TObject(pasobj), value);
+  Java_Event_pOnClickGeneric(PEnv, this, TObject(pasobj));
 end;
 
 { Class:     com_example_appactionbartabdemo1_Controls
@@ -213,11 +219,18 @@ end;
 
 { Class:     com_example_appactionbartabdemo1_Controls
   Method:    pOnDown
-  Signature: (JI)V }
-procedure pOnDown(PEnv: PJNIEnv; this: JObject; pasobj: JLong; value: JInt);
- cdecl;
+  Signature: (J)V }
+procedure pOnDown(PEnv: PJNIEnv; this: JObject; pasobj: JLong); cdecl;
 begin
-  Java_Event_pOnDown(PEnv, this, TObject(pasobj), value);
+  Java_Event_pOnDown(PEnv, this, TObject(pasobj));
+end;
+
+{ Class:     com_example_appactionbartabdemo1_Controls
+  Method:    pOnUp
+  Signature: (J)V }
+procedure pOnUp(PEnv: PJNIEnv; this: JObject; pasobj: JLong); cdecl;
+begin
+  Java_Event_pOnUp(PEnv, this, TObject(pasobj));
 end;
 
 { Class:     com_example_appactionbartabdemo1_Controls
@@ -231,20 +244,18 @@ end;
 
 { Class:     com_example_appactionbartabdemo1_Controls
   Method:    pOnLongClick
-  Signature: (JI)V }
-procedure pOnLongClick(PEnv: PJNIEnv; this: JObject; pasobj: JLong; value: JInt
- ); cdecl;
+  Signature: (J)V }
+procedure pOnLongClick(PEnv: PJNIEnv; this: JObject; pasobj: JLong); cdecl;
 begin
-  Java_Event_pOnLongClick(PEnv, this, TObject(pasobj), value);
+  Java_Event_pOnLongClick(PEnv, this, TObject(pasobj));
 end;
 
 { Class:     com_example_appactionbartabdemo1_Controls
   Method:    pOnDoubleClick
-  Signature: (JI)V }
-procedure pOnDoubleClick(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
- value: JInt); cdecl;
+  Signature: (J)V }
+procedure pOnDoubleClick(PEnv: PJNIEnv; this: JObject; pasobj: JLong); cdecl;
 begin
-  Java_Event_pOnDoubleClick(PEnv, this, TObject(pasobj), value);
+  Java_Event_pOnDoubleClick(PEnv, this, TObject(pasobj));
 end;
 
 { Class:     com_example_appactionbartabdemo1_Controls
@@ -271,6 +282,14 @@ end;
 procedure pOnEnter(PEnv: PJNIEnv; this: JObject; pasobj: JLong); cdecl;
 begin
   Java_Event_pOnEnter(PEnv, this, TObject(pasobj));
+end;
+
+{ Class:     com_example_appactionbartabdemo1_Controls
+  Method:    pOnBackPressed
+  Signature: (J)V }
+procedure pOnBackPressed(PEnv: PJNIEnv; this: JObject; pasobj: JLong); cdecl;
+begin
+  Java_Event_pOnBackPressed(PEnv, this, TObject(pasobj));
 end;
 
 { Class:     com_example_appactionbartabdemo1_Controls
@@ -328,6 +347,15 @@ begin
 end;
 
 { Class:     com_example_appactionbartabdemo1_Controls
+  Method:    pOnFocus
+  Signature: (JLjava/lang/String;)V }
+procedure pOnFocus(PEnv: PJNIEnv; this: JObject; pasobj: JLong; text: JString);
+ cdecl;
+begin
+  Java_Event_pOnFocus(PEnv, this, TObject(pasobj), text);
+end;
+
+{ Class:     com_example_appactionbartabdemo1_Controls
   Method:    pOnBeforeDispatchDraw
   Signature: (JLandroid/graphics/Canvas;I)V }
 procedure pOnBeforeDispatchDraw(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
@@ -365,6 +393,15 @@ begin
 end;
 
 { Class:     com_example_appactionbartabdemo1_Controls
+  Method:    pOnRunOnUiThread
+  Signature: (JI)V }
+procedure pOnRunOnUiThread(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
+ tag: JInt); cdecl;
+begin
+  Java_Event_pOnRunOnUiThread(PEnv, this, TObject(pasobj), tag);
+end;
+
+{ Class:     com_example_appactionbartabdemo1_Controls
   Method:    pOnActionBarTabSelected
   Signature: (JLandroid/view/View;Ljava/lang/String;)V }
 procedure pOnActionBarTabSelected(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
@@ -381,6 +418,26 @@ procedure pOnActionBarTabUnSelected(PEnv: PJNIEnv; this: JObject;
 begin
   Java_Event_pOnActionBarTabUnSelected(PEnv, this, TObject(pasobj), view, title
    );
+end;
+
+{ Class:     com_example_appactionbartabdemo1_Controls
+  Method:    pEditTextOnActionIconTouchUp
+  Signature: (JLjava/lang/String;)V }
+procedure pEditTextOnActionIconTouchUp(PEnv: PJNIEnv; this: JObject;
+ pasobj: JLong; textContent: JString); cdecl;
+begin
+  Java_Event_pEditTextOnActionIconTouchUp(PEnv, this, TObject(pasobj),
+   textContent);
+end;
+
+{ Class:     com_example_appactionbartabdemo1_Controls
+  Method:    pEditTextOnActionIconTouchDown
+  Signature: (JLjava/lang/String;)V }
+procedure pEditTextOnActionIconTouchDown(PEnv: PJNIEnv; this: JObject;
+ pasobj: JLong; textContent: JString); cdecl;
+begin
+  Java_Event_pEditTextOnActionIconTouchDown(PEnv, this, TObject(pasobj),
+   textContent);
 end;
 
 { Class:     com_example_appactionbartabdemo1_Controls
@@ -415,7 +472,37 @@ begin
    url);
 end;
 
-const NativeMethods: array[0..44] of JNINativeMethod = (
+{ Class:     com_example_appactionbartabdemo1_Controls
+  Method:    pOnWebViewFindResultReceived
+  Signature: (JII)V }
+procedure pOnWebViewFindResultReceived(PEnv: PJNIEnv; this: JObject;
+ pasobj: JLong; findIndex: JInt; findCount: JInt); cdecl;
+begin
+  Java_Event_pOnWebViewFindResultReceived(PEnv, this, TObject(pasobj),
+   findIndex, findCount);
+end;
+
+{ Class:     com_example_appactionbartabdemo1_Controls
+  Method:    pOnWebViewEvaluateJavascriptResult
+  Signature: (JLjava/lang/String;)V }
+procedure pOnWebViewEvaluateJavascriptResult(PEnv: PJNIEnv; this: JObject;
+ pasobj: JLong; data: JString); cdecl;
+begin
+  Java_Event_pOnWebViewEvaluateJavascriptResult(PEnv, this, TObject(pasobj),
+   data);
+end;
+
+{ Class:     com_example_appactionbartabdemo1_Controls
+  Method:    pOnWebViewReceivedSslError
+  Signature: (JLjava/lang/String;I)Z }
+function pOnWebViewReceivedSslError(PEnv: PJNIEnv; this: JObject;
+ pasobj: JLong; error: JString; primaryError: JInt): JBoolean; cdecl;
+begin
+  Result:=Java_Event_pOnWebViewReceivedSslError(PEnv, this, TObject(pasobj),
+   error, primaryError);
+end;
+
+const NativeMethods: array[0..54] of JNINativeMethod = (
    (name: 'pAppOnCreate';
     signature: '(Landroid/content/Context;Landroid/widget/RelativeLayout;'
      +'Landroid/content/Intent;)V';
@@ -450,6 +537,9 @@ const NativeMethods: array[0..44] of JNINativeMethod = (
    (name: 'pAppOnRotate';
     signature: '(I)I';
     fnPtr: @pAppOnRotate; ),
+   (name: 'pAppOnUpdateLayout';
+    signature: '()V';
+    fnPtr: @pAppOnUpdateLayout; ),
    (name: 'pAppOnConfigurationChanged';
     signature: '()V';
     fnPtr: @pAppOnConfigurationChanged; ),
@@ -481,22 +571,25 @@ const NativeMethods: array[0..44] of JNINativeMethod = (
     signature: '(JIIFFFF)V';
     fnPtr: @pOnTouch; ),
    (name: 'pOnClickGeneric';
-    signature: '(JI)V';
+    signature: '(J)V';
     fnPtr: @pOnClickGeneric; ),
    (name: 'pAppOnSpecialKeyDown';
     signature: '(CILjava/lang/String;)Z';
     fnPtr: @pAppOnSpecialKeyDown; ),
    (name: 'pOnDown';
-    signature: '(JI)V';
+    signature: '(J)V';
     fnPtr: @pOnDown; ),
+   (name: 'pOnUp';
+    signature: '(J)V';
+    fnPtr: @pOnUp; ),
    (name: 'pOnClick';
     signature: '(JI)V';
     fnPtr: @pOnClick; ),
    (name: 'pOnLongClick';
-    signature: '(JI)V';
+    signature: '(J)V';
     fnPtr: @pOnLongClick; ),
    (name: 'pOnDoubleClick';
-    signature: '(JI)V';
+    signature: '(J)V';
     fnPtr: @pOnDoubleClick; ),
    (name: 'pOnChange';
     signature: '(JLjava/lang/String;I)V';
@@ -507,6 +600,9 @@ const NativeMethods: array[0..44] of JNINativeMethod = (
    (name: 'pOnEnter';
     signature: '(J)V';
     fnPtr: @pOnEnter; ),
+   (name: 'pOnBackPressed';
+    signature: '(J)V';
+    fnPtr: @pOnBackPressed; ),
    (name: 'pOnClose';
     signature: '(J)V';
     fnPtr: @pOnClose; ),
@@ -525,6 +621,9 @@ const NativeMethods: array[0..44] of JNINativeMethod = (
    (name: 'pOnLostFocus';
     signature: '(JLjava/lang/String;)V';
     fnPtr: @pOnLostFocus; ),
+   (name: 'pOnFocus';
+    signature: '(JLjava/lang/String;)V';
+    fnPtr: @pOnFocus; ),
    (name: 'pOnBeforeDispatchDraw';
     signature: '(JLandroid/graphics/Canvas;I)V';
     fnPtr: @pOnBeforeDispatchDraw; ),
@@ -537,12 +636,21 @@ const NativeMethods: array[0..44] of JNINativeMethod = (
    (name: 'pAppOnRequestPermissionResult';
     signature: '(ILjava/lang/String;I)V';
     fnPtr: @pAppOnRequestPermissionResult; ),
+   (name: 'pOnRunOnUiThread';
+    signature: '(JI)V';
+    fnPtr: @pOnRunOnUiThread; ),
    (name: 'pOnActionBarTabSelected';
     signature: '(JLandroid/view/View;Ljava/lang/String;)V';
     fnPtr: @pOnActionBarTabSelected; ),
    (name: 'pOnActionBarTabUnSelected';
     signature: '(JLandroid/view/View;Ljava/lang/String;)V';
     fnPtr: @pOnActionBarTabUnSelected; ),
+   (name: 'pEditTextOnActionIconTouchUp';
+    signature: '(JLjava/lang/String;)V';
+    fnPtr: @pEditTextOnActionIconTouchUp; ),
+   (name: 'pEditTextOnActionIconTouchDown';
+    signature: '(JLjava/lang/String;)V';
+    fnPtr: @pEditTextOnActionIconTouchDown; ),
    (name: 'pOnMidiManagerDeviceAdded';
     signature: '(JILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V';
     fnPtr: @pOnMidiManagerDeviceAdded; ),
@@ -551,7 +659,16 @@ const NativeMethods: array[0..44] of JNINativeMethod = (
     fnPtr: @pOnMidiManagerDeviceRemoved; ),
    (name: 'pOnWebViewStatus';
     signature: '(JILjava/lang/String;)I';
-    fnPtr: @pOnWebViewStatus; )
+    fnPtr: @pOnWebViewStatus; ),
+   (name: 'pOnWebViewFindResultReceived';
+    signature: '(JII)V';
+    fnPtr: @pOnWebViewFindResultReceived; ),
+   (name: 'pOnWebViewEvaluateJavascriptResult';
+    signature: '(JLjava/lang/String;)V';
+    fnPtr: @pOnWebViewEvaluateJavascriptResult; ),
+   (name: 'pOnWebViewReceivedSslError';
+    signature: '(JLjava/lang/String;I)Z';
+    fnPtr: @pOnWebViewReceivedSslError; )
 );
 
 function RegisterNativeMethodsArray(PEnv: PJNIEnv; className: PChar;
@@ -630,6 +747,8 @@ exports
    +'pAppOnBackPressed',
   pAppOnRotate name 'Java_com_example_appactionbartabdemo1_Controls_'
    +'pAppOnRotate',
+  pAppOnUpdateLayout name 'Java_com_example_appactionbartabdemo1_Controls_'
+   +'pAppOnUpdateLayout',
   pAppOnConfigurationChanged name 'Java_com_example_appactionbartabdemo1_'
    +'Controls_pAppOnConfigurationChanged',
   pAppOnActivityResult name 'Java_com_example_appactionbartabdemo1_Controls_'
@@ -653,6 +772,7 @@ exports
   pAppOnSpecialKeyDown name 'Java_com_example_appactionbartabdemo1_Controls_'
    +'pAppOnSpecialKeyDown',
   pOnDown name 'Java_com_example_appactionbartabdemo1_Controls_pOnDown',
+  pOnUp name 'Java_com_example_appactionbartabdemo1_Controls_pOnUp',
   pOnClick name 'Java_com_example_appactionbartabdemo1_Controls_pOnClick',
   pOnLongClick name 'Java_com_example_appactionbartabdemo1_Controls_'
    +'pOnLongClick',
@@ -661,6 +781,8 @@ exports
   pOnChange name 'Java_com_example_appactionbartabdemo1_Controls_pOnChange',
   pOnChanged name 'Java_com_example_appactionbartabdemo1_Controls_pOnChanged',
   pOnEnter name 'Java_com_example_appactionbartabdemo1_Controls_pOnEnter',
+  pOnBackPressed name 'Java_com_example_appactionbartabdemo1_Controls_'
+   +'pOnBackPressed',
   pOnClose name 'Java_com_example_appactionbartabdemo1_Controls_pOnClose',
   pAppOnViewClick name 'Java_com_example_appactionbartabdemo1_Controls_'
    +'pAppOnViewClick',
@@ -672,6 +794,7 @@ exports
    +'Controls_pOnPinchZoomGestureDetected',
   pOnLostFocus name 'Java_com_example_appactionbartabdemo1_Controls_'
    +'pOnLostFocus',
+  pOnFocus name 'Java_com_example_appactionbartabdemo1_Controls_pOnFocus',
   pOnBeforeDispatchDraw name 'Java_com_example_appactionbartabdemo1_Controls_'
    +'pOnBeforeDispatchDraw',
   pOnAfterDispatchDraw name 'Java_com_example_appactionbartabdemo1_Controls_'
@@ -680,16 +803,28 @@ exports
    +'pOnLayouting',
   pAppOnRequestPermissionResult name 'Java_com_example_appactionbartabdemo1_'
    +'Controls_pAppOnRequestPermissionResult',
+  pOnRunOnUiThread name 'Java_com_example_appactionbartabdemo1_Controls_'
+   +'pOnRunOnUiThread',
   pOnActionBarTabSelected name 'Java_com_example_appactionbartabdemo1_Controls'
    +'_pOnActionBarTabSelected',
   pOnActionBarTabUnSelected name 'Java_com_example_appactionbartabdemo1_'
    +'Controls_pOnActionBarTabUnSelected',
+  pEditTextOnActionIconTouchUp name 'Java_com_example_appactionbartabdemo1_'
+   +'Controls_pEditTextOnActionIconTouchUp',
+  pEditTextOnActionIconTouchDown name 'Java_com_example_appactionbartabdemo1_'
+   +'Controls_pEditTextOnActionIconTouchDown',
   pOnMidiManagerDeviceAdded name 'Java_com_example_appactionbartabdemo1_'
    +'Controls_pOnMidiManagerDeviceAdded',
   pOnMidiManagerDeviceRemoved name 'Java_com_example_appactionbartabdemo1_'
    +'Controls_pOnMidiManagerDeviceRemoved',
   pOnWebViewStatus name 'Java_com_example_appactionbartabdemo1_Controls_'
-   +'pOnWebViewStatus';
+   +'pOnWebViewStatus',
+  pOnWebViewFindResultReceived name 'Java_com_example_appactionbartabdemo1_'
+   +'Controls_pOnWebViewFindResultReceived',
+  pOnWebViewEvaluateJavascriptResult name 'Java_com_example_appactionbartabdemo'
+   +'1_Controls_pOnWebViewEvaluateJavascriptResult',
+  pOnWebViewReceivedSslError name 'Java_com_example_appactionbartabdemo1_'
+   +'Controls_pOnWebViewReceivedSslError';
 
 {%endregion}
 

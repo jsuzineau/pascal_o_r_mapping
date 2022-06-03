@@ -1,3 +1,3 @@
-<Libraries Value="C:\Users\root\LAMW\sdk\ndk-bundle\platforms\android-22\arch-arm\usr\lib;C:\Users\root\LAMW\sdk\ndk-bundle\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\lib\gcc\arm-linux-androideabi\4.9.x"/>
+<Libraries Value="C:\lamw_manager\LAMW\sdk\ndk-bundle\toolchains\llvm\prebuilt\windows-x86_64\sysroot\usr\lib\arm-linux-androideabi\22;C:\lamw_manager\LAMW\sdk\ndk-bundle\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\lib\gcc\arm-linux-androideabi\4.9.x"/>
 <TargetCPU Value="arm"/>
-<CustomOptions Value="-Xd -CfVFPv3 -CpARMV7A -XParm-linux-androideabi- -FDC:\Users\root\LAMW\sdk\ndk-bundle\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\bin"/>
+<CustomOptions Value="-Xd -CfVFPv3 -CpARMV7A -XParm-linux-androideabi- -FDC:\lamw_manager\LAMW\sdk\ndk-bundle\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\bin"/>

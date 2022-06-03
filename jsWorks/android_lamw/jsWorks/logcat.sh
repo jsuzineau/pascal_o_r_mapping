@@ -1,1 +1,1 @@
-/Users/root/LAMW/sdk/platform-tools/adb logcat &
+/lamw_manager/LAMW/sdk/platform-tools/adb logcat &
