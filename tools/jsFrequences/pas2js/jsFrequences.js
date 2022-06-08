@@ -2,7 +2,7 @@
 
 var rtl = {
 
-  version: 10420,
+  version: 10501,
 
   quiet: false,
   debug_load_units: false,
@@ -374,13 +374,13 @@ var rtl = {
   tObjectDestroy: "Destroy",
 
   free: function(obj,name){
-    if (obj[name]==null) return;
+    if (obj[name]==null) return null;
     obj[name].$destroy(rtl.tObjectDestroy);
     obj[name]=null;
   },
 
   freeLoc: function(obj){
-    if (obj==null) return;
+    if (obj==null) return null;
     obj.$destroy(rtl.tObjectDestroy);
     return null;
   },
@@ -444,6 +444,7 @@ var rtl = {
   EInvalidCast: null,
   EAbstractError: null,
   ERangeError: null,
+  EIntOverflow: null,
   EPropWriteOnly: null,
 
   raiseE: function(typename){
@@ -626,7 +627,7 @@ var rtl = {
   },
 
   queryIntfIsT: function(obj,intftype){
-    var i = rtl.getIntfG(obj,intftype.$guid);
+    var i = rtl.queryIntfG(obj,intftype.$guid);
     if (!i) return false;
     if (i.$kind === 'com') i._Release();
     return true;
@@ -635,18 +636,6 @@ var rtl = {
   asIntfT: function (obj,intftype){
     var i = rtl.getIntfG(obj,intftype.$guid);
     if (i!==null) return i;
-    rtl.raiseEInvalidCast();
-  },
-
-  intfIsIntfT: function(intf,intftype){
-    return (intf!==null) && rtl.queryIntfIsT(intf.$o,intftype);
-  },
-
-  intfAsIntfT: function (intf,intftype){
-    if (intf){
-      var i = rtl.getIntfG(intf.$o,intftype.$guid);
-      if (i!==null) return i;
-    }
     rtl.raiseEInvalidCast();
   },
 
@@ -742,6 +731,12 @@ var rtl = {
     rtl.raiseE("EInvalidCast");
   },
 
+  oc: function(i){
+    // overflow check integer
+    if ((Math.floor(i)===i) && (i>=-0x1fffffffffffff) && (i<=0x1fffffffffffff)) return i;
+    rtl.raiseE('EIntOverflow');
+  },
+
   rc: function(i,minval,maxval){
     // range check integer
     if ((Math.floor(i)===i) && (i>=minval) && (i<=maxval)) return i;
@@ -802,59 +797,6 @@ var rtl = {
   },
 
   arraySetLength: function(arr,defaultvalue,newlength){
-    var stack = [];
-    for (var i=2; i<arguments.length; i++){
-      stack.push({ dim:arguments[i]+0, a:null, i:0, src:null });
-    }
-    var dimmax = stack.length-1;
-    var depth = 0;
-    var lastlen = stack[dimmax].dim;
-    var item = null;
-    var a = null;
-    var src = arr;
-    var oldlen = 0
-    do{
-      a = [];
-      if (depth>0){
-        item=stack[depth-1];
-        item.a[item.i]=a;
-        src = (item.src && item.src.length>item.i)?item.src[item.i]:null;
-        item.i++;
-      }
-      if (depth<dimmax){
-        item = stack[depth];
-        item.a = a;
-        item.i = 0;
-        item.src = src;
-        depth++;
-      } else {
-        oldlen = src?src.length:0;
-        if (rtl.isArray(defaultvalue)){
-          for (var i=0; i<lastlen; i++) a[i]=(i<oldlen)?src[i]:[]; // array of dyn array
-        } else if (rtl.isObject(defaultvalue)) {
-          if (rtl.isTRecord(defaultvalue)){
-            for (var i=0; i<lastlen; i++){
-              a[i]=(i<oldlen)?defaultvalue.$clone(src[i]):defaultvalue.$new(); // e.g. record
-            }
-          } else {
-            for (var i=0; i<lastlen; i++) a[i]=(i<oldlen)?rtl.refSet(src[i]):{}; // e.g. set
-          }
-        } else {
-          for (var i=0; i<lastlen; i++)
-            a[i]=(i<oldlen)?src[i]:defaultvalue;
-        }
-        while ((depth>0) && (stack[depth-1].i>=stack[depth-1].dim)){
-          depth--;
-        };
-        if (depth===0){
-          if (dimmax===0) return a;
-          return stack[0].a;
-        }
-      }
-    }while (true);
-  },
-
-  /*arrayChgLength: function(arr,defaultvalue,newlength){
     // multi dim: (arr,defaultvalue,dim1,dim2,...)
     if (arr == null) arr = [];
     var p = arguments;
@@ -886,7 +828,7 @@ var rtl = {
       return a;
     }
     return setLength(arr,2);
-  },*/
+  },
 
   arrayEq: function(a,b){
     if (a===null) return b===null;
@@ -1125,11 +1067,6 @@ var rtl = {
     return 0;
   },
 
-  lw: function(l){
-    // fix longword bitwise operation
-    return l<0?l+0x100000000:l;
-  },
-
   and: function(a,b){
     var hi = 0x80000000;
     var low = 0x7fffffff;
@@ -1166,7 +1103,7 @@ var rtl = {
     if (a<0) a += rtl.hiInt;
     if (b<=0) return a;
     if (b>54) return 0;
-    var r = a * Math.pow(2,b);
+    var r = a * Mat.pow(2,b);
     if (r <= rtl.hiInt) return r;
     return r % rtl.hiInt;
   },
@@ -2950,8 +2887,7 @@ rtl.module("uFrequences",["System","uFrequence","uCouleur","Classes","SysUtils",
       Result = "<pre>" + pas.uFrequence.Liste_Octaves(_Octave,_NbOctaves) + pas.uFrequence.uFrequence_Separateur_Lignes + "Bandes de fréquences cohérentes";
       for (var $l1 = 0, $end2 = _NbOctaves - 1; $l1 <= $end2; $l1++) {
         O = $l1;
-        for (var $l3 = 0, $end4 = rtl.length($mod.uFrequences_coherent) - 1; $l3 <= $end4; $l3++) {
-          I = $l3;
+        for (I = 0; I <= 11; I++) {
           iBase = (O * LBase) + I;
           if (iBase < _iDebut) continue;
           if (_iFin < iBase) continue;
@@ -2960,10 +2896,9 @@ rtl.module("uFrequences",["System","uFrequence","uCouleur","Classes","SysUtils",
         };
       };
       Result = Result + pas.uFrequence.uFrequence_Separateur_Lignes + "Bandes de fréquences décohérentes";
-      for (var $l5 = 0, $end6 = _NbOctaves - 1; $l5 <= $end6; $l5++) {
-        O = $l5;
-        for (var $l7 = 0, $end8 = rtl.length($mod.uFrequences_decoherent) - 1; $l7 <= $end8; $l7++) {
-          I = $l7;
+      for (var $l3 = 0, $end4 = _NbOctaves - 1; $l3 <= $end4; $l3++) {
+        O = $l3;
+        for (I = 0; I <= 11; I++) {
           iBase = (O * LBase) + I;
           if (iBase < _iDebut) continue;
           if (_iFin < iBase) continue;
@@ -3000,22 +2935,10 @@ rtl.module("uFrequences",["System","uFrequence","uCouleur","Classes","SysUtils",
       var Result = "";
       var I = 0;
       Result = "";
-      for (var $l1 = 0, $end2 = rtl.length($mod.uFrequences_coherent) - 1; $l1 <= $end2; $l1++) {
-        I = $l1;
-        Result = Result + this.Match_Base(_Octave,$mod.uFrequences_coherent[I],_Frequence,"  cohérent",I,_NbCoherent);
-      };
-      for (var $l3 = 0, $end4 = rtl.length($mod.uFrequences_coherent) - 1; $l3 <= $end4; $l3++) {
-        I = $l3;
-        Result = Result + this.Match_Base(_Octave + 1,$mod.uFrequences_coherent[I],_Frequence,"  cohérent",I,_NbCoherent);
-      };
-      for (var $l5 = 0, $end6 = rtl.length($mod.uFrequences_decoherent) - 1; $l5 <= $end6; $l5++) {
-        I = $l5;
-        Result = Result + this.Match_Base(_Octave,$mod.uFrequences_decoherent[I],_Frequence,"décohérent",I,_NbDeCoherent);
-      };
-      for (var $l7 = 0, $end8 = rtl.length($mod.uFrequences_decoherent) - 1; $l7 <= $end8; $l7++) {
-        I = $l7;
-        Result = Result + this.Match_Base(_Octave + 1,$mod.uFrequences_decoherent[I],_Frequence,"décohérent",I,_NbDeCoherent);
-      };
+      for (I = 0; I <= 11; I++) Result = Result + this.Match_Base(_Octave,$mod.uFrequences_coherent[I],_Frequence,"  cohérent",I,_NbCoherent);
+      for (I = 0; I <= 11; I++) Result = Result + this.Match_Base(_Octave + 1,$mod.uFrequences_coherent[I],_Frequence,"  cohérent",I,_NbCoherent);
+      for (I = 0; I <= 11; I++) Result = Result + this.Match_Base(_Octave,$mod.uFrequences_decoherent[I],_Frequence,"décohérent",I,_NbDeCoherent);
+      for (I = 0; I <= 11; I++) Result = Result + this.Match_Base(_Octave + 1,$mod.uFrequences_decoherent[I],_Frequence,"décohérent",I,_NbDeCoherent);
       return Result;
     };
     this.Octave_from_Frequence = function (_Frequence) {
@@ -3069,18 +2992,15 @@ rtl.module("uResonances_de_Schumann",["System","uFrequence","uFrequences","Class
       var NbDeCoherent = 0;
       var I = 0;
       Result = "<pre>Résonances de Schumann, source " + $mod.uResonances_de_Schumann_source + pas.uFrequence.uFrequence_Separateur_Lignes;
-      for (var $l1 = 0, $end2 = rtl.length($mod.uResonances_de_Schumann_frequences) - 1; $l1 <= $end2; $l1++) {
-        I = $l1;
-        Result = Result + pas.uFrequence.uFrequence_Separateur_Lignes + pas.SysUtils.IntToStr(I + 1) + ": " + pas.uFrequence.sFrequence($mod.uResonances_de_Schumann_frequences[I],6," ",true) + " " + pas.uFrequences.Frequences().sMatch(-5,$mod.uResonances_de_Schumann_frequences[I],{get: function () {
-            return NbCoherent;
-          }, set: function (v) {
-            NbCoherent = v;
-          }},{get: function () {
-            return NbDeCoherent;
-          }, set: function (v) {
-            NbDeCoherent = v;
-          }});
-      };
+      for (I = 0; I <= 4; I++) Result = Result + pas.uFrequence.uFrequence_Separateur_Lignes + pas.SysUtils.IntToStr(I + 1) + ": " + pas.uFrequence.sFrequence($mod.uResonances_de_Schumann_frequences[I],6," ",true) + " " + pas.uFrequences.Frequences().sMatch(-5,$mod.uResonances_de_Schumann_frequences[I],{get: function () {
+          return NbCoherent;
+        }, set: function (v) {
+          NbCoherent = v;
+        }},{get: function () {
+          return NbDeCoherent;
+        }, set: function (v) {
+          NbDeCoherent = v;
+        }});
       Result = Result + "<\/pre>";
       return Result;
     };
@@ -3551,7 +3471,7 @@ rtl.module("ufjsFrequences",["System","uFrequence","uResonances_de_Schumann","uF
       this.Traite_Resonances_de_Schumann();
       this.Traite_Proton();
       this.dInfos = $impl.element_from_id("dInfos");
-      this.dInfos.innerHTML = "compilé avec pas2js version " + "1.4.20" + "<br>" + "target: " + "ECMAScript5" + " - " + "Browser" + "<br>" + "os: " + "Browser" + "<br>" + "cpu: " + "ECMAScript5" + "<br>" + "compilé le " + "2020\/8\/25" + " à " + "13:26:16" + "<br>" + "langue du navigateur: " + window.navigator.language + "<br>" + "window.devicePixelRatio: " + pas.SysUtils.FloatToStr(window.devicePixelRatio);
+      this.dInfos.innerHTML = "compilé avec pas2js version " + "1.4.0" + "<br>" + "target: " + "ECMAScript5" + " - " + "Browser" + "<br>" + "os: " + "Browser" + "<br>" + "cpu: " + "ECMAScript5" + "<br>" + "compilé le " + "2022\/6\/5" + " à " + "19:27: 2" + "<br>" + "langue du navigateur: " + window.navigator.language + "<br>" + "window.devicePixelRatio: " + pas.SysUtils.FloatToStr(window.devicePixelRatio);
     };
     this.iOctaveInput = function (_Event) {
       var Result = false;

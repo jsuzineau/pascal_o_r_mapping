@@ -4,8 +4,8 @@ object fChant: TfChant
   MarginRight = 0
   MarginBottom = 0
   Enabled = True
-  Left = 1004
-  Top = 281
+  Left = 305
+  Top = 260
   Width = 320
   Height = 400
   Text = 'fChant'
@@ -59,8 +59,6 @@ object fChant: TfChant
       FontSizeUnit = unitDefault
       GravityInParent = lgNone
       OnClick = bSopranoClick
-      Left = 28
-      Top = 28
     end
     object bAlto: jButton
       MarginLeft = 5
@@ -85,8 +83,6 @@ object fChant: TfChant
       FontSizeUnit = unitDefault
       GravityInParent = lgNone
       OnClick = bAltoClick
-      Left = 28
-      Top = 28
     end
     object bTenor: jButton
       MarginLeft = 5
@@ -111,8 +107,6 @@ object fChant: TfChant
       FontSizeUnit = unitDefault
       GravityInParent = lgNone
       OnClick = bTenorClick
-      Left = 28
-      Top = 28
     end
     object bBasse: jButton
       MarginLeft = 5
@@ -137,8 +131,6 @@ object fChant: TfChant
       FontSizeUnit = unitDefault
       GravityInParent = lgNone
       OnClick = bBasseClick
-      Left = 28
-      Top = 28
     end
     object eSoprano: jEditText
       MarginLeft = 5
@@ -175,8 +167,6 @@ object fChant: TfChant
       CapSentence = False
       CaptureBackPressed = False
       GravityInParent = lgNone
-      Left = 28
-      Top = 28
     end
     object eAlto: jEditText
       MarginLeft = 5
@@ -213,8 +203,6 @@ object fChant: TfChant
       CapSentence = False
       CaptureBackPressed = False
       GravityInParent = lgNone
-      Left = 28
-      Top = 28
     end
     object eTenor: jEditText
       MarginLeft = 5
@@ -251,8 +239,6 @@ object fChant: TfChant
       CapSentence = False
       CaptureBackPressed = False
       GravityInParent = lgNone
-      Left = 28
-      Top = 28
     end
     object eBasse: jEditText
       MarginLeft = 5
@@ -289,8 +275,6 @@ object fChant: TfChant
       CapSentence = False
       CaptureBackPressed = False
       GravityInParent = lgNone
-      Left = 28
-      Top = 28
     end
     object TextView1: jTextView
       MarginLeft = 5
@@ -315,8 +299,6 @@ object fChant: TfChant
       TextTypeFace = tfNormal
       FontSizeUnit = unitDefault
       GravityInParent = lgNone
-      Left = 28
-      Top = 28
     end
     object bStop: jButton
       MarginLeft = 5
@@ -341,8 +323,16 @@ object fChant: TfChant
       FontSizeUnit = unitDefault
       GravityInParent = lgNone
       OnClick = bStopClick
-      Left = 28
-      Top = 28
     end
+  end
+  object at: jAudioTrack
+    Duration = 10
+    StreamType = 3
+    SampleRateInHz = 22050
+    ChannelConfig = 4
+    AudioFormat = 2
+    Mode = 0
+    Left = 32
+    Top = 316
   end
 end

@@ -19,16 +19,13 @@
                                                                                 |
 |                                                                               }
 unit uFrequences;
-
-{$mode delphi}
-
+{$mode objfpc}
 interface
 
 uses
     uFrequence,
     uCouleur,
  Classes, SysUtils, Math, Types;
-
 const
   uFrequences_coherent: array of double= (256, 269.8, 288, 303.1, 324, 341.2, 364.7, 384, 404.5, 432, 455.1, 486);
   uFrequences_decoherent: array of double= (249.4, 262.8, 278.8, 295.5, 313.4, 332.5, 352.8, 374.3, 394.1, 418.0, 443.2, 470.3);
@@ -53,8 +50,8 @@ type
 
     function   aCoherent_boundaries( _Octave, _NbOctaves: Integer; _iDebut: Integer=-1; _iFin: Integer=-1): TDoubleDynArray;
     function aDeCoherent_boundaries( _Octave, _NbOctaves: Integer; _iDebut: Integer=-1; _iFin: Integer=-1): TDoubleDynArray;
-    function   aCoherent_centers( _Octave, _NbOctaves, _iDebut, _iFin: Integer): TDoubleDynArray;
-    function aDeCoherent_centers( _Octave, _NbOctaves, _iDebut, _iFin: Integer): TDoubleDynArray;
+    function   aCoherent_centers( _Octave, _NbOctaves: Integer; _iDebut: Integer=-1; _iFin: Integer=-1): TDoubleDynArray;
+    function aDeCoherent_centers( _Octave, _NbOctaves: Integer; _iDebut: Integer=-1; _iFin: Integer=-1): TDoubleDynArray;
     function Liste( _Octave: Integer; _NbOctaves: Integer=1; _iDebut: Integer=-1; _iFin: Integer=-1): String;
 
     function Liste_from_Frequence( _Frequence: double): String;
@@ -63,6 +60,8 @@ type
      _Prefixe: String; _Note_Index: Integer; var _Nb: Integer): String;
     function sMatch( _Octave: Integer; _Frequence: double; var _NbCoherent, _NbDeCoherent: Integer): String;
     function Octave_from_Frequence( _Frequence: double): Integer;
+    function Frequence_from_Midi( _Index: Integer): double;
+    function Octave_from_Midi( _Index: Integer):Integer;
   private
     function Harmonique( _Frequence: double; _Octave: Integer): double;
     function Frequence_in_Octave( _Frequence: double; _Octave: Integer): Boolean;
@@ -295,6 +294,19 @@ begin
          Result:= -Trunc( Log2(uFrequences_Max/_Frequence));
 end;
 
+function TFrequences.Frequence_from_Midi( _Index: Integer): double;
+var
+   Frequence_Base: double;
+begin
+     Frequence_Base:= uFrequences_coherent[_Index mod 12];
+     Result:= Harmonique( Frequence_Base, Octave_from_Midi( _Index));
+end;
+
+function TFrequences.Octave_from_Midi( _Index: Integer): Integer;
+begin
+     Result:= (_Index - 60(*début gamme diapason*)) div 12;
+end;
+
 function TFrequences.Frequence_in_Octave(_Frequence: double; _Octave: Integer): Boolean;
 var
    Bas, Haut: double;
@@ -320,7 +332,7 @@ end;
 initialization
 
 finalization
-            Free_nil( FFrequences);
+            FreeAndNil( FFrequences);
 {$endif}
 end.
 

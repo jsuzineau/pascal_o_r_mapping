@@ -37,6 +37,7 @@ procedure Log_Frequences(_Titre: String; _Frequences: TDoubleDynArray);
 function Note( _Index: Integer): String;
 function Note_Latine( _Index: Integer): String;
 function Liste_Octaves( _Octave: Integer; _NbOctaves: Integer): String;
+function Midi_from_Note( _Note: String): Integer;
 
 implementation
 
@@ -135,6 +136,176 @@ begin
        10: Result:= 'la# ';
        11: Result:= 'si  ';
        end;
+end;
+
+function Midi_from_Note( _Note: String): Integer;
+var
+   nOctave: Integer;
+   sNote: String;
+   nNote: Integer;
+   Octave_par_defaut: Boolean;
+   latin: Boolean;
+   procedure Extrait_Octave;
+   var
+      i: integer;
+      sOctave: String;
+   begin
+        _Note:= Trim(_Note);
+        sOctave:= '';
+        Octave_par_defaut:= False;
+        i:= Length( _Note);
+        while (i>0) and (_Note[i] in ['0'..'9'])
+        do
+          begin
+          sOctave:= _Note[i]+sOctave;
+          dec(i);
+          end;
+        sNote:= Lowercase( Copy( _Note, 1, Length(_Note)-Length(sOctave)));
+
+        Octave_par_defaut:= 0 = Length(sOctave);
+        if not TryStrToInt( sOctave, nOctave)
+        then
+            nOctave:= 0;
+   end;
+   procedure Decode_Note;
+   var
+      i: Integer;
+      function Suivant: Char;
+      begin
+           inc(i);
+
+           if i > Length(sNote)
+           then
+               Result:= ' '
+           else
+               Result:= sNote[i];
+      end;
+   begin
+        nNote:= 0;
+        latin:= False;
+        i:= 0;
+        case Suivant
+        of
+          'a': nNote:= 9;
+          'b':
+            case Suivant
+            of
+              'b' :nNote:= 10;//Bb
+              else nNote:= 11;//B
+              end;
+          'c':
+            case Suivant
+            of
+              '#' :nNote:= 1;//C#
+              else nNote:= 0;//C
+              end;
+          'd':
+            case Suivant
+            of
+              'o' :
+                begin
+                latin:= True;
+                case Suivant
+                of
+                  '#' :nNote:= 1;//do#
+                  else nNote:= 0;//do
+                  end;
+                end;
+              else nNote:= 2;//D
+              end;
+          'e':
+            case Suivant
+            of
+              'b' :nNote:= 3;//Eb
+              else nNote:= 4;//E
+              end;
+          'f':
+            case Suivant
+            of
+              'a' :
+                begin
+                latin:= True;
+                case Suivant
+                of
+                  '#' :nNote:= 6;//fa#
+                  else nNote:= 5;//fa
+                  end;
+                end;
+              '#' :nNote:= 6;//f#
+              else nNote:= 5;//f
+              end;
+          'g':
+            case Suivant
+            of
+              '#' :nNote:= 8;//G#
+              else nNote:= 7;//G
+              end;
+          'l':
+            case Suivant
+            of
+              'a' :
+                begin
+                latin:= True;
+                case Suivant
+                of
+                  '#' :nNote:=10;//la#
+                  else nNote:= 9;//la
+                  end;
+                end;
+              end;
+          'm':
+            case Suivant
+            of
+              'i' :
+                begin
+                latin:= True;
+                nNote:= 4;//mi
+                end;
+              end;
+          'r': //traitement différent pour éviter les problèmes avec l'UTF8
+            begin
+            latin:= True;
+            if '#' = sNote[Length(sNote)]
+            then
+                nNote:= 3 //ré#
+            else
+                nNote:= 2;//ré
+            end;
+          's':
+            begin
+            latin:= True;
+            case Suivant
+            of
+              'i' : nNote:=11;
+              'o' :
+                case Suivant
+                of
+                  'l' :
+                    case Suivant
+                    of
+                      '#' :nNote:= 8;//sol#
+                      else nNote:= 7;//sol
+                      end;
+                  end;
+              end;
+            end;
+          end;
+   end;
+   const //n° octave du La 440 Hz
+        nOctave_diapason_anglais=4;//C4
+        nOctave_diapason_latin  =3;//C4=do3
+   var
+      Base_Midi: Integer;
+      nOctave_diapason: Integer;
+begin
+     Extrait_Octave;
+     Decode_Note;
+     nOctave_diapason:= ifthen( latin, nOctave_diapason_latin, nOctave_diapason_anglais);
+     if Octave_par_defaut
+     then
+         nOctave:= nOctave_diapason;
+     Base_Midi:= 60+(nOctave-nOctave_diapason)*12;
+     Result:= nNote+Base_Midi;
 end;
 
 function Liste_Octaves( _Octave, _NbOctaves: Integer): String;

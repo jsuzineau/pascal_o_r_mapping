@@ -153,8 +153,23 @@ object fjsNote: TfjsNote
       FontSizeUnit = unitDefault
       GravityInParent = lgNone
       OnClick = bfChantClick
-      Left = 28
-      Top = 28
+    end
+    object TableLayout1: jTableLayout
+      MarginLeft = 10
+      MarginTop = 10
+      MarginRight = 10
+      MarginBottom = 10
+      Enabled = True
+      Left = 104
+      Top = 220
+      Width = 96
+      Height = 96
+      Visible = True
+      PosRelativeToAnchor = []
+      PosRelativeToParent = []
+      LayoutParamWidth = lp96px
+      LayoutParamHeight = lpWrapContent
+      BackgroundColor = colbrDefault
     end
   end
   object mm: jMidiManager

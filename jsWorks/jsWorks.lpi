@@ -724,7 +724,7 @@
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="E:/03_travail/Providence/01_jsWorks/jsWorks.exe"/>
+      <Filename Value="jsWorks.exe"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>

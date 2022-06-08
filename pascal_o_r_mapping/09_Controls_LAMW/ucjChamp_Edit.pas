@@ -27,7 +27,7 @@ interface
 uses
     uChamps,
     uChamp,
-  Classes, SysUtils, Laz_And_Controls,And_jni_Bridge;
+  Classes, SysUtils, Laz_And_Controls,And_jni_Bridge,AndroidWidget;
 
 type
 
@@ -83,7 +83,7 @@ end;
 constructor TjChamp_Edit.Create(AOwner: TComponent);
 begin
 	    inherited Create(AOwner);
-     if not (csDesigning in ComponentState) then WriteLn( ClassName+'.Create');
+     //if not (csDesigning in ComponentState) then WriteLn( ClassName+'.Create');
      FChamps:= nil;
      Champs_Changing:= False;
      OnChange:= Change;
@@ -96,7 +96,7 @@ end;
 
 procedure TjChamp_Edit.Change( _Sender: TObject; _txt: string; _count: integer);
 begin
-     if not (csDesigning in ComponentState) then WriteLn( ClassName+'.Change( _Sender, _txt="', _txt,'", _count= ',_count,')');
+     //if not (csDesigning in ComponentState) then WriteLn( ClassName+'.Change( _Sender, _txt="', _txt,'", _count= ',_count,')');
      if not Champ_OK then exit;
 
      _to_Champs;
@@ -127,27 +127,32 @@ begin
      Champ:= nil;
 
      Result:= Assigned( FChamps);
-     if not (csDesigning in ComponentState) then if not Result then WriteLn( ClassName+'.Champ_OK = False');
+     //if not (csDesigning in ComponentState) then if not Result then WriteLn( ClassName+'.Champ_OK = False');
      if not Result then exit;
 
      Champ:= Champs.Champ_from_Field( Field);
      Result:= Assigned( Champ);
-     if not (csDesigning in ComponentState) then WriteLn( ClassName+'.Champ_OK = ', Result);
+     //if not (csDesigning in ComponentState) then WriteLn( ClassName+'.Champ_OK = ', Result);
 end;
 
 procedure TjChamp_Edit._from_Champs;
 begin
-     if not (csDesigning in ComponentState) then if Champs_Changing then WriteLn( ClassName+'._from_Champs: Champs_Changing= True');
+     //if not (csDesigning in ComponentState) then if Champs_Changing then WriteLn( ClassName+'._from_Champs: Champs_Changing= True');
      if Champs_Changing then exit;
      try
         Champs_Changing:= True;
 
-        if not (csDesigning in ComponentState) then WriteLn( ClassName+'._from_Champs: Champ.Chaine = ',Champ.Chaine);
+        //if not (csDesigning in ComponentState) then WriteLn( ClassName+'._from_Champs: Champ.Chaine = ',Champ.Chaine);
         Text:= Champ.Chaine;
-        if not (csDesigning in ComponentState) then WriteLn( ClassName+'._from_Champs: FInitialized= ',FInitialized);
+        //if not (csDesigning in ComponentState) then WriteLn( ClassName+'._from_Champs: FInitialized= ',FInitialized);
         if FInitialized
         then
-           jEditText_setText(FjEnv, FjObject , Champ.Chaine);
+            //jEditText_setText(FjEnv, FjObject , Champ.Chaine);
+            if Champ.Chaine <> ''
+            then
+                jni_proc_h(gApp.jni.jEnv, FjObject, 'setText', Champ.Chaine)
+            else
+                Clear;
      finally
             Champs_Changing:= False;
             end;
@@ -155,13 +160,13 @@ end;
 
 procedure TjChamp_Edit._to_Champs;
 begin
-     if not (csDesigning in ComponentState) then if Champs_Changing then WriteLn( ClassName+'._to_Champs: Champs_Changing= True');
+     //if not (csDesigning in ComponentState) then if Champs_Changing then WriteLn( ClassName+'._to_Champs: Champs_Changing= True');
      if Champs_Changing then exit;
      try
         Champs_Changing:= True;
 
         Champ.Chaine:= Text;
-        if not (csDesigning in ComponentState) then WriteLn( ClassName+'._from_Champs: Champ.Chaine = ',Champ.Chaine);
+        //if not (csDesigning in ComponentState) then WriteLn( ClassName+'._from_Champs: Champ.Chaine = ',Champ.Chaine);
      finally
             Champs_Changing:= False;
             end;

@@ -1,4 +1,4 @@
-E:\01_Projets\01_pascal_o_r_mapping\tools\lamw\jsNote\gen\com\example\appactionbartabdemo1\R.java \
+E:\01_Projets\01_pascal_o_r_mapping\tools\lamw\jsNote\gen\com\mars42\jsNote\R.java \
  : E:\01_Projets\01_pascal_o_r_mapping\tools\lamw\jsNote\res\drawable-hdpi\ic_bullets.png \
 E:\01_Projets\01_pascal_o_r_mapping\tools\lamw\jsNote\res\drawable-hdpi\ic_bullet_blue.png \
 E:\01_Projets\01_pascal_o_r_mapping\tools\lamw\jsNote\res\drawable-hdpi\ic_bullet_green.png \

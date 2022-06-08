@@ -11,7 +11,7 @@ uses
     ufChant,
   Classes, SysUtils, And_jni, And_jni_Bridge, Laz_And_Controls,
   Laz_And_Controls_Events, AndroidWidget, actionbartab, midimanager,
-  textfilemanager;
+  textfilemanager, tablelayout;
   
 type
 
@@ -23,6 +23,7 @@ type
       abt: jActionBarTab;
       bStart: jButton;
       bStopNote: jButton;
+      TableLayout1: jTableLayout;
       wv: jWebView;
       mm: jMidiManager;
       pTab1: jPanel;

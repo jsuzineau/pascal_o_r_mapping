@@ -25,7 +25,7 @@
       <Item3 Name="MinSdk" Value="23"/>
       <Item4 Name="NdkApi" Value="android-22"/>
       <Item5 Name="NdkPath" Value="C:\lamw_manager\LAMW\sdk\ndk-bundle\"/>
-      <Item6 Name="Package" Value="com.example.appactionbartabdemo1"/>
+      <Item6 Name="Package" Value="com.mars42.jsNote"/>
       <Item7 Name="SdkPath" Value="C:\lamw_manager\LAMW\sdk\"/>
       <Item8 Name="StartModule" Value="fjsNote"/>
       <Item9 Name="Support" Value="FALSE"/>
@@ -52,7 +52,7 @@
         <PackageName Value="tfpandroidbridge_pack"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="4">
+    <Units Count="6">
       <Unit0>
         <Filename Value="controls.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -64,7 +64,7 @@
         <HasResources Value="True"/>
         <CustomData Count="2">
           <Item0 Name="fclControls"/>
-          <Item1 Name="jControls" Value="jActionBarTab;jButton;jForm;jMidiManager;jPanel;jWebView"/>
+          <Item1 Name="jControls" Value="jActionBarTab;jButton;jForm;jMidiManager;jPanel;jTableLayout;jWebView"/>
         </CustomData>
       </Unit1>
       <Unit2>
@@ -75,13 +75,21 @@
         <UnitName Value="ufChant"/>
         <CustomData Count="2">
           <Item0 Name="fclControls"/>
-          <Item1 Name="jControls" Value="jButton;jEditText;jForm;jPanel;jTextView"/>
+          <Item1 Name="jControls" Value="jAudioTrack;jButton;jEditText;jForm;jPanel;jTextView"/>
         </CustomData>
       </Unit2>
       <Unit3>
         <Filename Value="uAndroid_Midi.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit3>
+      <Unit4>
+        <Filename Value="..\..\..\jsFrequences\uFrequences.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="uAudioTrack.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit5>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -92,6 +100,7 @@
     </Target>
     <SearchPaths>
       <Libraries Value="C:\lamw_manager\LAMW\sdk\ndk-bundle\toolchains\llvm\prebuilt\windows-x86_64\sysroot\usr\lib\arm-linux-androideabi\22\;C:\lamw_manager\LAMW\sdk\ndk-bundle\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\lib\gcc\arm-linux-androideabi\4.9.x\"/>
+      <OtherUnitFiles Value="..\..\..\jsFrequences"/>
       <UnitOutputDirectory Value="..\obj\controls"/>
     </SearchPaths>
     <Parsing>

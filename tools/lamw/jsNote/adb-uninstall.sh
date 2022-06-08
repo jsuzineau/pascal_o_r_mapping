@@ -1,1 +1,1 @@
-/lamw_manager/LAMW/sdk/platform-tools/adb uninstall com.example.appactionbartabdemo1
+/lamw_manager/LAMW/sdk/platform-tools/adb uninstall com.mars42.jsNote
