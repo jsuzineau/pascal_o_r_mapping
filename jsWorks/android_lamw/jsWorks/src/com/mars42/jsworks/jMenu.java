@@ -1,6 +1,7 @@
-package com.mars42.jsworks.jsworks;
+package com.mars42.jsWorks;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -9,6 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.PopupMenu;
+import android.widget.Spinner;
 
 /*Draft java code by "Lazarus Android Module Wizard" [4-5-14 20:46:56]*/
 /*https://github.com/jmpessoa/lazandroidmodulewizard*/
@@ -22,6 +26,8 @@ public class jMenu /*extends ...*/ {
     private Menu     mMenu     = null;
     private SubMenu[] mSubMenus;
     private int mCountSubMenu = 0;
+
+    //private PopupMenu dropDownMenu;
   
     //GUIDELINE: please, preferentially, init all yours params names with "_", ex: int _flag, String _hello ...
   
@@ -74,7 +80,7 @@ public class jMenu /*extends ...*/ {
     	  mMenu = _menu;
           String _resName = "ic_launcher"; //ok       
           MenuItem item = _menu.add(0,_itemID,0 ,(CharSequence)_caption);       
-          item.setIcon(GetDrawableResourceId(_resName));          
+          item.setIcon(controls.GetDrawableResourceId(_resName));          
        }
     }
     
@@ -85,14 +91,12 @@ public class jMenu /*extends ...*/ {
     	}
      }
     
-    public void CheckItemCommute(MenuItem _item){
-    	int flag = 0;
-    	if (_item.isChecked()) flag = 1;
-    	switch (flag) {
-    	  case 0: _item.setChecked(false); 
-    	  case 1: _item.setChecked(true);
-        }
-  	    //Log.i("jMenu_CheckItemCommute", _item.getTitle().toString());
+    public void CheckItemCommute(MenuItem _item){//fixed! thanks to guaracy!
+		if (_item.isChecked()) {
+			_item.setChecked(false);
+		} else {
+			_item.setChecked(true);
+		}
     }
     
     public void CheckItem(MenuItem _item){
@@ -185,27 +189,9 @@ public class jMenu /*extends ...*/ {
       controls.activity.unregisterForContextMenu(_view); 
     }  
     
-//http://daniel-codes.blogspot.com.br/2009/12/dynamically-retrieving-resources-in.html
-   //Just note that in case you want to retrieve Views (Buttons, TextViews, etc.) 
+    //http://daniel-codes.blogspot.com.br/2009/12/dynamically-retrieving-resources-in.html
+    //Just note that in case you want to retrieve Views (Buttons, TextViews, etc.) 
     //you must implement R.id.class instead of R.drawable.
-    private int GetDrawableResourceId(String _resName) {
-    	  try {
-    	     Class<?> res = R.drawable.class;
-    	     Field field = res.getField(_resName);  //"drawableName"
-    	     int drawableId = field.getInt(null);
-    	     return drawableId;
-    	  }
-    	  catch (Exception e) {
-    	     Log.e("MyTag", "Failure to get drawable id.", e);
-    	     return 0;
-    	  }
-    }
-    
-    private Drawable GetDrawableResourceById(int _resID) {
-    	if( _resID == 0 ) return null; // by tr3e
-    	
-    	return (Drawable)( this.controls.activity.getResources().getDrawable(_resID));
-    }
     
     //_itemType --> 0:Default, 1:Checkable
     public void AddItem(Menu _menu, int _itemID, String _caption, String _iconIdentifier, int _itemType, int _showAsAction){
@@ -216,12 +202,12 @@ public class jMenu /*extends ...*/ {
     	    case 1:  item.setCheckable(true); break;    	
     	 }    	
          if (!_iconIdentifier.equals("")) {
-           item.setIcon(GetDrawableResourceId(_iconIdentifier)); 
+           item.setIcon(controls.GetDrawableResourceId(_iconIdentifier)); 
          }                     
          switch (_showAsAction) {
            case 0: item.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER); break;
            case 1: item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM); break;
-           case 2: item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS); break;
+           case 2: item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS); break; ////A good rule of thumb is to have no more than 2 items set to always show at a time.
            case 4: item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM|MenuItem.SHOW_AS_ACTION_WITH_TEXT); 
                   item.setTitleCondensed("."); break;                    
            case 5: item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
@@ -243,7 +229,7 @@ public class jMenu /*extends ...*/ {
     	if (_menu != null) {
     	   mMenu = _menu;	
      	   sm =_menu.addSubMenu((CharSequence)_title); //main title     	        	       	  
-     	   sm.setHeaderIcon(GetDrawableResourceId(_headerIconIdentifier));
+     	   sm.setHeaderIcon(controls.GetDrawableResourceId(_headerIconIdentifier));
     	   mSubMenus[mCountSubMenu] = sm;      	       	     	       	       	   
     	   mCountSubMenu++; 
     	}   
@@ -367,5 +353,12 @@ public class jMenu /*extends ...*/ {
     	   mMenu = _menu;
         }
     }
+
+	public void AddDropDownItem(Menu _menu, View _view){
+    	AddItem(_menu, _view.getId(), "caption", "ic_lancher", 0, 2); //SHOW_AS_ACTION_ALWAYS
+    	MenuItem item = this.FindMenuItemByID(_view.getId());
+    	item.setActionView(_view);
+    }
+
 }
 

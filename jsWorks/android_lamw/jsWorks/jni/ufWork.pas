@@ -11,7 +11,7 @@ uses
 
     ublWork,
 
- Classes, SysUtils, AndroidWidget, Laz_And_Controls, ucjChamp_Edit;
+ Classes, SysUtils, AndroidWidget, Laz_And_Controls, uchChamp_Edit;
  
 type
 
@@ -21,10 +21,14 @@ type
  =
   class(jForm)
 			bDemarrer: jButton;
-			jceBeginning: TjChamp_Edit;
-			jceDescription: TjChamp_Edit;
-			jceEnd: TjChamp_Edit;
+			jceBeginning: jEditText;
+			jceDescription: jEditText;
+			jceEnd: jEditText;
 			jEditText1: jEditText;
+				hceBeginning2 : ThChamp_Edit;
+				hceDescription: ThChamp_Edit;
+				hceEnd        : ThChamp_Edit;
+				hceEnd1       : ThChamp_Edit;
 			jpBeginning: jPanel;
 			jpEnd: jPanel;
 			jTextView1: jTextView;
@@ -54,7 +58,7 @@ begin
          WriteLn( 'ufWork.fWork: avant CreateForm');
          gApp.CreateForm( TfWork, FfWork);
          WriteLn( 'ufWork.fWork: avant FfWork.Init( gApp);');
-         FfWork.Init( gApp);
+         FfWork.Init;
          end;
      Result:= FfWork;
 end;

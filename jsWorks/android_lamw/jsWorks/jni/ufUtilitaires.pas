@@ -39,7 +39,7 @@ begin
 			  then
 			      begin
 			      gApp.CreateForm( TfUtilitaires, FfUtilitaires);
-			      FfUtilitaires.Init( gApp);
+			      FfUtilitaires.Init;
 			      end;
 			  Result:= FfUtilitaires;
 end;

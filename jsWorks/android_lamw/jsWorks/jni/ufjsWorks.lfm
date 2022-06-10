@@ -1,34 +1,36 @@
 object fjsWorks: TfjsWorks
-  Left = 619
-  Top = 278
-  Width = 320
-  Height = 400
   MarginLeft = 0
   MarginTop = 0
   MarginRight = 0
   MarginBottom = 0
   Enabled = True
+  Left = 427
+  Top = 271
+  Width = 320
+  Height = 400
   Text = 'fjsWorks'
   ActivityMode = actMain
   BackgroundColor = colbrIvory
   ActionBarTitle = abtDefault
+  AnimationDurationIn = 1500
+  AnimationDurationOut = 1500
+  AnimationMode = animNone
   OnJNIPrompt = fjsWorksJNIPrompt
   OnCreateOptionMenu = fjsWorksCreateOptionMenu
   OnClickOptionMenuItem = fjsWorksClickOptionMenuItem
   object bDemarrer: jButton
-    Left = 0
-    Top = 0
-    Width = 320
-    Height = 40
     MarginLeft = 2
     MarginTop = 4
     MarginRight = 2
     MarginBottom = 4
     Enabled = True
+    Left = 2
+    Top = 4
+    Width = 99
+    Height = 50
     Visible = True
-    Id = 4
     PosRelativeToAnchor = []
-    PosRelativeToParent = []
+    PosRelativeToParent = [rpTop, rpLeft]
     LayoutParamWidth = lpWrapContent
     LayoutParamHeight = lpWrapContent
     Text = 'Démarrer'
@@ -36,44 +38,42 @@ object fjsWorks: TfjsWorks
     FontColor = colbrDefault
     FontSize = 0
     FontSizeUnit = unitDefault
+    GravityInParent = lgNone
     OnClick = bDemarrerClick
-    Left = 28
-    Top = 28
   end
   object jpBeginning: jPanel
-    Left = 0
-    Top = 48
-    Width = 289
-    Height = 49
     MarginLeft = 4
     MarginTop = 4
     MarginRight = 4
     MarginBottom = 4
     Enabled = True
+    Left = 6
+    Top = 62
+    Width = 289
+    Height = 49
     Visible = True
     Anchor = bDemarrer
-    Id = 13
-    PosRelativeToAnchor = [raBelow]
+    PosRelativeToAnchor = [raBelow, raAlignLeft]
     PosRelativeToParent = []
     LayoutParamWidth = lpWrapContent
     LayoutParamHeight = lpWrapContent
     BackgroundColor = colbrDefault
     MinPinchZoomFactor = 0.25
     MaxPinchZoomFactor = 4
-    Left = 56
-    Top = 56
+    AnimationDurationIn = 1500
+    AnimationDurationOut = 1500
+    AnimationMode = animNone
     object lDebut: jTextView
-      Left = 5
-      Top = 5
-      Width = 35
-      Height = 20
       MarginLeft = 5
       MarginTop = 5
       MarginRight = 5
       MarginBottom = 5
       Enabled = True
+      Left = 5
+      Top = 5
+      Width = 35
+      Height = 20
       Visible = True
-      Id = 8
       PosRelativeToAnchor = []
       PosRelativeToParent = [rpTop, rpLeft]
       LayoutParamWidth = lpWrapContent
@@ -85,19 +85,19 @@ object fjsWorks: TfjsWorks
       FontSize = 0
       TextTypeFace = tfNormal
       FontSizeUnit = unitDefault
+      GravityInParent = lgNone
     end
-    object jceBeginning: TjChamp_Edit
-      Left = 48
-      Top = 5
-      Width = 236
-      Height = 39
+    object jceBeginning: jEditText
       MarginLeft = 5
       MarginTop = 5
       MarginRight = 5
       MarginBottom = 5
       Enabled = True
+      Left = 48
+      Top = 5
+      Width = 236
+      Height = 39
       Visible = True
-      Id = 9
       PosRelativeToAnchor = []
       PosRelativeToParent = [rpTop, rpRight]
       LayoutParamWidth = lpWrapContent
@@ -117,43 +117,45 @@ object fjsWorks: TfjsWorks
       WrappingLine = False
       Editable = True
       FontSizeUnit = unitDefault
-      Field = 'Beginning'
+      CloseSoftInputOnEnter = True
+      CapSentence = False
+      CaptureBackPressed = False
+      GravityInParent = lgNone
     end
   end
   object jpEnd: jPanel
-    Left = 0
-    Top = 105
-    Width = 289
-    Height = 59
     MarginLeft = 4
     MarginTop = 4
     MarginRight = 4
     MarginBottom = 4
     Enabled = True
+    Left = 10
+    Top = 119
+    Width = 289
+    Height = 59
     Visible = True
     Anchor = jpBeginning
-    Id = 14
-    PosRelativeToAnchor = [raBelow]
+    PosRelativeToAnchor = [raBelow, raAlignLeft]
     PosRelativeToParent = []
     LayoutParamWidth = lpWrapContent
     LayoutParamHeight = lpWrapContent
     BackgroundColor = colbrDefault
     MinPinchZoomFactor = 0.25
     MaxPinchZoomFactor = 4
-    Left = 84
-    Top = 84
+    AnimationDurationIn = 1500
+    AnimationDurationOut = 1500
+    AnimationMode = animNone
     object lFin: jTextView
-      Left = 5
-      Top = 5
-      Width = 16
-      Height = 20
       MarginLeft = 5
       MarginTop = 5
       MarginRight = 5
       MarginBottom = 5
       Enabled = True
+      Left = 5
+      Top = 5
+      Width = 16
+      Height = 20
       Visible = True
-      Id = 10
       PosRelativeToAnchor = []
       PosRelativeToParent = [rpTop, rpLeft]
       LayoutParamWidth = lpWrapContent
@@ -165,19 +167,19 @@ object fjsWorks: TfjsWorks
       FontSize = 0
       TextTypeFace = tfNormal
       FontSizeUnit = unitDefault
+      GravityInParent = lgNone
     end
-    object jceEnd: TjChamp_Edit
-      Left = 56
-      Top = 10
-      Width = 228
-      Height = 39
+    object jceEnd: jEditText
       MarginLeft = 5
       MarginTop = 10
       MarginRight = 5
       MarginBottom = 10
       Enabled = True
+      Left = 56
+      Top = 10
+      Width = 228
+      Height = 39
       Visible = True
-      Id = 11
       PosRelativeToAnchor = []
       PosRelativeToParent = [rpTop, rpRight]
       LayoutParamWidth = lpWrapContent
@@ -197,24 +199,26 @@ object fjsWorks: TfjsWorks
       WrappingLine = False
       Editable = True
       FontSizeUnit = unitDefault
-      Field = 'End'
+      CloseSoftInputOnEnter = True
+      CapSentence = False
+      CaptureBackPressed = False
+      GravityInParent = lgNone
     end
   end
   object lDescription: jTextView
-    Left = 0
-    Top = 173
-    Width = 66
-    Height = 20
     MarginLeft = 5
     MarginTop = 5
     MarginRight = 5
     MarginBottom = 5
     Enabled = True
+    Left = 127
+    Top = 187
+    Width = 66
+    Height = 20
     Visible = True
     Anchor = jpEnd
-    Id = 12
     PosRelativeToAnchor = [raBelow]
-    PosRelativeToParent = []
+    PosRelativeToParent = [rpCenterHorizontal]
     LayoutParamWidth = lpWrapContent
     LayoutParamHeight = lpWrapContent
     Text = 'Description'
@@ -224,24 +228,22 @@ object fjsWorks: TfjsWorks
     FontSize = 0
     TextTypeFace = tfNormal
     FontSizeUnit = unitDefault
-    Left = 112
-    Top = 112
+    GravityInParent = lgNone
   end
-  object jceDescription: TjChamp_Edit
-    Left = 5
-    Top = 208
-    Width = 310
-    Height = 39
+  object jceDescription: jEditText
     MarginLeft = 5
     MarginTop = 10
     MarginRight = 5
     MarginBottom = 10
     Enabled = True
+    Left = 5
+    Top = 222
+    Width = 310
+    Height = 39
     Visible = True
     Anchor = lDescription
-    Id = 7
     PosRelativeToAnchor = [raBelow]
-    PosRelativeToParent = []
+    PosRelativeToParent = [rpLeft]
     LayoutParamWidth = lpMatchParent
     LayoutParamHeight = lpWrapContent
     Text = 'jceDescription'
@@ -259,9 +261,28 @@ object fjsWorks: TfjsWorks
     WrappingLine = False
     Editable = True
     FontSizeUnit = unitDefault
+    CloseSoftInputOnEnter = True
+    CapSentence = False
+    CaptureBackPressed = False
+    GravityInParent = lgNone
+  end
+  object hceBeginning: ThChamp_Edit
+    Field = 'Beginning'
+    et = jceBeginning
+    Left = 204
+    Top = 88
+  end
+  object hceEnd: ThChamp_Edit
+    Field = 'End'
+    et = jceEnd
+    Left = 184
+    Top = 152
+  end
+  object hceDescription: ThChamp_Edit
     Field = 'Description'
-    Left = 140
-    Top = 140
+    et = jceDescription
+    Left = 128
+    Top = 256
   end
   object jm: jMenu
   end

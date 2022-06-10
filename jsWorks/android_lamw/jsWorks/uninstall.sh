@@ -1,1 +1,1 @@
-/lamw/android-sdk-windows/platform-tools/adb uninstall com.mars42.jsworks.jsworks
+/lamw/android-sdk-windows/platform-tools/adb uninstall com.mars42.jsWorks

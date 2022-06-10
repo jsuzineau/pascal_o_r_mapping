@@ -1,5 +1,7 @@
 package com.mars42.jsNote;
 /*android.jar*/
+import android.media.AudioAttributes;
+import android.media.AudioFormat;
 import android.media.AudioTrack;
 import android.content.Context;
  
@@ -16,9 +18,40 @@ public class jAudioTrack {
     private android.media.AudioTrack mAudioTrack;
     //GUIDELINE: please, preferentially, init all yours params names with "_", ex: int _flag, String _hello ...
   
-    public jAudioTrack(Controls _ctrls, long _Self,int _streamType, int _sampleRateInHz, int _channelConfig, int _audioFormat, int _bufferSizeInBytes, int _mode)
+    public jAudioTrack( Controls _ctrls, long _Self,
+                        int _streamType       ,
+                        int _sampleRateInHz   ,
+                        int _channelConfig    ,
+                        int _audioFormat      ,
+                        int _bufferSizeInBytes,
+                        int _mode             )
        {
-       mAudioTrack = new android.media.AudioTrack( _streamType, _sampleRateInHz, _channelConfig, _audioFormat, _bufferSizeInBytes, _mode);
+       /*
+       mAudioTrack
+       =
+        new android.media.AudioTrack( _streamType,
+                                      _sampleRateInHz,
+                                      _channelConfig,
+                                      _audioFormat,
+                                      _bufferSizeInBytes,
+                                      _mode);
+       */
+       mAudioTrack
+       =
+        new AudioTrack.Builder()
+          .setAudioAttributes(new AudioAttributes.Builder()
+                   .setUsage(AudioAttributes.USAGE_MEDIA)
+                   .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                   .build())
+          .setAudioFormat(new AudioFormat.Builder()
+                  .setEncoding(_audioFormat)
+                  .setSampleRate(_sampleRateInHz)
+                  .setChannelMask(_channelConfig)
+                  .build())
+          .setBufferSizeInBytes(_bufferSizeInBytes)
+          //.setTransferMode( _mode)
+          .build();
+
        context   = _ctrls.activity;
        pasobj = _Self;
        controls  = _ctrls;

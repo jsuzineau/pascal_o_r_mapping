@@ -57,7 +57,7 @@ object fWork: TfWork
       TextTypeFace = tfNormal
       FontSizeUnit = unitDefault
     end
-    object jceBeginning: TjChamp_Edit
+    object jceBeginning: jEditText
       Left = 92
       Top = 8
       Width = 212
@@ -88,8 +88,10 @@ object fWork: TfWork
       WrappingLine = False
       Editable = True
       FontSizeUnit = unitDefault
-      Field = 'Beginning'
     end
+    object hceBeginning: ThChamp_Edit
+      Field = 'Beginning'
+	end
   end
   object jpEnd: jPanel
     Left = 4
@@ -135,7 +137,7 @@ object fWork: TfWork
       TextTypeFace = tfNormal
       FontSizeUnit = unitDefault
     end
-    object jceEnd: TjChamp_Edit
+    object jceEnd: jEditText
       Left = 96
       Top = 12
       Width = 212
@@ -166,10 +168,12 @@ object fWork: TfWork
       WrappingLine = False
       Editable = True
       FontSizeUnit = unitDefault
-      Field = 'End'
     end
   end
-  object jceDescription: TjChamp_Edit
+    object hceEnd: ThChamp_Edit
+      Field = 'End'
+	end
+  object jceDescription: jEditText
     Left = 8
     Top = 184
     Width = 304
@@ -201,8 +205,10 @@ object fWork: TfWork
     WrappingLine = False
     Editable = True
     FontSizeUnit = unitDefault
-    Field = 'Description'
   end
+    object hceDescription: ThChamp_Edit
+      Field = 'Description'
+	end
   object jEditText1: jEditText
     Left = 20
     Top = 209

@@ -124,7 +124,7 @@ type
     function asString  : String   ; override;
     function asDate    : TDateTime; override;
     function asDateTime: TDateTime; override;
-    function asInteger : Integer  ; override;
+    function asInteger : LargeInt ; override;
     function asCurrency: Currency ; override;
     function asDouble  : double   ; override;
     function asBoolean : Boolean  ; override;
@@ -132,10 +132,11 @@ type
 
 	{ TjSqliteDataAccess }
 
- TjSqliteDataAccess=
- class( jSqliteDataAccess)
+ TjSqliteDataAccess
+ =
+  class( jSqliteDataAccess)
    function ExecSQL_Last_insert_rowid( execQuery: String): Integer;
-	end;
+  end;
 
  { TjsDataContexte_SQLite_Android }
 
@@ -568,7 +569,7 @@ begin
      Result:= F.asDateTime;
 end;
 
-function TjsDataContexte_Champ_SQLite_Android.asInteger: Integer;
+function TjsDataContexte_Champ_SQLite_Android.asInteger: LargeInt;
 begin
      inherited;
      Result:= F.asInteger;
@@ -680,7 +681,7 @@ begin
          end;
 
      WriteLn( ClassName+'.ExecSQL_Last_insert_rowid, avant jSqliteDataAccess_ExecSQL_Last_insert_rowid');
-     Result:= jSqliteDataAccess_ExecSQL_Last_insert_rowid( FjEnv, FjObject , execQuery);
+     Result:= jSqliteDataAccess_ExecSQL_Last_insert_rowid( gApp.jni.jEnv, FjObject , execQuery);
      WriteLn( ClassName+'.ExecSQL_Last_insert_rowid, avant if Cursor <> nil then Cursor.SetCursor(Self.GetCursor);');
      if Cursor <> nil then Cursor.SetCursor(Self.GetCursor);
      WriteLn( ClassName+'.ExecSQL_Last_insert_rowid, fin');
@@ -692,9 +693,9 @@ constructor TjsDataContexte_SQLite_Android.Create(_Name: String);
      procedure Cas_local;
      begin
          sc := jSqliteCursor     .Create( uSQLite_Android_jForm);
-         sc.Init( gApp);
+         sc.Init;
          sda:= TjSqliteDataAccess.Create( uSQLite_Android_jForm);
-         sda.Init( gApp);
+         sda.Init;
          sda.Cursor:= sc;
          sda.DataBaseName:= '';
      end;

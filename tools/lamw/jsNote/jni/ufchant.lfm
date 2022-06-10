@@ -148,7 +148,7 @@ object fChant: TfChant
       PosRelativeToParent = [rpLeft]
       LayoutParamWidth = lpOneThirdOfParent
       LayoutParamHeight = lpWrapContent
-      Text = 'E4'
+      Text = 'F4'
       Alignment = taLeft
       InputTypeEx = itxText
       MaxTextLength = -1
@@ -184,7 +184,7 @@ object fChant: TfChant
       PosRelativeToParent = [rpLeft]
       LayoutParamWidth = lpOneThirdOfParent
       LayoutParamHeight = lpWrapContent
-      Text = 'C4'
+      Text = 'D4'
       Alignment = taLeft
       InputTypeEx = itxText
       MaxTextLength = -1
@@ -220,7 +220,7 @@ object fChant: TfChant
       PosRelativeToParent = [rpLeft]
       LayoutParamWidth = lpOneThirdOfParent
       LayoutParamHeight = lpWrapContent
-      Text = 'G3'
+      Text = 'A3'
       Alignment = taLeft
       InputTypeEx = itxText
       MaxTextLength = -1
@@ -256,7 +256,7 @@ object fChant: TfChant
       PosRelativeToParent = [rpLeft]
       LayoutParamWidth = lpOneThirdOfParent
       LayoutParamHeight = lpWrapContent
-      Text = 'C3'
+      Text = 'D3'
       Alignment = taLeft
       InputTypeEx = itxText
       MaxTextLength = -1
@@ -334,5 +334,29 @@ object fChant: TfChant
     Mode = 0
     Left = 32
     Top = 316
+  end
+  object hceSoprano: ThChamp_Edit
+    Field = 'Soprano'
+    et = eSoprano
+    Left = 147
+    Top = 40
+  end
+  object hceAlto: ThChamp_Edit
+    Field = 'Alto'
+    et = eAlto
+    Left = 148
+    Top = 96
+  end
+  object hceTenor: ThChamp_Edit
+    Field = 'Tenor'
+    et = eTenor
+    Left = 148
+    Top = 160
+  end
+  object hceBasse: ThChamp_Edit
+    Field = 'Basse'
+    et = eBasse
+    Left = 147
+    Top = 216
   end
 end

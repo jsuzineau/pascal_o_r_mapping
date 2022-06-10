@@ -6,7 +6,7 @@
 <fail message="sdk.dir is missing." unless="sdk.dir"/>
 
 <!-- Tags required to enable conditional compilation in java sources -->
-<property name="src.dir" location=".\src\com\mars42\jsworks\jsworks\"/>
+<property name="src.dir" location=".\src\com\mars42\jsWorks\"/>
 <property name="source.dir" value="${src.dir}/${target}" />
 <import file="${sdk.dir}/tools/ant/build.xml"/>
 

@@ -49,7 +49,7 @@ begin
      then
          begin
          gApp.CreateForm( TfTest_SQLiteDataAccess, FfTest_SQLiteDataAccess);
-         FfTest_SQLiteDataAccess.Init( gApp);
+         FfTest_SQLiteDataAccess.Init;
          end;
      Result:= FfTest_SQLiteDataAccess;
 end;

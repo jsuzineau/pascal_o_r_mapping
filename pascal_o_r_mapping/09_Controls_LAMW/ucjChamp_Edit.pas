@@ -82,7 +82,7 @@ end;
 
 constructor TjChamp_Edit.Create(AOwner: TComponent);
 begin
-	    inherited Create(AOwner);
+     inherited Create(AOwner);
      //if not (csDesigning in ComponentState) then WriteLn( ClassName+'.Create');
      FChamps:= nil;
      Champs_Changing:= False;
@@ -91,7 +91,7 @@ end;
 
 destructor TjChamp_Edit.Destroy;
 begin
-	    inherited Destroy;
+     inherited Destroy;
 end;
 
 procedure TjChamp_Edit.Change( _Sender: TObject; _txt: string; _count: integer);

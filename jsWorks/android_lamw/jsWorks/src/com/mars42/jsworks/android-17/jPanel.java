@@ -1,4 +1,4 @@
-package com.mars42.jsworks.jsworks;
+package com.mars42.jsWorks;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff.Mode;

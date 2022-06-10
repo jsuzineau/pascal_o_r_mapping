@@ -15,16 +15,22 @@
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
-    <CustomData Count="9">
-      <Item0 Name="BuildSystem" Value="Gradle"/>
+    <i18n>
+      <EnableI18N LFM="False"/>
+    </i18n>
+    <CustomData Count="12">
+      <Item0 Name="BuildSystem" Value="Ant"/>
       <Item1 Name="LAMW" Value="GUI"/>
-      <Item2 Name="LamwVersion" Value="0.8.4"/>
-      <Item3 Name="NdkApi" Value="android-22"/>
-      <Item4 Name="NdkPath" Value="C:\Users\root\LAMW\sdk\ndk-bundle\"/>
-      <Item5 Name="Package" Value="com.mars42.jsworks.jsworks"/>
-      <Item6 Name="SdkPath" Value="C:\Users\root\LAMW\sdk\"/>
-      <Item7 Name="StartModule" Value="fjsWorks"/>
-      <Item8 Name="Theme" Value="DeviceDefault"/>
+      <Item2 Name="LamwVersion" Value="0.8.6.1"/>
+      <Item3 Name="MinSdk" Value="23"/>
+      <Item4 Name="NdkApi" Value="android-22"/>
+      <Item5 Name="NdkPath" Value="C:\lamw_manager\LAMW\sdk\ndk-bundle\"/>
+      <Item6 Name="Package" Value="com.mars42.jsWorks"/>
+      <Item7 Name="SdkPath" Value="C:\lamw_manager\LAMW\sdk\"/>
+      <Item8 Name="StartModule" Value="fjsWorks"/>
+      <Item9 Name="Support" Value="FALSE"/>
+      <Item10 Name="TargetSdk" Value="30"/>
+      <Item11 Name="Theme" Value="DeviceDefault"/>
     </CustomData>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
@@ -69,7 +75,7 @@
         <HasResources Value="True"/>
       </Unit2>
       <Unit3>
-        <Filename Value="..\..\..\..\pascal_o_r_mapping\3_Data\uhAggregation.pas"/>
+        <Filename Value="..\..\..\..\pascal_o_r_mapping\03_Data\uhAggregation.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit3>
       <Unit4>
@@ -77,7 +83,7 @@
         <IsPartOfProject Value="True"/>
       </Unit4>
       <Unit5>
-        <Filename Value="..\..\..\..\pascal_o_r_mapping\7_sources_externes\synapse\source\lib\blcksock.pas"/>
+        <Filename Value="..\..\..\..\pascal_o_r_mapping\07_sources_externes\synapse\source\lib\blcksock.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit5>
       <Unit6>
@@ -95,7 +101,7 @@
         <HasResources Value="True"/>
       </Unit8>
       <Unit9>
-        <Filename Value="..\..\..\..\pascal_o_r_mapping\3_Data\udmDatabase.pas"/>
+        <Filename Value="..\..\..\..\pascal_o_r_mapping\03_Data\udmDatabase.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
       </Unit9>
@@ -148,11 +154,11 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="..\libs\armeabi\libcontrols"/>
+      <Filename Value="..\libs\armeabi-v7a\libcontrols"/>
     </Target>
     <SearchPaths>
-      <Libraries Value="C:\Users\root\LAMW\sdk\ndk-bundle\platforms\android-22\arch-arm\usr\lib\;C:\Users\root\LAMW\sdk\ndk-bundle\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\lib\gcc\arm-linux-androideabi\4.9.x\"/>
-      <OtherUnitFiles Value="..\..\..\Elements\Work;..\..\..\Elements\Tag;..\..\..\..\pascal_o_r_mapping\7_sources_externes\synapse\source\lib;..\..\..\Elements\Tag_Work;..\..\..\Elements\Type_Tag;..\..\..\..\pascal_o_r_mapping\3_Data"/>
+      <Libraries Value="C:\lamw_manager\LAMW\sdk\ndk-bundle\toolchains\llvm\prebuilt\windows-x86_64\sysroot\usr\lib\arm-linux-androideabi\22\;C:\lamw_manager\LAMW\sdk\ndk-bundle\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\lib\gcc\arm-linux-androideabi\4.9.x\"/>
+      <OtherUnitFiles Value="..\..\..\Elements\Work;..\..\..\Elements\Tag;..\..\..\..\pascal_o_r_mapping\07_sources_externes\synapse\source\lib;..\..\..\Elements\Tag_Work;..\..\..\Elements\Type_Tag;..\..\..\..\pascal_o_r_mapping\03_Data"/>
       <UnitOutputDirectory Value="..\obj\controls"/>
     </SearchPaths>
     <Parsing>
@@ -181,7 +187,7 @@
       </Options>
     </Linking>
     <Other>
-      <CustomOptions Value="-Xd -CfSoft -CpARMV6 -XParm-linux-androideabi- -FDC:\Users\root\LAMW\sdk\ndk-bundle\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\bin"/>
+      <CustomOptions Value="-Xd -CfVFPv3 -CpARMV7A -XParm-linux-androideabi- -FDC:\lamw_manager\LAMW\sdk\ndk-bundle\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\bin"/>
     </Other>
   </CompilerOptions>
   <Debugging>

@@ -7,7 +7,7 @@ interface
 
 uses
     uFrequence,
-    uFrequences,
+    uFrequences, uchChamp_Edit,
     uAndroid_Midi,
     uAudioTrack,
  {$IFDEF UNIX}{$IFDEF UseCThreads}
@@ -30,6 +30,10 @@ type
   eBasse: jEditText;
   eSoprano: jEditText;
   eTenor: jEditText;
+  hceAlto: ThChamp_Edit;
+  hceBasse: ThChamp_Edit;
+  hceSoprano: ThChamp_Edit;
+  hceTenor: ThChamp_Edit;
   Panel1: jPanel;
   TextView1: jTextView;
   procedure bAltoClick(Sender: TObject);
@@ -56,6 +60,10 @@ implementation
 //Malkiat izvor: tout en D4
 //Krassiv é Jivota: SA: E4 TB: E3
 //Proletna pessen; S E4, A C4, T G3, B C3
+
+//Vecer Soutrin tout en A3
+//Aoum  SAT A3, basse A2
+//Otche Nach S F4, A D4, T A3, B D3
 procedure TfChant.Initialise( _m: TAndroid_Midi);
 begin
      m:= _m;
@@ -86,8 +94,12 @@ procedure TfChant.Play_Note(_Note: String);
 begin
      //m.PlayNote( _Note, m.p_tenor_sax);
 
-     at.Stop;
+     //at.Stop;  //si mode AudioTrack.MODE_STATIC 0
+
+     at.Pause;at.Flush;//si mode AudioTrack.MODE_STREAM
+
      at_Play_Note( _Note);
+     at.SetVolume( 2);
 
      //TAudioTrack.Play( _Note);
      //TAudioTrack.Play_Old( _Note, 5);
@@ -109,13 +121,19 @@ begin
        at.Buffer[i]:= Trunc(Sample * SmallInt.MaxValue);  // Higher amplitude increases volume
        end;
      at.Write_Buffer_all;
+     WriteLn( ClassName+'.at_Play_Note: aprés at.Write_Buffer_all, ',
+              'at.GetState=',at.GetState,', ',
+              'at.getMaxVolume=',at.GetMaxVolume);
      at.Play;
 end;
 
 procedure TfChant.bStopClick(Sender: TObject);
 begin
      m.Stop;
-     at.Stop;
+
+     //at.Stop;  //si mode AudioTrack.MODE_STATIC 0
+     at.Pause;at.Flush;//si mode AudioTrack.MODE_STREAM
 end;
 
 end.
+

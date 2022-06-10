@@ -1,4 +1,4 @@
-package com.mars42.jsworks.jsworks;
+package com.mars42.jsWorks;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -11,21 +11,25 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -42,6 +46,10 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
+import java.nio.channels.FileChannel;
+
+import android.net.Uri;
 
 /**[by renabor]
  * A helper class to manage database creation and version management using 
@@ -65,32 +73,32 @@ import java.util.zip.ZipInputStream;
  * your app which uses a lower version number than a
  * previously-installed version will result in undefined behavior.</p>
  * 
- * Review by TR3E 2019/03/28
+ * Review by TR3E 2019/08/23
  */
 class SQLiteAssetHelper extends SQLiteOpenHelper {
 
-    private static SQLiteAssetHelper instance;
+    //private static SQLiteAssetHelper instance;
 
     private static final String TAG = SQLiteAssetHelper.class.getSimpleName();
     public static String ASSET_DB_PATH = "databases";
 
     private final Context mContext;
-    private String mName;
+
     private final CursorFactory mFactory;
     private final int mNewVersion;
-    private String DATABASE_NAME;
+    public static String DATABASE_NAME;
+    public static String DB_PATH;
+
     private int DATABASE_VERSION;
 
     private SQLiteDatabase mDatabase = null;
     private boolean mIsInitializing = false;
 
-    private String mDatabasePath;
-
     private String mAssetPath;
 
     private String mUpgradePathFormat;
 
-    private int mForcedUpgradeVersion = 0;
+    private int mForcedUpgradeVersion = 0;    
 
     /**
      * Create a helper object to create, open, and/or manage a database in 
@@ -116,19 +124,27 @@ class SQLiteAssetHelper extends SQLiteOpenHelper {
     
     public SQLiteAssetHelper(Context context, String name, String storageDirectory, CursorFactory factory, int version) {
         super(context, name, factory, version);
-        
-	    DATABASE_NAME = name;
-	    DATABASE_VERSION = version;
+	    
+
+        if (storageDirectory != null) {
+            DB_PATH = storageDirectory;
+        } else {
+            DB_PATH = context.getApplicationInfo().dataDir + "/databases";  //internal app database path
+        }
+
+        DATABASE_NAME = name;
+        DATABASE_VERSION = version;
+
 
         if (version < 1) throw new IllegalArgumentException("Version must be >= 1, was " + version);
         if (name == null) throw new IllegalArgumentException("Database name cannot be null");
 
         mContext = context;
-        mName = name;
+        
         mFactory = factory;
         mNewVersion = version;
         
-        if (IsFileInRootAssets(mName)) {
+        if (IsFileInRootAssets(DATABASE_NAME)) {
         	ASSET_DB_PATH = "";
         }
              	
@@ -137,11 +153,7 @@ class SQLiteAssetHelper extends SQLiteOpenHelper {
         else
         	mAssetPath =  name;
                      	        
-        if (storageDirectory != null) {
-            mDatabasePath = storageDirectory;
-        } else {
-            mDatabasePath = context.getApplicationInfo().dataDir + "/databases";  //internal app database path
-        }
+
                 
         if ( !ASSET_DB_PATH.equals("") )
            mUpgradePathFormat = ASSET_DB_PATH + "/" + name + "_upgrade_%s-%s.sql";
@@ -149,7 +161,7 @@ class SQLiteAssetHelper extends SQLiteOpenHelper {
            mUpgradePathFormat =  name + "_upgrade_%s-%s.sql";
     }
    
-   public synchronized static SQLiteAssetHelper getInstance(Context context) {
+   /*public synchronized static SQLiteAssetHelper getInstance(Context context) {
 	return instance;
     }
 
@@ -192,12 +204,13 @@ class SQLiteAssetHelper extends SQLiteOpenHelper {
     @Override
     public synchronized SQLiteDatabase getWritableDatabase() {
         
-        if (mDatabase != null && mDatabase.isOpen() && !mDatabase.isReadOnly()) {
-            return mDatabase;  // The database is already open for business
-        }
+        if (mDatabase != null)
+        	if (mDatabase.isOpen() && !mDatabase.isReadOnly())
+        		return mDatabase;  // The database is already open for business        
 
         if (mIsInitializing) {
-            throw new IllegalStateException("getWritableDatabase called recursively");
+            //throw new IllegalStateException("getWritableDatabase called recursively");
+        	return null;
         }
 
         // If we have a read-only database open, someone could be using it
@@ -206,17 +219,26 @@ class SQLiteAssetHelper extends SQLiteOpenHelper {
         // fail waiting for the file lock.  To prevent that, we acquire the
         // lock on the read-only database, which shuts out other users.
 
+        mIsInitializing = true;
         boolean success = false;
         SQLiteDatabase db = null;
         //if (mDatabase != null) mDatabase.lock();
-        try {
-            mIsInitializing = true;
-            //if (mName == null) {
+        try {        	
+            //if (DATABASE_NAME == null) {
             //    db = SQLiteDatabase.create(null);
             //} else {
-            //    db = mContext.openOrCreateDatabase(mName, 0, mFactory);
+            //    db = mContext.openOrCreateDatabase(DATABASE_NAME, 0, mFactory);
             //}
+        	if (mDatabase != null) {
+                try { mDatabase.close(); } catch (Exception e) { }                
+            }
+        	
             db = createOrOpenDatabase(false);
+            
+            if( db == null ){
+            	 mIsInitializing = false;
+            	 return null;
+            }
 
             int version = db.getVersion();
 
@@ -229,6 +251,7 @@ class SQLiteAssetHelper extends SQLiteOpenHelper {
 
             if (version != mNewVersion) {
                 db.beginTransaction();
+                
                 try {
                     if (version == 0) {
                         onCreate(db);
@@ -236,7 +259,7 @@ class SQLiteAssetHelper extends SQLiteOpenHelper {
                         if (version > mNewVersion) {
                             Log.w(TAG, "downgrade database from version " +
                                     version + " to " + mNewVersion + ": " + db.getPath());
-				db.setVersion(mNewVersion);
+                            db.setVersion(mNewVersion);
 				
                         }
                         onUpgrade(db, version, mNewVersion);
@@ -248,21 +271,22 @@ class SQLiteAssetHelper extends SQLiteOpenHelper {
                 }
             }
 
-            onOpen(db);
-            success = true;
-            return db;
+            onOpen(db);            
+            success = true;                        
         } finally {
-            mIsInitializing = false;
-            if (success) {
-                if (mDatabase != null) {
-                    try { mDatabase.close(); } catch (Exception e) { }
-                    //mDatabase.unlock();
-                }
+                       
+            if (success) {                
                 mDatabase = db;
+                
+                mIsInitializing = false;
+                return db;
             } else {
                 //if (mDatabase != null) mDatabase.unlock();
                 if (db != null) db.close();
             }
+            
+            mIsInitializing = false;
+            return null;
         }
 
     }
@@ -287,38 +311,54 @@ class SQLiteAssetHelper extends SQLiteOpenHelper {
      */
     @Override
     public synchronized SQLiteDatabase getReadableDatabase() {
-        if (mDatabase != null && mDatabase.isOpen()) {        	
-            return mDatabase;  // The database is already open for business
-        }
-
+        if( mDatabase != null )
+          if( mDatabase.isOpen() )         	
+             return mDatabase;  // The database is already open for business
+        
         if (mIsInitializing) {
-            throw new IllegalStateException("getReadableDatabase called recursively");
+            //throw new IllegalStateException("getReadableDatabase called recursively");
+        	return null;
         }
 
         try {
             return getWritableDatabase();
         } catch (SQLiteException e) {
-            if (mName == null) throw e;  // Can't open a temp database read-only!
-            Log.e(TAG, "Couldn't open " + mName + " for writing (will try read-only):", e);
+            //if (DATABASE_NAME == null) throw e;  // Can't open a temp database read-only!
+            if (DATABASE_NAME == null) return null;  // Can't open a temp database read-only!
+            //Log.e(TAG, "Couldn't open " + DATABASE_NAME + " for writing (will try read-only):", e);
         }
 
+        mIsInitializing = true;
         SQLiteDatabase db = null;
-        try {
-            mIsInitializing = true;
-            String path = mContext.getDatabasePath(mName).getPath();
+        
+        try {            
+            String path = mContext.getDatabasePath(DATABASE_NAME).getPath();
+            
+            if (mDatabase != null) {
+             try { mDatabase.close(); } catch (Exception e) { }                
+            }
+            
             db = SQLiteDatabase.openDatabase(path, mFactory, (SQLiteDatabase.OPEN_READONLY | SQLiteDatabase.NO_LOCALIZED_COLLATORS));
+            
+            if( db == null){
+             mIsInitializing = false;
+             return null;
+            }
+            
             if (db.getVersion() != mNewVersion) {
                 throw new SQLiteException("Can't upgrade read-only database from version " +
                         db.getVersion() + " to " + mNewVersion + ": " + path);
             }
 
             onOpen(db);// borsa.db_upgrade_1-2.sql
-            Log.w(TAG, "Opened " + mName + " in read-only mode");
-            mDatabase = db;
-            return mDatabase;
+            Log.w(TAG, "Opened " + DATABASE_NAME + " in read-only mode");
+            mDatabase = db;            
         } finally {
+        	
+            if ((db != null) && (db != mDatabase))  db.close();            
+            
             mIsInitializing = false;
-            if (db != null && db != mDatabase) db.close();
+            return mDatabase;
         }
         
     }
@@ -351,7 +391,7 @@ class SQLiteAssetHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        Log.w(TAG, "Upgrading database " + mName + " from version " + oldVersion + " to " + newVersion + "...");
+        Log.w(TAG, "Upgrading database " + DATABASE_NAME + " from version " + oldVersion + " to " + newVersion + "...");
 
         ArrayList<String> paths = new ArrayList<String>();
         getUpgradeFilePaths(oldVersion, newVersion-1, newVersion, paths);
@@ -382,7 +422,7 @@ class SQLiteAssetHelper extends SQLiteOpenHelper {
 		db.setVersion(newVersion);
 	    }	
         }
-        Log.w(TAG, "Successfully upgraded database " + mName + " from version " + oldVersion + " to " + db.getVersion());
+        Log.w(TAG, "Successfully upgraded database " + DATABASE_NAME + " from version " + oldVersion + " to " + db.getVersion());
 
     }
 
@@ -431,9 +471,9 @@ class SQLiteAssetHelper extends SQLiteOpenHelper {
         // to prevent the error trace in log on API 14+
 //	Log.w(TAG, "createOrOpenDatabase");
         SQLiteDatabase db = null;
-        File file = new File (mDatabasePath + "/" + mName);  //internal app database path
+        File file = new File (DB_PATH + "/" + DATABASE_NAME);  //internal app database path
         if (file.exists()) {
-//	    Log.w(TAG, "createOrOpenDatabase file.exist "+mDatabasePath+"/"+mName);
+//	    Log.w(TAG, "createOrOpenDatabase file.exist "+DB_PATH+"/"+DATABASE_NAME);
             db = returnDatabase();
         }
         //SQLiteDatabase db = returnDatabase();
@@ -456,31 +496,33 @@ class SQLiteAssetHelper extends SQLiteOpenHelper {
     }
     
     public SQLiteDatabase returnDatabase(String dbPath,  String dbName) throws IOException { //by jmpessoa    	
-    	mDatabasePath = dbPath;   //app internal database path 	    
-    	mName = dbName;
-    	DATABASE_NAME = mName;    	
+    	DB_PATH = dbPath;   //app internal database path 	    
+    	DATABASE_NAME = dbName;
         try {
-        	File file1 = new File(mDatabasePath);
+        	File file1 = new File(DB_PATH);
         	if(!file1.exists()){
-        		file1.mkdir();
+        		file1.mkdirs();
         	}
         	
-        	File file = new File(mDatabasePath + "/" + mName);
+        	File file = new File(DB_PATH + "/" + DATABASE_NAME);
         	if (!file.exists()) { 
-        		file.createNewFile();
-                                            	  
+                try {
+                 	file.createNewFile();
+                } catch (IOException e2) {
+                   Log.w(TAG, "could not create database " + DB_PATH + "/" +DATABASE_NAME + " - " + e2.getMessage());        	
+                }
             }
         	
         	if(file.exists()){
-        	  	mDatabase = SQLiteDatabase.openOrCreateDatabase(mDatabasePath + "/" + mName, mFactory);        	        	
-                Log.i(TAG, "successfully opened database " + mName);  
+        	  	mDatabase = SQLiteDatabase.openOrCreateDatabase(DB_PATH + "/" + DATABASE_NAME, mFactory);        	        	
+                Log.i(TAG, "successfully opened database " + DATABASE_NAME);  
         	}
         	else {
-            	 Log.i(TAG, "fail to open database, file not exists! " + mName);
+            	 Log.i(TAG, "fail to open database, file not exists! " + DB_PATH + "/" +DATABASE_NAME);
             }
         	
         } catch (SQLiteException e) {
-            Log.w(TAG, "could not open database " + mName + " - " + e.getMessage());
+            Log.w(TAG, "could not open database " + DB_PATH + "/" +DATABASE_NAME + " - " + e.getMessage());
             return null;
         }
 		return mDatabase;
@@ -488,11 +530,11 @@ class SQLiteAssetHelper extends SQLiteOpenHelper {
   
     private SQLiteDatabase returnDatabase(){
         try {
-            SQLiteDatabase db = SQLiteDatabase.openDatabase(mDatabasePath + "/" + mName, mFactory, (SQLiteDatabase.OPEN_READWRITE | SQLiteDatabase.NO_LOCALIZED_COLLATORS));
-//            Log.i(TAG, "successfully opened database " + mName);
+            SQLiteDatabase db = SQLiteDatabase.openDatabase(DB_PATH + "/" + DATABASE_NAME, mFactory, (SQLiteDatabase.OPEN_READWRITE | SQLiteDatabase.NO_LOCALIZED_COLLATORS));
+//            Log.i(TAG, "successfully opened database " + DATABASE_NAME);
             return db;
         } catch (SQLiteException e) {
-//            Log.w(TAG, "could not open database " + mName + " - " + e.getMessage());
+//            Log.w(TAG, "could not open database " + DATABASE_NAME + " - " + e.getMessage());
             return null;
         }
     }
@@ -501,7 +543,7 @@ class SQLiteAssetHelper extends SQLiteOpenHelper {
         Log.w(TAG, "copying database from assets...");
 
         String path = mAssetPath;
-        String dest = mDatabasePath + "/" + mName;
+        String dest = DB_PATH + "/" + DATABASE_NAME;
         InputStream is;
         boolean isZip = false;
 
@@ -526,8 +568,8 @@ class SQLiteAssetHelper extends SQLiteOpenHelper {
         }
 
         try {
-            File f = new File(mDatabasePath + "/");
-            if (!f.exists()) { f.mkdir(); }
+            File f = new File(DB_PATH + "/");
+            if (!f.exists()) { f.mkdirs(); }
             if (isZip) {
                 ZipInputStream zis = Utils.getFileFromZip(is);
                 if (zis == null) {
@@ -624,19 +666,20 @@ public class jSqliteDataAccess extends SQLiteAssetHelper {
 
  private String[] storeTableCreateQuery = new String[30]; //max (30) create tables scripts
  private String[] storeTableName = new String[30]; //max (30)  tables name
-
+ 
  private int countTableName = 0;
  private int countTableQuery = 0;
- private int rowCount = 0;
-
+ 
  private SQLiteDatabase mydb = null;
-
- public Cursor cursor = null;
-
+ 
+ public Cursor mCursor = null;	
+ 
  public Bitmap bufBmp = null;
+ 
+ private ContentValues mContentValues = null;
 
- private static String DATABASE_NAME;
- private static String DB_PATH;
+ //private static String DATABASE_NAME;
+ //private static String DB_PATH;
  private static final int DATABASE_VERSION = 1;
 
  char selectColDelimiter;
@@ -697,15 +740,180 @@ public class jSqliteDataAccess extends SQLiteAssetHelper {
   controls = ctrls;
   selectColDelimiter = colDelim;
   selectRowDelimiter = rowDelim;
-  DATABASE_NAME = dbName;
-  DB_PATH = controls.activity.getDatabasePath(dbName).getPath();
+
+  mContentValues = new ContentValues();
  }
 
- //by jmpessoa
  public void OpenOrCreate(String dataBaseName) throws IOException { 
-   String DATABASE_NAME = dataBaseName;  
-   DB_PATH = controls.activity.getApplicationInfo().dataDir + "/databases"; 
+
+   //default
+   DATABASE_NAME = dataBaseName;
+   DB_PATH = controls.activity.getApplicationInfo().dataDir + "/databases";
+
+   //by Tomash
+   File file = new File(dataBaseName);
+   if (file != null) {
+     String path = file.getParent();
+     if (path != null) {
+       File dir =  new File(path);
+       if (dir != null) {
+         if (dir.exists()) {
+            String filename = file.getName();
+            if (!filename.equals("")) {
+                DATABASE_NAME = filename;
+                DB_PATH = path;
+            }
+         }
+       }  
+     }
+   } 
+ 
    mydb = returnDatabase(DB_PATH, DATABASE_NAME);  
+ }
+ 
+ public boolean DBExport(String dbExportDir, String dbExportFileName) {
+	 
+	 /*InputStream in=null;
+     OutputStream out=null;
+     try {
+         in  = controls.activity.getContentResolver().openInputStream(_fromTreeUri);
+         out = controls.activity.getContentResolver().openOutputStream(_toTreeUri);
+             byte[] buf = new byte[1024];
+             int len;
+             while ((len = in.read(buf)) > 0) {
+                 out.write(buf, 0, len);
+             }
+     } catch (FileNotFoundException e) {
+         e.printStackTrace();
+     } catch (IOException e) {
+         e.printStackTrace();
+     }*/
+     
+	 // RequestRuntimePermission 'android.permission.WRITE_EXTERNAL_STORAGE'
+     try {         
+    	     File currentDB = new File(controls.activity.getDatabasePath(DATABASE_NAME).getAbsolutePath());
+         
+             if(currentDB == null) return false;
+             
+             //Uri.fromFile(currentDB)
+             
+             File fileDir = new File(dbExportDir);
+ 	         fileDir.mkdirs();
+ 	         File backupDB = new File(dbExportDir + File.separator + dbExportFileName);
+ 	         
+ 	         if(backupDB == null) return false;
+ 	                     
+             FileChannel src = new FileInputStream(currentDB).getChannel();
+             FileChannel dst = new FileOutputStream(backupDB).getChannel();
+             
+             dst.transferFrom(src, 0, src.size());
+             src.close();
+             dst.close();             
+             
+             return true;
+         
+     } catch (Exception e) {
+    	 
+    	 return false;         
+
+     }
+ }
+
+ // Android 11
+ public boolean DBExport(Uri _toTreeUri) {
+	 
+	 if( _toTreeUri == null ) return false;
+	 
+	 File currentDB = new File(controls.activity.getDatabasePath(DATABASE_NAME).getAbsolutePath());
+     
+     if(currentDB == null) return false;
+     
+     Uri _fromTreeUri = Uri.fromFile(currentDB);
+	 
+	 InputStream  in  = null;
+     OutputStream out = null;
+     try {
+         in  = controls.activity.getContentResolver().openInputStream(_fromTreeUri);
+         out = controls.activity.getContentResolver().openOutputStream(_toTreeUri);
+         
+         byte[] buf = new byte[1024];
+         int len;
+             
+         while ((len = in.read(buf)) > 0) 
+            out.write(buf, 0, len);
+             
+     } catch (FileNotFoundException e) {
+         e.printStackTrace();
+         return false;
+     } catch (IOException e) {
+         e.printStackTrace();
+         return false;
+     }
+     
+     return true;
+ }
+ 
+ // Android 11
+ public boolean DBImport(Uri _fromTreeUri) {
+	
+	if( _fromTreeUri == null ) return false;
+	
+	this.Free();
+	
+	File currentDB = new File(controls.activity.getDatabasePath(DATABASE_NAME).getAbsolutePath());
+    
+    if(currentDB == null) return false;
+    
+    Uri _toTreeUri = Uri.fromFile(currentDB);
+	 
+	InputStream  in  = null;
+    OutputStream out = null;
+    try {
+        in  = controls.activity.getContentResolver().openInputStream(_fromTreeUri);
+        out = controls.activity.getContentResolver().openOutputStream(_toTreeUri);
+        
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = in.read(buf)) > 0) 
+                out.write(buf, 0, len);        
+            
+        OpenOrCreate(DATABASE_NAME);
+    } catch (FileNotFoundException e) {
+        e.printStackTrace();
+        return false;
+    } catch (IOException e) {
+        e.printStackTrace();
+        return false;
+    }
+      
+    return true;
+ }
+ 
+ public boolean DBImport(String dbImportFileFull) {
+     
+	 // RequestRuntimePermission 'android.permission.WRITE_EXTERNAL_STORAGE'
+     try {         
+    	     this.Free();
+    	     
+             File currentDB = new File(controls.activity.getDatabasePath(DATABASE_NAME).getAbsolutePath());                                      
+             File backupDB  = new File(dbImportFileFull);
+             
+             if( (backupDB == null) || (currentDB == null) ) return false;    	         	     
+
+             FileChannel src = new FileInputStream(backupDB).getChannel();
+             FileChannel dst = new FileOutputStream(currentDB).getChannel();
+             dst.transferFrom(src, 0, src.size());
+             src.close();
+             dst.close();
+             
+             OpenOrCreate(DATABASE_NAME);
+         
+             return true;
+         
+     } catch (Exception e) {
+
+         return false;
+     }
  }
 
  public void SetVersion(int version) {
@@ -723,28 +931,6 @@ public class jSqliteDataAccess extends SQLiteAssetHelper {
   }else
    return 0;
  }
- 
- public int GetRowCount() {
-  return rowCount;
- }
-
- private int GetDrawableResourceId(String _resName) {
-  try {
-   Class < ? > res = R.drawable.class;
-   Field field = res.getField(_resName); //"drawableName"
-   int drawableId = field.getInt(null);
-   return drawableId;
-  } catch (Exception e) {
-   Log.e("jSqliteDataAccess", "Failure to get drawable id.", e);
-   return 0;
-  }
- }
-
- private Drawable GetDrawableResourceById(int _resID) {
-  if( _resID == 0 ) return null; // by tr3e
-  
-  return this.controls.activity.getResources().getDrawable(_resID);
- }
 
  public boolean UpdateImage(String tabName, String imageFieldName, String keyFieldName, Bitmap imageValue, int keyValue) {
   SQLiteDatabase mydb = getWritableDatabase();
@@ -759,8 +945,9 @@ public class jSqliteDataAccess extends SQLiteAssetHelper {
   byte[] image_byte = stream.toByteArray();
   //Log.i("UpdateImage","UPDATE " + tabName + " SET "+imageFieldName+" = ? WHERE "+keyFieldName+" = ?");
 
+  mydb.beginTransaction();
+  
   try {
-   mydb.beginTransaction();
 	  
    mydb.execSQL("UPDATE " + tabName + " SET " + imageFieldName + " = ? WHERE " + keyFieldName + " = ?", new Object[] {
     image_byte,
@@ -788,8 +975,9 @@ public class jSqliteDataAccess extends SQLiteAssetHelper {
   
   boolean result = false;
   
-  try {
-   mydb.beginTransaction();
+  mydb.beginTransaction();
+  
+  try { 
 	  
    mydb.execSQL("UPDATE " + tabName + " SET " + imageFieldName + " = ? WHERE " + keyFieldName + " = ?", new Object[] {
     imageValue,
@@ -807,7 +995,6 @@ public class jSqliteDataAccess extends SQLiteAssetHelper {
   }
   
   return result;
-  
  }
 
  public String Select(String selectQuery) { //return String
@@ -820,47 +1007,59 @@ public class jSqliteDataAccess extends SQLiteAssetHelper {
   String rows = "";
   String colValue;
   String headerRow;
-  int colCount;
   int i;
   String allRows = "";
   
   try {
-   cursor = mydb.rawQuery(selectQuery, null);
-   rowCount = cursor.getCount();
-   colCount = cursor.getColumnCount();
-   headerRow = "";
+   if( mCursor != null ){	   
+	   mCursor.close();
+	   mCursor = null;
+   }
+	  
+   mCursor = mydb.rawQuery(selectQuery, null);
    
-   for (i = 0; i < colCount; i++) {
-      headerRow = headerRow + cursor.getColumnName(i) + selectColDelimiter;
+   if(mCursor == null){
+	   mydb.close();
+	   return "";
    }
    
-   if (rowCount == 0) {	   
+   int RowCount    = mCursor.getCount();
+   int ColumnCount = mCursor.getColumnCount();
+   headerRow = "";
+   
+   for (i = 0; i < ColumnCount; i++) {
+      headerRow = headerRow + mCursor.getColumnName(i) + selectColDelimiter;
+   }
+   
+   if (RowCount == 0) {
+	 mydb.close();
+	 
 	 if (mReturnHeaderOnSelect)
 	    return  headerRow;
 	 else
-		 return  "";
+	    return  "";
    }
       
    headerRow = headerRow.substring(0, headerRow.length() - 1);
    
-   if (cursor.moveToFirst()) {
+   if (mCursor.moveToFirst()) {
 	   
     do {
     	
      row = "";
      colValue = "";
      
-     for (i = 0; i < colCount; i++) {
-        switch (cursor.getType(i)) {
+     for (i = 0; i < ColumnCount; i++) {
+        switch (mCursor.getType(i)) {
         
         case Cursor.FIELD_TYPE_INTEGER:
-              colValue = Integer.toString(cursor.getInt(i));
+              colValue = Integer.toString(mCursor.getInt(i));
         break;
         case Cursor.FIELD_TYPE_STRING:
-              colValue = cursor.getString(i);
+              colValue = mCursor.getString(i);
         break;
         case Cursor.FIELD_TYPE_FLOAT:
-              colValue = String.format("%.3f", cursor.getFloat(i));
+              colValue = String.format(Locale.US, "%.3f", mCursor.getFloat(i));
         break;
         case Cursor.FIELD_TYPE_BLOB:
               colValue = "BLOB";
@@ -880,7 +1079,7 @@ public class jSqliteDataAccess extends SQLiteAssetHelper {
      row = row.substring(0, row.length() - 1);
      rows = rows + row + selectRowDelimiter;
 
-    } while ( cursor.moveToNext() );
+    } while ( mCursor.moveToNext() );
     
    }
    
@@ -891,39 +1090,51 @@ public class jSqliteDataAccess extends SQLiteAssetHelper {
    else
 	  allRows = rows; 
    
-  } catch (SQLiteException se) {
-	   if (mydb != null) mydb.close();
+  } catch (SQLiteException se) {	   
 	   allRows = "";
        Log.e(getClass().getSimpleName(), "Could not select:" + selectQuery);
   }
   
-  cursor.moveToFirst();  //reset cursor ...
-  if (mydb != null) mydb.close();
+  if(mCursor != null)
+   mCursor.moveToFirst();  //reset cursor ...
 
   return allRows;
  }
 
  public boolean Select(String selectQuery, boolean moveToLast) { //just set the cursor! return void..
+	 
   SQLiteDatabase mydb = getReadableDatabase();
   
   if( mydb == null ) return false;
   
+  int RowCount    = 0;
+  int ColumnCount = 0;
+  
   try {
-   this.cursor = mydb.rawQuery(selectQuery, null);
-   rowCount = this.cursor.getCount();
+   if( mCursor != null ){	   
+	   mCursor.close();
+	   mCursor = null;	   
+   }
+	  
+   this.mCursor = mydb.rawQuery(selectQuery, null);
    
-   if (rowCount > 0)
-   {
-    if (!moveToLast)
-      this.cursor.moveToFirst();
-    else
-	  this.cursor.moveToLast();
+   if( this.mCursor != null ){
+	RowCount    = mCursor.getCount();
+	ColumnCount = mCursor.getColumnCount();
+   
+    if (RowCount > 0)
+    {
+     if (!moveToLast)
+      this.mCursor.moveToFirst();
+     else
+	  this.mCursor.moveToLast();
+    }
    }
    
-   mydb.close();
+   return (RowCount > 0);
    
-   return (rowCount > 0);
-  } catch (SQLiteException se) {   
+  } catch (SQLiteException se) {
+   
    Log.e(getClass().getSimpleName(), "Could not select:" + selectQuery);
    return false;
   }
@@ -931,7 +1142,11 @@ public class jSqliteDataAccess extends SQLiteAssetHelper {
  }
 
  public Cursor GetCursor() {
-  if (this.cursor != null) return this.cursor;
+  
+  if (this.mCursor != null){
+	  return this.mCursor;
+  }
+  
   return null;
  }
 
@@ -996,8 +1211,9 @@ public class jSqliteDataAccess extends SQLiteAssetHelper {
    mydb = null;
   }
   
-  if (this.cursor != null) {
-   this.cursor.close(); // = null;
+  if (mCursor != null) {
+   mCursor.close(); // = null;
+   mCursor = null;
   }
   
  }
@@ -1027,7 +1243,7 @@ public class jSqliteDataAccess extends SQLiteAssetHelper {
  public void DeleteDatabase(String _dbName) {
   SQLiteDatabase mydb = getWritableDatabase();
   
-  if (this.cursor != null) this.cursor.close();  
+  if (mCursor != null) {mCursor.close(); mCursor = null;}  
   if (mydb != null) mydb.close();
   
   //Log.i("sqlitehelper DeleteDb", "delete " + _dbName);
@@ -1036,34 +1252,221 @@ public class jSqliteDataAccess extends SQLiteAssetHelper {
 
 
     public boolean ExecSQL(String execQuery) {
+    	
         SQLiteDatabase mydb = getWritableDatabase();
 
         if( mydb == null ) return false;
 
         boolean result = false;
+        
+        mydb.beginTransaction();
 
         try {
-            mydb.beginTransaction();
-
-            try {
                 mydb.execSQL(execQuery); //Execute a single SQL statement that is NOT a SELECT or any other SQL statement that returns data.
                 //Set the transaction flag is successful, the transaction will be submitted when the end of the transaction
                 mydb.setTransactionSuccessful();
                 result = true;
-            } catch (Exception e) {
+        } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
+        } finally {
                 // transaction over
                 mydb.endTransaction();
                 mydb.close();
-            }
-
-        } catch (SQLiteException e) {
-            Log.e(getClass().getSimpleName(), "Could not execute: " + execQuery);
-        }
+        }                        
 
         return result;
 
+    }
+    
+    public long Insert(String _tableName) {
+    	
+    	if( mContentValues == null ) return -1;
+    	
+        SQLiteDatabase mydb = getWritableDatabase();
+
+        if( mydb == null ) return -1;                            
+
+        long nInsert = -1;
+        
+        mydb.beginTransaction();
+
+        try {
+        	    nInsert = mydb.insert(_tableName, null, mContentValues); //Execute a single SQL statement that is NOT a SELECT or any other SQL statement that returns data.
+                //Set the transaction flag is successful, the transaction will be submitted when the end of the transaction
+                mydb.setTransactionSuccessful();                
+        } catch (Exception e) {
+        	    nInsert = -1;
+                e.printStackTrace();
+        } finally {
+                // transaction over
+                mydb.endTransaction();
+                mydb.close();
+        }
+        
+        return nInsert;
+
+    }
+    
+    public int Update(String _tableName, String _whereClause, String[] _whereArgs){
+    	SQLiteDatabase mydb = getWritableDatabase();
+
+        if( mydb == null ) return 0;                            
+
+        int nUpdate = 0;
+        
+        mydb.beginTransaction();
+
+        try {
+        	    nUpdate = mydb.update(_tableName, mContentValues, _whereClause, _whereArgs); //Execute a single SQL statement that is NOT a SELECT or any other SQL statement that returns data.
+                //Set the transaction flag is successful, the transaction will be submitted when the end of the transaction
+                mydb.setTransactionSuccessful();                
+        } catch (Exception e) {
+        	    nUpdate = 0;
+                e.printStackTrace();
+        } finally {
+                // transaction over
+                mydb.endTransaction();
+                mydb.close();
+        }       
+        
+        return nUpdate;
+    }
+    
+    public int UpdateAll(String _tableName){
+    	SQLiteDatabase mydb = getWritableDatabase();
+
+        if( mydb == null ) return 0;                            
+
+        int nUpdate = 0;
+        
+        mydb.beginTransaction();
+
+        try {
+        	    nUpdate = mydb.update(_tableName, mContentValues, null, null); //Execute a single SQL statement that is NOT a SELECT or any other SQL statement that returns data.
+                //Set the transaction flag is successful, the transaction will be submitted when the end of the transaction
+                mydb.setTransactionSuccessful();                
+        } catch (Exception e) {
+        	    nUpdate = 0;
+                e.printStackTrace();
+        } finally {
+                // transaction over
+                mydb.endTransaction();
+                mydb.close();
+        }       
+        
+        return nUpdate;
+    }
+    
+    public int Delete(String _tableName, String _whereClause, String[] _whereArgs){
+    	SQLiteDatabase mydb = getWritableDatabase();
+
+        if( mydb == null ) return 0;                            
+
+        int nDelete = 0;
+        
+        mydb.beginTransaction();
+
+        try {
+        	    nDelete = mydb.delete(_tableName, _whereClause, _whereArgs); //Execute a single SQL statement that is NOT a SELECT or any other SQL statement that returns data.
+                //Set the transaction flag is successful, the transaction will be submitted when the end of the transaction
+                mydb.setTransactionSuccessful();                
+        } catch (Exception e) {
+        	    nDelete = 0;
+                e.printStackTrace();
+        } finally {
+                // transaction over
+                mydb.endTransaction();
+                mydb.close();
+        }
+        
+        return nDelete;
+    }
+    
+    public int DeleteAll(String _tableName){
+    	SQLiteDatabase mydb = getWritableDatabase();
+
+        if( mydb == null ) return 0;                            
+
+        int nDelete = 0;
+        
+        mydb.beginTransaction();
+
+        try {
+        	    nDelete = mydb.delete(_tableName, null, null); //Execute a single SQL statement that is NOT a SELECT or any other SQL statement that returns data.
+                //Set the transaction flag is successful, the transaction will be submitted when the end of the transaction
+                mydb.setTransactionSuccessful();                
+        } catch (Exception e) {
+        	    nDelete = 0;
+                e.printStackTrace();
+        } finally {
+                // transaction over
+                mydb.endTransaction();
+                mydb.close();
+        }
+        
+        return nDelete;
+    }
+    
+    public void ContentValuesClear( ){
+    	if( mContentValues == null ) return;
+    	
+    	mContentValues.clear();	
+    }
+    
+    public void PutString( String _colum, String _value ){
+    	if((mContentValues == null) || (_colum == null)) return;    	
+    	if(_colum.length() <= 0) return;
+    	
+    	mContentValues.put(_colum, _value);	
+    }
+    
+    public void PutShort( String _colum, short _value ){
+    	if((mContentValues == null) || (_colum == null)) return;
+    	if(_colum.length() <= 0) return;
+    	
+    	mContentValues.put(_colum, _value);	
+    }
+    
+    public void PutLong( String _colum, long _value ){
+    	if((mContentValues == null) || (_colum == null)) return;
+    	if(_colum.length() <= 0) return;
+    	
+    	mContentValues.put(_colum, _value);	
+    }
+    
+    public void PutDouble( String _colum, double _value ){
+    	if((mContentValues == null) || (_colum == null)) return;
+    	if(_colum.length() <= 0) return;
+    	
+    	mContentValues.put(_colum, _value);	
+    }
+    
+    public void PutInteger( String _colum, int _value ){
+    	if((mContentValues == null) || (_colum == null)) return;
+    	if(_colum.length() <= 0) return;
+    	
+    	mContentValues.put(_colum, _value);	
+    }
+    
+    public void PutBoolean( String _colum, boolean _value ){
+    	if((mContentValues == null) || (_colum == null)) return;
+    	if(_colum.length() <= 0) return;
+    	
+    	mContentValues.put(_colum, _value);	
+    }
+    
+    public void PutFloat( String _colum, float _value ){
+    	if((mContentValues == null) || (_colum == null)) return;
+    	if(_colum.length() <= 0) return;
+    	
+    	mContentValues.put(_colum, _value);	
+    }
+    
+    public void PutByte( String _colum, byte _value ){
+    	if((mContentValues == null) || (_colum == null)) return;
+    	if(_colum.length() <= 0) return;
+    	
+    	mContentValues.put(_colum, _value);	
     }
 
  /*
@@ -1080,7 +1483,7 @@ public class jSqliteDataAccess extends SQLiteAssetHelper {
   boolean result = false;
 	  
   ByteArrayOutputStream stream = new ByteArrayOutputStream();
-  Drawable d = GetDrawableResourceById(GetDrawableResourceId(_imageResIdentifier));
+  Drawable d = controls.GetDrawableResourceById(controls.GetDrawableResourceId(_imageResIdentifier));
   
   if( d == null ) return false;
   
@@ -1088,9 +1491,10 @@ public class jSqliteDataAccess extends SQLiteAssetHelper {
   bufBmp.compress(CompressFormat.PNG, 0, stream);        	
   byte[] image_byte = stream.toByteArray();
   
+  mydb.beginTransaction();
+  
   try {
-   mydb.beginTransaction();
-	  
+   	  
    mydb.execSQL("UPDATE " + _tabName + " SET " + _imageFieldName + " = ? WHERE " + _keyFieldName + " = ?", new Object[] {
     image_byte,
     _keyValue
@@ -1114,62 +1518,57 @@ public class jSqliteDataAccess extends SQLiteAssetHelper {
 
  public boolean InsertIntoTableBatch(String[] _insertQueries) {
      SQLiteDatabase mydb = getWritableDatabase();
-     boolean r = false;
+     
      if( mydb == null ) return false;
+     
+     boolean result = false;
+     
+     mydb.beginTransaction();
+     
      try {
-         mydb.beginTransaction();
-         int i;
-         int len = _insertQueries.length;
-         for (i = 0; i < len; i++) {
+                  
+         for (int i = 0; i < _insertQueries.length; i++) {
              mydb.execSQL(_insertQueries[i]);
          }
          //Set the transaction flag is successful, the transaction will be submitted when the end of the transaction
          mydb.setTransactionSuccessful();
-         r = true;
-     } catch (Exception e) {
-         r = false;
+         result = true;
+     } catch (Exception e) {    	 
          e.printStackTrace();
      } finally {
          //transaction over
-         if (r)
-             mydb.endTransaction();
-         else
-             r = false;
+         mydb.endTransaction();
          mydb.close();
      }
-     return r;
+     return result;
  }
 
  public boolean UpdateTableBatch(String[] _updateQueries) {
      SQLiteDatabase mydb = getWritableDatabase();
-
-     boolean r = false;
-     int i;
-     int len = _updateQueries.length;
-
+     
      if(mydb == null) return false;
 
+     boolean result = false;     
+
+     mydb.beginTransaction();
+     
      try {
-         mydb.beginTransaction();
-         for (i = 0; i < len; i++) {
+        
+         for (int i = 0; i < _updateQueries.length; i++) {
              mydb.execSQL(_updateQueries[i]);
          }
         //Set the transaction flag is successful, the transaction will be submitted when the end of the transaction
          mydb.setTransactionSuccessful();
-         r = true;
-     } catch (Exception e) {
-         r = false;
+         result = true;
+     } catch (Exception e) {    	 
          e.printStackTrace();
      } finally {
-         // transaction over
-         if (r)
-             mydb.endTransaction();
-         else
-             r = false;
-
+         // transaction over         
+         mydb.endTransaction();         
          mydb.close();
      }
-     return r;
+     
+     return result;
  }
 
 	//Check if the database exist... 
@@ -1195,7 +1594,8 @@ public class jSqliteDataAccess extends SQLiteAssetHelper {
 	
 	//ex. 'tablebook|FIGURE|_ID|ic_t1|1'
     private void SplitUpdateImageData(String _imageResIdentifierData, String _delimiter) {
-    	String[] tokens = _imageResIdentifierData.split("\\"+_delimiter);  //ex. "|"
+    	//String[] tokens = _imageResIdentifierData.split("\\"+_delimiter);  //ex. "|"
+        String[] tokens = _imageResIdentifierData.split(Pattern.quote(_delimiter));  //ex. "|"
     	String _tabName = tokens[0];
     	String _imageFieldName = tokens[1]; 
     	String _keyFieldName = tokens[2];
@@ -1272,12 +1672,12 @@ public class jSqliteDataAccess extends SQLiteAssetHelper {
 
         @Override
         protected String doInBackground(String... args) {
-                data = args;
-                int i;
-                int len = data.length;
-                try {
-                    mydb.beginTransaction();
-                    for (i = 0; i < len; i++) {
+                data = args;                
+                
+                mydb.beginTransaction();
+                
+                try {                   
+                    for (int i = 0; i < data.length; i++) {
                         mydb.execSQL(data[i]);
                         count++;
                     }
@@ -1296,7 +1696,7 @@ public class jSqliteDataAccess extends SQLiteAssetHelper {
                  case 2: msgResult = "[Async Insert Task] Success!! SQL Queries Executed!"; break;
                 }
 
-                return null;
+                return "";
         }
 
         @Override

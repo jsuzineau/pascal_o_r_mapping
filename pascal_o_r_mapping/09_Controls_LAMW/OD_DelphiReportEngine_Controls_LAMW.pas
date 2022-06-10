@@ -8,13 +8,15 @@ unit OD_DelphiReportEngine_Controls_LAMW;
 interface
 
 uses
- ucjChamp_Edit, LazarusPackageIntf;
+ ucjChamp_Edit, utcTruc, uchChamp_Edit, LazarusPackageIntf;
 
 implementation
 
 procedure Register;
 begin
   RegisterUnit('ucjChamp_Edit', @ucjChamp_Edit.Register);
+  RegisterUnit('utcTruc', @utcTruc.Register);
+  RegisterUnit('uchChamp_Edit', @uchChamp_Edit.Register);
 end;
 
 initialization

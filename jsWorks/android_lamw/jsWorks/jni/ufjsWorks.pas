@@ -43,10 +43,10 @@ uses
     upool,
     upoolWork,
 
-    ufAccueil_Erreur, ucjChamp_Edit,
+    ufAccueil_Erreur, 
     ufTest_SQLiteDataAccess,
     ufUtilitaires, ufWork,
-  Classes, SysUtils, DB,Laz_And_Controls,AndroidWidget, menu, And_jni;
+  Classes, SysUtils, DB,Laz_And_Controls,AndroidWidget, menu, And_jni, uchChamp_Edit;
 
 type
  { TfjsWorks }
@@ -55,11 +55,15 @@ type
  =
   class(jForm)
 			bDemarrer: jButton;
-			jceBeginning: TjChamp_Edit;
-				jceBeginning2: TjChamp_Edit;
-				jceDescription: TjChamp_Edit;
-				jceEnd: TjChamp_Edit;
-				jceEnd1: TjChamp_Edit;
+			jceBeginning: jEditText;
+				jceBeginning2: jEditText;
+				jceDescription: jEditText;
+				jceEnd: jEditText;
+				jceEnd1: jEditText;
+				hceBeginning2 : ThChamp_Edit;
+				hceDescription: ThChamp_Edit;
+				hceEnd        : ThChamp_Edit;
+				hceEnd1       : ThChamp_Edit;
 				jm: jMenu;
 				jpBeginning: jPanel;
 				jpEnd: jPanel;
@@ -119,7 +123,7 @@ begin
 
            bl.Description:= 'Test';
            WriteLn( ClassName+'.Edit, avant Champs_Affecte');
-           Champs_Affecte( bl, [jceBeginning, jceEnd, jceDescription]);
+//           Champs_Affecte( bl, [jceBeginning, jceEnd, jceDescription]);
            WriteLn( ClassName+'.Edit, aprés Champs_Affecte');
      		 except
               on E: Exception

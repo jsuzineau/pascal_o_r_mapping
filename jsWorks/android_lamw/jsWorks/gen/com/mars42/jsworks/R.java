@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.mars42.jsworks.jsworks;
+package com.mars42.jsWorks;
 
 public final class R {
     public static final class attr {

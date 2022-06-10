@@ -1,4 +1,4 @@
-package com.mars42.jsworks.jsworks;
+package com.mars42.jsWorks;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
