@@ -5,6 +5,7 @@ unit uAndroid_Midi;
 interface
 
 uses
+    uFrequence,
  Classes, SysUtils, midimanager;
 
 type
@@ -31,7 +32,6 @@ type
        procedure PlayNote( _N: Integer; _Patch: Integer = p_Acoustic_Grand_Piano); overload;
        procedure PlayNote( _S: String; _Patch: Integer = p_Acoustic_Grand_Piano); overload;
        procedure PlayRandomNote;
-       class function Midi_from_note( _note: String): Integer;
      end;
 
 implementation
@@ -58,6 +58,7 @@ end;
 
 procedure TAndroid_Midi.PlayNote(_N: Integer; _Patch: Integer = p_Acoustic_Grand_Piano);
 begin
+     Writeln(Classname+'.PlayNote(',_N,',',_Patch,')');
      if not MM.Active then exit;
 
      if 0 <> Last_note then MM.PlayChNoteVol(1, Last_note, 0);
@@ -66,6 +67,7 @@ begin
      //ShowMessage(ClassName+'.PlayNote: '+IntToStr( _N));
      MM.SetChPatch(1, _Patch);
      MM.SetChVol(1, 90);  // channel 1 volume 90
+     Writeln(Classname+'.PlayNote: avant MM.PlayChNoteVol');
      MM.PlayChNoteVol(1, _N, 80);  // play the note
      //Sleep(500);  // wait a little
      //MM.PlayChNoteVol(1, _N, 0); // silence the note
@@ -93,48 +95,6 @@ begin
      MM.PlayChNoteVol(1, N, 80);  // play the note
      Sleep(500);  // wait a little
      MM.PlayChNoteVol(1, N, 0); // silence the note
-end;
-
-class function TAndroid_Midi.Midi_from_note( _note: String): Integer;
-//C4=60
-   function Base_from_Octave( _Octave:Integer): Integer;
-   begin
-        case _Octave
-        of
-          -1:   Result:=   0;
-           0:   Result:=  12;
-           1:   Result:=  24;
-           2:   Result:=  36;
-           3:   Result:=  48;
-           4:   Result:=  60;
-           5:   Result:=  72;
-           6:   Result:=  84;
-           7:   Result:=  96;
-           8:   Result:= 108;
-          else Result:= 0;
-          end;
-   end;
-   function Offset_from_Note( _Note: Char): Integer;
-   begin
-        case _Note
-        of
-          'C':   Result:=  0;
-          'D':   Result:=  2;
-          'E':   Result:=  4;
-          'F':   Result:=  5;
-          'G':   Result:=  7;
-          'A':   Result:=  9;
-          'B':   Result:= 11;
-          else   Result:=  0;
-          end;
-   end;
-var
-   Octave: Integer;
-   Note: Char;
-begin
-     Octave:= StrToInt( Copy(_Note, 2, 1));
-     Note:= _Note[1];
-     Result:= Base_from_Octave( Octave)+Offset_from_Note( Note);
 end;
 
 end.
