@@ -35,7 +35,7 @@ uses
     uChampDefinitions,
     uChamp,
     uChamps,
-  SysUtils, Classes, DB,math;
+  SysUtils, Classes, math;
 
 type
 

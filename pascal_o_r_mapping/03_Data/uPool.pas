@@ -57,7 +57,9 @@ uses
   blcksock, Synautil, fphttpclient,
   {$endif}
   SysUtils, Variants, Classes,
-  FMTBcd, DB, mysql51conn, SQLDB, Math, BufDataSet;
+  FMTBcd,
+  DB,
+  Math;
 
 
 var
@@ -197,11 +199,11 @@ type
                                  slLoaded : TBatpro_StringList = nil;
                                  btsLoaded: TbtString          = nil;
                                  N: Integer= -1);
-    //procedure Direct_Load_by_id( SQL: String;
+    // procedure Direct_Load_by_id( SQL: String;
     //                             fID: String;
     //                             slLoaded : TBatpro_StringList = nil;
     //                             btsLoaded: TbtString          = nil);
-    //procedure Direct_Load_N_rows_by_id( MySQLResult: TMySQLResult;
+    // procedure Direct_Load_N_rows_by_id( MySQLResult: TMySQLResult;
     //                             fID: String;
     //                             slLoaded : TBatpro_StringList = nil;
     //                             btsLoaded: TbtString          = nil;
@@ -610,7 +612,7 @@ begin
      if Assigned( Classe_Filtre)
      then
          begin
-         hf:= Classe_Filtre.Create( nil, btsCle, slFiltre, Tri);
+         hf:= Classe_Filtre.Create( btsCle, slFiltre, Tri);
          hf.AfterExecute:= hf_AfterExecute;
          end
      else

@@ -33,7 +33,6 @@ uses
   ublTag,
 
   udmDatabase,
-  udmBatpro_DataModule,
   uPool,
   
 

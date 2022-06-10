@@ -35,7 +35,6 @@ uses
     uChamps,
     ujsDataContexte,
     udmDatabase,
-    udmBatpro_DataModule,
   SysUtils,Classes, FMTBcd, DB, SQLDB;
 
 type

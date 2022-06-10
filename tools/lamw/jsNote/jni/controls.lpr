@@ -5,8 +5,9 @@ library controls;  //by Lamw: Lazarus Android Module Wizard: 7/5/2015 1:29:10]
  
 uses
   Classes, SysUtils, And_jni, And_jni_Bridge, AndroidWidget, Laz_And_Controls,
-  Laz_And_Controls_Events, ufjsNote, ufChant, uAndroid_Midi, uAudioTrack,
-  uFrequences;
+  Laz_And_Controls_Events, fphttpclient, blcksock, ufjsNote, ufChant,
+  uAndroid_Midi, uAudioTrack, ublChant, upoolChant, uhfChant, uFrequences,
+  udmDatabase;
 
 {%region /fold 'LAMW generated code'}
 
@@ -464,6 +465,26 @@ begin
 end;
 
 { Class:     com_mars42_jsNote_Controls
+  Method:    pRadioGroupCheckedChanged
+  Signature: (JILjava/lang/String;)V }
+procedure pRadioGroupCheckedChanged(PEnv: PJNIEnv; this: JObject;
+ pasobj: JLong; checkedIndex: JInt; checkedCaption: JString); cdecl;
+begin
+  Java_Event_pRadioGroupCheckedChanged(PEnv, this, TObject(pasobj),
+   checkedIndex, checkedCaption);
+end;
+
+{ Class:     com_mars42_jsNote_Controls
+  Method:    pOnSqliteDataAccessAsyncPostExecute
+  Signature: (JILjava/lang/String;)V }
+procedure pOnSqliteDataAccessAsyncPostExecute(PEnv: PJNIEnv; this: JObject;
+ pasobj: JLong; count: JInt; msgResult: JString); cdecl;
+begin
+  Java_Event_pOnSqliteDataAccessAsyncPostExecute(PEnv, this, TObject(pasobj),
+   count, msgResult);
+end;
+
+{ Class:     com_mars42_jsNote_Controls
   Method:    pOnWebViewStatus
   Signature: (JILjava/lang/String;)I }
 function pOnWebViewStatus(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
@@ -503,7 +524,7 @@ begin
    error, primaryError);
 end;
 
-const NativeMethods: array[0..54] of JNINativeMethod = (
+const NativeMethods: array[0..56] of JNINativeMethod = (
    (name: 'pAppOnCreate';
     signature: '(Landroid/content/Context;Landroid/widget/RelativeLayout;'
      +'Landroid/content/Intent;)V';
@@ -658,6 +679,12 @@ const NativeMethods: array[0..54] of JNINativeMethod = (
    (name: 'pOnMidiManagerDeviceRemoved';
     signature: '(JILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V';
     fnPtr: @pOnMidiManagerDeviceRemoved; ),
+   (name: 'pRadioGroupCheckedChanged';
+    signature: '(JILjava/lang/String;)V';
+    fnPtr: @pRadioGroupCheckedChanged; ),
+   (name: 'pOnSqliteDataAccessAsyncPostExecute';
+    signature: '(JILjava/lang/String;)V';
+    fnPtr: @pOnSqliteDataAccessAsyncPostExecute; ),
    (name: 'pOnWebViewStatus';
     signature: '(JILjava/lang/String;)I';
     fnPtr: @pOnWebViewStatus; ),
@@ -801,6 +828,10 @@ exports
    +'pOnMidiManagerDeviceAdded',
   pOnMidiManagerDeviceRemoved name 'Java_com_mars42_jsNote_Controls_'
    +'pOnMidiManagerDeviceRemoved',
+  pRadioGroupCheckedChanged name 'Java_com_mars42_jsNote_Controls_'
+   +'pRadioGroupCheckedChanged',
+  pOnSqliteDataAccessAsyncPostExecute name 'Java_com_mars42_jsNote_Controls_'
+   +'pOnSqliteDataAccessAsyncPostExecute',
   pOnWebViewStatus name 'Java_com_mars42_jsNote_Controls_pOnWebViewStatus',
   pOnWebViewFindResultReceived name 'Java_com_mars42_jsNote_Controls_'
    +'pOnWebViewFindResultReceived',

@@ -29,6 +29,12 @@ uses
 
 function sFrequence( _Frequence: double; _digits: Integer=6; _Separateur: String= ' '; _Unit: Boolean= True): String;
 
+const //n° octave du La 440 Hz
+     nMidi_Diapason= 60;
+     nOctave_diapason_midi   =5;//60
+     nOctave_diapason_anglais=4;//C4
+     nOctave_diapason_latin  =3;//C4=do3
+
 var
    uFrequence_Separateur_Lignes: String= #13#10;
 
@@ -36,6 +42,11 @@ procedure Log_Frequences(_Titre: String; _Frequences: TDoubleDynArray);
 
 function Note( _Index: Integer): String;
 function Note_Latine( _Index: Integer): String;
+
+function nOctave_from_Midi( _Midi, nOctave_diapason: Integer): Integer;
+function Note_Octave( _Index: Integer): String;
+function Note_Octave_Latine( _Index: Integer): String;
+
 function Liste_Octaves( _Octave: Integer; _NbOctaves: Integer): String;
 function Midi_from_Note( _Note: String): Integer;
 
@@ -136,6 +147,28 @@ begin
        10: Result:= 'la# ';
        11: Result:= 'si  ';
        end;
+end;
+
+function nOctave_from_Midi( _Midi, nOctave_diapason: Integer): Integer;
+begin
+     Result:= _Midi div 12 - nOctave_diapason_midi + nOctave_diapason;
+end;
+function Note_Octave(_Index: Integer): String;
+var
+   nOctave: Integer;
+begin
+     Result:= Trim(Note( _Index));
+     nOctave:= nOctave_from_Midi( _Index, nOctave_diapason_anglais);
+     Result:= Result+IntToStr( nOctave);
+end;
+
+function Note_Octave_Latine(_Index: Integer): String;
+var
+   nOctave: Integer;
+begin
+     Result:= Trim(Note_Latine( _Index));
+     nOctave:= nOctave_from_Midi( _Index, nOctave_diapason_latin);
+     Result:= Result+IntToStr( nOctave);
 end;
 
 function Midi_from_Note( _Note: String): Integer;
@@ -291,9 +324,6 @@ var
             end;
           end;
    end;
-   const //n° octave du La 440 Hz
-        nOctave_diapason_anglais=4;//C4
-        nOctave_diapason_latin  =3;//C4=do3
    var
       Base_Midi: Integer;
       nOctave_diapason: Integer;
@@ -304,7 +334,7 @@ begin
      if Octave_par_defaut
      then
          nOctave:= nOctave_diapason;
-     Base_Midi:= 60+(nOctave-nOctave_diapason)*12;
+     Base_Midi:= nMidi_Diapason+(nOctave-nOctave_diapason)*12;
      Result:= nNote+Base_Midi;
 end;
 

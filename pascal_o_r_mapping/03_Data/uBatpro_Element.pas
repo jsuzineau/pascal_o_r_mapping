@@ -39,7 +39,6 @@ uses
     uWinUtils,
     {$ENDIF}
     uReels,
-    uTraits,
     u_sys_,
     uSVG,
     uClean,

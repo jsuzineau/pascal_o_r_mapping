@@ -4,10 +4,10 @@ object fChant: TfChant
   MarginRight = 0
   MarginBottom = 0
   Enabled = True
-  Left = 305
-  Top = 260
+  Left = 414
+  Top = 251
   Width = 320
-  Height = 400
+  Height = 522
   Text = 'fChant'
   ActivityMode = actRecyclable
   BackgroundColor = colbrDefault
@@ -15,6 +15,9 @@ object fChant: TfChant
   AnimationDurationIn = 1500
   AnimationDurationOut = 1500
   AnimationMode = animNone
+  OnJNIPrompt = fChantJNIPrompt
+  OnCreateOptionMenu = fChantCreateOptionMenu
+  OnClickOptionMenuItem = fChantClickOptionMenuItem
   object Panel1: jPanel
     MarginLeft = 0
     MarginTop = 0
@@ -24,7 +27,7 @@ object fChant: TfChant
     Left = 0
     Top = 0
     Width = 320
-    Height = 400
+    Height = 522
     Visible = True
     PosRelativeToAnchor = []
     PosRelativeToParent = [rpTop, rpLeft]
@@ -43,16 +46,16 @@ object fChant: TfChant
       MarginBottom = 5
       Enabled = True
       Left = 209
-      Top = 35
+      Top = 54
       Width = 106
       Height = 50
       Visible = True
-      Anchor = TextView1
+      Anchor = eTitre
       PosRelativeToAnchor = [raBelow]
       PosRelativeToParent = [rpRight]
       LayoutParamWidth = lpOneThirdOfParent
       LayoutParamHeight = lpWrapContent
-      Text = 'bSoprano'
+      Text = 'Soprano'
       BackgroundColor = colbrDefault
       FontColor = colbrDefault
       FontSize = 0
@@ -67,7 +70,7 @@ object fChant: TfChant
       MarginBottom = 5
       Enabled = True
       Left = 209
-      Top = 95
+      Top = 114
       Width = 106
       Height = 50
       Visible = True
@@ -76,7 +79,7 @@ object fChant: TfChant
       PosRelativeToParent = [rpRight]
       LayoutParamWidth = lpOneThirdOfParent
       LayoutParamHeight = lpWrapContent
-      Text = 'bAlto'
+      Text = 'Alto'
       BackgroundColor = colbrDefault
       FontColor = colbrDefault
       FontSize = 0
@@ -91,7 +94,7 @@ object fChant: TfChant
       MarginBottom = 5
       Enabled = True
       Left = 209
-      Top = 155
+      Top = 174
       Width = 106
       Height = 50
       Visible = True
@@ -100,7 +103,7 @@ object fChant: TfChant
       PosRelativeToParent = [rpRight]
       LayoutParamWidth = lpOneThirdOfParent
       LayoutParamHeight = lpWrapContent
-      Text = 'bTenor'
+      Text = 'Tenor'
       BackgroundColor = colbrDefault
       FontColor = colbrDefault
       FontSize = 0
@@ -115,7 +118,7 @@ object fChant: TfChant
       MarginBottom = 5
       Enabled = True
       Left = 209
-      Top = 215
+      Top = 234
       Width = 106
       Height = 50
       Visible = True
@@ -124,7 +127,7 @@ object fChant: TfChant
       PosRelativeToParent = [rpRight]
       LayoutParamWidth = lpOneThirdOfParent
       LayoutParamHeight = lpWrapContent
-      Text = 'bBasse'
+      Text = 'Basse'
       BackgroundColor = colbrDefault
       FontColor = colbrDefault
       FontSize = 0
@@ -139,7 +142,7 @@ object fChant: TfChant
       MarginBottom = 5
       Enabled = True
       Left = 5
-      Top = 40
+      Top = 59
       Width = 106
       Height = 39
       Visible = True
@@ -175,7 +178,7 @@ object fChant: TfChant
       MarginBottom = 5
       Enabled = True
       Left = 5
-      Top = 95
+      Top = 114
       Width = 106
       Height = 39
       Visible = True
@@ -211,7 +214,7 @@ object fChant: TfChant
       MarginBottom = 5
       Enabled = True
       Left = 5
-      Top = 155
+      Top = 174
       Width = 106
       Height = 39
       Visible = True
@@ -247,7 +250,7 @@ object fChant: TfChant
       MarginBottom = 5
       Enabled = True
       Left = 5
-      Top = 215
+      Top = 234
       Width = 106
       Height = 39
       Visible = True
@@ -276,28 +279,39 @@ object fChant: TfChant
       CaptureBackPressed = False
       GravityInParent = lgNone
     end
-    object TextView1: jTextView
+    object eTitre: jEditText
       MarginLeft = 5
       MarginTop = 5
       MarginRight = 5
       MarginBottom = 5
       Enabled = True
-      Left = 113
+      Left = 5
       Top = 5
-      Width = 93
-      Height = 20
+      Width = 310
+      Height = 39
       Visible = True
       PosRelativeToAnchor = []
-      PosRelativeToParent = [rpTop, rpCenterHorizontal]
-      LayoutParamWidth = lpWrapContent
+      PosRelativeToParent = [rpTop, rpLeft]
+      LayoutParamWidth = lpMatchParent
       LayoutParamHeight = lpWrapContent
       Text = 'Proletna pessen'
       Alignment = taLeft
+      InputTypeEx = itxText
+      MaxTextLength = -1
       BackgroundColor = colbrDefault
       FontColor = colbrDefault
       FontSize = 0
-      TextTypeFace = tfNormal
+      HintTextColor = colbrDefault
+      ScrollBarStyle = scrNone
+      MaxLines = 1
+      HorScrollBar = True
+      VerScrollBar = True
+      WrappingLine = False
+      Editable = True
       FontSizeUnit = unitDefault
+      CloseSoftInputOnEnter = True
+      CapSentence = False
+      CaptureBackPressed = False
       GravityInParent = lgNone
     end
     object bStop: jButton
@@ -307,7 +321,7 @@ object fChant: TfChant
       MarginBottom = 5
       Enabled = True
       Left = 209
-      Top = 275
+      Top = 294
       Width = 106
       Height = 50
       Visible = True
@@ -316,13 +330,185 @@ object fChant: TfChant
       PosRelativeToParent = [rpRight]
       LayoutParamWidth = lpOneThirdOfParent
       LayoutParamHeight = lpWrapContent
-      Text = 'bStop'
+      Text = 'Stop'
       BackgroundColor = colbrDefault
       FontColor = colbrDefault
       FontSize = 0
       FontSizeUnit = unitDefault
       GravityInParent = lgNone
       OnClick = bStopClick
+    end
+    object bPrecedent: jButton
+      MarginLeft = 0
+      MarginTop = 5
+      MarginRight = 0
+      MarginBottom = 5
+      Enabled = True
+      Left = 0
+      Top = 467
+      Width = 160
+      Height = 50
+      Visible = True
+      PosRelativeToAnchor = []
+      PosRelativeToParent = [rpBottom, rpLeft]
+      LayoutParamWidth = lpHalfOfParent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Précédent'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = bPrecedentClick
+    end
+    object bSuivant: jButton
+      MarginLeft = 0
+      MarginTop = 5
+      MarginRight = 0
+      MarginBottom = 5
+      Enabled = True
+      Left = 160
+      Top = 467
+      Width = 160
+      Height = 50
+      Visible = True
+      PosRelativeToAnchor = []
+      PosRelativeToParent = [rpBottom, rpRight]
+      LayoutParamWidth = lpHalfOfParent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Suivant'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = bSuivantClick
+    end
+    object bUtilitaires: jButton
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 5
+      Top = 294
+      Width = 106
+      Height = 50
+      Visible = True
+      Anchor = bBasse
+      PosRelativeToAnchor = [raBelow]
+      PosRelativeToParent = [rpLeft]
+      LayoutParamWidth = lpOneThirdOfParent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Utilitaires'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = bUtilitairesClick
+    end
+    object tvMidi: jTextView
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 121
+      Top = 299
+      Width = 36
+      Height = 20
+      Visible = True
+      Anchor = bUtilitaires
+      PosRelativeToAnchor = [raToRightOf, raAlignTop]
+      PosRelativeToParent = []
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'tvMidi'
+      Alignment = taLeft
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      TextTypeFace = tfNormal
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+    end
+    object tvLatin: jTextView
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 115
+      Top = 329
+      Width = 37
+      Height = 20
+      Visible = True
+      Anchor = tvMidi
+      PosRelativeToAnchor = [raBelow, raAlignRight]
+      PosRelativeToParent = []
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'tvLatin'
+      Alignment = taLeft
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      TextTypeFace = tfNormal
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      Left = 28
+      Top = 28
+    end
+    object rgInstrument: jRadioGroup
+      MarginLeft = 10
+      MarginTop = 10
+      MarginRight = 10
+      MarginBottom = 10
+      Enabled = True
+      Left = 10
+      Top = 359
+      Width = 96
+      Height = 96
+      Visible = True
+      Anchor = bUtilitaires
+      PosRelativeToAnchor = [raBelow]
+      PosRelativeToParent = [rpLeft]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Orientation = rgVertical
+      BackgroundColor = colbrDefault
+      Items.Strings = (
+        'Midi Piano'
+        'Midi Tenor Sax'
+        'Wave'
+      )
+    end
+    object bStart: jButton
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 121
+      Top = 364
+      Width = 101
+      Height = 50
+      Visible = True
+      Anchor = rgInstrument
+      PosRelativeToAnchor = [raToRightOf, raAlignTop]
+      PosRelativeToParent = []
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Midi Start'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = bStartClick
+      Left = 28
+      Top = 28
     end
   end
   object at: jAudioTrack
@@ -332,8 +518,14 @@ object fChant: TfChant
     ChannelConfig = 4
     AudioFormat = 2
     Mode = 0
-    Left = 32
-    Top = 316
+    Left = 248
+    Top = 423
+  end
+  object hceTitre: ThChamp_Edit
+    Field = 'Titre'
+    et = eTitre
+    Left = 147
+    Top = 40
   end
   object hceSoprano: ThChamp_Edit
     Field = 'Soprano'
@@ -358,5 +550,25 @@ object fChant: TfChant
     et = eBasse
     Left = 147
     Top = 216
+  end
+  object jm: jMenu
+    Left = 224
+    Top = 359
+  end
+  object sda: jSqliteDataAccess
+    ColDelimiter = '|'
+    RowDelimiter = '#'
+    DataBaseName = 'myData.db'
+    ReturnHeaderOnSelect = True
+    Left = 256
+    Top = 359
+  end
+  object sc: jSqliteCursor
+    Left = 288
+    Top = 359
+  end
+  object mm: jMidiManager
+    Left = 284
+    Top = 420
   end
 end

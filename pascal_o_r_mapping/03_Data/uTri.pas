@@ -26,7 +26,6 @@ unit uTri;
 interface
 
 uses
-    SysUtils, Classes, DB,
     uBatpro_StringList,
     u_sys_,
     uClean,
@@ -35,7 +34,8 @@ uses
     uContrainte,
 
     uTri_Ancetre,
-    uBatpro_Ligne;
+    uBatpro_Ligne,
+  SysUtils, Classes;
 
 type
 

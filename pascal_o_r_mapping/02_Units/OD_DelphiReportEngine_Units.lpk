@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
-  <Package Version="5">
+  <Package Version="4">
     <Name Value="OD_DelphiReportEngine_Units"/>
     <Type Value="RunAndDesignTime"/>
     <CompilerOptions>
@@ -425,7 +425,6 @@
         <UnitName Value="uOD_ExcelManager"/>
       </Item101>
     </Files>
-    <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="3">
       <Item1>
         <PackageName Value="laz_fpspreadsheet"/>

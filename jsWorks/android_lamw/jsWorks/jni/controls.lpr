@@ -25,10 +25,10 @@ library controls;  //[by Lamw: Lazarus Android Module Wizard: 27/05/2017 10:32:4
   
 uses
   Classes, SysUtils, And_jni, And_jni_Bridge, AndroidWidget, Laz_And_Controls,
-		Laz_And_Controls_Events, blcksock, uSQLite_Android, uhAggregation,
-		udmDatabase, upoolWork, ublWork, ublTag, upoolTag, upoolTag_Work,
-		ublType_Tag, ufjsWorks, fphttpclient, ufTest_SQLiteDataAccess,
-uAndroid_Database, ufUtilitaires, ufWork;
+  Laz_And_Controls_Events, blcksock, upoolWork, ublWork,
+  ublTag, upoolTag, upoolTag_Work, ublType_Tag, uBatpro_Element, ufjsWorks,
+  fphttpclient, ufTest_SQLiteDataAccess,
+  ufWork;
   
 {%region /fold 'LAMW generated code'}
 

@@ -39,9 +39,16 @@
       <Version Value="2"/>
     </PublishOptions>
     <RunParams>
+      <local>
+        <HostApplicationFilename Value="E:\01_Projets\01_pascal_o_r_mapping\jsWorks\android_lamw\jsWorks\gdb\app_process32"/>
+      </local>
       <FormatVersion Value="2"/>
       <Modes Count="1">
-        <Mode0 Name="default"/>
+        <Mode0 Name="default">
+          <local>
+            <HostApplicationFilename Value="E:\01_Projets\01_pascal_o_r_mapping\jsWorks\android_lamw\jsWorks\gdb\app_process32"/>
+          </local>
+        </Mode0>
       </Modes>
     </RunParams>
     <RequiredPackages Count="3">
@@ -55,7 +62,7 @@
         <PackageName Value="tfpandroidbridge_pack"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="17">
+    <Units Count="13">
       <Unit0>
         <Filename Value="controls.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -75,49 +82,36 @@
         <HasResources Value="True"/>
       </Unit2>
       <Unit3>
-        <Filename Value="..\..\..\..\pascal_o_r_mapping\03_Data\uhAggregation.pas"/>
+        <Filename Value="..\..\..\Elements\Tag\ublTag.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit3>
       <Unit4>
-        <Filename Value="..\..\..\Elements\Tag\ublTag.pas"/>
+        <Filename Value="..\..\..\..\pascal_o_r_mapping\07_sources_externes\synapse\source\lib\blcksock.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit4>
       <Unit5>
-        <Filename Value="..\..\..\..\pascal_o_r_mapping\07_sources_externes\synapse\source\lib\blcksock.pas"/>
+        <Filename Value="fphttpclient.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit5>
       <Unit6>
-        <Filename Value="fphttpclient.pas"/>
+        <Filename Value="..\..\..\Elements\Tag\upoolTag.pas"/>
         <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
       </Unit6>
       <Unit7>
-        <Filename Value="..\..\..\Elements\Tag\upoolTag.pas"/>
+        <Filename Value="..\..\..\Elements\Tag_Work\upoolTag_Work.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
       </Unit7>
       <Unit8>
-        <Filename Value="..\..\..\Elements\Tag_Work\upoolTag_Work.pas"/>
-        <IsPartOfProject Value="True"/>
-        <HasResources Value="True"/>
-      </Unit8>
-      <Unit9>
-        <Filename Value="..\..\..\..\pascal_o_r_mapping\03_Data\udmDatabase.pas"/>
-        <IsPartOfProject Value="True"/>
-        <HasResources Value="True"/>
-      </Unit9>
-      <Unit10>
         <Filename Value="..\..\..\Elements\Work\ublWork.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit10>
-      <Unit11>
-        <Filename Value="uSQLite_Android.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit11>
-      <Unit12>
+      </Unit8>
+      <Unit9>
         <Filename Value="..\..\..\Elements\Type_Tag\ublType_Tag.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit12>
-      <Unit13>
+      </Unit9>
+      <Unit10>
         <Filename Value="ufTest_SQLiteDataAccess.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fTest_SQLiteDataAccess"/>
@@ -125,21 +119,8 @@
         <CustomData Count="1">
           <Item0 Name="jControls" Value="jButton;jSqliteCursor;jSqliteDataAccess;jTextView"/>
         </CustomData>
-      </Unit13>
-      <Unit14>
-        <Filename Value="uAndroid_Database.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit14>
-      <Unit15>
-        <Filename Value="ufUtilitaires.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="fUtilitaires"/>
-        <HasResources Value="True"/>
-        <CustomData Count="1">
-          <Item0 Name="jControls" Value="jButton"/>
-        </CustomData>
-      </Unit15>
-      <Unit16>
+      </Unit10>
+      <Unit11>
         <Filename Value="ufWork.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fWork"/>
@@ -147,7 +128,11 @@
         <CustomData Count="1">
           <Item0 Name="jControls" Value="jButton;jEditText;jPanel;jTextView"/>
         </CustomData>
-      </Unit16>
+      </Unit11>
+      <Unit12>
+        <Filename Value="..\..\..\..\pascal_o_r_mapping\03_Data\uBatpro_Element.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit12>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -178,6 +163,7 @@
     </CodeGeneration>
     <Linking>
       <Debugging>
+        <GenerateDebugInfo Value="False"/>
         <StripSymbols Value="True"/>
         <UseExternalDbgSyms Value="True"/>
       </Debugging>

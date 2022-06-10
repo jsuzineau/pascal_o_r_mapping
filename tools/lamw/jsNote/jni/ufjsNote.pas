@@ -112,7 +112,7 @@ begin
      then
          begin
          gApp.CreateForm( TfChant, FfChant);
-         FfChant.Initialise( m);
+         FfChant.InitShowing;
          end
      else
          FfChant.Show;

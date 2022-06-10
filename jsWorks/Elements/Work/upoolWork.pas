@@ -36,7 +36,6 @@ uses
     ublWork,
 
     udmDatabase,
-    udmBatpro_DataModule,
     uPool,
 
     uhfWork,

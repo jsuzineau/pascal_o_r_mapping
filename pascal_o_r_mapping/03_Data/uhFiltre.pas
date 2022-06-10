@@ -48,7 +48,8 @@ uses
     uTri,
     uhFiltre_Ancetre,
 
-    SysUtils, Classes, DB, SQLDB, BufDataset;
+
+    SysUtils, Classes;
 
 { ThFiltre
 Ancêtre pour les classe "handler" de filtre (propriétés Filter/Filtered
@@ -62,21 +63,14 @@ type
   class( ThFiltre_Ancetre)
   //Cycle de vie
   public
-    constructor Create( _D: TDataset;
-                        _btsCle: TbtString; _slFiltre: TBatpro_StringList; _Tri: TTri = nil); virtual;
+    constructor Create( _btsCle: TbtString; _slFiltre: TBatpro_StringList; _Tri: TTri = nil); virtual;
     destructor Destroy; override;
   //Général
   private
     btsCle: TbtString;
-    D: TDataset;
     slFiltre: TBatpro_StringList;
     procedure Extraction;
-  protected
-    Requery: Boolean;
-    SQLPrefixe, SQLSuffixe: String;
-    function Compose_SQL: String; virtual;
   public
-    sFiltre: String;
     AfterExecute: TAbonnement_Objet_Proc;
     Filtre_actif: Boolean;
     function Initialise( _Contraintes: array of TContrainte): Boolean;
@@ -119,14 +113,11 @@ type
 
 implementation
 
-constructor ThFiltre.Create( _D: TDataset;
-                             _btsCle: TbtString; _slFiltre: TBatpro_StringList; _Tri: TTri= nil);
+constructor ThFiltre.Create( _btsCle: TbtString; _slFiltre: TBatpro_StringList; _Tri: TTri= nil);
 begin
      inherited Create;
-     D := _D ;
      btsCle:= _btsCle;
      slsCle:= nil;
-     sFiltre:= sys_Vide;
 
      slFiltre   := _slFiltre   ;
 
@@ -136,10 +127,6 @@ begin
      if Detruire_Tri
      then
          Tri:= TTri.Create;
-
-     Requery:= False;
-     SQLPrefixe:= sys_Vide;
-     SQLSuffixe:= sys_Vide;
 
      slLIKE     := TBatpro_StringList.Create;
      slOR_LIKE  := TBatpro_StringList.Create;
@@ -169,15 +156,6 @@ begin
          Tri:= nil;
 
      inherited;
-end;
-
-function ThFiltre.Compose_SQL: String;
-begin
-     Result:= SQLPrefixe;
-     if sFiltre <> sys_Vide
-     then
-         Result:= Result + ' AND '+sFiltre;
-     Result:= Result + SQLSuffixe;
 end;
 
 function ThFiltre.Initialise( _Contraintes: array of TContrainte): Boolean;
@@ -248,55 +226,9 @@ end;
 
 function ThFiltre.Execute:Boolean;
 var
-   //Dataset
-   SQL: String;
-   D_from_CD: TDataset;
-   sqlq: TSQLQuery;
-   cd: TBufDataSet;
-
-   //Batpro_Element / StringList
    bl: TBatpro_Ligne;
-
 begin
      try
-        if Assigned( D)
-        then
-            begin
-            if Requery
-            then
-                begin
-                if D is TBufDataSet 
-                then
-                    begin
-                    CD:= TBufDataSet ( D);
-                    D_from_CD:= Dataset_from_ClientDataset( CD);
-                    if D_from_CD is TSQLQuery
-                    then
-                        begin
-                        sqlq:= TSQLQuery( D_from_CD);
-
-                        SQL:= Compose_SQL;
-                        SetQuery( sqlq, cd, SQL);
-                        end;
-                    end;
-                end
-            else
-                begin
-                if sFiltre = sys_Vide
-                then
-                    begin
-                    D.Filtered:= False;
-                    D.Filter  := sFiltre;
-                    D.Filtered:= False;
-                    end
-                else
-                    begin
-                    D.Filter  := sFiltre;
-                    D.Filtered:= True;
-                    end;
-                //uForms_ShowMessage( q.Filter);
-                end;
-            end;
         if Assigned( btsCle)
         then
             begin
@@ -314,7 +246,7 @@ begin
             end;
         Traite_slsCle;
      finally
-            Filtre_actif:= sFiltre <> sys_Vide;
+            Filtre_actif:= Has_Critere;
             Result:= True;
             end;
 
@@ -355,15 +287,6 @@ begin
                               +'  ThFiltre.AjouteCritereLIKE: le champ '
                               +    NomChamp+ ' est déjà dans la liste' );
          slLIKE.Values[ NomChamp]:= ValeurChamp;
-
-         if sFiltre <> sys_Vide then sFiltre:= sFiltre + ' and ';
-         if Requery
-         then
-             sFiltre:= sFiltre +
-                       Format('(%s LIKE %s)',[NomChamp, QuotedStr( ValeurChamp+'%')])
-         else
-             sFiltre:= sFiltre +
-                       Format('(%s = %s)',[NomChamp, QuotedStr( ValeurChamp+'*')]);
          end;
 end;
 
@@ -386,15 +309,6 @@ begin
                               +'  ThFiltre.AjouteCritereLIKE_ou_VIDE: le champ '
                               +    NomChamp+ ' est déjà dans la liste' );
          slLIKE_ou_VIDE.Values[ NomChamp]:= ValeurChamp;
-
-         if sFiltre <> sys_Vide then sFiltre:= sFiltre + ' and ';
-         if Requery
-         then
-             sFiltre:= sFiltre +
-                       Format('((%0:s LIKE %1:s)or(%0:s =""))',[NomChamp, QuotedStr( ValeurChamp+'%')])
-         else
-             sFiltre:= sFiltre +
-                       Format('((%0:s = %1:s)or(%0:s = '''')',[NomChamp, QuotedStr( ValeurChamp+'*')]);
          end;
 end;
 
@@ -410,10 +324,6 @@ begin
          slDIFFERENT.Values[ NomChamp]:= uhFiltre_Ancetre_Code_pour_Vide
      else
          slDIFFERENT.Values[ NomChamp]:= ValeurChamp;
-
-     if sFiltre <> sys_Vide then sFiltre:= sFiltre + ' and ';
-     sFiltre:= sFiltre +
-               Format('(%s <> %s)',[NomChamp, QuotedStr( ValeurChamp)]);
 end;
 
 procedure ThFiltre.AjouteCritereEGAL( NomChamp, ValeurChamp: String);
@@ -428,10 +338,6 @@ begin
          slEGAL.Values[ NomChamp]:= uhFiltre_Ancetre_Code_pour_Vide
      else
          slEGAL.Values[ NomChamp]:= ValeurChamp;
-
-     if sFiltre <> sys_Vide then sFiltre:= sFiltre + ' and ';
-     sFiltre:= sFiltre +
-               Format('(%s = %s)',[NomChamp, QuotedStr( ValeurChamp)]);
 end;
 
 procedure ThFiltre.AjouteCritereCONTIENT( NomChamp, ValeurChamp: String);
@@ -446,10 +352,6 @@ begin
          slCONTIENT.Values[ NomChamp]:= uhFiltre_Ancetre_Code_pour_Vide
      else
          slCONTIENT.Values[ NomChamp]:= ValeurChamp;
-
-     if sFiltre <> sys_Vide then sFiltre:= sFiltre + ' and ';
-     sFiltre:= sFiltre +
-               Format('(%s like %s)',[NomChamp, QuotedStr( '%'+ValeurChamp+'%')]);
 end;
 
 procedure ThFiltre.CritereCONTIENT( _NomChamp, _ValeurChamp: String);
@@ -483,18 +385,17 @@ end;
 
 function ThFiltre.Actif: Boolean;
 begin
-     Result:= sFiltre = sys_Vide;
+     Result:= Has_Critere;
 end;
 
 procedure ThFiltre.Clear;
 begin
-     sFiltre:= sys_Vide;
-     slLIKE     .Clear;
-     slOR_LIKE  .Clear;
+     slLIKE        .Clear;
+     slOR_LIKE     .Clear;
      slLIKE_ou_VIDE.Clear;
-     slDIFFERENT.Clear;
-     slEGAL     .Clear;
-     slCONTIENT .Clear;
+     slDIFFERENT   .Clear;
+     slEGAL        .Clear;
+     slCONTIENT    .Clear;
 end;
 
 function ThFiltre.Contenu: String;

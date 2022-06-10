@@ -37,7 +37,6 @@ uses
 
     uVide,
     uBatpro_Element,
-    uhAggregation,
 
     ujsDataContexte,
     uChampDefinition,
@@ -57,8 +56,9 @@ uses
   {$ELSE}
   Graphics, Windows, DBTables, ComCtrls,
   {$ENDIF}
-  Classes, SysUtils, DB, Types,
-  SQLDB;
+  Classes, SysUtils,
+  DB,
+  Types;
 
 type
     TjsDataContexte         = ujsDataContexte.TjsDataContexte;

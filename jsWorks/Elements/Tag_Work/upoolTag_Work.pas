@@ -32,7 +32,6 @@ uses
   ublTag_Work,
 
   udmDatabase,
-  udmBatpro_DataModule,
   uPool,
   
 

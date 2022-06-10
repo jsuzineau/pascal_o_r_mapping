@@ -10,12 +10,16 @@ uses
 
 type
 
+ { TtcFrequence }
+
  TtcFrequence= class(TTestCase)
  protected
   procedure SetUp; override;
   procedure TearDown; override;
  published
   procedure Test_Midi_from_Note;
+  procedure Test_Note_Octave;
+  procedure Test_Note_Octave_Latine;
  end;
 
 implementation
@@ -59,6 +63,38 @@ begin
 
      Check( 24 = Midi_from_Note('C1 '), 'Echec décodage C1 ');
      Check( 60 = Midi_from_Note('do3 '), 'Echec décodage do3 (début gamme du diapason) ');
+end;
+
+procedure TtcFrequence.Test_Note_Octave;
+     procedure T( _note: String);
+     var
+        Midi: Integer;
+        Obtenu: String;
+     begin
+          Midi:= Midi_from_Note(_note);
+          Obtenu:= Note_Octave( Midi);
+          Check( _note = Obtenu, 'Echec Note_Octave pour '+_note+' obtenu '+Obtenu+' midi '+IntToStr(Midi));
+     end;
+begin
+     T('C1');
+     T('A3');
+     T('D4');
+end;
+
+procedure TtcFrequence.Test_Note_Octave_Latine;
+     procedure T( _note: String);
+     var
+        Midi: Integer;
+        Obtenu: String;
+     begin
+          Midi:= Midi_from_Note(_note);
+          Obtenu:= Note_Octave_Latine( Midi);
+          Check( _note = Obtenu, 'Echec Note_Octave_Latine pour '+_note+' obtenu '+Obtenu+' midi '+IntToStr(Midi));
+     end;
+begin
+     T('do2');
+     T('ré4');
+     T('mi3');
 end;
 
 initialization

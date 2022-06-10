@@ -1528,6 +1528,10 @@ public java.lang.Object jEditText_Create(long pasobj ) {
 public native void pEditTextOnActionIconTouchUp(long pasobj, String textContent);
 public native void pEditTextOnActionIconTouchDown(long pasobj, String textContent);
 
+public java.lang.Object jMenu_jCreate(long _Self) {
+   return (java.lang.Object)(new jMenu(this,_Self));
+}
+
 public java.lang.Object jMidiManager_jCreate(long _Self) {
   return (java.lang.Object)(new jMidiManager(this,_Self)); 
 }
@@ -1539,6 +1543,20 @@ public native void pOnMidiManagerDeviceRemoved(long pasobj, int deviceId, String
 public  java.lang.Object jPanel_Create(long pasobj ) {
   return (java.lang.Object)(new jPanel(this.activity,this,pasobj));
 }
+
+public java.lang.Object jRadioGroup_jCreate(long _Self, int _orientation) {
+   return (java.lang.Object)(new jRadioGroup(this,_Self, _orientation));
+}
+public native void pRadioGroupCheckedChanged(long pasobj, int checkedIndex, String checkedCaption);
+
+public  java.lang.Object jSqliteCursor_Create( long pasobj ) {
+   return (java.lang.Object)( new jSqliteCursor(this,pasobj) );
+}
+
+public java.lang.Object jSqliteDataAccess_Create(long pasobj, String databaseName, char colDelim, char rowDelim) {
+   return (java.lang.Object)( new jSqliteDataAccess(this,pasobj,databaseName,colDelim,rowDelim) );
+}
+public native void pOnSqliteDataAccessAsyncPostExecute(long pasobj, int count, String msgResult);
 
 public java.lang.Object jTableLayout_jCreate(long _Self) {
   return (java.lang.Object)(new jTableLayout(this,_Self));

@@ -1,30 +1,32 @@
 object fTest_SQLiteDataAccess: TfTest_SQLiteDataAccess
-  Left = 524
-  Top = 168
-  Width = 320
-  Height = 400
   MarginLeft = 0
   MarginTop = 0
   MarginRight = 0
   MarginBottom = 0
   Enabled = True
+  Left = 524
+  Top = 168
+  Width = 320
+  Height = 400
   Text = 'fTest_SQLiteDataAccess'
   ActivityMode = actRecyclable
   BackgroundColor = colbrIvory
   ActionBarTitle = abtDefault
+  AnimationDurationIn = 1500
+  AnimationDurationOut = 1500
+  AnimationMode = animNone
   OnJNIPrompt = fTest_SQLiteDataAccessJNIPrompt
   object bOuvrir: jButton
-    Left = 2
-    Top = 4
-    Width = 316
-    Height = 40
     MarginLeft = 2
     MarginTop = 4
     MarginRight = 2
     MarginBottom = 4
     Enabled = True
+    Left = 2
+    Top = 4
+    Width = 316
+    Height = 50
     Visible = True
-    Id = 1
     PosRelativeToAnchor = []
     PosRelativeToParent = [rpTop]
     LayoutParamWidth = lpMatchParent
@@ -34,21 +36,21 @@ object fTest_SQLiteDataAccess: TfTest_SQLiteDataAccess
     FontColor = colbrDefault
     FontSize = 0
     FontSizeUnit = unitDefault
+    GravityInParent = lgNone
     OnClick = bOuvrirClick
   end
   object bState: jButton
-    Left = 2
-    Top = 52
-    Width = 316
-    Height = 40
     MarginLeft = 2
     MarginTop = 4
     MarginRight = 2
     MarginBottom = 4
     Enabled = True
+    Left = 2
+    Top = 62
+    Width = 316
+    Height = 50
     Visible = True
     Anchor = bOuvrir
-    Id = 2
     PosRelativeToAnchor = [raBelow]
     PosRelativeToParent = []
     LayoutParamWidth = lpMatchParent
@@ -58,21 +60,21 @@ object fTest_SQLiteDataAccess: TfTest_SQLiteDataAccess
     FontColor = colbrDefault
     FontSize = 0
     FontSizeUnit = unitDefault
+    GravityInParent = lgNone
     OnClick = bStateClick
   end
   object bWork: jButton
-    Left = 2
-    Top = 100
-    Width = 316
-    Height = 40
     MarginLeft = 2
     MarginTop = 4
     MarginRight = 2
     MarginBottom = 4
     Enabled = True
+    Left = 2
+    Top = 120
+    Width = 316
+    Height = 50
     Visible = True
     Anchor = bState
-    Id = 5
     PosRelativeToAnchor = [raBelow]
     PosRelativeToParent = []
     LayoutParamWidth = lpMatchParent
@@ -82,21 +84,21 @@ object fTest_SQLiteDataAccess: TfTest_SQLiteDataAccess
     FontColor = colbrDefault
     FontSize = 0
     FontSizeUnit = unitDefault
+    GravityInParent = lgNone
     OnClick = bWorkClick
   end
   object tw: jTextView
-    Left = 140
-    Top = 149
-    Width = 13
-    Height = 20
     MarginLeft = 5
     MarginTop = 5
     MarginRight = 5
     MarginBottom = 5
     Enabled = True
+    Left = 140
+    Top = 179
+    Width = 13
+    Height = 20
     Visible = True
     Anchor = bWork
-    Id = 3
     PosRelativeToAnchor = [raBelow]
     PosRelativeToParent = []
     LayoutParamWidth = lpWrapContent
@@ -108,6 +110,7 @@ object fTest_SQLiteDataAccess: TfTest_SQLiteDataAccess
     FontSize = 0
     TextTypeFace = tfNormal
     FontSizeUnit = unitDefault
+    GravityInParent = lgNone
   end
   object sda: jSqliteDataAccess
     Cursor = sc

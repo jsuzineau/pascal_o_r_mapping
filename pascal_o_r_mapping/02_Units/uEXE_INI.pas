@@ -567,7 +567,7 @@ end;
 procedure uEXE_INI_init_android( _EnvironmentDirPath: String);
 begin
      FEXE_INI_Nom      := IncludeTrailingPathDelimiter( _EnvironmentDirPath)+'_Configuration.ini';
-      EXE_INI_Poste_Nom:= FEXE_INI_Nom;
+     EXE_INI_Poste_Nom:= FEXE_INI_Nom;
 end;
 initialization
               Buffer:= StrAlloc( BufferSize);

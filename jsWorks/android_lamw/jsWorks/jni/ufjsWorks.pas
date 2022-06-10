@@ -54,29 +54,27 @@ type
  TfjsWorks
  =
   class(jForm)
-			bDemarrer: jButton;
-			jceBeginning: jEditText;
-				jceBeginning2: jEditText;
-				jceDescription: jEditText;
-				jceEnd: jEditText;
-				jceEnd1: jEditText;
-				hceBeginning2 : ThChamp_Edit;
-				hceDescription: ThChamp_Edit;
-				hceEnd        : ThChamp_Edit;
-				hceEnd1       : ThChamp_Edit;
-				jm: jMenu;
-				jpBeginning: jPanel;
-				jpEnd: jPanel;
-				jTextView3: jTextView;
-				lDebut: jTextView;
-				lDescription: jTextView;
-				lFin: jTextView;
-				procedure bDemarrerClick(Sender: TObject);
+    bDemarrer: jButton;
+    jceBeginning: jEditText;
+    jceEnd: jEditText;
+    jceDescription: jEditText;
+    hceBeginning  : ThChamp_Edit;
+    hceEnd        : ThChamp_Edit;
+    hceDescription: ThChamp_Edit;
+    jm: jMenu;
+    jpBeginning: jPanel;
+    jpEnd: jPanel;
+    jTextView3: jTextView;
+    lDebut: jTextView;
+    lDescription: jTextView;
+    lFin: jTextView;
+    procedure bDemarrerClick(Sender: TObject);
     procedure bWorkClick(Sender: TObject);
     procedure fjsWorksJNIPrompt(Sender: TObject);
-				procedure fjsWorksCreateOptionMenu   ( Sender: TObject; jObjMenu: jObject);
-				procedure fjsWorksClickOptionMenuItem( Sender: TObject; jObjMenuItem: jObject; itemID: integer; itemCaption: string; checked: boolean);
+    procedure fjsWorksCreateOptionMenu   ( Sender: TObject; jObjMenu: jObject);
+    procedure fjsWorksClickOptionMenuItem( Sender: TObject; jObjMenuItem: jObject; itemID: integer; itemCaption: string; checked: boolean);
   private
+    Filename: String;
     procedure LogP( _Message_Developpeur: String; _Message: String = '');
   //Connexion
   private
@@ -123,9 +121,9 @@ begin
 
            bl.Description:= 'Test';
            WriteLn( ClassName+'.Edit, avant Champs_Affecte');
-//           Champs_Affecte( bl, [jceBeginning, jceEnd, jceDescription]);
+           Champs_Affecte( bl, [hceBeginning, hceEnd, hceDescription]);
            WriteLn( ClassName+'.Edit, aprés Champs_Affecte');
-     		 except
+     	except
               on E: Exception
               do
                 begin
@@ -133,7 +131,7 @@ begin
                          +E.Message+#13#10
                          +DumpCallStack);
                 end;
-     		       end;
+     	      end;
 
      finally
             //fTest_SQLiteDataAccess.Dump_LastWork;
@@ -144,6 +142,7 @@ var compteur: integer=0;
 procedure TfjsWorks.fjsWorksJNIPrompt(Sender: TObject);
 begin
      inc(compteur);Writeln( ClassName+'.amjsWorksJNIPrompt, compteur=',compteur);
+     Filename:= 'jsWorks.sqlite';
      uSQLite_Android_jForm:= Self;
      fAccueil_log_procedure:= LogP;
      uForms_Android_ShowMessage:= Self.ShowMessage;
@@ -179,11 +178,11 @@ procedure TfjsWorks.fjsWorksClickOptionMenuItem( Sender: TObject; jObjMenuItem: 
 begin
      case itemID
      of
-       1: fjsWorks              .Show;
-       2: fTest_SQLiteDataAccess.Show;
-       3: fUtilitaires          .Show;
-       4: fWork                 .Show;
-					  end;
+       1: fjsWorks                        .Show;
+       2: fTest_SQLiteDataAccess(Filename).Show;
+       3: fUtilitaires          (Filename).Show;
+       4: fWork                           .Show;
+       end;
 end;
 
 procedure TfjsWorks.LogP( _Message_Developpeur: String; _Message: String= '');
@@ -250,7 +249,7 @@ begin
    					      end;
 					finally
             FreeAndNil( pw);
-            fTest_SQLiteDataAccess.Dump_LastWork;
+            fTest_SQLiteDataAccess(Filename).Dump_LastWork;
 					       end;
 end;
 

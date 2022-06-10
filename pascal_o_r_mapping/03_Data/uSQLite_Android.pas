@@ -33,9 +33,13 @@ uses
     ujsDataContexte,
     uSGBD,
     ufAccueil_Erreur,
-  db, SQLDB, FmtBCD,dateutils,Laz_And_Controls,AndroidWidget,And_jni,
+  db, SQLDB, FmtBCD,dateutils,
+  {$ifdef android}
+    Laz_And_Controls,AndroidWidget,And_jni,
+  {$endif}
   SysUtils, Classes;
 
+{$ifdef android}
 type
 
  { TSQLite_Android }
@@ -209,8 +213,11 @@ var
    uSQLite_Android_jForm: jForm            = nil;
    uSQLite_Android_sc   : jSqliteCursor    = nil;
    uSQLite_Android_sda  : jSqliteDataAccess= nil;
+{$endif}
 
 implementation
+
+{$ifdef android}
 
 function Crypto(S: String): String; // avec un XOR, cryptage et décryptage
 var                                 // se font de la même façon
@@ -290,27 +297,27 @@ end;
 
 procedure TSQLite_Android.Prepare;
 begin
-		   inherited Prepare;
+     inherited Prepare;
 end;
 
 procedure TSQLite_Android.Ouvre_db;
 begin
-		   inherited Ouvre_db;
+     inherited Ouvre_db;
 end;
 
 procedure TSQLite_Android.Ferme_db;
 begin
-		   inherited Ferme_db;
+     inherited Ferme_db;
 end;
 
 procedure TSQLite_Android.Keep_Connection;
 begin
-		   inherited Keep_Connection;
+     inherited Keep_Connection;
 end;
 
 procedure TSQLite_Android.Do_not_Keep_Connection;
 begin
-		   inherited Do_not_Keep_Connection;
+     inherited Do_not_Keep_Connection;
 end;
 
 procedure TSQLite_Android.Fill_with_databases(_s: TStrings);
@@ -335,7 +342,7 @@ end;
 
 procedure TSQLite_Android.Reconnecte;
 begin
-		   inherited Reconnecte;
+     inherited Reconnecte;
 end;
 
 function TSQLite_Android.Classe_Contexte: TjsDataContexte_class;
@@ -824,9 +831,11 @@ procedure TjsDataContexte_SQLite_Android.First;
 begin
      if IsFirst then exit;
 
+     WriteLn(ClassName+'.First:: avant MoveToFirst');
      sc.MoveToFirst;
      Step_Index:= 0;
      IsFirst:= True;
+     WriteLn(ClassName+'.First:: Fin');
 end;
 
 function TjsDataContexte_SQLite_Android.EoF: Boolean;
@@ -838,8 +847,10 @@ procedure TjsDataContexte_SQLite_Android.Next;
 begin
     IsFirst:= False;
     Inc( Step_Index);
+    WriteLn(ClassName+'.Next:: avant MoveToPosition, Step_Index=',Step_Index,', sc.GetRowCount= ',sc.GetRowCount);
     sc.MoveToPosition( Step_Index);
-    FEOF:= Step_Index < sc.GetRowCount;
+    FEOF:= not( Step_Index < sc.GetRowCount);
+    WriteLn(ClassName+'.Next:: Fin');
 end;
 
 procedure TjsDataContexte_SQLite_Android.Close;
@@ -975,5 +986,6 @@ function TjsDataContexte_SQLite_Android.Last_Insert_id( _NomTable: String): Inte
 begin
      Result:= last_insert_rowid;
 end;
+{$endif}
 
 end.

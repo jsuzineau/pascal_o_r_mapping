@@ -61,6 +61,7 @@ type
     procedure AjouteCritereCONTIENT (NomChamp, ValeurChamp: String);virtual; abstract;
 
     procedure CritereCONTIENT ( _NomChamp, _ValeurChamp: String);virtual; abstract;
+    function Has_Critere: Boolean;
   end;
 
 const
@@ -69,4 +70,20 @@ const
                                            // pas la valeur
 
 implementation
+
+{ ThFiltre_Ancetre }
+
+function ThFiltre_Ancetre.Has_Critere: Boolean;
+begin
+     Result
+     :=
+          (slLIKE        .Count > 0)
+       or (slOR_LIKE     .Count > 0)
+       or (slLIKE_ou_VIDE.Count > 0)
+       or (slDIFFERENT   .Count > 0)
+       or (slEGAL        .Count > 0)
+       or (slCONTIENT    .Count > 0)
+       or (Length( Contraintes) > 0);
+end;
+
 end.

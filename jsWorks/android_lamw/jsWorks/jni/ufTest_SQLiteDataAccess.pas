@@ -16,25 +16,26 @@ type
 
  TfTest_SQLiteDataAccess
  =
-		 class(jForm)
-				bOuvrir: jButton;
-				bState: jButton;
-				bWork: jButton;
-				sc: jSqliteCursor;
-				sda: jSqliteDataAccess;
-				tw: jTextView;
-				procedure fTest_SQLiteDataAccessJNIPrompt(Sender: TObject);
-				procedure bOuvrirClick(Sender: TObject);
-				procedure bStateClick(Sender: TObject);
-				procedure bWorkClick(Sender: TObject);
-		 private
-		 public
+  class(jForm)
+    bOuvrir: jButton;
+    bState: jButton;
+    bWork: jButton;
+    sc: jSqliteCursor;
+    sda: jSqliteDataAccess;
+    tw: jTextView;
+    procedure fTest_SQLiteDataAccessJNIPrompt(Sender: TObject);
+    procedure bOuvrirClick(Sender: TObject);
+    procedure bStateClick(Sender: TObject);
+    procedure bWorkClick(Sender: TObject);
+  private
+    FileName: String;
+  public
     procedure Exec_query( _SQL: String);
     procedure Show_tables;
     procedure Dump_LastWork;
-		 end;
+  end;
 
-function fTest_SQLiteDataAccess: TfTest_SQLiteDataAccess;
+ function fTest_SQLiteDataAccess(_FileName: String): TfTest_SQLiteDataAccess;
 
 implementation
  
@@ -43,7 +44,7 @@ implementation
 var
    FfTest_SQLiteDataAccess: TfTest_SQLiteDataAccess= nil;
 
-function fTest_SQLiteDataAccess: TfTest_SQLiteDataAccess;
+function fTest_SQLiteDataAccess(_FileName: String): TfTest_SQLiteDataAccess;
 begin
      if nil = FfTest_SQLiteDataAccess
      then
@@ -52,6 +53,7 @@ begin
          FfTest_SQLiteDataAccess.Init;
          end;
      Result:= FfTest_SQLiteDataAccess;
+     Result.FileName:= _FileName;
 end;
 
 

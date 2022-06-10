@@ -36,21 +36,21 @@ uses
     uEXE_INI,
     ujsDataContexte,
     uSGBD,
-    uInformix,
-    uMySQL,
-    uPostgres,
-    uSQLServer,
-    uSQLite3,
-    uODBC_Access,
     {$ifdef android}
-    uSQLite_Android,
+      uSQLite_Android,
+    {$else}
+      uInformix,
+      uMySQL,
+      uPostgres,
+      uSQLServer,
+      uSQLite3,
+      uODBC_Access,
     {$endif}
 
     ufAccueil_Erreur,
 
   Classes,SysUtils,
-  SQLDB,
-  FMTBcd, BufDataset;
+  FMTBcd;
 
 type
  TCherche_table_Func= function ( tabname: String): Boolean of object;
@@ -154,20 +154,21 @@ procedure TdmDatabase.Initialise;
 begin
      IsMySQL:= sgbdMySQL;
      dmDatabase_IsMySQL:= sgbdMySQL;
-     case SGBD
-     of
-       sgbd_Informix : Classe_jsDataConnexion:= TInformix;
-       sgbd_MySQL    : Classe_jsDataConnexion:= TMySQL;
-       sgbd_Postgres : Classe_jsDataConnexion:= TPostgres;
-       sgbd_SQLServer: Classe_jsDataConnexion:= TSQLServer;
-       sgbd_SQLite3  : Classe_jsDataConnexion:= TSQLite3;
-       {$ifdef android}
-       sgbd_SQLite_Android: Classe_jsDataConnexion:= TSQLite_Android;
-       {$endif}
-       sgbd_ODBC_Access: Classe_jsDataConnexion:= TODBC_Access;
-       else
-           raise Exception.Create( ClassName+'.Initialise: sbgd non géré: '+sSGBDs[SGBD]);
-       end;
+     {$ifdef android}
+       Classe_jsDataConnexion:= TSQLite_Android; //SGBD = sgbd_SQLite_Android
+     {$else}
+       case SGBD
+       of
+         sgbd_Informix   : Classe_jsDataConnexion:= TInformix   ;
+         sgbd_MySQL      : Classe_jsDataConnexion:= TMySQL      ;
+         sgbd_Postgres   : Classe_jsDataConnexion:= TPostgres   ;
+         sgbd_SQLServer  : Classe_jsDataConnexion:= TSQLServer  ;
+         sgbd_SQLite3    : Classe_jsDataConnexion:= TSQLite3    ;
+         sgbd_ODBC_Access: Classe_jsDataConnexion:= TODBC_Access;
+         else
+             raise Exception.Create( ClassName+'.Initialise: sbgd non géré: '+sSGBDs[SGBD]);
+         end;
+     {$endif}
 
      //fAccueil_Log( ClassName+'.Initialise;, avant jsDataConnexion:= Classe_jsDataConnexion.Create;');
      jsDataConnexion:= Classe_jsDataConnexion.Create( SGBD);
