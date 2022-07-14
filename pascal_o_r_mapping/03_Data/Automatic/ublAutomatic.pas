@@ -836,12 +836,16 @@ var
            sljpFile.Initialise( cc);
 
            I:= bl.Champs.sl.Iterateur;
-           while I.Continuer
-           do
-             begin
-             if I.not_Suivant_interne( C) then continue;
-             Traite_Champ( C);
-             end;
+           try
+              while I.Continuer
+              do
+                begin
+                if I.not_Suivant_interne( C) then continue;
+                Traite_Champ( C);
+                end;
+           finally
+                  FreeAndNil( I);
+                  end;
 
            //Gestion des détails
            slDetails:= TStringList.Create;
@@ -1102,12 +1106,16 @@ var
    ph: TTemplateHandler;
 begin
      I:= slTemplateHandler.Iterateur;
-     while I.Continuer
-     do
-       begin
-       if I.not_Suivant( ph) then continue;
-       ph.Produit;
-       end;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( ph) then continue;
+          ph.Produit;
+          end;
+     finally
+            FreeAndNil( I);
+            end;
 end;
 
 function TGenerateur_de_code.Cree_ApplicationTemplateHandler( _Source: String; _slParametres: TBatpro_StringList): TTemplateHandler;
@@ -1156,12 +1164,16 @@ var
    ph: TTemplateHandler;
 begin
      I:= slApplicationTemplateHandler.Iterateur;
-     while I.Continuer
-     do
-       begin
-       if I.not_Suivant( ph) then continue;
-       ph.Produit;
-       end;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( ph) then continue;
+          ph.Produit;
+          end;
+     finally
+            FreeAndNil( I);
+            end;
 end;
 
 

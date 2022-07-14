@@ -215,7 +215,7 @@ end;
 
 destructor ThVST.Destroy;
 begin
-     Free_nil( slhVST_Line);
+     Detruit_StringList( slhVST_Line);
      vst.OnInitNode   := nil;
      vst.OnGetText    := nil;
      vst.OnHeaderClick:= nil;
@@ -267,34 +267,38 @@ procedure ThVST._from_sl_interne;
            cds[0]:= nil;
 
        I:= bl.Champs.sl.Iterateur;
-       while I.Continuer
-       do
-         begin
-         if I.not_Suivant( c) then continue;
+       try
+          while I.Continuer
+          do
+            begin
+            if I.not_Suivant( c) then continue;
 
-         cd:= c.Definition;
-         Nom:= cd.Nom;
-         //if -1 <> slColonnes.IndexOf( Nom) then continue;
+            cd:= c.Definition;
+            Nom:= cd.Nom;
+            //if -1 <> slColonnes.IndexOf( Nom) then continue;
 
-         if Tri = nil
-         then
-             sTri:= sys_Vide
-         else
-             case Tri.ChampTri[ Nom]
-             of
-               -1:  sTri:= ' \';
-                0:  sTri:= sys_Vide;
-               +1:  sTri:= ' /';
-               else sTri:= sys_Vide;
-               end;
+            if Tri = nil
+            then
+                sTri:= sys_Vide
+            else
+                case Tri.ChampTri[ Nom]
+                of
+                  -1:  sTri:= ' \';
+                   0:  sTri:= sys_Vide;
+                  +1:  sTri:= ' /';
+                  else sTri:= sys_Vide;
+                  end;
 
-         vtc:= vst.Header.Columns.Add;
-         vtc.Text:= cd.Libelle + sTri;
-         vtc.MinWidth:= cd.Longueur*10;
-         cds[vtc.Index]:= cd;
+            vtc:= vst.Header.Columns.Add;
+            vtc.Text:= cd.Libelle + sTri;
+            vtc.MinWidth:= cd.Longueur*10;
+            cds[vtc.Index]:= cd;
 
-         //slColonnes.Add( Nom);
-         end;
+            //slColonnes.Add( Nom);
+            end;
+       finally
+              FreeAndNil( I);
+              end;
   end;
   procedure Cree_Colonnes;
   var
@@ -345,12 +349,16 @@ var
         Ajoute_Lignes( n, bl.Connectes, True);
 
         Ia:= bl.Aggregations.Iterateur;
-        while Ia.Continuer
-        do
-          begin
-          if Ia.not_Suivant( ha) then continue;
-          Ajoute_Ligne( n, ha.Nom, ha.sl);
-          end;
+        try
+           while Ia.Continuer
+           do
+             begin
+             if Ia.not_Suivant( ha) then continue;
+             Ajoute_Ligne( n, ha.Nom, ha.sl);
+             end;
+        finally
+               FreeAndNil( Ia);
+               end;
    end;
    function not_Traite_Batpro_StringList: Boolean;
    var
@@ -382,18 +390,22 @@ var
    o: TObject;
 begin
      I:= _sl.Iterateur_interne;
-     while I.Continuer
-     do
-       begin
-       if I.not_Suivant_interne( o) then continue;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant_interne( o) then continue;
 
-       if _Use_S
-       then
-           S:= I.Current_S
-       else
-           S:= '';
-       Ajoute_Ligne( _Node, S, o);
-       end;
+          if _Use_S
+          then
+              S:= I.Current_S
+          else
+              S:= '';
+          Ajoute_Ligne( _Node, S, o);
+          end;
+     finally
+            FreeAndNil( I);
+            end;
 end;
 
 procedure ThVST.vstInitNode( Sender: TBaseVirtualTree;

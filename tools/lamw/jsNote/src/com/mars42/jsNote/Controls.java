@@ -1508,12 +1508,6 @@ public  int Image_getWH (String filename ) {
 //SMART LAMW DESIGNER
 //-------------------------------------------------------------------------------------------------------
 
-public java.lang.Object jActionBarTab_jCreate(long _Self) {
-   return (java.lang.Object)(new jActionBarTab(this,_Self));
-}
-public native void pOnActionBarTabSelected(long pasobj, View view, String title);
-public native void pOnActionBarTabUnSelected(long pasobj, View view, String title);
-
 public java.lang.Object jAudioTrack_jCreate(long _Self,int _streamType, int _sampleRateInHz, int _channelConfig, int _audioFormat, int _bufferSizeInBytes, int _mode) {
   return (java.lang.Object)(new jAudioTrack(this,_Self,_streamType,_sampleRateInHz,_channelConfig,_audioFormat,_bufferSizeInBytes,_mode));
 }
@@ -1557,10 +1551,6 @@ public java.lang.Object jSqliteDataAccess_Create(long pasobj, String databaseNam
    return (java.lang.Object)( new jSqliteDataAccess(this,pasobj,databaseName,colDelim,rowDelim) );
 }
 public native void pOnSqliteDataAccessAsyncPostExecute(long pasobj, int count, String msgResult);
-
-public java.lang.Object jTableLayout_jCreate(long _Self) {
-  return (java.lang.Object)(new jTableLayout(this,_Self));
-}
 
 public  java.lang.Object jTextView_Create(long pasobj) {
   return (java.lang.Object)( new jTextView(this.activity,this,pasobj));

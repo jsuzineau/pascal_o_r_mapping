@@ -200,13 +200,17 @@ var
 begin
      slSousDetails.Clear;
      I:= slListes.Iterateur;
-     while I.Continuer
-     do
-       begin
-       if I.not_Suivant( sl) then continue;
-       I.Supprime_courant;
-       Free_nil( sl);
-       end;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( sl) then continue;
+          I.Supprime_courant;
+          Free_nil( sl);
+          end;
+     finally
+            FreeAndNil( I);
+            end;
 end;
 
 procedure TTri.Execute(_StringList: TBatpro_StringList);

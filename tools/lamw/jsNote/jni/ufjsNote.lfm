@@ -16,168 +16,135 @@ object fjsNote: TfjsNote
   AnimationDurationOut = 1500
   AnimationMode = animNone
   OnJNIPrompt = fjsNoteJNIPrompt
-  object pTab1: jPanel
-    MarginLeft = 4
-    MarginTop = 4
-    MarginRight = 4
-    MarginBottom = 4
+  object wv: jWebView
+    MarginLeft = 0
+    MarginTop = 0
+    MarginRight = 0
+    MarginBottom = 0
     Enabled = True
-    Left = 4
-    Top = 4
-    Width = 386
-    Height = 755
-    Visible = False
-    PosRelativeToAnchor = []
+    Left = 0
+    Top = 0
+    Width = 394
+    Height = 703
+    Visible = True
+    Anchor = bNote
+    PosRelativeToAnchor = [raAbove]
     PosRelativeToParent = []
     LayoutParamWidth = lpMatchParent
     LayoutParamHeight = lpMatchParent
-    BackgroundColor = colbrBeige
-    MinPinchZoomFactor = 0.25
-    MaxPinchZoomFactor = 4
-    AnimationDurationIn = 1500
-    AnimationDurationOut = 1500
-    AnimationMode = animNone
-    object bNote: jButton
-      MarginLeft = 0
-      MarginTop = 5
-      MarginRight = 0
-      MarginBottom = 5
-      Enabled = True
-      Left = 87
-      Top = 700
-      Width = 77
-      Height = 50
-      Visible = True
-      Anchor = bStart
-      PosRelativeToAnchor = [raToRightOf]
-      PosRelativeToParent = [rpBottom]
-      LayoutParamWidth = lpOneFifthOfParent
-      LayoutParamHeight = lpWrapContent
-      Text = 'bNote'
-      BackgroundColor = colbrDefault
-      FontColor = colbrDefault
-      FontSize = 0
-      FontSizeUnit = unitDefault
-      GravityInParent = lgNone
-      OnClick = bNoteClick
-    end
-    object wv: jWebView
-      MarginLeft = 0
-      MarginTop = 0
-      MarginRight = 0
-      MarginBottom = 0
-      Enabled = True
-      Left = 0
-      Top = 0
-      Width = 386
-      Height = 695
-      Visible = True
-      Anchor = bNote
-      PosRelativeToAnchor = [raAbove]
-      PosRelativeToParent = []
-      LayoutParamWidth = lpMatchParent
-      LayoutParamHeight = lpMatchParent
-      JavaScript = True
-      BackgroundColor = colbrDefault
-      ZoomControl = True
-      OnStatus = wvStatus
-      DomStorage = True
-    end
-    object bStart: jButton
-      MarginLeft = 5
-      MarginTop = 5
-      MarginRight = 5
-      MarginBottom = 5
-      Enabled = True
-      Left = 5
-      Top = 700
-      Width = 77
-      Height = 50
-      Visible = True
-      PosRelativeToAnchor = []
-      PosRelativeToParent = [rpBottom, rpLeft]
-      LayoutParamWidth = lpOneFifthOfParent
-      LayoutParamHeight = lpWrapContent
-      Text = 'Start'
-      BackgroundColor = colbrDefault
-      FontColor = colbrDefault
-      FontSize = 0
-      FontSizeUnit = unitDefault
-      GravityInParent = lgNone
-      OnClick = bStartClick
-    end
-    object bStopNote: jButton
-      MarginLeft = 0
-      MarginTop = 5
-      MarginRight = 0
-      MarginBottom = 5
-      Enabled = True
-      Left = 164
-      Top = 700
-      Width = 77
-      Height = 50
-      Visible = True
-      Anchor = bNote
-      PosRelativeToAnchor = [raToRightOf]
-      PosRelativeToParent = [rpBottom]
-      LayoutParamWidth = lpOneFifthOfParent
-      LayoutParamHeight = lpWrapContent
-      Text = 'Stop Note'
-      BackgroundColor = colbrDefault
-      FontColor = colbrDefault
-      FontSize = 0
-      FontSizeUnit = unitDefault
-      GravityInParent = lgNone
-      OnClick = bStopNoteClick
-    end
-    object bfChant: jButton
-      MarginLeft = 0
-      MarginTop = 5
-      MarginRight = 0
-      MarginBottom = 5
-      Enabled = True
-      Left = 241
-      Top = 700
-      Width = 77
-      Height = 50
-      Visible = True
-      Anchor = bStopNote
-      PosRelativeToAnchor = [raToRightOf]
-      PosRelativeToParent = [rpBottom]
-      LayoutParamWidth = lpOneFifthOfParent
-      LayoutParamHeight = lpWrapContent
-      Text = 'bfChant'
-      BackgroundColor = colbrDefault
-      FontColor = colbrDefault
-      FontSize = 0
-      FontSizeUnit = unitDefault
-      GravityInParent = lgNone
-      OnClick = bfChantClick
-    end
-    object TableLayout1: jTableLayout
-      MarginLeft = 10
-      MarginTop = 10
-      MarginRight = 10
-      MarginBottom = 10
-      Enabled = True
-      Left = 104
-      Top = 220
-      Width = 96
-      Height = 96
-      Visible = True
-      PosRelativeToAnchor = []
-      PosRelativeToParent = []
-      LayoutParamWidth = lp96px
-      LayoutParamHeight = lpWrapContent
-      BackgroundColor = colbrDefault
-    end
+    JavaScript = True
+    BackgroundColor = colbrDefault
+    ZoomControl = True
+    OnStatus = wvStatus
+    DomStorage = True
+    Left = 28
+    Top = 28
+  end
+  object bStart: jButton
+    MarginLeft = 5
+    MarginTop = 5
+    MarginRight = 5
+    MarginBottom = 5
+    Enabled = True
+    Left = 5
+    Top = 708
+    Width = 78
+    Height = 50
+    Visible = True
+    PosRelativeToAnchor = []
+    PosRelativeToParent = [rpBottom, rpLeft]
+    LayoutParamWidth = lpOneFifthOfParent
+    LayoutParamHeight = lpWrapContent
+    Text = 'Start'
+    BackgroundColor = colbrDefault
+    FontColor = colbrDefault
+    FontSize = 0
+    FontSizeUnit = unitDefault
+    GravityInParent = lgNone
+    OnClick = bStartClick
+    Left = 56
+    Top = 56
+  end
+  object bNote: jButton
+    MarginLeft = 0
+    MarginTop = 5
+    MarginRight = 0
+    MarginBottom = 5
+    Enabled = True
+    Left = 88
+    Top = 708
+    Width = 78
+    Height = 50
+    Visible = True
+    Anchor = bStart
+    PosRelativeToAnchor = [raToRightOf]
+    PosRelativeToParent = [rpBottom]
+    LayoutParamWidth = lpOneFifthOfParent
+    LayoutParamHeight = lpWrapContent
+    Text = 'bNote'
+    BackgroundColor = colbrDefault
+    FontColor = colbrDefault
+    FontSize = 0
+    FontSizeUnit = unitDefault
+    GravityInParent = lgNone
+    OnClick = bNoteClick
+    Left = 84
+    Top = 84
+  end
+  object bStopNote: jButton
+    MarginLeft = 0
+    MarginTop = 5
+    MarginRight = 0
+    MarginBottom = 5
+    Enabled = True
+    Left = 166
+    Top = 708
+    Width = 78
+    Height = 50
+    Visible = True
+    Anchor = bNote
+    PosRelativeToAnchor = [raToRightOf]
+    PosRelativeToParent = [rpBottom]
+    LayoutParamWidth = lpOneFifthOfParent
+    LayoutParamHeight = lpWrapContent
+    Text = 'Stop Note'
+    BackgroundColor = colbrDefault
+    FontColor = colbrDefault
+    FontSize = 0
+    FontSizeUnit = unitDefault
+    GravityInParent = lgNone
+    OnClick = bStopNoteClick
+    Left = 112
+    Top = 112
+  end
+  object bfChant: jButton
+    MarginLeft = 0
+    MarginTop = 5
+    MarginRight = 0
+    MarginBottom = 5
+    Enabled = True
+    Left = 244
+    Top = 708
+    Width = 78
+    Height = 50
+    Visible = True
+    Anchor = bStopNote
+    PosRelativeToAnchor = [raToRightOf]
+    PosRelativeToParent = [rpBottom]
+    LayoutParamWidth = lpOneFifthOfParent
+    LayoutParamHeight = lpWrapContent
+    Text = 'bfChant'
+    BackgroundColor = colbrDefault
+    FontColor = colbrDefault
+    FontSize = 0
+    FontSizeUnit = unitDefault
+    GravityInParent = lgNone
+    OnClick = bfChantClick
+    Left = 140
+    Top = 140
   end
   object mm: jMidiManager
     Left = 280
     Top = 24
-  end
-  object abt: jActionBarTab
-    Left = 233
-    Top = 44
   end
 end

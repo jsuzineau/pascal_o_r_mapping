@@ -163,12 +163,16 @@ var
    jpf: TjpFile;
 begin
      I:= Iterateur;
-     while I.Continuer
-     do
-       begin
-       if I.not_Suivant( jpf) then Continue;
-       jpf.Initialise( _cc);
-       end;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( jpf) then Continue;
+          jpf.Initialise( _cc);
+          end;
+     finally
+            FreeAndNil( I);
+            end;
 end;
 
 procedure TsljpFile.VisiteMembre(_cm: TContexteMembre);
@@ -177,12 +181,16 @@ var
    jpf: TjpFile;
 begin
      I:= Iterateur;
-     while I.Continuer
-     do
-       begin
-       if I.not_Suivant( jpf) then Continue;
-       jpf.VisiteMembre( _cm);
-       end;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( jpf) then Continue;
+          jpf.VisiteMembre( _cm);
+          end;
+     finally
+            FreeAndNil( I);
+            end;
 end;
 
 procedure TsljpFile.VisiteDetail( s_Detail, sNomTableMembre: String);
@@ -191,12 +199,16 @@ var
    jpf: TjpFile;
 begin
      I:= Iterateur;
-     while I.Continuer
-     do
-       begin
-       if I.not_Suivant( jpf) then Continue;
-       jpf.VisiteDetail( s_Detail, sNomTableMembre);
-       end;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( jpf) then Continue;
+          jpf.VisiteDetail( s_Detail, sNomTableMembre);
+          end;
+     finally
+            FreeAndNil( I);
+            end;
 end;
 
 procedure TsljpFile.VisiteAggregation(s_Aggregation, sNomTableMembre: String);
@@ -205,12 +217,16 @@ var
    jpf: TjpFile;
 begin
      I:= Iterateur;
-     while I.Continuer
-     do
-       begin
-       if I.not_Suivant( jpf) then Continue;
-       jpf.VisiteAggregation( s_Aggregation, sNomTableMembre);
-       end;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( jpf) then Continue;
+          jpf.VisiteAggregation( s_Aggregation, sNomTableMembre);
+          end;
+     finally
+            FreeAndNil( I);
+            end;
 end;
 
 procedure TsljpFile.Finalise;
@@ -219,12 +235,16 @@ var
    jpf: TjpFile;
 begin
      I:= Iterateur;
-     while I.Continuer
-     do
-       begin
-       if I.not_Suivant( jpf) then Continue;
-       jpf.Finalise;
-       end;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( jpf) then Continue;
+          jpf.Finalise;
+          end;
+     finally
+            FreeAndNil( I);
+            end;
 end;
 
 procedure TsljpFile.To_Parametres(_sl: TStringList);
@@ -233,17 +253,37 @@ var
    jpf: TjpFile;
 begin
      I:= Iterateur;
-     while I.Continuer
-     do
-       begin
-       if I.not_Suivant( jpf) then Continue;
-       jpf.To_Parametres( _sl);
-       end;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( jpf) then Continue;
+          jpf.To_Parametres( _sl);
+          end;
+     finally
+            FreeAndNil( I);
+            end;
 end;
 
 { TjpFile }
 
 constructor TjpFile.Create( _nfKey: String);
+  procedure RemoveTrailing_LineEnding( var _s: String);
+  var
+     ls: Integer;
+     lle: Integer;
+  begin
+       lle:= Length( LineEnding);
+       ls := Length( _s);
+       if ls < lle then exit;
+
+       Delete( _s, ls-lle+1, lle);
+  end;
+  function s_from_nf( _nf: String):String;
+  begin
+       Result:= String_from_File( _nf);
+       RemoveTrailing_LineEnding( Result);
+  end;
 begin
      nfKey       := _nfKey;
      nfBegin     := StringReplace( nfKey, s_key_, s_begin_     , [rfReplaceAll]);
@@ -251,11 +291,11 @@ begin
      nfSeparateur:= StringReplace( nfKey, s_key_, s_separateur_, [rfReplaceAll]);
      nfEnd       := StringReplace( nfKey, s_key_, s_end_       , [rfReplaceAll]);
 
-     sKey       := String_from_File( nfKey       );
-     sBegin     := String_from_File( nfBegin     );
-     sElement   := String_from_File( nfElement   );
-     sSeparateur:= String_from_File( nfSeparateur);
-     sEnd       := String_from_File( nfEnd       );
+     sKey       := s_from_nf( nfKey       );
+     sBegin     := s_from_nf( nfBegin     );
+     sElement   := s_from_nf( nfElement   );
+     sSeparateur:= s_from_nf( nfSeparateur);
+     sEnd       := s_from_nf( nfEnd       );
 
      Cle:= sKey;
 end;

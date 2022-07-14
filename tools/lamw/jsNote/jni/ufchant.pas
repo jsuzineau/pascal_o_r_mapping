@@ -85,6 +85,10 @@ type
      itemID: integer; itemCaption: string; checked: boolean);
     procedure fChantCreateOptionMenu(Sender: TObject; jObjMenu: jObject);
     procedure fChantJNIPrompt(Sender: TObject);
+  private const
+    rgInstrument_Midi_Piano    =0;
+    rgInstrument_Midi_Tenor_Sax=1;
+    rgInstrument_Wave          =2;
   private
     sl: TslChant;
     NbChants: Integer;
@@ -159,6 +163,8 @@ begin
 
      NbChants_ok:= Requete.Integer_from( 'select count(*) as NbLignes from Chant', 'NbLignes', NbChants);
      WriteLn( Classname+'.fChantJNIPrompt: Requete NbLignes= ',NbChants, ', NbLignes_ok= ',NbChants_ok);
+
+     rgInstrument.CheckedIndex:= rgInstrument_Midi_Piano;
 end;
 
 procedure TfChant.Affiche( _Index: Integer);
@@ -244,10 +250,10 @@ begin
 
      case rgInstrument.CheckedIndex
      of
-       0: Piano;
-       1: Tenor_Sax;
-       2: Wave;
-       else Wave;
+       rgInstrument_Midi_Piano    : Piano;
+       rgInstrument_Midi_Tenor_Sax: Tenor_Sax;
+       rgInstrument_Wave          : Wave;
+       else                         Wave;
        end;
 end;
 

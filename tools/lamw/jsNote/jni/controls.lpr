@@ -404,25 +404,6 @@ begin
 end;
 
 { Class:     com_mars42_jsNote_Controls
-  Method:    pOnActionBarTabSelected
-  Signature: (JLandroid/view/View;Ljava/lang/String;)V }
-procedure pOnActionBarTabSelected(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
- view: JObject; title: JString); cdecl;
-begin
-  Java_Event_pOnActionBarTabSelected(PEnv, this, TObject(pasobj), view, title);
-end;
-
-{ Class:     com_mars42_jsNote_Controls
-  Method:    pOnActionBarTabUnSelected
-  Signature: (JLandroid/view/View;Ljava/lang/String;)V }
-procedure pOnActionBarTabUnSelected(PEnv: PJNIEnv; this: JObject;
- pasobj: JLong; view: JObject; title: JString); cdecl;
-begin
-  Java_Event_pOnActionBarTabUnSelected(PEnv, this, TObject(pasobj), view, title
-   );
-end;
-
-{ Class:     com_mars42_jsNote_Controls
   Method:    pEditTextOnActionIconTouchUp
   Signature: (JLjava/lang/String;)V }
 procedure pEditTextOnActionIconTouchUp(PEnv: PJNIEnv; this: JObject;
@@ -524,7 +505,7 @@ begin
    error, primaryError);
 end;
 
-const NativeMethods: array[0..56] of JNINativeMethod = (
+const NativeMethods: array[0..54] of JNINativeMethod = (
    (name: 'pAppOnCreate';
     signature: '(Landroid/content/Context;Landroid/widget/RelativeLayout;'
      +'Landroid/content/Intent;)V';
@@ -661,12 +642,6 @@ const NativeMethods: array[0..56] of JNINativeMethod = (
    (name: 'pOnRunOnUiThread';
     signature: '(JI)V';
     fnPtr: @pOnRunOnUiThread; ),
-   (name: 'pOnActionBarTabSelected';
-    signature: '(JLandroid/view/View;Ljava/lang/String;)V';
-    fnPtr: @pOnActionBarTabSelected; ),
-   (name: 'pOnActionBarTabUnSelected';
-    signature: '(JLandroid/view/View;Ljava/lang/String;)V';
-    fnPtr: @pOnActionBarTabUnSelected; ),
    (name: 'pEditTextOnActionIconTouchUp';
     signature: '(JLjava/lang/String;)V';
     fnPtr: @pEditTextOnActionIconTouchUp; ),
@@ -816,10 +791,6 @@ exports
   pAppOnRequestPermissionResult name 'Java_com_mars42_jsNote_Controls_'
    +'pAppOnRequestPermissionResult',
   pOnRunOnUiThread name 'Java_com_mars42_jsNote_Controls_pOnRunOnUiThread',
-  pOnActionBarTabSelected name 'Java_com_mars42_jsNote_Controls_'
-   +'pOnActionBarTabSelected',
-  pOnActionBarTabUnSelected name 'Java_com_mars42_jsNote_Controls_'
-   +'pOnActionBarTabUnSelected',
   pEditTextOnActionIconTouchUp name 'Java_com_mars42_jsNote_Controls_'
    +'pEditTextOnActionIconTouchUp',
   pEditTextOnActionIconTouchDown name 'Java_com_mars42_jsNote_Controls_'

@@ -17,30 +17,28 @@ type
 
   { TfjsNote }
 
-  TfjsNote = class(jForm)
+TfjsNote
+=
+ class(jForm)
    bfChant: jButton;
-      bNote: jButton;
-      abt: jActionBarTab;
-      bStart: jButton;
-      bStopNote: jButton;
-      TableLayout1: jTableLayout;
-      wv: jWebView;
-      mm: jMidiManager;
-      pTab1: jPanel;
-
-      procedure bfChantClick(Sender: TObject);
-      procedure bStartClick(Sender: TObject);
-      procedure bStopNoteClick(Sender: TObject);
-      procedure fjsNoteJNIPrompt(Sender: TObject);
-      procedure bNoteClick(Sender: TObject);
-      procedure wvStatus(Sender: TObject; Status: TWebViewStatus; URL: String;var CanNavi: Boolean);
-  //méthodes
-  private
-    m: TAndroid_Midi;
-    FfChant: TfChant;
-    procedure fChant_Show;
-    function  ProcessURL(URL: string): boolean;
-  end;
+   bNote: jButton;
+   bStart: jButton;
+   bStopNote: jButton;
+   mm: jMidiManager;
+   wv: jWebView;
+   procedure bfChantClick(Sender: TObject);
+   procedure bStartClick(Sender: TObject);
+   procedure bStopNoteClick(Sender: TObject);
+   procedure fjsNoteJNIPrompt(Sender: TObject);
+   procedure bNoteClick(Sender: TObject);
+   procedure wvStatus(Sender: TObject; Status: TWebViewStatus; URL: String;var CanNavi: Boolean);
+ //méthodes
+ private
+   m: TAndroid_Midi;
+   FfChant: TfChant;
+   procedure fChant_Show;
+   function  ProcessURL(URL: string): boolean;
+ end;
   
 var
   fjsNote: TfjsNote;
@@ -55,11 +53,10 @@ procedure TfjsNote.fjsNoteJNIPrompt(Sender: TObject);
 begin
      FfChant:= nil;
      m:= TAndroid_Midi.Create( mm);
-     SetIconActionBar('ic_bullets');
+     //SetIconActionBar('ic_bullets');
 
-     abt.Add('NAME', pTab1.View{sheet view}, 'ic_bullet_green');    // ...\res\drawable-xxx
      wv.LoadFromHtmlFile('/android_asset','Cle_Sol_8vb.svg');
-     SetTabNavigationModeActionBar;  //this is needed!!!
+     //SetTabNavigationModeActionBar;  //this is needed!!!
 end;
 
 procedure TfjsNote.bStartClick(Sender: TObject);

@@ -64,6 +64,7 @@ type
   //Méthodes
   public
     procedure Prepare; override;
+    procedure Fill_with_databases( _s: TStrings); override;
   //Last_Insert_id
   public
     function Last_Insert_id( _NomTable: String): Integer; override;
@@ -184,6 +185,12 @@ begin
 
      sqlcSQLite3.DatabaseName:= Database;
 
+end;
+
+procedure TSQLite3_SQLQuery.Fill_with_databases(_s: TStrings);
+begin
+     //non applicable en SQLite
+     //inherited Fill_with_databases(_s);
 end;
 
 function TSQLite3_SQLQuery.Last_Insert_id( _NomTable: String): Integer;

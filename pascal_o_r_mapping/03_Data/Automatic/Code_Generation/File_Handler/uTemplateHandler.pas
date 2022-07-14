@@ -200,7 +200,7 @@ end;
 
 destructor TTemplateHandler.Destroy;
 begin
-     if Pos( 'udmd', Source) <> 0
+     if Pos( 'udk', Source) <> 0
      then
          slLog.SaveToFile( Calcule_NomCible+'.log');
      FreeAndNil( slCible     );

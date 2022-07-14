@@ -95,6 +95,8 @@ begin
      T('do2');
      T('ré4');
      T('mi3');
+     T('fa#3');
+     T('sib3');
 end;
 
 initialization

@@ -661,14 +661,18 @@ begin
      if nil = Classe_Elements then exit;
 
      I:= Iterateur;
-     while I.Continuer
-     do
-       begin
-       if I.not_Suivant_interne( o) then continue;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant_interne( o) then continue;
 
-       I.Supprime_courant;
-       FreeAndNil( o);
-       end;
+          I.Supprime_courant;
+          FreeAndNil( o);
+          end;
+     finally
+            FreeAndNil( I);
+            end;
 end;
 
 procedure TBatpro_StringList.JSON_Premiere_Page;

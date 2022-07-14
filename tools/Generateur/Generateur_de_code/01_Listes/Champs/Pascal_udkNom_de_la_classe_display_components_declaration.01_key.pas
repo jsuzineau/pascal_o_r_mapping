@@ -1,0 +1,1 @@
+//pattern_udk_display_components_declaration

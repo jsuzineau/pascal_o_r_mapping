@@ -383,13 +383,17 @@ var
 begin
      Result:= 0;
      I:= sl.Iterateur;
-     while I.Continuer
-     do
-       begin
-       if I.not_Suivant( d) then continue;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( d) then continue;
 
-       if d.Persistant then Inc(Result);
-       end;
+          if d.Persistant then Inc(Result);
+          end;
+     finally
+            FreeAndNil( I);
+            end;
 end;
 
 function TChampDefinitions.Definition_from_Field( Field: String): TChampDefinition;

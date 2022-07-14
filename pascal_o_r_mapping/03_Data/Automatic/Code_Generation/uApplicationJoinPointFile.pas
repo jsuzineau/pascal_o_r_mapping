@@ -165,12 +165,16 @@ var
    jpf: TApplicationJoinPointFile;
 begin
      I:= Iterateur;
-     while I.Continuer
-     do
-       begin
-       if I.not_Suivant( jpf) then Continue;
-       jpf.Initialise;
-       end;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( jpf) then Continue;
+          jpf.Initialise;
+          end;
+     finally
+            FreeAndNil( I);
+            end;
 end;
 
 procedure TslApplicationJoinPointFile.VisiteClasse( _cc: TContexteClasse);
@@ -179,12 +183,16 @@ var
    jpf: TApplicationJoinPointFile;
 begin
      I:= Iterateur;
-     while I.Continuer
-     do
-       begin
-       if I.not_Suivant( jpf) then Continue;
-       jpf.VisiteClasse( _cc);
-       end;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( jpf) then Continue;
+          jpf.VisiteClasse( _cc);
+          end;
+     finally
+            FreeAndNil( I);
+            end;
 end;
 
 procedure TslApplicationJoinPointFile.Finalise;
@@ -193,12 +201,16 @@ var
    jpf: TApplicationJoinPointFile;
 begin
      I:= Iterateur;
-     while I.Continuer
-     do
-       begin
-       if I.not_Suivant( jpf) then Continue;
-       jpf.Finalise;
-       end;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( jpf) then Continue;
+          jpf.Finalise;
+          end;
+     finally
+            FreeAndNil( I);
+            end;
 end;
 
 procedure TslApplicationJoinPointFile.To_Parametres(_sl: TStringList);
@@ -207,12 +219,16 @@ var
    jpf: TApplicationJoinPointFile;
 begin
      I:= Iterateur;
-     while I.Continuer
-     do
-       begin
-       if I.not_Suivant( jpf) then Continue;
-       jpf.To_Parametres( _sl);
-       end;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( jpf) then Continue;
+          jpf.To_Parametres( _sl);
+          end;
+     finally
+            FreeAndNil( I);
+            end;
 end;
 
 { TApplicationJoinPointFile }

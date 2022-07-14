@@ -137,14 +137,14 @@ begin
         0: Result:= 'do  ';
         1: Result:= 'do# ';
         2: Result:= 'ré  ';
-        3: Result:= 'ré# ';
+        3: Result:= 'mib ';
         4: Result:= 'mi  ';
         5: Result:= 'fa  ';
         6: Result:= 'fa# ';
         7: Result:= 'sol ';
         8: Result:= 'sol#';
         9: Result:= 'la  ';
-       10: Result:= 'la# ';
+       10: Result:= 'sib ';
        11: Result:= 'si  ';
        end;
 end;
@@ -309,7 +309,12 @@ var
             latin:= True;
             case Suivant
             of
-              'i' : nNote:=11;
+              'i' :
+                case Suivant
+                of
+                  'b' : nNote:=10;
+                  else  nNote:=11;
+                  end;
               'o' :
                 case Suivant
                 of
