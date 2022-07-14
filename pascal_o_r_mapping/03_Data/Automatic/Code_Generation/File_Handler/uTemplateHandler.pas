@@ -200,9 +200,9 @@ end;
 
 destructor TTemplateHandler.Destroy;
 begin
-     if Pos( 'udk', Source) <> 0
-     then
-         slLog.SaveToFile( Calcule_NomCible+'.log');
+     //if Pos( 'udk', Source) <> 0
+     //then
+     //    slLog.SaveToFile( Calcule_NomCible+'.log');
      FreeAndNil( slCible     );
      FreeAndNil( slSource    );
      FreeAndNil( slLog       );

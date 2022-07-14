@@ -3,7 +3,7 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Active="Windows_Debug"/>
+    <BuildModes Active="Windows_Release"/>
     <Units Count="152">
       <Unit0>
         <Filename Value="Generateur.lpr"/>
@@ -30,7 +30,8 @@
         <ComponentName Value="fAutomatic_VST"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="107"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="62"/>
         <CursorPos Y="129"/>
         <UsageCount Value="207"/>
         <Loaded Value="True"/>
@@ -191,8 +192,8 @@
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\File_Handler\uTemplateHandler.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="13"/>
-        <TopLine Value="206"/>
-        <CursorPos Y="245"/>
+        <TopLine Value="189"/>
+        <CursorPos X="31" Y="190"/>
         <UsageCount Value="62"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -812,7 +813,6 @@
       </Unit102>
       <Unit103>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\udmDatabase.pas"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
         <TopLine Value="143"/>
         <CursorPos X="58" Y="167"/>

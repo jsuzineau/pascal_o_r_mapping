@@ -108,7 +108,7 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="E:\03_travail\FBU\Jean-Marie_ALMERAS\MOS\Generateur\Generateur.exe"/>
+            <Filename Value="E:\09_Clients\Sibyl\02_source\AmiBroker\COM\Generateur\Generateur.exe"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
