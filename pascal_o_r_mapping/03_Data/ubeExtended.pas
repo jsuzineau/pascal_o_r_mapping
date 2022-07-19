@@ -29,7 +29,7 @@ uses
     uBatpro_StringList,
     uuStrings,
     uReels,
-    uWindows,
+    //uWindows,
     u_sys_,
     u_sys_Batpro_Element,
     uDrawInfo,

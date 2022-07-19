@@ -6,7 +6,8 @@
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>
-        <OtherUnitFiles Value="OpenDocument_DelphiReportEngine"/>
+        <IncludeFiles Value="OpenDocument_DelphiReportEngine/Elements/ODRE_Table"/>
+        <OtherUnitFiles Value="OpenDocument_DelphiReportEngine;OpenDocument_DelphiReportEngine/Elements;OpenDocument_DelphiReportEngine/Elements/ODRE_Table;OpenDocument_DelphiReportEngine/Elements/OpenDocument_DelphiReportEngine_Test"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -15,7 +16,7 @@
         </SyntaxOptions>
       </Parsing>
     </CompilerOptions>
-    <Files Count="37">
+    <Files Count="49">
       <Item1>
         <Filename Value="uAide.pas"/>
         <UnitName Value="uAide"/>
@@ -112,36 +113,87 @@
         <Filename Value="OpenDocument_DelphiReportEngine/ufOpenDocument_DelphiReportEngine.pas"/>
         <UnitName Value="ufOpenDocument_DelphiReportEngine"/>
       </Item37>
+      <Item38>
+        <Filename Value="OpenDocument_DelphiReportEngine/Elements/ublOD_Dataset_Column.pas"/>
+        <UnitName Value="ublOD_Dataset_Column"/>
+      </Item38>
+      <Item39>
+        <Filename Value="OpenDocument_DelphiReportEngine/Elements/ublOD_Dataset_Columns.pas"/>
+        <UnitName Value="ublOD_Dataset_Columns"/>
+      </Item39>
+      <Item40>
+        <Filename Value="OpenDocument_DelphiReportEngine/Elements/uhVST_ODR.pas"/>
+        <UnitName Value="uhVST_ODR"/>
+      </Item40>
+      <Item41>
+        <Filename Value="OpenDocument_DelphiReportEngine/Elements/ublOD_Affectation.pas"/>
+        <UnitName Value="ublOD_Affectation"/>
+      </Item41>
+      <Item42>
+        <Filename Value="OpenDocument_DelphiReportEngine/Elements/ublOD_Column.pas"/>
+        <UnitName Value="ublOD_Column"/>
+      </Item42>
+      <Item43>
+        <Filename Value="OpenDocument_DelphiReportEngine/Elements/ODRE_Table/udkODRE_Table.lfm"/>
+        <Type Value="LFM"/>
+      </Item43>
+      <Item44>
+        <Filename Value="OpenDocument_DelphiReportEngine/Elements/ODRE_Table/udkODRE_Table.pas"/>
+        <UnitName Value="udkODRE_Table"/>
+      </Item44>
+      <Item45>
+        <Filename Value="OpenDocument_DelphiReportEngine/Elements/ODRE_Table/uhdODRE_Table.pas"/>
+        <UnitName Value="uhdODRE_Table"/>
+      </Item45>
+      <Item46>
+        <Filename Value="OpenDocument_DelphiReportEngine/Elements/ODRE_Table/ublODRE_Table.pas"/>
+        <UnitName Value="ublODRE_Table"/>
+      </Item46>
+      <Item47>
+        <Filename Value="OpenDocument_DelphiReportEngine/Elements/OpenDocument_DelphiReportEngine_Test/uhdmOpenDocument_DelphiReportEngine_Test.pas"/>
+        <UnitName Value="uhdmOpenDocument_DelphiReportEngine_Test"/>
+      </Item47>
+      <Item48>
+        <Filename Value="OpenDocument_DelphiReportEngine/Elements/OpenDocument_DelphiReportEngine_Test/uodOpenDocument_DelphiReportEngine_Test.pas"/>
+        <UnitName Value="uodOpenDocument_DelphiReportEngine_Test"/>
+      </Item48>
+      <Item49>
+        <Filename Value="OpenDocument_DelphiReportEngine/Elements/OpenDocument_DelphiReportEngine_Test/ublOpenDocument_DelphiReportEngine_Test.pas"/>
+        <UnitName Value="ublOpenDocument_DelphiReportEngine_Test"/>
+      </Item49>
     </Files>
     <CompatibilityMode Value="True"/>
-    <RequiredPkgs Count="9">
+    <RequiredPkgs Count="10">
       <Item1>
-        <PackageName Value="OD_DelphiReportEngine_Data"/>
+        <PackageName Value="virtualtreeview_package"/>
       </Item1>
       <Item2>
-        <PackageName Value="OD_DelphiReportEngine_Controls"/>
+        <PackageName Value="OD_DelphiReportEngine_Data"/>
       </Item2>
       <Item3>
-        <PackageName Value="SQLDBLaz"/>
+        <PackageName Value="OD_DelphiReportEngine_Controls"/>
       </Item3>
       <Item4>
-        <PackageName Value="SDFLaz"/>
+        <PackageName Value="SQLDBLaz"/>
       </Item4>
       <Item5>
-        <PackageName Value="MemDSLaz"/>
+        <PackageName Value="SDFLaz"/>
       </Item5>
       <Item6>
-        <PackageName Value="DBFLaz"/>
+        <PackageName Value="MemDSLaz"/>
       </Item6>
       <Item7>
-        <PackageName Value="LCL"/>
+        <PackageName Value="DBFLaz"/>
       </Item7>
       <Item8>
-        <PackageName Value="OD_DelphiReportEngine_Components"/>
+        <PackageName Value="LCL"/>
       </Item8>
       <Item9>
-        <PackageName Value="FCL"/>
+        <PackageName Value="OD_DelphiReportEngine_Components"/>
       </Item9>
+      <Item10>
+        <PackageName Value="FCL"/>
+      </Item10>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

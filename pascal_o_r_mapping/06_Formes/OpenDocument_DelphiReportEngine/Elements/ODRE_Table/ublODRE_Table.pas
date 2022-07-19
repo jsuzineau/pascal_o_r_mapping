@@ -128,12 +128,18 @@ type
     procedure Charge( _Nom: String; _C: TOD_TextTableContext);
     procedure To_Doc;
   //Champs
+  private
+    function GetNom                         : String ; procedure SetNom                         ( _Value: String );
+    function GetForceBordure                : Boolean; procedure SetForceBordure                ( _Value: Boolean);
+    function GetBordure_Ligne               : Boolean; procedure SetBordure_Ligne               ( _Value: Boolean);
+    function GetMasquerTitreColonnes        : Boolean; procedure SetMasquerTitreColonnes        ( _Value: Boolean);
+    function GetBordures_Verticales_Colonnes: Boolean; procedure SetBordures_Verticales_Colonnes( _Value: Boolean);
   public
-    property Nom                         : String  read T.Nom                          write T.Nom                         ;
-    property ForceBordure                : Boolean read T.ForceBordure                 write T.ForceBordure                ;
-    property Bordure_Ligne               : Boolean read T.Bordure_Ligne                write T.Bordure_Ligne               ;
-    property MasquerTitreColonnes        : Boolean read T.MasquerTitreColonnes         write T.MasquerTitreColonnes        ;
-    property Bordures_Verticales_Colonnes: Boolean read T.Bordures_Verticales_Colonnes write T.Bordures_Verticales_Colonnes;
+    property Nom                         : String  read GetNom                          write SetNom                         ;
+    property ForceBordure                : Boolean read GetForceBordure                 write SetForceBordure                ;
+    property Bordure_Ligne               : Boolean read GetBordure_Ligne                write SetBordure_Ligne               ;
+    property MasquerTitreColonnes        : Boolean read GetMasquerTitreColonnes         write SetMasquerTitreColonnes        ;
+    property Bordures_Verticales_Colonnes: Boolean read GetBordures_Verticales_Colonnes write SetBordures_Verticales_Colonnes;
   //Gestion de la clé
   public
     class function sCle_from_( _Nom: String): String;
@@ -500,6 +506,12 @@ begin
      T.from_Doc( _C);
      haOD_Column.Charge;
 end;
+
+function TblODRE_Table.GetNom                         : String ; begin Result:= T.Nom                         ; end; procedure TblODRE_Table.SetNom                         (_Value: String ); begin T.Nom                         := _Value; end;
+function TblODRE_Table.GetForceBordure                : Boolean; begin Result:= T.ForceBordure                ; end; procedure TblODRE_Table.SetForceBordure                (_Value: Boolean); begin T.ForceBordure                := _Value; end;
+function TblODRE_Table.GetBordure_Ligne               : Boolean; begin Result:= T.Bordure_Ligne               ; end; procedure TblODRE_Table.SetBordure_Ligne               (_Value: Boolean); begin T.Bordure_Ligne               := _Value; end;
+function TblODRE_Table.GetMasquerTitreColonnes        : Boolean; begin Result:= T.MasquerTitreColonnes        ; end; procedure TblODRE_Table.SetMasquerTitreColonnes        (_Value: Boolean); begin T.MasquerTitreColonnes        := _Value; end;
+function TblODRE_Table.GetBordures_Verticales_Colonnes: Boolean; begin Result:= T.Bordures_Verticales_Colonnes; end; procedure TblODRE_Table.SetBordures_Verticales_Colonnes(_Value: Boolean); begin T.Bordures_Verticales_Colonnes:= _Value; end;
 
 procedure TblODRE_Table.To_Doc;
 begin

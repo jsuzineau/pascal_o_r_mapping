@@ -21,7 +21,8 @@ uses
  upoolG_BECPCTX, upoolG_CTX, upoolG_CTXTYPE, uPostgres, uRequete, 
  uSuppression, uSVG, u_sys_Batpro_Element, uTri, uXML, uTraits, u_db_Formes, 
  ubeChamp, ubeClusterElement, ubeJalon, uberef, ubeSerie, uhTriColonne, 
- uHTTP_Interface, LazarusPackageIntf;
+ uHTTP_Interface, ubeCurseur, ubeExtended, ubeCoche, ubeListe_Batpro_Elements, 
+ ubeString, ubeTraits, LazarusPackageIntf;
 
 implementation
 

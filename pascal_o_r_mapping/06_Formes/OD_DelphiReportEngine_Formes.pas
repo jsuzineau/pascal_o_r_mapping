@@ -10,10 +10,15 @@ interface
 uses
  uAide, uAtom, uDataClasses, ufAccueil, ufBatpro_Desk, ufBatpro_Form, 
  ufBatpro_Informix, ufBatpro_MySQL, ufBatpro_Parametres_Client, ufBitmaps, 
- ufHelp_Creator, ufMailTo, ufOOoModelSelect, ufOOo_NomFichier_Modele, 
- ufOpenDocument_DelphiReportEngine, ufpBas, ufReconcileError, 
- uImpression_Font_Size_Multiplier, udmxCreator, ufBatpro_Form_Ancetre, 
- uhDessinnateur, ufBloqueur, uHorloge, ufBase_dsb, LazarusPackageIntf;
+ ufHelp_Creator, ufMailTo, ufOOoModelSelect, ufOOo_NomFichier_Modele, ufpBas, 
+ ufReconcileError, uImpression_Font_Size_Multiplier, udmxCreator, 
+ ufBatpro_Form_Ancetre, uhDessinnateur, ufBloqueur, uHorloge, ufBase_dsb, 
+ ufOpenDocument_DelphiReportEngine, ublOD_Dataset_Column, 
+ ublOD_Dataset_Columns, uhVST_ODR, ublOD_Affectation, ublOD_Column, 
+ udkODRE_Table, uhdODRE_Table, ublODRE_Table, 
+ uhdmOpenDocument_DelphiReportEngine_Test, 
+ uodOpenDocument_DelphiReportEngine_Test, 
+ ublOpenDocument_DelphiReportEngine_Test, LazarusPackageIntf;
 
 implementation
 

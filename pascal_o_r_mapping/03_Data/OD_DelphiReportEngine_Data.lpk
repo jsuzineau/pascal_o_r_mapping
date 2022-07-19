@@ -21,7 +21,7 @@
         </OtherDefines>
       </Other>
     </CompilerOptions>
-    <Files Count="67">
+    <Files Count="73">
       <Item1>
         <Filename Value="uBatpro_Element.pas"/>
         <UnitName Value="uBatpro_Element"/>
@@ -289,6 +289,30 @@
         <Filename Value="uHTTP_Interface.pas"/>
         <UnitName Value="uHTTP_Interface"/>
       </Item67>
+      <Item68>
+        <Filename Value="ubeCurseur.pas"/>
+        <UnitName Value="ubeCurseur"/>
+      </Item68>
+      <Item69>
+        <Filename Value="ubeExtended.pas"/>
+        <UnitName Value="ubeExtended"/>
+      </Item69>
+      <Item70>
+        <Filename Value="ubeCoche.pas"/>
+        <UnitName Value="ubeCoche"/>
+      </Item70>
+      <Item71>
+        <Filename Value="ubeListe_Batpro_Elements.pas"/>
+        <UnitName Value="ubeListe_Batpro_Elements"/>
+      </Item71>
+      <Item72>
+        <Filename Value="ubeString.pas"/>
+        <UnitName Value="ubeString"/>
+      </Item72>
+      <Item73>
+        <Filename Value="ubeTraits.pas"/>
+        <UnitName Value="ubeTraits"/>
+      </Item73>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="1">

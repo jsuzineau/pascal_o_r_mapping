@@ -50,10 +50,14 @@ type
     DC: TOD_Dataset_Column;
     procedure Charge( _DC: TOD_Dataset_Column);
   //Attributs
+  private
+    function GetFieldName: String  ; procedure SetFieldName( _Value: String );
+    function GetDebut    : Integer ; procedure SetDebut    ( _Value: Integer);
+    function GetFin      : Integer ; procedure SetFin      ( _Value: Integer);
   public
-    property FieldName: String  read DC.FieldName write DC.FieldName;
-    property Debut    : Integer read DC.Debut     write DC.Debut    ;
-    property Fin      : Integer read DC.Fin       write DC.Fin      ;
+    property FieldName: String  read GetFieldName write SetFieldName;
+    property Debut    : Integer read GetDebut     write SetDebut    ;
+    property Fin      : Integer read GetFin       write SetFin      ;
   //Gestion de la clé
   public
     class function sCle_from_( _FieldName: String): String;
@@ -162,6 +166,10 @@ begin
      Ajoute_Integer( DC.Debut    , 'Debut'    );
      Ajoute_Integer( DC.Fin      , 'Fin'      );
 end;
+
+function TblOD_Dataset_Column.GetFieldName: String ; begin Result:= DC.FieldName; end; procedure TblOD_Dataset_Column.SetFieldName(_Value: String ); begin DC.FieldName:= _Value; end;
+function TblOD_Dataset_Column.GetDebut    : Integer; begin Result:= DC.Debut    ; end; procedure TblOD_Dataset_Column.SetDebut    (_Value: Integer); begin DC.Debut    := _Value; end;
+function TblOD_Dataset_Column.GetFin      : Integer; begin Result:= DC.Fin      ; end; procedure TblOD_Dataset_Column.SetFin      (_Value: Integer); begin DC.Fin      := _Value; end;
 
 class function TblOD_Dataset_Column.sCle_from_( _FieldName: String): String;
 begin

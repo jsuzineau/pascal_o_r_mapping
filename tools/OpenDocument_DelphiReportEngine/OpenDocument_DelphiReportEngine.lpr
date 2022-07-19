@@ -28,8 +28,7 @@ program OpenDocument_DelphiReportEngine;
 |                                                                             }
 
 uses
-  Forms, Interfaces,
-  ufOpenDocument_DelphiReportEngine;
+  Forms, Interfaces;
 
 {.$R *.res}
 
