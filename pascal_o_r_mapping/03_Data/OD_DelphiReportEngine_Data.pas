@@ -22,7 +22,7 @@ uses
  uSuppression, uSVG, u_sys_Batpro_Element, uTri, uXML, uTraits, u_db_Formes, 
  ubeChamp, ubeClusterElement, ubeJalon, uberef, ubeSerie, uhTriColonne, 
  uHTTP_Interface, ubeCurseur, ubeExtended, ubeCoche, ubeListe_Batpro_Elements, 
- ubeString, ubeTraits, LazarusPackageIntf;
+ ubeString, ubeTraits, uOD_Table_Batpro, LazarusPackageIntf;
 
 implementation
 

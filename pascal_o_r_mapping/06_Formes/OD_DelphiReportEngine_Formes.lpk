@@ -16,7 +16,7 @@
         </SyntaxOptions>
       </Parsing>
     </CompilerOptions>
-    <Files Count="49">
+    <Files Count="56">
       <Item1>
         <Filename Value="uAide.pas"/>
         <UnitName Value="uAide"/>
@@ -161,6 +161,34 @@
         <Filename Value="OpenDocument_DelphiReportEngine/Elements/OpenDocument_DelphiReportEngine_Test/ublOpenDocument_DelphiReportEngine_Test.pas"/>
         <UnitName Value="ublOpenDocument_DelphiReportEngine_Test"/>
       </Item49>
+      <Item50>
+        <Filename Value="OpenDocument_DelphiReportEngine/ufFields_vstInsertion.pas"/>
+        <UnitName Value="ufFields_vstInsertion"/>
+      </Item50>
+      <Item51>
+        <Filename Value="OpenDocument_DelphiReportEngine/ufFields_vstTables.pas"/>
+        <UnitName Value="ufFields_vstTables"/>
+      </Item51>
+      <Item52>
+        <Filename Value="OpenDocument_DelphiReportEngine/ufStringList.pas"/>
+        <UnitName Value="ufStringList"/>
+      </Item52>
+      <Item53>
+        <Filename Value="OpenDocument_DelphiReportEngine/ufTextFile.pas"/>
+        <UnitName Value="ufTextFile"/>
+      </Item53>
+      <Item54>
+        <Filename Value="OpenDocument_DelphiReportEngine/ufXML_Editor.pas"/>
+        <UnitName Value="ufXML_Editor"/>
+      </Item54>
+      <Item55>
+        <Filename Value="OpenDocument_DelphiReportEngine/ufFields_vle.pas"/>
+        <UnitName Value="ufFields_vle"/>
+      </Item55>
+      <Item56>
+        <Filename Value="OpenDocument_DelphiReportEngine/ufFields_vst.pas"/>
+        <UnitName Value="ufFields_vst"/>
+      </Item56>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="10">
