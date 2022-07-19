@@ -4,11 +4,11 @@
     <PathDelim Value="\"/>
     <Version Value="12"/>
     <BuildModes Active="Release"/>
-    <Units Count="127">
+    <Units Count="128">
       <Unit0>
         <Filename Value="OpenDocument_DelphiReportEngine.lpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos X="20" Y="31"/>
+        <CursorPos X="39" Y="31"/>
         <UsageCount Value="212"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -104,8 +104,12 @@
       <Unit10>
         <Filename Value="..\..\pascal_o_r_mapping\07_sources_externes\synapse\source\lib\blcksock.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="1261"/>
+        <CursorPos X="61" Y="1266"/>
         <UsageCount Value="103"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit10>
       <Unit11>
@@ -1027,7 +1031,7 @@
       </Unit123>
       <Unit124>
         <Filename Value="..\..\pascal_o_r_mapping\06_Formes\OpenDocument_DelphiReportEngine\Elements\OpenDocument_DelphiReportEngine_Test\uodOpenDocument_DelphiReportEngine_Test.pas"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="2"/>
         <TopLine Value="14"/>
         <CursorPos X="5" Y="36"/>
         <UsageCount Value="10"/>
@@ -1043,16 +1047,24 @@
       </Unit125>
       <Unit126>
         <Filename Value="..\..\pascal_o_r_mapping\06_Formes\OpenDocument_DelphiReportEngine\ufOpenDocument_DelphiReportEngine.pas"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <TopLine Value="38"/>
         <CursorPos X="23" Y="42"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit126>
+      <Unit127>
+        <Filename Value="..\..\pascal_o_r_mapping\06_Formes\OpenDocument_DelphiReportEngine\ufXML_Editor.pas"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="16"/>
+        <CursorPos X="32" Y="28"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit127>
     </Units>
-    <JumpHistory Count="3" HistoryIndex="2">
+    <JumpHistory Count="8" HistoryIndex="7">
       <Position1>
         <Filename Value="OpenDocument_DelphiReportEngine.lpr"/>
         <Caret Line="20" Column="79"/>
@@ -1065,6 +1077,26 @@
         <Filename Value="..\..\pascal_o_r_mapping\06_Formes\OpenDocument_DelphiReportEngine\Elements\OpenDocument_DelphiReportEngine_Test\uodOpenDocument_DelphiReportEngine_Test.pas"/>
         <Caret Line="36" Column="5" TopLine="14"/>
       </Position3>
+      <Position4>
+        <Filename Value="..\..\pascal_o_r_mapping\06_Formes\OpenDocument_DelphiReportEngine\ufOpenDocument_DelphiReportEngine.pas"/>
+        <Caret Line="42" Column="23" TopLine="38"/>
+      </Position4>
+      <Position5>
+        <Filename Value="..\..\pascal_o_r_mapping\06_Formes\OpenDocument_DelphiReportEngine\ufXML_Editor.pas"/>
+        <Caret Line="138" Column="18" TopLine="112"/>
+      </Position5>
+      <Position6>
+        <Filename Value="..\..\pascal_o_r_mapping\06_Formes\OpenDocument_DelphiReportEngine\ufXML_Editor.pas"/>
+        <Caret Line="28" Column="32" TopLine="16"/>
+      </Position6>
+      <Position7>
+        <Filename Value="OpenDocument_DelphiReportEngine.lpr"/>
+        <Caret Line="37" Column="59"/>
+      </Position7>
+      <Position8>
+        <Filename Value="OpenDocument_DelphiReportEngine.lpr"/>
+        <Caret Line="31" Column="39"/>
+      </Position8>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
