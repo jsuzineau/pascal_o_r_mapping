@@ -27,7 +27,9 @@ interface
 
 uses
     uClean,
+    uSGBD,
     uMySQL,
+    udmDatabase,
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons;
 
@@ -50,6 +52,7 @@ type
     procedure bCancelClick(Sender: TObject);
   private
     { Déclarations privées }
+    MySQL: TMySQL;
     procedure Lire;
     procedure Ecrire;
   public
@@ -73,6 +76,11 @@ end;
 procedure TfBatpro_MySQL.FormCreate(Sender: TObject);
 begin
      inherited;
+     if sgbdMYSQL
+     then
+         MySQL:= dmDatabase.jsDataConnexion as TMySQL
+     else
+         MySQL:= nil;
      Lire;
 end;
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
-  <Package Version="4">
+  <Package Version="5">
     <Name Value="OD_DelphiReportEngine_Formes"/>
     <Type Value="RunAndDesignTime"/>
     <CompilerOptions>
@@ -14,7 +14,7 @@
         </SyntaxOptions>
       </Parsing>
     </CompilerOptions>
-    <Files Count="36">
+    <Files Count="37">
       <Item1>
         <Filename Value="uAide.pas"/>
         <UnitName Value="uAide"/>
@@ -107,32 +107,40 @@
         <Filename Value="uHorloge.pas"/>
         <UnitName Value="uHorloge"/>
       </Item36>
+      <Item37>
+        <Filename Value="ufBase_dsb.pas"/>
+        <UnitName Value="ufBase_dsb"/>
+      </Item37>
     </Files>
-    <RequiredPkgs Count="8">
+    <CompatibilityMode Value="True"/>
+    <RequiredPkgs Count="9">
       <Item1>
-        <PackageName Value="OD_DelphiReportEngine_Controls"/>
+        <PackageName Value="OD_DelphiReportEngine_Data"/>
       </Item1>
       <Item2>
-        <PackageName Value="SQLDBLaz"/>
+        <PackageName Value="OD_DelphiReportEngine_Controls"/>
       </Item2>
       <Item3>
-        <PackageName Value="SDFLaz"/>
+        <PackageName Value="SQLDBLaz"/>
       </Item3>
       <Item4>
-        <PackageName Value="MemDSLaz"/>
+        <PackageName Value="SDFLaz"/>
       </Item4>
       <Item5>
-        <PackageName Value="DBFLaz"/>
+        <PackageName Value="MemDSLaz"/>
       </Item5>
       <Item6>
-        <PackageName Value="LCL"/>
+        <PackageName Value="DBFLaz"/>
       </Item6>
       <Item7>
-        <PackageName Value="OD_DelphiReportEngine_Components"/>
+        <PackageName Value="LCL"/>
       </Item7>
       <Item8>
-        <PackageName Value="FCL"/>
+        <PackageName Value="OD_DelphiReportEngine_Components"/>
       </Item8>
+      <Item9>
+        <PackageName Value="FCL"/>
+      </Item9>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

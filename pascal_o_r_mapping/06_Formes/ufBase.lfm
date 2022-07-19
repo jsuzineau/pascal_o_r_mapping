@@ -9,6 +9,13 @@ inherited fBase: TfBase
       Width = 56
     end
   end
+  inherited pLog: TPanel
+    inherited mLog: TMemo
+      Lines.Strings = (
+        'mLog'
+      )
+    end
+  end
   object Splitter1: TSplitter[5]
     Cursor = crVSplit
     Left = 0
@@ -53,7 +60,6 @@ inherited fBase: TfBase
         Top = 16
         Width = 33
         Caption = 'Total : '
-        ParentColor = False
       end
       object lNbTotal: TLabel
         Left = 48
@@ -61,7 +67,6 @@ inherited fBase: TfBase
         Top = 16
         Width = 40
         Caption = 'lNbTotal'
-        ParentColor = False
       end
       object bImprimer: TBitBtn
         Left = 416
@@ -105,23 +110,6 @@ inherited fBase: TfBase
         TabOrder = 2
       end
     end
-    object cg: TChampsGrid
-      Left = 1
-      Height = 181
-      Top = 31
-      Width = 819
-      Align = alClient
-      ColCount = 1
-      FixedCols = 0
-      FixedRows = 0
-      RowCount = 1
-      TabOrder = 1
-      TitleFont.Color = clWindowText
-      TitleFont.Height = -11
-      TitleFont.Name = 'MS Sans Serif'
-      OnSelectCell = cgSelectCell
-      Persistance = True
-    end
     object Panel3: TPanel
       Left = 1
       Height = 30
@@ -130,14 +118,13 @@ inherited fBase: TfBase
       Align = alTop
       ClientHeight = 30
       ClientWidth = 819
-      TabOrder = 2
+      TabOrder = 1
       object Label2: TLabel
         Left = 8
         Height = 13
         Top = 8
         Width = 52
         Caption = 'Ordre de tri'
-        ParentColor = False
       end
       object lTri: TLabel
         Left = 72
@@ -145,7 +132,6 @@ inherited fBase: TfBase
         Top = 8
         Width = 14
         Caption = 'lTri'
-        ParentColor = False
       end
       object cbReadOnly: TCheckBox
         Left = 312
@@ -158,8 +144,8 @@ inherited fBase: TfBase
     end
   end
   inherited al: TActionList[8]
-    left = 504
-    top = 160
+    Left = 504
+    Top = 160
     object aReadOnly_Change: TAction[2]
       Caption = 'Lecture seule'
       OnExecute = aReadOnly_ChangeExecute

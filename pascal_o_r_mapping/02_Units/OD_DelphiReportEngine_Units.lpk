@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
-  <Package Version="4">
+  <Package Version="5">
     <Name Value="OD_DelphiReportEngine_Units"/>
     <Type Value="RunAndDesignTime"/>
     <CompilerOptions>
@@ -18,7 +18,7 @@
         <CustomOptions Value="-dWINDOWS_GRAPHIC"/>
       </Other>
     </CompilerOptions>
-    <Files Count="101">
+    <Files Count="102">
       <Item1>
         <Filename Value="DBTables.pas"/>
         <UnitName Value="DBTables"/>
@@ -424,7 +424,12 @@
         <Filename Value="uOD_ExcelManager.pas"/>
         <UnitName Value="uOD_ExcelManager"/>
       </Item101>
+      <Item102>
+        <Filename Value="uWinUtils.pas"/>
+        <UnitName Value="uWinUtils"/>
+      </Item102>
     </Files>
+    <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="3">
       <Item1>
         <PackageName Value="laz_fpspreadsheet"/>

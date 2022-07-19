@@ -1,4 +1,4 @@
-unit ufBase;
+unit ufBase_dsb;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -32,18 +32,19 @@ uses
   uPool,
   
   ufpBas,
-  ucChampsGrid,
+  ucChampsGrid, ucDockableScrollbox,
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DBCtrls, Grids, DBGrids, ActnList, StdCtrls, ComCtrls, Buttons,
   ExtCtrls, DB, Menus;
 
 type
 
- { TfBase }
+ { TfBase_dsb }
 
- TfBase
+ TfBase_dsb
  =
   class(TfpBas)
+   dsb: TDockableScrollbox;
     pc: TPageControl;
     Splitter1: TSplitter;
     Panel1: TPanel;
@@ -86,9 +87,9 @@ implementation
 
 {$R *.lfm}
 
-{ TfBase }
+{ TfBase_dsb }
 
-procedure TfBase.FormCreate(Sender: TObject);
+procedure TfBase_dsb.FormCreate(Sender: TObject);
 begin
      inherited;
      EntreeLigneColonne_:= False;
@@ -100,25 +101,25 @@ begin
      hTriColonneChamps.OnSelectCell:= cgSelectCell;
 end;
 
-procedure TfBase.FormDestroy(Sender: TObject);
+procedure TfBase_dsb.FormDestroy(Sender: TObject);
 begin
      Free_nil( hTriColonneChamps);
      pool.pFiltreChange.Desabonne( Self, NbTotal_Change);
      inherited;
 end;
 
-procedure TfBase.cgSelectCell( Sender: TObject; ACol, ARow: Integer;
+procedure TfBase_dsb.cgSelectCell( Sender: TObject; ACol, ARow: Integer;
                                var CanSelect: Boolean);
 begin
      pool.TrierFiltre;
 end;
 
-procedure TfBase.NbTotal_Change;
+procedure TfBase_dsb.NbTotal_Change;
 begin
      lNbTotal.Caption:= IntToStr( pool.slFiltre.Count);
 end;
 
-procedure TfBase.aReadOnly_ChangeExecute(Sender: TObject);
+procedure TfBase_dsb.aReadOnly_ChangeExecute(Sender: TObject);
 begin
      if cbReadOnly.Checked
      then
@@ -127,7 +128,7 @@ begin
          cg.Options:= cg.Options + [goEditing];
 end;
 
-function TfBase.Execute: Boolean;
+function TfBase_dsb.Execute: Boolean;
 begin
      cbReadOnly.Checked:= True;
      aReadOnly_Change.Execute;
@@ -136,13 +137,13 @@ begin
      Result:= inherited Execute;
 end;
 
-procedure TfBase._from_pool;
+procedure TfBase_dsb._from_pool;
 begin
      cg.sl:= pool.slFiltre;
      //cg.sl:= pool.T;
 end;
 
-procedure TfBase.bNouveauClick(Sender: TObject);
+procedure TfBase_dsb.bNouveauClick(Sender: TObject);
 var
    blNouveau, bl: TBatpro_Ligne;
    I: Integer;
@@ -161,7 +162,7 @@ begin
        end;
 end;
 
-procedure TfBase.bSupprimerClick(Sender: TObject);
+procedure TfBase_dsb.bSupprimerClick(Sender: TObject);
 var
    bl: TBatpro_Ligne;
 begin
@@ -181,24 +182,4 @@ begin
 end;
 
 end.
-object cg: TChampsGrid
-  Left = 1
-  Height = 181
-  Top = 31
-  Width = 819
-  Align = alClient
-  TabOrder = 1
-  TitleFont.Color = clWindowText
-  TitleFont.Height = -11
-  TitleFont.Name = 'MS Sans Serif'
-  OnSelectCell = cgSelectCell
-  Persistance = True
-end
-object StringGrid1: TStringGrid
-  Left = 220
-  Height = 100
-  Top = 90
-  Width = 200
-  TabOrder = 2
-end
 

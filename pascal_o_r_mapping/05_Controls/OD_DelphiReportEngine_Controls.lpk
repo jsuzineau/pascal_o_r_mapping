@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
-  <Package Version="4">
+  <Package Version="5">
     <Name Value="OD_DelphiReportEngine_Controls"/>
     <Type Value="RunAndDesignTime"/>
     <CompilerOptions>
@@ -13,11 +13,8 @@
           <SyntaxMode Value="Delphi"/>
         </SyntaxOptions>
       </Parsing>
-      <Other>
-        <CustomOptions Value="-dWINDOWS_GRAPHIC"/>
-      </Other>
     </CompilerOptions>
-    <Files Count="38">
+    <Files Count="37">
       <Item1>
         <Filename Value="ucBatpro_Button.pas"/>
         <HasRegisterProc Value="True"/>
@@ -187,15 +184,12 @@
         <UnitName Value="ucDockableScrollbox"/>
       </Item36>
       <Item37>
-        <Filename Value="uWinUtils.pas"/>
-        <UnitName Value="uWinUtils"/>
-      </Item37>
-      <Item38>
         <Filename Value="ucChamp_LED.pas"/>
         <HasRegisterProc Value="True"/>
         <UnitName Value="ucChamp_LED"/>
-      </Item38>
+      </Item37>
     </Files>
+    <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="3">
       <Item1>
         <PackageName Value="OD_DelphiReportEngine_Components"/>

@@ -4,6 +4,7 @@
 
 unit OD_DelphiReportEngine_Formes;
 
+{$warn 5023 off : no warning about unused units}
 interface
 
 uses
@@ -12,7 +13,7 @@ uses
  ufHelp_Creator, ufMailTo, ufOOoModelSelect, ufOOo_NomFichier_Modele, 
  ufOpenDocument_DelphiReportEngine, ufpBas, ufReconcileError, 
  uImpression_Font_Size_Multiplier, udmxCreator, ufBatpro_Form_Ancetre, 
- uhDessinnateur, ufBloqueur, uHorloge, LazarusPackageIntf;
+ uhDessinnateur, ufBloqueur, uHorloge, ufBase_dsb, LazarusPackageIntf;
 
 implementation
 

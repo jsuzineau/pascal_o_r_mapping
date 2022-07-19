@@ -1,13 +1,18 @@
 unit ufjsRenommeur;
 
+{$MODE Delphi}
+
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,ShellAPI,
+  LCLIntf, LCLType, LMessages, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, ExtCtrls;
 
 type
   TypeFonction= (f_Remplacer, f_Inserer_Apres, f_Ecraser_Apres);
+
+  { TfjsRenommeur }
+
   TfjsRenommeur = class(TForm)
     Button1: TButton;
     OpenDialog1: TOpenDialog;
@@ -18,12 +23,12 @@ type
     rbFonction: TRadioGroup;
     procedure Button1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormDropFiles(Sender: TObject; const FileNames: array of string);
     procedure rbFonctionClick(Sender: TObject);
   private
-    { Déclarations privées }
-    procedure WndProc(var Message: TMessage); override;
+    { DÃ©clarations privÃ©es }
   public
-    { Déclarations publiques }
+    { DÃ©clarations publiques }
     Fonction: TypeFonction;
     procedure TraiteFichiers(S: TStrings);
     procedure Fonction_from_rbFonction;
@@ -34,7 +39,7 @@ var
 
 implementation
 
-{$R *.DFM}
+{$R *.lfm}
 
 procedure TfjsRenommeur.TraiteFichiers(S: TStrings);
 var
@@ -79,7 +84,7 @@ begin
                Delete( NouveauNom, Index, LongueurNouveau);
                end;
              else
-                 ShowMessage('TfjsRenommeur.TraiteFichiers: valeur de fonction non gérée '+IntToStr(Ord(Fonction)));
+                 ShowMessage('TfjsRenommeur.TraiteFichiers: valeur de fonction non gÃ©rÃ©e '+IntToStr(Ord(Fonction)));
              end;
            Insert( Nouveau, NouveauNom, Index);
            if MessageBox( Handle,
@@ -104,67 +109,25 @@ end;
 
 procedure TfjsRenommeur.FormCreate(Sender: TObject);
 begin
-     DragAcceptFiles( Handle, True);
      rbFonction.ItemIndex:= 0;
      Fonction_from_rbFonction;
 end;
 
-procedure TfjsRenommeur.WndProc(var Message: TMessage);
+procedure TfjsRenommeur.FormDropFiles( Sender: TObject; const FileNames: array of string);
 var
-   hDrop: THandle;
-   Iterateur: Cardinal;
-   NomFichier: PChar;
-   TailleNomFichier: Cardinal;
-   NombreFichiers: Cardinal;
-   S: TStringList;
+   NomFichier: String;
+   sl: TStringList;
 begin
-     case Message.Msg
-     of
-       WM_DROPFILES:
-{
-UINT DragQueryFile(
+     sl:= TStringList.Create;
+     try
+        for NomFichier in FileNames
+        do
+          sl.Add( NomFichier);
 
-
-    HDROP hDrop,	// handle to structure for dropped files
-    UINT iFile,	// index of file to query
-    LPTSTR lpszFile,	// buffer for returned filename
-    UINT cch 	// size of buffer for filename
-   );
-Parameters
-hDrop
-Identifies the structure containing the filenames of the dropped files.
-iFile
-Specifies the index of the file to query. If the value of the iFile parameter is 0xFFFFFFFF, DragQueryFile returns a count of the files dropped. If the value of the iFile parameter is between zero and the total number of files dropped, DragQueryFile copies the filename with the corresponding value to the buffer pointed to by the lpszFile parameter.
-lpszFile
-Points to a buffer to receive the filename of a dropped file when the function returns. This filename is a null-terminated string. If this parameter is NULL, DragQueryFile returns the required size, in characters, of the buffer.
-cch
-Specifies the size, in characters, of the lpszFile buffer.
-Return Value
-When the function copies a filename to the buffer, the return value is a count of the characters copied, not including the terminating null character.
-If the index value is 0xFFFFFFFF, the return value is a count of the dropped files.
-If the index value is between zero and the total number of dropped files and the lpszFile buffer address is NULL, the return value is the required size, in characters, of the buffer, not including the terminating null character.
-}
-         begin
-         hDrop:= Message.wParam;
-         NombreFichiers:= DragQueryFile(hDrop,$FFFFFFFF,NIL, 0);
-         S:= TStringList.Create;
-         for Iterateur:= 0 to NombreFichiers-1
-         do
-           begin
-           TailleNomFichier:= DragQueryFile(hDrop,Iterateur,NIL, 0)+1;
-           NomFichier:= StrAlloc(TailleNomFichier);
-           DragQueryFile(hDrop,Iterateur,NomFichier, TailleNomFichier);
-           S.Add( NomFichier);
-           StrDispose(NomFichier);
-           end;
-         DragFinish( hDrop);
-
-         TraiteFichiers( S);
-         S.Free;
-         Message.Result:= 0;
-         end;
-       end;
-     inherited WndProc(Message);
+        TraiteFichiers( sl);
+     finally
+            FreeAndNil( sl);
+            end;
 end;
 
 procedure TfjsRenommeur.Fonction_from_rbFonction;

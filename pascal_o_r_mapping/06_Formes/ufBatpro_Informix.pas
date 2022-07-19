@@ -27,7 +27,9 @@ interface
 
 uses
     uClean,
+    uSGBD,
     uInformix,
+    udmDatabase,
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons;
 
@@ -56,6 +58,7 @@ type
     procedure bSetNet32Click(Sender: TObject);
   private
     { Déclarations privées }
+    Informix: TInformix;
     procedure Lire;
     procedure Ecrire;
   public
@@ -79,6 +82,11 @@ end;
 procedure TfBatpro_Informix.FormCreate(Sender: TObject);
 begin
      inherited;
+     if sgbdINFORMIX
+     then
+         Informix:= dmDatabase.jsDataConnexion as TInformix
+     else
+         Informix:= nil;
      Lire;
 end;
 

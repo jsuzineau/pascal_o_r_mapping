@@ -1,0 +1,14 @@
+ Progress: Tous les fichiers d'unités ont été trouvés
+jsRenommeur.lpr(1,21) Note: Modificateur de syntaxe MODE Delphi ajouté après le nom de l'unité.
+ : 
+ : *** Conversion des fichiers unités appartenant au projet/paquet **
+ufjsRenommeur.pas Note: Codage modifié de cp1252 en UTF-8
+ufjsRenommeur.pas Note: Codage modifié de cp1252 en UTF-8
+ufjsRenommeur.pas Note: Unité "ShellAPI" retirée de la section uses.
+ufjsRenommeur.pas Note: Unité "Windows" remplacée par "LCLIntf, LCLType, LMessages" dans la section uses.
+ufjsRenommeur.pas(1,20) Note: Modificateur de syntaxe MODE Delphi ajouté après le nom de l'unité.
+ : 
+ : *** Ajustement des unités utilisées et réparation des fichiers des fiches ***
+ufjsRenommeur.pas Note: Propriété supprimée : "TextHeight".
+ufjsRenommeur.pas Note: Propriété supprimée : "OldCreateOrder".
+ : Conversion prête.

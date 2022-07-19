@@ -4,6 +4,7 @@
 
 unit OD_DelphiReportEngine_Controls;
 
+{$warn 5023 off : no warning about unused units}
 interface
 
 uses
@@ -15,7 +16,7 @@ uses
  uDBEdit_WANTTAB, udmf, uDockable, uEdit_WANTTAB, ufcb, ufChamp_Date, 
  ufChamp_Lookup, ufChampsGrid_Colonnes, ucAnimate, ucChamp_Integer_SpinEdit, 
  ucChamp_DateTimePicker, ucChamp_Float_SpinEdit, ucChampsGrid, 
- ucDockableScrollbox, uWinUtils, ucChamp_LED, LazarusPackageIntf;
+ ucDockableScrollbox, ucChamp_LED, LazarusPackageIntf;
 
 implementation
 

@@ -13,15 +13,15 @@ uses
  uBatpro_OD_TextTableManager, ublG_BECP, ublG_BECPCTX, ublG_CTX, ublG_CTXTYPE, 
  uCD_from_Params, uCD_from_SL, uChamps_persistance, uCharge_100, uCharMap, 
  uContextes, uDataUtils, udmBatpro_DataModule, udmDatabase, uDrawInfo, 
- uGlobal_INI, uhAggregation, uhfG_BECP, uhfG_BECPCTX, uhfG_CTX, uhfG_CTXTYPE, 
- uhField, uhFiltre, uInformix, u_InformixLob, uINI_Batpro_OD_Report, 
- u_ini_Formes, u_loc_Formes, uMailTo, uMotsCles, uMySQL, uOD_Batpro_Table, 
+ uGlobal_INI, uhfG_BECP, uhfG_BECPCTX, uhfG_CTX, uhfG_CTXTYPE, uhField, 
+ uhFiltre, uInformix, u_InformixLob, uINI_Batpro_OD_Report, u_ini_Formes, 
+ u_loc_Formes, uMailTo, uMotsCles, uMySQL, uOD_Batpro_Table, 
  uOD_BatproTextTableContext, uOD_Champ, uOD_Niveau, uOOo_NomChamp_utilisateur, 
  uParametres_Ancetre, uPool, upool_Ancetre_Ancetre, upoolG_BECP, 
  upoolG_BECPCTX, upoolG_CTX, upoolG_CTXTYPE, uPostgres, uRequete, 
  uSuppression, uSVG, u_sys_Batpro_Element, uTri, uXML, uTraits, u_db_Formes, 
  ubeChamp, ubeClusterElement, ubeJalon, uberef, ubeSerie, uhTriColonne, 
- LazarusPackageIntf;
+ uHTTP_Interface, LazarusPackageIntf;
 
 implementation
 

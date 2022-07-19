@@ -33,7 +33,6 @@ uses
     uChampDefinition,
     uBatpro_Element,
     uBatpro_Ligne,
-    uhAggregation,
     uOOoStrings,
     uOpenDocument,
     uOD_Champ,

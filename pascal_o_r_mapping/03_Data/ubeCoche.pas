@@ -37,9 +37,6 @@ uses
     ubeClusterElement,
     uContextes,
     uVide,
-    {$IFDEF WINDOWS_GRAPHIC}
-    uDessin,
-    {$ENDIF}
   SysUtils, Classes;
 
 type

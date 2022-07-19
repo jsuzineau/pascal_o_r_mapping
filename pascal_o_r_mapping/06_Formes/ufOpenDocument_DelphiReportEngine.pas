@@ -39,7 +39,7 @@ uses
     uOOoStrings,
     uOOoStringList,
     uOpenDocument,
-    uhdODRE_Table,
+    //uhdODRE_Table,
     uhVST_ODR,
     uVide,
     uChamps,

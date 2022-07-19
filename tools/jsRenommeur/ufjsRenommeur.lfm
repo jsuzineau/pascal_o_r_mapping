@@ -1,0 +1,90 @@
+object fjsRenommeur: TfjsRenommeur
+  Left = 521
+  Height = 149
+  Top = 199
+  Width = 256
+  AllowDropFiles = True
+  Caption = 'jsRenommeur'
+  ClientHeight = 149
+  ClientWidth = 256
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  OnCreate = FormCreate
+  OnDropFiles = FormDropFiles
+  LCLVersion = '2.2.0.4'
+  object Label1: TLabel
+    Left = 78
+    Height = 13
+    Top = 12
+    Width = 32
+    Alignment = taRightJustify
+    Caption = 'Préfixe'
+  end
+  object Label2: TLabel
+    Left = 8
+    Height = 13
+    Top = 44
+    Width = 102
+    Alignment = taRightJustify
+    Caption = 'Nouveaux caractères'
+  end
+  object Button1: TButton
+    Left = 8
+    Height = 25
+    Top = 64
+    Width = 75
+    Caption = 'Sélectionne'
+    OnClick = Button1Click
+    TabOrder = 0
+  end
+  object ePrefixe: TEdit
+    Left = 120
+    Height = 21
+    Top = 8
+    Width = 121
+    Anchors = [akTop, akLeft, akRight]
+    TabOrder = 1
+    Text = 'ePrefixe'
+  end
+  object eNouveau: TEdit
+    Left = 120
+    Height = 21
+    Top = 40
+    Width = 121
+    Anchors = [akTop, akLeft, akRight]
+    TabOrder = 2
+    Text = 'eNouveau'
+  end
+  object rbFonction: TRadioGroup
+    Left = 88
+    Height = 83
+    Top = 64
+    Width = 153
+    AutoFill = True
+    Caption = 'Fonction'
+    ChildSizing.LeftRightSpacing = 6
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeVertical = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsScaleChilds
+    ChildSizing.ShrinkVertical = crsScaleChilds
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 1
+    ClientHeight = 65
+    ClientWidth = 149
+    ItemIndex = 0
+    Items.Strings = (
+      'Remplacer le préfixe'
+      'Insérer aprés le préfixe'
+      'Ecraser aprés le préfixe'
+    )
+    OnClick = rbFonctionClick
+    TabOrder = 3
+  end
+  object OpenDialog1: TOpenDialog
+    Options = [ofHideReadOnly, ofAllowMultiSelect, ofEnableSizing]
+    Left = 32
+    Top = 96
+  end
+end
