@@ -1,1 +1,1 @@
-  clMembre.NomChamp: TChamp_Label;
+  ceMembre.NomChamp: TChamp_Edit;

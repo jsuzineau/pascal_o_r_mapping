@@ -1,1 +1,1 @@
-//pattern_udk_display_components_declaration_lfm
+  object sbDetruire: TSpeedButton[1]

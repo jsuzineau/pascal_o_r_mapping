@@ -1,11 +1,11 @@
-  object clMembre.NomChamp: TChamp_Label
-    Left = 144
-    Height = 13
-    Top = 2
-    Width = 57
+  object ceMembre.NomChamp: TChamp_Edit
+    Left = 119
+    Height = 21
+    Top = 4
+    Width = 80
     Anchors = [akTop, akRight]
     AutoSize = False
-    Caption = 'clMembre.NomChamp'
+    Text = 'ceMembre.NomChamp'
     ParentColor = False
     ParentShowHint = False
     ShowHint = True

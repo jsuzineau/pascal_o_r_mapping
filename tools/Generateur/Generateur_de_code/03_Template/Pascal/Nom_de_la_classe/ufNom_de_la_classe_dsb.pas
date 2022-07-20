@@ -23,14 +23,13 @@ unit ufNom_de_la_classe_dsb;
 interface
 
 uses
+    uDataUtilsU,
+    ufpBas,
+    ufBase_dsb,
+    //uBatpro_Ligne_Printer,
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DBCtrls, Grids, DBGrids, ActnList, StdCtrls, ComCtrls, Buttons,
-  ExtCtrls, DB,
-  ucChampsGrid,
-  uDataUtilsU,
-  ufpBas,
-  ufBase_dsb,
-  uBatpro_Ligne_Printer;
+  ExtCtrls, DB;
 
 type
  TfNom_de_la_classe_dsb
@@ -83,12 +82,14 @@ end;
 
 procedure TfNom_de_la_classe_dsb.bImprimerClick(Sender: TObject);
 begin
+     {
      Batpro_Ligne_Printer.Execute( 'fNom_de_la_classe_dsb.stw',
                                    'Nom_de_la_classe',[],[],[],[],
                                    ['Nom_de_la_classe'],
                                    [poolNom_de_la_classe.slFiltre],
                                    [ nil],
                                    [ nil]);
+     }
 end;
 
 initialization
