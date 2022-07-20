@@ -133,14 +133,6 @@ inherited fBase_dsb: TfBase_dsb
         Width = 14
         Caption = 'lTri'
       end
-      object cbReadOnly: TCheckBox
-        Left = 312
-        Height = 19
-        Top = 8
-        Width = 84
-        Action = aReadOnly_Change
-        TabOrder = 0
-      end
     end
     object dsb: TDockableScrollbox
       Left = 1
@@ -163,10 +155,6 @@ inherited fBase_dsb: TfBase_dsb
   inherited al: TActionList[8]
     Left = 504
     Top = 160
-    object aReadOnly_Change: TAction[2]
-      Caption = 'Lecture seule'
-      OnExecute = aReadOnly_ChangeExecute
-    end
   end
   inherited pmValidation: TPopupMenu[9]
   end

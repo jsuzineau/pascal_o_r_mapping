@@ -49,22 +49,16 @@ type
     Splitter1: TSplitter;
     Panel1: TPanel;
     Panel2: TPanel;
-    cg: TChampsGrid;
     bImprimer: TBitBtn;
     Label1: TLabel;
     lNbTotal: TLabel;
     Panel3: TPanel;
-    cbReadOnly: TCheckBox;
-    aReadOnly_Change: TAction;
     Label2: TLabel;
     lTri: TLabel;
     bNouveau: TButton;
     bSupprimer: TButton;
     procedure FormCreate(Sender: TObject);
-    procedure aReadOnly_ChangeExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure cgSelectCell(Sender: TObject; ACol, ARow: Integer;
-      var CanSelect: Boolean);
     procedure bNouveauClick(Sender: TObject);
     procedure bSupprimerClick(Sender: TObject);
   private
@@ -75,9 +69,6 @@ type
     pool: TPool;
     EntreeLigneColonne_: Boolean;
     function Execute: Boolean; override;
-  //Gestion du tri
-  protected
-    hTriColonneChamps: ThTriColonneChamps;
   //Rafraichissement
   protected
     procedure _from_pool; virtual;
@@ -94,24 +85,12 @@ begin
      inherited;
      EntreeLigneColonne_:= False;
      pool.pFiltreChange.Abonne( Self, NbTotal_Change);
-     cg.OnSelectCell:= nil;
-     hTriColonneChamps
-     :=
-       ThTriColonneChamps.Create( cg, pool, lTri);
-     hTriColonneChamps.OnSelectCell:= cgSelectCell;
 end;
 
 procedure TfBase_dsb.FormDestroy(Sender: TObject);
 begin
-     Free_nil( hTriColonneChamps);
      pool.pFiltreChange.Desabonne( Self, NbTotal_Change);
      inherited;
-end;
-
-procedure TfBase_dsb.cgSelectCell( Sender: TObject; ACol, ARow: Integer;
-                               var CanSelect: Boolean);
-begin
-     pool.TrierFiltre;
 end;
 
 procedure TfBase_dsb.NbTotal_Change;
@@ -119,19 +98,8 @@ begin
      lNbTotal.Caption:= IntToStr( pool.slFiltre.Count);
 end;
 
-procedure TfBase_dsb.aReadOnly_ChangeExecute(Sender: TObject);
-begin
-     if cbReadOnly.Checked
-     then
-         cg.Options:= cg.Options - [goEditing]
-     else
-         cg.Options:= cg.Options + [goEditing];
-end;
-
 function TfBase_dsb.Execute: Boolean;
 begin
-     cbReadOnly.Checked:= True;
-     aReadOnly_Change.Execute;
      pool.ToutCharger;
      _from_pool;
      Result:= inherited Execute;
@@ -139,34 +107,26 @@ end;
 
 procedure TfBase_dsb._from_pool;
 begin
-     cg.sl:= pool.slFiltre;
-     //cg.sl:= pool.T;
+     dsb.sl:= pool.slFiltre;
+     //dsb.sl:= pool.T;
 end;
 
 procedure TfBase_dsb.bNouveauClick(Sender: TObject);
 var
-   blNouveau, bl: TBatpro_Ligne;
-   I: Integer;
+   blNouveau: TBatpro_Ligne;
 begin
      pool.Nouveau_Base( blNouveau);
      if blNouveau = nil then exit;
 
-     cg.sl:= nil;
+     dsb.sl:= nil;
      _from_pool;
-     for I:= 1 to cg.RowCount - 1
-     do
-       begin
-       cg.Row:= I;
-       cg.Get_bl( bl);
-       if bl = blNouveau then break;
-       end;
 end;
 
 procedure TfBase_dsb.bSupprimerClick(Sender: TObject);
 var
    bl: TBatpro_Ligne;
 begin
-     cg.Get_bl( bl);
+     dsb.Get_bl( bl);
      if bl = nil then exit;
 
      if mrYes

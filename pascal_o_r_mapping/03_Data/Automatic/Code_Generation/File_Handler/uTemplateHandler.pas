@@ -225,6 +225,8 @@ begin
        begin
        OldKey:= slParametres.Names [ I];
        NewKey:= slParametres.Values[OldKey];
+       if '' = Trim(NewKey) then continue;
+
        if Log_Actif then slLog.Add( 'Remplacement de '+OldKey+' par '+NewKey);
        Result:= StringReplace(Result,OldKey,NewKey,[rfReplaceAll,rfIgnoreCase]);
        if Log_Actif then slLog.Add( Result);
