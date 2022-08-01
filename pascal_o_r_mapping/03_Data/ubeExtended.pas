@@ -34,7 +34,7 @@ uses
     u_sys_Batpro_Element,
     uDrawInfo,
     uBatpro_Element,
-    Windows, SysUtils, Classes, Graphics, Controls, Dialogs;
+    SysUtils, Classes, Graphics, Controls, Dialogs;
 
 type
  TbeExtended

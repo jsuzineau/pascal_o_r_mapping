@@ -26,7 +26,7 @@ unit ubeTraits;
 interface
 
 uses
-    Windows, SysUtils, Classes, Graphics, Controls,
+    SysUtils, Classes, Graphics, Controls,
 
     uBatpro_StringList,
 
