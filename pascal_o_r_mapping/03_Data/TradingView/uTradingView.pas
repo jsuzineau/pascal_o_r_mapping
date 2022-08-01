@@ -32,9 +32,8 @@ uses
     upoolJSON,
     uuStrings,
  Classes, SysUtils,
- fphttpclient,
- httpsend,
- ssl_openssl,
+ fphttpclient, opensslsockets,
+ httpsend, ssl_openssl,
  fpjson, jsonparser,
  base64;
 
@@ -150,23 +149,26 @@ end;
 procedure TTradingView.Header_Clear;
 begin
      http.Headers.Clear;
-     hc.
+     hc.RequestHeaders.Clear;
 end;
 
 procedure TTradingView.Header_user_agent;
 begin
      http.Headers.Add( 'User-Agent: tradingview_ta/3.2.10');
+     hc  .AddHeader  ( 'User-Agent','tradingview_ta/3.2.10');
 end;
 
 procedure TTradingView.Header_accept_json;
 begin
      //http.Headers.Add( 'Accept: application/json; charset=UTF-8');
      http.Headers.Add( 'Accept: application/json');
+     hc  .AddHeader  ( 'Accept','application/json');
 end;
 
 procedure TTradingView.Header_content_type_json;
 begin
      http.Headers.Add( 'Content-type: application/json');
+     hc  .AddHeader  ( 'Content-type','application/json');
 end;
 
 function TTradingView.String_from_http: String;
@@ -186,6 +188,7 @@ procedure TTradingView.Header_Streaming;
 begin
      if not Streaming then exit;
      http.Headers.Add( 'X-Stream: true');
+     hc  .AddHeader  ('X-Stream','true');
 end;
 
 function TTradingView.GET(_NomFonction, _URL: String): String;
@@ -209,36 +212,67 @@ begin
 end;
 
 function TTradingView.POST(_NomFonction, _URL: String; _Request_Body: String= ''): String;
-var
-   ss: TStringStream;
+   procedure Traite_Request_Body;
+   var
+      ss: TStringStream;
+   begin
+        try
+           ss:= TStringStream.Create( _Request_Body);
+           http.Document.LoadFromStream( ss);
+           hc.RequestBody:= TRawByteStringStream.Create(_Request_Body);
+        finally
+               Free_nil( ss);
+               end;
+   end;
+   procedure httpPOST;
+   begin
+        try
+           if not http.HTTPMethod( 'POST', _URL)
+           then
+               Result:= 'Echec de '+_NomFonction+', POST'#13#10+String_from_http
+           else
+               Result:= String_from_http;
+        except
+              on E: Exception
+              do
+                Result:= 'Exception dans '+_NomFonction+', POST:'#13#10+E.Message;
+              end;
+   end;
+   procedure hcPOST;
+   var
+      ss: TStringStream;
+   begin
+        try
+           ss:= TStringStream.Create( '');
+           try
+              hc.Post( _URL, ss);
+              Result:= ss.DataString;
+           except
+                 on E: Exception
+                 do
+                   Result:= 'Exception dans '+_NomFonction+', POST:'#13#10+E.Message;
+                 end;
+        finally
+               Free_nil( ss);
+               end;
+   end;
 begin
+     Log( ClassName+'.POST');
+     Log( '_NomFonction='+_NomFonction);
+     Log( '_URL='+_URL);
+     Log( '_Request_Body:' );
+     Log( _Request_Body );
+     Log( '<end _Request_Body>' );
+
      Header_Clear;
      Header_user_agent;
      //Header_accept_json;
      //Header_Streaming;
-     try
-        Log( ClassName+'.POST');
-        Log( '_NomFonction='+_NomFonction);
-        Log( '_URL='+_URL);
-        Log( '_Request_Body:' );
-        Log( _Request_Body );
-        Log( '<end _Request_Body>' );
-        ss:= TStringStream.Create( _Request_Body);
-        http.Document.LoadFromStream( ss);
-     finally
-            Free_nil( ss);
-            end;
-     try
-        if not http.HTTPMethod( 'POST', _URL)
-        then
-            Result:= 'Echec de '+_NomFonction+', POST'#13#10+String_from_http
-        else
-            Result:= String_from_http;
-     except
-           on E: Exception
-           do
-             Result:= 'Exception dans '+_NomFonction+', POST:'#13#10+E.Message;
-           end;
+
+     Traite_Request_Body;
+
+     //httpPOST;
+     hcPOST;
 end;
 
 procedure TTradingView.Log(_S: String);
