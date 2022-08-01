@@ -28,10 +28,11 @@ interface
 
 uses
     uClean,
+    uLog,
     upoolJSON,
     uuStrings,
  Classes, SysUtils,
- //fphttpclient,
+ fphttpclient,
  httpsend,
  ssl_openssl,
  fpjson, jsonparser,
@@ -66,6 +67,7 @@ type
   //http
   private
     http:THTTPSend;
+    hc: TFPHTTPClient;
     procedure Header_Clear;
     procedure Header_user_agent;
     procedure Header_accept_json;
@@ -88,6 +90,7 @@ type
   //log
   public
     on_log: TTradingView_log;
+    log_on_file: Boolean;
     procedure Log( _S: String);
   //Attributs
   public
@@ -130,9 +133,12 @@ begin
      http:= THTTPSend.Create;
      http.Sock.SSL.VerifyCert:= False;
 
+     hc:= TFPHTTPClient.Create(nil);
+
      Streaming:= False;
      Root_URL:= 'https://scanner.tradingview.com/';
      on_log:= nil;
+     log_on_file:= False;
 end;
 
 destructor TTradingView.Destroy;
@@ -144,6 +150,7 @@ end;
 procedure TTradingView.Header_Clear;
 begin
      http.Headers.Clear;
+     hc.
 end;
 
 procedure TTradingView.Header_user_agent;
@@ -230,12 +237,16 @@ begin
      except
            on E: Exception
            do
-             Result:= 'Echec de '+_NomFonction+', POST:'#13#10+E.Message;
+             Result:= 'Exception dans '+_NomFonction+', POST:'#13#10+E.Message;
            end;
 end;
 
 procedure TTradingView.Log(_S: String);
 begin
+     if log_on_file
+     then
+         uLog.Log.Println( _S);
+
      if nil = @on_log then exit;
 
      on_log( _S);

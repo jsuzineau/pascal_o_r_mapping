@@ -26,8 +26,8 @@ unit uf_f_dbgKeyPress_Key_Pattern;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls;
+    Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+    Dialogs, StdCtrls;
 
 type
   Tf_f_dbgKeyPress_Key_Pattern = class(TForm)
