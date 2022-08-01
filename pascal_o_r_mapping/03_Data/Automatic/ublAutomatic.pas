@@ -1090,6 +1090,8 @@ begin
      if _FileIterator.IsDirectory then exit;
 
      Source:= _FileIterator.FileName;
+     if 0 <> Pos( PathDelim+'backup'+PathDelim, Source) then exit;
+
      Delete( Source, 1, Length( sRepertoireTemplate));
 
      Cree_TemplateHandler( Source);

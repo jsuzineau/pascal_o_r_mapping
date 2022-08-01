@@ -377,6 +377,18 @@ type
     procedure SetUsePrimaryKeyAsKey( _Value: Boolean);
   public
     property UsePrimaryKeyAsKey: Boolean write SetUsePrimaryKeyAsKey;
+  //Création d'itérateur
+  private
+    function Iterateur_Count: Integer;
+    procedure By_Index( _Index: Integer; out _S: String; out _Resultat);
+  protected
+    class function Classe_Iterateur: TIterateur_Class; virtual;
+  public
+    function Iterateur_interne: TIterateur;
+    function Iterateur_interne_Decroissant: TIterateur;
+  private
+    function Iterateur: TIterateur;
+    function Iterateur_Decroissant: TIterateur;
   end;
 
   Tprocedure_sCle_Change= procedure ( _bl: TBatpro_Ligne) of object;
@@ -520,6 +532,60 @@ begin
      jsdcID_Recuperation .UsePrimaryKeyAsKey:= _Value;
      jsdcINSERT          .UsePrimaryKeyAsKey:= _Value;
      jsdcLoad_by_id      .UsePrimaryKeyAsKey:= _Value;
+end;
+
+function TPool.Iterateur_Count: Integer;
+begin
+     Result:= slT.Count;
+end;
+
+procedure TPool.By_Index(_Index: Integer; out _S: String; out _Resultat);
+begin
+     _S_Classe_from_sl( _S, _Resultat, Classe_Elements, slT, _Index);
+end;
+
+class function TPool.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur;
+end;
+
+function TPool.Iterateur_interne: TIterateur;
+begin
+     Result:= nil;
+     if Self = nil then exit;
+
+     if Classe_Elements = nil
+     then
+         raise EBatpro_StringList_Classe_Elements_indefini.Create( ClassName);
+
+     {$IFDEF FPC_OBJFPC }
+     Result:= Classe_Iterateur.Create( ClassName, @Iterateur_Count, @By_Index, @(slT.Delete), False);
+     {$ELSE}
+     Result:= Classe_Iterateur.Create( ClassName, Iterateur_Count, By_Index, slT.Delete, False);
+     {$ENDIF}
+end;
+
+function TPool.Iterateur_interne_Decroissant: TIterateur;
+begin
+     if Classe_Elements = nil
+     then
+         raise EBatpro_StringList_Classe_Elements_indefini.Create( ClassName);
+
+     {$IFDEF FPC_OBJFPC }
+     Result:= Classe_Iterateur.Create( ClassName, @Iterateur_Count, @By_Index, @(slT.Delete), True);
+     {$ELSE}
+     Result:= Classe_Iterateur.Create( ClassName, Iterateur_Count, By_Index, slT.Delete, True);
+     {$ENDIF}
+end;
+
+function TPool.Iterateur: TIterateur;
+begin
+     Result:= Iterateur_interne;
+end;
+
+function TPool.Iterateur_Decroissant: TIterateur;
+begin
+     Result:= Iterateur_interne_Decroissant;
 end;
 
 constructor TPool.Create(_sl: TBatpro_StringList);

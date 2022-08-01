@@ -25,7 +25,6 @@ interface
 uses
     uClean,
     uBatpro_StringList,
-    uhAggregation,
     uDataUtilsU,
     uhFiltre,
     ujsDataContexte,

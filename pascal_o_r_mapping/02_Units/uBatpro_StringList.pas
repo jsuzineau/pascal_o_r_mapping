@@ -259,6 +259,9 @@ function Object_from_sl_sCle( sl: TStringList; sCle: String): TObject;
 // mais peuvent se révéler dangereuses si l'on change le type de la variable
 // passée comme Resultat sans aller mettre à jour le paramètre Classe
 
+procedure _S_Classe_from_sl( out _S: String; out _Resultat; _Classe: TClass;
+                             _sl: TBatpro_StringList; _Index: Integer);
+
 procedure CheckClass( var Resultat; Classe: TClass);
 
 procedure _Classe_from_sl     ( out Resultat; Classe: TClass;

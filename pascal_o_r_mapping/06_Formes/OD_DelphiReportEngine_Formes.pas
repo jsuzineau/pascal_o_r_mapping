@@ -20,7 +20,7 @@ uses
  uodOpenDocument_DelphiReportEngine_Test, 
  ublOpenDocument_DelphiReportEngine_Test, ufFields_vstInsertion, 
  ufFields_vstTables, ufStringList, ufTextFile, ufXML_Editor, ufFields_vle, 
- ufFields_vst, LazarusPackageIntf;
+ ufFields_vst, uhVST, LazarusPackageIntf;
 
 implementation
 

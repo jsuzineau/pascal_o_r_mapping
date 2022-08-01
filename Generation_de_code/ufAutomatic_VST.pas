@@ -54,8 +54,8 @@ uses
 
     ufAutomatic_Genere_tout_sl,
 
-  Classes, SysUtils, FileUtil, Forms,
-  Controls, Graphics, Dialogs, StdCtrls, ExtCtrls, VirtualTrees, ucChampsGrid, sqldb;
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  ExtCtrls, VirtualTrees, ucChampsGrid, sqldb, SQLite3Conn;
 
 type
 
@@ -77,6 +77,9 @@ type
     eQueryFileName: TEdit;
     od: TOpenDialog;
     Panel1: TPanel;
+    SQLite3Connection1: TSQLite3Connection;
+    SQLQuery1: TSQLQuery;
+    SQLTransaction1: TSQLTransaction;
     vst: TVirtualStringTree;
     procedure bExecuteClick(Sender: TObject);
     procedure bGenereClick(Sender: TObject);

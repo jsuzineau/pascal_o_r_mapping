@@ -26,8 +26,8 @@ uses
     uClean,
     u_sys_,
     uBatpro_StringList,
-    uhAggregation,
     uDataUtilsU,
+    uuStrings,
     uChamp,
     uChamps,
     uVide,
@@ -43,7 +43,7 @@ uses
 
     uHTTP_Interface,
 
-  fpjson, jsonparser,
+  fpjson, jsonparser, jsonreader,
   SysUtils, Classes,
   DB, sqldb;
 
@@ -201,6 +201,9 @@ type
   protected
     procedure Create_Aggregation( Name: String; P: ThAggregation_Create_Params); override;
   //Import des champs depuis des données au format JSON
+  private
+    procedure _from_JSONData_literal( _jsd: TJSONData);
+    procedure _from_JSONData_Object ( _jsd: TJSONData);
   public
     procedure _from_JSONData( _jsd: TJSONData);
   //Affectation de valeurs aux champs existants depuis des données au format JSON
@@ -256,6 +259,10 @@ type
   public
     function Get_from_JSON( _JSON: String): TblJSON;
     procedure Charge_from_JSON( _JSON: String; _slLoaded: TBatpro_StringList);
+ //chargement par évènement
+ private
+ public
+    procedure Charge_from_JSON_event( _JSON: String; _slLoaded: TBatpro_StringList);
   end;
 
 function poolJSON: TpoolJSON;
@@ -468,6 +475,16 @@ end;
 
 { TblJSON }
 
+function jsd_IsInteger( _jsd: TJSONData): Boolean;
+var
+   jsn: TJSONNumber;
+begin
+     Result:= False;
+
+     //jsn:= _jsd as TJSONNumber;
+     //Result:= jsn.NumberType = ntInteger;
+end;
+
 constructor TblJSON.Create( _sl: TBatpro_StringList;
                             _jsdc: TjsDataContexte;
                             _pool: Tpool_Ancetre_Ancetre);
@@ -502,16 +519,28 @@ begin
      P.Forte( ThaJSON__JSON, TblJSON, poolJSON);
 end;
 
-procedure TblJSON._from_JSONData( _jsd: TJSONData);
+procedure TblJSON._from_JSONData_Object(_jsd: TJSONData);
 var
    jso: TJSONObject;
    I: Integer;
    FieldName: String;
    d: TJSONData;
    fb: TJSONFieldBuffer;
-   procedure Traite_Number;
+   procedure Traite_Integer;
+   begin
+        fb:= TIntegerJSONFieldBuffer .Create( sl, Champs, FieldName, d);
+   end;
+   procedure Traite_Double;
    begin
         fb:= TDoubleJSONFieldBuffer  .Create( sl, Champs, FieldName, d);
+   end;
+   procedure Traite_Number;
+   begin
+        if jsd_IsInteger( _jsd)
+        then
+            Traite_Integer
+        else
+            Traite_Double;
    end;
    procedure Traite_String;
    begin
@@ -576,7 +605,7 @@ begin
        case d.JSONType
        of
          jtUnknown: Default;
-         jtNumber : Traite_String;
+         jtNumber : Traite_Number;
          jtString : Traite_String;
          jtBoolean: Traite_Boolean;
          jtNull   : Default;
@@ -588,6 +617,74 @@ begin
 
        slFields.AddObject( fb.sCle, fb);
        end;
+end;
+
+procedure TblJSON._from_JSONData_literal(_jsd: TJSONData);
+const
+     FieldName: String= 'Value';
+var
+   fb: TJSONFieldBuffer;
+   procedure Traite_Integer;
+   begin
+        fb:= TIntegerJSONFieldBuffer .Create( sl, Champs, FieldName, _jsd);
+   end;
+   procedure Traite_Double;
+      procedure Traite_Precision;
+      var
+         S: String;
+      begin
+           S:= _jsd.AsJSON;
+           StrToK( '.', S);
+           fb.C.Definition.Flottant_Precision:= Length(S);
+      end;
+   begin
+        fb:= TDoubleJSONFieldBuffer  .Create( sl, Champs, FieldName, _jsd);
+        //Traite_Precision;
+   end;
+   procedure Traite_Number;
+   begin
+        //if jsd_IsInteger( _jsd)
+        //then
+        //    Traite_Integer
+        //else
+            Traite_Double;
+   end;
+   procedure Traite_String;
+   begin
+        fb:= TStringJSONFieldBuffer.Create( sl, Champs, FieldName, _jsd);
+   end;
+   procedure Traite_Boolean;
+   begin
+        fb:= TBooleanJSONFieldBuffer .Create( sl, Champs, FieldName, _jsd);
+   end;
+   procedure Traite_JSON;
+   begin
+        fb:= TJSON_StringJSONFieldBuffer.Create( sl, Champs, FieldName, _jsd);
+   end;
+   procedure Default;
+   begin
+        Traite_JSON;
+   end;
+begin
+     fb:= nil;
+     case _jsd.JSONType
+     of
+       jtUnknown: Default;
+       jtNumber : Traite_Number;
+       jtString : Traite_String;
+       jtBoolean: Traite_Boolean;
+       jtNull   : Default;
+       else       Default;
+       end;
+     if fb = nil then exit;
+
+     slFields.AddObject( fb.sCle, fb);
+end;
+
+procedure TblJSON._from_JSONData( _jsd: TJSONData);
+begin
+          if jtObject = _jsd.JSONType then _from_JSONData_Object ( _jsd)
+     else                                  _from_JSONData_literal( _jsd);
 end;
 
 procedure TblJSON.Champ_from_JSONData( _c: TChamp; _d: TJSONData);
@@ -729,12 +826,30 @@ begin
      jsd:= jsp.Parse;
      try
         case jsd.JSONType
-        of
-          jtArray : Traite_liste( jsd, _slLoaded);
-          jtObject: Traite_Object;
+        of  //TJSONtype = (jtUnknown, jtNumber, jtString, jtBoolean, jtNull, jtArray, jtObject);
+          jtUnknown,
+          jtNumber ,
+          jtString ,
+          jtBoolean,
+          jtNull   : Traite_Object;
+          jtArray  : Traite_liste( jsd, _slLoaded);
+          jtObject : Traite_Object;
           end;
      finally
             Free_nil( jsp);
+            end;
+end;
+
+procedure TpoolJSON.Charge_from_JSON_event( _JSON: String; _slLoaded: TBatpro_StringList);
+var
+   jer: TJSONEventReader;
+begin
+     jer:= TJSONEventReader.Create( _JSON);
+     try
+        //jer.
+        //jer.Execute;
+     finally
+            FreeAndNil( jer);
             end;
 end;
 

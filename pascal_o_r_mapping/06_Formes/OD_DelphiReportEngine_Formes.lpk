@@ -16,7 +16,7 @@
         </SyntaxOptions>
       </Parsing>
     </CompilerOptions>
-    <Files Count="56">
+    <Files Count="57">
       <Item1>
         <Filename Value="uAide.pas"/>
         <UnitName Value="uAide"/>
@@ -189,6 +189,10 @@
         <Filename Value="OpenDocument_DelphiReportEngine/ufFields_vst.pas"/>
         <UnitName Value="ufFields_vst"/>
       </Item56>
+      <Item57>
+        <Filename Value="uhVST.pas"/>
+        <UnitName Value="uhVST"/>
+      </Item57>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="10">

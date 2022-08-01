@@ -29,6 +29,7 @@ interface
 uses
     uClean,
     upoolJSON,
+    uuStrings,
  Classes, SysUtils,
  //fphttpclient,
  httpsend,
@@ -37,7 +38,22 @@ uses
  base64;
 
 type
+ TTradingView_Interval
+ =
+  (
+  tvi_1_MINUTE  ,
+  tvi_5_MINUTES ,
+  tvi_15_MINUTES,
+  tvi_30_MINUTES,
+  tvi_1_HOUR    ,
+  tvi_2_HOURS   ,
+  tvi_4_HOURS   ,
+  tvi_1_DAY     ,
+  tvi_1_WEEK    ,
+  tvi_1_MONTH
+  );
 
+ TTradingView_log= procedure (_s: String) of object;
  { TTradingView }
 
  TTradingView
@@ -69,11 +85,41 @@ type
   //POST
   public
     function POST( _NomFonction, _URL: String; _Request_Body: String= ''): String;
+  //log
+  public
+    on_log: TTradingView_log;
+    procedure Log( _S: String);
+  //Attributs
+  public
+    Screener: String;
+    Symbol_Name, Indicator_Name: array of String;
+    Interval: TTradingView_Interval;
+    procedure Initialise( _Screener: String;
+                          _Symbol_Name, _Indicator_Name: array of String;
+                          _Interval: TTradingView_Interval
+                          );
   //Indicators
   public
-    function json_Indicators( _Screener: String; Symbol_Name, Indicator_Name: array of String): String;
-    procedure Charge_Indicators( _slLoaded: TslJSON; _Screener: String; Symbol_Name, Indicator_Name: array of String);
+    function json_Indicators: String;
+    procedure Charge_Indicators( _slLoaded: TslJSON);
   end;
+
+const
+     TradingView_Interval_Suffix: array[TTradingView_Interval] of String
+     =
+      (
+      '|1'  , //"1m":   tvi_1_MINUTE
+      '|5'  , //"5m":   tvi_5_MINUTES
+      '|15' , //"15m":  tvi_15_MINUTES
+      '|30' , //"30m":  tvi_30_MINUTES
+      '|60' , //"1h":   tvi_1_HOUR
+      '|120', //"2h":   tvi_2_HOURS
+      '|240', //"4h":   tvi_4_HOURS
+      ''    , //'1d'    tvi_1_DAY
+      '|1W' , //"1W":   tvi_1_WEEK
+      '|1M'   //"1M":   tvi_1_MONTH
+      );
+
 
 implementation
 
@@ -86,6 +132,7 @@ begin
 
      Streaming:= False;
      Root_URL:= 'https://scanner.tradingview.com/';
+     on_log:= nil;
 end;
 
 destructor TTradingView.Destroy;
@@ -163,6 +210,12 @@ begin
      //Header_accept_json;
      //Header_Streaming;
      try
+        Log( ClassName+'.POST');
+        Log( '_NomFonction='+_NomFonction);
+        Log( '_URL='+_URL);
+        Log( '_Request_Body:' );
+        Log( _Request_Body );
+        Log( '<end _Request_Body>' );
         ss:= TStringStream.Create( _Request_Body);
         http.Document.LoadFromStream( ss);
      finally
@@ -181,21 +234,71 @@ begin
            end;
 end;
 
-function TTradingView.json_Indicators( _Screener: String; Symbol_Name, Indicator_Name: array of String): String;
-var
-   Request_Body: String;
+procedure TTradingView.Log(_S: String);
 begin
-     Request_Body:= '{"symbols": {"tickers": ["HITBTC:CSOVUSD"], "query": {"types": []}}, "columns": ["open|1", "close|1", "change|1", "low|1", "high|1"]}';
-     Result:= POST( 'Indicators', Root_URL+_Screener+'/scan',Request_Body);
+     if nil = @on_log then exit;
+
+     on_log( _S);
 end;
 
-procedure TTradingView.Charge_Indicators( _slLoaded: TslJSON;
-                                          _Screener: String;
-                                          Symbol_Name, Indicator_Name: array of String);
+procedure TTradingView.Initialise( _Screener: String;
+                                   _Symbol_Name   ,
+                                   _Indicator_Name: array of String;
+                                   _Interval: TTradingView_Interval);
+var
+   I: Integer;
+begin
+     Screener      := _Screener      ;
+
+     SetLength(Symbol_Name   , Length(_Symbol_Name   ));
+     SetLength(Indicator_Name, Length(_Indicator_Name));
+
+     for I:= Low(_Symbol_Name   ) to High(_Symbol_Name   ) do Symbol_Name   [I]:= _Symbol_Name   [I];
+     for I:= Low(_Indicator_Name) to High(_Indicator_Name) do Indicator_Name[I]:= _Indicator_Name[I];
+     Interval      := _Interval      ;
+end;
+
+function TTradingView.json_Indicators: String;
+var
+   tickers_list: String;
+   columns_list: String;
+   Request_Body: String;
+   procedure Compose_tickers_list;
+   var
+      I: Integer;
+   begin
+        tickers_list:= '';
+        for I:= Low(Symbol_Name) to High( Symbol_Name)
+        do
+          Formate_Liste( tickers_list, ',', '"'+Symbol_Name[I]+'"');
+   end;
+   procedure Compose_columns_list;
+   var
+      I: Integer;
+      Interval_Suffix: String;
+   begin
+        Interval_Suffix:= TradingView_Interval_Suffix[ Interval];
+        columns_list:= '';
+        for I:= Low(Indicator_Name) to High( Indicator_Name)
+        do
+          Formate_Liste( columns_list, ',', '"'+Indicator_Name[I]+Interval_Suffix+'"');
+   end;
+
+begin
+     Compose_tickers_list;
+     Compose_columns_list;
+     Request_Body
+     :=
+        '{"symbols": {"tickers": ['+tickers_list+'], "query": {"types": []}}, '
+       + '"columns": ['+columns_list+']}';
+     Result:= POST( 'Indicators', Root_URL+Screener+'/scan',Request_Body);
+end;
+
+procedure TTradingView.Charge_Indicators( _slLoaded: TslJSON);
 var
    json: String;
 begin
-     json:= json_Indicators( _Screener, Symbol_Name, Indicator_Name);
+     json:= json_Indicators;
 
      poolJSON.Charge_from_JSON( json, _slLoaded);
 end;

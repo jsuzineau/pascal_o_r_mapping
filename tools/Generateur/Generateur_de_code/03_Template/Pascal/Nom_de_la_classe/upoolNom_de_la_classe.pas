@@ -38,6 +38,9 @@ uses
   SysUtils, Classes, DB, SqlDB;
 
 type
+
+ { TpoolNom_de_la_classe }
+
  TpoolNom_de_la_classe
  =
   class( TPool)
@@ -61,6 +64,12 @@ type
   //Méthode de création de test
   public
 {Test_Declaration_Key}
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_Nom_de_la_classe;
+    function Iterateur_Decroissant: TIterateur_Nom_de_la_classe;
   end;
 
 function poolNom_de_la_classe: TpoolNom_de_la_classe;
@@ -115,6 +124,21 @@ begin
 end;
 
 {Test_Implementation_Key}
+
+class function TpoolNom_de_la_classe.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Nom_de_la_classe;
+end;
+
+function TpoolNom_de_la_classe.Iterateur: TIterateur_Nom_de_la_classe;
+begin
+     Result:= TIterateur_Nom_de_la_classe( Iterateur_interne);
+end;
+
+function TpoolNom_de_la_classe.Iterateur_Decroissant: TIterateur_Nom_de_la_classe;
+begin
+     Result:= TIterateur_Nom_de_la_classe( Iterateur_interne_Decroissant);
+end;
 
 initialization
 finalization

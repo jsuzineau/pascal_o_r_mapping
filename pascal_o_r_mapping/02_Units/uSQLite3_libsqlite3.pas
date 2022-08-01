@@ -155,7 +155,7 @@ type
     slErrorLog: TStringList;
   //Connection
   private
-    jsdc: TjsDataConnexion_SQLQuery;
+    jsdc: TSQLite3_libsqlite3;
   protected
     procedure SetConnection( _Value: TjsDataConnexion); override;
   //SQL
@@ -709,9 +709,10 @@ end;
 procedure TjsDataContexte_libsqlite3.SetConnection( _Value: TjsDataConnexion);
 begin
      Ferme_Base;
-     if Affecte_( jsdc, TjsDataConnexion_SQLQuery, _Value)
+     if Affecte_( jsdc, TSQLite3_libsqlite3, _Value)
      then
          raise Exception.Create( ClassName+'.SetConnection: Wrong type');
+     if not jsdc.Initialized then exit;
      Ouvre_Base;
 end;
 
