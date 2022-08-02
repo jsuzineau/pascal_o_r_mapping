@@ -28,7 +28,7 @@ interface
 uses
   uClean,
   uuStrings,
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Registry, StdCtrls, ExtCtrls;
 
 type

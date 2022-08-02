@@ -41,6 +41,7 @@ uses
   mysql55conn,
   mysql56conn,
   mysql57conn,
+  mysql80conn,
   SQLDB,
   {$ELSE}
   SQLExpr,
@@ -173,6 +174,7 @@ begin
      else if '55' = Version then Result:= TMySQL55Connection.Create( nil)
      else if '56' = Version then Result:= TMySQL56Connection.Create( nil)
      else if '57' = Version then Result:= TMySQL57Connection.Create( nil)
+     else if '80' = Version then Result:= TMySQL80Connection.Create( nil)
      else
          begin
          Log.PrintLn( 'Attention version MySQL invalide dans _Configuration.ini: Version='+Version);

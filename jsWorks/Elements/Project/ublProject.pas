@@ -27,7 +27,6 @@ uses
     u_sys_,
     uuStrings,
     uBatpro_StringList,
-    uhAggregation,
 
     uBatpro_Element,
     uBatpro_Ligne,

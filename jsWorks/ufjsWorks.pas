@@ -63,7 +63,7 @@ uses
     ufTemps,
     ufProject,
     ufType_Tag,
-    ufTag,
+    //ufTag,
     sqlite3conn,
 
     uHTTP_Interface,
@@ -315,7 +315,7 @@ end;
 
 procedure TfjsWorks.miTagClick(Sender: TObject);
 begin
-     fTag.Show;
+     //fTag.Show;
 end;
 
 procedure TfjsWorks.miProjectClick(Sender: TObject);

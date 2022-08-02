@@ -29,7 +29,7 @@ uses
     uClean,
     uEXE_INI,
     uContextes,
-  Windows, SysUtils, Classes;
+  SysUtils, Classes;
 
 type
  TContexte_Integer_Array= array[ct_Min..ct_Max] of Integer;

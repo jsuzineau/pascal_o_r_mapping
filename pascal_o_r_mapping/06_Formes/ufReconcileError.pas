@@ -19,7 +19,7 @@ unit ufReconcileError;
 interface
 
 uses
-  SysUtils, Windows, Variants, Messages, Classes, Graphics, Controls, Forms,
+  SysUtils, Variants, Messages, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Grids, DB, BufDataset, ExtCtrls;
 
 (*const

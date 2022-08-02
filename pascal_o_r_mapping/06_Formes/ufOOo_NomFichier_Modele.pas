@@ -28,7 +28,7 @@ interface
 uses
   uClean,
   ufpBas,
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ActnList, StdCtrls, ComCtrls, Buttons, ExtCtrls, Menus;
 
 type

@@ -32,7 +32,7 @@ uses
     uMailTo,
     ufAccueil_Erreur,
     ufpBas,
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ActnList, StdCtrls, ComCtrls, Buttons, ExtCtrls, Menus, Types;
 
 type

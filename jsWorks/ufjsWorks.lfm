@@ -9,7 +9,7 @@ object fjsWorks: TfjsWorks
   Menu = mm
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.0.12.0'
+  LCLVersion = '2.2.0.4'
   object Panel1: TPanel
     Left = 0
     Height = 498
@@ -53,7 +53,7 @@ object fjsWorks: TfjsWorks
           TabOrder = 0
           object clkcbCategorie: TChamp_Lookup_ComboBox
             Left = 3
-            Height = 32
+            Height = 33
             Top = 18
             Width = 233
             ItemHeight = 0
@@ -63,7 +63,7 @@ object fjsWorks: TfjsWorks
           end
           object clkcbState: TChamp_Lookup_ComboBox
             Left = 254
-            Height = 32
+            Height = 33
             Top = 19
             Width = 235
             ItemHeight = 0
@@ -73,19 +73,17 @@ object fjsWorks: TfjsWorks
           end
           object Label7: TLabel
             Left = 2
-            Height = 19
+            Height = 21
             Top = 2
             Width = 66
             Caption = 'Categorie'
-            ParentColor = False
           end
           object Label8: TLabel
             Left = 254
-            Height = 19
+            Height = 21
             Top = 2
             Width = 34
             Caption = 'State'
-            ParentColor = False
           end
           object bPoint: TButton
             Left = 7
@@ -242,11 +240,10 @@ object fjsWorks: TfjsWorks
           TabOrder = 0
           object Label3: TLabel
             Left = 8
-            Height = 19
+            Height = 21
             Top = 0
             Width = 59
             Caption = 'Sessions'
-            ParentColor = False
           end
           object bTemps: TButton
             Left = 160
@@ -281,11 +278,10 @@ object fjsWorks: TfjsWorks
           end
           object Label9: TLabel
             Left = 8
-            Height = 19
+            Height = 21
             Top = 31
             Width = 48
             Caption = 'Depuis'
-            ParentColor = False
           end
           object bBeginning_From: TButton
             Left = 168
@@ -357,29 +353,26 @@ object fjsWorks: TfjsWorks
           TabOrder = 0
           object Label4: TLabel
             Left = 3
-            Height = 19
+            Height = 21
             Top = 27
             Width = 42
             Caption = 'Début'
-            ParentColor = False
           end
           object Label5: TLabel
             Left = 3
-            Height = 19
+            Height = 21
             Top = 54
             Width = 21
             Caption = 'Fin'
-            ParentColor = False
           end
           object Label6: TLabel
             Left = 1
-            Height = 19
+            Height = 21
             Top = 1
             Width = 503
             Align = alTop
             Alignment = taCenter
             Caption = 'Session'
-            ParentColor = False
           end
           object bStart: TButton
             Left = 2
@@ -401,7 +394,7 @@ object fjsWorks: TfjsWorks
           end
           object ceBeginning: TChamp_Edit
             Left = 49
-            Height = 37
+            Height = 38
             Top = 23
             Width = 200
             TabOrder = 2
@@ -410,7 +403,7 @@ object fjsWorks: TfjsWorks
           end
           object ceEnd: TChamp_Edit
             Left = 49
-            Height = 37
+            Height = 38
             Top = 50
             Width = 200
             TabOrder = 3
@@ -419,12 +412,12 @@ object fjsWorks: TfjsWorks
           end
           object dsbWork_Tag: TDockableScrollbox
             Left = 300
-            Height = 99
-            Top = 20
+            Height = 97
+            Top = 22
             Width = 114
             Align = alRight
             Caption = 'dsbWork_Tag'
-            ClientHeight = 99
+            ClientHeight = 97
             ClientWidth = 114
             TabOrder = 4
             HauteurLigne = 17
@@ -437,12 +430,12 @@ object fjsWorks: TfjsWorks
           end
           object dsbWork_Tag_from_Description: TDockableScrollbox
             Left = 414
-            Height = 99
-            Top = 20
+            Height = 97
+            Top = 22
             Width = 90
             Align = alRight
             Caption = 'dsbWork_Tag_from_Description'
-            ClientHeight = 99
+            ClientHeight = 97
             ClientWidth = 90
             TabOrder = 5
             HauteurLigne = 17

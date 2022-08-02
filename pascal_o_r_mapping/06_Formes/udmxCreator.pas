@@ -37,7 +37,7 @@ uses
     udmBatpro_DataModule,
     (*udm,*)
 
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   DBTables, Db, FMTBcd, SQLDB,LCLType;
 
 type

@@ -31,8 +31,8 @@ procedure Detruit_Atom( S: String);
 
 implementation
 
-uses
-    Windows;
+//uses
+//    Windows;
 
 function  Existe_Atom(  S: String): Boolean;
 begin

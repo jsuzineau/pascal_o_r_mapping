@@ -30,7 +30,7 @@ uses
     uSGBD,
     uMySQL,
     udmDatabase,
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons;
 
 type
