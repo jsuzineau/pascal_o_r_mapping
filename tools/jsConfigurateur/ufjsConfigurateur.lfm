@@ -1,7 +1,7 @@
 object fjsConfigurateur: TfjsConfigurateur
-  Left = 840
+  Left = 782
   Height = 240
-  Top = 1274
+  Top = 343
   Width = 310
   Caption = 'fjsConfigurateur'
   ClientHeight = 240
