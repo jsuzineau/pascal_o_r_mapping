@@ -40,6 +40,7 @@
         <Filename Value="ufjsConfigurateur.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fjsConfigurateur"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
     </Units>

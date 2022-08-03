@@ -12,6 +12,7 @@ object fBatpro_Informix: TfBatpro_Informix
   Font.Name = 'MS Sans Serif'
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  Position = poScreenCenter
   LCLVersion = '2.2.0.4'
   object Label1: TLabel
     Left = 8

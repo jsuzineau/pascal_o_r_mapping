@@ -13,38 +13,39 @@ object fBatpro_MySQL: TfBatpro_MySQL
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
+  Position = poScreenCenter
   LCLVersion = '2.2.0.4'
   object Label1: TLabel
     Left = 8
-    Height = 16
+    Height = 13
     Top = 15
-    Width = 53
+    Width = 48
     Caption = 'Hostname'
   end
   object Label2: TLabel
     Left = 8
-    Height = 16
+    Height = 13
     Top = 47
-    Width = 48
+    Width = 46
     Caption = 'Database'
   end
   object Label3: TLabel
     Left = 8
-    Height = 16
+    Height = 13
     Top = 79
-    Width = 54
+    Width = 50
     Caption = 'UserName'
   end
   object Label4: TLabel
     Left = 8
-    Height = 16
+    Height = 13
     Top = 111
-    Width = 50
+    Width = 46
     Caption = 'Password'
   end
   object eHostName: TEdit
     Left = 64
-    Height = 33
+    Height = 21
     Top = 8
     Width = 121
     TabOrder = 0
@@ -52,7 +53,7 @@ object fBatpro_MySQL: TfBatpro_MySQL
   end
   object eDatabase: TEdit
     Left = 64
-    Height = 33
+    Height = 21
     Top = 40
     Width = 121
     TabOrder = 1
@@ -60,7 +61,7 @@ object fBatpro_MySQL: TfBatpro_MySQL
   end
   object eUser_Name: TEdit
     Left = 64
-    Height = 33
+    Height = 21
     Top = 72
     Width = 121
     TabOrder = 2
@@ -68,7 +69,7 @@ object fBatpro_MySQL: TfBatpro_MySQL
   end
   object ePassWord: TEdit
     Left = 64
-    Height = 33
+    Height = 21
     Top = 104
     Width = 121
     TabOrder = 3

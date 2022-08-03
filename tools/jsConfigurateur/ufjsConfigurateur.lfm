@@ -6,6 +6,7 @@ object fjsConfigurateur: TfjsConfigurateur
   Caption = 'fjsConfigurateur'
   ClientHeight = 240
   ClientWidth = 310
+  Position = poScreenCenter
   LCLVersion = '2.2.0.4'
   object bSGBD: TButton
     Left = 19
