@@ -1,0 +1,26 @@
+{ This is an automatically generated lazarus resource file }
+
+LazarusResources.Add('TfBatpro_MySQL','FORMDATA',[
+  'TPF0'#14'TfBatpro_MySQL'#13'fBatpro_MySQL'#4'Left'#3#28#4#6'Height'#3#173#0#3
+  +'Top'#3#4#6#5'Width'#3#211#0#7'Caption'#6#13'fBatpro_MySQL'#12'ClientHeight'
+  +#3#173#0#11'ClientWidth'#3#211#0#5'Color'#7#9'clBtnFace'#10'Font.Color'#7#12
+  +'clWindowText'#11'Font.Height'#2#245#9'Font.Name'#6#13'MS Sans Serif'#8'OnCr'
+  +'eate'#7#10'FormCreate'#9'OnDestroy'#7#11'FormDestroy'#6'OnShow'#7#8'FormSho'
+  +'w'#10'LCLVersion'#6#7'2.2.0.4'#0#6'TLabel'#6'Label1'#4'Left'#2#8#6'Height'#2
+  +#16#3'Top'#2#15#5'Width'#2'5'#7'Caption'#6#8'Hostname'#0#0#6'TLabel'#6'Label'
+  +'2'#4'Left'#2#8#6'Height'#2#16#3'Top'#2'/'#5'Width'#2'0'#7'Caption'#6#8'Data'
+  +'base'#0#0#6'TLabel'#6'Label3'#4'Left'#2#8#6'Height'#2#16#3'Top'#2'O'#5'Widt'
+  +'h'#2'6'#7'Caption'#6#8'UserName'#0#0#6'TLabel'#6'Label4'#4'Left'#2#8#6'Heig'
+  +'ht'#2#16#3'Top'#2'o'#5'Width'#2'2'#7'Caption'#6#8'Password'#0#0#5'TEdit'#9
+  +'eHostName'#4'Left'#2'@'#6'Height'#2'!'#3'Top'#2#8#5'Width'#2'y'#8'TabOrder'
+  +#2#0#4'Text'#6#9'eHostName'#0#0#5'TEdit'#9'eDatabase'#4'Left'#2'@'#6'Height'
+  +#2'!'#3'Top'#2'('#5'Width'#2'y'#8'TabOrder'#2#1#4'Text'#6#9'eDatabase'#0#0#5
+  +'TEdit'#10'eUser_Name'#4'Left'#2'@'#6'Height'#2'!'#3'Top'#2'H'#5'Width'#2'y'
+  +#8'TabOrder'#2#2#4'Text'#6#10'eUser_Name'#0#0#5'TEdit'#9'ePassWord'#4'Left'#2
+  +'@'#6'Height'#2'!'#3'Top'#2'h'#5'Width'#2'y'#8'TabOrder'#2#3#4'Text'#6#9'ePa'
+  +'ssWord'#0#0#7'TBitBtn'#3'bOK'#4'Left'#2#8#6'Height'#2#25#3'Top'#3#144#0#5'W'
+  +'idth'#2'd'#4'Kind'#7#4'bkOK'#11'ModalResult'#2#1#7'OnClick'#7#8'bOKClick'#8
+  +'TabOrder'#2#4#0#0#7'TBitBtn'#7'bCancel'#4'Left'#2'x'#6'Height'#2#25#3'Top'#3
+  +#144#0#5'Width'#2'X'#4'Kind'#7#8'bkCancel'#11'ModalResult'#2#2#7'OnClick'#7
+  +#12'bCancelClick'#8'TabOrder'#2#5#0#0#0
+]);

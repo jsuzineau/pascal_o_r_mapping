@@ -1,0 +1,19 @@
+object fjsConfigurateur: TfjsConfigurateur
+  Left = 840
+  Height = 240
+  Top = 1274
+  Width = 310
+  Caption = 'fjsConfigurateur'
+  ClientHeight = 240
+  ClientWidth = 310
+  LCLVersion = '2.2.0.4'
+  object bSGBD: TButton
+    Left = 19
+    Height = 25
+    Top = 8
+    Width = 75
+    Caption = 'SGBD'
+    OnClick = bSGBDClick
+    TabOrder = 0
+  end
+end
