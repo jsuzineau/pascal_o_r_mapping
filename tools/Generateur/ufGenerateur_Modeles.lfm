@@ -1,0 +1,10 @@
+object fGenerateur_Modeles: TfGenerateur_Modeles
+  Left = 706
+  Height = 240
+  Top = 246
+  Width = 320
+  AllowDropFiles = True
+  Caption = 'fGenerateur_Modeles'
+  OnCreate = FormCreate
+  LCLVersion = '2.2.0.4'
+end

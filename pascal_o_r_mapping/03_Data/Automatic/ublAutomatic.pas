@@ -302,13 +302,30 @@ type
   //jpfMembre
   public
     sljpfMembre: TsljpfMembre;
-    function  Cree_jpfMembre( _nfKey: String): TjpFile;
+    function  Cree_jpfMembre( _nfKey: String): TjpfMembre;
   //Création des jpfMembre par lecture du répertoire de listes de membres
   private
     procedure sljpfMembre_from_sRepertoireListeMembres_FileFound( _FileIterator: TFileIterator);
   public
     procedure sljpfMembre_from_sRepertoireListeMembres;
-    procedure sljpFile_Produit;
+  //jpfDetail
+  public
+    sljpfDetail: TsljpfDetail;
+    function  Cree_jpfDetail( _nfKey: String): TjpfDetail;
+  //Création des jpfDetail par lecture du répertoire de listes de Details
+  private
+    procedure sljpfDetail_from_sRepertoireListeDetails_FileFound( _FileIterator: TFileIterator);
+  public
+    procedure sljpfDetail_from_sRepertoireListeDetails;
+  //jpfAggregation
+  public
+    sljpfAggregation: TsljpfAggregation;
+    function  Cree_jpfAggregation( _nfKey: String): TjpfAggregation;
+  //Création des jpfAggregation par lecture du répertoire de listes de Aggregations
+  private
+    procedure sljpfAggregation_from_sRepertoireListeAggregations_FileFound( _FileIterator: TFileIterator);
+  public
+    procedure sljpfAggregation_from_sRepertoireListeAggregations;
   //ApplicationJoinPointFile
   public
     slApplicationJoinPointFile: TslApplicationJoinPointFile;
@@ -612,9 +629,94 @@ begin
      Result:= FGenerateur_de_code;
 end;
 
+constructor TGenerateur_de_code.Create;
+begin
+     inherited Create;
+     _From_INI;
+     sljpfMembre                 := TsljpfMembre               .Create( ClassName+'.sljpfMembre'         );
+     sljpfDetail                 := TsljpfDetail               .Create( ClassName+'.sljpfDetail'         );
+     sljpfAggregation            := TsljpfAggregation          .Create( ClassName+'.sljpfAggregation'         );
+     slApplicationJoinPointFile  := TslApplicationJoinPointFile.Create( ClassName+'.slApplicationJoinPointFile'         );
+     slTemplateHandler           := TslTemplateHandler         .Create( ClassName+'.slTemplateHandler');
+     slParametres                := TBatpro_StringList         .Create;
+     slApplicationTemplateHandler:= TslTemplateHandler         .Create( ClassName+'.slApplicationTemplateHandler');
+     Initialise(
+                [
+                //General
+                jpNom_de_la_table,
+                jpNomTableMinuscule,
+                jpNom_de_la_classe    ,
+
+                //SQL
+                jpSQL_CREATE_TABLE,
+                jpSQL_Order_By_Key,
+
+                //Pascal
+                jpPascal_LabelsDFM,
+                jpPascal_LabelsPAS,
+                jpPascal_Champ_EditDFM,
+                jpPascal_Champ_EditPAS,
+                jpPascal_Affecte      ,
+                jpPascal_declaration_champs,
+                jpPascal_sCle_from__Declaration,
+                jpPascal_creation_champs,
+                jpPascal_sCle_from__Implementation,
+                jpPascal_sCle_Implementation_Body,
+                jpPascal_Declaration_cle,
+                jpPascal_Get_by_Cle_Declaration,
+                jpPascal_Test_Declaration_Key,
+                jpPascal_Get_by_Cle_Implementation,
+                jpPascal_To_SQLQuery_Params_Body,
+                jpPascal_SQLWHERE_ContraintesChamps_Body,
+                jpPascal_Test_Implementation_Key,
+                jpPascal_QfieldsDFM,
+                jpPascal_QfieldsPAS,
+                jpPascal_QCalcFieldsKey,
+                jpPascal_Traite_Index_key,
+                jpPascal_uses_ubl,
+                jpPascal_uses_upool,
+                jpPascal_Ouverture_key,
+                jpPascal_Test_Call_Key,
+                jpPascal_f_implementation_uses_key,
+                jpPascal_f_Execute_Before_Key,
+                jpPascal_f_Execute_After_Key,
+                jpPascal_Detail_declaration,
+                jpPascal_aggregation_classe_declaration,
+                jpPascal_aggregation_declaration,
+                jpPascal_aggregation_classe_implementation,
+                jpPascal_aggregation_Create_Aggregation_implementation,
+                jpPascal_aggregation_accesseurs_implementation,
+                jpPascal_Assure_Declaration,
+                jpPascal_Assure_Implementation,
+
+                //CSharp
+                jpCSharp_Champs_persistants   ,
+                jpCSharp_Contenus             ,
+                jpCSharp_Conteneurs           ,
+                jpCSharp_DocksDetails         ,
+                jpCSharp_DocksDetails_Affiche ,
+                jpCSharp_Chargement_Conteneurs,
+
+                //PHP / Doctrine
+                jpPHP_Doctrine_Has_Column,
+                jpPHP_Doctrine_HasMany,
+                jpPHP_Doctrine_HasOne,
+
+                //Angular_TypeScript
+                jpAngular_TypeScript_NomFichierElement,
+                jpAngular_TypeScript_NomClasseElement,
+                jpAngular_TypeScript_declaration_champs,
+                jpAngular_TypeScript_html_editeurs_champs
+                ]
+                );
+     Application_Created:= False;
+end;
+
 destructor TGenerateur_de_code.Destroy;
 begin
      FreeAndNil( sljpfMembre);
+     FreeAndNil( sljpfDetail);
+     FreeAndNil( sljpfAggregation);
      FreeAndNil( slApplicationJoinPointFile);
      FreeAndNil( slTemplateHandler);
      FreeAndNil( slParametres);
@@ -638,12 +740,14 @@ begin
      Path:= ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim;
      INI:= TIniFile.Create( ChangeFileExt(EXE_INI.FileName,'_Generateur_de_code.ini'));
      try
-        sRepertoireListeTables        := iRead( 'sRepertoireListeTables',Path+'01_Listes'             +PathDelim+'Tables'+PathDelim);
-        sRepertoireListeMembres       := iRead( 'sRepertoireListeMembres',Path+'01_Listes'             +PathDelim+'Champs'+PathDelim);
-        sRepertoireTemplate           := iRead( 'sRepertoireTemplate'   ,Path+'03_Template'           +PathDelim);
-        sRepertoireParametres         := iRead( 'sRepertoireParametres' ,Path+'04_Parametres'         +PathDelim);
-        sRepertoireApplicationTemplate:= iRead( 'sApplicationTemplate'  ,Path+'05_ApplicationTemplate'+PathDelim);
-        sRepertoireResultat           := iRead( 'sRepertoireResultat'   ,Path+'06_Resultat'           +PathDelim);
+        sRepertoireListeTables        :=iRead('sRepertoireListeTables'      ,Path+'01_Listes'             +PathDelim+'Tables'      +PathDelim);
+        sRepertoireListeMembres       :=iRead('sRepertoireListeMembres'     ,Path+'01_Listes'             +PathDelim+'Membres'     +PathDelim);
+        sRepertoireListeDetails       :=iRead('sRepertoireListeDetails'     ,Path+'01_Listes'             +PathDelim+'Details'     +PathDelim);
+        sRepertoireListeAggregations  :=iRead('sRepertoireListeAggregations',Path+'01_Listes'             +PathDelim+'Aggregations'+PathDelim);
+        sRepertoireTemplate           :=iRead('sRepertoireTemplate'         ,Path+'03_Template'           +PathDelim                         );
+        sRepertoireParametres         :=iRead('sRepertoireParametres'       ,Path+'04_Parametres'         +PathDelim                         );
+        sRepertoireApplicationTemplate:=iRead('sApplicationTemplate'        ,Path+'05_ApplicationTemplate'+PathDelim                         );
+        sRepertoireResultat           :=iRead('sRepertoireResultat'         ,Path+'06_Resultat'           +PathDelim                         );
      finally
             FreeAndNil( INI);
             end;
@@ -914,6 +1018,8 @@ begin
      slLog.Clear;
      slParametres.Clear;
      sljpfMembre_from_sRepertoireListeMembres;
+     sljpfDetail_from_sRepertoireListeDetails;
+     sljpfAggregation_from_sRepertoireListeAggregations;
      slTemplateHandler_from_sRepertoireTemplate;
 
      {
@@ -979,20 +1085,7 @@ begin
      slLog.SaveToFile( sRepertoireResultat+ChangeFileExt( ExtractFileName( uClean_EXE_Name), '.log'));
 end;
 
-procedure ublAutomatic_EnumFiles( _sRepertoire: String; _ffe: TFileFoundEvent; _Mask: String= '*.*');
-var
-   fs: TFileSearcher;
-begin
-     fs:= TFileSearcher.Create;
-     try
-        fs.OnFileFound:= _ffe;
-        fs.Search( _sRepertoire, _Mask);
-     finally
-            FreeAndNil( fs);
-            end;
-end;
-
-function TGenerateur_de_code.Cree_jpfMembre(_nfKey: String): TjpFile;
+function TGenerateur_de_code.Cree_jpfMembre(_nfKey: String): TjpfMembre;
 begin
      Result:= jpfMembre_from_sl_sCle( sljpfMembre, _nfKey);
      if nil <> Result then exit;
@@ -1014,12 +1107,57 @@ end;
 
 procedure TGenerateur_de_code.sljpfMembre_from_sRepertoireListeMembres;
 begin
-     ublAutomatic_EnumFiles( sRepertoireListeMembres, sljpfMembre_from_sRepertoireListeMembres_FileFound, s_key_mask);
+     ujpFile_EnumFiles( sRepertoireListeMembres, sljpfMembre_from_sRepertoireListeMembres_FileFound, s_key_mask);
 end;
 
-procedure TGenerateur_de_code.sljpFile_Produit;
+function TGenerateur_de_code.Cree_jpfDetail(_nfKey: String): TjpfDetail;
 begin
+     Result:= jpfDetail_from_sl_sCle( sljpfDetail, _nfKey);
+     if nil <> Result then exit;
 
+     Result:= TjpfDetail.Create( _nfKey);
+     sljpfDetail.AddObject( _nfKey, Result);
+end;
+
+procedure TGenerateur_de_code.sljpfDetail_from_sRepertoireListeDetails_FileFound( _FileIterator: TFileIterator);
+var
+   NomFichier_Key: String;
+begin
+     if _FileIterator.IsDirectory then exit;
+
+     NomFichier_Key:= _FileIterator.FileName;
+
+     Cree_jpfDetail( NomFichier_Key);
+end;
+
+procedure TGenerateur_de_code.sljpfDetail_from_sRepertoireListeDetails;
+begin
+     ujpFile_EnumFiles( sRepertoireListeDetails, sljpfDetail_from_sRepertoireListeDetails_FileFound, s_key_mask);
+end;
+
+function TGenerateur_de_code.Cree_jpfAggregation(_nfKey: String): TjpfAggregation;
+begin
+     Result:= jpfAggregation_from_sl_sCle( sljpfAggregation, _nfKey);
+     if nil <> Result then exit;
+
+     Result:= TjpfAggregation.Create( _nfKey);
+     sljpfAggregation.AddObject( _nfKey, Result);
+end;
+
+procedure TGenerateur_de_code.sljpfAggregation_from_sRepertoireListeAggregations_FileFound( _FileIterator: TFileIterator);
+var
+   NomFichier_Key: String;
+begin
+     if _FileIterator.IsDirectory then exit;
+
+     NomFichier_Key:= _FileIterator.FileName;
+
+     Cree_jpfAggregation( NomFichier_Key);
+end;
+
+procedure TGenerateur_de_code.sljpfAggregation_from_sRepertoireListeAggregations;
+begin
+     ujpFile_EnumFiles( sRepertoireListeAggregations, sljpfAggregation_from_sRepertoireListeAggregations_FileFound, s_key_mask);
 end;
 
 function TGenerateur_de_code.Cree_ApplicationJoinPointFile(_nfKey: String): TApplicationJoinPointFile;
@@ -1044,7 +1182,7 @@ end;
 
 procedure TGenerateur_de_code.slApplicationJoinPointFile_from_sRepertoireListeTables;
 begin
-     ublAutomatic_EnumFiles( sRepertoireListeTables, slApplicationJoinPointFile_from_sRepertoireListeTables_FileFound, s_key_mask);
+     ujpFile_EnumFiles( sRepertoireListeTables, slApplicationJoinPointFile_from_sRepertoireListeTables_FileFound, s_key_mask);
 end;
 
 procedure TGenerateur_de_code.slApplicationJoinPointFile_Produit;
@@ -1099,7 +1237,7 @@ end;
 
 procedure TGenerateur_de_code.slTemplateHandler_from_sRepertoireTemplate;
 begin
-     ublAutomatic_EnumFiles( sRepertoireTemplate, slTemplateHandler_from_sRepertoireTemplate_FileFound);
+     ujpFile_EnumFiles( sRepertoireTemplate, slTemplateHandler_from_sRepertoireTemplate_FileFound);
 end;
 
 procedure TGenerateur_de_code.slTemplateHandler_Produit;
@@ -1157,7 +1295,7 @@ end;
 
 procedure TGenerateur_de_code.slApplicationTemplateHandler_from_sRepertoireApplicationTemplate;
 begin
-     ublAutomatic_EnumFiles( sRepertoireApplicationTemplate, slApplicationTemplateHandler_from_sRepertoireApplicationTemplate_FileFound);
+     ujpFile_EnumFiles( sRepertoireApplicationTemplate, slApplicationTemplateHandler_from_sRepertoireApplicationTemplate_FileFound);
 end;
 
 procedure TGenerateur_de_code.slApplicationTemplateHandler_Produit;
@@ -1293,88 +1431,6 @@ begin
      for I:= Low( _a) to High( _a)
      do
        a[I]:= _a[I];
-end;
-
-
-constructor TGenerateur_de_code.Create;
-begin
-     inherited Create;
-     _From_INI;
-     sljpfMembre                    := TsljpFile                  .Create( ClassName+'.sljpFile'         );
-     slApplicationJoinPointFile  := TslApplicationJoinPointFile.Create( ClassName+'.slApplicationJoinPointFile'         );
-     slTemplateHandler           := TslTemplateHandler         .Create( ClassName+'.slTemplateHandler');
-     slParametres                := TBatpro_StringList         .Create;
-     slApplicationTemplateHandler:= TslTemplateHandler         .Create( ClassName+'.slApplicationTemplateHandler');
-     Initialise(
-                [
-                //General
-                jpNom_de_la_table,
-                jpNomTableMinuscule,
-                jpNom_de_la_classe    ,
-
-                //SQL
-                jpSQL_CREATE_TABLE,
-                jpSQL_Order_By_Key,
-
-                //Pascal
-                jpPascal_LabelsDFM,
-                jpPascal_LabelsPAS,
-                jpPascal_Champ_EditDFM,
-                jpPascal_Champ_EditPAS,
-                jpPascal_Affecte      ,
-                jpPascal_declaration_champs,
-                jpPascal_sCle_from__Declaration,
-                jpPascal_creation_champs,
-                jpPascal_sCle_from__Implementation,
-                jpPascal_sCle_Implementation_Body,
-                jpPascal_Declaration_cle,
-                jpPascal_Get_by_Cle_Declaration,
-                jpPascal_Test_Declaration_Key,
-                jpPascal_Get_by_Cle_Implementation,
-                jpPascal_To_SQLQuery_Params_Body,
-                jpPascal_SQLWHERE_ContraintesChamps_Body,
-                jpPascal_Test_Implementation_Key,
-                jpPascal_QfieldsDFM,
-                jpPascal_QfieldsPAS,
-                jpPascal_QCalcFieldsKey,
-                jpPascal_Traite_Index_key,
-                jpPascal_uses_ubl,
-                jpPascal_uses_upool,
-                jpPascal_Ouverture_key,
-                jpPascal_Test_Call_Key,
-                jpPascal_f_implementation_uses_key,
-                jpPascal_f_Execute_Before_Key,
-                jpPascal_f_Execute_After_Key,
-                jpPascal_Detail_declaration,
-                jpPascal_aggregation_classe_declaration,
-                jpPascal_aggregation_declaration,
-                jpPascal_aggregation_classe_implementation,
-                jpPascal_aggregation_Create_Aggregation_implementation,
-                jpPascal_aggregation_accesseurs_implementation,
-                jpPascal_Assure_Declaration,
-                jpPascal_Assure_Implementation,
-
-                //CSharp
-                jpCSharp_Champs_persistants   ,
-                jpCSharp_Contenus             ,
-                jpCSharp_Conteneurs           ,
-                jpCSharp_DocksDetails         ,
-                jpCSharp_DocksDetails_Affiche ,
-                jpCSharp_Chargement_Conteneurs,
-
-                //PHP / Doctrine
-                jpPHP_Doctrine_Has_Column,
-                jpPHP_Doctrine_HasMany,
-                jpPHP_Doctrine_HasOne,
-
-                //Angular_TypeScript
-                jpAngular_TypeScript_NomFichierElement,
-                jpAngular_TypeScript_NomClasseElement,
-                jpAngular_TypeScript_declaration_champs,
-                jpAngular_TypeScript_html_editeurs_champs
-                ]
-                );
-     Application_Created:= False;
 end;
 
 initialization

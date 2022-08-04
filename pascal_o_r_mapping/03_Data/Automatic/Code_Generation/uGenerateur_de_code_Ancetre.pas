@@ -89,6 +89,8 @@ type
   public
     sRepertoireListeTables,
     sRepertoireListeMembres,
+    sRepertoireListeDetails,
+    sRepertoireListeAggregations,
     sRepertoireTemplate   ,
     sRepertoireParametres ,
     sRepertoireApplicationTemplate  ,

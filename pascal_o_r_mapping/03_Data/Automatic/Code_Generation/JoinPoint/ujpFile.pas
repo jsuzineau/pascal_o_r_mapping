@@ -29,7 +29,7 @@ uses
     uContexteClasse,
     uContexteMembre,
     uJoinPoint,
-  SysUtils, Classes;
+  SysUtils, Classes, FileUtil;
 
 type
 
@@ -50,7 +50,7 @@ type
     nfSeparateur: String; sSeparateur: String;
     nfEnd       : String; sEnd       : String;
   //Gestion de la visite d'une classe
-  private
+  protected
     Premier: Boolean;
   public
     procedure Initialise(_cc: TContexteClasse); override;
@@ -59,11 +59,33 @@ type
 
  TjpfMembre
  =
-  class( TJoinPoint)
+  class( TjpFile)
   //Gestion de la visite d'une classe
   public
     procedure VisiteMembre(_cm: TContexteMembre); override;
   end;
+
+ { TjpfDetail }
+
+ TjpfDetail
+ =
+  class( TjpFile)
+  //Gestion de la visite d'une classe
+  public
+    procedure VisiteDetail( s_Detail, sNomTableMembre: String); override;
+  end;
+
+ { TjpfAggregation }
+
+ TjpfAggregation
+ =
+  class( TjpFile)
+  //Gestion de la visite d'une classe
+  public
+    procedure VisiteAggregation( s_Aggregation, sNomTableMembre: String); override;
+  end;
+
+ { TIterateur_jpFile }
 
  TIterateur_jpFile
  =
@@ -81,6 +103,24 @@ type
   public
     procedure Suivant( var _Resultat: TjpfMembre);
     function  not_Suivant( var _Resultat: TjpfMembre): Boolean;
+  end;
+
+ TIterateur_jpfDetail
+ =
+  class( TIterateur_jpFile)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: TjpfDetail);
+    function  not_Suivant( var _Resultat: TjpfDetail): Boolean;
+  end;
+
+ TIterateur_jpfAggregation
+ =
+  class( TIterateur_jpFile)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: TjpfAggregation);
+    function  not_Suivant( var _Resultat: TjpfAggregation): Boolean;
   end;
 
  { TsljpFile }
@@ -123,6 +163,36 @@ type
     function Iterateur_Decroissant: TIterateur_jpfMembre;
   end;
 
+ TsljpfDetail
+ =
+  class( TsljpFile)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_jpfDetail;
+    function Iterateur_Decroissant: TIterateur_jpfDetail;
+  end;
+
+ TsljpfAggregation
+ =
+  class( TsljpFile)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_jpfAggregation;
+    function Iterateur_Decroissant: TIterateur_jpfAggregation;
+  end;
+
 
 const
      s_key_       = '.01_key.'       ;
@@ -136,6 +206,10 @@ const
 function jpFile_from_sl( sl: TBatpro_StringList; Index: Integer): TjpFile;
 function jpFile_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpFile;
 function jpfMembre_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfMembre;
+function jpfDetail_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfDetail;
+function jpfAggregation_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfAggregation;
+
+procedure ujpFile_EnumFiles( _sRepertoire: String; _ffe: TFileFoundEvent; _Mask: String= '*.*');
 
 implementation
 
@@ -152,6 +226,29 @@ end;
 function jpfMembre_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfMembre;
 begin
      _Classe_from_sl_sCle( Result, TjpfMembre, sl, sCle);
+end;
+
+function jpfDetail_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfDetail;
+begin
+     _Classe_from_sl_sCle( Result, TjpfDetail, sl, sCle);
+end;
+
+function jpfAggregation_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfAggregation;
+begin
+     _Classe_from_sl_sCle( Result, TjpfAggregation, sl, sCle);
+end;
+
+procedure ujpFile_EnumFiles( _sRepertoire: String; _ffe: TFileFoundEvent; _Mask: String= '*.*');
+var
+   fs: TFileSearcher;
+begin
+     fs:= TFileSearcher.Create;
+     try
+        fs.OnFileFound:= _ffe;
+        fs.Search( _sRepertoire, _Mask);
+     finally
+            FreeAndNil( fs);
+            end;
 end;
 
 { TIterateur_jpFile }
@@ -174,6 +271,30 @@ begin
 end;
 
 procedure TIterateur_jpfMembre.Suivant( var _Resultat: TjpfMembre);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TIterateur_jpfDetail }
+
+function TIterateur_jpfDetail.not_Suivant( var _Resultat: TjpfDetail): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_jpfDetail.Suivant( var _Resultat: TjpfDetail);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TIterateur_jpfAggregation }
+
+function TIterateur_jpfAggregation.not_Suivant( var _Resultat: TjpfAggregation): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_jpfAggregation.Suivant( var _Resultat: TjpfAggregation);
 begin
      Suivant_interne( _Resultat);
 end;
@@ -340,6 +461,60 @@ begin
      Result:= TIterateur_jpfMembre( Iterateur_interne_Decroissant);
 end;
 
+{ TsljpfDetail }
+
+constructor TsljpfDetail.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, TjpfDetail);
+end;
+
+destructor TsljpfDetail.Destroy;
+begin
+     inherited;
+end;
+
+class function TsljpfDetail.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_jpfDetail;
+end;
+
+function TsljpfDetail.Iterateur: TIterateur_jpfDetail;
+begin
+     Result:= TIterateur_jpfDetail( Iterateur_interne);
+end;
+
+function TsljpfDetail.Iterateur_Decroissant: TIterateur_jpfDetail;
+begin
+     Result:= TIterateur_jpfDetail( Iterateur_interne_Decroissant);
+end;
+
+{ TsljpfAggregation }
+
+constructor TsljpfAggregation.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, TjpfAggregation);
+end;
+
+destructor TsljpfAggregation.Destroy;
+begin
+     inherited;
+end;
+
+class function TsljpfAggregation.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_jpfAggregation;
+end;
+
+function TsljpfAggregation.Iterateur: TIterateur_jpfAggregation;
+begin
+     Result:= TIterateur_jpfAggregation( Iterateur_interne);
+end;
+
+function TsljpfAggregation.Iterateur_Decroissant: TIterateur_jpfAggregation;
+begin
+     Result:= TIterateur_jpfAggregation( Iterateur_interne_Decroissant);
+end;
+
 { TjpFile }
 
 constructor TjpFile.Create( _nfKey: String);
@@ -392,6 +567,40 @@ begin
          Valeur:= Valeur + sSeparateur;
 
      Valeur:= Valeur+ cm.Produit( 'Membre.', sElement);
+end;
+
+procedure TjpfDetail.VisiteDetail(s_Detail, sNomTableMembre: String);
+var
+   Element: String;
+begin
+     inherited;
+     if Premier
+     then
+         Premier:= False
+     else
+         Valeur:= Valeur + sSeparateur;
+
+     Element:= sElement;
+     Element:= StringReplace( Element, 'Detail.Classe',sNomTableMembre,[rfReplaceAll,rfIgnoreCase]);
+     Element:= StringReplace( Element, 'Detail'       ,s_Detail       ,[rfReplaceAll,rfIgnoreCase]);
+     Valeur:= Valeur+ Element;
+end;
+
+procedure TjpfAggregation.VisiteAggregation( s_Aggregation, sNomTableMembre: String);
+var
+   Element: String;
+begin
+     inherited;
+     if Premier
+     then
+         Premier:= False
+     else
+         Valeur:= Valeur + sSeparateur;
+
+     Element:= sElement;
+     Element:= StringReplace( Element, 'Aggregation.Classe',sNomTableMembre,[rfReplaceAll,rfIgnoreCase]);
+     Element:= StringReplace( Element, 'Aggregation'       ,s_Aggregation  ,[rfReplaceAll,rfIgnoreCase]);
+     Valeur:= Valeur+ Element;
 end;
 
 procedure TjpFile.Finalise;

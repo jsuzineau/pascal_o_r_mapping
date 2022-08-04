@@ -7,7 +7,7 @@
       <Version Value="11"/>
       <SearchPaths>
         <IncludeFiles Value="OpenDocument_DelphiReportEngine/Elements/ODRE_Table"/>
-        <OtherUnitFiles Value="OpenDocument_DelphiReportEngine;OpenDocument_DelphiReportEngine/Elements;OpenDocument_DelphiReportEngine/Elements/ODRE_Table;OpenDocument_DelphiReportEngine/Elements/OpenDocument_DelphiReportEngine_Test"/>
+        <OtherUnitFiles Value="OpenDocument_DelphiReportEngine;OpenDocument_DelphiReportEngine/Elements;OpenDocument_DelphiReportEngine/Elements/ODRE_Table;OpenDocument_DelphiReportEngine/Elements/OpenDocument_DelphiReportEngine_Test;Code_Generation"/>
         <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
       </SearchPaths>
       <Parsing>
@@ -16,7 +16,7 @@
         </SyntaxOptions>
       </Parsing>
     </CompilerOptions>
-    <Files Count="57">
+    <Files Count="59">
       <Item1>
         <Filename Value="uAide.pas"/>
         <UnitName Value="uAide"/>
@@ -193,6 +193,14 @@
         <Filename Value="uhVST.pas"/>
         <UnitName Value="uhVST"/>
       </Item57>
+      <Item58>
+        <Filename Value="Code_Generation/ufjpFile.pas"/>
+        <UnitName Value="ufjpFile"/>
+      </Item58>
+      <Item59>
+        <Filename Value="Code_Generation/ufjpFiles.pas"/>
+        <UnitName Value="ufjpFiles"/>
+      </Item59>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="10">
