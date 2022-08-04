@@ -88,7 +88,7 @@ type
   //Attributs
   public
     sRepertoireListeTables,
-    sRepertoireListeChamps,
+    sRepertoireListeMembres,
     sRepertoireTemplate   ,
     sRepertoireParametres ,
     sRepertoireApplicationTemplate  ,

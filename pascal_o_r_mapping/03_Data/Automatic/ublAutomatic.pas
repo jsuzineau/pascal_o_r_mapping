@@ -299,15 +299,15 @@ type
   public
     bl: TBatpro_Ligne;
     procedure Execute( _bl: TBatpro_Ligne; _Suffixe: String);
-  //jpFile
+  //jpfMembre
   public
-    sljpFile: TsljpFile;
-    function  Cree_jpFile( _nfKey: String): TjpFile;
-  //Création des jpFile par lecture du répertoire de listes de champs
+    sljpfMembre: TsljpfMembre;
+    function  Cree_jpfMembre( _nfKey: String): TjpFile;
+  //Création des jpfMembre par lecture du répertoire de listes de membres
   private
-    procedure sljpFile_from_sRepertoireListeChamps_FileFound( _FileIterator: TFileIterator);
+    procedure sljpfMembre_from_sRepertoireListeMembres_FileFound( _FileIterator: TFileIterator);
   public
-    procedure sljpFile_from_sRepertoireListeChamps;
+    procedure sljpfMembre_from_sRepertoireListeMembres;
     procedure sljpFile_Produit;
   //ApplicationJoinPointFile
   public
@@ -614,7 +614,7 @@ end;
 
 destructor TGenerateur_de_code.Destroy;
 begin
-     FreeAndNil( sljpFile);
+     FreeAndNil( sljpfMembre);
      FreeAndNil( slApplicationJoinPointFile);
      FreeAndNil( slTemplateHandler);
      FreeAndNil( slParametres);
@@ -639,7 +639,7 @@ begin
      INI:= TIniFile.Create( ChangeFileExt(EXE_INI.FileName,'_Generateur_de_code.ini'));
      try
         sRepertoireListeTables        := iRead( 'sRepertoireListeTables',Path+'01_Listes'             +PathDelim+'Tables'+PathDelim);
-        sRepertoireListeChamps        := iRead( 'sRepertoireListeChamps',Path+'01_Listes'             +PathDelim+'Champs'+PathDelim);
+        sRepertoireListeMembres       := iRead( 'sRepertoireListeMembres',Path+'01_Listes'             +PathDelim+'Champs'+PathDelim);
         sRepertoireTemplate           := iRead( 'sRepertoireTemplate'   ,Path+'03_Template'           +PathDelim);
         sRepertoireParametres         := iRead( 'sRepertoireParametres' ,Path+'04_Parametres'         +PathDelim);
         sRepertoireApplicationTemplate:= iRead( 'sApplicationTemplate'  ,Path+'05_ApplicationTemplate'+PathDelim);
@@ -782,7 +782,7 @@ var
         //cm:= TContexteMembre.Create( cc, _fb.jsdcc.Nom, _fb.sType, '');
         try
            uJoinPoint_VisiteMembre( cm, a);
-           sljpFile.VisiteMembre( cm);
+           sljpfMembre.VisiteMembre( cm);
         finally
                FreeAndNil( cm);
                end;
@@ -833,7 +833,7 @@ var
            slParametres.Clear;
 
            uJoinPoint_Initialise( cc, a);
-           sljpFile.Initialise( cc);
+           sljpfMembre.Initialise( cc);
 
            I:= bl.Champs.sl.Iterateur;
            try
@@ -861,7 +861,7 @@ var
                 uJoinPoint_VisiteDetail( slDetails.Names[J],
                                          slDetails.ValueFromIndex[J],
                                          a);
-                sljpFile.VisiteDetail( slDetails.Names[J],
+                sljpfMembre.VisiteDetail( slDetails.Names[J],
                                        slDetails.ValueFromIndex[J]);
                 end;
            finally
@@ -883,7 +883,7 @@ var
                 uJoinPoint_VisiteAggregation( slAggregations.Names[J],
                                          slAggregations.ValueFromIndex[J],
                                          a);
-                sljpFile.VisiteAggregation( slAggregations.Names[J],
+                sljpfMembre.VisiteAggregation( slAggregations.Names[J],
                                             slAggregations.ValueFromIndex[J]);
                 end;
            finally
@@ -893,10 +893,10 @@ var
 
            //Fermeture des chaines
            uJoinPoint_Finalise( a);
-           sljpFile.Finalise;
+           sljpfMembre.Finalise;
 
            uJoinPoint_To_Parametres( slParametres, a);
-           sljpFile.To_Parametres( slParametres);
+           sljpfMembre.To_Parametres( slParametres);
 
            slTemplateHandler_Produit;
            //Produit;
@@ -913,7 +913,7 @@ begin
      bl:= _bl;
      slLog.Clear;
      slParametres.Clear;
-     sljpFile_from_sRepertoireListeChamps;
+     sljpfMembre_from_sRepertoireListeMembres;
      slTemplateHandler_from_sRepertoireTemplate;
 
      {
@@ -974,7 +974,7 @@ begin
             FreeAndNil( phPHP_Perso_Set);
             }
             slTemplateHandler.Vide;
-            sljpFile.Vide;
+            sljpfMembre.Vide;
             end;
      slLog.SaveToFile( sRepertoireResultat+ChangeFileExt( ExtractFileName( uClean_EXE_Name), '.log'));
 end;
@@ -992,16 +992,16 @@ begin
             end;
 end;
 
-function TGenerateur_de_code.Cree_jpFile(_nfKey: String): TjpFile;
+function TGenerateur_de_code.Cree_jpfMembre(_nfKey: String): TjpFile;
 begin
-     Result:= jpFile_from_sl_sCle( sljpFile, _nfKey);
+     Result:= jpfMembre_from_sl_sCle( sljpfMembre, _nfKey);
      if nil <> Result then exit;
 
-     Result:= TjpFile.Create( _nfKey);
-     sljpFile.AddObject( _nfKey, Result);
+     Result:= TjpfMembre.Create( _nfKey);
+     sljpfMembre.AddObject( _nfKey, Result);
 end;
 
-procedure TGenerateur_de_code.sljpFile_from_sRepertoireListeChamps_FileFound( _FileIterator: TFileIterator);
+procedure TGenerateur_de_code.sljpfMembre_from_sRepertoireListeMembres_FileFound( _FileIterator: TFileIterator);
 var
    NomFichier_Key: String;
 begin
@@ -1009,12 +1009,12 @@ begin
 
      NomFichier_Key:= _FileIterator.FileName;
 
-     Cree_jpFile( NomFichier_Key);
+     Cree_jpfMembre( NomFichier_Key);
 end;
 
-procedure TGenerateur_de_code.sljpFile_from_sRepertoireListeChamps;
+procedure TGenerateur_de_code.sljpfMembre_from_sRepertoireListeMembres;
 begin
-     ublAutomatic_EnumFiles( sRepertoireListeChamps, sljpFile_from_sRepertoireListeChamps_FileFound, s_key_mask);
+     ublAutomatic_EnumFiles( sRepertoireListeMembres, sljpfMembre_from_sRepertoireListeMembres_FileFound, s_key_mask);
 end;
 
 procedure TGenerateur_de_code.sljpFile_Produit;
@@ -1300,7 +1300,7 @@ constructor TGenerateur_de_code.Create;
 begin
      inherited Create;
      _From_INI;
-     sljpFile                    := TsljpFile                  .Create( ClassName+'.sljpFile'         );
+     sljpfMembre                    := TsljpFile                  .Create( ClassName+'.sljpFile'         );
      slApplicationJoinPointFile  := TslApplicationJoinPointFile.Create( ClassName+'.slApplicationJoinPointFile'         );
      slTemplateHandler           := TslTemplateHandler         .Create( ClassName+'.slTemplateHandler');
      slParametres                := TBatpro_StringList         .Create;

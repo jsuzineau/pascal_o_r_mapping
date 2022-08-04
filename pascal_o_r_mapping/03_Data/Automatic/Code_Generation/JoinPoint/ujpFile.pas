@@ -54,8 +54,15 @@ type
     Premier: Boolean;
   public
     procedure Initialise(_cc: TContexteClasse); override;
-    procedure VisiteMembre(_cm: TContexteMembre); override;
     procedure Finalise; override;
+  end;
+
+ TjpfMembre
+ =
+  class( TJoinPoint)
+  //Gestion de la visite d'une classe
+  public
+    procedure VisiteMembre(_cm: TContexteMembre); override;
   end;
 
  TIterateur_jpFile
@@ -65,6 +72,15 @@ type
   public
     procedure Suivant( var _Resultat: TjpFile);
     function  not_Suivant( var _Resultat: TjpFile): Boolean;
+  end;
+
+ TIterateur_jpfMembre
+ =
+  class( TIterateur_jpFile)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: TjpfMembre);
+    function  not_Suivant( var _Resultat: TjpfMembre): Boolean;
   end;
 
  { TsljpFile }
@@ -92,6 +108,20 @@ type
     procedure To_Parametres( _sl: TStringList);
   end;
 
+ TsljpfMembre
+ =
+  class( TsljpFile)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_jpfMembre;
+    function Iterateur_Decroissant: TIterateur_jpfMembre;
+  end;
 
 
 const
@@ -105,6 +135,7 @@ const
 
 function jpFile_from_sl( sl: TBatpro_StringList; Index: Integer): TjpFile;
 function jpFile_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpFile;
+function jpfMembre_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfMembre;
 
 implementation
 
@@ -118,6 +149,11 @@ begin
      _Classe_from_sl_sCle( Result, TjpFile, sl, sCle);
 end;
 
+function jpfMembre_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfMembre;
+begin
+     _Classe_from_sl_sCle( Result, TjpfMembre, sl, sCle);
+end;
+
 { TIterateur_jpFile }
 
 function TIterateur_jpFile.not_Suivant( var _Resultat: TjpFile): Boolean;
@@ -126,6 +162,18 @@ begin
 end;
 
 procedure TIterateur_jpFile.Suivant( var _Resultat: TjpFile);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TIterateur_jpfMembre }
+
+function TIterateur_jpfMembre.not_Suivant( var _Resultat: TjpfMembre): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_jpfMembre.Suivant( var _Resultat: TjpfMembre);
 begin
      Suivant_interne( _Resultat);
 end;
@@ -265,6 +313,33 @@ begin
             end;
 end;
 
+{ TsljpfMembre }
+
+constructor TsljpfMembre.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, TjpfMembre);
+end;
+
+destructor TsljpfMembre.Destroy;
+begin
+     inherited;
+end;
+
+class function TsljpfMembre.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_jpfMembre;
+end;
+
+function TsljpfMembre.Iterateur: TIterateur_jpfMembre;
+begin
+     Result:= TIterateur_jpfMembre( Iterateur_interne);
+end;
+
+function TsljpfMembre.Iterateur_Decroissant: TIterateur_jpfMembre;
+begin
+     Result:= TIterateur_jpfMembre( Iterateur_interne_Decroissant);
+end;
+
 { TjpFile }
 
 constructor TjpFile.Create( _nfKey: String);
@@ -307,7 +382,7 @@ begin
      Premier:= True;
 end;
 
-procedure TjpFile.VisiteMembre(_cm: TContexteMembre);
+procedure TjpfMembre.VisiteMembre(_cm: TContexteMembre);
 begin
      inherited;
      if Premier
