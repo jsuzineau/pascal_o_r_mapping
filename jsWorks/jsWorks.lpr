@@ -37,7 +37,7 @@ uses
  uhfProject, uhfState, uodTag, ufTemps, udkSession, uhfWork,
  upoolCategorie, upoolDevelopment, upoolJour_ferie, upoolProject, upoolState,
  upoolWork, ublJour_ferie, udkProject_EDIT, udkProject_LABEL, ufProject,
- udkWork, udkDevelopment, ublSession, ufAutomatic,
+ udkWork, udkDevelopment, ublSession,
  uhdmSession, uodSession, ublTag, uhfTag, upoolTag,
  upoolTag_Development, uhfTag_Development, ublTag_Development, upoolTag_Work,
  uhfTag_Work, ublTag_Work, udkType_Tag_EDIT, ublType_Tag, upoolType_Tag,
