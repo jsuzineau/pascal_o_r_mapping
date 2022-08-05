@@ -2,7 +2,7 @@ object fGenerateur: TfGenerateur
   Left = 543
   Height = 152
   Top = 331
-  Width = 324
+  Width = 233
   Caption = 'fGenerateur'
   OnCreate = FormCreate
   OnShow = FormShow

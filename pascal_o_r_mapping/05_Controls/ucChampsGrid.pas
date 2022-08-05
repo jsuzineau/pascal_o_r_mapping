@@ -839,26 +839,24 @@ end;
 
 procedure TChampsGrid.Initialise;
 begin
-     sl := nil;
-     bts:= nil;
+     Fsl := nil;
+     Fbts:= nil;
 end;
 
 function TChampsGrid.Donnees_indisponibles: Boolean;
 begin
      if slbts_
      then
-         Result:= sl  = nil
+         Result:= Fsl  = nil
      else
-         Result:= bts = nil;
+         Result:= Fbts = nil;
 end;
 
 function TChampsGrid.NbLignes_from_Donnees: Integer;
 begin
-     if slbts_
-     then
-         Result:= sl .Count
-     else
-         Result:= bts.Count;
+          if Donnees_indisponibles then Result:= 0
+     else if slbts_                then Result:= sl .Count
+     else                               Result:= bts.Count;
 end;
 
 function TChampsGrid.Objects_from_Index( Index: Integer): TObject;
@@ -870,7 +868,6 @@ end;
 
 function TChampsGrid.Premier_Champs: TChamps;
 begin
-
      if slbts_
      then
          Result:= Champs_from_Index( 0)

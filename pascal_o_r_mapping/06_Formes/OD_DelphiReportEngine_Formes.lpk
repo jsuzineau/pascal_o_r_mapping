@@ -16,7 +16,7 @@
         </SyntaxOptions>
       </Parsing>
     </CompilerOptions>
-    <Files Count="59">
+    <Files Count="62">
       <Item1>
         <Filename Value="uAide.pas"/>
         <UnitName Value="uAide"/>
@@ -201,6 +201,18 @@
         <Filename Value="Code_Generation/ufjpFiles.pas"/>
         <UnitName Value="ufjpFiles"/>
       </Item59>
+      <Item60>
+        <Filename Value="Code_Generation/ufAutomatic_VST.pas"/>
+        <UnitName Value="ufAutomatic_VST"/>
+      </Item60>
+      <Item61>
+        <Filename Value="Code_Generation/ufAutomatic.pas"/>
+        <UnitName Value="ufAutomatic"/>
+      </Item61>
+      <Item62>
+        <Filename Value="Code_Generation/ufAutomatic_Genere_tout_sl.pas"/>
+        <UnitName Value="ufAutomatic_Genere_tout_sl"/>
+      </Item62>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="10">

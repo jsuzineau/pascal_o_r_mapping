@@ -41,6 +41,7 @@ begin
      ClientHeight:= fAutomatic_VST.Height;
      fAutomatic_VST.Parent:= Self;
      fAutomatic_VST.Align:= alClient;
+     fAutomatic_VST.Show;
      //fAutomatic_VST.Menu:= nil;
      //Menu:= fAutomatic_VST.mm;
      //OnDropFiles:= @fAutomatic_VST.DropFiles;
