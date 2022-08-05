@@ -157,22 +157,25 @@
         <Mode0 Name="default"/>
       </Modes>
     </RunParams>
-    <RequiredPackages Count="5">
+    <RequiredPackages Count="6">
       <Item1>
-        <PackageName Value="FCL"/>
+        <PackageName Value="OD_DelphiReportEngine_Formes"/>
       </Item1>
       <Item2>
-        <PackageName Value="OD_DelphiReportEngine_Units"/>
+        <PackageName Value="FCL"/>
       </Item2>
       <Item3>
-        <PackageName Value="virtualtreeview_package"/>
+        <PackageName Value="OD_DelphiReportEngine_Units"/>
       </Item3>
       <Item4>
-        <PackageName Value="OD_DelphiReportEngine_Controls"/>
+        <PackageName Value="virtualtreeview_package"/>
       </Item4>
       <Item5>
-        <PackageName Value="LCL"/>
+        <PackageName Value="OD_DelphiReportEngine_Controls"/>
       </Item5>
+      <Item6>
+        <PackageName Value="LCL"/>
+      </Item6>
     </RequiredPackages>
     <Units Count="30">
       <Unit0>
@@ -306,6 +309,7 @@
         <Filename Value="..\..\pascal_o_r_mapping\06_Formes\Code_Generation\ufjpFiles.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fjpFiles"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit29>
     </Units>
