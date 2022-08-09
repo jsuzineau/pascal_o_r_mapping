@@ -237,6 +237,7 @@ type
     pColumnFooter: TPanel;
     Colonnes: array of TDockableScrollbox_Colonne;
     Surtitres: array of TDockableScrollbox_Surtitre;
+    Enleve_Colonnes_running: Boolean;
     procedure Ajoute_Surtitre( _Surtitre: TDockable_Surtitre);
     procedure Ajoute_Colonne( _C: TControl;
                               _Titre   : String  = ''   ;
@@ -301,6 +302,7 @@ begin
      BordureLignes:= True;
      Classe_dockable:= nil;
      Classe_Elements:= nil;
+     Enleve_Colonnes_running:= False;
 
      //Gestion de la validation
      FValide:= True;
@@ -521,39 +523,46 @@ var
    C: TControl;
    Champ: TChamp;
 begin
-     for I:= Low(Colonnes) to High(Colonnes)
-     do
-       begin
-       with Colonnes[I]
-       do
-         begin
-         C:= Control;
-         Control:= nil;
-         RemoveComponent( C);
-         FreeAndNil( C);
+     if Enleve_Colonnes_running then exit;
 
-         C:= lTotal;
-         if C = nil then continue;
-
-         lTotal:= nil;
-         RemoveComponent( C);
-         FreeAndNil( C);
-         end;
-       end;
-
-     slChamps_abonnements.Iterateur_Start;
+     Enleve_Colonnes_running:= True;
      try
-        while not slChamps_abonnements.Iterateur_EOF
+        for I:= Low(Colonnes) to High(Colonnes)
         do
           begin
-          slChamps_abonnements.Iterateur_Suivant( Champ);
-          if Champ = nil then continue;
-          Champ.OnChange.Desabonne( Self, RecalculeTotaux);
-          end;
-     finally
-            slChamps_abonnements.Iterateur_Stop;
+          with Colonnes[I]
+          do
+            begin
+            C:= Control;
+            Control:= nil;
+            RemoveComponent( C);
+            FreeAndNil( C);
+
+            C:= lTotal;
+            if C = nil then continue;
+
+            lTotal:= nil;
+            RemoveComponent( C);
+            FreeAndNil( C);
             end;
-     Initialise_Colonnes;
+          end;
+
+        slChamps_abonnements.Iterateur_Start;
+        try
+           while not slChamps_abonnements.Iterateur_EOF
+           do
+             begin
+             slChamps_abonnements.Iterateur_Suivant( Champ);
+             if Champ = nil then continue;
+             Champ.OnChange.Desabonne( Self, RecalculeTotaux);
+             end;
+        finally
+               slChamps_abonnements.Iterateur_Stop;
+               end;
+        Initialise_Colonnes;
+     finally
+            Enleve_Colonnes_running:= False;
+            end;
 end;
 
 procedure TDockableScrollbox.Initialise_Colonnes( _Premier: Boolean= False);
@@ -984,6 +993,8 @@ begin
      Selection:= nil;
 
      if sl = nil then exit;
+
+     Enleve_Colonnes;
 
      for iDockable:= slDockable.Count - 1 downto 0
      do

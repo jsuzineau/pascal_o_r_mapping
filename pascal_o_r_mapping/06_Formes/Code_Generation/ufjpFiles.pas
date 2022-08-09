@@ -7,6 +7,7 @@ interface
 uses
     uClean,
     uuStrings,
+    uVide,
     ujpFile,
     ufjpFile,
  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, FileUtil;
@@ -67,7 +68,21 @@ begin
 end;
 
 procedure TfjpFiles.FormDestroy(Sender: TObject);
+var
+   I: TIterateur_fjpFile;
+   fjpFile: TfjpFile;
 begin
+     I:= sl.Iterateur;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( fjpFile) then continue;
+          FreeAndNil( fjpFile);
+          end;
+     finally
+            FreeAndNil( I);
+            end;
      FreeAndNil( sl);
 end;
 
@@ -191,7 +206,7 @@ begin
      nfElement   := IncludeTrailingPathDelimiter( Directory)+Name+s_element_   +Extension;
      nfSeparateur:= IncludeTrailingPathDelimiter( Directory)+Name+s_separateur_+Extension;
      nfEnd       := IncludeTrailingPathDelimiter( Directory)+Name+s_end_       +Extension;
-     String_to_File( nfKey       , Directory);
+     String_to_File( nfKey       , Name);
      String_to_File( nfBegin     , ' ');
      String_to_File( nfElement   , ' ');
      String_to_File( nfSeparateur, ' ');

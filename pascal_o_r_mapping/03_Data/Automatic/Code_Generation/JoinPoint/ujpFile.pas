@@ -542,7 +542,7 @@ begin
      nfEnd       := StringReplace( nfKey, s_key_, s_end_       , [rfReplaceAll]);
 
      sKey       := s_from_nf( nfKey       );
-     sBegin     := s_from_nf( nfBegin     );
+     sBegin     := s_from_nf( nfBegin     );if sBegin = ' ' then sBegin:= '';
      sElement   := s_from_nf( nfElement   );
      sSeparateur:= s_from_nf( nfSeparateur);
      sEnd       := s_from_nf( nfEnd       );
@@ -580,7 +580,7 @@ begin
      else
          Valeur:= Valeur + sSeparateur;
 
-     Element:= sElement;
+     Element:= cc.Produit( 'Classe.', sElement);
      Element:= StringReplace( Element, 'Detail.Classe',sNomTableMembre,[rfReplaceAll,rfIgnoreCase]);
      Element:= StringReplace( Element, 'Detail'       ,s_Detail       ,[rfReplaceAll,rfIgnoreCase]);
      Valeur:= Valeur+ Element;
@@ -597,9 +597,9 @@ begin
      else
          Valeur:= Valeur + sSeparateur;
 
-     Element:= sElement;
-     Element:= StringReplace( Element, 'Aggregation.Classe',sNomTableMembre,[rfReplaceAll,rfIgnoreCase]);
-     Element:= StringReplace( Element, 'Aggregation'       ,s_Aggregation  ,[rfReplaceAll,rfIgnoreCase]);
+     Element:= cc.Produit( 'Classe.', sElement);
+     Element:= StringReplace( Element, 'Aggregation.NomAggregation'   ,s_Aggregation  ,[rfReplaceAll,rfIgnoreCase]);
+     Element:= StringReplace( Element, 'Aggregation.ClasseAggregation',sNomTableMembre,[rfReplaceAll,rfIgnoreCase]);
      Valeur:= Valeur+ Element;
 end;
 

@@ -28,9 +28,9 @@ interface
 uses
     uClean, ujpFile, uBatpro_StringList, Classes, SysUtils, FileUtil, SynEdit,
     SynHighlighterXML, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,
-    DOM, XMLWrite, XMLRead, strutils, SynEditTypes, SynEditHighlighter,
-    SynHighlighterPas,
-    SynHighlighterLFM, SynHighlighterPo;
+    ActnList, DOM, XMLWrite, XMLRead, strutils, SynEditTypes,
+    SynEditHighlighter, SynHighlighterPas, SynHighlighterLFM, SynHighlighterPo,
+    SynHighlighterJScript;
 
 type
  { TfjpFile }
@@ -39,6 +39,8 @@ type
  =
  class(TForm)
  published
+  aSauver: TAction;
+  al: TActionList;
   bSauver: TButton;
   Label1: TLabel;
   Label2: TLabel;
@@ -65,7 +67,8 @@ type
   shlXML: TSynXMLSyn;
   shlPAS: TSynPasSyn;
   shlLFM: TSynLFMSyn;
-  procedure bSauverClick(Sender: TObject);
+  shlJS: TSynJScriptSyn;
+  procedure aSauverExecute(Sender: TObject);
   procedure seStatusChange(Sender: TObject; Changes: TSynStatusChanges);
  //Gestion du cycle de vie
  public
@@ -182,6 +185,10 @@ end;
 
 destructor TfjpFile.Destroy;
 begin
+     if      bSauver.Visible
+        and (mrYes = MessageDlg( Caption, 'Enregistrer les modifications ?', mtConfirmation,mbYesNo,0))
+     then
+         Sauver;
      inherited Destroy;
 end;
 
@@ -219,7 +226,9 @@ var
 begin
      Extension:= LowerCase( ExtractFileExt( jpf.nfKey));
           if '.pas' = Extension then sc:= shlPAS
-     else if '.lfm' = Extension then sc:= shlLFM;
+     else if '.lfm' = Extension then sc:= shlLFM
+     else if '.js'  = Extension then sc:= shlJS
+     else                            sc:= nil;
      se01.Highlighter:= sc;
      se02.Highlighter:= sc;
      se03.Highlighter:= sc;
@@ -242,7 +251,7 @@ begin
      ujpFile_EnumFiles( Directory, Cherche_01_key_FileFound, s_key_mask);
 end;
 
-procedure TfjpFile.bSauverClick(Sender: TObject);
+procedure TfjpFile.aSauverExecute(Sender: TObject);
 begin
      Sauver;
 end;

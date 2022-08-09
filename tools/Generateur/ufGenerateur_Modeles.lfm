@@ -6,5 +6,6 @@ object fGenerateur_Modeles: TfGenerateur_Modeles
   AllowDropFiles = True
   Caption = 'fGenerateur_Modeles'
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   LCLVersion = '2.2.0.4'
 end

@@ -870,27 +870,6 @@ var
         phPHP_Perso_Set   := Cree_TemplateHandler(  s_RepertoirePHP_Perso+        s_Nom_de_la_table+   '_Set.php',slParametres);
    end;
    }
-   procedure Traite_Champ( _C: TChamp);
-   var
-      d: TChampDefinition;
-      sNomChamp: String;
-      cm: TContexteMembre;
-   begin
-        d:= _C.Definition;
-        if not d.Persistant then exit;//pour éviter le champ Selected
-
-        sNomChamp:= d.Nom;
-        if 'id' = LowerCase( sNomChamp) then exit;
-
-        cm:= TContexteMembre.Create( Self, cc, sNomChamp, d.sType, '');
-        //cm:= TContexteMembre.Create( cc, _fb.jsdcc.Nom, _fb.sType, '');
-        try
-           uJoinPoint_VisiteMembre( cm, a);
-           sljpfMembre.VisiteMembre( cm);
-        finally
-               FreeAndNil( cm);
-               end;
-   end;
    {
    procedure Produit;
    begin
@@ -924,6 +903,45 @@ var
         phPHP_Perso_Set   .Produit;
    end;
    }
+   procedure Traite_Champ( _C: TChamp);
+   var
+      d: TChampDefinition;
+      sNomChamp: String;
+      cm: TContexteMembre;
+   begin
+        d:= _C.Definition;
+        if not d.Persistant then exit;//pour éviter le champ Selected
+
+        sNomChamp:= d.Nom;
+        if 'id' = LowerCase( sNomChamp) then exit;
+
+        cm:= TContexteMembre.Create( Self, cc, sNomChamp, d.sType, '');
+        //cm:= TContexteMembre.Create( cc, _fb.jsdcc.Nom, _fb.sType, '');
+        try
+                 uJoinPoint_VisiteMembre( cm, a);
+           sljpfMembre     .VisiteMembre( cm);
+           sljpfDetail     .VisiteMembre( cm);
+           sljpfAggregation.VisiteMembre( cm);
+        finally
+               FreeAndNil( cm);
+               end;
+   end;
+   procedure Traite_Detail( s_Detail, sNomTableMembre: String);
+   begin
+        if '' = sNomTableMembre then sNomTableMembre:= s_Detail;
+              uJoinPoint_VisiteDetail( s_Detail, sNomTableMembre, a);
+        sljpfMembre     .VisiteDetail( s_Detail, sNomTableMembre);
+        sljpfDetail     .VisiteDetail( s_Detail, sNomTableMembre);
+        sljpfAggregation.VisiteDetail( s_Detail, sNomTableMembre);
+   end;
+   procedure Traite_Aggregation( s_Aggregation, sNomTableMembre: String);
+   begin
+        if '' = sNomTableMembre then sNomTableMembre:= s_Aggregation;
+              uJoinPoint_VisiteAggregation( s_Aggregation, sNomTableMembre, a);
+        sljpfMembre     .VisiteAggregation( s_Aggregation, sNomTableMembre);
+        sljpfDetail     .VisiteAggregation( s_Aggregation, sNomTableMembre);
+        sljpfAggregation.VisiteAggregation( s_Aggregation, sNomTableMembre);
+   end;
    procedure Visite;
    var
       I: TIterateur_Champ;
@@ -931,13 +949,15 @@ var
       C: TChamp;
    begin
         cc:= TContexteClasse.Create( Self, _Suffixe,
-                                     bl.Champs.ChampDefinitions.Persistant_Count);
+                                     bl.Champs.ChampDefinitions.Persistant_Count,
+                                     slParametres);
         try
-           slApplicationJoinPointFile.VisiteClasse( cc);
            slParametres.Clear;
 
-           uJoinPoint_Initialise( cc, a);
-           sljpfMembre.Initialise( cc);
+                 uJoinPoint_Initialise( cc, a);
+           sljpfMembre     .Initialise( cc);
+           sljpfDetail     .Initialise( cc);
+           sljpfAggregation.Initialise( cc);
 
            I:= bl.Champs.sl.Iterateur;
            try
@@ -961,13 +981,7 @@ var
               NbDetails:= slDetails.Count;
               for J:= 0 to NbDetails-1
               do
-                begin
-                uJoinPoint_VisiteDetail( slDetails.Names[J],
-                                         slDetails.ValueFromIndex[J],
-                                         a);
-                sljpfMembre.VisiteDetail( slDetails.Names[J],
-                                       slDetails.ValueFromIndex[J]);
-                end;
+                Traite_Detail( slDetails.Names[J], slDetails.ValueFromIndex[J]);
            finally
                   slDetails.SaveToFile( nfDetails);
                   FreeAndNil( slDetails);
@@ -983,24 +997,22 @@ var
               NbAggregations:= slAggregations.Count;
               for J:= 0 to NbAggregations-1
               do
-                begin
-                uJoinPoint_VisiteAggregation( slAggregations.Names[J],
-                                         slAggregations.ValueFromIndex[J],
-                                         a);
-                sljpfMembre.VisiteAggregation( slAggregations.Names[J],
-                                            slAggregations.ValueFromIndex[J]);
-                end;
+                Traite_Aggregation( slAggregations.Names[J], slAggregations.ValueFromIndex[J]);
            finally
                   slAggregations.SaveToFile( nfAggregations);
                   FreeAndNil( slAggregations);
                   end;
 
            //Fermeture des chaines
-           uJoinPoint_Finalise( a);
-           sljpfMembre.Finalise;
+                 uJoinPoint_Finalise( a);
+           sljpfMembre     .Finalise;
+           sljpfDetail     .Finalise;
+           sljpfAggregation.Finalise;
 
-           uJoinPoint_To_Parametres( slParametres, a);
-           sljpfMembre.To_Parametres( slParametres);
+                 uJoinPoint_To_Parametres( slParametres, a);
+           sljpfMembre     .To_Parametres( slParametres);
+           sljpfDetail     .To_Parametres( slParametres);
+           sljpfAggregation.To_Parametres( slParametres);
 
            slTemplateHandler_Produit;
            //Produit;
@@ -1008,6 +1020,7 @@ var
            MenuHandler                          .Add( cc.Nom_de_la_table, NbDetails = 0);
            csMenuHandler                        .Add( cc.Nom_de_la_table, NbDetails = 0, True(*cc.CalculeSaisi_*));
            Angular_TypeScript_ApplicationHandler.Add( cc, NbDetails = 0);
+           slApplicationJoinPointFile.VisiteClasse( cc);
            slLog.Add( 'MenuHandler.Add');
         finally
                FreeAndNil( cc)

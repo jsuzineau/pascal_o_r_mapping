@@ -234,6 +234,22 @@ end;
 { TApplicationJoinPointFile }
 
 constructor TApplicationJoinPointFile.Create( _nfKey: String);
+   procedure RemoveTrailing_LineEnding( var _s: String);
+   var
+      ls: Integer;
+      lle: Integer;
+   begin
+        lle:= Length( LineEnding);
+        ls := Length( _s);
+        if ls < lle then exit;
+
+        Delete( _s, ls-lle+1, lle);
+   end;
+   function s_from_nf( _nf: String):String;
+   begin
+        Result:= String_from_File( _nf);
+        RemoveTrailing_LineEnding( Result);
+   end;
 begin
      nfKey       := _nfKey;
      nfBegin     := StringReplace( nfKey, s_key_, s_begin_     , [rfReplaceAll]);
@@ -241,11 +257,11 @@ begin
      nfSeparateur:= StringReplace( nfKey, s_key_, s_separateur_, [rfReplaceAll]);
      nfEnd       := StringReplace( nfKey, s_key_, s_end_       , [rfReplaceAll]);
 
-     sKey       := String_from_File( nfKey       );
-     sBegin     := String_from_File( nfBegin     );
-     sElement   := String_from_File( nfElement   );
-     sSeparateur:= String_from_File( nfSeparateur);
-     sEnd       := String_from_File( nfEnd       );
+     sKey       := s_from_nf( nfKey       );
+     sBegin     := s_from_nf( nfBegin     );
+     sElement   := s_from_nf( nfElement   );
+     sSeparateur:= s_from_nf( nfSeparateur);
+     sEnd       := s_from_nf( nfEnd       );
 
      Cle:= sKey;
 end;

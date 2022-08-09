@@ -142,6 +142,18 @@ inherited fBase: TfBase
         TabOrder = 0
       end
     end
+    object cg: TChampsGrid
+      Left = 1
+      Height = 181
+      Top = 31
+      Width = 819
+      Align = alClient
+      TabOrder = 2
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'MS Sans Serif'
+      Persistance = True
+    end
   end
   inherited al: TActionList[8]
     Left = 504

@@ -16,6 +16,7 @@ type
  =
   class(TForm)
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     fjpFiles: TfjpFiles;
   public
@@ -40,6 +41,11 @@ begin
      Menu:= fjpFiles.mm;
      OnDropFiles:= @fjpFiles.DropFiles;
      //fjpFiles.Show;
+end;
+
+procedure TfGenerateur_Modeles.FormDestroy(Sender: TObject);
+begin
+     FreeAndNil( fjpFiles);
 end;
 
 end.

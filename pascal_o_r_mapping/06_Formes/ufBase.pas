@@ -181,19 +181,6 @@ begin
 end;
 
 end.
-object cg: TChampsGrid
-  Left = 1
-  Height = 181
-  Top = 31
-  Width = 819
-  Align = alClient
-  TabOrder = 1
-  TitleFont.Color = clWindowText
-  TitleFont.Height = -11
-  TitleFont.Name = 'MS Sans Serif'
-  OnSelectCell = cgSelectCell
-  Persistance = True
-end
 object StringGrid1: TStringGrid
   Left = 220
   Height = 100

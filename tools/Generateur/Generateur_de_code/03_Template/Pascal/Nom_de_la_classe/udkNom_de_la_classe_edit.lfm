@@ -9,8 +9,7 @@ inherited dkNom_de_la_classe_edit: TdkNom_de_la_classe_edit
   inherited sSelection: TBatpro_Shape
     Height = 45
   end
-//pattern_udk_edit_components_declaration_lfm
-  object sbDetruire: TSpeedButton[2]
+  object sbDetruire: TSpeedButton[1]
     Left = 16
     Height = 22
     Hint = 'Supprimer'
@@ -19,7 +18,7 @@ inherited dkNom_de_la_classe_edit: TdkNom_de_la_classe_edit
     Caption = 'D'
     OnClick = sbDetruireClick
   end
-  object sbCopy_to_current: TSpeedButton[4]
+  object sbCopy_to_current: TSpeedButton[2]
     Left = 203
     Height = 22
     Hint = 'Copie vers courant'

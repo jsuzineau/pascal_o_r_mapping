@@ -186,7 +186,7 @@ begin
      slLog  := TBatpro_StringList.Create;
 
      slSource.LoadFromFile( Source_FullPath);
-     slLog.Add( 'Original de '+Source);
+     slLog.Add( ClassName+'.Create: Original de '+Source);
      slLog.Add( slSource.Text);
 
      slCible:= TBatpro_StringList.Create;
@@ -199,10 +199,14 @@ end;
 
 
 destructor TTemplateHandler.Destroy;
+var
+   S: String;
 begin
-     //if Pos( 'udk', Source) <> 0
-     //then
-     //    slLog.SaveToFile( Calcule_NomCible+'.log');
+     s:= Calcule_NomCible;
+     //if Pos( 'Customer', Source) <> 0
+     if Pos( 'Customer', s) <> 0
+     then
+         slLog.SaveToFile( s+'.log');
      FreeAndNil( slCible     );
      FreeAndNil( slSource    );
      FreeAndNil( slLog       );
@@ -227,7 +231,7 @@ begin
        NewKey:= slParametres.Values[OldKey];
        if '' = Trim(NewKey) then continue;
 
-       if Log_Actif then slLog.Add( 'Remplacement de '+OldKey+' par '+NewKey);
+       if Log_Actif then slLog.Add( ClassName+'.RemplaceParametres: Remplacement de '+OldKey+' par '+NewKey);
        Result:= StringReplace(Result,OldKey,NewKey,[rfReplaceAll,rfIgnoreCase]);
        if Log_Actif then slLog.Add( Result);
        end;

@@ -2145,11 +2145,9 @@ object fjpFile: TfjpFile
         Height = 25
         Top = 8
         Width = 75
+        Action = aSauver
         Anchors = [akTop, akRight]
-        Caption = 'Sauver'
-        OnClick = bSauverClick
         TabOrder = 0
-        Visible = False
       end
     end
   end
@@ -2715,5 +2713,19 @@ object fjpFile: TfjpFile
     Enabled = False
     Left = 121
     Top = 240
+  end
+  object shlJS: TSynJScriptSyn
+    Enabled = False
+    Left = 168
+    Top = 246
+  end
+  object al: TActionList
+    Left = 507
+    Top = 767
+    object aSauver: TAction
+      Caption = 'Sauver'
+      OnExecute = aSauverExecute
+      ShortCut = 16467
+    end
   end
 end
