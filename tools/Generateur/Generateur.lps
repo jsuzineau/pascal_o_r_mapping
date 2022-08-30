@@ -4,13 +4,14 @@
     <PathDelim Value="\"/>
     <Version Value="12"/>
     <BuildModes Active="Windows_Release"/>
-    <Units Count="118">
+    <Units Count="122">
       <Unit0>
         <Filename Value="Generateur.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
+        <EditorIndex Value="1"/>
         <CursorPos X="68" Y="19"/>
         <UsageCount Value="207"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
@@ -19,10 +20,11 @@
         <ComponentName Value="fGenerateur"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="17"/>
-        <CursorPos X="4" Y="23"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="18"/>
+        <CursorPos Y="52"/>
         <UsageCount Value="207"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
       <Unit2>
@@ -49,7 +51,7 @@
       </Unit3>
       <Unit4>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\ublAutomatic.pas"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="990"/>
         <CursorPos X="18" Y="1007"/>
         <UsageCount Value="138"/>
@@ -61,7 +63,7 @@
       </Unit4>
       <Unit5>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uContexteClasse.pas"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="9"/>
         <TopLine Value="117"/>
         <CursorPos X="23" Y="120"/>
         <UsageCount Value="138"/>
@@ -82,7 +84,7 @@
       </Unit6>
       <Unit7>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\JoinPoint\uJoinPoint.pas"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="15"/>
         <TopLine Value="98"/>
         <CursorPos Y="98"/>
         <UsageCount Value="138"/>
@@ -181,7 +183,7 @@
       </Unit22>
       <Unit23>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\File_Handler\uTemplateHandler.pas"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="14"/>
         <TopLine Value="192"/>
         <CursorPos X="27" Y="207"/>
         <UsageCount Value="138"/>
@@ -193,7 +195,7 @@
       </Unit23>
       <Unit24>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\JoinPoint\ujpFile.pas"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="12"/>
         <TopLine Value="520"/>
         <CursorPos X="65" Y="532"/>
         <UsageCount Value="138"/>
@@ -202,7 +204,7 @@
       </Unit24>
       <Unit25>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uApplicationJoinPointFile.pas"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="253"/>
         <CursorPos Y="285"/>
         <UsageCount Value="138"/>
@@ -229,7 +231,7 @@
         <ComponentName Value="fjpFiles"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="10"/>
         <TopLine Value="184"/>
         <CursorPos X="31" Y="190"/>
         <UsageCount Value="107"/>
@@ -578,10 +580,11 @@
       </Unit71>
       <Unit72>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\udmDatabase.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="143"/>
-        <CursorPos Y="174"/>
-        <UsageCount Value="35"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="158"/>
+        <CursorPos X="83" Y="166"/>
+        <UsageCount Value="36"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit72>
       <Unit73>
@@ -652,7 +655,7 @@
       </Unit80>
       <Unit81>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uContexteMembre.pas"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="16"/>
         <TopLine Value="136"/>
         <CursorPos Y="168"/>
         <UsageCount Value="104"/>
@@ -764,7 +767,7 @@
         <ComponentName Value="fjpFile"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="11"/>
         <TopLine Value="55"/>
         <CursorPos Y="72"/>
         <UsageCount Value="110"/>
@@ -824,19 +827,22 @@
       </Unit101>
       <Unit102>
         <Filename Value="E:\09_Clients\Sibyl\02_source\AmiBroker\COM\Generateur\Generateur_de_code\05_ApplicationTemplate\html\Diagramme\Diagramme.html"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="109"/>
         <CursorPos X="28" Y="122"/>
         <UsageCount Value="31"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="HTML"/>
       </Unit102>
       <Unit103>
         <Filename Value="..\..\pascal_o_r_mapping\06_Formes\Code_Generation\ufAutomatic_VST.pas"/>
-        <TopLine Value="251"/>
-        <CursorPos Y="194"/>
-        <UsageCount Value="54"/>
+        <ComponentName Value="fAutomatic_VST"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <TopLine Value="109"/>
+        <CursorPos X="58" Y="131"/>
+        <UsageCount Value="55"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit103>
       <Unit104>
@@ -915,13 +921,12 @@
         <ComponentName Value="fNom_de_la_classe_dsb"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="155"/>
         <CursorPos X="67" Y="175"/>
         <UsageCount Value="25"/>
-        <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit113>
       <Unit114>
         <Filename Value="..\..\Generation_de_code\40_PatternCreator\Pattern_StarUML\ufNomTable.dfm"/>
@@ -953,139 +958,174 @@
         <ComponentName Value="fjsWorks"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="13"/>
         <TopLine Value="445"/>
         <CursorPos Y="449"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="12"/>
         <Bookmarks Count="1">
           <Item0 X="6" Y="447" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit117>
+      <Unit118>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\packages\fcl-db\src\sqldb\sqlite\sqlite3conn.pp"/>
+        <UnitName Value="SQLite3Conn"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="892"/>
+        <CursorPos X="29" Y="924"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit118>
+      <Unit119>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\packages\fcl-db\src\base\database.inc"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="2"/>
+        <CursorPos Y="37"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit119>
+      <Unit120>
+        <Filename Value="C:\lazarus\lcl\include\application.inc"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="1046"/>
+        <CursorPos X="37" Y="1078"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit120>
+      <Unit121>
+        <Filename Value="E:\09_Clients\Sibyl\02_source\Generateur\Generateur_de_code\06_Resultat\html\Diagramme\Diagramme.html"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="115"/>
+        <CursorPos X="56" Y="137"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="HTML"/>
+      </Unit121>
     </Units>
     <OtherDefines Count="1">
       <Define0 Value="WINDOWS_GRAPHIC"/>
     </OtherDefines>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="E:\09_Clients\Sibyl\02_source\AmiBroker\COM\Generateur\Generateur_de_code\03_Template\Pascal\Nom_de_la_classe\ufNom_de_la_classe_dsb.pas"/>
-        <Caret Line="70" Column="17" TopLine="70"/>
-      </Position1>
-      <Position2>
-        <Filename Value="E:\09_Clients\Sibyl\02_source\AmiBroker\COM\Generateur\Generateur_de_code\03_Template\Pascal\Nom_de_la_classe\ufNom_de_la_classe_dsb.pas"/>
-        <Caret Line="107" Column="69" TopLine="70"/>
-      </Position2>
-      <Position3>
-        <Filename Value="E:\09_Clients\Sibyl\02_source\AmiBroker\COM\Generateur\Generateur_de_code\03_Template\Pascal\Nom_de_la_classe\ufNom_de_la_classe_dsb.pas"/>
-        <Caret Line="193" Column="7" TopLine="170"/>
-      </Position3>
-      <Position4>
-        <Filename Value="E:\09_Clients\Sibyl\02_source\AmiBroker\COM\Generateur\Generateur_de_code\03_Template\Pascal\Nom_de_la_classe\ufNom_de_la_classe_dsb.pas"/>
-        <Caret Line="211" TopLine="193"/>
-      </Position4>
-      <Position5>
-        <Filename Value="E:\09_Clients\Sibyl\02_source\AmiBroker\COM\Generateur\Generateur_de_code\03_Template\Pascal\Nom_de_la_classe\ufNom_de_la_classe_dsb.pas"/>
-        <Caret Line="178" TopLine="138"/>
-      </Position5>
-      <Position6>
-        <Filename Value="E:\09_Clients\Sibyl\02_source\AmiBroker\COM\Generateur\Generateur_de_code\03_Template\Pascal\Nom_de_la_classe\ufNom_de_la_classe_dsb.pas"/>
-        <Caret Line="177" TopLine="137"/>
-      </Position6>
-      <Position7>
-        <Filename Value="E:\09_Clients\Sibyl\02_source\AmiBroker\COM\Generateur\Generateur_de_code\03_Template\Pascal\Nom_de_la_classe\ufNom_de_la_classe_dsb.pas"/>
-        <Caret Line="176" TopLine="136"/>
-      </Position7>
-      <Position8>
-        <Filename Value="E:\09_Clients\Sibyl\02_source\AmiBroker\COM\Generateur\Generateur_de_code\03_Template\Pascal\Nom_de_la_classe\ufNom_de_la_classe_dsb.pas"/>
-        <Caret Line="174" Column="54" TopLine="137"/>
-      </Position8>
-      <Position9>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\JoinPoint\ujpFile.pas"/>
         <Caret Line="146" Column="26" TopLine="111"/>
-      </Position9>
-      <Position10>
+      </Position1>
+      <Position2>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\JoinPoint\ujpFile.pas"/>
         <Caret Line="388" Column="6" TopLine="383"/>
+      </Position2>
+      <Position3>
+        <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\JoinPoint\ujpFile.pas"/>
+        <Caret Line="85" Column="24" TopLine="60"/>
+      </Position3>
+      <Position4>
+        <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\JoinPoint\ujpFile.pas"/>
+        <Caret Line="589" Column="27" TopLine="572"/>
+      </Position4>
+      <Position5>
+        <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\ublAutomatic.pas"/>
+        <Caret Line="970" Column="55" TopLine="936"/>
+      </Position5>
+      <Position6>
+        <Filename Value="..\..\jsWorks\ufjsWorks.pas"/>
+      </Position6>
+      <Position7>
+        <Filename Value="..\..\jsWorks\ufjsWorks.pas"/>
+        <Caret Line="71" Column="46" TopLine="51"/>
+      </Position7>
+      <Position8>
+        <Filename Value="..\..\jsWorks\ufjsWorks.pas"/>
+        <Caret Line="88" Column="19" TopLine="51"/>
+      </Position8>
+      <Position9>
+        <Filename Value="..\..\jsWorks\ufjsWorks.pas"/>
+        <Caret Line="447" Column="6" TopLine="445"/>
+      </Position9>
+      <Position10>
+        <Filename Value="..\..\jsWorks\ufjsWorks.pas"/>
+        <Caret Line="186" TopLine="167"/>
       </Position10>
       <Position11>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\JoinPoint\ujpFile.pas"/>
-        <Caret Line="85" Column="24" TopLine="60"/>
+        <Caret Line="598" Column="59" TopLine="571"/>
       </Position11>
       <Position12>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\JoinPoint\ujpFile.pas"/>
-        <Caret Line="589" Column="27" TopLine="572"/>
+        <Caret Line="57" Column="15" TopLine="37"/>
       </Position12>
       <Position13>
-        <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\ublAutomatic.pas"/>
-        <Caret Line="970" Column="55" TopLine="936"/>
+        <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\JoinPoint\uJoinPoint.pas"/>
+        <Caret Line="51" Column="19" TopLine="14"/>
       </Position13>
       <Position14>
-        <Filename Value="E:\09_Clients\Sibyl\02_source\AmiBroker\COM\Generateur\Generateur_de_code\03_Template\Pascal\Nom_de_la_classe\ufNom_de_la_classe_dsb.pas"/>
-        <Caret Line="102" Column="64" TopLine="62"/>
+        <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uContexteClasse.pas"/>
+        <Caret Line="119" TopLine="103"/>
       </Position14>
       <Position15>
-        <Filename Value="..\..\jsWorks\ufjsWorks.pas"/>
+        <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uContexteClasse.pas"/>
+        <Caret Line="46" Column="16" TopLine="26"/>
       </Position15>
       <Position16>
-        <Filename Value="..\..\jsWorks\ufjsWorks.pas"/>
-        <Caret Line="71" Column="46" TopLine="51"/>
+        <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\JoinPoint\ujpFile.pas"/>
+        <Caret Line="44" Column="17" TopLine="37"/>
       </Position16>
       <Position17>
         <Filename Value="..\..\jsWorks\ufjsWorks.pas"/>
-        <Caret Line="88" Column="19" TopLine="51"/>
+        <Caret Line="295" TopLine="272"/>
       </Position17>
       <Position18>
         <Filename Value="..\..\jsWorks\ufjsWorks.pas"/>
-        <Caret Line="447" Column="6" TopLine="445"/>
+        <Caret Line="87" Column="14" TopLine="51"/>
       </Position18>
       <Position19>
-        <Filename Value="E:\09_Clients\Sibyl\02_source\AmiBroker\COM\Generateur\Generateur_de_code\03_Template\Pascal\Nom_de_la_classe\ufNom_de_la_classe_dsb.pas"/>
-        <Caret Line="81" Column="37" TopLine="67"/>
+        <Filename Value="..\..\pascal_o_r_mapping\06_Formes\Code_Generation\ufAutomatic_VST.pas"/>
+        <Caret Line="194" TopLine="250"/>
       </Position19>
       <Position20>
-        <Filename Value="..\..\jsWorks\ufjsWorks.pas"/>
-        <Caret Line="186" TopLine="167"/>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\packages\fcl-db\src\sqldb\sqlite\sqlite3conn.pp"/>
+        <Caret Line="869" TopLine="849"/>
       </Position20>
       <Position21>
-        <Filename Value="E:\09_Clients\Sibyl\02_source\AmiBroker\COM\Generateur\Generateur_de_code\03_Template\Pascal\Nom_de_la_classe\ufNom_de_la_classe_dsb.pas"/>
-        <Caret Line="145" Column="43" TopLine="117"/>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\packages\fcl-db\src\base\database.inc"/>
+        <Caret Line="37" TopLine="2"/>
       </Position21>
       <Position22>
-        <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\JoinPoint\ujpFile.pas"/>
-        <Caret Line="598" Column="59" TopLine="571"/>
+        <Filename Value="Generateur.lpr"/>
+        <Caret Line="19" Column="68"/>
       </Position22>
       <Position23>
-        <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\JoinPoint\ujpFile.pas"/>
-        <Caret Line="57" Column="15" TopLine="37"/>
+        <Filename Value="ufGenerateur.pas"/>
+        <Caret Line="16" Column="2" TopLine="18"/>
       </Position23>
       <Position24>
-        <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\JoinPoint\uJoinPoint.pas"/>
-        <Caret Line="51" Column="19" TopLine="14"/>
+        <Filename Value="ufGenerateur.pas"/>
+        <Caret Line="40" TopLine="18"/>
       </Position24>
       <Position25>
-        <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uContexteClasse.pas"/>
-        <Caret Line="119" TopLine="103"/>
+        <Filename Value="ufGenerateur.pas"/>
+        <Caret Line="39" TopLine="18"/>
       </Position25>
       <Position26>
-        <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uContexteClasse.pas"/>
-        <Caret Line="46" Column="16" TopLine="26"/>
+        <Filename Value="ufGenerateur.pas"/>
+        <Caret Line="40" TopLine="18"/>
       </Position26>
       <Position27>
-        <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\JoinPoint\ujpFile.pas"/>
-        <Caret Line="44" Column="17" TopLine="37"/>
+        <Filename Value="..\..\pascal_o_r_mapping\06_Formes\Code_Generation\ufAutomatic_VST.pas"/>
+        <Caret Line="134" Column="47" TopLine="112"/>
       </Position27>
       <Position28>
-        <Filename Value="..\..\jsWorks\ufjsWorks.pas"/>
-        <Caret Line="295" TopLine="272"/>
+        <Filename Value="..\..\pascal_o_r_mapping\06_Formes\Code_Generation\ufAutomatic_VST.pas"/>
+        <Caret Line="133" Column="47" TopLine="111"/>
       </Position28>
       <Position29>
-        <Filename Value="..\..\jsWorks\ufjsWorks.pas"/>
-        <Caret Line="87" Column="14" TopLine="51"/>
+        <Filename Value="..\..\pascal_o_r_mapping\06_Formes\Code_Generation\ufAutomatic_VST.pas"/>
+        <Caret Line="132" Column="47" TopLine="110"/>
       </Position29>
       <Position30>
-        <Filename Value="E:\09_Clients\Sibyl\02_source\AmiBroker\COM\Generateur\Generateur_de_code\03_Template\Pascal\Nom_de_la_classe\ufNom_de_la_classe_dsb.pas"/>
-        <Caret Line="126" Column="77" TopLine="101"/>
+        <Filename Value="..\..\pascal_o_r_mapping\06_Formes\Code_Generation\ufAutomatic_VST.pas"/>
+        <Caret Line="131" Column="47" TopLine="109"/>
       </Position30>
     </JumpHistory>
     <RunParams>
@@ -1099,6 +1139,15 @@
     </HistoryLists>
   </ProjectSession>
   <Debugging>
+    <BreakPoints>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="C:\lazarus\fpc\3.2.2\source\packages\fcl-db\src\base\database.inc"/>
+        <Line Value="37"/>
+      </Item>
+    </BreakPoints>
     <Watches>
       <Item>
         <Expression Value="Source"/>

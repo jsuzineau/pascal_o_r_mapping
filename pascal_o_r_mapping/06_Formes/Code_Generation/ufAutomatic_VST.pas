@@ -77,9 +77,6 @@ type
     eQueryFileName: TEdit;
     od: TOpenDialog;
     Panel1: TPanel;
-    SQLite3Connection1: TSQLite3Connection;
-    SQLQuery1: TSQLQuery;
-    SQLTransaction1: TSQLTransaction;
     vst: TVirtualStringTree;
     procedure bExecuteClick(Sender: TObject);
     procedure bGenereClick(Sender: TObject);
