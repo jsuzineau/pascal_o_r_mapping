@@ -21,7 +21,7 @@ uses
  ublOpenDocument_DelphiReportEngine_Test, ufFields_vstInsertion, 
  ufFields_vstTables, ufStringList, ufTextFile, ufXML_Editor, ufFields_vle, 
  ufFields_vst, uhVST, ufjpFile, ufjpFiles, ufAutomatic_VST, ufAutomatic, 
- ufAutomatic_Genere_tout_sl, LazarusPackageIntf;
+ ufAutomatic_Genere_tout_sl, ufODBC, LazarusPackageIntf;
 
 implementation
 

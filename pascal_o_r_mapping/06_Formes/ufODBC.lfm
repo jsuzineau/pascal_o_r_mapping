@@ -1,0 +1,61 @@
+object fODBC: TfODBC
+  Left = 603
+  Height = 240
+  Top = 359
+  Width = 824
+  Caption = 'fODBC'
+  ClientHeight = 240
+  ClientWidth = 824
+  OnCreate = FormCreate
+  LCLVersion = '2.2.0.4'
+  object Panel1: TPanel
+    Left = 0
+    Height = 72
+    Top = 0
+    Width = 824
+    Align = alTop
+    ClientHeight = 72
+    ClientWidth = 824
+    TabOrder = 0
+    object bAdministratorTool: TButton
+      Left = 8
+      Height = 25
+      Top = 8
+      Width = 171
+      Caption = 'ODBC Administrator tool'
+      OnClick = bAdministratorToolClick
+      TabOrder = 0
+    end
+    object bCustomizeDSN: TButton
+      Left = 11
+      Height = 25
+      Top = 39
+      Width = 165
+      Caption = 'Personnalise fichier DSN'
+      OnClick = bCustomizeDSNClick
+      TabOrder = 1
+    end
+    object bCree_Datasource: TButton
+      Left = 187
+      Height = 25
+      Top = 39
+      Width = 133
+      Caption = 'Crée Datasource'
+      OnClick = bCree_DatasourceClick
+      TabOrder = 2
+    end
+  end
+  object m: TMemo
+    Left = 0
+    Height = 168
+    Top = 72
+    Width = 824
+    Align = alClient
+    Font.Name = 'Courier New'
+    Lines.Strings = (
+      'm'
+    )
+    ParentFont = False
+    TabOrder = 1
+  end
+end

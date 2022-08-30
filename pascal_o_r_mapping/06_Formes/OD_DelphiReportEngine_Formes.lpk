@@ -16,7 +16,7 @@
         </SyntaxOptions>
       </Parsing>
     </CompilerOptions>
-    <Files Count="62">
+    <Files Count="63">
       <Item1>
         <Filename Value="uAide.pas"/>
         <UnitName Value="uAide"/>
@@ -213,6 +213,10 @@
         <Filename Value="Code_Generation/ufAutomatic_Genere_tout_sl.pas"/>
         <UnitName Value="ufAutomatic_Genere_tout_sl"/>
       </Item62>
+      <Item63>
+        <Filename Value="ufODBC.pas"/>
+        <UnitName Value="ufODBC"/>
+      </Item63>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="10">
