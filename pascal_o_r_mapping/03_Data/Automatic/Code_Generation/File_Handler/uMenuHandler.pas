@@ -77,7 +77,7 @@ begin
 
      slParametres:= TBatpro_StringList.Create;
      PAS:=TTemplateHandler.Create( g, s_RepertoirePascal+'u'+s_MenuHandler_Form_Name+'.pas',slParametres);
-     DFM:=TTemplateHandler.Create( g, s_RepertoirePascal+'u'+s_MenuHandler_Form_Name+'.dfm',slParametres);
+     DFM:=TTemplateHandler.Create( g, s_RepertoirePascal+'u'+s_MenuHandler_Form_Name+'.lfm',slParametres);
      Init;
 end;
 
@@ -104,10 +104,10 @@ procedure TMenuHandler.Add( NomClasse: String; IsRelation: Boolean);
          sDFM
          :=
              sDFM
-           + '      object '+NomClasse+': TMenuItem'#13#10
-           + '        Caption = '''+NomClasse+'''  '#13#10
-           + '        OnClick = '+NomClasse+'Click '#13#10
-           + '      end                            '#13#10;
+           + '      object '+NomClasse+': TMenuItem'+#13#10
+           + '        Caption = '''+NomClasse+''''  +#13#10
+           + '        OnClick = '+NomClasse+'Click' +#13#10
+           + '      end'                            +#13#10;
     end;
 begin
      if IsRelation
@@ -128,10 +128,10 @@ begin
      :=
          sMenu_Implementation
        +'procedure T'+s_MenuHandler_Form_Name+'.'+
-                                       NomClasse+'Click(Sender: TObject);'#13#10
-       +'begin                                                           '#13#10
-       +'     f'+NomClasse+'.Execute;                                    '#13#10
-       +'end;                                                            '#13#10#13#10;
+                                       NomClasse+'Click(Sender: TObject);'+#13#10
+       +'begin'                                                           +#13#10
+       +'     f'+NomClasse+'.Execute;'                                    +#13#10
+       +'end;'                                                            +#13#10#13#10;
 end;
 
 procedure TMenuHandler.Produit;

@@ -63,7 +63,8 @@ function TryDMYToDate( DMY: String; out DT: TDateTime): Boolean;
 
 function DateTimeSQL( D: TDateTime): String;
 function DateTimeSQL_sans_quotes( D: TDateTime): String;
-function DateTime_from_DateTimeSQL_sans_quotes( _DateTimeSQL: String): TDatetime;
+function     DateTime_from_DateTimeSQL_sans_quotes( _DateTimeSQL: String): TDatetime;
+function Try_DateTime_from_DateTimeSQL_sans_quotes( _DateTimeSQL: String;out DT: TDateTime): Boolean;
 function DateTime_ISO8601_sans_quotes( D: TDateTime): String;
 
 function DateTimeSQL_sans_quotes_DMY2( D: TDateTime): String;
@@ -308,6 +309,39 @@ begin
          exit;
 
      Result:= EncodeDateTime( Year, Month, Day, Hour, Minute, Second, 0);
+end;
+
+function Try_DateTime_from_DateTimeSQL_sans_quotes( _DateTimeSQL: String;out DT: TDateTime): Boolean;
+var
+   sYear, sMonth, sDay, sHour, sMinute, sSecond: String;
+    Year,  Month,  Day,  Hour,  Minute,  Second: Integer;
+begin
+     DT:= 0;
+     sYear  := StrReadString( _DateTimeSQL, 4);
+               StrReadString( _DateTimeSQL, 1);
+     sMonth := StrReadString( _DateTimeSQL, 2);
+               StrReadString( _DateTimeSQL, 1);
+     sDay   := StrReadString( _DateTimeSQL, 2);
+               StrReadString( _DateTimeSQL, 1);
+     sHour  := StrReadString( _DateTimeSQL, 2);
+               StrReadString( _DateTimeSQL, 1);
+     sMinute:= StrReadString( _DateTimeSQL, 2);
+               StrReadString( _DateTimeSQL, 1);
+     sSecond:= StrReadString( _DateTimeSQL, 2);
+               StrReadString( _DateTimeSQL, 1);
+
+     Result:= TryStrToInt( sYear  , Year  ); if not Result then exit;
+     Result:= TryStrToInt( sMonth , Month ); if not Result then exit;
+     Result:= TryStrToInt( sDay   , Day   ); if not Result then exit;
+     Result:= TryStrToInt( sHour  , Hour  ); if not Result then exit;
+     Result:= TryStrToInt( sMinute, Minute); if not Result then exit;
+     Result:= TryStrToInt( sSecond, Second); if not Result then exit;
+
+     if (Year= 0) and (Month= 0) and (Day= 0) and (Hour= 0) and (Minute= 0) and (Second= 0)
+     then
+         DT:= 0
+     else
+         DT:= EncodeDateTime( Year, Month, Day, Hour, Minute, Second, 0);
 end;
 
 function DateTime_ISO8601_sans_quotes( D: TDateTime): String;

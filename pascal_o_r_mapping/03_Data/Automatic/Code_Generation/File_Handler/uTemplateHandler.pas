@@ -204,9 +204,9 @@ var
 begin
      s:= Calcule_NomCible;
      //if Pos( 'Customer', Source) <> 0
-     if Pos( 'Customer', s) <> 0
-     then
-         slLog.SaveToFile( s+'.log');
+     //if Pos( 'Customer', s) <> 0
+     //then
+     //    slLog.SaveToFile( s+'.log');
      FreeAndNil( slCible     );
      FreeAndNil( slSource    );
      FreeAndNil( slLog       );

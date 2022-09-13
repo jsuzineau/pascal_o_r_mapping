@@ -88,44 +88,44 @@ begin
 
      sImplementation
      :=
- '{ Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+' }                                            '#13#10
-+'                                                                                            '#13#10
-+'constructor Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+'.Create( _Parent: TBatpro_Element;  '#13#10
-+'                               _Classe_Elements: TBatpro_Element_Class;                     '#13#10
-+'                               _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre);               '#13#10
-+'begin                                                                                       '#13#10
-+'     inherited;                                                                             '#13#10
-+'     if Classe_Elements <> _Classe_Elements                                                 '#13#10
-+'     then                                                                                   '#13#10
-+'         fAccueil_Erreur(  ''Erreur à signaler au développeur: ''#13#10                       '#13#10
+ '{ Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+' }'                                           +#13#10
++''                                                                                           +#13#10
++'constructor Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+'.Create( _Parent: TBatpro_Element;' +#13#10
++'                               _Classe_Elements: TBatpro_Element_Class;'                    +#13#10
++'                               _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre);'              +#13#10
++'begin'                                                                                      +#13#10
++'     inherited;'                                                                            +#13#10
++'     if Classe_Elements <> _Classe_Elements'                                                +#13#10
++'     then'                                                                                  +#13#10
++'         fAccueil_Erreur(  ''Erreur à signaler au développeur: ''#13#10'                    +#13#10
 +'                          +'' ''+ClassName+''.Create: Classe_Elements <> _Classe_Elements:''#13#10'#13#10
-+'                          +'' Classe_Elements=''+ Classe_Elements.ClassName+#13#10               '#13#10
-+'                          +''_Classe_Elements=''+_Classe_Elements.ClassName                      '#13#10
-+'                          );                                                                   '#13#10
-+'end;                                                                                           '#13#10
-+'                                                                                               '#13#10
-+'destructor Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+'.Destroy;                               '#13#10
-+'begin                                                                                          '#13#10
-+'     inherited;                                                                                '#13#10
-+'end;                                                                                           '#13#10
-+'                                                                                               '#13#10
++'                          +'' Classe_Elements=''+ Classe_Elements.ClassName+#13#10'         +#13#10
++'                          +''_Classe_Elements=''+_Classe_Elements.ClassName'                +#13#10
++'                          );'                                                               +#13#10
++'end;'                                                                                       +#13#10
++''                                                                                           +#13#10
++'destructor Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+'.Destroy;'                           +#13#10
++'begin'                                                                                      +#13#10
++'     inherited;'                                                                            +#13#10
++'end;'                                                                                       +#13#10
++''                                                                                           +#13#10
 +'class function Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+'.Classe_Iterateur: TIterateur_Class;'#13#10
-+'begin                                                                                          '#13#10
-+'     Result:= TIterateur_'+sNomTableMembre+';                                                  '#13#10
-+'end;                                                                                           '#13#10
-+'                                                                                               '#13#10
++'begin'                                                                                      +#13#10
++'     Result:= TIterateur_'+sNomTableMembre+';'                                              +#13#10
++'end;'                                                                                       +#13#10
++''                                                                                           +#13#10
 +'function Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+'.Iterateur: TIterateur_'+sNomTableMembre+';'#13#10
-+'begin                                                                                           '#13#10
-+'     Result:= TIterateur_'+sNomTableMembre+'( Iterateur_interne);                               '#13#10
-+'end;                                                                                            '#13#10
-+'                                                                                                '#13#10
++'begin'                                                                                      +#13#10
++'     Result:= TIterateur_'+sNomTableMembre+'( Iterateur_interne);'                          +#13#10
++'end;'                                                                                       +#13#10
++''                                                                                           +#13#10
 +'function Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+'.Iterateur_Decroissant: TIterateur_'+sNomTableMembre+';'#13#10
-+'begin                                                                                           '#13#10
-+'     Result:= TIterateur_'+sNomTableMembre+'( Iterateur_interne_Decroissant);                   '#13#10
-+'end;                                                                                            '#13#10
++'begin'                                                                                      +#13#10
++'     Result:= TIterateur_'+sNomTableMembre+'( Iterateur_interne_Decroissant);'              +#13#10
++'end;'                                                                                       +#13#10
        ;
 
-     Formate_Liste( Valeur, #13#10, Utf8ToAnsi(sImplementation));
+     Formate_Liste( Valeur, #13#10, sImplementation);
 end;
 
 procedure TjpPascal_aggregation_classe_implementation.Finalise;

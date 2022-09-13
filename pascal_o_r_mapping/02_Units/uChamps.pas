@@ -640,11 +640,18 @@ begin
 
                with Params.ParamByName( FieldName)
                do
-                 case Definition.Info.jsDataType
+                 case Definition.Info.jsDataType //modifier en parallèle dans To_Params_Insert
                  of
                    jsdt_String     : AsString  := PString     ( Valeur)^;
                    jsdt_Date       : AsDate    := PDateTime   ( Valeur)^;
-                   jsdt_DateTime   : AsDateTime:= PDateTime   ( Valeur)^;
+                   jsdt_DateTime   :
+                     begin
+                     case Definition.Info.FieldType
+                     of
+                       ftDate, ftDateTime, ftTimeStamp: AsDateTime:=                          PDateTime   ( Valeur)^ ;
+                       ftString, ftMemo, ftBlob       : AsString  := DateTimeSQL_sans_quotes( PDateTime   ( Valeur)^);
+                       end;
+                     end;
                    jsdt_Integer    : AsInteger := PInteger    ( Valeur)^;
                    jsdt_Currency   : AsBCD     := PCurrency   ( Valeur)^;
                    jsdt_Double     : AsFloat   := PDouble     ( Valeur)^;
@@ -682,11 +689,18 @@ begin
                Valeur:= Champ.Valeur;
                with Params.ParamByName( Definition.Nom)
                do
-                 case Definition.Info.jsDataType
+                 case Definition.Info.jsDataType //modifier en parallèle dans To_Params_Update
                  of
                    jsdt_String     : AsString  := PString     ( Valeur)^;
                    jsdt_Date       : AsDate    := PDateTime   ( Valeur)^;
-                   jsdt_DateTime   : AsDateTime:= PDateTime   ( Valeur)^;
+                   jsdt_DateTime   :
+                     begin
+                     case Definition.Info.FieldType
+                     of
+                       ftDate, ftDateTime, ftTimeStamp: AsDateTime:=                          PDateTime   ( Valeur)^ ;
+                       ftString, ftMemo, ftBlob       : AsString  := DateTimeSQL_sans_quotes( PDateTime   ( Valeur)^);
+                       end;
+                     end;
                    jsdt_Integer    : AsInteger := PInteger    ( Valeur)^;
                    jsdt_Currency   : AsBCD     := PCurrency   ( Valeur)^;
                    jsdt_Double     : AsFloat   := PDouble     ( Valeur)^;

@@ -88,29 +88,29 @@ begin
 
      sDeclaration
      :=
- '  { Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+' }    '#13#10
-+'  Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+'        '#13#10
-+'  =                                                   '#13#10
-+'   class( ThAggregation)                              '#13#10
-+'   //Gestion du cycle de vie                                                      '#13#10
-+'   public                                                                         '#13#10
-+'     constructor Create( _Parent: TBatpro_Element;                                '#13#10
-+'                         _Classe_Elements: TBatpro_Element_Class;                 '#13#10
-+'                         _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre); override; '#13#10
-+'     destructor  Destroy; override;                                               '#13#10
-+'   //Chargement de tous les détails                   '#13#10
-+'   public                                             '#13#10
-+'     procedure Charge; override;                      '#13#10
-+'   //Création d''itérateur                                             '#13#10
-+'   protected                                                           '#13#10
-+'     class function Classe_Iterateur: TIterateur_Class; override;      '#13#10
-+'   public                                                              '#13#10
-+'     function Iterateur: TIterateur_'+sNomTableMembre+';               '#13#10
-+'     function Iterateur_Decroissant: TIterateur_'+sNomTableMembre+';   '#13#10
-+'   end;                                                               '#13#10
+ '  { Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+' }'    +#13#10
++'  Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+''        +#13#10
++'  ='                                                   +#13#10
++'   class( ThAggregation)'                              +#13#10
++'   //Gestion du cycle de vie'                          +#13#10
++'   public'                                             +#13#10
++'     constructor Create( _Parent: TBatpro_Element;'    +#13#10
++'                         _Classe_Elements: TBatpro_Element_Class;'                +#13#10
++'                         _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre); override;'+#13#10
++'     destructor  Destroy; override;'                                              +#13#10
++'   //Chargement de tous les détails'                  +#13#10
++'   public'                                            +#13#10
++'     procedure Charge; override;'                     +#13#10
++'   //Création d''itérateur'                           +#13#10
++'   protected'                                         +#13#10
++'     class function Classe_Iterateur: TIterateur_Class; override;'     +#13#10
++'   public'                                                             +#13#10
++'     function Iterateur: TIterateur_'+sNomTableMembre+';'              +#13#10
++'     function Iterateur_Decroissant: TIterateur_'+sNomTableMembre+';'  +#13#10
++'   end;'                                                               +#13#10
        ;
 
-     Formate_Liste( Valeur, #13#10, Utf8ToAnsi(sDeclaration));
+     Formate_Liste( Valeur, #13#10, sDeclaration);
 end;
 
 procedure TjpPascal_aggregation_classe_declaration.Finalise;

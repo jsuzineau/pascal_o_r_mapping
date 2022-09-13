@@ -27,7 +27,8 @@ uses
     uSQLite3_libsqlite3;
 
 {$DEFINE SQLite3_SQLQuery}
-//{$UNDEFINE SQLite3_SQLQuery}
+//{$UNDEF SQLite3_SQLQuery}
+//sqlite3conn_pour_test.pp, function TSQLite3Connection.LoadField, ftString, ligne 729
 type
  TSQLite3
  =

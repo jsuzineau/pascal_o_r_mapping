@@ -89,16 +89,16 @@ begin
      sImplementation
      :=
  'function  Tbl'+cc.Nom_de_la_classe+'.Getha'+s_Aggregation+': Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+';'#13#10
-+'begin                                                        '#13#10
-+'     if Fha'+s_Aggregation+' = nil                           '#13#10
-+'     then                                                    '#13#10
++'begin'                                                       +#13#10
++'     if Fha'+s_Aggregation+' = nil'                          +#13#10
++'     then'                                                   +#13#10
 +'         Fha'+s_Aggregation+':= Aggregations['''+s_Aggregation+'''] as Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+';'#13#10
-+'                                                             '#13#10
-+'     Result:= Fha'+s_Aggregation+';                          '#13#10
-+'end;                                                         '#13#10
++''                                                            +#13#10
++'     Result:= Fha'+s_Aggregation+';'                         +#13#10
++'end;'                                                        +#13#10
        ;
 
-     Formate_Liste( Valeur, #13#10, Utf8ToAnsi(sImplementation));
+     Formate_Liste( Valeur, #13#10, sImplementation);
 end;
 
 procedure TjpPascal_aggregation_accesseurs_implementation.Finalise;

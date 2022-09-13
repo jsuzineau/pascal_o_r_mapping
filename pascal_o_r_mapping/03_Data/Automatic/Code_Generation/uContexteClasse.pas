@@ -117,9 +117,9 @@ end;
 destructor TContexteClasse.Destroy;
 begin
      Log_slParametres;
-     if Pos( 'Customer', Nom_de_la_table) <> 0
-     then
-         slLog.SaveToFile( g.sRepertoireResultat+'table_'+Nom_de_la_table+'.log');
+     //if Pos( 'Customer', Nom_de_la_table) <> 0
+     //then
+     //    slLog.SaveToFile( g.sRepertoireResultat+'table_'+Nom_de_la_table+'.log');
 
      FreeAndNil( slCle);
      FreeAndNil( slLibelle);

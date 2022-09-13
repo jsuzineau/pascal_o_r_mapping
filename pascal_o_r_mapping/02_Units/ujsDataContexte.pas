@@ -12,10 +12,11 @@ uses
     uVide,
     uuStrings,
     uBatpro_StringList,
+    uDataUtilsU,
     uDataUtilsF,
     uSGBD,
     uLog,
- Classes, SysUtils, db, sqldb, strutils;
+ Classes, SysUtils, db, sqldb, strutils, DateUtils;
 
 type
 
@@ -1113,22 +1114,34 @@ var
    sf: TStringField;
    mf: TMemoField;
    bf: TBlobField;
+   procedure Traite_Memo;
+   begin
+        if mf.IsNull
+        then
+            Result:= ''
+        else
+            Result:= mf.Value;
+   end;
+   procedure Traite_Blob;
+   begin
+        try
+           if bf.IsNull
+           then
+               Result:= ''
+           else
+               Result:= bf.Value;
+        except
+              on E: Exception do Result:= '';
+              end;
+   end;
 begin
      Result:=inherited asString;
 
      if nil = F then exit;
 
           if Affecte( sf, TStringField, F) then Result:= TrimRight( sf.Value)
-     else if Affecte( mf, TMemoField  , F) then Result:= IfThen( mf.IsNull, '', mf.Value)
-     else if Affecte( bf, TBlobField  , F)
-     then
-         try
-            Result:= IfThen( bf.IsNull, '', bf.Value);
-         except
-               on E: Exception do Result:= '';
-               end;
-
-
+     else if Affecte( mf, TMemoField  , F) then Traite_Memo
+     else if Affecte( bf, TBlobField  , F) then Traite_Blob;
 end;
 
 function TjsDataContexte_Champ_Dataset.asDate: TDateTime;
@@ -1157,6 +1170,77 @@ var
    {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
    sqltsf: TSQLTimeStampField;
    {$IFEND}
+   sf: TStringField;
+   mf: TMemoField;
+   bf: TBlobField;
+   procedure Result_from( _s: String);
+   const
+        English_FormatSettings : TFormatSettings = (
+          CurrencyFormat: 1;
+          NegCurrFormat: 5;
+          ThousandSeparator: ',';
+          DecimalSeparator: '.';
+          CurrencyDecimals: 2;
+          DateSeparator: '-';
+          TimeSeparator: ':';
+          ListSeparator: ',';
+          CurrencyString: '$';
+          ShortDateFormat: 'd/m/y';
+          LongDateFormat: 'dd" "mmmm" "yyyy';
+          TimeAMString: 'AM';
+          TimePMString: 'PM';
+          ShortTimeFormat: 'hh:nn';
+          LongTimeFormat: 'hh:nn:ss';
+          ShortMonthNames: ('Jan','Feb','Mar','Apr','May','Jun',
+                            'Jul','Aug','Sep','Oct','Nov','Dec');
+          LongMonthNames: ('January','February','March','April','May','June',
+                           'July','August','September','October','November','December');
+          ShortDayNames: ('Sun','Mon','Tue','Wed','Thu','Fri','Sat');
+          LongDayNames:  ('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
+          TwoDigitYearCenturyWindow: 50;
+        );
+   var
+      JourJulien: double;
+   begin
+        Result:= 0;
+        if '' = _s then exit;
+
+        if TryStrToFloat( _s, JourJulien, English_FormatSettings)
+        then //En Float, SQLite3 stocke la date en jour julien
+            begin
+            Result:= JulianDateToDateTime( JourJulien);
+            exit;
+            end;
+        if Try_DateTime_from_DateTimeSQL_sans_quotes( _s, Result) then exit;
+   end;
+   procedure Traite_String;
+   begin
+        if sf.IsNull
+        then
+            Result_from( '')
+        else
+            Result_from( TrimRight( sf.Value));
+   end;
+   procedure Traite_Memo;
+   begin
+        if mf.IsNull
+        then
+            Result_from( '')
+        else
+            Result_from( mf.Value);
+   end;
+   procedure Traite_Blob;
+   begin
+        try
+           if bf.IsNull
+           then
+               Result_from( '')
+           else
+               Result_from( bf.Value);
+        except
+              on E: Exception do Result_from( '');
+              end;
+   end;
 begin
      Result:=inherited asDateTime;
 
@@ -1166,6 +1250,9 @@ begin
      {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
      else if Affecte( sqltsf, TSQLTimeStampField, F) then Result:= sqltsf.asDateTime
      {$IFEND}
+     else if Affecte( sf, TStringField, F) then Traite_String
+     else if Affecte( mf, TMemoField  , F) then Traite_Memo
+     else if Affecte( bf, TBlobField  , F) then Traite_Blob;
      ;
 
 end;

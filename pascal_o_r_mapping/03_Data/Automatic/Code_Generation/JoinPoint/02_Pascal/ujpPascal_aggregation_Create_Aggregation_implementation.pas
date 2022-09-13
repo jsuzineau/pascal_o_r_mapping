@@ -100,7 +100,7 @@ begin
        ''''+s_Aggregation+''' = Name then P.Faible( Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+', Tbl'+sNomTableMembre+', pool'+sNomTableMembre+')'
        ;
 
-     Valeur:= Valeur + Utf8ToAnsi(sImplementation);
+     Valeur:= Valeur + sImplementation;
 end;
 
 procedure TjpPascal_aggregation_Create_Aggregation_implementation.Finalise;

@@ -88,22 +88,22 @@ begin
      then
          Valeur
          :=
- '  //Aggrégations                                                                          '#13#10
-+'  protected                                                                               '#13#10
+ '  //Aggrégations'                                                                         +#13#10
++'  protected'                                                                              +#13#10
 +'    procedure Create_Aggregation( Name: String; P: ThAggregation_Create_Params); override;'#13#10;
 
      Formate_Liste( Valeur, '',
- '  //Aggrégation vers les '+s_Aggregation+' correspondants                                                   '#13#10
-+'  private                                                                                                   '#13#10
-+'    Fha'+s_Aggregation+': Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+';                                     '#13#10
-+'    function Getha'+s_Aggregation+': Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+';                          '#13#10
-+'  public                                                                                                    '#13#10
-+'    property ha'+s_Aggregation+': Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+' read Getha'+s_Aggregation+'; '#13#10);
+ '  //Aggrégation vers les '+s_Aggregation+' correspondants'                                                  +#13#10
++'  private'                                                                                                  +#13#10
++'    Fha'+s_Aggregation+': Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+';'                                    +#13#10
++'    function Getha'+s_Aggregation+': Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+';'                         +#13#10
++'  public'                                                                                                   +#13#10
++'    property ha'+s_Aggregation+': Tha'+cc.Nom_de_la_table+'__'+s_Aggregation+' read Getha'+s_Aggregation+';'+#13#10);
 end;
 
 procedure TjpPascal_aggregation_declaration.Finalise;
 begin
-     Valeur:= Utf8ToAnsi( Valeur);
+     Valeur:= Valeur;
      inherited;
 end;
 
