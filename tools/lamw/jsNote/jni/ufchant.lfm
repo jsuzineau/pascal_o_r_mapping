@@ -39,7 +39,7 @@ object fChant: TfChant
     AnimationDurationIn = 1500
     AnimationDurationOut = 1500
     AnimationMode = animNone
-    object bSoprano: jButton
+    object bN1: jButton
       MarginLeft = 5
       MarginTop = 5
       MarginRight = 5
@@ -55,15 +55,15 @@ object fChant: TfChant
       PosRelativeToParent = [rpRight]
       LayoutParamWidth = lpOneThirdOfParent
       LayoutParamHeight = lpWrapContent
-      Text = 'Soprano'
+      Text = '1'
       BackgroundColor = colbrDefault
       FontColor = colbrDefault
       FontSize = 0
       FontSizeUnit = unitDefault
       GravityInParent = lgNone
-      OnClick = bSopranoClick
+      OnClick = bN1Click
     end
-    object bAlto: jButton
+    object bN2: jButton
       MarginLeft = 5
       MarginTop = 5
       MarginRight = 5
@@ -74,20 +74,20 @@ object fChant: TfChant
       Width = 106
       Height = 50
       Visible = True
-      Anchor = bSoprano
+      Anchor = bN1
       PosRelativeToAnchor = [raBelow]
       PosRelativeToParent = [rpRight]
       LayoutParamWidth = lpOneThirdOfParent
       LayoutParamHeight = lpWrapContent
-      Text = 'Alto'
+      Text = '2'
       BackgroundColor = colbrDefault
       FontColor = colbrDefault
       FontSize = 0
       FontSizeUnit = unitDefault
       GravityInParent = lgNone
-      OnClick = bAltoClick
+      OnClick = bN2Click
     end
-    object bTenor: jButton
+    object bN3: jButton
       MarginLeft = 5
       MarginTop = 5
       MarginRight = 5
@@ -98,20 +98,20 @@ object fChant: TfChant
       Width = 106
       Height = 50
       Visible = True
-      Anchor = bAlto
+      Anchor = bN2
       PosRelativeToAnchor = [raBelow]
       PosRelativeToParent = [rpRight]
       LayoutParamWidth = lpOneThirdOfParent
       LayoutParamHeight = lpWrapContent
-      Text = 'Tenor'
+      Text = '3'
       BackgroundColor = colbrDefault
       FontColor = colbrDefault
       FontSize = 0
       FontSizeUnit = unitDefault
       GravityInParent = lgNone
-      OnClick = bTenorClick
+      OnClick = bN3Click
     end
-    object bBasse: jButton
+    object bN4: jButton
       MarginLeft = 5
       MarginTop = 5
       MarginRight = 5
@@ -122,20 +122,20 @@ object fChant: TfChant
       Width = 106
       Height = 50
       Visible = True
-      Anchor = bTenor
+      Anchor = bN3
       PosRelativeToAnchor = [raBelow]
       PosRelativeToParent = [rpRight]
       LayoutParamWidth = lpOneThirdOfParent
       LayoutParamHeight = lpWrapContent
-      Text = 'Basse'
+      Text = '4'
       BackgroundColor = colbrDefault
       FontColor = colbrDefault
       FontSize = 0
       FontSizeUnit = unitDefault
       GravityInParent = lgNone
-      OnClick = bBasseClick
+      OnClick = bN4Click
     end
-    object eSoprano: jEditText
+    object eN1: jEditText
       MarginLeft = 5
       MarginTop = 5
       MarginRight = 5
@@ -146,7 +146,7 @@ object fChant: TfChant
       Width = 106
       Height = 39
       Visible = True
-      Anchor = bSoprano
+      Anchor = bN1
       PosRelativeToAnchor = [raAlignTop]
       PosRelativeToParent = [rpLeft]
       LayoutParamWidth = lpOneThirdOfParent
@@ -171,7 +171,7 @@ object fChant: TfChant
       CaptureBackPressed = False
       GravityInParent = lgNone
     end
-    object eAlto: jEditText
+    object eN2: jEditText
       MarginLeft = 5
       MarginTop = 5
       MarginRight = 5
@@ -182,7 +182,7 @@ object fChant: TfChant
       Width = 106
       Height = 39
       Visible = True
-      Anchor = bSoprano
+      Anchor = bN1
       PosRelativeToAnchor = [raBelow]
       PosRelativeToParent = [rpLeft]
       LayoutParamWidth = lpOneThirdOfParent
@@ -207,7 +207,7 @@ object fChant: TfChant
       CaptureBackPressed = False
       GravityInParent = lgNone
     end
-    object eTenor: jEditText
+    object eN3: jEditText
       MarginLeft = 5
       MarginTop = 5
       MarginRight = 5
@@ -218,7 +218,7 @@ object fChant: TfChant
       Width = 106
       Height = 39
       Visible = True
-      Anchor = bAlto
+      Anchor = bN2
       PosRelativeToAnchor = [raBelow]
       PosRelativeToParent = [rpLeft]
       LayoutParamWidth = lpOneThirdOfParent
@@ -243,7 +243,7 @@ object fChant: TfChant
       CaptureBackPressed = False
       GravityInParent = lgNone
     end
-    object eBasse: jEditText
+    object eN4: jEditText
       MarginLeft = 5
       MarginTop = 5
       MarginRight = 5
@@ -254,7 +254,7 @@ object fChant: TfChant
       Width = 106
       Height = 39
       Visible = True
-      Anchor = bTenor
+      Anchor = bN3
       PosRelativeToAnchor = [raBelow]
       PosRelativeToParent = [rpLeft]
       LayoutParamWidth = lpOneThirdOfParent
@@ -325,7 +325,7 @@ object fChant: TfChant
       Width = 106
       Height = 50
       Visible = True
-      Anchor = bBasse
+      Anchor = bN4
       PosRelativeToAnchor = [raBelow]
       PosRelativeToParent = [rpRight]
       LayoutParamWidth = lpOneThirdOfParent
@@ -395,7 +395,7 @@ object fChant: TfChant
       Width = 106
       Height = 50
       Visible = True
-      Anchor = bBasse
+      Anchor = bN4
       PosRelativeToAnchor = [raBelow]
       PosRelativeToParent = [rpLeft]
       LayoutParamWidth = lpOneThirdOfParent
@@ -457,8 +457,6 @@ object fChant: TfChant
       TextTypeFace = tfNormal
       FontSizeUnit = unitDefault
       GravityInParent = lgNone
-      Left = 28
-      Top = 28
     end
     object rgInstrument: jRadioGroup
       MarginLeft = 10
@@ -507,8 +505,29 @@ object fChant: TfChant
       FontSizeUnit = unitDefault
       GravityInParent = lgNone
       OnClick = bStartClick
-      Left = 28
-      Top = 28
+    end
+    object bTelechargement: jButton
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 121
+      Top = 416
+      Width = 120
+      Height = 50
+      Visible = True
+      PosRelativeToAnchor = []
+      PosRelativeToParent = []
+      LayoutParamWidth = lpThreeEighthOfParent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Téléchargement'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = bTelechargementClick
     end
   end
   object at: jAudioTrack
@@ -524,32 +543,32 @@ object fChant: TfChant
   object hceTitre: ThChamp_Edit
     Field = 'Titre'
     et = eTitre
-    Left = 147
-    Top = 40
+    Left = 216
+    Top = 8
   end
-  object hceSoprano: ThChamp_Edit
-    Field = 'Soprano'
-    et = eSoprano
-    Left = 147
-    Top = 40
+  object hceN1: ThChamp_Edit
+    Field = 'n1'
+    et = eN1
+    Left = 139
+    Top = 54
   end
-  object hceAlto: ThChamp_Edit
-    Field = 'Alto'
-    et = eAlto
-    Left = 148
-    Top = 96
+  object hceN2: ThChamp_Edit
+    Field = 'n2'
+    et = eN2
+    Left = 140
+    Top = 114
   end
-  object hceTenor: ThChamp_Edit
-    Field = 'Tenor'
-    et = eTenor
-    Left = 148
-    Top = 160
+  object hceN3: ThChamp_Edit
+    Field = 'n3'
+    et = eN3
+    Left = 140
+    Top = 174
   end
-  object hceBasse: ThChamp_Edit
-    Field = 'Basse'
-    et = eBasse
-    Left = 147
-    Top = 216
+  object hceN4: ThChamp_Edit
+    Field = 'n4'
+    et = eN4
+    Left = 139
+    Top = 234
   end
   object jm: jMenu
     Left = 224
@@ -570,5 +589,29 @@ object fChant: TfChant
   object mm: jMidiManager
     Left = 284
     Top = 420
+  end
+  object hcbT1: ThChamp_Button
+    Field = 't1'
+    b = bN1
+    Left = 177
+    Top = 54
+  end
+  object hcbT2: ThChamp_Button
+    Field = 't2'
+    b = bN2
+    Left = 177
+    Top = 114
+  end
+  object hcbT3: ThChamp_Button
+    Field = 't3'
+    b = bN3
+    Left = 177
+    Top = 174
+  end
+  object hcbT4: ThChamp_Button
+    Field = 't4'
+    b = bN4
+    Left = 177
+    Top = 234
   end
 end

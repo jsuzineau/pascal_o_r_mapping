@@ -50,15 +50,13 @@ type
     function Get( _id: integer): TblChant;
   //Méthode de création de test
   public
-    function Test( _Titre: String;  _Soprano: String;  _Alto: String;  _Tenor: String;  _Basse: String):Integer;
+    function Test( _Titre: String; _n1: String; _n2: String; _n3: String; _n4: String):Integer;
 
   end;
 
 function poolChant: TpoolChant;
 
 implementation
-
-
 
 var
    FpoolChant: TpoolChant;
@@ -86,16 +84,16 @@ begin
      Get_Interne_from_id( _id, Result);
 end;
 
-function TpoolChant.Test( _Titre: String;  _Soprano: String;  _Alto: String;  _Tenor: String;  _Basse: String):Integer;
+function TpoolChant.Test( _Titre: String; _n1: String; _n2: String; _n3: String; _n4: String):Integer;
 var                                                 
    bl: TblChant;                          
 begin                                               
      Nouveau_Base( bl);
-       bl.Titre          := _Titre        ;
-       bl.Soprano        := _Soprano      ;
-       bl.Alto           := _Alto         ;
-       bl.Tenor          := _Tenor        ;
-       bl.Basse          := _Basse        ;
+       bl.Titre:= _Titre;
+       bl.n1   := _n1   ;
+       bl.n2   := _n2   ;
+       bl.n3   := _n3   ;
+       bl.n4   := _n4   ;
      bl.Save_to_database;                            
      Result:= bl.id;                                 
 end;                                                 

@@ -6,6 +6,7 @@ unit ufChant;
 interface
 
 uses
+    uuStrings,
     uForms,
     uFrequence,
     uFrequences,
@@ -30,7 +31,7 @@ uses
     ufAccueil_Erreur,
     ufUtilitaires,
 
-    uchChamp_Edit,
+    uchChamp_Edit, uchChamp_Button,
  {$IFDEF UNIX}{$IFDEF UseCThreads}
  cthreads,
  {$ENDIF}{$ENDIF}
@@ -45,25 +46,30 @@ type
  =
   class(jForm)
     at: jAudioTrack;
-    bAlto: jButton;
-    bBasse: jButton;
-    bSoprano: jButton;
+    bN2: jButton;
+    bN4: jButton;
+    bN1: jButton;
     bStart: jButton;
     bStop: jButton;
-    bTenor: jButton;
+    bN3: jButton;
     bPrecedent: jButton;
     bSuivant: jButton;
     bUtilitaires: jButton;
+    bTelechargement: jButton;
     eTitre: jEditText;
-    eAlto: jEditText;
-    eBasse: jEditText;
-    eSoprano: jEditText;
-    eTenor: jEditText;
+    eN2: jEditText;
+    eN4: jEditText;
+    eN1: jEditText;
+    eN3: jEditText;
+    hcbT2: ThChamp_Button;
+    hcbT3: ThChamp_Button;
+    hcbT4: ThChamp_Button;
     hceTitre: ThChamp_Edit;
-    hceAlto: ThChamp_Edit;
-    hceBasse: ThChamp_Edit;
-    hceSoprano: ThChamp_Edit;
-    hceTenor: ThChamp_Edit;
+    hceN2: ThChamp_Edit;
+    hceN4: ThChamp_Edit;
+    hceN1: ThChamp_Edit;
+    hceN3: ThChamp_Edit;
+    hcbT1: ThChamp_Button;
     jm: jMenu;
     mm: jMidiManager;
     Panel1: jPanel;
@@ -72,14 +78,15 @@ type
     sda: jSqliteDataAccess;
     tvMidi: jTextView;
     tvLatin: jTextView;
-    procedure bAltoClick(Sender: TObject);
-    procedure bBasseClick(Sender: TObject);
+    procedure bN2Click(Sender: TObject);
+    procedure bN4Click(Sender: TObject);
     procedure bPrecedentClick(Sender: TObject);
-    procedure bSopranoClick(Sender: TObject);
+    procedure bN1Click(Sender: TObject);
     procedure bStartClick(Sender: TObject);
     procedure bStopClick(Sender: TObject);
     procedure bSuivantClick(Sender: TObject);
-    procedure bTenorClick(Sender: TObject);
+    procedure bN3Click(Sender: TObject);
+    procedure bTelechargementClick(Sender: TObject);
     procedure bUtilitairesClick(Sender: TObject);
     procedure fChantClickOptionMenuItem(Sender: TObject; jObjMenuItem: jObject;
      itemID: integer; itemCaption: string; checked: boolean);
@@ -175,7 +182,11 @@ begin
      Index_Courant:= _Index;
      bl:= blChant_from_sl( sl, Index_Courant);
      WriteLn( Classname+'.Affiche: Index_Courant=',Index_Courant);
-     Champs_Affecte( bl, [hceTitre, hceSoprano, hceAlto, hceTenor, hceBasse]);
+     Champs_Affecte( bl, [ hceTitre,
+                           hceN1,hcbT1,
+                           hceN2,hcbT2,
+                           hceN3,hcbT3,
+                           hceN4,hcbT4]);
 end;
 
 procedure TfChant.bSuivantClick(Sender: TObject);
@@ -186,9 +197,9 @@ procedure TfChant.bPrecedentClick(Sender: TObject);
 begin
      Affiche( Index_Courant-1);
 end;
-procedure TfChant.bSopranoClick(Sender: TObject);
+procedure TfChant.bN1Click(Sender: TObject);
 begin
-     Play_Note( eSoprano.Text);
+     Play_Note( eN1.Text);
 end;
 
 procedure TfChant.bStartClick(Sender: TObject);
@@ -206,19 +217,19 @@ begin
          end;
 end;
 
-procedure TfChant.bAltoClick(Sender: TObject);
+procedure TfChant.bN2Click(Sender: TObject);
 begin
-     Play_Note( eAlto.Text);
+     Play_Note( eN2.Text);
 end;
 
-procedure TfChant.bTenorClick(Sender: TObject);
+procedure TfChant.bN3Click(Sender: TObject);
 begin
-     Play_Note( eTenor.Text);
+     Play_Note( eN3.Text);
 end;
 
-procedure TfChant.bBasseClick(Sender: TObject);
+procedure TfChant.bN4Click(Sender: TObject);
 begin
-     Play_Note( eBasse.Text);
+     Play_Note( eN4.Text);
 end;
 
 procedure TfChant.Play_Note(_Note: String);
@@ -244,6 +255,9 @@ var
         //TAudioTrack.Play_Old( _Note, 5);
    end;
 begin
+     if 0 < Pos(':', _Note)
+     then
+         StrTok( ':', _Note);
      Midi:= Midi_from_note( _Note);
      tvMidi.Text:= 'Midi '+IntToStr( Midi);
      tvLatin.Text:= Note_Octave_Latine( Midi)+', '+Note_Octave( Midi);
@@ -316,5 +330,11 @@ begin
      uAndroid_Database_Recree_Base( Self, FileName);
 end;
 
+procedure TfChant.bTelechargementClick(Sender: TObject);
+begin
+     uAndroid_Database_from_Downloads( Self, FileName);
+end;
+
 end.
+
 

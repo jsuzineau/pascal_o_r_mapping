@@ -9,7 +9,7 @@ interface
 
 uses
  ucjChamp_Edit, uchChamp_Edit, uAndroid_Database, ufUtilitaires, 
- LazarusPackageIntf;
+ uchChamp_Button, LazarusPackageIntf;
 
 implementation
 
@@ -17,6 +17,7 @@ procedure Register;
 begin
   RegisterUnit('ucjChamp_Edit', @ucjChamp_Edit.Register);
   RegisterUnit('uchChamp_Edit', @uchChamp_Edit.Register);
+  RegisterUnit('uchChamp_Button', @uchChamp_Button.Register);
 end;
 
 initialization
