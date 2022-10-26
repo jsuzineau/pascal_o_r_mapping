@@ -424,6 +424,44 @@ begin
 end;
 
 { Class:     com_mars42_jsNote_Controls
+  Method:    pOnMediaPlayerPrepared
+  Signature: (JII)V }
+procedure pOnMediaPlayerPrepared(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
+ videoWidth: JInt; videoHeigh: JInt); cdecl;
+begin
+  Java_Event_pOnMediaPlayerPrepared(PEnv, this, TObject(pasobj), videoWidth,
+   videoHeigh);
+end;
+
+{ Class:     com_mars42_jsNote_Controls
+  Method:    pOnMediaPlayerVideoSizeChanged
+  Signature: (JII)V }
+procedure pOnMediaPlayerVideoSizeChanged(PEnv: PJNIEnv; this: JObject;
+ pasobj: JLong; videoWidth: JInt; videoHeight: JInt); cdecl;
+begin
+  Java_Event_pOnMediaPlayerVideoSizeChanged(PEnv, this, TObject(pasobj),
+   videoWidth, videoHeight);
+end;
+
+{ Class:     com_mars42_jsNote_Controls
+  Method:    pOnMediaPlayerCompletion
+  Signature: (J)V }
+procedure pOnMediaPlayerCompletion(PEnv: PJNIEnv; this: JObject; pasobj: JLong
+ ); cdecl;
+begin
+  Java_Event_pOnMediaPlayerCompletion(PEnv, this, TObject(pasobj));
+end;
+
+{ Class:     com_mars42_jsNote_Controls
+  Method:    pOnMediaPlayerTimedText
+  Signature: (JLjava/lang/String;)V }
+procedure pOnMediaPlayerTimedText(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
+ timedText: JString); cdecl;
+begin
+  Java_Event_pOnMediaPlayerTimedText(PEnv, this, TObject(pasobj), timedText);
+end;
+
+{ Class:     com_mars42_jsNote_Controls
   Method:    pOnMidiManagerDeviceAdded
   Signature: (JILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V }
 procedure pOnMidiManagerDeviceAdded(PEnv: PJNIEnv; this: JObject;
@@ -505,7 +543,7 @@ begin
    error, primaryError);
 end;
 
-const NativeMethods: array[0..54] of JNINativeMethod = (
+const NativeMethods: array[0..58] of JNINativeMethod = (
    (name: 'pAppOnCreate';
     signature: '(Landroid/content/Context;Landroid/widget/RelativeLayout;'
      +'Landroid/content/Intent;)V';
@@ -648,6 +686,18 @@ const NativeMethods: array[0..54] of JNINativeMethod = (
    (name: 'pEditTextOnActionIconTouchDown';
     signature: '(JLjava/lang/String;)V';
     fnPtr: @pEditTextOnActionIconTouchDown; ),
+   (name: 'pOnMediaPlayerPrepared';
+    signature: '(JII)V';
+    fnPtr: @pOnMediaPlayerPrepared; ),
+   (name: 'pOnMediaPlayerVideoSizeChanged';
+    signature: '(JII)V';
+    fnPtr: @pOnMediaPlayerVideoSizeChanged; ),
+   (name: 'pOnMediaPlayerCompletion';
+    signature: '(J)V';
+    fnPtr: @pOnMediaPlayerCompletion; ),
+   (name: 'pOnMediaPlayerTimedText';
+    signature: '(JLjava/lang/String;)V';
+    fnPtr: @pOnMediaPlayerTimedText; ),
    (name: 'pOnMidiManagerDeviceAdded';
     signature: '(JILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V';
     fnPtr: @pOnMidiManagerDeviceAdded; ),
@@ -795,6 +845,14 @@ exports
    +'pEditTextOnActionIconTouchUp',
   pEditTextOnActionIconTouchDown name 'Java_com_mars42_jsNote_Controls_'
    +'pEditTextOnActionIconTouchDown',
+  pOnMediaPlayerPrepared name 'Java_com_mars42_jsNote_Controls_'
+   +'pOnMediaPlayerPrepared',
+  pOnMediaPlayerVideoSizeChanged name 'Java_com_mars42_jsNote_Controls_'
+   +'pOnMediaPlayerVideoSizeChanged',
+  pOnMediaPlayerCompletion name 'Java_com_mars42_jsNote_Controls_'
+   +'pOnMediaPlayerCompletion',
+  pOnMediaPlayerTimedText name 'Java_com_mars42_jsNote_Controls_'
+   +'pOnMediaPlayerTimedText',
   pOnMidiManagerDeviceAdded name 'Java_com_mars42_jsNote_Controls_'
    +'pOnMidiManagerDeviceAdded',
   pOnMidiManagerDeviceRemoved name 'Java_com_mars42_jsNote_Controls_'

@@ -18,6 +18,7 @@ object fChant: TfChant
   OnJNIPrompt = fChantJNIPrompt
   OnCreateOptionMenu = fChantCreateOptionMenu
   OnClickOptionMenuItem = fChantClickOptionMenuItem
+  OnRequestPermissionResult = fChantRequestPermissionResult
   object Panel1: jPanel
     MarginLeft = 0
     MarginTop = 0
@@ -287,12 +288,12 @@ object fChant: TfChant
       Enabled = True
       Left = 5
       Top = 5
-      Width = 310
+      Width = 213
       Height = 39
       Visible = True
       PosRelativeToAnchor = []
       PosRelativeToParent = [rpTop, rpLeft]
-      LayoutParamWidth = lpMatchParent
+      LayoutParamWidth = lpTwoThirdOfParent
       LayoutParamHeight = lpWrapContent
       Text = 'Proletna pessen'
       Alignment = taLeft
@@ -480,6 +481,7 @@ object fChant: TfChant
         'Midi Piano'
         'Midi Tenor Sax'
         'Wave'
+        'MP3'
       )
     end
     object bStart: jButton
@@ -512,12 +514,13 @@ object fChant: TfChant
       MarginRight = 5
       MarginBottom = 5
       Enabled = True
-      Left = 121
-      Top = 416
+      Left = 126
+      Top = 424
       Width = 120
       Height = 50
       Visible = True
-      PosRelativeToAnchor = []
+      Anchor = bStart
+      PosRelativeToAnchor = [raBelow, raAlignLeft]
       PosRelativeToParent = []
       LayoutParamWidth = lpThreeEighthOfParent
       LayoutParamHeight = lpWrapContent
@@ -528,6 +531,29 @@ object fChant: TfChant
       FontSizeUnit = unitDefault
       GravityInParent = lgNone
       OnClick = bTelechargementClick
+    end
+    object bTutti: jButton
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 209
+      Top = 5
+      Width = 106
+      Height = 50
+      Visible = True
+      PosRelativeToAnchor = []
+      PosRelativeToParent = [rpTop, rpRight]
+      LayoutParamWidth = lpOneThirdOfParent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Tutti'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = bTuttiClick
     end
   end
   object at: jAudioTrack
@@ -543,7 +569,7 @@ object fChant: TfChant
   object hceTitre: ThChamp_Edit
     Field = 'Titre'
     et = eTitre
-    Left = 216
+    Left = 72
     Top = 8
   end
   object hceN1: ThChamp_Edit
@@ -613,5 +639,11 @@ object fChant: TfChant
     b = bN4
     Left = 177
     Top = 234
+  end
+  object mp: jMediaPlayer
+    OnPrepared = mpPrepared
+    OnCompletion = mpCompletion
+    Left = 115
+    Top = 9
   end
 end

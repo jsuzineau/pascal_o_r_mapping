@@ -36,7 +36,7 @@ uses
  cthreads,
  {$ENDIF}{$ENDIF}
  Classes, SysUtils, AndroidWidget, Laz_And_Controls, audiotrack, menu, And_jni,
- radiogroup, midimanager;
+ radiogroup, midimanager, downloadmanager, mediaplayer;
  
 type
 
@@ -56,6 +56,7 @@ type
     bSuivant: jButton;
     bUtilitaires: jButton;
     bTelechargement: jButton;
+    bTutti: jButton;
     eTitre: jEditText;
     eN2: jEditText;
     eN4: jEditText;
@@ -71,6 +72,7 @@ type
     hceN3: ThChamp_Edit;
     hcbT1: ThChamp_Button;
     jm: jMenu;
+    mp: jMediaPlayer;
     mm: jMidiManager;
     Panel1: jPanel;
     rgInstrument: jRadioGroup;
@@ -87,15 +89,23 @@ type
     procedure bSuivantClick(Sender: TObject);
     procedure bN3Click(Sender: TObject);
     procedure bTelechargementClick(Sender: TObject);
+    procedure bTuttiClick(Sender: TObject);
     procedure bUtilitairesClick(Sender: TObject);
     procedure fChantClickOptionMenuItem(Sender: TObject; jObjMenuItem: jObject;
      itemID: integer; itemCaption: string; checked: boolean);
     procedure fChantCreateOptionMenu(Sender: TObject; jObjMenu: jObject);
     procedure fChantJNIPrompt(Sender: TObject);
+    procedure fChantRequestPermissionResult(Sender: TObject;
+     requestCode: integer; manifestPermission: string;
+     grantResult: TManifestPermissionResult);
+    procedure mpCompletion(Sender: TObject);
+    procedure mpPrepared(Sender: TObject; videoWidth: integer;
+     videoHeight: integer);
   private const
     rgInstrument_Midi_Piano    =0;
     rgInstrument_Midi_Tenor_Sax=1;
     rgInstrument_Wave          =2;
+    rgInstrument_MP3           =3;
   private
     sl: TslChant;
     NbChants: Integer;
@@ -115,6 +125,9 @@ type
   //Gestion Midi
   public
     m: TAndroid_Midi;
+  //Tutti
+  public
+    nTutti: Integer;
   end;
 
 var
@@ -139,6 +152,7 @@ begin
      sl:= TslChant.Create( ClassName+'.sl');
      Index_Courant:= -1;
      m:= nil;
+     nTutti:= 0;
 end;
 
 destructor TfChant.Destroy;
@@ -171,7 +185,7 @@ begin
      NbChants_ok:= Requete.Integer_from( 'select count(*) as NbLignes from Chant', 'NbLignes', NbChants);
      WriteLn( Classname+'.fChantJNIPrompt: Requete NbLignes= ',NbChants, ', NbLignes_ok= ',NbChants_ok);
 
-     rgInstrument.CheckedIndex:= rgInstrument_Midi_Piano;
+     rgInstrument.CheckedIndex:= rgInstrument_MP3;
 end;
 
 procedure TfChant.Affiche( _Index: Integer);
@@ -197,24 +211,15 @@ procedure TfChant.bPrecedentClick(Sender: TObject);
 begin
      Affiche( Index_Courant-1);
 end;
-procedure TfChant.bN1Click(Sender: TObject);
+procedure TfChant.bTuttiClick(Sender: TObject);
 begin
+     nTutti:= 2;
      Play_Note( eN1.Text);
 end;
 
-procedure TfChant.bStartClick(Sender: TObject);
+procedure TfChant.bN1Click(Sender: TObject);
 begin
-     if mm.Active
-     then
-         begin
-         mm.Close;
-         bStart.Text:= 'Midi Start';
-         end
-     else
-         begin
-         mm.OpenInput('D1P0');
-         bStart.Text:= 'Midi Stop';
-         end;
+     Play_Note( eN1.Text);
 end;
 
 procedure TfChant.bN2Click(Sender: TObject);
@@ -254,6 +259,21 @@ var
         //TAudioTrack.Play( _Note);
         //TAudioTrack.Play_Old( _Note, 5);
    end;
+   procedure MP3;
+   var
+      Note_normalisee: String;//pour consolider dièse/bémol
+      Nom_mp3: String;
+      Repertoire: String;
+   begin
+        Note_normalisee:= Trim(Note_Octave_Latine( Midi_from_Note( _Note)));
+        Nom_mp3:= Note_normalisee+'.mp3';
+        Log.PrintLn( ClassName+'.Play_Note: Nom_mp3: '+Nom_mp3);
+        Repertoire
+        :=
+           IncludeTrailingPathDelimiter( GetEnvironmentDirectoryPath( dirDownloads))
+          +'notes_432Hz_noire';
+        mp.LoadFromFile( Repertoire, Nom_mp3);
+   end;
 begin
      if 0 < Pos(':', _Note)
      then
@@ -267,6 +287,7 @@ begin
        rgInstrument_Midi_Piano    : Piano;
        rgInstrument_Midi_Tenor_Sax: Tenor_Sax;
        rgInstrument_Wave          : Wave;
+       rgInstrument_MP3           : MP3;
        else                         Wave;
        end;
 end;
@@ -279,7 +300,7 @@ var
    a: double;
    Sample: double;
 begin
-     Midi:= Midi_from_note( _Note);
+     Midi:= Midi_from_note( _Note)+12;//+12 correction provisoire différence de n° d'octave avec MuseScore
      Frequence:= Frequences.Frequence_from_Midi( Midi);
      for i:= Low(at.Buffer) to High(at.Buffer)
      do
@@ -298,6 +319,21 @@ end;
 procedure TfChant.LogP(_Message_Developpeur: String; _Message: String);
 begin
      Log.PrintLn( _Message+_Message_Developpeur);
+end;
+
+procedure TfChant.bStartClick(Sender: TObject);
+begin
+     if mm.Active
+     then
+         begin
+         mm.Close;
+         bStart.Text:= 'Midi Start';
+         end
+     else
+         begin
+         mm.OpenInput('D1P0');
+         bStart.Text:= 'Midi Stop';
+         end;
 end;
 
 procedure TfChant.bStopClick(Sender: TObject);
@@ -335,6 +371,49 @@ begin
      uAndroid_Database_from_Downloads( Self, FileName);
 end;
 
+procedure TfChant.fChantRequestPermissionResult( Sender: TObject;
+                                                 requestCode: integer;
+                                                 manifestPermission: string;
+                                                 grantResult: TManifestPermissionResult);
+begin
+     case requestCode
+     of
+       permission_READ_EXTERNAL_STORAGE_request_code:
+         if grantResult = PERMISSION_GRANTED
+         then
+             ShowMessage('Succés! ['+manifestPermission+'] Permission accordée !!! ' )
+         else  //PERMISSION_DENIED
+             ShowMessage('Désolé... ['+manifestPermission+'] Permission non accordée ... ' );
+       end;
+end;
+
+procedure TfChant.mpPrepared( Sender: TObject; videoWidth: integer; videoHeight: integer);
+begin
+     mp.Start;
+end;
+
+procedure TfChant.mpCompletion(Sender: TObject);
+     procedure Process_nTutti;
+     var
+        Note: String;
+     begin
+          case nTutti
+          of
+            2:begin Note:= eN2.Text; Inc(nTutti); end;
+            3:begin Note:= eN3.Text; Inc(nTutti); end;
+            4:begin Note:= eN4.Text; Inc(nTutti); end;
+            end;
+          if '' <> Note
+          then
+              Play_Note( Note);
+     end;
+begin
+     mp.Reset();
+     Process_nTutti;
+end;
+
 end.
 
+/storage/emulated/0/Download/jsNote.sqlite
+/storage/emulated/0/Download/jsNote.sqlite
 

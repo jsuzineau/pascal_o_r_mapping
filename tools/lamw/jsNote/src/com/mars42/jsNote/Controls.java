@@ -1522,6 +1522,14 @@ public java.lang.Object jEditText_Create(long pasobj ) {
 public native void pEditTextOnActionIconTouchUp(long pasobj, String textContent);
 public native void pEditTextOnActionIconTouchDown(long pasobj, String textContent);
 
+public java.lang.Object jMediaPlayer_jCreate(long _Self) {
+  return (java.lang.Object)(new jMediaPlayer(this,_Self));
+}
+public native void pOnMediaPlayerPrepared(long pasobj, int videoWidth, int videoHeigh);
+public native void pOnMediaPlayerVideoSizeChanged(long pasobj, int videoWidth, int videoHeight);
+public native void pOnMediaPlayerCompletion(long pasobj);
+public native void pOnMediaPlayerTimedText(long pasobj, String timedText);
+
 public java.lang.Object jMenu_jCreate(long _Self) {
    return (java.lang.Object)(new jMenu(this,_Self));
 }
