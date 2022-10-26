@@ -105,7 +105,8 @@ type
     rgInstrument_Midi_Piano    =0;
     rgInstrument_Midi_Tenor_Sax=1;
     rgInstrument_Wave          =2;
-    rgInstrument_MP3           =3;
+    rgInstrument_MP3_432Hz     =3;
+    rgInstrument_MP3_440Hz     =4;
   private
     sl: TslChant;
     NbChants: Integer;
@@ -185,7 +186,7 @@ begin
      NbChants_ok:= Requete.Integer_from( 'select count(*) as NbLignes from Chant', 'NbLignes', NbChants);
      WriteLn( Classname+'.fChantJNIPrompt: Requete NbLignes= ',NbChants, ', NbLignes_ok= ',NbChants_ok);
 
-     rgInstrument.CheckedIndex:= rgInstrument_MP3;
+     rgInstrument.CheckedIndex:= rgInstrument_MP3_432Hz;
 end;
 
 procedure TfChant.Affiche( _Index: Integer);
@@ -259,7 +260,7 @@ var
         //TAudioTrack.Play( _Note);
         //TAudioTrack.Play_Old( _Note, 5);
    end;
-   procedure MP3;
+   procedure MP3( _Repertoire: String);
    var
       Note_normalisee: String;//pour consolider dièse/bémol
       Nom_mp3: String;
@@ -271,8 +272,16 @@ var
         Repertoire
         :=
            IncludeTrailingPathDelimiter( GetEnvironmentDirectoryPath( dirDownloads))
-          +'notes_432Hz_noire';
+          +_Repertoire;
         mp.LoadFromFile( Repertoire, Nom_mp3);
+   end;
+   procedure MP3_432Hz;
+   begin
+        MP3( 'notes_432Hz_noire');
+   end;
+   procedure MP3_440Hz;
+   begin
+        MP3( 'notes_440Hz_noire');
    end;
 begin
      if 0 < Pos(':', _Note)
@@ -287,7 +296,8 @@ begin
        rgInstrument_Midi_Piano    : Piano;
        rgInstrument_Midi_Tenor_Sax: Tenor_Sax;
        rgInstrument_Wave          : Wave;
-       rgInstrument_MP3           : MP3;
+       rgInstrument_MP3_432Hz     : MP3_432Hz;
+       rgInstrument_MP3_440Hz     : MP3_440Hz;
        else                         Wave;
        end;
 end;

@@ -481,7 +481,8 @@ object fChant: TfChant
         'Midi Piano'
         'Midi Tenor Sax'
         'Wave'
-        'MP3'
+        'MP3 432Hz'
+        'MP3 440Hz'
       )
     end
     object bStart: jButton
