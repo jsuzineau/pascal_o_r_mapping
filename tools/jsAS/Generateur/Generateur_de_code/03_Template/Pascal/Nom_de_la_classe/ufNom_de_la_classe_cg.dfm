@@ -1,0 +1,1 @@
+inherited fNom_de_la_classe_cg: TfNom_de_la_classe_cg  Caption = 'Nom_de_la_classe_cg'  PixelsPerInch = 96  TextHeight = 13  inherited Panel1: TPanel    inherited Panel2: TPanel      inherited bImprimer: TBitBtn        OnClick = bImprimerClick      end    end  endend

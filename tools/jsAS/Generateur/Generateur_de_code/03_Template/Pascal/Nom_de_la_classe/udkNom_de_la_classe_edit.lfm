@@ -1,0 +1,31 @@
+inherited dkNom_de_la_classe_edit: TdkNom_de_la_classe_edit
+  Left = 704
+  Height = 45
+  Top = 420
+  Width = 226
+  Caption = 'dkNom_de_la_classe_edit'
+  ClientHeight = 45
+  ClientWidth = 226
+  inherited sSelection: TBatpro_Shape
+    Height = 45
+  end
+  object sbDetruire: TSpeedButton[1]
+    Left = 16
+    Height = 22
+    Hint = 'Supprimer'
+    Top = 19
+    Width = 22
+    Caption = 'D'
+    OnClick = sbDetruireClick
+  end
+  object sbCopy_to_current: TSpeedButton[2]
+    Left = 203
+    Height = 22
+    Hint = 'Copie vers courant'
+    Top = 0
+    Width = 22
+    Anchors = [akTop, akRight]
+    Caption = '>'
+    OnClick = sbCopy_to_currentClick
+  end
+end

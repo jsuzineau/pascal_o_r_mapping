@@ -1,0 +1,72 @@
+inherited dkSession_edit: TdkSession_edit
+  Left = 704
+  Height = 45
+  Top = 420
+  Width = 226
+  Caption = 'dkSession_edit'
+  ClientHeight = 45
+  ClientWidth = 226
+  inherited sSelection: TBatpro_Shape
+    Height = 45
+  end
+  object ceApplicationKey: TChamp_Edit
+    Left = 119
+    Height = 21
+    Top = 4
+    Width = 80
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Text = 'ceApplicationKey'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    Field = 'ApplicationKey'
+  end
+
+  object cecookie_id: TChamp_Edit
+    Left = 119
+    Height = 21
+    Top = 4
+    Width = 80
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Text = 'cecookie_id'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    Field = 'cookie_id'
+  end
+
+  object ceurl: TChamp_Edit
+    Left = 119
+    Height = 21
+    Top = 4
+    Width = 80
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Text = 'ceurl'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    Field = 'url'
+  end
+  object sbDetruire: TSpeedButton[1]
+    Left = 16
+    Height = 22
+    Hint = 'Supprimer'
+    Top = 19
+    Width = 22
+    Caption = 'D'
+    OnClick = sbDetruireClick
+  end
+  object sbCopy_to_current: TSpeedButton[2]
+    Left = 203
+    Height = 22
+    Hint = 'Copie vers courant'
+    Top = 0
+    Width = 22
+    Anchors = [akTop, akRight]
+    Caption = '>'
+    OnClick = sbCopy_to_currentClick
+  end
+end

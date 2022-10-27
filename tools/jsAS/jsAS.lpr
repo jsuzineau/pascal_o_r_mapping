@@ -30,6 +30,8 @@ uses
       cmem, // the c memory manager is on some systems much faster for multi-threading
     {$endif}
     uuStrings,
+    ublSession,
+    upoolSession,
   Classes, sockets, Synautil, SysUtils,fphttpclient,process;
 
 {$ifdef windows}
@@ -208,18 +210,22 @@ begin
 end;
 
 procedure AttendConnection(ASocket: TTCPBlockSocket);
+const
+     s_cookie_id='cookie_id';
 var
    timeout: integer;
    s: string;
    method, uri, protocol: string;
 
-   sPort: String;
-   nPort: Integer;
+   ApplicationKey: String;
+   cookie_id_Index: Integer;
 
    Has_Body: Boolean;
    Content_Length: Integer;
 
    slCookies: TStringList;
+   cookie_id: String;
+   blSession: TblSession;
 
    function notTraite_Content_Length: Boolean;
    const
@@ -243,7 +249,7 @@ var
         StrToK(s_Cookie, s);
         while s <> ''
         do
-          slCookies.Add( StrTok( ';', s));
+          slCookies.Add( TrimLeft(StrTok( ';', s)));
    end;
    procedure Send_Not_found;
    begin
@@ -261,64 +267,88 @@ var
         ASocket.SendString('Content-length: ' + IntTostr(Length(s_Validation_Response)) + CRLF);
         ASocket.SendString('Connection: close' + CRLF);
         ASocket.SendString('Date: ' + Rfc822DateTime(now) + CRLF);
-        ASocket.SendString('Server: http_PortMapper' + CRLF);
+        ASocket.SendString('Server: jsAS' + CRLF);
         ASocket.SendString('' + CRLF);
 
        //  if ASocket.lasterror <> 0 then HandleError;
 
         ASocket.SendString(s_Validation_Response);
    end;
-   procedure Send_Forward;
+   procedure Send_Forward( _Forward_URL: String);
    var
       Body: String;
-      Forward_URL: String;
       Forward_Result      : String;
       Forward_Content_Type: String;
       Forward_Server      : String;
    begin
-        if not http_Port_Valide( sPort)
-        then
-            begin
-            Send_Not_found;
-            exit;
-            end;
-
-        Forward_URL:= 'http://localhost:'+sPort+'/'+uri;
-
         if Has_Body
         then
             Body:= ASocket.RecvBufferStr( Content_Length, timeout)
         else
             Body:= '';
 
-        Forward_Result:= http_get( Forward_URL, Forward_Content_Type, Forward_Server, Body);
+        Forward_Result:= http_get( _Forward_URL, Forward_Content_Type, Forward_Server, Body);
 
         ASocket.SendString('HTTP/1.0 200' + CRLF);
         ASocket.SendString('Content-type: '+Forward_Content_Type + CRLF);
         ASocket.SendString('Content-length: ' + IntTostr(Length(Forward_Result)) + CRLF);
         ASocket.SendString('Connection: close' + CRLF);
         ASocket.SendString('Date: ' + Rfc822DateTime(now) + CRLF);
+        //Set-Cookie: id=a3fWa; Expires=Wed, 21 Oct 2015 07:28:00 GMT; Secure; HttpOnly
+        ASocket.SendString('Set-Cookie: ' + blSession.cookie_id'; HttpOnly' + CRLF);
         ASocket.SendString('Server: '+Forward_Server + CRLF);
         ASocket.SendString('' + CRLF);
         ASocket.SendString(Forward_Result);
    end;
-   function httpLauncher_: Boolean;
+   procedure Instantiate_Application;
    var
-      Key: String;
       NomProgramme: String;
+      procedure Cree_cookie_id;
+      //inspired from function TCustomSession.GetSessionID: String;
+      //in unit HTTPDefs,
+      //lazarus\fpc\3.2.2\source\packages\fcl-web\src\base\httpdefs.pp
+      var
+         guid: TGUID;
+      begin
+           CreateGUID( guid);
+           cookie_id:= GUIDToString( guid);
+           cookie_id:= Copy(cookie_id, 2, 36);
+      end;
    begin
-        Result:= True;
+        NomProgramme:= EXE_INI.ReadString( 'Application', ApplicationKey, '#');
+        if Afficher_Log then WriteLn( 'Instantiate_Application: NomProgramme('+ApplicationKey+')='+NomProgramme);
+        if '#' = NomProgramme            then begin Send_Not_found; exit;end;
+        if not FileExists( NomProgramme) then begin Send_Not_found; exit;end;
+        if Afficher_Log then WriteLn( 'Instantiate_Application: OK');
 
-        Key:= sPort; //pas propre, il faudrait renommer sPort
-        NomProgramme:= EXE_INI.ReadString( 'httpLauncher', Key, '#');
-        if Afficher_Log then WriteLn( 'httpLauncher_: NomProgramme('+Key+')='+NomProgramme);
-        if '#' = NomProgramme            then exit;
-        if not FileExists( NomProgramme) then exit;
-        if Afficher_Log then WriteLn( 'httpLauncher_: OK');
-        Send_Redirect( httpProgramme_Execute( NomProgramme));
-        Result:= False;
+        Cree_cookie_id;
+        blSession:= poolSession.Assure( cookie_id);
+        blSession.ApplicationKey:= ApplicationKey;
+        blSession.url:= httpProgramme_Execute( NomProgramme);
+        blSession.Save_to_database;
+        Send_Forward( blSession.url);
+   end;
+   procedure Call_Application;
+   begin
+        cookie_id:= slCookies.ValueFromIndex[cookie_id_Index];
+        blSession:= poolSession.Assure( cookie_id);
+             if nil = blSession then Send_Not_found
+        else                         Send_Forward( blSession.url+uri);
+   end;
+   procedure Process_cookie;
+   begin
+        cookie_id_Index:= slCookies.IndexOf(s_cookie_id);
+        if -1 = cookie_id_Index
+        then
+            Instantiate_Application
+        else
+            Call_Application;
    end;
 begin
+     cookie_id_Index:= -1;
+     cookie_id:= '';
+     blSession:= nil;
+
      slCookies:= TStringList.Create;
      try
         timeout := 120000;
@@ -338,17 +368,17 @@ begin
         repeat
               s:= ASocket.RecvString(Timeout);
               if Afficher_Log then WriteLn(s);
-              notTraite_Content_Length;
+                   if notTraite_Content_Length
+              then if notTraite_Cookie
+              then begin end;
         until s = '';
 
         // Now write the document to the output stream
                 StrTok( '/', uri);
-        sPort:= StrTok( '/', uri);
+        ApplicationKey:= StrTok( '/', uri);
 
-             if TryStrToInt( sPort, nPort) then Send_Forward
-        else if s_Validation = sPort       then Send_Validation
-        else if httpLauncher_              then Send_Not_found;
-
+             if s_Validation = ApplicationKey then Send_Validation
+        else                                       Process_cookie;
      finally
             FreeAndNil( slCookies);
             end;
@@ -437,5 +467,4 @@ begin
 
      ListenerSocket.Free;
 end.
-
 
