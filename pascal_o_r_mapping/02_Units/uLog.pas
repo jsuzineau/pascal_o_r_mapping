@@ -39,7 +39,7 @@ uses
   {$IFDEF FPC}
   LazUTF8, LCLIntf,
   {$ENDIF}
-  SysUtils, Classes;
+  SysUtils, Classes, syncobjs;
 
 type
 
@@ -49,6 +49,7 @@ type
  =
   class
   private
+    cs: TCriticalSection;
     NomFichier: String;
     function Ouvre( var _T: Text): Boolean;
   public
@@ -132,6 +133,8 @@ end;
 
 constructor TLog.Create;
 begin
+     cs:= TCriticalSection.Create;
+
      DateDebut:= Now;
      Date_Hier:= DateDebut-1;
      Repertoire:= Repertoire_from_Date( DateDebut);
@@ -142,6 +145,7 @@ end;
 
 destructor TLog.Destroy;
 begin
+     FreeAndNil( cs);
      inherited;
 end;
 
@@ -224,8 +228,12 @@ begin
      //WriteLn( UTF8ToConsole( S));
      {$ENDIF}
 
-     Cas_Normal;
-
+     cs.Acquire;
+     try
+        Cas_Normal;
+     finally
+            cs.Release;
+            end;
 end;
 
 procedure TLog.PrintLn(S: String);
@@ -249,7 +257,12 @@ begin
      {$IFDEF LINUX}
      //WriteLn( UTF8ToConsole(S));
      {$ENDIF}
-     Cas_Normal;
+     cs.Acquire;
+     try
+        Cas_Normal;
+     finally
+            cs.Release;
+            end;
 end;
 
 

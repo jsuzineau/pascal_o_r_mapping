@@ -85,7 +85,7 @@ begin
      slFiltre:= TslAutomatic.Create( ClassName+'.slFiltre');
 
      Tri:= TTri.Create;
-     Filtre:= ThFiltre.Create( nil, nil, slFiltre, Tri);
+     Filtre:= ThFiltre.Create( nil, slFiltre, Tri);
      Filtre.slsCle:= sl;
 
      hAUT:= ThAUT.Create( slFiltre, Tri, Filtre);

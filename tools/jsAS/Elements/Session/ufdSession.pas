@@ -50,11 +50,11 @@ type
     ceNomChamp: TChamp_Edit;
     lAPPLICATIONKEY: TLabel;
     lCOOKIE_ID: TLabel;
-    lURL: TLabel;
+    lPORT: TLabel;
 
     ceAPPLICATIONKEY: TChamp_Edit;
     ceCOOKIE_ID: TChamp_Edit;
-    ceURL: TChamp_Edit;
+    cePORT: TChamp_Edit;
 
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -117,7 +117,7 @@ begin
                      [
                      ceAPPLICATIONKEY,
                      ceCOOKIE_ID,
-                     ceURL
+                     cePORT
                      ]);
 end;
 

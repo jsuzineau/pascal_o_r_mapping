@@ -66,8 +66,8 @@ inherited fdSession: TfdSession
       Top = 48                          
       Height = 13                               
     end                                         
-    object lURL: TLabel
-      Caption = 'url'    
+    object lPORT: TLabel
+      Caption = 'Port'    
       Left = 16           
       Top = 70                          
       Height = 13                               
@@ -93,8 +93,8 @@ inherited fdSession: TfdSession
       Height = 21                                
       Width  = 179                               
     end                                          
-    object ceURL: TChamp_Edit
-      Field = 'url'                   
+    object cePORT: TChamp_Edit
+      Field = 'Port'                   
       Left = 81            
       Top = 70                           
       Height = 21                                

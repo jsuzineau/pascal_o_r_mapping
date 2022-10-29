@@ -140,14 +140,13 @@ type
   //Traitement du Chrono
   private
     function Traite_Chrono: Boolean;
-  //URL_PortMapper
+  //URL_Externe
   private
-    URL_PortMapper: String;
-    procedure URL_PortMapper_from_ini;
+    URL_Externe: String;
+    procedure URL_Externe_from_ini;
   //Gestion de l'exécution
   private
     ListenerSocket, ConnectionSocket: TTCPBlockSocket;
-    URL: String;
     procedure AttendConnection(ASocket: TTCPBlockSocket);
     procedure Loop_body;
     procedure Loop_end;
@@ -157,7 +156,11 @@ type
 
     Modal: Boolean;
     Execute_LaunchURL: Boolean;
-    function Init( _IP: String='127.0.0.0'; _Port: Integer=0): String;
+    Port: Integer;
+    sPort: String;
+    URL: String;
+    URL_interne: String;
+    function Init( _IP: String='127.0.0.1'; _Port: Integer=0): String;
     procedure Run( _Modal: Boolean= True);
     procedure LaunchURL;
     function Test_Port( _Port: Integer):Boolean;
@@ -167,9 +170,6 @@ type
     procedure Lire_Ouvrir_hors_Web_component;
     procedure Ouverture_hors_Web_component;
 
-  //Validation pour le PortMapper
-  public
-    procedure Traite_Validation;
   //Gestion multitâche
   public
     th: THTTP_Interface_thread;
@@ -268,14 +268,6 @@ function fgl_ouverture_hors_web_component( n:integer): integer; cdecl;
 
 function http_getS( _URL: String): String;
 
-const
-     port_http_PortMapper= '1500';
-
-var
-   Assurer_http_PortMapper: Boolean= True;
-
-procedure Assure_http_PortMapper;
-
 implementation
 
 function fgl_check_synchronize( n:integer): integer; cdecl;
@@ -360,27 +352,6 @@ begin
      //Log.Println('################')
 end;
 
-function http_Port_Valide( _Port: String): Boolean;
-var
-   URL: String;
-begin
-     URL:= 'http://localhost:'+_Port+'/'+s_Validation;
-     Result:= s_Validation_Response = http_getS( URL);
-end;
-
-function http_isapi_Valide: Boolean;
-var
-   URL: String;
-begin
-     URL:= 'http://localhost/isapi_pm/'+s_Validation;
-     Result:= s_Validation_Response = http_getS( URL);
-end;
-
-function http_PortMapper_OK: boolean;
-begin
-     Result:= http_Port_Valide( port_http_PortMapper) or http_isapi_Valide;
-end;
-
 procedure Execute_par_Run_Command( _Nom_Executable:String);
 var
    Resultat: ansistring;
@@ -434,74 +405,6 @@ begin
      finally
             p.Free;
             end;
-end;
-
-procedure Lance_http_PortMapper;
-const
-     Attente_secondes=10;
-var
-   Repertoire: String;
-   NomFichier: String;
-   procedure Attente_lancement;
-   const
-        Test_par_seconde=4;
-        Temporisation_ms= 1000{ms} div Test_par_seconde;
-   var
-      I: Integer;
-   begin
-        for I:= 0 to Attente_secondes*Test_par_seconde
-        do
-          begin
-          if http_PortMapper_OK then break;
-          Sleep( Temporisation_ms);
-          end;
-   end;
-   procedure Compose_NomFichier;
-   const
-        NomExecutable
-        =
-         {$IFDEF LINUX}
-           'http_PortMapper'
-         {$ELSE}
-           'http_PortMapper.exe'
-         {$ENDIF}
-         ;
-   var
-      inik_http_PortMapper: String;
-      Repertoire_racine: String;
-   begin
-        inik_http_PortMapper:= EXE_INI.os+ 'http_PortMapper';
-        NomFichier:= EXE_INI.ReadString(inis_Options,inik_http_PortMapper,'#');
-        if '#' <> NomFichier then exit;
-
-        Repertoire_racine:= uClean_Racine_from_EXE( uForms_EXE_Name);
-
-        //Repertoire:= IncludeTrailingPathDelimiter(GetCurrentDir);
-        Repertoire:= IncludeTrailingPathDelimiter(Repertoire_racine);
-        Log.Println('Lance_http_PortMapper: Repertoire:'+Repertoire);
-        NomFichier:= Repertoire+NomExecutable;
-        EXE_INI.WriteString(inis_Options,inik_http_PortMapper,NomFichier);
-   end;
-begin
-     Compose_NomFichier;
-     Log.Println('Lance_http_PortMapper: NomFichier:'+NomFichier);
-
-     {$IFDEF LINUX}
-       //Execute_par_Run_Command(NomFichier);
-       Execute_par_TProcess_et_bash(NomFichier);
-     {$ELSE}
-       Execute_par_TProcess( NomFichier);
-     {$ENDIF}
-     Attente_lancement;
-end;
-
-procedure Assure_http_PortMapper;
-begin
-     if not Assurer_http_PortMapper then exit;
-
-     if http_PortMapper_OK then exit;
-
-     Lance_http_PortMapper;
 end;
 
 { THTTP_Interfaces }
@@ -673,9 +576,7 @@ begin
      slP   := TslAbonnement_Procedure.Create( ClassName+'.slP');
      slO   := TslAbonnement_Objet    .Create( ClassName+'.slO');
 
-     slO.Ajoute( 'Validation', Self, Traite_Validation);
-
-     URL_PortMapper_from_ini;
+     URL_Externe_from_ini;
 
      Lire_Ouvrir_hors_Web_component;
 
@@ -1033,21 +934,21 @@ begin
      Log.PrintLn( ClassName+'.Traite '+uri+' fin');
 end;
 
-procedure THTTP_Interface.URL_PortMapper_from_ini;
+procedure THTTP_Interface.URL_Externe_from_ini;
 var
-   inik_URL_PortMapper: String;
+   inik_URL_Externe: String;
 begin
-     inik_URL_PortMapper:= EXE_INI.os+'URL_PortMapper';
+     inik_URL_Externe:= EXE_INI.os+'URL_Externe';
 
-     URL_PortMapper:= EXE_INI.ReadString( 'Options', inik_URL_PortMapper, '#');
-     if '#' = URL_PortMapper
+     URL_Externe:= EXE_INI.ReadString( 'Options', inik_URL_Externe, '#');
+     if '#' = URL_Externe
      then
          begin
-         URL_PortMapper:= EXE_INI.ReadString( 'Options', 'URL_PortMapper', '#');
-         if '#' = URL_PortMapper
+         URL_Externe:= EXE_INI.ReadString( 'Options', 'URL_Externe', '#');
+         if '#' = URL_Externe
          then
-             URL_PortMapper:= 'http://localhost:1500/';
-         EXE_INI.WriteString( 'Options', inik_URL_PortMapper, URL_PortMapper);
+             URL_Externe:= 'http://localhost:1500/';
+         EXE_INI.WriteString( 'Options', inik_URL_Externe, URL_Externe);
          end;
 end;
 
@@ -1110,6 +1011,8 @@ begin
            then
                Traite_Content_Length;
      until (s = '');
+
+     Log.PrintLn('headers received');
 
      if Has_Body
      then
@@ -1254,15 +1157,11 @@ begin
             end;
 end;
 
-function THTTP_Interface.Init( _IP: String='127.0.0.0'; _Port: Integer=0): String;
-var
-   Port: Integer;
+function THTTP_Interface.Init( _IP: String='127.0.0.1'; _Port: Integer=0): String;
 begin
      Verification_http_inactif;
 
      Terminated:= False;
-
-     Assure_http_PortMapper;
 
      ListenerSocket  := TTCPBlockSocket.Create;
      ConnectionSocket:= TTCPBlockSocket.Create;
@@ -1274,8 +1173,9 @@ begin
      ListenerSocket.bind(_IP,IntToStr(_Port));
      ListenerSocket.listen;
      Port:= ListenerSocket.GetLocalSinPort;
-
-     URL:= URL_PortMapper+IntToStr(Port)+'/';
+     sPort:=IntToStr(Port);
+     URL_interne:='http://localhost:'+sPort+'/';
+     URL:= URL_Externe+sPort+'/';
      Result:= URL;
      Execute_LaunchURL:= True;
 end;
@@ -1409,11 +1309,6 @@ begin
      //Traite_direct;
      Traite_fgl;
      {$ENDIF}
-end;
-
-procedure THTTP_Interface.Traite_Validation;
-begin
-     Send_JSON( 'pascal_o_r_mapping');
 end;
 
 

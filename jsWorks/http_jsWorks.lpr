@@ -29,17 +29,28 @@ uses
   {$IFDEF UNIX}
   cthreads,
   {$ENDIF}
-  uBatpro_StringList, uuStrings, ublCategorie, ublDevelopment, ublProject,
-  ublState, ublWork, uhfCategorie, uhfDevelopment, uhfJour_ferie, uhfProject,
-  uhfState, uhfWork, upoolCategorie, upoolDevelopment, upoolProject, upoolState,
-  upoolWork, uPool, upoolG_BECP, uHTTP_Interface, ublAutomatic, upoolAutomatic,
-  uContexteClasse, ublPostgres_Foreign_Key, ujpNom_de_la_classe,
-  ujpSQL_CREATE_TABLE, ujpPHP_Doctrine_Has_Column, ujpCSharp_Champs_persistants,
-  ujpPascal_Affecte, uJoinPoint, ujpAngular_TypeScript_NomFichierElement,
-  ujpAngular_TypeScript_NomClasseElement,
-  ujpAngular_TypeScript_declaration_champs,
-  uAngular_TypeScript_ApplicationHandler, uhATB, uhAUT, uLog, Interfaces, // this includes the LCL widgetset
-Classes, blcksock, sockets, Synautil,SysUtils,LCLIntf, uhAutomatic_ATB, uhAutomatic_AUT;
+  uBatpro_StringList,
+  uuStrings,
+  uHTTP_Interface,
+  ublCategorie,
+  ublDevelopment,
+  ublProject,
+  ublState,
+  ublWork,
+  uhfCategorie,
+  uhfDevelopment,
+  uhfJour_ferie,
+  uhfProject,
+  uhfState,
+  uhfWork,
+  upoolCategorie,
+  upoolDevelopment,
+  upoolProject,
+  upoolState,
+  upoolWork,
+  upoolG_BECP,
+  uhATB, uhAUT, uLog, Interfaces, // this includes the LCL widgetset
+Classes, sockets, Synautil,SysUtils,LCLIntf;
 
 procedure Traite_Test_AUT;
 var
@@ -95,29 +106,12 @@ end;
 var
    HTTP_Interface_URL: String= '';
 procedure Ecrit_URL;
-var
-   S: String;
-   procedure Version_avec_complement;
-   const Taille=1024;
-   var
-      Complement: Integer;
-   begin
-        Complement:= Taille-Length(S);
-        Write( S+Espaces(Complement));
-   end;
-   procedure Version_brute;
-   begin
-        Write( S);
-   end;
 begin
-     //HTTP_Interface.Init_from_ClassName();
-     S:= HTTP_Interface.Init;
-     //Version_avec_complement;
-     Version_brute;
-     HTTP_Interface_URL:= S;
+     HTTP_Interface.Init;
+     HTTP_Interface_URL:= HTTP_Interface.URL_interne;
+     Write( HTTP_Interface.sPort);
 end;
 begin
-     uHTTP_Interface.Assurer_http_PortMapper:= False;
      poolCategorie.ToutCharger;
      poolState    .ToutCharger;
      //poolProject  .ToutCharger;
@@ -153,8 +147,9 @@ begin
      end;
      }
 
-     if ParamCount > 0 then OpenURL( HTTP_Interface_URL);
+     if ParamCount = 0 then OpenURL( HTTP_Interface_URL);
      repeat
            sleep(1000);
+           CheckSynchronize;
      until False;
 end.

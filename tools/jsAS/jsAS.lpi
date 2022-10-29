@@ -5,6 +5,8 @@
     <General>
       <Flags>
         <MainUnitHasCreateFormStatements Value="False"/>
+        <MainUnitHasTitleStatement Value="False"/>
+        <MainUnitHasScaledStatement Value="False"/>
         <CompatibilityMode Value="True"/>
       </Flags>
       <SessionStorage Value="InProjectDir"/>
@@ -93,16 +95,19 @@
         <Mode0 Name="default"/>
       </Modes>
     </RunParams>
-    <RequiredPackages Count="3">
+    <RequiredPackages Count="4">
       <Item1>
-        <PackageName Value="OD_DelphiReportEngine_Data"/>
+        <PackageName Value="LCL"/>
       </Item1>
       <Item2>
-        <PackageName Value="OD_DelphiReportEngine_Units"/>
+        <PackageName Value="OD_DelphiReportEngine_Data"/>
       </Item2>
       <Item3>
-        <PackageName Value="FCL"/>
+        <PackageName Value="OD_DelphiReportEngine_Units"/>
       </Item3>
+      <Item4>
+        <PackageName Value="FCL"/>
+      </Item4>
     </RequiredPackages>
     <Units Count="4">
       <Unit0>
@@ -150,9 +155,6 @@
         <UseExternalDbgSyms Value="True"/>
       </Debugging>
     </Linking>
-    <Other>
-      <CustomOptions Value="-duForms_console"/>
-    </Other>
   </CompilerOptions>
   <Debugging>
     <Exceptions Count="3">

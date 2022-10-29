@@ -37,18 +37,18 @@ inherited dkSession_edit: TdkSession_edit
     Field = 'cookie_id'
   end
 
-  object ceurl: TChamp_Edit
+  object cePort: TChamp_Edit
     Left = 119
     Height = 21
     Top = 4
     Width = 80
     Anchors = [akTop, akRight]
     AutoSize = False
-    Text = 'ceurl'
+    Text = 'cePort'
     ParentColor = False
     ParentShowHint = False
     ShowHint = True
-    Field = 'url'
+    Field = 'Port'
   end
   object sbDetruire: TSpeedButton[1]
     Left = 16

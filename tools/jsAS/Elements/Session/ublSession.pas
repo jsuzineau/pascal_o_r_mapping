@@ -40,6 +40,8 @@ uses
 type
 //pattern_aggregation_classe_declaration
 
+ { TblSession }
+
  TblSession
  =
   class( TBatpro_Ligne)
@@ -51,7 +53,11 @@ type
   public
     ApplicationKey: String;
     cookie_id: String;
-    url: String;
+    Port: String;
+  //champs calculés
+  public
+    function URL_interne:String;
+    function URL_externe:String;
   //Gestion de la clé
   public
     class function sCle_from_( _cookie_id: String): String;
@@ -162,7 +168,7 @@ begin
      //champs persistants
      Champs.  String_from_String ( ApplicationKey , 'ApplicationKey' );
      Champs.  String_from_String ( cookie_id      , 'cookie_id'      );
-     Champs.  String_from_String ( url            , 'url'            );
+     Champs.  String_from_String ( Port           , 'Port'           );
 
 end;
 
@@ -170,6 +176,16 @@ destructor TblSession.Destroy;
 begin
 
      inherited;
+end;
+
+function TblSession.URL_interne: String;
+begin
+     Result:= 'http://localhost:'+Port+'/';
+end;
+
+function TblSession.URL_externe: String;
+begin
+     Result:= 'http://localhost:1500/'+cookie_id+'/';
 end;
 
 class function TblSession.sCle_from_( _cookie_id: String): String;

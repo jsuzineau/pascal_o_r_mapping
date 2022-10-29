@@ -49,7 +49,7 @@ type
   class(TDockable)
   clApplicationKey: TChamp_Label;
   clcookie_id: TChamp_Label;
-  clurl: TChamp_Label;
+  clPort: TChamp_Label;
   sbCopy_to_current: TSpeedButton;
   sbDetruire: TSpeedButton;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -88,7 +88,7 @@ begin
 
      Affecte( blSession, TblSession, Value);
 
-     Champs_Affecte( blSession, [clApplicationKey,clcookie_id,clurl]);
+     Champs_Affecte( blSession, [clApplicationKey,clcookie_id,clPort]);
 end;
 
 procedure TdkSession_display.sbDetruireClick(Sender: TObject);

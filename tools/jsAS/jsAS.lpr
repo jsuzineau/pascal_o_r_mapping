@@ -23,20 +23,25 @@ program jsAS;
 {Adapted from The Micro Pascal WebServer, http://wiki.freepascal.org/Networking }
 
 {$mode objfpc}{$H+}
+{$ifdef windows}
+{$apptype console}
+{$endif}
 
 uses
     {$ifdef unix}
       cthreads,
       cmem, // the c memory manager is on some systems much faster for multi-threading
     {$endif}
+    Interfaces,
+    uLog,
+    uEXE_INI,
     uuStrings,
     ublSession,
     upoolSession,
-  Classes, sockets, Synautil, SysUtils,fphttpclient,process;
+  Classes, blcksock, sockets, Synautil, SysUtils,fphttpclient,process, syncobjs;
 
-{$ifdef windows}
-{$apptype console}
-{$endif}
+var
+   csDatabase: TCriticalSection= nil;
 
 const
      s_Validation         ='Validation';
@@ -44,24 +49,6 @@ const
 
 var
    Afficher_Log: Boolean= False;
-
-function StrToK( Key: String; var S: String): String;
-var
-   I: Integer;
-begin
-     I:= Pos( Key, S);
-     if I = 0
-     then
-         begin
-         Result:= S;
-         S:= '';
-         end
-     else
-         begin
-         Result:= Copy( S, 1, I-1);
-         Delete( S, 1, (I-1)+Length( Key));
-         end;
-end;
 
 function http_getS( _URL: String): String;
 var
@@ -164,23 +151,10 @@ begin
      Result:= s_Validation_Response = http_getS( URL);
 end;
 
-function httpProgramme_Execute( _NomProgramme: String): String;
+function httpProgramme_Execute( _NomProgramme: String; _blSession: TblSession): String;
 const Taille=1024;
 var
-   NomResultat: String;
    p: TProcess;
-   procedure Result_from_NomResultat;
-   var
-      NbTests: Integer;
-   begin
-        NbTests:= 0;
-        repeat
-              Result:= String_from_File( NomResultat);
-              if '' <> Result then break;
-              Sleep( 1000);
-        until NbTests > 5;
-        Result:= Trim(Result);
-   end;
    procedure Result_from_stdout;
    var
       Read_Length: Integer;
@@ -191,16 +165,14 @@ var
         Result:= Trim(Result);
    end;
 begin
-     NomResultat:= ChangeFileExt( _NomProgramme, '_URL.txt');
-     DeleteFile( NomResultat);
      p:= TProcess.Create( nil);
      try
         p.Executable:= _NomProgramme;
         p.Options := [poUsePipes];
+        p.Parameters.Add(_blSession.cookie_id);
         if Afficher_Log then WriteLn('httpProgramme_Execute: avant TProcess.execute sur '+_NomProgramme);
         p.Execute;
         if Afficher_Log then WriteLn('httpProgramme_Execute: aprés TProcess.execute');
-        //Result_from_NomResultat;
         Result_from_stdout;
 
         if Afficher_Log then WriteLn('httpProgramme_Execute: Result= '+Result);
@@ -218,7 +190,6 @@ var
    method, uri, protocol: string;
 
    ApplicationKey: String;
-   cookie_id_Index: Integer;
 
    Has_Body: Boolean;
    Content_Length: Integer;
@@ -227,29 +198,62 @@ var
    cookie_id: String;
    blSession: TblSession;
 
+   Referer: String;
+
+   function notMatch_header_name( _header_name: String): Boolean;
+   var
+      len: Integer;
+      sc: String;
+   begin
+        len:= Length( _header_name);
+        sc:= LowerCase( Copy(s, 1, len));
+        Result:= _header_name <> sc;
+        if Result then exit;
+        Delete( s, 1, len);
+   end;
    function notTraite_Content_Length: Boolean;
    const
         s_Content_Length='content-length:';
    begin
-        s:= LowerCase( s);
-        Result:= 1 <> Pos(s_Content_Length, s);
+        Result:= notMatch_header_name( s_Content_Length);
         if Result then exit;
-
-        StrToK(s_Content_Length, s);
         Has_Body:= TryStrToInt( s, Content_Length);
    end;
    function notTraite_Cookie: Boolean;
    const
         s_Cookie='cookie:';
+        procedure Traite_cookie( _cookie: String);
+        var
+           cookie_Name : String;
+           cookie_Value: String;
+        begin
+             cookie_Name := StrTok( '=', _cookie);
+             cookie_Value:= _cookie;
+             if s_cookie_id = cookie_Name
+             then
+                 cookie_id:= cookie_Value;
+
+             slCookies.Values[cookie_Name]:= cookie_Value;
+        end;
    begin
-        s:= LowerCase( s);
-        Result:= 1 <> Pos(s_Cookie, s);
+        Result:= notMatch_header_name( s_Cookie);
         if Result then exit;
 
+        Log.Print( uri);
+        Log.Print( s);
         StrToK(s_Cookie, s);
         while s <> ''
         do
-          slCookies.Add( TrimLeft(StrTok( ';', s)));
+          Traite_cookie( TrimLeft(StrTok( ';', s)));
+   end;
+   function notTraite_Referer: Boolean;
+   const
+        s_Referer='referer:';
+   begin
+        Result:= notMatch_header_name( s_Referer);
+        if Result then exit;
+
+        Referer:= TrimLeft( s);
    end;
    procedure Send_Not_found;
    begin
@@ -260,8 +264,11 @@ var
         ASocket.SendString('HTTP/1.1 303 See Other' + CRLF);
         ASocket.SendString('Location: '+ _URL+ CRLF);
    end;
-   procedure Send_Validation;
+   function Traite_Validation: Boolean;
    begin
+        Result:= s_Validation = ApplicationKey;
+        if not Result then exit;
+
         ASocket.SendString('HTTP/1.0 200' + CRLF);
         ASocket.SendString('Content-type: text/plain' + CRLF);
         ASocket.SendString('Content-length: ' + IntTostr(Length(s_Validation_Response)) + CRLF);
@@ -274,31 +281,69 @@ var
 
         ASocket.SendString(s_Validation_Response);
    end;
-   procedure Send_Forward( _Forward_URL: String);
+   procedure Send_Forward;
    var
+      Forward_URL: String;
       Body: String;
       Forward_Result      : String;
       Forward_Content_Type: String;
       Forward_Server      : String;
    begin
+        Forward_URL:= blSession.URL_interne+uri;
+
         if Has_Body
         then
             Body:= ASocket.RecvBufferStr( Content_Length, timeout)
         else
             Body:= '';
 
-        Forward_Result:= http_get( _Forward_URL, Forward_Content_Type, Forward_Server, Body);
+        Forward_Result:= http_get( Forward_URL, Forward_Content_Type, Forward_Server, Body);
 
         ASocket.SendString('HTTP/1.0 200' + CRLF);
         ASocket.SendString('Content-type: '+Forward_Content_Type + CRLF);
         ASocket.SendString('Content-length: ' + IntTostr(Length(Forward_Result)) + CRLF);
         ASocket.SendString('Connection: close' + CRLF);
         ASocket.SendString('Date: ' + Rfc822DateTime(now) + CRLF);
+        ASocket.SendString('Access-Control-Allow-Origin: http://localhost:1500/'+ApplicationKey + CRLF);
+        ASocket.SendString('Access-Control-Allow-Credentials: true' + CRLF);
         //Set-Cookie: id=a3fWa; Expires=Wed, 21 Oct 2015 07:28:00 GMT; Secure; HttpOnly
-        ASocket.SendString('Set-Cookie: ' + blSession.cookie_id'; HttpOnly' + CRLF);
+        ASocket.SendString('Set-Cookie: ' + s_cookie_id+'='+blSession.cookie_id+'; SameSite=None'{+'; HttpOnly'} + CRLF);
         ASocket.SendString('Server: '+Forward_Server + CRLF);
+        Log.Print( 'SendForward, Server: '+Forward_Server);
         ASocket.SendString('' + CRLF);
+        {
+        if '' = uri
+        then
+            Forward_Result:= StringReplace( Forward_Result, '<base href="/">', '<base href="/'+blSession.cookie_id+'/">', [rfReplaceAll]);
+        }
         ASocket.SendString(Forward_Result);
+   end;
+   procedure poolSession_Assure;
+   begin
+        csDatabase.Acquire;
+        try
+           blSession:= poolSession.Assure( cookie_id);
+        finally
+               csDatabase.Release;
+               end;
+   end;
+   procedure poolSession_Get_by_Cle( _cookie_id: String);
+   begin
+        csDatabase.Acquire;
+        try
+           blSession:= poolSession.Get_by_Cle( _cookie_id);
+        finally
+               csDatabase.Release;
+               end;
+   end;
+   procedure blSession_Save;
+   begin
+        csDatabase.Acquire;
+        try
+           blSession.Save_to_database;
+        finally
+               csDatabase.Release;
+               end;
    end;
    procedure Instantiate_Application;
    var
@@ -322,31 +367,31 @@ var
         if Afficher_Log then WriteLn( 'Instantiate_Application: OK');
 
         Cree_cookie_id;
-        blSession:= poolSession.Assure( cookie_id);
+        poolSession_Assure;
         blSession.ApplicationKey:= ApplicationKey;
-        blSession.url:= httpProgramme_Execute( NomProgramme);
-        blSession.Save_to_database;
-        Send_Forward( blSession.url);
+        blSession.Port:= httpProgramme_Execute( NomProgramme, blSession);
+        blSession_Save;
+
+        //Send_Redirect( blSession.URL_externe);
+        Send_Forward;
    end;
-   procedure Call_Application;
+   function Session_found: Boolean;
    begin
-        cookie_id:= slCookies.ValueFromIndex[cookie_id_Index];
-        blSession:= poolSession.Assure( cookie_id);
-             if nil = blSession then Send_Not_found
-        else                         Send_Forward( blSession.url+uri);
-   end;
-   procedure Process_cookie;
-   begin
-        cookie_id_Index:= slCookies.IndexOf(s_cookie_id);
-        if -1 = cookie_id_Index
-        then
-            Instantiate_Application
-        else
-            Call_Application;
+        poolSession_Get_by_Cle( ApplicationKey);
+        Result:= Assigned( blSession);
+        if Result then exit;
+
+        poolSession_Get_by_Cle( cookie_id);
+        Result:= Assigned( blSession);
+
+        // http://localhost:1500/34683931-C7E6-494C-96EA-0447392D5570/
+        StrToK( 'http://localhost:1500/', Referer);
+        poolSession_Get_by_Cle( StrToK( '/', Referer));
+        Result:= Assigned( blSession);
    end;
 begin
-     cookie_id_Index:= -1;
      cookie_id:= '';
+     Referer:= '';
      blSession:= nil;
 
      slCookies:= TStringList.Create;
@@ -367,18 +412,29 @@ begin
         //read request headers
         repeat
               s:= ASocket.RecvString(Timeout);
+              if '' = s then break;
+
               if Afficher_Log then WriteLn(s);
                    if notTraite_Content_Length
               then if notTraite_Cookie
+              then if notTraite_Referer
               then begin end;
-        until s = '';
+        until false;
 
         // Now write the document to the output stream
-                StrTok( '/', uri);
+                         StrTok( '/', uri);
         ApplicationKey:= StrTok( '/', uri);
+        Log.Print( 'traite uri '+uri);
 
-             if s_Validation = ApplicationKey then Send_Validation
-        else                                       Process_cookie;
+        if Traite_Validation then exit;
+
+        if Session_found
+        then
+            Send_Forward
+        else
+            Instantiate_Application;
+            //Send_Not_found;
+
      finally
             FreeAndNil( slCookies);
             end;
@@ -451,20 +507,26 @@ begin
              Afficher_Log:= True;
          end;
 
-     ListenerSocket  := TTCPBlockSocket.Create;
+     csDatabase:= TCriticalSection.Create;
 
-     ListenerSocket.CreateSocket;
-     ListenerSocket.setLinger(true,10);
-     ListenerSocket.bind('0.0.0.0','1500');
-     ListenerSocket.listen;
-     if Afficher_Log then WriteLn('http_PortMapper listen on ', ListenerSocket.GetLocalSinPort);
+     ListenerSocket:= TTCPBlockSocket.Create;
+     try
+        ListenerSocket.CreateSocket;
+        ListenerSocket.setLinger(true,10);
+        ListenerSocket.bind('0.0.0.0','1500');
+        ListenerSocket.listen;
+        if Afficher_Log then WriteLn('jsAS listen on ', ListenerSocket.GetLocalSinPort);
 
-     repeat
-           if not ListenerSocket.canread( 1000) then continue;
+        repeat
+              if not ListenerSocket.canread( 1000) then continue;
 
-           TConnectionThread.Create( ListenerSocket.accept);
-     until false;
+              TConnectionThread.Create( ListenerSocket.accept);
+        until false;
 
-     ListenerSocket.Free;
+     finally
+            FreeAndNil( ListenerSocket);
+
+            FreeAndNil( csDatabase    );
+            end;
 end.
 

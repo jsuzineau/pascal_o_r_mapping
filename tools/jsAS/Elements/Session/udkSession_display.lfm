@@ -39,19 +39,19 @@ inherited dkSession_display: TdkSession_display
     Field = 'cookie_id'
   end
 
-  object clurl: TChamp_Label
+  object clPort: TChamp_Label
     Left = 144
     Height = 13
     Top = 2
     Width = 57
     Anchors = [akTop, akRight]
     AutoSize = False
-    Caption = 'clurl'
+    Caption = 'clPort'
     ParentColor = False
     ParentShowHint = False
     ShowHint = True
     OnClick = FormClick
-    Field = 'url'
+    Field = 'Port'
   end
 
   object sbDetruire: TSpeedButton[2]

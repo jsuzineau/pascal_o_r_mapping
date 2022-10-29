@@ -56,7 +56,6 @@ type
     procedure To_Params( _Params: TParams); override;
   public
     cookie_id: String;
-
     function Get_by_Cle( _cookie_id: String): TblSession;
     function Assure( _cookie_id: String): TblSession;
   //Indépendance par rapport au SGBD Informix ou MySQL
@@ -64,7 +63,7 @@ type
     function SQLWHERE_ContraintesChamps: String; override;
   //Méthode de création de test
   public
-    function Test( _ApplicationKey: String;  _cookie_id: String;  _url: String):Integer;
+    function Test( _ApplicationKey: String;  _cookie_id: String;  _Port: String):Integer;
 
   //Création d'itérateur
   protected
@@ -131,9 +130,7 @@ begin
      with _Params
      do
        begin
-       ParamByName( 'ApplicationKey'    ).AsString:= ApplicationKey;
        ParamByName( 'cookie_id'    ).AsString:= cookie_id;
-       ParamByName( 'url'    ).AsString:= url;
        end;
 end;
 
@@ -142,19 +139,17 @@ begin
      Result                                    
      :=                                        
        'where                        '#13#10+
-       '         ApplicationKey  = :ApplicationKey '#13#10+
-       '     and cookie_id       = :cookie_id      '#13#10+
-       '     and url             = :url            ';
+       '         cookie_id       = :cookie_id      ';
 end;
 
-function TpoolSession.Test( _ApplicationKey: String;  _cookie_id: String;  _url: String):Integer;
+function TpoolSession.Test( _ApplicationKey: String;  _cookie_id: String;  _Port: String):Integer;
 var                                                 
    bl: TblSession;                          
 begin                                               
      Nouveau_Base( bl);                        
        bl.ApplicationKey := _ApplicationKey;
        bl.cookie_id      := _cookie_id    ;
-       bl.url            := _url          ;
+       bl.Port           := _Port         ;
      bl.Save_to_database;                            
      Result:= bl.id;                                 
 end;                                                 
