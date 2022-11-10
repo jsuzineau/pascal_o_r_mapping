@@ -15,7 +15,7 @@
     <i18n>
       <EnableI18N LFM="False"/>
     </i18n>
-    <BuildModes Count="2">
+    <BuildModes Count="3">
       <Item1 Name="Debug" Default="True"/>
       <Item2 Name="Release">
         <CompilerOptions>
@@ -25,7 +25,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../../pascal_o_r_mapping/3_Data;Elements/Test;TestCase/tcOpenDocument_Embed_Image;TestCase/tcOpenDocument_Embed_Image/Elements/Test;TestCase/tcWinUtils;TestCase/tcWinUtils/Elements/TestWinUtils;TestCase/tcDockableScrollbox;TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox;TestCase/tcCode_barre_pdf417;../../GPL;TestCase/tcOpenDocument;TestCase/tcSQLite;TestCase/tcSQLITE_LastInsertId;TestCase/tcOpenDocument_AddHTML;TestCase/tcOpenDocument_AddHTML/Elements/Test_HTML;TestCase/tcExcel_from_ODRE_Table"/>
+            <OtherUnitFiles Value="../../pascal_o_r_mapping/3_Data;Elements/Test;TestCase/tcOpenDocument_Embed_Image;TestCase/tcOpenDocument_Embed_Image/Elements/Test;TestCase/tcWinUtils;TestCase/tcWinUtils/Elements/TestWinUtils;TestCase/tcDockableScrollbox;TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox;TestCase/tcCode_barre_pdf417;../../GPL;TestCase/tcOpenDocument;TestCase/tcSQLite;TestCase/tcSQLITE_LastInsertId;TestCase/tcOpenDocument_AddHTML;TestCase/tcOpenDocument_AddHTML/Elements/Test_HTML;TestCase/tcExcel_from_ODRE_Table;TestCase/tcOpenDocument_Etiquettes"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -47,6 +47,33 @@
           </Linking>
         </CompilerOptions>
       </Item2>
+      <Item3 Name="Debug Lite">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <Target>
+            <Filename Value="fuPASCAL_O_R_MAPPING"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="../../pascal_o_r_mapping/3_Data;Elements/Test;TestCase/tcOpenDocument_Embed_Image;TestCase/tcOpenDocument_Embed_Image/Elements/Test;TestCase/tcWinUtils;TestCase/tcWinUtils/Elements/TestWinUtils;TestCase/tcDockableScrollbox;TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox;TestCase/tcCode_barre_pdf417;../../GPL;TestCase/tcOpenDocument;TestCase/tcSQLite;TestCase/tcSQLITE_LastInsertId;TestCase/tcOpenDocument_AddHTML;TestCase/tcOpenDocument_AddHTML/Elements/Test_HTML;TestCase/tcExcel_from_ODRE_Table;TestCase/tcOpenDocument_Etiquettes"/>
+            <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <SyntaxMode Value="Delphi"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <Optimizations>
+              <OptimizationLevel Value="3"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <LinkSmart Value="True"/>
+          </Linking>
+        </CompilerOptions>
+      </Item3>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
@@ -77,7 +104,7 @@
         <PackageName Value="FCL"/>
       </Item6>
     </RequiredPackages>
-    <Units Count="23">
+    <Units Count="22">
       <Unit0>
         <Filename Value="fuPASCAL_O_R_MAPPING.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -91,96 +118,92 @@
         <IsPartOfProject Value="True"/>
       </Unit2>
       <Unit3>
-        <Filename Value="../../pascal_o_r_mapping/3_Data/uBatpro_Ligne.pas"/>
+        <Filename Value="TestCase/tcOpenDocument_Embed_Image/utcOpenDocument_Embed_Image.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit3>
       <Unit4>
-        <Filename Value="TestCase/tcOpenDocument_Embed_Image/utcOpenDocument_Embed_Image.pas"/>
+        <Filename Value="TestCase/tcWinUtils/utcWinUtils.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit4>
       <Unit5>
-        <Filename Value="TestCase/tcWinUtils/utcWinUtils.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit5>
-      <Unit6>
         <Filename Value="TestCase/tcWinUtils/uftcWinUtils.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="ftcWinUtils"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="TestCase/tcWinUtils/Elements/TestWinUtils/ublTestWinUtils.pas"/>
+        <IsPartOfProject Value="True"/>
       </Unit6>
       <Unit7>
-        <Filename Value="TestCase/tcWinUtils/Elements/TestWinUtils/ublTestWinUtils.pas"/>
+        <Filename Value="TestCase/tcWinUtils/Elements/TestWinUtils/uhdmTestWinUtils.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit7>
       <Unit8>
-        <Filename Value="TestCase/tcWinUtils/Elements/TestWinUtils/uhdmTestWinUtils.pas"/>
+        <Filename Value="TestCase/tcDockableScrollbox/utcDockableScrollbox.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit8>
       <Unit9>
-        <Filename Value="TestCase/tcDockableScrollbox/utcDockableScrollbox.pas"/>
+        <Filename Value="TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox/ublTestDockableScrollbox.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit9>
       <Unit10>
-        <Filename Value="TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox/ublTestDockableScrollbox.pas"/>
+        <Filename Value="TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox/uhdmTestDockableScrollbox.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit10>
       <Unit11>
-        <Filename Value="TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox/uhdmTestDockableScrollbox.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit11>
-      <Unit12>
         <Filename Value="TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox/udkTestDockableScrollbox.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dkTestDockableScrollbox"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="TestCase/tcCode_barre_pdf417/utcCode_barre_pdf417.pas"/>
+        <IsPartOfProject Value="True"/>
       </Unit12>
       <Unit13>
-        <Filename Value="TestCase/tcCode_barre_pdf417/utcCode_barre_pdf417.pas"/>
+        <Filename Value="../../GPL/uCode_barre_pdf417.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit13>
       <Unit14>
-        <Filename Value="../../pascal_o_r_mapping/5_Controls/ucDockableScrollbox.pas"/>
+        <Filename Value="TestCase/tcSQLite/utcSQLite.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit14>
       <Unit15>
-        <Filename Value="../../GPL/uCode_barre_pdf417.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit15>
-      <Unit16>
-        <Filename Value="TestCase/tcSQLite/utcSQLite.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit16>
-      <Unit17>
         <Filename Value="TestCase/tcSQLite/udmSQLite.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dmSQLite"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit17>
-      <Unit18>
+      </Unit15>
+      <Unit16>
         <Filename Value="TestCase/tcSQLite/ufSQLite.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fSQLite"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="TestCase/tcSQLITE_LastInsertId/tcSQLITE_LastInsertId.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="TestCase/tcOpenDocument_AddHTML/utcOpenDocument_AddHTML.pas"/>
+        <IsPartOfProject Value="True"/>
       </Unit18>
       <Unit19>
-        <Filename Value="TestCase/tcSQLITE_LastInsertId/tcSQLITE_LastInsertId.pas"/>
+        <Filename Value="TestCase/tcOpenDocument_AddHTML/Elements/Test_HTML/ublTest_HTML.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit19>
       <Unit20>
-        <Filename Value="TestCase/tcOpenDocument_AddHTML/utcOpenDocument_AddHTML.pas"/>
+        <Filename Value="TestCase/tcExcel_from_ODRE_Table/utcExcel_from_ODRE_Table.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit20>
       <Unit21>
-        <Filename Value="TestCase/tcOpenDocument_AddHTML/Elements/Test_HTML/ublTest_HTML.pas"/>
+        <Filename Value="TestCase/tcOpenDocument_Etiquettes/utcOpenDocument_Etiquettes.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit21>
-      <Unit22>
-        <Filename Value="TestCase/tcExcel_from_ODRE_Table/utcExcel_from_ODRE_Table.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit22>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -190,7 +213,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../pascal_o_r_mapping/03_Data;TestCase/tcOpenDocument_Embed_Image;TestCase/tcOpenDocument_Embed_Image/Elements/Test;TestCase/tcWinUtils;TestCase/tcWinUtils/Elements/TestWinUtils;TestCase/tcDockableScrollbox;TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox;TestCase/tcCode_barre_pdf417;../../GPL;TestCase/tcOpenDocument;TestCase/tcSQLite;TestCase/tcSQLITE_LastInsertId;TestCase/tcOpenDocument_AddHTML;TestCase/tcOpenDocument_AddHTML/Elements/Test_HTML;TestCase/tcExcel_from_ODRE_Table"/>
+      <OtherUnitFiles Value="../../pascal_o_r_mapping/03_Data;TestCase/tcOpenDocument_Embed_Image;TestCase/tcOpenDocument_Embed_Image/Elements/Test;TestCase/tcWinUtils;TestCase/tcWinUtils/Elements/TestWinUtils;TestCase/tcDockableScrollbox;TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox;TestCase/tcCode_barre_pdf417;../../GPL;TestCase/tcOpenDocument;TestCase/tcSQLite;TestCase/tcSQLITE_LastInsertId;TestCase/tcOpenDocument_AddHTML;TestCase/tcOpenDocument_AddHTML/Elements/Test_HTML;TestCase/tcExcel_from_ODRE_Table;TestCase/tcOpenDocument_Etiquettes"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

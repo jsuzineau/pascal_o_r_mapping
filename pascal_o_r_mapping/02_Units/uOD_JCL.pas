@@ -633,6 +633,8 @@ procedure Copie_Item( _Source, _Cible: TDOMNode);
    var
       I: Integer;
       eSource, eCible: TDOMNode;
+      eSource_NodeName: String;
+      NewChild: TDOMNode;
    begin
         for I:= 0 to _Source.ChildNodes.Count - 1
         do
@@ -640,8 +642,19 @@ procedure Copie_Item( _Source, _Cible: TDOMNode);
           eSource:= _Source.ChildNodes.Item[ I];
           if eSource = nil then continue;
 
-          eCible:= _Cible.AppendChild( _Cible.OwnerDocument.CreateElement( eSource.NodeName));
-          Copie_Item( eSource, eCible);
+          eSource_NodeName:= eSource.NodeName;
+          if '#text' = eSource_NodeName
+          then
+              begin
+              NewChild:= _Cible.OwnerDocument.CreateTextNode( eSource.NodeValue);
+              eCible:= _Cible.AppendChild( NewChild);
+              end
+          else
+              begin
+              NewChild:= _Cible.OwnerDocument.CreateElement( eSource_NodeName);
+              eCible:= _Cible.AppendChild( NewChild);
+              Copie_Item( eSource, eCible);
+              end;
           end;
    end;
 begin

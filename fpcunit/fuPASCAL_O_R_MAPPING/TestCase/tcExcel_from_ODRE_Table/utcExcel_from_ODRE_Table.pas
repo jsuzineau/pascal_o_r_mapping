@@ -5,14 +5,14 @@ unit utcExcel_from_ODRE_Table;
 interface
 
 uses
-    uExcel_from_ODRE_Table,
+    //uExcel_from_ODRE_Table,
  Classes, SysUtils, fpcunit, testutils, testregistry;
 
 type
 
  TtcExcel_from_ODRE_Table= class(TTestCase)
  protected
-  eot: TExcel_from_ODRE_Table;
+  //eot: TExcel_from_ODRE_Table;
   procedure SetUp; override;
   procedure TearDown; override;
  published
@@ -23,13 +23,13 @@ implementation
 
 procedure TtcExcel_from_ODRE_Table.TestHookUp;
 begin
-     TExcel_from_ODRE_Table
+     //TExcel_from_ODRE_Table
      Fail('Écrivez votre propre test');
 end;
 
 procedure TtcExcel_from_ODRE_Table.SetUp;
 begin
-     eot:= TExcel_from_ODRE_Table.Crea;
+     //eot:= TExcel_from_ODRE_Table.Crea;
 end;
 
 procedure TtcExcel_from_ODRE_Table.TearDown;
