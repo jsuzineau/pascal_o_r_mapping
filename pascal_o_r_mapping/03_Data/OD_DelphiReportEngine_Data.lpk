@@ -21,7 +21,7 @@
         </OtherDefines>
       </Other>
     </CompilerOptions>
-    <Files Count="149">
+    <Files Count="150">
       <Item1>
         <Filename Value="uBatpro_Element.pas"/>
         <UnitName Value="uBatpro_Element"/>
@@ -619,6 +619,10 @@
         <Filename Value="Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript/ujpAngular_TypeScript_declaration_champs.pas"/>
         <UnitName Value="ujpAngular_TypeScript_declaration_champs"/>
       </Item149>
+      <Item150>
+        <Filename Value="uOD_Label_Printer.pas"/>
+        <UnitName Value="uOD_Label_Printer"/>
+      </Item150>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="1">

@@ -56,7 +56,8 @@ uses
  ujpAngular_TypeScript_html_editeurs_champs, 
  ujpAngular_TypeScript_NomClasseElement, 
  ujpAngular_TypeScript_NomFichierElement, 
- ujpAngular_TypeScript_declaration_champs, LazarusPackageIntf;
+ ujpAngular_TypeScript_declaration_champs, uOD_Label_Printer, 
+ LazarusPackageIntf;
 
 implementation
 

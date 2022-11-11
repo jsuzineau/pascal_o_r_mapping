@@ -718,11 +718,12 @@ var
    Properties_Values: array of String;
    _Property_Value,
     Property_Value: String;
-   Arreter: Boolean;
    procedure Traite_Properties;
    var
+      Arreter: Boolean;
       iProperties: Integer;
    begin
+        Arreter:= False;
         for iProperties:= Low( _Properties_Names) to High( _Properties_Names)
         do
           begin
@@ -752,6 +753,29 @@ var
           Arreter:= _Property_Value <>  Property_Value;
           if Arreter then break;
           end;
+        if Arreter then exit;
+
+        l.Add( e);
+   end;
+   procedure Recursif;
+   var
+      cir: TCherche_Items_Recursif;
+      cir_e: TDOMNode;
+   begin
+        cir
+        :=
+          TCherche_Items_Recursif.Create( e,
+                                          _NodeName                       ,
+                                          _Properties_Names               ,
+                                          _Properties_Values              ,
+                                          _Property_Value_Case_Insensitive);
+        try
+           for cir_e in cir.l
+           do
+             l.Add( cir_e);
+        finally
+               FreeAndNil( cir);
+               end;
    end;
 begin
      l:= TCherche_Items_Recursif_List.Create( False);
@@ -766,18 +790,11 @@ begin
        e:= _eRoot.ChildNodes.Item[ I];
        if e = nil then continue;
 
-       Arreter:= False;
        if e.NodeName = _NodeName
        then
            Traite_Properties
        else
-           begin
-           e:= Cherche_Item_Recursif( e, _NodeName, _Properties_Names, _Properties_Values);
-           Arreter:= e = nil;
-           end;
-       if Arreter then continue;
-
-       l.Add( e);
+           Recursif;
        end;
 end;
 

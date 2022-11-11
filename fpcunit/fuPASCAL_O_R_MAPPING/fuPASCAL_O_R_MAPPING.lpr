@@ -9,7 +9,7 @@ uses
   uhdmTestWinUtils, ublTestWinUtils, utcCode_barre_pdf417, ucDockableScrollbox,
   uCode_barre_pdf417, utcSQLite, udmSQLite, uDataUtilsF, ufSQLite,
   tcSQLITE_LastInsertId, utcOpenDocument_AddHTML, ublTest_HTML,
-utcExcel_from_ODRE_Table, utcOpenDocument_Etiquettes;
+utcExcel_from_ODRE_Table, utcOpenDocument_Etiquettes, utcOD_Label_Printer;
 
 {$R *.res}
 
