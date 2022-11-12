@@ -206,8 +206,8 @@ begin
      olp:= TOD_Label_Printer.Create( 'tcOpenDocument_Etiquettes.odt', sl);
      try
         olp.Open_ODT;
-        olp.Open_Content;
-        olp.Open_Styles;
+        //olp.Open_Content;
+        //olp.Open_Styles;
         olp.Explorer_on_folder;
      finally
             FreeAndNil( olp);

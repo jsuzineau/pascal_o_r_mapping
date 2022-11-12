@@ -1,7 +1,5 @@
 unit uOD_Label_Printer;
 
-{$mode objfpc}{$H+}
-
 interface
 
 uses
@@ -12,9 +10,37 @@ uses
     uOD_Temporaire,
     uOD_JCL,
     uOpenDocument,
- Classes, SysUtils, FileUtil, LCLIntf, DOM;
+ Classes, SysUtils, FileUtil, LCLIntf, DOM,fgl;
 
 type
+    { TOD_Label_Printer_Page }
+
+    TOD_Label_Printer_Page
+    =
+     class
+     //Gestion du cycle de vie
+     public
+       constructor Create( _TemplateName: String; _sl: TBatpro_StringList; _sl_index_start: Integer=0);
+       destructor Destroy; override;
+     //Champs
+     public
+       TemplateName: String;
+       sl: TBatpro_StringList;
+       sl_index_start: Integer;
+       sl_index_stop : Integer;
+       NomODT: String;
+       od: TOpenDocument;
+     //Méthodes
+     private
+       procedure Execute;
+     public
+       procedure Open_ODT;
+       procedure Open_Content;
+       procedure Open_Styles;
+       procedure Explorer_on_folder;
+     end;
+type
+    TOD_Label_Printer_Page_List= TFPGObjectList<TOD_Label_Printer_Page>;
 
     { TOD_Label_Printer }
 
@@ -27,9 +53,9 @@ type
        destructor Destroy; override;
      //Champs
      public
-       NomODT: String;
-       od: TOpenDocument;
+       TemplateName: String;
        sl: TBatpro_StringList;
+       l: TOD_Label_Printer_Page_List;
      //Méthodes
      private
        procedure Execute;
@@ -44,23 +70,95 @@ implementation
 
 { TOD_Label_Printer }
 
-constructor TOD_Label_Printer.Create( _TemplateName: String;
-                                      _sl: TBatpro_StringList);
+constructor TOD_Label_Printer.Create( _TemplateName: String; _sl: TBatpro_StringList);
 begin
-     sl:= _sl;
-     NomODT:= OD_Temporaire.Nouveau_ODT( 'LABEL');
-     CopyFile( _TemplateName, NomODT);
-     od:= TOpenDocument.Create( NomODT);
+     TemplateName  := _TemplateName  ;
+     sl            := _sl            ;
+
+     l:= TOD_Label_Printer_Page_List.Create;
      Execute;
 end;
 
 destructor TOD_Label_Printer.Destroy;
 begin
-     FreeAndNil( od);
+     FreeAndNil( l);
      inherited Destroy;
 end;
 
 procedure TOD_Label_Printer.Execute;
+var
+   sl_index_start: Integer;
+   olpp: TOD_Label_Printer_Page;
+begin
+     sl_index_start:=0;
+     while sl_index_start < sl.Count
+     do
+       begin
+       olpp:= TOD_Label_Printer_Page.Create( TemplateName, sl, sl_index_start);
+       l.Add( olpp);
+       sl_index_start:= olpp.sl_index_stop+1;
+       end;
+end;
+
+procedure TOD_Label_Printer.Open_ODT;
+var
+   olpp: TOD_Label_Printer_Page;
+begin
+     for olpp in l
+     do
+       olpp.Open_ODT;
+end;
+
+procedure TOD_Label_Printer.Open_Content;
+var
+   olpp: TOD_Label_Printer_Page;
+begin
+     for olpp in l
+     do
+       olpp.Open_Content;
+end;
+
+procedure TOD_Label_Printer.Open_Styles;
+var
+   olpp: TOD_Label_Printer_Page;
+begin
+     for olpp in l
+     do
+       olpp.Open_Styles;
+end;
+
+procedure TOD_Label_Printer.Explorer_on_folder;
+var
+   olpp: TOD_Label_Printer_Page;
+begin
+     if l.Count = 0 then exit;
+     olpp:= l.Items[0];
+     olpp.Explorer_on_folder;
+end;
+
+{ TOD_Label_Printer_Page }
+
+constructor TOD_Label_Printer_Page.Create( _TemplateName  : String;
+                                      _sl            : TBatpro_StringList;
+                                      _sl_index_start: Integer);
+begin
+     TemplateName  := _TemplateName  ;
+     sl            := _sl            ;
+     sl_index_start:= _sl_index_start;
+
+     NomODT:= OD_Temporaire.Nouveau_ODT( 'LABEL');
+     CopyFile( TemplateName, NomODT);
+     od:= TOpenDocument.Create( NomODT);
+     Execute;
+end;
+
+destructor TOD_Label_Printer_Page.Destroy;
+begin
+     FreeAndNil( od);
+     inherited Destroy;
+end;
+
+procedure TOD_Label_Printer_Page.Execute;
 const
      s_draw_frame='draw:frame';
      s_draw_frame_name_prefix='Cadre';
@@ -116,6 +214,7 @@ var
    procedure Fill_cells;
    var
       I: Integer;
+      sl_index: Integer;
       frame: TDOMNode;
       cirTEXT_DATABASE_DISPLAY: TCherche_Items_Recursif;
       text_database_display: TDOMNode;
@@ -128,7 +227,9 @@ var
         for i:= Low(frames) to High(frames)
         do
           begin
-          bl:= Batpro_Ligne_from_sl( sl, i);
+          sl_index:= sl_index_start + i;
+          sl_index_stop:= sl_index;//réaffecté, pas top
+          bl:= Batpro_Ligne_from_sl( sl, sl_index);
           if bl = nil then continue;
 
           frame:= frames[i];
@@ -212,22 +313,22 @@ begin
      od.Save;
 end;
 
-procedure TOD_Label_Printer.Open_ODT;
+procedure TOD_Label_Printer_Page.Open_ODT;
 begin
      OpenDocument( NomODT);
 end;
 
-procedure TOD_Label_Printer.Open_Content;
+procedure TOD_Label_Printer_Page.Open_Content;
 begin
      OpenDocument( IncludeTrailingPathDelimiter( od.Repertoire_Extraction)+'content.xml');
 end;
 
-procedure TOD_Label_Printer.Open_Styles;
+procedure TOD_Label_Printer_Page.Open_Styles;
 begin
      OpenDocument( IncludeTrailingPathDelimiter( od.Repertoire_Extraction)+'styles.xml');
 end;
 
-procedure TOD_Label_Printer.Explorer_on_folder;
+procedure TOD_Label_Printer_Page.Explorer_on_folder;
 begin
      ExecuteProcess( 'C:\Windows\explorer.exe', ['/root,'+ExtractFilePath( NomODT)]);
 end;
