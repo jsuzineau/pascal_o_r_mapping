@@ -56,7 +56,7 @@ function fPatternMainMenu: TfPatternMainMenu;
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
 var
    FfPatternMainMenu: TfPatternMainMenu;

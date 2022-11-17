@@ -31,14 +31,19 @@ uses
 
     uBatpro_Element,
     uBatpro_Ligne,
+//Pascal_ubl_uses_ubl_pas_detail
 
     udmDatabase,
     upool_Ancetre_Ancetre,
+//Pascal_ubl_uses_upool_pas_detail
+
 
     SysUtils, Classes, SqlDB, DB;
 
 type
 //pattern_aggregation_classe_declaration
+
+ { TblNom_de_la_classe }
 
  TblNom_de_la_classe
  =
@@ -50,10 +55,14 @@ type
   //champs persistants
   public
 //pattern_declaration_champs
+//Pascal_ubl_declaration_pas_detail
   //Gestion de la clé
   public
-//pattern_sCle_from__Declaration  
+//pattern_sCle_from__Declaration
     function sCle: String; override;
+  //Gestion des déconnexions
+  public
+    procedure Unlink(be: TBatpro_Element); override;
 //pattern_aggregation_function_Create_Aggregation_declaration
   end;
 
@@ -158,6 +167,7 @@ begin
 
      //champs persistants
 //pattern_creation_champs
+//Pascal_ubl_constructor_pas_detail
 end;
 
 destructor TblNom_de_la_classe.Destroy;
@@ -173,9 +183,17 @@ begin
 //pattern_sCle_Implementation_Body
 end;
 
+procedure TblNom_de_la_classe.Unlink( be: TBatpro_Element);
+begin
+     inherited Unlink( be);
+//Pascal_ubl_unlink_body_pas_detail
+end;
+
 //pattern_aggregation_Create_Aggregation_implementation
 
 //pattern_aggregation_accesseurs_implementation
+
+//Pascal_ubl_implementation_pas_detail
 
 end.
 

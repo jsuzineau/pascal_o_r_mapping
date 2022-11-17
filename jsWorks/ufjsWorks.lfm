@@ -9,7 +9,7 @@ object fjsWorks: TfjsWorks
   Menu = mm
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '2.2.4.0'
   object Panel1: TPanel
     Left = 0
     Height = 507
@@ -30,7 +30,6 @@ object fjsWorks: TfjsWorks
       ClientHeight = 306
       ClientWidth = 755
       TabOrder = 0
-      Visible = False
       OnClick = pDevelopmentClick
       object Panel2: TPanel
         Left = 247
@@ -77,6 +76,7 @@ object fjsWorks: TfjsWorks
             Top = 2
             Width = 51
             Caption = 'Categorie'
+            ParentColor = False
           end
           object Label8: TLabel
             Left = 254
@@ -84,6 +84,7 @@ object fjsWorks: TfjsWorks
             Top = 2
             Width = 26
             Caption = 'State'
+            ParentColor = False
           end
           object bPoint: TButton
             Left = 7
@@ -244,6 +245,7 @@ object fjsWorks: TfjsWorks
             Top = 0
             Width = 44
             Caption = 'Sessions'
+            ParentColor = False
           end
           object bTemps: TButton
             Left = 160
@@ -282,6 +284,7 @@ object fjsWorks: TfjsWorks
             Top = 31
             Width = 36
             Caption = 'Depuis'
+            ParentColor = False
           end
           object bBeginning_From: TButton
             Left = 168
@@ -355,6 +358,7 @@ object fjsWorks: TfjsWorks
             Top = 27
             Width = 32
             Caption = 'Début'
+            ParentColor = False
           end
           object Label5: TLabel
             Left = 3
@@ -362,6 +366,7 @@ object fjsWorks: TfjsWorks
             Top = 54
             Width = 16
             Caption = 'Fin'
+            ParentColor = False
           end
           object Label6: TLabel
             Left = 1
@@ -371,6 +376,7 @@ object fjsWorks: TfjsWorks
             Align = alTop
             Alignment = taCenter
             Caption = 'Session'
+            ParentColor = False
           end
           object bStart: TButton
             Left = 2

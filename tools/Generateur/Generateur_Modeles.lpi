@@ -50,7 +50,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="E:\09_Clients\Sibyl\02_source\AmiBroker\COM\Generateur\Generateur_Modeles.exe"/>
+      <Filename Value="Generateur_Modeles"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>

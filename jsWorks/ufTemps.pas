@@ -254,7 +254,7 @@ end;
 procedure TfTemps.bSessionClick(Sender: TObject);
 begin
      ds.sl:= nil;
-     hdmSession.Execute( deDebut.Date, deFin.Date, idTag);
+     hdmSession.Execute( deDebut.Date, deFin.Date+(23+(59)/60)/24, idTag);
      ds.sl:= hdmSession.sl;
      mResume.Text:= hdmSession.Text;
 end;

@@ -9,7 +9,7 @@ object fjpFiles: TfjpFiles
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnDropFiles = FormDropFiles
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '2.2.4.0'
   object mm: TMainMenu
     Left = 101
     Top = 1

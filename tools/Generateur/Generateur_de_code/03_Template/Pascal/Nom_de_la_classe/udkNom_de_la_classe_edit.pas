@@ -34,6 +34,7 @@ uses
 
     uDockable, ucBatpro_Shape, ucChamp_Label, ucChamp_Edit,
     ucBatproDateTimePicker, ucChamp_DateTimePicker, ucDockableScrollbox,
+    ucChamp_Lookup_ComboBox,
     Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
     LCLType;
 
@@ -48,6 +49,7 @@ type
  =
   class(TDockable)
 //pattern_udk_edit_components_declaration_pas
+//Pascal_udk_edit_declaration_pas
   sbCopy_to_current: TSpeedButton;
   sbDetruire: TSpeedButton;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);

@@ -1,0 +1,2 @@
+    ublDetail.ClasseDetail,
+

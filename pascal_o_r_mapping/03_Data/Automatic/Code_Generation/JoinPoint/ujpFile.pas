@@ -581,8 +581,8 @@ begin
          Valeur:= Valeur + sSeparateur;
 
      Element:= cc.Produit( 'Classe.', sElement);
-     Element:= StringReplace( Element, 'Detail.Classe',sNomTableMembre,[rfReplaceAll,rfIgnoreCase]);
-     Element:= StringReplace( Element, 'Detail'       ,s_Detail       ,[rfReplaceAll,rfIgnoreCase]);
+     Element:= StringReplace( Element, 'Detail.NomDetail'   ,s_Detail       ,[rfReplaceAll,rfIgnoreCase]);
+     Element:= StringReplace( Element, 'Detail.ClasseDetail',sNomTableMembre,[rfReplaceAll,rfIgnoreCase]);
      Valeur:= Valeur+ Element;
 end;
 

@@ -53,7 +53,7 @@ function fPatternMainMenu_dsb: TfPatternMainMenu_dsb;
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
 var
    FfPatternMainMenu_dsb: TfPatternMainMenu_dsb;

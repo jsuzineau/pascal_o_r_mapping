@@ -557,7 +557,6 @@ var
 begin
      if Assigned(HTTP_Interface.th) then exit;//http déjà en cours
 
-     uHTTP_Interface.Assurer_http_PortMapper:= False;
      poolCategorie.ToutCharger;
      poolState    .ToutCharger;
      //poolProject  .ToutCharger;

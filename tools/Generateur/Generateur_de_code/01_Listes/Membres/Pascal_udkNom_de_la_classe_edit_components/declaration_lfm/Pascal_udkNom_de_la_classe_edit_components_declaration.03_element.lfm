@@ -9,7 +9,6 @@
     ParentColor = False
     ParentShowHint = False
     ShowHint = True
-    OnClick = FormClick
     Field = 'Membre.NomChamp'
   end
 

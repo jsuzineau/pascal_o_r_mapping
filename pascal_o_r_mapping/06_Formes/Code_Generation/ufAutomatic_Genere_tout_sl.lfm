@@ -7,7 +7,7 @@ inherited fAutomatic_Genere_tout_sl: TfAutomatic_Genere_tout_sl
   ClientHeight = 238
   ClientWidth = 563
   OnCreate = FormCreate
-  Position = poDesktopCenter
+  Position = poScreenCenter
   inherited pSociete: TPanel
     Width = 563
     ClientWidth = 563
