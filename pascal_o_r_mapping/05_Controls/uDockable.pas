@@ -297,6 +297,7 @@ begin
      if Valeur
      then
          begin
+         Color:= clBtnHighlight;
          with sSelection.Brush
          do
            begin
@@ -313,6 +314,7 @@ begin
          end
      else
          begin
+         Color:= clBtnFace;
          with sSelection.Brush
          do
            begin

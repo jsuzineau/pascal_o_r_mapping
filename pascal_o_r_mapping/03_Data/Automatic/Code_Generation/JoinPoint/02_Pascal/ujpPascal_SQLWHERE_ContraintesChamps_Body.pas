@@ -69,6 +69,7 @@ end;
 procedure TjpPascal_SQLWHERE_ContraintesChamps_Body.VisiteMembre(_cm: TContexteMembre);
 begin
      inherited;
+     if not cm.Belongs_to_sCle then exit;
      if Valeur = ''
      then
          Valeur

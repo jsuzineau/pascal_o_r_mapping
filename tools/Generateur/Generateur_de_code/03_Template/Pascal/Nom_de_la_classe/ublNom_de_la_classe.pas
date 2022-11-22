@@ -24,6 +24,7 @@ interface
 
 uses
     uClean,
+    ufAccueil_Erreur,
     u_sys_,
     uuStrings,
     uBatpro_StringList,
@@ -31,16 +32,18 @@ uses
 
     uBatpro_Element,
     uBatpro_Ligne,
-//Pascal_ubl_uses_ubl_pas_detail
+//Details_Pascal_ubl_uses_ubl_aggregation_pas
 
     udmDatabase,
     upool_Ancetre_Ancetre,
+    upool,
 //Pascal_ubl_uses_upool_pas_detail
 
 
     SysUtils, Classes, SqlDB, DB;
 
 type
+ TblNom_de_la_classe= class;
 //pattern_aggregation_classe_declaration
 
  { TblNom_de_la_classe }
@@ -56,11 +59,11 @@ type
   public
 //pattern_declaration_champs
 //Pascal_ubl_declaration_pas_detail
-  //Gestion de la clé
+  //Gestion de la clÃ©
   public
 //pattern_sCle_from__Declaration
     function sCle: String; override;
-  //Gestion des déconnexions
+  //Gestion des dÃ©connexions
   public
     procedure Unlink(be: TBatpro_Element); override;
 //pattern_aggregation_function_Create_Aggregation_declaration
@@ -82,7 +85,7 @@ type
   public
     constructor Create( _Nom: String= ''); override;
     destructor Destroy; override;
-  //Création d'itérateur
+  //CrÃ©ation d'itÃ©rateur
   protected
     class function Classe_Iterateur: TIterateur_Class; override;
   public
@@ -92,6 +95,8 @@ type
 
 function blNom_de_la_classe_from_sl( sl: TBatpro_StringList; Index: Integer): TblNom_de_la_classe;
 function blNom_de_la_classe_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblNom_de_la_classe;
+
+//Aggregations_Pascal_ubl_declaration_bl_pool_aggregation_pas
 
 implementation
 
@@ -195,6 +200,9 @@ end;
 
 //Pascal_ubl_implementation_pas_detail
 
+initialization
+//Details_Pascal_ubl_initialization_aggregation_pas
+finalization
 end.
 
 

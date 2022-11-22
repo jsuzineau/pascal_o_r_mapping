@@ -13,7 +13,7 @@ inherited dkNom_de_la_classe_edit: TdkNom_de_la_classe_edit
     Left = 16
     Height = 22
     Hint = 'Supprimer'
-    Top = 19
+    Top = 3
     Width = 22
     Caption = 'D'
     OnClick = sbDetruireClick
@@ -22,7 +22,7 @@ inherited dkNom_de_la_classe_edit: TdkNom_de_la_classe_edit
     Left = 203
     Height = 22
     Hint = 'Copie vers courant'
-    Top = 0
+    Top = 3
     Width = 22
     Anchors = [akTop, akRight]
     Caption = '>'

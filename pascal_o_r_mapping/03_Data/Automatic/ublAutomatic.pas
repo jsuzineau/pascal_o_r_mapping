@@ -93,10 +93,7 @@ uses
     ujpPascal_f_Execute_After_Key,
     ujpPascal_Detail_declaration,
     ujpPascal_Detail_pool_get,
-    ujpPascal_aggregation_classe_declaration,
     ujpPascal_aggregation_declaration,
-    ujpPascal_aggregation_classe_implementation,
-    ujpPascal_aggregation_Create_Aggregation_implementation,
     ujpPascal_aggregation_accesseurs_implementation,
     ujpPascal_Assure_Declaration,
     ujpPascal_Assure_Implementation,
@@ -681,10 +678,7 @@ begin
                 jpPascal_f_Execute_Before_Key,
                 jpPascal_f_Execute_After_Key,
                 jpPascal_Detail_declaration,
-                jpPascal_aggregation_classe_declaration,
                 jpPascal_aggregation_declaration,
-                jpPascal_aggregation_classe_implementation,
-                jpPascal_aggregation_Create_Aggregation_implementation,
                 jpPascal_aggregation_accesseurs_implementation,
                 jpPascal_Assure_Declaration,
                 jpPascal_Assure_Implementation,
@@ -928,6 +922,7 @@ var
    end;
    procedure Traite_Detail( s_Detail, sNomTableMembre: String);
    begin
+        if '' = s_Detail then exit;
         if '' = sNomTableMembre then sNomTableMembre:= s_Detail;
               uJoinPoint_VisiteDetail( s_Detail, sNomTableMembre, a);
         sljpfMembre     .VisiteDetail( s_Detail, sNomTableMembre);
@@ -936,6 +931,7 @@ var
    end;
    procedure Traite_Aggregation( s_Aggregation, sNomTableMembre: String);
    begin
+        if '' = s_Aggregation then exit;
         if '' = sNomTableMembre then sNomTableMembre:= s_Aggregation;
               uJoinPoint_VisiteAggregation( s_Aggregation, sNomTableMembre, a);
         sljpfMembre     .VisiteAggregation( s_Aggregation, sNomTableMembre);
@@ -1017,8 +1013,8 @@ var
            slTemplateHandler_Produit;
            //Produit;
            slLog.Add( 'aprés Produit');
-           MenuHandler                          .Add( cc.Nom_de_la_table, NbDetails = 0);
-           csMenuHandler                        .Add( cc.Nom_de_la_table, NbDetails = 0, True(*cc.CalculeSaisi_*));
+           MenuHandler                          .Add( cc.Nom_de_la_table, NbDetails <> 0);
+           csMenuHandler                        .Add( cc.Nom_de_la_table, NbDetails <> 0, True(*cc.CalculeSaisi_*));
            Angular_TypeScript_ApplicationHandler.Add( cc, NbDetails = 0);
            slApplicationJoinPointFile.VisiteClasse( cc);
            slLog.Add( 'MenuHandler.Add');

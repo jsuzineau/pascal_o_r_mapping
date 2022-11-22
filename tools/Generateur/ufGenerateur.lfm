@@ -6,5 +6,5 @@ object fGenerateur: TfGenerateur
   Caption = 'fGenerateur'
   OnCreate = FormCreate
   OnShow = FormShow
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '2.2.4.0'
 end

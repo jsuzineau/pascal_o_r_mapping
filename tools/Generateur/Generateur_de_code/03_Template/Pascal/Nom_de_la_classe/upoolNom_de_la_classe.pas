@@ -28,6 +28,7 @@ uses
 {implementation_uses_key}
 
   ublNom_de_la_classe,
+//Details_Pascal_upool_uses_ubl_aggregation_pas
 
   udmDatabase,
   udmBatpro_DataModule,
@@ -64,6 +65,7 @@ type
   //Méthode de création de test
   public
 {Test_Declaration_Key}
+//Details_Pascal_upool_charge_detail_declaration_pas
   //Création d'itérateur
   protected
     class function Classe_Iterateur: TIterateur_Class; override;
@@ -84,6 +86,7 @@ var
 function poolNom_de_la_classe: TpoolNom_de_la_classe;
 begin
      TPool.class_Get( Result, FpoolNom_de_la_classe, TpoolNom_de_la_classe);
+//Details_Pascal_upool_affectation_pool_aggregation_pas
 end;
 
 { TpoolNom_de_la_classe }
@@ -110,7 +113,6 @@ end;
 
 procedure TpoolNom_de_la_classe.To_Params( _Params: TParams);
 begin
-     inherited;
      with _Params
      do
        begin
@@ -124,6 +126,8 @@ begin
 end;
 
 {Test_Implementation_Key}
+
+//Details_Pascal_upool_charge_detail_implementation_pas
 
 class function TpoolNom_de_la_classe.Classe_Iterateur: TIterateur_Class;
 begin

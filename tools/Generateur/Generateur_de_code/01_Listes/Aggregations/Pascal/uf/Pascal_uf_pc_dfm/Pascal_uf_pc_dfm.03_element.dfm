@@ -12,7 +12,7 @@
         ClientHeight = 165
         ClientWidth = 732
         TabOrder = 0
-        HauteurLigne = 24
+        HauteurLigne = 32
         BordureLignes = True
         Zebrage = False
         Zebrage1 = 15138790

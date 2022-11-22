@@ -75,6 +75,8 @@ implementation
 constructor TdkNom_de_la_classe_edit.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
+//Pascal_udk_edit_components_Create_AjouteColonne
+//Details_Pascal_udk_edit_Create_AjouteColonne_pas
 end;
 
 destructor TdkNom_de_la_classe_edit.Destroy;
@@ -88,7 +90,8 @@ begin
 
      Affecte( blNom_de_la_classe, TblNom_de_la_classe, Value);
 
-     Champs_Affecte( blNom_de_la_classe, [{pattern_udk_edit_components_list_pas}]);
+     Champs_Affecte( blNom_de_la_classe,[ {pattern_udk_edit_components_list_pas}]);
+     Champs_Affecte( blNom_de_la_classe,[ {Details_Pascal_udk_edit_component_list_pas}]);
 end;
 
 procedure TdkNom_de_la_classe_edit.sbDetruireClick(Sender: TObject);

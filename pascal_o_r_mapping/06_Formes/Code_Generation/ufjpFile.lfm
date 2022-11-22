@@ -484,7 +484,7 @@ object fjpFile: TfjpFile
         Lines.Strings = (
           'se01'
         )
-        Options = [eoAutoIndent, eoBracketHighlight, eoGroupUndo, eoScrollPastEol, eoShowSpecialChars, eoSmartTabs, eoTabsToSpaces, eoTrimTrailingSpaces]
+        Options = [eoAutoIndent, eoBracketHighlight, eoGroupUndo, eoScrollPastEol, eoShowSpecialChars, eoSmartTabs, eoTabsToSpaces]
         VisibleSpecialChars = [vscSpace, vscTabAtFirst, vscTabAtLast]
         SelectedColor.BackPriority = 50
         SelectedColor.ForePriority = 50
@@ -1006,7 +1006,7 @@ object fjpFile: TfjpFile
         Lines.Strings = (
           'se02'
         )
-        Options = [eoAutoIndent, eoBracketHighlight, eoGroupUndo, eoScrollPastEol, eoShowSpecialChars, eoSmartTabs, eoTabsToSpaces, eoTrimTrailingSpaces]
+        Options = [eoAutoIndent, eoBracketHighlight, eoGroupUndo, eoScrollPastEol, eoShowSpecialChars, eoSmartTabs, eoTabsToSpaces]
         VisibleSpecialChars = [vscSpace, vscTabAtFirst, vscTabAtLast]
         SelectedColor.BackPriority = 50
         SelectedColor.ForePriority = 50
@@ -1539,7 +1539,7 @@ object fjpFile: TfjpFile
         Lines.Strings = (
           'se04'
         )
-        Options = [eoAutoIndent, eoBracketHighlight, eoGroupUndo, eoScrollPastEol, eoShowSpecialChars, eoSmartTabs, eoTabsToSpaces, eoTrimTrailingSpaces]
+        Options = [eoAutoIndent, eoBracketHighlight, eoGroupUndo, eoScrollPastEol, eoShowSpecialChars, eoSmartTabs, eoTabsToSpaces]
         VisibleSpecialChars = [vscSpace, vscTabAtFirst, vscTabAtLast]
         SelectedColor.BackPriority = 50
         SelectedColor.ForePriority = 50
@@ -2072,7 +2072,7 @@ object fjpFile: TfjpFile
         Lines.Strings = (
           'se05'
         )
-        Options = [eoAutoIndent, eoBracketHighlight, eoGroupUndo, eoScrollPastEol, eoShowSpecialChars, eoSmartTabs, eoTabsToSpaces, eoTrimTrailingSpaces]
+        Options = [eoAutoIndent, eoBracketHighlight, eoGroupUndo, eoScrollPastEol, eoShowSpecialChars, eoSmartTabs, eoTabsToSpaces]
         VisibleSpecialChars = [vscSpace, vscTabAtFirst, vscTabAtLast]
         SelectedColor.BackPriority = 50
         SelectedColor.ForePriority = 50
@@ -2636,7 +2636,7 @@ object fjpFile: TfjpFile
       Lines.Strings = (
         'se03'
       )
-      Options = [eoAutoIndent, eoBracketHighlight, eoGroupUndo, eoScrollPastEol, eoShowSpecialChars, eoSmartTabs, eoTabsToSpaces, eoTrimTrailingSpaces]
+      Options = [eoAutoIndent, eoBracketHighlight, eoGroupUndo, eoScrollPastEol, eoShowSpecialChars, eoSmartTabs, eoTabsToSpaces]
       VisibleSpecialChars = [vscSpace, vscTabAtFirst, vscTabAtLast]
       SelectedColor.BackPriority = 50
       SelectedColor.ForePriority = 50

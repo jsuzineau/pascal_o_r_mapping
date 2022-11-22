@@ -33,6 +33,7 @@ procedure TblClasse.Nom_de_la_classe.Detail.NomDetail_Connecte;
 begin
      if nil = blDetail.NomDetail then exit;
 
+     if Assigned(blDetail.NomDetail) then blDetail.NomDetail.ha{ajouter nom}.Ajoute(Self);
      Connect_To( FblDetail.NomDetail);
 end;
 
@@ -53,6 +54,7 @@ procedure TblClasse.Nom_de_la_classe.Detail.NomDetail_Desaggrege;
 begin
      if blDetail.NomDetail = nil then exit;
 
+     if Assigned(blDetail.NomDetail) then blDetail.NomDetail.ha{ajouter nom}.Enleve(Self);
      Unconnect_To( FblDetail.NomDetail);
 end;
 
