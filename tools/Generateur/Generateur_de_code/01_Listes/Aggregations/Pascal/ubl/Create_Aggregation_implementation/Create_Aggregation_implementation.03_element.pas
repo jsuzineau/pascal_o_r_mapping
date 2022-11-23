@@ -1,1 +1,1 @@
-if 'Aggregation.NomAggregation' = Name then P.Faible( ThaClasse.Nom_de_la_classe__Aggregation.NomAggregation, ublClasse.Nom_de_la_classe_TblAggregation.ClasseAggregation, ublClasse.Nom_de_la_classe_poolAggregation.ClasseAggregation)
+if 'Aggregation.NomAggregation' = Name then P.Faible( ThaClasse.Nom_de_la_classe__Aggregation.NomAggregation, TblAggregation.ClasseAggregation, poolAggregation.ClasseAggregation)

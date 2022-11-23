@@ -32,12 +32,12 @@ uses
 
     uBatpro_Element,
     uBatpro_Ligne,
-//Details_Pascal_ubl_uses_ubl_aggregation_pas
 
     udmDatabase,
     upool_Ancetre_Ancetre,
     upool,
-//Pascal_ubl_uses_upool_pas_detail
+
+//Aggregations_Pascal_ubl_uses_details_pas
 
 
     SysUtils, Classes, SqlDB, DB;
@@ -96,7 +96,7 @@ type
 function blNom_de_la_classe_from_sl( sl: TBatpro_StringList; Index: Integer): TblNom_de_la_classe;
 function blNom_de_la_classe_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblNom_de_la_classe;
 
-//Aggregations_Pascal_ubl_declaration_bl_pool_aggregation_pas
+//Details_Pascal_ubl_declaration_pools_aggregations_pas
 
 implementation
 
@@ -201,7 +201,6 @@ end;
 //Pascal_ubl_implementation_pas_detail
 
 initialization
-//Details_Pascal_ubl_initialization_aggregation_pas
 finalization
 end.
 

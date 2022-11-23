@@ -1,2 +1,0 @@
-    upoolDetail.ClasseDetail,
-

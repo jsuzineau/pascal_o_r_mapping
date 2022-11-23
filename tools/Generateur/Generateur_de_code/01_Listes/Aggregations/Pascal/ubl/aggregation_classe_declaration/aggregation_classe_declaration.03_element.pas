@@ -14,12 +14,15 @@
    //Chargement de tous les détails
    public
      procedure Charge; override;
+   //Suppression
+   public
+     procedure Delete_from_database; override;
    //Création d'itérateur
    protected
      class function Classe_Iterateur: TIterateur_Class; override;
    public
-     function Iterateur: TIterateur;
-     function Iterateur_Decroissant: TIterateur;
+     function Iterateur: TIterateur_Aggregation.ClasseAggregation;
+     function Iterateur_Decroissant: TIterateur_Aggregation.ClasseAggregation;
    end;
 
 

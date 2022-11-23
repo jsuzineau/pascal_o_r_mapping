@@ -20,24 +20,45 @@ begin
      inherited;
 end;
 
-class function ThaClasse.Nom_de_la_classe__Aggregation.NomAggregation.Classe_Iterateur: TIterateur_Class;
-begin
-     Result:= TIterateur;
-end;
-
 procedure ThaClasse.Nom_de_la_classe__Aggregation.NomAggregation.Charge;
 begin
-     ublClasse.Nom_de_la_classe_poolAggregation.ClasseAggregation_Charge_Classe.Nom_de_la_classe( blClasse.Nom_de_la_classe.id);
+     poolAggregation.ClasseAggregation.Charge_Classe.Nom_de_la_classe( blClasse.Nom_de_la_classe.id);
 end;
 
-function ThaClasse.Nom_de_la_classe__Aggregation.NomAggregation.Iterateur: TIterateur;
+procedure ThaClasse.Nom_de_la_classe__Aggregation.NomAggregation.Delete_from_database;
+var
+   I: TIterateur_Aggregation.ClasseAggregation;
+   bl: TblAggregation.ClasseAggregation;
 begin
-     Result:= Iterateur_interne;
+     I:= Iterateur_Decroissant;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( bl) then Continue;
+
+          if bl.Delete_from_database
+          then
+              I.Supprime_courant;
+          end;
+     finally
+            FreeAndNil( I);
+            end;
 end;
 
-function ThaClasse.Nom_de_la_classe__Aggregation.NomAggregation.Iterateur_Decroissant: TIterateur;
+class function ThaClasse.Nom_de_la_classe__Aggregation.NomAggregation.Classe_Iterateur: TIterateur_Class;
 begin
-     Result:= Iterateur_interne_Decroissant;
+     Result:= TIterateur_Aggregation.ClasseAggregation;
+end;
+
+function ThaClasse.Nom_de_la_classe__Aggregation.NomAggregation.Iterateur: TIterateur_Aggregation.ClasseAggregation;
+begin
+     Result:= TIterateur_Aggregation.ClasseAggregation(Iterateur_interne);
+end;
+
+function ThaClasse.Nom_de_la_classe__Aggregation.NomAggregation.Iterateur_Decroissant: TIterateur_Aggregation.ClasseAggregation;
+begin
+     Result:= TIterateur_Aggregation.ClasseAggregation(Iterateur_interne_Decroissant);
 end;
 
 

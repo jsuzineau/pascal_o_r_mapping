@@ -11,7 +11,7 @@ begin
      Detail.NomDetail_Aggrege;
 end;
 
-procedure TblClasse.Nom_de_la_classe.SetblDetail.NomDetail(const Value: TblDetail.ClasseDetail);
+procedure TblClasse.Nom_de_la_classe.SetblDetail.NomDetail(const Value: TBatpro_Ligne);
 begin
      if FblDetail.NomDetail = Value then exit;
 
@@ -33,15 +33,17 @@ procedure TblClasse.Nom_de_la_classe.Detail.NomDetail_Connecte;
 begin
      if nil = blDetail.NomDetail then exit;
 
-     if Assigned(blDetail.NomDetail) then blDetail.NomDetail.ha{ajouter nom}.Ajoute(Self);
+     if Assigned(blDetail.NomDetail) 
+     then 
+         blDetail.NomDetail.Aggregations.by_Name[ #vérifier_nom_aggregation'Classe.Nom_de_la_classe'].Ajoute(Self);
      Connect_To( FblDetail.NomDetail);
 end;
 
 procedure TblClasse.Nom_de_la_classe.Detail.NomDetail_Aggrege;
 var
-   blDetail.NomDetail_New: TblDetail.ClasseDetail;
-begin
-     blDetail.NomDetail_New:= poolDetail.ClasseDetail.Get( idDetail.NomDetail);
+   blDetail.NomDetail_New: TBatpro_Ligne;
+begin                                                        
+     ublClasse.Nom_de_la_classe_poolDetail.ClasseDetail.Get_Interne_from_id( idDetail.NomDetail, blDetail.NomDetail_New);
      if blDetail.NomDetail = blDetail.NomDetail_New then exit;
 
      Detail.NomDetail_Desaggrege;
@@ -54,7 +56,9 @@ procedure TblClasse.Nom_de_la_classe.Detail.NomDetail_Desaggrege;
 begin
      if blDetail.NomDetail = nil then exit;
 
-     if Assigned(blDetail.NomDetail) then blDetail.NomDetail.ha{ajouter nom}.Enleve(Self);
+     if Assigned(blDetail.NomDetail) 
+     then 
+         blDetail.NomDetail.Aggregations.by_Name[ #vérifier_nom_aggregation'Classe.Nom_de_la_classe'].Enleve(Self);
      Unconnect_To( FblDetail.NomDetail);
 end;
 

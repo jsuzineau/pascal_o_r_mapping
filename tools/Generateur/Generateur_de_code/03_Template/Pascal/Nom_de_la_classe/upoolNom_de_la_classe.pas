@@ -27,13 +27,13 @@ uses
   uBatpro_StringList,
 {implementation_uses_key}
 
-  ublNom_de_la_classe,
-//Details_Pascal_upool_uses_ubl_aggregation_pas
-
   udmDatabase,
   udmBatpro_DataModule,
   uPool,
-  
+
+  ublNom_de_la_classe,
+
+//Aggregations_Pascal_upool_uses_details_pas
 
   uhfNom_de_la_classe,
   SysUtils, Classes, DB, SqlDB;
@@ -52,6 +52,9 @@ type
   //Accés général
   public
     function Get( _id: integer): TblNom_de_la_classe;
+  //Nouveau
+  public
+    function Nouveau: TblNom_de_la_classe;
   //Accés par clé
   protected
     procedure To_Params( _Params: TParams); override;
@@ -86,7 +89,7 @@ var
 function poolNom_de_la_classe: TpoolNom_de_la_classe;
 begin
      TPool.class_Get( Result, FpoolNom_de_la_classe, TpoolNom_de_la_classe);
-//Details_Pascal_upool_affectation_pool_aggregation_pas
+//Aggregations_Pascal_upool_affectation_pool_details_pas
 end;
 
 { TpoolNom_de_la_classe }
@@ -105,6 +108,11 @@ end;
 function TpoolNom_de_la_classe.Get( _id: integer): TblNom_de_la_classe;
 begin
      Get_Interne_from_id( _id, Result);
+end;
+
+function TpoolNom_de_la_classe.Nouveau: TblNom_de_la_classe;
+begin
+     Nouveau_Base( Result);
 end;
 
 //pattern_Get_by_Cle_Implementation
