@@ -66,9 +66,18 @@ procedure TblClasse.Nom_de_la_classe.Detail.NomDetail_Change;
 begin
      if Assigned( FblDetail.NomDetail)
      then
-         Detail.NomDetail:= FblDetail.NomDetail.GetLibelle
+         FDetail.NomDetail:= FblDetail.NomDetail.GetLibelle
      else
-         Detail.NomDetail:= '';
+         FDetail.NomDetail:= '';
+end;
+
+function TblClasse.Nom_de_la_classe.Detail.NomDetail: String;
+begin
+     if Assigned( FblDetail.NomDetail)
+     then
+         Result:= FblDetail.NomDetail.GetLibelle
+     else
+         Result:= '';
 end;
 
 

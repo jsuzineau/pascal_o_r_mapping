@@ -80,6 +80,7 @@ type
  TDockable
  =
   class( TForm)
+   sBackground: TShape;
     sSelection: TBatpro_Shape;
     procedure FormClick(Sender: TObject);
     procedure sSelectionMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -102,6 +103,9 @@ type
     procedure SetObjet( const Value: TObject); virtual;
   public
     property Objet: TObject read FObjet write SetObjet;
+  //Couleur
+  public
+    Couleur: TColor;
   //Etat de validité du dockable
   //(créé pour fiche travail: si valide on peut fermer)
   protected
@@ -230,6 +234,7 @@ begin
      DockableScrollbox_Selection:= nil;
      DockableScrollbox_Validation:= nil;
      DockableScrollBox_Traite_Message:= nil;
+     Couleur:= clBtnFace;
 end;
 
 destructor TDockable.Destroy;
@@ -252,6 +257,8 @@ end;
 procedure TDockable.SetObjet( const Value: TObject);
 begin
      FObjet:= Value;
+     sBackground.Brush.Color:= Couleur;
+     //sSelection .Brush.Color:= Color;
 end;
 
 procedure TDockable.SetValide(const Value: Boolean);
@@ -314,7 +321,7 @@ begin
          end
      else
          begin
-         Color:= clBtnFace;
+         Color:= Couleur;
          with sSelection.Brush
          do
            begin

@@ -5,6 +5,10 @@
     Width = 80
     Anchors = [akTop, akRight]
     AutoSize = False
+    Font.Color = clWindowText
+    Font.Height = -32
+    Font.Name = 'MS Sans Serif'
+    Font.Style = [fsBold]
     Text = 'ceMembre.NomChamp'
     ParentColor = False
     ParentShowHint = False

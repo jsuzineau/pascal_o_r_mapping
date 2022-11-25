@@ -1043,8 +1043,11 @@ end;
 
 procedure TBatpro_Ligne.sCle_Change;
 begin
-     if pool = nil then exit;
-     pool.sCle_Change( Self);
+     if Assigned( pool)
+     then
+         pool.sCle_Change( Self);
+
+     Aggregations.sCle_Change( Self);
 end;
 
 class procedure TBatpro_Ligne.GED_Get_MotsCles_Nom( MotsCles: TMotsCles);

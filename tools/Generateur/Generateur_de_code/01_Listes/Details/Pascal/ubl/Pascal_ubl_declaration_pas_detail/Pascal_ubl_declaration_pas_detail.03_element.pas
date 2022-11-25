@@ -14,5 +14,5 @@
     cidDetail.NomDetail: TChamp;
     property idDetail.NomDetail: Integer read FidDetail.NomDetail write SetidDetail.NomDetail;
     property blDetail.NomDetail: TBatpro_Ligne read FblDetail.NomDetail write SetblDetail.NomDetail;
-    property Detail.NomDetail: String read FDetail.NomDetail;
+    function Detail.NomDetail: String;
 

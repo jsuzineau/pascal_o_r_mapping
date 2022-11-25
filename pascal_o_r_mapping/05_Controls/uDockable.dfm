@@ -1,7 +1,7 @@
 object Dockable: TDockable
-  Left = 260
+  Left = 573
   Height = 640
-  Top = 56
+  Top = 116
   Width = 764
   Caption = 'Dockable'
   ClientHeight = 640
@@ -16,6 +16,15 @@ object Dockable: TDockable
   OnMouseWheelDown = FormMouseWheelDown
   OnMouseWheelUp = FormMouseWheelUp
   LCLVersion = '2.2.4.0'
+  object sBackground: TShape
+    Left = 0
+    Height = 640
+    Top = 0
+    Width = 764
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    Brush.Color = clBtnFace
+    Pen.Style = psClear
+  end
   object sSelection: TBatpro_Shape
     Left = 0
     Height = 640

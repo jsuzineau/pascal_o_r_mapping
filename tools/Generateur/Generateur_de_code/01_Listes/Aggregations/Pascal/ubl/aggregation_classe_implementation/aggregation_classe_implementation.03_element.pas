@@ -37,9 +37,7 @@ begin
           begin
           if I.not_Suivant( bl) then Continue;
 
-          if bl.Delete_from_database
-          then
-              I.Supprime_courant;
+          bl.Delete_from_database;//enlève en même temps de cette liste
           end;
      finally
             FreeAndNil( I);

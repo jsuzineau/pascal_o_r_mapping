@@ -1285,6 +1285,9 @@ type
   //Listing des champs pour déboguage
   public
     function Listing( Indentation: String): String; virtual;
+  //Gestion de la clé
+  public
+    procedure sCle_Change( _bl: TBatpro_Element);
   end;
 
  ThAggregation_Create_Params
@@ -1360,6 +1363,9 @@ type
   //Listing des champs pour déboguage
   public
     function Listing( Indentation: String): String;
+  //Gestion de la clé
+  public
+    procedure sCle_Change( _bl: TBatpro_Element);
   end;
 
 function hAggregation_from_sl( sl: TStringList; Index: Integer): ThAggregation;
@@ -7066,6 +7072,17 @@ begin
        end;
 end;
 
+procedure ThAggregation.sCle_Change( _bl: TBatpro_Element);
+var
+   i: Integer;
+begin
+     if _bl = nil                  then exit;
+     i:= IndexOfObject( _bl);
+     if i <> -1
+     then
+         Strings[i]:= _bl.sCle;
+end;
+
 procedure ThAggregation.Ajoute_slCharge;
 var
    be: TBatpro_Element;
@@ -7306,6 +7323,21 @@ begin
 
        Formate_Liste( Result, #13#10, Indentation+sl[I]);
        Formate_Liste( Result, #13#10, sha);
+       end;
+end;
+
+procedure TAggregations.sCle_Change(_bl: TBatpro_Element);
+var
+   I: Integer;
+   ha: ThAggregation;
+begin
+     for I:= 0 to sl.Count -1
+     do
+       begin
+       ha:= hAggregation_from_sl( sl, I);
+       if ha = nil then continue;
+
+       ha.sCle_Change( _bl);
        end;
 end;
 

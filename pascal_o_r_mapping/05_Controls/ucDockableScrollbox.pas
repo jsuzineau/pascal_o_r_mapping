@@ -1037,9 +1037,9 @@ begin
      then
          if Odd( I)
          then
-             dk.Color:= Zebrage1
+             dk.Couleur:= Zebrage1
          else
-             dk.Color:= Zebrage2;
+             dk.Couleur:= Zebrage2;
 
      dk.Traite_LectureSeule( FLectureSeule);
      Result:= dk;

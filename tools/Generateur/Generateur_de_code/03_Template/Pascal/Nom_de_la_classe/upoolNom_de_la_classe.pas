@@ -59,9 +59,9 @@ type
   protected
     procedure To_Params( _Params: TParams); override;
   public
-  //pattern_Declaration_cle
-  //pattern_Get_by_Cle_Declaration
-  //pattern_Assure_Declaration
+//pattern_Declaration_cle
+//pattern_Get_by_Cle_Declaration
+//pattern_Assure_Declaration
   //Indépendance par rapport au SGBD Informix ou MySQL
   protected
     function SQLWHERE_ContraintesChamps: String; override;

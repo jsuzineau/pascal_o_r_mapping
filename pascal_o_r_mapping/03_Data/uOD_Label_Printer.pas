@@ -227,12 +227,17 @@ var
         for i:= Low(frames) to High(frames)
         do
           begin
+          frame:= frames[i];
+
           sl_index:= sl_index_start + i;
           sl_index_stop:= sl_index;//réaffecté, pas top
           bl:= Batpro_Ligne_from_sl( sl, sl_index);
-          if bl = nil then continue;
-
-          frame:= frames[i];
+          if bl = nil
+          then
+              begin
+              RemoveChilds( frame);
+              continue;
+              end;
 
           cirTEXT_DATABASE_DISPLAY
           :=
