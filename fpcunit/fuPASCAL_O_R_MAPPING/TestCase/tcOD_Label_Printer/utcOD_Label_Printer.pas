@@ -203,7 +203,7 @@ procedure TtcOD_Label_Printer.TestHookUp;
 var
    olp: TOD_Label_Printer;
 begin
-     olp:= TOD_Label_Printer.Create( 'tcOpenDocument_Etiquettes.odt', sl);
+     olp:= TOD_Label_Printer.Create( '','tcOpenDocument_Etiquettes.odt', sl);
      try
         olp.Open_ODT;
         //olp.Open_Content;

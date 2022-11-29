@@ -1145,6 +1145,8 @@ procedure TDockableScrollbox.TraiteSelection(Sender: TObject);
 var
    iDockable: Integer;
 begin
+     if Selection = Sender then exit;
+
      if Assigned( Selection)
      then
          Selection.Affiche_Selection( False);

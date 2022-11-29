@@ -20,19 +20,21 @@ type
      class
      //Gestion du cycle de vie
      public
-       constructor Create( _TemplateName: String; _sl: TBatpro_StringList; _sl_index_start: Integer=0);
+       constructor Create( _NomPage, _TemplateName: String; _sl: TBatpro_StringList; _sl_index_start: Integer=0);
        destructor Destroy; override;
      //Champs
      public
-       TemplateName: String;
+       Name, TemplateName: String;
        sl: TBatpro_StringList;
        sl_index_start: Integer;
        sl_index_stop : Integer;
+       NomPage: String;
        NomODT: String;
        od: TOpenDocument;
      //Méthodes
      private
        procedure Execute;
+       procedure Rename( _fin_nom_ODT: String);
      public
        procedure Open_ODT;
        procedure Open_Content;
@@ -49,11 +51,11 @@ type
      class
      //Gestion du cycle de vie
      public
-       constructor Create( _TemplateName: String; _sl: TBatpro_StringList);
+       constructor Create( _Name, _TemplateName: String; _sl: TBatpro_StringList);
        destructor Destroy; override;
      //Champs
      public
-       TemplateName: String;
+       Name, TemplateName: String;
        sl: TBatpro_StringList;
        l: TOD_Label_Printer_Page_List;
      //Méthodes
@@ -70,10 +72,11 @@ implementation
 
 { TOD_Label_Printer }
 
-constructor TOD_Label_Printer.Create( _TemplateName: String; _sl: TBatpro_StringList);
+constructor TOD_Label_Printer.Create( _Name, _TemplateName: String; _sl: TBatpro_StringList);
 begin
-     TemplateName  := _TemplateName  ;
-     sl            := _sl            ;
+     Name        := _Name        ;
+     TemplateName:= _TemplateName;
+     sl          := _sl          ;
 
      l:= TOD_Label_Printer_Page_List.Create;
      Execute;
@@ -89,15 +92,25 @@ procedure TOD_Label_Printer.Execute;
 var
    sl_index_start: Integer;
    olpp: TOD_Label_Printer_Page;
+   NomPage: String;
 begin
      sl_index_start:=0;
      while sl_index_start < sl.Count
      do
        begin
-       olpp:= TOD_Label_Printer_Page.Create( TemplateName, sl, sl_index_start);
+       if '' = Name
+       then
+           NomPage:= ''
+       else
+           NomPage:= Name+'_'+IntToStr(l.Count+1);
+       olpp:= TOD_Label_Printer_Page.Create( NomPage, TemplateName, sl, sl_index_start);
        l.Add( olpp);
        sl_index_start:= olpp.sl_index_stop+1;
        end;
+
+     for olpp in l
+     do
+       olpp.Rename('_sur_'+IntToStr(l.Count)+'.odt');
 end;
 
 procedure TOD_Label_Printer.Open_ODT;
@@ -138,16 +151,19 @@ end;
 
 { TOD_Label_Printer_Page }
 
-constructor TOD_Label_Printer_Page.Create( _TemplateName  : String;
-                                      _sl            : TBatpro_StringList;
-                                      _sl_index_start: Integer);
+constructor TOD_Label_Printer_Page.Create( _NomPage,
+                                           _TemplateName: String;
+                                           _sl: TBatpro_StringList;
+                                           _sl_index_start: Integer);
 begin
+     NomPage:= _NomPage;
      TemplateName  := _TemplateName  ;
      sl            := _sl            ;
      sl_index_start:= _sl_index_start;
 
      NomODT:= OD_Temporaire.Nouveau_ODT( 'LABEL');
      CopyFile( TemplateName, NomODT);
+
      od:= TOpenDocument.Create( NomODT);
      Execute;
 end;
@@ -316,6 +332,17 @@ begin
             end;
 
      od.Save;
+end;
+
+procedure TOD_Label_Printer_Page.Rename( _fin_nom_ODT: String);
+var
+   NewName: String;
+begin
+     if '' = NomPage then exit;
+
+     NewName:= NomPage+_fin_nom_ODT;
+     RenameFile( NomODT, NewName);
+     NomODT:= NewName;
 end;
 
 procedure TOD_Label_Printer_Page.Open_ODT;

@@ -101,6 +101,7 @@ type
   protected
     FObjet: TObject;
     procedure SetObjet( const Value: TObject); virtual;
+    procedure SetBackgroundColor( _Color: TColor);
   public
     property Objet: TObject read FObjet write SetObjet;
   //Couleur
@@ -257,8 +258,12 @@ end;
 procedure TDockable.SetObjet( const Value: TObject);
 begin
      FObjet:= Value;
-     sBackground.Brush.Color:= Couleur;
-     //sSelection .Brush.Color:= Color;
+     SetBackgroundColor( Couleur);
+end;
+
+procedure TDockable.SetBackgroundColor( _Color: TColor);
+begin
+     sBackground.Brush.Color:= _Color;
 end;
 
 procedure TDockable.SetValide(const Value: Boolean);
