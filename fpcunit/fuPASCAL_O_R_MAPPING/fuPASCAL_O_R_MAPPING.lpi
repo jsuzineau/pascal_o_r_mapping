@@ -107,7 +107,7 @@
         <PackageName Value="FCL"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="23">
+    <Units Count="24">
       <Unit0>
         <Filename Value="fuPASCAL_O_R_MAPPING.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -211,6 +211,12 @@
         <Filename Value="TestCase/tcOD_Label_Printer/utcOD_Label_Printer.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit22>
+      <Unit23>
+        <Filename Value="TestCase/tcDockableScrollbox/uftcDockableScrollbox.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ftcDockableScrollbox"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit23>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
