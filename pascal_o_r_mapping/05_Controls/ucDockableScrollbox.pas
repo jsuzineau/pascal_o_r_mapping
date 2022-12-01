@@ -93,6 +93,10 @@ type
   //Classe des dockables
   public
     Classe_dockable: TDockableClass;
+  //Capacité: nombre maxi de dockables pouvant être affichés par le Scrollbox
+  public
+    Capacite: Integer;
+    procedure Calcul_Capacite;
   //Liste d'objets
   private
     Fsl: TBatpro_StringList;
@@ -402,6 +406,7 @@ procedure TDockableScrollbox.Loaded;
 begin
      inherited;
      p.OnDblClick:= OnDblClick;
+     Calcul_Capacite;
 end;
 
 procedure TDockableScrollbox.Ajoute_Surtitre( _Surtitre: TDockable_Surtitre);
@@ -1414,9 +1419,15 @@ begin
      s.PageSize:= slDockable_Count;
 end;
 
+procedure TDockableScrollbox.Calcul_Capacite;
+begin
+     Capacite:= p.ClientHeight div HauteurLigne;
+end;
+
 procedure TDockableScrollbox.DoOnResize;
 begin
      inherited;
+     Calcul_Capacite;
      if not Setsl_running
      then
          Ajuste_Nombre_Dockables;
