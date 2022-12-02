@@ -7187,8 +7187,12 @@ begin
          begin
          Create_Aggregation( Name, Create_Params);
          Result:= Create_Params.Instancie;
-         Result.Nom:= Name;
-         sl.AddObject( Name, Result);
+         if Assigned( Result)
+         then
+             begin
+             Result.Nom:= Name;
+             sl.AddObject( Name, Result);
+             end;
          end;
 end;
 
