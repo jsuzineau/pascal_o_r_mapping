@@ -1,0 +1,61 @@
+object fPatternMainMenu: TfPatternMainMenu
+  Left = 372
+  Height = 240
+  Top = 293
+  Width = 320
+  Caption = 'fPatternMainMenu'
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  OnCreate = FormCreate
+  LCLVersion = '2.2.4.0'
+  object mm: TMainMenu
+    Left = 88
+    Top = 96
+    object miBase: TMenuItem
+      Caption = 'Base'
+      object Annee: TMenuItem
+        Caption = 'Annee'
+        OnClick = AnneeClick
+      end
+      object Client: TMenuItem
+        Caption = 'Client'
+        OnClick = ClientClick
+      end
+      object Mois: TMenuItem
+        Caption = 'Mois'
+        OnClick = MoisClick
+      end
+      object miVide: TMenuItem
+        Caption = 'Vide'
+      end
+    end
+    object miRelations: TMenuItem
+      Caption = 'Relations'
+      object Facture: TMenuItem
+        Caption = 'Facture'
+        OnClick = FactureClick
+      end
+      object Piece: TMenuItem
+        Caption = 'Piece'
+        OnClick = PieceClick
+      end
+      object miRelationVide: TMenuItem
+        Caption = 'Vide'
+      end
+    end
+    object miBaseCalcule: TMenuItem
+      Caption = 'Base, calculé'
+      object miBaseCalculeVide: TMenuItem
+        Caption = 'Vide'
+      end
+    end
+    object miRelationsCalcule: TMenuItem
+      Caption = 'Relations, Calculé'
+      object miRelationsCalculeVide: TMenuItem
+        Caption = 'Vide'
+      end
+    end
+  end
+end

@@ -120,6 +120,7 @@ type
     procedure Select( var bl);
   protected
     procedure Ajoute( var bl); //passé de private à protected pour TpoolJSON
+    procedure Load_1( _SQL: String; _Params: TParams; var _bl);
   public
     Select_Enabled: Boolean;
   //Gestion de l'insertion
@@ -788,6 +789,30 @@ begin
             jsdcSELECT.Close;
             end;
 
+     pChange.Publie;
+end;
+
+procedure TPool.Load_1(_SQL: String; _Params: TParams; var _bl);
+begin
+     jsdcLoad.SQL:= _SQL;
+     if Assigned( _Params)
+     then
+         jsdcLoad.Params.Assign( _Params);
+
+     TBatpro_Ligne( _bl):= nil;
+
+     try
+        Chrono.Stop( Name+'.Load_1( '+jsdcLoad.Name+') avant exécution');
+        if not jsdcLoad.RefreshQuery then exit;
+        Chrono.Stop( Name+'.Load_1( '+jsdcLoad.Name+') aprés exécution');
+
+        if jsdcLoad.IsEmpty then exit;
+
+        TBatpro_Ligne( _bl):= Cree_Element( jsdcLoad);
+        Ajoute( _bl);
+     finally
+            jsdcLoad.Close;
+            end;
      pChange.Publie;
 end;
 

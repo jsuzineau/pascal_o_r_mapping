@@ -1,0 +1,16 @@
+  <div *ngIf="e">
+    <table>
+      <!-- Angular_TypeScript_html_editeurs_champs -->
+      <tr>
+        <td>
+          <span (click)="onClick( e)" class="Nom_de_la_classe_Valider">
+            <button *ngIf="e.modifie" (click)='e.Valide()'>Valider</button>
+          </span>
+        </td>
+      </tr>
+    </table>
+    <!-- <div class="Nom_de_la_classes_Nouveau">
+      <button (click)='Nom_de_la_classes_Nouveau()'>Nouveau</button>
+    </div> -->
+  </div>
+

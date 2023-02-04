@@ -34,6 +34,8 @@ type
   //persistance
   private
     NomFichier: String;
+    procedure FromINI;
+    procedure ToINI;
   end;
 
 function fAutomatic_Genere_tout_sl: TfAutomatic_Genere_tout_sl;
@@ -59,19 +61,32 @@ begin
      NomFichier:= ChangeFileExt( EXE_INI.FileName, ClassName+'.txt');
 end;
 
-procedure TfAutomatic_Genere_tout_sl.bFromINIClick(Sender: TObject);
+procedure TfAutomatic_Genere_tout_sl.FromINI;
 begin
      m.Lines.LoadFromFile( NomFichier);
 end;
 
-procedure TfAutomatic_Genere_tout_sl.bToINIClick(Sender: TObject);
+procedure TfAutomatic_Genere_tout_sl.ToINI;
 begin
      m.Lines.SaveToFile( NomFichier);
 end;
 
+procedure TfAutomatic_Genere_tout_sl.bFromINIClick(Sender: TObject);
+begin
+     FromINI;
+end;
+
+procedure TfAutomatic_Genere_tout_sl.bToINIClick(Sender: TObject);
+begin
+     ToINI;
+end;
+
 function TfAutomatic_Genere_tout_sl.PreExecute: Boolean;
 begin
-     m.Lines.Text:= s.Text;
+     FromINI;
+     if '' = m.Lines.Text
+     then
+         m.Lines.Text:= s.Text;
      Result:=inherited PreExecute;
 end;
 

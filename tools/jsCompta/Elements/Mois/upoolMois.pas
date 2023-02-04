@@ -1,0 +1,172 @@
+unit upoolMois;
+{                                                                               |
+    Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
+            http://www.mars42.com                                               |
+                                                                                |
+    Copyright 2019 Jean SUZINEAU - MARS42                                       |
+                                                                                |
+    This program is free software: you can redistribute it and/or modify        |
+    it under the terms of the GNU Lesser General Public License as published by |
+    the Free Software Foundation, either version 3 of the License, or           |
+    (at your option) any later version.                                         |
+                                                                                |
+    This program is distributed in the hope that it will be useful,             |
+    but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    GNU Lesser General Public License for more details.                         |
+                                                                                |
+    You should have received a copy of the GNU Lesser General Public License    |
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.       |
+                                                                                |
+|                                                                               }
+
+interface
+
+uses
+  uClean,
+  uBatpro_StringList,
+{implementation_uses_key}
+
+  udmDatabase,
+  udmBatpro_DataModule,
+  uPool,
+
+  ublMois,
+
+//Aggregations_Pascal_upool_uses_details_pas
+
+  uhfMois,
+  SysUtils, Classes, DB, SqlDB;
+
+type
+
+ { TpoolMois }
+
+ TpoolMois
+ =
+  class( TPool)
+    procedure DataModuleCreate(Sender: TObject);  override;
+  //Filtre
+  public
+    hfMois: ThfMois;
+  //Accés général
+  public
+    function Get( _id: integer): TblMois;
+  //Nouveau
+  public
+    function Nouveau: TblMois;
+  //Accés par clé
+  protected
+    procedure To_Params( _Params: TParams); override;
+  public
+//pattern_Declaration_cle
+//pattern_Get_by_Cle_Declaration
+//pattern_Assure_Declaration
+  //Indépendance par rapport au SGBD Informix ou MySQL
+  protected
+    function SQLWHERE_ContraintesChamps: String; override;
+  //Méthode de création de test
+  public
+    function Test( _Annee: Integer;  _Mois: Integer;  _Montant: Double;  _Declare: Double;  _URSSAF: Double):Integer;
+
+//Details_Pascal_upool_charge_detail_declaration_pas
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_Mois;
+    function Iterateur_Decroissant: TIterateur_Mois;
+  end;
+
+function poolMois: TpoolMois;
+
+implementation
+
+
+
+var
+   FpoolMois: TpoolMois;
+
+function poolMois: TpoolMois;
+begin
+     TPool.class_Get( Result, FpoolMois, TpoolMois);
+//Aggregations_Pascal_upool_affectation_pool_details_pas
+end;
+
+{ TpoolMois }
+
+procedure TpoolMois.DataModuleCreate(Sender: TObject);
+begin
+     NomTable:= 'Mois';
+     Classe_Elements:= TblMois;
+     Classe_Filtre:= ThfMois;
+
+     inherited;
+
+     hfMois:= hf as ThfMois;
+end;
+
+function TpoolMois.Get( _id: integer): TblMois;
+begin
+     Get_Interne_from_id( _id, Result);
+end;
+
+function TpoolMois.Nouveau: TblMois;
+begin
+     Nouveau_Base( Result);
+end;
+
+//pattern_Get_by_Cle_Implementation
+
+//pattern_Assure_Implementation
+
+procedure TpoolMois.To_Params( _Params: TParams);
+begin
+     with _Params
+     do
+       begin
+//pattern_To_SQLQuery_Params_Body
+       end;
+end;
+
+function TpoolMois.SQLWHERE_ContraintesChamps: String;
+begin
+//pattern_SQLWHERE_ContraintesChamps_Body
+end;
+
+function TpoolMois.Test( _Annee: Integer;  _Mois: Integer;  _Montant: Double;  _Declare: Double;  _URSSAF: Double):Integer;
+var                                                 
+   bl: TblMois;                          
+begin                                               
+          Nouveau_Base( bl);                        
+       bl.Annee          := _Annee        ;
+       bl.Mois           := _Mois         ;
+       bl.Montant        := _Montant      ;
+       bl.Declare        := _Declare      ;
+       bl.URSSAF         := _URSSAF       ;
+     bl.Save_to_database;                            
+     Result:= bl.id;                                 
+end;                                                 
+
+
+//Details_Pascal_upool_charge_detail_implementation_pas
+
+class function TpoolMois.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Mois;
+end;
+
+function TpoolMois.Iterateur: TIterateur_Mois;
+begin
+     Result:= TIterateur_Mois( Iterateur_interne);
+end;
+
+function TpoolMois.Iterateur_Decroissant: TIterateur_Mois;
+begin
+     Result:= TIterateur_Mois( Iterateur_interne_Decroissant);
+end;
+
+initialization
+finalization
+              TPool.class_Destroy( FpoolMois);
+end.

@@ -1,0 +1,175 @@
+inherited dkMois_display: TdkMois_display
+  Left = 704
+  Height = 45
+  Top = 420
+  Width = 226
+  Caption = 'dkMois_display'
+  ClientHeight = 45
+  ClientWidth = 226
+  inherited sSelection: TBatpro_Shape 
+    Height = 45
+  end
+  object clAnnee: TChamp_Label
+    Left = 144
+    Height = 13
+    Top = 2
+    Width = 57
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Caption = 'clAnnee'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'Annee'
+  end
+
+  object clMois: TChamp_Label
+    Left = 144
+    Height = 13
+    Top = 2
+    Width = 57
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Caption = 'clMois'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'Mois'
+  end
+
+  object clMontant: TChamp_Label
+    Left = 144
+    Height = 13
+    Top = 2
+    Width = 57
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Caption = 'clMontant'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'Montant'
+  end
+
+  object clDeclare: TChamp_Label
+    Left = 144
+    Height = 13
+    Top = 2
+    Width = 57
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Caption = 'clDeclare'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'Declare'
+  end
+
+  object clURSSAF: TChamp_Label
+    Left = 144
+    Height = 13
+    Top = 2
+    Width = 57
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Caption = 'clURSSAF'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'URSSAF'
+  end
+
+  object ceAnnee: TChamp_Edit
+    Left = 119
+    Height = 21
+    Top = 4
+    Width = 80
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Text = 'ceAnnee'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    Field = 'Annee'
+  end
+
+  object ceMois: TChamp_Edit
+    Left = 119
+    Height = 21
+    Top = 4
+    Width = 80
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Text = 'ceMois'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    Field = 'Mois'
+  end
+
+  object ceMontant: TChamp_Edit
+    Left = 119
+    Height = 21
+    Top = 4
+    Width = 80
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Text = 'ceMontant'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    Field = 'Montant'
+  end
+
+  object ceDeclare: TChamp_Edit
+    Left = 119
+    Height = 21
+    Top = 4
+    Width = 80
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Text = 'ceDeclare'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    Field = 'Declare'
+  end
+
+  object ceURSSAF: TChamp_Edit
+    Left = 119
+    Height = 21
+    Top = 4
+    Width = 80
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Text = 'ceURSSAF'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    Field = 'URSSAF'
+  end
+  object sbDetruire: TSpeedButton[2]
+    Left = 16
+    Height = 22
+    Hint = 'Supprimer'
+    Top = 19
+    Width = 22
+    Caption = 'D'
+    OnClick = sbDetruireClick
+  end
+  object sbCopy_to_current: TSpeedButton[4]
+    Left = 203
+    Height = 22
+    Hint = 'Copie vers courant'
+    Top = 0
+    Width = 22
+    Anchors = [akTop, akRight]
+    Caption = '>'
+    OnClick = sbCopy_to_currentClick
+  end
+end

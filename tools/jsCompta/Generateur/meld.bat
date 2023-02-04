@@ -1,0 +1,1 @@
+E:\meld\meld.exe E:\01_Projets\01_pascal_o_r_mapping\tools\jsCompta\Generateur\Generateur_de_code\06_Resultat\Pascal E:\01_Projets\01_pascal_o_r_mapping\tools\jsCompta\Elements
