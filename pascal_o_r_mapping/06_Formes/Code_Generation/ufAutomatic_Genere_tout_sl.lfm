@@ -32,7 +32,7 @@ inherited fAutomatic_Genere_tout_sl: TfAutomatic_Genere_tout_sl
       Left = 330
     end
     object bFromINI: TButton[1]
-      Left = 8
+      Left = 104
       Height = 25
       Top = 8
       Width = 75
@@ -41,13 +41,22 @@ inherited fAutomatic_Genere_tout_sl: TfAutomatic_Genere_tout_sl
       TabOrder = 1
     end
     object bToINI: TButton[2]
-      Left = 96
+      Left = 184
       Height = 25
       Top = 8
       Width = 75
       Caption = 'bToINI'
       OnClick = bToINIClick
       TabOrder = 2
+    end
+    object bFromDatabase: TButton[3]
+      Left = 8
+      Height = 25
+      Top = 8
+      Width = 91
+      Caption = 'bFromDatabase'
+      OnClick = bFromDatabaseClick
+      TabOrder = 3
     end
   end
   inherited StatusBar1: TStatusBar

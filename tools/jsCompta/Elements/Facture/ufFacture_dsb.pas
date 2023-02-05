@@ -70,10 +70,10 @@ type
     procedure bSupprimerClick(Sender: TObject);
     procedure bImprimerClick(Sender: TObject);
   private
-    { Déclarations privées }
+    { DÃ©clarations privÃ©es }
     procedure NbTotal_Change;
   public
-    { Déclarations publiques }
+    { DÃ©clarations publiques }
     pool: TpoolFacture;
     EntreeLigneColonne_: Boolean;
     function Execute: Boolean;
@@ -147,7 +147,7 @@ end;
 
 procedure TfFacture_dsb._from_Facture;
 begin
-     Champs_Affecte( blFacture,[ ]);//laissé vide pour l'instant
+     Champs_Affecte( blFacture,[ ]);//laissÃ© vide pour l'instant
 
      blFacture.haPiece.Charge;
      dsbPiece.sl:= blFacture.haPiece.sl; 
@@ -173,7 +173,7 @@ begin
 
      if mrYes
         <>
-        MessageDlg( 'Êtes vous sûr de vouloir supprimer la ligne ?'#13#10
+        MessageDlg( 'ÃŠtes vous sÃ»r de vouloir supprimer la ligne ?'#13#10
                     +bl.GetLibelle,
                     mtConfirmation, [mbYes, mbNo], 0)
      then

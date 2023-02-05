@@ -60,20 +60,20 @@ type
     Date: String;
   //Facture
   private
-    FidFacture: Integer;
-    FblFacture: TBatpro_Ligne;
+    FFacture_id: Integer;
+    FFacture_bl: TBatpro_Ligne;
     FFacture: String;
-    procedure SetblFacture(const Value: TBatpro_Ligne);
-    procedure SetidFacture(const Value: Integer);
-    procedure idFacture_Change;
+    procedure SetFacture_bl(const Value: TBatpro_Ligne);
+    procedure SetFacture_id(const Value: Integer);
+    procedure Facture_id_Change;
     procedure Facture_Connecte;
     procedure Facture_Aggrege;
     procedure Facture_Desaggrege;
     procedure Facture_Change;
   public
-    cidFacture: TChamp;
-    property idFacture: Integer read FidFacture write SetidFacture;
-    property blFacture: TBatpro_Ligne read FblFacture write SetblFacture;
+    cFacture_id: TChamp;
+    property Facture_id: Integer       read FFacture_id write SetFacture_id;
+    property Facture_bl: TBatpro_Ligne read FFacture_bl write SetFacture_bl;
     function Facture: String;
 
   //Gestion de la clé
@@ -193,11 +193,11 @@ begin
      Champs.  String_from_String ( Date           , 'Date'           );
 
 
-     FblFacture:= nil;
-     cidFacture:= Integer_from_Integer( FidFacture, 'idFacture');
-     Champs.String_Lookup( FFacture, 'Facture', cidFacture, ublPiece_poolFacture.GetLookupListItems, '');
-     idFacture_Change;
-     cidFacture.OnChange.Abonne( Self, idFacture_Change);
+     FFacture_bl:= nil;
+     cFacture_id:= Integer_from_Integer( FFacture_id, 'Facture_id');
+     Champs.String_Lookup( FFacture, 'Facture', cFacture_id, ublPiece_poolFacture.GetLookupListItems, '');
+     Facture_id_Change;
+     cFacture_id.OnChange.Abonne( Self, Facture_id_Change);
 
 
 end;
@@ -218,7 +218,7 @@ end;
 procedure TblPiece.Unlink( be: TBatpro_Element);
 begin
      inherited Unlink( be);
-if blFacture = be then Facture_Desaggrege;
+if Facture_bl = be then Facture_Desaggrege;
 
 end;
 
@@ -232,31 +232,31 @@ end;
 
 //pattern_aggregation_accesseurs_implementation
 
-procedure TblPiece.SetidFacture(const Value: Integer);
+procedure TblPiece.SetFacture_id(const Value: Integer);
 begin
-     if FidFacture = Value then exit;
-     FidFacture:= Value;
-     idFacture_Change;
+     if FFacture_id = Value then exit;
+     FFacture_id:= Value;
+     Facture_id_Change;
      Save_to_database;
 end;
 
-procedure TblPiece.idFacture_Change;
+procedure TblPiece.Facture_id_Change;
 begin
      Facture_Aggrege;
 end;
 
-procedure TblPiece.SetblFacture(const Value: TBatpro_Ligne);
+procedure TblPiece.SetFacture_bl(const Value: TBatpro_Ligne);
 begin
-     if FblFacture = Value then exit;
+     if FFacture_bl = Value then exit;
 
      Facture_Desaggrege;
 
-     FblFacture:= Value;
+     FFacture_bl:= Value;
 
-     if idFacture <> FblFacture.id
+     if Facture_id <> FFacture_bl.id
      then
          begin
-         idFacture:= FblFacture.id;
+         Facture_id:= FFacture_bl.id;
          Save_to_database;
          end;
 
@@ -265,51 +265,51 @@ end;
 
 procedure TblPiece.Facture_Connecte;
 begin
-     if nil = blFacture then exit;
+     if nil = Facture_bl then exit;
 
-     if Assigned(blFacture) 
+     if Assigned(Facture_bl) 
      then 
-         blFacture.Aggregations.by_Name[ 'Piece'].Ajoute(Self);
-     Connect_To( FblFacture);
+         Facture_bl.Aggregations.by_Name[ 'Piece'].Ajoute(Self);
+     Connect_To( FFacture_bl);
 end;
 
 procedure TblPiece.Facture_Aggrege;
 var
-   blFacture_New: TBatpro_Ligne;
+   Facture_bl_New: TBatpro_Ligne;
 begin                                                        
-     ublPiece_poolFacture.Get_Interne_from_id( idFacture, blFacture_New);
-     if blFacture = blFacture_New then exit;
+     ublPiece_poolFacture.Get_Interne_from_id( Facture_id, Facture_bl_New);
+     if Facture_bl = Facture_bl_New then exit;
 
      Facture_Desaggrege;
-     FblFacture:= blFacture_New;
+     FFacture_bl:= Facture_bl_New;
 
      Facture_Connecte;
 end;
 
 procedure TblPiece.Facture_Desaggrege;
 begin
-     if blFacture = nil then exit;
+     if Facture_bl = nil then exit;
 
-     if Assigned(blFacture) 
+     if Assigned(Facture_bl) 
      then 
-         blFacture.Aggregations.by_Name[ 'Piece'].Enleve(Self);
-     Unconnect_To( FblFacture);
+         Facture_bl.Aggregations.by_Name[ 'Piece'].Enleve(Self);
+     Unconnect_To( FFacture_bl);
 end;
 
 procedure TblPiece.Facture_Change;
 begin
-     if Assigned( FblFacture)
+     if Assigned( FFacture_bl)
      then
-         FFacture:= FblFacture.GetLibelle
+         FFacture:= FFacture_bl.GetLibelle
      else
          FFacture:= '';
 end;
 
 function TblPiece.Facture: String;
 begin
-     if Assigned( FblFacture)
+     if Assigned( FFacture_bl)
      then
-         Result:= FblFacture.GetLibelle
+         Result:= FFacture_bl.GetLibelle
      else
          Result:= '';
 end;

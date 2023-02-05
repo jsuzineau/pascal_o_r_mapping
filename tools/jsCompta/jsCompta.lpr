@@ -48,9 +48,11 @@ uses
  upoolFacture, ublFacture, udkFacture_display, udkFacture_edit, ublMois,
  udkMois_display, udkMois_edit, ufMois_dsb, uhfMois, upoolMois, ublPiece,
  udkPiece_display, udkPiece_edit, ufPiece_dsb, uhfPiece, upoolPiece,
- ufPatternMainMenu, udkClient_edit, udkClient_display, ublClient, upoolClient,
- uhfClient, ufClient_dsb, ublAnnee, udkAnnee_display, udkAnnee_edit,
- ufAnnee_dsb, uhfAnnee, upoolAnnee;
+ ufPatternMainMenu, uhfFacture_Ligne, upoolFacture_Ligne, ublFacture_Ligne,
+ udkFacture_Ligne_display, udkFacture_Ligne_edit, ufFacture_Ligne_dsb,
+ udkClient_edit, udkClient_display, ublClient, upoolClient, uhfClient,
+ ufClient_dsb, ublAnnee, udkAnnee_display, udkAnnee_edit, ufAnnee_dsb, uhfAnnee,
+ upoolAnnee;
 
 {$R *.res}
 

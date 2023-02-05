@@ -98,21 +98,21 @@ type
     procedure Nom_from_;
   //Client
   private
-    FidClient: Integer;
-    FblClient: TBatpro_Ligne;
+    FClient_id: Integer;
+    FClient_bl: TBatpro_Ligne;
     FClient: String;
-    procedure SetblClient(const Value: TBatpro_Ligne);
-    procedure SetidClient(const Value: Integer);
-    procedure idClient_Change;
+    procedure SetClient_bl(const Value: TBatpro_Ligne);
+    procedure SetClient_id(const Value: Integer);
+    procedure Client_id_Change;
     procedure Client_Connecte;
     procedure Client_Aggrege;
     procedure Client_Desaggrege;
     procedure Client_Change;
   public
-    cidClient: TChamp;
+    cClient_id: TChamp;
     cClient: TChamp;
-    property idClient: Integer read FidClient write SetidClient;
-    property blClient: TBatpro_Ligne read FblClient write SetblClient;
+    property Client_id: Integer       read FClient_id write SetClient_id;
+    property Client_bl: TBatpro_Ligne read FClient_bl write SetClient_bl;
     function Client: String;
 
   //Gestion de la clé
@@ -310,11 +310,11 @@ begin
      Champs.  Double_from_       ( Montant        , 'Montant'        );
 
 
-     FblClient:= nil;
-     cidClient:= Integer_from_Integer( FidClient, 'idClient');
-     cClient  := Champs.String_Lookup( FClient  , 'Client'  , cidClient, ublFacture_poolClient.GetLookupListItems, '');
-     idClient_Change;
-     cidClient.OnChange.Abonne( Self, idClient_Change);
+     FClient_bl:= nil;
+     cClient_id:= Integer_from_Integer( FClient_id, 'Client_id');
+     cClient  := Champs.String_Lookup( FClient, 'Client', cClient_id, ublFacture_poolClient.GetLookupListItems, '');
+     Client_id_Change;
+     cClient_id.OnChange.Abonne( Self, Client_id_Change);
 
 
 end;
@@ -336,9 +336,9 @@ begin
      :=
        Format( '%4d_%2d_%2d_%2d_',
                [Annee, NumeroDansAnnee, M, D]);
-     if Assigned( blClient)
+     if Assigned( Client_bl)
      then
-         Nom:= Nom + blClient.GetLibelle;
+         Nom:= Nom + Client_bl.GetLibelle;
      cNom.Chaine:= Nom;//juste pour les évènements de publication et sauvegarde
 end;
 
@@ -355,7 +355,7 @@ end;
 procedure TblFacture.Unlink( be: TBatpro_Element);
 begin
      inherited Unlink( be);
-if blClient = be then Client_Desaggrege;
+if Client_bl = be then Client_Desaggrege;
 
 end;
 
@@ -376,31 +376,31 @@ begin
 end;
 
 
-procedure TblFacture.SetidClient(const Value: Integer);
+procedure TblFacture.SetClient_id(const Value: Integer);
 begin
-     if FidClient = Value then exit;
-     FidClient:= Value;
-     idClient_Change;
+     if FClient_id = Value then exit;
+     FClient_id:= Value;
+     Client_id_Change;
      Save_to_database;
 end;
 
-procedure TblFacture.idClient_Change;
+procedure TblFacture.Client_id_Change;
 begin
      Client_Aggrege;
 end;
 
-procedure TblFacture.SetblClient(const Value: TBatpro_Ligne);
+procedure TblFacture.SetClient_bl(const Value: TBatpro_Ligne);
 begin
-     if FblClient = Value then exit;
+     if FClient_bl = Value then exit;
 
      Client_Desaggrege;
 
-     FblClient:= Value;
+     FClient_bl:= Value;
 
-     if idClient <> FblClient.id
+     if Client_id <> FClient_bl.id
      then
          begin
-         idClient:= FblClient.id;
+         Client_id:= FClient_bl.id;
          Save_to_database;
          end;
 
@@ -409,53 +409,53 @@ end;
 
 procedure TblFacture.Client_Connecte;
 begin
-     if nil = blClient then exit;
+     if nil = Client_bl then exit;
 
-     if Assigned(blClient) 
+     if Assigned(Client_bl) 
      then 
-         blClient.Aggregations.by_Name[ 'Facture'].Ajoute(Self);
-     Connect_To( FblClient);
+         Client_bl.Aggregations.by_Name[ 'Facture'].Ajoute(Self);
+     Connect_To( FClient_bl);
 
      Nom_from_;
 end;
 
 procedure TblFacture.Client_Aggrege;
 var
-   blClient_New: TBatpro_Ligne;
+   Client_bl_New: TBatpro_Ligne;
 begin                                                        
-     ublFacture_poolClient.Get_Interne_from_id( idClient, blClient_New);
-     if blClient = blClient_New then exit;
+     ublFacture_poolClient.Get_Interne_from_id( Client_id, Client_bl_New);
+     if Client_bl = Client_bl_New then exit;
 
      Client_Desaggrege;
-     FblClient:= blClient_New;
+     FClient_bl:= Client_bl_New;
 
      Client_Connecte;
 end;
 
 procedure TblFacture.Client_Desaggrege;
 begin
-     if blClient = nil then exit;
+     if Client_bl = nil then exit;
 
-     if Assigned(blClient) 
+     if Assigned(Client_bl) 
      then 
-         blClient.Aggregations.by_Name[ 'Facture'].Enleve(Self);
-     Unconnect_To( FblClient);
+         Client_bl.Aggregations.by_Name[ 'Facture'].Enleve(Self);
+     Unconnect_To( FClient_bl);
 end;
 
 procedure TblFacture.Client_Change;
 begin
-     if Assigned( FblClient)
+     if Assigned( FClient_bl)
      then
-         FClient:= FblClient.GetLibelle
+         FClient:= FClient_bl.GetLibelle
      else
          FClient:= '';
 end;
 
 function TblFacture.Client: String;
 begin
-     if Assigned( FblClient)
+     if Assigned( FClient_bl)
      then
-         Result:= FblClient.GetLibelle
+         Result:= FClient_bl.GetLibelle
      else
          Result:= '';
 end;

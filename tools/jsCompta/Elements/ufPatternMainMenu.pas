@@ -8,6 +8,7 @@ uses
   ufAnnee_dsb,
   ufClient_dsb,
   ufFacture_dsb,
+  ufFacture_Ligne_dsb,
   ufMois_dsb,
   ufPiece_dsb,
   
@@ -30,6 +31,7 @@ type
         procedure AnneeClick(Sender: TObject);
     procedure ClientClick(Sender: TObject);
     procedure FactureClick(Sender: TObject);
+    procedure Facture_LigneClick(Sender: TObject);
     procedure MoisClick(Sender: TObject);
     procedure PieceClick(Sender: TObject);
 
@@ -77,6 +79,11 @@ end;
 procedure TfPatternMainMenu.FactureClick(Sender: TObject);
 begin
      fFacture_dsb.Execute;
+end;
+
+procedure TfPatternMainMenu.Facture_LigneClick(Sender: TObject);
+begin
+     fFacture_Ligne_dsb.Execute;
 end;
 
 procedure TfPatternMainMenu.MoisClick(Sender: TObject);

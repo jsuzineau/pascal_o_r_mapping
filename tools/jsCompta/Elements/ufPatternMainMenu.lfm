@@ -23,6 +23,10 @@ object fPatternMainMenu: TfPatternMainMenu
         Caption = 'Client'
         OnClick = ClientClick
       end
+      object Facture_Ligne: TMenuItem
+        Caption = 'Facture_Ligne'
+        OnClick = Facture_LigneClick
+      end
       object Mois: TMenuItem
         Caption = 'Mois'
         OnClick = MoisClick

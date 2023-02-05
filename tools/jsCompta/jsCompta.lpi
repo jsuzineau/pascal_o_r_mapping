@@ -25,7 +25,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../../../pascal_o_r_mapping/03_Data;../../../pascal_o_r_mapping/07_sources_externes/synapse/source/lib;../../../pascal_o_r_mapping/03_Data/Automatic;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/00_General;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation;../../../pascal_o_r_mapping/06_Formes;../../../pascal_o_r_mapping/03_Data/JSON;../../../pascal_o_r_mapping/03_Data/Tuleap;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/File_Handler/05_Angular_TypeScript;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/Elements/Postgres_Foreign_Key;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/File_Handler;Elements/Facture;Elements/Mois;Elements/Piece;Elements;Elements/Annee;Elements/Client"/>
+            <OtherUnitFiles Value="../../../pascal_o_r_mapping/03_Data;../../../pascal_o_r_mapping/07_sources_externes/synapse/source/lib;../../../pascal_o_r_mapping/03_Data/Automatic;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/00_General;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation;../../../pascal_o_r_mapping/06_Formes;../../../pascal_o_r_mapping/03_Data/JSON;../../../pascal_o_r_mapping/03_Data/Tuleap;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/File_Handler/05_Angular_TypeScript;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/Elements/Postgres_Foreign_Key;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/File_Handler;Elements/Facture;Elements/Mois;Elements/Piece;Elements;Elements/Annee;Elements/Client;Elements/Facture_Ligne"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -62,7 +62,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="Elements/Facture;Elements/Mois;Elements/Piece;Elements;Elements/Annee;Elements/Client"/>
+            <OtherUnitFiles Value="Elements/Facture;Elements/Mois;Elements/Piece;Elements;Elements/Annee;Elements/Client;Elements/Facture_Ligne"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -103,7 +103,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="Elements/Facture;Elements/Mois;Elements/Piece;Elements;Elements/Annee;Elements/Client"/>
+            <OtherUnitFiles Value="Elements/Facture;Elements/Mois;Elements/Piece;Elements;Elements/Annee;Elements/Client;Elements/Facture_Ligne"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -166,7 +166,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="33">
+    <Units Count="39">
       <Unit0>
         <Filename Value="jsCompta.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -342,6 +342,36 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit32>
+      <Unit33>
+        <Filename Value="Elements/Facture_Ligne/uhfFacture_Ligne.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="Elements/Facture_Ligne/upoolFacture_Ligne.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="Elements/Facture_Ligne/ublFacture_Ligne.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="Elements/Facture_Ligne/udkFacture_Ligne_display.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkFacture_Ligne_display"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="Elements/Facture_Ligne/udkFacture_Ligne_edit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkFacture_Ligne_edit"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="Elements/Facture_Ligne/ufFacture_Ligne_dsb.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fFacture_Ligne_dsb"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit38>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -351,7 +381,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="Elements/Facture;Elements/Mois;Elements/Piece;Elements;Elements/Annee;Elements/Client"/>
+      <OtherUnitFiles Value="Elements/Facture;Elements/Mois;Elements/Piece;Elements;Elements/Annee;Elements/Client;Elements/Facture_Ligne"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

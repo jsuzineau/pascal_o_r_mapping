@@ -48,7 +48,7 @@ type
  TdkPiece_edit
  =
   class(TDockable)
-  ceidFacture: TChamp_Edit;
+  ceFacture_id: TChamp_Edit;
   ceDate: TChamp_Edit;
   clkcbFacture: TChamp_Lookup_ComboBox;
 
@@ -77,7 +77,7 @@ implementation
 constructor TdkPiece_edit.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
-     Ajoute_Colonne( ceidFacture, 'idFacture', 'idFacture');
+     Ajoute_Colonne( ceFacture_id, 'Facture_id', 'Facture_id');
      Ajoute_Colonne( ceDate, 'Date', 'Date');
 
      Ajoute_Colonne( clkcbFacture, 'Facture', 'Facture');
@@ -95,7 +95,7 @@ begin
 
      Affecte( blPiece, TblPiece, Value);
 
-     Champs_Affecte( blPiece,[ ceidFacture,ceDate]);
+     Champs_Affecte( blPiece,[ ceFacture_id,ceDate]);
      Champs_Affecte( blPiece,[ clkcbFacture]);
 end;
 

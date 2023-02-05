@@ -1,4 +1,4 @@
-unit upoolPiece;
+unit upoolFacture_Ligne;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
@@ -31,30 +31,30 @@ uses
   udmBatpro_DataModule,
   uPool,
 
-  ublPiece,
+  ublFacture_Ligne,
 
 //Aggregations_Pascal_upool_uses_details_pas
 
-  uhfPiece,
+  uhfFacture_Ligne,
   SysUtils, Classes, DB, SqlDB;
 
 type
 
- { TpoolPiece }
+ { TpoolFacture_Ligne }
 
- TpoolPiece
+ TpoolFacture_Ligne
  =
   class( TPool)
     procedure DataModuleCreate(Sender: TObject);  override;
   //Filtre
   public
-    hfPiece: ThfPiece;
+    hfFacture_Ligne: ThfFacture_Ligne;
   //Accés général
   public
-    function Get( _id: integer): TblPiece;
+    function Get( _id: integer): TblFacture_Ligne;
   //Nouveau
   public
-    function Nouveau: TblPiece;
+    function Nouveau: TblFacture_Ligne;
   //Accés par clé
   protected
     procedure To_Params( _Params: TParams); override;
@@ -67,54 +67,51 @@ type
     function SQLWHERE_ContraintesChamps: String; override;
   //Méthode de création de test
   public
-    function Test( _Facture_id: Integer;  _Date: String):Integer;
+    function Test( _Facture_id: Integer;  _Date: String;  _Libelle: String;  _NbHeures: Double;  _Prix_unitaire: Double;  _Montant: Double):Integer;
 
-  //Chargement d'un Facture
-  public
-    procedure Charge_Facture( _idFacture: Integer; slLoaded: TBatpro_StringList = nil);
-
+//Details_Pascal_upool_charge_detail_declaration_pas
   //Création d'itérateur
   protected
     class function Classe_Iterateur: TIterateur_Class; override;
   public
-    function Iterateur: TIterateur_Piece;
-    function Iterateur_Decroissant: TIterateur_Piece;
+    function Iterateur: TIterateur_Facture_Ligne;
+    function Iterateur_Decroissant: TIterateur_Facture_Ligne;
   end;
 
-function poolPiece: TpoolPiece;
+function poolFacture_Ligne: TpoolFacture_Ligne;
 
 implementation
 
 
 
 var
-   FpoolPiece: TpoolPiece;
+   FpoolFacture_Ligne: TpoolFacture_Ligne;
 
-function poolPiece: TpoolPiece;
+function poolFacture_Ligne: TpoolFacture_Ligne;
 begin
-     TPool.class_Get( Result, FpoolPiece, TpoolPiece);
+     TPool.class_Get( Result, FpoolFacture_Ligne, TpoolFacture_Ligne);
 //Aggregations_Pascal_upool_affectation_pool_details_pas
 end;
 
-{ TpoolPiece }
+{ TpoolFacture_Ligne }
 
-procedure TpoolPiece.DataModuleCreate(Sender: TObject);
+procedure TpoolFacture_Ligne.DataModuleCreate(Sender: TObject);
 begin
-     NomTable:= 'Piece';
-     Classe_Elements:= TblPiece;
-     Classe_Filtre:= ThfPiece;
+     NomTable:= 'Facture_Ligne';
+     Classe_Elements:= TblFacture_Ligne;
+     Classe_Filtre:= ThfFacture_Ligne;
 
      inherited;
 
-     hfPiece:= hf as ThfPiece;
+     hfFacture_Ligne:= hf as ThfFacture_Ligne;
 end;
 
-function TpoolPiece.Get( _id: integer): TblPiece;
+function TpoolFacture_Ligne.Get( _id: integer): TblFacture_Ligne;
 begin
      Get_Interne_from_id( _id, Result);
 end;
 
-function TpoolPiece.Nouveau: TblPiece;
+function TpoolFacture_Ligne.Nouveau: TblFacture_Ligne;
 begin
      Nouveau_Base( Result);
 end;
@@ -123,7 +120,7 @@ end;
 
 //pattern_Assure_Implementation
 
-procedure TpoolPiece.To_Params( _Params: TParams);
+procedure TpoolFacture_Ligne.To_Params( _Params: TParams);
 begin
      with _Params
      do
@@ -132,49 +129,45 @@ begin
        end;
 end;
 
-function TpoolPiece.SQLWHERE_ContraintesChamps: String;
+function TpoolFacture_Ligne.SQLWHERE_ContraintesChamps: String;
 begin
 //pattern_SQLWHERE_ContraintesChamps_Body
 end;
 
-function TpoolPiece.Test( _Facture_id: Integer;  _Date: String):Integer;
+function TpoolFacture_Ligne.Test( _Facture_id: Integer;  _Date: String;  _Libelle: String;  _NbHeures: Double;  _Prix_unitaire: Double;  _Montant: Double):Integer;
 var                                                 
-   bl: TblPiece;                          
+   bl: TblFacture_Ligne;                          
 begin                                               
           Nouveau_Base( bl);                        
        bl.Facture_id     := _Facture_id   ;
        bl.Date           := _Date         ;
+       bl.Libelle        := _Libelle      ;
+       bl.NbHeures       := _NbHeures     ;
+       bl.Prix_unitaire  := _Prix_unitaire;
+       bl.Montant        := _Montant      ;
      bl.Save_to_database;                            
      Result:= bl.id;                                 
 end;                                                 
 
 
-procedure TpoolPiece.Charge_Facture( _idFacture: Integer; slLoaded: TBatpro_StringList = nil);
-var
-   SQL: String;
-begin
-     SQL:= 'select * from '+NomTable+' where idFacture = '+IntToStr( _idFacture);
+//Details_Pascal_upool_charge_detail_implementation_pas
 
-     Load( SQL, slLoaded);
+class function TpoolFacture_Ligne.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Facture_Ligne;
 end;
 
-
-class function TpoolPiece.Classe_Iterateur: TIterateur_Class;
+function TpoolFacture_Ligne.Iterateur: TIterateur_Facture_Ligne;
 begin
-     Result:= TIterateur_Piece;
+     Result:= TIterateur_Facture_Ligne( Iterateur_interne);
 end;
 
-function TpoolPiece.Iterateur: TIterateur_Piece;
+function TpoolFacture_Ligne.Iterateur_Decroissant: TIterateur_Facture_Ligne;
 begin
-     Result:= TIterateur_Piece( Iterateur_interne);
-end;
-
-function TpoolPiece.Iterateur_Decroissant: TIterateur_Piece;
-begin
-     Result:= TIterateur_Piece( Iterateur_interne_Decroissant);
+     Result:= TIterateur_Facture_Ligne( Iterateur_interne_Decroissant);
 end;
 
 initialization
 finalization
-              TPool.class_Destroy( FpoolPiece);
+              TPool.class_Destroy( FpoolFacture_Ligne);
 end.

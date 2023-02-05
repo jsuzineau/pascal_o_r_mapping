@@ -1,52 +1,27 @@
-inherited dkFacture_display: TdkFacture_display
+inherited dkFacture_Ligne_display: TdkFacture_Ligne_display
   Left = 704
   Height = 45
   Top = 420
   Width = 226
-  Caption = 'dkFacture_display'
+  Caption = 'dkFacture_Ligne_display'
   ClientHeight = 45
   ClientWidth = 226
-object clkcbClient: TChamp_Lookup_ComboBox
-  Left = 3
-  Height = 23
-  Top = 18
-  Width = 233
-  ItemHeight = 15
-  Style = csDropDownList
-  TabOrder = 0
-  Field = 'Client'
-end
   inherited sSelection: TBatpro_Shape 
     Height = 45
   end
-  object clAnnee: TChamp_Label
+  object clFacture_id: TChamp_Label
     Left = 144
     Height = 13
     Top = 2
     Width = 57
     Anchors = [akTop, akRight]
     AutoSize = False
-    Caption = 'clAnnee'
+    Caption = 'clFacture_id'
     ParentColor = False
     ParentShowHint = False
     ShowHint = True
     OnClick = FormClick
-    Field = 'Annee'
-  end
-
-  object clNumeroDansAnnee: TChamp_Label
-    Left = 144
-    Height = 13
-    Top = 2
-    Width = 57
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Caption = 'clNumeroDansAnnee'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    OnClick = FormClick
-    Field = 'NumeroDansAnnee'
+    Field = 'Facture_id'
   end
 
   object clDate: TChamp_Label
@@ -64,34 +39,19 @@ end
     Field = 'Date'
   end
 
-  object clClient_id: TChamp_Label
+  object clLibelle: TChamp_Label
     Left = 144
     Height = 13
     Top = 2
     Width = 57
     Anchors = [akTop, akRight]
     AutoSize = False
-    Caption = 'clClient_id'
+    Caption = 'clLibelle'
     ParentColor = False
     ParentShowHint = False
     ShowHint = True
     OnClick = FormClick
-    Field = 'Client_id'
-  end
-
-  object clNom: TChamp_Label
-    Left = 144
-    Height = 13
-    Top = 2
-    Width = 57
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Caption = 'clNom'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    OnClick = FormClick
-    Field = 'Nom'
+    Field = 'Libelle'
   end
 
   object clNbHeures: TChamp_Label
@@ -109,6 +69,21 @@ end
     Field = 'NbHeures'
   end
 
+  object clPrix_unitaire: TChamp_Label
+    Left = 144
+    Height = 13
+    Top = 2
+    Width = 57
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Caption = 'clPrix_unitaire'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'Prix_unitaire'
+  end
+
   object clMontant: TChamp_Label
     Left = 144
     Height = 13
@@ -124,32 +99,18 @@ end
     Field = 'Montant'
   end
 
-  object ceAnnee: TChamp_Edit
+  object ceFacture_id: TChamp_Edit
     Left = 119
     Height = 21
     Top = 4
     Width = 80
     Anchors = [akTop, akRight]
     AutoSize = False
-    Text = 'ceAnnee'
+    Text = 'ceFacture_id'
     ParentColor = False
     ParentShowHint = False
     ShowHint = True
-    Field = 'Annee'
-  end
-
-  object ceNumeroDansAnnee: TChamp_Edit
-    Left = 119
-    Height = 21
-    Top = 4
-    Width = 80
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Text = 'ceNumeroDansAnnee'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    Field = 'NumeroDansAnnee'
+    Field = 'Facture_id'
   end
 
   object ceDate: TChamp_Edit
@@ -166,32 +127,18 @@ end
     Field = 'Date'
   end
 
-  object ceClient_id: TChamp_Edit
+  object ceLibelle: TChamp_Edit
     Left = 119
     Height = 21
     Top = 4
     Width = 80
     Anchors = [akTop, akRight]
     AutoSize = False
-    Text = 'ceClient_id'
+    Text = 'ceLibelle'
     ParentColor = False
     ParentShowHint = False
     ShowHint = True
-    Field = 'Client_id'
-  end
-
-  object ceNom: TChamp_Edit
-    Left = 119
-    Height = 21
-    Top = 4
-    Width = 80
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Text = 'ceNom'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    Field = 'Nom'
+    Field = 'Libelle'
   end
 
   object ceNbHeures: TChamp_Edit
@@ -206,6 +153,20 @@ end
     ParentShowHint = False
     ShowHint = True
     Field = 'NbHeures'
+  end
+
+  object cePrix_unitaire: TChamp_Edit
+    Left = 119
+    Height = 21
+    Top = 4
+    Width = 80
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Text = 'cePrix_unitaire'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    Field = 'Prix_unitaire'
   end
 
   object ceMontant: TChamp_Edit

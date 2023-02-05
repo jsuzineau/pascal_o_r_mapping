@@ -1,4 +1,4 @@
-unit udkPiece_display;
+unit udkFacture_Ligne_edit;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
@@ -29,26 +29,32 @@ uses
     uBatpro_StringList,
     uChamps,
 
-    ublPiece,
-    upoolPiece,
+    ublFacture_Ligne,
+    upoolFacture_Ligne,
 
     uDockable, ucBatpro_Shape, ucChamp_Label, ucChamp_Edit,
     ucBatproDateTimePicker, ucChamp_DateTimePicker, ucDockableScrollbox,
+    ucChamp_Lookup_ComboBox,
     Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
     LCLType;
 
 const
-     udkPiece_display_Copy_to_current=0;
+     udkFacture_Ligne_edit_Copy_to_current=0;
 
 type
 
- { TdkPiece_display }
+ { TdkFacture_Ligne_edit }
 
- TdkPiece_display
+ TdkFacture_Ligne_edit
  =
   class(TDockable)
-  clFacture_id: TChamp_Label;
-  clDate: TChamp_Label;
+  ceFacture_id: TChamp_Edit;
+  ceDate: TChamp_Edit;
+  ceLibelle: TChamp_Edit;
+  ceNbHeures: TChamp_Edit;
+  cePrix_unitaire: TChamp_Edit;
+  ceMontant: TChamp_Edit;
+//Pascal_udk_edit_declaration_pas
   sbCopy_to_current: TSpeedButton;
   sbDetruire: TSpeedButton;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -62,55 +68,64 @@ type
   procedure SetObjet(const Value: TObject); override;
  //attributs
  private
-   blPiece: TblPiece;
+   blFacture_Ligne: TblFacture_Ligne;
  end;
 
 implementation
 
 {$R *.lfm}
 
-{ TdkPiece_display }
+{ TdkFacture_Ligne_edit }
 
-constructor TdkPiece_display.Create(AOwner: TComponent);
+constructor TdkFacture_Ligne_edit.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
+     Ajoute_Colonne( ceFacture_id, 'Facture_id', 'Facture_id');
+     Ajoute_Colonne( ceDate, 'Date', 'Date');
+     Ajoute_Colonne( ceLibelle, 'Libelle', 'Libelle');
+     Ajoute_Colonne( ceNbHeures, 'NbHeures', 'NbHeures');
+     Ajoute_Colonne( cePrix_unitaire, 'Prix_unitaire', 'Prix_unitaire');
+     Ajoute_Colonne( ceMontant, 'Montant', 'Montant');
+
+//Details_Pascal_udk_edit_Create_AjouteColonne_pas
 end;
 
-destructor TdkPiece_display.Destroy;
+destructor TdkFacture_Ligne_edit.Destroy;
 begin
      inherited Destroy;
 end;
 
-procedure TdkPiece_display.SetObjet(const Value: TObject);
+procedure TdkFacture_Ligne_edit.SetObjet(const Value: TObject);
 begin
      inherited SetObjet(Value);
 
-     Affecte( blPiece, TblPiece, Value);
+     Affecte( blFacture_Ligne, TblFacture_Ligne, Value);
 
-     Champs_Affecte( blPiece, [clFacture_id,clDate]);
+     Champs_Affecte( blFacture_Ligne,[ ceFacture_id,ceDate,ceLibelle,ceNbHeures,cePrix_unitaire,ceMontant]);
+     Champs_Affecte( blFacture_Ligne,[ {Details_Pascal_udk_edit_component_list_pas}]);
 end;
 
-procedure TdkPiece_display.sbDetruireClick(Sender: TObject);
+procedure TdkFacture_Ligne_edit.sbDetruireClick(Sender: TObject);
 begin
      if IDYES
         <>
-        Application.MessageBox( 'Etes vous sûr de vouloir supprimer Piece ?',
-                                'Suppression de Piece',
+        Application.MessageBox( 'Etes vous sûr de vouloir supprimer Facture_Ligne ?',
+                                'Suppression de Facture_Ligne',
                                 MB_ICONQUESTION+MB_YESNO)
      then
          exit;
-     poolPiece .Supprimer( blPiece );
+     poolFacture_Ligne .Supprimer( blFacture_Ligne );
      Do_DockableScrollbox_Suppression;
 end;
 
-procedure TdkPiece_display.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TdkFacture_Ligne_edit.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
      inherited;
 end;
 
-procedure TdkPiece_display.sbCopy_to_currentClick(Sender: TObject);
+procedure TdkFacture_Ligne_edit.sbCopy_to_currentClick(Sender: TObject);
 begin
-     Envoie_Message( udkPiece_display_Copy_to_current);
+     Envoie_Message( udkFacture_Ligne_edit_Copy_to_current);
 end;
 
 end.

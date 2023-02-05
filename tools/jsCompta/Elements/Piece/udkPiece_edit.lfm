@@ -24,7 +24,7 @@ inherited dkPiece_edit: TdkPiece_edit
     TabOrder = 0
     Field = 'Facture'
   end
-  object ceidFacture: TChamp_Edit
+  object ceFacture_id: TChamp_Edit
     Left = 44
     Height = 21
     Top = 4
@@ -33,8 +33,8 @@ inherited dkPiece_edit: TdkPiece_edit
     ParentShowHint = False
     ShowHint = True
     TabOrder = 1
-    Text = 'ceidFacture'
-    Field = 'idFacture'
+    Text = 'ceFacture_id'
+    Field = 'Facture_id'
   end
   object ceDate: TChamp_Edit[4]
     Left = 319

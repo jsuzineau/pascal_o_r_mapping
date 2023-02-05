@@ -3,7 +3,7 @@ unit ufPatternMainMenu;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Menus, ActnList, StdCtrls, ComCtrls, Buttons, ExtCtrls,
   {Uses_Key}
   uClean;

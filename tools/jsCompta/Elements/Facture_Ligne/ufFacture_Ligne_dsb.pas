@@ -1,4 +1,4 @@
-unit ufPiece_dsb;
+unit ufFacture_Ligne_dsb;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
@@ -27,14 +27,14 @@ uses
     uChamps,
     uDataUtilsU,
     uBatpro_Ligne,
-    ublPiece,
+    ublFacture_Ligne,
 
     uPool,
-    upoolPiece,
+    upoolFacture_Ligne,
 
     //Pascal_uf_pc_uses_pas_aggregation
 
-    udkPiece_edit,
+    udkFacture_Ligne_edit,
     ucDockableScrollbox,
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DBCtrls, Grids, DBGrids, ActnList, StdCtrls, ComCtrls, Buttons,
@@ -42,9 +42,9 @@ uses
 
 type
 
- { TfPiece_dsb }
+ { TfFacture_Ligne_dsb }
 
- TfPiece_dsb
+ TfFacture_Ligne_dsb
  =
   class(TForm)
     dsb: TDockableScrollbox;
@@ -72,63 +72,63 @@ type
     procedure NbTotal_Change;
   public
     { Déclarations publiques }
-    pool: TpoolPiece;
+    pool: TpoolFacture_Ligne;
     EntreeLigneColonne_: Boolean;
     function Execute: Boolean;
   //Rafraichissement
   protected
     procedure _from_pool;
-  //Piece
+  //Facture_Ligne
   private
-    blPiece: TblPiece;
-    procedure _from_Piece;
+    blFacture_Ligne: TblFacture_Ligne;
+    procedure _from_Facture_Ligne;
   end;
 
-function fPiece_dsb: TfPiece_dsb;
+function fFacture_Ligne_dsb: TfFacture_Ligne_dsb;
 
 implementation
 
 {$R *.lfm}
 
 var
-   FfPiece_dsb: TfPiece_dsb;
+   FfFacture_Ligne_dsb: TfFacture_Ligne_dsb;
 
-function fPiece_dsb: TfPiece_dsb;
+function fFacture_Ligne_dsb: TfFacture_Ligne_dsb;
 begin
-     Clean_Get( Result, FfPiece_dsb, TfPiece_dsb);
+     Clean_Get( Result, FfFacture_Ligne_dsb, TfFacture_Ligne_dsb);
 end;
 
-{ TfPiece_dsb }
+{ TfFacture_Ligne_dsb }
 
-procedure TfPiece_dsb.FormCreate(Sender: TObject);
+procedure TfFacture_Ligne_dsb.FormCreate(Sender: TObject);
 begin
-     pool:= poolPiece;
+     pool:= poolFacture_Ligne;
      inherited;
      EntreeLigneColonne_:= False;
      pool.pFiltreChange.Abonne( Self, NbTotal_Change);
-     dsb.Classe_dockable:= TdkPiece_edit;
-     dsb.Classe_Elements:= TblPiece;
+     dsb.Classe_dockable:= TdkFacture_Ligne_edit;
+     dsb.Classe_Elements:= TblFacture_Ligne;
      //Pascal_uf_pc_initialisation_pas_Aggregation
 end;
 
-procedure TfPiece_dsb.dsbSelect(Sender: TObject);
+procedure TfFacture_Ligne_dsb.dsbSelect(Sender: TObject);
 begin
-     dsb.Get_bl( blPiece);
-     _from_Piece;
+     dsb.Get_bl( blFacture_Ligne);
+     _from_Facture_Ligne;
 end;
 
-procedure TfPiece_dsb.FormDestroy(Sender: TObject);
+procedure TfFacture_Ligne_dsb.FormDestroy(Sender: TObject);
 begin
      pool.pFiltreChange.Desabonne( Self, NbTotal_Change);
      inherited;
 end;
 
-procedure TfPiece_dsb.NbTotal_Change;
+procedure TfFacture_Ligne_dsb.NbTotal_Change;
 begin
      lNbTotal.Caption:= IntToStr( pool.slFiltre.Count);
 end;
 
-function TfPiece_dsb.Execute: Boolean;
+function TfFacture_Ligne_dsb.Execute: Boolean;
 begin
      pool.ToutCharger;
      _from_pool;
@@ -136,22 +136,22 @@ begin
      Show;
 end;
 
-procedure TfPiece_dsb._from_pool;
+procedure TfFacture_Ligne_dsb._from_pool;
 begin
      dsb.sl:= pool.slFiltre;
      //dsb.sl:= pool.T;
 end;
 
-procedure TfPiece_dsb._from_Piece;
+procedure TfFacture_Ligne_dsb._from_Facture_Ligne;
 begin
-     Champs_Affecte( blPiece,[ ]);//laissé vide pour l'instant
+     Champs_Affecte( blFacture_Ligne,[ ]);//laissé vide pour l'instant
 
      //Pascal_uf_pc_charge_pas_Aggregation
 end;
 
-procedure TfPiece_dsb.bNouveauClick(Sender: TObject);
+procedure TfFacture_Ligne_dsb.bNouveauClick(Sender: TObject);
 var
-   blNouveau: TblPiece;
+   blNouveau: TblFacture_Ligne;
 begin
      blNouveau:= pool.Nouveau;
      if blNouveau = nil then exit;
@@ -160,9 +160,9 @@ begin
      _from_pool;
 end;
 
-procedure TfPiece_dsb.bSupprimerClick(Sender: TObject);
+procedure TfFacture_Ligne_dsb.bSupprimerClick(Sender: TObject);
 var
-   bl: TblPiece;
+   bl: TblFacture_Ligne;
 begin
      dsb.Get_bl( bl);
      if bl = nil then exit;
@@ -179,20 +179,20 @@ begin
      _from_pool;
 end;
 
-procedure TfPiece_dsb.bImprimerClick(Sender: TObject);
+procedure TfFacture_Ligne_dsb.bImprimerClick(Sender: TObject);
 begin
      {
-     Batpro_Ligne_Printer.Execute( 'fPiece_dsb.stw',
-                                   'Piece',[],[],[],[],
-                                   ['Piece'],
-                                   [poolPiece.slFiltre],
+     Batpro_Ligne_Printer.Execute( 'fFacture_Ligne_dsb.stw',
+                                   'Facture_Ligne',[],[],[],[],
+                                   ['Facture_Ligne'],
+                                   [poolFacture_Ligne.slFiltre],
                                    [ nil],
                                    [ nil]);
      }
 end;
 
 initialization
-              Clean_Create ( FfPiece_dsb, TfPiece_dsb);
+              Clean_Create ( FfFacture_Ligne_dsb, TfFacture_Ligne_dsb);
 finalization
-              Clean_Destroy( FfPiece_dsb);
+              Clean_Destroy( FfFacture_Ligne_dsb);
 end.

@@ -73,7 +73,7 @@ type
     function SQLWHERE_ContraintesChamps: String; override;
   //Méthode de création de test
   public
-    function Test( _Annee: Integer;  _NumeroDansAnnee: Integer;  _Date: TDatetime;  _idClient: Integer;  _Nom: String;  _NbHeures: Double;  _Montant: Double):Integer;
+    function Test( _Annee: Integer;  _NumeroDansAnnee: Integer;  _Date: TDatetime;  _Client_id: Integer;  _Nom: String;  _NbHeures: Double;  _Montant: Double):Integer;
 
   //Chargement d'un Client
   public
@@ -186,7 +186,7 @@ end;
 
 function TpoolFacture.Test( _Annee: Integer; _NumeroDansAnnee: Integer;
                             _Date: TDatetime;
-                            _idClient: Integer; _Nom: String;
+                            _Client_id: Integer; _Nom: String;
                             _NbHeures: Double; _Montant: Double): Integer;
 var                                                 
    bl: TblFacture;                          
@@ -195,7 +195,7 @@ begin
        bl.Annee          := _Annee        ;
        bl.NumeroDansAnnee:= _NumeroDansAnnee;
        bl.Date           := _Date         ;
-       bl.idClient       := _idClient     ;
+       bl.Client_id      := _Client_id    ;
        bl.Nom            := _Nom          ;
        bl.NbHeures       := _NbHeures     ;
        bl.Montant        := _Montant      ;

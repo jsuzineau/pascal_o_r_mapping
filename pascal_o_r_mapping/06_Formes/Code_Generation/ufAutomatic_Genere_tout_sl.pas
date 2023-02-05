@@ -17,7 +17,9 @@ type
   class(TfpBas)
    bFromINI: TButton;
    bToINI: TButton;
+   bFromDatabase: TButton;
     m: TMemo;
+    procedure bFromDatabaseClick(Sender: TObject);
     procedure bFromINIClick(Sender: TObject);
     procedure bToINIClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -31,6 +33,7 @@ type
   //attributs
   public
     s: TStrings;
+    procedure From_s;
   //persistance
   private
     NomFichier: String;
@@ -61,6 +64,11 @@ begin
      NomFichier:= ChangeFileExt( EXE_INI.FileName, ClassName+'.txt');
 end;
 
+procedure TfAutomatic_Genere_tout_sl.From_s;
+begin
+     m.Lines.Text:= s.Text;
+end;
+
 procedure TfAutomatic_Genere_tout_sl.FromINI;
 begin
      m.Lines.LoadFromFile( NomFichier);
@@ -76,6 +84,11 @@ begin
      FromINI;
 end;
 
+procedure TfAutomatic_Genere_tout_sl.bFromDatabaseClick(Sender: TObject);
+begin
+     From_s;
+end;
+
 procedure TfAutomatic_Genere_tout_sl.bToINIClick(Sender: TObject);
 begin
      ToINI;
@@ -86,7 +99,7 @@ begin
      FromINI;
      if '' = m.Lines.Text
      then
-         m.Lines.Text:= s.Text;
+         From_s;
      Result:=inherited PreExecute;
 end;
 

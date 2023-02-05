@@ -48,7 +48,7 @@ type
   ceAnnee: TChamp_Edit;
   ceNumeroDansAnnee: TChamp_Edit;
   ceDate: TChamp_Edit;
-  ceidClient: TChamp_Edit;
+  ceClient_id: TChamp_Edit;
   ceNom: TChamp_Edit;
   ceNbHeures: TChamp_Edit;
   ceMontant: TChamp_Edit;
@@ -82,7 +82,7 @@ begin
      Ajoute_Colonne( ceAnnee, 'Annee', 'Annee');
      Ajoute_Colonne( ceNumeroDansAnnee, 'NumeroDansAnnee', 'NumeroDansAnnee');
      Ajoute_Colonne( ceDate, 'Date', 'Date');
-     Ajoute_Colonne( ceidClient, 'idClient', 'idClient');
+     Ajoute_Colonne( ceClient_id, 'Client_id', 'Client_id');
      Ajoute_Colonne( ceNom, 'Nom', 'Nom');
      Ajoute_Colonne( ceNbHeures, 'NbHeures', 'NbHeures');
      Ajoute_Colonne( ceMontant, 'Montant', 'Montant');
@@ -102,7 +102,7 @@ begin
 
      Affecte( blFacture, TblFacture, Value);
 
-     Champs_Affecte( blFacture,[ ceAnnee,ceNumeroDansAnnee,ceDate,ceidClient,ceNom,ceNbHeures,ceMontant]);
+     Champs_Affecte( blFacture,[ ceAnnee,ceNumeroDansAnnee,ceDate,ceClient_id,ceNom,ceNbHeures,ceMontant]);
      Champs_Affecte( blFacture,[ clkcbClient]);
 end;
 
