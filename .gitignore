@@ -128,3 +128,5 @@ electronic/Arduino/GROVE_barometer_bmp280/lazarus/GROVE_barometer_bmp280
 /tools/jsWorks_django/jsWorks_django/__pycache__
 tools/jsSousTitres/etc/IniPropStorage.ini
 tools/jsSousTitres/jsSousTitres
+fujsCompta/fujsCompta
+jsCompta
