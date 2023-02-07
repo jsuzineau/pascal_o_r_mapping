@@ -26,7 +26,9 @@ uses
     uClean,
     uChamps,
     uDataUtilsU,
+    uBatpro_StringList,
     uBatpro_Ligne,
+    ublClient,
     ublFacture,
 
     uPool,
@@ -37,6 +39,7 @@ uses
 
      udkFacture_Ligne_edit_Facture,
      ublFacture_Ligne, 
+     upoolFacture_Ligne,
 
     udkFacture_display_Facture,
     uodFacture,
@@ -54,6 +57,7 @@ type
  =
   class(TForm)
    bDate: TButton;
+   bFacture_Ligne_Nouveau: TButton;
    bNouveau: TButton;
    bodFacture: TBitBtn;
    bodFacture_Modele: TButton;
@@ -76,12 +80,15 @@ type
     pListe_Haut: TPanel;
     sbNom_from_: TSpeedButton;
 
+    procedure bDateClick(Sender: TObject);
+    procedure bFacture_Ligne_NouveauClick(Sender: TObject);
     procedure bodFacture_ModeleClick(Sender: TObject);
     procedure dsbSelect(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure bNouveauClick(Sender: TObject);
     procedure bodFactureClick(Sender: TObject);
+    procedure sbNom_from_Click(Sender: TObject);
   public
     { Déclarations publiques }
     pool: TpoolFacture;
@@ -202,6 +209,16 @@ begin
          ShowMessage( 'OpenDocument failed on '+Resultat);
 end;
 
+procedure TfFacture.sbNom_from_Click(Sender: TObject);
+begin
+     blFacture.Nom_from_;
+end;
+
+procedure TfFacture.bDateClick(Sender: TObject);
+begin
+     blFacture.Date_from_Now;
+end;
+
 procedure TfFacture.bodFacture_ModeleClick( Sender: TObject);
 var
    bl: TblFacture;
@@ -222,6 +239,25 @@ begin
      then
          ShowMessage( 'OpenDocument failed on '+Resultat);
 end;
+
+procedure TfFacture.bFacture_Ligne_NouveauClick(Sender: TObject);
+var
+   blNouveau: TblFacture_Ligne;
+   blClient: TblClient;
+begin
+     if nil = blFacture then exit;
+
+     blNouveau:= poolFacture_Ligne.Nouveau;
+     if blNouveau = nil then exit;
+
+     if Affecte( blClient, TblClient, blFacture.Client_bl)
+     then
+         blNouveau.Prix_unitaire:= blClient.Tarif_horaire;
+     blNouveau.Facture_id:= blFacture.id;  //inclut Save_to_database;
+
+     _from_Facture;
+end;
+
 
 initialization
               Clean_Create ( FfFacture, TfFacture);

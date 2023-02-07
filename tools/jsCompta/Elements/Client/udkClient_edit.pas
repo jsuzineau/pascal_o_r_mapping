@@ -52,6 +52,7 @@ type
   ceAdresse_3: TChamp_Edit;
   ceCode_Postal: TChamp_Edit;
   ceVille: TChamp_Edit;
+  ceTarif_horaire: TChamp_Edit;
 //Pascal_udk_edit_declaration_pas
   sbAdresse1_from_Nom: TSpeedButton;
   sbDetruire: TSpeedButton;
@@ -85,6 +86,7 @@ begin
      Ajoute_Colonne( ceAdresse_3, 'Adresse_3', 'Adresse_3');
      Ajoute_Colonne( ceCode_Postal, 'Code_Postal', 'Code_Postal');
      Ajoute_Colonne( ceVille, 'Ville', 'Ville');
+     Ajoute_Colonne( ceTarif_horaire, 'Tarif_horaire', 'Tarif_horaire');
      *)
 
 //Details_Pascal_udk_edit_Create_AjouteColonne_pas
@@ -101,7 +103,7 @@ begin
 
      Affecte( blClient, TblClient, Value);
 
-     Champs_Affecte( blClient,[ ceNom,ceAdresse_1,ceAdresse_2,ceAdresse_3,ceCode_Postal,ceVille]);
+     Champs_Affecte( blClient,[ ceNom,ceAdresse_1,ceAdresse_2,ceAdresse_3,ceCode_Postal,ceVille,ceTarif_horaire]);
      Champs_Affecte( blClient,[ {Details_Pascal_udk_edit_component_list_pas}]);
 end;
 

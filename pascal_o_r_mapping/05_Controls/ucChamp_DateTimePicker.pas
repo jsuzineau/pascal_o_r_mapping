@@ -42,8 +42,13 @@ type
  TChamp_DateTimePicker
  =
   class(TDateEdit, IChampsComponent)
+  //Cycle de vie
   public
     constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
+  //Général
+  protected
+    procedure EditChange; override;
   //Propriété Champs
   private
     FChamps: TChamps;
@@ -89,6 +94,11 @@ begin
      Champs_Changing:= False;
 end;
 
+destructor TChamp_DateTimePicker.Destroy;
+begin
+     inherited;
+end;
+
 function TChamp_DateTimePicker.Champ_OK: Boolean;
 begin
      Champ:= nil;
@@ -106,12 +116,22 @@ begin
      then
          Champ.OnChange.Desabonne( Self, _from_Champs);
 
+     FChamps:= nil;
+     Text:= '';
      FChamps:= Value;
 
      if not Champ_OK then exit;
 
      Champ.OnChange.Abonne( Self, _from_Champs);
      _from_Champs;
+end;
+
+procedure TChamp_DateTimePicker.EditChange;
+begin
+     inherited;
+     if not Champ_OK then exit;
+
+     _to_Champs;
 end;
 
 procedure TChamp_DateTimePicker._from_Champs;
@@ -145,7 +165,7 @@ begin
      finally
             Champs_Changing:= False;
             end;
-     _from_Champs;
+     if Champ.Bounce then _from_Champs;
 end;
 
 function TChamp_DateTimePicker.GetChamps: TChamps;

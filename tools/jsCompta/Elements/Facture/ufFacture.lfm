@@ -9,7 +9,7 @@ object fFacture: TfFacture
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '2.2.4.0'
   object pListe: TPanel
     Left = 0
     Height = 618
@@ -78,11 +78,11 @@ object fFacture: TfFacture
     TabOrder = 1
     object pFacture: TPanel
       Left = 1
-      Height = 175
+      Height = 212
       Top = 1
       Width = 618
       Align = alTop
-      ClientHeight = 175
+      ClientHeight = 212
       ClientWidth = 618
       TabOrder = 0
       object ceAnnee: TChamp_Edit
@@ -115,14 +115,15 @@ object fFacture: TfFacture
         Top = 47
         Width = 97
         Caption = 'Aujourd''hui'
+        OnClick = bDateClick
         TabOrder = 2
       end
       object clkcbClient: TChamp_Lookup_ComboBox
         Left = 7
-        Height = 33
+        Height = 23
         Top = 95
         Width = 258
-        ItemHeight = 0
+        ItemHeight = 15
         Style = csDropDownList
         TabOrder = 3
         Field = 'Client'
@@ -134,6 +135,7 @@ object fFacture: TfFacture
         Top = 140
         Width = 32
         Caption = '>'
+        OnClick = sbNom_from_Click
       end
       object ceNom: TChamp_Edit
         Left = 39
@@ -212,6 +214,7 @@ object fFacture: TfFacture
         Anchors = [akTop, akRight]
         AutoSize = False
         Caption = 'clClient_id'
+        ParentColor = False
         ParentShowHint = False
         ShowHint = True
         Field = 'Client_id'
@@ -224,13 +227,14 @@ object fFacture: TfFacture
         Anchors = [akTop, akRight]
         AutoSize = False
         Caption = 'clid'
+        ParentColor = False
         ParentShowHint = False
         ShowHint = True
         Field = 'id'
       end
       object cdtpDate: TChamp_DateTimePicker
         Left = 367
-        Height = 38
+        Height = 23
         Top = 47
         Width = 145
         CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
@@ -249,19 +253,29 @@ object fFacture: TfFacture
         Width = 90
         AutoSize = False
         Caption = 'clNumero'
+        ParentColor = False
         ParentShowHint = False
         ShowHint = True
         Field = 'Numero'
       end
+      object bFacture_Ligne_Nouveau: TButton
+        Left = 3
+        Height = 25
+        Top = 179
+        Width = 97
+        Caption = 'Nouvelle ligne'
+        OnClick = bFacture_Ligne_NouveauClick
+        TabOrder = 10
+      end
     end
     object dsbFacture_Ligne: TDockableScrollbox
       Left = 1
-      Height = 441
-      Top = 176
+      Height = 404
+      Top = 213
       Width = 618
       Align = alClient
       Caption = 'dsbFacture_Ligne'
-      ClientHeight = 441
+      ClientHeight = 404
       ClientWidth = 618
       TabOrder = 1
       HauteurLigne = 49

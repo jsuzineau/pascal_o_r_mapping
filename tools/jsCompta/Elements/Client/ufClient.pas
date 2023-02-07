@@ -54,6 +54,7 @@ type
    ceAdresse_3: TChamp_Edit;
    ceCode_Postal: TChamp_Edit;
    ceNom: TChamp_Edit;
+   ceTarif_horaire: TChamp_Edit;
    ceVille: TChamp_Edit;
     dsb: TDockableScrollbox;
     dsbFacture: TDockableScrollbox;
@@ -139,7 +140,8 @@ end;
 
 procedure TfClient._from_Client;
 begin
-     Champs_Affecte( blClient,[ ceNom,ceAdresse_1,ceAdresse_2,ceAdresse_3,ceCode_Postal,ceVille]);
+     Champs_Affecte( blClient,[ ceNom,ceAdresse_1,ceAdresse_2,ceAdresse_3,
+                                ceCode_Postal,ceVille,ceTarif_horaire]);
 
      blClient.haFacture.Charge;
      dsbFacture.sl:= blClient.haFacture.sl; 
@@ -192,3 +194,4 @@ initialization
 finalization
               Clean_Destroy( FfClient);
 end.
+

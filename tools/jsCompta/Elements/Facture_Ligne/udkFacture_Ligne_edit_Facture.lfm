@@ -107,6 +107,6 @@ inherited dkFacture_Ligne_edit_Facture: TdkFacture_Ligne_edit_Facture
     )
     ScrollBars = ssAutoBoth
     TabOrder = 4
-    Field = 'cmLibelle'
+    Field = 'Libelle'
   end
 end

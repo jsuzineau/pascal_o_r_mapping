@@ -9,7 +9,7 @@ object fClient: TfClient
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '2.2.4.0'
   object pListe: TPanel
     Left = 0
     Height = 463
@@ -113,11 +113,11 @@ object fClient: TfClient
     TabOrder = 1
     object pClient: TPanel
       Left = 1
-      Height = 205
+      Height = 239
       Top = 1
       Width = 387
       Align = alTop
-      ClientHeight = 205
+      ClientHeight = 239
       ClientWidth = 387
       TabOrder = 0
       object ceNom: TChamp_Edit
@@ -206,15 +206,27 @@ object fClient: TfClient
         Text = 'ceVille'
         Field = 'Ville'
       end
+      object ceTarif_horaire: TChamp_Edit
+        Left = 8
+        Height = 32
+        Top = 200
+        Width = 97
+        AutoSize = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 6
+        Text = 'ceTarif_horaire'
+        Field = 'Tarif_horaire'
+      end
     end
     object dsbFacture: TDockableScrollbox
       Left = 1
-      Height = 256
-      Top = 206
+      Height = 222
+      Top = 240
       Width = 387
       Align = alClient
       Caption = 'dsbFacture'
-      ClientHeight = 256
+      ClientHeight = 222
       ClientWidth = 387
       TabOrder = 1
       HauteurLigne = 32

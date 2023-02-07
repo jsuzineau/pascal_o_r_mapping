@@ -90,7 +90,21 @@ inherited dkClient_edit: TdkClient_edit
     Text = 'ceVille'
     Field = 'Ville'
   end
-  object sbDetruire: TSpeedButton[8]
+
+  object ceTarif_horaire: TChamp_Edit
+    Left = 119
+    Height = 21
+    Top = 4
+    Width = 80
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Text = 'ceTarif_horaire'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    Field = 'Tarif_horaire'
+  end
+  object sbDetruire: TSpeedButton[2]
     Left = 16
     Height = 22
     Hint = 'Supprimer'

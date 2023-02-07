@@ -69,7 +69,7 @@ type
     function SQLWHERE_ContraintesChamps: String; override;
   //Méthode de création de test
   public
-    function Test( _Nom: String;  _Adresse_1: String;  _Adresse_2: String;  _Adresse_3: String;  _Code_Postal: String;  _Ville: String):Integer;
+    function Test( _Nom: String;  _Adresse_1: String;  _Adresse_2: String;  _Adresse_3: String;  _Code_Postal: String;  _Ville: String;  _Tarif_horaire: Double):Integer;
 
 //Details_Pascal_upool_charge_detail_declaration_pas
   //Création d'itérateur
@@ -140,7 +140,7 @@ begin
 //pattern_SQLWHERE_ContraintesChamps_Body
 end;
 
-function TpoolClient.Test( _Nom: String;  _Adresse_1: String;  _Adresse_2: String;  _Adresse_3: String;  _Code_Postal: String;  _Ville: String):Integer;
+function TpoolClient.Test( _Nom: String;  _Adresse_1: String;  _Adresse_2: String;  _Adresse_3: String;  _Code_Postal: String;  _Ville: String;  _Tarif_horaire: Double):Integer;
 var                                                 
    bl: TblClient;                          
 begin                                               
@@ -151,6 +151,7 @@ begin
        bl.Adresse_3      := _Adresse_3    ;
        bl.Code_Postal    := _Code_Postal  ;
        bl.Ville          := _Ville        ;
+       bl.Tarif_horaire  := _Tarif_horaire;
      bl.Save_to_database;                            
      Result:= bl.id;                                 
 end;                                                 

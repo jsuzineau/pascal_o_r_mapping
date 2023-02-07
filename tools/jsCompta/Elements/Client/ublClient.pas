@@ -93,6 +93,7 @@ type
     Adresse_3: String;
     Code_Postal: String;
     Ville: String;
+    Tarif_horaire: Double;
     procedure Adresse_1_from_Nom;
 //Pascal_ubl_declaration_pas_detail
   //Gestion de la clé
@@ -283,6 +284,7 @@ begin
      Champs.  String_from_String ( Adresse_3      , 'Adresse_3'      );
      Champs.  String_from_String ( Code_Postal    , 'Code_Postal'    );
      Champs.  String_from_String ( Ville          , 'Ville'          );
+     Champs.  Double_from_       ( Tarif_horaire  , 'Tarif_horaire'  );
 
 //Pascal_ubl_constructor_pas_detail
 end;

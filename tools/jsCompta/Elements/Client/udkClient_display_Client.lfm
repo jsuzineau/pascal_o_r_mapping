@@ -8,6 +8,7 @@ inherited dkClient_display_Client: TdkClient_display_Client
   ClientWidth = 226
   inherited sBackground: TShape
     Height = 625
+    OnMouseDown = sSelectionMouseDown
   end
   inherited sSelection: TBatpro_Shape
     Height = 30
@@ -24,6 +25,7 @@ inherited dkClient_display_Client: TdkClient_display_Client
     ParentShowHint = False
     ShowHint = True
     OnClick = FormClick
+    OnMouseDown = sSelectionMouseDown
     Field = 'Nom'
   end
   object sbDetruire: TSpeedButton[3]
