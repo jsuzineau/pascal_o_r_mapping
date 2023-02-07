@@ -51,9 +51,9 @@ uses
  udkPiece_edit, ufPiece_dsb, uhfPiece, upoolPiece, ufPatternMainMenu,
  uhfFacture_Ligne, upoolFacture_Ligne, ublFacture_Ligne,
  udkFacture_Ligne_display, udkFacture_Ligne_edit, ufFacture_Ligne_dsb,
- udkClient_edit, udkClient_display_Client, ublClient, upoolClient, uhfClient,
- ufClient, ublAnnee, udkAnnee_display, udkAnnee_edit, ufAnnee_dsb, uhfAnnee,
- upoolAnnee;
+ udkFacture_Ligne_edit_Facture, udkClient_edit, udkClient_display_Client,
+ ublClient, upoolClient, uhfClient, ufClient, ublAnnee, udkAnnee_display,
+ udkAnnee_edit, ufAnnee_dsb, uhfAnnee, upoolAnnee;
 
 {$R *.res}
 

@@ -42,6 +42,7 @@ var
    DisplayFormat: String;
    sPrecisionChar: Char;
    sPrecision: String;
+   FF: TFormatSettings;
    function Zero: Boolean;
    begin
         Result:= I > 0;
@@ -74,7 +75,11 @@ begin
      sPrecision:= StringOfChar( sPrecisionChar, Precision);
      DisplayFormat:= '###,###,###,##0.'+sPrecision;
 
-     Text:= FormatFloat( DisplayFormat, Value);
+     FF:= DefaultFormatSettings;
+     //Writeln( 'FF.ThousandSeparator=', Ord(FF.ThousandSeparator));
+     FF.ThousandSeparator:= #160;//espace insécable &nbsp; en ISO8859
+     Text:= FormatFloat( DisplayFormat, Value, FF);
+     Text:= StringReplace( Text, #160, #194#160, [rfReplaceAll]);//conversion espace insécable &nbsp; en UTF8
      I:= Length(Text);
 
      if Tronque //fait rapidement, redondant avec (not FF.currency)
@@ -90,7 +95,7 @@ begin
                Dec( I);
                end;
 
-             // Suppression de la virgule orpheline, le cas �ch�ant
+             // Suppression de la virgule orpheline, le cas échéant
              if Virgule
              then
                  begin

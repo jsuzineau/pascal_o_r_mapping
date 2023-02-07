@@ -9,7 +9,7 @@ object fFacture: TfFacture
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '2.2.0.4'
   object pListe: TPanel
     Left = 0
     Height = 618
@@ -78,17 +78,17 @@ object fFacture: TfFacture
     TabOrder = 1
     object pFacture: TPanel
       Left = 1
-      Height = 115
+      Height = 175
       Top = 1
       Width = 618
       Align = alTop
-      ClientHeight = 115
+      ClientHeight = 175
       ClientWidth = 618
       TabOrder = 0
       object ceAnnee: TChamp_Edit
         Left = 6
-        Height = 21
-        Top = 31
+        Height = 32
+        Top = 47
         Width = 80
         AutoSize = False
         ParentShowHint = False
@@ -99,8 +99,8 @@ object fFacture: TfFacture
       end
       object ceNumeroDansAnnee: TChamp_Edit
         Left = 87
-        Height = 21
-        Top = 31
+        Height = 32
+        Top = 47
         Width = 80
         AutoSize = False
         ParentShowHint = False
@@ -110,35 +110,35 @@ object fFacture: TfFacture
         Field = 'NumeroDansAnnee'
       end
       object bDate: TButton
-        Left = 233
-        Height = 25
-        Top = 29
-        Width = 75
+        Left = 265
+        Height = 37
+        Top = 47
+        Width = 97
         Caption = 'Aujourd''hui'
         TabOrder = 2
       end
       object clkcbClient: TChamp_Lookup_ComboBox
         Left = 7
-        Height = 23
-        Top = 55
+        Height = 33
+        Top = 95
         Width = 258
-        ItemHeight = 15
+        ItemHeight = 0
         Style = csDropDownList
         TabOrder = 3
         Field = 'Client'
       end
       object sbNom_from_: TSpeedButton
         Left = 3
-        Height = 22
+        Height = 32
         Hint = 'Nom par défaut'
-        Top = 84
-        Width = 22
+        Top = 140
+        Width = 32
         Caption = '>'
       end
       object ceNom: TChamp_Edit
-        Left = 27
-        Height = 21
-        Top = 84
+        Left = 39
+        Height = 32
+        Top = 140
         Width = 293
         AutoSize = False
         ParentShowHint = False
@@ -149,9 +149,9 @@ object fFacture: TfFacture
       end
       object bodFacture: TBitBtn
         Left = 6
-        Height = 25
+        Height = 40
         Top = 2
-        Width = 75
+        Width = 105
         Caption = 'Imprimer'
         Glyph.Data = {
           76010000424D7601000000000000760000002800000020000000100000000100
@@ -172,19 +172,19 @@ object fFacture: TfFacture
         TabOrder = 5
       end
       object bodFacture_Modele: TButton
-        Left = 84
-        Height = 25
+        Left = 172
+        Height = 40
         Top = 2
-        Width = 60
+        Width = 84
         Caption = 'Modèle'
         OnClick = bodFacture_ModeleClick
         TabOrder = 6
       end
       object ceNbHeures: TChamp_Edit
-        Left = 321
-        Height = 21
-        Top = 84
-        Width = 80
+        Left = 336
+        Height = 32
+        Top = 140
+        Width = 103
         AutoSize = False
         ParentShowHint = False
         ShowHint = True
@@ -193,10 +193,10 @@ object fFacture: TfFacture
         Field = 'NbHeures'
       end
       object ceMontant: TChamp_Edit
-        Left = 403
-        Height = 21
-        Top = 84
-        Width = 80
+        Left = 442
+        Height = 32
+        Top = 140
+        Width = 101
         AutoSize = False
         ParentShowHint = False
         ShowHint = True
@@ -212,7 +212,6 @@ object fFacture: TfFacture
         Anchors = [akTop, akRight]
         AutoSize = False
         Caption = 'clClient_id'
-        ParentColor = False
         ParentShowHint = False
         ShowHint = True
         Field = 'Client_id'
@@ -225,15 +224,14 @@ object fFacture: TfFacture
         Anchors = [akTop, akRight]
         AutoSize = False
         Caption = 'clid'
-        ParentColor = False
         ParentShowHint = False
         ShowHint = True
         Field = 'id'
       end
       object cdtpDate: TChamp_DateTimePicker
-        Left = 311
-        Height = 23
-        Top = 31
+        Left = 367
+        Height = 38
+        Top = 47
         Width = 145
         CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
         DateOrder = doNone
@@ -246,12 +244,11 @@ object fFacture: TfFacture
       end
       object clNumero: TChamp_Label
         Left = 172
-        Height = 13
-        Top = 34
-        Width = 57
+        Height = 24
+        Top = 52
+        Width = 90
         AutoSize = False
         Caption = 'clNumero'
-        ParentColor = False
         ParentShowHint = False
         ShowHint = True
         Field = 'Numero'
@@ -259,12 +256,12 @@ object fFacture: TfFacture
     end
     object dsbFacture_Ligne: TDockableScrollbox
       Left = 1
-      Height = 501
-      Top = 116
+      Height = 441
+      Top = 176
       Width = 618
       Align = alClient
       Caption = 'dsbFacture_Ligne'
-      ClientHeight = 501
+      ClientHeight = 441
       ClientWidth = 618
       TabOrder = 1
       HauteurLigne = 49

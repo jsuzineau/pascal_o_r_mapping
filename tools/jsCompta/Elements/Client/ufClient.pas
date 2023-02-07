@@ -48,6 +48,7 @@ type
  TfClient
  =
   class(TForm)
+   bNouveau1: TButton;
    ceAdresse_1: TChamp_Edit;
    ceAdresse_2: TChamp_Edit;
    ceAdresse_3: TChamp_Edit;
