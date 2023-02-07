@@ -1,4 +1,4 @@
-unit udkFacture_display;
+unit udkFacture_display_Facture;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
@@ -37,27 +37,15 @@ uses
     Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
     LCLType;
 
-const
-     udkFacture_display_Copy_to_current=0;
-
 type
 
- { TdkFacture_display }
+ { TdkFacture_display_Facture }
 
- TdkFacture_display
+ TdkFacture_display_Facture
  =
   class(TDockable)
-  clAnnee: TChamp_Label;
-  clNumeroDansAnnee: TChamp_Label;
-  clDate: TChamp_Label;
-  clClient_id: TChamp_Label;
   clNom: TChamp_Label;
-  clNbHeures: TChamp_Label;
-  clMontant: TChamp_Label;
-  sbCopy_to_current: TSpeedButton;
   sbDetruire: TSpeedButton;
-  procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-  procedure sbCopy_to_currentClick(Sender: TObject);
   procedure sbDetruireClick(Sender: TObject);
  //Gestion du cycle de vie
  public
@@ -74,28 +62,28 @@ implementation
 
 {$R *.lfm}
 
-{ TdkFacture_display }
+{ TdkFacture_display_Facture }
 
-constructor TdkFacture_display.Create(AOwner: TComponent);
+constructor TdkFacture_display_Facture.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
 end;
 
-destructor TdkFacture_display.Destroy;
+destructor TdkFacture_display_Facture.Destroy;
 begin
      inherited Destroy;
 end;
 
-procedure TdkFacture_display.SetObjet(const Value: TObject);
+procedure TdkFacture_display_Facture.SetObjet(const Value: TObject);
 begin
      inherited SetObjet(Value);
 
      Affecte( blFacture, TblFacture, Value);
 
-     Champs_Affecte( blFacture, [clAnnee,clNumeroDansAnnee,clDate,clClient_id,clNom,clNbHeures,clMontant]);
+     Champs_Affecte( blFacture, [clNom]);
 end;
 
-procedure TdkFacture_display.sbDetruireClick(Sender: TObject);
+procedure TdkFacture_display_Facture.sbDetruireClick(Sender: TObject);
 begin
      if IDYES
         <>
@@ -106,16 +94,6 @@ begin
          exit;
      poolFacture .Supprimer( blFacture );
      Do_DockableScrollbox_Suppression;
-end;
-
-procedure TdkFacture_display.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-     inherited;
-end;
-
-procedure TdkFacture_display.sbCopy_to_currentClick(Sender: TObject);
-begin
-     Envoie_Message( udkFacture_display_Copy_to_current);
 end;
 
 end.

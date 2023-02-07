@@ -9,6 +9,7 @@ inherited dkFacture_edit: TdkFacture_edit
   inherited sBackground: TShape
     Height = 54
     Width = 1132
+    OnMouseDown = sSelectionMouseDown
   end
   inherited sSelection: TBatpro_Shape
     Height = 54

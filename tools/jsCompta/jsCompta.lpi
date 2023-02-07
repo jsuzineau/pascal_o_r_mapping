@@ -166,7 +166,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="39">
+    <Units Count="41">
       <Unit0>
         <Filename Value="jsCompta.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -186,9 +186,10 @@
         <ResourceBaseClass Value="Form"/>
       </Unit2>
       <Unit3>
-        <Filename Value="Elements/Facture/udkFacture_display.pas"/>
+        <Filename Value="Elements/Facture/udkFacture_display_Facture.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="dkFacture_display"/>
+        <ComponentName Value="dkFacture_display_Facture"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit3>
       <Unit4>
@@ -375,6 +376,20 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit38>
+      <Unit39>
+        <Filename Value="Elements/Facture/ufFacture.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fFacture"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit39>
+      <Unit40>
+        <Filename Value="Elements/Facture/udkFacture_display.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkFacture_display"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit40>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

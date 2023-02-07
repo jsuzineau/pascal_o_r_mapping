@@ -465,6 +465,7 @@ begin
      L.Transparent:= True;
      with L.Font do Style:= Style + [fsBold];
      L.Alignment:= C_Alignment;
+     L.Anchors:= _C.anchors;
      L.OnMouseDown:= Colonne_MouseDown;
      L.Show;
 

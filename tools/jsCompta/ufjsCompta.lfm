@@ -10,7 +10,6 @@ object fjsCompta: TfjsCompta
   OnCreate = FormCreate
   Position = poWorkAreaCenter
   LCLVersion = '2.2.4.0'
-  WindowState = wsMaximized
   object bFacture: TButton
     Left = 34
     Height = 25

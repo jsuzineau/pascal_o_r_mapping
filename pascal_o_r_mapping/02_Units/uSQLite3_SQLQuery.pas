@@ -68,6 +68,9 @@ type
   //Last_Insert_id
   public
     function Last_Insert_id( _NomTable: String): Integer; override;
+  //Attributs
+  public
+    function Base_sur: String; override;
   end;
 
 const
@@ -199,6 +202,11 @@ var
 begin
      SQL:= 'select last_insert_rowid()';
      Contexte.Integer_from( SQL, Result);
+end;
+
+function TSQLite3_SQLQuery.Base_sur: String;
+begin
+     Result:= 'base '+sSGBD+' '+GetCurrentDir+DirectorySeparator+DataBase;
 end;
 
 end.

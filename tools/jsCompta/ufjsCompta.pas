@@ -5,11 +5,13 @@ unit ufjsCompta;
 interface
 
 uses
+    udmDatabase,
+
     ublPiece,
     upoolPiece,
 
     ufPiece_dsb,
-    ufFacture_dsb,
+    ufFacture,
     ufMois_dsb,
 
   ufPatternMainMenu, Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
@@ -46,6 +48,7 @@ implementation
 
 procedure TfjsCompta.FormCreate(Sender: TObject);
 begin
+     Caption:= Caption+' - '+dmDatabase.jsDataConnexion.Base_sur;
      {
      fPiece:= TfPiece_dsb.Create( Self);
      ClientWidth := fPiece.Width;
@@ -59,7 +62,7 @@ end;
 
 procedure TfjsCompta.bFactureClick(Sender: TObject);
 begin
-     fFacture_dsb.Execute;
+     fFacture.Execute;
 end;
 
 procedure TfjsCompta.bPieceClick(Sender: TObject);

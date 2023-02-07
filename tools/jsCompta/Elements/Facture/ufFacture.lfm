@@ -1,0 +1,278 @@
+object fFacture: TfFacture
+  Left = 441
+  Height = 618
+  Top = 197
+  Width = 1060
+  Caption = 'Facture'
+  ClientHeight = 618
+  ClientWidth = 1060
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  Position = poScreenCenter
+  LCLVersion = '2.2.4.0'
+  object pListe: TPanel
+    Left = 0
+    Height = 618
+    Top = 0
+    Width = 440
+    Align = alLeft
+    Caption = 'pListe'
+    ClientHeight = 618
+    ClientWidth = 440
+    TabOrder = 0
+    object pListe_Bas: TPanel
+      Left = 1
+      Height = 41
+      Top = 576
+      Width = 438
+      Align = alBottom
+      TabOrder = 0
+    end
+    object pListe_Haut: TPanel
+      Left = 1
+      Height = 36
+      Top = 1
+      Width = 438
+      Align = alTop
+      ClientHeight = 36
+      ClientWidth = 438
+      TabOrder = 1
+      object bNouveau: TButton
+        Left = 8
+        Height = 25
+        Top = 5
+        Width = 75
+        Caption = 'Nouveau'
+        OnClick = bNouveauClick
+        TabOrder = 0
+      end
+    end
+    object dsb: TDockableScrollbox
+      Left = 1
+      Height = 539
+      Top = 37
+      Width = 438
+      Align = alClient
+      Caption = 'dsb'
+      ClientHeight = 539
+      ClientWidth = 438
+      TabOrder = 2
+      HauteurLigne = 28
+      BordureLignes = True
+      Zebrage = False
+      Zebrage1 = 15138790
+      Zebrage2 = 16777192
+      OnSelect = dsbSelect
+      _LectureSeule = False
+    end
+  end
+  object pDetail: TPanel
+    Left = 440
+    Height = 618
+    Top = 0
+    Width = 620
+    Align = alClient
+    Caption = 'pDetail'
+    ClientHeight = 618
+    ClientWidth = 620
+    TabOrder = 1
+    object pFacture: TPanel
+      Left = 1
+      Height = 115
+      Top = 1
+      Width = 618
+      Align = alTop
+      ClientHeight = 115
+      ClientWidth = 618
+      TabOrder = 0
+      object ceAnnee: TChamp_Edit
+        Left = 6
+        Height = 21
+        Top = 31
+        Width = 80
+        AutoSize = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 0
+        Text = 'ceAnnee'
+        Field = 'Annee'
+      end
+      object ceNumeroDansAnnee: TChamp_Edit
+        Left = 87
+        Height = 21
+        Top = 31
+        Width = 80
+        AutoSize = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 1
+        Text = 'ceNumeroDansAnnee'
+        Field = 'NumeroDansAnnee'
+      end
+      object bDate: TButton
+        Left = 233
+        Height = 25
+        Top = 29
+        Width = 75
+        Caption = 'Aujourd''hui'
+        TabOrder = 2
+      end
+      object clkcbClient: TChamp_Lookup_ComboBox
+        Left = 7
+        Height = 23
+        Top = 55
+        Width = 258
+        ItemHeight = 15
+        Style = csDropDownList
+        TabOrder = 3
+        Field = 'Client'
+      end
+      object sbNom_from_: TSpeedButton
+        Left = 3
+        Height = 22
+        Hint = 'Nom par défaut'
+        Top = 84
+        Width = 22
+        Caption = '>'
+      end
+      object ceNom: TChamp_Edit
+        Left = 27
+        Height = 21
+        Top = 84
+        Width = 293
+        AutoSize = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 4
+        Text = 'ceNom'
+        Field = 'Nom'
+      end
+      object bodFacture: TBitBtn
+        Left = 6
+        Height = 25
+        Top = 2
+        Width = 75
+        Caption = 'Imprimer'
+        Glyph.Data = {
+          76010000424D7601000000000000760000002800000020000000100000000100
+          04000000000000010000130B0000130B00001000000000000000000000000000
+          800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00300000000000
+          00033FFFFFFFFFFFFFFF0888888888888880777777777777777F088888888888
+          8880777777777777777F0000000000000000FFFFFFFFFFFFFFFF0F8F8F8F8F8F
+          8F80777777777777777F08F8F8F8F8F8F9F0777777777777777F0F8F8F8F8F8F
+          8F807777777777777F7F0000000000000000777777777777777F3330FFFFFFFF
+          03333337F3FFFF3F7F333330F0000F0F03333337F77773737F333330FFFFFFFF
+          03333337F3FF3FFF7F333330F00F000003333337F773777773333330FFFF0FF0
+          33333337F3FF7F3733333330F08F0F0333333337F7737F7333333330FFFF0033
+          33333337FFFF7733333333300000033333333337777773333333
+        }
+        NumGlyphs = 2
+        OnClick = bodFactureClick
+        TabOrder = 5
+      end
+      object bodFacture_Modele: TButton
+        Left = 84
+        Height = 25
+        Top = 2
+        Width = 60
+        Caption = 'Modèle'
+        OnClick = bodFacture_ModeleClick
+        TabOrder = 6
+      end
+      object ceNbHeures: TChamp_Edit
+        Left = 321
+        Height = 21
+        Top = 84
+        Width = 80
+        AutoSize = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 7
+        Text = 'ceNbHeures'
+        Field = 'NbHeures'
+      end
+      object ceMontant: TChamp_Edit
+        Left = 403
+        Height = 21
+        Top = 84
+        Width = 80
+        AutoSize = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 8
+        Text = 'ceMontant'
+        Field = 'Montant'
+      end
+      object clClient_id: TChamp_Label
+        Left = -490
+        Height = 13
+        Top = 61
+        Width = 57
+        Anchors = [akTop, akRight]
+        AutoSize = False
+        Caption = 'clClient_id'
+        ParentColor = False
+        ParentShowHint = False
+        ShowHint = True
+        Field = 'Client_id'
+      end
+      object clid: TChamp_Label
+        Left = -344
+        Height = 13
+        Top = 7
+        Width = 57
+        Anchors = [akTop, akRight]
+        AutoSize = False
+        Caption = 'clid'
+        ParentColor = False
+        ParentShowHint = False
+        ShowHint = True
+        Field = 'id'
+      end
+      object cdtpDate: TChamp_DateTimePicker
+        Left = 311
+        Height = 23
+        Top = 31
+        Width = 145
+        CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
+        DateOrder = doNone
+        ButtonWidth = 23
+        NumGlyphs = 1
+        MaxLength = 0
+        TabOrder = 9
+        Text = 'cdtpDate'
+        Field = 'Date'
+      end
+      object clNumero: TChamp_Label
+        Left = 172
+        Height = 13
+        Top = 34
+        Width = 57
+        AutoSize = False
+        Caption = 'clNumero'
+        ParentColor = False
+        ParentShowHint = False
+        ShowHint = True
+        Field = 'Numero'
+      end
+    end
+    object dsbFacture_Ligne: TDockableScrollbox
+      Left = 1
+      Height = 501
+      Top = 116
+      Width = 618
+      Align = alClient
+      Caption = 'dsbFacture_Ligne'
+      ClientHeight = 501
+      ClientWidth = 618
+      TabOrder = 1
+      HauteurLigne = 49
+      BordureLignes = True
+      Zebrage = False
+      Zebrage1 = 15138790
+      Zebrage2 = 16777192
+      _LectureSeule = False
+    end
+  end
+end
