@@ -1,4 +1,4 @@
-unit ufClient_dsb;
+unit ufClient;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
@@ -32,50 +32,44 @@ uses
     uPool,
     upoolClient,
 
-     udkFacture_edit,
+     udkFacture_display,
      ublFacture, 
 
-    udkClient_edit,
-    uodClient,
-
-    ucDockableScrollbox,
+    udkClient_display_Client,
+    ucDockableScrollbox, ucChamp_Edit,
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DBCtrls, Grids, DBGrids, ActnList, StdCtrls, ComCtrls, Buttons,
-  ExtCtrls, DB,LCLIntf;
+  ExtCtrls, DB;
 
 type
 
- { TfClient_dsb }
+ { TfClient }
 
- TfClient_dsb
+ TfClient
  =
   class(TForm)
-   bodClient_Modele: TButton;
+   ceAdresse_1: TChamp_Edit;
+   ceAdresse_2: TChamp_Edit;
+   ceAdresse_3: TChamp_Edit;
+   ceCode_Postal: TChamp_Edit;
+   ceNom: TChamp_Edit;
+   ceVille: TChamp_Edit;
     dsb: TDockableScrollbox;
-    pc: TPageControl;
-    Splitter1: TSplitter;
-    Panel1: TPanel;
-    Panel2: TPanel;
-    bodClient: TBitBtn;
-    Label1: TLabel;
-    lNbTotal: TLabel;
-    Panel3: TPanel;
-    Label2: TLabel;
-    lTri: TLabel;
+    dsbFacture: TDockableScrollbox;
+    pClient: TPanel;
+    pDetail: TPanel;
+    pListe: TPanel;
+    pListe_bas: TPanel;
+    bImprimer: TBitBtn;
+    pListe_Haut: TPanel;
     bNouveau: TButton;
-    bSupprimer: TButton;
-    tsFacture: TTabSheet;
-    dsbFacture: TDockableScrollbox; 
-    procedure bodClient_ModeleClick(Sender: TObject);
+    sbAdresse1_from_Nom: TSpeedButton;
     procedure dsbSelect(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure bNouveauClick(Sender: TObject);
     procedure bSupprimerClick(Sender: TObject);
-    procedure bodClientClick(Sender: TObject);
-  private
-    { Déclarations privées }
-    procedure NbTotal_Change;
+    procedure bImprimerClick(Sender: TObject);
   public
     { Déclarations publiques }
     pool: TpoolClient;
@@ -90,52 +84,45 @@ type
     procedure _from_Client;
   end;
 
-function fClient_dsb: TfClient_dsb;
+function fClient: TfClient;
 
 implementation
 
 {$R *.lfm}
 
 var
-   FfClient_dsb: TfClient_dsb;
+   FfClient: TfClient;
 
-function fClient_dsb: TfClient_dsb;
+function fClient: TfClient;
 begin
-     Clean_Get( Result, FfClient_dsb, TfClient_dsb);
+     Clean_Get( Result, FfClient, TfClient);
 end;
 
-{ TfClient_dsb }
+{ TfClient }
 
-procedure TfClient_dsb.FormCreate(Sender: TObject);
+procedure TfClient.FormCreate(Sender: TObject);
 begin
      pool:= poolClient;
      inherited;
      EntreeLigneColonne_:= False;
-     pool.pFiltreChange.Abonne( Self, NbTotal_Change);
-     dsb.Classe_dockable:= TdkClient_edit;
+     dsb.Classe_dockable:= TdkClient_display_Client;
      dsb.Classe_Elements:= TblClient;
-     dsbFacture.Classe_dockable:= TdkFacture_edit;
+     dsbFacture.Classe_dockable:= TdkFacture_display;
      dsbFacture.Classe_Elements:= TblFacture; 
 end;
 
-procedure TfClient_dsb.dsbSelect(Sender: TObject);
+procedure TfClient.dsbSelect(Sender: TObject);
 begin
      dsb.Get_bl( blClient);
      _from_Client;
 end;
 
-procedure TfClient_dsb.FormDestroy(Sender: TObject);
+procedure TfClient.FormDestroy(Sender: TObject);
 begin
-     pool.pFiltreChange.Desabonne( Self, NbTotal_Change);
      inherited;
 end;
 
-procedure TfClient_dsb.NbTotal_Change;
-begin
-     lNbTotal.Caption:= IntToStr( pool.slFiltre.Count);
-end;
-
-function TfClient_dsb.Execute: Boolean;
+function TfClient.Execute: Boolean;
 begin
      pool.ToutCharger;
      _from_pool;
@@ -143,21 +130,21 @@ begin
      Show;
 end;
 
-procedure TfClient_dsb._from_pool;
+procedure TfClient._from_pool;
 begin
      dsb.sl:= pool.slFiltre;
      //dsb.sl:= pool.T;
 end;
 
-procedure TfClient_dsb._from_Client;
+procedure TfClient._from_Client;
 begin
-     Champs_Affecte( blClient,[ ]);//laissé vide pour l'instant
+     Champs_Affecte( blClient,[ ceNom,ceAdresse_1,ceAdresse_2,ceAdresse_3,ceCode_Postal,ceVille]);
 
      blClient.haFacture.Charge;
      dsbFacture.sl:= blClient.haFacture.sl; 
 end;
 
-procedure TfClient_dsb.bNouveauClick(Sender: TObject);
+procedure TfClient.bNouveauClick(Sender: TObject);
 var
    blNouveau: TblClient;
 begin
@@ -168,7 +155,7 @@ begin
      _from_pool;
 end;
 
-procedure TfClient_dsb.bSupprimerClick(Sender: TObject);
+procedure TfClient.bSupprimerClick(Sender: TObject);
 var
    bl: TblClient;
 begin
@@ -187,50 +174,20 @@ begin
      _from_pool;
 end;
 
-procedure TfClient_dsb.bodClientClick(Sender: TObject);
-var
-   bl: TblClient;
-   odClient: TodClient;
-   Resultat: String;
+procedure TfClient.bImprimerClick(Sender: TObject);
 begin
-     dsb.Get_bl( bl);
-     if bl = nil then exit;
-
-     odClient:= TodClient.Create;
-     try
-        odClient.Init( bl);
-        Resultat:= odClient.Visualiser;
-     finally
-            FreeAndNil( odClient);
-            end;
-     if not OpenDocument( Resultat)
-     then
-         ShowMessage( 'OpenDocument failed on '+Resultat);
-end;
-
-procedure TfClient_dsb.bodClient_ModeleClick( Sender: TObject);
-var
-   bl: TblClient;
-   odClient: TodClient;
-   Resultat: String;
-begin
-     dsb.Get_bl( bl);
-     if bl = nil then exit;
-
-     odClient:= TodClient.Create;
-     try
-        odClient.Init( bl);
-        Resultat:= odClient.Editer_Modele_Impression;
-     finally
-            FreeAndNil( odClient);
-            end;
-     if not OpenDocument( Resultat)
-     then
-         ShowMessage( 'OpenDocument failed on '+Resultat);
+     {
+     Batpro_Ligne_Printer.Execute( 'fClient.stw',
+                                   'Client',[],[],[],[],
+                                   ['Client'],
+                                   [poolClient.slFiltre],
+                                   [ nil],
+                                   [ nil]);
+     }
 end;
 
 initialization
-              Clean_Create ( FfClient_dsb, TfClient_dsb);
+              Clean_Create ( FfClient, TfClient);
 finalization
-              Clean_Destroy( FfClient_dsb);
+              Clean_Destroy( FfClient);
 end.

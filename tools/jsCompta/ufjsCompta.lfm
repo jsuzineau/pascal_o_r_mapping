@@ -37,4 +37,13 @@ object fjsCompta: TfjsCompta
     OnClick = bMoisClick
     TabOrder = 2
   end
+  object bClient: TButton
+    Left = 34
+    Height = 25
+    Top = 0
+    Width = 75
+    Caption = 'Client'
+    OnClick = bClientClick
+    TabOrder = 3
+  end
 end

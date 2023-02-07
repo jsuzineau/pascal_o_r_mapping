@@ -1,0 +1,218 @@
+object fClient: TfClient
+  Left = 430
+  Height = 463
+  Top = 233
+  Width = 768
+  Caption = 'Client'
+  ClientHeight = 463
+  ClientWidth = 768
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  Position = poScreenCenter
+  LCLVersion = '2.2.4.0'
+  object pListe: TPanel
+    Left = 0
+    Height = 463
+    Top = 0
+    Width = 280
+    Align = alLeft
+    Caption = 'pListe'
+    ClientHeight = 463
+    ClientWidth = 280
+    TabOrder = 0
+    object pListe_bas: TPanel
+      Left = 1
+      Height = 41
+      Top = 421
+      Width = 278
+      Align = alBottom
+      ClientHeight = 41
+      ClientWidth = 278
+      TabOrder = 0
+      object bImprimer: TBitBtn
+        Left = 416
+        Height = 25
+        Top = 8
+        Width = 75
+        Caption = 'Imprimer'
+        Glyph.Data = {
+          76010000424D7601000000000000760000002800000020000000100000000100
+          04000000000000010000130B0000130B00001000000000000000000000000000
+          800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+          FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00300000000000
+          00033FFFFFFFFFFFFFFF0888888888888880777777777777777F088888888888
+          8880777777777777777F0000000000000000FFFFFFFFFFFFFFFF0F8F8F8F8F8F
+          8F80777777777777777F08F8F8F8F8F8F9F0777777777777777F0F8F8F8F8F8F
+          8F807777777777777F7F0000000000000000777777777777777F3330FFFFFFFF
+          03333337F3FFFF3F7F333330F0000F0F03333337F77773737F333330FFFFFFFF
+          03333337F3FF3FFF7F333330F00F000003333337F773777773333330FFFF0FF0
+          33333337F3FF7F3733333330F08F0F0333333337F7737F7333333330FFFF0033
+          33333337FFFF7733333333300000033333333337777773333333
+        }
+        NumGlyphs = 2
+        OnClick = bImprimerClick
+        TabOrder = 0
+      end
+      object bNouveau: TButton
+        Left = 496
+        Height = 25
+        Top = 8
+        Width = 75
+        Caption = 'Nouveau'
+        OnClick = bNouveauClick
+        TabOrder = 1
+      end
+    end
+    object pListe_Haut: TPanel
+      Left = 1
+      Height = 30
+      Top = 1
+      Width = 278
+      Align = alTop
+      TabOrder = 1
+    end
+    object dsb: TDockableScrollbox
+      Left = 1
+      Height = 390
+      Top = 31
+      Width = 278
+      Align = alClient
+      Caption = 'dsb'
+      ClientHeight = 390
+      ClientWidth = 278
+      TabOrder = 2
+      HauteurLigne = 30
+      BordureLignes = True
+      Zebrage = False
+      Zebrage1 = 15138790
+      Zebrage2 = 16777192
+      OnSelect = dsbSelect
+      _LectureSeule = False
+    end
+  end
+  object pDetail: TPanel
+    Left = 280
+    Height = 463
+    Top = 0
+    Width = 488
+    Align = alClient
+    Caption = 'pDetail'
+    ClientHeight = 463
+    ClientWidth = 488
+    TabOrder = 1
+    object pClient: TPanel
+      Left = 1
+      Height = 135
+      Top = 1
+      Width = 486
+      Align = alTop
+      Caption = 'pClient'
+      ClientHeight = 135
+      ClientWidth = 486
+      TabOrder = 0
+      object ceNom: TChamp_Edit
+        Left = 8
+        Height = 21
+        Top = 4
+        Width = 353
+        Anchors = [akTop, akLeft, akRight]
+        AutoSize = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 0
+        Text = 'ceNom'
+        Field = 'Nom'
+      end
+      object sbAdresse1_from_Nom: TSpeedButton
+        Left = 365
+        Height = 22
+        Hint = 'Copie vers courant'
+        Top = 3
+        Width = 22
+        Anchors = [akTop, akRight]
+        Caption = '>'
+      end
+      object ceAdresse_1: TChamp_Edit
+        Left = 7
+        Height = 21
+        Top = 28
+        Width = 379
+        Anchors = [akTop, akLeft, akRight]
+        AutoSize = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 1
+        Text = 'ceAdresse_1'
+        Field = 'Adresse_1'
+      end
+      object ceAdresse_2: TChamp_Edit
+        Left = 7
+        Height = 21
+        Top = 52
+        Width = 379
+        Anchors = [akTop, akLeft, akRight]
+        AutoSize = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 2
+        Text = 'ceAdresse_2'
+        Field = 'Adresse_2'
+      end
+      object ceAdresse_3: TChamp_Edit
+        Left = 7
+        Height = 21
+        Top = 76
+        Width = 379
+        Anchors = [akTop, akLeft, akRight]
+        AutoSize = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 3
+        Text = 'ceAdresse_3'
+        Field = 'Adresse_3'
+      end
+      object ceCode_Postal: TChamp_Edit
+        Left = 7
+        Height = 21
+        Top = 100
+        Width = 80
+        AutoSize = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 4
+        Text = 'ceCode_Postal'
+        Field = 'Code_Postal'
+      end
+      object ceVille: TChamp_Edit
+        Left = 89
+        Height = 21
+        Top = 100
+        Width = 297
+        Anchors = [akTop, akLeft, akRight]
+        AutoSize = False
+        ParentShowHint = False
+        ShowHint = True
+        TabOrder = 5
+        Text = 'ceVille'
+        Field = 'Ville'
+      end
+    end
+    object dsbFacture: TDockableScrollbox
+      Left = 1
+      Height = 326
+      Top = 136
+      Width = 486
+      Align = alClient
+      Caption = 'dsbFacture'
+      ClientHeight = 326
+      ClientWidth = 486
+      TabOrder = 1
+      HauteurLigne = 32
+      BordureLignes = True
+      Zebrage = False
+      Zebrage1 = 15138790
+      Zebrage2 = 16777192
+      _LectureSeule = False
+    end
+  end
+end

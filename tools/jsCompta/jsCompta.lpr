@@ -45,14 +45,14 @@ uses
  uOD_TextTableContext, uOD_TextTableManager, uOOoChrono,
  uOOoDelphiReportEngineLog, uOOoStringList, uOOoStrings, uOpenDocument,
  uDockable, ucDockableScrollbox, ufjsCompta, ufFacture_dsb, uhfFacture,
- upoolFacture, ublFacture, 
-udkFacture_display_Facture, udkFacture_edit, ufFacture, udkFacture_display,
- ublMois, udkMois_display, udkMois_edit, ufMois_dsb, uhfMois, upoolMois,
- ublPiece, udkPiece_display, udkPiece_edit, ufPiece_dsb, uhfPiece, upoolPiece,
- ufPatternMainMenu, uhfFacture_Ligne, upoolFacture_Ligne, ublFacture_Ligne,
+ upoolFacture, ublFacture, udkFacture_display_Facture, udkFacture_edit,
+ ufFacture, udkFacture_display, uodFacture, ublMois, udkMois_display,
+ udkMois_edit, ufMois_dsb, uhfMois, upoolMois, ublPiece, udkPiece_display,
+ udkPiece_edit, ufPiece_dsb, uhfPiece, upoolPiece, ufPatternMainMenu,
+ uhfFacture_Ligne, upoolFacture_Ligne, ublFacture_Ligne,
  udkFacture_Ligne_display, udkFacture_Ligne_edit, ufFacture_Ligne_dsb,
- udkClient_edit, udkClient_display, ublClient, upoolClient, uhfClient,
- ufClient_dsb, ublAnnee, udkAnnee_display, udkAnnee_edit, ufAnnee_dsb, uhfAnnee,
+ udkClient_edit, udkClient_display_Client, ublClient, upoolClient, uhfClient,
+ ufClient, ublAnnee, udkAnnee_display, udkAnnee_edit, ufAnnee_dsb, uhfAnnee,
  upoolAnnee;
 
 {$R *.res}

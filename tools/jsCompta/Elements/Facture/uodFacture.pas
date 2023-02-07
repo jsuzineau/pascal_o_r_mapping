@@ -144,14 +144,14 @@ begin
      nRoot.Charge_sl( sl);
      nRoot.Ajoute_Column_Apres( 'Label_Total', 0, 0);
      nRoot.Ajoute_Column_Apres( 'Label_TVA'  , 1, 1);
-     nRoot.Ajoute_Column_Apres( 'Montant'    , 4, 4);
+     nRoot.Ajoute_Column_Apres( 'Montant_s'  , 4, 4);
 
      nFacture_Ligne:= tFacture_Ligne.AddNiveau( 'Facture_Ligne');
      nFacture_Ligne.Ajoute_Column_Avant( 'Date'         , 0, 0);
      nFacture_Ligne.Ajoute_Column_Avant( 'Libelle'      , 1, 1);
      nFacture_Ligne.Ajoute_Column_Avant( 'NbHeures'     , 2, 2);
      nFacture_Ligne.Ajoute_Column_Avant( 'Prix_unitaire', 3, 3);
-     nFacture_Ligne.Ajoute_Column_Avant( 'Montant'      , 4, 4);
+     nFacture_Ligne.Ajoute_Column_Avant( 'Montant_s'    , 4, 4);
 end;
 
  

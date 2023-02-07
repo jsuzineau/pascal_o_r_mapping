@@ -65,7 +65,9 @@ type
  //Montant
  public
     Montant: Double; cMontant: TChamp;
+    Montant_s: String; cMontant_s: TChamp;
     procedure Montant_from_;
+    procedure Montant_s_GetChaine( var _Chaine: String);
   //Facture
   private
     FFacture_id: Integer;
@@ -206,6 +208,9 @@ begin
      cNbHeures     .OnChange.Abonne( Self, Montant_from_);
      cPrix_unitaire.OnChange.Abonne( Self, Montant_from_);
 
+     cMontant_s:= Ajoute_String      ( Montant_s, 'Montant_s', False);
+     cMontant_s.OnGetChaine:= Montant_s_GetChaine;
+
 
      FFacture_bl:= nil;
      cFacture_id:= Integer_from_Integer( FFacture_id, 'Facture_id');
@@ -225,6 +230,11 @@ end;
 procedure TblFacture_Ligne.Montant_from_;
 begin
      cMontant.asDouble:= Arrondi_Arithmetique_00( NbHeures * Prix_unitaire);
+end;
+
+procedure TblFacture_Ligne.Montant_s_GetChaine(var _Chaine: String);
+begin
+     _Chaine:= cMontant.Chaine+' €';
 end;
 
 //pattern_sCle_from__Implementation

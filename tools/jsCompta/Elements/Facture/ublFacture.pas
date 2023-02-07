@@ -126,7 +126,11 @@ type
     Annee          : Integer; cAnnee: TChamp;
     NumeroDansAnnee: Integer; cNumeroDansAnnee: TChamp;
     NbHeures: String;
-    Montant: Double;
+  //Montant
+  public
+    Montant: Double; cMontant: TChamp;
+    Montant_s: String; cMontant_s: TChamp;
+    procedure Montant_s_GetChaine( var _Chaine: String);
   //Numero
   public
     Numero: String; cNumero: TChamp;
@@ -460,8 +464,11 @@ begin
      cNom:= String_from_String ( Nom            , 'Nom'            );
      cLibelle:= cNom;
      Champs.  String_from_String ( NbHeures       , 'NbHeures'       );
-     Champs.  Double_from_       ( Montant        , 'Montant'        );
 
+     //Montant
+     cMontant:=          Double_from_( Montant  , 'Montant'  );
+     cMontant_s:= Ajoute_String      ( Montant_s, 'Montant_s', False);
+     cMontant_s.OnGetChaine:= Montant_s_GetChaine;
 
      //Détail Client
      FClient_bl:= nil;
@@ -488,6 +495,11 @@ destructor TblFacture.Destroy;
 begin
 
      inherited;
+end;
+
+procedure TblFacture.Montant_s_GetChaine(var _Chaine: String);
+begin
+     _Chaine:= cMontant.Chaine+' €';
 end;
 
 procedure TblFacture.Numero_from_;

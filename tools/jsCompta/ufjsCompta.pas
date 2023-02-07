@@ -10,6 +10,7 @@ uses
     ublPiece,
     upoolPiece,
 
+    ufClient,
     ufPiece_dsb,
     ufFacture,
     ufMois_dsb,
@@ -27,6 +28,8 @@ type
    bFacture: TButton;
    bPiece: TButton;
    bMois: TButton;
+   bClient: TButton;
+   procedure bClientClick(Sender: TObject);
    procedure bFactureClick(Sender: TObject);
    procedure bMoisClick(Sender: TObject);
    procedure bPieceClick(Sender: TObject);
@@ -63,6 +66,11 @@ end;
 procedure TfjsCompta.bFactureClick(Sender: TObject);
 begin
      fFacture.Execute;
+end;
+
+procedure TfjsCompta.bClientClick(Sender: TObject);
+begin
+     fClient.Execute;
 end;
 
 procedure TfjsCompta.bPieceClick(Sender: TObject);

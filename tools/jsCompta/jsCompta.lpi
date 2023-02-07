@@ -166,7 +166,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="41">
+    <Units Count="42">
       <Unit0>
         <Filename Value="jsCompta.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -313,9 +313,9 @@
         <ResourceBaseClass Value="Form"/>
       </Unit26>
       <Unit27>
-        <Filename Value="Elements/Client/ufClient_dsb.pas"/>
+        <Filename Value="Elements/Client/ufClient.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="fClient_dsb"/>
+        <ComponentName Value="fClient"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit27>
@@ -332,9 +332,10 @@
         <IsPartOfProject Value="True"/>
       </Unit30>
       <Unit31>
-        <Filename Value="Elements/Client/udkClient_display.pas"/>
+        <Filename Value="Elements/Client/udkClient_display_Client.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="dkClient_display"/>
+        <ComponentName Value="dkClient_display_Client"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit31>
       <Unit32>
@@ -390,6 +391,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit40>
+      <Unit41>
+        <Filename Value="Elements/Facture/uodFacture.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit41>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

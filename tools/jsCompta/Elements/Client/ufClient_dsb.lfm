@@ -28,7 +28,7 @@ object fClient_dsb: TfClient_dsb
     Width = 740
     ActivePage = tsPascal_uf_pc_dfm_Aggregation
     Align = alBottom
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 1
     object tsFacture: TTabSheet
       Caption = 'Facture'
@@ -92,8 +92,8 @@ object fClient_dsb: TfClient_dsb
         Caption = 'lNbTotal'
         ParentColor = False
       end
-      object bImprimer: TBitBtn
-        Left = 416
+      object bodClient: TBitBtn
+        Left = 344
         Height = 25
         Top = 8
         Width = 75
@@ -113,7 +113,7 @@ object fClient_dsb: TfClient_dsb
           33333337FFFF7733333333300000033333333337777773333333
         }
         NumGlyphs = 2
-        OnClick = bImprimerClick
+        OnClick = bodClientClick
         TabOrder = 0
       end
       object bNouveau: TButton
@@ -133,6 +133,15 @@ object fClient_dsb: TfClient_dsb
         Caption = 'Supprimer'
         OnClick = bSupprimerClick
         TabOrder = 2
+      end
+      object bodClient_Modele: TButton
+        Left = 421
+        Height = 25
+        Top = 8
+        Width = 23
+        Caption = 'M'
+        OnClick = bodClient_ModeleClick
+        TabOrder = 3
       end
     end
     object Panel3: TPanel
@@ -171,7 +180,7 @@ object fClient_dsb: TfClient_dsb
       ClientHeight = 179
       ClientWidth = 738
       TabOrder = 2
-      HauteurLigne = 140
+      HauteurLigne = 32
       BordureLignes = True
       Zebrage = False
       Zebrage1 = 15138790

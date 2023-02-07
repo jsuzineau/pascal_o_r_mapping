@@ -1,4 +1,4 @@
-unit udkFacture_display;
+unit udkClient_display_Client;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
@@ -29,28 +29,25 @@ uses
     uBatpro_StringList,
     uChamps,
 
-    ublFacture,
-    upoolFacture,
+    ublClient,
+    upoolClient,
 
     uDockable, ucBatpro_Shape, ucChamp_Label, ucChamp_Edit,
     ucBatproDateTimePicker, ucChamp_DateTimePicker, ucDockableScrollbox,
     Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
     LCLType;
 
-const
-     udkFacture_display_Copy_to_current=0;
-
 type
 
- { TdkFacture_display }
+ { TdkClient_display_Client }
 
- TdkFacture_display
+ TdkClient_display_Client
  =
   class(TDockable)
-  clDate: TChamp_Label;
   clNom: TChamp_Label;
-  clNbHeures: TChamp_Label;
-  clMontant: TChamp_Label;
+  sbDetruire: TSpeedButton;
+  procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+  procedure sbDetruireClick(Sender: TObject);
  //Gestion du cycle de vie
  public
    constructor Create(AOwner: TComponent); override;
@@ -59,32 +56,50 @@ type
   procedure SetObjet(const Value: TObject); override;
  //attributs
  private
-   blFacture: TblFacture;
+   blClient: TblClient;
  end;
 
 implementation
 
 {$R *.lfm}
 
-{ TdkFacture_display }
+{ TdkClient_display_Client }
 
-constructor TdkFacture_display.Create(AOwner: TComponent);
+constructor TdkClient_display_Client.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
 end;
 
-destructor TdkFacture_display.Destroy;
+destructor TdkClient_display_Client.Destroy;
 begin
      inherited Destroy;
 end;
 
-procedure TdkFacture_display.SetObjet(const Value: TObject);
+procedure TdkClient_display_Client.SetObjet(const Value: TObject);
 begin
      inherited SetObjet(Value);
 
-     Affecte( blFacture, TblFacture, Value);
+     Affecte( blClient, TblClient, Value);
 
-     Champs_Affecte( blFacture, [clDate,clNom,clNbHeures,clMontant]);
+     Champs_Affecte( blClient, [clNom]);
+end;
+
+procedure TdkClient_display_Client.sbDetruireClick(Sender: TObject);
+begin
+     if IDYES
+        <>
+        Application.MessageBox( 'Etes vous sûr de vouloir supprimer Client ?',
+                                'Suppression de Client',
+                                MB_ICONQUESTION+MB_YESNO)
+     then
+         exit;
+     poolClient .Supprimer( blClient );
+     Do_DockableScrollbox_Suppression;
+end;
+
+procedure TdkClient_display_Client.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+     inherited;
 end;
 
 end.
