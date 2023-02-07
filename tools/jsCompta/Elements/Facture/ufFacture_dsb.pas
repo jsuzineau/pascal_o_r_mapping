@@ -30,16 +30,22 @@ uses
     ublFacture,
 
     uPool,
+    upoolClient,
     upoolFacture,
 
      udkPiece_edit,
-     ublPiece, 
+     ublPiece,
+
+     udkFacture_Ligne_edit,
+     ublFacture_Ligne, 
 
     udkFacture_edit,
+    uodFacture,
+
     ucDockableScrollbox,
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DBCtrls, Grids, DBGrids, ActnList, StdCtrls, ComCtrls, Buttons,
-  ExtCtrls, DB;
+  ExtCtrls, DB,LCLIntf;
 
 type
 
@@ -48,12 +54,13 @@ type
  TfFacture_dsb
  =
   class(TForm)
+   bodFacture_Modele: TButton;
     dsb: TDockableScrollbox;
     pc: TPageControl;
     Splitter1: TSplitter;
     Panel1: TPanel;
     Panel2: TPanel;
-    bImprimer: TBitBtn;
+    bodFacture: TBitBtn;
     Label1: TLabel;
     lNbTotal: TLabel;
     Panel3: TPanel;
@@ -62,13 +69,17 @@ type
     bNouveau: TButton;
     bSupprimer: TButton;
     tsPiece: TTabSheet;
-    dsbPiece: TDockableScrollbox; 
+    dsbPiece: TDockableScrollbox;
+
+    tsFacture_Ligne: TTabSheet;
+    dsbFacture_Ligne: TDockableScrollbox; 
+    procedure bodFacture_ModeleClick(Sender: TObject);
     procedure dsbSelect(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure bNouveauClick(Sender: TObject);
     procedure bSupprimerClick(Sender: TObject);
-    procedure bImprimerClick(Sender: TObject);
+    procedure bodFactureClick(Sender: TObject);
   private
     { Déclarations privées }
     procedure NbTotal_Change;
@@ -111,7 +122,10 @@ begin
      dsb.Classe_dockable:= TdkFacture_edit;
      dsb.Classe_Elements:= TblFacture;
      dsbPiece.Classe_dockable:= TdkPiece_edit;
-     dsbPiece.Classe_Elements:= TblPiece; 
+     dsbPiece.Classe_Elements:= TblPiece;
+
+     dsbFacture_Ligne.Classe_dockable:= TdkFacture_Ligne_edit;
+     dsbFacture_Ligne.Classe_Elements:= TblFacture_Ligne; 
 end;
 
 procedure TfFacture_dsb.dsbSelect(Sender: TObject);
@@ -133,6 +147,7 @@ end;
 
 function TfFacture_dsb.Execute: Boolean;
 begin
+     poolClient.ToutCharger;
      pool.ToutCharger;
      _from_pool;
      Result:= True;
@@ -150,7 +165,10 @@ begin
      Champs_Affecte( blFacture,[ ]);//laissé vide pour l'instant
 
      blFacture.haPiece.Charge;
-     dsbPiece.sl:= blFacture.haPiece.sl; 
+     dsbPiece.sl:= blFacture.haPiece.sl;
+
+     blFacture.haFacture_Ligne.Charge;
+     dsbFacture_Ligne.sl:= blFacture.haFacture_Ligne.sl; 
 end;
 
 procedure TfFacture_dsb.bNouveauClick(Sender: TObject);
@@ -183,16 +201,46 @@ begin
      _from_pool;
 end;
 
-procedure TfFacture_dsb.bImprimerClick(Sender: TObject);
+procedure TfFacture_dsb.bodFactureClick(Sender: TObject);
+var
+   bl: TblFacture;
+   odFacture: TodFacture;
+   Resultat: String;
 begin
-     {
-     Batpro_Ligne_Printer.Execute( 'fFacture_dsb.stw',
-                                   'Facture',[],[],[],[],
-                                   ['Facture'],
-                                   [poolFacture.slFiltre],
-                                   [ nil],
-                                   [ nil]);
-     }
+     dsb.Get_bl( bl);
+     if bl = nil then exit;
+
+     odFacture:= TodFacture.Create;
+     try
+        odFacture.Init( bl);
+        Resultat:= odFacture.Visualiser;
+     finally
+            FreeAndNil( odFacture);
+            end;
+     if not OpenDocument( Resultat)
+     then
+         ShowMessage( 'OpenDocument failed on '+Resultat);
+end;
+
+procedure TfFacture_dsb.bodFacture_ModeleClick( Sender: TObject);
+var
+   bl: TblFacture;
+   odFacture: TodFacture;
+   Resultat: String;
+begin
+     dsb.Get_bl( bl);
+     if bl = nil then exit;
+
+     odFacture:= TodFacture.Create;
+     try
+        odFacture.Init( bl);
+        Resultat:= odFacture.Editer_Modele_Impression;
+     finally
+            FreeAndNil( odFacture);
+            end;
+     if not OpenDocument( Resultat)
+     then
+         ShowMessage( 'OpenDocument failed on '+Resultat);
 end;
 
 initialization

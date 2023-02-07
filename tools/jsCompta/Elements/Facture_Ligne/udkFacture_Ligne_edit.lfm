@@ -1,102 +1,105 @@
 inherited dkFacture_Ligne_edit: TdkFacture_Ligne_edit
   Left = 704
-  Height = 45
+  Height = 49
   Top = 420
-  Width = 226
+  Width = 589
   Caption = 'dkFacture_Ligne_edit'
-  ClientHeight = 45
-  ClientWidth = 226
-  inherited sSelection: TBatpro_Shape 
-    Height = 45
-  end
+  ClientHeight = 49
+  ClientWidth = 589
   inherited sBackground: TShape
-    Height = 45
-    Width = 214
+    Height = 49
+    Width = 577
   end
-  object ceFacture_id: TChamp_Edit
-    Left = 119
+  inherited sSelection: TBatpro_Shape
+    Height = 49
+  end
+  object clkcbFacture: TChamp_Lookup_ComboBox[2]
+    Left = 120
     Height = 21
-    Top = 4
+    Top = 26
+    Width = 233
+    ItemHeight = 13
+    Style = csDropDownList
+    TabOrder = 5
+    Field = 'Facture'
+  end
+  object ceFacture_id: TChamp_Edit[3]
+    Left = 38
+    Height = 21
+    Top = 26
     Width = 80
-    Anchors = [akTop, akRight]
     AutoSize = False
-    Text = 'ceFacture_id'
-    ParentColor = False
     ParentShowHint = False
     ShowHint = True
+    TabOrder = 6
+    Text = 'ceFacture_id'
     Field = 'Facture_id'
   end
-
-  object ceDate: TChamp_Edit
-    Left = 119
+  object ceDate: TChamp_Edit[4]
+    Left = 38
     Height = 21
     Top = 4
     Width = 80
-    Anchors = [akTop, akRight]
     AutoSize = False
-    Text = 'ceDate'
-    ParentColor = False
     ParentShowHint = False
     ShowHint = True
+    TabOrder = 0
+    Text = 'ceDate'
     Field = 'Date'
   end
-
-  object ceLibelle: TChamp_Edit
-    Left = 119
+  object ceLibelle: TChamp_Edit[5]
+    Left = 121
     Height = 21
     Top = 4
-    Width = 80
-    Anchors = [akTop, akRight]
+    Width = 196
+    Anchors = [akTop, akLeft, akRight]
     AutoSize = False
-    Text = 'ceLibelle'
-    ParentColor = False
     ParentShowHint = False
     ShowHint = True
+    TabOrder = 1
+    Text = 'ceLibelle'
     Field = 'Libelle'
   end
-
-  object ceNbHeures: TChamp_Edit
-    Left = 119
+  object ceNbHeures: TChamp_Edit[6]
+    Left = 319
     Height = 21
     Top = 4
     Width = 80
     Anchors = [akTop, akRight]
     AutoSize = False
-    Text = 'ceNbHeures'
-    ParentColor = False
     ParentShowHint = False
     ShowHint = True
+    TabOrder = 2
+    Text = 'ceNbHeures'
     Field = 'NbHeures'
   end
-
-  object cePrix_unitaire: TChamp_Edit
-    Left = 119
+  object cePrix_unitaire: TChamp_Edit[7]
+    Left = 400
     Height = 21
     Top = 4
     Width = 80
     Anchors = [akTop, akRight]
     AutoSize = False
-    Text = 'cePrix_unitaire'
-    ParentColor = False
     ParentShowHint = False
     ShowHint = True
+    TabOrder = 3
+    Text = 'cePrix_unitaire'
     Field = 'Prix_unitaire'
   end
-
-  object ceMontant: TChamp_Edit
-    Left = 119
+  object ceMontant: TChamp_Edit[8]
+    Left = 482
     Height = 21
     Top = 4
     Width = 80
     Anchors = [akTop, akRight]
     AutoSize = False
-    Text = 'ceMontant'
-    ParentColor = False
     ParentShowHint = False
     ShowHint = True
+    TabOrder = 4
+    Text = 'ceMontant'
     Field = 'Montant'
   end
-  object sbDetruire: TSpeedButton[2]
+  object sbDetruire: TSpeedButton[9]
     Left = 16
     Height = 22
     Hint = 'Supprimer'
@@ -128,8 +131,8 @@ inherited dkFacture_Ligne_edit: TdkFacture_Ligne_edit
     }
     OnClick = sbDetruireClick
   end
-  object sbCopy_to_current: TSpeedButton[3]
-    Left = 203
+  object sbCopy_to_current: TSpeedButton[10]
+    Left = 566
     Height = 22
     Hint = 'Copie vers courant'
     Top = 3

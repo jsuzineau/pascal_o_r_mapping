@@ -88,6 +88,12 @@ type
   //champs persistants
   public
     Nom: String;
+    Adresse_1: String; cAdresse_1: TChamp;
+    Adresse_2: String;
+    Adresse_3: String;
+    Code_Postal: String;
+    Ville: String;
+    procedure Adresse_1_from_Nom;
 //Pascal_ubl_declaration_pas_detail
   //Gestion de la clé
   public
@@ -272,6 +278,11 @@ begin
 
      //champs persistants
      cLibelle:= String_from_String ( Nom, 'Nom');
+     cAdresse_1:= Champs.  String_from_String ( Adresse_1      , 'Adresse_1'      );
+     Champs.  String_from_String ( Adresse_2      , 'Adresse_2'      );
+     Champs.  String_from_String ( Adresse_3      , 'Adresse_3'      );
+     Champs.  String_from_String ( Code_Postal    , 'Code_Postal'    );
+     Champs.  String_from_String ( Ville          , 'Ville'          );
 
 //Pascal_ubl_constructor_pas_detail
 end;
@@ -280,6 +291,11 @@ destructor TblClient.Destroy;
 begin
 
      inherited;
+end;
+
+procedure TblClient.Adresse_1_from_Nom;
+begin
+     cAdresse_1.Chaine:= Nom;
 end;
 
 //pattern_sCle_from__Implementation
@@ -292,7 +308,7 @@ end;
 procedure TblClient.Unlink( be: TBatpro_Element);
 begin
      inherited Unlink( be);
-;
+     ;
 
 end;
 

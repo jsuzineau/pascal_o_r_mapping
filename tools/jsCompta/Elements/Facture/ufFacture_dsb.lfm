@@ -28,7 +28,7 @@ object fFacture_dsb: TfFacture_dsb
     Width = 1431
     ActivePage = tsPascal_uf_pc_dfm_Aggregation
     Align = alBottom
-    TabIndex = 1
+    TabIndex = 2
     TabOrder = 1
     object tsPiece: TTabSheet
       Caption = 'Piece'
@@ -41,6 +41,28 @@ object fFacture_dsb: TfFacture_dsb
         Width = 1423
         Align = alClient
         Caption = 'dsbPiece'
+        ClientHeight = 165
+        ClientWidth = 1423
+        TabOrder = 0
+        HauteurLigne = 32
+        BordureLignes = True
+        Zebrage = False
+        Zebrage1 = 15138790
+        Zebrage2 = 16777192
+        _LectureSeule = False
+      end
+    end
+    object tsFacture_Ligne: TTabSheet
+      Caption = 'Facture_Ligne'
+      ClientHeight = 165
+      ClientWidth = 1423
+      object dsbFacture_Ligne: TDockableScrollbox
+        Left = 0
+        Height = 165
+        Top = 0
+        Width = 1423
+        Align = alClient
+        Caption = 'dsbFacture_Ligne'
         ClientHeight = 165
         ClientWidth = 1423
         TabOrder = 0
@@ -92,8 +114,8 @@ object fFacture_dsb: TfFacture_dsb
         Caption = 'lNbTotal'
         ParentColor = False
       end
-      object bImprimer: TBitBtn
-        Left = 416
+      object bodFacture: TBitBtn
+        Left = 344
         Height = 25
         Top = 8
         Width = 75
@@ -113,7 +135,7 @@ object fFacture_dsb: TfFacture_dsb
           33333337FFFF7733333333300000033333333337777773333333
         }
         NumGlyphs = 2
-        OnClick = bImprimerClick
+        OnClick = bodFactureClick
         TabOrder = 0
       end
       object bNouveau: TButton
@@ -133,6 +155,15 @@ object fFacture_dsb: TfFacture_dsb
         Caption = 'Supprimer'
         OnClick = bSupprimerClick
         TabOrder = 2
+      end
+      object bodFacture_Modele: TButton
+        Left = 421
+        Height = 25
+        Top = 8
+        Width = 23
+        Caption = 'M'
+        OnClick = bodFacture_ModeleClick
+        TabOrder = 3
       end
     end
     object Panel3: TPanel
@@ -171,7 +202,7 @@ object fFacture_dsb: TfFacture_dsb
       ClientHeight = 346
       ClientWidth = 1429
       TabOrder = 2
-      HauteurLigne = 32
+      HauteurLigne = 54
       BordureLignes = True
       Zebrage = False
       Zebrage1 = 15138790

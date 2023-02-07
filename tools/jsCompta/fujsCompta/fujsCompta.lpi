@@ -22,6 +22,9 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="OD_DelphiReportEngine_Controls"/>
+      </Item>
+      <Item>
         <PackageName Value="OD_DelphiReportEngine_Units"/>
       </Item>
       <Item>
@@ -82,6 +85,38 @@
         <Filename Value="..\Elements\Client\upoolClient.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="..\Elements\Facture_Ligne\uhfFacture_Ligne.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\Elements\Facture_Ligne\upoolFacture_Ligne.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\Elements\Facture_Ligne\ublFacture_Ligne.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\Elements\Facture_Ligne\udkFacture_Ligne_display.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkFacture_Ligne_display"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\Elements\Facture_Ligne\udkFacture_Ligne_edit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkFacture_Ligne_edit"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\Elements\Facture_Ligne\ufFacture_Ligne_dsb.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fFacture_Ligne_dsb"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\Elements\Facture_Ligne\dunit\utcFacture_Ligne.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -92,7 +127,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\Elements\Client\dunit;..\Elements\Piece\dunit;..\Elements\Mois\dunit;..\Elements\Facture\dunit;..\Elements\Annee\dunit;..\Elements\Facture;..\Elements\Piece;..\Elements\Mois;..\Elements\Annee;..\Elements\Client"/>
+      <OtherUnitFiles Value="..\Elements\Client\dunit;..\Elements\Piece\dunit;..\Elements\Mois\dunit;..\Elements\Facture\dunit;..\Elements\Annee\dunit;..\Elements\Facture;..\Elements\Piece;..\Elements\Mois;..\Elements\Annee;..\Elements\Client;..\Elements\Facture_Ligne;..\Elements\Facture_Ligne\dunit"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

@@ -54,7 +54,8 @@ type
   ceNbHeures: TChamp_Edit;
   cePrix_unitaire: TChamp_Edit;
   ceMontant: TChamp_Edit;
-//Pascal_udk_edit_declaration_pas
+  clkcbFacture: TChamp_Lookup_ComboBox;
+
   sbCopy_to_current: TSpeedButton;
   sbDetruire: TSpeedButton;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -80,14 +81,11 @@ implementation
 constructor TdkFacture_Ligne_edit.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
-     Ajoute_Colonne( ceFacture_id, 'Facture_id', 'Facture_id');
      Ajoute_Colonne( ceDate, 'Date', 'Date');
      Ajoute_Colonne( ceLibelle, 'Libelle', 'Libelle');
      Ajoute_Colonne( ceNbHeures, 'NbHeures', 'NbHeures');
      Ajoute_Colonne( cePrix_unitaire, 'Prix_unitaire', 'Prix_unitaire');
      Ajoute_Colonne( ceMontant, 'Montant', 'Montant');
-
-//Details_Pascal_udk_edit_Create_AjouteColonne_pas
 end;
 
 destructor TdkFacture_Ligne_edit.Destroy;
@@ -102,7 +100,7 @@ begin
      Affecte( blFacture_Ligne, TblFacture_Ligne, Value);
 
      Champs_Affecte( blFacture_Ligne,[ ceFacture_id,ceDate,ceLibelle,ceNbHeures,cePrix_unitaire,ceMontant]);
-     Champs_Affecte( blFacture_Ligne,[ {Details_Pascal_udk_edit_component_list_pas}]);
+     Champs_Affecte( blFacture_Ligne,[ clkcbFacture]);
 end;
 
 procedure TdkFacture_Ligne_edit.sbDetruireClick(Sender: TObject);

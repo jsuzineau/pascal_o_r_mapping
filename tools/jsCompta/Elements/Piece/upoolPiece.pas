@@ -71,7 +71,7 @@ type
 
   //Chargement d'un Facture
   public
-    procedure Charge_Facture( _idFacture: Integer; slLoaded: TBatpro_StringList = nil);
+    procedure Charge_Facture( _Facture_id: Integer; _slLoaded: TBatpro_StringList = nil);
 
   //Création d'itérateur
   protected
@@ -149,13 +149,13 @@ begin
 end;                                                 
 
 
-procedure TpoolPiece.Charge_Facture( _idFacture: Integer; slLoaded: TBatpro_StringList = nil);
+procedure TpoolPiece.Charge_Facture( _Facture_id: Integer; _slLoaded: TBatpro_StringList = nil);
 var
    SQL: String;
 begin
-     SQL:= 'select * from '+NomTable+' where idFacture = '+IntToStr( _idFacture);
+     SQL:= 'select * from '+NomTable+' where Facture_id = '+IntToStr( _Facture_id);
 
-     Load( SQL, slLoaded);
+     Load( SQL, _slLoaded);
 end;
 
 

@@ -49,6 +49,7 @@ type
   class(TDockable)
   clAnnee: TChamp_Label;
   clNumeroDansAnnee: TChamp_Label;
+  clNumero: TChamp_Label;
   clDate: TChamp_Label;
   clClient_id: TChamp_Label;
   clNom: TChamp_Label;
@@ -92,7 +93,7 @@ begin
 
      Affecte( blFacture, TblFacture, Value);
 
-     Champs_Affecte( blFacture, [clAnnee,clNumeroDansAnnee,clDate,clClient_id,clNom,clNbHeures,clMontant]);
+     Champs_Affecte( blFacture, [clAnnee,clNumeroDansAnnee,clNumero,clDate,clClient_id,clNom,clNbHeures,clMontant]);
 end;
 
 procedure TdkFacture_display.sbDetruireClick(Sender: TObject);

@@ -48,6 +48,11 @@ type
  =
   class(TDockable)
   clNom: TChamp_Label;
+  clAdresse_1: TChamp_Label;
+  clAdresse_2: TChamp_Label;
+  clAdresse_3: TChamp_Label;
+  clCode_Postal: TChamp_Label;
+  clVille: TChamp_Label;
   sbCopy_to_current: TSpeedButton;
   sbDetruire: TSpeedButton;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -86,7 +91,7 @@ begin
 
      Affecte( blClient, TblClient, Value);
 
-     Champs_Affecte( blClient, [clNom]);
+     Champs_Affecte( blClient, [clNom,clAdresse_1,clAdresse_2,clAdresse_3,clCode_Postal,clVille]);
 end;
 
 procedure TdkClient_display.sbDetruireClick(Sender: TObject);

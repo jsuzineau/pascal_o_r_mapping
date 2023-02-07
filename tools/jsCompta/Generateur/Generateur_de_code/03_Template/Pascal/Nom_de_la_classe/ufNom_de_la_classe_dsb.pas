@@ -35,10 +35,12 @@ uses
     //Pascal_uf_pc_uses_pas_aggregation
 
     udkNom_de_la_classe_edit,
+    uodNom_de_la_classe,
+
     ucDockableScrollbox,
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DBCtrls, Grids, DBGrids, ActnList, StdCtrls, ComCtrls, Buttons,
-  ExtCtrls, DB;
+  ExtCtrls, DB,LCLIntf;
 
 type
 
@@ -47,12 +49,13 @@ type
  TfNom_de_la_classe_dsb
  =
   class(TForm)
+   bodNom_de_la_classe_Modele: TButton;
     dsb: TDockableScrollbox;
     pc: TPageControl;
     Splitter1: TSplitter;
     Panel1: TPanel;
     Panel2: TPanel;
-    bImprimer: TBitBtn;
+    bodNom_de_la_classe: TBitBtn;
     Label1: TLabel;
     lNbTotal: TLabel;
     Panel3: TPanel;
@@ -61,12 +64,13 @@ type
     bNouveau: TButton;
     bSupprimer: TButton;
     tsPascal_uf_pc_dfm_Aggregation: TTabSheet;
+    procedure bodNom_de_la_classe_ModeleClick(Sender: TObject);
     procedure dsbSelect(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure bNouveauClick(Sender: TObject);
     procedure bSupprimerClick(Sender: TObject);
-    procedure bImprimerClick(Sender: TObject);
+    procedure bodNom_de_la_classeClick(Sender: TObject);
   private
     { Déclarations privées }
     procedure NbTotal_Change;
@@ -179,16 +183,46 @@ begin
      _from_pool;
 end;
 
-procedure TfNom_de_la_classe_dsb.bImprimerClick(Sender: TObject);
+procedure TfNom_de_la_classe_dsb.bodNom_de_la_classeClick(Sender: TObject);
+var
+   bl: TblNom_de_la_classe;
+   odNom_de_la_classe: TodNom_de_la_classe;
+   Resultat: String;
 begin
-     {
-     Batpro_Ligne_Printer.Execute( 'fNom_de_la_classe_dsb.stw',
-                                   'Nom_de_la_classe',[],[],[],[],
-                                   ['Nom_de_la_classe'],
-                                   [poolNom_de_la_classe.slFiltre],
-                                   [ nil],
-                                   [ nil]);
-     }
+     dsb.Get_bl( bl);
+     if bl = nil then exit;
+
+     odNom_de_la_classe:= TodNom_de_la_classe.Create;
+     try
+        odNom_de_la_classe.Init( bl);
+        Resultat:= odNom_de_la_classe.Visualiser;
+     finally
+            FreeAndNil( odNom_de_la_classe);
+            end;
+     if not OpenDocument( Resultat)
+     then
+         ShowMessage( 'OpenDocument failed on '+Resultat);
+end;
+
+procedure TfNom_de_la_classe_dsb.bodNom_de_la_classe_ModeleClick( Sender: TObject);
+var
+   bl: TblNom_de_la_classe;
+   odNom_de_la_classe: TodNom_de_la_classe;
+   Resultat: String;
+begin
+     dsb.Get_bl( bl);
+     if bl = nil then exit;
+
+     odNom_de_la_classe:= TodNom_de_la_classe.Create;
+     try
+        odNom_de_la_classe.Init( bl);
+        Resultat:= odNom_de_la_classe.Editer_Modele_Impression;
+     finally
+            FreeAndNil( odNom_de_la_classe);
+            end;
+     if not OpenDocument( Resultat)
+     then
+         ShowMessage( 'OpenDocument failed on '+Resultat);
 end;
 
 initialization

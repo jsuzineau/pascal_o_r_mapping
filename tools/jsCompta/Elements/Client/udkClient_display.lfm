@@ -24,6 +24,81 @@ inherited dkClient_display: TdkClient_display
     Field = 'Nom'
   end
 
+  object clAdresse_1: TChamp_Label
+    Left = 144
+    Height = 13
+    Top = 2
+    Width = 57
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Caption = 'clAdresse_1'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'Adresse_1'
+  end
+
+  object clAdresse_2: TChamp_Label
+    Left = 144
+    Height = 13
+    Top = 2
+    Width = 57
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Caption = 'clAdresse_2'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'Adresse_2'
+  end
+
+  object clAdresse_3: TChamp_Label
+    Left = 144
+    Height = 13
+    Top = 2
+    Width = 57
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Caption = 'clAdresse_3'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'Adresse_3'
+  end
+
+  object clCode_Postal: TChamp_Label
+    Left = 144
+    Height = 13
+    Top = 2
+    Width = 57
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Caption = 'clCode_Postal'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'Code_Postal'
+  end
+
+  object clVille: TChamp_Label
+    Left = 144
+    Height = 13
+    Top = 2
+    Width = 57
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Caption = 'clVille'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'Ville'
+  end
+
   object ceNom: TChamp_Edit
     Left = 119
     Height = 21
@@ -36,6 +111,76 @@ inherited dkClient_display: TdkClient_display
     ParentShowHint = False
     ShowHint = True
     Field = 'Nom'
+  end
+
+  object ceAdresse_1: TChamp_Edit
+    Left = 119
+    Height = 21
+    Top = 4
+    Width = 80
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Text = 'ceAdresse_1'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    Field = 'Adresse_1'
+  end
+
+  object ceAdresse_2: TChamp_Edit
+    Left = 119
+    Height = 21
+    Top = 4
+    Width = 80
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Text = 'ceAdresse_2'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    Field = 'Adresse_2'
+  end
+
+  object ceAdresse_3: TChamp_Edit
+    Left = 119
+    Height = 21
+    Top = 4
+    Width = 80
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Text = 'ceAdresse_3'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    Field = 'Adresse_3'
+  end
+
+  object ceCode_Postal: TChamp_Edit
+    Left = 119
+    Height = 21
+    Top = 4
+    Width = 80
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Text = 'ceCode_Postal'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    Field = 'Code_Postal'
+  end
+
+  object ceVille: TChamp_Edit
+    Left = 119
+    Height = 21
+    Top = 4
+    Width = 80
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Text = 'ceVille'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    Field = 'Ville'
   end
   object sbDetruire: TSpeedButton[2]
     Left = 16

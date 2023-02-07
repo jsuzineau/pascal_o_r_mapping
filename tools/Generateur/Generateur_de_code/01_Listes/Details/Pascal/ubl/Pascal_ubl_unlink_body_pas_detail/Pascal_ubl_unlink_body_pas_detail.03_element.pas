@@ -1,1 +1,1 @@
-if blDetail.NomDetail = be then Detail.NomDetail_Desaggrege
+if Detail.NomDetail_bl = be then Detail.NomDetail_Desaggrege

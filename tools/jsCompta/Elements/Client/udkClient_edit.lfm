@@ -1,23 +1,23 @@
 inherited dkClient_edit: TdkClient_edit
   Left = 704
-  Height = 45
+  Height = 140
   Top = 420
-  Width = 226
+  Width = 420
   Caption = 'dkClient_edit'
-  ClientHeight = 45
-  ClientWidth = 226
+  ClientHeight = 140
+  ClientWidth = 420
   inherited sBackground: TShape
-    Height = 45
-    Width = 214
+    Height = 140
+    Width = 408
   end
   inherited sSelection: TBatpro_Shape
-    Height = 45
+    Height = 140
   end
   object ceNom: TChamp_Edit[2]
     Left = 40
     Height = 21
     Top = 4
-    Width = 159
+    Width = 353
     Anchors = [akTop, akLeft, akRight]
     AutoSize = False
     ParentShowHint = False
@@ -26,7 +26,71 @@ inherited dkClient_edit: TdkClient_edit
     Text = 'ceNom'
     Field = 'Nom'
   end
-  object sbDetruire: TSpeedButton[3]
+  object ceAdresse_1: TChamp_Edit[3]
+    Left = 39
+    Height = 21
+    Top = 28
+    Width = 379
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 1
+    Text = 'ceAdresse_1'
+    Field = 'Adresse_1'
+  end
+  object ceAdresse_2: TChamp_Edit[4]
+    Left = 39
+    Height = 21
+    Top = 52
+    Width = 379
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 2
+    Text = 'ceAdresse_2'
+    Field = 'Adresse_2'
+  end
+  object ceAdresse_3: TChamp_Edit[5]
+    Left = 39
+    Height = 21
+    Top = 76
+    Width = 379
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 3
+    Text = 'ceAdresse_3'
+    Field = 'Adresse_3'
+  end
+  object ceCode_Postal: TChamp_Edit[6]
+    Left = 39
+    Height = 21
+    Top = 100
+    Width = 80
+    AutoSize = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 4
+    Text = 'ceCode_Postal'
+    Field = 'Code_Postal'
+  end
+  object ceVille: TChamp_Edit[7]
+    Left = 121
+    Height = 21
+    Top = 100
+    Width = 297
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 5
+    Text = 'ceVille'
+    Field = 'Ville'
+  end
+  object sbDetruire: TSpeedButton[8]
     Left = 16
     Height = 22
     Hint = 'Supprimer'
@@ -58,14 +122,14 @@ inherited dkClient_edit: TdkClient_edit
     }
     OnClick = sbDetruireClick
   end
-  object sbCopy_to_current: TSpeedButton[4]
-    Left = 203
+  object sbAdresse1_from_Nom: TSpeedButton[9]
+    Left = 397
     Height = 22
     Hint = 'Copie vers courant'
     Top = 3
     Width = 22
     Anchors = [akTop, akRight]
     Caption = '>'
-    OnClick = sbCopy_to_currentClick
+    OnClick = sbAdresse1_from_NomClick
   end
 end

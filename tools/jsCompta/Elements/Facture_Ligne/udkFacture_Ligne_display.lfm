@@ -6,6 +6,16 @@ inherited dkFacture_Ligne_display: TdkFacture_Ligne_display
   Caption = 'dkFacture_Ligne_display'
   ClientHeight = 45
   ClientWidth = 226
+object clkcbFacture: TChamp_Lookup_ComboBox
+  Left = 3
+  Height = 23
+  Top = 18
+  Width = 233
+  ItemHeight = 15
+  Style = csDropDownList
+  TabOrder = 0
+  Field = 'Facture'
+end
   inherited sSelection: TBatpro_Shape 
     Height = 45
   end

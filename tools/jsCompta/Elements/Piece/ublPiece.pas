@@ -218,7 +218,7 @@ end;
 procedure TblPiece.Unlink( be: TBatpro_Element);
 begin
      inherited Unlink( be);
-if Facture_bl = be then Facture_Desaggrege;
+     if Facture_bl = be then Facture_Desaggrege;
 
 end;
 

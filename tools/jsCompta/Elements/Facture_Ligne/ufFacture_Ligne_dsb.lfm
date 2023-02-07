@@ -144,12 +144,13 @@ object fFacture_Ligne_dsb: TfFacture_Ligne_dsb
       Height = 179
       Top = 31
       Width = 738
+      HelpContext = 49
       Align = alClient
       Caption = 'dsb'
       ClientHeight = 179
       ClientWidth = 738
       TabOrder = 2
-      HauteurLigne = 32
+      HauteurLigne = 49
       BordureLignes = True
       Zebrage = False
       Zebrage1 = 15138790

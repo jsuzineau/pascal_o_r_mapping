@@ -1,6 +1,6 @@
-     FblDetail.NomDetail:= nil;
-     cidDetail.NomDetail:= Integer_from_Integer( FidDetail.NomDetail, 'idDetail.NomDetail');
-     Champs.String_Lookup( FDetail.NomDetail, 'Detail.NomDetail', cidDetail.NomDetail, ublClasse.Nom_de_la_classe_poolDetail.ClasseDetail.GetLookupListItems, '');
-     idDetail.NomDetail_Change;
-     cidDetail.NomDetail.OnChange.Abonne( Self, idDetail.NomDetail_Change);
+     FDetail.NomDetail_bl:= nil;
+     cDetail.NomDetail_id:= Integer_from_Integer( FDetail.NomDetail_id, 'Detail.NomDetail_id');
+     Champs.String_Lookup( FDetail.NomDetail, 'Detail.NomDetail', cDetail.NomDetail_id, ublClasse.Nom_de_la_classe_poolDetail.ClasseDetail.GetLookupListItems, '');
+     Detail.NomDetail_id_Change;
+     cDetail.NomDetail_id.OnChange.Abonne( Self, Detail.NomDetail_id_Change);
 

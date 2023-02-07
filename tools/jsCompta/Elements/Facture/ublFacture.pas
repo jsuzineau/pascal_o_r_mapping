@@ -25,6 +25,8 @@ interface
 uses
     uClean,
     ufAccueil_Erreur,
+    uReels,
+    uDataUtilsU,
     u_sys_,
     uuStrings,
     uBatpro_StringList,
@@ -39,6 +41,8 @@ uses
 
     ublPiece,
     upoolPiece,
+    ublFacture_Ligne,
+    upoolFacture_Ligne,
 
 
 
@@ -74,6 +78,38 @@ type
    end;
 
 
+  { ThaFacture__Facture_Ligne }
+  ThaFacture__Facture_Ligne
+  =
+   class( ThAggregation)
+   //Gestion du cycle de vie
+   public
+     constructor Create( _Parent: TBatpro_Element;
+                         _Classe_Elements: TBatpro_Element_Class;
+                         _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre); override;
+     destructor  Destroy; override;
+   //Parent
+   public
+     blFacture: TblFacture;  
+   //Chargement de tous les détails
+   public
+     procedure Charge; override;
+   //Suppression
+   public
+     procedure Delete_from_database; override;
+   //Création d'itérateur
+   protected
+     class function Classe_Iterateur: TIterateur_Class; override;
+   public
+     function Iterateur: TIterateur_Facture_Ligne;
+     function Iterateur_Decroissant: TIterateur_Facture_Ligne;
+   //Total des lignes
+   public
+     function CalculeTotal: Double;
+     procedure Montant_from_Total;
+   end;
+
+
 
 
  { TblFacture }
@@ -87,11 +123,18 @@ type
     destructor Destroy; override;
   //champs persistants
   public
-    Annee: Integer;
-    NumeroDansAnnee: Integer;
-    Date: TDateTime; cDate: TChamp;
-    NbHeures: Double;
+    Annee          : Integer; cAnnee: TChamp;
+    NumeroDansAnnee: Integer; cNumeroDansAnnee: TChamp;
+    NbHeures: String;
     Montant: Double;
+  //Numero
+  public
+    Numero: String; cNumero: TChamp;
+    procedure Numero_from_;
+  //Date
+  public
+    Date: TDateTime; cDate: TChamp;
+    procedure Date_from_Now;
   //Nom
   public
     Nom: String; cNom: TChamp;
@@ -132,7 +175,16 @@ type
     function GethaPiece: ThaFacture__Piece;
   public
     property haPiece: ThaFacture__Piece read GethaPiece;
-
+  //Aggrégation vers les Facture_Ligne correspondants
+  private
+    FhaFacture_Ligne: ThaFacture__Facture_Ligne;
+    function GethaFacture_Ligne: ThaFacture__Facture_Ligne;
+  public
+    property haFacture_Ligne: ThaFacture__Facture_Ligne read GethaFacture_Ligne;
+  //Pour impression
+  public
+    Label_Total: String;
+    Label_TVA: String;
   end;
 
  TIterateur_Facture
@@ -278,6 +330,105 @@ begin
      Result:= TIterateur_Piece(Iterateur_interne_Decroissant);
 end;
 
+{ ThaFacture__Facture_Ligne }
+
+constructor ThaFacture__Facture_Ligne.Create( _Parent: TBatpro_Element;
+                               _Classe_Elements: TBatpro_Element_Class;
+                               _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre);
+begin
+     inherited;
+     if Classe_Elements <> _Classe_Elements
+     then
+         fAccueil_Erreur(  'Erreur à signaler au développeur: '#13#10
+                          +' '+ClassName+'.Create: Classe_Elements <> _Classe_Elements:'#13#10
+                          +' Classe_Elements='+ Classe_Elements.ClassName+#13#10
+                          +'_Classe_Elements='+_Classe_Elements.ClassName
+                          );
+     if Affecte_( blFacture, TblFacture, Parent) then exit;
+end;
+
+destructor ThaFacture__Facture_Ligne.Destroy;
+begin
+     inherited;
+end;
+
+procedure ThaFacture__Facture_Ligne.Charge;
+begin
+     poolFacture_Ligne.Charge_Facture( blFacture.id);
+     Montant_from_Total;
+end;
+
+procedure ThaFacture__Facture_Ligne.Delete_from_database;
+var
+   I: TIterateur_Facture_Ligne;
+   bl: TblFacture_Ligne;
+begin
+     I:= Iterateur_Decroissant;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( bl) then Continue;
+
+          bl.Delete_from_database;//enlève en même temps de cette liste
+          end;
+     finally
+            FreeAndNil( I);
+            end;
+end;
+
+class function ThaFacture__Facture_Ligne.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Facture_Ligne;
+end;
+
+function ThaFacture__Facture_Ligne.Iterateur: TIterateur_Facture_Ligne;
+begin
+     Result:= TIterateur_Facture_Ligne(Iterateur_interne);
+end;
+
+function ThaFacture__Facture_Ligne.Iterateur_Decroissant: TIterateur_Facture_Ligne;
+begin
+     Result:= TIterateur_Facture_Ligne(Iterateur_interne_Decroissant);
+end;
+
+function ThaFacture__Facture_Ligne.CalculeTotal: Double;
+var
+   I: TIterateur_Facture_Ligne;
+   bl: TblFacture_Ligne;
+begin
+     Result:= 0;
+     I:= Iterateur;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( bl) then continue;
+
+          Result:= Result + bl.Montant;
+          end;
+     finally
+            FreeAndNil( I);
+            end;
+     Result:= Arrondi_Arithmetique_00( Result);
+end;
+
+procedure ThaFacture__Facture_Ligne.Montant_from_Total;
+var
+   Total: double;
+begin
+     Total:= CalculeTotal;
+
+     if Reel_Zero( blFacture.Montant)
+     then
+         blFacture.Montant:= Total
+     else
+         if Total <> blFacture.Montant
+         then
+             fAccueil_Erreur( 'Facture '+blFacture.Nom+', montant incohérent');
+
+end;
+
 
 
 { TblFacture }
@@ -300,22 +451,36 @@ begin
      Champs.ChampDefinitions.NomTable:= 'Facture';
 
      //champs persistants
-     Champs. Integer_from_Integer( Annee          , 'Annee'          );
-     Champs. Integer_from_Integer( NumeroDansAnnee, 'NumeroDansAnnee');
+     cAnnee          := Integer_from_Integer( Annee          , 'Annee'          );
+     cNumeroDansAnnee:= Integer_from_Integer( NumeroDansAnnee, 'NumeroDansAnnee');
+
      cDate:= DateTime_from_( Date           , 'Date'           );
      cDate.Definition.Typ:= ftDate;
+     cDate.Definition.Format_DateTime:='dddd d mmmm yyyy';
      cNom:= String_from_String ( Nom            , 'Nom'            );
      cLibelle:= cNom;
-     Champs.  Double_from_       ( NbHeures       , 'NbHeures'       );
+     Champs.  String_from_String ( NbHeures       , 'NbHeures'       );
      Champs.  Double_from_       ( Montant        , 'Montant'        );
 
 
+     //Détail Client
      FClient_bl:= nil;
      cClient_id:= Integer_from_Integer( FClient_id, 'Client_id');
      cClient  := Champs.String_Lookup( FClient, 'Client', cClient_id, ublFacture_poolClient.GetLookupListItems, '');
      Client_id_Change;
      cClient_id.OnChange.Abonne( Self, Client_id_Change);
 
+     //Numéro de facture
+     cNumero:= Ajoute_String ( Numero, 'Numero', False);
+     cAnnee          .OnChange.Abonne( Self, Numero_from_);
+     cNumeroDansAnnee.OnChange.Abonne( Self, Numero_from_);
+     Numero_from_;
+
+     //Libellés pour ligne total de facture sur impression
+     Ajoute_String ( Label_Total, 'Label_Total', False);
+     Ajoute_String ( Label_TVA  , 'Label_TVA'  , False);
+     Label_Total:= 'TOTAL HT';
+     Label_TVA  := '(TVA non applicable, article 293 B du code général des impôts)';
 
 end;
 
@@ -325,6 +490,16 @@ begin
      inherited;
 end;
 
+procedure TblFacture.Numero_from_;
+begin
+     cNumero.Chaine:= Format( '%.4d_%.2d', [Annee, NumeroDansAnnee]);
+end;
+
+procedure TblFacture.Date_from_Now;
+begin
+     cDate.asDatetime:= SysUtils.Date;
+end;
+
 procedure TblFacture.Nom_from_;
 var
    Y, M, D: Word;
@@ -332,10 +507,7 @@ begin
      if Nom <> '' then exit;
 
      DecodeDate( Date, Y, M, D);
-     Nom
-     :=
-       Format( '%4d_%2d_%2d_%2d_',
-               [Annee, NumeroDansAnnee, M, D]);
+     Nom:= Format( '%s_%.2d_%.2d_', [Numero, M, D]);
      if Assigned( Client_bl)
      then
          Nom:= Nom + Client_bl.GetLibelle;
@@ -344,7 +516,7 @@ end;
 
 class function TblFacture.sCle_from_( _Annee: Integer;  _NumeroDansAnnee: Integer): String;
 begin 
-     Result:=  Format('%4d%4d',[_Annee, _NumeroDansAnnee]);
+     Result:=  Format('%.4d%.4d',[_Annee, _NumeroDansAnnee]);
 end;  
 
 function TblFacture.sCle: String;
@@ -355,13 +527,14 @@ end;
 procedure TblFacture.Unlink( be: TBatpro_Element);
 begin
      inherited Unlink( be);
-if Client_bl = be then Client_Desaggrege;
+     if Client_bl = be then Client_Desaggrege;
 
 end;
 
 procedure TblFacture.Create_Aggregation( Name: String; P: ThAggregation_Create_Params);
 begin
           if 'Piece' = Name then P.Faible( ThaFacture__Piece, TblPiece, poolPiece)
+     else if 'Facture_Ligne' = Name then P.Faible( ThaFacture__Facture_Ligne, TblFacture_Ligne, poolFacture_Ligne)
      else                  inherited Create_Aggregation( Name, P);
 end;
 
@@ -373,6 +546,15 @@ begin
          FhaPiece:= Aggregations['Piece'] as ThaFacture__Piece;
 
      Result:= FhaPiece;
+end;
+
+function  TblFacture.GethaFacture_Ligne: ThaFacture__Facture_Ligne;
+begin
+     if FhaFacture_Ligne = nil
+     then
+         FhaFacture_Ligne:= Aggregations['Facture_Ligne'] as ThaFacture__Facture_Ligne;
+
+     Result:= FhaFacture_Ligne;
 end;
 
 

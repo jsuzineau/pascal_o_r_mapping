@@ -69,7 +69,10 @@ type
   public
     function Test( _Facture_id: Integer;  _Date: String;  _Libelle: String;  _NbHeures: Double;  _Prix_unitaire: Double;  _Montant: Double):Integer;
 
-//Details_Pascal_upool_charge_detail_declaration_pas
+  //Chargement d'un Facture
+  public
+    procedure Charge_Facture( _Facture_id: Integer; _slLoaded: TBatpro_StringList = nil);
+
   //Création d'itérateur
   protected
     class function Classe_Iterateur: TIterateur_Class; override;
@@ -150,7 +153,15 @@ begin
 end;                                                 
 
 
-//Details_Pascal_upool_charge_detail_implementation_pas
+procedure TpoolFacture_Ligne.Charge_Facture( _Facture_id: Integer; _slLoaded: TBatpro_StringList = nil);
+var
+   SQL: String;
+begin
+     SQL:= 'select * from '+NomTable+' where Facture_id = '+IntToStr( _Facture_id);
+
+     Load( SQL, _slLoaded);
+end;
+
 
 class function TpoolFacture_Ligne.Classe_Iterateur: TIterateur_Class;
 begin

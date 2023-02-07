@@ -81,7 +81,8 @@ implementation
 
 function ShowURL( URL: String): Boolean;
 begin
-     {$IFNDEF FPC}
+     //{$IFNDEF FPC}
+     {$IFDEF MSWINDOWS}
      //Result:= 32 < ShellExecute( 0, 'open', 'iexplore', PChar(URL),nil,SW_SHOWNORMAL);
      Result:= 32 < ShellExecute( 0, 'open', PChar(URL),nil,nil,SW_SHOWNORMAL);
      {$ELSE}

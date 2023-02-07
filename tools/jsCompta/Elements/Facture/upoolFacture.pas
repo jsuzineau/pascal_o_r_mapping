@@ -37,6 +37,8 @@ uses
 
     ublPiece,
     upoolPiece,
+    ublFacture_Ligne,
+    upoolFacture_Ligne,
 
 
   uhfFacture,
@@ -73,11 +75,11 @@ type
     function SQLWHERE_ContraintesChamps: String; override;
   //Méthode de création de test
   public
-    function Test( _Annee: Integer;  _NumeroDansAnnee: Integer;  _Date: TDatetime;  _Client_id: Integer;  _Nom: String;  _NbHeures: Double;  _Montant: Double):Integer;
+    function Test( _Annee: Integer;  _NumeroDansAnnee: Integer;  _Date: TDatetime;  _Client_id: Integer;  _Nom: String;  _NbHeures:  String;   _Montant: Double):Integer;
 
   //Chargement d'un Client
   public
-    procedure Charge_Client( _idClient: Integer; slLoaded: TBatpro_StringList = nil);
+    procedure Charge_Client( _Client_id: Integer; _slLoaded: TBatpro_StringList = nil);
 
   //Création d'itérateur
   protected
@@ -109,6 +111,10 @@ begin
      if nil = ublPiece_poolFacture
      then
          ublPiece_poolFacture:= Result;
+
+     if nil = ublFacture_Ligne_poolFacture
+     then
+         ublFacture_Ligne_poolFacture:= Result;
 
 end;
 
@@ -187,7 +193,7 @@ end;
 function TpoolFacture.Test( _Annee: Integer; _NumeroDansAnnee: Integer;
                             _Date: TDatetime;
                             _Client_id: Integer; _Nom: String;
-                            _NbHeures: Double; _Montant: Double): Integer;
+                            _NbHeures: String;  _Montant: Double): Integer;
 var                                                 
    bl: TblFacture;                          
 begin                                               
@@ -204,13 +210,13 @@ begin
 end;                                                 
 
 
-procedure TpoolFacture.Charge_Client( _idClient: Integer; slLoaded: TBatpro_StringList = nil);
+procedure TpoolFacture.Charge_Client( _Client_id: Integer; _slLoaded: TBatpro_StringList = nil);
 var
    SQL: String;
 begin
-     SQL:= 'select * from '+NomTable+' where idClient = '+IntToStr( _idClient);
+     SQL:= 'select * from '+NomTable+' where Client_id = '+IntToStr( _Client_id);
 
-     Load( SQL, slLoaded);
+     Load( SQL, _slLoaded);
 end;
 
 

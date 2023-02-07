@@ -28,7 +28,7 @@ object fClient_dsb: TfClient_dsb
     Width = 740
     ActivePage = tsPascal_uf_pc_dfm_Aggregation
     Align = alBottom
-    TabIndex = 0
+    TabIndex = 1
     TabOrder = 1
     object tsFacture: TTabSheet
       Caption = 'Facture'
@@ -171,7 +171,7 @@ object fClient_dsb: TfClient_dsb
       ClientHeight = 179
       ClientWidth = 738
       TabOrder = 2
-      HauteurLigne = 32
+      HauteurLigne = 140
       BordureLignes = True
       Zebrage = False
       Zebrage1 = 15138790

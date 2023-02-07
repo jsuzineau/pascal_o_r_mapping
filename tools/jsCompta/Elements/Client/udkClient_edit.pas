@@ -38,8 +38,6 @@ uses
     Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
     LCLType;
 
-const
-     udkClient_edit_Copy_to_current=0;
 
 type
 
@@ -49,11 +47,16 @@ type
  =
   class(TDockable)
   ceNom: TChamp_Edit;
+  ceAdresse_1: TChamp_Edit;
+  ceAdresse_2: TChamp_Edit;
+  ceAdresse_3: TChamp_Edit;
+  ceCode_Postal: TChamp_Edit;
+  ceVille: TChamp_Edit;
 //Pascal_udk_edit_declaration_pas
-  sbCopy_to_current: TSpeedButton;
+  sbAdresse1_from_Nom: TSpeedButton;
   sbDetruire: TSpeedButton;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-  procedure sbCopy_to_currentClick(Sender: TObject);
+  procedure sbAdresse1_from_NomClick(Sender: TObject);
   procedure sbDetruireClick(Sender: TObject);
  //Gestion du cycle de vie
  public
@@ -76,6 +79,13 @@ constructor TdkClient_edit.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
      Ajoute_Colonne( ceNom, 'Nom', 'Nom');
+     (*
+     Ajoute_Colonne( ceAdresse_1, 'Adresse_1', 'Adresse_1');
+     Ajoute_Colonne( ceAdresse_2, 'Adresse_2', 'Adresse_2');
+     Ajoute_Colonne( ceAdresse_3, 'Adresse_3', 'Adresse_3');
+     Ajoute_Colonne( ceCode_Postal, 'Code_Postal', 'Code_Postal');
+     Ajoute_Colonne( ceVille, 'Ville', 'Ville');
+     *)
 
 //Details_Pascal_udk_edit_Create_AjouteColonne_pas
 end;
@@ -91,7 +101,7 @@ begin
 
      Affecte( blClient, TblClient, Value);
 
-     Champs_Affecte( blClient,[ ceNom]);
+     Champs_Affecte( blClient,[ ceNom,ceAdresse_1,ceAdresse_2,ceAdresse_3,ceCode_Postal,ceVille]);
      Champs_Affecte( blClient,[ {Details_Pascal_udk_edit_component_list_pas}]);
 end;
 
@@ -113,9 +123,10 @@ begin
      inherited;
 end;
 
-procedure TdkClient_edit.sbCopy_to_currentClick(Sender: TObject);
+procedure TdkClient_edit.sbAdresse1_from_NomClick(Sender: TObject);
 begin
-     Envoie_Message( udkClient_edit_Copy_to_current);
+     if nil = blClient then exit;
+     blClient.Adresse_1_from_Nom;
 end;
 
 end.

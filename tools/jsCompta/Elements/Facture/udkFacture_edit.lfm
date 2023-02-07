@@ -1,20 +1,20 @@
 inherited dkFacture_edit: TdkFacture_edit
   Left = 503
-  Height = 45
+  Height = 54
   Top = 362
-  Width = 1011
+  Width = 1144
   Caption = 'dkFacture_edit'
-  ClientHeight = 45
-  ClientWidth = 1011
+  ClientHeight = 54
+  ClientWidth = 1144
   inherited sBackground: TShape
-    Height = 45
-    Width = 999
+    Height = 54
+    Width = 1132
   end
   inherited sSelection: TBatpro_Shape
-    Height = 45
+    Height = 54
   end
   object clkcbClient: TChamp_Lookup_ComboBox[2]
-    Left = 376
+    Left = 505
     Height = 21
     Top = 4
     Width = 153
@@ -47,11 +47,23 @@ inherited dkFacture_edit: TdkFacture_edit
     Text = 'ceNumeroDansAnnee'
     Field = 'NumeroDansAnnee'
   end
-  object ceDate: TChamp_Edit[5]
+  object ceNumero: TChamp_Edit[5]
     Left = 200
     Height = 21
     Top = 4
-    Width = 94
+    Width = 80
+    AutoSize = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 8
+    Text = 'ceNumero'
+    Field = 'Numero'
+  end
+  object ceDate: TChamp_Edit[6]
+    Left = 281
+    Height = 21
+    Top = 4
+    Width = 140
     AutoSize = False
     ParentShowHint = False
     ShowHint = True
@@ -59,8 +71,8 @@ inherited dkFacture_edit: TdkFacture_edit
     Text = 'ceDate'
     Field = 'Date'
   end
-  object ceClient_id: TChamp_Edit[6]
-    Left = 295
+  object ceClient_id: TChamp_Edit[7]
+    Left = 424
     Height = 21
     Top = 4
     Width = 80
@@ -71,8 +83,8 @@ inherited dkFacture_edit: TdkFacture_edit
     Text = 'ceClient_id'
     Field = 'Client_id'
   end
-  object ceNom: TChamp_Edit[7]
-    Left = 556
+  object ceNom: TChamp_Edit[8]
+    Left = 685
     Height = 21
     Top = 4
     Width = 293
@@ -83,8 +95,8 @@ inherited dkFacture_edit: TdkFacture_edit
     Text = 'ceNom'
     Field = 'Nom'
   end
-  object ceNbHeures: TChamp_Edit[8]
-    Left = 850
+  object ceNbHeures: TChamp_Edit[9]
+    Left = 979
     Height = 21
     Top = 4
     Width = 80
@@ -95,8 +107,8 @@ inherited dkFacture_edit: TdkFacture_edit
     Text = 'ceNbHeures'
     Field = 'NbHeures'
   end
-  object ceMontant: TChamp_Edit[9]
-    Left = 932
+  object ceMontant: TChamp_Edit[10]
+    Left = 1061
     Height = 21
     Top = 4
     Width = 80
@@ -107,7 +119,7 @@ inherited dkFacture_edit: TdkFacture_edit
     Text = 'ceMontant'
     Field = 'Montant'
   end
-  object sbDetruire: TSpeedButton[10]
+  object sbDetruire: TSpeedButton[11]
     Left = 16
     Height = 22
     Hint = 'Supprimer'
@@ -139,13 +151,67 @@ inherited dkFacture_edit: TdkFacture_edit
     }
     OnClick = sbDetruireClick
   end
-  object sbNom_from_: TSpeedButton[11]
-    Left = 532
+  object sbNom_from_: TSpeedButton[12]
+    Left = 661
     Height = 22
     Hint = 'Nom par défaut'
     Top = 3
     Width = 22
     Caption = '>'
     OnClick = sbNom_from_Click
+  end
+  object ceid: TChamp_Edit[13]
+    Left = 38
+    Height = 21
+    Top = 29
+    Width = 80
+    AutoSize = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 9
+    Text = 'ceid'
+    Field = 'id'
+  end
+  object bDate: TButton[14]
+    Left = 281
+    Height = 25
+    Top = 26
+    Width = 75
+    Caption = 'Aujourd''hui'
+    OnClick = bDateClick
+    TabOrder = 10
+  end
+  object bodFacture: TBitBtn[15]
+    Left = 952
+    Height = 25
+    Top = 26
+    Width = 75
+    Caption = 'Imprimer'
+    Glyph.Data = {
+      76010000424D7601000000000000760000002800000020000000100000000100
+      04000000000000010000130B0000130B00001000000000000000000000000000
+      800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+      FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00300000000000
+      00033FFFFFFFFFFFFFFF0888888888888880777777777777777F088888888888
+      8880777777777777777F0000000000000000FFFFFFFFFFFFFFFF0F8F8F8F8F8F
+      8F80777777777777777F08F8F8F8F8F8F9F0777777777777777F0F8F8F8F8F8F
+      8F807777777777777F7F0000000000000000777777777777777F3330FFFFFFFF
+      03333337F3FFFF3F7F333330F0000F0F03333337F77773737F333330FFFFFFFF
+      03333337F3FF3FFF7F333330F00F000003333337F773777773333330FFFF0FF0
+      33333337F3FF7F3733333330F08F0F0333333337F7737F7333333330FFFF0033
+      33333337FFFF7733333333300000033333333337777773333333
+    }
+    NumGlyphs = 2
+    OnClick = bodFactureClick
+    TabOrder = 11
+  end
+  object bodFacture_Modele: TButton[16]
+    Left = 1030
+    Height = 25
+    Top = 26
+    Width = 23
+    Caption = 'M'
+    OnClick = bodFacture_ModeleClick
+    TabOrder = 12
   end
 end

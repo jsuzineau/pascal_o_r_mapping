@@ -315,6 +315,7 @@
         <Filename Value="Elements/Client/ufClient_dsb.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fClient_dsb"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit27>
       <Unit28>
@@ -364,12 +365,14 @@
         <Filename Value="Elements/Facture_Ligne/udkFacture_Ligne_edit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dkFacture_Ligne_edit"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit37>
       <Unit38>
         <Filename Value="Elements/Facture_Ligne/ufFacture_Ligne_dsb.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fFacture_Ligne_dsb"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit38>
     </Units>

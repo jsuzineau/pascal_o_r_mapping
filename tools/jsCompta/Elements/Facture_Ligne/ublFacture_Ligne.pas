@@ -25,6 +25,7 @@ interface
 uses
     uClean,
     ufAccueil_Erreur,
+    uDataUtilsU,
     u_sys_,
     uuStrings,
     uBatpro_StringList,
@@ -57,13 +58,32 @@ type
     destructor Destroy; override;
   //champs persistants
   public
-    Facture_id: Integer;
     Date: String;
     Libelle: String;
-    NbHeures: Double;
-    Prix_unitaire: Double;
-    Montant: Double;
-//Pascal_ubl_declaration_pas_detail
+    NbHeures: Double; cNbHeures: TChamp;
+    Prix_unitaire: Double; cPrix_unitaire: TChamp;
+ //Montant
+ public
+    Montant: Double; cMontant: TChamp;
+    procedure Montant_from_;
+  //Facture
+  private
+    FFacture_id: Integer;
+    FFacture_bl: TBatpro_Ligne;
+    FFacture: String;
+    procedure SetFacture_bl(const Value: TBatpro_Ligne);
+    procedure SetFacture_id(const Value: Integer);
+    procedure Facture_id_Change;
+    procedure Facture_Connecte;
+    procedure Facture_Aggrege;
+    procedure Facture_Desaggrege;
+    procedure Facture_Change;
+  public
+    cFacture_id: TChamp;
+    property Facture_id: Integer       read FFacture_id write SetFacture_id;
+    property Facture_bl: TBatpro_Ligne read FFacture_bl write SetFacture_bl;
+    function Facture: String;
+
   //Gestion de la clé
   public
 //pattern_sCle_from__Declaration
@@ -101,7 +121,9 @@ type
 function blFacture_Ligne_from_sl( sl: TBatpro_StringList; Index: Integer): TblFacture_Ligne;
 function blFacture_Ligne_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblFacture_Ligne;
 
-//Details_Pascal_ubl_declaration_pools_aggregations_pas
+var
+   ublFacture_Ligne_poolFacture: TPool = nil;
+
 
 implementation
 
@@ -176,20 +198,33 @@ begin
      Champs.ChampDefinitions.NomTable:= 'Facture_Ligne';
 
      //champs persistants
-     Champs. Integer_from_Integer( Facture_id     , 'Facture_id'     );
-     Champs.  String_from_String ( Date           , 'Date'           );
-     Champs.  String_from_String ( Libelle        , 'Libelle'        );
-     Champs.  Double_from_       ( NbHeures       , 'NbHeures'       );
-     Champs.  Double_from_       ( Prix_unitaire  , 'Prix_unitaire'  );
-     Champs.  Double_from_       ( Montant        , 'Montant'        );
+     Champs.          String_from_String( Date           , 'Date'           );
+     Champs.          String_from_String( Libelle        , 'Libelle'        );
+     cNbHeures     := Double_from_      ( NbHeures       , 'NbHeures'       );
+     cPrix_unitaire:= Double_from_      ( Prix_unitaire  , 'Prix_unitaire'  );
+     cMontant      := Double_from_      ( Montant        , 'Montant'        );
+     cNbHeures     .OnChange.Abonne( Self, Montant_from_);
+     cPrix_unitaire.OnChange.Abonne( Self, Montant_from_);
 
-//Pascal_ubl_constructor_pas_detail
+
+     FFacture_bl:= nil;
+     cFacture_id:= Integer_from_Integer( FFacture_id, 'Facture_id');
+     Champs.String_Lookup( FFacture, 'Facture', cFacture_id, ublFacture_Ligne_poolFacture.GetLookupListItems, '');
+     Facture_id_Change;
+     cFacture_id.OnChange.Abonne( Self, Facture_id_Change);
+
+
 end;
 
 destructor TblFacture_Ligne.Destroy;
 begin
 
      inherited;
+end;
+
+procedure TblFacture_Ligne.Montant_from_;
+begin
+     cMontant.asDouble:= Arrondi_Arithmetique_00( NbHeures * Prix_unitaire);
 end;
 
 //pattern_sCle_from__Implementation
@@ -202,7 +237,7 @@ end;
 procedure TblFacture_Ligne.Unlink( be: TBatpro_Element);
 begin
      inherited Unlink( be);
-;
+     if Facture_bl = be then Facture_Desaggrege;
 
 end;
 
@@ -216,7 +251,89 @@ end;
 
 //pattern_aggregation_accesseurs_implementation
 
-//Pascal_ubl_implementation_pas_detail
+procedure TblFacture_Ligne.SetFacture_id(const Value: Integer);
+begin
+     if FFacture_id = Value then exit;
+     FFacture_id:= Value;
+     Facture_id_Change;
+     Save_to_database;
+end;
+
+procedure TblFacture_Ligne.Facture_id_Change;
+begin
+     Facture_Aggrege;
+end;
+
+procedure TblFacture_Ligne.SetFacture_bl(const Value: TBatpro_Ligne);
+begin
+     if FFacture_bl = Value then exit;
+
+     Facture_Desaggrege;
+
+     FFacture_bl:= Value;
+
+     if Facture_id <> FFacture_bl.id
+     then
+         begin
+         Facture_id:= FFacture_bl.id;
+         Save_to_database;
+         end;
+
+     Facture_Connecte;
+end;
+
+procedure TblFacture_Ligne.Facture_Connecte;
+begin
+     if nil = Facture_bl then exit;
+
+     if Assigned(Facture_bl) 
+     then 
+         Facture_bl.Aggregations.by_Name[ 'Facture_Ligne'].Ajoute(Self);
+     Connect_To( FFacture_bl);
+end;
+
+procedure TblFacture_Ligne.Facture_Aggrege;
+var
+   Facture_bl_New: TBatpro_Ligne;
+begin                                                        
+     ublFacture_Ligne_poolFacture.Get_Interne_from_id( Facture_id, Facture_bl_New);
+     if Facture_bl = Facture_bl_New then exit;
+
+     Facture_Desaggrege;
+     FFacture_bl:= Facture_bl_New;
+
+     Facture_Connecte;
+end;
+
+procedure TblFacture_Ligne.Facture_Desaggrege;
+begin
+     if Facture_bl = nil then exit;
+
+     if Assigned(Facture_bl) 
+     then 
+         Facture_bl.Aggregations.by_Name[ 'Facture_Ligne'].Enleve(Self);
+     Unconnect_To( FFacture_bl);
+end;
+
+procedure TblFacture_Ligne.Facture_Change;
+begin
+     if Assigned( FFacture_bl)
+     then
+         FFacture:= FFacture_bl.GetLibelle
+     else
+         FFacture:= '';
+end;
+
+function TblFacture_Ligne.Facture: String;
+begin
+     if Assigned( FFacture_bl)
+     then
+         Result:= FFacture_bl.GetLibelle
+     else
+         Result:= '';
+end;
+
+ 
 
 initialization
 finalization
