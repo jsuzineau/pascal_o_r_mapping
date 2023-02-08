@@ -1,0 +1,1 @@
+clkcbDetail.NomDetail

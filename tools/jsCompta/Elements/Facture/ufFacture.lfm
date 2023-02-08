@@ -1,7 +1,7 @@
 object fFacture: TfFacture
-  Left = 441
+  Left = 419
   Height = 618
-  Top = 197
+  Top = 126
   Width = 1060
   Caption = 'Facture'
   ClientHeight = 618

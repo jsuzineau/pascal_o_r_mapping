@@ -67,7 +67,7 @@ type
     function SQLWHERE_ContraintesChamps: String; override;
   //Méthode de création de test
   public
-    function Test( _Facture_id: Integer;  _Date: String):Integer;
+    function Test( _Facture_id: Integer;  _Date: String;  _Numero: Integer):Integer;
 
   //Chargement d'un Facture
   public
@@ -137,13 +137,14 @@ begin
 //pattern_SQLWHERE_ContraintesChamps_Body
 end;
 
-function TpoolPiece.Test( _Facture_id: Integer;  _Date: String):Integer;
+function TpoolPiece.Test( _Facture_id: Integer;  _Date: String;  _Numero: Integer):Integer;
 var                                                 
    bl: TblPiece;                          
 begin                                               
           Nouveau_Base( bl);                        
        bl.Facture_id     := _Facture_id   ;
        bl.Date           := _Date         ;
+       bl.Numero         := _Numero       ;
      bl.Save_to_database;                            
      Result:= bl.id;                                 
 end;                                                 

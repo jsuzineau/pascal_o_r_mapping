@@ -58,6 +58,7 @@ type
   //champs persistants
   public
     Date: String;
+    Numero: Integer;
   //Facture
   private
     FFacture_id: Integer;
@@ -191,8 +192,10 @@ begin
 
      //champs persistants
      Champs.  String_from_String ( Date           , 'Date'           );
+     Champs. Integer_from_Integer( Numero         , 'Numero'         );
 
 
+     //Détail Facture
      FFacture_bl:= nil;
      cFacture_id:= Integer_from_Integer( FFacture_id, 'Facture_id');
      Champs.String_Lookup( FFacture, 'Facture', cFacture_id, ublPiece_poolFacture.GetLookupListItems, '');
