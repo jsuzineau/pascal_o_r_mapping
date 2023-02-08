@@ -26,6 +26,7 @@ uses
     uClean,
     ufAccueil_Erreur,
     uReels,
+    uReal_Formatter,
     uDataUtilsU,
     u_sys_,
     uuStrings,
@@ -107,6 +108,8 @@ type
    public
      function CalculeTotal: Double;
      procedure Montant_from_Total;
+     function CalculeTotal_NbHeures: String;
+     procedure NbHeures_from_Total_NbHeures;
    end;
 
 
@@ -125,7 +128,7 @@ type
   public
     Annee          : Integer; cAnnee: TChamp;
     NumeroDansAnnee: Integer; cNumeroDansAnnee: TChamp;
-    NbHeures: String;
+    NbHeures: String; cNbHeures: TChamp;
   //Montant
   public
     Montant: Double; cMontant: TChamp;
@@ -360,6 +363,7 @@ procedure ThaFacture__Facture_Ligne.Charge;
 begin
      poolFacture_Ligne.Charge_Facture( blFacture.id);
      Montant_from_Total;
+     NbHeures_from_Total_NbHeures;
 end;
 
 procedure ThaFacture__Facture_Ligne.Delete_from_database;
@@ -425,12 +429,46 @@ begin
 
      if Reel_Zero( blFacture.Montant)
      then
-         blFacture.Montant:= Total
+         blFacture.cMontant.asDouble:= Total
      else
          if Total <> blFacture.Montant
          then
              fAccueil_Erreur( 'Facture '+blFacture.Nom+', montant incohérent');
 
+end;
+
+function ThaFacture__Facture_Ligne.CalculeTotal_NbHeures: String;
+var
+   I: TIterateur_Facture_Ligne;
+   bl: TblFacture_Ligne;
+   Total_NbHeures: double;
+begin
+     Total_NbHeures:= 0;
+     I:= Iterateur;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( bl) then continue;
+
+          Total_NbHeures:= Total_NbHeures + bl.NbHeures;
+          end;
+     finally
+            FreeAndNil( I);
+            end;
+     Total_NbHeures:= Arrondi_Arithmetique_00( Total_NbHeures);
+     Result:= uReal_Formatter.Format_Float( Total_NbHeures,False,2);
+end;
+
+procedure ThaFacture__Facture_Ligne.NbHeures_from_Total_NbHeures;
+var
+   Total: String;
+begin
+     Total:= CalculeTotal_NbHeures;
+
+     if '' = Trim(blFacture.NbHeures)
+     then
+         blFacture.cNbHeures.Chaine:= Total;
 end;
 
 
@@ -463,7 +501,7 @@ begin
      cDate.Definition.Format_DateTime:='dddd d mmmm yyyy';
      cNom:= String_from_String ( Nom            , 'Nom'            );
      cLibelle:= cNom;
-     Champs.  String_from_String ( NbHeures       , 'NbHeures'       );
+     cNbHeures:= String_from_String ( NbHeures       , 'NbHeures'       );
 
      //Montant
      cMontant:=          Double_from_( Montant  , 'Montant'  );

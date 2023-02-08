@@ -33,6 +33,7 @@ uses
     uOD_Niveau,
     uOD_Table_Batpro,
     uEXE_INI,
+    uLog,
  Classes, SysUtils;
 
 type
@@ -84,6 +85,7 @@ begin
      then
          Repertoire:= IncludeTrailingPathDelimiter(Repertoire);
      NomFichier:= Repertoire+blFacture.GetLibelle+'.odt';
+     Log.PrintLn( ClassName+'.Composer: NomFichier='+NomFichier);
      Result:=inherited Composer;
 end;
 
