@@ -1,2 +1,1 @@
-Piece=Piece
 Facture_Ligne=Facture_Ligne

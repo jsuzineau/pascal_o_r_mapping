@@ -314,6 +314,15 @@ type
     procedure sljpfDetail_from_sRepertoireListeDetails_FileFound( _FileIterator: TFileIterator);
   public
     procedure sljpfDetail_from_sRepertoireListeDetails;
+  //jpfSymetric
+  public
+    sljpfSymetric: TsljpfSymetric;
+    function  Cree_jpfSymetric( _nfKey: String): TjpfSymetric;
+  //Création des jpfSymetric par lecture du répertoire de listes de Symetrics
+  private
+    procedure sljpfSymetric_from_sRepertoireListeSymetrics_FileFound( _FileIterator: TFileIterator);
+  public
+    procedure sljpfSymetric_from_sRepertoireListeSymetrics;
   //jpfAggregation
   public
     sljpfAggregation: TsljpfAggregation;
@@ -632,6 +641,7 @@ begin
      _From_INI;
      sljpfMembre                 := TsljpfMembre               .Create( ClassName+'.sljpfMembre'         );
      sljpfDetail                 := TsljpfDetail               .Create( ClassName+'.sljpfDetail'         );
+     sljpfSymetric               := TsljpfSymetric             .Create( ClassName+'.sljpfSymetric'       );
      sljpfAggregation            := TsljpfAggregation          .Create( ClassName+'.sljpfAggregation'         );
      slApplicationJoinPointFile  := TslApplicationJoinPointFile.Create( ClassName+'.slApplicationJoinPointFile'         );
      slTemplateHandler           := TslTemplateHandler         .Create( ClassName+'.slTemplateHandler');
@@ -710,6 +720,7 @@ destructor TGenerateur_de_code.Destroy;
 begin
      FreeAndNil( sljpfMembre);
      FreeAndNil( sljpfDetail);
+     FreeAndNil( sljpfSymetric);
      FreeAndNil( sljpfAggregation);
      FreeAndNil( slApplicationJoinPointFile);
      FreeAndNil( slTemplateHandler);
@@ -737,6 +748,7 @@ begin
         sRepertoireListeTables        :=iRead('sRepertoireListeTables'      ,Path+'01_Listes'             +PathDelim+'Tables'      +PathDelim);
         sRepertoireListeMembres       :=iRead('sRepertoireListeMembres'     ,Path+'01_Listes'             +PathDelim+'Membres'     +PathDelim);
         sRepertoireListeDetails       :=iRead('sRepertoireListeDetails'     ,Path+'01_Listes'             +PathDelim+'Details'     +PathDelim);
+        sRepertoireListeSymetrics     :=iRead('sRepertoireListeSymetrics'   ,Path+'01_Listes'             +PathDelim+'Symetrics'   +PathDelim);
         sRepertoireListeAggregations  :=iRead('sRepertoireListeAggregations',Path+'01_Listes'             +PathDelim+'Aggregations'+PathDelim);
         sRepertoireTemplate           :=iRead('sRepertoireTemplate'         ,Path+'03_Template'           +PathDelim                         );
         sRepertoireParametres         :=iRead('sRepertoireParametres'       ,Path+'04_Parametres'         +PathDelim                         );
@@ -786,6 +798,11 @@ var
    NbDetails: Integer;
    nfDetails: String;
    slDetails:TStringList;
+
+   //Gestion des Symetrics
+   NbSymetrics: Integer;
+   nfSymetrics: String;
+   slSymetrics:TStringList;
 
    //Gestion des aggrégations
    NbAggregations: Integer;
@@ -915,6 +932,7 @@ var
                  uJoinPoint_VisiteMembre( cm, a);
            sljpfMembre     .VisiteMembre( cm);
            sljpfDetail     .VisiteMembre( cm);
+           sljpfSymetric   .VisiteMembre( cm);
            sljpfAggregation.VisiteMembre( cm);
         finally
                FreeAndNil( cm);
@@ -927,7 +945,18 @@ var
               uJoinPoint_VisiteDetail( s_Detail, sNomTableMembre, a);
         sljpfMembre     .VisiteDetail( s_Detail, sNomTableMembre);
         sljpfDetail     .VisiteDetail( s_Detail, sNomTableMembre);
+        sljpfSymetric   .VisiteDetail( s_Detail, sNomTableMembre);
         sljpfAggregation.VisiteDetail( s_Detail, sNomTableMembre);
+   end;
+   procedure Traite_Symetric( s_Symetric, sNomTableMembre: String);
+   begin
+        if '' = s_Symetric then exit;
+        if '' = sNomTableMembre then sNomTableMembre:= s_Symetric;
+              uJoinPoint_VisiteSymetric( s_Symetric, sNomTableMembre, a);
+        sljpfMembre     .VisiteSymetric( s_Symetric, sNomTableMembre);
+        sljpfDetail     .VisiteSymetric( s_Symetric, sNomTableMembre);
+        sljpfSymetric   .VisiteSymetric( s_Symetric, sNomTableMembre);
+        sljpfAggregation.VisiteSymetric( s_Symetric, sNomTableMembre);
    end;
    procedure Traite_Aggregation( s_Aggregation, sNomTableMembre: String);
    begin
@@ -936,6 +965,7 @@ var
               uJoinPoint_VisiteAggregation( s_Aggregation, sNomTableMembre, a);
         sljpfMembre     .VisiteAggregation( s_Aggregation, sNomTableMembre);
         sljpfDetail     .VisiteAggregation( s_Aggregation, sNomTableMembre);
+        sljpfSymetric   .VisiteAggregation( s_Aggregation, sNomTableMembre);
         sljpfAggregation.VisiteAggregation( s_Aggregation, sNomTableMembre);
    end;
    procedure Visite;
@@ -953,6 +983,7 @@ var
                  uJoinPoint_Initialise( cc, a);
            sljpfMembre     .Initialise( cc);
            sljpfDetail     .Initialise( cc);
+           sljpfSymetric   .Initialise( cc);
            sljpfAggregation.Initialise( cc);
 
            I:= bl.Champs.sl.Iterateur;
@@ -983,6 +1014,22 @@ var
                   FreeAndNil( slDetails);
                   end;
 
+           //Gestion des Symetrics
+           slSymetrics:= TStringList.Create;
+           try
+              nfSymetrics:= sRepertoireParametres+cc.Nom_de_la_classe+'.Symetrics.txt';
+              if FileExists( nfSymetrics)
+              then
+                  slSymetrics.LoadFromFile( nfSymetrics);
+              NbSymetrics:= slSymetrics.Count;
+              for J:= 0 to NbSymetrics-1
+              do
+                Traite_Symetric( slSymetrics.Names[J], slSymetrics.ValueFromIndex[J]);
+           finally
+                  slSymetrics.SaveToFile( nfSymetrics);
+                  FreeAndNil( slSymetrics);
+                  end;
+
            //Gestion des aggrégations
            slAggregations:= TStringList.Create;
            try
@@ -1003,11 +1050,13 @@ var
                  uJoinPoint_Finalise( a);
            sljpfMembre     .Finalise;
            sljpfDetail     .Finalise;
+           sljpfSymetric   .Finalise;
            sljpfAggregation.Finalise;
 
                  uJoinPoint_To_Parametres( slParametres, a);
            sljpfMembre     .To_Parametres( slParametres);
            sljpfDetail     .To_Parametres( slParametres);
+           sljpfSymetric   .To_Parametres( slParametres);
            sljpfAggregation.To_Parametres( slParametres);
 
            slTemplateHandler_Produit;
@@ -1028,6 +1077,7 @@ begin
      slParametres.Clear;
      sljpfMembre_from_sRepertoireListeMembres;
      sljpfDetail_from_sRepertoireListeDetails;
+     sljpfSymetric_from_sRepertoireListeSymetrics;
      sljpfAggregation_from_sRepertoireListeAggregations;
      slTemplateHandler_from_sRepertoireTemplate;
 
@@ -1128,6 +1178,15 @@ begin
      sljpfDetail.AddObject( _nfKey, Result);
 end;
 
+function TGenerateur_de_code.Cree_jpfSymetric(_nfKey: String): TjpfSymetric;
+begin
+     Result:= jpfSymetric_from_sl_sCle( sljpfSymetric, _nfKey);
+     if nil <> Result then exit;
+
+     Result:= TjpfSymetric.Create( _nfKey);
+     sljpfSymetric.AddObject( _nfKey, Result);
+end;
+
 procedure TGenerateur_de_code.sljpfDetail_from_sRepertoireListeDetails_FileFound( _FileIterator: TFileIterator);
 var
    NomFichier_Key: String;
@@ -1139,9 +1198,25 @@ begin
      Cree_jpfDetail( NomFichier_Key);
 end;
 
+procedure TGenerateur_de_code.sljpfSymetric_from_sRepertoireListeSymetrics_FileFound( _FileIterator: TFileIterator);
+var
+   NomFichier_Key: String;
+begin
+     if _FileIterator.IsDirectory then exit;
+
+     NomFichier_Key:= _FileIterator.FileName;
+
+     Cree_jpfSymetric( NomFichier_Key);
+end;
+
 procedure TGenerateur_de_code.sljpfDetail_from_sRepertoireListeDetails;
 begin
      ujpFile_EnumFiles( sRepertoireListeDetails, sljpfDetail_from_sRepertoireListeDetails_FileFound, s_key_mask);
+end;
+
+procedure TGenerateur_de_code.sljpfSymetric_from_sRepertoireListeSymetrics;
+begin
+     ujpFile_EnumFiles( sRepertoireListeSymetrics, sljpfSymetric_from_sRepertoireListeSymetrics_FileFound, s_key_mask);
 end;
 
 function TGenerateur_de_code.Cree_jpfAggregation(_nfKey: String): TjpfAggregation;
@@ -1362,10 +1437,12 @@ end;
 procedure TGenerateur_de_code.Parametres_from_Postgres_Foreign_Key( _slNomTables: TStringList);
 var
    slDetails     : TStringList;
+   slSymetrics     : TStringList;
    slAggregations: TStringList;
    sl            : TslPostgres_Foreign_Key;
 
    nfDetails     : String;
+   nfSymetrics     : String;
 
    I: Integer;
    NomTable: String;
@@ -1375,6 +1452,7 @@ var
       iPFK: TIterateur_Postgres_Foreign_Key;
       bl: TblPostgres_Foreign_Key;
       Detail_Nom, Detail_Type: String;
+      Symetric_Nom, Symetric_Type: String;
       nfAggregations: String;
       Aggregation_Nom, Aggregation_Type: String;
    begin
@@ -1387,6 +1465,10 @@ var
           Detail_Nom := bl.FOREIGN_KEY;
           Detail_Type:= bl.Reference_Table;
           slDetails.Values[Detail_Nom]:= Detail_Type;
+
+          Symetric_Nom := bl.FOREIGN_KEY;
+          Symetric_Type:= bl.Reference_Table;
+          slSymetrics.Values[Symetric_Nom]:= Symetric_Type;
 
           nfAggregations:= sRepertoireParametres+bl.Reference_Table+'.Aggregations.txt';
           if FileExists( nfAggregations)
@@ -1406,6 +1488,7 @@ begin
      if not sgbdPOSTGRES then exit;
 
      slDetails     := TStringList            .Create;
+     slSymetrics   := TStringList            .Create;
      slAggregations:= TStringList            .Create;
      sl            := TslPostgres_Foreign_Key.Create( ClassName+'.Parametres_from_Postgres_Foreign_Key::sl');
      try
@@ -1420,12 +1503,21 @@ begin
           else
               slDetails.Clear;
 
+          nfSymetrics:= sRepertoireParametres+NomTable+'.Symetrics.txt';
+          if FileExists( nfSymetrics)
+          then
+              slSymetrics.LoadFromFile( nfSymetrics)
+          else
+              slSymetrics.Clear;
+
           poolPostgres_Foreign_Key.Charge_Table( NomTable, sl);
           Postgres;
           slDetails.SaveToFile( nfDetails);
+          slSymetrics.SaveToFile( nfSymetrics);
           end;
      finally
             FreeAndNil( slDetails);
+            FreeAndNil( slSymetrics);
             FreeAndNil( slAggregations);
             Free_nil( sl);
             end;
@@ -1446,3 +1538,4 @@ initialization
 finalization
               FreeAndNil( FGenerateur_de_code);
 end.
+

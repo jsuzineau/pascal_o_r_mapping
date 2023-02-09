@@ -1,0 +1,1 @@
+//pattern_Symetrics_Pascal_upool_charge_declaration_pas

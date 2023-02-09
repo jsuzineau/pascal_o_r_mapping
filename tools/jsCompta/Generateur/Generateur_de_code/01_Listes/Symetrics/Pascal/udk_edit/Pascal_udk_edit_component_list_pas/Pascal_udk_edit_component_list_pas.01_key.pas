@@ -1,0 +1,1 @@
+{pattern_Symetrics_Pascal_udk_edit_component_list_pas}

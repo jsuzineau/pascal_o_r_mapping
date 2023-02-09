@@ -75,6 +75,16 @@ type
     procedure VisiteDetail( s_Detail, sNomTableMembre: String); override;
   end;
 
+ { TjpfSymetric }
+
+ TjpfSymetric
+ =
+  class( TjpFile)
+  //Gestion de la visite d'une classe
+  public
+    procedure VisiteSymetric( s_Symetric, sNomTableMembre: String); override;
+  end;
+
  { TjpfAggregation }
 
  TjpfAggregation
@@ -114,6 +124,15 @@ type
     function  not_Suivant( var _Resultat: TjpfDetail): Boolean;
   end;
 
+ TIterateur_jpfSymetric
+ =
+  class( TIterateur_jpFile)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: TjpfSymetric);
+    function  not_Suivant( var _Resultat: TjpfSymetric): Boolean;
+  end;
+
  TIterateur_jpfAggregation
  =
   class( TIterateur_jpFile)
@@ -143,6 +162,7 @@ type
     procedure Initialise( _cc: TContexteClasse);
     procedure VisiteMembre( _cm: TContexteMembre);
     procedure VisiteDetail( s_Detail, sNomTableMembre: String);
+    procedure VisiteSymetric( s_Symetric, sNomTableMembre: String);
     procedure VisiteAggregation( s_Aggregation, sNomTableMembre: String);
     procedure Finalise;
     procedure To_Parametres( _sl: TStringList);
@@ -178,6 +198,21 @@ type
     function Iterateur_Decroissant: TIterateur_jpfDetail;
   end;
 
+ TsljpfSymetric
+ =
+  class( TsljpFile)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_jpfSymetric;
+    function Iterateur_Decroissant: TIterateur_jpfSymetric;
+  end;
+
  TsljpfAggregation
  =
   class( TsljpFile)
@@ -207,6 +242,7 @@ function jpFile_from_sl( sl: TBatpro_StringList; Index: Integer): TjpFile;
 function jpFile_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpFile;
 function jpfMembre_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfMembre;
 function jpfDetail_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfDetail;
+function jpfSymetric_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfSymetric;
 function jpfAggregation_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfAggregation;
 
 procedure ujpFile_EnumFiles( _sRepertoire: String; _ffe: TFileFoundEvent; _Mask: String= '*.*');
@@ -231,6 +267,11 @@ end;
 function jpfDetail_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfDetail;
 begin
      _Classe_from_sl_sCle( Result, TjpfDetail, sl, sCle);
+end;
+
+function jpfSymetric_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfSymetric;
+begin
+     _Classe_from_sl_sCle( Result, TjpfSymetric, sl, sCle);
 end;
 
 function jpfAggregation_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfAggregation;
@@ -283,6 +324,18 @@ begin
 end;
 
 procedure TIterateur_jpfDetail.Suivant( var _Resultat: TjpfDetail);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TIterateur_jpfSymetric }
+
+function TIterateur_jpfSymetric.not_Suivant( var _Resultat: TjpfSymetric): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_jpfSymetric.Suivant( var _Resultat: TjpfSymetric);
 begin
      Suivant_interne( _Resultat);
 end;
@@ -374,6 +427,24 @@ begin
           begin
           if I.not_Suivant( jpf) then Continue;
           jpf.VisiteDetail( s_Detail, sNomTableMembre);
+          end;
+     finally
+            FreeAndNil( I);
+            end;
+end;
+
+procedure TsljpFile.VisiteSymetric( s_Symetric, sNomTableMembre: String);
+var
+   I: TIterateur_jpFile;
+   jpf: TjpFile;
+begin
+     I:= Iterateur;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( jpf) then Continue;
+          jpf.VisiteSymetric( s_Symetric, sNomTableMembre);
           end;
      finally
             FreeAndNil( I);
@@ -488,6 +559,33 @@ begin
      Result:= TIterateur_jpfDetail( Iterateur_interne_Decroissant);
 end;
 
+{ TsljpfSymetric }
+
+constructor TsljpfSymetric.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, TjpfSymetric);
+end;
+
+destructor TsljpfSymetric.Destroy;
+begin
+     inherited;
+end;
+
+class function TsljpfSymetric.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_jpfSymetric;
+end;
+
+function TsljpfSymetric.Iterateur: TIterateur_jpfSymetric;
+begin
+     Result:= TIterateur_jpfSymetric( Iterateur_interne);
+end;
+
+function TsljpfSymetric.Iterateur_Decroissant: TIterateur_jpfSymetric;
+begin
+     Result:= TIterateur_jpfSymetric( Iterateur_interne_Decroissant);
+end;
+
 { TsljpfAggregation }
 
 constructor TsljpfAggregation.Create( _Nom: String= '');
@@ -586,6 +684,23 @@ begin
      Valeur:= Valeur+ Element;
 end;
 
+procedure TjpfSymetric.VisiteSymetric( s_Symetric, sNomTableMembre: String);
+var
+   Element: String;
+begin
+     inherited;
+     if Premier
+     then
+         Premier:= False
+     else
+         Valeur:= Valeur + sSeparateur;
+
+     Element:= cc.Produit( 'Classe.', sElement);
+     Element:= StringReplace( Element, 'Symetric.NomSymetric'   ,s_Symetric     ,[rfReplaceAll,rfIgnoreCase]);
+     Element:= StringReplace( Element, 'Symetric.ClasseSymetric',sNomTableMembre,[rfReplaceAll,rfIgnoreCase]);
+     Valeur:= Valeur+ Element;
+end;
+
 procedure TjpfAggregation.VisiteAggregation( s_Aggregation, sNomTableMembre: String);
 var
    Element: String;
@@ -610,3 +725,4 @@ begin
 end;
 
 end.
+

@@ -90,6 +90,7 @@ type
     sRepertoireListeTables,
     sRepertoireListeMembres,
     sRepertoireListeDetails,
+    sRepertoireListeSymetrics,
     sRepertoireListeAggregations,
     sRepertoireTemplate   ,
     sRepertoireParametres ,

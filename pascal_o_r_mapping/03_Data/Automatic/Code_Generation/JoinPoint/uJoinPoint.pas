@@ -47,6 +47,7 @@ type
     procedure Initialise( _cc: TContexteClasse); virtual;
     procedure VisiteMembre( _cm: TContexteMembre); virtual;
     procedure VisiteDetail( s_Detail, sNomTableMembre: String); virtual;
+    procedure VisiteSymetric( s_Symetric, sNomTableMembre: String); virtual;
     procedure VisiteAggregation( s_Aggregation, sNomTableMembre: String); virtual;
     procedure Finalise; virtual;
     procedure To_Parametres( _sl: TStringList);
@@ -60,6 +61,7 @@ type
 procedure uJoinPoint_Initialise   ( _cc: TContexteClasse; a: array of TJoinPoint);
 procedure uJoinPoint_VisiteMembre ( _cm: TContexteMembre; a: array of TJoinPoint);
 procedure uJoinPoint_VisiteDetail     ( s_Detail     , sNomTableMembre: String; a: array of TJoinPoint);
+procedure uJoinPoint_VisiteSymetric   ( s_Symetric   , sNomTableMembre: String; a: array of TJoinPoint);
 procedure uJoinPoint_VisiteAggregation( s_Aggregation, sNomTableMembre: String; a: array of TJoinPoint);
 procedure uJoinPoint_Finalise     (                       a: array of TJoinPoint);
 procedure uJoinPoint_To_Parametres( _sl: TStringList    ; a: array of TJoinPoint);
@@ -83,6 +85,12 @@ var
    I: Integer;
 begin
      for I:= Low( a) to High( a) do a[i].VisiteDetail ( s_Detail, sNomTableMembre);
+end;
+procedure uJoinPoint_VisiteSymetric( s_Symetric,sNomTableMembre: String; a: array of TJoinPoint);
+var
+   I: Integer;
+begin
+     for I:= Low( a) to High( a) do a[i].VisiteSymetric ( s_Symetric, sNomTableMembre);
 end;
 procedure uJoinPoint_VisiteAggregation ( s_Aggregation,sNomTableMembre: String; a: array of TJoinPoint);
 var
@@ -126,6 +134,11 @@ begin
 end;
 
 procedure TJoinPoint.VisiteDetail(s_Detail,sNomTableMembre: String);
+begin
+
+end;
+
+procedure TJoinPoint.VisiteSymetric(s_Symetric,sNomTableMembre: String);
 begin
 
 end;

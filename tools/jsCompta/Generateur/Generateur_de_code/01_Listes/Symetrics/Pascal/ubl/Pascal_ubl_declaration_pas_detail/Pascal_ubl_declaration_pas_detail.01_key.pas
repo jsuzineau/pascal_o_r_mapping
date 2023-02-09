@@ -1,0 +1,1 @@
+//pattern_Symetrics_Pascal_ubl_declaration_pas

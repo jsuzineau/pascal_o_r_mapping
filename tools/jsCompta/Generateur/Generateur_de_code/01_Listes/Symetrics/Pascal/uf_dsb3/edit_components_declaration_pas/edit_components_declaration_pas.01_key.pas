@@ -1,0 +1,1 @@
+//pattern_Symetrics_Pascal_uf_dsb3_edit_components_declaration_pas
