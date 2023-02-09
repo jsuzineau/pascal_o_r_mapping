@@ -38,21 +38,28 @@ uses
     upool,
 
     {$I ublNom_de_la_classe_interface_uses.inc}
+//pattern_Symetrics_Pascal_ubl_inc_interface_uses_pas
 
     SysUtils, Classes, SqlDB, DB;
 
 type
- {$I ublNom_de_la_classe_interface_type_forward.inc}
- {$I ublNom_de_la_classe_interface_type.inc}
+{$I ublNom_de_la_classe_interface_type_forward.inc}
+//pattern_Symetrics_Pascal_ubl_inc_interface_type_forward_pas
+{$I ublNom_de_la_classe_interface_type.inc}
+//pattern_Symetrics_Pascal_ubl_inc_interface_type_pas
 
 {$I ublNom_de_la_classe_interface_var.inc}
+//pattern_Symetrics_Pascal_ubl_inc_interface_var_pas
 
 implementation
 
 {$I ublNom_de_la_classe_implementation.inc}
+//pattern_Symetrics_Pascal_ubl_inc_implementation_pas
+
 initialization
 finalization
             {$I ublNom_de_la_classe_finalization.inc}
+//pattern_Symetrics_Pascal_ubl_inc_finalization_pas
 end.
 
 

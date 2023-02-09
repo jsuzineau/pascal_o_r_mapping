@@ -50,7 +50,6 @@
       </Unit3>
       <Unit4>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\ublAutomatic.pas"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <TopLine Value="1496"/>
         <CursorPos X="52" Y="1512"/>
@@ -196,9 +195,10 @@
       </Unit23>
       <Unit24>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\JoinPoint\ujpFile.pas"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="8"/>
-        <TopLine Value="614"/>
-        <CursorPos X="48" Y="726"/>
+        <TopLine Value="668"/>
+        <CursorPos X="41" Y="700"/>
         <UsageCount Value="131"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -794,21 +794,21 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="892"/>
         <CursorPos X="29" Y="924"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit96>
       <Unit97>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\packages\fcl-db\src\base\database.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="2"/>
         <CursorPos Y="37"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit97>
       <Unit98>
         <Filename Value="C:\lazarus\lcl\include\application.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1046"/>
         <CursorPos X="37" Y="1078"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit98>
       <Unit99>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_aggregation_classe_declaration.pas"/>
@@ -823,7 +823,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="84"/>
         <CursorPos Y="125"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit100>
       <Unit101>
