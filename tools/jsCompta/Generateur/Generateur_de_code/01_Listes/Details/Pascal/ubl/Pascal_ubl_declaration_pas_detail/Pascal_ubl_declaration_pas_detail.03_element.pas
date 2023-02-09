@@ -12,6 +12,7 @@
     procedure Detail.NomDetail_Change;
   public
     cDetail.NomDetail_id: TChamp;
+    cDetail.NomDetail: TChamp;
     property Detail.NomDetail_id: Integer       read FDetail.NomDetail_id write SetDetail.NomDetail_id;
     property Detail.NomDetail_bl: TBatpro_Ligne read FDetail.NomDetail_bl write SetDetail.NomDetail_bl;
     function Detail.NomDetail: String;

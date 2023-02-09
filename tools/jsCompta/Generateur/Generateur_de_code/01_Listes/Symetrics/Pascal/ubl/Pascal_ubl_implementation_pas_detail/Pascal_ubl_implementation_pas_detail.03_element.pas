@@ -11,7 +11,7 @@ begin
      Symetric.NomSymetric_Aggrege;
 end;
 
-procedure TblClasse.Nom_de_la_classe.SetSymetric.NomSymetric_bl(const Value: TBatpro_Ligne);
+procedure TblClasse.Nom_de_la_classe.SetSymetric.NomSymetric_bl(const Value: TblSymetric.ClasseSymetric);
 begin
      if FSymetric.NomSymetric_bl = Value then exit;
 
