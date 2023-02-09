@@ -70,8 +70,8 @@ object fPiece_dsb: TfPiece_dsb
         Caption = 'lNbTotal'
         ParentColor = False
       end
-      object bImprimer: TBitBtn
-        Left = 416
+      object bodPiece: TBitBtn
+        Left = 344
         Height = 25
         Top = 8
         Width = 75
@@ -91,7 +91,7 @@ object fPiece_dsb: TfPiece_dsb
           33333337FFFF7733333333300000033333333337777773333333
         }
         NumGlyphs = 2
-        OnClick = bImprimerClick
+        OnClick = bodPieceClick
         TabOrder = 0
       end
       object bNouveau: TButton
@@ -111,6 +111,15 @@ object fPiece_dsb: TfPiece_dsb
         Caption = 'Supprimer'
         OnClick = bSupprimerClick
         TabOrder = 2
+      end
+      object bodPiece_Modele: TButton
+        Left = 421
+        Height = 25
+        Top = 8
+        Width = 23
+        Caption = 'M'
+        OnClick = bodPiece_ModeleClick
+        TabOrder = 3
       end
     end
     object Panel3: TPanel

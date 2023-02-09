@@ -29,8 +29,7 @@ uses
     uBatpro_StringList,
     uChamps,
 
-    ublPiece,
-    upoolPiece,
+    ublFacture,
 
     uDockable, ucBatpro_Shape, ucChamp_Label, ucChamp_Edit,
     ucBatproDateTimePicker, ucChamp_DateTimePicker, ucDockableScrollbox,
@@ -48,14 +47,9 @@ type
  TdkPiece_edit
  =
   class(TDockable)
-  ceFacture_id: TChamp_Edit;
   ceDate: TChamp_Edit;
-  clkcbFacture: TChamp_Lookup_ComboBox;
-
-  sbCopy_to_current: TSpeedButton;
-  sbDetruire: TSpeedButton;
+  ceNumero: TChamp_Edit;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-  procedure sbCopy_to_currentClick(Sender: TObject);
   procedure sbDetruireClick(Sender: TObject);
  //Gestion du cycle de vie
  public
@@ -77,11 +71,10 @@ implementation
 constructor TdkPiece_edit.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
-     Ajoute_Colonne( ceFacture_id, 'Facture_id', 'Facture_id');
-     Ajoute_Colonne( ceDate, 'Date', 'Date');
+     Ajoute_Colonne( ceDate  , 'Date'  , 'Date'  );
+     Ajoute_Colonne( ceNumero, 'Numero', 'Numero');
 
-     Ajoute_Colonne( clkcbFacture, 'Facture', 'Facture');
-
+//Details_Pascal_udk_edit_Create_AjouteColonne_pas
 end;
 
 destructor TdkPiece_edit.Destroy;
@@ -95,8 +88,8 @@ begin
 
      Affecte( blPiece, TblPiece, Value);
 
-     Champs_Affecte( blPiece,[ ceFacture_id,ceDate]);
-     Champs_Affecte( blPiece,[ clkcbFacture]);
+     Champs_Affecte( blPiece,[ ceDate,ceNumero]);
+     Champs_Affecte( blPiece,[ {Details_Pascal_udk_edit_component_list_pas}]);
 end;
 
 procedure TdkPiece_edit.sbDetruireClick(Sender: TObject);
@@ -115,11 +108,6 @@ end;
 procedure TdkPiece_edit.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
      inherited;
-end;
-
-procedure TdkPiece_edit.sbCopy_to_currentClick(Sender: TObject);
-begin
-     Envoie_Message( udkPiece_edit_Copy_to_current);
 end;
 
 end.

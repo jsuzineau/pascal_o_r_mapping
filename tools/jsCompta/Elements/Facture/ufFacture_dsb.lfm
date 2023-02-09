@@ -30,28 +30,6 @@ object fFacture_dsb: TfFacture_dsb
     Align = alBottom
     TabIndex = 2
     TabOrder = 1
-    object tsPiece: TTabSheet
-      Caption = 'Piece'
-      ClientHeight = 165
-      ClientWidth = 1423
-      object dsbPiece: TDockableScrollbox
-        Left = 0
-        Height = 165
-        Top = 0
-        Width = 1423
-        Align = alClient
-        Caption = 'dsbPiece'
-        ClientHeight = 165
-        ClientWidth = 1423
-        TabOrder = 0
-        HauteurLigne = 32
-        BordureLignes = True
-        Zebrage = False
-        Zebrage1 = 15138790
-        Zebrage2 = 16777192
-        _LectureSeule = False
-      end
-    end
     object tsFacture_Ligne: TTabSheet
       Caption = 'Facture_Ligne'
       ClientHeight = 165

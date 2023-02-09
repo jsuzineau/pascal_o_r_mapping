@@ -7,12 +7,12 @@ interface
 uses
     udmDatabase,
 
-    ublPiece,
-    upoolPiece,
+    ublFacture,
 
     ufClient,
-    ufPiece_dsb,
+    ufPiece_dsb3,
     ufFacture,
+    ufFacture_non_reglee,
     ufMois_dsb,
 
   ufPatternMainMenu, Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
@@ -26,11 +26,13 @@ type
  =
   class(TForm)
    bFacture: TButton;
+   bFacture_non_reglee: TButton;
    bPiece: TButton;
    bMois: TButton;
    bClient: TButton;
    procedure bClientClick(Sender: TObject);
    procedure bFactureClick(Sender: TObject);
+   procedure bFacture_non_regleeClick(Sender: TObject);
    procedure bMoisClick(Sender: TObject);
    procedure bPieceClick(Sender: TObject);
    procedure FormCreate(Sender: TObject);
@@ -68,6 +70,11 @@ begin
      fFacture.Execute;
 end;
 
+procedure TfjsCompta.bFacture_non_regleeClick(Sender: TObject);
+begin
+     fFacture_non_reglee.Execute;
+end;
+
 procedure TfjsCompta.bClientClick(Sender: TObject);
 begin
      fClient.Execute;
@@ -75,7 +82,7 @@ end;
 
 procedure TfjsCompta.bPieceClick(Sender: TObject);
 begin
-     fPiece_dsb.Execute;
+     fPiece_dsb3.Execute;
 end;
 
 procedure TfjsCompta.bMoisClick(Sender: TObject);

@@ -69,18 +69,18 @@ begin
      Champs.ChampDefinitions.NomTable:= 'Piece';
 
      //champs persistants
-     Champs.  String_from_String ( Date           , 'Date'           );
+     cDate:= Champs.  String_from_String ( Date           , 'Date'           );
+     cDate.Definition.Typ:= ftDate;
+     cDate.Definition.Format_DateTime:='dddd d mmmm yyyy';
      Champs. Integer_from_Integer( Numero         , 'Numero'         );
 
 
      //Symétrie Facture
      FFacture_bl:= nil;
      cFacture_id:= Integer_from_Integer( FFacture_id, 'Facture_id');
-     cFacture:= Champs.String_Lookup( FFacture, 'Facture', cFacture_id, ublPiece_poolFacture.GetLookupListItems, '');
-     Facture_id_Change;
+     cFacture:= Champs.String_Lookup( FFacture, 'Facture', cFacture_id, poolFacture.GetLookupListItems, '');
+     //Facture_id_Change; //tentative de désactivation pour éviter récursion
      cFacture_id.OnChange.Abonne( Self, Facture_id_Change);
-
-
 end;
 
 destructor TblPiece.Destroy;
@@ -89,11 +89,14 @@ begin
      inherited;
 end;
 
-//pattern_sCle_from__Implementation
+class function TblPiece.sCle_from_( _Numero: Integer): String;
+begin 
+     Result:=  sCle_ID_from_( _Numero);
+end;  
 
 function TblPiece.sCle: String;
 begin
-     Result:= sCle_ID;
+     Result:= sCle_from_( Numero);
 end;
 
 procedure TblPiece.Unlink( be: TBatpro_Element);
@@ -159,9 +162,9 @@ end;
 
 procedure TblPiece.Facture_Aggrege;
 var
-   Facture_bl_New: TBatpro_Ligne;
+   Facture_bl_New: TblFacture;
 begin
-     ublPiece_poolFacture.Get_Interne_from_id( Facture_id, Facture_bl_New);
+     poolFacture.Get_Interne_from_id( Facture_id, Facture_bl_New);
      if Facture_bl = Facture_bl_New then exit;
 
      Facture_Desaggrege;
@@ -229,25 +232,48 @@ end;
 
 function TpoolPiece.Nouveau: TblPiece;
 begin
+     Result:= nil;
+     if Numeros_Incoherents_Message then exit;
+
      Nouveau_Base( Result);
+     Result.Numero:= Nouveau_Numero;
+     Result.Save_to_database;
 end;
 
-//pattern_Get_by_Cle_Implementation
+function TpoolPiece.Get_by_Cle( _Numero: Integer): TblPiece;
+begin                               
+     Numero:=  _Numero;
+     sCle:= TblPiece.sCle_from_( Numero);
+     Get_Interne( Result);       
+end;                             
 
-//pattern_Assure_Implementation
+
+function TpoolPiece.Assure( _Numero: Integer): TblPiece;
+begin                               
+     Result:= Get_by_Cle(  _Numero);
+     if Assigned( Result) then exit;
+
+     Nouveau_Base( Result);                        
+       Result.Numero         := _Numero       ;
+     Result.Save_to_database;
+end;
+
 
 procedure TpoolPiece.To_Params( _Params: TParams);
 begin
      with _Params
      do
        begin
-//pattern_To_SQLQuery_Params_Body
+       ParamByName( 'Numero'    ).AsInteger:= Numero;
        end;
 end;
 
 function TpoolPiece.SQLWHERE_ContraintesChamps: String;
 begin
-//pattern_SQLWHERE_ContraintesChamps_Body
+     Result                                    
+     :=                                        
+       'where                        '#13#10+
+       '         Numero          = :Numero         ';
 end;
 
 function TpoolPiece.Test( _Facture_id: Integer;  _Date: String;  _Numero: Integer):Integer;
@@ -287,5 +313,51 @@ end;
 function TpoolPiece.Iterateur_Decroissant: TIterateur_Piece;
 begin
      Result:= TIterateur_Piece( Iterateur_interne_Decroissant);
+end;
+
+function TpoolPiece.MaxNumero: Integer;
+var
+   SQL: String;
+begin
+     SQL
+     :=
+        'select                        '+LineEnding
+       +'      max(Numero) as MaxNumero'+LineEnding
+       +'from                          '+LineEnding
+       +'    Piece                     '+LineEnding;
+     if not Requete.Integer_from( SQL, 'MaxNumero', Result)
+     then
+         Result:= -1;
+end;
+
+function TpoolPiece.Numeros_Incoherents: Boolean;
+var
+   Fin: Integer;
+   I: Integer;
+   bl: TblPiece;
+begin
+     Result:= False;
+     Fin:= MaxNumero;
+     for I:= Fin-1 downto 1
+     do
+       begin
+       bl:= Get_by_Cle( I);
+       Result:= nil = bl;
+       if Result then break;
+       end;
+end;
+
+function TpoolPiece.Numeros_Incoherents_Message: Boolean;
+begin
+     Result:= Numeros_Incoherents;
+     if Result
+     then
+         fAccueil_Erreur( 'Incohérence de numérotation des pièces');
+
+end;
+
+function TpoolPiece.Nouveau_Numero: Integer;
+begin
+     Result:= MaxNumero + 1;
 end;
 

@@ -55,9 +55,7 @@ type
     function  Composer: String; override;
   public
     procedure Init( _blFacture: TblFacture); reintroduce;
-  //Piece: Piece
-  public
-    procedure Table_Piece;   //Facture_Ligne: Facture_Ligne
+  //Facture_Ligne: Facture_Ligne
   public
     procedure Table_Facture_Ligne; 
   end;
@@ -103,30 +101,10 @@ begin
      sl.Clear;
      sl.AddObject( blFacture.sCle, blFacture);
 
-     Table_Piece;      Table_Facture_Ligne; 
+     Table_Facture_Ligne; 
 end;
 
-procedure TodFacture.Table_Piece;
-var
-   tPiece: TOD_Batpro_Table;
-   nRoot: TOD_Niveau;
-   nPiece: TOD_Niveau;
-begin
-     blFacture.haPiece.Charge;
-     
-     tPiece:= Ajoute_Table( 'tPiece');
-     tPiece.Pas_de_persistance:= True;
-     tPiece.AddColumn( 40, '  '      );
-
-     nRoot:= tPiece.AddNiveau( 'Root');
-     nRoot.Charge_sl( sl);
-     nRoot.Ajoute_Column_Avant( 'D'                  , 0, 0);
-
-     nPiece:= tPiece.AddNiveau( 'Piece');
-     nPiece.Ajoute_Column_Avant( 'D'                  , 0, 0);
-end;
-
- procedure TodFacture.Table_Facture_Ligne;
+procedure TodFacture.Table_Facture_Ligne;
 var
    tFacture_Ligne: TOD_Batpro_Table;
    nRoot: TOD_Niveau;

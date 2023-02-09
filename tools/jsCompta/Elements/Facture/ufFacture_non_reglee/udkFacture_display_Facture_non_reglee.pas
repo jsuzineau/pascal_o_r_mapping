@@ -1,4 +1,4 @@
-unit udkFacture_display_Facture;
+unit udkFacture_display_Facture_non_reglee;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
@@ -30,7 +30,6 @@ uses
     uChamps,
 
     ublFacture,
-    upoolFacture,
 
     uDockable, ucBatpro_Shape, ucChamp_Label, ucChamp_Edit,
     ucBatproDateTimePicker, ucChamp_DateTimePicker, ucDockableScrollbox,
@@ -39,14 +38,15 @@ uses
 
 type
 
- { TdkFacture_display_Facture }
+ { TdkFacture_display_Facture_non_reglee }
 
- TdkFacture_display_Facture
+ TdkFacture_display_Facture_non_reglee
  =
   class(TDockable)
+  clDate: TChamp_Label;
   clNom: TChamp_Label;
-  sbDetruire: TSpeedButton;
-  procedure sbDetruireClick(Sender: TObject);
+  clNbHeures: TChamp_Label;
+  clMontant: TChamp_Label;
  //Gestion du cycle de vie
  public
    constructor Create(AOwner: TComponent); override;
@@ -62,38 +62,25 @@ implementation
 
 {$R *.lfm}
 
-{ TdkFacture_display_Facture }
+{ TdkFacture_display_Facture_non_reglee }
 
-constructor TdkFacture_display_Facture.Create(AOwner: TComponent);
+constructor TdkFacture_display_Facture_non_reglee.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
 end;
 
-destructor TdkFacture_display_Facture.Destroy;
+destructor TdkFacture_display_Facture_non_reglee.Destroy;
 begin
      inherited Destroy;
 end;
 
-procedure TdkFacture_display_Facture.SetObjet(const Value: TObject);
+procedure TdkFacture_display_Facture_non_reglee.SetObjet(const Value: TObject);
 begin
      inherited SetObjet(Value);
 
      Affecte( blFacture, TblFacture, Value);
 
-     Champs_Affecte( blFacture, [clNom]);
-end;
-
-procedure TdkFacture_display_Facture.sbDetruireClick(Sender: TObject);
-begin
-     if IDYES
-        <>
-        Application.MessageBox( 'Etes vous sûr de vouloir supprimer Facture ?',
-                                'Suppression de Facture',
-                                MB_ICONQUESTION+MB_YESNO)
-     then
-         exit;
-     poolFacture .Supprimer( blFacture );
-     Do_DockableScrollbox_Suppression;
+     Champs_Affecte( blFacture, [clDate,clNom,clNbHeures,clMontant]);
 end;
 
 end.

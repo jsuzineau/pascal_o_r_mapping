@@ -1,7 +1,7 @@
-unit ublPiece;
+unit uodPiece;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
-            http://www.mars42.com                                               |
+        http://www.mars42.com                                                   |
                                                                                 |
     Copyright 2023 Jean SUZINEAU - MARS42                                       |
                                                                                 |
@@ -20,46 +20,86 @@ unit ublPiece;
                                                                                 |
 |                                                                               }
 
+{$mode delphi}
+
 interface
 
 uses
-    uClean,
-    ufAccueil_Erreur,
-    u_sys_,
-    uuStrings,
     uBatpro_StringList,
-    uChamp,
 
-    uBatpro_Element,
-    uBatpro_Ligne,
+    ublFacture,
 
-    udmDatabase,
-    upool_Ancetre_Ancetre,
-    upool,
-
-    {$I ublPiece_interface_uses.inc}
-    {$I ../../Facture/Symetric/ublFacture_interface_uses.inc} 
-
-    SysUtils, Classes, SqlDB, DB;
+    uOD_Batpro_Table,
+    uOD_Niveau,
+    uOD_Table_Batpro,
+    uEXE_INI,
+ Classes, SysUtils;
 
 type
-{$I ublPiece_interface_type_forward.inc}
-{$I ../../Facture/Symetric/ublFacture_interface_type_forward.inc} 
-{$I ublPiece_interface_type.inc}
-{$I ../../Facture/Symetric/ublFacture_interface_type.inc} 
 
-{$I ublPiece_interface_var.inc}
-{$I ../../Facture/Symetric/ublFacture_interface_var.inc} 
+ { TodPiece }
+
+ TodPiece
+ =
+  class( TOD_Table_Batpro)
+  //cycle de vie
+  public
+    constructor Create;
+    destructor Destroy; override;
+  //Gestion état
+  private
+    sl: TslPiece;
+    blPiece: TblPiece;
+  protected
+    function  Composer: String; override;
+  public
+    procedure Init( _blPiece: TblPiece); reintroduce;
+//Aggregations_Pascal_uod_declaration_table_pas
+  end;
 
 implementation
 
-{$I ublPiece_implementation.inc}
-{$I ../../Facture/Symetric/ublFacture_implementation.inc} 
+constructor TodPiece.Create;
+begin
+     FNomFichier_Modele:= ExtractFilePath(ParamStr(0))+'Piece.ott';
+     sl:= TslPiece.Create( ClassName+'.sl');
+end;
 
-initialization
-finalization
-            {$I ublPiece_finalization.inc}
-            {$I ../../Facture/Symetric/ublFacture_finalization.inc} 
+destructor TodPiece.Destroy;
+begin
+     FreeAndNil( sl);
+     inherited Destroy;
+end;
+
+function TodPiece.Composer: String;
+var
+   Repertoire: String;
+begin
+     Repertoire:= EXE_INI.Assure_String('Repertoire_Piece');
+     if '' <> Repertoire
+     then
+         Repertoire:= IncludeTrailingPathDelimiter(Repertoire);
+     NomFichier:= Repertoire+blPiece.GetLibelle+'.odt';
+     Result:=inherited Composer;
+end;
+
+procedure TodPiece.Init( _blPiece: TblPiece);
+begin
+     inherited Init;
+
+     if _blPiece = nil then exit;
+
+     blPiece:= _blPiece;
+
+     Ajoute_Maitre( 'Piece', blPiece);
+
+     sl.Clear;
+     sl.AddObject( blPiece.sCle, blPiece);
+
+//Aggregations_Pascal_uod_implementation_init_pas
+end;
+
+//Aggregations_Pascal_uod_implementation_methodes_pas
+
 end.
-
 

@@ -6,16 +6,6 @@ inherited dkPiece_display: TdkPiece_display
   Caption = 'dkPiece_display'
   ClientHeight = 45
   ClientWidth = 226
-object clkcbFacture: TChamp_Lookup_ComboBox
-  Left = 3
-  Height = 23
-  Top = 18
-  Width = 233
-  ItemHeight = 15
-  Style = csDropDownList
-  TabOrder = 0
-  Field = 'Facture'
-end
   inherited sSelection: TBatpro_Shape 
     Height = 45
   end
@@ -49,6 +39,21 @@ end
     Field = 'Date'
   end
 
+  object clNumero: TChamp_Label
+    Left = 144
+    Height = 13
+    Top = 2
+    Width = 57
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Caption = 'clNumero'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'Numero'
+  end
+
   object ceFacture_id: TChamp_Edit
     Left = 119
     Height = 21
@@ -75,6 +80,20 @@ end
     ParentShowHint = False
     ShowHint = True
     Field = 'Date'
+  end
+
+  object ceNumero: TChamp_Edit
+    Left = 119
+    Height = 21
+    Top = 4
+    Width = 80
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Text = 'ceNumero'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    Field = 'Numero'
   end
   object sbDetruire: TSpeedButton[2]
     Left = 16

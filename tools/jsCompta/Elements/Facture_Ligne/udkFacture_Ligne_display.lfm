@@ -2,74 +2,21 @@ inherited dkFacture_Ligne_display: TdkFacture_Ligne_display
   Left = 704
   Height = 45
   Top = 420
-  Width = 226
+  Width = 553
   Caption = 'dkFacture_Ligne_display'
   ClientHeight = 45
-  ClientWidth = 226
-object clkcbFacture: TChamp_Lookup_ComboBox
-  Left = 3
-  Height = 23
-  Top = 18
-  Width = 233
-  ItemHeight = 15
-  Style = csDropDownList
-  TabOrder = 0
-  Field = 'Facture'
-end
-  inherited sSelection: TBatpro_Shape 
+  ClientWidth = 553
+  inherited sBackground: TShape
+    Width = 1091
+  end
+  inherited sSelection: TBatpro_Shape
     Height = 45
   end
-  object clFacture_id: TChamp_Label
-    Left = 144
+  object clNbHeures: TChamp_Label[2]
+    Left = 333
     Height = 13
     Top = 2
     Width = 57
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Caption = 'clFacture_id'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    OnClick = FormClick
-    Field = 'Facture_id'
-  end
-
-  object clDate: TChamp_Label
-    Left = 144
-    Height = 13
-    Top = 2
-    Width = 57
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Caption = 'clDate'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    OnClick = FormClick
-    Field = 'Date'
-  end
-
-  object clLibelle: TChamp_Label
-    Left = 144
-    Height = 13
-    Top = 2
-    Width = 57
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Caption = 'clLibelle'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    OnClick = FormClick
-    Field = 'Libelle'
-  end
-
-  object clNbHeures: TChamp_Label
-    Left = 144
-    Height = 13
-    Top = 2
-    Width = 57
-    Anchors = [akTop, akRight]
     AutoSize = False
     Caption = 'clNbHeures'
     ParentColor = False
@@ -78,13 +25,11 @@ end
     OnClick = FormClick
     Field = 'NbHeures'
   end
-
-  object clPrix_unitaire: TChamp_Label
-    Left = 144
+  object clPrix_unitaire: TChamp_Label[3]
+    Left = 403
     Height = 13
     Top = 2
     Width = 57
-    Anchors = [akTop, akRight]
     AutoSize = False
     Caption = 'clPrix_unitaire'
     ParentColor = False
@@ -93,13 +38,11 @@ end
     OnClick = FormClick
     Field = 'Prix_unitaire'
   end
-
-  object clMontant: TChamp_Label
-    Left = 144
+  object clMontant: TChamp_Label[4]
+    Left = 471
     Height = 13
     Top = 2
     Width = 57
-    Anchors = [akTop, akRight]
     AutoSize = False
     Caption = 'clMontant'
     ParentColor = False
@@ -108,107 +51,32 @@ end
     OnClick = FormClick
     Field = 'Montant'
   end
-
-  object ceFacture_id: TChamp_Edit
-    Left = 119
-    Height = 21
-    Top = 4
-    Width = 80
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Text = 'ceFacture_id'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    Field = 'Facture_id'
-  end
-
-  object ceDate: TChamp_Edit
-    Left = 119
-    Height = 21
-    Top = 4
-    Width = 80
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Text = 'ceDate'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
+  object cmDate: TChamp_Memo[5]
+    Left = 5
+    Height = 42
+    Top = 2
+    Width = 108
+    Anchors = [akTop, akLeft, akBottom]
+    Color = clBtnFace
+    Lines.Strings = (
+      'cmDate'
+    )
+    ScrollBars = ssAutoBoth
+    TabOrder = 0
     Field = 'Date'
   end
-
-  object ceLibelle: TChamp_Edit
-    Left = 119
-    Height = 21
-    Top = 4
-    Width = 80
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Text = 'ceLibelle'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
+  object cmLibelle: TChamp_Memo[6]
+    Left = 114
+    Height = 42
+    Top = 2
+    Width = 218
+    Anchors = [akTop, akLeft, akBottom]
+    Color = clBtnFace
+    Lines.Strings = (
+      'cmLibelle'
+    )
+    ScrollBars = ssAutoBoth
+    TabOrder = 1
     Field = 'Libelle'
-  end
-
-  object ceNbHeures: TChamp_Edit
-    Left = 119
-    Height = 21
-    Top = 4
-    Width = 80
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Text = 'ceNbHeures'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    Field = 'NbHeures'
-  end
-
-  object cePrix_unitaire: TChamp_Edit
-    Left = 119
-    Height = 21
-    Top = 4
-    Width = 80
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Text = 'cePrix_unitaire'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    Field = 'Prix_unitaire'
-  end
-
-  object ceMontant: TChamp_Edit
-    Left = 119
-    Height = 21
-    Top = 4
-    Width = 80
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Text = 'ceMontant'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    Field = 'Montant'
-  end
-  object sbDetruire: TSpeedButton[2]
-    Left = 16
-    Height = 22
-    Hint = 'Supprimer'
-    Top = 19
-    Width = 22
-    Caption = 'D'
-    OnClick = sbDetruireClick
-  end
-  object sbCopy_to_current: TSpeedButton[4]
-    Left = 203
-    Height = 22
-    Hint = 'Copie vers courant'
-    Top = 0
-    Width = 22
-    Anchors = [akTop, akRight]
-    Caption = '>'
-    OnClick = sbCopy_to_currentClick
   end
 end

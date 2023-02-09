@@ -1,5 +1,5 @@
 //Aggregations_Pascal_ubl_uses_details_pas
 {implementation_uses_key}
-//Aggregations_Pascal_upool_uses_details_pas
+
 uhfNom_de_la_classe,
 

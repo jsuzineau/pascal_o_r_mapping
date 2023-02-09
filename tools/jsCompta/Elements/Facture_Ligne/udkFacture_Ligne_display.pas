@@ -34,8 +34,8 @@ uses
 
     uDockable, ucBatpro_Shape, ucChamp_Label, ucChamp_Edit,
     ucBatproDateTimePicker, ucChamp_DateTimePicker, ucDockableScrollbox,
-    Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
-    LCLType;
+    ucChamp_Memo, Classes, SysUtils, FileUtil, Forms, Controls, Graphics,
+    Dialogs, Buttons, LCLType;
 
 const
      udkFacture_Ligne_display_Copy_to_current=0;
@@ -47,17 +47,12 @@ type
  TdkFacture_Ligne_display
  =
   class(TDockable)
-  clFacture_id: TChamp_Label;
-  clDate: TChamp_Label;
-  clLibelle: TChamp_Label;
+  cmDate: TChamp_Memo;
   clNbHeures: TChamp_Label;
   clPrix_unitaire: TChamp_Label;
   clMontant: TChamp_Label;
-  sbCopy_to_current: TSpeedButton;
-  sbDetruire: TSpeedButton;
+  cmLibelle: TChamp_Memo;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-  procedure sbCopy_to_currentClick(Sender: TObject);
-  procedure sbDetruireClick(Sender: TObject);
  //Gestion du cycle de vie
  public
    constructor Create(AOwner: TComponent); override;
@@ -91,30 +86,12 @@ begin
 
      Affecte( blFacture_Ligne, TblFacture_Ligne, Value);
 
-     Champs_Affecte( blFacture_Ligne, [clFacture_id,clDate,clLibelle,clNbHeures,clPrix_unitaire,clMontant]);
-end;
-
-procedure TdkFacture_Ligne_display.sbDetruireClick(Sender: TObject);
-begin
-     if IDYES
-        <>
-        Application.MessageBox( 'Etes vous sûr de vouloir supprimer Facture_Ligne ?',
-                                'Suppression de Facture_Ligne',
-                                MB_ICONQUESTION+MB_YESNO)
-     then
-         exit;
-     poolFacture_Ligne .Supprimer( blFacture_Ligne );
-     Do_DockableScrollbox_Suppression;
+     Champs_Affecte( blFacture_Ligne, [cmDate,cmLibelle,clNbHeures,clPrix_unitaire,clMontant]);
 end;
 
 procedure TdkFacture_Ligne_display.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
      inherited;
-end;
-
-procedure TdkFacture_Ligne_display.sbCopy_to_currentClick(Sender: TObject);
-begin
-     Envoie_Message( udkFacture_Ligne_display_Copy_to_current);
 end;
 
 end.

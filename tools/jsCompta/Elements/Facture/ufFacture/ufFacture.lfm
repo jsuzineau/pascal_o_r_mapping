@@ -246,6 +246,15 @@ object fFacture: TfFacture
         Text = 'cdtpDate'
         Field = 'Date'
       end
+      object bFacture_Ligne_Nouveau: TButton
+        Left = 3
+        Height = 25
+        Top = 179
+        Width = 97
+        Caption = 'Nouvelle ligne'
+        OnClick = bFacture_Ligne_NouveauClick
+        TabOrder = 10
+      end
       object clNumero: TChamp_Label
         Left = 172
         Height = 24
@@ -258,14 +267,43 @@ object fFacture: TfFacture
         ShowHint = True
         Field = 'Numero'
       end
-      object bFacture_Ligne_Nouveau: TButton
-        Left = 3
-        Height = 25
-        Top = 179
-        Width = 97
-        Caption = 'Nouvelle ligne'
-        OnClick = bFacture_Ligne_NouveauClick
-        TabOrder = 10
+      object clPiece_Date: TChamp_Label
+        Left = 374
+        Height = 15
+        Top = 180
+        Width = 66
+        Caption = 'clPiece_Date'
+        ParentColor = False
+        ParentShowHint = False
+        ShowHint = True
+        Field = 'Date'
+      end
+      object Label2: TLabel
+        Left = 314
+        Height = 15
+        Top = 181
+        Width = 55
+        Caption = 'Date Pièce'
+        ParentColor = False
+      end
+      object Label1: TLabel
+        Left = 142
+        Height = 15
+        Top = 180
+        Width = 75
+        Caption = 'Numéro Pièce'
+        ParentColor = False
+      end
+      object clPiece_Numero: TChamp_Label
+        Left = 220
+        Height = 15
+        Top = 180
+        Width = 86
+        Caption = 'clPiece_Numero'
+        ParentColor = False
+        ParentShowHint = False
+        ShowHint = True
+        Field = 'Numero'
       end
     end
     object dsbFacture_Ligne: TDockableScrollbox

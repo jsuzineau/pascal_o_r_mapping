@@ -102,7 +102,7 @@
     property Piece_id: Integer       read FPiece_id write SetPiece_id;
     property Piece_bl: TblPiece read FPiece_bl write SetPiece_bl;
     function Piece: String;
-
+    procedure Piece_Nouveau;
   //Gestion de la clé
   public
     class function sCle_from_( _Annee: Integer;  _NumeroDansAnnee: Integer): String;
@@ -124,6 +124,7 @@
   public
     Label_Total: String;
     Label_TVA: String;
+
   end;
 
  TIterateur_Facture
@@ -188,6 +189,10 @@
   //Chargement d'un Piece
   public
     procedure Charge_Piece( _Piece_id: Integer; _slLoaded: TBatpro_StringList = nil);
+
+  //Chargement des factures sans Piece correspondante
+  public
+    procedure Charge_non_reglee( _slLoaded: TBatpro_StringList = nil);
 
   //Création d'itérateur
   protected

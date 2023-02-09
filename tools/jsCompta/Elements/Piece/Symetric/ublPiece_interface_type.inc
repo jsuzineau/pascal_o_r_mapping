@@ -11,8 +11,9 @@
     destructor Destroy; override;
   //champs persistants
   public
-    Date: String;
+    Date: String; cDate: TChamp;
     Numero: Integer;
+//Pascal_ubl_declaration_pas_detail
   //Facture
   private
     FFacture_id: Integer;
@@ -34,7 +35,8 @@
 
   //Gestion de la clé
   public
-//pattern_sCle_from__Declaration
+    class function sCle_from_( _Numero: Integer): String;
+
     function sCle: String; override;
   //Gestion des déconnexions
   public
@@ -85,9 +87,10 @@
   protected
     procedure To_Params( _Params: TParams); override;
   public
-//pattern_Declaration_cle
-//pattern_Get_by_Cle_Declaration
-//pattern_Assure_Declaration
+    Numero: Integer;
+
+    function Get_by_Cle( _Numero: Integer): TblPiece;
+    function Assure( _Numero: Integer): TblPiece;
   //Indépendance par rapport au SGBD Informix ou MySQL
   protected
     function SQLWHERE_ContraintesChamps: String; override;
@@ -106,6 +109,12 @@
   public
     function Iterateur: TIterateur_Piece;
     function Iterateur_Decroissant: TIterateur_Piece;
+  //Nouveau numéro à partir de la détermination de la dernière pièce
+  public
+    function MaxNumero: Integer;
+    function Numeros_Incoherents: Boolean;
+    function Numeros_Incoherents_Message: Boolean;
+    function Nouveau_Numero: Integer;
   end;
 
 

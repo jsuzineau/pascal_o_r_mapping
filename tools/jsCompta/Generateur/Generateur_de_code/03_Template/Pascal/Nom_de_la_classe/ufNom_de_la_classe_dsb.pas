@@ -115,16 +115,16 @@ begin
      //Pascal_uf_pc_initialisation_pas_Aggregation
 end;
 
-procedure TfNom_de_la_classe_dsb.dsbSelect(Sender: TObject);
-begin
-     dsb.Get_bl( blNom_de_la_classe);
-     _from_Nom_de_la_classe;
-end;
-
 procedure TfNom_de_la_classe_dsb.FormDestroy(Sender: TObject);
 begin
      pool.pFiltreChange.Desabonne( Self, NbTotal_Change);
      inherited;
+end;
+
+procedure TfNom_de_la_classe_dsb.dsbSelect(Sender: TObject);
+begin
+     dsb.Get_bl( blNom_de_la_classe);
+     _from_Nom_de_la_classe;
 end;
 
 procedure TfNom_de_la_classe_dsb.NbTotal_Change;

@@ -41,9 +41,9 @@ end;
 
 procedure TblClasse.Nom_de_la_classe.Symetric.NomSymetric_Aggrege;
 var
-   Symetric.NomSymetric_bl_New: TBatpro_Ligne;
+   Symetric.NomSymetric_bl_New: TblSymetric.ClasseSymetric;
 begin
-     ublClasse.Nom_de_la_classe_poolSymetric.ClasseSymetric.Get_Interne_from_id( Symetric.NomSymetric_id, Symetric.NomSymetric_bl_New);
+     poolSymetric.ClasseSymetric.Get_Interne_from_id( Symetric.NomSymetric_id, Symetric.NomSymetric_bl_New);
      if Symetric.NomSymetric_bl = Symetric.NomSymetric_bl_New then exit;
 
      Symetric.NomSymetric_Desaggrege;

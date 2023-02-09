@@ -25,7 +25,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../../../pascal_o_r_mapping/03_Data;../../../pascal_o_r_mapping/07_sources_externes/synapse/source/lib;../../../pascal_o_r_mapping/03_Data/Automatic;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/00_General;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation;../../../pascal_o_r_mapping/06_Formes;../../../pascal_o_r_mapping/03_Data/JSON;../../../pascal_o_r_mapping/03_Data/Tuleap;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/File_Handler/05_Angular_TypeScript;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/Elements/Postgres_Foreign_Key;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/File_Handler;Elements/Facture;Elements/Mois;Elements/Piece;Elements;Elements/Annee;Elements/Client;Elements/Facture_Ligne"/>
+            <OtherUnitFiles Value="../../../pascal_o_r_mapping/03_Data;../../../pascal_o_r_mapping/07_sources_externes/synapse/source/lib;../../../pascal_o_r_mapping/03_Data/Automatic;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/00_General;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation;../../../pascal_o_r_mapping/06_Formes;../../../pascal_o_r_mapping/03_Data/JSON;../../../pascal_o_r_mapping/03_Data/Tuleap;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/File_Handler/05_Angular_TypeScript;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/Elements/Postgres_Foreign_Key;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/File_Handler;Elements/Facture;Elements/Facture/Symetric;Elements/Mois;Elements/Piece;Elements/Piece/Symetric;Elements;Elements/Annee;Elements/Client;Elements/Facture_Ligne;Elements/Facture/ufFacture;Elements/Facture/ufFacture_non_reglee"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -62,7 +62,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="Elements/Facture;Elements/Mois;Elements/Piece;Elements;Elements/Annee;Elements/Client;Elements/Facture_Ligne"/>
+            <OtherUnitFiles Value="Elements/Facture;Elements/Facture/Symetric;Elements/Mois;Elements/Piece;Elements/Piece/Symetric;Elements;Elements/Annee;Elements/Client;Elements/Facture_Ligne;Elements/Facture/ufFacture;Elements/Facture/ufFacture_non_reglee"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -103,7 +103,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="Elements/Facture;Elements/Mois;Elements/Piece;Elements;Elements/Annee;Elements/Client;Elements/Facture_Ligne"/>
+            <OtherUnitFiles Value="Elements/Facture;Elements/Facture/Symetric;Elements/Mois;Elements/Piece;Elements/Piece/Symetric;Elements;Elements/Annee;Elements/Client;Elements/Facture_Ligne;Elements/Facture/ufFacture;Elements/Facture/ufFacture_non_reglee"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -166,7 +166,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="43">
+    <Units Count="42">
       <Unit0>
         <Filename Value="jsCompta.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -186,14 +186,14 @@
         <ResourceBaseClass Value="Form"/>
       </Unit2>
       <Unit3>
-        <Filename Value="Elements/Facture/udkFacture_display_Facture.pas"/>
+        <Filename Value="Elements/Facture/ufFacture/udkFacture_display_Facture.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dkFacture_display_Facture"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit3>
       <Unit4>
-        <Filename Value="Elements/Facture/ublFacture.pas"/>
+        <Filename Value="Elements/Facture/Symetric/ublFacture.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit4>
       <Unit5>
@@ -235,173 +235,176 @@
         <ResourceBaseClass Value="Form"/>
       </Unit11>
       <Unit12>
-        <Filename Value="Elements/Piece/upoolPiece.pas"/>
+        <Filename Value="Elements/Piece/uhfPiece.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit12>
       <Unit13>
-        <Filename Value="Elements/Piece/uhfPiece.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit13>
-      <Unit14>
-        <Filename Value="Elements/Piece/ufPiece_dsb.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="fPiece_dsb"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit14>
-      <Unit15>
         <Filename Value="Elements/Piece/udkPiece_edit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dkPiece_edit"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit15>
-      <Unit16>
+      </Unit13>
+      <Unit14>
         <Filename Value="Elements/Piece/udkPiece_display.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dkPiece_display"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit16>
-      <Unit17>
-        <Filename Value="Elements/Piece/ublPiece.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit17>
-      <Unit18>
+      </Unit14>
+      <Unit15>
         <Filename Value="Elements/Mois/upoolMois.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit18>
-      <Unit19>
+      </Unit15>
+      <Unit16>
         <Filename Value="Elements/Mois/uhfMois.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit19>
-      <Unit20>
+      </Unit16>
+      <Unit17>
         <Filename Value="Elements/Mois/ufMois_dsb.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fMois_dsb"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit20>
-      <Unit21>
+      </Unit17>
+      <Unit18>
         <Filename Value="Elements/Mois/udkMois_edit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dkMois_edit"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit21>
-      <Unit22>
+      </Unit18>
+      <Unit19>
         <Filename Value="Elements/Mois/udkMois_display.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dkMois_display"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit22>
-      <Unit23>
+      </Unit19>
+      <Unit20>
         <Filename Value="Elements/Mois/ublMois.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit23>
-      <Unit24>
-        <Filename Value="Elements/Facture/upoolFacture.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit24>
-      <Unit25>
+      </Unit20>
+      <Unit21>
         <Filename Value="Elements/Facture/uhfFacture.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit25>
-      <Unit26>
+      </Unit21>
+      <Unit22>
         <Filename Value="Elements/Facture/ufFacture_dsb.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fFacture_dsb"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit26>
-      <Unit27>
+      </Unit22>
+      <Unit23>
         <Filename Value="Elements/Client/ufClient.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fClient"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit27>
-      <Unit28>
+      </Unit23>
+      <Unit24>
         <Filename Value="Elements/Client/uhfClient.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit28>
-      <Unit29>
+      </Unit24>
+      <Unit25>
         <Filename Value="Elements/Client/upoolClient.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit29>
-      <Unit30>
+      </Unit25>
+      <Unit26>
         <Filename Value="Elements/Client/ublClient.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit30>
-      <Unit31>
+      </Unit26>
+      <Unit27>
         <Filename Value="Elements/Client/udkClient_display_Client.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dkClient_display_Client"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit31>
-      <Unit32>
+      </Unit27>
+      <Unit28>
         <Filename Value="Elements/Client/udkClient_edit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dkClient_edit"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit32>
-      <Unit33>
+      </Unit28>
+      <Unit29>
         <Filename Value="Elements/Facture_Ligne/uhfFacture_Ligne.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit33>
-      <Unit34>
+      </Unit29>
+      <Unit30>
         <Filename Value="Elements/Facture_Ligne/upoolFacture_Ligne.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit34>
-      <Unit35>
+      </Unit30>
+      <Unit31>
         <Filename Value="Elements/Facture_Ligne/ublFacture_Ligne.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit35>
-      <Unit36>
+      </Unit31>
+      <Unit32>
         <Filename Value="Elements/Facture_Ligne/udkFacture_Ligne_display.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dkFacture_Ligne_display"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit36>
-      <Unit37>
+      </Unit32>
+      <Unit33>
         <Filename Value="Elements/Facture_Ligne/udkFacture_Ligne_edit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dkFacture_Ligne_edit"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit37>
-      <Unit38>
+      </Unit33>
+      <Unit34>
         <Filename Value="Elements/Facture_Ligne/ufFacture_Ligne_dsb.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fFacture_Ligne_dsb"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit38>
-      <Unit39>
-        <Filename Value="Elements/Facture/ufFacture.pas"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="Elements/Facture/ufFacture/ufFacture.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fFacture"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit39>
-      <Unit40>
+      </Unit35>
+      <Unit36>
         <Filename Value="Elements/Facture/udkFacture_display.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dkFacture_display"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit40>
-      <Unit41>
+      </Unit36>
+      <Unit37>
         <Filename Value="Elements/Facture/uodFacture.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit41>
-      <Unit42>
+      </Unit37>
+      <Unit38>
         <Filename Value="Elements/Facture_Ligne/udkFacture_Ligne_edit_Facture.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dkFacture_Ligne_edit_Facture"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit42>
+      </Unit38>
+      <Unit39>
+        <Filename Value="Elements/Piece/ufPiece_dsb3.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fPiece_dsb3"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit39>
+      <Unit40>
+        <Filename Value="Elements/Facture/ufFacture_non_reglee/udkFacture_display_Facture_non_reglee.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkFacture_display_Facture_non_reglee"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit40>
+      <Unit41>
+        <Filename Value="Elements/Facture/ufFacture_non_reglee/ufFacture_non_reglee.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fFacture_non_reglee"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit41>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -411,7 +414,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="Elements/Facture;Elements/Mois;Elements/Piece;Elements;Elements/Annee;Elements/Client;Elements/Facture_Ligne"/>
+      <OtherUnitFiles Value="Elements/Facture;Elements/Facture/Symetric;Elements/Mois;Elements/Piece;Elements/Piece/Symetric;Elements;Elements/Annee;Elements/Client;Elements/Facture_Ligne;Elements/Facture/ufFacture;Elements/Facture/ufFacture_non_reglee"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

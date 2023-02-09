@@ -2,30 +2,31 @@ inherited dkPiece_edit: TdkPiece_edit
   Left = 704
   Height = 45
   Top = 420
-  Width = 426
+  Width = 201
   Caption = 'dkPiece_edit'
   ClientHeight = 45
-  ClientWidth = 426
+  ClientWidth = 201
   inherited sBackground: TShape
     Height = 45
-    Width = 414
+    Width = 189
   end
   inherited sSelection: TBatpro_Shape
     Height = 45
   end
-  object clkcbFacture: TChamp_Lookup_ComboBox[2]
-    Left = 126
+  object ceDate: TChamp_Edit[2]
+    Left = 94
     Height = 21
-    Top = 3
-    Width = 190
-    Anchors = [akTop, akLeft, akRight]
-    ItemHeight = 13
-    Style = csDropDownList
+    Top = 4
+    Width = 80
+    AutoSize = False
+    ParentShowHint = False
+    ShowHint = True
     TabOrder = 0
-    Field = 'Facture'
+    Text = 'ceDate'
+    Field = 'Date'
   end
-  object ceFacture_id: TChamp_Edit
-    Left = 44
+  object ceNumero: TChamp_Edit[3]
+    Left = 13
     Height = 21
     Top = 4
     Width = 80
@@ -33,62 +34,7 @@ inherited dkPiece_edit: TdkPiece_edit
     ParentShowHint = False
     ShowHint = True
     TabOrder = 1
-    Text = 'ceFacture_id'
-    Field = 'Facture_id'
-  end
-  object ceDate: TChamp_Edit[4]
-    Left = 319
-    Height = 21
-    Top = 4
-    Width = 80
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    ParentShowHint = False
-    ShowHint = True
-    TabOrder = 2
-    Text = 'ceDate'
-    Field = 'Date'
-  end
-  object sbDetruire: TSpeedButton[5]
-    Left = 16
-    Height = 22
-    Hint = 'Supprimer'
-    Top = 3
-    Width = 22
-    Glyph.Data = {
-      9E020000424D9E0200000000000036000000280000000B0000000E0000000100
-      2000000000006802000064000000640000000000000000000000000000000000
-      00000000003B0000006500000055000000550000005500000055000000780000
-      00000000000000000000000000000000005F0000001E00000044000000690000
-      0067000000490000005D000000030000000000000000000000000000005D0000
-      00570000004200000054000000690000003B000000510000002B000000000000
-      00000000000A000000510000005D0000005A000000410000004A0000002B0000
-      005800000057000000000000000000000048000000170000005D0000005C0000
-      00450000002A000000450000005E0000005E00000000000000000000005D0000
-      00210000003C0000005C0000004A00000011000000590000005E0000005E0000
-      0000000000000000005D00000058000000070000005C0000004F0000000C0000
-      005B0000005D000000540000000C00000013000000480000005D000000110000
-      004900000054000000070000005B0000003C0000003C0000003E000000520000
-      000D0000005B0000003D0000001F00000059000000020000005B0000000C0000
-      00500000005C0000005E000000110000002F00000045000000010000003D0000
-      00000000003200000000000000310000005E000000AC00000082000000820000
-      0082000000820000008200000082000000820000008200000082000000AB0000
-      007F0000002A0000002200000022000000220000002200000022000000220000
-      00220000002D0000007A0000000A0000005E0000005D0000003F000000270000
-      001700000028000000420000005D0000005B0000000700000000000000000000
-      00000000001A0707074D2C2C2CD0000000310000001800000000000000000000
-      0000
-    }
-    OnClick = sbDetruireClick
-  end
-  object sbCopy_to_current: TSpeedButton[6]
-    Left = 403
-    Height = 22
-    Hint = 'Copie vers courant'
-    Top = 3
-    Width = 22
-    Anchors = [akTop, akRight]
-    Caption = '>'
-    OnClick = sbCopy_to_currentClick
+    Text = 'ceNumero'
+    Field = 'Numero'
   end
 end

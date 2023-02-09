@@ -10,7 +10,7 @@ uses
   ufFacture_dsb,
   ufFacture_Ligne_dsb,
   ufMois_dsb,
-  ufPiece_dsb,
+  ufPiece_dsb3,
   
   uClean;
 
@@ -93,7 +93,7 @@ end;
 
 procedure TfPatternMainMenu.PieceClick(Sender: TObject);
 begin
-     fPiece_dsb.Execute;
+     fPiece_dsb3.Execute;
 end;
 
 

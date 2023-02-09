@@ -34,7 +34,6 @@ uses
   ublClient,
 
     ublFacture,
-    upoolFacture,
 
 
   uhfClient,

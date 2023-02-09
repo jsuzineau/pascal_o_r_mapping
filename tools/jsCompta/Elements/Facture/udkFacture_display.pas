@@ -30,7 +30,6 @@ uses
     uChamps,
 
     ublFacture,
-    upoolFacture,
 
     uDockable, ucBatpro_Shape, ucChamp_Label, ucChamp_Edit,
     ucBatproDateTimePicker, ucChamp_DateTimePicker, ucDockableScrollbox,

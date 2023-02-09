@@ -221,15 +221,16 @@ begin
      //Détail Client
      FClient_bl:= nil;
      cClient_id:= Integer_from_Integer( FClient_id, 'Client_id');
-     cClient  := Champs.String_Lookup( FClient, 'Client', cClient_id, ublFacture_poolClient.GetLookupListItems, '');
+     cClient:= Champs.String_Lookup( FClient, 'Client', cClient_id, ublFacture_poolClient.GetLookupListItems, '');
      Client_id_Change;
      cClient_id.OnChange.Abonne( Self, Client_id_Change);
+
 
 
      //Symétrie Piece
      FPiece_bl:= nil;
      cPiece_id:= Integer_from_Integer( FPiece_id, 'Piece_id');
-     cPiece:= Champs.String_Lookup( FPiece, 'Piece', cPiece_id, ublFacture_poolPiece.GetLookupListItems, '');
+     cPiece:= Champs.String_Lookup( FPiece, 'Piece', cPiece_id, poolPiece.GetLookupListItems, '');
      Piece_id_Change;
      cPiece_id.OnChange.Abonne( Self, Piece_id_Change);
 
@@ -440,19 +441,20 @@ begin
 
      if Assigned(Piece_bl)
      then
-         Piece_bl #Vérifier_nom_détail.Facture_bl:= Self;
+         Piece_bl.Facture_bl:= Self;
      Connect_To( FPiece_bl);
 end;
 
 procedure TblFacture.Piece_Aggrege;
 var
-   Piece_bl_New: TBatpro_Ligne;
+   Piece_bl_New: TblPiece;
 begin
-     ublFacture_poolPiece.Get_Interne_from_id( Piece_id, Piece_bl_New);
+     poolPiece.Get_Interne_from_id( Piece_id, Piece_bl_New);
      if Piece_bl = Piece_bl_New then exit;
 
      Piece_Desaggrege;
      FPiece_bl:= Piece_bl_New;
+     AggregeLigne( 'Piece_', FPiece_bl);
 
      Piece_Connecte;
 end;
@@ -461,9 +463,10 @@ procedure TblFacture.Piece_Desaggrege;
 begin
      if Piece_bl = nil then exit;
 
+     DesaggregeLigne( 'Piece_', FPiece_bl);
      if Assigned(Piece_bl)
      then
-         Piece_bl #Vérifier_nom_détail.Facture_bl:= nil;
+         Piece_bl.Facture_bl:= nil;
      Unconnect_To( FPiece_bl);
 end;
 
@@ -483,6 +486,13 @@ begin
          Result:= FPiece_bl.GetLibelle
      else
          Result:= '';
+end;
+
+procedure TblFacture.Piece_Nouveau;
+begin
+     if Piece_id <> 0 then exit;
+
+     Piece_bl:= poolPiece.Nouveau;
 end;
 
  
@@ -610,6 +620,14 @@ begin
      Load( SQL, _slLoaded);
 end;
 
+procedure TpoolFacture.Charge_non_reglee( _slLoaded: TBatpro_StringList);
+var
+   SQL: String;
+begin
+     SQL:= 'select * from '+NomTable+' where Piece_id = 0';
+
+     Load( SQL, _slLoaded);
+end;
 
 class function TpoolFacture.Classe_Iterateur: TIterateur_Class;
 begin

@@ -1,0 +1,65 @@
+inherited dkFacture_display_Facture_non_reglee: TdkFacture_display_Facture_non_reglee
+  Left = 704
+  Height = 45
+  Top = 420
+  Width = 413
+  Caption = 'dkFacture_display_Facture_non_reglee'
+  ClientHeight = 45
+  ClientWidth = 413
+  inherited sBackground: TShape
+    Width = 951
+  end
+  inherited sSelection: TBatpro_Shape
+    Height = 45
+  end
+  object clDate: TChamp_Label[2]
+    Left = 4
+    Height = 13
+    Top = 2
+    Width = 31
+    Caption = 'clDate'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'Date'
+  end
+  object clNom: TChamp_Label[3]
+    Left = 131
+    Height = 13
+    Top = 2
+    Width = 30
+    Caption = 'clNom'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'Nom'
+  end
+  object clNbHeures: TChamp_Label[4]
+    Left = 289
+    Height = 13
+    Top = 2
+    Width = 56
+    Anchors = [akTop, akRight]
+    Caption = 'clNbHeures'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'NbHeures'
+  end
+  object clMontant: TChamp_Label[5]
+    Left = 362
+    Height = 13
+    Top = 2
+    Width = 47
+    Anchors = [akTop, akRight]
+    Caption = 'clMontant'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'Montant'
+  end
+end

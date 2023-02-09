@@ -38,9 +38,6 @@ uses
     upool,
 
     ublFacture,
-    upoolFacture,
-
-
 
     SysUtils, Classes, SqlDB, DB;
 

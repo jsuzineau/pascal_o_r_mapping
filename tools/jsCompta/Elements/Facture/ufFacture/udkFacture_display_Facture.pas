@@ -1,4 +1,4 @@
-unit udkFacture_edit;
+unit udkFacture_display_Facture;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
@@ -31,42 +31,20 @@ uses
 
     ublFacture,
 
-    uodFacture,
-
     uDockable, ucBatpro_Shape, ucChamp_Label, ucChamp_Edit,
     ucBatproDateTimePicker, ucChamp_DateTimePicker, ucDockableScrollbox,
-    ucChamp_Lookup_ComboBox,
     Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
-    LCLType, LCLIntf, StdCtrls;
+    LCLType;
 
 type
 
- { TdkFacture_edit }
+ { TdkFacture_display_Facture }
 
- TdkFacture_edit
+ TdkFacture_display_Facture
  =
   class(TDockable)
-  bDate: TButton;
-  bodFacture: TBitBtn;
-  bodFacture_Modele: TButton;
-  ceAnnee: TChamp_Edit;
-  ceid: TChamp_Edit;
-  ceNumero: TChamp_Edit;
-  ceNumeroDansAnnee: TChamp_Edit;
-  ceDate: TChamp_Edit;
-  ceClient_id: TChamp_Edit;
-  ceNom: TChamp_Edit;
-  ceNbHeures: TChamp_Edit;
-  ceMontant: TChamp_Edit;
-  clkcbClient: TChamp_Lookup_ComboBox;
-
-  sbNom_from_: TSpeedButton;
+  clNom: TChamp_Label;
   sbDetruire: TSpeedButton;
-  procedure bDateClick(Sender: TObject);
-  procedure bodFactureClick(Sender: TObject);
-  procedure bodFacture_ModeleClick(Sender: TObject);
-  procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-  procedure sbNom_from_Click(Sender: TObject);
   procedure sbDetruireClick(Sender: TObject);
  //Gestion du cycle de vie
  public
@@ -83,41 +61,28 @@ implementation
 
 {$R *.lfm}
 
-{ TdkFacture_edit }
+{ TdkFacture_display_Facture }
 
-constructor TdkFacture_edit.Create(AOwner: TComponent);
+constructor TdkFacture_display_Facture.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
-     Ajoute_Colonne( ceAnnee, 'Annee', 'Annee');
-     Ajoute_Colonne( ceNumeroDansAnnee, 'NumeroDansAnnee', 'NumeroDansAnnee');
-     Ajoute_Colonne( ceNumero, 'Numero', 'Numero');
-     Ajoute_Colonne( ceDate, 'Date', 'Date');
-     Ajoute_Colonne( ceClient_id, 'Client_id', 'Client_id');
-     Ajoute_Colonne( ceNom, 'Nom', 'Nom');
-     Ajoute_Colonne( ceNbHeures, 'NbHeures', 'NbHeures');
-     Ajoute_Colonne( ceMontant, 'Montant', 'Montant');
-
-     Ajoute_Colonne( clkcbClient, 'Client', 'Client');
-
 end;
 
-destructor TdkFacture_edit.Destroy;
+destructor TdkFacture_display_Facture.Destroy;
 begin
      inherited Destroy;
 end;
 
-procedure TdkFacture_edit.SetObjet(const Value: TObject);
+procedure TdkFacture_display_Facture.SetObjet(const Value: TObject);
 begin
      inherited SetObjet(Value);
 
      Affecte( blFacture, TblFacture, Value);
 
-     Champs_Affecte( blFacture,[ ceid]);
-     Champs_Affecte( blFacture,[ ceAnnee,ceNumeroDansAnnee,ceNumero,ceDate,ceClient_id,ceNom,ceNbHeures,ceMontant]);
-     Champs_Affecte( blFacture,[ clkcbClient]);
+     Champs_Affecte( blFacture, [clNom]);
 end;
 
-procedure TdkFacture_edit.sbDetruireClick(Sender: TObject);
+procedure TdkFacture_display_Facture.sbDetruireClick(Sender: TObject);
 begin
      if IDYES
         <>
@@ -128,53 +93,6 @@ begin
          exit;
      poolFacture .Supprimer( blFacture );
      Do_DockableScrollbox_Suppression;
-end;
-
-procedure TdkFacture_edit.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-     inherited;
-end;
-
-procedure TdkFacture_edit.bDateClick(Sender: TObject);
-begin
-     blFacture.Date_from_Now;
-end;
-
-procedure TdkFacture_edit.bodFactureClick(Sender: TObject);
-var
-   odFacture: TodFacture;
-   Resultat: String;
-begin
-     odFacture:= TodFacture.Create;
-     try
-        odFacture.Init( blFacture);
-        Resultat:= odFacture.Visualiser;
-     finally
-            FreeAndNil( odFacture);
-            end;
-     if not OpenDocument( Resultat)
-     then
-         ShowMessage( 'OpenDocument failed on '+Resultat);
-end;
-
-procedure TdkFacture_edit.bodFacture_ModeleClick(Sender: TObject);
-var
-   odFacture: TodFacture;
-   Resultat: String;
-begin
-     odFacture:= TodFacture.Create;
-     try
-        odFacture.Init( blFacture);
-        Resultat:= odFacture.Editer_Modele_Impression;
-     finally
-            FreeAndNil( odFacture);
-            end;
-end;
-
-
-procedure TdkFacture_edit.sbNom_from_Click(Sender: TObject);
-begin
-     blFacture.Nom_from_;
 end;
 
 end.

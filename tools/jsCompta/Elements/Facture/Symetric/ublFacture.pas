@@ -25,6 +25,10 @@ interface
 uses
     uClean,
     ufAccueil_Erreur,
+    uReels,
+    uReal_Formatter,
+    uDataUtilsU,
+    uRequete,
     u_sys_,
     uuStrings,
     uBatpro_StringList,

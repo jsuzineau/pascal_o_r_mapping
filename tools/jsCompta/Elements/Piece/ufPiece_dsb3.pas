@@ -1,4 +1,4 @@
-unit ufPiece_dsb;
+unit ufPiece_dsb3;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
@@ -37,42 +37,36 @@ uses
     uodPiece,
 
     ucDockableScrollbox,
+    ucChamp_Edit,
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DBCtrls, Grids, DBGrids, ActnList, StdCtrls, ComCtrls, Buttons,
   ExtCtrls, DB,LCLIntf;
 
 type
 
- { TfPiece_dsb }
+ { TfPiece_dsb3 }
 
- TfPiece_dsb
+ TfPiece_dsb3
  =
   class(TForm)
+   bodPiece: TBitBtn;
    bodPiece_Modele: TButton;
     dsb: TDockableScrollbox;
+    pattern_Details_Pascal_uf_dsb3_edit_component_list_lfm: TLabel;
+    pattern_Membres_Pascal_uf_dsb3_edit_component_list_lfm: TLabel;
+    pattern_Symetrics_Pascal_uf_dsb3_edit_component_list_lfm: TLabel;
     pc: TPageControl;
-    Splitter1: TSplitter;
-    Panel1: TPanel;
-    Panel2: TPanel;
-    bodPiece: TBitBtn;
-    Label1: TLabel;
-    lNbTotal: TLabel;
-    Panel3: TPanel;
-    Label2: TLabel;
-    lTri: TLabel;
-    bNouveau: TButton;
-    bSupprimer: TButton;
+    pPiece: TPanel;
+    pDetail: TPanel;
+    pListe: TPanel;
+    pListe_Bas: TPanel;
+    pListe_Haut: TPanel;
     tsPascal_uf_pc_dfm_Aggregation: TTabSheet;
     procedure bodPiece_ModeleClick(Sender: TObject);
     procedure dsbSelect(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure bNouveauClick(Sender: TObject);
-    procedure bSupprimerClick(Sender: TObject);
     procedure bodPieceClick(Sender: TObject);
-  private
-    { Déclarations privées }
-    procedure NbTotal_Change;
   public
     { Déclarations publiques }
     pool: TpoolPiece;
@@ -87,51 +81,44 @@ type
     procedure _from_Piece;
   end;
 
-function fPiece_dsb: TfPiece_dsb;
+function fPiece_dsb3: TfPiece_dsb3;
 
 implementation
 
 {$R *.lfm}
 
 var
-   FfPiece_dsb: TfPiece_dsb;
+   FfPiece_dsb3: TfPiece_dsb3;
 
-function fPiece_dsb: TfPiece_dsb;
+function fPiece_dsb3: TfPiece_dsb3;
 begin
-     Clean_Get( Result, FfPiece_dsb, TfPiece_dsb);
+     Clean_Get( Result, FfPiece_dsb3, TfPiece_dsb3);
 end;
 
-{ TfPiece_dsb }
+{ TfPiece_dsb3 }
 
-procedure TfPiece_dsb.FormCreate(Sender: TObject);
+procedure TfPiece_dsb3.FormCreate(Sender: TObject);
 begin
      pool:= poolPiece;
      inherited;
      EntreeLigneColonne_:= False;
-     pool.pFiltreChange.Abonne( Self, NbTotal_Change);
      dsb.Classe_dockable:= TdkPiece_edit;
      dsb.Classe_Elements:= TblPiece;
      //Pascal_uf_pc_initialisation_pas_Aggregation
 end;
 
-procedure TfPiece_dsb.dsbSelect(Sender: TObject);
+procedure TfPiece_dsb3.dsbSelect(Sender: TObject);
 begin
      dsb.Get_bl( blPiece);
      _from_Piece;
 end;
 
-procedure TfPiece_dsb.FormDestroy(Sender: TObject);
+procedure TfPiece_dsb3.FormDestroy(Sender: TObject);
 begin
-     pool.pFiltreChange.Desabonne( Self, NbTotal_Change);
      inherited;
 end;
 
-procedure TfPiece_dsb.NbTotal_Change;
-begin
-     lNbTotal.Caption:= IntToStr( pool.slFiltre.Count);
-end;
-
-function TfPiece_dsb.Execute: Boolean;
+function TfPiece_dsb3.Execute: Boolean;
 begin
      pool.ToutCharger;
      _from_pool;
@@ -139,50 +126,21 @@ begin
      Show;
 end;
 
-procedure TfPiece_dsb._from_pool;
+procedure TfPiece_dsb3._from_pool;
 begin
      dsb.sl:= pool.slFiltre;
      //dsb.sl:= pool.T;
 end;
 
-procedure TfPiece_dsb._from_Piece;
+procedure TfPiece_dsb3._from_Piece;
 begin
-     Champs_Affecte( blPiece,[ ]);//laissé vide pour l'instant
+     //Champs_Affecte( blPiece,[ ceFacture_id,ceDate,ceNumero ]);
+     //Champs_Affecte( blPiece,[ {pattern_Details_Pascal_uf_dsb3_edit_components_list_pas}]);
 
      //Pascal_uf_pc_charge_pas_Aggregation
 end;
 
-procedure TfPiece_dsb.bNouveauClick(Sender: TObject);
-var
-   blNouveau: TblPiece;
-begin
-     blNouveau:= pool.Nouveau;
-     if blNouveau = nil then exit;
-
-     dsb.sl:= nil;
-     _from_pool;
-end;
-
-procedure TfPiece_dsb.bSupprimerClick(Sender: TObject);
-var
-   bl: TblPiece;
-begin
-     dsb.Get_bl( bl);
-     if bl = nil then exit;
-
-     if mrYes
-        <>
-        MessageDlg( 'Êtes vous sûr de vouloir supprimer la ligne ?'#13#10
-                    +bl.GetLibelle,
-                    mtConfirmation, [mbYes, mbNo], 0)
-     then
-         exit;
-
-     pool.Supprimer( bl);
-     _from_pool;
-end;
-
-procedure TfPiece_dsb.bodPieceClick(Sender: TObject);
+procedure TfPiece_dsb3.bodPieceClick(Sender: TObject);
 var
    bl: TblPiece;
    odPiece: TodPiece;
@@ -203,7 +161,7 @@ begin
          ShowMessage( 'OpenDocument failed on '+Resultat);
 end;
 
-procedure TfPiece_dsb.bodPiece_ModeleClick( Sender: TObject);
+procedure TfPiece_dsb3.bodPiece_ModeleClick( Sender: TObject);
 var
    bl: TblPiece;
    odPiece: TodPiece;
@@ -224,8 +182,11 @@ begin
          ShowMessage( 'OpenDocument failed on '+Resultat);
 end;
 
+
 initialization
-              Clean_Create ( FfPiece_dsb, TfPiece_dsb);
+              Clean_Create ( FfPiece_dsb3, TfPiece_dsb3);
 finalization
-              Clean_Destroy( FfPiece_dsb);
+              Clean_Destroy( FfPiece_dsb3);
 end.
+
+

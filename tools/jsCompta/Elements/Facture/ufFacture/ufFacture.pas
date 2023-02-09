@@ -1,4 +1,4 @@
-unit ufFacture_dsb;
+unit ufFacture;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
@@ -26,56 +26,70 @@ uses
     uClean,
     uChamps,
     uDataUtilsU,
+    uBatpro_StringList,
     uBatpro_Ligne,
+    ublClient,
     ublFacture,
 
     uPool,
     upoolClient,
 
-     udkFacture_Ligne_edit,
+     udkFacture_Ligne_edit_Facture,
      ublFacture_Ligne, 
+     upoolFacture_Ligne,
 
-    udkFacture_edit,
+    udkFacture_display_Facture,
     uodFacture,
 
-    ucDockableScrollbox,
-  Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, DBCtrls, Grids, DBGrids, ActnList, StdCtrls, ComCtrls, Buttons,
-  ExtCtrls, DB,LCLIntf;
+    ucDockableScrollbox, ucChamp_Edit, ucChamp_Lookup_ComboBox, ucChamp_Memo,
+    ucChamp_Label, ucChamp_DateTimePicker, Messages, SysUtils, Variants,
+    Classes, Graphics, Controls, Forms, Dialogs, DBCtrls, Grids, DBGrids,
+    ActnList, StdCtrls, ComCtrls, Buttons, ExtCtrls, DB, LCLIntf;
 
 type
 
- { TfFacture_dsb }
+ { TfFacture }
 
- TfFacture_dsb
+ TfFacture
  =
   class(TForm)
+   bDate: TButton;
+   bFacture_Ligne_Nouveau: TButton;
+   bNouveau: TButton;
+   bodFacture: TBitBtn;
    bodFacture_Modele: TButton;
+   ceAnnee: TChamp_Edit;
+   ceMontant: TChamp_Edit;
+   ceNbHeures: TChamp_Edit;
+   ceNom: TChamp_Edit;
+   ceNumeroDansAnnee: TChamp_Edit;
+   cdtpDate: TChamp_DateTimePicker;
+   clClient_id: TChamp_Label;
+   clid: TChamp_Label;
+   clkcbClient: TChamp_Lookup_ComboBox;
+   clNumero: TChamp_Label;
+   clPiece_Date: TChamp_Label;
+   clPiece_Numero: TChamp_Label;
     dsb: TDockableScrollbox;
-    pc: TPageControl;
-    Splitter1: TSplitter;
-    Panel1: TPanel;
-    Panel2: TPanel;
-    bodFacture: TBitBtn;
+    dsbFacture_Ligne: TDockableScrollbox;
     Label1: TLabel;
-    lNbTotal: TLabel;
-    Panel3: TPanel;
     Label2: TLabel;
-    lTri: TLabel;
-    bNouveau: TButton;
-    bSupprimer: TButton;
-    tsFacture_Ligne: TTabSheet;
-    dsbFacture_Ligne: TDockableScrollbox; 
+    pFacture: TPanel;
+    pDetail: TPanel;
+    pListe: TPanel;
+    pListe_Bas: TPanel;
+    pListe_Haut: TPanel;
+    sbNom_from_: TSpeedButton;
+
+    procedure bDateClick(Sender: TObject);
+    procedure bFacture_Ligne_NouveauClick(Sender: TObject);
     procedure bodFacture_ModeleClick(Sender: TObject);
     procedure dsbSelect(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure bNouveauClick(Sender: TObject);
-    procedure bSupprimerClick(Sender: TObject);
     procedure bodFactureClick(Sender: TObject);
-  private
-    { Déclarations privées }
-    procedure NbTotal_Change;
+    procedure sbNom_from_Click(Sender: TObject);
   public
     { Déclarations publiques }
     pool: TpoolFacture;
@@ -90,52 +104,46 @@ type
     procedure _from_Facture;
   end;
 
-function fFacture_dsb: TfFacture_dsb;
+function fFacture: TfFacture;
 
 implementation
 
 {$R *.lfm}
 
 var
-   FfFacture_dsb: TfFacture_dsb;
+   FfFacture: TfFacture;
 
-function fFacture_dsb: TfFacture_dsb;
+function fFacture: TfFacture;
 begin
-     Clean_Get( Result, FfFacture_dsb, TfFacture_dsb);
+     Clean_Get( Result, FfFacture, TfFacture);
 end;
 
-{ TfFacture_dsb }
+{ TfFacture }
 
-procedure TfFacture_dsb.FormCreate(Sender: TObject);
+procedure TfFacture.FormCreate(Sender: TObject);
 begin
      pool:= poolFacture;
      inherited;
      EntreeLigneColonne_:= False;
-     pool.pFiltreChange.Abonne( Self, NbTotal_Change);
-     dsb.Classe_dockable:= TdkFacture_edit;
+     dsb.Classe_dockable:= TdkFacture_display_Facture;
      dsb.Classe_Elements:= TblFacture;
-     dsbFacture_Ligne.Classe_dockable:= TdkFacture_Ligne_edit;
+
+     dsbFacture_Ligne.Classe_dockable:= TdkFacture_Ligne_edit_Facture;
      dsbFacture_Ligne.Classe_Elements:= TblFacture_Ligne; 
 end;
 
-procedure TfFacture_dsb.dsbSelect(Sender: TObject);
+procedure TfFacture.dsbSelect(Sender: TObject);
 begin
      dsb.Get_bl( blFacture);
      _from_Facture;
 end;
 
-procedure TfFacture_dsb.FormDestroy(Sender: TObject);
+procedure TfFacture.FormDestroy(Sender: TObject);
 begin
-     pool.pFiltreChange.Desabonne( Self, NbTotal_Change);
      inherited;
 end;
 
-procedure TfFacture_dsb.NbTotal_Change;
-begin
-     lNbTotal.Caption:= IntToStr( pool.slFiltre.Count);
-end;
-
-function TfFacture_dsb.Execute: Boolean;
+function TfFacture.Execute: Boolean;
 begin
      poolClient.ToutCharger;
      pool.ToutCharger;
@@ -144,21 +152,32 @@ begin
      Show;
 end;
 
-procedure TfFacture_dsb._from_pool;
+procedure TfFacture._from_pool;
 begin
      dsb.sl:= pool.slFiltre;
      //dsb.sl:= pool.T;
 end;
 
-procedure TfFacture_dsb._from_Facture;
+procedure TfFacture._from_Facture;
 begin
-     Champs_Affecte( blFacture,[ ]);//laissé vide pour l'instant
+     Champs_Affecte( blFacture,
+                     [
+                     ceAnnee,
+                     ceNumeroDansAnnee,
+                     clNumero,
+                     cdtpDate,
+                     clkcbClient,
+                     ceNom,
+                     ceNbHeures,
+                     ceMontant
+                     ]);
+     Champs_Affecte( blFacture.Piece_bl,[clPiece_Numero, clPiece_Date]);
 
      blFacture.haFacture_Ligne.Charge;
      dsbFacture_Ligne.sl:= blFacture.haFacture_Ligne.sl; 
 end;
 
-procedure TfFacture_dsb.bNouveauClick(Sender: TObject);
+procedure TfFacture.bNouveauClick(Sender: TObject);
 var
    blNouveau: TblFacture;
 begin
@@ -169,26 +188,7 @@ begin
      _from_pool;
 end;
 
-procedure TfFacture_dsb.bSupprimerClick(Sender: TObject);
-var
-   bl: TblFacture;
-begin
-     dsb.Get_bl( bl);
-     if bl = nil then exit;
-
-     if mrYes
-        <>
-        MessageDlg( 'Êtes vous sûr de vouloir supprimer la ligne ?'#13#10
-                    +bl.GetLibelle,
-                    mtConfirmation, [mbYes, mbNo], 0)
-     then
-         exit;
-
-     pool.Supprimer( bl);
-     _from_pool;
-end;
-
-procedure TfFacture_dsb.bodFactureClick(Sender: TObject);
+procedure TfFacture.bodFactureClick(Sender: TObject);
 var
    bl: TblFacture;
    odFacture: TodFacture;
@@ -209,7 +209,17 @@ begin
          ShowMessage( 'OpenDocument failed on '+Resultat);
 end;
 
-procedure TfFacture_dsb.bodFacture_ModeleClick( Sender: TObject);
+procedure TfFacture.sbNom_from_Click(Sender: TObject);
+begin
+     blFacture.Nom_from_;
+end;
+
+procedure TfFacture.bDateClick(Sender: TObject);
+begin
+     blFacture.Date_from_Now;
+end;
+
+procedure TfFacture.bodFacture_ModeleClick( Sender: TObject);
 var
    bl: TblFacture;
    odFacture: TodFacture;
@@ -230,8 +240,28 @@ begin
          ShowMessage( 'OpenDocument failed on '+Resultat);
 end;
 
+procedure TfFacture.bFacture_Ligne_NouveauClick(Sender: TObject);
+var
+   blNouveau: TblFacture_Ligne;
+   blClient: TblClient;
+begin
+     if nil = blFacture then exit;
+
+     blNouveau:= poolFacture_Ligne.Nouveau;
+     if blNouveau = nil then exit;
+
+     if Affecte( blClient, TblClient, blFacture.Client_bl)
+     then
+         blNouveau.Prix_unitaire:= blClient.Tarif_horaire;
+     blNouveau.Facture_id:= blFacture.id;  //inclut Save_to_database;
+
+     _from_Facture;
+end;
+
+
 initialization
-              Clean_Create ( FfFacture_dsb, TfFacture_dsb);
+              Clean_Create ( FfFacture, TfFacture);
 finalization
-              Clean_Destroy( FfFacture_dsb);
+              Clean_Destroy( FfFacture);
 end.
+

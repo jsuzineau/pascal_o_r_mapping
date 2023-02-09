@@ -46,4 +46,13 @@ object fjsCompta: TfjsCompta
     OnClick = bClientClick
     TabOrder = 3
   end
+  object bFacture_non_reglee: TButton
+    Left = 112
+    Height = 25
+    Top = 32
+    Width = 120
+    Caption = 'Facture non réglée'
+    OnClick = bFacture_non_regleeClick
+    TabOrder = 4
+  end
 end

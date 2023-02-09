@@ -38,6 +38,7 @@ uses
     uodNom_de_la_classe,
 
     ucDockableScrollbox,
+    ucChamp_Edit,
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DBCtrls, Grids, DBGrids, ActnList, StdCtrls, ComCtrls, Buttons,
   ExtCtrls, DB,LCLIntf;
@@ -58,6 +59,7 @@ type
     dsb: TDockableScrollbox;
     pattern_Details_Pascal_uf_dsb3_edit_component_list_lfm: TLabel;
     pattern_Membres_Pascal_uf_dsb3_edit_component_list_lfm: TLabel;
+    pattern_Symetrics_Pascal_uf_dsb3_edit_component_list_lfm: TLabel;
     pc: TPageControl;
     pNom_de_la_classe: TPanel;
     pDetail: TPanel;
@@ -72,9 +74,6 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure bNouveauClick(Sender: TObject);
     procedure bodNom_de_la_classeClick(Sender: TObject);
-  private
-    { Déclarations privées }
-    procedure NbTotal_Change;
   public
     { Déclarations publiques }
     pool: TpoolNom_de_la_classe;
@@ -110,22 +109,20 @@ begin
      pool:= poolNom_de_la_classe;
      inherited;
      EntreeLigneColonne_:= False;
-     pool.pFiltreChange.Abonne( Self, NbTotal_Change);
      dsb.Classe_dockable:= TdkNom_de_la_classe_edit;
      dsb.Classe_Elements:= TblNom_de_la_classe;
      //Pascal_uf_pc_initialisation_pas_Aggregation
+end;
+
+procedure TfNom_de_la_classe_dsb3.FormDestroy(Sender: TObject);
+begin
+     inherited;
 end;
 
 procedure TfNom_de_la_classe_dsb3.dsbSelect(Sender: TObject);
 begin
      dsb.Get_bl( blNom_de_la_classe);
      _from_Nom_de_la_classe;
-end;
-
-procedure TfNom_de_la_classe_dsb3.FormDestroy(Sender: TObject);
-begin
-     pool.pFiltreChange.Desabonne( Self, NbTotal_Change);
-     inherited;
 end;
 
 procedure TfNom_de_la_classe_dsb3.NbTotal_Change;

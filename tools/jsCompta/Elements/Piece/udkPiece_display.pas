@@ -29,8 +29,7 @@ uses
     uBatpro_StringList,
     uChamps,
 
-    ublPiece,
-    upoolPiece,
+    ublFacture,
 
     uDockable, ucBatpro_Shape, ucChamp_Label, ucChamp_Edit,
     ucBatproDateTimePicker, ucChamp_DateTimePicker, ucDockableScrollbox,
@@ -49,6 +48,7 @@ type
   class(TDockable)
   clFacture_id: TChamp_Label;
   clDate: TChamp_Label;
+  clNumero: TChamp_Label;
   sbCopy_to_current: TSpeedButton;
   sbDetruire: TSpeedButton;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -87,7 +87,7 @@ begin
 
      Affecte( blPiece, TblPiece, Value);
 
-     Champs_Affecte( blPiece, [clFacture_id,clDate]);
+     Champs_Affecte( blPiece, [clFacture_id,clDate,clNumero]);
 end;
 
 procedure TdkPiece_display.sbDetruireClick(Sender: TObject);
