@@ -270,6 +270,7 @@ begin
      inherited;
 
      hfPiece:= hf as ThfPiece;
+     ChampTri[ 'Numero']:= +1;
 end;
 
 function TpoolPiece.Get( _id: integer): TblPiece;

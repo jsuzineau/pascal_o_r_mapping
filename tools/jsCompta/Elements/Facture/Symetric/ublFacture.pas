@@ -41,7 +41,7 @@ uses
 
     udmDatabase,
     upool_Ancetre_Ancetre,
-    upool,
+    uPool,
 
     {$I ublFacture_interface_uses.inc}
     {$I ../../Piece/Symetric/ublPiece_interface_uses.inc} 
