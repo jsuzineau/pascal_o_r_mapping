@@ -54,9 +54,14 @@
     Montant_s: String; cMontant_s: TChamp;
     procedure Montant_s_GetChaine( var _Chaine: String);
   //Numero
-  public
-    Numero: String; cNumero: TChamp;
+  private
+    FNumero: String;
     procedure Numero_from_;
+    function GetNumero: String;
+  public
+    cNumero: TChamp;
+    procedure Numero_GetChaine( var _Chaine: String);
+    property Numero: String read GetNumero;
   //Date
   public
     Date: TDateTime; cDate: TChamp;

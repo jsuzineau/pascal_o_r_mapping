@@ -233,10 +233,10 @@ begin
      cPiece_id.OnChange.Abonne( Self, Piece_id_Change);
 
      //Numéro de facture
-     cNumero:= Ajoute_String ( Numero, 'Numero', False);
+     cNumero:= Ajoute_String ( FNumero, 'Numero', False);
      cAnnee          .OnChange.Abonne( Self, Numero_from_);
      cNumeroDansAnnee.OnChange.Abonne( Self, Numero_from_);
-     Numero_from_;
+     cNumero.OnGetChaine:= Numero_GetChaine;
 
      //Libellés pour ligne total de facture sur impression
      Ajoute_String ( Label_Total, 'Label_Total', False);
@@ -259,7 +259,17 @@ end;
 
 procedure TblFacture.Numero_from_;
 begin
-     cNumero.Chaine:= Format( '%.4d_%.2d', [Annee, NumeroDansAnnee]);
+     cNumero.OnChange.Publie;
+end;
+
+function TblFacture.GetNumero: String;
+begin
+     Result:= cNumero.Chaine;
+end;
+
+procedure TblFacture.Numero_GetChaine(var _Chaine: String);
+begin
+     _Chaine:= Format( '%.4d_%.2d', [Annee, NumeroDansAnnee]);
 end;
 
 procedure TblFacture.Date_from_Now;
@@ -274,7 +284,7 @@ begin
      if Nom <> '' then exit;
 
      DecodeDate( Date, Y, M, D);
-     Nom:= Format( '%s_%.2d_%.2d_', [Numero, M, D]);
+     Nom:= Format( '%s_%.2d_%.2d_', [cNumero.Chaine, M, D]);
      if Assigned( Client_bl)
      then
          Nom:= Nom + Client_bl.GetLibelle;
@@ -541,6 +551,7 @@ begin
      Nouveau_Base( Result);
      Result.Annee          := Annee;
      Result.NumeroDansAnnee:= Nouveau_Numero( Result.Annee);
+     Result.Date           := SysUtils.Date;
      Result.Save_to_database;
 end;
 

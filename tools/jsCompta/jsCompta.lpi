@@ -25,7 +25,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../../../pascal_o_r_mapping/03_Data;../../../pascal_o_r_mapping/07_sources_externes/synapse/source/lib;../../../pascal_o_r_mapping/03_Data/Automatic;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/00_General;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation;../../../pascal_o_r_mapping/06_Formes;../../../pascal_o_r_mapping/03_Data/JSON;../../../pascal_o_r_mapping/03_Data/Tuleap;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/File_Handler/05_Angular_TypeScript;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/Elements/Postgres_Foreign_Key;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/File_Handler;Elements/Facture;Elements/Facture/Symetric;Elements/Mois;Elements/Piece;Elements/Piece/Symetric;Elements;Elements/Annee;Elements/Client;Elements/Facture_Ligne;Elements/Facture/ufFacture;Elements/Facture/ufFacture_non_reglee"/>
+            <OtherUnitFiles Value="../../../pascal_o_r_mapping/03_Data;../../../pascal_o_r_mapping/07_sources_externes/synapse/source/lib;../../../pascal_o_r_mapping/03_Data/Automatic;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/02_Pascal;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/01_SQL;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/00_General;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/04_PHP_Doctrine;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/03_CSharp;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation;../../../pascal_o_r_mapping/06_Formes;../../../pascal_o_r_mapping/03_Data/JSON;../../../pascal_o_r_mapping/03_Data/Tuleap;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/File_Handler/05_Angular_TypeScript;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/JoinPoint/05_Angular_TypeScript;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/Elements/Postgres_Foreign_Key;../../../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/File_Handler;Elements/Facture;Elements/Facture/Symetric;Elements/Mois;Elements/Piece;Elements/Piece/Symetric;Elements;Elements/Annee;Elements/Client;Elements/Facture_Ligne;Elements/Facture/ufFacture;Elements/Facture/ufFacture_non_reglee;Elements/Facture/ufFacture_Nouveau"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -62,7 +62,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="Elements/Facture;Elements/Facture/Symetric;Elements/Mois;Elements/Piece;Elements/Piece/Symetric;Elements;Elements/Annee;Elements/Client;Elements/Facture_Ligne;Elements/Facture/ufFacture;Elements/Facture/ufFacture_non_reglee"/>
+            <OtherUnitFiles Value="Elements/Facture;Elements/Facture/Symetric;Elements/Mois;Elements/Piece;Elements/Piece/Symetric;Elements;Elements/Annee;Elements/Client;Elements/Facture_Ligne;Elements/Facture/ufFacture;Elements/Facture/ufFacture_non_reglee;Elements/Facture/ufFacture_Nouveau"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -103,7 +103,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="Elements/Facture;Elements/Facture/Symetric;Elements/Mois;Elements/Piece;Elements/Piece/Symetric;Elements;Elements/Annee;Elements/Client;Elements/Facture_Ligne;Elements/Facture/ufFacture;Elements/Facture/ufFacture_non_reglee"/>
+            <OtherUnitFiles Value="Elements/Facture;Elements/Facture/Symetric;Elements/Mois;Elements/Piece;Elements/Piece/Symetric;Elements;Elements/Annee;Elements/Client;Elements/Facture_Ligne;Elements/Facture/ufFacture;Elements/Facture/ufFacture_non_reglee;Elements/Facture/ufFacture_Nouveau"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -166,7 +166,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="43">
+    <Units Count="45">
       <Unit0>
         <Filename Value="jsCompta.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -409,6 +409,20 @@
         <Filename Value="Generateur/Generateur_de_code/01_Listes/Symetrics/Pascal/ubl/Pascal_ubl_unlink_body_pas_detail"/>
         <IsPartOfProject Value="True"/>
       </Unit42>
+      <Unit43>
+        <Filename Value="Elements/Facture/ufFacture_Nouveau/ufFacture_Nouveau.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fFacture_Nouveau"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit43>
+      <Unit44>
+        <Filename Value="Elements/Facture/ufFacture_Nouveau/udkFacture_display_Facture_Nouveau.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkFacture_display_Facture_Nouveau"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit44>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -418,7 +432,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="Elements/Facture;Elements/Facture/Symetric;Elements/Mois;Elements/Piece;Elements/Piece/Symetric;Elements;Elements/Annee;Elements/Client;Elements/Facture_Ligne;Elements/Facture/ufFacture;Elements/Facture/ufFacture_non_reglee"/>
+      <OtherUnitFiles Value="Elements/Facture;Elements/Facture/Symetric;Elements/Mois;Elements/Piece;Elements/Piece/Symetric;Elements;Elements/Annee;Elements/Client;Elements/Facture_Ligne;Elements/Facture/ufFacture;Elements/Facture/ufFacture_non_reglee;Elements/Facture/ufFacture_Nouveau"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

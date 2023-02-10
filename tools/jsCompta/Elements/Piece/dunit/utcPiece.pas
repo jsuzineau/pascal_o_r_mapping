@@ -26,7 +26,7 @@ unit utcPiece;
 interface
 
 uses
-    upoolPiece,
+    ublFacture,
   SysUtils, Classes, fpcunit, testutils, testregistry;
 
 type

@@ -11,6 +11,7 @@ uses
 
     ufClient,
     ufPiece_dsb3,
+    ufFacture_Nouveau,
     ufFacture,
     ufFacture_non_reglee,
     ufMois_dsb,
@@ -30,9 +31,11 @@ type
    bPiece: TButton;
    bMois: TButton;
    bClient: TButton;
+   bFacture_Nouveau: TButton;
    procedure bClientClick(Sender: TObject);
    procedure bFactureClick(Sender: TObject);
    procedure bFacture_non_regleeClick(Sender: TObject);
+   procedure bFacture_NouveauClick(Sender: TObject);
    procedure bMoisClick(Sender: TObject);
    procedure bPieceClick(Sender: TObject);
    procedure FormCreate(Sender: TObject);
@@ -73,6 +76,11 @@ end;
 procedure TfjsCompta.bFacture_non_regleeClick(Sender: TObject);
 begin
      fFacture_non_reglee.Execute;
+end;
+
+procedure TfjsCompta.bFacture_NouveauClick(Sender: TObject);
+begin
+     fFacture_Nouveau.Execute;
 end;
 
 procedure TfjsCompta.bClientClick(Sender: TObject);

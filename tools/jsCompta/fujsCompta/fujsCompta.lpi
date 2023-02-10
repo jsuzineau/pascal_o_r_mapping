@@ -66,14 +66,6 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="..\Elements\Facture\upoolFacture.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
-        <Filename Value="..\Elements\Piece\upoolPiece.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
         <Filename Value="..\Elements\Mois\upoolMois.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
@@ -117,6 +109,10 @@
         <Filename Value="..\Elements\Facture_Ligne\dunit\utcFacture_Ligne.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="..\Elements\Facture\Symetric\ublFacture.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -127,7 +123,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="..\Elements\Client\dunit;..\Elements\Piece\dunit;..\Elements\Mois\dunit;..\Elements\Facture\dunit;..\Elements\Annee\dunit;..\Elements\Facture;..\Elements\Piece;..\Elements\Mois;..\Elements\Annee;..\Elements\Client;..\Elements\Facture_Ligne;..\Elements\Facture_Ligne\dunit"/>
+      <OtherUnitFiles Value="..\Elements\Client\dunit;..\Elements\Piece\dunit;..\Elements\Mois\dunit;..\Elements\Facture\dunit;..\Elements\Annee\dunit;..\Elements\Facture;..\Elements\Piece;..\Elements\Mois;..\Elements\Annee;..\Elements\Client;..\Elements\Facture_Ligne;..\Elements\Facture_Ligne\dunit;..\Elements\Facture\Symetric"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

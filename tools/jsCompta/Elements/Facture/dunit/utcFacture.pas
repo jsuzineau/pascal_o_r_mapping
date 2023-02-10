@@ -33,7 +33,6 @@ uses
     upoolClient,
 
     ublFacture,
-    upoolFacture,
     uRequete,
   SysUtils, Classes, fpcunit, testutils, testregistry;
 
@@ -68,7 +67,7 @@ begin
      poolClient.ToutCharger;
      dmDatabase.jsDataConnexion.ExecQuery( 'delete from facture');
      Annee:= CurrentYear;
-     poolFacture.Test(Annee,1,Date, 0,'',0,0);
+     poolFacture.Test(Annee,1,Date, 0,'','0',0);
      Nouveau:= poolFacture.Nouveau_Numero( Annee);
      Check( Nouveau = 2, 'Echec');
 end;
