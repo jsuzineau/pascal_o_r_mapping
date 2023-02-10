@@ -25,6 +25,8 @@ interface
 uses
     uClean,
     ufAccueil_Erreur,
+    uReels,
+    uDataUtilsU,
     u_sys_,
     uuStrings,
     uBatpro_StringList,
@@ -71,6 +73,10 @@ type
    public
      function Iterateur: TIterateur_Mois;
      function Iterateur_Decroissant: TIterateur_Mois;
+   //Total des lignes
+   public
+     function CalculeTotal: Double;
+     procedure Declare_from_Total;
    end;
 
 
@@ -87,12 +93,13 @@ type
     destructor Destroy; override;
   //champs persistants
   public
-    Annee: Integer;
-    Declare: Double;
+    Annee  : Integer; cAnnee  : TChamp;
+    Declare: Double ; cDeclare: TChamp;
 //Pascal_ubl_declaration_pas_detail
   //Gestion de la clé
   public
-//pattern_sCle_from__Declaration
+    class function sCle_from_( _Annee: Integer): String;
+
     function sCle: String; override;
   //Gestion des déconnexions
   public
@@ -106,7 +113,14 @@ type
     function GethaMois: ThaAnnee__Mois;
   public
     property haMois: ThaAnnee__Mois read GethaMois;
-
+  //Libelle
+  private
+    FLibelle: String;
+    procedure Libelle_from_;
+    function GetLibelle: String;
+  public
+    cLibelle: TChamp;
+    property Libelle: String read GetLibelle;
   end;
 
  TIterateur_Annee
@@ -229,6 +243,7 @@ begin
      finally
             FreeAndNil( I);
             end;
+     Declare_from_Total;
 end;
 
 procedure ThaAnnee__Mois.Delete_from_database;
@@ -265,6 +280,44 @@ begin
      Result:= TIterateur_Mois(Iterateur_interne_Decroissant);
 end;
 
+function ThaAnnee__Mois.CalculeTotal: Double;
+var
+   I: TIterateur_Mois;
+   bl: TblMois;
+begin
+     Result:= 0;
+     I:= Iterateur;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( bl) then continue;
+
+          Result:= Result + bl.Montant;
+          end;
+     finally
+            FreeAndNil( I);
+            end;
+     Result:= Arrondi_Arithmetique_00( Result);
+end;
+
+
+procedure ThaAnnee__Mois.Declare_from_Total;
+var
+   Total: double;
+begin
+     Total:= CalculeTotal;
+
+     if Reel_Zero( blAnnee.Declare)
+     then
+         blAnnee.cDeclare.asDouble:= Total
+     else
+         if Total <> blAnnee.Declare
+         then
+             fAccueil_Erreur( 'Année '+blAnnee.Libelle+', Declare incohérent: '+blAnnee.cDeclare.Chaine+' calculé: '+FloatToStr( Total));
+
+end;
+
 
 
 { TblAnnee }
@@ -287,10 +340,15 @@ begin
      Champs.ChampDefinitions.NomTable:= 'Annee';
 
      //champs persistants
-     Champs. Integer_from_Integer( Annee          , 'Annee'          );
-     Champs.  Double_from_       ( Declare        , 'Declare'        );
+     cAnnee  := Integer_from_Integer( Annee  , 'Annee'  );
+     cDeclare:=  Double_from_       ( Declare, 'Declare');
 
 //Pascal_ubl_constructor_pas_detail
+
+     //Libelle
+     cLibelle:= Ajoute_String ( FLibelle, 'Libelle', False);
+     cAnnee.OnChange.Abonne( Self, Libelle_from_);
+     Libelle_from_;
 end;
 
 destructor TblAnnee.Destroy;
@@ -299,11 +357,14 @@ begin
      inherited;
 end;
 
-//pattern_sCle_from__Implementation
+class function TblAnnee.sCle_from_( _Annee: Integer): String;
+begin 
+     Result:=  IntToStr( _Annee);
+end;  
 
 function TblAnnee.sCle: String;
 begin
-     Result:= sCle_ID;
+     Result:= sCle_from_( Annee);
 end;
 
 procedure TblAnnee.Unlink( be: TBatpro_Element);
@@ -331,6 +392,17 @@ end;
 
 
 //Pascal_ubl_implementation_pas_detail
+
+procedure TblAnnee.Libelle_from_;
+begin
+     cLibelle.Chaine:= Format( '%.4d', [Annee]);
+end;
+
+function TblAnnee.GetLibelle: String;
+begin
+     Libelle_from_;
+     Result:= FLibelle;
+end;
 
 initialization
 finalization

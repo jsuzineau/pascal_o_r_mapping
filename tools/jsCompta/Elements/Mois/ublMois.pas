@@ -25,6 +25,8 @@ interface
 uses
     uClean,
     ufAccueil_Erreur,
+    uReels,
+    uDataUtilsU,
     u_sys_,
     uuStrings,
     uBatpro_StringList,
@@ -69,6 +71,10 @@ type
    public
      function Iterateur: TIterateur_Piece;
      function Iterateur_Decroissant: TIterateur_Piece;
+   //Total des lignes
+   public
+     function CalculeTotal: Double;
+     procedure Montant_from_Total;
    end;
 
 
@@ -85,11 +91,11 @@ type
     destructor Destroy; override;
   //champs persistants
   public
-    Annee: Integer;
-    Mois: Integer;
-    Montant: Double;
-    Declare: Double;
-    URSSAF: Double;
+    Annee  : Integer; cAnnee  : TChamp;
+    Mois   : Integer; cMois   : TChamp;
+    Montant: Double ; cMontant: TChamp;
+    Declare: Double ;
+    URSSAF : Double ;
   //Annee
   private
     FAnnee_bl: TBatpro_Ligne;
@@ -99,10 +105,18 @@ type
     procedure Annee_Desaggrege;
   public
     property Annee_bl: TBatpro_Ligne read FAnnee_bl write SetAnnee_bl;
-
+  //Libelle
+  private
+    FLibelle: String;
+    procedure Libelle_from_;
+    function GetLibelle: String;
+  public
+    cLibelle: TChamp;
+    property Libelle: String read GetLibelle;
   //Gestion de la clé
   public
-//pattern_sCle_from__Declaration
+    class function sCle_from_( _Annee: Integer;  _Mois: Integer): String;
+
     function sCle: String; override;
   //Gestion des déconnexions
   public
@@ -241,6 +255,7 @@ begin
      finally
             FreeAndNil( I);
             end;
+     Montant_from_Total;
 end;
 
 procedure ThaMois__Piece.Delete_from_database;
@@ -277,6 +292,47 @@ begin
      Result:= TIterateur_Piece(Iterateur_interne_Decroissant);
 end;
 
+function ThaMois__Piece.CalculeTotal: Double;
+var
+   I: TIterateur_Piece;
+   bl: TblPiece;
+   blFacture: TblFacture;
+begin
+     Result:= 0;
+     I:= Iterateur;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( bl) then continue;
+
+          blFacture:= bl.Facture_bl;
+          if nil = blFacture then continue;
+
+          Result:= Result + blFacture.Montant;
+          end;
+     finally
+            FreeAndNil( I);
+            end;
+     Result:= Arrondi_Arithmetique_00( Result);
+end;
+
+procedure ThaMois__Piece.Montant_from_Total;
+var
+   Total: double;
+begin
+     Total:= CalculeTotal;
+
+     if Reel_Zero( blMois.Montant)
+     then
+         blMois.cMontant.asDouble:= Total
+     else
+         if Total <> blMois.Montant
+         then
+             fAccueil_Erreur( 'Mois '+blMois.Libelle+', montant incohérent: '+blMois.cMontant.Chaine+' calculé: '+FloatToStr( Total));
+
+end;
+
 
 
 { TblMois }
@@ -299,16 +355,21 @@ begin
      Champs.ChampDefinitions.NomTable:= 'Mois';
 
      //champs persistants
-     Champs. Integer_from_Integer( Annee          , 'Annee'          );
-     Champs. Integer_from_Integer( Mois           , 'Mois'           );
-     Champs.  Double_from_       ( Montant        , 'Montant'        );
-     Champs.  Double_from_       ( Declare        , 'Declare'        );
-     Champs.  Double_from_       ( URSSAF         , 'URSSAF'         );
+     cAnnee  := Integer_from_Integer( Annee  , 'Annee'  );
+     cMois   := Integer_from_Integer( Mois   , 'Mois'   );
+     cMontant:=  Double_from_       ( Montant, 'Montant');
+                 Double_from_       ( Declare, 'Declare');
+                 Double_from_       ( URSSAF , 'URSSAF' );
 
 
      //Détail Annee
      FAnnee_bl:= nil;
 
+     //Libelle
+     cLibelle:= Ajoute_String ( FLibelle, 'Libelle', False);
+     cAnnee.OnChange.Abonne( Self, Libelle_from_);
+     cMois .OnChange.Abonne( Self, Libelle_from_);
+     Libelle_from_;
 
 end;
 
@@ -318,11 +379,14 @@ begin
      inherited;
 end;
 
-//pattern_sCle_from__Implementation
+class function TblMois.sCle_from_( _Annee: Integer;  _Mois: Integer): String;
+begin 
+     Result:=  Format( '%.4d_%.2d', [_Annee, _Mois]);
+end;  
 
 function TblMois.sCle: String;
 begin
-     Result:= sCle_ID;
+     Result:= sCle_from_( Annee, Mois);
 end;
 
 procedure TblMois.Unlink( be: TBatpro_Element);
@@ -379,6 +443,17 @@ begin
      then 
          Annee_bl.Aggregations.by_Name[ 'Mois'].Enleve(Self);
      Unconnect_To( FAnnee_bl);
+end;
+
+procedure TblMois.Libelle_from_;
+begin
+     cLibelle.Chaine:= FormatDateTime( 'yyyy mm mmmm ', EncodeDate (Annee, Mois, 01));
+end;
+
+function TblMois.GetLibelle: String;
+begin
+     Libelle_from_;
+     Result:= FLibelle;
 end;
 
 

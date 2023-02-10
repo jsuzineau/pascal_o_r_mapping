@@ -74,10 +74,10 @@ type
     procedure bSupprimerClick(Sender: TObject);
     procedure bodAnneeClick(Sender: TObject);
   private
-    { Déclarations privées }
+    { DÃ©clarations privÃ©es }
     procedure NbTotal_Change;
   public
-    { Déclarations publiques }
+    { DÃ©clarations publiques }
     pool: TpoolAnnee;
     EntreeLigneColonne_: Boolean;
     function Execute: Boolean;
@@ -151,7 +151,7 @@ end;
 
 procedure TfAnnee_dsb._from_Annee;
 begin
-     Champs_Affecte( blAnnee,[ ]);//laissé vide pour l'instant
+     Champs_Affecte( blAnnee,[ ]);//laissÃ© vide pour l'instant
 
      blAnnee.haMois.Charge;
      dsbMois.sl:= blAnnee.haMois.sl; 
@@ -177,7 +177,7 @@ begin
 
      if mrYes
         <>
-        MessageDlg( 'Êtes vous sûr de vouloir supprimer la ligne ?'#13#10
+        MessageDlg( 'ÃŠtes vous sÃ»r de vouloir supprimer la ligne ?'#13#10
                     +bl.GetLibelle,
                     mtConfirmation, [mbYes, mbNo], 0)
      then

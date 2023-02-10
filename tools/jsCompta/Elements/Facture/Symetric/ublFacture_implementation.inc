@@ -230,7 +230,6 @@ begin
      FPiece_bl:= nil;
      cPiece_id:= Integer_from_Integer( FPiece_id, 'Piece_id');
      cPiece:= Champs.String_Lookup( FPiece, 'Piece', cPiece_id, poolPiece.GetLookupListItems, '');
-     Piece_id_Change;
      cPiece_id.OnChange.Abonne( Self, Piece_id_Change);
 
      //Numéro de facture
@@ -297,7 +296,7 @@ begin
      inherited Unlink( be);
      if Client_bl = be then Client_Desaggrege;
 
-     if Piece_bl = be then Piece_Desaggrege;
+     if FPiece_bl = be then Piece_Desaggrege;
 
 end;
 
@@ -411,6 +410,14 @@ begin
      Save_to_database;
 end;
 
+function TblFacture.GetPiece_bl: TblPiece;
+begin
+     if nil = FPiece_bl
+     then
+         Piece_Aggrege;
+     Result:= FPiece_bl;
+end;
+
 procedure TblFacture.Piece_id_Change;
 begin
      Piece_Aggrege;
@@ -436,11 +443,9 @@ end;
 
 procedure TblFacture.Piece_Connecte;
 begin
-     if nil = Piece_bl then exit;
+     if nil = FPiece_bl then exit;
 
-     if Assigned(Piece_bl)
-     then
-         Piece_bl.Facture_bl:= Self;
+     FPiece_bl.Facture_bl:= Self;
      Connect_To( FPiece_bl);
 end;
 
@@ -449,7 +454,7 @@ var
    Piece_bl_New: TblPiece;
 begin
      poolPiece.Get_Interne_from_id( Piece_id, Piece_bl_New);
-     if Piece_bl = Piece_bl_New then exit;
+     if FPiece_bl = Piece_bl_New then exit;
 
      Piece_Desaggrege;
      FPiece_bl:= Piece_bl_New;
@@ -460,12 +465,10 @@ end;
 
 procedure TblFacture.Piece_Desaggrege;
 begin
-     if Piece_bl = nil then exit;
+     if FPiece_bl = nil then exit;
 
      DesaggregeLigne( 'Piece_', FPiece_bl);
-     if Assigned(Piece_bl)
-     then
-         Piece_bl.Facture_bl:= nil;
+     FPiece_bl.Facture_bl:= nil;
      Unconnect_To( FPiece_bl);
 end;
 

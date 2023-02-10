@@ -89,6 +89,7 @@
     FPiece_id: Integer;
     FPiece_bl: TblPiece;
     FPiece: String;
+    function  GetPiece_bl: TblPiece;
     procedure SetPiece_bl(const Value: TblPiece);
     procedure SetPiece_id(const Value: Integer);
     procedure Piece_id_Change;
@@ -100,7 +101,7 @@
     cPiece_id: TChamp;
     cPiece: TChamp;
     property Piece_id: Integer       read FPiece_id write SetPiece_id;
-    property Piece_bl: TblPiece read FPiece_bl write SetPiece_bl;
+    property Piece_bl: TblPiece read GetPiece_bl write SetPiece_bl;
     function Piece: String;
     procedure Piece_Nouveau;
   //Gestion de la clé

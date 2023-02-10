@@ -6,6 +6,14 @@ begin
      Save_to_database;
 end;
 
+function TblClasse.Nom_de_la_classe.GetSymetric.NomSymetric_bl: TblSymetric.ClasseSymetric;
+begin
+     if nil = FSymetric.NomSymetric_bl
+     then
+         Symetric.NomSymetric_Aggrege;
+     Result:= FSymetric.NomSymetric_bl;
+end;
+
 procedure TblClasse.Nom_de_la_classe.Symetric.NomSymetric_id_Change;
 begin
      Symetric.NomSymetric_Aggrege;
@@ -31,11 +39,9 @@ end;
 
 procedure TblClasse.Nom_de_la_classe.Symetric.NomSymetric_Connecte;
 begin
-     if nil = Symetric.NomSymetric_bl then exit;
+     if nil = FSymetric.NomSymetric_bl then exit;
 
-     if Assigned(Symetric.NomSymetric_bl)
-     then
-         Symetric.NomSymetric_bl #Vérifier_nom_détail.Classe.Nom_de_la_classe_bl:= Self;
+     FSymetric.NomSymetric_bl #Vérifier_nom_détail.Classe.Nom_de_la_classe_bl:= Self;
      Connect_To( FSymetric.NomSymetric_bl);
 end;
 
@@ -44,7 +50,7 @@ var
    Symetric.NomSymetric_bl_New: TblSymetric.ClasseSymetric;
 begin
      poolSymetric.ClasseSymetric.Get_Interne_from_id( Symetric.NomSymetric_id, Symetric.NomSymetric_bl_New);
-     if Symetric.NomSymetric_bl = Symetric.NomSymetric_bl_New then exit;
+     if FSymetric.NomSymetric_bl = Symetric.NomSymetric_bl_New then exit;
 
      Symetric.NomSymetric_Desaggrege;
      FSymetric.NomSymetric_bl:= Symetric.NomSymetric_bl_New;
@@ -54,11 +60,9 @@ end;
 
 procedure TblClasse.Nom_de_la_classe.Symetric.NomSymetric_Desaggrege;
 begin
-     if Symetric.NomSymetric_bl = nil then exit;
+     if FSymetric.NomSymetric_bl = nil then exit;
 
-     if Assigned(Symetric.NomSymetric_bl)
-     then
-         Symetric.NomSymetric_bl #Vérifier_nom_détail.Classe.Nom_de_la_classe_bl:= nil;
+     FSymetric.NomSymetric_bl #Vérifier_nom_détail.Classe.Nom_de_la_classe_bl:= nil;
      Unconnect_To( FSymetric.NomSymetric_bl);
 end;
 

@@ -61,9 +61,10 @@ type
   protected
     procedure To_Params( _Params: TParams); override;
   public
-//pattern_Declaration_cle
-//pattern_Get_by_Cle_Declaration
-//pattern_Assure_Declaration
+    Annee: Integer;
+
+    function Get_by_Cle( _Annee: Integer): TblAnnee;
+    function Assure( _Annee: Integer): TblAnnee;
   //Indépendance par rapport au SGBD Informix ou MySQL
   protected
     function SQLWHERE_ContraintesChamps: String; override;
@@ -122,22 +123,40 @@ begin
      Nouveau_Base( Result);
 end;
 
-//pattern_Get_by_Cle_Implementation
+function TpoolAnnee.Get_by_Cle( _Annee: Integer): TblAnnee;
+begin                               
+     Annee:=  _Annee;
+     sCle:= TblAnnee.sCle_from_( Annee);
+     Get_Interne( Result);       
+end;                             
 
-//pattern_Assure_Implementation
+
+function TpoolAnnee.Assure( _Annee: Integer): TblAnnee;
+begin                               
+     Result:= Get_by_Cle(  _Annee);
+     if Assigned( Result) then exit;
+
+     Nouveau_Base( Result);                        
+       Result.Annee          := _Annee        ;
+     Result.Save_to_database;
+end;
+
 
 procedure TpoolAnnee.To_Params( _Params: TParams);
 begin
      with _Params
      do
        begin
-//pattern_To_SQLQuery_Params_Body
+       ParamByName( 'Annee'    ).AsInteger:= Annee;
        end;
 end;
 
 function TpoolAnnee.SQLWHERE_ContraintesChamps: String;
 begin
-//pattern_SQLWHERE_ContraintesChamps_Body
+     Result                                    
+     :=                                        
+       'where                        '#13#10+
+       '         Annee           = :Annee          ';
 end;
 
 function TpoolAnnee.Test( _Annee: Integer;  _Declare: Double):Integer;

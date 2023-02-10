@@ -3,6 +3,7 @@
     FSymetric.NomSymetric_id: Integer;
     FSymetric.NomSymetric_bl: TblSymetric.ClasseSymetric;
     FSymetric.NomSymetric: String;
+    function  GetSymetric.NomSymetric_bl: TblSymetric.ClasseSymetric;
     procedure SetSymetric.NomSymetric_bl(const Value: TblSymetric.ClasseSymetric);
     procedure SetSymetric.NomSymetric_id(const Value: Integer);
     procedure Symetric.NomSymetric_id_Change;
@@ -14,6 +15,6 @@
     cSymetric.NomSymetric_id: TChamp;
     cSymetric.NomSymetric: TChamp;
     property Symetric.NomSymetric_id: Integer       read FSymetric.NomSymetric_id write SetSymetric.NomSymetric_id;
-    property Symetric.NomSymetric_bl: TblSymetric.ClasseSymetric read FSymetric.NomSymetric_bl write SetSymetric.NomSymetric_bl;
+    property Symetric.NomSymetric_bl: TblSymetric.ClasseSymetric read GetSymetric.NomSymetric_bl write SetSymetric.NomSymetric_bl;
     function Symetric.NomSymetric: String;
 

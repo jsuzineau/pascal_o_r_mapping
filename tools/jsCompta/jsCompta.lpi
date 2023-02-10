@@ -166,7 +166,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="42">
+    <Units Count="43">
       <Unit0>
         <Filename Value="jsCompta.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -405,6 +405,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit41>
+      <Unit42>
+        <Filename Value="Generateur/Generateur_de_code/01_Listes/Symetrics/Pascal/ubl/Pascal_ubl_unlink_body_pas_detail"/>
+        <IsPartOfProject Value="True"/>
+      </Unit42>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -30,6 +30,7 @@
     FFacture_id: Integer;
     FFacture_bl: TblFacture;
     FFacture: String;
+    function  GetFacture_bl: TblFacture;
     procedure SetFacture_bl(const Value: TblFacture);
     procedure SetFacture_id(const Value: Integer);
     procedure Facture_id_Change;
@@ -40,8 +41,8 @@
   public
     cFacture_id: TChamp;
     cFacture: TChamp;
-    property Facture_id: Integer       read FFacture_id write SetFacture_id;
-    property Facture_bl: TblFacture read FFacture_bl write SetFacture_bl;
+    property Facture_id: Integer    read FFacture_id write SetFacture_id;
+    property Facture_bl: TblFacture read GetFacture_bl write SetFacture_bl;
     function Facture: String;
 
   //Gestion de la clé

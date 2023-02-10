@@ -81,7 +81,6 @@ begin
      FFacture_bl:= nil;
      cFacture_id:= Integer_from_Integer( FFacture_id, 'Facture_id');
      cFacture:= Champs.String_Lookup( FFacture, 'Facture', cFacture_id, poolFacture.GetLookupListItems, '');
-     //Facture_id_Change; //tentative de désactivation pour éviter récursion
      cFacture_id.OnChange.Abonne( Self, Facture_id_Change);
 
 
@@ -108,7 +107,7 @@ begin
      inherited Unlink( be);
      if Mois_bl = be then Mois_Desaggrege;
 
-     if Facture_bl = be then Facture_Desaggrege;
+     if FFacture_bl = be then Facture_Desaggrege;
 
 end;
 
@@ -171,6 +170,14 @@ begin
      Save_to_database;
 end;
 
+function TblPiece.GetFacture_bl: TblFacture;
+begin
+     if nil = FFacture_bl
+     then
+         Facture_Aggrege;
+     Result:= FFacture_bl;
+end;
+
 procedure TblPiece.Facture_id_Change;
 begin
      Facture_Aggrege;
@@ -196,11 +203,9 @@ end;
 
 procedure TblPiece.Facture_Connecte;
 begin
-     if nil = Facture_bl then exit;
+     if nil = FFacture_bl then exit;
 
-     if Assigned(Facture_bl)
-     then
-         Facture_bl.Piece_bl:= Self;
+     FFacture_bl.Piece_bl:= Self;
      Connect_To( FFacture_bl);
 end;
 
@@ -209,7 +214,7 @@ var
    Facture_bl_New: TblFacture;
 begin
      poolFacture.Get_Interne_from_id( Facture_id, Facture_bl_New);
-     if Facture_bl = Facture_bl_New then exit;
+     if FFacture_bl = Facture_bl_New then exit;
 
      Facture_Desaggrege;
      FFacture_bl:= Facture_bl_New;
@@ -219,11 +224,9 @@ end;
 
 procedure TblPiece.Facture_Desaggrege;
 begin
-     if Facture_bl = nil then exit;
+     if FFacture_bl = nil then exit;
 
-     if Assigned(Facture_bl)
-     then
-         Facture_bl.Piece_bl:= nil;
+     FFacture_bl.Piece_bl:= nil;
      Unconnect_To( FFacture_bl);
 end;
 

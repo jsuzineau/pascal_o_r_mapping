@@ -60,9 +60,11 @@ type
   protected
     procedure To_Params( _Params: TParams); override;
   public
-//pattern_Declaration_cle
-//pattern_Get_by_Cle_Declaration
-//pattern_Assure_Declaration
+    Annee: Integer;
+    Mois: Integer;
+
+    function Get_by_Cle( _Annee: Integer;  _Mois: Integer): TblMois;
+    function Assure( _Annee: Integer;  _Mois: Integer): TblMois;
   //Indépendance par rapport au SGBD Informix ou MySQL
   protected
     function SQLWHERE_ContraintesChamps: String; override;
@@ -124,22 +126,44 @@ begin
      Nouveau_Base( Result);
 end;
 
-//pattern_Get_by_Cle_Implementation
+function TpoolMois.Get_by_Cle( _Annee: Integer;  _Mois: Integer): TblMois;
+begin                               
+     Annee:=  _Annee;
+     Mois:=  _Mois;
+     sCle:= TblMois.sCle_from_( Annee, Mois);
+     Get_Interne( Result);       
+end;                             
 
-//pattern_Assure_Implementation
+
+function TpoolMois.Assure( _Annee: Integer;  _Mois: Integer): TblMois;
+begin                               
+     Result:= Get_by_Cle(  _Annee,  _Mois);
+     if Assigned( Result) then exit;
+
+     Nouveau_Base( Result);                        
+       Result.Annee          := _Annee        ;
+       Result.Mois           := _Mois         ;
+     Result.Save_to_database;
+end;
+
 
 procedure TpoolMois.To_Params( _Params: TParams);
 begin
      with _Params
      do
        begin
-//pattern_To_SQLQuery_Params_Body
+       ParamByName( 'Annee'    ).AsInteger:= Annee;
+       ParamByName( 'Mois'    ).AsInteger:= Mois;
        end;
 end;
 
 function TpoolMois.SQLWHERE_ContraintesChamps: String;
 begin
-//pattern_SQLWHERE_ContraintesChamps_Body
+     Result                                    
+     :=                                        
+       'where                        '#13#10+
+       '         Annee           = :Annee          '#13#10+
+       '     and Mois            = :Mois           ';
 end;
 
 function TpoolMois.Test( _Annee: Integer;  _Mois: Integer;  _Montant: Double;  _Declare: Double;  _URSSAF: Double):Integer;
