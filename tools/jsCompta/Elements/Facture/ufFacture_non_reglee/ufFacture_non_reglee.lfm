@@ -157,6 +157,7 @@ object fFacture_non_reglee: TfFacture_non_reglee
         Caption = 'Créer Pièce'
         OnClick = bPiece_NouveauClick
         TabOrder = 2
+        Visible = False
       end
       object Label2: TLabel
         Left = 8

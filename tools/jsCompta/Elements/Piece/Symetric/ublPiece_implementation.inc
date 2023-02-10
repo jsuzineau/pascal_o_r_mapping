@@ -380,6 +380,21 @@ begin
      Result:= TIterateur_Piece( Iterateur_interne_Decroissant);
 end;
 
+function TpoolPiece.MinNumero: Integer;
+var
+   SQL: String;
+begin
+     SQL
+     :=
+        'select                        '+LineEnding
+       +'      min(Numero) as MinNumero'+LineEnding
+       +'from                          '+LineEnding
+       +'    Piece                     '+LineEnding;
+     if not Requete.Integer_from( SQL, 'MinNumero', Result)
+     then
+         Result:= -1;
+end;
+
 function TpoolPiece.MaxNumero: Integer;
 var
    SQL: String;
@@ -397,13 +412,15 @@ end;
 
 function TpoolPiece.Numeros_Incoherents: Boolean;
 var
-   Fin: Integer;
+   Debut: Integer;
+   Fin  : Integer;
    I: Integer;
    bl: TblPiece;
 begin
      Result:= False;
-     Fin:= MaxNumero;
-     for I:= Fin-1 downto 1
+     Debut:= MinNumero;
+     Fin  := MaxNumero;
+     for I:= Fin-1 downto Debut
      do
        begin
        bl:= Get_by_Cle( I);

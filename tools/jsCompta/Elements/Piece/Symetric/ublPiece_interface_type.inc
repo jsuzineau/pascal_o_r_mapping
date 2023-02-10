@@ -126,6 +126,7 @@
     function Iterateur_Decroissant: TIterateur_Piece;
   //Nouveau numéro à partir de la détermination de la dernière pièce
   public
+    function MinNumero: Integer;
     function MaxNumero: Integer;
     function Numeros_Incoherents: Boolean;
     function Numeros_Incoherents_Message: Boolean;

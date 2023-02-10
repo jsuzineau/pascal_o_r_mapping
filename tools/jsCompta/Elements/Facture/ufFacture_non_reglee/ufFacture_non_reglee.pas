@@ -151,6 +151,7 @@ end;
 
 procedure TfFacture_non_reglee._from_Facture;
 begin
+     bPiece_Nouveau.Visible:= nil = blFacture.Piece_bl;
      Champs_Affecte( blFacture.Piece_bl,[clPiece_Numero, cdtpPiece_Date]);
 
      blFacture.haFacture_Ligne.Charge;
