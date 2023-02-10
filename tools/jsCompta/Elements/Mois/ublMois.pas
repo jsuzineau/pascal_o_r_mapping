@@ -37,7 +37,7 @@ uses
 
     udmDatabase,
     upool_Ancetre_Ancetre,
-    upool,
+    uPool,
 
     ublFacture,
 
@@ -356,7 +356,9 @@ begin
 
      //champs persistants
      cAnnee  := Integer_from_Integer( Annee  , 'Annee'  );
+     cAnnee.OnChange.Abonne( Self, sCle_Change);
      cMois   := Integer_from_Integer( Mois   , 'Mois'   );
+     cMois.OnChange.Abonne( Self, sCle_Change);
      cMontant:=  Double_from_       ( Montant, 'Montant');
                  Double_from_       ( Declare, 'Declare');
                  Double_from_       ( URSSAF , 'URSSAF' );
@@ -370,7 +372,6 @@ begin
      cAnnee.OnChange.Abonne( Self, Libelle_from_);
      cMois .OnChange.Abonne( Self, Libelle_from_);
      Libelle_from_;
-
 end;
 
 destructor TblMois.Destroy;
@@ -446,8 +447,16 @@ begin
 end;
 
 procedure TblMois.Libelle_from_;
+var
+   D: TDateTime;
+   S: String;
 begin
-     cLibelle.Chaine:= FormatDateTime( 'yyyy mm mmmm ', EncodeDate (Annee, Mois, 01));
+     if TryEncodeDate(Annee, Mois, 01, D)
+     then
+         S:= FormatDateTime( 'yyyy mm mmmm ', D)
+     else
+         S:= sCle;
+     cLibelle.Chaine:= S;
 end;
 
 function TblMois.GetLibelle: String;

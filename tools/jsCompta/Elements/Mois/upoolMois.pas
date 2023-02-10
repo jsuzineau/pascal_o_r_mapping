@@ -122,8 +122,14 @@ begin
 end;
 
 function TpoolMois.Nouveau: TblMois;
+var
+   Year, Month, Day: Word;
 begin
      Nouveau_Base( Result);
+     DecodeDate( SysUtils.Date, Year, Month, Day);
+     Result.Annee:= Year;
+     Result.Mois := Month;
+     Result.sCle_Change;
 end;
 
 function TpoolMois.Get_by_Cle( _Annee: Integer;  _Mois: Integer): TblMois;
