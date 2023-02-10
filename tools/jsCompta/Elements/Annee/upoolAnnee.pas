@@ -33,7 +33,9 @@ uses
 
   ublAnnee,
 
-//Aggregations_Pascal_upool_uses_details_pas
+    ublMois,
+    upoolMois,
+
 
   uhfAnnee,
   SysUtils, Classes, DB, SqlDB;
@@ -90,7 +92,11 @@ var
 function poolAnnee: TpoolAnnee;
 begin
      TPool.class_Get( Result, FpoolAnnee, TpoolAnnee);
-//Aggregations_Pascal_upool_affectation_pool_details_pas
+
+     if nil = ublMois_poolAnnee
+     then
+         ublMois_poolAnnee:= Result;
+
 end;
 
 { TpoolAnnee }

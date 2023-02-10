@@ -207,7 +207,6 @@ begin
      cNumeroDansAnnee:= Integer_from_Integer( NumeroDansAnnee, 'NumeroDansAnnee');
 
      cDate:= DateTime_from_( Date           , 'Date'           );
-     cDate.Definition.Typ:= ftDate;
      cDate.Definition.Format_DateTime:='dddd d mmmm yyyy';
      cNom:= String_from_String ( Nom            , 'Nom'            );
      cLibelle:= cNom;

@@ -37,14 +37,42 @@ uses
     upool_Ancetre_Ancetre,
     upool,
 
-//Aggregations_Pascal_ubl_uses_details_pas
+    ublFacture,
 
 
     SysUtils, Classes, SqlDB, DB;
 
 type
  TblMois= class;
-//pattern_aggregation_classe_declaration
+  { ThaMois__Piece }
+  ThaMois__Piece
+  =
+   class( ThAggregation)
+   //Gestion du cycle de vie
+   public
+     constructor Create( _Parent: TBatpro_Element;
+                         _Classe_Elements: TBatpro_Element_Class;
+                         _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre); override;
+     destructor  Destroy; override;
+   //Parent
+   public
+     blMois: TblMois;  
+   //Chargement de tous les détails
+   public
+     procedure Charge; override;
+   //Suppression
+   public
+     procedure Delete_from_database; override;
+   //Création d'itérateur
+   protected
+     class function Classe_Iterateur: TIterateur_Class; override;
+   public
+     function Iterateur: TIterateur_Piece;
+     function Iterateur_Decroissant: TIterateur_Piece;
+   end;
+
+
+
 
  { TblMois }
 
@@ -62,7 +90,16 @@ type
     Montant: Double;
     Declare: Double;
     URSSAF: Double;
-//Pascal_ubl_declaration_pas_detail
+  //Annee
+  private
+    FAnnee_bl: TBatpro_Ligne;
+    FAnnee: String;
+    procedure SetAnnee_bl(const Value: TBatpro_Ligne);
+    procedure Annee_Connecte;
+    procedure Annee_Desaggrege;
+  public
+    property Annee_bl: TBatpro_Ligne read FAnnee_bl write SetAnnee_bl;
+
   //Gestion de la clé
   public
 //pattern_sCle_from__Declaration
@@ -70,7 +107,16 @@ type
   //Gestion des déconnexions
   public
     procedure Unlink(be: TBatpro_Element); override;
-//pattern_aggregation_function_Create_Aggregation_declaration
+  //Aggrégations
+  protected
+    procedure Create_Aggregation( Name: String; P: ThAggregation_Create_Params); override;
+  //Aggrégation vers les Piece correspondants
+  private
+    FhaPiece: ThaMois__Piece;
+    function GethaPiece: ThaMois__Piece;
+  public
+    property haPiece: ThaMois__Piece read GethaPiece;
+
   end;
 
  TIterateur_Mois
@@ -100,7 +146,9 @@ type
 function blMois_from_sl( sl: TBatpro_StringList; Index: Integer): TblMois;
 function blMois_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblMois;
 
-//Details_Pascal_ubl_declaration_pools_aggregations_pas
+var
+   ublMois_poolAnnee: TPool = nil;
+
 
 implementation
 
@@ -153,7 +201,68 @@ begin
      Result:= TIterateur_Mois( Iterateur_interne_Decroissant);
 end;
 
-//pattern_aggregation_classe_implementation
+{ ThaMois__Piece }
+
+constructor ThaMois__Piece.Create( _Parent: TBatpro_Element;
+                               _Classe_Elements: TBatpro_Element_Class;
+                               _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre);
+begin
+     inherited;
+     if Classe_Elements <> _Classe_Elements
+     then
+         fAccueil_Erreur(  'Erreur à signaler au développeur: '#13#10
+                          +' '+ClassName+'.Create: Classe_Elements <> _Classe_Elements:'#13#10
+                          +' Classe_Elements='+ Classe_Elements.ClassName+#13#10
+                          +'_Classe_Elements='+_Classe_Elements.ClassName
+                          );
+     if Affecte_( blMois, TblMois, Parent) then exit;
+end;
+
+destructor ThaMois__Piece.Destroy;
+begin
+     inherited;
+end;
+
+procedure ThaMois__Piece.Charge;
+begin
+     poolPiece.Charge_Mois( blMois.Annee, blMois.Mois);
+end;
+
+procedure ThaMois__Piece.Delete_from_database;
+var
+   I: TIterateur_Piece;
+   bl: TblPiece;
+begin
+     I:= Iterateur_Decroissant;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( bl) then Continue;
+
+          bl.Delete_from_database;//enlève en même temps de cette liste
+          end;
+     finally
+            FreeAndNil( I);
+            end;
+end;
+
+class function ThaMois__Piece.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Piece;
+end;
+
+function ThaMois__Piece.Iterateur: TIterateur_Piece;
+begin
+     Result:= TIterateur_Piece(Iterateur_interne);
+end;
+
+function ThaMois__Piece.Iterateur_Decroissant: TIterateur_Piece;
+begin
+     Result:= TIterateur_Piece(Iterateur_interne_Decroissant);
+end;
+
+
 
 { TblMois }
 
@@ -181,7 +290,11 @@ begin
      Champs.  Double_from_       ( Declare        , 'Declare'        );
      Champs.  Double_from_       ( URSSAF         , 'URSSAF'         );
 
-//Pascal_ubl_constructor_pas_detail
+
+     //Détail Annee
+     FAnnee_bl:= nil;
+
+
 end;
 
 destructor TblMois.Destroy;
@@ -200,21 +313,59 @@ end;
 procedure TblMois.Unlink( be: TBatpro_Element);
 begin
      inherited Unlink( be);
-;
+     if Annee_bl = be then Annee_Desaggrege;
 
 end;
 
-(*
 procedure TblMois.Create_Aggregation( Name: String; P: ThAggregation_Create_Params);
 begin
-          
+          if 'Piece' = Name then P.Faible( ThaMois__Piece, TblPiece, poolPiece)
      else                  inherited Create_Aggregation( Name, P);
 end;
-*)
 
 //pattern_aggregation_accesseurs_implementation
 
-//Pascal_ubl_implementation_pas_detail
+function  TblMois.GethaPiece: ThaMois__Piece;
+begin
+     if FhaPiece = nil
+     then
+         FhaPiece:= Aggregations['Piece'] as ThaMois__Piece;
+
+     Result:= FhaPiece;
+end;
+
+
+procedure TblMois.SetAnnee_bl(const Value: TBatpro_Ligne);
+begin
+     if FAnnee_bl = Value then exit;
+
+     Annee_Desaggrege;
+
+     FAnnee_bl:= Value;
+
+     Annee_Connecte;
+end;
+
+procedure TblMois.Annee_Connecte;
+begin
+     if nil = Annee_bl then exit;
+
+     if Assigned(Annee_bl) 
+     then 
+         Annee_bl.Aggregations.by_Name[ 'Mois'].Ajoute(Self);
+     Connect_To( FAnnee_bl);
+end;
+
+procedure TblMois.Annee_Desaggrege;
+begin
+     if Annee_bl = nil then exit;
+
+     if Assigned(Annee_bl) 
+     then 
+         Annee_bl.Aggregations.by_Name[ 'Mois'].Enleve(Self);
+     Unconnect_To( FAnnee_bl);
+end;
+
 
 initialization
 finalization

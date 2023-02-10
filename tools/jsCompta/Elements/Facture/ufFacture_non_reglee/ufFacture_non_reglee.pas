@@ -57,7 +57,6 @@ type
    bodFacture_Modele: TButton;
    bPiece_Nouveau: TButton;
    cdtpPiece_Date: TChamp_DateTimePicker;
-   ceDate: TChamp_Edit;
    clClient_id: TChamp_Label;
    clid: TChamp_Label;
    clPiece_Numero: TChamp_Label;
@@ -152,7 +151,7 @@ end;
 
 procedure TfFacture_non_reglee._from_Facture;
 begin
-     Champs_Affecte( blFacture.Piece_bl,[clPiece_Numero, cdtpPiece_Date, ceDate]);
+     Champs_Affecte( blFacture.Piece_bl,[clPiece_Numero, cdtpPiece_Date]);
 
      blFacture.haFacture_Ligne.Charge;
      dsbFacture_Ligne.sl:= blFacture.haFacture_Ligne.sl; 

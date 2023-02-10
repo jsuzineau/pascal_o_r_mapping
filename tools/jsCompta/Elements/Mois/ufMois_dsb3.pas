@@ -1,4 +1,4 @@
-unit ufAnnee_dsb;
+unit ufMois_dsb3;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
@@ -27,115 +27,118 @@ uses
     uChamps,
     uDataUtilsU,
     uBatpro_Ligne,
-    ublAnnee,
+    ublMois,
 
     uPool,
-    upoolAnnee,
+    upoolMois,
 
-     udkMois_edit,
-     ublMois, 
+     udkPiece_edit,
+     ublPiece, 
 
-    udkAnnee_edit,
-    uodAnnee,
+    udkMois_edit,
+    uodMois,
 
     ucDockableScrollbox,
+    ucChamp_Edit,
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DBCtrls, Grids, DBGrids, ActnList, StdCtrls, ComCtrls, Buttons,
   ExtCtrls, DB,LCLIntf;
 
 type
 
- { TfAnnee_dsb }
+ { TfMois_dsb3 }
 
- TfAnnee_dsb
+ TfMois_dsb3
  =
   class(TForm)
-   bodAnnee_Modele: TButton;
+  ceAnnee: TChamp_Edit; 
+   ceMois: TChamp_Edit; 
+   ceMontant: TChamp_Edit; 
+   ceDeclare: TChamp_Edit; 
+   ceURSSAF: TChamp_Edit; 
+  clkcbAnnee: TChamp_Lookup_ComboBox;
+ 
+   bMois_Nouveau: TButton;
+   bNouveau: TButton;
+   bodMois: TBitBtn;
+   bodMois_Modele: TButton;
     dsb: TDockableScrollbox;
+    pattern_Details_Pascal_uf_dsb3_edit_component_list_lfm: TLabel;
+    pattern_Membres_Pascal_uf_dsb3_edit_component_list_lfm: TLabel;
+    pattern_Symetrics_Pascal_uf_dsb3_edit_component_list_lfm: TLabel;
     pc: TPageControl;
-    Splitter1: TSplitter;
-    Panel1: TPanel;
-    Panel2: TPanel;
-    bodAnnee: TBitBtn;
-    Label1: TLabel;
-    lNbTotal: TLabel;
-    Panel3: TPanel;
-    Label2: TLabel;
-    lTri: TLabel;
-    bNouveau: TButton;
-    bSupprimer: TButton;
-    tsMois: TTabSheet;
-    dsbMois: TDockableScrollbox; 
-    procedure bodAnnee_ModeleClick(Sender: TObject);
+    pMois: TPanel;
+    pDetail: TPanel;
+    pListe: TPanel;
+    pListe_Bas: TPanel;
+    pListe_Haut: TPanel;
+    tsPiece: TTabSheet;
+    dsbPiece: TDockableScrollbox; 
+    procedure bMois_NouveauClick(Sender: TObject);
+    procedure bodMois_ModeleClick(Sender: TObject);
     procedure dsbSelect(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure bNouveauClick(Sender: TObject);
-    procedure bSupprimerClick(Sender: TObject);
-    procedure bodAnneeClick(Sender: TObject);
-  private
-    { Déclarations privées }
-    procedure NbTotal_Change;
+    procedure bodMoisClick(Sender: TObject);
   public
-    { Déclarations publiques }
-    pool: TpoolAnnee;
+    { DÃ©clarations publiques }
+    pool: TpoolMois;
     EntreeLigneColonne_: Boolean;
     function Execute: Boolean;
   //Rafraichissement
   protected
     procedure _from_pool;
-  //Annee
+  //Mois
   private
-    blAnnee: TblAnnee;
-    procedure _from_Annee;
+    blMois: TblMois;
+    procedure _from_Mois;
   end;
 
-function fAnnee_dsb: TfAnnee_dsb;
+function fMois_dsb3: TfMois_dsb3;
 
 implementation
 
 {$R *.lfm}
 
 var
-   FfAnnee_dsb: TfAnnee_dsb;
+   FfMois_dsb3: TfMois_dsb3;
 
-function fAnnee_dsb: TfAnnee_dsb;
+function fMois_dsb3: TfMois_dsb3;
 begin
-     Clean_Get( Result, FfAnnee_dsb, TfAnnee_dsb);
+     Clean_Get( Result, FfMois_dsb3, TfMois_dsb3);
 end;
 
-{ TfAnnee_dsb }
+{ TfMois_dsb3 }
 
-procedure TfAnnee_dsb.FormCreate(Sender: TObject);
+procedure TfMois_dsb3.FormCreate(Sender: TObject);
 begin
-     pool:= poolAnnee;
+     pool:= poolMois;
      inherited;
      EntreeLigneColonne_:= False;
-     pool.pFiltreChange.Abonne( Self, NbTotal_Change);
-     dsb.Classe_dockable:= TdkAnnee_edit;
-     dsb.Classe_Elements:= TblAnnee;
-     dsbMois.Classe_dockable:= TdkMois_edit;
-     dsbMois.Classe_Elements:= TblMois; 
+     dsb.Classe_dockable:= TdkMois_edit;
+     dsb.Classe_Elements:= TblMois;
+     dsbPiece.Classe_dockable:= TdkPiece_edit;
+     dsbPiece.Classe_Elements:= TblPiece; 
 end;
 
-procedure TfAnnee_dsb.FormDestroy(Sender: TObject);
+procedure TfMois_dsb3.FormDestroy(Sender: TObject);
 begin
-     pool.pFiltreChange.Desabonne( Self, NbTotal_Change);
      inherited;
 end;
 
-procedure TfAnnee_dsb.dsbSelect(Sender: TObject);
+procedure TfMois_dsb3.dsbSelect(Sender: TObject);
 begin
-     dsb.Get_bl( blAnnee);
-     _from_Annee;
+     dsb.Get_bl( blMois);
+     _from_Mois;
 end;
 
-procedure TfAnnee_dsb.NbTotal_Change;
+procedure TfMois_dsb3.NbTotal_Change;
 begin
      lNbTotal.Caption:= IntToStr( pool.slFiltre.Count);
 end;
 
-function TfAnnee_dsb.Execute: Boolean;
+function TfMois_dsb3.Execute: Boolean;
 begin
      pool.ToutCharger;
      _from_pool;
@@ -143,23 +146,24 @@ begin
      Show;
 end;
 
-procedure TfAnnee_dsb._from_pool;
+procedure TfMois_dsb3._from_pool;
 begin
      dsb.sl:= pool.slFiltre;
      //dsb.sl:= pool.T;
 end;
 
-procedure TfAnnee_dsb._from_Annee;
+procedure TfMois_dsb3._from_Mois;
 begin
-     Champs_Affecte( blAnnee,[ ]);//laissé vide pour l'instant
+     Champs_Affecte( blMois,[ ceAnnee,ceMois,ceMontant,ceDeclare,ceURSSAF ]);
+     Champs_Affecte( blMois,[ clkcbAnnee ]);
 
-     blAnnee.haMois.Charge;
-     dsbMois.sl:= blAnnee.haMois.sl; 
+     blMois.haPiece.Charge;
+     dsbPiece.sl:= blMois.haPiece.sl; 
 end;
 
-procedure TfAnnee_dsb.bNouveauClick(Sender: TObject);
+procedure TfMois_dsb3.bNouveauClick(Sender: TObject);
 var
-   blNouveau: TblAnnee;
+   blNouveau: TblMois;
 begin
      blNouveau:= pool.Nouveau;
      if blNouveau = nil then exit;
@@ -168,69 +172,68 @@ begin
      _from_pool;
 end;
 
-procedure TfAnnee_dsb.bSupprimerClick(Sender: TObject);
+procedure TfMois_dsb3.bodMoisClick(Sender: TObject);
 var
-   bl: TblAnnee;
-begin
-     dsb.Get_bl( bl);
-     if bl = nil then exit;
-
-     if mrYes
-        <>
-        MessageDlg( 'Êtes vous sûr de vouloir supprimer la ligne ?'#13#10
-                    +bl.GetLibelle,
-                    mtConfirmation, [mbYes, mbNo], 0)
-     then
-         exit;
-
-     pool.Supprimer( bl);
-     _from_pool;
-end;
-
-procedure TfAnnee_dsb.bodAnneeClick(Sender: TObject);
-var
-   bl: TblAnnee;
-   odAnnee: TodAnnee;
+   bl: TblMois;
+   odMois: TodMois;
    Resultat: String;
 begin
      dsb.Get_bl( bl);
      if bl = nil then exit;
 
-     odAnnee:= TodAnnee.Create;
+     odMois:= TodMois.Create;
      try
-        odAnnee.Init( bl);
-        Resultat:= odAnnee.Visualiser;
+        odMois.Init( bl);
+        Resultat:= odMois.Visualiser;
      finally
-            FreeAndNil( odAnnee);
+            FreeAndNil( odMois);
             end;
      if not OpenDocument( Resultat)
      then
          ShowMessage( 'OpenDocument failed on '+Resultat);
 end;
 
-procedure TfAnnee_dsb.bodAnnee_ModeleClick( Sender: TObject);
+procedure TfMois_dsb3.bodMois_ModeleClick( Sender: TObject);
 var
-   bl: TblAnnee;
-   odAnnee: TodAnnee;
+   bl: TblMois;
+   odMois: TodMois;
    Resultat: String;
 begin
      dsb.Get_bl( bl);
      if bl = nil then exit;
 
-     odAnnee:= TodAnnee.Create;
+     odMois:= TodMois.Create;
      try
-        odAnnee.Init( bl);
-        Resultat:= odAnnee.Editer_Modele_Impression;
+        odMois.Init( bl);
+        Resultat:= odMois.Editer_Modele_Impression;
      finally
-            FreeAndNil( odAnnee);
+            FreeAndNil( odMois);
             end;
      if not OpenDocument( Resultat)
      then
          ShowMessage( 'OpenDocument failed on '+Resultat);
 end;
+
+procedure TfMois_dsb3.bMois_NouveauClick( Sender: TObject);
+var
+   blNouveau: TblFacture_Ligne;
+   blClient: TblClient;
+begin
+     if nil = blMois then exit;
+
+     blNouveau:= poolFacture_Ligne.Nouveau;
+     if blNouveau = nil then exit;
+
+     blNouveau.Facture_id:= blMois.id;  //inclut Save_to_database;
+
+     _from_Mois;
+end;
+
 
 initialization
-              Clean_Create ( FfAnnee_dsb, TfAnnee_dsb);
+              Clean_Create ( FfMois_dsb3, TfMois_dsb3);
 finalization
-              Clean_Destroy( FfAnnee_dsb);
+              Clean_Destroy( FfMois_dsb3);
 end.
+
+

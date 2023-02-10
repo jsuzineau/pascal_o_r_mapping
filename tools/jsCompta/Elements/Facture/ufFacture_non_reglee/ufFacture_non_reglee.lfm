@@ -170,18 +170,6 @@ object fFacture_non_reglee: TfFacture_non_reglee
         Caption = 'Date Pièce'
         ParentColor = False
       end
-      object ceDate: TChamp_Edit
-        Left = 238
-        Height = 21
-        Top = 73
-        Width = 80
-        AutoSize = False
-        ParentShowHint = False
-        ShowHint = True
-        TabOrder = 3
-        Text = 'ceDate'
-        Field = 'Date'
-      end
     end
     object dsbFacture_Ligne: TDockableScrollbox
       Left = 1

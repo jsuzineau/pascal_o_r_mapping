@@ -69,11 +69,13 @@ begin
      Champs.ChampDefinitions.NomTable:= 'Piece';
 
      //champs persistants
-     cDate:= Champs.  String_from_String ( Date           , 'Date'           );
-     cDate.Definition.Typ:= ftDate;
+     cDate:= DateTime_from_( Date           , 'Date'           );
      cDate.Definition.Format_DateTime:='dddd d mmmm yyyy';
      Champs. Integer_from_Integer( Numero         , 'Numero'         );
 
+
+     //Détail Mois
+     FMois_bl:= nil;
 
      //Symétrie Facture
      FFacture_bl:= nil;
@@ -81,6 +83,8 @@ begin
      cFacture:= Champs.String_Lookup( FFacture, 'Facture', cFacture_id, poolFacture.GetLookupListItems, '');
      //Facture_id_Change; //tentative de désactivation pour éviter récursion
      cFacture_id.OnChange.Abonne( Self, Facture_id_Change);
+
+
 end;
 
 destructor TblPiece.Destroy;
@@ -102,7 +106,7 @@ end;
 procedure TblPiece.Unlink( be: TBatpro_Element);
 begin
      inherited Unlink( be);
-     ;
+     if Mois_bl = be then Mois_Desaggrege;
 
      if Facture_bl = be then Facture_Desaggrege;
 
@@ -118,7 +122,47 @@ end;
 
 //pattern_aggregation_accesseurs_implementation
 
-//Pascal_ubl_implementation_pas_detail
+procedure TblPiece.SetMois_bl(const Value: TBatpro_Ligne);
+begin
+     if FMois_bl = Value then exit;
+
+     Mois_Desaggrege;
+
+     FMois_bl:= Value;
+
+     Mois_Connecte;
+end;
+
+procedure TblPiece.Mois_Connecte;
+begin
+     if nil = Mois_bl then exit;
+
+     if Assigned(Mois_bl) 
+     then 
+         Mois_bl.Aggregations.by_Name[ 'Piece'].Ajoute(Self);
+     Connect_To( FMois_bl);
+end;
+
+procedure TblPiece.Mois_Desaggrege;
+begin
+     if Mois_bl = nil then exit;
+
+     if Assigned(Mois_bl) 
+     then 
+         Mois_bl.Aggregations.by_Name[ 'Piece'].Enleve(Self);
+     Unconnect_To( FMois_bl);
+end;
+
+function TblPiece.Mois: String;
+begin
+     if Assigned( FMois_bl)
+     then
+         Result:= FMois_bl.GetLibelle
+     else
+         Result:= '';
+end;
+
+ 
 procedure TblPiece.SetFacture_id(const Value: Integer);
 begin
      if FFacture_id = Value then exit;
@@ -276,7 +320,7 @@ begin
        '         Numero          = :Numero         ';
 end;
 
-function TpoolPiece.Test( _Facture_id: Integer;  _Date: String;  _Numero: Integer):Integer;
+function TpoolPiece.Test( _Facture_id: Integer;  _Date: TDateTime;  _Numero: Integer):Integer;
 var                                                 
    bl: TblPiece;                          
 begin                                               
@@ -289,7 +333,23 @@ begin
 end;                                                 
 
 
-//Details_Pascal_upool_charge_detail_implementation_pas
+procedure TpoolPiece.Charge_Mois(  _Annee, _Mois: Integer; _slLoaded: TBatpro_StringList = nil);
+var
+   SQL: String;
+begin
+     SQL
+     :=
+        'select                                            '+LineEnding
+       +'      *                                           '+LineEnding
+       +'from                                              '+LineEnding
+       +'    Piece                                         '+LineEnding
+       +'where                                             '+LineEnding
+       +'         strftime("%m", date) = '+IntToStr( _Mois )+LineEnding
+       +'     and strftime("%Y", date) = '+IntToStr( _Annee);
+
+     Load( SQL, _slLoaded);
+end;
+
 procedure TpoolPiece.Charge_Facture( _Facture_id: Integer; _slLoaded: TBatpro_StringList = nil);
 var
    SQL: String;

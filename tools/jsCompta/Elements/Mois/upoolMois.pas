@@ -33,7 +33,8 @@ uses
 
   ublMois,
 
-//Aggregations_Pascal_upool_uses_details_pas
+    ublFacture,
+
 
   uhfMois,
   SysUtils, Classes, DB, SqlDB;
@@ -69,7 +70,10 @@ type
   public
     function Test( _Annee: Integer;  _Mois: Integer;  _Montant: Double;  _Declare: Double;  _URSSAF: Double):Integer;
 
-//Details_Pascal_upool_charge_detail_declaration_pas
+  //Chargement d'une Annee
+  public
+    procedure Charge_Annee( _Annee: Integer; _slLoaded: TBatpro_StringList = nil);
+
   //Création d'itérateur
   protected
     class function Classe_Iterateur: TIterateur_Class; override;
@@ -90,7 +94,11 @@ var
 function poolMois: TpoolMois;
 begin
      TPool.class_Get( Result, FpoolMois, TpoolMois);
-//Aggregations_Pascal_upool_affectation_pool_details_pas
+
+     if nil = ublPiece_poolMois
+     then
+         ublPiece_poolMois:= Result;
+
 end;
 
 { TpoolMois }
@@ -149,7 +157,15 @@ begin
 end;                                                 
 
 
-//Details_Pascal_upool_charge_detail_implementation_pas
+procedure TpoolMois.Charge_Annee( _Annee: Integer; _slLoaded: TBatpro_StringList = nil);
+var
+   SQL: String;
+begin
+     SQL:= 'select * from '+NomTable+' where Annee = '+IntToStr( _Annee);
+
+     Load( SQL, _slLoaded);
+end;
+
 
 class function TpoolMois.Classe_Iterateur: TIterateur_Class;
 begin

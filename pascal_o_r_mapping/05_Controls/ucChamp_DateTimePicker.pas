@@ -39,6 +39,9 @@ uses
     RTLConsts, Editbtn;
 
 type
+
+ { TChamp_DateTimePicker }
+
  TChamp_DateTimePicker
  =
   class(TDateEdit, IChampsComponent)
@@ -92,6 +95,7 @@ begin
 
      FChamps:= nil;
      Champs_Changing:= False;
+     //OnAcceptDate:= AcceptDate;
 end;
 
 destructor TChamp_DateTimePicker.Destroy;
@@ -160,6 +164,7 @@ begin
         of
           jsdt_Date    : Champ.asDatetime:= Date;
           jsdt_DateTime: Champ.asDatetime:= Date;
+          jsdt_String  : Champ.asDatetime:= Date;
           end;
         Champ.Publie_Modifications;
      finally

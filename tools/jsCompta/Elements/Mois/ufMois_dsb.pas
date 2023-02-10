@@ -32,13 +32,16 @@ uses
     uPool,
     upoolMois,
 
-    //Pascal_uf_pc_uses_pas_aggregation
+     udkPiece_edit,
+     ublFacture, 
 
     udkMois_edit,
+    uodMois,
+
     ucDockableScrollbox,
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DBCtrls, Grids, DBGrids, ActnList, StdCtrls, ComCtrls, Buttons,
-  ExtCtrls, DB;
+  ExtCtrls, DB,LCLIntf;
 
 type
 
@@ -47,12 +50,13 @@ type
  TfMois_dsb
  =
   class(TForm)
+   bodMois_Modele: TButton;
     dsb: TDockableScrollbox;
     pc: TPageControl;
     Splitter1: TSplitter;
     Panel1: TPanel;
     Panel2: TPanel;
-    bImprimer: TBitBtn;
+    bodMois: TBitBtn;
     Label1: TLabel;
     lNbTotal: TLabel;
     Panel3: TPanel;
@@ -60,13 +64,15 @@ type
     lTri: TLabel;
     bNouveau: TButton;
     bSupprimer: TButton;
-    tsPascal_uf_pc_dfm_Aggregation: TTabSheet;
+    tsPiece: TTabSheet;
+    dsbPiece: TDockableScrollbox; 
+    procedure bodMois_ModeleClick(Sender: TObject);
     procedure dsbSelect(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure bNouveauClick(Sender: TObject);
     procedure bSupprimerClick(Sender: TObject);
-    procedure bImprimerClick(Sender: TObject);
+    procedure bodMoisClick(Sender: TObject);
   private
     { Déclarations privées }
     procedure NbTotal_Change;
@@ -108,19 +114,20 @@ begin
      pool.pFiltreChange.Abonne( Self, NbTotal_Change);
      dsb.Classe_dockable:= TdkMois_edit;
      dsb.Classe_Elements:= TblMois;
-     //Pascal_uf_pc_initialisation_pas_Aggregation
-end;
-
-procedure TfMois_dsb.dsbSelect(Sender: TObject);
-begin
-     dsb.Get_bl( blMois);
-     _from_Mois;
+     dsbPiece.Classe_dockable:= TdkPiece_edit;
+     dsbPiece.Classe_Elements:= TblPiece; 
 end;
 
 procedure TfMois_dsb.FormDestroy(Sender: TObject);
 begin
      pool.pFiltreChange.Desabonne( Self, NbTotal_Change);
      inherited;
+end;
+
+procedure TfMois_dsb.dsbSelect(Sender: TObject);
+begin
+     dsb.Get_bl( blMois);
+     _from_Mois;
 end;
 
 procedure TfMois_dsb.NbTotal_Change;
@@ -146,7 +153,8 @@ procedure TfMois_dsb._from_Mois;
 begin
      Champs_Affecte( blMois,[ ]);//laissé vide pour l'instant
 
-     //Pascal_uf_pc_charge_pas_Aggregation
+     blMois.haPiece.Charge;
+     dsbPiece.sl:= blMois.haPiece.sl; 
 end;
 
 procedure TfMois_dsb.bNouveauClick(Sender: TObject);
@@ -179,16 +187,46 @@ begin
      _from_pool;
 end;
 
-procedure TfMois_dsb.bImprimerClick(Sender: TObject);
+procedure TfMois_dsb.bodMoisClick(Sender: TObject);
+var
+   bl: TblMois;
+   odMois: TodMois;
+   Resultat: String;
 begin
-     {
-     Batpro_Ligne_Printer.Execute( 'fMois_dsb.stw',
-                                   'Mois',[],[],[],[],
-                                   ['Mois'],
-                                   [poolMois.slFiltre],
-                                   [ nil],
-                                   [ nil]);
-     }
+     dsb.Get_bl( bl);
+     if bl = nil then exit;
+
+     odMois:= TodMois.Create;
+     try
+        odMois.Init( bl);
+        Resultat:= odMois.Visualiser;
+     finally
+            FreeAndNil( odMois);
+            end;
+     if not OpenDocument( Resultat)
+     then
+         ShowMessage( 'OpenDocument failed on '+Resultat);
+end;
+
+procedure TfMois_dsb.bodMois_ModeleClick( Sender: TObject);
+var
+   bl: TblMois;
+   odMois: TodMois;
+   Resultat: String;
+begin
+     dsb.Get_bl( bl);
+     if bl = nil then exit;
+
+     odMois:= TodMois.Create;
+     try
+        odMois.Init( bl);
+        Resultat:= odMois.Editer_Modele_Impression;
+     finally
+            FreeAndNil( odMois);
+            end;
+     if not OpenDocument( Resultat)
+     then
+         ShowMessage( 'OpenDocument failed on '+Resultat);
 end;
 
 initialization

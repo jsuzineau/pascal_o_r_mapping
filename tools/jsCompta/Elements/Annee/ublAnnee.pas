@@ -37,14 +37,44 @@ uses
     upool_Ancetre_Ancetre,
     upool,
 
-//Aggregations_Pascal_ubl_uses_details_pas
+    ublMois,
+    upoolMois,
+
 
 
     SysUtils, Classes, SqlDB, DB;
 
 type
  TblAnnee= class;
-//pattern_aggregation_classe_declaration
+  { ThaAnnee__Mois }
+  ThaAnnee__Mois
+  =
+   class( ThAggregation)
+   //Gestion du cycle de vie
+   public
+     constructor Create( _Parent: TBatpro_Element;
+                         _Classe_Elements: TBatpro_Element_Class;
+                         _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre); override;
+     destructor  Destroy; override;
+   //Parent
+   public
+     blAnnee: TblAnnee;  
+   //Chargement de tous les détails
+   public
+     procedure Charge; override;
+   //Suppression
+   public
+     procedure Delete_from_database; override;
+   //Création d'itérateur
+   protected
+     class function Classe_Iterateur: TIterateur_Class; override;
+   public
+     function Iterateur: TIterateur_Mois;
+     function Iterateur_Decroissant: TIterateur_Mois;
+   end;
+
+
+
 
  { TblAnnee }
 
@@ -67,7 +97,16 @@ type
   //Gestion des déconnexions
   public
     procedure Unlink(be: TBatpro_Element); override;
-//pattern_aggregation_function_Create_Aggregation_declaration
+  //Aggrégations
+  protected
+    procedure Create_Aggregation( Name: String; P: ThAggregation_Create_Params); override;
+  //Aggrégation vers les Mois correspondants
+  private
+    FhaMois: ThaAnnee__Mois;
+    function GethaMois: ThaAnnee__Mois;
+  public
+    property haMois: ThaAnnee__Mois read GethaMois;
+
   end;
 
  TIterateur_Annee
@@ -150,7 +189,68 @@ begin
      Result:= TIterateur_Annee( Iterateur_interne_Decroissant);
 end;
 
-//pattern_aggregation_classe_implementation
+{ ThaAnnee__Mois }
+
+constructor ThaAnnee__Mois.Create( _Parent: TBatpro_Element;
+                               _Classe_Elements: TBatpro_Element_Class;
+                               _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre);
+begin
+     inherited;
+     if Classe_Elements <> _Classe_Elements
+     then
+         fAccueil_Erreur(  'Erreur à signaler au développeur: '#13#10
+                          +' '+ClassName+'.Create: Classe_Elements <> _Classe_Elements:'#13#10
+                          +' Classe_Elements='+ Classe_Elements.ClassName+#13#10
+                          +'_Classe_Elements='+_Classe_Elements.ClassName
+                          );
+     if Affecte_( blAnnee, TblAnnee, Parent) then exit;
+end;
+
+destructor ThaAnnee__Mois.Destroy;
+begin
+     inherited;
+end;
+
+procedure ThaAnnee__Mois.Charge;
+begin
+     poolMois.Charge_Annee( blAnnee.id);
+end;
+
+procedure ThaAnnee__Mois.Delete_from_database;
+var
+   I: TIterateur_Mois;
+   bl: TblMois;
+begin
+     I:= Iterateur_Decroissant;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( bl) then Continue;
+
+          bl.Delete_from_database;//enlève en même temps de cette liste
+          end;
+     finally
+            FreeAndNil( I);
+            end;
+end;
+
+class function ThaAnnee__Mois.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Mois;
+end;
+
+function ThaAnnee__Mois.Iterateur: TIterateur_Mois;
+begin
+     Result:= TIterateur_Mois(Iterateur_interne);
+end;
+
+function ThaAnnee__Mois.Iterateur_Decroissant: TIterateur_Mois;
+begin
+     Result:= TIterateur_Mois(Iterateur_interne_Decroissant);
+end;
+
+
 
 { TblAnnee }
 
@@ -194,19 +294,26 @@ end;
 procedure TblAnnee.Unlink( be: TBatpro_Element);
 begin
      inherited Unlink( be);
-;
+     ;
 
 end;
 
-(*
 procedure TblAnnee.Create_Aggregation( Name: String; P: ThAggregation_Create_Params);
 begin
-          
+          if 'Mois' = Name then P.Faible( ThaAnnee__Mois, TblMois, poolMois)
      else                  inherited Create_Aggregation( Name, P);
 end;
-*)
 
-//pattern_aggregation_accesseurs_implementation
+
+function  TblAnnee.GethaMois: ThaAnnee__Mois;
+begin
+     if FhaMois = nil
+     then
+         FhaMois:= Aggregations['Mois'] as ThaAnnee__Mois;
+
+     Result:= FhaMois;
+end;
+
 
 //Pascal_ubl_implementation_pas_detail
 

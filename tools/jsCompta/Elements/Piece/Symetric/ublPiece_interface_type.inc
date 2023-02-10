@@ -11,9 +11,20 @@
     destructor Destroy; override;
   //champs persistants
   public
-    Date: String; cDate: TChamp;
+    Date: TDateTime; cDate: TChamp;
     Numero: Integer;
-//Pascal_ubl_declaration_pas_detail
+  //Mois
+  private
+    FMois_bl: TBatpro_Ligne;
+    FMois: String;
+    procedure SetMois_bl(const Value: TBatpro_Ligne);
+    procedure Mois_Connecte;
+    procedure Mois_Desaggrege;
+  public
+    cMois: TChamp;
+    property Mois_bl: TBatpro_Ligne read FMois_bl write SetMois_bl;
+    function Mois: String;
+
   //Facture
   private
     FFacture_id: Integer;
@@ -96,9 +107,12 @@
     function SQLWHERE_ContraintesChamps: String; override;
   //Méthode de création de test
   public
-    function Test( _Facture_id: Integer;  _Date: String;  _Numero: Integer):Integer;
+    function Test( _Facture_id: Integer;  _Date: TDateTime;  _Numero: Integer):Integer;
 
-//Details_Pascal_upool_charge_detail_declaration_pas
+  //Chargement d'un Mois
+  public
+    procedure Charge_Mois( _Annee, _Mois: Integer; _slLoaded: TBatpro_StringList = nil);
+
   //Chargement d'un Facture
   public
     procedure Charge_Facture( _Facture_id: Integer; _slLoaded: TBatpro_StringList = nil);
