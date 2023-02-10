@@ -284,6 +284,7 @@ begin
 
      Nouveau_Base( Result);
      Result.Numero:= Nouveau_Numero;
+     Result.Date:= SysUtils.Date;
      Result.Save_to_database;
 end;
 
