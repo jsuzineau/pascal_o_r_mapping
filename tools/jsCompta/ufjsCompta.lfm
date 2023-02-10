@@ -4,14 +4,14 @@ object fjsCompta: TfjsCompta
   Top = 187
   Width = 829
   Caption = 'fjsCompta'
-  ClientHeight = 351
+  ClientHeight = 342
   ClientWidth = 829
   Menu = fPatternMainMenu.mm
   OnCreate = FormCreate
   Position = poWorkAreaCenter
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '2.2.0.4'
   object bFacture: TButton
-    Left = 288
+    Left = 328
     Height = 25
     Top = 33
     Width = 75
@@ -47,10 +47,10 @@ object fjsCompta: TfjsCompta
     TabOrder = 3
   end
   object bFacture_non_reglee: TButton
-    Left = 160
+    Left = 176
     Height = 25
     Top = 32
-    Width = 120
+    Width = 146
     Caption = 'Facture non réglée'
     OnClick = bFacture_non_regleeClick
     TabOrder = 4
@@ -59,7 +59,7 @@ object fjsCompta: TfjsCompta
     Left = 31
     Height = 25
     Top = 32
-    Width = 121
+    Width = 140
     Caption = 'Facture Nouveau'
     OnClick = bFacture_NouveauClick
     TabOrder = 5

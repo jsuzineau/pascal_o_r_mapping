@@ -208,6 +208,7 @@
         <Filename Value="Elements/Annee/ufAnnee_dsb.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fAnnee_dsb"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit7>
       <Unit8>
@@ -263,6 +264,7 @@
         <Filename Value="Elements/Mois/ufMois_dsb.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fMois_dsb"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit17>
       <Unit18>

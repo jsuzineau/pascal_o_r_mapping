@@ -2,14 +2,14 @@ object fFacture: TfFacture
   Left = 419
   Height = 618
   Top = 126
-  Width = 1060
+  Width = 1059
   Caption = 'Facture'
   ClientHeight = 618
-  ClientWidth = 1060
+  ClientWidth = 1059
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '2.2.0.4'
   object pListe: TPanel
     Left = 0
     Height = 618
@@ -70,20 +70,20 @@ object fFacture: TfFacture
     Left = 440
     Height = 618
     Top = 0
-    Width = 620
+    Width = 619
     Align = alClient
     Caption = 'pDetail'
     ClientHeight = 618
-    ClientWidth = 620
+    ClientWidth = 619
     TabOrder = 1
     object pFacture: TPanel
       Left = 1
       Height = 212
       Top = 1
-      Width = 618
+      Width = 617
       Align = alTop
       ClientHeight = 212
-      ClientWidth = 618
+      ClientWidth = 617
       TabOrder = 0
       object ceAnnee: TChamp_Edit
         Left = 6
@@ -120,10 +120,10 @@ object fFacture: TfFacture
       end
       object clkcbClient: TChamp_Lookup_ComboBox
         Left = 7
-        Height = 23
+        Height = 33
         Top = 95
         Width = 258
-        ItemHeight = 15
+        ItemHeight = 0
         Style = csDropDownList
         TabOrder = 3
         Field = 'Client'
@@ -207,34 +207,32 @@ object fFacture: TfFacture
         Field = 'Montant'
       end
       object clClient_id: TChamp_Label
-        Left = -490
+        Left = -491
         Height = 13
         Top = 61
         Width = 57
         Anchors = [akTop, akRight]
         AutoSize = False
         Caption = 'clClient_id'
-        ParentColor = False
         ParentShowHint = False
         ShowHint = True
         Field = 'Client_id'
       end
       object clid: TChamp_Label
-        Left = -344
+        Left = -345
         Height = 13
         Top = 7
         Width = 57
         Anchors = [akTop, akRight]
         AutoSize = False
         Caption = 'clid'
-        ParentColor = False
         ParentShowHint = False
         ShowHint = True
         Field = 'id'
       end
       object cdtpDate: TChamp_DateTimePicker
         Left = 367
-        Height = 23
+        Height = 38
         Top = 47
         Width = 145
         CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
@@ -250,7 +248,7 @@ object fFacture: TfFacture
         Left = 3
         Height = 25
         Top = 179
-        Width = 97
+        Width = 120
         Caption = 'Nouvelle ligne'
         OnClick = bFacture_Ligne_NouveauClick
         TabOrder = 10
@@ -262,45 +260,40 @@ object fFacture: TfFacture
         Width = 90
         AutoSize = False
         Caption = 'clNumero'
-        ParentColor = False
         ParentShowHint = False
         ShowHint = True
         Field = 'Numero'
       end
       object clPiece_Date: TChamp_Label
-        Left = 374
-        Height = 15
+        Left = 390
+        Height = 21
         Top = 180
-        Width = 66
+        Width = 86
         Caption = 'clPiece_Date'
-        ParentColor = False
         ParentShowHint = False
         ShowHint = True
         Field = 'Date'
       end
       object Label2: TLabel
         Left = 314
-        Height = 15
+        Height = 21
         Top = 181
-        Width = 55
+        Width = 72
         Caption = 'Date Pièce'
-        ParentColor = False
       end
       object Label1: TLabel
-        Left = 142
-        Height = 15
+        Left = 126
+        Height = 21
         Top = 180
-        Width = 75
+        Width = 97
         Caption = 'Numéro Pièce'
-        ParentColor = False
       end
       object clPiece_Numero: TChamp_Label
-        Left = 220
-        Height = 15
+        Left = 228
+        Height = 21
         Top = 180
-        Width = 86
+        Width = 111
         Caption = 'clPiece_Numero'
-        ParentColor = False
         ParentShowHint = False
         ShowHint = True
         Field = 'Numero'
@@ -310,11 +303,11 @@ object fFacture: TfFacture
       Left = 1
       Height = 404
       Top = 213
-      Width = 618
+      Width = 617
       Align = alClient
       Caption = 'dsbFacture_Ligne'
       ClientHeight = 404
-      ClientWidth = 618
+      ClientWidth = 617
       TabOrder = 1
       HauteurLigne = 49
       BordureLignes = True
