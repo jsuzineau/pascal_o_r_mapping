@@ -33,6 +33,7 @@ uses
     uuStrings,
     uBatpro_StringList,
     uChamp,
+    uLog,
     ujsDataContexte,
 
     uBatpro_Element,

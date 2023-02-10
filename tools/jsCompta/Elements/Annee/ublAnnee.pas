@@ -212,8 +212,23 @@ begin
 end;
 
 procedure ThaAnnee__Mois.Charge;
+var
+   I: TIterateur_Mois;
+   bl: TblMois;
 begin
-     poolMois.Charge_Annee( blAnnee.id);
+     poolMois.Charge_Annee( blAnnee.Annee, sl);
+     I:= Iterateur;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( bl) then Continue;
+
+          bl.Annee_bl:= blAnnee;
+          end;
+     finally
+            FreeAndNil( I);
+            end;
 end;
 
 procedure ThaAnnee__Mois.Delete_from_database;

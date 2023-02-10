@@ -224,8 +224,23 @@ begin
 end;
 
 procedure ThaMois__Piece.Charge;
+var
+   I: TIterateur_Piece;
+   bl: TblPiece;
 begin
-     poolPiece.Charge_Mois( blMois.Annee, blMois.Mois);
+     poolPiece.Charge_Mois( blMois.Annee, blMois.Mois, sl);
+     I:= Iterateur;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( bl) then Continue;
+
+          bl.Mois_bl:= blMois;
+          end;
+     finally
+            FreeAndNil( I);
+            end;
 end;
 
 procedure ThaMois__Piece.Delete_from_database;

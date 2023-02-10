@@ -344,8 +344,9 @@ begin
        +'from                                              '+LineEnding
        +'    Piece                                         '+LineEnding
        +'where                                             '+LineEnding
-       +'         strftime("%m", date) = '+IntToStr( _Mois )+LineEnding
-       +'     and strftime("%Y", date) = '+IntToStr( _Annee);
+       +'         strftime("%m", date) = "'+Format('%.2d',[ _Mois ])+'"'+LineEnding
+       +'     and strftime("%Y", date) = "'+Format('%.4d',[ _Annee])+'"';
+     uLog.Log.PrintLn( Classname+'.Charge_Mois: SQL='+SQL);
 
      Load( SQL, _slLoaded);
 end;
