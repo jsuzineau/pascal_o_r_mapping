@@ -87,6 +87,7 @@ object fFacture_Nouveau: TfFacture_Nouveau
         Top = 140
         Width = 293
         AutoSize = False
+        OnMouseDown = ceNomMouseDown
         ParentShowHint = False
         ShowHint = True
         TabOrder = 4

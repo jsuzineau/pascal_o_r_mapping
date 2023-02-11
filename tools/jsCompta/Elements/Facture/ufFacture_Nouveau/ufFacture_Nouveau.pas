@@ -44,7 +44,7 @@ uses
     ucDockableScrollbox, ucChamp_Edit, ucChamp_Lookup_ComboBox, ucChamp_Memo,
     ucChamp_Label, ucChamp_DateTimePicker, Messages, SysUtils, Variants,
     Classes, Graphics, Controls, Forms, Dialogs, DBCtrls, Grids, DBGrids,
-    ActnList, StdCtrls, ComCtrls, Buttons, ExtCtrls, DB, LCLIntf;
+    ActnList, StdCtrls, ComCtrls, Buttons, ExtCtrls, DB, LCLIntf,  Clipbrd;
 
 type
 
@@ -80,6 +80,8 @@ type
     procedure bDateClick(Sender: TObject);
     procedure bFacture_Ligne_NouveauClick(Sender: TObject);
     procedure bodFacture_ModeleClick(Sender: TObject);
+    procedure ceNomMouseDown(Sender: TObject; Button: TMouseButton;
+     Shift: TShiftState; X, Y: Integer);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure bNouveauClick(Sender: TObject);
@@ -226,6 +228,14 @@ begin
      if not OpenDocument( Resultat)
      then
          ShowMessage( 'OpenDocument failed on '+Resultat);
+end;
+
+procedure TfFacture_Nouveau.ceNomMouseDown( Sender: TObject;
+                                            Button: TMouseButton;
+                                            Shift: TShiftState; X, Y: Integer);
+begin
+     if nil = blFacture then exit;
+     Clipboard.AsText:= blFacture.Nom;
 end;
 
 procedure TfFacture_Nouveau.bFacture_Ligne_NouveauClick(Sender: TObject);
