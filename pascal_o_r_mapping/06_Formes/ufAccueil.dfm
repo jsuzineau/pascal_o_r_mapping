@@ -14,7 +14,7 @@ object fAccueil: TfAccueil
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '1.8.0.6'
+  LCLVersion = '2.2.0.4'
   object Label1: TLabel
     Left = 0
     Height = 20
@@ -27,7 +27,6 @@ object fAccueil: TfAccueil
     Font.Color = clWindowText
     Font.Height = -16
     Font.Name = 'MS Sans Serif'
-    ParentColor = False
     ParentFont = False
   end
   object Panel2: TPanel
@@ -43,17 +42,16 @@ object fAccueil: TfAccueil
     OnMouseDown = Panel2MouseDown
     object Label2: TLabel
       Left = 29
-      Height = 14
-      Top = 128
-      Width = 62
+      Height = 16
+      Top = 112
+      Width = 55
       Caption = 'les erreurs'
-      ParentColor = False
     end
     object bOK: TBitBtn
       Left = 2
-      Height = 30
-      Top = 155
-      Width = 85
+      Height = 52
+      Top = 133
+      Width = 103
       Caption = 'Continuer'
       Kind = bkOK
       ModalResult = 1
@@ -89,9 +87,9 @@ object fAccueil: TfAccueil
     end
     object cbErreurModal: TCheckBox
       Left = 8
-      Height = 24
-      Top = 112
-      Width = 110
+      Height = 23
+      Top = 96
+      Width = 90
       Caption = 'S''arrêter sur'
       Checked = True
       State = cbChecked
@@ -103,8 +101,8 @@ object fAccueil: TfAccueil
       Top = 288
       Width = 87
       Caption = 'Envoyer'
-      ClientHeight = 80
-      ClientWidth = 83
+      ClientHeight = 79
+      ClientWidth = 85
       TabOrder = 5
       object bFTP: TButton
         Left = 8
@@ -176,19 +174,19 @@ object fAccueil: TfAccueil
     Height = 513
     Top = 20
     Width = 484
-    ActivePage = tsHistorique_Developpeur
+    ActivePage = tsErreur_Courante
     Align = alClient
-    TabIndex = 2
+    TabIndex = 0
     TabOrder = 1
     object tsErreur_Courante: TTabSheet
       Caption = 'Erreur courante'
-      ClientHeight = 485
-      ClientWidth = 480
+      ClientHeight = 483
+      ClientWidth = 474
       object m: TMemo
         Left = 0
-        Height = 446
+        Height = 442
         Top = 41
-        Width = 476
+        Width = 474
         Align = alClient
         BorderStyle = bsNone
         Font.Color = clWindowText
@@ -202,7 +200,7 @@ object fAccueil: TfAccueil
         Left = 0
         Height = 41
         Top = 0
-        Width = 476
+        Width = 474
         Align = alTop
         BevelOuter = bvNone
         Caption = 'Erreur'
@@ -217,14 +215,14 @@ object fAccueil: TfAccueil
     end
     object tsHistorique: TTabSheet
       Caption = 'Historique des erreurs'
-      ClientHeight = 485
-      ClientWidth = 480
+      ClientHeight = 483
+      ClientWidth = 474
       ImageIndex = 1
       object mHistorique: TMemo
         Left = 0
-        Height = 487
+        Height = 483
         Top = 0
-        Width = 476
+        Width = 474
         Align = alClient
         BorderStyle = bsNone
         Font.Color = clWindowText
@@ -237,13 +235,13 @@ object fAccueil: TfAccueil
     end
     object tsHistorique_Developpeur: TTabSheet
       Caption = 'Historique Développeur'
-      ClientHeight = 485
-      ClientWidth = 480
+      ClientHeight = 483
+      ClientWidth = 474
       object mHistorique_Developpeur: TMemo
         Left = 0
-        Height = 485
+        Height = 483
         Top = 0
-        Width = 480
+        Width = 474
         Align = alClient
         Font.Color = clWindowText
         Font.Height = -11
@@ -259,14 +257,21 @@ object fAccueil: TfAccueil
   object SaveDialog: TSaveDialog
     DefaultExt = '.TXT'
     Filter = 'Fichier texte|*.TXT'
-    left = 24
-    top = 276
+    Left = 24
+    Top = 276
   end
   object tExecute: TTimer
     Enabled = False
     Interval = 200
     OnTimer = tExecuteTimer
-    left = 56
-    top = 316
+    Left = 56
+    Top = 316
+  end
+  object tRefresh: TTimer
+    Enabled = False
+    Interval = 500
+    OnTimer = tRefreshTimer
+    Left = 32
+    Top = 33
   end
 end

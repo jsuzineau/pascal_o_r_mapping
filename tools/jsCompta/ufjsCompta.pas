@@ -9,6 +9,7 @@ uses
 
     ublFacture,
 
+    ufAccueil,
     ufClient,
     ufPiece_dsb3,
     ufFacture_Nouveau,

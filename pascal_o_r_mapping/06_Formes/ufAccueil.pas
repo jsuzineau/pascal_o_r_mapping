@@ -62,6 +62,7 @@ type
     SaveDialog: TSaveDialog;
     bTerminer: TButton;
     bTuer: TButton;
+    tRefresh: TTimer;
     tsHistorique_Developpeur: TTabSheet;
     tExecute: TTimer;
     cbErreurModal: TCheckBox;
@@ -106,6 +107,7 @@ type
     procedure pcChange(Sender: TObject);
     procedure bOPNClick(Sender: TObject);
     procedure bOPN_RequeteurClick(Sender: TObject);
+    procedure tRefreshTimer(Sender: TObject);
   private
     procedure Add( _S_Developpeur, _S: String);
     procedure Add_Developpeur( _S_Developpeur: String);
@@ -367,9 +369,11 @@ begin
      else
          Add( _Message_Developpeur, _Message);
          
-     pc.ActivePage:= tsLigne_Courante;
+     pc.ActivePage:= tsHistorique_Developpeur; //bricolage avec tRefresh pour problèmes de rafraichissement sur Ubuntu
+     //pc.ActivePage:= tsLigne_Courante;
 
      Visible:= False;
+     tRefresh.Enabled:= True;
      if cbErreurModal.Checked
      then
          Do_ShowModal
@@ -554,6 +558,15 @@ end;
 procedure TfAccueil.bOPN_RequeteurClick(Sender: TObject);
 begin
      uClean_OPN_Requeteur;
+end;
+
+procedure TfAccueil.tRefreshTimer(Sender: TObject);
+begin
+     pc.ActivePage:= tsLigne_Courante;
+     tRefresh.Enabled:= False;
+     m                      .Refresh;
+     mHistorique            .Refresh;;
+     mHistorique_Developpeur.Refresh;;
 end;
 
 procedure TfAccueil.Erreur_OpenDocument( _Message: String);

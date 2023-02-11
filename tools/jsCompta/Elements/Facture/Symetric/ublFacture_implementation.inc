@@ -134,6 +134,17 @@ end;
 procedure ThaFacture__Facture_Ligne.Montant_from_Total;
 var
    Total: double;
+   procedure Erreur;
+   var
+      S: String;
+   begin
+        S
+        :=
+           'Facture '+blFacture.Nom+LineEnding
+          +'montant incohérent:'+blFacture.cMontant.Chaine+LineEnding
+          +'calculé: '+FloatToStr( Total);
+        fAccueil_Erreur( S, S);
+   end;
 begin
      Total:= CalculeTotal;
 
@@ -143,8 +154,7 @@ begin
      else
          if Total <> blFacture.Montant
          then
-             fAccueil_Erreur( 'Facture '+blFacture.Nom+', montant incohérent');
-
+             Erreur;
 end;
 
 function ThaFacture__Facture_Ligne.CalculeTotal_NbHeures: String;

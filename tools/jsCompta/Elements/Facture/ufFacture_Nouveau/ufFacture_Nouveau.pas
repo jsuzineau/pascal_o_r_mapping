@@ -131,8 +131,11 @@ end;
 function TfFacture_Nouveau.Execute: Boolean;
 begin
      poolClient.ToutCharger;
+     blFacture:= nil;
      Result:= True;
      Show;
+     _from_Facture;
+     bNouveau.Show;
 end;
 
 procedure TfFacture_Nouveau.bNouveauClick(Sender: TObject);
@@ -145,6 +148,8 @@ begin
 end;
 
 procedure TfFacture_Nouveau._from_Facture;
+var
+   blPiece: TblPiece;
 begin
      Champs_Affecte( blFacture,
                      [
@@ -157,10 +162,22 @@ begin
                      ceNbHeures,
                      ceMontant
                      ]);
-     Champs_Affecte( blFacture.Piece_bl,[clPiece_Numero, clPiece_Date]);
+     if nil = blFacture
+     then
+         blPiece:= nil
+     else
+         blPiece:= blFacture.Piece_bl;
 
-     blFacture.haFacture_Ligne.Charge;
-     dsbFacture_Ligne.sl:= blFacture.haFacture_Ligne.sl; 
+     Champs_Affecte( blPiece,[clPiece_Numero, clPiece_Date]);
+
+     if nil = blFacture
+     then
+         dsbFacture_Ligne.sl:= nil
+     else
+         begin
+         blFacture.haFacture_Ligne.Charge;
+         dsbFacture_Ligne.sl:= blFacture.haFacture_Ligne.sl;
+         end;
 end;
 
 procedure TfFacture_Nouveau.bodFactureClick(Sender: TObject);
