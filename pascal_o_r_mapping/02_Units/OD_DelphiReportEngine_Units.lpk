@@ -18,7 +18,7 @@
         <CustomOptions Value="-dWINDOWS_GRAPHIC"/>
       </Other>
     </CompilerOptions>
-    <Files Count="102">
+    <Files Count="103">
       <Item1>
         <Filename Value="DBTables.pas"/>
         <UnitName Value="DBTables"/>
@@ -428,6 +428,10 @@
         <Filename Value="uWinUtils.pas"/>
         <UnitName Value="uWinUtils"/>
       </Item102>
+      <Item103>
+        <Filename Value="uPhi.pas"/>
+        <UnitName Value="uPhi"/>
+      </Item103>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="3">

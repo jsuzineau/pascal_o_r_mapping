@@ -41,6 +41,8 @@ uses
     udkFacture_display_Facture,
     uodFacture,
 
+    uPhi_Form,
+
     ucDockableScrollbox, ucChamp_Edit, ucChamp_Lookup_ComboBox, ucChamp_Memo,
     ucChamp_Label, ucChamp_DateTimePicker, Messages, SysUtils, Variants,
     Classes, Graphics, Controls, Forms, Dialogs, DBCtrls, Grids, DBGrids,
@@ -89,6 +91,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure bNouveauClick(Sender: TObject);
     procedure bodFactureClick(Sender: TObject);
+    procedure FormResize(Sender: TObject);
     procedure sbNom_from_Click(Sender: TObject);
   public
     { Déclarations publiques }
@@ -207,6 +210,11 @@ begin
      if not OpenDocument( Resultat)
      then
          ShowMessage( 'OpenDocument failed on '+Resultat);
+end;
+
+procedure TfFacture.FormResize(Sender: TObject);
+begin
+     Phi_Form_Up_horizontal( Self);
 end;
 
 procedure TfFacture.sbNom_from_Click(Sender: TObject);

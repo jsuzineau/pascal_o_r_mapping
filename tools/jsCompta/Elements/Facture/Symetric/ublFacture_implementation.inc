@@ -141,7 +141,7 @@ var
         S
         :=
            'Facture '+blFacture.Nom+LineEnding
-          +'montant incohérent:'+blFacture.cMontant.Chaine+LineEnding
+          +'montant incohérent: '+blFacture.cMontant.Chaine+LineEnding
           +'calculé: '+FloatToStr( Total);
         fAccueil_Erreur( S, S);
    end;

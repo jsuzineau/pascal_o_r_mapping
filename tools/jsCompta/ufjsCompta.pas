@@ -17,6 +17,7 @@ uses
     ufFacture_non_reglee,
     ufMois_dsb,
 
+    uPhi_Form,
   ufPatternMainMenu, Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
   StdCtrls, ExtCtrls, ucDockableScrollbox;
 
@@ -40,6 +41,7 @@ type
    procedure bMoisClick(Sender: TObject);
    procedure bPieceClick(Sender: TObject);
    procedure FormCreate(Sender: TObject);
+   procedure FormResize(Sender: TObject);
   private
    //fPiece: TfPiece_dsb;
   public
@@ -67,6 +69,11 @@ begin
      fPiece.BorderStyle:= bsNone;
      fPiece.Execute;
      }
+end;
+
+procedure TfjsCompta.FormResize(Sender: TObject);
+begin
+     Phi_Form_Up_horizontal( Self);
 end;
 
 procedure TfjsCompta.bFactureClick(Sender: TObject);

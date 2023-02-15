@@ -36,6 +36,8 @@ uses
      ublFacture, 
 
     udkClient_display_Client,
+    uPhi_Form,
+
     ucDockableScrollbox, ucChamp_Edit,
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DBCtrls, Grids, DBGrids, ActnList, StdCtrls, ComCtrls, Buttons,
@@ -72,6 +74,7 @@ type
     procedure bNouveauClick(Sender: TObject);
     procedure bSupprimerClick(Sender: TObject);
     procedure bImprimerClick(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   public
     { Déclarations publiques }
     pool: TpoolClient;
@@ -187,6 +190,11 @@ begin
                                    [ nil],
                                    [ nil]);
      }
+end;
+
+procedure TfClient.FormResize(Sender: TObject);
+begin
+     Phi_Form_Up_horizontal( Self);
 end;
 
 initialization

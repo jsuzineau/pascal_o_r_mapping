@@ -21,6 +21,8 @@ uses
     uhdmSession,
     udkSession, uodCalendrier,
 
+    uPhi_Form,
+
  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, EditBtn,
  Buttons, ExtCtrls,LCLIntf, dateutils,Clipbrd, StdCtrls;
 
@@ -92,6 +94,7 @@ type
   procedure eFactureEnter(Sender: TObject);
   procedure FormCreate(Sender: TObject);
   procedure FormDestroy(Sender: TObject);
+  procedure FormResize(Sender: TObject);
   procedure mResumeEnter(Sender: TObject);
  private
    function idTag: Integer;
@@ -140,6 +143,11 @@ end;
 procedure TfTemps.FormDestroy(Sender: TObject);
 begin
      Free_nil( hdmSession);
+end;
+
+procedure TfTemps.FormResize(Sender: TObject);
+begin
+     Phi_Form_Up_horizontal( Self);
 end;
 
 procedure TfTemps.mResumeEnter(Sender: TObject);

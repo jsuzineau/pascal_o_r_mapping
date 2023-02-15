@@ -35,6 +35,7 @@ uses
 
     udkPiece_edit,
     uodPiece,
+    uPhi_Form,
 
     ucDockableScrollbox,
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
@@ -70,6 +71,7 @@ type
     procedure bNouveauClick(Sender: TObject);
     procedure bSupprimerClick(Sender: TObject);
     procedure bodPieceClick(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   private
     { Déclarations privées }
     procedure NbTotal_Change;
@@ -201,6 +203,11 @@ begin
      if not OpenDocument( Resultat)
      then
          ShowMessage( 'OpenDocument failed on '+Resultat);
+end;
+
+procedure TfPiece_dsb.FormResize(Sender: TObject);
+begin
+     Phi_Form_Up_horizontal( Self);
 end;
 
 procedure TfPiece_dsb.bodPiece_ModeleClick( Sender: TObject);

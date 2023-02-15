@@ -38,6 +38,7 @@ uses
     udkMois_edit,
     uodMois,
 
+    uPhi_Form,
     ucDockableScrollbox,
     ucChamp_Edit,
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
@@ -81,6 +82,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure bNouveauClick(Sender: TObject);
     procedure bodMoisClick(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   public
     { Déclarations publiques }
     pool: TpoolMois;
@@ -191,6 +193,11 @@ begin
      if not OpenDocument( Resultat)
      then
          ShowMessage( 'OpenDocument failed on '+Resultat);
+end;
+
+procedure TfMois_dsb3.FormResize(Sender: TObject);
+begin
+     Phi_Form_Up_horizontal( Self);
 end;
 
 procedure TfMois_dsb3.bodMois_ModeleClick( Sender: TObject);

@@ -4,12 +4,13 @@ object fjsCompta: TfjsCompta
   Top = 187
   Width = 829
   Caption = 'fjsCompta'
-  ClientHeight = 342
+  ClientHeight = 351
   ClientWidth = 829
   Menu = fPatternMainMenu.mm
   OnCreate = FormCreate
+  OnResize = FormResize
   Position = poWorkAreaCenter
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '2.2.4.0'
   object bFacture: TButton
     Left = 328
     Height = 25

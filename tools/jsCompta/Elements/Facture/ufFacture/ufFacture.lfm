@@ -8,8 +8,9 @@ object fFacture: TfFacture
   ClientWidth = 1059
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnResize = FormResize
   Position = poScreenCenter
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '2.2.4.0'
   object pListe: TPanel
     Left = 0
     Height = 618
@@ -120,10 +121,10 @@ object fFacture: TfFacture
       end
       object clkcbClient: TChamp_Lookup_ComboBox
         Left = 7
-        Height = 33
+        Height = 23
         Top = 95
         Width = 258
-        ItemHeight = 0
+        ItemHeight = 15
         Style = csDropDownList
         TabOrder = 3
         Field = 'Client'
@@ -214,6 +215,7 @@ object fFacture: TfFacture
         Anchors = [akTop, akRight]
         AutoSize = False
         Caption = 'clClient_id'
+        ParentColor = False
         ParentShowHint = False
         ShowHint = True
         Field = 'Client_id'
@@ -226,13 +228,14 @@ object fFacture: TfFacture
         Anchors = [akTop, akRight]
         AutoSize = False
         Caption = 'clid'
+        ParentColor = False
         ParentShowHint = False
         ShowHint = True
         Field = 'id'
       end
       object cdtpDate: TChamp_DateTimePicker
         Left = 367
-        Height = 38
+        Height = 23
         Top = 47
         Width = 145
         CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
@@ -260,40 +263,45 @@ object fFacture: TfFacture
         Width = 90
         AutoSize = False
         Caption = 'clNumero'
+        ParentColor = False
         ParentShowHint = False
         ShowHint = True
         Field = 'Numero'
       end
       object clPiece_Date: TChamp_Label
         Left = 390
-        Height = 21
+        Height = 15
         Top = 180
-        Width = 86
+        Width = 66
         Caption = 'clPiece_Date'
+        ParentColor = False
         ParentShowHint = False
         ShowHint = True
         Field = 'Date'
       end
       object Label2: TLabel
         Left = 314
-        Height = 21
+        Height = 15
         Top = 181
-        Width = 72
+        Width = 55
         Caption = 'Date Pièce'
+        ParentColor = False
       end
       object Label1: TLabel
         Left = 126
-        Height = 21
+        Height = 15
         Top = 180
-        Width = 97
+        Width = 75
         Caption = 'Numéro Pièce'
+        ParentColor = False
       end
       object clPiece_Numero: TChamp_Label
         Left = 228
-        Height = 21
+        Height = 15
         Top = 180
-        Width = 111
+        Width = 86
         Caption = 'clPiece_Numero'
+        ParentColor = False
         ParentShowHint = False
         ShowHint = True
         Field = 'Numero'

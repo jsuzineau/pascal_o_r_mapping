@@ -37,6 +37,7 @@ uses
     udkNom_de_la_classe_edit,
     uodNom_de_la_classe,
 
+    uPhi_Form,
     ucDockableScrollbox,
     ucChamp_Edit,
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
@@ -74,6 +75,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure bNouveauClick(Sender: TObject);
     procedure bodNom_de_la_classeClick(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   public
     { Déclarations publiques }
     pool: TpoolNom_de_la_classe;
@@ -182,6 +184,11 @@ begin
      if not OpenDocument( Resultat)
      then
          ShowMessage( 'OpenDocument failed on '+Resultat);
+end;
+
+procedure TfNom_de_la_classe_dsb3.FormResize(Sender: TObject);
+begin
+     Phi_Form_Up_horizontal( Self);
 end;
 
 procedure TfNom_de_la_classe_dsb3.bodNom_de_la_classe_ModeleClick( Sender: TObject);

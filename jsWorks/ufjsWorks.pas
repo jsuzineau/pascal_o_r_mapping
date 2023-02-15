@@ -59,6 +59,7 @@ uses
 
     uodWork_from_Period,
 
+    uPhi_Form,
     ufAutomatic,
     ufTemps,
     ufProject,
@@ -165,6 +166,7 @@ type
    procedure dsbWorkTraite_Message(_dk: TDockable; _iMessage: Integer);
    procedure dsbWork_TagSuppression(Sender: TObject);
    procedure dsbWork_Tag_from_DescriptionSuppression(Sender: TObject);
+   procedure FormResize(Sender: TObject);
    procedure FormShow(Sender: TObject);
    procedure miAutomaticClick(Sender: TObject);
    procedure miProjectClick(Sender: TObject);
@@ -490,6 +492,11 @@ begin
      blWork.haTag_from_Description.Enleve( blTag);
      blWork.Tag( blTag);
      _from_Work;
+end;
+
+procedure TfjsWorks.FormResize(Sender: TObject);
+begin
+     Phi_Form_Up_horizontal( Self);
 end;
 
 procedure Traite_Test_AUT;

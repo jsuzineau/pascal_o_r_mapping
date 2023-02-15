@@ -38,6 +38,7 @@ uses
     udkAnnee_edit,
     uodAnnee,
 
+    uPhi_Form,
     ucDockableScrollbox,
     ucChamp_Edit,
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
@@ -77,6 +78,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure bNouveauClick(Sender: TObject);
     procedure bodAnneeClick(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   public
     { Déclarations publiques }
     pool: TpoolAnnee;
@@ -187,6 +189,11 @@ begin
      if not OpenDocument( Resultat)
      then
          ShowMessage( 'OpenDocument failed on '+Resultat);
+end;
+
+procedure TfAnnee_dsb3.FormResize(Sender: TObject);
+begin
+     Phi_Form_Up_horizontal( Self);
 end;
 
 procedure TfAnnee_dsb3.bodAnnee_ModeleClick( Sender: TObject);

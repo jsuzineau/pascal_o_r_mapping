@@ -35,6 +35,8 @@ uses
     //Pascal_uf_pc_uses_pas_aggregation
 
     udkFacture_Ligne_edit,
+    uPhi_Form,
+
     ucDockableScrollbox,
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DBCtrls, Grids, DBGrids, ActnList, StdCtrls, ComCtrls, Buttons,
@@ -67,6 +69,7 @@ type
     procedure bNouveauClick(Sender: TObject);
     procedure bSupprimerClick(Sender: TObject);
     procedure bImprimerClick(Sender: TObject);
+    procedure FormResize(Sender: TObject);
   private
     { Déclarations privées }
     procedure NbTotal_Change;
@@ -189,6 +192,11 @@ begin
                                    [ nil],
                                    [ nil]);
      }
+end;
+
+procedure TfFacture_Ligne_dsb.FormResize(Sender: TObject);
+begin
+     Phi_Form_Up_horizontal( Self);
 end;
 
 initialization

@@ -16,7 +16,7 @@
         </SyntaxOptions>
       </Parsing>
     </CompilerOptions>
-    <Files Count="63">
+    <Files Count="64">
       <Item1>
         <Filename Value="uAide.pas"/>
         <UnitName Value="uAide"/>
@@ -217,6 +217,10 @@
         <Filename Value="ufODBC.pas"/>
         <UnitName Value="ufODBC"/>
       </Item63>
+      <Item64>
+        <Filename Value="uPhi_Form.pas"/>
+        <UnitName Value="uPhi_Form"/>
+      </Item64>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="10">
