@@ -74,8 +74,8 @@ procedure TdkDevelopment.sbDetruireClick(Sender: TObject);
 begin
      if IDYES
         <>
-        Application.MessageBox( 'Etes vous sûr de vouloir supprimer la session ?',
-                                'Suppression de Session',
+        Application.MessageBox( 'Etes vous sûr de vouloir supprimer le Development ?',
+                                'Suppression de Development',
                                 MB_ICONQUESTION+MB_YESNO)
      then
          exit;

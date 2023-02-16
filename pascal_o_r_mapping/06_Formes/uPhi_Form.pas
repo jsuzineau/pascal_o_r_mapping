@@ -18,12 +18,16 @@ implementation
 procedure Phi_Form( _F: TForm; _Operation: TPhiSize_function);
 var
    P: TPoint;
+   Left, Top: Integer;
 begin
+     Left:= _F.Left;
+     Top := _F.Top ;
      P.X:= _F.Width;
      P.Y:= _F.Height;
+
      P:= _Operation( P);
-     _F.Width := P.X;
-     _F.Height:= P.Y;
+
+     _F.SetBounds( Left, Top, P.X, P.Y);
 end;
 
 procedure Phi_Form_Up_horizontal  ( _F: TForm);begin Phi_Form( _F, @PhiSizeUp_horizontal  ); end;

@@ -267,7 +267,7 @@ begin
             FreeAndNil( slWork);
             end;
 
-     //poolDevelopment.ToutCharger();
+     poolDevelopment.ToutCharger();
      _from_pool;
 end;
 
