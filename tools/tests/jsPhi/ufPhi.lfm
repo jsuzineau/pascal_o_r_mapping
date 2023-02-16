@@ -1,0 +1,48 @@
+object fPhi: TfPhi
+  Left = 532
+  Height = 91
+  Top = 136
+  Width = 320
+  Caption = 'fPhi'
+  ClientHeight = 91
+  ClientWidth = 320
+  OnCreate = FormCreate
+  OnResize = FormResize
+  LCLVersion = '2.2.4.0'
+  object bDown_horizontal: TButton
+    Left = 152
+    Height = 25
+    Top = 29
+    Width = 127
+    Caption = 'bDown_horizontal'
+    OnClick = bDown_horizontalClick
+    TabOrder = 0
+  end
+  object bDown_vertical: TButton
+    Left = 152
+    Height = 25
+    Top = 57
+    Width = 127
+    Caption = 'bDown_vertical'
+    OnClick = bDown_verticalClick
+    TabOrder = 1
+  end
+  object bUp_horizontal: TButton
+    Left = 32
+    Height = 25
+    Top = 29
+    Width = 96
+    Caption = 'bUp_horizontal'
+    OnClick = bUp_horizontalClick
+    TabOrder = 2
+  end
+  object bUp_vertical: TButton
+    Left = 32
+    Height = 25
+    Top = 57
+    Width = 96
+    Caption = 'bUp_vertical'
+    OnClick = bUp_verticalClick
+    TabOrder = 3
+  end
+end
