@@ -74,7 +74,6 @@ type
     procedure bNouveauClick(Sender: TObject);
     procedure bSupprimerClick(Sender: TObject);
     procedure bodClientClick(Sender: TObject);
-    procedure FormResize(Sender: TObject);
   private
     { Déclarations privées }
     procedure NbTotal_Change;
@@ -118,6 +117,8 @@ begin
      dsb.Classe_Elements:= TblClient;
      dsbFacture.Classe_dockable:= TdkFacture_edit;
      dsbFacture.Classe_Elements:= TblFacture; 
+
+     ThPhi_Form.Create( Self);
 end;
 
 procedure TfClient_dsb.dsbSelect(Sender: TObject);
@@ -208,11 +209,6 @@ begin
      if not OpenDocument( Resultat)
      then
          ShowMessage( 'OpenDocument failed on '+Resultat);
-end;
-
-procedure TfClient_dsb.FormResize(Sender: TObject);
-begin
-     Phi_Form_Up_horizontal( Self);
 end;
 
 procedure TfClient_dsb.bodClient_ModeleClick( Sender: TObject);

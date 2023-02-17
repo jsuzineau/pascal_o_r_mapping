@@ -78,7 +78,6 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure bNouveauClick(Sender: TObject);
     procedure bodAnneeClick(Sender: TObject);
-    procedure FormResize(Sender: TObject);
   public
     { Déclarations publiques }
     pool: TpoolAnnee;
@@ -118,6 +117,7 @@ begin
      dsb.Classe_Elements:= TblAnnee;
      dsbMois.Classe_dockable:= TdkMois_edit;
      dsbMois.Classe_Elements:= TblMois; 
+     ThPhi_Form.Create( Self);
 end;
 
 procedure TfAnnee_dsb3.FormDestroy(Sender: TObject);
@@ -189,11 +189,6 @@ begin
      if not OpenDocument( Resultat)
      then
          ShowMessage( 'OpenDocument failed on '+Resultat);
-end;
-
-procedure TfAnnee_dsb3.FormResize(Sender: TObject);
-begin
-     Phi_Form_Up_horizontal( Self);
 end;
 
 procedure TfAnnee_dsb3.bodAnnee_ModeleClick( Sender: TObject);

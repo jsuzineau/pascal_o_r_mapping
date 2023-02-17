@@ -8,7 +8,6 @@ object fFacture_Nouveau: TfFacture_Nouveau
   ClientWidth = 585
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  OnResize = FormResize
   Position = poScreenCenter
   LCLVersion = '2.2.4.0'
   object pDetail: TPanel

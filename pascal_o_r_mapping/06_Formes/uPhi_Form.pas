@@ -6,7 +6,11 @@ interface
 
 uses
     uPhi,
- Classes, SysUtils, Forms, ExtCtrls;
+ Classes, SysUtils, Forms, StdCtrls,
+ {$IFDEF LINUX}
+   ExtCtrls,
+ {$ENDIF}
+ fgl;
 
 procedure Phi_Form_Up_horizontal  ( _F: TForm);
 procedure Phi_Form_Up_vertical    ( _F: TForm);
@@ -22,17 +26,28 @@ type
   class
   //Gestion  du cycle de vie
   public
-    constructor Create( _F: TForm);
+    constructor Create( _F: TForm; _m: TMemo= nil);
     destructor Destroy; override;
   //Attributs
   private
     F: TForm;
-    t: TTimer;
+    m: TMemo;
+
+    {$IFDEF LINUX}
+      t: TTimer;
+    {$ENDIF}
     FormResize_running: Boolean;
-    procedure tTimer(Sender: TObject);
+    {$IFDEF LINUX}
+      procedure t_Timer(Sender: TObject);
+    {$ENDIF}
     procedure FormResize(Sender: TObject);
     procedure Do_resize;
+    procedure Log_Top_Left( _S: String);
   end;
+ TListe_hPhi_Form= TFPGList<ThPhi_Form>;
+
+var
+   Liste_hPhi_Form: TListe_hPhi_Form= nil;
 
 implementation
 
@@ -78,45 +93,78 @@ procedure Phi_Form_Up_vertical    ( _F: TForm);begin Phi_Form( _F, PhiSizeUp_ver
 procedure Phi_Form_Down_horizontal( _F: TForm);begin Phi_Form( _F, PhiSizeDown_horizontal); end;
 procedure Phi_Form_Down_vertical  ( _F: TForm);begin Phi_Form( _F, PhiSizeDown_vertical  ); end;
 
-constructor ThPhi_Form.Create( _F: TForm);
+constructor ThPhi_Form.Create(_F: TForm; _m: TMemo);
 begin
      F:= _F;
      F.onResize:= FormResize;
 
-     //t:= TTimer.Create( nil);
-     t.OnTimer:= tTimer;
+     m:= _m;
+
+     {$IFDEF LINUX}
+       t:= TTimer.Create( nil);
+       t.Enabled:= False;
+       t.OnTimer:= t_Timer;
+       t.Interval:= 1000;
+     {$ENDIF}
 
      FormResize_running:= False;
+     Liste_hPhi_Form.Add( Self);
+
+     Log_Top_Left( ClassName+'.Create:'+F.Name+': '+F.ClassName);
 end;
 
 destructor ThPhi_Form.Destroy;
 begin
      //F.OnResize
-     FreeAndnil( t);
+     {$IFDEF LINUX}
+       FreeAndnil( t);
+     {$ENDIF}
 end;
 
 procedure ThPhi_Form.FormResize(Sender: TObject);
 begin
      if FormResize_running then exit;
      try
-        //Do_resize;
-        t.Enabled:= False;
-        t.Enabled:= True;
+        {$IFDEF LINUX}
+          t.Enabled:= False;
+          t.Enabled:= True;
+        {$ELSE}
+          Do_resize;
+        {$ENDIF}
      finally
             FormResize_running:= False;
             end;
 end;
 
-procedure ThPhi_Form.tTimer(Sender: TObject);
-begin
-     t.Enabled:= False;
-     Do_resize;
-end;
+{$IFDEF LINUX}
+  procedure ThPhi_Form.t_Timer(Sender: TObject);
+  begin
+       t.Enabled:= False;
+       Do_resize;
+  end;
+{$ENDIF}
 
 procedure ThPhi_Form.Do_resize;
 begin
+     Log_Top_Left( 'Do_resize, début');
      Phi_Form_Up_horizontal( F);
+     Log_Top_Left( 'Do_resize, fin');
 end;
 
+procedure ThPhi_Form.Log_Top_Left(_S: String);
+begin
+     if nil = m then exit;
+
+     m.Lines.Add(_S);
+     //m.Lines.Add('Left  : '+Format('%4d', [F.Left  ]));
+     m.Lines.Add('Top   : '+Format('%4d', [F.Top   ]));
+     //m.Lines.Add('Width : '+Format('%4d', [F.Width ]));
+     m.Lines.Add('Height: '+Format('%4d', [F.Height]));
+end;
+
+initialization
+              Liste_hPhi_Form:= TListe_hPhi_Form.Create;
+finalization
+            FreeAndNil( Liste_hPhi_Form);
 end.
 

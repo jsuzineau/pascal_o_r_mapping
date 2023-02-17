@@ -69,7 +69,6 @@ type
     procedure bNouveauClick(Sender: TObject);
     procedure bSupprimerClick(Sender: TObject);
     procedure bImprimerClick(Sender: TObject);
-    procedure FormResize(Sender: TObject);
   private
     { Déclarations privées }
     procedure NbTotal_Change;
@@ -112,6 +111,8 @@ begin
      dsb.Classe_dockable:= TdkFacture_Ligne_edit;
      dsb.Classe_Elements:= TblFacture_Ligne;
      //Pascal_uf_pc_initialisation_pas_Aggregation
+
+     ThPhi_Form.Create( Self);
 end;
 
 procedure TfFacture_Ligne_dsb.dsbSelect(Sender: TObject);
@@ -192,11 +193,6 @@ begin
                                    [ nil],
                                    [ nil]);
      }
-end;
-
-procedure TfFacture_Ligne_dsb.FormResize(Sender: TObject);
-begin
-     Phi_Form_Up_horizontal( Self);
 end;
 
 initialization

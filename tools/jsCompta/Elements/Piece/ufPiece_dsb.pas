@@ -71,7 +71,6 @@ type
     procedure bNouveauClick(Sender: TObject);
     procedure bSupprimerClick(Sender: TObject);
     procedure bodPieceClick(Sender: TObject);
-    procedure FormResize(Sender: TObject);
   private
     { Déclarations privées }
     procedure NbTotal_Change;
@@ -114,6 +113,8 @@ begin
      dsb.Classe_dockable:= TdkPiece_edit;
      dsb.Classe_Elements:= TblPiece;
      //Pascal_uf_pc_initialisation_pas_Aggregation
+
+     ThPhi_Form.Create( Self);
 end;
 
 procedure TfPiece_dsb.dsbSelect(Sender: TObject);
@@ -203,11 +204,6 @@ begin
      if not OpenDocument( Resultat)
      then
          ShowMessage( 'OpenDocument failed on '+Resultat);
-end;
-
-procedure TfPiece_dsb.FormResize(Sender: TObject);
-begin
-     Phi_Form_Up_horizontal( Self);
 end;
 
 procedure TfPiece_dsb.bodPiece_ModeleClick( Sender: TObject);

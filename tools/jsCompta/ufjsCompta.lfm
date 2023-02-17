@@ -8,7 +8,6 @@ object fjsCompta: TfjsCompta
   ClientWidth = 829
   Menu = fPatternMainMenu.mm
   OnCreate = FormCreate
-  OnResize = FormResize
   Position = poWorkAreaCenter
   LCLVersion = '2.2.4.0'
   object bFacture: TButton

@@ -74,7 +74,6 @@ type
     procedure bNouveauClick(Sender: TObject);
     procedure bSupprimerClick(Sender: TObject);
     procedure bImprimerClick(Sender: TObject);
-    procedure FormResize(Sender: TObject);
   public
     { Déclarations publiques }
     pool: TpoolClient;
@@ -114,6 +113,8 @@ begin
      dsb.Classe_Elements:= TblClient;
      dsbFacture.Classe_dockable:= TdkFacture_display;
      dsbFacture.Classe_Elements:= TblFacture; 
+
+     ThPhi_Form.Create( Self);
 end;
 
 procedure TfClient.dsbSelect(Sender: TObject);
@@ -190,11 +191,6 @@ begin
                                    [ nil],
                                    [ nil]);
      }
-end;
-
-procedure TfClient.FormResize(Sender: TObject);
-begin
-     Phi_Form_Up_horizontal( Self);
 end;
 
 initialization

@@ -7,8 +7,7 @@ object fPhi: TfPhi
   ClientHeight = 333
   ClientWidth = 584
   OnCreate = FormCreate
-  OnResize = FormResize
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '2.2.4.0'
   object Panel1: TPanel
     Left = 0
     Height = 80
@@ -74,12 +73,5 @@ object fPhi: TfPhi
       'm'
     )
     TabOrder = 1
-  end
-  object t: TTimer
-    Enabled = False
-    Interval = 3000
-    OnTimer = tTimer
-    Left = 296
-    Top = 16
   end
 end

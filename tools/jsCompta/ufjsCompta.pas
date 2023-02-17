@@ -41,7 +41,6 @@ type
    procedure bMoisClick(Sender: TObject);
    procedure bPieceClick(Sender: TObject);
    procedure FormCreate(Sender: TObject);
-   procedure FormResize(Sender: TObject);
   private
    //fPiece: TfPiece_dsb;
   public
@@ -60,6 +59,7 @@ implementation
 procedure TfjsCompta.FormCreate(Sender: TObject);
 begin
      Caption:= Caption+' - '+dmDatabase.jsDataConnexion.Base_sur;
+     ThPhi_Form.Create( Self);
      {
      fPiece:= TfPiece_dsb.Create( Self);
      ClientWidth := fPiece.Width;
@@ -69,11 +69,6 @@ begin
      fPiece.BorderStyle:= bsNone;
      fPiece.Execute;
      }
-end;
-
-procedure TfjsCompta.FormResize(Sender: TObject);
-begin
-     Phi_Form_Up_horizontal( Self);
 end;
 
 procedure TfjsCompta.bFactureClick(Sender: TObject);

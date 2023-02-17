@@ -8,7 +8,6 @@ object fClient_dsb: TfClient_dsb
   ClientWidth = 740
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  OnResize = FormResize
   Position = poScreenCenter
   LCLVersion = '2.2.4.0'
   object Splitter1: TSplitter

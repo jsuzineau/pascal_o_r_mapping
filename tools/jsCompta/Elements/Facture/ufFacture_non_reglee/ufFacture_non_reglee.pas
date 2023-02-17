@@ -78,7 +78,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure bodFactureClick(Sender: TObject);
-    procedure FormResize(Sender: TObject);
   public
     { Déclarations publiques }
     pool: TpoolFacture;
@@ -123,6 +122,8 @@ begin
 
      dsbFacture_Ligne.Classe_dockable:= TdkFacture_Ligne_display;
      dsbFacture_Ligne.Classe_Elements:= TblFacture_Ligne; 
+
+     ThPhi_Form.Create( Self);
 end;
 
 procedure TfFacture_non_reglee.FormDestroy(Sender: TObject);
@@ -180,11 +181,6 @@ begin
      if not OpenDocument( Resultat)
      then
          ShowMessage( 'OpenDocument failed on '+Resultat);
-end;
-
-procedure TfFacture_non_reglee.FormResize(Sender: TObject);
-begin
-     Phi_Form_Up_horizontal( Self);
 end;
 
 procedure TfFacture_non_reglee.bodFacture_ModeleClick( Sender: TObject);
