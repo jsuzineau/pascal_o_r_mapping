@@ -1,48 +1,85 @@
 object fPhi: TfPhi
   Left = 532
-  Height = 91
+  Height = 333
   Top = 136
-  Width = 320
+  Width = 584
   Caption = 'fPhi'
-  ClientHeight = 91
-  ClientWidth = 320
+  ClientHeight = 333
+  ClientWidth = 584
   OnCreate = FormCreate
   OnResize = FormResize
-  LCLVersion = '2.2.4.0'
-  object bDown_horizontal: TButton
-    Left = 152
-    Height = 25
-    Top = 29
-    Width = 127
-    Caption = 'bDown_horizontal'
-    OnClick = bDown_horizontalClick
+  LCLVersion = '2.2.0.4'
+  object Panel1: TPanel
+    Left = 0
+    Height = 80
+    Top = 0
+    Width = 584
+    Align = alTop
+    ClientHeight = 80
+    ClientWidth = 584
     TabOrder = 0
+    object bDown_horizontal: TButton
+      Left = 128
+      Height = 25
+      Top = 5
+      Width = 127
+      Caption = 'bDown_horizontal'
+      OnClick = bDown_horizontalClick
+      TabOrder = 0
+    end
+    object bDown_vertical: TButton
+      Left = 128
+      Height = 25
+      Top = 33
+      Width = 127
+      Caption = 'bDown_vertical'
+      OnClick = bDown_verticalClick
+      TabOrder = 1
+    end
+    object bUp_horizontal: TButton
+      Left = 8
+      Height = 25
+      Top = 5
+      Width = 96
+      Caption = 'bUp_horizontal'
+      OnClick = bUp_horizontalClick
+      TabOrder = 2
+    end
+    object bUp_vertical: TButton
+      Left = 8
+      Height = 25
+      Top = 33
+      Width = 96
+      Caption = 'bUp_vertical'
+      OnClick = bUp_verticalClick
+      TabOrder = 3
+    end
+    object bLeft: TButton
+      Left = 336
+      Height = 25
+      Top = 24
+      Width = 75
+      Caption = 'bLeft'
+      OnClick = bLeftClick
+      TabOrder = 4
+    end
   end
-  object bDown_vertical: TButton
-    Left = 152
-    Height = 25
-    Top = 57
-    Width = 127
-    Caption = 'bDown_vertical'
-    OnClick = bDown_verticalClick
+  object m: TMemo
+    Left = 0
+    Height = 253
+    Top = 80
+    Width = 584
+    Align = alClient
+    Lines.Strings = (
+      'm'
+    )
     TabOrder = 1
   end
-  object bUp_horizontal: TButton
-    Left = 32
-    Height = 25
-    Top = 29
-    Width = 96
-    Caption = 'bUp_horizontal'
-    OnClick = bUp_horizontalClick
-    TabOrder = 2
-  end
-  object bUp_vertical: TButton
-    Left = 32
-    Height = 25
-    Top = 57
-    Width = 96
-    Caption = 'bUp_vertical'
-    OnClick = bUp_verticalClick
-    TabOrder = 3
+  object t: TTimer
+    Enabled = False
+    Interval = 3000
+    OnTimer = tTimer
+    Left = 296
+    Top = 16
   end
 end
