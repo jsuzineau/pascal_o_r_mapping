@@ -7,7 +7,6 @@ object fjsWorks: TfjsWorks
   ClientHeight = 507
   ClientWidth = 959
   Menu = mm
-  OnResize = FormResize
   OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '2.2.4.0'

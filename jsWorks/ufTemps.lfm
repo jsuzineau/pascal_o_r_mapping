@@ -8,7 +8,6 @@ object fTemps: TfTemps
   ClientWidth = 923
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  OnResize = FormResize
   Position = poScreenCenter
   LCLVersion = '2.2.4.0'
   object Panel1: TPanel

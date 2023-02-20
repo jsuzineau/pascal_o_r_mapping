@@ -94,7 +94,6 @@ type
   procedure eFactureEnter(Sender: TObject);
   procedure FormCreate(Sender: TObject);
   procedure FormDestroy(Sender: TObject);
-  procedure FormResize(Sender: TObject);
   procedure mResumeEnter(Sender: TObject);
  private
    function idTag: Integer;
@@ -138,16 +137,12 @@ begin
      hdmSession:= ThdmSession.Create;
      cbEcrire_arrondi.Checked:= ublSession_Ecrire_arrondi;
      cbHeures_Supplementaires.Checked:= ublCalendrier_Heures_Supplementaires;
+     ThPhi_Form.Create( Self);
 end;
 
 procedure TfTemps.FormDestroy(Sender: TObject);
 begin
      Free_nil( hdmSession);
-end;
-
-procedure TfTemps.FormResize(Sender: TObject);
-begin
-     Phi_Form_Up_horizontal( Self);
 end;
 
 procedure TfTemps.mResumeEnter(Sender: TObject);
