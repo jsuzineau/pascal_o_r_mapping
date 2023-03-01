@@ -164,6 +164,9 @@ end;
 
 procedure TfFacture._from_Facture;
 begin
+     if Assigned(blFacture)
+     then
+         blFacture.Piece_Aggrege;
      Champs_Affecte( blFacture,
                      [
                      ceAnnee,
@@ -173,9 +176,10 @@ begin
                      clkcbClient,
                      ceNom,
                      ceNbHeures,
-                     ceMontant
+                     ceMontant,
+                     clPiece_Numero,
+                     clPiece_Date
                      ]);
-     Champs_Affecte( blFacture.Piece_bl,[clPiece_Numero, clPiece_Date]);
 
      blFacture.haFacture_Ligne.Charge;
      dsbFacture_Ligne.sl:= blFacture.haFacture_Ligne.sl; 

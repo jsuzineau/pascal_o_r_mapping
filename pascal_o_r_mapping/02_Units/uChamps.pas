@@ -1001,7 +1001,14 @@ end;
 {$ENDIF}
 
 procedure TChamps.Aggrege_interne( _NomChamp: String; _C: TChamp);
+var
+   own_C: TChamp;
 begin
+     own_C:= Champ[ _NomChamp];
+     if      Assigned(own_C)    // on ne fait rien si déjà un champ local
+        and (Self = own_C.Owner)// avec ce nom
+     then
+         exit;
      Champ[ _NomChamp]:= _C;
      slAggreges.AddObject( _NomChamp, _C);
 end;
@@ -1009,9 +1016,14 @@ end;
 procedure TChamps.DesAggrege_interne(_NomChamp: String);
 var
    I: Integer;
+   C: TChamp;
 begin
      I:= slAggreges.IndexOf( _NomChamp);
      if -1 = I then exit;
+
+     //(en principe inutile avec le test précédent)
+     C:= Champ[ _NomChamp]; // on ne fait rien si c'est un champ local
+     if Assigned(C) and (Self= C.Owner) then exit;
 
      Champ[ _NomChamp]:= nil;
      slAggreges.Delete( I);

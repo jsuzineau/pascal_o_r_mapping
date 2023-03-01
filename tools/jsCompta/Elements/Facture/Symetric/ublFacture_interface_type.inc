@@ -99,7 +99,9 @@
     procedure SetPiece_id(const Value: Integer);
     procedure Piece_id_Change;
     procedure Piece_Connecte;
+  public
     procedure Piece_Aggrege;
+  private
     procedure Piece_Desaggrege;
     procedure Piece_Change;
   public

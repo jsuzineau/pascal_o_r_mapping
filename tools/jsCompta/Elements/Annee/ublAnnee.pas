@@ -308,7 +308,8 @@ var
 begin
      Total:= CalculeTotal;
 
-     if Reel_Zero( blAnnee.Declare)
+     if         Reel_Zero( blAnnee.Declare)
+        and not Reel_Zero( Total          )
      then
          blAnnee.cDeclare.asDouble:= Total
      else

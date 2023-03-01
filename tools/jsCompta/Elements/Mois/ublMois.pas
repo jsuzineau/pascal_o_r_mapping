@@ -323,7 +323,8 @@ var
 begin
      Total:= CalculeTotal;
 
-     if Reel_Zero( blMois.Montant)
+     if         Reel_Zero( blMois.Montant)
+        and not Reel_Zero( Total         )
      then
          blMois.cMontant.asDouble:= Total
      else

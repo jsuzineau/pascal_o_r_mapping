@@ -276,7 +276,7 @@ object fFacture: TfFacture
         ParentColor = False
         ParentShowHint = False
         ShowHint = True
-        Field = 'Date'
+        Field = 'Piece_Date'
       end
       object Label2: TLabel
         Left = 314
@@ -303,7 +303,7 @@ object fFacture: TfFacture
         ParentColor = False
         ParentShowHint = False
         ShowHint = True
-        Field = 'Numero'
+        Field = 'Piece_Numero'
       end
     end
     object dsbFacture_Ligne: TDockableScrollbox

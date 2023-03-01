@@ -32,7 +32,7 @@ uses
     uPool,
     upoolMois,
 
-     udkPiece_edit,
+     udkPiece_display,
      ublFacture, 
 
     udkMois_edit,
@@ -115,7 +115,7 @@ begin
      pool.pFiltreChange.Abonne( Self, NbTotal_Change);
      dsb.Classe_dockable:= TdkMois_edit;
      dsb.Classe_Elements:= TblMois;
-     dsbPiece.Classe_dockable:= TdkPiece_edit;
+     dsbPiece.Classe_dockable:= TdkPiece_display;
      dsbPiece.Classe_Elements:= TblPiece; 
 
      ThPhi_Form.Create( Self);

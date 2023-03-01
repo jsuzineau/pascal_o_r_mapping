@@ -36,9 +36,6 @@ uses
     Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
     LCLType;
 
-const
-     udkPiece_display_Copy_to_current=0;
-
 type
 
  { TdkPiece_display }
@@ -46,14 +43,11 @@ type
  TdkPiece_display
  =
   class(TDockable)
-  clFacture_id: TChamp_Label;
   clDate: TChamp_Label;
+  clFacture_Montant_s: TChamp_Label;
+  clFacture_Nom: TChamp_Label;
   clNumero: TChamp_Label;
-  sbCopy_to_current: TSpeedButton;
-  sbDetruire: TSpeedButton;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-  procedure sbCopy_to_currentClick(Sender: TObject);
-  procedure sbDetruireClick(Sender: TObject);
  //Gestion du cycle de vie
  public
    constructor Create(AOwner: TComponent); override;
@@ -74,6 +68,10 @@ implementation
 constructor TdkPiece_display.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
+     Ajoute_Colonne( clNumero, 'Numero');
+     Ajoute_Colonne( clDate  , 'Date'  );
+     Ajoute_Colonne( clFacture_Nom      , 'Facture_Nom'      );
+     Ajoute_Colonne( clFacture_Montant_s, 'Facture_Montant_s');
 end;
 
 destructor TdkPiece_display.Destroy;
@@ -86,31 +84,12 @@ begin
      inherited SetObjet(Value);
 
      Affecte( blPiece, TblPiece, Value);
-
-     Champs_Affecte( blPiece, [clFacture_id,clDate,clNumero]);
-end;
-
-procedure TdkPiece_display.sbDetruireClick(Sender: TObject);
-begin
-     if IDYES
-        <>
-        Application.MessageBox( 'Etes vous sûr de vouloir supprimer Piece ?',
-                                'Suppression de Piece',
-                                MB_ICONQUESTION+MB_YESNO)
-     then
-         exit;
-     poolPiece .Supprimer( blPiece );
-     Do_DockableScrollbox_Suppression;
+     Champs_Affecte( blPiece,[clDate,clNumero,clFacture_Nom,clFacture_Montant_s]);
 end;
 
 procedure TdkPiece_display.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
      inherited;
-end;
-
-procedure TdkPiece_display.sbCopy_to_currentClick(Sender: TObject);
-begin
-     Envoie_Message( udkPiece_display_Copy_to_current);
 end;
 
 end.

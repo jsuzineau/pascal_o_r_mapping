@@ -186,7 +186,8 @@ var
 begin
      Total:= CalculeTotal_NbHeures;
 
-     if '' = Trim(blFacture.NbHeures)
+     if    ('' =  Trim(blFacture.NbHeures))
+        and('' <> Trim(Total             ))
      then
          blFacture.cNbHeures.Chaine:= Total;
 end;
@@ -225,28 +226,19 @@ begin
      //Montant
      cMontant:=          Double_from_( Montant  , 'Montant'  );
      cMontant_s:= Ajoute_String      ( Montant_s, 'Montant_s', False);
-     cMontant_s.OnGetChaine:= Montant_s_GetChaine;
 
      //Détail Client
      FClient_bl:= nil;
      cClient_id:= Integer_from_Integer( FClient_id, 'Client_id');
      cClient:= Champs.String_Lookup( FClient, 'Client', cClient_id, ublFacture_poolClient.GetLookupListItems, '');
-     Client_id_Change;
-     cClient_id.OnChange.Abonne( Self, Client_id_Change);
-
-
 
      //Symétrie Piece
      FPiece_bl:= nil;
      cPiece_id:= Integer_from_Integer( FPiece_id, 'Piece_id');
      cPiece:= Champs.String_Lookup( FPiece, 'Piece', cPiece_id, poolPiece.GetLookupListItems, '');
-     cPiece_id.OnChange.Abonne( Self, Piece_id_Change);
 
      //Numéro de facture
      cNumero:= Ajoute_String ( FNumero, 'Numero', False);
-     cAnnee          .OnChange.Abonne( Self, Numero_from_);
-     cNumeroDansAnnee.OnChange.Abonne( Self, Numero_from_);
-     cNumero.OnGetChaine:= Numero_GetChaine;
 
      //Libellés pour ligne total de facture sur impression
      Ajoute_String ( Label_Total, 'Label_Total', False);
@@ -254,6 +246,22 @@ begin
      Label_Total:= 'TOTAL HT';
      Label_TVA  := '(TVA non applicable, article 293 B du code général des impôts)';
 
+     //Affectation des évènements
+
+     //Montant
+     cMontant_s.OnGetChaine:= Montant_s_GetChaine;
+
+     //Détail Client
+     Client_id_Change;
+     cClient_id.OnChange.Abonne( Self, Client_id_Change);
+
+     //Symétrie Piece
+     cPiece_id.OnChange.Abonne( Self, Piece_id_Change);
+
+     //Numero
+     cAnnee          .OnChange.Abonne( Self, Numero_from_);
+     cNumeroDansAnnee.OnChange.Abonne( Self, Numero_from_);
+     cNumero.OnGetChaine:= Numero_GetChaine;
 end;
 
 destructor TblFacture.Destroy;
@@ -478,7 +486,7 @@ begin
 
      Piece_Desaggrege;
      FPiece_bl:= Piece_bl_New;
-     AggregeLigne( 'Piece_', FPiece_bl);
+     AggregeLigne( 'Piece', FPiece_bl);
 
      Piece_Connecte;
 end;
@@ -487,7 +495,7 @@ procedure TblFacture.Piece_Desaggrege;
 begin
      if FPiece_bl = nil then exit;
 
-     DesaggregeLigne( 'Piece_', FPiece_bl);
+     DesaggregeLigne( 'Piece', FPiece_bl);
      FPiece_bl.Facture_bl:= nil;
      Unconnect_To( FPiece_bl);
 end;

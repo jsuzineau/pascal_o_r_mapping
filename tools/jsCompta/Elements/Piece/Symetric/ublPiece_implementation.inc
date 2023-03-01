@@ -218,6 +218,7 @@ begin
 
      Facture_Desaggrege;
      FFacture_bl:= Facture_bl_New;
+     AggregeLigne( 'Facture', FFacture_bl);
 
      Facture_Connecte;
 end;

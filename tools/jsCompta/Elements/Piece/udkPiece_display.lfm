@@ -2,34 +2,21 @@ inherited dkPiece_display: TdkPiece_display
   Left = 704
   Height = 45
   Top = 420
-  Width = 226
+  Width = 624
   Caption = 'dkPiece_display'
   ClientHeight = 45
-  ClientWidth = 226
-  inherited sSelection: TBatpro_Shape 
+  ClientWidth = 624
+  inherited sBackground: TShape
+    Width = 1162
+  end
+  inherited sSelection: TBatpro_Shape
     Height = 45
   end
-  object clFacture_id: TChamp_Label
-    Left = 144
+  object clDate: TChamp_Label[2]
+    Left = 111
     Height = 13
     Top = 2
-    Width = 57
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Caption = 'clFacture_id'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    OnClick = FormClick
-    Field = 'Facture_id'
-  end
-
-  object clDate: TChamp_Label
-    Left = 144
-    Height = 13
-    Top = 2
-    Width = 57
-    Anchors = [akTop, akRight]
+    Width = 182
     AutoSize = False
     Caption = 'clDate'
     ParentColor = False
@@ -38,13 +25,11 @@ inherited dkPiece_display: TdkPiece_display
     OnClick = FormClick
     Field = 'Date'
   end
-
-  object clNumero: TChamp_Label
-    Left = 144
+  object clNumero: TChamp_Label[3]
+    Left = 42
     Height = 13
     Top = 2
     Width = 57
-    Anchors = [akTop, akRight]
     AutoSize = False
     Caption = 'clNumero'
     ParentColor = False
@@ -53,65 +38,32 @@ inherited dkPiece_display: TdkPiece_display
     OnClick = FormClick
     Field = 'Numero'
   end
-
-  object ceFacture_id: TChamp_Edit
-    Left = 119
-    Height = 21
-    Top = 4
-    Width = 80
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Text = 'ceFacture_id'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    Field = 'Facture_id'
-  end
-
-  object ceDate: TChamp_Edit
-    Left = 119
-    Height = 21
-    Top = 4
-    Width = 80
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Text = 'ceDate'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    Field = 'Date'
-  end
-
-  object ceNumero: TChamp_Edit
-    Left = 119
-    Height = 21
-    Top = 4
-    Width = 80
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Text = 'ceNumero'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    Field = 'Numero'
-  end
-  object sbDetruire: TSpeedButton[2]
-    Left = 16
-    Height = 22
-    Hint = 'Supprimer'
-    Top = 19
-    Width = 22
-    Caption = 'D'
-    OnClick = sbDetruireClick
-  end
-  object sbCopy_to_current: TSpeedButton[4]
-    Left = 203
-    Height = 22
-    Hint = 'Copie vers courant'
+  object clFacture_Nom: TChamp_Label[4]
+    Left = 294
+    Height = 13
     Top = 0
-    Width = 22
+    Width = 212
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    Caption = 'clFacture_Nom'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'Facture_Nom'
+  end
+  object clFacture_Montant_s: TChamp_Label[5]
+    Left = 510
+    Height = 13
+    Top = 2
+    Width = 114
     Anchors = [akTop, akRight]
-    Caption = '>'
-    OnClick = sbCopy_to_currentClick
+    AutoSize = False
+    Caption = 'clFacture_Montant_s'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'Facture_Montant_s'
   end
 end
