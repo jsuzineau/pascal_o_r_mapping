@@ -95,7 +95,7 @@ type
     Mois   : Integer; cMois   : TChamp;
     Montant: Double ; cMontant: TChamp;
     Declare: Integer;
-    URSSAF : Double ;
+    URSSAF : Integer;
   //Annee
   private
     FAnnee_bl: TBatpro_Ligne;
@@ -115,10 +115,10 @@ type
     property Libelle: String read GetLibelle;
   //URSSAF_evalue
   public
-    URSSAF_evalue: double; cURSSAF_evalue: TChamp;
+    URSSAF_evalue: Integer; cURSSAF_evalue: TChamp;
   //CAF_net
   public
-    CAF_net: double; cCAF_net: TChamp;
+    CAF_net: Integer; cCAF_net: TChamp;
   //Gestion de la clé
   public
     class function sCle_from_( _Annee: Integer;  _Mois: Integer): String;
@@ -326,6 +326,7 @@ end;
 procedure ThaMois__Piece.Montant_from_Total;
 var
    Total: double;
+   Total_declare: double;
 begin
      Total:= CalculeTotal;
 
@@ -338,16 +339,17 @@ begin
          then
              fAccueil_Erreur( 'Mois '+blMois.Libelle+', montant incohérent: '+blMois.cMontant.Chaine+' calculé: '+FloatToStr( Total));
 
+    Total_declare:= Arrondi_Arithmetique_( Total);
     //2023 03 01
     // Cotisations URSSAF
     // Prestations de services (bnc et bic) et vente de marchandises (bic) 21,20 %
     // Versement liberatoire de l'impot sur le revenu (prestations bnc) 2,20 %
     // Formation prof.liberale obligatoire 0,20 %
     // total: 23,6 %
-    blMois.cURSSAF_evalue.asDouble:= Total * 0.236;
+    blMois.cURSSAF_evalue.asDouble:= Arrondi_Arithmetique_( Total_declare * 0.236);
 
     //CAF net from brut: 34%
-    blMois.cCAF_net.asDouble:= Total * (1-0.34);
+    blMois.cCAF_net.asDouble:= Arrondi_Arithmetique_( Total_declare * (1-0.34));
 end;
 
 
@@ -378,7 +380,7 @@ begin
      cMois.OnChange.Abonne( Self, sCle_Change);
      cMontant:=  Double_from_       ( Montant, 'Montant');
                 Integer_from_       ( Declare, 'Declare');
-                 Double_from_       ( URSSAF , 'URSSAF' );
+                Integer_from_       ( URSSAF , 'URSSAF' );
 
 
      //Détail Annee
@@ -390,8 +392,8 @@ begin
      cMois .OnChange.Abonne( Self, Libelle_from_);
      Libelle_from_;
 
-     cURSSAF_evalue:= Ajoute_Float( URSSAF_evalue, 'URSSAF_evalue', False);
-     cCAF_net      := Ajoute_Float( CAF_net      , 'CAF_net'      , False);
+     cURSSAF_evalue:= Ajoute_Integer( URSSAF_evalue, 'URSSAF_evalue', False);
+     cCAF_net      := Ajoute_Integer( CAF_net      , 'CAF_net'      , False);
 end;
 
 destructor TblMois.Destroy;

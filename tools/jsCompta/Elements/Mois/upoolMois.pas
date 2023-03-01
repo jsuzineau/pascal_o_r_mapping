@@ -70,7 +70,7 @@ type
     function SQLWHERE_ContraintesChamps: String; override;
   //Méthode de création de test
   public
-    function Test( _Annee: Integer;  _Mois: Integer;  _Montant: Double;  _Declare: Integer;  _URSSAF: Double):Integer;
+    function Test( _Annee: Integer;  _Mois: Integer;  _Montant: Double;  _Declare: Integer;  _URSSAF: Integer):Integer;
 
   //Chargement d'une Annee
   public
@@ -172,7 +172,7 @@ begin
        '     and Mois            = :Mois           ';
 end;
 
-function TpoolMois.Test( _Annee: Integer;  _Mois: Integer;  _Montant: Double;  _Declare: Integer;  _URSSAF: Double):Integer;
+function TpoolMois.Test( _Annee: Integer;  _Mois: Integer;  _Montant: Double;  _Declare: Integer;  _URSSAF: Integer):Integer;
 var                                                 
    bl: TblMois;                          
 begin                                               
