@@ -35,7 +35,9 @@
     procedure SetFacture_id(const Value: Integer);
     procedure Facture_id_Change;
     procedure Facture_Connecte;
+  public
     procedure Facture_Aggrege;
+  private
     procedure Facture_Desaggrege;
     procedure Facture_Change;
   public

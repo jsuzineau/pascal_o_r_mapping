@@ -475,6 +475,7 @@ begin
 
      FPiece_bl.Facture_bl:= Self;
      Connect_To( FPiece_bl);
+     AggregeLigne( 'Piece', FPiece_bl);
 end;
 
 procedure TblFacture.Piece_Aggrege;
@@ -486,7 +487,6 @@ begin
 
      Piece_Desaggrege;
      FPiece_bl:= Piece_bl_New;
-     AggregeLigne( 'Piece', FPiece_bl);
 
      Piece_Connecte;
 end;
@@ -495,9 +495,9 @@ procedure TblFacture.Piece_Desaggrege;
 begin
      if FPiece_bl = nil then exit;
 
-     DesaggregeLigne( 'Piece', FPiece_bl);
      FPiece_bl.Facture_bl:= nil;
      Unconnect_To( FPiece_bl);
+     DesaggregeLigne( 'Piece', FPiece_bl);
 end;
 
 procedure TblFacture.Piece_Change;

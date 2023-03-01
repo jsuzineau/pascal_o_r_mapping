@@ -207,6 +207,7 @@ begin
 
      FFacture_bl.Piece_bl:= Self;
      Connect_To( FFacture_bl);
+     AggregeLigne( 'Facture', FFacture_bl);
 end;
 
 procedure TblPiece.Facture_Aggrege;
@@ -218,7 +219,6 @@ begin
 
      Facture_Desaggrege;
      FFacture_bl:= Facture_bl_New;
-     AggregeLigne( 'Facture', FFacture_bl);
 
      Facture_Connecte;
 end;
@@ -229,6 +229,7 @@ begin
 
      FFacture_bl.Piece_bl:= nil;
      Unconnect_To( FFacture_bl);
+     DesaggregeLigne( 'Facture', FFacture_bl);
 end;
 
 procedure TblPiece.Facture_Change;

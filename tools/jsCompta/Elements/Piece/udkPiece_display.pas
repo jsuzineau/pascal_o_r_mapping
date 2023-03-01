@@ -84,6 +84,9 @@ begin
      inherited SetObjet(Value);
 
      Affecte( blPiece, TblPiece, Value);
+     //if Assigned( blPiece)
+     //then
+     //    blPiece.Facture_Aggrege;
      Champs_Affecte( blPiece,[clDate,clNumero,clFacture_Nom,clFacture_Montant_s]);
 end;
 
