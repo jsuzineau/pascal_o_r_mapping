@@ -347,7 +347,7 @@ begin
     blMois.cURSSAF_evalue.asDouble:= Total * 0.236;
 
     //CAF net from brut: 34%
-    blMois.cCAF_net.asDouble:= Total * 0.34;
+    blMois.cCAF_net.asDouble:= Total * (1-0.34);
 end;
 
 
