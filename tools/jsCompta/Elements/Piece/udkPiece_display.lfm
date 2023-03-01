@@ -1,13 +1,13 @@
 inherited dkPiece_display: TdkPiece_display
-  Left = 704
+  Left = 702
   Height = 45
-  Top = 420
-  Width = 624
+  Top = 314
+  Width = 656
   Caption = 'dkPiece_display'
   ClientHeight = 45
-  ClientWidth = 624
+  ClientWidth = 656
   inherited sBackground: TShape
-    Width = 1162
+    Width = 1194
   end
   inherited sSelection: TBatpro_Shape
     Height = 45
@@ -19,7 +19,6 @@ inherited dkPiece_display: TdkPiece_display
     Width = 182
     AutoSize = False
     Caption = 'clDate'
-    ParentColor = False
     ParentShowHint = False
     ShowHint = True
     OnClick = FormClick
@@ -32,7 +31,6 @@ inherited dkPiece_display: TdkPiece_display
     Width = 57
     AutoSize = False
     Caption = 'clNumero'
-    ParentColor = False
     ParentShowHint = False
     ShowHint = True
     OnClick = FormClick
@@ -42,25 +40,23 @@ inherited dkPiece_display: TdkPiece_display
     Left = 294
     Height = 13
     Top = 0
-    Width = 212
+    Width = 244
     Anchors = [akTop, akLeft, akRight]
     AutoSize = False
     Caption = 'clFacture_Nom'
-    ParentColor = False
     ParentShowHint = False
     ShowHint = True
     OnClick = FormClick
     Field = 'Facture_Nom'
   end
   object clFacture_Montant_s: TChamp_Label[5]
-    Left = 510
+    Left = 542
     Height = 13
     Top = 2
     Width = 114
     Anchors = [akTop, akRight]
     AutoSize = False
     Caption = 'clFacture_Montant_s'
-    ParentColor = False
     ParentShowHint = False
     ShowHint = True
     OnClick = FormClick

@@ -94,7 +94,7 @@ type
     Annee  : Integer; cAnnee  : TChamp;
     Mois   : Integer; cMois   : TChamp;
     Montant: Double ; cMontant: TChamp;
-    Declare: Double ;
+    Declare: Integer;
     URSSAF : Double ;
   //Annee
   private
@@ -113,6 +113,12 @@ type
   public
     cLibelle: TChamp;
     property Libelle: String read GetLibelle;
+  //URSSAF_evalue
+  public
+    URSSAF_evalue: double; cURSSAF_evalue: TChamp;
+  //CAF_net
+  public
+    CAF_net: double; cCAF_net: TChamp;
   //Gestion de la clé
   public
     class function sCle_from_( _Annee: Integer;  _Mois: Integer): String;
@@ -332,6 +338,16 @@ begin
          then
              fAccueil_Erreur( 'Mois '+blMois.Libelle+', montant incohérent: '+blMois.cMontant.Chaine+' calculé: '+FloatToStr( Total));
 
+    //2023 03 01
+    // Cotisations URSSAF
+    // Prestations de services (bnc et bic) et vente de marchandises (bic) 21,20 %
+    // Versement liberatoire de l'impot sur le revenu (prestations bnc) 2,20 %
+    // Formation prof.liberale obligatoire 0,20 %
+    // total: 23,6 %
+    blMois.cURSSAF_evalue.asDouble:= Total * 0.236;
+
+    //CAF net from brut: 34%
+    blMois.cCAF_net.asDouble:= Total * 0.34;
 end;
 
 
@@ -361,7 +377,7 @@ begin
      cMois   := Integer_from_Integer( Mois   , 'Mois'   );
      cMois.OnChange.Abonne( Self, sCle_Change);
      cMontant:=  Double_from_       ( Montant, 'Montant');
-                 Double_from_       ( Declare, 'Declare');
+                Integer_from_       ( Declare, 'Declare');
                  Double_from_       ( URSSAF , 'URSSAF' );
 
 
@@ -373,6 +389,9 @@ begin
      cAnnee.OnChange.Abonne( Self, Libelle_from_);
      cMois .OnChange.Abonne( Self, Libelle_from_);
      Libelle_from_;
+
+     cURSSAF_evalue:= Ajoute_Float( URSSAF_evalue, 'URSSAF_evalue', False);
+     cCAF_net      := Ajoute_Float( CAF_net      , 'CAF_net'      , False);
 end;
 
 destructor TblMois.Destroy;

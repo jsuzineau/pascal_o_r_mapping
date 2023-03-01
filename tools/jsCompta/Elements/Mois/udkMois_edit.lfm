@@ -2,13 +2,13 @@ inherited dkMois_edit: TdkMois_edit
   Left = 704
   Height = 45
   Top = 420
-  Width = 474
+  Width = 659
   Caption = 'dkMois_edit'
   ClientHeight = 45
-  ClientWidth = 474
+  ClientWidth = 659
   inherited sBackground: TShape
     Height = 45
-    Width = 462
+    Width = 658
   end
   inherited sSelection: TBatpro_Shape
     Height = 45
@@ -105,14 +105,26 @@ inherited dkMois_edit: TdkMois_edit
     }
     OnClick = sbDetruireClick
   end
-  object sbCopy_to_current: TSpeedButton[8]
-    Left = 451
-    Height = 22
-    Hint = 'Copie vers courant'
-    Top = 3
-    Width = 22
-    Anchors = [akTop, akRight]
-    Caption = '>'
-    OnClick = sbCopy_to_currentClick
+  object clURSSAF_evalue: TChamp_Label[8]
+    Left = 450
+    Height = 13
+    Top = 6
+    Width = 90
+    AutoSize = False
+    Caption = 'clURSSAF_evalue'
+    ParentShowHint = False
+    ShowHint = True
+    Field = 'URSSAF_evalue'
+  end
+  object clCAF_net: TChamp_Label[9]
+    Left = 566
+    Height = 13
+    Top = 6
+    Width = 90
+    AutoSize = False
+    Caption = 'clCAF_net'
+    ParentShowHint = False
+    ShowHint = True
+    Field = 'CAF_net'
   end
 end

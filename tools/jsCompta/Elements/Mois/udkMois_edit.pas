@@ -38,9 +38,6 @@ uses
     Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
     LCLType;
 
-const
-     udkMois_edit_Copy_to_current=0;
-
 type
 
  { TdkMois_edit }
@@ -53,11 +50,10 @@ type
   ceMontant: TChamp_Edit;
   ceDeclare: TChamp_Edit;
   ceURSSAF: TChamp_Edit;
-//Pascal_udk_edit_declaration_pas
-  sbCopy_to_current: TSpeedButton;
+  clCAF_net: TChamp_Label;
+  clURSSAF_evalue: TChamp_Label;
   sbDetruire: TSpeedButton;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-  procedure sbCopy_to_currentClick(Sender: TObject);
   procedure sbDetruireClick(Sender: TObject);
  //Gestion du cycle de vie
  public
@@ -84,6 +80,8 @@ begin
      Ajoute_Colonne( ceMontant, 'Montant', 'Montant');
      Ajoute_Colonne( ceDeclare, 'Declare', 'Declare');
      Ajoute_Colonne( ceURSSAF, 'URSSAF', 'URSSAF');
+     Ajoute_Colonne( clURSSAF_evalue, 'URSSAF évalué', 'URSSAF_evalue');
+     Ajoute_Colonne( clCAF_net, 'CAF net', 'CAF_net');
 
 //Details_Pascal_udk_edit_Create_AjouteColonne_pas
 end;
@@ -99,7 +97,7 @@ begin
 
      Affecte( blMois, TblMois, Value);
 
-     Champs_Affecte( blMois,[ ceAnnee,ceMois,ceMontant,ceDeclare,ceURSSAF]);
+     Champs_Affecte( blMois,[ ceAnnee,ceMois,ceMontant,ceDeclare,ceURSSAF,clURSSAF_evalue,clCAF_net]);
      Champs_Affecte( blMois,[ {Details_Pascal_udk_edit_component_list_pas}]);
 end;
 
@@ -119,11 +117,6 @@ end;
 procedure TdkMois_edit.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
      inherited;
-end;
-
-procedure TdkMois_edit.sbCopy_to_currentClick(Sender: TObject);
-begin
-     Envoie_Message( udkMois_edit_Copy_to_current);
 end;
 
 end.
