@@ -158,6 +158,7 @@ end;
 
 procedure TfFacture._from_pool;
 begin
+     pool.TrierFiltre;
      dsb.sl:= pool.slFiltre;
      //dsb.sl:= pool.T;
 end;
