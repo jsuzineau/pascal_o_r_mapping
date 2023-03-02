@@ -52,6 +52,7 @@ type
   ceURSSAF: TChamp_Edit;
   clCAF_net: TChamp_Label;
   clURSSAF_evalue: TChamp_Label;
+  clURSSAF_reste: TChamp_Label;
   sbDetruire: TSpeedButton;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   procedure sbDetruireClick(Sender: TObject);
@@ -75,13 +76,14 @@ implementation
 constructor TdkMois_edit.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
-     Ajoute_Colonne( ceAnnee, 'Annee', 'Annee');
-     Ajoute_Colonne( ceMois, 'Mois', 'Mois');
-     Ajoute_Colonne( ceMontant, 'Montant', 'Montant');
-     Ajoute_Colonne( ceDeclare, 'Declare', 'Declare');
-     Ajoute_Colonne( ceURSSAF, 'URSSAF', 'URSSAF');
+     Ajoute_Colonne( ceAnnee        , 'Annee'        , 'Annee'        );
+     Ajoute_Colonne( ceMois         , 'Mois'         , 'Mois'         );
+     Ajoute_Colonne( ceMontant      , 'Montant'      , 'Montant'      );
+     Ajoute_Colonne( ceDeclare      , 'Declare'      , 'Declare'      );
+     Ajoute_Colonne( ceURSSAF       , 'URSSAF'       , 'URSSAF'       );
      Ajoute_Colonne( clURSSAF_evalue, 'URSSAF évalué', 'URSSAF_evalue');
-     Ajoute_Colonne( clCAF_net, 'CAF net', 'CAF_net');
+     Ajoute_Colonne( clURSSAF_reste , 'URSSAF reste' , 'URSSAF_reste' );
+     Ajoute_Colonne( clCAF_net      , 'CAF net'      , 'CAF_net'      );
 
 //Details_Pascal_udk_edit_Create_AjouteColonne_pas
 end;
@@ -97,7 +99,7 @@ begin
 
      Affecte( blMois, TblMois, Value);
 
-     Champs_Affecte( blMois,[ ceAnnee,ceMois,ceMontant,ceDeclare,ceURSSAF,clURSSAF_evalue,clCAF_net]);
+     Champs_Affecte( blMois,[ ceAnnee,ceMois,ceMontant,ceDeclare,ceURSSAF,clURSSAF_evalue,clURSSAF_reste,clCAF_net]);
      Champs_Affecte( blMois,[ {Details_Pascal_udk_edit_component_list_pas}]);
 end;
 

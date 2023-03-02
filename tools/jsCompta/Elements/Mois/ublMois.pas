@@ -116,6 +116,9 @@ type
   //URSSAF_evalue
   public
     URSSAF_evalue: Integer; cURSSAF_evalue: TChamp;
+  //URSSAF_reste
+  public
+    URSSAF_reste: double; cURSSAF_reste: TChamp;
   //CAF_net
   public
     CAF_net: Integer; cCAF_net: TChamp;
@@ -346,7 +349,8 @@ begin
     // Versement liberatoire de l'impot sur le revenu (prestations bnc) 2,20 %
     // Formation prof.liberale obligatoire 0,20 %
     // total: 23,6 %
-    blMois.cURSSAF_evalue.asDouble:= Arrondi_Arithmetique_( Total_declare * 0.236);
+    blMois.cURSSAF_evalue.asDouble:= Arrondi_Arithmetique_( Total_declare *    0.236 );
+    blMois.cURSSAF_reste .asDouble:= Total - blMois.URSSAF_evalue;
 
     //CAF net from brut: 34%
     blMois.cCAF_net.asDouble:= Arrondi_Arithmetique_( Total_declare * (1-0.34));
@@ -393,6 +397,7 @@ begin
      Libelle_from_;
 
      cURSSAF_evalue:= Ajoute_Integer( URSSAF_evalue, 'URSSAF_evalue', False);
+     cURSSAF_reste := Ajoute_Float  ( URSSAF_reste , 'URSSAF_reste' , False);
      cCAF_net      := Ajoute_Integer( CAF_net      , 'CAF_net'      , False);
 end;
 
