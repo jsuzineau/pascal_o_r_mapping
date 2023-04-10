@@ -6,7 +6,7 @@ object fTest_rust: TfTest_rust
   Caption = 'fTest_rust'
   ClientHeight = 271
   ClientWidth = 467
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '2.2.0.4'
   object bTest: TButton
     Left = 29
     Height = 25

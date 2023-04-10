@@ -21,10 +21,11 @@
           <Version Value="11"/>
           <PathDelim Value="\"/>
           <Target>
-            <Filename Value="test_rust_lib/target/debug/test_rust"/>
+            <Filename Value="test_rust_lib\target\debug\test_rust"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
+            <Libraries Value="test_rust_lib\target\debug"/>
             <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Linking>
@@ -58,6 +59,7 @@
         <Filename Value="ufTest_rust.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fTest_rust"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
     </Units>
@@ -66,7 +68,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="test_rust_lib/target/debug/test_rust.exe"/>
+      <Filename Value="test_rust_lib\target\debug\test_rust.exe"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
