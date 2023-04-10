@@ -1,0 +1,29 @@
+object fTest_rust: TfTest_rust
+  Left = 532
+  Height = 271
+  Top = 136
+  Width = 467
+  Caption = 'fTest_rust'
+  ClientHeight = 271
+  ClientWidth = 467
+  LCLVersion = '2.2.4.0'
+  object bTest: TButton
+    Left = 29
+    Height = 25
+    Top = 15
+    Width = 75
+    Caption = 'bTest'
+    OnClick = bTestClick
+    TabOrder = 0
+  end
+  object m: TMemo
+    Left = 32
+    Height = 90
+    Top = 48
+    Width = 150
+    Lines.Strings = (
+      'm'
+    )
+    TabOrder = 1
+  end
+end

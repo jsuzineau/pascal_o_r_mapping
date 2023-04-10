@@ -138,3 +138,4 @@ tools/tests/jsPhi/jsPhi
 tools/fpCalc/fpCalc
 tools/fpCalc/fpCalc_Entree.txt
 tools/fpCalc/fpCalc.zip
+/tools/test_rust/test_rust_lib/target
