@@ -1,7 +1,9 @@
 //note: ce fichier est regénéré par h2pas Wizard sous le nom test_rust_lib.pas
 unit uTest_rust_lib;
 interface
-
+{$IFNDEF MSWINDOWS}
+  uses unixtype;
+{$ENDIF}
 {
   Automatically converted by H2Pas 1.0.0 from E:\01_Projets\01_pascal_o_r_mapping\tools\test_rust\test_rust_lib.tmp.h
   The following command line parameters were used:
