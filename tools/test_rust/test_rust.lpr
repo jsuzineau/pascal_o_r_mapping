@@ -10,7 +10,7 @@ uses
  athreads,
  {$ENDIF}
  Interfaces, // this includes the LCL widgetset
- Forms, ufTest_rust
+ Forms, ufTest_rust, uTest_rust_lib
  {$IFDEF MSWINDOWS}
    ,Windows
  {$ENDIF}

@@ -1,0 +1,1 @@
+cbindgen --config cbindgen.toml --lang c --crate test_rust_lib --output test_rust_lib.h

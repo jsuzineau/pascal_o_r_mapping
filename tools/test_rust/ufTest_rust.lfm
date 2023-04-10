@@ -1,29 +1,58 @@
 object fTest_rust: TfTest_rust
   Left = 532
-  Height = 271
+  Height = 387
   Top = 136
-  Width = 467
+  Width = 650
   Caption = 'fTest_rust'
-  ClientHeight = 271
-  ClientWidth = 467
-  LCLVersion = '2.2.0.4'
-  object bTest: TButton
-    Left = 29
-    Height = 25
-    Top = 15
-    Width = 75
-    Caption = 'bTest'
-    OnClick = bTestClick
-    TabOrder = 0
-  end
+  ClientHeight = 387
+  ClientWidth = 650
+  LCLVersion = '2.2.4.0'
   object m: TMemo
-    Left = 32
-    Height = 90
-    Top = 48
-    Width = 150
+    Left = 0
+    Height = 243
+    Top = 144
+    Width = 650
+    Align = alClient
     Lines.Strings = (
       'm'
     )
+    TabOrder = 0
+  end
+  object Panel1: TPanel
+    Left = 0
+    Height = 144
+    Top = 0
+    Width = 650
+    Align = alTop
+    ClientHeight = 144
+    ClientWidth = 650
     TabOrder = 1
+    object bHello_from_rust: TButton
+      Left = 13
+      Height = 25
+      Top = 7
+      Width = 187
+      Caption = 'Hello_from_rust on console'
+      OnClick = bHello_from_rustClick
+      TabOrder = 0
+    end
+    object bTest_double: TButton
+      Left = 216
+      Height = 25
+      Top = 8
+      Width = 75
+      Caption = 'Test_double'
+      OnClick = bTest_doubleClick
+      TabOrder = 1
+    end
+    object bTest_String: TButton
+      Left = 304
+      Height = 25
+      Top = 8
+      Width = 75
+      Caption = 'Test_String'
+      OnClick = bTest_StringClick
+      TabOrder = 2
+    end
   end
 end

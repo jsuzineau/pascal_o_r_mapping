@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CONFIG>
+  <Libname Value="test_rust_lib"/>
+  <CHeaderFiles Count="1">
+    <File1>
+      <Merge Value="False"/>
+      <Filename Value="test_rust_lib\test_rust_lib.h"/>
+    </File1>
+  </CHeaderFiles>
+  <PreH2PasTools Count="1">
+    <Tool1 Value="object AvantH2PasUnensembledoutilsutiliseravantH2Pas: TPreH2PasTools&#xD;&#xA;end&#xD;&#xA;"/>
+  </PreH2PasTools>
+  <PostH2PasTools Count="1">
+    <Tool1 Value="object AprsH2PasUnensembledoutilsutiliseraprsH2Pas: TPostH2PasTools&#xD;&#xA;end&#xD;&#xA;"/>
+  </PostH2PasTools>
+</CONFIG>
