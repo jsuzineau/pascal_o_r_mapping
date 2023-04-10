@@ -135,3 +135,6 @@ tools/jsSousTitres/jsSousTitres
 /tools/jsCompta/*.odt
 /tools/jsCompta/2023_02_10_jsCompta.zip
 tools/tests/jsPhi/jsPhi
+tools/fpCalc/fpCalc
+tools/fpCalc/fpCalc_Entree.txt
+tools/fpCalc/fpCalc.zip
