@@ -1,4 +1,4 @@
-unit uBatpro_StringList;
+﻿unit uBatpro_StringList;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -27,7 +27,7 @@ interface
 uses
     JCLDebug,
     uClean,
-    SysUtils, Classes;
+    SysUtils, Classes, System.JSON;
 
 type
  EBatpro_StringList_Iterateur_running
@@ -56,20 +56,18 @@ type
     //Export JSON, JavaScript Object Notation
     protected
       function  GetJSON: String; virtual;
-      {$IFDEF FPC}
       procedure SetJSON( _Value: String); virtual;
-      {$ENDIF}
     public
       property JSON: String
                read GetJSON
-               {$IFDEF FPC}
                write SetJSON
-               {$ENDIF}
                ;
+      function JSON_Persistants: String; virtual;
+      function JSON_id_Libelle: String; virtual;
   end;
 
  T_Iterateur_Count= function :Integer of Object;
- T_Iterateur_By_Index= procedure ( _Index: Integer; var _Resultat) of Object;
+ T_Iterateur_By_Index= procedure ( _Index: Integer; out _S: String; out _Resultat) of Object;
  T_Iterateur_Delete_By_Index= procedure ( _Index: Integer) of Object;
 
  TIterateur
@@ -104,16 +102,18 @@ type
   public
     nSuivant: Integer;//mis en public pour tests
 
+    Current_S: String; //chaine associée
+
     procedure Start;
     procedure Stop;
 
     // 2012/03/19 tentative de sécuriser l'appel en déclarant des itérateurs
     // pour chaque classe utilisatrice
-    procedure Suivant_interne( var _Resultat);
-    function  not_Suivant_interne( var _Resultat): Boolean;
+    procedure Suivant_interne( out _Resultat);
+    function  not_Suivant_interne( out _Resultat): Boolean;
   private
-    procedure Suivant( var _Resultat);
-    function  not_Suivant( var _Resultat): Boolean;
+    procedure Suivant( out _Resultat);
+    function  not_Suivant( out _Resultat): Boolean;
   public
     procedure Supprime_courant;
     function  EOF: Boolean;
@@ -122,10 +122,14 @@ type
 
  TIterateur_Class= class of TIterateur;
 
+ { TBatpro_StringList }
+
  TBatpro_StringList
  =
   class( TStringList)
   //Gestion du cycle de vie
+  private
+    procedure Create_Interne;
   public
     constructor Create( _Nom: String= ''); virtual;
     constructor CreateE( _Nom: String= ''; _Classe_Elements: TClass = nil);
@@ -149,13 +153,13 @@ type
 
     procedure Iterateur_Start;
     procedure Iterateur_Stop;
-    procedure Iterateur_Suivant( var _Resultat);
+    procedure Iterateur_Suivant( out _Resultat);
     procedure Iterateur_Supprime_courant;
     function  Iterateur_EOF: Boolean;
   //Création d'itérateur (nouvelle mouture de l'itérateur: 2011/11/09)
   private
     function Iterateur_Count: Integer;
-    procedure By_Index( _Index: Integer; var _Resultat);
+    procedure By_Index( _Index: Integer; out _S: String; out _Resultat);
   protected
     class function Classe_Iterateur: TIterateur_Class; virtual;
   public
@@ -166,15 +170,30 @@ type
   private
     function Iterateur: TIterateur;
     function Iterateur_Decroissant: TIterateur;
-  //Effacement sécurisé (peut être appelé si non affecté)
+  //Effacement sécurisé (peut être appelé si non affecté) (aggrégation faible) voir Vide
   public
     procedure Efface;
   //Effacement de la ligne correspondant à un objet donné
   public
     procedure Remove( O: TObject);
+  //Vide = Efface + détruit chaque objet contenu (aggrégation forte)
+  public
+      procedure Vide;
   //Export JSON, JavaScript Object Notation
   public
+    JSON_Page : Integer;
+    JSON_Debut: Integer;
+    JSON_Fin  : Integer;
+    procedure JSON_Premiere_Page;
+    procedure JSON_Page_precedente;
+    procedure JSON_Page_suivante;
     function JSON: String; virtual;
+    function JSON_Persistants: String; virtual;
+    function JSON_Persistants_Complet: String;
+    function JSON_id_Libelle: String;
+  //
+  //public
+  //  procedure S_Object_from_Index( _Index: Integer; out _S: String; out _O: TObject);
   end;
 
  TBatpro_StringList_class= class of TBatpro_StringList;
@@ -184,8 +203,8 @@ type
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: TBatpro_StringList);
-    function  not_Suivant( var _Resultat: TBatpro_StringList): Boolean;
+    procedure Suivant( out _Resultat: TBatpro_StringList);
+    function  not_Suivant( out _Resultat: TBatpro_StringList): Boolean;
   end;
 
  TslBatpro_StringList
@@ -208,8 +227,8 @@ type
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: TObject);
-    function  not_Suivant( var _Resultat: TObject): Boolean;
+    procedure Suivant( out _Resultat: TObject);
+    function  not_Suivant( out _Resultat: TObject): Boolean;
   end;
 
  TslObject
@@ -235,18 +254,21 @@ function Object_from_sl_sCle( sl: TStringList; sCle: String): TObject;
 // mais peuvent se révéler dangereuses si l'on change le type de la variable
 // passée comme Resultat sans aller mettre à jour le paramètre Classe
 
+procedure _S_Classe_from_sl( out _S: String; out _Resultat; _Classe: TClass;
+                             _sl: TBatpro_StringList; _Index: Integer);
+
 procedure CheckClass( var Resultat; Classe: TClass);
 
-procedure _Classe_from_sl     ( var Resultat; Classe: TClass;
+procedure _Classe_from_sl     ( out Resultat; Classe: TClass;
                                 sl: TStringList; Index: Integer);
-procedure _Classe_from_sl_sCle( var Resultat; Classe: TClass;
+procedure _Classe_from_sl_sCle( out Resultat; Classe: TClass;
                                 sl: TStringList; sCle: String);
 
-function Affecte( var O          ;
+function Affecte( out O          ;
                   Classe: TClass ;
                   Valeur: TObject): Boolean;
 
-function Affecte_( var O          ;
+function Affecte_( out O          ;
                    Classe: TClass ;
                    Valeur: TObject): Boolean;
 
@@ -264,6 +286,33 @@ begin
 
      Result:= sl.Objects[ Index];
 end;
+
+//version plus lente avec 2 accés à la liste, mais basée sur TStringList
+function Object_S_from_sl( sl: TStringList; Index: Integer; out _S: String): TObject;
+begin
+     Result:= nil;
+     _S:= '';
+
+     if sl = nil                        then exit;
+     if (Index < 0)or(sl.Count<= Index) then exit;
+
+     _S    := sl.Strings[ Index];
+     Result:= sl.Objects[ Index];
+end;
+
+(*
+//version utilisant S_Object_from_Index défini sur TBatpro_StringList
+function Object_S_from_sl( sl: TBatpro_StringList; Index: Integer; out _S: String): TObject;
+begin
+     Result:= nil;
+     _S:= '';
+
+     if sl = nil                        then exit;
+     if (Index < 0)or(sl.Count<= Index) then exit;
+
+     sl.S_Object_from_Index( Index, _S, Result);
+end;
+*)
 
 function Object_from_sl_sCle( sl: TStringList; sCle: String): TObject;
 begin
@@ -306,21 +355,28 @@ begin
            end;
 end;
 
-procedure _Classe_from_sl( var Resultat; Classe: TClass;
+procedure _Classe_from_sl( out Resultat; Classe: TClass;
                            sl: TStringList; Index: Integer);
 begin
      TObject( Resultat):= Object_from_sl( sl, Index);
      CheckClass( Resultat, Classe);
 end;
 
-procedure _Classe_from_sl_sCle( var Resultat; Classe: TClass;
+procedure _S_Classe_from_sl( out _S: String; out _Resultat; _Classe: TClass;
+                             _sl: TBatpro_StringList; _Index: Integer);
+begin
+     TObject( _Resultat):= Object_S_from_sl( _sl, _Index, _S);
+     CheckClass( _Resultat, _Classe);
+end;
+
+procedure _Classe_from_sl_sCle( out Resultat; Classe: TClass;
                                 sl: TStringList; sCle: String);
 begin
      TObject( Resultat):= Object_from_sl_sCle( sl, sCle);
      CheckClass( Resultat, Classe);
 end;
 
-function Affecte_( var O          ;
+function Affecte_( out O          ;
                    Classe: TClass ;
                    Valeur: TObject): Boolean;
 begin
@@ -330,7 +386,7 @@ begin
      Result:= TObject(O) = nil;
 end;
 
-function Affecte( var O          ;
+function Affecte( out O          ;
                   Classe: TClass ;
                   Valeur: TObject): Boolean;
 begin
@@ -372,24 +428,24 @@ end;
 
 { TIterateur_Batpro_StringList }
 
-function TIterateur_Batpro_StringList.not_Suivant( var _Resultat: TBatpro_StringList): Boolean;
+function TIterateur_Batpro_StringList.not_Suivant( out _Resultat: TBatpro_StringList): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_Batpro_StringList.Suivant( var _Resultat: TBatpro_StringList);
+procedure TIterateur_Batpro_StringList.Suivant( out _Resultat: TBatpro_StringList);
 begin
      Suivant_interne( _Resultat);
 end;
 
 { TIterateur_Object }
 
-function TIterateur_Object.not_Suivant( var _Resultat: TObject): Boolean;
+function TIterateur_Object.not_Suivant( out _Resultat: TObject): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_Object.Suivant( var _Resultat: TObject);
+procedure TIterateur_Object.Suivant( out _Resultat: TObject);
 begin
      Suivant_interne( _Resultat);
 end;
@@ -450,14 +506,22 @@ end;
 
 { TBatpro_StringList }
 
+procedure TBatpro_StringList.Create_Interne;
+begin
+     FIterateur_running:= False;
+
+     JSON_Page:= 20;
+     JSON_Debut:=-1;
+     JSON_Fin  :=-1;
+end;
+
 constructor TBatpro_StringList.Create( _Nom: String= '');
 begin
      inherited Create;
      Nom:= _Nom;
-
      Classe_Elements:= nil;
 
-     FIterateur_running:= False;
+     Create_Interne;
 end;
 
 constructor TBatpro_StringList.CreateE( _Nom: String= '';
@@ -468,7 +532,7 @@ begin
 
      Classe_Elements:= _Classe_Elements;
 
-     FIterateur_running:= False;
+     Create_Interne;
 end;
 
 destructor TBatpro_StringList.Destroy;
@@ -502,7 +566,7 @@ begin
      FIterateur_running:= False;
 end;
 
-procedure TBatpro_StringList.Iterateur_Suivant( var _Resultat);
+procedure TBatpro_StringList.Iterateur_Suivant( out _Resultat);
 begin
      _Classe_from_sl( _Resultat, Classe_Elements, Self, nIterateur_Suivant);
      Inc( nIterateur_Suivant);
@@ -521,9 +585,9 @@ begin
      Result:= nIterateur_Suivant >= Count;
 end;
 
-procedure TBatpro_StringList.By_Index( _Index: Integer; var _Resultat);
+procedure TBatpro_StringList.By_Index( _Index: Integer; out _S: String; out _Resultat);
 begin
-     _Classe_from_sl( _Resultat, Classe_Elements, Self, _Index);
+     _S_Classe_from_sl( _S, _Resultat, Classe_Elements, Self, _Index);
 end;
 
 function TBatpro_StringList.Iterateur_Count: Integer;
@@ -586,29 +650,266 @@ begin
      Delete( I);
 end;
 
+procedure TBatpro_StringList.Vide;
+var
+   I: TIterateur;
+   o: TObject;
+begin
+     if nil = Self            then exit;
+     if nil = Classe_Elements then exit;
+
+     I:= Iterateur;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant_interne( o) then continue;
+
+          I.Supprime_courant;
+          FreeAndNil( o);
+          end;
+     finally
+            FreeAndNil( I);
+            end;
+end;
+
+procedure TBatpro_StringList.JSON_Premiere_Page;
+begin
+     JSON_Debut:= 0;
+     JSON_Fin:= JSON_Debut+JSON_Page;
+end;
+
+procedure TBatpro_StringList.JSON_Page_precedente;
+begin
+     Dec( JSON_Debut, JSON_Page);
+     if JSON_Debut < 0 then JSON_Debut:= 0;
+     JSON_Fin:= JSON_Debut+JSON_Page;
+end;
+
+procedure TBatpro_StringList.JSON_Page_suivante;
+var
+   Fin: Integer;
+begin
+     Fin:= Count-1;
+     Inc( JSON_Fin, JSON_Page);
+     if JSON_Fin > Fin then JSON_Fin:= Fin;
+     JSON_Debut:= JSON_Fin-JSON_Page;
+end;
+
+function StringToJSONString( _s: String): String;
+begin
+     Result:= System.JSON.TJSONString.Create( _s).ToString;
+end;
+
 function TBatpro_StringList.JSON: String;
 var
+   Debut, Fin: Integer;
    I: Integer;
    O: TObject;
-   JSONProvider: TJSONProvider;
+   sJSON: String;
    iJSON: Integer;
+   function notTraite_JSONProvider: Boolean;
+   var
+      JSONProvider: TJSONProvider;
+   begin
+        JSONProvider:= TJSONProvider_from_Object( O);
+        Result:= JSONProvider = nil;
+        if Result then exit;
+
+        sJSON:= JSONProvider.JSON;
+   end;
+   function notTraite_Batpro_StringList: Boolean;
+   var
+      Batpro_StringList: TBatpro_StringList;
+   begin
+
+        Result:= Affecte_( Batpro_StringList, TBatpro_StringList, O);
+        if Result then exit;
+
+        sJSON:= Batpro_StringList.JSON;
+   end;
 begin
+     Debut:= JSON_Debut; if Debut < 0                     then Debut:= 0;
+     Fin  := JSON_Fin  ; if (-1 = Fin) or (Fin > Count-1) then Fin  := Count-1;
      Result:= '[';
      iJSON:= 0;
-     for I:= 0 to Count - 1
+     for I:= Debut to Fin
      do
        begin
        O:= Objects[I];
-       JSONProvider:= TJSONProvider_from_Object( O);
-       if JSONProvider = nil then continue;
+            if notTraite_JSONProvider
+       then if notTraite_Batpro_StringList
+       then    sJSON:= '"'+StringToJSONString(Strings[ I])+'"';
+
        if iJSON > 0
        then
            Result:= Result + ',';
-       Result:= Result + JSONProvider.JSON;
+       Result:= Result + sJSON;
        Inc( iJSON);
        end;
      Result:= Result+']';
+     Result
+     :=
+        '{'
+       +'"Nom":"'+StringToJSONString(Nom)+'",'
+       +'"JSON_Debut":'+IntToStr( JSON_Debut)+','
+       +'"JSON_Fin":'  +IntToStr( JSON_Fin  )+','
+       +'"Count":'     +IntToStr( Count  )+','
+       +'"Elements":'+Result
+       +'}';
 end;
+
+function TBatpro_StringList.JSON_Persistants: String;
+var
+   Debut, Fin: Integer;
+   I: Integer;
+   O: TObject;
+   sJSON: String;
+   iJSON: Integer;
+   function notTraite_JSONProvider: Boolean;
+   var
+      JSONProvider: TJSONProvider;
+   begin
+        JSONProvider:= TJSONProvider_from_Object( O);
+        Result:= JSONProvider = nil;
+        if Result then exit;
+
+        sJSON:= JSONProvider.JSON_Persistants;
+   end;
+   function notTraite_Batpro_StringList: Boolean;
+   var
+      Batpro_StringList: TBatpro_StringList;
+   begin
+
+        Result:= Affecte_( Batpro_StringList, TBatpro_StringList, O);
+        if Result then exit;
+
+        sJSON:= Batpro_StringList.JSON_Persistants;
+   end;
+begin
+     Debut:= JSON_Debut; if Debut < 0                     then Debut:= 0;
+     Fin  := JSON_Fin  ; if (-1 = Fin) or (Fin > Count-1) then Fin  := Count-1;
+     Result:= '[';
+     iJSON:= 0;
+     for I:= Debut to Fin
+     do
+       begin
+       O:= Objects[I];
+            if notTraite_JSONProvider
+       then if notTraite_Batpro_StringList
+       then    sJSON:= '"'+StringToJSONString(Strings[ I])+'"';
+
+       if iJSON > 0
+       then
+           Result:= Result + ',';
+       Result:= Result + sJSON;
+       Inc( iJSON);
+       end;
+     Result:= Result+']';
+     Result
+     :=
+        '{'
+       +'"Nom":"'+StringToJSONString(Nom)+'",'
+       +'"JSON_Debut":'+IntToStr( JSON_Debut)+','
+       +'"JSON_Fin":'  +IntToStr( JSON_Fin  )+','
+       +'"Count":'     +IntToStr( Count  )+','
+       +'"Elements":'+Result
+       +'}';
+end;
+
+function TBatpro_StringList.JSON_Persistants_Complet: String;
+var
+   Old_JSON_Debut: Integer;
+   Old_JSON_Fin  : Integer;
+begin
+     Old_JSON_Debut:= JSON_Debut;
+     Old_JSON_Fin  := JSON_Fin  ;
+     try
+         JSON_Debut:= -1;
+         JSON_Fin  := -1;
+
+         Result:= JSON_Persistants;
+     finally
+            JSON_Debut:= Old_JSON_Debut;
+            JSON_Fin  := Old_JSON_Fin  ;
+            end;
+
+end;
+
+function TBatpro_StringList.JSON_id_Libelle: String;
+var
+   Debut, Fin: Integer;
+   I: Integer;
+   O: TObject;
+   sJSON: String;
+   iJSON: Integer;
+   function notTraite_JSONProvider: Boolean;
+   var
+      JSONProvider: TJSONProvider;
+   begin
+        JSONProvider:= TJSONProvider_from_Object( O);
+        Result:= JSONProvider = nil;
+        if Result then exit;
+
+        sJSON:= JSONProvider.JSON_id_Libelle;
+   end;
+   function notTraite_Batpro_StringList: Boolean;
+   var
+      Batpro_StringList: TBatpro_StringList;
+   begin
+
+        Result:= Affecte_( Batpro_StringList, TBatpro_StringList, O);
+        if Result then exit;
+
+        sJSON:= Batpro_StringList.JSON;
+   end;
+begin
+     Debut:= JSON_Debut; if Debut < 0                     then Debut:= 0;
+     Fin  := JSON_Fin  ; if (-1 = Fin) or (Fin > Count-1) then Fin  := Count-1;
+     Result:= '[';
+     iJSON:= 0;
+     for I:= Debut to Fin
+     do
+       begin
+       O:= Objects[I];
+            if notTraite_JSONProvider
+       then if notTraite_Batpro_StringList
+       then    sJSON:= '"'+StringToJSONString(Strings[ I])+'"';
+
+       if iJSON > 0
+       then
+           Result:= Result + ',';
+       Result:= Result + sJSON;
+       Inc( iJSON);
+       end;
+     Result:= Result+']';
+     Result
+     :=
+        '{'
+       +'"Nom":"'+StringToJSONString(Nom)+'",'
+       +'"JSON_Debut":'+IntToStr( JSON_Debut)+','
+       +'"JSON_Fin":'  +IntToStr( JSON_Fin  )+','
+       +'"Count":'     +IntToStr( Count  )+','
+       +'"Elements":'+Result
+       +'}';
+end;
+
+(*
+procedure TBatpro_StringList.S_Object_from_Index( _Index: Integer;
+                                                  out _S: String;
+                                                  out _O: TObject);
+var
+   si: TStringItem;
+begin
+     //recopié du code source de TStringList, stringl.inc
+     if (_Index<0) or (_Index>=Fcount)
+     then
+         Error(SListIndexError,Index);
+     si:= Flist^[Index];
+     _S:= si.FString;
+     _O:= si.FObject;
+end;
+*)
 
 class function TBatpro_StringList.Classe_Iterateur: TIterateur_Class;
 begin
@@ -622,12 +923,20 @@ begin
 
 end;
 
-{$IFDEF FPC}
 procedure TJSONProvider.SetJSON(_Value: String);
 begin
 
 end;
-{$ENDIF}
+
+function TJSONProvider.JSON_Persistants: String;
+begin
+
+end;
+
+function TJSONProvider.JSON_id_Libelle: String;
+begin
+
+end;
 
 { TIterateur }
 
@@ -694,13 +1003,16 @@ begin
      Frunning:= False;
 end;
 
-procedure TIterateur.Suivant_interne(var _Resultat);
+procedure TIterateur.Suivant_interne(out _Resultat);
 begin
      if Assigned( By_Index)
      then
-         By_Index( nSuivant, _Resultat)
+         By_Index( nSuivant, Current_S, _Resultat)
      else
+         begin
+         Current_S:= '';
          TObject(_Resultat):= nil;
+         end;
      if Decroissant
      then
          Dec( nSuivant)
@@ -708,18 +1020,18 @@ begin
          Inc( nSuivant);
 end;
 
-procedure TIterateur.Suivant(var _Resultat);
+procedure TIterateur.Suivant(out _Resultat);
 begin
      Suivant_interne( _Resultat);
 end;
 
-function TIterateur.not_Suivant_interne(var _Resultat): Boolean;
+function TIterateur.not_Suivant_interne(out _Resultat): Boolean;
 begin
      Suivant_interne( _Resultat);
      Result:= TObject(_Resultat) = nil;
 end;
 
-function TIterateur.not_Suivant(var _Resultat): Boolean;
+function TIterateur.not_Suivant(out _Resultat): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;

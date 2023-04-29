@@ -6,7 +6,7 @@
         <FrameworkType>None</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Package</AppType>
     </PropertyGroup>
@@ -178,8 +178,8 @@
         <DCCReference Include="uuStrings.pas"/>
         <DCCReference Include="uVersion.pas"/>
         <DCCReference Include="uWinUtils.pas"/>
-        <DCCReference Include="..\1_LCL\uDessin.pas"/>
-        <DCCReference Include="..\1_LCL\mswindows\uWindows.pas"/>
+        <DCCReference Include="..\01_LCL\uDessin.pas"/>
+        <DCCReference Include="..\01_LCL\mswindows\uWindows.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

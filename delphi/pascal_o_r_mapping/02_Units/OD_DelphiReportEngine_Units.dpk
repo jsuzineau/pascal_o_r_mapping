@@ -111,7 +111,7 @@ contains
   uuStrings in 'uuStrings.pas',
   uVersion in 'uVersion.pas',
   uWinUtils in 'uWinUtils.pas',
-  uDessin in '..\1_LCL\uDessin.pas',
-  uWindows in '..\1_LCL\mswindows\uWindows.pas';
+  uDessin in '..\01_LCL\uDessin.pas',
+  uWindows in '..\01_LCL\mswindows\uWindows.pas';
 
 end.

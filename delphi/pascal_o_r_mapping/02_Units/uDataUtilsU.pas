@@ -62,6 +62,8 @@ function TryDMYToDate( DMY: String; out DT: TDateTime): Boolean;
 
 function DateTimeSQL( D: TDateTime): String;
 function DateTimeSQL_sans_quotes( D: TDateTime): String;
+function     DateTime_from_DateTimeSQL_sans_quotes( _DateTimeSQL: String): TDatetime;
+function Try_DateTime_from_DateTimeSQL_sans_quotes( _DateTimeSQL: String;out DT: TDateTime): Boolean;
 function DateTime_ISO8601_sans_quotes( D: TDateTime): String;
 
 function DateTimeSQL_sans_quotes_DMY2( D: TDateTime): String;
@@ -194,6 +196,9 @@ function Echappe_SQL( S: String): String;
 procedure CopyLine( Source, Cible: TClientDataset);
 
 {$IFNDEF FPC}
+//const
+//     nbNavigation: TButtonSet= [nbFirst, nbPrior, nbNext, nbLast];
+
 procedure ComboBox_from_Dataset( cb: TComboBox; ds: TDataset;
                                  FieldNames: array of String; Separator: String = '');
 {$ENDIF}
@@ -276,6 +281,66 @@ end;
 function DateTimeSQL_sans_quotes( D: TDateTime): String;
 begin
      Result:= FormatDateTime( 'yyyy-mm-dd hh:nn:ss', D);
+end;
+
+function DateTime_from_DateTimeSQL_sans_quotes( _DateTimeSQL: String): TDatetime;
+var
+   Year, Month, Day, Hour, Minute, Second: Integer;
+   procedure Decode_to( var _i: Integer; _Separateur: String);
+   var
+      s: string;
+   begin
+        s:= StrToK( _Separateur, _DateTimeSQL);
+        if not TryStrToInt( s, _i) then _i:=0;
+   end;
+begin
+     Result:= 0;
+     if _DateTimeSQL = '' then exit;
+
+     Decode_to( Year  , '-');
+     Decode_to( Month , '-');
+     Decode_to( Day   , ' ');
+     Decode_to( Hour  , ':');
+     Decode_to( Minute, ':');
+     Decode_to( Second, ' ');
+     if (Year= 0) and (Month= 0) and (Day= 0) and (Hour= 0) and (Minute= 0) and (Second= 0)
+     then
+         exit;
+
+     Result:= EncodeDateTime( Year, Month, Day, Hour, Minute, Second, 0);
+end;
+
+function Try_DateTime_from_DateTimeSQL_sans_quotes( _DateTimeSQL: String;out DT: TDateTime): Boolean;
+var
+   sYear, sMonth, sDay, sHour, sMinute, sSecond: String;
+    Year,  Month,  Day,  Hour,  Minute,  Second: Integer;
+begin
+     DT:= 0;
+     sYear  := StrReadString( _DateTimeSQL, 4);
+               StrReadString( _DateTimeSQL, 1);
+     sMonth := StrReadString( _DateTimeSQL, 2);
+               StrReadString( _DateTimeSQL, 1);
+     sDay   := StrReadString( _DateTimeSQL, 2);
+               StrReadString( _DateTimeSQL, 1);
+     sHour  := StrReadString( _DateTimeSQL, 2);
+               StrReadString( _DateTimeSQL, 1);
+     sMinute:= StrReadString( _DateTimeSQL, 2);
+               StrReadString( _DateTimeSQL, 1);
+     sSecond:= StrReadString( _DateTimeSQL, 2);
+               StrReadString( _DateTimeSQL, 1);
+
+     Result:= TryStrToInt( sYear  , Year  ); if not Result then exit;
+     Result:= TryStrToInt( sMonth , Month ); if not Result then exit;
+     Result:= TryStrToInt( sDay   , Day   ); if not Result then exit;
+     Result:= TryStrToInt( sHour  , Hour  ); if not Result then exit;
+     Result:= TryStrToInt( sMinute, Minute); if not Result then exit;
+     Result:= TryStrToInt( sSecond, Second); if not Result then exit;
+
+     if (Year= 0) and (Month= 0) and (Day= 0) and (Hour= 0) and (Minute= 0) and (Second= 0)
+     then
+         DT:= 0
+     else
+         DT:= EncodeDateTime( Year, Month, Day, Hour, Minute, Second, 0);
 end;
 
 function DateTime_ISO8601_sans_quotes( D: TDateTime): String;
@@ -1826,7 +1891,7 @@ end;
 function Arrondi_Arithmetique_( E: Double): Double;
 var
    Frac_E, Int_E: Double;
-   Frac_E_10: Int64;
+   Frac_E_10: Double;
 begin
       Int_E:=  Int(E);
      Frac_E:= Frac(E);

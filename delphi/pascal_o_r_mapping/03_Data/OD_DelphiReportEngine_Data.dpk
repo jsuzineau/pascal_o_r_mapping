@@ -1,0 +1,113 @@
+package OD_DelphiReportEngine_Data;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  OD_DelphiReportEngine_Units;
+
+contains
+  u_db_Formes in 'u_db_Formes.pas',
+  u_InformixLob in 'u_InformixLob.pas',
+  u_ini_Formes in 'u_ini_Formes.pas',
+  u_sys_Batpro_Element in 'u_sys_Batpro_Element.pas',
+  uBatpro_Element in 'uBatpro_Element.pas',
+  uBatpro_Ligne in 'uBatpro_Ligne.pas',
+  uBatpro_OD_Printer in 'uBatpro_OD_Printer.pas',
+  uBatpro_OD_SpreadSheet_Manager in 'uBatpro_OD_SpreadSheet_Manager.pas',
+  uBatpro_OD_TextFieldsCreator in 'uBatpro_OD_TextFieldsCreator.pas',
+  uBatpro_OD_TextTableManager in 'uBatpro_OD_TextTableManager.pas',
+  uBatproFiltre in 'uBatproFiltre.pas',
+  ubeChamp in 'ubeChamp.pas',
+  ubeClusterElement in 'ubeClusterElement.pas',
+  ubeCoche in 'ubeCoche.pas',
+  ubeCurseur in 'ubeCurseur.pas',
+  ubeExtended in 'ubeExtended.pas',
+  ubeJalon in 'ubeJalon.pas',
+  ubeListe_Batpro_Elements in 'ubeListe_Batpro_Elements.pas',
+  uberef in 'uberef.pas',
+  ubeSerie in 'ubeSerie.pas',
+  ubeString in 'ubeString.pas',
+  ubeTraits in 'ubeTraits.pas',
+  ublG_BECP in 'ublG_BECP.pas',
+  ublG_BECPCTX in 'ublG_BECPCTX.pas',
+  ublG_CTX in 'ublG_CTX.pas',
+  ublG_CTXTYPE in 'ublG_CTXTYPE.pas',
+  uCD_from_Params in 'uCD_from_Params.pas',
+  uCD_from_SL in 'uCD_from_SL.pas',
+  uChamps_persistance in 'uChamps_persistance.pas',
+  uCharge_100 in 'uCharge_100.pas',
+  uCharMap in 'uCharMap.pas',
+  uContextes in 'uContextes.pas',
+  uDataUtils in 'uDataUtils.pas',
+  uDataUtilsF in 'uDataUtilsF.pas',
+  udmBatpro_DataModule in 'udmBatpro_DataModule.pas',
+  udmDatabase in 'udmDatabase.pas' {dmDatabase: TDataModule},
+  uDrawInfo in 'uDrawInfo.pas',
+  uGlobal_INI in 'uGlobal_INI.pas',
+  uhAggregation in 'uhAggregation.pas',
+  uhfG_BECP in 'uhfG_BECP.pas',
+  uhfG_BECPCTX in 'uhfG_BECPCTX.pas',
+  uhfG_CTX in 'uhfG_CTX.pas',
+  uhfG_CTXTYPE in 'uhfG_CTXTYPE.pas',
+  uhField in 'uhField.pas',
+  uhFiltre in 'uhFiltre.pas',
+  uhRequete in 'uhRequete.pas',
+  uhrG_BECP in 'uhrG_BECP.pas',
+  uhrG_BECPCTX in 'uhrG_BECPCTX.pas',
+  uhrG_CTX in 'uhrG_CTX.pas',
+  uhTriColonne in 'uhTriColonne.pas',
+  uInformix in 'uInformix.pas',
+  uINI_Batpro_OD_Report in 'uINI_Batpro_OD_Report.pas',
+  uMailTo in 'uMailTo.pas',
+  uMotsCles in 'uMotsCles.pas',
+  uMySQL in 'uMySQL.pas',
+  uOD_Batpro_Table in 'uOD_Batpro_Table.pas',
+  uOD_BatproTextTableContext in 'uOD_BatproTextTableContext.pas',
+  uOD_Champ in 'uOD_Champ.pas',
+  uOD_Niveau in 'uOD_Niveau.pas',
+  uOOo_NomChamp_utilisateur in 'uOOo_NomChamp_utilisateur.pas',
+  uParametres_Ancetre in 'uParametres_Ancetre.pas',
+  uPool in 'uPool.pas',
+  upool_Ancetre_Ancetre in 'upool_Ancetre_Ancetre.pas',
+  upoolG_BECP in 'upoolG_BECP.pas',
+  upoolG_BECPCTX in 'upoolG_BECPCTX.pas',
+  upoolG_CTX in 'upoolG_CTX.pas',
+  upoolG_CTXTYPE in 'upoolG_CTXTYPE.pas',
+  uPostgres in 'uPostgres.pas',
+  uRegistry in 'uRegistry.pas',
+  uRequete in 'uRequete.pas',
+  uSQLServer in 'uSQLServer.pas',
+  uSuppression in 'uSuppression.pas',
+  uSVG in 'uSVG.pas',
+  uTraits in 'uTraits.pas',
+  uTri in 'uTri.pas',
+  uVide in 'uVide.pas',
+  uXML in 'uXML.pas';
+
+end.

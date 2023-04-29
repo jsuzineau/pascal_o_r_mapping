@@ -1,25 +1,20 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{8ADA4F2A-6CB8-420F-BE68-CC27301BD17A}</ProjectGuid>
+        <ProjectGuid>{05621381-81E4-4AAE-8475-2E6ACB96AEEF}</ProjectGuid>
+        <MainSource>OD_DelphiReportEngine_Data.dpk</MainSource>
         <ProjectVersion>18.3</ProjectVersion>
-        <FrameworkType>FMX</FrameworkType>
-        <MainSource>duxPASCAL_O_R_MAPPING.dpr</MainSource>
+        <FrameworkType>None</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win64</Platform>
-        <TargetedPlatforms>2</TargetedPlatforms>
-        <AppType>Console</AppType>
+        <TargetedPlatforms>3</TargetedPlatforms>
+        <AppType>Package</AppType>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="('$(Platform)'=='Android' and '$(Base)'=='true') or '$(Base_Android)'!=''">
         <Base_Android>true</Base_Android>
-        <CfgParent>Base</CfgParent>
-        <Base>true</Base>
-    </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Linux64' and '$(Base)'=='true') or '$(Base_Linux64)'!=''">
-        <Base_Linux64>true</Base_Linux64>
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
@@ -57,32 +52,27 @@
         <DCC_S>false</DCC_S>
         <DCC_F>false</DCC_F>
         <DCC_K>false</DCC_K>
-        <DCC_UsePackage>RESTComponents;emsclientfiredac;DataSnapFireDAC;FireDACIBDriver;emsclient;FireDACCommon;RESTBackendComponents;soapserver;CloudService;FireDACCommonDriver;inet;FireDAC;FireDACSqliteDriver;soaprtl;soapmidas;OD_DelphiReportEngine_Controls;OD_DelphiReportEngine_Units;$(DCC_UsePackage)</DCC_UsePackage>
+        <GenDll>true</GenDll>
+        <GenPackage>true</GenPackage>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
-        <UsingDelphiRTL>true</UsingDelphiRTL>
-        <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
-        <Icns_MainIcns>$(BDS)\bin\delphi_PROJECTICNS.icns</Icns_MainIcns>
-        <DCC_UnitSearchPath>$(DUnitX);$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
-        <SanitizedProjectName>duxPASCAL_O_R_MAPPING</SanitizedProjectName>
+        <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
+        <SanitizedProjectName>OD_DelphiReportEngine_Data</SanitizedProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Android)'!=''">
-        <DCC_UsePackage>DBXSqliteDriver;DBXInterBaseDriver;tethering;bindcompfmx;FmxTeeUI;fmx;FireDACDBXDriver;dbexpress;IndyCore;dsnap;DataSnapCommon;bindengine;DataSnapClient;IndyIPCommon;bindcompdbx;IndyIPServer;IndySystem;fmxFireDAC;FMXTee;DbxCommonDriver;xmlrtl;DataSnapNativeClient;FireDACDSDriver;rtl;DbxClientDriver;CustomIPTransport;bindcomp;IndyIPClient;dbxcds;dsnapxml;DataSnapProviderClient;dbrtl;IndyProtocols;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_CBuilderOutput>None</DCC_CBuilderOutput>
         <EnabledSysJars>android-support-v4.dex.jar;cloud-messaging.dex.jar;fmx.dex.jar;google-analytics-v2.dex.jar;google-play-billing.dex.jar;google-play-licensing.dex.jar;google-play-services.dex.jar</EnabledSysJars>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Base_Linux64)'!=''">
-        <DCC_UsePackage>FireDACADSDriver;DatasnapConnectorsFreePascal;FireDACMSSQLDriver;inetdb;emsedge;dbexpress;IndyCore;dsnap;DataSnapCommon;DataSnapConnectors;bindengine;FireDACOracleDriver;FireDACMySQLDriver;FireDACCommonODBC;DataSnapClient;IndySystem;FireDACDb2Driver;FireDACInfxDriver;emshosting;FireDACPgDriver;FireDACASADriver;FireDACTDataDriver;DbxCommonDriver;DataSnapServer;xmlrtl;DataSnapNativeClient;rtl;DbxClientDriver;CustomIPTransport;bindcomp;dbxcds;FireDACODBCDriver;DataSnapIndy10ServerTransport;dsnapxml;dbrtl;IndyProtocols;FireDACMongoDBDriver;DataSnapServerMidas;$(DCC_UsePackage)</DCC_UsePackage>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
-        <DCC_UsePackage>DBXSqliteDriver;fmxase;DBXDb2Driver;DBXInterBaseDriver;vclactnband;vclFireDAC;tethering;svnui;FireDACADSDriver;DBXMSSQLDriver;DatasnapConnectorsFreePascal;FireDACMSSQLDriver;vcltouch;vcldb;bindcompfmx;svn;Intraweb;DBXOracleDriver;inetdb;FmxTeeUI;emsedge;fmx;fmxdae;FireDACDBXDriver;dbexpress;IndyCore;vclx;dsnap;DataSnapCommon;DataSnapConnectors;VCLRESTComponents;vclie;bindengine;DBXMySQLDriver;FireDACOracleDriver;FireDACMySQLDriver;DBXFirebirdDriver;FireDACCommonODBC;DataSnapClient;IndyIPCommon;bindcompdbx;vcl;IndyIPServer;DBXSybaseASEDriver;IndySystem;FireDACDb2Driver;dsnapcon;FireDACMSAccDriver;fmxFireDAC;FireDACInfxDriver;vclimg;TeeDB;emshosting;FireDACPgDriver;FireDACASADriver;DBXOdbcDriver;FireDACTDataDriver;FMXTee;DbxCommonDriver;Tee;DataSnapServer;xmlrtl;DataSnapNativeClient;fmxobj;vclwinx;FireDACDSDriver;rtl;DbxClientDriver;DBXSybaseASADriver;CustomIPTransport;vcldsnap;bindcomp;appanalytics;DBXInformixDriver;IndyIPClient;bindcompvcl;TeeUI;dbxcds;VclSmp;adortl;FireDACODBCDriver;DataSnapIndy10ServerTransport;dsnapxml;DataSnapProviderClient;dbrtl;IndyProtocols;inetdbxpress;FireDACMongoDBDriver;DataSnapServerMidas;$(DCC_UsePackage)</DCC_UsePackage>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
-        <DCC_UsePackage>DBXSqliteDriver;fmxase;DBXDb2Driver;DBXInterBaseDriver;vclactnband;vclFireDAC;tethering;FireDACADSDriver;DBXMSSQLDriver;DatasnapConnectorsFreePascal;FireDACMSSQLDriver;vcltouch;vcldb;bindcompfmx;Intraweb;DBXOracleDriver;inetdb;FmxTeeUI;emsedge;fmx;fmxdae;FireDACDBXDriver;dbexpress;IndyCore;vclx;dsnap;DataSnapCommon;DataSnapConnectors;VCLRESTComponents;vclie;bindengine;DBXMySQLDriver;FireDACOracleDriver;FireDACMySQLDriver;DBXFirebirdDriver;FireDACCommonODBC;DataSnapClient;IndyIPCommon;bindcompdbx;vcl;IndyIPServer;DBXSybaseASEDriver;IndySystem;FireDACDb2Driver;dsnapcon;FireDACMSAccDriver;fmxFireDAC;FireDACInfxDriver;vclimg;TeeDB;emshosting;FireDACPgDriver;FireDACASADriver;DBXOdbcDriver;FireDACTDataDriver;FMXTee;DbxCommonDriver;Tee;DataSnapServer;xmlrtl;DataSnapNativeClient;fmxobj;vclwinx;FireDACDSDriver;rtl;DbxClientDriver;DBXSybaseASADriver;CustomIPTransport;vcldsnap;bindcomp;appanalytics;DBXInformixDriver;IndyIPClient;bindcompvcl;TeeUI;dbxcds;VclSmp;adortl;FireDACODBCDriver;DataSnapIndy10ServerTransport;dsnapxml;DataSnapProviderClient;dbrtl;IndyProtocols;inetdbxpress;FireDACMongoDBDriver;DataSnapServerMidas;$(DCC_UsePackage)</DCC_UsePackage>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
         <BT_BuildType>Debug</BT_BuildType>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
@@ -93,15 +83,9 @@
         <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
         <DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
-        <VerInfo_Locale>1036</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
-        <VerInfo_Locale>1033</VerInfo_Locale>
-        <Manifest_File>(vide)</Manifest_File>
-        <DCC_UsePackage>jcl;$(DCC_UsePackage)</DCC_UsePackage>
-        <DCC_UnitSearchPath>C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\03_Data;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
-        <UsePackages>true</UsePackages>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -113,26 +97,89 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="TestCase\tcOpenDocument_Embed_Image\utcOpenDocument_Embed_Image.pas"/>
-        <DCCReference Include="TestCase\tcOpenDocument_Embed_Image\Elements\Test\ublTest.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufBitmaps.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\uImpression_Font_Size_Multiplier.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\uAide.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufHelp_Creator.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufpBas.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufBatpro_Form.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufBatpro_Desk.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\uHorloge.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufAccueil.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufBatpro_Informix.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufBatpro_MySQL.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufBatpro_Parametres_Client.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\udmSMTP.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufProgression.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufReconcileError.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\udkProgression.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\uLog.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\5_Controls\uDockable.pas"/>
+        <DCCReference Include="rtl.dcp"/>
+        <DCCReference Include="OD_DelphiReportEngine_Units.dcp"/>
+        <DCCReference Include="u_db_Formes.pas"/>
+        <DCCReference Include="u_InformixLob.pas"/>
+        <DCCReference Include="u_ini_Formes.pas"/>
+        <DCCReference Include="u_sys_Batpro_Element.pas"/>
+        <DCCReference Include="uBatpro_Element.pas"/>
+        <DCCReference Include="uBatpro_Ligne.pas"/>
+        <DCCReference Include="uBatpro_OD_Printer.pas"/>
+        <DCCReference Include="uBatpro_OD_SpreadSheet_Manager.pas"/>
+        <DCCReference Include="uBatpro_OD_TextFieldsCreator.pas"/>
+        <DCCReference Include="uBatpro_OD_TextTableManager.pas"/>
+        <DCCReference Include="uBatproFiltre.pas"/>
+        <DCCReference Include="ubeChamp.pas"/>
+        <DCCReference Include="ubeClusterElement.pas"/>
+        <DCCReference Include="ubeCoche.pas"/>
+        <DCCReference Include="ubeCurseur.pas"/>
+        <DCCReference Include="ubeExtended.pas"/>
+        <DCCReference Include="ubeJalon.pas"/>
+        <DCCReference Include="ubeListe_Batpro_Elements.pas"/>
+        <DCCReference Include="uberef.pas"/>
+        <DCCReference Include="ubeSerie.pas"/>
+        <DCCReference Include="ubeString.pas"/>
+        <DCCReference Include="ubeTraits.pas"/>
+        <DCCReference Include="ublG_BECP.pas"/>
+        <DCCReference Include="ublG_BECPCTX.pas"/>
+        <DCCReference Include="ublG_CTX.pas"/>
+        <DCCReference Include="ublG_CTXTYPE.pas"/>
+        <DCCReference Include="uCD_from_Params.pas"/>
+        <DCCReference Include="uCD_from_SL.pas"/>
+        <DCCReference Include="uChamps_persistance.pas"/>
+        <DCCReference Include="uCharge_100.pas"/>
+        <DCCReference Include="uCharMap.pas"/>
+        <DCCReference Include="uContextes.pas"/>
+        <DCCReference Include="uDataUtils.pas"/>
+        <DCCReference Include="uDataUtilsF.pas"/>
+        <DCCReference Include="udmBatpro_DataModule.pas"/>
+        <DCCReference Include="udmDatabase.pas">
+            <Form>dmDatabase</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="uDrawInfo.pas"/>
+        <DCCReference Include="uGlobal_INI.pas"/>
+        <DCCReference Include="uhAggregation.pas"/>
+        <DCCReference Include="uhfG_BECP.pas"/>
+        <DCCReference Include="uhfG_BECPCTX.pas"/>
+        <DCCReference Include="uhfG_CTX.pas"/>
+        <DCCReference Include="uhfG_CTXTYPE.pas"/>
+        <DCCReference Include="uhField.pas"/>
+        <DCCReference Include="uhFiltre.pas"/>
+        <DCCReference Include="uhRequete.pas"/>
+        <DCCReference Include="uhrG_BECP.pas"/>
+        <DCCReference Include="uhrG_BECPCTX.pas"/>
+        <DCCReference Include="uhrG_CTX.pas"/>
+        <DCCReference Include="uhTriColonne.pas"/>
+        <DCCReference Include="uInformix.pas"/>
+        <DCCReference Include="uINI_Batpro_OD_Report.pas"/>
+        <DCCReference Include="uMailTo.pas"/>
+        <DCCReference Include="uMotsCles.pas"/>
+        <DCCReference Include="uMySQL.pas"/>
+        <DCCReference Include="uOD_Batpro_Table.pas"/>
+        <DCCReference Include="uOD_BatproTextTableContext.pas"/>
+        <DCCReference Include="uOD_Champ.pas"/>
+        <DCCReference Include="uOD_Niveau.pas"/>
+        <DCCReference Include="uOOo_NomChamp_utilisateur.pas"/>
+        <DCCReference Include="uParametres_Ancetre.pas"/>
+        <DCCReference Include="uPool.pas"/>
+        <DCCReference Include="upool_Ancetre_Ancetre.pas"/>
+        <DCCReference Include="upoolG_BECP.pas"/>
+        <DCCReference Include="upoolG_BECPCTX.pas"/>
+        <DCCReference Include="upoolG_CTX.pas"/>
+        <DCCReference Include="upoolG_CTXTYPE.pas"/>
+        <DCCReference Include="uPostgres.pas"/>
+        <DCCReference Include="uRegistry.pas"/>
+        <DCCReference Include="uRequete.pas"/>
+        <DCCReference Include="uSQLServer.pas"/>
+        <DCCReference Include="uSuppression.pas"/>
+        <DCCReference Include="uSVG.pas"/>
+        <DCCReference Include="uTraits.pas"/>
+        <DCCReference Include="uTri.pas"/>
+        <DCCReference Include="uVide.pas"/>
+        <DCCReference Include="uXML.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -147,16 +194,12 @@
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Delphi.Personality.12</Borland.Personality>
-        <Borland.ProjectType>Console</Borland.ProjectType>
+        <Borland.ProjectType>Package</Borland.ProjectType>
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
-                    <Source Name="MainSource">duxPASCAL_O_R_MAPPING.dpr</Source>
+                    <Source Name="MainSource">OD_DelphiReportEngine_Data.dpk</Source>
                 </Source>
-                <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k250.bpl">Composants Microsoft Office 2000 Sample Automation Server Wrapper</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp250.bpl">Composants Microsoft Office XP Sample Automation Server Wrapper</Excluded_Packages>
-                </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">
                 <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
@@ -179,9 +222,9 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Win32\Debug\duxPASCAL_O_R_MAPPING.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\19.0\Bpl\OD_DelphiReportEngine_Data.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteName>duxPASCAL_O_R_MAPPING.exe</RemoteName>
+                        <RemoteName>OD_DelphiReportEngine_Data.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -546,12 +589,9 @@
             <Platforms>
                 <Platform value="Android">False</Platform>
                 <Platform value="Linux64">False</Platform>
-                <Platform value="Win32">False</Platform>
+                <Platform value="Win32">True</Platform>
                 <Platform value="Win64">True</Platform>
             </Platforms>
-            <UnitTesting>
-                <TestProjectName>C:\_freepascal\pascal_o_r_mapping\delphi\DUnitX\tpOD_DelphiReportEngine_Units\tpOD_DelphiReportEngine_Units.dproj</TestProjectName>
-            </UnitTesting>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>

@@ -26,6 +26,11 @@
 interface
 
 uses
+    {$IFNDEF FPC}
+    JclSimpleXml,
+    {$ELSE}
+    DOM,
+    {$ENDIF}
     ubtString,
     uskString,
     uuStrings,
@@ -37,19 +42,20 @@ uses
     u_sys_,
     uSVG,
     uClean,
+    uContextes,
     uDrawInfo,
     uChampDefinitions,
     uChamps,
-    uImpression_Font_Size_Multiplier,
+    //uImpression_Font_Size_Multiplier,
     uVide,
 
     ufAccueil_Erreur,
-    ufBitmaps,
+    //ufBitmaps,
 
   //Windows,
   System.UITypes,
   FMX.Menus, FMX.Controls, Types, FMX.Graphics, FMX.TextLayout,
-  FMX.Types,FMX.Dialogs,
+  FMX.Types,FMX.Dialogs, FMX.Grid,
   System.Math.Vectors,
   SysUtils, Classes;
 
@@ -59,28 +65,586 @@ const
      //nom de la classe de paramètres TBatpro_Element
      sys_TblG_BECP   : String='TblG_BECP';
      sys_TblG_BECPCTX: String='TblG_BECPCTX';
+     sys_TpoolG_BECP   : String='TpoolG_BECP';
+     sys_TpoolG_BECPCTX: String='TpoolG_BECPCTX';
 
      //Batpro_Element_Marge= 2; //bordure
      Batpro_Element_Marge: Integer = 0; //bordure
 
 type
- TbeAlignementH= (bea_Gauche, bea_Centre_Horiz , bea_Droite);
- TbeAlignementV= (bea_Haut  , bea_Centre_Vertic, bea_Bas   );
- TbeAlignement
- =
-  record
-  H: TbeAlignementH;
-  V: TbeAlignementV;
-  end;
+     TbeAlignementH= (bea_Gauche, bea_Centre_Horiz , bea_Droite);
+     TbeAlignementV= (bea_Haut  , bea_Centre_Vertic, bea_Bas   );
+     TbeAlignement
+     =
+      record
+      H: TbeAlignementH;
+      V: TbeAlignementV;
+      end;
 const
   Format_beAlignementH
   :
+   {$IFNDEF FPC}
    array[bea_Gauche..bea_Droite] of TTextAlign
    =
     //( DT_LEFT, DT_CENTER, DT_RIGHT);
     (TTextAlign.Leading, TTextAlign.Center, TTextAlign.Trailing) ;
+   {$ELSE}
+   array[bea_Gauche..bea_Droite] of Integer
+   =
+    (0      ,   1,           2) ;
+   {$ENDIF}
+
+{$DEFINE WINDOWS_GRAPHIC}
+{$IFNDEF WINDOWS_GRAPHIC}
+const //recopié de l'unité Graphics
+  psSolid = FPCanvas.psSolid;
+  psDash = FPCanvas.psDash;
+  psDot = FPCanvas.psDot;
+  psDashDot = FPCanvas.psDashDot;
+  psDashDotDot = FPCanvas.psDashDotDot;
+  psClear = FPCanvas.psClear;
+  psInsideframe = FPCanvas.psInsideframe;
+  psPattern = FPCanvas.psPattern;
+
+  pmBlack = FPCanvas.pmBlack;
+  pmWhite = FPCanvas.pmWhite;
+  pmNop = FPCanvas.pmNop;
+  pmNot = FPCanvas.pmNot;
+  pmCopy = FPCanvas.pmCopy;
+  pmNotCopy = FPCanvas.pmNotCopy;
+  pmMergePenNot = FPCanvas.pmMergePenNot;
+  pmMaskPenNot = FPCanvas.pmMaskPenNot;
+  pmMergeNotPen = FPCanvas.pmMergeNotPen;
+  pmMaskNotPen = FPCanvas.pmMaskNotPen;
+  pmMerge = FPCanvas.pmMerge;
+  pmNotMerge = FPCanvas.pmNotMerge;
+  pmMask = FPCanvas.pmMask;
+  pmNotMask = FPCanvas.pmNotMask;
+  pmXor = FPCanvas.pmXor;
+  pmNotXor = FPCanvas.pmNotXor;
+
+  bsSolid = FPCanvas.bsSolid;
+  bsClear = FPCanvas.bsClear;
+  bsHorizontal = FPCanvas.bsHorizontal;
+  bsVertical = FPCanvas.bsVertical;
+  bsFDiagonal = FPCanvas.bsFDiagonal;
+  bsBDiagonal = FPCanvas.bsBDiagonal;
+  bsCross = FPCanvas.bsCross;
+  bsDiagCross = FPCanvas.bsDiagCross;
+{$ENDIF}
+
+{début de l'unité uDrawInfo déplacée}
+const
+     {$IFDEF FPC}
+     clBlack = TColor($000000);
+     clMaroon = TColor($000080);
+     clGreen = TColor($008000);
+     clOlive = TColor($008080);
+     clNavy = TColor($800000);
+     clPurple = TColor($800080);
+     clTeal = TColor($808000);
+     clGray = TColor($808080);
+     clSilver = TColor($C0C0C0);
+     clRed = TColor($0000FF);
+     clLime = TColor($00FF00);
+     clYellow = TColor($00FFFF);
+     clBlue = TColor($FF0000);
+     clFuchsia = TColor($FF00FF);
+     clAqua = TColor($FFFF00);
+     clLtGray = TColor($C0C0C0);
+     clDkGray = TColor($808080);
+     clWhite = TColor($FFFFFF);
+     StandardColorsCount = 16;
+
+     clMoneyGreen = TColor($C0DCC0);
+     clSkyBlue = TColor($F0CAA6);
+     clCream = TColor($F0FBFF);
+     clMedGray = TColor($A4A0A0);
+     ExtendedColorsCount = 4;
+
+     clNone = TColor($1FFFFFFF);
+     clDefault = TColor($20000000);
+
+     clBtnFace=clMedGray;
+     clWindow=clWhite;
+     clInfoBk=$FFFF80;
+     {$ENDIF}
+
+     Couleur_Jour_Non_Ouvrable_1_2     = TColorRec. LtGray;
+     Couleur_Jour_Non_Ouvrable_3       = TColorRec.MedGray;
+     Couleur_Jour_Non_Ouvrable_Chantier= TColorRec. DkGray;
 
 type
+ TDrawInfo=class;
+ TBatpro_Element= class;
+ TAggregations  = class;
+ ThAggregation_Create_Params= class;
+ ThAggregation_class= class of ThAggregation;
+ TBatpro_Serie  = class;
+ TBatpro_Cluster= class;
+ TbeClusterElement=class;
+ TBatpro_ElementClassParams= class;
+ TslBatpro_Element = class;
+
+ { TStringGridWeb }
+
+ TStringGridWeb
+ =
+  class
+  //Gestion du cycle de vie
+  public
+    constructor Create;
+    destructor Destroy; override;
+  //Méthodes
+  public
+    procedure Resize( _ColCount: Integer= -1; _RowCount: Integer= -1);
+    procedure Charge_Cell( _Colonne, _Ligne:Integer; _be: TBatpro_Element; _Contexte: Integer);
+    procedure Charge_Ligne( _OffsetColonne, _Ligne: Integer;
+                            _sl: TBatpro_StringList;
+                            _ClusterAddInit_: Boolean;
+                            _Contexte: Integer); overload;
+    procedure Charge_Colonne( _Colonne, _OffsetLigne: Integer;
+                              _sl: TBatpro_StringList;
+                              _Contexte: Integer); overload;
+    procedure Charge_Colonne( _Colonne, _OffsetLigne:Integer;
+                              _beEntete:TBatpro_Element;
+                              _sl:TBatpro_StringList;
+                              _Contexte: Integer); overload;
+    procedure Charge_Ligne( _OffsetColonne, _Ligne: Integer;
+                            _bts: TbtString;
+                            _ClusterAddInit_: Boolean;
+                            _Contexte: Integer); overload;
+    procedure Charge_Colonne( _Colonne, _OffsetLigne: Integer;
+                              _bts: TbtString;
+                              _Contexte: Integer); overload;
+    procedure Charge_Colonne( _Colonne, _OffsetLigne:Integer;
+                              _beEntete:TBatpro_Element;
+                              _bts: TbtString;
+                              _Contexte: Integer); overload;
+    function Hauteur_Ligne( _DrawInfo: TDrawInfo;
+                            _Ligne: Integer;
+                            _TraiterClusters: Boolean = False): Integer;
+    function Largeur_Colonne( _DrawInfo: TDrawInfo; _Colonne: Integer;
+                              _TraiterClusters: Boolean = False): Integer;
+    procedure Traite_Hauteurs_Lignes( _DrawInfo: TDrawInfo);
+    procedure Traite_Largeurs_Colonnes( _DrawInfo: TDrawInfo;
+                                        _ColonneDebut: Integer= 0;
+                                        _ColonneFin  : Integer= -1);
+    procedure Egalise_Largeurs_Colonnes( _ColonneDebut, _ColonneFin: Integer);
+    procedure Egalise_Hauteurs_Lignes  ( _LigneDebut, _LigneFin: Integer);
+    procedure Initialise_dimensions( _ColonneDebut: Integer= 0);
+    procedure Ajuste_Largeur_Client( _ColonneDebut: Integer= 0);
+    procedure Refresh;
+    procedure MouseToCell(X,Y: Integer; var ACol,ARow: Longint); overload;
+    function  CellRect(_Col, _Row: Integer): TRect;
+  //FixedCols
+  private
+    FFixedCols: Integer;
+  public
+    property FixedCols: Integer read FFixedCols;
+  //FixedRows
+  private
+    FFixedRows: Integer;
+  public
+    property FixedRows: Integer read FFixedRows;
+  //ColCount
+  private
+    FColCount: Integer;
+    procedure SetColCount( _Value: Integer);
+  public
+    property ColCount: Integer read FColCount write SetColCount;
+  //RowCount
+  private
+    FRowCount: Integer;
+    procedure SetRowCount( _Value: Integer);
+  public
+    property RowCount: Integer read FRowCount write SetRowCount;
+  //ColWidths
+  private
+    FColWidths: array of Integer;
+    function  GetColWidths(Index: Integer): Integer;
+    procedure SetColWidths(Index: Integer; _Value: Integer);
+  public
+    property ColWidths[Index: Integer]: Integer read GetColWidths write SetColWidths;
+  //RowHeights
+  private
+    FRowHeights: array of Integer;
+    function  GetRowHeights(Index: Integer): Integer;
+    procedure SetRowHeights(Index: Integer; _Value: Integer);
+  public
+    property RowHeights[Index: Integer]: Integer read GetRowHeights write SetRowHeights;
+  //ClientWidth
+  public
+    ClientWidth: Integer;
+  //GridLineWidth
+  public
+    GridLineWidth: Integer;
+  //DefaultColWidth
+  public
+    DefaultColWidth: Integer;
+  //DefaultRowHeight
+  public
+    DefaultRowHeight: Integer;
+  //Col
+  public
+    Col: Integer;
+  //Row
+  public
+    Row: Integer;
+  //Selection
+  public
+    Selection: TRect;
+  //Width
+  public
+    Width: Integer;
+  //Height
+  public
+    Height: Integer;
+  //Cells
+  private
+    FCells: array of array of String;
+    function GetCell( _Col, _Row: Integer): String;
+    procedure SetCell( _Col, _Row: Integer; _Value: String);
+  public
+    property Cells[ _Col, _Row: Integer]: String read GetCell write SetCell;
+  //Objects
+  private
+    FObjects: array of array of TObject;
+    function GetObject( _Col, _Row: Integer): TObject;
+    procedure SetObject( _Col, _Row: Integer; _Value: TObject);
+  public
+    property Objects[ _Col, _Row: Integer]: TObject read GetObject write SetObject;
+  //be
+  private
+    function GetBatpro_Element( _Col, _Row: Integer): TBatpro_Element;
+    procedure SetBatpro_Element( _Col, _Row: Integer; _Value: TBatpro_Element);
+  public
+    property Batpro_Element[ _Col, _Row: Integer]: TBatpro_Element read GetBatpro_Element write SetBatpro_Element;
+  end;
+
+{$IFNDEF WINDOWS_GRAPHIC}
+ TStringGrid= TStringGridWeb;
+ TBrushStyle = TFPBrushStyle;
+
+ TBrush
+ =
+  class
+  Color: TColor;
+  Style: TBrushStyle;
+  end;
+
+ TPenStyle=TFPPenStyle;
+
+ TPen
+ =
+  class
+  Color: TColor;
+  Width: Integer;
+  Mode : TFPPenMode;
+  Style: TPenStyle;
+  end;
+
+ TCanvas
+ =
+  class( TFPCustomCanvas)
+  private
+    FFBrush: TBrush;
+    FFPen  : TPen  ;
+  public
+    property Brush: TBrush read FFBrush write FFBrush;
+    property Pen  : TPen   read FFPen   write FFPen  ;
+  end;
+ TFontStyle=(fsBold, fsItalic);
+ TFontStyles= set of TFontStyle;
+
+ { TFont }
+
+ TFont
+ =
+  class(TFPCustomFont)
+  public
+    Color: TColor;
+    Style: TFontStyles;
+    constructor Create;
+    procedure Assign( _Source: TPersistent); override;
+  end;
+{$ELSE}
+ TFont      = FMX.Graphics  .TFont      ;
+ TFontStyle = System.UITypes.TFontStyle ;
+ TFontStyles= System.UITypes.TFontStyles;
+{$ENDIF}
+
+ { TDrawInfo }
+
+ TDrawInfo
+ =
+  class
+  //Gestion du cycle de vie
+  public
+    constructor Create(unContexte: Integer; _sg: TStringGrid);
+  //attributs
+  public
+    sg: FMX.Grid.TStringGrid;
+    Contexte: Integer;
+  //Draw
+  public
+    Canvas: TCanvas;
+  public
+    Col, Row: Integer;
+    Rect_Original: TRect; //pour échapper au bornage de la hauteur dans planning production
+    Rect: TRect;
+    Impression: Boolean;
+    procedure Init_Draw( _Canvas: TCanvas; _Col, _Row: Integer; _Rect: TRect;
+                         _Impression: Boolean);
+  //Cell
+  public
+    Fixe: Boolean;
+    Fond: TColor;
+    procedure Init_Cell( _Fixe, _Gris: Boolean);
+  //Gestion des jours non ouvrables
+  public
+    Couleur_Jour_Non_Ouvrable: TColor;
+    Gris: Boolean;
+  //SVG
+  public
+    SVG_Drawing: Boolean;
+    svg: TSVGDocument;
+    eCell: TJclSimpleXMLElem;
+    procedure Init_SVG( _svg: TSVGDocument; _eCell: TJclSimpleXMLElem);
+    function _rect( _R: TRect;
+                   _Color: TColor;
+                   _Pen_Color: TColor;
+                   _Pen_Width: Integer): TJclSimpleXMLElem;
+    function rect_pattern( _R: TRect;
+                           _pattern: String;
+                           _Pen_Color: TColor;
+                           _Pen_Width: Integer): TJclSimpleXMLElem;
+    function rect_hachures_slash( _R: TRect;
+                                  _Pen_Color: TColor;
+                                  _Pen_Width: Integer): TJclSimpleXMLElem;
+    function rect_hachures_backslash( _R: TRect;
+                                      _Pen_Color: TColor;
+                                      _Pen_Width: Integer): TJclSimpleXMLElem;
+    function rect_uni( _R: TRect; _Color: TColor): TJclSimpleXMLElem;
+    function rect_vide( _R: TRect;
+                        _Pen_Color: TColor;
+                        _Pen_Width: Integer): TJclSimpleXMLElem;
+    function _ellipse( _R: TRect;
+                   _Color: TColor;
+                   _Pen_Color: TColor;
+                   _Pen_Width: Integer): TJclSimpleXMLElem;
+    function text( _X, _Y: Integer;
+                   _Text, _Font_Family: String;
+                   _Font_Size: Integer;
+                   _Font_Family_Generic: String = 'sans-serif'): TJclSimpleXMLElem;
+    function text_a_Gauche(
+                   _X, _Y: Integer;
+                   _Text, _Font_Family: String;
+                   _Font_Size: Integer;
+                   _Font_Family_Generic: String = 'sans-serif'): TJclSimpleXMLElem;
+    function text_au_Milieu(
+                   _X, _Y: Integer;
+                   _Text, _Font_Family: String;
+                   _Font_Size: Integer;
+                   _Font_Family_Generic: String = 'sans-serif'): TJclSimpleXMLElem;
+    function text_a_Droite(
+                   _X, _Y: Integer;
+                   _Text, _Font_Family: String;
+                   _Font_Size: Integer;
+                   _Font_Family_Generic: String = 'sans-serif'): TJclSimpleXMLElem;
+    function text_rotate( _X, _Y: Integer;
+                          _Text, _Font_Family: String;
+                          _Font_Size: Integer;
+                          _Rotate: Integer): TJclSimpleXMLElem;
+    function line( _x1, _y1, _x2, _y2: Integer;
+                   _stroke: TColor;
+                   _stroke_width: Integer): TJclSimpleXMLElem;
+    function line_dash( _x1, _y1, _x2, _y2: Integer;
+                        _stroke: TColor;
+                        _stroke_width: Integer): TJclSimpleXMLElem;
+    function svg_polygon( _points: array of TPoint;
+                      _Color: TColor;
+                      _Pen_Color: TColor;
+                      _Pen_Width: Integer): TJclSimpleXMLElem;
+    function svg_PolyBezier( _points: array of TPoint;
+                         _Pen_Color: TColor;
+                         _Pen_Width: Integer): TJclSimpleXMLElem;
+    function image( _x, _y, _width, _height: Integer;
+                    _xlink_href: String): TJclSimpleXMLElem;
+    function image_from_id( _x, _y, _width, _height: Integer;
+                            _idImage: String): TJclSimpleXMLElem;
+    function image_DOCSINGL( _x, _y: Integer): TJclSimpleXMLElem;
+    function image_LOSANGE ( _x, _y: Integer): TJclSimpleXMLElem;
+    function image_LOGIN   ( _x, _y: Integer): TJclSimpleXMLElem;
+
+    function image_from_id_centre( _width, _height: Integer;
+                                       _idImage: String): TJclSimpleXMLElem;
+    function svg_image_DOCSINGL_centre: TJclSimpleXMLElem;
+    function svg_image_LOSANGE__centre: TJclSimpleXMLElem;
+    function svg_image_LOGIN__centre: TJclSimpleXMLElem;
+    function svg_image_MEN_AT_WORK__centre: TJclSimpleXMLElem;
+    function svg_image_DOSSIER_KDE_PAR_POSTE__centre: TJclSimpleXMLElem;
+
+    function image_from_id_bas_droite( _width, _height: Integer;
+                                       _idImage: String): TJclSimpleXMLElem;
+    function svg_image_DOCSINGL_bas_droite: TJclSimpleXMLElem;
+    function image_LOSANGE__bas_droite: TJclSimpleXMLElem;
+    function svg_image_LOGIN__bas_droite: TJclSimpleXMLElem;
+    procedure svgDessinne_Coche( _CouleurFond, _CouleurCoche: TColor;
+                                 _Coche: Boolean);
+  //Méthodes
+  public
+    procedure Borne_Hauteur;
+  //abstraction SVG /Canvas
+  private
+    XTortue, YTortue: Integer;//graphiques tortue, point courant MoveTo/LineTo
+    FCouleurLigne: TColor;
+    FCouleur_Brosse: TColor;
+    FLargeurLigne: Integer;
+    FStyleLigne: TStrokeDash;
+    procedure SetCouleurLigne(const Value: TColor);
+    procedure SetCouleur_Brosse(const Value: TColor);
+    procedure SetLargeurLigne(const Value: Integer);
+    procedure SetStyleLigne(const Value: TStrokeDash);
+  public
+    property CouleurLigne: TColor read FCouleurLigne write SetCouleurLigne;
+    property Couleur_Brosse: TColor read FCouleur_Brosse write SetCouleur_Brosse;
+    property LargeurLigne: Integer read FLargeurLigne write SetLargeurLigne;
+    property StyleLigne: TStrokeDash read FStyleLigne write SetStyleLigne;
+    procedure MoveTo( X, Y: Integer);
+    procedure LineTo( X, Y: Integer);
+    procedure Contour_Rectangle( _R: TRect; _Couleur: TColor);
+    procedure Remplit_Rectangle( _R: TRect; _Couleur: TColor);
+    procedure Rectangle( X1, Y1, X2, Y2: Integer); overload;
+    procedure Rectangle( _R: TRect); overload;
+    procedure Ellipse( X1, Y1, X2, Y2: Integer);
+    procedure Polygon(const Points: array of TPoint);
+    procedure PolyBezier(const Points: array of TPoint);
+    procedure image_DOCSINGL_bas_droite( _Couleur_Fond: TColor);
+    procedure image_DOCSINGL_centre( _Couleur_Fond: TColor);
+    procedure image_LOSANGE__centre( _Couleur_Fond: TColor);
+
+    procedure image_LOGIN__centre( _Couleur_Fond: TColor);
+    procedure image_LOGIN_bas_droite(_Couleur_Fond: TColor);
+
+    procedure image_MEN_AT_WORK__centre( _Couleur_Fond: TColor);
+    procedure image_DOSSIER_KDE_PAR_POSTE__centre( _Couleur_Fond: TColor);
+    procedure Dessine_Fond;
+    procedure Traite_Grille_impression( _Afficher_Grille: Boolean);
+  end;
+
+{fin de l'unité uDrawInfo déplacée}
+{début de l'unité uTraits déplacée}
+ TArete
+ =
+  (
+  a_Milieu,
+  a_Gauche,
+  a_Haut  ,
+  a_Droite,
+  a_Bas
+  );
+ TProgression_Trait
+ =
+  class
+  //Gestion du cycle de vie
+  public
+    constructor Create;
+    destructor Destroy; override;
+  //Attributs
+  public
+    Debut, Arrivee: TArete;
+    Step: Integer;
+  end;
+ TLigne
+ =
+  class
+  //Gestion du cycle de vie
+  public
+    constructor Create;
+    destructor Destroy; override;
+  //Attributs
+  public
+    bl_1,
+    bl_2: TObject;
+    x1,y1,
+    x2,y2: Integer;
+    IndiceColonne: Integer;
+  //Clé
+  public
+    function sCle: String;
+  //Progressions
+  private
+    FHorizontal: TProgression_Trait;
+    FAngle     : TProgression_Trait;
+    FVertical  : TProgression_Trait;
+    procedure Assure_Progression( var pt: TProgression_Trait);
+  public
+    function Horizontal: TProgression_Trait;
+    function Angle     : TProgression_Trait;
+    function Vertical  : TProgression_Trait;
+  end;
+ TTrait
+ =
+  class
+  //Gestion du cycle de vie
+  public
+    constructor Create;
+    destructor Destroy; override;
+  //Attributs
+  public
+    Ligne: TLigne;
+    Depart, Arrivee: TArete;
+    a: double;
+    IsDebutLigne, IsFinLigne: Boolean;
+  //Méthodes
+  public
+    procedure {svg}Dessinne(  DrawInfo: TDrawInfo);
+  end;
+ TTraits
+ =
+  class
+  //Gestion du cycle de vie
+  public
+    constructor Create;
+    destructor Destroy; override;
+  //Attributs
+  public
+    sl: TBatpro_StringList;
+  //Méthodes
+  public
+    function Ajoute( _Ligne: TLigne;
+                      _Depart, _Arrivee: TArete): TTrait;
+    procedure {svg}Dessinne( DrawInfo: TDrawInfo);
+    procedure Vide;
+  end;
+
+{fin de l'unité uTraits déplacée}
+
+  {$IFNDEF WINDOWS_GRAPHIC}
+
+  { TPopupMenu }
+
+  TPopupMenu
+  =
+   class
+     constructor create( _object: TObject);
+   end;
+
+  { TMenuItem }
+
+  TMenuItem
+  =
+   class
+     constructor create( _object: TObject);
+   end;
+
+  TMouseButton=TObject;
+  {$ELSE}
+  TPopupMenu  = FMX.Menus.TPopupMenu;
+  TMenuItem   =FMX.Menus.TMenuItem;
+  TMouseButton=System.UITypes.TMouseButton;
+  {$ENDIF}
   TTypeJalon = (
                tj_Losange, tj_LosangePlein,
                tj_Ellipse, tj_TraitVertical, tj_Puce,
@@ -100,13 +664,6 @@ type
    ss_DemiLigne_Pointille,
    ss_DemiLigne_Points
    );
-type
- TBatpro_Element= class;
- TAggregations  = class;
- ThAggregation_Create_Params= class;
- ThAggregation_class= class of ThAggregation;
- TBatpro_Serie  = class;
- TBatpro_Cluster= class;
 
  IBatpro_Element_Editeur
  =
@@ -114,9 +671,6 @@ type
   ['{64BF044D-1965-45D8-9DA5-389664F8F606}']//généré dans Delphi par(Maj+Ctrl+G)
     function Edite( be: TBatpro_Element): Boolean;
   end;
-
- TBatpro_ElementClassParams= class;
- TslBatpro_Element = class;
 
  { TBatpro_Element }
 
@@ -143,7 +697,7 @@ type
     function Rect_Externe_from_Interne( DrawInfo: TDrawInfo; Valeur: TRect): TRect;
     function Rectangle_Aligne( R: TRect; Alignement: TbeAlignement; Largeur, Hauteur: Integer):TRect;
   public
-    function Cell_Height( DrawInfo: TDrawInfo; Cell_Width: Integer): Integer; virtual;
+    function Cell_Height( _DrawInfo: TDrawInfo; _Cell_Width: Integer): Integer; virtual;
     function Cell_Width( DrawInfo: TDrawInfo): Integer; virtual;
   //Gestion de l'orientation
   public
@@ -271,16 +825,20 @@ type
   public
     property Aggregeurs: TBatpro_StringList read GetAggregeurs;
   //Connecteurs : liste des objets TBatpro_element qui ont un pointeur vers cet objet
+  //Connectes   : liste de pointeurs vers des objets TBatpro_element
   private
     FConnecteurs: TslBatpro_Element;
+    FConnectes: TslBatpro_Element;
     function GetConnecteurs: TslBatpro_Element;
+    function GetConnectes: TslBatpro_Element;
     //Fonctionne à l'endroit sur Self.FConnecteurs
-    procedure Connecteurs_Ajoute( _be: TBatpro_Element);
+    procedure Connecteurs_Ajoute( _be: TBatpro_Element; _Nom: String= '');
     procedure Connecteurs_Enleve( _be: TBatpro_Element);
   public
     property Connecteurs: TslBatpro_Element read GetConnecteurs;
+    property Connectes: TslBatpro_Element read GetConnectes;
     //On fonctionne à l'envers sur  _be.FConnecteurs
-    procedure Connect_To( _be: TBatpro_Element);
+    procedure Connect_To( _be: TBatpro_Element; _Nom: String= '');
     procedure Unconnect_To( var _be; _Contexte: String= '');
   //Gestion des traits de connection
   private
@@ -326,6 +884,38 @@ type
   //Vérification de la cohérence
   public
     procedure Verifie_coherence( var _log: String); virtual;
+  end;
+
+ TbeClusterElement
+ =
+  class( TBatpro_Element)
+  private
+    FbeCluster: TBatpro_Element;
+  protected
+    function GetCell(Contexte: Integer): String; override;
+
+  public
+    constructor Create( un_sl: TBatpro_StringList; _beCluster: TBatpro_Element);
+    procedure Draw(DrawInfo: TDrawInfo); override;
+
+    function Cell_Height( _DrawInfo: TDrawInfo; _Cell_Width: Integer): Integer; override;
+    procedure CalculeLargeur( DrawInfo: TDrawInfo;
+                              Colonne, Ligne: Integer;
+                              var Largeur: Integer);
+    procedure CalculeHauteur( DrawInfo: TDrawInfo;
+                              Colonne, Ligne: Integer;
+                              var Hauteur: Integer);
+    procedure Initialise;
+    procedure Ajoute( Colonne, Ligne: Integer);
+    function  sEtatCluster: String;
+    property beCluster: TBatpro_Element read FbeCluster;
+
+  //Affichage SVG
+  public
+    procedure svgDraw( DrawInfo: TDrawInfo); override;
+  //Contenu
+  public
+    function Contenu(Contexte: Integer; Col: Integer; Row: Integer): String; override;
   end;
 
  TBatpro_ElementClassParams
@@ -492,8 +1082,8 @@ type
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: TBatpro_Element);
-    function  not_Suivant( var _Resultat: TBatpro_Element): Boolean;
+    procedure Suivant( out _Resultat: TBatpro_Element);
+    function  not_Suivant( out _Resultat: TBatpro_Element): Boolean;
   end;
 
  TslBatpro_Element
@@ -511,26 +1101,33 @@ type
     function Iterateur_Decroissant: TIterateur_Batpro_Element;
   end;
 
- Tpool_Ancetre_Ancetre
+ THTTP_Interface_Ancetre
  =
-  class( TDataModule)
-  //Gestion de la clé
+  class
+  //méthodes d'envoi de données
   public
-    procedure sCle_Change( _bl: TBatpro_element); virtual; 
-  //Suppression
+    procedure Send_Data(_Content_type, _Data: String);         virtual;abstract;
+    procedure Send_Fichier( _NomFichier: String);              virtual;abstract;
+    procedure Send_HTML(_HTML: String);                        virtual;abstract;
+    procedure Send_JSON(_JSON: String);                        virtual;abstract;
+    procedure Send_Text(_Text: String);                        virtual;abstract;
+    procedure Send_JS(_JS: String);                            virtual;abstract;
+    procedure Send_CSS(_CSS: String);                          virtual;abstract;
+    procedure Send_WOFF(_WOFF: String);                        virtual;abstract;
+    procedure Send_WOFF2(_WOFF2: String);                      virtual;abstract;
+    procedure Send_ICO(_ICO: String);                          virtual;abstract;
+    procedure Send_MIME_from_Extension(_S, _Extension: String);virtual;abstract;
+    procedure Send_Not_found;                                  virtual;abstract;
+  //Traitement des appels
   public
-    procedure Supprimer( var bl); virtual; abstract;
-  //Nom de la table
-  protected
-    FNomTable: String;
-    procedure SetNomTable(const Value: String); virtual; abstract;
-    property NomTable: String read FNomTable write SetNomTable;
-  public
-    property NomTable_public: String read FNomTable;
-  //Gestion communication HTTP avec pages html Angular / JSON
-  public
-    function Traite_HTTP: Boolean; virtual; abstract;
+    uri: String;
+    uri_lowercase: String;
+    body: String;
+    function Prefixe( _Prefixe: String): Boolean;              virtual;abstract;
   end;
+
+ { Tpool_Ancetre_Ancetre }
+ Tpool_Ancetre_Ancetre= class;
 
  TIterateur_pool_Ancetre_Ancetre
  =
@@ -556,6 +1153,44 @@ type
     function Iterateur_Decroissant: TIterateur_pool_Ancetre_Ancetre;
   end;
 
+ Tpool_Ancetre_Ancetre_Class= class of Tpool_Ancetre_Ancetre;
+
+ Tpool_Ancetre_Ancetre
+ =
+  class( TBatpro_Element)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _sl: TBatpro_StringList);reintroduce;virtual;
+    destructor Destroy; override;
+  public
+    class function Name: String;
+  //Gestion de la clé
+  public
+    procedure sCle_Change( _bl: TBatpro_element); virtual; 
+  //Suppression
+  public
+    procedure Supprimer( var bl); virtual; abstract;
+  //Nom de la table
+  protected
+    FNomTable: String;
+    procedure SetNomTable(const Value: String); virtual; abstract;
+    property NomTable: String read FNomTable write SetNomTable;
+  public
+    property NomTable_public: String read FNomTable;
+  //Gestion communication HTTP avec pages html Angular / JSON
+  public
+    function Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boolean; virtual; abstract;
+  //Logique de classe pour la gestion des instances
+  private
+    class var Fclass_sl: Tslpool_Ancetre_Ancetre;
+  public
+    class function class_sl: Tslpool_Ancetre_Ancetre;
+    class procedure class_Create (               var Reference ; Classe: Tpool_Ancetre_Ancetre_Class);
+    class procedure class_Destroy(               var Reference                                      );
+    class procedure class_Get    ( out Resultat; var Reference ; Classe: Tpool_Ancetre_Ancetre_Class);
+  end;
+
+ Tfunction_pool_Ancetre_Ancetre= function : Tpool_Ancetre_Ancetre;
 
  ThAggregation= class;
 
@@ -564,8 +1199,8 @@ type
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: ThAggregation);
-    function  not_Suivant( var _Resultat: ThAggregation): Boolean;
+    procedure Suivant( out _Resultat: ThAggregation);
+    function  not_Suivant( out _Resultat: ThAggregation): Boolean;
   end;
 
  TslhAggregation
@@ -608,6 +1243,9 @@ type
   public
     function Is_Vide: Boolean;
     function Contient( be: TBatpro_Element): Boolean;
+  //Vidage
+  public
+    procedure Vide; virtual;
   //Chargement de tous les détails
   public
     procedure Charge; virtual;
@@ -637,12 +1275,16 @@ type
   //Export JSON, JavaScript Object Notation
   public
     function JSON: String; override;
+    function JSON_Persistants: String; override;
   //Type d'aggrégation: forte ou faible
   public
     Forte: Boolean;
   //Listing des champs pour déboguage
   public
     function Listing( Indentation: String): String; virtual;
+  //Gestion de la clé
+  public
+    procedure sCle_Change( _bl: TBatpro_Element);
   end;
 
  ThAggregation_Create_Params
@@ -701,6 +1343,7 @@ type
     property by_Name[ Name: String]:ThAggregation
              read  Get_by_Name
              write Set_by_Name; default;
+    function Iterateur: TIterateur_hAggregation;
   //Déconnection simple
   public
     procedure Deconnecte;
@@ -710,12 +1353,16 @@ type
   //Export JSON, JavaScript Object Notation
   public
     function JSON: String;
+    function JSON_Persistants: String;
   //Suppression
   public
     procedure Delete_from_database; 
   //Listing des champs pour déboguage
   public
     function Listing( Indentation: String): String;
+  //Gestion de la clé
+  public
+    procedure sCle_Change( _bl: TBatpro_Element);
   end;
 
 function hAggregation_from_sl( sl: TStringList; Index: Integer): ThAggregation;
@@ -732,6 +1379,9 @@ var
    poolG_BECP_Cree: TpoolG_BECP_Cree_Function= nil;
    uBatpro_Element_Afficher_Grille: Boolean= True;
 
+function Ligne_from_sl( sl: TStringList; Index: Integer): TLigne;
+function Ligne_from_sl_sCle( sl: TStringList; sCle: String): TLigne;
+
 function Batpro_Element_from_sl( sl: TStringList; Index: Integer): TBatpro_Element;
 
 function Batpro_Element_from_sl_sCle( sl: TStringList; sCle: String): TBatpro_Element;
@@ -743,9 +1393,1798 @@ procedure slExtrait_SousListe( Source: TBatpro_StringList; sCle: String; Cible: 
 procedure sl_ToutSelectionner( _sl: TBatpro_StringList);
 procedure sl_ToutDeselectionner( _sl: TBatpro_StringList);
 
+type
+ TPlace_function_result = ( pfr_Success, pfr_Index_negatif, pfr_Deja_pris);
+
+function Place( sl: TBatpro_StringList; Index: Integer; S: String; O: TObject;
+                Contexte_si_erreur: String;
+                Modal_si_erreur: Boolean = True): TPlace_function_result;
+function Description_Objet( Titre: String; O: TObject): String;
+
+procedure Copie         ( Source: TBatpro_StringList; IndexSource: Integer; Cible: TBatpro_StringList);
+procedure Transfere     ( Source: TBatpro_StringList; IndexSource: Integer; Cible: TBatpro_StringList);
+procedure AjouteListe   ( Source: TBatpro_StringList; Cible: array of TBatpro_StringList);
+procedure AssureLongueur( sl: TBatpro_StringList; Longueur: Integer; sCle: String);
+
+procedure Affiche_Classes( Titre: String; sl: TBatpro_StringList);
+
+function beClusterElement_from_sl( sl: TBatpro_StringList; Index: Integer): TbeClusterElement;
+
+procedure Initialise_Clusters( sl: TBatpro_StringList); overload;
+procedure Initialise_Clusters( bts: TbtString); overload;
+
+procedure Vide_StringGrid( _sg: TStringGridWeb);
+
+procedure Vide_StringGrid_Liste( _sg: TStringGridWeb);
+
+{Début de l'ancienne unité uDessin}
+procedure Dessinne_Coche( Canvas: TCanvas;
+                          CouleurFond, CouleurCoche: TColor;
+                          R: TRectF;
+                          Coche: Boolean);
+
+procedure Dessinne_X( Canvas: TCanvas;
+                      CouleurFond, CouleurCoche: TColor;
+                      R: TRectF;
+                      X: Boolean);
+
+procedure Dessinne_Coche_X( Canvas: TCanvas;
+                      CouleurFond, CouleurCoche: TColor;
+                      R: TRectF;
+                      Coche_X, Coche, X: String);
+
+procedure FrameRect_0( C: TCanvas; R: TRectF);
+
+{Fin de l'ancienne unité uDessin}
+{Début de l'ancienne unité uWindows}
+var
+   //bords non 3D
+   CXBORDER, CYBORDER: Integer;
+   //bords 3D
+   CXEDGE  , CYEDGE  : Integer;
+{Fin de l'ancienne unité uWindows}
+
+
 implementation
 
-{$R *.fmx}
+{Début de l'ancienne unité uDessin}
+procedure Dessinne_Coche( Canvas: TCanvas;
+                          CouleurFond, CouleurCoche: TColor;
+                          R: TRectF;
+                          Coche: Boolean);
+var
+   W, H, W3, H3, W5, H5: Single;
+   OldPenWidth: Single;
+   OldColor: TColor;
+   P1, P2, P3: TPointF;
+   procedure WH_from_R;
+   begin
+        W:= R.Right  - R.Left;
+        H:= R.Bottom - R.Top ;
+
+        W3:= W / 3;
+        H3:= H / 3;
+
+        W5:= W / 5;
+        H5:= H / 5;
+   end;
+begin
+     with Canvas
+     do
+       begin
+       OldColor:= Fill.Color;
+       Fill.Color:= CouleurFond;
+       FillRect( R, 0, 0, [], 1);
+       Fill.Color:= OldColor;
+       if Coche
+       then
+           begin
+           OldPenWidth:= Stroke.Thickness;
+           OldColor   := Stroke.Color;
+
+           // on rétrécit R de 1/5
+           WH_from_R;
+           InflateRect( R, -W5, -H5);
+           WH_from_R;
+
+           P1:= PointF( R.Left   , R.Top   +H3);
+           P2:= PointF( R.Left+W3, R.Bottom   );
+           P3:= PointF( R.Right  , R.Top      );
+           Stroke.Color:= CouleurCoche;
+
+           Stroke.Thickness:= 1;
+           DrawLine( P1, P2, 1);
+
+           Stroke.Thickness:= 2;
+           DrawLine( P2, P3, 1);
+
+           Stroke.Color:= OldColor;
+           Stroke.Thickness:= OldPenWidth;
+           end;
+       end;
+end;
+
+procedure Dessinne_X( Canvas: TCanvas;
+                      CouleurFond, CouleurCoche: TColor;
+                      R: TRectF;
+                      X: Boolean);
+var
+   W, H, W3, H3, W5, H5: Single;
+   OldPenWidth: Single;
+   OldColor: TColor;
+   procedure WH_from_R;
+   begin
+        W:= R.Right  - R.Left;
+        H:= R.Bottom - R.Top ;
+
+        W3:= W / 3;
+        H3:= H / 3;
+
+        W5:= W / 5;
+        H5:= H / 5;
+   end;
+begin
+     with Canvas
+     do
+       begin
+       OldColor:= Fill.Color;
+       Fill.Color:= CouleurFond;
+       FillRect( R, 0, 0, [], 1);
+       Fill.Color:= OldColor;
+       if X
+       then
+           begin
+           OldPenWidth:= Stroke.Thickness;
+           OldColor   := Stroke.Color;
+
+           // on rétrécit R de 1/5
+           WH_from_R;
+           InflateRect( R, -W5, -H5);
+           WH_from_R;
+
+           Stroke.Color:= CouleurCoche;
+           Stroke.Thickness:= 2;
+
+           DrawLine( PointF( R.Left , R.Top),PointF( R.Right, R.Bottom), 1);
+           DrawLine( PointF( R.Right, R.Top),PointF( R.Left , R.Bottom), 1);
+
+           Stroke.Color:= OldColor;
+           Stroke.Thickness:= OldPenWidth;
+           end;
+       end;
+end;
+
+procedure Dessinne_Coche_X( Canvas: TCanvas;
+                      CouleurFond, CouleurCoche: TColor;
+                      R: TRectF;
+                      Coche_X, Coche, X: String);
+begin
+     if Coche = Coche_X
+     then
+         Dessinne_Coche( Canvas, CouleurFond, CouleurCoche, R, True)
+     else
+         Dessinne_X( Canvas, CouleurFond, CouleurCoche, R, X = Coche_X);
+end;
+
+procedure FrameRect_0( C: TCanvas; R: TRectF);
+var
+   P: TPolygon;
+   OldPenWidth: Single;
+begin
+     P[0]:= R.TopLeft;
+     P[1]:= PointF( R.Right, R.Top);
+     P[2]:= R.BottomRight;
+     P[3]:= PointF( R.Left, R.Bottom);
+     P[4]:= P[0];
+     OldPenWidth  := C.Stroke.Thickness;
+     try
+        C.Stroke.Thickness:= 0;
+        C.DrawPolygon( P, 1);
+     finally
+            C.Stroke.Thickness  := OldPenWidth;
+            end;
+end;
+{Fin de l'ancienne unité uDessin}
+
+procedure Vide_StringGrid( _sg: TStringGridWeb);
+var
+   Ligne, Colonne: Integer;
+begin
+     if _sg = nil then exit;
+     for Ligne:= 0 to _sg.RowCount - 1
+     do
+       for Colonne:= 0 to _sg.ColCount - 1
+       do
+         begin
+         _sg.Objects[ Colonne, Ligne]:= nil;
+         _sg.Cells[ Colonne, Ligne]:= sys_Vide;
+         end;
+end;
+
+procedure Vide_StringGrid_Liste( _sg: TStringGridWeb);
+var
+   Ligne, Colonne: Integer;
+begin
+     if _sg = nil then exit;
+     Colonne:= 0;
+     for Ligne:= 0 to _sg.RowCount - 1
+     do
+       begin
+       _sg.Objects[ Colonne, Ligne]:= nil;
+       _sg.Cells[ Colonne, Ligne]:= sys_Vide;
+       end;
+end;
+
+{ TStringGridWeb }
+
+constructor TStringGridWeb.Create;
+begin
+     ColCount:= 0;
+     RowCount:= 0;
+     Resize;
+end;
+
+destructor TStringGridWeb.Destroy;
+begin
+     inherited Destroy;
+end;
+
+procedure TStringGridWeb.Resize( _ColCount: Integer= -1; _RowCount: Integer= -1);
+var
+   I: Integer;
+begin
+     if _ColCount <> -1 then FColCount:= _ColCount;
+     if _RowCount <> -1 then FRowCount:= _RowCount;
+
+     SetLength( FColWidths , ColCount);
+     SetLength( FRowHeights, RowCount);
+     for I:= Low(FColWidths) to High(FColWidths) do FColWidths[I]:= -1;
+     for I:= Low(FRowHeights) to High(FRowHeights) do FRowHeights[I]:= -1;
+
+     SetLength( FObjects, ColCount, RowCount);
+     SetLength( FCells  , ColCount, RowCount);
+end;
+
+procedure TStringGridWeb.Charge_Cell( _Colonne, _Ligne: Integer; _be: TBatpro_Element; _Contexte: Integer);
+begin
+     if _be = nil
+     then
+         begin
+         Cells  [ _Colonne, _Ligne]:= sys_Vide;
+         Objects[ _Colonne, _Ligne]:= nil;
+         end
+     else
+         begin
+         Cells  [ _Colonne, _Ligne]:= _be.Cell[ _Contexte];
+         Objects[ _Colonne, _Ligne]:= _be;
+         end;
+end;
+
+procedure TStringGridWeb.Charge_Ligne( _OffsetColonne, _Ligne: Integer;
+                                       _sl: TBatpro_StringList;
+                                       _ClusterAddInit_: Boolean;
+                                       _Contexte: Integer); overload;
+var
+   I,
+   Colonne: Integer;
+   BE: TBatpro_Element;
+   beClusterElement: TbeClusterElement;
+   Cell: String;
+begin
+     if not _ClusterAddInit_
+     then
+         Initialise_Clusters( _sl);
+
+     for I:= 0 to _sl.Count-1
+     do
+       begin
+       Colonne:= _OffsetColonne+I;
+
+       BE:= Batpro_Element_from_sl( _sl, I);
+       if Assigned( BE)
+       then
+           begin
+           Cell:= BE.Cell[ _Contexte];
+           if BE is TbeClusterElement
+           then
+               begin
+               beClusterElement:= TbeClusterElement( BE);
+               beClusterElement.Ajoute( Colonne, _Ligne);
+               end
+           end
+       else
+           Cell:= _sl.Strings[ I];
+
+       Cells  [ Colonne, _Ligne]:= Cell;
+       Objects[ Colonne, _Ligne]:= _sl.Objects[ I];
+       end;
+end;
+
+procedure TStringGridWeb.Charge_Colonne( _Colonne, _OffsetLigne: Integer;
+                                         _sl: TBatpro_StringList;
+                                         _Contexte: Integer);
+var
+   Ligne: Integer;
+   BE: TBatpro_Element;
+   Cell: String;
+begin
+     for Ligne:= 0 to _sl.Count-1
+     do
+       begin
+       BE:= Batpro_Element_from_sl( _sl, Ligne);
+       if Assigned( BE)
+       then
+           Cell:= BE.Cell[ _Contexte]
+       else
+           Cell:= _sl.Strings[ Ligne];
+       Cells  [ _Colonne, _OffsetLigne+Ligne]:= Cell;
+       Objects[ _Colonne, _OffsetLigne+Ligne]:= _sl.Objects[ Ligne];
+       end;
+end;
+
+procedure TStringGridWeb.Charge_Colonne( _Colonne, _OffsetLigne: Integer;
+                                         _beEntete: TBatpro_Element;
+                                         _sl: TBatpro_StringList;
+                                         _Contexte: Integer);
+begin
+     Charge_Cell   ( _Colonne, _OffsetLigne-1, _beEntete, _Contexte);
+     Charge_Colonne( _Colonne, _OffsetLigne  , _sl      , _Contexte);
+end;
+
+procedure TStringGridWeb.Charge_Ligne( _OffsetColonne, _Ligne: Integer;
+                                       _bts: TbtString;
+                                       _ClusterAddInit_: Boolean;
+                                       _Contexte: Integer); overload;
+var
+   I,
+   Colonne: Integer;
+   BE: TBatpro_Element;
+   beClusterElement: TbeClusterElement;
+   Cell: String;
+begin
+     if not _ClusterAddInit_
+     then
+         Initialise_Clusters( _bts);
+
+     I:= -1;
+     _bts.Iterateur_Start;
+     while not _bts.Iterateur_EOF
+     do
+       begin
+       _bts.Iterateur_Suivant( BE);
+       Inc( I);
+
+       Colonne:= _OffsetColonne+I;
+
+       if Assigned( BE)
+       then
+           begin
+           Cell:= BE.Cell[ _Contexte];
+           if BE is TbeClusterElement
+           then
+               begin
+               beClusterElement:= TbeClusterElement( BE);
+               beClusterElement.Ajoute( Colonne, _Ligne);
+               end
+           end
+       else
+           Cell:= sys_Vide;
+
+       Cells  [ Colonne, _Ligne]:= Cell;
+       Objects[ Colonne, _Ligne]:= BE;
+       end;
+end;
+
+procedure TStringGridWeb.Charge_Colonne( _Colonne, _OffsetLigne: Integer;
+                                         _bts: TbtString;
+                                         _Contexte: Integer);
+var
+   Ligne: Integer;
+   BE: TBatpro_Element;
+   Cell: String;
+begin
+     Ligne:= -1;
+     _bts.Iterateur_Start;
+     while not _bts.Iterateur_EOF
+     do
+       begin
+       _bts.Iterateur_Suivant( BE);
+       Inc( Ligne);
+
+       if Assigned( BE)
+       then
+           Cell:= BE.Cell[ _Contexte]
+       else
+           Cell:= sys_Vide;
+       Cells  [ _Colonne, _OffsetLigne+Ligne]:= Cell;
+       Objects[ _Colonne, _OffsetLigne+Ligne]:= BE;
+       end;
+end;
+
+procedure TStringGridWeb.Charge_Colonne( _Colonne, _OffsetLigne: Integer;
+                                         _beEntete: TBatpro_Element;
+                                         _bts: TbtString;
+                                         _Contexte: Integer);
+begin
+     Charge_Cell   ( _Colonne, _OffsetLigne-1, _beEntete, _Contexte);
+     Charge_Colonne( _Colonne, _OffsetLigne  , _bts     , _Contexte);
+end;
+
+function TStringGridWeb.Hauteur_Ligne( _DrawInfo: TDrawInfo;
+                                       _Ligne: Integer;
+                                       _TraiterClusters: Boolean): Integer;
+var
+   Colonne: Integer;
+   be: TBatpro_Element;
+   be_Height: Integer;
+begin
+     _DrawInfo.Row:= _Ligne;
+
+     if _TraiterClusters
+     then
+         Result:= RowHeights[ _Ligne]
+     else
+         Result:= 0;
+
+     for Colonne:= 0 to ColCount-1
+     do
+       begin
+       be:= Batpro_Element[ Colonne, _Ligne];
+       if be = nil then continue;
+
+       _DrawInfo.Col:= Colonne;
+            if not( _TraiterClusters or  (be is TbeClusterElement))
+       then
+           begin
+           be_Height:= be.Cell_Height( _DrawInfo, ColWidths[ Colonne]);
+           if be_Height > Result
+           then
+               Result:= be_Height;
+           end
+       else if      _TraiterClusters and (be is TbeClusterElement)
+       then
+           begin
+           TbeClusterElement(be).CalculeHauteur( _DrawInfo,
+                                                 Colonne, _Ligne,
+                                                 Result);
+           end;
+       end;
+end;
+
+function TStringGridWeb.Largeur_Colonne( _DrawInfo: TDrawInfo;
+                                         _Colonne: Integer;
+                                         _TraiterClusters: Boolean): Integer;
+var
+   Ligne: Integer;
+   be: TBatpro_Element;
+   be_Width: Integer;
+begin
+     _DrawInfo.Col:= _Colonne;
+
+     if _TraiterClusters
+     then
+         Result:= ColWidths[ _Colonne]
+     else
+         Result:= 0;
+
+     for Ligne:= 0 to RowCount-1
+     do
+       begin
+       be:= Batpro_Element[_Colonne, Ligne];
+       if be = nil then continue;
+       _DrawInfo.Row:= Ligne;
+
+            if not( _TraiterClusters or  (be is TbeClusterElement))
+       then
+           begin
+           be_Width:= be.Cell_Width( _DrawInfo);
+           if be_Width > Result
+           then
+               Result:= be_Width;
+           end
+       else if      _TraiterClusters and (be is TbeClusterElement)
+       then
+           begin
+           TbeClusterElement(be).CalculeLargeur( _DrawInfo,
+                                                 _Colonne, Ligne,
+                                                 Result);
+           end;
+       end;
+end;
+
+procedure TStringGridWeb.Traite_Hauteurs_Lignes( _DrawInfo: TDrawInfo);
+var
+   Ligne: Integer;
+   Max: Integer;
+begin
+     //première passe sur les cellules non-clusters
+     for Ligne:= 0 to RowCount-1
+     do
+       begin
+       Max:= Hauteur_Ligne( _DrawInfo, Ligne, False);
+       if Max > 0
+       then
+           RowHeights[ Ligne]:= Max;
+       end;
+
+     //seconde passe sur les cellules clusters
+     for Ligne:= 0 to RowCount-1
+     do
+       begin
+       Max:= Hauteur_Ligne( _DrawInfo, Ligne, True);
+       if Max > 0
+       then
+           RowHeights[ Ligne]:= Max;
+       end;
+end;
+
+procedure TStringGridWeb.Traite_Largeurs_Colonnes( _DrawInfo: TDrawInfo;
+                                                   _ColonneDebut: Integer;
+                                                   _ColonneFin  : Integer);
+var
+   Colonne: Integer;
+   Max: Integer;
+begin
+     if _ColonneFin = -1
+     then
+         _ColonneFin:= ColCount-1;
+
+     //première passe sur les cellules non-clusters
+     for Colonne:= _ColonneDebut to _ColonneFin
+     do
+       begin
+       Max:= Largeur_Colonne( _DrawInfo, Colonne, False);
+       if Max > 0
+       then
+           ColWidths[ Colonne]:= Max;
+       end;
+
+     //seconde passe sur les cellules clusters
+     for Colonne:= _ColonneDebut to _ColonneFin
+     do
+       begin
+       Max:= Largeur_Colonne( _DrawInfo, Colonne, True);
+       if Max > 0
+       then
+           ColWidths[ Colonne]:= Max;
+       end;
+end;
+
+procedure TStringGridWeb.Egalise_Largeurs_Colonnes( _ColonneDebut,
+                                                    _ColonneFin  : Integer);
+var
+   Colonne: Integer;
+   Largeur, LargeurMax: Integer;
+begin
+     //première passe de détection de la largeur maxi
+     LargeurMax:= 0;
+     for Colonne:= _ColonneDebut to _ColonneFin
+     do
+       begin
+       Largeur:= ColWidths[ Colonne];
+       if LargeurMax < Largeur
+       then
+           LargeurMax:= Largeur;
+       end;
+
+     //Seconde passe pour égaliser
+     for Colonne:= _ColonneDebut to _ColonneFin
+     do
+       ColWidths[ Colonne]:= LargeurMax;
+end;
+
+procedure TStringGridWeb.Egalise_Hauteurs_Lignes( _LigneDebut, _LigneFin: Integer);
+var
+   Ligne: Integer;
+   Hauteur, HauteurMax: Integer;
+begin
+     //première passe de détection de la Hauteur maxi
+     HauteurMax:= 0;
+     for Ligne:= _LigneDebut to _LigneFin
+     do
+       begin
+       Hauteur:= RowHeights[ Ligne];
+       if HauteurMax < Hauteur
+       then
+           HauteurMax:= Hauteur;
+       end;
+
+     //Seconde passe pour égaliser
+     for Ligne:= _LigneDebut to _LigneFin
+     do
+       RowHeights[ Ligne]:= HauteurMax;
+end;
+
+procedure TStringGridWeb.Initialise_dimensions( _ColonneDebut: Integer);
+var
+   Colonne, Ligne: Integer;
+begin
+     for Colonne:= _ColonneDebut to ColCount-1
+     do
+       ColWidths[ Colonne]:= DefaultColWidth;
+
+     for Ligne:= 0 to RowCount-1
+     do
+       RowHeights[ Ligne]:= DefaultRowHeight;
+end;
+
+procedure TStringGridWeb.Ajuste_Largeur_Client(_ColonneDebut: Integer);
+var
+   LargeurDisponible: Integer;
+   NbColonnesAjustees: Integer;
+   LargeurColonne_avec_GridLineWidth,
+   LargeurColonne, Reste: Integer;
+   Colonne: Integer;
+begin
+     LargeurDisponible:= ClientWidth - ColCount*GridLineWidth;
+     for Colonne:= 0 to _ColonneDebut-1
+     do
+       begin
+       Dec( LargeurDisponible, ColWidths[ Colonne]);
+       Dec( LargeurDisponible, GridLineWidth);
+       end;
+
+     NbColonnesAjustees:= ColCount - _ColonneDebut;
+     LargeurColonne_avec_GridLineWidth:= LargeurDisponible div NbColonnesAjustees;
+     LargeurColonne:= LargeurColonne_avec_GridLineWidth - GridLineWidth;
+     Reste:= LargeurDisponible - LargeurColonne_avec_GridLineWidth * NbColonnesAjustees;
+
+     for Colonne:= _ColonneDebut to ColCount-2
+     do
+       ColWidths[ Colonne]:= LargeurColonne;
+
+     Colonne:= ColCount-1;
+     ColWidths[ Colonne]:= LargeurColonne+Reste;
+end;
+
+procedure TStringGridWeb.Refresh;
+begin
+
+end;
+
+procedure TStringGridWeb.MouseToCell(X, Y: Integer; var ACol, ARow: Longint);
+begin
+
+end;
+
+function TStringGridWeb.CellRect( _Col, _Row: Integer): TRect;
+var
+   I: Integer;
+   X, Y: Integer;
+begin
+     Result:= Rect( 0,0,ColWidths[_Col],RowHeights[_Row]);
+     X:= 0;for I:= 0 to _Col-1 do Inc(X, ColWidths [I]);
+     Y:= 0;for I:= 0 to _Row-1 do Inc(Y, RowHeights[I]);
+     OffsetRect( Result, X, Y);
+end;
+
+
+procedure TStringGridWeb.SetColCount( _Value: Integer);
+begin
+     if FColCount= _Value then exit;
+
+     FColCount:= _Value;
+     Resize;
+end;
+
+procedure TStringGridWeb.SetRowCount( _Value: Integer);
+begin
+     if FRowCount=_Value then exit;
+
+     FRowCount:=_Value;
+     Resize;
+end;
+
+function TStringGridWeb.GetColWidths(Index: Integer): Integer;
+begin
+     Result:= FColWidths[Index];
+     if -1 = Result
+     then
+         Result:= DefaultColWidth;
+end;
+
+procedure TStringGridWeb.SetColWidths(Index: Integer; _Value: Integer);
+begin
+     FColWidths[Index]:= _Value;
+end;
+
+function TStringGridWeb.GetRowHeights(Index: Integer): Integer;
+begin
+     Result:= FRowHeights[Index];
+     if -1 = Result
+     then
+         Result:= DefaultRowHeight;
+end;
+
+procedure TStringGridWeb.SetRowHeights(Index: Integer; _Value: Integer);
+begin
+     FColWidths[Index]:= _Value;
+end;
+
+function TStringGridWeb.GetCell(_Col, _Row: Integer): String;
+begin
+     Result:= FCells[_Col][_Row];
+end;
+
+procedure TStringGridWeb.SetCell(_Col, _Row: Integer; _Value: String);
+begin
+     FCells[_Col][_Row]:= _Value;
+end;
+
+function TStringGridWeb.GetObject( _Col, _Row: Integer): TObject;
+begin
+     Result:= nil;
+
+     if _Col     <  0    then exit;
+     if ColCount <= _Col then exit;
+
+     if _Row     <  0    then exit;
+     if RowCount <= _Row then exit;
+
+     Result:= FObjects[_Col][_Row];
+end;
+
+procedure TStringGridWeb.SetObject( _Col, _Row: Integer; _Value: TObject);
+begin
+     if _Col     <  0    then exit;
+     if ColCount <= _Col then exit;
+
+     if _Row     <  0    then exit;
+     if RowCount <= _Row then exit;
+
+     FObjects[_Col][_Row]:= _Value;
+end;
+
+function TStringGridWeb.GetBatpro_Element( _Col, _Row: Integer): TBatpro_Element;
+begin
+     Affecte_( Result, TBatpro_Element, Objects[ _Col, _Row]);
+end;
+
+procedure TStringGridWeb.SetBatpro_Element( _Col, _Row: Integer; _Value: TBatpro_Element);
+begin
+     Objects[_Col, _Row]:= _Value;
+end;
+
+{début de l'unité uDrawInfo déplacée}
+function MulDiv( Nombre, Numerateur, Denominateur: Integer): Integer;
+begin
+     Result:= (Nombre*Numerateur) div Denominateur;
+end;
+
+procedure OffsetRect( var _R: TRect; _dx, _dy: Integer);
+begin
+     with _R
+     do
+       begin
+       Left  := Left  +_dx;
+       Right := Right +_dx;
+       Top   := Top   +_dy;
+       Bottom:= Bottom+_dy;
+       end;
+end;
+
+procedure InflateRect( var _R: TRect; _dx, _dy: Integer);
+begin
+     with _R
+     do
+       begin
+       Left  := Left  -_dx;
+       Right := Right +_dx;
+       Top   := Top   -_dy;
+       Bottom:= Bottom+_dy;
+       end;
+end;
+
+constructor TDrawInfo.Create( unContexte: Integer; _sg: TStringGrid);
+begin
+     Contexte:= unContexte;
+     sg:= _sg;
+end;
+
+procedure TDrawInfo.Init_Draw( _Canvas: TCanvas; _Col, _Row: Integer;
+                               _Rect: TRect; _Impression: Boolean);
+begin
+    Canvas    := _Canvas     ;
+    Col       := _Col        ;
+    Row       := _Row        ;
+    Rect      := _Rect       ;
+    Impression:= _Impression;
+    Fond      := clWhite;
+
+    Rect_Original:= Rect;
+
+    SVG_Drawing:= False;
+    FLargeurLigne:= 1;
+
+    {$IFNDEF FPC}
+    FCouleurLigne  := Canvas.Pen  .Color;
+    FCouleur_Brosse:= Canvas.Brush.Color;
+    FStyleLigne    := Canvas.Pen  .Style;
+    {$ENDIF}
+end;
+
+procedure TDrawInfo.Init_Cell( _Fixe, _Gris: Boolean);
+begin
+    Fixe:= _Fixe;
+    Gris:= _Gris;
+    Couleur_Jour_Non_Ouvrable:= Couleur_Jour_Non_Ouvrable_1_2;
+end;
+
+procedure TDrawInfo.Borne_Hauteur;
+begin                   // on garde Rect_Original pour dessinner le fond
+     if Rect.Bottom - Rect.Top > 20
+     then
+     //    Rect.Top:= Rect.Bottom - 20;
+         Rect.Bottom:=  Rect.Top+ 20;
+end;
+
+procedure TDrawInfo.Init_SVG( _svg: TSVGDocument; _eCell: TJclSimpleXMLElem);
+begin
+     svg  := _svg;
+     eCell:= _eCell;
+     SVG_Drawing:= Assigned( svg);
+end;
+
+function TDrawInfo._rect( _R: TRect; _Color: TColor;
+                          _Pen_Color: TColor;
+                          _Pen_Width: Integer): TJclSimpleXMLElem;
+begin
+     Result:= svg.rect( eCell, _R, _Color, _Pen_Color, _Pen_Width);
+end;
+
+function TDrawInfo.rect_pattern( _R: TRect; _pattern: String;
+                                 _Pen_Color: TColor;
+                                 _Pen_Width: Integer): TJclSimpleXMLElem;
+begin
+     Result:= svg.rect_pattern( eCell, _R, _pattern, _Pen_Color, _Pen_Width);
+end;
+
+function TDrawInfo.rect_hachures_slash( _R: TRect;
+                                        _Pen_Color: TColor;
+                                        _Pen_Width: Integer): TJclSimpleXMLElem;
+begin
+     Result:= rect_pattern( _R, 'Hachures_Slash', _Pen_Color, _Pen_Width);
+end;
+
+function TDrawInfo.rect_hachures_backslash( _R: TRect;
+                                            _Pen_Color: TColor;
+                                            _Pen_Width: Integer): TJclSimpleXMLElem;
+begin
+     Result:= rect_pattern( _R, 'Hachures_BackSlash', _Pen_Color, _Pen_Width);
+end;
+
+function TDrawInfo.rect_uni(_R: TRect; _Color: TColor): TJclSimpleXMLElem;
+begin
+     Result:= _rect( _R, _Color, _Color, 1);
+end;
+
+function TDrawInfo.rect_vide( _R: TRect;
+                              _Pen_Color: TColor;
+                              _Pen_Width: Integer): TJclSimpleXMLElem;
+begin
+     Result:= svg.rect_vide( eCell, _R, _Pen_Width, _Pen_Color);
+end;
+
+function TDrawInfo._ellipse(_R: TRect; _Color: TColor; _Pen_Color: TColor;
+ _Pen_Width: Integer): TJclSimpleXMLElem;
+begin
+     Result:= svg.ellipse( eCell, _R, _Color, _Pen_Color, _Pen_Width);
+end;
+
+function TDrawInfo.text( _X, _Y: Integer;
+                         _Text, _Font_Family: String;
+                         _Font_Size: Integer;
+                         _Font_Family_Generic: String): TJclSimpleXMLElem;
+begin
+     Result:= svg.text( eCell, _X, _Y, _Text, _Font_Family, _Font_Size, _Font_Family_Generic);
+end;
+
+function TDrawInfo.text_a_Gauche( _X, _Y: Integer;
+                         _Text, _Font_Family: String;
+                         _Font_Size: Integer;
+                         _Font_Family_Generic: String): TJclSimpleXMLElem;
+begin
+     Result:= svg.text_a_Gauche( eCell, _X, _Y, _Text, _Font_Family, _Font_Size, _Font_Family_Generic);
+end;
+
+function TDrawInfo.text_au_Milieu( _X, _Y: Integer;
+                         _Text, _Font_Family: String;
+                         _Font_Size: Integer;
+                         _Font_Family_Generic: String): TJclSimpleXMLElem;
+begin
+     Result:= svg.text_au_Milieu( eCell, _X, _Y, _Text, _Font_Family, _Font_Size, _Font_Family_Generic);
+end;
+
+function TDrawInfo.text_a_Droite( _X, _Y: Integer;
+                         _Text, _Font_Family: String;
+                         _Font_Size: Integer;
+                         _Font_Family_Generic: String): TJclSimpleXMLElem;
+begin
+     Result:= svg.text_a_Droite( eCell, _X, _Y, _Text, _Font_Family, _Font_Size, _Font_Family_Generic);
+end;
+
+function TDrawInfo.text_rotate(_X, _Y: Integer; _Text, _Font_Family: String;
+ _Font_Size: Integer; _Rotate: Integer): TJclSimpleXMLElem;
+begin
+     Result:= svg.text_rotate( eCell, _X, _Y, _Text, _Font_Family, _Font_Size, _Rotate);
+end;
+
+function TDrawInfo.line( _x1, _y1, _x2, _y2: Integer;
+                         _stroke: TColor; _stroke_width: Integer): TJclSimpleXMLElem;
+begin
+     Result:= svg.line( eCell, _x1, _y1, _x2, _y2, _stroke, _stroke_width);
+end;
+
+function TDrawInfo.line_dash( _x1, _y1, _x2, _y2: Integer;
+                              _stroke: TColor; _stroke_width: Integer): TJclSimpleXMLElem;
+begin
+     Result:= svg.line_dash( eCell, _x1, _y1, _x2, _y2, _stroke, _stroke_width);
+end;
+
+function TDrawInfo.svg_polygon( _points: array of TPoint;
+                            _Color: TColor;
+                            _Pen_Color: TColor;
+                            _Pen_Width: Integer): TJclSimpleXMLElem;
+begin
+     Result:= svg.polygon( eCell, _points, _Color, _Pen_Color, _Pen_Width)
+end;
+
+function TDrawInfo.svg_PolyBezier( _points: array of TPoint;
+                               _Pen_Color: TColor;
+                               _Pen_Width: Integer): TJclSimpleXMLElem;
+begin
+     Result:= svg.PolyBezier( eCell, _points, _Pen_Color, _Pen_Width);
+end;
+
+function TDrawInfo.image( _x, _y, _width, _height: Integer;
+                          _xlink_href: String): TJclSimpleXMLElem;
+begin
+     Result:= svg.image( eCell, _x, _y, _width, _height, _xlink_href);
+end;
+
+function TDrawInfo.image_from_id( _x, _y, _width, _height: Integer;
+                                  _idImage: String): TJclSimpleXMLElem;
+begin
+     Result:= image( _x, _y, _width, _height, 'url(#'+_idImage+')');;
+end;
+
+function TDrawInfo.image_DOCSINGL(_x, _y: Integer): TJclSimpleXMLElem;
+begin
+     (*
+     Result
+     :=
+       image_from_id( _x, _y,
+                      fBitmaps.svgDOCSINGL_width ,
+                      fBitmaps.svgDOCSINGL_height,
+                      fBitmaps.svgDOCSINGL_id    );
+     *)
+end;
+
+function TDrawInfo.image_LOSANGE(_x, _y: Integer): TJclSimpleXMLElem;
+begin
+     (*
+     Result
+     :=
+       image_from_id( _x, _y,
+                      fBitmaps.svgLOSANGE_width ,
+                      fBitmaps.svgLOSANGE_height,
+                      fBitmaps.svgLOSANGE_id    );
+     *)
+end;
+
+function TDrawInfo.image_LOGIN(_x, _y: Integer): TJclSimpleXMLElem;
+begin
+     (*
+     Result
+     :=
+       image_from_id( _x, _y,
+                      fBitmaps.svgLOGIN_width ,
+                      fBitmaps.svgLOGIN_height,
+                      fBitmaps.svgLOGIN_id    );
+     *)
+end;
+
+function TDrawInfo.image_from_id_centre( _width, _height: Integer;
+                                             _idImage: String): TJclSimpleXMLElem;
+var
+   dx, dy: Integer;
+   R: TRect;
+begin
+     R:= Rect;
+     dx:= (R.Right -_width -R.Left) div 2;
+     dy:= (R.Bottom-_height-R.Top ) div 2;
+     InflateRect( R, -dx, -dy);
+     Result:= image_from_id( R.Left, R.Top, _width, _height, _idImage);
+end;
+
+function TDrawInfo.svg_image_DOCSINGL_centre: TJclSimpleXMLElem;
+begin
+     (*
+     Result
+     :=
+       image_from_id_centre( fBitmaps.svgDOCSINGL_width ,
+                                 fBitmaps.svgDOCSINGL_height,
+                                 fBitmaps.svgDOCSINGL_id    );
+     *)
+end;
+
+function TDrawInfo.svg_image_LOSANGE__centre: TJclSimpleXMLElem;
+begin
+     (*
+     Result
+     :=
+       image_from_id_centre( fBitmaps.svgLOSANGE_width ,
+                                 fBitmaps.svgLOSANGE_height,
+                                 fBitmaps.svgLOSANGE_id    );
+     *)
+end;
+
+function TDrawInfo.svg_image_LOGIN__centre: TJclSimpleXMLElem;
+begin
+     (*
+     Result
+     :=
+       image_from_id_centre( fBitmaps.svgLOGIN_width ,
+                                 fBitmaps.svgLOGIN_height,
+                                 fBitmaps.svgLOGIN_id    );
+     *)
+end;
+
+function TDrawInfo.svg_image_MEN_AT_WORK__centre: TJclSimpleXMLElem;
+begin
+     {
+     Result
+     :=
+       image_from_id_centre( fBitmaps.svgMEN_AT_WORK_width ,
+                                 fBitmaps.svgMEN_AT_WORK_height,
+                                 fBitmaps.svgMEN_AT_WORK_id    );
+                                 }
+end;
+
+function TDrawInfo.svg_image_DOSSIER_KDE_PAR_POSTE__centre: TJclSimpleXMLElem;
+begin{
+     Result
+     :=
+       image_from_id_centre( fBitmaps.svgDOSSIER_KDE_PAR_POSTE_width ,
+                                 fBitmaps.svgDOSSIER_KDE_PAR_POSTE_height,
+                                 fBitmaps.svgDOSSIER_KDE_PAR_POSTE_id    );}
+end;
+
+function TDrawInfo.image_from_id_bas_droite( _width, _height: Integer;
+                                             _idImage: String): TJclSimpleXMLElem;
+var
+   x, y: Integer;
+   R: TRect;
+begin
+     R:= Rect;
+     x:= R.Right -_width ;
+     y:= R.Bottom-_height;
+     Result:= image_from_id( x, y, _width, _height, _idImage);
+end;
+
+function TDrawInfo.svg_image_DOCSINGL_bas_droite: TJclSimpleXMLElem;
+begin
+{     Result
+     :=
+       image_from_id_bas_droite( fBitmaps.svgDOCSINGL_width ,
+                                 fBitmaps.svgDOCSINGL_height,
+                                 fBitmaps.svgDOCSINGL_id    );}
+end;
+
+function TDrawInfo.image_LOSANGE__bas_droite: TJclSimpleXMLElem;
+begin                                                          {
+     Result
+     :=
+       image_from_id_bas_droite( fBitmaps.svgLOSANGE_width ,
+                                 fBitmaps.svgLOSANGE_height,
+                                 fBitmaps.svgLOSANGE_id    );   }
+end;
+
+function TDrawInfo.svg_image_LOGIN__bas_droite: TJclSimpleXMLElem;
+begin                                                            {
+     Result
+     :=
+       image_from_id_bas_droite( fBitmaps.svgLOGIN_width ,
+                                 fBitmaps.svgLOGIN_height,
+                                 fBitmaps.svgLOGIN_id    );       }
+end;
+
+procedure TDrawInfo.svgDessinne_Coche( _CouleurFond, _CouleurCoche: TColor;
+                                      _Coche: Boolean);
+begin
+     svg.Dessinne_Coche( eCell, _CouleurFond, _CouleurCoche, Rect, _Coche);
+end;
+
+procedure TDrawInfo.SetCouleurLigne(const Value: TColor);
+begin
+     {$IFNDEF FPC}
+     FCouleurLigne:= Value;
+     if not SVG_Drawing
+     then
+         Canvas.Pen.Color:= FCouleurLigne;
+     {$ENDIF}
+end;
+
+
+procedure TDrawInfo.SetCouleur_Brosse(const Value: TColor);
+begin
+     {$IFNDEF FPC}
+     FCouleur_Brosse:= Value;
+     if not SVG_Drawing
+     then
+         Canvas.Brush.Color:= FCouleur_Brosse;
+     {$ENDIF}
+end;
+
+procedure TDrawInfo.SetLargeurLigne(const Value: Integer);
+begin
+     {$IFNDEF FPC}
+     FLargeurLigne := Value;
+     if not SVG_Drawing
+     then
+         Canvas.Pen.Width:= FLargeurLigne;
+     {$ENDIF}
+end;
+
+procedure TDrawInfo.SetStyleLigne(const Value: TStrokeDash);
+begin
+     {$IFNDEF FPC}
+     FStyleLigne := Value;
+     if not SVG_Drawing
+     then
+         Canvas.Pen.Style:= FStyleLigne;
+     {$ENDIF}
+end;
+
+procedure TDrawInfo.MoveTo(X, Y: Integer);
+begin
+     {$IFNDEF FPC}
+     if SVG_Drawing
+     then
+         begin
+         XTortue:= X;
+         YTortue:= Y;
+         end
+     else
+         Canvas.MoveTo( X, Y);
+     {$ENDIF}
+end;
+
+procedure TDrawInfo.LineTo(X, Y: Integer);
+begin
+     {$IFNDEF FPC}
+     if SVG_Drawing
+     then
+         begin
+         case StyleLigne
+         of
+           psSolid     : line     ( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
+           psDot       : line_dash( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
+           psDash      : line_dash( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
+           psDashDot   : line_dash( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
+           psDashDotDot: line_dash( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
+           psClear     : begin end;
+           else       line     ( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
+           end;
+         XTortue:= X;
+         YTortue:= Y;
+         end
+     else
+         Canvas.LineTo( X, Y);
+     {$ENDIF}
+end;
+
+procedure TDrawInfo.Contour_Rectangle( _R: TRect; _Couleur: TColor);
+begin
+     {$IFNDEF FPC}
+     if SVG_Drawing
+     then
+         rect_vide( _R, _Couleur, 1)
+     else
+         begin
+         Canvas.Brush.Color:= _Couleur;
+         Canvas.Brush.Style:= bsSolid;
+         Canvas.FrameRect( _R);
+         end;
+     {$ENDIF}
+end;
+
+procedure TDrawInfo.Remplit_Rectangle( _R: TRect; _Couleur: TColor);
+     procedure GDI;
+     var
+        OldColor: TColor;
+     begin
+          {$IFDEF WINDOWS_GRAPHIC}
+          OldColor:= Canvas.Brush.Color;
+          Canvas.Brush.Color:= _Couleur;
+          Canvas.FillRect( _R);
+          Canvas.Brush.Color:= OldColor;
+          {$ENDIF}
+     end;
+begin
+     if Gris
+     then
+         _Couleur:= Couleur_Jour_Non_Ouvrable;
+
+     if SVG_Drawing
+     then
+         rect_uni( _R, _Couleur)
+     else
+         GDI;
+end;
+
+procedure TDrawInfo.Polygon(const Points: array of TPoint);
+begin
+     {$IFNDEF FPC}
+     if SVG_Drawing
+     then
+         svg_polygon( Points, Couleur_Brosse, CouleurLigne, LargeurLigne)
+     else
+         Canvas.Polygon( Points);
+     {$ENDIF}
+end;
+
+procedure TDrawInfo.PolyBezier(const Points: array of TPoint);
+begin
+     {$IFNDEF FPC}
+     if SVG_Drawing
+     then
+         svg_PolyBezier( Points, CouleurLigne, LargeurLigne)
+     else
+         Canvas.PolyBezier( Points);
+     {$ENDIF}
+end;
+
+procedure TDrawInfo.Rectangle(X1, Y1, X2, Y2: Integer);
+begin
+     {$IFNDEF FPC}
+     if SVG_Drawing
+     then
+         _rect( Classes.Rect( X1, Y1, X2, Y2),
+                Couleur_Brosse, CouleurLigne, LargeurLigne)
+     else
+         Canvas.Rectangle( X1, Y1, X2, Y2);
+     {$ENDIF}
+end;
+
+procedure TDrawInfo.Ellipse( X1, Y1, X2, Y2: Integer);
+begin
+     {$IFNDEF FPC}
+     if SVG_Drawing
+     then
+         _ellipse( Classes.Rect( X1, Y1, X2, Y2),
+                   Couleur_Brosse, CouleurLigne, LargeurLigne)
+     else
+         Canvas.Ellipse( X1, Y1, X2, Y2);
+     {$ENDIF}
+end;
+
+procedure TDrawInfo.Rectangle( _R: TRect);
+begin
+     Rectangle( _R.Left, _R.Top, _R.Right, _R.Bottom);
+end;
+
+procedure TDrawInfo.image_DOCSINGL_bas_droite( _Couleur_Fond: TColor);
+begin
+     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+     if SVG_Drawing
+     then
+         svg_image_DOCSINGL_bas_droite
+     else
+         begin
+         fBitmaps.DOCSINGL.BkColor:= _Couleur_Fond;
+         fBitmaps.DOCSINGL.Draw( Canvas,
+                                 Rect.Right -fBitmaps.DOCSINGL.Width -1,
+                                 Rect.Bottom-fBitmaps.DOCSINGL.Height-1,
+                                 0);
+         end;
+     {$ENDIF}
+end;
+
+procedure TDrawInfo.image_DOCSINGL_centre( _Couleur_Fond: TColor);
+   procedure GDI;
+   var
+//      ImageList: TImageList;
+      dx, dy: Integer;
+      R: TRect;
+   begin           {
+        ImageList:= fBitmaps.DOCSINGL;
+        R:= Rect;
+        dx:= (R.Right -ImageList.Width -R.Left) div 2;
+        dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
+        InflateRect( R, -dx, -dy);
+
+        ImageList.BkColor:= _Couleur_Fond;
+        ImageList.Draw( Canvas, R.Left, R.Top, 0);}
+   end;
+begin
+     if SVG_Drawing
+     then
+         svg_image_DOCSINGL_centre
+     else
+         GDI;
+end;
+
+procedure TDrawInfo.image_LOSANGE__centre(_Couleur_Fond: TColor);
+   procedure GDI;
+   var
+//      ImageList: TImageList;
+      dx, dy: Integer;
+      R: TRect;
+   begin
+  {      ImageList:= fBitmaps.LOSANGE;
+        R:= Rect;
+        dx:= (R.Right -ImageList.Width -R.Left) div 2;
+        dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
+        InflateRect( R, -dx, -dy);
+
+        ImageList.BkColor:= _Couleur_Fond;
+        ImageList.Draw( Canvas, R.Left, R.Top, 0);}
+   end;
+begin
+     if SVG_Drawing
+     then
+         svg_image_LOSANGE__centre
+     else
+         GDI;
+end;
+
+procedure TDrawInfo.image_LOGIN__centre(_Couleur_Fond: TColor);
+   procedure GDI;
+   var
+//      ImageList: TImageList;
+      dx, dy: Integer;
+      R: TRect;
+   begin
+{        ImageList:= fBitmaps.LOGIN;
+        R:= Rect;
+        dx:= (R.Right -ImageList.Width -R.Left) div 2;
+        dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
+        InflateRect( R, -dx, -dy);
+
+        ImageList.BkColor:= _Couleur_Fond;
+        ImageList.Draw( Canvas, R.Left, R.Top, 0);}
+   end;
+begin
+     if SVG_Drawing
+     then
+         svg_image_LOGIN__centre
+     else
+         GDI;
+end;
+
+procedure TDrawInfo.image_LOGIN_bas_droite( _Couleur_Fond: TColor);
+begin
+     if SVG_Drawing
+     then
+         svg_image_LOGIN__bas_droite
+     else
+         begin
+{         fBitmaps.LOGIN.BkColor:= _Couleur_Fond;
+         fBitmaps.LOGIN.Draw( Canvas,
+                                 Rect.Right -fBitmaps.LOGIN.Width -1,
+                                 Rect.Bottom-fBitmaps.LOGIN.Height-1,
+                                 0);
+ }        end;
+end;
+
+procedure TDrawInfo.image_MEN_AT_WORK__centre(_Couleur_Fond: TColor);
+   procedure GDI;
+   var
+  //    ImageList: TImageList;
+      dx, dy: Integer;
+      R: TRect;
+   begin
+    {    ImageList:= fBitmaps.MEN_AT_WORK;
+        R:= Rect;
+        dx:= (R.Right -ImageList.Width -R.Left) div 2;
+        dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
+        InflateRect( R, -dx, -dy);
+
+        ImageList.BkColor:= _Couleur_Fond;
+        ImageList.Draw( Canvas, R.Left, R.Top, 0);
+}   end;
+begin
+     if SVG_Drawing
+     then
+         svg_image_MEN_AT_WORK__centre
+     else
+         GDI;
+end;
+
+procedure TDrawInfo.image_DOSSIER_KDE_PAR_POSTE__centre(_Couleur_Fond: TColor);
+   procedure GDI;
+   var
+ //     ImageList: TImageList;
+      dx, dy: Integer;
+      R: TRect;
+   begin
+   {     ImageList:= fBitmaps.DOSSIER_KDE_PAR_POSTE;
+        R:= Rect;
+        dx:= (R.Right -ImageList.Width -R.Left) div 2;
+        dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
+        InflateRect( R, -dx, -dy);
+
+        ImageList.BkColor:= _Couleur_Fond;
+        ImageList.Draw( Canvas, R.Left, R.Top, 0);
+}   end;
+begin
+     if SVG_Drawing
+     then
+         svg_image_DOSSIER_KDE_PAR_POSTE__centre
+     else
+         GDI;
+end;
+
+procedure TDrawInfo.Dessine_Fond;
+var
+   C: TColor;
+begin
+     if Gris
+     then
+         C:= Couleur_Jour_Non_Ouvrable
+     else
+         C:= Fond;
+     Remplit_Rectangle( Rect, C);
+end;
+
+procedure TDrawInfo.Traite_Grille_impression( _Afficher_Grille: Boolean);
+begin
+     if not Impression then exit;
+
+     {$IFDEF WINDOWS_GRAPHIC}
+     if _Afficher_Grille
+     then
+         begin
+         Canvas.Pen.Style:= psSolid;
+         Canvas.Pen.Color:= clBlack;
+         end
+     else
+         Canvas.Pen.Style:= psClear;
+     {$ENDIF}
+
+end;
+
+{$IFNDEF WINDOWS_GRAPHIC}
+{ TFont }
+
+constructor TFont.Create;
+begin
+     inherited;
+     Name:='Arial';
+     Size:= 7;
+end;
+
+procedure TFont.Assign(_Source: TPersistent);
+var
+   F: TFPCustomFont;
+begin
+     //inherited Assign(_Source);
+     if Affecte_( F, TFPCustomFont, _Source) then exit;
+
+     Name:= F.Name;
+     size:= F.Size;
+
+end;
+
+function LargeurTexte( F: TFont; S: String): Integer;
+begin
+     Result:= Length( S)*F.Size;
+end;
+
+function LineHeight( F: TFont): Integer;
+begin
+     Result:= F.Size;
+end;
+
+function HauteurTexte( F: TFont; S: String; Largeur: Integer): Integer;
+var
+   LH: Integer;
+   L: Integer;
+   NbLignes: Integer;
+begin
+     LH:= LineHeight( F);
+     Result:= LH;
+     if Largeur = 0 then exit;
+
+     L:= LargeurTexte( F, S);
+     NbLignes:= ceil( L/Largeur);
+     Result:= NbLignes*LH;
+end;
+{$ENDIF}
+
+{fin de l'unité uDrawInfo déplacée}
+{début de l'unité uTraits déplacée}
+function Ligne_from_sl( sl: TStringList; Index: Integer): TLigne;
+begin
+     _Classe_from_sl( Result, TLigne, sl, Index);
+end;
+
+function Ligne_from_sl_sCle( sl: TStringList; sCle: String): TLigne;
+begin
+     _Classe_from_sl_sCle( Result, TLigne, sl, sCle);
+end;
+
+{ TProgression_Trait }
+
+constructor TProgression_Trait.Create;
+begin
+
+end;
+
+destructor TProgression_Trait.Destroy;
+begin
+
+  inherited;
+end;
+
+{ TLigne }
+
+constructor TLigne.Create;
+begin
+     bl_1:= nil;
+     bl_2:= nil;
+     x1:= 0;
+     y1:= 0;
+     x2:= 0;
+     y2:= 0;
+     FHorizontal:= nil;
+     FAngle     := nil;
+     FVertical  := nil;
+end;
+
+destructor TLigne.Destroy;
+begin
+
+     inherited;
+end;
+
+function TLigne.sCle: String;
+begin
+     Result
+     :=
+        IntToHex( Integer(Pointer( bl_2)), 8)
+       +IntToHex( Integer(Pointer( bl_1)), 8);
+end;
+
+procedure TLigne.Assure_Progression(var pt: TProgression_Trait);
+begin
+     if pt = nil
+     then
+         pt:= TProgression_Trait.Create;
+end;
+
+function TLigne.Horizontal: TProgression_Trait;
+begin
+     Assure_Progression( FHorizontal);
+     Result:= FHorizontal;
+     if x1 <= x2
+     then
+         begin
+         Result.Step:= +1;
+         Result.Debut  := a_Gauche;
+         Result.Arrivee:= a_Droite;
+         end
+     else
+         begin
+         Result.Step:= -1;
+         Result.Debut  := a_Droite;
+         Result.Arrivee:= a_Gauche;
+         end
+end;
+
+function TLigne.Angle: TProgression_Trait;
+begin
+     Assure_Progression( FAngle);
+     Result:= FAngle;
+     Result.Step:= 0;
+     if x1 <= x2
+     then
+         Result.Debut:= a_Gauche
+     else
+         Result.Debut:= a_Droite;
+     if y1 <= y2
+     then
+         Result.Arrivee:= a_Bas
+     else
+         Result.Arrivee:= a_Haut;
+end;
+
+function TLigne.Vertical: TProgression_Trait;
+begin
+     Assure_Progression( FVertical);
+     Result:= FVertical;
+     if y1 <= y2
+     then
+         begin
+         Result.Step:= +1;
+         Result.Debut  := a_Haut;
+         Result.Arrivee:= a_Bas ;
+         end
+     else
+         begin
+         Result.Step:= -1;
+         Result.Debut  := a_Bas ;
+         Result.Arrivee:= a_Haut;
+         end
+end;
+
+{ TTrait }
+
+constructor TTrait.Create;
+begin
+     Ligne       := nil;
+     IsDebutLigne:= False;
+     IsFinLigne  := False;
+end;
+
+destructor TTrait.Destroy;
+begin
+
+     inherited;
+end;
+
+procedure TTrait.{svg}Dessinne( DrawInfo: TDrawInfo);
+var
+   XGauche, XDroite, XMilieu, XLigne: Integer;
+   YHaut  , YBas   , YMilieu: Integer;
+   W: Integer;
+   W4: Integer;//Width  div 4
+   H4: Integer;//Height div 4
+   W8: Integer;//Width  div 8
+   x1, y1, x2, y2: Integer;
+   XBezier: Integer;
+   Points: array[1..4] of TPoint;
+   procedure D( x, y: Integer);
+   begin
+        x1:= x;
+        y1:= y;
+   end;
+   procedure Ar( x, y: Integer);
+   begin
+        x2:= x;
+        y2:= y;
+   end;
+   procedure P( Indice, _x, _y: Integer);
+   begin
+        with Points[ Indice]
+        do
+          begin
+          X:= _x;
+          Y:= _y;
+          end;
+   end;
+begin
+     XGauche:= DrawInfo.Rect.Left  ;
+     XDroite:= DrawInfo.Rect.Right ;
+     XMilieu:= (XGauche + XDroite) div 2;
+
+
+     YHaut  := DrawInfo.Rect.Top   ;
+     YBas   := DrawInfo.Rect.Bottom;
+     YMilieu:= (YHaut + YBas) div 2;
+
+     W := XDroite - XGauche;
+     W4:= W div 4;
+     W8:= W div 8;
+     H4:= (YBas    - YHaut  ) div 4;
+
+     XLigne:= XGauche+W8+Trunc( Self.a * (W-W4));//marge de W8
+                                                 //a: position relative de la ligne verticale
+     case Depart
+     of
+       a_Milieu: D(XMilieu,YMilieu);
+       a_Gauche: D(XGauche,YMilieu);
+       a_Haut  : D(XLigne ,YHaut  );
+       a_Droite: D(XDroite,YMilieu);
+       a_Bas   : D(XLigne ,YBas   );
+       end;
+
+     case Arrivee
+     of
+       a_Milieu: Ar( XLigne,YMilieu);
+       a_Gauche: Ar(XGauche,YMilieu);
+       a_Haut  : Ar(XLigne ,YHaut  );
+       a_Droite: Ar(XDroite,YMilieu);
+       a_Bas   : Ar(XLigne ,YBas   );
+       end;
+
+     P( 1, x1, y1);
+     P( 4, x2, y2);
+
+     //P( 2, (XMilieu+x1)div 2, (YMilieu+y1)div 2);
+     //P( 3, (XMilieu+x2)div 2, (YMilieu+y2)div 2);
+     if      IsDebutLigne
+        and (Arrivee = a_Droite)
+     then
+         XBezier:= XMilieu
+     else
+         XBezier:= XLigne;
+     P( 2, XBezier, YMilieu);
+     P( 3, XBezier, YMilieu);
+
+     DrawInfo.PolyBezier( Points);
+
+     if IsFinLigne
+     then
+         begin
+         //DrawInfo.MoveTo( XMilieu   , YHaut  );
+         //DrawInfo.LineTo( XMilieu   , YBas-H4);
+         //DrawInfo.MoveTo( XGauche+W4, YBas-H4);
+         //DrawInfo.LineTo( XDroite-W4, YBas-H4);
+         //DrawInfo.MoveTo( XMilieu   , YHaut+H4);
+         //DrawInfo.LineTo( XMilieu   , YBas    );
+         if Depart = a_Haut
+         then
+             begin
+             DrawInfo.MoveTo( XLigne-W8, YHaut+H4);
+             DrawInfo.LineTo( XLigne   , YMilieu );
+             DrawInfo.LineTo( XLigne+W8, YHaut+H4);
+             end
+         else
+             begin
+             DrawInfo.MoveTo( XLigne-W8, YBas-H4);
+             DrawInfo.LineTo( XLigne   , YMilieu);
+             DrawInfo.LineTo( XLigne+W8, YBas-H4);
+             end;
+         end;
+     //DrawInfo.MoveTo( x1, y1);
+     //DrawInfo.LineTo( x2, y2);
+end;
+
+{ TTraits }
+
+constructor TTraits.Create;
+begin
+     sl:= TBatpro_StringList.CreateE( ClassName+'.sl', TTrait);
+end;
+
+destructor TTraits.Destroy;
+begin
+     Free_nil( sl);
+     inherited;
+end;
+
+function TTraits.Ajoute( _Ligne: TLigne; _Depart, _Arrivee: TArete): TTrait;
+begin
+     Result:= TTrait.Create;
+     Result.Ligne  := _Ligne  ;
+     Result.Depart := _Depart ;
+     Result.Arrivee:= _Arrivee;
+     sl.AddObject( '', Result);
+end;
+
+procedure TTraits.Dessinne( DrawInfo: TDrawInfo);
+var
+   T: TTrait;
+   OldPenColor: TColor;
+begin
+     if DrawInfo.Contexte = ct_PL_SAL then exit;
+
+     OldPenColor:= DrawInfo.CouleurLigne;
+     DrawInfo.CouleurLigne:= clBlue;
+
+     sl.Iterateur_Start;
+     try
+        while not sl.Iterateur_EOF
+        do
+          begin
+          sl.Iterateur_Suivant( T);
+          if T = nil then continue;
+
+          T.Dessinne( DrawInfo);
+          end;
+     finally
+            sl.Iterateur_Stop;
+            end;
+     DrawInfo.CouleurLigne:= OldPenColor;
+end;
+
+procedure TTraits.Vide;
+begin
+     Vide_StringList( sl);
+end;
+{fin de l'unité uTraits déplacée}
 
 //########################### TBatpro_Element ##################################
 
@@ -761,12 +3200,12 @@ end;
 
 { TIterateur_Batpro_Element }
 
-function TIterateur_Batpro_Element.not_Suivant( var _Resultat: TBatpro_Element): Boolean;
+function TIterateur_Batpro_Element.not_Suivant( out _Resultat: TBatpro_Element): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_Batpro_Element.Suivant( var _Resultat: TBatpro_Element);
+procedure TIterateur_Batpro_Element.Suivant( out _Resultat: TBatpro_Element);
 begin
      Suivant_interne( _Resultat);
 end;
@@ -863,6 +3302,189 @@ begin
      sl_ChangeSelected( _sl, False);
 end;
 
+function Description_Objet( Titre: String; O: TObject): String;
+var
+   be: TBatpro_Element;
+begin
+     Result:= Titre+sys_N;
+     if O = nil
+     then
+         begin
+         Result:= Result+'   pointeur à nil';
+         exit;
+         end;
+
+     Result:= Result+'   classe : '+O.ClassName+sys_N;
+
+     if not (O is TBatpro_Element) then exit;
+
+     be:= TBatpro_Element(O);
+     Result:= Result+ '   Clé de liste: >'+be.sCle+'<'+ sys_N;
+     Result:= Result+ '   Texte de cellule:'+sys_N;
+     Result:= Result+ be.Cell[0]+sys_N;
+     Result:= Result+ '   Texte de bulle d''aide:'+sys_N;
+     Result:= Result+ be.Contenu(0,-1,-1);
+
+end;
+function Place( sl: TBatpro_StringList; Index: Integer; S: String; O: TObject;
+                Contexte_si_erreur: String;
+                Modal_si_erreur: Boolean = True): TPlace_function_result;
+var
+   Messag: String;
+begin
+     Result:= pfr_Success;
+     if Index < 0
+     then
+         begin
+         Messag:= 'Erreur à signaler au développeur: '+sys_N+
+                  'Contexte: '+Contexte_si_erreur+sys_N+
+                  'uBatpro_Element.Place: l''index est négatif. '+
+                  IntToStr( Index)+sys_N+
+                  Description_Objet('Description de l''objet concerné:', O);
+         if Modal_si_erreur
+         then
+             fAccueil_Erreur( Messag)
+         else
+             fAccueil_Log( Messag);
+         sl.AddObject( S, O);
+         Result:= pfr_Index_negatif;
+         end
+     else
+         begin
+         if Index >= sl.Count
+         then
+             begin
+             while Index > sl.Count
+             do
+               sl.Add( sys_Vide);
+             sl.AddObject( S, O);
+             end
+         else
+             begin
+             if not (    (sl.Strings[Index] = sys_Vide)
+                     and (sl.Objects[Index] = nil     )
+                     )
+             then
+                 begin
+                 Messag:= 'Erreur à signaler au développeur: '+sys_N+
+                          'Contexte: '+Contexte_si_erreur+sys_N+
+                          'uBatpro_Element.Place: la position '+
+                          IntToStr(Index)+
+                          'n''est pas vide dans la liste'+sys_N+
+                          Description_Objet( 'Objet déjà présent dans la liste:',
+                                                     sl.Objects[Index])+sys_N+
+                          Description_Objet('Nouvel objet à placer:', O);
+                 if Modal_si_erreur
+                 then
+                     fAccueil_Erreur( Messag)
+                 else
+                     fAccueil_Log( Messag);
+                 Result:= pfr_Deja_pris;
+                 end
+             else
+                 begin
+                 sl.Strings[Index]:= S;
+                 sl.Objects[Index]:= O;
+                 end;
+             end;
+         end;
+end;
+
+procedure Copie( Source: TBatpro_StringList; IndexSource: Integer; Cible: TBatpro_StringList);
+var
+   S: String;
+   O: TObject;
+begin
+     if IndexSource = -1 then exit;
+     S:= Source.Strings[ IndexSource];
+     O:= Source.Objects[ IndexSource];
+     Cible.AddObject( S, O);
+end;
+
+procedure AjouteListe( Source: TBatpro_StringList; Cible: array of TBatpro_StringList);
+var
+   iSource, iCible: Integer;
+   NbCibles: Integer;
+   NbSource, NbParCible, NbCibleRestant: Integer;
+   Cible_iCible: TBatpro_StringList;
+begin
+     if Source = nil then exit;
+
+     NbSource:= Source.Count;
+     NbCibles:= Length( Cible);
+     NbParCible:= NbSource div NbCibles;
+
+     iCible:= Low( Cible);
+     NbCibleRestant:= NbParCible;
+     for iSource:= 0 to NbSource -1
+     do
+       begin
+       Cible_iCible:= Cible[iCible];
+       if Assigned( Cible_iCible)
+       then
+           Copie( Source, iSource, Cible_iCible);
+       Dec( NbCibleRestant);
+       if NbCibleRestant = 0
+       then
+           begin
+           if iCible < High( Cible)
+           then
+               Inc( iCible);
+           NbCibleRestant:= NbParCible;
+           end;
+       end;
+end;
+
+procedure AssureLongueur( sl: TBatpro_StringList; Longueur: Integer; sCle: String);
+begin
+     while sl.Count < Longueur
+     do
+       sl.AddObject( sCle, nil);
+end;
+
+procedure Transfere( Source: TBatpro_StringList; IndexSource: Integer; Cible: TBatpro_StringList);
+var
+   be: TBatpro_Element;
+begin
+     if IndexSource = -1 then exit;
+     be:= Batpro_Element_from_sl( Source, IndexSource);
+
+     Copie( Source, IndexSource, Cible);
+     Source.Delete( IndexSource);
+
+     be.sl:= Cible;
+end;
+
+procedure Affiche_Classes( Titre: String; sl: TBatpro_StringList);
+var
+   slClasses: TBatpro_StringList;
+   I: Integer;
+   O: TObject;
+   Classe: String;
+begin
+     slClasses:= TBatpro_StringList.Create;
+     try
+        slClasses.Sorted:= True;
+        for I:= 0 to sl.Count - 1
+        do
+          begin
+          O:= sl.Objects[ I];
+
+          if Assigned( O)
+          then
+              begin
+              Classe:= O.ClassName;
+              if -1 = slClasses.IndexOf(Classe)
+              then
+                  slClasses.Add( Classe);
+              end;
+          end;
+        fAccueil_Log( Titre+sys_N+slClasses.Text);
+        fAccueil_Execute;
+     finally
+            Free_nil( slClasses);
+            end;
+end;
 
 { TBatpro_Element }
 
@@ -1115,7 +3737,6 @@ begin
 
      Dessinne_Fond( DrawInfo);
 
-
      if Serie_not_CellDebut
      then
          Traite_Serie_not_CellDebut;
@@ -1165,7 +3786,6 @@ var
           end;
    end;
 begin
-     {$IFNDEF FPC}
      if Assigned( Serie)
      then
          if Serie.svgDraw( DrawInfo)
@@ -1216,7 +3836,6 @@ begin
      if Assigned( FTraits)
      then
          FTraits.{svg}Dessinne( DrawInfo);
-     {$ENDIF}
 end;
 
 function TBatpro_Element.GetCell( Contexte: Integer): String;
@@ -1436,7 +4055,6 @@ end;
 
 function TBatpro_Element.ClassFont( DrawInfo: TDrawInfo): TFont;
 begin
-     {$IFNDEF FPC}
      Result:= ClassParams.ContexteFont[ DrawInfo.Contexte];
      if       (Aggrandir_a_l_impression or (DrawInfo.Col = 0))
           and (DrawInfo.Impression)
@@ -1451,7 +4069,6 @@ begin
                Size
              * Impression_Font_Size_Multiplier.Valeur[ DrawInfo.Contexte];
          end;
-     {$ENDIF}
 end;
 
 function TBatpro_Element.Has_ClassParams: Boolean;
@@ -1462,8 +4079,8 @@ begin
      Result
      :=
           (ClassName=sys_TBatpro_Element)
-       or (ClassName=sys_TblG_BECP      )
-       or (ClassName=sys_TblG_BECPCTX   );
+       or (ClassName=sys_TblG_BECP      )or (ClassName=sys_TpoolG_BECP      )
+       or (ClassName=sys_TblG_BECPCTX   )or (ClassName=sys_TpoolG_BECPCTX   );
      if Result then exit;
 
      if Batpro_ElementClassesParams_nil then exit;
@@ -1502,7 +4119,6 @@ function TBatpro_Element.Cell_Height_Interne( DrawInfo: TDrawInfo;
                                               Texte: String;
                                               Cell_Width: Integer): Integer;
 begin
-	 {$IFNDEF FPC}
      if OrientationTexte( DrawInfo) = 900
      then
          Result:=   MulDiv( LargeurTexte( F, Texte), 105, 100)
@@ -1513,12 +4129,10 @@ begin
      if Assigned( Cluster)
      then
          Cluster.Check_HauteurTotale( Result);
-     {$ENDIF}
 end;
 
 function TBatpro_Element.MargeY( DrawInfo: TDrawInfo): Integer;
 begin
-     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
      if DrawInfo.Fixe
      then
          Result:= CYEDGE
@@ -1526,7 +4140,6 @@ begin
          Result:= CYBORDER;
 
      Result:= Result + Batpro_Element_Marge;
-     {$IFEND}
 end;
 
 function TBatpro_Element.Height_Externe_from_Interne( DrawInfo: TDrawInfo; Valeur: Integer): Integer;
@@ -1540,21 +4153,20 @@ begin
      Result:= Valeur - 2 * MargeY( DrawInfo);
 end;
 
-function TBatpro_Element.Cell_Height( DrawInfo: TDrawInfo;
-                                      Cell_Width: Integer): Integer;
+function TBatpro_Element.Cell_Height( _DrawInfo: TDrawInfo;
+                                      _Cell_Width: Integer): Integer;
 begin
-     Result:= Cell_Height_Interne( DrawInfo,
-                                   ClassFont( DrawInfo),
-                                   Cell     [ DrawInfo.Contexte], Cell_Width);
+     Result:= Cell_Height_Interne( _DrawInfo,
+                                   ClassFont( _DrawInfo),
+                                   Cell     [ _DrawInfo.Contexte], _Cell_Width);
 
-     Result:= Height_Externe_from_Interne( DrawInfo, Result);
+     Result:= Height_Externe_from_Interne( _DrawInfo, Result);
 end;
 
 function TBatpro_Element.Cell_Width_Interne( DrawInfo: TDrawInfo;
                                              F: TFont;
                                              Texte: String): Integer;
 begin
-     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
      if OrientationTexte( DrawInfo) = 900
      then
          Result:= MulDiv( LineHeight( F), 105, 100)
@@ -1563,12 +4175,10 @@ begin
      if Assigned( Cluster)
      then
          Cluster.Check_LargeurTotale( Result);
-     {$IFEND}
 end;
 
 function TBatpro_Element.MargeX( DrawInfo: TDrawInfo): Integer;
 begin
-     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
      if DrawInfo.Fixe
      then
          Result:= CXEDGE
@@ -1576,7 +4186,6 @@ begin
          Result:= CXBORDER;
 
      Result:= Result + Batpro_Element_Marge;
-     {$IFEND}
 end;
 
 function TBatpro_Element.Width_Externe_from_Interne( DrawInfo: TDrawInfo;Valeur: Integer): Integer;
@@ -1718,7 +4327,6 @@ end;
 
 procedure TBatpro_Element.{svg}Dessinne_Gris( DrawInfo: TDrawInfo);
 begin
-     {$IFNDEF FPC}
      if False//Gris essai désactivé
      then
          with DrawInfo
@@ -1733,7 +4341,6 @@ begin
            StyleLigne:= TStrokeDash.Solid;
            Canvas.Fill.Kind:= TBrushKind.Solid;
            end;
-     {$ENDIF}
 end;
 
 
@@ -2003,6 +4610,252 @@ begin
      FSelected:= Value;
 end;
 
+{ TbeClusterElement }
+
+function beClusterElement_from_sl( sl: TBatpro_StringList; Index: Integer): TbeClusterElement;
+begin
+     _Classe_from_sl( Result, TbeClusterElement, sl, Index);
+end;
+
+
+procedure Initialise_Clusters( sl: TBatpro_StringList); overload;
+var
+   I: Integer;
+   BE: TBatpro_Element;
+   beClusterElement: TbeClusterElement;
+begin
+     for I:= 0 to sl.Count - 1
+     do
+       begin
+       BE:= Batpro_Element_from_sl( sl, I);
+       if     Assigned( BE)
+          and (BE is TbeClusterElement)
+       then
+           begin
+           beClusterElement:= TbeClusterElement( BE);
+           beClusterElement.Initialise;
+           end
+       end;
+end;
+
+procedure Initialise_Clusters( bts: TbtString); overload;
+var
+   BE: TBatpro_Element;
+   beClusterElement: TbeClusterElement;
+begin
+     bts.Iterateur_Start;
+     while not bts.Iterateur_EOF
+     do
+       begin
+       bts.Iterateur_Suivant( BE);
+       if     Assigned( BE)
+          and (BE is TbeClusterElement)
+       then
+           begin
+           beClusterElement:= TbeClusterElement( BE);
+           beClusterElement.Initialise;
+           end
+       end;
+end;
+
+constructor TbeClusterElement.Create( un_sl: TBatpro_StringList;
+                                      _beCluster: TBatpro_Element);
+begin
+     inherited Create( un_sl);
+     FbeCluster:= _beCluster;
+end;
+
+procedure TbeClusterElement.Draw(DrawInfo: TDrawInfo);
+{$IFNDEF FPC}
+var
+   Bounds: TRect;
+   sg: TStringGrid;
+   sg_GridLineWidth: Integer;
+   I, J,
+   OffsetX, OffsetY,
+   Largeur, Hauteur: Integer;
+
+   OriginalRect, OriginalRect_Original: TRect;
+   procedure Traite_Rect( var _R: TRect);
+   var
+      Origine: TPoint;
+   begin
+        Origine:= _R.TopLeft;
+        Dec( Origine.x, OffsetX);
+        Dec( Origine.y, OffsetY);
+        _R:= Rect( 0,0, Largeur, Hauteur);
+        OffsetRect( _R, Origine.x, Origine.y);
+   end;
+begin
+     if beCluster         = nil then exit;
+     if beCluster.Cluster = nil then exit;
+
+     Bounds:= beCluster.Cluster.Bounds;
+     sg:= DrawInfo.sg;
+     if DrawInfo.Impression
+     then
+         sg_GridLineWidth:= 0
+     else
+         sg_GridLineWidth:= sg.GridLineWidth;
+
+
+     OffsetX:= 0;
+     for I:= Bounds.Left to DrawInfo.Col-1 do Inc( OffsetX, sg.ColWidths [I]+sg_GridLineWidth);
+     OffsetY:= 0;
+     for J:= Bounds.Top  to DrawInfo.Row-1 do Inc( OffsetY, sg.RowHeights[J]+sg_GridLineWidth);
+
+     Largeur:= 0;
+     for I:= Bounds.Left to Bounds.Right  do Inc( Largeur, sg.ColWidths [I]+sg_GridLineWidth);
+     Hauteur:= 0;
+     for J:= Bounds.Top  to Bounds.Bottom do Inc( Hauteur, sg.RowHeights[J]+sg_GridLineWidth);
+
+     OriginalRect         := DrawInfo.Rect;
+     OriginalRect_Original:= DrawInfo.Rect_Original;
+       Traite_Rect( DrawInfo.Rect);
+       Traite_Rect( DrawInfo.Rect_Original);
+       beCluster.Draw( DrawInfo);
+     DrawInfo.Rect         := OriginalRect;
+     DrawInfo.Rect_Original:= OriginalRect_Original;
+     //Il faudrait peut-être gérer le clipping
+     //==> comment vont se dessinner les lignes de la grille ?
+end;
+{$ELSE}
+begin
+end;
+{$ENDIF}
+
+procedure TbeClusterElement.svgDraw(DrawInfo: TDrawInfo);
+var
+   Bounds: TRect;
+   sg: TStringGrid;
+   sg_GridLineWidth: Integer;
+   I, J,
+   OffsetX, OffsetY,
+   Largeur, Hauteur: Integer;
+
+   OriginalRect: TRect;
+   Origine: TPoint;
+begin
+     if beCluster         = nil then exit;
+     if beCluster.Cluster = nil then exit;
+
+     Bounds:= beCluster.Cluster.Bounds;
+     sg:= DrawInfo.sg;
+     if DrawInfo.Impression
+     then
+         sg_GridLineWidth:= 0
+     else
+         sg_GridLineWidth:= sg.GridLineWidth;
+
+
+     OffsetX:= 0;
+     for I:= Bounds.Left to DrawInfo.Col-1 do Inc( OffsetX, sg.ColWidths [I]+sg_GridLineWidth);
+     OffsetY:= 0;
+     for J:= Bounds.Top  to DrawInfo.Row-1 do Inc( OffsetY, sg.RowHeights[J]+sg_GridLineWidth);
+
+     Largeur:= 0;
+     for I:= Bounds.Left to Bounds.Right  do Inc( Largeur, sg.ColWidths [I]+sg_GridLineWidth);
+     Hauteur:= 0;
+     for J:= Bounds.Top  to Bounds.Bottom do Inc( Hauteur, sg.RowHeights[J]+sg_GridLineWidth);
+
+     OriginalRect:= DrawInfo.Rect;
+       Origine:= DrawInfo.Rect.TopLeft;
+       Dec( Origine.x, OffsetX);
+       Dec( Origine.y, OffsetY);
+       DrawInfo.Rect:= Rect( 0,0, Largeur, Hauteur);
+       OffsetRect( DrawInfo.Rect, Origine.x, Origine.y);
+       beCluster.svgDraw( DrawInfo);
+     DrawInfo.Rect:= OriginalRect;
+     //Il faudrait peut-être gérer le clipping
+     //==> comment vont se dessinner les lignes de la grille ?
+end;
+
+function TbeClusterElement.Cell_Height( _DrawInfo: TDrawInfo; _Cell_Width: Integer): Integer;
+begin
+     //pas évident que cet algo soit OK
+     if     Assigned( beCluster)
+        and Assigned( beCluster.Cluster)
+        and beCluster.Cluster.SingleRow
+     then
+         // si 1 seule ligne, on postule que le cluster a toute la largeur
+         // qu'il demande
+         Result:= beCluster.Cell_Height( _DrawInfo,
+                                         beCluster.Cell_Width( _DrawInfo))
+     else
+         Result:= inherited Cell_Height( _DrawInfo, _Cell_Width);
+end;
+
+procedure TbeClusterElement.CalculeLargeur( DrawInfo: TDrawInfo;
+                                            Colonne, Ligne: Integer;
+                                            var Largeur: Integer);
+begin
+     if     Assigned( beCluster)
+        and Assigned( beCluster.Cluster)
+     then
+         beCluster.Cluster.CalculeLargeur( DrawInfo,
+                                           Colonne, Ligne,
+                                           Largeur);
+end;
+
+procedure TbeClusterElement.CalculeHauteur( DrawInfo: TDrawInfo;
+                                            Colonne, Ligne: Integer;
+                                            var Hauteur: Integer);
+begin
+     if     Assigned( beCluster)
+        and Assigned( beCluster.Cluster)
+     then
+         beCluster.Cluster.CalculeHauteur( DrawInfo,
+                                           Colonne, Ligne,
+                                           Hauteur);
+end;
+
+procedure TbeClusterElement.Initialise;
+begin
+     if     Assigned( beCluster)
+        and Assigned( beCluster.Cluster)
+     then
+         beCluster.Cluster.Initialise;
+end;
+
+procedure TbeClusterElement.Ajoute(Colonne, Ligne: Integer);
+begin
+     if     Assigned( beCluster)
+        and Assigned( beCluster.Cluster)
+     then
+         beCluster.Cluster.Ajoute( Self, Colonne, Ligne);
+end;
+
+function TbeClusterElement.GetCell( Contexte: Integer): String;
+var
+   Position: TPoint;
+begin
+     Result:= sys_Vide;
+     if beCluster         = nil then exit;
+     if beCluster.Cluster = nil then exit;
+     Position:= beCluster.Cluster.Cherche( Self);
+     if    (Position.x <> 0)
+        or (Position.y <> 0) then exit;
+
+     Result:= beCluster.Cell[ Contexte];
+end;
+
+function TbeClusterElement.Contenu( Contexte, Col, Row: Integer): String;
+begin
+     Result:= sys_Vide;
+     if beCluster         = nil then exit;
+
+     Result:= beCluster.Contenu( Contexte, Col, Row);
+end;
+
+function TbeClusterElement.sEtatCluster: String;
+begin
+     if Assigned( beCluster)
+     then
+         Result:= beCluster.sEtatCluster
+     else
+         Result:= 'Erreur à signaler au développeur: '+
+                  'TbeClusterElement.beCluster = nil';
+end;
 
 //############################## TBatpro_Serie #################################
 
@@ -3359,30 +6212,36 @@ begin
      Result:= FConnecteurs;
 end;
 
-procedure TBatpro_Element.Connecteurs_Ajoute( _be: TBatpro_Element);
+function TBatpro_Element.GetConnectes: TslBatpro_Element;
+begin
+     if FConnectes = nil
+     then
+         FConnectes:= TslBatpro_Element.Create( ClassName+'.FConnectes');
+
+     Result:= FConnectes;
+end;
+
+procedure TBatpro_Element.Connecteurs_Ajoute( _be: TBatpro_Element; _Nom: String= '');
 begin
      if _be = nil then exit;
      if -1 <> Connecteurs.IndexOfObject( _be) then exit;
 
-     Connecteurs.AddObject( '', _be);
+     Self.Connecteurs.AddObject( _Nom, _be );
+     _be .Connectes  .AddObject( _Nom, Self);
 end;
 
 procedure TBatpro_Element.Connecteurs_Enleve( _be: TBatpro_Element);
-var
-   I: Integer;
 begin
      if _be = nil then exit;
 
-     I:= Connecteurs.IndexOfObject( _be);
-     if I = -1 then exit;
-
-     Connecteurs.Delete( I);
+     Self.Connecteurs.Remove( _be );
+     _be .Connectes  .Remove( Self);
 end;
 
-procedure TBatpro_Element.Connect_To(_be: TBatpro_Element);
+procedure TBatpro_Element.Connect_To(_be: TBatpro_Element; _Nom: String= '');
 begin
      if _be = nil then exit;
-     _be.Connecteurs_Ajoute( Self);
+     _be.Connecteurs_Ajoute( Self, _Nom);
 end;
 
 procedure TBatpro_Element.Unconnect_To( var _be; _Contexte: String= '');
@@ -3797,9 +6656,59 @@ end;
 
 { Tpool_Ancetre_Ancetre }
 
-procedure Tpool_Ancetre_Ancetre.sCle_Change( _bl: TBatpro_Element);
+constructor Tpool_Ancetre_Ancetre.Create( _sl: TBatpro_StringList);
+begin
+     inherited Create( _sl);
+end;
+
+destructor Tpool_Ancetre_Ancetre.Destroy;
+begin
+     inherited Destroy;
+end;
+
+class function Tpool_Ancetre_Ancetre.Name: String;
+begin
+     Result:= ClassName;
+end;
+
+procedure Tpool_Ancetre_Ancetre.sCle_Change(_bl: TBatpro_element);
 begin
 
+end;
+
+class function Tpool_Ancetre_Ancetre.class_sl: Tslpool_Ancetre_Ancetre;
+begin
+     if nil = Fclass_sl
+     then
+         Fclass_sl:= Tslpool_Ancetre_Ancetre.Create( ClassName+'.slInstances');
+     Result:= Fclass_sl;
+end;
+
+class procedure Tpool_Ancetre_Ancetre.class_Create( var Reference; Classe: Tpool_Ancetre_Ancetre_Class);
+var
+   Nom: String;
+begin
+     //if Assigned(Chrono) then Chrono.Stop( 'Clean_Create , début');
+     Tpool_Ancetre_Ancetre(Reference):= Classe.Create( class_sl);
+     //Liste.Add( @Reference);
+     Nom:= Tpool_Ancetre_Ancetre(Reference).Name;
+     //Noms.Add( Nom);
+     class_sl.AddObject( Nom, Tpool_Ancetre_Ancetre(Reference));
+     //if Assigned(Chrono) then Chrono.Stop( 'Clean_Create ( '+Nom+')');
+end;
+
+class procedure Tpool_Ancetre_Ancetre.class_Destroy(var Reference);
+begin
+     Clean_Destroy( Reference);
+end;
+
+class procedure Tpool_Ancetre_Ancetre.class_Get( out Resultat; var Reference; Classe: Tpool_Ancetre_Ancetre_Class);
+begin
+     if not Assigned( Tpool_Ancetre_Ancetre( Reference))
+     then
+         class_Create( Reference, Classe);
+
+     Tpool_Ancetre_Ancetre( Resultat):= Tpool_Ancetre_Ancetre( Reference);
 end;
 
 { TIterateur_pool_Ancetre_Ancetre }
@@ -3866,12 +6775,12 @@ begin
      Result:= hAggregation_from_sl( sl, sl.IndexOf( Name))
 end;
 
-function TIterateur_hAggregation.not_Suivant( var _Resultat: ThAggregation): Boolean;
+function TIterateur_hAggregation.not_Suivant( out _Resultat: ThAggregation): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_hAggregation.Suivant( var _Resultat: ThAggregation);
+procedure TIterateur_hAggregation.Suivant( out _Resultat: ThAggregation);
 begin
      Suivant_interne( _Resultat);
 end;
@@ -4024,9 +6933,14 @@ begin
      Enleve_dans_be_Aggregeurs( be);
 end;
 
-procedure ThAggregation.Charge;
+procedure ThAggregation.Vide;
 begin
 
+end;
+
+procedure ThAggregation.Charge;
+begin
+     Vide;
 end;
 
 procedure ThAggregation.Assure_Charge;
@@ -4088,6 +7002,11 @@ begin
      Result:= inherited JSON;
 end;
 
+function ThAggregation.JSON_Persistants: String;
+begin
+     Result:= inherited JSON_Persistants;
+end;
+
 function ThAggregation.Listing(Indentation: String): String;
 var
    be: TBatpro_Element;
@@ -4104,6 +7023,17 @@ begin
 
        Formate_Liste( Result, #13#10, be.Listing(Indentation+'  '));
        end;
+end;
+
+procedure ThAggregation.sCle_Change( _bl: TBatpro_Element);
+var
+   i: Integer;
+begin
+     if _bl = nil                  then exit;
+     i:= IndexOfObject( _bl);
+     if i <> -1
+     then
+         Strings[i]:= _bl.sCle;
 end;
 
 procedure ThAggregation.Ajoute_slCharge;
@@ -4210,7 +7140,12 @@ begin
          begin
          Create_Aggregation( Name, Create_Params);
          Result:= Create_Params.Instancie;
-         sl.AddObject( Name, Result);
+         if Assigned( Result)
+         then
+             begin
+             Result.Nom:= Name;
+             sl.AddObject( Name, Result);
+             end;
          end;
 end;
 
@@ -4224,6 +7159,11 @@ begin
          sl.AddObject( Name, Value)
      else
          sl.Objects[I]:= Value;
+end;
+
+function TAggregations.Iterateur: TIterateur_hAggregation;
+begin
+     Result:= sl.Iterateur;
 end;
 
 procedure TAggregations.Deconnecte;
@@ -4241,6 +7181,7 @@ begin
           uhAggregation_Deconnecte_contexte:= ha.ClassName;
           ha.Deconnecte;
           end;
+        FreeAndNil( I);
      finally
             uhAggregation_Deconnecte_contexte:= '';
             end;
@@ -4284,6 +7225,29 @@ begin
        end;
 end;
 
+function TAggregations.JSON_Persistants: String;
+var
+   I: Integer;
+   ha: ThAggregation;
+   haName: String;
+   iJSON: Integer;
+begin
+     Result:= '';
+     iJSON:= 0;
+     for I:= 0 to sl.Count -1
+     do
+       begin
+       ha:= hAggregation_from_sl( sl, I);
+       if ha = nil then continue;
+       haName:= sl.Strings[I];
+       if iJSON > 0
+       then
+           Result:= Result + ',';
+       Result:= Result + Format( '"%s":%s',[haName, ha.JSON_Persistants]);
+       Inc( iJSON);
+       end;
+end;
+
 procedure TAggregations.Delete_from_database;
 var
    I: Integer;
@@ -4319,5 +7283,36 @@ begin
        end;
 end;
 
+procedure TAggregations.sCle_Change(_bl: TBatpro_Element);
+var
+   I: Integer;
+   ha: ThAggregation;
+begin
+     for I:= 0 to sl.Count -1
+     do
+       begin
+       ha:= hAggregation_from_sl( sl, I);
+       if ha = nil then continue;
 
+       ha.sCle_Change( _bl);
+       end;
+end;
+
+
+initialization
+              Tpool_Ancetre_Ancetre.Fclass_sl:= nil;
+              {Début de l'ancienne unité uWindows}
+              {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
+              CXBORDER:= GetSystemMetrics( SM_CXBORDER);
+              CYBORDER:= GetSystemMetrics( SM_CYBORDER);
+              CXEDGE:= GetSystemMetrics( SM_CXEDGE);
+              CYEDGE:= GetSystemMetrics( SM_CYEDGE);
+              {$ELSE}
+              CXBORDER:= 1;
+              CYBORDER:= 1;
+              CXEDGE:= 1;
+              CYEDGE:= 1;
+              {$IFEND}
+              {Fin de l'ancienne unité uWindows}
+finalization
 end.
