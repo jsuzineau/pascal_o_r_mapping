@@ -2,10 +2,11 @@ _Configuration..ini
 _Configuration.ini
 *.bak
 *.pas.bak
+x86_64-win64
+i386-win32
 /lib/x86_64-linux/*.compiled
 /OD_DelphiReportEngine/Components/Components_fptest/lib/x86_64-linux
 *.compiled
-lib
 log
 *.o
 *.ppu
