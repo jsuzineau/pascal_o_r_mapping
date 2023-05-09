@@ -28,7 +28,7 @@ interface
 uses
     uBatpro_StringList,
     uClean,
-    uAide,
+    //uAide,
     uNetWork,
     SysUtils, Classes;
 
@@ -154,7 +154,7 @@ end;
 
 procedure TLog.Affiche;
 begin
-     ShowURL( NomFichier);
+     //ShowURL( NomFichier);
 end;
 
 initialization

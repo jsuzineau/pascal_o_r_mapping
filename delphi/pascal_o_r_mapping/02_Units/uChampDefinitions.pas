@@ -30,24 +30,29 @@ uses
     uClean,
     uDataUtilsU,
     u_sys_,
+    ujsDataContexte,
     uChampDefinition,
     ufAccueil_Erreur;
 
 type
+
+ { TChampDefinitions }
+
  TChampDefinitions
  =
   class
   private
-    Fsl: TBatpro_StringList;
+    Fsl: TslChampDefinition;
   public
     NomTable: String;
     constructor Create;
     destructor Destroy; override;
 
-    property sl   : TBatpro_StringList read Fsl;
+    property sl   : TslChampDefinition read Fsl;
 
     function Ajoute( Field: String; _FieldType: TFieldType;
-                     Persistant: Boolean; F: TField): TChampDefinition;
+                     Persistant: Boolean;
+                     _jsdcc: TjsDataContexte_Champ): TChampDefinition;
     function Ajoute_Lookup( Field: String;
                             _FieldType: TFieldType;
                             LookupKey: TChampDefinition): TChampDefinition;
@@ -62,6 +67,7 @@ type
     function Definition( I: Integer): TChampDefinition;
     function Definition_from_Field( Field: String): TChampDefinition;
     function Count: Integer;
+    function Persistant_Count: Integer;
   //accés direct à des propriétés de définitions
   public
     procedure Definition_SetVisible( Field: String; Visible: Boolean);
@@ -73,8 +79,8 @@ type
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: TChampDefinitions);
-    function  not_Suivant( var _Resultat: TChampDefinitions): Boolean;
+    procedure Suivant( out _Resultat: TChampDefinitions);
+    function  not_Suivant( out _Resultat: TChampDefinitions): Boolean;
   end;
 
  TslChampDefinitions
@@ -96,6 +102,9 @@ var
    uChampDefinitions_ChampDefinitions: TslChampDefinitions= nil;
 
 function ChampDefinitions_from_ClassName( _ClassName: String): TChampDefinitions;
+
+procedure ChampDefinitions_Set_Flottant_Precision( _ClassName: String; _Value: Integer);
+procedure ChampDefinitions_Set_Flottant_Precision_Field( _ClassName, _Field: String; _Value: Integer);
 
 implementation
 
@@ -124,14 +133,52 @@ begin
      uChampDefinitions_ChampDefinitions.AddObject( _ClassName, Result);
 end;
 
+procedure ChampDefinitions_Set_Flottant_Precision_ChampDefinition( _cd: TChampDefinition; _Value: Integer);
+begin
+     _cd.Flottant_Precision:= _Value;
+end;
+
+procedure ChampDefinitions_Set_Flottant_Precision( _ClassName: String; _Value: Integer);
+var
+   cds: TChampDefinitions;
+   I: TIterateur_ChampDefinition;
+   cd: TChampDefinition;
+begin
+     cds:= ChampDefinitions_from_ClassName( _ClassName);
+     if nil = cds then exit;
+
+     I:= cds.sl.Iterateur;
+     while I.Continuer
+     do
+       begin
+       if I.not_Suivant( cd) then continue;
+
+       ChampDefinitions_Set_Flottant_Precision_ChampDefinition( cd, _Value);
+       end;
+end;
+
+procedure ChampDefinitions_Set_Flottant_Precision_Field( _ClassName, _Field: String; _Value: Integer);
+var
+   cds: TChampDefinitions;
+   cd: TChampDefinition;
+begin
+     cds:= ChampDefinitions_from_ClassName( _ClassName);
+     if nil = cds then exit;
+
+     cd:= cds.Definition_from_Field( _Field);
+     if nil = cd then exit;
+
+     ChampDefinitions_Set_Flottant_Precision_ChampDefinition( cd, _Value);
+end;
+
 { TIterateur_ChampDefinitions }
 
-function TIterateur_ChampDefinitions.not_Suivant( var _Resultat: TChampDefinitions): Boolean;
+function TIterateur_ChampDefinitions.not_Suivant( out _Resultat: TChampDefinitions): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_ChampDefinitions.Suivant( var _Resultat: TChampDefinitions);
+procedure TIterateur_ChampDefinitions.Suivant( out _Resultat: TChampDefinitions);
 begin
      Suivant_interne( _Resultat);
 end;
@@ -167,7 +214,7 @@ end;
 
 constructor TChampDefinitions.Create;
 begin
-     Fsl:= TBatpro_StringList.Create;
+     Fsl:= TslChampDefinition.Create( ClassName+'.Fsl');
 end;
 
 destructor TChampDefinitions.Destroy;
@@ -190,9 +237,9 @@ end;
 function TChampDefinitions.Ajoute( Field: String;
                                    _FieldType: TFieldType;
                                    Persistant:Boolean;
-                                   F: TField): TChampDefinition;
+                                   _jsdcc: TjsDataContexte_Champ): TChampDefinition;
 begin
-     Result:= TChampDefinition.Create( Field, _FieldType, Persistant,F);
+     Result:= TChampDefinition.Create( Field, _FieldType, Persistant,_jsdcc);
      sl.AddObject( Field, Result);
 end;
 
@@ -326,6 +373,26 @@ end;
 function TChampDefinitions.Count: Integer;
 begin
      Result:= sl.Count;
+end;
+
+function TChampDefinitions.Persistant_Count: Integer;
+var
+   I: TIterateur_ChampDefinition;
+   d: TChampDefinition;
+begin
+     Result:= 0;
+     I:= sl.Iterateur;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( d) then continue;
+
+          if d.Persistant then Inc(Result);
+          end;
+     finally
+            FreeAndNil( I);
+            end;
 end;
 
 function TChampDefinitions.Definition_from_Field( Field: String): TChampDefinition;

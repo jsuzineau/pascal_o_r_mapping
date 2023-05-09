@@ -1,7 +1,5 @@
 object dmDatabase: TdmDatabase
   OldCreateOrder = True
-  OnCreate = DataModuleCreate
-  OnDestroy = DataModuleDestroy
   Height = 466
   Width = 1090
   object sqlc: TSQLConnection

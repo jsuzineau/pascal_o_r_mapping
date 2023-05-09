@@ -275,6 +275,8 @@ function Affecte_( out O          ;
 
 function TJSONProvider_from_Object( O: TObject): TJSONProvider;
 
+function StringToJSONString( _s: String): String;
+
 implementation
 
 function Object_from_sl( sl: TStringList; Index: Integer): TObject;

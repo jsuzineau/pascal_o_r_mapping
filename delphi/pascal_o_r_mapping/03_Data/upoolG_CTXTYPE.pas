@@ -36,10 +36,14 @@ uses
   FMTBcd, Provider, DBClient, DB, SqlExpr;
 
 type
+
+ { TpoolG_CTXTYPE }
+
  TpoolG_CTXTYPE
  =
   class( TPool)
-    procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleCreate(Sender: TObject);  override;
+    procedure DataModuleDestroy(Sender: TObject);  override;
   private
     { Déclarations privées }
   protected
@@ -56,7 +60,7 @@ type
   protected
     contextetype: String;
 
-    procedure To_SQLQuery_Params( SQLQuery: TSQLQuery); override;
+    procedure To_Params( _Params: TParams); override;
   public
     function Get_by_Cle( _contextetype: String): TblG_CTXTYPE;
   //Indépendance par rapport au SGBD Informix ou MySQL
@@ -73,14 +77,14 @@ uses
 {implementation_uses_key}
     udmDatabase;
 
-{$R *.fmx}
+
 
 var
    FpoolG_CTXTYPE: TpoolG_CTXTYPE;
 
 function poolG_CTXTYPE: TpoolG_CTXTYPE;
 begin
-     Clean_Get( Result, FpoolG_CTXTYPE, TpoolG_CTXTYPE);
+     TPool.class_Get( Result, FpoolG_CTXTYPE, TpoolG_CTXTYPE);
 end;
 
 { TpoolG_CTXTYPE }
@@ -96,6 +100,11 @@ begin
      hfG_CTXTYPE:= hf as ThfG_CTXTYPE;
 end;
 
+procedure TpoolG_CTXTYPE.DataModuleDestroy(Sender: TObject);
+begin
+     inherited;
+end;
+
 function TpoolG_CTXTYPE.Get( _id: integer): TblG_CTXTYPE;
 begin
      Get_Interne_from_id( _id, Result);
@@ -109,10 +118,10 @@ begin
 end;                             
 
 
-procedure TpoolG_CTXTYPE.To_SQLQuery_Params(SQLQuery: TSQLQuery);
+procedure TpoolG_CTXTYPE.To_Params( _Params: TParams);
 begin
      inherited;
-     with SQLQuery.Params
+     with _Params
      do
        begin
        ParamByName( 'contextetype'    ).AsString:= contextetype;
@@ -128,7 +137,6 @@ begin
 end;
 
 initialization
-              Clean_Create ( FpoolG_CTXTYPE, TpoolG_CTXTYPE);
 finalization
-              Clean_destroy( FpoolG_CTXTYPE);
+              TPool.class_Destroy( FpoolG_CTXTYPE);
 end.

@@ -57,6 +57,9 @@ function Justifie( S: array of String; TailleLigne: Integer): String;
 procedure Formate_Liste( var S: String; Separateur, Element: String); overload;
 function  Formate_Liste( S: array of String    ; Separateur: String                       ): String; overload;
 function  Formate_Liste( sl: TBatpro_StringList; Separateur: String; DoubleQuotes: Boolean): String; overload;
+procedure Formate_Liste_Indentation( var _S: String; _Separateur, _Indentation, _Element: String);
+
+procedure Formate_Liste_inverse( var S: String; Separateur, Element: String);
 
 function Formate_Hint( S: array of String): String;
 
@@ -76,6 +79,7 @@ function Fixe_Length( S: String; L: Integer): String;
 
 function StrToC  ( aC: array of Char; var S: String): String;
 function StrToK  ( Key: String; var S: String): String;
+function StrToK_Inverse( Key: String; var S: String): String;
 function StrSplit( Key: String; var S: String): String;
 
 //Comme StrToK mais prend les NbCaracteres premiers caractères
@@ -141,6 +145,21 @@ function Match_Root( _Root, _S: String):Boolean;
 
 function JSArray_from_StringList( _sl: TStringList): String;
 
+function String_from_File( _FileName: String): String;
+
+procedure String_to_File( _FileName: String; _S: String);
+
+function Char_Count( _C: Char; _S: String): Integer;
+
+function String_suffix_index( _S, _Suffix: String): Integer;
+function String_has_suffix( _S, _Suffix: String): Boolean;
+function Delete_suffix( _S, _Suffix: String): String;
+
+//taken from http://forum.lazarus.freepascal.org/index.php?topic=15088.0
+function EncodeUrl(url: string): string;
+function DecodeUrl(url: string): string;
+
+
 implementation
 
 { Indente
@@ -152,13 +171,13 @@ var
    I: Integer;
 begin
      Result:= S;
-     //Writeln( 'uuStrings.Indente, début');
+     //Log.PrintLn( 'uuStrings.Indente, début');
      for I:= Length(Result)-1 downto 0
      do
        if (I<=0) or (Result[I] = #10)
        then
            Insert( Indentation, Result, I+1);
-     //Writeln( 'uuStrings.Indente, fin');
+     //Log.PrintLn( 'uuStrings.Indente, fin');
 end;
 
 { ChaineDe
@@ -305,6 +324,33 @@ begin
          S:= S + Separateur;
          
      S:= S + Element;
+end;
+
+procedure Formate_Liste_inverse( var S: String; Separateur, Element: String);
+begin
+     if Element = sys_Vide then exit;
+
+     if S <> sys_Vide
+     then
+         S:= Separateur + S;
+
+     S:= Element + S;
+end;
+
+procedure Formate_Liste_Indentation( var _S: String; _Separateur, _Indentation, _Element: String);
+var
+   sl: TStringList;
+   J: Integer;
+begin
+     sl:= TStringList.Create;
+     try
+        sl.Text:= _Element;
+        for J:= 0 to sl.Count-1
+        do
+          Formate_Liste( _S, _Separateur, _Indentation+sl[J]);
+     finally
+            FreeAndNil( sl);
+            end;
 end;
 
 function Formate_Liste( S: array of String; Separateur: String): String; overload;
@@ -511,6 +557,40 @@ begin
          begin
          Result:= Copy( S, 1, I-1);
          Delete( S, 1, (I-1)+Length( Key));
+         end;
+end;
+
+function StrToK_Inverse( Key: String; var S: String): String;
+var
+   I: Integer;
+   LS: Integer;
+   LKey: Integer;
+   function Continuer: Boolean;
+   begin
+        Result:= I > 0;
+        if not Result then exit;
+
+        Result:= 1 <> Pos( Key, Copy( S, I, LKey));
+   end;
+begin
+     LS:= Length( S);
+     LKey:= Length( Key);
+     I:= LS;
+     while Continuer
+     do
+       Dec( I);
+
+     if I = 0
+     then
+         begin
+         Result:= S;
+         S:= '';
+         end
+     else
+         begin
+         Delete( S, I, LKey);
+         Result:= Copy( S, I, LS);
+         Delete( S, I, LS);
          end;
 end;
 
@@ -937,5 +1017,149 @@ begin
        Formate_Liste( Result, ', ', '"'+_sl[I]+'"');
 end;
 
+function String_from_File( _FileName: String): String;
+var
+   F: File;
+   Longueur: Int64;
+begin
+     Result:= '';
+     if not FileExists( _FileName) then exit;
+
+     AssignFile( F, _FileName);
+     try
+        Reset( F, 1);
+        Longueur:= FileSize( F);
+        if 0 = Longueur then exit;
+        SetLength( Result, Longueur);
+        BlockRead( F, Result[1], Longueur);
+     finally
+            CloseFile( F);
+            end;
+end;
+
+procedure String_to_File( _FileName: String; _S: String);
+var
+   F: File;
+begin
+     if '' = _S then exit;
+
+     AssignFile( F, _FileName);
+     try
+        ReWrite( F, 1);
+        BlockWrite( F, _S[1], Length( _S));
+     finally
+            CloseFile( F);
+            end;
+end;
+
+function Char_Count( _C: Char; _S: String): Integer;
+var
+   I: Integer;
+begin
+     Result:= 0;
+     for I:= 1 to Length(_S)
+     do
+       if _C = _S[I]
+       then
+           Inc( Result);
+end;
+
+function String_suffix_index( _S, _Suffix: String): Integer;
+var
+   LS, LSuffix: Integer;
+   iSuffix: Integer;
+begin
+     Result:= 0;
+
+     LS     := Length( _S     );
+     LSuffix:= Length( _Suffix);
+
+     if 0  = LSuffix then exit;
+     if LS < LSuffix then exit;
+
+     Result:= 1+ LS - LSuffix;
+end;
+
+function String_has_suffix( _S, _Suffix: String): Boolean;
+var
+   iSuffix: Integer;
+begin
+     Result:= False;
+
+     iSuffix:= String_suffix_index( _S, _Suffix);
+     if 0 = iSuffix then exit;
+
+     Result:= iSuffix = Pos( _Suffix, _S);
+end;
+
+function Delete_suffix( _S, _Suffix: String): String;
+var
+   LSuffix: Integer;
+   iSuffix: Integer;
+begin
+     Result:= _S;
+
+     if not String_has_suffix( _S, _Suffix) then exit;
+
+     LSuffix:= Length( _Suffix);
+     iSuffix:= String_suffix_index( _S, _Suffix);
+     Delete( Result, iSuffix, LSuffix);
+end;
+
+//taken from http://forum.lazarus.freepascal.org/index.php?topic=15088.0
+function EncodeUrl(url: string): string;
+var
+   x: integer;
+const
+//     SafeMask = ['A'..'Z', '0'..'9', 'a'..'z', '*', '@', '.', '_', '-'];
+     SafeMask = ['A'..'Z', '0'..'9', 'a'..'z', '.', '_', '-']; // * et @ enlevés cas non gérés par www.urlencoder.org
+begin
+     //Init
+     Result:= '';
+
+     for x := 1 to Length(url)
+     do
+       begin
+       //Check if we have a safe char
+            if url[x] in SafeMask then Result:= Result + url[x] //Append all other chars
+       //else if url[x] = ' '       then Result:= Result + '+'    //Append space // espace enlevé cas non géré par www.urlencoder.org
+       else                            Result:= Result + '%' + IntToHex(Ord(url[x]), 2); //Convert to hex
+     end;
+end;
+
+//taken from http://forum.lazarus.freepascal.org/index.php?topic=15088.0
+function DecodeUrl(url: string): string;
+var
+   x: integer;
+   ch: string;
+   sVal: string;
+begin
+     //Init
+     Result:= '';
+     x := 1;
+     while x <= Length(url)
+     do
+       begin
+       //Get single char
+       ch := url[x];
+
+       { enlevé car non géré par www.urlencoder.org
+            if ch =  '+' then Result:= Result + ' ' //Append space
+       else
+        }
+            if ch <> '%' then Result:= Result + ch  //Append other chars
+       else
+           begin
+           //Get value
+           sVal := Copy(url, x + 1, 2);
+           //Convert sval to int then to char
+           Result:= Result + char(StrToInt('$' + sVal));
+           //Inc counter by 2
+           Inc(x, 2);
+           end;
+       //Inc counter
+       Inc(x);
+       end;
+end;
 
 end.

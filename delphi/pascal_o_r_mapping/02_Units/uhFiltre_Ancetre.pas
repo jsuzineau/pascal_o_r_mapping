@@ -44,7 +44,23 @@ type
     slLIKE_ou_VIDE: TBatpro_StringList;
     slDIFFERENT: TBatpro_StringList;
     slEGAL     : TBatpro_StringList;
+    slCONTIENT : TBatpro_StringList;
     Contraintes: array of TContrainte;
+  //Remise à zéro
+  public
+    procedure Clear; virtual; abstract;
+  //Général
+  public
+    function Execute: Boolean; virtual; abstract;
+    procedure AjouteCritereLIKE     (NomChamp, ValeurChamp: String); virtual; abstract;
+    procedure AjouteCritereLIKE_ou_VIDE(NomChamp, ValeurChamp: String); virtual; abstract;
+    procedure AjouteCritereOR_LIKE  (NomChamp, ValeurChamp: String);virtual;abstract;//non géré en dataset
+    procedure AjouteCritereDIFFERENT(NomChamp, ValeurChamp: String);virtual; abstract;
+    procedure AjouteCritereEGAL     (NomChamp, ValeurChamp: String);virtual; abstract;
+    procedure AjouteCritereCONTIENT (NomChamp, ValeurChamp: String);virtual; abstract;
+
+    procedure CritereCONTIENT ( _NomChamp, _ValeurChamp: String);virtual; abstract;
+    function Has_Critere: Boolean;
   end;
 
 const
@@ -53,4 +69,20 @@ const
                                            // pas la valeur
 
 implementation
+
+{ ThFiltre_Ancetre }
+
+function ThFiltre_Ancetre.Has_Critere: Boolean;
+begin
+     Result
+     :=
+          (slLIKE        .Count > 0)
+       or (slOR_LIKE     .Count > 0)
+       or (slLIKE_ou_VIDE.Count > 0)
+       or (slDIFFERENT   .Count > 0)
+       or (slEGAL        .Count > 0)
+       or (slCONTIENT    .Count > 0)
+       or (Length( Contraintes) > 0);
+end;
+
 end.

@@ -1,4 +1,4 @@
-unit ubeListe_Batpro_Elements;
+﻿unit ubeListe_Batpro_Elements;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -30,7 +30,7 @@ uses
     uClean,
     uDrawInfo,
     uBatpro_Element,
-  SysUtils, Classes, FMX.Graphics;
+  SysUtils, Classes, FMX.Graphics, System.UITypes;
 
 type
  TbeListe_Batpro_Elements

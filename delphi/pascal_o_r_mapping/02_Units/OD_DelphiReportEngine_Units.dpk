@@ -111,7 +111,15 @@ contains
   uuStrings in 'uuStrings.pas',
   uVersion in 'uVersion.pas',
   uWinUtils in 'uWinUtils.pas',
-  uDessin in '..\01_LCL\uDessin.pas',
-  uWindows in '..\01_LCL\mswindows\uWindows.pas';
+  uWindows in '..\01_LCL\mswindows\uWindows.pas',
+  uLog in 'uLog.pas',
+  ujsDataContexte in 'ujsDataContexte.pas',
+  uDataUtilsF in 'uDataUtilsF.pas',
+  uVide in 'uVide.pas',
+  uMimeType in 'uMimeType.pas',
+  uODBC_Access in 'uODBC_Access.pas',
+  uSQLite3 in 'uSQLite3.pas',
+  uSQLite3_SQLQuery in 'uSQLite3_SQLQuery.pas',
+  uRegistry in 'uRegistry.pas';
 
 end.

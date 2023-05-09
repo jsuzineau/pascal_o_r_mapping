@@ -46,7 +46,7 @@ uses
     uDrawInfo,
     uChampDefinitions,
     uChamps,
-    //uImpression_Font_Size_Multiplier,
+    uImpression_Font_Size_Multiplier,
     uVide,
 
     ufAccueil_Erreur,
@@ -518,8 +518,10 @@ type
     procedure Rectangle( X1, Y1, X2, Y2: Integer); overload;
     procedure Rectangle( _R: TRect); overload;
     procedure Ellipse( X1, Y1, X2, Y2: Integer);
-    procedure Polygon(const Points: array of TPoint);
-    procedure PolyBezier(const Points: array of TPoint);
+    procedure Polygon(const Points: array of TPoint);overload;
+    procedure PolyBezier(const Points: array of TPoint);overload;
+    procedure Polygon(const _Polygon: TPolygon); overload;
+    procedure PolyBezier(const _Polygon: TPolygon); overload;
     procedure image_DOCSINGL_bas_droite( _Couleur_Fond: TColor);
     procedure image_DOCSINGL_centre( _Couleur_Fond: TColor);
     procedure image_LOSANGE__centre( _Couleur_Fond: TColor);
@@ -1444,8 +1446,40 @@ var
    CXEDGE  , CYEDGE  : Integer;
 {Fin de l'ancienne unité uWindows}
 
+type TPointArray= array of TPoint;
+function Polygon_from_Points(const _Points: array of TPoint): TPolygon;
+function Points_from_Polygon(const _Polygon: TPolygon): TPointArray;
+
 
 implementation
+
+function Polygon_from_Points(const _Points: array of TPoint): TPolygon;
+var
+   I: Integer;
+begin
+     SetLength( Result, Length( _Points));
+     for I:= Low(_Points) to High(_Points)
+     do
+       begin
+       Result[I].X:= _Points[I].X;
+       Result[I].Y:= _Points[I].Y;
+       end;
+
+end;
+
+function Points_from_Polygon(const _Polygon: TPolygon): TPointArray;
+var
+   I: Integer;
+begin
+     SetLength( Result, Length( _Polygon));
+     for I:= Low(_Polygon) to High(_Polygon)
+     do
+       begin
+       Result[I].X:= Trunc(_Polygon[I].X);
+       Result[I].Y:= Trunc(_Polygon[I].Y);
+       end;
+
+end;
 
 {Début de l'ancienne unité uDessin}
 procedure Dessinne_Coche( Canvas: TCanvas;
@@ -1663,7 +1697,7 @@ end;
 procedure TStringGridWeb.Charge_Ligne( _OffsetColonne, _Ligne: Integer;
                                        _sl: TBatpro_StringList;
                                        _ClusterAddInit_: Boolean;
-                                       _Contexte: Integer); overload;
+                                       _Contexte: Integer);
 var
    I,
    Colonne: Integer;
@@ -1734,7 +1768,7 @@ end;
 procedure TStringGridWeb.Charge_Ligne( _OffsetColonne, _Ligne: Integer;
                                        _bts: TbtString;
                                        _ClusterAddInit_: Boolean;
-                                       _Contexte: Integer); overload;
+                                       _Contexte: Integer);
 var
    I,
    Colonne: Integer;
@@ -2146,11 +2180,13 @@ begin
 end;
 
 {début de l'unité uDrawInfo déplacée}
+
 function MulDiv( Nombre, Numerateur, Denominateur: Integer): Integer;
 begin
      Result:= (Nombre*Numerateur) div Denominateur;
 end;
 
+{
 procedure OffsetRect( var _R: TRect; _dx, _dy: Integer);
 begin
      with _R
@@ -2174,7 +2210,7 @@ begin
        Bottom:= Bottom+_dy;
        end;
 end;
-
+}
 constructor TDrawInfo.Create( unContexte: Integer; _sg: TStringGrid);
 begin
      Contexte:= unContexte;
@@ -2189,18 +2225,15 @@ begin
     Row       := _Row        ;
     Rect      := _Rect       ;
     Impression:= _Impression;
-    Fond      := clWhite;
+    Fond      := TColorRec.White;
 
     Rect_Original:= Rect;
 
     SVG_Drawing:= False;
     FLargeurLigne:= 1;
-
-    {$IFNDEF FPC}
-    FCouleurLigne  := Canvas.Pen  .Color;
-    FCouleur_Brosse:= Canvas.Brush.Color;
-    FStyleLigne    := Canvas.Pen  .Style;
-    {$ENDIF}
+    FCouleurLigne  := Canvas.Stroke.Color;
+    FCouleur_Brosse:= Canvas.Fill.Color;
+    FStyleLigne    := Canvas.Stroke.Dash;
 end;
 
 procedure TDrawInfo.Init_Cell( _Fixe, _Gris: Boolean);
@@ -2497,96 +2530,76 @@ end;
 
 procedure TDrawInfo.SetCouleurLigne(const Value: TColor);
 begin
-     {$IFNDEF FPC}
      FCouleurLigne:= Value;
      if not SVG_Drawing
      then
-         Canvas.Pen.Color:= FCouleurLigne;
-     {$ENDIF}
+         Canvas.Stroke.Color:= FCouleurLigne;
 end;
 
 
 procedure TDrawInfo.SetCouleur_Brosse(const Value: TColor);
 begin
-     {$IFNDEF FPC}
      FCouleur_Brosse:= Value;
      if not SVG_Drawing
      then
-         Canvas.Brush.Color:= FCouleur_Brosse;
-     {$ENDIF}
+         Canvas.Fill.Color:= FCouleur_Brosse;
 end;
 
 procedure TDrawInfo.SetLargeurLigne(const Value: Integer);
 begin
-     {$IFNDEF FPC}
      FLargeurLigne := Value;
      if not SVG_Drawing
      then
-         Canvas.Pen.Width:= FLargeurLigne;
-     {$ENDIF}
+         Canvas.Stroke.Thickness:= FLargeurLigne;
 end;
 
 procedure TDrawInfo.SetStyleLigne(const Value: TStrokeDash);
 begin
-     {$IFNDEF FPC}
      FStyleLigne := Value;
      if not SVG_Drawing
      then
-         Canvas.Pen.Style:= FStyleLigne;
-     {$ENDIF}
+         Canvas.Stroke.Dash:= FStyleLigne;
 end;
 
 procedure TDrawInfo.MoveTo(X, Y: Integer);
 begin
-     {$IFNDEF FPC}
-     if SVG_Drawing
-     then
-         begin
-         XTortue:= X;
-         YTortue:= Y;
-         end
-     else
-         Canvas.MoveTo( X, Y);
-     {$ENDIF}
+     XTortue:= X;
+     YTortue:= Y;
 end;
 
 procedure TDrawInfo.LineTo(X, Y: Integer);
 begin
-     {$IFNDEF FPC}
      if SVG_Drawing
      then
          begin
          case StyleLigne
          of
-           psSolid     : line     ( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
-           psDot       : line_dash( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
-           psDash      : line_dash( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
-           psDashDot   : line_dash( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
-           psDashDotDot: line_dash( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
-           psClear     : begin end;
+           TStrokeDash.Solid     : line     ( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
+           TStrokeDash.Dot       : line_dash( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
+           TStrokeDash.Dash      : line_dash( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
+           TStrokeDash.DashDot   : line_dash( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
+           TStrokeDash.DashDotDot: line_dash( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
+           TStrokeDash.Custom    : begin {à revoir, peut être implémenté dans uSVG} end;
            else       line     ( XTortue, YTortue, X, Y, CouleurLigne, LargeurLigne);
            end;
          XTortue:= X;
          YTortue:= Y;
          end
      else
-         Canvas.LineTo( X, Y);
-     {$ENDIF}
+         Canvas.DrawLine( PointF(XTortue, YTortue),PointF(X, Y), 1);
 end;
 
 procedure TDrawInfo.Contour_Rectangle( _R: TRect; _Couleur: TColor);
 begin
-     {$IFNDEF FPC}
      if SVG_Drawing
      then
          rect_vide( _R, _Couleur, 1)
      else
          begin
-         Canvas.Brush.Color:= _Couleur;
-         Canvas.Brush.Style:= bsSolid;
-         Canvas.FrameRect( _R);
+         Canvas.Fill.Color:= _Couleur;
+         Canvas.Fill.Kind:= TBrushKind.Solid;
+         Canvas.DrawRect( _R, 0,0, [], 1);
          end;
-     {$ENDIF}
 end;
 
 procedure TDrawInfo.Remplit_Rectangle( _R: TRect; _Couleur: TColor);
@@ -2594,12 +2607,10 @@ procedure TDrawInfo.Remplit_Rectangle( _R: TRect; _Couleur: TColor);
      var
         OldColor: TColor;
      begin
-          {$IFDEF WINDOWS_GRAPHIC}
-          OldColor:= Canvas.Brush.Color;
-          Canvas.Brush.Color:= _Couleur;
-          Canvas.FillRect( _R);
-          Canvas.Brush.Color:= OldColor;
-          {$ENDIF}
+          OldColor:= Canvas.Fill.Color;
+          Canvas.Fill.Color:= _Couleur;
+          Canvas.FillRect( _R, 0, 0, [], 1);
+          Canvas.Fill.Color:= OldColor;
      end;
 begin
      if Gris
@@ -2615,48 +2626,61 @@ end;
 
 procedure TDrawInfo.Polygon(const Points: array of TPoint);
 begin
-     {$IFNDEF FPC}
      if SVG_Drawing
      then
          svg_polygon( Points, Couleur_Brosse, CouleurLigne, LargeurLigne)
      else
-         Canvas.Polygon( Points);
-     {$ENDIF}
+         Canvas.DrawPolygon( Polygon_from_Points(Points), 1);
 end;
 
 procedure TDrawInfo.PolyBezier(const Points: array of TPoint);
+var
+   P: TPathData;
 begin
-     {$IFNDEF FPC}
      if SVG_Drawing
      then
-         svg_PolyBezier( Points, CouleurLigne, LargeurLigne)
+         //svg_PolyBezier( Points, CouleurLigne, LargeurLigne)
+         svg_polygon( Points, Couleur_Brosse, CouleurLigne, LargeurLigne)
      else
-         Canvas.PolyBezier( Points);
-     {$ENDIF}
+         begin
+         P:= TPathData.Create;
+         try
+            //à traiter
+            Canvas.DrawPolygon( Polygon_from_Points( Points), 1);
+         finally
+                FreeAndNil( P);
+                end;
+         end;
+end;
+
+procedure TDrawInfo.PolyBezier(const _Polygon: TPolygon);
+begin
+     PolyBezier( Points_from_Polygon( _Polygon));
+end;
+
+procedure TDrawInfo.Polygon(const _Polygon: TPolygon);
+begin
+     Polygon(Points_from_Polygon( _Polygon));
 end;
 
 procedure TDrawInfo.Rectangle(X1, Y1, X2, Y2: Integer);
 begin
-     {$IFNDEF FPC}
      if SVG_Drawing
      then
          _rect( Classes.Rect( X1, Y1, X2, Y2),
                 Couleur_Brosse, CouleurLigne, LargeurLigne)
      else
-         Canvas.Rectangle( X1, Y1, X2, Y2);
-     {$ENDIF}
+         Canvas.DrawRect( RectF(X1, Y1, X2, Y2), 0, 0, [], 1);
 end;
 
 procedure TDrawInfo.Ellipse( X1, Y1, X2, Y2: Integer);
 begin
-     {$IFNDEF FPC}
      if SVG_Drawing
      then
          _ellipse( Classes.Rect( X1, Y1, X2, Y2),
                    Couleur_Brosse, CouleurLigne, LargeurLigne)
      else
-         Canvas.Ellipse( X1, Y1, X2, Y2);
-     {$ENDIF}
+         Canvas.DrawEllipse( RectF(X1, Y1, X2, Y2), 1);
 end;
 
 procedure TDrawInfo.Rectangle( _R: TRect);
@@ -2666,36 +2690,31 @@ end;
 
 procedure TDrawInfo.image_DOCSINGL_bas_droite( _Couleur_Fond: TColor);
 begin
-     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
      if SVG_Drawing
      then
          svg_image_DOCSINGL_bas_droite
      else
          begin
-         fBitmaps.DOCSINGL.BkColor:= _Couleur_Fond;
-         fBitmaps.DOCSINGL.Draw( Canvas,
-                                 Rect.Right -fBitmaps.DOCSINGL.Width -1,
-                                 Rect.Bottom-fBitmaps.DOCSINGL.Height-1,
-                                 0);
+         //fBitmaps.DOCSINGL.BkColor:= _Couleur_Fond;
+         //fBitmaps.DOCSINGL.Draw( Canvas, TRectF.Create( Rect), 0);
          end;
-     {$ENDIF}
 end;
 
 procedure TDrawInfo.image_DOCSINGL_centre( _Couleur_Fond: TColor);
    procedure GDI;
    var
-//      ImageList: TImageList;
+      //ImageList: TImageList;
       dx, dy: Integer;
       R: TRect;
-   begin           {
-        ImageList:= fBitmaps.DOCSINGL;
+   begin
+        //ImageList:= fBitmaps.DOCSINGL;
         R:= Rect;
-        dx:= (R.Right -ImageList.Width -R.Left) div 2;
-        dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
-        InflateRect( R, -dx, -dy);
+        //dx:= (R.Right -ImageList.Width -R.Left) div 2;
+        //dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
+        //InflateRect( R, -dx, -dy);
 
-        ImageList.BkColor:= _Couleur_Fond;
-        ImageList.Draw( Canvas, R.Left, R.Top, 0);}
+        //ImageList.BkColor:= _Couleur_Fond;
+        //ImageList.Draw( Canvas, TRectF.Create( Rect), 0);
    end;
 begin
      if SVG_Drawing
@@ -2708,18 +2727,18 @@ end;
 procedure TDrawInfo.image_LOSANGE__centre(_Couleur_Fond: TColor);
    procedure GDI;
    var
-//      ImageList: TImageList;
+      //ImageList: TImageList;
       dx, dy: Integer;
       R: TRect;
    begin
-  {      ImageList:= fBitmaps.LOSANGE;
+        //ImageList:= fBitmaps.LOSANGE;
         R:= Rect;
-        dx:= (R.Right -ImageList.Width -R.Left) div 2;
-        dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
-        InflateRect( R, -dx, -dy);
+        //dx:= (R.Right -ImageList.Width -R.Left) div 2;
+        //dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
+        //InflateRect( R, -dx, -dy);
 
-        ImageList.BkColor:= _Couleur_Fond;
-        ImageList.Draw( Canvas, R.Left, R.Top, 0);}
+        //ImageList.BkColor:= _Couleur_Fond;
+        //ImageList.Draw( Canvas, TRectF.Create( Rect), 0);
    end;
 begin
      if SVG_Drawing
@@ -2732,18 +2751,18 @@ end;
 procedure TDrawInfo.image_LOGIN__centre(_Couleur_Fond: TColor);
    procedure GDI;
    var
-//      ImageList: TImageList;
+      //ImageList: TImageList;
       dx, dy: Integer;
       R: TRect;
    begin
-{        ImageList:= fBitmaps.LOGIN;
+        //ImageList:= fBitmaps.LOGIN;
         R:= Rect;
-        dx:= (R.Right -ImageList.Width -R.Left) div 2;
-        dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
-        InflateRect( R, -dx, -dy);
+        //dx:= (R.Right -ImageList.Width -R.Left) div 2;
+        //dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
+        //InflateRect( R, -dx, -dy);
 
-        ImageList.BkColor:= _Couleur_Fond;
-        ImageList.Draw( Canvas, R.Left, R.Top, 0);}
+        //ImageList.BkColor:= _Couleur_Fond;
+        //ImageList.Draw( Canvas, TRectF.Create( Rect), 0);
    end;
 begin
      if SVG_Drawing
@@ -2760,30 +2779,27 @@ begin
          svg_image_LOGIN__bas_droite
      else
          begin
-{         fBitmaps.LOGIN.BkColor:= _Couleur_Fond;
-         fBitmaps.LOGIN.Draw( Canvas,
-                                 Rect.Right -fBitmaps.LOGIN.Width -1,
-                                 Rect.Bottom-fBitmaps.LOGIN.Height-1,
-                                 0);
- }        end;
+         //fBitmaps.LOGIN.BkColor:= _Couleur_Fond;
+         //fBitmaps.LOGIN.Draw( Canvas, TRectF.Create( Rect), 0);
+         end;
 end;
 
 procedure TDrawInfo.image_MEN_AT_WORK__centre(_Couleur_Fond: TColor);
    procedure GDI;
    var
-  //    ImageList: TImageList;
+      //ImageList: TImageList;
       dx, dy: Integer;
       R: TRect;
    begin
-    {    ImageList:= fBitmaps.MEN_AT_WORK;
+        //ImageList:= fBitmaps.MEN_AT_WORK;
         R:= Rect;
-        dx:= (R.Right -ImageList.Width -R.Left) div 2;
-        dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
-        InflateRect( R, -dx, -dy);
+        //dx:= (R.Right -ImageList.Width -R.Left) div 2;
+        //dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
+        //InflateRect( R, -dx, -dy);
 
-        ImageList.BkColor:= _Couleur_Fond;
-        ImageList.Draw( Canvas, R.Left, R.Top, 0);
-}   end;
+        //ImageList.BkColor:= _Couleur_Fond;
+        //ImageList.Draw( Canvas, TRectF.Create( Rect), 0);
+   end;
 begin
      if SVG_Drawing
      then
@@ -2795,19 +2811,19 @@ end;
 procedure TDrawInfo.image_DOSSIER_KDE_PAR_POSTE__centre(_Couleur_Fond: TColor);
    procedure GDI;
    var
- //     ImageList: TImageList;
+      //ImageList: TImageList;
       dx, dy: Integer;
       R: TRect;
    begin
-   {     ImageList:= fBitmaps.DOSSIER_KDE_PAR_POSTE;
+        //ImageList:= fBitmaps.DOSSIER_KDE_PAR_POSTE;
         R:= Rect;
-        dx:= (R.Right -ImageList.Width -R.Left) div 2;
-        dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
-        InflateRect( R, -dx, -dy);
+        //dx:= (R.Right -ImageList.Width -R.Left) div 2;
+        //dy:= (R.Bottom-ImageList.Height-R.Top ) div 2;
+        //InflateRect( R, -dx, -dy);
 
-        ImageList.BkColor:= _Couleur_Fond;
-        ImageList.Draw( Canvas, R.Left, R.Top, 0);
-}   end;
+        //ImageList.BkColor:= _Couleur_Fond;
+        //ImageList.Draw( Canvas, TRectF.Create( Rect), 0);
+   end;
 begin
      if SVG_Drawing
      then
@@ -2832,17 +2848,14 @@ procedure TDrawInfo.Traite_Grille_impression( _Afficher_Grille: Boolean);
 begin
      if not Impression then exit;
 
-     {$IFDEF WINDOWS_GRAPHIC}
      if _Afficher_Grille
      then
          begin
-         Canvas.Pen.Style:= psSolid;
-         Canvas.Pen.Color:= clBlack;
+         Canvas.Stroke.Dash := TStrokeDash.Solid;
+         Canvas.Stroke.Color:= TColorRec.Black;
          end
      else
-         Canvas.Pen.Style:= psClear;
-     {$ENDIF}
-
+         Canvas.Stroke.Kind:= TBrushKind.None;
 end;
 
 {$IFNDEF WINDOWS_GRAPHIC}
@@ -3162,7 +3175,7 @@ begin
      if DrawInfo.Contexte = ct_PL_SAL then exit;
 
      OldPenColor:= DrawInfo.CouleurLigne;
-     DrawInfo.CouleurLigne:= clBlue;
+     DrawInfo.CouleurLigne:= TColorRec.Blue;
 
      sl.Iterateur_Start;
      try
@@ -4109,11 +4122,6 @@ begin
      Result:= 0;
 end;
 
-function MulDiv( _Value, _Numerateur, _Denominateur: Integer):Integer;
-begin
-     Result:= (_Value * _Numerateur) div _Denominateur;
-end;
-
 function TBatpro_Element.Cell_Height_Interne( DrawInfo: TDrawInfo;
                                               F: TFont;
                                               Texte: String;
@@ -4335,7 +4343,7 @@ begin
            Couleur_Brosse:= TColorRec.Black;
            //Canvas.Fill.Kind:= bsFDiagonal; pas évident à traduire en fmx
            Canvas.Fill.Kind:= TBrushKind.Bitmap;
-           Canvas.Fill.Bitmap.Assign( fBitmaps.iBrosse_FDIAGONAL);
+           //Canvas.Fill.Bitmap.Assign( fBitmaps.iBrosse_FDIAGONAL);
            StyleLigne:= TStrokeDash.Custom;//à revoir, traduction rapide pour Clear
            Rectangle( Rect);
            StyleLigne:= TStrokeDash.Solid;
@@ -4666,7 +4674,6 @@ begin
 end;
 
 procedure TbeClusterElement.Draw(DrawInfo: TDrawInfo);
-{$IFNDEF FPC}
 var
    Bounds: TRect;
    sg: TStringGrid;
@@ -4692,22 +4699,24 @@ begin
 
      Bounds:= beCluster.Cluster.Bounds;
      sg:= DrawInfo.sg;
-     if DrawInfo.Impression
-     then
-         sg_GridLineWidth:= 0
-     else
-         sg_GridLineWidth:= sg.GridLineWidth;
+     sg_GridLineWidth:= 0;
+     //if DrawInfo.Impression
+     //then
+     //    sg_GridLineWidth:= 0
+     //else
+     //    sg_GridLineWidth:= sg.GridLineWidth;
 
 
      OffsetX:= 0;
-     for I:= Bounds.Left to DrawInfo.Col-1 do Inc( OffsetX, sg.ColWidths [I]+sg_GridLineWidth);
+
+     for I:= Bounds.Left to DrawInfo.Col-1 do Inc( OffsetX, Trunc(sg.Columns[I].Width)+sg_GridLineWidth);
      OffsetY:= 0;
-     for J:= Bounds.Top  to DrawInfo.Row-1 do Inc( OffsetY, sg.RowHeights[J]+sg_GridLineWidth);
+     for J:= Bounds.Top  to DrawInfo.Row-1 do Inc( OffsetY, Trunc(sg.RowHeight)+sg_GridLineWidth);//à revoir, RowHeight constant dans FMX
 
      Largeur:= 0;
-     for I:= Bounds.Left to Bounds.Right  do Inc( Largeur, sg.ColWidths [I]+sg_GridLineWidth);
+     for I:= Bounds.Left to Bounds.Right  do Inc( Largeur, Trunc(sg.Columns[I].Width)+sg_GridLineWidth);
      Hauteur:= 0;
-     for J:= Bounds.Top  to Bounds.Bottom do Inc( Hauteur, sg.RowHeights[J]+sg_GridLineWidth);
+     for J:= Bounds.Top  to Bounds.Bottom do Inc( Hauteur, Trunc(sg.RowHeight)+sg_GridLineWidth);//à revoir, RowHeight constant dans FMX
 
      OriginalRect         := DrawInfo.Rect;
      OriginalRect_Original:= DrawInfo.Rect_Original;
@@ -4719,10 +4728,6 @@ begin
      //Il faudrait peut-être gérer le clipping
      //==> comment vont se dessinner les lignes de la grille ?
 end;
-{$ELSE}
-begin
-end;
-{$ENDIF}
 
 procedure TbeClusterElement.svgDraw(DrawInfo: TDrawInfo);
 var
@@ -4741,22 +4746,23 @@ begin
 
      Bounds:= beCluster.Cluster.Bounds;
      sg:= DrawInfo.sg;
-     if DrawInfo.Impression
-     then
-         sg_GridLineWidth:= 0
-     else
-         sg_GridLineWidth:= sg.GridLineWidth;
+     sg_GridLineWidth:= 0;
+     //if DrawInfo.Impression
+     //then
+     //    sg_GridLineWidth:= 0
+     //else
+     //    sg_GridLineWidth:= sg.GridLineWidth;
 
 
      OffsetX:= 0;
-     for I:= Bounds.Left to DrawInfo.Col-1 do Inc( OffsetX, sg.ColWidths [I]+sg_GridLineWidth);
+     for I:= Bounds.Left to DrawInfo.Col-1 do Inc( OffsetX, Trunc(sg.Columns[I].Width)+sg_GridLineWidth);
      OffsetY:= 0;
-     for J:= Bounds.Top  to DrawInfo.Row-1 do Inc( OffsetY, sg.RowHeights[J]+sg_GridLineWidth);
+     for J:= Bounds.Top  to DrawInfo.Row-1 do Inc( OffsetY, Trunc(sg.RowHeight)+sg_GridLineWidth);//à revoir, RowHeight constant dans FMX
 
      Largeur:= 0;
-     for I:= Bounds.Left to Bounds.Right  do Inc( Largeur, sg.ColWidths [I]+sg_GridLineWidth);
+     for I:= Bounds.Left to Bounds.Right  do Inc( Largeur, Trunc(sg.Columns[I].Width)+sg_GridLineWidth);
      Hauteur:= 0;
-     for J:= Bounds.Top  to Bounds.Bottom do Inc( Hauteur, sg.RowHeights[J]+sg_GridLineWidth);
+     for J:= Bounds.Top  to Bounds.Bottom do Inc( Hauteur, Trunc(sg.RowHeight)+sg_GridLineWidth);//à revoir, RowHeight constant dans FMX
 
      OriginalRect:= DrawInfo.Rect;
        Origine:= DrawInfo.Rect.TopLeft;
@@ -5176,11 +5182,13 @@ var
    Sommet: Integer;
    Motif: TBitmap;
 begin
+     {
      if TrameSolide_
      then
          Motif:= fBitmaps.bBrosse_Vertical_50
      else
          Motif:= fBitmaps.bBrosse_Solide;
+     }
 
      YC := (R.Top+R.Bottom) div 2;
      dy2:= (R.Bottom-R.Top) div 2;
@@ -5215,12 +5223,13 @@ var
    Bas: Integer;
    Motif: TBitmap;
 begin
+     {
      if TrameSolide_
      then
          Motif:= fBitmaps.bBrosse_Vertical_50
      else
          Motif:= fBitmaps.bBrosse_Solide;
-
+     }
      YC := (R.Top+R.Bottom) div 2;
      Bas:= R.Bottom;
 
@@ -5278,12 +5287,13 @@ var
           end;
    end;
 begin
+     {
      if TrameSolide_
      then
          Motif:= fBitmaps.bBrosse_Vertical_50
      else
          Motif:= fBitmaps.bBrosse_Solide;
-
+     }
      W:= R.Right-R.Left;
      X1_3:= R.Left+MulDiv(W,1,3);
      X2_3:= R.Left+MulDiv(W,2,3);
@@ -7302,17 +7312,21 @@ end;
 initialization
               Tpool_Ancetre_Ancetre.Fclass_sl:= nil;
               {Début de l'ancienne unité uWindows}
+              (*
               {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
               CXBORDER:= GetSystemMetrics( SM_CXBORDER);
               CYBORDER:= GetSystemMetrics( SM_CYBORDER);
               CXEDGE:= GetSystemMetrics( SM_CXEDGE);
               CYEDGE:= GetSystemMetrics( SM_CYEDGE);
               {$ELSE}
+              *)
               CXBORDER:= 1;
               CYBORDER:= 1;
               CXEDGE:= 1;
               CYEDGE:= 1;
+              (*
               {$IFEND}
+              *)
               {Fin de l'ancienne unité uWindows}
 finalization
 end.

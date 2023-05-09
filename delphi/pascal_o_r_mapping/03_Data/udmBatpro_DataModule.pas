@@ -44,8 +44,8 @@ uses
 
     ufAccueil_Erreur,
     //ufClientDataset_Delta,
-    ufReconcileError,
-    ufProgression,
+    //ufReconcileError,
+    //ufProgression,
 
   SysUtils, Classes, 
   DB, DBClient, SQLExpr;
@@ -186,7 +186,7 @@ end;
 
 procedure Ouvre_Modules_Login;
 begin
-     if not dmDatabase.Ouvert then exit; //peut se produire dans les tests unitaires
+     if not dmDatabase.jsDataConnexion.Ouvert then exit; //peut se produire dans les tests unitaires
 
      Ouvre_Modules( True);
      pLogin.Publie;
@@ -194,7 +194,7 @@ end;
 
 procedure Ouvre_Modules_Edition( isLogin: Boolean);
 begin
-     if not dmDatabase.Ouvert then exit; //peut se produire dans les tests unitaires
+     if not dmDatabase.jsDataConnexion.Ouvert then exit; //peut se produire dans les tests unitaires
 
      Do_Ouvre_Modules( isLogin, True);
 end;
@@ -421,12 +421,14 @@ begin
          then
              Chrono.Start;
 
+         (*
          {$IFDEF MSWINDOWS}
          if AfficherProgression
          then
              fProgression.Demarre( TitreProgression_et_Chrono,
                                    Low( DataSets), High( DataSets));
          {$ENDIF}
+         *)
          try
             //Gestion du mode d'ouverture
             for I:= Low( DataSets) to High( DataSets)
@@ -455,9 +457,11 @@ begin
                   then
                       Chrono.Stop( Name+'.'+D.Name);
                   end;
+              (*
               {$IFDEF MSWINDOWS}
               if AfficherProgression then fProgression.AddProgress( 1);
               {$ENDIF}
+              *)
               end;
 
 
@@ -473,9 +477,11 @@ begin
 
             FOuvert:= Result;
          finally
+                (*
                 {$IFDEF MSWINDOWS}
                 if AfficherProgression then fProgression.Termine;
                 {$ENDIF}
+                *)
                 end;
          if AfficherChrono
          then
@@ -712,7 +718,7 @@ procedure TdmBatpro_DataModule.ClientDatasetReconcileError( DataSet: TCustomClie
 begin
      inherited;
      {$IFDEF MSWINDOWS}
-     Action:= HandleReconcileError( Dataset, UpdateKind, E);
+     //Action:= HandleReconcileError( Dataset, UpdateKind, E);
      {$ENDIF}
 end;
 

@@ -44,7 +44,7 @@ type
  TpoolG_BECP
  =
   class( TPool)
-    procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleCreate(Sender: TObject);  override;
   //Filtre
   public
     hfG_BECP: ThfG_BECP;
@@ -55,7 +55,7 @@ type
   protected
     nomclasse: String;
 
-    procedure To_SQLQuery_Params( SQLQuery: TSQLQuery); override;
+    procedure To_Params( _Params: TParams); override;
   public
     function Get_by_Cle( _nomclasse: String): TblG_BECP;
   //Gestion de l'insertion
@@ -85,14 +85,12 @@ uses
 {implementation_uses_key}
     udmDatabase;
 
-{$R *.fmx}
-
 var
    FpoolG_BECP: TpoolG_BECP;
 
 function poolG_BECP: TpoolG_BECP;
 begin
-     Clean_Get( Result, FpoolG_BECP, TpoolG_BECP);
+     TPool.class_Get( Result, FpoolG_BECP, TpoolG_BECP);
 end;
 
 procedure Cree_blG_BECP_classe_speciale( NomClasse: String;
@@ -125,6 +123,9 @@ end;
 
 function TpoolG_BECP.Get_by_Cle( _nomclasse: String): TblG_BECP;
 begin
+     Result:= blClasse_TBatpro_Element;
+     if not dmDatabase.jsDataConnexion.Ouvert then exit;
+
      nomclasse:=  _nomclasse;
      sCle:= TblG_BECP.sCle_from_( nomclasse);
      Get_Interne( Result);
@@ -136,10 +137,10 @@ begin
      Result:= 'insert into g_becp (nomclasse) values (:nomclasse)';
 end;
 
-procedure TpoolG_BECP.To_SQLQuery_Params(SQLQuery: TSQLQuery);
+procedure TpoolG_BECP.To_Params( _Params: TParams);
 begin
      inherited;
-     with SQLQuery.Params
+     with _Params
      do
        begin
        ParamByName( 'nomclasse'    ).AsString:= nomclasse;
@@ -183,7 +184,7 @@ begin
 end;
 
 initialization
-              Clean_Create ( FpoolG_BECP, TpoolG_BECP);
+              TPool.class_Create( FpoolG_BECP, TpoolG_BECP);
               uBatpro_Element.poolG_BECP_Cree            := FpoolG_BECP.Cree;
               uBatpro_Element.Batpro_ElementClassesParams:= FpoolG_BECP.Get_btsCle;
 
@@ -200,5 +201,5 @@ finalization
               uBatpro_Element.Batpro_ElementClassesParams:= nil;
               uBatpro_Element.poolG_BECP_Cree:= nil;
 
-              Clean_destroy( FpoolG_BECP);
+              TPool.class_Destroy( FpoolG_BECP);
 end.

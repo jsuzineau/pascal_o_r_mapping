@@ -1,4 +1,4 @@
-unit ubeTraits;
+﻿unit ubeTraits;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -25,7 +25,6 @@ unit ubeTraits;
 interface
 
 uses
-    Windows, SysUtils, Classes, FMX.Graphics, FMX.Controls,
 
     uBatpro_StringList,
 
@@ -34,7 +33,9 @@ uses
 
     uDrawInfo,
 
-    uBatpro_Element;
+    uBatpro_Element,
+    Windows, SysUtils, Classes, FMX.Graphics, FMX.Controls,
+    System.UITypes;
 
 //copie de TbeString, juste utilisée pour créer une cellule vide capable de recevoir des traits de cellule à cellule
 type
@@ -120,8 +121,8 @@ begin
              CustomFont:= TFont.Create;
          CustomFont.Assign( inherited ClassFont( DrawInfo));
 
-         if FontName <> sys_Vide then CustomFont.Name := FontName;
-         if FontSize <> 0        then CustomFont.Size := FontSize;
+         if FontName <> sys_Vide then CustomFont.Family:= FontName;
+         if FontSize <> 0        then CustomFont.Size  := FontSize;
          CustomFont.Style:= FontStyle;
          
          Result:= CustomFont;

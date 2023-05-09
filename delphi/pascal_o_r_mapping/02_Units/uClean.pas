@@ -69,6 +69,7 @@ function uClean_Log_Repertoire: String;
 function uClean_Log_Nom: String;
 function uClean_Log_NomFichier: String;
 procedure uClean_Log( S: String);
+function uClean_HTML_Repertoire: String;
 
 var uClean_Log_Started: String= '';
 procedure uClean_Log_Start( S: String);
@@ -100,6 +101,7 @@ function uClean_BIN_from_FGL_LIB( _FGL_LIB: String): String;
 function uClean_Racine_from_EXE( _EXE: String): String;
 function uClean_ETC_from_EXE( _EXE: String): String;
 function uClean_LOG_from_EXE( _EXE: String): String;
+function uClean_HTML_from_EXE( _EXE: String): String;
 
 
 implementation
@@ -109,7 +111,11 @@ uses
 
 function uClean_EXE_Name: String;
 begin
-     Result:= ParamStr( 0);
+
+     Result:= GetModuleName(HINSTANCE);
+     if '' = Result // se produit sur Lazarus 2.0.0RC1 /FPC 3.0.4
+     then
+         Result:= ParamStr( 0);
 end;
 
 function Repertoire_from_( _NomFichier: String): String;
@@ -166,6 +172,21 @@ begin
 
      Result:= Repertoire_racine + PathDelim +'log';
      //uClean_Log( 'Résultat uClean_LOG_from_EXE : ', Result);
+end;
+
+function uClean_HTML_from_EXE( _EXE: String): String;
+var
+   Repertoire_racine: String;
+begin
+     Repertoire_racine:= uClean_Racine_from_EXE( _EXE);
+
+     Result:= Repertoire_racine + PathDelim +'html';
+     //uClean_Log( 'Résultat uClean_LOG_from_EXE : ', Result);
+end;
+
+function uClean_HTML_Repertoire: String;
+begin
+     Result:= uClean_HTML_from_EXE( uClean_EXE_Name);
 end;
 
 var
@@ -377,7 +398,7 @@ begin
      uClean_SGBD_OPN_Requeteur( _SQL);
 end;
 
-procedure Finalize;
+procedure uClean_Finalize;
 var
 //   I,
    LC: Integer;
@@ -401,16 +422,16 @@ begin
      Free_nil( Liste);
 end;
 
-procedure Initialize;
+procedure uClean_Initialize;
 begin
      Liste:= TList.Create;
      Noms := TStringList.Create;
 end;
 
 initialization
-              Initialize;
+              uClean_Initialize;
 finalization
-              Finalize;
+              uClean_Finalize;
 end.
 
 

@@ -49,10 +49,9 @@ type
   //Attributs
   private
     pool: TPool;
-    sqlq: TSQLQuery;
-    sqlqid: TIntegerField;
+    jsdc: TjsDataContexte;
     SQL_Original: String;
-    sqlqNB_LIGNES: TSQLQuery;
+    jsdcNB_LIGNES: TjsDataContexte;
   public
     sl: TBatpro_StringList;
   //Gestion des paramètres
@@ -60,7 +59,7 @@ type
     Params_Names : array of String;
     Params_Values: array of Variant;
     OrderBy: String;
-    procedure sqlq_from_Params;
+    procedure jsdc_from_Params;
   public
     procedure SetParams( _Params_Names : array of String;
                          _Params_Values: array of Variant;
@@ -86,18 +85,10 @@ constructor TCharge_100.Create( _pool: TPool;
 begin
      pool     := _pool;
 
-     sqlq:= TSQLQuery.Create( nil);
-     sqlq.SQLConnection:= pool.Connection;
-     sqlq.Name:= 'sqlq';
+     jsdc:= pool.Connection.Cree_Contexte( ClassName+'.jsdc');
 
-     sqlqid:= TIntegerField.Create( sqlq);
-     sqlqid.FieldName:= 'id';
-     sqlqid.DataSet:= sqlq;
-
-     sqlqNB_LIGNES:= TSQLQuery.Create( nil);
-     sqlqNB_LIGNES.SQLConnection:= pool.Connection;
-     sqlqNB_LIGNES.Name:= 'sqlqNB_LIGNES';
-     sqlqNB_LIGNES.SQL.Text:= _SQL_NB_LIGNES;
+     jsdcNB_LIGNES:= pool.Connection.Cree_Contexte( ClassName+'.jsdcNB_LIGNES');
+     jsdcNB_LIGNES.SQL:= _SQL_NB_LIGNES;
 
      sl    := TBatpro_StringList.Create;
 
@@ -109,15 +100,17 @@ end;
 
 destructor TCharge_100.Destroy;
 begin
-     Free_Nil( sl    );
+     Free_Nil( sl           );
+     Free_Nil( jsdcNB_LIGNES);
+     Free_Nil( jsdc         );
      inherited;
 end;
 
-procedure TCharge_100.sqlq_from_Params;
+procedure TCharge_100.jsdc_from_Params;
 var
    I: Integer;
 begin
-     with sqlq.Params
+     with jsdc.Params
      do
        begin
        for I:= Low( Params_Names) to High( Params_Names)
@@ -156,15 +149,15 @@ begin
             SQL + sys_N
            +'order by'+sys_N
            +'      '+OrderBy;
-     sqlq.SQL.Text:= SQL;
-     sqlq_from_Params;
+     jsdc.SQL:= SQL;
+     jsdc_from_Params;
      //AfficheRequete( sqlq);
-     RefreshQuery( sqlq);
+     jsdc.RefreshQuery;
 end;
 
 procedure TCharge_100.Execute;
 begin
-     pool.Load_N_rows_by_id( sqlq, sqlqid, sl, nil, 100);
+     pool.Load_N_rows_by_id( jsdc, sl, nil, 100);
 end;
 
 function TCharge_100.GetNB_LIGNES: Integer;
@@ -174,16 +167,16 @@ begin
      if FNB_LIGNES = 0
      then
          begin
-         with sqlqNB_LIGNES.Params
+         with jsdcNB_LIGNES.Params
          do
            begin
            for I:= Low( Params_Names) to High( Params_Names)
            do
              ParamByName( Params_Names [I]).Value:= Params_Values[I];
            end;
-         RefreshQuery( sqlqNB_LIGNES);
-         FNB_LIGNES:= sqlqNB_LIGNES.Fields[0].AsInteger;
-         sqlqNB_LIGNES.Close;
+         jsdc.RefreshQuery;
+         FNB_LIGNES:= jsdcNB_LIGNES.Champ_by_Index(0).AsInteger;
+         jsdcNB_LIGNES.Close;
          end;
 
      Result:= FNB_LIGNES;

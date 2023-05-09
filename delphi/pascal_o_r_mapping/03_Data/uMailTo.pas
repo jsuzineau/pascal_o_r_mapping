@@ -32,7 +32,7 @@ uses
     uBatpro_StringList,
     uVersion,
     uNetwork,
-    udmSMTP,
+//    {$IFNDEF FPC}udmSMTP,{$ENDIF}
 
     udmDatabase,
 
@@ -44,7 +44,6 @@ uses
 
 function MailTo( _From, _To  , _Subject, _Body: String; _PiecesJointes: array of String): Boolean; overload;
 function MailTo( _From: String; _To: TStrings; _Subject, _Body: String; _PiecesJointes: array of String): Boolean; overload;
-function MailTo_ADINFO( _Subject, _Body: String; _PiecesJointes: array of String): Boolean;
 
 type
     TaMapiRecipDesc= array[0..0] of TMapiRecipDesc;
@@ -283,11 +282,6 @@ begin
          lpFileType  := nil;
          end;
 
-     if     (_From = '')
-        and ('EMFA' = UpperCase( dmDatabase.Database))
-     then
-         _From:= 'FDENIAUD@emfa.fr';
-
      uLog.Log.Print( 'MailTo; _From = >'+_From+'<');
      if _From = ''
      then
@@ -378,10 +372,6 @@ begin
          lpFileType  := nil;
          end;
 
-     if     (_From = '')
-        and ('EMFA' = UpperCase( dmDatabase.Database))
-     then
-         _From:= 'FDENIAUD@emfa.fr';
 
      uLog.Log.Print( 'MailTo; _From = >'+_From+'<');
      if _From = ''
@@ -463,9 +453,10 @@ var
    Repertoire, Repertoire_Temp: String;
    Modele, Mail: String;
    I: Integer;
-   Message   : TIdMessage;
+   (*Message   : TIdMessage;
    Attachment: TIdAttachmentFile;
    Recipient: TIdEMailAddressItem;
+   *)
    sErreur: String;
    sRecipient: String;
 begin
@@ -473,12 +464,14 @@ begin
      Repertoire_Temp:= Repertoire +'temp\';
      ForceDirectories( Repertoire_Temp);
      Modele:= Repertoire +'etc\Modele_MEL.eml';
+     (*
      Mail
      :=
         Repertoire_Temp
        +'MEL_'
        +Network.Nom_Hote+'_'
-       +FormatDateTime('yyyymmdd"_"hh"h"nn',Now)+'.eml';
+       +FormatDateTime('yyyymmdd"_"hh"h"nn',Now)+'_'
+       +dmxG3_UTI_soc+'_'+dmxG3_UTI_ets+'_'+dmxG3_UTI_code_util+'.eml';
 
      Message:= TIdMessage.Create( nil);
 
@@ -531,7 +524,7 @@ begin
      Message.SaveToFile( Mail);
 
      try
-        dmSMTP.EnvoiMail( Message);
+        {$IFNDEF FPC}dmSMTP.EnvoiMail( Message);{$ENDIF}
      except
            on E: Exception
            do
@@ -539,6 +532,7 @@ begin
              fAccueil_Erreur( 'uMailTo.MailTo_SMTP:'#13#10+E.Message, 'Echec de l''envoi du mail');
              end;
            end;
+           *)
 end;
 
 var
@@ -562,11 +556,6 @@ begin
      do
        begin
        Clear;
-
-       if     (_From = '')
-          and ('EMFA' = UpperCase( dmDatabase.Database))
-       then
-           _From:= 'FDENIAUD@emfa.fr';
 
        //pas de champ où mettre le _From ?
 
@@ -639,11 +628,6 @@ begin
      finally
             Free_nil( sl);
             end;
-end;
-
-function MailTo_ADINFO( _Subject, _Body: String; _PiecesJointes: array of String): Boolean;
-begin
-     Result:= MailTo( '','assistance.gas@groupeadinfo.com', _Subject, _Body, _PiecesJointes);
 end;
 
 initialization

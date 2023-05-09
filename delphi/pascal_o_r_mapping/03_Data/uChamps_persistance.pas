@@ -26,17 +26,21 @@ interface
 
 uses
     uClean,
+    uBatpro_StringList,
     uDataUtilsF,
     uChampDefinitions,
     u_sys_,
     uChamp,
     uChamps,
+    ujsDataContexte,
     udmDatabase,
-    udmBatpro_DataModule,
   SysUtils, Classes,
   FMTBcd, DB, SqlExpr;
 
 type
+
+	{ TChamps_persistance }
+
  TChamps_persistance
  =
   class
@@ -46,12 +50,16 @@ type
     destructor Destroy; override;
   //Attributs
   private
+    sqlc: TSQLConnection;
     sqlq: TSQLQuery;
+    function not_sqlc_from_( _jsDataConnexion: TjsDataConnexion): Boolean;
   //Méthodes
+  private
+    function Save_to_database_old( Champs: TChamps; _jsDataConnexion: TjsDataConnexion): Boolean;
   public
-    function Save_to_database( Champs: TChamps; _sqlc: TSQLConnection): Boolean;
-    function Insert_into_database( Champs: TChamps; _sqlc: TSQLConnection): Boolean;
-    function Delete_from_database( Champs: TChamps; _sqlc: TSQLConnection): Boolean;
+    function Save_to_database( Champs: TChamps; _jsDataConnexion: TjsDataConnexion): Boolean;
+    function Insert_into_database( Champs: TChamps; _jsDataConnexion: TjsDataConnexion): Boolean;
+    function Delete_from_database( Champs: TChamps; _jsDataConnexion: TjsDataConnexion): Boolean;
   end;
 
 var
@@ -75,37 +83,59 @@ begin
      inherited;
 end;
 
-function TChamps_persistance.Save_to_database( Champs: TChamps; _sqlc: TSQLConnection): Boolean;
+function TChamps_persistance.not_sqlc_from_( _jsDataConnexion: TjsDataConnexion): Boolean;
 var
-   T: TTransactionDesc;
+   jsdcs: TjsDataConnexion_SQLQuery;
 begin
-     T.TransactionID:= 1;
-     T.IsolationLevel:= xilREADCOMMITTED;
+     Result:= Affecte_( jsdcs, TjsDataConnexion_SQLQuery, _jsDataConnexion);
+     if Result then exit;
 
+     sqlc:= jsdcs.sqlc;
+end;
+
+function TChamps_persistance.Save_to_database_old( Champs: TChamps;
+		                                             _jsDataConnexion: TjsDataConnexion): Boolean;
+(*var
+   T: TTransactionDesc;*)
+begin
+     (*T.TransactionID:= 1;
+     T.IsolationLevel:= xilREADCOMMITTED;*)
+
+     if not_sqlc_from_( _jsDataConnexion) then exit;
      sqlq.Close;
-     sqlq.SQLConnection:= _sqlc;
+     sqlq.SQLConnection:= sqlc;
 
         sqlq.SQL.Text:= Champs.ChampDefinitions.ComposeSQL;
         Champs.To_Params_Update( sqlq.Params);
 
-     _sqlc.StartTransaction( T); //pour pilote Postgres Devart
+     (*sqlc.StartTransaction( T); //pour pilote Postgres Devart*)
      try
         Result:= ExecSQLQuery( sqlq);
      finally
-            _sqlc.Commit( T);
+            (*sqlc.Commit( T);*)
             end;
 end;
 
-function TChamps_persistance.Insert_into_database( Champs: TChamps; _sqlc: TSQLConnection): Boolean;
+function TChamps_persistance.Save_to_database( Champs: TChamps; _jsDataConnexion: TjsDataConnexion): Boolean;
+begin
+     _jsDataConnexion.Contexte.SQL:= Champs.ChampDefinitions.ComposeSQL;
+     Champs.To_Params_Update( _jsDataConnexion.Contexte.Params);
+     Result:= _jsDataConnexion.Contexte.ExecSQLQuery;
+end;
+
+function TChamps_persistance.Insert_into_database(Champs: TChamps;
+		_jsDataConnexion: TjsDataConnexion): Boolean;
 var
-   T: TTransactionDesc;
+   (*T: TTransactionDesc;*)
    cID: TChamp;
 begin
-     T.TransactionID:= 1;
-     T.IsolationLevel:= xilREADCOMMITTED;
+     (*T.TransactionID:= 1;
+     T.IsolationLevel:= xilREADCOMMITTED;*)
+
+     if not_sqlc_from_( _jsDataConnexion) then exit;
 
      sqlq.Close;
-     sqlq.SQLConnection:= _sqlc;
+     sqlq.SQLConnection:= sqlc;
 
      cID:= Champs.cID;
      Result:= Assigned( cID);
@@ -114,44 +144,47 @@ begin
 
      sqlq.SQL.Text:= Champs.ChampDefinitions.ComposeSQLInsert;
      Champs.To_Params_Insert( sqlq.Params);
-     _sqlc.StartTransaction( T); //pour pilote Postgres Devart
+     (*sqlc.StartTransaction( T); //pour pilote Postgres Devart*)
      try
         Result:= ExecSQLQuery( sqlq);
      finally
-            _sqlc.Commit( T);
+            (*sqlc.Commit( T);*)
             end;
      if not Result then exit;
 
      sqlq.SQL.Text:= Champs.ChampDefinitions.ComposeSQLChercheSerial;
-     _sqlc.StartTransaction( T); //pour pilote Postgres Devart
+     (*sqlc.StartTransaction( T); //pour pilote Postgres Devart*)
      try
         Result:= RefreshQuery( sqlq);
      finally
-            _sqlc.Commit( T);
+            (*sqlc.Commit( T);*)
             end;
      if Result
      then
          cID.Chaine:= sqlq.FieldByName( 'id').AsString;
 end;
 
-function TChamps_persistance.Delete_from_database( Champs: TChamps; _sqlc: TSQLConnection): Boolean;
-var
-   T: TTransactionDesc;
+function TChamps_persistance.Delete_from_database(Champs: TChamps;
+		_jsDataConnexion: TjsDataConnexion): Boolean;
+(*var
+   T: TTransactionDesc;*)
 begin
-     T.TransactionID:= 1;
-     T.IsolationLevel:= xilREADCOMMITTED;
+     (*T.TransactionID:= 1;
+     T.IsolationLevel:= xilREADCOMMITTED;*)
+
+     if not_sqlc_from_( _jsDataConnexion) then exit;
 
      sqlq.Close;
-     sqlq.SQLConnection:= _sqlc;
+     sqlq.SQLConnection:= sqlc;
 
      sqlq.SQL.Text:= Champs.ChampDefinitions.ComposeSQLDelete;
      Champs.To_Params_Delete( sqlq.Params);
 
-     _sqlc.StartTransaction( T); //pour pilote Postgres Devart
+     (*sqlc.StartTransaction( T); //pour pilote Postgres Devart*)
      try
         Result:= ExecSQLQuery( sqlq);
      finally
-            _sqlc.Commit( T);
+            (*sqlc.Commit( T);*)
             end;
 end;
 

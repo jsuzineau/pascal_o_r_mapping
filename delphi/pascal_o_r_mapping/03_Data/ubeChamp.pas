@@ -1,4 +1,4 @@
-unit ubeChamp;
+﻿unit ubeChamp;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -34,7 +34,6 @@ uses
     uuStrings,
     uDrawInfo,
     uBatpro_Element,
-    ubeClusterElement,
     uContextes,
     uVide,
     Windows, SysUtils, Classes, FMX.Graphics, FMX.Controls;

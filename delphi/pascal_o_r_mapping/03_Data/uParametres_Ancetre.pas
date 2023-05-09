@@ -1,4 +1,4 @@
-unit uParametres_Ancetre;
+﻿unit uParametres_Ancetre;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -38,7 +38,7 @@ uses
     uBatpro_Ligne,
 
     ufAccueil_Erreur,
-    SysUtils, Classes, DB,DBTables;
+    SysUtils, Classes, DB(*,DBTables*);
 
 const
      sys_Parametre_Debut= '%';

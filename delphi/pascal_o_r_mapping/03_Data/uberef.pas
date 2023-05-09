@@ -1,4 +1,4 @@
-unit uberef;
+﻿unit uberef;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -34,11 +34,10 @@ uses
     uSVG,
     uDrawInfo,
     uBatpro_Element,
-    ubeClusterElement,
     uContextes,
     uVide,
   {$IFDEF MSWINDOWS}
-  Windows, FMX.Graphics, FMX.Controls,
+  Windows, FMX.Graphics, FMX.Controls, System.UITypes,
   {$ENDIF}
   SysUtils, Classes;
 

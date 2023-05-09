@@ -1,4 +1,4 @@
-unit uCD_from_Params;
+﻿unit uCD_from_Params;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -29,6 +29,7 @@ uses
     DB, DBClient,
     uClean,
     uBatpro_StringList,
+    ujsDataContexte,
     uChamp,
     uChampDefinition,
     uChamps,
@@ -49,8 +50,28 @@ type
     procedure Remplit;
   end;
 
-var
-   CD_from_Params: TCD_from_Params = nil;
+ { TjsDataContexte_CD_from_Params }
+
+ TjsDataContexte_CD_from_Params
+ =
+  class( TjsDataContexte_Dataset)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Name: String); override;
+    destructor Destroy; override;
+  //SQL
+  protected
+    procedure SetSQL( _SQL: String); override;
+    function  GetSQL: String; override;
+  //Contexte ClientDataset
+  private
+    cd: TClientDataset;
+  // CD_from_Params
+  private
+     CD_from_Params: TCD_from_Params;
+  public
+     procedure _from_Params( _P: TParams);
+  end;
 
 implementation
 
@@ -86,7 +107,9 @@ begin
        end;
 
      cd.FieldDefs.Clear;
-     {$IFDEF MSWINDOWS}cd.ObjectView:= False;{$ENDIF}
+     {$IFDEF MSWINDOWS}
+     cd.ObjectView:= False;
+     {$ENDIF}
 end;
 
 procedure TCD_from_Params.Cree;
@@ -138,8 +161,38 @@ begin
      cd.Post;
 end;
 
-initialization
-              CD_from_Params:= TCD_from_Params.Create;
-finalization
-              Free_nil( CD_from_Params);
+{ TjsDataContexte_CD_from_Params }
+
+constructor TjsDataContexte_CD_from_Params.Create(_Name: String);
+begin
+     inherited Create( _Name);
+     cd:= TClientDataSet.Create( nil);
+     ds:= cd;
+     CD_from_Params:= TCD_from_Params.Create;
+end;
+
+destructor TjsDataContexte_CD_from_Params.Destroy;
+begin
+     ds:= nil;
+     Free_nil( CD_from_Params);
+     FreeAndNil( cd);
+     inherited Destroy;
+end;
+
+procedure TjsDataContexte_CD_from_Params.SetSQL(_SQL: String);
+begin
+     raise Exception.Create( Name+': '+ClassName+': méthode SetSQL non implémentée');
+end;
+
+function TjsDataContexte_CD_from_Params.GetSQL: String;
+begin
+     Result:=inherited GetSQL;
+     raise Exception.Create( Name+': '+ClassName+': fonction GetSQL non implémentée');
+end;
+
+procedure TjsDataContexte_CD_from_Params._from_Params(_P: TParams);
+begin
+     CD_from_Params.Execute( cd, _P);
+end;
+
 end.

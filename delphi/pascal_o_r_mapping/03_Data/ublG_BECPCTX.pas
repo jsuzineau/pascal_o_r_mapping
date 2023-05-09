@@ -1,4 +1,4 @@
-unit ublG_BECPCTX;
+﻿unit ublG_BECPCTX;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -37,7 +37,7 @@ uses
     uBatpro_Element,
     uBatpro_Ligne,
   {$IFDEF MSWINDOWS}
-  Windows, FMX.Graphics,
+  Windows, FMX.Graphics, System.UITypes,
   {$ENDIF}
   SysUtils, Classes, DB;
 
@@ -58,7 +58,7 @@ type
     sStringList: String;
     StringList : TBatpro_StringList;
     Sauver     : Boolean;
-    constructor Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre); override;
+    constructor Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre); override;
     constructor Create_New( unNomClasse: String);
     destructor Destroy; override;
     //procedure To_Q;
@@ -97,7 +97,7 @@ end;
 procedure TblG_BECPCTX.Fonte_Defaut;
 begin
      Is_Fonte_Defaut:= True;
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      Font.Assign( Fonte_Arial_8);
      {$ELSE}
      {$ENDIF}
@@ -107,10 +107,10 @@ procedure TblG_BECPCTX.Font_from_StringList;
 var
    Couleur: Integer;
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      if TryStrToInt( StringList.Values[ inik_CouleurTexte], Couleur)
      then
-         Font.Color:= Couleur;
+         ;//Font.Color:= Couleur;
      {$ELSE}
      {$ENDIF}
 
@@ -118,17 +118,17 @@ end;
 
 procedure TblG_BECPCTX.StringList_from_Font;
 begin
-     {$IFDEF MSWINDOWS}
-     StringList.Values[ inik_CouleurTexte]:= '$'+IntToHex( Font.Color, 4);
+     {$IFNDEF FPC}
+     //StringList.Values[ inik_CouleurTexte]:= '$'+IntToHex( Font.Color, 4);
      {$ELSE}
      {$ENDIF}
 end;
 
-constructor TblG_BECPCTX.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
+constructor TblG_BECPCTX.Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre);
 var
    CP: IblG_BECP;
-   {$IFDEF MSWINDOWS}
-   LogFont: TLogFont;
+   {$IFNDEF FPC}
+   //LogFont: TLogFont;
    {$ENDIF}
    Taille_LogFont: Integer;
 begin
@@ -137,14 +137,14 @@ begin
      then
          begin
          CP.Titre:= 'ligne de la table g_becpctx';
-         {$IFDEF MSWINDOWS}
+         {$IFNDEF FPC}
          CP.Font.Family:= sys_SmallFonts;
          CP.Font.Size:= 6;
          {$ELSE}
          {$ENDIF}
          end;
 
-     inherited Create( _sl, _q, _pool);
+     inherited Create( _sl, _jsdc, _pool);
 
      if Assigned( Champs.ChampDefinitions)
      then
@@ -158,7 +158,8 @@ begin
      Champs.String_from_Blob( sLogFont, dbf_logfont);
      Font:= TFont.Create;
 
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
+     (*
      Taille_LogFont:= SizeOf( LogFont);
      if Length( sLogFont) <> Taille_LogFont
      then
@@ -169,6 +170,7 @@ begin
          Font.Handle:= CreateFontIndirect( LogFont);
          Is_Fonte_Defaut:= False;
          end;
+     *)
      {$ENDIF}
 
      //Champ StringList
@@ -222,7 +224,7 @@ end;
 //end;
 
 procedure TblG_BECPCTX.Save_to_database;
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 var
    LogFont: TLogFont;
    Taille_LogFont: Integer;
@@ -232,12 +234,12 @@ begin
 
      StringList_from_Font;
 
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      Taille_LogFont:= SizeOf( LogFont);
      //Champ fonte
-     GetObject( Font.Handle, Taille_LogFont, @LogFont);
+     //GetObject( Font.Handle, Taille_LogFont, @LogFont);
      SetLength( sLogFont, Taille_LogFont);
-     Move( LogFont, sLogFont[1], Taille_LogFont);
+     //Move( LogFont, sLogFont[1], Taille_LogFont);
      {$ENDIF}
      //Champ StringList
      sStringList:= StringList.Text;
@@ -258,14 +260,10 @@ begin
      Result:= sCle_from_( NomClasse, Contexte);
 end;
 
-{$IFDEF MSWINDOWS}
 initialization
               Fonte_Arial_8:= TFont.Create;
-              Fonte_Arial_8.Name:= sys_Arial;
+              Fonte_Arial_8.Family:= sys_Arial;
               Fonte_Arial_8.Size:= 8;
-
 finalization
               Free_nil( Fonte_Arial_8);
-{$ELSE}
-{$ENDIF}
 end.

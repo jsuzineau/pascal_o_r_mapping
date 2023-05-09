@@ -29,8 +29,8 @@ uses
     uClean,
     uEXE_INI,
     uPublieur,
-    ublG_PIP,
-    upoolG_PIP,
+    (*ublG_PIP,*)
+    (*upoolG_PIP,*)
   SysUtils, Classes;
 
 const
@@ -96,7 +96,7 @@ begin
      //                      inik_RepertoireModeles,
      //                      ExtractFilePath( ParamStr(0))
      //                      );
-     Result:= poolG_PIP.Get_Parametres_Poste.modeles_oo;
+     (*Result:= poolG_PIP.Get_Parametres_Poste.modeles_oo;*)
 end;
 
 function TINI_Batpro_OD_Report.GetRepertoire_Sorties: String;

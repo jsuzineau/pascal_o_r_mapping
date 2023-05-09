@@ -31,8 +31,10 @@ uses
     u_sys_,
     uRegistry,
     uSGBD,
+    uDataUtilsF,
     uMySQL,//juste pour fonction crypto
     uEXE_INI,
+    ujsDataContexte,
 
     ufAccueil_Erreur,
 
@@ -43,12 +45,15 @@ uses
     SysUtils, Registry, SQLExpr;
 
 type
+
+	{ TInformix }
+
  TInformix
  =
-  class
+  class( TjsDataConnexion_SQLQuery)
   //Gestion du cycle de vie
   public
-    constructor Create;
+    constructor Create( _SGBD: TSGBD); override;
     destructor Destroy; override;
   //Persistance dans la base de registre
   private
@@ -56,18 +61,17 @@ type
     function  Lit_simple( NomValeur: String; Crypter: Boolean= False): String;
     procedure Lecture_simple;
   public
-    procedure Ecrire;
-  //Attributs
+    procedure Ecrire; override;
+  //Connexion
+  protected
+    function Cree_SQLConnection: TSQLConnection; override;
+  //HostName
   private
-    FHostName : String;
     procedure Set_INFORMIXSERVER(Value: String);
-    procedure SetHostName(const Value: String);
+  protected
+    procedure SetHostName(const Value: String); override;
+  //Attributs
   public
-    property HostName: String read FHostName write SetHostName;
-  public
-    DataBase : String;
-    User_Name: String;
-    Password : String;
     procedure Efface;
     function Vide: Boolean;
   {$IFNDEF FPC}
@@ -79,10 +83,20 @@ type
   public
     procedure SetNet32;
     procedure DBPing;
+  //Attributs de connexion
+  private
+    sqlqSYSDATABASES: TSQLQuery;
+  public
+    sqlcSYSMASTER: TSQLConnection;
+    procedure Prepare; override;
+    procedure Ouvre_db; override;
+    procedure Ferme_db; override;
+    procedure Keep_Connection; override;
+    procedure Do_not_Keep_Connection; override;
+  //Last_Insert_id
+  public
+    function Last_Insert_id( _NomTable: String): Integer; override;
   end;
-
-var
-   Informix: TInformix;
 
 const
      inis_informix= 'informix';
@@ -92,22 +106,57 @@ implementation
 
 { TInformix }
 
-constructor TInformix.Create;
+constructor TInformix.Create( _SGBD: TSGBD);
 begin
-     inherited;
-     FHostName:= sys_Vide;
-     DataBase := sys_Vide;
-     User_Name:= sys_Vide;
-     Password := sys_Vide;
+     inherited Create( _SGBD);
+
+     sqlcSYSMASTER:= Cree_SQLConnection;
+     sqlcSYSMASTER.Params.Text
+     :=
+        'DriverName=Informix'                    +#13#10
+       +'HostName=ows2'                          +#13#10
+       +'DataBase=sysmaster'                     +#13#10
+       +'BlobSize=-1'                            +#13#10
+       +'ErrorResourceFile='                     +#13#10
+       +'LocaleCode=0000'                        +#13#10
+       +'Informix TransIsolation=ReadCommited'   +#13#10
+       +'Trim Char=True'                         +#13#10
+       +'User_Name=batpro'
+       ;
+
+     sqlqSYSDATABASES:= TSQLQuery.Create(nil);
+     sqlqSYSDATABASES.SQLConnection:= sqlcSYSMASTER;
+     sqlqSYSDATABASES.SQL.Text:= 'select * from sysdatabases where name <> "sysmaster" and name <> "sysutils"';
 
      pSGBDChange.Abonne( Self, Lecture_simple);
      Lecture_simple;
+
 end;
 
 destructor TInformix.Destroy;
 begin
      pSGBDChange.DesAbonne( Self, Lecture_simple);
+
+     FreeAndnil( sqlqSYSDATABASES);
+     FreeAndnil( sqlcSYSMASTER);
      inherited;
+end;
+
+function TInformix.Cree_SQLConnection: TSQLConnection;
+begin
+     Result:= TSQLConnection.Create( nil);
+     Result.Params.Text
+     :=
+        'DriverName=Informix'                    +#13#10
+       +'HostName=ows2'                          +#13#10
+       +'DataBase=sysmaster'                     +#13#10
+       +'BlobSize=-1'                            +#13#10
+       +'ErrorResourceFile='                     +#13#10
+       +'LocaleCode=0000'                        +#13#10
+       +'Informix TransIsolation=ReadCommited'   +#13#10
+       +'Trim Char=True'                         +#13#10
+       +'User_Name=batpro'
+       ;
 end;
 
 procedure TInformix.Lecture_simple;
@@ -123,6 +172,8 @@ end;
 
 procedure TInformix.Ecrire;
 begin
+     inherited Ecrire;
+
      Ecrit( regv_HostName , HostName );
      Ecrit( regv_Database , DataBase );
      Ecrit( regv_User_Name, User_Name);
@@ -259,7 +310,7 @@ end;
 
 procedure TInformix.SetHostName(const Value: String);
 begin
-     FHostName:= Value;
+     inherited SetHostName( Value);
      Set_INFORMIXSERVER( HostName);
 end;
 
@@ -296,8 +347,78 @@ begin
      {$ENDIF}
 end;
 
-initialization
-              Informix:= TInformix.Create;
-finalization
-              Free_nil( Informix);
+procedure TInformix.Prepare;
+begin
+     inherited Prepare;
+
+     Database_indefinie:= DataBase = sys_Vide;
+     if Database_indefinie
+     then
+         DataBase:= 'sysmaster'
+     else
+         Database_indefinie:= DataBase = 'sysmaster';
+
+     Ouvrable
+     :=
+       //    (Informix.HostName  <> sys_Vide)
+       //and (Informix.User_Name <> sys_Vide)
+       (*and*) (Database  <> sys_Vide);
+
+
+     WriteParam( 'HostName' , HostName );
+     WriteParam( 'User_Name', User_Name);
+     WriteParam( 'Password' , Password );
+     WriteParam( 'DataBase' , Database );
+end;
+
+procedure TInformix.Ouvre_db;
+begin
+		   inherited Ouvre_db;
+     if not Ouvert then exit;
+
+     if Ouvre_SQLConnection( sqlcSYSMASTER) // liste des bases informix
+     then
+         if RefreshQuery( sqlqSYSDATABASES)
+         then
+             sqlqSYSDATABASES.Locate('name', DataBase, []);
+end;
+
+procedure TInformix.Ferme_db;
+begin
+		   inherited Ferme_db;
+     sqlqSYSDATABASES.Close;
+     sqlcSYSMASTER   .Close;
+end;
+
+procedure TInformix.Keep_Connection;
+begin
+     inherited Keep_Connection;
+
+     sqlcSYSMASTER.KeepConnection:= True;
+     Ouvre_SQLConnection( sqlcSYSMASTER);
+end;
+
+procedure TInformix.Do_not_Keep_Connection;
+begin
+     inherited Do_not_Keep_Connection;
+
+     sqlcSYSMASTER.KeepConnection:= False;
+     sqlcSYSMASTER.Connected:= False;
+end;
+
+function TInformix.Last_Insert_id( _NomTable: String): Integer;
+var
+   SQL: String;
+begin
+     SQL:=
+ 'select                                                                   '#13#10
++'      dbinfo(''sqlca.sqlerrd1'')                                         '#13#10
++'-- le from et le where sont là juste pour qu informix accepte la requete '#13#10
++'from                                                                     '#13#10
++'    systables                                                            '#13#10
++'where                                                                    '#13#10
++'     tabid =1                                                            '#13#10;
+     Contexte.Integer_from( SQL, Result);
+end;
+
 end.

@@ -28,6 +28,7 @@ uses
     uForms,
     uClean,
     uBatpro_StringList,
+    uLog,
     uContrainte,
     u_sys_,
     uuStrings,
@@ -46,7 +47,8 @@ uses
     uTri,
     uhFiltre_Ancetre,
 
-    SysUtils, Classes, DB, SQLExpr, DBClient;
+
+    SysUtils, Classes;
 
 { ThFiltre
 Ancêtre pour les classe "handler" de filtre (propriétés Filter/Filtered
@@ -60,30 +62,26 @@ type
   class( ThFiltre_Ancetre)
   //Cycle de vie
   public
-    constructor Create( _D: TDataset;
-                        _btsCle: TbtString; _slFiltre: TBatpro_StringList; _Tri: TTri = nil); virtual;
+    constructor Create( _btsCle: TbtString; _slFiltre: TBatpro_StringList; _Tri: TTri = nil); virtual;
     destructor Destroy; override;
   //Général
   private
     btsCle: TbtString;
-    D: TDataset;
     slFiltre: TBatpro_StringList;
     procedure Extraction;
-  protected
-    Requery: Boolean;
-    SQLPrefixe, SQLSuffixe: String;
-    function Compose_SQL: String; virtual;
   public
-    sFiltre: String;
     AfterExecute: TAbonnement_Objet_Proc;
     Filtre_actif: Boolean;
     function Initialise( _Contraintes: array of TContrainte): Boolean;
-    function Execute: Boolean;
-    procedure AjouteCritereLIKE     (NomChamp, ValeurChamp: String);
-    procedure AjouteCritereLIKE_ou_VIDE(NomChamp, ValeurChamp: String);
-    procedure AjouteCritereOR_LIKE  (NomChamp, ValeurChamp: String);//non géré en dataset
-    procedure AjouteCritereDIFFERENT(NomChamp, ValeurChamp: String);
-    procedure AjouteCritereEGAL     (NomChamp, ValeurChamp: String);
+    function Execute: Boolean;override;
+    procedure AjouteCritereLIKE     (NomChamp, ValeurChamp: String);override;
+    procedure AjouteCritereLIKE_ou_VIDE(NomChamp, ValeurChamp: String);override;
+    procedure AjouteCritereOR_LIKE  (NomChamp, ValeurChamp: String);override;//non géré en dataset
+    procedure AjouteCritereDIFFERENT(NomChamp, ValeurChamp: String);override;
+    procedure AjouteCritereEGAL     (NomChamp, ValeurChamp: String);override;
+    procedure AjouteCritereCONTIENT (NomChamp, ValeurChamp: String);override;
+
+    procedure CritereCONTIENT( _NomChamp, _ValeurChamp: String);override;
     function Actif: Boolean;
   //Travail avec une StringList comme source
   //initialisation non mise dans le constructeur pour ne pas changer les appels
@@ -104,7 +102,7 @@ type
     Tri: TTri;
   //Remise à zéro
   public
-    procedure Clear; virtual;
+    procedure Clear; override;
   //Affichage
   public
     function Contenu: String;
@@ -114,14 +112,11 @@ type
 
 implementation
 
-constructor ThFiltre.Create( _D: TDataset;
-                             _btsCle: TbtString; _slFiltre: TBatpro_StringList; _Tri: TTri= nil);
+constructor ThFiltre.Create( _btsCle: TbtString; _slFiltre: TBatpro_StringList; _Tri: TTri= nil);
 begin
      inherited Create;
-     D := _D ;
      btsCle:= _btsCle;
      slsCle:= nil;
-     sFiltre:= sys_Vide;
 
      slFiltre   := _slFiltre   ;
 
@@ -132,15 +127,12 @@ begin
      then
          Tri:= TTri.Create;
 
-     Requery:= False;
-     SQLPrefixe:= sys_Vide;
-     SQLSuffixe:= sys_Vide;
-
      slLIKE     := TBatpro_StringList.Create;
      slOR_LIKE  := TBatpro_StringList.Create;
      slLIKE_ou_VIDE:= TBatpro_StringList.Create;
      slDIFFERENT:= TBatpro_StringList.Create;
      slEGAL     := TBatpro_StringList.Create;
+     slCONTIENT := TBatpro_StringList.Create;
 
      AfterExecute:= nil;
      Filtre_actif:= false;
@@ -154,6 +146,7 @@ begin
      Free_nil( slLIKE_ou_VIDE);
      Free_nil( slDIFFERENT);
      Free_nil( slEGAL     );
+     Free_nil( slCONTIENT );
 
      if Detruire_Tri
      then
@@ -164,26 +157,12 @@ begin
      inherited;
 end;
 
-function ThFiltre.Compose_SQL: String;
-begin
-     Result:= SQLPrefixe;
-     if sFiltre <> sys_Vide
-     then
-         Result:= Result + ' AND '+sFiltre;
-     Result:= Result + SQLSuffixe;
-end;
-
 function ThFiltre.Initialise( _Contraintes: array of TContrainte): Boolean;
 var
    I:Integer;
 
 begin
-     sFiltre:= sys_Vide;
-     slLIKE     .Clear;
-     slOR_LIKE  .Clear;
-     slLIKE_ou_VIDE.Clear;
-     slDIFFERENT.Clear;
-     slEGAL     .Clear;
+     Clear;
 
      SetLength( Contraintes, Length( _Contraintes));
      for I:= Low( Contraintes) to High( Contraintes)
@@ -246,55 +225,9 @@ end;
 
 function ThFiltre.Execute:Boolean;
 var
-   //Dataset
-   SQL: String;
-   D_from_CD: TDataset;
-   sqlq: TSQLQuery;
-   cd: TClientDataset;
-
-   //Batpro_Element / StringList
    bl: TBatpro_Ligne;
-
 begin
      try
-        if Assigned( D)
-        then
-            begin
-            if Requery
-            then
-                begin
-                if D is TClientDataSet
-                then
-                    begin
-                    CD:= TClientDataSet( D);
-                    D_from_CD:= Dataset_from_ClientDataset( CD);
-                    if D_from_CD is TSQLQuery
-                    then
-                        begin
-                        sqlq:= TSQLQuery( D_from_CD);
-
-                        SQL:= Compose_SQL;
-                        SetQuery( sqlq, cd, SQL);
-                        end;
-                    end;
-                end
-            else
-                begin
-                if sFiltre = sys_Vide
-                then
-                    begin
-                    D.Filtered:= False;
-                    D.Filter  := sFiltre;
-                    D.Filtered:= False;
-                    end
-                else
-                    begin
-                    D.Filter  := sFiltre;
-                    D.Filtered:= True;
-                    end;
-                //uForms_ShowMessage( q.Filter);
-                end;
-            end;
         if Assigned( btsCle)
         then
             begin
@@ -312,7 +245,7 @@ begin
             end;
         Traite_slsCle;
      finally
-            Filtre_actif:= sFiltre <> sys_Vide;
+            Filtre_actif:= Has_Critere;
             Result:= True;
             end;
 
@@ -353,15 +286,6 @@ begin
                               +'  ThFiltre.AjouteCritereLIKE: le champ '
                               +    NomChamp+ ' est déjà dans la liste' );
          slLIKE.Values[ NomChamp]:= ValeurChamp;
-
-         if sFiltre <> sys_Vide then sFiltre:= sFiltre + ' and ';
-         if Requery
-         then
-             sFiltre:= sFiltre +
-                       Format('(%s LIKE %s)',[NomChamp, QuotedStr( ValeurChamp+'%')])
-         else
-             sFiltre:= sFiltre +
-                       Format('(%s = %s)',[NomChamp, QuotedStr( ValeurChamp+'*')]);
          end;
 end;
 
@@ -384,15 +308,6 @@ begin
                               +'  ThFiltre.AjouteCritereLIKE_ou_VIDE: le champ '
                               +    NomChamp+ ' est déjà dans la liste' );
          slLIKE_ou_VIDE.Values[ NomChamp]:= ValeurChamp;
-
-         if sFiltre <> sys_Vide then sFiltre:= sFiltre + ' and ';
-         if Requery
-         then
-             sFiltre:= sFiltre +
-                       Format('((%0:s LIKE %1:s)or(%0:s =""))',[NomChamp, QuotedStr( ValeurChamp+'%')])
-         else
-             sFiltre:= sFiltre +
-                       Format('((%0:s = %1:s)or(%0:s = '''')',[NomChamp, QuotedStr( ValeurChamp+'*')]);
          end;
 end;
 
@@ -408,10 +323,6 @@ begin
          slDIFFERENT.Values[ NomChamp]:= uhFiltre_Ancetre_Code_pour_Vide
      else
          slDIFFERENT.Values[ NomChamp]:= ValeurChamp;
-
-     if sFiltre <> sys_Vide then sFiltre:= sFiltre + ' and ';
-     sFiltre:= sFiltre +
-               Format('(%s <> %s)',[NomChamp, QuotedStr( ValeurChamp)]);
 end;
 
 procedure ThFiltre.AjouteCritereEGAL( NomChamp, ValeurChamp: String);
@@ -426,20 +337,64 @@ begin
          slEGAL.Values[ NomChamp]:= uhFiltre_Ancetre_Code_pour_Vide
      else
          slEGAL.Values[ NomChamp]:= ValeurChamp;
+end;
 
-     if sFiltre <> sys_Vide then sFiltre:= sFiltre + ' and ';
-     sFiltre:= sFiltre +
-               Format('(%s = %s)',[NomChamp, QuotedStr( ValeurChamp)]);
+procedure ThFiltre.AjouteCritereCONTIENT( NomChamp, ValeurChamp: String);
+begin
+     if -1 <> slCONTIENT.IndexOfName( NomChamp)
+     then
+         fAccueil_Erreur(  'Erreur à signaler au développeur:'#13#10
+                          +'  ThFiltre.AjouteCritereCONTIENT: le champ '
+                          +    NomChamp+ ' est déjà dans la liste' );
+     if ValeurChamp = sys_Vide
+     then
+         slCONTIENT.Values[ NomChamp]:= uhFiltre_Ancetre_Code_pour_Vide
+     else
+         slCONTIENT.Values[ NomChamp]:= ValeurChamp;
+end;
+
+procedure ThFiltre.CritereCONTIENT( _NomChamp, _ValeurChamp: String);
+    procedure Enleve;
+    var
+       I: Integer;
+    begin
+         I:= slCONTIENT.IndexOfName( _NomChamp);
+         if -1 = I
+         then
+             begin
+//             Log.PrintLn( 'ThFiltre.CritereCONTIENT, Enleve :'#13#10+slCONTIENT.Text);
+             exit;
+             end;
+         slCONTIENT.Delete( I);
+    end;
+    procedure Affecte;
+    begin
+         slCONTIENT.Values[ _NomChamp]:= _ValeurChamp;
+    end;
+begin
+     //Attention sFiltre non mis à jour
+
+     if _ValeurChamp = sys_Vide
+     then
+         Enleve
+     else
+         Affecte;
+
 end;
 
 function ThFiltre.Actif: Boolean;
 begin
-     Result:= sFiltre = sys_Vide;
+     Result:= Has_Critere;
 end;
 
 procedure ThFiltre.Clear;
 begin
-
+     slLIKE        .Clear;
+     slOR_LIKE     .Clear;
+     slLIKE_ou_VIDE.Clear;
+     slDIFFERENT   .Clear;
+     slEGAL        .Clear;
+     slCONTIENT    .Clear;
 end;
 
 function ThFiltre.Contenu: String;

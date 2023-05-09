@@ -12,6 +12,9 @@
         <Projects Include="duxPASCAL_O_R_MAPPING.dproj">
             <Dependencies>..\..\pascal_o_r_mapping\02_Units\OD_DelphiReportEngine_Units.dproj</Dependencies>
         </Projects>
+        <Projects Include="..\..\tests\StringGrid\StringGrid.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -47,14 +50,23 @@
     <Target Name="duxPASCAL_O_R_MAPPING:Make" DependsOnTargets="OD_DelphiReportEngine_Units:Make">
         <MSBuild Projects="duxPASCAL_O_R_MAPPING.dproj" Targets="Make"/>
     </Target>
+    <Target Name="StringGrid">
+        <MSBuild Projects="..\..\tests\StringGrid\StringGrid.dproj"/>
+    </Target>
+    <Target Name="StringGrid:Clean">
+        <MSBuild Projects="..\..\tests\StringGrid\StringGrid.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="StringGrid:Make">
+        <MSBuild Projects="..\..\tests\StringGrid\StringGrid.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="OD_DelphiReportEngine_Units;OD_DelphiReportEngine_Data;duxPASCAL_O_R_MAPPING"/>
+        <CallTarget Targets="OD_DelphiReportEngine_Units;OD_DelphiReportEngine_Data;duxPASCAL_O_R_MAPPING;StringGrid"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="OD_DelphiReportEngine_Units:Clean;OD_DelphiReportEngine_Data:Clean;duxPASCAL_O_R_MAPPING:Clean"/>
+        <CallTarget Targets="OD_DelphiReportEngine_Units:Clean;OD_DelphiReportEngine_Data:Clean;duxPASCAL_O_R_MAPPING:Clean;StringGrid:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="OD_DelphiReportEngine_Units:Make;OD_DelphiReportEngine_Data:Make;duxPASCAL_O_R_MAPPING:Make"/>
+        <CallTarget Targets="OD_DelphiReportEngine_Units:Make;OD_DelphiReportEngine_Data:Make;duxPASCAL_O_R_MAPPING:Make;StringGrid:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

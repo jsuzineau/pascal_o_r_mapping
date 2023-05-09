@@ -31,7 +31,7 @@ uses
     uNetwork,
     uLog,
     {$IFNDEF FPC}
-    uAide,
+    //uAide,
     {$ENDIF}
     uDataUtilsU,
     uuStrings,
@@ -1530,7 +1530,7 @@ end;
 procedure TLog_SQL.Afficher;
 begin
      Log_Statistiques;
-     ShowURL( Nomfichier);
+     //ShowURL( Nomfichier);
 end;
 
 { TRequete_Log_Entry }

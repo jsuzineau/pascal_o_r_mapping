@@ -1,4 +1,4 @@
-unit ublG_BECP;
+﻿unit ublG_BECP;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -73,7 +73,7 @@ type
   public
     Is_blClasse_TBatpro_Element: Boolean; // si composant d'amorçage
     slG_BECPCTX: TBatpro_StringList;
-    constructor Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre); override;
+    constructor Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre); override;
     constructor Create_New( unNomClasse: String);
     destructor Destroy; override;
 
@@ -114,6 +114,7 @@ type
 
 var
    Fonte_Arial_8: TFont;
+   Fonte_Default_0: TFont;
 
 function blG_BECP_from_sl( sl: TBatpro_StringList; Index: Integer): TblG_BECP;
 function blG_BECP_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblG_BECP;
@@ -141,9 +142,9 @@ begin
      FFont.Assign( Fonte_Arial_8);
 end;
 
-constructor TblG_BECP.Create( _sl: TBatpro_StringList; _q: TDataset; _pool: Tpool_Ancetre_Ancetre);
+constructor TblG_BECP.Create( _sl: TBatpro_StringList; _jsdc: TjsDataContexte; _pool: Tpool_Ancetre_Ancetre);
 begin
-     inherited Create( _sl, _q, _pool);
+     inherited Create( _sl, _jsdc, _pool);
 
      CreeObjets;
 
@@ -210,13 +211,13 @@ procedure TblG_BECP.SetNomClasse(Value:String );begin FNomClasse:=Value;end;
 procedure TblG_BECP.SetSauver   (Value:Boolean);begin FSauver   :=Value;end;
 
 function TblG_BECP.GetContexteFont( Contexte: Integer):TFont;
-{$IFDEF MSWINDOWS}
+{$IFNDEF FPC}
 var
    sContexte: String;
    blG_BECPCTX: TblG_BECPCTX;
 {$ENDIF}
 begin
-     {$IFDEF MSWINDOWS}
+     {$IFNDEF FPC}
      sContexte:= IntToStr( Contexte);
      blG_BECPCTX:= blG_BECPCTX_from_sl_sCle( slG_BECPCTX, sContexte);
      if blG_BECPCTX = nil
@@ -242,49 +243,49 @@ begin
 end;
 
 procedure TblG_BECP.Edit_ContexteFont( Contexte: Integer);
-{$IFDEF MSWINDOWS}
-var
-   sContexte: String;
-   blG_BECPCTX: TblG_BECPCTX;
-   Fonte_a_editer: TFont;
-   FontDialog: TFontDialog;
+{$IFNDEF FPC}
+//var
+//   sContexte: String;
+//   blG_BECPCTX: TblG_BECPCTX;
+//   Fonte_a_editer: TFont;
+//   FontDialog: TFontDialog;
 begin
-     sContexte:= IntToStr( Contexte);
-     blG_BECPCTX:= blG_BECPCTX_from_sl_sCle( slG_BECPCTX, sContexte);
-     if blG_BECPCTX = nil
-     then
-         begin
-         blG_BECPCTX:= poolG_BECPCTX.Get_by_Cle( NomClasse, Contexte);
-         if Assigned( blG_BECPCTX)
-         then
-             begin
-             slG_BECPCTX.AddObject( sContexte, blG_BECPCTX);
-             blG_BECPCTX.Font.Assign( FFont);
-             end;
-         end;
-
-     if Assigned( blG_BECPCTX)
-     then
-         Fonte_a_editer:= blG_BECPCTX.Font
-     else
-         Fonte_a_editer:=FFont;
-
-     FontDialog:= TFontDialog.Create( nil);
-     try
-        FontDialog.Font:= Fonte_a_editer;
-        if FontDialog.Execute
-        then
-            begin
-            Fonte_a_editer.Assign( FontDialog.Font);
-            if Assigned( blG_BECPCTX)
-            then
-                blG_BECPCTX.Save_to_database;
-            Sauver:= True;
-            Save_to_database;
-            end;
-     finally
-            Free_nil( FontDialog);
-            end;
+//     sContexte:= IntToStr( Contexte);
+//     blG_BECPCTX:= blG_BECPCTX_from_sl_sCle( slG_BECPCTX, sContexte);
+//     if blG_BECPCTX = nil
+//     then
+//         begin
+//         blG_BECPCTX:= poolG_BECPCTX.Get_by_Cle( NomClasse, Contexte);
+//         if Assigned( blG_BECPCTX)
+//         then
+//             begin
+//             slG_BECPCTX.AddObject( sContexte, blG_BECPCTX);
+//             blG_BECPCTX.Font.Assign( FFont);
+//             end;
+//         end;
+//
+//     if Assigned( blG_BECPCTX)
+//     then
+//         Fonte_a_editer:= blG_BECPCTX.Font
+//     else
+//         Fonte_a_editer:=FFont;
+//
+//     FontDialog:= TFontDialog.Create( nil);
+//     try
+//        FontDialog.Font:= Fonte_a_editer;
+//        if FontDialog.Execute
+//        then
+//            begin
+//            Fonte_a_editer.Assign( FontDialog.Font);
+//            if Assigned( blG_BECPCTX)
+//            then
+//                blG_BECPCTX.Save_to_database;
+//            Sauver:= True;
+//            Save_to_database;
+//            end;
+//     finally
+//            Free_nil( FontDialog);
+//            end;
 end;
 {$ELSE}
 begin
@@ -385,8 +386,10 @@ end;
 
 initialization
               Fonte_Arial_8:= TFont.Create;
-              Fonte_Arial_8.Name:= sys_Arial;
+              Fonte_Arial_8.Family:= sys_Arial;
               Fonte_Arial_8.Size:= 8;
+              Fonte_Default_0:= TFont.Create;
 finalization
               Free_nil( Fonte_Arial_8);
+              Free_nil( Fonte_Default_0);
 end.

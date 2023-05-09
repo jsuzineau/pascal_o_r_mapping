@@ -1,4 +1,4 @@
-unit uMySQL;
+﻿unit uMySQL;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -31,7 +31,9 @@ uses
     u_sys_,
     uRegistry,
     uEXE_INI,
+    ujsDataContexte,
     uSGBD,
+    uDataUtilsF,
     ufAccueil_Erreur,
   {$IFDEF FPC}
   mysql50conn, mysql51conn, mysql55conn, SQLDB,
@@ -46,31 +48,40 @@ type
 
  TMySQL
  =
-  class
+  class( TjsDataConnexion_SQLQuery)
   //Gestion du cycle de vie
   public
-    constructor Create;
+    constructor Create( _SGBD: TSGBD); override;
     destructor Destroy; override;
+  //Initialisation des paramètres
+  protected
+    procedure InitParams;override;
   //Persistance dans la base de registre
   private
     Initialized: Boolean;
-    procedure Lit  (NomValeur: String; var Valeur: String; _Mot_de_passe: Boolean= False);
-    procedure Ecrit(NomValeur: String; var Valeur: String; _Mot_de_passe: Boolean= False);
+    procedure Lit  (NomValeur: String; out Valeur: String; _Mot_de_passe: Boolean= False);
+    procedure Ecrit(NomValeur: String;     Valeur: String; _Mot_de_passe: Boolean= False);
   public
     procedure Assure_initialisation;
-    procedure Ecrire;
+    procedure Ecrire; override;
+  //Connexion
+  protected
+    function Cree_SQLConnection: TSQLConnection; override;
   //Attributs
   public
-    HostName : String;
-    DataBase : String;
-    User_Name: String;
-    Password : String;
     Version  : String;
-    function Cree_Connection: TSQLConnection;
+  private
+    sqlqSHOW_DATABASES: TSQLQuery;
+  public
+    procedure Prepare; override;
+    procedure Ouvre_db; override;
+    procedure Ferme_db; override;
+    procedure Keep_Connection; override;
+    procedure Do_not_Keep_Connection; override;
+  //Last_Insert_id
+  public
+    function Last_Insert_id( {%H-}_NomTable: String): Integer; override;
   end;
-
-var
-   MySQL: TMySQL;
 
 const
      inis_mysql  = 'mysql';
@@ -92,28 +103,35 @@ end;
 
 { TMySQL }
 
-constructor TMySQL.Create;
+constructor TMySQL.Create(_SGBD: TSGBD);
 begin
-     inherited;
-     HostName := sys_Vide;
-     DataBase := sys_Vide;
-     User_Name:= sys_Vide;
-     Password := sys_Vide;
-     Version  := '50';
-     Initialized:= False;
+     inherited Create( _SGBD);
 
-     Assure_initialisation;
+     sqlqSHOW_DATABASES:= TSQLQuery.Create(nil);
+     sqlqSHOW_DATABASES.SQL.Text:= 'show databases';
 end;
 
 destructor TMySQL.Destroy;
 begin
+     FreeAndnil( sqlqSHOW_DATABASES);
      inherited;
+end;
+
+procedure TMySQL.InitParams;
+begin
+     inherited InitParams;
+     Version  := '50';
+     Initialized:= False;
+
+     {$ifndef android}
+     Assure_initialisation;
+     {$endif}
 end;
 
 procedure TMySQL.Assure_initialisation;
 begin
      if Initialized then exit;
-     Lit( regv_HostName , HostName );
+     Lit( regv_HostName , FHostName );HostName:= FHostName;
      Lit( regv_Database , DataBase );
      Lit( regv_User_Name, User_Name);
      Lit( regv_PassWord , PassWord , True);
@@ -129,6 +147,8 @@ end;
 
 procedure TMySQL.Ecrire;
 begin
+     inherited Ecrire;
+
      Ecrit( regv_HostName , HostName );
      Ecrit( regv_Database , DataBase );
      Ecrit( regv_User_Name, User_Name);
@@ -136,31 +156,126 @@ begin
      Ecrit( inik_Version  , Version);
 end;
 
-function TMySQL.Cree_Connection: TSQLConnection;
+function TMySQL.Cree_SQLConnection: TSQLConnection;
 begin
-     Log.PrintLn( 'Fichier ini:' +EXE_INI.FileName);
+     {$ifndef android}
+       Log.PrintLn( 'Fichier ini:' +EXE_INI.FileName);
+     {$endif}
      Log.PrintLn( 'uMySQL paramétré pour MySQL version : '+Version);
      {$IFDEF FPC}
-          if '50' = Version then Result:= TMySQL50Connection.Create( nil)
-     else if '51' = Version then Result:= TMySQL51Connection.Create( nil)
-     else if '55' = Version then Result:= TMySQL55Connection.Create( nil)
-     else
-         begin
-         Log.PrintLn( 'Attention version MySQL invalide dans _Configuration.ini: Version='+Version);
-         Log.PrintLn( 'Version=50 pris par défaut');
-         Result:= TMySQL50Connection.Create( nil);
-         end;
-     if Assigned( Result)
-     then
-         Result.CharSet:= 'latin1';
-         //Result.CharSet:= 'utf8';
-         //Result.CharSet:= 'cp850';
+            if '50' = Version then Result:= TMySQL50Connection.Create( nil)
+       else if '51' = Version then Result:= TMySQL51Connection.Create( nil)
+       else if '55' = Version then Result:= TMySQL55Connection.Create( nil)
+       else if '56' = Version then Result:= TMySQL56Connection.Create( nil)
+       else if '57' = Version then Result:= TMySQL57Connection.Create( nil)
+       else if '80' = Version then Result:= TMySQL80Connection.Create( nil)
+       else
+           begin
+           Log.PrintLn( 'Attention version MySQL invalide dans _Configuration.ini: Version='+Version);
+           Log.PrintLn( 'Version=50 pris par défaut');
+           Result:= TMySQL50Connection.Create( nil);
+           end;
      {$ELSE}
-     Result:= nil;
+       Result:= TSQLConnection.Create( nil);
+       Result.Params.Text
+       :=
+          'DriverUnit=Data.DBXMySQL'                                             +#13#10
+         +'DriverPackageLoader=TDBXDynalinkDriverLoader,DbxCommonDriver250.bpl'
+         +'DriverAssemblyLoader'
+         +'='
+         +  'Borland.Data.TDBXDynalinkDriverLoader,Borland.Data.DbxCommonDriver,'
+         +  'Version=24.0.0.0,Culture=neutral,PublicKeyToken=91d62ebb5b0d1b1b'   +#13#10
+         +'MetaDataPackageLoader'
+         +'='
+         +  'TDBXMySqlMetaDataCommandFactory,DbxMySQLDriver250.bpl'              +#13#10
+         +'MetaDataAssemblyLoader'
+         +'='
+         +  'Borland.Data.TDBXMySqlMetaDataCommandFactory,'
+         +  'Borland.Data.DbxMySQLDriver,Version=24.0.0.0,'
+         +  'Culture=neutral,PublicKeyToken=91d62ebb5b0d1b1b'                    +#13#10
+         +'GetDriverFunc=getSQLDriverMYSQL'                                      +#13#10
+         +'LibraryName=dbxmys.dll'                                               +#13#10
+         +'LibraryNameOsx=libsqlmys.dylib'                                       +#13#10
+         +'VendorLib=LIBMYSQL.dll'                                               +#13#10
+         +'VendorLibWin64=libmysql.dll'                                          +#13#10
+         +'VendorLibOsx=libmysqlclient.dylib'                                    +#13#10
+         +'HostName=ServerName'                                                  +#13#10
+         +'Database=DBNAME'                                                      +#13#10
+         +'User_Name=user'                                                       +#13#10
+         +'Password=password'                                                    +#13#10
+         +'MaxBlobSize=-1'                                                       +#13#10
+         +'LocaleCode=0000'                                                      +#13#10
+         +'Compressed=False'                                                     +#13#10
+         +'Encrypted=False'                                                      +#13#10
+         +'BlobSize=-1'                                                          +#13#10
+         +'ErrorResourceFile='                                                   +#13#10
+         ;
      {$ENDIF}
+     //if Assigned( Result)
+     //then
+     //    Result.CharSet:= 'latin1';
+     //    //Result.CharSet:= 'utf8';
+     //    //Result.CharSet:= 'cp850';
 end;
 
-procedure TMySQL.Lit( NomValeur: String; var Valeur: String; _Mot_de_passe: Boolean= False);
+procedure TMySQL.Prepare;
+begin
+		   inherited Prepare;
+     Database_indefinie:= (DataBase = sys_Vide) or (DataBase='---');
+     if Database_indefinie
+     then
+         DataBase:= 'mysql'
+     else
+         Database_indefinie:= DataBase = 'mysql';
+
+     Ouvrable
+     :=
+           (HostName  <> sys_Vide)
+       and (User_Name <> sys_Vide)
+       and (Database  <> sys_Vide);
+
+     WriteParam( 'HostName' , HostName );
+     WriteParam( 'User_Name', User_Name);
+     WriteParam( 'Password' , Password );
+     WriteParam( 'DataBase' , Database );
+end;
+
+procedure TMySQL.Ouvre_db;
+begin
+		   inherited Ouvre_db;
+
+     Connecte_SQLQuery( sqlqSHOW_DATABASES);
+     if RefreshQuery( sqlqSHOW_DATABASES) // liste des bases mysql
+     then
+         sqlqSHOW_DATABASES.Locate('Database', DataBase, []);
+end;
+
+procedure TMySQL.Ferme_db;
+begin
+     sqlqSHOW_DATABASES.Close;
+
+     inherited Ferme_db;
+end;
+
+procedure TMySQL.Keep_Connection;
+begin
+		   inherited Keep_Connection;
+end;
+
+procedure TMySQL.Do_not_Keep_Connection;
+begin
+		   inherited Do_not_Keep_Connection;
+end;
+
+function TMySQL.Last_Insert_id( _NomTable: String): Integer;
+var
+   SQL: String;
+begin
+     SQL:= 'select LAST_INSERT_ID()';
+     Contexte.Integer_from( SQL, Result);
+end;
+
+procedure TMySQL.Lit( NomValeur: String; out Valeur: String; _Mot_de_passe: Boolean= False);
 var
    ValeurBrute: String;
 begin
@@ -172,7 +287,7 @@ begin
          Valeur:= ValeurBrute;
 end;
 
-procedure TMySQL.Ecrit( NomValeur: String; var Valeur: String; _Mot_de_passe: Boolean= False);
+procedure TMySQL.Ecrit( NomValeur: String; Valeur: String; _Mot_de_passe: Boolean= False);
 var
    ValeurBrute: String;
 begin
@@ -189,8 +304,4 @@ begin
      EXE_INI.WriteString( inis_mysql, NomValeur, ValeurBrute);
 end;
 
-initialization
-              MySQL:= TMySQL.Create;
-finalization
-              Free_nil( MySQL);
 end.

@@ -1,4 +1,4 @@
-unit ubeExtended;
+﻿unit ubeExtended;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -34,7 +34,7 @@ uses
     u_sys_Batpro_Element,
     uDrawInfo,
     uBatpro_Element,
-    Windows, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Dialogs;
+    Windows, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Dialogs, System.UITypes;
 
 type
  TbeExtended

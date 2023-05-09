@@ -1,4 +1,4 @@
-unit ubeCurseur;
+﻿unit ubeCurseur;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -25,7 +25,6 @@ unit ubeCurseur;
 interface
 
 uses
-    Windows, SysUtils, Classes, FMX.Graphics, FMX.Controls,
     uBatpro_StringList,
     u_sys_,
     u_loc_,
@@ -33,10 +32,9 @@ uses
     uuStrings,
     uDrawInfo,
     uBatpro_Element,
-    ubeClusterElement,
     uContextes,
     uVide,
-    uDessin;
+    Windows, SysUtils, Classes, FMX.Graphics, FMX.Controls, System.UITypes;
 
 type
  TbeCurseur

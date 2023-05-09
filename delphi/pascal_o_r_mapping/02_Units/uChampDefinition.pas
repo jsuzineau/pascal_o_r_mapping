@@ -29,6 +29,7 @@ uses
     u_sys_,
     uuStrings,
     uReal_Formatter,
+    ujsDataContexte,
     {$IFDEF MSWINDOWS}
     uWinUtils,
     {$ENDIF}
@@ -53,6 +54,8 @@ type
  TfcbChamp_class= class of TfcbChamp;
  }
 
+ { TChampDefinition }
+
  TChampDefinition
  =
   class
@@ -60,14 +63,15 @@ type
     Nom       : String;
     Typ       : TFieldType;
     Persistant: Boolean;
-    Visible   : Boolean;
-    Libelle   : String;
-    Longueur  : Integer;
+    Info: TjsDataContexte_Champ_Info;
+    property Visible   : Boolean read Info.Visible  write Info.Visible ;
+    property Libelle   : String  read Info.Libelle  write Info.Libelle ;
+    property Longueur  : Integer read Info.Longueur write Info.Longueur;
     constructor Create(
                         _Nom       : String;
                         _Typ       : TFieldType;
                         _Persistant: Boolean;
-                        F          : TField
+                        _jsdcc: TjsDataContexte_Champ
                        );
   //Gestion des lookups
   private
@@ -115,6 +119,40 @@ type
   public
     property MinValue   : double  read FMinValue    write SetMinValue;
     property HasMinValue: Boolean read FHasMinValue ;
+  //Gestion du Format pour les dates
+  public
+    Format_DateTime: String;
+    function Formate_DateTime( _D: TDateTime): String;
+  //Gestion du type pour la génération automatique de code
+  private
+    FsType: String;
+    function GetsType: String;
+  public
+    property sType: String read GetsType write FsType;
+  end;
+
+ TIterateur_ChampDefinition
+ =
+  class( TIterateur)
+  //Iterateur
+  public
+    procedure Suivant( out _Resultat: TChampDefinition);
+    function  not_Suivant( out _Resultat: TChampDefinition): Boolean;
+  end;
+
+ TslChampDefinition
+ =
+  class( TBatpro_StringList)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_ChampDefinition;
+    function Iterateur_Decroissant: TIterateur_ChampDefinition;
   end;
 
 function ChampDefinition_from_sl( sl: TBatpro_StringList; I: Integer): TChampDefinition;
@@ -132,40 +170,78 @@ begin
      Affecte( Result, TChampDefinition, O);
 end;
 
+{ TIterateur_ChampDefinition }
+
+function TIterateur_ChampDefinition.not_Suivant( out _Resultat: TChampDefinition): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_ChampDefinition.Suivant( out _Resultat: TChampDefinition);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TslChampDefinition }
+
+constructor TslChampDefinition.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, TChampDefinition);
+end;
+
+destructor TslChampDefinition.Destroy;
+begin
+     inherited;
+end;
+
+class function TslChampDefinition.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_ChampDefinition;
+end;
+
+function TslChampDefinition.Iterateur: TIterateur_ChampDefinition;
+begin
+     Result:= TIterateur_ChampDefinition( Iterateur_interne);
+end;
+
+function TslChampDefinition.Iterateur_Decroissant: TIterateur_ChampDefinition;
+begin
+     Result:= TIterateur_ChampDefinition( Iterateur_interne_Decroissant);
+end;
+
 { TChampDefinition }
 
 constructor TChampDefinition.Create( _Nom       : String;
                                      _Typ       : TFieldType;
                                      _Persistant: Boolean;
-                                     F          : TField
+                                     _jsdcc: TjsDataContexte_Champ
                                      );
 begin
      Nom       := _Nom       ;
      Typ       := _Typ       ;
      Persistant:= _Persistant;
-     if F = nil
+     if nil = _jsdcc
      then
          begin
-         Visible := False;
-         Libelle := Nom;
-         Longueur:= 0;
+         Info.Visible := False;
+         Info.Libelle := Nom;
+         Info.Longueur:= Length(Nom);
+         Info.FieldType:= ftUnknown;
+         //Info.jsDataType:= jsdt_Unknown;
+         Info.jsDataType:= jsDataType_from_FieldType( _Typ);
          end
      else
-         begin
-         Visible := F.Visible;
-         Libelle := f.DisplayLabel;
-         Longueur:= f.DisplayWidth;
-         end;
+         Info:= _jsdcc.Info;
 
      Flottant_Tronque  := False;
      Flottant_Precision:= 2;
-     Flottant_Separateur_Milliers:= True;
-     Flottant_DisplayFormat:= '';
 
      //fcbChamp_class:= nil;
      //FfcbChamp     := nil;
 
      FHasMinValue:= False;
+     Format_DateTime:= '';
+     FsType:= '';
 end;
 
 constructor TChampDefinition.Create_Lookup( _Nom:String;
@@ -192,11 +268,39 @@ function TChampDefinition.Format_Float( Value: Double): String;
 begin
      Result
      :=
-       uReal_Formatter.Format_Float( Value,
-                                     Flottant_Tronque,
-                                     Flottant_Precision,
-                                     Flottant_Separateur_Milliers,
-                                     Flottant_DisplayFormat);
+       uReal_Formatter.Format_Float( Value,Flottant_Tronque,Flottant_Precision);
+end;
+
+function TChampDefinition.Formate_DateTime(_D: TDateTime): String;
+begin
+          if 0  = _D              then Result:= ''
+     else if '' = Format_DateTime then Result:= DateTimeToStr( _D)
+     else                              Result:= SysUtils.FormatDateTime( Format_DateTime, _D);
+end;
+
+function TChampDefinition.GetsType: String;
+begin
+     if '' = FsType
+     then
+         case Typ
+         of
+           ftFixedChar,
+           ftString   ,
+           ftMemo     ,
+           ftGuid     ,
+           ftBlob     : FsType:= 'String';
+           ftDate     : FsType:= 'TDateTime';
+           ftAutoInc  ,
+           ftInteger  ,
+           ftSmallint : FsType:= 'Integer';
+           ftBCD      : FsType:= 'FLOAT';
+           ftDateTime ,
+           ftTimeStamp: FsType:= 'TDateTime';
+           ftFloat    : FsType:= 'FLOAT';
+           ftCurrency : FsType:= 'Currency';
+           ftBoolean  : FsType:= 'Boolean';
+           end;
+     Result:= FsType;
 end;
 
 procedure TChampDefinition.SetMinValue(const Value: double);

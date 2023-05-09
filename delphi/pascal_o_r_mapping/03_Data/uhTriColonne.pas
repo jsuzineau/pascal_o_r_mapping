@@ -1,4 +1,4 @@
-unit uhTriColonne;
+﻿unit uhTriColonne;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -31,15 +31,15 @@ uses
     u_sys_,
     uuStrings,
     uDataUtilsU,
-  {$IFDEF MSWINDOWS}
-  Variants, Grids, DBGrids, FMX.StdCtrls, FMX.Controls,
-  {$ENDIF}
+//  {$IFDEF MSWINDOWS}
+//  Variants, FMX.Grid, DBGrids, FMX.StdCtrls, FMX.Controls,
+//  {$ENDIF}
   SysUtils, Classes,
   FMTBcd, DB, Provider, DBClient, SqlExpr;
 
 type
-  {$IFNDEF MSWINDOWS}
-  //juste pour permettre la compilation
+//  {$IFNDEF MSWINDOWS}
+  //juste pour permettre la compilation  hors Delphi 7
   TMouseButton= TObject;
   TShiftState= TObject;
   TDBGrid= TObject;
@@ -51,7 +51,7 @@ type
                          X,Y:Integer)of object;
   TLabel= TObject;
 
-  {$ENDIF}
+//  {$ENDIF}
  ThTriColonne
  =
   class
@@ -93,17 +93,17 @@ begin
      OnTitleClick:= nil;
 
      {$IFDEF MSWINDOWS}
-     if Assigned( dbg.OnTitleClick)
-     then
-         uForms_ShowMessage( 'Erreur à signaler au développeur: '+
-                      NamePath(dbg)+'.OnTitleClick <> nil');
-     dbg.OnTitleClick:= dbgTitleClick;
-
-     if Assigned( dbg.OnMouseDown)
-     then
-         uForms_ShowMessage( 'Erreur à signaler au développeur: '+
-                      NamePath(dbg)+'.OnMouseDown <> nil');
-     dbg.OnMouseDown:= dbgMouseDown;
+//     if Assigned( dbg.OnTitleClick)
+//     then
+//         uForms_ShowMessage( 'Erreur à signaler au développeur: '+
+//                      NamePath(dbg)+'.OnTitleClick <> nil');
+//     dbg.OnTitleClick:= dbgTitleClick;
+//
+//     if Assigned( dbg.OnMouseDown)
+//     then
+//         uForms_ShowMessage( 'Erreur à signaler au développeur: '+
+//                      NamePath(dbg)+'.OnMouseDown <> nil');
+//     dbg.OnMouseDown:= dbgMouseDown;
      {$ENDIF}
 
      Champs            := sys_Vide;
@@ -117,7 +117,7 @@ begin
      Retablit_Titres;
      Free_nil( CalcFields_Map);
      {$IFDEF MSWINDOWS}
-     dbg.OnTitleClick:= nil;
+//     dbg.OnTitleClick:= nil;
      {$ENDIF}
      inherited;
 end;
@@ -258,14 +258,14 @@ end;
 
 procedure ThTriColonne.Retablit_Titres;
 {$IFDEF MSWINDOWS}
-var
-   I: Integer;
+//var
+//   I: Integer;
 begin
-     for I:= 0 to dbg.Columns.Count-1
-     do
-       with dbg.Columns.Items[I].Title
-       do
-         Caption:= Sans_Symbole( Caption);
+//     for I:= 0 to dbg.Columns.Count-1
+//     do
+//       with dbg.Columns.Items[I].Title
+//       do
+//         Caption:= Sans_Symbole( Caption);
 end;
 {$ELSE}
 begin
@@ -302,65 +302,65 @@ begin
      Croissant:= True;
 
      {$IFDEF MSWINDOWS}
-     Champ:= Column.Field;
-     if Assigned( Champ)
-     then
-         begin
-         NomChamp:= Champ.FieldName;
-         if    (Champ.Calculated)
-            or (Champ.FieldKind = fkLookup)
-         then
-             OK:= Traduit( NomChamp)
-         else
-             OK:= True;
-
-         if not OK
-         then
-             uForms_ShowMessage('Pas de possibilité de tri prévue sur ce champ')
-         else
-             begin
-             if ssShift in LastShift
-             then
-                 AjouteChamp
-             else
-                 if Champs = NomChamp
-                 then
-                     AjouteChamp
-                 else
-                     begin
-                     Champs            := NomChamp;
-                     ChampsDecroissants:= sys_Vide;
-                     Groupe_Libelle    := sys_Vide;
-                     Retablit_Titres;
-                     end;
-
-             slIndex:= TBatpro_StringList.Create;
-             try
-                cd.GetIndexNames( slIndex);
-                iid:= slIndex.IndexOf( sys_Index_hTriColonne);
-                if iid <> -1
-                then
-                    cd.DeleteIndex( sys_Index_hTriColonne);
-
-                cd.AddIndex(sys_Index_hTriColonne,Champs,[],ChampsDecroissants);
-                cd.IndexName:= sys_Index_hTriColonne;
-             finally
-                    Free_nil( slIndex);
-                    end;
-
-             Caption:= Column_Caption( Column.Title.Caption, Croissant);
-             Groupe_Libelle:= IndexLibelle_Toggle( Groupe_Libelle, Caption);
-             Column.Title.Caption:= Caption;
-
-             if Assigned( l)
-             then
-                 begin
-                 l.Visible:= True;
-                 l.Caption:= 'Tri par '+ Groupe_Libelle+
-                             ' (Majuscule + Clic pour ajouter des colonnes)';
-                 end;
-             end;
-         end;
+//     Champ:= Column.Field;
+//     if Assigned( Champ)
+//     then
+//         begin
+//         NomChamp:= Champ.FieldName;
+//         if    (Champ.Calculated)
+//            or (Champ.FieldKind = fkLookup)
+//         then
+//             OK:= Traduit( NomChamp)
+//         else
+//             OK:= True;
+//
+//         if not OK
+//         then
+//             uForms_ShowMessage('Pas de possibilité de tri prévue sur ce champ')
+//         else
+//             begin
+//             if ssShift in LastShift
+//             then
+//                 AjouteChamp
+//             else
+//                 if Champs = NomChamp
+//                 then
+//                     AjouteChamp
+//                 else
+//                     begin
+//                     Champs            := NomChamp;
+//                     ChampsDecroissants:= sys_Vide;
+//                     Groupe_Libelle    := sys_Vide;
+//                     Retablit_Titres;
+//                     end;
+//
+//             slIndex:= TBatpro_StringList.Create;
+//             try
+//                cd.GetIndexNames( slIndex);
+//                iid:= slIndex.IndexOf( sys_Index_hTriColonne);
+//                if iid <> -1
+//                then
+//                    cd.DeleteIndex( sys_Index_hTriColonne);
+//
+//                cd.AddIndex(sys_Index_hTriColonne,Champs,[],ChampsDecroissants);
+//                cd.IndexName:= sys_Index_hTriColonne;
+//             finally
+//                    Free_nil( slIndex);
+//                    end;
+//
+//             Caption:= Column_Caption( Column.Title.Caption, Croissant);
+//             Groupe_Libelle:= IndexLibelle_Toggle( Groupe_Libelle, Caption);
+//             Column.Title.Caption:= Caption;
+//
+//             if Assigned( l)
+//             then
+//                 begin
+//                 l.Visible:= True;
+//                 l.Caption:= 'Tri par '+ Groupe_Libelle+
+//                             ' (Majuscule + Clic pour ajouter des colonnes)';
+//                 end;
+//             end;
+//         end;
      {$ENDIF}
      if Assigned(OnTitleClick)
      then
@@ -377,12 +377,12 @@ begin
      Retablit_Titres;
      cd.IndexName:= sys_Vide;
      {$IFDEF MSWINDOWS}
-     if Assigned( l)
-     then
-         begin
-         l.Visible:= True;
-         l.Caption:= 'Aucun tri';
-         end;
+//     if Assigned( l)
+//     then
+//         begin
+//         l.Visible:= True;
+//         l.Caption:= 'Aucun tri';
+//         end;
      {$ENDIF}
 end;
 

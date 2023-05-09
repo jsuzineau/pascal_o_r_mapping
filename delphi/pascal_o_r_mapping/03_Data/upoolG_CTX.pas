@@ -28,6 +28,7 @@ uses
     uClean,
     udmDatabase,
     uBatpro_StringList,
+    uDataUtilsU,
 
     ublG_CTX,
 
@@ -40,14 +41,14 @@ uses
   FMTBcd, Provider, DBClient, DB, SqlExpr;
 
 type
+
+ { TpoolG_CTX }
+
  TpoolG_CTX
  =
   class( TPool)
-    sqlqID_contextes: TSQLQuery;
-    sqlqID_contextesid: TIntegerField;
-    sqlqID_contextetype: TSQLQuery;
-    sqlqID_contextetypeid: TIntegerField;
-    procedure DataModuleCreate(Sender: TObject);
+    procedure DataModuleCreate(Sender: TObject);  override;
+    procedure DataModuleDestroy(Sender: TObject);  override;
   //Filtre
   public
     hfG_CTX: ThfG_CTX;
@@ -58,7 +59,7 @@ type
   protected
     contexte: Integer;
 
-    procedure To_SQLQuery_Params( SQLQuery: TSQLQuery); override;
+    procedure To_Params( _Params: TParams); override;
   public
     function Get_by_Cle( _contexte: Integer): TblG_CTX;
   //Gestion de l'insertion
@@ -73,22 +74,15 @@ type
                                 slLoaded: TBatpro_StringList);
   //Chargement des contextes d'un certain type
   public
-    procedure Charge_CONTEXTETYPE( _contextetype: String; slLoaded: TBatpro_StringList);
+    procedure Charge_CONTEXTETYPE( _contextetype: String; _slLoaded: TBatpro_StringList);
   end;
 
-function poolG_CTX: TpoolG_CTX;
+var
+   poolG_CTX: TpoolG_CTX;
 
 implementation
 
-{$R *.fmx}
 
-var
-   FpoolG_CTX: TpoolG_CTX;
-
-function poolG_CTX: TpoolG_CTX;
-begin
-     Clean_Get( Result, FpoolG_CTX, TpoolG_CTX);
-end;
 
 { TpoolG_CTX }
 
@@ -102,6 +96,11 @@ begin
 
      hfG_CTX:= hf as ThfG_CTX;
      Creer_si_non_trouve:= True;
+end;
+
+procedure TpoolG_CTX.DataModuleDestroy(Sender: TObject);
+begin
+     inherited;
 end;
 
 function TpoolG_CTX.Get( _id: integer): TblG_CTX;
@@ -123,10 +122,10 @@ begin
 
 end;
 
-procedure TpoolG_CTX.To_SQLQuery_Params(SQLQuery: TSQLQuery);
+procedure TpoolG_CTX.To_Params( _Params: TParams);
 begin
      inherited;
-     with SQLQuery.Params
+     with _Params
      do
        begin
        ParamByName( 'contexte'    ).AsInteger:= contexte;
@@ -159,18 +158,34 @@ begin
 end;
 
 procedure TpoolG_CTX.Charge_CONTEXTETYPE( _contextetype: String;
-                                          slLoaded: TBatpro_StringList);
+                                          _slLoaded: TBatpro_StringList);
+var
+   SQL: String;
+   P: TParams;
+   pCONTEXTETYPE: TParam;
 begin
-     sqlqID_contextetype
-     .
-      Params.ParamByName( 'contextetype').AsString:= _contextetype;
-     Load_by_id( sqlqID_contextetype, sqlqID_contextetypeid, slLoaded);
+     SQL
+     :=
+        'select                            '#13#10
+       +'      *                           '#13#10
+       +'from                              '#13#10
+       +'    g_ctx                         '#13#10
+       +'where                             '#13#10
+       +'     contextetype = :contextetype '#13#10
+       ;
+     P:= TParams.Create;
+     try
+        pCONTEXTETYPE:= CreeParam( P, 'contextetype');
+        pCONTEXTETYPE.AsString:= _contextetype;
+        Load( SQL, _slLoaded, nil, P);
+     finally
+            FreeAndNil( P);
+            end;
 end;
 
 initialization
-              Clean_Create ( FpoolG_CTX, TpoolG_CTX);
 finalization
-              Clean_destroy( FpoolG_CTX);
+              TPool.class_Destroy( poolG_CTX);
 end.
 
 

@@ -1,4 +1,4 @@
-unit uDataClasses;
+﻿unit uDataClasses;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -31,9 +31,8 @@ uses
     u_sys_,
     uClean,
     uBatpro_Element,
-    ubeClusterElement,
     ufAccueil_Erreur,
-  SysUtils, Classes, Grids, FMX.Dialogs, Printers, Windows, FMX.Forms, FMX.Controls;
+  SysUtils, Classes, FMX.Grid, FMX.Dialogs, Windows, FMX.Forms, FMX.Controls, FMX.Printer, System.UITypes;
 
 function Batpro_Element_from_sg( sg: TStringGrid;
                                  Colonne, Ligne: Integer): TBatpro_Element;
@@ -45,7 +44,7 @@ function Cell_Height( DrawInfo: TDrawInfo;
 procedure Charge_Cell   ( DrawInfo: TDrawInfo; be:TBatpro_Element;
                                 Colonne,Ligne:Integer);
 //Chargement de listes
-procedure Initialise_Clusters( sl: TBatpro_StringList); overload;
+procedure Initialise_Clusters_sl( sl: TBatpro_StringList);
 procedure Charge_Ligne  ( DrawInfo: TDrawInfo; sl:TBatpro_StringList;
                           OffsetColonne,      Ligne:Integer;
                           ClusterAddInit_: Boolean); overload;
@@ -55,7 +54,7 @@ procedure Charge_Colonne( DrawInfo: TDrawInfo; beEntete:TBatpro_Element; sl:TBat
                                 Colonne,OffsetLigne:Integer); overload;
 
 //Chargement d'arbres binaires
-procedure Initialise_Clusters( bts: TbtString); overload;
+procedure Initialise_Clusters( bts: TbtString);
 procedure Charge_Ligne  ( DrawInfo: TDrawInfo; bts: TbtString;
                           OffsetColonne,      Ligne:Integer;
                           ClusterAddInit_: Boolean); overload;
@@ -105,10 +104,10 @@ begin
      Pointer( Resultat):= nil;
 
      if sg = nil                               then exit;
-     if (Colonne < 0)or(sg.ColCount<= Colonne) then exit;
-     if (Ligne   < 0)or(sg.RowCount<= Ligne  ) then exit;
+     if (Colonne < 0)or(sg.ColumnCount<= Colonne) then exit;
+     if (Ligne   < 0)or(sg.RowCount   <= Ligne  ) then exit;
 
-     O:= sg.Objects[ Colonne, Ligne];
+     O:= nil;//sg.Objects[ Colonne, Ligne];
      Affecte( Resultat, Classe, O);
 end;
 
@@ -129,7 +128,8 @@ begin
      then
          Result:= be.Cell_Height( DrawInfo, Cell_Width)
      else
-         Result:= DrawInfo.sg.RowHeights[ Ligne];
+         Result:= Trunc(DrawInfo.sg.RowHeight);
+         //Result:= DrawInfo.Trunc( sg.RowHeight);
 end;
 
 //Chargement de cellules
@@ -140,17 +140,17 @@ begin
      then
          begin
          DrawInfo.sg.Cells  [ Colonne, Ligne]:= sys_Vide;
-         DrawInfo.sg.Objects[ Colonne, Ligne]:= nil;
+         //DrawInfo.sg.Objects[ Colonne, Ligne]:= nil;
          end
      else
          begin
          DrawInfo.sg.Cells  [ Colonne, Ligne]:= be.Cell[ DrawInfo.Contexte];
-         DrawInfo.sg.Objects[ Colonne, Ligne]:= be;
+         //DrawInfo.sg.Objects[ Colonne, Ligne]:= be;
          end;
 end;
 
 //Chargement de listes
-procedure Initialise_Clusters( sl: TBatpro_StringList);
+procedure Initialise_Clusters_sl( sl: TBatpro_StringList);
 var
    I: Integer;
    BE: TBatpro_Element;
@@ -182,7 +182,7 @@ var
 begin
      if not ClusterAddInit_
      then
-         Initialise_Clusters( sl);
+         Initialise_Clusters_sl( sl);
 
      for I:= 0 to sl.Count-1
      do
@@ -205,7 +205,7 @@ begin
            Cell:= sl.Strings[ I];
 
        DrawInfo.sg.Cells  [ Colonne, Ligne]:= Cell;
-       DrawInfo.sg.Objects[ Colonne, Ligne]:= sl.Objects[ I];
+       //DrawInfo.sg.Objects[ Colonne, Ligne]:= sl.Objects[ I];
        end;
 end;
 
@@ -226,7 +226,7 @@ begin
        else
            Cell:= sl.Strings[ Ligne];
        DrawInfo.sg.Cells  [ Colonne, OffsetLigne+Ligne]:= Cell;
-       DrawInfo.sg.Objects[ Colonne, OffsetLigne+Ligne]:= sl.Objects[ Ligne];
+       //DrawInfo.sg.Objects[ Colonne, OffsetLigne+Ligne]:= sl.Objects[ Ligne];
        end;
 end;
 
@@ -298,7 +298,7 @@ begin
            Cell:= sys_Vide;
 
        DrawInfo.sg.Cells  [ Colonne, Ligne]:= Cell;
-       DrawInfo.sg.Objects[ Colonne, Ligne]:= BE;
+       //DrawInfo.sg.Objects[ Colonne, Ligne]:= BE;
        end;
 end;
 
@@ -323,7 +323,7 @@ begin
        else
            Cell:= sys_Vide;
        DrawInfo.sg.Cells  [ Colonne, OffsetLigne+Ligne]:= Cell;
-       DrawInfo.sg.Objects[ Colonne, OffsetLigne+Ligne]:= BE;
+       //DrawInfo.sg.Objects[ Colonne, OffsetLigne+Ligne]:= BE;
        end;
 end;
 
@@ -346,11 +346,11 @@ begin
 
      if TraiterClusters
      then
-         Result:= DrawInfo.sg.RowHeights[ Ligne]
+         Result:= Trunc(DrawInfo.sg.RowHeight)
      else
          Result:= 0;
 
-     for Colonne:= 0 to DrawInfo.sg.ColCount-1
+     for Colonne:= 0 to DrawInfo.sg.ColumnCount-1
      do
        begin
        be:= Batpro_Element_from_sg( DrawInfo.sg, Colonne, Ligne);
@@ -360,7 +360,7 @@ begin
             if not( TraiterClusters or  (be is TbeClusterElement))
        then
            begin
-           be_Height:= be.Cell_Height( DrawInfo, DrawInfo.sg.ColWidths[Colonne]);
+           be_Height:= be.Cell_Height( DrawInfo, Trunc(DrawInfo.sg.Columns[Colonne].Width));
            if be_Height > Result
            then
                Result:= be_Height;
@@ -386,7 +386,7 @@ begin
 
      if TraiterClusters
      then
-         Result:= DrawInfo.sg.ColWidths[ Colonne]
+         Result:= Trunc(DrawInfo.sg.Columns[Colonne].Width)
      else
          Result:= 0;
 
@@ -427,7 +427,7 @@ begin
        Max:= Hauteur_Ligne( DrawInfo, Ligne, False);
        if Max > 0
        then
-           DrawInfo.sg.RowHeights[ Ligne]:= Max;
+           DrawInfo.sg.RowHeight:= Max;
        end;
 
      //seconde passe sur les cellules clusters
@@ -437,7 +437,7 @@ begin
        Max:= Hauteur_Ligne( DrawInfo, Ligne, True);
        if Max > 0
        then
-           DrawInfo.sg.RowHeights[ Ligne]:= Max;
+           DrawInfo.sg.RowHeight:= Max;
        end;
 end;
 
@@ -450,7 +450,7 @@ var
 begin
      if _ColonneFin = -1
      then
-         _ColonneFin:= _DrawInfo.sg.ColCount-1;
+         _ColonneFin:= _DrawInfo.sg.ColumnCount-1;
 
      //première passe sur les cellules non-clusters
      for Colonne:= _ColonneDebut to _ColonneFin
@@ -459,7 +459,7 @@ begin
        Max:= Largeur_Colonne( _DrawInfo, Colonne, False);
        if Max > 0
        then
-           _DrawInfo.sg.ColWidths[ Colonne]:= Max;
+           _DrawInfo.sg.Columns[ Colonne].Width:= Max;
        end;
 
      //seconde passe sur les cellules clusters
@@ -469,7 +469,7 @@ begin
        Max:= Largeur_Colonne( _DrawInfo, Colonne, True);
        if Max > 0
        then
-           _DrawInfo.sg.ColWidths[ Colonne]:= Max;
+           _DrawInfo.sg.Columns[ Colonne].Width:= Max;
        end;
 end;
 
@@ -483,7 +483,7 @@ begin
      for Colonne:= ColonneDebut to ColonneFin
      do
        begin
-       Largeur:= sg.ColWidths[ Colonne];
+       Largeur:= Trunc( sg.Columns[ Colonne].Width);
        if LargeurMax < Largeur
        then
            LargeurMax:= Largeur;
@@ -492,7 +492,7 @@ begin
      //Seconde passe pour égaliser
      for Colonne:= ColonneDebut to ColonneFin
      do
-       sg.ColWidths[ Colonne]:= LargeurMax;
+       sg.Columns[ Colonne].Width:= LargeurMax;
 end;
 
 procedure Egalise_Hauteurs_Lignes  ( sg: TStringGrid; LigneDebut, LigneFin: Integer);
@@ -505,7 +505,7 @@ begin
      for Ligne:= LigneDebut to LigneFin
      do
        begin
-       Hauteur:= sg.RowHeights[ Ligne];
+       Hauteur:= Trunc( sg.RowHeight);
        if HauteurMax < Hauteur
        then
            HauteurMax:= Hauteur;
@@ -514,7 +514,7 @@ begin
      //Seconde passe pour égaliser
      for Ligne:= LigneDebut to LigneFin
      do
-       sg.RowHeights[ Ligne]:= HauteurMax;
+       sg.RowHeight:= HauteurMax;
 end;
 
 procedure Initialise_dimensions( _DrawInfo: TDrawInfo;
@@ -522,17 +522,19 @@ procedure Initialise_dimensions( _DrawInfo: TDrawInfo;
 var
    Colonne, Ligne: Integer;
 begin
-     for Colonne:= _ColonneDebut to _DrawInfo.sg.ColCount-1
+     {
+     for Colonne:= _ColonneDebut to _DrawInfo.sg.ColumnCount-1
      do
        with _DrawInfo.sg
        do
-         ColWidths[ Colonne]:= DefaultColWidth;
+         Columns[ Colonne].Width:= DefaultColWidth;
 
      for Ligne:= 0 to _DrawInfo.sg.RowCount-1
      do
        with _DrawInfo.sg
        do
-         RowHeights[ Ligne]:= DefaultRowHeight;
+         RowHeight:= DefaultRowHeight;
+     }
 end;
 
 procedure Ajuste_Largeur_Client( _DrawInfo: TDrawInfo; _ColonneDebut: Integer= 0);
@@ -544,31 +546,32 @@ var
    LargeurColonne, Reste: Integer;
    Colonne: Integer;
 begin
-     GridLineWidth:= _DrawInfo.sg.GridLineWidth;
+     GridLineWidth:=1;
+     //GridLineWidth:= _DrawInfo.sg.GridLineWidth;
 
-     LargeurDisponible:= _DrawInfo.sg.ClientWidth - GridLineWidth;
+     LargeurDisponible:= Trunc(_DrawInfo.sg.{Client}Width) - GridLineWidth;
      for Colonne:= 0 to _ColonneDebut-1
      do
        begin
-       Dec( LargeurDisponible, _DrawInfo.sg.ColWidths[ Colonne]);
+       Dec( LargeurDisponible, Trunc(_DrawInfo.sg.Columns[Colonne].Width));
        Dec( LargeurDisponible, GridLineWidth);
        end;
 
-     NbColonnesAjustees:= _DrawInfo.sg.ColCount - _ColonneDebut;
+     NbColonnesAjustees:= _DrawInfo.sg.ColumnCount - _ColonneDebut;
      LargeurColonne_avec_GridLineWidth:= LargeurDisponible div NbColonnesAjustees;
      LargeurColonne:= LargeurColonne_avec_GridLineWidth - GridLineWidth;
      Reste:= LargeurDisponible - LargeurColonne_avec_GridLineWidth * NbColonnesAjustees;
 
-     for Colonne:= _ColonneDebut to _DrawInfo.sg.ColCount-2
+     for Colonne:= _ColonneDebut to _DrawInfo.sg.ColumnCount-2
      do
        with _DrawInfo.sg
        do
-         ColWidths[ Colonne]:= LargeurColonne;
+         Columns[ Colonne].Width:= LargeurColonne;
 
-     Colonne:= _DrawInfo.sg.ColCount-1;
+     Colonne:= _DrawInfo.sg.ColumnCount-1;
      with _DrawInfo.sg
      do
-       ColWidths[ Colonne]:= LargeurColonne+Reste;
+       Columns[ Colonne].Width:= LargeurColonne+Reste;
 end;
 
 procedure Traite_Ratio( DrawInfo: TDrawInfo);
@@ -580,23 +583,23 @@ var
    CX, CY: double;
 begin
      Largeur:= 0;
-     for Colonne:= 0 to DrawInfo.sg.ColCount-1
+     for Colonne:= 0 to DrawInfo.sg.ColumnCount-1
      do
-       Inc( Largeur, DrawInfo.sg.ColWidths[ Colonne]);
+       Inc( Largeur, Trunc(DrawInfo.sg.Columns[Colonne].Width));
 
      Hauteur:= 0;
      for Ligne:= 0 to DrawInfo.sg.RowCount-1
      do
-       Inc( Hauteur, DrawInfo.sg.RowHeights[ Ligne]);
+       Inc( Hauteur, Trunc( DrawInfo.sg.RowHeight));
 
      if Largeur = 0 then exit;
      if Hauteur = 0 then exit;
 
      if Largeur > Hauteur
      then
-         Printer.Orientation:= poLandscape
+         Printer.Orientation:= TPrinterOrientation.poLandscape
      else
-         Printer.Orientation:= poPortrait;
+         Printer.Orientation:= TPrinterOrientation.poPortrait;
 
      Printer_PageWidth := Printer.PageWidth ;
      Printer_PageHeight:= Printer.PageHeight;
@@ -616,16 +619,16 @@ begin
          do
            for Ligne:= 0 to DrawInfo.sg.RowCount-1
            do
-             RowHeights[ Ligne]:= Trunc( RowHeights[ Ligne] * CY);
+             RowHeight:= Trunc( RowHeight * CY);
          end
      else //Ratio < Ratio_printer
          begin
          CX:= Ratio_printer / Ratio;
          with DrawInfo.sg
          do
-           for Colonne:= 0 to DrawInfo.sg.ColCount-1
+           for Colonne:= 0 to DrawInfo.sg.ColumnCount-1
            do
-             ColWidths[ Colonne]:= Trunc( ColWidths[ Colonne] * CX);
+             Columns[ Colonne].Width:= Trunc( Columns[ Colonne].Width * CX);
          end;
 
 end;

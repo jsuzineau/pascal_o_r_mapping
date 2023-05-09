@@ -32,6 +32,7 @@ uses
     uDataUtilsU,
     u_sys_,
     uuStrings,
+    ujsDataContexte,
     uChamp,
     //udmf,
     uChampDefinition,
@@ -41,8 +42,10 @@ uses
   SQLTimSt,
   {$IFEND}
   {$IFDEF FPC}
-  fpjson,
-  jsonparser,
+    fpjson,
+    jsonparser,
+  {$ELSE}
+    System.JSON,
   {$ENDIF}
   SysUtils, Classes, DB,Types;
 
@@ -56,12 +59,12 @@ type
   class
   private
     FChampDefinitions: TChampDefinitions;
-    Fq: TDataset;
+    Fjsdc: TjsDataContexte;
     Fsl: TslChamp;
 
     function Ajoute( Memory: Pointer;
                       Field: String; _FieldType: TFieldType;
-                      Persistant: Boolean; F: TField): TChamp;
+                      Persistant: Boolean; _jsdcc: TjsDataContexte_Champ): TChamp;
     {function Ajoute_dmf_Lookup( Memory: Pointer;
                                 Field: String;
                                 _FieldType: TFieldType;
@@ -74,17 +77,16 @@ type
                             _LookupKey: TChamp;
                             _OnGetLookupListItems: TOnGetLookupListItems;
                             _Valeur_courante: String): TChamp;
-    procedure Erreur_Champ( Field, TypeField: String; var _Persistant: Boolean);
   public
     constructor Create( _ClassName: String;
-                        _q: TDataset;
+                        _jsdc: TjsDataContexte;
                         _Save_to_database_Procedure: TSave_to_database_Procedure);
     destructor Destroy; override;
 
     //FChampDefinitions rajouté en write pour permettre l'amorçage
     property ChampDefinitions: TChampDefinitions read FChampDefinitions write FChampDefinitions;
-    property q    : TDataset read Fq ;
-    property sl   : TslChamp read Fsl;
+    property jsdc : TjsDataContexte read Fjsdc;
+    property sl   : TslChamp        read Fsl;
 
     function   ShortString_from_   (var Memory:ShortString;Field:String;Persistant:Boolean=True): TChamp;
     function   String_from_String  (var Memory:   String;Field:String;Persistant:Boolean=True): TChamp;
@@ -99,6 +101,8 @@ type
     function  Integer_from_Double  (var Memory:  Integer;Field:String;Persistant:Boolean=True): TChamp;
     function Currency_from_BCD     (var Memory: Currency;Field:String;Persistant:Boolean=True): TChamp;
     function   Double_from_        (var Memory:   Double;Field:String;Persistant:Boolean=True): TChamp;
+    function Currency_from_        (var Memory: Currency;Field:String;Persistant:Boolean=True): TChamp;
+    function  Boolean_from_        (var Memory:  Boolean;Field:String;Persistant:Boolean=True): TChamp;
     function DateTime_from_Date    (var Memory:TDateTime;Field:String;Persistant:Boolean=True): TChamp;
     function DateTime_from_        (var Memory:TDateTime;Field:String;Persistant:Boolean=True): TChamp;
     function Cree_Champ_ID         (var Memory:  Integer): TChamp;
@@ -110,6 +114,7 @@ type
     function Ajoute_Date           (var Memory:TDatetime;Field:String;Persistant:Boolean=True): TChamp;
     function Ajoute_BCD            (var Memory:Currency ;Field:String;Persistant:Boolean=True): TChamp;
     function Ajoute_Float          (var Memory:Double   ;Field:String;Persistant:Boolean=True): TChamp;
+    function Ajoute_Currency       (var Memory:Currency ;Field:String;Persistant:Boolean=True): TChamp;
     function Ajoute_Boolean        (var Memory:Boolean  ;Field:String;Persistant:Boolean=True): TChamp;
   // lookups
   public
@@ -129,7 +134,7 @@ type
     //  select dbinfo('sqlca.sqlerrd1') from systables where tabid =1
   //Rechargement
   public
-    procedure Recharge( _q: TDataset);
+    procedure Recharge( _jsdc: TjsDataContexte);
   // accés
   private
     procedure SetChamp_from_Field( Field: String; const Value: TChamp);
@@ -165,17 +170,13 @@ type
     procedure Liste;
   //Export JSON, JavaScript Object Notation
   private
+    function  GetJSON_interne( _Persistants_seulement: Boolean= False): String;
     function  GetJSON: String;
-    {$IFDEF FPC}
     procedure SetJSON( _Value: String);
-    {$ENDIF}
   public
-    property JSON: String
-             read GetJSON
-             {$IFDEF FPC}
-             write SetJSON
-             {$ENDIF}
-             ;
+    property JSON: String read GetJSON write SetJSON;
+    function JSON_Persistants: String;
+    procedure _from_JSONObject( _jso: TJSONObject);
   //Champs aggrégés
   private
     slAggreges: TslChamp;
@@ -330,11 +331,14 @@ end;
 { TChamps }
 
 constructor TChamps.Create( _ClassName: String;
-                            _q: TDataset;
+                            _jsdc: TjsDataContexte;
                             _Save_to_database_Procedure: TSave_to_database_Procedure);
 begin
      FChampDefinitions:= ChampDefinitions_from_ClassName( _ClassName);
-     Fq:= _q;
+     Fjsdc:= _jsdc;
+     if nil = Fjsdc
+     then
+         Fjsdc:= jsDataContexte_Dataset_Null;
      Save_to_database_Procedure:= _Save_to_database_Procedure;
      Fsl:= TslChamp.Create( ClassName+'.sl');
      cID:= nil;
@@ -384,10 +388,9 @@ begin
 end;
 
 function TChamps.Ajoute( Memory: Pointer;
-                         Field: String;
-                         _FieldType: TFieldType;
-                         Persistant:Boolean;
-                         F: TField): TChamp;
+                         Field: String; _FieldType: TFieldType;
+                         Persistant: Boolean;
+                         _jsdcc: TjsDataContexte_Champ): TChamp;
 var
    Definition: TChampDefinition;
 begin
@@ -399,7 +402,7 @@ begin
          then
              Definition
              :=
-               ChampDefinitions.Ajoute( Field, _FieldType, Persistant, F);
+               ChampDefinitions.Ajoute( Field, _FieldType, Persistant, _jsdcc);
          end
      else
          Definition:= nil;
@@ -450,20 +453,6 @@ begin
      sl.AddObject( Field, Result);
 end;
 
-procedure TChamps.Erreur_Champ( Field, TypeField: String; var _Persistant: Boolean);
-begin
-     _Persistant:= False;//rajouté le 20/12/2012 pour gérer la table P_PLE
-                         //sans champ idFormule
-
-     exit;//rajouté provisoirement le 31/05/2006 pour pouvoir fonctionner
-          //sur des bases avec la table G_FRS sans champ Couleur
-     uForms_ShowMessage( 'Erreur à signaler au développeur:'+sys_N+
-                  '  table: '+ChampDefinitions.NomTable+sys_N+
-                  '  dataset: '+Dataset_Owner_Name( q)+'.'+q.Name+sys_N+
-                  '  TChamps : le champ '+Field+
-                  ' de type '+TypeField+' n''a pas été trouvé');
-end;
-
 function TChamps.ShortString_from_ ( var Memory: ShortString; Field: String;
                                      Persistant: Boolean): TChamp;
 begin
@@ -471,418 +460,93 @@ begin
 end;
 
 function TChamps.String_from_String   (var Memory:String   ;Field:String;Persistant:Boolean): TChamp;
-var
-   F: TField;
-   sf: TStringField;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
-     then
-         Result:= Ajoute_String( Memory, Field, Persistant)
-     else
-         begin
-         F:= q.FindField( Field);
-
-         if Affecte( sf, TStringField, F)
-         then
-             Memory:= TrimRight( sf.Value)
-         else
-             Erreur_Champ( Field, 'TStringField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, ftString, Persistant, F);
-         end;
+     Result:= Ajoute( @Memory, Field, ftString, Persistant, jsdc.String_from_( Field, Memory));
 end;
 
 function TChamps.String_from_Memo     (var Memory:String   ;Field:String;Persistant:Boolean): TChamp;
-var
-   F: TField;
-   mf: TMemoField;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
-     then
-         Result:= Ajoute_String( Memory, Field, Persistant)
-     else
-         begin
-         F:= q.FindField( Field);
-         if Affecte( mf, TMemoField, F)
-         then
-             if mf.IsNull
-             then
-                 Memory:= ''
-             else
-                 Memory:= mf.Value
-         else
-             Erreur_Champ( Field, 'TMemoField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, ftMemo, Persistant, F);
-         end;
+     Result:= Ajoute( @Memory, Field, ftMemo, Persistant, jsdc.String_from_( Field, Memory));
 end;
 
 function TChamps.String_from_Blob(var Memory: String; Field: String; Persistant: Boolean): TChamp;
-var
-   F: TField;
-   bf: TBlobField;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
-     then
-         Result:= Ajoute_String( Memory, Field, Persistant)
-     else
-         begin
-         F:= q.FindField( Field);
-         if Affecte( bf, TBlobField, F)
-         then
-             if bf.IsNull
-             then
-                 Memory:= ''
-             else
-                 Memory:= bf.AsString
-         else
-             Erreur_Champ( Field, 'TBlobField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, ftBlob, Persistant, F);
-         end;
+     Result:= Ajoute( @Memory, Field, ftBlob, Persistant, jsdc.String_from_( Field, Memory));
 end;
 
 function TChamps.String_from_( var Memory: String; Field: String; Persistant: Boolean): TChamp;
 var
-   F: TField;
-   Typ: TFieldType;
-   bf: TBlobField;
-   mf: TMemoField;
-   sf: TStringField;
-   procedure T( _Valeur: String; _FieldType: TFieldType);
-   begin
-        Memory:= TrimRight( _Valeur);
-        Typ:= _FieldType;
-   end;
-   procedure T_bf;
-   var
-      S: String;
-   begin
-        if bf.IsNull
-        then
-            S:= ''
-        else
-            //2014/01/20 suite à pb sur la base ATE / SITA requêtes de R_REQUETE
-            //requêteur sécurisé
-            try
-               S:= bf.AsString;
-            except
-                  on E: Exception do S:= '';
-                  end;
-        T( S, ftBlob);
-   end;
-   procedure T_mf;
-   var
-      S: String;
-   begin
-        if mf.IsNull
-        then
-            S:= ''
-        else
-            S:= mf.Value;
-        T( S, ftMemo);
-   end;
+   jsdcc: TjsDataContexte_Champ;
+   FieldType: TFieldType;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
-     then
-         Result:= Ajoute_String( Memory, Field, Persistant)
-     else
-         begin
-         F:= q.FindField( Field);
-         if Assigned( F)
-         then
-             begin
-                  if Affecte( bf, TBlobField  , F) then T_bf
-             else if Affecte( mf, TMemoField  , F) then T_mf
-             else if Affecte( sf, TStringField, F) then T( sf.Value, ftString)
-             else Erreur_Champ( Field, 'TBlobField', Persistant);
-             end
-         else
-             Erreur_Champ( Field, '<champ introuvable>', Persistant);
-
-         Result:= Ajoute( @Memory, Field, Typ, Persistant, F);
-         end;
-end;
-
-function TChamps.DateTime_from_Date   (var Memory:TDateTime;Field:String;Persistant:Boolean): TChamp;
-var
-   F: TField;
-   df: TDateField;
-begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
-     then
-         Result:= Ajoute_Date( Memory, Field, Persistant)
-     else
-         begin
-         F:= q.FindField( Field);
-         if Affecte( df, TDateField, F)
-         then
-             Memory:= df.Value
-         else
-             Erreur_Champ( Field, 'TDateField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, ftDate, Persistant, F);
-         end;
+     jsdcc:= jsdc.String_from_( Field, Memory);
+     FieldType:= jsdcc.Info.FieldType;
+     Result:= Ajoute( @Memory, Field, FieldType, Persistant, jsdcc);
 end;
 
 function TChamps.Integer_from_Integer (var Memory:Integer  ;Field:String;Persistant:Boolean): TChamp;
-var
-   F: TField;
-   inf: TIntegerField;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
-     then
-         Result:= Ajoute_Integer( Memory, Field, Persistant)
-     else
-         begin
-         F:= q.FindField( Field);
-         if Affecte( inf, TIntegerField, F)
-         then
-             Memory:= inf.Value
-         else
-             Erreur_Champ( Field, 'TIntegerField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, ftInteger, Persistant, F);
-         end;
+     Result:= Integer_from_( Memory, Field, Persistant);
 end;
 
 function TChamps.Integer_from_SmallInt(var Memory:Integer  ;Field:String;Persistant:Boolean): TChamp;
-var
-   F: TField;
-   sif: TSmallIntField;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
-     then
-         Result:= Ajoute_SmallInt( Memory, Field, Persistant)
-     else
-         begin
-         F:= q.FindField( Field);
-         if Affecte( sif, TSmallIntField, F)
-         then
-             Memory:= sif.Value
-         else
-             Erreur_Champ( Field, 'TSmallIntField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, ftSmallint, Persistant, F);
-         end;
+     Result:= Ajoute( @Memory, Field, ftSmallint, Persistant, jsdc.Integer_from_( Field, Memory));
 end;
 
 function TChamps.Integer_from_String( var Memory: Integer; Field: String; Persistant: Boolean): TChamp;
-var
-   F: TField;
-   sf: TStringField;
-   S: String;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
-     then
-         Result:= Ajoute_Integer( Memory, Field, Persistant)
-     else
-         begin
-         F:= q.FindField( Field);
-         if Affecte( sf, TStringField, F)
-         then
-             begin
-             S:= sf.Value;
-             if not TryStrToInt( S, Memory)
-             then
-                 Memory:= -1;
-             end
-         else
-             Erreur_Champ( Field, 'TStringField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, ftInteger, Persistant, F);
-         end;
+     Result:= Integer_from_( Memory, Field, Persistant);
 end;
 
 function TChamps.Integer_from_FMTBCD( var Memory: Integer; Field: String; Persistant: Boolean): TChamp;
-var
-   F: TField;
-   fmtbdcf: TFMTBCDField;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
-     then
-         Result:= Ajoute_Integer( Memory, Field, Persistant)
-     else
-         begin
-         F:= q.FindField( Field);
-         if Affecte( fmtbdcf, TFMTBCDField, F)
-         then
-             Memory:= fmtbdcf.AsInteger
-         else
-             Erreur_Champ( Field, 'TFMTBCDField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, ftInteger, Persistant, F);
-         end;
+     Result:= Integer_from_( Memory, Field, Persistant);
 end;
 
 function TChamps.Integer_from_( var Memory: Integer; Field: String; Persistant: Boolean): TChamp;
-var
-   F: TField;
-   inf    : TIntegerField ;
-   sif    : TSmallIntField;
-   fmtbcdf: TFMTBCDField  ;
-   sf     : TStringField  ;
-   S: String;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
-     then
-         Result:= Ajoute_Integer( Memory, Field, Persistant)
-     else
-         begin
-         F:= q.FindField( Field);
-         if Assigned( F)
-         then
-                  if Affecte( inf    , TIntegerField , F) then Memory:= inf    .Value
-             else if Affecte( sif    , TSmallIntField, F) then Memory:= sif    .Value
-             else if Affecte( fmtbcdf, TFMTBCDField  , F) then Memory:= fmtbcdf.AsInteger
-             else if Affecte( sf     , TStringField  , F)
-             then
-                 begin
-                 S:= sf.Value;
-                 if not TryStrToInt( S, Memory)
-                 then
-                     Memory:= -1;
-                 end
-             else
-                 Erreur_Champ( Field, 'TIntegerField ou TSmallIntField ou TFMTBCDField ou TStringField', Persistant)
-         else
-             Erreur_Champ( Field, 'TIntegerField ou TSmallIntField ou TFMTBCDField ou TStringField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, ftInteger, Persistant, F);
-         end;
+     Result:= Ajoute( @Memory, Field, ftInteger, Persistant, jsdc.Integer_from_( Field, Memory));
 end;
 
 function TChamps.Integer_from_Double( var Memory: Integer; Field: String; Persistant: Boolean): TChamp;
-var
-   F: TField;
-   inf    : TIntegerField ;
-   sif    : TSmallIntField;
-   ff     : TFloatField ;
-   bcdf   : TBCDField   ;
-   fmtbcdf: TFMTBCDField  ;
-   sf     : TStringField  ;
-   S: String;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
-     then
-         Result:= Ajoute_Integer( Memory, Field, Persistant)
-     else
-         begin
-         F:= q.FindField( Field);
-         if Assigned( F)
-         then
-                  if Affecte( inf    , TIntegerField , F) then Memory:= inf    .Value
-             else if Affecte( sif    , TSmallIntField, F) then Memory:= sif    .Value
-             else if Affecte( ff     , TFloatField   , F) then Memory:= Trunc( ff     .Value  )
-             else if Affecte( bcdf   , TBCDField     , F) then Memory:= Trunc( bcdf   .Value  )
-             else if Affecte( fmtbcdf, TFMTBCDField  , F) then Memory:= Trunc( fmtbcdf.asFloat)
-             else if Affecte( sf     , TStringField  , F)
-             then
-                 begin
-                 S:= sf.Value;
-                 if not TryStrToInt( S, Memory)
-                 then
-                     Memory:= -1;
-                 end
-             else
-                 Erreur_Champ( Field, 'TIntegerField ou TSmallIntField ou TFMTBCDField ou TStringField', Persistant)
-         else
-             Erreur_Champ( Field, 'TIntegerField ou TSmallIntField ou TFMTBCDField ou TStringField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, ftInteger, Persistant, F);
-         end;
+     Result:= Integer_from_( Memory, Field, Persistant);
 end;
 
-function TChamps.Currency_from_BCD( var Memory:Currency ;Field:String;Persistant:Boolean): TChamp;
-var
-   F: TField;
-   bcdf: TBCDField;
+function TChamps.DateTime_from_Date   (var Memory:TDateTime;Field:String;Persistant:Boolean): TChamp;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
-     then
-         Result:= Ajoute_BCD( Memory, Field, Persistant)
-     else
-         begin
-         F:= q.FindField( Field);
-         if Affecte( bcdf, TBCDField, F)
-         then
-             Memory:= bcdf.Value
-         else
-             Erreur_Champ( Field, 'TBCDField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, ftBCD, Persistant, F);
-         end;
+     Result:= Ajoute( @Memory, Field, ftDate, Persistant, jsdc.DateTime_from_( Field, Memory));
 end;
 
 function TChamps.DateTime_from_       (var Memory:TDateTime;Field:String;Persistant:Boolean): TChamp;
 var
-   F: TField;
-   dtf: TDateTimeField;
-   {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-   sqltsf: TSQLTimeStampField;
-   {$IFEND}
+   jsdcc: TjsDataContexte_Champ;
+   FieldType: TFieldType;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
-     then
-         Result:= Ajoute_DateTime( Memory, Field, Persistant)
-     else
-         begin
-         F:= q.FindField( Field);
-         if Assigned( F)
-         then
-                  if Affecte( dtf   , TDateTimeField    , F) then Memory:= dtf   .Value
-             else
-             {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-                  if Affecte( sqltsf, TSQLTimeStampField, F) then Memory:= sqltsf.asDateTime
-             else
-             {$IFEND}
-                 Erreur_Champ( Field, 'TDateTimeField ou TSQLTimeStampField', Persistant)
-         else
-             Erreur_Champ( Field, 'TDateTimeField ou TSQLTimeStampField', Persistant);
-
-         Result:= Ajoute( @Memory, Field, F.DataType, Persistant, F);
-         end;
+     jsdcc:= jsdc.DateTime_from_( Field, Memory);
+     FieldType:= jsdcc.Info.FieldType;
+     Result:= Ajoute( @Memory, Field, FieldType, Persistant, jsdcc);
 end;
 
 function TChamps.Double_from_         (var Memory:Double   ;Field:String;Persistant:Boolean): TChamp;
-var
-   F: TField;
-   ff     : TFloatField ;
-   bcdf   : TBCDField   ;
-   fmtbcdf: TFMTBCDField;
 begin
-     if (q = nil) //cas ajouté pour gérer la création hors base de donnée
-        or not q.Active
-     then
-         Result:= Ajoute_Float( Memory, Field, Persistant)
-     else
-         begin
-         F:= q.FindField( Field);
-         if Assigned( F)
-         then
-                  if Affecte( ff     , TFloatField , F) then Memory:= ff     .Value
-             else if Affecte( bcdf   , TBCDField   , F) then Memory:= bcdf   .Value
-             else if Affecte( fmtbcdf, TFMTBCDField, F) then Memory:= fmtbcdf.AsFloat
-             else
-                 Erreur_Champ( Field, 'TFloatField, TBCDField ou TFMTBCDField', Persistant)
-         else
-             Erreur_Champ( Field, 'TFloatField, TBCDField ou TFMTBCDField', Persistant);
+     Result:= Ajoute( @Memory, Field, ftFloat, Persistant, jsdc.Double_from_( Field, Memory));
+end;
 
-         Result:= Ajoute( @Memory, Field, ftFloat, Persistant, F);
-         end;
+function TChamps.Currency_from_BCD( var Memory:Currency ;Field:String;Persistant:Boolean): TChamp;
+begin
+     Result:= Ajoute( @Memory, Field, ftBCD, Persistant, jsdc.Currency_from_( Field, Memory));
+end;
+
+function TChamps.Currency_from_( var Memory: Currency; Field: String; Persistant: Boolean): TChamp;
+begin
+     Result:= Ajoute( @Memory, Field, ftCurrency, Persistant, jsdc.Currency_from_( Field, Memory));
+end;
+
+function TChamps.Boolean_from_( var Memory: Boolean; Field: String; Persistant: Boolean): TChamp;
+begin
+     Result:= Ajoute( @Memory, Field, ftBoolean, Persistant, jsdc.Boolean_from_( Field, Memory));
 end;
 
 function TChamps.Ajoute_ShortString(var Memory: ShortString; Field: String; Persistant: Boolean): TChamp;
@@ -925,6 +589,11 @@ begin
      Result:= Ajoute( @Memory, Field, ftFloat, Persistant, nil);
 end;
 
+function TChamps.Ajoute_Currency( var Memory: Currency; Field: String; Persistant: Boolean): TChamp;
+begin
+     Result:= Ajoute( @Memory, Field, ftCurrency, Persistant, nil);
+end;
+
 function TChamps.Ajoute_Boolean(var Memory: Boolean; Field: String; Persistant: Boolean): TChamp;
 begin
      Result:= Ajoute( @Memory, Field, ftBoolean, Persistant, nil);
@@ -957,19 +626,25 @@ begin
 
                with Params.ParamByName( FieldName)
                do
-                 case Definition.Typ
+                 case Definition.Info.jsDataType //modifier en parallèle dans To_Params_Insert
                  of
-                   ftString   : AsString  := PString  ( Valeur)^;
-                   ftMemo     : AsMemo    := PString  ( Valeur)^;
-                   ftBlob     : AsString  := PString  ( Valeur)^;
-                   ftDate     : AsDate    := PDateTime( Valeur)^;
-                   ftInteger  : AsInteger := PInteger ( Valeur)^;
-                   ftSmallint : AsSmallInt:= PInteger ( Valeur)^;
-                   ftBCD      : AsBCD     := PCurrency( Valeur)^;
-                   ftDateTime : AsDateTime:= PDateTime( Valeur)^;
-                   ftTimeStamp: AsSQLTimeStamp
-                    :=DateTimeToSQLTimeStamp(PDateTime( Valeur)^);
-                   ftFloat    : AsFloat   := PDouble  ( Valeur)^;
+                   jsdt_String     : AsString  := PString     ( Valeur)^;
+                   jsdt_Date       : AsDate    := PDateTime   ( Valeur)^;
+                   jsdt_DateTime   :
+                     begin
+                     case Definition.Info.FieldType
+                     of
+                       ftDate, ftDateTime, ftTimeStamp: AsDateTime:=                          PDateTime   ( Valeur)^ ;
+                       ftString, ftMemo, ftBlob       : AsString  := DateTimeSQL_sans_quotes( PDateTime   ( Valeur)^);
+                       end;
+                     end;
+                   jsdt_Integer    : AsInteger := PInteger    ( Valeur)^;
+                   jsdt_Currency   : AsBCD     := PCurrency   ( Valeur)^;
+                   jsdt_Double     : AsFloat   := PDouble     ( Valeur)^;
+                   jsdt_Boolean    : AsBoolean := PtrBoolean  ( Valeur)^;
+                   jsdt_ShortString: AsString  := PShortString( Valeur)^;
+                   jsdt_Unknown    : begin end;
+                   else              begin end;
                    end;
                end;
            end;
@@ -1000,23 +675,25 @@ begin
                Valeur:= Champ.Valeur;
                with Params.ParamByName( Definition.Nom)
                do
-                 case Definition.Typ
+                 case Definition.Info.jsDataType //modifier en parallèle dans To_Params_Update
                  of
-                   ftString   : AsString  := PString  ( Valeur)^;
-                   ftMemo     : AsMemo    := PString  ( Valeur)^;
-                   ftBlob     : AsString  := PString  ( Valeur)^;
-                   ftDate     : AsDate    := PDateTime( Valeur)^;
-                   ftInteger  : AsInteger := PInteger ( Valeur)^;
-                   ftSmallint : AsSmallInt:= PInteger ( Valeur)^;
-                   {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-                   ftBCD      : AsBCD     := PCurrency( Valeur)^;
-                   {$IFEND}
-                   ftDateTime : AsDateTime:= PDateTime( Valeur)^;
-                   {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
-                   ftTimeStamp: AsSQLTimeStamp
-                    :=DateTimeToSQLTimeStamp(PDateTime( Valeur)^);
-                   {$IFEND}
-                   ftFloat    : AsFloat   := PDouble  ( Valeur)^;
+                   jsdt_String     : AsString  := PString     ( Valeur)^;
+                   jsdt_Date       : AsDate    := PDateTime   ( Valeur)^;
+                   jsdt_DateTime   :
+                     begin
+                     case Definition.Info.FieldType
+                     of
+                       ftDate, ftDateTime, ftTimeStamp: AsDateTime:=                          PDateTime   ( Valeur)^ ;
+                       ftString, ftMemo, ftBlob       : AsString  := DateTimeSQL_sans_quotes( PDateTime   ( Valeur)^);
+                       end;
+                     end;
+                   jsdt_Integer    : AsInteger := PInteger    ( Valeur)^;
+                   jsdt_Currency   : AsBCD     := PCurrency   ( Valeur)^;
+                   jsdt_Double     : AsFloat   := PDouble     ( Valeur)^;
+                   jsdt_Boolean    : AsBoolean := PtrBoolean  ( Valeur)^;
+                   jsdt_ShortString: AsString  := PShortString( Valeur)^;
+                   jsdt_Unknown    : begin end;
+                   else              begin end;
                    end;
                end;
            end;
@@ -1120,19 +797,19 @@ begin
                              _OnGetLookupListItems, _Valeur_courante);
 end;
 
-procedure TChamps.Recharge( _q: TDataset);
+procedure TChamps.Recharge(_jsdc: TjsDataContexte);
 var
    I: Integer;
    C: TChamp;
 begin
-     Fq:= _q;
+     Fjsdc:= _jsdc;
      for I:= 0 to Count-1
      do
        begin
        C:= Champ_from_Index( I);
        if Assigned( C)
        then
-           C.Recharge( _q);
+           C.Recharge( _jsdc);
        end;
      for I:= 0 to Count-1
      do
@@ -1147,12 +824,7 @@ end;
 
 function TChamps.Cree_Champ_ID( var Memory: Integer): TChamp;
 begin
-     if Fq <> nil
-     then          // pour bien faire dans le cas nil il faudrait créer
-                   // un champ non persistant avec une valeur 0
-         begin
-         cID:= Integer_from_Integer( Memory, 'id', True);
-         end;
+     cID:= Integer_from_Integer( Memory, 'id');
      Result:= cID;
 end;
 
@@ -1225,22 +897,24 @@ begin
             end;
 end;
 
-function TChamps.GetJSON: String;
+function TChamps.GetJSON_interne( _Persistants_seulement: Boolean= False): String;
 var
    nCount, I: Integer;
+   IJSON: Integer;
    C: TChamp;
    NomChamp: String;
 begin
      //Result:= '{';
      Result:= '';
-
+     IJSON:= 0;
      nCount:= Count;
      for I:= 0 to nCount - 1
      do
        begin
        C       := Champ_from_Index( I);
+       if _Persistants_seulement and not C.Definition.Persistant then continue;
        NomChamp:= Field_from_Index( I);
-       if I > 0
+       if IJSON > 0
        then
            Result:= Result + ',';
        //Result:= Result + #13#10;
@@ -1249,27 +923,31 @@ begin
        {$ELSE}
        Result:= Result + Format( '"%s":"%s"',[NomChamp, C.Chaine]);
        {$ENDIF}
+       Inc( IJSON);
        end;
      //Result:= Result + #13#10;
      //Result:= Result+'}';
 end;
 
-{$IFDEF FPC}
-procedure TChamps.SetJSON( _Value: String);
-var
-   jsp: TJSONParser;
-   jso: TJSONObject;
+function TChamps.GetJSON: String;
+begin
+     Result:= GetJSON_interne;
+end;
 
+function TChamps.JSON_Persistants: String;
+begin
+     Result:= GetJSON_interne( True);
+end;
+
+procedure TChamps._from_JSONObject( _jso: TJSONObject);
+var
    nCount, I: Integer;
    C: TChamp;
    Champ_Nom: String;
    Champ_Valeur: String;
 begin
-     jsp:= TJSONParser.Create( _Value);
      try
-        uChamp_Publier_Modifications:= False;
-
-        jso:= jsp.Parse as TJSONObject;
+        //uChamp_Publier_Modifications:= False;
 
         nCount:= Count;
         for I:= 0 to nCount - 1
@@ -1278,20 +956,55 @@ begin
           C        := Champ_from_Index( I);
           Champ_Nom:= Field_from_Index( I);
 
-          Champ_Valeur:= jso.Elements[Champ_Nom].AsString;
+          {$IFDEF FPC}
+            Champ_Valeur:= _jso.Elements[Champ_Nom].AsString;
+          {$ELSE}
+            Champ_Valeur:= _jso.Values  [Champ_Nom].Value;
+          {$ENDIF}
+          if C.Chaine= Champ_Valeur then continue;
 
           C.Chaine:= Champ_Valeur;
           end;
      finally
             uChamp_Publier_Modifications:= True;
-            Free_nil( jsp);
             end;
      Save_to_database;
 end;
-{$ENDIF}
+
+procedure TChamps.SetJSON( _Value: String);
+var
+   {$IFDEF FPC}
+     jsp: TJSONParser;
+   {$ENDIF}
+   jso: TJSONObject;
+begin
+     {$IFDEF FPC}
+       jsp:= TJSONParser.Create( _Value, [joUTF8]);
+       jso:= jsp.Parse as TJSONObject;
+       try
+          _from_JSONObject( jso);
+       finally
+              Free_nil( jsp);
+              end;
+     {$ELSE}
+       jso:= TJSONObject.ParseJSONValue(TEncoding.UTF8.GetBytes( _Value), 0) as TJSONObject;
+       try
+          _from_JSONObject( jso);
+       finally
+              Free_nil( jso);
+              end;
+     {$ENDIF}
+end;
 
 procedure TChamps.Aggrege_interne( _NomChamp: String; _C: TChamp);
+var
+   own_C: TChamp;
 begin
+     own_C:= Champ[ _NomChamp];
+     if      Assigned(own_C)    // on ne fait rien si déjà un champ local
+        and (Self = own_C.Owner)// avec ce nom
+     then
+         exit;
      Champ[ _NomChamp]:= _C;
      slAggreges.AddObject( _NomChamp, _C);
 end;
@@ -1299,9 +1012,14 @@ end;
 procedure TChamps.DesAggrege_interne(_NomChamp: String);
 var
    I: Integer;
+   C: TChamp;
 begin
      I:= slAggreges.IndexOf( _NomChamp);
      if -1 = I then exit;
+
+     //(en principe inutile avec le test précédent)
+     C:= Champ[ _NomChamp]; // on ne fait rien si c'est un champ local
+     if Assigned(C) and (Self= C.Owner) then exit;
 
      Champ[ _NomChamp]:= nil;
      slAggreges.Delete( I);

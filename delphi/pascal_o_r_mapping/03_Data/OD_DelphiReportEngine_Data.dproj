@@ -3,7 +3,7 @@
         <ProjectGuid>{05621381-81E4-4AAE-8475-2E6ACB96AEEF}</ProjectGuid>
         <MainSource>OD_DelphiReportEngine_Data.dpk</MainSource>
         <ProjectVersion>18.3</ProjectVersion>
-        <FrameworkType>None</FrameworkType>
+        <FrameworkType>FMX</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win64</Platform>
@@ -35,6 +35,12 @@
     </PropertyGroup>
     <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win32)'!=''">
         <Cfg_1_Win32>true</Cfg_1_Win32>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win64)'!=''">
+        <Cfg_1_Win64>true</Cfg_1_Win64>
         <CfgParent>Cfg_1</CfgParent>
         <Cfg_1>true</Cfg_1>
         <Base>true</Base>
@@ -87,6 +93,11 @@
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
+        <DCC_UnitSearchPath>..\07_sources_externes\synapse\source\lib;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
         <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
@@ -111,7 +122,6 @@
         <DCCReference Include="uBatpro_OD_TextTableManager.pas"/>
         <DCCReference Include="uBatproFiltre.pas"/>
         <DCCReference Include="ubeChamp.pas"/>
-        <DCCReference Include="ubeClusterElement.pas"/>
         <DCCReference Include="ubeCoche.pas"/>
         <DCCReference Include="ubeCurseur.pas"/>
         <DCCReference Include="ubeExtended.pas"/>
@@ -132,7 +142,6 @@
         <DCCReference Include="uCharMap.pas"/>
         <DCCReference Include="uContextes.pas"/>
         <DCCReference Include="uDataUtils.pas"/>
-        <DCCReference Include="uDataUtilsF.pas"/>
         <DCCReference Include="udmBatpro_DataModule.pas"/>
         <DCCReference Include="udmDatabase.pas">
             <Form>dmDatabase</Form>
@@ -148,10 +157,6 @@
         <DCCReference Include="uhfG_CTXTYPE.pas"/>
         <DCCReference Include="uhField.pas"/>
         <DCCReference Include="uhFiltre.pas"/>
-        <DCCReference Include="uhRequete.pas"/>
-        <DCCReference Include="uhrG_BECP.pas"/>
-        <DCCReference Include="uhrG_BECPCTX.pas"/>
-        <DCCReference Include="uhrG_CTX.pas"/>
         <DCCReference Include="uhTriColonne.pas"/>
         <DCCReference Include="uInformix.pas"/>
         <DCCReference Include="uINI_Batpro_OD_Report.pas"/>
@@ -171,15 +176,16 @@
         <DCCReference Include="upoolG_CTX.pas"/>
         <DCCReference Include="upoolG_CTXTYPE.pas"/>
         <DCCReference Include="uPostgres.pas"/>
-        <DCCReference Include="uRegistry.pas"/>
         <DCCReference Include="uRequete.pas"/>
         <DCCReference Include="uSQLServer.pas"/>
         <DCCReference Include="uSuppression.pas"/>
         <DCCReference Include="uSVG.pas"/>
         <DCCReference Include="uTraits.pas"/>
         <DCCReference Include="uTri.pas"/>
-        <DCCReference Include="uVide.pas"/>
         <DCCReference Include="uXML.pas"/>
+        <DCCReference Include="uImpression_Font_Size_Multiplier.pas"/>
+        <DCCReference Include="uDataClasses.pas"/>
+        <DCCReference Include="uHTTP_Interface.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -200,6 +206,10 @@
                 <Source>
                     <Source Name="MainSource">OD_DelphiReportEngine_Data.dpk</Source>
                 </Source>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k250.bpl">Composants Microsoft Office 2000 Sample Automation Server Wrapper</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp250.bpl">Composants Microsoft Office XP Sample Automation Server Wrapper</Excluded_Packages>
+                </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">
                 <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
@@ -224,6 +234,12 @@
                 </DeployFile>
                 <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\19.0\Bpl\OD_DelphiReportEngine_Data.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
+                        <RemoteName>OD_DelphiReportEngine_Data.bpl</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="C:\Users\Public\Documents\Embarcadero\Studio\19.0\Bpl\Win64\OD_DelphiReportEngine_Data.bpl" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win64">
                         <RemoteName>OD_DelphiReportEngine_Data.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
