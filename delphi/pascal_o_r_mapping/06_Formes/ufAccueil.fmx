@@ -39,16 +39,6 @@ object fAccueil: TfAccueil
       Left = 29
       Top = 128
     end
-    object bOK: TBitBtn
-      Size.Width = 75.000000000000000000
-      Size.Height = 25.000000000000000000
-      Size.PlatformDefault = False
-      TabOrder = 0
-      Text = 'Continuer'
-      Visible = False
-      Left = 8
-      Top = 160
-    end
     object bEnregistrer: TButton
       Position.Y = 344.000000000000000000
       Size.Width = 85.000000000000000000
@@ -265,8 +255,8 @@ object fAccueil: TfAccueil
         Size.PlatformDefault = False
         TabOrder = 0
         Top = 41
-        Viewport.Width = 481.000000000000000000
-        Viewport.Height = 403.000000000000000000
+        Viewport.Width = 485.000000000000000000
+        Viewport.Height = 407.000000000000000000
       end
       object lErreur_Courante: TLabel
         Align = Top
@@ -298,8 +288,8 @@ object fAccueil: TfAccueil
         Size.Height = 448.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
-        Viewport.Width = 481.000000000000000000
-        Viewport.Height = 444.000000000000000000
+        Viewport.Width = 485.000000000000000000
+        Viewport.Height = 448.000000000000000000
       end
     end
     object tiHistorique_Developpeur: TTabItem

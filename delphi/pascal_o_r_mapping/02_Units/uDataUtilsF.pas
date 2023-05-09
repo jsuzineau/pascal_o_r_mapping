@@ -46,7 +46,8 @@ uses
   FMX.Graphics, FMX.Forms, FMX.Dialogs,
   {$ENDIF}
   SysUtils, Classes, Data.DB,
-  SimpleDS, DBClient, Provider, TypInfo, SQLExpr;
+  SimpleDS,
+  DBClient, Provider, TypInfo, SQLExpr;
 
 function RefreshQuery( SQLQ: TSQLQuery     ;
                        _Afficher_Erreur: Boolean= True;

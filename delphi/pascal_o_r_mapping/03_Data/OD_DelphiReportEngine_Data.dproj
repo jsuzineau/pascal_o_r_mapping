@@ -110,6 +110,12 @@
         </DelphiCompile>
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="OD_DelphiReportEngine_Units.dcp"/>
+        <DCCReference Include="dbxmssqldriver.dcp"/>
+        <DCCReference Include="IndyCore.dcp"/>
+        <DCCReference Include="dbxmysqldriver.dcp"/>
+        <DCCReference Include="vcl.dcp"/>
+        <DCCReference Include="dbxinformixdriver.dcp"/>
+        <DCCReference Include="indyprotocols.dcp"/>
         <DCCReference Include="u_db_Formes.pas"/>
         <DCCReference Include="u_InformixLob.pas"/>
         <DCCReference Include="u_ini_Formes.pas"/>

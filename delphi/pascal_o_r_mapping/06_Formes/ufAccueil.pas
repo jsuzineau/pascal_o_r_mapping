@@ -54,7 +54,6 @@ type
   class(TForm)
     Label1: TLabel;
     Panel2: TPanel;
-    bOK: TBitBtn;
     bEnregistrer: TButton;
     SaveDialog: TSaveDialog;
     bTerminer: TButton;
@@ -103,7 +102,6 @@ type
     procedure Add( _S_Developpeur, _S: String);
     procedure Add_Developpeur( _S_Developpeur: String);
     function Afficher: Boolean;
-    procedure SendMail;
   public
     publieur_LogChange: TPublieur;
 
@@ -187,26 +185,6 @@ begin
      inherited;
 end;
 
-procedure TfAccueil.SendMail;
-var
-   Body: String;
-begin
-     if mrYes<>MessageDlg('Souhaitez vous envoyer automatiquement par mail les '+
-                          'messages d''erreurs à ADINFO ?', TMsgDlgType.mtConfirmation,
-                          [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0)
-     then
-         exit;
-
-
-     Body:=   ParamStr(0)                   +#13#10
-             + 'Version '+GetVersionProgramme+#13#10
-             + mHistorique_Developpeur.Lines.Text;
-
-
-     MailTo_ADINFO( ChangeFileExt( ExtractFileName( ParamStr(0)), sys_Vide),
-                    Body, []);
-end;
-
 function TfAccueil.Afficher: Boolean;
 begin
      Result:= ModeDEBUG_3;
@@ -281,10 +259,10 @@ end;
 
 procedure TfAccueil.Affichage_Bouton_OK(Afficher: Boolean);
 begin
-     bOK.Visible:= Afficher;
-     if Afficher
-     then
-         bOK.SetFocus;
+//     bOK.Visible:= Afficher;
+//     if Afficher
+//     then
+//         bOK.SetFocus;
 end;
 
 procedure TfAccueil.Log( _Message_Developpeur: String; _Message: String = '');
@@ -368,7 +346,7 @@ begin
      else
          Do_Show;
 
-     bOK.Visible:= False;
+//     bOK.Visible:= False;
      Visible:= Afficher;
 end;
 
@@ -410,7 +388,7 @@ end;
 
 procedure TfAccueil.bMailClick(Sender: TObject);
 begin
-     SendMail;
+     //SendMail;
 end;
 
 procedure TfAccueil.Send_Errors;
@@ -448,19 +426,19 @@ var
 begin
      NomFichier
      :=
-         dmDatabase.DataBase + '_'
+         dmDatabase.jsDataConnexion.DataBase + '_'
        + Network.Nom_Hote                + '_'
        + FormatDateTime( 'yyyy"_"mm"_"dd"_"hh"h"nn"min"ss', Now)
        + '_fAccueil.txt';
      NomZIPLogs
      :=
-         dmDatabase.DataBase + '_'
+         dmDatabase.jsDataConnexion.DataBase + '_'
        + Network.Nom_Hote                + '_'
        + FormatDateTime( 'yyyy"_"mm"_"dd"_"hh"h"nn"min"ss', Now)
        + '_log.zip';
      NomZIPLogs_Hier
      :=
-         dmDatabase.DataBase + '_'
+         dmDatabase.jsDataConnexion.DataBase + '_'
        + Network.Nom_Hote                + '_'
        + FormatDateTime( 'yyyy"_"mm"_"dd"_"hh"h"nn"min"ss', Now)
        + '_log_hier.zip';

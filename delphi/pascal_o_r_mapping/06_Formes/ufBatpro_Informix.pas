@@ -26,9 +26,11 @@ interface
 
 uses
     uClean,
+    uSGBD,
     uInformix,
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, FMX.StdCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.Controls;
+  FMX.Dialogs, FMX.StdCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.Controls, FMX.Edit,
+  FMX.Types, FMX.Controls.Presentation;
 
 type
  TfBatpro_Informix
@@ -42,8 +44,6 @@ type
     Label3: TLabel;
     ePassWord: TEdit;
     Label4: TLabel;
-    bCancel: TBitBtn;
-    bOK: TBitBtn;
     Label5: TLabel;
     bDBPing: TButton;
     bSetNet32: TButton;
@@ -55,6 +55,7 @@ type
     procedure bSetNet32Click(Sender: TObject);
   private
     { Déclarations privées }
+    Informix: TInformix;
     procedure Lire;
     procedure Ecrire;
   public
@@ -78,12 +79,13 @@ end;
 procedure TfBatpro_Informix.FormCreate(Sender: TObject);
 begin
      inherited;
+     Informix:= TInformix.Create( SGBD);
      Lire;
 end;
 
 procedure TfBatpro_Informix.FormDestroy(Sender: TObject);
 begin
-     //
+     FreeAndNil( Informix);
      inherited;
 end;
 

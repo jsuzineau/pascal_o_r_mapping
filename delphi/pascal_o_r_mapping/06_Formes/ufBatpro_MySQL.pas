@@ -26,9 +26,11 @@ interface
 
 uses
     uClean,
+    uSGBD,
     uMySQL,
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, FMX.StdCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.Controls;
+  FMX.Dialogs, FMX.StdCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.Controls, FMX.Edit,
+  FMX.Types, FMX.Controls.Presentation;
 
 type
   TfBatpro_MySQL = class(TForm)
@@ -40,8 +42,6 @@ type
     Label3: TLabel;
     ePassWord: TEdit;
     Label4: TLabel;
-    bOK: TBitBtn;
-    bCancel: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -49,6 +49,7 @@ type
     procedure bCancelClick(Sender: TObject);
   private
     { Déclarations privées }
+    MySQL: TMySQL;
     procedure Lire;
     procedure Ecrire;
   public
@@ -72,12 +73,13 @@ end;
 procedure TfBatpro_MySQL.FormCreate(Sender: TObject);
 begin
      inherited;
+     MySQL:= TMySQL.Create( SGBD);
      Lire;
 end;
 
 procedure TfBatpro_MySQL.FormDestroy(Sender: TObject);
 begin
-     //
+     FreeAndNil( MySQL);
      inherited;
 end;
 

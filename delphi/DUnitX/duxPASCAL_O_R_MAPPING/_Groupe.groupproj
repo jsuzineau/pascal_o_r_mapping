@@ -9,8 +9,11 @@
         <Projects Include="..\..\pascal_o_r_mapping\03_Data\OD_DelphiReportEngine_Data.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\..\pascal_o_r_mapping\05_Controls\OD_DelphiReportEngine_Controls.dproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="duxPASCAL_O_R_MAPPING.dproj">
-            <Dependencies>..\..\pascal_o_r_mapping\02_Units\OD_DelphiReportEngine_Units.dproj</Dependencies>
+            <Dependencies/>
         </Projects>
         <Projects Include="..\..\tests\StringGrid\StringGrid.dproj">
             <Dependencies/>
@@ -41,13 +44,22 @@
     <Target Name="OD_DelphiReportEngine_Data:Make">
         <MSBuild Projects="..\..\pascal_o_r_mapping\03_Data\OD_DelphiReportEngine_Data.dproj" Targets="Make"/>
     </Target>
-    <Target Name="duxPASCAL_O_R_MAPPING" DependsOnTargets="OD_DelphiReportEngine_Units">
+    <Target Name="OD_DelphiReportEngine_Controls">
+        <MSBuild Projects="..\..\pascal_o_r_mapping\05_Controls\OD_DelphiReportEngine_Controls.dproj"/>
+    </Target>
+    <Target Name="OD_DelphiReportEngine_Controls:Clean">
+        <MSBuild Projects="..\..\pascal_o_r_mapping\05_Controls\OD_DelphiReportEngine_Controls.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="OD_DelphiReportEngine_Controls:Make">
+        <MSBuild Projects="..\..\pascal_o_r_mapping\05_Controls\OD_DelphiReportEngine_Controls.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="duxPASCAL_O_R_MAPPING">
         <MSBuild Projects="duxPASCAL_O_R_MAPPING.dproj"/>
     </Target>
-    <Target Name="duxPASCAL_O_R_MAPPING:Clean" DependsOnTargets="OD_DelphiReportEngine_Units:Clean">
+    <Target Name="duxPASCAL_O_R_MAPPING:Clean">
         <MSBuild Projects="duxPASCAL_O_R_MAPPING.dproj" Targets="Clean"/>
     </Target>
-    <Target Name="duxPASCAL_O_R_MAPPING:Make" DependsOnTargets="OD_DelphiReportEngine_Units:Make">
+    <Target Name="duxPASCAL_O_R_MAPPING:Make">
         <MSBuild Projects="duxPASCAL_O_R_MAPPING.dproj" Targets="Make"/>
     </Target>
     <Target Name="StringGrid">
@@ -60,13 +72,13 @@
         <MSBuild Projects="..\..\tests\StringGrid\StringGrid.dproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="OD_DelphiReportEngine_Units;OD_DelphiReportEngine_Data;duxPASCAL_O_R_MAPPING;StringGrid"/>
+        <CallTarget Targets="OD_DelphiReportEngine_Units;OD_DelphiReportEngine_Data;OD_DelphiReportEngine_Controls;duxPASCAL_O_R_MAPPING;StringGrid"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="OD_DelphiReportEngine_Units:Clean;OD_DelphiReportEngine_Data:Clean;duxPASCAL_O_R_MAPPING:Clean;StringGrid:Clean"/>
+        <CallTarget Targets="OD_DelphiReportEngine_Units:Clean;OD_DelphiReportEngine_Data:Clean;OD_DelphiReportEngine_Controls:Clean;duxPASCAL_O_R_MAPPING:Clean;StringGrid:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="OD_DelphiReportEngine_Units:Make;OD_DelphiReportEngine_Data:Make;duxPASCAL_O_R_MAPPING:Make;StringGrid:Make"/>
+        <CallTarget Targets="OD_DelphiReportEngine_Units:Make;OD_DelphiReportEngine_Data:Make;OD_DelphiReportEngine_Controls:Make;duxPASCAL_O_R_MAPPING:Make;StringGrid:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

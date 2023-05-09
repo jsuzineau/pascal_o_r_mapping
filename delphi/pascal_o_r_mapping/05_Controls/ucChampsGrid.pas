@@ -29,17 +29,25 @@ uses
     uBatpro_StringList,
     ubtString,
     u_sys_,
-    uDessin,
     uWinUtils,
+    uForms,
+    {$IFNDEF FPC}
     uWindows,
+    {$ENDIF}
     uDataUtilsU,
+    ujsDataContexte,
     uChamps,
     uChampDefinitions,
     uChamp,
     uChampDefinition,
     ufChampsGrid_Colonnes,
-    Windows, SysUtils, Classes, FMX.Controls, DB, FMX.Grid,FMX.Dialogs, FMX.StdCtrls,
-    uForms;
+  {$IFNDEF FPC}
+    Windows,
+  {$ENDIF}
+  {$IFDEF FPC}
+    LCLType, Types,
+  {$ENDIF}
+  SysUtils, Classes, FMX.Controls, DB, FMX.Grid,FMX.Dialogs, FMX.StdCtrls;
 
 type
  TChampsGrid = class;

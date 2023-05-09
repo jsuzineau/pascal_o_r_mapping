@@ -32,12 +32,13 @@ requires
   fmx,
   OD_DelphiReportEngine_Units,
   DbxCommonDriver,
-  dbexpress;
+  dbexpress,
+  OD_DelphiReportEngine_Data;
 
 contains
-  ucBatproVerifieur in '..\4_Components\ucBatproVerifieur.pas',
-  ucbvCustomConnection in '..\4_Components\ucbvCustomConnection.pas',
-  ucbvQuery_Datasource in '..\4_Components\ucbvQuery_Datasource.pas',
+  ucBatproVerifieur in '..\04_Components\ucBatproVerifieur.pas',
+  ucbvCustomConnection in '..\04_Components\ucbvCustomConnection.pas',
+  ucbvQuery_Datasource in '..\04_Components\ucbvQuery_Datasource.pas',
   ucBatpro_Button in 'ucBatpro_Button.pas',
   ucBatpro_Contrainte in 'ucBatpro_Contrainte.pas',
   ucBatpro_OptionButton in 'ucBatpro_OptionButton.pas',

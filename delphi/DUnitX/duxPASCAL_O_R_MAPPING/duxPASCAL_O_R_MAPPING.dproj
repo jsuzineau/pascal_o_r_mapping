@@ -44,6 +44,12 @@
         <Cfg_1>true</Cfg_1>
         <Base>true</Base>
     </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win64)'!=''">
+        <Cfg_1_Win64>true</Cfg_1_Win64>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
         <Cfg_2>true</Cfg_2>
         <CfgParent>Base</CfgParent>
@@ -57,7 +63,7 @@
         <DCC_S>false</DCC_S>
         <DCC_F>false</DCC_F>
         <DCC_K>false</DCC_K>
-        <DCC_UsePackage>RESTComponents;emsclientfiredac;DataSnapFireDAC;FireDACIBDriver;emsclient;FireDACCommon;RESTBackendComponents;soapserver;CloudService;FireDACCommonDriver;inet;FireDAC;FireDACSqliteDriver;soaprtl;soapmidas;OD_DelphiReportEngine_Controls;OD_DelphiReportEngine_Units;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_UsePackage>RESTComponents;emsclientfiredac;DataSnapFireDAC;FireDACIBDriver;emsclient;FireDACCommon;RESTBackendComponents;soapserver;CloudService;FireDACCommonDriver;inet;FireDAC;FireDACSqliteDriver;soaprtl;soapmidas;OD_DelphiReportEngine_Units;OD_DelphiReportEngine_Data;OD_DelphiReportEngine_Controls;$(DCC_UsePackage)</DCC_UsePackage>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <UsingDelphiRTL>true</UsingDelphiRTL>
         <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
@@ -103,6 +109,11 @@
         <DCC_UnitSearchPath>C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\03_Data;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <UsePackages>true</UsePackages>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
+        <UsePackages>true</UsePackages>
+        <Manifest_File>(vide)</Manifest_File>
+        <DCC_ExeOutput>.\</DCC_ExeOutput>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
         <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
@@ -115,24 +126,24 @@
         </DelphiCompile>
         <DCCReference Include="TestCase\tcOpenDocument_Embed_Image\utcOpenDocument_Embed_Image.pas"/>
         <DCCReference Include="TestCase\tcOpenDocument_Embed_Image\Elements\Test\ublTest.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufBitmaps.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\uImpression_Font_Size_Multiplier.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\uAide.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufHelp_Creator.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufpBas.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufBatpro_Form.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufBatpro_Desk.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\uHorloge.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufAccueil.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufBatpro_Informix.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufBatpro_MySQL.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufBatpro_Parametres_Client.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\udmSMTP.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufProgression.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\ufReconcileError.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\udkProgression.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\6_Formes\uLog.pas"/>
-        <DCCReference Include="..\..\pascal_o_r_mapping\5_Controls\uDockable.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\06_Formes\ufBitmaps.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\06_Formes\uImpression_Font_Size_Multiplier.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\06_Formes\uAide.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\06_Formes\ufHelp_Creator.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\06_Formes\ufpBas.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\06_Formes\ufBatpro_Form.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\06_Formes\ufBatpro_Desk.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\06_Formes\uHorloge.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\06_Formes\ufAccueil.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\06_Formes\ufBatpro_Informix.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\06_Formes\ufBatpro_MySQL.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\06_Formes\ufBatpro_Parametres_Client.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\06_Formes\udmSMTP.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\06_Formes\ufProgression.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\06_Formes\ufReconcileError.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\06_Formes\udkProgression.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\06_Formes\uLog.pas"/>
+        <DCCReference Include="..\..\pascal_o_r_mapping\05_Controls\uDockable.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

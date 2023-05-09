@@ -4,120 +4,112 @@ object fBatpro_Informix: TfBatpro_Informix
   Caption = 'fBatpro_Informix'
   ClientHeight = 133
   ClientWidth = 557
-  Color = clBtnFace
-
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Sans Serif'
-  Font.Style = []
-  OldCreateOrder = False
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop, iPhone, iPad]
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  PixelsPerInch = 96
-  TextHeight = 13
+  Left = 192
+  Top = 107
+  DesignerMasterStyle = 0
   object Label1: TLabel
+    Size.Width = 113.000000000000000000
+    Size.Height = 13.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'Informix Server (ows2...)'
     Left = 8
     Top = 8
-    Width = 113
-    Height = 13
-    Text = 'Informix Server (ows2...)'
   end
   object Label2: TLabel
+    Size.Width = 46.000000000000000000
+    Size.Height = 13.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'Database'
     Left = 8
     Top = 32
-    Width = 46
-    Height = 13
-    Text = 'Database'
   end
   object Label3: TLabel
+    Size.Width = 50.000000000000000000
+    Size.Height = 13.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'UserName'
     Left = 8
     Top = 56
-    Width = 50
-    Height = 13
-    Text = 'UserName'
   end
   object Label4: TLabel
+    Size.Width = 46.000000000000000000
+    Size.Height = 13.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'Password'
     Left = 8
     Top = 80
-    Width = 46
-    Height = 13
-    Text = 'Password'
   end
   object Label5: TLabel
+    Size.Width = 302.000000000000000000
+    Size.Height = 13.000000000000000000
+    Size.PlatformDefault = False
+    Text = '(= Hostname dans les messages d'#39'erreur de DBExpress Informix)'
     Left = 256
     Top = 9
-    Width = 302
-    Height = 13
-    Text = '(= Hostname dans les messages d'#39'erreur de DBExpress Informix)'
   end
   object eHostName: TEdit
-    Left = 128
-    Top = 8
-    Width = 121
-    Height = 21
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
     TabOrder = 0
     Text = 'eHostName'
+    Size.Width = 121.000000000000000000
+    Size.Height = 21.000000000000000000
+    Size.PlatformDefault = False
+    Left = 128
+    Top = 8
   end
   object eDatabase: TEdit
-    Left = 128
-    Top = 32
-    Width = 121
-    Height = 21
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
     TabOrder = 1
     Text = 'eDatabase'
+    Size.Width = 121.000000000000000000
+    Size.Height = 21.000000000000000000
+    Size.PlatformDefault = False
+    Left = 128
+    Top = 32
   end
   object eUser_Name: TEdit
-    Left = 128
-    Top = 56
-    Width = 121
-    Height = 21
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
     TabOrder = 2
     Text = 'eUser_Name'
+    Size.Width = 121.000000000000000000
+    Size.Height = 21.000000000000000000
+    Size.PlatformDefault = False
+    Left = 128
+    Top = 56
   end
   object ePassWord: TEdit
-    Left = 128
-    Top = 80
-    Width = 121
-    Height = 21
+    Touch.InteractiveGestures = [LongTap, DoubleTap]
     TabOrder = 3
     Text = 'ePassWord'
-  end
-  object bCancel: TBitBtn
-    Left = 112
-    Top = 104
-    Width = 75
-    Height = 25
-    Kind = bkCancel
-    NumGlyphs = 2
-    TabOrder = 4
-    OnClick = bCancelClick
-  end
-  object bOK: TBitBtn
-    Left = 8
-    Top = 104
-    Width = 75
-    Height = 25
-    Kind = bkOK
-    NumGlyphs = 2
-    TabOrder = 5
-    OnClick = bOKClick
+    Size.Width = 121.000000000000000000
+    Size.Height = 21.000000000000000000
+    Size.PlatformDefault = False
+    Left = 128
+    Top = 80
   end
   object bDBPing: TButton
+    Size.Width = 75.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 6
+    Text = 'DB Ping'
+    OnClick = bDBPingClick
     Left = 304
     Top = 104
-    Width = 75
-    Height = 25
-    Text = 'DB Ping'
-    TabOrder = 6
-    OnClick = bDBPingClick
   end
   object bSetNet32: TButton
+    Size.Width = 75.000000000000000000
+    Size.Height = 25.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 7
+    Text = 'SetNet32'
+    OnClick = bSetNet32Click
     Left = 208
     Top = 104
-    Width = 75
-    Height = 25
-    Text = 'SetNet32'
-    TabOrder = 7
-    OnClick = bSetNet32Click
   end
 end

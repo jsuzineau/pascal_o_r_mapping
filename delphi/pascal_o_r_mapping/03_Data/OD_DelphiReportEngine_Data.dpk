@@ -29,7 +29,13 @@ package OD_DelphiReportEngine_Data;
 
 requires
   rtl,
-  OD_DelphiReportEngine_Units;
+  OD_DelphiReportEngine_Units,
+  dbxmssqldriver,
+  IndyCore,
+  dbxmysqldriver,
+  vcl,
+  dbxinformixdriver,
+  indyprotocols;
 
 contains
   u_db_Formes in 'u_db_Formes.pas',
