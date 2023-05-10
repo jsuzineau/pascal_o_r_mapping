@@ -35,6 +35,7 @@ uses
     uMySQL,//juste pour fonction crypto
     uEXE_INI,
     ujsDataContexte,
+    uInformix_Column,
 
     ufAccueil_Erreur,
 
@@ -100,6 +101,15 @@ type
   //Last_Insert_id
   public
     function Last_Insert_id( _NomTable: String): Integer; override;
+  //méthodes pour schémateur
+  private
+    procedure Champ_Cherche_Requete( _Table, _Champ: String);
+  public
+    function Table_Cherche( _Table               : String): Boolean; override;
+    function Index_Cherche( _Table, _Index       : String): Boolean; override;
+    function Champ_Cherche( _Table, _Champ       : String): Boolean; override;
+    function Champ_Type_Cherche( _Table, _Champ, _Type: String): Boolean; override;
+    function Champ_Type_Defaut_Cherche( _Table, _Champ, _Type, _Defaut: String): Boolean; override;
   end;
 
 const
@@ -402,14 +412,135 @@ var
    SQL: String;
 begin
      SQL:=
- 'select                                                                   '#13#10
-+'      dbinfo(''sqlca.sqlerrd1'')                                         '#13#10
-+'-- le from et le where sont là juste pour qu informix accepte la requete '#13#10
-+'from                                                                     '#13#10
-+'    systables                                                            '#13#10
-+'where                                                                    '#13#10
-+'     tabid =1                                                            '#13#10;
+ 'select                                                                   '+LineEnding
++'      dbinfo(''sqlca.sqlerrd1'')                                         '+LineEnding
++'-- le from et le where sont là juste pour qu informix accepte la requete '+LineEnding
++'from                                                                     '+LineEnding
++'    systables                                                            '+LineEnding
++'where                                                                    '+LineEnding
++'     tabid =1                                                            '+LineEnding;
      Contexte.Integer_from( SQL, Result);
+end;
+
+function TInformix.Table_Cherche(_Table: String): Boolean;
+var
+   SQL: String;
+begin
+     SQL
+     :=
+        'select                 '+LineEnding
+       +'      *                '+LineEnding
+       +'from                   '+LineEnding
+       +'    systables          '+LineEnding
+       +'where                  '+LineEnding
+       +'     tabname = :tabname'+LineEnding
+       ;
+     Contexte.SQL:= SQL;
+     with Contexte.Params
+     do
+       ParamByName( 'tabname').AsString:= _Table;
+     Result:= Contexte.Execute_and_Result_not_empty;
+end;
+
+function TInformix.Index_Cherche(_Table, _Index: String): Boolean;
+var
+   SQL: String;
+begin
+     SQL
+     :=
+        'select                                       '+LineEnding
+       +'      sysindexes.*                           '+LineEnding
+       +'from                                         '+LineEnding
+       +'    sysindexes                               '+LineEnding
+       +'where                                        '+LineEnding
+       +'         (sysindexes.idxname = :idxname)     '+LineEnding
+       +'     and ( sysindexes.tabid in               '+LineEnding
+       +'           (                                 '+LineEnding
+       +'           select                            '+LineEnding
+       +'                 systables.tabid             '+LineEnding
+       +'           from                              '+LineEnding
+       +'               systables                     '+LineEnding
+       +'           where                             '+LineEnding
+       +'                systables.tabname = :tabname '+LineEnding
+       +'           )                                 '+LineEnding
+       +'         )                                   '+LineEnding
+       ;
+     Contexte.SQL:= SQL;
+     with Contexte.Params
+     do
+       begin
+       ParamByName( 'tabname').AsString:= _Table;
+       ParamByName( 'idxname').AsString:= _Index;
+       end;
+     Result:= Contexte.Execute_and_Result_not_empty;
+end;
+
+procedure TInformix.Champ_Cherche_Requete(_Table, _Champ: String);
+var
+   SQL: String;
+begin
+     SQL
+     :=
+        'select                                                                    '
+       +'      rowid,*                                                             '
+       +'from                                                                      '
+       +'    syscolumns                                                            '
+       +'where                                                                     '
+       +'         (tabid in (select tabid from systables where tabname = :tabname))'
+       +'     and (colname = :colname)                                             '
+       ;
+     Contexte.SQL:= SQL;
+     with Contexte.Params
+     do
+       begin
+       ParamByName( 'tabname').AsString:= _Table;
+       ParamByName( 'colname').AsString:= _Champ;
+       end;
+end;
+
+function TInformix.Champ_Cherche(_Table, _Champ: String): Boolean;
+begin
+     Champ_Cherche_Requete( _Table, _Champ);
+     Result:= Contexte.Execute_and_Result_not_empty;
+end;
+
+function TInformix.Champ_Type_Cherche(_Table, _Champ, _Type: String): Boolean;
+var
+   coltype  : Integer; cCOLTYPE  : TjsDataContexte_Champ;
+   collength: Integer; cCOLLENGTH: TjsDataContexte_Champ;
+   ic: TInformix_Column;
+begin
+     Champ_Cherche_Requete( _Table, _Champ);
+     try
+        Result:= Contexte.Execute_and_Result_not_empty_dont_close;
+        if not Result then exit;
+
+        cCOLTYPE  := Contexte.Find_Champ( 'coltype'  );
+        if nil = cCOLTYPE then exit;
+
+        cCOLLENGTH:= Contexte.Find_Champ( 'collength');
+        if nil = cCOLLENGTH then exit;
+
+        coltype  := cCOLTYPE  .asInteger;
+        collength:= cCOLLENGTH.asInteger;
+     finally
+            Contexte.Close;
+            end;
+
+     _Type:= UpperCase( _Type);
+     ic:= TInformix_Column.Create;
+     try
+        ic.Set_To( coltype, collength);
+        Result:= ic.SQL = _Type;
+     finally
+            Free_nil( ic);
+            end;
+end;
+
+
+function TInformix.Champ_Type_Defaut_Cherche( _Table, _Champ, _Type, _Defaut: String): Boolean;
+begin
+     Result:= Champ_Type_Cherche( _Table, _Champ, _Type);
 end;
 
 end.

@@ -1145,7 +1145,7 @@ begin
          Result:= C.Chaine;
 end;
 
-procedure TChamps.SetValeur_from_Field(_Field: String; _Value: String);
+procedure TChamps.SetValeur_from_Field( _Field, _Value: String);
 var
    C: TChamp;
 begin

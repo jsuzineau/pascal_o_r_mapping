@@ -107,7 +107,14 @@ type
    //Last_Insert_id
    public
      function Last_Insert_id( _NomTable: String): Integer; virtual; abstract;
-			end;
+   //méthodes pour schémateur
+   public
+     function Table_Cherche( _Table               : String): Boolean; virtual; abstract;
+     function Index_Cherche( _Table, _Index       : String): Boolean; virtual; abstract;
+     function Champ_Cherche( _Table, _Champ       : String): Boolean; virtual; abstract;
+     function Champ_Type_Cherche( _Table, _Champ, _Type: String): Boolean; virtual; abstract;
+     function Champ_Type_Defaut_Cherche( _Table, _Champ, _Type, _Defaut: String): Boolean; virtual; abstract;
+   end;
   TjsDataConnexion_Class= class of TjsDataConnexion;
 
   PtrBoolean= ^Boolean;
@@ -277,6 +284,10 @@ type
    //Utilitaires
    public
      function Est_Vide( _SQL: String): Boolean;
+   //Request Result not empty (pour Schémateur, proche de Est_Vide, permet Params )
+   public
+     function Execute_and_Result_not_empty_dont_close: Boolean;
+     function Execute_and_Result_not_empty: Boolean;
    //Integer_from
    public
      function Integer_from(_SQL: String; out _Resultat: Integer): Boolean; overload;
@@ -287,6 +298,10 @@ type
      function String_from( _SQL: String; var _Resultat: String; _Index: Integer= 0): Boolean; overload;
      function String_from( _SQL, _NomChamp: String; var _Resultat: String): Boolean; overload;
      function String_from( _SQL, _NomChamp: String; _Params: TParams; out _Resultat: String): Boolean; overload;
+   //Test de valeurs chaines
+   public
+     function Matches( _Champs_Noms, _Champs_Valeurs: TStringArray): Boolean;//sur le premier enregistrement
+     function Locate ( _Champs_Noms, _Champs_Valeurs: TStringArray): Boolean;//sur un des enregistrements
    //Listage d'un champ vers une liste
    protected
      procedure Liste_Champ_initialize; virtual;
@@ -1536,6 +1551,22 @@ begin
             end;
 end;
 
+function TjsDataContexte.Execute_and_Result_not_empty_dont_close: Boolean;
+begin
+     RefreshQuery;
+     First;
+     Result:= not IsEmpty;
+end;
+
+function TjsDataContexte.Execute_and_Result_not_empty: Boolean;
+begin
+     try
+        Result:= Execute_and_Result_not_empty_dont_close;
+     finally
+            Close;
+            end;
+end;
+
 function TjsDataContexte.Integer_from( _SQL: String; out _Resultat: Integer): Boolean;
 var
    c: TjsDataContexte_Champ;
@@ -1694,6 +1725,76 @@ begin
             end;
 end;
 
+function TjsDataContexte.Matches(_Champs_Noms, _Champs_Valeurs: TStringArray): Boolean;
+var
+   I: Integer;
+   Champ_Nom   : String;
+   Champ_Valeur: String;
+   C: TjsDataContexte_Champ;
+begin
+     Result:= False;
+     if Length( _Champs_Noms) <> Length( _Champs_Valeurs) then exit;
+
+     try
+        RefreshQuery;
+        First;
+        Result:= not IsEmpty;
+        if not Result then exit;
+
+        Result:= False;
+        for I:= Low( _Champs_Noms) to High( _Champs_Noms)
+        do
+          begin
+          Champ_Nom   := _Champs_Noms   [I];
+          Champ_Valeur:= _Champs_Valeurs[I];
+          C:= Find_Champ( Champ_Nom);
+          if nil = C then exit;
+
+          if Champ_Valeur <> C.asString then exit;
+          end;
+
+        Result:= True;
+     finally
+            Close;
+            end;
+end;
+
+function TjsDataContexte.Locate( _Champs_Noms, _Champs_Valeurs: TStringArray): Boolean;
+var
+   I: Integer;
+   Champ_Nom   : String;
+   Champ_Valeur: String;
+   C: TjsDataContexte_Champ;
+begin
+     Result:= False;
+     if Length( _Champs_Noms) <> Length( _Champs_Valeurs) then exit;
+
+     try
+        RefreshQuery;
+        First;
+        Result:= not IsEmpty;
+        if not Result then exit;
+
+        repeat
+              for I:= Low( _Champs_Noms) to High( _Champs_Noms)
+              do
+                begin
+                Champ_Nom   := _Champs_Noms   [I];
+                Champ_Valeur:= _Champs_Valeurs[I];
+                C:= Find_Champ( Champ_Nom);
+                Result:= Result and Assigned(C);
+                if not Result then continue;
+
+                Result:= Result and (Champ_Valeur = C.asString);
+                end;
+              if Result then exit;
+              Next;
+        until EoF;
+     finally
+            Close;
+            end;
+end;
+
 procedure TjsDataContexte.Liste_Champ_initialize;
 begin
 
@@ -1779,7 +1880,6 @@ procedure TjsDataContexte.GetSchemaNames( _List: TStrings);
 begin
      Connection.GetSchemaNames( _List);
 end;
-
 
 { TjsDataContexte_Dataset }
 
