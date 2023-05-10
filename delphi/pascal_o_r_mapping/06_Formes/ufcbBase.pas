@@ -1,4 +1,4 @@
-unit ufcbBase;
+﻿unit ufcbBase;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -27,7 +27,7 @@ interface
 uses
     uForms,
   Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-  Grids, DBGrids, FMX.ExtCtrls, FMX.StdCtrls, Buttons, db, dbctrls, dbtables;
+  FMX.Grid, FMX.ExtCtrls, FMX.StdCtrls, db;
 
 type
  TExecuteFunction= function :Boolean of object;

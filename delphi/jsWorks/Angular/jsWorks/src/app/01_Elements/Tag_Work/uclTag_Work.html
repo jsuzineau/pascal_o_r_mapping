@@ -1,0 +1,43 @@
+  <h2>Liste des Tag_Works</h2>
+
+  <div *ngIf="Tag_Works">
+    <table><tr>
+    <td> 
+    <table class="Tag_Works">
+      <tr>
+        <th>id     </th>
+        <th>Libellé</th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let Tag_Work of Tag_Works.Elements">
+        <td>
+          <span (click)="onClick( Tag_Work)" class="Tag_Work_id">
+            <span *ngIf="!Tag_Work.modifie">{{Tag_Work.id}}</span>
+            <span *ngIf= "Tag_Work.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="Tag_Work.id"/></span>
+          </span>
+        </td>
+        <td>
+          <span (click)="onClick( Tag_Work)" class="Tag_Work_Libelle">
+            <span *ngIf="!Tag_Work.modifie">{{Tag_Work.Libelle}}</span>
+            <span *ngIf= "Tag_Work.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="Tag_Work.Libelle"/></span>
+          </span>
+        </td>
+        <td>
+          <span (click)="onClick( Tag_Work)" class="Tag_Work_Valider">
+            <!-- <button *ngIf="Tag_Work.modifie" (click)='Tag_Work.Valide()'>Valider</button> -->
+          </span>
+        </td>
+      </tr>
+    </table>
+    <div class="Tag_Works_Nouveau">
+      <button (click)='Tag_Works_Nouveau()'>Nouveau</button>
+    </div>
+    </td>
+    <td *ngIf="e">
+    <cTag_Work [e]="e">  
+    </cTag_Work>  
+    </td>  
+    </tr>
+    </table>
+  </div>
+

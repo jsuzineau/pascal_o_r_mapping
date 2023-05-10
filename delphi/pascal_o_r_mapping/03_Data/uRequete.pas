@@ -1,4 +1,4 @@
-unit uRequete;
+﻿unit uRequete;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -78,6 +78,7 @@ type
     procedure MySQL_UTF8;
     procedure MySQL_latin1;
     procedure MySQL_cp850;
+
   //Listage d'un champ vers une liste
   public
     procedure Liste_Champ( _SQL, _NomChamp: String; _Resultat: TStrings);

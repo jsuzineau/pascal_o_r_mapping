@@ -71,6 +71,8 @@ contains
   ufChamp_Date in 'ufChamp_Date.pas',
   ufChamp_Lookup in 'ufChamp_Lookup.pas',
   ufChampsGrid_Colonnes in 'ufChampsGrid_Colonnes.pas',
-  ucBitBtn in 'ucBitBtn.pas';
+  ucBitBtn in 'ucBitBtn.pas',
+  ucBatpro_StringGrid in 'ucBatpro_StringGrid.pas',
+  ucChamp_DateTimePicker in 'ucChamp_DateTimePicker.pas';
 
 end.

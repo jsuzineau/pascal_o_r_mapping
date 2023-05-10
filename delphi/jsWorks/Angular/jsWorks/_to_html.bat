@@ -1,0 +1,1 @@
+xcopy /s /e .\dist\jsWorks\*.* ..\..\html\

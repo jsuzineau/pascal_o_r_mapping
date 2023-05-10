@@ -27,6 +27,7 @@ interface
 uses
     uForms,
     uClean,
+    uuStrings,
     uChampDefinition,
     uChamp,
     uChamps,
@@ -37,10 +38,11 @@ uses
     uWinUtils,
     uPublieur,
     uTri_Ancetre,
+    uhFiltre_Ancetre,
     uDockable,
   SysUtils, Classes,
   FMX.Controls, FMX.Forms, FMX.ExtCtrls,FMX.Graphics,FMX.StdCtrls,Types,
-  System.UITypes, FMX.Objects, FMX.Types, FMX.Memo;
+  System.UITypes, FMX.Objects, FMX.Types, FMX.Edit, FMX.Memo, Windows;
 
 type
  TDockable_Event= procedure ( _dk: TDockable) of object;
@@ -48,6 +50,7 @@ type
  =
   record
     Control  : TControl;
+    eFiltre  : TEdit;
     Titre    : String;
     NomChamp : String;
     Total_Type: TDockableScrollbox_Total;
@@ -62,6 +65,8 @@ type
     fin    : Integer;
   end;
 
+ { TDockableScrollbox }
+
  TDockableScrollbox
  = class(TPanel)
   //Gestion du cycle de vie
@@ -72,9 +77,14 @@ type
   protected
     procedure Loaded; override;
     procedure Resize; override;
+  //Gestion Redimensionnement
+  private
+    Ajuste_Nombre_Dockables_running: Boolean;
+    procedure Ajuste_Nombre_Dockables;
   //Panel principal
   public
     p: TPanel;
+    p_ClientHeight: Integer;
   //Scrollbar
   public
     s: TScrollBar;
@@ -84,12 +94,18 @@ type
   //Classe des dockables
   public
     Classe_dockable: TDockableClass;
+  //Capacité: nombre maxi de dockables pouvant être affichés par le Scrollbox
+  public
+    Capacite: Integer;
+    procedure Calcul_Capacite;
   //Liste d'objets
   private
     Fsl: TBatpro_StringList;
     sl_Offset: Integer;
+    Setsl_running: Boolean;
     procedure Setsl(const Value: TBatpro_StringList);
     procedure Vide;
+    function Cree_Panel_et_Dockable( _Bas: Integer; out _pa: TPanel): TDockable;
     procedure Supprime_dockable( _iDockable: Integer);
     procedure SetLectureSeule(const Value: Boolean);
     procedure Verifie_sl_Offset;
@@ -221,9 +237,12 @@ type
   //Gestion de l'entete des colonnes
   private
     pColumnHeader: TPanel;
+    pColumnHeader_Height_Replie: Integer;
+    pColumnHeader_Height_Deplie: Integer;
     pColumnFooter: TPanel;
     Colonnes: array of TDockableScrollbox_Colonne;
     Surtitres: array of TDockableScrollbox_Surtitre;
+    Enleve_Colonnes_running: Boolean;
     procedure Ajoute_Surtitre( _Surtitre: TDockable_Surtitre);
     procedure Ajoute_Colonne( _C: TControl;
                               _Titre   : String  = ''   ;
@@ -232,6 +251,12 @@ type
     procedure Enleve_Colonnes;
     procedure Initialise_Colonnes( _Premier: Boolean= False);
     procedure Colonne_MouseDown(Sender:TObject;Button:TMouseButton;Shift:TShiftState;X,Y:Single);
+    procedure Colonne_eFiltre_Change(Sender: TObject);
+    procedure Colonne_eFiltre_KeyPress(Sender: TObject; var Key: char);
+    procedure Colonne_eFiltre_KeyDown(Sender: TObject; var Key: Word; var KeyChar: WideChar; Shift: TShiftState);
+    procedure Place_Column_Header( I: Integer);
+    procedure Replie_pColumnHeader;
+    procedure Deplie_pColumnHeader;
   //Gestion de la totalisation
   private
     Traiter_Totaux: Boolean;
@@ -241,14 +266,22 @@ type
   //Gestion du tri
   public
     Tri: TTri_Ancetre;
-  //Messages divers envoyés au niveau du DockableScrollBox
+  //Gestion du filtre
+  public
+    Filtre: ThFiltre_Ancetre;
+  //Messages divers envoyés du DockableScrollBox au Dockable
   public
     procedure Envoie_Message( _iMessage: Integer);
-  //Texte quand le composant est vide
-  private
-    FTextVide: String;
+  //Transmission vers la fiche d'un évènement envoyé  par un dockable
+  protected
+    FOnTraite_Message: TDockableScrollBox_Traite_Message;
+    //appel de FOnTraite_Message
+    procedure Do_OnTraite_Message( _dk: TDockable; _iMessage: Integer);
+    //appelée par le Dockable
+    procedure DockableScrollBox_Traite_Message( _dk: TDockable; _iMessage: Integer);
   published
-    property TextVide: String read FTextVide write FTextVide;
+    property OnTraite_Message: TDockableScrollBox_Traite_Message read FOnTraite_Message write FOnTraite_Message;
+
   end;
 
 procedure Register;
@@ -274,6 +307,7 @@ begin
      BordureLignes:= True;
      Classe_dockable:= nil;
      Classe_Elements:= nil;
+     Enleve_Colonnes_running:= False;
 
      //Gestion de la validation
      FValide:= True;
@@ -345,8 +379,10 @@ begin
 
      Initialise_Colonnes( True);
      Tri:= nil;
-     
-     FTextVide:= '';
+     Filtre:= nil;
+
+     Setsl_running:= False;
+     Ajuste_Nombre_Dockables_running:= False;
 end;
 
 destructor TDockableScrollbox.Destroy;
@@ -364,6 +400,7 @@ procedure TDockableScrollbox.Loaded;
 begin
      inherited;
      p.OnDblClick:= OnDblClick;
+     Calcul_Capacite;
 end;
 
 procedure TDockableScrollbox.Ajoute_Surtitre( _Surtitre: TDockable_Surtitre);
@@ -382,6 +419,7 @@ procedure TDockableScrollbox.Ajoute_Colonne( _C: TControl;
 var
    I, NewLength: Integer;
    L: TLabel;
+   E: TEdit;
    _TopLeft: TPointF;
    sTri: String;
    C_Alignment: TTextAlign;
@@ -427,11 +465,30 @@ begin
      L.OnMouseDown:= Colonne_MouseDown;
      L.Visible:= True;
 
+     E:= TEdit.Create( Self);
+     E.Parent:= pColumnHeader;
+     //E.AutoSize:= False;
+     //E.Left  := _TopLeft.X;
+     E.Width := _C.Width;
+     E.Height:= 26;
+     E.Tag   := I;
+     with E.Font do Style:= Style + [TFontStyle.fsBold];
+     //E.Align:= C_Alignment;
+     //E.OnMouseDown:= Colonne_MouseDown;
+     E.OnKeyDown:= Colonne_eFiltre_KeyDown;
+     //E.Show;
+     E.Visible:= False;
+
+     pColumnHeader_Height_Replie:= 17+14*Char_Count( #13, _Titre);
+
+     pColumnHeader_Height_Deplie:= pColumnHeader_Height_Replie+Trunc(E.Height);
+     pColumnHeader.Height:= pColumnHeader_Height_Replie;
 
      with Colonnes[I]
      do
        begin
        Control   := L;
+       eFiltre   := E;
        Total_Type:= _Total;
        Titre     := _Titre;
        NomChamp  := _NomChamp;
@@ -458,6 +515,7 @@ begin
        else
            lTotal:= nil;
        end;
+     Place_Column_Header( I);
 
 end;
 
@@ -467,39 +525,46 @@ var
    C: TControl;
    Champ: TChamp;
 begin
-     for I:= Low(Colonnes) to High(Colonnes)
-     do
-       begin
-       with Colonnes[I]
-       do
-         begin
-         C:= Control;
-         Control:= nil;
-         RemoveComponent( C);
-         FreeAndNil( C);
+     if Enleve_Colonnes_running then exit;
 
-         C:= lTotal;
-         if C = nil then continue;
-
-         lTotal:= nil;
-         RemoveComponent( C);
-         FreeAndNil( C);
-         end;
-       end;
-
-     slChamps_abonnements.Iterateur_Start;
+     Enleve_Colonnes_running:= True;
      try
-        while not slChamps_abonnements.Iterateur_EOF
+        for I:= Low(Colonnes) to High(Colonnes)
         do
           begin
-          slChamps_abonnements.Iterateur_Suivant( Champ);
-          if Champ = nil then continue;
-          Champ.OnChange.Desabonne( Self, RecalculeTotaux);
-          end;
-     finally
-            slChamps_abonnements.Iterateur_Stop;
+          with Colonnes[I]
+          do
+            begin
+            C:= Control;
+            Control:= nil;
+            RemoveComponent( C);
+            FreeAndNil( C);
+
+            C:= lTotal;
+            if C = nil then continue;
+
+            lTotal:= nil;
+            RemoveComponent( C);
+            FreeAndNil( C);
             end;
-     Initialise_Colonnes;
+          end;
+
+        slChamps_abonnements.Iterateur_Start;
+        try
+           while not slChamps_abonnements.Iterateur_EOF
+           do
+             begin
+             slChamps_abonnements.Iterateur_Suivant( Champ);
+             if Champ = nil then continue;
+             Champ.OnChange.Desabonne( Self, RecalculeTotaux);
+             end;
+        finally
+               slChamps_abonnements.Iterateur_Stop;
+               end;
+        Initialise_Colonnes;
+     finally
+            Enleve_Colonnes_running:= False;
+            end;
 end;
 
 procedure TDockableScrollbox.Initialise_Colonnes( _Premier: Boolean= False);
@@ -528,18 +593,129 @@ begin
 
      if not (ssShift in Shift) then Tri.Reset_ChampsTri;
 
-     NomChamp:= Colonnes[ I].NomChamp;
-     case Tri.ChampTri[ NomChamp]
-     of
-       -1:  NewChampTri:=  0;
-        0:  NewChampTri:= +1;
-       +1:  NewChampTri:= -1;
-       else NewChampTri:=  0;
-       end;
-     Tri.ChampTri[ NomChamp]:= NewChampTri;
-     Tri.Execute( sl);
+     if Button = TMouseButton.mbRight
+     then
+         begin
+         if pColumnHeader_Height_Replie = pColumnHeader.Height
+         then
+             Deplie_pColumnHeader
+         else
+             Replie_pColumnHeader;
 
+         Place_Column_Header(I);
+         end
+     else
+         begin
+         NomChamp:= Colonnes[ I].NomChamp;
+         case Tri.ChampTri[ NomChamp]
+         of
+           -1:  NewChampTri:=  0;
+            0:  NewChampTri:= +1;
+           +1:  NewChampTri:= -1;
+           else NewChampTri:=  0;
+           end;
+         Tri.ChampTri[ NomChamp]:= NewChampTri;
+         Tri.Execute( sl);
+         end;
+
+    // Setsl( sl);
+end;
+
+procedure TDockableScrollbox.Colonne_eFiltre_Change( Sender: TObject);
+var
+   E: TEdit;
+   I: Integer;
+begin
+     if Sender = nil          then exit;
+     if not (Sender is TEdit) then exit;
+
+     E:= TEdit( Sender);
+     I:= E.Tag;
+     if (I < Low(Colonnes))or(High(Colonnes)<I) then exit;
+
+end;
+
+procedure TDockableScrollbox.Colonne_eFiltre_KeyPress( Sender: TObject; var Key: char);
+var
+   E: TEdit;
+   I: Integer;
+begin
+     if Key <> #13 then exit;
+
+     if Sender = nil          then exit;
+     if not (Sender is TEdit) then exit;
+
+     E:= TEdit( Sender);
+     I:= E.Tag;
+     if (I < Low(Colonnes))or(High(Colonnes)<I) then exit;
+
+
+end;
+
+procedure TDockableScrollbox.Colonne_eFiltre_KeyDown(Sender: TObject; var Key: Word; var KeyChar: WideChar; Shift: TShiftState);
+var
+   E: TEdit;
+   I: Integer;
+begin
+     if Key <> VK_RETURN then exit;
+
+     if Filtre = nil          then exit;
+     if Sender = nil          then exit;
+     if not (Sender is TEdit) then exit;
+
+     E:= TEdit( Sender);
+     I:= E.Tag;
+     if (I < Low(Colonnes))or(High(Colonnes)<I) then exit;
+
+     if not (ssShift in Shift) then Filtre.Clear;
+
+     if E.Text <> ''
+     then
+         Filtre.AjouteCritereCONTIENT( Colonnes[ I].NomChamp, E.Text);
+     Filtre.Execute;
      Setsl( sl);
+end;
+
+procedure TDockableScrollbox.Place_Column_Header( I: Integer);
+var
+   eFiltre_Height: Integer;
+   eFiltre_Top   : Integer;
+begin
+     with Colonnes[I]
+     do
+       begin
+       if eFiltre.Visible
+       then
+           eFiltre_Height:= 26
+       else
+           eFiltre_Height:= 0;
+       eFiltre_Top:= Trunc(pColumnHeader.Height) - eFiltre_Height;
+
+       //eFiltre.Top   := eFiltre_Top;
+
+       //Control.Height:= eFiltre_Top- Control.Top;
+       //pColumnHeader.Hint:= IntToStr( Control.Height);
+       end;
+end;
+
+procedure TDockableScrollbox.Replie_pColumnHeader;
+var
+   I: Integer;
+begin
+     pColumnHeader.Height:= pColumnHeader_Height_Replie;
+     for I:= Low(Colonnes) to High(Colonnes)
+     do
+       Colonnes[I].eFiltre.Visible:= False;
+end;
+
+procedure TDockableScrollbox.Deplie_pColumnHeader;
+var
+   I: Integer;
+begin
+     pColumnHeader.Height:= pColumnHeader_Height_Deplie;
+     for I:= Low(Colonnes) to High(Colonnes)
+     do
+       Colonnes[I].eFiltre.Visible:= True;
 end;
 
 procedure TDockableScrollbox.lTotal_MouseDown( Sender: TObject;
@@ -620,9 +796,9 @@ end;
 procedure TDockableScrollbox.Setsl(const Value: TBatpro_StringList);
 var
    I: Integer;
+   pa: TPanel;
    dk: TDockable;
    O: TObject;
-   pa: TPanel;
    Bas: Integer;
    procedure Traite_ColumnHeader;
    var
@@ -666,37 +842,48 @@ var
             end;
    end;
 begin
-     Vide;
-     if Classe_dockable = nil then exit;
+     Setsl_running:= True;
+     try
+        Vide;
+        if Classe_dockable = nil then exit;
 
-     Fsl := Value;
-     if sl = nil then exit;
+        Fsl := Value;
+        if sl = nil then exit;
+        try
+           if sl.Count= 0 then exit;
+        except
+              on E: Exception
+              do
+                exit;
+              end;
 
-     pColumnHeader.Height:= 17;
-     pColumnHeader.Visible:= False;
+        pColumnHeader.Height:= 17;
+        pColumnHeader.Visible:= False;
 
-     pColumnFooter.Height:= 17;
-     pColumnFooter.Visible:= False;
+        pColumnFooter.Height:= 17;
+        pColumnFooter.Visible:= False;
 
-     //p.Refresh;
+        //p.Refresh;
 
-     Bas:= 0;
+        Bas:= 0;
 
-     uProgression_Demarre( 'Remplissage de la boite de défilement', 0, sl.Count - 1, False, True);
-     for I:= 0 to sl.Count - 1
-     do
-       begin
-       if Bas > p.Height then break;
+        if Assigned( uProgression_Demarre)
+        then
+            uProgression_Demarre( 'Remplissage de la boite de défilement', 0, sl.Count - 1, False, True);
+        for I:= 0 to sl.Count - 1
+        do
+          begin
+          if Bas > p.Height then break;
 
-       Bas:= Bas + HauteurLigne;
+          Bas:= Bas + HauteurLigne;
 
-       O:= sl.Objects[ I];
+          O:= sl.Objects[ I];
 
-       pa:= TPanel.Create( nil);
-       pa.Parent:= p;
-       pa.Position.Y:= Bas;
-       pa.Align:= TAlignLayout.Top;
-       pa.Height:= HauteurLigne;
+          pa:= TPanel.Create( nil);
+          pa.Parent:= p;
+          pa.Position.Y:= Bas;
+          pa.Align:= TAlignLayout.Top;
+          pa.Height:= HauteurLigne;
        {
        if BordureLignes
        then
@@ -761,6 +948,9 @@ begin
      then
          RecalculeTotaux;
      Verifie_Validites;
+     finally
+            Setsl_running:= False;
+            end;
 end;
 
 procedure TDockableScrollbox.SetValide( const Value: Boolean);
@@ -806,6 +996,7 @@ begin
            and Assigned( p )
         then
             begin
+            if Selection = dk then Selection:= nil;
             dk.Objet:= nil;
             dk.pValide_Change.Desabonne( Self, Verifie_Validites);
             Destroy_Dockable( dk);
@@ -835,11 +1026,56 @@ begin
 
      if sl = nil then exit;
 
+     Enleve_Colonnes;
+
      for iDockable:= slDockable.Count - 1 downto 0
      do
        Supprime_dockable( iDockable);
-
      //p.Caption:= FTextVide;
+end;
+
+function TDockableScrollbox.Cree_Panel_et_Dockable( _Bas: Integer; out _pa: TPanel): TDockable;
+var
+   dk: TDockable;
+   I: Integer;
+begin
+     _pa:= TPanel.Create( nil);
+     _pa.Parent:= p;
+     //_pa.Top:= _Bas;
+     _pa.Align:= TALignLayout.alTop;
+     _pa.Height:= HauteurLigne;
+//     if BordureLignes
+//     then
+//         _pa.BevelOuter:= bvRaised
+//     else
+//         _pa.BevelOuter:= bvNone;
+
+     Create_Dockable( dk, Classe_dockable, _pa);
+
+     I:= slDockable.AddObject( sys_Vide, dk);
+         slPanel   .AddObject( sys_Vide, _pa );
+
+     dk.pValide_Change.Abonne( Self, Verifie_Validites);
+
+     dk.DockableScrollbox_Avant_Suppression:= Dockable_Avant_Suppression;
+     dk.DockableScrollbox_Suppression:= Dockable_Suppression;
+     dk.DockableScrollbox_Selection  := DemandeSelection  ;
+     dk.DockableScrollbox_Validation := DemandeValidation ;
+     dk.DockableScrollbox_Precedent  := DockableScrollbox_Precedent;
+     dk.DockableScrollbox_Suivant    := DockableScrollbox_Suivant  ;
+     dk.DockableScrollbox_Nouveau    := DockableScrollbox_Nouveau  ;
+     dk.DockableScrollBox_Traite_Message:= DockableScrollBox_Traite_Message;
+
+     if Zebrage
+     then
+         if Odd( I)
+         then
+             dk.Couleur:= Zebrage1
+         else
+             dk.Couleur:= Zebrage2;
+
+     dk.Traite_LectureSeule( FLectureSeule);
+     Result:= dk;
 end;
 
 procedure TDockableScrollbox.Dockable_Avant_Suppression(Sender: TObject);
@@ -942,6 +1178,8 @@ procedure TDockableScrollbox.TraiteSelection(Sender: TObject);
 var
    iDockable: Integer;
 begin
+     if Selection = Sender then exit;
+
      if Assigned( Selection)
      then
          Selection.Affiche_Selection( False);
@@ -1112,6 +1350,18 @@ begin
        end;
 end;
 
+procedure TDockableScrollbox.Do_OnTraite_Message(_dk: TDockable; _iMessage: Integer);
+begin
+     if Assigned( OnTraite_Message)
+     then
+         OnTraite_Message( _dk, _iMessage);
+end;
+
+procedure TDockableScrollbox.DockableScrollBox_Traite_Message( _dk: TDockable; _iMessage: Integer);
+begin
+     Do_OnTraite_Message( _dk, _iMessage);
+end;
+
 procedure TDockableScrollbox.s_Change( Sender: TObject);
 begin
      sl_Offset:= Trunc(s.Value);
@@ -1174,10 +1424,14 @@ end;
 
 procedure TDockableScrollbox.s_Set_MinMax;
 var
+   sl_Count, slDockable_Count: Integer;
    s_Enabled: Boolean;
 begin
-     s_Enabled:= sl.Count > 0;
+     sl_Count        := sl.Count;
+     slDockable_Count:= slDockable.Count;
+     s_Enabled:= (sl_Count > 0) and (sl_Count > slDockable_Count);
      s.Enabled:= s_Enabled;
+     s.Visible:= s_Enabled;
 
      if not s_Enabled then exit;
 
@@ -1188,11 +1442,78 @@ begin
      //s.PageSize:= slDockable.Count;
 end;
 
+procedure TDockableScrollbox.Calcul_Capacite;
+begin
+     Capacite:= Trunc(p.Height) div HauteurLigne;
+end;
+
 procedure TDockableScrollbox.Resize;
 begin
      inherited;
      Setsl( sl);
 end;
+
+procedure TDockableScrollbox.Ajuste_Nombre_Dockables;
+var
+   Bas: Integer;
+   iLastPanel: Integer;
+   LastPanel: TPanel;
+   Delta: Integer;
+
+   procedure Cas_Ajoute;
+   var
+      pa: TPanel;
+      dk: TDockable;
+   begin
+        if sl.Count = slDockable.Count then exit;
+
+        while Bas <= p_ClientHeight-HauteurLigne
+        do
+          begin
+          dk:= Cree_Panel_et_Dockable( Bas, pa);
+          Bas:= Bas + HauteurLigne;
+          end;
+        s_Set_MinMax;
+        _from_Scroll;
+   end;
+   procedure Cas_Enleve;
+   var
+      iDockable: Integer;
+      pa: TPanel;
+      dk: TDockable;
+   begin
+        while Bas > p_ClientHeight-HauteurLigne
+        do
+          begin
+          iDockable:= slDockable.Count - 1;
+          Supprime_dockable( iDockable);
+          Bas:= Bas - HauteurLigne;
+          end;
+        s_Set_MinMax;
+        _from_Scroll;
+   end;
+begin
+     if Ajuste_Nombre_Dockables_running then exit;
+     Ajuste_Nombre_Dockables_running:= True;
+     try
+        if slPanel.Count = 0 then exit;
+
+        p_ClientHeight:= Trunc(p.Height);
+
+        iLastPanel:= slPanel.Count - 1;
+        LastPanel:= Panel_from_sl( slPanel, iLastPanel);
+        if nil = LastPanel then exit;
+
+        Bas:= (*LastPanel.Top*)+Trunc(LastPanel.Height);
+        Delta:= p_ClientHeight - Bas;
+
+              if Delta < 0             then Cas_Enleve
+        else  if Delta > HauteurLigne  then Cas_Ajoute;
+     finally
+            Ajuste_Nombre_Dockables_running:= False;
+            end;
+end;
+
 
 end.
 

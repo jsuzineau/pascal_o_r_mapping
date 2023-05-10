@@ -1,4 +1,4 @@
-unit uhDessinnateur;
+﻿unit uhDessinnateur;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -46,7 +46,6 @@ uses
     uEXE_INI,
 
     uBatpro_Element,
-    ubeClusterElement,
     ubeCurseur,
     ubeString,
     ubeSerie,
@@ -58,7 +57,7 @@ uses
     ufBloqueur,
     ufBitmaps,
 
-  SysUtils,FMX.Forms, Classes, Windows, FMX.Graphics, FMX.Menus, Grids, FMX.Dialogs, FMX.Controls,
+  SysUtils,FMX.Forms, Classes, Windows, FMX.Graphics, FMX.Menus, FMX.Grid, FMX.Dialogs, FMX.Controls,System.UITypes,
   ucBatpro_StringGrid;
 
 type
@@ -269,8 +268,8 @@ type
     procedure Clusterise;
   //Évènements de grille
   private
-    Old_sgMouseDown: TMouseEvent;
-    Old_sgSelectCell: TSelectCellEvent;
+    //Old_sgMouseDown: TMouseEvent;
+    //Old_sgSelectCell: TSelectCellEvent;
   protected
     procedure sgMouseDown(Sender:TObject;Button:TMouseButton;Shift:TShiftState;X,Y:Integer); virtual;
     procedure sgMouseMove( Sender: TObject; Shift: TShiftState; X,Y: Integer); virtual;
@@ -360,10 +359,10 @@ begin
      if sg = nil then exit;
      for Ligne:= 0 to sg.RowCount - 1
      do
-       for Colonne:= 0 to sg.ColCount - 1
+       for Colonne:= 0 to sg.ColumnCount - 1
        do
          begin
-         sg.Objects[ Colonne, Ligne]:= nil;
+         //sg.Objects[ Colonne, Ligne]:= nil;
          sg.Cells[ Colonne, Ligne]:= sys_Vide;
          end;
 end;
@@ -377,7 +376,7 @@ begin
      for Ligne:= 0 to sg.RowCount - 1
      do
        begin
-       sg.Objects[ Colonne, Ligne]:= nil;
+       //sg.Objects[ Colonne, Ligne]:= nil;
        sg.Cells[ Colonne, Ligne]:= sys_Vide;
        end;
 end;
@@ -661,13 +660,13 @@ begin
      FTitre:= unTitre;
      SetLength( Legende, 0);
      sg:= unSG;
-     sg.OnDrawCell := sgDrawCell;
-     sg.OnMouseMove:= sgMouseMove;
+     //sg.OnDrawCell := sgDrawCell;
+     //sg.OnMouseMove:= sgMouseMove;
 
-     Old_sgMouseDown:= sg.OnMouseDown;
-     sg.OnMouseDown:= sgMouseDown;
-     Old_sgSelectCell:= sg.OnSelectCell;
-     sg.OnSelectCell:= sgSelectCell;
+     //Old_sgMouseDown:= sg.OnMouseDown;
+     //sg.OnMouseDown:= sgMouseDown;
+     //Old_sgSelectCell:= sg.OnSelectCell;
+     //sg.OnSelectCell:= sgSelectCell;
      Fond:= TColorRec.SysBtnFace;
      PopupDefaut:= unPopupDefaut;
      MMColonne:= -1;
@@ -688,14 +687,14 @@ destructor ThDessinnateur.Destroy;
 begin
      Free_nil( pDrag);
 
-     sg.OnMouseDown := Old_sgMouseDown;
-     sg.OnSelectCell:= Old_sgSelectCell;
+     //sg.OnMouseDown := Old_sgMouseDown;
+     //sg.OnSelectCell:= Old_sgSelectCell;
 
      Detruit_StringList( slCE);
 
      Free_nil( DI);
      sg.OnMouseMove:= nil;
-     sg.OnDrawCell := nil;
+     //sg.OnDrawCell := nil;
      inherited;
 end;
 
@@ -706,7 +705,7 @@ begin
          DI.Canvas.Fill.Color:= DI.Couleur_Jour_Non_Ouvrable
      else
          DI.Canvas.Fill.Color:= DI.Fond;
-     DI.Canvas.FillRect( DI.Rect);
+     //DI.Canvas.FillRect( DI.Rect);
 
      {
      if Gris
@@ -785,7 +784,7 @@ begin
      then
          Result:= tc_NULL
      else
-         if (Row = 0) and (sg.FixedRows > 0)
+         if (Row = 0) and (sg.FixedSize.cy > 0)
          then
              Result:= tc_hDessinnateur
          else
@@ -801,16 +800,16 @@ begin
      do
        begin
        TC:= Typ( ACol, ARow);
-       Canvas.Font.Assign( Font);
+       //Canvas.Font.Assign( Font);
 
        DI.Init_Draw( Canvas, ACol, ARow, Rect, False);
        DI.Init_Cell( TC <> tc_Case, False);
 
        DrawCell_Table;
 
-       if gdFocused in State
-       then
-           Canvas.DrawFocusRect(Rect);
+       //if gdFocused in State
+       //then
+       //    Canvas.DrawFocusRect(Rect);
        end;
 end;
 
@@ -828,17 +827,17 @@ begin
      if Column_Out_of_range( Colonne) then exit;
      if    Row_Out_of_range( Ligne  ) then exit;
 
-     O:= sg.Objects[ Colonne, Ligne];
-     if O = nil then exit;
-     try
-        if not (O is TBatpro_Element) then exit;
-
-        Result:= TBatpro_Element( O);
-     except
-           on Exception
-           do
-             Vide; //mis par sécurité
-           end;
+//     O:= sg.Objects[ Colonne, Ligne];
+//     if O = nil then exit;
+//     try
+//        if not (O is TBatpro_Element) then exit;
+//
+//        Result:= TBatpro_Element( O);
+//     except
+//           on Exception
+//           do
+//             Vide; //mis par sécurité
+//           end;
 end;
 
 function ThDessinnateur.Cell_Height(Colonnne,Ligne,Cell_Width:Integer):Integer;
@@ -945,7 +944,7 @@ begin
      MMbe:= nil;
      sg.PopupMenu:= nil;
 
-     sg.MouseToCell( X, Y, MMColonne, MMLigne);
+     //sg.MouseToCell( X, Y, MMColonne, MMLigne);
      if (MMColonne < 0)or(MMLigne < 0) then exit;
 
      sg.PopupMenu:= PopupDefaut;
@@ -971,7 +970,7 @@ end;
 
 procedure ThDessinnateur.Refresh;
 begin
-     sg.Refresh;
+     //sg.Refresh;
 end;
 
 function ThDessinnateur.GetTitre: String;
@@ -1026,7 +1025,7 @@ begin
           begin
           Ligne:= sys_Vide;
 
-          for I:= 0 to sg.ColCount-1
+          for I:= 0 to sg.ColumnCount-1
           do
             begin
             be:= sg_be( I, J);
@@ -1092,7 +1091,7 @@ begin
      Vide_StringList( slCE);
      Vide_StringGrid( sg);
      sg.RowCount:= 0;
-     sg.Colcount:= 0;
+     //sg.ColumnCount:= 0;
 end;
 
 procedure ThDessinnateur.Clusterise;
@@ -1106,7 +1105,7 @@ var
         bece:= TbeClusterElement.Create( slCE, beTopLeft);
         beTopLeft.Cluster.Ajoute( bece, x, y);
         slCE.AddObject( sys_Vide, bece);
-        sg.Objects[ x, y]:= bece;
+        //sg.Objects[ x, y]:= bece;
    end;
    function Clusterise_horizontal: Boolean;
    var
@@ -1197,7 +1196,7 @@ var
 begin
      for iRow:= 0 to sg.RowCount - 1
      do
-       for iCol:= 0 to sg.ColCount - 1
+       for iCol:= 0 to sg.ColumnCount - 1
        do
          begin
          beTopLeft:= sg_be( iCol, iRow);
@@ -1216,7 +1215,7 @@ procedure ThDessinnateur.SetCurseur_Colonne(const Value: Integer);
 begin
      FCurseur_Colonne:= Value;
      if Curseur_Colonne = -1      then exit;
-     sg.ColWidths[ Curseur_Colonne]:= beCurseur.Cell_Width( DI);
+     //sg.ColWidths[ Curseur_Colonne]:= beCurseur.Cell_Width( DI);
 end;
 
 procedure ThDessinnateur.Cache_Curseur;
@@ -1225,8 +1224,8 @@ begin
      if Drag_Ligne  <  0          then exit;
      if sg.RowCount <= Drag_Ligne then exit;
 
-     sg.Objects[ Curseur_Colonne, Drag_Ligne]:= nil;
-     sg.Refresh;
+     //sg.Objects[ Curseur_Colonne, Drag_Ligne]:= nil;
+     //sg.Refresh;
 end;
 
 procedure ThDessinnateur.Montre_Curseur;
@@ -1235,49 +1234,49 @@ begin
      if Drag_Ligne  <  0          then exit;
      if sg.RowCount <= Drag_Ligne then exit;
 
-     sg.Objects[ Curseur_Colonne, Drag_Ligne]:= beCurseur;
+     //sg.Objects[ Curseur_Colonne, Drag_Ligne]:= beCurseur;
 end;
 
 function ThDessinnateur.Drag_from_(ACol, ARow: Integer): Boolean;
 var
-   gr: TGridRect;
+   //gr: TGridRect;
    gr_Change: Boolean;
 begin
      Assure_Colonne( ACol);
      Assure_Ligne  ( ARow);
-     
+
      gr_Change:= False;
-     if ACol < sg.FixedCols
+     if ACol < sg.FixedSize.cx
      then
          begin
          gr_Change:= True;
 
          ACol:= sg.Col;
-         if ACol < sg.FixedCols
+         if ACol < sg.FixedSize.cx
          then
              ACol:= -1;
 
-         gr.Left := ACol;
-         gr.Right:= ACol;
+         //gr.Left := ACol;
+         //gr.Right:= ACol;
          end;
-     if ARow < sg.FixedRows
+     if ARow < sg.FixedSize.cy
      then
          begin
          gr_Change:= True;
 
          ARow:= sg.Row;
-         if ARow < sg.FixedRows
+         if ARow < sg.FixedSize.cy
          then
              ARow:= -1;
 
-         gr.Top   := ARow;
-         gr.Bottom:= ARow;
+         //gr.Top   := ARow;
+         //gr.Bottom:= ARow;
          end;
 
      if gr_Change
      then
          begin
-         sg.Selection:= gr;
+         //sg.Selection:= gr;
          sg.Row:= ARow;
          sg.Col:= ACol;
          end;
@@ -1285,7 +1284,7 @@ begin
      Drag_Colonne:= ACol;
      Drag_Ligne  := ARow;
      Montre_Curseur;
-     sg.Refresh;
+     //sg.Refresh;
 
      pDrag.Publie;
 
@@ -1298,13 +1297,13 @@ begin
      then
          begin
          sg.TopRow := Drag_Ligne;
-         sg.LeftCol:= Drag_Colonne;
+         //sg.LeftCol:= Drag_Colonne;
          end;
 end;
 
 function ThDessinnateur.Drop_from_XY( _X, _Y: Integer): Boolean;
 begin
-     sg.MouseToCell( _X, _Y, Drop_Colonne, Drop_Ligne);
+     //sg.MouseToCell( _X, _Y, Drop_Colonne, Drop_Ligne);
      Result:= True;
 end;
 
@@ -1323,15 +1322,15 @@ procedure ThDessinnateur.sgMouseDown( Sender:TObject; Button:TMouseButton; Shift
 begin
      inherited;
      Cache_Curseur;
-     sg.MouseToCell( X, Y, Drag_Colonne, Drag_Ligne);
+     //sg.MouseToCell( X, Y, Drag_Colonne, Drag_Ligne);
      Mouse_Colonne:= Drag_Colonne;
      Mouse_Ligne  := Drag_Ligne;
      if Drag_from_( Drag_Colonne, Drag_Ligne)
      then
          TraiteMouseDown( Button, Shift, X, Y);
-     if Assigned( Old_sgMouseDown)
-     then
-         Old_sgMouseDown( Sender, Button, Shift, X, Y)
+//     if Assigned( Old_sgMouseDown)
+//     then
+//         Old_sgMouseDown( Sender, Button, Shift, X, Y)
 end;
 
 procedure ThDessinnateur.sgSelectCell( Sender: TObject; ACol, ARow: Integer; var CanSelect: Boolean);
@@ -1339,9 +1338,9 @@ begin
      inherited;
      Cache_Curseur;
      Drag_from_( ACol, ARow);
-     if Assigned( Old_sgSelectCell)
-     then
-         Old_sgSelectCell( Sender, ACol, ARow, CanSelect);
+//     if Assigned( Old_sgSelectCell)
+//     then
+//         Old_sgSelectCell( Sender, ACol, ARow, CanSelect);
 end;
 
 procedure ThDessinnateur.Bloque( _Proc: TAbonnement_Objet_Proc);
@@ -1361,9 +1360,9 @@ begin
      eSVG:= svg.xml.Root.Items.Add('svg');
      svg.Set_Property( eSVG, 'xmlns'  , 'http://www.w3.org/2000/svg');
      svg.Set_Property( eSVG, 'version', '1.1');
-     svg.Set_Property( eSVG, 'width' , IntToStr(sg.Width ));
-     svg.Set_Property( eSVG, 'height', IntToStr(sg.Height));
-     svg.Set_Property( eSVG, 'viewBox', '0 0 '+IntToStr(sg.Width)+' '+IntToStr(sg.Height));
+     svg.Set_Property( eSVG, 'width' , IntToStr(Trunc(sg.Width) ));
+     svg.Set_Property( eSVG, 'height', IntToStr(Trunc(sg.Height)));
+     svg.Set_Property( eSVG, 'viewBox', '0 0 '+IntToStr(Trunc(sg.Width))+' '+IntToStr(Trunc(sg.Height)));
 
      try
         eDEFS:= eSVG.Items.Add( 'defs');
@@ -1403,11 +1402,11 @@ begin
           for iRow:= 0 to sg.RowCount - 1
           do
             begin
-            for iCol:= 0 to sg.ColCount - 1
+            for iCol:= 0 to sg.ColumnCount - 1
             do
               begin
               TC:= Typ( iCol, iRow);
-              Canvas.Font.Assign( Font);
+              //Canvas.Font.Assign( Font);
 
               DI.Init_Draw( Canvas, iCol, iRow, CellRect( iCol, iRow), False);
               DI.Init_Cell( TC <> tc_Case, False);
@@ -1471,7 +1470,7 @@ begin
      Result:= -1;
      if _be = nil then exit;
 
-     for I:= 0 to sg.ColCount-1
+     for I:= 0 to sg.ColumnCount-1
      do
        begin
        be:= sg_be( I, _Ligne);
@@ -1499,7 +1498,7 @@ function ThDessinnateur.Column_Out_of_range(_Column: Integer): Boolean;
 begin
      Result:= True;
      if _Column     <  0       then exit;
-     if sg.ColCount <= _Column then exit;
+     if sg.ColumnCount <= _Column then exit;
      Result:= False;
 end;
 
@@ -1508,7 +1507,7 @@ var
    ColCount: Integer;
 begin
      if _Colonne     <  0       then _Colonne:= 0;
-     ColCount:= sg.ColCount;
+     ColCount:= sg.ColumnCount;
      if ColCount <= _Colonne then _Colonne:= ColCount-1;
 end;
 

@@ -1,0 +1,32 @@
+[Options]
+Chemin_Global=
+Choisir le SGBD en se basant sur le nom de l'exécutable=0
+=#    TSGBD
+#=
+=#     (
+=#     sgbd_Informix,   0
+=#     sgbd_MySQL   ,   1
+=#     sgbd_Postgres,   2
+=#     sgbd_SQLServer,  3
+=#     sgbd_SQLite3     4
+=#     );
+SGBD=4
+
+[MySQL]
+HostName=localhost
+DataBase=jsWorks
+User_Name=root
+Password=
+Version=55
+
+[SQLServer]
+HostName=ORDINA
+DataBase=jsWorks
+User_Name=jean
+Password=PKTCEH
+
+[SQLite3]
+DataBase=/home/jean/pascal_o_r_mapping/jsWorks.sqlite
+
+[httpLauncher]
+jsWorks=C:\_freepascal\pascal_o_r_mapping\jsWorks\http_jsWorks.exe

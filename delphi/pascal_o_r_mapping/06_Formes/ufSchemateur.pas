@@ -1,4 +1,4 @@
-unit ufSchemateur;
+﻿unit ufSchemateur;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -33,18 +33,19 @@ uses
     uOD_Forms,
 
     udmDatabase,
-    udmxTABLES,
-    udmxSYSTABLES,
-    udmxSHOW_INDEX,
-    udmxSYSINDEXES,
-    udmxDESCRIBE,
-    udmxSYSCOLUMNS,
+    //udmxTABLES,
+    //udmxSYSTABLES,
+    //udmxSHOW_INDEX,
+    //udmxSYSINDEXES,
+    //udmxDESCRIBE,
+    //udmxSYSCOLUMNS,
+    uRequete,
 
     ufpBas,
     ufAccueil_Erreur,
 
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, FMX.ActnList, FMX.StdCtrls, FMX.ComCtrls, Buttons, FMX.ExtCtrls, FMX.Menus;
+  FMX.Dialogs, FMX.ActnList, FMX.StdCtrls, FMX.ExtCtrls, FMX.Menus;
 
 type
  TfSchemateur
@@ -120,27 +121,16 @@ end;
 procedure TSchemateur.CreeTable;
 var
    NomTable: String;
-   TableAbsente: Boolean;
+   Table_Existe: Boolean;
 begin
      NomTable:= Parametres;
 
-     if dmDatabase.IsMySQL
-     then
-         begin
-         TableAbsente:= not dmxTABLES.Cherche( NomTable);
-         if not TableAbsente then exit;
-         end
-     else
-         begin
-         TableAbsente:= not dmxSYSTABLES.Cherche( NomTable);
-         if not TableAbsente then exit;
+     Table_Existe:= dmDatabase.jsDataConnexion.Table_Cherche( NomTable);
+     if Table_Existe then exit;
 
-         // On élimine le cas où l'échec de Cherche viendrait de la connexion
-         TableAbsente:= dmxSYSTABLES.Ouvert;
-         if not TableAbsente then exit;
-         end;
+     Requete.SQL:= slLignes.Text;
 
-     if dmDatabase.ExecQuery( slLignes.Text)
+     if Requete.Execute
      then
          uForms_ShowMessage( 'La table '+NomTable+' a été créée.')
      else
@@ -151,28 +141,17 @@ procedure TSchemateur.CreeIndex;
 var
    NomTable: String;
    NomIndex: String;
-   IndexAbsent: Boolean;
+   IndexExiste: Boolean;
 begin
      NomTable:= StrToK( ' ', Parametres);
      NomIndex:= Parametres;
 
-     if dmDatabase.IsMySQL
-     then
-         begin
-         IndexAbsent:= not dmxSHOW_INDEX.Cherche( NomTable, NomIndex);
-         if not IndexAbsent then exit;
-         end
-     else
-         begin
-         IndexAbsent:= not dmxSYSINDEXES.Cherche( NomIndex, NomTable);
-         if not IndexAbsent then exit;
+     IndexExiste:= dmDatabase.jsDataConnexion.Index_Cherche( NomTable, NomIndex);
+     if IndexExiste then exit;
 
-         // On élimine le cas où l'échec de Cherche viendrait de la connexion
-         IndexAbsent:= dmxSYSINDEXES.Ouvert;
-         if not IndexAbsent then exit;
-         end;
+     Requete.SQL:= slLignes.Text;
 
-     if dmDatabase.ExecQuery( slLignes.Text)
+     if Requete.Execute
      then
          uForms_ShowMessage( 'L''index '+NomIndex+' sur la table '+NomTable+' a été créé.')
      else
@@ -184,28 +163,17 @@ procedure TSchemateur.CreeChamp;
 var
    NomTable: String;
    NomChamp: String;
-   ChampAbsent: Boolean;
+   ChampExiste: Boolean;
 begin
      NomTable:= StrToK( ' ', Parametres);
      NomChamp:= Parametres;
 
-     if dmDatabase.IsMySQL
-     then
-         begin
-         ChampAbsent:= not dmxDESCRIBE.Cherche( NomTable, NomChamp);
-         if not ChampAbsent then exit;
-         end
-     else
-         begin
-         ChampAbsent:= not dmxSYSCOLUMNS.Cherche( NomTable, NomChamp);
-         if not ChampAbsent then exit;
+     ChampExiste:= dmDatabase.jsDataConnexion.Champ_Cherche( NomTable, NomChamp);
+     if ChampExiste then exit;
 
-         // On élimine le cas où l'échec de Cherche viendrait de la connexion
-         ChampAbsent:= dmxSYSCOLUMNS.Ouvert;
-         if not ChampAbsent then exit;
-         end;
+     Requete.SQL:= slLignes.Text;
 
-     if dmDatabase.ExecQuery( slLignes.Text)
+     if Requete.Execute
      then
          uForms_ShowMessage( 'Le champ '+NomChamp+' sur la table '+NomTable+' a été créé.')
      else

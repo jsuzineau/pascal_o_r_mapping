@@ -1,4 +1,4 @@
-unit uhTriColonneChamps_StringGrid;
+﻿unit uhTriColonneChamps_StringGrid;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -25,8 +25,8 @@ unit uhTriColonneChamps_StringGrid;
 interface
 
 uses
-    Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
-    FMX.Dialogs, FMTBcd, DB, Provider, DBClient, SqlExpr, Grids, DBGrids, FMX.StdCtrls,
+    Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
+    FMX.Dialogs, FMTBcd, DB, Provider, DBClient, SqlExpr, FMX.Grid, FMX.StdCtrls,
     uClean,
     u_sys_,
     uuStrings,
@@ -59,12 +59,12 @@ type
   //Évènements de grille
   private
     LastShift: TShiftState;
-    Old_sgMouseDown: TMouseEvent;
-    Old_sgSelectCell: TSelectCellEvent;
+//    Old_sgMouseDown: TMouseEvent;
+//    Old_sgSelectCell: TSelectCellEvent;
   protected
-    procedure sgMouseDown( Sender: TObject; Button: TMouseButton;
-                            Shift: TShiftState; X, Y: Integer);
-    procedure sgSelectCell(Sender:TObject;ACol,ARow:Longint;var CanSelect:Boolean);
+//    procedure sgMouseDown( Sender: TObject; Button: TMouseButton;
+//                            Shift: TShiftState; X, Y: Integer);
+//    procedure sgSelectCell(Sender:TObject;ACol,ARow:Longint;var CanSelect:Boolean);
   end;
 
 implementation
@@ -79,11 +79,11 @@ begin
      l := _l;
      NomChamp_from_Col:= nil;
 
-     Old_sgMouseDown:= sg.OnMouseDown;
-     sg.OnMouseDown:= sgMouseDown;
-
-     Old_sgSelectCell:= sg.OnSelectCell;
-     sg.OnSelectCell:= sgSelectCell;
+//     Old_sgMouseDown:= sg.OnMouseDown;
+//     sg.OnMouseDown:= sgMouseDown;
+//
+//     Old_sgSelectCell:= sg.OnSelectCell;
+//     sg.OnSelectCell:= sgSelectCell;
 end;
 
 destructor ThTriColonneChamps_StringGrid.Destroy;
@@ -92,55 +92,55 @@ begin
      inherited;
 end;
 
-procedure ThTriColonneChamps_StringGrid.sgMouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-     LastShift:= Shift;
-     if Assigned(Old_sgMouseDown)
-     then
-         Old_sgMouseDown( Sender, Button, Shift, X, Y);
-end;
-
-procedure ThTriColonneChamps_StringGrid.sgSelectCell( Sender: TObject; ACol, ARow: Integer; var CanSelect: Boolean);
-var
-   NomChamp: String;
-   procedure AjouteChamp( Reset: Boolean);
-   var
-      OldCroissant, NewCroissant: Integer;
-   begin
-        OldCroissant:= pool.ChampTri[NomChamp];
-        case OldCroissant
-        of
-          0:   NewCroissant:= 1;
-          else NewCroissant:= - OldCroissant;
-          end;
-        if Reset
-        then
-            pool.Reset_ChampsTri;
-
-        pool.ChampTri[ NomChamp]:= NewCroissant;
-   end;
-begin
-     try
-        if pool               = nil then exit;
-        if @NomChamp_from_Col = nil then exit;
-
-        NomChamp:= NomChamp_from_Col( ACol);
-
-        AjouteChamp( not (ssShift in LastShift));
-
-        sg.Cells[ACol,0]:= pool.LibelleChampTri( NomChamp);
-
-        if l = nil then exit;
-        l.Visible:= True;
-        l.Caption:= 'Tri par '+ pool.LibelleTri+
-                    ' (Majuscule + Clic pour ajouter des colonnes)';
-     finally
-            if Assigned(Old_sgSelectCell)
-            then
-                Old_sgSelectCell( Sender, ACol, ARow, CanSelect);
-            end;
-end;
+//procedure ThTriColonneChamps_StringGrid.sgMouseDown(Sender: TObject; Button: TMouseButton;
+//  Shift: TShiftState; X, Y: Integer);
+//begin
+//     LastShift:= Shift;
+//     if Assigned(Old_sgMouseDown)
+//     then
+//         Old_sgMouseDown( Sender, Button, Shift, X, Y);
+//end;
+//
+//procedure ThTriColonneChamps_StringGrid.sgSelectCell( Sender: TObject; ACol, ARow: Integer; var CanSelect: Boolean);
+//var
+//   NomChamp: String;
+//   procedure AjouteChamp( Reset: Boolean);
+//   var
+//      OldCroissant, NewCroissant: Integer;
+//   begin
+//        OldCroissant:= pool.ChampTri[NomChamp];
+//        case OldCroissant
+//        of
+//          0:   NewCroissant:= 1;
+//          else NewCroissant:= - OldCroissant;
+//          end;
+//        if Reset
+//        then
+//            pool.Reset_ChampsTri;
+//
+//        pool.ChampTri[ NomChamp]:= NewCroissant;
+//   end;
+//begin
+//     try
+//        if pool               = nil then exit;
+//        if @NomChamp_from_Col = nil then exit;
+//
+//        NomChamp:= NomChamp_from_Col( ACol);
+//
+//        AjouteChamp( not (ssShift in LastShift));
+//
+//        sg.Cells[ACol,0]:= pool.LibelleChampTri( NomChamp);
+//
+//        if l = nil then exit;
+//        l.Visible:= True;
+//        l.Caption:= 'Tri par '+ pool.LibelleTri+
+//                    ' (Majuscule + Clic pour ajouter des colonnes)';
+//     finally
+//            if Assigned(Old_sgSelectCell)
+//            then
+//                Old_sgSelectCell( Sender, ACol, ARow, CanSelect);
+//            end;
+//end;
 
 procedure ThTriColonneChamps_StringGrid.Reset;
 begin
@@ -149,7 +149,7 @@ begin
      then
          begin
          l.Visible:= True;
-         l.Caption:= 'Aucun tri';
+         l.Text:= 'Aucun tri';
          end;
 end;
 

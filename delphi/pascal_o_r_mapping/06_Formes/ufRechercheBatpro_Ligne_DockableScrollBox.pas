@@ -1,4 +1,4 @@
-unit ufRechercheBatpro_Ligne_DockableScrollBox;
+﻿unit ufRechercheBatpro_Ligne_DockableScrollBox;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -45,8 +45,8 @@ uses
     ufpBas,
 
   Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-  FMX.ActnList, FMX.ComCtrls, FMX.StdCtrls, Buttons, FMX.ExtCtrls, Grids, DBGrids,
-  Db, DBTables, FMTBcd, Provider, SqlExpr, DBClient, ucDockableScrollBox,
+  FMX.ActnList, FMX.StdCtrls, FMX.ExtCtrls, FMX.Grid,
+  Db, FMTBcd, Provider, SqlExpr, DBClient, ucDockableScrollBox,
   FMX.Menus;
 
 type
@@ -132,32 +132,22 @@ constructor TfRechercheBatpro_Ligne_DockableScrollBox.Create(AOwner: TComponent)
 begin
      Avant_OnCreate;
      inherited;
-     if OldCreateOrder
-     then
-         Apres_OnCreate;
 end;
 
 procedure TfRechercheBatpro_Ligne_DockableScrollBox.AfterConstruction;
 begin
      inherited;
-     if not OldCreateOrder
-     then
-         Apres_OnCreate;
+     Apres_OnCreate;
 end;
 
 procedure TfRechercheBatpro_Ligne_DockableScrollBox.BeforeDestruction;
 begin
-     if not OldCreateOrder
-     then
-         Avant_OnDestroy;
+     Avant_OnDestroy;
      inherited;
 end;
 
 destructor TfRechercheBatpro_Ligne_DockableScrollBox.Destroy;
 begin
-     if OldCreateOrder
-     then
-         Avant_OnDestroy;
      inherited;
 end;
 

@@ -1,0 +1,96 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{B465AAF9-C722-48F6-82B7-EEF3C40328CE}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\pascal_o_r_mapping\02_Units\OD_DelphiReportEngine_Units.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\pascal_o_r_mapping\03_Data\OD_DelphiReportEngine_Data.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\pascal_o_r_mapping\05_Controls\OD_DelphiReportEngine_Controls.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\pascal_o_r_mapping\06_Formes\OD_DelphiReportEngine_Formes.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="jsWorks.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\tests\Label\pLabel.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="OD_DelphiReportEngine_Units">
+        <MSBuild Projects="..\pascal_o_r_mapping\02_Units\OD_DelphiReportEngine_Units.dproj"/>
+    </Target>
+    <Target Name="OD_DelphiReportEngine_Units:Clean">
+        <MSBuild Projects="..\pascal_o_r_mapping\02_Units\OD_DelphiReportEngine_Units.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="OD_DelphiReportEngine_Units:Make">
+        <MSBuild Projects="..\pascal_o_r_mapping\02_Units\OD_DelphiReportEngine_Units.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="OD_DelphiReportEngine_Data">
+        <MSBuild Projects="..\pascal_o_r_mapping\03_Data\OD_DelphiReportEngine_Data.dproj"/>
+    </Target>
+    <Target Name="OD_DelphiReportEngine_Data:Clean">
+        <MSBuild Projects="..\pascal_o_r_mapping\03_Data\OD_DelphiReportEngine_Data.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="OD_DelphiReportEngine_Data:Make">
+        <MSBuild Projects="..\pascal_o_r_mapping\03_Data\OD_DelphiReportEngine_Data.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="OD_DelphiReportEngine_Controls">
+        <MSBuild Projects="..\pascal_o_r_mapping\05_Controls\OD_DelphiReportEngine_Controls.dproj"/>
+    </Target>
+    <Target Name="OD_DelphiReportEngine_Controls:Clean">
+        <MSBuild Projects="..\pascal_o_r_mapping\05_Controls\OD_DelphiReportEngine_Controls.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="OD_DelphiReportEngine_Controls:Make">
+        <MSBuild Projects="..\pascal_o_r_mapping\05_Controls\OD_DelphiReportEngine_Controls.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="OD_DelphiReportEngine_Formes">
+        <MSBuild Projects="..\pascal_o_r_mapping\06_Formes\OD_DelphiReportEngine_Formes.dproj"/>
+    </Target>
+    <Target Name="OD_DelphiReportEngine_Formes:Clean">
+        <MSBuild Projects="..\pascal_o_r_mapping\06_Formes\OD_DelphiReportEngine_Formes.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="OD_DelphiReportEngine_Formes:Make">
+        <MSBuild Projects="..\pascal_o_r_mapping\06_Formes\OD_DelphiReportEngine_Formes.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="jsWorks">
+        <MSBuild Projects="jsWorks.dproj"/>
+    </Target>
+    <Target Name="jsWorks:Clean">
+        <MSBuild Projects="jsWorks.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="jsWorks:Make">
+        <MSBuild Projects="jsWorks.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="pLabel">
+        <MSBuild Projects="..\tests\Label\pLabel.dproj"/>
+    </Target>
+    <Target Name="pLabel:Clean">
+        <MSBuild Projects="..\tests\Label\pLabel.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="pLabel:Make">
+        <MSBuild Projects="..\tests\Label\pLabel.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="OD_DelphiReportEngine_Units;OD_DelphiReportEngine_Data;OD_DelphiReportEngine_Controls;OD_DelphiReportEngine_Formes;jsWorks;pLabel"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="OD_DelphiReportEngine_Units:Clean;OD_DelphiReportEngine_Data:Clean;OD_DelphiReportEngine_Controls:Clean;OD_DelphiReportEngine_Formes:Clean;jsWorks:Clean;pLabel:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="OD_DelphiReportEngine_Units:Make;OD_DelphiReportEngine_Data:Make;OD_DelphiReportEngine_Controls:Make;OD_DelphiReportEngine_Formes:Make;jsWorks:Make;pLabel:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

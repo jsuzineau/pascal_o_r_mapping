@@ -1,17 +1,18 @@
 object Dockable: TDockable
-  Left = 317
-  Top = 130
+  Left = 300
+  Top = 120
   Caption = 'Dockable'
   ClientHeight = 597
   ClientWidth = 850
+  Position = Designed
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop, iPhone, iPad]
   OnKeyDown = FormKeyDown
   OnMouseDown = FormMouseDown
   OnMouseWheel = FormMouseWheel
-  Left = 317
-  Top = 130
+  Left = 300
+  Top = 120
   DesignerMasterStyle = 0
   object sSelection: TBatpro_Shape
     Batpro_Shape = bstRectangle

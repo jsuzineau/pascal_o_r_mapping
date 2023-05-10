@@ -1,0 +1,66 @@
+package OD_DelphiReportEngine_Formes;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  OD_DelphiReportEngine_Controls,
+  VirtualTreesR,
+  SynEditDR;
+
+contains
+  ufSchemateur in 'ufSchemateur.pas',
+  uhDessinnateur in 'uhDessinnateur.pas',
+  uhTriColonneChamps in 'uhTriColonneChamps.pas',
+  uhTriColonneChamps_StringGrid in 'uhTriColonneChamps_StringGrid.pas',
+  uAide in 'uAide.pas',
+  uAtom in 'uAtom.pas',
+  udkProgression in 'udkProgression.pas',
+  udmSMTP in 'udmSMTP.pas',
+  ufAccueil in 'ufAccueil.pas',
+  ufAttente in 'ufAttente.pas',
+  ufBatpro_Desk in 'ufBatpro_Desk.pas',
+  ufBatpro_Form in 'ufBatpro_Form.pas',
+  ufBatpro_Informix in 'ufBatpro_Informix.pas',
+  ufBatpro_MySQL in 'ufBatpro_MySQL.pas',
+  ufBatpro_Parametres_Client in 'ufBatpro_Parametres_Client.pas',
+  ufBitmaps in 'ufBitmaps.pas',
+  ufBloqueur in 'ufBloqueur.pas',
+  ufHelp_Creator in 'ufHelp_Creator.pas',
+  ufpBas in 'ufpBas.pas',
+  ufProgression in 'ufProgression.pas',
+  uPhi_Form in 'uPhi_Form.pas',
+  ufAutomatic in 'Code_Generation\ufAutomatic.pas',
+  ufAutomatic_Genere_tout_sl in 'Code_Generation\ufAutomatic_Genere_tout_sl.pas',
+  ufAutomatic_VST in 'Code_Generation\ufAutomatic_VST.pas',
+  ufjpFile in 'Code_Generation\ufjpFile.pas',
+  ufjpFiles in 'Code_Generation\ufjpFiles.pas',
+  uhVST in 'uhVST.pas',
+  ufBase in 'ufBase.pas';
+
+end.

@@ -81,6 +81,13 @@ type
   //Last_Insert_id
   public
     function Last_Insert_id( {%H-}_NomTable: String): Integer; override;
+  //méthodes pour schémateur
+  public
+    function Table_Cherche( _Table               : String): Boolean; override;
+    function Index_Cherche( _Table, _Index       : String): Boolean; override;
+    function Champ_Cherche( _Table, _Champ       : String): Boolean; override;
+    function Champ_Type_Cherche( _Table, _Champ, _Type: String): Boolean; override;
+    function Champ_Type_Defaut_Cherche( _Table, _Champ, _Type, _Defaut: String): Boolean; override;
   end;
 
 const
@@ -273,6 +280,73 @@ var
 begin
      SQL:= 'select LAST_INSERT_ID()';
      Contexte.Integer_from( SQL, Result);
+end;
+
+function TMySQL.Table_Cherche(_Table: String): Boolean;
+var
+   SQL: String;
+begin
+     SQL
+     :=
+        'select                               '+LineEnding
+       +'      *                              '+LineEnding
+       +'from                                 '+LineEnding
+       +'    information_schema.tables        '+LineEnding
+       +'where                                '+LineEnding
+       +'         table_schema = :table_schema'+LineEnding
+       +'     and table_name   = :table_name  '+LineEnding
+       ;
+     Contexte.SQL:= SQL;
+     with Contexte.Params
+     do
+       begin
+       ParamByName( 'table_schema').AsString:= DataBase;
+       ParamByName( 'table_name'  ).AsString:= _Table  ;
+       end;
+     Result:= Contexte.Execute_and_Result_not_empty;
+end;
+
+function TMySQL.Index_Cherche(_Table, _Index: String): Boolean;
+begin
+     Contexte.SQL:= 'show index from '+_Table+' from '+DataBase;
+     Result:= Contexte.Locate(['Key_name'], [_Index]);
+end;
+
+function TMySQL.Champ_Cherche( _Table, _Champ: String): Boolean;
+begin
+     Contexte.SQL:= 'describe '+_Table+' '+ _Champ;
+     Result:= Contexte.Execute_and_Result_not_empty;
+end;
+
+function TMySQL.Champ_Type_Cherche(_Table, _Champ, _Type: String): Boolean;
+
+begin
+     Contexte.SQL:= 'describe '+_Table+' '+ _Champ;
+
+     Result:= Contexte.Matches(['Type'], [_Type]);
+end;
+
+function TMySQL.Champ_Type_Defaut_Cherche(_Table, _Champ, _Type, _Defaut: String): Boolean;
+var
+   LengthDefaut: Integer;
+begin
+     Contexte.SQL:= 'describe '+_Table+' '+ _Champ;
+
+     //enlève les quotes de Defaut.
+     //ne marche pas s'il y a des quotes à l'intérieur (improbable)
+     LengthDefaut:= Length( _Defaut);
+     if LengthDefaut > 0
+     then
+         begin
+         if    ((_Defaut[1]='''') and (_Defaut[LengthDefaut]=''''))
+            or ((_Defaut[1]='''' ) and (_Defaut[LengthDefaut]='''' ))
+         then
+             _Defaut:= Copy(_Defaut, 2, LengthDefaut-2)
+         end;
+
+     _Defaut:= LowerCase( _Defaut);
+
+     Result:= Contexte.Matches(['Type','Default'], [_Type, _Defaut]);
 end;
 
 procedure TMySQL.Lit( NomValeur: String; out Valeur: String; _Mot_de_passe: Boolean= False);

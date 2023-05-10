@@ -31,6 +31,10 @@ uses
   SysUtils, Classes, Math, System.Zip;
 
 type
+ {$IFNDEF FPC}
+   TDOMNode= TJclSimpleXMLElem;
+ {$ENDIF}
+
  TOD_Root_Styles
  =
   (

@@ -1,4 +1,4 @@
-unit ufStringList_Batpro_Elements;
+﻿unit ufStringList_Batpro_Elements;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -28,7 +28,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
   FMX.Dialogs,
     uBatpro_StringList,
-  ufpBas, Grids, FMX.ActnList, FMX.StdCtrls, FMX.ComCtrls, Buttons, FMX.ExtCtrls,
+  ufpBas, FMX.Grid, FMX.ActnList, FMX.StdCtrls, FMX.ExtCtrls,
   uhDessinnateur,
   uDataClasses,
   uVide, FMX.Menus;

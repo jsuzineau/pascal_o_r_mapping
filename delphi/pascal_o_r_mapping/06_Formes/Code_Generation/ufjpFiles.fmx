@@ -1,0 +1,35 @@
+object fjpFiles: TfjpFiles
+  Left = 670
+  Height = 370
+  Top = 221
+  Width = 568
+  AllowDropFiles = True
+  Caption = 'fjpFiles'
+  Menu = mm
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnDropFiles = FormDropFiles
+  LCLVersion = '2.2.4.0'
+  object mm: TMainMenu
+    Left = 101
+    Top = 1
+    object miFichier: TMenuItem
+      Caption = 'Fichier'
+      object miNouveau: TMenuItem
+        Caption = 'Nouveau'
+        OnClick = miNouveauClick
+      end
+      object miOuvrir: TMenuItem
+        Caption = 'Ouvrir'
+        OnClick = miOuvrirClick
+      end
+    end
+    object miFenetres: TMenuItem
+      Caption = 'Fenêtres'
+    end
+  end
+  object sd: TSelectDirectoryDialog
+    Left = 73
+    Top = 35
+  end
+end

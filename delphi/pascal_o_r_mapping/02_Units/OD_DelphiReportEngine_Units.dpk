@@ -122,6 +122,7 @@ contains
   uODBC_Access in 'uODBC_Access.pas',
   uSQLite3 in 'uSQLite3.pas',
   uSQLite3_SQLQuery in 'uSQLite3_SQLQuery.pas',
-  uRegistry in 'uRegistry.pas';
+  uRegistry in 'uRegistry.pas',
+  uPhi in 'uPhi.pas';
 
 end.

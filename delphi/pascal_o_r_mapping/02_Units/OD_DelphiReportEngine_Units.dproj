@@ -200,6 +200,7 @@
         <DCCReference Include="uSQLite3.pas"/>
         <DCCReference Include="uSQLite3_SQLQuery.pas"/>
         <DCCReference Include="uRegistry.pas"/>
+        <DCCReference Include="uPhi.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

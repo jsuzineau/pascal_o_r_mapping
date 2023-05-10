@@ -1,0 +1,16 @@
+<th class="ad-select-cell" ng-if="attrs.rowExpandTemplate">
+  <i></i>
+</th>
+<th data-ng-repeat="definition in visibleColumnDefinition"
+    ng-click="sortByColumn(definition)"
+    ng-class="{'ad-cursor-pointer': definition.sortKey}"
+    ng-style="{'width': definition.width}">
+  <ng-include src="'tableajax/sortIcons.html'" ng-if="!attrs.snugSortIcons"></ng-include>
+  <div class="ad-display-inline-block"
+       ng-if="definition.columnHeaderTemplate"
+       ad-compile-template="definition.columnHeaderTemplate"></div>
+  <div class="ad-display-inline-block"
+       ng-if="definition.columnHeaderDisplayName"
+       ng-bind="definition.columnHeaderDisplayName"></div>
+  <ng-include src="'tableajax/sortIcons.html'" ng-if="attrs.snugSortIcons"></ng-include>
+</th>

@@ -92,6 +92,9 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
+        <DCC_UnitSearchPath>..\07_sources_externes\synapse\source\lib;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <DCC_UnitSearchPath>..\07_sources_externes\synapse\source\lib;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
@@ -192,6 +195,80 @@
         <DCCReference Include="uImpression_Font_Size_Multiplier.pas"/>
         <DCCReference Include="uDataClasses.pas"/>
         <DCCReference Include="uHTTP_Interface.pas"/>
+        <DCCReference Include="..\07_sources_externes\synapse\source\lib\blcksock.pas"/>
+        <DCCReference Include="uOD.pas"/>
+        <DCCReference Include="uOD_Maitre.pas"/>
+        <DCCReference Include="uOD_Table_Batpro.pas"/>
+        <DCCReference Include="Automatic\ublAutomatic.pas"/>
+        <DCCReference Include="Automatic\upoolAutomatic.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\uApplicationJoinPointFile.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\uContexteClasse.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\uContexteMembre.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\uf_f_dbgKeyPress_Key_Pattern.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\uGenerateur_de_code_Ancetre.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\File_Handler\ucsMenuHandler.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\File_Handler\uMenuHandler.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\File_Handler\uTemplateHandler.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\uJoinPoint.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\ujpFile.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\Elements\Postgres_Foreign_Key\ublPostgres_Foreign_Key.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\Elements\Postgres_Foreign_Key\uhfPostgres_Foreign_Key.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\Elements\Postgres_Foreign_Key\upoolPostgres_Foreign_Key.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\File_Handler\05_Angular_TypeScript\uAngular_TypeScript_ApplicationHandler.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Affecte.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_aggregation_accesseurs_implementation.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_aggregation_declaration.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Assure_Declaration.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Assure_Implementation.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Champ_EditDFM.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Champ_EditPAS.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_creation_champs.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_declaration_champs.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Declaration_cle.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Detail_declaration.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Detail_pool_get.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_f_Execute_After_Key.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_f_Execute_Before_Key.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_f_implementation_uses_key.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Get_by_Cle_Declaration.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Get_by_Cle_Implementation.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_LabelsDFM.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_LabelsPAS.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Ouverture_key.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_QCalcFieldsKey.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_QfieldsDFM.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_QfieldsPAS.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_sCle_from__Declaration.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_sCle_from__Implementation.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_sCle_Implementation_Body.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_SQLWHERE_ContraintesChamps_Body.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Test_Call_Key.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Test_Declaration_Key.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Test_Implementation_Key.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_To_SQLQuery_Params_Body.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Traite_Index_key.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_uses_ubl.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_uses_upool.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\03_CSharp\ujpCSharp_Champs_persistants.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\03_CSharp\ujpCSharp_Chargement_Conteneurs.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\03_CSharp\ujpCSharp_Conteneurs.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\03_CSharp\ujpCSharp_Contenus.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\03_CSharp\ujpCSharp_DocksDetails.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\03_CSharp\ujpCSharp_DocksDetails_Affiche.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\04_PHP_Doctrine\ujpPHP_Doctrine_HasMany.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\04_PHP_Doctrine\ujpPHP_Doctrine_HasOne.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\04_PHP_Doctrine\ujpPHP_Doctrine_Has_Column.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\05_Angular_TypeScript\ujpAngular_TypeScript_declaration_champs.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\05_Angular_TypeScript\ujpAngular_TypeScript_html_editeurs_champs.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\05_Angular_TypeScript\ujpAngular_TypeScript_NomClasseElement.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\05_Angular_TypeScript\ujpAngular_TypeScript_NomFichierElement.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\00_General\ujpNomTableMinuscule.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\00_General\ujpNom_de_la_classe.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\00_General\ujpNom_de_la_table.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\01_SQL\ujpSQL_CREATE_TABLE.pas"/>
+        <DCCReference Include="Automatic\Code_Generation\JoinPoint\01_SQL\ujpSQL_Order_By_Key.pas"/>
+        <None Include="Automatic\Code_Generation\Elements\Postgres_Foreign_Key\Postgres_Foreign_Key.sql"/>
+        <None Include="Automatic\Code_Generation\Elements\Postgres_Primary_Key\Postgres_Primary_Key.sql"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

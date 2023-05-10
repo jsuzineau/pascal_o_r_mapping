@@ -28,7 +28,7 @@ uses
     uClean,
     uPublieur,
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, FMX.ExtCtrls;
+  FMX.Dialogs, FMX.ExtCtrls, FMX.Types,System.UITypes;
 
 type
   TfBloqueur = class(TForm)
@@ -55,7 +55,7 @@ begin
         fBloqueur.Proc:= _Proc;
         if _F = nil
         then
-            fBloqueur.WindowState:= wsMaximized
+            fBloqueur.WindowState:= TWindowState.wsMaximized
         else
             begin
             fBloqueur.Top   := _F.Top   ;

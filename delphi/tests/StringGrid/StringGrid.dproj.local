@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
-  <Transactions>
-    <Transaction>2023/04/29 11:17:38.898,=C:\Users\Jean\Documents\Embarcadero\Studio\Projets\Unit1.pas</Transaction>
-    <Transaction>2023/04/29 11:18:21.564,E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\StringGrid\ufStringGrid.pas=C:\Users\Jean\Documents\Embarcadero\Studio\Projets\Unit1.pas</Transaction>
-    <Transaction>2023/04/29 11:18:21.564,E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\StringGrid\ufStringGrid.fmx=C:\Users\Jean\Documents\Embarcadero\Studio\Projets\Unit1.fmx</Transaction>
-    <Transaction>2023/04/29 11:18:33.632,E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\StringGrid\StringGrid.dproj=C:\Users\Jean\Documents\Embarcadero\Studio\Projets\Project1.dproj</Transaction>
+	<Transactions>
+    <Transaction>2023/04/29 11:17:38.000.898,=C:\Users\Jean\Documents\Embarcadero\Studio\Projets\Unit1.pas</Transaction>
+    <Transaction>2023/04/29 11:18:21.000.564,C:\Users\Jean\Documents\Embarcadero\Studio\Projets\Unit1.pas=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\StringGrid\ufStringGrid.pas</Transaction>
+    <Transaction>2023/04/29 11:18:21.000.564,C:\Users\Jean\Documents\Embarcadero\Studio\Projets\Unit1.fmx=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\StringGrid\ufStringGrid.fmx</Transaction>
+    <Transaction>2023/04/29 11:18:33.000.632,C:\Users\Jean\Documents\Embarcadero\Studio\Projets\Project1.dproj=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\StringGrid\StringGrid.dproj</Transaction>
   </Transactions>
 </BorlandProject>

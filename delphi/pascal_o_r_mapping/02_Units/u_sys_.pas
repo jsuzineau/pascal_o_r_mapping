@@ -1,4 +1,4 @@
-unit u_sys_;
+﻿unit u_sys_;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -30,6 +30,7 @@ const
      sys_Vide : String = '';
      sys_N    : String = #13   ;//Passé à #13 seul pour Open Office. Marche aussi avec QuickReport
      sys_CR_NL: String = #13#10;//Pour les paramètres OpenOffice
+     LineEnding: String = #13#10;//pour compatibilité Freepascal
      sys_Pipe : String = '|';
      sys_Point: String = '.';
 

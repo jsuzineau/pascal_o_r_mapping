@@ -144,7 +144,7 @@ procedure Ferme_Modules;
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 procedure Do_Ouvre_Modules( isLogin: Boolean; Edition: Boolean);
 var

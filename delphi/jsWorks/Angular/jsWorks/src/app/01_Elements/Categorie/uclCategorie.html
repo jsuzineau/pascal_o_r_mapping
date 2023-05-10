@@ -1,0 +1,43 @@
+  <h2>Liste des Categories</h2>
+
+  <div *ngIf="Categories">
+    <table><tr>
+    <td> 
+    <table class="Categories">
+      <tr>
+        <th>id     </th>
+        <th>Libellé</th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let Categorie of Categories.Elements">
+        <td>
+          <span (click)="onClick( Categorie)" class="Categorie_id">
+            <span *ngIf="!Categorie.modifie">{{Categorie.id}}</span>
+            <span *ngIf= "Categorie.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="Categorie.id"/></span>
+          </span>
+        </td>
+        <td>
+          <span (click)="onClick( Categorie)" class="Categorie_Libelle">
+            <span *ngIf="!Categorie.modifie">{{Categorie.Libelle}}</span>
+            <span *ngIf= "Categorie.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="Categorie.Libelle"/></span>
+          </span>
+        </td>
+        <td>
+          <span (click)="onClick( Categorie)" class="Categorie_Valider">
+            <!-- <button *ngIf="Categorie.modifie" (click)='Categorie.Valide()'>Valider</button> -->
+          </span>
+        </td>
+      </tr>
+    </table>
+    <div class="Categories_Nouveau">
+      <button (click)='Categories_Nouveau()'>Nouveau</button>
+    </div>
+    </td>
+    <td *ngIf="e">
+    <cCategorie [e]="e">  
+    </cCategorie>  
+    </td>  
+    </tr>
+    </table>
+  </div>
+

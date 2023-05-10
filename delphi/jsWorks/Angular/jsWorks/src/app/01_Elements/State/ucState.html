@@ -1,0 +1,17 @@
+  <div *ngIf="e">
+    <table>
+      <tr>  <td>Symbol:</td><td><span (click)="onClick( e)" class="State_Symbol">  <span *ngIf="!e.modifie">{{e.Symbol}}</span>  <span *ngIf= "e.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="e.Symbol"/></span></span></td></tr>
+<tr>  <td>Description:</td><td><span (click)="onClick( e)" class="State_Description">  <span *ngIf="!e.modifie">{{e.Description}}</span>  <span *ngIf= "e.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="e.Description"/></span></span></td></tr>
+      <tr>
+        <td>
+          <span (click)="onClick( e)" class="State_Valider">
+            <button *ngIf="e.modifie" (click)='e.Valide()'>Valider</button>
+          </span>
+        </td>
+      </tr>
+    </table>
+    <!-- <div class="States_Nouveau">
+      <button (click)='States_Nouveau()'>Nouveau</button>
+    </div> -->
+  </div>
+

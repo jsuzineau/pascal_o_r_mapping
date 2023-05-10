@@ -34,7 +34,7 @@ uses
     ucChamp_Label,
     ucChamp_Lookup_ComboBox,
     ucChamp_CheckBox,
-    //ucChamp_DateTimePicker,
+    ucChamp_DateTimePicker,
     ucChamp_Integer_SpinEdit,
     //ucChamp_Float_SpinEdit,
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
@@ -64,10 +64,18 @@ type
     debut  : Integer;
     fin    : Integer;
   end;
+
+ TDockable= class;
+ TDockableScrollBox_Traite_Message= procedure ( _dk: TDockable; _iMessage: Integer) of object;
+
+ { TDockable }
+
  TDockable
  =
   class( TForm)
+   sBackground: TShape;
     sSelection: TBatpro_Shape;
+    procedure FormClick(Sender: TObject);
     procedure sSelectionMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure FormDblClick(Sender: TObject);
     procedure FormMouseDown(Sender: TObject; Button: TMouseButton;
@@ -89,8 +97,12 @@ type
   protected
     FObjet: TObject;
     procedure SetObjet( const Value: TObject); virtual;
+    procedure SetBackgroundColor( _Color: TColor);
   public
     property Objet: TObject read FObjet write SetObjet;
+  //Couleur
+  public
+    Couleur: TColor;
   //Etat de validité du dockable
   //(créé pour fiche travail: si valide on peut fermer)
   protected
@@ -140,9 +152,13 @@ type
     Surtitres: array of TDockable_Surtitre;
     procedure Ajoute_Colonne( _C: TControl; _Titre: String = ''; _NomChamp: String = ''; _Total: TDockableScrollbox_Total = dsbt_Aucun);
     procedure Ajoute_Surtitre( _libelle: String; _debut, _fin: Integer);
-  //Messages divers envoyés au niveau du DockableScrollBox
+  //Messages divers envoyés du DockableScrollBox au Dockable
   public
     procedure Traite_Message( Sender: TObject; _iMessage: Integer); virtual; abstract;
+  //Messages divers envoyés du Dockable au DockableScrollBox
+  public
+    DockableScrollBox_Traite_Message: TDockableScrollBox_Traite_Message;
+    procedure Envoie_Message( _iMessage: Integer);
   //Selection
   public
     Selected: Boolean;
@@ -201,6 +217,8 @@ begin
      SetLength( Surtitres, 0);
      DockableScrollbox_Selection:= nil;
      DockableScrollbox_Validation:= nil;
+     DockableScrollBox_Traite_Message:= nil;
+     Couleur:= TColorRec.cBtnFace;
 end;
 
 destructor TDockable.Destroy;
@@ -223,6 +241,12 @@ end;
 procedure TDockable.SetObjet( const Value: TObject);
 begin
      FObjet:= Value;
+     SetBackgroundColor( Couleur);
+end;
+
+procedure TDockable.SetBackgroundColor( _Color: TColor);
+begin
+     sBackground.Fill.Color:= _Color;
 end;
 
 procedure TDockable.SetValide(const Value: Boolean);
@@ -268,6 +292,12 @@ begin
      if Valeur
      then
          begin
+         with Fill
+         do
+           begin
+           Kind:= TBrushKind.Solid;
+           Color:= TColorRec.cBtnHighlight;
+           end;
          with sSelection.Fill
          do
            begin
@@ -284,6 +314,12 @@ begin
          end
      else
          begin
+         with Fill
+         do
+           begin
+           Kind:= TBrushKind.Solid;
+           Color:= Couleur;
+           end;
          with sSelection.Fill
          do
            begin
@@ -297,17 +333,14 @@ begin
          end;
 end;
 
+procedure TDockable.FormClick(Sender: TObject);
+begin
+     Do_DockableScrollbox_Selection;
+end;
+
 procedure TDockable.FormDblClick(Sender: TObject);
 begin
      Do_DockableScrollbox_Validation;
-end;
-
-procedure TDockable.FormKeyDown(Sender: TObject; var Key: Word;
-  var KeyChar: Char; Shift: TShiftState);
-begin
-     if not Traite_KeyDown( Key, Shift)
-     then
-         inherited;
 end;
 
 procedure TDockable.sSelectionMouseDown( Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -334,6 +367,13 @@ begin
      if Assigned( DockableScrollbox_Nouveau)
      then
          DockableScrollbox_Nouveau( Self);
+end;
+
+procedure TDockable.Envoie_Message(_iMessage: Integer);
+begin
+     if Assigned( DockableScrollBox_Traite_Message)
+     then
+         DockableScrollBox_Traite_Message( Self, _iMessage);
 end;
 
 function TDockable.Traite_KeyDown( var Key: Word; Shift: TShiftState): Boolean;
@@ -380,6 +420,9 @@ begin
            else if C is TChamp_CheckBox
                                       then TChamp_CheckBox( C)
                                                             .Enabled := Valeur_Enabled
+           else if C is TChamp_DateTimePicker
+                                      then TChamp_DateTimePicker( C)
+                                                            .Enabled := Valeur_Enabled
            else if C is TChamp_Integer_SpinEdit
                                       then TChamp_Integer_SpinEdit( C)
                                                             .ReadOnly:= Valeur_ReadOnly;
@@ -424,6 +467,14 @@ begin
        debut:= _debut;
        fin  := _fin  ;
        end;
+end;
+
+procedure TDockable.FormKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+     if not Traite_KeyDown( Key, Shift)
+     then
+         inherited;
 end;
 
 procedure TDockable.FormMouseDown(Sender: TObject; Button: TMouseButton;

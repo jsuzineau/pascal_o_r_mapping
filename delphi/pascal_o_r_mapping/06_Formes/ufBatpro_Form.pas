@@ -42,7 +42,7 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
   IniFiles, FMX.StdCtrls, FMX.ExtCtrls, DB, ucBatproMasque,
-  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Controls;
+  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Controls, FMX.Types, FMX.Controls.Presentation;
 
 type
  TfBatpro_Form

@@ -1,0 +1,27 @@
+  <div *ngIf="e">
+    <table>
+      <tr>  <td>nProject:</td><td><span (click)="onClick( e)" class="Development_nProject">  <span *ngIf="!e.modifie">{{e.nProject}}</span>  <span *ngIf= "e.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="e.nProject"/></span></span></td></tr>
+<tr>  <td>nState:</td><td><span (click)="onClick( e)" class="Development_nState">  <span *ngIf="!e.modifie">{{e.nState}}</span>  <span *ngIf= "e.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="e.nState"/></span></span></td></tr>
+<tr>  <td>nCreationWork:</td><td><span (click)="onClick( e)" class="Development_nCreationWork">  <span *ngIf="!e.modifie">{{e.nCreationWork}}</span>  <span *ngIf= "e.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="e.nCreationWork"/></span></span></td></tr>
+<tr>  <td>nSolutionWork:</td><td><span (click)="onClick( e)" class="Development_nSolutionWork">  <span *ngIf="!e.modifie">{{e.nSolutionWork}}</span>  <span *ngIf= "e.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="e.nSolutionWork"/></span></span></td></tr>
+<tr>  <td>Description:</td><td><span (click)="onClick( e)" class="Development_Description">  <span *ngIf="!e.modifie">{{e.Description}}</span>  <span *ngIf= "e.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="e.Description"/></span></span></td></tr>
+<tr>  <td>Steps:</td><td><span (click)="onClick( e)" class="Development_Steps">  <span *ngIf="!e.modifie">{{e.Steps}}</span>  <span *ngIf= "e.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="e.Steps"/></span></span></td></tr>
+<tr>  <td>Origin:</td><td><span (click)="onClick( e)" class="Development_Origin">  <span *ngIf="!e.modifie">{{e.Origin}}</span>  <span *ngIf= "e.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="e.Origin"/></span></span></td></tr>
+<tr>  <td>Solution:</td><td><span (click)="onClick( e)" class="Development_Solution">  <span *ngIf="!e.modifie">{{e.Solution}}</span>  <span *ngIf= "e.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="e.Solution"/></span></span></td></tr>
+<tr>  <td>nCategorie:</td><td><span (click)="onClick( e)" class="Development_nCategorie">  <span *ngIf="!e.modifie">{{e.nCategorie}}</span>  <span *ngIf= "e.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="e.nCategorie"/></span></span></td></tr>
+<tr>  <td>isBug:</td><td><span (click)="onClick( e)" class="Development_isBug">  <span *ngIf="!e.modifie">{{e.isBug}}</span>  <span *ngIf= "e.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="e.isBug"/></span></span></td></tr>
+<tr>  <td>nDemander:</td><td><span (click)="onClick( e)" class="Development_nDemander">  <span *ngIf="!e.modifie">{{e.nDemander}}</span>  <span *ngIf= "e.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="e.nDemander"/></span></span></td></tr>
+<tr>  <td>nSheetRef:</td><td><span (click)="onClick( e)" class="Development_nSheetRef">  <span *ngIf="!e.modifie">{{e.nSheetRef}}</span>  <span *ngIf= "e.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="e.nSheetRef"/></span></span></td></tr>
+      <tr>
+        <td>
+          <span (click)="onClick( e)" class="Development_Valider">
+            <button *ngIf="e.modifie" (click)='e.Valide()'>Valider</button>
+          </span>
+        </td>
+      </tr>
+    </table>
+    <!-- <div class="Developments_Nouveau">
+      <button (click)='Developments_Nouveau()'>Nouveau</button>
+    </div> -->
+  </div>
+

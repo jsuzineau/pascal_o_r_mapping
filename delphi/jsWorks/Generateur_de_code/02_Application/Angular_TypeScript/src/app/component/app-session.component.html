@@ -1,0 +1,28 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <div *ngIf="!session">
+    <div>
+      <label>Nom:</label>
+      <input type="text " [(ngModel)]="login.nom " list="login_nom_liste"/>
+      <datalist id ="login_nom_liste">
+        <option value="Frères et soeurs">
+        <option value="Chefs de choeur">
+        <option value="Bureau de la CIM">
+        <option value="Administrateur">
+      </datalist>
+    </div>
+    <div>
+      <label>Mot de passe:</label>
+      <input type="password" [(ngModel)]="login.mot_de_passe " /><br />
+    </div>
+    <div>
+      <button (click)='Do_Login()'> login </button>
+    </div>
+  </div>
+  <div *ngIf="session&&session.nom">
+      <h1>Bienvenue {{session.nom}}</h1>
+      <div>
+        <button (click)='Deconnecter()'> Se déconnecter </button>
+      </div>
+  </div>
+</div>

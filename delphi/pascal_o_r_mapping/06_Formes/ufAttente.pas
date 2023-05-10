@@ -26,13 +26,12 @@ interface
 
 uses
     uClean,
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, FMX.StdCtrls, Buttons, FMX.ExtCtrls;
+  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
+  FMX.Dialogs, FMX.StdCtrls, FMX.ExtCtrls, FMX.Types, FMX.Controls.Presentation;
 
 type
   TfAttente = class(TForm)
     Panel1: TPanel;
-    bOK: TBitBtn;
     tShow: TTimer;
     procedure FormDestroy(Sender: TObject);
   public
@@ -57,7 +56,7 @@ end;
 
 function TfAttente.Execute( _Titre: String): Boolean;
 begin
-     bOK.Caption:= _Titre;
+     //bOK.Caption:= _Titre;
 
      Sleep( 5000);
      ShowModal;

@@ -1,4 +1,4 @@
-unit ufBase;
+﻿unit ufBase;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -29,12 +29,13 @@ uses
   uhTriColonneChamps,
   uBatpro_Ligne,
   uPool,
-  
+
   ufpBas,
   ucChampsGrid,
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, DBCtrls, Grids, DBGrids, FMX.ActnList, FMX.StdCtrls, FMX.ComCtrls, Buttons,
-  FMX.ExtCtrls, DB, FMX.Menus;
+  FMX.Dialogs, FMX.Grid, FMX.ActnList, FMX.StdCtrls,VCL.ComCtrls,VCL.Buttons,
+  FMX.ExtCtrls, DB, FMX.Menus,
+  FMX.DialogService, UITypes;
 
 type
  TfBase
@@ -93,7 +94,7 @@ begin
      hTriColonneChamps
      :=
        ThTriColonneChamps.Create( cg, pool, lTri);
-     hTriColonneChamps.OnSelectCell:= cgSelectCell;
+     //hTriColonneChamps.OnSelectCell:= cgSelectCell;
 end;
 
 procedure TfBase.FormDestroy(Sender: TObject);
@@ -111,21 +112,21 @@ end;
 
 procedure TfBase.NbTotal_Change;
 begin
-     lNbTotal.Caption:= IntToStr( pool.slFiltre.Count);
+     lNbTotal.Text:= IntToStr( pool.slFiltre.Count);
 end;
 
 procedure TfBase.aReadOnly_ChangeExecute(Sender: TObject);
 begin
-     if cbReadOnly.Checked
+     if cbReadOnly.isChecked
      then
-         cg.Options:= cg.Options - [goEditing]
+         cg.Options:= cg.Options - [TGridOption.Editing]
      else
-         cg.Options:= cg.Options + [goEditing];
+         cg.Options:= cg.Options + [TGridOption.Editing];
 end;
 
 function TfBase.Execute: Boolean;
 begin
-     cbReadOnly.Checked:= True;
+     cbReadOnly.isChecked:= True;
      aReadOnly_Change.Execute;
      pool.ToutCharger;
      _from_pool;
@@ -164,16 +165,21 @@ begin
      cg.Get_bl( bl);
      if bl = nil then exit;
 
-     if mrYes
-        <>
-        MessageDlg( 'Êtes vous sûr de vouloir supprimer la ligne ?'#13#10
+     TDialogService
+     .
+      MessageDialog( 'Êtes vous sûr de vouloir supprimer la ligne ?'#13#10
                     +bl.Cell[0],
-                    mtConfirmation, [mbYes, mbNo], 0)
-     then
-         exit;
-
-     pool.Supprimer( bl);
-     _from_pool;
+                     TMsgDlgType.mtConfirmation,
+                     [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo],
+                     TMsgDlgBtn.mbNo,
+                     0,
+                     procedure (const _Result: TModalResult)
+                     begin
+                          if mrYes <> _Result then exit;
+                          pool.Supprimer( bl);
+                          _from_pool;
+                     end
+                     );
 end;
 
 end.
