@@ -1,0 +1,127 @@
+object fType_Tag: TfType_Tag
+  Left = 1162
+  Top = 134
+  Caption = 'fType_Tag'
+  ClientHeight = 240
+  ClientWidth = 320
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop, iPhone, iPad]
+  Left = 1162
+  Top = 134
+  DesignerMasterStyle = 0
+  object dsb: TDockableScrollbox
+    Align = Client
+    Size.Width = 320.000000000000000000
+    Size.Height = 240.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    HauteurLigne = 26
+    BordureLignes = True
+    Zebrage = True
+    Zebrage1 = 15138790
+    Zebrage2 = 16777192
+    OnNouveau = dsbNouveau
+    _LectureSeule = False
+    object TPanel
+      Align = Top
+      Size.Width = 320.000000000000000000
+      Size.Height = 120.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 4
+    end
+    object TPanel
+      Align = Bottom
+      Position.Y = -120.000000000000000000
+      Size.Width = 320.000000000000000000
+      Size.Height = 120.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 5
+    end
+    object TPanel
+      Align = Client
+      Size.Width = 20.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 6
+    end
+    object TScrollBar
+      Align = Right
+      SmallChange = 0.000000000000000000
+      Orientation = Vertical
+      Position.X = 20.000000000000000000
+      Position.Y = 360.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 7
+    end
+    object TPanel
+      Align = Top
+      Position.Y = 120.000000000000000000
+      Size.Width = 320.000000000000000000
+      Size.Height = 120.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 8
+    end
+    object TPanel
+      Align = Bottom
+      Size.Width = 320.000000000000000000
+      Size.Height = 120.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 9
+    end
+    object TPanel
+      Align = Client
+      Size.Width = 20.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 10
+    end
+    object TScrollBar
+      Align = Right
+      SmallChange = 0.000000000000000000
+      Orientation = Vertical
+      Position.X = 20.000000000000000000
+      Position.Y = 360.000000000000000000
+      Size.Width = 150.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 11
+    end
+    object TPanel
+      Align = Top
+      Position.Y = 240.000000000000000000
+      Size.Width = 320.000000000000000000
+      Size.Height = 120.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+    end
+    object TPanel
+      Align = Bottom
+      Position.Y = 120.000000000000000000
+      Size.Width = 320.000000000000000000
+      Size.Height = 120.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+    end
+    object TPanel
+      Align = Client
+      Size.Width = 20.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+    end
+    object TScrollBar
+      Align = Right
+      SmallChange = 0.000000000000000000
+      Orientation = Vertical
+      Position.X = 170.000000000000000000
+      Position.Y = 360.000000000000000000
+      Size.Width = 150.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 3
+    end
+  end
+  object t: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = tTimer
+    Left = 16
+    Top = 184
+  end
+end

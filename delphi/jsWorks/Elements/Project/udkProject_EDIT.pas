@@ -56,7 +56,7 @@ type
 
 implementation
 
-{$R *.lfm}
+{$R *.fmx}
 
 { TdkProject_EDIT }
 

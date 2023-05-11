@@ -934,15 +934,21 @@ begin
                end;
            end;
        TraiteTotaux;
-       uProgression_AddProgress( 1);
-       uForms_ProcessMessages;
-       if uProgression_GetInterrompre
+       if Assigned(uProgression_AddProgress)
        then
-           break;
+           uProgression_AddProgress( 1);
+       uForms_ProcessMessages;
+       if Assigned(uProgression_GetInterrompre)
+       then
+           if uProgression_GetInterrompre
+           then
+               break;
        end;
 
      s_Set_MinMax;
-     uProgression_Termine;
+     if Assigned(uProgression_GetInterrompre)
+     then
+         uProgression_Termine;
 
      if Traiter_Totaux
      then

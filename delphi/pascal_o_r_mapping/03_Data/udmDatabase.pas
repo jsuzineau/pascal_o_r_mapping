@@ -55,7 +55,9 @@ uses
   Data.DBXInformix,
   Data.DBXMySQL,
   Data.DBXMSSQL,
-  Data.SqlExpr, Data.DB,
+  Data.DBXSQLITE,
+  Data.SqlExpr,
+  Data.DB,
   Datasnap.Provider, Datasnap.DBClient;
 
 type

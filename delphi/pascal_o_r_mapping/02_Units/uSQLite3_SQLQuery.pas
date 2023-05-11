@@ -22,10 +22,10 @@
 interface
 
 uses
+    u_sys_,
     uClean,
     uLog,
     uBatpro_StringList,
-    u_sys_,
     uuStrings,
     uRegistry,
     uEXE_INI,
@@ -33,7 +33,7 @@ uses
     uSGBD,
     ufAccueil_Erreur,
   db, FmtBCD,dateutils,System.IOUtils,
-  SysUtils, Classes, SQLExpr;
+  SysUtils, Classes, SQLExpr, StrUtils;
 
 type
 
@@ -115,7 +115,19 @@ procedure TSQLite3_SQLQuery.Assure_initialisation;
 begin
      if Initialized then exit;
      Lit( regv_Database , DataBase);
-     sqlc.Params.Values['DatabaseName']:= DataBase;
+
+     sqlc.DriverName := 'Sqlite';
+     sqlc.LoginPrompt:= False   ;
+     with sqlc.Params
+     do
+       begin
+       //Values['DriverUnit'           ]:= 'Data.DbxSqlite'                                         ;
+       //Values['DriverPackageLoader'  ]:= 'TDBXSqliteDriverLoader,DBXSqliteDriver250.bpl'          ;
+       //Values['MetaDataPackageLoader']:= 'TDBXSqliteMetaDataCommandFactory,DbxSqliteDriver250.bpl';
+       //Values['FailIfMissing'        ]:= 'True'                                                   ;
+       Values['DriverName']:= 'Sqlite';
+       Values['Database'  ]:= DataBase;
+       end;
      Prepare;
      Initialized:= True;
 end;
@@ -206,7 +218,13 @@ end;
 
 function TSQLite3_SQLQuery.Base_sur: String;
 begin
-     Result:= 'base '+sSGBD+' '+GetCurrentDir+TPath.DirectorySeparatorChar+DataBase;
+     Result
+     :=
+       'base '+sSGBD+' '
+       +IfThen( 0 = Pos( TPath.DirectorySeparatorChar, DataBase),
+                GetCurrentDir+TPath.DirectorySeparatorChar,
+                '')
+       +DataBase;
 end;
 
 end.

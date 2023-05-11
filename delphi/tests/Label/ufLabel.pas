@@ -5,7 +5,8 @@ interface
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.Ani, FMX.Layouts, FMX.Gestures,
-  FMX.StdCtrls, FMX.Controls.Presentation;
+  FMX.StdCtrls, FMX.Controls.Presentation, FMX.Menus, Data.DbxSqlite, Data.DB,
+  Data.SqlExpr, Data.FMTBcd, Data.DBXMySQL;
 
 type
   TForm1 = class(TForm)
@@ -19,6 +20,17 @@ type
     ToolbarAddButton: TButton;
     Label1: TLabel;
     CheckBox1: TCheckBox;
+    Panel1: TPanel;
+    Button1: TButton;
+    GroupBox1: TGroupBox;
+    ScrollBox1: TScrollBox;
+    MainMenu1: TMainMenu;
+    MenuItem1: TMenuItem;
+    MenuItem2: TMenuItem;
+    MenuItem3: TMenuItem;
+    SQLConnection1: TSQLConnection;
+    SQLQuery1: TSQLQuery;
+    SQLTable1: TSQLTable;
     procedure ToolbarCloseButtonClick(Sender: TObject);
     procedure FormGesture(Sender: TObject;
       const EventInfo: TGestureEventInfo; var Handled: Boolean);

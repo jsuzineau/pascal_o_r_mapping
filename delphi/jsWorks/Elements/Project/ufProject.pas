@@ -27,11 +27,12 @@
 interface
 
 uses
+    uClean,
     ublProject,
     upoolProject,
     udkProject_EDIT,
  Classes, SysUtils, FMX.Forms, FMX.Controls, FMX.Graphics, FMX.Dialogs, FMX.ExtCtrls, FMX.Types,
- ucDockableScrollbox, System.UITypes;
+ ucDockableScrollbox, System.UITypes, FMX.Controls.Presentation, FMX.StdCtrls;
 
 type
 
@@ -51,14 +52,21 @@ type
     function Execute: Boolean;
  end;
 
-var
- fProject: TfProject;
+function fProject: TfProject;
 
 implementation
 
-{$R *.lfm}
+{$R *.fmx}
 
 { TfProject }
+
+var
+   FfProject: TfProject= nil;
+
+function fProject: TfProject;
+begin
+     Clean_Get( Result, FfProject, TfProject);
+end;
 
 constructor TfProject.Create(TheOwner: TComponent);
 begin

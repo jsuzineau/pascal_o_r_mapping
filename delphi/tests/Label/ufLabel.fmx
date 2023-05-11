@@ -11788,4 +11788,70 @@ object Form1: TForm1
     TabOrder = 3
     Text = 'CheckBox1'
   end
+  object Panel1: TPanel
+    Position.X = 352.000000000000000000
+    Position.Y = 96.000000000000000000
+    TabOrder = 5
+  end
+  object Button1: TButton
+    Position.X = 448.000000000000000000
+    Position.Y = 328.000000000000000000
+    TabOrder = 6
+    Text = 'Button1'
+  end
+  object GroupBox1: TGroupBox
+    Position.X = 72.000000000000000000
+    Position.Y = 336.000000000000000000
+    Text = 'GroupBox1'
+    TabOrder = 7
+  end
+  object ScrollBox1: TScrollBox
+    Position.X = 304.000000000000000000
+    Position.Y = 448.000000000000000000
+    TabOrder = 8
+    Viewport.Width = 50.000000000000000000
+    Viewport.Height = 50.000000000000000000
+  end
+  object MainMenu1: TMainMenu
+    Left = 280
+    Top = 240
+    object MenuItem1: TMenuItem
+      Text = 'MenuItem1'
+      object MenuItem3: TMenuItem
+        Locked = True
+        Text = 'MenuItem3'
+      end
+    end
+    object MenuItem2: TMenuItem
+      Text = 'MenuItem2'
+    end
+  end
+  object SQLConnection1: TSQLConnection
+    ConnectionName = 'SQLITECONNECTION'
+    DriverName = 'Sqlite'
+    LoginPrompt = False
+    Params.Strings = (
+      'DriverName=Sqlite'
+      
+        'Database=E:\01_Projets\13_pascal_o_r_mapping_branch_master\base_' +
+        'SQLite3\jsWorks.sqlite')
+    Connected = True
+    Left = 384
+    Top = 264
+  end
+  object SQLQuery1: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      'SELECT * FROM Work')
+    SQLConnection = SQLConnection1
+    Left = 384
+    Top = 312
+  end
+  object SQLTable1: TSQLTable
+    MaxBlobSize = -1
+    SQLConnection = SQLConnection1
+    Left = 304
+    Top = 328
+  end
 end

@@ -56,7 +56,7 @@ type
 
 implementation
 
-{$R *.lfm}
+{$R *.fmx}
 
 { TdkType_Tag_edit }
 

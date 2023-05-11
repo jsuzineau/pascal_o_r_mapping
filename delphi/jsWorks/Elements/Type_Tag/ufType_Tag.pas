@@ -27,11 +27,12 @@
 interface
 
 uses
+    uClean,
     ublType_Tag,
     upoolType_Tag,
     udkType_Tag_EDIT,
  Classes, SysUtils, FMX.Forms, FMX.Controls, FMX.Graphics, FMX.Dialogs, FMX.ExtCtrls, FMX.Types, System.UITypes,
- ucDockableScrollbox;
+ ucDockableScrollbox, FMX.Controls.Presentation, FMX.StdCtrls;
 
 type
 
@@ -51,14 +52,21 @@ type
     function Execute: Boolean;
  end;
 
-var
- fType_Tag: TfType_Tag;
+function fType_Tag: TfType_Tag;
 
 implementation
 
-{$R *.lfm}
+{$R *.fmx}
 
 { TfType_Tag }
+
+var
+   FfType_Tag: TfType_Tag= nil;
+
+function fType_Tag: TfType_Tag;
+begin
+     Clean_Get( Result, FfType_Tag, TfType_Tag);
+end;
 
 constructor TfType_Tag.Create(TheOwner: TComponent);
 begin

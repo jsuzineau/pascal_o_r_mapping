@@ -1,4 +1,4 @@
-unit uClean;
+﻿unit uClean;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             partly as freelance: http://www.mars42.com                          |
@@ -111,11 +111,10 @@ uses
 
 function uClean_EXE_Name: String;
 begin
-
-     Result:= GetModuleName(HINSTANCE);
-     if '' = Result // se produit sur Lazarus 2.0.0RC1 /FPC 3.0.4
-     then
-         Result:= ParamStr( 0);
+     //Result:= GetModuleName(HINSTANCE); //retourne le BPL sous Delphi
+     //if '' = Result // se produit sur Lazarus 2.0.0RC1 /FPC 3.0.4
+     //then
+     Result:= ParamStr( 0);
 end;
 
 function Repertoire_from_( _NomFichier: String): String;

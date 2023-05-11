@@ -1,0 +1,789 @@
+object fjsWorks: TfjsWorks
+  Left = 705
+  Top = 247
+  Caption = 'jsWorks'
+  ClientHeight = 507
+  ClientWidth = 959
+  Position = ScreenCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop, iPhone, iPad]
+  OnShow = FormShow
+  Left = 705
+  Top = 247
+  DesignerMasterStyle = 0
+  object Panel1: TPanel
+    Align = Client
+    Size.Width = 757.000000000000000000
+    Size.Height = 507.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object pDevelopment: TPanel
+      Align = Bottom
+      Position.Y = 201.000000000000000000
+      Size.Width = 757.000000000000000000
+      Size.Height = 306.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Left = 1
+      Top = 200
+      object Panel2: TPanel
+        Align = Right
+        Position.X = 250.000000000000000000
+        Size.Width = 507.000000000000000000
+        Size.Height = 306.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Left = 247
+        Top = 1
+        object Panel13: TPanel
+          Align = Top
+          Size.Width = 507.000000000000000000
+          Size.Height = 83.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          Left = 1
+          Top = 1
+          object clkcbCategorie: TChamp_Lookup_ComboBox
+            ItemHeight = 15.000000000000000000
+            Size.Width = 233.000000000000000000
+            Size.Height = 23.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 0
+            Field = 'Categorie'
+            Left = 3
+            Top = 18
+          end
+          object clkcbState: TChamp_Lookup_ComboBox
+            ItemHeight = 15.000000000000000000
+            Size.Width = 235.000000000000000000
+            Size.Height = 23.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 1
+            Field = 'State'
+            Left = 254
+            Top = 19
+          end
+          object Label7: TLabel
+            Size.Width = 51.000000000000000000
+            Size.Height = 15.000000000000000000
+            Size.PlatformDefault = False
+            Text = 'Categorie'
+            Left = 2
+            Top = 2
+          end
+          object Label8: TLabel
+            Size.Width = 26.000000000000000000
+            Size.Height = 15.000000000000000000
+            Size.PlatformDefault = False
+            Text = 'State'
+            Left = 254
+            Top = 2
+          end
+          object bPoint: TButton
+            Size.Width = 75.000000000000000000
+            Size.Height = 25.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 2
+            Text = 'Point'
+            OnClick = bPointClick
+            Left = 7
+            Top = 56
+          end
+          object bBug: TButton
+            Size.Width = 75.000000000000000000
+            Size.Height = 25.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 3
+            Text = 'Bug'
+            OnClick = bBugClick
+            Left = 96
+            Top = 56
+          end
+          object bCategorie_to_Tag: TButton
+            Size.Width = 163.000000000000000000
+            Size.Height = 25.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 4
+            Text = 'bCategorie_to_Tag'
+            OnClick = bCategorie_to_TagClick
+            Left = 191
+            Top = 56
+          end
+        end
+        object gbSolution: TGroupBox
+          Align = Bottom
+          Position.Y = 201.000000000000000000
+          Size.Width = 507.000000000000000000
+          Size.Height = 105.000000000000000000
+          Size.PlatformDefault = False
+          Text = 'Solution'
+          TabOrder = 1
+          Left = 1
+          Top = 198
+          object cmSolution: TChamp_Memo
+            Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+            DataDetectorTypes = []
+            Lines.Strings = (
+              'cmSolution')
+            Align = Client
+            Size.Width = 507.000000000000000000
+            Size.Height = 105.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 0
+            Field = 'Solution'
+            Viewport.Width = 503.000000000000000000
+            Viewport.Height = 101.000000000000000000
+          end
+        end
+        object gbDescription: TGroupBox
+          Align = Client
+          Size.Width = 507.000000000000000000
+          Size.Height = 118.000000000000000000
+          Size.PlatformDefault = False
+          Text = 'Description'
+          TabOrder = 2
+          Left = 1
+          Top = 84
+          object cmDevelopment_Description: TChamp_Memo
+            Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+            DataDetectorTypes = []
+            Lines.Strings = (
+              'cmDevelopment_Description')
+            Align = Client
+            Size.Width = 507.000000000000000000
+            Size.Height = 118.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 0
+            Field = 'Description'
+            Viewport.Width = 503.000000000000000000
+            Viewport.Height = 114.000000000000000000
+          end
+        end
+      end
+      object Splitter6: TSplitter
+        Align = Right
+        Cursor = crHSplit
+        MinSize = 20.000000000000000000
+        Position.X = 245.000000000000000000
+        Size.Width = 5.000000000000000000
+        Size.Height = 306.000000000000000000
+        Size.PlatformDefault = False
+        Left = 242
+        Top = 1
+      end
+      object Panel3: TPanel
+        Align = Client
+        Size.Width = 245.000000000000000000
+        Size.Height = 306.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        Left = 1
+        Top = 1
+        object Panel10: TPanel
+          Align = Top
+          Size.Width = 245.000000000000000000
+          Size.Height = 50.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          Left = 1
+          Top = 1
+        end
+        object dsbDevelopment: TDockableScrollbox
+          Align = Client
+          Size.Width = 245.000000000000000000
+          Size.Height = 256.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          HauteurLigne = 24
+          BordureLignes = True
+          Zebrage = False
+          Zebrage1 = 15138790
+          Zebrage2 = 16777192
+          OnSelect = dsbDevelopmentSelect
+          _LectureSeule = False
+          Left = 1
+          Top = 51
+          object TPanel
+            Align = Top
+            Size.Width = 245.000000000000000000
+            Size.Height = 120.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 0
+          end
+          object TPanel
+            Align = Bottom
+            Position.Y = 136.000000000000000000
+            Size.Width = 245.000000000000000000
+            Size.Height = 120.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 1
+          end
+          object TPanel
+            Align = Client
+            Size.Width = 245.000000000000000000
+            Size.Height = 16.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 2
+          end
+          object TScrollBar
+            Align = Right
+            SmallChange = 0.000000000000000000
+            Orientation = Vertical
+            Position.X = 245.000000000000000000
+            Position.Y = 120.000000000000000000
+            Size.Height = 16.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 3
+          end
+        end
+      end
+    end
+    object pWork: TPanel
+      Align = Client
+      Size.Width = 757.000000000000000000
+      Size.Height = 196.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Left = 1
+      Top = 1
+      object Panel8: TPanel
+        Align = Left
+        Size.Width = 241.000000000000000000
+        Size.Height = 196.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Left = 1
+        Top = 1
+        object Panel7: TPanel
+          Align = Top
+          Size.Width = 241.000000000000000000
+          Size.Height = 60.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          Left = 1
+          Top = 1
+          object Label3: TLabel
+            Size.Width = 44.000000000000000000
+            Size.Height = 15.000000000000000000
+            Size.PlatformDefault = False
+            Text = 'Sessions'
+            Left = 8
+          end
+          object bTemps: TButton
+            Size.Width = 75.000000000000000000
+            Size.Height = 25.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 0
+            Text = 'Temps'
+            OnClick = bTempsClick
+            Left = 160
+            Top = 1
+          end
+          object dtpBeginning_From: TDateEdit
+            Date = 42923.000000000000000000
+            Size.Width = 83.000000000000000000
+            Size.Height = 23.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 1
+            Left = 65
+            Top = 29
+          end
+          object Label9: TLabel
+            Size.Width = 36.000000000000000000
+            Size.Height = 15.000000000000000000
+            Size.PlatformDefault = False
+            Text = 'Depuis'
+            Left = 8
+            Top = 31
+          end
+          object bBeginning_From: TButton
+            Size.Width = 31.000000000000000000
+            Size.Height = 25.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 2
+            Text = 'Go'
+            OnClick = bBeginning_FromClick
+            Left = 168
+            Top = 29
+          end
+          object bHTTP: TButton
+            Size.Width = 47.000000000000000000
+            Size.Height = 25.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 3
+            Text = 'HTTP'
+            OnClick = bHTTPClick
+            Left = 104
+            Top = 1
+          end
+        end
+        object dsbWork: TDockableScrollbox
+          Align = Client
+          Size.Width = 241.000000000000000000
+          Size.Height = 136.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          HauteurLigne = 45
+          BordureLignes = True
+          Zebrage = False
+          Zebrage1 = 15138790
+          Zebrage2 = 16777192
+          OnSelect = dsbWorkSelect
+          _LectureSeule = False
+          OnTraite_Message = dsbWorkTraite_Message
+          Left = 1
+          Top = 61
+          object TPanel
+            Align = Top
+            Size.Width = 241.000000000000000000
+            Size.Height = 120.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 0
+          end
+          object TPanel
+            Align = Bottom
+            Position.Y = 16.000000000000000000
+            Size.Width = 241.000000000000000000
+            Size.Height = 120.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 1
+          end
+          object TPanel
+            Align = Client
+            Size.Width = 241.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 2
+          end
+          object TScrollBar
+            Align = Right
+            SmallChange = 0.000000000000000000
+            Orientation = Vertical
+            Position.X = 241.000000000000000000
+            Position.Y = 120.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 3
+          end
+        end
+      end
+      object Splitter4: TSplitter
+        Align = Left
+        Cursor = crHSplit
+        MinSize = 20.000000000000000000
+        Position.X = 241.000000000000000000
+        Size.Width = 5.000000000000000000
+        Size.Height = 196.000000000000000000
+        Size.PlatformDefault = False
+        Left = 242
+        Top = 1
+      end
+      object Panel9: TPanel
+        Align = Client
+        Size.Width = 511.000000000000000000
+        Size.Height = 196.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        Left = 247
+        Top = 1
+        object Panel5: TPanel
+          Align = Top
+          Size.Width = 511.000000000000000000
+          Size.Height = 120.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          Left = 1
+          Top = 1
+          object Label4: TLabel
+            Size.Width = 32.000000000000000000
+            Size.Height = 15.000000000000000000
+            Size.PlatformDefault = False
+            Text = 'D'#195#169'but'
+            Left = 3
+            Top = 27
+          end
+          object Label5: TLabel
+            Size.Width = 16.000000000000000000
+            Size.Height = 15.000000000000000000
+            Size.PlatformDefault = False
+            Text = 'Fin'
+            Left = 3
+            Top = 54
+          end
+          object Label6: TLabel
+            Align = Top
+            Size.Width = 511.000000000000000000
+            Size.Height = 15.000000000000000000
+            Size.PlatformDefault = False
+            Text = 'Session'
+            Left = 1
+            Top = 1
+          end
+          object bStart: TButton
+            Size.Width = 75.000000000000000000
+            Size.Height = 25.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 0
+            Text = 'D'#195#169'marrer'
+            OnClick = bStartClick
+            Left = 2
+            Top = 85
+          end
+          object bStop: TButton
+            Size.Width = 75.000000000000000000
+            Size.Height = 25.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 1
+            Text = 'Arr'#195#170'ter'
+            OnClick = bStopClick
+            Left = 168
+            Top = 84
+          end
+          object ceBeginning: TChamp_Edit
+            Touch.InteractiveGestures = [LongTap, DoubleTap]
+            TabOrder = 2
+            Text = 'ceBeginning'
+            Size.Width = 200.000000000000000000
+            Size.Height = 23.000000000000000000
+            Size.PlatformDefault = False
+            Field = 'Beginning'
+            Left = 49
+            Top = 23
+          end
+          object ceEnd: TChamp_Edit
+            Touch.InteractiveGestures = [LongTap, DoubleTap]
+            TabOrder = 3
+            Text = 'ceEnd'
+            Size.Width = 200.000000000000000000
+            Size.Height = 23.000000000000000000
+            Size.PlatformDefault = False
+            Field = 'End'
+            Left = 49
+            Top = 50
+          end
+          object dsbWork_Tag: TDockableScrollbox
+            Align = Right
+            Position.X = 397.000000000000000000
+            Position.Y = 15.000000000000000000
+            Size.Width = 114.000000000000000000
+            Size.Height = 105.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 4
+            HauteurLigne = 17
+            BordureLignes = True
+            Zebrage = False
+            Zebrage1 = 15138790
+            Zebrage2 = 16777192
+            OnSuppression = dsbWork_TagSuppression
+            _LectureSeule = False
+            Left = 300
+            Top = 16
+            object TPanel
+              Align = Top
+              Size.Width = 114.000000000000000000
+              Size.Height = 120.000000000000000000
+              Size.PlatformDefault = False
+              TabOrder = 0
+            end
+            object TPanel
+              Align = Bottom
+              Position.Y = -15.000000000000000000
+              Size.Width = 114.000000000000000000
+              Size.Height = 120.000000000000000000
+              Size.PlatformDefault = False
+              TabOrder = 1
+            end
+            object TPanel
+              Align = Client
+              Size.Width = 114.000000000000000000
+              Size.PlatformDefault = False
+              TabOrder = 2
+            end
+            object TScrollBar
+              Align = Right
+              SmallChange = 0.000000000000000000
+              Orientation = Vertical
+              Position.X = 114.000000000000000000
+              Position.Y = 120.000000000000000000
+              Size.PlatformDefault = False
+              TabOrder = 3
+            end
+          end
+          object dsbWork_Tag_from_Description: TDockableScrollbox
+            Align = Right
+            Position.X = 307.000000000000000000
+            Position.Y = 15.000000000000000000
+            Size.Width = 90.000000000000000000
+            Size.Height = 105.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 5
+            HauteurLigne = 17
+            BordureLignes = True
+            Zebrage = False
+            Zebrage1 = 15138790
+            Zebrage2 = 16777192
+            OnSuppression = dsbWork_Tag_from_DescriptionSuppression
+            _LectureSeule = False
+            Left = 414
+            Top = 16
+            object TPanel
+              Align = Top
+              Size.Width = 90.000000000000000000
+              Size.Height = 120.000000000000000000
+              Size.PlatformDefault = False
+              TabOrder = 0
+            end
+            object TPanel
+              Align = Bottom
+              Position.Y = -15.000000000000000000
+              Size.Width = 90.000000000000000000
+              Size.Height = 120.000000000000000000
+              Size.PlatformDefault = False
+              TabOrder = 1
+            end
+            object TPanel
+              Align = Client
+              Size.Width = 90.000000000000000000
+              Size.PlatformDefault = False
+              TabOrder = 2
+            end
+            object TScrollBar
+              Align = Right
+              SmallChange = 0.000000000000000000
+              Orientation = Vertical
+              Position.X = 90.000000000000000000
+              Position.Y = 120.000000000000000000
+              Size.PlatformDefault = False
+              TabOrder = 3
+            end
+          end
+          object bVST: TButton
+            Size.Width = 43.000000000000000000
+            Size.Height = 25.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 6
+            Text = 'bVST'
+            OnClick = bVSTClick
+            Left = 254
+            Top = 23
+          end
+          object bAutomatic_VST: TButton
+            Size.Width = 43.000000000000000000
+            Size.Height = 25.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 7
+            Text = 'A VST'
+            OnClick = bAutomatic_VSTClick
+            Left = 254
+            Top = 48
+          end
+          object bNEO4J: TButton
+            Size.Width = 43.000000000000000000
+            Size.Height = 25.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 8
+            Text = 'neo4j'
+            OnClick = bNEO4JClick
+            Left = 254
+            Top = 72
+          end
+          object bTULEAP: TButton
+            Size.Width = 43.000000000000000000
+            Size.Height = 25.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 9
+            Text = 'TULEAP'
+            OnClick = bTULEAPClick
+            Left = 253
+            Top = 95
+          end
+          object bStopAndStart: TButton
+            Size.Width = 86.000000000000000000
+            Size.Height = 25.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 10
+            Text = 'Red'#195#169'marrer'
+            OnClick = bStopAndStartClick
+            Left = 80
+            Top = 84
+          end
+        end
+        object cmWork_Description: TChamp_Memo
+          Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+          DataDetectorTypes = []
+          Lines.Strings = (
+            'cmWork_Description')
+          Align = Client
+          Size.Width = 511.000000000000000000
+          Size.Height = 76.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 1
+          Field = 'Description'
+          Left = 1
+          Top = 121
+          Viewport.Width = 507.000000000000000000
+          Viewport.Height = 72.000000000000000000
+        end
+      end
+    end
+    object Splitter1: TSplitter
+      Align = Bottom
+      Cursor = crVSplit
+      MinSize = 20.000000000000000000
+      Position.Y = 196.000000000000000000
+      Size.Width = 757.000000000000000000
+      Size.Height = 5.000000000000000000
+      Size.PlatformDefault = False
+      Left = 1
+      Top = 195
+    end
+  end
+  object Splitter2: TSplitter
+    Align = Right
+    Cursor = crHSplit
+    MinSize = 20.000000000000000000
+    Position.X = 757.000000000000000000
+    Size.Width = 5.000000000000000000
+    Size.Height = 507.000000000000000000
+    Size.PlatformDefault = False
+    Left = 757
+  end
+  object Panel4: TPanel
+    Align = Right
+    Position.X = 762.000000000000000000
+    Size.Width = 197.000000000000000000
+    Size.Height = 507.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    Left = 762
+    object Panel6: TPanel
+      Align = Top
+      Size.Width = 197.000000000000000000
+      Size.Height = 135.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Left = 1
+      Top = 1
+      object bProject_to_Tag: TButton
+        Size.Width = 112.000000000000000000
+        Size.Height = 25.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Text = 'bProject_to_Tag'
+        OnClick = bProject_to_TagClick
+        Left = 32
+        Top = 8
+      end
+      object bDescription_to_Tag: TButton
+        Size.Width = 176.000000000000000000
+        Size.Height = 25.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        Text = 'bDescription_to_Tag'
+        OnClick = bDescription_to_TagClick
+        Left = 8
+        Top = 39
+      end
+      object bNew_Tag_Project_from_Selection: TButton
+        Size.Width = 192.000000000000000000
+        Size.Height = 25.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+        Text = 'bNew_Tag_Project_from_Selection'
+        OnClick = bNew_Tag_Project_from_SelectionClick
+        Left = 8
+        Top = 72
+      end
+      object bNew_Tag_Client_from_Selection: TButton
+        Size.Width = 184.000000000000000000
+        Size.Height = 25.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 3
+        Text = 'Client Tag from Selection'
+        OnClick = bNew_Tag_Client_from_SelectionClick
+        Left = 8
+        Top = 104
+      end
+    end
+    object dsbTag: TDockableScrollbox
+      Align = Client
+      Size.Width = 197.000000000000000000
+      Size.Height = 372.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      HauteurLigne = 17
+      BordureLignes = True
+      Zebrage = False
+      Zebrage1 = 15138790
+      Zebrage2 = 16777192
+      _LectureSeule = False
+      Left = 1
+      Top = 136
+      object TPanel
+        Align = Top
+        Size.Width = 197.000000000000000000
+        Size.Height = 120.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+      end
+      object TPanel
+        Align = Bottom
+        Position.Y = 252.000000000000000000
+        Size.Width = 197.000000000000000000
+        Size.Height = 120.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+      end
+      object TPanel
+        Align = Client
+        Size.Width = 197.000000000000000000
+        Size.Height = 132.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 2
+      end
+      object TScrollBar
+        Align = Right
+        SmallChange = 0.000000000000000000
+        Orientation = Vertical
+        Position.X = 197.000000000000000000
+        Position.Y = 120.000000000000000000
+        Size.Height = 132.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 3
+      end
+    end
+  end
+  object t: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = tTimer
+    Left = 44
+    Top = 212
+  end
+  object mm: TMainMenu
+    Left = 680
+    Top = 32
+    object miVoir: TMenuItem
+      Text = '&Voir'
+      object miProject: TMenuItem
+        Locked = True
+        Text = 'Project'
+        OnClick = miProjectClick
+      end
+      object miAutomatic: TMenuItem
+        Locked = True
+        Text = 'Automatic'
+        OnClick = miAutomaticClick
+      end
+      object miType_Tag: TMenuItem
+        Locked = True
+        Text = 'Type_Tag'
+        OnClick = miType_TagClick
+      end
+      object miTag: TMenuItem
+        Locked = True
+        Text = 'Tag'
+        OnClick = miTagClick
+      end
+    end
+  end
+end

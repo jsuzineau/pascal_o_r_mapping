@@ -77,7 +77,7 @@ type
 
 implementation
 
-{$R *.lfm}
+{$R *.fmx}
 
 { TdkWork }
 

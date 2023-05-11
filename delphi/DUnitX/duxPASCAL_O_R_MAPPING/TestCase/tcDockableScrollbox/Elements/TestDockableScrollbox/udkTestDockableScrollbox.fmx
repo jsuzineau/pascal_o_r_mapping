@@ -1,0 +1,24 @@
+inherited dkTestDockableScrollbox: TdkTestDockableScrollbox
+  Left = 704
+  Top = 420
+  Caption = 'dkTestDockableScrollbox'
+  ClientHeight = 77
+  ClientWidth = 320
+  Left = 704
+  Top = 420
+  DesignerMasterStyle = 0
+  object clNom: TChamp_Label
+    Anchors = [akLeft, akTop, akRight]
+    Size.Width = 174.000000000000000000
+    Size.Height = 14.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'clNom'
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    OnDblClick = FormDblClick
+    Field = 'Nom'
+    Left = 16
+    Top = 4
+  end
+end

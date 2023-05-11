@@ -30,7 +30,8 @@ uses
     uDockable,
     uodTag,
     ucBatpro_Shape, ucChamp_Label, ucChamp_Edit,
- Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, FMX.Graphics, System.UITypes;
+ Classes, SysUtils, FMX.Forms, FMX.Controls, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls, System.UITypes,
+  FMX.Controls.Presentation, FMX.Types, FMX.Objects;
 
 type
 
@@ -42,7 +43,6 @@ type
    bOD: TButton;
     clName: TChamp_Label;
     procedure bODClick(Sender: TObject);
-    procedure FormClick(Sender: TObject);
   //Gestion du cycle de vie
   public
     constructor Create(AOwner: TComponent); override;
@@ -56,7 +56,7 @@ type
 
 implementation
 
-{$R *.lfm}
+{$R *.fmx}
 
 { TdkTag_LABEL_od }
 
@@ -84,11 +84,6 @@ begin
          Fill.Color:= TColorRec.White
      else
          Fill.Color:= blTag.Couleur;
-end;
-
-procedure TdkTag_LABEL_od.FormClick(Sender: TObject);
-begin
-     inherited;
 end;
 
 procedure TdkTag_LABEL_od.bODClick(Sender: TObject);

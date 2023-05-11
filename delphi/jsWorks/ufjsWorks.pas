@@ -70,7 +70,8 @@ uses
   Classes, SysUtils, FMX.DateTimeCtrls, FMX.Forms, FMX.Controls, FMX.Graphics,
   FMX.Dialogs, FMX.StdCtrls, FMX.ExtCtrls, Buttons, FMX.Menus, ucChampsGrid,
   ucDockableScrollbox, ucChamp_DateTimePicker, ucChamp_Edit, ucChamp_Memo,
-  ucChamp_Lookup_ComboBox, uDockable, dateutils, FMX.Types, System.UITypes;
+  ucChamp_Lookup_ComboBox, uDockable, dateutils, FMX.Types, System.UITypes,
+  FMX.Edit, FMX.ScrollBox, FMX.Memo, FMX.ListBox, FMX.Controls.Presentation;
 
 type
 
@@ -169,7 +170,6 @@ type
    procedure miProjectClick(Sender: TObject);
    procedure miTagClick(Sender: TObject);
    procedure miType_TagClick(Sender: TObject);
-   procedure pDevelopmentClick(Sender: TObject);
    procedure tTimer(Sender: TObject);
   //Gestion du cycle de vie
   public
@@ -327,11 +327,6 @@ end;
 procedure TfjsWorks.miAutomaticClick(Sender: TObject);
 begin
      fAutomatic.Show;
-end;
-
-procedure TfjsWorks.pDevelopmentClick(Sender: TObject);
-begin
-
 end;
 
 procedure TfjsWorks.bStartClick(Sender: TObject);

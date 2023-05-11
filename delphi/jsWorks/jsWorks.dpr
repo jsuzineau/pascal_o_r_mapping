@@ -20,11 +20,7 @@ program jsWorks;
                                                                                 |
 |                                                                               }
 uses
-  Forms,
-  datetimectrls,
-  windows,
-  ufjsWorks,
-  ufTemps,
+  FMX.Forms,
   uhdmCalendrier in 'Elements\Calendrier\uhdmCalendrier.pas',
   uodCalendrier in 'Elements\Calendrier\uodCalendrier.pas',
   ublCalendrier in 'Elements\Calendrier\ublCalendrier.pas',
@@ -63,8 +59,6 @@ uses
   uhfTag_Development in 'Elements\Tag_Development\uhfTag_Development.pas',
   upoolTag_Development in 'Elements\Tag_Development\upoolTag_Development.pas',
   ublTag_Development in 'Elements\Tag_Development\ublTag_Development.pas',
-  ufTag_Development in 'Elements\Tag_Development\ufTag_Development.pas',
-  ufTag_Work in 'Elements\Tag_Work\ufTag_Work.pas',
   uhfTag_Work in 'Elements\Tag_Work\uhfTag_Work.pas',
   upoolTag_Work in 'Elements\Tag_Work\upoolTag_Work.pas',
   ublTag_Work in 'Elements\Tag_Work\ublTag_Work.pas',
@@ -77,16 +71,15 @@ uses
   uhfWork in 'Elements\Work\uhfWork.pas',
   uodWork_from_Period in 'Elements\Work\uodWork_from_Period.pas',
   upoolWork in 'Elements\Work\upoolWork.pas',
-  ublWork in 'Elements\Work\ublWork.pas';
+  ublWork in 'Elements\Work\ublWork.pas',
+  ufTemps in 'ufTemps.pas',
+  ufjsWorks in 'ufjsWorks.pas';
 
 {$R *.res}
 
 begin
- RequireDerivedFormResource := True;
- Application.Initialize;
- Application.CreateForm(TfjsWorks, fjsWorks);
-  Application.CreateForm(TfProject, fProject);
-  Application.CreateForm(TfTYPE_Tag, fTYPE_Tag);
-  Application.Run;
+     Application.Initialize;
+     Application.CreateForm(TfjsWorks, fjsWorks);
+     Application.Run;
 end.
 

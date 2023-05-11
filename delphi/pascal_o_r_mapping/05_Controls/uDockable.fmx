@@ -14,6 +14,8 @@ object Dockable: TDockable
   Left = 300
   Top = 120
   DesignerMasterStyle = 0
+  object sBackground: TShape
+  end
   object sSelection: TBatpro_Shape
     Batpro_Shape = bstRectangle
   end

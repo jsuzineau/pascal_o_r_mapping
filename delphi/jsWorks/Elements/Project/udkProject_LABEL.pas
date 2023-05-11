@@ -57,7 +57,7 @@ type
 
 implementation
 
-{$R *.lfm}
+{$R *.fmx}
 
 { TdkProject_LABEL }
 

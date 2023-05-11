@@ -55,7 +55,7 @@ type
 
 implementation
 
-{$R *.lfm}
+{$R *.fmx}
 
 { TdkWork_haTag_from_Description_LABEL }
 

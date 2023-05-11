@@ -37,7 +37,8 @@ uses
     uDockable,
     ucBatpro_Shape, ucChamp_Label, ucChamp_Edit, ucBatproDateTimePicker,
     ucChamp_DateTimePicker, Classes, SysUtils, Forms, Controls,
-    Graphics, Dialogs, Buttons, FMX.DialogService, UITypes;
+    Graphics, Dialogs, Buttons, FMX.DialogService, UITypes, FMX.StdCtrls,
+  FMX.Controls.Presentation, FMX.Types, FMX.Objects;
 
 type
 
@@ -48,7 +49,6 @@ type
   class(TDockable)
   clDescription_Short: TChamp_Label;
   sbDetruire: TSpeedButton;
-  procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   procedure sbDetruireClick(Sender: TObject);
  public
   procedure SetObjet(const Value: TObject); override;
@@ -59,7 +59,7 @@ type
 
 implementation
 
-{$R *.lfm}
+{$R *.fmx}
 
 { TdkDevelopment}
 
@@ -88,11 +88,6 @@ begin
                           Do_DockableScrollbox_Suppression;
                      end
                      );
-end;
-
-procedure TdkDevelopment.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-     inherited;
 end;
 
 end.

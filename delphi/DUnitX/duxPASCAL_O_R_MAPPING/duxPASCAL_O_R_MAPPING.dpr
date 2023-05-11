@@ -3,22 +3,6 @@ program duxPASCAL_O_R_MAPPING;
 {$IFNDEF TESTINSIGHT}
 {$APPTYPE CONSOLE}
 {$ENDIF}{$STRONGLINKTYPES ON}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 uses
   System.SysUtils,
   {$IFDEF TESTINSIGHT}
@@ -29,24 +13,11 @@ uses
   DUnitX.TestFramework,
   utcOpenDocument_Embed_Image in 'TestCase\tcOpenDocument_Embed_Image\utcOpenDocument_Embed_Image.pas',
   ublTest in 'TestCase\tcOpenDocument_Embed_Image\Elements\Test\ublTest.pas',
-  ufBitmaps in '..\..\pascal_o_r_mapping\06_Formes\ufBitmaps.pas',
-  uImpression_Font_Size_Multiplier in '..\..\pascal_o_r_mapping\06_Formes\uImpression_Font_Size_Multiplier.pas',
-  uAide in '..\..\pascal_o_r_mapping\06_Formes\uAide.pas',
-  ufHelp_Creator in '..\..\pascal_o_r_mapping\06_Formes\ufHelp_Creator.pas',
-  ufpBas in '..\..\pascal_o_r_mapping\06_Formes\ufpBas.pas',
-  ufBatpro_Form in '..\..\pascal_o_r_mapping\06_Formes\ufBatpro_Form.pas',
-  ufBatpro_Desk in '..\..\pascal_o_r_mapping\06_Formes\ufBatpro_Desk.pas',
-  uHorloge in '..\..\pascal_o_r_mapping\06_Formes\uHorloge.pas',
-  ufAccueil in '..\..\pascal_o_r_mapping\06_Formes\ufAccueil.pas',
-  ufBatpro_Informix in '..\..\pascal_o_r_mapping\06_Formes\ufBatpro_Informix.pas',
-  ufBatpro_MySQL in '..\..\pascal_o_r_mapping\06_Formes\ufBatpro_MySQL.pas',
-  ufBatpro_Parametres_Client in '..\..\pascal_o_r_mapping\06_Formes\ufBatpro_Parametres_Client.pas',
-  udmSMTP in '..\..\pascal_o_r_mapping\06_Formes\udmSMTP.pas',
-  ufProgression in '..\..\pascal_o_r_mapping\06_Formes\ufProgression.pas',
-  ufReconcileError in '..\..\pascal_o_r_mapping\06_Formes\ufReconcileError.pas',
-  udkProgression in '..\..\pascal_o_r_mapping\06_Formes\udkProgression.pas',
-  uLog in '..\..\pascal_o_r_mapping\06_Formes\uLog.pas',
-  uDockable in '..\..\pascal_o_r_mapping\05_Controls\uDockable.pas';
+  uftcDockableScrollbox in 'TestCase\tcDockableScrollbox\uftcDockableScrollbox.pas',
+  utcDockableScrollbox in 'TestCase\tcDockableScrollbox\utcDockableScrollbox.pas',
+  ublTestDockableScrollbox in 'TestCase\tcDockableScrollbox\Elements\TestDockableScrollbox\ublTestDockableScrollbox.pas',
+  udkTestDockableScrollbox in 'TestCase\tcDockableScrollbox\Elements\TestDockableScrollbox\udkTestDockableScrollbox.pas',
+  uhdmTestDockableScrollbox in 'TestCase\tcDockableScrollbox\Elements\TestDockableScrollbox\uhdmTestDockableScrollbox.pas';
 
 var
   runner : ITestRunner;

@@ -1,4 +1,4 @@
-unit upoolWork;
+﻿unit upoolWork;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
@@ -341,9 +341,9 @@ procedure TpoolWork.Charge_Periode( _Debut, _Fin: TDateTime; _idTag: Integer= 0;
 begin
      Connection.Start_SQLLog;
 
-     //Version_avec_sgbd_DateTimeSQL;
+     Version_avec_sgbd_DateTimeSQL;
      //Version_avec_TParams;
-     Version_avec_les_deux;
+     //Version_avec_les_deux; DBExpress/SQLite déclenche "Non implémenté" sur TDBXRow.SetTimestamp
      Tri.Execute( _slLoaded);
      Connection.Stop_SQLLog;
 end;
