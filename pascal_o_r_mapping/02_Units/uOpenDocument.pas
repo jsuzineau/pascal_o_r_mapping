@@ -397,6 +397,28 @@ type
     constructor Create( _D: TOpenDocument; _eRoot: TDOMNode); override;
   end;
 
+ { TOpenDocument_Element }
+
+ TOpenDocument_Element
+ =
+  class
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom_relatif: String);
+    destructor Destroy; override;
+  //Attributs
+  public
+    Nom_relatif: String;
+    {$IFNDEF FPC}
+    ci: TJCLCompressionItem;
+    {$ENDIF}
+    xml: {$IFDEF FPC}TXMLDocument{$ELSE}TJclSimpleXml{$ENDIF};
+    NomFichier: String;
+  //méthodes
+  public
+    procedure XML_from_Repertoire_Extraction( _Repertoire_Extraction: String);
+    procedure Repertoire_Extraction_from_XML( _Repertoire_Extraction: String);
+  end;
  { TOpenDocument }
 
  TOpenDocument
@@ -439,11 +461,11 @@ type
     function Find_style_text_multiroot(_NomStyle: String;
       _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TDOMNode;
   public
-    xmlMeta             : TXMLDocument;
-    xmlSettings         : TXMLDocument;
-    xmlMETA_INF_manifest: TXMLDocument;
-    xmlContent          : TXMLDocument;
-    xmlStyles           : TXMLDocument;
+    odeMeta             : TOpenDocument_Element;
+    odeSettings         : TOpenDocument_Element;
+    odeMETA_INF_manifest: TOpenDocument_Element;
+    odeContent          : TOpenDocument_Element;
+    odeStyles           : TOpenDocument_Element;
     function CheminFichier_temporaire( _NomFichier: String): String;
   //Méthodes d'accés au XML
   private
@@ -870,6 +892,40 @@ begin
      Cree_path( Result, 'table:table-header-rows/table:table-row/table:table-cell');
      Cree_path( Result,                         'table:table-row/table:table-cell');
 
+end;
+
+{ TOpenDocument_Element }
+
+constructor TOpenDocument_Element.Create( _Nom_relatif: String);
+begin
+     Nom_relatif:= _Nom_relatif;
+     {$IFNDEF FPC}
+     ci:= nil;
+     {$ENDIF}
+     xml:= nil;
+end;
+
+destructor TOpenDocument_Element.Destroy;
+begin
+     FreeAndNil( xml);
+     inherited Destroy;
+end;
+
+procedure TOpenDocument_Element.XML_from_Repertoire_Extraction( _Repertoire_Extraction: String);
+begin
+     NomFichier:= _Repertoire_Extraction+Nom_relatif;
+     FreeAndNil( xml);
+     ReadXMLFile( xml, NomFichier);
+     (*_xml.IndentString:= '  ';
+     with _xml do Options:= Options + [sxoAutoEncodeValue];*)
+
+     OOoChrono.Stop( 'Chargement en objet du fichier xml '+Nom_relatif);
+end;
+
+procedure TOpenDocument_Element.Repertoire_Extraction_from_XML( _Repertoire_Extraction: String);
+begin
+     NomFichier:= _Repertoire_Extraction+Nom_relatif;
+     WriteXMLFile( xml, NomFichier);
 end;
 
 { TOpenDocument_Fields_Publieur }
@@ -1548,25 +1604,6 @@ begin
      Init( Nom);
 end;
 
-destructor TOpenDocument.Destroy;
-begin
-     FreeAndNil( pFields_Change      );
-     FreeAndNil( pFields_Delete      );
-     FreeAndNil( slEmbed_Image       );
-     FreeAndNil( xmlMeta             );
-     FreeAndNil( xmlSettings         );
-     FreeAndNil( xmlMETA_INF_manifest);
-     FreeAndNil( xmlContent          );
-     FreeAndNil( xmlStyles           );
-     FreeAndNil( slStyles_Cellule_Properties);
-
-     ChDir( ExtractFilePath( Nom));
-     //OD_Temporaire.DetruitRepertoire( Repertoire_Extraction);
-
-     FreeAndNil( pChange);
-     inherited;
-end;
-
 procedure TOpenDocument.Init(_Nom: String);
 var
    I: Integer;
@@ -1587,6 +1624,13 @@ begin
      Automatic_style_text_number     := 0;
      pChange:= TPublieur.Create( Classname+'.pChange');
      Nom:= _Nom;
+
+     odeMeta             := TOpenDocument_Element.Create( 'meta.xml'                         );
+     odeSettings         := TOpenDocument_Element.Create( 'settings.xml'                     );
+     odeMETA_INF_manifest:= TOpenDocument_Element.Create( 'META-INF'+{$IFDEF FPC}PathDelim{$ELSE}'\'{$ENDIF}+'manifest.xml');
+     odeContent          := TOpenDocument_Element.Create( 'content.xml'                      );
+     odeStyles           := TOpenDocument_Element.Create( 'styles.xml'                       );
+
      Calcule_is_Calc;
      Is_template_from_extension;
 
@@ -1599,6 +1643,26 @@ begin
      slEmbed_Image:= TslDimensions_Image.Create( ClassName+'.slEmbed_Image');
      pFields_Change:= TOpenDocument_Fields_Publieur.Create(ClassName+'.pFields_Change');
      pFields_Delete:= TOpenDocument_Fields_Publieur.Create(ClassName+'.pFields_Delete');
+end;
+
+destructor TOpenDocument.Destroy;
+begin
+     FreeAndNil( pFields_Change      );
+     FreeAndNil( pFields_Delete      );
+     FreeAndNil( slEmbed_Image       );
+     FreeAndNil( slStyles_Cellule_Properties);
+
+     ChDir( ExtractFilePath( Nom));
+     //OD_Temporaire.DetruitRepertoire( Repertoire_Extraction);
+
+     FreeAndNil( odeMeta             );
+     FreeAndNil( odeSettings         );
+     FreeAndNil( odeMETA_INF_manifest);
+     FreeAndNil( odeContent          );
+     FreeAndNil( odeStyles           );
+
+     FreeAndNil( pChange);
+     inherited;
 end;
 
 const
@@ -1616,41 +1680,29 @@ begin
 end;
 
 procedure TOpenDocument.XML_from_Repertoire_Extraction;
-   procedure Cree_XML( _FileName: String; var _xml: TXMLDocument);
-   var
-      NomFichier: String;
-   begin
-        NomFichier:= IncludeTrailingPathDelimiter( Repertoire_Extraction)+_FileName;
-        FreeAndNil( _xml);
-        ReadXMLFile( _xml, NomFichier);
-        (*_xml.IndentString:= '  ';
-        with _xml do Options:= Options + [sxoAutoEncodeValue];*)
-
-        OOoChrono.Stop( 'Chargement en objet du fichier xml '+_FileName);
-   end;
+var
+   R: String;
 begin
-     Cree_XML( 'meta.xml'             , xmlMeta             );
-     Cree_XML( 'settings.xml'         , xmlSettings         );
-     Cree_XML( 'META-INF'+PathDelim+'manifest.xml', xmlMETA_INF_manifest);
-     Cree_XML( 'content.xml'          , xmlContent          );
-     Cree_XML( 'styles.xml'           , xmlStyles           );
+     R:= IncludeTrailingPathDelimiter( Repertoire_Extraction);
+     odeMeta             .XML_from_Repertoire_Extraction( R);
+     odeSettings         .XML_from_Repertoire_Extraction( R);
+     odeMETA_INF_manifest.XML_from_Repertoire_Extraction( R);
+     odeContent          .XML_from_Repertoire_Extraction( R);
+     odeStyles           .XML_from_Repertoire_Extraction( R);
 end;
 
 procedure TOpenDocument.Repertoire_Extraction_from_XML;
-   procedure Sauve_XML( _FileName: String; var _xml: TXMLDocument);
-   var
-      NomFichier: String;
-   begin
-        NomFichier:= IncludeTrailingPathDelimiter( Repertoire_Extraction)+_FileName;
-        WriteXMLFile( _xml, NomFichier);
-   end;
+var
+   R: String;
 begin
      MIMETYPE_and_MANIFEST_MEDIA_TYPE_from_Is_template;
-     Sauve_XML( 'meta.xml'             , xmlMeta             );
-     Sauve_XML( 'settings.xml'         , xmlSettings         );
-     Sauve_XML( 'META-INF'+PathDelim+'manifest.xml', xmlMETA_INF_manifest);
-     Sauve_XML( 'content.xml'          , xmlContent          );
-     Sauve_XML( 'styles.xml'           , xmlStyles           );
+
+     R:= IncludeTrailingPathDelimiter( Repertoire_Extraction);
+     odeMeta             .Repertoire_Extraction_from_XML( R);
+     odeSettings         .Repertoire_Extraction_from_XML( R);
+     odeMETA_INF_manifest.Repertoire_Extraction_from_XML( R);
+     odeContent          .Repertoire_Extraction_from_XML( R);
+     odeStyles           .Repertoire_Extraction_from_XML( R);
 end;
 
 procedure TOpenDocument.Extrait;
@@ -1776,7 +1828,7 @@ begin
      //==> META-INF/manifest.xml
      //  <manifest:manifest manifest:version="1.2">
      //     <manifest:file-entry manifest:full-path="Pictures/1000020100000064000000323F4469E66C808866.png" manifest:media-type="image/png"/>
-     root:= xmlMETA_INF_manifest.DocumentElement;
+     root:= odeMETA_INF_manifest.xml.DocumentElement;
      e:= Cherche_Item_Recursif( root,
                                 'manifest:file-entry',
                                 ['manifest:full-path'],
@@ -1858,7 +1910,7 @@ end;
 
 function TOpenDocument.Get_xmlContent_TEXT: TDOMNode;
 begin
-     Result:= Elem_from_path( xmlContent.DocumentElement, 'office:body/office:text')
+     Result:= Elem_from_path( odeContent.xml.DocumentElement, 'office:body/office:text')
 end;
 
 function TOpenDocument.Get_xmlContent_USER_FIELD_DECLS: TDOMNode;
@@ -1874,20 +1926,20 @@ const
      begin
           Get_xmlContent_USER_FIELD_DECLS_Premier:= False;
 
-          eOFFICE_TEXT:= Assure_path( xmlContent.DocumentElement, OFFICE_TEXT_path);
+          eOFFICE_TEXT:= Assure_path( odeContent.xml.DocumentElement, OFFICE_TEXT_path);
           eOFFICE_TEXT_first_child:= eOFFICE_TEXT.FirstChild;
 
           if Result = eOFFICE_TEXT_first_child then exit;
 
           eOFFICE_TEXT.InsertBefore( Result, eOFFICE_TEXT_first_child);
 
-          eSEQUENCE_DECLS:= Elem_from_path( xmlContent.DocumentElement, SEQUENCE_DECLS_path);
+          eSEQUENCE_DECLS:= Elem_from_path( odeContent.xml.DocumentElement, SEQUENCE_DECLS_path);
           if nil = eSEQUENCE_DECLS then exit;
 
           eOFFICE_TEXT.InsertBefore( eSEQUENCE_DECLS, Result);
      end;
 begin
-     Result:= Assure_path( xmlContent.DocumentElement, USER_FIELD_DECLS_path);
+     Result:= Assure_path( odeContent.xml.DocumentElement, USER_FIELD_DECLS_path);
      if Get_xmlContent_USER_FIELD_DECLS_Premier
      then
          Verifie_Position;
@@ -1895,14 +1947,14 @@ end;
 
 function TOpenDocument.Get_xmlContent_AUTOMATIC_STYLES: TDOMNode;
 begin
-     Result:= Elem_from_path( xmlContent.DocumentElement, 'office:automatic-styles');
+     Result:= Elem_from_path( odeContent.xml.DocumentElement, 'office:automatic-styles');
 end;
 
 function TOpenDocument.Get_xmlContent_SPREADSHEET: TDOMNode;
 begin
      Result
      :=
-       Elem_from_path( xmlContent.DocumentElement,
+       Elem_from_path( odeContent.xml.DocumentElement,
                        'office:body/office:spreadsheet');
 end;
 
@@ -1934,23 +1986,23 @@ function TOpenDocument.Get_xmlContent_SPREADSHEET_NAMED_EXPRESSIONS: TDOMNode;
 begin
      Result
      :=
-       Elem_from_path( xmlContent.DocumentElement,
+       Elem_from_path( odeContent.xml.DocumentElement,
                        'office:body/office:spreadsheet/table:named-expressions');
 end;
 
 function TOpenDocument.Get_xmlStyles_STYLES: TDOMNode;
 begin
-     Result:= Elem_from_path( xmlStyles.DocumentElement,'office:styles')
+     Result:= Elem_from_path( odeStyles.xml.DocumentElement,'office:styles')
 end;
 
 function TOpenDocument.Get_xmlStyles_AUTOMATIC_STYLES: TDOMNode;
 begin
-     Result:= Elem_from_path( xmlStyles.DocumentElement, 'office:automatic-styles');
+     Result:= Elem_from_path( odeStyles.xml.DocumentElement, 'office:automatic-styles');
 end;
 
 function TOpenDocument.Get_xmlStyles_MASTER_STYLES: TDOMNode;
 begin
-     Result:= Elem_from_path( xmlStyles.DocumentElement, 'office:master-styles');
+     Result:= Elem_from_path( odeStyles.xml.DocumentElement, 'office:master-styles');
 end;
 
 function TOpenDocument.Get_Property_Name( _e: TDOMNode; _NodeName: String): String;
@@ -2055,8 +2107,8 @@ procedure TOpenDocument.Set_StylesXML( _Styles: String);
 var
    s: TStringStream;
 begin
-     (*xmlStyles.LoadFromString( _Styles);
-     s:= TStringStream.Create( xmlStyles.SaveToString);
+     (*odeStyles.xml.LoadFromString( _Styles);
+     s:= TStringStream.Create( odeStyles.xml.SaveToString);
      try
         F.AddFile( 'styles.xml', s);
         F.Compress;
@@ -4205,7 +4257,7 @@ var
         mimetype:= sMIMETYPE;
 
         //modification manifest.xml
-        root:= xmlMETA_INF_manifest.DocumentElement;
+        root:= odeMETA_INF_manifest.xml.DocumentElement;
         e:= Cherche_Item_Recursif( root,
                                    'manifest:file-entry',
                                    ['manifest:full-path'],

@@ -924,7 +924,7 @@ function TOD_TextTableContext.Cherche_table: TDOMNode;
             end;
      end;
 begin
-     Result:= C( D.xmlContent.DocumentElement);
+     Result:= C( D.odeContent.xml.DocumentElement);
 end;
 
 function TOD_TextTableContext.NewRow: TOD_TABLE_ROW;

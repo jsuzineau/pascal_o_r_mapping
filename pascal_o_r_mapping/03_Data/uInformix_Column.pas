@@ -27,7 +27,7 @@ const
 type
  TInformix_Column
  =
-  class( TBatpro_Ligne)
+  class
   public
     ColType  : Integer;
     ColLength: Integer;

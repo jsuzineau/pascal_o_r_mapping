@@ -263,8 +263,8 @@ procedure TOD_TextFieldsCreator.Search_and_Replace( _Search, _Replace_by: String
              end;
       end;
    begin
-        Traite_Root( D.xmlContent.DocumentElement);
-        Traite_Root( D.xmlStyles .DocumentElement);
+        Traite_Root( D.odeContent.xml.DocumentElement);
+        Traite_Root( D.odeStyles.xml .DocumentElement);
 
         //On assure que le paramètre sera déclaré même si la boucle précédente
         //ne l'a pas trouvé
@@ -291,8 +291,8 @@ procedure TOD_TextFieldsCreator.Search_and_Replace( _Search, _Replace_by: String
              end;
       end;
    begin
-        Traite_Root( D.xmlContent.DocumentElement);
-        Traite_Root( D.xmlStyles .DocumentElement);
+        Traite_Root( D.odeContent.xml.DocumentElement);
+        Traite_Root( D.odeStyles.xml .DocumentElement);
    end;
 begin
      Avant_Apres_decl( _Search, _Replace_by);
@@ -362,8 +362,8 @@ begin
      if _IgnoreCase
      then
          Flags:= Flags+[rfIgnoreCase];
-     Traite_Root( D.xmlContent.DocumentElement);
-     Traite_Root( D.xmlStyles .DocumentElement);
+     Traite_Root( D.odeContent.xml.DocumentElement);
+     Traite_Root( D.odeStyles.xml .DocumentElement);
 end;
 
 end.

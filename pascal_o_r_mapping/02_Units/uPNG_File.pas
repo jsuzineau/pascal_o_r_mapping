@@ -191,7 +191,7 @@ implementation
 
 procedure ReadCardinal_BEtoN( var _F: File; out _c: Cardinal);
 var
-   Lu: Word;
+   Lu: Integer;
 begin
      BlockRead( _F, _c, SizeOf(_c), Lu);
      _c:= BEtoN( _c);
@@ -251,7 +251,7 @@ end;
 constructor TPNG_Chunk.Create(var _F: File; _Length: Cardinal);
   procedure ReadType;
   var
-     Lu: Word;
+     Lu: Integer;
      Taille: Integer;
   begin
        Taille:= 4;
@@ -263,7 +263,7 @@ constructor TPNG_Chunk.Create(var _F: File; _Length: Cardinal);
   end;
   procedure ReadData;
   var
-     Lu: Word;
+     Lu: Integer;
   begin
        SetLength( Data, Length_);
        //if is_IDAT then dec(Length_,4);//bidouille provisoire
@@ -272,7 +272,7 @@ constructor TPNG_Chunk.Create(var _F: File; _Length: Cardinal);
   end;
   procedure ReadIHDR;
   var
-     Lu: Word;
+     Lu: Integer;
      Taille: Integer;
   begin
        Taille:= SizeOf( IHDR);
@@ -286,7 +286,7 @@ constructor TPNG_Chunk.Create(var _F: File; _Length: Cardinal);
   end;
   procedure ReadpHYs;
   var
-     Lu: Word;
+     Lu: Integer;
      Taille: Integer;
   begin
        Taille:= SizeOf( pHYs);

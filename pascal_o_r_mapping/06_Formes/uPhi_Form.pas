@@ -125,6 +125,7 @@ procedure ThPhi_Form.FormResize(Sender: TObject);
 begin
      if FormResize_running then exit;
      try
+        FormResize_running:= True;
         {$IFDEF LINUX}
           t.Enabled:= False;
           t.Enabled:= True;
