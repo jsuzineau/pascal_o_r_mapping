@@ -36,7 +36,7 @@ uses
     ucBatpro_Shape, ucChamp_Label, ucChamp_Edit, ucBatproDateTimePicker,
     ucChamp_DateTimePicker, Classes, SysUtils, FMX.Forms, FMX.Controls,
     FMX.Graphics, FMX.Dialogs, FMX.Controls.Presentation, FMX.StdCtrls,
-  FMX.Types, FMX.Objects;
+  FMX.Types, FMX.Objects, FMX.Colors;
 
 type
 
@@ -46,6 +46,8 @@ type
  =
   class(TDockable)
   clNom: TChamp_Label;
+    Button2: TButton;
+    ColorPanel1: TColorPanel;
  public
   procedure SetObjet(const Value: TObject); override;
  //attributs

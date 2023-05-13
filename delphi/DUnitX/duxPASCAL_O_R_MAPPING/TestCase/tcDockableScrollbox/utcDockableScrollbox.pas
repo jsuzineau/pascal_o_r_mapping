@@ -29,7 +29,8 @@ interface
 
 uses
     uftcDockableScrollbox,
- Classes, DUnitX.TestFramework, System.SysUtils, Winapi.Windows, Winapi.ShellAPI;
+ Classes, DUnitX.TestFramework, System.SysUtils, Winapi.Windows, Winapi.ShellAPI,
+ FMX.Forms;
 
 type
 
@@ -57,7 +58,12 @@ procedure TtcDockableScrollbox.TestHookUp;
 var
    f: TftcDockableScrollbox;
 begin
-     f:= TftcDockableScrollbox.Create( nil);
+     {$IFDEF FPC}
+       f:= TftcDockableScrollbox.Create( nil);
+     {$ELSE}
+       Application.CreateForm( TftcDockableScrollbox, f);
+       Application.RealCreateForms;
+     {$ENDIF}
      f.ShowModal;
      FreeAndNil( f);
 end;

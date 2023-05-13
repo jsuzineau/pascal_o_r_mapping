@@ -16,23 +16,31 @@
 interface
 
 uses
-    JclCompression,
-    JclSimpleXml,
-    JclStreams,
+    uLog,
+    uMimeType,
+    uCSS_Style_Parser_PYACC,
+    uDimensions_Image,
+    uPublieur,
     uOD_Temporaire,
     uOD_Error,
     uOD_JCL,
     uOOoStrings,
+    uuStrings,
     uOOoChrono,
     uOOoStringList,
     uOOoDelphiReportEngineLog,
 
   {$IFDEF MSWINDOWS}Windows,{pour MulDiv}{$ENDIF}
-  SysUtils, Classes, Math, System.Zip;
+  JclCompression,
+  JclSimpleXml,
+  JclStreams,
+  SysUtils, Classes, Math, System.Zip, IOUtils,
+  httpsend;
 
 type
  {$IFNDEF FPC}
    TDOMNode= TJclSimpleXMLElem;
+   DOMString = String;
  {$ENDIF}
 
  TOD_Root_Styles
@@ -48,10 +56,363 @@ type
   class( TStringList)
   //Méthodes surchargées
   protected
-    function CompareStrings(const S1:String;const S2:String):Integer;override;
+    (*function CompareStrings(const S1:String;const S2:String):Integer;override;*)
   end;
 
  TEnumere_field_Racine_Callback= procedure ( _e: TJclSimpleXMLElem) of object;
+
+ TFields_Visitor= procedure ( _Name, _Value: String) of object;
+
+ { TOpenDocument_Fields_Publieur }
+
+ TOpenDocument_Fields_Publieur
+ =
+  class
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Owner_Name: String);
+    destructor Destroy; override;
+  //Owner_Name
+  public
+    Owner_Name: String;
+  //Publieur
+  public
+    p: TPublieur;
+    procedure Abonne   ( _Objet: TObject; _Proc: TAbonnement_Objet_Proc);
+    procedure Desabonne( _Objet: TObject; _Proc: TAbonnement_Objet_Proc);
+    procedure Publie( _Name, _Value: String);
+  //Paramètree
+  public
+    Name, Value: String;
+  end;
+
+ TOpenDocument= class;
+
+ { TStyle_DateTime }
+
+ TStyle_DateTime
+ =
+  class
+  //Gestion du cycle de vie
+  public
+    constructor Create( _od: TOpenDocument; _Root: TOD_Root_Styles; _Style_Name: String);
+    destructor Destroy; override;
+  //Attributs
+  public
+    od: TOpenDocument;
+    Root: TOD_Root_Styles;
+    Style_Name: String;
+  //Formatage
+  protected
+    function Find_Style: TDOMNode; virtual; abstract;
+  protected
+    Format_e: TDOMNode; //non réentrant/multithread
+    Format_Result: String; //non réentrant/multithread
+    function number_style_SHORT_from_(_e: TDOMNode): Boolean;
+    function number_textual_from_(_e: TDOMNode): Boolean;
+    function Format_from_number_style(_e: TDOMNode; _Short, _Long: String): String;
+    procedure Add_Format(_Short, _Long: String);
+    procedure Add_Format_textual(_Short, _Long, _Textual_Short, _Textual_Long: String);
+    procedure Add_Text;
+    procedure Traite_Node; virtual; abstract;
+  public
+    function Format: String; //non réentrant/multithread
+  end;
+
+ TStyle_DateTime_class= class of TStyle_DateTime;
+
+ { TStyle_Date }
+
+ TStyle_Date
+ =
+  class( TStyle_DateTime)
+  //Formatage
+  protected
+   function Find_Style: TDOMNode; override;
+   procedure Traite_Node; override;
+  end;
+
+ { TStyle_Time }
+
+ TStyle_Time
+ =
+  class( TStyle_DateTime)
+  //Formatage
+  protected
+   function Find_Style: TDOMNode; override;
+   procedure Traite_Node; override;
+  end;
+
+
+ TOD_TAB = class;
+ TOD_SPAN= class;
+ TOD_PARAGRAPH_PROPERTIES=class;
+ TOD_TEXT_PROPERTIES=class;
+
+ { TOD_XML_Element }
+
+ TOD_XML_Element
+ =
+  class
+  //Cycle de vie
+  public
+    constructor Create( _D: TOpenDocument; _eRoot: TDOMNode); virtual;
+    destructor Destroy; override;
+  //Attributs
+  public
+    D: TOpenDocument;
+    eRoot: TDOMNode;
+    e: TDOMNode;
+  //Méthodes
+  public
+    function  not_Get_Property( _NodeName: String; out _Value: String): Boolean;
+    procedure     Set_Property( _NodeName,             _Value: String);
+    procedure  Delete_Property( _Fullname: String);
+  //Text
+  private
+    function  GetText: DOMString;
+    procedure SetText( _Value: DOMString);
+  public
+    property Text: DOMString read GetText write SetText;
+  //Insertion de texte
+  public
+    procedure AddText ( _Value: String;
+                        _NomStyle: String= '';
+                        _Gras: Boolean = False;
+                        _DeltaSize: Integer= 0;
+                        _Size: Integer= 0;
+                        _SizePourcent: Integer= 100);
+    procedure AddText_with_span(  _Value: String;
+                                  _NomStyle: String= '';
+                                  _Gras: Boolean = False;
+                                  _DeltaSize: Integer= 0;
+                                  _Size: Integer= 0;
+                                  _SizePourcent: Integer= 100);
+    procedure Add_Line_Break;
+    function AddTab: TOD_TAB;
+    function AddSpan: TOD_SPAN;
+  //Style automatique
+  protected
+    FStyle_Automatique: TDOMNode;
+    NomStyleApplique: String;
+    function Nom_Style_automatique( _NomStyle: String; _Gras: Boolean = False;
+                                    _DeltaSize: Integer= 0; _Size: Integer= 0;
+                                    _SizePourcent: Integer= 100): String; virtual;
+    function GetStyle_Automatique( _NomStyleColonne: String): TDOMNode;
+  public
+    Is_Header: boolean;
+    property Style_Automatique[ _NomStyleColonne: String]: TDOMNode read GetStyle_Automatique;
+    procedure Applique_Style( _NomStyle: String);
+    procedure Set_Style( _NomStyle: String; _Gras: Boolean = False;
+                         _DeltaSize: Integer= 0; _Size: Integer= 0;
+                         _SizePourcent: Integer= 100);
+  // PARAGRAPH_PROPERTIES
+  public
+    FPARAGRAPH_PROPERTIES: TOD_PARAGRAPH_PROPERTIES;
+    function GetPARAGRAPH_PROPERTIES( _NomStyleColonne: String): TOD_PARAGRAPH_PROPERTIES;
+    property PARAGRAPH_PROPERTIES[ _NomStyleColonne: String]: TOD_PARAGRAPH_PROPERTIES read GetPARAGRAPH_PROPERTIES;
+  // TOD_TEXT_PROPERTIES
+  public
+    FTEXT_PROPERTIES: TOD_TEXT_PROPERTIES;
+    function GetTEXT_PROPERTIES( _NomStyleColonne: String): TOD_TEXT_PROPERTIES;
+    property TEXT_PROPERTIES[ _NomStyleColonne: String]: TOD_TEXT_PROPERTIES read GetTEXT_PROPERTIES;
+  end;
+
+ TOD_Style_Alignment
+ =
+  (
+  osa_Left  ,
+  osa_Center,
+  osa_Right
+  );
+ TOD_Styles
+ =
+  class
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Styles: String);
+    destructor Destroy; override;
+  //Attributs
+  public
+    Styles: array of String;
+    Alignments: array of TOD_Style_Alignment;
+  //Initialisation
+  public
+    procedure Init( _Styles: String);
+  end;
+
+ TOD_TAB_STOP
+ =
+  class( TOD_XML_Element)
+  //Cycle de vie
+  public
+    constructor Create( _D: TOpenDocument; _eRoot: TDOMNode); override;
+  //Méthodes
+  public
+    procedure SetPositionCM( _PositionCM: double);
+    procedure SetStyle( _A: TOD_Style_Alignment);
+  end;
+
+ TOD_TAB_STOPS
+ =
+  class( TOD_XML_Element)
+  //Cycle de vie
+  public
+    constructor Create( _D: TOpenDocument; _eRoot: TDOMNode); override;
+  //Méthodes
+  public
+    function Cree_TAB_STOP( _A: TOD_Style_Alignment): TOD_TAB_STOP;
+  end;
+
+ TOD_TEXT_PROPERTIES
+ =
+  class( TOD_XML_Element)
+  //Cycle de vie
+  public
+    constructor Create( _D: TOpenDocument; _eRoot: TDOMNode); override;
+  end;
+
+ TOD_PARAGRAPH_PROPERTIES
+ =
+  class( TOD_XML_Element)
+  //Cycle de vie
+  public
+    constructor Create( _D: TOpenDocument; _eRoot: TDOMNode); override;
+  //Méthodes
+  public
+    function TAB_STOPS: TOD_TAB_STOPS;
+  end;
+
+ TOD_SPAN
+ =
+  class( TOD_XML_Element)
+  //Cycle de vie
+  public
+    constructor Create( _D: TOpenDocument; _eRoot: TDOMNode); override;
+  //Style automatique
+  protected
+    function Nom_Style_automatique( _NomStyle: String; _Gras: Boolean = False;
+                                    _DeltaSize: Integer= 0; _Size: Integer= 0;
+                                    _SizePourcent: Integer= 100): String; override;
+  end;
+
+ { TOD_LIST }
+
+ TOD_LIST
+ =
+  class( TOD_XML_Element)
+  //Cycle de vie
+  public
+    constructor Create( _D: TOpenDocument; _eRoot: TDOMNode); override;
+  //Style
+  public
+    Style: String;
+    function Cree_Style: String;
+  end;
+
+ { TOD_LIST_ITEM }
+
+ TOD_LIST_ITEM
+ =
+  class( TOD_XML_Element)
+  //Cycle de vie
+  public
+    constructor Create( _D: TOpenDocument; _eRoot: TDOMNode); override;
+  end;
+
+ TOD_TAB
+ =
+  class( TOD_XML_Element)
+  //Cycle de vie
+  public
+    constructor Create( _D: TOpenDocument; _eRoot: TDOMNode); override;
+  end;
+
+ TOD_IMAGE
+ =
+  class( TOD_XML_Element)
+  //Cycle de vie
+  public
+    constructor Create( _D: TOpenDocument; _eRoot: TDOMNode); override;
+  //Méthodes
+  public
+    procedure Set_xlink_href( _xlink_href: String);
+  end;
+
+ TOD_FRAME
+ =
+  class( TOD_XML_Element)
+  //Cycle de vie
+  public
+    constructor Create( _D: TOpenDocument; _eRoot: TDOMNode); override;
+  //Méthodes
+  public
+    function NewImage_as_Character( _Filename: String): TOD_IMAGE;
+  end;
+
+ TOD_TABLE
+ =
+  class( TOD_XML_Element)
+  //Cycle de vie
+  public
+    constructor Create( _D: TOpenDocument; _eRoot: TDOMNode); override;
+  //Nom
+  private
+    function  GetNom: String;
+    procedure SetNom( _Value: String);
+  public
+    property Nom: String read getNom write SetNom;
+  end;
+
+ { TOD_PARAGRAPH }
+
+ TOD_PARAGRAPH
+ =
+  class( TOD_XML_Element)
+  //Cycle de vie
+  public
+    constructor Create( _D: TOpenDocument; _eRoot: TDOMNode); override;
+  //Méthodes
+  public
+    function NewFrame: TOD_FRAME;
+    function NewTable: TOD_TABLE;
+  //Style automatique
+  protected
+    function Nom_Style_automatique( _NomStyle: String; _Gras: Boolean = False;
+                                    _DeltaSize: Integer= 0; _Size: Integer= 0;
+                                    _SizePourcent: Integer= 100): String; override;
+  end;
+
+ TOD_SOFT_PAGE_BREAK
+ =
+  class( TOD_XML_Element)
+  //Cycle de vie
+  public
+    constructor Create( _D: TOpenDocument; _eRoot: TDOMNode); override;
+  end;
+
+ TOpenDocument_Element
+ =
+  class
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom_relatif: String);
+    destructor Destroy; override;
+  //Attributs
+  public
+    Nom_relatif: String;
+    {$IFNDEF FPC}
+    ci: TJCLCompressionItem;
+    {$ENDIF}
+    xml: {$IFDEF FPC}TXMLDocument{$ELSE}TJclSimpleXml{$ENDIF};
+    NomFichier: String;
+  //méthodes
+  public
+    procedure XML_from_Repertoire_Extraction( _Repertoire_Extraction: String);
+    procedure Repertoire_Extraction_from_XML( _Repertoire_Extraction: String);
+  end;
+
+ { TOpenDocument }
 
  TOpenDocument
  =
@@ -59,8 +420,24 @@ type
   //Gestion du cycle de vie
   public
     constructor Create( _Nom: String);
+    constructor Create_from_template( _Template_Filename: String);
     destructor Destroy; override;
-  //Enregistrement des modifications
+  //initialisation
+  private
+    procedure Init( _Nom: String);
+  //Extraction
+  public
+    Repertoire_Extraction: String;
+  //Repertoire_Pictures
+  private
+    FRepertoire_Pictures: String;
+  public
+    function Repertoire_Pictures: String;
+  //Persistance
+  private
+    procedure XML_from_Repertoire_Extraction;
+    procedure Repertoire_Extraction_from_XML;
+    procedure Extrait;
   public
     procedure Save;
   //Attributs
@@ -70,7 +447,6 @@ type
   private
     F: TJclZipUpdateArchive;
     zf: TZipFile;
-    Repertoire_Extraction: String;
     function Ensure_style_text( _NomStyle, _NomStyleParent: String;
                                           _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TJclSimpleXMLElem;
     function Find_style_family_multiroot(_NomStyle: String;
@@ -80,13 +456,18 @@ type
     function Find_style_text_multiroot(_NomStyle: String;
       _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TJclSimpleXMLElem;
   public
-    xmlMeta             : TJclSimpleXml;
-    xmlSettings         : TJclSimpleXml;
-    xmlMETA_INF_manifest: TJclSimpleXml;
-    xmlContent          : TJclSimpleXml;
-    xmlStyles           : TJclSimpleXml;
+    item,
+    iMimeType: TJCLCompressionItem;
+
+    odeMeta             : TOpenDocument_Element;
+    odeSettings         : TOpenDocument_Element;
+    odeMETA_INF_manifest: TOpenDocument_Element;
+    odeContent          : TOpenDocument_Element;
+    odeStyles           : TOpenDocument_Element;
     function CheminFichier_temporaire( _NomFichier: String): String;
   //Méthodes d'accés au XML
+  private
+    Get_xmlContent_USER_FIELD_DECLS_Premier: Boolean;
   public
     //Text
     function Get_xmlContent_TEXT: TJclSimpleXMLElem;
@@ -104,6 +485,8 @@ type
     function Get_xmlContent_SPREADSHEET_first_TABLE: TJclSimpleXMLElem;
     function Get_xmlContent_SPREADSHEET_NAMED_EXPRESSIONS: TJclSimpleXMLElem;
   //Gestion des properties //deprecated -> uOD_JCL
+  private
+    function Get_Property_Name( _e: TDOMNode; _NodeName: String): String; //deprecated -> uOD_JCL
   public
     function not_Get_Property( _e: TJclSimpleXMLElem;    //deprecated -> uOD_JCL
                                _FullName: String;
@@ -157,9 +540,11 @@ type
     procedure Efface_Styles_Table( _NomTable: String);
   //Méthodes créées pour OpenDocument_DelphiReportEngine.exe
   public
+    procedure Fields_Visite( _fv: TFields_Visitor);
     procedure Set_Field( _Name, _Value: String);
     procedure Get_Fields( _sl: TOOoStringList);
     procedure Set_Fields( _sl: TOOoStringList);
+    function Field_Assure( _Name: String): TDOMNode;
     function Field_Value( _Name: String): String;
     procedure Add_FieldGet( _Name: String);
     procedure Set_StylesXML( _Styles: String);
@@ -168,6 +553,16 @@ type
     procedure Duplique_Style_Colonne( _NomStyle_Source, _NomStyle_Cible: String);
 
     function Font_size_from_Style( _NomStyle: String): Integer;
+  //Styles de liste
+  private
+    Automatic_list_style_number: Integer;
+    procedure Add_List_level_label_alignment( _eList_level_properties: TDOMNode; _left: String);
+    procedure Add_list_level_properties( _eList_level_style_bullet: TDOMNode; _left: String);
+    procedure Add_list_level_style_bullet( _eListStyle: TDOMNode; _level, _left, _bullet_char: String);
+    function  Add_list_style( _NomStyle: String;
+                              _Root: TOD_Root_Styles): TDOMNode;
+    function  Add_automatic_list_style( out _eStyle: TDOMNode; _Is_Header: Boolean= False): String; overload;
+    function  Add_automatic_list_style( _Is_Header: Boolean= False): String; overload;
   //Styles
   private
     function  Add_style( _NomStyle, _NomStyleParent: String;
@@ -209,14 +604,16 @@ type
                                         _Gras: Boolean;
                                         _DeltaSize: Integer;
                                         _Size: Integer;
-                                        _SizePourcent: Integer): String; overload;
+                                        _SizePourcent: Integer;
+                                        _Page_break_before: Boolean= False): String; overload;
     function  Add_automatic_style_paragraph( _NomStyleParent: String;
                                         _Gras: Boolean;
                                         _DeltaSize: Integer;
                                         _Size: Integer;
                                         _SizePourcent: Integer;
                                         out _eStyle: TJclSimpleXMLElem;
-                                        _Is_Header: Boolean): String; overload;
+                                        _Is_Header: Boolean;
+                                        _Page_break_before: Boolean= False): String; overload;
   //Styles de caractères automatiques
   private
     Automatic_style_text_number: Integer;
@@ -245,6 +642,12 @@ type
   //Changer le style parent d'un style donné
   public
     procedure Change_style_parent( _NomStyle, _NomStyleParent: String);
+  //Styles de date
+  public
+    function Find_date_style( _NomStyle: String;_Root: TOD_Root_Styles): TDOMNode;
+  //Styles de Time
+  public
+    function Find_Time_style( _NomStyle: String;_Root: TOD_Root_Styles): TDOMNode;
   //Général
   private
     function Text_Traite_Field( FieldName, FieldContent: String;
@@ -314,11 +717,13 @@ type
     procedure AddSpace( _e: TJclSimpleXMLElem; _c: Integer);
   //Ajout de texte
   public
-    procedure AddText ( _e: TJclSimpleXMLElem; _Value: String;
-                        _Escape_XML: Boolean= False; _Gras: Boolean= False); overload;
-    procedure AddText ( _Value: String;
-                        _Escape_XML: Boolean= False; _Gras: Boolean= False); overload;
+    procedure AddText_( _e: TJclSimpleXMLElem; _Value: String; _Gras: Boolean= False); overload;
+    procedure AddText_(                        _Value: String; _Gras: Boolean= False); overload;
     function Append_SOFT_PAGE_BREAK( _eRoot: TJclSimpleXMLElem): TJclSimpleXMLElem;
+  //Ajout de HTML
+  public
+    procedure AddHtml( _e: TDOMNode; _Value: String; _Gras: Boolean= False); overload;
+    procedure AddHtml(_Value: String; _Gras: Boolean= False); overload;
   //Largeur_imprimable
   public
     function Largeur_Imprimable: double;
@@ -329,6 +734,33 @@ type
   public
     Name_style_text_bold: String;
     procedure Ensure_style_text_bold;
+  //Embed_Image
+  private
+    slEmbed_Image: TslDimensions_Image;
+    Embed_Image_counter: Cardinal;
+    Embed_Image_counter_New_name: String;
+    procedure Manifeste(_FullPath, _Extension: String);
+    function Embed_Image_New_name_exists: Boolean;
+    function Embed_Image_New: String;
+  public
+    function Embed_Image( _NomFichier: String): TDimensions_Image;
+  //Publication des modifications
+  public
+    pChange: TPublieur;
+    pFields_Change: TOpenDocument_Fields_Publieur;
+    pFields_Delete: TOpenDocument_Fields_Publieur;
+  //mimetype file
+  private
+    function mimetype_filename: String;
+    function Getmimetype: String;
+    procedure Setmimetype( _mimetype: String);
+  public
+    property mimetype: String read Getmimetype write Setmimetype;
+  //Gestion modèle/document
+  public
+    Is_template: Boolean;
+    procedure Is_template_from_extension;
+    procedure MIMETYPE_and_MANIFEST_MEDIA_TYPE_from_Is_template;
   end;
 
 //Gestion tables
@@ -339,7 +771,19 @@ procedure XY_from_CellName( CellName: String; var X, Y: Integer);
 
 function RangeName_from_Rect( Left, Top, Right, Bottom: Integer): String;
 
+function Root_Styles_from_Is_Header( _Is_Header: Boolean): TOD_Root_Styles;
+
 implementation
+
+function Root_Styles_from_Is_Header( _Is_Header: Boolean): TOD_Root_Styles;
+begin
+     if _Is_Header
+     then
+         Result:= ors_xmlStyles_AUTOMATIC_STYLES
+     else
+         Result:= ors_xmlContent_AUTOMATIC_STYLES;
+end;
+
 
 function CellName_from_XY( X, Y: Integer): String;
    procedure Traite_X;
@@ -446,26 +890,741 @@ begin
 
 end;
 
-{ TODStringList }
+{ TOpenDocument_Element }
 
-function TODStringList.CompareStrings(const S1, S2: String): Integer;
+constructor TOpenDocument_Element.Create(_Nom_relatif: String);
 begin
-     Result:= CompareStr( S1, S2);
+     Nom_relatif:= _Nom_relatif;
+     {$IFNDEF FPC}
+     ci:= nil;
+     {$ENDIF}
+     xml:= nil;
 end;
 
+destructor TOpenDocument_Element.Destroy;
+begin
+     FreeAndNil( xml);
+     inherited Destroy;
+end;
+
+procedure TOpenDocument_Element.XML_from_Repertoire_Extraction( _Repertoire_Extraction: String);
+{$IFDEF FPC}
+begin
+     NomFichier:= _Repertoire_Extraction+Nom_relatif;
+     FreeAndNil( xml);
+     ReadXMLFile( xml, NomFichier);
+     (*_xml.IndentString:= '  ';
+     with _xml do Options:= Options + [sxoAutoEncodeValue];*)
+
+     OOoChrono.Stop( 'Chargement en objet du fichier xml '+Nom_relatif);
+end;
+{$ELSE}
+var
+   Stream: TStream;
+begin
+     xml:= TJclSimpleXml.Create;
+     xml.IndentString:= '  ';
+
+     Stream:= ci.Stream;
+
+     with xml do Options:= Options + [sxoAutoEncodeValue];
+     xml.LoadFromStream( Stream);
+
+     OOoChrono.Stop( 'Chargement en objet du fichier xml '+ci.PackedName);
+end;
+{$ENDIF}
+
+procedure TOpenDocument_Element.Repertoire_Extraction_from_XML( _Repertoire_Extraction: String);
+begin
+     NomFichier:= _Repertoire_Extraction+Nom_relatif;
+     {$IFDEF FPC}
+     WriteXMLFile( xml, NomFichier);
+     {$ELSE}
+     xml.SaveToFile( NomFichier, seUTF8);
+     {$ENDIF}
+end;
+
+{ TOpenDocument_Fields_Publieur }
+
+constructor TOpenDocument_Fields_Publieur.Create(_Owner_Name: String);
+begin
+     Owner_Name:= _Owner_Name;
+     p:= TPublieur.Create( Owner_Name+'::'+ClassName+'.p');
+end;
+
+destructor TOpenDocument_Fields_Publieur.Destroy;
+begin
+     FreeAndNil( p);
+     inherited Destroy;
+end;
+
+procedure TOpenDocument_Fields_Publieur.Abonne( _Objet: TObject;
+                                                _Proc: TAbonnement_Objet_Proc);
+begin
+     p.Abonne( _Objet, _Proc);
+end;
+
+procedure TOpenDocument_Fields_Publieur.Desabonne( _Objet: TObject;
+                                                   _Proc: TAbonnement_Objet_Proc);
+begin
+     p.Desabonne( _Objet, _Proc);
+end;
+
+procedure TOpenDocument_Fields_Publieur.Publie( _Name, _Value: String);
+begin
+     Name := _Name ;
+     Value:= _Value;
+     p.Publie;
+end;
+
+{ TStyle_DateTime }
+
+constructor TStyle_DateTime.Create(_od: TOpenDocument; _Root: TOD_Root_Styles; _Style_Name: String);
+begin
+     inherited Create;
+     od        := _od        ;
+     Root      := _Root      ;
+     Style_Name:= _Style_Name;
+end;
+
+destructor TStyle_DateTime.Destroy;
+begin
+     inherited Destroy;
+end;
+
+function TStyle_DateTime.number_style_SHORT_from_( _e: TDOMNode): Boolean;
+var
+   sNUMBER_STYLE: String;
+begin
+     Result:= True;
+     if not_Get_Property( _e, 'number:style', sNUMBER_STYLE) then exit;
+
+     Result:= 'short' = sNUMBER_STYLE;
+end;
+
+function TStyle_DateTime.number_textual_from_( _e: TDOMNode): Boolean;
+var
+   sNUMBER_TEXTUAL: String;
+begin
+     Result:= False;
+     if not_Get_Property( _e, 'number:textual', sNUMBER_TEXTUAL) then exit;
+
+     Result:= 'true' = sNUMBER_TEXTUAL;
+end;
+
+function TStyle_DateTime.Format_from_number_style( _e: TDOMNode; _Short, _Long: String): String;
+var
+   IsShort: Boolean;
+begin
+     IsShort:= number_style_SHORT_from_( _e);
+     if IsShort
+     then
+         Result:= _Short
+     else
+         Result:= _Long;
+end;
+
+procedure TStyle_DateTime.Add_Format( _Short, _Long: String);
+begin
+     Format_Result:= Format_Result+ Format_from_number_style( Format_e, _Short, _Long);
+end;
+
+procedure TStyle_DateTime.Add_Format_textual( _Short, _Long, _Textual_Short, _Textual_Long: String);
+var
+   IsTextual: Boolean;
+begin
+     IsTextual:= number_textual_from_( Format_e);
+     if IsTextual
+     then
+         Add_Format( _Textual_Short, _Textual_Long)
+     else
+         Add_Format( _Short, _Long);
+end;
+
+procedure TStyle_DateTime.Add_Text;
+var
+   Text: String;
+begin
+     Text:= Text_from_path( Format_e,'');
+     if '' = Text then Text:= ' ';
+     Format_Result:= Format_Result+ '"'+Text+'"';
+end;
+
+function TStyle_DateTime.Format: String;
+var
+   eStyle: TDOMNode;
+   I: Integer;
+begin
+     Result:= '';
+     Format_Result:= '';
+
+     eStyle:= Find_Style;
+     if nil = eStyle then exit;
+
+     for I:= 0 to eStyle.Items.Count-1
+     do
+       begin
+       Format_e:= eStyle.Items.Item[ I];
+       if nil = Format_e then continue;
+
+       Traite_Node;
+       end;
+
+     Result:= Format_Result;
+end;
+
+{ TStyle_Date }
+
+function TStyle_Date.Find_Style: TDOMNode;
+begin
+     Result:= od.Find_date_style( Style_Name, Root);
+     if Assigned( Result) or (Root = ors_xmlStyles_AUTOMATIC_STYLES) then exit;
+
+     Result:= od.Find_date_style( Style_Name, ors_xmlStyles_AUTOMATIC_STYLES);
+end;
+
+procedure TStyle_Date.Traite_Node;
+var
+   NodeName: DOMString;
+begin
+     NodeName:= Format_e.FullName;
+          if NodeName =  'number:day'         then Add_Format        ( 'd'  , 'dd'  )
+     else if NodeName =  'number:day-of-week' then Add_Format        ( 'ddd', 'dddd')
+     else if NodeName =  'number:month'       then Add_Format_textual( 'm'  , 'mm'  , 'mmm', 'mmmm')
+     else if NodeName =  'number:year'        then Add_Format        ( 'yy' , 'yyyy')
+     else if NodeName =  'number:text'        then Add_Text;
+end;
+
+{ TStyle_Time }
+
+function TStyle_Time.Find_Style: TDOMNode;
+begin
+     Result:= od.Find_Time_style( Style_Name, Root);
+     if Assigned( Result) or (Root = ors_xmlStyles_AUTOMATIC_STYLES) then exit;
+
+     Result:= od.Find_Time_style( Style_Name, ors_xmlStyles_AUTOMATIC_STYLES);
+end;
+
+procedure TStyle_Time.Traite_Node;
+var
+   NodeName: DOMString;
+begin
+     NodeName:= Format_e.FullName;
+          if NodeName =  'number:hours'       then Add_Format( 'h', 'hh')
+     else if NodeName =  'number:minutes'     then Add_Format( 'n', 'nn')
+     else if NodeName =  'number:seconds'     then Add_Format( 's', 'ss')
+     else if NodeName =  'number:am-pm'       then Add_Format( 'am/pm', 'am/pm')
+     else if NodeName =  'number:text'        then Add_Text;
+end;
+
+{ TODStringList }
+
+(*function TODStringList.CompareStrings(const S1, S2: String): Integer;
+begin
+     Result:= CompareStr( S1, S2);
+end;*)
+
+{ TOD_Styles }
+
+constructor TOD_Styles.Create( _Styles: String);
+begin
+     inherited Create;
+     Init( _Styles);
+end;
+
+destructor TOD_Styles.Destroy;
+begin
+
+     inherited;
+end;
+
+procedure TOD_Styles.Init( _Styles: String);
+begin
+     SetLength( Styles, 0);
+     while Length( _Styles) > 0
+     do
+       begin
+       SetLength( Styles, Length( Styles)+1);
+       Styles[ High( Styles)]:= Trim( StrTok( ',', _Styles));
+       end;
+     SetLength( Alignments, Length( Styles));
+end;
+
+{ TOD_TAB_STOP }
+
+constructor TOD_TAB_STOP.Create( _D: TOpenDocument; _eRoot: TDOMNode);
+begin
+     inherited;
+     e:= Cree_path( eRoot, 'style:tab-stop');
+end;
+
+procedure TOD_TAB_STOP.SetPositionCM(_PositionCM: double);
+var
+   sPositionCM: String;
+begin
+     sPositionCM:= StrCM_from_double( _PositionCM);
+     Set_Property( 'style:position', sPositionCM);
+end;
+
+procedure TOD_TAB_STOP.SetStyle(_A: TOD_Style_Alignment);
+begin
+     case _A
+     of
+       osa_Left  : Delete_Property( 'style:type');
+       osa_Center:    Set_Property( 'style:type', 'center');
+       osa_Right :    Set_Property( 'style:type', 'right' );
+       else        Delete_Property( 'style:type');
+       end;
+end;
+
+{ TOD_TAB_STOPS }
+
+constructor TOD_TAB_STOPS.Create( _D: TOpenDocument; _eRoot: TDOMNode);
+begin
+     inherited;
+     e:= Assure_path( eRoot, 'style:tab-stops');
+end;
+
+function TOD_TAB_STOPS.Cree_TAB_STOP( _A: TOD_Style_Alignment): TOD_TAB_STOP;
+begin
+     Result:= TOD_TAB_STOP.Create( D, e);
+     Result.SetStyle( _A);
+end;
+
+{ TOD_TEXT_PROPERTIES }
+
+constructor TOD_TEXT_PROPERTIES.Create( _D: TOpenDocument; _eRoot: TDOMNode);
+begin
+     inherited;
+     e:= Assure_path( eRoot, 'style:text-properties');
+end;
+
+
+{ TOD_PARAGRAPH_PROPERTIES }
+
+constructor TOD_PARAGRAPH_PROPERTIES.Create( _D: TOpenDocument; _eRoot: TDOMNode);
+begin
+     inherited;
+     e:= Assure_path( eRoot, 'style:paragraph-properties');
+end;
+
+function TOD_PARAGRAPH_PROPERTIES.TAB_STOPS: TOD_TAB_STOPS;
+begin
+     Result:= TOD_TAB_STOPS.Create( D, e);
+end;
+
+{ TOD_XML_Element }
+
+constructor TOD_XML_Element.Create( _D: TOpenDocument; _eRoot: TDOMNode);
+begin
+     D:= _D;
+     eRoot:= _eRoot;
+
+     FStyle_Automatique:= nil;
+     FPARAGRAPH_PROPERTIES:= nil;
+     Is_Header:= False;
+     NomStyleApplique:= '';
+end;
+
+destructor TOD_XML_Element.Destroy;
+begin
+
+     inherited;
+end;
+
+function TOD_XML_Element.GetText: DOMString;
+begin
+     Result:= e.Value;
+end;
+
+procedure TOD_XML_Element.SetText( _Value: DOMString);
+begin
+     e.Value:= _Value;
+end;
+
+function TOD_XML_Element.not_Get_Property( _NodeName: String; out _Value: String): Boolean;
+begin
+     Result:= uOD_JCL.not_Get_Property( e, _NodeName, _Value);
+end;
+
+procedure TOD_XML_Element.Set_Property( _NodeName, _Value: String);
+begin
+     uOD_JCL.Set_Property( e, _NodeName, _Value);
+end;
+
+procedure TOD_XML_Element.Delete_Property(_Fullname: String);
+begin
+     uOD_JCL.Delete_Property( e, _Fullname);
+end;
+
+procedure TOD_XML_Element.AddText_with_span(_Value: String; _NomStyle: String;
+ _Gras: Boolean; _DeltaSize: Integer; _Size: Integer; _SizePourcent: Integer);
+var
+   span: TOD_SPAN;
+begin
+     span:= AddSpan;
+     span.Set_Style( _NomStyle, _Gras, _DeltaSize, _Size, _SizePourcent);
+     span.AddText( _Value);
+     FreeAndNil( span);
+end;
+
+procedure TOD_XML_Element.AddText( _Value: String;
+                                   _NomStyle: String= '';
+                                   _Gras: Boolean = False;
+                                   _DeltaSize: Integer= 0;
+                                   _Size: Integer= 0;
+                                   _SizePourcent: Integer= 100);
+begin
+     if Trim( _Value) = '' then exit;
+
+     if    (_DeltaSize <> 0) or (_Size <> 0)
+        or (
+              (_SizePourcent <>   0)
+           and(_SizePourcent <> 100)
+           )
+     then
+         AddText_with_span(_Value,_NomStyle,_Gras,_DeltaSize,_Size,_SizePourcent)
+     else
+         D.AddHtml( e, _Value, _Gras);
+end;
+
+procedure TOD_XML_Element.Add_Line_Break;
+begin
+     Cree_path( e, 'text:line-break');
+end;
+
+function TOD_XML_Element.AddTab: TOD_TAB;
+begin
+     Result:= TOD_TAB.Create( D, e);
+end;
+
+function TOD_XML_Element.AddSpan: TOD_SPAN;
+begin
+     Result:= TOD_SPAN.Create( D, e);
+end;
+
+function TOD_XML_Element.Nom_Style_automatique(_NomStyle: String;
+ _Gras: Boolean; _DeltaSize: Integer; _Size: Integer; _SizePourcent: Integer
+ ): String;
+begin
+     Result:= D.Add_automatic_style_text( _NomStyle,
+                                      _Gras,
+                                      _DeltaSize,
+                                      _Size,
+                                      _SizePourcent,
+                                      FStyle_Automatique,
+                                      Is_Header
+                                      );
+end;
+
+procedure TOD_XML_Element.Applique_Style( _NomStyle: String);
+var
+   Style_Name: String;
+begin
+     NomStyleApplique:= _NomStyle;
+     Style_Name:= D.Style_NameFromDisplayName( NomStyleApplique);
+
+     Set_Property( 'text:style-name', Style_Name);
+end;
+
+procedure TOD_XML_Element.Set_Style( _NomStyle: String; _Gras: Boolean = False;
+                                   _DeltaSize: Integer= 0; _Size: Integer= 0; _SizePourcent: Integer= 100);
+var
+   NomStyleApplique: String;
+begin
+     if    _Gras or (_DeltaSize <> 0) or (_Size <> 0)
+        or (
+              (_SizePourcent <>   0)
+           and(_SizePourcent <> 100)
+           )
+     then
+         NomStyleApplique:= Nom_Style_automatique( _NomStyle, _Gras, _DeltaSize, _Size, _SizePourcent)
+     else
+         NomStyleApplique:= _NomStyle;
+
+     Applique_Style( NomStyleApplique);
+end;
+
+function TOD_XML_Element.GetStyle_Automatique( _NomStyleColonne: String): TDOMNode;
+   procedure Cree;
+   var
+      NomStyleApplique: String;
+      NomStyleParent: String;
+   begin
+        if Is_Header
+        then
+            NomStyleParent:= 'Table_20_Heading'
+        else
+            NomStyleParent:= _NomStyleColonne;
+        NomStyleApplique:= Nom_Style_automatique( NomStyleParent);
+        Applique_Style( NomStyleApplique);
+   end;
+begin
+     if nil = FStyle_Automatique
+     then
+         Cree;
+     Result:= FStyle_Automatique;
+end;
+
+function TOD_XML_Element.GetTEXT_PROPERTIES( _NomStyleColonne: String): TOD_TEXT_PROPERTIES;
+begin
+     if nil = FTEXT_PROPERTIES
+     then
+         FTEXT_PROPERTIES:= TOD_TEXT_PROPERTIES.Create( D, Style_Automatique[ _NomStyleColonne]);
+
+     Result:= FTEXT_PROPERTIES;
+end;
+
+function TOD_XML_Element.GetPARAGRAPH_PROPERTIES( _NomStyleColonne: String): TOD_PARAGRAPH_PROPERTIES;
+begin
+     if nil = FPARAGRAPH_PROPERTIES
+     then
+         FPARAGRAPH_PROPERTIES:= TOD_PARAGRAPH_PROPERTIES.Create( D, Style_Automatique[ _NomStyleColonne]);
+
+     Result:= FPARAGRAPH_PROPERTIES;
+end;
+
+{ TOD_SPAN }
+
+constructor TOD_SPAN.Create( _D: TOpenDocument; _eRoot: TDOMNode);
+begin
+     inherited;
+     e:= Cree_path( eRoot, 'text:span');
+end;
+
+function TOD_SPAN.Nom_Style_automatique( _NomStyle: String;
+                                         _Gras: Boolean;
+                                         _DeltaSize,
+                                         _Size,
+                                         _SizePourcent: Integer): String;
+begin
+     if      _Gras
+        and (_DeltaSize = 0)
+        and (_Size = 0)
+        and ((_SizePourcent=100) or (_SizePourcent=0))
+     then
+         Result:= D.Name_style_text_bold
+     else
+         Result:= D.Add_automatic_style_text( _NomStyle,
+                                          _Gras,
+                                          _DeltaSize,
+                                          _Size,
+                                          _SizePourcent,
+                                          FStyle_Automatique,
+                                          Is_Header
+                                          );
+end;
+
+{ TOD_LIST }
+
+constructor TOD_LIST.Create( _D: TOpenDocument; _eRoot: TDOMNode);
+begin
+     inherited;
+     e:= Cree_path( eRoot, 'text:list');
+     Style:= '';
+end;
+
+function TOD_LIST.Cree_Style: String;
+begin
+     Style:= D.Add_automatic_list_style( Is_Header);
+     D.Set_Property( e, 'text:style-name', Style);
+     Result:= Style;
+end;
+
+{ TOD_LIST_ITEM }
+
+constructor TOD_LIST_ITEM.Create( _D: TOpenDocument; _eRoot: TDOMNode);
+begin
+     inherited;
+     e:= Cree_path( eRoot, 'text:list-item');
+end;
+
+{ TOD_TAB }
+
+constructor TOD_TAB.Create( _D: TOpenDocument; _eRoot: TDOMNode);
+begin
+     inherited;
+     e:= Cree_path( eRoot, 'text:tab');
+end;
+
+{ TOD_IMAGE }
+
+constructor TOD_IMAGE.Create( _D: TOpenDocument; _eRoot: TDOMNode);
+begin
+     inherited;
+     e:= Cree_path( eRoot, 'draw:image');
+
+end;
+
+procedure TOD_IMAGE.Set_xlink_href( _xlink_href: String);
+begin
+     D.Set_Property( e, 'xlink:href'      , _xlink_href                );
+     D.Set_Property( e, 'xlink:type'      , 'simple'                  );
+     D.Set_Property( e, 'xlink:show'      , 'embed'                   );
+     D.Set_Property( e, 'xlink:actuate'   , 'onLoad'                  );
+     D.Set_Property( e, 'draw:filter-name', '&lt;Tous les formats&gt;');// localisé?
+end;
+
+{ TOD_FRAME }
+
+constructor TOD_FRAME.Create( _D: TOpenDocument; _eRoot: TDOMNode);
+begin
+     inherited;
+     e:= Cree_path( eRoot, 'draw:frame');
+end;
+
+function TOD_FRAME.NewImage_as_Character( _Filename: String): TOD_IMAGE;
+var
+   dfp: TDimensions_Image;
+   svgWidth, svgHeight: String;
+begin
+     Result:= TOD_IMAGE.Create( D, e);
+     D.Set_Property( e, 'text:anchor-type', 'as-char');
+
+     dfp:= D.Embed_Image( _Filename);
+     if nil = dfp then exit;
+
+     try
+        svgWidth := dfp.svgWidth ;
+        svgHeight:= dfp.svgHeight;
+        if '' <> svgWidth  then D.Set_Property( e, 'svg:width' , svgWidth );
+        if '' <> svgHeight then D.Set_Property( e, 'svg:height', svgHeight);
+        Result.Set_xlink_href( dfp.URL);
+     finally
+            FreeAndNil( dfp);
+            end;
+end;
+
+{ TOD_TABLE }
+
+constructor TOD_TABLE.Create( _D: TOpenDocument; _eRoot: TDOMNode);
+begin
+     inherited;
+     e:= Cree_path( eRoot, 'table:table');
+     Cree_path( e, 'table:table-header-rows/table:table-row/table:table-cell');
+     Cree_path( e,                         'table:table-row/table:table-cell');
+end;
+
+function TOD_TABLE.GetNom: String;
+begin
+     if D.not_Get_Property( e, 'table:name', Result)
+     then
+         Result:= '';
+
+end;
+
+procedure TOD_TABLE.SetNom( _Value: String);
+begin
+     D.Set_Property( e, 'table:name', _Value);
+end;
+
+{ TOD_PARAGRAPH }
+
+constructor TOD_PARAGRAPH.Create( _D: TOpenDocument; _eRoot: TDOMNode);
+begin
+     inherited;
+     e:= Cree_path( eRoot, 'text:p');
+end;
+
+function TOD_PARAGRAPH.NewFrame: TOD_FRAME;
+begin
+     Result:= TOD_FRAME.Create( D, e);
+end;
+
+function TOD_PARAGRAPH.NewTable: TOD_TABLE;
+begin
+     Result:= TOD_TABLE.Create( D, e);
+end;
+
+function TOD_PARAGRAPH.Nom_Style_automatique( _NomStyle: String;
+                                              _Gras: Boolean;
+                                              _DeltaSize: Integer;
+                                              _Size: Integer;
+                                              _SizePourcent: Integer): String;
+begin
+     Result:= D.Add_automatic_style_paragraph( _NomStyle,
+                                               _Gras,
+                                               _DeltaSize,
+                                               _Size,
+                                               _SizePourcent,
+                                               FStyle_Automatique,
+                                               Is_Header
+                                               );
+end;
+
+{ TOD_SOFT_PAGE_BREAK }
+
+constructor TOD_SOFT_PAGE_BREAK.Create( _D: TOpenDocument; _eRoot: TDOMNode);
+begin
+     inherited;
+     e:= Cree_path( eRoot, 'text:soft-page-break');
+end;
 
 { TOpenDocument }
 
 constructor TOpenDocument.Create( _Nom: String);
+begin
+     Init( _Nom);
+end;
+
+procedure MyCopyFile( _Source, _Cible: String);
 var
-   I: Integer;
-   item,
-   iMimeType,
-   iMeta_xml,
-   iSettings_xml,
-   iMETA_INF_manifest_xml,
-   iContent_xml,
-   iStyles_xml : TJCLCompressionItem;
+   FSource, FCible: File;
+   Buffer: array[1..4096] of byte;
+   read, written: Integer;
+begin
+     AssignFile( FSource, _Source);
+     try
+        Reset(FSource, 1);
+        AssignFile( FCible, _Cible);
+        try
+           Rewrite( FCible, 1);
+           repeat
+                 BlockRead ( FSource, Buffer, SizeOf( Buffer), read);
+                 BlockWrite( FCible , Buffer, read           , written);
+           until (read = 0) or (written <> read);
+        finally
+               CloseFile( FCible);
+               end;
+     finally
+            CloseFile( FSource);
+            end;
+end;
+
+//procedure XCopy( _Source, _Cible: String);
+//begin
+//     ExecuteProcess( 'cmd.exe',['/C','xcopy',_Source, _Cible]);
+//end;
+
+var temp: Integer= 0;
+constructor TOpenDocument.Create_from_template(_Template_Filename: String);
+var
+   Prefixe: String;
+begin
+     Prefixe:= ChangeFileExt( ExtractFileName(_Template_Filename), '');
+     //Nom:= OD_Temporaire.Nouveau_ODT( Prefixe);
+     //Nom:= IncludeTrailingPathDelimiter(OD_Temporaire.RepertoireTemp)+'temp_'+IntToStr(temp)+'.odt';
+     //Nom:= IncludeTrailingPathDelimiter(GetTempDir)+'temp_'+IntToStr(temp)+'.odt';
+     Nom:= 'temp_'+IntToStr(temp)+'.odt';
+     Inc(temp);
+     (*
+     {$IFDEF MSWINDOWS}
+     Windows.CopyFile( PChar(_Template_Filename), PChar( Nom), False);
+     {$ELSE}
+     CopyFile( PChar(_Template_Filename), PChar( Nom), [cffOverwriteFile], True);
+     {$ENDIF}
+     *)
+     //MyCopyFile( _Template_Filename, Nom);
+     //XCopy( _Template_Filename, Nom);
+     {$IFDEF FPC}
+     CopyFile( PChar(_Template_Filename), PChar( Nom), [cffOverwriteFile], True);
+     {$ELSE}
+     CopyFile( PChar(_Template_Filename), PChar( Nom), True);
+     {$ENDIF}
+     Init( Nom);
+end;
+
+procedure TOpenDocument.Init(_Nom: String);
    procedure Calcule_is_Calc;
    var
       Ext: String;
@@ -476,24 +1635,124 @@ var
             ('.OTS' = Ext)
           or('.ODS' = Ext);
    end;
+begin
+     Get_xmlContent_USER_FIELD_DECLS_Premier:= True;
+     Automatic_list_style_number     :=0;
+     Automatic_style_paragraph_number:= 0;
+     Automatic_style_text_number     := 0;
+     pChange:= TPublieur.Create( Classname+'.pChange');
+     Nom:= _Nom;
+
+     odeMeta             := TOpenDocument_Element.Create( 'meta.xml'                         );
+     odeSettings         := TOpenDocument_Element.Create( 'settings.xml'                     );
+     odeMETA_INF_manifest:= TOpenDocument_Element.Create( 'META-INF'+{$IFDEF FPC}PathDelim{$ELSE}'\'{$ENDIF}+'manifest.xml');
+     odeContent          := TOpenDocument_Element.Create( 'content.xml'                      );
+     odeStyles           := TOpenDocument_Element.Create( 'styles.xml'                       );
+
+     Calcule_is_Calc;
+     Is_template_from_extension;
+
+     slStyles_Cellule_Properties:= TODStringList.Create;
+
+     Extrait;
+
+     XML_from_Repertoire_Extraction;
+     Embed_Image_counter:= 0;
+     slEmbed_Image:= TslDimensions_Image.Create( ClassName+'.slEmbed_Image');
+     pFields_Change:= TOpenDocument_Fields_Publieur.Create(ClassName+'.pFields_Change');
+     pFields_Delete:= TOpenDocument_Fields_Publieur.Create(ClassName+'.pFields_Delete');
+end;
+
+destructor TOpenDocument.Destroy;
+begin
+     FreeAndNil( pFields_Change      );
+     FreeAndNil( pFields_Delete      );
+     FreeAndNil( slEmbed_Image       );
+     FreeAndNil( F);
+     FreeAndNil( slStyles_Cellule_Properties);
+
+
+     {$IFDEF FPC}ChDir{$ELSE}TDirectory.SetCurrentDirectory{$ENDIF}( ExtractFilePath( Nom));
+     //OD_Temporaire.DetruitRepertoire( Repertoire_Extraction);
+
+     FreeAndNil( odeMeta             );
+     FreeAndNil( odeSettings         );
+     FreeAndNil( odeMETA_INF_manifest);
+     FreeAndNil( odeContent          );
+     FreeAndNil( odeStyles           );
+
+     FreeAndNil( pChange);
+     inherited;
+end;
+
+
+const
+     sPictures='Pictures';
+
+function TOpenDocument.Repertoire_Pictures: String;
+begin
+     if '' = FRepertoire_Pictures
+     then
+         FRepertoire_Pictures
+         :=
+           IncludeTrailingPathDelimiter( Repertoire_Extraction)
+           +sPictures+PathDelim;
+     Result:= FRepertoire_Pictures;
+end;
+
+procedure TOpenDocument.XML_from_Repertoire_Extraction;
+var
+   R: String;
+begin
+     R:= IncludeTrailingPathDelimiter( Repertoire_Extraction);
+     odeMeta             .XML_from_Repertoire_Extraction( R);
+     odeSettings         .XML_from_Repertoire_Extraction( R);
+     odeMETA_INF_manifest.XML_from_Repertoire_Extraction( R);
+     odeContent          .XML_from_Repertoire_Extraction( R);
+     odeStyles           .XML_from_Repertoire_Extraction( R);
+end;
+
+procedure TOpenDocument.Repertoire_Extraction_from_XML;
+var
+   R: String;
+begin
+     MIMETYPE_and_MANIFEST_MEDIA_TYPE_from_Is_template;
+
+     R:= IncludeTrailingPathDelimiter( Repertoire_Extraction);
+     odeMeta             .Repertoire_Extraction_from_XML( R);
+     odeSettings         .Repertoire_Extraction_from_XML( R);
+     odeMETA_INF_manifest.Repertoire_Extraction_from_XML( R);
+     odeContent          .Repertoire_Extraction_from_XML( R);
+     odeStyles           .Repertoire_Extraction_from_XML( R);
+end;
+
+{$IFDEF FPC}
+procedure TOpenDocument.Extrait;
+var
+   UnZipper: TUnZipper;
+begin
+     Repertoire_Extraction:= OD_Temporaire.Nouveau_Repertoire('OD');
+     FRepertoire_Pictures:= '';
+     UnZipper := TUnZipper.Create;
+     try
+        UnZipper.FileName := Nom;
+        UnZipper.OutputPath := Repertoire_Extraction;
+        UnZipper.Examine;
+        UnZipper.UnZipAllFiles;
+     finally
+            UnZipper.Free;
+            end;
+     OOoChrono.Stop( 'Extraction des fichiers xml');
+end;
+{$ELSE}
+procedure TOpenDocument.Extrait;
+var
+   I: Integer;
+   item: TJCLCompressionItem;
    procedure Traite( var _item: TJCLCompressionItem);
    begin
         _item:= item;
         _item.Selected:= True;
-   end;
-   procedure Cree_XML( _item: TJCLCompressionItem; var _xml: TJclSimpleXml);
-   var
-      Stream: TStream;
-   begin
-        _xml:= TJclSimpleXml.Create;
-        _xml.IndentString:= '  ';
-
-        Stream:= _item.Stream;
-
-        with _xml do Options:= Options + [sxoAutoEncodeValue];
-        _xml.LoadFromStream( Stream);
-
-        OOoChrono.Stop( 'Chargement en objet du fichier xml '+item.PackedName);
    end;
    procedure Teste_ouverture;
    var
@@ -523,13 +1782,6 @@ var
         OOoChrono.Stop( 'Listage des fichiers du zip');
    end;
 begin
-     Automatic_style_paragraph_number:= 0;
-     Automatic_style_text_number:= 0;
-     Nom:= _Nom;
-     Calcule_is_Calc;
-
-     slStyles_Cellule_Properties:= TODStringList.Create;
-
      Teste_ouverture;
 //     zf:= TZipFile.Create;
 //     zf.Open( Nom, zmReadWrite);
@@ -548,21 +1800,17 @@ begin
              end;
            end;
      iMimeType    := nil;
-     iMeta_xml    := nil;
-     iSettings_xml:= nil;
-     iContent_xml := nil;
-     iStyles_xml  := nil;
      for I:= 0 to F.ItemCount-1
      do
        begin
        item:= F.Items[I];
 
-            if item.PackedName = 'mimetype'     then Traite( iMimeType    )
-       else if item.PackedName = 'meta.xml'     then Traite( iMeta_xml    )
-       else if item.PackedName = 'settings.xml' then Traite( iSettings_xml)
-       else if item.PackedName = 'META-INF\manifest.xml' then Traite( iMETA_INF_manifest_xml)
-       else if item.PackedName = 'content.xml'  then Traite( iContent_xml )
-       else if item.PackedName = 'styles.xml'   then Traite( iStyles_xml  );
+            if item.PackedName = 'mimetype'              then Traite( iMimeType              )
+       else if item.PackedName = 'meta.xml'              then Traite( odeMeta             .ci)
+       else if item.PackedName = 'settings.xml'          then Traite( odeSettings         .ci)
+       else if item.PackedName = 'META-INF\manifest.xml' then Traite( odeMETA_INF_manifest.ci)
+       else if item.PackedName = 'content.xml'           then Traite( odeContent          .ci)
+       else if item.PackedName = 'styles.xml'            then Traite( odeStyles           .ci);
        end;
      OOoChrono.Stop( 'Recherche des fichiers xml');
 
@@ -570,25 +1818,19 @@ begin
      F.ExtractSelected( Repertoire_Extraction);
 
      OOoChrono.Stop( 'Extraction des fichiers xml');
-
-     Cree_XML( iMeta_xml             , xmlMeta             );
-     Cree_XML( iSettings_xml         , xmlSettings         );
-     Cree_XML( iMETA_INF_manifest_xml, xmlMETA_INF_manifest);
-     Cree_XML( iContent_xml          , xmlContent          );
-     Cree_XML( iStyles_xml           , xmlStyles           );
 end;
+{$ENDIF}
 
-destructor TOpenDocument.Destroy;
+procedure TOpenDocument.Save;
 begin
-     FreeAndNil( xmlContent);
-     FreeAndNil( xmlStyles );
-     FreeAndNil( F);
-     FreeAndNil( slStyles_Cellule_Properties);
+     Repertoire_Extraction_from_XML;
 
-     ChDir( ExtractFilePath( Nom));
-     OD_Temporaire.DetruitRepertoire( Repertoire_Extraction);
-
-     inherited;
+     F.AddFile( odeMeta             .Nom_relatif, odeMeta             .NomFichier);
+     F.AddFile( odeSettings         .Nom_relatif, odeSettings         .NomFichier);
+     F.AddFile( odeMETA_INF_manifest.Nom_relatif, odeMETA_INF_manifest.NomFichier);
+     F.AddFile( odeContent          .Nom_relatif, odeContent          .NomFichier);
+     F.AddFile( odeStyles           .Nom_relatif, odeStyles           .NomFichier);
+     F.Compress;
 end;
 
 function TOpenDocument.CheminFichier_temporaire( _NomFichier: String): String;
@@ -627,31 +1869,118 @@ begin
            Result[I]:= '\';
 end;
 
+procedure TOpenDocument.Manifeste( _FullPath, _Extension: String);
+var
+   root, e: TDOMNode;
+begin
+     //==> META-INF/manifest.xml
+     //  <manifest:manifest manifest:version="1.2">
+     //     <manifest:file-entry manifest:full-path="Pictures/1000020100000064000000323F4469E66C808866.png" manifest:media-type="image/png"/>
+     root:= odeMETA_INF_manifest.xml.Root;
+     e:= Cherche_Item_Recursif( root,
+                                'manifest:file-entry',
+                                ['manifest:full-path'],
+                                [_FullPath]);
+    if Assigned(e) then exit;
+
+    Add_Item( root,
+              'manifest:file-entry',
+              ['manifest:full-path'],
+              [_FullPath]);
+end;
+
+function TOpenDocument.Embed_Image_New_name_exists: Boolean;
+var
+   sr: TSearchRec;
+   sWildCards: String;
+begin
+     {$IFDEF WINDOWS}
+     sWildCards:= '*.*';
+     {$ELSE}
+     sWildCards:= '*';
+     {$ENDIF}
+     Embed_Image_counter_New_name
+     :=
+       IntToHex( Embed_Image_counter, 40);
+     Result:= 0 = FindFirst( Repertoire_Pictures+Embed_Image_counter_New_name+sWildCards, faAnyFile, sr);
+     FindClose( sr);
+end;
+
+function TOpenDocument.Embed_Image_New: String;
+begin
+     while Embed_Image_New_name_exists
+     do
+       Inc( Embed_Image_counter);
+     Result:= Embed_Image_counter_New_name;
+end;
+
+function TOpenDocument.Embed_Image( _NomFichier: String): TDimensions_Image;
+var
+   iEmbed_Image: Integer;
+   procedure Copie_dans_Pictures;
+   var
+      Extension: String;
+      sFileName: String;
+      sRepertoirePictures: String;
+      sNomFichierCible: String;
+      sURL: String;
+   begin
+        sRepertoirePictures
+        :=
+           IncludeTrailingPathDelimiter(Repertoire_Extraction)
+          +sPictures;
+        ForceDirectories( sRepertoirePictures);
+
+        Extension:= ExtractFileExt( _NomFichier);
+
+        sFileName:= Embed_Image_New+Extension;
+        //sFileName:= ExtractFileName( _NomFichier);
+
+        sURL:= sPictures+'/'+sFileName;
+        Manifeste( sURL, Extension);
+
+        sNomFichierCible:= Repertoire_Pictures+sFileName;
+
+        CopyFile( PWideChar( _NomFichier), PWideChar( sNomFichierCible), False);
+
+        Result:= TDimensions_Image.Create( sNomFichierCible, sURL);
+        slEmbed_Image.AddObject( _NomFichier, Result);
+   end;
+begin
+     Result:= nil;
+     if not FileExists( _NomFichier) then exit;
+
+     Result:= Dimensions_Image_from_sl_sCle( slEmbed_Image, _NomFichier);
+     if Assigned( Result) then exit;
+
+     Copie_dans_Pictures;
+end;
+
 function TOpenDocument.Get_xmlContent_TEXT: TJclSimpleXMLElem;
 begin
-     Result:= Elem_from_path( xmlContent.Root, 'office:body/office:text')
+     Result:= Elem_from_path( odeContent.xml.Root, 'office:body/office:text')
 end;
 
 function TOpenDocument.Get_xmlContent_USER_FIELD_DECLS: TJclSimpleXMLElem;
 const
      USER_FIELD_DECLS_path='office:body/office:text/text:user-field-decls';
 begin
-     Result:= Elem_from_path( xmlContent.Root, USER_FIELD_DECLS_path);
+     Result:= Elem_from_path( odeContent.xml.Root, USER_FIELD_DECLS_path);
      if Assigned( Result) then exit;
 
-     Result:= Cree_path( xmlContent.Root, USER_FIELD_DECLS_path);
+     Result:= Cree_path( odeContent.xml.Root, USER_FIELD_DECLS_path);
 end;
 
 function TOpenDocument.Get_xmlContent_AUTOMATIC_STYLES: TJclSimpleXMLElem;
 begin
-     Result:= Elem_from_path( xmlContent.Root, 'office:automatic-styles');
+     Result:= Elem_from_path( odeContent.xml.Root, 'office:automatic-styles');
 end;
 
 function TOpenDocument.Get_xmlContent_SPREADSHEET: TJclSimpleXMLElem;
 begin
      Result
      :=
-       Elem_from_path( xmlContent.Root,
+       Elem_from_path( odeContent.xml.Root,
                        'office:body/office:spreadsheet');
 end;
 
@@ -683,23 +2012,28 @@ function TOpenDocument.Get_xmlContent_SPREADSHEET_NAMED_EXPRESSIONS: TJclSimpleX
 begin
      Result
      :=
-       Elem_from_path( xmlContent.Root,
+       Elem_from_path( odeContent.xml.Root,
                        'office:body/office:spreadsheet/table:named-expressions');
 end;
 
 function TOpenDocument.Get_xmlStyles_STYLES: TJclSimpleXMLElem;
 begin
-     Result:= Elem_from_path( xmlStyles.Root,'office:styles')
+     Result:= Elem_from_path( odeStyles.xml.Root,'office:styles')
 end;
 
 function TOpenDocument.Get_xmlStyles_AUTOMATIC_STYLES: TJclSimpleXMLElem;
 begin
-     Result:= Elem_from_path( xmlStyles.Root, 'office:automatic-styles');
+     Result:= Elem_from_path( odeStyles.xml.Root, 'office:automatic-styles');
 end;
 
 function TOpenDocument.Get_xmlStyles_MASTER_STYLES: TJclSimpleXMLElem;
 begin
-     Result:= Elem_from_path( xmlStyles.Root, 'office:master-styles');
+     Result:= Elem_from_path( odeStyles.xml.Root, 'office:master-styles');
+end;
+
+function TOpenDocument.Get_Property_Name( _e: TDOMNode; _NodeName: String): String;
+begin
+     Result:= uOD_JCL.Get_Property_Name( _e, _NodeName);
 end;
 
 function TOpenDocument.not_Get_Property( _e: TJclSimpleXMLElem;
@@ -724,21 +2058,30 @@ end;
 
 procedure TOpenDocument.Delete_Property( _e: TJclSimpleXMLElem; _Fullname: String);
 begin
-     uOD_JCL.Delete_Property( _e, _FullName);
+     uOD_JCL.Delete_Property( _e, _Fullname);
+end;
+
+function TOpenDocument.Field_Assure( _Name: String): TDOMNode;
+begin
+     Result
+     :=
+       Ensure_Item( Get_xmlContent_USER_FIELD_DECLS, 'text:user-field-decl',
+                    ['text:name'],
+                    [_Name      ]
+                    );
 end;
 
 procedure TOpenDocument.Set_Field( _Name, _Value: String);
 var
    e: TJclSimpleXMLElem;
 begin
-     e:= Ensure_Item( Get_xmlContent_USER_FIELD_DECLS, 'text:user-field-decl',
-                      ['text:name'],
-                      [_Name      ]
-                    );
+     e:= Field_Assure( _Name);
      if e= nil then exit;
 
      Set_Property( e, 'office:value-type'  , 'string');
      Set_Property( e, 'office:string-value', _Value  );
+
+     pFields_Change.Publie( _Name, _Value);
 end;
 
 procedure TOpenDocument.Get_Fields( _sl: TOOoStringList);
@@ -797,13 +2140,40 @@ begin
        e.Properties.Add( 'text:name'          , FieldName);
        end;
 
-     s:= TStringStream.Create( xmlContent.SaveToString);
+     s:= TStringStream.Create( odeContent.xml.SaveToString);
      try
         F.AddFile( 'content.xml', s);
         F.Compress;
      finally
             FreeAndNil( s);
             end;
+end;
+
+procedure TOpenDocument.Fields_Visite( _fv: TFields_Visitor);
+var
+   eUSER_FIELD_DECLS: TDOMNode;
+   I: Integer;
+   e: TDOMNode;
+   Name, String_Value: String;
+begin
+     if not Assigned( _fv) then exit;
+
+     eUSER_FIELD_DECLS:= Get_xmlContent_USER_FIELD_DECLS;
+     if eUSER_FIELD_DECLS = nil then exit;
+
+     for I:= 0 to eUSER_FIELD_DECLS.Items.Count - 1
+     do
+       begin
+       e:= eUSER_FIELD_DECLS.Items.Item[ I];
+       if e = nil                              then continue;
+       if e.Fullname <> 'text:user-field-decl' then continue;
+
+       if not_Get_Property( e, 'text:name'          , Name        ) then continue;
+       if not_Get_Property( e, 'office:string-value', String_Value) then continue;
+
+       _fv( Name, String_Value);
+       end;
+     OOoChrono.Stop( 'Extraction des TextFields');
 end;
 
 procedure TOpenDocument.Add_FieldGet( _Name: String);
@@ -828,8 +2198,8 @@ procedure TOpenDocument.Set_StylesXML( _Styles: String);
 var
    s: TStringStream;
 begin
-     xmlStyles.LoadFromString( _Styles);
-     s:= TStringStream.Create( xmlStyles.SaveToString);
+     odeStyles.xml.LoadFromString( _Styles);
+     s:= TStringStream.Create( odeStyles.xml.SaveToString);
      try
         F.AddFile( 'styles.xml', s);
         F.Compress;
@@ -847,6 +2217,209 @@ begin
        ors_xmlContent_AUTOMATIC_STYLES: Result:= Get_xmlContent_AUTOMATIC_STYLES;
        else                             Result:= nil;
        end;
+end;
+
+function TOpenDocument.Add_list_style(_NomStyle: String; _Root: TOD_Root_Styles): TDOMNode;
+var
+   Name: String;
+   eSTYLES: TDOMNode;
+   e: TDOMNode;
+begin
+     Result:= nil;
+     Name:= Style_NameFromDisplayName( _NomStyle);
+
+     eSTYLES:= Get_STYLES( _Root);
+     if nil = eSTYLES then exit;
+
+     e:= Cree_path( eSTYLES, 'text:list-style');
+     if nil = e then exit;
+
+     Set_Property(e, 'style:name', Name);
+
+     Result:= e;
+end;
+
+function TOpenDocument.Add_automatic_list_style( out _eStyle: TDOMNode; _Is_Header: Boolean= False): String;
+const
+     bullet_char_1='•';//'&#x25CF;'U25CF
+     bullet_char_2='◦';//'&#x25CB;'U25CB
+     bullet_char_3='▪';//'&#x25A0;'U25A0
+var
+   Name: String;
+begin
+     Result:= '';
+
+     Name:= 'ODL'+IntToStr( Automatic_list_style_number);
+
+     _eStyle:= Add_list_style( Name, Root_Styles_from_Is_Header( _Is_Header));
+     if nil = _eStyle then exit;
+
+     Result:= Name;
+     Inc( Automatic_list_style_number);
+
+     Add_list_level_style_bullet( _eStyle,  '1', '1.0cm', bullet_char_1);
+     Add_list_level_style_bullet( _eStyle,  '2', '1.5cm', bullet_char_2);
+     Add_list_level_style_bullet( _eStyle,  '3', '2.0cm', bullet_char_3);
+     Add_list_level_style_bullet( _eStyle,  '4', '2.5cm', bullet_char_1);
+     Add_list_level_style_bullet( _eStyle,  '5', '3.0cm', bullet_char_2);
+     Add_list_level_style_bullet( _eStyle,  '6', '3.5cm', bullet_char_3);
+     Add_list_level_style_bullet( _eStyle,  '7', '4.0cm', bullet_char_1);
+     Add_list_level_style_bullet( _eStyle,  '8', '4.5cm', bullet_char_2);
+     Add_list_level_style_bullet( _eStyle,  '9', '5.0cm', bullet_char_3);
+     Add_list_level_style_bullet( _eStyle, '10', '5.5cm', bullet_char_1);
+end;
+
+(*
+<text:list-style style:name="L1">
+text:level= "1" fo:margin-left="1.27cm"  text:list-tab-stop-position="1.27cm"/>
+text:level= "2" fo:margin-left="1.905cm" text:list-tab-stop-position="1.905cm"/>
+text:level= "3" fo:margin-left="2.54cm"  text:list-tab-stop-position="2.54cm"/>
+text:level= "4" fo:margin-left="3.175cm" text:list-tab-stop-position="3.175cm"/>
+text:level= "5" fo:margin-left="3.81cm"  text:list-tab-stop-position="3.81cm"/>
+text:level= "6" fo:margin-left="4.445cm" text:list-tab-stop-position="4.445cm"/>
+text:level= "7" fo:margin-left="5.08cm"  text:list-tab-stop-position="5.08cm"/>
+text:level= "8" fo:margin-left="5.715cm" text:list-tab-stop-position="5.715cm"/>
+text:level= "9" fo:margin-left="6.35cm"  text:list-tab-stop-position="6.35cm"/>
+text:level="10" fo:margin-left="6.985cm" text:list-tab-stop-position="6.985cm"/>
+</text:list-style>
+
+*)
+procedure TOpenDocument.Add_list_level_style_bullet( _eListStyle: TDOMNode;
+                                                     _level, _left, _bullet_char: String);
+const
+     Bullet_Style_display_name='Bullet Symbols';
+     Bullet_Style='Bullet_20_Symbols';
+var
+   e: TDOMNode;
+   procedure Assure_Bullet_20_Symbols;
+   var
+      eBullet_Style: TDOMNode;
+      eProperties: TDOMNode;
+   begin
+        //Styles.xml
+        //<style:style style:name="Bullet_20_Symbols" style:family="text" style:display-name="Bullet Symbols">
+        //  <style:text-properties fo:font-family="OpenSymbol" style:font-name="OpenSymbol" style:font-charset="x-symbol" style:font-name-asian="OpenSymbol" style:font-family-asian="OpenSymbol" style:font-name-complex="OpenSymbol" style:font-charset-asian="x-symbol" style:font-family-complex="OpenSymbol" style:font-charset-complex="x-symbol"/>
+        //</style:style>
+        eBullet_Style:= Find_style_text( Bullet_Style_display_name);
+        if Assigned( eBullet_Style) then exit;
+
+        eBullet_Style:= Add_style_text( Bullet_Style_display_name, '');
+
+        eProperties:= Cree_path( eBullet_Style, 'style:text-properties');
+
+        Set_Property( eProperties, 'fo:font-family'            , 'OpenSymbol');
+        Set_Property( eProperties, 'style:font-name'           , 'OpenSymbol');
+        Set_Property( eProperties, 'style:font-charset'        , 'x-symbol'  );
+
+        Set_Property( eProperties, 'style:font-family-asian'   , 'OpenSymbol');
+        Set_Property( eProperties, 'style:font-name-asian'     , 'OpenSymbol');
+        Set_Property( eProperties, 'style:font-charset-asian'  , 'x-symbol'  );
+
+        Set_Property( eProperties, 'style:font-family-complex' , 'OpenSymbol');
+        Set_Property( eProperties, 'style:font-name-complex'   , 'OpenSymbol');
+        Set_Property( eProperties, 'style:font-charset-complex', 'x-symbol'  );
+   end;
+begin
+     e:= Cree_path( _eListStyle, 'text:list-level-style-bullet');
+     Set_Property(e, 'text:level'      , _level);
+     Assure_Bullet_20_Symbols;
+     Set_Property(e, 'text:style-name' , Bullet_Style);
+     Set_Property(e, 'text:bullet-char', _bullet_char);
+     Add_list_level_properties( e, _left);
+end;
+
+procedure TOpenDocument.Add_list_level_properties( _eList_level_style_bullet: TDOMNode;
+                                                   _left: String);
+var
+   e: TDOMNode;
+begin
+     e:= Cree_path( _eList_level_style_bullet, 'style:list-level-properties');
+     Set_Property(e, 'text:list-level-position-and-space-mode', 'label-alignment');
+     Add_List_level_label_alignment( e, _left);
+end;
+
+procedure TOpenDocument.Add_List_level_label_alignment( _eList_level_properties: TDOMNode; _left: String);
+var
+   e: TDOMNode;
+begin
+     e:= Cree_path( _eList_level_properties, 'style:list-level-label-alignment');
+     Set_Property( e, 'fo:margin-left'             , _left);
+     Set_Property( e, 'fo:text-indent'             , '-0.635cm');
+     Set_Property( e, 'text:label-followed-by'     , 'listtab');
+     Set_Property( e, 'text:list-tab-stop-position', _left);
+end;
+
+(*
+<text:list-style style:name="L1">
+  <text:list-level-style-bullet text:level="1" text:style-name="Bullet_20_Symbols" text:bullet-char="•">
+    <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
+      <style:list-level-label-alignment fo:margin-left="1.27cm" fo:text-indent="-0.635cm" text:label-followed-by="listtab" text:list-tab-stop-position="1.27cm"/>
+    </style:list-level-properties>
+  </text:list-level-style-bullet>
+
+  <text:list-level-style-bullet text:level="2" text:style-name="Bullet_20_Symbols" text:bullet-char="◦">
+    <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
+      <style:list-level-label-alignment fo:margin-left="1.905cm" fo:text-indent="-0.635cm" text:label-followed-by="listtab" text:list-tab-stop-position="1.905cm"/>
+    </style:list-level-properties>
+  </text:list-level-style-bullet>
+
+  <text:list-level-style-bullet text:level="3" text:style-name="Bullet_20_Symbols" text:bullet-char="▪">
+    <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
+      <style:list-level-label-alignment fo:margin-left="2.54cm" fo:text-indent="-0.635cm" text:label-followed-by="listtab" text:list-tab-stop-position="2.54cm"/>
+    </style:list-level-properties>
+  </text:list-level-style-bullet>
+
+  <text:list-level-style-bullet text:level="4" text:style-name="Bullet_20_Symbols" text:bullet-char="•">
+    <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
+      <style:list-level-label-alignment fo:margin-left="3.175cm" fo:text-indent="-0.635cm" text:label-followed-by="listtab" text:list-tab-stop-position="3.175cm"/>
+    </style:list-level-properties>
+  </text:list-level-style-bullet>
+
+  <text:list-level-style-bullet text:level="5" text:style-name="Bullet_20_Symbols" text:bullet-char="◦">
+    <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
+      <style:list-level-label-alignment fo:margin-left="3.81cm" fo:text-indent="-0.635cm" text:label-followed-by="listtab" text:list-tab-stop-position="3.81cm"/>
+    </style:list-level-properties>
+  </text:list-level-style-bullet>
+
+  <text:list-level-style-bullet text:level="6" text:style-name="Bullet_20_Symbols" text:bullet-char="▪">
+    <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
+      <style:list-level-label-alignment fo:margin-left="4.445cm" fo:text-indent="-0.635cm" text:label-followed-by="listtab" text:list-tab-stop-position="4.445cm"/>
+    </style:list-level-properties>
+  </text:list-level-style-bullet>
+
+  <text:list-level-style-bullet text:level="7" text:style-name="Bullet_20_Symbols" text:bullet-char="•">
+    <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
+      <style:list-level-label-alignment fo:margin-left="5.08cm" fo:text-indent="-0.635cm" text:label-followed-by="listtab" text:list-tab-stop-position="5.08cm"/>
+    </style:list-level-properties>
+  </text:list-level-style-bullet>
+
+  <text:list-level-style-bullet text:level="8" text:style-name="Bullet_20_Symbols" text:bullet-char="◦">
+    <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
+      <style:list-level-label-alignment fo:margin-left="5.715cm" fo:text-indent="-0.635cm" text:label-followed-by="listtab" text:list-tab-stop-position="5.715cm"/>
+    </style:list-level-properties>
+  </text:list-level-style-bullet>
+
+  <text:list-level-style-bullet text:level="9" text:style-name="Bullet_20_Symbols" text:bullet-char="▪">
+    <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
+      <style:list-level-label-alignment fo:margin-left="6.35cm" fo:text-indent="-0.635cm" text:label-followed-by="listtab" text:list-tab-stop-position="6.35cm"/>
+    </style:list-level-properties>
+  </text:list-level-style-bullet>
+
+  <text:list-level-style-bullet text:level="10" text:style-name="Bullet_20_Symbols" text:bullet-char="•">
+    <style:list-level-properties text:list-level-position-and-space-mode="label-alignment">
+      <style:list-level-label-alignment fo:margin-left="6.985cm" fo:text-indent="-0.635cm" text:label-followed-by="listtab" text:list-tab-stop-position="6.985cm"/>
+    </style:list-level-properties>
+  </text:list-level-style-bullet>
+
+</text:list-style>
+
+*)
+
+function TOpenDocument.Add_automatic_list_style( _Is_Header: Boolean= False): String;
+var
+   eStyle: TDOMNode;
+begin
+     Result:= Add_automatic_list_style( eStyle, _Is_Header);
 end;
 
 function TOpenDocument.Add_style( _NomStyle,
@@ -992,11 +2565,14 @@ end;
 
 function TOpenDocument.Add_automatic_style_paragraph( _NomStyleParent: String;
                                                       _Gras: Boolean;
-                                                      _DeltaSize,
-                                                      _Size,
+                                                      _DeltaSize: Integer;
+                                                      _Size: Integer;
                                                       _SizePourcent: Integer;
                                                       out _eStyle: TJclSimpleXMLElem;
-                                                      _Is_Header: Boolean): String;
+                                                      _Is_Header: Boolean;
+                                                      _Page_break_before: Boolean= False): String;
+var
+   ePARAGRAPH_PROPERTIES: TDOMNode;
 begin
      Result:= Add_automatic_style( _NomStyleParent,
                                    _Gras,
@@ -1009,15 +2585,25 @@ begin
                                    'text',
                                    'ODP',
                                    Automatic_style_paragraph_number);
+     if not _Page_break_before then exit; // ## à surveiller si d'autres propriétés de paragraphe sont rajoutées
+
+     if _eStyle = nil then exit;
+
+     ePARAGRAPH_PROPERTIES:= Ensure_Item(_eStyle, 'style:paragraph-properties', [], []);
+     if ePARAGRAPH_PROPERTIES = nil then exit;
+
+     if _Page_break_before
+     then
+         Set_Property( ePARAGRAPH_PROPERTIES, 'fo:break-before', 'page');
 end;
 
 function TOpenDocument.Add_automatic_style_text( _NomStyleParent: String;
-                                                      _Gras: Boolean;
-                                                      _DeltaSize,
-                                                      _Size,
-                                                      _SizePourcent: Integer;
-                                                      out _eStyle: TJclSimpleXMLElem;
-                                                      _Is_Header: Boolean): String;
+                                                 _Gras: Boolean;
+                                                 _DeltaSize: Integer;
+                                                 _Size: Integer;
+                                                 _SizePourcent: Integer;
+                                                 out _eStyle: TJclSimpleXMLElem;
+                                                 _Is_Header: Boolean): String;
 begin
      Result:= Add_automatic_style( _NomStyleParent,
                                    _Gras,
@@ -1036,7 +2622,8 @@ function TOpenDocument.Add_automatic_style_paragraph( _NomStyleParent: String;
                                                       _Gras: Boolean;
                                                       _DeltaSize: Integer;
                                                       _Size: Integer;
-                                                      _SizePourcent: Integer): String;
+                                                      _SizePourcent: Integer;
+                                                      _Page_break_before: Boolean= False): String;
 var
    e: TJclSimpleXMLElem;
 begin
@@ -1046,7 +2633,8 @@ begin
                                              _Size,
                                              _SizePourcent,
                                              e,
-                                             False);
+                                             False,
+                                             _Page_break_before);
 end;
 
 function TOpenDocument.Add_automatic_style_text( _NomStyleParent: String;
@@ -1386,6 +2974,7 @@ begin
 end;
 
 function TOpenDocument.Cherche_field( _Name: String): TJclSimpleXMLElem;
+(*
 var
    eUSER_FIELD_DECLS: TJclSimpleXMLElem;
    I: Integer;
@@ -1414,9 +3003,16 @@ begin
            end;
        end;
 end;
+*)
+//2017 04 21: passage de "case insensitive" à "case sensitive"
+begin
+     Result
+     :=
+       Cherche_Item( Get_xmlContent_USER_FIELD_DECLS, 'text:user-field-decl',
+                     ['text:name'],
+                     [_Name      ]);
+end;
 
-var
-   debug_count: integer= 0;
 procedure TOpenDocument.Enumere_field_Racine( _Racine_Name: String;
                                               _CallBack: TEnumere_field_Racine_Callback);
 var
@@ -1433,7 +3029,6 @@ begin
      for I:= 0 to eUSER_FIELD_DECLS.Items.Count - 1
      do
        begin
-       Inc( debug_count);
        e:= eUSER_FIELD_DECLS.Items.Item[ I];
        if e = nil                     then continue;
        if e.FullName <> 'text:user-field-decl' then continue;
@@ -1505,6 +3100,32 @@ begin
                               'style:style',
                               ['style:name','style:family'],
                               [Name        ,_family       ]);
+end;
+
+function TOpenDocument.Find_date_style( _NomStyle: String; _Root: TOD_Root_Styles): TDOMNode;
+var
+   Name: String;
+begin
+     Name:= Style_NameFromDisplayName( _NomStyle);
+     Result
+     :=
+       Cherche_Item_Recursif( Get_STYLES( _Root),
+                              'number:date-style',
+                              ['style:name'],
+                              [Name        ]);
+end;
+
+function TOpenDocument.Find_Time_style( _NomStyle: String; _Root: TOD_Root_Styles): TDOMNode;
+var
+   Name: String;
+begin
+     Name:= Style_NameFromDisplayName( _NomStyle);
+     Result
+     :=
+       Cherche_Item_Recursif( Get_STYLES( _Root),
+                              'number:time-style',
+                              ['style:name'],
+                              [Name        ]);
 end;
 
 function TOpenDocument.Find_style_paragraph( _NomStyle: String;
@@ -1596,6 +3217,19 @@ begin
          Result:= Text_Traite_Field( FieldName, FieldContent, CreeTextFields)
 end;
 
+procedure TOpenDocument.Calc_SetText( _Name, _Value: String);
+//var
+//   Cell: Variant;
+begin
+     //Cell:= CellByName( _Name);
+     //if varDispatch = VarType( Cell)
+     //then
+     //    Cell.Formula:= _Value
+     //else
+     //    OOoDelphiReportEngineLog.Entree(  'TOOo_Document_Context.Calc_SetText: '
+     //                                      +'échec  à la définition de '+_Name );
+end;
+
 procedure TOpenDocument.Field_Vide_Branche_CallBack( _e: TJclSimpleXMLElem);
 begin
      Set_Property( _e, 'office:string-value', '');
@@ -1609,19 +3243,6 @@ end;
 function TOpenDocument.Existe( FieldName: String): Boolean;
 begin
      Result:= nil <> Cherche_field( FieldName);
-end;
-
-procedure TOpenDocument.Calc_SetText( _Name, _Value: String);
-//var
-//   Cell: Variant;
-begin
-     //Cell:= CellByName( _Name);
-     //if varDispatch = VarType( Cell)
-     //then
-     //    Cell.Formula:= _Value
-     //else
-     //    OOoDelphiReportEngineLog.Entree(  'TOOo_Document_Context.Calc_SetText: '
-     //                                      +'échec  à la définition de '+_Name );
 end;
 
 function TOpenDocument.Calc_Lire( _Nom: String; _Default: String= ''): String;
@@ -1666,7 +3287,7 @@ procedure TOpenDocument.Text_Ecrire( _Nom: String; _Valeur: String);
 var
    e: TJclSimpleXMLElem;
 begin
-     e:= Cherche_field( _Nom);
+     e:= Field_Assure( _Nom);
      if e = nil then exit;
 
      Set_Property( e, 'office:string-value', _Valeur);
@@ -1707,25 +3328,7 @@ begin
      if e = nil then exit;
 
      eUSER_FIELD_DECLS.Items.Remove( e);
-end;
-
-procedure TOpenDocument.Save;
-var
-   nfContent: String;
-   nfStyles : String;
-begin
-     nfContent:= OD_Temporaire.Nouveau_Fichier('');
-     nfStyles := OD_Temporaire.Nouveau_Fichier('');
-     xmlContent.SaveToFile( nfContent, seUTF8);
-     xmlStyles .SaveToFile( nfStyles , seUTF8);
-     try
-        F.AddFile( 'content.xml', nfContent);
-        F.AddFile( 'styles.xml' , nfStyles );
-        F.Compress;
-     finally
-            DeleteFile( nfContent);
-            DeleteFile( nfStyles );
-            end;
+     pFields_Delete.Publie( Champ, '');
 end;
 
 function TOpenDocument.Style_NameFromDisplayName( _DisplayName: String): String;
@@ -1841,32 +3444,28 @@ begin
          Add_Item( _e, 'text:s', ['text:c'], [IntToStr( _c)]);
 end;
 
-procedure TOpenDocument.AddText( _e: TJclSimpleXMLElem; _Value: String;
-                                 _Escape_XML: Boolean= False;
-                                 _Gras: Boolean= False);
+procedure TOpenDocument.AddText_( _e: TJclSimpleXMLElem; _Value: String; _Gras: Boolean= False);
 var
    I: Integer;
    C: Char;
    S: String;
    procedure Ajoute_SautLigne;
    begin
-        _e.Items.Add('text:line-break');
+        Cree_path( _e, 'text:line-break');
    end;
    procedure Ajoute_Tabulation;
    begin
-        _e.Items.Add('text:tab');
+        Cree_path( _e, 'text:tab');
    end;
    procedure Ajoute_S;
    var
-      span: TJclSimpleXMLElem;
+      eSpan: TJclSimpleXMLElem;
    begin
         if S = '' then exit;
 
-        if _Escape_XML
-        then
-            S:= Escape_XML( S);
-        span:= _e.Items.Add( 'text:span', S);
-        if _Gras then Set_Property( span, 'text:style-name', Name_style_text_bold);
+        eSpan:= Cree_path( _e, 'text:span');
+        if _Gras then Set_Property( eSpan, 'text:style-name', Name_style_text_bold);
+        eSpan.Value:= S;
         S:= '';
    end;
    procedure Traite_Espaces;
@@ -1944,11 +3543,520 @@ begin
      Ajoute_S;
 end;
 
-procedure TOpenDocument.AddText( _Value: String; _Escape_XML: Boolean= False;
+//Copié collé de http://wiki.freepascal.org/Synapse#Downloading_files
+function DownloadHTTP(URL, TargetFile: string): Boolean;
+// Download file; retry if necessary.
+// Could use Synapse HttpGetBinary, but that doesn't deal
+// with result codes (i.e. it happily downloads a 404 error document)
+const
+  MaxRetries = 3;
+var
+  HTTPGetResult: Boolean;
+  HTTPSender: THTTPSend;
+  RetryAttempt: Integer;
+begin
+  Result := False;
+  RetryAttempt := 1;
+  HTTPSender := THTTPSend.Create;
+  try
+    try
+      // Try to get the file
+      HTTPGetResult := HTTPSender.HTTPMethod('GET', URL);
+      while (HTTPGetResult = False) and (RetryAttempt < MaxRetries) do
+      begin
+        Sleep(500 * RetryAttempt);
+        HTTPSender.Clear;
+        HTTPGetResult := HTTPSender.HTTPMethod('GET', URL);
+        RetryAttempt := RetryAttempt + 1;
+      end;
+      // If we have an answer from the server, check if the file
+      // was sent to us.
+      case HTTPSender.Resultcode of
+        100..299:
+          begin
+            HTTPSender.Document.SaveToFile(TargetFile);
+            Result := True;
+          end; //informational, success
+        300..399: Result := False; // redirection. Not implemented, but could be.
+        400..499: Result := False; // client error; 404 not found etc
+        500..599: Result := False; // internal server error
+        else Result := False; // unknown code
+      end;
+    except
+      // We don't care for the reason for this error; the download failed.
+      Result := False;
+    end;
+  finally
+    HTTPSender.Free;
+  end;
+end;
+procedure TOpenDocument.AddHtml( _e: TDOMNode; _Value: String; _Gras: Boolean= False);
+var
+   html: THTMLDocument;
+   html_root: TDOMNode;
+   p: TCSS_Style_Parser_PYACC;
+   function not_Cree_html: Boolean;
+   var
+      ss: TStringStream;
+   begin
+        html_root:= nil;
+        Result:= True;
+        if 1 <> Pos( '<', _Value) then exit;
+
+        ss:= TStringStream.Create( _Value);
+        try
+           try
+              ReadHTMLFile( html, ss);
+              html_root:= html.FirstChild;
+              Result:= html_root = nil;
+           except
+                 on E: Exception
+                 do
+                   begin
+                   Log.PrintLn('Echec de '+ClassName+'.AddHtml: _Value=>'+_Value+'<'#13#10'Message: '+E.Message);
+                   Result:= True;
+                   end;
+                 end;
+        finally
+               FreeAndNil( ss);
+               end;
+   end;
+   procedure Traite_html_node( _od_Parent, _html_Parent: TDOMNode; _NomStyleParent: String; _list_style: String);
+   var
+      html_style:String;
+      NodeName: DOMString;
+      NodeValue: DOMString;
+      od_node: TDOMNode;
+      NomStyle: String;
+      list_style: String;
+      procedure Traite_parsed_styles_interne( _tp:TOD_TEXT_PROPERTIES);
+         procedure T_Color( _html_style_name, _od_style_name: String);
+         var
+            i: Integer;
+            Value: String;
+            Couleur: String;
+            procedure Couleur_from_RGB;
+            var
+               S: String;
+               sR, sG, sB: String;
+               R, G, B: Integer;
+               hR, hG, hB: String;
+               procedure Try_convert( _S: String; var _I: Integer);
+               begin
+                    if TryStrToInt( _S, _I) then exit;
+                    _I:= 0;
+               end;
+            begin
+                 S:= Value;
+                 StrTok( '(',S);
+
+                 sR:= StrTok( ',',S);
+                 sG:= StrTok( ',',S);
+                 sB:= StrTok( ')',S);
+
+                 Try_convert( sR, R);
+                 Try_convert( sG, G);
+                 Try_convert( sB, B);
+
+                 hR:= IntToHex( R, 2);
+                 hG:= IntToHex( G, 2);
+                 hB:= IntToHex( B, 2);
+
+                 Couleur:= '#'+hR+hG+hB;
+            end;
+         begin
+              i:= p.sl.IndexOfName( _html_style_name);
+              if -1 = i then exit;
+
+              Value:= p.sl.ValueFromIndex[ i];
+                    if 1 = Pos('RGB(', UpperCase(Value)) then Couleur_from_RGB
+              else                                            Couleur:= Value;
+              Log.PrintLn( ClassNAme+'.AddHtml::T_Color:Couleur_from_RGB: Value='+Value+' , Couleur='+Couleur);
+              _tp.Set_Property( _od_style_name, Couleur);
+         end;
+         procedure T_font_weight;
+         var
+            i: Integer;
+            Value: String;
+         begin
+              i:= p.sl.IndexOfName( 'font-weight');
+              if -1 = i then exit;
+
+              Value:= p.sl.ValueFromIndex[ i];
+
+              _tp.Set_Property( 'fo:font-weight'           , Value);
+              _tp.Set_Property( 'style:font-weight-asian'  , Value);
+              _tp.Set_Property( 'style:font-weight-complex', Value);
+         end;
+         procedure T_font_style;
+         var
+            i: Integer;
+            Value: String;
+         begin
+              i:= p.sl.IndexOfName( 'font-style');
+              if -1 = i then exit;
+
+              Value:= p.sl.ValueFromIndex[ i];
+
+              _tp.Set_Property( 'fo:font-style'           , Value);
+              _tp.Set_Property( 'style:font-style-asian'  , Value);
+              _tp.Set_Property( 'style:font-style-complex', Value);
+         end;
+      begin
+           if 0 = p.sl.Count then exit;
+
+           T_Color( 'color'           , 'fo:color'           );
+           T_Color( 'background-color', 'fo:background-color');
+           T_font_weight;
+           T_font_style;
+      end;
+
+      procedure Traite_parsed_styles( _o: TOD_XML_Element);
+      var
+         tp:TOD_TEXT_PROPERTIES;
+      begin
+           if 0 = p.sl.Count then exit;
+           tp:= _o.TEXT_PROPERTIES[_NomStyleParent];
+           Traite_parsed_styles_interne( tp);
+      end;
+      procedure Traite_text;
+      begin
+           od_node:= _e.OwnerDocument.CreateTextNode( NodeValue);
+           _od_Parent.AppendChild( od_node);
+      end;
+      procedure Traite_br;
+      begin
+           od_node:= Cree_path( _od_Parent, 'text:line-break');
+      end;
+      procedure Traite_span;
+      var
+         span: TOD_SPAN;
+      begin
+           span:= TOD_SPAN.Create( Self, _od_Parent);
+           try
+              span.Set_Style( _NomStyleParent, False);
+              NomStyle:= span.NomStyleApplique;
+              Traite_parsed_styles( span);
+              od_node:= span.e;
+           finally
+                  FreeAndNil( span);
+                  end;
+      end;
+      procedure Traite_p;
+      var
+         p: TOD_PARAGRAPH;
+      begin
+           p:= TOD_PARAGRAPH.Create( Self, _od_Parent);
+           try
+              Traite_parsed_styles( p);
+              od_node:= p.e;
+           finally
+                  FreeAndNil( p);
+                  end;
+      end;
+      procedure Set_Bold;
+      begin
+           p.sl.Values[ 'font-weight']:= 'bold';
+      end;
+      procedure Traite_strong;
+      var
+         span: TOD_SPAN;
+         tp:TOD_TEXT_PROPERTIES;
+      begin
+           span:= TOD_SPAN.Create( Self, _od_Parent);
+           try
+              span.Set_Style( _NomStyleParent, False);
+              NomStyle:= span.NomStyleApplique;
+              Set_Bold;
+
+              tp:= span.TEXT_PROPERTIES[_NomStyleParent];
+              Traite_parsed_styles_interne( tp);
+              od_node:= span.e;
+           finally
+                  FreeAndNil( span);
+                  end;
+      end;
+      procedure Traite_em;
+      var
+         span: TOD_SPAN;
+         tp:TOD_TEXT_PROPERTIES;
+      begin
+           span:= TOD_SPAN.Create( Self, _od_Parent);
+           try
+              span.Set_Style( _NomStyleParent, False);
+              NomStyle:= span.NomStyleApplique;
+              tp:= span.TEXT_PROPERTIES[_NomStyleParent];
+              p.sl.Values[ 'font-style']:= 'italic';
+              Traite_parsed_styles_interne( tp);
+              od_node:= span.e;
+           finally
+                  FreeAndNil( span);
+                  end;
+      end;
+      procedure Traite_u;
+      var
+         span: TOD_SPAN;
+         tp:TOD_TEXT_PROPERTIES;
+      begin
+           span:= TOD_SPAN.Create( Self, _od_Parent);
+           try
+              span.Set_Style( _NomStyleParent, False);
+              NomStyle:= span.NomStyleApplique;
+              tp:= span.TEXT_PROPERTIES[_NomStyleParent];
+//<style:text-properties style:text-underline-color="font-color" style:text-underline-style="solid" style:text-underline-width="auto"/>
+              tp.Set_Property( 'style:text-underline-color', 'font-color');
+              tp.Set_Property( 'style:text-underline-style', 'solid'     );
+              tp.Set_Property( 'style:text-underline-width', 'auto'      );
+              Traite_parsed_styles_interne( tp);
+              od_node:= span.e;
+           finally
+                  FreeAndNil( span);
+                  end;
+      end;
+      procedure Traite_ul;
+      var
+         //textbox: TDOMNode;
+         Parent: TDOMNode;
+         Parent_NodeName: String;
+         list: TOD_LIST;
+      begin
+           Parent:= _od_Parent;
+           Parent_NodeName:= Parent.FullName;
+           while   ('text:p'    = Parent_NodeName)
+                 or('text:span' = Parent_NodeName)
+           do
+             begin
+             Parent:= Parent.ParentNode;
+             Parent_NodeName:= Parent.FullName;
+             end;
+           //table:table-cell
+           //Log.PrintLn( ClassName+'.AddHTML::Traite_ul: _od_Parent.FullName='+Parent.FullName);
+           list:= TOD_LIST.Create( Self, Parent);
+           try
+              od_node:= list.e;
+              if '' = list_style
+              then
+                  list_style:= list.Cree_Style;
+           finally
+                  FreeAndNil( list);
+                  end;
+      end;
+      procedure Traite_li;
+      //<style:style style:name="troc" style:family="paragraph" style:list-style-name="L1" style:parent-style-name="_5f_t_5f_Root_5f_Pied"/>
+      var
+         list_item: TOD_LIST_ITEM;
+         p: TOD_PARAGRAPH;
+         eStyle: TDOMNode;
+      begin
+           list_item:= TOD_LIST_ITEM.Create( Self, _od_Parent);
+           try
+              od_node:= list_item.e;
+           finally
+                  FreeAndNil( list_item);
+                  end;
+           p:= TOD_PARAGRAPH.Create( Self, od_node);
+           try
+              Traite_parsed_styles( p);
+              od_node:= p.e;
+              eStyle:= p.GetStyle_Automatique( _NomStyleParent);
+              Set_Property( eStyle, 'style:list-style-name', list_style);
+              NomStyle:= p.NomStyleApplique;
+           finally
+                  FreeAndNil( p);
+                  end;
+      end;
+      procedure Traite_img;
+      var
+         src: String;
+         NomFichierImage: String;
+         Frame: TOD_FRAME;
+         Image: TOD_IMAGE;
+         procedure Traite_http;
+         begin
+              //<img alt="Menu creation order.png" src="http://wiki.lazarus.freepascal.org/images/6/69/Menu_creation_order.png" width="610" height="253">
+              NomFichierImage:= OD_Temporaire.Nouveau_Extension( ChangeFileExt(ExtractFileName( src),''), ExtractFileExt( src));
+              DownloadHTTP( src, NomFichierImage);
+         end;
+         procedure Traite_data;
+         var
+            mimetype: String;
+            encodage: String;
+            extension: String;
+            ss: TStringStream;
+            bds: TBase64DecodingStream;
+            fs: TFileStream;
+         begin
+              //<img src="data:image/png;base64,iVBO
+              NomFichierImage:='';
+              StrToK( 'data:', src);
+              mimetype := StrToK( ';', src);
+              encodage := StrToK( ',', src);
+
+              extension:= Extension_from_mimetype( mimetype);
+              if '' = extension then exit;
+
+              NomFichierImage:= OD_Temporaire.Nouveau_Extension( 'IMG', extension);
+              ss:= TStringStream.Create( src);
+              try
+                 bds:= TBase64DecodingStream.Create( ss);
+                 try
+                    fs:= TFileStream.Create( NomFichierImage, fmCreate);
+                    try
+                       fs.CopyFrom( bds, bds.Size);
+                    finally
+                           FreeAndNil( fs);
+                           end;
+                 finally
+                        FreeAndNil( bds);
+                        end;
+              finally
+                     FreeAndNil( ss);
+                     end;
+         end;
+      begin
+           if not_Get_Property( _html_Parent, 'src', src) then exit;
+                if 1=Pos('http:', src) then Traite_http
+           else if 1=Pos('data:', src) then Traite_data
+           else                             exit;
+
+           if '' = NomFichierImage then exit;
+           Frame:= TOD_FRAME.Create( Self, _od_Parent);
+           try
+              Image:= Frame.NewImage_as_Character( NomFichierImage);
+              try
+              finally
+                     FreeAndNil( Image);
+                     end;
+           finally
+                  FreeAndNil( Frame);
+                  end;
+      end;
+      procedure Parse_html_style;
+      var
+         ss: TStringStream;
+      begin
+           p.sl.Clear;
+           if '' = html_style then exit;
+
+           ss:= TStringStream.Create( html_style);
+           try
+              try
+                 p.Parse( ss);
+              except
+                    on E: Exception
+                    do
+                      Log.PrintLn( 'Echec de '+ClassName+'.AddHTML::Traite_html_node::Parse_html_style: '+html_style+#13#10+E.Message);
+                    end;
+           finally
+                  FreeAndNil( ss);
+                  end;
+      end;
+      procedure Traite_ChildNodes;
+      var
+         i: Integer;
+         cn: TDOMNodeList;
+         n: TDOMNode;
+      begin
+           cn:= _html_Parent.ChildNodes;
+           for i:= 0 to cn.Count-1
+           do
+             begin
+             n:= cn.Item[i];
+             if nil = n then continue;
+             Traite_html_node( od_node, n, NomStyle, list_style);
+             end;
+      end;
+   begin
+        NodeName:= _html_Parent.FullName;
+        NodeValue:= _html_Parent.NodeValue;
+
+        //extraction rustique de la couleur, il faudrait extraire proprement tous les éléments de style html
+        if ('#text' =NodeName) or uOD_JCL.not_Get_Property( _html_Parent, 'style', html_style) then html_style:= '';
+
+        Parse_html_style;
+        if _Gras then Set_Bold;
+
+        od_node:= nil;
+        NomStyle:= '';
+        list_style:= _list_style;
+
+             if '#text' =NodeName then Traite_text
+        else if 'body'  =NodeName then begin end
+        else if 'br'    =NodeName then Traite_br
+        else if 'del'   =NodeName then Traite_span
+        else if 'em'    =NodeName then Traite_em
+        else if 'head'  =NodeName then begin end
+        else if 'html'  =NodeName then begin end
+        else if 'img'   =NodeName then Traite_img
+        else if 'ins'   =NodeName then Traite_span
+        else if 'li'    =NodeName then Traite_li
+        else if 'p'     =NodeName then Traite_span //Traite_p text:p can't be nested
+        else if 'span'  =NodeName then Traite_span
+        else if 'strong'=NodeName then Traite_strong
+        else if 'title' =NodeName then begin end
+        else if 'u'     =NodeName then Traite_u
+        else if 'ul'    =NodeName then Traite_ul
+        else                           AddText_( _od_Parent, 'balise html non geree: <'+_html_Parent.FullName+'>'#13#10);
+
+        if nil = od_node then od_node:= _od_Parent;
+        if '' = NomStyle then NomStyle:= _NomStyleParent;
+
+        Traite_ChildNodes;
+   end;
+   procedure Traite_html_ChildNodes;
+   var
+      i: Integer;
+      cn: TDOMNodeList;
+      n: TDOMNode;
+   begin
+        cn:= html.ChildNodes;
+        for i:= 0 to cn.Count-1
+        do
+          begin
+          n:= cn.Item[i];
+          if nil = n then continue;
+          Traite_html_node( _e, n, '', '');
+          end;
+   end;
+begin
+     if not_Cree_html
+     then
+         begin
+         AddText_( _e, _Value, _Gras);
+         exit;
+         end;
+     try
+        p:= TCSS_Style_Parser_PYACC.Create;
+        try
+           //Traite_html_node( _e, html.DocumentElement,'');
+           //while Assigned( html_root)
+           //do
+           //  begin
+           //  Traite_html_node( _e, html_root, '', '');
+           //  html_root:=html_root.NextSibling;
+           //  end;
+           Traite_html_ChildNodes;
+        finally
+               FreeAndNil( p);
+               end;
+     finally
+            FreeAndNil( html);
+            end;
+
+end;
+
+
+procedure TOpenDocument.AddText_( _Value: String; _Escape_XML: Boolean= False;
                                  _Gras: Boolean= False);
 begin
-     AddText( Get_xmlContent_TEXT, _Value, _Escape_XML, _Gras);
+     AddText_( Get_xmlContent_TEXT, _Value, _Escape_XML, _Gras);
 end;
+
+procedure TOpenDocument.AddHtml(_Value: String; _Gras: Boolean= False);
+begin
+     AddHtml(Get_xmlContent_TEXT, _Value, _Gras);
+end;
+
 
 procedure TOpenDocument.Freeze_fields;
     procedure Traite_USER_FIELD_GET( _e: TJclSimpleXMLElem);
@@ -1979,7 +4087,7 @@ procedure TOpenDocument.Freeze_fields;
 
          CONTAINER.Remove( _e);
     end;
-    procedure Traite_DATE( _e: TJclSimpleXMLElem);
+    procedure Traite_DATE_TIME( _e: TDOMNode; _Root: TOD_Root_Styles; _sdtClass: TStyle_DateTime_class; _Default_Format: String);
     var
        I: Integer;
        DataStyleName, DateFixe: String;
@@ -2000,6 +4108,30 @@ procedure TOpenDocument.Freeze_fields;
               then
                   Value[J]:= #32; 
               end;
+       end;
+       function Style_Format: String;
+       var
+          sdt: TStyle_DateTime;
+       begin
+            sdt:= _sdtClass.Create( Self, _Root, DataStyleName);
+            try
+               Result:= sdt.Format;
+            finally
+                   FreeAndNil( sdt);
+                   end;
+            if '' = Result
+            then
+                Result:= _Default_Format;
+       end;
+       function Value_from_: String;
+       var
+          sFormat: String;
+          d: TDateTime;
+       begin
+            d:= Now;
+                  if '' = DataStyleName then sFormat:= _Default_Format
+            else                             sFormat:=    Style_Format;
+            Result:= FormatDateTime( sFormat, d);
        end;
     begin
          if _e = nil then exit;
@@ -2022,47 +4154,19 @@ procedure TOpenDocument.Freeze_fields;
          eSPAN:= CONTAINER.Insert( 'text:span', I);
          if eSPAN = nil then exit;
 
-         //il faudrait aller interpréter le style fourni par DataStyleName
-         Value:= FormatDateTime( 'dddddd', Now);
+         Value:= Value_from_;
          //Insecable_to_Space;
-         AddText( eSPAN, Value, False);
+         AddHtml( eSPAN, Value);
 
          CONTAINER.Remove( _e);
     end;
-    procedure Traite_TIME( _e: TJclSimpleXMLElem);
-    var
-       I: Integer;
-       DataStyleName, DateFixe: String;
-       Parent: TJclSimpleXMLElem;
-       CONTAINER: TJclSimpleXMLElems;
-       eSPAN: TJclSimpleXMLElem;
-       Value: String;
+    procedure Traite_DATE( _e: TDOMNode; _Root: TOD_Root_Styles);
     begin
-         if _e = nil then exit;
-
-         if not_Get_Property( _e, 'style:data-style-name', DataStyleName)
-         then
-             DataStyleName:='';
-
-         if not_Get_Property( _e, 'text:fixed', DateFixe) // non utilisé pour l'instant
-         then
-             DateFixe:= '';
-
-         Parent:= _e.Parent;
-         if Parent= nil then exit;
-
-         CONTAINER:= Parent.Items;
-         if CONTAINER = nil then exit;
-
-         I:= CONTAINER.IndexOf( _e);
-         eSPAN:= CONTAINER.Insert( 'text:span', I);
-         if eSPAN = nil then exit;
-
-         //il faudrait aller interpréter le style fourni par DataStyleName
-         Value:= FormatDateTime( 'tt', Now);
-         AddText( eSPAN, Value, False);
-
-         CONTAINER.Remove( _e);
+         Traite_DATE_TIME( _e, _Root, TStyle_Date, 'dddddd');
+    end;
+    procedure Traite_TIME( _e: TDOMNode; _Root: TOD_Root_Styles);
+    begin
+         Traite_DATE_TIME( _e, _Root, TStyle_Time, 'tt');
     end;
     procedure T( _e: TJclSimpleXMLElem);
     var
@@ -2261,6 +4365,82 @@ end;
 function TOpenDocument.Append_SOFT_PAGE_BREAK( _eRoot: TJclSimpleXMLElem): TJclSimpleXMLElem;
 begin
      Result:= Cree_path( _eRoot, 'text:soft-page-break');
+end;
+
+procedure TOpenDocument.Is_template_from_extension;
+var
+   Extension: String;
+begin
+     Is_template:= False;
+
+     Extension:= UpperCase( ExtractFileExt( Nom));
+     if 4 > Length(Extension) then exit;
+
+                                     // .ODT .OTT .ODS .OTS
+     Is_template:= 'T'=Extension[3]; // 1234 1234 1234 1234
+end;
+
+function TOpenDocument.mimetype_filename: String;
+begin
+     Result:= IncludeTrailingPathDelimiter( Repertoire_Extraction)+'mimetype';
+end;
+
+function TOpenDocument.Getmimetype: String;
+begin
+     Result:= String_from_File( mimetype_filename);
+end;
+
+procedure TOpenDocument.Setmimetype( _mimetype: String);
+begin
+     String_to_File( mimetype_filename, _mimetype);
+end;
+
+procedure TOpenDocument.MIMETYPE_and_MANIFEST_MEDIA_TYPE_from_Is_template;
+const
+     sTemplate='-template';
+var
+   sMIMETYPE: String;
+   sMIMETYPE_is_template: Boolean;
+   procedure Traite_Document;
+   begin
+        sMIMETYPE:= Delete_suffix( sMIMETYPE, sTemplate);
+   end;
+   procedure Traite_Template;
+   begin
+        sMIMETYPE:= sMIMETYPE + sTemplate;
+   end;
+   procedure Modifie_mimetype;
+   begin
+        if Is_template
+        then
+            Traite_Template
+        else
+            Traite_Document;
+   end;
+   procedure Enregistre;
+   var
+      root, e: TDOMNode;
+   begin
+        //modification fichier mimetype
+        mimetype:= sMIMETYPE;
+
+        //modification manifest.xml
+        root:= odeMETA_INF_manifest.xml.DocumentElement;
+        e:= Cherche_Item_Recursif( root,
+                                   'manifest:file-entry',
+                                   ['manifest:full-path'],
+                                   ['/']);
+       if nil = e then exit;
+       uOD_JCL.Set_Property( e, 'manifest:media-type', sMIMETYPE);
+   end;
+begin
+     sMIMETYPE:= mimetype;
+     sMIMETYPE_is_template:= String_has_suffix( sMIMETYPE, sTemplate);
+     if sMIMETYPE_is_template <> Is_template
+     then
+         Modifie_mimetype;
+
+     Enregistre;
 end;
 
 end.

@@ -14,9 +14,16 @@ object Dockable: TDockable
   Left = 300
   Top = 120
   DesignerMasterStyle = 0
-  object sBackground: TShape
-  end
-  object sSelection: TBatpro_Shape
-    Batpro_Shape = bstRectangle
+  object p: TPanel
+    Align = Client
+    Size.Width = 850.000000000000000000
+    Size.Height = 597.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object sBackground: TShape
+    end
+    object sSelection: TBatpro_Shape
+      Batpro_Shape = bstRectangle
+    end
   end
 end

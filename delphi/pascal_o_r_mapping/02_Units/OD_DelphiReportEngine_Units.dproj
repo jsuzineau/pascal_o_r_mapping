@@ -63,6 +63,7 @@
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
         <SanitizedProjectName>OD_DelphiReportEngine_Units</SanitizedProjectName>
+        <DCC_UnitSearchPath>..\07_sources_externes\synapse\source\lib;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Android)'!=''">
         <DCC_CBuilderOutput>None</DCC_CBuilderOutput>
@@ -201,6 +202,11 @@
         <DCCReference Include="uSQLite3_SQLQuery.pas"/>
         <DCCReference Include="uRegistry.pas"/>
         <DCCReference Include="uPhi.pas"/>
+        <DCCReference Include="uDimensions_Image.pas"/>
+        <DCCReference Include="CSS_Style_Parser\generated\uCSS_Style_Parser_PYACC.pas"/>
+        <DCCReference Include="..\07_sources_externes\ndyacclex\src\yacclib.pas"/>
+        <DCCReference Include="..\07_sources_externes\ndyacclex\src\lexlib.pas"/>
+        <DCCReference Include="..\07_sources_externes\ndyacclex\src\uStreamLexer.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

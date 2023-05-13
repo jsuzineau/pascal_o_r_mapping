@@ -1,0 +1,17 @@
+inherited fDock_Windows: TfDock_Windows
+  Fill.Kind = Gradient
+  Fill.Gradient.Points = <
+    item
+      Color = xFF001AFF
+      Offset = 0.000000000000000000
+    end
+    item
+      Color = claWhite
+      Offset = 1.000000000000000000
+    end>
+  Fill.Gradient.StartPosition.X = 0.500000000000000000
+  Fill.Gradient.StartPosition.Y = 1.000000000000000000
+  Fill.Gradient.StopPosition.X = 0.499999970197677600
+  Fill.Gradient.StopPosition.Y = 0.000000000000000000
+  DesignerMasterStyle = 0
+end

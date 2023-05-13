@@ -42,7 +42,7 @@ uses
     uDockable,
   SysUtils, Classes,
   FMX.Controls, FMX.Forms, FMX.ExtCtrls,FMX.Graphics,FMX.StdCtrls,Types,
-  System.UITypes, FMX.Objects, FMX.Types, FMX.Edit, FMX.Memo, Windows;
+  System.UITypes, FMX.Objects, FMX.Types, FMX.Edit, FMX.Memo, Windows, StrUtils;
 
 type
  TDockable_Event= procedure ( _dk: TDockable) of object;
@@ -341,6 +341,8 @@ begin
      pColumnHeader.Position.Y  := 0;
      pColumnHeader.Position.X := 0;
      pColumnHeader.Align:= TAlignLayout.Top;
+     pColumnHeader.StyleLookup:= 'pushpanel';
+
      //pColumnHeader.ParentBackground:= False;
      //pColumnHeader.BevelOuter:= bvNone;
 
@@ -351,6 +353,7 @@ begin
      pColumnFooter.Position.Y  := 0;
      pColumnFooter.Position.X := 0;
      pColumnFooter.Align:= TAlignLayout.Bottom;
+     pColumnFooter.StyleLookup:= 'calloutpanelstyle';
      //pColumnFooter.ParentBackground:= False;
      //pColumnFooter.BevelOuter:= bvNone;
 
@@ -361,6 +364,7 @@ begin
      p.Position.X := 0;
      p.Align:= TALignLAyout.alClient;
      //p.ParentBackground:= False;
+     p.Visible:= True;
 
      s:= TScrollBar.Create( Self);
      s.Parent:= Self;
@@ -799,6 +803,7 @@ var
    pa: TPanel;
    dk: TDockable;
    O: TObject;
+   p_Height: Integer;
    Bas: Integer;
    procedure Traite_ColumnHeader;
    var
@@ -870,10 +875,15 @@ begin
         if Assigned( uProgression_Demarre)
         then
             uProgression_Demarre( 'Remplissage de la boite de défilement', 0, sl.Count - 1, False, True);
+
+        p_Height:= Trunc( p.Height);
+        if 0 = p_Height then p_Height:= Trunc( Size.Height);
+        
+
         for I:= 0 to sl.Count - 1
         do
           begin
-          if Bas > p.Height then break;
+          if Bas > p_Height then break;
 
           Bas:= Bas + HauteurLigne;
 
@@ -884,6 +894,8 @@ begin
           pa.Position.Y:= Bas;
           pa.Align:= TAlignLayout.Top;
           pa.Height:= HauteurLigne;
+          pa.StyleLookup:= ifthen( Odd(I),'calloutpanelstyle','pushpanel');
+
        {
        if BordureLignes
        then

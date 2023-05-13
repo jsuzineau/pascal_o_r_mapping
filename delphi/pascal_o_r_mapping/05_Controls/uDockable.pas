@@ -39,7 +39,7 @@ uses
     //ucChamp_Float_SpinEdit,
   Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
   FMX.Dialogs, FMX.ExtCtrls, System.UITypes,FMX.Types,
-  ucBatpro_Shape, FMX.Objects;
+  ucBatpro_Shape, FMX.Objects, FMX.Controls.Presentation, FMX.StdCtrls;
 
 type
  TDockableScrollbox_Total
@@ -73,7 +73,8 @@ type
  TDockable
  =
   class( TForm)
-   sBackground: TShape;
+    p: TPanel;
+    sBackground: TShape;
     sSelection: TBatpro_Shape;
     procedure FormClick(Sender: TObject);
     procedure sSelectionMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -179,11 +180,19 @@ implementation
 procedure Create_Dockable( var _Reference; _Classe: TDockableClass;
                            _Parent: TFmxObject);
 begin
-     TDockable( _Reference):= _Classe.Create( nil);
-     TDockable( _Reference).Parent:= _Parent;
-     TDockable( _Reference).Show;
-     TDockable( _Reference).Left:= 0;
-     TDockable( _Reference).Top := 0;
+     {$IFDEF FPC}
+       TDockable( _Reference):= _Classe.Create( nil);
+     {$ELSE}
+       //CreateForm(const InstanceClass: TComponentClass; var Reference);
+       Application.CreateForm( _Classe, _Reference);
+       Application.RealCreateForms;
+     {$ENDIF}
+
+     TDockable( _Reference).p.Parent:= _Parent;
+     TDockable( _Reference).p.Visible:= True;
+     //TDockable( _Reference).Show;
+     //TDockable( _Reference).Left:= 0;
+     //TDockable( _Reference).Top := 0;
      //TDockable( _Reference).Align:= alClient;
      //TDockable( _Reference).BorderStyle:= bsNone;
 end;

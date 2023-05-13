@@ -1,0 +1,123 @@
+object fDock: TfDock
+  Left = 0
+  Top = 0
+  Caption = 'fDock'
+  ClientHeight = 595
+  ClientWidth = 640
+  FormFactor.Width = 1280
+  FormFactor.Height = 1024
+  FormFactor.Devices = [Desktop]
+  FullScreen = True
+  OnKeyDown = FormKeyDown
+  DesignerMasterStyle = 0
+  object ToolbarHolder: TLayout
+    OnGesture = FormGesture
+    Align = Bottom
+    Locked = True
+    Position.Y = 520.000000000000000000
+    Size.Width = 640.000000000000000000
+    Size.Height = 75.000000000000000000
+    Size.PlatformDefault = False
+    Visible = False
+    object ToolbarPopup: TPopup
+      Touch.InteractiveGestures = [Pan]
+      OnGesture = FormGesture
+      Align = Bottom
+      DragMode = dmAutomatic
+      Placement = Absolute
+      PlacementRectangle.Left = -1.000000000000000000
+      PlacementRectangle.Top = -1.000000000000000000
+      PlacementRectangle.Right = -1.000000000000000000
+      PlacementRectangle.Bottom = -1.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 75.000000000000000000
+      Size.PlatformDefault = False
+      object ToolbarPopupAnimation: TFloatAnimation
+        AnimationType = Out
+        Duration = 0.200000002980232200
+        Interpolation = Cubic
+        PropertyName = 'Position.Y'
+        StartValue = 0.000000000000000000
+        StopValue = 0.000000000000000000
+        Trigger = 'IsOpen=true'
+        TriggerInverse = 'IsOpen=false'
+      end
+      object ToolBar1: TToolBar
+        StyleName = 'StyleBook1'
+        Align = Client
+        Padding.Left = 50.000000000000000000
+        Padding.Top = 5.000000000000000000
+        Padding.Right = 50.000000000000000000
+        Size.Width = 640.000000000000000000
+        Size.Height = 75.000000000000000000
+        Size.PlatformDefault = False
+        object ToolbarApplyButton: TButton
+          Align = Left
+          Margins.Left = 5.000000000000000000
+          Margins.Top = 5.000000000000000000
+          Margins.Right = 5.000000000000000000
+          Margins.Bottom = 5.000000000000000000
+          Position.X = 141.000000000000000000
+          Position.Y = 10.000000000000000000
+          Size.Width = 80.000000000000000000
+          Size.Height = 60.000000000000000000
+          Size.PlatformDefault = False
+          StyleLookup = 'applybuttontext'
+          Text = 'Apply'
+        end
+        object ToolbarCloseButton: TButton
+          Align = Right
+          Margins.Left = 5.000000000000000000
+          Margins.Top = 5.000000000000000000
+          Margins.Right = 5.000000000000000000
+          Margins.Bottom = 5.000000000000000000
+          Position.X = 505.000000000000000000
+          Position.Y = 10.000000000000000000
+          Size.Width = 80.000000000000000000
+          Size.Height = 60.000000000000000000
+          Size.PlatformDefault = False
+          StyleLookup = 'closebuttontext'
+          Text = 'Close App'
+          OnClick = ToolbarCloseButtonClick
+        end
+        object ToolbarAddButton: TButton
+          Align = Left
+          Margins.Left = 5.000000000000000000
+          Margins.Top = 5.000000000000000000
+          Margins.Right = 5.000000000000000000
+          Margins.Bottom = 5.000000000000000000
+          Position.X = 55.000000000000000000
+          Position.Y = 10.000000000000000000
+          Size.Width = 76.000000000000000000
+          Size.Height = 60.000000000000000000
+          Size.PlatformDefault = False
+          StyleLookup = 'addbuttontext'
+          Text = 'Add'
+        end
+      end
+    end
+  end
+  object bDock: TButton
+    Position.X = 136.000000000000000000
+    Position.Y = 208.000000000000000000
+    TabOrder = 0
+    Text = 'bDock'
+    OnClick = bDockClick
+  end
+  object bShow: TButton
+    Position.X = 40.000000000000000000
+    Position.Y = 208.000000000000000000
+    TabOrder = 1
+    Text = 'bShow'
+    OnClick = bShowClick
+  end
+  object Panel1: TPanel
+    Position.X = 192.000000000000000000
+    Position.Y = 256.000000000000000000
+    Size.Width = 433.000000000000000000
+    Size.Height = 273.000000000000000000
+    Size.PlatformDefault = False
+    StyleLookup = 'pushpanel'
+    TabOrder = 3
+  end
+end

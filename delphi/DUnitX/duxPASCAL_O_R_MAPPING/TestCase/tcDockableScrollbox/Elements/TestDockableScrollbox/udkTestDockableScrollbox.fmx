@@ -7,18 +7,37 @@ inherited dkTestDockableScrollbox: TdkTestDockableScrollbox
   Left = 704
   Top = 420
   DesignerMasterStyle = 0
-  object clNom: TChamp_Label
-    Anchors = [akLeft, akTop, akRight]
-    Size.Width = 174.000000000000000000
-    Size.Height = 14.000000000000000000
-    Size.PlatformDefault = False
-    Text = 'clNom'
-    ParentShowHint = False
-    ShowHint = True
-    OnClick = FormClick
-    OnDblClick = FormDblClick
-    Field = 'Nom'
-    Left = 16
-    Top = 4
+  inherited p: TPanel
+    Size.Width = 320.000000000000000000
+    Size.Height = 77.000000000000000000
+    object clNom: TChamp_Label
+      Anchors = [akLeft, akTop, akRight]
+      AutoSize = True
+      Position.X = 24.000000000000000000
+      Size.Width = 297.000000000000000000
+      Size.Height = 16.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'clNom'
+      ParentShowHint = False
+      ShowHint = True
+      OnClick = FormClick
+      OnDblClick = FormDblClick
+      Field = 'Nom'
+      Left = 16
+      Top = 4
+    end
+    object Button2: TButton
+      Position.X = 72.000000000000000000
+      TabOrder = 0
+      Text = 'Button2'
+    end
+    object ColorPanel1: TColorPanel
+      Color = claWhite
+      Position.X = 16.000000000000000000
+      Size.Width = 150.000000000000000000
+      Size.Height = 150.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+    end
   end
 end

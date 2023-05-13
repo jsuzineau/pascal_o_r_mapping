@@ -63,6 +63,98 @@ object ftcDockableScrollbox: TftcDockableScrollbox
       Size.Width = 320.000000000000000000
       Size.Height = 120.000000000000000000
       Size.PlatformDefault = False
+      TabOrder = 4
+    end
+    object TPanel
+      Align = Bottom
+      Position.Y = -66.000000000000000000
+      Size.Width = 320.000000000000000000
+      Size.Height = 120.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 5
+    end
+    object TPanel
+      Align = Client
+      Size.PlatformDefault = False
+      TabOrder = 6
+    end
+    object TScrollBar
+      Align = Right
+      SmallChange = 0.000000000000000000
+      Orientation = Vertical
+      Position.X = -130.000000000000000000
+      Position.Y = 480.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 7
+    end
+    object TPanel
+      Align = Top
+      Position.Y = 120.000000000000000000
+      Size.Width = 320.000000000000000000
+      Size.Height = 120.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 8
+    end
+    object TPanel
+      Align = Bottom
+      Position.Y = -186.000000000000000000
+      Size.Width = 320.000000000000000000
+      Size.Height = 120.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 9
+    end
+    object TPanel
+      Align = Client
+      Size.PlatformDefault = False
+      TabOrder = 10
+    end
+    object TScrollBar
+      Align = Right
+      SmallChange = 0.000000000000000000
+      Orientation = Vertical
+      Position.X = -130.000000000000000000
+      Position.Y = 480.000000000000000000
+      Size.Width = 150.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 11
+    end
+    object TPanel
+      Align = Top
+      Position.Y = 240.000000000000000000
+      Size.Width = 320.000000000000000000
+      Size.Height = 120.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 12
+    end
+    object TPanel
+      Align = Bottom
+      Position.Y = -306.000000000000000000
+      Size.Width = 320.000000000000000000
+      Size.Height = 120.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 13
+    end
+    object TPanel
+      Align = Client
+      Size.PlatformDefault = False
+      TabOrder = 14
+    end
+    object TScrollBar
+      Align = Right
+      SmallChange = 0.000000000000000000
+      Orientation = Vertical
+      Position.X = 20.000000000000000000
+      Position.Y = 480.000000000000000000
+      Size.Width = 150.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 15
+    end
+    object TPanel
+      Align = Top
+      Position.Y = 360.000000000000000000
+      Size.Width = 320.000000000000000000
+      Size.Height = 120.000000000000000000
+      Size.PlatformDefault = False
       TabOrder = 0
     end
     object TPanel
@@ -75,7 +167,6 @@ object ftcDockableScrollbox: TftcDockableScrollbox
     end
     object TPanel
       Align = Client
-      Size.Width = 320.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 2
     end
@@ -83,8 +174,9 @@ object ftcDockableScrollbox: TftcDockableScrollbox
       Align = Right
       SmallChange = 0.000000000000000000
       Orientation = Vertical
-      Position.X = 320.000000000000000000
-      Position.Y = 120.000000000000000000
+      Position.X = 170.000000000000000000
+      Position.Y = 480.000000000000000000
+      Size.Width = 150.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 3
     end
