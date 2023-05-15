@@ -38,7 +38,7 @@ type
  TBMP_Bitmap_File_Header
  =
   packed record
-    header_field: array[1..2] of Char;
+    header_field: array[1..2] of {$IFDEF FPC}Char{$ELSE}AnsiChar{$ENDIF};
     filesize    : Cardinal;
     reserved1   : Word;
     reserved2   : Word;
@@ -215,7 +215,7 @@ end;
 
 function TBMP_File.svgWidth: String;
 begin
-     Result:= '1';
+     Result:= '1cm';
      if not Has_BFH then exit;
      if not Has_BIH then exit;
 
@@ -224,7 +224,7 @@ end;
 
 function TBMP_File.svgHeight: String;
 begin
-     Result:= '1';
+     Result:= '1cm';
      if not Has_BFH then exit;
      if not Has_BIH then exit;
 

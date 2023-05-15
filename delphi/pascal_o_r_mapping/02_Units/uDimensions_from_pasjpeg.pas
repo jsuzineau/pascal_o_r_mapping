@@ -199,7 +199,7 @@ procedure TDimensions_from_pasjpeg.Reset;
 begin
      Width        := 1;
      Height       := 1;
-     Density_units:= 0;
+     Density_units:= 2;
      Xdensity     := 1;
      Ydensity     := 1;
 end;
@@ -248,6 +248,8 @@ begin
         finally
                FreeAndNil( s);
                end;
+        {$ELSE}
+        Reset;
         {$ENDIF}
      except
            on E: Exception

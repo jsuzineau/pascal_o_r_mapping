@@ -1900,6 +1900,7 @@ end;
 procedure TOpenDocument.Manifeste( _FullPath, _Extension: String);
 var
    root, e: TDOMNode;
+   MimeType: String;
 begin
      //==> META-INF/manifest.xml
      //  <manifest:manifest manifest:version="1.2">
@@ -1911,10 +1912,11 @@ begin
                                 [_FullPath]);
     if Assigned(e) then exit;
 
+    MimeType:= MimeType_from_Extension(_Extension);
     Add_Item( root,
               'manifest:file-entry',
-              ['manifest:full-path'],
-              [_FullPath]);
+              ['manifest:full-path', 'manifest:media-type'],
+              [_FullPath           , MimeType             ]);
 end;
 
 function TOpenDocument.Embed_Image_New_name_exists: Boolean;

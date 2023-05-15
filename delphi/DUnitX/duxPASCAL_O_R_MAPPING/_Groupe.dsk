@@ -1,26 +1,74 @@
 ﻿[Closed Files]
-File_0=TSourceModule,'E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\TestCase\tcDockableScrollbox\Elements\TestDockableScrollbox\uhdmTestDockableScrollbox.pas',0,1,119,6,114,0,0,,
-File_1=TSourceModule,'E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\Dock\ufSource.pas',0,1,1,1,1,0,0,,
-File_2=TSourceModule,'E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\Dock\ufDock.pas',0,1,41,31,67,0,0,,{1
-File_3=TSourceModule,'E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\TestCase\tcDockableScrollbox\utcDockableScrollbox.pas',0,1,23,18,31,0,0,,
-File_4=TSourceModule,'E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\TestCase\tcOpenDocument_Embed_Image\utcOpenDocument_Embed_Image.pas',0,1,34,3,48,0,0,,
-File_5=TSourceModule,'E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\TestCase\tcDockableScrollbox\Elements\TestDockableScrollbox\ublTestDockableScrollbox.pas',0,1,30,114,46,0,0,,
-File_6=TSourceModule,'E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uSQLite3_SQLQuery.pas',0,1,202,52,217,0,0,,{1
-File_7=TSourceModule,'E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uSQLite3.pas',0,1,22,17,36,0,0,,
-File_8=TSourceModule,'E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\03_Data\udmDatabase.pas',0,1,156,60,174,0,0,,
-File_9=TSourceModule,'E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\jsWorks\ufjsWorks.pas',0,1,202,10,208,0,0,,
-File_10=TSourceModule,'E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\jsWorks\Elements\Tag\udkTag_LABEL_od.pas',0,1,1,87,33,0,0,,
+File_0=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\SOURCE\RTL\SYS\System.pas',0,1,24812,1,24833,0,0,,
+File_1=TSourceModule,'C:\Users\Jean\Documents\Embarcadero\Studio\19.0\CatalogRepository\JEDICodeLibraryJCL-3.3\source\common\JclCompression.pas',0,1,1131,95,1160,0,0,,
+File_2=TSourceModule,'c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.Classes.pas',0,1,8833,1,8854,0,0,,
+File_3=TSourceModule,'E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\TestCase\tcDockableScrollbox\Elements\TestDockableScrollbox\uhdmTestDockableScrollbox.pas',0,1,119,6,114,0,0,,
+File_4=TSourceModule,'E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\Dock\ufSource.pas',0,1,1,1,1,0,0,,
+File_5=TSourceModule,'E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\Dock\ufDock.pas',0,1,41,31,67,0,0,,{1
+File_6=TSourceModule,'E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\TestCase\tcDockableScrollbox\utcDockableScrollbox.pas',0,1,23,18,31,0,0,,
+File_7=TSourceModule,'E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\TestCase\tcDockableScrollbox\Elements\TestDockableScrollbox\ublTestDockableScrollbox.pas',0,1,30,114,46,0,0,,
+File_8=TSourceModule,'E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uSQLite3_SQLQuery.pas',0,1,202,52,217,0,0,,{1
+File_9=TSourceModule,'E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uSQLite3.pas',0,1,22,17,36,0,0,,
+File_10=TSourceModule,'E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\03_Data\udmDatabase.pas',0,1,156,60,174,0,0,,
+File_11=TSourceModule,'E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\jsWorks\ufjsWorks.pas',0,1,202,10,208,0,0,,
+File_12=TSourceModule,'E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\jsWorks\Elements\Tag\udkTag_LABEL_od.pas',0,1,1,87,33,0,0,,
 
 [Modules]
-Module0=default.htm
-Module1=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\TestCase\tcDockableScrollbox\Elements\TestDockableScrollbox\udkTestDockableScrollbox.pas
-Module2=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\05_Controls\uDockable.pas
-Module3=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\05_Controls\ucDockableScrollbox.pas
-Module4=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\TestCase\tcDockableScrollbox\uftcDockableScrollbox.pas
-Module5=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\duxPASCAL_O_R_MAPPING.dproj
-Module6=documentation.htm
-Count=7
+Module0=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uDimensions_from_pasjpeg.pas
+Module1=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uDimensions_Image.pas
+Module2=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uOpenDocument.pas
+Module3=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uMimeType.pas
+Module4=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uuStrings.pas
+Module5=c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.Zip.pas
+Module6=c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.StrUtils.pas
+Module7=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\05_Controls\ucDockableScrollbox.pas
+Module8=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\03_Data\uBatpro_OD_Printer.pas
+Module9=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\duxPASCAL_O_R_MAPPING.dproj
+Module10=C:\Users\Jean\Documents\Embarcadero\Studio\19.0\CatalogRepository\JEDICodeLibraryJCL-3.3\examples\windows\compression\archive\UMain.pas
+Module11=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\TestCase\tcOpenDocument_Embed_Image\utcOpenDocument_Embed_Image.pas
+Module12=default.htm
+Module13=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\TestCase\tcDockableScrollbox\Elements\TestDockableScrollbox\udkTestDockableScrollbox.pas
+Module14=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\05_Controls\uDockable.pas
+Module15=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\TestCase\tcDockableScrollbox\uftcDockableScrollbox.pas
+Module16=documentation.htm
+Count=17
 EditWindowCount=1
+
+[E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uDimensions_from_pasjpeg.pas]
+ModuleType=TSourceModule
+
+[E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uDimensions_Image.pas]
+ModuleType=TSourceModule
+
+[E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uOpenDocument.pas]
+ModuleType=TSourceModule
+
+[E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uMimeType.pas]
+ModuleType=TSourceModule
+
+[E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uuStrings.pas]
+ModuleType=TSourceModule
+
+[c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.Zip.pas]
+ModuleType=TSourceModule
+
+[c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.StrUtils.pas]
+ModuleType=TSourceModule
+
+[E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\05_Controls\ucDockableScrollbox.pas]
+ModuleType=TSourceModule
+
+[E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\03_Data\uBatpro_OD_Printer.pas]
+ModuleType=TSourceModule
+
+[E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\duxPASCAL_O_R_MAPPING.dproj]
+ModuleType=TBaseProject
+
+[C:\Users\Jean\Documents\Embarcadero\Studio\19.0\CatalogRepository\JEDICodeLibraryJCL-3.3\examples\windows\compression\archive\UMain.pas]
+ModuleType=TSourceModule
+
+[E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\TestCase\tcOpenDocument_Embed_Image\utcOpenDocument_Embed_Image.pas]
+ModuleType=TSourceModule
 
 [default.htm]
 ModuleType=TURLModule
@@ -31,21 +79,15 @@ ModuleType=TSourceModule
 [E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\05_Controls\uDockable.pas]
 ModuleType=TSourceModule
 
-[E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\05_Controls\ucDockableScrollbox.pas]
-ModuleType=TSourceModule
-
 [E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\TestCase\tcDockableScrollbox\uftcDockableScrollbox.pas]
 ModuleType=TSourceModule
-
-[E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\duxPASCAL_O_R_MAPPING.dproj]
-ModuleType=TBaseProject
 
 [documentation.htm]
 ModuleType=TURLModule
 
 [EditWindow0]
-ViewCount=7
-CurrentView=0
+ViewCount=17
+CurrentEditView=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uDimensions_from_pasjpeg.pas
 View0=0
 View1=1
 View2=2
@@ -53,6 +95,16 @@ View3=3
 View4=4
 View5=5
 View6=6
+View7=7
+View8=8
+View9=9
+View10=10
+View11=11
+View12=12
+View13=13
+View14=14
+View15=15
+View16=16
 PercentageSizes=1
 Create=1
 Visible=1
@@ -71,13 +123,13 @@ BorlandEditorCodeExplorer=BorlandEditorCodeExplorer@EditWindow0
 TopPanelSize=0
 LeftPanelSize=1896
 LeftPanelClients=PropertyInspector,DockSite3
-LeftPanelData=00000800010100000000081000000000000001680700000000000001000000005C0E000009000000446F636B53697465330100000000801C00001100000050726F7065727479496E73706563746F72FFFFFFFF
+LeftPanelData=00000800010100000000031000000000000001680700000000000001000000005C0E000009000000446F636B53697465330100000000771C00001100000050726F7065727479496E73706563746F72FFFFFFFF
 RightPanelSize=2000
 RightPanelClients=DockSite2,DockSite4
-RightPanelData=00000800010100000000081000000000000001D00700000000000001000000004412000009000000446F636B53697465320100000000801C000009000000446F636B5369746534FFFFFFFF
-BottomPanelSize=1509
-BottomPanelClients=MessageView,DockSite1
-BottomPanelData=0000080001020100000009000000446F636B5369746531724500000000000002E5050000000000000100000000724500000F0000004D65737361676556696577466F726DFFFFFFFF
+RightPanelData=00000800010100000000031000000000000001D00700000000000001000000004412000009000000446F636B53697465320100000000771C000009000000446F636B5369746534FFFFFFFF
+BottomPanelSize=1519
+BottomPanelClients=DockSite1,MessageView
+BottomPanelData=0000080001020100000009000000446F636B5369746531724500000000000002EF050000000000000100000000724500000F0000004D65737361676556696577466F726DFFFFFFFF
 BottomMiddlePanelSize=0
 BottomMiddlePanelClients=DockSite0,GraphDrawingModel
 BottomMiddelPanelData=0000080001020200000009000000446F636B536974653010000000477261706844726177696E67566965779F1D00000000000002F206000000000000FFFFFFFF
@@ -89,8 +141,8 @@ WelcomePageURL=bds:/default.htm
 [View1]
 CustomEditViewType=TEditView
 Module=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\duxPASCAL_O_R_MAPPING.dpr
-CursorX=1
-CursorY=1
+CursorX=122
+CursorY=20
 TopLine=1
 LeftCol=1
 Elisions=
@@ -98,6 +150,116 @@ Bookmarks=
 EditViewName=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\duxPASCAL_O_R_MAPPING.dpr
 
 [View2]
+CustomEditViewType=TEditView
+Module=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\TestCase\tcOpenDocument_Embed_Image\utcOpenDocument_Embed_Image.pas
+CursorX=12
+CursorY=10
+TopLine=1
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\TestCase\tcOpenDocument_Embed_Image\utcOpenDocument_Embed_Image.pas
+
+[View3]
+CustomEditViewType=TEditView
+Module=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\03_Data\uBatpro_OD_Printer.pas
+CursorX=1
+CursorY=113
+TopLine=98
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\03_Data\uBatpro_OD_Printer.pas
+
+[View4]
+CustomEditViewType=TEditView
+Module=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uOpenDocument.pas
+CursorX=28
+CursorY=1479
+TopLine=1462
+LeftCol=1
+Elisions=
+Bookmarks={1,1933,8}
+EditViewName=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uOpenDocument.pas
+
+[View5]
+CustomEditViewType=TEditView
+Module=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uDimensions_Image.pas
+CursorX=35
+CursorY=186
+TopLine=162
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uDimensions_Image.pas
+
+[View6]
+CustomEditViewType=TEditView
+Module=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uDimensions_from_pasjpeg.pas
+CursorX=63
+CursorY=258
+TopLine=234
+LeftCol=1
+Elisions=
+Bookmarks={1,330,6}
+EditViewName=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uDimensions_from_pasjpeg.pas
+
+[View7]
+CustomEditViewType=TEditView
+Module=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uMimeType.pas
+CursorX=10
+CursorY=22
+TopLine=4
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uMimeType.pas
+
+[View8]
+CustomEditViewType=TEditView
+Module=c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.StrUtils.pas
+CursorX=1
+CursorY=12
+TopLine=61
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.StrUtils.pas
+
+[View9]
+CustomEditViewType=TEditView
+Module=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uuStrings.pas
+CursorX=78
+CursorY=1056
+TopLine=1032
+LeftCol=1
+Elisions=
+Bookmarks={1,1029,6}
+EditViewName=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\02_Units\uuStrings.pas
+
+[View10]
+CustomEditViewType=TEditView
+Module=c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.Zip.pas
+CursorX=30
+CursorY=48
+TopLine=40
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=c:\program files (x86)\embarcadero\studio\19.0\source\rtl\common\System.Zip.pas
+
+[View11]
+CustomEditViewType=TEditView
+Module=C:\Users\Jean\Documents\Embarcadero\Studio\19.0\CatalogRepository\JEDICodeLibraryJCL-3.3\examples\windows\compression\archive\UMain.pas
+CursorX=37
+CursorY=222
+TopLine=214
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=C:\Users\Jean\Documents\Embarcadero\Studio\19.0\CatalogRepository\JEDICodeLibraryJCL-3.3\examples\windows\compression\archive\UMain.pas
+
+[View12]
 CustomEditViewType=TEditView
 Module=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\05_Controls\uDockable.pas
 CursorX=46
@@ -108,7 +270,7 @@ Elisions=
 Bookmarks=
 EditViewName=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\05_Controls\uDockable.pas
 
-[View3]
+[View13]
 CustomEditViewType=TEditView
 Module=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\05_Controls\ucDockableScrollbox.pas
 CursorX=23
@@ -119,7 +281,7 @@ Elisions=
 Bookmarks=
 EditViewName=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\pascal_o_r_mapping\05_Controls\ucDockableScrollbox.pas
 
-[View4]
+[View14]
 CustomEditViewType=TEditView
 Module=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\TestCase\tcDockableScrollbox\Elements\TestDockableScrollbox\udkTestDockableScrollbox.pas
 CursorX=30
@@ -130,7 +292,7 @@ Elisions=
 Bookmarks=
 EditViewName=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\TestCase\tcDockableScrollbox\Elements\TestDockableScrollbox\udkTestDockableScrollbox.pas
 
-[View5]
+[View15]
 CustomEditViewType=TEditView
 Module=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\TestCase\tcDockableScrollbox\uftcDockableScrollbox.pas
 CursorX=49
@@ -141,7 +303,7 @@ Elisions=
 Bookmarks=
 EditViewName=Borland.FormDesignerView
 
-[View6]
+[View16]
 CustomEditViewType=TWelcomePageView
 WelcomePageURL=bds:/documentation.htm
 
@@ -149,7 +311,8 @@ WelcomePageURL=bds:/documentation.htm
 Count=0
 
 [Watches]
-Count=0
+Count=1
+Watch0='Repertoire_Extraction',256,0,18,1,0,'Suivis',1
 
 [WatchWindow]
 WatchColumnWidth=120
@@ -162,11 +325,11 @@ State=0
 Left=0
 Top=0
 Width=3823
-Height=1154
+Height=1163
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=3823
-ClientHeight=1154
+ClientHeight=1163
 TBDockHeight=212
 LRDockWidth=13604
 Dockable=1
@@ -235,12 +398,12 @@ State=0
 Left=0
 Top=18
 Width=10000
-Height=1394
+Height=1404
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=10000
-ClientHeight=1394
-TBDockHeight=1394
+ClientHeight=1404
+TBDockHeight=1404
 LRDockWidth=2771
 Dockable=1
 StayOnTop=0
@@ -254,11 +417,11 @@ State=0
 Left=0
 Top=0
 Width=2000
-Height=2548
+Height=2538
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=2000
-ClientHeight=2548
+ClientHeight=2538
 TBDockHeight=7154
 LRDockWidth=2000
 Dockable=1
@@ -272,14 +435,14 @@ Docked=0
 State=0
 Left=0
 Top=0
-Width=1786
-Height=6115
+Width=1271
+Height=4288
 MaxLeft=-5
 MaxTop=-10
-ClientWidth=1703
-ClientHeight=5740
-TBDockHeight=6115
-LRDockWidth=1786
+ClientWidth=1188
+ClientHeight=3913
+TBDockHeight=4288
+LRDockWidth=1271
 Dockable=1
 StayOnTop=0
 
@@ -311,11 +474,11 @@ State=0
 Left=0
 Top=415
 Width=1896
-Height=3587
+Height=3577
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=1896
-ClientHeight=3587
+ClientHeight=3577
 TBDockHeight=9010
 LRDockWidth=1896
 Dockable=1
@@ -391,11 +554,11 @@ State=0
 Left=0
 Top=0
 Width=3823
-Height=1154
+Height=1163
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=3823
-ClientHeight=1154
+ClientHeight=1163
 TBDockHeight=413
 LRDockWidth=4953
 Dockable=1
@@ -410,11 +573,11 @@ State=0
 Left=0
 Top=0
 Width=3823
-Height=1154
+Height=1163
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=3823
-ClientHeight=1154
+ClientHeight=1163
 TBDockHeight=212
 LRDockWidth=7406
 Dockable=1
@@ -433,11 +596,11 @@ State=0
 Left=0
 Top=0
 Width=3823
-Height=1154
+Height=1163
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=3823
-ClientHeight=1154
+ClientHeight=1163
 TBDockHeight=1538
 LRDockWidth=3484
 Dockable=1
@@ -452,11 +615,11 @@ State=0
 Left=0
 Top=0
 Width=3823
-Height=1154
+Height=1163
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=3823
-ClientHeight=1154
+ClientHeight=1163
 TBDockHeight=2067
 LRDockWidth=3484
 Dockable=1
@@ -650,11 +813,11 @@ State=0
 Left=0
 Top=0
 Width=3823
-Height=1154
+Height=1163
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=3823
-ClientHeight=1154
+ClientHeight=1163
 TBDockHeight=1548
 LRDockWidth=8740
 Dockable=1
@@ -759,15 +922,15 @@ Create=1
 Visible=0
 Docked=1
 State=0
-Left=960
+Left=0
 Top=18
 Width=3823
-Height=1394
+Height=1404
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=3823
-ClientHeight=1394
-TBDockHeight=1394
+ClientHeight=1404
+TBDockHeight=1404
 LRDockWidth=3823
 Dockable=1
 StayOnTop=0
@@ -834,11 +997,11 @@ State=0
 Left=0
 Top=523
 Width=2000
-Height=2548
+Height=2538
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=2000
-ClientHeight=2548
+ClientHeight=2538
 TBDockHeight=9010
 LRDockWidth=2000
 Dockable=1
@@ -848,5 +1011,5 @@ ActiveTabID=ToolForm
 TabDockClients=ToolForm,TemplateView
 
 [ActiveProject]
-ActiveProject=5
+ActiveProject=1
 
