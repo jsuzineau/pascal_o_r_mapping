@@ -409,9 +409,6 @@ type
   //Attributs
   public
     Nom_relatif: String;
-    {$IFNDEF FPC}
-    ci: TJCLCompressionItem;
-    {$ENDIF}
     xml: {$IFDEF FPC}TXMLDocument{$ELSE}TJclSimpleXml{$ENDIF};
     NomFichier: String;
   //méthodes
@@ -419,6 +416,7 @@ type
     procedure XML_from_Repertoire_Extraction( _Repertoire_Extraction: String);
     procedure Repertoire_Extraction_from_XML( _Repertoire_Extraction: String);
   end;
+
  { TOpenDocument }
 
  TOpenDocument
@@ -547,7 +545,6 @@ type
     function Field_Assure( _Name: String): TDOMNode;
     function Field_Value( _Name: String): String;
     procedure Add_FieldGet( _Name: String);
-    procedure Set_StylesXML( _Styles: String);
 
     procedure Add_style_table_column( _NomStyle: String; _Column_Width: double; _Relatif: Boolean);
     procedure Duplique_Style_Colonne( _NomStyle_Source, _NomStyle_Cible: String);
@@ -2101,20 +2098,6 @@ begin
      if eUSER_FIELD_GET = nil then exit;
 
      Set_Property( eUSER_FIELD_GET, 'text:name', _Name);
-end;
-
-procedure TOpenDocument.Set_StylesXML( _Styles: String);
-var
-   s: TStringStream;
-begin
-     (*odeStyles.xml.LoadFromString( _Styles);
-     s:= TStringStream.Create( odeStyles.xml.SaveToString);
-     try
-        F.AddFile( 'styles.xml', s);
-        F.Compress;
-     finally
-            FreeAndNil( s);
-            end;*)
 end;
 
 function TOpenDocument.Get_STYLES( _Root: TOD_Root_Styles): TDOMNode;

@@ -27,7 +27,7 @@ interface
 
 uses
     {$IFNDEF FPC}
-    DOM,
+    JclSimpleXml,
     {$ELSE}
     DOM,
     {$ENDIF}

@@ -49,7 +49,7 @@ uses
 
     ufAccueil_Erreur,
   {$IFNDEF FPC}
-  DOM,
+  JclSimpleXml,
   Windows, //pour CopyFile
   {$ELSE}
   DOM,
