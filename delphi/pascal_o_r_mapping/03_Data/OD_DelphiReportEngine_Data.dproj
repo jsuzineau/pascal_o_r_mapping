@@ -195,7 +195,6 @@
         <DCCReference Include="uImpression_Font_Size_Multiplier.pas"/>
         <DCCReference Include="uDataClasses.pas"/>
         <DCCReference Include="uHTTP_Interface.pas"/>
-        <DCCReference Include="..\07_sources_externes\synapse\source\lib\blcksock.pas"/>
         <DCCReference Include="uOD.pas"/>
         <DCCReference Include="uOD_Maitre.pas"/>
         <DCCReference Include="uOD_Table_Batpro.pas"/>

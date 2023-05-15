@@ -31,11 +31,10 @@ uses
     uOOoDelphiReportEngineLog,
 
   {$IFDEF MSWINDOWS}Windows,{pour MulDiv}{$ENDIF}
-  JclCompression,
   JclSimpleXml,
   JclStreams,
   SysUtils, Classes, Math, System.Zip, IOUtils,
-  httpsend;
+  httpsend, NetEncoding, StrUtils;
 
 type
  {$IFNDEF FPC}
@@ -391,6 +390,8 @@ type
     constructor Create( _D: TOpenDocument; _eRoot: TDOMNode); override;
   end;
 
+ { TOpenDocument_Element }
+
  TOpenDocument_Element
  =
   class
@@ -401,9 +402,6 @@ type
   //Attributs
   public
     Nom_relatif: String;
-    {$IFNDEF FPC}
-    ci: TJCLCompressionItem;
-    {$ENDIF}
     xml: {$IFDEF FPC}TXMLDocument{$ELSE}TJclSimpleXml{$ENDIF};
     NomFichier: String;
   //méthodes
@@ -445,8 +443,7 @@ type
     Nom: String;
     is_Calc: Boolean;
   private
-    F: TJclZipUpdateArchive;
-    zf: TZipFile;
+    //F: TJclZipUpdateArchive;
     function Ensure_style_text( _NomStyle, _NomStyleParent: String;
                                           _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TJclSimpleXMLElem;
     function Find_style_family_multiroot(_NomStyle: String;
@@ -456,8 +453,6 @@ type
     function Find_style_text_multiroot(_NomStyle: String;
       _Root: TOD_Root_Styles= ors_xmlStyles_STYLES): TJclSimpleXMLElem;
   public
-    item,
-    iMimeType: TJCLCompressionItem;
 
     odeMeta             : TOpenDocument_Element;
     odeSettings         : TOpenDocument_Element;
@@ -542,12 +537,9 @@ type
   public
     procedure Fields_Visite( _fv: TFields_Visitor);
     procedure Set_Field( _Name, _Value: String);
-    procedure Get_Fields( _sl: TOOoStringList);
-    procedure Set_Fields( _sl: TOOoStringList);
     function Field_Assure( _Name: String): TDOMNode;
     function Field_Value( _Name: String): String;
     procedure Add_FieldGet( _Name: String);
-    procedure Set_StylesXML( _Styles: String);
 
     procedure Add_style_table_column( _NomStyle: String; _Column_Width: double; _Relatif: Boolean);
     procedure Duplique_Style_Colonne( _NomStyle_Source, _NomStyle_Cible: String);
@@ -895,9 +887,6 @@ end;
 constructor TOpenDocument_Element.Create(_Nom_relatif: String);
 begin
      Nom_relatif:= _Nom_relatif;
-     {$IFNDEF FPC}
-     ci:= nil;
-     {$ENDIF}
      xml:= nil;
 end;
 
@@ -919,18 +908,20 @@ begin
      OOoChrono.Stop( 'Chargement en objet du fichier xml '+Nom_relatif);
 end;
 {$ELSE}
-var
-   Stream: TStream;
+//var
+//   Stream: TStream;
 begin
      xml:= TJclSimpleXml.Create;
      xml.IndentString:= '  ';
 
-     Stream:= ci.Stream;
-
      with xml do Options:= Options + [sxoAutoEncodeValue];
-     xml.LoadFromStream( Stream);
 
-     OOoChrono.Stop( 'Chargement en objet du fichier xml '+ci.PackedName);
+     //Stream:= ci.Stream;
+     //xml.LoadFromStream( Stream);
+     NomFichier:= _Repertoire_Extraction+Nom_relatif;
+     xml.LoadFromFile( NomFichier, seUTF8);
+
+     OOoChrono.Stop( 'Chargement en objet du fichier xml '+Nom_relatif);
 end;
 {$ENDIF}
 
@@ -1668,7 +1659,6 @@ begin
      FreeAndNil( pFields_Change      );
      FreeAndNil( pFields_Delete      );
      FreeAndNil( slEmbed_Image       );
-     FreeAndNil( F);
      FreeAndNil( slStyles_Cellule_Properties);
 
 
@@ -1747,13 +1737,8 @@ end;
 {$ELSE}
 procedure TOpenDocument.Extrait;
 var
+   zf: TZipFile;
    I: Integer;
-   item: TJCLCompressionItem;
-   procedure Traite( var _item: TJCLCompressionItem);
-   begin
-        _item:= item;
-        _item.Selected:= True;
-   end;
    procedure Teste_ouverture;
    var
       FTest: File;
@@ -1769,68 +1754,111 @@ var
                                   +E.Message);
               end;
    end;
-   procedure Do_Open;
-   begin
-        OOoChrono.Stop( 'Ouverture de l''archive zip');
-        try
-           F.ListFiles;
-        except
-              on E: Exception
-              do
-                OOoChrono.Stop( 'Echec du listage des fichiers du zip:'+E.Message);
-              end;
-        OOoChrono.Stop( 'Listage des fichiers du zip');
-   end;
 begin
      Teste_ouverture;
-//     zf:= TZipFile.Create;
-//     zf.Open( Nom, zmReadWrite);
 
-     F:= TJclZipUpdateArchive.Create( Nom);
+     zf:= TZipFile.Create;
      try
-        Do_Open;
-     except
-           on E: Exception
-           do
-             begin
-             OD_Error.Execute(  'Impossible d''ouvrir le fichier '+Nom+', une seconde tentative sera faite aprés un délai de 5 s:'#13#10
-                               +E.Message);
-             Sleep( 5000);
-             Do_Open;
-             end;
-           end;
-     iMimeType    := nil;
-     for I:= 0 to F.ItemCount-1
-     do
-       begin
-       item:= F.Items[I];
-
-            if item.PackedName = 'mimetype'              then Traite( iMimeType              )
-       else if item.PackedName = 'meta.xml'              then Traite( odeMeta             .ci)
-       else if item.PackedName = 'settings.xml'          then Traite( odeSettings         .ci)
-       else if item.PackedName = 'META-INF\manifest.xml' then Traite( odeMETA_INF_manifest.ci)
-       else if item.PackedName = 'content.xml'           then Traite( odeContent          .ci)
-       else if item.PackedName = 'styles.xml'            then Traite( odeStyles           .ci);
-       end;
-     OOoChrono.Stop( 'Recherche des fichiers xml');
-
-     Repertoire_Extraction:= OD_Temporaire.Nouveau_Repertoire( 'OD');
-     F.ExtractSelected( Repertoire_Extraction);
-
-     OOoChrono.Stop( 'Extraction des fichiers xml');
+        zf.Open( Nom, zmRead);
+        Repertoire_Extraction:= OD_Temporaire.Nouveau_Repertoire( 'OD');
+        zf.ExtractAll( Repertoire_Extraction);
+        OOoChrono.Stop( 'Extraction des fichiers xml');
+     finally
+            FreeAndNil( zf);
+            end;
 end;
 {$ENDIF}
 
 procedure TOpenDocument.Save;
+var
+   {$IFDEF FPC}
+   Zipper: TZipper;
+   {$ELSE}
+   zf: TZipFile;
+   {$ENDIF}
+   procedure Ajoute_SousRepertoire( _SousRepertoire: String);
+   var
+      F: TSearchRec;
+      Erreur: Integer;
+      DiskDirPath,
+      ZipDirPath,
+      DiskFileName,
+      ZipFileName: String;
+      procedure AjouteMIMETYPE;
+      {$IFDEF FPC}
+      var
+         zfe: TZipFileEntry;
+      {$ENDIF}
+      begin
+           F.Name:= 'mimetype';
+           DiskFileName:= DiskDirPath+F.Name;
+           ZipFileName :=  ZipDirPath+F.Name;
+           {$IFDEF FPC}
+             zfe:= Zipper.Entries.AddFileEntry( DiskFileName, ZipFileName);
+             zfe.CompressionLevel:= clnone;
+           {$ELSE}
+             zf.Add( DiskFileName, ZipFileName, zcStored);
+           {$ENDIF}
+      end;
+   begin
+        ZipDirPath:= _SousRepertoire;
+        DiskDirPath:= IncludeTrailingPathDelimiter( Repertoire_Extraction)
+                            +_SousRepertoire;
+        //Le fichier mimetype doit être ajouté en premier et non compressé
+        if ''=_SousRepertoire
+        then
+            AjouteMIMETYPE;
+        if 0 = FindFirst( DiskDirPath+'*', faAnyFile, F)
+        then
+            repeat
+                  //Le fichier mimetype de la racine est ajouté séparément ci-dessus
+                  if (''=_SousRepertoire) and ('mimetype' = F.Name)then continue;
+
+                  DiskFileName:= DiskDirPath+F.Name;
+                  ZipFileName :=  ZipDirPath+F.Name;
+                  if (F.Attr and faDirectory) = faDirectory
+                  then
+                      begin
+                      if     (F.Name <> '.')
+                         and (F.Name <> '..')
+                      then
+                          Ajoute_SousRepertoire( ZipFileName+PathDelim)
+                      end
+                  else
+                      {$IFDEF FPC}
+                        Zipper.Entries.AddFileEntry( DiskFileName, ZipFileName);
+                      {$ELSE}
+                        zf.Add( DiskFileName, ZipFileName);
+                      {$ENDIF}
+            until FindNext(F)<>0;
+        FindClose( F);
+   end;
 begin
      Repertoire_Extraction_from_XML;
+     {$IFDEF FPC}
+       Zipper := TZipper.Create;
+     {$ELSE}
+       zf:= TZipFile.Create;
+     {$ENDIF}
+     try
+       {$IFDEF FPC}
+         Zipper.FileName := Nom;
+       {$ELSE}
+         zf.Open( Nom, zmWrite);
+       {$ENDIF}
 
-     F.AddFile( odeMeta             .Nom_relatif, odeMeta             .NomFichier);
-     F.AddFile( odeSettings         .Nom_relatif, odeSettings         .NomFichier);
-     F.AddFile( odeMETA_INF_manifest.Nom_relatif, odeMETA_INF_manifest.NomFichier);
-     F.AddFile( odeContent          .Nom_relatif, odeContent          .NomFichier);
-     F.AddFile( odeStyles           .Nom_relatif, odeStyles           .NomFichier);
-     F.Compress;
+        Ajoute_SousRepertoire( '');
+
+       {$IFDEF FPC}
+         Zipper.ZipAllFiles;
+       {$ENDIF}
+     finally
+            {$IFDEF FPC}
+              Zipper.Free;
+            {$ELSE}
+              FreeAndNil( zf);
+            {$ENDIF}
+            end;
 end;
 
 function TOpenDocument.CheminFichier_temporaire( _NomFichier: String): String;
@@ -2084,71 +2112,6 @@ begin
      pFields_Change.Publie( _Name, _Value);
 end;
 
-procedure TOpenDocument.Get_Fields( _sl: TOOoStringList);
-var
-   eUSER_FIELD_DECLS: TJclSimpleXMLElem;
-   I: Integer;
-   e: TJclSimpleXMLElem;
-   Name, String_Value: String;
-begin
-     _sl.Clear;
-
-     eUSER_FIELD_DECLS:= Get_xmlContent_USER_FIELD_DECLS;
-     if eUSER_FIELD_DECLS = nil then exit;
-
-     for I:= 0 to eUSER_FIELD_DECLS.Items.Count - 1
-     do
-       begin
-       e:= eUSER_FIELD_DECLS.Items.Item[ I];
-       if e = nil                     then continue;
-       if e.FullName <> 'text:user-field-decl' then continue;
-
-       if not_Get_Property( e, 'text:name'          , Name        ) then continue;
-       if not_Get_Property( e, 'office:string-value', String_Value) then continue;
-
-       _sl.Add(Name+'='+String_Value);
-       end;
-     OOoChrono.Stop( 'Extraction des TextFields');
-end;
-
-procedure TOpenDocument.Set_Fields( _sl: TOOoStringList);
-var
-   eUSER_FIELD_DECLS: TJclSimpleXMLElem;
-   I: Integer;
-   Line, FieldName, Value: String;
-   e: TJclSimpleXMLElem;
-   s: TStringStream;
-
-begin
-     eUSER_FIELD_DECLS:= Get_xmlContent_USER_FIELD_DECLS;
-     if eUSER_FIELD_DECLS = nil then exit;
-
-     RemoveChilds( eUSER_FIELD_DECLS);
-
-     for I:= 0 to _sl.Count - 1
-     do
-       begin
-       Line     := _sl.Strings[I];
-       FieldName:= StrTok( '=', Line);
-       Value    := Line;
-
-       e:= eUSER_FIELD_DECLS.Items.Add( 'text:user-field-decl');
-       if e= nil then continue;
-
-       e.Properties.Add( 'office:value-type'  ,'string'  );
-       e.Properties.Add( 'office:string-value', Value    );
-       e.Properties.Add( 'text:name'          , FieldName);
-       end;
-
-     s:= TStringStream.Create( odeContent.xml.SaveToString);
-     try
-        F.AddFile( 'content.xml', s);
-        F.Compress;
-     finally
-            FreeAndNil( s);
-            end;
-end;
-
 procedure TOpenDocument.Fields_Visite( _fv: TFields_Visitor);
 var
    eUSER_FIELD_DECLS: TDOMNode;
@@ -2192,20 +2155,6 @@ begin
      if eUSER_FIELD_GET = nil then exit;
 
      eUSER_FIELD_GET.Properties.Add( 'text:name', _Name);
-end;
-
-procedure TOpenDocument.Set_StylesXML( _Styles: String);
-var
-   s: TStringStream;
-begin
-     odeStyles.xml.LoadFromString( _Styles);
-     s:= TStringStream.Create( odeStyles.xml.SaveToString);
-     try
-        F.AddFile( 'styles.xml', s);
-        F.Compress;
-     finally
-            FreeAndNil( s);
-            end;
 end;
 
 function TOpenDocument.Get_STYLES( _Root: TOD_Root_Styles): TJclSimpleXMLElem;
@@ -3592,7 +3541,7 @@ begin
 end;
 procedure TOpenDocument.AddHtml( _e: TDOMNode; _Value: String; _Gras: Boolean= False);
 var
-   html: THTMLDocument;
+   html: {$IFDEF FPC}THTMLDocument{$ELSE}TJclSimpleXML{$ENDIF};
    html_root: TDOMNode;
    p: TCSS_Style_Parser_PYACC;
    function not_Cree_html: Boolean;
@@ -3606,8 +3555,16 @@ var
         ss:= TStringStream.Create( _Value);
         try
            try
+              {$IFDEF FPC}
               ReadHTMLFile( html, ss);
               html_root:= html.FirstChild;
+              {$ELSE}
+              html:= TJclSimpleXml.Create;
+              html.IndentString:= '  ';
+              with html do Options:= Options + [sxoAutoEncodeValue];
+              html.LoadFromStream( ss);
+              html_root:= html.Root;
+              {$ENDIF}
               Result:= html_root = nil;
            except
                  on E: Exception
@@ -3721,8 +3678,12 @@ var
       end;
       procedure Traite_text;
       begin
+           {$IFDEF FPC}
            od_node:= _e.OwnerDocument.CreateTextNode( NodeValue);
            _od_Parent.AppendChild( od_node);
+           {$ELSE}
+           _od_Parent.Value:= NodeValue;
+           {$ENDIF}
       end;
       procedure Traite_br;
       begin
@@ -3826,7 +3787,11 @@ var
                  or('text:span' = Parent_NodeName)
            do
              begin
+             {$IFDEF FPC}
              Parent:= Parent.ParentNode;
+             {$ELSE}
+             Parent:= Parent.Parent;
+             {$ENDIF}
              Parent_NodeName:= Parent.FullName;
              end;
            //table:table-cell
@@ -3883,7 +3848,9 @@ var
             encodage: String;
             extension: String;
             ss: TStringStream;
+            {$IFDEF FPC}
             bds: TBase64DecodingStream;
+            {$ENDIF}
             fs: TFileStream;
          begin
               //<img src="data:image/png;base64,iVBO
@@ -3898,6 +3865,7 @@ var
               NomFichierImage:= OD_Temporaire.Nouveau_Extension( 'IMG', extension);
               ss:= TStringStream.Create( src);
               try
+                 {$IFDEF FPC}
                  bds:= TBase64DecodingStream.Create( ss);
                  try
                     fs:= TFileStream.Create( NomFichierImage, fmCreate);
@@ -3909,6 +3877,14 @@ var
                  finally
                         FreeAndNil( bds);
                         end;
+                {$ELSE}
+                fs:= TFileStream.Create( NomFichierImage, fmCreate);
+                try
+                   TNetEncoding.Base64.Decode( ss, fs);
+                finally
+                       FreeAndNil( fs);
+                       end;
+                {$ENDIF}
               finally
                      FreeAndNil( ss);
                      end;
@@ -3954,10 +3930,11 @@ var
       procedure Traite_ChildNodes;
       var
          i: Integer;
-         cn: TDOMNodeList;
+
+         cn: {$IFDEF FPC}TDOMNodeList{$ELSE}TJclSimpleXMLElems{$ENDIF};
          n: TDOMNode;
       begin
-           cn:= _html_Parent.ChildNodes;
+           cn:= _html_Parent.{$IFDEF FPC}ChildNodes{$ELSE}Items{$ENDIF};
            for i:= 0 to cn.Count-1
            do
              begin
@@ -3968,7 +3945,7 @@ var
       end;
    begin
         NodeName:= _html_Parent.FullName;
-        NodeValue:= _html_Parent.NodeValue;
+        NodeValue:= _html_Parent.{$IFDEF FPC}NodeValue{$ELSE}Value{$ENDIF};
 
         //extraction rustique de la couleur, il faudrait extraire proprement tous les éléments de style html
         if ('#text' =NodeName) or uOD_JCL.not_Get_Property( _html_Parent, 'style', html_style) then html_style:= '';
@@ -4006,10 +3983,10 @@ var
    procedure Traite_html_ChildNodes;
    var
       i: Integer;
-      cn: TDOMNodeList;
+      cn: {$IFDEF FPC}TDOMNodeList{$ELSE}TJclSimpleXMLElems{$ENDIF};
       n: TDOMNode;
    begin
-        cn:= html.ChildNodes;
+        cn:= html.{$IFDEF FPC}ChildNodes{$ELSE}Root.Items{$ENDIF};
         for i:= 0 to cn.Count-1
         do
           begin
@@ -4046,10 +4023,9 @@ begin
 end;
 
 
-procedure TOpenDocument.AddText_( _Value: String; _Escape_XML: Boolean= False;
-                                 _Gras: Boolean= False);
+procedure TOpenDocument.AddText_( _Value: String; _Gras: Boolean= False);
 begin
-     AddText_( Get_xmlContent_TEXT, _Value, _Escape_XML, _Gras);
+     AddText_( Get_xmlContent_TEXT, _Value, _Gras);
 end;
 
 procedure TOpenDocument.AddHtml(_Value: String; _Gras: Boolean= False);
@@ -4083,7 +4059,7 @@ procedure TOpenDocument.Freeze_fields;
          if eSPAN = nil then exit;
 
          Value:= Field_Value( FieldName);
-         AddText( eSPAN, Value, False);
+         AddText_( eSPAN, Value, False);
 
          CONTAINER.Remove( _e);
     end;
@@ -4168,26 +4144,26 @@ procedure TOpenDocument.Freeze_fields;
     begin
          Traite_DATE_TIME( _e, _Root, TStyle_Time, 'tt');
     end;
-    procedure T( _e: TJclSimpleXMLElem);
+    procedure T( _e: TJclSimpleXMLElem; _Root: TOD_Root_Styles);
     var
        I: Integer;
     begin
          if _e = nil then exit;
 
               if _e.FullName = 'text:user-field-get' then Traite_USER_FIELD_GET( _e)
-         else if _e.FullName = 'text:date'           then Traite_DATE( _e)
-         else if _e.FullName = 'text:time'           then Traite_TIME( _e)
+         else if _e.FullName = 'text:date'           then Traite_DATE( _e, _Root)
+         else if _e.FullName = 'text:time'           then Traite_TIME( _e, _Root)
          else
              for I:= 0 to _e.Items.Count-1
              do
-               T( _e.Items.Item[ I]);
+               T( _e.Items.Item[ I], _Root);
     end;
     procedure Efface_Declarations;
     var
        e: TJclSimpleXMLElem;
     begin
          e:= Get_xmlContent_USER_FIELD_DECLS;
-         e.Clear;
+         RemoveChilds( e);
 
          while True
          do
@@ -4199,8 +4175,8 @@ procedure TOpenDocument.Freeze_fields;
            end;
     end;
 begin
-     T( Get_xmlContent_TEXT);
-     T( Get_xmlStyles_MASTER_STYLES);
+     T( Get_xmlContent_TEXT, ors_xmlContent_AUTOMATIC_STYLES);
+     T( Get_xmlStyles_MASTER_STYLES, ors_xmlStyles_AUTOMATIC_STYLES);
      Efface_Declarations;
 end;
 
@@ -4425,7 +4401,8 @@ var
         mimetype:= sMIMETYPE;
 
         //modification manifest.xml
-        root:= odeMETA_INF_manifest.xml.DocumentElement;
+        root:= odeMETA_INF_manifest.xml.{$IFDEF FPC}DocumentElement{$ELSE}Root{$ENDIF};
+
         e:= Cherche_Item_Recursif( root,
                                    'manifest:file-entry',
                                    ['manifest:full-path'],

@@ -110,7 +110,6 @@ contains
   uImpression_Font_Size_Multiplier in 'uImpression_Font_Size_Multiplier.pas',
   uDataClasses in 'uDataClasses.pas',
   uHTTP_Interface in 'uHTTP_Interface.pas',
-  blcksock in '..\07_sources_externes\synapse\source\lib\blcksock.pas',
   uOD in 'uOD.pas',
   uOD_Maitre in 'uOD_Maitre.pas',
   uOD_Table_Batpro in 'uOD_Table_Batpro.pas',

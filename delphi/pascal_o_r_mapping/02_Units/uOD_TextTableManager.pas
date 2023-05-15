@@ -32,6 +32,9 @@ uses
   DB;
 
 type
+
+ { TOD_TextTableManager }
+
  TOD_TextTableManager
  =
   class
@@ -45,7 +48,7 @@ type
     Nom: String;
   //Général
   private
-    procedure Init( _Nom: String);
+    procedure Init( _ODRE_Table: TODRE_Table);
     procedure BooleanFieldValue( _D: TDataset; _FielName: String; var _F:TField; var _B: Boolean);
     procedure IntegerFieldValue( _D: TDataset; _FielName: String; var _F:TField; var _I: Integer);
   // Création d'une table maitre-détail à partir d'un tableau de
@@ -75,9 +78,9 @@ begin
      inherited;
 end;
 
-procedure TOD_TextTableManager.Init( _Nom: String);
+procedure TOD_TextTableManager.Init( _ODRE_Table: TODRE_Table);
 begin
-     C.Init( _Nom);
+     C.Init( _ODRE_Table.Nom, _ODRE_Table.Bordures_Verticales_Colonnes, _ODRE_Table.MasquerTitreColonnes);
 end;
 
 procedure TOD_TextTableManager.BooleanFieldValue( _D: TDataset;
@@ -148,13 +151,13 @@ var
 
         OD_Dataset_Columns:= OD_Datasets[iDataset];
         Prefixe:= '_'+ODRE_Table.Nom+'_'+OD_Dataset_Columns.Nom;
-        TraiteLigne( OD_Dataset_Columns.FAvant);
+        TraiteLigne( OD_Dataset_Columns.Avant.DCA);
         TraiteDataset( iDataset+1);
-        TraiteLigne( OD_Dataset_Columns.FApres);
+        TraiteLigne( OD_Dataset_Columns.Apres.DCA);
    end;
 begin
      Result:= False;
-     Init( ODRE_Table.Nom);
+     Init( ODRE_Table);
      if C.D.is_Calc then exit;
      C.Cree_Styles_de_base;
      ODRE_Table.Assure_Modele( C);
@@ -188,6 +191,11 @@ var
    NotEmpty_Count: Integer;
    NomStyleMerge: String;
    StyleMerge_exists: Boolean;
+
+   //Surtitre
+   iSurTitre,
+   Debut, Fin: Integer;
+   CellName: String;
 
    //curseurs de fusion de colonnes
    MergeInfo: array of TMergeInfo;
@@ -331,8 +339,7 @@ var
                      then
                          begin
                          Frame:= Paragraph.NewFrame;
-                         Image:= Frame.NewImage_as_Character;
-                         Image.Set_Filename( sCellValue);
+                         Image:= Frame.NewImage_as_Character( sCellValue);
                          end
                      else
                          Paragraph.AddText( sCellValue);
@@ -389,13 +396,13 @@ var
             or Assigned( fGroupSize)
             or Assigned( fSizePourcent);
 
-          if OD_Dataset_Columns.Avant_Triggered
+          if OD_Dataset_Columns.Avant.Triggered
           then
-              TraiteLigne( OD_Dataset_Columns.FAvant);
+              TraiteLigne( OD_Dataset_Columns.Avant.DCA);
           TraiteDataset( iDataset+1);
-          if OD_Dataset_Columns.Apres_Triggered
+          if OD_Dataset_Columns.Apres.Triggered
           then
-              TraiteLigne( OD_Dataset_Columns.FApres);
+              TraiteLigne( OD_Dataset_Columns.Apres.DCA);
 
           ds.Next;
           end;
@@ -403,7 +410,7 @@ var
 begin
      Result:= False;
 
-     Init( ODRE_Table.Nom);
+     Init( ODRE_Table);
      if C.D.is_Calc then exit;
      ODRE_Table.from_Doc( C);
 
@@ -423,10 +430,6 @@ begin
          end;
 
      ODRE_Table.Dimensionne_Colonnes( C);
-
-     //SurTitres
-     ODRE_Table.Ajoute_SurTitres( C);
-
      //Titres
      ODRE_Table.Ajoute_Titres( C);
 
@@ -490,10 +493,36 @@ begin
      //        end;
      //      Dec( J);
      //      end;
-     //
+     //      
      //Traite_MergeBookmarks;
 
      ODRE_Table.Traite_Bordure( C);
+
+
+     //SurTitres
+     //if     ODRE_Table.SurTitre_Actif
+     //   and not C.MasquerTitreColonnes
+     //then
+     //    begin
+     //    J:= 0;
+     //    for iSurTitre:= High(OD_SurTitre.Libelle) downto Low(OD_SurTitre.Libelle)
+     //    do
+     //      begin
+     //      sCellValue:= OD_SurTitre.Libelle[iSurTitre];
+     //      Debut     := OD_SurTitre.Debut  [iSurTitre];
+     //      Fin       := OD_SurTitre.Fin    [iSurTitre];
+     //
+     //      CellName:= CellName_from_XY(Debut, J);
+     //      CellCursor:= Table.createCursorByCellName( CellName);
+     //      CellCursor.gotoCellByName( CellName_from_XY(Fin, J), true);
+     //      //xray( CellCursor);
+     //      CellCursor.mergeRange;
+     //
+     //      CellCursor:= Table.getCellByName( CellName_from_XY(Debut, J));
+     //      TextCursor:= CellCursor.CreateTextCursor;
+     //      CellCursor.insertString( TextCursor, sCellValue, false);
+     //      end;
+     //    end;
 
      Result:= True;
 end;
@@ -620,15 +649,14 @@ var
                      then
                          begin
                          Frame:= Paragraph.NewFrame;
-                         Image:= Frame.NewImage_as_Character;
-                         Image.Set_Filename( sCellValue);
+                         Image:= Frame.NewImage_as_Character( sCellValue);
                          end
                      else
                          Paragraph.AddText( sCellValue, NomStyle, Gras, GroupSize, LineSize, SizePourcent);
                      end;
                  end;
              end;
-           Paragraph.Add_CR_NL;
+           Paragraph.Add_Line_Break;
       end;
    begin
         if High( OD_Datasets) < iDataset then exit;
@@ -677,13 +705,13 @@ var
             or Assigned( fGroupSize)
             or Assigned( fSizePourcent);
 
-          if OD_Dataset_Columns.Avant_Triggered
+          if OD_Dataset_Columns.Avant.Triggered
           then
-              TraiteLigne( OD_Dataset_Columns.FAvant);
+              TraiteLigne( OD_Dataset_Columns.Avant.DCA);
           TraiteDataset( iDataset+1);
-          if OD_Dataset_Columns.Apres_Triggered
+          if OD_Dataset_Columns.Apres.Triggered
           then
-              TraiteLigne( OD_Dataset_Columns.FApres);
+              TraiteLigne( OD_Dataset_Columns.Apres.DCA);
 
           ds.Next;
           end;
@@ -691,7 +719,7 @@ var
 begin
      Result:= False;
 
-     Init( ODRE_Table.Nom);
+     Init( ODRE_Table);
      if C.D.is_Calc then exit;
      ODRE_Table.from_Doc( C);
 
@@ -966,8 +994,7 @@ var
                      then
                          begin
                          Frame:= Paragraph.NewFrame;
-                         Image:= Frame.NewImage_as_Character;
-                         Image.Set_Filename( sCellValue);
+                         Image:= Frame.NewImage_as_Character( sCellValue);
                          end
                      else
                          Paragraph.AddText( sCellValue);
@@ -1027,13 +1054,13 @@ var
             or Assigned( fGroupSize)
             or Assigned( fSizePourcent);
 
-          if OD_Dataset_Columns.Avant_Triggered
+          if OD_Dataset_Columns.Avant.Triggered
           then
-              TraiteLigne( OD_Dataset_Columns.FAvant);
+              TraiteLigne( OD_Dataset_Columns.Avant.DCA);
           TraiteDataset( iDataset+1);
-          if OD_Dataset_Columns.Apres_Triggered
+          if OD_Dataset_Columns.Apres.Triggered
           then
-              TraiteLigne( OD_Dataset_Columns.FApres);
+              TraiteLigne( OD_Dataset_Columns.Apres.DCA);
 
           ds.Next;
           end;
@@ -1043,7 +1070,7 @@ begin
 
      WriteLn( T, '<table>');
 
-     Init( ODRE_Table.Nom);
+     Init( ODRE_Table);
      if C.D.is_Calc then exit;
      ODRE_Table.from_Doc( C);
 
@@ -1197,23 +1224,4 @@ end.
     <style:style style:name="stylecaractere" style:family="text" style:parent-style-name="Definition">
       <style:text-properties fo:font-size="10pt" fo:font-weight="bold"/>
     </style:style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    

@@ -47,7 +47,7 @@ uses
     uBatpro_Ligne,
 
     ufAccueil_Erreur,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   JclSimpleXml,
   Windows, //pour CopyFile
   {$ELSE}
@@ -151,7 +151,7 @@ begin
      D:= TOpenDocument.Create( NomFichier);
      C:= TOD_TextTableContext.Create( D);
      eTABLE:= D.Get_xmlContent_SPREADSHEET_first_TABLE;
-     eTABLE.Items.Clear;
+     RemoveChilds( eTABLE);
      FnRow:= -1;
      ROW:= nil;
      FNombreColonnes:= 0;
@@ -187,7 +187,7 @@ end;
 
 procedure TBatpro_OD_SpreadSheet_Manager.Append_Row;
 begin
-     ROW:= TOD_TABLE_ROW.Create( C, eTABLE);
+     ROW:= TOD_TABLE_ROW.Create( D, eTABLE);
      Inc( FnRow);
      if NombreColonnes > 0
      then

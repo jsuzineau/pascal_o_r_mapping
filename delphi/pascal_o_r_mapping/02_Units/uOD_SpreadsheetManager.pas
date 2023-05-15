@@ -28,7 +28,7 @@ uses
     uOD_TextTableContext,
     uOpenDocument,
   SysUtils,
-  {$IFDEF MSWINDOWS}
+  {$IFNDEF FPC}
   Windows,{pour CopyFile}
   {$ELSE}
   fileutil,
@@ -176,7 +176,7 @@ end;
 
 procedure TOD_SpreadsheetManager.Append_Row;
 begin
-     ROW:= TOD_TABLE_ROW.Create( C, eTABLE);
+     ROW:= TOD_TABLE_ROW.Create( C.D, eTABLE);
      Inc( FnRow);
      if NombreColonnes > 0
      then
@@ -455,13 +455,13 @@ else                            Cell_STRING  (nColumn+iColonne).Text:= F.Display
         while not ds.Eof
         do
           begin
-          if OD_Dataset_Columns.Avant_Triggered
+          if OD_Dataset_Columns.Avant.Triggered
           then
-              TraiteLigne( OD_Dataset_Columns.FAvant);
+              TraiteLigne( OD_Dataset_Columns.Avant.DCA);
           TraiteDataset( iDataset+1);
-          if OD_Dataset_Columns.Apres_Triggered
+          if OD_Dataset_Columns.Apres.Triggered
           then
-              TraiteLigne( OD_Dataset_Columns.FApres);
+              TraiteLigne( OD_Dataset_Columns.Apres.DCA);
 
           ds.Next;
           end;

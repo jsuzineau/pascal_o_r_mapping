@@ -1,4 +1,4 @@
-unit uODRE_Table;
+﻿unit uODRE_Table;
 {                                                                               |
     Part of package pOpenDocument_DelphiReportEngine                            |
                                                                                 |
@@ -17,6 +17,7 @@ interface
 
 uses
     JclSimpleXml,
+    uPublieur,
     uOpenDocument,
     uOD_JCL,
     uOD_Column,
@@ -25,9 +26,12 @@ uses
     uOD_Dataset_Columns,
     uOD_TextTableContext,
     uOD_Styles,
-  SysUtils, Classes, DB;
+  SysUtils, Classes, DB, StrUtils;
 
 type
+
+ { TODRE_Table }
+
  TODRE_Table
  =
   class
@@ -52,8 +56,7 @@ type
     procedure AddColumn( _Largeur: Integer; _Titre: String);
     function AddDataset( _D: TDataset): TOD_Dataset_Columns;
     procedure SupprimerColonne( _Index: Integer);
-    procedure InsererColonneApres( _Index: Integer);
-    procedure DecalerChampsApresColonne( _Index: Integer);
+    procedure InsererColonne( _Index: Integer; _Apres: Boolean);
   //Persistance dans le document OpenOffice
   private
     function Prefixe_Colonne( iColonne: Integer): String;
@@ -61,12 +64,16 @@ type
     function Prefixe_ForceBordure: String;
     function Prefixe_Bordure_fin_table: String;
     function Prefixe_Bordures_Verticales_Colonnes: String;
+    function Prefixe_MasquerTitreColonnes: String;
   public
     Nom_NbColonnes: String;
     Pas_de_persistance: Boolean;
     procedure Assure_Modele( C: TOD_TextTableContext);
     procedure To_Doc( C: TOD_TextTableContext);
     procedure from_Doc( C: TOD_TextTableContext);
+  //Evenement à l'appel à to_Doc
+  public
+    to_Doc_Called: TPublieur;
   //Test du surtitre
   public
     function SurTitre_Actif: Boolean;
@@ -79,7 +86,6 @@ type
     Bordure_Ligne: Boolean;
   //Gestion des colonnes
   private
-   rowTitre, rowSurTitre: TOD_TABLE_ROW;
    procedure Dimensionne_Colonnes_interne( _C: TOD_TextTableContext);
    function Cree_Paragraphe_Tabule_interne( _C: TOD_TextTableContext;
                                             _root: TJclSimpleXMLElem;
@@ -91,7 +97,6 @@ type
    procedure Dimensionne_Colonnes( _C: TOD_TextTableContext);
    procedure Ajoute_Titres       ( _C: TOD_TextTableContext);
    procedure Ajoute_Titres_sans_tableau( _C: TOD_TextTableContext);
-   procedure Ajoute_SurTitres(_C: TOD_TextTableContext);
    function Cree_Paragraphe_Tabule( _C: TOD_TextTableContext; _OD_Styles: TOD_Styles;
                                     _NewPage: Boolean= False): TOD_PARAGRAPH;
    function Cree_Paragraphe_Tabule_Entete( _C: TOD_TextTableContext): TOD_PARAGRAPH;
@@ -101,10 +106,17 @@ type
   //Gestion de l'affichage des bordures
   public
     Bordure_fin_table: String;
-    Bordures_Verticales_Colonnes: String;
+    Bordures_Verticales_Colonnes: Boolean;
     procedure Bordures_Assure( _C: TOD_TextTableContext);
     procedure Bordures_Lire( _C: TOD_TextTableContext);
     procedure Bordures_Ecrire( _C: TOD_TextTableContext);
+  //MasquerTitreColonnes
+  private
+    procedure MasquerTitreColonnes_Assure( _C: TOD_TextTableContext);
+    procedure MasquerTitreColonnes_Lire  ( _C: TOD_TextTableContext);
+    procedure MasquerTitreColonnes_Ecrire( _C: TOD_TextTableContext);
+  public
+    MasquerTitreColonnes: Boolean;
   end;
 
 implementation
@@ -123,10 +135,12 @@ begin
      ForceBordure:= True;
 
      Pas_de_persistance:= False;
+     to_Doc_Called:= TPublieur.Create( ClassName+'.to_Doc_Called');
 end;
 
 destructor TODRE_Table.Destroy;
 begin
+     FreeAndNil( to_Doc_Called);
      FreeAndNil( OD_SurTitre);
      inherited;
 end;
@@ -179,6 +193,11 @@ begin
      Result:= Prefixe+'Bordures_Verticales_Colonnes';
 end;
 
+function TODRE_Table.Prefixe_MasquerTitreColonnes: String;
+begin
+     Result:= Prefixe+'HideColumnTitles';
+end;
+
 procedure TODRE_Table.Assure_Modele( C: TOD_TextTableContext);
 var
    Valeur_NbColonnes: String;
@@ -196,7 +215,8 @@ begin
        OD_Datasets[I].Assure_Modele( Prefixe, C);
      OD_SurTitre.Assure_Modele( Prefixe_OD_SurTitre, C);
      C.Assure_Parametre( Prefixe_ForceBordure, '1');
-     Bordures_Assure( C);
+                 Bordures_Assure( C);
+     MasquerTitreColonnes_Assure( C);
 end;
 
 procedure TODRE_Table.To_Doc( C: TOD_TextTableContext);
@@ -215,8 +235,11 @@ begin
      do
        OD_Datasets[I].to_Doc( Prefixe, C);
      OD_SurTitre.to_Doc( Prefixe_OD_SurTitre, C);
-     C.Ecrire( Prefixe_ForceBordure, '1');
-     Bordures_Ecrire( C);
+     C.Ecrire( Prefixe_ForceBordure, IfThen(ForceBordure, '1','0'));
+                 Bordures_Ecrire( C);
+     MasquerTitreColonnes_Ecrire( C);
+
+     to_Doc_Called.Publie;
 end;
 
 procedure TODRE_Table.from_Doc( C: TOD_TextTableContext);
@@ -262,7 +285,8 @@ begin
        OD_Datasets[I].from_Doc( Prefixe, C);
      OD_SurTitre.from_Doc( Prefixe_OD_SurTitre, C);
      ForceBordure:= C.Lire( Prefixe_ForceBordure, '1') = '1';
-     Bordures_Lire( C);
+                 Bordures_Lire( C);
+     MasquerTitreColonnes_Lire( C);
 end;
 
 function TODRE_Table.SurTitre_Actif: Boolean;
@@ -297,33 +321,27 @@ begin
      SetLength( Columns, Length(Columns)-1);
 end;
 
-procedure TODRE_Table.InsererColonneApres(_Index: Integer);
+procedure TODRE_Table.InsererColonne( _Index: Integer; _Apres: Boolean);
 var
+   IndexCible: Integer;
    I: Integer;
+   NewColumn: TOD_Column;
 begin
      if (_Index < Low(Columns))or(High(Columns)< _Index) then exit;
-     SetLength( Columns, Length(Columns)+1);
 
-     for I:= High( Columns) downto _Index
+     AddColumn( 1, '');
+
+     if _Apres
+     then
+         IndexCible:= _Index+1
+     else
+         IndexCible:= _Index;
+
+     NewColumn:= Columns[High( Columns)];
+     for I:= High( Columns)-1 downto IndexCible
      do
        Columns[I+1]:= Columns[I];
-
-     //DecalerChampsApresColonne( _Index); désactivé pour l'instant: les dataset ne sont pas chargés
-end;
-
-procedure TODRE_Table.DecalerChampsApresColonne( _Index: Integer);
-var
-   I: Integer;
-   od: TOD_Dataset_Columns;
-begin
-     if (_Index < Low(Columns))or(High(Columns)< _Index) then exit;
-
-     for I:= Low( OD_Datasets) to High( OD_Datasets)
-     do
-       begin
-       od:= OD_Datasets[I];
-       od.InsererColonneApres( _Index);
-       end;
+     Columns[IndexCible]:= NewColumn;
 end;
 
 procedure TODRE_Table.Dimensionne_Colonnes_interne( _C: TOD_TextTableContext);
@@ -382,14 +400,14 @@ begin
 
      Largeur_Imprimable:= _C.D.Largeur_Imprimable;
 
-     Result:= TOD_PARAGRAPH.Create( _C, _root);
+     Result:= TOD_PARAGRAPH.Create( _C.D, _root);
      Result.Is_Header:= _Is_Header;
 
-     Delete_Property( Result.Style_Automatique, 'style:class');
+     Delete_Property( Result.Style_Automatique[_C.NomStyleColonne], 'style:class');
      if _NewPage
      then
-         Set_Property( Result.PARAGRAPH_PROPERTIES.e, 'fo:break-before','page');
-     TabStops:= Result.PARAGRAPH_PROPERTIES.TAB_STOPS;
+         Set_Property( Result.PARAGRAPH_PROPERTIES[_C.NomStyleColonne].e, 'fo:break-before','page');
+     TabStops:= Result.PARAGRAPH_PROPERTIES[_C.NomStyleColonne].TAB_STOPS;
 
      if Length( Columns) = 0 then exit;
 
@@ -437,58 +455,27 @@ begin
      Result:= Cree_Paragraphe_Tabule_interne( _C, _C.D.FirstHeader, True, nil, False);
 end;
 
-procedure TODRE_Table.Ajoute_SurTitres( _C: TOD_TextTableContext);
-var
-   //Surtitre
-   iSurTitre: Integer;
-   NomStyle: String;
-   Debut, Fin: Integer;
-   CellName: String;
-   Cell: TOD_TABLE_CELL;
-   Paragraph: TOD_PARAGRAPH;
-   sCellValue: String;
-begin
-     rowSurTitre:= nil;
-
-     if _C.MasquerTitreColonnes then exit;
-     if not SurTitre_Actif     then exit;
-
-     rowSurTitre:= _C.NewHeaderRow;
-     rowSurTitre.Formate( Length( Columns));
-     for iSurTitre:= High(OD_SurTitre.Libelle) downto Low(OD_SurTitre.Libelle)
-     do
-       begin
-       NomStyle:= Prefixe+'SurTitre '+IntToStr( iSurTitre);
-
-       sCellValue:= OD_SurTitre.Libelle[iSurTitre];
-       Debut     := OD_SurTitre.Debut  [iSurTitre];
-       Fin       := OD_SurTitre.Fin    [iSurTitre];
-
-       _C.Modelise_style_titre( NomStyle);
-       Cell     := rowSurTitre.Cells     [Debut];
-       Paragraph:= rowSurTitre.Paragraphs[Debut];
-       Paragraph.Set_Style( NomStyle);
-       Paragraph.AddText( sCellValue);
-
-       _C.Formate_Titre( Debut, rowSurTitre.Row);
-       rowSurTitre.Fusionne( Debut, Fin);
-       end;
-end;
-
 procedure TODRE_Table.Ajoute_Titres( _C: TOD_TextTableContext);
 var
+   rowTitre, rowSurTitre: TOD_TABLE_ROW;
    iColonne: Integer;
-   NomStyle: String;
    OD_Column: TOD_Column;
    cellTitre: TOD_TABLE_CELL;
    paragraphTitre: TOD_PARAGRAPH;
    sCellValue: String;
 begin
-     rowTitre   := nil;
+     //Ajout éventuel ligne pour SurTitres
+     if SurTitre_Actif
+     then
+         rowSurTitre:= _C.NewHeaderRow
+     else
+         rowSurTitre:= nil;
 
-     if _C.MasquerTitreColonnes then exit;
-
-     rowTitre:= _C.NewHeaderRow;
+     if _C.MasquerTitreColonnes
+     then
+         rowTitre:= nil
+     else
+         rowTitre:= _C.NewHeaderRow;
 
      //Entêtes de colonnes
      for iColonne:= Low(Columns) to High( Columns)
@@ -498,13 +485,12 @@ begin
        sCellValue:= OD_Column.Titre;
        ColumnLengths[iColonne]:= OD_Column.Largeur;
 
-       NomStyle:= Prefixe+'Titre '+IntToStr( iColonne);
-       _C.Modelise_style_titre( NomStyle);
+       if _C.MasquerTitreColonnes then continue;
 
        _C.Formate_Titre( iColonne, rowTitre.Row);
        cellTitre:= rowTitre.NewCell( iColonne);
        paragraphTitre:= cellTitre.NewParagraph;
-       paragraphTitre.Set_Style( NomStyle);
+       paragraphTitre.Set_Style( 'Table Heading');
        paragraphTitre.AddText( sCellValue);
        end;
 end;
@@ -515,20 +501,21 @@ var
    Paragraph_Titres: TOD_PARAGRAPH;
 
    iColonne: Integer;
-   //NomStyle: String;
    OD_Column: TOD_Column;
    sCellValue: String;
 begin
-     Paragraph_SurTitres:= nil;
-     Paragraph_Titres   := nil;
-     if _C.MasquerTitreColonnes then exit;
-
      //Ajout éventuel ligne pour SurTitres
      if SurTitre_Actif
      then
-         Paragraph_SurTitres:= Cree_Paragraphe_Tabule_Entete( _C);
+         Paragraph_SurTitres:= Cree_Paragraphe_Tabule_Entete( _C)
+     else
+         Paragraph_SurTitres:= nil;
 
-     Paragraph_Titres:= Cree_Paragraphe_Tabule_Entete( _C);
+     if _C.MasquerTitreColonnes
+     then
+         Paragraph_Titres:= nil
+     else
+         Paragraph_Titres:= Cree_Paragraphe_Tabule_Entete( _C);
 
      //Entêtes de colonnes
      for iColonne:= Low(Columns) to High( Columns)
@@ -537,7 +524,8 @@ begin
        OD_Column:= Columns[iColonne];
        sCellValue:= OD_Column.Titre;
        ColumnLengths[iColonne]:= OD_Column.Largeur;
-       //NomStyle:= 'Titre '+IntToStr( iSurTitre+1);
+
+       if _C.MasquerTitreColonnes then continue;
 
        if iColonne > Low(Columns)
        then
@@ -561,15 +549,33 @@ begin
 end;
 
 procedure TODRE_Table.Bordures_Lire( _C: TOD_TextTableContext);
+var
+   sBordures_Verticales_Colonnes: String;
 begin
      Bordure_fin_table:= _C.Lire( Prefixe_Bordure_fin_table, '1');
-     Bordures_Verticales_Colonnes:= _C.Lire( Prefixe_Bordures_Verticales_Colonnes, '1');
+     sBordures_Verticales_Colonnes:= _C.Lire( Prefixe_Bordures_Verticales_Colonnes, '1');
+     Bordures_Verticales_Colonnes:= '1' = sBordures_Verticales_Colonnes;
 end;
 
 procedure TODRE_Table.Bordures_Ecrire( _C: TOD_TextTableContext);
 begin
      _C.Ecrire( Prefixe_Bordure_fin_table, Bordure_fin_table);
-     _C.Ecrire( Prefixe_Bordures_Verticales_Colonnes, Bordures_Verticales_Colonnes);
+     _C.Ecrire( Prefixe_Bordures_Verticales_Colonnes, IfThen(Bordures_Verticales_Colonnes, '1','0'));
+end;
+
+procedure TODRE_Table.MasquerTitreColonnes_Assure(_C: TOD_TextTableContext);
+begin
+     _C.Assure_Parametre( Prefixe_MasquerTitreColonnes, '0');
+end;
+
+procedure TODRE_Table.MasquerTitreColonnes_Lire(_C: TOD_TextTableContext);
+begin
+     MasquerTitreColonnes:= _C.Lire( Prefixe_MasquerTitreColonnes) = '1';
+end;
+
+procedure TODRE_Table.MasquerTitreColonnes_Ecrire(_C: TOD_TextTableContext);
+begin
+     _C.Ecrire( Prefixe_MasquerTitreColonnes, IfThen(MasquerTitreColonnes, '1','0'));
 end;
 
 end.

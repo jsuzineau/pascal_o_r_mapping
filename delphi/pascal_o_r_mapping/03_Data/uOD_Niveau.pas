@@ -32,15 +32,91 @@ uses
     uChampDefinition,
     uBatpro_Element,
     uBatpro_Ligne,
-    uhAggregation,
     uOOoStrings,
     uOpenDocument,
     uOD_Champ,
     uOD_BatproTextTableContext,
     uOD_Styles,
+    uOD_Dataset_Columns,//pour Assure_FieldName_in_Composition
   SysUtils, Classes, DB;
 
 type
+ TOD_Niveau= class;
+
+ { TOD_Niveau_set }
+
+ TOD_Niveau_set
+ =
+  class
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Niveau: TOD_Niveau);
+    destructor Destroy; override;
+  //OD_Dataset_Columns
+  public
+    Niveau: TOD_Niveau;
+  //Composition
+  public
+    Composition: String;
+  //CA
+  public
+    CA: TOD_Champ_array;
+  //Find
+  public
+    function Find( _FieldName: String): TOD_Champ;
+  //Assure
+  public
+    function Assure( _FieldName: String): TOD_Champ;
+  //Accesseur par défaut
+  private
+    function Get( _FieldName: String): TOD_Champ;
+  public
+    property Column[ _FieldName: String]: TOD_Champ read Get; default;
+  //Ajoute_Column
+  public
+    procedure Ajoute_Column( _FieldIndex, _Debut, _Fin: Integer); overload;
+    procedure Ajoute_Column( _FieldName: String; _Debut, _Fin: Integer); overload;
+  //Ajoute_Tout
+  public
+    procedure Ajoute_Tout;
+  //Column_SetDebutFin
+  public
+    procedure Column_SetDebutFin( _FieldName: String; _Debut, _Fin: Integer);
+  //Gestion du champ gachette
+  public
+    TriggerField: String;
+    function Triggered: Boolean;
+  //Persistance dans le document OpenOffice
+  public //pour OpenDocument_DelphiReportEngine
+    function Nom_set( Prefixe: String): String; virtual;
+    function Nom_Composition( Prefixe: String): String;
+    function Nom_TriggerField( Prefixe: String): String;
+    procedure Assure_Modele( _Prefixe_Niveau: String; _C: TOD_BatproTextTableContext);
+    procedure        to_Doc( _Prefixe_Niveau: String; _C: TOD_BatproTextTableContext);
+    procedure      from_Doc( _Prefixe_Niveau: String; _C: TOD_BatproTextTableContext);
+  end;
+
+ { TOD_Niveau_set_avant }
+
+ TOD_Niveau_set_avant
+ =
+  class( TOD_Niveau_set)
+  //Persistance dans le document OpenOffice
+  public //pour OpenDocument_DelphiReportEngine
+    function Nom_set( _Prefixe: String): String; override;
+  end;
+
+ { TOD_Niveau_set_apres }
+
+ TOD_Niveau_set_apres
+ =
+  class( TOD_Niveau_set)
+  //Persistance dans le document OpenOffice
+  public //pour OpenDocument_DelphiReportEngine
+    function Nom_set( _Prefixe: String): String; override;
+  end;
+
+ { TOD_Niveau }
  TOD_Niveau
  =
   class
@@ -50,9 +126,8 @@ type
     destructor Destroy; override;
   //Attributs
   public
-    Avant_Composition, Apres_Composition: String;
-    Avant_TriggerField, Apres_TriggerField: String;
-    Avant, Apres: TOD_Champ_array;
+    Avant: TOD_Niveau_set_avant;
+    Apres: TOD_Niveau_set_apres;
     OD_Styles: TOD_Styles;
   //Gestion de l'aggrégation
   private
@@ -80,18 +155,11 @@ type
   public
     function Nom: String;
   //Persistance dans le document OpenOffice
-  private
-    function Nom_Avant( Prefixe: String): String;
-    function Nom_Apres( Prefixe: String): String;
-    function Nom_Composition( Prefixe: String): String;
-    function Nom_TriggerField( Prefixe: String): String;
   public
     procedure Assure_Modele( Prefixe: String; C: TOD_BatproTextTableContext);
     procedure to_Doc( Prefixe: String; C: TOD_BatproTextTableContext);
     procedure from_Doc( Prefixe: String; C: TOD_BatproTextTableContext);
   //Gestion des gachettes
-  private
-    function Triggered( TriggerField: String): Boolean;
   public
     function Avant_Triggered: Boolean;
     function Apres_Triggered: Boolean;
@@ -104,16 +172,208 @@ type
 
 implementation
 
+{ TOD_Niveau_set }
+
+constructor TOD_Niveau_set.Create( _Niveau: TOD_Niveau);
+begin
+     inherited Create;
+     Niveau:= _Niveau;
+     Composition:= '';
+     TriggerField:= '';
+end;
+
+destructor TOD_Niveau_set.Destroy;
+begin
+     inherited Destroy;
+end;
+
+function TOD_Niveau_set.Find(_FieldName: String): TOD_Champ;
+var
+   ODC: TOD_Champ;
+begin
+     Result:= nil;
+     for ODC in CA
+     do
+       begin
+       if nil = ODC                   then continue;
+       if _FieldName <> ODC.FieldName then continue;
+
+       Result:= ODC;
+       end;
+end;
+
+function TOD_Niveau_set.Assure(_FieldName: String): TOD_Champ;
+begin
+     Result:= Find( _FieldName);
+     if Assigned( Result) then exit;
+
+     Result:= TOD_Champ.Create( _FieldName);
+     SetLength( CA, Length( CA)+1);
+     CA[High( CA)]:= Result;
+end;
+
+function TOD_Niveau_set.Get(_FieldName: String): TOD_Champ;
+begin
+     Result:= Assure( _FieldName);
+     Assure_FieldName_in_Composition( _FieldName, Composition);
+end;
+
+procedure TOD_Niveau_set.Ajoute_Column( _FieldName: String; _Debut, _Fin: Integer);
+var
+   C: TOD_Champ;
+begin
+     C:= Column[ _FieldName];
+     C.SetDebutFin( _Debut, _Fin);
+end;
+
+procedure TOD_Niveau_set.Ajoute_Column( _FieldIndex, _Debut, _Fin: Integer);
+var
+   FieldName: String;
+begin
+     if Niveau.Champs_Courant = nil then exit;
+
+     FieldName:= Niveau.Champs_Courant.Field_from_Index( _FieldIndex);
+     Ajoute_Column( FieldName, _Debut, _Fin);
+end;
+
+procedure TOD_Niveau_set.Ajoute_Tout;
+var
+   I: Integer;
+begin
+     if Niveau.Champs_Courant = nil then exit;
+
+     //Niveau.Champs_Courant.Liste;
+     for I:= 0 to Niveau.Champs_Courant.Count - 1
+     do
+       Ajoute_Column( I, 0, 0);
+end;
+
+procedure TOD_Niveau_set.Column_SetDebutFin( _FieldName: String; _Debut, _Fin: Integer);
+begin
+     Column[ _FieldName].SetDebutFin( _Debut, _Fin);
+end;
+
+function TOD_Niveau_set.Triggered: Boolean;
+var
+   Champ: TChamp;
+begin
+     Result:= TriggerField = sys_Vide;
+     if Result then exit;
+
+     if Niveau = nil                then exit;
+     if Niveau.Champs_Courant = nil then exit;
+
+     Champ:= Niveau.Champs_Courant.Champ_from_Field( TriggerField);
+     if Champ = nil then exit;
+
+     Result:= Champ.Chaine <> sys_Vide;
+end;
+
+function TOD_Niveau_set.Nom_set(Prefixe: String): String;
+begin
+     Result:= '';
+end;
+
+function TOD_Niveau_set.Nom_Composition(Prefixe: String): String;
+begin
+     Result:= Prefixe+'Composition';
+end;
+
+function TOD_Niveau_set.Nom_TriggerField(Prefixe: String): String;
+begin
+     Result:= Prefixe+'TriggerField';
+end;
+
+procedure TOD_Niveau_set.Assure_Modele( _Prefixe_Niveau: String; _C: TOD_BatproTextTableContext);
+var
+   Prefixe_set: String;
+   I: Integer;
+begin
+     Prefixe_set:= Nom_set( _Prefixe_Niveau)+'_';
+
+     _C.Assure_Parametre( Nom_Composition ( Prefixe_set), Composition );
+     _C.Assure_Parametre( Nom_TriggerField( Prefixe_set), TriggerField);
+
+     for I:= Low( CA) to High( CA) do CA[I].Assure_Modele( Prefixe_set, _C);
+end;
+
+procedure TOD_Niveau_set.to_Doc( _Prefixe_Niveau: String; _C: TOD_BatproTextTableContext);
+var
+   Prefixe_set: String;
+   I: Integer;
+begin
+     Prefixe_set:= Nom_set( _Prefixe_Niveau)+'_';
+
+     _C.Ecrire( Nom_Composition ( Prefixe_set), Composition );
+     _C.Ecrire( Nom_TriggerField( Prefixe_set), TriggerField);
+
+     for I:= Low( CA) to High( CA) do CA[I].to_Doc( Prefixe_set, _C);
+end;
+
+procedure TOD_Niveau_set.from_Doc( _Prefixe_Niveau: String; _C: TOD_BatproTextTableContext);
+var
+   Prefixe_set: String;
+   I: Integer;
+   Composition_local: String;
+   FieldName: String;
+   Champ: TChamp;
+   ODC: TOD_Champ;
+
+begin
+     Prefixe_set:= Nom_set( _Prefixe_Niveau)+'_';
+
+     //Composition
+     Composition:= _C.Lire( Nom_Composition( Prefixe_set));
+
+     //TriggerField
+     TriggerField:= _C.Lire( Nom_TriggerField    ( Prefixe_set));
+
+     //CA
+     for I:= Low( CA) to High( CA) do FreeAndNil( CA[I]);
+     SetLength( CA, 0);
+
+     if Assigned( Niveau.Champs_Courant)
+     then
+         begin
+         Composition_local:= Composition;
+         while Composition_local <> ''
+         do
+           begin
+           FieldName:= StrToK( ',', Composition_local);
+           if '' = FieldName then continue;
+
+           Champ:= Niveau.Champs_Courant.Champ_from_Field( FieldName);
+           if nil = Champ then continue;
+
+           ODC:= Column[ FieldName];
+           ODC.from_Doc( Prefixe_set, _C);
+           end;
+         end;
+end;
+
+{ TOD_Niveau_set_avant }
+
+function TOD_Niveau_set_avant.Nom_set( _Prefixe: String): String;
+begin
+     Result:= _Prefixe+'Avant';
+end;
+
+{ TOD_Niveau_set_apres }
+
+function TOD_Niveau_set_apres.Nom_set( _Prefixe: String): String;
+begin
+     Result:= _Prefixe+'Apres';
+end;
+
 { TOD_Niveau }
 
 constructor TOD_Niveau.Create( _Nom_Aggregation: String);
 begin
      Nom_Aggregation:= _Nom_Aggregation;
 
-     Avant_Composition:= '';
-     Apres_Composition:= '';
-     Avant_TriggerField:= '';
-     Apres_TriggerField:= '';
+     Avant:= TOD_Niveau_set_avant.Create( Self);
+     Apres:= TOD_Niveau_set_apres.Create( Self);
+
      OD_Styles:= nil;
 
      sl            := nil;
@@ -124,78 +384,19 @@ end;
 
 destructor TOD_Niveau.Destroy;
 begin
-
-end;
-
-procedure TOD_Niveau.Ajoute_Column_Avant( _FieldName: String;
-                                          _Debut, _Fin: Integer);
-var
-   C: TOD_Champ;
-begin
-     C:= TOD_Champ.Create( _FieldName, _Debut, _Fin);
-     SetLength( Avant, Length( Avant)+1);
-     Avant[High(Avant)]:= C;
-
-     Formate_Liste( Avant_Composition, ',', _FieldName);
-end;
-
-procedure TOD_Niveau.Ajoute_Column_Avant( _FieldIndex, _Debut, _Fin: Integer);
-var
-   FieldName: String;
-begin
-     if Champs_Courant = nil then exit;
-
-     FieldName:= Champs_Courant.Field_from_Index( _FieldIndex);
-     Ajoute_Column_Avant( FieldName, _Debut, _Fin);
-end;
-
-procedure TOD_Niveau.Ajoute_Column_Apres( _FieldName: String;
-                                          _Debut, _Fin: Integer);
-var
-   C: TOD_Champ;
-begin
-     C:= TOD_Champ.Create( _FieldName, _Debut, _Fin);
-     SetLength( Apres, Length( Apres)+1);
-     Apres[High(Apres)]:= C;
-
-     Formate_Liste( Apres_Composition, ',', _FieldName);
-end;
-
-procedure TOD_Niveau.Ajoute_Column_Apres( _FieldIndex, _Debut, _Fin: Integer);
-var
-   Champ: TChamp;
-   FieldName: String;
-begin
-     if Champs_Courant = nil then exit;
-
-     Champ:= Champs_Courant.Champ_from_Index( _FieldIndex);
-     if Champ = nil then exit;
-
-     FieldName:= Champ.Definition.Nom;
-     Ajoute_Column_Apres( FieldName, _Debut, _Fin);
+     FreeAndNil( Avant);
+     FreeAndNil( Apres);
+     inherited Destroy;
 end;
 
 procedure TOD_Niveau.Ajoute_Tout_Avant;
-var
-   I: Integer;
 begin
-     if Champs_Courant = nil then exit;
-
-     //Champs_Courant.Liste;
-     for I:= 0 to Champs_Courant.Count - 1
-     do
-       Ajoute_Column_Avant( I, 0, 0);
+     Avant.Ajoute_Tout;
 end;
 
 procedure TOD_Niveau.Ajoute_Tout_Apres;
-var
-   I: Integer;
 begin
-     if Champs_Courant = nil then exit;
-
-     for I:= 0 to Champs_Courant.Count - 1
-     do
-       Ajoute_Column_Apres( I, 0, 0);
+     Apres.Ajoute_Tout;
 end;
 
 function TOD_Niveau.Nom: String;
@@ -203,126 +404,43 @@ begin
      Result:= Nom_Aggregation;
 end;
 
-function TOD_Niveau.Nom_Avant(Prefixe: String): String;
-begin
-     Result:= Prefixe+'Avant';
-end;
-
-function TOD_Niveau.Nom_Apres(Prefixe: String): String;
-begin
-     Result:= Prefixe+'Apres';
-end;
-
-function TOD_Niveau.Nom_Composition(Prefixe: String): String;
-begin
-     Result:= Prefixe+'Composition';
-end;
-
-function TOD_Niveau.Nom_TriggerField(Prefixe: String): String;
-begin
-     Result:= Prefixe+'TriggerField';
-end;
-
 procedure TOD_Niveau.Assure_Modele( Prefixe: String; C: TOD_BatproTextTableContext);
 var
-   p: String;
-   pav, pap: String;
-   I: Integer;
+   Prefixe_Niveau: String;
 begin
-     p:= Prefixe+Nom+'_';
-     pav:= Nom_Avant( p)+'_';
-     pap:= Nom_Apres( p)+'_';
-     C.Assure_Parametre( Nom_Composition( pav), Avant_Composition);
-     C.Assure_Parametre( Nom_Composition( pap), Apres_Composition);
-     C.Assure_Parametre( Nom_TriggerField( pav), Avant_TriggerField);
-     C.Assure_Parametre( Nom_TriggerField( pap), Apres_TriggerField);
-     for I:= Low( Avant) to High( Avant) do Avant[I].Assure_Modele( pav, C);
-     for I:= Low( Apres) to High( Apres) do Apres[I].Assure_Modele( pap, C);
+     Prefixe_Niveau:= Prefixe+Nom+'_';
+
+     Avant.Assure_Modele( Prefixe_Niveau, C);
+     Apres.Assure_Modele( Prefixe_Niveau, C);
 end;
 
 procedure TOD_Niveau.to_Doc( Prefixe: String; C: TOD_BatproTextTableContext);
 var
-   p: String;
-   pav, pap: String;
-   I: Integer;
+   Prefixe_Niveau: String;
 begin
-     p:= Prefixe+Nom+'_';
-     pav:= Nom_Avant( p)+'_';
-     pap:= Nom_Apres( p)+'_';
-     C.Ecrire( Nom_Composition( pav), Avant_Composition);
-     C.Ecrire( Nom_Composition( pap), Apres_Composition);
-     C.Ecrire( Nom_TriggerField( pav), Avant_TriggerField);
-     C.Ecrire( Nom_TriggerField( pap), Apres_TriggerField);
-     for I:= Low( Avant) to High( Avant) do Avant[I].to_Doc( pav, C);
-     for I:= Low( Apres) to High( Apres) do Apres[I].to_Doc( pap, C);
+     Prefixe_Niveau:= Prefixe+Nom+'_';
+
+     Avant.to_Doc( Prefixe_Niveau, C);
+     Apres.to_Doc( Prefixe_Niveau, C);
 end;
 
 procedure TOD_Niveau.from_Doc( Prefixe: String; C: TOD_BatproTextTableContext);
 var
-   p: String;
-   pav, pap: String;
-   procedure Traite( pa: String; var Composition, TriggerField: String; var a: TOD_Champ_array);
-   var
-      I: Integer;
-      FieldName: String;
-      Champ: TChamp;
-      ODC: TOD_Champ;
-   begin
-        Composition:= C.Lire( Nom_Composition( pa));
-        TriggerField    := C.Lire( Nom_TriggerField    ( pa));
-        for I:= Low( A) to High( A) do FreeAndNil( A[I]);
-        SetLength( A, 0);
-
-        if Assigned( Champs_Courant)
-        then
-            while Composition <> ''
-            do
-              begin
-              FieldName:= StrToK( ',', Composition);
-
-              Champ:= Champs_Courant.Champ_from_Field( FieldName);
-              if Assigned( Champ)
-              then
-                  begin
-                  SetLength( A, Length(A)+1);
-                  ODC:= TOD_Champ.Create( FieldName, 0, 0);
-                  ODC.from_Doc( pa, C);
-                  A[High(A)]:= ODC;
-                  end;
-              end;
-   end;
-
+   Prefixe_Niveau: String;
 begin
-     p:= Prefixe+Nom+'_';
-     pav:= Nom_Avant( p)+'_';
-     pap:= Nom_Apres( p)+'_';
-     Traite( pav, Avant_Composition, Avant_TriggerField, Avant);
-     Traite( pap, Apres_Composition, Apres_TriggerField, Apres);
-end;
-
-function TOD_Niveau.Triggered( TriggerField: String): Boolean;
-var
-   Champ: TChamp;
-begin
-     Result:= TriggerField = sys_Vide;
-     if Result then exit;
-
-     if Champs_Courant = nil then exit;
-
-     Champ:= Champs_Courant.Champ_from_Field( TriggerField);
-     if Champ = nil then exit;
-
-     Result:= Champ.Chaine <> sys_Vide;
+     Prefixe_Niveau:= Prefixe+Nom+'_';
+     Avant.from_Doc( Prefixe_Niveau, C);
+     Apres.from_Doc( Prefixe_Niveau, C);
 end;
 
 function TOD_Niveau.Avant_Triggered: Boolean;
 begin
-     Result:= Triggered( Avant_TriggerField);
+     Result:= Avant.Triggered;
 end;
 
 function TOD_Niveau.Apres_Triggered: Boolean;
 begin
-     Result:= Triggered( Apres_TriggerField);
+     Result:= Apres.Triggered;
 end;
 
 procedure TOD_Niveau.Courant_from( Index: Integer);
@@ -381,6 +499,26 @@ function TOD_Niveau.Go_to( Index: Integer): TBatpro_Ligne;
 begin
      Courant_from( Index);
      Result:= bl_Courant;
+end;
+
+procedure TOD_Niveau.Ajoute_Column_Avant( _FieldIndex, _Debut, _Fin: Integer);
+begin
+     Avant.Ajoute_Column( _FieldIndex, _Debut, _Fin);
+end;
+
+procedure TOD_Niveau.Ajoute_Column_Apres( _FieldIndex, _Debut, _Fin: Integer);
+begin
+     Apres.Ajoute_Column( _FieldIndex, _Debut, _Fin);
+end;
+
+procedure TOD_Niveau.Ajoute_Column_Avant( _FieldName: String; _Debut, _Fin: Integer);
+begin
+     Avant.Ajoute_Column( _FieldName, _Debut, _Fin);
+end;
+
+procedure TOD_Niveau.Ajoute_Column_Apres( _FieldName: String; _Debut, _Fin: Integer);
+begin
+     Apres.Ajoute_Column( _FieldName, _Debut, _Fin);
 end;
 
 end.

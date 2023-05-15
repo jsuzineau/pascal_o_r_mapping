@@ -31,6 +31,9 @@ uses
     u_sys_,
 
   {$IFDEF MSWINDOWS}Windows, {$ENDIF}
+  {$IFNDEF FPC}
+  IOUtils,
+  {$ENDIF}
   SysUtils, Classes, Types;
 
 const
@@ -1018,6 +1021,7 @@ begin
 end;
 
 function String_from_File( _FileName: String): String;
+{$IFDEF FPC}
 var
    F: File;
    Longueur: Int64;
@@ -1036,8 +1040,14 @@ begin
             CloseFile( F);
             end;
 end;
+{$ELSE}
+begin
+     Result:= TFile.ReadAllText( _FileName);
+end;
+{$ENDIF}
 
 procedure String_to_File( _FileName: String; _S: String);
+{$IFDEF FPC}
 var
    F: File;
 begin
@@ -1051,6 +1061,11 @@ begin
             CloseFile( F);
             end;
 end;
+{$ELSE}
+begin
+     TFile.WriteAllText( _FileName, _S);
+end;
+{$ENDIF}
 
 function Char_Count( _C: Char; _S: String): Integer;
 var

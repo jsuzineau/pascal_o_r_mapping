@@ -2,11 +2,11 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>2023/05/11 22:05:34.000.404,=C:\Users\Jean\Documents\Embarcadero\Studio\Projets\Unit2.pas</Transaction>
-    <Transaction>2023/05/11 22:06:09.000.560,C:\Users\Jean\Documents\Embarcadero\Studio\Projets\Unit2.pas=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\Dock\ufDock.pas</Transaction>
-    <Transaction>2023/05/11 22:06:09.000.560,C:\Users\Jean\Documents\Embarcadero\Studio\Projets\Unit2.fmx=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\Dock\ufDock.fmx</Transaction>
-    <Transaction>2023/05/11 22:06:18.000.230,C:\Users\Jean\Documents\Embarcadero\Studio\Projets\Project1.dproj=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\Dock\Dock.dproj</Transaction>
+    <Transaction>2023/05/11 22:06:09.000.560,E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\Dock\ufDock.pas=C:\Users\Jean\Documents\Embarcadero\Studio\Projets\Unit2.pas</Transaction>
+    <Transaction>2023/05/11 22:06:09.000.560,E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\Dock\ufDock.fmx=C:\Users\Jean\Documents\Embarcadero\Studio\Projets\Unit2.fmx</Transaction>
+    <Transaction>2023/05/11 22:06:18.000.230,E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\Dock\Dock.dproj=C:\Users\Jean\Documents\Embarcadero\Studio\Projets\Project1.dproj</Transaction>
     <Transaction>2023/05/11 22:06:59.000.876,=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\Dock\Unit3.pas</Transaction>
-    <Transaction>2023/05/11 22:07:12.000.213,E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\Dock\Unit3.pas=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\Dock\ufSource.pas</Transaction>
-    <Transaction>2023/05/11 22:07:12.000.213,E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\Dock\Unit3.fmx=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\Dock\ufSource.fmx</Transaction>
+    <Transaction>2023/05/11 22:07:12.000.213,E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\Dock\ufSource.fmx=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\Dock\Unit3.fmx</Transaction>
+    <Transaction>2023/05/11 22:07:12.000.213,E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\Dock\ufSource.pas=E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\Dock\Unit3.pas</Transaction>
   </Transactions>
 </BorlandProject>
