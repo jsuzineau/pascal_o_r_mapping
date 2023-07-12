@@ -1,0 +1,80 @@
+inherited dkWork_JSON: TdkWork_JSON
+  Left = 704
+  Height = 67
+  Top = 420
+  Width = 226
+  Caption = 'dkWork'
+  ClientHeight = 67
+  ClientWidth = 226
+  inherited sBackground: TShape
+    Height = 662
+  end
+  inherited sSelection: TBatpro_Shape
+    Height = 67
+  end
+  object cmDescription: TChamp_Memo[2]
+    Left = 112
+    Height = 67
+    Top = 0
+    Width = 114
+    Align = alClient
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Courier New'
+    Lines.Strings = (
+      'cmDescription'
+    )
+    ParentFont = False
+    ReadOnly = True
+    ScrollBars = ssAutoVertical
+    TabOrder = 0
+    Field = 'Description'
+  end
+  object Panel1: TPanel[3]
+    Left = 12
+    Height = 67
+    Top = 0
+    Width = 100
+    Align = alLeft
+    ClientHeight = 67
+    ClientWidth = 100
+    TabOrder = 1
+    object clBeginning: TChamp_Label
+      Left = 0
+      Height = 14
+      Top = 2
+      Width = 105
+      AutoSize = False
+      Caption = '2014/05/17 18:30'
+      ParentColor = False
+      ParentShowHint = False
+      ShowHint = True
+      OnClick = FormClick
+      OnDblClick = FormDblClick
+      Field = 'Beginning'
+    end
+    object clEnd_: TChamp_Label
+      Left = 0
+      Height = 14
+      Top = 24
+      Width = 105
+      AutoSize = False
+      Caption = '2014/05/17 18:30'
+      ParentColor = False
+      ParentShowHint = False
+      ShowHint = True
+      OnClick = FormClick
+      OnDblClick = FormDblClick
+      Field = 'End'
+    end
+    object bCapture: TButton
+      Left = 21
+      Height = 25
+      Top = 38
+      Width = 75
+      Caption = 'Capture'
+      OnClick = bCaptureClick
+      TabOrder = 0
+    end
+  end
+end

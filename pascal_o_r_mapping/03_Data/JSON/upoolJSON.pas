@@ -259,6 +259,7 @@ type
   public
     function Get_from_JSON( _JSON: String): TblJSON;
     procedure Charge_from_JSON( _JSON: String; _slLoaded: TBatpro_StringList);
+    procedure Charge_from_JSON_sl( _JSON: String; _slLoaded: TBatpro_StringList);
  //chargement par évènement
  private
  public
@@ -502,6 +503,7 @@ begin
 
      inherited Create(_sl, _jsdc, _pool);
 
+     Champs.cID.Definition.Persistant:= False;
      slFields:= TslJSONFieldBuffer.Create( ClassName+'.slFields');
      FslLink:= nil;
 end;
@@ -688,7 +690,13 @@ begin
 end;
 
 procedure TblJSON.Champ_from_JSONData( _c: TChamp; _d: TJSONData);
-   procedure Traite_String ;begin _c.asString := _d.AsString ; end;
+   procedure Traite_String ;
+   var
+      d_string: string;
+   begin
+        d_string:= _d.AsString;
+        _c.asString := d_string;
+   end;
    procedure Traite_Boolean;begin _c.asBoolean:= _d.AsBoolean; end;
    procedure Default       ;begin Traite_String;               end;
 begin
@@ -825,6 +833,39 @@ begin
      jsp:= TJSONParser.Create( _JSON);
      jsd:= jsp.Parse;
      try
+        case jsd.JSONType
+        of  //TJSONtype = (jtUnknown, jtNumber, jtString, jtBoolean, jtNull, jtArray, jtObject);
+          jtUnknown,
+          jtNumber ,
+          jtString ,
+          jtBoolean,
+          jtNull   : Traite_Object;
+          jtArray  : Traite_liste( jsd, _slLoaded);
+          jtObject : Traite_Object;
+          end;
+     finally
+            Free_nil( jsp);
+            end;
+end;
+
+procedure TpoolJSON.Charge_from_JSON_sl( _JSON: String; _slLoaded: TBatpro_StringList);
+var
+   jsp: TJSONParser;
+   jsd_sl: TJSONData;
+   jsd: TJSONData;
+   procedure Traite_Object;
+   var
+      bl: TblJSON;
+   begin
+        bl:= Traite_jsd( jsd);
+        _slLoaded.Clear;
+        _slLoaded.AddObject( bl.sCle, bl);
+   end;
+begin
+     jsp:= TJSONParser.Create( _JSON);
+     jsd_sl:= jsp.Parse;
+     try
+        jsd:= jsd_sl.FindPath('Elements');
         case jsd.JSONType
         of  //TJSONtype = (jtUnknown, jtNumber, jtString, jtBoolean, jtNull, jtArray, jtObject);
           jtUnknown,

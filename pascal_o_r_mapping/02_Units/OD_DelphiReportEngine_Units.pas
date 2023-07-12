@@ -28,7 +28,7 @@ uses
  ujsDataContexte, uSQLite3, uRegistry, uVide, uSQLite3_SQLQuery, 
  uSQLite3_libsqlite3, uCSS_Style_Parser_PYACC, uStreamLexer, uMimeType, 
  uODBC_Access, uEXE_INI_Global, uOD_ExcelManager, uWinUtils, uPhi, 
- LazarusPackageIntf;
+ uAPI_Client, LazarusPackageIntf;
 
 implementation
 

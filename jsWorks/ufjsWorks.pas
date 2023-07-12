@@ -30,6 +30,7 @@ uses
     uChamps,
     uuStrings,
     uBatpro_StringList,
+    uChrono,
 
     udmDatabase,
 
@@ -44,6 +45,7 @@ uses
     ublWork,
     upoolWork,
     udkWork,
+    udkWork_JSON,
 
     ublDevelopment,
     upoolDevelopment,
@@ -57,6 +59,8 @@ uses
 
     upoolProject,
 
+    upoolJSON,
+
     uodWork_from_Period,
 
     uPhi_Form,
@@ -68,11 +72,13 @@ uses
     sqlite3conn,
 
     uHTTP_Interface,
+    ujsWorks_API_Client,
 
   Classes, SysUtils, FileUtil, DateTimePicker, Forms, Controls, Graphics,
   Dialogs, StdCtrls, ExtCtrls, Buttons, Menus, ucChampsGrid,
   ucDockableScrollbox, ucChamp_DateTimePicker, ucChamp_Edit, ucChamp_Memo,
-  ucChamp_Lookup_ComboBox, uDockable, dateutils,LCLIntf;
+  ucChamp_Lookup_ComboBox, uDockable,
+  dateutils,LCLIntf, ComCtrls,Clipbrd, fpjson, LCLType;
 
 type
 
@@ -81,22 +87,24 @@ type
  TfjsWorks
  =
   class(TForm)
+   bAutomatic_VST: TButton;
+   bBeginning_From: TButton;
    bBug: TButton;
+   bCategorie_to_Tag: TButton;
+   bClient_Beginning_From: TButton;
+   bHTTP: TButton;
+   bNEO4J: TButton;
    bPoint: TButton;
    bProject_to_Tag: TButton;
-   bStart: TButton;
-   bStop: TButton;
-   bTemps: TButton;
-   bTULEAP: TButton;
-   bCategorie_to_Tag: TButton;
    bDescription_to_Tag: TButton;
-   bAutomatic_VST: TButton;
-   bNEO4J: TButton;
-   bStopAndStart: TButton;
    bNew_Tag_Project_from_Selection: TButton;
    bNew_Tag_Client_from_Selection: TButton;
-   bBeginning_From: TButton;
-   bHTTP: TButton;
+   bStart: TButton;
+   bStop: TButton;
+   bStopAndStart: TButton;
+   bTemps: TButton;
+   bTULEAP: TButton;
+   bOuvre_dans_navigateur: TButton;
    bVST: TButton;
    ceBeginning: TChamp_Edit;
    ceEnd: TChamp_Edit;
@@ -105,14 +113,19 @@ type
    cmDevelopment_Description: TChamp_Memo;
    cmSolution: TChamp_Memo;
    cmWork_Description: TChamp_Memo;
-   dtpBeginning_From: TDateTimePicker;
-   dsbWork_Tag: TDockableScrollbox;
    dsbDevelopment: TDockableScrollbox;
-   dsbWork: TDockableScrollbox;
-   dsbWork_Tag_from_Description: TDockableScrollbox;
    dsbTag: TDockableScrollbox;
+   dsbWork: TDockableScrollbox;
+   dsbWork_JSON: TDockableScrollbox;
+   dsbWork_Tag: TDockableScrollbox;
+   dsbWork_Tag_from_Description: TDockableScrollbox;
+   dtpBeginning_From: TDateTimePicker;
+   dtpClient_Beginning_From: TDateTimePicker;
+   eClient: TEdit;
    gbDescription: TGroupBox;
    gbSolution: TGroupBox;
+   Label1: TLabel;
+   Label10: TLabel;
    Label3: TLabel;
    Label4: TLabel;
    Label5: TLabel;
@@ -120,39 +133,50 @@ type
    Label7: TLabel;
    Label8: TLabel;
    Label9: TLabel;
+   lHTTP: TLabel;
+   mChrono: TMemo;
    miTag: TMenuItem;
    miType_Tag: TMenuItem;
    miAutomatic: TMenuItem;
    miProject: TMenuItem;
    miVoir: TMenuItem;
    mm: TMainMenu;
-   Panel1: TPanel;
    Panel10: TPanel;
+   Panel11: TPanel;
+   Panel12: TPanel;
    Panel13: TPanel;
    Panel2: TPanel;
    Panel3: TPanel;
-   Panel4: TPanel;
    Panel5: TPanel;
-   Panel6: TPanel;
    Panel7: TPanel;
    Panel8: TPanel;
    Panel9: TPanel;
-   pWork: TPanel;
+   pc: TPageControl;
+   Panel1: TPanel;
+   Panel4: TPanel;
+   Panel6: TPanel;
    pDevelopment: TPanel;
-   Splitter1: TSplitter;
+   pWork: TPanel;
    Splitter2: TSplitter;
    Splitter4: TSplitter;
    Splitter6: TSplitter;
    t: TTimer;
+   tsChrono: TTabSheet;
+   tsHTTP_Serveur: TTabSheet;
+   tsHTTP_API_Client: TTabSheet;
+   tsDevelopment: TTabSheet;
+   tsWork: TTabSheet;
    procedure bAutomatic_VSTClick(Sender: TObject);
    procedure bBeginning_FromClick(Sender: TObject);
    procedure bBugClick(Sender: TObject);
    procedure bCategorie_to_TagClick(Sender: TObject);
+   procedure bClient_Beginning_FromClick(Sender: TObject);
    procedure bDescription_to_TagClick(Sender: TObject);
    procedure bHTTPClick(Sender: TObject);
    procedure bNEO4JClick(Sender: TObject);
    procedure bNew_Tag_Client_from_SelectionClick(Sender: TObject);
    procedure bNew_Tag_Project_from_SelectionClick(Sender: TObject);
+   procedure bOuvre_dans_navigateurClick(Sender: TObject);
    procedure bPointClick(Sender: TObject);
    procedure bProject_to_TagClick(Sender: TObject);
    procedure bStartClick(Sender: TObject);
@@ -164,9 +188,12 @@ type
    procedure dsbWorkSelect(Sender: TObject);
    procedure dsbDevelopmentSelect(Sender: TObject);
    procedure dsbWorkTraite_Message(_dk: TDockable; _iMessage: Integer);
+   procedure dsbWork_JSONTraite_Message(_dk: TDockable; _iMessage: Integer);
    procedure dsbWork_TagSuppression(Sender: TObject);
    procedure dsbWork_Tag_from_DescriptionSuppression(Sender: TObject);
+   procedure eClientEnter(Sender: TObject);
    procedure FormShow(Sender: TObject);
+   procedure lHTTPClick(Sender: TObject);
    procedure miAutomaticClick(Sender: TObject);
    procedure miProjectClick(Sender: TObject);
    procedure miTagClick(Sender: TObject);
@@ -181,17 +208,23 @@ type
   private
     procedure Traite_Beginning_From;
     procedure _from_pool;
+    procedure Traite_Client_Beginning_From;
+    procedure Deconnecte;
   //Work
   private
     blWork : TblWork;
+    slWork_JSON: TslJSON;
     procedure _from_Work;
+    procedure blWork_Suppression;
   //Development
   private
     blDevelopment: TblDevelopment;
     procedure _from_Development;
   //HTTP
   private
+    HTTP_Interface_URL: String;
     procedure HTTP;
+    procedure Ouvre_dans_navigateur;
   end;
 
 var
@@ -230,19 +263,34 @@ begin
      dsbTag.Tri:= poolTag.Tri;
      dsbTag.Filtre:= poolTag.hfTag;
 
-     dtpBeginning_From.Date:= Now-30;
+     dsbWork_JSON.Classe_dockable:= TdkWork_JSON;
+     dsbWork_JSON.Classe_Elements:= TblJSON;
+
+
+     dtpBeginning_From       .Date:= Now-30;
+     dtpClient_Beginning_From.Date:= Now-30;
+
+     slWork_JSON:= TslJSON.Create;
+
+     HTTP_Interface_URL:= '';
 
      ThPhi_Form.Create( Self);
 end;
 
 destructor TfjsWorks.Destroy;
 begin
+     FreeAndNil( slWork_JSON);
      inherited Destroy;
 end;
 
 procedure TfjsWorks.FormShow(Sender: TObject);
 begin
      t.Enabled:= True;
+end;
+
+procedure TfjsWorks.lHTTPClick(Sender: TObject);
+begin
+     Clipboard.AsText:= lHTTP.Caption;
 end;
 
 procedure TfjsWorks.tTimer(Sender: TObject);
@@ -272,6 +320,68 @@ begin
      _from_pool;
 end;
 
+procedure TfjsWorks.Traite_Client_Beginning_From;
+var
+   D: TDateTime;
+   ac: TjsWorks_API_Client;
+   JSON: String;
+begin
+     Chrono.Stop('Début Traite_Client_Beginning_From');
+     D:= dtpClient_Beginning_From.Date;
+
+     Chrono.Stop('TjsWorks_API_Client.Create');
+     ac:= TjsWorks_API_Client.Create;
+     try
+        ac.Root_URL:= eClient.Text;
+        Chrono.Stop('avant ac.Work_from_Periode( D, Now, 0)');
+        JSON:= ac.Work_from_Periode( D, Now, 0);
+     finally
+            FreeAndNil( ac);
+            end;
+     Chrono.Stop('avant poolJSON.Charge_from_JSON_sl( JSON, slWork_JSON);');
+     poolJSON.Charge_from_JSON_sl( JSON, slWork_JSON);
+     Chrono.Stop('avant dsbWork_JSON.sl:= slWork_JSON;');
+     dsbWork_JSON.sl:= slWork_JSON;
+end;
+
+procedure TfjsWorks.dsbWork_JSONTraite_Message(_dk: TDockable; _iMessage: Integer);
+var
+   dk: TdkWork_JSON;
+   dk_bl: TblJSON;
+   bl: TblWork;
+   ac: TjsWorks_API_Client;
+   Delete_OK: Boolean;
+begin
+     if Affecte_( dk   , TdkWork_JSON, _dk     ) then exit;
+     if Affecte_( dk_bl, TblJSON     , dk.Objet) then exit;
+
+     if IDYES
+        <>
+        Application.MessageBox( 'Etes vous sûr de vouloir capturer la session ?',
+                                'Capture de Session',
+                                MB_ICONQUESTION+MB_YESNO)
+     then
+         exit;
+
+     bl:= poolWork.New_from_JSON( dk_bl);
+     if nil = bl then exit;
+
+     ac:= TjsWorks_API_Client.Create;
+     try
+        ac.Root_URL:= eClient.Text;
+        Delete_OK:= ac.Work_Delete( dk_bl.id);
+     finally
+            FreeAndNil( ac);
+            end;
+
+     slWork_JSON.Delete( slWork_JSON.IndexOfObject(dk_bl));
+     poolJSON.Decharge_Seulement( dk_bl);
+     dsbWork_JSON.sl:= slWork_JSON;
+
+     t.Enabled:= True;
+end;
+
+
 procedure TfjsWorks._from_pool;
 begin
      dsbWork       .sl:= poolWork.slFiltre;
@@ -293,12 +403,42 @@ begin
                       ceEnd,
                       cmWork_Description
                      ]);
-     blWork.haTag.Charge;
-     dsbWork_Tag.sl:= blWork.haTag.sl;
+     if nil = blWork
+     then
+         begin
+         dsbWork_Tag.sl:= nil;
+         dsbWork_Tag_from_Description.sl:= nil;
+         end
+     else
+         begin
+         blWork.Suppression.Abonne( Self, @blWork_Suppression);
 
-     blWork.haTag_from_Description.Charge;
-     dsbWork_Tag_from_Description.sl:= blWork.haTag_from_Description.sl;
+         blWork.haTag.Charge;
+         dsbWork_Tag.sl:= blWork.haTag.sl;
+
+         blWork.haTag_from_Description.Charge;
+         dsbWork_Tag_from_Description.sl:= blWork.haTag_from_Description.sl;
+         end;
 end;
+
+procedure TfjsWorks.blWork_Suppression;
+begin
+     Deconnecte;
+     t.Enabled:= True;
+end;
+
+procedure TfjsWorks.Deconnecte;
+begin
+     blWork:= nil;
+     _from_Work;
+
+     dsbWork                     .sl:= nil;
+     dsbWork_Tag                 .sl:= nil;
+     dsbWork_Tag_from_Description.sl:= nil;
+     dsbDevelopment              .sl:= nil;
+     dsbTag                      .sl:= nil;
+end;
+
 
 procedure TfjsWorks._from_Development;
 begin
@@ -440,6 +580,11 @@ begin
      dsbTag.sl:= poolTag.slFiltre;
 end;
 
+procedure TfjsWorks.bOuvre_dans_navigateurClick(Sender: TObject);
+begin
+     Ouvre_dans_navigateur;
+end;
+
 procedure TfjsWorks.bTULEAPClick(Sender: TObject);
 begin
      //fTULEAP.Show;
@@ -546,8 +691,6 @@ begin
      else                                                   Traite_Fichier;
 end;
 procedure TfjsWorks.HTTP;
-var
-   HTTP_Interface_URL: String= '';
    procedure Ecrit_URL;
    var
       S: String;
@@ -555,6 +698,7 @@ var
         //HTTP_Interface.Init_from_ClassName();
         S:= HTTP_Interface.Init;
         Caption:= Caption + ' - web sur '+ S;
+        lHTTP.Caption:= S;
         HTTP_Interface_URL:= S;
    end;
 begin
@@ -595,7 +739,25 @@ begin
      end;
      }
 
+     //Ouvre_dans_navigateur;
+end;
+
+procedure TfjsWorks.Ouvre_dans_navigateur;
+begin
      OpenURL( HTTP_Interface_URL);
+end;
+
+procedure TfjsWorks.eClientEnter(Sender: TObject);
+begin
+     eClient.Text:= Clipboard.AsText;
+end;
+
+procedure TfjsWorks.bClient_Beginning_FromClick(Sender: TObject);
+begin
+     Chrono.Start;
+     Traite_Client_Beginning_From;
+     Chrono.Stop('Fin de l''exécution');
+     mChrono.Lines.Text:= Chrono.Get_Liste;
 end;
 
 end.

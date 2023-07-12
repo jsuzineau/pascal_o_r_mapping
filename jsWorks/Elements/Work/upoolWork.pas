@@ -28,6 +28,8 @@ uses
     uBatpro_StringList,
     uDataUtilsU,
     uSGBD,
+    uChamp,
+    uChamps,
 
     uBatpro_Element,
 
@@ -38,12 +40,14 @@ uses
     udmDatabase,
     uPool,
 
+    upoolJSON,
+
     uhfWork,
 
     uHTTP_Interface,
 
   SysUtils, Classes,
-  DB, sqldb;
+  DB, sqldb, fpjson;
 
 type
 
@@ -73,7 +77,10 @@ type
   //Début d'une nouvelle session
   public
     function Start( _nProject: Integer): TblWork;
-  //Gestion communication HTTP avec pages html Angular / JSON
+  //Création à partir d'un JSON
+  public
+    function New_from_JSON( _blJSON: TblJSON): TblWork;
+  //Gestion communication API HTTP / JSON
   public
     function Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boolean; override;
   //Chargement d'une période
@@ -168,6 +175,11 @@ begin
      Result.Save_to_database;
 end;
 
+function TpoolWork.New_from_JSON( _blJSON: TblJSON): TblWork;
+begin
+     Result:= New_from_JSON_Base( _blJSON) as TblWork;
+end;
+
 function TpoolWork.Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boolean;
      function http_from_Project: Boolean;
      var
@@ -181,6 +193,57 @@ function TpoolWork.Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boole
 
           sl:= TBatpro_StringList.Create;
           Charge_Project( idProject, sl);
+          _HTTP_Interface.Send_JSON( sl.JSON);
+          FreeAndNil( sl);
+     end;
+     function http_from_Periode: Boolean;
+     var
+        Debut, Fin: TDateTime;
+        idTag: Integer;
+        sl: TBatpro_StringList;
+        procedure Params_from_JSON;
+        var
+           JSON: String;
+           jso: TJSONObject;
+           jsd: TJSONData;
+           sDebut, sFin: String;
+           procedure String_from_jso( _Name: String; var _s: String; _default: String);
+           var
+              jsd: TJSONData;
+           begin
+                jsd:= jso.Find( _Name);
+                if nil = jsd then exit;
+
+                _s:= jsd.AsString;
+           end;
+           procedure Integer_from_jso( _Name: String; var _i: Integer; _default: Integer);
+           var
+              jsd: TJSONData;
+           begin
+                jsd:= jso.Find( _Name);
+                if nil = jsd then exit;
+
+                _i:= jsd.AsInteger;
+           end;
+        begin
+             JSON:= _HTTP_Interface.body;
+
+             jso:= fpjson.GetJSON( JSON) as TJSONObject;
+             try
+                 String_from_jso( 'Debut', sDebut, '');
+                 String_from_jso( 'Fin'  , sFin  , '');
+                Integer_from_jso( 'idTag', idTag , 0 );
+             finally
+                    Free_nil( jso);
+                    end;
+             Try_DateTime_from_DateTimeSQL_sans_quotes_default( sDebut, Debut, Now);
+             Try_DateTime_from_DateTimeSQL_sans_quotes_default( sFin  , Fin  , Now);
+        end;
+     begin
+          Params_from_JSON;
+
+          sl:= TBatpro_StringList.Create;
+          Charge_Periode( Debut, Fin, idTag, sl);
           _HTTP_Interface.Send_JSON( sl.JSON);
           FreeAndNil( sl);
      end;
@@ -223,6 +286,7 @@ begin
 
           if _HTTP_Interface.Prefixe('_Start')       then Result:= http_Start
      else if _HTTP_Interface.Prefixe('_Stop' )       then Result:= http_Stop
+     else if _HTTP_Interface.Prefixe('_from_Periode')then Result:= http_from_Periode
      else if _HTTP_Interface.Prefixe('_from_Project')then Result:= http_from_Project
      else                                                 Result:= False;
 end;

@@ -370,7 +370,7 @@ type
   //Création d'une ligne en mémoire sans connection à la base de données
   public
     procedure Cree_en_memoire( var _bl);
-  //Gestion communication HTTP avec pages html Angular / JSON
+  //Gestion communication API HTTP / JSON
   public
     function Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boolean; override;
   //spécial Gestion bases Microsoft Access en Freepascal
@@ -390,6 +390,9 @@ type
   private
     function Iterateur: TIterateur;
     function Iterateur_Decroissant: TIterateur;
+  //Création à partir d'un JSON
+  public
+    function New_from_JSON_Base( _blJSON: TBatpro_Ligne): TBatpro_Ligne;
   end;
 
   Tprocedure_sCle_Change= procedure ( _bl: TBatpro_Ligne) of object;
@@ -587,6 +590,39 @@ end;
 function TPool.Iterateur_Decroissant: TIterateur;
 begin
      Result:= Iterateur_interne_Decroissant;
+end;
+
+function TPool.New_from_JSON_Base(_blJSON: TBatpro_Ligne): TBatpro_Ligne;
+var
+   blJSON_Champs: TChamps;
+
+   I: TIterateur_Champ;
+   C: TChamp;
+   NomChamp: String;
+   blJSON_C: TChamp;
+begin
+     Nouveau_Base( Result);
+     if Result = nil then exit;
+
+     blJSON_Champs:= _blJSON.Champs;
+     I:= Result.Champs.sl.Iterateur;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( C)           then continue;
+          if not C.Definition.Persistant then continue;
+
+          NomChamp:= C.Definition.Nom;
+          if 'id' = NomChamp then continue;
+
+          blJSON_C:= blJSON_Champs.Champ_from_Field( NomChamp);
+          C.Chaine:= blJSON_C.Chaine;
+          end;
+     finally
+            FreeAndNil( I);
+            end;
+     Result.Save_to_database;
 end;
 
 constructor TPool.Create(_sl: TBatpro_StringList);

@@ -65,6 +65,7 @@ function DateTimeSQL( D: TDateTime): String;
 function DateTimeSQL_sans_quotes( D: TDateTime): String;
 function     DateTime_from_DateTimeSQL_sans_quotes( _DateTimeSQL: String): TDatetime;
 function Try_DateTime_from_DateTimeSQL_sans_quotes( _DateTimeSQL: String;out DT: TDateTime): Boolean;
+function Try_DateTime_from_DateTimeSQL_sans_quotes_default( _DateTimeSQL: String;out DT: TDateTime; _default: TDateTime): Boolean;
 function DateTime_ISO8601_sans_quotes( D: TDateTime): String;
 
 function DateTimeSQL_sans_quotes_DMY2( D: TDateTime): String;
@@ -342,6 +343,14 @@ begin
          DT:= 0
      else
          DT:= EncodeDateTime( Year, Month, Day, Hour, Minute, Second, 0);
+end;
+
+function Try_DateTime_from_DateTimeSQL_sans_quotes_default( _DateTimeSQL: String;out DT: TDateTime; _default: TDateTime): Boolean;
+begin
+     Result:= Try_DateTime_from_DateTimeSQL_sans_quotes( _DateTimeSQL, DT);
+     if Result then exit;
+
+     DT:= _default;
 end;
 
 function DateTime_ISO8601_sans_quotes( D: TDateTime): String;

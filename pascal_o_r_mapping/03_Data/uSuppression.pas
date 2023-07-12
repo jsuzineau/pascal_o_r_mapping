@@ -115,6 +115,10 @@ begin
      CheckClass( bl, Classe_Elements);
      if bl = nil then exit;
 
+     if bl.Suppression_created
+     then
+         bl.Suppression.Publie;
+
      if bl.Delete_from_database
      then
          begin

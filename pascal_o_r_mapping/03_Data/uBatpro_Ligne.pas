@@ -32,6 +32,7 @@ uses
     uContrainte,
     uMotsCles,
     uuStrings,
+    uPublieur,
 
     udmDatabase,
 
@@ -99,6 +100,13 @@ type
     procedure Save_to_database; virtual;
     procedure Insert_into_database; virtual;
     function  Delete_from_database: Boolean; virtual;
+  //Suppression
+  private
+    FSuppression: TPublieur;
+    function GetSuppression: TPublieur;
+  public
+    property Suppression: TPublieur read GetSuppression;
+    function Suppression_created: Boolean;
   //interface TChampsProvider
   public
     function Champ_a_editer(Contexte: Integer): TChamp; override;
@@ -468,6 +476,8 @@ begin
      FGroupe     := nil;
      FGroupeTitle:= nil;
 
+     FSuppression:= nil;
+
      Cree_Champs;
 end;
 
@@ -475,6 +485,7 @@ destructor TBatpro_Ligne.Destroy;
 begin
      Deconnecte;
 
+     Free_nil( FSuppression);
      Free_nil( FGroupe     );
      Free_nil( FGroupeTitle);
      Free_nil( Champs);
@@ -548,6 +559,19 @@ begin
      Aggregations.Delete_from_database;
      Supprime_Connections;
      Result:= Champs_persistance.Delete_from_database( Champs, jsDataConnexion);
+end;
+
+function TBatpro_Ligne.GetSuppression: TPublieur;
+begin
+     if nil = FSuppression
+     then
+         FSuppression:= TPublieur.Create(ClassName+'.Suppression');
+     Result:= FSuppression;
+end;
+
+function TBatpro_Ligne.Suppression_created: Boolean;
+begin
+     Result:= Assigned( FSuppression);
 end;
 
 function TBatpro_Ligne.GetChamps: TChamps;

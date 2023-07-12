@@ -54,7 +54,7 @@ uses
  ujpAngular_TypeScript_NomClasseElement, 
  ujpAngular_TypeScript_NomFichierElement, 
  ujpAngular_TypeScript_declaration_champs, uOD_Label_Printer, 
- LazarusPackageIntf;
+ uAPI_Client_pool, LazarusPackageIntf;
 
 implementation
 

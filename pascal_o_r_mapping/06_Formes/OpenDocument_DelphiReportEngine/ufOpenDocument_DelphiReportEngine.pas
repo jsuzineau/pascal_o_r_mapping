@@ -342,11 +342,11 @@ procedure TfOpenDocument_DelphiReportEngine.miInsertionClick       (Sender: TObj
 procedure TfOpenDocument_DelphiReportEngine.miNormal_InsertionClick(Sender: TObject);begin fFields_vstInsertion_Show;end;
 procedure TfOpenDocument_DelphiReportEngine.miTablesClick          (Sender: TObject);begin fFields_vstTables_Show   ;end;
 
-procedure TfOpenDocument_DelphiReportEngine.mixmlMetaClick             (Sender: TObject); begin Assure_fXML_Editor( fxmleMeta             ,'Meta'             , Document, @Document.xmlMeta             ).Show; end;
-procedure TfOpenDocument_DelphiReportEngine.mixmlSettingsClick         (Sender: TObject); begin Assure_fXML_Editor( fxmleSettings         ,'Settings'         , Document, @Document.xmlSettings         ).Show; end;
-procedure TfOpenDocument_DelphiReportEngine.mixmlMETA_INF_manifestClick(Sender: TObject); begin Assure_fXML_Editor( fxmleMETA_INF_manifest,'META_INF_manifest', Document, @Document.xmlMETA_INF_manifest).Show; end;
-procedure TfOpenDocument_DelphiReportEngine.mixmlContentClick          (Sender: TObject); begin Assure_fXML_Editor( fxmleContent          ,'Content'          , Document, @Document.xmlContent          ).Show; end;
-procedure TfOpenDocument_DelphiReportEngine.mixmlStylesClick           (Sender: TObject); begin Assure_fXML_Editor( fxmleStyles           ,'Styles'           , Document, @Document.xmlStyles           ).Show; end;
+procedure TfOpenDocument_DelphiReportEngine.mixmlMetaClick             (Sender: TObject); begin Assure_fXML_Editor( fxmleMeta             ,'Meta'             , Document, @Document.odeMeta             .xml).Show; end;
+procedure TfOpenDocument_DelphiReportEngine.mixmlSettingsClick         (Sender: TObject); begin Assure_fXML_Editor( fxmleSettings         ,'Settings'         , Document, @Document.odeSettings         .xml).Show; end;
+procedure TfOpenDocument_DelphiReportEngine.mixmlMETA_INF_manifestClick(Sender: TObject); begin Assure_fXML_Editor( fxmleMETA_INF_manifest,'META_INF_manifest', Document, @Document.odeMETA_INF_manifest.xml).Show; end;
+procedure TfOpenDocument_DelphiReportEngine.mixmlContentClick          (Sender: TObject); begin Assure_fXML_Editor( fxmleContent          ,'Content'          , Document, @Document.odeContent          .xml).Show; end;
+procedure TfOpenDocument_DelphiReportEngine.mixmlStylesClick           (Sender: TObject); begin Assure_fXML_Editor( fxmleStyles           ,'Styles'           , Document, @Document.odeStyles           .xml).Show; end;
 
 procedure TfOpenDocument_DelphiReportEngine.miMIMETYPEClick(Sender: TObject); begin Assure_fTextFile( fMIMETYPE, 'mimetype', Document.CheminFichier_temporaire( 'mimetype')).Show; end;
 

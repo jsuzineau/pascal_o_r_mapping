@@ -200,7 +200,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="52">
+    <Units Count="54">
       <Unit0>
         <Filename Value="jsWorks.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -465,6 +465,17 @@
         <Filename Value="Elements/Calendrier/uhdmCalendrier.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit51>
+      <Unit52>
+        <Filename Value="ujsWorks_API_Client.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit52>
+      <Unit53>
+        <Filename Value="Elements/Work/udkWork_JSON.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkWork_JSON"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit53>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

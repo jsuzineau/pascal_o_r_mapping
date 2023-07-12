@@ -32,17 +32,16 @@ uses
  {$IFDEF MSWINDOWS}
  windows,
  {$ENDIF}
- ufjsWorks, ublCategorie, ublDevelopment,
- ublProject, ublState, ublWork, uhfCategorie, uhfDevelopment, uhfJour_ferie,
- uhfProject, uhfState, uodTag, ufTemps, udkSession, uhfWork,
- upoolCategorie, upoolDevelopment, upoolJour_ferie, upoolProject, upoolState,
- upoolWork, ublJour_ferie, udkProject_EDIT, udkProject_LABEL, ufProject,
- udkWork, udkDevelopment, ublSession,
- uhdmSession, uodSession, ublTag, uhfTag, upoolTag,
+ ufjsWorks, ublCategorie, ublDevelopment, ublProject, ublState, ublWork,
+ uhfCategorie, uhfDevelopment, uhfJour_ferie, uhfProject, uhfState, uodTag,
+ ufTemps, ujsWorks_API_Client, udkSession, uhfWork, upoolCategorie,
+ upoolDevelopment, upoolJour_ferie, upoolProject, upoolState, upoolWork,
+ ublJour_ferie, udkProject_EDIT, udkProject_LABEL, ufProject, udkWork,
+ udkDevelopment, ublSession, uhdmSession, uodSession, ublTag, uhfTag, upoolTag,
  upoolTag_Development, uhfTag_Development, ublTag_Development, upoolTag_Work,
  uhfTag_Work, ublTag_Work, udkType_Tag_EDIT, ublType_Tag, upoolType_Tag,
- uhfType_Tag, ufType_Tag, udkTag_LABEL, uodWork_from_Period, udkTag_LABEL_od,
- udkWork_haTag_from_Description_LABEL;
+ uhfType_Tag, ufType_Tag, udkTag_LABEL, uodWork_from_Period, udkWork_JSON,
+ udkTag_LABEL_od, udkWork_haTag_from_Description_LABEL;
 
 {$R *.res}
 

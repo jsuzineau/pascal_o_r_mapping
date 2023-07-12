@@ -21,7 +21,7 @@
         </OtherDefines>
       </Other>
     </CompilerOptions>
-    <Files Count="147">
+    <Files Count="148">
       <Item1>
         <Filename Value="uBatpro_Element.pas"/>
         <UnitName Value="uBatpro_Element"/>
@@ -611,6 +611,10 @@
         <Filename Value="uOD_Label_Printer.pas"/>
         <UnitName Value="uOD_Label_Printer"/>
       </Item147>
+      <Item148>
+        <Filename Value="uAPI_Client_pool.pas"/>
+        <UnitName Value="uAPI_Client_pool"/>
+      </Item148>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="1">
