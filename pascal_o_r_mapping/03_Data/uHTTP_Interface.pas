@@ -1174,7 +1174,7 @@ begin
      ListenerSocket.listen;
      Port:= ListenerSocket.GetLocalSinPort;
      sPort:=IntToStr(Port);
-     URL_interne:='http://localhost:'+sPort+'/';
+     URL_interne:='http://'+_IP+':'+sPort+'/';
      URL:= URL_Externe+sPort+'/';
      Result:= URL;
      Execute_LaunchURL:= True;

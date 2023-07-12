@@ -122,10 +122,13 @@ type
    dtpBeginning_From: TDateTimePicker;
    dtpClient_Beginning_From: TDateTimePicker;
    eClient: TEdit;
+   eIP_listen: TEdit;
    gbDescription: TGroupBox;
    gbSolution: TGroupBox;
    Label1: TLabel;
    Label10: TLabel;
+   Label11: TLabel;
+   Label2: TLabel;
    Label3: TLabel;
    Label4: TLabel;
    Label5: TLabel;
@@ -273,6 +276,7 @@ begin
      slWork_JSON:= TslJSON.Create;
 
      HTTP_Interface_URL:= '';
+     pc.ActivePageIndex:=0;
 
      ThPhi_Form.Create( Self);
 end;
@@ -693,10 +697,12 @@ end;
 procedure TfjsWorks.HTTP;
    procedure Ecrit_URL;
    var
+      URL_externe: String;
       S: String;
    begin
         //HTTP_Interface.Init_from_ClassName();
-        S:= HTTP_Interface.Init;
+        URL_externe:= HTTP_Interface.Init( eIP_listen.Text);
+        S:= HTTP_Interface.URL_interne;
         Caption:= Caption + ' - web sur '+ S;
         lHTTP.Caption:= S;
         HTTP_Interface_URL:= S;
