@@ -70,6 +70,10 @@ implementation
 constructor TdkFacture_display.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
+     Ajoute_Colonne( clDate    , 'Date'    );
+     Ajoute_Colonne( clNom     , 'Nom'     );
+     Ajoute_Colonne( clNbHeures, 'NbHeures');
+     Ajoute_Colonne( clMontant , 'Montant' );
 end;
 
 destructor TdkFacture_display.Destroy;

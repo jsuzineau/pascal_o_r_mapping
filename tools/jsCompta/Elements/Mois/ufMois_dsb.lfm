@@ -9,7 +9,7 @@ object fMois_dsb: TfMois_dsb
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '2.2.4.0'
   object Splitter1: TSplitter
     Cursor = crVSplit
     Left = 0
@@ -26,23 +26,45 @@ object fMois_dsb: TfMois_dsb
     Height = 193
     Top = 258
     Width = 740
-    ActivePage = tsPascal_uf_pc_dfm_Aggregation
+    ActivePage = tsPiece
     Align = alBottom
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 1
     object tsPiece: TTabSheet
       Caption = 'Piece'
-      ClientHeight = 158
-      ClientWidth = 730
+      ClientHeight = 165
+      ClientWidth = 732
       object dsbPiece: TDockableScrollbox
         Left = 0
-        Height = 158
+        Height = 165
         Top = 0
-        Width = 730
+        Width = 732
         Align = alClient
         Caption = 'dsbPiece'
-        ClientHeight = 158
-        ClientWidth = 730
+        ClientHeight = 165
+        ClientWidth = 732
+        TabOrder = 0
+        HauteurLigne = 32
+        BordureLignes = True
+        Zebrage = False
+        Zebrage1 = 15138790
+        Zebrage2 = 16777192
+        _LectureSeule = False
+      end
+    end
+    object tsFacture: TTabSheet
+      Caption = 'Facture'
+      ClientHeight = 165
+      ClientWidth = 732
+      object dsbFacture: TDockableScrollbox
+        Left = 0
+        Height = 165
+        Top = 0
+        Width = 732
+        Align = alClient
+        Caption = 'dsbFacture'
+        ClientHeight = 165
+        ClientWidth = 732
         TabOrder = 0
         HauteurLigne = 32
         BordureLignes = True
@@ -78,17 +100,19 @@ object fMois_dsb: TfMois_dsb
       TabOrder = 0
       object Label1: TLabel
         Left = 8
-        Height = 21
+        Height = 15
         Top = 16
-        Width = 45
+        Width = 34
         Caption = 'Total : '
+        ParentColor = False
       end
       object lNbTotal: TLabel
         Left = 48
-        Height = 21
+        Height = 15
         Top = 16
-        Width = 57
+        Width = 44
         Caption = 'lNbTotal'
+        ParentColor = False
       end
       object bodMois: TBitBtn
         Left = 344
@@ -153,17 +177,19 @@ object fMois_dsb: TfMois_dsb
       TabOrder = 1
       object Label2: TLabel
         Left = 8
-        Height = 21
+        Height = 15
         Top = 8
-        Width = 80
+        Width = 60
         Caption = 'Ordre de tri'
+        ParentColor = False
       end
       object lTri: TLabel
         Left = 72
-        Height = 21
+        Height = 15
         Top = 8
-        Width = 21
+        Width = 15
         Caption = 'lTri'
+        ParentColor = False
       end
     end
     object dsb: TDockableScrollbox

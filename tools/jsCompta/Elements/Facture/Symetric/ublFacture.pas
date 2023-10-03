@@ -46,7 +46,7 @@ uses
     {$I ublFacture_interface_uses.inc}
     {$I ../../Piece/Symetric/ublPiece_interface_uses.inc} 
 
-    SysUtils, Classes, SqlDB, DB;
+    SysUtils, Classes, SqlDB, DB, DateUtils;
 
 type
 {$I ublFacture_interface_type_forward.inc}

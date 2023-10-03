@@ -2,12 +2,12 @@ inherited dkFacture_display: TdkFacture_display
   Left = 704
   Height = 45
   Top = 420
-  Width = 370
+  Width = 562
   Caption = 'dkFacture_display'
   ClientHeight = 45
-  ClientWidth = 370
+  ClientWidth = 562
   inherited sBackground: TShape
-    Width = 908
+    Width = 1100
   end
   inherited sSelection: TBatpro_Shape
     Height = 45
@@ -16,7 +16,7 @@ inherited dkFacture_display: TdkFacture_display
     Left = 4
     Height = 13
     Top = 2
-    Width = 57
+    Width = 182
     AutoSize = False
     Caption = 'clDate'
     ParentColor = False
@@ -26,10 +26,10 @@ inherited dkFacture_display: TdkFacture_display
     Field = 'Date'
   end
   object clNom: TChamp_Label[3]
-    Left = 91
+    Left = 189
     Height = 13
     Top = 2
-    Width = 94
+    Width = 244
     Anchors = [akTop, akLeft, akRight]
     AutoSize = False
     Caption = 'clNom'
@@ -40,7 +40,7 @@ inherited dkFacture_display: TdkFacture_display
     Field = 'Nom'
   end
   object clNbHeures: TChamp_Label[4]
-    Left = 245
+    Left = 437
     Height = 13
     Top = 2
     Width = 57
@@ -54,7 +54,7 @@ inherited dkFacture_display: TdkFacture_display
     Field = 'NbHeures'
   end
   object clMontant: TChamp_Label[5]
-    Left = 309
+    Left = 501
     Height = 13
     Top = 2
     Width = 57

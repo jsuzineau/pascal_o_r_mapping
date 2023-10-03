@@ -232,6 +232,15 @@ begin
      cClient_id:= Integer_from_Integer( FClient_id, 'Client_id');
      cClient:= Champs.String_Lookup( FClient, 'Client', cClient_id, ublFacture_poolClient.GetLookupListItems, '');
 
+     //Détail Mois
+     FMois_bl:= nil;
+     cMois_id:= Ajoute_Integer( FMois_id, 'Mois_id', False, False);
+     cMois:= Champs.String_Lookup( FMois, 'Mois', cMois_id, ublFacture_poolMois.GetLookupListItems, '');
+     Mois_id_Change;
+     cMois_id.OnChange.Abonne( Self, Mois_id_Change);
+
+
+
      //Symétrie Piece
      FPiece_bl:= nil;
      cPiece_id:= Integer_from_Integer( FPiece_id, 'Piece_id');
@@ -322,7 +331,8 @@ end;
 procedure TblFacture.Unlink( be: TBatpro_Element);
 begin
      inherited Unlink( be);
-     if Client_bl = be then Client_Desaggrege;
+          if Client_bl = be then Client_Desaggrege
+     else if Mois_bl   = be then Mois_Desaggrege;
 
      if FPiece_bl = be then Piece_Desaggrege;
 
@@ -425,6 +435,86 @@ begin
      if Assigned( FClient_bl)
      then
          Result:= FClient_bl.GetLibelle
+     else
+         Result:= '';
+end;
+
+ procedure TblFacture.SetMois_id(const Value: Integer);
+begin
+     if FMois_id = Value then exit;
+     FMois_id:= Value;
+     Mois_id_Change;
+end;
+
+procedure TblFacture.Mois_id_Change;
+begin
+     Mois_Aggrege;
+end;
+
+procedure TblFacture.SetMois_bl(const Value: TBatpro_Ligne);
+begin
+     if FMois_bl = Value then exit;
+
+     Mois_Desaggrege;
+
+     FMois_bl:= Value;
+
+     if Mois_id <> FMois_bl.id
+     then
+         begin
+         Mois_id:= FMois_bl.id;
+         end;
+
+     Mois_Connecte;
+end;
+
+procedure TblFacture.Mois_Connecte;
+begin
+     if nil = Mois_bl then exit;
+
+     if Assigned(Mois_bl) 
+     then 
+         Mois_bl.Aggregations.by_Name[ 'Facture'].Ajoute(Self);
+     Connect_To( FMois_bl);
+end;
+
+procedure TblFacture.Mois_Aggrege;
+var
+   Mois_bl_New: TBatpro_Ligne;
+begin                                                        
+     ublFacture_poolMois.Get_Interne_from_id( Mois_id, Mois_bl_New);
+     if Mois_bl = Mois_bl_New then exit;
+
+     Mois_Desaggrege;
+     FMois_bl:= Mois_bl_New;
+
+     Mois_Connecte;
+end;
+
+procedure TblFacture.Mois_Desaggrege;
+begin
+     if Mois_bl = nil then exit;
+
+     if Assigned(Mois_bl) 
+     then 
+         Mois_bl.Aggregations.by_Name[ 'Facture'].Enleve(Self);
+     Unconnect_To( FMois_bl);
+end;
+
+procedure TblFacture.Mois_Change;
+begin
+     if Assigned( FMois_bl)
+     then
+         FMois:= FMois_bl.GetLibelle
+     else
+         FMois:= '';
+end;
+
+function TblFacture.Mois: String;
+begin
+     if Assigned( FMois_bl)
+     then
+         Result:= FMois_bl.GetLibelle
      else
          Result:= '';
 end;
@@ -641,6 +731,30 @@ begin
      SQL:= 'select * from '+NomTable+' where Client_id = '+IntToStr( _Client_id);
 
      Load( SQL, _slLoaded);
+end;
+procedure TpoolFacture.Charge_Mois( _Mois: TDateTime; _slLoaded: TBatpro_StringList = nil);
+var
+   Debut, Fin: TDateTime;
+   sDebut, sFin: String;
+   SQL: String;
+   P: TParams;
+   pDebut, pFin: TParam;
+begin
+     Debut:= StartOfTheMonth(_Mois);
+     Fin  :=   EndOfTheMonth(_Mois);
+     sDebut:= DateTimeSQL_sans_quotes(Debut);
+     sFin  := DateTimeSQL_sans_quotes(Fin  );
+     SQL:= 'select * from '+NomTable+' where (:Debut <= Date) and (Date <= :Fin)';
+     P:= TParams.Create;
+     try
+        pDebut:= CreeParam( P, 'Debut');
+        pFin  := CreeParam( P, 'Fin'  );
+        pDebut.AsString:= sDebut;
+        pFin  .AsString:= sFin  ;
+        Load( SQL, _slLoaded, nil, P);
+     finally
+            FreeAndNil( P);
+            end;
 end;
 
 procedure TpoolFacture.Charge_Piece( _Piece_id: Integer; _slLoaded: TBatpro_StringList = nil);

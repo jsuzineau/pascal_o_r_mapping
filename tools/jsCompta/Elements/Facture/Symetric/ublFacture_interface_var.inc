@@ -3,6 +3,8 @@ function blFacture_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TblFactu
 
 var
    ublFacture_poolClient: TPool = nil;
+var
+   ublFacture_poolMois: TPool = nil;
 
 
 function poolFacture: TpoolFacture;

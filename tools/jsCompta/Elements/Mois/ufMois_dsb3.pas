@@ -33,7 +33,10 @@ uses
     upoolMois,
 
      udkPiece_edit,
-     ublPiece, 
+     ublPiece,
+
+     udkFacture_edit,
+     ublFacture, 
 
     udkMois_edit,
     uodMois,
@@ -74,7 +77,10 @@ type
     pListe_Bas: TPanel;
     pListe_Haut: TPanel;
     tsPiece: TTabSheet;
-    dsbPiece: TDockableScrollbox; 
+    dsbPiece: TDockableScrollbox;
+
+    tsFacture: TTabSheet;
+    dsbFacture: TDockableScrollbox; 
     procedure bMois_NouveauClick(Sender: TObject);
     procedure bodMois_ModeleClick(Sender: TObject);
     procedure dsbSelect(Sender: TObject);
@@ -120,7 +126,10 @@ begin
      dsb.Classe_dockable:= TdkMois_edit;
      dsb.Classe_Elements:= TblMois;
      dsbPiece.Classe_dockable:= TdkPiece_edit;
-     dsbPiece.Classe_Elements:= TblPiece; 
+     dsbPiece.Classe_Elements:= TblPiece;
+
+     dsbFacture.Classe_dockable:= TdkFacture_edit;
+     dsbFacture.Classe_Elements:= TblFacture; 
      ThPhi_Form.Create( Self);
 end;
 
@@ -160,7 +169,10 @@ begin
      Champs_Affecte( blMois,[ clkcbAnnee ]);
 
      blMois.haPiece.Charge;
-     dsbPiece.sl:= blMois.haPiece.sl; 
+     dsbPiece.sl:= blMois.haPiece.sl;
+
+     blMois.haFacture.Charge;
+     dsbFacture.sl:= blMois.haFacture.sl; 
 end;
 
 procedure TfMois_dsb3.bNouveauClick(Sender: TObject);

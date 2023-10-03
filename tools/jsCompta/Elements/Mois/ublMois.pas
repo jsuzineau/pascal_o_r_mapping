@@ -42,7 +42,7 @@ uses
     ublFacture,
 
 
-    SysUtils, Classes, SqlDB, DB;
+    SysUtils, Classes, SqlDB, DB, DateUtils;
 
 type
  TblMois= class;
@@ -75,6 +75,33 @@ type
    public
      function CalculeTotal: Double;
      procedure Montant_from_Total;
+   end;
+
+  { ThaMois__Facture }
+  ThaMois__Facture
+  =
+   class( ThAggregation)
+   //Gestion du cycle de vie
+   public
+     constructor Create( _Parent: TBatpro_Element;
+                         _Classe_Elements: TBatpro_Element_Class;
+                         _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre); override;
+     destructor  Destroy; override;
+   //Parent
+   public
+     blMois: TblMois;  
+   //Chargement de tous les détails
+   public
+     procedure Charge; override;
+   //Suppression
+   public
+     procedure Delete_from_database; override;
+   //Création d'itérateur
+   protected
+     class function Classe_Iterateur: TIterateur_Class; override;
+   public
+     function Iterateur: TIterateur_Facture;
+     function Iterateur_Decroissant: TIterateur_Facture;
    end;
 
 
@@ -139,6 +166,12 @@ type
     function GethaPiece: ThaMois__Piece;
   public
     property haPiece: ThaMois__Piece read GethaPiece;
+  //Aggrégation vers les Facture correspondants
+  private
+    FhaFacture: ThaMois__Facture;
+    function GethaFacture: ThaMois__Facture;
+  public
+    property haFacture: ThaMois__Facture read GethaFacture;
 
   end;
 
@@ -356,6 +389,67 @@ begin
     blMois.cCAF_net.asDouble:= Arrondi_Arithmetique_( Total_declare * (1-0.34));
 end;
 
+{ ThaMois__Facture }
+
+constructor ThaMois__Facture.Create( _Parent: TBatpro_Element;
+                               _Classe_Elements: TBatpro_Element_Class;
+                               _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre);
+begin
+     inherited;
+     if Classe_Elements <> _Classe_Elements
+     then
+         fAccueil_Erreur(  'Erreur à signaler au développeur: '#13#10
+                          +' '+ClassName+'.Create: Classe_Elements <> _Classe_Elements:'#13#10
+                          +' Classe_Elements='+ Classe_Elements.ClassName+#13#10
+                          +'_Classe_Elements='+_Classe_Elements.ClassName
+                          );
+     if Affecte_( blMois, TblMois, Parent) then exit;
+end;
+
+destructor ThaMois__Facture.Destroy;
+begin
+     inherited;
+end;
+
+procedure ThaMois__Facture.Charge;
+var
+   I: TIterateur_Facture;
+   bl: TblFacture;
+begin
+     poolFacture.Charge_Mois( StartOfAMonth(blMois.Annee, blMois.Mois), sl);
+     I:= Iterateur;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( bl) then Continue;
+
+          bl.Mois_bl:= blMois;
+          end;
+     finally
+            FreeAndNil( I);
+            end;
+end;
+
+procedure ThaMois__Facture.Delete_from_database;
+begin
+end;
+
+class function ThaMois__Facture.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Facture;
+end;
+
+function ThaMois__Facture.Iterateur: TIterateur_Facture;
+begin
+     Result:= TIterateur_Facture(Iterateur_interne);
+end;
+
+function ThaMois__Facture.Iterateur_Decroissant: TIterateur_Facture;
+begin
+     Result:= TIterateur_Facture(Iterateur_interne_Decroissant);
+end;
+
 
 
 { TblMois }
@@ -426,11 +520,10 @@ end;
 
 procedure TblMois.Create_Aggregation( Name: String; P: ThAggregation_Create_Params);
 begin
-          if 'Piece' = Name then P.Faible( ThaMois__Piece, TblPiece, poolPiece)
+          if 'Piece'   = Name then P.Faible( ThaMois__Piece, TblPiece, poolPiece)
+     else if 'Facture' = Name then P.Faible( ThaMois__Facture, TblFacture, poolFacture)
      else                  inherited Create_Aggregation( Name, P);
 end;
-
-//pattern_aggregation_accesseurs_implementation
 
 function  TblMois.GethaPiece: ThaMois__Piece;
 begin
@@ -439,6 +532,15 @@ begin
          FhaPiece:= Aggregations['Piece'] as ThaMois__Piece;
 
      Result:= FhaPiece;
+end;
+
+function  TblMois.GethaFacture: ThaMois__Facture;
+begin
+     if FhaFacture = nil
+     then
+         FhaFacture:= Aggregations['Facture'] as ThaMois__Facture;
+
+     Result:= FhaFacture;
 end;
 
 

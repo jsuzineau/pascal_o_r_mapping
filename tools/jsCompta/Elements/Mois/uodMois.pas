@@ -57,6 +57,9 @@ type
   //Piece: Piece
   public
     procedure Table_Piece; 
+  //Facture: Facture
+  public
+    procedure Table_Facture; 
   end;
 
 implementation
@@ -98,7 +101,8 @@ begin
      sl.Clear;
      sl.AddObject( blMois.sCle, blMois);
 
-     Table_Piece; 
+     Table_Piece;
+     Table_Facture; 
 end;
 
 procedure TodMois.Table_Piece;
@@ -119,6 +123,26 @@ begin
 
      nPiece:= tPiece.AddNiveau( 'Piece');
      nPiece.Ajoute_Column_Avant( 'D'                  , 0, 0);
+end;
+
+ procedure TodMois.Table_Facture;
+var
+   tFacture: TOD_Batpro_Table;
+   nRoot: TOD_Niveau;
+   nFacture: TOD_Niveau;
+begin
+     blMois.haFacture.Charge;
+     
+     tFacture:= Ajoute_Table( 'tFacture');
+     tFacture.Pas_de_persistance:= True;
+     tFacture.AddColumn( 40, '  '      );
+
+     nRoot:= tFacture.AddNiveau( 'Root');
+     nRoot.Charge_sl( sl);
+     nRoot.Ajoute_Column_Avant( 'D'                  , 0, 0);
+
+     nFacture:= tFacture.AddNiveau( 'Facture');
+     nFacture.Ajoute_Column_Avant( 'D'                  , 0, 0);
 end;
 
  

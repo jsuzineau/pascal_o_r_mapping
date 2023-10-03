@@ -88,6 +88,24 @@
     property Client_id: Integer       read FClient_id write SetClient_id;
     property Client_bl: TBatpro_Ligne read FClient_bl write SetClient_bl;
     function Client: String;
+  //Mois
+  private
+    FMois_id: Integer;
+    FMois_bl: TBatpro_Ligne;
+    FMois: String;
+    procedure SetMois_bl(const Value: TBatpro_Ligne);
+    procedure SetMois_id(const Value: Integer);
+    procedure Mois_id_Change;
+    procedure Mois_Connecte;
+    procedure Mois_Aggrege;
+    procedure Mois_Desaggrege;
+    procedure Mois_Change;
+  public
+    cMois_id: TChamp;
+    cMois: TChamp;
+    property Mois_id: Integer       read FMois_id write SetMois_id;
+    property Mois_bl: TBatpro_Ligne read FMois_bl write SetMois_bl;
+    function Mois: String;
 
   //Piece
   private
@@ -193,6 +211,9 @@
   //Chargement d'un Client
   public
     procedure Charge_Client( _Client_id: Integer; _slLoaded: TBatpro_StringList = nil);
+  //Chargement d'un Mois
+  public
+    procedure Charge_Mois( _Mois: TDateTime; _slLoaded: TBatpro_StringList = nil);
 
   //Chargement d'un Piece
   public

@@ -101,6 +101,10 @@ begin
      then
          ublPiece_poolMois:= Result;
 
+     if nil = ublFacture_poolMois
+     then
+         ublFacture_poolMois:= Result;
+
 end;
 
 { TpoolMois }
