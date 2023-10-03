@@ -40,9 +40,9 @@ uses
     uPhi_Form,
 
     ucDockableScrollbox,
-  Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DBCtrls, Grids, DBGrids, ActnList, StdCtrls, ComCtrls, Buttons,
-  ExtCtrls, DB,LCLIntf;
+  ExtCtrls, DB, lclintf;
 
 type
 
@@ -148,6 +148,7 @@ end;
 
 procedure TfMois_dsb._from_pool;
 begin
+     pool.TrierFiltre;
      dsb.sl:= pool.slFiltre;
      //dsb.sl:= pool.T;
 end;
@@ -164,11 +165,13 @@ procedure TfMois_dsb.bNouveauClick(Sender: TObject);
 var
    blNouveau: TblMois;
 begin
-     blNouveau:= pool.Nouveau;
-     if blNouveau = nil then exit;
-
      dsb.sl:= nil;
-     _from_pool;
+     try
+        blNouveau:= pool.Nouveau;
+        if blNouveau = nil then exit;
+     finally
+            _from_pool;
+            end;
 end;
 
 procedure TfMois_dsb.bSupprimerClick(Sender: TObject);

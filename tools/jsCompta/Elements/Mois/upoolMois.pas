@@ -61,7 +61,7 @@ type
     procedure To_Params( _Params: TParams); override;
   public
     Annee: Integer;
-    Mois: Integer;
+    Mois : Integer;
 
     function Get_by_Cle( _Annee: Integer;  _Mois: Integer): TblMois;
     function Assure( _Annee: Integer;  _Mois: Integer): TblMois;
@@ -114,6 +114,7 @@ begin
      inherited;
 
      hfMois:= hf as ThfMois;
+     ChampTri['Libelle']:= -1;
 end;
 
 function TpoolMois.Get( _id: integer): TblMois;
@@ -129,6 +130,7 @@ begin
      DecodeDate( SysUtils.Date, Year, Month, Day);
      Result.Annee:= Year;
      Result.Mois := Month;
+     Result.cMois.OnChange.Publie;
      Result.sCle_Change;
 end;
 
