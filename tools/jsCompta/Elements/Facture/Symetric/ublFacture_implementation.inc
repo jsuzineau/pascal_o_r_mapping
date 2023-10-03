@@ -551,8 +551,7 @@ begin
      inherited;
 
      hfFacture:= hf as ThfFacture;
-     ChampTri[ 'Annee'          ]:= +1;
-     ChampTri[ 'NumeroDansAnnee']:= +1;
+     ChampTri[ 'Nom']:= -1;
 end;
 
 function TpoolFacture.Get( _id: integer): TblFacture;

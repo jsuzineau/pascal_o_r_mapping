@@ -36,7 +36,7 @@ uses
 //Aggregations_Pascal_upool_uses_details_pas
 
   uhfFacture_Ligne,
-  SysUtils, Classes, DB, SqlDB;
+  SysUtils, Classes, DB, SqlDB, DateUtils;
 
 type
 
@@ -115,8 +115,19 @@ begin
 end;
 
 function TpoolFacture_Ligne.Nouveau: TblFacture_Ligne;
+var
+   LastMonthStart: TDateTime;
+   LastMonthEnd  : TDateTime;
 begin
+     LastMonthEnd  := StartOfTheMonth( Now)-1;
+     LastMonthStart:= StartOfTheMonth( LastMonthEnd);
+
      Nouveau_Base( Result);
+     Result.Date
+     :=
+        'Du '+FormatDateTime( 'dd/mm/yyyy', LastMonthStart)+LineEnding
+       +'au '+FormatDateTime( 'dd/mm/yyyy', LastMonthEnd  );
+     Result.Save_to_database;
 end;
 
 //pattern_Get_by_Cle_Implementation
