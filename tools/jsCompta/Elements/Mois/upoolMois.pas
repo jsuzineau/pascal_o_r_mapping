@@ -132,6 +132,7 @@ begin
      Result.Mois := Month;
      Result.cMois.OnChange.Publie;
      Result.sCle_Change;
+     Result.Save_to_database;
 end;
 
 function TpoolMois.Get_by_Cle( _Annee: Integer;  _Mois: Integer): TblMois;
