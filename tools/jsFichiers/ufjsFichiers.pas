@@ -126,6 +126,7 @@ begin
          begin
          FichierDu:= Open_du_Result.FileName;
          FichierTemporaire:= ChangeFileExt( ParamStr(0), '_Resultat_du.txt');
+
          sl:= TStringList.Create;
          try
             AssignFile( T, FichierTemporaire);

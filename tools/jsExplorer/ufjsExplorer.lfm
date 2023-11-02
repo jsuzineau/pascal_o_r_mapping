@@ -1,0 +1,220 @@
+object fjsExplorer: TfjsExplorer
+  Left = 600
+  Height = 323
+  Top = 223
+  Width = 439
+  Caption = 'fjsExplorer'
+  ClientHeight = 323
+  ClientWidth = 439
+  OnCreate = FormCreate
+  SessionProperties = 'eTortoiseGitProc.Text;lb.Items'
+  LCLVersion = '2.2.4.0'
+  object pc: TPageControl
+    Left = 0
+    Height = 323
+    Top = 0
+    Width = 439
+    ActivePage = tsRun
+    Align = alClient
+    TabIndex = 0
+    TabOrder = 0
+    object tsRun: TTabSheet
+      Caption = 'Run'
+      ClientHeight = 295
+      ClientWidth = 431
+      object Panel1: TPanel
+        Left = 0
+        Height = 48
+        Top = 0
+        Width = 431
+        Align = alTop
+        ClientHeight = 48
+        ClientWidth = 431
+        TabOrder = 0
+        object bAdd: TButton
+          Left = 6
+          Height = 25
+          Top = 7
+          Width = 75
+          Caption = 'Ajout'
+          OnClick = bAddClick
+          TabOrder = 0
+        end
+        object bTortoiseGitSync: TButton
+          Left = 96
+          Height = 25
+          Top = 8
+          Width = 75
+          Caption = 'Sync'
+          OnClick = bTortoiseGitSyncClick
+          TabOrder = 1
+        end
+        object bExplore: TButton
+          Left = 186
+          Height = 25
+          Top = 8
+          Width = 75
+          Caption = 'Explore'
+          OnClick = bExploreClick
+          TabOrder = 2
+        end
+        object bCLI: TButton
+          Left = 274
+          Height = 25
+          Top = 8
+          Width = 75
+          Caption = 'CLI'
+          OnClick = bCLIClick
+          TabOrder = 3
+        end
+      end
+      object lb: TListBox
+        Left = 0
+        Height = 247
+        Top = 48
+        Width = 431
+        Align = alClient
+        ItemHeight = 0
+        TabOrder = 1
+      end
+    end
+    object tsConfig: TTabSheet
+      Caption = 'Config'
+      ClientHeight = 295
+      ClientWidth = 431
+      object Label1: TLabel
+        Left = 16
+        Height = 15
+        Top = 8
+        Width = 126
+        Caption = 'TortoiseGitProc location'
+        ParentColor = False
+      end
+      object eTortoiseGitProc: TEdit
+        Left = 152
+        Height = 23
+        Top = 8
+        Width = 271
+        Anchors = [akTop, akLeft, akRight]
+        TabOrder = 0
+        Text = 'C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe'
+      end
+    end
+  end
+  object sd: TSelectDirectoryDialog
+    Left = 352
+  end
+  object jps: TJSONPropStorage
+    StoredValues = <>
+    Formatted = True
+    OnRestoringProperties = jpsRestoringProperties
+    Left = 400
+  end
+  object pWindows_TortoiseGitSync: TProcess
+    Active = False
+    Parameters.Strings = (
+      '/command:sync'
+    )
+    Options = []
+    Priority = ppNormal
+    StartupOptions = []
+    ShowWindow = swoNone
+    WindowColumns = 0
+    WindowHeight = 0
+    WindowLeft = 0
+    WindowRows = 0
+    WindowTop = 0
+    WindowWidth = 0
+    FillAttribute = 0
+    Left = 64
+    Top = 80
+  end
+  object pWindows_Explorer: TProcess
+    Active = False
+    Executable = 'C:\Windows\explorer.exe'
+    Options = []
+    Priority = ppNormal
+    StartupOptions = []
+    ShowWindow = swoNone
+    WindowColumns = 0
+    WindowHeight = 0
+    WindowLeft = 0
+    WindowRows = 0
+    WindowTop = 0
+    WindowWidth = 0
+    FillAttribute = 0
+    Left = 64
+    Top = 136
+  end
+  object pUbuntu_git_gui: TProcess
+    Active = False
+    Executable = '/usr/bin/git'
+    Parameters.Strings = (
+      'gui'
+    )
+    Options = []
+    Priority = ppNormal
+    StartupOptions = []
+    ShowWindow = swoNone
+    WindowColumns = 0
+    WindowHeight = 0
+    WindowLeft = 0
+    WindowRows = 0
+    WindowTop = 0
+    WindowWidth = 0
+    FillAttribute = 0
+    Left = 272
+    Top = 80
+  end
+  object pUbuntu_pcmanfm: TProcess
+    Active = False
+    Executable = '/usr/bin/pcmanfm'
+    Options = []
+    Priority = ppNormal
+    StartupOptions = []
+    ShowWindow = swoNone
+    WindowColumns = 0
+    WindowHeight = 0
+    WindowLeft = 0
+    WindowRows = 0
+    WindowTop = 0
+    WindowWidth = 0
+    FillAttribute = 0
+    Left = 272
+    Top = 136
+  end
+  object pWindows_CLI: TProcess
+    Active = False
+    Executable = 'C:\Windows\system32\cmd.exe'
+    Options = []
+    Priority = ppNormal
+    StartupOptions = []
+    ShowWindow = swoNone
+    WindowColumns = 0
+    WindowHeight = 0
+    WindowLeft = 0
+    WindowRows = 0
+    WindowTop = 0
+    WindowWidth = 0
+    FillAttribute = 0
+    Left = 64
+    Top = 205
+  end
+  object pUbuntu_bash: TProcess
+    Active = False
+    Executable = '/usr/bin/bash'
+    Options = []
+    Priority = ppNormal
+    StartupOptions = []
+    ShowWindow = swoNone
+    WindowColumns = 0
+    WindowHeight = 0
+    WindowLeft = 0
+    WindowRows = 0
+    WindowTop = 0
+    WindowWidth = 0
+    FillAttribute = 0
+    Left = 272
+    Top = 205
+  end
+end
