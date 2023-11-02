@@ -5,9 +5,12 @@ unit ufjsExplorer;
 interface
 
 uses
+    uEXE_INI,
+ {$IFDEF MSWINDOWS}
+ windows,
+ {$ENDIF}
  Classes, SysUtils, process, Forms, Controls, Graphics, Dialogs, ExtCtrls,
- StdCtrls, JSONPropStorage, ComCtrls,
- uEXE_INI;
+ StdCtrls, JSONPropStorage, ComCtrls;
 
 type
 
@@ -18,6 +21,9 @@ type
   bCLI: TButton;
   bExplore: TButton;
   bTortoiseGitSync: TButton;
+  bWindows_CLI_cmd: TButton;
+  bWindows_CLI_git_bash: TButton;
+  bWindows_CLI_powershell: TButton;
   eTortoiseGitProc: TEdit;
   eUbuntu_CLI: TEdit;
   eWindows_CLI: TEdit;
@@ -39,6 +45,9 @@ type
   tsRun: TTabSheet;
   procedure bCLIClick(Sender: TObject);
   procedure bExploreClick(Sender: TObject);
+  procedure bWindows_CLI_cmdClick(Sender: TObject);
+  procedure bWindows_CLI_git_bashClick(Sender: TObject);
+  procedure bWindows_CLI_powershellClick(Sender: TObject);
   procedure FormCreate(Sender: TObject);
   procedure jpsRestoringProperties(Sender: TObject);
   procedure bAddClick(Sender: TObject);
@@ -46,6 +55,7 @@ type
  private
   Directory: String;
   function not_Directory_Get: Boolean;
+  function Windows_Directory: String;
  public
 
  end;
@@ -68,6 +78,35 @@ end;
 procedure TfjsExplorer.FormCreate(Sender: TObject);
 begin
      jps.Restore;
+end;
+
+function TfjsExplorer.Windows_Directory: String;
+{$IFDEF MSWINDOWS}
+var
+   buffer: array[0..MAX_PATH] of Char;
+begin
+     GetWindowsDirectory( PChar(buffer), SizeOf(buffer));
+     Result:= IncludeTrailingPathDelimiter( PChar(buffer) );
+end;
+{$ELSE}
+begin
+     Result:= '';
+end;
+{$ENDIF}
+
+procedure TfjsExplorer.bWindows_CLI_cmdClick(Sender: TObject);
+begin
+     eWindows_CLI.Text:= Windows_Directory+'system32\cmd.exe';
+end;
+
+procedure TfjsExplorer.bWindows_CLI_powershellClick(Sender: TObject);
+begin
+     eWindows_CLI.Text:= Windows_Directory+'System32\WindowsPowerShell\v1.0\powershell.exe';
+end;
+
+procedure TfjsExplorer.bWindows_CLI_git_bashClick(Sender: TObject);
+begin
+     eWindows_CLI.Text:= 'C:\Program Files\Git\git-bash.exe';
 end;
 
 procedure TfjsExplorer.bAddClick(Sender: TObject);
