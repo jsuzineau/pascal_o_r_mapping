@@ -114,6 +114,7 @@
         <Filename Value="ufjsExplorer.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fjsExplorer"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
     </Units>

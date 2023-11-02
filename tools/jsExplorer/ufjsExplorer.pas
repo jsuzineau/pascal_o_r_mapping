@@ -19,12 +19,16 @@ type
   bExplore: TButton;
   bTortoiseGitSync: TButton;
   eTortoiseGitProc: TEdit;
+  eUbuntu_CLI: TEdit;
+  eWindows_CLI: TEdit;
   jps: TJSONPropStorage;
   Label1: TLabel;
+  Label2: TLabel;
+  Label3: TLabel;
   lb: TListBox;
   Panel1: TPanel;
   pc: TPageControl;
-  pUbuntu_bash: TProcess;
+  pUbuntu_CLI: TProcess;
   pWindows_CLI: TProcess;
   pWindows_Explorer: TProcess;
   pUbuntu_pcmanfm: TProcess;
@@ -113,10 +117,12 @@ procedure TfjsExplorer.bCLIClick(Sender: TObject);
 begin
      if not_Directory_Get then exit;
      {$IFDEF LINUX}
-       pUbuntu_bash.CurrentDirectory:= Directory;
-       pUbuntu_bash.Execute;
+       pUbuntu_CLI.CurrentDirectory:= Directory;
+       pUbuntu_CLI.Executable:= eUbuntu_CLI.Text;
+       pUbuntu_CLI.Execute;
      {$ELSE}
        pWindows_CLI.CurrentDirectory:= Directory;
+       pWindows_CLI.Executable:= eWindows_CLI.Text;
        pWindows_CLI.Execute;
      {$ENDIF};
 end;
