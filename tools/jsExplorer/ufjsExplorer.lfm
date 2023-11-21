@@ -2,10 +2,10 @@ object fjsExplorer: TfjsExplorer
   Left = 600
   Height = 323
   Top = 223
-  Width = 439
+  Width = 463
   Caption = 'fjsExplorer'
   ClientHeight = 323
-  ClientWidth = 439
+  ClientWidth = 463
   OnCreate = FormCreate
   Position = poScreenCenter
   SessionProperties = 'eTortoiseGitProc.Text;lb.Items'
@@ -14,7 +14,7 @@ object fjsExplorer: TfjsExplorer
     Left = 0
     Height = 323
     Top = 0
-    Width = 439
+    Width = 463
     ActivePage = tsRun
     Align = alClient
     TabIndex = 0
@@ -22,15 +22,15 @@ object fjsExplorer: TfjsExplorer
     object tsRun: TTabSheet
       Caption = 'Run'
       ClientHeight = 295
-      ClientWidth = 431
+      ClientWidth = 455
       object Panel1: TPanel
         Left = 0
         Height = 48
         Top = 0
-        Width = 431
+        Width = 455
         Align = alTop
         ClientHeight = 48
-        ClientWidth = 431
+        ClientWidth = 455
         TabOrder = 0
         object bAdd: TButton
           Left = 6
@@ -68,12 +68,21 @@ object fjsExplorer: TfjsExplorer
           OnClick = bCLIClick
           TabOrder = 3
         end
+        object bjsWorks: TButton
+          Left = 358
+          Height = 25
+          Top = 7
+          Width = 75
+          Caption = 'jsWorks'
+          OnClick = bjsWorksClick
+          TabOrder = 4
+        end
       end
       object lb: TListBox
         Left = 0
         Height = 247
         Top = 48
-        Width = 431
+        Width = 455
         Align = alClient
         ItemHeight = 0
         TabOrder = 1
@@ -82,7 +91,7 @@ object fjsExplorer: TfjsExplorer
     object tsConfig: TTabSheet
       Caption = 'Config'
       ClientHeight = 295
-      ClientWidth = 431
+      ClientWidth = 455
       object Label1: TLabel
         Left = 16
         Height = 15
@@ -95,7 +104,7 @@ object fjsExplorer: TfjsExplorer
         Left = 192
         Height = 23
         Top = 8
-        Width = 231
+        Width = 255
         Anchors = [akTop, akLeft, akRight]
         TabOrder = 0
         Text = 'C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe'
@@ -112,7 +121,7 @@ object fjsExplorer: TfjsExplorer
         Left = 192
         Height = 23
         Top = 128
-        Width = 231
+        Width = 255
         Anchors = [akTop, akLeft, akRight]
         TabOrder = 1
         Text = '/usr/bin/gnome-terminal'
@@ -129,7 +138,7 @@ object fjsExplorer: TfjsExplorer
         Left = 192
         Height = 23
         Top = 84
-        Width = 231
+        Width = 255
         Anchors = [akTop, akLeft, akRight]
         TabOrder = 2
         Text = 'C:\Windows\system32\cmd.exe'
@@ -189,7 +198,7 @@ object fjsExplorer: TfjsExplorer
     WindowWidth = 0
     FillAttribute = 0
     Left = 64
-    Top = 168
+    Top = 80
   end
   object pWindows_Explorer: TProcess
     Active = False
@@ -206,7 +215,7 @@ object fjsExplorer: TfjsExplorer
     WindowWidth = 0
     FillAttribute = 0
     Left = 64
-    Top = 192
+    Top = 128
   end
   object pUbuntu_git_gui: TProcess
     Active = False
@@ -226,7 +235,7 @@ object fjsExplorer: TfjsExplorer
     WindowWidth = 0
     FillAttribute = 0
     Left = 272
-    Top = 168
+    Top = 80
   end
   object pUbuntu_pcmanfm: TProcess
     Active = False
@@ -243,7 +252,7 @@ object fjsExplorer: TfjsExplorer
     WindowWidth = 0
     FillAttribute = 0
     Left = 272
-    Top = 192
+    Top = 128
   end
   object pWindows_CLI: TProcess
     Active = False
@@ -260,7 +269,7 @@ object fjsExplorer: TfjsExplorer
     WindowWidth = 0
     FillAttribute = 0
     Left = 64
-    Top = 261
+    Top = 173
   end
   object pUbuntu_CLI: TProcess
     Active = False
@@ -277,6 +286,22 @@ object fjsExplorer: TfjsExplorer
     WindowWidth = 0
     FillAttribute = 0
     Left = 272
-    Top = 261
+    Top = 173
+  end
+  object pjsWorks: TProcess
+    Active = False
+    Options = []
+    Priority = ppNormal
+    StartupOptions = []
+    ShowWindow = swoNone
+    WindowColumns = 0
+    WindowHeight = 0
+    WindowLeft = 0
+    WindowRows = 0
+    WindowTop = 0
+    WindowWidth = 0
+    FillAttribute = 0
+    Left = 172
+    Top = 225
   end
 end

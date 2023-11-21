@@ -6,6 +6,7 @@ interface
 
 uses
     uEXE_INI,
+    uPhi_Form,
  {$IFDEF MSWINDOWS}
  windows,
  {$ENDIF}
@@ -20,6 +21,7 @@ type
   bAdd: TButton;
   bCLI: TButton;
   bExplore: TButton;
+  bjsWorks: TButton;
   bTortoiseGitSync: TButton;
   bWindows_CLI_cmd: TButton;
   bWindows_CLI_git_bash: TButton;
@@ -39,12 +41,14 @@ type
   pWindows_Explorer: TProcess;
   pUbuntu_pcmanfm: TProcess;
   pUbuntu_git_gui: TProcess;
+  pjsWorks: TProcess;
   pWindows_TortoiseGitSync: TProcess;
   sd: TSelectDirectoryDialog;
   tsConfig: TTabSheet;
   tsRun: TTabSheet;
   procedure bCLIClick(Sender: TObject);
   procedure bExploreClick(Sender: TObject);
+  procedure bjsWorksClick(Sender: TObject);
   procedure bWindows_CLI_cmdClick(Sender: TObject);
   procedure bWindows_CLI_git_bashClick(Sender: TObject);
   procedure bWindows_CLI_powershellClick(Sender: TObject);
@@ -78,6 +82,7 @@ end;
 procedure TfjsExplorer.FormCreate(Sender: TObject);
 begin
      jps.Restore;
+     ThPhi_Form.Create( Self);
 end;
 
 function TfjsExplorer.Windows_Directory: String;
@@ -166,6 +171,21 @@ begin
      {$ENDIF};
 end;
 
-end.
+procedure TfjsExplorer.bjsWorksClick(Sender: TObject);
+var
+   jsWorks_Dir: String;
+begin
+     if not_Directory_Get then exit;
 
+     jsWorks_Dir := IncludeTrailingPathDelimiter( Directory)+'01_jsWorks';
+     pjsWorks.CurrentDirectory:= jsWorks_Dir;
+     {$IFDEF LINUX}
+       pjsWorks.Executable:= IncludeTrailingPathDelimiter( jsWorks_Dir)+'jsWorks';
+     {$ELSE}
+       pjsWorks.Executable:= IncludeTrailingPathDelimiter( jsWorks_Dir)+'jsWorks.exe';
+     {$ENDIF};
+     pjsWorks.Execute;
+end;
+
+end.
 

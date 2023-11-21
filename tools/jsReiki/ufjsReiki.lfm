@@ -1,0 +1,44 @@
+object fjsReiki: TfjsReiki
+  Left = 247
+  Height = 81
+  Top = 114
+  Width = 440
+  Caption = 'Reiki'
+  ClientHeight = 81
+  ClientWidth = 440
+  Color = clBtnFace
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  OnCreate = FormCreate
+  LCLVersion = '2.2.4.0'
+  object g: TProgressBar
+    Left = 0
+    Height = 81
+    Top = 0
+    Width = 440
+    Align = alClient
+    Max = 180
+    TabOrder = 0
+  end
+  object l: TLabel
+    Left = 0
+    Height = 81
+    Top = 0
+    Width = 440
+    Align = alClient
+    Alignment = taCenter
+    Caption = 'l'
+    Font.Color = clBlue
+    Font.Height = -16
+    Font.Name = 'Arial'
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object t: TTimer
+    OnTimer = tTimer
+    Left = 80
+    Top = 8
+  end
+end
