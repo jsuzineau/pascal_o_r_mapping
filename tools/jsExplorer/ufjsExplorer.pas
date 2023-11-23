@@ -205,6 +205,9 @@ begin
        pWindows_CLI.Parameters.Add( '"git pull;bash"');
        pWindows_CLI.Execute;
      {$ENDIF};
+     //note commande git de définition d'un remote par défaut pour une branche :
+     //   git branch --set-upstream-to=serveur_git/master master
+     // propositions de serveur/branche si on fait un git pull tout seul
 end;
 
 procedure TfjsExplorer.bGIT_STATUSClick(Sender: TObject);
