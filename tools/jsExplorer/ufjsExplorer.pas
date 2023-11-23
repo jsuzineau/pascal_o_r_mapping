@@ -169,9 +169,11 @@ begin
      {$IFDEF LINUX}
        pUbuntu_CLI.CurrentDirectory:= Directory;
        pUbuntu_CLI.Executable:= eUbuntu_CLI.Text;
+       pUbuntu_CLI.Parameters.Text:= '';
      {$ELSE}
        pWindows_CLI.CurrentDirectory:= Directory;
        pWindows_CLI.Executable:= eWindows_CLI.Text;
+       pWindows_CLI.Parameters.Text:= '';
      {$ENDIF};
 end;
 
@@ -192,7 +194,6 @@ begin
      CLI_init;
      {$IFDEF LINUX}
        pUbuntu_CLI.Executable:= '/usr/bin/xterm';
-       pUbuntu_CLI.Parameters.Text:= '';
        pUbuntu_CLI.Parameters.Add( '-hold');
        pUbuntu_CLI.Parameters.Add( '-e');
        pUbuntu_CLI.Parameters.Add( 'git');
@@ -200,7 +201,6 @@ begin
        pUbuntu_CLI.Execute;
      {$ELSE}
        pWindows_CLI.Executable:=eWindows_GIT_BASH.Text;
-       pWindows_CLI.Parameters.Text:= '';
        pWindows_CLI.Parameters.Add( '-c');
        pWindows_CLI.Parameters.Add( '"git pull;bash"');
        pWindows_CLI.Execute;
@@ -213,7 +213,6 @@ begin
      CLI_init;
      {$IFDEF LINUX}
        pUbuntu_CLI.Executable:= '/usr/bin/xterm';
-       pUbuntu_CLI.Parameters.Text:= '';
        pUbuntu_CLI.Parameters.Add( '-hold');
        pUbuntu_CLI.Parameters.Add( '-e');
        pUbuntu_CLI.Parameters.Add( 'git');
@@ -221,7 +220,6 @@ begin
        pUbuntu_CLI.Execute;
      {$ELSE}
        pWindows_CLI.Executable:=eWindows_GIT_BASH.Text;
-       pWindows_CLI.Parameters.Text:= '';
        pWindows_CLI.Parameters.Add( '-c');
        pWindows_CLI.Parameters.Add( '"git status;bash"');
        pWindows_CLI.Execute;
