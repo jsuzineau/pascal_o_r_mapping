@@ -1,18 +1,18 @@
 object fjsExplorer: TfjsExplorer
   Left = 600
-  Height = 323
+  Height = 347
   Top = 223
   Width = 463
   Caption = 'fjsExplorer'
-  ClientHeight = 323
+  ClientHeight = 347
   ClientWidth = 463
   OnCreate = FormCreate
   Position = poScreenCenter
   SessionProperties = 'eTortoiseGitProc.Text;lb.Items'
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '2.2.0.4'
   object pc: TPageControl
     Left = 0
-    Height = 323
+    Height = 347
     Top = 0
     Width = 463
     ActivePage = tsRun
@@ -21,16 +21,16 @@ object fjsExplorer: TfjsExplorer
     TabOrder = 0
     object tsRun: TTabSheet
       Caption = 'Run'
-      ClientHeight = 295
-      ClientWidth = 455
+      ClientHeight = 312
+      ClientWidth = 453
       object Panel1: TPanel
         Left = 0
-        Height = 48
+        Height = 70
         Top = 0
-        Width = 455
+        Width = 453
         Align = alTop
-        ClientHeight = 48
-        ClientWidth = 455
+        ClientHeight = 70
+        ClientWidth = 453
         TabOrder = 0
         object bAdd: TButton
           Left = 6
@@ -59,15 +59,6 @@ object fjsExplorer: TfjsExplorer
           OnClick = bExploreClick
           TabOrder = 2
         end
-        object bCLI: TButton
-          Left = 274
-          Height = 25
-          Top = 8
-          Width = 75
-          Caption = 'CLI'
-          OnClick = bCLIClick
-          TabOrder = 3
-        end
         object bjsWorks: TButton
           Left = 358
           Height = 25
@@ -75,70 +66,95 @@ object fjsExplorer: TfjsExplorer
           Width = 75
           Caption = 'jsWorks'
           OnClick = bjsWorksClick
+          TabOrder = 3
+        end
+        object bCLI: TButton
+          Left = 274
+          Height = 25
+          Top = 8
+          Width = 75
+          Caption = 'CLI'
+          OnClick = bCLIClick
           TabOrder = 4
+        end
+        object bGIT_PULL: TButton
+          Left = 98
+          Height = 25
+          Top = 40
+          Width = 75
+          Caption = 'git pull'
+          OnClick = bGIT_PULLClick
+          TabOrder = 5
+        end
+        object bGIT_STATUS: TButton
+          Left = 187
+          Height = 25
+          Top = 40
+          Width = 75
+          Caption = 'git status'
+          OnClick = bGIT_STATUSClick
+          TabOrder = 6
         end
       end
       object lb: TListBox
         Left = 0
-        Height = 247
-        Top = 48
-        Width = 455
+        Height = 242
+        Top = 70
+        Width = 453
         Align = alClient
         ItemHeight = 0
         TabOrder = 1
+        TopIndex = -1
       end
     end
     object tsConfig: TTabSheet
       Caption = 'Config'
-      ClientHeight = 295
-      ClientWidth = 455
+      ClientHeight = 312
+      ClientWidth = 453
       object Label1: TLabel
         Left = 16
-        Height = 15
+        Height = 21
         Top = 16
-        Width = 126
+        Width = 165
         Caption = 'TortoiseGitProc location'
-        ParentColor = False
       end
       object eTortoiseGitProc: TEdit
         Left = 192
-        Height = 23
+        Height = 38
         Top = 8
-        Width = 255
+        Width = 253
         Anchors = [akTop, akLeft, akRight]
         TabOrder = 0
         Text = 'C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe'
       end
       object Label2: TLabel
         Left = 36
-        Height = 15
+        Height = 21
         Top = 136
-        Width = 95
+        Width = 123
         Caption = 'Linux CLI location'
-        ParentColor = False
       end
       object eUbuntu_CLI: TEdit
         Left = 192
-        Height = 23
+        Height = 38
         Top = 128
-        Width = 255
+        Width = 253
         Anchors = [akTop, akLeft, akRight]
         TabOrder = 1
         Text = '/usr/bin/gnome-terminal'
       end
       object Label3: TLabel
         Left = 36
-        Height = 15
+        Height = 21
         Top = 92
-        Width = 115
+        Width = 149
         Caption = 'Windows CLI location'
-        ParentColor = False
       end
       object eWindows_CLI: TEdit
         Left = 192
-        Height = 23
+        Height = 38
         Top = 84
-        Width = 255
+        Width = 253
         Anchors = [akTop, akLeft, akRight]
         TabOrder = 2
         Text = 'C:\Windows\system32\cmd.exe'
@@ -198,7 +214,7 @@ object fjsExplorer: TfjsExplorer
     WindowWidth = 0
     FillAttribute = 0
     Left = 64
-    Top = 80
+    Top = 112
   end
   object pWindows_Explorer: TProcess
     Active = False
@@ -215,7 +231,7 @@ object fjsExplorer: TfjsExplorer
     WindowWidth = 0
     FillAttribute = 0
     Left = 64
-    Top = 128
+    Top = 160
   end
   object pUbuntu_git_gui: TProcess
     Active = False
@@ -235,7 +251,7 @@ object fjsExplorer: TfjsExplorer
     WindowWidth = 0
     FillAttribute = 0
     Left = 272
-    Top = 80
+    Top = 112
   end
   object pUbuntu_pcmanfm: TProcess
     Active = False
@@ -252,7 +268,7 @@ object fjsExplorer: TfjsExplorer
     WindowWidth = 0
     FillAttribute = 0
     Left = 272
-    Top = 128
+    Top = 160
   end
   object pWindows_CLI: TProcess
     Active = False
@@ -269,7 +285,7 @@ object fjsExplorer: TfjsExplorer
     WindowWidth = 0
     FillAttribute = 0
     Left = 64
-    Top = 173
+    Top = 205
   end
   object pUbuntu_CLI: TProcess
     Active = False
@@ -286,7 +302,7 @@ object fjsExplorer: TfjsExplorer
     WindowWidth = 0
     FillAttribute = 0
     Left = 272
-    Top = 173
+    Top = 205
   end
   object pjsWorks: TProcess
     Active = False
@@ -302,6 +318,6 @@ object fjsExplorer: TfjsExplorer
     WindowWidth = 0
     FillAttribute = 0
     Left = 172
-    Top = 225
+    Top = 249
   end
 end

@@ -21,6 +21,8 @@ type
   bAdd: TButton;
   bCLI: TButton;
   bExplore: TButton;
+  bGIT_PULL: TButton;
+  bGIT_STATUS: TButton;
   bjsWorks: TButton;
   bTortoiseGitSync: TButton;
   bWindows_CLI_cmd: TButton;
@@ -48,6 +50,8 @@ type
   tsRun: TTabSheet;
   procedure bCLIClick(Sender: TObject);
   procedure bExploreClick(Sender: TObject);
+  procedure bGIT_PULLClick(Sender: TObject);
+  procedure bGIT_STATUSClick(Sender: TObject);
   procedure bjsWorksClick(Sender: TObject);
   procedure bWindows_CLI_cmdClick(Sender: TObject);
   procedure bWindows_CLI_git_bashClick(Sender: TObject);
@@ -60,6 +64,7 @@ type
   Directory: String;
   function not_Directory_Get: Boolean;
   function Windows_Directory: String;
+  procedure CLI_init;
  public
 
  end;
@@ -157,16 +162,60 @@ begin
      {$ENDIF};
 end;
 
-procedure TfjsExplorer.bCLIClick(Sender: TObject);
+procedure TfjsExplorer.CLI_init;
 begin
-     if not_Directory_Get then exit;
      {$IFDEF LINUX}
        pUbuntu_CLI.CurrentDirectory:= Directory;
        pUbuntu_CLI.Executable:= eUbuntu_CLI.Text;
-       pUbuntu_CLI.Execute;
      {$ELSE}
        pWindows_CLI.CurrentDirectory:= Directory;
        pWindows_CLI.Executable:= eWindows_CLI.Text;
+     {$ENDIF};
+end;
+
+procedure TfjsExplorer.bCLIClick(Sender: TObject);
+begin
+     if not_Directory_Get then exit;
+     CLI_init;
+     {$IFDEF LINUX}
+       pUbuntu_CLI.Execute;
+     {$ELSE}
+       pWindows_CLI.Execute;
+     {$ENDIF};
+end;
+
+procedure TfjsExplorer.bGIT_PULLClick(Sender: TObject);
+begin
+     if not_Directory_Get then exit;
+     CLI_init;
+     {$IFDEF LINUX}
+       pUbuntu_CLI.Executable:= '/usr/bin/xterm';
+       pUbuntu_CLI.Parameters.Text:= '';
+       pUbuntu_CLI.Parameters.Add( '-hold');
+       pUbuntu_CLI.Parameters.Add( '-e');
+       pUbuntu_CLI.Parameters.Add( 'git');
+       pUbuntu_CLI.Parameters.Add( 'pull');
+       pUbuntu_CLI.Execute;
+     {$ELSE}
+       pWindows_Explorer.Parameters.Text:= 'git pull'; //à traiter, non testé
+       pWindows_CLI.Execute;
+     {$ENDIF};
+end;
+
+procedure TfjsExplorer.bGIT_STATUSClick(Sender: TObject);
+begin
+     if not_Directory_Get then exit;
+     CLI_init;
+     {$IFDEF LINUX}
+       pUbuntu_CLI.Executable:= '/usr/bin/xterm';
+       pUbuntu_CLI.Parameters.Text:= '';
+       pUbuntu_CLI.Parameters.Add( '-hold');
+       pUbuntu_CLI.Parameters.Add( '-e');
+       pUbuntu_CLI.Parameters.Add( 'git');
+       pUbuntu_CLI.Parameters.Add( 'status');
+       pUbuntu_CLI.Execute;
+     {$ELSE}
+       pWindows_Explorer.Parameters.Text:= 'git status'; //à traiter, non testé
        pWindows_CLI.Execute;
      {$ENDIF};
 end;
