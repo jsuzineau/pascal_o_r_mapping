@@ -31,10 +31,12 @@ type
   eTortoiseGitProc: TEdit;
   eUbuntu_CLI: TEdit;
   eWindows_CLI: TEdit;
+  eWindows_GIT_BASH: TEdit;
   jps: TJSONPropStorage;
   Label1: TLabel;
   Label2: TLabel;
   Label3: TLabel;
+  Label4: TLabel;
   lb: TListBox;
   Panel1: TPanel;
   pc: TPageControl;
@@ -116,7 +118,7 @@ end;
 
 procedure TfjsExplorer.bWindows_CLI_git_bashClick(Sender: TObject);
 begin
-     eWindows_CLI.Text:= 'C:\Program Files\Git\git-bash.exe';
+     eWindows_CLI.Text:= eWindows_GIT_BASH.Text;
 end;
 
 procedure TfjsExplorer.bAddClick(Sender: TObject);
@@ -197,7 +199,10 @@ begin
        pUbuntu_CLI.Parameters.Add( 'pull');
        pUbuntu_CLI.Execute;
      {$ELSE}
-       pWindows_Explorer.Parameters.Text:= 'git pull'; //à traiter, non testé
+       pWindows_CLI.Executable:=eWindows_GIT_BASH.Text;
+       pWindows_CLI.Parameters.Text:= '';
+       pWindows_CLI.Parameters.Add( '-c');
+       pWindows_CLI.Parameters.Add( '"git pull;bash"');
        pWindows_CLI.Execute;
      {$ENDIF};
 end;
@@ -215,7 +220,10 @@ begin
        pUbuntu_CLI.Parameters.Add( 'status');
        pUbuntu_CLI.Execute;
      {$ELSE}
-       pWindows_Explorer.Parameters.Text:= 'git status'; //à traiter, non testé
+       pWindows_CLI.Executable:=eWindows_GIT_BASH.Text;
+       pWindows_CLI.Parameters.Text:= '';
+       pWindows_CLI.Parameters.Add( '-c');
+       pWindows_CLI.Parameters.Add( '"git status;bash"');
        pWindows_CLI.Execute;
      {$ENDIF};
 end;
