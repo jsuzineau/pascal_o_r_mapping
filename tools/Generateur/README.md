@@ -30,19 +30,19 @@
 
 ## Parameters in subdirectory Generateur_de_code/04_Parametres
 The name of each txt file starts with the name of the table followed by a dot. and a suffix for the kind of parameter:
--  .Cle.txt
-   list of fields for the key of the table, one per line, in the form :
+-  .Cle.txt\
+   list of fields for the key of the table, one per line, in the form :\
      Field_name
-- .Aggregations.txt : ("one to many" relations)
-   list of aggregations, one per line, in the form :
+- .Aggregations.txt : ("one to many" relations)\
+   list of aggregations, one per line, in the form :\
      NameOfAggregation = Table_name_of_elements_of_the_aggregation
-- .Details.txt (current table line relate to one line in another table)
-   list of details, one per line, in the form :
+- .Details.txt (current table line relate to one line in another table)\
+   list of details, one per line, in the form :\
      Field_name = Table_name_of_the_element
-- .order_by.txt
-   list of fields for the default "order by" , one per line, in the form :
+- .order_by.txt\
+   list of fields for the default "order by" , one per line, in the form :\
      Field_name
-- .libelle.txt
+- .libelle.txt\
     Field name for the libelle
 
 ## Static files in subdirectory Generateur_de_code/02_Application
