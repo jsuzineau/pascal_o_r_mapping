@@ -5,6 +5,11 @@
 - Generateur_Modeles: template editor for Generator for key values produced from other key values, can be modified  in directory Generateur_de_code/01_Listes
 
 ## Template Subdirectories
+- Generateur_de_code/07_TypeMappings:\
+  text files with mappings in function of the original database field type\
+  value can be used in Generateur_de_code/01_Listes/Membres with key\
+    Membre.Mapped_Type_<TypeMappingFilename.txt>
+
 - Generateur_de_code/05_ApplicationTemplate: 
   - templates at the level of the whole application (for example to generate one menu item for each table)
   - keys are replaced by something build with several table names
