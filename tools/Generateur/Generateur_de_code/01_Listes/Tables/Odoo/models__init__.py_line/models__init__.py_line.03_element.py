@@ -1,0 +1,2 @@
+from . import Classe.NomTableMinuscule
+

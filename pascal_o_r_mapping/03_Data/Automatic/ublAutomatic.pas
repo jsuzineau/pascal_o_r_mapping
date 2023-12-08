@@ -48,6 +48,7 @@ uses
     uMenuHandler,
     ucsMenuHandler,
     uAngular_TypeScript_ApplicationHandler,
+    uTypeMapping,
     uGenerateur_de_code_Ancetre,
     uContexteClasse,
     uContexteMembre,
@@ -342,6 +343,14 @@ type
   public
     procedure slApplicationJoinPointFile_from_sRepertoireListeTables;
     procedure slApplicationJoinPointFile_Produit;
+  //TypeMappings
+  public
+    function Cree_TypeMappings( _nfTypeMapping: String): TTypeMapping;
+  //Création des TypeMappings par lecture du répertoire de TypeMappings
+  private
+    procedure slTypeMappings_from_sRepertoireTypeMappings_FileFound( _FileIterator: TFileIterator);
+  public
+    procedure slTypeMappings_from_sRepertoireTypeMappings;
   //TemplateHandler
   public
     slTemplateHandler: TslTemplateHandler;
@@ -639,12 +648,13 @@ constructor TGenerateur_de_code.Create;
 begin
      inherited Create;
      _From_INI;
-     sljpfMembre                 := TsljpfMembre               .Create( ClassName+'.sljpfMembre'         );
-     sljpfDetail                 := TsljpfDetail               .Create( ClassName+'.sljpfDetail'         );
-     sljpfSymetric               := TsljpfSymetric             .Create( ClassName+'.sljpfSymetric'       );
-     sljpfAggregation            := TsljpfAggregation          .Create( ClassName+'.sljpfAggregation'         );
-     slApplicationJoinPointFile  := TslApplicationJoinPointFile.Create( ClassName+'.slApplicationJoinPointFile'         );
-     slTemplateHandler           := TslTemplateHandler         .Create( ClassName+'.slTemplateHandler');
+     sljpfMembre                 := TsljpfMembre               .Create( ClassName+'.sljpfMembre'                 );
+     sljpfDetail                 := TsljpfDetail               .Create( ClassName+'.sljpfDetail'                 );
+     sljpfSymetric               := TsljpfSymetric             .Create( ClassName+'.sljpfSymetric'               );
+     sljpfAggregation            := TsljpfAggregation          .Create( ClassName+'.sljpfAggregation'            );
+     slApplicationJoinPointFile  := TslApplicationJoinPointFile.Create( ClassName+'.slApplicationJoinPointFile'  );
+     slTypeMappings              := TslTypeMapping             .Create( ClassName+'.slTypeMappings'              );
+     slTemplateHandler           := TslTemplateHandler         .Create( ClassName+'.slTemplateHandler'           );
      slParametres                := TBatpro_StringList         .Create;
      slApplicationTemplateHandler:= TslTemplateHandler         .Create( ClassName+'.slApplicationTemplateHandler');
      Initialise(
@@ -723,6 +733,7 @@ begin
      FreeAndNil( sljpfSymetric);
      FreeAndNil( sljpfAggregation);
      FreeAndNil( slApplicationJoinPointFile);
+     FreeAndNil( slTypeMappings);
      FreeAndNil( slTemplateHandler);
      FreeAndNil( slParametres);
      FreeAndNil( slApplicationTemplateHandler);
@@ -754,6 +765,7 @@ begin
         sRepertoireParametres         :=iRead('sRepertoireParametres'       ,Path+'04_Parametres'         +PathDelim                         );
         sRepertoireApplicationTemplate:=iRead('sApplicationTemplate'        ,Path+'05_ApplicationTemplate'+PathDelim                         );
         sRepertoireResultat           :=iRead('sRepertoireResultat'         ,Path+'06_Resultat'           +PathDelim                         );
+        sRepertoireTypeMappings       :=iRead('sRepertoireTypeMappings'     ,Path+'07_TypeMappings'       +PathDelim                         );
      finally
             FreeAndNil( INI);
             end;
@@ -973,12 +985,19 @@ var
       I: TIterateur_Champ;
       J: Integer;
       C: TChamp;
+      nfApplication_txt: String;
    begin
         cc:= TContexteClasse.Create( Self, _Suffixe,
                                      bl.Champs.ChampDefinitions.Persistant_Count,
                                      slParametres);
         try
            slParametres.Clear;
+           nfApplication_txt:= sRepertoireParametres+'Application.txt';
+           if FileExists(nfApplication_txt)
+           then
+               slParametres.LoadFromFile(nfApplication_txt)
+           else
+               slParametres.SaveToFile  (nfApplication_txt);
 
                  uJoinPoint_Initialise( cc, a);
            sljpfMembre     .Initialise( cc);
@@ -1178,15 +1197,6 @@ begin
      sljpfDetail.AddObject( _nfKey, Result);
 end;
 
-function TGenerateur_de_code.Cree_jpfSymetric(_nfKey: String): TjpfSymetric;
-begin
-     Result:= jpfSymetric_from_sl_sCle( sljpfSymetric, _nfKey);
-     if nil <> Result then exit;
-
-     Result:= TjpfSymetric.Create( _nfKey);
-     sljpfSymetric.AddObject( _nfKey, Result);
-end;
-
 procedure TGenerateur_de_code.sljpfDetail_from_sRepertoireListeDetails_FileFound( _FileIterator: TFileIterator);
 var
    NomFichier_Key: String;
@@ -1198,6 +1208,20 @@ begin
      Cree_jpfDetail( NomFichier_Key);
 end;
 
+procedure TGenerateur_de_code.sljpfDetail_from_sRepertoireListeDetails;
+begin
+     ujpFile_EnumFiles( sRepertoireListeDetails, sljpfDetail_from_sRepertoireListeDetails_FileFound, s_key_mask);
+end;
+
+function TGenerateur_de_code.Cree_jpfSymetric(_nfKey: String): TjpfSymetric;
+begin
+     Result:= jpfSymetric_from_sl_sCle( sljpfSymetric, _nfKey);
+     if nil <> Result then exit;
+
+     Result:= TjpfSymetric.Create( _nfKey);
+     sljpfSymetric.AddObject( _nfKey, Result);
+end;
+
 procedure TGenerateur_de_code.sljpfSymetric_from_sRepertoireListeSymetrics_FileFound( _FileIterator: TFileIterator);
 var
    NomFichier_Key: String;
@@ -1207,11 +1231,6 @@ begin
      NomFichier_Key:= _FileIterator.FileName;
 
      Cree_jpfSymetric( NomFichier_Key);
-end;
-
-procedure TGenerateur_de_code.sljpfDetail_from_sRepertoireListeDetails;
-begin
-     ujpFile_EnumFiles( sRepertoireListeDetails, sljpfDetail_from_sRepertoireListeDetails_FileFound, s_key_mask);
 end;
 
 procedure TGenerateur_de_code.sljpfSymetric_from_sRepertoireListeSymetrics;
@@ -1273,6 +1292,33 @@ procedure TGenerateur_de_code.slApplicationJoinPointFile_Produit;
 begin
 
 end;
+
+function TGenerateur_de_code.Cree_TypeMappings(_nfTypeMapping: String): TTypeMapping;
+begin
+     Result:= TypeMapping_from_sl_sCle( slTypeMappings, _nfTypeMapping);
+     if nil <> Result then exit;
+
+     Result:= TTypeMapping.Create( _nfTypeMapping);
+     slTypeMappings.AddObject( Result.sTypeMapping, Result);
+     //Mapped_Type_
+end;
+
+procedure TGenerateur_de_code.slTypeMappings_from_sRepertoireTypeMappings_FileFound( _FileIterator: TFileIterator);
+var
+   NomFichier_Key: String;
+begin
+     if _FileIterator.IsDirectory then exit;
+
+     NomFichier_Key:= _FileIterator.FileName;
+
+     Cree_TypeMappings( NomFichier_Key);
+end;
+
+procedure TGenerateur_de_code.slTypeMappings_from_sRepertoireTypeMappings;
+begin
+     ujpFile_EnumFiles( sRepertoireTypeMappings, slTypeMappings_from_sRepertoireTypeMappings_FileFound, '*.txt');
+end;
+
 
 function TGenerateur_de_code.Cree_TemplateHandler( _Source: String;
                                                   _slParametres: TBatpro_StringList= nil): TTemplateHandler;
@@ -1403,6 +1449,7 @@ end;
 
 procedure TGenerateur_de_code.Application_Create;
 begin
+     slTypeMappings_from_sRepertoireTypeMappings;
      slApplicationJoinPointFile_from_sRepertoireListeTables;
      MenuHandler                          := TMenuHandler                          .Create( Self);
      csMenuHandler                        := TcsMenuHandler                        .Create( Self);

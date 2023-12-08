@@ -28,7 +28,8 @@ interface
 uses
     uuStrings,
     uBatpro_StringList,
-  SysUtils, Classes;
+    uTypeMapping,
+    SysUtils, Classes;
 
 const
      s_Nom_de_la_table = 'Nom_de_la_table';
@@ -95,7 +96,8 @@ type
     sRepertoireTemplate   ,
     sRepertoireParametres ,
     sRepertoireApplicationTemplate  ,
-    sRepertoireResultat      : String;
+    sRepertoireResultat      ,
+    sRepertoireTypeMappings  : String;
   //Méthodes
   public
     function dbx_from_Type( Typ: String): String;
@@ -105,6 +107,9 @@ type
     procedure Cree_TemplateHandler( var _Reference;
                                    _Source: String;
                                    _slParametres: TBatpro_StringList= nil); virtual; abstract;
+  //TypeMappings
+  public
+    slTypeMappings: TslTypeMapping;
   end;
 
 implementation

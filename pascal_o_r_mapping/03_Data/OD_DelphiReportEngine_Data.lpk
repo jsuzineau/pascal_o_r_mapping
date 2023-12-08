@@ -21,7 +21,7 @@
         </OtherDefines>
       </Other>
     </CompilerOptions>
-    <Files Count="148">
+    <Files Count="149">
       <Item1>
         <Filename Value="uBatpro_Element.pas"/>
         <UnitName Value="uBatpro_Element"/>
@@ -615,6 +615,10 @@
         <Filename Value="uAPI_Client_pool.pas"/>
         <UnitName Value="uAPI_Client_pool"/>
       </Item148>
+      <Item149>
+        <Filename Value="Automatic/Code_Generation/uTypeMapping.pas"/>
+        <UnitName Value="uTypeMapping"/>
+      </Item149>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="1">
