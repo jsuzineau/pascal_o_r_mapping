@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="12"/>
     <BuildModes Active="Windows_Debug_Lite"/>
-    <Units Count="132">
+    <Units Count="144">
       <Unit0>
         <Filename Value="Generateur.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -21,7 +21,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="3"/>
         <TopLine Value="14"/>
-        <CursorPos X="41" Y="44"/>
+        <CursorPos X="92" Y="17"/>
         <UsageCount Value="207"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -63,7 +63,7 @@
       </Unit4>
       <Unit5>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uContexteClasse.pas"/>
-        <EditorIndex Value="20"/>
+        <EditorIndex Value="17"/>
         <TopLine Value="132"/>
         <CursorPos X="6" Y="156"/>
         <UsageCount Value="131"/>
@@ -75,7 +75,7 @@
       </Unit5>
       <Unit6>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\File_Handler\uMenuHandler.pas"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="11"/>
         <TopLine Value="49"/>
         <CursorPos X="42" Y="64"/>
         <UsageCount Value="127"/>
@@ -84,7 +84,7 @@
       </Unit6>
       <Unit7>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\JoinPoint\uJoinPoint.pas"/>
-        <EditorIndex Value="15"/>
+        <EditorIndex Value="12"/>
         <TopLine Value="15"/>
         <CursorPos X="2" Y="60"/>
         <UsageCount Value="138"/>
@@ -183,7 +183,7 @@
       </Unit22>
       <Unit23>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\File_Handler\uTemplateHandler.pas"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="10"/>
         <TopLine Value="211"/>
         <CursorPos X="6" Y="245"/>
         <UsageCount Value="138"/>
@@ -195,7 +195,7 @@
       </Unit23>
       <Unit24>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\JoinPoint\ujpFile.pas"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="9"/>
         <TopLine Value="282"/>
         <CursorPos X="6" Y="286"/>
         <UsageCount Value="131"/>
@@ -204,7 +204,7 @@
       </Unit24>
       <Unit25>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uApplicationJoinPointFile.pas"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="16"/>
         <CursorPos X="40" Y="58"/>
         <UsageCount Value="126"/>
@@ -557,11 +557,11 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="3150"/>
         <CursorPos Y="3172"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit69>
       <Unit70>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uGenerateur_de_code_Ancetre.pas"/>
-        <EditorIndex Value="19"/>
+        <EditorIndex Value="16"/>
         <TopLine Value="90"/>
         <CursorPos X="35" Y="112"/>
         <UsageCount Value="104"/>
@@ -570,7 +570,7 @@
       </Unit70>
       <Unit71>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uContexteMembre.pas"/>
-        <EditorIndex Value="18"/>
+        <EditorIndex Value="15"/>
         <TopLine Value="131"/>
         <CursorPos Y="169"/>
         <UsageCount Value="104"/>
@@ -593,7 +593,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="875"/>
         <CursorPos Y="897"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit73>
       <Unit74>
@@ -609,7 +609,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="180"/>
         <CursorPos X="61" Y="211"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit75>
       <Unit76>
@@ -617,7 +617,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="2"/>
         <CursorPos X="54" Y="22"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit76>
       <Unit77>
@@ -625,7 +625,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="159"/>
         <CursorPos X="32" Y="192"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit77>
       <Unit78>
@@ -787,10 +787,10 @@
       </Unit95>
       <Unit96>
         <Filename Value="Generateur_de_code\03_Template\Pascal\Nom_de_la_classe\ublNom_de_la_classe.pas"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="32"/>
         <CursorPos X="59" Y="46"/>
-        <UsageCount Value="56"/>
+        <UsageCount Value="57"/>
         <Loaded Value="True"/>
       </Unit96>
       <Unit97>
@@ -808,7 +808,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="62"/>
         <CursorPos X="13" Y="89"/>
-        <UsageCount Value="55"/>
+        <UsageCount Value="56"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -980,10 +980,10 @@
       </Unit119>
       <Unit120>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\JoinPoint\01_SQL\ujpSQL_Order_By_Key.pas"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="70"/>
         <CursorPos X="4" Y="58"/>
-        <UsageCount Value="38"/>
+        <UsageCount Value="39"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit120>
@@ -1022,19 +1022,17 @@
       </Unit125>
       <Unit126>
         <Filename Value="Generateur_de_code\03_Template\Odoo\models\NomTableMinuscule.py"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="-1"/>
         <CursorPos Y="18"/>
         <UsageCount Value="32"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Python"/>
       </Unit126>
       <Unit127>
         <Filename Value="Generateur_de_code\06_Resultat\Odoo\models\session.py"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="46"/>
         <CursorPos X="27" Y="7"/>
         <UsageCount Value="33"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Python"/>
       </Unit127>
       <Unit128>
@@ -1046,33 +1044,105 @@
       </Unit128>
       <Unit129>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\objpas\classes\classesh.inc"/>
-        <EditorIndex Value="6"/>
-        <TopLine Value="786"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="784"/>
         <CursorPos X="21" Y="729"/>
         <UsageCount Value="24"/>
-        <Loaded Value="True"/>
       </Unit129>
       <Unit130>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uTypeMapping.pas"/>
-        <EditorIndex Value="16"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="13"/>
         <TopLine Value="157"/>
         <CursorPos Y="199"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="12"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit130>
       <Unit131>
         <Filename Value="Generateur_de_code\07_TypeMappings\Odoo.txt"/>
-        <EditorIndex Value="17"/>
-        <UsageCount Value="10"/>
+        <EditorIndex Value="14"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="None"/>
       </Unit131>
+      <Unit132>
+        <Filename Value="..\..\jsWorks\Generateur_de_code\06_Resultat\Odoo\__manifest__.py"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Python"/>
+      </Unit132>
+      <Unit133>
+        <Filename Value="..\..\jsWorks\Generateur_de_code\06_Resultat\Odoo\__init__.py"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Python"/>
+      </Unit133>
+      <Unit134>
+        <Filename Value="..\..\jsWorks\Generateur_de_code\06_Resultat\Odoo\models\__init__.py"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Python"/>
+      </Unit134>
+      <Unit135>
+        <Filename Value="..\..\jsWorks\Generateur_de_code\06_Resultat\Odoo\models\categorie.py"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Python"/>
+      </Unit135>
+      <Unit136>
+        <Filename Value="..\..\jsWorks\Generateur_de_code\06_Resultat\Odoo\models\development.py"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Python"/>
+      </Unit136>
+      <Unit137>
+        <Filename Value="..\..\jsWorks\Generateur_de_code\06_Resultat\Odoo\models\project.py"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Python"/>
+      </Unit137>
+      <Unit138>
+        <Filename Value="..\..\jsWorks\Generateur_de_code\06_Resultat\Odoo\models\state.py"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Python"/>
+      </Unit138>
+      <Unit139>
+        <Filename Value="..\..\jsWorks\Generateur_de_code\06_Resultat\Odoo\models\tag.py"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Python"/>
+      </Unit139>
+      <Unit140>
+        <Filename Value="..\..\jsWorks\Generateur_de_code\06_Resultat\Odoo\models\tag_development.py"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Python"/>
+      </Unit140>
+      <Unit141>
+        <Filename Value="..\..\jsWorks\Generateur_de_code\06_Resultat\Odoo\models\tag_work.py"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Python"/>
+      </Unit141>
+      <Unit142>
+        <Filename Value="..\..\jsWorks\Generateur_de_code\06_Resultat\Odoo\models\type_tag.py"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Python"/>
+      </Unit142>
+      <Unit143>
+        <Filename Value="..\..\jsWorks\Generateur_de_code\06_Resultat\Odoo\models\work.py"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Python"/>
+      </Unit143>
     </Units>
     <OtherDefines Count="1">
       <Define0 Value="WINDOWS_GRAPHIC"/>
     </OtherDefines>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="29" HistoryIndex="28">
       <Position1>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uTypeMapping.pas"/>
         <Caret Line="200" TopLine="160"/>
@@ -1131,68 +1201,64 @@
       </Position14>
       <Position15>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uTypeMapping.pas"/>
-        <Caret Line="159" TopLine="160"/>
+        <Caret Line="196" TopLine="160"/>
       </Position15>
       <Position16>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uTypeMapping.pas"/>
-        <Caret Line="196" TopLine="160"/>
+        <Caret Line="199" Column="31" TopLine="160"/>
       </Position16>
       <Position17>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uTypeMapping.pas"/>
-        <Caret Line="199" Column="31" TopLine="160"/>
+        <Caret Line="197" TopLine="160"/>
       </Position17>
       <Position18>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uTypeMapping.pas"/>
-        <Caret Line="197" TopLine="160"/>
+        <Caret Line="198" TopLine="160"/>
       </Position18>
       <Position19>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uTypeMapping.pas"/>
-        <Caret Line="198" TopLine="160"/>
+        <Caret Line="197" TopLine="160"/>
       </Position19>
       <Position20>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uTypeMapping.pas"/>
-        <Caret Line="197" TopLine="160"/>
+        <Caret Line="200" Column="29" TopLine="160"/>
       </Position20>
       <Position21>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uTypeMapping.pas"/>
-        <Caret Line="200" Column="29" TopLine="160"/>
+        <Caret Line="190" Column="51" TopLine="160"/>
       </Position21>
       <Position22>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uTypeMapping.pas"/>
-        <Caret Line="190" Column="51" TopLine="160"/>
+        <Caret Line="199" Column="27" TopLine="160"/>
       </Position22>
       <Position23>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uTypeMapping.pas"/>
-        <Caret Line="199" Column="27" TopLine="160"/>
+        <Caret Line="175" Column="67" TopLine="160"/>
       </Position23>
       <Position24>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uTypeMapping.pas"/>
-        <Caret Line="175" Column="67" TopLine="160"/>
+        <Caret Line="185" Column="45" TopLine="160"/>
       </Position24>
       <Position25>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uTypeMapping.pas"/>
-        <Caret Line="185" Column="45" TopLine="160"/>
+        <Caret Line="197" Column="48" TopLine="157"/>
       </Position25>
       <Position26>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uTypeMapping.pas"/>
-        <Caret Line="197" Column="48" TopLine="157"/>
+        <Caret Line="175" TopLine="157"/>
       </Position26>
       <Position27>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uTypeMapping.pas"/>
-        <Caret Line="175" TopLine="157"/>
+        <Caret Line="171" TopLine="157"/>
       </Position27>
       <Position28>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uTypeMapping.pas"/>
-        <Caret Line="171" TopLine="157"/>
+        <Caret Line="199" TopLine="157"/>
       </Position28>
       <Position29>
-        <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uTypeMapping.pas"/>
-        <Caret Line="199" TopLine="157"/>
-      </Position29>
-      <Position30>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\Automatic\Code_Generation\uContexteMembre.pas"/>
         <Caret Line="169" TopLine="131"/>
-      </Position30>
+      </Position29>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
