@@ -1,0 +1,1 @@
+       'views/Classe.NomTableMinuscule.xml',

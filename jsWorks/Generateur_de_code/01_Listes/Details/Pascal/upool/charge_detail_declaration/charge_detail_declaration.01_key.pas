@@ -1,0 +1,1 @@
+//Details_Pascal_upool_charge_detail_declaration_pas

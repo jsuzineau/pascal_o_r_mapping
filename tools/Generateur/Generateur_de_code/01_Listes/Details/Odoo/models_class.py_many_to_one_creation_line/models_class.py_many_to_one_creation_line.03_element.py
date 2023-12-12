@@ -1,1 +1,1 @@
-    Detail.NomDetail=fields.Many2one("Classe.nommodule.Detail.ClasseDetail")
+    Detail.NomDetail=fields.Many2one("Classe.odoo_nom_module.Detail.ClasseDetailMinuscule")

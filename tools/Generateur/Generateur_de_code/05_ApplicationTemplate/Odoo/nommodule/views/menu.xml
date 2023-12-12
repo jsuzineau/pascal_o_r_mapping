@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<odoo>
-    <menuitem id="nommodule_menu_root" name="nommodule">
-        <menuitem id="nommodule_first_level_menu" name="nommodule">
-            <menu.xml_line />
-        </menuitem>
-    </menuitem>
-</odoo>

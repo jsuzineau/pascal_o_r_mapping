@@ -1,0 +1,14 @@
+  object ceMembre.NomChamp: TChamp_Edit
+    Left = 119
+    Height = 21
+    Top = 4
+    Width = 80
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Text = 'ceMembre.NomChamp'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    Field = 'Membre.NomChamp'
+  end
+

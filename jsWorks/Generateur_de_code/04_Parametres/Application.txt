@@ -1,1 +1,1 @@
-nommodule=jsWorks
+odoo_nom_module=jsworks

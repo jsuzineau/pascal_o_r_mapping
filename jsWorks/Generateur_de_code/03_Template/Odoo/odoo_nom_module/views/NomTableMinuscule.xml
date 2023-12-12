@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="odoo_nom_module_NomTableMinuscule_action" model="ir.actions.act_window">
+        <field name="name">NomTableMinuscule</field>
+        <field name="res_model">odoo_nom_module.NomTableMinuscule</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="odoo_nom_module_NomTableMinuscule_view_tree" model="ir.ui.view">
+        <field name="name">odoo_nom_module.NomTableMinuscule.tree</field>
+        <field name="model">odoo_nom_module.NomTableMinuscule</field>
+        <field name="arch" type="xml">
+            <tree string="NomTableMinuscule">
+<!--views_class_py_field_line-->
+<!--views_class_py_many_to_one_field_line-->
+<!--views_class_py_one_to_many_field_line-->
+            </tree>
+        </field>
+    </record>
+    <record id="odoo_nom_module_NomTableMinuscule_view_form" model="ir.ui.view">
+        <field name="name">odoo_nom_module.NomTableMinuscule.form</field>
+        <field name="model">odoo_nom_module.NomTableMinuscule</field>
+        <field name="arch" type="xml">
+            <form string="NomTableMinuscule">
+                <sheet>
+<!--views_class_py_field_line-->
+<!--views_class_py_many_to_one_field_line-->
+<!--views_class_py_one_to_many_field_line-->
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

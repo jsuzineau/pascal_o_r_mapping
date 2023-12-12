@@ -1,12 +1,9 @@
 unit udmlkNomTable;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
-            partly as freelance: http://www.mars42.com                          |
-        and partly as employee : http://www.batpro.com                          |
-    Contact: gilles.doutre@batpro.com                                           |
+            http://www.mars42.com                                               |
                                                                                 |
-    Copyright 2014 Jean SUZINEAU - MARS42                                       |
-    Copyright 2014 Cabinet Gilles DOUTRE - BATPRO                               |
+    Copyright 2019 Jean SUZINEAU - MARS42                                       |
                                                                                 |
     This program is free software: you can redistribute it and/or modify        |
     it under the terms of the GNU Lesser General Public License as published by |

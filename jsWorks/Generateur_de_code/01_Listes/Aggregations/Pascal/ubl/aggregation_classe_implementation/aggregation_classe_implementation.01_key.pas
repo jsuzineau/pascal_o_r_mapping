@@ -1,0 +1,1 @@
+//pattern_aggregation_classe_implementation

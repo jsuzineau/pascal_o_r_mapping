@@ -680,6 +680,7 @@ begin
 
      Element:= cc.Produit( 'Classe.', sElement);
      Element:= StringReplace( Element, 'Detail.NomDetail'   ,s_Detail       ,[rfReplaceAll,rfIgnoreCase]);
+     Element:= StringReplace( Element, 'Detail.ClasseDetailMinuscule',LowerCase(sNomTableMembre),[rfReplaceAll,rfIgnoreCase]);
      Element:= StringReplace( Element, 'Detail.ClasseDetail',sNomTableMembre,[rfReplaceAll,rfIgnoreCase]);
      Valeur:= Valeur+ Element;
 end;
@@ -714,6 +715,7 @@ begin
 
      Element:= cc.Produit( 'Classe.', sElement);
      Element:= StringReplace( Element, 'Aggregation.NomAggregation'   ,s_Aggregation  ,[rfReplaceAll,rfIgnoreCase]);
+     Element:= StringReplace( Element, 'Aggregation.ClasseAggregationMinuscule',LowerCase(sNomTableMembre),[rfReplaceAll,rfIgnoreCase]);
      Element:= StringReplace( Element, 'Aggregation.ClasseAggregation',sNomTableMembre,[rfReplaceAll,rfIgnoreCase]);
      Valeur:= Valeur+ Element;
 end;
