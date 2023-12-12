@@ -22,9 +22,11 @@
         <field name="arch" type="xml">
             <form string="NomTableMinuscule">
                 <sheet>
+                    <group>
 <!--views_class_py_field_line-->
 <!--views_class_py_many_to_one_field_line-->
 <!--views_class_py_one_to_many_field_line-->
+                    </group>
                 </sheet>
             </form>
         </field>

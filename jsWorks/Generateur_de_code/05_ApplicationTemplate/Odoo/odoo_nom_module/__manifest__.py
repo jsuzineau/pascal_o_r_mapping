@@ -7,6 +7,7 @@
 'application':True,
 'data':[
        'security/ir.model.access.csv',
+#__manifest___py_data_line
 #__manifest___py_view_line
        'views/menu.xml',
        ]
