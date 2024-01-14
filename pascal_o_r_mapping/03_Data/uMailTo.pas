@@ -203,11 +203,6 @@ begin
        begin
        Clear;
 
-       if     (_From = '')
-          and ('EMFA' = UpperCase( dmDatabase.Database))
-       then
-           _From:= 'FDENIAUD@emfa.fr';
-
        //pas de champ où mettre le _From ?
 
        Log.Print( 'MailTo, ajout destinataires');

@@ -17,6 +17,7 @@ type
     procedure tTimer(Sender: TObject);
   private
     { Déclarations privées }
+    Nb: Integer;
     Debut: TDateTime;
     Secondes: Integer;
     procedure Sonner;
@@ -34,6 +35,8 @@ implementation
 procedure TfjsReiki.FormCreate(Sender: TObject);
 begin
      Debut:= Now;
+     Nb:= 300;
+     g.Max:= Nb;
 end;
 
 procedure TfjsReiki.Sonner;
@@ -47,7 +50,7 @@ var
    Avancement: Integer;
 begin
      Secondes:= Trunc( (Now-Debut) * 24 * 3600);
-     Avancement:= Secondes mod 300;//180;
+     Avancement:= Secondes mod Nb;
      g.Position:= Avancement;
      if Avancement < 10 then Sonner;
      l.Caption:= Format( '%d min %d sec',

@@ -4,53 +4,53 @@ object fjsWorks: TfjsWorks
   Top = 247
   Width = 959
   Caption = 'jsWorks'
-  ClientHeight = 498
+  ClientHeight = 507
   ClientWidth = 959
   Menu = mm
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '2.2.4.0'
   object Panel1: TPanel
     Left = 0
-    Height = 498
+    Height = 507
     Top = 0
     Width = 757
     Align = alClient
     Caption = 'Panel1'
-    ClientHeight = 498
+    ClientHeight = 507
     ClientWidth = 757
     TabOrder = 0
     object pc: TPageControl
       Left = 1
-      Height = 496
+      Height = 505
       Top = 1
       Width = 755
-      ActivePage = tsHTTP_Serveur
+      ActivePage = tsWork
       Align = alClient
-      TabIndex = 2
+      TabIndex = 0
       TabOrder = 0
       object tsWork: TTabSheet
         Caption = 'Work'
-        ClientHeight = 461
-        ClientWidth = 745
+        ClientHeight = 477
+        ClientWidth = 747
         object pWork: TPanel
           Left = 0
-          Height = 461
+          Height = 477
           Top = 0
-          Width = 745
+          Width = 747
           Align = alClient
           Caption = 'pWork'
-          ClientHeight = 461
-          ClientWidth = 745
+          ClientHeight = 477
+          ClientWidth = 747
           TabOrder = 0
           object Panel8: TPanel
             Left = 1
-            Height = 459
+            Height = 475
             Top = 1
             Width = 241
             Align = alLeft
             Caption = 'Panel8'
-            ClientHeight = 459
+            ClientHeight = 475
             ClientWidth = 241
             TabOrder = 0
             object Panel7: TPanel
@@ -64,10 +64,11 @@ object fjsWorks: TfjsWorks
               TabOrder = 0
               object Label3: TLabel
                 Left = 8
-                Height = 21
+                Height = 15
                 Top = 0
-                Width = 59
+                Width = 44
                 Caption = 'Sessions'
+                ParentColor = False
               end
               object bTemps: TButton
                 Left = 160
@@ -80,9 +81,9 @@ object fjsWorks: TfjsWorks
               end
               object dtpBeginning_From: TDateTimePicker
                 Left = 65
-                Height = 27
+                Height = 23
                 Top = 29
-                Width = 97
+                Width = 83
                 CenturyFrom = 1941
                 MaxDate = 2958465
                 MinDate = -53780
@@ -102,10 +103,11 @@ object fjsWorks: TfjsWorks
               end
               object Label9: TLabel
                 Left = 8
-                Height = 21
+                Height = 15
                 Top = 31
-                Width = 48
+                Width = 36
                 Caption = 'Depuis'
+                ParentColor = False
               end
               object bBeginning_From: TButton
                 Left = 168
@@ -119,12 +121,12 @@ object fjsWorks: TfjsWorks
             end
             object dsbWork: TDockableScrollbox
               Left = 1
-              Height = 397
+              Height = 413
               Top = 61
               Width = 239
               Align = alClient
               Caption = 'dsbWork'
-              ClientHeight = 397
+              ClientHeight = 413
               ClientWidth = 239
               TabOrder = 1
               HauteurLigne = 45
@@ -139,7 +141,7 @@ object fjsWorks: TfjsWorks
           end
           object Splitter4: TSplitter
             Left = 242
-            Height = 459
+            Height = 475
             Top = 1
             Width = 5
             Color = clLime
@@ -147,45 +149,48 @@ object fjsWorks: TfjsWorks
           end
           object Panel9: TPanel
             Left = 247
-            Height = 459
+            Height = 475
             Top = 1
-            Width = 497
+            Width = 499
             Align = alClient
             Caption = 'Panel9'
-            ClientHeight = 459
-            ClientWidth = 497
+            ClientHeight = 475
+            ClientWidth = 499
             TabOrder = 2
             object Panel5: TPanel
               Left = 1
               Height = 142
               Top = 1
-              Width = 495
+              Width = 497
               Align = alTop
               ClientHeight = 142
-              ClientWidth = 495
+              ClientWidth = 497
               TabOrder = 0
               object Label4: TLabel
                 Left = 3
-                Height = 21
+                Height = 15
                 Top = 29
-                Width = 42
+                Width = 32
                 Caption = 'Début'
+                ParentColor = False
               end
               object Label5: TLabel
                 Left = 3
-                Height = 21
+                Height = 15
                 Top = 72
-                Width = 21
+                Width = 16
                 Caption = 'Fin'
+                ParentColor = False
               end
               object Label6: TLabel
                 Left = 1
-                Height = 21
+                Height = 15
                 Top = 1
-                Width = 493
+                Width = 495
                 Align = alTop
                 Alignment = taCenter
                 Caption = 'Session'
+                ParentColor = False
               end
               object bStart: TButton
                 Left = 2
@@ -207,7 +212,7 @@ object fjsWorks: TfjsWorks
               end
               object ceBeginning: TChamp_Edit
                 Left = 49
-                Height = 38
+                Height = 23
                 Top = 25
                 Width = 200
                 TabOrder = 2
@@ -216,7 +221,7 @@ object fjsWorks: TfjsWorks
               end
               object ceEnd: TChamp_Edit
                 Left = 49
-                Height = 38
+                Height = 23
                 Top = 68
                 Width = 200
                 TabOrder = 3
@@ -224,13 +229,13 @@ object fjsWorks: TfjsWorks
                 Field = 'End'
               end
               object dsbWork_Tag: TDockableScrollbox
-                Left = 290
-                Height = 119
-                Top = 22
+                Left = 292
+                Height = 125
+                Top = 16
                 Width = 114
                 Align = alRight
                 Caption = 'dsbWork_Tag'
-                ClientHeight = 119
+                ClientHeight = 125
                 ClientWidth = 114
                 TabOrder = 4
                 HauteurLigne = 17
@@ -242,13 +247,13 @@ object fjsWorks: TfjsWorks
                 _LectureSeule = False
               end
               object dsbWork_Tag_from_Description: TDockableScrollbox
-                Left = 404
-                Height = 119
-                Top = 22
+                Left = 406
+                Height = 125
+                Top = 16
                 Width = 90
                 Align = alRight
                 Caption = 'dsbWork_Tag_from_Description'
-                ClientHeight = 119
+                ClientHeight = 125
                 ClientWidth = 90
                 TabOrder = 5
                 HauteurLigne = 17
@@ -307,9 +312,9 @@ object fjsWorks: TfjsWorks
             end
             object cmWork_Description: TChamp_Memo
               Left = 1
-              Height = 315
+              Height = 331
               Top = 143
-              Width = 495
+              Width = 497
               Align = alClient
               Font.Name = 'Courier New'
               Lines.Strings = (
@@ -326,27 +331,27 @@ object fjsWorks: TfjsWorks
       end
       object tsDevelopment: TTabSheet
         Caption = 'Development'
-        ClientHeight = 461
-        ClientWidth = 745
+        ClientHeight = 477
+        ClientWidth = 747
         object pDevelopment: TPanel
           Left = 0
-          Height = 461
+          Height = 477
           Top = 0
-          Width = 745
+          Width = 747
           Align = alClient
           Caption = 'pDevelopment'
-          ClientHeight = 461
-          ClientWidth = 745
+          ClientHeight = 477
+          ClientWidth = 747
           TabOrder = 0
           OnClick = pDevelopmentClick
           object Panel2: TPanel
-            Left = 237
-            Height = 459
+            Left = 239
+            Height = 475
             Top = 1
             Width = 507
             Align = alRight
             Caption = 'Panel2'
-            ClientHeight = 459
+            ClientHeight = 475
             ClientWidth = 507
             TabOrder = 0
             object Panel13: TPanel
@@ -360,37 +365,39 @@ object fjsWorks: TfjsWorks
               TabOrder = 0
               object clkcbCategorie: TChamp_Lookup_ComboBox
                 Left = 3
-                Height = 33
+                Height = 23
                 Top = 18
                 Width = 233
-                ItemHeight = 0
+                ItemHeight = 15
                 Style = csDropDownList
                 TabOrder = 0
                 Field = 'Categorie'
               end
               object clkcbState: TChamp_Lookup_ComboBox
                 Left = 254
-                Height = 33
+                Height = 23
                 Top = 19
                 Width = 235
-                ItemHeight = 0
+                ItemHeight = 15
                 Style = csDropDownList
                 TabOrder = 1
                 Field = 'State'
               end
               object Label7: TLabel
                 Left = 2
-                Height = 21
+                Height = 15
                 Top = 2
-                Width = 66
+                Width = 51
                 Caption = 'Categorie'
+                ParentColor = False
               end
               object Label8: TLabel
                 Left = 254
-                Height = 21
+                Height = 15
                 Top = 2
-                Width = 34
+                Width = 26
                 Caption = 'State'
+                ParentColor = False
               end
               object bPoint: TButton
                 Left = 7
@@ -423,18 +430,18 @@ object fjsWorks: TfjsWorks
             object gbSolution: TGroupBox
               Left = 1
               Height = 105
-              Top = 353
+              Top = 369
               Width = 505
               Align = alBottom
               Caption = 'Solution'
-              ClientHeight = 83
-              ClientWidth = 503
+              ClientHeight = 85
+              ClientWidth = 501
               TabOrder = 1
               object cmSolution: TChamp_Memo
                 Left = 0
-                Height = 83
+                Height = 85
                 Top = 0
-                Width = 503
+                Width = 501
                 Align = alClient
                 Lines.Strings = (
                   'cmSolution'
@@ -445,19 +452,19 @@ object fjsWorks: TfjsWorks
             end
             object gbDescription: TGroupBox
               Left = 1
-              Height = 269
+              Height = 285
               Top = 84
               Width = 505
               Align = alClient
               Caption = 'Description'
-              ClientHeight = 247
-              ClientWidth = 503
+              ClientHeight = 265
+              ClientWidth = 501
               TabOrder = 2
               object cmDevelopment_Description: TChamp_Memo
                 Left = 0
-                Height = 247
+                Height = 265
                 Top = 0
-                Width = 503
+                Width = 501
                 Align = alClient
                 Lines.Strings = (
                   'cmDevelopment_Description'
@@ -468,8 +475,8 @@ object fjsWorks: TfjsWorks
             end
           end
           object Splitter6: TSplitter
-            Left = 232
-            Height = 459
+            Left = 234
+            Height = 475
             Top = 1
             Width = 5
             Align = alRight
@@ -479,32 +486,32 @@ object fjsWorks: TfjsWorks
           end
           object Panel3: TPanel
             Left = 1
-            Height = 459
+            Height = 475
             Top = 1
-            Width = 231
+            Width = 233
             Align = alClient
             Caption = 'Panel3'
-            ClientHeight = 459
-            ClientWidth = 231
+            ClientHeight = 475
+            ClientWidth = 233
             TabOrder = 2
             object Panel10: TPanel
               Left = 1
               Height = 50
               Top = 1
-              Width = 229
+              Width = 231
               Align = alTop
               Caption = 'Panel10'
               TabOrder = 0
             end
             object dsbDevelopment: TDockableScrollbox
               Left = 1
-              Height = 407
+              Height = 423
               Top = 51
-              Width = 229
+              Width = 231
               Align = alClient
               Caption = 'dsbDevelopment'
-              ClientHeight = 407
-              ClientWidth = 229
+              ClientHeight = 423
+              ClientWidth = 231
               TabOrder = 1
               HauteurLigne = 24
               BordureLignes = True
@@ -519,25 +526,26 @@ object fjsWorks: TfjsWorks
       end
       object tsHTTP_Serveur: TTabSheet
         Caption = 'HTTP Serveur'
-        ClientHeight = 461
-        ClientWidth = 745
+        ClientHeight = 477
+        ClientWidth = 747
         object Panel12: TPanel
           Left = 0
           Height = 128
           Top = 0
-          Width = 745
+          Width = 747
           Align = alTop
           ClientHeight = 128
-          ClientWidth = 745
+          ClientWidth = 747
           TabOrder = 0
           object lHTTP: TLabel
             Left = 96
             Height = 20
             Top = 69
-            Width = 646
+            Width = 648
             Anchors = [akTop, akLeft, akRight]
             AutoSize = False
             Caption = 'lHTTP'
+            ParentColor = False
             OnClick = lHTTPClick
           end
           object bHTTP: TButton
@@ -560,21 +568,23 @@ object fjsWorks: TfjsWorks
           end
           object Label2: TLabel
             Left = 4
-            Height = 21
+            Height = 15
             Top = 67
-            Width = 84
+            Width = 63
             Caption = 'URL Serveur'
+            ParentColor = False
           end
           object Label11: TLabel
             Left = 8
-            Height = 21
+            Height = 15
             Top = 9
-            Width = 75
+            Width = 59
             Caption = 'IP d''écoute'
+            ParentColor = False
           end
           object eIP_listen: TEdit
             Left = 96
-            Height = 38
+            Height = 23
             Top = 0
             Width = 136
             OnEnter = eClientEnter
@@ -585,29 +595,30 @@ object fjsWorks: TfjsWorks
       end
       object tsHTTP_API_Client: TTabSheet
         Caption = 'HTTP API Client'
-        ClientHeight = 461
-        ClientWidth = 745
+        ClientHeight = 477
+        ClientWidth = 747
         object Panel11: TPanel
           Left = 0
           Height = 78
           Top = 0
-          Width = 745
+          Width = 747
           Align = alTop
           ClientHeight = 78
-          ClientWidth = 745
+          ClientWidth = 747
           TabOrder = 0
           object Label1: TLabel
             Left = 12
-            Height = 21
+            Height = 15
             Top = 8
-            Width = 84
+            Width = 63
             Caption = 'URL Serveur'
+            ParentColor = False
           end
           object eClient: TEdit
             Left = 96
-            Height = 38
+            Height = 23
             Top = 0
-            Width = 645
+            Width = 647
             Anchors = [akTop, akLeft, akRight]
             OnEnter = eClientEnter
             TabOrder = 0
@@ -615,16 +626,17 @@ object fjsWorks: TfjsWorks
           end
           object Label10: TLabel
             Left = 8
-            Height = 21
+            Height = 15
             Top = 47
-            Width = 86
+            Width = 66
             Caption = 'Work depuis'
+            ParentColor = False
           end
           object dtpClient_Beginning_From: TDateTimePicker
             Left = 101
-            Height = 27
+            Height = 23
             Top = 43
-            Width = 97
+            Width = 83
             CenturyFrom = 1941
             MaxDate = 2958465
             MinDate = -53780
@@ -654,13 +666,13 @@ object fjsWorks: TfjsWorks
         end
         object dsbWork_JSON: TDockableScrollbox
           Left = 0
-          Height = 383
+          Height = 399
           Top = 78
-          Width = 745
+          Width = 747
           Align = alClient
           Caption = 'dsbWork_JSON'
-          ClientHeight = 383
-          ClientWidth = 745
+          ClientHeight = 399
+          ClientWidth = 747
           TabOrder = 1
           HauteurLigne = 70
           BordureLignes = True
@@ -673,13 +685,13 @@ object fjsWorks: TfjsWorks
       end
       object tsChrono: TTabSheet
         Caption = 'Chrono'
-        ClientHeight = 461
-        ClientWidth = 745
+        ClientHeight = 477
+        ClientWidth = 747
         object mChrono: TMemo
           Left = 0
-          Height = 461
+          Height = 477
           Top = 0
-          Width = 745
+          Width = 747
           Align = alClient
           Lines.Strings = (
             'mChrono'
@@ -691,7 +703,7 @@ object fjsWorks: TfjsWorks
   end
   object Splitter2: TSplitter
     Left = 757
-    Height = 498
+    Height = 507
     Top = 0
     Width = 5
     Align = alRight
@@ -701,12 +713,12 @@ object fjsWorks: TfjsWorks
   end
   object Panel4: TPanel
     Left = 762
-    Height = 498
+    Height = 507
     Top = 0
     Width = 197
     Align = alRight
     Caption = 'Panel4'
-    ClientHeight = 498
+    ClientHeight = 507
     ClientWidth = 197
     TabOrder = 2
     object Panel6: TPanel
@@ -757,12 +769,12 @@ object fjsWorks: TfjsWorks
     end
     object dsbTag: TDockableScrollbox
       Left = 1
-      Height = 361
+      Height = 370
       Top = 136
       Width = 195
       Align = alClient
       Caption = 'dsbTag'
-      ClientHeight = 361
+      ClientHeight = 370
       ClientWidth = 195
       TabOrder = 1
       HauteurLigne = 17
