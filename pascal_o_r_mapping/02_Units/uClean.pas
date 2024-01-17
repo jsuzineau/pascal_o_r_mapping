@@ -69,7 +69,7 @@ function uClean_Log_Repertoire: String;
 function uClean_Log_Nom: String;
 function uClean_Log_NomFichier: String;
 procedure uClean_Log( S: String);
-function uClean_HTML_Repertoire: String;
+function uClean_WEB_Repertoire: String;
 
 var uClean_Log_Started: String= '';
 procedure uClean_Log_Start( S: String);
@@ -101,7 +101,7 @@ function uClean_BIN_from_FGL_LIB( _FGL_LIB: String): String;
 function uClean_Racine_from_EXE( _EXE: String): String;
 function uClean_ETC_from_EXE( _EXE: String): String;
 function uClean_LOG_from_EXE( _EXE: String): String;
-function uClean_HTML_from_EXE( _EXE: String): String;
+function uClean_WEB_from_EXE( _EXE: String): String;
 
 
 implementation
@@ -173,19 +173,19 @@ begin
      //uClean_Log( 'Résultat uClean_LOG_from_EXE : ', Result);
 end;
 
-function uClean_HTML_from_EXE( _EXE: String): String;
+function uClean_WEB_from_EXE( _EXE: String): String;
 var
    Repertoire_racine: String;
 begin
      Repertoire_racine:= uClean_Racine_from_EXE( _EXE);
 
-     Result:= Repertoire_racine + PathDelim +'html';
+     Result:= Repertoire_racine + PathDelim +'web';
      //uClean_Log( 'Résultat uClean_LOG_from_EXE : ', Result);
 end;
 
-function uClean_HTML_Repertoire: String;
+function uClean_WEB_Repertoire: String;
 begin
-     Result:= uClean_HTML_from_EXE( uClean_EXE_Name);
+     Result:= uClean_WEB_from_EXE( uClean_EXE_Name);
 end;
 
 var

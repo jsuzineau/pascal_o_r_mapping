@@ -571,7 +571,7 @@ begin
      Terminated:= True;
 
      S:= nil;
-     DocumentRoot:= IncludeTrailingPathDelimiter( uClean_HTML_from_EXE( uClean_EXE_Name));
+     DocumentRoot:= IncludeTrailingPathDelimiter( uClean_WEB_from_EXE( uClean_EXE_Name));
      Racine:= '';
      slP   := TslAbonnement_Procedure.Create( ClassName+'.slP');
      slO   := TslAbonnement_Objet    .Create( ClassName+'.slO');

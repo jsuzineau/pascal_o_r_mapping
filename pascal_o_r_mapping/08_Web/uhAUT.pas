@@ -106,7 +106,7 @@ begin
 
      Repertoire
      :=
-        IncludeTrailingPathDelimiter( uClean_HTML_Repertoire)
+        IncludeTrailingPathDelimiter( uClean_WEB_Repertoire)
        +ClassName+PathDelim;
 
      HTTP_Interface.slO.Ajoute( 'AUT/', Self, Traite_HTTP);

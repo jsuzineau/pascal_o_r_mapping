@@ -104,7 +104,7 @@ begin
 
      Repertoire
      :=
-        IncludeTrailingPathDelimiter( uClean_HTML_Repertoire)
+        IncludeTrailingPathDelimiter( uClean_WEB_Repertoire)
        +ClassName+PathDelim;
 
      HTTP_Interface.slO.Ajoute( 'ATB/', Self, Traite_HTTP);
