@@ -3069,13 +3069,94 @@ rtl.module("program",["System","browserconsole","browserapp","JS","Classes","Sys
       hr = new XMLHttpRequest();
       hr.open("GET","Project");
       hr.addEventListener("load",function () {
-        pas.System.Writeln(hr.responseText);
+        var json = "";
+        var data = undefined;
+        var sl = null;
+        json = hr.responseText;
+        data = JSON.parse(json);
+        pas.System.Writeln("data:");
+        pas.System.Writeln(data);
+        sl = $mod.TslProject.$create("Create$1",[data]);
+        sl.Ecrire();
       });
       hr.send();
       this.Terminate();
     };
     var $r = this.$rtti;
     $r.addMethod("DoRun",0,[]);
+  });
+  rtl.createClass(this,"TblProject",pas.System.TObject,function () {
+    this.$init = function () {
+      pas.System.TObject.$init.call(this);
+      this.id = 0;
+      this.Selected = false;
+      this.Name = "";
+    };
+    this.Create$1 = function (_data) {
+      var $Self = this;
+      function init_object() {
+        var O = null;
+        O = _data;
+        $Self.id = rtl.trunc(O["id"]);
+        $Self.Selected = !(O["Selected"] == false);
+        $Self.Name = "" + O["Name"];
+      };
+      init_object();
+      return this;
+    };
+    this.Ecrire = function () {
+      pas.System.Writeln("  id: ",this.id);
+      pas.System.Writeln("  Selected: ",this.Selected);
+      pas.System.Writeln("  Name: ",this.Name);
+    };
+  });
+  rtl.createClass(this,"TslProject",pas.System.TObject,function () {
+    this.$init = function () {
+      pas.System.TObject.$init.call(this);
+      this.Nom = "";
+      this.JSON_Debut = 0;
+      this.JSON_Fin = 0;
+      this.Count = 0;
+      this.Elements = [];
+    };
+    this.$final = function () {
+      this.Elements = undefined;
+      pas.System.TObject.$final.call(this);
+    };
+    this.Create$1 = function (_data) {
+      var $Self = this;
+      function init_object() {
+        var O = null;
+        var A = null;
+        var i = 0;
+        O = _data;
+        $Self.Nom = "" + O["Nom"];
+        $Self.JSON_Debut = rtl.trunc(O["JSON_Debut"]);
+        $Self.JSON_Fin = rtl.trunc(O["JSON_Fin"]);
+        $Self.Count = rtl.trunc(O["Count"]);
+        A = O["Elements"];
+        $Self.Elements = rtl.arraySetLength($Self.Elements,null,A.length);
+        for (var $l = 0, $end = rtl.length($Self.Elements) - 1; $l <= $end; $l++) {
+          i = $l;
+          $Self.Elements[i] = $mod.TblProject.$create("Create$1",[A[i]]);
+        };
+      };
+      init_object();
+      return this;
+    };
+    this.Ecrire = function () {
+      var i = 0;
+      pas.System.Writeln("Nom: ",this.Nom);
+      pas.System.Writeln("JSON_Debut: ",this.JSON_Debut);
+      pas.System.Writeln("JSON_Fin: ",this.JSON_Fin);
+      pas.System.Writeln("Count: ",this.Count);
+      for (var $l = 0, $end = this.Count - 1; $l <= $end; $l++) {
+        i = $l;
+        pas.System.Writeln("i=",i);
+        this.Elements[i].Ecrire();
+        pas.System.Writeln();
+      };
+    };
   });
   this.Application = null;
   $mod.$main = function () {

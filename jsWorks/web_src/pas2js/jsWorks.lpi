@@ -15,12 +15,11 @@
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
-    <CustomData Count="5">
+    <CustomData Count="4">
       <Item0 Name="MaintainHTML" Value="1"/>
-      <Item1 Name="PasJSHTMLFile" Value="project1.html"/>
-      <Item2 Name="PasJSPort" Value="3001"/>
-      <Item3 Name="PasJSWebBrowserProject" Value="1"/>
-      <Item4 Name="RunAtReady" Value="1"/>
+      <Item1 Name="PasJSPort" Value="3001"/>
+      <Item2 Name="PasJSWebBrowserProject" Value="1"/>
+      <Item3 Name="RunAtReady" Value="1"/>
     </CustomData>
     <BuildModes>
       <Item Name="Default" Default="True"/>
@@ -49,7 +48,7 @@
   <CompilerOptions>
     <Version Value="11"/>
     <PathDelim Value="\"/>
-    <Target FileExt=".js">
+    <Target>
       <Filename Value="jsWorks"/>
     </Target>
     <SearchPaths>
@@ -75,6 +74,9 @@
     <Other>
       <CustomOptions Value="-Jeutf-8 -Jirtl.js -Jc -Jminclude"/>
       <CompilerPath Value="$(pas2js)"/>
+      <ExecuteAfter>
+        <Command Value="E:\01_Projets\01_pascal_o_r_mapping\jsWorks\web_src\pas2js\copy_to_web.bat"/>
+      </ExecuteAfter>
     </Other>
   </CompilerOptions>
   <Debugging>
