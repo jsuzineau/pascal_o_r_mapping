@@ -1,0 +1,1 @@
+E:\meld\meld.exe   .\Generateur_de_code ..\tools\Generateur\Generateur_de_code
