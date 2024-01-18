@@ -13,6 +13,92 @@
 
   </script>
   <div id="pasjsconsole"></div>
-
+    <table border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;">
+            <table style="width: 100%" border="1">
+              <tbody id="tbody_Project">
+              </tbody>
+            </table>
+          </td>
+          <td style="width: 634.5px;">
+            <table style="width: 100%" border="1">
+              <tbody>
+                <tr>
+                  <td style="width: 250px; vertical-align: top;">
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <p><a href="AUT/">Requêteur</a></p>
+                            <p>Projet: <span id="span_Project_Name">{{Project.Name}}</span></p>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div style="height:250px;overflow:scroll;">
+                              <table style="width: 100%" border="1">
+                                <tbody id="tbody_Work">
+                                </tbody>
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                  <td style="width: 434.5px;height:300px;vertical-align: top;">
+                    <p> Début: <input id="Work_Beginning" ng_change="Work_Set()"
+                        type="text"> </p>
+                    <p>Fin: <input id="Work_End" ng_change="Work_Set()" type="text"></p>
+                    <button ng-click="Work_Start()">Démarrer</button> <button ng-click="Work_Stop()">Arrêter</button>
+                    <p><textarea id="Work_Description" ng-change="Work_Set()" COLS=40 ROWS=6></textarea></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width: 200px;vertical-align: top;">
+                    <div style="height:200px;overflow:scroll;">
+                      <table style="width: 100%" border="1">
+                        <tbody>
+                          <tr ng-repeat="bl in slDevelopment">
+                            <td style="width: 100%; vertical-align: top;"> <a href=""
+                                ng-click="_from_Development(bl);">{{
+                                bl.Description_Short }} </a> </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </td>
+                  <td style="width: 434.5px;vertical-align: top;">
+                     <table border="0" cellpadding="0" cellspacing="0">
+                      <tbody>
+                        <tr>
+                          <td>
+                            <p>Catégorie</p>
+                            <p>
+                              <select ng-model="Categorie" ng-options="bl.Description for bl in slCategorie"
+                                ng_change="Categorie_Set()">
+                              </select>
+                            </p>
+                          </td>
+                          <td>
+                            <p>Etat</p>
+                            <p>
+                              <select ng-model="State" ng-options="bl.Description for bl in slState"
+                                ng_change="State_Set()">
+                              </select>
+                            </p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <button ng-click="Development_Point()">Point</button>
+                    <button ng-click="Development_Bug()">Bug</button>
+                    <p><textarea ng-model="Development.Description" ng_change="Development_Set()" COLS=40 ROWS=6></textarea></p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
 </body>
 </html>

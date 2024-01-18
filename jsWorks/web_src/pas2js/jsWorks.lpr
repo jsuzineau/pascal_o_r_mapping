@@ -3,150 +3,81 @@ program jsWorks;
 {$mode objfpc}
 
 uses
- browserconsole, browserapp, JS, Classes, SysUtils, Web;
+    browserconsole, browserapp, JS, Classes, SysUtils, Web,
+    uPAS2JS_utils,
+    uBatpro_Ligne,
+    ublProject,
+    ublWork;
 
 type
- TMyApplication = class(TBrowserApplication)
-  procedure doRun; override;
- end;
+    { TMyApplication }
 
-{ TblProject }
-
-TblProject
-=
- class
-   id: Integer;
-   Selected: Boolean;
-   Name: String;
-   constructor Create( _data: JSValue);
-   procedure Ecrire;
- end;
-
-{ TslProject }
-
-TslProject
-=
- class
-   Nom: String;
-   JSON_Debut: Integer;
-   JSON_Fin  : Integer;
-   Count: Integer;
-   Elements: array of TblProject;
-   constructor Create( _data: JSValue);
-   procedure Ecrire;
-
- end;
-
-{ TblProject }
-
-constructor TblProject.Create( _data: JSValue);
-   procedure init_object;
-   var
-      O: TJSObject;
-   begin
-        O:= TJSObject( _data);
-        id        := Integer(O.Properties['id'      ]);
-        Selected  := Boolean(O.Properties['Selected']);
-        Name      := String (O.Properties['Name'    ]);
-   end;
-begin
-     init_object;
-end;
-
-procedure TblProject.Ecrire;
-begin
-     Writeln( '  id: ', id);
-     Writeln( '  Selected: ', Selected);
-     Writeln( '  Name: ', Name);
-end;
-
-{ TslProject }
-
-constructor TslProject.Create( _data: JSValue);
-   procedure init_asm;
-   begin
-        asm
-           this.Nom= _data.Nom;
-           this.JSON_Debut=_data.JSON_Debut;
-           this.JSON_Fin=_data.JSON_Fin;
-           this.Count=_data.Count;
-        end;
-   end;
-   procedure init_object;
-   var
-      O: TJSObject;
-      A: TJSArray;
-      i: Integer;
-   begin
-        O:= TJSObject( _data);
-        Nom       := String  (O.Properties['Nom'       ]);
-        JSON_Debut:= Integer (O.Properties['JSON_Debut']);
-        JSON_Fin  := Integer (O.Properties['JSON_Fin'  ]);
-        Count     := Integer (O.Properties['Count'     ]);
-        A         := TJSArray(O.Properties['Elements'  ]);
-        SetLength( Elements, A.Length);
-        for i:= Low(Elements) to High(Elements)
-        do
-          Elements[i]:= TblProject.Create( A.Elements[i]);
-   end;
-begin
-     //init_asm;
-     init_object;
-end;
-
-procedure TslProject.Ecrire;
-var
-   i: Integer;
-begin
-     Writeln( 'Nom: ', Nom);
-     Writeln( 'JSON_Debut: ', JSON_Debut);
-     Writeln( 'JSON_Fin: ', JSON_Fin);
-     Writeln( 'Count: ', Count);
-     for i:= 0 to Count -1
-     do
-       begin
-       Writeln( 'i=',i);
-       Elements[i].Ecrire;
-       WriteLn;
-       end;
-end;
+    TMyApplication
+    =
+     class(TBrowserApplication)
+       procedure doRun; override;
+     //Project
+     private
+       blProject: TblProject;
+       procedure _from_Project( _bl: TBatpro_Ligne);
+     //Work
+     private
+       blWork: TblWork;
+       procedure _from_Work( _bl: TBatpro_Ligne);
+       function Work_Change(Event: TEventListenerEvent): boolean;
+     end;
 
 procedure TMyApplication.doRun;
-var
-   hr:TJSXMLHttpRequest;
 begin
-     hr:= TJSXMLHttpRequest.new;
-     hr.Open('GET', 'Project');
-     hr.addEventListener
-       (
-       'load',
-       procedure
-       var
-          json: String;
-          data: JSValue;
-          sl: TslProject;
-          s: string;
-       begin
-            //window.fetch();
+     Requete( 'Project', 'tbody_Project', TblProject,@_from_Project);
+     Terminate;
+end;
 
-            json:= hr.responseText;
-            data:= TJSJSON.parse( json);
-            Writeln( 'data:');
-            Writeln( data);
-            sl:= TslProject.Create(data);
-            sl.Ecrire;
-       end
-       );
-     hr.send;
- Terminate;
+procedure TMyApplication._from_Project(_bl: TBatpro_Ligne);
+begin
+     blProject:= _bl as TblProject;
+     //WriteLn( 'Project ', blProject.Name, ' clicked');
+     Set_inner_HTML( 'span_Project_Name', blProject.Name);
+     Requete( 'Work_from_Project'+IntToStr(blProject.id), 'tbody_Work', TblWork,@_from_Work);
+end;
+
+procedure TMyApplication._from_Work(_bl: TBatpro_Ligne);
+begin
+     blWork:= _bl as TblWork;
+     //WriteLn( 'Work ', blWork.id, ' clicked');
+     Set_input_value( 'Work_Beginning'  , blWork.Beginning  , @Work_Change);
+     Set_input_value( 'Work_End'        , blWork._End       , @Work_Change);
+     Set_input_value( 'Work_Description', blWork.Description, @Work_Change);
+end;
+
+function TMyApplication.Work_Change(Event: TEventListenerEvent): boolean;
+var
+   json: String;
+begin
+     Result:= True;
+     if nil = blWork then exit;
+
+     Get_input_value( 'Work_Beginning'  , blWork.Beginning  );
+     Get_input_value( 'Work_End'        , blWork._End       );
+     Get_input_value( 'Work_Description', blWork.Description);
+
+     json:= TJSJSON.stringify( blWork);
+     //WriteLn( 'Work_Change');
+     //WriteLn(json);
+     Poste( 'Work_Set'+IntToStr( blWork.id), json, TblWork, @_from_Work);
 end;
 
 var
- Application : TMyApplication;
-
+   Application : TMyApplication;
 begin
- Application:=TMyApplication.Create(nil);
- Application.Initialize;
- Application.Run;
- Application.Free;
+     Application:= TMyApplication.Create( nil);
+     Application.Initialize;
+     Application.Run;
+     Application.Free;
 end.
+
+TpoolWork.Traite_HTTP: http_Set:
+>JSON:
+>{"id":1,"Selected":false,"nUser":0,"nProject":1,"Beginning":"2014/09/16 23:44","_End":"2014/09/17 01:00","Description":"test modifiÃ©","Duree":"01:16","Session_Titre":"01:16:","sSession":"01:16:\r\n  test","$events":{}}
+>{"id":"1","Selected":"0","nUser":"0","nProject":"1","Beginning":"2014/09/16 23:44","End":"2014/09/17 01:00","Description":"test modifiÃ©","Duree":"01:16","Session_Titre":"01:16:","sSession":"01:16:\r\n  test modifÃ©","Tag_from_Description":{"Nom":"Tag_from_Description","JSON_Debut":-1,"JSON_Fin":-1,"Count":0,"Elements":[]},"Tag":{"Nom":"Tag","JSON_Debut":-1,"JSON_Fin":-1,"Count":0,"Elements":[]}}
+

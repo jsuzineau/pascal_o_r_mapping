@@ -3059,58 +3059,77 @@ rtl.module("browserapp",["System","Classes","SysUtils","Types","JS","Web","CustA
     pas.SysUtils.OnGetEnvironmentString = $impl.MyGetEnvironmentString;
   };
 },["Rtl.BrowserLoadHelper"]);
-rtl.module("program",["System","browserconsole","browserapp","JS","Classes","SysUtils","Web"],function () {
+rtl.module("uPAS2JS_utils",["System","Classes","SysUtils","JS","Web"],function () {
   "use strict";
   var $mod = this;
-  rtl.createClass(this,"TMyApplication",pas.browserapp.TBrowserApplication,function () {
-    this.DoRun = function () {
-      var $Self = this;
-      var hr = null;
-      hr = new XMLHttpRequest();
-      hr.open("GET","Project");
-      hr.addEventListener("load",function () {
-        var json = "";
-        var data = undefined;
-        var sl = null;
-        json = hr.responseText;
-        data = JSON.parse(json);
-        pas.System.Writeln("data:");
-        pas.System.Writeln(data);
-        sl = $mod.TslProject.$create("Create$1",[data]);
-        sl.Ecrire();
-      });
-      hr.send();
-      this.Terminate();
-    };
-    var $r = this.$rtti;
-    $r.addMethod("DoRun",0,[]);
-  });
-  rtl.createClass(this,"TblProject",pas.System.TObject,function () {
+  this.element_from_id = function (_id) {
+    var Result = null;
+    Result = document.getElementById(_id);
+    return Result;
+  };
+  this.input_from_id = function (_id) {
+    var Result = null;
+    Result = document.getElementById(_id);
+    return Result;
+  };
+  this.Set_inner_HTML = function (_id, _inner_HTML) {
+    var e = null;
+    e = $mod.element_from_id(_id);
+    if (null === e) return;
+    e.innerHTML = _inner_HTML;
+  };
+  this.Set_input_value = function (_id, _value, _onchange) {
+    var i = null;
+    i = $mod.input_from_id(_id);
+    if (null === i) return;
+    i.value = _value;
+    i.onchange = _onchange;
+  };
+  this.Get_input_value = function (_id, _value) {
+    var i = null;
+    i = $mod.input_from_id(_id);
+    if (null === i) return;
+    _value.set(i.value);
+  };
+});
+rtl.module("uBatpro_Ligne",["System","Classes","SysUtils","Types","JS","Web","uPAS2JS_utils"],function () {
+  "use strict";
+  var $mod = this;
+  rtl.createClass(this,"TBatpro_Ligne",pas.System.TObject,function () {
     this.$init = function () {
       pas.System.TObject.$init.call(this);
-      this.id = 0;
-      this.Selected = false;
-      this.Name = "";
+      this._from = null;
+    };
+    this.$final = function () {
+      this._from = undefined;
+      pas.System.TObject.$final.call(this);
     };
     this.Create$1 = function (_data) {
-      var $Self = this;
-      function init_object() {
-        var O = null;
-        O = _data;
-        $Self.id = rtl.trunc(O["id"]);
-        $Self.Selected = !(O["Selected"] == false);
-        $Self.Name = "" + O["Name"];
+      var O = null;
+      var O_keys = [];
+      var i = 0;
+      var key = "";
+      var prop = undefined;
+      O = _data;
+      O_keys = Object.keys(O);
+      for (var $l = 0, $end = rtl.length(O_keys) - 1; $l <= $end; $l++) {
+        i = $l;
+        key = O_keys[i];
+        prop = O[key];
+        this[key]= prop;
       };
-      init_object();
       return this;
     };
-    this.Ecrire = function () {
-      pas.System.Writeln("  id: ",this.id);
-      pas.System.Writeln("  Selected: ",this.Selected);
-      pas.System.Writeln("  Name: ",this.Name);
+    this.Append_to = function (_tbody, __from) {
+      this._from = __from;
+    };
+    this.click = function (aEvent) {
+      var Result = false;
+      this._from(this);
+      return Result;
     };
   });
-  rtl.createClass(this,"TslProject",pas.System.TObject,function () {
+  rtl.createClass(this,"TslBatpro_Ligne",pas.System.TObject,function () {
     this.$init = function () {
       pas.System.TObject.$init.call(this);
       this.Nom = "";
@@ -3118,17 +3137,20 @@ rtl.module("program",["System","browserconsole","browserapp","JS","Classes","Sys
       this.JSON_Fin = 0;
       this.Count = 0;
       this.Elements = [];
+      this.Element_class = null;
     };
     this.$final = function () {
       this.Elements = undefined;
+      this.Element_class = undefined;
       pas.System.TObject.$final.call(this);
     };
-    this.Create$1 = function (_data) {
+    this.Create$1 = function (_data, _Element_class) {
       var $Self = this;
       function init_object() {
         var O = null;
         var A = null;
         var i = 0;
+        var bl = null;
         O = _data;
         $Self.Nom = "" + O["Nom"];
         $Self.JSON_Debut = rtl.trunc(O["JSON_Debut"]);
@@ -3138,25 +3160,171 @@ rtl.module("program",["System","browserconsole","browserapp","JS","Classes","Sys
         $Self.Elements = rtl.arraySetLength($Self.Elements,null,A.length);
         for (var $l = 0, $end = rtl.length($Self.Elements) - 1; $l <= $end; $l++) {
           i = $l;
-          $Self.Elements[i] = $mod.TblProject.$create("Create$1",[A[i]]);
+          bl = $Self.Element_class.$create("Create$1",[A[i]]);
+          $Self.Elements[i] = bl;
         };
       };
+      this.Element_class = _Element_class;
       init_object();
       return this;
     };
-    this.Ecrire = function () {
+    this.Append_to = function (_tbody, _from) {
       var i = 0;
-      pas.System.Writeln("Nom: ",this.Nom);
-      pas.System.Writeln("JSON_Debut: ",this.JSON_Debut);
-      pas.System.Writeln("JSON_Fin: ",this.JSON_Fin);
-      pas.System.Writeln("Count: ",this.Count);
+      _tbody.innerHTML = "";
       for (var $l = 0, $end = this.Count - 1; $l <= $end; $l++) {
         i = $l;
-        pas.System.Writeln("i=",i);
-        this.Elements[i].Ecrire();
-        pas.System.Writeln();
+        this.Elements[i].Append_to(_tbody,_from);
       };
     };
+  });
+  this.Requete = function (_URL, _tbody_id, _Element_Class, __from) {
+    var hr = null;
+    hr = new XMLHttpRequest();
+    hr.open("GET",_URL);
+    hr.addEventListener("load",function () {
+      var json = "";
+      var data = undefined;
+      var sl = null;
+      var tbody = null;
+      json = hr.responseText;
+      data = JSON.parse(json);
+      tbody = pas.uPAS2JS_utils.element_from_id(_tbody_id);
+      sl = $mod.TslBatpro_Ligne.$create("Create$1",[data,_Element_Class]);
+      sl.Append_to(tbody,__from);
+      if (sl.Count > 0) __from(sl.Elements[0]);
+    });
+    hr.send();
+  };
+  this.Poste = function (_URL, _body, _Element_Class, __from) {
+    var hr = null;
+    hr = new XMLHttpRequest();
+    hr.open("Post",_URL);
+    hr.addEventListener("load",function () {
+      var json = "";
+      var data = undefined;
+      var bl = null;
+      json = hr.responseText;
+      data = JSON.parse(json);
+      bl = _Element_Class.$create("Create$1",[data]);
+      __from(bl);
+    });
+    hr.send(_body);
+  };
+});
+rtl.module("ublProject",["System","Classes","SysUtils","JS","Web","uBatpro_Ligne"],function () {
+  "use strict";
+  var $mod = this;
+  rtl.createClass(this,"TblProject",pas.uBatpro_Ligne.TBatpro_Ligne,function () {
+    this.$init = function () {
+      pas.uBatpro_Ligne.TBatpro_Ligne.$init.call(this);
+      this.id = 0;
+      this.Name = "";
+    };
+    this.Append_to = function (_tbody, __from) {
+      var tr = null;
+      var td = null;
+      var a = null;
+      pas.uBatpro_Ligne.TBatpro_Ligne.Append_to.apply(this,arguments);
+      tr = document.createElement("tr");
+      _tbody.appendChild(tr);
+      td = document.createElement("td");
+      td.setAttribute("style","width: 100%; vertical-align: top;");
+      tr.appendChild(td);
+      a = document.createElement("a");
+      td.appendChild(a);
+      a.append(this.Name);
+      a.onclick = rtl.createSafeCallback(this,"click");
+    };
+  });
+});
+rtl.module("ublWork",["System","Classes","SysUtils","JS","Web","uBatpro_Ligne"],function () {
+  "use strict";
+  var $mod = this;
+  rtl.createClass(this,"TblWork",pas.uBatpro_Ligne.TBatpro_Ligne,function () {
+    this.$init = function () {
+      pas.uBatpro_Ligne.TBatpro_Ligne.$init.call(this);
+      this.id = 0;
+      this.Beginning = "";
+      this._End = "";
+      this.Description = "";
+    };
+    this.Create$1 = function (_data) {
+      var $Self = this;
+      pas.uBatpro_Ligne.TBatpro_Ligne.Create$1.call(this,_data);
+      return this;
+    };
+    this.Append_to = function (_tbody, __from) {
+      var tr = null;
+      var td = null;
+      var a = null;
+      pas.uBatpro_Ligne.TBatpro_Ligne.Append_to.apply(this,arguments);
+      tr = document.createElement("tr");
+      _tbody.appendChild(tr);
+      td = document.createElement("td");
+      td.setAttribute("style","width: 100%; vertical-align: top;");
+      tr.appendChild(td);
+      a = document.createElement("a");
+      td.appendChild(a);
+      a.append(this.Beginning);
+      a.onclick = rtl.createSafeCallback(this,"click");
+    };
+  });
+});
+rtl.module("program",["System","browserconsole","browserapp","JS","Classes","SysUtils","Web","uPAS2JS_utils","uBatpro_Ligne","ublProject","ublWork"],function () {
+  "use strict";
+  var $mod = this;
+  rtl.createClass(this,"TMyApplication",pas.browserapp.TBrowserApplication,function () {
+    this.$init = function () {
+      pas.browserapp.TBrowserApplication.$init.call(this);
+      this.blProject = null;
+      this.blWork = null;
+    };
+    this.$final = function () {
+      this.blProject = undefined;
+      this.blWork = undefined;
+      pas.browserapp.TBrowserApplication.$final.call(this);
+    };
+    this.DoRun = function () {
+      pas.uBatpro_Ligne.Requete("Project","tbody_Project",pas.ublProject.TblProject,rtl.createCallback(this,"_from_Project"));
+      this.Terminate();
+    };
+    this._from_Project = function (_bl) {
+      this.blProject = rtl.as(_bl,pas.ublProject.TblProject);
+      pas.uPAS2JS_utils.Set_inner_HTML("span_Project_Name",this.blProject.Name);
+      pas.uBatpro_Ligne.Requete("Work_from_Project" + pas.SysUtils.IntToStr(this.blProject.id),"tbody_Work",pas.ublWork.TblWork,rtl.createCallback(this,"_from_Work"));
+    };
+    this._from_Work = function (_bl) {
+      this.blWork = rtl.as(_bl,pas.ublWork.TblWork);
+      pas.uPAS2JS_utils.Set_input_value("Work_Beginning",this.blWork.Beginning,rtl.createSafeCallback(this,"Work_Change"));
+      pas.uPAS2JS_utils.Set_input_value("Work_End",this.blWork._End,rtl.createSafeCallback(this,"Work_Change"));
+      pas.uPAS2JS_utils.Set_input_value("Work_Description",this.blWork.Description,rtl.createSafeCallback(this,"Work_Change"));
+    };
+    this.Work_Change = function (Event) {
+      var Result = false;
+      var json = "";
+      Result = true;
+      if (null === this.blWork) return Result;
+      pas.uPAS2JS_utils.Get_input_value("Work_Beginning",{p: this.blWork, get: function () {
+          return this.p.Beginning;
+        }, set: function (v) {
+          this.p.Beginning = v;
+        }});
+      pas.uPAS2JS_utils.Get_input_value("Work_End",{p: this.blWork, get: function () {
+          return this.p._End;
+        }, set: function (v) {
+          this.p._End = v;
+        }});
+      pas.uPAS2JS_utils.Get_input_value("Work_Description",{p: this.blWork, get: function () {
+          return this.p.Description;
+        }, set: function (v) {
+          this.p.Description = v;
+        }});
+      json = JSON.stringify(this.blWork);
+      pas.uBatpro_Ligne.Poste("Work_Set" + pas.SysUtils.IntToStr(this.blWork.id),json,pas.ublWork.TblWork,rtl.createCallback(this,"_from_Work"));
+      return Result;
+    };
+    var $r = this.$rtti;
+    $r.addMethod("DoRun",0,[]);
   });
   this.Application = null;
   $mod.$main = function () {
