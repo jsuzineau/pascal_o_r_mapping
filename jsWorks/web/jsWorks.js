@@ -3285,36 +3285,70 @@ rtl.module("program",["System","browserconsole","browserapp","JS","Classes","Sys
       pas.browserapp.TBrowserApplication.$final.call(this);
     };
     this.DoRun = function () {
-      pas.uBatpro_Ligne.Requete("Project","tbody_Project",pas.ublProject.TblProject,rtl.createCallback(this,"_from_Project"));
+      var $Self = this;
+      function truc() {
+        var t = null;
+        function OnShow(_Event) {
+          var Result = false;
+          var b = null;
+          b = rtl.asExt(_Event.target,HTMLButtonElement);
+          pas.System.Writeln("_Event.target.id:",b.id);
+          return Result;
+        };
+        function Traite_tabs() {
+          var nl = null;
+          var i = 0;
+          var n = null;
+          nl = document.querySelectorAll('button[data-bs-toggle="tab"]');
+          for (var $l = 0, $end = nl.length - 1; $l <= $end; $l++) {
+            i = $l;
+            n = nl.item(i);
+            n.addEventListener("show.bs.tab",rtl.createSafeCallback(null,t));
+          };
+        };
+        t = rtl.createSafeCallback(null,OnShow);
+        Traite_tabs();
+      };
+      function TraiteRequetes() {
+        var tabProject = null;
+        tabProject = pas.uPAS2JS_utils.element_from_id("tabProject");
+        tabProject.addEventListener("show.bs.tab",rtl.createSafeCallback(null,function (_Event) {
+          var Result = false;
+          pas.uBatpro_Ligne.Requete("Project","tbody_Project_Project",pas.ublProject.TblProject,rtl.createCallback($Self,"_from_Project"));
+          return Result;
+        }));
+      };
+      truc();
+      TraiteRequetes();
       this.Terminate();
     };
     this._from_Project = function (_bl) {
       this.blProject = rtl.as(_bl,pas.ublProject.TblProject);
-      pas.uPAS2JS_utils.Set_inner_HTML("span_Project_Name",this.blProject.Name);
-      pas.uBatpro_Ligne.Requete("Work_from_Project" + pas.SysUtils.IntToStr(this.blProject.id),"tbody_Work",pas.ublWork.TblWork,rtl.createCallback(this,"_from_Work"));
+      pas.uPAS2JS_utils.Set_inner_HTML("span_Project_Project_Name",this.blProject.Name);
+      pas.uBatpro_Ligne.Requete("Work_from_Project" + pas.SysUtils.IntToStr(this.blProject.id),"tbody_Project_Work",pas.ublWork.TblWork,rtl.createCallback(this,"_from_Work"));
     };
     this._from_Work = function (_bl) {
       this.blWork = rtl.as(_bl,pas.ublWork.TblWork);
-      pas.uPAS2JS_utils.Set_input_value("Work_Beginning",this.blWork.Beginning,rtl.createSafeCallback(this,"Work_Change"));
-      pas.uPAS2JS_utils.Set_input_value("Work_End",this.blWork._End,rtl.createSafeCallback(this,"Work_Change"));
-      pas.uPAS2JS_utils.Set_input_value("Work_Description",this.blWork.Description,rtl.createSafeCallback(this,"Work_Change"));
+      pas.uPAS2JS_utils.Set_input_value("Project_Work_Beginning",this.blWork.Beginning,rtl.createSafeCallback(this,"Work_Change"));
+      pas.uPAS2JS_utils.Set_input_value("Project_Work_End",this.blWork._End,rtl.createSafeCallback(this,"Work_Change"));
+      pas.uPAS2JS_utils.Set_input_value("Project_Work_Description",this.blWork.Description,rtl.createSafeCallback(this,"Work_Change"));
     };
     this.Work_Change = function (Event) {
       var Result = false;
       var json = "";
       Result = true;
       if (null === this.blWork) return Result;
-      pas.uPAS2JS_utils.Get_input_value("Work_Beginning",{p: this.blWork, get: function () {
+      pas.uPAS2JS_utils.Get_input_value("Project_Work_Beginning",{p: this.blWork, get: function () {
           return this.p.Beginning;
         }, set: function (v) {
           this.p.Beginning = v;
         }});
-      pas.uPAS2JS_utils.Get_input_value("Work_End",{p: this.blWork, get: function () {
+      pas.uPAS2JS_utils.Get_input_value("Project_Work_End",{p: this.blWork, get: function () {
           return this.p._End;
         }, set: function (v) {
           this.p._End = v;
         }});
-      pas.uPAS2JS_utils.Get_input_value("Work_Description",{p: this.blWork, get: function () {
+      pas.uPAS2JS_utils.Get_input_value("Project_Work_Description",{p: this.blWork, get: function () {
           return this.p.Description;
         }, set: function (v) {
           this.p.Description = v;
