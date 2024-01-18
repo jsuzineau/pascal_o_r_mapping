@@ -16,15 +16,17 @@ type
     =
      class(TBrowserApplication)
        procedure doRun; override;
-     //Project
-     private
-       blProject: TblProject;
-       procedure _from_Project( _bl: TBatpro_Ligne);
-     //Work
+     //tabWork
      private
        blWork: TblWork;
        procedure _from_Work( _bl: TBatpro_Ligne);
        function Work_Change(Event: TEventListenerEvent): boolean;
+     //tabProject
+     private
+       blProject_Project: TblProject;
+       blProject_Work   : TblWork;
+       procedure _from_Project_Work( _bl: TBatpro_Ligne);
+       function Project_Work_Change(Event: TEventListenerEvent): boolean;
      end;
 
 procedure TMyApplication.doRun;
@@ -64,7 +66,28 @@ procedure TMyApplication.doRun;
          })
 *)
     end;
-    procedure TraiteRequetes;
+    procedure Traite_tabWork;
+    var
+       tabWork: TJSHTMLElement;
+    begin
+         tabWork:= element_from_id( 'tabWork');
+         tabWork.addEventListener
+           (
+           'show.bs.tab',
+           TJSEventHandler
+             (
+             function ( _Event: TEventListenerEvent): boolean
+             begin
+                  Requete
+                    (
+                    'Work', 'tbody_Work', TblWork,
+                    @_from_Work
+                    );
+             end
+             )
+           );
+    end;
+    procedure Traite_tabProject;
     var
        tabProject: TJSHTMLElement;
     begin
@@ -76,33 +99,43 @@ procedure TMyApplication.doRun;
              (
              function ( _Event: TEventListenerEvent): boolean
              begin
-                  Requete( 'Project', 'tbody_Project_Project', TblProject,@_from_Project);
+                  Requete
+                    (
+                    'Project', 'tbody_Project_Project', TblProject,
+                    T_from_Batpro_Ligne_procedure
+                      (
+                      procedure (_bl: TBatpro_Ligne)
+                      begin
+                           blProject_Project:= _bl as TblProject;
+                           //WriteLn( 'Project ', blProject_Project.Name, ' clicked');
+                           Set_inner_HTML( 'span_Project_Project_Name', blProject_Project.Name);
+                           Requete
+                             (
+                             'Work_from_Project'+IntToStr(blProject_Project.id), 'tbody_Project_Work', TblWork,
+                             @_from_Project_Work
+                             );
+                      end
+                      )
+                    );
              end
              )
            );
     end;
 begin
      truc;
-     TraiteRequetes;
+     Traite_tabWork;
+     Traite_tabProject;
 
      Terminate;
-end;
-
-procedure TMyApplication._from_Project(_bl: TBatpro_Ligne);
-begin
-     blProject:= _bl as TblProject;
-     //WriteLn( 'Project ', blProject.Name, ' clicked');
-     Set_inner_HTML( 'span_Project_Project_Name', blProject.Name);
-     Requete( 'Work_from_Project'+IntToStr(blProject.id), 'tbody_Project_Work', TblWork,@_from_Work);
 end;
 
 procedure TMyApplication._from_Work(_bl: TBatpro_Ligne);
 begin
      blWork:= _bl as TblWork;
-     //WriteLn( 'Work ', blWork.id, ' clicked');
-     Set_input_value( 'Project_Work_Beginning'  , blWork.Beginning  , @Work_Change);
-     Set_input_value( 'Project_Work_End'        , blWork._End       , @Work_Change);
-     Set_input_value( 'Project_Work_Description', blWork.Description, @Work_Change);
+     //WriteLn( 'Work ', blProject_Work.id, ' clicked');
+     Set_input_value( 'Work_Beginning'  , blWork.Beginning  , @Work_Change);
+     Set_input_value( 'Work_End'        , blWork._End       , @Work_Change);
+     Set_input_value( 'Work_Description', blWork.Description, @Work_Change);
 end;
 
 function TMyApplication.Work_Change(Event: TEventListenerEvent): boolean;
@@ -112,14 +145,41 @@ begin
      Result:= True;
      if nil = blWork then exit;
 
-     Get_input_value( 'Project_Work_Beginning'  , blWork.Beginning  );
-     Get_input_value( 'Project_Work_End'        , blWork._End       );
-     Get_input_value( 'Project_Work_Description', blWork.Description);
+     Get_input_value( 'Work_Beginning'  , blWork.Beginning  );
+     Get_input_value( 'Work_End'        , blWork._End       );
+     Get_input_value( 'Work_Description', blWork.Description);
 
      json:= TJSJSON.stringify( blWork);
      //WriteLn( 'Work_Change');
      //WriteLn(json);
      Poste( 'Work_Set'+IntToStr( blWork.id), json, TblWork, @_from_Work);
+end;
+
+
+procedure TMyApplication._from_Project_Work(_bl: TBatpro_Ligne);
+begin
+     blProject_Work:= _bl as TblWork;
+     //WriteLn( 'Work ', blProject_Work.id, ' clicked');
+     Set_input_value( 'Project_Work_Beginning'  , blProject_Work.Beginning  , @Project_Work_Change);
+     Set_input_value( 'Project_Work_End'        , blProject_Work._End       , @Project_Work_Change);
+     Set_input_value( 'Project_Work_Description', blProject_Work.Description, @Project_Work_Change);
+end;
+
+function TMyApplication.Project_Work_Change(Event: TEventListenerEvent): boolean;
+var
+   json: String;
+begin
+     Result:= True;
+     if nil = blProject_Work then exit;
+
+     Get_input_value( 'Project_Work_Beginning'  , blProject_Work.Beginning  );
+     Get_input_value( 'Project_Work_End'        , blProject_Work._End       );
+     Get_input_value( 'Project_Work_Description', blProject_Work.Description);
+
+     json:= TJSJSON.stringify( blProject_Work);
+     //WriteLn( 'Project_Work_Change');
+     //WriteLn(json);
+     Poste( 'Work_Set'+IntToStr( blProject_Work.id), json, TblWork, @_from_Project_Work);
 end;
 
 var

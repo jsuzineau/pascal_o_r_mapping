@@ -3276,12 +3276,14 @@ rtl.module("program",["System","browserconsole","browserapp","JS","Classes","Sys
   rtl.createClass(this,"TMyApplication",pas.browserapp.TBrowserApplication,function () {
     this.$init = function () {
       pas.browserapp.TBrowserApplication.$init.call(this);
-      this.blProject = null;
       this.blWork = null;
+      this.blProject_Project = null;
+      this.blProject_Work = null;
     };
     this.$final = function () {
-      this.blProject = undefined;
       this.blWork = undefined;
+      this.blProject_Project = undefined;
+      this.blProject_Work = undefined;
       pas.browserapp.TBrowserApplication.$final.call(this);
     };
     this.DoRun = function () {
@@ -3309,52 +3311,91 @@ rtl.module("program",["System","browserconsole","browserapp","JS","Classes","Sys
         t = rtl.createSafeCallback(null,OnShow);
         Traite_tabs();
       };
-      function TraiteRequetes() {
+      function Traite_tabWork() {
+        var tabWork = null;
+        tabWork = pas.uPAS2JS_utils.element_from_id("tabWork");
+        tabWork.addEventListener("show.bs.tab",rtl.createSafeCallback(null,function (_Event) {
+          var Result = false;
+          pas.uBatpro_Ligne.Requete("Work","tbody_Work",pas.ublWork.TblWork,rtl.createCallback($Self,"_from_Work"));
+          return Result;
+        }));
+      };
+      function Traite_tabProject() {
         var tabProject = null;
         tabProject = pas.uPAS2JS_utils.element_from_id("tabProject");
         tabProject.addEventListener("show.bs.tab",rtl.createSafeCallback(null,function (_Event) {
           var Result = false;
-          pas.uBatpro_Ligne.Requete("Project","tbody_Project_Project",pas.ublProject.TblProject,rtl.createCallback($Self,"_from_Project"));
+          pas.uBatpro_Ligne.Requete("Project","tbody_Project_Project",pas.ublProject.TblProject,function (_bl) {
+            $Self.blProject_Project = rtl.as(_bl,pas.ublProject.TblProject);
+            pas.uPAS2JS_utils.Set_inner_HTML("span_Project_Project_Name",$Self.blProject_Project.Name);
+            pas.uBatpro_Ligne.Requete("Work_from_Project" + pas.SysUtils.IntToStr($Self.blProject_Project.id),"tbody_Project_Work",pas.ublWork.TblWork,rtl.createCallback($Self,"_from_Project_Work"));
+          });
           return Result;
         }));
       };
       truc();
-      TraiteRequetes();
+      Traite_tabWork();
+      Traite_tabProject();
       this.Terminate();
-    };
-    this._from_Project = function (_bl) {
-      this.blProject = rtl.as(_bl,pas.ublProject.TblProject);
-      pas.uPAS2JS_utils.Set_inner_HTML("span_Project_Project_Name",this.blProject.Name);
-      pas.uBatpro_Ligne.Requete("Work_from_Project" + pas.SysUtils.IntToStr(this.blProject.id),"tbody_Project_Work",pas.ublWork.TblWork,rtl.createCallback(this,"_from_Work"));
     };
     this._from_Work = function (_bl) {
       this.blWork = rtl.as(_bl,pas.ublWork.TblWork);
-      pas.uPAS2JS_utils.Set_input_value("Project_Work_Beginning",this.blWork.Beginning,rtl.createSafeCallback(this,"Work_Change"));
-      pas.uPAS2JS_utils.Set_input_value("Project_Work_End",this.blWork._End,rtl.createSafeCallback(this,"Work_Change"));
-      pas.uPAS2JS_utils.Set_input_value("Project_Work_Description",this.blWork.Description,rtl.createSafeCallback(this,"Work_Change"));
+      pas.uPAS2JS_utils.Set_input_value("Work_Beginning",this.blWork.Beginning,rtl.createSafeCallback(this,"Work_Change"));
+      pas.uPAS2JS_utils.Set_input_value("Work_End",this.blWork._End,rtl.createSafeCallback(this,"Work_Change"));
+      pas.uPAS2JS_utils.Set_input_value("Work_Description",this.blWork.Description,rtl.createSafeCallback(this,"Work_Change"));
     };
     this.Work_Change = function (Event) {
       var Result = false;
       var json = "";
       Result = true;
       if (null === this.blWork) return Result;
-      pas.uPAS2JS_utils.Get_input_value("Project_Work_Beginning",{p: this.blWork, get: function () {
+      pas.uPAS2JS_utils.Get_input_value("Work_Beginning",{p: this.blWork, get: function () {
           return this.p.Beginning;
         }, set: function (v) {
           this.p.Beginning = v;
         }});
-      pas.uPAS2JS_utils.Get_input_value("Project_Work_End",{p: this.blWork, get: function () {
+      pas.uPAS2JS_utils.Get_input_value("Work_End",{p: this.blWork, get: function () {
           return this.p._End;
         }, set: function (v) {
           this.p._End = v;
         }});
-      pas.uPAS2JS_utils.Get_input_value("Project_Work_Description",{p: this.blWork, get: function () {
+      pas.uPAS2JS_utils.Get_input_value("Work_Description",{p: this.blWork, get: function () {
           return this.p.Description;
         }, set: function (v) {
           this.p.Description = v;
         }});
       json = JSON.stringify(this.blWork);
       pas.uBatpro_Ligne.Poste("Work_Set" + pas.SysUtils.IntToStr(this.blWork.id),json,pas.ublWork.TblWork,rtl.createCallback(this,"_from_Work"));
+      return Result;
+    };
+    this._from_Project_Work = function (_bl) {
+      this.blProject_Work = rtl.as(_bl,pas.ublWork.TblWork);
+      pas.uPAS2JS_utils.Set_input_value("Project_Work_Beginning",this.blProject_Work.Beginning,rtl.createSafeCallback(this,"Project_Work_Change"));
+      pas.uPAS2JS_utils.Set_input_value("Project_Work_End",this.blProject_Work._End,rtl.createSafeCallback(this,"Project_Work_Change"));
+      pas.uPAS2JS_utils.Set_input_value("Project_Work_Description",this.blProject_Work.Description,rtl.createSafeCallback(this,"Project_Work_Change"));
+    };
+    this.Project_Work_Change = function (Event) {
+      var Result = false;
+      var json = "";
+      Result = true;
+      if (null === this.blProject_Work) return Result;
+      pas.uPAS2JS_utils.Get_input_value("Project_Work_Beginning",{p: this.blProject_Work, get: function () {
+          return this.p.Beginning;
+        }, set: function (v) {
+          this.p.Beginning = v;
+        }});
+      pas.uPAS2JS_utils.Get_input_value("Project_Work_End",{p: this.blProject_Work, get: function () {
+          return this.p._End;
+        }, set: function (v) {
+          this.p._End = v;
+        }});
+      pas.uPAS2JS_utils.Get_input_value("Project_Work_Description",{p: this.blProject_Work, get: function () {
+          return this.p.Description;
+        }, set: function (v) {
+          this.p.Description = v;
+        }});
+      json = JSON.stringify(this.blProject_Work);
+      pas.uBatpro_Ligne.Poste("Work_Set" + pas.SysUtils.IntToStr(this.blProject_Work.id),json,pas.ublWork.TblWork,rtl.createCallback(this,"_from_Project_Work"));
       return Result;
     };
     var $r = this.$rtti;
