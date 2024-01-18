@@ -30,99 +30,51 @@ type
      end;
 
 procedure TMyApplication.doRun;
-    procedure truc;
-    var
-       t: TJSEventHandler;
-       function OnShow( _Event: TEventListenerEvent): boolean;
-       var
-          b: TJSHTMLButtonElement;
-       begin
-            b:= _Event.target as TJSHTMLButtonElement;
-            WriteLn( '_Event.target.id:', b.id);
-       end;
-       procedure Traite_tabs;
-       var
-          nl: TJSNodeList;
-          i: Integer;
-          n: TJSNode;
-       begin
-            nl:= document.querySelectorAll('button[data-bs-toggle="tab"]');
-
-            for i:= 0 to nl.length-1
-            do
-              begin
-              n:= nl.item( i);
-              n.addEventListener( 'show.bs.tab', t);
-              end;
-       end;
-    begin
-         t:= @OnShow;
-         Traite_tabs;
-(*
-         const tabEl = document.querySelector('button[data-bs-toggle="tab"]')
-         tabEl.addEventListener('shown.bs.tab', event => {
-           event.target // newly activated tab
-           event.relatedTarget // previous active tab
-         })
-*)
-    end;
     procedure Traite_tabWork;
     var
        tabWork: TJSHTMLElement;
+       procedure Get_Work;
+       begin
+            Requete( 'Work', 'tbody_Work', TblWork, @_from_Work);
+       end;
+       function tabWork_Show( _Event: TEventListenerEvent): Boolean;
+       begin
+            Get_Work;
+            Result:= True;
+       end;
     begin
          tabWork:= element_from_id( 'tabWork');
-         tabWork.addEventListener
-           (
-           'show.bs.tab',
-           TJSEventHandler
-             (
-             function ( _Event: TEventListenerEvent): boolean
-             begin
-                  Requete
-                    (
-                    'Work', 'tbody_Work', TblWork,
-                    @_from_Work
-                    );
-             end
-             )
-           );
+         tabWork.addEventListener( 'show.bs.tab', @tabWork_Show);
+         Get_Work;
     end;
     procedure Traite_tabProject;
     var
        tabProject: TJSHTMLElement;
+       procedure _from_Project_Project(_bl: TBatpro_Ligne);
+       begin
+            blProject_Project:= _bl as TblProject;
+            //WriteLn( 'Project ', blProject_Project.Name, ' clicked');
+            Set_inner_HTML( 'span_Project_Project_Name', blProject_Project.Name);
+            Requete
+              (
+              'Work_from_Project'+IntToStr(blProject_Project.id),
+              'tbody_Project_Work', TblWork, @_from_Project_Work
+              );
+       end;
+       function tabProject_Show( _Event: TEventListenerEvent): Boolean;
+       begin
+            Requete
+              (
+              'Project', 'tbody_Project_Project', TblProject,
+              @_from_Project_Project
+              );
+            Result:= True;
+       end;
     begin
          tabProject:= element_from_id( 'tabProject');
-         tabProject.addEventListener
-           (
-           'show.bs.tab',
-           TJSEventHandler
-             (
-             function ( _Event: TEventListenerEvent): boolean
-             begin
-                  Requete
-                    (
-                    'Project', 'tbody_Project_Project', TblProject,
-                    T_from_Batpro_Ligne_procedure
-                      (
-                      procedure (_bl: TBatpro_Ligne)
-                      begin
-                           blProject_Project:= _bl as TblProject;
-                           //WriteLn( 'Project ', blProject_Project.Name, ' clicked');
-                           Set_inner_HTML( 'span_Project_Project_Name', blProject_Project.Name);
-                           Requete
-                             (
-                             'Work_from_Project'+IntToStr(blProject_Project.id), 'tbody_Project_Work', TblWork,
-                             @_from_Project_Work
-                             );
-                      end
-                      )
-                    );
-             end
-             )
-           );
+         tabProject.addEventListener( 'show.bs.tab', @tabProject_Show);
     end;
 begin
-     truc;
      Traite_tabWork;
      Traite_tabProject;
 

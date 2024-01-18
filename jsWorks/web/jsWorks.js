@@ -3288,52 +3288,37 @@ rtl.module("program",["System","browserconsole","browserapp","JS","Classes","Sys
     };
     this.DoRun = function () {
       var $Self = this;
-      function truc() {
-        var t = null;
-        function OnShow(_Event) {
-          var Result = false;
-          var b = null;
-          b = rtl.asExt(_Event.target,HTMLButtonElement);
-          pas.System.Writeln("_Event.target.id:",b.id);
-          return Result;
-        };
-        function Traite_tabs() {
-          var nl = null;
-          var i = 0;
-          var n = null;
-          nl = document.querySelectorAll('button[data-bs-toggle="tab"]');
-          for (var $l = 0, $end = nl.length - 1; $l <= $end; $l++) {
-            i = $l;
-            n = nl.item(i);
-            n.addEventListener("show.bs.tab",rtl.createSafeCallback(null,t));
-          };
-        };
-        t = rtl.createSafeCallback(null,OnShow);
-        Traite_tabs();
-      };
       function Traite_tabWork() {
         var tabWork = null;
-        tabWork = pas.uPAS2JS_utils.element_from_id("tabWork");
-        tabWork.addEventListener("show.bs.tab",rtl.createSafeCallback(null,function (_Event) {
-          var Result = false;
+        function Get_Work() {
           pas.uBatpro_Ligne.Requete("Work","tbody_Work",pas.ublWork.TblWork,rtl.createCallback($Self,"_from_Work"));
+        };
+        function tabWork_Show(_Event) {
+          var Result = false;
+          Get_Work();
+          Result = true;
           return Result;
-        }));
+        };
+        tabWork = pas.uPAS2JS_utils.element_from_id("tabWork");
+        tabWork.addEventListener("show.bs.tab",rtl.createSafeCallback(null,tabWork_Show));
+        Get_Work();
       };
       function Traite_tabProject() {
         var tabProject = null;
-        tabProject = pas.uPAS2JS_utils.element_from_id("tabProject");
-        tabProject.addEventListener("show.bs.tab",rtl.createSafeCallback(null,function (_Event) {
+        function _from_Project_Project(_bl) {
+          $Self.blProject_Project = rtl.as(_bl,pas.ublProject.TblProject);
+          pas.uPAS2JS_utils.Set_inner_HTML("span_Project_Project_Name",$Self.blProject_Project.Name);
+          pas.uBatpro_Ligne.Requete("Work_from_Project" + pas.SysUtils.IntToStr($Self.blProject_Project.id),"tbody_Project_Work",pas.ublWork.TblWork,rtl.createCallback($Self,"_from_Project_Work"));
+        };
+        function tabProject_Show(_Event) {
           var Result = false;
-          pas.uBatpro_Ligne.Requete("Project","tbody_Project_Project",pas.ublProject.TblProject,function (_bl) {
-            $Self.blProject_Project = rtl.as(_bl,pas.ublProject.TblProject);
-            pas.uPAS2JS_utils.Set_inner_HTML("span_Project_Project_Name",$Self.blProject_Project.Name);
-            pas.uBatpro_Ligne.Requete("Work_from_Project" + pas.SysUtils.IntToStr($Self.blProject_Project.id),"tbody_Project_Work",pas.ublWork.TblWork,rtl.createCallback($Self,"_from_Project_Work"));
-          });
+          pas.uBatpro_Ligne.Requete("Project","tbody_Project_Project",pas.ublProject.TblProject,_from_Project_Project);
+          Result = true;
           return Result;
-        }));
+        };
+        tabProject = pas.uPAS2JS_utils.element_from_id("tabProject");
+        tabProject.addEventListener("show.bs.tab",rtl.createSafeCallback(null,tabProject_Show));
       };
-      truc();
       Traite_tabWork();
       Traite_tabProject();
       this.Terminate();
