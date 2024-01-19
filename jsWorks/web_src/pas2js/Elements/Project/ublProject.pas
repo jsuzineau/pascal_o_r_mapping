@@ -17,7 +17,9 @@ type
        Selected: Boolean;
        Name: String;
        procedure Ecrire;override;
-       procedure Append_to( _tbody: TJSHTMLElement; __from: T_from_Batpro_Ligne_procedure);override;
+       procedure Append_to( _root: TJSHTMLElement;
+                            __from: T_from_Batpro_Ligne_procedure;
+                            _blrk: TBatpro_Ligne_root_kind);override;
      end;
 
 
@@ -33,16 +35,21 @@ begin
      Writeln( '  Name: ', Name);
 end;
 
-procedure TblProject.Append_to( _tbody: TJSHTMLElement;
-                                __from: T_from_Batpro_Ligne_procedure);
+procedure TblProject.Append_to( _root: TJSHTMLElement;
+                                __from: T_from_Batpro_Ligne_procedure;
+                                _blrk: TBatpro_Ligne_root_kind);
+
 var
    tr: TJSElement;
    td: TJSElement;
    a : TJSHTMLAnchorElement;
 begin
      inherited;
+
+     if  _blrk <> blrk_table then exit;
+
      tr:=document.createElement('tr');
-     _tbody.appendChild(tr);
+     _root.appendChild(tr);
 
      td:=document.createElement('td');
      td.Attrs['style']:= 'width: 100%; vertical-align: top;';

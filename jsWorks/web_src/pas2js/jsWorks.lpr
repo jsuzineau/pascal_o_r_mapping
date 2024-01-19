@@ -44,7 +44,8 @@ procedure TMyApplication.doRun;
             Fin:= Now;
             sFin:= DateTimeSQL_sans_quotes( Fin);
             //Writeln( 'Get_Work:',sDebut, ' - ', sFin);
-            Work_from_Periode( sDebut, sFin, 0,'tbody_Work', @_from_Work);
+            Work_from_Periode( sDebut, sFin, 0,'tbody_Work', @_from_Work,blrk_table);
+            //Work_from_Periode( sDebut, sFin, 0,'div_Work', @_from_Work,blrk_bootstrap_div_col);
        end;
        function tabWork_Show( _Event: TEventListenerEvent): Boolean;
        begin
@@ -113,7 +114,7 @@ procedure TMyApplication.doRun;
             Requete
               (
               'Work_from_Project'+IntToStr(blProject_Project.id),
-              'tbody_Project_Work', TblWork, @_from_Project_Work
+              'tbody_Project_Work', TblWork, @_from_Project_Work,blrk_table
               );
        end;
        function tabProject_Show( _Event: TEventListenerEvent): Boolean;
@@ -121,7 +122,7 @@ procedure TMyApplication.doRun;
             Requete
               (
               'Project', 'tbody_Project_Project', TblProject,
-              @_from_Project_Project
+              @_from_Project_Project, blrk_table
               );
             Result:= True;
        end;

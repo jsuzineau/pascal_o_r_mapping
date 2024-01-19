@@ -12,6 +12,8 @@ type
     TBatpro_Ligne=class;
     T_from_Batpro_Ligne_procedure= procedure ( _bl: TBatpro_Ligne) of object;
 
+    TBatpro_Ligne_root_kind= (blrk_table, blrk_bootstrap_div_col);
+
     { TBatpro_Ligne }
 
     TBatpro_Ligne
@@ -20,7 +22,9 @@ type
        _from: T_from_Batpro_Ligne_procedure;
        constructor Create( _data: JSValue);virtual;
        procedure Ecrire;virtual;
-       procedure Append_to( _tbody: TJSHTMLElement; __from: T_from_Batpro_Ligne_procedure);virtual;
+       procedure Append_to( _root: TJSHTMLElement;
+                            __from: T_from_Batpro_Ligne_procedure;
+                            _blrk: TBatpro_Ligne_root_kind);virtual;
        function click( aEvent : TJSMouseEvent) : boolean;
      end;
 
@@ -39,15 +43,17 @@ type
          Element_class: TBatpro_Ligne_class;
          constructor Create( _data: JSValue; _Element_class: TBatpro_Ligne_class);
          procedure Ecrire;
-         procedure Append_to( _tbody: TJSHTMLElement;
-                              _from: T_from_Batpro_Ligne_procedure);
+         procedure Append_to( _root: TJSHTMLElement;
+                              _from: T_from_Batpro_Ligne_procedure;
+                              _blrk: TBatpro_Ligne_root_kind);
 
        end;
 
 procedure Requete( _URL: String;
-                   _tbody_id:String;
+                   _root_id:String;
                    _Element_Class: TBatpro_Ligne_class;
                    __from: T_from_Batpro_Ligne_procedure;
+                   _blrk: TBatpro_Ligne_root_kind;
                    _request_body: String= '');
 
 procedure Poste( _URL, _body: String;
@@ -57,9 +63,10 @@ procedure Poste( _URL, _body: String;
 implementation
 
 procedure Requete( _URL: String;
-                   _tbody_id:String;
+                   _root_id:String;
                    _Element_Class: TBatpro_Ligne_class;
                    __from: T_from_Batpro_Ligne_procedure;
+                   _blrk: TBatpro_Ligne_root_kind;
                    _request_body: String= '');
 var
    verb: String;
@@ -70,14 +77,14 @@ var
       data: JSValue;
       sl: TslBatpro_Ligne;
       s: string;
-      tbody: TJSHTMLElement;
+      root: TJSHTMLElement;
    begin
         //window.fetch();
 
         json:= hr.responseText;
         data:= TJSJSON.parse( json);
 
-        tbody:= element_from_id( _tbody_id);
+        root:= element_from_id( _root_id);
 
         sl:= TslBatpro_Ligne.Create(data, _Element_Class);
 
@@ -87,7 +94,7 @@ var
         //Writeln( data);
         //sl.Ecrire;
 
-        sl.Append_to(tbody, __from);
+        sl.Append_to(root, __from, _blrk);
         if sl.Count > 0
         then
             __From( sl.Elements[0]);
@@ -158,8 +165,9 @@ begin
 
 end;
 
-procedure TBatpro_Ligne.Append_to( _tbody: TJSHTMLElement;
-                                   __from: T_from_Batpro_Ligne_procedure);
+procedure TBatpro_Ligne.Append_to( _root: TJSHTMLElement;
+                                   __from: T_from_Batpro_Ligne_procedure;
+                                   _blrk: TBatpro_Ligne_root_kind);
 begin
      _from:= __from;
 end;
@@ -226,15 +234,16 @@ begin
        end;
 end;
 
-procedure TslBatpro_Ligne.Append_to( _tbody: TJSHTMLElement;
-                                     _from: T_from_Batpro_Ligne_procedure);
+procedure TslBatpro_Ligne.Append_to( _root: TJSHTMLElement;
+                                     _from: T_from_Batpro_Ligne_procedure;
+                                     _blrk: TBatpro_Ligne_root_kind);
 var
    i: Integer;
 begin
-     _tbody.innerHTML:= '';
+     _root.innerHTML:= '';
      for i:= 0 to Count -1
      do
-       Elements[i].Append_to( _tbody, _from);
+       Elements[i].Append_to( _root, _from, _blrk);
 end;
 
 end.

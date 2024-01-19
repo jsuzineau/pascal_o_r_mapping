@@ -26,7 +26,12 @@ type
 
        constructor Create( _data: JSValue); override;
        procedure Ecrire; override;
-       procedure Append_to( _tbody: TJSHTMLElement; __from: T_from_Batpro_Ligne_procedure); override;
+       procedure Append_to( _root: TJSHTMLElement;
+                            __from: T_from_Batpro_Ligne_procedure;
+                            _blrk: TBatpro_Ligne_root_kind);override;
+     //Description_courte
+     public
+       function Description_courte: String;
      //_End
      private
        function Get_End: String;
@@ -37,13 +42,15 @@ type
 
 procedure Work_from_Periode( _sDebut, _sFin: String; _idTag: Integer;
                              _tbody_id:String;
-                             __from: T_from_Batpro_Ligne_procedure);
+                             __from: T_from_Batpro_Ligne_procedure;
+                             _blrk: TBatpro_Ligne_root_kind);
 
 implementation
 
 procedure Work_from_Periode( _sDebut, _sFin: String; _idTag: Integer;
                              _tbody_id:String;
-                             __from: T_from_Batpro_Ligne_procedure);
+                             __from: T_from_Batpro_Ligne_procedure;
+                             _blrk: TBatpro_Ligne_root_kind);
 var
    jo: TJSObject;
    Request_Body: String;
@@ -57,7 +64,7 @@ begin
 
      //Writeln( 'Work_from_Periode: Request_Body');
      //Writeln( Request_Body);
-     Requete( 'Work_from_Periode', _tbody_id, TblWork, __from, Request_Body);
+     Requete( 'Work_from_Periode', _tbody_id, TblWork, __from, _blrk, Request_Body);
 end;
 
 { TblWork }
@@ -120,28 +127,63 @@ begin
 
 end;
 
-procedure TblWork.Append_to( _tbody: TJSHTMLElement;
-                             __from: T_from_Batpro_Ligne_procedure);
-var
-   tr: TJSElement;
-   td: TJSElement;
-   a : TJSHTMLAnchorElement;
+procedure TblWork.Append_to( _root: TJSHTMLElement;
+                             __from: T_from_Batpro_Ligne_procedure;
+                             _blrk: TBatpro_Ligne_root_kind);
+   procedure Traite_Table;
+   var
+      tr: TJSElement;
+      td: TJSElement;
+      a : TJSHTMLAnchorElement;
+   begin
+        tr:=document.createElement('tr');
+        _root.appendChild(tr);
+
+        td:=document.createElement('td');
+        td.Attrs['style']:= 'width: 100%; vertical-align: top;';
+        tr.appendChild(td);
+
+        a:=TJSHTMLAnchorElement( document.createElement('a'));
+        //a.Attrs['href']:= '';
+        td.appendChild(a);
+
+        //a.append( DateTimeToStr( Beginning));
+        a.append( Beginning+' '+Description_courte);
+        a.onclick:= @click;
+   end;
+   procedure Traite_Bootstrap;
+   var
+      row: TJSElement;
+      b : TJSHTMLButtonElement;
+   begin
+        row:=document.createElement('div');
+        _root.appendChild(row);
+        row.Attrs['class']:= 'row mb-3';
+
+        b:= TJSHTMLButtonElement(document.createElement('button'));
+        b.Attrs['class']:= 'btn';//btn-primary
+        row.appendChild(b);
+
+        b.append( Beginning+' '+Description_courte);
+        b.onclick:= @click;
+   end;
 begin
      inherited;
-     tr:=document.createElement('tr');
-     _tbody.appendChild(tr);
+     case _blrk
+     of
+       blrk_table            : Traite_Table;
+       blrk_bootstrap_div_col: Traite_Bootstrap;
+       end;
+end;
 
-     td:=document.createElement('td');
-     td.Attrs['style']:= 'width: 100%; vertical-align: top;';
-     tr.appendChild(td);
-
-     a:=TJSHTMLAnchorElement( document.createElement('a'));
-     //a.Attrs['href']:= '';
-     td.appendChild(a);
-
-     //a.append( DateTimeToStr( Beginning));
-     a.append( Beginning);
-     a.onclick:= @click;
+function TblWork.Description_courte: String;
+const Taille_max=20;
+begin
+     if Length( Description) <= Taille_max
+     then
+         Result:= Description
+     else
+         Result:= Copy( Description, 1, Taille_max)+'...';
 end;
 
 function TblWork.Get_End: String;

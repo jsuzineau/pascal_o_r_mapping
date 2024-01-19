@@ -3563,6 +3563,7 @@ rtl.module("strutils",["System","SysUtils","Types"],function () {
 rtl.module("uBatpro_Ligne",["System","Classes","SysUtils","Types","strutils","JS","Web","uPAS2JS_utils"],function () {
   "use strict";
   var $mod = this;
+  this.TBatpro_Ligne_root_kind = {"0": "blrk_table", blrk_table: 0, "1": "blrk_bootstrap_div_col", blrk_bootstrap_div_col: 1};
   rtl.createClass(this,"TBatpro_Ligne",pas.System.TObject,function () {
     this.$init = function () {
       pas.System.TObject.$init.call(this);
@@ -3588,7 +3589,7 @@ rtl.module("uBatpro_Ligne",["System","Classes","SysUtils","Types","strutils","JS
       };
       return this;
     };
-    this.Append_to = function (_tbody, __from) {
+    this.Append_to = function (_root, __from, _blrk) {
       this._from = __from;
     };
     this.click = function (aEvent) {
@@ -3636,28 +3637,28 @@ rtl.module("uBatpro_Ligne",["System","Classes","SysUtils","Types","strutils","JS
       init_object();
       return this;
     };
-    this.Append_to = function (_tbody, _from) {
+    this.Append_to = function (_root, _from, _blrk) {
       var i = 0;
-      _tbody.innerHTML = "";
+      _root.innerHTML = "";
       for (var $l = 0, $end = this.Count - 1; $l <= $end; $l++) {
         i = $l;
-        this.Elements[i].Append_to(_tbody,_from);
+        this.Elements[i].Append_to(_root,_from,_blrk);
       };
     };
   });
-  this.Requete = function (_URL, _tbody_id, _Element_Class, __from, _request_body) {
+  this.Requete = function (_URL, _root_id, _Element_Class, __from, _blrk, _request_body) {
     var verb = "";
     var hr = null;
     function hr_load() {
       var json = "";
       var data = undefined;
       var sl = null;
-      var tbody = null;
+      var root = null;
       json = hr.responseText;
       data = JSON.parse(json);
-      tbody = pas.uPAS2JS_utils.element_from_id(_tbody_id);
+      root = pas.uPAS2JS_utils.element_from_id(_root_id);
       sl = $mod.TslBatpro_Ligne.$create("Create$1",[data,_Element_Class]);
-      sl.Append_to(tbody,__from);
+      sl.Append_to(root,__from,_blrk);
       if (sl.Count > 0) __from(sl.Elements[0]);
     };
     verb = pas.strutils.IfThen("" === _request_body,"GET","POST");
@@ -3692,13 +3693,14 @@ rtl.module("ublProject",["System","Classes","SysUtils","JS","Web","uBatpro_Ligne
       this.id = 0;
       this.Name = "";
     };
-    this.Append_to = function (_tbody, __from) {
+    this.Append_to = function (_root, __from, _blrk) {
       var tr = null;
       var td = null;
       var a = null;
       pas.uBatpro_Ligne.TBatpro_Ligne.Append_to.apply(this,arguments);
+      if (_blrk !== 0) return;
       tr = document.createElement("tr");
-      _tbody.appendChild(tr);
+      _root.appendChild(tr);
       td = document.createElement("td");
       td.setAttribute("style","width: 100%; vertical-align: top;");
       tr.appendChild(td);
@@ -3724,20 +3726,47 @@ rtl.module("ublWork",["System","Classes","SysUtils","JS","Web","uPAS2JS_utils","
       pas.uBatpro_Ligne.TBatpro_Ligne.Create$1.call(this,_data);
       return this;
     };
-    this.Append_to = function (_tbody, __from) {
-      var tr = null;
-      var td = null;
-      var a = null;
+    this.Append_to = function (_root, __from, _blrk) {
+      var $Self = this;
+      function Traite_Table() {
+        var tr = null;
+        var td = null;
+        var a = null;
+        tr = document.createElement("tr");
+        _root.appendChild(tr);
+        td = document.createElement("td");
+        td.setAttribute("style","width: 100%; vertical-align: top;");
+        tr.appendChild(td);
+        a = document.createElement("a");
+        td.appendChild(a);
+        a.append($Self.Beginning + " " + $Self.Description_courte());
+        a.onclick = rtl.createSafeCallback($Self,"click");
+      };
+      function Traite_Bootstrap() {
+        var row = null;
+        var b = null;
+        row = document.createElement("div");
+        _root.appendChild(row);
+        row.setAttribute("class","row mb-3");
+        b = document.createElement("button");
+        b.setAttribute("class","btn");
+        row.appendChild(b);
+        b.append($Self.Beginning + " " + $Self.Description_courte());
+        b.onclick = rtl.createSafeCallback($Self,"click");
+      };
       pas.uBatpro_Ligne.TBatpro_Ligne.Append_to.apply(this,arguments);
-      tr = document.createElement("tr");
-      _tbody.appendChild(tr);
-      td = document.createElement("td");
-      td.setAttribute("style","width: 100%; vertical-align: top;");
-      tr.appendChild(td);
-      a = document.createElement("a");
-      td.appendChild(a);
-      a.append(this.Beginning);
-      a.onclick = rtl.createSafeCallback(this,"click");
+      var $tmp = _blrk;
+      if ($tmp === 0) {
+        Traite_Table()}
+       else if ($tmp === 1) Traite_Bootstrap();
+    };
+    var Taille_max = 20;
+    this.Description_courte = function () {
+      var Result = "";
+      if (this.Description.length <= 20) {
+        Result = this.Description}
+       else Result = pas.System.Copy(this.Description,1,20) + "...";
+      return Result;
     };
     this.Get_End = function () {
       var Result = "";
@@ -3748,7 +3777,7 @@ rtl.module("ublWork",["System","Classes","SysUtils","JS","Web","uPAS2JS_utils","
       this['End']=_Value;
     };
   });
-  this.Work_from_Periode = function (_sDebut, _sFin, _idTag, _tbody_id, __from) {
+  this.Work_from_Periode = function (_sDebut, _sFin, _idTag, _tbody_id, __from, _blrk) {
     var jo = null;
     var Request_Body = "";
     jo = new Object();
@@ -3756,7 +3785,7 @@ rtl.module("ublWork",["System","Classes","SysUtils","JS","Web","uPAS2JS_utils","
     jo["Fin"] = _sFin;
     jo["idTag"] = _idTag;
     Request_Body = JSON.stringify(jo);
-    pas.uBatpro_Ligne.Requete("Work_from_Periode",_tbody_id,$mod.TblWork,__from,Request_Body);
+    pas.uBatpro_Ligne.Requete("Work_from_Periode",_tbody_id,$mod.TblWork,__from,_blrk,Request_Body);
   };
 });
 rtl.module("program",["System","browserconsole","browserapp","JS","Classes","SysUtils","Web","uPAS2JS_utils","uBatpro_Ligne","ublProject","ublWork"],function () {
@@ -3788,7 +3817,7 @@ rtl.module("program",["System","browserconsole","browserapp","JS","Classes","Sys
           sDebut = dtp.value;
           Fin = pas.SysUtils.Now();
           sFin = pas.uPAS2JS_utils.DateTimeSQL_sans_quotes(Fin);
-          pas.ublWork.Work_from_Periode(sDebut,sFin,0,"tbody_Work",rtl.createCallback($Self,"_from_Work"));
+          pas.ublWork.Work_from_Periode(sDebut,sFin,0,"tbody_Work",rtl.createCallback($Self,"_from_Work"),0);
         };
         function tabWork_Show(_Event) {
           var Result = false;
@@ -3846,11 +3875,11 @@ rtl.module("program",["System","browserconsole","browserapp","JS","Classes","Sys
         function _from_Project_Project(_bl) {
           $Self.blProject_Project = rtl.as(_bl,pas.ublProject.TblProject);
           pas.uPAS2JS_utils.Set_inner_HTML("span_Project_Project_Name",$Self.blProject_Project.Name);
-          pas.uBatpro_Ligne.Requete("Work_from_Project" + pas.SysUtils.IntToStr($Self.blProject_Project.id),"tbody_Project_Work",pas.ublWork.TblWork,rtl.createCallback($Self,"_from_Project_Work"),"");
+          pas.uBatpro_Ligne.Requete("Work_from_Project" + pas.SysUtils.IntToStr($Self.blProject_Project.id),"tbody_Project_Work",pas.ublWork.TblWork,rtl.createCallback($Self,"_from_Project_Work"),0,"");
         };
         function tabProject_Show(_Event) {
           var Result = false;
-          pas.uBatpro_Ligne.Requete("Project","tbody_Project_Project",pas.ublProject.TblProject,_from_Project_Project,"");
+          pas.uBatpro_Ligne.Requete("Project","tbody_Project_Project",pas.ublProject.TblProject,_from_Project_Project,0,"");
           Result = true;
           return Result;
         };
