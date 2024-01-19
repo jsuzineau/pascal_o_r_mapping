@@ -1502,6 +1502,8 @@ rtl.module("System",[],function () {
   "use strict";
   var $mod = this;
   var $impl = $mod.$impl;
+  this.MaxLongint = 0x7fffffff;
+  this.Maxint = 2147483647;
   rtl.createClass(this,"TObject",null,function () {
     this.$init = function () {
     };
@@ -2152,6 +2154,18 @@ rtl.module("SysUtils",["System","RTLConsts","JS"],function () {
   this.OnGetEnvironmentVariable = null;
   this.OnGetEnvironmentString = null;
   this.OnGetEnvironmentVariableCount = null;
+  rtl.recNewT(this,"TTimeStamp",function () {
+    this.Time = 0;
+    this.Date = 0;
+    this.$eq = function (b) {
+      return (this.Time === b.Time) && (this.Date === b.Date);
+    };
+    this.$assign = function (s) {
+      this.Time = s.Time;
+      this.Date = s.Date;
+      return this;
+    };
+  });
   this.TimeSeparator = "";
   this.DateSeparator = "";
   this.ShortDateFormat = "";
@@ -2162,11 +2176,382 @@ rtl.module("SysUtils",["System","RTLConsts","JS"],function () {
   this.ThousandSeparator = "";
   this.TimeAMString = "";
   this.TimePMString = "";
+  this.HoursPerDay = 24;
+  this.MinsPerHour = 60;
+  this.SecsPerMin = 60;
+  this.MSecsPerSec = 1000;
+  this.MinsPerDay = 24 * 60;
+  this.SecsPerDay = 1440 * 60;
+  this.MSecsPerDay = 86400 * 1000;
+  this.MaxDateTime = 2958465.99999999;
+  this.DateDelta = 693594;
+  this.MonthDays$a$clone = function (a) {
+    var b = [];
+    b.length = 2;
+    for (var c = 0; c < 2; c++) b[c] = a[c].slice(0);
+    return b;
+  };
+  this.MonthDays = [[31,28,31,30,31,30,31,31,30,31,30,31],[31,29,31,30,31,30,31,31,30,31,30,31]];
   this.ShortMonthNames = rtl.arraySetLength(null,"",12);
   this.LongMonthNames = rtl.arraySetLength(null,"",12);
   this.ShortDayNames = rtl.arraySetLength(null,"",7);
   this.LongDayNames = rtl.arraySetLength(null,"",7);
   this.FormatSettings = this.TFormatSettings.$new();
+  this.JSDateToDateTime = function (aDate) {
+    var Result = 0.0;
+    Result = $mod.EncodeDate(aDate.getFullYear(),aDate.getMonth() + 1,aDate.getDate()) + $mod.EncodeTime(aDate.getHours(),aDate.getMinutes(),aDate.getSeconds(),aDate.getMilliseconds());
+    return Result;
+  };
+  this.DateTimeToTimeStamp = function (DateTime) {
+    var Result = $mod.TTimeStamp.$new();
+    var D = 0.0;
+    D = DateTime * 86400000;
+    if (D < 0) {
+      D = D - 0.5}
+     else D = D + 0.5;
+    Result.Time = pas.System.Trunc(Math.abs(pas.System.Trunc(D)) % 86400000);
+    Result.Date = 693594 + rtl.trunc(pas.System.Trunc(D) / 86400000);
+    return Result;
+  };
+  this.TryEncodeDate = function (Year, Month, Day, date) {
+    var Result = false;
+    var c = 0;
+    var ya = 0;
+    Result = (Year > 0) && (Year < 10000) && (Month >= 1) && (Month <= 12) && (Day > 0) && (Day <= $mod.MonthDays[+$mod.IsLeapYear(Year)][Month - 1]);
+    if (Result) {
+      if (Month > 2) {
+        Month -= 3}
+       else {
+        Month += 9;
+        Year -= 1;
+      };
+      c = rtl.trunc(Year / 100);
+      ya = Year - (100 * c);
+      date.set(((146097 * c) >>> 2) + ((1461 * ya) >>> 2) + rtl.trunc(((153 * Month) + 2) / 5) + Day);
+      date.set(date.get() - 693900);
+    };
+    return Result;
+  };
+  this.TryEncodeTime = function (Hour, Min, Sec, MSec, Time) {
+    var Result = false;
+    Result = (Hour < 24) && (Min < 60) && (Sec < 60) && (MSec < 1000);
+    if (Result) Time.set(((Hour * 3600000) + (Min * 60000) + (Sec * 1000) + MSec) / 86400000);
+    return Result;
+  };
+  this.EncodeDate = function (Year, Month, Day) {
+    var Result = 0.0;
+    if (!$mod.TryEncodeDate(Year,Month,Day,{get: function () {
+        return Result;
+      }, set: function (v) {
+        Result = v;
+      }})) throw $mod.EConvertError.$create("CreateFmt",["%s-%s-%s is not a valid date specification",pas.System.VarRecs(18,$mod.IntToStr(Year),18,$mod.IntToStr(Month),18,$mod.IntToStr(Day))]);
+    return Result;
+  };
+  this.EncodeTime = function (Hour, Minute, Second, MilliSecond) {
+    var Result = 0.0;
+    if (!$mod.TryEncodeTime(Hour,Minute,Second,MilliSecond,{get: function () {
+        return Result;
+      }, set: function (v) {
+        Result = v;
+      }})) throw $mod.EConvertError.$create("CreateFmt",["%s:%s:%s.%s is not a valid time specification",pas.System.VarRecs(18,$mod.IntToStr(Hour),18,$mod.IntToStr(Minute),18,$mod.IntToStr(Second),18,$mod.IntToStr(MilliSecond))]);
+    return Result;
+  };
+  this.DecodeDate = function (date, Year, Month, Day) {
+    var ly = 0;
+    var ld = 0;
+    var lm = 0;
+    var j = 0;
+    if (date <= -693594) {
+      Year.set(0);
+      Month.set(0);
+      Day.set(0);
+    } else {
+      if (date > 0) {
+        date = date + (1 / (86400000 * 2))}
+       else date = date - (1 / (86400000 * 2));
+      if (date > $mod.MaxDateTime) date = $mod.MaxDateTime;
+      j = rtl.shl(pas.System.Trunc(date) + 693900,2) - 1;
+      ly = rtl.trunc(j / 146097);
+      j = j - (146097 * ly);
+      ld = rtl.lw(j >>> 2);
+      j = rtl.trunc((rtl.lw(ld << 2) + 3) / 1461);
+      ld = rtl.lw(((rtl.lw(ld << 2) + 7) - (1461 * j)) >>> 2);
+      lm = rtl.trunc(((5 * ld) - 3) / 153);
+      ld = rtl.trunc((((5 * ld) + 2) - (153 * lm)) / 5);
+      ly = (100 * ly) + j;
+      if (lm < 10) {
+        lm += 3}
+       else {
+        lm -= 9;
+        ly += 1;
+      };
+      Year.set(ly);
+      Month.set(lm);
+      Day.set(ld);
+    };
+  };
+  this.DecodeTime = function (Time, Hour, Minute, Second, MilliSecond) {
+    var l = 0;
+    l = $mod.DateTimeToTimeStamp(Time).Time;
+    Hour.set(rtl.trunc(l / 3600000));
+    l = l % 3600000;
+    Minute.set(rtl.trunc(l / 60000));
+    l = l % 60000;
+    Second.set(rtl.trunc(l / 1000));
+    l = l % 1000;
+    MilliSecond.set(l);
+  };
+  this.DecodeDateFully = function (DateTime, Year, Month, Day, DOW) {
+    var Result = false;
+    $mod.DecodeDate(DateTime,Year,Month,Day);
+    DOW.set($mod.DayOfWeek(DateTime));
+    Result = $mod.IsLeapYear(Year.get());
+    return Result;
+  };
+  this.Now = function () {
+    var Result = 0.0;
+    Result = $mod.JSDateToDateTime(new Date());
+    return Result;
+  };
+  this.DayOfWeek = function (DateTime) {
+    var Result = 0;
+    Result = 1 + ((pas.System.Trunc(DateTime) - 1) % 7);
+    if (Result <= 0) Result += 7;
+    return Result;
+  };
+  this.IsLeapYear = function (Year) {
+    var Result = false;
+    Result = ((Year % 4) === 0) && (((Year % 100) !== 0) || ((Year % 400) === 0));
+    return Result;
+  };
+  this.FormatDateTime = function (FormatStr, DateTime) {
+    var Result = "";
+    Result = $mod.FormatDateTime$1(FormatStr,DateTime,$mod.FormatSettings);
+    return Result;
+  };
+  this.FormatDateTime$1 = function (FormatStr, DateTime, aSettings) {
+    var Result = "";
+    function StoreStr(APos, Len) {
+      Result = Result + pas.System.Copy(FormatStr,APos,Len);
+    };
+    function StoreString(AStr) {
+      Result = Result + AStr;
+    };
+    function StoreInt(Value, Digits) {
+      var S = "";
+      S = $mod.IntToStr(Value);
+      while (S.length < Digits) S = "0" + S;
+      StoreString(S);
+    };
+    var Year = 0;
+    var Month = 0;
+    var Day = 0;
+    var DayOfWeek = 0;
+    var Hour = 0;
+    var Minute = 0;
+    var Second = 0;
+    var MilliSecond = 0;
+    function StoreFormat(FormatStr, Nesting, TimeFlag) {
+      var Token = "";
+      var lastformattoken = "";
+      var prevlasttoken = "";
+      var Count = 0;
+      var Clock12 = false;
+      var tmp = 0;
+      var isInterval = false;
+      var P = 0;
+      var FormatCurrent = 0;
+      var FormatEnd = 0;
+      if (Nesting > 1) return;
+      FormatCurrent = 1;
+      FormatEnd = FormatStr.length;
+      Clock12 = false;
+      isInterval = false;
+      P = 1;
+      while (P <= FormatEnd) {
+        Token = FormatStr.charAt(P - 1);
+        var $tmp = Token;
+        if (($tmp === "'") || ($tmp === '"')) {
+          P += 1;
+          while ((P < FormatEnd) && (FormatStr.charAt(P - 1) !== Token)) P += 1;
+        } else if (($tmp === "A") || ($tmp === "a")) {
+          if (($mod.CompareText(pas.System.Copy(FormatStr,P,3),"A\/P") === 0) || ($mod.CompareText(pas.System.Copy(FormatStr,P,4),"AMPM") === 0) || ($mod.CompareText(pas.System.Copy(FormatStr,P,5),"AM\/PM") === 0)) {
+            Clock12 = true;
+            break;
+          };
+        };
+        P += 1;
+      };
+      Token = "ÿ";
+      lastformattoken = " ";
+      prevlasttoken = "H";
+      while (FormatCurrent <= FormatEnd) {
+        Token = $mod.UpperCase(FormatStr.charAt(FormatCurrent - 1)).charAt(0);
+        Count = 1;
+        P = FormatCurrent + 1;
+        var $tmp1 = Token;
+        if (($tmp1 === "'") || ($tmp1 === '"')) {
+          while ((P < FormatEnd) && (FormatStr.charAt(P - 1) !== Token)) P += 1;
+          P += 1;
+          Count = P - FormatCurrent;
+          StoreStr(FormatCurrent + 1,Count - 2);
+        } else if ($tmp1 === "A") {
+          if ($mod.CompareText(pas.System.Copy(FormatStr,FormatCurrent,4),"AMPM") === 0) {
+            Count = 4;
+            if (Hour < 12) {
+              StoreString(aSettings.TimeAMString)}
+             else StoreString(aSettings.TimePMString);
+          } else if ($mod.CompareText(pas.System.Copy(FormatStr,FormatCurrent,5),"AM\/PM") === 0) {
+            Count = 5;
+            if (Hour < 12) {
+              StoreStr(FormatCurrent,2)}
+             else StoreStr(FormatCurrent + 3,2);
+          } else if ($mod.CompareText(pas.System.Copy(FormatStr,FormatCurrent,3),"A\/P") === 0) {
+            Count = 3;
+            if (Hour < 12) {
+              StoreStr(FormatCurrent,1)}
+             else StoreStr(FormatCurrent + 2,1);
+          } else throw $mod.EConvertError.$create("Create$1",["Illegal character in format string"]);
+        } else if ($tmp1 === "\/") {
+          StoreString(aSettings.DateSeparator);
+        } else if ($tmp1 === ":") {
+          StoreString(aSettings.TimeSeparator)}
+         else if (($tmp1 === " ") || ($tmp1 === "C") || ($tmp1 === "D") || ($tmp1 === "H") || ($tmp1 === "M") || ($tmp1 === "N") || ($tmp1 === "S") || ($tmp1 === "T") || ($tmp1 === "Y") || ($tmp1 === "Z") || ($tmp1 === "F")) {
+          while ((P <= FormatEnd) && ($mod.UpperCase(FormatStr.charAt(P - 1)) === Token)) P += 1;
+          Count = P - FormatCurrent;
+          var $tmp2 = Token;
+          if ($tmp2 === " ") {
+            StoreStr(FormatCurrent,Count)}
+           else if ($tmp2 === "Y") {
+            if (Count > 2) {
+              StoreInt(Year,4)}
+             else StoreInt(Year % 100,2);
+          } else if ($tmp2 === "M") {
+            if (isInterval && ((prevlasttoken === "H") || TimeFlag)) {
+              StoreInt(Minute + ((Hour + (pas.System.Trunc(Math.abs(DateTime)) * 24)) * 60),0)}
+             else if ((lastformattoken === "H") || TimeFlag) {
+              if (Count === 1) {
+                StoreInt(Minute,0)}
+               else StoreInt(Minute,2);
+            } else {
+              var $tmp3 = Count;
+              if ($tmp3 === 1) {
+                StoreInt(Month,0)}
+               else if ($tmp3 === 2) {
+                StoreInt(Month,2)}
+               else if ($tmp3 === 3) {
+                StoreString(aSettings.ShortMonthNames[Month - 1])}
+               else {
+                StoreString(aSettings.LongMonthNames[Month - 1]);
+              };
+            };
+          } else if ($tmp2 === "D") {
+            var $tmp4 = Count;
+            if ($tmp4 === 1) {
+              StoreInt(Day,0)}
+             else if ($tmp4 === 2) {
+              StoreInt(Day,2)}
+             else if ($tmp4 === 3) {
+              StoreString(aSettings.ShortDayNames[DayOfWeek - 1])}
+             else if ($tmp4 === 4) {
+              StoreString(aSettings.LongDayNames[DayOfWeek - 1])}
+             else if ($tmp4 === 5) {
+              StoreFormat(aSettings.ShortDateFormat,Nesting + 1,false)}
+             else {
+              StoreFormat(aSettings.LongDateFormat,Nesting + 1,false);
+            };
+          } else if ($tmp2 === "H") {
+            if (isInterval) {
+              StoreInt(Hour + (pas.System.Trunc(Math.abs(DateTime)) * 24),0)}
+             else if (Clock12) {
+              tmp = Hour % 12;
+              if (tmp === 0) tmp = 12;
+              if (Count === 1) {
+                StoreInt(tmp,0)}
+               else StoreInt(tmp,2);
+            } else {
+              if (Count === 1) {
+                StoreInt(Hour,0)}
+               else StoreInt(Hour,2);
+            }}
+           else if ($tmp2 === "N") {
+            if (isInterval) {
+              StoreInt(Minute + ((Hour + (pas.System.Trunc(Math.abs(DateTime)) * 24)) * 60),0)}
+             else if (Count === 1) {
+              StoreInt(Minute,0)}
+             else StoreInt(Minute,2)}
+           else if ($tmp2 === "S") {
+            if (isInterval) {
+              StoreInt(Second + ((Minute + ((Hour + (pas.System.Trunc(Math.abs(DateTime)) * 24)) * 60)) * 60),0)}
+             else if (Count === 1) {
+              StoreInt(Second,0)}
+             else StoreInt(Second,2)}
+           else if ($tmp2 === "Z") {
+            if (Count === 1) {
+              StoreInt(MilliSecond,0)}
+             else StoreInt(MilliSecond,3)}
+           else if ($tmp2 === "T") {
+            if (Count === 1) {
+              StoreFormat(aSettings.ShortTimeFormat,Nesting + 1,true)}
+             else StoreFormat(aSettings.LongTimeFormat,Nesting + 1,true)}
+           else if ($tmp2 === "C") {
+            StoreFormat(aSettings.ShortDateFormat,Nesting + 1,false);
+            if ((Hour !== 0) || (Minute !== 0) || (Second !== 0)) {
+              StoreString(" ");
+              StoreFormat(aSettings.LongTimeFormat,Nesting + 1,true);
+            };
+          } else if ($tmp2 === "F") {
+            StoreFormat(aSettings.ShortDateFormat,Nesting + 1,false);
+            StoreString(" ");
+            StoreFormat(aSettings.LongTimeFormat,Nesting + 1,true);
+          };
+          prevlasttoken = lastformattoken;
+          lastformattoken = Token;
+        } else {
+          StoreString(Token);
+        };
+        FormatCurrent += Count;
+      };
+    };
+    $mod.DecodeDateFully(DateTime,{get: function () {
+        return Year;
+      }, set: function (v) {
+        Year = v;
+      }},{get: function () {
+        return Month;
+      }, set: function (v) {
+        Month = v;
+      }},{get: function () {
+        return Day;
+      }, set: function (v) {
+        Day = v;
+      }},{get: function () {
+        return DayOfWeek;
+      }, set: function (v) {
+        DayOfWeek = v;
+      }});
+    $mod.DecodeTime(DateTime,{get: function () {
+        return Hour;
+      }, set: function (v) {
+        Hour = v;
+      }},{get: function () {
+        return Minute;
+      }, set: function (v) {
+        Minute = v;
+      }},{get: function () {
+        return Second;
+      }, set: function (v) {
+        Second = v;
+      }},{get: function () {
+        return MilliSecond;
+      }, set: function (v) {
+        MilliSecond = v;
+      }});
+    if (FormatStr !== "") {
+      StoreFormat(FormatStr,0,false)}
+     else StoreFormat("C",0,false);
+    return Result;
+  };
   this.CurrencyFormat = 0;
   this.NegCurrFormat = 0;
   this.CurrencyDecimals = 0;
@@ -3105,8 +3490,77 @@ rtl.module("uPAS2JS_utils",["System","Classes","SysUtils","JS","Web"],function (
       }});
     return Result;
   };
+  this.DateTimeSQL_sans_quotes = function (D) {
+    var Result = "";
+    Result = pas.SysUtils.FormatDateTime("yyyy-mm-dd hh:nn:ss",D);
+    return Result;
+  };
+  this.DateSQL_sans_quotes = function (D) {
+    var Result = "";
+    Result = pas.SysUtils.FormatDateTime("yyyy-mm-dd",D);
+    return Result;
+  };
 });
-rtl.module("uBatpro_Ligne",["System","Classes","SysUtils","Types","JS","Web","uPAS2JS_utils"],function () {
+rtl.module("strutils",["System","SysUtils","Types"],function () {
+  "use strict";
+  var $mod = this;
+  var $impl = $mod.$impl;
+  this.IfThen = function (AValue, ATrue, AFalse) {
+    var Result = "";
+    if (AValue) {
+      Result = ATrue}
+     else Result = AFalse;
+    return Result;
+  };
+  this.Soundex = function (AText, ALength) {
+    var Result = "";
+    var S = "";
+    var PS = "";
+    var I = 0;
+    var L = 0;
+    Result = "";
+    PS = "\x00";
+    if (AText.length > 0) {
+      Result = pas.System.upcase(AText.charAt(0));
+      I = 2;
+      L = AText.length;
+      while ((I <= L) && (Result.length < ALength)) {
+        S = $impl.SScore.charAt(AText.charCodeAt(I - 1) - 1);
+        if (!(S.charCodeAt() in rtl.createSet(48,105,PS.charCodeAt()))) Result = Result + S;
+        if (S !== "i") PS = S;
+        I += 1;
+      };
+    };
+    L = Result.length;
+    if (L < ALength) Result = Result + pas.System.StringOfChar("0",ALength - L);
+    return Result;
+  };
+  this.SoundexSimilar = function (AText, AOther, ALength) {
+    var Result = false;
+    Result = $mod.Soundex(AText,ALength) === $mod.Soundex(AOther,ALength);
+    return Result;
+  };
+  this.SoundexSimilar$1 = function (AText, AOther) {
+    var Result = false;
+    Result = $mod.SoundexSimilar(AText,AOther,4);
+    return Result;
+  };
+  this.SoundexProc = function (AText, AOther) {
+    var Result = false;
+    Result = $mod.SoundexSimilar$1(AText,AOther);
+    return Result;
+  };
+  this.AnsiResemblesProc = null;
+  this.ResemblesProc = null;
+  $mod.$implcode = function () {
+    $impl.SScore = "00000000000000000000000000000000" + "00000000000000000000000000000000" + "0123012i02245501262301i2i2" + "000000" + "0123012i02245501262301i2i2" + "00000000000000000000000000000000" + "00000000000000000000000000000000" + "00000000000000000000000000000000" + "00000000000000000000000000000000" + "00000";
+  };
+  $mod.$init = function () {
+    $mod.AnsiResemblesProc = $mod.SoundexProc;
+    $mod.ResemblesProc = $mod.SoundexProc;
+  };
+},["JS"]);
+rtl.module("uBatpro_Ligne",["System","Classes","SysUtils","Types","strutils","JS","Web","uPAS2JS_utils"],function () {
   "use strict";
   var $mod = this;
   rtl.createClass(this,"TBatpro_Ligne",pas.System.TObject,function () {
@@ -3191,7 +3645,8 @@ rtl.module("uBatpro_Ligne",["System","Classes","SysUtils","Types","JS","Web","uP
       };
     };
   });
-  this.Requete = function (_URL, _tbody_id, _Element_Class, __from) {
+  this.Requete = function (_URL, _tbody_id, _Element_Class, __from, _request_body) {
+    var verb = "";
     var hr = null;
     function hr_load() {
       var json = "";
@@ -3205,10 +3660,11 @@ rtl.module("uBatpro_Ligne",["System","Classes","SysUtils","Types","JS","Web","uP
       sl.Append_to(tbody,__from);
       if (sl.Count > 0) __from(sl.Elements[0]);
     };
+    verb = pas.strutils.IfThen("" === _request_body,"GET","POST");
     hr = new XMLHttpRequest();
-    hr.open("GET",_URL);
+    hr.open(verb,_URL);
     hr.addEventListener("load",hr_load);
-    hr.send();
+    hr.send(_request_body);
   };
   this.Poste = function (_URL, _body, _Element_Class, __from) {
     var hr = null;
@@ -3253,7 +3709,7 @@ rtl.module("ublProject",["System","Classes","SysUtils","JS","Web","uBatpro_Ligne
     };
   });
 });
-rtl.module("ublWork",["System","Classes","SysUtils","JS","Web","uBatpro_Ligne"],function () {
+rtl.module("ublWork",["System","Classes","SysUtils","JS","Web","uPAS2JS_utils","uBatpro_Ligne"],function () {
   "use strict";
   var $mod = this;
   rtl.createClass(this,"TblWork",pas.uBatpro_Ligne.TBatpro_Ligne,function () {
@@ -3292,6 +3748,16 @@ rtl.module("ublWork",["System","Classes","SysUtils","JS","Web","uBatpro_Ligne"],
       this['End']=_Value;
     };
   });
+  this.Work_from_Periode = function (_sDebut, _sFin, _idTag, _tbody_id, __from) {
+    var jo = null;
+    var Request_Body = "";
+    jo = new Object();
+    jo["Debut"] = _sDebut;
+    jo["Fin"] = _sFin;
+    jo["idTag"] = _idTag;
+    Request_Body = JSON.stringify(jo);
+    pas.uBatpro_Ligne.Requete("Work_from_Periode",_tbody_id,$mod.TblWork,__from,Request_Body);
+  };
 });
 rtl.module("program",["System","browserconsole","browserapp","JS","Classes","SysUtils","Web","uPAS2JS_utils","uBatpro_Ligne","ublProject","ublWork"],function () {
   "use strict";
@@ -3314,7 +3780,15 @@ rtl.module("program",["System","browserconsole","browserapp","JS","Classes","Sys
       function Traite_tabWork() {
         var tabWork = null;
         function Get_Work() {
-          pas.uBatpro_Ligne.Requete("Work","tbody_Work",pas.ublWork.TblWork,rtl.createCallback($Self,"_from_Work"));
+          var dtp = null;
+          var Fin = 0.0;
+          var sDebut = "";
+          var sFin = "";
+          dtp = pas.uPAS2JS_utils.input_from_id("dtpBeginning_From");
+          sDebut = dtp.value;
+          Fin = pas.SysUtils.Now();
+          sFin = pas.uPAS2JS_utils.DateTimeSQL_sans_quotes(Fin);
+          pas.ublWork.Work_from_Periode(sDebut,sFin,0,"tbody_Work",rtl.createCallback($Self,"_from_Work"));
         };
         function tabWork_Show(_Event) {
           var Result = false;
@@ -3323,42 +3797,60 @@ rtl.module("program",["System","browserconsole","browserapp","JS","Classes","Sys
           return Result;
         };
         function Traite_Work_Start() {
-          var bWork_Start = null;
-          function bWork_Start_click(_Event) {
+          var b = null;
+          function b_click(_Event) {
             var Result = false;
             pas.uBatpro_Ligne.Poste("Work_Start" + pas.SysUtils.IntToStr(0),"",pas.ublWork.TblWork,rtl.createCallback($Self,"_from_Work"));
             return Result;
           };
-          bWork_Start = pas.uPAS2JS_utils.button_from_id("bWork_Start");
-          bWork_Start.addEventListener("click",rtl.createSafeCallback(null,bWork_Start_click));
+          b = pas.uPAS2JS_utils.button_from_id("bWork_Start");
+          b.addEventListener("click",rtl.createSafeCallback(null,b_click));
         };
         function Traite_Work_Stop() {
-          var bWork_Stop = null;
-          function bWork_Stop_click(_Event) {
+          var b = null;
+          function b_click(_Event) {
             var Result = false;
             if (null === $Self.blWork) return Result;
             pas.uBatpro_Ligne.Poste("Work_Stop" + pas.SysUtils.IntToStr($Self.blWork.id),"",pas.ublWork.TblWork,rtl.createCallback($Self,"_from_Work"));
             return Result;
           };
-          bWork_Stop = pas.uPAS2JS_utils.button_from_id("bWork_Stop");
-          bWork_Stop.addEventListener("click",rtl.createSafeCallback(null,bWork_Stop_click));
+          b = pas.uPAS2JS_utils.button_from_id("bWork_Stop");
+          b.addEventListener("click",rtl.createSafeCallback(null,b_click));
+        };
+        function Traite_Beginning_From() {
+          var dtp = null;
+          var Debut = 0.0;
+          var sDebut = "";
+          var b = null;
+          function b_click(_Event) {
+            var Result = false;
+            Get_Work();
+            return Result;
+          };
+          Debut = pas.SysUtils.Now() - 30;
+          sDebut = pas.uPAS2JS_utils.DateSQL_sans_quotes(Debut);
+          dtp = pas.uPAS2JS_utils.input_from_id("dtpBeginning_From");
+          dtp.value = sDebut;
+          b = pas.uPAS2JS_utils.button_from_id("bBeginning_From");
+          b.addEventListener("click",rtl.createSafeCallback(null,b_click));
         };
         tabWork = pas.uPAS2JS_utils.element_from_id("tabWork");
         tabWork.addEventListener("show.bs.tab",rtl.createSafeCallback(null,tabWork_Show));
-        Get_Work();
         Traite_Work_Start();
         Traite_Work_Stop();
+        Traite_Beginning_From();
+        Get_Work();
       };
       function Traite_tabProject() {
         var tabProject = null;
         function _from_Project_Project(_bl) {
           $Self.blProject_Project = rtl.as(_bl,pas.ublProject.TblProject);
           pas.uPAS2JS_utils.Set_inner_HTML("span_Project_Project_Name",$Self.blProject_Project.Name);
-          pas.uBatpro_Ligne.Requete("Work_from_Project" + pas.SysUtils.IntToStr($Self.blProject_Project.id),"tbody_Project_Work",pas.ublWork.TblWork,rtl.createCallback($Self,"_from_Project_Work"));
+          pas.uBatpro_Ligne.Requete("Work_from_Project" + pas.SysUtils.IntToStr($Self.blProject_Project.id),"tbody_Project_Work",pas.ublWork.TblWork,rtl.createCallback($Self,"_from_Project_Work"),"");
         };
         function tabProject_Show(_Event) {
           var Result = false;
-          pas.uBatpro_Ligne.Requete("Project","tbody_Project_Project",pas.ublProject.TblProject,_from_Project_Project);
+          pas.uBatpro_Ligne.Requete("Project","tbody_Project_Project",pas.ublProject.TblProject,_from_Project_Project,"");
           Result = true;
           return Result;
         };

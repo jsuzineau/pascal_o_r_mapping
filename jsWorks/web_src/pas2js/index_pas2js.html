@@ -34,8 +34,12 @@
                      <tbody>
                        <tr>
                          <td>
-                           <p><a href="AUT/">Requêteur</a></p>
-                           <p>Projet: <span id="span_Project_Name">{{Project.Name}}</span></p>
+                           <p>Sessions</p>
+                           <p>
+                             Depuis
+                             <input id="dtpBeginning_From" type="date">
+                             <button id="bBeginning_From">Go</button>
+                           </p>
                          </td>
                        </tr>
                        <tr>
@@ -51,7 +55,7 @@
                      </tbody>
                    </table>
                  </td>
-                 <td style="width: 434.5px;height:300px;vertical-align: top;">
+                 <td style="vertical-align: top;">
                    <p>Début: <input id="Work_Beginning" type="text"> </p>
                    <p>Fin:   <input id="Work_End"       type="text"> </p>
                    <button id="bWork_Start">Démarrer</button> <button id="bWork_Stop">Arrêter</button>

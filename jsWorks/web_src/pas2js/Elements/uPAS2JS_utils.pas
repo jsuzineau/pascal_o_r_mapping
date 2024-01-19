@@ -17,6 +17,8 @@ procedure Get_input_value( _id: String; out _value: String);overload;
 function  Get_input_value( _id: String): String;overload;
 
 function Decode_Date( _S: String): TDateTime;
+function DateTimeSQL_sans_quotes( D: TDateTime): String;
+function DateSQL_sans_quotes( D: TDateTime): String;
 
 implementation
 
@@ -105,6 +107,16 @@ begin
          Result:= EncodeDate( YYYY, MM, DD) + EncodeTime(HH,NN,0,0)
      else
          Result:= 0;
+end;
+
+function DateTimeSQL_sans_quotes( D: TDateTime): String;
+begin
+     Result:= FormatDateTime( 'yyyy-mm-dd hh:nn:ss', D);
+end;
+
+function DateSQL_sans_quotes( D: TDateTime): String;
+begin
+     Result:= FormatDateTime( 'yyyy-mm-dd', D);
 end;
 
 

@@ -5,7 +5,7 @@ unit uBatpro_Ligne;
 interface
 
 uses
- Classes, SysUtils,Types, JS,Web,
+ Classes, SysUtils,Types, strutils,JS,Web,
  uPAS2JS_utils;
 
 type
@@ -47,7 +47,8 @@ type
 procedure Requete( _URL: String;
                    _tbody_id:String;
                    _Element_Class: TBatpro_Ligne_class;
-                   __from: T_from_Batpro_Ligne_procedure);
+                   __from: T_from_Batpro_Ligne_procedure;
+                   _request_body: String= '');
 
 procedure Poste( _URL, _body: String;
                  _Element_Class: TBatpro_Ligne_class;
@@ -58,8 +59,10 @@ implementation
 procedure Requete( _URL: String;
                    _tbody_id:String;
                    _Element_Class: TBatpro_Ligne_class;
-                   __from: T_from_Batpro_Ligne_procedure);
+                   __from: T_from_Batpro_Ligne_procedure;
+                   _request_body: String= '');
 var
+   verb: String;
    hr:TJSXMLHttpRequest;
    procedure hr_load;
    var
@@ -90,10 +93,11 @@ var
             __From( sl.Elements[0]);
    end;
 begin
+     verb:= ifthen( ''=_request_body, 'GET', 'POST');
      hr:= TJSXMLHttpRequest.new;
-     hr.Open('GET', _URL);
+     hr.Open(verb, _URL);
      hr.addEventListener( 'load', @hr_load);
-     hr.send;
+     hr.send(_request_body);
 end;
 
 procedure Poste( _URL, _body: String;

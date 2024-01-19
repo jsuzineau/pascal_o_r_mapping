@@ -34,8 +34,17 @@ procedure TMyApplication.doRun;
     var
        tabWork: TJSHTMLElement;
        procedure Get_Work;
+       var
+          dtp: TJSHTMLInputElement;
+          Fin: TDateTime;
+          sDebut, sFin: String;
        begin
-            Requete( 'Work', 'tbody_Work', TblWork, @_from_Work);
+            dtp:= input_from_id( 'dtpBeginning_From');
+            sDebut:= dtp.value;
+            Fin:= Now;
+            sFin:= DateTimeSQL_sans_quotes( Fin);
+            //Writeln( 'Get_Work:',sDebut, ' - ', sFin);
+            Work_from_Periode( sDebut, sFin, 0,'tbody_Work', @_from_Work);
        end;
        function tabWork_Show( _Event: TEventListenerEvent): Boolean;
        begin
@@ -44,33 +53,54 @@ procedure TMyApplication.doRun;
        end;
        procedure Traite_Work_Start;
        var
-          bWork_Start: TJSHTMLButtonElement;
-          function bWork_Start_click( _Event: TEventListenerEvent): Boolean;
+          b: TJSHTMLButtonElement;
+          function b_click( _Event: TEventListenerEvent): Boolean;
           begin
                Poste( 'Work_Start'+IntToStr( 0), '', TblWork, @_from_Work);
           end;
        begin
-            bWork_Start:= button_from_id( 'bWork_Start');
-            bWork_Start.addEventListener( 'click', @bWork_Start_click);
+            b:= button_from_id( 'bWork_Start');
+            b.addEventListener( 'click', @b_click);
        end;
        procedure Traite_Work_Stop;
        var
-          bWork_Stop: TJSHTMLButtonElement;
-          function bWork_Stop_click( _Event: TEventListenerEvent): Boolean;
+          b: TJSHTMLButtonElement;
+          function b_click( _Event: TEventListenerEvent): Boolean;
           begin
                if nil = blWork then exit;
                Poste( 'Work_Stop'+IntToStr( blWork.id), '', TblWork, @_from_Work);
           end;
        begin
-            bWork_Stop:= button_from_id( 'bWork_Stop');
-            bWork_Stop.addEventListener( 'click', @bWork_Stop_click);
+            b:= button_from_id( 'bWork_Stop');
+            b.addEventListener( 'click', @b_click);
+       end;
+       procedure Traite_Beginning_From;
+       var
+          dtp: TJSHTMLInputElement;
+          Debut: TDateTime;
+          sDebut: String;
+          b: TJSHTMLButtonElement;
+          function b_click( _Event: TEventListenerEvent): Boolean;
+          begin
+               Get_Work;
+          end;
+       begin
+            Debut:= Now-30;
+            sDebut:= DateSQL_sans_quotes( Debut);
+            //WriteLn( 'Traite_Beginning_From:', sDebut);
+            dtp:= input_from_id( 'dtpBeginning_From');
+            dtp.value:= sDebut;
+
+            b:= button_from_id( 'bBeginning_From');
+            b.addEventListener( 'click', @b_click);
        end;
     begin
          tabWork:= element_from_id( 'tabWork');
          tabWork.addEventListener( 'show.bs.tab', @tabWork_Show);
-         Get_Work;
          Traite_Work_Start;
          Traite_Work_Stop;
+         Traite_Beginning_From;
+         Get_Work;
     end;
     procedure Traite_tabProject;
     var

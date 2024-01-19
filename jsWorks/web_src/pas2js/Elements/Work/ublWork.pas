@@ -6,6 +6,7 @@ interface
 
 uses
  Classes, SysUtils, JS, Web,
+ uPAS2JS_utils,
  uBatpro_Ligne;
 
 type
@@ -34,8 +35,32 @@ type
        property _End: String(*TDateTime*) read Get_End write Set_End;
      end;
 
+procedure Work_from_Periode( _sDebut, _sFin: String; _idTag: Integer;
+                             _tbody_id:String;
+                             __from: T_from_Batpro_Ligne_procedure);
 
 implementation
+
+procedure Work_from_Periode( _sDebut, _sFin: String; _idTag: Integer;
+                             _tbody_id:String;
+                             __from: T_from_Batpro_Ligne_procedure);
+var
+   jo: TJSObject;
+   Request_Body: String;
+begin
+     jo:= TJSObject.new;
+     jo.Properties['Debut']:= _sDebut;
+     jo.Properties['Fin'  ]:= _sFin  ;
+     jo.Properties['idTag']:= _idTag ;
+
+     Request_Body:= TJSJSON.stringify( jo);
+
+     //Writeln( 'Work_from_Periode: Request_Body');
+     //Writeln( Request_Body);
+     Requete( 'Work_from_Periode', _tbody_id, TblWork, __from, Request_Body);
+end;
+
+{ TblWork }
 
 constructor TblWork.Create(_data: JSValue);
     procedure init_object;
