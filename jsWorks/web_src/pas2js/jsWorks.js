@@ -3067,6 +3067,11 @@ rtl.module("uPAS2JS_utils",["System","Classes","SysUtils","JS","Web"],function (
     Result = document.getElementById(_id);
     return Result;
   };
+  this.button_from_id = function (_id) {
+    var Result = null;
+    Result = document.getElementById(_id);
+    return Result;
+  };
   this.input_from_id = function (_id) {
     var Result = null;
     Result = document.getElementById(_id);
@@ -3090,6 +3095,15 @@ rtl.module("uPAS2JS_utils",["System","Classes","SysUtils","JS","Web"],function (
     i = $mod.input_from_id(_id);
     if (null === i) return;
     _value.set(i.value);
+  };
+  this.Get_input_value$1 = function (_id) {
+    var Result = "";
+    $mod.Get_input_value(_id,{get: function () {
+        return Result;
+      }, set: function (v) {
+        Result = v;
+      }});
+    return Result;
   };
 });
 rtl.module("uBatpro_Ligne",["System","Classes","SysUtils","Types","JS","Web","uPAS2JS_utils"],function () {
@@ -3179,9 +3193,7 @@ rtl.module("uBatpro_Ligne",["System","Classes","SysUtils","Types","JS","Web","uP
   });
   this.Requete = function (_URL, _tbody_id, _Element_Class, __from) {
     var hr = null;
-    hr = new XMLHttpRequest();
-    hr.open("GET",_URL);
-    hr.addEventListener("load",function () {
+    function hr_load() {
       var json = "";
       var data = undefined;
       var sl = null;
@@ -3192,14 +3204,15 @@ rtl.module("uBatpro_Ligne",["System","Classes","SysUtils","Types","JS","Web","uP
       sl = $mod.TslBatpro_Ligne.$create("Create$1",[data,_Element_Class]);
       sl.Append_to(tbody,__from);
       if (sl.Count > 0) __from(sl.Elements[0]);
-    });
+    };
+    hr = new XMLHttpRequest();
+    hr.open("GET",_URL);
+    hr.addEventListener("load",hr_load);
     hr.send();
   };
   this.Poste = function (_URL, _body, _Element_Class, __from) {
     var hr = null;
-    hr = new XMLHttpRequest();
-    hr.open("Post",_URL);
-    hr.addEventListener("load",function () {
+    function hr_load() {
       var json = "";
       var data = undefined;
       var bl = null;
@@ -3207,7 +3220,10 @@ rtl.module("uBatpro_Ligne",["System","Classes","SysUtils","Types","JS","Web","uP
       data = JSON.parse(json);
       bl = _Element_Class.$create("Create$1",[data]);
       __from(bl);
-    });
+    };
+    hr = new XMLHttpRequest();
+    hr.open("Post",_URL);
+    hr.addEventListener("load",hr_load);
     hr.send(_body);
   };
 });
@@ -3245,7 +3261,6 @@ rtl.module("ublWork",["System","Classes","SysUtils","JS","Web","uBatpro_Ligne"],
       pas.uBatpro_Ligne.TBatpro_Ligne.$init.call(this);
       this.id = 0;
       this.Beginning = "";
-      this._End = "";
       this.Description = "";
     };
     this.Create$1 = function (_data) {
@@ -3267,6 +3282,14 @@ rtl.module("ublWork",["System","Classes","SysUtils","JS","Web","uBatpro_Ligne"],
       td.appendChild(a);
       a.append(this.Beginning);
       a.onclick = rtl.createSafeCallback(this,"click");
+    };
+    this.Get_End = function () {
+      var Result = "";
+      Result=this['End'];
+      return Result;
+    };
+    this.Set_End = function (_Value) {
+      this['End']=_Value;
     };
   });
 });
@@ -3299,9 +3322,32 @@ rtl.module("program",["System","browserconsole","browserapp","JS","Classes","Sys
           Result = true;
           return Result;
         };
+        function Traite_Work_Start() {
+          var bWork_Start = null;
+          function bWork_Start_click(_Event) {
+            var Result = false;
+            pas.uBatpro_Ligne.Poste("Work_Start" + pas.SysUtils.IntToStr(0),"",pas.ublWork.TblWork,rtl.createCallback($Self,"_from_Work"));
+            return Result;
+          };
+          bWork_Start = pas.uPAS2JS_utils.button_from_id("bWork_Start");
+          bWork_Start.addEventListener("click",rtl.createSafeCallback(null,bWork_Start_click));
+        };
+        function Traite_Work_Stop() {
+          var bWork_Stop = null;
+          function bWork_Stop_click(_Event) {
+            var Result = false;
+            if (null === $Self.blWork) return Result;
+            pas.uBatpro_Ligne.Poste("Work_Stop" + pas.SysUtils.IntToStr($Self.blWork.id),"",pas.ublWork.TblWork,rtl.createCallback($Self,"_from_Work"));
+            return Result;
+          };
+          bWork_Stop = pas.uPAS2JS_utils.button_from_id("bWork_Stop");
+          bWork_Stop.addEventListener("click",rtl.createSafeCallback(null,bWork_Stop_click));
+        };
         tabWork = pas.uPAS2JS_utils.element_from_id("tabWork");
         tabWork.addEventListener("show.bs.tab",rtl.createSafeCallback(null,tabWork_Show));
         Get_Work();
+        Traite_Work_Start();
+        Traite_Work_Stop();
       };
       function Traite_tabProject() {
         var tabProject = null;
@@ -3316,8 +3362,32 @@ rtl.module("program",["System","browserconsole","browserapp","JS","Classes","Sys
           Result = true;
           return Result;
         };
+        function Traite_Project_Work_Start() {
+          var bProject_Work_Start = null;
+          function bProject_Work_Start_click(_Event) {
+            var Result = false;
+            if (null === $Self.blProject_Project) return Result;
+            pas.uBatpro_Ligne.Poste("Work_Start" + pas.SysUtils.IntToStr($Self.blProject_Project.id),"",pas.ublWork.TblWork,rtl.createCallback($Self,"_from_Project_Work"));
+            return Result;
+          };
+          bProject_Work_Start = pas.uPAS2JS_utils.button_from_id("bProject_Work_Start");
+          bProject_Work_Start.addEventListener("click",rtl.createSafeCallback(null,bProject_Work_Start_click));
+        };
+        function Traite_Project_Work_Stop() {
+          var bProject_Work_Stop = null;
+          function bProject_Work_Stop_click(_Event) {
+            var Result = false;
+            if (null === $Self.blProject_Work) return Result;
+            pas.uBatpro_Ligne.Poste("Work_Stop" + pas.SysUtils.IntToStr($Self.blProject_Work.id),"",pas.ublWork.TblWork,rtl.createCallback($Self,"_from_Project_Work"));
+            return Result;
+          };
+          bProject_Work_Stop = pas.uPAS2JS_utils.button_from_id("bProject_Work_Stop");
+          bProject_Work_Stop.addEventListener("click",rtl.createSafeCallback(null,bProject_Work_Stop_click));
+        };
         tabProject = pas.uPAS2JS_utils.element_from_id("tabProject");
         tabProject.addEventListener("show.bs.tab",rtl.createSafeCallback(null,tabProject_Show));
+        Traite_Project_Work_Start();
+        Traite_Project_Work_Stop();
       };
       Traite_tabWork();
       Traite_tabProject();
@@ -3326,7 +3396,7 @@ rtl.module("program",["System","browserconsole","browserapp","JS","Classes","Sys
     this._from_Work = function (_bl) {
       this.blWork = rtl.as(_bl,pas.ublWork.TblWork);
       pas.uPAS2JS_utils.Set_input_value("Work_Beginning",this.blWork.Beginning,rtl.createSafeCallback(this,"Work_Change"));
-      pas.uPAS2JS_utils.Set_input_value("Work_End",this.blWork._End,rtl.createSafeCallback(this,"Work_Change"));
+      pas.uPAS2JS_utils.Set_input_value("Work_End",this.blWork.Get_End(),rtl.createSafeCallback(this,"Work_Change"));
       pas.uPAS2JS_utils.Set_input_value("Work_Description",this.blWork.Description,rtl.createSafeCallback(this,"Work_Change"));
     };
     this.Work_Change = function (Event) {
@@ -3334,21 +3404,9 @@ rtl.module("program",["System","browserconsole","browserapp","JS","Classes","Sys
       var json = "";
       Result = true;
       if (null === this.blWork) return Result;
-      pas.uPAS2JS_utils.Get_input_value("Work_Beginning",{p: this.blWork, get: function () {
-          return this.p.Beginning;
-        }, set: function (v) {
-          this.p.Beginning = v;
-        }});
-      pas.uPAS2JS_utils.Get_input_value("Work_End",{p: this.blWork, get: function () {
-          return this.p._End;
-        }, set: function (v) {
-          this.p._End = v;
-        }});
-      pas.uPAS2JS_utils.Get_input_value("Work_Description",{p: this.blWork, get: function () {
-          return this.p.Description;
-        }, set: function (v) {
-          this.p.Description = v;
-        }});
+      this.blWork.Beginning = pas.uPAS2JS_utils.Get_input_value$1("Work_Beginning");
+      this.blWork.Set_End(pas.uPAS2JS_utils.Get_input_value$1("Work_End"));
+      this.blWork.Description = pas.uPAS2JS_utils.Get_input_value$1("Work_Description");
       json = JSON.stringify(this.blWork);
       pas.uBatpro_Ligne.Poste("Work_Set" + pas.SysUtils.IntToStr(this.blWork.id),json,pas.ublWork.TblWork,rtl.createCallback(this,"_from_Work"));
       return Result;
@@ -3356,7 +3414,7 @@ rtl.module("program",["System","browserconsole","browserapp","JS","Classes","Sys
     this._from_Project_Work = function (_bl) {
       this.blProject_Work = rtl.as(_bl,pas.ublWork.TblWork);
       pas.uPAS2JS_utils.Set_input_value("Project_Work_Beginning",this.blProject_Work.Beginning,rtl.createSafeCallback(this,"Project_Work_Change"));
-      pas.uPAS2JS_utils.Set_input_value("Project_Work_End",this.blProject_Work._End,rtl.createSafeCallback(this,"Project_Work_Change"));
+      pas.uPAS2JS_utils.Set_input_value("Project_Work_End",this.blProject_Work.Get_End(),rtl.createSafeCallback(this,"Project_Work_Change"));
       pas.uPAS2JS_utils.Set_input_value("Project_Work_Description",this.blProject_Work.Description,rtl.createSafeCallback(this,"Project_Work_Change"));
     };
     this.Project_Work_Change = function (Event) {
@@ -3364,21 +3422,9 @@ rtl.module("program",["System","browserconsole","browserapp","JS","Classes","Sys
       var json = "";
       Result = true;
       if (null === this.blProject_Work) return Result;
-      pas.uPAS2JS_utils.Get_input_value("Project_Work_Beginning",{p: this.blProject_Work, get: function () {
-          return this.p.Beginning;
-        }, set: function (v) {
-          this.p.Beginning = v;
-        }});
-      pas.uPAS2JS_utils.Get_input_value("Project_Work_End",{p: this.blProject_Work, get: function () {
-          return this.p._End;
-        }, set: function (v) {
-          this.p._End = v;
-        }});
-      pas.uPAS2JS_utils.Get_input_value("Project_Work_Description",{p: this.blProject_Work, get: function () {
-          return this.p.Description;
-        }, set: function (v) {
-          this.p.Description = v;
-        }});
+      this.blProject_Work.Beginning = pas.uPAS2JS_utils.Get_input_value$1("Project_Work_Beginning");
+      this.blProject_Work.Set_End(pas.uPAS2JS_utils.Get_input_value$1("Project_Work_End"));
+      this.blProject_Work.Description = pas.uPAS2JS_utils.Get_input_value$1("Project_Work_Description");
       json = JSON.stringify(this.blProject_Work);
       pas.uBatpro_Ligne.Poste("Work_Set" + pas.SysUtils.IntToStr(this.blProject_Work.id),json,pas.ublWork.TblWork,rtl.createCallback(this,"_from_Project_Work"));
       return Result;

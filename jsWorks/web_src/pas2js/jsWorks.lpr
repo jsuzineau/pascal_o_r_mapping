@@ -42,10 +42,35 @@ procedure TMyApplication.doRun;
             Get_Work;
             Result:= True;
        end;
+       procedure Traite_Work_Start;
+       var
+          bWork_Start: TJSHTMLButtonElement;
+          function bWork_Start_click( _Event: TEventListenerEvent): Boolean;
+          begin
+               Poste( 'Work_Start'+IntToStr( 0), '', TblWork, @_from_Work);
+          end;
+       begin
+            bWork_Start:= button_from_id( 'bWork_Start');
+            bWork_Start.addEventListener( 'click', @bWork_Start_click);
+       end;
+       procedure Traite_Work_Stop;
+       var
+          bWork_Stop: TJSHTMLButtonElement;
+          function bWork_Stop_click( _Event: TEventListenerEvent): Boolean;
+          begin
+               if nil = blWork then exit;
+               Poste( 'Work_Stop'+IntToStr( blWork.id), '', TblWork, @_from_Work);
+          end;
+       begin
+            bWork_Stop:= button_from_id( 'bWork_Stop');
+            bWork_Stop.addEventListener( 'click', @bWork_Stop_click);
+       end;
     begin
          tabWork:= element_from_id( 'tabWork');
          tabWork.addEventListener( 'show.bs.tab', @tabWork_Show);
          Get_Work;
+         Traite_Work_Start;
+         Traite_Work_Stop;
     end;
     procedure Traite_tabProject;
     var
@@ -70,9 +95,37 @@ procedure TMyApplication.doRun;
               );
             Result:= True;
        end;
+       procedure Traite_Project_Work_Start;
+       var
+          bProject_Work_Start: TJSHTMLButtonElement;
+          function bProject_Work_Start_click( _Event: TEventListenerEvent): Boolean;
+          begin
+               if nil = blProject_Project then exit;
+               Poste( 'Work_Start'+IntToStr( blProject_Project.id),
+                      '', TblWork, @_from_Project_Work);
+          end;
+       begin
+            bProject_Work_Start:= button_from_id( 'bProject_Work_Start');
+            bProject_Work_Start.addEventListener( 'click', @bProject_Work_Start_click);
+       end;
+       procedure Traite_Project_Work_Stop;
+       var
+          bProject_Work_Stop: TJSHTMLButtonElement;
+          function bProject_Work_Stop_click( _Event: TEventListenerEvent): Boolean;
+          begin
+               if nil = blProject_Work then exit;
+               Poste( 'Work_Stop'+IntToStr( blProject_Work.id),
+                      '', TblWork, @_from_Project_Work);
+          end;
+       begin
+            bProject_Work_Stop:= button_from_id( 'bProject_Work_Stop');
+            bProject_Work_Stop.addEventListener( 'click', @bProject_Work_Stop_click);
+       end;
     begin
          tabProject:= element_from_id( 'tabProject');
          tabProject.addEventListener( 'show.bs.tab', @tabProject_Show);
+         Traite_Project_Work_Start;
+         Traite_Project_Work_Stop;
     end;
 begin
      Traite_tabWork;
@@ -97,9 +150,9 @@ begin
      Result:= True;
      if nil = blWork then exit;
 
-     Get_input_value( 'Work_Beginning'  , blWork.Beginning  );
-     Get_input_value( 'Work_End'        , blWork._End       );
-     Get_input_value( 'Work_Description', blWork.Description);
+     blWork.Beginning  := Get_input_value( 'Work_Beginning'  );
+     blWork._End       := Get_input_value( 'Work_End'        );
+     blWork.Description:= Get_input_value( 'Work_Description');
 
      json:= TJSJSON.stringify( blWork);
      //WriteLn( 'Work_Change');
@@ -124,9 +177,9 @@ begin
      Result:= True;
      if nil = blProject_Work then exit;
 
-     Get_input_value( 'Project_Work_Beginning'  , blProject_Work.Beginning  );
-     Get_input_value( 'Project_Work_End'        , blProject_Work._End       );
-     Get_input_value( 'Project_Work_Description', blProject_Work.Description);
+     blProject_Work.Beginning  := Get_input_value( 'Project_Work_Beginning'  );
+     blProject_Work._End       := Get_input_value( 'Project_Work_End'        );
+     blProject_Work.Description:= Get_input_value( 'Project_Work_Description');
 
      json:= TJSJSON.stringify( blProject_Work);
      //WriteLn( 'Project_Work_Change');

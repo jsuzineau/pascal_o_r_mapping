@@ -61,41 +61,38 @@ procedure Requete( _URL: String;
                    __from: T_from_Batpro_Ligne_procedure);
 var
    hr:TJSXMLHttpRequest;
+   procedure hr_load;
+   var
+      json: String;
+      data: JSValue;
+      sl: TslBatpro_Ligne;
+      s: string;
+      tbody: TJSHTMLElement;
+   begin
+        //window.fetch();
+
+        json:= hr.responseText;
+        data:= TJSJSON.parse( json);
+
+        tbody:= element_from_id( _tbody_id);
+
+        sl:= TslBatpro_Ligne.Create(data, _Element_Class);
+
+        //Writeln( 'json:');
+        //Writeln( json);
+        //Writeln( 'data:');
+        //Writeln( data);
+        //sl.Ecrire;
+
+        sl.Append_to(tbody, __from);
+        if sl.Count > 0
+        then
+            __From( sl.Elements[0]);
+   end;
 begin
      hr:= TJSXMLHttpRequest.new;
      hr.Open('GET', _URL);
-     hr.addEventListener
-       (
-       'load',
-       procedure
-       var
-          json: String;
-          data: JSValue;
-          sl: TslBatpro_Ligne;
-          s: string;
-          tbody: TJSHTMLElement;
-       begin
-            //window.fetch();
-
-            json:= hr.responseText;
-            data:= TJSJSON.parse( json);
-
-            tbody:= element_from_id( _tbody_id);
-
-            sl:= TslBatpro_Ligne.Create(data, _Element_Class);
-
-            //Writeln( 'json:');
-            //Writeln( json);
-            //Writeln( 'data:');
-            //Writeln( data);
-            //sl.Ecrire;
-
-            sl.Append_to(tbody, __from);
-            if sl.Count > 0
-            then
-                __From( sl.Elements[0]);
-       end
-       );
+     hr.addEventListener( 'load', @hr_load);
      hr.send;
 end;
 
@@ -104,29 +101,26 @@ procedure Poste( _URL, _body: String;
                  __from: T_from_Batpro_Ligne_procedure);
 var
    hr:TJSXMLHttpRequest;
+   procedure hr_load;
+   var
+      json: String;
+      data: JSValue;
+      bl: TBatpro_Ligne;
+   begin
+        json:= hr.responseText;
+        data:= TJSJSON.parse( json);
+
+        //Writeln( 'json:');
+        //Writeln( json);
+        //Writeln( 'data:');
+        //Writeln( data);
+        bl:= _Element_Class.Create( data);
+        __From( bl);
+   end;
 begin
      hr:= TJSXMLHttpRequest.new;
      hr.Open('Post', _URL);
-     hr.addEventListener
-       (
-       'load',
-       procedure
-       var
-          json: String;
-          data: JSValue;
-          bl: TBatpro_Ligne;
-       begin
-            json:= hr.responseText;
-            data:= TJSJSON.parse( json);
-
-            //Writeln( 'json:');
-            //Writeln( json);
-            //Writeln( 'data:');
-            //Writeln( data);
-            bl:= _Element_Class.Create( data);
-            __From( bl);
-       end
-       );
+     hr.addEventListener( 'load', @hr_load);
      hr.send( _body);
 end;
 

@@ -18,14 +18,20 @@ type
        nUser: Integer;
        nProject: Integer;
        Beginning: String;//TDateTime;
-       _End: String;//TDateTime;
        Description: String;
        Duree: String;//TDateTime;
        Session_Titre: String;
        sSession: String;
+
        constructor Create( _data: JSValue); override;
        procedure Ecrire; override;
        procedure Append_to( _tbody: TJSHTMLElement; __from: T_from_Batpro_Ligne_procedure); override;
+     //_End
+     private
+       function Get_End: String;
+       procedure Set_End( _Value: String);
+     public
+       property _End: String(*TDateTime*) read Get_End write Set_End;
      end;
 
 
@@ -111,6 +117,20 @@ begin
      //a.append( DateTimeToStr( Beginning));
      a.append( Beginning);
      a.onclick:= @click;
+end;
+
+function TblWork.Get_End: String;
+begin
+     asm
+        Result=this['End'];
+     end;
+end;
+
+procedure TblWork.Set_End(_Value: String);
+begin
+     asm
+        this['End']=_Value;
+     end;
 end;
 
 

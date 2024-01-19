@@ -12,8 +12,9 @@ function button_from_id( _id: String): TJSHTMLButtonElement;
 function input_from_id( _id: String): TJSHTMLInputElement;
 
 procedure Set_inner_HTML( _id: String; _inner_HTML: String);
-procedure Set_input_value( _id: String; _value: String; _onchange: TJSEventHandler);
-procedure Get_input_value( _id: String; var _value: String);
+procedure Set_input_value( _id: String;     _value: String; _onchange: TJSEventHandler);
+procedure Get_input_value( _id: String; out _value: String);overload;
+function  Get_input_value( _id: String): String;overload;
 
 function Decode_Date( _S: String): TDateTime;
 
@@ -55,7 +56,7 @@ begin
      i.onchange:= _onchange;
 end;
 
-procedure Get_input_value( _id: String; var _value: String);
+procedure Get_input_value( _id: String; out _value: String); overload;
 var
    i: TJSHTMLInputElement;
 begin
@@ -63,6 +64,11 @@ begin
      if nil = i then Exit;
 
      _value:= i.value;
+end;
+
+function  Get_input_value( _id: String): String;overload;
+begin
+     Get_input_value( _id, Result);
 end;
 
 function Decode_Date( _S: String): TDateTime;
