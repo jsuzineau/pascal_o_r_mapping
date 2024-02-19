@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="odoo_nom_module.NomTableMinuscule_1" model="odoo_nom_module.NomTableMinuscule">
+<!-- data_class_xml_template -->
+        </record>
+    </data>>
+</odoo>
