@@ -1,0 +1,1 @@
+this.miClasse.Nom_de_la_classe

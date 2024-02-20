@@ -51,7 +51,7 @@ type
     slSource: TBatpro_StringList;
     slCible : TBatpro_StringList;
     function Calcule_NomCible: String;
-  public //pas propre, passé en public pour que TcsMenuHandler
+  public //pas propre, passé en public pour que TGenerateur_de_code.Cree_TemplateHandler
          //puisse éventuellement surcharger l'initialisation
          //faite avant par l'exploration directe du répertoire
     slParametres: TBatpro_StringList;
