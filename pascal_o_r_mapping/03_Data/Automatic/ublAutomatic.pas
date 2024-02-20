@@ -383,7 +383,6 @@ type
   //Gestion de la génération au niveau global de l'application (basés sur liste des tables)
   public
     Application_Created: Boolean;
-    MenuHandler                          : TMenuHandler;
     csMenuHandler                        : TcsMenuHandler;
     Angular_TypeScript_ApplicationHandler: TAngular_TypeScript_ApplicationHandler;
   private
@@ -1081,11 +1080,10 @@ var
            slTemplateHandler_Produit;
            //Produit;
            slLog.Add( 'aprés Produit');
-           MenuHandler                          .Add( cc.Nom_de_la_table, NbDetails <> 0);
            csMenuHandler                        .Add( cc.Nom_de_la_table, NbDetails <> 0, True(*cc.CalculeSaisi_*));
            Angular_TypeScript_ApplicationHandler.Add( cc, NbDetails = 0);
            slApplicationJoinPointFile.VisiteClasse( cc);
-           slLog.Add( 'MenuHandler.Add');
+           slLog.Add( 'slApplicationJoinPointFile.VisiteClasse( cc);');
         finally
                FreeAndNil( cc)
                end;
@@ -1451,7 +1449,6 @@ procedure TGenerateur_de_code.Application_Create;
 begin
      slTypeMappings_from_sRepertoireTypeMappings;
      slApplicationJoinPointFile_from_sRepertoireListeTables;
-     MenuHandler                          := TMenuHandler                          .Create( Self);
      csMenuHandler                        := TcsMenuHandler                        .Create( Self);
      Angular_TypeScript_ApplicationHandler:= TAngular_TypeScript_ApplicationHandler.Create( Self);
 
@@ -1465,7 +1462,6 @@ procedure TGenerateur_de_code.Application_Produit;
 begin
      slApplicationJoinPointFile.Finalise;
      slApplicationJoinPointFile.To_Parametres( slParametres);
-     MenuHandler                          .Produit;
      csMenuHandler                        .Produit;
      Angular_TypeScript_ApplicationHandler.Produit;
      slApplicationTemplateHandler_Produit;
@@ -1475,7 +1471,6 @@ procedure TGenerateur_de_code.Application_Destroy;
 begin
      Application_Created:= False;
      slApplicationJoinPointFile.Vide;
-     FreeAndNil( MenuHandler                          );
      FreeAndNil( csMenuHandler                        );
      FreeAndNil( Angular_TypeScript_ApplicationHandler);
      slApplicationTemplateHandler.Vide;

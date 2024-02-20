@@ -25,7 +25,7 @@ interface
 uses
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Menus, ActnList, StdCtrls, ComCtrls, Buttons, ExtCtrls,
-  {Uses_Key}
+//pattern_Pascal_ufPatternMainMenu_uses
   uClean;
 
 type
@@ -42,7 +42,7 @@ type
     miRelationsCalcule: TMenuItem;
     miRelationsCalculeVide: TMenuItem;
     procedure FormCreate(Sender: TObject);
-    {Declaration_Key}
+//pattern_Pascal_ufPatternMainMenu_methods_declaration
   private
     { Déclarations privées }
   public
@@ -74,7 +74,7 @@ begin
      miRelationsCalculeVide.Visible:= False;
 end;
 
-{Implementation_Key}
+//pattern_Pascal_ufPatternMainMenu_methods_implementation
 
 initialization
               Clean_Create ( FfPatternMainMenu, TfPatternMainMenu);
