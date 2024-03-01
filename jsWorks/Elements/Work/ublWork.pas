@@ -657,6 +657,7 @@ function TblWork.Session_Differente( _bl: TblWork): Boolean;
 begin
      Result:= True;
      if _bl = nil then exit;
+     if Jour_Different( _bl) then exit;
 
      if Self.Beginning < _bl.Beginning
      then
