@@ -454,7 +454,7 @@ end;
 
 function TblSession.sDuree: String;
 begin
-     Result:= FormatDateTime( 'hh:nn', Duree);
+     Result:= FormatDateTime( 'hh:nn:ss', Duree)+',  '+FloatToStrF( Duree*24, ffFixed, 0, 3);
 end;
 
 

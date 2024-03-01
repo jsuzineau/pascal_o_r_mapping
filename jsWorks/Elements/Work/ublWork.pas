@@ -591,7 +591,7 @@ end;
 
 function TblWork.sDuree: String;
 begin
-     Result:= FormatDateTime( 'hh:nn', Duree);
+     Result:= FormatDateTime( 'hh:nn:ss', Duree);
 end;
 
 function TblWork.GetDuree: TDateTime;
@@ -624,7 +624,7 @@ begin
        //+'-'
        //+FormatDateTime( 'hh:nn', End_     )
        //+'('+sDuree+'):'
-       sDuree+':'
+       sDuree+',  '+FloatToStrF( Duree*24, ffFixed, 0, 3)+'(début: '+FormatDateTime( 'hh:nn', Beginning)+'):'
        ;
 end;
 
