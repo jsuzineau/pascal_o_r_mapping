@@ -38,7 +38,7 @@ uses
      ublFacture_Ligne, 
      upoolFacture_Ligne,
 
-    udkFacture_display_Facture,
+    udkFacture_Ligne_display_Facture_Nouveau,
     uodFacture,
 
     uPhi_Form,
@@ -73,17 +73,19 @@ type
    clPiece_Date: TChamp_Label;
    clPiece_Numero: TChamp_Label;
     dsbFacture_Ligne: TDockableScrollbox;
+    dsbFacture_Ligne_Dernieres_Lignes: TDockableScrollbox;
     Label1: TLabel;
     Label2: TLabel;
+    pDernieresLignes: TPanel;
     pFacture: TPanel;
     pDetail: TPanel;
     sbNom_from_: TSpeedButton;
+    Splitter1: TSplitter;
 
     procedure bDateClick(Sender: TObject);
     procedure bFacture_Ligne_NouveauClick(Sender: TObject);
     procedure bodFacture_ModeleClick(Sender: TObject);
-    procedure ceNomMouseDown(Sender: TObject; Button: TMouseButton;
-     Shift: TShiftState; X, Y: Integer);
+    procedure ceNomMouseDown(Sender: TObject; Button: TMouseButton;Shift: TShiftState; X, Y: Integer);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure bNouveauClick(Sender: TObject);
@@ -98,6 +100,10 @@ type
   private
     blFacture: TblFacture;
     procedure _from_Facture;
+  //Dernieres_Lignes
+  private
+    slDernieres_Lignes: TslFacture_Ligne;
+    procedure Dernieres_Lignes_from_Facture;
   end;
 
 function fFacture_Nouveau: TfFacture_Nouveau;
@@ -125,12 +131,18 @@ begin
      dsbFacture_Ligne.Classe_Elements:= TblFacture_Ligne;
      blFacture:= nil;
 
+     dsbFacture_Ligne_Dernieres_Lignes.Classe_dockable:= TdkFacture_Ligne_display_Facture_Nouveau;
+     dsbFacture_Ligne_Dernieres_Lignes.Classe_Elements:= TblFacture_Ligne;
+
+     slDernieres_Lignes:= TslFacture_Ligne.Create(ClassName+'.slDernieres_Lignes');
+
      ThPhi_Form.Create( Self);
 end;
 
 
 procedure TfFacture_Nouveau.FormDestroy(Sender: TObject);
 begin
+     FreeAndNil( slDernieres_Lignes);
      inherited;
 end;
 
@@ -146,9 +158,14 @@ end;
 
 procedure TfFacture_Nouveau.bNouveauClick(Sender: TObject);
 begin
+     if Assigned(blFacture)
+     then
+         blFacture.cClient_id.OnChange.Desabonne( Self, Dernieres_Lignes_from_Facture);
+
      blFacture:= pool.Nouveau;
      if blFacture = nil then exit;
 
+     blFacture.cClient_id.OnChange.Abonne( Self, Dernieres_Lignes_from_Facture);
      bNouveau.Hide;
      _from_Facture;
 end;
@@ -178,12 +195,21 @@ begin
 
      if nil = blFacture
      then
-         dsbFacture_Ligne.sl:= nil
+         begin
+         dsbFacture_Ligne                 .sl:= nil;
+         dsbFacture_Ligne_Dernieres_Lignes.sl:= nil;
+         end
      else
          begin
          blFacture.haFacture_Ligne.Charge;
          dsbFacture_Ligne.sl:= blFacture.haFacture_Ligne.sl;
          end;
+end;
+
+procedure TfFacture_Nouveau.Dernieres_Lignes_from_Facture;
+begin
+     poolFacture_Ligne.Charge_Client( blFacture.Client_id, slDernieres_Lignes);
+     dsbFacture_Ligne_Dernieres_Lignes.sl:= slDernieres_Lignes;
 end;
 
 procedure TfFacture_Nouveau.bodFactureClick(Sender: TObject);

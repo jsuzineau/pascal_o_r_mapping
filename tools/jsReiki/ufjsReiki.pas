@@ -9,10 +9,16 @@ uses
   Dialogs, ExtCtrls, ComCtrls, StdCtrls;
 
 type
+
+  { TfjsReiki }
+
   TfjsReiki = class(TForm)
+   bRestart: TButton;
     g: TProgressBar;
+    Panel1: TPanel;
     t: TTimer;
     l: TLabel;
+    procedure bRestartClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure tTimer(Sender: TObject);
   private
@@ -23,6 +29,7 @@ type
     procedure Sonner;
   public
     { Déclarations publiques }
+    procedure Start;
   end;
 
 var
@@ -32,9 +39,14 @@ implementation
 
 {$R *.lfm}
 
-procedure TfjsReiki.FormCreate(Sender: TObject);
+procedure TfjsReiki.Start;
 begin
      Debut:= Now;
+end;
+
+procedure TfjsReiki.FormCreate(Sender: TObject);
+begin
+     Start;
      Nb:= 300;
      g.Max:= Nb;
 end;
@@ -59,4 +71,10 @@ begin
                          Secondes mod 60]);
 end;
 
+procedure TfjsReiki.bRestartClick(Sender: TObject);
+begin
+     Start;
+end;
+
 end.
+

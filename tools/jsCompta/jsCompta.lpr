@@ -52,9 +52,10 @@ uses
  uhfMois, upoolMois, udkPiece_display, udkPiece_edit, uhfPiece, ufPiece_dsb3,
  ufPatternMainMenu, uhfFacture_Ligne, upoolFacture_Ligne, ublFacture_Ligne,
  udkFacture_Ligne_display, udkFacture_Ligne_edit, ufFacture_Ligne_dsb,
- udkFacture_Ligne_edit_Facture, udkClient_edit, udkClient_display_Client,
- ublClient, upoolClient, uhfClient, ufClient, ublAnnee, udkAnnee_display,
- udkAnnee_edit, ufAnnee_dsb, uhfAnnee, upoolAnnee;
+ udkFacture_Ligne_edit_Facture, udkFacture_Ligne_display_Facture_Nouveau,
+ udkClient_edit, udkClient_display_Client, ublClient, upoolClient, uhfClient,
+ ufClient, ublAnnee, udkAnnee_display, udkAnnee_edit, ufAnnee_dsb, uhfAnnee,
+ upoolAnnee;
 
 {$R *.res}
 

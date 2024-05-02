@@ -87,6 +87,7 @@ type
  TfjsWorks
  =
   class(TForm)
+   bAdd_tag_to_Work: TButton;
    bAutomatic_VST: TButton;
    bBeginning_From: TButton;
    bBug: TButton;
@@ -106,6 +107,7 @@ type
    bTULEAP: TButton;
    bOuvre_dans_navigateur: TButton;
    bVST: TButton;
+   cbRestreindre_a_un_Tag: TCheckBox;
    ceBeginning: TChamp_Edit;
    ceEnd: TChamp_Edit;
    clkcbCategorie: TChamp_Lookup_ComboBox;
@@ -128,6 +130,7 @@ type
    Label1: TLabel;
    Label10: TLabel;
    Label11: TLabel;
+   lTag: TLabel;
    Label2: TLabel;
    Label3: TLabel;
    Label4: TLabel;
@@ -169,6 +172,7 @@ type
    tsHTTP_API_Client: TTabSheet;
    tsDevelopment: TTabSheet;
    tsWork: TTabSheet;
+   procedure bAdd_tag_to_WorkClick(Sender: TObject);
    procedure bAutomatic_VSTClick(Sender: TObject);
    procedure bBeginning_FromClick(Sender: TObject);
    procedure bBugClick(Sender: TObject);
@@ -188,6 +192,7 @@ type
    procedure bTempsClick(Sender: TObject);
    procedure bTULEAPClick(Sender: TObject);
    procedure bVSTClick(Sender: TObject);
+   procedure cbRestreindre_a_un_TagClick(Sender: TObject);
    procedure dsbWorkSelect(Sender: TObject);
    procedure dsbDevelopmentSelect(Sender: TObject);
    procedure dsbWorkTraite_Message(_dk: TDockable; _iMessage: Integer);
@@ -213,10 +218,16 @@ type
     procedure _from_pool;
     procedure Traite_Client_Beginning_From;
     procedure Deconnecte;
+  //Tag
+  private
+    idTag: Integer;
+    blTag: TblTag;
+    procedure Tag_from_;
   //Work
   private
     blWork : TblWork;
     slWork_JSON: TslJSON;
+    slWork: TslWork;
     procedure _from_Work;
     procedure blWork_Suppression;
   //Development
@@ -243,6 +254,9 @@ constructor TfjsWorks.Create(TheOwner: TComponent);
 begin
      inherited Create(TheOwner);
 
+     idTag:= 0;
+     blTag:= nil;
+
      dmDatabase.Ouvre_db;
 
      Caption:= Caption+' - '+dmDatabase.jsDataConnexion.Base_sur;
@@ -251,6 +265,7 @@ begin
 
      dsbWork.Classe_dockable:= TdkWork;
      dsbWork.Classe_Elements:= TblWork;
+     slWork:= TslWork.Create( ClassName+'slWork');
 
      dsbDevelopment.Classe_dockable:= TdkDevelopment;
      dsbDevelopment.Classe_Elements:= TblDevelopment;
@@ -306,19 +321,13 @@ end;
 procedure TfjsWorks.Traite_Beginning_From;
 var
    D: TDateTime;
-   slWork: TslWork;
 begin
      D:= dtpBeginning_From.Date;
 
-     slWork:= TslWork.Create( ClassName+'slWork');
-     try
-        //poolWork.ToutCharger();
-        poolWork.Charge_Periode( D, Now, 0, slWork);
-        poolWork.TrierFiltre;
-        slWork.Charger_Tags;
-     finally
-            FreeAndNil( slWork);
-            end;
+     //poolWork.ToutCharger();
+     poolWork.Charge_Periode( D, Now, idTag, slWork);
+     poolWork.TrierFiltre;
+     slWork.Charger_Tags;
 
      poolDevelopment.ToutCharger();
      _from_pool;
@@ -388,7 +397,8 @@ end;
 
 procedure TfjsWorks._from_pool;
 begin
-     dsbWork       .sl:= poolWork.slFiltre;
+     //dsbWork       .sl:= poolWork.slFiltre;
+     dsbWork       .sl:= slWork;
      dsbDevelopment.sl:= poolDevelopment.slFiltre;
 
      poolTag.ToutCharger;
@@ -443,7 +453,6 @@ begin
      dsbTag                      .sl:= nil;
 end;
 
-
 procedure TfjsWorks._from_Development;
 begin
      Champs_Affecte( blDevelopment,
@@ -485,6 +494,7 @@ var
    bl: TblWork;
 begin
      bl:= poolWork.Start( 0);
+     slWork.AddObject(bl.sCle,bl);
      _from_pool;
      dsbWork.Goto_bl( bl);
 end;
@@ -505,6 +515,7 @@ begin
          blWork.Stop;
 
      bl:= poolWork.Start( 0);
+     slWork.AddObject(bl.sCle,bl);
      _from_pool;
      dsbWork.Goto_bl( bl);
 end;
@@ -517,6 +528,22 @@ end;
 procedure TfjsWorks.bVSTClick(Sender: TObject);
 begin
      //fTest_VirtualTreeView.Show;
+end;
+
+procedure TfjsWorks.Tag_from_;
+begin
+     idTag:= 0;
+     lTag.Caption:= '';
+     dsbTag.Get_bl( blTag);
+     if nil = blTag then exit;
+
+     idTag:= blTag.id;
+     lTag.Caption:= blTag.Name;
+end;
+
+procedure TfjsWorks.cbRestreindre_a_un_TagClick(Sender: TObject);
+begin
+     Tag_from_;
 end;
 
 procedure TfjsWorks.bPointClick(Sender: TObject);
@@ -540,6 +567,16 @@ end;
 procedure TfjsWorks.bAutomatic_VSTClick(Sender: TObject);
 begin
      //fAutomatic_VST.Show;
+end;
+
+procedure TfjsWorks.bAdd_tag_to_WorkClick(Sender: TObject);
+begin
+     if nil = blWork then exit;
+
+     Tag_from_;
+     if nil = blTag then exit;
+
+     with blWork.cDescription do Chaine:= Chaine+blTag.Name;
 end;
 
 procedure TfjsWorks.bBeginning_FromClick(Sender: TObject);
@@ -626,21 +663,21 @@ end;
 
 procedure TfjsWorks.dsbWork_TagSuppression(Sender: TObject);
 var
-   blTag: TblTag;
+   blWork_Tag: TblTag;
 begin
-     dsbWork_Tag.Get_bl( blTag);
-     blWork.haTag.Supprime( blTag);
-     blWork.haTag_from_Description.Ajoute( blTag);
+     dsbWork_Tag.Get_bl( blWork_Tag);
+     blWork.haTag.Supprime( blWork_Tag);
+     blWork.haTag_from_Description.Ajoute( blWork_Tag);
      _from_Work;
 end;
 
 procedure TfjsWorks.dsbWork_Tag_from_DescriptionSuppression(Sender: TObject);
 var
-   blTag: TblTag;
+   blWork_Tag: TblTag;
 begin
-     dsbWork_Tag_from_Description.Get_bl( blTag);
-     blWork.haTag_from_Description.Enleve( blTag);
-     blWork.Tag( blTag);
+     dsbWork_Tag_from_Description.Get_bl( blWork_Tag);
+     blWork.haTag_from_Description.Enleve( blWork_Tag);
+     blWork.Tag( blWork_Tag);
      _from_Work;
 end;
 

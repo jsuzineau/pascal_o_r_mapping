@@ -1,0 +1,90 @@
+inherited dkFacture_Ligne_display_Facture_Nouveau: TdkFacture_Ligne_display_Facture_Nouveau
+  Left = 704
+  Height = 45
+  Top = 420
+  Width = 553
+  Caption = 'dkFacture_Ligne_display_Facture_Nouveau'
+  ClientHeight = 45
+  ClientWidth = 553
+  inherited sBackground: TShape
+    Width = 1091
+  end
+  inherited sSelection: TBatpro_Shape
+    Height = 45
+  end
+  object clNbHeures: TChamp_Label[2]
+    Left = 333
+    Height = 13
+    Top = 2
+    Width = 57
+    AutoSize = False
+    Caption = 'clNbHeures'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'NbHeures'
+  end
+  object clPrix_unitaire: TChamp_Label[3]
+    Left = 403
+    Height = 13
+    Top = 2
+    Width = 57
+    AutoSize = False
+    Caption = 'clPrix_unitaire'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'Prix_unitaire'
+  end
+  object clMontant: TChamp_Label[4]
+    Left = 471
+    Height = 13
+    Top = 2
+    Width = 57
+    AutoSize = False
+    Caption = 'clMontant'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'Montant'
+  end
+  object cmDate: TChamp_Memo[5]
+    Left = 5
+    Height = 42
+    Top = 2
+    Width = 108
+    Anchors = [akTop, akLeft, akBottom]
+    Color = clBtnFace
+    Lines.Strings = (
+      'cmDate'
+    )
+    ScrollBars = ssAutoBoth
+    TabOrder = 0
+    Field = 'Date'
+  end
+  object cmLibelle: TChamp_Memo[6]
+    Left = 114
+    Height = 42
+    Top = 2
+    Width = 198
+    Anchors = [akTop, akLeft, akBottom]
+    Color = clBtnFace
+    Lines.Strings = (
+      'cmLibelle'
+    )
+    ScrollBars = ssAutoBoth
+    TabOrder = 1
+    Field = 'Libelle'
+  end
+  object sbCopy: TSpeedButton[7]
+    Left = 312
+    Height = 22
+    Top = 13
+    Width = 23
+    Caption = 'C'
+    OnClick = sbCopyClick
+  end
+end

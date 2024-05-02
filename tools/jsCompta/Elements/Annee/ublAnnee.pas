@@ -76,6 +76,8 @@ type
    //Total des lignes
    public
      function CalculeTotal: Double;
+     function Calcule_Declare_mois: Integer;
+
      procedure Declare_from_Total;
    end;
 
@@ -93,8 +95,9 @@ type
     destructor Destroy; override;
   //champs persistants
   public
-    Annee  : Integer; cAnnee  : TChamp;
-    Declare: Double ; cDeclare: TChamp;
+    Annee       : Integer; cAnnee       : TChamp;
+    Declare     : Double ; cDeclare     : TChamp;
+    Declare_mois: Integer; cDeclare_mois: TChamp;
 //Pascal_ubl_declaration_pas_detail
   //Gestion de la clé
   public
@@ -301,22 +304,61 @@ begin
      Result:= Arrondi_Arithmetique_00( Result);
 end;
 
+function ThaAnnee__Mois.Calcule_Declare_mois: Integer;
+var
+   I: TIterateur_Mois;
+   bl: TblMois;
+begin
+     Result:= 0;
+     I:= Iterateur;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( bl) then continue;
+
+          Result:= Result + bl.Declare;
+          end;
+     finally
+            FreeAndNil( I);
+            end;
+end;
 
 procedure ThaAnnee__Mois.Declare_from_Total;
-var
-   Total: double;
+   procedure Calcul_sur_Mois_Montant;
+   var
+      Total: double;
+   begin
+        Total:= CalculeTotal;
+
+        if         Reel_Zero( blAnnee.Declare)
+           and not Reel_Zero( Total          )
+        then
+            blAnnee.cDeclare.asDouble:= Total
+        else
+            if Total <> blAnnee.Declare
+            then
+                fAccueil_Erreur( 'Année '+blAnnee.Libelle+', Declare incohérent: '+blAnnee.cDeclare.Chaine+' calculé: '+FloatToStr( Total));
+   end;
+   procedure Calcul_sur_Mois_Declare;
+   var
+      Total_Declare_mois: integer;
+   begin
+        Total_Declare_mois:= Calcule_Declare_mois;
+
+        if         Reel_Zero( blAnnee.Declare_mois)
+           and not Reel_Zero(   Total_Declare_mois)
+        then
+            blAnnee.cDeclare_mois.asInteger:= Total_Declare_mois
+        else
+            if Total_Declare_mois <> blAnnee.Declare_mois
+            then
+                fAccueil_Erreur( 'Année '+blAnnee.Libelle+', Declare_mois incohérent: '+blAnnee.cDeclare_mois.Chaine+' calculé: '+IntToStr( Total_Declare_mois));
+
+   end;
 begin
-     Total:= CalculeTotal;
-
-     if         Reel_Zero( blAnnee.Declare)
-        and not Reel_Zero( Total          )
-     then
-         blAnnee.cDeclare.asDouble:= Total
-     else
-         if Total <> blAnnee.Declare
-         then
-             fAccueil_Erreur( 'Année '+blAnnee.Libelle+', Declare incohérent: '+blAnnee.cDeclare.Chaine+' calculé: '+FloatToStr( Total));
-
+     Calcul_sur_Mois_Montant;
+     Calcul_sur_Mois_Declare;
 end;
 
 
@@ -341,8 +383,9 @@ begin
      Champs.ChampDefinitions.NomTable:= 'Annee';
 
      //champs persistants
-     cAnnee  := Integer_from_Integer( Annee  , 'Annee'  );
-     cDeclare:=  Double_from_       ( Declare, 'Declare');
+     cAnnee       := Integer_from_Integer( Annee       , 'Annee'       );
+     cDeclare     :=  Double_from_       ( Declare     , 'Declare'     );
+     cDeclare_mois:= Integer_from_Integer( Declare_mois, 'Declare_mois');
 
 //Pascal_ubl_constructor_pas_detail
 

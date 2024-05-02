@@ -72,6 +72,9 @@ type
   //Chargement d'un Facture
   public
     procedure Charge_Facture( _Facture_id: Integer; _slLoaded: TBatpro_StringList = nil);
+  //Chargement des dernières lignes de facture d'un client donné
+  public
+    procedure Charge_Client( _Client_id: Integer; _slLoaded: TBatpro_StringList = nil; _Limit:Integer=10);
 
   //Création d'itérateur
   protected
@@ -173,6 +176,25 @@ begin
      Load( SQL, _slLoaded);
 end;
 
+procedure TpoolFacture_Ligne.Charge_Client( _Client_id: Integer; _slLoaded: TBatpro_StringList; _Limit: Integer= 10);
+var
+   SQL: String;
+begin
+     SQL
+     :=
+        'select Facture.Client_id, Facture_Ligne.*                       '#13#10
+       +'from                                                            '#13#10
+       +'    Facture_Ligne                                               '#13#10
+       +'    left join Facture                                           '#13#10
+       +'    on                                                          '#13#10
+       +'          (Facture_Ligne.Facture_id = Facture.id)               '#13#10
+       +'      and (Facture      . Client_id = '+IntToStr( _Client_id)+')'#13#10
+       +'where Facture.Client_id is not null                             '#13#10
+       +'order by id desc                                                '#13#10
+       +'limit '+IntToStr( _Limit)+'                                     '#13#10;
+
+     Load( SQL, _slLoaded);
+end;
 
 class function TpoolFacture_Ligne.Classe_Iterateur: TIterateur_Class;
 begin

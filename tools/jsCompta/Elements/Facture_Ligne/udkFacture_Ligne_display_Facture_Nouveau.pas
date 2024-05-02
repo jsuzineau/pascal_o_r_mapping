@@ -1,9 +1,9 @@
-unit udkAnnee_edit;
+unit udkFacture_Ligne_display_Facture_Nouveau;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
                                                                                 |
-    Copyright 2022 Jean SUZINEAU - MARS42                                       |
+    Copyright 2024 Jean SUZINEAU - MARS42                                       |
                                                                                 |
     This program is free software: you can redistribute it and/or modify        |
     it under the terms of the GNU Lesser General Public License as published by |
@@ -29,34 +29,29 @@ uses
     uBatpro_StringList,
     uChamps,
 
-    ublAnnee,
-    upoolAnnee,
+    ublFacture_Ligne,
+    upoolFacture_Ligne,
 
     uDockable, ucBatpro_Shape, ucChamp_Label, ucChamp_Edit,
     ucBatproDateTimePicker, ucChamp_DateTimePicker, ucDockableScrollbox,
-    ucChamp_Lookup_ComboBox,
-    Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
-    LCLType;
-
-const
-     udkAnnee_edit_Copy_to_current=0;
+    ucChamp_Memo, Classes, SysUtils, FileUtil, Forms, Controls, Graphics,
+    Dialogs, Buttons, LCLType,Clipbrd;
 
 type
 
- { TdkAnnee_edit }
+ { TdkFacture_Ligne_display_Facture_Nouveau }
 
- TdkAnnee_edit
+ TdkFacture_Ligne_display_Facture_Nouveau
  =
   class(TDockable)
-  ceAnnee: TChamp_Edit;
-  ceDeclare: TChamp_Edit;
-  ceDeclare_mois: TChamp_Edit;
-//Pascal_udk_edit_declaration_pas
-  sbCopy_to_current: TSpeedButton;
-  sbDetruire: TSpeedButton;
+  cmDate: TChamp_Memo;
+  clNbHeures: TChamp_Label;
+  clPrix_unitaire: TChamp_Label;
+  clMontant: TChamp_Label;
+  cmLibelle: TChamp_Memo;
+  sbCopy: TSpeedButton;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-  procedure sbCopy_to_currentClick(Sender: TObject);
-  procedure sbDetruireClick(Sender: TObject);
+  procedure sbCopyClick(Sender: TObject);
  //Gestion du cycle de vie
  public
    constructor Create(AOwner: TComponent); override;
@@ -65,61 +60,43 @@ type
   procedure SetObjet(const Value: TObject); override;
  //attributs
  private
-   blAnnee: TblAnnee;
+   blFacture_Ligne: TblFacture_Ligne;
  end;
 
 implementation
 
 {$R *.lfm}
 
-{ TdkAnnee_edit }
+{ TdkFacture_Ligne_display_Facture_Nouveau }
 
-constructor TdkAnnee_edit.Create(AOwner: TComponent);
+constructor TdkFacture_Ligne_display_Facture_Nouveau.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
-     Ajoute_Colonne( ceAnnee       , 'Annee'       , 'Annee'       );
-     Ajoute_Colonne( ceDeclare     , 'Declare'     , 'Declare'     );
-     Ajoute_Colonne( ceDeclare_mois, 'Declare_mois', 'Declare_mois');
-
-//Details_Pascal_udk_edit_Create_AjouteColonne_pas
 end;
 
-destructor TdkAnnee_edit.Destroy;
+destructor TdkFacture_Ligne_display_Facture_Nouveau.Destroy;
 begin
      inherited Destroy;
 end;
 
-procedure TdkAnnee_edit.SetObjet(const Value: TObject);
+procedure TdkFacture_Ligne_display_Facture_Nouveau.SetObjet(const Value: TObject);
 begin
      inherited SetObjet(Value);
 
-     Affecte( blAnnee, TblAnnee, Value);
+     Affecte( blFacture_Ligne, TblFacture_Ligne, Value);
 
-     Champs_Affecte( blAnnee,[ ceAnnee,ceDeclare,ceDeclare_mois]);
-     Champs_Affecte( blAnnee,[ {Details_Pascal_udk_edit_component_list_pas}]);
+     Champs_Affecte( blFacture_Ligne, [cmDate,cmLibelle,clNbHeures,clPrix_unitaire,clMontant]);
 end;
 
-procedure TdkAnnee_edit.sbDetruireClick(Sender: TObject);
-begin
-     if IDYES
-        <>
-        Application.MessageBox( 'Etes vous sûr de vouloir supprimer Annee ?',
-                                'Suppression de Annee',
-                                MB_ICONQUESTION+MB_YESNO)
-     then
-         exit;
-     poolAnnee .Supprimer( blAnnee );
-     Do_DockableScrollbox_Suppression;
-end;
-
-procedure TdkAnnee_edit.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TdkFacture_Ligne_display_Facture_Nouveau.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
      inherited;
 end;
 
-procedure TdkAnnee_edit.sbCopy_to_currentClick(Sender: TObject);
+procedure TdkFacture_Ligne_display_Facture_Nouveau.sbCopyClick(Sender: TObject);
 begin
-     Envoie_Message( udkAnnee_edit_Copy_to_current);
+     if nil = blFacture_Ligne then exit;
+     Clipboard.AsText:= blFacture_Ligne.Libelle;
 end;
 
 end.

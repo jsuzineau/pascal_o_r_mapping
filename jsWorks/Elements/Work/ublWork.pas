@@ -135,8 +135,9 @@ type
     nProject: Integer;
     Beginning: TDateTime; cBeginning: TChamp;
     End_     : TDateTime; cEnd      : TChamp;
-    Description: String;
-
+  //Description
+  public
+    Description: String; cDescription: TChamp;
   //Duree
   private
     FDuree: TDateTime;
@@ -529,7 +530,7 @@ begin
      cEnd:= DateTime_from_( End_           , 'End'            );
      cEnd.Definition.Format_DateTime:= 'yyyy/mm/dd" "hh:nn';
 
-     String_from_Memo( Description    , 'Description'    );
+     cDescription:= String_from_Memo( Description    , 'Description'    );
 
      cDuree:= Ajoute_Float( FDuree, 'Duree', False);
      cDuree.OnGetChaine:= Duree_GetChaine;

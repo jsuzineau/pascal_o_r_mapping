@@ -235,7 +235,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="49">
+    <Units Count="50">
       <Unit0>
         <Filename Value="jsCompta.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -511,6 +511,13 @@
         <Filename Value="Elements/Piece/Symetric/ublPiece_interface_type.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit48>
+      <Unit49>
+        <Filename Value="Elements/Facture_Ligne/udkFacture_Ligne_display_Facture_Nouveau.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkFacture_Ligne_display_Facture_Nouveau"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit49>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

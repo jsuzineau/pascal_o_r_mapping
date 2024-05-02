@@ -1,10 +1,10 @@
 object fjsReiki: TfjsReiki
-  Left = 247
-  Height = 81
-  Top = 114
+  Left = 255
+  Height = 89
+  Top = 150
   Width = 440
   Caption = 'Reiki'
-  ClientHeight = 81
+  ClientHeight = 89
   ClientWidth = 440
   Color = clBtnFace
   Font.Color = clWindowText
@@ -14,8 +14,8 @@ object fjsReiki: TfjsReiki
   LCLVersion = '2.2.4.0'
   object g: TProgressBar
     Left = 0
-    Height = 81
-    Top = 0
+    Height = 47
+    Top = 42
     Width = 440
     Align = alClient
     Max = 180
@@ -25,8 +25,8 @@ object fjsReiki: TfjsReiki
   end
   object l: TLabel
     Left = 0
-    Height = 81
-    Top = 0
+    Height = 47
+    Top = 42
     Width = 440
     Align = alClient
     Alignment = taCenter
@@ -37,6 +37,25 @@ object fjsReiki: TfjsReiki
     Font.Style = [fsBold]
     ParentColor = False
     ParentFont = False
+  end
+  object Panel1: TPanel
+    Left = 0
+    Height = 42
+    Top = 0
+    Width = 440
+    Align = alTop
+    ClientHeight = 42
+    ClientWidth = 440
+    TabOrder = 1
+    object bRestart: TButton
+      Left = 8
+      Height = 25
+      Top = 8
+      Width = 75
+      Caption = 'Restart'
+      OnClick = bRestartClick
+      TabOrder = 0
+    end
   end
   object t: TTimer
     OnTimer = tTimer

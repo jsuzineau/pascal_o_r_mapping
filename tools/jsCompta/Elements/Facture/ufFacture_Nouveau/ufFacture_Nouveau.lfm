@@ -9,7 +9,7 @@ object fFacture_Nouveau: TfFacture_Nouveau
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '2.2.4.0'
   object pDetail: TPanel
     Left = 0
     Height = 618
@@ -64,10 +64,10 @@ object fFacture_Nouveau: TfFacture_Nouveau
       end
       object clkcbClient: TChamp_Lookup_ComboBox
         Left = 7
-        Height = 33
+        Height = 23
         Top = 95
         Width = 258
-        ItemHeight = 0
+        ItemHeight = 15
         Style = csDropDownList
         TabOrder = 3
         Field = 'Client'
@@ -159,6 +159,7 @@ object fFacture_Nouveau: TfFacture_Nouveau
         Anchors = [akTop, akRight]
         AutoSize = False
         Caption = 'clClient_id'
+        ParentColor = False
         ParentShowHint = False
         ShowHint = True
         Field = 'Client_id'
@@ -171,13 +172,14 @@ object fFacture_Nouveau: TfFacture_Nouveau
         Anchors = [akTop, akRight]
         AutoSize = False
         Caption = 'clid'
+        ParentColor = False
         ParentShowHint = False
         ShowHint = True
         Field = 'id'
       end
       object cdtpDate: TChamp_DateTimePicker
         Left = 367
-        Height = 38
+        Height = 23
         Top = 47
         Width = 145
         CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
@@ -205,40 +207,45 @@ object fFacture_Nouveau: TfFacture_Nouveau
         Width = 90
         AutoSize = False
         Caption = 'clNumero'
+        ParentColor = False
         ParentShowHint = False
         ShowHint = True
         Field = 'Numero'
       end
       object clPiece_Date: TChamp_Label
         Left = 390
-        Height = 21
+        Height = 15
         Top = 180
-        Width = 86
+        Width = 66
         Caption = 'clPiece_Date'
+        ParentColor = False
         ParentShowHint = False
         ShowHint = True
         Field = 'Date'
       end
       object Label2: TLabel
         Left = 314
-        Height = 21
+        Height = 15
         Top = 181
-        Width = 72
+        Width = 55
         Caption = 'Date Pièce'
+        ParentColor = False
       end
       object Label1: TLabel
         Left = 118
-        Height = 21
+        Height = 15
         Top = 180
-        Width = 97
+        Width = 75
         Caption = 'Numéro Pièce'
+        ParentColor = False
       end
       object clPiece_Numero: TChamp_Label
         Left = 220
-        Height = 21
+        Height = 15
         Top = 180
-        Width = 111
+        Width = 86
         Caption = 'clPiece_Numero'
+        ParentColor = False
         ParentShowHint = False
         ShowHint = True
         Field = 'Numero'
@@ -255,12 +262,12 @@ object fFacture_Nouveau: TfFacture_Nouveau
     end
     object dsbFacture_Ligne: TDockableScrollbox
       Left = 1
-      Height = 404
+      Height = 254
       Top = 213
       Width = 583
       Align = alClient
       Caption = 'dsbFacture_Ligne'
-      ClientHeight = 404
+      ClientHeight = 254
       ClientWidth = 583
       TabOrder = 1
       HauteurLigne = 49
@@ -269,6 +276,45 @@ object fFacture_Nouveau: TfFacture_Nouveau
       Zebrage1 = 15138790
       Zebrage2 = 16777192
       _LectureSeule = False
+    end
+    object pDernieresLignes: TPanel
+      Left = 1
+      Height = 145
+      Top = 472
+      Width = 583
+      Align = alBottom
+      Caption = 'pDernieresLignes'
+      ClientHeight = 145
+      ClientWidth = 583
+      TabOrder = 2
+      object dsbFacture_Ligne_Dernieres_Lignes: TDockableScrollbox
+        Left = 1
+        Height = 143
+        Top = 1
+        Width = 581
+        Align = alClient
+        Caption = 'dsbFacture_Ligne_Dernieres_Lignes'
+        ClientHeight = 143
+        ClientWidth = 581
+        TabOrder = 0
+        HauteurLigne = 49
+        BordureLignes = True
+        Zebrage = False
+        Zebrage1 = 15138790
+        Zebrage2 = 16777192
+        _LectureSeule = False
+      end
+    end
+    object Splitter1: TSplitter
+      Cursor = crVSplit
+      Left = 1
+      Height = 5
+      Top = 467
+      Width = 583
+      Align = alBottom
+      Color = clLime
+      ParentColor = False
+      ResizeAnchor = akBottom
     end
   end
 end
