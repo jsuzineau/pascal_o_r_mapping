@@ -1,14 +1,14 @@
 inherited dkMois_edit: TdkMois_edit
-  Left = 704
+  Left = 484
   Height = 45
-  Top = 420
-  Width = 746
+  Top = 437
+  Width = 846
   Caption = 'dkMois_edit'
   ClientHeight = 45
-  ClientWidth = 746
+  ClientWidth = 846
   inherited sBackground: TShape
     Height = 45
-    Width = 745
+    Width = 845
   end
   inherited sSelection: TBatpro_Shape
     Height = 45
@@ -109,7 +109,7 @@ inherited dkMois_edit: TdkMois_edit
     Left = 544
     Height = 13
     Top = 6
-    Width = 90
+    Width = 136
     AutoSize = False
     Caption = 'clURSSAF_evalue'
     ParentShowHint = False
@@ -128,10 +128,10 @@ inherited dkMois_edit: TdkMois_edit
     Field = 'CAF_net'
   end
   object clURSSAF_reste: TChamp_Label[10]
-    Left = 652
+    Left = 684
     Height = 13
     Top = 6
-    Width = 90
+    Width = 152
     AutoSize = False
     Caption = 'clURSSAF_reste'
     ParentShowHint = False

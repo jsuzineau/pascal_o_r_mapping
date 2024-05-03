@@ -157,7 +157,8 @@ begin
      Champs_Affecte( blAnnee,[ ]);//laissé vide pour l'instant
 
      blAnnee.haMois.Charge;
-     dsbMois.sl:= blAnnee.haMois.sl; 
+     blAnnee.haMois.Mois_Charge_Pieces;
+     dsbMois.sl:= blAnnee.haMois.sl;
 end;
 
 procedure TfAnnee_dsb.bNouveauClick(Sender: TObject);

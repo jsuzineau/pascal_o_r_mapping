@@ -2,13 +2,13 @@ inherited dkAnnee_edit: TdkAnnee_edit
   Left = 704
   Height = 45
   Top = 420
-  Width = 312
+  Width = 477
   Caption = 'dkAnnee_edit'
   ClientHeight = 45
-  ClientWidth = 312
+  ClientWidth = 477
   inherited sBackground: TShape
     Height = 45
-    Width = 300
+    Width = 465
   end
   inherited sSelection: TBatpro_Shape
     Height = 45
@@ -25,17 +25,17 @@ inherited dkAnnee_edit: TdkAnnee_edit
     Text = 'ceAnnee'
     Field = 'Annee'
   end
-  object ceDeclare: TChamp_Edit[3]
+  object ceTotal_Mois_Montant: TChamp_Edit[3]
     Left = 123
     Height = 21
     Top = 4
-    Width = 80
+    Width = 157
     AutoSize = False
     ParentShowHint = False
     ShowHint = True
     TabOrder = 1
-    Text = 'ceDeclare'
-    Field = 'Declare'
+    Text = 'ceTotal_Mois_Montant'
+    Field = 'Total_Mois_Montant'
   end
   object sbDetruire: TSpeedButton[4]
     Left = 16
@@ -70,7 +70,7 @@ inherited dkAnnee_edit: TdkAnnee_edit
     OnClick = sbDetruireClick
   end
   object sbCopy_to_current: TSpeedButton[5]
-    Left = 289
+    Left = 454
     Height = 22
     Hint = 'Copie vers courant'
     Top = 3
@@ -79,16 +79,16 @@ inherited dkAnnee_edit: TdkAnnee_edit
     Caption = '>'
     OnClick = sbCopy_to_currentClick
   end
-  object ceDeclare_mois: TChamp_Edit[6]
-    Left = 207
+  object ceTotal_Mois_Declare: TChamp_Edit[6]
+    Left = 283
     Height = 21
     Top = 4
-    Width = 80
+    Width = 150
     AutoSize = False
     ParentShowHint = False
     ShowHint = True
     TabOrder = 2
-    Text = 'ceDeclare_mois'
-    Field = 'Declare_mois'
+    Text = 'ceTotal_Mois_Declare'
+    Field = 'Total_Mois_Declare'
   end
 end

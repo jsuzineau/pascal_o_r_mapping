@@ -28,6 +28,7 @@ interface
 uses
     uBatpro_StringList,
     uClean,
+    uuStrings,
     uPublieur,
     uChamps,
     ucBatproMasque,
@@ -156,7 +157,8 @@ type
     Surtitres: array of TDockable_Surtitre;
     procedure Ajoute_Colonne( _C: TControl; _Titre: String = ''; _NomChamp: String = ''; _Total: TDockableScrollbox_Total = dsbt_Aucun);
     procedure Ajoute_Surtitre( _libelle: String; _debut, _fin: Integer);
-  //Messages divers envoyés du DockableScrollBox au Dockable
+    function Titre_NbLignes: Integer;
+//Messages divers envoyés du DockableScrollBox au Dockable
   public
     procedure Traite_Message( Sender: TObject; _iMessage: Integer); virtual; abstract;
   //Messages divers envoyés du Dockable au DockableScrollBox
@@ -476,6 +478,20 @@ begin
        begin
        debut:= _debut;
        fin  := _fin  ;
+       end;
+end;
+
+function TDockable.Titre_NbLignes: Integer;
+var
+   I: Integer;
+   N: Integer;
+begin
+     Result:= 0;
+     for I:= Low(Colonnes) to High(Colonnes)
+     do
+       begin
+       N:= Char_Count( #13, Colonnes[I].Titre);
+       if Result < N then Result:= N;
        end;
 end;
 

@@ -111,14 +111,31 @@ begin
      
      tMois:= Ajoute_Table( 'tMois');
      tMois.Pas_de_persistance:= True;
-     tMois.AddColumn( 40, '  '      );
+     tMois.AddColumn( 40, 'Année');
+     tMois.AddColumn( 40, 'Mois');
+     tMois.AddColumn( 40, 'Déclaré');
+     tMois.AddColumn( 40, 'URSSAF');
+     tMois.AddColumn( 40, 'CAF net');
+     tMois.AddColumn( 40, 'Montant');
+     tMois.AddColumn( 40, 'URSSAF reste' );
+     tMois.AddColumn( 40, 'URSSAF évalué');
 
      nRoot:= tMois.AddNiveau( 'Root');
      nRoot.Charge_sl( sl);
-     nRoot.Ajoute_Column_Avant( 'D'                  , 0, 0);
+     //nRoot.Ajoute_Column_Avant( 'Annee'             , 0, 0);
+     nRoot.Ajoute_Column_Apres( 'Annee'             , 0, 0);
+     nRoot.Ajoute_Column_Apres( 'Total_Mois_Declare', 2, 2);
+     nRoot.Ajoute_Column_Apres( 'Total_Mois_Montant', 5, 5);
 
      nMois:= tMois.AddNiveau( 'Mois');
-     nMois.Ajoute_Column_Avant( 'D'                  , 0, 0);
+     nMois.Ajoute_Column_Avant( 'Annee'        , 0, 0);
+     nMois.Ajoute_Column_Avant( 'Mois'         , 1, 1);
+     nMois.Ajoute_Column_Avant( 'Declare'      , 2, 2);
+     nMois.Ajoute_Column_Avant( 'URSSAF'       , 3, 3);
+     nMois.Ajoute_Column_Avant( 'CAF_net'      , 4, 4);
+     nMois.Ajoute_Column_Avant( 'Montant'      , 5, 5);
+     nMois.Ajoute_Column_Avant( 'URSSAF_reste' , 6, 6);
+     nMois.Ajoute_Column_Avant( 'URSSAF_evalue', 7, 7);
 end;
 
  

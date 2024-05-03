@@ -1,48 +1,48 @@
 object fAnnee_dsb: TfAnnee_dsb
-  Left = 686
+  Left = 400
   Height = 451
   Top = 352
-  Width = 740
+  Width = 1026
   Caption = 'Annee'
   ClientHeight = 451
-  ClientWidth = 740
+  ClientWidth = 1026
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '2.2.0.4'
   object Splitter1: TSplitter
     Cursor = crVSplit
     Left = 0
     Height = 6
-    Top = 252
-    Width = 740
-    Align = alBottom
+    Top = 159
+    Width = 1026
+    Align = alTop
     Color = clLime
     ParentColor = False
-    ResizeAnchor = akBottom
+    ResizeAnchor = akTop
   end
   object pc: TPageControl
     Left = 0
-    Height = 193
-    Top = 258
-    Width = 740
+    Height = 286
+    Top = 165
+    Width = 1026
     ActivePage = tsPascal_uf_pc_dfm_Aggregation
-    Align = alBottom
-    TabIndex = 0
+    Align = alClient
+    TabIndex = 1
     TabOrder = 1
     object tsMois: TTabSheet
       Caption = 'Mois'
-      ClientHeight = 165
-      ClientWidth = 732
+      ClientHeight = 251
+      ClientWidth = 1016
       object dsbMois: TDockableScrollbox
         Left = 0
-        Height = 165
+        Height = 251
         Top = 0
-        Width = 732
+        Width = 1016
         Align = alClient
         Caption = 'dsbMois'
-        ClientHeight = 165
-        ClientWidth = 732
+        ClientHeight = 251
+        ClientWidth = 1016
         TabOrder = 0
         HauteurLigne = 32
         BordureLignes = True
@@ -59,38 +59,36 @@ object fAnnee_dsb: TfAnnee_dsb
   end
   object Panel1: TPanel
     Left = 0
-    Height = 252
+    Height = 159
     Top = 0
-    Width = 740
-    Align = alClient
+    Width = 1026
+    Align = alTop
     Caption = 'Panel1'
-    ClientHeight = 252
-    ClientWidth = 740
+    ClientHeight = 159
+    ClientWidth = 1026
     TabOrder = 2
     object Panel2: TPanel
       Left = 1
       Height = 41
-      Top = 210
-      Width = 738
+      Top = 117
+      Width = 1024
       Align = alBottom
       ClientHeight = 41
-      ClientWidth = 738
+      ClientWidth = 1024
       TabOrder = 0
       object Label1: TLabel
         Left = 8
-        Height = 15
+        Height = 21
         Top = 16
-        Width = 34
+        Width = 45
         Caption = 'Total : '
-        ParentColor = False
       end
       object lNbTotal: TLabel
         Left = 48
-        Height = 15
+        Height = 21
         Top = 16
-        Width = 44
+        Width = 57
         Caption = 'lNbTotal'
-        ParentColor = False
       end
       object bodAnnee: TBitBtn
         Left = 344
@@ -148,37 +146,35 @@ object fAnnee_dsb: TfAnnee_dsb
       Left = 1
       Height = 30
       Top = 1
-      Width = 738
+      Width = 1024
       Align = alTop
       ClientHeight = 30
-      ClientWidth = 738
+      ClientWidth = 1024
       TabOrder = 1
       object Label2: TLabel
         Left = 8
-        Height = 15
+        Height = 21
         Top = 8
-        Width = 60
+        Width = 80
         Caption = 'Ordre de tri'
-        ParentColor = False
       end
       object lTri: TLabel
-        Left = 72
-        Height = 15
+        Left = 96
+        Height = 21
         Top = 8
-        Width = 15
+        Width = 21
         Caption = 'lTri'
-        ParentColor = False
       end
     end
     object dsb: TDockableScrollbox
       Left = 1
-      Height = 179
+      Height = 86
       Top = 31
-      Width = 738
+      Width = 1024
       Align = alClient
       Caption = 'dsb'
-      ClientHeight = 179
-      ClientWidth = 738
+      ClientHeight = 86
+      ClientWidth = 1024
       TabOrder = 2
       HauteurLigne = 32
       BordureLignes = True

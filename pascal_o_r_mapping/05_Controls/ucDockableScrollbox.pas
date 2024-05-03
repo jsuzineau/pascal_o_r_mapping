@@ -104,7 +104,7 @@ type
     Setsl_running: Boolean;
     procedure Setsl(const Value: TBatpro_StringList);
     procedure Vide;
-    function Cree_Panel_et_Dockable( _Bas: Integer; out _pa: TPanel): TDockable;
+    function Cree_Panel_et_Dockable( var _Bas: Integer; out _pa: TPanel): TDockable;
     procedure Supprime_dockable( _iDockable: Integer);
     procedure SetLectureSeule(const Value: Boolean);
     procedure Verifie_sl_Offset;
@@ -483,10 +483,7 @@ begin
      //E.Show;
      E.Hide;
 
-     pColumnHeader_Height_Replie:= 17+14*Char_Count( #13, _Titre);
-
      pColumnHeader_Height_Deplie:= pColumnHeader_Height_Replie+E.Height;
-     pColumnHeader.Height:= pColumnHeader_Height_Replie;
 
      with Colonnes[I]
      do
@@ -879,8 +876,6 @@ begin
           begin
           if Bas > p.ClientHeight-HauteurLigne then break;
 
-          Bas:= Bas + HauteurLigne;
-
           dk:= Cree_Panel_et_Dockable( Bas, pa);
 
           O:= sl.Objects[ I];
@@ -1007,14 +1002,13 @@ begin
        Supprime_dockable( iDockable);
 end;
 
-function TDockableScrollbox.Cree_Panel_et_Dockable( _Bas: Integer; out _pa: TPanel): TDockable;
+function TDockableScrollbox.Cree_Panel_et_Dockable( var _Bas: Integer; out _pa: TPanel): TDockable;
 var
    dk: TDockable;
    I: Integer;
 begin
      _pa:= TPanel.Create( nil);
      _pa.Parent:= p;
-     _pa.Top:= _Bas;
      _pa.Align:= alTop;
      _pa.Height:= HauteurLigne;
      if BordureLignes
@@ -1048,6 +1042,25 @@ begin
              dk.Couleur:= Zebrage2;
 
      dk.Traite_LectureSeule( FLectureSeule);
+
+     if 0 = pColumnHeader_Height_Replie
+     then
+         begin
+         {$IFDEF MSWINDOWS}
+           pColumnHeader_Height_Replie:=     17+14*dk.Titre_NbLignes;
+         {$ELSE}
+           pColumnHeader_Height_Replie:= (3*(17+14*dk.Titre_NbLignes)) div 2;
+         {$ENDIF}
+
+         pColumnHeader.Height:= pColumnHeader_Height_Replie;
+         _Bas:= pColumnHeader_Height_Replie;
+         end
+     else
+         begin
+         _Bas:= _Bas + HauteurLigne;
+         end;
+     _pa.Top:= _Bas;
+
      Result:= dk;
 end;
 

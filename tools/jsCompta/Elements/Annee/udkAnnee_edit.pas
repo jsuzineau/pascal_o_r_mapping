@@ -49,8 +49,8 @@ type
  =
   class(TDockable)
   ceAnnee: TChamp_Edit;
-  ceDeclare: TChamp_Edit;
-  ceDeclare_mois: TChamp_Edit;
+  ceTotal_Mois_Montant: TChamp_Edit;
+  ceTotal_Mois_Declare: TChamp_Edit;
 //Pascal_udk_edit_declaration_pas
   sbCopy_to_current: TSpeedButton;
   sbDetruire: TSpeedButton;
@@ -77,9 +77,9 @@ implementation
 constructor TdkAnnee_edit.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
-     Ajoute_Colonne( ceAnnee       , 'Annee'       , 'Annee'       );
-     Ajoute_Colonne( ceDeclare     , 'Declare'     , 'Declare'     );
-     Ajoute_Colonne( ceDeclare_mois, 'Declare_mois', 'Declare_mois');
+     Ajoute_Colonne( ceAnnee             , 'Annee'             , 'Annee'             );
+     Ajoute_Colonne( ceTotal_Mois_Montant, 'Total_Mois_Montant', 'Total_Mois_Montant');
+     Ajoute_Colonne( ceTotal_Mois_Declare, 'Total_Mois_Declare', 'Total_Mois_Declare');
 
 //Details_Pascal_udk_edit_Create_AjouteColonne_pas
 end;
@@ -95,7 +95,7 @@ begin
 
      Affecte( blAnnee, TblAnnee, Value);
 
-     Champs_Affecte( blAnnee,[ ceAnnee,ceDeclare,ceDeclare_mois]);
+     Champs_Affecte( blAnnee,[ ceAnnee,ceTotal_Mois_Montant,ceTotal_Mois_Declare]);
      Champs_Affecte( blAnnee,[ {Details_Pascal_udk_edit_component_list_pas}]);
 end;
 

@@ -70,7 +70,7 @@ type
     function SQLWHERE_ContraintesChamps: String; override;
   //Méthode de création de test
   public
-    function Test( _Annee: Integer;  _Declare: Double):Integer;
+    function Test( _Annee: Integer;  _Total_Mois_Montant: Double; _Total_Mois_Declare: Integer):Integer;
 
 //Details_Pascal_upool_charge_detail_declaration_pas
   //Création d'itérateur
@@ -159,14 +159,17 @@ begin
        '         Annee           = :Annee          ';
 end;
 
-function TpoolAnnee.Test( _Annee: Integer;  _Declare: Double):Integer;
+function TpoolAnnee.Test( _Annee: Integer;
+                          _Total_Mois_Montant: Double;
+                          _Total_Mois_Declare: Integer): Integer;
 var                                                 
    bl: TblAnnee;                          
 begin                                               
-          Nouveau_Base( bl);                        
-       bl.Annee          := _Annee        ;
-       bl.Declare        := _Declare      ;
-     bl.Save_to_database;                            
+     Nouveau_Base( bl);
+       bl.Annee             := _Annee             ;
+       bl.Total_Mois_Montant:= _Total_Mois_Montant;
+       bl.Total_Mois_Declare:= _Total_Mois_Declare;
+     bl.Save_to_database;
      Result:= bl.id;                                 
 end;                                                 
 

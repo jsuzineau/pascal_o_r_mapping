@@ -235,7 +235,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="50">
+    <Units Count="51">
       <Unit0>
         <Filename Value="jsCompta.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -291,6 +291,7 @@
         <Filename Value="Elements/Annee/udkAnnee_display.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dkAnnee_display"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit9>
       <Unit10>
@@ -518,6 +519,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit49>
+      <Unit50>
+        <Filename Value="Elements/Annee/uodAnnee.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit50>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
