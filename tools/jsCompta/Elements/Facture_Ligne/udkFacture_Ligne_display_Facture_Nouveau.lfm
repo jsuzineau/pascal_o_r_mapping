@@ -19,7 +19,6 @@ inherited dkFacture_Ligne_display_Facture_Nouveau: TdkFacture_Ligne_display_Fact
     Width = 57
     AutoSize = False
     Caption = 'clNbHeures'
-    ParentColor = False
     ParentShowHint = False
     ShowHint = True
     OnClick = FormClick
@@ -32,7 +31,6 @@ inherited dkFacture_Ligne_display_Facture_Nouveau: TdkFacture_Ligne_display_Fact
     Width = 57
     AutoSize = False
     Caption = 'clPrix_unitaire'
-    ParentColor = False
     ParentShowHint = False
     ShowHint = True
     OnClick = FormClick
@@ -45,7 +43,6 @@ inherited dkFacture_Ligne_display_Facture_Nouveau: TdkFacture_Ligne_display_Fact
     Width = 57
     AutoSize = False
     Caption = 'clMontant'
-    ParentColor = False
     ParentShowHint = False
     ShowHint = True
     OnClick = FormClick
@@ -75,6 +72,7 @@ inherited dkFacture_Ligne_display_Facture_Nouveau: TdkFacture_Ligne_display_Fact
     Lines.Strings = (
       'cmLibelle'
     )
+    OnEnter = cmLibelleEnter
     ScrollBars = ssAutoBoth
     TabOrder = 1
     Field = 'Libelle'

@@ -316,7 +316,7 @@ begin
      tAvant_Suppression:= TTimer.Create( Self);
      tAvant_Suppression.OnTimer:= tAvant_SuppressionTimer;
      tAvant_Suppression.Enabled:= False;
-     tAvant_Suppression.Interval:= 50;
+     tAvant_Suppression.Interval:= 1;
 
      //Gestion de la suppression
      tSuppression:= TTimer.Create( Self);

@@ -36,7 +36,7 @@ uses
     ucBatproDateTimePicker, ucChamp_DateTimePicker, ucDockableScrollbox,
     ucChamp_Lookup_ComboBox, ucChamp_Memo,
     Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
-    LCLType;
+    LCLType,Clipbrd;
 
 type
 
@@ -52,6 +52,7 @@ type
   cmLibelle: TChamp_Memo;
 
   sbDetruire: TSpeedButton;
+  procedure cmLibelleEnter(Sender: TObject);
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   procedure sbDetruireClick(Sender: TObject);
  //Gestion du cycle de vie
@@ -104,6 +105,7 @@ begin
                                 MB_ICONQUESTION+MB_YESNO)
      then
          exit;
+     Do_DockableScrollbox_Avant_Suppression;
      poolFacture_Ligne .Supprimer( blFacture_Ligne );
      Do_DockableScrollbox_Suppression;
 end;
@@ -111,6 +113,15 @@ end;
 procedure TdkFacture_Ligne_edit_Facture.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
      inherited;
+end;
+
+procedure TdkFacture_Ligne_edit_Facture.cmLibelleEnter(Sender: TObject);
+begin
+     if nil = blFacture_Ligne         then exit;
+     if '' <> blFacture_Ligne.Libelle then exit;
+
+     //blFacture_Ligne.cLibelle.asString:= Clipboard.AsText;
+     cmLibelle.Lines.Text:= Clipboard.AsText;
 end;
 
 end.

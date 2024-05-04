@@ -105,6 +105,7 @@ inherited dkFacture_Ligne_edit_Facture: TdkFacture_Ligne_edit_Facture
     Lines.Strings = (
       'cmLibelle'
     )
+    OnEnter = cmLibelleEnter
     ScrollBars = ssAutoBoth
     TabOrder = 4
     Field = 'Libelle'

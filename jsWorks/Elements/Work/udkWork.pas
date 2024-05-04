@@ -142,6 +142,7 @@ begin
                                 MB_ICONQUESTION+MB_YESNO)
      then
          exit;
+     Do_DockableScrollbox_Avant_Suppression;
      poolWork .Supprimer( blWork );
      Do_DockableScrollbox_Suppression;
 end;

@@ -126,6 +126,7 @@ begin
                                 MB_ICONQUESTION+MB_YESNO)
      then
          exit;
+     Do_DockableScrollbox_Avant_Suppression;
      poolFacture .Supprimer( blFacture );
      Do_DockableScrollbox_Suppression;
 end;

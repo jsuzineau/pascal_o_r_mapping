@@ -68,6 +68,7 @@ type
     tsMois: TTabSheet;
     dsbMois: TDockableScrollbox; 
     procedure bodAnnee_ModeleClick(Sender: TObject);
+    procedure dsbAvant_Suppression(Sender: TObject);
     procedure dsbSelect(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -156,9 +157,17 @@ procedure TfAnnee_dsb._from_Annee;
 begin
      Champs_Affecte( blAnnee,[ ]);//laissé vide pour l'instant
 
-     blAnnee.haMois.Charge;
-     blAnnee.haMois.Mois_Charge_Pieces;
-     dsbMois.sl:= blAnnee.haMois.sl;
+     if Assigned(blAnnee)
+     then
+         begin
+         blAnnee.haMois.Charge;
+         blAnnee.haMois.Mois_Charge_Pieces;
+         dsbMois.sl:= blAnnee.haMois.sl;
+         end
+     else
+         begin
+         dsbMois.sl:= nil;
+         end;
 end;
 
 procedure TfAnnee_dsb.bNouveauClick(Sender: TObject);
@@ -231,6 +240,12 @@ begin
      if not OpenDocument( Resultat)
      then
          ShowMessage( 'OpenDocument failed on '+Resultat);
+end;
+
+procedure TfAnnee_dsb.dsbAvant_Suppression(Sender: TObject);
+begin
+     blAnnee:= nil;
+     _from_Annee;
 end;
 
 initialization

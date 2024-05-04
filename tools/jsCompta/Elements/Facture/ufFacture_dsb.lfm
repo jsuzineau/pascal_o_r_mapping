@@ -1,21 +1,21 @@
 object fFacture_dsb: TfFacture_dsb
-  Left = 129
+  Left = 317
   Height = 618
   Top = 185
-  Width = 1431
+  Width = 1280
   Caption = 'Facture'
   ClientHeight = 618
-  ClientWidth = 1431
+  ClientWidth = 1280
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '2.2.0.4'
   object Splitter1: TSplitter
     Cursor = crVSplit
     Left = 0
     Height = 6
     Top = 419
-    Width = 1431
+    Width = 1280
     Align = alBottom
     Color = clLime
     ParentColor = False
@@ -25,24 +25,24 @@ object fFacture_dsb: TfFacture_dsb
     Left = 0
     Height = 193
     Top = 425
-    Width = 1431
+    Width = 1280
     ActivePage = tsPascal_uf_pc_dfm_Aggregation
     Align = alBottom
-    TabIndex = 2
+    TabIndex = 1
     TabOrder = 1
     object tsFacture_Ligne: TTabSheet
       Caption = 'Facture_Ligne'
-      ClientHeight = 165
-      ClientWidth = 1423
+      ClientHeight = 158
+      ClientWidth = 1270
       object dsbFacture_Ligne: TDockableScrollbox
         Left = 0
-        Height = 165
+        Height = 158
         Top = 0
-        Width = 1423
+        Width = 1270
         Align = alClient
         Caption = 'dsbFacture_Ligne'
-        ClientHeight = 165
-        ClientWidth = 1423
+        ClientHeight = 158
+        ClientWidth = 1270
         TabOrder = 0
         HauteurLigne = 32
         BordureLignes = True
@@ -61,36 +61,34 @@ object fFacture_dsb: TfFacture_dsb
     Left = 0
     Height = 419
     Top = 0
-    Width = 1431
+    Width = 1280
     Align = alClient
     Caption = 'Panel1'
     ClientHeight = 419
-    ClientWidth = 1431
+    ClientWidth = 1280
     TabOrder = 2
     object Panel2: TPanel
       Left = 1
       Height = 41
       Top = 377
-      Width = 1429
+      Width = 1278
       Align = alBottom
       ClientHeight = 41
-      ClientWidth = 1429
+      ClientWidth = 1278
       TabOrder = 0
       object Label1: TLabel
         Left = 8
-        Height = 15
+        Height = 21
         Top = 16
-        Width = 34
+        Width = 45
         Caption = 'Total : '
-        ParentColor = False
       end
       object lNbTotal: TLabel
         Left = 48
-        Height = 15
+        Height = 21
         Top = 16
-        Width = 44
+        Width = 57
         Caption = 'lNbTotal'
-        ParentColor = False
       end
       object bodFacture: TBitBtn
         Left = 344
@@ -148,43 +146,42 @@ object fFacture_dsb: TfFacture_dsb
       Left = 1
       Height = 30
       Top = 1
-      Width = 1429
+      Width = 1278
       Align = alTop
       ClientHeight = 30
-      ClientWidth = 1429
+      ClientWidth = 1278
       TabOrder = 1
       object Label2: TLabel
         Left = 8
-        Height = 15
+        Height = 21
         Top = 8
-        Width = 60
+        Width = 80
         Caption = 'Ordre de tri'
-        ParentColor = False
       end
       object lTri: TLabel
         Left = 72
-        Height = 15
+        Height = 21
         Top = 8
-        Width = 15
+        Width = 21
         Caption = 'lTri'
-        ParentColor = False
       end
     end
     object dsb: TDockableScrollbox
       Left = 1
       Height = 346
       Top = 31
-      Width = 1429
+      Width = 1278
       Align = alClient
       Caption = 'dsb'
       ClientHeight = 346
-      ClientWidth = 1429
+      ClientWidth = 1278
       TabOrder = 2
       HauteurLigne = 54
       BordureLignes = True
       Zebrage = False
       Zebrage1 = 15138790
       Zebrage2 = 16777192
+      Avant_Suppression = dsbAvant_Suppression
       OnSelect = dsbSelect
       _LectureSeule = False
     end

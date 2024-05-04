@@ -50,6 +50,7 @@ type
   clMontant: TChamp_Label;
   cmLibelle: TChamp_Memo;
   sbCopy: TSpeedButton;
+  procedure cmLibelleEnter(Sender: TObject);
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   procedure sbCopyClick(Sender: TObject);
  //Gestion du cycle de vie
@@ -91,6 +92,12 @@ end;
 procedure TdkFacture_Ligne_display_Facture_Nouveau.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
      inherited;
+end;
+
+procedure TdkFacture_Ligne_display_Facture_Nouveau.cmLibelleEnter(Sender: TObject);
+begin
+     if nil = blFacture_Ligne then exit;
+     Clipboard.AsText:= blFacture_Ligne.Libelle;
 end;
 
 procedure TdkFacture_Ligne_display_Facture_Nouveau.sbCopyClick(Sender: TObject);

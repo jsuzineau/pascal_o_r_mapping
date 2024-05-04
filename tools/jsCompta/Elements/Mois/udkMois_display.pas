@@ -102,6 +102,7 @@ begin
                                 MB_ICONQUESTION+MB_YESNO)
      then
          exit;
+     Do_DockableScrollbox_Avant_Suppression;
      poolMois .Supprimer( blMois );
      Do_DockableScrollbox_Suppression;
 end;

@@ -111,6 +111,7 @@ begin
                                 MB_ICONQUESTION+MB_YESNO)
      then
          exit;
+     Do_DockableScrollbox_Avant_Suppression;
      poolPassage .Supprimer( blPassage );
      Do_DockableScrollbox_Suppression;
 end;

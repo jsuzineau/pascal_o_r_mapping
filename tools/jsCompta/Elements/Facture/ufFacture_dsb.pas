@@ -68,6 +68,7 @@ type
     tsFacture_Ligne: TTabSheet;
     dsbFacture_Ligne: TDockableScrollbox; 
     procedure bodFacture_ModeleClick(Sender: TObject);
+    procedure dsbAvant_Suppression(Sender: TObject);
     procedure dsbSelect(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -157,8 +158,16 @@ procedure TfFacture_dsb._from_Facture;
 begin
      Champs_Affecte( blFacture,[ ]);//laissé vide pour l'instant
 
-     blFacture.haFacture_Ligne.Charge;
-     dsbFacture_Ligne.sl:= blFacture.haFacture_Ligne.sl; 
+     if Assigned( blFacture)
+     then
+         begin
+         blFacture.haFacture_Ligne.Charge;
+         dsbFacture_Ligne.sl:= blFacture.haFacture_Ligne.sl;
+         end
+     else
+         begin
+         dsbFacture_Ligne.sl:= nil;
+         end;
 end;
 
 procedure TfFacture_dsb.bNouveauClick(Sender: TObject);
@@ -231,6 +240,12 @@ begin
      if not OpenDocument( Resultat)
      then
          ShowMessage( 'OpenDocument failed on '+Resultat);
+end;
+
+procedure TfFacture_dsb.dsbAvant_Suppression(Sender: TObject);
+begin
+     blFacture:= nil;
+     _from_Facture;
 end;
 
 initialization

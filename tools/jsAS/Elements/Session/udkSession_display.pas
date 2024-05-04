@@ -100,6 +100,7 @@ begin
                                 MB_ICONQUESTION+MB_YESNO)
      then
          exit;
+     Do_DockableScrollbox_Avant_Suppression;
      poolSession .Supprimer( blSession );
      Do_DockableScrollbox_Suppression;
 end;
