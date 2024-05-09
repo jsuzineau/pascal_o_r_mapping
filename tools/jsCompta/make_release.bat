@@ -1,4 +1,5 @@
 xcopy /I /S /E etc release\etc
+copy Annee.ott release\
 copy Facture.ott release\
 copy jsCompta release\
 copy jsCompta.exe release\
