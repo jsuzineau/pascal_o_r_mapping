@@ -69,7 +69,6 @@ end;
 
 procedure TdkProject_EDIT.sbDetruireClick(Sender: TObject);
 begin
-     Do_DockableScrollbox_Avant_Suppression;
      poolProject.Supprimer( blProject);
      Do_DockableScrollbox_Suppression;
 end;

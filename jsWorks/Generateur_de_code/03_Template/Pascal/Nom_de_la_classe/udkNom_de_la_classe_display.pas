@@ -98,7 +98,6 @@ begin
                                 MB_ICONQUESTION+MB_YESNO)
      then
          exit;
-     Do_DockableScrollbox_Avant_Suppression;
      poolNom_de_la_classe .Supprimer( blNom_de_la_classe );
      Do_DockableScrollbox_Suppression;
 end;

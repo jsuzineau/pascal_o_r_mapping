@@ -69,7 +69,6 @@ end;
 
 procedure TdkType_Tag_edit.sbDetruireClick(Sender: TObject);
 begin
-     Do_DockableScrollbox_Avant_Suppression;
      poolType_Tag.Supprimer( blType_Tag);
      Do_DockableScrollbox_Suppression;
 end;

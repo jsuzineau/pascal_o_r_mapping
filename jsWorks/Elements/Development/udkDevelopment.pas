@@ -79,7 +79,6 @@ begin
                                 MB_ICONQUESTION+MB_YESNO)
      then
          exit;
-     Do_DockableScrollbox_Avant_Suppression;
      poolDevelopment.Supprimer( blDevelopment);
      Do_DockableScrollbox_Suppression;
 end;

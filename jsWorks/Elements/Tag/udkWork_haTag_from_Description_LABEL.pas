@@ -94,7 +94,6 @@ end;
 procedure TdkWork_haTag_from_Description_LABEL.sbDetruireClick(Sender: TObject);
 begin
      Do_DockableScrollbox_Selection;
-     Do_DockableScrollbox_Avant_Suppression;
      Do_DockableScrollbox_Suppression;
 end;
 
