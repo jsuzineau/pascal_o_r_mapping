@@ -68,7 +68,6 @@ type
     tsFacture_Ligne: TTabSheet;
     dsbFacture_Ligne: TDockableScrollbox; 
     procedure bodFacture_ModeleClick(Sender: TObject);
-    procedure dsbAvant_Suppression(Sender: TObject);
     procedure dsbSelect(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -86,6 +85,7 @@ type
   //Rafraichissement
   protected
     procedure _from_pool;
+    procedure pool_Suppression_Avant;
   //Facture
   private
     blFacture: TblFacture;
@@ -114,6 +114,8 @@ begin
      inherited;
      EntreeLigneColonne_:= False;
      pool.pFiltreChange.Abonne( Self, NbTotal_Change);
+     pool.Suppression.pAvant.Abonne( Self, pool_Suppression_Avant);
+
      dsb.Classe_dockable:= TdkFacture_edit;
      dsb.Classe_Elements:= TblFacture;
      dsbFacture_Ligne.Classe_dockable:= TdkFacture_Ligne_edit;
@@ -122,16 +124,17 @@ begin
      ThPhi_Form.Create( Self);
 end;
 
+procedure TfFacture_dsb.FormDestroy(Sender: TObject);
+begin
+     pool.pFiltreChange.Desabonne( Self, NbTotal_Change);
+     pool.Suppression.pAvant.DesAbonne( Self, pool_Suppression_Avant);
+     inherited;
+end;
+
 procedure TfFacture_dsb.dsbSelect(Sender: TObject);
 begin
      dsb.Get_bl( blFacture);
      _from_Facture;
-end;
-
-procedure TfFacture_dsb.FormDestroy(Sender: TObject);
-begin
-     pool.pFiltreChange.Desabonne( Self, NbTotal_Change);
-     inherited;
 end;
 
 procedure TfFacture_dsb.NbTotal_Change;
@@ -152,6 +155,12 @@ procedure TfFacture_dsb._from_pool;
 begin
      dsb.sl:= pool.slFiltre;
      //dsb.sl:= pool.T;
+end;
+
+procedure TfFacture_dsb.pool_Suppression_Avant;
+begin
+     blFacture:= nil;
+     _from_Facture;
 end;
 
 procedure TfFacture_dsb._from_Facture;
@@ -240,12 +249,6 @@ begin
      if not OpenDocument( Resultat)
      then
          ShowMessage( 'OpenDocument failed on '+Resultat);
-end;
-
-procedure TfFacture_dsb.dsbAvant_Suppression(Sender: TObject);
-begin
-     blFacture:= nil;
-     _from_Facture;
 end;
 
 initialization

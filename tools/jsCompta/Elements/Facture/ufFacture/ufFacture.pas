@@ -86,7 +86,6 @@ type
     procedure bDateClick(Sender: TObject);
     procedure bFacture_Ligne_NouveauClick(Sender: TObject);
     procedure bodFacture_ModeleClick(Sender: TObject);
-    procedure dsbAvant_Suppression(Sender: TObject);
     procedure dsbSelect(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -101,6 +100,7 @@ type
   //Rafraichissement
   protected
     procedure _from_pool;
+    procedure pool_Suppression_Avant;
   //Facture
   private
     blFacture: TblFacture;
@@ -128,6 +128,8 @@ begin
      pool:= poolFacture;
      inherited;
      EntreeLigneColonne_:= False;
+     pool.Suppression.pAvant.Abonne( Self, pool_Suppression_Avant);
+
      dsb.Classe_dockable:= TdkFacture_display_Facture;
      dsb.Classe_Elements:= TblFacture;
 
@@ -137,15 +139,16 @@ begin
      ThPhi_Form.Create( Self);
 end;
 
+procedure TfFacture.FormDestroy(Sender: TObject);
+begin
+     pool.Suppression.pAvant.DesAbonne( Self, pool_Suppression_Avant);
+     inherited;
+end;
+
 procedure TfFacture.dsbSelect(Sender: TObject);
 begin
      dsb.Get_bl( blFacture);
      _from_Facture;
-end;
-
-procedure TfFacture.FormDestroy(Sender: TObject);
-begin
-     inherited;
 end;
 
 function TfFacture.Execute: Boolean;
@@ -162,6 +165,12 @@ begin
      pool.TrierFiltre;
      dsb.sl:= pool.slFiltre;
      //dsb.sl:= pool.T;
+end;
+
+procedure TfFacture.pool_Suppression_Avant;
+begin
+     blFacture:= nil;
+     _from_Facture;
 end;
 
 procedure TfFacture._from_Facture;
@@ -256,12 +265,6 @@ begin
      if not OpenDocument( Resultat)
      then
          ShowMessage( 'OpenDocument failed on '+Resultat);
-end;
-
-procedure TfFacture.dsbAvant_Suppression(Sender: TObject);
-begin
-     blFacture:= nil;
-     _from_Facture;
 end;
 
 procedure TfFacture.bFacture_Ligne_NouveauClick(Sender: TObject);

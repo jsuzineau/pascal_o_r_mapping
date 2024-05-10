@@ -50,7 +50,7 @@ type
   public
     Classe_Elements: TBatpro_Ligne_Class;
     bl: TBatpro_Ligne;
-    p: TPublieur;
+    pAvant, p: TPublieur;
   //Général
   private
     procedure Supprime_interne( _btsCle: TbtString;
@@ -72,11 +72,13 @@ constructor TSuppression.Create( _Classe_Elements: TBatpro_Ligne_Class);
 begin
      Classe_Elements:= _Classe_Elements;
      bl:= nil;
+     pAvant:= TPublieur.Create( 'Suppression.pAvant');
      p:= TPublieur.Create( 'Suppression.p');
 end;
 
 destructor TSuppression.Destroy;
 begin
+     Free_nil( pAvant);
      Free_nil( p);
      inherited;
 end;
@@ -110,6 +112,8 @@ end;
 procedure TSuppression.Execute( _btsCle: TbtString;
                                 StringLists: array of TBatpro_StringList; var _bl);
 begin
+     pAvant.Publie;
+
      bl:= TBatpro_Ligne( _bl);
 
      CheckClass( bl, Classe_Elements);

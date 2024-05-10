@@ -281,7 +281,6 @@ begin
      if Assigned( DockableScrollbox_Avant_Suppression)
      then
          DockableScrollbox_Avant_Suppression( Self);
-     Application.ProcessMessages;
 end;
 
 procedure TDockable.Do_DockableScrollbox_Suppression;
