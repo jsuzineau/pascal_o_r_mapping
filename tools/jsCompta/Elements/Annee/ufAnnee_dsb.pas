@@ -68,7 +68,6 @@ type
     tsMois: TTabSheet;
     dsbMois: TDockableScrollbox; 
     procedure bodAnnee_ModeleClick(Sender: TObject);
-    procedure dsbAvant_Suppression(Sender: TObject);
     procedure dsbSelect(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -86,6 +85,7 @@ type
   //Rafraichissement
   protected
     procedure _from_pool;
+    procedure pool_Suppression_Avant;
   //Annee
   private
     blAnnee: TblAnnee;
@@ -114,6 +114,8 @@ begin
      inherited;
      EntreeLigneColonne_:= False;
      pool.pFiltreChange.Abonne( Self, NbTotal_Change);
+     pool.Suppression.pAvant.Abonne( Self, pool_Suppression_Avant);
+
      dsb.Classe_dockable:= TdkAnnee_edit;
      dsb.Classe_Elements:= TblAnnee;
      dsbMois.Classe_dockable:= TdkMois_edit;
@@ -125,6 +127,7 @@ end;
 procedure TfAnnee_dsb.FormDestroy(Sender: TObject);
 begin
      pool.pFiltreChange.Desabonne( Self, NbTotal_Change);
+     pool.Suppression.pAvant.DesAbonne( Self, pool_Suppression_Avant);
      inherited;
 end;
 
@@ -151,6 +154,12 @@ procedure TfAnnee_dsb._from_pool;
 begin
      dsb.sl:= pool.slFiltre;
      //dsb.sl:= pool.T;
+end;
+
+procedure TfAnnee_dsb.pool_Suppression_Avant;
+begin
+     blAnnee:= nil;
+     _from_Annee;
 end;
 
 procedure TfAnnee_dsb._from_Annee;
@@ -240,12 +249,6 @@ begin
      if not OpenDocument( Resultat)
      then
          ShowMessage( 'OpenDocument failed on '+Resultat);
-end;
-
-procedure TfAnnee_dsb.dsbAvant_Suppression(Sender: TObject);
-begin
-     blAnnee:= nil;
-     _from_Annee;
 end;
 
 initialization

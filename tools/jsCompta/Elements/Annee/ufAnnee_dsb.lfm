@@ -181,7 +181,6 @@ object fAnnee_dsb: TfAnnee_dsb
       Zebrage = False
       Zebrage1 = 15138790
       Zebrage2 = 16777192
-      Avant_Suppression = dsbAvant_Suppression
       OnSelect = dsbSelect
       _LectureSeule = False
     end
