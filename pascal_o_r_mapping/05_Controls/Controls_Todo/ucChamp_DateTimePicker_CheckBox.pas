@@ -68,6 +68,7 @@ type
   private
     Champ: TChamp;
     function Champ_OK: Boolean;
+    procedure Champ_Destroyed;
   //Gestion des mises à jours avec TChamps
   private
     Champs_Changing: Boolean;
@@ -136,17 +137,26 @@ begin
      Result:= Assigned( Champ);
 end;
 
+procedure TChamp_DateTimePicker_CheckBox.Champ_Destroyed;
+begin
+     SetChamps( nil);
+end;
+
 procedure TChamp_DateTimePicker_CheckBox.SetChamps(Value: TChamps);
 begin
      if Assigned( Champ)
      then
-         Champ.OnChange.Desabonne( Self, _from_Champs);
+         begin
+         Champ.OnChange .Desabonne( Self, _from_Champs   );
+         Champ.OnDestroy.Desabonne( Self, Champ_Destroyed);
+         end;
 
      FChamps:= Value;
 
      if not Champ_OK then exit;
 
-     Champ.OnChange.Abonne( Self, _from_Champs);
+     Champ.OnChange .Abonne( Self, _from_Champs   );
+     Champ.OnDestroy.Abonne( Self, Champ_Destroyed);
      _from_Champs;
 end;
 

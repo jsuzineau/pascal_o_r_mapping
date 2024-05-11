@@ -33,24 +33,27 @@ uses
     uChamp;
 
 type
+
+ { TChamp_Lookup_ComboBox }
+
  TChamp_Lookup_ComboBox
  =
   class( TComboBox, IChampsComponent)
-  //Général
+  //GÃ©nÃ©ral
   protected
     procedure Loaded; override;
     procedure Change; override;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-  //Propriété Champs
+  //PropriÃ©tÃ© Champs
   private
     FChamps: TChamps;
     function GetChamps: TChamps;
     procedure SetChamps( Value: TChamps);
   public
     property Champs: TChamps read GetChamps write SetChamps;
-  // Propriété Field
+  // PropriÃ©tÃ© Field
   private
     FField: String;
   published
@@ -59,16 +62,17 @@ type
   private
     Champ: TChamp;
     function Champ_OK: Boolean;
-  //Données de Lookup
+    procedure Champ_Destroyed;
+  //DonnÃ©es de Lookup
   private
     Keys  : TBatpro_StringList;
     Labels: TStrings;
-  //Gestion des mises à jours avec TChamps
+  //Gestion des mises Ã  jours avec TChamps
   private
     Champs_Changing: Boolean;
     procedure _from_Champs;
     procedure _to_Champs;
-  //accesseur à partir de l'interface
+  //accesseur Ã  partir de l'interface
   private
     function GetComponent: TComponent;
   end;
@@ -117,11 +121,19 @@ begin
      Result:= Assigned( Champ);
 end;
 
+procedure TChamp_Lookup_ComboBox.Champ_Destroyed;
+begin
+     SetChamps( nil);
+end;
+
 procedure TChamp_Lookup_ComboBox.SetChamps( Value: TChamps);
 begin
      if Assigned( Champ)
      then
-         Champ.LookupKey.OnChange.Desabonne( Self, _from_Champs);
+         begin
+         Champ.LookupKey.OnChange .Desabonne( Self, _from_Champs   );
+         Champ          .OnDestroy.Desabonne( Self, Champ_Destroyed);
+         end;
 
      Keys  .Clear;
      Items .Clear;
@@ -130,7 +142,8 @@ begin
      if not Champ_OK                   then exit;
      if not Champ.Definition.Is_Lookup then exit;
 
-     Champ.LookupKey.OnChange.Abonne( Self, _from_Champs);
+     Champ.LookupKey.OnChange .Abonne( Self, _from_Champs   );
+     Champ          .OnDestroy.Abonne( Self, Champ_Destroyed);
      _from_Champs;
 end;
 

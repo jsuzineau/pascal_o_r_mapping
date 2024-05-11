@@ -45,18 +45,18 @@ type
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-  //Général
+  //GÃ©nÃ©ral
   protected
     procedure Loaded; override;
     procedure Change; override;
-  //Propriété Champs
+  //PropriÃ©tÃ© Champs
   private
     FChamps: TChamps;
     function GetChamps: TChamps;
     procedure SetChamps( Value: TChamps);
   public
     property Champs: TChamps read GetChamps write SetChamps;
-  // Propriété Field
+  // PropriÃ©tÃ© Field
   private
     FField: String;
   published
@@ -65,12 +65,13 @@ type
   private
     Champ: TChamp;
     function Champ_OK: Boolean;
-  //Gestion des mises à jours avec TChamps
+    procedure Champ_Destroyed;
+  //Gestion des mises Ã  jours avec TChamps
   private
     Champs_Changing: Boolean;
     procedure _from_Champs;
     procedure _to_Champs;
-  //accesseur à partir de l'interface
+  //accesseur Ã  partir de l'interface
   private
     function GetComponent: TComponent;
   //Valeur
@@ -120,16 +121,25 @@ begin
      Result:= Assigned( Champ);
 end;
 
+procedure TChamp_Float_SpinEdit.Champ_Destroyed;
+begin
+     SetChamps( nil);
+end;
+
 procedure TChamp_Float_SpinEdit.SetChamps(Value: TChamps);
 begin
      if Assigned( Champ)
      then
-         Champ.OnChange.Desabonne( Self, _from_Champs);
+         begin
+         Champ.OnChange .Desabonne( Self, _from_Champs   );
+         Champ.OnDestroy.Desabonne( Self, Champ_Destroyed);
+         end;
 
      FChamps:= Value;
      if not Champ_OK then exit;
 
-     Champ.OnChange.Abonne( Self, _from_Champs);
+     Champ.OnChange .Abonne( Self, _from_Champs   );
+     Champ.OnDestroy.Abonne( Self, Champ_Destroyed);
      _from_Champs;
 end;
 

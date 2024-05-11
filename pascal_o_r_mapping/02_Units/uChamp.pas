@@ -85,6 +85,13 @@ type
   public
     property OnChange: TPublieur read GetOnChange;
     procedure Publie_Modifications( Sauver: Boolean = True);// à appeler aprés une modif de Valeur^
+  //Gestion de la publication de la destruction
+  private
+    FOnDestroy: TPublieur;
+    function GetOnDestroy: TPublieur;
+    procedure Do_OnDestroy;
+  public
+    property OnDestroy: TPublieur read GetOnDestroy;
   //Gestion des modifications dans TChampsGrid
   public
     function Edite( Position: TPoint): Boolean;
@@ -314,6 +321,7 @@ begin
      Definition:= _Definition;
      Valeur    := _Valeur    ;
      FOnChange:= nil;
+     FOnDestroy:= nil;
      LookupKey:= nil;
      OnGetLookupListItems:= nil;
      LookupConnection:= nil;
@@ -325,9 +333,40 @@ end;
 
 destructor TChamp.Destroy;
 begin
+     Do_OnDestroy;
      Free_nil( LookupConnection);
      Free_nil( FOnChange);
+     Free_nil( FOnDestroy);
      inherited;
+end;
+
+function TChamp.GetOnChange: TPublieur;
+   procedure Cree_OnChange;
+   var
+      sNomChamp: String;
+   begin
+        sNomChamp:= '';
+
+        if Assigned( Definition)
+        then
+            try
+               sNomChamp:= Definition.Nom;
+            except
+                  on E: Exception do begin end;
+                  end;
+
+        FOnChange:= TPublieur.Create('TChamp(nomchamp= '+sNomChamp+').OnChange');
+   end;
+begin
+     Result:= nil;
+     if Self = nil then exit;
+
+     if FOnChange = nil
+     then
+         Cree_OnChange;
+
+     Result:= FOnChange;
+
 end;
 
 procedure TChamp.Do_OnChange;
@@ -353,6 +392,42 @@ begin
          Save_to_database;
 
      Do_OnChange;
+end;
+
+function TChamp.GetOnDestroy: TPublieur;
+   procedure Cree_OnDestroy;
+   var
+      sNomChamp: String;
+   begin
+        sNomChamp:= '';
+
+        if Assigned( Definition)
+        then
+            try
+               sNomChamp:= Definition.Nom;
+            except
+                  on E: Exception do begin end;
+                  end;
+
+        FOnDestroy:= TPublieur.Create('TChamp(nomchamp= '+sNomChamp+').OnDestroy');
+   end;
+begin
+     Result:= nil;
+     if Self = nil then exit;
+
+     if FOnDestroy = nil
+     then
+         Cree_OnDestroy;
+
+     Result:= FOnDestroy;
+
+end;
+
+procedure TChamp.Do_OnDestroy;
+begin
+     if Assigned( FOnDestroy)
+     then
+         FOnDestroy.Publie;
 end;
 
 function TChamp.GetChaine_interne: String;
@@ -643,35 +718,6 @@ constructor TChamp.Create_Lookup( _Owner: TObject;
 begin
      Create( _Owner, _Definition, _Valeur, _Save_to_database);
      Init_Lookup( _LookupKey, _OnGetLookupListItems, _Valeur_courante);
-end;
-
-function TChamp.GetOnChange: TPublieur;
-   procedure Cree_OnChange;
-   var
-      sNomChamp: String;
-   begin
-        sNomChamp:= '';
-
-        if Assigned( Definition)
-        then
-            try
-               sNomChamp:= Definition.Nom;
-            except
-                  on E: Exception do begin end;
-                  end;
-
-        FOnChange:= TPublieur.Create('TChamp(nomchamp= '+sNomChamp+').OnChange');
-   end;
-begin
-     Result:= nil;
-     if Self = nil then exit;
-
-     if FOnChange = nil
-     then
-         Cree_OnChange;
-
-     Result:= FOnChange;
-
 end;
 
 procedure TChamp.Recharge(_jsdc: TjsDataContexte);
