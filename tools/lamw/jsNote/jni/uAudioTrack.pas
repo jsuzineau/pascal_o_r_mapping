@@ -5,7 +5,9 @@ unit uAudioTrack;
 interface
 
 uses
+ {$IFDEF AudioTrack}
  AudioTrack,
+ {$ENDIF}
  uFrequence,
  uFrequences,
  Classes, SysUtils, AndroidWidget,And_jni;
@@ -66,9 +68,12 @@ var
           end;
    end;
    procedure Process_AudioTrack_procedure;
+   {$IFDEF AudioTrack}
    var
       jo: jObject;
+   {$ENDIF}
    begin
+        {$IFDEF AudioTrack}
         jo
         :=
           jAudioTrack_jCreate( gApp.jni.jEnv,
@@ -83,11 +88,15 @@ var
                                );
         jAudioTrack_Write(gApp.jni.jEnv, jo, Buffer, 0, Length(Buffer));
         jAudioTrack_Play(gApp.jni.jEnv, jo);
+        {$ENDIF}
    end;
    procedure Process_AudioTrack_component;
+   {$IFDEF AudioTrack}
    var
       jat: jAudioTrack;
+   {$ENDIF}
    begin
+        {$IFDEF AudioTrack}
         WriteLn(ClassName+'.Play::Process_AudioTrack_component: avant jat:= jAudioTrack.Create( nil); ');
         jat:= jAudioTrack.Create( nil);
         try
@@ -108,7 +117,7 @@ var
         finally
                FreeAndNil( jat);
                end;
-
+        {$ENDIF}
    end;
 begin
      WriteLn(ClassName+'.Play: avant Cree_Buffer');
@@ -121,13 +130,16 @@ begin
 end;
 
 class procedure TAudioTrack.Play(_Note: String);
+{$IFDEF AudioTrack}
 var
    at: jAudioTrack;
    Frequence: double;
    i: Integer;
    a: double;
    Sample: double;
+{$ENDIF}
 begin
+     {$IFDEF AudioTrack}
      Frequence:= Frequences.Frequence_from_Midi( Midi_from_note( _Note));
      at:= jAudioTrack.Create( nil);
      try
@@ -158,6 +170,7 @@ begin
      finally
             FreeAndNil( at);
             end;
+     {$ENDIF}
 end;
 
 end.

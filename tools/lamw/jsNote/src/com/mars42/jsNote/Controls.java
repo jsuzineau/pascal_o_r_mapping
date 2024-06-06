@@ -1,6 +1,6 @@
 package com.mars42.jsNote;
 
-//LAMW: Lazarus Android Module Wizard - version 0.8.6.2 - 15 July - 2021 [splited jForm]
+//LAMW: Lazarus Android Module Wizard - version 0.8.6.3 - 17 December - 2021
 //RAD Android: Project Wizard, Form Designer and Components Development Model!
 
 //https://github.com/jmpessoa/lazandroidmodulewizard
@@ -50,7 +50,8 @@ package com.mars42.jsNote;
 //                              rename example Name
 //			12.2013 LAMW Started by jmpessoa
 
-
+//IMPORTANT! Don't cleanup imports !!!
+import android.hardware.usb.UsbDevice;
 import android.provider.DocumentsContract;
 import android.provider.Settings.Secure;
 import android.view.animation.AccelerateInterpolator;
@@ -186,7 +187,8 @@ import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.view.animation.RotateAnimation;
-//import android.os.StrictMode; //by Guser979 [try fix "jCamera_takePhoto"
+
+//i m p o r t android.os.StrictMode; //by Guser979 [try fix "jCamera_takePhoto"
 
 //**class entrypoint**//please, do not remove/change this line!
 
@@ -196,7 +198,7 @@ public class Controls {
   //Load Pascal Library - Please, do not edit the static content commented in the template file
   // -------------------------------------------------------------------------------------------
   static {
-    try{System.loadLibrary("controls");} catch (UnsatisfiedLinkError e) {Log.e("JNI_Loading_libcontrols", "exception", e);}
+     try{System.loadLibrary("controls");} catch (UnsatisfiedLinkError e) {Log.e("JNI_Loading_libcontrols", "exception", e);}
   }
 
   //
@@ -281,6 +283,12 @@ public class Controls {
   public native void pOnEnter(long pasobj);
 
   public native void pOnBackPressed(long pasobj);
+  
+  public native void pOnDone(long pasobj);
+  public native void pOnSearch(long pasobj);
+  public native void pOnNext(long pasobj);
+  public native void pOnGo(long pasobj);
+
 
   public native void pOnClose(long pasobj);
 
@@ -440,16 +448,26 @@ public class Controls {
       Class<?> res = R.drawable.class;
       Field field = res.getField(_resName);  //"drawableName"
 
-      if (field != null) {
-        int drawableId = field.getInt(null);
-        return drawableId;
-      } else {
-        return 0;
-      }
+      if (field != null) 
+        return field.getInt(null);      
+      
     } catch (Exception e) {
-      //Log.e("GetDrawableResourceId", "Failure to get drawable id.", e);
-      return 0;
+      //Log.e("GetDrawableResourceId", "Failure to get drawable id.", e);      
     }
+    
+    try {
+        Class<?> res = android.R.mipmap.class;
+        Field field = res.getField(_resName);  //"mipmapName"
+
+        if (field != null) {
+          return field.getInt(null);
+        } else {
+          return 0;
+        }
+      } catch (Exception e) {
+        //Log.e("GetDrawableResourceId", "Failure to get drawable id.", e);
+    	return 0;
+      }
   }
 
   public Drawable GetDrawableResourceById(int _resID) {
@@ -977,11 +995,16 @@ public  int Image_getWH (String filename ) {
     }
   }
 
+  /*
+  Apps targeting Android 12 and higher must specify either FLAG_IMMUTABLE or FLAG_MUTABLE
+  when constructing a PendingIntent.
+  FLAG_IMMUTABLE is available since target SDK 23,
+   */
   //improved by CC
   //http://forum.lazarus-ide.org/index.php/topic,44775.msg315109/topicseen.html
   public int jSend_SMS(String phoneNumber, String msg, String packageDeliveredAction, boolean multipartMessage) {
-    String SMS_DELIVERED = packageDeliveredAction;
-    PendingIntent deliveredPendingIntent = PendingIntent.getBroadcast(this.GetContext(), 0, new Intent(SMS_DELIVERED), PendingIntent.FLAG_CANCEL_CURRENT);
+    //String SMS_DELIVERED = packageDeliveredAction;
+    PendingIntent deliveredPendingIntent = PendingIntent.getBroadcast(this.GetContext(), 0, new Intent(packageDeliveredAction), PendingIntent.FLAG_IMMUTABLE); //PendingIntent.FLAG_CANCEL_CURRENT
     SmsManager sms = SmsManager.getDefault();
     
     if (sms == null)  return 0;
@@ -1507,10 +1530,6 @@ public  int Image_getWH (String filename ) {
 //-------------------------------------------------------------------------------------------------------
 //SMART LAMW DESIGNER
 //-------------------------------------------------------------------------------------------------------
-
-public java.lang.Object jAudioTrack_jCreate(long _Self,int _streamType, int _sampleRateInHz, int _channelConfig, int _audioFormat, int _bufferSizeInBytes, int _mode) {
-  return (java.lang.Object)(new jAudioTrack(this,_Self,_streamType,_sampleRateInHz,_channelConfig,_audioFormat,_bufferSizeInBytes,_mode));
-}
 
 public  java.lang.Object jButton_Create(long pasobj ) {
   return (java.lang.Object)( new jButton(this.activity,this,pasobj));

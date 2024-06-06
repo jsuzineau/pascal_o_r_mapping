@@ -4,7 +4,11 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -80,7 +84,8 @@ public class jMenu /*extends ...*/ {
     	  mMenu = _menu;
           String _resName = "ic_launcher"; //ok       
           MenuItem item = _menu.add(0,_itemID,0 ,(CharSequence)_caption);       
-          item.setIcon(controls.GetDrawableResourceId(_resName));          
+          item.setIcon(controls.GetDrawableResourceId(_resName));
+          item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
        }
     }
     
@@ -113,9 +118,16 @@ public class jMenu /*extends ...*/ {
     	int size = _captions.length;
     	if (_menu != null) {      	   	
      	  if (size > 1) {
+     		 Drawable dw = null;
+     		 try {
+                 dw = this.controls.activity.getPackageManager().getApplicationIcon(this.controls.activity.getPackageName());
+             } catch (PackageManager.NameNotFoundException e) {
+                 Log.i("GetApplicationIcon", "DefaultNameNotFoundException");            
+             } 
+     		  
      		 mMenu = _menu;
     	     mSubMenus[mCountSubMenu] = _menu.addSubMenu((CharSequence)_captions[0]); //main title      	  
-     	     mSubMenus[mCountSubMenu].setHeaderIcon(R.drawable.ic_launcher);      	       	   
+     	     if(dw != null) mSubMenus[mCountSubMenu].setHeaderIcon(dw);      	       	   
     	     for(int i=1; i < size; i++) {    	
     		   MenuItem item = mSubMenus[mCountSubMenu].add(0,_startItemID+(i-1),0,(CharSequence)_captions[i]); //sub titles...    		       	    
     	     }    	   
@@ -128,10 +140,17 @@ public class jMenu /*extends ...*/ {
     public void AddCheckableSubMenu(Menu _menu, int _startItemID, String[] _captions){
       if (_menu != null) {	    	
     	int size = _captions.length;
-    	if (size > 1) {    	
+    	if (size > 1) {
+    	   Drawable dw = null;
+    		 try {
+                dw = this.controls.activity.getPackageManager().getApplicationIcon(this.controls.activity.getPackageName());
+           } catch (PackageManager.NameNotFoundException e) {
+                Log.i("GetApplicationIcon", "DefaultNameNotFoundException");            
+           }
+    		 
     	   mMenu = _menu;	
     	   mSubMenus[mCountSubMenu] = _menu.addSubMenu((CharSequence)_captions[0]); //main title
-    	   mSubMenus[mCountSubMenu].setHeaderIcon(R.drawable.ic_launcher);       	   
+    	   if(dw != null) mSubMenus[mCountSubMenu].setHeaderIcon(dw);       	   
     	   //Log.i("jMenu_AddCheckableSubMenu", _captions[0]);
     	   for(int i=1; i < size; i++) {    	
     		  mSubMenus[mCountSubMenu].add(0,_startItemID+(i-1),0,(CharSequence)_captions[i]).setCheckable(true); //sub titles...
@@ -197,25 +216,57 @@ public class jMenu /*extends ...*/ {
     public void AddItem(Menu _menu, int _itemID, String _caption, String _iconIdentifier, int _itemType, int _showAsAction){
       if (_menu != null) {
     	 mMenu = _menu;
-    	 MenuItem item = _menu.add(0,_itemID,0 ,(CharSequence)_caption);    			
-    	 switch  (_itemType) {
-    	    case 1:  item.setCheckable(true); break;    	
-    	 }    	
-         if (!_iconIdentifier.equals("")) {
-           item.setIcon(controls.GetDrawableResourceId(_iconIdentifier)); 
-         }                     
-         switch (_showAsAction) {
+    	 MenuItem item = _menu.add(0,_itemID,0 ,(CharSequence)_caption); //getMenuIconWithText
+         if (!_iconIdentifier.equals("")) {  //
+           item.setIcon(controls.GetDrawableResourceId(_iconIdentifier));
+         }
+         switch(_itemType) {
+			  case 1:  item.setCheckable(true); break;
+		  }
+		  switch (_showAsAction) {
            case 0: item.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER); break;
            case 1: item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM); break;
            case 2: item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS); break; ////A good rule of thumb is to have no more than 2 items set to always show at a time.
-           case 4: item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM|MenuItem.SHOW_AS_ACTION_WITH_TEXT); 
-                  item.setTitleCondensed("."); break;                    
+		   case 3: item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM|MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+				 item.setTitleCondensed("#");break;
+           case 4: item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+                  item.setTitleCondensed("#"); break;
            case 5: item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-                  item.setTitleCondensed(".");break;
-         } 	                	     
+                  item.setTitleCondensed("#");break;
+         }
       } 
      }
-    
+
+	public void AddItemHack(Menu _menu, int _itemID, String _caption, String _iconIdentifier, int _itemType, int _showAsAction){
+		if (_menu != null) {
+			mMenu = _menu;
+			MenuItem item;
+			if (!_iconIdentifier.equals("")) {  //
+				int id = controls.GetDrawableResourceId(_iconIdentifier);
+				Drawable d = controls.GetDrawableResourceById(id);
+				//item.setIcon(controls.GetDrawableResourceId(_iconIdentifier));
+				item = _menu.add(0,_itemID,0 ,getMenuIconWithText(d, _caption));
+			}
+			else {
+				item = _menu.add(0,_itemID,0 ,(CharSequence)_caption); //getMenuIconWithText
+			}
+			switch  (_itemType) {
+				case 1:  item.setCheckable(true); break;
+			}
+			switch (_showAsAction) {
+				case 0: item.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER); break;
+				case 1: item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM); break;
+				case 2: item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS); break; ////A good rule of thumb is to have no more than 2 items set to always show at a time.
+				case 3: item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM|MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+					item.setTitleCondensed("#");break;
+				case 4: item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+					item.setTitleCondensed("#"); break;
+				case 5: item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS|MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+					item.setTitleCondensed("#");break;
+			}
+		}
+	}
+
     ////Sub menus Items: Do not support item icons, or nested sub menus.    
     public void AddItem(SubMenu _subMenu, int _itemID, String _caption, int _itemType){    	     	        
         MenuItem item = _subMenu.add(0,_itemID,0 ,(CharSequence)_caption);        
@@ -355,10 +406,24 @@ public class jMenu /*extends ...*/ {
     }
 
 	public void AddDropDownItem(Menu _menu, View _view){
-    	AddItem(_menu, _view.getId(), "caption", "ic_lancher", 0, 2); //SHOW_AS_ACTION_ALWAYS
+		if((_menu == null) || (_view == null)) return;
+		
+    	AddItem(_menu, _view.getId(), "caption", "ic_launcher", 0, 2); //SHOW_AS_ACTION_ALWAYS
     	MenuItem item = this.FindMenuItemByID(_view.getId());
-    	item.setActionView(_view);
+    	
+    	if(item == null) return;
+    	
+    	item.setActionView(_view);    	
     }
+
+    //https://stackoverflow.com/questions/32969172/how-to-display-menu-item-with-icon-and-text-in-appcompatactivity
+	private CharSequence getMenuIconWithText(Drawable r, String title) {
+		r.setBounds(0, 0, r.getIntrinsicWidth(), r.getIntrinsicHeight());
+		SpannableString sb = new SpannableString("    " + title);
+		ImageSpan imageSpan = new ImageSpan(r, ImageSpan.ALIGN_BOTTOM);
+		sb.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		return sb;
+	}
 
 }
 

@@ -557,16 +557,6 @@ object fChant: TfChant
       OnClick = bTuttiClick
     end
   end
-  object at: jAudioTrack
-    Duration = 10
-    StreamType = 3
-    SampleRateInHz = 22050
-    ChannelConfig = 4
-    AudioFormat = 2
-    Mode = 0
-    Left = 248
-    Top = 423
-  end
   object hceTitre: ThChamp_Edit
     Field = 'Titre'
     et = eTitre

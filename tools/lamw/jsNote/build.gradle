@@ -1,25 +1,23 @@
 buildscript {
     repositories {
-        jcenter()
-        //android plugin version >= 3.0.0 [in classpath] need gradle version >= 4.1 and google() method
+        mavenCentral()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.3'
+        classpath 'com.android.tools.build:gradle:8.4.0'
     }
 }
 allprojects {
     repositories {
-       google()
        jcenter()
-       maven { url 'https://jitpack.io' }
+       google()
+       mavenCentral()
+       maven {url 'https://jitpack.io'}
     }
 }
 apply plugin: 'com.android.application'
 android {
-    lintOptions {
-       abortOnError false
-    }
+    namespace "com.mars42.jsNote"
     splits {
         abi {
             enable true
@@ -29,15 +27,16 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
+        sourceCompatibility 11
+        targetCompatibility 11
     }
-    compileSdkVersion 30
+    compileSdk 34
     defaultConfig {
             minSdkVersion 23
-            targetSdkVersion 30
+            targetSdkVersion 34
             versionCode 1
             versionName "1.0"
+            multiDexEnabled true
             ndk { debugSymbolLevel 'FULL' }
     }
     sourceSets {
@@ -49,7 +48,6 @@ android {
             renderscript.srcDirs = ['src']
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
-            jni.srcDirs = []
             jniLibs.srcDirs = ['libs']
         }
         debug.setRoot('build-types/debug')
@@ -57,20 +55,30 @@ android {
     }
     buildTypes {
         debug {
+            minifyEnabled false
             debuggable true
             jniDebuggable true
         }
         release {
+            minifyEnabled false
             debuggable false
             jniDebuggable false
         }
     }
+    buildFeatures {
+        aidl true
+    }
+    lint {
+        abortOnError false
+    }
 }
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation  fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.core:core:1.9.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
 }
- 
-task run(type: Exec, dependsOn: ':installDebug') {
+tasks.register('run', Exec) {
+ dependsOn ':installDebug'
 	if (System.properties['os.name'].toLowerCase().contains('windows')) {
 	    commandLine 'cmd', '/c', 'adb', 'shell', 'am', 'start', '-n', "com.mars42.jsNote/.App"
 	} else {
@@ -78,7 +86,3 @@ task run(type: Exec, dependsOn: ':installDebug') {
 	}
 }
  
-wrapper {
-    gradleVersion = '6.6.1'
-}
-//how to use: look for "gradle_readme.txt"

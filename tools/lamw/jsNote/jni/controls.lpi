@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="11"/>
+    <Version Value="12"/>
     <PathDelim Value="\"/>
     <General>
       <Flags>
         <MainUnitHasCreateFormStatements Value="False"/>
         <MainUnitHasTitleStatement Value="False"/>
+        <MainUnitHasScaledStatement Value="False"/>
         <LRSInOutputDirectory Value="False"/>
+        <CompatibilityMode Value="True"/>
       </Flags>
       <SessionStorage Value="InProjectDir"/>
-      <MainUnit Value="0"/>
       <Title Value="controls"/>
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
@@ -18,19 +19,20 @@
     <i18n>
       <EnableI18N LFM="False"/>
     </i18n>
-    <CustomData Count="12">
-      <Item0 Name="BuildSystem" Value="Ant"/>
-      <Item1 Name="LAMW" Value="GUI"/>
-      <Item2 Name="LamwVersion" Value="0.8.6.1"/>
-      <Item3 Name="MinSdk" Value="23"/>
-      <Item4 Name="NdkApi" Value="android-22"/>
-      <Item5 Name="NdkPath" Value="C:\lamw_manager\LAMW\sdk\ndk-bundle\"/>
-      <Item6 Name="Package" Value="com.mars42.jsNote"/>
-      <Item7 Name="SdkPath" Value="C:\lamw_manager\LAMW\sdk\"/>
-      <Item8 Name="StartModule" Value="fjsNote"/>
-      <Item9 Name="Support" Value="FALSE"/>
-      <Item10 Name="TargetSdk" Value="30"/>
-      <Item11 Name="Theme" Value="DeviceDefault"/>
+    <CustomData Count="13">
+      <Item0 Name="BuildSystem" Value="Gradle"/>
+      <Item1 Name="KeepMyBuildGradleWhenReopen" Value="NO"/>
+      <Item2 Name="LAMW" Value="GUI"/>
+      <Item3 Name="LamwVersion" Value="0.8.6.4"/>
+      <Item4 Name="MinSdk" Value="23"/>
+      <Item5 Name="NdkApi" Value="android-22"/>
+      <Item6 Name="NdkPath" Value="C:\lamw_manager\LAMW\sdk\ndk-bundle\"/>
+      <Item7 Name="Package" Value="com.mars42.jsNote"/>
+      <Item8 Name="SdkPath" Value="C:\lamw_manager\LAMW\sdk\"/>
+      <Item9 Name="StartModule" Value="fjsNote"/>
+      <Item10 Name="Support" Value="FALSE"/>
+      <Item11 Name="TargetSdk" Value="34"/>
+      <Item12 Name="Theme" Value="DeviceDefault"/>
     </CustomData>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
@@ -67,7 +69,7 @@
         <HasResources Value="True"/>
         <CustomData Count="2">
           <Item0 Name="fclControls"/>
-          <Item1 Name="jControls" Value="jButton;jForm;jMidiManager;jWebView"/>
+          <Item1 Name="jControls" Value="jButton;jMidiManager;jWebView"/>
         </CustomData>
       </Unit1>
       <Unit2>
@@ -78,7 +80,7 @@
         <UnitName Value="ufChant"/>
         <CustomData Count="2">
           <Item0 Name="fclControls"/>
-          <Item1 Name="jControls" Value="jAudioTrack;jButton;jEditText;jForm;jMediaPlayer;jMenu;jMidiManager;jPanel;jRadioGroup;jSqliteCursor;jSqliteDataAccess;jTextView"/>
+          <Item1 Name="jControls" Value="jButton;jEditText;jMediaPlayer;jMenu;jMidiManager;jPanel;jRadioGroup;jSqliteCursor;jSqliteDataAccess;jTextView"/>
         </CustomData>
       </Unit2>
       <Unit3>

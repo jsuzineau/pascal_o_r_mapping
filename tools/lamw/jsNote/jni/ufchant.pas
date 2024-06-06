@@ -35,7 +35,11 @@ uses
  {$IFDEF UNIX}{$IFDEF UseCThreads}
  cthreads,
  {$ENDIF}{$ENDIF}
- Classes, SysUtils, AndroidWidget, Laz_And_Controls, audiotrack, menu, And_jni,
+ Classes, SysUtils, AndroidWidget, Laz_And_Controls,
+ {$IFDEF AudioTrack}
+ audiotrack,
+ {$ENDIF}
+ menu, And_jni,
  radiogroup, midimanager, downloadmanager, mediaplayer;
  
 type
@@ -45,7 +49,9 @@ type
  TfChant
  =
   class(jForm)
+    {$IFDEF AudioTrack}
     at: jAudioTrack;
+    {$ENDIF}
     bN2: jButton;
     bN4: jButton;
     bN1: jButton;
@@ -251,6 +257,7 @@ var
    end;
    procedure Wave;
    begin
+        {$IFDEF AudioTrack}
         //at.Stop;  //si mode AudioTrack.MODE_STATIC 0
         at.Pause;at.Flush;//si mode AudioTrack.MODE_STREAM
 
@@ -259,6 +266,7 @@ var
 
         //TAudioTrack.Play( _Note);
         //TAudioTrack.Play_Old( _Note, 5);
+        {$ENDIF}
    end;
    procedure MP3( _Repertoire: String);
    var
@@ -303,13 +311,16 @@ begin
 end;
 
 procedure TfChant.at_Play_Note(_Note: String);
+{$IFDEF AudioTrack}
 var
    Midi: Integer;
    Frequence: double;
    i: Integer;
    a: double;
    Sample: double;
+{$ENDIF}
 begin
+     {$IFDEF AudioTrack}
      Midi:= Midi_from_note( _Note)+12;//+12 correction provisoire différence de n° d'octave avec MuseScore
      Frequence:= Frequences.Frequence_from_Midi( Midi);
      for i:= Low(at.Buffer) to High(at.Buffer)
@@ -324,6 +335,7 @@ begin
               'at.GetState=',at.GetState,', ',
               'at.getMaxVolume=',at.GetMaxVolume);
      at.Play;
+     {$ENDIF}
 end;
 
 procedure TfChant.LogP(_Message_Developpeur: String; _Message: String);
@@ -350,8 +362,10 @@ procedure TfChant.bStopClick(Sender: TObject);
 begin
      m.Stop;
 
+     {$IFDEF AudioTrack}
      //at.Stop;  //si mode AudioTrack.MODE_STATIC 0
      at.Pause;at.Flush;//si mode AudioTrack.MODE_STREAM
+     {$ENDIF}
 end;
 
 procedure TfChant.fChantCreateOptionMenu(Sender: TObject; jObjMenu: jObject);

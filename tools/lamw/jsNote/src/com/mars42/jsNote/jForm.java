@@ -92,6 +92,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 import java.io.*;
 import java.lang.Class;
+import java.lang.Math;
 import java.net.URI;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
@@ -1042,35 +1043,11 @@ public class jForm {
     }
 
     public int GetDrawableResourceId(String _resName) {
-        try {
-            Class<?> res = R.drawable.class;
-            Field field = res.getField(_resName);  //"drawableName"
-            int drawableId = field.getInt(null);
-            return drawableId;
-        } catch (Exception e) {
-            Log.e("jForm", "Failure to get drawable id.", e);
-            return 0;
-        }
+        return controls.GetDrawableResourceId(_resName);
     }
 
     public Drawable GetDrawableResourceById(int _resID) {
-        if (_resID == 0) {
-            return null; // by ADiV
-        }
-
-        Drawable res = null;
-
-        if (Build.VERSION.SDK_INT < 22) {    //for old device < 22
-            res = this.controls.activity.getResources().getDrawable(_resID);
-        }
-
-        //https://developer.android.com/reference/android/content/res/Resources#getDrawable(int,%20android.content.res.Resources.Theme)
-        //[ifdef_api22up]
-        if (Build.VERSION.SDK_INT >= 22) {
-        	res = this.controls.activity.getResources().getDrawable(_resID, null);
-        }//[endif_api22up]
-
-        return res;
+        return controls.GetDrawableResourceById(_resID);
     }
 
     //BY ADiV
@@ -1080,7 +1057,7 @@ public class jForm {
             return;
         }
 
-        Drawable d = GetDrawableResourceById(GetDrawableResourceId(_imageIdentifier));
+        Drawable d = controls.GetDrawableResourceById(controls.GetDrawableResourceId(_imageIdentifier));
 
         switch (_scaleType) {
             case 0:
@@ -1205,6 +1182,42 @@ public class jForm {
         if(_strData == null) return 0;
     	
     	return _strData.length();
+    }
+    
+    public String GetStringCapitalize(String _strIn) {
+        String retStr = _strIn;
+        
+        try { // We can face index out of bound exception if the string is null
+            retStr = _strIn.substring(0, 1).toUpperCase(Locale.getDefault()) + _strIn.substring(1);
+        }catch (Exception e){
+        	return _strIn;
+        }
+        
+        return retStr;
+    }
+    
+    public String GetStringUpperCase(String _strIn) {
+    	return _strIn.toUpperCase(Locale.getDefault());
+    }
+    
+    //by ADiV
+    public String GetStripAccents(String _str) {
+        _str = Normalizer.normalize(_str, Normalizer.Form.NFD);
+        
+        if (_str == null) return "";
+        
+        _str = _str.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
+        return _str;
+    }
+    
+    //by ADiV
+    public String GetStripAccentsUpperCase(String _str) {
+        _str = Normalizer.normalize(_str, Normalizer.Form.NFD);
+        
+        if (_str == null) return "";
+        
+        _str = _str.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
+        return _str.toUpperCase(Locale.getDefault());
     }
 
     // BY ADiV
@@ -1376,7 +1389,7 @@ public class jForm {
 
     public void SetIconActionBar(String _iconIdentifier) {
 //[ifdef_api14up]
-        Drawable d = GetDrawableResourceById(GetDrawableResourceId(_iconIdentifier));
+        Drawable d = controls.GetDrawableResourceById(controls.GetDrawableResourceId(_iconIdentifier));
 
         if (d != null) // by ADiV
         {
@@ -1644,7 +1657,27 @@ public class jForm {
         controls.activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         return metrics.densityDpi;
     }
-
+    
+    public double GetScreenRealXdpi() {
+        double r = 0.0;
+        DisplayMetrics metrics = new DisplayMetrics();
+        if (metrics == null) {
+            return 0;
+        }
+        controls.activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        return metrics.xdpi;
+    }
+    
+    public double GetScreenRealYdpi() {
+        double r = 0.0;
+        DisplayMetrics metrics = new DisplayMetrics();
+        if (metrics == null) {
+            return 0;
+        }
+        controls.activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        return metrics.ydpi;
+    }  	
+	
     public String GetScreenDensity() {
         String r = "";
         DisplayMetrics metrics = new DisplayMetrics();
@@ -1794,16 +1827,6 @@ public class jForm {
         return PathDat + "/" + _filename2;
     }
 
-    //by ADiV
-    public String GetStripAccents(String _str) {
-        _str = Normalizer.normalize(_str, Normalizer.Form.NFD);
-        
-        if (_str == null) return "";
-        
-        _str = _str.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
-        return _str;
-    }
-
     public String GetPathFromAssetsFile(String _assetsFileName) {
         String r = LoadFromAssets(_assetsFileName);
         
@@ -1848,12 +1871,12 @@ public class jForm {
         if (imm == null) {
             return;
         }
-
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+        /*
         if (controls.activity.getCurrentFocus() != null) {
             imm.hideSoftInputFromWindow(controls.activity.getCurrentFocus().getWindowToken(), 0);
             imm.hideSoftInputFromInputMethod(controls.activity.getCurrentFocus().getWindowToken(), 0);
-        }
-
+        }*/
     }
 
     public void HideSoftInput(View _view) {
@@ -1864,12 +1887,14 @@ public class jForm {
         imm.hideSoftInputFromWindow(_view.getWindowToken(), 0);
     }
 
+
     public void ShowSoftInput() {
         InputMethodManager imm = (InputMethodManager) controls.activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm == null) {
             return;
         }
-        imm.toggleSoftInput(InputMethodManager.RESULT_SHOWN, 0);
+        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT,0);
+        //imm.toggleSoftInput(InputMethodManager.RESULT_SHOWN, 0);;
     }
 
     public void SetSoftInputMode(int _inputMode) {
@@ -2285,21 +2310,21 @@ public class jForm {
 
     public Bitmap GetApplicationIcon(String packageName) {
         Bitmap dw = null;
+        
         try {
             dw = drawableToBitmap(this.controls.activity.getPackageManager().getApplicationIcon(packageName));
         } catch (PackageManager.NameNotFoundException e) {
-            Log.i("GetApplicationIcon", "NameNotFoundException");
-            // Get a default icon
-            if (Build.VERSION.SDK_INT < 22) {    //for old device < 22
-                dw = drawableToBitmap(this.controls.activity.getResources().getDrawable(R.drawable.ic_launcher));
-            }
-
-            //https://developer.android.com/reference/android/content/res/Resources#getDrawable(int,%20android.content.res.Resources.Theme)
-            //[ifdef_api22up]
-            if (Build.VERSION.SDK_INT >= 22) {
-                dw = drawableToBitmap(this.controls.activity.getResources().getDrawable(R.drawable.ic_launcher, null));
-            }//[endif_api22up]
+            Log.i("GetApplicationIcon", "NameNotFoundException");            
         }
+        
+        if( dw != null ) return dw;
+        
+        try {
+            dw = drawableToBitmap(this.controls.activity.getPackageManager().getApplicationIcon(this.controls.activity.getPackageName()));
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.i("GetApplicationIcon", "DefaultNameNotFoundException");            
+        }
+        
         return dw;
     }
 
@@ -2523,6 +2548,22 @@ public class jForm {
         return displaymetrics.heightPixels;
     }
 
+    public double GetScreenRealSizeInInches() {
+        double r = 0.0;
+        double screen_width = 0.0;
+        double screen_height = 0.0;
+
+        if(GetScreenRealXdpi() != 0)
+        {screen_width = GetRealScreenWidth() / GetScreenRealXdpi();}
+		
+        if(GetScreenRealYdpi() != 0)
+        screen_height = GetRealScreenHeight() / GetScreenRealYdpi();		
+		
+        r = Math.sqrt(screen_width*screen_width + screen_height*screen_height);	
+		
+        return r;
+    } 	
+	
     //by ADiV
     public String GetSystemVersionString() {
         return android.os.Build.VERSION.RELEASE;
@@ -3246,7 +3287,7 @@ public class jForm {
             Cursor cursor = resolver.query(uri, null, null, null, null);
             try {
                 if (cursor != null && cursor.moveToFirst()) {
-                	int iColum = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+                	int iColum = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
                     if(iColum >= 0) result = cursor.getString(iColum);                    
                 }
             } finally {
@@ -3263,4 +3304,47 @@ public class jForm {
         	
         return result;
     }
+
+    public Uri GetUriFromFile(String _fullFileName) {
+        Uri r = null;
+        try {
+            r = Uri.fromFile(new File(_fullFileName));
+        } catch (Exception e) {
+            Toast.makeText(controls.activity,"[GetUriFromFile] File Not found...",Toast.LENGTH_SHORT).show();
+        }
+        return r;
+    }
+
+    public boolean IsAirPlaneModeOn() {
+        boolean  r = false;
+        try {
+            if( android.provider.Settings.System.getInt(controls.activity.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON) == 1 ) {
+                r = true;
+            }
+        } catch(android.provider.Settings.SettingNotFoundException e) {
+            r = false;
+        }
+        return r;
+    }
+
+    public boolean IsBluetoothOn() {
+        boolean  r = false;
+        try {
+            if(android.provider.Settings.System.getInt(controls.activity.getContentResolver(), Settings.Global.BLUETOOTH_ON) == 1 ) {
+                r = true;
+            }
+        } catch(android.provider.Settings.SettingNotFoundException e) {
+            r = false;
+        }
+        return r;
+    }
+
+    public int GetDeviceBuildVersionApi() {
+      return android.os.Build.VERSION.SDK_INT;   //android.os.Build.VERSION.PREVIEW_SDK_INT
+    }
+
+    public String GetDeviceBuildVersionRelease() {
+        return android.os.Build.VERSION.RELEASE;
+    }
+
 }

@@ -21,10 +21,13 @@ package com.mars42.jsNote;
 
 
 import java.lang.Override;
+import java.lang.reflect.Method;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.content.pm.ActivityInfo; 
+import android.content.pm.ActivityInfo;
+import android.view.Window;
 import android.widget.RelativeLayout;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -41,7 +44,7 @@ import android.graphics.Canvas;
 
 public class App extends Activity {
     
-private Controls       controls;
+    private Controls       controls;
     
     private int screenOrientation = 0; //For update screen orientation. [by TR3E]
     private boolean rlSizeChanged = false;
@@ -136,6 +139,7 @@ private Controls       controls;
    //[ifdef_api23up]
     @Override
     public void onRequestPermissionsResult(int permsRequestCode, String[] permissions, int[] grantResults){
+    	super.onRequestPermissionsResult(permsRequestCode, permissions, grantResults);
     	
         if ( (permissions.length > 0) && (grantResults.length > 0) ) {
             for (int i = 0; i < permissions.length; i++) {
@@ -183,8 +187,7 @@ private Controls       controls;
     }	   	
  
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-     //super.onActivityResult(requestCode, resultCode, data);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {    	
      controls.jAppOnActivityResult(requestCode,resultCode,data);                                     
     }
 
@@ -248,11 +251,27 @@ private Controls       controls;
        return super.onPrepareOptionsMenu(menu);
    }
    
-   /*by jmpessoa: TODO :Handles opened menu */
+   /*Handle opened menu */
   @Override     
    public boolean onMenuOpened(int featureId, Menu menu) {
-	   //TODO!!!!
-     return super.onMenuOpened(featureId, menu);
+	   //https://stackoverflow.com/questions/33820366/how-to-show-icon-with-menus-in-android
+      if(featureId == Window.FEATURE_ACTION_BAR && menu != null){
+          if(menu.getClass().getSimpleName().equals("MenuBuilder")){
+              try{
+                  Method m = menu.getClass().getDeclaredMethod(
+                          "setOptionalIconsVisible", Boolean.TYPE);
+                  m.setAccessible(true);
+                  m.invoke(menu, true);
+              }
+              catch(NoSuchMethodException e){
+                  //Log.e(TAG, "onMenuOpened", e);
+              }
+              catch(Exception e){
+                  throw new RuntimeException(e);
+              }
+          }
+      }
+      return super.onMenuOpened(featureId, menu);
    }
    
    //https://abhik1987.wordpress.com/tag/android-disable-home-button/
