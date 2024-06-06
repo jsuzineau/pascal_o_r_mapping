@@ -29,7 +29,7 @@
       <Item6 Name="NdkPath" Value="C:\lamw_manager\LAMW\sdk\ndk-bundle\"/>
       <Item7 Name="Package" Value="com.mars42.jsNote"/>
       <Item8 Name="SdkPath" Value="C:\lamw_manager\LAMW\sdk\"/>
-      <Item9 Name="StartModule" Value="fjsNote"/>
+      <Item9 Name="StartModule" Value="fChants"/>
       <Item10 Name="Support" Value="FALSE"/>
       <Item11 Name="TargetSdk" Value="34"/>
       <Item12 Name="Theme" Value="DeviceDefault"/>
@@ -57,7 +57,7 @@
         <PackageName Value="tfpandroidbridge_pack"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="12">
+    <Units Count="13">
       <Unit0>
         <Filename Value="controls.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -119,6 +119,15 @@
         <Filename Value="Elements\Chant\ublChant.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit11>
+      <Unit12>
+        <Filename Value="ufchants.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fChants"/>
+        <UnitName Value="ufChants"/>
+        <CustomData Count="1">
+          <Item0 Name="jControls" Value="jForm;jListView"/>
+        </CustomData>
+      </Unit12>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -7,7 +7,7 @@ uses
   Classes, SysUtils, And_jni, And_jni_Bridge, AndroidWidget, Laz_And_Controls,
   Laz_And_Controls_Events, fphttpclient, blcksock, ufjsNote, ufChant,
   uAndroid_Midi, uAudioTrack, ublChant, upoolChant, uhfChant, uFrequences,
-  udmDatabase;
+  udmDatabase, ufChants;
 
 {%region /fold 'LAMW generated code'}
 
@@ -17,7 +17,7 @@ uses
 procedure pAppOnCreate(PEnv: PJNIEnv; this: JObject; context: JObject;
   layout: JObject; intent: JObject); cdecl;
 begin
-  Java_Event_pAppOnCreate(PEnv, this, context, layout, intent); fjsNote.Reinit;
+  Java_Event_pAppOnCreate(PEnv, this, context, layout, intent); fChants.Reinit;
 end;
 
 { Class:     com_mars42_jsNote_Controls
@@ -456,6 +456,165 @@ begin
 end;
 
 { Class:     com_mars42_jsNote_Controls
+  Method:    pOnClickWidgetItem
+  Signature: (JIZ)V }
+procedure pOnClickWidgetItem(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
+  position: JInt; checked: JBoolean); cdecl;
+begin
+  Java_Event_pOnClickWidgetItem(PEnv, this, TObject(pasobj), position, checked);
+end;
+
+{ Class:     com_mars42_jsNote_Controls
+  Method:    pOnClickImageItem
+  Signature: (JI)V }
+procedure pOnClickImageItem(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
+  position: JInt); cdecl;
+begin
+  Java_Event_pOnClickImageItem(PEnv, this, TObject(pasobj), position);
+end;
+
+{ Class:     com_mars42_jsNote_Controls
+  Method:    pOnClickCaptionItem
+  Signature: (JILjava/lang/String;)V }
+procedure pOnClickCaptionItem(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
+  position: JInt; caption: JString); cdecl;
+begin
+  Java_Event_pOnClickCaptionItem(PEnv, this, TObject(pasobj), position, caption
+    );
+end;
+
+{ Class:     com_mars42_jsNote_Controls
+  Method:    pOnClickItemTextLeft
+  Signature: (JILjava/lang/String;)V }
+procedure pOnClickItemTextLeft(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
+  position: JInt; caption: JString); cdecl;
+begin
+  Java_Event_pOnClickItemTextLeft(PEnv, this, TObject(pasobj), position, caption
+    );
+end;
+
+{ Class:     com_mars42_jsNote_Controls
+  Method:    pOnClickItemTextCenter
+  Signature: (JILjava/lang/String;)V }
+procedure pOnClickItemTextCenter(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
+  position: JInt; caption: JString); cdecl;
+begin
+  Java_Event_pOnClickItemTextCenter(PEnv, this, TObject(pasobj), position,
+    caption);
+end;
+
+{ Class:     com_mars42_jsNote_Controls
+  Method:    pOnClickItemTextRight
+  Signature: (JILjava/lang/String;)V }
+procedure pOnClickItemTextRight(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
+  position: JInt; caption: JString); cdecl;
+begin
+  Java_Event_pOnClickItemTextRight(PEnv, this, TObject(pasobj), position,
+    caption);
+end;
+
+{ Class:     com_mars42_jsNote_Controls
+  Method:    pOnListViewLongClickCaptionItem
+  Signature: (JILjava/lang/String;)V }
+procedure pOnListViewLongClickCaptionItem(PEnv: PJNIEnv; this: JObject;
+  pasobj: JLong; position: JInt; caption: JString); cdecl;
+begin
+  Java_Event_pOnListViewLongClickCaptionItem(PEnv, this, TObject(pasobj),
+    position, caption);
+end;
+
+{ Class:     com_mars42_jsNote_Controls
+  Method:    pOnListViewDrawItemCaptionColor
+  Signature: (JILjava/lang/String;)I }
+function pOnListViewDrawItemCaptionColor(PEnv: PJNIEnv; this: JObject;
+  pasobj: JLong; position: JInt; caption: JString): JInt; cdecl;
+begin
+  Result:=Java_Event_pOnListViewDrawItemCaptionColor(PEnv, this, TObject(pasobj
+    ), position, caption);
+end;
+
+{ Class:     com_mars42_jsNote_Controls
+  Method:    pOnListViewDrawItemCustomFont
+  Signature: (JILjava/lang/String;)Ljava/lang/String; }
+function pOnListViewDrawItemCustomFont(PEnv: PJNIEnv; this: JObject;
+  pasobj: JLong; position: JInt; caption: JString): JString; cdecl;
+begin
+  Result:=Java_Event_pOnListViewDrawItemCustomFont(PEnv, this, TObject(pasobj),
+    position, caption);
+end;
+
+{ Class:     com_mars42_jsNote_Controls
+  Method:    pOnListViewDrawItemBackgroundColor
+  Signature: (JI)I }
+function pOnListViewDrawItemBackgroundColor(PEnv: PJNIEnv; this: JObject;
+  pasobj: JLong; position: JInt): JInt; cdecl;
+begin
+  Result:=Java_Event_pOnListViewDrawItemBackgroundColor(PEnv, this, TObject(
+    pasobj), position);
+end;
+
+{ Class:     com_mars42_jsNote_Controls
+  Method:    pOnListViewDrawItemBitmap
+  Signature: (JILjava/lang/String;)Landroid/graphics/Bitmap; }
+function pOnListViewDrawItemBitmap(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
+  position: JInt; caption: JString): JObject; cdecl;
+begin
+  Result:=Java_Event_pOnListViewDrawItemBitmap(PEnv, this, TObject(pasobj),
+    position, caption);
+end;
+
+{ Class:     com_mars42_jsNote_Controls
+  Method:    pOnWidgeItemLostFocus
+  Signature: (JILjava/lang/String;)V }
+procedure pOnWidgeItemLostFocus(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
+  position: JInt; widgetText: JString); cdecl;
+begin
+  Java_Event_pOnWidgeItemLostFocus(PEnv, this, TObject(pasobj), position,
+    widgetText);
+end;
+
+{ Class:     com_mars42_jsNote_Controls
+  Method:    pOnListViewScrollStateChanged
+  Signature: (JIIIZ)V }
+procedure pOnListViewScrollStateChanged(PEnv: PJNIEnv; this: JObject;
+  pasobj: JLong; firstVisibleItem: JInt; visibleItemCount: JInt;
+  totalItemCount: JInt; lastItemReached: JBoolean); cdecl;
+begin
+  Java_Event_pOnListViewScrollStateChanged(PEnv, this, TObject(pasobj),
+    firstVisibleItem, visibleItemCount, totalItemCount, lastItemReached);
+end;
+
+{ Class:     com_mars42_jsNote_Controls
+  Method:    pOnListViewDrawItemWidgetTextColor
+  Signature: (JILjava/lang/String;)I }
+function pOnListViewDrawItemWidgetTextColor(PEnv: PJNIEnv; this: JObject;
+  pasobj: JLong; position: JInt; widgetText: JString): JInt; cdecl;
+begin
+  Result:=Java_Event_pOnListViewDrawItemWidgetTextColor(PEnv, this, TObject(
+    pasobj), position, widgetText);
+end;
+
+{ Class:     com_mars42_jsNote_Controls
+  Method:    pOnListViewDrawItemWidgetText
+  Signature: (JILjava/lang/String;)Ljava/lang/String; }
+function pOnListViewDrawItemWidgetText(PEnv: PJNIEnv; this: JObject;
+  pasobj: JLong; position: JInt; widgetText: JString): JString; cdecl;
+begin
+  Result:=Java_Event_pOnListViewDrawItemWidgetText(PEnv, this, TObject(pasobj),
+    position, widgetText);
+end;
+
+{ Class:     com_mars42_jsNote_Controls
+  Method:    pOnListViewDrawItemWidgetImage
+  Signature: (JILjava/lang/String;)Landroid/graphics/Bitmap; }
+function pOnListViewDrawItemWidgetImage(PEnv: PJNIEnv; this: JObject;
+  pasobj: JLong; position: JInt; widgetText: JString): JObject; cdecl;
+begin
+  Result:=Java_Event_pOnListViewDrawItemWidgetImage(PEnv, this, TObject(pasobj
+    ), position, widgetText);
+end;
+
+{ Class:     com_mars42_jsNote_Controls
   Method:    pOnMediaPlayerPrepared
   Signature: (JII)V }
 procedure pOnMediaPlayerPrepared(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
@@ -575,7 +734,7 @@ begin
     error, primaryError);
 end;
 
-const NativeMethods: array[0..62] of JNINativeMethod = (
+const NativeMethods: array[0..78] of JNINativeMethod = (
    (name: 'pAppOnCreate';
     signature: '(Landroid/content/Context;Landroid/widget/RelativeLayout;'
       +'Landroid/content/Intent;)V';
@@ -730,6 +889,54 @@ const NativeMethods: array[0..62] of JNINativeMethod = (
    (name: 'pEditTextOnActionIconTouchDown';
     signature: '(JLjava/lang/String;)V';
     fnPtr: @pEditTextOnActionIconTouchDown; ),
+   (name: 'pOnClickWidgetItem';
+    signature: '(JIZ)V';
+    fnPtr: @pOnClickWidgetItem; ),
+   (name: 'pOnClickImageItem';
+    signature: '(JI)V';
+    fnPtr: @pOnClickImageItem; ),
+   (name: 'pOnClickCaptionItem';
+    signature: '(JILjava/lang/String;)V';
+    fnPtr: @pOnClickCaptionItem; ),
+   (name: 'pOnClickItemTextLeft';
+    signature: '(JILjava/lang/String;)V';
+    fnPtr: @pOnClickItemTextLeft; ),
+   (name: 'pOnClickItemTextCenter';
+    signature: '(JILjava/lang/String;)V';
+    fnPtr: @pOnClickItemTextCenter; ),
+   (name: 'pOnClickItemTextRight';
+    signature: '(JILjava/lang/String;)V';
+    fnPtr: @pOnClickItemTextRight; ),
+   (name: 'pOnListViewLongClickCaptionItem';
+    signature: '(JILjava/lang/String;)V';
+    fnPtr: @pOnListViewLongClickCaptionItem; ),
+   (name: 'pOnListViewDrawItemCaptionColor';
+    signature: '(JILjava/lang/String;)I';
+    fnPtr: @pOnListViewDrawItemCaptionColor; ),
+   (name: 'pOnListViewDrawItemCustomFont';
+    signature: '(JILjava/lang/String;)Ljava/lang/String;';
+    fnPtr: @pOnListViewDrawItemCustomFont; ),
+   (name: 'pOnListViewDrawItemBackgroundColor';
+    signature: '(JI)I';
+    fnPtr: @pOnListViewDrawItemBackgroundColor; ),
+   (name: 'pOnListViewDrawItemBitmap';
+    signature: '(JILjava/lang/String;)Landroid/graphics/Bitmap;';
+    fnPtr: @pOnListViewDrawItemBitmap; ),
+   (name: 'pOnWidgeItemLostFocus';
+    signature: '(JILjava/lang/String;)V';
+    fnPtr: @pOnWidgeItemLostFocus; ),
+   (name: 'pOnListViewScrollStateChanged';
+    signature: '(JIIIZ)V';
+    fnPtr: @pOnListViewScrollStateChanged; ),
+   (name: 'pOnListViewDrawItemWidgetTextColor';
+    signature: '(JILjava/lang/String;)I';
+    fnPtr: @pOnListViewDrawItemWidgetTextColor; ),
+   (name: 'pOnListViewDrawItemWidgetText';
+    signature: '(JILjava/lang/String;)Ljava/lang/String;';
+    fnPtr: @pOnListViewDrawItemWidgetText; ),
+   (name: 'pOnListViewDrawItemWidgetImage';
+    signature: '(JILjava/lang/String;)Landroid/graphics/Bitmap;';
+    fnPtr: @pOnListViewDrawItemWidgetImage; ),
    (name: 'pOnMediaPlayerPrepared';
     signature: '(JII)V';
     fnPtr: @pOnMediaPlayerPrepared; ),
@@ -903,6 +1110,36 @@ exports
     +'pEditTextOnActionIconTouchUp',
   pEditTextOnActionIconTouchDown name 'Java_com_mars42_jsNote_Controls_'
     +'pEditTextOnActionIconTouchDown',
+  pOnClickWidgetItem name 'Java_com_mars42_jsNote_Controls_pOnClickWidgetItem',
+  pOnClickImageItem name 'Java_com_mars42_jsNote_Controls_pOnClickImageItem',
+  pOnClickCaptionItem name
+    'Java_com_mars42_jsNote_Controls_pOnClickCaptionItem',
+  pOnClickItemTextLeft name 'Java_com_mars42_jsNote_Controls_'
+    +'pOnClickItemTextLeft',
+  pOnClickItemTextCenter name 'Java_com_mars42_jsNote_Controls_'
+    +'pOnClickItemTextCenter',
+  pOnClickItemTextRight name 'Java_com_mars42_jsNote_Controls_'
+    +'pOnClickItemTextRight',
+  pOnListViewLongClickCaptionItem name 'Java_com_mars42_jsNote_Controls_'
+    +'pOnListViewLongClickCaptionItem',
+  pOnListViewDrawItemCaptionColor name 'Java_com_mars42_jsNote_Controls_'
+    +'pOnListViewDrawItemCaptionColor',
+  pOnListViewDrawItemCustomFont name 'Java_com_mars42_jsNote_Controls_'
+    +'pOnListViewDrawItemCustomFont',
+  pOnListViewDrawItemBackgroundColor name 'Java_com_mars42_jsNote_Controls_'
+    +'pOnListViewDrawItemBackgroundColor',
+  pOnListViewDrawItemBitmap name 'Java_com_mars42_jsNote_Controls_'
+    +'pOnListViewDrawItemBitmap',
+  pOnWidgeItemLostFocus name 'Java_com_mars42_jsNote_Controls_'
+    +'pOnWidgeItemLostFocus',
+  pOnListViewScrollStateChanged name 'Java_com_mars42_jsNote_Controls_'
+    +'pOnListViewScrollStateChanged',
+  pOnListViewDrawItemWidgetTextColor name 'Java_com_mars42_jsNote_Controls_'
+    +'pOnListViewDrawItemWidgetTextColor',
+  pOnListViewDrawItemWidgetText name 'Java_com_mars42_jsNote_Controls_'
+    +'pOnListViewDrawItemWidgetText',
+  pOnListViewDrawItemWidgetImage name 'Java_com_mars42_jsNote_Controls_'
+    +'pOnListViewDrawItemWidgetImage',
   pOnMediaPlayerPrepared name 'Java_com_mars42_jsNote_Controls_'
     +'pOnMediaPlayerPrepared',
   pOnMediaPlayerVideoSizeChanged name 'Java_com_mars42_jsNote_Controls_'
@@ -937,5 +1174,5 @@ begin
   gApp.AppName:=gjAppName;
   gApp.ClassName:=gjClassName;
   gApp.Initialize;
-  gApp.CreateForm(TfjsNote, fjsNote);
+  gApp.CreateForm(TfChants, fChants);
 end.

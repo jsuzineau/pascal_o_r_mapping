@@ -9,7 +9,7 @@ object fjsNote: TfjsNote
   Width = 394
   Height = 763
   Text = 'fjsNote'
-  ActivityMode = actMain
+  ActivityMode = actRecyclable
   BackgroundColor = colbrDefault
   ActionBarTitle = abtDefault
   AnimationDurationIn = 1500
@@ -37,8 +37,6 @@ object fjsNote: TfjsNote
     ZoomControl = True
     OnStatus = wvStatus
     DomStorage = True
-    Left = 28
-    Top = 28
   end
   object bStart: jButton
     MarginLeft = 5
@@ -62,8 +60,6 @@ object fjsNote: TfjsNote
     FontSizeUnit = unitDefault
     GravityInParent = lgNone
     OnClick = bStartClick
-    Left = 56
-    Top = 56
   end
   object bNote: jButton
     MarginLeft = 0
@@ -88,8 +84,6 @@ object fjsNote: TfjsNote
     FontSizeUnit = unitDefault
     GravityInParent = lgNone
     OnClick = bNoteClick
-    Left = 84
-    Top = 84
   end
   object bStopNote: jButton
     MarginLeft = 0
@@ -114,8 +108,6 @@ object fjsNote: TfjsNote
     FontSizeUnit = unitDefault
     GravityInParent = lgNone
     OnClick = bStopNoteClick
-    Left = 112
-    Top = 112
   end
   object bfChant: jButton
     MarginLeft = 0
@@ -140,8 +132,6 @@ object fjsNote: TfjsNote
     FontSizeUnit = unitDefault
     GravityInParent = lgNone
     OnClick = bfChantClick
-    Left = 140
-    Top = 140
   end
   object mm: jMidiManager
     Left = 280

@@ -119,7 +119,6 @@ type
     Filename: String;
     procedure Play_Note( _Note: String);
     procedure at_Play_Note( _Note: String);
-    procedure LogP( _Message_Developpeur: String; _Message: String = '');
   //Gestion du cycle de vie
   public
     constructor Create(AOwner: TComponent); override;
@@ -177,14 +176,6 @@ begin
 
      Filename:= 'jsNote.sqlite';
 
-     uSQLite_Android_jForm:= Self;
-     fAccueil_log_procedure:= LogP;
-     uForms_Android_ShowMessage:= Self.ShowMessage;
-     uAndroid_Database_Traite_Environment( Self);
-     SGBD_Set( sgbd_SQLite_Android);
-
-     dmDatabase.Initialise;
-     dmDatabase.jsDataConnexion.DataBase:= Filename;
      poolChant.ToutCharger( sl);
      WriteLn( Classname+'.fChantJNIPrompt: sl.Count=',sl.Count);
      Affiche( sl.Count-1);
@@ -336,11 +327,6 @@ begin
               'at.getMaxVolume=',at.GetMaxVolume);
      at.Play;
      {$ENDIF}
-end;
-
-procedure TfChant.LogP(_Message_Developpeur: String; _Message: String);
-begin
-     Log.PrintLn( _Message+_Message_Developpeur);
 end;
 
 procedure TfChant.bStartClick(Sender: TObject);
