@@ -38,6 +38,9 @@ uses
   SysUtils, Classes, DB, SqlDB;
 
 type
+
+ { TpoolChant }
+
  TpoolChant
  =
   class( TPool)
@@ -48,7 +51,9 @@ type
   //Accés général
   public
     function Get( _id: integer): TblChant;
-  //Méthode de création de test
+  public
+    function Iterateur_Filtre: TIterateur_Chant;
+//Méthode de création de test
   public
     function Test( _Titre: String; _n1: String; _n2: String; _n3: String; _n4: String):Integer;
 
@@ -82,6 +87,11 @@ end;
 function TpoolChant.Get( _id: integer): TblChant;
 begin
      Get_Interne_from_id( _id, Result);
+end;
+
+function TpoolChant.Iterateur_Filtre: TIterateur_Chant;
+begin
+     Result:= TIterateur_Chant( slFiltre.Iterateur_interne);
 end;
 
 function TpoolChant.Test( _Titre: String; _n1: String; _n2: String; _n3: String; _n4: String):Integer;

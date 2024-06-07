@@ -28,7 +28,7 @@ uses
   {$IFDEF UNIX}{$IFDEF UseCThreads}
   cthreads,
   {$ENDIF}{$ENDIF}
-  Classes, SysUtils, AndroidWidget, Laz_And_Controls;
+  Classes, SysUtils, AndroidWidget, Laz_And_Controls, imagebutton;
   
 type
 
@@ -37,12 +37,17 @@ type
  TfChants
  =
   class(jForm)
+    bOptions: jButton;
+    bID: jButton;
+    bTitre: jButton;
     lv: jListView;
+    Panel1: jPanel;
+    procedure bIDClick(Sender: TObject);
+    procedure bTitreClick(Sender: TObject);
     procedure fChantsJNIPrompt(Sender: TObject);
     procedure lvClickItem(Sender: TObject; itemIndex: integer;
       itemCaption: string);
   private
-    sl: TslChant;
     NbChants: Integer;
     Filename: String;
     FfChant: TfChant;
@@ -72,37 +77,56 @@ implementation
 
 constructor TfChants.Create(AOwner: TComponent);
 begin
+     Filename:= 'jsNote.sqlite';
      FfChant:= nil;
      inherited Create(AOwner);
-     sl:= TslChant.Create( ClassName+'.sl');
 end;
 
 destructor TfChants.Destroy;
 begin
-     FreeAndNil( sl);
      inherited Destroy;
 end;
 
 procedure TfChants.fChantsJNIPrompt(Sender: TObject);
-var
-   NbChants_ok: Boolean;
 begin
-     Filename:= 'jsNote.sqlite';
-
      uSQLite_Android_jForm:= Self;
      fAccueil_log_procedure:= LogP;
      uForms_Android_ShowMessage:= Self.ShowMessage;
-     uAndroid_Database_Traite_Environment( Self);
-     SGBD_Set( sgbd_SQLite_Android);
+     if '' = DatabasesDir
+     then
+         uAndroid_Database_Traite_Environment( Self);
 
-     dmDatabase.Initialise;
+     if nil = dmDatabase.jsDataConnexion
+     then
+         begin
+         SGBD_Set( sgbd_SQLite_Android);
+
+         dmDatabase.Initialise;
+         end;
      dmDatabase.jsDataConnexion.DataBase:= Filename;
-     poolChant.ToutCharger( sl);
-     WriteLn( Classname+'.fChantsJNIPrompt: sl.Count=',sl.Count);
+     if 0 = poolChant.slFiltre.Count
+     then
+         poolChant.ToutCharger;
      _from_sl;
+end;
 
-     NbChants_ok:= Requete.Integer_from( 'select count(*) as NbLignes from Chant', 'NbLignes', NbChants);
-     WriteLn( Classname+'.fChantsJNIPrompt: Requete NbLignes= ',NbChants, ', NbLignes_ok= ',NbChants_ok);
+procedure TfChants.bIDClick(Sender: TObject);
+begin
+     bID   .Text:= '#^';
+     bTitre.Text:= 'Titre';
+     poolChant.Reset_ChampsTri;
+     poolChant.hf.Execute;
+     _from_sl;
+end;
+
+procedure TfChants.bTitreClick(Sender: TObject);
+begin
+     bID   .Text:= '#';
+     bTitre.Text:= 'Titre^';
+     poolChant.Reset_ChampsTri;
+     poolChant.ChampTri['Titre']:= +1;;
+     poolChant.TrierFiltre;
+     _from_sl;
 end;
 
 procedure TfChants.LogP(_Message_Developpeur: String; _Message: String);
@@ -116,7 +140,7 @@ var
    bl: TblChant;
 begin
      lv.Clear;
-     I:= sl.Iterateur;
+     I:= poolChant.Iterateur_Filtre;
      try
         while I.Continuer
         do

@@ -125,7 +125,7 @@
         <ComponentName Value="fChants"/>
         <UnitName Value="ufChants"/>
         <CustomData Count="1">
-          <Item0 Name="jControls" Value="jForm;jListView"/>
+          <Item0 Name="jControls" Value="jButton;jForm;jListView;jPanel"/>
         </CustomData>
       </Unit12>
     </Units>

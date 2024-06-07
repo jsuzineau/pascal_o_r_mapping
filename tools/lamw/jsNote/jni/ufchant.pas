@@ -114,8 +114,6 @@ type
     rgInstrument_MP3_432Hz     =3;
     rgInstrument_MP3_440Hz     =4;
   private
-    sl: TslChant;
-    NbChants: Integer;
     Filename: String;
     procedure Play_Note( _Note: String);
     procedure at_Play_Note( _Note: String);
@@ -145,17 +143,9 @@ implementation
 
 { TfChant }
 
-//Malkiat izvor: tout en D4 ré3
-//Krassiv é Jivota: SA: E4 mi3          TB: E3 mi2
-//Proletna pessen ; S E4 mi3, A C4 do3, T G3 sol2, B C3 do2
-
-//Vecer Soutrin tout en A3 la2
-//Aoum  SAT A3 la2, basse A2 la1
-//Otche Nach S F4 fa3, A D4 ré3, T A3 la2, B D3 ré2
 constructor TfChant.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
-     sl:= TslChant.Create( ClassName+'.sl');
      Index_Courant:= -1;
      m:= nil;
      nTutti:= 0;
@@ -164,35 +154,27 @@ end;
 destructor TfChant.Destroy;
 begin
      FreeAndNil( m);
-     FreeAndNil( sl);
      inherited Destroy;
 end;
 
 procedure TfChant.fChantJNIPrompt(Sender: TObject);
-var
-   NbChants_ok: Boolean;
 begin
      m:= TAndroid_Midi.Create( mm);
 
      Filename:= 'jsNote.sqlite';
 
-     poolChant.ToutCharger( sl);
-     WriteLn( Classname+'.fChantJNIPrompt: sl.Count=',sl.Count);
-     Affiche( sl.Count-1);
-
-     NbChants_ok:= Requete.Integer_from( 'select count(*) as NbLignes from Chant', 'NbLignes', NbChants);
-     WriteLn( Classname+'.fChantJNIPrompt: Requete NbLignes= ',NbChants, ', NbLignes_ok= ',NbChants_ok);
+     Affiche( poolChant.slFiltre.Count-1);
 
      rgInstrument.CheckedIndex:= rgInstrument_MP3_432Hz;
 end;
 
 procedure TfChant.Affiche( _Index: Integer);
 begin
-          if 0        > _Index then _Index:= NbChants-1
-     else if NbChants < _Index then _Index:= 0         ;
+          if 0                        > _Index then _Index:= poolChant.slFiltre.Count-1
+     else if poolChant.slFiltre.Count < _Index then _Index:= 0         ;
 
      Index_Courant:= _Index;
-     bl:= blChant_from_sl( sl, Index_Courant);
+     bl:= blChant_from_sl( poolChant.slFiltre, Index_Courant);
      WriteLn( Classname+'.Affiche: Index_Courant=',Index_Courant);
      Champs_Affecte( bl, [ hceTitre,
                            hceN1,hcbT1,
@@ -425,7 +407,4 @@ begin
 end;
 
 end.
-
-/storage/emulated/0/Download/jsNote.sqlite
-/storage/emulated/0/Download/jsNote.sqlite
 
