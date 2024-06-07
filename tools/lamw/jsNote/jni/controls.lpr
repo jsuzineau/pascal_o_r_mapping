@@ -7,7 +7,7 @@ uses
   Classes, SysUtils, And_jni, And_jni_Bridge, AndroidWidget, Laz_And_Controls,
   Laz_And_Controls_Events, fphttpclient, blcksock, ufjsNote, ufChant,
   uAndroid_Midi, uAudioTrack, ublChant, upoolChant, uhfChant, uFrequences,
-  udmDatabase, ufChants;
+  udmDatabase, ufChants, ufOptions, uOptions;
 
 {%region /fold 'LAMW generated code'}
 

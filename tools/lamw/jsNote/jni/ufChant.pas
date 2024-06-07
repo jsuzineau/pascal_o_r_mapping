@@ -12,6 +12,7 @@ uses
     uFrequences,
     uAndroid_Midi,
     uAudioTrack,
+    uOptions,
 
     ujsDataContexte,
     uSGBD,
@@ -55,13 +56,10 @@ type
     bN2: jButton;
     bN4: jButton;
     bN1: jButton;
-    bStart: jButton;
     bStop: jButton;
     bN3: jButton;
     bPrecedent: jButton;
     bSuivant: jButton;
-    bUtilitaires: jButton;
-    bTelechargement: jButton;
     bTutti: jButton;
     eTitre: jEditText;
     eN2: jEditText;
@@ -79,24 +77,19 @@ type
     hcbT1: ThChamp_Button;
     jm: jMenu;
     mp: jMediaPlayer;
-    mm: jMidiManager;
     Panel1: jPanel;
-    rgInstrument: jRadioGroup;
-    sc: jSqliteCursor;
-    sda: jSqliteDataAccess;
+    sqlc: jSqliteCursor;
+    sqlda: jSqliteDataAccess;
     tvMidi: jTextView;
     tvLatin: jTextView;
     procedure bN2Click(Sender: TObject);
     procedure bN4Click(Sender: TObject);
     procedure bPrecedentClick(Sender: TObject);
     procedure bN1Click(Sender: TObject);
-    procedure bStartClick(Sender: TObject);
     procedure bStopClick(Sender: TObject);
     procedure bSuivantClick(Sender: TObject);
     procedure bN3Click(Sender: TObject);
-    procedure bTelechargementClick(Sender: TObject);
     procedure bTuttiClick(Sender: TObject);
-    procedure bUtilitairesClick(Sender: TObject);
     procedure fChantClickOptionMenuItem(Sender: TObject; jObjMenuItem: jObject;
      itemID: integer; itemCaption: string; checked: boolean);
     procedure fChantCreateOptionMenu(Sender: TObject; jObjMenu: jObject);
@@ -107,12 +100,6 @@ type
     procedure mpCompletion(Sender: TObject);
     procedure mpPrepared(Sender: TObject; videoWidth: integer;
      videoHeight: integer);
-  private const
-    rgInstrument_Midi_Piano    =0;
-    rgInstrument_Midi_Tenor_Sax=1;
-    rgInstrument_Wave          =2;
-    rgInstrument_MP3_432Hz     =3;
-    rgInstrument_MP3_440Hz     =4;
   private
     Filename: String;
     procedure Play_Note( _Note: String);
@@ -159,13 +146,15 @@ end;
 
 procedure TfChant.fChantJNIPrompt(Sender: TObject);
 begin
-     m:= TAndroid_Midi.Create( mm);
+     if nil = m
+     then
+         m:= TAndroid_Midi.Create( mm);
 
      Filename:= 'jsNote.sqlite';
 
-     Affiche( poolChant.slFiltre.Count-1);
+     bStop.Visible:= rgInstrument_CheckedIndex in [rgInstrument_Midi_Piano,rgInstrument_Midi_Tenor_Sax];
 
-     rgInstrument.CheckedIndex:= rgInstrument_MP3_432Hz;
+     Affiche( poolChant.slFiltre.Count-1);
 end;
 
 procedure TfChant.Affiche( _Index: Integer);
@@ -274,7 +263,7 @@ begin
      tvMidi.Text:= 'Midi '+IntToStr( Midi);
      tvLatin.Text:= Note_Octave_Latine( Midi)+', '+Note_Octave( Midi);
 
-     case rgInstrument.CheckedIndex
+     case rgInstrument_CheckedIndex
      of
        rgInstrument_Midi_Piano    : Piano;
        rgInstrument_Midi_Tenor_Sax: Tenor_Sax;
@@ -313,29 +302,20 @@ begin
      {$ENDIF}
 end;
 
-procedure TfChant.bStartClick(Sender: TObject);
-begin
-     if mm.Active
-     then
-         begin
-         mm.Close;
-         bStart.Text:= 'Midi Start';
-         end
-     else
-         begin
-         mm.OpenInput('D1P0');
-         bStart.Text:= 'Midi Stop';
-         end;
-end;
-
 procedure TfChant.bStopClick(Sender: TObject);
 begin
-     m.Stop;
-
-     {$IFDEF AudioTrack}
-     //at.Stop;  //si mode AudioTrack.MODE_STATIC 0
-     at.Pause;at.Flush;//si mode AudioTrack.MODE_STREAM
-     {$ENDIF}
+     case rgInstrument_CheckedIndex
+     of
+       rgInstrument_Midi_Piano    ,
+       rgInstrument_Midi_Tenor_Sax: m.Stop;
+       rgInstrument_Wave          :
+         begin
+         {$IFDEF AudioTrack}
+         //at.Stop;  //si mode AudioTrack.MODE_STATIC 0
+         at.Pause;at.Flush;//si mode AudioTrack.MODE_STREAM
+         {$ENDIF}
+         end;
+       end;
 end;
 
 procedure TfChant.fChantCreateOptionMenu(Sender: TObject; jObjMenu: jObject);
@@ -353,16 +333,6 @@ begin
      of
        1: fUtilitaires( Filename).Show;
        end;
-end;
-
-procedure TfChant.bUtilitairesClick(Sender: TObject);
-begin
-     uAndroid_Database_Recree_Base( Self, FileName);
-end;
-
-procedure TfChant.bTelechargementClick(Sender: TObject);
-begin
-     uAndroid_Database_from_Downloads( Self, FileName);
 end;
 
 procedure TfChant.fChantRequestPermissionResult( Sender: TObject;

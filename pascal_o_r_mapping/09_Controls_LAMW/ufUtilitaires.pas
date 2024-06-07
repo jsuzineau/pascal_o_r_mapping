@@ -47,7 +47,7 @@ end;
 
 procedure TfUtilitaires.bRecree_BaseClick(Sender: TObject);
 begin
-     uAndroid_Database_Recree_Base( Self, FileName);
+     uAndroid_Database_from_Assets( Self, FileName);
 end;
 
 end.

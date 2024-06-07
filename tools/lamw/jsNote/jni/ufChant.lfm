@@ -165,7 +165,7 @@ object fChant: TfChant
       HorScrollBar = True
       VerScrollBar = True
       WrappingLine = False
-      Editable = True
+      Editable = False
       FontSizeUnit = unitDefault
       CloseSoftInputOnEnter = True
       CapSentence = False
@@ -201,7 +201,7 @@ object fChant: TfChant
       HorScrollBar = True
       VerScrollBar = True
       WrappingLine = False
-      Editable = True
+      Editable = False
       FontSizeUnit = unitDefault
       CloseSoftInputOnEnter = True
       CapSentence = False
@@ -237,7 +237,7 @@ object fChant: TfChant
       HorScrollBar = True
       VerScrollBar = True
       WrappingLine = False
-      Editable = True
+      Editable = False
       FontSizeUnit = unitDefault
       CloseSoftInputOnEnter = True
       CapSentence = False
@@ -273,7 +273,7 @@ object fChant: TfChant
       HorScrollBar = True
       VerScrollBar = True
       WrappingLine = False
-      Editable = True
+      Editable = False
       FontSizeUnit = unitDefault
       CloseSoftInputOnEnter = True
       CapSentence = False
@@ -308,7 +308,7 @@ object fChant: TfChant
       HorScrollBar = True
       VerScrollBar = True
       WrappingLine = False
-      Editable = True
+      Editable = False
       FontSizeUnit = unitDefault
       CloseSoftInputOnEnter = True
       CapSentence = False
@@ -385,43 +385,19 @@ object fChant: TfChant
       GravityInParent = lgNone
       OnClick = bSuivantClick
     end
-    object bUtilitaires: jButton
-      MarginLeft = 5
-      MarginTop = 5
-      MarginRight = 5
-      MarginBottom = 5
-      Enabled = True
-      Left = 5
-      Top = 294
-      Width = 106
-      Height = 50
-      Visible = True
-      Anchor = bN4
-      PosRelativeToAnchor = [raBelow]
-      PosRelativeToParent = [rpLeft]
-      LayoutParamWidth = lpOneThirdOfParent
-      LayoutParamHeight = lpWrapContent
-      Text = 'Utilitaires'
-      BackgroundColor = colbrDefault
-      FontColor = colbrDefault
-      FontSize = 0
-      FontSizeUnit = unitDefault
-      GravityInParent = lgNone
-      OnClick = bUtilitairesClick
-    end
     object tvMidi: jTextView
       MarginLeft = 5
       MarginTop = 5
       MarginRight = 5
       MarginBottom = 5
       Enabled = True
-      Left = 121
-      Top = 299
+      Left = 10
+      Top = 283
       Width = 36
       Height = 20
       Visible = True
-      Anchor = bUtilitaires
-      PosRelativeToAnchor = [raToRightOf, raAlignTop]
+      Anchor = eN4
+      PosRelativeToAnchor = [raBelow, raAlignLeft]
       PosRelativeToParent = []
       LayoutParamWidth = lpWrapContent
       LayoutParamHeight = lpWrapContent
@@ -440,8 +416,8 @@ object fChant: TfChant
       MarginRight = 5
       MarginBottom = 5
       Enabled = True
-      Left = 115
-      Top = 329
+      Left = 4
+      Top = 313
       Width = 37
       Height = 20
       Visible = True
@@ -458,80 +434,6 @@ object fChant: TfChant
       TextTypeFace = tfNormal
       FontSizeUnit = unitDefault
       GravityInParent = lgNone
-    end
-    object rgInstrument: jRadioGroup
-      MarginLeft = 10
-      MarginTop = 10
-      MarginRight = 10
-      MarginBottom = 10
-      Enabled = True
-      Left = 10
-      Top = 359
-      Width = 96
-      Height = 96
-      Visible = True
-      Anchor = bUtilitaires
-      PosRelativeToAnchor = [raBelow]
-      PosRelativeToParent = [rpLeft]
-      LayoutParamWidth = lpWrapContent
-      LayoutParamHeight = lpWrapContent
-      Orientation = rgVertical
-      BackgroundColor = colbrDefault
-      Items.Strings = (
-        'Midi Piano'
-        'Midi Tenor Sax'
-        'Wave'
-        'MP3 432Hz'
-        'MP3 440Hz'
-      )
-    end
-    object bStart: jButton
-      MarginLeft = 5
-      MarginTop = 5
-      MarginRight = 5
-      MarginBottom = 5
-      Enabled = True
-      Left = 121
-      Top = 364
-      Width = 108
-      Height = 50
-      Visible = True
-      Anchor = rgInstrument
-      PosRelativeToAnchor = [raToRightOf, raAlignTop]
-      PosRelativeToParent = []
-      LayoutParamWidth = lpWrapContent
-      LayoutParamHeight = lpWrapContent
-      Text = 'Midi Start_'
-      BackgroundColor = colbrDefault
-      FontColor = colbrDefault
-      FontSize = 0
-      FontSizeUnit = unitDefault
-      GravityInParent = lgNone
-      OnClick = bStartClick
-    end
-    object bTelechargement: jButton
-      MarginLeft = 5
-      MarginTop = 5
-      MarginRight = 5
-      MarginBottom = 5
-      Enabled = True
-      Left = 126
-      Top = 424
-      Width = 120
-      Height = 50
-      Visible = True
-      Anchor = bStart
-      PosRelativeToAnchor = [raBelow, raAlignLeft]
-      PosRelativeToParent = []
-      LayoutParamWidth = lpThreeEighthOfParent
-      LayoutParamHeight = lpWrapContent
-      Text = 'Téléchargement'
-      BackgroundColor = colbrDefault
-      FontColor = colbrDefault
-      FontSize = 0
-      FontSizeUnit = unitDefault
-      GravityInParent = lgNone
-      OnClick = bTelechargementClick
     end
     object bTutti: jButton
       MarginLeft = 5
@@ -591,22 +493,6 @@ object fChant: TfChant
     Left = 224
     Top = 359
   end
-  object sda: jSqliteDataAccess
-    ColDelimiter = '|'
-    RowDelimiter = '#'
-    DataBaseName = 'myData.db'
-    ReturnHeaderOnSelect = True
-    Left = 256
-    Top = 359
-  end
-  object sc: jSqliteCursor
-    Left = 288
-    Top = 359
-  end
-  object mm: jMidiManager
-    Left = 284
-    Top = 420
-  end
   object hcbT1: ThChamp_Button
     Field = 't1'
     b = bN1
@@ -636,5 +522,17 @@ object fChant: TfChant
     OnCompletion = mpCompletion
     Left = 115
     Top = 9
+  end
+  object sqlda: jSqliteDataAccess
+    ColDelimiter = '|'
+    RowDelimiter = '#'
+    DataBaseName = 'myData.db'
+    ReturnHeaderOnSelect = True
+    Left = 32
+    Top = 400
+  end
+  object sqlc: jSqliteCursor
+    Left = 80
+    Top = 400
   end
 end

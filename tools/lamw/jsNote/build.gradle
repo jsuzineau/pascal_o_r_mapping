@@ -4,7 +4,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.4.0'
+        classpath 'com.android.tools.build:gradle:8.2.0' 
     }
 }
 allprojects {
@@ -27,8 +27,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility 11
-        targetCompatibility 11
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
     }
     compileSdk 34
     defaultConfig {

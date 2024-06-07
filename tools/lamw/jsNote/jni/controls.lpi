@@ -57,7 +57,7 @@
         <PackageName Value="tfpandroidbridge_pack"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="13">
+    <Units Count="15">
       <Unit0>
         <Filename Value="controls.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -73,14 +73,13 @@
         </CustomData>
       </Unit1>
       <Unit2>
-        <Filename Value="ufchant.pas"/>
+        <Filename Value="ufChant.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fChant"/>
         <HasResources Value="True"/>
-        <UnitName Value="ufChant"/>
         <CustomData Count="2">
           <Item0 Name="fclControls"/>
-          <Item1 Name="jControls" Value="jButton;jEditText;jMediaPlayer;jMenu;jMidiManager;jPanel;jRadioGroup;jSqliteCursor;jSqliteDataAccess;jTextView"/>
+          <Item1 Name="jControls" Value="jButton;jEditText;jForm;jMediaPlayer;jMenu;jPanel;jSqliteCursor;jSqliteDataAccess;jTextView"/>
         </CustomData>
       </Unit2>
       <Unit3>
@@ -120,14 +119,29 @@
         <IsPartOfProject Value="True"/>
       </Unit11>
       <Unit12>
-        <Filename Value="ufchants.pas"/>
+        <Filename Value="ufChants.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fChants"/>
-        <UnitName Value="ufChants"/>
-        <CustomData Count="1">
-          <Item0 Name="jControls" Value="jButton;jForm;jListView;jPanel"/>
+        <HasResources Value="True"/>
+        <CustomData Count="2">
+          <Item0 Name="fclControls"/>
+          <Item1 Name="jControls" Value="jButton;jForm;jListView;jMidiManager;jPanel"/>
         </CustomData>
       </Unit12>
+      <Unit13>
+        <Filename Value="ufOptions.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fOptions"/>
+        <HasResources Value="True"/>
+        <CustomData Count="2">
+          <Item0 Name="fclControls"/>
+          <Item1 Name="jControls" Value="jButton;jForm;jPanel;jPreferences;jRadioGroup"/>
+        </CustomData>
+      </Unit13>
+      <Unit14>
+        <Filename Value="uOptions.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit14>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

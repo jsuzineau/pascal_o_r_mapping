@@ -7,6 +7,7 @@ interface
 uses
   uuStrings,
   uForms,
+  uOptions,
 
   ujsDataContexte,
   uSGBD,
@@ -23,12 +24,14 @@ uses
   uRequete,
 
   ufChant,
+  ufOptions,
   ufAccueil_Erreur,
   ufUtilitaires,
   {$IFDEF UNIX}{$IFDEF UseCThreads}
   cthreads,
   {$ENDIF}{$ENDIF}
-  Classes, SysUtils, AndroidWidget, Laz_And_Controls, imagebutton;
+  Classes, SysUtils, AndroidWidget, Laz_And_Controls, imagebutton, midimanager,
+  preferences;
   
 type
 
@@ -41,16 +44,18 @@ type
     bID: jButton;
     bTitre: jButton;
     lv: jListView;
+    mm: jMidiManager;
     Panel1: jPanel;
     procedure bIDClick(Sender: TObject);
+    procedure bOptionsClick(Sender: TObject);
     procedure bTitreClick(Sender: TObject);
     procedure fChantsJNIPrompt(Sender: TObject);
     procedure lvClickItem(Sender: TObject; itemIndex: integer;
       itemCaption: string);
   private
     NbChants: Integer;
-    Filename: String;
     FfChant: TfChant;
+    FfOptions: TfOptions;
     procedure LogP( _Message_Developpeur: String; _Message: String = '');
   //Gestion du cycle de vie
   public
@@ -79,6 +84,7 @@ constructor TfChants.Create(AOwner: TComponent);
 begin
      Filename:= 'jsNote.sqlite';
      FfChant:= nil;
+     FfOptions:= nil;
      inherited Create(AOwner);
 end;
 
@@ -92,6 +98,7 @@ begin
      uSQLite_Android_jForm:= Self;
      fAccueil_log_procedure:= LogP;
      uForms_Android_ShowMessage:= Self.ShowMessage;
+     uOptions.mm:= mm;
      if '' = DatabasesDir
      then
          uAndroid_Database_Traite_Environment( Self);
@@ -127,6 +134,18 @@ begin
      poolChant.ChampTri['Titre']:= +1;;
      poolChant.TrierFiltre;
      _from_sl;
+end;
+
+procedure TfChants.bOptionsClick(Sender: TObject);
+begin
+     if nil = FfOptions
+     then
+         begin
+         gApp.CreateForm( TfOptions, FfOptions);
+         FfOptions.InitShowing;
+         end
+     else
+         FfOptions.Show;
 end;
 
 procedure TfChants.LogP(_Message_Developpeur: String; _Message: String);

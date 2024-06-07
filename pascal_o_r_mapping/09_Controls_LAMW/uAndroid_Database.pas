@@ -16,7 +16,7 @@ const
      permission_READ_EXTERNAL_STORAGE_request_code=2001;//valeur arbitraire pour test dans évènement
 
 procedure uAndroid_Database_Traite_Environment( _jF: jForm);
-procedure uAndroid_Database_Recree_Base( _jF: jForm; _Filename: String);
+procedure uAndroid_Database_from_Assets( _jF: jForm; _Filename: String);
 procedure uAndroid_Database_from_Downloads( _jF: jForm; _Filename: String);
 
 implementation
@@ -29,7 +29,7 @@ begin
      uEXE_INI_init_android( DatabasesDir);
 end;
 
-procedure uAndroid_Database_Recree_Base( _jF: jForm; _Filename: String);
+procedure uAndroid_Database_from_Assets( _jF: jForm; _Filename: String);
 begin
      uAndroid_Database_Traite_Environment( _jF);
      Log.PrintLn( 'uAndroid_Database_Recree_Base: Avant CopyFromAssetsToEnvironmentDir('+_Filename+', '+DatabasesDir+');');

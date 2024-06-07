@@ -1588,6 +1588,10 @@ public  java.lang.Object jPanel_Create(long pasobj ) {
   return (java.lang.Object)(new jPanel(this.activity,this,pasobj));
 }
 
+public java.lang.Object jPreferences_jCreate(long _Self, boolean _IsShared) {
+   return (java.lang.Object)(new jPreferences(this,_Self,_IsShared));
+}
+
 public java.lang.Object jRadioGroup_jCreate(long _Self, int _orientation) {
    return (java.lang.Object)(new jRadioGroup(this,_Self, _orientation));
 }
