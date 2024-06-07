@@ -268,11 +268,13 @@ var
         Note_normalisee:= Trim(Note_Octave_Latine( Midi_from_Note( _Note)));
         Nom_mp3:= Note_normalisee+'.mp3';
         Log.PrintLn( ClassName+'.Play_Note: Nom_mp3: '+Nom_mp3);
-        Repertoire
-        :=
-           IncludeTrailingPathDelimiter( GetEnvironmentDirectoryPath( dirDownloads))
-          +_Repertoire;
-        mp.LoadFromFile( Repertoire, Nom_mp3);
+        //Repertoire
+        //:=
+        //   IncludeTrailingPathDelimiter( GetEnvironmentDirectoryPath( dirDownloads))
+        //  +_Repertoire;
+        //mp.LoadFromFile( Repertoire, Nom_mp3);
+        mp.LoadFromAssets( IncludeTrailingPathDelimiter( _Repertoire)+ Nom_mp3);
+
    end;
    procedure MP3_432Hz;
    begin

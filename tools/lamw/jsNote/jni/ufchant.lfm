@@ -493,7 +493,7 @@ object fChant: TfChant
       Enabled = True
       Left = 121
       Top = 364
-      Width = 101
+      Width = 108
       Height = 50
       Visible = True
       Anchor = rgInstrument
@@ -501,7 +501,7 @@ object fChant: TfChant
       PosRelativeToParent = []
       LayoutParamWidth = lpWrapContent
       LayoutParamHeight = lpWrapContent
-      Text = 'Midi Start'
+      Text = 'Midi Start_'
       BackgroundColor = colbrDefault
       FontColor = colbrDefault
       FontSize = 0
