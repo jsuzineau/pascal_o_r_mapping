@@ -46,6 +46,7 @@ type
     lv: jListView;
     mm: jMidiManager;
     Panel1: jPanel;
+    pf: jPreferences;
     procedure bIDClick(Sender: TObject);
     procedure bOptionsClick(Sender: TObject);
     procedure bTitreClick(Sender: TObject);
@@ -99,6 +100,8 @@ begin
      fAccueil_log_procedure:= LogP;
      uForms_Android_ShowMessage:= Self.ShowMessage;
      uOptions.mm:= mm;
+     uOptions.pf:= pf;
+     Options_Restore;
      if '' = DatabasesDir
      then
          uAndroid_Database_Traite_Environment( Self);

@@ -144,9 +144,4 @@ object fOptions: TfOptions
       Top = 28
     end
   end
-  object Preferences1: jPreferences
-    IsShared = False
-    Left = 268
-    Top = 72
-  end
 end

@@ -159,4 +159,9 @@ object fChants: TfChants
     Left = 128
     Top = 8
   end
+  object pf: jPreferences
+    IsShared = False
+    Left = 168
+    Top = 15
+  end
 end

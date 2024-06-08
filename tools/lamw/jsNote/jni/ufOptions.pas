@@ -21,7 +21,6 @@ type
   bDatabase_from_Downloads: jButton;
   bStart: jButton;
   Panel1: jPanel;
-  Preferences1: jPreferences;
   rgInstrument: jRadioGroup;
   procedure bStartClick(Sender: TObject);
   procedure bDatabase_from_DownloadsClick(Sender: TObject);
@@ -55,6 +54,7 @@ procedure TfOptions.rgInstrumentCheckedChanged( Sender: TObject;
                                                 checkedCaption: string);
 begin
      rgInstrument_CheckedIndex:= checkedIndex;
+     Options_Save;
 end;
 
 procedure TfOptions.bDatabase_from_AssetsClick(Sender: TObject);
