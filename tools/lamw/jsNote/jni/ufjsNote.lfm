@@ -10,7 +10,7 @@ object fjsNote: TfjsNote
   Height = 763
   Text = 'fjsNote'
   ActivityMode = actRecyclable
-  BackgroundColor = colbrDefault
+  BackgroundColor = colbrWhite
   ActionBarTitle = abtDefault
   AnimationDurationIn = 1500
   AnimationDurationOut = 1500
@@ -24,13 +24,12 @@ object fjsNote: TfjsNote
     Enabled = True
     Left = 0
     Top = 0
-    Width = 394
-    Height = 703
+    Width = 328
+    Height = 763
     Visible = True
-    Anchor = bNote
-    PosRelativeToAnchor = [raAbove]
+    PosRelativeToAnchor = []
     PosRelativeToParent = []
-    LayoutParamWidth = lpMatchParent
+    LayoutParamWidth = lpFiveSixthOfParent
     LayoutParamHeight = lpMatchParent
     JavaScript = True
     BackgroundColor = colbrDefault
@@ -46,12 +45,12 @@ object fjsNote: TfjsNote
     Enabled = True
     Left = 5
     Top = 708
-    Width = 78
+    Width = 63
     Height = 50
-    Visible = True
+    Visible = False
     PosRelativeToAnchor = []
     PosRelativeToParent = [rpBottom, rpLeft]
-    LayoutParamWidth = lpOneFifthOfParent
+    LayoutParamWidth = lpWrapContent
     LayoutParamHeight = lpWrapContent
     Text = 'Start'
     BackgroundColor = colbrDefault
@@ -67,17 +66,17 @@ object fjsNote: TfjsNote
     MarginRight = 0
     MarginBottom = 5
     Enabled = True
-    Left = 88
+    Left = 73
     Top = 708
-    Width = 78
+    Width = 65
     Height = 50
-    Visible = True
+    Visible = False
     Anchor = bStart
     PosRelativeToAnchor = [raToRightOf]
     PosRelativeToParent = [rpBottom]
-    LayoutParamWidth = lpOneFifthOfParent
+    LayoutParamWidth = lpWrapContent
     LayoutParamHeight = lpWrapContent
-    Text = 'bNote'
+    Text = 'Note'
     BackgroundColor = colbrDefault
     FontColor = colbrDefault
     FontSize = 0
@@ -91,15 +90,15 @@ object fjsNote: TfjsNote
     MarginRight = 0
     MarginBottom = 5
     Enabled = True
-    Left = 166
+    Left = 138
     Top = 708
-    Width = 78
+    Width = 105
     Height = 50
-    Visible = True
+    Visible = False
     Anchor = bNote
     PosRelativeToAnchor = [raToRightOf]
     PosRelativeToParent = [rpBottom]
-    LayoutParamWidth = lpOneFifthOfParent
+    LayoutParamWidth = lpWrapContent
     LayoutParamHeight = lpWrapContent
     Text = 'Stop Note'
     BackgroundColor = colbrDefault
@@ -109,32 +108,66 @@ object fjsNote: TfjsNote
     GravityInParent = lgNone
     OnClick = bStopNoteClick
   end
-  object bfChant: jButton
-    MarginLeft = 0
+  object tvMidi: jTextView
+    MarginLeft = 5
     MarginTop = 5
-    MarginRight = 0
+    MarginRight = 5
     MarginBottom = 5
     Enabled = True
-    Left = 244
+    Left = 348
     Top = 708
-    Width = 78
-    Height = 50
+    Width = 36
+    Height = 20
     Visible = True
-    Anchor = bStopNote
-    PosRelativeToAnchor = [raToRightOf]
-    PosRelativeToParent = [rpBottom]
-    LayoutParamWidth = lpOneFifthOfParent
+    Anchor = tvLatin
+    PosRelativeToAnchor = [raAbove, raAlignRight]
+    PosRelativeToParent = []
+    LayoutParamWidth = lpWrapContent
     LayoutParamHeight = lpWrapContent
-    Text = 'bfChant'
+    Text = 'tvMidi'
+    Alignment = taLeft
     BackgroundColor = colbrDefault
     FontColor = colbrDefault
     FontSize = 0
+    TextTypeFace = tfNormal
     FontSizeUnit = unitDefault
     GravityInParent = lgNone
-    OnClick = bfChantClick
+    Left = 28
+    Top = 28
+  end
+  object tvLatin: jTextView
+    MarginLeft = 5
+    MarginTop = 5
+    MarginRight = 5
+    MarginBottom = 5
+    Enabled = True
+    Left = 352
+    Top = 738
+    Width = 37
+    Height = 20
+    Visible = True
+    PosRelativeToAnchor = [raBelow, raAlignLeft]
+    PosRelativeToParent = [rpBottom, rpRight]
+    LayoutParamWidth = lpWrapContent
+    LayoutParamHeight = lpWrapContent
+    Text = 'tvLatin'
+    Alignment = taLeft
+    BackgroundColor = colbrDefault
+    FontColor = colbrDefault
+    FontSize = 0
+    TextTypeFace = tfNormal
+    FontSizeUnit = unitDefault
+    GravityInParent = lgNone
+    Left = 56
+    Top = 56
   end
   object mm: jMidiManager
     Left = 280
+    Top = 24
+  end
+  object mp: jMediaPlayer
+    OnPrepared = mpPrepared
+    Left = 224
     Top = 24
   end
 end

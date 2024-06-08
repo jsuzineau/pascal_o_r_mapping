@@ -69,7 +69,7 @@
         <HasResources Value="True"/>
         <CustomData Count="2">
           <Item0 Name="fclControls"/>
-          <Item1 Name="jControls" Value="jButton;jMidiManager;jWebView"/>
+          <Item1 Name="jControls" Value="jButton;jForm;jMediaPlayer;jMidiManager;jTextView;jWebView"/>
         </CustomData>
       </Unit1>
       <Unit2>
@@ -125,7 +125,7 @@
         <HasResources Value="True"/>
         <CustomData Count="2">
           <Item0 Name="fclControls"/>
-          <Item1 Name="jControls" Value="jButton;jForm;jListView;jMidiManager;jPanel;jPreferences"/>
+          <Item1 Name="jControls" Value="jButton;jForm;jListView;jMidiManager;jPanel;jPreferences;jTextView"/>
         </CustomData>
       </Unit12>
       <Unit13>

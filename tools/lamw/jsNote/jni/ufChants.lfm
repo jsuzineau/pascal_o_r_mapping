@@ -113,13 +113,14 @@ object fChants: TfChants
       MarginRight = 5
       MarginBottom = 5
       Enabled = True
-      Left = 5
+      Left = 37
       Top = 5
       Width = 37
       Height = 50
       Visible = True
-      PosRelativeToAnchor = []
-      PosRelativeToParent = [rpLeft, rpCenterVertical]
+      Anchor = TextView1
+      PosRelativeToAnchor = [raToRightOf]
+      PosRelativeToParent = [rpCenterVertical]
       LayoutParamWidth = lpWrapContent
       LayoutParamHeight = lpWrapContent
       Text = '#'
@@ -136,9 +137,9 @@ object fChants: TfChants
       MarginRight = 5
       MarginBottom = 5
       Enabled = True
-      Left = 52
+      Left = 84
       Top = 5
-      Width = 61
+      Width = 66
       Height = 50
       Visible = True
       Anchor = bID
@@ -146,13 +147,61 @@ object fChants: TfChants
       PosRelativeToParent = [rpCenterVertical]
       LayoutParamWidth = lpWrapContent
       LayoutParamHeight = lpWrapContent
-      Text = 'Titre'
+      Text = 'A .. Z'
       BackgroundColor = colbrDefault
       FontColor = colbrDefault
       FontSize = 0
       FontSizeUnit = unitDefault
       GravityInParent = lgNone
       OnClick = bTitreClick
+    end
+    object bjsNote: jButton
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 231
+      Top = 5
+      Width = 35
+      Height = 50
+      Visible = True
+      Anchor = bOptions
+      PosRelativeToAnchor = [raToLeftOf]
+      PosRelativeToParent = [rpCenterVertical]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = '§'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = bjsNoteClick
+    end
+    object TextView1: jTextView
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 5
+      Top = 20
+      Width = 22
+      Height = 20
+      Visible = True
+      PosRelativeToAnchor = []
+      PosRelativeToParent = [rpCenterVertical]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Tri :'
+      Alignment = taLeft
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      TextTypeFace = tfNormal
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
     end
   end
   object mm: jMidiManager

@@ -25,6 +25,7 @@ uses
 
   ufChant,
   ufOptions,
+  ufjsNote,
   ufAccueil_Erreur,
   ufUtilitaires,
   {$IFDEF UNIX}{$IFDEF UseCThreads}
@@ -43,11 +44,14 @@ type
     bOptions: jButton;
     bID: jButton;
     bTitre: jButton;
+    bjsNote: jButton;
     lv: jListView;
     mm: jMidiManager;
     Panel1: jPanel;
     pf: jPreferences;
+    TextView1: jTextView;
     procedure bIDClick(Sender: TObject);
+    procedure bjsNoteClick(Sender: TObject);
     procedure bOptionsClick(Sender: TObject);
     procedure bTitreClick(Sender: TObject);
     procedure fChantsJNIPrompt(Sender: TObject);
@@ -57,6 +61,7 @@ type
     NbChants: Integer;
     FfChant: TfChant;
     FfOptions: TfOptions;
+    FfjsNote: TfjsNote;
     procedure LogP( _Message_Developpeur: String; _Message: String = '');
   //Gestion du cycle de vie
   public
@@ -86,6 +91,7 @@ begin
      Filename:= 'jsNote.sqlite';
      FfChant:= nil;
      FfOptions:= nil;
+     FfjsNote:= nil;
      inherited Create(AOwner);
 end;
 
@@ -123,7 +129,7 @@ end;
 procedure TfChants.bIDClick(Sender: TObject);
 begin
      bID   .Text:= '#^';
-     bTitre.Text:= 'Titre';
+     bTitre.Text:= 'A .. Z';
      poolChant.Reset_ChampsTri;
      poolChant.hf.Execute;
      _from_sl;
@@ -132,7 +138,7 @@ end;
 procedure TfChants.bTitreClick(Sender: TObject);
 begin
      bID   .Text:= '#';
-     bTitre.Text:= 'Titre^';
+     bTitre.Text:= 'A .. Z ^';
      poolChant.Reset_ChampsTri;
      poolChant.ChampTri['Titre']:= +1;;
      poolChant.TrierFiltre;
@@ -149,6 +155,18 @@ begin
          end
      else
          FfOptions.Show;
+end;
+
+procedure TfChants.bjsNoteClick(Sender: TObject);
+begin
+     if nil = FfjsNote
+     then
+         begin
+         gApp.CreateForm( TfjsNote, FfjsNote);
+         FfjsNote.InitShowing;
+         end
+     else
+         FfjsNote.Show;
 end;
 
 procedure TfChants.LogP(_Message_Developpeur: String; _Message: String);

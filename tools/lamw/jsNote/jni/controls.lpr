@@ -5,7 +5,7 @@ library controls;  //by Lamw: Lazarus Android Module Wizard: 7/5/2015 1:29:10]
  
 uses
   Classes, SysUtils, And_jni, And_jni_Bridge, AndroidWidget, Laz_And_Controls,
-  Laz_And_Controls_Events, fphttpclient, blcksock, ufjsNote, ufChant,
+  Laz_And_Controls_Events, fphttpclient, blcksock, ufjsNote, ufChant,ufUtilitaires,
   uAndroid_Midi, uAudioTrack, ublChant, upoolChant, uhfChant, uFrequences,
   udmDatabase, ufChants, ufOptions, uOptions;
 

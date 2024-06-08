@@ -10,7 +10,7 @@ object fOptions: TfOptions
   Height = 400
   Text = 'fOptions'
   ActivityMode = actRecyclable
-  BackgroundColor = colbrDefault
+  BackgroundColor = colbrWhite
   ActionBarTitle = abtDefault
   AnimationDurationIn = 1500
   AnimationDurationOut = 1500
@@ -62,8 +62,6 @@ object fOptions: TfOptions
         'MP3 432Hz'
         'MP3 440Hz'
       )
-      Left = 28
-      Top = 28
     end
     object bDatabase_from_Assets: jButton
       MarginLeft = 5
@@ -88,8 +86,6 @@ object fOptions: TfOptions
       FontSizeUnit = unitDefault
       GravityInParent = lgNone
       OnClick = bDatabase_from_AssetsClick
-      Left = 28
-      Top = 28
     end
     object bDatabase_from_Downloads: jButton
       MarginLeft = 5
@@ -114,8 +110,6 @@ object fOptions: TfOptions
       FontSizeUnit = unitDefault
       GravityInParent = lgNone
       OnClick = bDatabase_from_DownloadsClick
-      Left = 28
-      Top = 28
     end
     object bStart: jButton
       MarginLeft = 5
@@ -140,8 +134,6 @@ object fOptions: TfOptions
       FontSizeUnit = unitDefault
       GravityInParent = lgNone
       OnClick = bStartClick
-      Left = 28
-      Top = 28
     end
   end
 end
