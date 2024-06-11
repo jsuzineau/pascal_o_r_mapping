@@ -155,6 +155,7 @@ end;
 
 procedure TfChants.bOptionsClick(Sender: TObject);
 begin
+     poolChant.Vide;
      if nil = FfOptions
      then
          begin

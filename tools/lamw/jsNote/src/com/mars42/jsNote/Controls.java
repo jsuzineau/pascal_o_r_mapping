@@ -1584,6 +1584,11 @@ public native void pOnMidiManagerDeviceAdded(long pasobj, int deviceId, String d
 public native void pOnMidiManagerDeviceRemoved(long pasobj, int deviceId, String deviceName, String productId, String manufacture);
 
 
+public java.lang.Object jOpenDialog_jCreate(long _Self) {
+  return (java.lang.Object)(new jOpenDialog(this,_Self));
+}
+public native void pOnFileSelected(long pasobj, String path, String fileName);
+
 public  java.lang.Object jPanel_Create(long pasobj ) {
   return (java.lang.Object)(new jPanel(this.activity,this,pasobj));
 }

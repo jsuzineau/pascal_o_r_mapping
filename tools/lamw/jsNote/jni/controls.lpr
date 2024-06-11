@@ -675,6 +675,15 @@ begin
 end;
 
 { Class:     com_mars42_jsNote_Controls
+  Method:    pOnFileSelected
+  Signature: (JLjava/lang/String;Ljava/lang/String;)V }
+procedure pOnFileSelected(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
+ path: JString; fileName: JString); cdecl;
+begin
+  Java_Event_pOnFileSelected(PEnv, this, TObject(pasobj), path, fileName);
+end;
+
+{ Class:     com_mars42_jsNote_Controls
   Method:    pRadioGroupCheckedChanged
   Signature: (JILjava/lang/String;)V }
 procedure pRadioGroupCheckedChanged(PEnv: PJNIEnv; this: JObject;
@@ -734,7 +743,7 @@ begin
    error, primaryError);
 end;
 
-const NativeMethods: array[0..78] of JNINativeMethod = (
+const NativeMethods: array[0..79] of JNINativeMethod = (
    (name: 'pAppOnCreate';
     signature: '(Landroid/content/Context;Landroid/widget/RelativeLayout;'
      +'Landroid/content/Intent;)V';
@@ -955,6 +964,9 @@ const NativeMethods: array[0..78] of JNINativeMethod = (
    (name: 'pOnMidiManagerDeviceRemoved';
     signature: '(JILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V';
     fnPtr: @pOnMidiManagerDeviceRemoved; ),
+   (name: 'pOnFileSelected';
+    signature: '(JLjava/lang/String;Ljava/lang/String;)V';
+    fnPtr: @pOnFileSelected; ),
    (name: 'pRadioGroupCheckedChanged';
     signature: '(JILjava/lang/String;)V';
     fnPtr: @pRadioGroupCheckedChanged; ),
@@ -1152,6 +1164,7 @@ exports
    +'pOnMidiManagerDeviceAdded',
   pOnMidiManagerDeviceRemoved name 'Java_com_mars42_jsNote_Controls_'
    +'pOnMidiManagerDeviceRemoved',
+  pOnFileSelected name 'Java_com_mars42_jsNote_Controls_pOnFileSelected',
   pRadioGroupCheckedChanged name 'Java_com_mars42_jsNote_Controls_'
    +'pRadioGroupCheckedChanged',
   pOnSqliteDataAccessAsyncPostExecute name 'Java_com_mars42_jsNote_Controls_'

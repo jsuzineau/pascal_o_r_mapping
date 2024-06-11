@@ -135,7 +135,7 @@
         <HasResources Value="True"/>
         <CustomData Count="2">
           <Item0 Name="fclControls"/>
-          <Item1 Name="jControls" Value="jButton;jForm;jPanel;jRadioGroup"/>
+          <Item1 Name="jControls" Value="jButton;jForm;jOpenDialog;jPanel;jRadioGroup"/>
         </CustomData>
       </Unit13>
       <Unit14>

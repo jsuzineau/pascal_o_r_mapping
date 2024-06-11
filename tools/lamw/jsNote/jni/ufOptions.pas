@@ -10,7 +10,8 @@ uses
  {$IFDEF UNIX}{$IFDEF UseCThreads}
  cthreads,
  {$ENDIF}{$ENDIF}
- Classes, SysUtils, AndroidWidget, radiogroup, Laz_And_Controls, preferences;
+ Classes, SysUtils, AndroidWidget, radiogroup, Laz_And_Controls, preferences,
+ opendialog;
  
 type
 
@@ -20,12 +21,16 @@ type
   bDatabase_from_Assets: jButton;
   bDatabase_from_Downloads: jButton;
   bStart: jButton;
+  bDatabase_to_Downloads: jButton;
+  od: jOpenDialog;
   Panel1: jPanel;
   rgInstrument: jRadioGroup;
+  procedure bDatabase_to_DownloadsClick(Sender: TObject);
   procedure bStartClick(Sender: TObject);
   procedure bDatabase_from_DownloadsClick(Sender: TObject);
   procedure bDatabase_from_AssetsClick(Sender: TObject);
   procedure fOptionsJNIPrompt(Sender: TObject);
+  procedure odFileSelected(Sender: TObject; path: string; fileName: string);
   procedure rgInstrumentCheckedChanged(Sender: TObject; checkedIndex: integer;
    checkedCaption: string);
  private
@@ -64,7 +69,18 @@ end;
 
 procedure TfOptions.bDatabase_from_DownloadsClick(Sender: TObject);
 begin
-     uAndroid_Database_from_Downloads( Self, FileName);
+     uAndroid_Database_require_permission_READ_EXTERNAL_STORAGE( Self);
+     od.Show;
+end;
+
+procedure TfOptions.odFileSelected( Sender: TObject; path: string; fileName: string);
+begin
+     uAndroid_Database_from_Downloads( Self,  fileName, uOptions.FileName);
+end;
+
+procedure TfOptions.bDatabase_to_DownloadsClick(Sender: TObject);
+begin
+     uAndroid_Database_to_Downloads( Self,  uOptions.FileName, uOptions.FileName);
 end;
 
 procedure TfOptions.bStartClick(Sender: TObject);

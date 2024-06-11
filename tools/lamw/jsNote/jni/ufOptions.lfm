@@ -71,7 +71,7 @@ object fOptions: TfOptions
       Enabled = True
       Left = 5
       Top = 121
-      Width = 191
+      Width = 257
       Height = 50
       Visible = True
       Anchor = rgInstrument
@@ -79,7 +79,7 @@ object fOptions: TfOptions
       PosRelativeToParent = [rpLeft]
       LayoutParamWidth = lpWrapContent
       LayoutParamHeight = lpWrapContent
-      Text = 'Database from Assets'
+      Text = 'Réinitialiser à la base d''origine'
       BackgroundColor = colbrDefault
       FontColor = colbrDefault
       FontSize = 0
@@ -95,7 +95,7 @@ object fOptions: TfOptions
       Enabled = True
       Left = 5
       Top = 181
-      Width = 228
+      Width = 289
       Height = 50
       Visible = True
       Anchor = bDatabase_from_Assets
@@ -103,7 +103,7 @@ object fOptions: TfOptions
       PosRelativeToParent = [rpLeft]
       LayoutParamWidth = lpWrapContent
       LayoutParamHeight = lpWrapContent
-      Text = 'Database from Downloads'
+      Text = 'Sélectionner une base téléchargée'
       BackgroundColor = colbrDefault
       FontColor = colbrDefault
       FontSize = 0
@@ -118,11 +118,11 @@ object fOptions: TfOptions
       MarginBottom = 5
       Enabled = True
       Left = 5
-      Top = 241
+      Top = 301
       Width = 101
       Height = 50
       Visible = True
-      Anchor = bDatabase_from_Downloads
+      Anchor = bDatabase_to_Downloads
       PosRelativeToAnchor = [raBelow]
       PosRelativeToParent = [rpLeft]
       LayoutParamWidth = lpWrapContent
@@ -135,5 +135,36 @@ object fOptions: TfOptions
       GravityInParent = lgNone
       OnClick = bStartClick
     end
+    object bDatabase_to_Downloads: jButton
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 5
+      Top = 241
+      Width = 292
+      Height = 50
+      Visible = True
+      Anchor = bDatabase_from_Downloads
+      PosRelativeToAnchor = [raBelow]
+      PosRelativeToParent = [rpLeft]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Export base dans Téléchargements'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = bDatabase_to_DownloadsClick
+    end
+  end
+  object od: jOpenDialog
+    OnFileSelected = odFileSelected
+    FileExtension = '*.sqlite'
+    InitialDirectory = dirDownloads
+    Left = 271
+    Top = 192
   end
 end
