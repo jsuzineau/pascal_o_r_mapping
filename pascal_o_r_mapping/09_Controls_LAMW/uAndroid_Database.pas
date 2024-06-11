@@ -32,7 +32,7 @@ end;
 procedure uAndroid_Database_from_Assets( _jF: jForm; _Filename: String);
 begin
      uAndroid_Database_Traite_Environment( _jF);
-     Log.PrintLn( 'uAndroid_Database_Recree_Base: Avant CopyFromAssetsToEnvironmentDir('+_Filename+', '+DatabasesDir+');');
+     Log.PrintLn( 'uAndroid_Database_from_Assets: Avant CopyFromAssetsToEnvironmentDir('+_Filename+', '+DatabasesDir+');');
      _jF.CopyFromAssetsToEnvironmentDir( _Filename, DatabasesDir);
 end;
 

@@ -122,7 +122,15 @@ begin
      dmDatabase.jsDataConnexion.DataBase:= Filename;
      if 0 = poolChant.slFiltre.Count
      then
+         begin
          poolChant.ToutCharger;
+         if 0 = poolChant.slFiltre.Count
+         then
+             begin
+             uAndroid_Database_from_Assets( Self, FileName);
+             poolChant.ToutCharger;
+             end;
+         end;
      _from_sl;
 end;
 
