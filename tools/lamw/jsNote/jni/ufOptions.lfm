@@ -80,7 +80,7 @@ object fOptions: TfOptions
       LayoutParamWidth = lpWrapContent
       LayoutParamHeight = lpWrapContent
       Text = 'Réinitialiser à la base d''origine'
-      BackgroundColor = colbrDefault
+      BackgroundColor = colbrLightSkyBlue
       FontColor = colbrDefault
       FontSize = 0
       FontSizeUnit = unitDefault
@@ -104,7 +104,7 @@ object fOptions: TfOptions
       LayoutParamWidth = lpWrapContent
       LayoutParamHeight = lpWrapContent
       Text = 'Sélectionner une base téléchargée'
-      BackgroundColor = colbrDefault
+      BackgroundColor = colbrLightSkyBlue
       FontColor = colbrDefault
       FontSize = 0
       FontSizeUnit = unitDefault
@@ -128,7 +128,7 @@ object fOptions: TfOptions
       LayoutParamWidth = lpWrapContent
       LayoutParamHeight = lpWrapContent
       Text = 'Midi Start'
-      BackgroundColor = colbrDefault
+      BackgroundColor = colbrLightSkyBlue
       FontColor = colbrDefault
       FontSize = 0
       FontSizeUnit = unitDefault
@@ -152,7 +152,7 @@ object fOptions: TfOptions
       LayoutParamWidth = lpWrapContent
       LayoutParamHeight = lpWrapContent
       Text = 'Export base dans Téléchargements'
-      BackgroundColor = colbrDefault
+      BackgroundColor = colbrLightSkyBlue
       FontColor = colbrDefault
       FontSize = 0
       FontSizeUnit = unitDefault
@@ -200,7 +200,7 @@ object fOptions: TfOptions
       LayoutParamWidth = lpWrapContent
       LayoutParamHeight = lpWrapContent
       Text = 'Charger une base vide'
-      BackgroundColor = colbrDefault
+      BackgroundColor = colbrLightSkyBlue
       FontColor = colbrDefault
       FontSize = 0
       FontSizeUnit = unitDefault

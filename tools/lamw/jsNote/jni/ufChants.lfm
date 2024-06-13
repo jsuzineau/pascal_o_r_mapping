@@ -53,7 +53,7 @@ object fChants: TfChants
       LayoutParamWidth = lpWrapContent
       LayoutParamHeight = lpWrapContent
       Text = 'Nouveau'
-      BackgroundColor = colbrDefault
+      BackgroundColor = colbrLightSkyBlue
       FontColor = colbrDefault
       FontSize = 0
       FontSizeUnit = unitDefault
@@ -92,41 +92,18 @@ object fChants: TfChants
       Left = 0
       Top = 0
       Width = 320
-      Height = 60
+      Height = 42
       Visible = True
       PosRelativeToAnchor = []
       PosRelativeToParent = [rpTop]
       LayoutParamWidth = lpMatchParent
-      LayoutParamHeight = lpWrapContent
+      LayoutParamHeight = lpOneEighthOfParent
       BackgroundColor = colbrDefault
       MinPinchZoomFactor = 0.25
       MaxPinchZoomFactor = 4
       AnimationDurationIn = 1500
       AnimationDurationOut = 1500
       AnimationMode = animNone
-      object bOptions: jButton
-        MarginLeft = 5
-        MarginTop = 5
-        MarginRight = 5
-        MarginBottom = 5
-        Enabled = True
-        Left = 276
-        Top = 5
-        Width = 39
-        Height = 50
-        Visible = True
-        PosRelativeToAnchor = []
-        PosRelativeToParent = [rpRight, rpCenterVertical]
-        LayoutParamWidth = lpWrapContent
-        LayoutParamHeight = lpWrapContent
-        Text = '...'
-        BackgroundColor = colbrDefault
-        FontColor = colbrDefault
-        FontSize = 0
-        FontSizeUnit = unitDefault
-        GravityInParent = lgTopRight
-        OnClick = bOptionsClick
-      end
       object bID: jButton
         MarginLeft = 5
         MarginTop = 5
@@ -134,17 +111,17 @@ object fChants: TfChants
         MarginBottom = 5
         Enabled = True
         Left = 37
-        Top = 5
+        Top = 0
         Width = 37
         Height = 50
         Visible = True
-        Anchor = TextView1
+        Anchor = tvTri
         PosRelativeToAnchor = [raToRightOf]
         PosRelativeToParent = [rpCenterVertical]
         LayoutParamWidth = lpWrapContent
         LayoutParamHeight = lpWrapContent
         Text = '#'
-        BackgroundColor = colbrDefault
+        BackgroundColor = colbrLightSkyBlue
         FontColor = colbrDefault
         FontSize = 0
         FontSizeUnit = unitDefault
@@ -158,7 +135,7 @@ object fChants: TfChants
         MarginBottom = 5
         Enabled = True
         Left = 84
-        Top = 5
+        Top = 0
         Width = 66
         Height = 50
         Visible = True
@@ -168,7 +145,7 @@ object fChants: TfChants
         LayoutParamWidth = lpWrapContent
         LayoutParamHeight = lpWrapContent
         Text = 'A .. Z'
-        BackgroundColor = colbrDefault
+        BackgroundColor = colbrLightSkyBlue
         FontColor = colbrDefault
         FontSize = 0
         FontSizeUnit = unitDefault
@@ -181,32 +158,32 @@ object fChants: TfChants
         MarginRight = 5
         MarginBottom = 5
         Enabled = True
-        Left = 231
-        Top = 5
-        Width = 35
+        Left = 245
+        Top = 0
+        Width = 38
         Height = 50
         Visible = True
-        Anchor = bOptions
+        Anchor = ivOptions
         PosRelativeToAnchor = [raToLeftOf]
         PosRelativeToParent = [rpCenterVertical]
         LayoutParamWidth = lpWrapContent
         LayoutParamHeight = lpWrapContent
-        Text = '§'
-        BackgroundColor = colbrDefault
+        Text = '𝄞'
+        BackgroundColor = colbrLightSkyBlue
         FontColor = colbrDefault
         FontSize = 0
         FontSizeUnit = unitDefault
         GravityInParent = lgNone
         OnClick = bjsNoteClick
       end
-      object TextView1: jTextView
+      object tvTri: jTextView
         MarginLeft = 5
         MarginTop = 5
         MarginRight = 5
         MarginBottom = 5
         Enabled = True
         Left = 5
-        Top = 20
+        Top = 11
         Width = 22
         Height = 20
         Visible = True
@@ -223,6 +200,31 @@ object fChants: TfChants
         FontSizeUnit = unitDefault
         GravityInParent = lgNone
       end
+      object ivOptions: jImageView
+        MarginLeft = 0
+        MarginTop = 0
+        MarginRight = 0
+        MarginBottom = 0
+        Enabled = True
+        Left = 288
+        Top = 5
+        Width = 32
+        Height = 32
+        Visible = True
+        PosRelativeToAnchor = []
+        PosRelativeToParent = [rpRight, rpCenterVertical]
+        LayoutParamWidth = lpWrapContent
+        LayoutParamHeight = lpWrapContent
+        BackgroundColor = colbrDefault
+        ImageIdentifier = 'ic_settings'
+        ImageScaleType = scaleCenter
+        GravityInParent = lgNone
+        RoundedShape = False
+        AnimationDurationIn = 1500
+        AnimationDurationOut = 1500
+        AnimationMode = animNone
+        OnClick = ivOptionsClick
+      end
     end
     object lv: jListView
       MarginLeft = 0
@@ -231,9 +233,9 @@ object fChants: TfChants
       MarginBottom = 0
       Enabled = True
       Left = 0
-      Top = 60
+      Top = 385
       Width = 320
-      Height = 280
+      Height = 0
       Visible = True
       Anchor = pHaut
       PosRelativeToAnchor = [raBelow]

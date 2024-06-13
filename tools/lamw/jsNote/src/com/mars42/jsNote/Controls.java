@@ -1555,6 +1555,11 @@ public java.lang.Object jEditText_Create(long pasobj ) {
 public native void pEditTextOnActionIconTouchUp(long pasobj, String textContent);
 public native void pEditTextOnActionIconTouchDown(long pasobj, String textContent);
 
+public  java.lang.Object jImageView_Create(long pasobj ) {
+  return (java.lang.Object)( new jImageView(this.activity,this,pasobj));
+}
+public native void pOnImageViewPopupItemSelected(long pasobj, String caption);
+
 public  java.lang.Object jListView_Create2(long pasobj,  int widget, String widgetTxt, Bitmap bmp, int txtDecorated, int itemLay, int textSizeDecorated, int textAlign, int textPosition) {
   return (java.lang.Object)(new jListView(this.activity,this,pasobj,widget,widgetTxt,bmp,txtDecorated,itemLay,textSizeDecorated, textAlign, textPosition));
 }

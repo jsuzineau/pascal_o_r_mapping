@@ -41,7 +41,6 @@ type
  TfChants
  =
   class(jForm)
-    bOptions: jButton;
     bID: jButton;
     bTitre: jButton;
     bjsNote: jButton;
@@ -50,6 +49,7 @@ type
     eTitre: jEditText;
     bNouveau_OK: jButton;
     bNouveau_Cancel: jButton;
+    ivOptions: jImageView;
     jPanel3: jPanel;
     lv: jListView;
     mm: jMidiManager;
@@ -59,7 +59,7 @@ type
     pf: jPreferences;
     sqlc: jSqliteCursor;
     sqlda: jSqliteDataAccess;
-    TextView1: jTextView;
+    tvTri: jTextView;
     procedure bIDClick(Sender: TObject);
     procedure bjsNoteClick(Sender: TObject);
     procedure bNouveauClick(Sender: TObject);
@@ -68,6 +68,7 @@ type
     procedure bOptionsClick(Sender: TObject);
     procedure bTitreClick(Sender: TObject);
     procedure fChantsJNIPrompt(Sender: TObject);
+    procedure ivOptionsClick(Sender: TObject);
     procedure lvClickItem(Sender: TObject; itemIndex: integer;
       itemCaption: string);
   private
@@ -115,6 +116,7 @@ end;
 
 procedure TfChants.fChantsJNIPrompt(Sender: TObject);
 begin
+     WriteLn( Classname+'.fChantsJNIPrompt: début');
      sqlda.DataBaseName:= Filename;
      uSQLite_Android_jForm:= Self;
      uSQLite_Android_sda  := sqlda;
@@ -124,6 +126,7 @@ begin
      uOptions.mm:= mm;
      uOptions.pf:= pf;
      Options_Restore;
+     WriteLn( Classname+'.fChantsJNIPrompt: DatabasesDir='+DatabasesDir);
      if '' = DatabasesDir
      then
          uAndroid_Database_Traite_Environment( Self);
@@ -139,13 +142,19 @@ begin
      if 0 = poolChant.slFiltre.Count
      then
          begin
+         WriteLn( Classname+'.fChantsJNIPrompt: 1: poolChant.ToutCharger;');
          poolChant.ToutCharger;
          if 0 = poolChant.slFiltre.Count
          then
              begin
              uAndroid_Database_from_Assets( Self, FileName, FileName);
+             WriteLn( Classname+'.fChantsJNIPrompt: 2: poolChant.ToutCharger;');
              poolChant.ToutCharger;
              end;
+
+         //workaround, sinon on obtient la base d'origine des assets au premier chargement
+         poolChant.Vide;
+         poolChant.ToutCharger;
          end;
      pBas.Visible:= uOptions.Editable;
      _from_sl;
@@ -172,17 +181,31 @@ end;
 
 procedure TfChants.bOptionsClick(Sender: TObject);
 begin
+
+end;
+
+procedure TfChants.ivOptionsClick(Sender: TObject);
+begin
      WriteLn( Classname+'.bOptionsClick: début');
      poolChant.Vide;
      WriteLn( Classname+'.bOptionsClick: aprés poolChant.Vide;');
      if nil = FfOptions
      then
          begin
+         WriteLn( Classname+'.bOptionsClick: FfOptions = nil, CreateForm');
          gApp.CreateForm( TfOptions, FfOptions);
-         FfOptions.InitShowing;
+         if Assigned( FfOptions)
+         then
+             begin
+             WriteLn( Classname+'.bOptionsClick: FfOptions assigned, InitShowing');
+             FfOptions.InitShowing;
+             end;
          end
      else
+         begin
+         WriteLn( Classname+'.bOptionsClick: FfOptions already assigned, Show');
          FfOptions.Show;
+         end;
 end;
 
 procedure TfChants.bjsNoteClick(Sender: TObject);

@@ -10,7 +10,7 @@ object fChant: TfChant
   Height = 522
   Text = 'fChant'
   ActivityMode = actRecyclable
-  BackgroundColor = colbrDefault
+  BackgroundColor = colbrWhite
   ActionBarTitle = abtDefault
   AnimationDurationIn = 1500
   AnimationDurationOut = 1500
@@ -57,7 +57,7 @@ object fChant: TfChant
       LayoutParamWidth = lpOneThirdOfParent
       LayoutParamHeight = lpWrapContent
       Text = '1'
-      BackgroundColor = colbrDefault
+      BackgroundColor = colbrLightSkyBlue
       FontColor = colbrDefault
       FontSize = 0
       FontSizeUnit = unitDefault
@@ -81,7 +81,7 @@ object fChant: TfChant
       LayoutParamWidth = lpOneThirdOfParent
       LayoutParamHeight = lpWrapContent
       Text = '2'
-      BackgroundColor = colbrDefault
+      BackgroundColor = colbrLightSkyBlue
       FontColor = colbrDefault
       FontSize = 0
       FontSizeUnit = unitDefault
@@ -105,7 +105,7 @@ object fChant: TfChant
       LayoutParamWidth = lpOneThirdOfParent
       LayoutParamHeight = lpWrapContent
       Text = '3'
-      BackgroundColor = colbrDefault
+      BackgroundColor = colbrLightSkyBlue
       FontColor = colbrDefault
       FontSize = 0
       FontSizeUnit = unitDefault
@@ -129,7 +129,7 @@ object fChant: TfChant
       LayoutParamWidth = lpOneThirdOfParent
       LayoutParamHeight = lpWrapContent
       Text = '4'
-      BackgroundColor = colbrDefault
+      BackgroundColor = colbrLightSkyBlue
       FontColor = colbrDefault
       FontSize = 0
       FontSizeUnit = unitDefault
@@ -332,7 +332,7 @@ object fChant: TfChant
       LayoutParamWidth = lpOneThirdOfParent
       LayoutParamHeight = lpWrapContent
       Text = 'Stop'
-      BackgroundColor = colbrDefault
+      BackgroundColor = colbrLightSkyBlue
       FontColor = colbrDefault
       FontSize = 0
       FontSizeUnit = unitDefault
@@ -355,7 +355,7 @@ object fChant: TfChant
       LayoutParamWidth = lpHalfOfParent
       LayoutParamHeight = lpWrapContent
       Text = 'Précédent'
-      BackgroundColor = colbrDefault
+      BackgroundColor = colbrLightSkyBlue
       FontColor = colbrDefault
       FontSize = 0
       FontSizeUnit = unitDefault
@@ -378,7 +378,7 @@ object fChant: TfChant
       LayoutParamWidth = lpHalfOfParent
       LayoutParamHeight = lpWrapContent
       Text = 'Suivant'
-      BackgroundColor = colbrDefault
+      BackgroundColor = colbrLightSkyBlue
       FontColor = colbrDefault
       FontSize = 0
       FontSizeUnit = unitDefault
@@ -451,7 +451,7 @@ object fChant: TfChant
       LayoutParamWidth = lpOneThirdOfParent
       LayoutParamHeight = lpWrapContent
       Text = 'Tutti'
-      BackgroundColor = colbrDefault
+      BackgroundColor = colbrLightSkyBlue
       FontColor = colbrDefault
       FontSize = 0
       FontSizeUnit = unitDefault
@@ -475,7 +475,7 @@ object fChant: TfChant
       LayoutParamWidth = lpWrapContent
       LayoutParamHeight = lpWrapContent
       Text = 'Supprimer'
-      BackgroundColor = colbrDefault
+      BackgroundColor = colbrLightSkyBlue
       FontColor = colbrDefault
       FontSize = 0
       FontSizeUnit = unitDefault

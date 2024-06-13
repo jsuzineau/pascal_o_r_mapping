@@ -474,6 +474,16 @@ begin
 end;
 
 { Class:     com_mars42_jsNote_Controls
+  Method:    pOnImageViewPopupItemSelected
+  Signature: (JLjava/lang/String;)V }
+procedure pOnImageViewPopupItemSelected(PEnv: PJNIEnv; this: JObject;
+ pasobj: JLong; caption: JString); cdecl;
+begin
+  Java_Event_pOnImageViewPopupItemSelected(PEnv, this, TObject(pasobj), caption
+   );
+end;
+
+{ Class:     com_mars42_jsNote_Controls
   Method:    pOnClickWidgetItem
   Signature: (JIZ)V }
 procedure pOnClickWidgetItem(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
@@ -761,7 +771,7 @@ begin
    error, primaryError);
 end;
 
-const NativeMethods: array[0..81] of JNINativeMethod = (
+const NativeMethods: array[0..82] of JNINativeMethod = (
    (name: 'pAppOnCreate';
     signature: '(Landroid/content/Context;Landroid/widget/RelativeLayout;'
      +'Landroid/content/Intent;)V';
@@ -922,6 +932,9 @@ const NativeMethods: array[0..81] of JNINativeMethod = (
    (name: 'pEditTextOnActionIconTouchDown';
     signature: '(JLjava/lang/String;)V';
     fnPtr: @pEditTextOnActionIconTouchDown; ),
+   (name: 'pOnImageViewPopupItemSelected';
+    signature: '(JLjava/lang/String;)V';
+    fnPtr: @pOnImageViewPopupItemSelected; ),
    (name: 'pOnClickWidgetItem';
     signature: '(JIZ)V';
     fnPtr: @pOnClickWidgetItem; ),
@@ -1150,6 +1163,8 @@ exports
    +'pEditTextOnActionIconTouchUp',
   pEditTextOnActionIconTouchDown name 'Java_com_mars42_jsNote_Controls_'
    +'pEditTextOnActionIconTouchDown',
+  pOnImageViewPopupItemSelected name 'Java_com_mars42_jsNote_Controls_'
+   +'pOnImageViewPopupItemSelected',
   pOnClickWidgetItem name 'Java_com_mars42_jsNote_Controls_pOnClickWidgetItem',
   pOnClickImageItem name 'Java_com_mars42_jsNote_Controls_pOnClickImageItem',
   pOnClickCaptionItem name

@@ -30,6 +30,7 @@ procedure uAndroid_Database_Traite_Environment( _jF: jForm);
 begin
      DatabasesDir:= _jF.GetEnvironmentDirectoryPath( dirDatabase);
      DownloadsDir:= _jF.GetEnvironmentDirectoryPath( dirDownloads);
+     Log.PrintLn( 'uAndroid_Database_Traite_Environment: DatabasesDir:'+DatabasesDir+', DownloadsDir: '+DownloadsDir);
 
      uEXE_INI_init_android( DatabasesDir);
 end;
