@@ -1,0 +1,137 @@
+[arrayd | array declaration (var)]
+$(AttributesStart)
+EnableMakros=true
+RemoveChar=true
+!FileVersion=1
+$(AttributesEnd)
+$Param(VariableName): array[0..$Param(HighNumber)] of $Param(String);
+|
+[arrayc | array declaration (const)]
+$(AttributesStart)
+EnableMakros=true
+$(AttributesEnd)
+array[$param(0)..$param(1)] of $param(Type) = (|);
+[function | function declaration]
+$(AttributesStart)
+EnableMakros=true
+$(AttributesEnd)
+function |;
+[hexc | HexStr(Cardinal(),8)]
+HexStr(PtrUInt(|),8)
+[procedure | procedure declaration]
+procedure |;
+[ofall | case of all enums]
+$(AttributesStart)
+EnableMakros=true
+$(AttributesEnd)
+of
+|$OfAll()end;
+[trye | try except]
+try
+  | 
+except
+
+end;
+[tryf | try finally]
+$(AttributesStart)
+EnableMakros=true
+RemoveChar=true
+$(AttributesEnd)
+try
+  |
+finally
+  $Param(FreeStatement,default)
+end;
+[trycf | try finally (with Create/Free)]
+$(AttributesStart)
+EnableMakros=true
+RemoveChar=true
+$(AttributesEnd)
+$Param(VarName) := $Param(TMyClassName).Create;
+try
+  |
+finally
+  $Param(VarName,Sync=1).Free;
+end;
+[whileb | while statement]
+$(AttributesStart)
+EnableMakros=true
+RemoveChar=true
+$(AttributesEnd)
+while $Param(LoopCondition) do
+begin
+  |
+end;
+[whiles | while (no begin)]
+while $Param(LoopCondition) do
+  |
+[withb | with statement]
+$(AttributesStart)
+EnableMakros=true
+RemoveChar=true
+$(AttributesEnd)
+with $Param(Object) do
+begin
+  |
+end;
+[b | begin end]
+begin
+  |
+end;
+[withs | with (no begin)]
+$(AttributesStart)
+EnableMakros=true
+RemoveChar=true
+$(AttributesEnd)
+with $Param(Object) do
+  |
+[withc | with for components]
+$(AttributesStart)
+EnableMakros=true
+RemoveChar=true
+$(AttributesEnd)
+with $Param(Object) do
+begin
+  Name:='$Param(NameText)';
+  Parent:=Self;
+  Left:=$Param(0);
+  Top:=$Param(0);
+  Width:=$Param(0);
+  Height:=$Param(0);
+  Caption:='$Param(CaptionText)';
+end;
+|
+[todo | ToDo item creator]
+$(AttributesStart)
+EnableMakros=true
+RemoveChar=true
+$(AttributesEnd)
+{ TODO -o$Param(Author) : $Param(Note) } |
+[w | writeln]
+$(AttributesStart)
+EnableMakros=true
+$(AttributesEnd)
+writeln('$ProcedureName() '|);
+[var | var]
+var
+   |
+[e | $ENDIF | (custom)]
+{$ELSE}
+begin|
+end;
+{$ENDIF}
+
+[m | {$IFDEF MSWINDOWS} | (custom)]
+{$IFDEF MSWINDOWS}|
+
+[i | (custom)]
+initialization
+              |
+finalization
+[l | (custom)]
+{$IFDEF FPC}
+|
+{$ENDIF}
+[r | (custom)]
+//123456789012345678901234567890123456789012345678901234567890123456789
+//         1         2         3         4         5         6
