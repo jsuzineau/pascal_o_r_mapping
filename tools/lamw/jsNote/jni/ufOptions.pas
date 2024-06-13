@@ -22,13 +22,17 @@ type
   bDatabase_from_Downloads: jButton;
   bStart: jButton;
   bDatabase_to_Downloads: jButton;
+  bEmptyDatabase: jButton;
+  cbEditable: jCheckBox;
   od: jOpenDialog;
   Panel1: jPanel;
   rgInstrument: jRadioGroup;
   procedure bDatabase_to_DownloadsClick(Sender: TObject);
+  procedure bEmptyDatabaseClick(Sender: TObject);
   procedure bStartClick(Sender: TObject);
   procedure bDatabase_from_DownloadsClick(Sender: TObject);
   procedure bDatabase_from_AssetsClick(Sender: TObject);
+  procedure cbEditableClick(Sender: TObject);
   procedure fOptionsJNIPrompt(Sender: TObject);
   procedure odFileSelected(Sender: TObject; path: string; fileName: string);
   procedure rgInstrumentCheckedChanged(Sender: TObject; checkedIndex: integer;
@@ -51,7 +55,11 @@ implementation
 
 procedure TfOptions.fOptionsJNIPrompt(Sender: TObject);
 begin
+     WriteLn( Classname+'.fOptionsJNIPrompt: début');
      rgInstrument.CheckedIndex:= rgInstrument_CheckedIndex;
+     WriteLn( Classname+'.fOptionsJNIPrompt: aprés rgInstrument.CheckedIndex:= rgInstrument_CheckedIndex;');
+     cbEditable.Checked:= uOptions.Editable;
+     WriteLn( Classname+'.fOptionsJNIPrompt: aprés cbEditable.Checked:= uOptions.Editable;');
 end;
 
 procedure TfOptions.rgInstrumentCheckedChanged( Sender: TObject;
@@ -64,7 +72,12 @@ end;
 
 procedure TfOptions.bDatabase_from_AssetsClick(Sender: TObject);
 begin
-     uAndroid_Database_from_Assets( Self, FileName);
+     uAndroid_Database_from_Assets( Self, FileName, FileName);
+end;
+
+procedure TfOptions.bEmptyDatabaseClick(Sender: TObject);
+begin
+     uAndroid_Database_from_Assets( Self, 'base_test.sqlite', FileName);
 end;
 
 procedure TfOptions.bDatabase_from_DownloadsClick(Sender: TObject);
@@ -81,6 +94,12 @@ end;
 procedure TfOptions.bDatabase_to_DownloadsClick(Sender: TObject);
 begin
      uAndroid_Database_to_Downloads( Self,  uOptions.FileName, uOptions.FileName);
+end;
+
+procedure TfOptions.cbEditableClick(Sender: TObject);
+begin
+     uOptions.Editable:= cbEditable.Checked;
+     Options_Save;
 end;
 
 procedure TfOptions.bStartClick(Sender: TObject);

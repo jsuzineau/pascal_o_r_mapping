@@ -22,7 +22,7 @@ type
     destructor Destroy; override;
   //OnChange
   private
-    procedure Change( _Sender: TObject; _txt: string; _count: integer);
+    procedure Changed( _Sender: TObject; _txt: string; _count: integer);
   //Propriété Champs
   private
     FChamps: TChamps;
@@ -80,7 +80,7 @@ begin
      inherited Destroy;
 end;
 
-procedure ThChamp_Edit.Change(_Sender: TObject; _txt: string; _count: integer);
+procedure ThChamp_Edit.Changed(_Sender: TObject; _txt: string; _count: integer);
 begin
      if not Champ_OK then exit;
 
@@ -162,7 +162,11 @@ begin
      try
         Champs_Changing:= True;
 
-        if Assigned( Fet) then Champ.Chaine:= Fet.Text;
+        if Assigned( Fet)
+        then
+            if Fet.Editable
+            then
+                Champ.Chaine:= Fet.Text;
         //if not (csDesigning in ComponentState) then WriteLn( ClassName+'._from_Champs: Champ.Chaine = ',Champ.Chaine);
      finally
             Champs_Changing:= False;
@@ -177,11 +181,11 @@ end;
 
 procedure ThChamp_Edit.Setet( _Value: jEditText);
 begin
-     if Assigned( Fet) then Fet.OnChange:= nil;
+     if Assigned( Fet) then Fet.OnChanged:= nil;
 
      Fet:= _Value;
 
-     if Assigned( Fet) then Fet.OnChange:= @Change;
+     if Assigned( Fet) then Fet.OnChanged:= @Changed;
 end;
 
 end.

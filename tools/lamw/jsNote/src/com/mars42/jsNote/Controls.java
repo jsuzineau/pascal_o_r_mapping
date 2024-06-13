@@ -1535,6 +1535,20 @@ public  java.lang.Object jButton_Create(long pasobj ) {
   return (java.lang.Object)( new jButton(this.activity,this,pasobj));
 }
 
+public  java.lang.Object jCheckBox_Create(long pasobj ) {
+  return (java.lang.Object)( new jCheckBox(this.activity,this,pasobj));
+}
+
+public java.lang.Object jCustomDialog_jCreate(long _Self, boolean _showTitle) {
+   return (java.lang.Object)(new jCustomDialog(this,_Self,_showTitle));
+}
+public native void pOnCustomDialogShow(long pasobj, Dialog dialog, String title);
+public native void pOnCustomDialogBackKeyPressed(long pasobj, String title);
+
+public java.lang.Object jDialogYN_Create(long pasobj, String title, String msg, String y, String n) {
+  return (jDialogYN)(new jDialogYN(activity,this,pasobj,title,msg,y,n) );
+}
+
 public java.lang.Object jEditText_Create(long pasobj ) {
   return (java.lang.Object)( new jEditText(this.activity,this,pasobj));
 }

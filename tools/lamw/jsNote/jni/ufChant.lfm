@@ -391,14 +391,14 @@ object fChant: TfChant
       MarginRight = 5
       MarginBottom = 5
       Enabled = True
-      Left = 10
+      Left = 5
       Top = 283
       Width = 36
       Height = 20
       Visible = True
       Anchor = eN4
-      PosRelativeToAnchor = [raBelow, raAlignLeft]
-      PosRelativeToParent = []
+      PosRelativeToAnchor = [raBelow]
+      PosRelativeToParent = [rpLeft]
       LayoutParamWidth = lpWrapContent
       LayoutParamHeight = lpWrapContent
       Text = 'tvMidi'
@@ -416,14 +416,14 @@ object fChant: TfChant
       MarginRight = 5
       MarginBottom = 5
       Enabled = True
-      Left = 4
+      Left = 5
       Top = 313
       Width = 37
       Height = 20
       Visible = True
       Anchor = tvMidi
-      PosRelativeToAnchor = [raBelow, raAlignRight]
-      PosRelativeToParent = []
+      PosRelativeToAnchor = [raBelow]
+      PosRelativeToParent = [rpLeft]
       LayoutParamWidth = lpWrapContent
       LayoutParamHeight = lpWrapContent
       Text = 'tvLatin'
@@ -457,6 +457,30 @@ object fChant: TfChant
       FontSizeUnit = unitDefault
       GravityInParent = lgNone
       OnClick = bTuttiClick
+    end
+    object bSupprimer: jButton
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 209
+      Top = 354
+      Width = 106
+      Height = 50
+      Visible = True
+      Anchor = bStop
+      PosRelativeToAnchor = [raBelow]
+      PosRelativeToParent = [rpRight]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Supprimer'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = bSupprimerClick
     end
   end
   object hceTitre: ThChamp_Edit
@@ -523,16 +547,14 @@ object fChant: TfChant
     Left = 115
     Top = 9
   end
-  object sqlda: jSqliteDataAccess
-    ColDelimiter = '|'
-    RowDelimiter = '#'
-    DataBaseName = 'myData.db'
-    ReturnHeaderOnSelect = True
-    Left = 32
-    Top = 400
-  end
-  object sqlc: jSqliteCursor
-    Left = 80
-    Top = 400
+  object dynSupprimer: jDialogYN
+    Title = 'Confirmation'
+    Msg = 'Etes-vous sûr de vouloir supprimer le chant courant  ?'
+    Yes = 'Oui'
+    No = 'Non'
+    TitleAlign = alLeft
+    OnClickYN = dynSupprimerClickYN
+    Left = 120
+    Top = 408
   end
 end

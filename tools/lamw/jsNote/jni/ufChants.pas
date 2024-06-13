@@ -27,12 +27,12 @@ uses
   ufOptions,
   ufjsNote,
   ufAccueil_Erreur,
-  ufUtilitaires,
+  ufUtilitaires, uchChamp_Edit,
   {$IFDEF UNIX}{$IFDEF UseCThreads}
   cthreads,
   {$ENDIF}{$ENDIF}
   Classes, SysUtils, AndroidWidget, Laz_And_Controls, imagebutton, midimanager,
-  preferences;
+  preferences, modaldialog, sharefile, customdialog;
   
 type
 
@@ -45,13 +45,26 @@ type
     bID: jButton;
     bTitre: jButton;
     bjsNote: jButton;
+    bNouveau: jButton;
+    cdNouveau: jCustomDialog;
+    eTitre: jEditText;
+    bNouveau_OK: jButton;
+    bNouveau_Cancel: jButton;
+    jPanel3: jPanel;
     lv: jListView;
     mm: jMidiManager;
-    Panel1: jPanel;
+    pHaut: jPanel;
+    Panel2: jPanel;
+    pBas: jPanel;
     pf: jPreferences;
+    sqlc: jSqliteCursor;
+    sqlda: jSqliteDataAccess;
     TextView1: jTextView;
     procedure bIDClick(Sender: TObject);
     procedure bjsNoteClick(Sender: TObject);
+    procedure bNouveauClick(Sender: TObject);
+    procedure bNouveau_CancelClick(Sender: TObject);
+    procedure bNouveau_OKClick(Sender: TObject);
     procedure bOptionsClick(Sender: TObject);
     procedure bTitreClick(Sender: TObject);
     procedure fChantsJNIPrompt(Sender: TObject);
@@ -102,7 +115,10 @@ end;
 
 procedure TfChants.fChantsJNIPrompt(Sender: TObject);
 begin
+     sqlda.DataBaseName:= Filename;
      uSQLite_Android_jForm:= Self;
+     uSQLite_Android_sda  := sqlda;
+     uSQLite_Android_sc   := sqlc;
      fAccueil_log_procedure:= LogP;
      uForms_Android_ShowMessage:= Self.ShowMessage;
      uOptions.mm:= mm;
@@ -127,10 +143,11 @@ begin
          if 0 = poolChant.slFiltre.Count
          then
              begin
-             uAndroid_Database_from_Assets( Self, FileName);
+             uAndroid_Database_from_Assets( Self, FileName, FileName);
              poolChant.ToutCharger;
              end;
          end;
+     pBas.Visible:= uOptions.Editable;
      _from_sl;
 end;
 
@@ -155,7 +172,9 @@ end;
 
 procedure TfChants.bOptionsClick(Sender: TObject);
 begin
+     WriteLn( Classname+'.bOptionsClick: début');
      poolChant.Vide;
+     WriteLn( Classname+'.bOptionsClick: aprés poolChant.Vide;');
      if nil = FfOptions
      then
          begin
@@ -176,6 +195,28 @@ begin
          end
      else
          FfjsNote.Show;
+end;
+
+procedure TfChants.bNouveauClick(Sender: TObject);
+begin
+     eTitre.Text:= 'Nouveau chant';
+     cdNouveau.Show('Titre du nouveau chant');
+end;
+
+procedure TfChants.bNouveau_OKClick(Sender: TObject);
+var
+   bl: TblChant;
+begin
+     poolChant.Nouveau_Base( bl);
+     bl.Titre:= eTitre.Text;
+     bl.Save_to_database;
+     cdNouveau.Close;
+     _from_sl;
+end;
+
+procedure TfChants.bNouveau_CancelClick(Sender: TObject);
+begin
+     cdNouveau.Close;
 end;
 
 procedure TfChants.LogP(_Message_Developpeur: String; _Message: String);

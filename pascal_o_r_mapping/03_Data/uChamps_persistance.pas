@@ -164,28 +164,34 @@ begin
          cID.Chaine:= sqlq.FieldByName( 'id').AsString;
 end;
 
-function TChamps_persistance.Delete_from_database(Champs: TChamps;
-		_jsDataConnexion: TjsDataConnexion): Boolean;
+function TChamps_persistance.Delete_from_database( Champs: TChamps;
+		                                   _jsDataConnexion: TjsDataConnexion): Boolean;
 (*var
    T: TTransactionDesc;*)
 begin
      (*T.TransactionID:= 1;
      T.IsolationLevel:= xilREADCOMMITTED;*)
 
-     if not_sqlc_from_( _jsDataConnexion) then exit;
+     {$ifdef android}
+       _jsDataConnexion.Contexte.SQL:= Champs.ChampDefinitions.ComposeSQLDelete;
+       Champs.To_Params_Delete( _jsDataConnexion.Contexte.Params);
+       Result:= _jsDataConnexion.Contexte.ExecSQLQuery;
+     {$ELSE}
+       if not_sqlc_from_( _jsDataConnexion) then exit;
 
-     sqlq.Close;
-     sqlq.DataBase:= sqlc;
+       sqlq.Close;
+       sqlq.DataBase:= sqlc;
 
-     sqlq.SQL.Text:= Champs.ChampDefinitions.ComposeSQLDelete;
-     Champs.To_Params_Delete( sqlq.Params);
+       sqlq.SQL.Text:= Champs.ChampDefinitions.ComposeSQLDelete;
+       Champs.To_Params_Delete( sqlq.Params);
 
-     (*sqlc.StartTransaction( T); //pour pilote Postgres Devart*)
-     try
-        Result:= ExecSQLQuery( sqlq);
-     finally
-            (*sqlc.Commit( T);*)
-            end;
+       (*sqlc.StartTransaction( T); //pour pilote Postgres Devart*)
+       try
+          Result:= ExecSQLQuery( sqlq);
+       finally
+              (*sqlc.Commit( T);*)
+              end;
+     {$ENDIF}
 end;
 
 initialization

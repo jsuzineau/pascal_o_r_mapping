@@ -20,7 +20,7 @@ procedure uAndroid_Database_require_permission_READ_EXTERNAL_STORAGE( _jF: jForm
 procedure uAndroid_Database_require_permission_WRITE_EXTERNAL_STORAGE( _jF: jForm);
 
 procedure uAndroid_Database_Traite_Environment( _jF: jForm);
-procedure uAndroid_Database_from_Assets( _jF: jForm; _Filename: String);
+procedure uAndroid_Database_from_Assets( _jF: jForm; _Source, _Cible: String);
 procedure uAndroid_Database_from_Downloads( _jF: jForm; _Source, _Cible: String);
 procedure uAndroid_Database_to_Downloads( _jF: jForm; _Source, _Cible: String);
 
@@ -34,11 +34,14 @@ begin
      uEXE_INI_init_android( DatabasesDir);
 end;
 
-procedure uAndroid_Database_from_Assets( _jF: jForm; _Filename: String);
+procedure uAndroid_Database_from_Assets( _jF: jForm; _Source, _Cible: String);
 begin
      uAndroid_Database_Traite_Environment( _jF);
-     Log.PrintLn( 'uAndroid_Database_from_Assets: Avant CopyFromAssetsToEnvironmentDir('+_Filename+', '+DatabasesDir+');');
-     _jF.CopyFromAssetsToEnvironmentDir( _Filename, DatabasesDir);
+     Log.PrintLn( 'uAndroid_Database_from_Assets: Avant CopyFromAssetsToEnvironmentDir('+_Source+', '+_Cible+', '+DatabasesDir+');');
+     _jF.CopyFromAssetsToEnvironmentDir( _Source, DatabasesDir);
+     _jF.CopyFile( IncludeTrailingPathDelimiter( DatabasesDir)+_Source,
+                   IncludeTrailingPathDelimiter( DatabasesDir)+_Cible );
+     _jF.DeleteFile(IncludeTrailingPathDelimiter( DatabasesDir)+_Source);
 end;
 
 procedure uAndroid_Database_require_permission_READ_EXTERNAL_STORAGE( _jF: jForm);

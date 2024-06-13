@@ -18,6 +18,7 @@ var
    rgInstrument_CheckedIndex: Integer= rgInstrument_MP3_440Hz;
    mm: jMidiManager= nil;
    pf: jPreferences = nil;
+   Editable: Boolean=False;
 
 procedure Options_Restore;
 procedure Options_Save;
@@ -27,12 +28,14 @@ implementation
 
 procedure Options_Restore;
 begin
-     rgInstrument_CheckedIndex:= pf.GetIntData( 'rgInstrument_CheckedIndex', rgInstrument_CheckedIndex);
+     rgInstrument_CheckedIndex:= pf.GetIntData ( 'rgInstrument_CheckedIndex', rgInstrument_CheckedIndex);
+     Editable                 := pf.GetBoolData( 'Editable'                 , Editable                 );
 end;
 
 procedure Options_Save;
 begin
-     pf.SetIntData( 'rgInstrument_CheckedIndex', rgInstrument_CheckedIndex);
+     pf.SetIntData ( 'rgInstrument_CheckedIndex', rgInstrument_CheckedIndex);
+     pf.GetBoolData( 'Editable'                 , Editable                 );
 end;
 
 end.

@@ -717,8 +717,8 @@ begin
      slErrorLog:= TStringList.Create;
 
      FConnection:= nil;
-     Cas_local;
-     //Cas_global;
+     //Cas_local;
+     Cas_global;
 
      FEOF:= False;
 
@@ -930,6 +930,18 @@ function TjsDataContexte_SQLite_Android.ExecSQLQuery: Boolean;
        last_insert_rowid:= TjSqliteDataAccess(sda).ExecSQL_Last_insert_rowid( SQL_Bind);
        WriteLn( ClassName+'.ExecSQLQuery, Cas_Insert: last_insert_rowid()=',last_insert_rowid);
    end;
+   function Cas_Delete: Boolean;
+   begin
+       WriteLn( ClassName+'.ExecSQLQuery, Cas_Delete');
+       Result:= sda.DeleteFromTable( SQL_Bind);
+       WriteLn( ClassName+'.ExecSQLQuery, Cas_Delete: Result=',BoolToStr(Result,true));
+   end;
+   function Cas_Update: Boolean;
+   begin
+       WriteLn( ClassName+'.ExecSQLQuery, Cas_Update');
+       Result:= sda.UpdateTable( SQL_Bind);
+       WriteLn( ClassName+'.ExecSQLQuery, Cas_Update: Result=',BoolToStr(Result,true));
+   end;
    procedure CasGeneral;
    begin
         WriteLn( ClassName+'.ExecSQLQuery, CasGeneral;');
@@ -940,11 +952,10 @@ begin
      Bind;
      WriteLn( ClassName+'.ExecSQLQuery, SQL_Bind= '+SQL_Bind);
      Assure_Ouverture;
-     if 1 = Pos( 'INSERT', UpperCase( SQL_Bind))
-     then
-         Cas_Insert//_old
-     else
-         CasGeneral;
+          if 1 = Pos( 'INSERT', UpperCase( SQL_Bind)) then Cas_Insert//_old
+     else if 1 = Pos( 'DELETE', UpperCase( SQL_Bind)) then Cas_Delete
+     else if 1 = Pos( 'UPDATE', UpperCase( SQL_Bind)) then Cas_Update
+     else                                                  CasGeneral;
      Result:= True;
 end;
 

@@ -436,6 +436,24 @@ begin
 end;
 
 { Class:     com_mars42_jsNote_Controls
+  Method:    pOnCustomDialogShow
+  Signature: (JLandroid/app/Dialog;Ljava/lang/String;)V }
+procedure pOnCustomDialogShow(PEnv: PJNIEnv; this: JObject; pasobj: JLong;
+ dialog: JObject; title: JString); cdecl;
+begin
+  Java_Event_pOnCustomDialogShow(PEnv, this, TObject(pasobj), dialog, title);
+end;
+
+{ Class:     com_mars42_jsNote_Controls
+  Method:    pOnCustomDialogBackKeyPressed
+  Signature: (JLjava/lang/String;)V }
+procedure pOnCustomDialogBackKeyPressed(PEnv: PJNIEnv; this: JObject;
+ pasobj: JLong; title: JString); cdecl;
+begin
+  Java_Event_pOnCustomDialogBackKeyPressed(PEnv, this, TObject(pasobj), title);
+end;
+
+{ Class:     com_mars42_jsNote_Controls
   Method:    pEditTextOnActionIconTouchUp
   Signature: (JLjava/lang/String;)V }
 procedure pEditTextOnActionIconTouchUp(PEnv: PJNIEnv; this: JObject;
@@ -743,7 +761,7 @@ begin
    error, primaryError);
 end;
 
-const NativeMethods: array[0..79] of JNINativeMethod = (
+const NativeMethods: array[0..81] of JNINativeMethod = (
    (name: 'pAppOnCreate';
     signature: '(Landroid/content/Context;Landroid/widget/RelativeLayout;'
      +'Landroid/content/Intent;)V';
@@ -892,6 +910,12 @@ const NativeMethods: array[0..79] of JNINativeMethod = (
    (name: 'pOnRunOnUiThread';
     signature: '(JI)V';
     fnPtr: @pOnRunOnUiThread; ),
+   (name: 'pOnCustomDialogShow';
+    signature: '(JLandroid/app/Dialog;Ljava/lang/String;)V';
+    fnPtr: @pOnCustomDialogShow; ),
+   (name: 'pOnCustomDialogBackKeyPressed';
+    signature: '(JLjava/lang/String;)V';
+    fnPtr: @pOnCustomDialogBackKeyPressed; ),
    (name: 'pEditTextOnActionIconTouchUp';
     signature: '(JLjava/lang/String;)V';
     fnPtr: @pEditTextOnActionIconTouchUp; ),
@@ -1118,6 +1142,10 @@ exports
   pAppOnRequestPermissionResult name 'Java_com_mars42_jsNote_Controls_'
    +'pAppOnRequestPermissionResult',
   pOnRunOnUiThread name 'Java_com_mars42_jsNote_Controls_pOnRunOnUiThread',
+  pOnCustomDialogShow name
+   'Java_com_mars42_jsNote_Controls_pOnCustomDialogShow',
+  pOnCustomDialogBackKeyPressed name 'Java_com_mars42_jsNote_Controls_'
+   +'pOnCustomDialogBackKeyPressed',
   pEditTextOnActionIconTouchUp name 'Java_com_mars42_jsNote_Controls_'
    +'pEditTextOnActionIconTouchUp',
   pEditTextOnActionIconTouchDown name 'Java_com_mars42_jsNote_Controls_'

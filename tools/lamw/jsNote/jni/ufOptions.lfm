@@ -7,7 +7,7 @@ object fOptions: TfOptions
   Left = 971
   Top = 204
   Width = 320
-  Height = 400
+  Height = 523
   Text = 'fOptions'
   ActivityMode = actRecyclable
   BackgroundColor = colbrWhite
@@ -25,7 +25,7 @@ object fOptions: TfOptions
     Left = 0
     Top = 0
     Width = 320
-    Height = 400
+    Height = 523
     Visible = True
     PosRelativeToAnchor = []
     PosRelativeToParent = []
@@ -94,11 +94,11 @@ object fOptions: TfOptions
       MarginBottom = 5
       Enabled = True
       Left = 5
-      Top = 181
+      Top = 241
       Width = 289
       Height = 50
       Visible = True
-      Anchor = bDatabase_from_Assets
+      Anchor = bEmptyDatabase
       PosRelativeToAnchor = [raBelow]
       PosRelativeToParent = [rpLeft]
       LayoutParamWidth = lpWrapContent
@@ -118,11 +118,11 @@ object fOptions: TfOptions
       MarginBottom = 5
       Enabled = True
       Left = 5
-      Top = 301
+      Top = 403
       Width = 101
       Height = 50
       Visible = True
-      Anchor = bDatabase_to_Downloads
+      Anchor = cbEditable
       PosRelativeToAnchor = [raBelow]
       PosRelativeToParent = [rpLeft]
       LayoutParamWidth = lpWrapContent
@@ -142,7 +142,7 @@ object fOptions: TfOptions
       MarginBottom = 5
       Enabled = True
       Left = 5
-      Top = 241
+      Top = 301
       Width = 292
       Height = 50
       Visible = True
@@ -158,6 +158,54 @@ object fOptions: TfOptions
       FontSizeUnit = unitDefault
       GravityInParent = lgNone
       OnClick = bDatabase_to_DownloadsClick
+    end
+    object cbEditable: jCheckBox
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 5
+      Top = 361
+      Width = 218
+      Height = 32
+      Visible = True
+      Anchor = bDatabase_to_Downloads
+      PosRelativeToAnchor = [raBelow]
+      PosRelativeToParent = [rpLeft]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Autoriser les modifications'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      Checked = False
+      FontSizeUnit = unitDefault
+      OnClick = cbEditableClick
+    end
+    object bEmptyDatabase: jButton
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 5
+      Top = 181
+      Width = 198
+      Height = 50
+      Visible = True
+      Anchor = bDatabase_from_Assets
+      PosRelativeToAnchor = [raBelow]
+      PosRelativeToParent = [rpLeft]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Charger une base vide'
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = bEmptyDatabaseClick
     end
   end
   object od: jOpenDialog

@@ -61,6 +61,8 @@ type
     bPrecedent: jButton;
     bSuivant: jButton;
     bTutti: jButton;
+    bSupprimer: jButton;
+    dynSupprimer: jDialogYN;
     eTitre: jEditText;
     eN2: jEditText;
     eN4: jEditText;
@@ -78,8 +80,6 @@ type
     jm: jMenu;
     mp: jMediaPlayer;
     Panel1: jPanel;
-    sqlc: jSqliteCursor;
-    sqlda: jSqliteDataAccess;
     tvMidi: jTextView;
     tvLatin: jTextView;
     procedure bN2Click(Sender: TObject);
@@ -89,7 +89,9 @@ type
     procedure bStopClick(Sender: TObject);
     procedure bSuivantClick(Sender: TObject);
     procedure bN3Click(Sender: TObject);
+    procedure bSupprimerClick(Sender: TObject);
     procedure bTuttiClick(Sender: TObject);
+    procedure dynSupprimerClickYN(Sender: TObject; YN: TClickYN);
     procedure fChantClickOptionMenuItem(Sender: TObject; jObjMenuItem: jObject;
      itemID: integer; itemCaption: string; checked: boolean);
     procedure fChantCreateOptionMenu(Sender: TObject; jObjMenu: jObject);
@@ -113,6 +115,8 @@ type
     bl: TblChant;
     Index_Courant: Integer;
     procedure Affiche( _Index: Integer);
+    procedure Champs_Affecte_bl( _bl: TblChant);
+
   //Gestion Midi
   public
     m: TAndroid_Midi;
@@ -150,11 +154,25 @@ begin
      then
          m:= TAndroid_Midi.Create( mm);
 
-     Filename:= 'jsNote.sqlite';
-
      bStop.Visible:= rgInstrument_CheckedIndex in [rgInstrument_Midi_Piano,rgInstrument_Midi_Tenor_Sax];
 
      Affiche( poolChant.slFiltre.Count-1);
+     eTitre.Editable:= uOptions.Editable;
+     eN1   .Editable:= uOptions.Editable;
+     eN2   .Editable:= uOptions.Editable;
+     eN3   .Editable:= uOptions.Editable;
+     eN4   .Editable:= uOptions.Editable;
+
+     bSupprimer.Visible:= uOptions.Editable;
+end;
+
+procedure TfChant.Champs_Affecte_bl( _bl: TblChant);
+begin
+     Champs_Affecte( _bl, [ hceTitre,
+                            hceN1   ,hcbT1,
+                            hceN2   ,hcbT2,
+                            hceN3   ,hcbT3,
+                            hceN4   ,hcbT4]);
 end;
 
 procedure TfChant.Affiche( _Index: Integer);
@@ -165,11 +183,28 @@ begin
      Index_Courant:= _Index;
      bl:= blChant_from_sl( poolChant.slFiltre, Index_Courant);
      WriteLn( Classname+'.Affiche: Index_Courant=',Index_Courant);
-     Champs_Affecte( bl, [ hceTitre,
-                           hceN1,hcbT1,
-                           hceN2,hcbT2,
-                           hceN3,hcbT3,
-                           hceN4,hcbT4]);
+     Champs_Affecte_bl( bl);
+end;
+
+procedure TfChant.bSupprimerClick(Sender: TObject);
+begin
+     dynSupprimer.Show;
+end;
+
+procedure TfChant.dynSupprimerClickYN(Sender: TObject; YN: TClickYN);
+var
+   blTrash: TblChant;
+begin
+     WriteLn( Classname+'.dynSupprimerClickYN: début');
+     if YN <> ClickYes then exit;
+
+     blTrash:= bl;
+     Champs_Affecte_bl( nil);
+     WriteLn( Classname+'.dynSupprimerClickYN: avant suppression');
+     poolChant.Supprimer( blTrash);
+     poolChant.Vide;
+     poolChant.ToutCharger;
+     Affiche( Index_Courant);
 end;
 
 procedure TfChant.bSuivantClick(Sender: TObject);
