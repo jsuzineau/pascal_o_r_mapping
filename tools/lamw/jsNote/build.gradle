@@ -4,15 +4,15 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.2.0'
+        classpath 'com.android.tools.build:gradle:8.2.0' 
     }
 }
 allprojects {
     repositories {
-        jcenter()
-        google()
-        mavenCentral()
-        maven { url 'https://jitpack.io' }
+       jcenter()
+       google()
+       mavenCentral()
+       maven {url 'https://jitpack.io'}
     }
 }
 apply plugin: 'com.android.application'
@@ -22,7 +22,7 @@ android {
         abi {
             enable true
             reset()
-            include 'armeabi', 'armeabi-v7a'
+            include 'armeabi','armeabi-v7a'
             universalApk true
         }
     }
@@ -32,12 +32,12 @@ android {
     }
     compileSdk 34
     defaultConfig {
-        minSdkVersion 23
-        targetSdkVersion 34
-        versionCode 1
-        versionName "1.0"
-        multiDexEnabled true
-        ndk { debugSymbolLevel 'FULL' }
+            minSdkVersion 23
+            targetSdkVersion 34
+            versionCode 1
+            versionName "1.0"
+            multiDexEnabled true
+            ndk { debugSymbolLevel 'FULL' }
     }
     sourceSets {
         main {
@@ -73,18 +73,16 @@ android {
     }
 }
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.core:core:1.13.1'
+    implementation  fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.core:core:1.9.0'
     implementation 'androidx.multidex:multidex:2.0.1'
 }
 tasks.register('run', Exec) {
-    dependsOn ':installDebug'
-    if (System.properties['os.name'].toLowerCase().contains('windows'))
-        {
-        commandLine 'cmd', '/c', 'adb', 'shell', 'am', 'start', '-n', "com.mars42.jsNote/.App"
-        } else
-        {
-        commandLine 'adb', 'shell', 'am', 'start', '-n', "com.mars42.jsNote/.App"
-        }
+ dependsOn ':installDebug'
+	if (System.properties['os.name'].toLowerCase().contains('windows')) {
+	    commandLine 'cmd', '/c', 'adb', 'shell', 'am', 'start', '-n', "com.mars42.jsNote/.App"
+	} else {
+	    commandLine 'adb', 'shell', 'am', 'start', '-n', "com.mars42.jsNote/.App"
+	}
 }
  

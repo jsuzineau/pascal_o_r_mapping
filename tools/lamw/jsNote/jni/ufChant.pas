@@ -62,6 +62,7 @@ type
     bSuivant: jButton;
     bTutti: jButton;
     bSupprimer: jButton;
+    bCacher: jButton;
     dynSupprimer: jDialogYN;
     eTitre: jEditText;
     eN2: jEditText;
@@ -82,6 +83,7 @@ type
     Panel1: jPanel;
     tvMidi: jTextView;
     tvLatin: jTextView;
+    procedure bCacherClick(Sender: TObject);
     procedure bN2Click(Sender: TObject);
     procedure bN4Click(Sender: TObject);
     procedure bPrecedentClick(Sender: TObject);
@@ -229,6 +231,11 @@ end;
 procedure TfChant.bN2Click(Sender: TObject);
 begin
      Play_Note( eN2.Text);
+end;
+
+procedure TfChant.bCacherClick(Sender: TObject);
+begin
+     Close;
 end;
 
 procedure TfChant.bN3Click(Sender: TObject);
@@ -395,12 +402,16 @@ procedure TfChant.mpCompletion(Sender: TObject);
      procedure Process_nTutti;
      var
         Note: String;
+        procedure Traite_N4;begin Note:=eN4.Text;Inc(nTutti);if 1= Pos('m', Note)then Note:= '';end;
+        procedure Traite_N3;begin Note:=eN3.Text;Inc(nTutti);if 1= Pos('m', Note)then Traite_N4;end;
+        procedure Traite_N2;begin Note:=eN2.Text;Inc(nTutti);if 1= Pos('m', Note)then Traite_N3;end;
      begin
           case nTutti
           of
-            2:begin Note:= eN2.Text; Inc(nTutti); end;
-            3:begin Note:= eN3.Text; Inc(nTutti); end;
-            4:begin Note:= eN4.Text; Inc(nTutti); end;
+            2:Traite_N2;
+            3:Traite_N3;
+            4:Traite_N4;
+            else Note:= '';
             end;
           if '' <> Note
           then

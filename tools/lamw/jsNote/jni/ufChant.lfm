@@ -482,6 +482,30 @@ object fChant: TfChant
       GravityInParent = lgNone
       OnClick = bSupprimerClick
     end
+    object bCacher: jButton
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 5
+      Top = 343
+      Width = 80
+      Height = 50
+      Visible = True
+      Anchor = tvLatin
+      PosRelativeToAnchor = [raBelow]
+      PosRelativeToParent = [rpLeft]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Cacher'
+      BackgroundColor = colbrLightSkyBlue
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = bCacherClick
+    end
   end
   object hceTitre: ThChamp_Edit
     Field = 'Titre'
