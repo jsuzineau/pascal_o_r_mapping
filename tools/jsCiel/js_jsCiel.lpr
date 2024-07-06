@@ -37,8 +37,8 @@ var
 
        WasiEnvironment.OnStdErrorWrite :=@wasmWrite;
        WasiEnvironment.OnStdOutputWrite:=@wasmWrite;
-       WasiEnvironment.LogAPI:=True;
-       Writeln('Enabling logging');
+       //WasiEnvironment.LogAPI:=True;
+       //Writeln('Enabling logging');
   end;
 
 function Tjs_jsCiel.wasmBeforeStart( _Sender: TObject; _Descriptor: TWebAssemblyStartDescriptor): Boolean;

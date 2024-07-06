@@ -109,6 +109,8 @@ function Majuscule_minuscules( S: String): String;
 
 function IsDigit( S: String): Boolean;
 
+function IsInt( S: String): Boolean;
+
 function Entoure_Chaine( Chaine: String; Motif: Char; LargeurLigne: Integer): String;
 
 function Enleve_Final( S, Final: String): String;
@@ -744,6 +746,50 @@ begin
        Result:= S[I] in ['0'..'9'];
        if not Result then break;
        end;
+end;
+
+function IsInt( S: String): Boolean;
+var
+   I, LS: Integer;
+begin
+     Result:= False;
+
+     // Longueur de chaine
+     LS:= Length( S);
+     if LS = 0 then exit; // chaine vide
+
+     // Evacuation des espaces avant le nombre
+     I:= 1;
+     while I <= LS
+     do
+       if S[I] = ' '
+       then
+           Inc( I)
+       else
+           break;
+     if I > LS then exit; // que des espaces
+
+     // Traitement du signe éventuel
+     if S[I] = '+'
+     then
+         Inc( I)
+     else if S[I] = '-'
+     then
+         Inc( I);
+     if I > LS then exit; // pas de chiffres
+
+     // Vérification que l'on a que des chiffres
+     Result:= True;
+     while I <= LS
+     do
+       if IsDigit(S[I])
+       then
+           Inc( I)
+       else
+           begin
+           Result:= False;
+           break;
+           end;
 end;
 
 function Entoure_Chaine( Chaine: String;

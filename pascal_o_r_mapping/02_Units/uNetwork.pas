@@ -36,7 +36,10 @@ uses
     {$IFNDEF FPC}
     Windows, WinSock, Dialogs,
     {$ENDIF}
-    SysUtils, Classes, IniFiles, Math,process;
+    {$IFNDEF WASI}
+    process,
+    {$ENDIF}
+    SysUtils, Classes, IniFiles, Math;
 
 type
  TTypeNetwork= (tn_application, tn_informix, tn_mysql);
@@ -137,12 +140,16 @@ begin
      {$IFDEF MSWINDOWS}
      Result:= GetEnvironmentVariable('COMPUTERNAME');
      {$ELSE}
-     RunCommand('hostname', Result); //attention, ne fonctionne pas dans le cas librairie C-Extensions 4js
-     repeat
-           I:= Pos( #10, Result);
-           if I = 0 then break;
-           Delete( Result, I, 1);
-     until I = -1;
+         {$IFDEF WASI}
+         Result:= 'WASI';
+         {$ELSE}
+         RunCommand('hostname', Result); //attention, ne fonctionne pas dans le cas librairie C-Extensions 4js
+         repeat
+               I:= Pos( #10, Result);
+               if I = 0 then break;
+               Delete( Result, I, 1);
+         until I = -1;
+         {$ENDIF}
      {$ENDIF}
 end;
 {$ENDIF}
