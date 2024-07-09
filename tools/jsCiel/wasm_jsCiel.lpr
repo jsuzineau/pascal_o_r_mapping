@@ -5,7 +5,8 @@ library wasm_jsCiel;
 {$codepage UTF8}
 
 uses
-    NoThreads, SysUtils, JOB.Shared, JOB_Web, JOB.JS, uObservation, uPublieur;
+    NoThreads, SysUtils, JOB.Shared, JOB_Web, JOB.JS, uObservation, uPublieur,
+    uLieu, uCoordonnee, uDate, uDate_Ephemerides, uTemps, uEquinoxeur, uMath;
 
 type
 
@@ -48,6 +49,7 @@ begin
      o.Lieu.La.Degres:= _Position.coords.latitude;
      o.Lieu.Lg.Degres:= _Position.coords.longitude;
      o.Lieu.Fin_Edition;
+     o.Calcul;
      o.Log(ClassName+'.GeoLocation_OK: ');
 end;
 procedure Twasm_jsCiel.errorCallback(_Value : IJSGeolocationPositionError);
