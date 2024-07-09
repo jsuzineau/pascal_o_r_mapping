@@ -44,8 +44,10 @@ end;
 
 procedure Twasm_jsCiel.successCallback(_Position : IJSGeolocationPosition);
 begin
-     o.latitude .Degres:= _Position.coords.latitude;
-     o.longitude.Degres:= _Position.coords.longitude;
+     o.Lieu.Debut_Edition;
+     o.Lieu.La.Degres:= _Position.coords.latitude;
+     o.Lieu.Lg.Degres:= _Position.coords.longitude;
+     o.Lieu.Fin_Edition;
      o.Log(ClassName+'.GeoLocation_OK: ');
 end;
 procedure Twasm_jsCiel.errorCallback(_Value : IJSGeolocationPositionError);

@@ -63,7 +63,7 @@ end;
 
 procedure Tjs_jsCiel.RunWasm;
 const
-     Files_Racine: array of String= ('VISION_DU_CIEL.INI');
+     //Files_Racine: array of String= ();
      Files_vsop87
      :
       array of String
@@ -79,20 +79,20 @@ const
        'vsop87/VSOP87D.ven'
        );
 var
-   Res_Racine: TPreLoadFilesResult;
+   //Res_Racine: TPreLoadFilesResult;
    Res_vsop87: TPreLoadFilesResult;
 begin
      // Writeln('Enabling logging');
      // WasiEnvironment.LogAPI:=True;
-     await
-       (
-       TJSObject,
-       ZenFS.configure(new( ['mounts', new(['/', DomBackends.WebStorage])]))
-       );
+     //await
+     //  (
+     //  TJSObject,
+     //  ZenFS.configure(new( ['mounts', new(['/', DomBackends.WebStorage])]))
+     //  );
      FS:=TWASIZenFS.Create;
      WasiEnvironment.FS:=FS;
      ZenFS.mkdir( '/vsop87', &777);
-     Res_Racine:= await( TPreLoadFilesResult, PreLoadFilesIntoDirectory('/', Files_Racine));
+     //Res_Racine:= await( TPreLoadFilesResult, PreLoadFilesIntoDirectory('/', Files_Racine));
      Res_vsop87:= await( TPreLoadFilesResult, PreLoadFilesIntoDirectory('/vsop87', Files_vsop87));
      StartWebAssembly('wasm_jsCiel.wasm',true,@wasmBeforeStart);
 end;

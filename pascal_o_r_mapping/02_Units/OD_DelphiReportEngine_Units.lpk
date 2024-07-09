@@ -438,16 +438,10 @@
       </Item104>
     </Files>
     <CompatibilityMode Value="True"/>
-    <RequiredPkgs Count="3">
+    <RequiredPkgs Count="1">
       <Item1>
-        <PackageName Value="laz_fpspreadsheet"/>
-      </Item1>
-      <Item2>
         <PackageName Value="LCLBase"/>
-      </Item2>
-      <Item3>
-        <PackageName Value="LazUtils"/>
-      </Item3>
+      </Item1>
     </RequiredPkgs>
     <UsageOptions>
       <UnitPath Value="$(PkgOutDir)"/>

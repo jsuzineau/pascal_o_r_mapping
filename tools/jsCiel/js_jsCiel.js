@@ -6771,11 +6771,7 @@ rtl.module("wasizenfs",["System","SysUtils","JS","libzenfs","wasitypes"],functio
     $impl.ResOK = 0;
   };
 },[]);
-rtl.module("libzenfsdom",["System","libzenfs"],function () {
-  "use strict";
-  var $mod = this;
-});
-rtl.module("program",["System","browserconsole","BrowserApp","wasihostapp","JOB_Browser","JS","Classes","SysUtils","Web","wasitypes","wasizenfs","libzenfs","libzenfsdom","wasienv"],function () {
+rtl.module("program",["System","browserconsole","BrowserApp","wasihostapp","JOB_Browser","JS","Classes","SysUtils","Web","wasitypes","wasizenfs","libzenfs","wasienv"],function () {
   "use strict";
   var $mod = this;
   rtl.createClass(this,"Tjs_jsCiel",pas.wasihostapp.TBrowserWASIHostApplication,function () {
@@ -6791,16 +6787,12 @@ rtl.module("program",["System","browserconsole","BrowserApp","wasihostapp","JOB_
       this.sd = undefined;
       pas.wasihostapp.TBrowserWASIHostApplication.$final.call(this);
     };
-    var Files_Racine = ["VISION_DU_CIEL.INI"];
     var Files_vsop87 = ["vsop87/VSOP87D.ear","vsop87/VSOP87D.jup","vsop87/VSOP87D.mar","vsop87/VSOP87D.mer","vsop87/VSOP87D.nep","vsop87/VSOP87D.sat","vsop87/VSOP87D.ura","vsop87/VSOP87D.ven"];
     this.RunWasm = async function () {
-      var Res_Racine = pas.wasienv.TPreLoadFilesResult.$new();
       var Res_vsop87 = pas.wasienv.TPreLoadFilesResult.$new();
-      await ZenFS.configure(pas.JS.New(["mounts",pas.JS.New(["/",ZenFS_DOM.WebStorage])]));
       this.FS = pas.wasizenfs.TWASIZenFS.$create("create$1");
       this.GetEnv().FWasiFS = rtl.getIntfT(this.FS,pas.wasitypes.IWASIFS);
       ZenFS.mkdir("/vsop87",511);
-      Res_Racine.$assign(await this.PreLoadFilesIntoDirectory("/",Files_Racine));
       Res_vsop87.$assign(await this.PreLoadFilesIntoDirectory("/vsop87",Files_vsop87));
       this.StartWebAssembly("wasm_jsCiel.wasm",true,rtl.createCallback(this,"wasmBeforeStart"),null);
     };
