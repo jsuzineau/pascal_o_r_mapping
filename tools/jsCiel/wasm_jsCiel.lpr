@@ -6,7 +6,8 @@ library wasm_jsCiel;
 
 uses
     NoThreads, SysUtils, JOB.Shared, JOB_Web, JOB.JS, uObservation, uPublieur,
-    uLieu, uCoordonnee, uDate, uDate_Ephemerides, uTemps, uEquinoxeur, uMath;
+    uLieu, uCoordonnee, uDate, uDate_Ephemerides, uTemps, uEquinoxeur, uMath,
+    uCiel;
 
 type
 
@@ -21,7 +22,7 @@ type
     destructor Destroy; override;
   //Attributs
   private
-    o: TObservation;
+    Ciel: TCiel;
     procedure OnButtonClick(Event: IJSEvent);
     procedure successCallback(_Position : IJSGeolocationPosition);
     procedure errorCallback(_Value : IJSGeolocationPositionError);
@@ -34,23 +35,19 @@ type
 constructor Twasm_jsCiel.Create;
 begin
      inherited;
-     o:= TObservation.Create;
+     Ciel:= TCiel.Create;
 end;
 
 destructor Twasm_jsCiel.Destroy;
 begin
-     Freeandnil( o);
+     Freeandnil( Ciel);
      inherited;
 end;
 
 procedure Twasm_jsCiel.successCallback(_Position : IJSGeolocationPosition);
 begin
-     o.Lieu.Debut_Edition;
-     o.Lieu.La.Degres:= _Position.coords.latitude;
-     o.Lieu.Lg.Degres:= _Position.coords.longitude;
-     o.Lieu.Fin_Edition;
-     o.Calcul;
-     o.Log(ClassName+'.GeoLocation_OK: ');
+     Ciel.Initialise( _Position.coords.latitude, _Position.coords.longitude);
+     Ciel.Log( ClassName+'.GeoLocation_OK: ');
 end;
 procedure Twasm_jsCiel.errorCallback(_Value : IJSGeolocationPositionError);
 begin

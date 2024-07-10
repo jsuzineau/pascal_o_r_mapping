@@ -103,8 +103,6 @@ begin
      Lieu.Decalage_Heure_Ete   := 1;
 
      Temps:= T_Temps.Create( Lieu, Lieu);
-     Temps.HeureEte:= True;
-     Temps.TU.Set_from_computer_date;
 
      Modify:= TPublieur.Create(ClassName+'.Modify');
 
