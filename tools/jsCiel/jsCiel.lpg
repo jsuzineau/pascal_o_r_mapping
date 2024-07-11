@@ -42,6 +42,11 @@
           <Mode Name="Default"/>
         </BuildModes>
       </Target>
+      <Target FileName="..\..\..\19_Projets\Vision_du_Ciel\jsCiel_avant_suppression_code_inutilisé\wasm_jsCiel.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
     </Targets>
   </ProjectGroup>
 </CONFIG>

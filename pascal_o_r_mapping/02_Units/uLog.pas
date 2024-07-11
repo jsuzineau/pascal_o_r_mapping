@@ -36,7 +36,7 @@ uses
   {$IFDEF WINDOWS}
   Windows,
   {$ENDIF}
-  {$IFNDEF WASI}
+  {$IFDEF LCL_FULLVERSION}
   LazUTF8, LCLIntf,
   {$ENDIF}
   SysUtils, Classes, syncobjs;
@@ -269,10 +269,10 @@ end;
 procedure TLog.Affiche;
 begin
      {$IFDEF FPC}
-       {$IFDEF WASI}
-         //rien
-       {$ELSE}
+       {$IFDEF LCL_FULLVERSION}
          OpenDocument( NomFichier);
+       {$ELSE}
+         //rien
        {$ENDIF}
      {$ELSE}
        ShowURL( NomFichier);

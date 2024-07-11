@@ -314,9 +314,14 @@ end;
 procedure T_Temps.Log( _Prefix: String);
 begin
      TLO.Log( _Prefix+' TLO:'); // Legal     time de l'ordinateur
-     TL .Log( _Prefix+' TL :'); // Legal     time
+     //TL .Log( _Prefix+' TL :'); // Legal     time
      TU .Log( _Prefix+' TU :'); // Universal time
-     TD .Log( _Prefix+' TD :'); // Dynamical time
+     TD .Log( _Prefix+' Temps dynamique :'); // Dynamical time
+     WriteLn( _Prefix+' TD.Jour_Julien: ', TD.sJour_Julien);
+     WriteLn( _Prefix+' TD.Tau: ',Format('%.10f',[TD.Tau]));
+     WriteLn( _Prefix+' TD.Fraction_Jour: ',Format('%.10f',[TD.Fraction_Jour]));
+     WriteLn( _Prefix+' TD.Fraction_Jour recalculé: ',Format('%.10f',[(TD.Heures+(TD.Minutes+TD.Secondes/60)/60)/24]));
+
 end;
 
 end.

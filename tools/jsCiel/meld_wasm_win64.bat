@@ -1,0 +1,1 @@
+E:\meld\meld.exe wasm_jsCiel.lpi win64_jsCiel.lpi

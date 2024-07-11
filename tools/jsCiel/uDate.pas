@@ -343,13 +343,8 @@ begin
 end;
 
 function T_Date.Get_sHeure:String;
-var
-   strHE,strMI, strSS: String[2];
 begin
-     str(FHeures:2,strHE);if strHE[1]=' ' then strHE[1]:='0';
-     str(FMinutes:2,strMI);if strMI[1]=' ' then strMI[1]:='0';
-     str(FSecondes:5:2, strSS);if strSS[1]=' ' then strSS[1]:='0';
-     Result:= strHE+':'+strMI+':'+strSS;
+     Result:= Format( '%.2d:%.2d:%s', [FHeures,FMinutes,Fixe_Min0( Format('%.2f',[FSecondes]),5)]);
 end;
 
 function JourJulien_From_Date( _JJ: Extended; _MM,_AAAA: Integer): Extended;
@@ -507,7 +502,7 @@ begin
      FHeures:=Floor(dd);
      dd:= (dd-FHeures)*60;
      FMinutes:=Floor( dd);
-     FSecondes:= dd-FMinutes;
+     FSecondes:= (dd-FMinutes)*60;
 
      if not inCalcul
      then
@@ -526,7 +521,7 @@ end;
 
 function T_Date.GetsJour_Julien: String;
 begin
-     Str( FJour_Julien:12:4, Result);
+     Result:= FormatFloat('0,000,000.0000000000',FJour_Julien);
 end;
 
 function T_Date.sMois: String;
@@ -745,9 +740,9 @@ end;
 
 procedure T_Date.Log( _Prefix: String);
 begin
-     WriteLn( _Prefix+' sDate       : ', sDate       );
-     WriteLn( _Prefix+' sHeure      : ', sHeure      );
-     WriteLn( _Prefix+' sJour_Julien: ', sJour_Julien);
+     WriteLn( _Prefix+' Date       : ', sDate       );
+     WriteLn( _Prefix+' Heure      : ', sHeure      );
+     WriteLn( _Prefix+' Jour Julien: ', sJour_Julien);
 end;
 
 end.
