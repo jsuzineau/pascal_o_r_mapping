@@ -87,7 +87,7 @@ end;
 begin
      Ciel:= TCiel.Create;
      try
-        Ciel.Initialise( 43.604312,1.4436825);
+        Ciel.Initialise( 43.604312,-1.4436825);
         Ciel.Observation.Temps.TLO.Set_from_computer_date;
         Ciel.Log( 'win64_jsCiel: ');
         Levers_Soleil;

@@ -111,7 +111,7 @@ end;
 
 procedure Twasm_jsCiel.successCallback(_Position : IJSGeolocationPosition);
 begin
-     Ciel.Initialise( _Position.coords.latitude, _Position.coords.longitude);
+     Ciel.Initialise( _Position.coords.latitude, -_Position.coords.longitude);
      Ciel.Log( ClassName+'.GeoLocation_OK: ');
      Levers_Soleil;
      Ciel.Observation.Temps.TD.Add_To_Julian_Date( +1);

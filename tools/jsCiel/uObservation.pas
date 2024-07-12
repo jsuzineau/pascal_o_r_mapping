@@ -139,20 +139,27 @@ procedure TObservation.Calcul;
 { _A_s_t_r_o_n_o_m_i_c_a_l_ A_l_g_o_r_i_t_h_m_s_, Jean MEEUS, }
 { p 83                                                        }
 var
-   t0,tsh : double;
-   hh,mm  : double;
+   t0,tsh : Real;
+   hh,mm  : Real;
    hhs,mms: String;
 begin
+     //WriteLn( ClassName+'.Calcul Tau: ',Format('%.10f',[Temps.TD.Tau]));
+     //WriteLn( ClassName+'.Calcul Fraction_Jour: ',Format('%.10f',[Temps.TD.Fraction_Jour]));
+     //WriteLn( ClassName+'.Calcul Longitude: ',Format('%.10f',[Lieu.lg.Radians]));
      //calcule le temps sidéral en radians à partir de Siecle_Julien et de Fraction_Jour
      //pour une longitude lg; fournit aussi une chaîne HH:MM:SS
      t0:=Temps.TD.Tau-Temps.TD.Fraction_Jour/36525;
+     //WriteLn( ClassName+'.Calcul t0: ',Format('%.10f',[t0]));
      Temps_sideral_en_radians:=1.753368558+628.3319706*t0+6.771E-06*t0*t0;
+     //WriteLn( ClassName+'.Calcul intermédiaire 1: ',Format('%.10f',[Temps_sideral_en_radians]));
      //Temps_sideral_en_radians:= Temps_sideral_en_radians+
      //                                    Temps.TD.fj*1.002733791  *2*pi-Lieu.lg.Radians;
      Temps_sideral_en_radians:= Temps_sideral_en_radians+
                                 Temps.TD.Fraction_Jour*1.00273790935*2*pi-Lieu.lg.Radians;
+     //WriteLn( ClassName+'.Calcul intermédiaire 2: ',Format('%.10f',[Temps_sideral_en_radians]));
      //                       re MEEUS p83: 1.00273790935
      Temps_sideral_en_radians:=frac(Temps_sideral_en_radians/2/pi)*2*pi;
+     //WriteLn( ClassName+'.Calcul intermédiaire 3: ',Format('%.10f',[Temps_sideral_en_radians]));
      if Temps_sideral_en_radians < 0
      then
          Temps_sideral_en_radians:= Temps_sideral_en_radians + 2*pi;
