@@ -6801,7 +6801,6 @@ rtl.module("program",["System","browserconsole","BrowserApp","wasihostapp","JOB_
     };
     this.wasmBeforeStart = function (_Sender, _Descriptor) {
       var Result = false;
-      pas.System.Writeln(this.$classname + ".wasmBeforeStart");
       this.sd.$assign(_Descriptor);
       this.ob.SetInstanceExports(_Descriptor.Exported);
       Result = true;

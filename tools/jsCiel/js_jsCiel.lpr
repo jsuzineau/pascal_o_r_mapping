@@ -43,7 +43,7 @@ var
 
 function Tjs_jsCiel.wasmBeforeStart( _Sender: TObject; _Descriptor: TWebAssemblyStartDescriptor): Boolean;
 begin
-     WriteLn(ClassName+'.wasmBeforeStart');
+     //WriteLn(ClassName+'.wasmBeforeStart');
 
      sd:= _Descriptor;
 

@@ -147,7 +147,7 @@ var
    cAH, sAH, cLa, sLa: Extended;
    sHt:Extended;
 begin
-     Angle_Horaire:= Modulo2PI( Observation.TS-_Ascension_Droite);
+     Angle_Horaire:= Modulo2PI( Observation.Temps_sideral_en_radians -_Ascension_Droite);
 
      sLa:= Observation.Lieu.La.  sinus;
      cLa:= Observation.Lieu.La.cosinus;

@@ -8,7 +8,7 @@ uses
     NoThreads, SysUtils, JOB.Shared, JOB_Web, JOB.JS, uObservation, uPublieur,
     uLieu, uCoordonnee, uDate, uDate_Ephemerides, uTemps, uEquinoxeur, uMath,
     uCiel, uSysteme_Solaire, uObjets_du_Systeme_Solaire, uObjet_non_ponctuel,
-    uObjets, uSexa_radians, uTheories_Planetaires;
+    uObjets, uSexa_radians, uTheories_Planetaires,uDataUtilsU;
 
 type
 
@@ -26,11 +26,14 @@ type
     Ciel: TCiel;
     HeureEte: Boolean;
     procedure OnButtonClick(Event: IJSEvent);
+    procedure bCalculClick(Event: IJSEvent);
     procedure DoGeoLocation;
     procedure successCallback(_Position : IJSGeolocationPosition);
     procedure errorCallback(_Value : IJSGeolocationPositionError);
     procedure Levers_Soleil;
+    procedure Traite_Lieu( _Latitude, _Longitude: Extended);
     function HHMM_Legal(const ad :Extended):String;
+    procedure Affiche;
   public
     procedure Run;
   end;
@@ -105,21 +108,64 @@ begin
               Mois[Ciel.Observation.Temps.TL.Mois],
               ': ',
               HHMM_Legal( Ciel.SSOL.Soleil.hl),
-              ' (',sHeureEte,')', ', Az: ',Ciel.SSOL.Soleil.AzS_Lever);
+              ' (',sHeureEte,')', ', Azimuth: ',Ciel.SSOL.Soleil.AzS_Lever);
 end;
 
-
-procedure Twasm_jsCiel.successCallback(_Position : IJSGeolocationPosition);
+procedure Twasm_jsCiel.Affiche;
+var
+   iCalcul_Lieu_Latitude : IJSHTMLInputElement;
+   iCalcul_Lieu_Longitude: IJSHTMLInputElement;
+   iCalcul_Date: IJSHTMLInputElement;
+   dCalcul_Resultat: IJSHTMLDivElement;
+   sResultat: String;
 begin
-     Ciel.Initialise( _Position.coords.latitude, -_Position.coords.longitude);
-     Ciel.Log( ClassName+'.GeoLocation_OK: ');
+     iCalcul_Lieu_Latitude:=TJSHTMLInputElement.Cast(JSDocument.getElementById('iCalcul_Lieu_Latitude'));
+     //WriteLn(ClassName+'.Affiche: Latitude: ',UTF8Encode(iCalcul_Lieu_Latitude.value));
+     iCalcul_Lieu_Latitude.value:= UTF8Decode(Ciel.Observation.Lieu.La.Str);
+     iCalcul_Lieu_Longitude:=TJSHTMLInputElement.Cast(JSDocument.getElementById('iCalcul_Lieu_Longitude'));
+     //WriteLn(ClassName+'.Affiche: Longitude: ',UTF8Encode(iCalcul_Lieu_Longitude.value));
+     iCalcul_Lieu_Longitude.value:= UTF8Decode(Ciel.Observation.Lieu.Lg.Str);
+
+     iCalcul_Date:=TJSHTMLInputElement.Cast(JSDocument.getElementById('iCalcul_Date'));
+     iCalcul_Date.value:= UTF8Decode( Ciel.Observation.Temps.TL.AsDateTimeSQL_sans_quotes);
+
+     DefaultFormatSettings.ThousandSeparator:= ' ';
+     DefaultFormatSettings.DecimalSeparator:= ',';
+
+     sResultat
+     :=
+        'Temps universel TU (UTC): '+Ciel.Observation.Temps.TU.sDate+' '+Ciel.Observation.Temps.TU.sHeure+'<br/>'
+       +'Temps dynamique TD      : '+Ciel.Observation.Temps.TD.sDate+' '+Ciel.Observation.Temps.TD.sHeure+'<br/>'
+       +'TU: Jour Julien: '+Ciel.Observation.Temps.TU.sJour_Julien                              +'<br/>'
+       +'TD: Jour Julien: '+Ciel.Observation.Temps.TD.sJour_Julien                              +'<br/>'
+       +UTF8Encode('Temps sidéral:')+Ciel.Observation.Temps_sideral_en_heures                   +'<br/>'
+       ;
+     dCalcul_Resultat:=TJSHTMLDivElement.Cast(JSDocument.getElementById('dCalcul_Resultat'));
+     dCalcul_Resultat.innerHTML:= UTF8Decode( sResultat);
+end;
+
+procedure Twasm_jsCiel.Traite_Lieu(_Latitude, _Longitude: Extended);
+begin
+     Ciel.Initialise( _Latitude, _Longitude);
+     //Ciel.Log( ClassName+'.GeoLocation_OK: ');
+     Affiche;
      Levers_Soleil;
      Ciel.Observation.Temps.TD.Add_To_Julian_Date( +1);
      Levers_Soleil;
 end;
+
+procedure Twasm_jsCiel.successCallback(_Position : IJSGeolocationPosition);
+begin
+     //La longitude donnée par le navigateur est négative vers l'Ouest
+     //mais dans les algorithmes de calcul de Jean MEEUS
+     //elle est négative vers l'Est d'où le -
+     Traite_Lieu( _Position.coords.latitude, -_Position.coords.longitude);
+
+end;
 procedure Twasm_jsCiel.errorCallback(_Value : IJSGeolocationPositionError);
 begin
      WriteLn( ClassName+'.b_Click: geolocation.getCurrentPosition: ', _Value.message);
+     Traite_Lieu( 43.604312,-1.4436825);//Toulouse
 end;
 
 procedure Twasm_jsCiel.DoGeoLocation;
@@ -136,30 +182,53 @@ begin
      DoGeoLocation;
 end;
 
+procedure Twasm_jsCiel.bCalculClick(Event: IJSEvent);
+var
+   iCalcul_Lieu_Latitude : IJSHTMLInputElement;
+   iCalcul_Lieu_Longitude: IJSHTMLInputElement;
+   iCalcul_Date: IJSHTMLInputElement;
+begin
+     iCalcul_Lieu_Latitude:=TJSHTMLInputElement.Cast(JSDocument.getElementById('iCalcul_Lieu_Latitude'));
+     //WriteLn(ClassName+'.bCalculClick: Latitude: ',UTF8Encode(iCalcul_Lieu_Latitude.value));
+     Ciel.Observation.Lieu.La.Set_Str( UTF8Encode(iCalcul_Lieu_Latitude.value));
+
+     iCalcul_Lieu_Longitude:=TJSHTMLInputElement.Cast(JSDocument.getElementById('iCalcul_Lieu_Longitude'));
+     //WriteLn(ClassName+'.bCalculClick: Longitude: ',UTF8Encode(iCalcul_Lieu_Longitude.value));
+     Ciel.Observation.Lieu.Lg.Set_Str( UTF8Encode(iCalcul_Lieu_Longitude.value));
+
+     iCalcul_Date:=TJSHTMLInputElement.Cast(JSDocument.getElementById('iCalcul_Date'));
+     //WriteLn(ClassName+'.bCalculClick: Date: ',iCalcul_Date.value);
+     Ciel.Observation.Temps.TL.Set_to_Datetime( DateTime_from_DateTime_ISO8601_sans_quotes( UTF8Encode(iCalcul_Date.value)));
+
+     Affiche;
+end;
+
 procedure Twasm_jsCiel.Run;
 var
-  JSDiv: IJSHTMLDivElement;
-  JSButton: IJSHTMLButtonElement;
+   bCalcul: IJSHTMLButtonElement;
 begin
      //writeln('TWasmApp.Run getElementById "playground" ...');
      // get reference of HTML element "playground" and type cast it to Div
-     JSDiv:=TJSHTMLDivElement.Cast(JSDocument.getElementById('playground'));
+     //JSDiv:=TJSHTMLDivElement.Cast(JSDocument.getElementById('playground'));
 
      // create button
      //writeln('TWasmApp.Run create button ...');
-     JSButton:=TJSHTMLButtonElement.Cast(JSDocument.createElement('button'));
+     //JSButton:=TJSHTMLButtonElement.Cast(JSDocument.createElement('button'));
      //writeln('TWasmApp.Run set button caption ...');
-     JSButton.InnerHTML:='Click me!';
+     //JSButton.InnerHTML:='Click me!';
 
      // add button to div
      //writeln('TWasmApp.Run add button to div ...');
-     JSDiv.append(JSButton);
+     //JSDiv.append(JSButton);
 
      // add event listener OnButtonClick
      //writeln('TWasmApp.Run addEventListener OnButtonClick ...');
-     JSButton.addEventListener('click',@OnButtonClick);
+     //JSButton.addEventListener('click',@OnButtonClick);
 
      //writeln('TWasmApp.Run END');
+
+     bCalcul:=TJSHTMLButtonElement.Cast(JSDocument.getElementById('bCalcul'));
+     bCalcul.addEventListener('click',@bCalculClick);
 
      DoGeoLocation;
 end;

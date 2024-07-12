@@ -3,6 +3,11 @@
   <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>jsCiel</title>
+  <!-- pris dans demojitsimeet de Michael Van Canneyt pour test Bootstrap -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
+  <script src="https://code.jquery.com/jquery-3.3.1.js" type="text/javascript"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+  <!-- fin ajout pour bootstrap -->
   <link href="bulma.min.css" rel="stylesheet">
   <script src="browser.min.js"></script>
   <script src="browser.dom.js"></script>
@@ -11,13 +16,45 @@
   </style>
 </head>
 <body>
-  <div class="section py-4">
-    <h1 class="title is-3">Test Area</h1>
-    <div class="box" id="playground">Playground</div>
-  </div>
-  <div class="section py-4">
-    <h1 class="title is-3">Console output</h1>
-    <div class="box" id="pasjsconsole"></div>
+  <div class="container">
+    <div class="section py-4">
+      <h1 class="title is-3">Lever de Soleil</h1>
+      <div class="box" id="pasjsconsole"></div>
+    </div>
+    <div class="card">
+      <div class="card-header" id="chCalcul">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#Calcul" aria-expanded="true" aria-controls="Calcul">
+            Plus de calculs ...
+          </button>
+        </h5>
+      </div>
+      <div id="Calcul" class="collapse" aria-labelledby="chCalcul">
+        <div class="card-body">
+          <div class="form-group">
+             <label for="iCalcul_Lieu_Latitude">Latitude</label>
+             <input id="iCalcul_Lieu_Latitude" type="text" class="form-control" aria-describedby="lCalcul_Lieu_Latitude" value="0"/>
+             <small id="lCalcul_Lieu_Latitude" class="form-text text-muted">
+               Latitude du lieu pour le calcul.
+             </small>
+             <label for="iCalcul_Lieu_Longitude">Longitude</label>
+             <input id="iCalcul_Lieu_Longitude" type="text" class="form-control" aria-describedby="lCalcul_Lieu_Longitude" value="0"/>
+             <small id="lCalcul_Lieu_Longitude" class="form-text text-muted">
+               Longitude du lieu pour le calcul, négative vers l'Est pour utilisation dans les formules de Astronomical Algorithms de Jean MEEUS.<br/>
+               Mais la géolocation du navigateur et Google Maps utilisent une longitude négative vers l'Ouest.
+             </small>
+             <label for="iCalcul_Date">Date</label>
+             <input id="iCalcul_Date" type="datetime-local" class="form-control" aria-describedby="lCalcul_Date" value="0"/>
+             <small id="lCalcul_Date" class="form-text text-muted">
+               Date pour le calcul.
+             </small>
+             <button id='bCalcul'> Recalcul</button>
+             <div id='dCalcul_Resultat'>
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <script>
     rtl.showUncaughtExceptions=true;

@@ -67,6 +67,7 @@ function     DateTime_from_DateTimeSQL_sans_quotes( _DateTimeSQL: String): TDate
 function Try_DateTime_from_DateTimeSQL_sans_quotes( _DateTimeSQL: String;out DT: TDateTime): Boolean;
 function Try_DateTime_from_DateTimeSQL_sans_quotes_default( _DateTimeSQL: String;out DT: TDateTime; _default: TDateTime): Boolean;
 function DateTime_ISO8601_sans_quotes( D: TDateTime): String;
+function DateTime_from_DateTime_ISO8601_sans_quotes( _DateTimeSQL: String): TDatetime;
 
 function DateTimeSQL_sans_quotes_DMY2( D: TDateTime): String;
 function DateTimeSQL_MySQL( D: TDateTime): String;
@@ -285,7 +286,8 @@ begin
      Result:= FormatDateTime( 'yyyy-mm-dd hh:nn:ss', D);
 end;
 
-function DateTime_from_DateTimeSQL_sans_quotes( _DateTimeSQL: String): TDatetime;
+
+function DateTime_from_DateTimeSQL_sans_quotes_TimeSeparator( _DateTimeSQL: String; _TimeSeparator: String): TDatetime;
 var
    Year, Month, Day, Hour, Minute, Second: Integer;
    procedure Decode_to( var _i: Integer; _Separateur: String);
@@ -301,7 +303,7 @@ begin
 
      Decode_to( Year  , '-');
      Decode_to( Month , '-');
-     Decode_to( Day   , ' ');
+     Decode_to( Day   , _TimeSeparator);
      Decode_to( Hour  , ':');
      Decode_to( Minute, ':');
      Decode_to( Second, ' ');
@@ -310,6 +312,11 @@ begin
          exit;
 
      Result:= EncodeDateTime( Year, Month, Day, Hour, Minute, Second, 0);
+end;
+
+function DateTime_from_DateTimeSQL_sans_quotes( _DateTimeSQL: String): TDatetime;
+begin
+     Result:= DateTime_from_DateTimeSQL_sans_quotes_TimeSeparator( _DateTimeSQL, ' ');
 end;
 
 function Try_DateTime_from_DateTimeSQL_sans_quotes( _DateTimeSQL: String;out DT: TDateTime): Boolean;
@@ -389,6 +396,12 @@ function DateTime_ISO8601_sans_quotes( D: TDateTime): String;
 begin
      Result:= FormatDateTime( 'yyyy"-"mm"-"dd"T"hh":"nn":"ss', D);
 end;
+
+function DateTime_from_DateTime_ISO8601_sans_quotes( _DateTimeSQL: String): TDatetime;
+begin
+     Result:= DateTime_from_DateTimeSQL_sans_quotes_TimeSeparator( _DateTimeSQL, 'T');
+end;
+
 
 function DateTimeSQL_sans_quotes_DMY2( D: TDateTime): String;
 begin

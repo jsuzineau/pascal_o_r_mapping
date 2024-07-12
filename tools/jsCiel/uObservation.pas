@@ -40,8 +40,8 @@ type
            {globale, ce qui peut être source de bogues difficiles à déceler.}
            {ce qui suit dans cette déclaration n"est accessible que dans les}
            { routines de cette unité.(=déclaration en partie IMPLEMENTATION.}
-     Temps_sideral_en_radians: Real;
-     Temps_sideral_en_heures: String;
+     FTemps_sideral_en_radians: Real;
+     FTemps_sideral_en_heures: String;
      function GetLegale_Civile: String;
      function GetEquinoxe: String;
      procedure Temps_Change;
@@ -52,8 +52,8 @@ type
        TEquinoxeur;
      DeltaJ2000: Extended;
      Modify: TPublieur;
-     property ts  : Real   read Temps_sideral_en_radians;
-     property tshs: String read Temps_sideral_en_heures;
+     property Temps_sideral_en_radians  : Real   read FTemps_sideral_en_radians;
+     property Temps_sideral_en_heures: String read FTemps_sideral_en_heures;
      property LegCiv: String read GetLegale_Civile; {"Légale" ou "Civile"}
      property Equinoxe: String read GetEquinoxe;
 
@@ -129,8 +129,8 @@ begin
          begin
          Temps.Copy_from( _Observation.Temps);
          Lieu.Copy_from( _Observation.Lieu);
-         Temps_sideral_en_radians  := _Observation.Temps_sideral_en_radians;
-         Temps_sideral_en_heures:= _Observation.Temps_sideral_en_heures;
+         FTemps_sideral_en_radians  := _Observation.FTemps_sideral_en_radians;
+         FTemps_sideral_en_heures:= _Observation.FTemps_sideral_en_heures;
          end;
 end;
 
@@ -150,20 +150,20 @@ begin
      //pour une longitude lg; fournit aussi une chaîne HH:MM:SS
      t0:=Temps.TD.Tau-Temps.TD.Fraction_Jour/36525;
      //WriteLn( ClassName+'.Calcul t0: ',Format('%.10f',[t0]));
-     Temps_sideral_en_radians:=1.753368558+628.3319706*t0+6.771E-06*t0*t0;
-     //WriteLn( ClassName+'.Calcul intermédiaire 1: ',Format('%.10f',[Temps_sideral_en_radians]));
-     //Temps_sideral_en_radians:= Temps_sideral_en_radians+
+     FTemps_sideral_en_radians:=1.753368558+628.3319706*t0+6.771E-06*t0*t0;
+     //WriteLn( ClassName+'.Calcul intermédiaire 1: ',Format('%.10f',[FTemps_sideral_en_radians]));
+     //FTemps_sideral_en_radians:= FTemps_sideral_en_radians+
      //                                    Temps.TD.fj*1.002733791  *2*pi-Lieu.lg.Radians;
-     Temps_sideral_en_radians:= Temps_sideral_en_radians+
+     FTemps_sideral_en_radians:= FTemps_sideral_en_radians+
                                 Temps.TD.Fraction_Jour*1.00273790935*2*pi-Lieu.lg.Radians;
-     //WriteLn( ClassName+'.Calcul intermédiaire 2: ',Format('%.10f',[Temps_sideral_en_radians]));
+     //WriteLn( ClassName+'.Calcul intermédiaire 2: ',Format('%.10f',[FTemps_sideral_en_radians]));
      //                       re MEEUS p83: 1.00273790935
-     Temps_sideral_en_radians:=frac(Temps_sideral_en_radians/2/pi)*2*pi;
-     //WriteLn( ClassName+'.Calcul intermédiaire 3: ',Format('%.10f',[Temps_sideral_en_radians]));
-     if Temps_sideral_en_radians < 0
+     FTemps_sideral_en_radians:=frac(FTemps_sideral_en_radians/2/pi)*2*pi;
+     //WriteLn( ClassName+'.Calcul intermédiaire 3: ',Format('%.10f',[FTemps_sideral_en_radians]));
+     if FTemps_sideral_en_radians < 0
      then
-         Temps_sideral_en_radians:= Temps_sideral_en_radians + 2*pi;
-     tsh:=Temps_sideral_en_radians*12/pi;
+         FTemps_sideral_en_radians:= FTemps_sideral_en_radians + 2*pi;
+     tsh:=FTemps_sideral_en_radians*12/pi;
 
      hh:=int(tsh);
      str(hh:2:0,hhs);
@@ -172,7 +172,7 @@ begin
      str(mm:2:0,mms);
      if mms[1]=' ' then mms[1]:='0';
 
-     Temps_sideral_en_heures:= hhs+':'+mms;
+     FTemps_sideral_en_heures:= hhs+':'+mms;
 
      EquinoxeCourant_Vers_J2000.Initialise( Temps.TD.Jour_Julien, JourJulienJ2000);
      J2000_Vers_EquinoxeCourant.Initialise( JourJulienJ2000, Temps.TD.Jour_Julien);
@@ -230,7 +230,7 @@ procedure TObservation.Log( _Prefix: String);
 begin
      Lieu .Log(_Prefix+' Lieu : ');
      Temps.Log(_Prefix+' Temps: ');
-     WriteLn( _Prefix+' Temps sidéral: ',Temps_sideral_en_heures);
+     WriteLn( _Prefix+' Temps sidéral: ',FTemps_sideral_en_heures);
 end;
 
 

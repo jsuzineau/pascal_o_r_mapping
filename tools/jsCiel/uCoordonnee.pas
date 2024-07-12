@@ -97,10 +97,13 @@ begin
      sSign:= StrReadString( S, 1);
      cSign:= sSign[1];
 
-     sDeg:= StrReadString( S, DegSize[FLatLon_]);
+     //sDeg:= StrReadString( S, DegSize[FLatLon_]);
+     sDeg:= StrTok( '°', S);
 
-     sMin:= StrReadString( S, MinSize);
-     sSec:= StrReadString( S, SecSize);
+     //sMin:= StrReadString( S, MinSize);
+     sMin:= StrTok( '''', S);
+     //sSec:= StrReadString( S, SecSize);
+     sSec:= StrTok( '"', S);
 
      Delete( sDeg, DegSize[FLatLon_], 1);
      Delete( sMin, MinSize          , 1);
@@ -109,6 +112,11 @@ begin
          sSec:= '0'
      else
          Delete( sSec, SecSize, 1);
+     //if not FLatLon_
+     //then
+     //    begin
+     //    WriteLn(ClassName+'.String_to_Sexagesimal: cSign:'+cSign+' sDeg:'+sDeg+' sMin:'+sMin+' sSec:'+sSec);
+     //    end;
 
      Result:= 4; if (cSign <> '-') and (cSign <> '+') then exit;
 

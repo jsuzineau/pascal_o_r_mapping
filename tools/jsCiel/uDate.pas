@@ -8,6 +8,7 @@ interface
 uses
     uPublieur,
     uuStrings,
+    uDataUtilsU,
  Classes, SysUtils, Math;
 
 const
@@ -41,6 +42,8 @@ type
      Modify: TPublieur;
    //méthodes d'initialisation
    public
+     procedure Set_to_Datetime( _d: TDatetime);
+
      procedure Set_from_computer_date;
      {initialisation à partir de l"heure donnée par MS-DOS. Appelle Set_To}
 
@@ -137,6 +140,8 @@ type
    //Divers
    public
      function AsDateTime: TDateTime;
+     function AsDateSQL_ISO8601: String;
+     function AsDateTimeSQL_sans_quotes: String;
      function EteHiver_: Boolean;
      function JourSem: String;
      function Jour_de_l_annee: Integer;
@@ -183,19 +188,34 @@ begin
      Init;
 end;
 
-procedure T_Date.Set_from_computer_date;
+procedure T_Date.Set_to_Datetime( _d: TDatetime);
 var
    wAn, wMois, wJour,
    wHeure, wMinutes, wSecondes, msec    :word;
 begin
-     DecodeDate( Date, wAn, wMois, wJour);
-     DecodeTime( Time, wHeure, wMinutes, wSecondes, msec);
+     DecodeDate( _d, wAn, wMois, wJour);
+     DecodeTime( _d, wHeure, wMinutes, wSecondes, msec);
      Set_To( wAn, wMois, wJour, wHeure, wMinutes, wSecondes+msec/1000.0);
+end;
+
+procedure T_Date.Set_from_computer_date;
+begin
+     Set_to_Datetime( Now);
 end;
 
 function T_Date.AsDateTime: TDateTime;
 begin
      Result:= EncodeDate( Annee, Mois, Jour)+EncodeTime( Heures, Minutes, Trunc(Secondes), Trunc(Frac(Secondes)*1000));
+end;
+
+function T_Date.AsDateSQL_ISO8601: String;
+begin
+     Result:= DateSQL_ISO8601( AsDateTime);
+end;
+
+function T_Date.AsDateTimeSQL_sans_quotes: String;
+begin
+     Result:= DateTimeSQL_sans_quotes( AsDateTime);
 end;
 
 function T_Date.EteHiver_: Boolean;
