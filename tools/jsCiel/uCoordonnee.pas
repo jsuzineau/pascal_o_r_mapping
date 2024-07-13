@@ -97,21 +97,13 @@ begin
      sSign:= StrReadString( S, 1);
      cSign:= sSign[1];
 
-     //sDeg:= StrReadString( S, DegSize[FLatLon_]);
      sDeg:= StrTok( '°', S);
-
-     //sMin:= StrReadString( S, MinSize);
      sMin:= StrTok( '''', S);
-     //sSec:= StrReadString( S, SecSize);
      sSec:= StrTok( '"', S);
 
-     Delete( sDeg, DegSize[FLatLon_], 1);
-     Delete( sMin, MinSize          , 1);
      if sSec = ''
      then
-         sSec:= '0'
-     else
-         Delete( sSec, SecSize, 1);
+         sSec:= '0';
      //if not FLatLon_
      //then
      //    begin
@@ -268,6 +260,7 @@ begin
          end;
 
      Degres_to_Radians;
+     Sexagesimal_to_String;
      doModify;
 end;
 

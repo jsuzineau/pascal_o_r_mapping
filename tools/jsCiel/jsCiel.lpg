@@ -42,7 +42,37 @@
           <Mode Name="Default"/>
         </BuildModes>
       </Target>
+      <Target FileName="..\..\..\19_Projets\Vision_du_Ciel\jsCiel\win64_jsCiel.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
       <Target FileName="..\..\..\19_Projets\Vision_du_Ciel\jsCiel_avant_suppression_code_inutilisé\wasm_jsCiel.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="..\..\..\19_Projets\Vision_du_Ciel\jsCiel_avant_suppression_code_inutilisé\win64_jsCiel.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="..\..\..\..\Users\Jean\fpc\packages\wasm-job\examples\fetch\loadstrings.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="..\..\..\..\Users\Jean\fpc\packages\wasm-job\examples\promise-1\promisedemo.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="..\..\..\..\Users\Jean\fpc\packages\wasm-job\examples\promise-2\promisedemo2.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="..\..\..\..\Users\Jean\fpc\packages\wasm-job\examples\WebHost\webhost.lpi">
         <BuildModes>
           <Mode Name="Default"/>
         </BuildModes>

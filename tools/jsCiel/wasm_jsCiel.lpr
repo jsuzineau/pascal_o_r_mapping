@@ -34,6 +34,16 @@ type
     procedure Traite_Lieu( _Latitude, _Longitude: Extended);
     function HHMM_Legal(const ad :Extended):String;
     procedure Affiche;
+  //Carte Leaflet
+  private
+    LeafLet_initialized: Boolean;
+    Leaflet: TJSObject;
+    map: TJSObject;
+    procedure RefreshMap;
+    procedure Set_Map_to( _Latitude, _Longitude: Extended);
+    procedure Assure_LeafLet_initialized;
+
+  //Exécution
   public
     procedure Run;
   end;
@@ -43,6 +53,7 @@ type
 constructor Twasm_jsCiel.Create;
 begin
      inherited;
+     LeafLet_initialized:= False;
      Ciel:= TCiel.Create;
 end;
 
@@ -111,39 +122,6 @@ begin
               ' (',sHeureEte,')', ', Azimuth: ',Ciel.SSOL.Soleil.AzS_Lever);
 end;
 
-procedure Twasm_jsCiel.Affiche;
-var
-   iCalcul_Lieu_Latitude : IJSHTMLInputElement;
-   iCalcul_Lieu_Longitude: IJSHTMLInputElement;
-   iCalcul_Date: IJSHTMLInputElement;
-   dCalcul_Resultat: IJSHTMLDivElement;
-   sResultat: String;
-begin
-     iCalcul_Lieu_Latitude:=TJSHTMLInputElement.Cast(JSDocument.getElementById('iCalcul_Lieu_Latitude'));
-     //WriteLn(ClassName+'.Affiche: Latitude: ',UTF8Encode(iCalcul_Lieu_Latitude.value));
-     iCalcul_Lieu_Latitude.value:= UTF8Decode(Ciel.Observation.Lieu.La.Str);
-     iCalcul_Lieu_Longitude:=TJSHTMLInputElement.Cast(JSDocument.getElementById('iCalcul_Lieu_Longitude'));
-     //WriteLn(ClassName+'.Affiche: Longitude: ',UTF8Encode(iCalcul_Lieu_Longitude.value));
-     iCalcul_Lieu_Longitude.value:= UTF8Decode(Ciel.Observation.Lieu.Lg.Str);
-
-     iCalcul_Date:=TJSHTMLInputElement.Cast(JSDocument.getElementById('iCalcul_Date'));
-     iCalcul_Date.value:= UTF8Decode( Ciel.Observation.Temps.TL.AsDateTimeSQL_sans_quotes);
-
-     DefaultFormatSettings.ThousandSeparator:= ' ';
-     DefaultFormatSettings.DecimalSeparator:= ',';
-
-     sResultat
-     :=
-        'Temps universel TU (UTC): '+Ciel.Observation.Temps.TU.sDate+' '+Ciel.Observation.Temps.TU.sHeure+'<br/>'
-       +'Temps dynamique TD      : '+Ciel.Observation.Temps.TD.sDate+' '+Ciel.Observation.Temps.TD.sHeure+'<br/>'
-       +'TU: Jour Julien: '+Ciel.Observation.Temps.TU.sJour_Julien                              +'<br/>'
-       +'TD: Jour Julien: '+Ciel.Observation.Temps.TD.sJour_Julien                              +'<br/>'
-       +UTF8Encode('Temps sidéral:')+Ciel.Observation.Temps_sideral_en_heures                   +'<br/>'
-       ;
-     dCalcul_Resultat:=TJSHTMLDivElement.Cast(JSDocument.getElementById('dCalcul_Resultat'));
-     dCalcul_Resultat.innerHTML:= UTF8Decode( sResultat);
-end;
-
 procedure Twasm_jsCiel.Traite_Lieu(_Latitude, _Longitude: Extended);
 begin
      Ciel.Initialise( _Latitude, _Longitude);
@@ -152,6 +130,7 @@ begin
      Levers_Soleil;
      Ciel.Observation.Temps.TD.Add_To_Julian_Date( +1);
      Levers_Soleil;
+     RefreshMap;
 end;
 
 procedure Twasm_jsCiel.successCallback(_Position : IJSGeolocationPosition);
@@ -182,6 +161,41 @@ begin
      DoGeoLocation;
 end;
 
+procedure Twasm_jsCiel.Affiche;
+var
+   iCalcul_Lieu_Latitude : IJSHTMLInputElement;
+   iCalcul_Lieu_Longitude: IJSHTMLInputElement;
+   iCalcul_Date: IJSHTMLInputElement;
+   dCalcul_Resultat: IJSHTMLDivElement;
+   sResultat: String;
+begin
+     iCalcul_Lieu_Latitude:=TJSHTMLInputElement.Cast(JSDocument.getElementById('iCalcul_Lieu_Latitude'));
+     //WriteLn(ClassName+'.Affiche: Latitude: ',UTF8Encode(iCalcul_Lieu_Latitude.value));
+     iCalcul_Lieu_Latitude.value:= UTF8Decode(Ciel.Observation.Lieu.La.Str);
+     iCalcul_Lieu_Longitude:=TJSHTMLInputElement.Cast(JSDocument.getElementById('iCalcul_Lieu_Longitude'));
+     //WriteLn(ClassName+'.Affiche: Longitude: ',UTF8Encode(iCalcul_Lieu_Longitude.value));
+     iCalcul_Lieu_Longitude.value:= UTF8Decode(Ciel.Observation.Lieu.Lg.Str);
+
+     iCalcul_Date:=TJSHTMLInputElement.Cast(JSDocument.getElementById('iCalcul_Date'));
+     iCalcul_Date.value:= UTF8Decode( Ciel.Observation.Temps.TL.AsDateTimeSQL_sans_quotes);
+
+     DefaultFormatSettings.ThousandSeparator:= ' ';
+     DefaultFormatSettings.DecimalSeparator:= ',';
+
+     sResultat
+     :=
+        'Latitude:'+Ciel.Observation.Lieu.La.Str+'<br/>'
+       +'Longitude:'+Ciel.Observation.Lieu.Lg.Str+'<br/>'
+       +'Temps universel TU (UTC): '+Ciel.Observation.Temps.TU.sDate+' '+Ciel.Observation.Temps.TU.sHeure+'<br/>'
+       +'Temps dynamique TD      : '+Ciel.Observation.Temps.TD.sDate+' '+Ciel.Observation.Temps.TD.sHeure+'<br/>'
+       +'TU: Jour Julien: '+Ciel.Observation.Temps.TU.sJour_Julien                              +'<br/>'
+       +'TD: Jour Julien: '+Ciel.Observation.Temps.TD.sJour_Julien                              +'<br/>'
+       +UTF8Encode('Temps sidéral:')+Ciel.Observation.Temps_sideral_en_heures                   +'<br/>'
+       ;
+     dCalcul_Resultat:=TJSHTMLDivElement.Cast(JSDocument.getElementById('dCalcul_Resultat'));
+     dCalcul_Resultat.innerHTML:= UTF8Decode( sResultat);
+end;
+
 procedure Twasm_jsCiel.bCalculClick(Event: IJSEvent);
 var
    iCalcul_Lieu_Latitude : IJSHTMLInputElement;
@@ -201,11 +215,73 @@ begin
      Ciel.Observation.Temps.TL.Set_to_Datetime( DateTime_from_DateTime_ISO8601_sans_quotes( UTF8Encode(iCalcul_Date.value)));
 
      Affiche;
+     RefreshMap;
+end;
+
+procedure Twasm_jsCiel.Assure_LeafLet_initialized;
+   procedure L_tileLayer;
+   var
+      params: TJSObject;
+   begin
+        //L
+        // .tileLayer( 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        //             {
+        //             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+        //             maxZoom: 19,
+        //             }
+        //           )
+        // .addTo(map);
+
+        params:= TJSObject.JOBCreate([]);
+        params.Properties['attribution']:= 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors';
+        params.Properties['maxZoom'    ]:= 19;
+
+        Leaflet
+         .InvokeJSObjectResult( 'tileLayer', ['https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', params], TJSObject)
+         .InvokeJSNoResult('addTo', [map]);
+   end;
+begin
+     if LeafLet_initialized then exit;
+
+     Leaflet:= JSWindow.ReadJSPropertyObject('L', TJSObject);
+     map:= Leaflet.InvokeJSObjectResult( 'map',['dMap'], TJSObject);
+     L_tileLayer;
+
+     LeafLet_initialized:= True;
+end;
+
+procedure Twasm_jsCiel.Set_Map_to(_Latitude, _Longitude: Extended);
+   procedure dump_global_variables;
+   var
+      global_variables: TJSObject;
+   begin
+        global_variables:= JSObject.InvokeJSObjectResult( 'keys'    ,[JSWindow],TJSObject);
+        WriteLn( ClassName+'.Set_Map_To global_variables: type', global_variables.JSClassName, 'valeur: ', global_variables.toString);
+   end;
+   procedure L_map_SetView;
+   var
+      latlng: TJOB_ArrayOfDouble;
+   begin
+        //const map = L.map('map').setView([latitude, longitude], 13);
+        latlng:= TJOB_ArrayOfDouble.Create( [_Latitude, -_Longitude]);
+        map.InvokeJSObjectResult( 'setView',[latlng, 13],TJSObject);
+   end;
+begin
+     Assure_LeafLet_initialized;
+     //dump_global_variables;
+
+     L_map_SetView;
+end;
+
+procedure Twasm_jsCiel.RefreshMap;
+begin
+     Set_Map_to( Ciel.Observation.Lieu.La.Degres, Ciel.Observation.Lieu.Lg.Degres);
 end;
 
 procedure Twasm_jsCiel.Run;
 var
    bCalcul: IJSHTMLButtonElement;
+   //c: IJSHTMLCollection;
 begin
      //writeln('TWasmApp.Run getElementById "playground" ...');
      // get reference of HTML element "playground" and type cast it to Div
@@ -229,6 +305,9 @@ begin
 
      bCalcul:=TJSHTMLButtonElement.Cast(JSDocument.getElementById('bCalcul'));
      bCalcul.addEventListener('click',@bCalculClick);
+
+     //c:= JSDocument.getElementsByTagName('L');
+     //WriteLn(ClassName+'.Run: c.Length_: ',c.Length_);
 
      DoGeoLocation;
 end;
