@@ -39,6 +39,7 @@ type
     LeafLet_initialized: Boolean;
     Leaflet: TJSObject;
     map: TJSObject;
+    procedure mapClick(_e: IJSEvent);
     procedure RefreshMap;
     procedure Set_Map_to( _Latitude, _Longitude: Extended);
     procedure Assure_LeafLet_initialized;
@@ -107,13 +108,21 @@ const
        );
 var
    sHeureEte: String;
+   Decalage: double;
 begin
+     Decalage:= Ciel.Observation.Lieu.Decalage_Heure_Locale + Ciel.Observation.Lieu.Decalage_Heure_Ete;
+
      HeureEte:= Ciel.Observation.Temps.TU.EteHiver_;
      if HeureEte
      then
-         sHeureEte:= 'été  '
+         sHeureEte:= 'heure d''été'
      else
-         sHeureEte:= 'hiver';
+         sHeureEte:= 'heure d''hiver';
+     if 0 = Frac(Decalage)
+     then
+         sHeureEte:= sHeureEte + Format( ' UTC+%d',[Trunc(Decalage)])
+     else
+         sHeureEte:= sHeureEte + Format( ' UTC+%f',[Decalage]);
      Ciel.SSOL.Soleil.LeMeCo(0);
      WriteLn( Ciel.Observation.Temps.TL.sJour,' ',
               Mois[Ciel.Observation.Temps.TL.Mois],
@@ -218,6 +227,82 @@ begin
      RefreshMap;
 end;
 
+procedure Twasm_jsCiel.mapClick(_e: IJSEvent);
+var
+   latlng: TJSObject;
+   lat, lng: double;
+   procedure dump_latlng_variables;
+   var
+      latlng_variables: TJSObject;
+   begin
+        latlng_variables:= JSObject.InvokeJSObjectResult( 'keys'    ,[latlng],TJSObject);
+        WriteLn( ClassName+'.Set_Map_To global_variables: type', latlng_variables.JSClassName, 'valeur: ', latlng_variables.toString);
+   end;
+begin
+     //WriteLn( Classname+'.mapClick: _e.type_:',_e.type_);
+     latlng:= _e.ReadJSPropertyObject('latlng', TJSObject);
+     //dump_latlng_variables;
+     lat:= latlng.ReadJSPropertyDouble('lat');
+     lng:= latlng.ReadJSPropertyDouble('lng');
+     Traite_Lieu( lat, -lng);
+end;
+
+type
+ TOnMapClickCallback = procedure (_e: IJSEvent) of object;
+
+ { IJSLeafletMap }
+
+ IJSLeafletMap
+ =
+  interface(IJSObject)
+   ['{622B2D01-0F15-480B-BC46-FCB926059823}']
+   procedure Set_onClick(const _Callback: TOnMapClickCallback);
+  end;
+
+ { TJSLeafletMap }
+
+ TJSLeafletMap
+ =
+  class(TJSObject,IJSLeafletMap)
+  public
+    procedure Set_onClick(const _Callback: TOnMapClickCallback);
+    class function JSClassName: UnicodeString; override;
+    class function Cast(const Intf: IJSObject): IJSLeafletMap;
+  end;
+
+function JOBCallOnMapClickCallback(const _Method: TMethod; var _H: TJOBCallbackHelper): PByte;
+var
+   o: TJSObject;
+   e: IJSEvent;
+begin
+     o:=_H.GetObject(TJSObject);
+     e:= TJSEvent.Cast( o);
+     TOnMapClickCallback(_Method)( e);
+     Result:=_H.AllocUndefined;
+end;
+
+
+procedure TJSLeafletMap.Set_onClick(const _Callback: TOnMapClickCallback);
+var
+   m: TJOB_Method;
+begin
+     m:=TJOB_Method.Create(TMethod(_Callback),@JOBCallOnMapClickCallback);
+     try
+        InvokeJSNoResult('on',['click',m]);
+     finally
+            m.free;
+            end;
+end;
+
+class function TJSLeafletMap.JSClassName: UnicodeString;
+begin
+     Result:= 'Map';
+end;
+class function TJSLeafletMap.Cast(const Intf: IJSObject): IJSLeafletMap;
+begin
+     Result:= TJSLeafletMap.JOBCast(Intf);
+end;
+
 procedure Twasm_jsCiel.Assure_LeafLet_initialized;
    procedure L_tileLayer;
    var
@@ -240,12 +325,39 @@ procedure Twasm_jsCiel.Assure_LeafLet_initialized;
          .InvokeJSObjectResult( 'tileLayer', ['https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', params], TJSObject)
          .InvokeJSNoResult('addTo', [map]);
    end;
+   procedure set_map_on_click;
+   //var
+      //m: IJSLeafletMap;
+      //m: IJSEventTarget;
+      procedure Test4;
+      var
+         m: TJOB_Method;
+      begin
+           m:=TJOB_Method.Create(TMethod(@mapClick),@JOBCallOnMapClickCallback);
+           try
+              map.InvokeJSNoResult('on',['click',m]);
+           finally
+                  m.free;
+                  end;
+      end;
+   begin
+        //m:= TJSLeafletMap.Cast( map);
+        //m.Set_onClick( @mapClick);
+
+        //m:= TJSEventTarget.Cast( map);
+        //m.addEventListener('click',@mapClick);
+
+        //map.InvokeJSNoResult( 'on',)
+        Test4;
+   end;
 begin
      if LeafLet_initialized then exit;
 
      Leaflet:= JSWindow.ReadJSPropertyObject('L', TJSObject);
      map:= Leaflet.InvokeJSObjectResult( 'map',['dMap'], TJSObject);
      L_tileLayer;
+     //WriteLn( Classname+'.Assure_LeafLet_initialized: map jsclassname:',map.JSClassName);
+     set_map_on_click;
 
      LeafLet_initialized:= True;
 end;
