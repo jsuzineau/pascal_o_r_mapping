@@ -29,11 +29,43 @@
 </head>
 <body>
   <div class="container">
+    <div class="card">
+      <div class="card-header" id="chParametres">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#Parametres" aria-expanded="true" aria-controls="Parametres">
+            Paramètres ...
+          </button>
+        </h5>
+      </div>
+      <div id="Parametres" class="collapse" aria-labelledby="chParametres">
+        <div class="card-body">
+          <div class="form-group">
+             <label for="iParametres_Lieu_Latitude">Latitude</label>
+             <input id="iParametres_Lieu_Latitude" type="text" class="form-control" aria-describedby="lParametres_Lieu_Latitude" value="0"/>
+             <small id="lParametres_Lieu_Latitude" class="form-text text-muted">
+               Latitude du lieu pour le calcul.
+             </small>
+             <label for="iParametres_Lieu_Longitude">Longitude</label>
+             <input id="iParametres_Lieu_Longitude" type="text" class="form-control" aria-describedby="lParametres_Lieu_Longitude" value="0"/>
+             <small id="lParametres_Lieu_Longitude" class="form-text text-muted">
+               Longitude du lieu pour le calcul, négative vers l'Est pour utilisation dans les formules de Astronomical Algorithms de Jean MEEUS.<br/>
+               Mais la géolocation du navigateur et Google Maps utilisent une longitude négative vers l'Ouest.
+             </small>
+             <label for="iParametres_Date">Date</label>
+             <input id="iParametres_Date" type="datetime-local" class="form-control" aria-describedby="lParametres_Date" value="0"/>
+             <small id="lParametres_Date" class="form-text text-muted">
+               Date pour le calcul.
+             </small>
+             <button id='bCalcul' style="visibility: hidden;"> Recalcul</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="section py-4">
       <h1 class="title is-3">Lever de Soleil</h1>
-      <div class="box" id="pasjsconsole"></div>
+       <div class="box" id='dLever_Soleil' />
     </div>
-    <div id="dMap" style="height: 300px;"></div>
+    <div id="dMap" style="height: 600px;"></div>
     <div class="card">
       <div class="card-header" id="chCalcul">
         <h5 class="mb-0">
@@ -45,25 +77,25 @@
       <div id="Calcul" class="collapse" aria-labelledby="chCalcul">
         <div class="card-body">
           <div class="form-group">
-             <label for="iCalcul_Lieu_Latitude">Latitude</label>
-             <input id="iCalcul_Lieu_Latitude" type="text" class="form-control" aria-describedby="lCalcul_Lieu_Latitude" value="0"/>
-             <small id="lCalcul_Lieu_Latitude" class="form-text text-muted">
-               Latitude du lieu pour le calcul.
-             </small>
-             <label for="iCalcul_Lieu_Longitude">Longitude</label>
-             <input id="iCalcul_Lieu_Longitude" type="text" class="form-control" aria-describedby="lCalcul_Lieu_Longitude" value="0"/>
-             <small id="lCalcul_Lieu_Longitude" class="form-text text-muted">
-               Longitude du lieu pour le calcul, négative vers l'Est pour utilisation dans les formules de Astronomical Algorithms de Jean MEEUS.<br/>
-               Mais la géolocation du navigateur et Google Maps utilisent une longitude négative vers l'Ouest.
-             </small>
-             <label for="iCalcul_Date">Date</label>
-             <input id="iCalcul_Date" type="datetime-local" class="form-control" aria-describedby="lCalcul_Date" value="0"/>
-             <small id="lCalcul_Date" class="form-text text-muted">
-               Date pour le calcul.
-             </small>
-             <button id='bCalcul'> Recalcul</button>
              <div id='dCalcul_Resultat'>
              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header" id="chConsole">
+        <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#Console" aria-expanded="true" aria-controls="Console">
+            Console
+          </button>
+        </h5>
+      </div>
+      <div id="Console" class="collapse" aria-labelledby="chConsole">
+        <div class="card-body">
+          <div class="form-group">
+             <div class="box" id="pasjsconsole"></div>
           </div>
         </div>
       </div>

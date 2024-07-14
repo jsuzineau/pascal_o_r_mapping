@@ -15,6 +15,9 @@ uses
  Classes, SysUtils, Math;
 
 type
+
+  { T_Temps }
+
   T_Temps {s"initialise en heure légale, donne les résultats en TU}
   =
    class( TObject)
@@ -55,6 +58,7 @@ type
      TU : T_Date;            // Universal time
      TD : T_Date_Ephemerides;// Dynamical time
      DeltaT_en_secondes: Extended; // TD-TU
+     function Decalage_TL_from_TU: double;
 
    //HeureEte
    public
@@ -212,6 +216,14 @@ begin
      TU.Set_Jour_Julien_to( jd);
 end;
 
+function T_Temps.Decalage_TL_from_TU: double;
+begin
+     Result:= Lieu.Decalage_Heure_Locale;
+     if HeureEte
+     then
+         Result:= Result+Lieu.Decalage_Heure_Ete;
+end;
+
 procedure T_Temps.TU_to_TL;
 var
    jd: Extended;
@@ -314,7 +326,7 @@ end;
 procedure T_Temps.Log( _Prefix: String);
 begin
      TLO.Log( _Prefix+' TLO:'); // Legal     time de l'ordinateur
-     //TL .Log( _Prefix+' TL :'); // Legal     time
+     TL .Log( _Prefix+' TL :'); // Legal     time
      TU .Log( _Prefix+' TU :'); // Universal time
      TD .Log( _Prefix+' Temps dynamique :'); // Dynamical time
      WriteLn( _Prefix+' TD.Jour_Julien: ', TD.sJour_Julien);

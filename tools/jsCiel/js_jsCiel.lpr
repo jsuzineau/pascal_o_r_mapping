@@ -37,7 +37,7 @@ var
 
        WasiEnvironment.OnStdErrorWrite :=@wasmWrite;
        WasiEnvironment.OnStdOutputWrite:=@wasmWrite;
-       //WasiEnvironment.LogAPI:=True;
+       WasiEnvironment.LogAPI:=True;
        //Writeln('Enabling logging');
   end;
 
@@ -91,14 +91,15 @@ begin
      //  );
      FS:=TWASIZenFS.Create;
      WasiEnvironment.FS:=FS;
-     ZenFS.mkdir( '/vsop87', &777);
+     //ZenFS.mkdir( '/vsop87', &777);
      //Res_Racine:= await( TPreLoadFilesResult, PreLoadFilesIntoDirectory('/', Files_Racine));
-     Res_vsop87:= await( TPreLoadFilesResult, PreLoadFilesIntoDirectory('/vsop87', Files_vsop87));
+     //Res_vsop87:= await( TPreLoadFilesResult, PreLoadFilesIntoDirectory('/vsop87', Files_vsop87));
      StartWebAssembly('wasm_jsCiel.wasm',true,@wasmBeforeStart);
 end;
 
 begin
-     ConsoleStyle:=DefaultConsoleStyle;
+     //ConsoleStyle:=DefaultConsoleStyle;
+     ConsoleStyle:=DefaultCRTConsoleStyle;
      HookConsole;
      Application:=Tjs_jsCiel.Create(nil);
      Application.Initialize;

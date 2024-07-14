@@ -1550,11 +1550,6 @@ rtl.module("System",[],function () {
   var $impl = $mod.$impl;
   this.LineEnding = "\n";
   this.sLineBreak = this.LineEnding;
-  this.PathDelim = "/";
-  this.AllowDirectorySeparators = rtl.createSet(47);
-  this.AllowDriveSeparators = rtl.createSet(58);
-  this.MaxLongint = 0x7fffffff;
-  this.Maxint = 2147483647;
   this.TTextLineBreakStyle = {"0": "tlbsLF", tlbsLF: 0, "1": "tlbsCRLF", tlbsCRLF: 1, "2": "tlbsCR", tlbsCR: 2};
   rtl.createClass(this,"TObject",null,function () {
     this.$init = function () {
@@ -1973,18 +1968,12 @@ rtl.module("SysUtils",["System","RTLConsts","JS"],function () {
       } else { return 1; };
     };
   };
-  this.SameStr = function (s1, s2) {
-    return s1 == s2;
-  };
   this.CompareText = function (s1, s2) {
     var l1 = s1.toLowerCase();
     var l2 = s2.toLowerCase();
     if (l1>l2){ return 1;
     } else if (l1<l2){ return -1;
     } else { return 0; };
-  };
-  this.SameText = function (s1, s2) {
-    return s1.toLowerCase() == s2.toLowerCase();
   };
   this.Format = function (Fmt, Args) {
     var Result = "";
@@ -2315,24 +2304,6 @@ rtl.module("SysUtils",["System","RTLConsts","JS"],function () {
   this.NegCurrFormat = 0;
   this.CurrencyDecimals = 0;
   this.CurrencyString = "";
-  this.ExtractFileName = function (FileName) {
-    var Result = "";
-    var i = 0;
-    var EndSep = {};
-    i = FileName.length;
-    EndSep = rtl.unionSet(pas.System.AllowDirectorySeparators,pas.System.AllowDriveSeparators);
-    while ((i > 0) && !$impl.CharInSet$1(FileName.charAt(i - 1),EndSep)) i -= 1;
-    Result = pas.System.Copy(FileName,i + 1,2147483647);
-    return Result;
-  };
-  this.IncludeTrailingPathDelimiter = function (Path) {
-    var Result = "";
-    var l = 0;
-    Result = Path;
-    l = Result.length;
-    if ((l === 0) || !$impl.CharInSet$1(Result.charAt(l - 1),pas.System.AllowDirectorySeparators)) Result = Result + pas.System.PathDelim;
-    return Result;
-  };
   this.TStringSplitOptions = {"0": "None", None: 0, "1": "ExcludeEmpty", ExcludeEmpty: 1};
   rtl.createHelper(this,"TStringHelper",null,function () {
     this.GetLength = function () {
@@ -2449,21 +2420,6 @@ rtl.module("SysUtils",["System","RTLConsts","JS"],function () {
       Result = rtl.arraySetLength(Result,"",Len);
       return Result;
     };
-    this.StartsWith$1 = function (AValue, IgnoreCase) {
-      var Result = false;
-      var L = 0;
-      var S = "";
-      L = AValue.length;
-      Result = L <= 0;
-      if (!Result) {
-        S = pas.System.Copy(this.get(),1,L);
-        Result = S.length === L;
-        if (Result) if (IgnoreCase) {
-          Result = $mod.SameText(S,AValue)}
-         else Result = $mod.SameStr(S,AValue);
-      };
-      return Result;
-    };
     this.Substring = function (AStartIndex) {
       var Result = "";
       Result = $mod.TStringHelper.Substring$1.call(this,AStartIndex,$mod.TStringHelper.GetLength.call(this) - AStartIndex);
@@ -2480,11 +2436,6 @@ rtl.module("SysUtils",["System","RTLConsts","JS"],function () {
     $impl.DefaultLongMonthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
     $impl.DefaultShortDayNames = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
     $impl.DefaultLongDayNames = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-    $impl.CharInSet$1 = function (Ch, CSet) {
-      var Result = false;
-      Result = Ch.charCodeAt() in CSet;
-      return Result;
-    };
     $impl.feInvalidFormat = 1;
     $impl.feMissingArgument = 2;
     $impl.feInvalidArgIndex = 3;
@@ -3413,6 +3364,7 @@ rtl.module("browserconsole",["System","JS","Web","Rtl.BrowserLoadHelper","SysUti
   this.BrowserLineBreak = "\n";
   this.DefaultMaxConsoleLines = 25;
   this.DefaultConsoleStyle = ".pasconsole { " + this.BrowserLineBreak + "font-family: courier;" + this.BrowserLineBreak + "font-size: 14px;" + this.BrowserLineBreak + "background: #FFFFFF;" + this.BrowserLineBreak + "color: #000000;" + this.BrowserLineBreak + "display: block;" + this.BrowserLineBreak + "}";
+  this.DefaultCRTConsoleStyle = ".pasconsole { " + this.BrowserLineBreak + "font-family: courier;" + this.BrowserLineBreak + "font-size: 14px;" + this.BrowserLineBreak + "background: #000;" + this.BrowserLineBreak + "color: #14fdce;" + this.BrowserLineBreak + "display: block;" + this.BrowserLineBreak + "}";
   this.ConsoleElementID = "";
   this.ConsoleStyle = "";
   this.MaxConsoleLines = 0;
@@ -3822,7 +3774,7 @@ rtl.module("wasitypes",["System","JS"],function () {
   });
   this.TSeekWhence = {"0": "swBeginning", swBeginning: 0, "1": "swCurrent", swCurrent: 1, "2": "swEnd", swEnd: 2};
   this.TSetTimesFlag = {"0": "stfatime", stfatime: 0, "1": "stfaTimeNow", stfaTimeNow: 1, "2": "stfmTime", stfmTime: 2, "3": "stfmTimeNow", stfmTimeNow: 3};
-  rtl.createInterface(this,"IWASIFS","{7DDF5E3C-4C18-30AC-806F-592E720CBE00}",["MkDirAt","RmDirAt","StatAt","StatFD","UTimesAt","UTimes","LinkAt","SymLinkAt","RenameAt","UnLinkAt","OpenAt","ReadLinkAt","Close","Write","Sync","DataSync","Seek","Read","ReadDir","GetPrestat","PreLoadFile"],null);
+  rtl.createInterface(this,"IWASIFS","{7DDF5E3C-4C18-30AC-806F-592E720CBE00}",["MkDirAt","RmDirAt","StatAt","StatFD","UTimesAt","UTimes","LinkAt","SymLinkAt","RenameAt","UnLinkAt","OpenAt","ReadLinkAt","Close","Write","Sync","DataSync","Seek","Read","ReadDir","GetPrestat"],null);
   this.DirentMap = [0,4,3,7,6,1,2,0];
 });
 rtl.module("wasienv",["System","SysUtils","Classes","JS","webassembly","Types","wasitypes"],function () {
@@ -3835,46 +3787,6 @@ rtl.module("wasienv",["System","SysUtils","Classes","JS","webassembly","Types","
   this.SizeUInt8 = 1;
   this.SizeUInt32 = 4;
   this.SizeUInt64 = 8;
-  rtl.recNewT(this,"TPreLoadFile",function () {
-    this.url = "";
-    this.localname = "";
-    this.$eq = function (b) {
-      return (this.url === b.url) && (this.localname === b.localname);
-    };
-    this.$assign = function (s) {
-      this.url = s.url;
-      this.localname = s.localname;
-      return this;
-    };
-  });
-  rtl.recNewT(this,"TLoadFileFailure",function () {
-    this.url = "";
-    this.error = "";
-    this.$eq = function (b) {
-      return (this.url === b.url) && (this.error === b.error);
-    };
-    this.$assign = function (s) {
-      this.url = s.url;
-      this.error = s.error;
-      return this;
-    };
-  });
-  rtl.recNewT(this,"TPreLoadFilesResult",function () {
-    this.loadcount = 0;
-    this.$new = function () {
-      var r = Object.create(this);
-      r.failedurls = [];
-      return r;
-    };
-    this.$eq = function (b) {
-      return (this.failedurls === b.failedurls) && (this.loadcount === b.loadcount);
-    };
-    this.$assign = function (s) {
-      this.failedurls = rtl.arrayRef(s.failedurls);
-      this.loadcount = s.loadcount;
-      return this;
-    };
-  });
   rtl.createClass(this,"EWasiError",pas.SysUtils.Exception,function () {
   });
   rtl.createClass(this,"EWasiFSError",pas.SysUtils.Exception,function () {
@@ -4079,6 +3991,10 @@ rtl.module("wasienv",["System","SysUtils","Classes","JS","webassembly","Types","
       this.Finstance = AValue;
       this.FModuleInstanceExports = this.Finstance.exports;
       if (!(this.FMemory != null) && (this.FModuleInstanceExports.memory != null)) this.FMemory = this.FModuleInstanceExports.memory;
+    };
+    this.SetLogAPI = function (AValue) {
+      if (this.FLogAPI === AValue) return;
+      this.FLogAPI = AValue;
     };
     this.WriteFileStatToMem = function (BufPtr, Info) {
       var Loc = 0;
@@ -5019,89 +4935,6 @@ rtl.module("wasienv",["System","SysUtils","Classes","JS","webassembly","Types","
         Ext.SetInstanceExports(aExports);
       };
     };
-    this.PreLoadFiles$1 = async function (aFiles) {
-      var $Self = this;
-      var Result = $mod.TPreLoadFilesResult.$new();
-      var I = 0;
-      var res = 0;
-      var failcount = 0;
-      var Resp = null;
-      var blob = null;
-      var buf = null;
-      var Fails = [];
-      function AddFailure(aUrl, aError) {
-        Fails[failcount].url = aUrl;
-        Fails[failcount].error = aError;
-        failcount += 1;
-      };
-      if (!(this.FWasiFS != null)) throw $mod.EWasiError.$create("Create$1",["No filesystem available"]);
-      res = 0;
-      failcount = 0;
-      Fails = rtl.arraySetLength(Fails,$mod.TLoadFileFailure,rtl.length(aFiles));
-      for (var $l = 0, $end = rtl.length(aFiles) - 1; $l <= $end; $l++) {
-        I = $l;
-        try {
-          Resp = await fetch(aFiles[I].url);
-          blob = await Resp.blob();
-          buf = await blob.arrayBuffer();
-          this.FWasiFS.PreLoadFile(aFiles[I].localname,new DataView(buf));
-          res += 1;
-        } catch ($e) {
-          if (pas.SysUtils.Exception.isPrototypeOf($e)) {
-            var E = $e;
-            AddFailure(aFiles[I].url,E.fMessage);
-          } else if (rtl.isExt($e,Error)) {
-            var JE = $e;
-            AddFailure(aFiles[I].url,JE.message);
-          } else if (rtl.isExt($e,Object)) {
-            var OE = $e;
-            AddFailure(aFiles[I].url,JSON.stringify(OE));
-          } else throw $e
-        };
-      };
-      Fails = rtl.arraySetLength(Fails,$mod.TLoadFileFailure,failcount);
-      Result.failedurls = rtl.arrayRef(Fails);
-      Result.loadcount = res;
-      return Result;
-    };
-    this.PreLoadFilesIntoDirectory = async function (aDirectory, aFiles) {
-      var $Self = this;
-      var Result = $mod.TPreLoadFilesResult.$new();
-      function ExtractFileFromURL(aURL) {
-        var Result = "";
-        var S = "";
-        var URLObj = null;
-        if (pas.SysUtils.TStringHelper.StartsWith$1.call({get: function () {
-            return aURL;
-          }, set: function (v) {
-            aURL = v;
-          }},"http://",true) || pas.SysUtils.TStringHelper.StartsWith$1.call({get: function () {
-            return aURL;
-          }, set: function (v) {
-            aURL = v;
-          }},"https://",true)) {
-          URLObj = new URL(aURL);
-          S = URLObj.pathname;
-        } else S = aURL;
-        Result = pas.SysUtils.ExtractFileName(S);
-        return Result;
-      };
-      var I = 0;
-      var Len = 0;
-      var FileArray = [];
-      if (!(this.FWasiFS != null)) throw $mod.EWasiError.$create("Create$1",["No filesystem available"]);
-      Len = rtl.length(aFiles);
-      FileArray = rtl.arraySetLength(FileArray,$mod.TPreLoadFile,Len);
-      aDirectory = pas.SysUtils.IncludeTrailingPathDelimiter(aDirectory);
-      I = 0;
-      while (I < Len) {
-        FileArray[I].url = aFiles[I];
-        FileArray[I].localname = aDirectory + ExtractFileFromURL(aFiles[I]);
-        I += 1;
-      };
-      Result.$assign(await this.PreLoadFiles$1(rtl.arrayRef(FileArray)));
-      return Result;
-    };
   });
   rtl.createClass(this,"TImportExtension",pas.System.TObject,function () {
     this.$init = function () {
@@ -5500,11 +5333,6 @@ rtl.module("wasihostapp",["System","Classes","SysUtils","BrowserApp","JS","webas
           this.p.FHost = v;
         }});
       pas.BrowserApp.TBrowserApplication.Destroy.call(this);
-    };
-    this.PreLoadFilesIntoDirectory = async function (aDirectory, aFiles) {
-      var Result = pas.wasienv.TPreLoadFilesResult.$new();
-      Result.$assign(await this.GetEnv().PreLoadFilesIntoDirectory(aDirectory,aFiles));
-      return Result;
     };
     this.StartWebAssembly = function (aPath, DoRun, aBeforeStart, aAfterStart) {
       var Result = null;
@@ -6762,9 +6590,6 @@ rtl.module("wasizenfs",["System","SysUtils","JS","libzenfs","wasitypes"],functio
       };
       return Result;
     };
-    this.PreLoadFile = function (aPath, aData) {
-      ZenFS.writeFileSync(aPath,aData);
-    };
     rtl.addIntf(this,pas.wasitypes.IWASIFS);
   });
   $mod.$implcode = function () {
@@ -6787,13 +6612,9 @@ rtl.module("program",["System","browserconsole","BrowserApp","wasihostapp","JOB_
       this.sd = undefined;
       pas.wasihostapp.TBrowserWASIHostApplication.$final.call(this);
     };
-    var Files_vsop87 = ["vsop87/VSOP87D.ear","vsop87/VSOP87D.jup","vsop87/VSOP87D.mar","vsop87/VSOP87D.mer","vsop87/VSOP87D.nep","vsop87/VSOP87D.sat","vsop87/VSOP87D.ura","vsop87/VSOP87D.ven"];
     this.RunWasm = async function () {
-      var Res_vsop87 = pas.wasienv.TPreLoadFilesResult.$new();
       this.FS = pas.wasizenfs.TWASIZenFS.$create("create$1");
       this.GetEnv().FWasiFS = rtl.getIntfT(this.FS,pas.wasitypes.IWASIFS);
-      ZenFS.mkdir("/vsop87",511);
-      Res_vsop87.$assign(await this.PreLoadFilesIntoDirectory("/vsop87",Files_vsop87));
       this.StartWebAssembly("wasm_jsCiel.wasm",true,rtl.createCallback(this,"wasmBeforeStart"),null);
     };
     this.DoRun = function () {
@@ -6815,6 +6636,7 @@ rtl.module("program",["System","browserconsole","BrowserApp","wasihostapp","JOB_
       this.SetRunEntryFunction("_initialize");
       this.GetEnv().FOnStdErrorWrite = rtl.createCallback(this,"wasmWrite");
       this.GetEnv().FOnStdOutputWrite = rtl.createCallback(this,"wasmWrite");
+      this.GetEnv().SetLogAPI(true);
       return this;
     };
     var $r = this.$rtti;
@@ -6822,7 +6644,7 @@ rtl.module("program",["System","browserconsole","BrowserApp","wasihostapp","JOB_
   });
   this.Application = null;
   $mod.$main = function () {
-    pas.browserconsole.ConsoleStyle = pas.browserconsole.DefaultConsoleStyle;
+    pas.browserconsole.ConsoleStyle = pas.browserconsole.DefaultCRTConsoleStyle;
     pas.browserconsole.HookConsole();
     $mod.Application = $mod.Tjs_jsCiel.$create("Create$1",[null]);
     $mod.Application.Initialize();
