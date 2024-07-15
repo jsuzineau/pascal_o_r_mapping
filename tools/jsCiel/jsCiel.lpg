@@ -77,6 +77,11 @@
           <Mode Name="Default"/>
         </BuildModes>
       </Target>
+      <Target FileName="..\jsFrequences\pas2js\jsFrequences.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
     </Targets>
   </ProjectGroup>
 </CONFIG>
