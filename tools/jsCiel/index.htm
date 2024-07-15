@@ -4,10 +4,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>jsCiel</title>
   <!-- pris dans demojitsimeet de Michael Van Canneyt pour test Bootstrap -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.3.1.js" type="text/javascript"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+  <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" type="text/javascript"></script>-->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   <!-- fin ajout pour bootstrap -->
+
   <!-- Bulma  / ZenFS -->
   <link href="bulma.min.css" rel="stylesheet">
   <script src="browser.min.js"></script>
@@ -32,7 +35,7 @@
     <div class="card">
       <div class="card-header" id="chParametres">
         <h5 class="mb-0">
-          <button class="btn btn-link" data-toggle="collapse" data-target="#Parametres" aria-expanded="true" aria-controls="Parametres">
+          <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#Parametres" aria-expanded="true" aria-controls="Parametres">
             Paramètres ...
           </button>
         </h5>
@@ -40,23 +43,47 @@
       <div id="Parametres" class="collapse" aria-labelledby="chParametres">
         <div class="card-body">
           <div class="form-group">
-             <label for="iParametres_Lieu_Latitude">Latitude</label>
-             <input id="iParametres_Lieu_Latitude" type="text" class="form-control" aria-describedby="lParametres_Lieu_Latitude" value="0"/>
-             <small id="lParametres_Lieu_Latitude" class="form-text text-muted">
-               Latitude du lieu pour le calcul.
-             </small>
-             <label for="iParametres_Lieu_Longitude">Longitude</label>
-             <input id="iParametres_Lieu_Longitude" type="text" class="form-control" aria-describedby="lParametres_Lieu_Longitude" value="0"/>
-             <small id="lParametres_Lieu_Longitude" class="form-text text-muted">
-               Longitude du lieu pour le calcul, négative vers l'Est pour utilisation dans les formules de Astronomical Algorithms de Jean MEEUS.<br/>
-               Mais la géolocation du navigateur et Google Maps utilisent une longitude négative vers l'Ouest.
-             </small>
-             <label for="iParametres_Date">Date</label>
-             <input id="iParametres_Date" type="datetime-local" class="form-control" aria-describedby="lParametres_Date" value="0"/>
-             <small id="lParametres_Date" class="form-text text-muted">
-               Date pour le calcul.
-             </small>
-             <button id='bCalcul' style="visibility: hidden;"> Recalcul</button>
+             <div class="form-floating">
+               <input id="iDecalage_Heure_Ete"  type="number" class="form-control" aria-describedby="lDecalage_Heure_Ete" value="" />
+               <label for="iDecalage_Heure_Ete" class="form-label">Décalage pour l'heure d'été</label>
+               <small id="lDecalage_Heure_Ete" class="form-text text-muted">
+                 Décalage supplémentaire pour l'heure d'été de l'heure locale par rapport au temps universel.<br/>
+                 Le calcul pour les dates d'application de ce décalage n'est programmé ici que pour la France (CEST Central European Summer Time)<br/>
+                 Pour les autres fuseaux horaires, mettez ce champ à 0 et donnez directement le décalage total dans le décalage d'heure locale ci-dessous.<br/>
+                 Valeur par défaut: +1 pour la France (CEST).
+               </small>
+             </div>
+             <div class="form-floating">
+               <input id="iDecalage_Heure_Locale"  type="number" class="form-control" aria-describedby="lDecalage_Heure_Locale" value="" />
+               <label for="iDecalage_Heure_Locale" class="form-label">UTC + ?</label>
+               <small id="lDecalage_Heure_Locale" class="form-text text-muted">
+                 Décalage de l'heure locale d'hiver par rapport au temps universel<br/>
+                 Valeur par défaut: +1 pour la France (CET Central European time).
+               </small>
+             </div>
+             <div class="form-floating">
+               <input id="iParametres_Lieu_Latitude" type="text" class="form-control" aria-describedby="lParametres_Lieu_Latitude" value="0"/>
+               <label for="iParametres_Lieu_Latitude">Latitude</label>
+               <small id="lParametres_Lieu_Latitude" class="form-text text-muted">
+                 Latitude du lieu pour le calcul.
+               </small>
+             </div>
+             <div class="form-floating">
+               <input id="iParametres_Lieu_Longitude" type="text" class="form-control" aria-describedby="lParametres_Lieu_Longitude" value="0"/>
+               <label for="iParametres_Lieu_Longitude">Longitude</label>
+               <small id="lParametres_Lieu_Longitude" class="form-text text-muted">
+                 Longitude du lieu pour le calcul, négative vers l'Est pour utilisation dans les formules de Astronomical Algorithms de Jean MEEUS.<br/>
+                 Mais la géolocation du navigateur et Google Maps utilisent une longitude négative vers l'Ouest.
+               </small>
+             </div>
+             <div class="form-floating">
+               <input id="iParametres_Date" type="datetime-local" class="form-control" aria-describedby="lParametres_Date" value="0"/>
+               <label for="iParametres_Date">Date</label>
+               <small id="lParametres_Date" class="form-text text-muted">
+                 Date pour le calcul.
+               </small>
+             </div>
+             <button id='bCalcul' class="button is-primary" style="visibility: hidden;"> Recalcul</button>
           </div>
         </div>
       </div>
@@ -69,7 +96,7 @@
     <div class="card">
       <div class="card-header" id="chCalcul">
         <h5 class="mb-0">
-          <button class="btn btn-link" data-toggle="collapse" data-target="#Calcul" aria-expanded="true" aria-controls="Calcul">
+          <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#Calcul" aria-expanded="true" aria-controls="Calcul">
             Plus de calculs ...
           </button>
         </h5>
@@ -87,7 +114,7 @@
     <div class="card">
       <div class="card-header" id="chConsole">
         <h5 class="mb-0">
-          <button class="btn btn-link" data-toggle="collapse" data-target="#Console" aria-expanded="true" aria-controls="Console">
+          <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#Console" aria-expanded="true" aria-controls="Console">
             Console
           </button>
         </h5>

@@ -5,10 +5,10 @@ library wasm_jsCiel;
 {$codepage UTF8}
 
 uses
-    NoThreads, SysUtils, JOB.Shared, JOB_Web, JOB.JS, uObservation, uPublieur,
+    NoThreads, SysUtils, StrUtils, JOB.Shared, JOB_Web, JOB.JS, uObservation, uPublieur,
     uLieu, uCoordonnee, uDate, uDate_Ephemerides, uTemps, uEquinoxeur, uMath,
     uCiel, uSysteme_Solaire, uObjets_du_Systeme_Solaire, uObjet_non_ponctuel,
-    uObjets, uSexa_radians, uTheories_Planetaires,uDataUtilsU;
+    uObjets, uSexa_radians, uTheories_Planetaires,uDataUtilsU, uJSDate;
 
 type
 
@@ -26,16 +26,19 @@ type
     Ciel: TCiel;
     dLever_Soleil: IJSHTMLDivElement;
     function Lever_Soleil: String;
-    procedure Traite_Lieu( _Latitude, _Longitude: Extended);
     function HHMM_Legal(const ad :Extended):String;
   //Parametres
   private
+    iDecalage_Heure_Ete       : IJSHTMLInputElement;
+    iDecalage_Heure_Locale    : IJSHTMLInputElement;
     iParametres_Lieu_Latitude : IJSHTMLInputElement;
     iParametres_Lieu_Longitude: IJSHTMLInputElement;
-    iParametres_Date: IJSHTMLInputElement;
+    iParametres_Date          : IJSHTMLInputElement;
     bCalcul: IJSHTMLButtonElement;
     procedure bCalcul_Show;
     procedure bCalcul_Hide;
+    procedure iDecalage_Heure_EteInput       (Event: IJSEvent);
+    procedure iDecalage_Heure_LocaleInput    (Event: IJSEvent);
     procedure iParametres_Lieu_LatitudeInput (Event: IJSEvent);
     procedure iParametres_Lieu_LongitudeInput(Event: IJSEvent);
     procedure iParametres_DateInput          (Event: IJSEvent);
@@ -59,6 +62,7 @@ type
     procedure DoGeoLocation;
     procedure successCallback(_Position : IJSGeolocationPosition);
     procedure errorCallback(_Value : IJSGeolocationPositionError);
+    procedure Traite_Lieu( _Latitude, _Longitude: Extended);
   //Exécution
   public
     procedure Run;
@@ -86,17 +90,11 @@ var
    hhh,mmm: integer;
    hhs,mms: String[2];
 begin
-     adh:=ad*12/pi;
+     adh:=ad*12/pi + Ciel.Observation.Temps.Decalage_TL_from_TU;
 
      hhh:=round(adh-0.5);mmm:=round(frac(adh)*60);
      if mmm=60 then begin mmm:=0;hhh:=hhh+1;end;
      if hhh=24 then hhh:=0;
-
-     if Ciel.Observation.Temps.HeureEte
-     then
-         Inc( hhh, 2)
-     else
-         Inc( hhh, 1);
 
      str(hhh:2,hhs);if hhs[1]=' ' then hhs[1]:='0';
      str(mmm:2,mms);if mms[1]=' ' then mms[1]:='0';
@@ -123,21 +121,29 @@ const
        );
 var
    sHeureEte: String;
+   sSigneDecalage:String;
    Decalage: double;
 begin
      Ciel.Observation.Temps.SetHeureEte( Ciel.Observation.Temps.TU.EteHiver_);
      Decalage:= Ciel.Observation.Temps.Decalage_TL_from_TU;
 
-     if Ciel.Observation.Temps.HeureEte
+     if 0 = Ciel.Observation.Lieu.Decalage_Heure_Ete
      then
-         sHeureEte:= 'heure d''été'
+         sHeureEte:= ''
      else
-         sHeureEte:= 'heure d''hiver';
+         if Ciel.Observation.Temps.HeureEte
+         then
+             sHeureEte:= 'heure d''été'
+         else
+             sHeureEte:= 'heure d''hiver';
+
+     sSigneDecalage:= IfThen( Decalage>0, '+', '');
+
      if 0 = Frac(Decalage)
      then
-         sHeureEte:= sHeureEte + Format( ' UTC+%d',[Trunc(Decalage)])
+         sHeureEte:= sHeureEte + Format( ' UTC%s%d',[sSigneDecalage,Trunc(Decalage)])
      else
-         sHeureEte:= sHeureEte + Format( ' UTC+%f',[Decalage]);
+         sHeureEte:= sHeureEte + Format( ' UTC%s%f',[sSigneDecalage,Decalage]);
      Ciel.SSOL.Soleil.LeMeCo(0);
      Result
      :=
@@ -153,6 +159,9 @@ var
    sResultat: String;
    sLevers_Soleil: String;
 begin
+     iDecalage_Heure_Ete   .valueAsNumber:= Ciel.Observation.Lieu.Decalage_Heure_Ete   ;
+     iDecalage_Heure_Locale.valueAsNumber:= Ciel.Observation.Lieu.Decalage_Heure_Locale;
+
      //WriteLn(ClassName+'.Affiche: Latitude: ',UTF8Encode(iParametres_Lieu_Latitude.value));
      iParametres_Lieu_Latitude.value:= UTF8Decode(Ciel.Observation.Lieu.La.Str);
      //WriteLn(ClassName+'.Affiche: Longitude: ',UTF8Encode(iParametres_Lieu_Longitude.value));
@@ -185,22 +194,18 @@ begin
      RefreshMap;
 end;
 
-procedure Twasm_jsCiel.Traite_Lieu(_Latitude, _Longitude: Extended);
-begin
-     Ciel.Initialise( _Latitude, _Longitude);
-     Ciel.Log( ClassName+'.Traite_Lieu: ');
-     Affiche;
-end;
-
 procedure Twasm_jsCiel._from_Parametres;
 begin
-     WriteLn(ClassName+'._from_Parametres: Latitude: ',UTF8Encode(iParametres_Lieu_Latitude.value));
+     Ciel.Observation.Lieu.Decalage_Heure_Ete   :=iDecalage_Heure_Ete   .valueAsNumber;
+     Ciel.Observation.Lieu.Decalage_Heure_Locale:=iDecalage_Heure_Locale.valueAsNumber;
+
+     //WriteLn(ClassName+'._from_Parametres: Latitude: ',UTF8Encode(iParametres_Lieu_Latitude.value));
      Ciel.Observation.Lieu.La.Set_Str( UTF8Encode(iParametres_Lieu_Latitude.value));
 
-     WriteLn(ClassName+'._from_Parametres: Longitude: ',UTF8Encode(iParametres_Lieu_Longitude.value));
+     //WriteLn(ClassName+'._from_Parametres: Longitude: ',UTF8Encode(iParametres_Lieu_Longitude.value));
      Ciel.Observation.Lieu.Lg.Set_Str( UTF8Encode(iParametres_Lieu_Longitude.value));
 
-     WriteLn(ClassName+'._from_Parametres: Date: ',iParametres_Date.value);
+     //WriteLn(ClassName+'._from_Parametres: Date: ',iParametres_Date.value);
      Ciel.Observation.Temps.TL.Set_to_Datetime( DateTime_from_DateTime_ISO8601_sans_quotes( UTF8Encode(iParametres_Date.value)));
 
      Affiche;
@@ -224,6 +229,16 @@ procedure Twasm_jsCiel.bCalcul_Hide;
 begin
      //bCalcul.style.setProperty('visibility','hidden');
      bCalcul.style.cssText:= 'visibility: hidden;';
+end;
+
+procedure Twasm_jsCiel.iDecalage_Heure_EteInput(Event: IJSEvent);
+begin
+     bCalcul_Show;
+end;
+
+procedure Twasm_jsCiel.iDecalage_Heure_LocaleInput(Event: IJSEvent);
+begin
+     bCalcul_Show;
 end;
 
 procedure Twasm_jsCiel.iParametres_Lieu_LatitudeInput(Event: IJSEvent);
@@ -404,7 +419,21 @@ begin
      Set_Map_to( Ciel.Observation.Lieu.La.Degres, Ciel.Observation.Lieu.Lg.Degres);
 end;
 
+procedure Twasm_jsCiel.Traite_Lieu(_Latitude, _Longitude: Extended);
+begin
+     Ciel.Initialise( _Latitude, _Longitude);
+     Ciel.Log( ClassName+'.Traite_Lieu: ');
+     Affiche;
+end;
+
 procedure Twasm_jsCiel.successCallback(_Position : IJSGeolocationPosition);
+   //procedure dump_latlng_variables;
+   //var
+   //   latlng_variables: TJSObject;
+   //begin
+   //     latlng_variables:= JSObject.InvokeJSObjectResult( 'keys'    ,[latlng],TJSObject);
+   //     WriteLn( ClassName+'.Set_Map_To global_variables: type', latlng_variables.JSClassName, 'valeur: ', latlng_variables.toString);
+   //end;
 begin
      //La longitude donnée par le navigateur est négative vers l'Ouest
      //mais dans les algorithmes de calcul de Jean MEEUS
@@ -429,7 +458,8 @@ end;
 
 procedure Twasm_jsCiel.Run;
 begin
-
+     iDecalage_Heure_Ete       :=TJSHTMLInputElement .Cast(JSDocument.getElementById('iDecalage_Heure_Ete'       ));
+     iDecalage_Heure_Locale    :=TJSHTMLInputElement .Cast(JSDocument.getElementById('iDecalage_Heure_Locale'    ));
      iParametres_Lieu_Latitude :=TJSHTMLInputElement .Cast(JSDocument.getElementById('iParametres_Lieu_Latitude' ));
      iParametres_Lieu_Longitude:=TJSHTMLInputElement .Cast(JSDocument.getElementById('iParametres_Lieu_Longitude'));
      iParametres_Date          :=TJSHTMLInputElement .Cast(JSDocument.getElementById('iParametres_Date'          ));
@@ -437,6 +467,8 @@ begin
      dLever_Soleil             :=TJSHTMLDivElement   .Cast(JSDocument.getElementById('dLever_Soleil'             ));
      dCalcul_Resultat          :=TJSHTMLDivElement   .Cast(JSDocument.getElementById('dCalcul_Resultat'          ));
 
+     iDecalage_Heure_Ete       .addEventListener('input', @iDecalage_Heure_EteInput       );
+     iDecalage_Heure_Locale    .addEventListener('input', @iDecalage_Heure_LocaleInput    );
      iParametres_Lieu_Latitude .addEventListener('input', @iParametres_Lieu_LatitudeInput );
      iParametres_Lieu_Longitude.addEventListener('input', @iParametres_Lieu_LongitudeInput);
      iParametres_Date          .addEventListener('input', @iParametres_DateInput          );

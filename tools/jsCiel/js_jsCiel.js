@@ -3992,10 +3992,6 @@ rtl.module("wasienv",["System","SysUtils","Classes","JS","webassembly","Types","
       this.FModuleInstanceExports = this.Finstance.exports;
       if (!(this.FMemory != null) && (this.FModuleInstanceExports.memory != null)) this.FMemory = this.FModuleInstanceExports.memory;
     };
-    this.SetLogAPI = function (AValue) {
-      if (this.FLogAPI === AValue) return;
-      this.FLogAPI = AValue;
-    };
     this.WriteFileStatToMem = function (BufPtr, Info) {
       var Loc = 0;
       Loc = BufPtr;
@@ -6636,7 +6632,6 @@ rtl.module("program",["System","browserconsole","BrowserApp","wasihostapp","JOB_
       this.SetRunEntryFunction("_initialize");
       this.GetEnv().FOnStdErrorWrite = rtl.createCallback(this,"wasmWrite");
       this.GetEnv().FOnStdOutputWrite = rtl.createCallback(this,"wasmWrite");
-      this.GetEnv().SetLogAPI(true);
       return this;
     };
     var $r = this.$rtti;

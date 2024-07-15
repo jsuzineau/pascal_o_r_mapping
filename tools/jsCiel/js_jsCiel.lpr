@@ -37,7 +37,7 @@ var
 
        WasiEnvironment.OnStdErrorWrite :=@wasmWrite;
        WasiEnvironment.OnStdOutputWrite:=@wasmWrite;
-       WasiEnvironment.LogAPI:=True;
+       //WasiEnvironment.LogAPI:=True;
        //Writeln('Enabling logging');
   end;
 
