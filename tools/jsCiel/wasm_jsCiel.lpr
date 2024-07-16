@@ -91,6 +91,7 @@ var
    hhs,mms: String[2];
 begin
      adh:=ad*12/pi + Ciel.Observation.Temps.Decalage_TL_from_TU;
+     adh:= Trunc(adh) mod 24+Frac(adh);
 
      hhh:=round(adh-0.5);mmm:=round(frac(adh)*60);
      if mmm=60 then begin mmm:=0;hhh:=hhh+1;end;
@@ -178,7 +179,8 @@ begin
        +'Longitude:'+Ciel.Observation.Lieu.Lg.Str+'<br/>'
        +'Temps universel TU (UTC): '+Ciel.Observation.Temps.TU.sDate+' '+Ciel.Observation.Temps.TU.sHeure+'<br/>'
        +'Temps dynamique TD      : '+Ciel.Observation.Temps.TD.sDate+' '+Ciel.Observation.Temps.TD.sHeure+'<br/>'
-       +'TU: Jour Julien: '+Ciel.Observation.Temps.TU.sJour_Julien                              +'<br/>'
+       +'TD-TU: '+Format('%.2f',[Ciel.Observation.Temps.DeltaT_en_secondes])+' secondes <br/>'
+       +'TD: Tau: '+Format('%.10f',[Ciel.Observation.Temps.TD.Tau])+UTF8Encode('(en siècles juliens par rapport à J2000)<br/>')
        +'TD: Jour Julien: '+Ciel.Observation.Temps.TD.sJour_Julien                              +'<br/>'
        +UTF8Encode('Temps sidéral:')+Ciel.Observation.Temps_sideral_en_heures                   +'<br/>'
        ;

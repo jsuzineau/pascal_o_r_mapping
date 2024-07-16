@@ -39,16 +39,16 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1920"
-     inkscape:window-height="1017"
+     inkscape:window-width="968"
+     inkscape:window-height="820"
      id="namedview4"
      showgrid="false"
      inkscape:zoom="0.85032968"
      inkscape:cx="10.299489"
      inkscape:cy="76.396046"
-     inkscape:window-x="1912"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1"
+     inkscape:window-x="2848"
+     inkscape:window-y="93"
+     inkscape:window-maximized="0"
      inkscape:current-layer="svg2"
      inkscape:snap-global="false"
      fit-margin-top="0"
@@ -197,12 +197,12 @@
      href="play:C3"
      id="a43"
      transform="translate(-1,-11.832203)"
-     style="fill:#ff0000;fill-opacity:1">
+     style="fill:#ff8000;fill-opacity:1">
     <circle
        id="C3"
        cx="324"
        cy="607.32513"
-       style="stroke-width:0.6875;fill:#ff0000;fill-opacity:1"
+       style="stroke-width:0.6875;fill:#ff8000;fill-opacity:1"
        r="20" />
   </a>
 </svg>
