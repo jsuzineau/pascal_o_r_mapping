@@ -152,7 +152,8 @@ begin
        +Mois[Ciel.Observation.Temps.TL.Mois]
        +': '
        +HHMM_Legal( Ciel.SSOL.Soleil.hl)
-       +' ('+sHeureEte+')'+ ', Azimuth: '+Ciel.SSOL.Soleil.AzS_Lever;
+       +' <small class="form-text text-muted"> ('+sHeureEte+')'
+       + ', Azimuth: '+Ciel.SSOL.Soleil.AzS_Lever+'</small>';
 end;
 
 procedure Twasm_jsCiel.Affiche;
