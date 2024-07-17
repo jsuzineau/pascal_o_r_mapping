@@ -3,7 +3,84 @@ program jsTuneTrainer;
 {$mode objfpc}
 
 uses
- BrowserConsole, JS, Classes, SysUtils, Web, websvg,types;
+ BrowserConsole, BrowserApp, JS, Classes, SysUtils, Web, websvg, types,
+ uFrequence;
+
+type
+
+ { TNote }
+
+ TNote
+ =
+  record
+    Note: String;
+    c: TJSSVGCircleElement;
+  end;
+
+ { TjsTuneTrainer }
+
+ TjsTuneTrainer
+ =
+  class(TBrowserApplication)
+  //Gestion du cycle de vie
+  public
+    constructor Create(aOwner : TComponent); override;
+  private
+    procedure DoRun; override;
+  //SVG
+  private
+    svg: TJSSVGSVGElement;
+  //Elements
+  private
+    cA5: TJSSVGCircleElement;
+    cG5: TJSSVGCircleElement;
+    cF5: TJSSVGCircleElement;
+    cE5: TJSSVGCircleElement;
+    cD5: TJSSVGCircleElement;
+    cC5: TJSSVGCircleElement;
+    cB4: TJSSVGCircleElement;
+    cA4: TJSSVGCircleElement;
+    cG4: TJSSVGCircleElement;
+    cF4: TJSSVGCircleElement;
+    cE4: TJSSVGCircleElement;
+    cD4: TJSSVGCircleElement;
+    cC4: TJSSVGCircleElement;
+  //Source
+  private
+    iSource: TJSHTMLInputElement;
+    function iSourceInput(Event: TEventListenerEvent): boolean;
+    procedure _from_Source;
+  //Notes
+  private
+    x_offset: Integer;
+    x_ecart: Integer;
+    x: Integer;
+    Notes: array of TNote;
+    procedure Notes_Vide;
+    function Copie( _id: String): TJSSVGCircleElement;
+  //Reponse
+  private
+    bDebut: TJSHTMLButtonElement;
+    bDo : TJSHTMLButtonElement;
+    bRe : TJSHTMLButtonElement;
+    bMi : TJSHTMLButtonElement;
+    bFa : TJSHTMLButtonElement;
+    bSol: TJSHTMLButtonElement;
+    bLa : TJSHTMLButtonElement;
+    bSi : TJSHTMLButtonElement;
+    iReponse: Integer;
+    procedure Check_Note( _Note: String);
+    function bDebutClick(aEvent : TJSMouseEvent) : boolean;
+    function bDoClick(aEvent : TJSMouseEvent) : boolean;
+    function bReClick(aEvent : TJSMouseEvent) : boolean;
+    function bMiClick(aEvent : TJSMouseEvent) : boolean;
+    function bFaClick(aEvent : TJSMouseEvent) : boolean;
+    function bSolClick(aEvent : TJSMouseEvent) : boolean;
+    function bLaClick(aEvent : TJSMouseEvent) : boolean;
+    function bSiClick(aEvent : TJSMouseEvent) : boolean;
+  end;
+var
+   Application: TjsTuneTrainer;
 
 function element_from_id( _id: String): TJSHTMLElement;
 begin
@@ -18,6 +95,11 @@ end;
 function input_from_id( _id: String): TJSHTMLInputElement;
 begin
      Result:= TJSHTMLInputElement(document.getElementById(_id))
+end;
+
+function circle_from_id( _id: String): TJSSVGCircleElement;
+begin
+     Result:= TJSSVGCircleElement(document.getElementById(_id))
 end;
 
 procedure dump_element_variables( _id: String);
@@ -87,46 +169,219 @@ begin
        end;
 end;
 
-const Ecart_x= 400;
-var x: Integer= 0;
-procedure Copie( _svg_id, _id: String);
+//recopié depuis uuStrings
+function StrToK( Key: String; var S: String): String;
+var
+   I: Integer;
+begin
+     I:= Pos( Key, S);
+     if I = 0
+     then
+         begin
+         Result:= S;
+         S:= '';
+         end
+     else
+         begin
+         Result:= Copy( S, 1, I-1);
+         Delete( S, 1, (I-1)+Length( Key));
+         end;
+end;
+
+{ TjsTuneTrainer }
+
+constructor TjsTuneTrainer.Create(aOwner: TComponent);
+begin
+     inherited Create(aOwner);
+     Notes:= [];
+     x_offset:= 400;//324;
+     x_ecart:= 400;
+     x:= 0;
+end;
+
+procedure TjsTuneTrainer.Notes_Vide;
+var
+   I: Integer;
+   n: TNote;
+begin
+     for I:= Low(Notes) to High(Notes)
+     do
+       begin
+       n:= Notes[I];
+       if n.c = nil then continue;
+
+       svg.removeChild(n.c);
+       end;
+     SetLength( Notes, 0);
+     x:= x_offset;
+end;
+
+function TjsTuneTrainer.Copie(_id: String): TJSSVGCircleElement;
 var
    c: TJSSVGCircleElement;
-   copie: TJSSVGCircleElement;
-   parent : TJSElement;
    style: string;
    i: Integer;
 begin
-     Inc(x, Ecart_x);
-     parent:= TJSElement( document.getElementById(_svg_id));
-     WriteLn( 'Copie(',_id,'): parent.to_string');
-     WriteLn( '  ',parent.toString);
+     //WriteLn( 'Copie(',_id,'): svg.to_string');
+     //WriteLn( '  ',svg.toString);
+     Result:= nil;
 
-     c:= TJSSVGCircleElement( document.getElementById(_id));
-     //copie:= TJSSVGCircleElement(document.createElementNS('http://www.w3.org/2000/svg', 'circle'));
-     //TJSObject.assign( copie, c);
-     copie:= TJSSVGCircleElement( c.cloneNode(true));
-     copie.setAttribute('id', _id+'_copie');
-     copie.setAttribute('cx', IntToStr(x));
-     style:= copie.getAttribute('style');
+     c:= circle_from_id(_id);
+     if c = nil then exit;
+
+     Result:= TJSSVGCircleElement( c.cloneNode(true));
+     Result.setAttribute('id', _id+'_copie');
+     Result.setAttribute('cx', IntToStr(x));
+     style:= Result.getAttribute('style');
      i:= Pos('visibility: hidden;', style);
      delete( style, i, length(style));
-     copie.setAttribute('style', style);
+     Result.setAttribute('style', style);
 
-     parent.appendChild(copie);
-     //Copy_element_attributes( 'copie:= c', copie, c);
-     WriteLn( 'Copie(',_id,'): copie.to_string');
-     WriteLn( '  ',copie.toString);
-     dump_element_variables( _id);
-     dump_element_attributes( 'c', c);
-     dump_element_attributes( 'copie', copie);
+     Result:= TJSSVGCircleElement( svg.appendChild(Result));
+     //Copy_element_attributes( 'copie:= c', Result, c);
+     //WriteLn( 'Copie(',_id,'): copie.to_string');
+     //WriteLn( '  ',Result.toString);
+     //dump_element_variables( _id);
+     //dump_element_attributes( 'c', c);
+     //dump_element_attributes( 'Result', Result);
+     Inc(x, x_ecart);
+end;
+
+procedure TjsTuneTrainer._from_Source;
+   procedure Cree_Notes;
+   var
+      Source: String;
+      Note: String;
+   begin
+        Source:= iSource.value;
+        while Source <> ''
+        do
+          begin
+          Note:= StrTok( ' ', Source);
+          Note:= Note_Octave( Midi_from_Note( Note));
+          SetLength( Notes, Length( Notes)+1);
+          Notes[High(Notes)].Note:= Note;
+          end;
+   end;
+   procedure Copie_Notes;
+   var
+      i: Integer;
+   begin
+        //WriteLn( ClassName+'_from_Source:  Copie_Notes; window.innerWidth:',window.innerWidth);
+        x_ecart:= Trunc((window.innerWidth - x_offset)/(Length(Notes)-1));
+        for i:= Low(Notes) to High(Notes)
+        do
+          with Notes[i] do c:= Copie( Note);
+   end;
+begin
+     Notes_Vide;
+     Cree_Notes;
+     Copie_Notes;
+end;
+
+function TjsTuneTrainer.iSourceInput(Event: TEventListenerEvent): boolean;
+begin
+     _from_Source;
+end;
+
+procedure TjsTuneTrainer.Check_Note(_Note: String);
+begin
+     if iReponse >= Length( Notes) then exit;
+     if Pos( _Note, Notes[iReponse].Note) <> 1
+     then
+         window.alert( 'Ce n''est pas la bonne note! '+_Note+' attendu '+Notes[iReponse].Note)
+     else
+         begin
+         Inc(iReponse);
+         if iReponse >= Length( Notes)
+         then
+             window.alert( 'Réussi!')
+         end;
+end;
+
+function TjsTuneTrainer.bDebutClick(aEvent: TJSMouseEvent): boolean;
+begin
+     iReponse:= 0;
+end;
+
+function TjsTuneTrainer.bDoClick(aEvent: TJSMouseEvent): boolean;
+begin
+     Check_Note( 'C');
+end;
+
+function TjsTuneTrainer.bReClick(aEvent: TJSMouseEvent): boolean;
+begin
+     Check_Note( 'D');
+end;
+
+function TjsTuneTrainer.bMiClick(aEvent: TJSMouseEvent): boolean;
+begin
+     Check_Note( 'E');
+end;
+
+function TjsTuneTrainer.bFaClick(aEvent: TJSMouseEvent): boolean;
+begin
+     Check_Note( 'F');
+end;
+
+function TjsTuneTrainer.bSolClick(aEvent: TJSMouseEvent): boolean;
+begin
+     Check_Note( 'G');
+end;
+
+function TjsTuneTrainer.bLaClick(aEvent: TJSMouseEvent): boolean;
+begin
+     Check_Note( 'A');
+end;
+
+function TjsTuneTrainer.bSiClick(aEvent: TJSMouseEvent): boolean;
+begin
+     Check_Note( 'B');
+end;
+
+procedure TjsTuneTrainer.DoRun;
+begin
+     inherited DoRun;
+
+     svg:= TJSSVGSVGElement(document.getElementById('svg'));
+
+     cA5:= circle_from_id( 'A5');
+     cG5:= circle_from_id( 'G5');
+     cF5:= circle_from_id( 'F5');
+     cE5:= circle_from_id( 'E5');
+     cD5:= circle_from_id( 'D5');
+     cC5:= circle_from_id( 'C5');
+     cB4:= circle_from_id( 'B4');
+     cA4:= circle_from_id( 'A4');
+     cG4:= circle_from_id( 'G4');
+     cF4:= circle_from_id( 'F4');
+     cE4:= circle_from_id( 'E4');
+     cD4:= circle_from_id( 'D4');
+     cC4:= circle_from_id( 'C4');
+
+     iSource:= input_from_id( 'iSource');
+     iSource.oninput:= @iSourceInput;
+     _from_Source;
+
+     bDo := button_from_id('bDo' );bDo .onclick:= @bDoClick;
+     bRe := button_from_id('bRe' );bRe .onclick:= @bReClick;
+     bMi := button_from_id('bMi' );bMi .onclick:= @bMiClick;
+     bFa := button_from_id('bFa' );bFa .onclick:= @bFaClick;
+     bSol:= button_from_id('bSol');bSol.onclick:= @bSolClick;
+     bLa := button_from_id('bLa' );bLa .onclick:= @bLaClick;
+     bSi := button_from_id('bSi' );bSi .onclick:= @bSiClick;
+
 end;
 
 begin
-     dump_element_variables( 'C4');
-     Set_on_click( 'C4');
-     Copie( 'svg2', 'G4');
-     Copie( 'svg2', 'A4');
-     Copie( 'svg2', 'F4');
-     Copie( 'svg2', 'B4');
+     Application:= TjsTuneTrainer.Create( nil);
+     Application.Initialize;
+     Application.Run;
+
+     //dump_element_variables( 'C4');
+     //Set_on_click( 'C4');
+     //Copie( 'svg', 'G4');
+     //Copie( 'svg', 'A4');
+     //Copie( 'svg', 'F4');
+     //Copie( 'svg', 'B4');
 end.

@@ -26,12 +26,12 @@ unit uuStrings;
 interface
 
 uses
-    uClean,
+    //uClean,
     uReels,
     uBatpro_StringList,
     u_sys_,
 
-  {$IFNDEF FPC}Windows, {$ENDIF}
+  {$IFDEF DCC}Windows, {$ENDIF}
   SysUtils, Classes, Types;
 
 const
@@ -662,7 +662,7 @@ end;
 }
 function StrToOem(const AnsiStr: string): string;
 begin
-	 {$IFNDEF FPC}
+     {$IFDEF DCC}
      SetLength(Result, Length(AnsiStr));
      if Length(Result) > 0 
      then
@@ -677,7 +677,7 @@ end;
 }
 function OEMToStr(const OEMStr: string): string;
 begin
-     {$IFNDEF FPC}
+     {$IFDEF DCC}
      SetLength(Result, Length(OEMStr));
      if Length(Result) > 0
      then

@@ -12,6 +12,11 @@
           <Mode Name="Default"/>
         </BuildModes>
       </Target>
+      <Target FileName="..\jsCiel\js_jsCiel.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
     </Targets>
   </ProjectGroup>
 </CONFIG>
