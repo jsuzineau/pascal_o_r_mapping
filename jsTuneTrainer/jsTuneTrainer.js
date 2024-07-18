@@ -3672,6 +3672,7 @@ rtl.module("program",["System","browserconsole","BrowserApp","JS","Classes","Sys
       this.cE4 = null;
       this.cD4 = null;
       this.cC4 = null;
+      this.gC4 = null;
       this.iSource = null;
       this.x_offset = 0;
       this.x_ecart = 0;
@@ -3701,6 +3702,7 @@ rtl.module("program",["System","browserconsole","BrowserApp","JS","Classes","Sys
       this.cE4 = undefined;
       this.cD4 = undefined;
       this.cC4 = undefined;
+      this.gC4 = undefined;
       this.iSource = undefined;
       this.Notes = undefined;
       this.bDo = undefined;
@@ -3736,6 +3738,7 @@ rtl.module("program",["System","browserconsole","BrowserApp","JS","Classes","Sys
       this.cE4 = $mod.circle_from_id("E4");
       this.cD4 = $mod.circle_from_id("D4");
       this.cC4 = $mod.circle_from_id("C4");
+      this.gC4 = document.getElementById("gC4");
       this.iSource = $mod.input_from_id("iSource");
       this.iSource.oninput = rtl.createSafeCallback(this,"iSourceInput");
       this._from_Source();
@@ -3782,7 +3785,9 @@ rtl.module("program",["System","browserconsole","BrowserApp","JS","Classes","Sys
         for (var $l = 0, $end = rtl.length($Self.Notes) - 1; $l <= $end; $l++) {
           i = $l;
           var $with = $Self.Notes[i];
-          $with.c = $Self.Copie($with.Note);
+          if (($with.Note === "C4") || ($with.Note === "A5")) {
+            $with.c = $Self.Copie_g("g" + $with.Note)}
+           else $with.c = $Self.Copie($with.Note);
         };
       };
       this.Notes_Vide();
@@ -3812,6 +3817,29 @@ rtl.module("program",["System","browserconsole","BrowserApp","JS","Classes","Sys
       Result = c.cloneNode(true);
       Result.setAttribute("id",_id + "_copie");
       Result.setAttribute("cx",pas.SysUtils.IntToStr(this.x));
+      style = Result.getAttribute("style");
+      i = pas.System.Pos("visibility: hidden;",style);
+      pas.System.Delete({get: function () {
+          return style;
+        }, set: function (v) {
+          style = v;
+        }},i,style.length);
+      Result.setAttribute("style",style);
+      Result = this.svg.appendChild(Result);
+      this.x += this.x_ecart;
+      return Result;
+    };
+    this.Copie_g = function (_id) {
+      var Result = null;
+      var g = null;
+      var style = "";
+      var i = 0;
+      Result = null;
+      g = document.getElementById(_id);
+      if (g === null) return Result;
+      Result = g.cloneNode(true);
+      Result.setAttribute("id",_id + "_copie");
+      Result.setAttribute("transform","translate(" + pas.SysUtils.IntToStr(this.x) + ",0)");
       style = Result.getAttribute("style");
       i = pas.System.Pos("visibility: hidden;",style);
       pas.System.Delete({get: function () {
