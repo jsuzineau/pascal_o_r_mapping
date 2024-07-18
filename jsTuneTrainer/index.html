@@ -87,12 +87,10 @@
   </svg>
   <div class="container">
      <div class="form-floating">
+       <!--
        <div class="columns">
          <div class="column">
-           <button id='bDebut'  class="button is-primary is-fullwidth" >Début réponse</button>
-         </div>
-         <div class="column">
-           <button id='bDo'  class="button is-primary is-fullwidth" >Do  </button>
+           <button id='bDo'  class="button is-primary is-fullwidth" >Do</button>
          </div>
          <div class="column">
            <button id='bRe'  class="button is-primary is-fullwidth" >Re</button>
@@ -113,6 +111,14 @@
            <button id='bSi'  class="button is-primary  is-fullwidth" >Si</button>
          </div>
        </div>
+       -->
+       <button id='bDo'  class="button is-primary" >Do  </button>
+       <button id='bRe'  class="button is-primary" >Re</button>
+       <button id='bMi'  class="button is-primary" >Mi</button>
+       <button id='bFa'  class="button is-primary" >Fa</button>
+       <button id='bSol' class="button is-primary" >Sol</button>
+       <button id='bLa'  class="button is-primary" >La</button>
+       <button id='bSi'  class="button is-primary" >Si</button>
      </div>
      <div class="form-floating">
        <input id="iSource" type="text" class="form-control" aria-describedby="lSource" value="do re mi fa sol la si do c5 ré4 ré3 d"/>
@@ -121,6 +127,7 @@
          Suite de notes utilisée pour l'affichage.
        </small>
      </div>
+     <button id='bDebut'  class="button is-primary is-fullwidth" >Début réponse</button>
   </div>
   <script>
     rtl.showUncaughtExceptions=true;
