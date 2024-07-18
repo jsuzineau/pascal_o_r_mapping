@@ -268,7 +268,11 @@ procedure TjsTuneTrainer._from_Source;
       i: Integer;
    begin
         //WriteLn( ClassName+'_from_Source:  Copie_Notes; window.innerWidth:',window.innerWidth);
-        x_ecart:= Trunc((window.innerWidth - x_offset)/(Length(Notes)-1));
+        //x_ecart:= Trunc((window.innerWidth - x_offset)/(Length(Notes)-1));
+        x_ecart:= Trunc((2670{svg.viewport} - x_offset)/Length(Notes));
+
+        //2670
+        //svg.viewportElement.Attrs[];
         for i:= Low(Notes) to High(Notes)
         do
           with Notes[i] do c:= Copie( Note);
