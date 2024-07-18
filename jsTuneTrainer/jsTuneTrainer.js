@@ -3778,7 +3778,7 @@ rtl.module("program",["System","browserconsole","BrowserApp","JS","Classes","Sys
       };
       function Copie_Notes() {
         var i = 0;
-        $Self.x_ecart = pas.System.Trunc((window.innerWidth - $Self.x_offset) / (rtl.length($Self.Notes) - 1));
+        $Self.x_ecart = pas.System.Trunc((2670 - $Self.x_offset) / rtl.length($Self.Notes));
         for (var $l = 0, $end = rtl.length($Self.Notes) - 1; $l <= $end; $l++) {
           i = $l;
           var $with = $Self.Notes[i];
