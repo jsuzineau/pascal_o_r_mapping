@@ -45,6 +45,7 @@ type
     cE4: TJSSVGCircleElement;
     cD4: TJSSVGCircleElement;
     cC4: TJSSVGCircleElement;
+    gC4: TJSSVGGElement;
   //Source
   private
     iSource: TJSHTMLInputElement;
@@ -58,6 +59,7 @@ type
     Notes: array of TNote;
     procedure Notes_Vide;
     function Copie( _id: String): TJSSVGCircleElement;
+    function Copie_g( _id: String): TJSSVGGElement;
   //Reponse
   private
     bDebut: TJSHTMLButtonElement;
@@ -247,6 +249,38 @@ begin
      Inc(x, x_ecart);
 end;
 
+function TjsTuneTrainer.Copie_g(_id: String): TJSSVGGElement;
+var
+   g: TJSSVGGElement;
+   style: string;
+   i: Integer;
+begin
+     //WriteLn( 'Copie(',_id,'): svg.to_string');
+     //WriteLn( '  ',svg.toString);
+     Result:= nil;
+
+     g:= TJSSVGGElement(document.getElementById(_id));
+     if g = nil then exit;
+
+     Result:= TJSSVGGElement( g.cloneNode(true));
+     Result.setAttribute('id', _id+'_copie');
+     //Result.setAttribute('cx', IntToStr(x));
+     Result.setAttribute('transform', 'translate('+IntToStr(x)+',0)');
+     style:= Result.getAttribute('style');
+     i:= Pos('visibility: hidden;', style);
+     delete( style, i, length(style));
+     Result.setAttribute('style', style);
+
+     Result:= TJSSVGGElement( svg.appendChild(Result));
+     //Copy_element_attributes( 'copie:= c', Result, g);
+     //WriteLn( 'Copie(',_id,'): copie.to_string');
+     //WriteLn( '  ',Result.toString);
+     //dump_element_variables( _id);
+     //dump_element_attributes( 'c', g);
+     //dump_element_attributes( 'Result', Result);
+     Inc(x, x_ecart);
+end;
+
 procedure TjsTuneTrainer._from_Source;
    procedure Cree_Notes;
    var
@@ -275,7 +309,16 @@ procedure TjsTuneTrainer._from_Source;
         //svg.viewportElement.Attrs[];
         for i:= Low(Notes) to High(Notes)
         do
-          with Notes[i] do c:= Copie( Note);
+          with Notes[i]
+          do
+            begin
+            //WriteLn( ClassName+'._from_Source; Copie_Notes; Note:',Note);
+            if (Note='C4') or (Note='A5')
+            then
+                c:= TJSSVGCircleElement( Copie_g( 'g'+Note))
+            else
+                c:= Copie( Note);
+            end;
    end;
 begin
      Notes_Vide;
@@ -362,6 +405,9 @@ begin
      cE4:= circle_from_id( 'E4');
      cD4:= circle_from_id( 'D4');
      cC4:= circle_from_id( 'C4');
+
+     gC4:= TJSSVGGElement(document.getElementById('gC4'));
+     //Writeln( ClassName+'.DoRun; gC4:', gC4.toString);
 
      iSource:= input_from_id( 'iSource');
      iSource.oninput:= @iSourceInput;
