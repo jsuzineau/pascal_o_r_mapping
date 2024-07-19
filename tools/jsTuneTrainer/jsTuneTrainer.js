@@ -3678,6 +3678,7 @@ rtl.module("program",["System","browserconsole","BrowserApp","JS","Classes","Sys
       this.x_ecart = 0;
       this.x = 0;
       this.Notes = [];
+      this.bDebut = null;
       this.bDo = null;
       this.bRe = null;
       this.bMi = null;
@@ -3705,6 +3706,7 @@ rtl.module("program",["System","browserconsole","BrowserApp","JS","Classes","Sys
       this.gC4 = undefined;
       this.iSource = undefined;
       this.Notes = undefined;
+      this.bDebut = undefined;
       this.bDo = undefined;
       this.bRe = undefined;
       this.bMi = undefined;
@@ -3742,6 +3744,8 @@ rtl.module("program",["System","browserconsole","BrowserApp","JS","Classes","Sys
       this.iSource = $mod.input_from_id("iSource");
       this.iSource.oninput = rtl.createSafeCallback(this,"iSourceInput");
       this._from_Source();
+      this.bDebut = $mod.button_from_id("bDebut");
+      this.bDebut.onclick = rtl.createSafeCallback(this,"bDebutClick");
       this.bDo = $mod.button_from_id("bDo");
       this.bDo.onclick = rtl.createSafeCallback(this,"bDoClick");
       this.bRe = $mod.button_from_id("bRe");
@@ -3860,6 +3864,11 @@ rtl.module("program",["System","browserconsole","BrowserApp","JS","Classes","Sys
         this.iReponse += 1;
         if (this.iReponse >= rtl.length(this.Notes)) window.alert("Réussi!");
       };
+    };
+    this.bDebutClick = function (aEvent) {
+      var Result = false;
+      this.iReponse = 0;
+      return Result;
     };
     this.bDoClick = function (aEvent) {
       var Result = false;

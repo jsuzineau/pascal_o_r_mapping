@@ -413,6 +413,7 @@ begin
      iSource.oninput:= @iSourceInput;
      _from_Source;
 
+     bDebut:= button_from_id('bDebut' );bDebut.onclick:= @bDebutClick;
      bDo := button_from_id('bDo' );bDo .onclick:= @bDoClick;
      bRe := button_from_id('bRe' );bRe .onclick:= @bReClick;
      bMi := button_from_id('bMi' );bMi .onclick:= @bMiClick;
@@ -435,3 +436,4 @@ begin
      //Copie( 'svg', 'F4');
      //Copie( 'svg', 'B4');
 end.
+//do re mi fa sol la si do c5 ré4 ré3 d
