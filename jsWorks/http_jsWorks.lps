@@ -3,11 +3,10 @@
   <ProjectSession>
     <Version Value="12"/>
     <BuildModes Active="Release"/>
-    <Units Count="94">
+    <Units Count="95">
       <Unit0>
         <Filename Value="http_jsWorks.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="16"/>
         <CursorPos Y="27"/>
@@ -17,7 +16,7 @@
       <Unit1>
         <Filename Value="Elements/Categorie/ublCategorie.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="20"/>
+        <EditorIndex Value="21"/>
         <UsageCount Value="1317"/>
         <Loaded Value="True"/>
       </Unit1>
@@ -37,7 +36,7 @@
       <Unit4>
         <Filename Value="Elements/Development/ublDevelopment.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="19"/>
+        <EditorIndex Value="20"/>
         <TopLine Value="287"/>
         <CursorPos X="17" Y="298"/>
         <UsageCount Value="1317"/>
@@ -85,7 +84,7 @@
       <Unit11>
         <Filename Value="Elements/Project/ublProject.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="21"/>
+        <EditorIndex Value="22"/>
         <TopLine Value="76"/>
         <CursorPos X="75" Y="244"/>
         <UsageCount Value="1317"/>
@@ -122,7 +121,7 @@
         <Filename Value="Elements/Project/upoolProject.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <EditorIndex Value="23"/>
+        <EditorIndex Value="24"/>
         <TopLine Value="31"/>
         <UsageCount Value="1317"/>
         <Loaded Value="True"/>
@@ -149,7 +148,7 @@
       <Unit20>
         <Filename Value="Elements/State/ublState.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="17"/>
+        <EditorIndex Value="18"/>
         <TopLine Value="67"/>
         <CursorPos X="6" Y="85"/>
         <UsageCount Value="1317"/>
@@ -171,7 +170,7 @@
       <Unit23>
         <Filename Value="Elements/Tag/ublTag.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="18"/>
+        <EditorIndex Value="19"/>
         <TopLine Value="276"/>
         <CursorPos X="6" Y="303"/>
         <UsageCount Value="1317"/>
@@ -321,7 +320,7 @@
       <Unit45>
         <Filename Value="Elements/Work/ublWork.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="24"/>
+        <EditorIndex Value="25"/>
         <TopLine Value="615"/>
         <CursorPos X="109" Y="624"/>
         <UsageCount Value="1317"/>
@@ -350,7 +349,7 @@
         <Filename Value="Elements/Work/upoolWork.pas"/>
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
-        <EditorIndex Value="22"/>
+        <EditorIndex Value="23"/>
         <TopLine Value="145"/>
         <CursorPos X="99" Y="174"/>
         <UsageCount Value="1317"/>
@@ -373,7 +372,7 @@
         <ComponentName Value="Pool"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="27"/>
+        <EditorIndex Value="28"/>
         <TopLine Value="2073"/>
         <CursorPos X="85" Y="2087"/>
         <UsageCount Value="1317"/>
@@ -382,7 +381,7 @@
       </Unit52>
       <Unit53>
         <Filename Value="../pascal_o_r_mapping/07_sources_externes/synapse/source/lib/blcksock.pas"/>
-        <EditorIndex Value="31"/>
+        <EditorIndex Value="32"/>
         <TopLine Value="378"/>
         <CursorPos X="15" Y="394"/>
         <UsageCount Value="1317"/>
@@ -391,7 +390,7 @@
       </Unit53>
       <Unit54>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <TopLine Value="772"/>
         <CursorPos X="24" Y="787"/>
         <UsageCount Value="1317"/>
@@ -419,7 +418,7 @@
       </Unit56>
       <Unit57>
         <Filename Value="../pascal_o_r_mapping/03_Data/Automatic/ublAutomatic.pas"/>
-        <EditorIndex Value="32"/>
+        <EditorIndex Value="33"/>
         <TopLine Value="18"/>
         <CursorPos X="28" Y="42"/>
         <UsageCount Value="1317"/>
@@ -498,7 +497,7 @@
       </Unit70>
       <Unit71>
         <Filename Value="../pascal_o_r_mapping/03_Data/Automatic/Code_Generation/Elements/Postgres_Foreign_Key/ublPostgres_Foreign_Key.pas"/>
-        <EditorIndex Value="33"/>
+        <EditorIndex Value="34"/>
         <CursorPos X="6"/>
         <UsageCount Value="253"/>
         <Loaded Value="True"/>
@@ -506,7 +505,7 @@
       </Unit71>
       <Unit72>
         <Filename Value="../pascal_o_r_mapping/02_Units/uNetwork.pas"/>
-        <EditorIndex Value="16"/>
+        <EditorIndex Value="17"/>
         <CursorPos X="29" Y="14"/>
         <UsageCount Value="1317"/>
         <Loaded Value="True"/>
@@ -530,7 +529,7 @@
       </Unit74>
       <Unit75>
         <Filename Value="tests_http/python/jsWorks.py"/>
-        <EditorIndex Value="30"/>
+        <EditorIndex Value="31"/>
         <CursorPos X="17" Y="10"/>
         <UsageCount Value="659"/>
         <Loaded Value="True"/>
@@ -538,7 +537,7 @@
       </Unit75>
       <Unit76>
         <Filename Value="../pascal_o_r_mapping/03_Data/uBatpro_Element.pas"/>
-        <EditorIndex Value="29"/>
+        <EditorIndex Value="30"/>
         <TopLine Value="1112"/>
         <CursorPos X="16" Y="1112"/>
         <UsageCount Value="114"/>
@@ -554,7 +553,7 @@
       </Unit77>
       <Unit78>
         <Filename Value="../pascal_o_r_mapping/03_Data/uBatpro_Ligne.pas"/>
-        <EditorIndex Value="25"/>
+        <EditorIndex Value="26"/>
         <TopLine Value="1158"/>
         <CursorPos X="28" Y="1179"/>
         <UsageCount Value="153"/>
@@ -563,7 +562,7 @@
       </Unit78>
       <Unit79>
         <Filename Value="../pascal_o_r_mapping/02_Units/uBatpro_StringList.pas"/>
-        <EditorIndex Value="28"/>
+        <EditorIndex Value="29"/>
         <TopLine Value="830"/>
         <CursorPos X="35" Y="847"/>
         <UsageCount Value="153"/>
@@ -572,7 +571,7 @@
       </Unit79>
       <Unit80>
         <Filename Value="../pascal_o_r_mapping/02_Units/uChamps.pas"/>
-        <EditorIndex Value="26"/>
+        <EditorIndex Value="27"/>
         <TopLine Value="28"/>
         <CursorPos Y="51"/>
         <UsageCount Value="153"/>
@@ -581,7 +580,7 @@
       </Unit80>
       <Unit81>
         <Filename Value="../pascal_o_r_mapping/02_Units/uLog.pas"/>
-        <EditorIndex Value="15"/>
+        <EditorIndex Value="16"/>
         <TopLine Value="11"/>
         <CursorPos X="5" Y="35"/>
         <UsageCount Value="139"/>
@@ -590,7 +589,7 @@
       </Unit81>
       <Unit82>
         <Filename Value="../../20_LDNR_Projet/weather/models.py"/>
-        <EditorIndex Value="10"/>
+        <EditorIndex Value="11"/>
         <TopLine Value="57"/>
         <CursorPos X="57" Y="86"/>
         <UsageCount Value="804"/>
@@ -599,7 +598,7 @@
       </Unit82>
       <Unit83>
         <Filename Value="../../20_LDNR_Projet/weather/views.py"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="13"/>
         <TopLine Value="236"/>
         <CursorPos X="58" Y="286"/>
         <UsageCount Value="791"/>
@@ -608,7 +607,7 @@
       </Unit83>
       <Unit84>
         <Filename Value="../../20_LDNR_Projet/weather/engine.py"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="9"/>
         <CursorPos X="99" Y="28"/>
         <UsageCount Value="804"/>
         <Loaded Value="True"/>
@@ -616,7 +615,7 @@
       </Unit84>
       <Unit85>
         <Filename Value="../../20_LDNR_Projet/weather/test_engine.py"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="15"/>
         <TopLine Value="12"/>
         <CursorPos X="21" Y="51"/>
         <UsageCount Value="804"/>
@@ -625,7 +624,7 @@
       </Unit85>
       <Unit86>
         <Filename Value="../../20_LDNR_Projet/weather/templates/weather/index.html"/>
-        <EditorIndex Value="11"/>
+        <EditorIndex Value="12"/>
         <TopLine Value="80"/>
         <CursorPos X="8" Y="92"/>
         <UsageCount Value="804"/>
@@ -634,7 +633,7 @@
       </Unit86>
       <Unit87>
         <Filename Value="../../20_LDNR_Projet/weather/forms.py"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="14"/>
         <CursorPos X="67" Y="38"/>
         <UsageCount Value="791"/>
         <Loaded Value="True"/>
@@ -642,7 +641,7 @@
       </Unit87>
       <Unit88>
         <Filename Value="../../20_LDNR_Projet/weather_alerting/settings.py"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="10"/>
         <TopLine Value="114"/>
         <CursorPos X="14" Y="145"/>
         <UsageCount Value="791"/>
@@ -651,7 +650,7 @@
       </Unit88>
       <Unit89>
         <Filename Value="../pascal_o_r_mapping/03_Data/uMySQL.pas"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="27"/>
         <CursorPos X="27" Y="27"/>
         <UsageCount Value="18"/>
@@ -660,7 +659,7 @@
       </Unit89>
       <Unit90>
         <Filename Value="../pascal_o_r_mapping/08_Web/uhAutomatic_AUT.pas"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="73"/>
         <CursorPos X="37" Y="88"/>
         <UsageCount Value="18"/>
@@ -668,7 +667,7 @@
       </Unit90>
       <Unit91>
         <Filename Value="../pascal_o_r_mapping/03_Data/uhFiltre.pas"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="101"/>
         <CursorPos X="22" Y="116"/>
         <UsageCount Value="18"/>
@@ -677,139 +676,149 @@
       </Unit91>
       <Unit92>
         <Filename Value="../pascal_o_r_mapping/03_Data/uhTriColonne.pas"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <UsageCount Value="18"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit92>
       <Unit93>
         <Filename Value="log/2022_10_28/http_jsWorks.DESKTOP-RL5HQ2H.txt"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <TopLine Value="642"/>
         <CursorPos X="18" Y="599"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Text"/>
       </Unit93>
+      <Unit94>
+        <Filename Value="../pascal_o_r_mapping/02_Units/uuStrings.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="1050"/>
+        <CursorPos X="23" Y="1079"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit94>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <Caret Line="146" Column="15" TopLine="132"/>
+        <Caret Line="940" Column="6" TopLine="935"/>
       </Position1>
       <Position2>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <Caret Line="940" Column="6" TopLine="935"/>
+        <Caret Line="1174" Column="6" TopLine="1160"/>
       </Position2>
       <Position3>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <Caret Line="1174" Column="6" TopLine="1160"/>
+        <Caret Line="936" Column="38" TopLine="925"/>
       </Position3>
       <Position4>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <Caret Line="936" Column="38" TopLine="925"/>
+        <Caret Line="146" Column="28" TopLine="132"/>
       </Position4>
       <Position5>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <Caret Line="146" Column="28" TopLine="132"/>
+        <Caret Line="936" Column="28" TopLine="924"/>
       </Position5>
       <Position6>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <Caret Line="936" Column="28" TopLine="924"/>
+        <Caret Line="146" Column="15" TopLine="132"/>
       </Position6>
       <Position7>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <Caret Line="146" Column="15" TopLine="132"/>
+        <Caret Line="936" Column="28" TopLine="923"/>
       </Position7>
       <Position8>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <Caret Line="936" Column="28" TopLine="923"/>
+        <Caret Line="146" Column="35" TopLine="132"/>
       </Position8>
       <Position9>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <Caret Line="146" Column="35" TopLine="132"/>
+        <Caret Line="936" Column="28" TopLine="928"/>
       </Position9>
       <Position10>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <Caret Line="936" Column="28" TopLine="928"/>
+        <Caret Line="1173" Column="18" TopLine="1156"/>
       </Position10>
       <Position11>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <Caret Line="1173" Column="18" TopLine="1156"/>
+        <Caret Line="150" Column="9" TopLine="136"/>
       </Position11>
       <Position12>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <Caret Line="150" Column="9" TopLine="136"/>
+        <Caret Line="160" Column="5" TopLine="137"/>
       </Position12>
       <Position13>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <Caret Line="160" Column="5" TopLine="137"/>
+        <Caret Line="1174" Column="20" TopLine="1160"/>
       </Position13>
       <Position14>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <Caret Line="1174" Column="20" TopLine="1160"/>
+        <Caret Line="160" Column="5" TopLine="145"/>
       </Position14>
       <Position15>
-        <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <Caret Line="160" Column="5" TopLine="145"/>
-      </Position15>
-      <Position16>
         <Filename Value="http_jsWorks.lpr"/>
         <Caret Line="111" Column="54" TopLine="100"/>
+      </Position15>
+      <Position16>
+        <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
+        <Caret Line="1175" Column="6" TopLine="1161"/>
       </Position16>
       <Position17>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <Caret Line="1175" Column="6" TopLine="1161"/>
+        <Caret Line="163" TopLine="151"/>
       </Position17>
       <Position18>
-        <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <Caret Line="163" TopLine="151"/>
-      </Position18>
-      <Position19>
         <Filename Value="http_jsWorks.lpr"/>
         <Caret Line="111" Column="42" TopLine="96"/>
+      </Position18>
+      <Position19>
+        <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
+        <Caret Line="166" Column="44" TopLine="151"/>
       </Position19>
       <Position20>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <Caret Line="166" Column="44" TopLine="151"/>
+        <Caret Line="1176" Column="6" TopLine="1162"/>
       </Position20>
       <Position21>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <Caret Line="1176" Column="6" TopLine="1162"/>
+        <Caret Line="164" Column="15" TopLine="150"/>
       </Position21>
       <Position22>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <Caret Line="164" Column="15" TopLine="150"/>
+        <Caret Line="1203" Column="72" TopLine="1194"/>
       </Position22>
       <Position23>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <Caret Line="1203" Column="72" TopLine="1194"/>
       </Position23>
       <Position24>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
+        <Caret Line="1015" Column="30" TopLine="1000"/>
       </Position24>
       <Position25>
-        <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
-        <Caret Line="1015" Column="30" TopLine="1000"/>
+        <Filename Value="log/2022_10_28/http_jsWorks.DESKTOP-RL5HQ2H.txt"/>
       </Position25>
       <Position26>
-        <Filename Value="log/2022_10_28/http_jsWorks.DESKTOP-RL5HQ2H.txt"/>
-      </Position26>
-      <Position27>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
         <Caret Line="1013" Column="59" TopLine="994"/>
-      </Position27>
-      <Position28>
+      </Position26>
+      <Position27>
         <Filename Value="http_jsWorks.lpr"/>
         <Caret Line="137" Column="58" TopLine="111"/>
-      </Position28>
-      <Position29>
+      </Position27>
+      <Position28>
         <Filename Value="../pascal_o_r_mapping/03_Data/uHTTP_Interface.pas"/>
         <Caret Line="100" Column="5" TopLine="84"/>
+      </Position28>
+      <Position29>
+        <Filename Value="http_jsWorks.lpr"/>
+        <Caret Line="122" Column="116" TopLine="94"/>
       </Position29>
       <Position30>
         <Filename Value="http_jsWorks.lpr"/>
-        <Caret Line="122" Column="116" TopLine="94"/>
+        <Caret Line="27" TopLine="16"/>
       </Position30>
     </JumpHistory>
     <RunParams>

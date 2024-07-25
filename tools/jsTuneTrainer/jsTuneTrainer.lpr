@@ -1,10 +1,11 @@
 program jsTuneTrainer;
 
 {$mode objfpc}
-
+{$modeswitch advancedrecords}
 uses
+ uFrequence,
  BrowserConsole, BrowserApp, JS, Classes, SysUtils, Web, websvg, types,
- uFrequence;
+ strutils;
 
 type
 
@@ -14,7 +15,9 @@ type
  =
   record
     Note: String;
+    non_coloriee: Boolean;
     c: TJSSVGCircleElement;
+    procedure Init( _Note: String; _non_coloriee: Boolean);
   end;
 
  { TjsTuneTrainer }
@@ -32,25 +35,43 @@ type
     svg: TJSSVGSVGElement;
   //Elements
   private
-    cA5: TJSSVGCircleElement;
-    cG5: TJSSVGCircleElement;
-    cF5: TJSSVGCircleElement;
-    cE5: TJSSVGCircleElement;
-    cD5: TJSSVGCircleElement;
-    cC5: TJSSVGCircleElement;
-    cB4: TJSSVGCircleElement;
-    cA4: TJSSVGCircleElement;
-    cG4: TJSSVGCircleElement;
-    cF4: TJSSVGCircleElement;
-    cE4: TJSSVGCircleElement;
-    cD4: TJSSVGCircleElement;
-    cC4: TJSSVGCircleElement;
-    gC4: TJSSVGGElement;
+    gA5 : TJSSVGGElement;
+    cA5 : TJSSVGCircleElement;
+    cGd5: TJSSVGCircleElement;
+    cG5 : TJSSVGCircleElement;
+    cFd5: TJSSVGCircleElement;
+    cF5 : TJSSVGCircleElement;
+    cE5 : TJSSVGCircleElement;
+    cEb5: TJSSVGCircleElement;
+    cD5 : TJSSVGCircleElement;
+    cCd5: TJSSVGCircleElement;
+    cC5 : TJSSVGCircleElement;
+    cB4 : TJSSVGCircleElement;
+    cBb4: TJSSVGCircleElement;
+    cA4 : TJSSVGCircleElement;
+    cGd4: TJSSVGCircleElement;
+    cG4 : TJSSVGCircleElement;
+    cFd4: TJSSVGCircleElement;
+    cF4 : TJSSVGCircleElement;
+    cE4 : TJSSVGCircleElement;
+    cEb4: TJSSVGCircleElement;
+    cD4 : TJSSVGCircleElement;
+    cCd4: TJSSVGCircleElement;
+    cC4 : TJSSVGCircleElement;
+    gCd4: TJSSVGGElement;
+    gC4 : TJSSVGGElement;
   //Source
   private
     iSource: TJSHTMLInputElement;
     function iSourceInput(Event: TEventListenerEvent): boolean;
     procedure _from_Source;
+  //Notes_non_coloriees
+  private
+    iNotes_non_coloriees: TJSHTMLInputElement;
+    Notes_non_coloriees: TStringDynArray;
+    function iNotes_non_colorieesInput(Event: TEventListenerEvent): boolean;
+    procedure _from_Notes_non_coloriees;
+    function Is_Note_non_coloriee( _Note: String): Boolean;
   //Notes
   private
     x_offset: Integer;
@@ -58,8 +79,8 @@ type
     x: Integer;
     Notes: array of TNote;
     procedure Notes_Vide;
-    function Copie( _id: String): TJSSVGCircleElement;
-    function Copie_g( _id: String): TJSSVGGElement;
+    function Copie( _id: String; _non_coloriee: Boolean): TJSSVGCircleElement;
+    function Copie_g( _id: String; _non_coloriee: Boolean): TJSSVGGElement;
   //Reponse
   private
     bDebut: TJSHTMLButtonElement;
@@ -80,6 +101,18 @@ type
     function bSolClick(aEvent : TJSMouseEvent) : boolean;
     function bLaClick(aEvent : TJSMouseEvent) : boolean;
     function bSiClick(aEvent : TJSMouseEvent) : boolean;
+  //Tests
+  private
+    bTestDieseBemol: TJSHTMLButtonElement;
+    bTestNotes_non_coloriees: TJSHTMLButtonElement;
+    b1: TJSHTMLButtonElement;
+    b2: TJSHTMLButtonElement;
+    b3: TJSHTMLButtonElement;
+    function bTestDieseBemolClick(aEvent : TJSMouseEvent) : boolean;
+    function bTestNotes_non_colorieesClick(aEvent : TJSMouseEvent) : boolean;
+    function b1Click(aEvent : TJSMouseEvent) : boolean;
+    function b2Click(aEvent : TJSMouseEvent) : boolean;
+    function b3Click(aEvent : TJSMouseEvent) : boolean;
   end;
 var
    Application: TjsTuneTrainer;
@@ -148,7 +181,7 @@ begin
        begin
        attr:= attributes.item(i);
 
-       WriteLn( '  name:', attr.name,' value:', attr.value, ' prefix:', attr.prefix, ' localName:',attr.localName, ' namespaceURI:',attr.namespaceURI);
+       //WriteLn( '  name:', attr.name,' value:', attr.value, ' prefix:', attr.prefix, ' localName:',attr.localName, ' namespaceURI:',attr.namespaceURI);
        end;
 end;
 
@@ -190,12 +223,21 @@ begin
          end;
 end;
 
+{ TNote }
+
+procedure TNote.Init(_Note: String; _non_coloriee: Boolean);
+begin
+     Note        := _Note;
+     non_coloriee:= _non_coloriee;
+end;
+
 { TjsTuneTrainer }
 
 constructor TjsTuneTrainer.Create(aOwner: TComponent);
 begin
      inherited Create(aOwner);
      Notes:= [];
+     Notes_non_coloriees:=[];
      x_offset:= 400;//324;
      x_ecart:= 400;
      x:= 0;
@@ -218,7 +260,7 @@ begin
      x:= x_offset;
 end;
 
-function TjsTuneTrainer.Copie(_id: String): TJSSVGCircleElement;
+function TjsTuneTrainer.Copie(_id: String; _non_coloriee: Boolean): TJSSVGCircleElement;
 var
    c: TJSSVGCircleElement;
    style: string;
@@ -235,8 +277,18 @@ begin
      Result.setAttribute('id', _id+'_copie');
      Result.setAttribute('cx', IntToStr(x));
      style:= Result.getAttribute('style');
+
+     //suppose que visibility est à la fin dy style
      i:= Pos('visibility: hidden;', style);
      delete( style, i, length(style));
+
+     if _non_coloriee //suppose que le fill est juste avant visibility à la fin du style
+     then
+         begin
+         i:= Pos('fill:', style);
+         delete( style, i, length(style));
+         end;
+
      Result.setAttribute('style', style);
 
      Result:= TJSSVGCircleElement( svg.appendChild(Result));
@@ -249,7 +301,8 @@ begin
      Inc(x, x_ecart);
 end;
 
-function TjsTuneTrainer.Copie_g(_id: String): TJSSVGGElement;
+function TjsTuneTrainer.Copie_g(_id: String; _non_coloriee: Boolean
+ ): TJSSVGGElement;
 var
    g: TJSSVGGElement;
    style: string;
@@ -266,9 +319,20 @@ begin
      Result.setAttribute('id', _id+'_copie');
      //Result.setAttribute('cx', IntToStr(x));
      Result.setAttribute('transform', 'translate('+IntToStr(x)+',0)');
+
      style:= Result.getAttribute('style');
+
+     //suppose que visibility est à la fin dy style
      i:= Pos('visibility: hidden;', style);
      delete( style, i, length(style));
+
+     if _non_coloriee //suppose que le fill est juste avant visibility à la fin du style
+     then
+         begin
+         i:= Pos('fill:', style);
+         delete( style, i, length(style));
+         end;
+
      Result.setAttribute('style', style);
 
      Result:= TJSSVGGElement( svg.appendChild(Result));
@@ -281,20 +345,62 @@ begin
      Inc(x, x_ecart);
 end;
 
+procedure TjsTuneTrainer._from_Notes_non_coloriees;
+var
+   sNotes_non_coloriees: String;
+   sa: TStringDynArray;
+   i: Integer;
+   S: String;
+begin
+     Notes_non_coloriees:= [];
+     sNotes_non_coloriees:= iNotes_non_coloriees.value;
+     if '' = sNotes_non_coloriees then exit;
+     sa:= SplitString( sNotes_non_coloriees, ' ');
+     for i:= low(sa) to high(sa)
+     do
+       sa[i]:= Note(Midi_from_Note(sa[i]));
+     Notes_non_coloriees:= sa;
+end;
+
+function TjsTuneTrainer.Is_Note_non_coloriee( _Note: String): Boolean;
+var
+   Note: String;
+begin
+     Result:= False;
+     for Note in Notes_non_coloriees
+     do
+       begin
+       Result:= Note = _Note;
+       if Result then break;
+       end;
+end;
+
 procedure TjsTuneTrainer._from_Source;
    procedure Cree_Notes;
    var
       Source: String;
+      sa: TStringDynArray;
+      i: Integer;
+      Source_Note: String;
+      Midi_Note: Integer;
       Note: String;
+      non_coloriee: Boolean;
    begin
         Source:= iSource.value;
-        while Source <> ''
+        sa:= SplitString( Source, ' ');
+        SetLength( Notes, Length( sa));
+        for i:= low(sa) to high(sa)
         do
           begin
-          Note:= StrTok( ' ', Source);
-          Note:= Note_Octave( Midi_from_Note( Note));
-          SetLength( Notes, Length( Notes)+1);
-          Notes[High(Notes)].Note:= Note;
+          Source_Note:= sa[i];
+
+          Midi_Note:= Midi_from_Note( Source_Note);
+
+          Note        := Note_Octave( Midi_Note);
+          non_coloriee:= Is_Note_non_coloriee( uFrequence.Note(Midi_Note));
+
+          Notes[i].Init( Note, non_coloriee);
+          //Writeln(ClassName+'._from_Source :: Cree_Notes : Source_Note: ',Source_Note,', Midi_Note: ',Midi_Note,', Note: ',Note);
           end;
    end;
    procedure Copie_Notes;
@@ -313,17 +419,23 @@ procedure TjsTuneTrainer._from_Source;
           do
             begin
             //WriteLn( ClassName+'._from_Source; Copie_Notes; Note:',Note);
-            if (Note='C4') or (Note='A5')
+            if (Note='C4') or (Note='C#4') or (Note='A5')
             then
-                c:= TJSSVGCircleElement( Copie_g( 'g'+Note))
+                c:= TJSSVGCircleElement( Copie_g( 'g'+Note, non_coloriee))
             else
-                c:= Copie( Note);
+                c:= Copie( Note, non_coloriee);
             end;
    end;
 begin
      Notes_Vide;
      Cree_Notes;
      Copie_Notes;
+end;
+
+function TjsTuneTrainer.iNotes_non_colorieesInput(Event: TEventListenerEvent): boolean;
+begin
+     _from_Notes_non_coloriees;
+     _from_Source;
 end;
 
 function TjsTuneTrainer.iSourceInput(Event: TEventListenerEvent): boolean;
@@ -386,42 +498,107 @@ begin
      Check_Note( 'B');
 end;
 
+function TjsTuneTrainer.bTestDieseBemolClick(aEvent: TJSMouseEvent): boolean;
+begin
+     iSource.value:= 'do do# re mib mi fa fa# sol sol# la sib si do4 do#4 re4 mib4 mi4 fa4 fa#4 sol4 sol#4 la4';
+     iNotes_non_coloriees.value:= '';
+     _from_Notes_non_coloriees;
+     _from_Source;
+end;
+
+function TjsTuneTrainer.bTestNotes_non_colorieesClick(aEvent: TJSMouseEvent): boolean;
+begin
+     iSource.value:= 'do re mi fa sol la si do4 re4 mi4 fa4 sol4 la4';
+     iNotes_non_coloriees.value:= 'la';
+     _from_Notes_non_coloriees;
+     _from_Source;
+end;
+
+function TjsTuneTrainer.b1Click(aEvent: TJSMouseEvent): boolean;
+begin
+     iSource.value:= 'sol2 la2 si2 do3 re3 mi3 fa3 sol3 la3 si3 do4 re4 mi4 fa4 sol4 la4 si4';
+     iNotes_non_coloriees.value:= '';
+     _from_Notes_non_coloriees;
+     _from_Source;
+end;
+
+function TjsTuneTrainer.b2Click(aEvent: TJSMouseEvent): boolean;
+begin
+     iSource.value:= 'sol2 si2 re3 fa3 la3 do4 mi4 sol4 si4';
+     iNotes_non_coloriees.value:= '';
+     _from_Notes_non_coloriees;
+     _from_Source;
+end;
+
+function TjsTuneTrainer.b3Click(aEvent: TJSMouseEvent): boolean;
+begin
+     iSource.value:= 'la2 do3 mi3 sol3 si3 re4 fa4 la4';
+     iNotes_non_coloriees.value:= '';
+     _from_Notes_non_coloriees;
+     _from_Source;
+end;
+
 procedure TjsTuneTrainer.DoRun;
+   procedure b( var _b: TJSHTMLButtonElement; _id: String; _onclick: THTMLClickEventHandler);
+   begin
+        _b:= button_from_id(_id);_b.onclick:= _onclick;
+   end;
 begin
      inherited DoRun;
 
      svg:= TJSSVGSVGElement(document.getElementById('svg'));
 
-     cA5:= circle_from_id( 'A5');
-     cG5:= circle_from_id( 'G5');
-     cF5:= circle_from_id( 'F5');
-     cE5:= circle_from_id( 'E5');
-     cD5:= circle_from_id( 'D5');
-     cC5:= circle_from_id( 'C5');
-     cB4:= circle_from_id( 'B4');
-     cA4:= circle_from_id( 'A4');
-     cG4:= circle_from_id( 'G4');
-     cF4:= circle_from_id( 'F4');
-     cE4:= circle_from_id( 'E4');
-     cD4:= circle_from_id( 'D4');
-     cC4:= circle_from_id( 'C4');
+     gA5 := TJSSVGGElement(document.getElementById('gA5'));
 
-     gC4:= TJSSVGGElement(document.getElementById('gC4'));
+     cA5 := circle_from_id( 'A5' );
+     cGd5:= circle_from_id( 'Gd5');
+     cG5 := circle_from_id( 'G5' );
+     cFd5:= circle_from_id( 'Fd5');
+     cF5 := circle_from_id( 'F5' );
+     cE5 := circle_from_id( 'E5' );
+     cEb5:= circle_from_id( 'Eb5');
+     cD5 := circle_from_id( 'D5' );
+     cCd5:= circle_from_id( 'Cd5');
+     cC5 := circle_from_id( 'C5' );
+     cB4 := circle_from_id( 'B4' );
+     cBb4:= circle_from_id( 'Bb4');
+     cA4 := circle_from_id( 'A4' );
+     cGd4:= circle_from_id( 'Gd4');
+     cG4 := circle_from_id( 'G4' );
+     cFd4:= circle_from_id( 'Fd4');
+     cF4 := circle_from_id( 'F4' );
+     cE4 := circle_from_id( 'E4' );
+     cEb4:= circle_from_id( 'Eb4');
+     cD4 := circle_from_id( 'D4' );
+     cCd4:= circle_from_id( 'Cd4');
+     cC4 := circle_from_id( 'C4' );
+
+     gCd4:= TJSSVGGElement(document.getElementById('gCd4'));
+     gC4 := TJSSVGGElement(document.getElementById('gC4'));
      //Writeln( ClassName+'.DoRun; gC4:', gC4.toString);
 
      iSource:= input_from_id( 'iSource');
      iSource.oninput:= @iSourceInput;
+
+     iNotes_non_coloriees:= input_from_id( 'iNotes_non_coloriees');
+     iNotes_non_coloriees.oninput:= @iNotes_non_colorieesInput;
+
+     _from_Notes_non_coloriees;
      _from_Source;
 
-     bDebut:= button_from_id('bDebut' );bDebut.onclick:= @bDebutClick;
-     bDo := button_from_id('bDo' );bDo .onclick:= @bDoClick;
-     bRe := button_from_id('bRe' );bRe .onclick:= @bReClick;
-     bMi := button_from_id('bMi' );bMi .onclick:= @bMiClick;
-     bFa := button_from_id('bFa' );bFa .onclick:= @bFaClick;
-     bSol:= button_from_id('bSol');bSol.onclick:= @bSolClick;
-     bLa := button_from_id('bLa' );bLa .onclick:= @bLaClick;
-     bSi := button_from_id('bSi' );bSi .onclick:= @bSiClick;
-
+     b(bDebut                  ,'bDebut'                  ,@bDebutClick                  );
+     b(bDo                     ,'bDo'                     ,@bDoClick                     );
+     b(bRe                     ,'bRe'                     ,@bReClick                     );
+     b(bMi                     ,'bMi'                     ,@bMiClick                     );
+     b(bFa                     ,'bFa'                     ,@bFaClick                     );
+     b(bSol                    ,'bSol'                    ,@bSolClick                    );
+     b(bLa                     ,'bLa'                     ,@bLaClick                     );
+     b(bSi                     ,'bSi'                     ,@bSiClick                     );
+     b(bTestDieseBemol         ,'bTestDieseBemol'         ,@bTestDieseBemolClick         );
+     b(bTestNotes_non_coloriees,'bTestNotes_non_coloriees',@bTestNotes_non_colorieesClick);
+     b(b1                      ,'b1'                      ,@b1Click                      );
+     b(b2                      ,'b2'                      ,@b2Click                      );
+     b(b3                      ,'b3'                      ,@b3Click                      );
 end;
 
 begin

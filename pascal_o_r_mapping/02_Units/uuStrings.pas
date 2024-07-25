@@ -1076,7 +1076,7 @@ begin
           if Result < Longueur then Result:= Longueur;
           end;
      finally
-            Free_nil( sl);
+            FreeAndNil( sl);
             end;
 end;
 

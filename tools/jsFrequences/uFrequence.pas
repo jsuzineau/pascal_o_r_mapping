@@ -292,7 +292,11 @@ var
               'i' :
                 begin
                 latin:= True;
-                nNote:= 4;//mi
+                case Suivant
+                of
+                  'b' : nNote:=3;
+                  else  nNote:=4;//mi
+                  end;
                 end;
               end;
           'r': //traitement différent pour éviter les problèmes avec l'UTF8
