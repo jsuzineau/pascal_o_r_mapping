@@ -1758,6 +1758,11 @@ rtl.module("System",[],function () {
     rtl.exitcode = 0;
   };
 },[]);
+rtl.module("RTLConsts",["System"],function () {
+  "use strict";
+  var $mod = this;
+  $mod.$resourcestrings = {SArgumentMissing: {org: 'Missing argument in format "%s"'}, SInvalidFormat: {org: 'Invalid format specifier : "%s"'}, SInvalidArgIndex: {org: 'Invalid argument index in format: "%s"'}, SListCapacityError: {org: "List capacity (%s) exceeded."}, SListCountError: {org: "List count (%s) out of bounds."}, SListIndexError: {org: "List index (%s) out of bounds"}, SInvalidName: {org: 'Invalid component name: "%s"'}, SDuplicateName: {org: 'Duplicate component name: "%s"'}};
+});
 rtl.module("Types",["System"],function () {
   "use strict";
   var $mod = this;
@@ -1765,19 +1770,6 @@ rtl.module("Types",["System"],function () {
 rtl.module("JS",["System","Types"],function () {
   "use strict";
   var $mod = this;
-});
-rtl.module("weborworker",["System","JS","Types"],function () {
-  "use strict";
-  var $mod = this;
-});
-rtl.module("Web",["System","Types","JS","weborworker"],function () {
-  "use strict";
-  var $mod = this;
-});
-rtl.module("RTLConsts",["System"],function () {
-  "use strict";
-  var $mod = this;
-  $mod.$resourcestrings = {SArgumentMissing: {org: 'Missing argument in format "%s"'}, SInvalidFormat: {org: 'Invalid format specifier : "%s"'}, SInvalidArgIndex: {org: 'Invalid argument index in format: "%s"'}, SListCapacityError: {org: "List capacity (%s) exceeded."}, SListCountError: {org: "List count (%s) out of bounds."}, SListIndexError: {org: "List index (%s) out of bounds"}, SInvalidName: {org: 'Invalid component name: "%s"'}, SDuplicateName: {org: 'Duplicate component name: "%s"'}};
 });
 rtl.module("SysUtils",["System","RTLConsts","JS"],function () {
   "use strict";
@@ -2308,6 +2300,15 @@ rtl.module("SysUtils",["System","RTLConsts","JS"],function () {
       };
       return Result;
     };
+    this.Split = function (Separators) {
+      var Result = [];
+      Result = $mod.TStringHelper.Split$1.call(this,$mod.TStringHelper.ToCharArray$1.call({get: function () {
+          return Separators;
+        }, set: function (v) {
+          rtl.raiseE("EPropReadOnly");
+        }}));
+      return Result;
+    };
     this.Split$1 = function (Separators) {
       var Result = [];
       Result = $mod.TStringHelper.Split$21.call(this,Separators,"\x00","\x00",$mod.TStringHelper.GetLength.call(this) + 1,0);
@@ -2374,6 +2375,21 @@ rtl.module("SysUtils",["System","RTLConsts","JS"],function () {
     this.Substring$1 = function (AStartIndex, ALen) {
       var Result = "";
       Result = pas.System.Copy(this.get(),AStartIndex + 1,ALen);
+      return Result;
+    };
+    this.ToCharArray$1 = function () {
+      var Result = [];
+      Result = $mod.TStringHelper.ToCharArray$2.call(this,0,$mod.TStringHelper.GetLength.call(this));
+      return Result;
+    };
+    this.ToCharArray$2 = function (AStartIndex, ALen) {
+      var Result = [];
+      var I = 0;
+      Result = rtl.arraySetLength(Result,"\x00",ALen);
+      for (var $l = 0, $end = ALen - 1; $l <= $end; $l++) {
+        I = $l;
+        Result[I] = this.get().charAt((AStartIndex + I + 1) - 1);
+      };
       return Result;
     };
   });
@@ -3060,6 +3076,293 @@ rtl.module("Classes",["System","RTLConsts","Types","SysUtils","JS"],function () 
     $impl.ClassList = new Object();
   };
 },[]);
+rtl.module("Math",["System"],function () {
+  "use strict";
+  var $mod = this;
+  this.IfThen = function (val, ifTrue, ifFalse) {
+    var Result = 0;
+    if (val) {
+      Result = ifTrue}
+     else Result = ifFalse;
+    return Result;
+  };
+});
+rtl.module("strutils",["System","SysUtils","Types"],function () {
+  "use strict";
+  var $mod = this;
+  var $impl = $mod.$impl;
+  this.Soundex = function (AText, ALength) {
+    var Result = "";
+    var S = "\x00";
+    var PS = "\x00";
+    var I = 0;
+    var L = 0;
+    Result = "";
+    PS = "\x00";
+    if (AText.length > 0) {
+      Result = pas.System.upcase(AText.charAt(0));
+      I = 2;
+      L = AText.length;
+      while ((I <= L) && (Result.length < ALength)) {
+        S = $impl.SScore.charAt(AText.charCodeAt(I - 1) - 1);
+        if (!(S.charCodeAt() in rtl.createSet(48,105,PS.charCodeAt()))) Result = Result + S;
+        if (S !== "i") PS = S;
+        I += 1;
+      };
+    };
+    L = Result.length;
+    if (L < ALength) Result = Result + pas.System.StringOfChar("0",ALength - L);
+    return Result;
+  };
+  this.SoundexSimilar = function (AText, AOther, ALength) {
+    var Result = false;
+    Result = $mod.Soundex(AText,ALength) === $mod.Soundex(AOther,ALength);
+    return Result;
+  };
+  this.SoundexSimilar$1 = function (AText, AOther) {
+    var Result = false;
+    Result = $mod.SoundexSimilar(AText,AOther,4);
+    return Result;
+  };
+  this.SoundexProc = function (AText, AOther) {
+    var Result = false;
+    Result = $mod.SoundexSimilar$1(AText,AOther);
+    return Result;
+  };
+  this.AnsiResemblesProc = null;
+  this.ResemblesProc = null;
+  this.SplitString = function (S, Delimiters) {
+    var Result = [];
+    Result = pas.SysUtils.TStringHelper.Split.call({get: function () {
+        return S;
+      }, set: function (v) {
+        rtl.raiseE("EPropReadOnly");
+      }},Delimiters);
+    return Result;
+  };
+  $mod.$implcode = function () {
+    $impl.SScore = "00000000000000000000000000000000" + "00000000000000000000000000000000" + "0123012i02245501262301i2i2" + "000000" + "0123012i02245501262301i2i2" + "00000000000000000000000000000000" + "00000000000000000000000000000000" + "00000000000000000000000000000000" + "00000000000000000000000000000000" + "00000";
+  };
+  $mod.$init = function () {
+    $mod.AnsiResemblesProc = $mod.SoundexProc;
+    $mod.ResemblesProc = $mod.SoundexProc;
+  };
+},["JS"]);
+rtl.module("uFrequence",["System","Classes","SysUtils","Math","Types","strutils"],function () {
+  "use strict";
+  var $mod = this;
+  this.nMidi_Diapason = 60;
+  this.nOctave_diapason_midi = 5;
+  this.nOctave_diapason_anglais = 4;
+  this.nOctave_diapason_latin = 3;
+  this.Note = function (_Index) {
+    var Result = "";
+    var $tmp = _Index % 12;
+    if ($tmp === 0) {
+      Result = "C"}
+     else if ($tmp === 1) {
+      Result = "C#"}
+     else if ($tmp === 2) {
+      Result = "D"}
+     else if ($tmp === 3) {
+      Result = "Eb"}
+     else if ($tmp === 4) {
+      Result = "E"}
+     else if ($tmp === 5) {
+      Result = "F"}
+     else if ($tmp === 6) {
+      Result = "F#"}
+     else if ($tmp === 7) {
+      Result = "G"}
+     else if ($tmp === 8) {
+      Result = "G#"}
+     else if ($tmp === 9) {
+      Result = "A"}
+     else if ($tmp === 10) {
+      Result = "Bb"}
+     else if ($tmp === 11) Result = "B";
+    return Result;
+  };
+  this.nOctave_from_Midi = function (_Midi, nOctave_diapason) {
+    var Result = 0;
+    Result = (rtl.trunc(_Midi / 12) - 5) + nOctave_diapason;
+    return Result;
+  };
+  this.Note_Octave = function (_Index) {
+    var Result = "";
+    var nOctave = 0;
+    Result = pas.SysUtils.Trim($mod.Note(_Index));
+    nOctave = $mod.nOctave_from_Midi(_Index,4);
+    Result = Result + pas.SysUtils.IntToStr(nOctave);
+    return Result;
+  };
+  this.Midi_from_Note = function (_Note) {
+    var Result = 0;
+    var nOctave = 0;
+    var sNote = "";
+    var nNote = 0;
+    var Octave_par_defaut = false;
+    var latin = false;
+    function Extrait_Octave() {
+      var i = 0;
+      var sOctave = "";
+      _Note = pas.SysUtils.Trim(_Note);
+      sOctave = "";
+      Octave_par_defaut = false;
+      i = _Note.length;
+      while ((i > 0) && (_Note.charCodeAt(i - 1) in rtl.createSet(null,48,57))) {
+        sOctave = _Note.charAt(i - 1) + sOctave;
+        i -= 1;
+      };
+      sNote = pas.SysUtils.LowerCase(pas.System.Copy(_Note,1,_Note.length - sOctave.length));
+      Octave_par_defaut = 0 === sOctave.length;
+      if (!pas.SysUtils.TryStrToInt(sOctave,{get: function () {
+          return nOctave;
+        }, set: function (v) {
+          nOctave = v;
+        }})) nOctave = 0;
+    };
+    function Decode_Note() {
+      var i = 0;
+      function Suivant() {
+        var Result = "\x00";
+        i += 1;
+        if (i > sNote.length) {
+          Result = " "}
+         else Result = sNote.charAt(i - 1);
+        return Result;
+      };
+      nNote = 0;
+      latin = false;
+      i = 0;
+      var $tmp = Suivant();
+      if ($tmp === "a") {
+        nNote = 9}
+       else if ($tmp === "b") {
+        var $tmp1 = Suivant();
+        if ($tmp1 === "b") {
+          nNote = 10}
+         else {
+          nNote = 11;
+        };
+      } else if ($tmp === "c") {
+        var $tmp2 = Suivant();
+        if ($tmp2 === "#") {
+          nNote = 1}
+         else {
+          nNote = 0;
+        };
+      } else if ($tmp === "d") {
+        var $tmp3 = Suivant();
+        if ($tmp3 === "o") {
+          latin = true;
+          var $tmp4 = Suivant();
+          if ($tmp4 === "#") {
+            nNote = 1}
+           else {
+            nNote = 0;
+          };
+        } else {
+          nNote = 2;
+        };
+      } else if ($tmp === "e") {
+        var $tmp5 = Suivant();
+        if ($tmp5 === "b") {
+          nNote = 3}
+         else {
+          nNote = 4;
+        };
+      } else if ($tmp === "f") {
+        var $tmp6 = Suivant();
+        if ($tmp6 === "a") {
+          latin = true;
+          var $tmp7 = Suivant();
+          if ($tmp7 === "#") {
+            nNote = 6}
+           else {
+            nNote = 5;
+          };
+        } else if ($tmp6 === "#") {
+          nNote = 6}
+         else {
+          nNote = 5;
+        };
+      } else if ($tmp === "g") {
+        var $tmp8 = Suivant();
+        if ($tmp8 === "#") {
+          nNote = 8}
+         else {
+          nNote = 7;
+        };
+      } else if ($tmp === "l") {
+        var $tmp9 = Suivant();
+        if ($tmp9 === "a") {
+          latin = true;
+          var $tmp10 = Suivant();
+          if ($tmp10 === "#") {
+            nNote = 10}
+           else {
+            nNote = 9;
+          };
+        };
+      } else if ($tmp === "m") {
+        var $tmp11 = Suivant();
+        if ($tmp11 === "i") {
+          latin = true;
+          var $tmp12 = Suivant();
+          if ($tmp12 === "b") {
+            nNote = 3}
+           else {
+            nNote = 4;
+          };
+        };
+      } else if ($tmp === "r") {
+        latin = true;
+        if ("#" === sNote.charAt(sNote.length - 1)) {
+          nNote = 3}
+         else nNote = 2;
+      } else if ($tmp === "s") {
+        latin = true;
+        var $tmp13 = Suivant();
+        if ($tmp13 === "i") {
+          var $tmp14 = Suivant();
+          if ($tmp14 === "b") {
+            nNote = 10}
+           else {
+            nNote = 11;
+          };
+        } else if ($tmp13 === "o") {
+          var $tmp15 = Suivant();
+          if ($tmp15 === "l") {
+            var $tmp16 = Suivant();
+            if ($tmp16 === "#") {
+              nNote = 8}
+             else {
+              nNote = 7;
+            };
+          };
+        };
+      };
+    };
+    var Base_Midi = 0;
+    var nOctave_diapason = 0;
+    Extrait_Octave();
+    Decode_Note();
+    nOctave_diapason = pas.Math.IfThen(latin,3,4);
+    if (Octave_par_defaut) nOctave = nOctave_diapason;
+    Base_Midi = 60 + ((nOctave - nOctave_diapason) * 12);
+    Result = nNote + Base_Midi;
+    return Result;
+  };
+});
+rtl.module("weborworker",["System","JS","Types"],function () {
+  "use strict";
+  var $mod = this;
+});
+rtl.module("Web",["System","Types","JS","weborworker"],function () {
+  "use strict";
+  var $mod = this;
+});
 rtl.module("Rtl.BrowserLoadHelper",["System","Classes","SysUtils","JS","Web"],function () {
   "use strict";
   var $mod = this;
@@ -3375,305 +3678,59 @@ rtl.module("websvg",["System","SysUtils","Web","JS"],function () {
   "use strict";
   var $mod = this;
 });
-rtl.module("Math",["System"],function () {
-  "use strict";
-  var $mod = this;
-  this.IfThen = function (val, ifTrue, ifFalse) {
-    var Result = 0;
-    if (val) {
-      Result = ifTrue}
-     else Result = ifFalse;
-    return Result;
-  };
-});
-rtl.module("strutils",["System","SysUtils","Types"],function () {
-  "use strict";
-  var $mod = this;
-  var $impl = $mod.$impl;
-  this.Soundex = function (AText, ALength) {
-    var Result = "";
-    var S = "\x00";
-    var PS = "\x00";
-    var I = 0;
-    var L = 0;
-    Result = "";
-    PS = "\x00";
-    if (AText.length > 0) {
-      Result = pas.System.upcase(AText.charAt(0));
-      I = 2;
-      L = AText.length;
-      while ((I <= L) && (Result.length < ALength)) {
-        S = $impl.SScore.charAt(AText.charCodeAt(I - 1) - 1);
-        if (!(S.charCodeAt() in rtl.createSet(48,105,PS.charCodeAt()))) Result = Result + S;
-        if (S !== "i") PS = S;
-        I += 1;
-      };
-    };
-    L = Result.length;
-    if (L < ALength) Result = Result + pas.System.StringOfChar("0",ALength - L);
-    return Result;
-  };
-  this.SoundexSimilar = function (AText, AOther, ALength) {
-    var Result = false;
-    Result = $mod.Soundex(AText,ALength) === $mod.Soundex(AOther,ALength);
-    return Result;
-  };
-  this.SoundexSimilar$1 = function (AText, AOther) {
-    var Result = false;
-    Result = $mod.SoundexSimilar(AText,AOther,4);
-    return Result;
-  };
-  this.SoundexProc = function (AText, AOther) {
-    var Result = false;
-    Result = $mod.SoundexSimilar$1(AText,AOther);
-    return Result;
-  };
-  this.AnsiResemblesProc = null;
-  this.ResemblesProc = null;
-  $mod.$implcode = function () {
-    $impl.SScore = "00000000000000000000000000000000" + "00000000000000000000000000000000" + "0123012i02245501262301i2i2" + "000000" + "0123012i02245501262301i2i2" + "00000000000000000000000000000000" + "00000000000000000000000000000000" + "00000000000000000000000000000000" + "00000000000000000000000000000000" + "00000";
-  };
-  $mod.$init = function () {
-    $mod.AnsiResemblesProc = $mod.SoundexProc;
-    $mod.ResemblesProc = $mod.SoundexProc;
-  };
-},["JS"]);
-rtl.module("uFrequence",["System","Classes","SysUtils","Math","Types","strutils"],function () {
-  "use strict";
-  var $mod = this;
-  this.nMidi_Diapason = 60;
-  this.nOctave_diapason_midi = 5;
-  this.nOctave_diapason_anglais = 4;
-  this.nOctave_diapason_latin = 3;
-  this.Note = function (_Index) {
-    var Result = "";
-    var $tmp = _Index % 12;
-    if ($tmp === 0) {
-      Result = "C"}
-     else if ($tmp === 1) {
-      Result = "C#"}
-     else if ($tmp === 2) {
-      Result = "D"}
-     else if ($tmp === 3) {
-      Result = "Eb"}
-     else if ($tmp === 4) {
-      Result = "E"}
-     else if ($tmp === 5) {
-      Result = "F"}
-     else if ($tmp === 6) {
-      Result = "F#"}
-     else if ($tmp === 7) {
-      Result = "G"}
-     else if ($tmp === 8) {
-      Result = "G#"}
-     else if ($tmp === 9) {
-      Result = "A"}
-     else if ($tmp === 10) {
-      Result = "Bb"}
-     else if ($tmp === 11) Result = "B";
-    return Result;
-  };
-  this.nOctave_from_Midi = function (_Midi, nOctave_diapason) {
-    var Result = 0;
-    Result = (rtl.trunc(_Midi / 12) - 5) + nOctave_diapason;
-    return Result;
-  };
-  this.Note_Octave = function (_Index) {
-    var Result = "";
-    var nOctave = 0;
-    Result = pas.SysUtils.Trim($mod.Note(_Index));
-    nOctave = $mod.nOctave_from_Midi(_Index,4);
-    Result = Result + pas.SysUtils.IntToStr(nOctave);
-    return Result;
-  };
-  this.Midi_from_Note = function (_Note) {
-    var Result = 0;
-    var nOctave = 0;
-    var sNote = "";
-    var nNote = 0;
-    var Octave_par_defaut = false;
-    var latin = false;
-    function Extrait_Octave() {
-      var i = 0;
-      var sOctave = "";
-      _Note = pas.SysUtils.Trim(_Note);
-      sOctave = "";
-      Octave_par_defaut = false;
-      i = _Note.length;
-      while ((i > 0) && (_Note.charCodeAt(i - 1) in rtl.createSet(null,48,57))) {
-        sOctave = _Note.charAt(i - 1) + sOctave;
-        i -= 1;
-      };
-      sNote = pas.SysUtils.LowerCase(pas.System.Copy(_Note,1,_Note.length - sOctave.length));
-      Octave_par_defaut = 0 === sOctave.length;
-      if (!pas.SysUtils.TryStrToInt(sOctave,{get: function () {
-          return nOctave;
-        }, set: function (v) {
-          nOctave = v;
-        }})) nOctave = 0;
-    };
-    function Decode_Note() {
-      var i = 0;
-      function Suivant() {
-        var Result = "\x00";
-        i += 1;
-        if (i > sNote.length) {
-          Result = " "}
-         else Result = sNote.charAt(i - 1);
-        return Result;
-      };
-      nNote = 0;
-      latin = false;
-      i = 0;
-      var $tmp = Suivant();
-      if ($tmp === "a") {
-        nNote = 9}
-       else if ($tmp === "b") {
-        var $tmp1 = Suivant();
-        if ($tmp1 === "b") {
-          nNote = 10}
-         else {
-          nNote = 11;
-        };
-      } else if ($tmp === "c") {
-        var $tmp2 = Suivant();
-        if ($tmp2 === "#") {
-          nNote = 1}
-         else {
-          nNote = 0;
-        };
-      } else if ($tmp === "d") {
-        var $tmp3 = Suivant();
-        if ($tmp3 === "o") {
-          latin = true;
-          var $tmp4 = Suivant();
-          if ($tmp4 === "#") {
-            nNote = 1}
-           else {
-            nNote = 0;
-          };
-        } else {
-          nNote = 2;
-        };
-      } else if ($tmp === "e") {
-        var $tmp5 = Suivant();
-        if ($tmp5 === "b") {
-          nNote = 3}
-         else {
-          nNote = 4;
-        };
-      } else if ($tmp === "f") {
-        var $tmp6 = Suivant();
-        if ($tmp6 === "a") {
-          latin = true;
-          var $tmp7 = Suivant();
-          if ($tmp7 === "#") {
-            nNote = 6}
-           else {
-            nNote = 5;
-          };
-        } else if ($tmp6 === "#") {
-          nNote = 6}
-         else {
-          nNote = 5;
-        };
-      } else if ($tmp === "g") {
-        var $tmp8 = Suivant();
-        if ($tmp8 === "#") {
-          nNote = 8}
-         else {
-          nNote = 7;
-        };
-      } else if ($tmp === "l") {
-        var $tmp9 = Suivant();
-        if ($tmp9 === "a") {
-          latin = true;
-          var $tmp10 = Suivant();
-          if ($tmp10 === "#") {
-            nNote = 10}
-           else {
-            nNote = 9;
-          };
-        };
-      } else if ($tmp === "m") {
-        var $tmp11 = Suivant();
-        if ($tmp11 === "i") {
-          latin = true;
-          nNote = 4;
-        };
-      } else if ($tmp === "r") {
-        latin = true;
-        if ("#" === sNote.charAt(sNote.length - 1)) {
-          nNote = 3}
-         else nNote = 2;
-      } else if ($tmp === "s") {
-        latin = true;
-        var $tmp12 = Suivant();
-        if ($tmp12 === "i") {
-          var $tmp13 = Suivant();
-          if ($tmp13 === "b") {
-            nNote = 10}
-           else {
-            nNote = 11;
-          };
-        } else if ($tmp12 === "o") {
-          var $tmp14 = Suivant();
-          if ($tmp14 === "l") {
-            var $tmp15 = Suivant();
-            if ($tmp15 === "#") {
-              nNote = 8}
-             else {
-              nNote = 7;
-            };
-          };
-        };
-      };
-    };
-    var Base_Midi = 0;
-    var nOctave_diapason = 0;
-    Extrait_Octave();
-    Decode_Note();
-    nOctave_diapason = pas.Math.IfThen(latin,3,4);
-    if (Octave_par_defaut) nOctave = nOctave_diapason;
-    Base_Midi = 60 + ((nOctave - nOctave_diapason) * 12);
-    Result = nNote + Base_Midi;
-    return Result;
-  };
-});
-rtl.module("program",["System","browserconsole","BrowserApp","JS","Classes","SysUtils","Web","websvg","Types","uFrequence"],function () {
+rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","Classes","SysUtils","Web","websvg","Types","strutils"],function () {
   "use strict";
   var $mod = this;
   rtl.recNewT(this,"TNote",function () {
     this.Note = "";
+    this.non_coloriee = false;
     this.c = null;
     this.$eq = function (b) {
-      return (this.Note === b.Note) && (this.c === b.c);
+      return (this.Note === b.Note) && (this.non_coloriee === b.non_coloriee) && (this.c === b.c);
     };
     this.$assign = function (s) {
       this.Note = s.Note;
+      this.non_coloriee = s.non_coloriee;
       this.c = s.c;
       return this;
+    };
+    this.Init = function (_Note, _non_coloriee) {
+      this.Note = _Note;
+      this.non_coloriee = _non_coloriee;
     };
   });
   rtl.createClass(this,"TjsTuneTrainer",pas.BrowserApp.TBrowserApplication,function () {
     this.$init = function () {
       pas.BrowserApp.TBrowserApplication.$init.call(this);
       this.svg = null;
+      this.gA5 = null;
       this.cA5 = null;
+      this.cGd5 = null;
       this.cG5 = null;
+      this.cFd5 = null;
       this.cF5 = null;
       this.cE5 = null;
+      this.cEb5 = null;
       this.cD5 = null;
+      this.cCd5 = null;
       this.cC5 = null;
       this.cB4 = null;
+      this.cBb4 = null;
       this.cA4 = null;
+      this.cGd4 = null;
       this.cG4 = null;
+      this.cFd4 = null;
       this.cF4 = null;
       this.cE4 = null;
+      this.cEb4 = null;
       this.cD4 = null;
+      this.cCd4 = null;
       this.cC4 = null;
+      this.gCd4 = null;
       this.gC4 = null;
       this.iSource = null;
+      this.iNotes_non_coloriees = null;
+      this.Notes_non_coloriees = [];
       this.x_offset = 0;
       this.x_ecart = 0;
       this.x = 0;
@@ -3687,24 +3744,42 @@ rtl.module("program",["System","browserconsole","BrowserApp","JS","Classes","Sys
       this.bLa = null;
       this.bSi = null;
       this.iReponse = 0;
+      this.bTestDieseBemol = null;
+      this.bTestNotes_non_coloriees = null;
+      this.b1 = null;
+      this.b2 = null;
+      this.b3 = null;
     };
     this.$final = function () {
       this.svg = undefined;
+      this.gA5 = undefined;
       this.cA5 = undefined;
+      this.cGd5 = undefined;
       this.cG5 = undefined;
+      this.cFd5 = undefined;
       this.cF5 = undefined;
       this.cE5 = undefined;
+      this.cEb5 = undefined;
       this.cD5 = undefined;
+      this.cCd5 = undefined;
       this.cC5 = undefined;
       this.cB4 = undefined;
+      this.cBb4 = undefined;
       this.cA4 = undefined;
+      this.cGd4 = undefined;
       this.cG4 = undefined;
+      this.cFd4 = undefined;
       this.cF4 = undefined;
       this.cE4 = undefined;
+      this.cEb4 = undefined;
       this.cD4 = undefined;
+      this.cCd4 = undefined;
       this.cC4 = undefined;
+      this.gCd4 = undefined;
       this.gC4 = undefined;
       this.iSource = undefined;
+      this.iNotes_non_coloriees = undefined;
+      this.Notes_non_coloriees = undefined;
       this.Notes = undefined;
       this.bDebut = undefined;
       this.bDo = undefined;
@@ -3714,52 +3789,126 @@ rtl.module("program",["System","browserconsole","BrowserApp","JS","Classes","Sys
       this.bSol = undefined;
       this.bLa = undefined;
       this.bSi = undefined;
+      this.bTestDieseBemol = undefined;
+      this.bTestNotes_non_coloriees = undefined;
+      this.b1 = undefined;
+      this.b2 = undefined;
+      this.b3 = undefined;
       pas.BrowserApp.TBrowserApplication.$final.call(this);
     };
     this.Create$1 = function (aOwner) {
       pas.BrowserApp.TBrowserApplication.Create$1.call(this,aOwner);
       this.Notes = [];
+      this.Notes_non_coloriees = [];
       this.x_offset = 400;
       this.x_ecart = 400;
       this.x = 0;
       return this;
     };
     this.DoRun = function () {
+      var $Self = this;
+      function b(_b, _id, _onclick) {
+        _b.set($mod.button_from_id(_id));
+        _b.get().onclick = _onclick;
+      };
       pas.BrowserApp.TBrowserApplication.DoRun.call(this);
       this.svg = document.getElementById("svg");
+      this.gA5 = document.getElementById("gA5");
       this.cA5 = $mod.circle_from_id("A5");
+      this.cGd5 = $mod.circle_from_id("Gd5");
       this.cG5 = $mod.circle_from_id("G5");
+      this.cFd5 = $mod.circle_from_id("Fd5");
       this.cF5 = $mod.circle_from_id("F5");
       this.cE5 = $mod.circle_from_id("E5");
+      this.cEb5 = $mod.circle_from_id("Eb5");
       this.cD5 = $mod.circle_from_id("D5");
+      this.cCd5 = $mod.circle_from_id("Cd5");
       this.cC5 = $mod.circle_from_id("C5");
       this.cB4 = $mod.circle_from_id("B4");
+      this.cBb4 = $mod.circle_from_id("Bb4");
       this.cA4 = $mod.circle_from_id("A4");
+      this.cGd4 = $mod.circle_from_id("Gd4");
       this.cG4 = $mod.circle_from_id("G4");
+      this.cFd4 = $mod.circle_from_id("Fd4");
       this.cF4 = $mod.circle_from_id("F4");
       this.cE4 = $mod.circle_from_id("E4");
+      this.cEb4 = $mod.circle_from_id("Eb4");
       this.cD4 = $mod.circle_from_id("D4");
+      this.cCd4 = $mod.circle_from_id("Cd4");
       this.cC4 = $mod.circle_from_id("C4");
+      this.gCd4 = document.getElementById("gCd4");
       this.gC4 = document.getElementById("gC4");
       this.iSource = $mod.input_from_id("iSource");
-      this.iSource.oninput = rtl.createSafeCallback(this,"iSourceInput");
+      this.iSource.oninput = rtl.createSafeCallback($Self,"iSourceInput");
+      this.iNotes_non_coloriees = $mod.input_from_id("iNotes_non_coloriees");
+      this.iNotes_non_coloriees.oninput = rtl.createSafeCallback($Self,"iNotes_non_colorieesInput");
+      this._from_Notes_non_coloriees();
       this._from_Source();
-      this.bDebut = $mod.button_from_id("bDebut");
-      this.bDebut.onclick = rtl.createSafeCallback(this,"bDebutClick");
-      this.bDo = $mod.button_from_id("bDo");
-      this.bDo.onclick = rtl.createSafeCallback(this,"bDoClick");
-      this.bRe = $mod.button_from_id("bRe");
-      this.bRe.onclick = rtl.createSafeCallback(this,"bReClick");
-      this.bMi = $mod.button_from_id("bMi");
-      this.bMi.onclick = rtl.createSafeCallback(this,"bMiClick");
-      this.bFa = $mod.button_from_id("bFa");
-      this.bFa.onclick = rtl.createSafeCallback(this,"bFaClick");
-      this.bSol = $mod.button_from_id("bSol");
-      this.bSol.onclick = rtl.createSafeCallback(this,"bSolClick");
-      this.bLa = $mod.button_from_id("bLa");
-      this.bLa.onclick = rtl.createSafeCallback(this,"bLaClick");
-      this.bSi = $mod.button_from_id("bSi");
-      this.bSi.onclick = rtl.createSafeCallback(this,"bSiClick");
+      b({p: this, get: function () {
+          return this.p.bDebut;
+        }, set: function (v) {
+          this.p.bDebut = v;
+        }},"bDebut",rtl.createSafeCallback($Self,"bDebutClick"));
+      b({p: this, get: function () {
+          return this.p.bDo;
+        }, set: function (v) {
+          this.p.bDo = v;
+        }},"bDo",rtl.createSafeCallback($Self,"bDoClick"));
+      b({p: this, get: function () {
+          return this.p.bRe;
+        }, set: function (v) {
+          this.p.bRe = v;
+        }},"bRe",rtl.createSafeCallback($Self,"bReClick"));
+      b({p: this, get: function () {
+          return this.p.bMi;
+        }, set: function (v) {
+          this.p.bMi = v;
+        }},"bMi",rtl.createSafeCallback($Self,"bMiClick"));
+      b({p: this, get: function () {
+          return this.p.bFa;
+        }, set: function (v) {
+          this.p.bFa = v;
+        }},"bFa",rtl.createSafeCallback($Self,"bFaClick"));
+      b({p: this, get: function () {
+          return this.p.bSol;
+        }, set: function (v) {
+          this.p.bSol = v;
+        }},"bSol",rtl.createSafeCallback($Self,"bSolClick"));
+      b({p: this, get: function () {
+          return this.p.bLa;
+        }, set: function (v) {
+          this.p.bLa = v;
+        }},"bLa",rtl.createSafeCallback($Self,"bLaClick"));
+      b({p: this, get: function () {
+          return this.p.bSi;
+        }, set: function (v) {
+          this.p.bSi = v;
+        }},"bSi",rtl.createSafeCallback($Self,"bSiClick"));
+      b({p: this, get: function () {
+          return this.p.bTestDieseBemol;
+        }, set: function (v) {
+          this.p.bTestDieseBemol = v;
+        }},"bTestDieseBemol",rtl.createSafeCallback($Self,"bTestDieseBemolClick"));
+      b({p: this, get: function () {
+          return this.p.bTestNotes_non_coloriees;
+        }, set: function (v) {
+          this.p.bTestNotes_non_coloriees = v;
+        }},"bTestNotes_non_coloriees",rtl.createSafeCallback($Self,"bTestNotes_non_colorieesClick"));
+      b({p: this, get: function () {
+          return this.p.b1;
+        }, set: function (v) {
+          this.p.b1 = v;
+        }},"b1",rtl.createSafeCallback($Self,"b1Click"));
+      b({p: this, get: function () {
+          return this.p.b2;
+        }, set: function (v) {
+          this.p.b2 = v;
+        }},"b2",rtl.createSafeCallback($Self,"b2Click"));
+      b({p: this, get: function () {
+          return this.p.b3;
+        }, set: function (v) {
+          this.p.b3 = v;
+        }},"b3",rtl.createSafeCallback($Self,"b3Click"));
     };
     this.iSourceInput = function (Event) {
       var Result = false;
@@ -3770,17 +3919,22 @@ rtl.module("program",["System","browserconsole","BrowserApp","JS","Classes","Sys
       var $Self = this;
       function Cree_Notes() {
         var Source = "";
+        var sa = [];
+        var i = 0;
+        var Source_Note = "";
+        var Midi_Note = 0;
         var Note = "";
+        var non_coloriee = false;
         Source = $Self.iSource.value;
-        while (Source !== "") {
-          Note = $mod.StrToK(" ",{get: function () {
-              return Source;
-            }, set: function (v) {
-              Source = v;
-            }});
-          Note = pas.uFrequence.Note_Octave(pas.uFrequence.Midi_from_Note(Note));
-          $Self.Notes = rtl.arraySetLength($Self.Notes,$mod.TNote,rtl.length($Self.Notes) + 1);
-          $Self.Notes[rtl.length($Self.Notes) - 1].Note = Note;
+        sa = pas.strutils.SplitString(Source," ");
+        $Self.Notes = rtl.arraySetLength($Self.Notes,$mod.TNote,rtl.length(sa));
+        for (var $l = 0, $end = rtl.length(sa) - 1; $l <= $end; $l++) {
+          i = $l;
+          Source_Note = sa[i];
+          Midi_Note = pas.uFrequence.Midi_from_Note(Source_Note);
+          Note = pas.uFrequence.Note_Octave(Midi_Note);
+          non_coloriee = $Self.Is_Note_non_coloriee(pas.uFrequence.Note(Midi_Note));
+          $Self.Notes[i].Init(Note,non_coloriee);
         };
       };
       function Copie_Notes() {
@@ -3789,14 +3943,45 @@ rtl.module("program",["System","browserconsole","BrowserApp","JS","Classes","Sys
         for (var $l = 0, $end = rtl.length($Self.Notes) - 1; $l <= $end; $l++) {
           i = $l;
           var $with = $Self.Notes[i];
-          if (($with.Note === "C4") || ($with.Note === "A5")) {
-            $with.c = $Self.Copie_g("g" + $with.Note)}
-           else $with.c = $Self.Copie($with.Note);
+          if (($with.Note === "C4") || ($with.Note === "C#4") || ($with.Note === "A5")) {
+            $with.c = $Self.Copie_g("g" + $with.Note,$with.non_coloriee)}
+           else $with.c = $Self.Copie($with.Note,$with.non_coloriee);
         };
       };
       this.Notes_Vide();
       Cree_Notes();
       Copie_Notes();
+    };
+    this.iNotes_non_colorieesInput = function (Event) {
+      var Result = false;
+      this._from_Notes_non_coloriees();
+      this._from_Source();
+      return Result;
+    };
+    this._from_Notes_non_coloriees = function () {
+      var sNotes_non_coloriees = "";
+      var sa = [];
+      var i = 0;
+      this.Notes_non_coloriees = [];
+      sNotes_non_coloriees = this.iNotes_non_coloriees.value;
+      if ("" === sNotes_non_coloriees) return;
+      sa = pas.strutils.SplitString(sNotes_non_coloriees," ");
+      for (var $l = 0, $end = rtl.length(sa) - 1; $l <= $end; $l++) {
+        i = $l;
+        sa[i] = pas.uFrequence.Note(pas.uFrequence.Midi_from_Note(sa[i]));
+      };
+      this.Notes_non_coloriees = rtl.arrayRef(sa);
+    };
+    this.Is_Note_non_coloriee = function (_Note) {
+      var Result = false;
+      var Note = "";
+      Result = false;
+      for (var $in = this.Notes_non_coloriees, $l = 0, $end = rtl.length($in) - 1; $l <= $end; $l++) {
+        Note = $in[$l];
+        Result = Note === _Note;
+        if (Result) break;
+      };
+      return Result;
     };
     this.Notes_Vide = function () {
       var I = 0;
@@ -3810,7 +3995,7 @@ rtl.module("program",["System","browserconsole","BrowserApp","JS","Classes","Sys
       this.Notes = rtl.arraySetLength(this.Notes,$mod.TNote,0);
       this.x = this.x_offset;
     };
-    this.Copie = function (_id) {
+    this.Copie = function (_id, _non_coloriee) {
       var Result = null;
       var c = null;
       var style = "";
@@ -3828,12 +4013,20 @@ rtl.module("program",["System","browserconsole","BrowserApp","JS","Classes","Sys
         }, set: function (v) {
           style = v;
         }},i,style.length);
+      if (_non_coloriee) {
+        i = pas.System.Pos("fill:",style);
+        pas.System.Delete({get: function () {
+            return style;
+          }, set: function (v) {
+            style = v;
+          }},i,style.length);
+      };
       Result.setAttribute("style",style);
       Result = this.svg.appendChild(Result);
       this.x += this.x_ecart;
       return Result;
     };
-    this.Copie_g = function (_id) {
+    this.Copie_g = function (_id, _non_coloriee) {
       var Result = null;
       var g = null;
       var style = "";
@@ -3851,6 +4044,14 @@ rtl.module("program",["System","browserconsole","BrowserApp","JS","Classes","Sys
         }, set: function (v) {
           style = v;
         }},i,style.length);
+      if (_non_coloriee) {
+        i = pas.System.Pos("fill:",style);
+        pas.System.Delete({get: function () {
+            return style;
+          }, set: function (v) {
+            style = v;
+          }},i,style.length);
+      };
       Result.setAttribute("style",style);
       Result = this.svg.appendChild(Result);
       this.x += this.x_ecart;
@@ -3905,6 +4106,46 @@ rtl.module("program",["System","browserconsole","BrowserApp","JS","Classes","Sys
       this.Check_Note("B");
       return Result;
     };
+    this.bTestDieseBemolClick = function (aEvent) {
+      var Result = false;
+      this.iSource.value = "do do# re mib mi fa fa# sol sol# la sib si do4 do#4 re4 mib4 mi4 fa4 fa#4 sol4 sol#4 la4";
+      this.iNotes_non_coloriees.value = "";
+      this._from_Notes_non_coloriees();
+      this._from_Source();
+      return Result;
+    };
+    this.bTestNotes_non_colorieesClick = function (aEvent) {
+      var Result = false;
+      this.iSource.value = "do re mi fa sol la si do4 re4 mi4 fa4 sol4 la4";
+      this.iNotes_non_coloriees.value = "la";
+      this._from_Notes_non_coloriees();
+      this._from_Source();
+      return Result;
+    };
+    this.b1Click = function (aEvent) {
+      var Result = false;
+      this.iSource.value = "sol2 la2 si2 do3 re3 mi3 fa3 sol3 la3 si3 do4 re4 mi4 fa4 sol4 la4 si4";
+      this.iNotes_non_coloriees.value = "";
+      this._from_Notes_non_coloriees();
+      this._from_Source();
+      return Result;
+    };
+    this.b2Click = function (aEvent) {
+      var Result = false;
+      this.iSource.value = "sol2 si2 re3 fa3 la3 do4 mi4 sol4 si4";
+      this.iNotes_non_coloriees.value = "";
+      this._from_Notes_non_coloriees();
+      this._from_Source();
+      return Result;
+    };
+    this.b3Click = function (aEvent) {
+      var Result = false;
+      this.iSource.value = "la2 do3 mi3 sol3 si3 re4 fa4 la4";
+      this.iNotes_non_coloriees.value = "";
+      this._from_Notes_non_coloriees();
+      this._from_Source();
+      return Result;
+    };
     var $r = this.$rtti;
     $r.addMethod("Create$1",2,[["aOwner",pas.Classes.$rtti["TComponent"]]]);
   });
@@ -3922,19 +4163,6 @@ rtl.module("program",["System","browserconsole","BrowserApp","JS","Classes","Sys
   this.circle_from_id = function (_id) {
     var Result = null;
     Result = document.getElementById(_id);
-    return Result;
-  };
-  this.StrToK = function (Key, S) {
-    var Result = "";
-    var I = 0;
-    I = pas.System.Pos(Key,S.get());
-    if (I === 0) {
-      Result = S.get();
-      S.set("");
-    } else {
-      Result = pas.System.Copy(S.get(),1,I - 1);
-      pas.System.Delete(S,1,(I - 1) + Key.length);
-    };
     return Result;
   };
   $mod.$main = function () {
