@@ -3737,11 +3737,16 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
       this.Notes = [];
       this.bDebut = null;
       this.bDo = null;
+      this.bDod = null;
       this.bRe = null;
+      this.bMib = null;
       this.bMi = null;
       this.bFa = null;
+      this.bFad = null;
       this.bSol = null;
+      this.bSold = null;
       this.bLa = null;
+      this.bSib = null;
       this.bSi = null;
       this.iReponse = 0;
       this.bTestDieseBemol = null;
@@ -3783,11 +3788,16 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
       this.Notes = undefined;
       this.bDebut = undefined;
       this.bDo = undefined;
+      this.bDod = undefined;
       this.bRe = undefined;
+      this.bMib = undefined;
       this.bMi = undefined;
       this.bFa = undefined;
+      this.bFad = undefined;
       this.bSol = undefined;
+      this.bSold = undefined;
       this.bLa = undefined;
+      this.bSib = undefined;
       this.bSi = undefined;
       this.bTestDieseBemol = undefined;
       this.bTestNotes_non_coloriees = undefined;
@@ -3855,10 +3865,20 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
           this.p.bDo = v;
         }},"bDo",rtl.createSafeCallback($Self,"bDoClick"));
       b({p: this, get: function () {
+          return this.p.bDod;
+        }, set: function (v) {
+          this.p.bDod = v;
+        }},"bDod",rtl.createSafeCallback($Self,"bDodClick"));
+      b({p: this, get: function () {
           return this.p.bRe;
         }, set: function (v) {
           this.p.bRe = v;
         }},"bRe",rtl.createSafeCallback($Self,"bReClick"));
+      b({p: this, get: function () {
+          return this.p.bMib;
+        }, set: function (v) {
+          this.p.bMib = v;
+        }},"bMib",rtl.createSafeCallback($Self,"bMibClick"));
       b({p: this, get: function () {
           return this.p.bMi;
         }, set: function (v) {
@@ -3870,15 +3890,30 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
           this.p.bFa = v;
         }},"bFa",rtl.createSafeCallback($Self,"bFaClick"));
       b({p: this, get: function () {
+          return this.p.bFad;
+        }, set: function (v) {
+          this.p.bFad = v;
+        }},"bFad",rtl.createSafeCallback($Self,"bFadClick"));
+      b({p: this, get: function () {
           return this.p.bSol;
         }, set: function (v) {
           this.p.bSol = v;
         }},"bSol",rtl.createSafeCallback($Self,"bSolClick"));
       b({p: this, get: function () {
+          return this.p.bSold;
+        }, set: function (v) {
+          this.p.bSold = v;
+        }},"bSold",rtl.createSafeCallback($Self,"bSoldClick"));
+      b({p: this, get: function () {
           return this.p.bLa;
         }, set: function (v) {
           this.p.bLa = v;
         }},"bLa",rtl.createSafeCallback($Self,"bLaClick"));
+      b({p: this, get: function () {
+          return this.p.bSib;
+        }, set: function (v) {
+          this.p.bSib = v;
+        }},"bSib",rtl.createSafeCallback($Self,"bSibClick"));
       b({p: this, get: function () {
           return this.p.bSi;
         }, set: function (v) {
@@ -3943,7 +3978,7 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
         for (var $l = 0, $end = rtl.length($Self.Notes) - 1; $l <= $end; $l++) {
           i = $l;
           var $with = $Self.Notes[i];
-          if (($with.Note === "C4") || ($with.Note === "C#4") || ($with.Note === "A5")) {
+          if (($with.Note === "G3") || ($with.Note === "G#3") || ($with.Note === "A3") || ($with.Note === "Bb3") || ($with.Note === "B3") || ($with.Note === "C4") || ($with.Note === "C#4") || ($with.Note === "A5") || ($with.Note === "Bb5") || ($with.Note === "B5")) {
             $with.c = $Self.Copie_g("g" + $with.Note,$with.non_coloriee)}
            else $with.c = $Self.Copie($with.Note,$with.non_coloriee);
         };
@@ -4076,9 +4111,19 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
       this.Check_Note("C");
       return Result;
     };
+    this.bDodClick = function (aEvent) {
+      var Result = false;
+      this.Check_Note("C#");
+      return Result;
+    };
     this.bReClick = function (aEvent) {
       var Result = false;
       this.Check_Note("D");
+      return Result;
+    };
+    this.bMibClick = function (aEvent) {
+      var Result = false;
+      this.Check_Note("Eb");
       return Result;
     };
     this.bMiClick = function (aEvent) {
@@ -4091,14 +4136,29 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
       this.Check_Note("F");
       return Result;
     };
+    this.bFadClick = function (aEvent) {
+      var Result = false;
+      this.Check_Note("F#");
+      return Result;
+    };
     this.bSolClick = function (aEvent) {
       var Result = false;
       this.Check_Note("G");
       return Result;
     };
+    this.bSoldClick = function (aEvent) {
+      var Result = false;
+      this.Check_Note("G#");
+      return Result;
+    };
     this.bLaClick = function (aEvent) {
       var Result = false;
       this.Check_Note("A");
+      return Result;
+    };
+    this.bSibClick = function (aEvent) {
+      var Result = false;
+      this.Check_Note("Bb");
       return Result;
     };
     this.bSiClick = function (aEvent) {
@@ -4108,7 +4168,7 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
     };
     this.bTestDieseBemolClick = function (aEvent) {
       var Result = false;
-      this.iSource.value = "do do# re mib mi fa fa# sol sol# la sib si do4 do#4 re4 mib4 mi4 fa4 fa#4 sol4 sol#4 la4";
+      this.iSource.value = "sol2 sol#2 la2 sib2 si2 do do# re mib mi fa fa# sol sol# la sib si do4 do#4 re4 mib4 mi4 fa4 fa#4 sol4 sol#4 la4";
       this.iNotes_non_coloriees.value = "";
       this._from_Notes_non_coloriees();
       this._from_Source();

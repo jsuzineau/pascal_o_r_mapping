@@ -17,6 +17,11 @@
           <Mode Name="Default"/>
         </BuildModes>
       </Target>
+      <Target FileName="..\jsPaneurythmie\jsPaneurythmie.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
     </Targets>
   </ProjectGroup>
 </CONFIG>

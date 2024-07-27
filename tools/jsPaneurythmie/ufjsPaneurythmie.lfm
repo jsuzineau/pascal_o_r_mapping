@@ -1,0 +1,31 @@
+object fjsPaneurythmie: TfjsPaneurythmie
+  Left = 600
+  Height = 240
+  Top = 223
+  Width = 320
+  Caption = 'fjsPaneurythmie'
+  ClientHeight = 240
+  ClientWidth = 320
+  LCLVersion = '3.4.0.0'
+  object p: TPanel
+    Left = 24
+    Height = 128
+    Top = 88
+    Width = 280
+    Caption = 'p'
+    TabOrder = 0
+  end
+  object vlc: TLCLVLCPlayer
+    AudioDelay = -1
+    AudioVolume = -1
+    AudioMuted = False
+    Channel = -1
+    Chapter = -1
+    FitWindow = False
+    FullScreenMode = False
+    UseEvents = False
+    ParentWindow = p
+    Left = 37
+    Top = 28
+  end
+end

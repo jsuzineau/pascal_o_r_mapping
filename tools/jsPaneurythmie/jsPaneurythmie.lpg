@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectGroup FileVersion="2">
+    <Targets>
+      <Target FileName="jsPaneurythmie.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="C:\Users\Jean\AppData\Local\lazarus\onlinepackagemanager\packages\acs\demos\player\player.lpi">
+        <BuildModes>
+          <Mode Name="default"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="C:\Users\Jean\AppData\Local\lazarus\onlinepackagemanager\packages\acs\demos\player2\player.lpi">
+        <BuildModes>
+          <Mode Name="default" Compile="True"/>
+          <Mode Name="Debug"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="C:\lazarus\components\vlc\example\testlcl.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="..\jsExplorer\jsExplorer.lpi">
+        <BuildModes>
+          <Mode Name="Debug Lite" Compile="True"/>
+          <Mode Name="Debug"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+    </Targets>
+  </ProjectGroup>
+</CONFIG>

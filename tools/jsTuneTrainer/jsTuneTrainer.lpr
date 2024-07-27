@@ -84,23 +84,33 @@ type
   //Reponse
   private
     bDebut: TJSHTMLButtonElement;
-    bDo : TJSHTMLButtonElement;
-    bRe : TJSHTMLButtonElement;
-    bMi : TJSHTMLButtonElement;
-    bFa : TJSHTMLButtonElement;
-    bSol: TJSHTMLButtonElement;
-    bLa : TJSHTMLButtonElement;
-    bSi : TJSHTMLButtonElement;
+    bDo  : TJSHTMLButtonElement;
+    bDod : TJSHTMLButtonElement;
+    bRe  : TJSHTMLButtonElement;
+    bMib : TJSHTMLButtonElement;
+    bMi  : TJSHTMLButtonElement;
+    bFa  : TJSHTMLButtonElement;
+    bFad : TJSHTMLButtonElement;
+    bSol : TJSHTMLButtonElement;
+    bSold: TJSHTMLButtonElement;
+    bLa  : TJSHTMLButtonElement;
+    bSib : TJSHTMLButtonElement;
+    bSi  : TJSHTMLButtonElement;
     iReponse: Integer;
     procedure Check_Note( _Note: String);
     function bDebutClick(aEvent : TJSMouseEvent) : boolean;
-    function bDoClick(aEvent : TJSMouseEvent) : boolean;
-    function bReClick(aEvent : TJSMouseEvent) : boolean;
-    function bMiClick(aEvent : TJSMouseEvent) : boolean;
-    function bFaClick(aEvent : TJSMouseEvent) : boolean;
-    function bSolClick(aEvent : TJSMouseEvent) : boolean;
-    function bLaClick(aEvent : TJSMouseEvent) : boolean;
-    function bSiClick(aEvent : TJSMouseEvent) : boolean;
+    function bDoClick  (aEvent : TJSMouseEvent) : boolean;
+    function bDodClick (aEvent : TJSMouseEvent) : boolean;
+    function bReClick  (aEvent : TJSMouseEvent) : boolean;
+    function bMibClick (aEvent : TJSMouseEvent) : boolean;
+    function bMiClick  (aEvent : TJSMouseEvent) : boolean;
+    function bFaClick  (aEvent : TJSMouseEvent) : boolean;
+    function bFadClick (aEvent : TJSMouseEvent) : boolean;
+    function bSolClick (aEvent : TJSMouseEvent) : boolean;
+    function bSoldClick(aEvent : TJSMouseEvent) : boolean;
+    function bLaClick  (aEvent : TJSMouseEvent) : boolean;
+    function bSibClick (aEvent : TJSMouseEvent) : boolean;
+    function bSiClick  (aEvent : TJSMouseEvent) : boolean;
   //Tests
   private
     bTestDieseBemol: TJSHTMLButtonElement;
@@ -301,14 +311,13 @@ begin
      Inc(x, x_ecart);
 end;
 
-function TjsTuneTrainer.Copie_g(_id: String; _non_coloriee: Boolean
- ): TJSSVGGElement;
+function TjsTuneTrainer.Copie_g(_id: String; _non_coloriee: Boolean): TJSSVGGElement;
 var
    g: TJSSVGGElement;
    style: string;
    i: Integer;
 begin
-     //WriteLn( 'Copie(',_id,'): svg.to_string');
+     //WriteLn( 'Copie_g(',_id,'): svg.to_string');
      //WriteLn( '  ',svg.toString);
      Result:= nil;
 
@@ -419,7 +428,16 @@ procedure TjsTuneTrainer._from_Source;
           do
             begin
             //WriteLn( ClassName+'._from_Source; Copie_Notes; Note:',Note);
-            if (Note='C4') or (Note='C#4') or (Note='A5')
+            if    (Note='G3')
+               or (Note='G#3')
+               or (Note='A3')
+               or (Note='Bb3')
+               or (Note='B3')
+               or (Note='C4')
+               or (Note='C#4')
+               or (Note='A5')
+               or (Note='Bb5')
+               or (Note='B5')
             then
                 c:= TJSSVGCircleElement( Copie_g( 'g'+Note, non_coloriee))
             else
@@ -468,9 +486,19 @@ begin
      Check_Note( 'C');
 end;
 
+function TjsTuneTrainer.bDodClick(aEvent: TJSMouseEvent): boolean;
+begin
+     Check_Note( 'C#');
+end;
+
 function TjsTuneTrainer.bReClick(aEvent: TJSMouseEvent): boolean;
 begin
      Check_Note( 'D');
+end;
+
+function TjsTuneTrainer.bMibClick(aEvent: TJSMouseEvent): boolean;
+begin
+     Check_Note( 'Eb');
 end;
 
 function TjsTuneTrainer.bMiClick(aEvent: TJSMouseEvent): boolean;
@@ -483,14 +511,29 @@ begin
      Check_Note( 'F');
 end;
 
+function TjsTuneTrainer.bFadClick(aEvent: TJSMouseEvent): boolean;
+begin
+     Check_Note( 'F#');
+end;
+
 function TjsTuneTrainer.bSolClick(aEvent: TJSMouseEvent): boolean;
 begin
      Check_Note( 'G');
 end;
 
+function TjsTuneTrainer.bSoldClick(aEvent: TJSMouseEvent): boolean;
+begin
+     Check_Note( 'G#');
+end;
+
 function TjsTuneTrainer.bLaClick(aEvent: TJSMouseEvent): boolean;
 begin
      Check_Note( 'A');
+end;
+
+function TjsTuneTrainer.bSibClick(aEvent: TJSMouseEvent): boolean;
+begin
+     Check_Note( 'Bb');
 end;
 
 function TjsTuneTrainer.bSiClick(aEvent: TJSMouseEvent): boolean;
@@ -500,7 +543,7 @@ end;
 
 function TjsTuneTrainer.bTestDieseBemolClick(aEvent: TJSMouseEvent): boolean;
 begin
-     iSource.value:= 'do do# re mib mi fa fa# sol sol# la sib si do4 do#4 re4 mib4 mi4 fa4 fa#4 sol4 sol#4 la4';
+     iSource.value:= 'sol2 sol#2 la2 sib2 si2 do do# re mib mi fa fa# sol sol# la sib si do4 do#4 re4 mib4 mi4 fa4 fa#4 sol4 sol#4 la4';
      iNotes_non_coloriees.value:= '';
      _from_Notes_non_coloriees;
      _from_Source;
@@ -588,11 +631,16 @@ begin
 
      b(bDebut                  ,'bDebut'                  ,@bDebutClick                  );
      b(bDo                     ,'bDo'                     ,@bDoClick                     );
+     b(bDod                    ,'bDod'                    ,@bDodClick                    );
      b(bRe                     ,'bRe'                     ,@bReClick                     );
+     b(bMib                    ,'bMib'                    ,@bMibClick                    );
      b(bMi                     ,'bMi'                     ,@bMiClick                     );
      b(bFa                     ,'bFa'                     ,@bFaClick                     );
+     b(bFad                    ,'bFad'                    ,@bFadClick                    );
      b(bSol                    ,'bSol'                    ,@bSolClick                    );
+     b(bSold                   ,'bSold'                   ,@bSoldClick                   );
      b(bLa                     ,'bLa'                     ,@bLaClick                     );
+     b(bSib                    ,'bSib'                    ,@bSibClick                    );
      b(bSi                     ,'bSi'                     ,@bSiClick                     );
      b(bTestDieseBemol         ,'bTestDieseBemol'         ,@bTestDieseBemolClick         );
      b(bTestNotes_non_coloriees,'bTestNotes_non_coloriees',@bTestNotes_non_colorieesClick);
