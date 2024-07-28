@@ -26,6 +26,12 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="OD_DelphiReportEngine_Formes"/>
+      </Item>
+      <Item>
+        <PackageName Value="OD_DelphiReportEngine_Units"/>
+      </Item>
+      <Item>
         <PackageName Value="lazvlc"/>
       </Item>
       <Item>
@@ -44,6 +50,45 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
+      <Unit>
+        <Filename Value="ujsPaneurythmie_Options.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ufjsPaneurythmie_Options.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fjsPaneurythmie_Options"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Elements\Media\upoolMedia.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Elements\Media\ublMedia.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Elements\Media\udkMedia_display.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkMedia_display"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Elements\Media\udkMedia_edit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkMedia_edit"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Elements\Media\ufMedia_dsb.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fMedia_dsb"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Elements\Media\uhfMedia.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -54,8 +99,14 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="Elements\Media"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <SyntaxMode Value="Delphi"/>
+      </SyntaxOptions>
+    </Parsing>
     <Linking>
       <Debugging>
         <DebugInfoType Value="dsDwarf3"/>

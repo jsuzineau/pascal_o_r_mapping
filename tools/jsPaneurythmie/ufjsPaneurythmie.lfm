@@ -6,6 +6,7 @@ object fjsPaneurythmie: TfjsPaneurythmie
   Caption = 'fjsPaneurythmie'
   ClientHeight = 240
   ClientWidth = 320
+  OnCreate = FormCreate
   LCLVersion = '3.4.0.0'
   object p: TPanel
     Left = 24
@@ -14,6 +15,25 @@ object fjsPaneurythmie: TfjsPaneurythmie
     Width = 280
     Caption = 'p'
     TabOrder = 0
+  end
+  object Panel1: TPanel
+    Left = 0
+    Height = 50
+    Top = 0
+    Width = 320
+    Align = alTop
+    ClientHeight = 50
+    ClientWidth = 320
+    TabOrder = 1
+    object bOptions: TButton
+      Left = 228
+      Height = 25
+      Top = 11
+      Width = 75
+      Caption = 'Options'
+      TabOrder = 0
+      OnClick = bOptionsClick
+    end
   end
   object vlc: TLCLVLCPlayer
     AudioDelay = -1
