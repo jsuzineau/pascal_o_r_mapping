@@ -84,7 +84,7 @@ type
     function Iterateur_Decroissant: TIterateur_Work;
   //Méthodes
   public
-    function Charge_Periode( _Debut, _Fin: TDateTime; _idTag: Integer): Boolean;
+    function Charge_Periode(_Debut, _Fin: TDateTime; _Description_Filter: String;_idTag: Integer): Boolean;
   end;
 
  { ThaTag__Work_from_Session }
@@ -168,7 +168,7 @@ type
     haTag: ThaTag;
   //Méthodes
   public
-    function Execute( _Debut, _Fin: TDateTime; _idTag: Integer): Boolean; reintroduce;
+    function Execute(_Debut, _Fin: TDateTime; _idTag: Integer; _Description_Filter: String): Boolean; reintroduce;
     procedure To_log;
   //Calendrier
   public
@@ -254,10 +254,10 @@ begin
      Result:= TIterateur_Work( Iterateur_interne_Decroissant);
 end;
 
-function ThaWork.Charge_Periode( _Debut, _Fin: TDateTime; _idTag: Integer): Boolean;
+function ThaWork.Charge_Periode( _Debut, _Fin: TDateTime; _Description_Filter: String; _idTag: Integer): Boolean;
 begin
      Clear;
-     poolWork.Charge_Periode( _Debut, _Fin, _idTag, slCharge);
+     poolWork.Charge_Periode( _Debut, _Fin, _idTag, _Description_Filter, slCharge);
      Ajoute_slCharge;
      poolWork.Tri.Execute( sl);
 end;
@@ -538,7 +538,7 @@ begin
      inherited;
 end;
 
-function ThdmSession.Execute( _Debut, _Fin: TDateTime; _idTag: Integer): Boolean;
+function ThdmSession.Execute(_Debut, _Fin: TDateTime; _idTag: Integer; _Description_Filter: String): Boolean;
    procedure haTag_from_ha_Work;
    var
       I: TIterateur_Work;
@@ -629,7 +629,7 @@ function ThdmSession.Execute( _Debut, _Fin: TDateTime; _idTag: Integer): Boolean
    end;
 begin
      hdmCalendrier.Formate( _Debut, _Fin);
-     haWork.Charge_Periode( _Debut, _Fin, _idTag);
+     haWork.Charge_Periode( _Debut, _Fin, _Description_Filter, _idTag);
      haTag_from_ha_Work;
      haTag_haWork_from_Session_Clear;
      haTag_haWork_from_Session_from_ha_Work;

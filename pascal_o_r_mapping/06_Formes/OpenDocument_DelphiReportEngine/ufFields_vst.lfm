@@ -117,7 +117,7 @@ object fFields_vst: TfFields_vst
       TabOrder = 4
     end
   end
-  object vst: TVirtualStringTree
+  object vst: TLazVirtualStringTree
     Left = 0
     Height = 400
     Top = 0

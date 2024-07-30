@@ -7,7 +7,7 @@ uses
  cthreads,
  {$ENDIF}{$ENDIF}
  Interfaces, // this includes the LCL widgetset
- Forms, virtualtreeview_package, ufGenerateur;
+ Forms, ufGenerateur;
 
 {$R *.res}
 

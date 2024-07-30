@@ -2,116 +2,32 @@ inherited dkMedia_display: TdkMedia_display
   Left = 704
   Height = 45
   Top = 420
-  Width = 226
+  Width = 280
   Caption = 'dkMedia_display'
   ClientHeight = 45
-  ClientWidth = 226
-  inherited sSelection: TBatpro_Shape 
+  ClientWidth = 280
+  inherited sBackground: TShape
+    Width = 818
+  end
+  inherited sSelection: TBatpro_Shape
     Height = 45
   end
-  object clTitre: TChamp_Label
-    Left = 144
-    Height = 13
-    Top = 2
-    Width = 57
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Caption = 'clTitre'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    OnClick = FormClick
-    Field = 'Titre'
-  end
-
-  object clNomFichier: TChamp_Label
-    Left = 144
-    Height = 13
-    Top = 2
-    Width = 57
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Caption = 'clNomFichier'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    OnClick = FormClick
-    Field = 'NomFichier'
-  end
-
-  object clBoucler: TChamp_Label
-    Left = 144
-    Height = 13
-    Top = 2
-    Width = 57
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Caption = 'clBoucler'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    OnClick = FormClick
-    Field = 'Boucler'
-  end
-
-  object ceTitre: TChamp_Edit
-    Left = 119
-    Height = 21
-    Top = 4
-    Width = 80
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Text = 'ceTitre'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    Field = 'Titre'
-  end
-
-  object ceNomFichier: TChamp_Edit
-    Left = 119
-    Height = 21
-    Top = 4
-    Width = 80
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Text = 'ceNomFichier'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    Field = 'NomFichier'
-  end
-
-  object ceBoucler: TChamp_Edit
-    Left = 119
-    Height = 21
-    Top = 4
-    Width = 80
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Text = 'ceBoucler'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    Field = 'Boucler'
-  end
-  object sbDetruire: TSpeedButton[2]
-    Left = 16
-    Height = 22
-    Hint = 'Supprimer'
-    Top = 19
-    Width = 22
-    Caption = 'D'
-    OnClick = sbDetruireClick
-  end
-  object sbCopy_to_current: TSpeedButton[4]
-    Left = 203
-    Height = 22
-    Hint = 'Copie vers courant'
+  object clTitre: TChamp_Label[2]
+    Left = 12
+    Height = 45
     Top = 0
-    Width = 22
-    Anchors = [akTop, akRight]
-    Caption = '>'
-    OnClick = sbCopy_to_currentClick
+    Width = 268
+    Align = alClient
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'clTitre'
+    Font.Color = clWindowText
+    Font.Height = -32
+    Font.Name = 'Arial'
+    ParentColor = False
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'Titre'
   end
 end

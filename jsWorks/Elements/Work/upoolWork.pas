@@ -85,7 +85,10 @@ type
     function Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boolean; override;
   //Chargement d'une période
   public
-    procedure Charge_Periode( _Debut, _Fin: TDateTime; _idTag: Integer= 0; _slLoaded: TBatpro_StringList = nil);
+    procedure Charge_Periode( _Debut, _Fin: TDateTime;
+                              _idTag: Integer=0;
+                              _Description_Filter: String='';
+                              _slLoaded: TBatpro_StringList=nil);
   //Chargement des Work d'un Tag
   public
     procedure Charge_Tag( _idTag: Integer; _slLoaded: TBatpro_StringList);
@@ -200,6 +203,7 @@ function TpoolWork.Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boole
      var
         Debut, Fin: TDateTime;
         idTag: Integer;
+        Description_Filter: String;
         sl: TBatpro_StringList;
         procedure Params_from_JSON;
         var
@@ -233,6 +237,7 @@ function TpoolWork.Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boole
                  String_from_jso( 'Debut', sDebut, '');
                  String_from_jso( 'Fin'  , sFin  , '');
                 Integer_from_jso( 'idTag', idTag , 0 );
+                 String_from_jso( 'Description_Filter'  , Description_Filter, '');
              finally
                     Free_nil( jso);
                     end;
@@ -243,7 +248,7 @@ function TpoolWork.Traite_HTTP( _HTTP_Interface: THTTP_Interface_Ancetre): Boole
           Params_from_JSON;
 
           sl:= TBatpro_StringList.Create;
-          Charge_Periode( Debut, Fin, idTag, sl);
+          Charge_Periode( Debut, Fin, idTag, Description_Filter, sl);
           _HTTP_Interface.Send_JSON( sl.JSON);
           FreeAndNil( sl);
      end;
@@ -291,7 +296,7 @@ begin
      else                                                 Result:= False;
 end;
 
-procedure TpoolWork.Charge_Periode( _Debut, _Fin: TDateTime; _idTag: Integer= 0;
+procedure TpoolWork.Charge_Periode( _Debut, _Fin: TDateTime; _idTag: Integer= 0; _Description_Filter: String='';
                                     _slLoaded: TBatpro_StringList= nil);
    procedure Version_avec_TParams;
    var
@@ -362,16 +367,35 @@ procedure TpoolWork.Charge_Periode( _Debut, _Fin: TDateTime; _idTag: Integer= 0;
       P: TParams;
       pDebut, pFin: TParam;
       sDebut, sFin: String;
+      pDescription_Filter: TParam;
+      sDescription_Filter: String;
+      sDescription_Condition: String;
    begin
         sDebut:= sgbd_DateTimeSQL( _Debut);
         sFin  := sgbd_DateTimeSQL( _Fin  );
+        if ''=_Description_Filter
+        then
+            begin
+            sDescription_Condition:= '';
+            sDescription_Filter:= '%'
+            end
+        else
+            begin
+            sDescription_Condition:= '      and (Description like :Description_Filter)';
+            sDescription_Filter:= '%'+_Description_Filter+'%';
+            end;
+
         if _idTag = 0
         then
             SQL
             :=
-              'select * from '+NomTable
-              +' where (Beginning >= :Debut and Beginning <= :Fin) '
-                  +'or (Beginning >= "'+sDebut+'" and Beginning <= "'+sFin+'")'
+               'select * from '+NomTable+#13#10
+              +' where '#13#10
+              +'          ('#13#10
+              +'              (Beginning >= :Debut and Beginning <= :Fin) '#13#10
+              +'           or (Beginning >= "'+sDebut+'" and Beginning <= "'+sFin+'")'+#13#10
+              +'          )'#13#10
+              +sDescription_Condition
         else
             SQL
             :=
@@ -390,13 +414,17 @@ procedure TpoolWork.Charge_Periode( _Debut, _Fin: TDateTime; _idTag: Integer= 0;
     +'         (                                      '#13#10
     +'           (Beginning >= :Debut and Beginning <= :Fin)'#13#10
     +'           or(Beginning >= "'+sDebut+'" and Beginning <= "'+sFin+'")'#13#10
-    +'         )                                      '#13#10;
+    +'         )                                      '#13#10
+    +sDescription_Condition;
         P:= TParams.Create;
         try
            pDebut:= CreeParam( P, 'Debut');
            pFin  := CreeParam( P, 'Fin'  );
            pDebut.AsDateTime:= Trunc( _Debut);
            pFin  .AsDateTime:= Trunc(_Fin)+1;
+
+           pDescription_Filter:= CreeParam( P, 'Description_Filter'  );
+           pDescription_Filter.AsString:= sDescription_Filter;
            Load( SQL, _slLoaded, nil, P);
         finally
                FreeAndNil( P);

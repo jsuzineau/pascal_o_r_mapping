@@ -66,7 +66,7 @@ uses
 
   LCLIntf, LMessages, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, ValEdit, Registry,
-  Spin,LCLType, Menus, VirtualTrees,XMLWrite,XMLRead,StrUtils;
+  Spin,LCLType, Menus, laz.VirtualTrees,XMLWrite,XMLRead,StrUtils;
 
 type
  { TfOpenDocument_DelphiReportEngine }

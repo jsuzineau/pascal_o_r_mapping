@@ -106,6 +106,7 @@ type
    bTemps: TButton;
    bTULEAP: TButton;
    bOuvre_dans_navigateur: TButton;
+   bDescription_Filter_cancel: TButton;
    bVST: TButton;
    cbRestreindre_a_un_Tag: TCheckBox;
    ceBeginning: TChamp_Edit;
@@ -124,12 +125,14 @@ type
    dtpBeginning_From: TDateTimePicker;
    dtpClient_Beginning_From: TDateTimePicker;
    eClient: TEdit;
+   eDescription_Filter: TEdit;
    eIP_listen: TEdit;
    gbDescription: TGroupBox;
    gbSolution: TGroupBox;
    Label1: TLabel;
    Label10: TLabel;
    Label11: TLabel;
+   Label12: TLabel;
    lTag: TLabel;
    Label2: TLabel;
    Label3: TLabel;
@@ -178,6 +181,7 @@ type
    procedure bBugClick(Sender: TObject);
    procedure bCategorie_to_TagClick(Sender: TObject);
    procedure bClient_Beginning_FromClick(Sender: TObject);
+   procedure bDescription_Filter_cancelClick(Sender: TObject);
    procedure bDescription_to_TagClick(Sender: TObject);
    procedure bHTTPClick(Sender: TObject);
    procedure bNEO4JClick(Sender: TObject);
@@ -287,6 +291,7 @@ begin
 
      dtpBeginning_From       .Date:= Now-30;
      dtpClient_Beginning_From.Date:= Now-30;
+     eDescription_Filter.Text:= '';
 
      slWork_JSON:= TslJSON.Create;
 
@@ -321,11 +326,12 @@ end;
 procedure TfjsWorks.Traite_Beginning_From;
 var
    D: TDateTime;
+   Description_Filter: String;
 begin
      D:= dtpBeginning_From.Date;
-
+     Description_Filter:= eDescription_Filter.Text;
      //poolWork.ToutCharger();
-     poolWork.Charge_Periode( D, Now, idTag, slWork);
+     poolWork.Charge_Periode( D, Now, idTag, Description_Filter, slWork);
      poolWork.TrierFiltre;
      slWork.Charger_Tags;
 
@@ -801,6 +807,11 @@ begin
      Traite_Client_Beginning_From;
      Chrono.Stop('Fin de l''exécution');
      mChrono.Lines.Text:= Chrono.Get_Liste;
+end;
+
+procedure TfjsWorks.bDescription_Filter_cancelClick(Sender: TObject);
+begin
+     eDescription_Filter.Text:= '';
 end;
 
 end.

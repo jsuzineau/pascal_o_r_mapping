@@ -55,7 +55,7 @@ uses
     ufAutomatic_Genere_tout_sl,
 
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, VirtualTrees, ucChampsGrid, sqldb, SQLite3Conn;
+  ExtCtrls, laz.VirtualTrees, ucChampsGrid, sqldb, SQLite3Conn;
 
 type
 
@@ -77,7 +77,7 @@ type
     eQueryFileName: TEdit;
     od: TOpenDialog;
     Panel1: TPanel;
-    vst: TVirtualStringTree;
+    vst: TLazVirtualStringTree;
     procedure bExecuteClick(Sender: TObject);
     procedure bGenereClick(Sender: TObject);
     procedure bGenereFromQueryFileClick(Sender: TObject);

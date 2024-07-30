@@ -34,12 +34,9 @@ uses
 
     uDockable, ucBatpro_Shape, ucChamp_Label, ucChamp_Edit,
     ucBatproDateTimePicker, ucChamp_DateTimePicker, ucDockableScrollbox,
-    ucChamp_Lookup_ComboBox,
+    ucChamp_Lookup_ComboBox, ucChamp_CheckBox,
     Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
     LCLType;
-
-const
-     udkMedia_edit_Copy_to_current=0;
 
 type
 
@@ -50,12 +47,13 @@ type
   class(TDockable)
   ceTitre: TChamp_Edit;
   ceNomFichier: TChamp_Edit;
-  ceBoucler: TChamp_Edit;
+  cbBoucler: TChamp_CheckBox;
+  od: TOpenDialog;
 //Pascal_udk_edit_declaration_pas
-  sbCopy_to_current: TSpeedButton;
+  sbNomFichier: TSpeedButton;
   sbDetruire: TSpeedButton;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-  procedure sbCopy_to_currentClick(Sender: TObject);
+  procedure sbNomFichierClick(Sender: TObject);
   procedure sbDetruireClick(Sender: TObject);
  //Gestion du cycle de vie
  public
@@ -79,7 +77,7 @@ begin
      inherited Create(AOwner);
      Ajoute_Colonne( ceTitre, 'Titre', 'Titre');
      Ajoute_Colonne( ceNomFichier, 'NomFichier', 'NomFichier');
-     Ajoute_Colonne( ceBoucler, 'Boucler', 'Boucler');
+     Ajoute_Colonne( cbBoucler, 'Boucler', 'Boucler');
 
 //Details_Pascal_udk_edit_Create_AjouteColonne_pas
 end;
@@ -95,7 +93,7 @@ begin
 
      Affecte( blMedia, TblMedia, Value);
 
-     Champs_Affecte( blMedia,[ ceTitre,ceNomFichier,ceBoucler]);
+     Champs_Affecte( blMedia,[ ceTitre,ceNomFichier,cbBoucler]);
      Champs_Affecte( blMedia,[ {Details_Pascal_udk_edit_component_list_pas}]);
 end;
 
@@ -117,9 +115,13 @@ begin
      inherited;
 end;
 
-procedure TdkMedia_edit.sbCopy_to_currentClick(Sender: TObject);
+procedure TdkMedia_edit.sbNomFichierClick(Sender: TObject);
 begin
-     Envoie_Message( udkMedia_edit_Copy_to_current);
+     if nil = blMedia then exit;
+     od.FileName:= blMedia.NomFichier;
+     if od.Execute
+     then
+         blMedia.cNomFichier.Chaine:= od.FileName;
 end;
 
 end.

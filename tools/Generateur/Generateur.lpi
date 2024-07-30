@@ -193,19 +193,19 @@
     </RunParams>
     <RequiredPackages Count="7">
       <Item1>
-        <PackageName Value="OD_DelphiReportEngine_Data"/>
+        <PackageName Value="laz.virtualtreeview_package"/>
       </Item1>
       <Item2>
-        <PackageName Value="OD_DelphiReportEngine_Formes"/>
+        <PackageName Value="OD_DelphiReportEngine_Data"/>
       </Item2>
       <Item3>
-        <PackageName Value="FCL"/>
+        <PackageName Value="OD_DelphiReportEngine_Formes"/>
       </Item3>
       <Item4>
-        <PackageName Value="OD_DelphiReportEngine_Units"/>
+        <PackageName Value="FCL"/>
       </Item4>
       <Item5>
-        <PackageName Value="virtualtreeview_package"/>
+        <PackageName Value="OD_DelphiReportEngine_Units"/>
       </Item5>
       <Item6>
         <PackageName Value="OD_DelphiReportEngine_Controls"/>

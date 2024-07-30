@@ -31,6 +31,35 @@
           <Mode Name="Release"/>
         </BuildModes>
       </Target>
+      <Target FileName="..\jsCompta\jsCompta.lpi">
+        <BuildModes>
+          <Mode Name="Windows 64 bits Release" Compile="True"/>
+          <Mode Name="Windows 64 bits Debug Lite"/>
+          <Mode Name="Windows 64 bits Debug"/>
+          <Mode Name="Linux Release"/>
+          <Mode Name="Linux Debug Lite"/>
+          <Mode Name="Linux Debug"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="..\..\jsWorks\jsWorks.lpi">
+        <BuildModes>
+          <Mode Name="Windows 64 bits Debug" Compile="True"/>
+          <Mode Name="Windows 64 bits Release"/>
+          <Mode Name="Linux Debug"/>
+          <Mode Name="Linux Release"/>
+          <Mode Name="Windows 64 bits Debug Lite"/>
+          <Mode Name="Linux Debug Lite"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="..\Generateur\Generateur.lpi">
+        <BuildModes>
+          <Mode Name="Linux_Debug" Compile="True"/>
+          <Mode Name="Linux_Release"/>
+          <Mode Name="Windows_Debug"/>
+          <Mode Name="Windows_Release"/>
+          <Mode Name="Windows_Debug_Lite"/>
+        </BuildModes>
+      </Target>
     </Targets>
   </ProjectGroup>
 </CONFIG>

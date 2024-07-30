@@ -7,7 +7,7 @@ interface
 uses
     uOpenDocument,
     ufFields_vst,
-  VirtualTrees, Classes, SysUtils, FileUtil, Forms, Controls,
+  laz.VirtualTrees, Classes, SysUtils, FileUtil, Forms, Controls,
   Graphics, Dialogs, ExtCtrls, StdCtrls;
 
 type

@@ -1,60 +1,46 @@
 inherited dkMedia_edit: TdkMedia_edit
   Left = 704
-  Height = 45
+  Height = 52
   Top = 420
-  Width = 226
+  Width = 380
   Caption = 'dkMedia_edit'
-  ClientHeight = 45
-  ClientWidth = 226
-  inherited sSelection: TBatpro_Shape 
-    Height = 45
-  end
+  ClientHeight = 52
+  ClientWidth = 380
   inherited sBackground: TShape
-    Height = 45
-    Width = 214
+    Left = 8
+    Height = 52
+    Width = 368
   end
-  object ceTitre: TChamp_Edit
-    Left = 119
+  inherited sSelection: TBatpro_Shape
+    Height = 52
+  end
+  object ceTitre: TChamp_Edit[2]
+    Left = 38
     Height = 21
     Top = 4
-    Width = 80
-    Anchors = [akTop, akRight]
+    Width = 270
+    Anchors = [akTop, akLeft, akRight]
     AutoSize = False
-    Text = 'ceTitre'
-    ParentColor = False
     ParentShowHint = False
     ShowHint = True
+    TabOrder = 0
+    Text = 'ceTitre'
     Field = 'Titre'
   end
-
-  object ceNomFichier: TChamp_Edit
-    Left = 119
+  object ceNomFichier: TChamp_Edit[3]
+    Left = 39
     Height = 21
-    Top = 4
-    Width = 80
-    Anchors = [akTop, akRight]
+    Top = 28
+    Width = 314
+    Anchors = [akTop, akLeft, akRight]
     AutoSize = False
-    Text = 'ceNomFichier'
-    ParentColor = False
     ParentShowHint = False
     ShowHint = True
+    TabOrder = 1
+    Text = 'ceNomFichier'
     Field = 'NomFichier'
   end
-
-  object ceBoucler: TChamp_Edit
-    Left = 119
-    Height = 21
-    Top = 4
-    Width = 80
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Text = 'ceBoucler'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    Field = 'Boucler'
-  end
-  object sbDetruire: TSpeedButton[2]
+  object sbDetruire: TSpeedButton[4]
     Left = 16
     Height = 22
     Hint = 'Supprimer'
@@ -86,14 +72,31 @@ inherited dkMedia_edit: TdkMedia_edit
     }
     OnClick = sbDetruireClick
   end
-  object sbCopy_to_current: TSpeedButton[3]
-    Left = 203
+  object sbNomFichier: TSpeedButton[5]
+    Left = 357
     Height = 22
     Hint = 'Copie vers courant'
-    Top = 3
+    Top = 27
     Width = 22
     Anchors = [akTop, akRight]
-    Caption = '>'
-    OnClick = sbCopy_to_currentClick
+    Caption = '...'
+    OnClick = sbNomFichierClick
+  end
+  object cbBoucler: TChamp_CheckBox[6]
+    Left = 314
+    Height = 17
+    Top = 5
+    Width = 54
+    Alignment = taLeftJustify
+    Anchors = [akTop, akRight]
+    Caption = 'Boucler'
+    TabOrder = 2
+    Field = 'Boucler'
+    ValueTrue = '-1'
+    ValueFalse = '0'
+  end
+  object od: TOpenDialog[7]
+    Left = 486
+    Top = 9
   end
 end

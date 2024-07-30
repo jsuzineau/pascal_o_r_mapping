@@ -60,6 +60,7 @@ type
     lTri: TLabel;
     bNouveau: TButton;
     bSupprimer: TButton;
+    tShow: TTimer;
     tsPascal_uf_pc_dfm_Aggregation: TTabSheet;
     procedure dsbSelect(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -67,6 +68,7 @@ type
     procedure bNouveauClick(Sender: TObject);
     procedure bSupprimerClick(Sender: TObject);
     procedure bImprimerClick(Sender: TObject);
+    procedure tShowTimer(Sender: TObject);
   private
     { Déclarations privées }
     procedure NbTotal_Change;
@@ -134,6 +136,7 @@ begin
      _from_pool;
      Result:= True;
      Show;
+     tShow.Enabled:= True;
 end;
 
 procedure TfMedia_dsb._from_pool;
@@ -189,6 +192,12 @@ begin
                                    [ nil],
                                    [ nil]);
      }
+end;
+
+procedure TfMedia_dsb.tShowTimer(Sender: TObject);
+begin
+     tShow.Enabled:= False;
+     _from_pool;
 end;
 
 initialization

@@ -58,8 +58,8 @@ type
   //champs persistants
   public
     Titre: String;
-    NomFichier: String;
-    Boucler: Integer;
+    NomFichier: String;cNomFichier: TChamp;
+    Boucler: Boolean;
 //Pascal_ubl_declaration_pas_detail
   //Gestion de la clé
   public
@@ -173,9 +173,9 @@ begin
      Champs.ChampDefinitions.NomTable:= 'Media';
 
      //champs persistants
-     Champs.  String_from_String ( Titre          , 'Titre'          );
-     Champs.  String_from_String ( NomFichier     , 'NomFichier'     );
-     Champs. Integer_from_Integer( Boucler        , 'Boucler'        );
+                   Champs. String_from_String( Titre     , 'Titre'     );
+     cNomFichier:= Champs. String_from_String( NomFichier, 'NomFichier');
+                   Champs.Boolean_from_      ( Boucler   , 'Boucler'   );
 
 //Pascal_ubl_constructor_pas_detail
 end;

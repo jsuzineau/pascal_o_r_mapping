@@ -168,7 +168,7 @@ procedure TfTemps.bOKClick(Sender: TObject);
 var
    Resultat: String;
 begin
-     odWork_from_Period.Init( deDebut.Date, deFin.Date, idTag);
+     odWork_from_Period.Init( deDebut.Date, deFin.Date, idTag, '');
      Resultat:= odWork_from_Period.Visualiser;
      if not OpenDocument( Resultat)
      then
@@ -257,7 +257,7 @@ end;
 procedure TfTemps.bSessionClick(Sender: TObject);
 begin
      ds.sl:= nil;
-     hdmSession.Execute( deDebut.Date, deFin.Date+(23+(59)/60)/24, idTag);
+     hdmSession.Execute( deDebut.Date, deFin.Date+(23+(59)/60)/24, idTag, '');
      ds.sl:= hdmSession.sl;
      mResume.Text:= hdmSession.Text;
 end;
@@ -300,7 +300,7 @@ procedure TfTemps.b0_NowClick(Sender: TObject);
 var
    Resultat: String;
 begin
-     odWork_from_Period.Init( 0, Now, idTag);
+     odWork_from_Period.Init( 0, Now, idTag, '');
      Resultat:= odWork_from_Period.Visualiser;
      if not OpenDocument( Resultat)
      then

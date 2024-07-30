@@ -12,7 +12,7 @@ uses
     uuStrings,
     uhVST_ODR,
     uOpenDocument,
-  VirtualTrees, Classes, SysUtils, FileUtil, Forms,
+  laz.VirtualTrees, Classes, SysUtils, FileUtil, Forms,
   Controls, Graphics, Dialogs, ExtCtrls, StdCtrls;
 
 type
@@ -37,7 +37,7 @@ type
    opendialog: TOpenDialog;
    Panel1: TPanel;
    sd: TSaveDialog;
-   vst: TVirtualStringTree;
+   vst: TLazVirtualStringTree;
     procedure bChronoClick(Sender: TObject);
     procedure bDupliquerClick(Sender: TObject);
     procedure bExporterClick(Sender: TObject);
@@ -76,7 +76,7 @@ type
     procedure Copie_Sous_branche( tn: PVirtualNode; Source, Cible: String);
   //Optimisation de l'arborescence
   private
-    procedure Optimise( _vst: TVirtualStringTree;
+    procedure Optimise( _vst: TLazVirtualStringTree;
                         _hvst: ThVST_ODR;
                         _sl: TOOoStringList);
   //Log des suppressions
@@ -415,7 +415,7 @@ procedure TfFields_vst.bToutOuvrirClick(Sender: TObject);
 begin
      vst.FullCollapse;
 end;
-procedure TfFields_vst.Optimise( _vst: TVirtualStringTree;
+procedure TfFields_vst.Optimise( _vst: TLazVirtualStringTree;
                                  _hvst: ThVST_ODR;
                                  _sl: TOOoStringList);
 var

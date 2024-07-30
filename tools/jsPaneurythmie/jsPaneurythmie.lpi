@@ -26,6 +26,9 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="OD_DelphiReportEngine_Controls"/>
+      </Item>
+      <Item>
         <PackageName Value="OD_DelphiReportEngine_Formes"/>
       </Item>
       <Item>
@@ -51,17 +54,6 @@
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
-        <Filename Value="ujsPaneurythmie_Options.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
-        <Filename Value="ufjsPaneurythmie_Options.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="fjsPaneurythmie_Options"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit>
-      <Unit>
         <Filename Value="Elements\Media\upoolMedia.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
@@ -73,16 +65,21 @@
         <Filename Value="Elements\Media\udkMedia_display.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dkMedia_display"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
         <Filename Value="Elements\Media\udkMedia_edit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dkMedia_edit"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
         <Filename Value="Elements\Media\ufMedia_dsb.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fMedia_dsb"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>

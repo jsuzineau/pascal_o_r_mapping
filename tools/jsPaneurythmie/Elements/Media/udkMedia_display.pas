@@ -37,9 +37,6 @@ uses
     Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
     LCLType;
 
-const
-     udkMedia_display_Copy_to_current=0;
-
 type
 
  { TdkMedia_display }
@@ -48,13 +45,7 @@ type
  =
   class(TDockable)
   clTitre: TChamp_Label;
-  clNomFichier: TChamp_Label;
-  clBoucler: TChamp_Label;
-  sbCopy_to_current: TSpeedButton;
-  sbDetruire: TSpeedButton;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-  procedure sbCopy_to_currentClick(Sender: TObject);
-  procedure sbDetruireClick(Sender: TObject);
  //Gestion du cycle de vie
  public
    constructor Create(AOwner: TComponent); override;
@@ -88,30 +79,12 @@ begin
 
      Affecte( blMedia, TblMedia, Value);
 
-     Champs_Affecte( blMedia, [clTitre,clNomFichier,clBoucler]);
-end;
-
-procedure TdkMedia_display.sbDetruireClick(Sender: TObject);
-begin
-     if IDYES
-        <>
-        Application.MessageBox( 'Etes vous sûr de vouloir supprimer Media ?',
-                                'Suppression de Media',
-                                MB_ICONQUESTION+MB_YESNO)
-     then
-         exit;
-     poolMedia .Supprimer( blMedia );
-     Do_DockableScrollbox_Suppression;
+     Champs_Affecte( blMedia, [clTitre]);
 end;
 
 procedure TdkMedia_display.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
      inherited;
-end;
-
-procedure TdkMedia_display.sbCopy_to_currentClick(Sender: TObject);
-begin
-     Envoie_Message( udkMedia_display_Copy_to_current);
 end;
 
 end.

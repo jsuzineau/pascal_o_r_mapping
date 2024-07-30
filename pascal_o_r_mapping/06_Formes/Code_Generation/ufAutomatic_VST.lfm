@@ -121,7 +121,7 @@ object fAutomatic_VST: TfAutomatic_VST
       TabOrder = 10
     end
   end
-  object vst: TVirtualStringTree
+  object vst: TLazVirtualStringTree
     Left = 0
     Height = 307
     Top = 106

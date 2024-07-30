@@ -31,7 +31,7 @@ uses
     uuStrings,
     uVide,
 
-  Classes, SysUtils, Controls, VirtualTrees;
+  Classes, SysUtils, Controls, laz.VirtualTrees;
 
 type
 
@@ -82,7 +82,7 @@ type
   class
   //Gestion du cycle de vie
   public
-    constructor Create( _vst: TVirtualStringTree);
+    constructor Create( _vst: TLazVirtualStringTree);
     destructor Destroy; override;
   //vst
   private
@@ -92,7 +92,7 @@ type
                           TextType: TVSTTextType;
                           var CellText: String);
   public
-    vst: TVirtualStringTree;
+    vst: TLazVirtualStringTree;
   //Liste des descripteurs de lignes
   private
     slhVST_ODR_Ligne: TslhVST_ODR_Ligne;
@@ -171,7 +171,7 @@ end;
 
 { ThVST_ODR }
 
-constructor ThVST_ODR.Create( _vst: TVirtualStringTree);
+constructor ThVST_ODR.Create( _vst: TLazVirtualStringTree);
 begin
      vst:= _vst;
 

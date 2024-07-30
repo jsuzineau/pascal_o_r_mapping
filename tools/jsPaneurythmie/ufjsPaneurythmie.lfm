@@ -1,39 +1,85 @@
 object fjsPaneurythmie: TfjsPaneurythmie
   Left = 600
-  Height = 240
+  Height = 323
   Top = 223
-  Width = 320
+  Width = 406
   Caption = 'fjsPaneurythmie'
-  ClientHeight = 240
-  ClientWidth = 320
+  ClientHeight = 323
+  ClientWidth = 406
   OnCreate = FormCreate
   LCLVersion = '3.4.0.0'
-  object p: TPanel
-    Left = 24
-    Height = 128
-    Top = 88
-    Width = 280
-    Caption = 'p'
-    TabOrder = 0
-  end
   object Panel1: TPanel
     Left = 0
     Height = 50
     Top = 0
-    Width = 320
+    Width = 406
     Align = alTop
     ClientHeight = 50
-    ClientWidth = 320
-    TabOrder = 1
+    ClientWidth = 406
+    TabOrder = 0
     object bOptions: TButton
-      Left = 228
+      Left = 314
       Height = 25
       Top = 11
       Width = 75
+      Anchors = [akTop, akRight]
       Caption = 'Options'
       TabOrder = 0
       OnClick = bOptionsClick
     end
+    object lTemps: TLabel
+      Left = 21
+      Height = 15
+      Top = 11
+      Width = 37
+      Caption = 'lTemps'
+    end
+    object bStop: TButton
+      Left = 145
+      Height = 25
+      Top = 11
+      Width = 75
+      Anchors = [akLeft, akBottom]
+      Caption = '&Stop'
+      TabOrder = 1
+      OnClick = bStopClick
+    end
+  end
+  object dsb: TDockableScrollbox
+    Left = 0
+    Height = 183
+    Top = 50
+    Width = 406
+    Align = alClient
+    Caption = 'dsb'
+    ClientHeight = 183
+    ClientWidth = 406
+    TabOrder = 1
+    HauteurLigne = 52
+    BordureLignes = True
+    Zebrage = False
+    Zebrage1 = 15138790
+    Zebrage2 = 16777192
+    OnSelect = dsbSelect
+    _LectureSeule = False
+  end
+  object m: TMemo
+    Left = 0
+    Height = 90
+    Top = 233
+    Width = 406
+    Align = alBottom
+    Lines.Strings = (
+      'm'
+    )
+    TabOrder = 2
+  end
+  object lPourcent: TLabel
+    Left = 21
+    Height = 15
+    Top = 27
+    Width = 51
+    Caption = 'lPourcent'
   end
   object vlc: TLCLVLCPlayer
     AudioDelay = -1
@@ -43,9 +89,27 @@ object fjsPaneurythmie: TfjsPaneurythmie
     Chapter = -1
     FitWindow = False
     FullScreenMode = False
-    UseEvents = False
-    ParentWindow = p
-    Left = 37
-    Top = 28
+    UseEvents = True
+    OnEOF = vlcEOF
+    OnOpening = vlcOpening
+    OnPlaying = vlcPlaying
+    OnStop = vlcStop
+    OnTimeChanged = vlcTimeChanged
+    OnPositionChanged = vlcPositionChanged
+    Left = 40
+    Top = 56
+  end
+  object tCreate: TTimer
+    Enabled = False
+    Interval = 10
+    OnTimer = tCreateTimer
+    Left = 128
+    Top = 56
+  end
+  object vlc_liste: TVLCMediaListPlayer
+    PlayMode = pmNormal
+    MediaItems = <>
+    Left = 205
+    Top = 75
   end
 end

@@ -40,7 +40,7 @@ uses
     uBatpro_Element,
     uBatpro_Ligne,
 
-  Classes, SysUtils, Controls, VirtualTrees;
+  Classes, SysUtils, Controls, laz.VirtualTrees;
 
 type
 
@@ -90,7 +90,7 @@ type
   class
   //Gestion du cycle de vie
   public
-    constructor Create( _vst: TVirtualStringTree;
+    constructor Create( _vst: TLazVirtualStringTree;
                         _sl : TBatpro_StringList;
                         _Tri   : TTri_Ancetre     = nil;
                         _Filtre: ThFiltre_Ancetre = nil);
@@ -107,7 +107,7 @@ type
                           var CellText: String);
     procedure vstHeaderClick( Sender: TVTHeader; HitInfo: TVTHeaderHitInfo);
   public
-    vst: TVirtualStringTree;
+    vst: TLazVirtualStringTree;
     cds: array of TChampDefinition;
   //Liste des objets à afficher
   public
@@ -191,7 +191,7 @@ end;
 
 { ThVST }
 
-constructor ThVST.Create( _vst: TVirtualStringTree;
+constructor ThVST.Create( _vst: TLazVirtualStringTree;
                           _sl : TBatpro_StringList;
                           _Tri   : TTri_Ancetre    = nil;
                           _Filtre: ThFiltre_Ancetre= nil);

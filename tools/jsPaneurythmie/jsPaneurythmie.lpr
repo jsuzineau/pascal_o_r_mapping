@@ -10,7 +10,7 @@ uses
  athreads,
  {$ENDIF}
  Interfaces, // this includes the LCL widgetset
- Forms, ufjsPaneurythmie, ujsPaneurythmie_Options, ufjsPaneurythmie_Options,
+ Forms, ufjsPaneurythmie,
  ufMedia_dsb, udkMedia_edit, udkMedia_display, ublMedia, upoolMedia, uhfMedia
  { you can add units after this };
 
@@ -21,7 +21,6 @@ begin
  Application.Scaled:=True;
  Application.Initialize;
  Application.CreateForm(TfjsPaneurythmie, fjsPaneurythmie);
- Application.CreateForm(TfjsPaneurythmie_Options, fjsPaneurythmie_Options);
  Application.Run;
 end.
 

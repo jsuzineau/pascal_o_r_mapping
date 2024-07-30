@@ -58,16 +58,9 @@ type
   //Accés par clé
   protected
     procedure To_Params( _Params: TParams); override;
-  public
-//pattern_Declaration_cle
-//pattern_Get_by_Cle_Declaration
-//pattern_Assure_Declaration
-  //Indépendance par rapport au SGBD Informix ou MySQL
-  protected
-    function SQLWHERE_ContraintesChamps: String; override;
   //Méthode de création de test
   public
-    function Test( _Titre: String;  _NomFichier: String;  _Boucler: Integer):Integer;
+    function Test(_Titre: String; _NomFichier: String; _Boucler: Boolean): Integer;
 
 //Details_Pascal_upool_charge_detail_declaration_pas
   //Création d'itérateur
@@ -129,12 +122,7 @@ begin
        end;
 end;
 
-function TpoolMedia.SQLWHERE_ContraintesChamps: String;
-begin
-//pattern_SQLWHERE_ContraintesChamps_Body
-end;
-
-function TpoolMedia.Test( _Titre: String;  _NomFichier: String;  _Boucler: Integer):Integer;
+function TpoolMedia.Test( _Titre: String;  _NomFichier: String;  _Boucler: Boolean):Integer;
 var                                                 
    bl: TblMedia;                          
 begin                                               

@@ -17,7 +17,7 @@ inherited fFields_vstTables: TfFields_vstTables
       ClientHeight = 44
     end
   end
-  inherited vst: TVirtualStringTree
+  inherited vst: TLazVirtualStringTree
     Height = 344
     Width = 850
   end

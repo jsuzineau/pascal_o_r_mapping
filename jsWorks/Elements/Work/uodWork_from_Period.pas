@@ -53,7 +53,7 @@ type
     t: TOD_Batpro_Table;
     n: TOD_Niveau;
   public
-    procedure Init( _Debut, _Fin: TDateTime; _idTag: Integer);
+    procedure Init(_Debut, _Fin: TDateTime; _idTag: Integer; _Description_Filter: String);
   end;
 
 function odWork_from_Period: TodWork_from_Period;
@@ -85,11 +85,12 @@ begin
      inherited Destroy;
 end;
 
-procedure TodWork_from_Period.Init( _Debut, _Fin: TDateTime; _idTag: Integer);
+procedure TodWork_from_Period.Init( _Debut, _Fin: TDateTime; _idTag: Integer; _Description_Filter: String);
 begin
      inherited Init;
 
-     poolWork.Charge_Periode( _Debut, _Fin, _idTag, sl);
+
+     poolWork.Charge_Periode( _Debut, _Fin, _idTag, _Description_Filter, sl);
 
      t:= Ajoute_Table( 't');
      t.Pas_de_persistance:= True;

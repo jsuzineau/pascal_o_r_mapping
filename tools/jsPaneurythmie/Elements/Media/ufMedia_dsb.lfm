@@ -9,7 +9,7 @@ object fMedia_dsb: TfMedia_dsb
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   Position = poScreenCenter
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '3.4.0.0'
   object Splitter1: TSplitter
     Cursor = crVSplit
     Left = 0
@@ -100,8 +100,8 @@ object fMedia_dsb: TfMedia_dsb
         Top = 8
         Width = 75
         Caption = 'Nouveau'
-        OnClick = bNouveauClick
         TabOrder = 1
+        OnClick = bNouveauClick
       end
       object bSupprimer: TButton
         Left = 576
@@ -109,8 +109,8 @@ object fMedia_dsb: TfMedia_dsb
         Top = 8
         Width = 75
         Caption = 'Supprimer'
-        OnClick = bSupprimerClick
         TabOrder = 2
+        OnClick = bSupprimerClick
       end
     end
     object Panel3: TPanel
@@ -149,7 +149,7 @@ object fMedia_dsb: TfMedia_dsb
       ClientHeight = 179
       ClientWidth = 738
       TabOrder = 2
-      HauteurLigne = 32
+      HauteurLigne = 52
       BordureLignes = True
       Zebrage = False
       Zebrage1 = 15138790
@@ -157,5 +157,12 @@ object fMedia_dsb: TfMedia_dsb
       OnSelect = dsbSelect
       _LectureSeule = False
     end
+  end
+  object tShow: TTimer
+    Enabled = False
+    Interval = 10
+    OnTimer = tShowTimer
+    Left = 552
+    Top = 4
   end
 end
