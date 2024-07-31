@@ -10,9 +10,8 @@ uses
  athreads,
  {$ENDIF}
  Interfaces, // this includes the LCL widgetset
- Forms, ufjsPaneurythmie,
- ufMedia_dsb, udkMedia_edit, udkMedia_display, ublMedia, upoolMedia, uhfMedia
- { you can add units after this };
+ Forms, ufjsPaneurythmie, ufMedia_dsb, udkMedia_edit, udkMedia_display,
+ ublMedia, upoolMedia, uhfMedia;
 
 {$R *.res}
 
