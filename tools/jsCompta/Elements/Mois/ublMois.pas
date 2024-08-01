@@ -382,7 +382,14 @@ begin
     // Versement liberatoire de l'impot sur le revenu (prestations bnc) 2,20 %
     // Formation prof.liberale obligatoire 0,20 %
     // total: 23,6 %
-    blMois.cURSSAF_evalue.asDouble:= Arrondi_Arithmetique_( Total_declare *    0.236 );
+
+    //2024 08 01
+    // Cotisations URSSAF
+    // Prestations de services (bnc et bic) et vente de marchandises (bic) 23,20 %  (+2%)
+    // Versement liberatoire de l'impot sur le revenu (prestations bnc) 2,20 %
+    // Formation prof.liberale obligatoire 0,20 %
+    // total: 25,6 %
+    blMois.cURSSAF_evalue.asDouble:= Arrondi_Arithmetique_( Total_declare *    0.256 );
     blMois.cURSSAF_reste .asDouble:= Total - blMois.URSSAF_evalue;
 
     //CAF net from brut: 34%
