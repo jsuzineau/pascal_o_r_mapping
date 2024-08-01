@@ -39,6 +39,9 @@ uses
   {$IFDEF LCL_FULLVERSION}
   LazUTF8, LCLIntf,
   {$ENDIF}
+  {$IFDEF LINUX} //rajouté pour jsCompta/linux
+  LazUTF8,
+  {$ENDIF}
   SysUtils, Classes, syncobjs;
 
 type
