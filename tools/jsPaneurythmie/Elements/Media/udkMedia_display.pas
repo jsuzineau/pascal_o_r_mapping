@@ -46,6 +46,7 @@ type
   class(TDockable)
   clTitre: TChamp_Label;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+  procedure FormResize(Sender: TObject);
  //Gestion du cycle de vie
  public
    constructor Create(AOwner: TComponent); override;
@@ -85,6 +86,11 @@ end;
 procedure TdkMedia_display.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
      inherited;
+end;
+
+procedure TdkMedia_display.FormResize(Sender: TObject);
+begin
+     clTitre.Top:= (ClientHeight-clTitre.Height) div 2;
 end;
 
 end.

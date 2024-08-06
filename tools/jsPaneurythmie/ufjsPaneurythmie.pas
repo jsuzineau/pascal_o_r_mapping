@@ -12,7 +12,7 @@ uses
   udkMedia_Display,
   ufMedia_dsb,
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,  ucDockableScrollbox,
-  ExtCtrls, StdCtrls, Spin, lclvlc, vlc;
+  ExtCtrls, StdCtrls, Spin, ComCtrls, lclvlc, vlc;
 
 type
 
@@ -25,11 +25,20 @@ type
     bStop: TButton;
     cbDeboucler: TCheckBox;
     dsb: TDockableScrollbox;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    lDuree: TLabel;
     lTemps: TLabel;
-    lPourcent: TLabel;
+    lTemps_pbMouseMove: TLabel;
     m: TMemo;
+    Panel2: TPanel;
+    pc: TPageControl;
     Panel1: TPanel;
+    pb: TProgressBar;
     seAudioVolume: TSpinEdit;
+    tsLog: TTabSheet;
+    tsPrincipal: TTabSheet;
     tCreate: TTimer;
     t: TTimer;
     vlc: TLCLVLCPlayer;
@@ -37,10 +46,14 @@ type
     procedure bStopClick(Sender: TObject);
     procedure dsbSelect(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure pbMouseDown(Sender: TObject; Button: TMouseButton;
+     Shift: TShiftState; X, Y: Integer);
+    procedure pbMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure seAudioVolumeChange(Sender: TObject);
     procedure tCreateTimer(Sender: TObject);
     procedure tTimer(Sender: TObject);
     procedure vlcEOF(Sender: TObject);
+    procedure vlcLengthChanged(_Sender: TObject; const _time: TDateTime);
     procedure vlcOpening(Sender: TObject);
     procedure vlcPlaying(Sender: TObject);
     procedure vlcPositionChanged(_Sender: TObject; const _Pos: Double);
@@ -55,6 +68,9 @@ type
     blMedia: TblMedia;
     Boucler: Boolean;
     procedure _from_Media;
+  //durée
+  private
+    duree: TDateTime;
   end;
 
 var
@@ -125,6 +141,11 @@ end;
 procedure TfjsPaneurythmie.vlcOpening(Sender: TObject);
 begin
      m.Lines.Add( 'Opening');
+     m.Lines.Add( 'AudioTrackCount: %d',[vlc.AudioTrackCount]);
+     m.Lines.Add( 'AudioTrackDescriptions[0]: %s',[vlc.AudioTrackDescriptions[0]]);
+     m.Lines.Add( 'AudioDelay: %d',[vlc.AudioDelay]);
+     m.Lines.Add( 'VideoLength: %d ms',[vlc.VideoLength]);
+     m.Lines.Add( 'VideoDuration: %s',[FormatDateTime( 'hh:nn:ss', vlc.VideoDuration)]);
 end;
 
 procedure TfjsPaneurythmie.vlcPlaying(Sender: TObject);
@@ -134,7 +155,8 @@ end;
 
 procedure TfjsPaneurythmie.vlcPositionChanged( _Sender: TObject;const _Pos: Double);
 begin
-     lPourcent.Caption:= Format('%f %%',[_Pos*100]);
+     //lPourcent.Caption:= Format('%f %%',[_Pos*100]);
+     pb.Position:= Trunc(_Pos*1000);
 end;
 
 procedure TfjsPaneurythmie.vlcStop(Sender: TObject);
@@ -154,6 +176,13 @@ begin
      m.Lines.Add( 'EOF');
 end;
 
+procedure TfjsPaneurythmie.vlcLengthChanged( _Sender: TObject; const _time: TDateTime);
+begin
+     duree:= _time;
+     m.Lines.Add( 'LengthChanged : '+FormatDateTime( 'hh:nn:ss', _time));
+     lDuree.Caption:= FormatDateTime( '/ hh:nn:ss', duree);
+end;
+
 procedure TfjsPaneurythmie.tTimer(Sender: TObject);
 begin
      if Boucler
@@ -169,6 +198,23 @@ begin
              _from_Media;
              end;
          end;
+end;
+
+procedure TfjsPaneurythmie.pbMouseDown( Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+var
+   temps: TDatetime;
+begin
+     temps:= duree*x/pb.ClientWidth;
+     m.Lines.Add( 'pbMouseDown x:%d y: %d  %f %%',[x, y, x*100/pb.ClientWidth]);
+     vlc.VideoPosition:= Trunc(temps*24*3600*1000);
+end;
+
+procedure TfjsPaneurythmie.pbMouseMove(Sender: TObject; Shift: TShiftState; X,Y: Integer);
+var
+   temps: TDatetime;
+begin
+     temps:= duree*x/pb.ClientWidth;
+     lTemps_pbMouseMove.Caption:= FormatDateTime( 'hh:nn:ss', temps);
 end;
 
 end.

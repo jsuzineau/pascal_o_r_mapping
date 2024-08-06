@@ -6,19 +6,21 @@ inherited dkMedia_display: TdkMedia_display
   Caption = 'dkMedia_display'
   ClientHeight = 45
   ClientWidth = 280
+  Color = 16777152
+  OnResize = FormResize
   inherited sBackground: TShape
     Width = 818
+    Brush.Color = 16777152
+    OnMouseDown = sSelectionMouseDown
   end
   inherited sSelection: TBatpro_Shape
     Height = 45
   end
   object clTitre: TChamp_Label[2]
     Left = 12
-    Height = 45
+    Height = 36
     Top = 0
-    Width = 268
-    Align = alClient
-    Anchors = [akTop, akLeft, akRight]
+    Width = 85
     Caption = 'clTitre'
     Font.Color = clWindowText
     Font.Height = -32
