@@ -60,7 +60,7 @@ type
     procedure To_Params( _Params: TParams); override;
   //Méthode de création de test
   public
-    function Test(_Titre: String; _NomFichier: String; _Boucler: Boolean): Integer;
+    function Test(_Titre: String; _NomFichier: String; _Boucler, _Verrouiller: Boolean): Integer;
 
 //Details_Pascal_upool_charge_detail_declaration_pas
   //Création d'itérateur
@@ -122,14 +122,16 @@ begin
        end;
 end;
 
-function TpoolMedia.Test( _Titre: String;  _NomFichier: String;  _Boucler: Boolean):Integer;
+function TpoolMedia.Test(_Titre: String; _NomFichier: String; _Boucler,
+ _Verrouiller: Boolean): Integer;
 var                                                 
    bl: TblMedia;                          
 begin                                               
-          Nouveau_Base( bl);                        
+     Nouveau_Base( bl);
        bl.Titre          := _Titre        ;
        bl.NomFichier     := _NomFichier   ;
        bl.Boucler        := _Boucler      ;
+       bl.Verrouiller    := _Verrouiller  ;
      bl.Save_to_database;                            
      Result:= bl.id;                                 
 end;                                                 

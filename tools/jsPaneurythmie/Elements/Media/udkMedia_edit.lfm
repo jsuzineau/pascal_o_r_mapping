@@ -18,7 +18,7 @@ inherited dkMedia_edit: TdkMedia_edit
     Left = 38
     Height = 21
     Top = 4
-    Width = 270
+    Width = 202
     Anchors = [akTop, akLeft, akRight]
     AutoSize = False
     ParentShowHint = False
@@ -90,12 +90,25 @@ inherited dkMedia_edit: TdkMedia_edit
     Alignment = taLeftJustify
     Anchors = [akTop, akRight]
     Caption = 'Boucler'
-    TabOrder = 2
+    TabOrder = 3
     Field = 'Boucler'
     ValueTrue = '-1'
     ValueFalse = '0'
   end
-  object od: TOpenDialog[7]
+  object cbVerrouiller: TChamp_CheckBox[7]
+    Left = 244
+    Height = 17
+    Top = 5
+    Width = 64
+    Alignment = taLeftJustify
+    Anchors = [akTop, akRight]
+    Caption = 'Verrouiller'
+    TabOrder = 2
+    Field = 'Verrouiller'
+    ValueTrue = '-1'
+    ValueFalse = '0'
+  end
+  object od: TOpenDialog[8]
     Left = 486
     Top = 9
   end

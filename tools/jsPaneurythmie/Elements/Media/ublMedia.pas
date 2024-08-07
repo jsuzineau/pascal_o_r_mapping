@@ -59,7 +59,8 @@ type
   public
     Titre: String;
     NomFichier: String;cNomFichier: TChamp;
-    Boucler: Boolean;
+    Boucler    : Boolean;
+    Verrouiller: Boolean;
 //Pascal_ubl_declaration_pas_detail
   //Gestion de la clé
   public
@@ -173,9 +174,10 @@ begin
      Champs.ChampDefinitions.NomTable:= 'Media';
 
      //champs persistants
-                   Champs. String_from_String( Titre     , 'Titre'     );
-     cNomFichier:= Champs. String_from_String( NomFichier, 'NomFichier');
-                   Champs.Boolean_from_      ( Boucler   , 'Boucler'   );
+                   Champs. String_from_String( Titre      , 'Titre'      );
+     cNomFichier:= Champs. String_from_String( NomFichier , 'NomFichier' );
+                   Champs.Boolean_from_      ( Boucler    , 'Boucler'    );
+                   Champs.Boolean_from_      ( Verrouiller, 'Verrouiller');
 
 //Pascal_ubl_constructor_pas_detail
 end;

@@ -48,6 +48,7 @@ type
   ceTitre: TChamp_Edit;
   ceNomFichier: TChamp_Edit;
   cbBoucler: TChamp_CheckBox;
+  cbVerrouiller: TChamp_CheckBox;
   od: TOpenDialog;
 //Pascal_udk_edit_declaration_pas
   sbNomFichier: TSpeedButton;
@@ -78,6 +79,7 @@ begin
      Ajoute_Colonne( ceTitre, 'Titre', 'Titre');
      Ajoute_Colonne( ceNomFichier, 'NomFichier', 'NomFichier');
      Ajoute_Colonne( cbBoucler, 'Boucler', 'Boucler');
+     Ajoute_Colonne( cbVerrouiller, 'Verrouiller', 'Verrouiller');
 
 //Details_Pascal_udk_edit_Create_AjouteColonne_pas
 end;
@@ -93,7 +95,7 @@ begin
 
      Affecte( blMedia, TblMedia, Value);
 
-     Champs_Affecte( blMedia,[ ceTitre,ceNomFichier,cbBoucler]);
+     Champs_Affecte( blMedia,[ ceTitre,ceNomFichier,cbBoucler,cbVerrouiller]);
      Champs_Affecte( blMedia,[ {Details_Pascal_udk_edit_component_list_pas}]);
 end;
 

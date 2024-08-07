@@ -24,10 +24,12 @@ type
     bOptions: TButton;
     bStop: TButton;
     cbDeboucler: TCheckBox;
+    cbVerrouiller: TCheckBox;
     dsb: TDockableScrollbox;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
+    lVerrouille: TLabel;
     lDuree: TLabel;
     lTemps: TLabel;
     lTemps_pbMouseMove: TLabel;
@@ -44,7 +46,9 @@ type
     vlc: TLCLVLCPlayer;
     procedure bOptionsClick(Sender: TObject);
     procedure bStopClick(Sender: TObject);
+    procedure cbVerrouillerChange(Sender: TObject);
     procedure dsbSelect(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormCreate(Sender: TObject);
     procedure pbMouseDown(Sender: TObject; Button: TMouseButton;
      Shift: TShiftState; X, Y: Integer);
@@ -71,6 +75,10 @@ type
   //durée
   private
     duree: TDateTime;
+  //Verrouillage
+  private
+    function Verrouille: Boolean;
+    procedure lVerrouille_Color_Toggle;
   end;
 
 var
@@ -104,6 +112,7 @@ begin
      m.Clear;
      Volume_from_VLC;
      _from_pool;
+     FormStyle:= fsStayOnTop;
 end;
 
 procedure TfjsPaneurythmie._from_pool;
@@ -123,19 +132,27 @@ end;
 
 procedure TfjsPaneurythmie.bStopClick(Sender: TObject);
 begin
+     if Verrouille then exit;
      vlc.Stop;
 end;
 
 procedure TfjsPaneurythmie.dsbSelect(Sender: TObject);
 begin
+     if Verrouille then exit;
      dsb.Get_bl( blMedia);
      _from_Media;
+end;
+
+procedure TfjsPaneurythmie.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+     CanClose:= not Verrouille;
 end;
 
 procedure TfjsPaneurythmie._from_Media;
 begin
      vlc.PlayFile(blMedia.NomFichier);
      Volume_from_VLC;
+     cbVerrouiller.Checked:= blMedia.Verrouiller;
 end;
 
 procedure TfjsPaneurythmie.vlcOpening(Sender: TObject);
@@ -163,6 +180,7 @@ procedure TfjsPaneurythmie.vlcStop(Sender: TObject);
 begin
      m.Lines.Add( 'Stop');
      Boucler:= blMedia.Boucler;
+     cbVerrouiller.Checked:= False;
 end;
 
 procedure TfjsPaneurythmie.vlcTimeChanged(_Sender: TObject;
@@ -204,6 +222,8 @@ procedure TfjsPaneurythmie.pbMouseDown( Sender: TObject; Button: TMouseButton; S
 var
    temps: TDatetime;
 begin
+     if Verrouille then exit;
+
      temps:= duree*x/pb.ClientWidth;
      m.Lines.Add( 'pbMouseDown x:%d y: %d  %f %%',[x, y, x*100/pb.ClientWidth]);
      vlc.VideoPosition:= Trunc(temps*24*3600*1000);
@@ -217,5 +237,28 @@ begin
      lTemps_pbMouseMove.Caption:= FormatDateTime( 'hh:nn:ss', temps);
 end;
 
+procedure TfjsPaneurythmie.cbVerrouillerChange(Sender: TObject);
+begin
+     lVerrouille.Visible:= False;
+end;
+
+function TfjsPaneurythmie.Verrouille: Boolean;
+begin
+     Result:= cbVerrouiller.Checked;
+     lVerrouille.Visible:= Result;
+     lVerrouille_Color_Toggle;
+end;
+
+procedure TfjsPaneurythmie.lVerrouille_Color_Toggle;
+begin
+     if lVerrouille.Font.Color = clRed
+     then
+         lVerrouille.Font.Color:= clGreen
+     else
+         lVerrouille.Font.Color:= clRed;
+end;
+
+
 end.
+
 
