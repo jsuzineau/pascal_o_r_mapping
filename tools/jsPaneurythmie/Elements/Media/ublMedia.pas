@@ -35,7 +35,7 @@ uses
 
     udmDatabase,
     upool_Ancetre_Ancetre,
-    upool,
+    uPool,
 
 //Aggregations_Pascal_ubl_uses_details_pas
 

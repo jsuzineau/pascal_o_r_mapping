@@ -76,10 +76,10 @@ implementation
 constructor TdkMedia_edit.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
-     Ajoute_Colonne( ceTitre, 'Titre', 'Titre');
-     Ajoute_Colonne( ceNomFichier, 'NomFichier', 'NomFichier');
-     Ajoute_Colonne( cbBoucler, 'Boucler', 'Boucler');
-     Ajoute_Colonne( cbVerrouiller, 'Verrouiller', 'Verrouiller');
+     //Ajoute_Colonne( ceTitre, 'Titre', 'Titre');
+     //Ajoute_Colonne( ceNomFichier, 'NomFichier', 'NomFichier');
+     //Ajoute_Colonne( cbBoucler, 'Boucler', 'Boucler');
+     //Ajoute_Colonne( cbVerrouiller, 'Verrouiller', 'Verrouiller');
 
 //Details_Pascal_udk_edit_Create_AjouteColonne_pas
 end;

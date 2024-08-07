@@ -115,7 +115,6 @@ begin
      m.Clear;
      Volume_from_VLC;
      _from_pool;
-     FormStyle:= fsStayOnTop;
 end;
 
 procedure TfjsPaneurythmie._from_pool;
