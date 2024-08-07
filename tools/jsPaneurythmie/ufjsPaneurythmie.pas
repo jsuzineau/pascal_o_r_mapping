@@ -75,6 +75,9 @@ type
   //durée
   private
     duree: TDateTime;
+  //Stop
+  private
+    StopClicked: Boolean;
   //Verrouillage
   private
     function Verrouille: Boolean;
@@ -133,6 +136,7 @@ end;
 procedure TfjsPaneurythmie.bStopClick(Sender: TObject);
 begin
      if Verrouille then exit;
+     StopClicked:= True;
      vlc.Stop;
 end;
 
@@ -150,6 +154,7 @@ end;
 
 procedure TfjsPaneurythmie._from_Media;
 begin
+     StopClicked:= False;
      vlc.PlayFile(blMedia.NomFichier);
      Volume_from_VLC;
      cbVerrouiller.Checked:= blMedia.Verrouiller;
@@ -179,7 +184,7 @@ end;
 procedure TfjsPaneurythmie.vlcStop(Sender: TObject);
 begin
      m.Lines.Add( 'Stop');
-     Boucler:= blMedia.Boucler;
+     Boucler:= blMedia.Boucler and not StopClicked;
      cbVerrouiller.Checked:= False;
 end;
 
