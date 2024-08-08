@@ -3685,13 +3685,15 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
     this.Note = "";
     this.non_coloriee = false;
     this.c = null;
+    this.x = 0;
     this.$eq = function (b) {
-      return (this.Note === b.Note) && (this.non_coloriee === b.non_coloriee) && (this.c === b.c);
+      return (this.Note === b.Note) && (this.non_coloriee === b.non_coloriee) && (this.c === b.c) && (this.x === b.x);
     };
     this.$assign = function (s) {
       this.Note = s.Note;
       this.non_coloriee = s.non_coloriee;
       this.c = s.c;
+      this.x = s.x;
       return this;
     };
     this.Init = function (_Note, _non_coloriee) {
@@ -3728,6 +3730,7 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
       this.cC4 = null;
       this.gCd4 = null;
       this.gC4 = null;
+      this.rCurseur = null;
       this.iSource = null;
       this.iNotes_non_coloriees = null;
       this.Notes_non_coloriees = [];
@@ -3782,6 +3785,7 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
       this.cC4 = undefined;
       this.gCd4 = undefined;
       this.gC4 = undefined;
+      this.rCurseur = undefined;
       this.iSource = undefined;
       this.iNotes_non_coloriees = undefined;
       this.Notes_non_coloriees = undefined;
@@ -3848,6 +3852,7 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
       this.cC4 = $mod.circle_from_id("C4");
       this.gCd4 = document.getElementById("gCd4");
       this.gC4 = document.getElementById("gC4");
+      this.rCurseur = document.getElementById("rCurseur");
       this.iSource = $mod.input_from_id("iSource");
       this.iSource.oninput = rtl.createSafeCallback($Self,"iSourceInput");
       this.iNotes_non_coloriees = $mod.input_from_id("iNotes_non_coloriees");
@@ -3974,18 +3979,23 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
       };
       function Copie_Notes() {
         var i = 0;
+        var N = "";
+        var nc = false;
         $Self.x_ecart = pas.System.Trunc((2670 - $Self.x_offset) / rtl.length($Self.Notes));
         for (var $l = 0, $end = rtl.length($Self.Notes) - 1; $l <= $end; $l++) {
           i = $l;
-          var $with = $Self.Notes[i];
-          if (($with.Note === "G3") || ($with.Note === "G#3") || ($with.Note === "A3") || ($with.Note === "Bb3") || ($with.Note === "B3") || ($with.Note === "C4") || ($with.Note === "C#4") || ($with.Note === "A5") || ($with.Note === "Bb5") || ($with.Note === "B5")) {
-            $with.c = $Self.Copie_g("g" + $with.Note,$with.non_coloriee)}
-           else $with.c = $Self.Copie($with.Note,$with.non_coloriee);
+          N = $Self.Notes[i].Note;
+          nc = $Self.Notes[i].non_coloriee;
+          $Self.Notes[i].x = $Self.x;
+          if ((N === "G3") || (N === "G#3") || (N === "A3") || (N === "Bb3") || (N === "B3") || (N === "C4") || (N === "C#4") || (N === "A5") || (N === "Bb5") || (N === "B5")) {
+            $Self.Notes[i].c = $Self.Copie_g("g" + N,nc)}
+           else $Self.Notes[i].c = $Self.Copie(N,nc);
         };
       };
       this.Notes_Vide();
       Cree_Notes();
       Copie_Notes();
+      this.Curseur_from_iResponse();
     };
     this.iNotes_non_colorieesInput = function (Event) {
       var Result = false;
@@ -4098,12 +4108,17 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
         window.alert("Ce n'est pas la bonne note! " + _Note + " attendu " + this.Notes[this.iReponse].Note)}
        else {
         this.iReponse += 1;
-        if (this.iReponse >= rtl.length(this.Notes)) window.alert("Réussi!");
+        if (this.iReponse >= rtl.length(this.Notes)) {
+          this.iReponse = 0;
+          window.alert("Réussi!");
+        };
+        this.Curseur_from_iResponse();
       };
     };
     this.bDebutClick = function (aEvent) {
       var Result = false;
       this.iReponse = 0;
+      this.Curseur_from_iResponse();
       return Result;
     };
     this.bDoClick = function (aEvent) {
@@ -4205,6 +4220,9 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
       this._from_Notes_non_coloriees();
       this._from_Source();
       return Result;
+    };
+    this.Curseur_from_iResponse = function () {
+      this.rCurseur.setAttribute("x",pas.SysUtils.IntToStr(this.Notes[this.iReponse].x - rtl.trunc(224 / 2)));
     };
     var $r = this.$rtti;
     $r.addMethod("Create$1",2,[["aOwner",pas.Classes.$rtti["TComponent"]]]);

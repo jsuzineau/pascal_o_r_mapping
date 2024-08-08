@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectGroup FileVersion="2">
+    <Targets>
+      <Target FileName="jsWorks.lpi">
+        <BuildModes>
+          <Mode Name="Windows 64 bits Debug"/>
+          <Mode Name="Windows 64 bits Release"/>
+          <Mode Name="Linux Debug"/>
+          <Mode Name="Linux Release"/>
+          <Mode Name="Windows 64 bits Debug Lite"/>
+          <Mode Name="Linux Debug Lite"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="http_jsWorks.lpi">
+        <BuildModes>
+          <Mode Name="Windows Debug" Compile="True"/>
+          <Mode Name="Windows Release"/>
+          <Mode Name="Debug"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="..\tools\jsCompta\jsCompta.lpi">
+        <BuildModes>
+          <Mode Name="Windows 64 bits Release" Compile="True"/>
+          <Mode Name="Windows 64 bits Debug Lite"/>
+          <Mode Name="Windows 64 bits Debug"/>
+          <Mode Name="Linux Release"/>
+          <Mode Name="Linux Debug Lite"/>
+          <Mode Name="Linux Debug"/>
+        </BuildModes>
+      </Target>
+    </Targets>
+  </ProjectGroup>
+</CONFIG>

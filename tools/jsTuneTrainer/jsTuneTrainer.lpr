@@ -17,6 +17,7 @@ type
     Note: String;
     non_coloriee: Boolean;
     c: TJSSVGCircleElement;
+    x: Integer;
     procedure Init( _Note: String; _non_coloriee: Boolean);
   end;
 
@@ -60,6 +61,7 @@ type
     cC4 : TJSSVGCircleElement;
     gCd4: TJSSVGGElement;
     gC4 : TJSSVGGElement;
+    rCurseur: TJSSVGRectElement;
   //Source
   private
     iSource: TJSHTMLInputElement;
@@ -123,6 +125,9 @@ type
     function b1Click(aEvent : TJSMouseEvent) : boolean;
     function b2Click(aEvent : TJSMouseEvent) : boolean;
     function b3Click(aEvent : TJSMouseEvent) : boolean;
+  //Curseur
+  private
+    procedure Curseur_from_iResponse;
   end;
 var
    Application: TjsTuneTrainer;
@@ -415,6 +420,8 @@ procedure TjsTuneTrainer._from_Source;
    procedure Copie_Notes;
    var
       i: Integer;
+      N:String;
+      nc: Boolean;
    begin
         //WriteLn( ClassName+'_from_Source:  Copie_Notes; window.innerWidth:',window.innerWidth);
         //x_ecart:= Trunc((window.innerWidth - x_offset)/(Length(Notes)-1));
@@ -424,30 +431,32 @@ procedure TjsTuneTrainer._from_Source;
         //svg.viewportElement.Attrs[];
         for i:= Low(Notes) to High(Notes)
         do
-          with Notes[i]
-          do
-            begin
-            //WriteLn( ClassName+'._from_Source; Copie_Notes; Note:',Note);
-            if    (Note='G3')
-               or (Note='G#3')
-               or (Note='A3')
-               or (Note='Bb3')
-               or (Note='B3')
-               or (Note='C4')
-               or (Note='C#4')
-               or (Note='A5')
-               or (Note='Bb5')
-               or (Note='B5')
-            then
-                c:= TJSSVGCircleElement( Copie_g( 'g'+Note, non_coloriee))
-            else
-                c:= Copie( Note, non_coloriee);
-            end;
+          begin
+          N:= Notes[i].Note;
+          nc:= Notes[i].non_coloriee;
+          Notes[i].x:= x;
+          //WriteLn( ClassName+'._from_Source; Copie_Notes; Note:',Note);
+          if    (N='G3')
+             or (N='G#3')
+             or (N='A3')
+             or (N='Bb3')
+             or (N='B3')
+             or (N='C4')
+             or (N='C#4')
+             or (N='A5')
+             or (N='Bb5')
+             or (N='B5')
+          then
+              Notes[i].c:= TJSSVGCircleElement( Copie_g( 'g'+N, nc))
+          else
+              Notes[i].c:= Copie( N, nc);
+          end;
    end;
 begin
      Notes_Vide;
      Cree_Notes;
      Copie_Notes;
+     Curseur_from_iResponse;
 end;
 
 function TjsTuneTrainer.iNotes_non_colorieesInput(Event: TEventListenerEvent): boolean;
@@ -472,13 +481,23 @@ begin
          Inc(iReponse);
          if iReponse >= Length( Notes)
          then
+             begin
+             iReponse:= 0;
              window.alert( 'Réussi!')
+             end;
+         Curseur_from_iResponse;
          end;
+end;
+
+procedure TjsTuneTrainer.Curseur_from_iResponse;
+begin
+     rCurseur.setAttribute('x', IntToStr(Notes[iReponse].x-(224 div 2)));
 end;
 
 function TjsTuneTrainer.bDebutClick(aEvent: TJSMouseEvent): boolean;
 begin
      iReponse:= 0;
+     Curseur_from_iResponse;
 end;
 
 function TjsTuneTrainer.bDoClick(aEvent: TJSMouseEvent): boolean;
@@ -619,6 +638,7 @@ begin
      gCd4:= TJSSVGGElement(document.getElementById('gCd4'));
      gC4 := TJSSVGGElement(document.getElementById('gC4'));
      //Writeln( ClassName+'.DoRun; gC4:', gC4.toString);
+     rCurseur:= TJSSVGRectElement(document.getElementById('rCurseur'));
 
      iSource:= input_from_id( 'iSource');
      iSource.oninput:= @iSourceInput;
