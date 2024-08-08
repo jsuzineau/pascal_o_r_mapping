@@ -1,5 +1,5 @@
 inherited dkMedia_edit: TdkMedia_edit
-  Left = 704
+  Left = 707
   Height = 52
   Top = 420
   Width = 380
@@ -18,7 +18,7 @@ inherited dkMedia_edit: TdkMedia_edit
     Left = 38
     Height = 21
     Top = 4
-    Width = 202
+    Width = 173
     Anchors = [akTop, akLeft, akRight]
     AutoSize = False
     ParentShowHint = False
@@ -83,10 +83,10 @@ inherited dkMedia_edit: TdkMedia_edit
     OnClick = sbNomFichierClick
   end
   object cbBoucler: TChamp_CheckBox[6]
-    Left = 314
-    Height = 17
-    Top = 5
-    Width = 54
+    Left = 302
+    Height = 23
+    Top = 2
+    Width = 66
     Alignment = taLeftJustify
     Anchors = [akTop, akRight]
     Caption = 'Boucler'
@@ -96,10 +96,10 @@ inherited dkMedia_edit: TdkMedia_edit
     ValueFalse = '0'
   end
   object cbVerrouiller: TChamp_CheckBox[7]
-    Left = 244
-    Height = 17
-    Top = 5
-    Width = 64
+    Left = 217
+    Height = 23
+    Top = 2
+    Width = 81
     Alignment = taLeftJustify
     Anchors = [akTop, akRight]
     Caption = 'Verrouiller'

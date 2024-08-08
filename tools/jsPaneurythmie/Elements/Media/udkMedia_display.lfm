@@ -20,7 +20,7 @@ inherited dkMedia_display: TdkMedia_display
     Left = 12
     Height = 36
     Top = 0
-    Width = 85
+    Width = 87
     Caption = 'clTitre'
     Font.Color = clWindowText
     Font.Height = -32

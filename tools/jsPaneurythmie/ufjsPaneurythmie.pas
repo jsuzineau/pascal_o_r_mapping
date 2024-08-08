@@ -39,10 +39,10 @@ type
     Panel1: TPanel;
     pb: TProgressBar;
     seAudioVolume: TSpinEdit;
+    tVLC_Synchronize: TTimer;
     tsLog: TTabSheet;
     tsPrincipal: TTabSheet;
-    tCreate: TTimer;
-    t: TTimer;
+    tShow: TTimer;
     vlc: TLCLVLCPlayer;
     procedure bOptionsClick(Sender: TObject);
     procedure bStopClick(Sender: TObject);
@@ -50,19 +50,19 @@ type
     procedure dsbSelect(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormCreate(Sender: TObject);
-    procedure pbMouseDown(Sender: TObject; Button: TMouseButton;
-     Shift: TShiftState; X, Y: Integer);
+    procedure FormShow(Sender: TObject);
+    procedure pbMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure pbMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure seAudioVolumeChange(Sender: TObject);
-    procedure tCreateTimer(Sender: TObject);
-    procedure tTimer(Sender: TObject);
-    procedure vlcEOF(Sender: TObject);
-    procedure vlcLengthChanged(_Sender: TObject; const _time: TDateTime);
+    procedure tShowTimer(Sender: TObject);
+    procedure tVLC_SynchronizeTimer(Sender: TObject);
     procedure vlcOpening(Sender: TObject);
     procedure vlcPlaying(Sender: TObject);
     procedure vlcPositionChanged(_Sender: TObject; const _Pos: Double);
     procedure vlcStop(Sender: TObject);
     procedure vlcTimeChanged(_Sender: TObject; const _time: TDateTime);
+    procedure vlcEOF(Sender: TObject);
+    procedure vlcLengthChanged(_Sender: TObject; const _time: TDateTime);
   //Rafraichissement
   protected
     procedure _from_pool;
@@ -70,7 +70,6 @@ type
   //Media
   private
     blMedia: TblMedia;
-    Boucler: Boolean;
     procedure _from_Media;
   //durée
   private
@@ -82,6 +81,38 @@ type
   private
     function Verrouille: Boolean;
     procedure lVerrouille_Color_Toggle;
+  // vlc thread synchronisation
+  //procedure vlcOpening(Sender: TObject);
+  private
+    vlcOpening_fired: Boolean;
+    procedure Do_vlcOpening;
+  //procedure vlcPlaying(Sender: TObject);
+  private
+    vlcPlaying_fired: Boolean;
+    procedure Do_vlcPlaying;
+  //procedure vlcPositionChanged(_Sender: TObject; const _Pos: Double);
+  private
+    vlcPositionChanged_fired: Boolean;
+    vlcPositionChanged_Pos: Double;
+    procedure Do_vlcPositionChanged;
+  //procedure vlcStop(Sender: TObject);
+  private
+    vlcStop_fired: Boolean;
+    procedure Do_vlcStop;
+  //procedure vlcTimeChanged(_Sender: TObject; const _time: TDateTime);
+  private
+    vlcTimeChanged_fired: Boolean;
+    vlcTimeChanged_time: TDateTime;
+    procedure Do_vlcTimeChanged;
+  //procedure vlcEOF(Sender: TObject);
+  private
+    vlcEOF_fired: Boolean;
+    procedure Do_vlcEOF;
+  //procedure vlcLengthChanged(_Sender: TObject; const _time: TDateTime);
+  private
+    vlcLengthChanged_fired: Boolean;
+    vlcLengthChanged_time: TDateTime;
+    procedure Do_vlcLengthChanged;
   end;
 
 var
@@ -100,21 +131,37 @@ begin
      dsb.Classe_dockable:= TdkMedia_Display;
      dsb.Classe_Elements:= TblMedia;
      poolMedia.ToutCharger;
-     tCreate.Enabled:= True;
-     Boucler:= False;
+
+     vlcOpening_fired        := False;
+     vlcPlaying_fired        := False;
+     vlcPositionChanged_fired:= False;
+     vlcStop_fired           := False;
+     vlcTimeChanged_fired    := False;
+     vlcEOF_fired            := False;
+     vlcLengthChanged_fired  := False;
+end;
+
+procedure TfjsPaneurythmie.FormShow(Sender: TObject);
+begin
+     tShow.Enabled:= True;
+end;
+
+procedure TfjsPaneurythmie.tShowTimer(Sender: TObject);
+begin
+     tShow.Enabled:= False;
+     m.Clear;
+     seAudioVolume.Value:= 100;
+     _from_pool;
+end;
+
+procedure TfjsPaneurythmie.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+     CanClose:= not Verrouille;
 end;
 
 procedure TfjsPaneurythmie.seAudioVolumeChange(Sender: TObject);
 begin
      vlc.AudioVolume:= seAudioVolume.Value;
-end;
-
-procedure TfjsPaneurythmie.tCreateTimer(Sender: TObject);
-begin
-     tCreate.Enabled:= False;
-     m.Clear;
-     Volume_from_VLC;
-     _from_pool;
 end;
 
 procedure TfjsPaneurythmie._from_pool;
@@ -124,6 +171,7 @@ end;
 
 procedure TfjsPaneurythmie.Volume_from_VLC;
 begin
+     if 0 = vlc.AudioVolume then vlc.AudioVolume:=100;
      seAudioVolume.Value:= vlc.AudioVolume;
 end;
 
@@ -146,11 +194,6 @@ begin
      _from_Media;
 end;
 
-procedure TfjsPaneurythmie.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-begin
-     CanClose:= not Verrouille;
-end;
-
 procedure TfjsPaneurythmie._from_Media;
 begin
      StopClicked:= False;
@@ -159,8 +202,9 @@ begin
      cbVerrouiller.Checked:= blMedia.Verrouiller;
 end;
 
-procedure TfjsPaneurythmie.vlcOpening(Sender: TObject);
+procedure TfjsPaneurythmie.Do_vlcOpening;
 begin
+     vlcOpening_fired:= False;
      m.Lines.Add( 'Opening');
      m.Lines.Add( 'AudioTrackCount: %d',[vlc.AudioTrackCount]);
      m.Lines.Add( 'AudioTrackDescriptions[0]: %s',[vlc.AudioTrackDescriptions[0]]);
@@ -169,57 +213,103 @@ begin
      m.Lines.Add( 'VideoDuration: %s',[FormatDateTime( 'hh:nn:ss', vlc.VideoDuration)]);
 end;
 
+procedure TfjsPaneurythmie.vlcOpening(Sender: TObject);
+begin
+     vlcOpening_fired:= True;
+end;
+
+procedure TfjsPaneurythmie.Do_vlcPlaying;
+begin
+     vlcPlaying_fired:= False;
+     m.Lines.Add( 'Playing');
+end;
+
 procedure TfjsPaneurythmie.vlcPlaying(Sender: TObject);
 begin
-     m.Lines.Add( 'Playing');
+     vlcPlaying_fired:= True;
+end;
+
+procedure TfjsPaneurythmie.Do_vlcPositionChanged;
+begin
+     vlcPositionChanged_fired:= False;
+     //lPourcent.Caption:= Format('%f %%',[_Pos*100]);
+     pb.Position:= Trunc(vlcPositionChanged_Pos*1000);
 end;
 
 procedure TfjsPaneurythmie.vlcPositionChanged( _Sender: TObject;const _Pos: Double);
 begin
-     //lPourcent.Caption:= Format('%f %%',[_Pos*100]);
-     pb.Position:= Trunc(_Pos*1000);
+     vlcPositionChanged_Pos:= _Pos;
+     vlcPositionChanged_fired:= True;
 end;
 
-procedure TfjsPaneurythmie.vlcStop(Sender: TObject);
+procedure TfjsPaneurythmie.Do_vlcStop;
 begin
+     vlcStop_fired:= False;
      m.Lines.Add( 'Stop');
-     Boucler:= blMedia.Boucler and not StopClicked;
-     cbVerrouiller.Checked:= False;
-end;
-
-procedure TfjsPaneurythmie.vlcTimeChanged(_Sender: TObject;
- const _time: TDateTime);
-begin
-     lTemps.Caption:= FormatDateTime( 'hh:nn:ss', _time);
-end;
-
-procedure TfjsPaneurythmie.vlcEOF(Sender: TObject);
-begin
-     m.Lines.Add( 'EOF');
-end;
-
-procedure TfjsPaneurythmie.vlcLengthChanged( _Sender: TObject; const _time: TDateTime);
-begin
-     duree:= _time;
-     m.Lines.Add( 'LengthChanged : '+FormatDateTime( 'hh:nn:ss', _time));
-     lDuree.Caption:= FormatDateTime( '/ hh:nn:ss', duree);
-end;
-
-procedure TfjsPaneurythmie.tTimer(Sender: TObject);
-begin
-     if Boucler
+     if cbDeboucler.Checked
      then
-         begin
-         Boucler:= False;
-         if cbDeboucler.Checked
+         cbDeboucler.Checked:= False
+     else
+         if blMedia.Boucler and not StopClicked
          then
-             cbDeboucler.Checked:= False
-         else
              begin
              m.Lines.Add( 'Bouclage');
              _from_Media;
              end;
-         end;
+     cbVerrouiller.Checked:= False;
+end;
+
+procedure TfjsPaneurythmie.vlcStop(Sender: TObject);
+begin
+     vlcStop_fired:= True;
+end;
+
+procedure TfjsPaneurythmie.Do_vlcTimeChanged;
+begin
+     vlcTimeChanged_fired:= False;
+     lTemps.Caption:= FormatDateTime( 'hh:nn:ss', vlcTimeChanged_time);
+end;
+
+procedure TfjsPaneurythmie.vlcTimeChanged(_Sender: TObject;const _time: TDateTime);
+begin
+     vlcTimeChanged_time:= _time;
+     vlcTimeChanged_fired:= True;
+end;
+
+procedure TfjsPaneurythmie.Do_vlcEOF;
+begin
+     vlcEOF_fired:=  False;
+     m.Lines.Add( 'EOF');
+end;
+
+procedure TfjsPaneurythmie.vlcEOF(Sender: TObject);
+begin
+     vlcEOF_fired:=  True;
+end;
+
+procedure TfjsPaneurythmie.Do_vlcLengthChanged;
+begin
+     vlcLengthChanged_fired:= False;
+     duree:= vlcLengthChanged_time;
+     m.Lines.Add( 'LengthChanged : '+FormatDateTime( 'hh:nn:ss', vlcLengthChanged_time));
+     lDuree.Caption:= FormatDateTime( '/ hh:nn:ss', duree);
+end;
+
+procedure TfjsPaneurythmie.vlcLengthChanged( _Sender: TObject; const _time: TDateTime);
+begin
+     vlcLengthChanged_time:= _time;
+     vlcLengthChanged_fired:= True;
+end;
+
+procedure TfjsPaneurythmie.tVLC_SynchronizeTimer(Sender: TObject);
+begin
+     if vlcOpening_fired         then Do_vlcOpening;
+     if vlcPlaying_fired         then Do_vlcPlaying;
+     if vlcPositionChanged_fired then Do_vlcPositionChanged;
+     if vlcStop_fired            then Do_vlcStop;
+     if vlcTimeChanged_fired     then Do_vlcTimeChanged;
+     if vlcEOF_fired             then Do_vlcEOF;
+     if vlcLengthChanged_fired   then Do_vlcLengthChanged;
 end;
 
 procedure TfjsPaneurythmie.pbMouseDown( Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -261,7 +351,6 @@ begin
      else
          lVerrouille.Font.Color:= clRed;
 end;
-
 
 end.
 
