@@ -35,17 +35,78 @@ const //n° octave du La 440 Hz
      nOctave_diapason_anglais=4;//C4
      nOctave_diapason_latin  =3;//C4=do3
 
+const
+     Note_Index_C = 0;
+     Note_Index_Cd= 1;
+     Note_Index_D = 2;
+     Note_Index_Eb= 3;
+     Note_Index_E = 4;
+     Note_Index_F = 5;
+     Note_Index_Fd= 6;
+     Note_Index_G = 7;
+     Note_Index_Gd= 8;
+     Note_Index_A = 9;
+     Note_Index_Bb=10;
+     Note_Index_B =11;
+     Note_from_Note_Index: array of String
+     =
+      [
+      { 0} 'C',
+      { 1} 'C#',
+      { 2} 'D',
+      { 3} 'Eb',
+      { 4} 'E',
+      { 5} 'F',
+      { 6} 'F#',
+      { 7} 'G',
+      { 8} 'G#',
+      { 9} 'A',
+      {10} 'Bb',
+      {11} 'B'
+      ];
+const
+     Note_Index_DO  = 0;
+     Note_Index_DOd = 1;
+     Note_Index_RE  = 2;
+     Note_Index_MIb = 3;
+     Note_Index_MI  = 4;
+     Note_Index_FA  = 5;
+     Note_Index_FAd = 6;
+     Note_Index_SOL = 7;
+     Note_Index_SOLd= 8;
+     Note_Index_LA  = 9;
+     Note_Index_SIb =10;
+     Note_Index_SI  =11;
+     Note_Latine_from_Note_Index: array of String
+     =
+      [
+      { 0} 'do  ',
+      { 1} 'do# ',
+      { 2} 'ré  ',
+      { 3} 'mib ',
+      { 4} 'mi  ',
+      { 5} 'fa  ',
+      { 6} 'fa# ',
+      { 7} 'sol ',
+      { 8} 'sol#',
+      { 9} 'la  ',
+      {10} 'sib ',
+      {11} 'si  '
+      ];
+
 var
    uFrequence_Separateur_Lignes: String= #13#10;
 
 procedure Log_Frequences(_Titre: String; _Frequences: TDoubleDynArray);
 
-function Note( _Index: Integer): String;
-function Note_Latine( _Index: Integer): String;
+function Note_Index_from_Midi( _Midi: Integer): Integer;
 
-function nOctave_from_Midi( _Midi, nOctave_diapason: Integer): Integer;
-function Note_Octave( _Index: Integer): String;
-function Note_Octave_Latine( _Index: Integer): String;
+function Note       ( _Midi: Integer): String;
+function Note_Latine( _Midi: Integer): String;
+
+function nOctave_from_Midi ( _Midi, nOctave_diapason: Integer): Integer;
+function Note_Octave       ( _Midi: Integer): String;
+function Note_Octave_Latine( _Midi: Integer): String;
 
 function Liste_Octaves( _Octave: Integer; _NbOctaves: Integer): String;
 function Midi_from_Note( _Note: String): Integer;
@@ -111,63 +172,46 @@ begin
        end;
 end;
 
-function Note( _Index: Integer): String;
+function Note_Index_from_Midi( _Midi: Integer): Integer;
 begin
-     case _Index mod 12
-     of
-        0: Result:= 'C';
-        1: Result:= 'C#';
-        2: Result:= 'D';
-        3: Result:= 'Eb';
-        4: Result:= 'E';
-        5: Result:= 'F';
-        6: Result:= 'F#';
-        7: Result:= 'G';
-        8: Result:= 'G#';
-        9: Result:= 'A';
-       10: Result:= 'Bb';
-       11: Result:= 'B';
-       end;
+     Result:= _Midi mod 12;
 end;
 
-function Note_Latine( _Index: Integer): String;
+function Note( _Midi: Integer): String;
+var
+   Note_Index: Integer;
 begin
-     case _Index mod 12
-     of
-        0: Result:= 'do  ';
-        1: Result:= 'do# ';
-        2: Result:= 'ré  ';
-        3: Result:= 'mib ';
-        4: Result:= 'mi  ';
-        5: Result:= 'fa  ';
-        6: Result:= 'fa# ';
-        7: Result:= 'sol ';
-        8: Result:= 'sol#';
-        9: Result:= 'la  ';
-       10: Result:= 'sib ';
-       11: Result:= 'si  ';
-       end;
+     Note_Index:= Note_Index_from_Midi( _Midi);
+     Result:= Note_from_Note_Index[ Note_Index];
+end;
+
+function Note_Latine( _Midi: Integer): String;
+var
+   Note_Index: Integer;
+begin
+     Note_Index:= Note_Index_from_Midi( _Midi);
+     Result:= Note_Latine_from_Note_Index[ Note_Index];
 end;
 
 function nOctave_from_Midi( _Midi, nOctave_diapason: Integer): Integer;
 begin
      Result:= _Midi div 12 - nOctave_diapason_midi + nOctave_diapason;
 end;
-function Note_Octave(_Index: Integer): String;
+function Note_Octave(_Midi: Integer): String;
 var
    nOctave: Integer;
 begin
-     Result:= Trim(Note( _Index));
-     nOctave:= nOctave_from_Midi( _Index, nOctave_diapason_anglais);
+     Result:= Trim(Note( _Midi));
+     nOctave:= nOctave_from_Midi( _Midi, nOctave_diapason_anglais);
      Result:= Result+IntToStr( nOctave);
 end;
 
-function Note_Octave_Latine(_Index: Integer): String;
+function Note_Octave_Latine(_Midi: Integer): String;
 var
    nOctave: Integer;
 begin
-     Result:= Trim(Note_Latine( _Index));
-     nOctave:= nOctave_from_Midi( _Index, nOctave_diapason_latin);
+     Result:= Trim(Note_Latine( _Midi));
+     nOctave:= nOctave_from_Midi( _Midi, nOctave_diapason_latin);
      Result:= Result+IntToStr( nOctave);
 end;
 

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html>
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <meta http-equiv='cache-control' content='no-cache'>
@@ -20,6 +20,14 @@
 <script src="jsTuneTrainer.js"></script>
 </head>
 <body>
+     <div class="form-floating">
+       <button id='bFR'  class="button is-primary" > Français </button>
+       <button id='bEN'  class="button is-primary" > English </button>
+       <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+       <button id='bLatin'  class="button is-primary" > Latin Do Ré Mi </button>
+       <button id='bAnglo_saxon'  class="button is-primary" > Anglo-saxon C D E </button>
+    </div>
+     <br/>
   <svg
      xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:cc="http://creativecommons.org/ns#"
@@ -220,25 +228,39 @@
          class="form-control"
          aria-describedby="lSource"
          value="do3 re3 mi3 fa3 sol3 la3 si3 do4 re4 mi4 fa4 sol4 la4"/>
-       <label for="iSource">Source</label>
+       <label for="iSource">
+         <span lang="fr">Source</span>
+         <span lang="en">Source</span>
+       </label>
        <small id="lSource" class="form-text text-muted">
-         Suite de notes utilisée pour l'affichage.
+         <span lang="fr">Suite de notes utilisée pour l'affichage.</span>
+         <span lang="en">Note sequence used for display.</span>
        </small>
      </div>
      <div class="form-floating">
        <input id="iNotes_non_coloriees" type="text" class="form-control" aria-describedby="lNotes_non_coloriees" value=""/>
-       <label for="iNotes_non_coloriees">Notes_non_coloriees</label>
+       <label for="iNotes_non_coloriees">
+         <span lang="fr">Notes non coloriées</span>
+         <span lang="en">Uncolored Notes</span>
+       </label>
        <small id="lNotes_non_coloriees" class="form-text text-muted">
-         Liste de notes à ne pas colorier.
+         <span lang="fr">Liste de notes à ne pas colorier.</span>
+         <span lang="en">List of notes not to color.</span>
        </small>
      </div>
      <div class="form-floating">
-       <button id='bDebut'  class="button is-primary is-fullwidth" >Début réponse</button>
+       <button id='bDebut'  class="button is-primary is-fullwidth" >
+         <span lang="fr">Début réponse</span>
+         <span lang="en">Start answer</span>
+       </button>
        <br/>
      </div>
      <div class="form-floating">
        <button id='bTestDieseBemol'           class="button is-primary" >Test # &#x266D; </button>
-       <button id='bTestNotes_non_coloriees'  class="button is-primary" >Test notes non coloriées</button>
+       <button id='bTestNotes_non_coloriees'  class="button is-primary" >
+         <span lang="fr">Test notes non coloriées</span>
+         <span lang="en">Test uncolored notes</span>
+       </button>
        <button id='b1'  class="button is-primary" > 1 </button>
        <button id='b2'  class="button is-primary" > 2 </button>
        <button id='b3'  class="button is-primary" > 3 </button>

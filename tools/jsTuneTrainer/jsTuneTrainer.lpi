@@ -14,6 +14,10 @@
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
+    <i18n>
+      <EnableI18N Value="True"/>
+      <OutDir Value="po"/>
+    </i18n>
     <CustomData Count="6">
       <Item0 Name="BrowserConsole" Value="1"/>
       <Item1 Name="MaintainHTML" Value="1"/>

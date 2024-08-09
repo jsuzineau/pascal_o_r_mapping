@@ -5,7 +5,7 @@ program jsTuneTrainer;
 uses
  uFrequence,
  BrowserConsole, BrowserApp, JS, Classes, SysUtils, Web, websvg, types,
- strutils;
+ strutils, libjquery;
 
 type
 
@@ -14,11 +14,11 @@ type
  TNote
  =
   record
-    Note: String;
+    Midi: Integer;
     non_coloriee: Boolean;
     c: TJSSVGCircleElement;
     x: Integer;
-    procedure Init( _Note: String; _non_coloriee: Boolean);
+    procedure Init(_Midi: Integer; _non_coloriee: Boolean);
   end;
 
  { TjsTuneTrainer }
@@ -99,7 +99,7 @@ type
     bSib : TJSHTMLButtonElement;
     bSi  : TJSHTMLButtonElement;
     iReponse: Integer;
-    procedure Check_Note( _Note: String);
+    procedure Check_Note(_Note_Index: Integer);
     function bDebutClick(aEvent : TJSMouseEvent) : boolean;
     function bDoClick  (aEvent : TJSMouseEvent) : boolean;
     function bDodClick (aEvent : TJSMouseEvent) : boolean;
@@ -128,6 +128,24 @@ type
   //Curseur
   private
     procedure Curseur_from_iResponse;
+  //i18n
+  private
+    i18n_FREN_: Boolean;
+    bEN: TJSHTMLButtonElement;
+    bFR: TJSHTMLButtonElement;
+    procedure i18n_fr;
+    procedure i18n_en;
+    function bENClick(aEvent : TJSMouseEvent) : boolean;
+    function bFRClick(aEvent : TJSMouseEvent) : boolean;
+  //Note names
+  private
+    Latin: Boolean;
+    bLatin      : TJSHTMLButtonElement;
+    bAnglo_saxon: TJSHTMLButtonElement;
+    procedure nn_Latin;
+    procedure nn_Anglo_saxon;
+    function bLatinClick      (aEvent : TJSMouseEvent) : boolean;
+    function bAnglo_saxonClick(aEvent : TJSMouseEvent) : boolean;
   end;
 var
    Application: TjsTuneTrainer;
@@ -240,9 +258,9 @@ end;
 
 { TNote }
 
-procedure TNote.Init(_Note: String; _non_coloriee: Boolean);
+procedure TNote.Init(_Midi: Integer; _non_coloriee: Boolean);
 begin
-     Note        := _Note;
+     Midi:= _Midi;
      non_coloriee:= _non_coloriee;
 end;
 
@@ -397,7 +415,6 @@ procedure TjsTuneTrainer._from_Source;
       i: Integer;
       Source_Note: String;
       Midi_Note: Integer;
-      Note: String;
       non_coloriee: Boolean;
    begin
         Source:= iSource.value;
@@ -409,11 +426,9 @@ procedure TjsTuneTrainer._from_Source;
           Source_Note:= sa[i];
 
           Midi_Note:= Midi_from_Note( Source_Note);
-
-          Note        := Note_Octave( Midi_Note);
           non_coloriee:= Is_Note_non_coloriee( uFrequence.Note(Midi_Note));
 
-          Notes[i].Init( Note, non_coloriee);
+          Notes[i].Init( Midi_Note, non_coloriee);
           //Writeln(ClassName+'._from_Source :: Cree_Notes : Source_Note: ',Source_Note,', Midi_Note: ',Midi_Note,', Note: ',Note);
           end;
    end;
@@ -432,7 +447,7 @@ procedure TjsTuneTrainer._from_Source;
         for i:= Low(Notes) to High(Notes)
         do
           begin
-          N:= Notes[i].Note;
+          N:= Note_Octave( Notes[i].Midi);
           nc:= Notes[i].non_coloriee;
           Notes[i].x:= x;
           //WriteLn( ClassName+'._from_Source; Copie_Notes; Note:',Note);
@@ -470,12 +485,41 @@ begin
      _from_Source;
 end;
 
-procedure TjsTuneTrainer.Check_Note(_Note: String);
+procedure TjsTuneTrainer.Check_Note(_Note_Index: Integer);
+var
+   Attendu_Midi: Integer;
+   Attendu_Note_Index: Integer;
 begin
      if iReponse >= Length( Notes) then exit;
-     if Pos( _Note, Notes[iReponse].Note) <> 1
+     Attendu_Midi:= Notes[iReponse].Midi;
+     Attendu_Note_Index:= Note_Index_from_Midi( Attendu_Midi);
+     if _Note_Index <> Attendu_Note_Index
      then
-         window.alert( 'Ce n''est pas la bonne note! '+_Note+' attendu '+Notes[iReponse].Note)
+         window.alert
+           (
+           Format
+             (
+               Ifthen
+                 (
+                 i18n_FREN_,
+                 'Ce n''est pas la bonne note! %s attendu %s',
+                 'This is''nt the right note! %s expected %s'
+                 ),
+               [
+               Ifthen
+                 (
+                 Latin,
+                 Note_Latine_from_Note_Index[ _Note_Index],
+                 Note_from_Note_Index       [ _Note_Index]
+                 ),
+               Ifthen
+                 (
+                 Latin,
+                 Note_Latine_from_Note_Index[ Attendu_Note_Index],
+                 Note_from_Note_Index       [ Attendu_Note_Index]
+                 )
+               ])
+           )
      else
          begin
          Inc(iReponse);
@@ -483,7 +527,15 @@ begin
          then
              begin
              iReponse:= 0;
-             window.alert( 'Réussi!')
+             window.alert
+               (
+               IfThen
+                 (
+                 i18n_FREN_,
+                 'Réussi !',
+                 'Successful !'
+                 )
+               )
              end;
          Curseur_from_iResponse;
          end;
@@ -502,62 +554,62 @@ end;
 
 function TjsTuneTrainer.bDoClick(aEvent: TJSMouseEvent): boolean;
 begin
-     Check_Note( 'C');
+     Check_Note( Note_Index_DO);
 end;
 
 function TjsTuneTrainer.bDodClick(aEvent: TJSMouseEvent): boolean;
 begin
-     Check_Note( 'C#');
+     Check_Note( Note_Index_DOd);
 end;
 
 function TjsTuneTrainer.bReClick(aEvent: TJSMouseEvent): boolean;
 begin
-     Check_Note( 'D');
+     Check_Note( Note_Index_Re);
 end;
 
 function TjsTuneTrainer.bMibClick(aEvent: TJSMouseEvent): boolean;
 begin
-     Check_Note( 'Eb');
+     Check_Note( Note_Index_MIb);
 end;
 
 function TjsTuneTrainer.bMiClick(aEvent: TJSMouseEvent): boolean;
 begin
-     Check_Note( 'E');
+     Check_Note( Note_Index_MI);
 end;
 
 function TjsTuneTrainer.bFaClick(aEvent: TJSMouseEvent): boolean;
 begin
-     Check_Note( 'F');
+     Check_Note( Note_Index_FA);
 end;
 
 function TjsTuneTrainer.bFadClick(aEvent: TJSMouseEvent): boolean;
 begin
-     Check_Note( 'F#');
+     Check_Note( Note_Index_FAd);
 end;
 
 function TjsTuneTrainer.bSolClick(aEvent: TJSMouseEvent): boolean;
 begin
-     Check_Note( 'G');
+     Check_Note( Note_Index_SOL);
 end;
 
 function TjsTuneTrainer.bSoldClick(aEvent: TJSMouseEvent): boolean;
 begin
-     Check_Note( 'G#');
+     Check_Note( Note_Index_SOLd);
 end;
 
 function TjsTuneTrainer.bLaClick(aEvent: TJSMouseEvent): boolean;
 begin
-     Check_Note( 'A');
+     Check_Note( Note_Index_LA);
 end;
 
 function TjsTuneTrainer.bSibClick(aEvent: TJSMouseEvent): boolean;
 begin
-     Check_Note( 'Bb');
+     Check_Note( Note_Index_SIb);
 end;
 
 function TjsTuneTrainer.bSiClick(aEvent: TJSMouseEvent): boolean;
 begin
-     Check_Note( 'B');
+     Check_Note( Note_Index_SI);
 end;
 
 function TjsTuneTrainer.bTestDieseBemolClick(aEvent: TJSMouseEvent): boolean;
@@ -598,6 +650,72 @@ begin
      iNotes_non_coloriees.value:= '';
      _from_Notes_non_coloriees;
      _from_Source;
+end;
+
+function TjsTuneTrainer.bENClick(aEvent: TJSMouseEvent): boolean;
+begin
+     i18n_en;
+end;
+
+function TjsTuneTrainer.bFRClick(aEvent: TJSMouseEvent): boolean;
+begin
+     i18n_fr;
+end;
+
+function TjsTuneTrainer.bLatinClick(aEvent: TJSMouseEvent): boolean;
+begin
+     nn_Latin;
+end;
+
+function TjsTuneTrainer.bAnglo_saxonClick(aEvent: TJSMouseEvent): boolean;
+begin
+     nn_Anglo_saxon;
+end;
+
+procedure TjsTuneTrainer.nn_Latin;
+begin
+     bDo  .innerHTML:= 'Do' ;//bDod .innerHTML:= '';
+     bRe  .innerHTML:= 'Re' ;//bMib .innerHTML:= '';
+     bMi  .innerHTML:= 'Mi' ;
+     bFa  .innerHTML:= 'Fa' ;//bFad .innerHTML:= '';
+     bSol .innerHTML:= 'Sol';//bSold.innerHTML:= '';
+     bLa  .innerHTML:= 'La' ;//bSib .innerHTML:= '';
+     bSi  .innerHTML:= 'Si' ;
+     Latin:= True;
+end;
+
+procedure TjsTuneTrainer.nn_Anglo_saxon;
+begin
+     bDo  .innerHTML:= 'C';//bDod .innerHTML:= '';
+     bRe  .innerHTML:= 'D';//bMib .innerHTML:= '';
+     bMi  .innerHTML:= 'E';
+     bFa  .innerHTML:= 'F';//bFad .innerHTML:= '';
+     bSol .innerHTML:= 'G';//bSold.innerHTML:= '';
+     bLa  .innerHTML:= 'A';//bSib .innerHTML:= '';
+     bSi  .innerHTML:= 'B';
+     Latin:= False;
+end;
+
+procedure TjsTuneTrainer.i18n_fr;
+begin
+     JQuery('[lang="en"]').css('display', 'none');
+     JQuery('[lang="fr"]').css('display', 'initial');
+     //asm
+     //   $(['lang="en"']).css('visibility', 'hidden');
+     //   $(['lang="fr"']).css('visibility', 'visible');
+     //end;
+     i18n_FREN_:= True;
+end;
+
+procedure TjsTuneTrainer.i18n_en;
+begin
+     JQuery('[lang="en"]').css('display', 'initial');
+     JQuery('[lang="fr"]').css('display', 'none');
+     //asm
+     //   $(['lang="fr"']).css('visibility', 'hidden');
+     //   $(['lang="en"']).css('visibility', 'visible');
+     //end;
+     i18n_FREN_:= False;
 end;
 
 procedure TjsTuneTrainer.DoRun;
@@ -667,6 +785,16 @@ begin
      b(b1                      ,'b1'                      ,@b1Click                      );
      b(b2                      ,'b2'                      ,@b2Click                      );
      b(b3                      ,'b3'                      ,@b3Click                      );
+
+     //i18n
+     b(bEN                     ,'bEN'                     ,@bENClick                     );
+     b(bFR                     ,'bFR'                     ,@bFRClick                     );
+     i18n_fr;
+
+     //Note names
+     b(bLatin      ,'bLatin'                           ,@bLatinClick                     );
+     b(bAnglo_saxon,'bAnglo_saxon'                     ,@bAnglo_saxonClick               );
+     nn_Latin;
 end;
 
 begin
