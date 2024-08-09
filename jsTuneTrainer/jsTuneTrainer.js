@@ -3091,6 +3091,13 @@ rtl.module("strutils",["System","SysUtils","Types"],function () {
   "use strict";
   var $mod = this;
   var $impl = $mod.$impl;
+  this.IfThen = function (AValue, ATrue, AFalse) {
+    var Result = "";
+    if (AValue) {
+      Result = ATrue}
+     else Result = AFalse;
+    return Result;
+  };
   this.Soundex = function (AText, ALength) {
     var Result = "";
     var S = "\x00";
@@ -3155,32 +3162,30 @@ rtl.module("uFrequence",["System","Classes","SysUtils","Math","Types","strutils"
   this.nOctave_diapason_midi = 5;
   this.nOctave_diapason_anglais = 4;
   this.nOctave_diapason_latin = 3;
-  this.Note = function (_Index) {
+  this.Note_from_Note_Index = ["C","C#","D","Eb","E","F","F#","G","G#","A","Bb","B"];
+  this.Note_Index_DO = 0;
+  this.Note_Index_DOd = 1;
+  this.Note_Index_RE = 2;
+  this.Note_Index_MIb = 3;
+  this.Note_Index_MI = 4;
+  this.Note_Index_FA = 5;
+  this.Note_Index_FAd = 6;
+  this.Note_Index_SOL = 7;
+  this.Note_Index_SOLd = 8;
+  this.Note_Index_LA = 9;
+  this.Note_Index_SIb = 10;
+  this.Note_Index_SI = 11;
+  this.Note_Latine_from_Note_Index = ["do  ","do# ","ré  ","mib ","mi  ","fa  ","fa# ","sol ","sol#","la  ","sib ","si  "];
+  this.Note_Index_from_Midi = function (_Midi) {
+    var Result = 0;
+    Result = _Midi % 12;
+    return Result;
+  };
+  this.Note = function (_Midi) {
     var Result = "";
-    var $tmp = _Index % 12;
-    if ($tmp === 0) {
-      Result = "C"}
-     else if ($tmp === 1) {
-      Result = "C#"}
-     else if ($tmp === 2) {
-      Result = "D"}
-     else if ($tmp === 3) {
-      Result = "Eb"}
-     else if ($tmp === 4) {
-      Result = "E"}
-     else if ($tmp === 5) {
-      Result = "F"}
-     else if ($tmp === 6) {
-      Result = "F#"}
-     else if ($tmp === 7) {
-      Result = "G"}
-     else if ($tmp === 8) {
-      Result = "G#"}
-     else if ($tmp === 9) {
-      Result = "A"}
-     else if ($tmp === 10) {
-      Result = "Bb"}
-     else if ($tmp === 11) Result = "B";
+    var Note_Index = 0;
+    Note_Index = $mod.Note_Index_from_Midi(_Midi);
+    Result = $mod.Note_from_Note_Index[Note_Index];
     return Result;
   };
   this.nOctave_from_Midi = function (_Midi, nOctave_diapason) {
@@ -3188,11 +3193,11 @@ rtl.module("uFrequence",["System","Classes","SysUtils","Math","Types","strutils"
     Result = (rtl.trunc(_Midi / 12) - 5) + nOctave_diapason;
     return Result;
   };
-  this.Note_Octave = function (_Index) {
+  this.Note_Octave = function (_Midi) {
     var Result = "";
     var nOctave = 0;
-    Result = pas.SysUtils.Trim($mod.Note(_Index));
-    nOctave = $mod.nOctave_from_Midi(_Index,4);
+    Result = pas.SysUtils.Trim($mod.Note(_Midi));
+    nOctave = $mod.nOctave_from_Midi(_Midi,4);
     Result = Result + pas.SysUtils.IntToStr(nOctave);
     return Result;
   };
@@ -3678,26 +3683,30 @@ rtl.module("websvg",["System","SysUtils","Web","JS"],function () {
   "use strict";
   var $mod = this;
 });
-rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","Classes","SysUtils","Web","websvg","Types","strutils"],function () {
+rtl.module("libjquery",["System","JS","Web"],function () {
+  "use strict";
+  var $mod = this;
+});
+rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","Classes","SysUtils","Web","websvg","Types","strutils","libjquery"],function () {
   "use strict";
   var $mod = this;
   rtl.recNewT(this,"TNote",function () {
-    this.Note = "";
+    this.Midi = 0;
     this.non_coloriee = false;
     this.c = null;
     this.x = 0;
     this.$eq = function (b) {
-      return (this.Note === b.Note) && (this.non_coloriee === b.non_coloriee) && (this.c === b.c) && (this.x === b.x);
+      return (this.Midi === b.Midi) && (this.non_coloriee === b.non_coloriee) && (this.c === b.c) && (this.x === b.x);
     };
     this.$assign = function (s) {
-      this.Note = s.Note;
+      this.Midi = s.Midi;
       this.non_coloriee = s.non_coloriee;
       this.c = s.c;
       this.x = s.x;
       return this;
     };
-    this.Init = function (_Note, _non_coloriee) {
-      this.Note = _Note;
+    this.Init = function (_Midi, _non_coloriee) {
+      this.Midi = _Midi;
       this.non_coloriee = _non_coloriee;
     };
   });
@@ -3757,6 +3766,12 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
       this.b1 = null;
       this.b2 = null;
       this.b3 = null;
+      this.i18n_FREN_ = false;
+      this.bEN = null;
+      this.bFR = null;
+      this.Latin = false;
+      this.bLatin = null;
+      this.bAnglo_saxon = null;
     };
     this.$final = function () {
       this.svg = undefined;
@@ -3808,6 +3823,10 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
       this.b1 = undefined;
       this.b2 = undefined;
       this.b3 = undefined;
+      this.bEN = undefined;
+      this.bFR = undefined;
+      this.bLatin = undefined;
+      this.bAnglo_saxon = undefined;
       pas.BrowserApp.TBrowserApplication.$final.call(this);
     };
     this.Create$1 = function (aOwner) {
@@ -3949,6 +3968,28 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
         }, set: function (v) {
           this.p.b3 = v;
         }},"b3",rtl.createSafeCallback($Self,"b3Click"));
+      b({p: this, get: function () {
+          return this.p.bEN;
+        }, set: function (v) {
+          this.p.bEN = v;
+        }},"bEN",rtl.createSafeCallback($Self,"bENClick"));
+      b({p: this, get: function () {
+          return this.p.bFR;
+        }, set: function (v) {
+          this.p.bFR = v;
+        }},"bFR",rtl.createSafeCallback($Self,"bFRClick"));
+      this.i18n_fr();
+      b({p: this, get: function () {
+          return this.p.bLatin;
+        }, set: function (v) {
+          this.p.bLatin = v;
+        }},"bLatin",rtl.createSafeCallback($Self,"bLatinClick"));
+      b({p: this, get: function () {
+          return this.p.bAnglo_saxon;
+        }, set: function (v) {
+          this.p.bAnglo_saxon = v;
+        }},"bAnglo_saxon",rtl.createSafeCallback($Self,"bAnglo_saxonClick"));
+      this.nn_Latin();
     };
     this.iSourceInput = function (Event) {
       var Result = false;
@@ -3963,7 +4004,6 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
         var i = 0;
         var Source_Note = "";
         var Midi_Note = 0;
-        var Note = "";
         var non_coloriee = false;
         Source = $Self.iSource.value;
         sa = pas.strutils.SplitString(Source," ");
@@ -3972,9 +4012,8 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
           i = $l;
           Source_Note = sa[i];
           Midi_Note = pas.uFrequence.Midi_from_Note(Source_Note);
-          Note = pas.uFrequence.Note_Octave(Midi_Note);
           non_coloriee = $Self.Is_Note_non_coloriee(pas.uFrequence.Note(Midi_Note));
-          $Self.Notes[i].Init(Note,non_coloriee);
+          $Self.Notes[i].Init(Midi_Note,non_coloriee);
         };
       };
       function Copie_Notes() {
@@ -3984,7 +4023,7 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
         $Self.x_ecart = pas.System.Trunc((2670 - $Self.x_offset) / rtl.length($Self.Notes));
         for (var $l = 0, $end = rtl.length($Self.Notes) - 1; $l <= $end; $l++) {
           i = $l;
-          N = $Self.Notes[i].Note;
+          N = pas.uFrequence.Note_Octave($Self.Notes[i].Midi);
           nc = $Self.Notes[i].non_coloriee;
           $Self.Notes[i].x = $Self.x;
           if ((N === "G3") || (N === "G#3") || (N === "A3") || (N === "Bb3") || (N === "B3") || (N === "C4") || (N === "C#4") || (N === "A5") || (N === "Bb5") || (N === "B5")) {
@@ -4102,15 +4141,19 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
       this.x += this.x_ecart;
       return Result;
     };
-    this.Check_Note = function (_Note) {
+    this.Check_Note = function (_Note_Index) {
+      var Attendu_Midi = 0;
+      var Attendu_Note_Index = 0;
       if (this.iReponse >= rtl.length(this.Notes)) return;
-      if (pas.System.Pos(_Note,this.Notes[this.iReponse].Note) !== 1) {
-        window.alert("Ce n'est pas la bonne note! " + _Note + " attendu " + this.Notes[this.iReponse].Note)}
+      Attendu_Midi = this.Notes[this.iReponse].Midi;
+      Attendu_Note_Index = pas.uFrequence.Note_Index_from_Midi(Attendu_Midi);
+      if (_Note_Index !== Attendu_Note_Index) {
+        window.alert(pas.SysUtils.Format(pas.strutils.IfThen(this.i18n_FREN_,"Ce n'est pas la bonne note! %s attendu %s","This is'nt the right note! %s expected %s"),pas.System.VarRecs(18,pas.strutils.IfThen(this.Latin,pas.uFrequence.Note_Latine_from_Note_Index[_Note_Index],pas.uFrequence.Note_from_Note_Index[_Note_Index]),18,pas.strutils.IfThen(this.Latin,pas.uFrequence.Note_Latine_from_Note_Index[Attendu_Note_Index],pas.uFrequence.Note_from_Note_Index[Attendu_Note_Index]))))}
        else {
         this.iReponse += 1;
         if (this.iReponse >= rtl.length(this.Notes)) {
           this.iReponse = 0;
-          window.alert("Réussi!");
+          window.alert(pas.strutils.IfThen(this.i18n_FREN_,"Réussi !","Successful !"));
         };
         this.Curseur_from_iResponse();
       };
@@ -4123,62 +4166,62 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
     };
     this.bDoClick = function (aEvent) {
       var Result = false;
-      this.Check_Note("C");
+      this.Check_Note(0);
       return Result;
     };
     this.bDodClick = function (aEvent) {
       var Result = false;
-      this.Check_Note("C#");
+      this.Check_Note(1);
       return Result;
     };
     this.bReClick = function (aEvent) {
       var Result = false;
-      this.Check_Note("D");
+      this.Check_Note(2);
       return Result;
     };
     this.bMibClick = function (aEvent) {
       var Result = false;
-      this.Check_Note("Eb");
+      this.Check_Note(3);
       return Result;
     };
     this.bMiClick = function (aEvent) {
       var Result = false;
-      this.Check_Note("E");
+      this.Check_Note(4);
       return Result;
     };
     this.bFaClick = function (aEvent) {
       var Result = false;
-      this.Check_Note("F");
+      this.Check_Note(5);
       return Result;
     };
     this.bFadClick = function (aEvent) {
       var Result = false;
-      this.Check_Note("F#");
+      this.Check_Note(6);
       return Result;
     };
     this.bSolClick = function (aEvent) {
       var Result = false;
-      this.Check_Note("G");
+      this.Check_Note(7);
       return Result;
     };
     this.bSoldClick = function (aEvent) {
       var Result = false;
-      this.Check_Note("G#");
+      this.Check_Note(8);
       return Result;
     };
     this.bLaClick = function (aEvent) {
       var Result = false;
-      this.Check_Note("A");
+      this.Check_Note(9);
       return Result;
     };
     this.bSibClick = function (aEvent) {
       var Result = false;
-      this.Check_Note("Bb");
+      this.Check_Note(10);
       return Result;
     };
     this.bSiClick = function (aEvent) {
       var Result = false;
-      this.Check_Note("B");
+      this.Check_Note(11);
       return Result;
     };
     this.bTestDieseBemolClick = function (aEvent) {
@@ -4223,6 +4266,56 @@ rtl.module("program",["System","uFrequence","browserconsole","BrowserApp","JS","
     };
     this.Curseur_from_iResponse = function () {
       this.rCurseur.setAttribute("x",pas.SysUtils.IntToStr(this.Notes[this.iReponse].x - rtl.trunc(224 / 2)));
+    };
+    this.i18n_fr = function () {
+      jQuery('[lang="en"]').css("display","none");
+      jQuery('[lang="fr"]').css("display","initial");
+      this.i18n_FREN_ = true;
+    };
+    this.i18n_en = function () {
+      jQuery('[lang="en"]').css("display","initial");
+      jQuery('[lang="fr"]').css("display","none");
+      this.i18n_FREN_ = false;
+    };
+    this.bENClick = function (aEvent) {
+      var Result = false;
+      this.i18n_en();
+      return Result;
+    };
+    this.bFRClick = function (aEvent) {
+      var Result = false;
+      this.i18n_fr();
+      return Result;
+    };
+    this.nn_Latin = function () {
+      this.bDo.innerHTML = "Do";
+      this.bRe.innerHTML = "Re";
+      this.bMi.innerHTML = "Mi";
+      this.bFa.innerHTML = "Fa";
+      this.bSol.innerHTML = "Sol";
+      this.bLa.innerHTML = "La";
+      this.bSi.innerHTML = "Si";
+      this.Latin = true;
+    };
+    this.nn_Anglo_saxon = function () {
+      this.bDo.innerHTML = "C";
+      this.bRe.innerHTML = "D";
+      this.bMi.innerHTML = "E";
+      this.bFa.innerHTML = "F";
+      this.bSol.innerHTML = "G";
+      this.bLa.innerHTML = "A";
+      this.bSi.innerHTML = "B";
+      this.Latin = false;
+    };
+    this.bLatinClick = function (aEvent) {
+      var Result = false;
+      this.nn_Latin();
+      return Result;
+    };
+    this.bAnglo_saxonClick = function (aEvent) {
+      var Result = false;
+      this.nn_Anglo_saxon();
+      return Result;
     };
     var $r = this.$rtti;
     $r.addMethod("Create$1",2,[["aOwner",pas.Classes.$rtti["TComponent"]]]);
