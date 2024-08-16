@@ -19,7 +19,13 @@
       </Target>
       <Target FileName="..\jsPaneurythmie\jsPaneurythmie.lpi">
         <BuildModes>
-          <Mode Name="Default"/>
+          <Mode Name="Debug Lite"/>
+          <Mode Name="Release"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="C:\pas2js\demo\jquery\demoadd.lpi">
+        <BuildModes>
+          <Mode Name="default"/>
         </BuildModes>
       </Target>
     </Targets>

@@ -1,0 +1,2 @@
+In start menu, I opened under menu Visual Studio 2019 the shortcut Developer PowerShell for VS 2019 and typed on the command line:
+signtool sign /a /fd SHA256  path_to_my_executable 
