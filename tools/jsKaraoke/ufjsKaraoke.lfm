@@ -1,0 +1,73 @@
+object fjsKaraoke: TfjsKaraoke
+  Left = 678
+  Height = 210
+  Top = 1217
+  Width = 200
+  Caption = 'fjsKaraoke'
+  ClientHeight = 210
+  ClientWidth = 200
+  OnCreate = FormCreate
+  LCLVersion = '3.4.0.0'
+  object l1: TLabel
+    Left = 0
+    Height = 20
+    Top = 16
+    Width = 200
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'l1'
+    Color = clAqua
+    Font.Color = clLime
+    Font.Height = 14
+    ParentColor = False
+    ParentFont = False
+    Transparent = False
+    WordWrap = True
+  end
+  object l2: TLabel
+    Left = 0
+    Height = 21
+    Top = 40
+    Width = 200
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'l2'
+    Color = clAqua
+    Font.Color = clYellow
+    ParentColor = False
+    ParentFont = False
+    Transparent = False
+    WordWrap = True
+  end
+  object l3: TLabel
+    Left = 0
+    Height = 21
+    Top = 72
+    Width = 200
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'l3'
+    Color = clAqua
+    Font.Color = 33023
+    ParentColor = False
+    ParentFont = False
+    Transparent = False
+    WordWrap = True
+  end
+  object l4: TLabel
+    Left = 0
+    Height = 21
+    Top = 128
+    Width = 200
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'l4'
+    Color = clAqua
+    Font.Color = clRed
+    ParentColor = False
+    ParentFont = False
+    Transparent = False
+    WordWrap = True
+  end
+  object t: TTimer
+    OnTimer = tTimer
+    Left = 118
+    Top = 12
+  end
+end
