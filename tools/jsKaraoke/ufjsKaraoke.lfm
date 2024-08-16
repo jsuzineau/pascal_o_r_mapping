@@ -1,16 +1,17 @@
 object fjsKaraoke: TfjsKaraoke
-  Left = 678
+  Left = 773
   Height = 210
-  Top = 1217
+  Top = 425
   Width = 200
   Caption = 'fjsKaraoke'
   ClientHeight = 210
   ClientWidth = 200
   OnCreate = FormCreate
+  Position = poScreenCenter
   LCLVersion = '3.4.0.0'
   object l1: TLabel
     Left = 0
-    Height = 20
+    Height = 13
     Top = 16
     Width = 200
     Anchors = [akTop, akLeft, akRight]
@@ -25,7 +26,7 @@ object fjsKaraoke: TfjsKaraoke
   end
   object l2: TLabel
     Left = 0
-    Height = 21
+    Height = 15
     Top = 40
     Width = 200
     Anchors = [akTop, akLeft, akRight]
@@ -39,7 +40,7 @@ object fjsKaraoke: TfjsKaraoke
   end
   object l3: TLabel
     Left = 0
-    Height = 21
+    Height = 15
     Top = 72
     Width = 200
     Anchors = [akTop, akLeft, akRight]
@@ -53,7 +54,7 @@ object fjsKaraoke: TfjsKaraoke
   end
   object l4: TLabel
     Left = 0
-    Height = 21
+    Height = 15
     Top = 128
     Width = 200
     Anchors = [akTop, akLeft, akRight]
@@ -65,7 +66,26 @@ object fjsKaraoke: TfjsKaraoke
     Transparent = False
     WordWrap = True
   end
+  object bChargement: TButton
+    Left = 100
+    Height = 25
+    Top = 12
+    Width = 75
+    Caption = 'Chargement'
+    TabOrder = 0
+    OnClick = bChargementClick
+  end
+  object bTexte: TButton
+    Left = 111
+    Height = 25
+    Top = 41
+    Width = 75
+    Caption = 'Texte'
+    TabOrder = 1
+    OnClick = bTexteClick
+  end
   object t: TTimer
+    Interval = 500
     OnTimer = tTimer
     Left = 118
     Top = 12

@@ -5,6 +5,10 @@ unit ufjsKaraoke;
 interface
 
 uses
+    udmDatabase,
+    upooltexte,
+    ufTexte_dsb,
+    ufChargement,
  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls;
 
 type
@@ -12,11 +16,15 @@ type
  { TfjsKaraoke }
 
  TfjsKaraoke = class(TForm)
+  bChargement: TButton;
+  bTexte: TButton;
   l1: TLabel;
   l2: TLabel;
   l3: TLabel;
   l4: TLabel;
   t: TTimer;
+  procedure bChargementClick(Sender: TObject);
+  procedure bTexteClick(Sender: TObject);
   procedure FormCreate(Sender: TObject);
   procedure tTimer(Sender: TObject);
  private
@@ -41,7 +49,30 @@ type
      '12345678901234',
      '123456789012345',
      '1234567890123456',
-     '12345678901234567'
+     '12345678901234567',
+     '123456789012345678',
+     '1234567890123456789',
+     '12345678901234567890',
+     '123456789012345678901',
+     '1234567890123456789012',
+     '12345678901234567890123',
+     '123456789012345678901234',
+     '1234567890123456789012345',
+     '12345678901234567890123456',
+     '123456789012345678901234567',
+     '1234567890123456789012345678',
+     '12345678901234567890123456789',
+     '123456789012345678901234567890',
+     '1234567890123456789012345678901',
+     '12345678901234567890123456789012',
+     '123456789012345678901234567890123',
+     '1234567890123456789012345678901234',
+     '12345678901234567890123456789012345',
+     '123456789012345678901234567890123456',
+     '1234567890123456789012345678901234567',
+     '12345678901234567890123456789012345678',
+     '123456789012345678901234567890123456789',
+     '1234567890123456789012345678901234567890'
     );
  private
    i: Integer;
@@ -58,6 +89,9 @@ implementation
 
 procedure TfjsKaraoke.FormCreate(Sender: TObject);
 begin
+     Caption:= Caption+' - '+dmDatabase.jsDataConnexion.Base_sur;
+     pooltexte.ToutCharger;
+
      i:= Low(texte);
 end;
 
@@ -84,6 +118,16 @@ begin
      l4.Left:= 0; l4.Top:= l3.Top+l3.Height;
 
      Inc(i);
+end;
+
+procedure TfjsKaraoke.bChargementClick(Sender: TObject);
+begin
+     fChargement.Show;
+end;
+
+procedure TfjsKaraoke.bTexteClick(Sender: TObject);
+begin
+     fTexte_dsb.Execute;
 end;
 
 end.

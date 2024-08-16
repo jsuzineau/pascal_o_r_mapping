@@ -1,0 +1,29 @@
+object fChargement: TfChargement
+  Left = 600
+  Height = 240
+  Top = 223
+  Width = 320
+  Caption = 'fChargement'
+  ClientHeight = 240
+  ClientWidth = 320
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  LCLVersion = '3.4.0.0'
+  object bCharger: TButton
+    Left = 16
+    Height = 25
+    Top = 16
+    Width = 75
+    Caption = 'Charger'
+    TabOrder = 0
+    OnClick = bChargerClick
+  end
+  object pg: TProgressBar
+    Left = 0
+    Height = 20
+    Top = 220
+    Width = 320
+    Align = alBottom
+    TabOrder = 1
+  end
+end

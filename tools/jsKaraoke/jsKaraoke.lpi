@@ -25,6 +25,12 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="OD_DelphiReportEngine_Controls"/>
+      </Item>
+      <Item>
+        <PackageName Value="OD_DelphiReportEngine_Data"/>
+      </Item>
+      <Item>
         <PackageName Value="LCL"/>
       </Item>
     </RequiredPackages>
@@ -37,6 +43,45 @@
         <Filename Value="ufjsKaraoke.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fjsKaraoke"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Elements/Texte/udkTexte_display.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkTexte_display"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Elements/Texte/udkTexte_edit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkTexte_edit"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Elements/Texte/ufTexte_dsb.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fTexte_dsb"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Elements/Texte/uhfTexte.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Elements/Texte/upoolTexte.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Elements/Texte/ublTexte.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ufChargement.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fChargement"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
     </Units>
@@ -48,6 +93,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
+      <OtherUnitFiles Value="Elements/Texte"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>

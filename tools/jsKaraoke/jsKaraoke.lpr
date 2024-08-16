@@ -10,7 +10,8 @@ uses
  athreads,
  {$ENDIF}
  Interfaces, // this includes the LCL widgetset
- Forms, ufjsKaraoke
+ Forms, ufjsKaraoke, ublTexte, upoolTexte, uhfTexte, ufTexte_dsb, udkTexte_edit,
+ udkTexte_display, ufChargement
  { you can add units after this };
 
 {$R *.res}
@@ -20,6 +21,7 @@ begin
  Application.Scaled:=True;
  Application.Initialize;
  Application.CreateForm(TfjsKaraoke, fjsKaraoke);
+ Application.CreateForm(TfChargement, fChargement);
  Application.Run;
 end.
 

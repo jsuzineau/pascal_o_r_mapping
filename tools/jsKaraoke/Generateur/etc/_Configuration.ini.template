@@ -1,0 +1,18 @@
+[Options]
+Chemin_Global=
+SGBD=2
+
+[mysql]
+Version=57
+HostName=localhost
+DataBase=mysql
+User_Name=root
+Password=
+
+[postgres]
+HostName=localhost
+DataBase=
+User_Name=postgres
+Password=
+
+//test branche locale
