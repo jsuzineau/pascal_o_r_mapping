@@ -21,7 +21,7 @@ object fTemps: TfTemps
     TabOrder = 0
     object deDebut: TDateEdit
       Left = 8
-      Height = 23
+      Height = 38
       Top = 24
       Width = 103
       CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
@@ -33,7 +33,7 @@ object fTemps: TfTemps
     end
     object deFin: TDateEdit
       Left = 113
-      Height = 23
+      Height = 38
       Top = 24
       Width = 112
       CalendarDisplaySettings = [dsShowHeadings, dsShowDayNames]
@@ -45,18 +45,18 @@ object fTemps: TfTemps
     end
     object Label1: TLabel
       Left = 8
-      Height = 15
+      Height = 21
       Top = 8
-      Width = 32
+      Width = 42
       Caption = 'Début'
       FocusControl = deDebut
       ParentColor = False
     end
     object Label2: TLabel
       Left = 113
-      Height = 15
+      Height = 21
       Top = 8
-      Width = 16
+      Width = 21
       Caption = 'Fin'
       FocusControl = deFin
       ParentColor = False
@@ -102,9 +102,9 @@ object fTemps: TfTemps
     end
     object cbRestreindre_a_un_Tag: TCheckBox
       Left = 408
-      Height = 19
+      Height = 25
       Top = 56
-      Width = 125
+      Width = 167
       Caption = 'Restreindre à un Tag'
       TabOrder = 6
       OnClick = cbRestreindre_a_un_TagClick
@@ -147,17 +147,17 @@ object fTemps: TfTemps
     end
     object Label3: TLabel
       Left = 229
-      Height = 15
+      Height = 21
       Top = 34
-      Width = 45
+      Width = 59
       Caption = 'Semaine'
       ParentColor = False
     end
     object Label4: TLabel
       Left = 229
-      Height = 15
+      Height = 21
       Top = 60
-      Width = 26
+      Width = 33
       Caption = 'Mois'
       ParentColor = False
     end
@@ -181,18 +181,18 @@ object fTemps: TfTemps
     end
     object cbEcrire_arrondi: TCheckBox
       Left = 416
-      Height = 19
+      Height = 25
       Top = 2
-      Width = 58
+      Width = 78
       Caption = 'Arrondi'
       TabOrder = 13
       OnChange = cbEcrire_arrondiChange
     end
     object cbHeures_Supplementaires: TCheckBox
       Left = 415
-      Height = 19
+      Height = 25
       Top = 28
-      Width = 63
+      Width = 84
       Caption = 'H.Suppl.'
       TabOrder = 14
       OnChange = cbHeures_SupplementairesChange
@@ -208,9 +208,9 @@ object fTemps: TfTemps
     end
     object cbDepassement: TCheckBox
       Left = 541
-      Height = 19
+      Height = 25
       Top = 96
-      Width = 89
+      Width = 120
       Caption = 'Dépassement'
       TabOrder = 16
     end
@@ -225,9 +225,9 @@ object fTemps: TfTemps
     end
     object Label5: TLabel
       Left = 229
-      Height = 15
+      Height = 21
       Top = 4
-      Width = 22
+      Width = 28
       Caption = 'Jour'
       ParentColor = False
     end
@@ -260,15 +260,15 @@ object fTemps: TfTemps
     end
     object Label6: TLabel
       Left = 533
-      Height = 15
+      Height = 21
       Top = 3
-      Width = 39
+      Width = 51
       Caption = 'Facture'
       ParentColor = False
     end
     object eFacture: TEdit
       Left = 532
-      Height = 23
+      Height = 38
       Top = 22
       Width = 252
       TabOrder = 21
@@ -276,25 +276,25 @@ object fTemps: TfTemps
       OnEnter = eFactureEnter
     end
     object Label12: TLabel
-      Left = 545
-      Height = 15
-      Top = 55
-      Width = 26
+      Left = 585
+      Height = 21
+      Top = 63
+      Width = 35
       Caption = 'Filtre'
     end
     object eDescription_Filter: TEdit
-      Left = 581
-      Height = 23
-      Top = 52
+      Left = 621
+      Height = 38
+      Top = 60
       Width = 162
       Anchors = [akTop, akLeft, akRight]
       TabOrder = 22
       Text = 'eDescription_Filter'
     end
     object bDescription_Filter_cancel: TButton
-      Left = 743
+      Left = 783
       Height = 25
-      Top = 53
+      Top = 61
       Width = 27
       Anchors = [akTop, akRight]
       Caption = 'X'

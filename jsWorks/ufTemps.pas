@@ -142,6 +142,8 @@ begin
      cbEcrire_arrondi.Checked:= ublSession_Ecrire_arrondi;
      cbHeures_Supplementaires.Checked:= ublCalendrier_Heures_Supplementaires;
      ThPhi_Form.Create( Self);
+
+     eDescription_Filter.Text:= '';
 end;
 
 procedure TfTemps.FormDestroy(Sender: TObject);
