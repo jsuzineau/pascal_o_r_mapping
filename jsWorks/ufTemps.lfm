@@ -275,6 +275,32 @@ object fTemps: TfTemps
       Text = 'eFacture'
       OnEnter = eFactureEnter
     end
+    object Label12: TLabel
+      Left = 545
+      Height = 15
+      Top = 55
+      Width = 26
+      Caption = 'Filtre'
+    end
+    object eDescription_Filter: TEdit
+      Left = 581
+      Height = 23
+      Top = 52
+      Width = 162
+      Anchors = [akTop, akLeft, akRight]
+      TabOrder = 22
+      Text = 'eDescription_Filter'
+    end
+    object bDescription_Filter_cancel: TButton
+      Left = 743
+      Height = 25
+      Top = 53
+      Width = 27
+      Anchors = [akTop, akRight]
+      Caption = 'X'
+      TabOrder = 23
+      OnClick = bDescription_Filter_cancelClick
+    end
   end
   object ds: TDockableScrollbox
     Left = 0

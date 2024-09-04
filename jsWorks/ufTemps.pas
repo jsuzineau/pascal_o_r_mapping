@@ -35,6 +35,7 @@ type
  class(TForm)
   b0_Now: TButton;
   bCurrentDay: TButton;
+  bDescription_Filter_cancel: TButton;
   bNextDay: TButton;
   bodCalendrier_Modele: TButton;
   bOK: TBitBtn;
@@ -59,8 +60,10 @@ type
   deFin: TDateEdit;
   ds: TDockableScrollbox;
   dsbTag: TDockableScrollbox;
+  eDescription_Filter: TEdit;
   eFacture: TEdit;
   Label1: TLabel;
+  Label12: TLabel;
   Label2: TLabel;
   Label3: TLabel;
   Label4: TLabel;
@@ -70,6 +73,7 @@ type
   Panel1: TPanel;
   Splitter1: TSplitter;
   procedure b0_NowClick(Sender: TObject);
+  procedure bDescription_Filter_cancelClick(Sender: TObject);
   procedure bPreviousMonthClick(Sender: TObject);
   procedure bCurrentMonthClick(Sender: TObject);
   procedure bNextMonthClick(Sender: TObject);
@@ -257,7 +261,7 @@ end;
 procedure TfTemps.bSessionClick(Sender: TObject);
 begin
      ds.sl:= nil;
-     hdmSession.Execute( deDebut.Date, deFin.Date+(23+(59)/60)/24, idTag, '');
+     hdmSession.Execute( deDebut.Date, deFin.Date+(23+(59)/60)/24, idTag, eDescription_Filter.Text);
      ds.sl:= hdmSession.sl;
      mResume.Text:= hdmSession.Text;
 end;
@@ -305,6 +309,11 @@ begin
      if not OpenDocument( Resultat)
      then
          ShowMessage( 'OpenDocument failed on '+Resultat);
+end;
+
+procedure TfTemps.bDescription_Filter_cancelClick(Sender: TObject);
+begin
+     eDescription_Filter.Text:= '';
 end;
 
 procedure TfTemps.bodCalendrierClick(Sender: TObject);

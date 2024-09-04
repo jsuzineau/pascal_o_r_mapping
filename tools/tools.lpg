@@ -2,15 +2,21 @@
 <CONFIG>
   <ProjectGroup FileVersion="2">
     <Targets>
-      <Target FileName="jsLignes/jsLignes.lpi">
+      <Target FileName="jsLignes\jsLignes.lpi">
         <BuildModes>
           <Mode Name="Debug" Compile="True"/>
           <Mode Name="Release"/>
         </BuildModes>
       </Target>
-      <Target FileName="jsKaraoke/jsKaraoke.lpi">
+      <Target FileName="jsKaraoke\jsKaraoke.lpi">
         <BuildModes>
           <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="jsPaneurythmie\jsPaneurythmie.lpi">
+        <BuildModes>
+          <Mode Name="Debug Lite" Compile="True"/>
+          <Mode Name="Release"/>
         </BuildModes>
       </Target>
     </Targets>
