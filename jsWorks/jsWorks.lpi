@@ -411,7 +411,7 @@
       <Unit36>
         <Filename Value="Elements/Type_Tag/ufType_Tag.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="fTYPE_Tag"/>
+        <ComponentName Value="fType_Tag"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit36>
