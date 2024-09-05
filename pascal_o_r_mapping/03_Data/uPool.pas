@@ -200,15 +200,17 @@ type
                                  slLoaded : TBatpro_StringList = nil;
                                  btsLoaded: TbtString          = nil;
                                  N: Integer= -1);
-    // procedure Direct_Load_by_id( SQL: String;
-    //                             fID: String;
-    //                             slLoaded : TBatpro_StringList = nil;
-    //                             btsLoaded: TbtString          = nil);
-    // procedure Direct_Load_N_rows_by_id( MySQLResult: TMySQLResult;
-    //                             fID: String;
-    //                             slLoaded : TBatpro_StringList = nil;
-    //                             btsLoaded: TbtString          = nil;
-    //                             N: Integer= -1);
+    {
+    procedure Direct_Load_by_id( SQL: String;
+                                 fID: String;
+                                 slLoaded : TBatpro_StringList = nil;
+                                 btsLoaded: TbtString          = nil);
+    procedure Direct_Load_N_rows_by_id( MySQLResult: TMySQLResult;
+                                 fID: String;
+                                 slLoaded : TBatpro_StringList = nil;
+                                 btsLoaded: TbtString          = nil;
+                                 N: Integer= -1);
+    }
   //Chargement direct du contenu d'un SQLQuery
   private
     procedure Load_sqlQuery( _jsdc: TjsDataContexte;
@@ -1936,8 +1938,15 @@ begin
 end;
 
 procedure TPool.Vider_table;
+var
+   Commande: String;
 begin
-     Connection.DoCommande( 'truncate '+NomTable);
+     case Connection.SGBD
+     of
+       sgbd_MySQL: Commande:= 'truncate '+NomTable;
+       else        Commande:= 'delete from '+NomTable;
+       end;
+     Connection.DoCommande( Commande);
 end;
 
 procedure TPool.Detruire_table;

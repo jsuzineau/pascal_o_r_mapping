@@ -1,70 +1,46 @@
-inherited dkTexte_edit: TdkTexte_edit
+inherited dkTiming_edit: TdkTiming_edit
   Left = 704
-  Height = 101
+  Height = 45
   Top = 420
-  Width = 478
-  Caption = 'dkTexte_edit'
-  ClientHeight = 101
-  ClientWidth = 478
+  Width = 226
+  Caption = 'dkTiming_edit'
+  ClientHeight = 45
+  ClientWidth = 226
+  inherited sSelection: TBatpro_Shape 
+    Height = 45
+  end
   inherited sBackground: TShape
-    Height = 101
-    Width = 466
+    Height = 45
+    Width = 214
   end
-  inherited sSelection: TBatpro_Shape
-    Height = 101
-  end
-  object ceCyrillique: TChamp_Edit[2]
-    Left = 44
+  object cet: TChamp_Edit
+    Left = 119
     Height = 21
-    Top = 3
-    Width = 407
-    Anchors = [akTop, akLeft, akRight]
+    Top = 4
+    Width = 80
+    Anchors = [akTop, akRight]
     AutoSize = False
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Arial'
-    ParentFont = False
+    Text = 'cet'
+    ParentColor = False
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 0
-    Text = 'ceCyrillique'
-    Field = 'Cyrillique'
+    Field = 't'
   end
-  object ceTranslitteration: TChamp_Edit[3]
-    Left = 44
+
+  object ceidTexte: TChamp_Edit
+    Left = 119
     Height = 21
-    Top = 35
-    Width = 407
-    Anchors = [akTop, akLeft, akRight]
+    Top = 4
+    Width = 80
+    Anchors = [akTop, akRight]
     AutoSize = False
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Arial'
-    ParentFont = False
+    Text = 'ceidTexte'
+    ParentColor = False
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 2
-    Text = 'ceTranslitteration'
-    Field = 'Translitteration'
+    Field = 'idTexte'
   end
-  object ceFrancais: TChamp_Edit[4]
-    Left = 44
-    Height = 21
-    Top = 67
-    Width = 407
-    Anchors = [akTop, akLeft, akRight]
-    AutoSize = False
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Arial'
-    ParentFont = False
-    ParentShowHint = False
-    ShowHint = True
-    TabOrder = 1
-    Text = 'ceFrancais'
-    Field = 'Francais'
-  end
-  object sbDetruire: TSpeedButton[5]
+  object sbDetruire: TSpeedButton[2]
     Left = 16
     Height = 22
     Hint = 'Supprimer'
@@ -96,8 +72,8 @@ inherited dkTexte_edit: TdkTexte_edit
     }
     OnClick = sbDetruireClick
   end
-  object sbCopy_to_current: TSpeedButton[6]
-    Left = 455
+  object sbCopy_to_current: TSpeedButton[3]
+    Left = 203
     Height = 22
     Hint = 'Copie vers courant'
     Top = 3

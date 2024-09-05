@@ -1,9 +1,12 @@
-unit uhfTexte;
+unit utcTiming;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
-            http://www.mars42.com                                               |
+            partly as freelance: http://www.mars42.com                          |
+        and partly as employee : http://www.batpro.com                          |
+    Contact: gilles.doutre@batpro.com                                           |
                                                                                 |
-    Copyright 2024 Jean SUZINEAU - MARS42                                       |
+    Copyright 2014 Jean SUZINEAU - MARS42                                       |
+    Copyright 2014 Cabinet Gilles DOUTRE - BATPRO                               |
                                                                                 |
     This program is free software: you can redistribute it and/or modify        |
     it under the terms of the GNU Lesser General Public License as published by |
@@ -23,15 +26,33 @@ unit uhfTexte;
 interface
 
 uses
-    SysUtils, Classes, DB,
-    uhFiltre;
+    upoolTiming,
+  SysUtils, Classes, fpcunit, testutils, testregistry;
 
 type
- ThfTexte
- =
-  class( ThFiltre)
+  TtcTiming = class(TTestCase)
+  private
+
+  protected
+
+//    procedure SetUp; override;
+//    procedure TearDown; override;
+
+  published
+
+    // Test methods
+    procedure Test;
   end;
 
 implementation
 
+{ TtcTiming }
+
+procedure TtcTiming.Test;
+begin
+     //poolTiming.Test();
+end;
+
+initialization
+              RegisterTest( 'utcTiming Suite', TtcTiming.Suite);
 end.

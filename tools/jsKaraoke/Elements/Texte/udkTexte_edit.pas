@@ -3,7 +3,7 @@ unit udkTexte_edit;
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
                                                                                 |
-    Copyright 2022 Jean SUZINEAU - MARS42                                       |
+    Copyright 2024 Jean SUZINEAU - MARS42                                       |
                                                                                 |
     This program is free software: you can redistribute it and/or modify        |
     it under the terms of the GNU Lesser General Public License as published by |
@@ -48,7 +48,6 @@ type
  TdkTexte_edit
  =
   class(TDockable)
-  cet: TChamp_Edit;
   ceCyrillique: TChamp_Edit;
   ceTranslitteration: TChamp_Edit;
   ceFrancais: TChamp_Edit;
@@ -78,7 +77,6 @@ implementation
 constructor TdkTexte_edit.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
-     //Ajoute_Colonne( cet, 't', 't');
      //Ajoute_Colonne( ceCyrillique, 'Cyrillique', 'Cyrillique');
      //Ajoute_Colonne( ceTranslitteration, 'Translitteration', 'Translitteration');
      //Ajoute_Colonne( ceFrancais, 'Francais', 'Francais');
@@ -97,7 +95,7 @@ begin
 
      Affecte( blTexte, TblTexte, Value);
 
-     Champs_Affecte( blTexte,[ cet,ceCyrillique,ceTranslitteration,ceFrancais]);
+     Champs_Affecte( blTexte,[ ceCyrillique,ceTranslitteration,ceFrancais]);
      Champs_Affecte( blTexte,[ {Details_Pascal_udk_edit_component_list_pas}]);
 end;
 

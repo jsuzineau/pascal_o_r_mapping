@@ -1,7 +1,7 @@
-object fTexte_dsb: TfTexte_dsb
-  Left = 686
+object fTiming_record: TfTiming_record
+  Left = 557
   Height = 451
-  Top = 352
+  Top = 269
   Width = 740
   Caption = 'Texte'
   ClientHeight = 451
@@ -113,6 +113,24 @@ object fTexte_dsb: TfTexte_dsb
         TabOrder = 2
         OnClick = bSupprimerClick
       end
+      object bRecord: TButton
+        Left = 227
+        Height = 25
+        Top = 8
+        Width = 75
+        Caption = 'Record'
+        TabOrder = 3
+        OnClick = bRecordClick
+      end
+      object bPlay: TButton
+        Left = 328
+        Height = 25
+        Top = 8
+        Width = 75
+        Caption = 'Play'
+        TabOrder = 4
+        OnClick = bPlayClick
+      end
     end
     object Panel3: TPanel
       Left = 1
@@ -150,7 +168,7 @@ object fTexte_dsb: TfTexte_dsb
       ClientHeight = 338
       ClientWidth = 738
       TabOrder = 2
-      HauteurLigne = 101
+      HauteurLigne = 45
       BordureLignes = True
       Zebrage = False
       Zebrage1 = 15138790
@@ -165,5 +183,12 @@ object fTexte_dsb: TfTexte_dsb
     OnTimer = tShowTimer
     Left = 537
     Top = 52
+  end
+  object tPlay: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = tPlayTimer
+    Left = 584
+    Top = 56
   end
 end

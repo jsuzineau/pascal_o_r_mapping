@@ -1,9 +1,9 @@
-unit uhfTexte;
+unit uhfTiming;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
                                                                                 |
-    Copyright 2024 Jean SUZINEAU - MARS42                                       |
+    Copyright 2019 Jean SUZINEAU - MARS42                                       |
                                                                                 |
     This program is free software: you can redistribute it and/or modify        |
     it under the terms of the GNU Lesser General Public License as published by |
@@ -27,7 +27,7 @@ uses
     uhFiltre;
 
 type
- ThfTexte
+ ThfTiming
  =
   class( ThFiltre)
   end;

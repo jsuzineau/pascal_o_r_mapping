@@ -1,4 +1,4 @@
-unit ufTexte_dsb;
+unit ufTiming_dsb;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
@@ -27,14 +27,14 @@ uses
     uChamps,
     uDataUtilsU,
     uBatpro_Ligne,
-    ublTexte,
+    ublTiming,
 
     uPool,
-    upoolTexte,
+    upoolTiming,
 
     //Pascal_uf_pc_uses_pas_aggregation
 
-    udkTexte_edit,
+    udkTiming_edit,
     ucDockableScrollbox,
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DBCtrls, Grids, DBGrids, ActnList, StdCtrls, ComCtrls, Buttons,
@@ -42,9 +42,9 @@ uses
 
 type
 
- { TfTexte_dsb }
+ { TfTiming_dsb }
 
- TfTexte_dsb
+ TfTiming_dsb
  =
   class(TForm)
     dsb: TDockableScrollbox;
@@ -60,7 +60,6 @@ type
     lTri: TLabel;
     bNouveau: TButton;
     bSupprimer: TButton;
-    tShow: TTimer;
     tsPascal_uf_pc_dfm_Aggregation: TTabSheet;
     procedure dsbSelect(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -68,70 +67,68 @@ type
     procedure bNouveauClick(Sender: TObject);
     procedure bSupprimerClick(Sender: TObject);
     procedure bImprimerClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
-    procedure tShowTimer(Sender: TObject);
   private
     { Déclarations privées }
     procedure NbTotal_Change;
   public
     { Déclarations publiques }
-    pool: TpoolTexte;
+    pool: TpoolTiming;
     EntreeLigneColonne_: Boolean;
     function Execute: Boolean;
   //Rafraichissement
   protected
     procedure _from_pool;
-  //Texte
+  //Timing
   private
-    blTexte: TblTexte;
-    procedure _from_Texte;
+    blTiming: TblTiming;
+    procedure _from_Timing;
   end;
 
-function fTexte_dsb: TfTexte_dsb;
+function fTiming_dsb: TfTiming_dsb;
 
 implementation
 
 {$R *.lfm}
 
 var
-   FfTexte_dsb: TfTexte_dsb;
+   FfTiming_dsb: TfTiming_dsb;
 
-function fTexte_dsb: TfTexte_dsb;
+function fTiming_dsb: TfTiming_dsb;
 begin
-     Clean_Get( Result, FfTexte_dsb, TfTexte_dsb);
+     Clean_Get( Result, FfTiming_dsb, TfTiming_dsb);
 end;
 
-{ TfTexte_dsb }
+{ TfTiming_dsb }
 
-procedure TfTexte_dsb.FormCreate(Sender: TObject);
+procedure TfTiming_dsb.FormCreate(Sender: TObject);
 begin
-     pool:= poolTexte;
+     pool:= poolTiming;
      inherited;
      EntreeLigneColonne_:= False;
      pool.pFiltreChange.Abonne( Self, @NbTotal_Change);
-     dsb.Classe_dockable:= TdkTexte_edit;
-     dsb.Classe_Elements:= TblTexte;
+     dsb.Classe_dockable:= TdkTiming_edit;
+     dsb.Classe_Elements:= TblTiming;
      //Pascal_uf_pc_initialisation_pas_Aggregation
 end;
 
-procedure TfTexte_dsb.dsbSelect(Sender: TObject);
+procedure TfTiming_dsb.dsbSelect(Sender: TObject);
 begin
-     dsb.Get_bl( blTexte);
-     _from_Texte;
+     dsb.Get_bl( blTiming);
+     _from_Timing;
 end;
 
-procedure TfTexte_dsb.FormDestroy(Sender: TObject);
+procedure TfTiming_dsb.FormDestroy(Sender: TObject);
 begin
      pool.pFiltreChange.Desabonne( Self, @NbTotal_Change);
      inherited;
 end;
 
-procedure TfTexte_dsb.NbTotal_Change;
+procedure TfTiming_dsb.NbTotal_Change;
 begin
      lNbTotal.Caption:= IntToStr( pool.slFiltre.Count);
 end;
 
-function TfTexte_dsb.Execute: Boolean;
+function TfTiming_dsb.Execute: Boolean;
 begin
      pool.ToutCharger;
      _from_pool;
@@ -139,22 +136,22 @@ begin
      Show;
 end;
 
-procedure TfTexte_dsb._from_pool;
+procedure TfTiming_dsb._from_pool;
 begin
      dsb.sl:= pool.slFiltre;
      //dsb.sl:= pool.T;
 end;
 
-procedure TfTexte_dsb._from_Texte;
+procedure TfTiming_dsb._from_Timing;
 begin
-     Champs_Affecte( blTexte,[ ]);//laissé vide pour l'instant
+     Champs_Affecte( blTiming,[ ]);//laissé vide pour l'instant
 
      //Pascal_uf_pc_charge_pas_Aggregation
 end;
 
-procedure TfTexte_dsb.bNouveauClick(Sender: TObject);
+procedure TfTiming_dsb.bNouveauClick(Sender: TObject);
 var
-   blNouveau: TblTexte;
+   blNouveau: TblTiming;
 begin
      blNouveau:= pool.Nouveau;
      if blNouveau = nil then exit;
@@ -163,9 +160,9 @@ begin
      _from_pool;
 end;
 
-procedure TfTexte_dsb.bSupprimerClick(Sender: TObject);
+procedure TfTiming_dsb.bSupprimerClick(Sender: TObject);
 var
-   bl: TblTexte;
+   bl: TblTiming;
 begin
      dsb.Get_bl( bl);
      if bl = nil then exit;
@@ -182,31 +179,20 @@ begin
      _from_pool;
 end;
 
-procedure TfTexte_dsb.bImprimerClick(Sender: TObject);
+procedure TfTiming_dsb.bImprimerClick(Sender: TObject);
 begin
      {
-     Batpro_Ligne_Printer.Execute( 'fTexte_dsb.stw',
-                                   'Texte',[],[],[],[],
-                                   ['Texte'],
-                                   [poolTexte.slFiltre],
+     Batpro_Ligne_Printer.Execute( 'fTiming_dsb.stw',
+                                   'Timing',[],[],[],[],
+                                   ['Timing'],
+                                   [poolTiming.slFiltre],
                                    [ nil],
                                    [ nil]);
      }
 end;
 
-procedure TfTexte_dsb.FormShow(Sender: TObject);
-begin
-     tShow.Enabled:= True;
-end;
-
-procedure TfTexte_dsb.tShowTimer(Sender: TObject);
-begin
-     tShow.Enabled:= False;
-     _from_pool;
-end;
-
 initialization
-              Clean_Create ( FfTexte_dsb, TfTexte_dsb);
+              Clean_Create ( FfTiming_dsb, TfTiming_dsb);
 finalization
-              Clean_Destroy( FfTexte_dsb);
+              Clean_Destroy( FfTiming_dsb);
 end.

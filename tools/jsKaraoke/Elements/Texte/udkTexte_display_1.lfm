@@ -1,0 +1,33 @@
+inherited dkTexte_display_1: TdkTexte_display_1
+  Left = 704
+  Height = 45
+  Top = 420
+  Width = 226
+  Caption = 'dkTexte_display_1'
+  ClientHeight = 45
+  ClientWidth = 226
+  inherited sBackground: TShape
+    OnMouseDown = sSelectionMouseDown
+  end
+  inherited sSelection: TBatpro_Shape
+    Height = 45
+  end
+  object cl: TChamp_Label[2]
+    Left = 12
+    Height = 22
+    Top = 2
+    Width = 212
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'cl'
+    Font.Color = clWindowText
+    Font.Height = -19
+    Font.Name = 'Arial'
+    ParentColor = False
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    WordWrap = True
+    OnClick = FormClick
+    Field = 'Cyrillique'
+  end
+end

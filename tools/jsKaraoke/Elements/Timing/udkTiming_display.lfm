@@ -1,0 +1,88 @@
+inherited dkTiming_display: TdkTiming_display
+  Left = 704
+  Height = 45
+  Top = 420
+  Width = 226
+  Caption = 'dkTiming_display'
+  ClientHeight = 45
+  ClientWidth = 226
+  inherited sSelection: TBatpro_Shape 
+    Height = 45
+  end
+  object clt: TChamp_Label
+    Left = 144
+    Height = 13
+    Top = 2
+    Width = 57
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Caption = 'clt'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 't'
+  end
+
+  object clidTexte: TChamp_Label
+    Left = 144
+    Height = 13
+    Top = 2
+    Width = 57
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Caption = 'clidTexte'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'idTexte'
+  end
+
+  object cet: TChamp_Edit
+    Left = 119
+    Height = 21
+    Top = 4
+    Width = 80
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Text = 'cet'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    Field = 't'
+  end
+
+  object ceidTexte: TChamp_Edit
+    Left = 119
+    Height = 21
+    Top = 4
+    Width = 80
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    Text = 'ceidTexte'
+    ParentColor = False
+    ParentShowHint = False
+    ShowHint = True
+    Field = 'idTexte'
+  end
+  object sbDetruire: TSpeedButton[2]
+    Left = 16
+    Height = 22
+    Hint = 'Supprimer'
+    Top = 19
+    Width = 22
+    Caption = 'D'
+    OnClick = sbDetruireClick
+  end
+  object sbCopy_to_current: TSpeedButton[4]
+    Left = 203
+    Height = 22
+    Hint = 'Copie vers courant'
+    Top = 0
+    Width = 22
+    Anchors = [akTop, akRight]
+    Caption = '>'
+    OnClick = sbCopy_to_currentClick
+  end
+end

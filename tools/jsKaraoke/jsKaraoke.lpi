@@ -50,6 +50,8 @@
         <Filename Value="Elements/Texte/udkTexte_display.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dkTexte_display"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
         <Filename Value="Elements/Texte/udkTexte_edit.pas"/>
@@ -84,6 +86,39 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
+      <Unit>
+        <Filename Value="Elements/Timing/ufTiming_dsb.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fTiming_dsb"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Elements/Timing/upoolTiming.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Elements/Timing/ublTiming.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Elements/Timing/udkTiming_display.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkTiming_display"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Elements/Timing/udkTiming_edit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkTiming_edit"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Elements/Texte/udkTexte_display_1.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkTexte_display_1"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -93,7 +128,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="Elements/Texte"/>
+      <OtherUnitFiles Value="Elements/Texte;Elements/Timing"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>

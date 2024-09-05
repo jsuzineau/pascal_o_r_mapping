@@ -3,7 +3,7 @@ unit ublTexte;
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
                                                                                 |
-    Copyright 2019 Jean SUZINEAU - MARS42                                       |
+    Copyright 2024 Jean SUZINEAU - MARS42                                       |
                                                                                 |
     This program is free software: you can redistribute it and/or modify        |
     it under the terms of the GNU Lesser General Public License as published by |
@@ -37,14 +37,44 @@ uses
     upool_Ancetre_Ancetre,
     upool,
 
-//Aggregations_Pascal_ubl_uses_details_pas
+    ublTiming,
+    upoolTiming,
+
 
 
     SysUtils, Classes, SqlDB, DB;
 
 type
  TblTexte= class;
-//pattern_aggregation_classe_declaration
+  { ThaTexte__Timing }
+  ThaTexte__Timing
+  =
+   class( ThAggregation)
+   //Gestion du cycle de vie
+   public
+     constructor Create( _Parent: TBatpro_Element;
+                         _Classe_Elements: TBatpro_Element_Class;
+                         _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre); override;
+     destructor  Destroy; override;
+   //Parent
+   public
+     blTexte: TblTexte;  
+   //Chargement de tous les détails
+   public
+     procedure Charge; override;
+   //Suppression
+   public
+     procedure Delete_from_database; override;
+   //Création d'itérateur
+   protected
+     class function Classe_Iterateur: TIterateur_Class; override;
+   public
+     function Iterateur: TIterateur_Timing;
+     function Iterateur_Decroissant: TIterateur_Timing;
+   end;
+
+
+
 
  { TblTexte }
 
@@ -57,7 +87,6 @@ type
     destructor Destroy; override;
   //champs persistants
   public
-    t: String;
     Cyrillique: String;
     Translitteration: String;
     Francais: String;
@@ -68,7 +97,17 @@ type
     function sCle: String; override;
   //Gestion des déconnexions
   public
-//pattern_aggregation_function_Create_Aggregation_declaration
+    procedure Unlink(be: TBatpro_Element); override;
+  //Aggrégations
+  protected
+    procedure Create_Aggregation( Name: String; P: ThAggregation_Create_Params); override;
+  //Aggrégation vers les Timing correspondants
+  private
+    FhaTiming: ThaTexte__Timing;
+    function GethaTiming: ThaTexte__Timing;
+  public
+    property haTiming: ThaTexte__Timing read GethaTiming;
+
   end;
 
  TIterateur_Texte
@@ -151,7 +190,68 @@ begin
      Result:= TIterateur_Texte( Iterateur_interne_Decroissant);
 end;
 
-//pattern_aggregation_classe_implementation
+{ ThaTexte__Timing }
+
+constructor ThaTexte__Timing.Create( _Parent: TBatpro_Element;
+                               _Classe_Elements: TBatpro_Element_Class;
+                               _pool_Ancetre_Ancetre: Tpool_Ancetre_Ancetre);
+begin
+     inherited;
+     if Classe_Elements <> _Classe_Elements
+     then
+         fAccueil_Erreur(  'Erreur à signaler au développeur: '#13#10
+                          +' '+ClassName+'.Create: Classe_Elements <> _Classe_Elements:'#13#10
+                          +' Classe_Elements='+ Classe_Elements.ClassName+#13#10
+                          +'_Classe_Elements='+_Classe_Elements.ClassName
+                          );
+     if Affecte_( blTexte, TblTexte, Parent) then exit;
+end;
+
+destructor ThaTexte__Timing.Destroy;
+begin
+     inherited;
+end;
+
+procedure ThaTexte__Timing.Charge;
+begin
+     poolTiming.Charge_Texte( blTexte.id);
+end;
+
+procedure ThaTexte__Timing.Delete_from_database;
+var
+   I: TIterateur_Timing;
+   bl: TblTiming;
+begin
+     I:= Iterateur_Decroissant;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( bl) then Continue;
+
+          bl.Delete_from_database;//enlève en même temps de cette liste
+          end;
+     finally
+            FreeAndNil( I);
+            end;
+end;
+
+class function ThaTexte__Timing.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_Timing;
+end;
+
+function ThaTexte__Timing.Iterateur: TIterateur_Timing;
+begin
+     Result:= TIterateur_Timing(Iterateur_interne);
+end;
+
+function ThaTexte__Timing.Iterateur_Decroissant: TIterateur_Timing;
+begin
+     Result:= TIterateur_Timing(Iterateur_interne_Decroissant);
+end;
+
+
 
 { TblTexte }
 
@@ -173,7 +273,6 @@ begin
      Champs.ChampDefinitions.NomTable:= 'Texte';
 
      //champs persistants
-     Champs.  String_from_String ( t              , 't'              );
      Champs.  String_from_String ( Cyrillique     , 'Cyrillique'     );
      Champs.  String_from_String ( Translitteration, 'Translitteration');
      Champs.  String_from_String ( Francais       , 'Francais'       );
@@ -194,7 +293,29 @@ begin
      Result:= sCle_ID;
 end;
 
-//pattern_aggregation_accesseurs_implementation
+procedure TblTexte.Unlink( be: TBatpro_Element);
+begin
+     inherited Unlink( be);
+     ;
+
+end;
+
+procedure TblTexte.Create_Aggregation( Name: String; P: ThAggregation_Create_Params);
+begin
+          if 'Timing' = Name then P.Faible( ThaTexte__Timing, TblTiming, poolTiming)
+     else                  inherited Create_Aggregation( Name, P);
+end;
+
+
+function  TblTexte.GethaTiming: ThaTexte__Timing;
+begin
+     if FhaTiming = nil
+     then
+         FhaTiming:= Aggregations['Timing'] as ThaTexte__Timing;
+
+     Result:= FhaTiming;
+end;
+
 
 //Pascal_ubl_implementation_pas_detail
 

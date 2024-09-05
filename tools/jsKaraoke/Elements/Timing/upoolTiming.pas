@@ -1,4 +1,4 @@
-unit upoolNom_de_la_classe;
+unit upoolTiming;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
@@ -31,30 +31,30 @@ uses
   udmBatpro_DataModule,
   uPool,
 
-  ublNom_de_la_classe,
+  ublTiming,
 
 //Aggregations_Pascal_upool_uses_details_pas
 
-  uhfNom_de_la_classe,
+  uhfTiming,
   SysUtils, Classes, DB, SqlDB;
 
 type
 
- { TpoolNom_de_la_classe }
+ { TpoolTiming }
 
- TpoolNom_de_la_classe
+ TpoolTiming
  =
   class( TPool)
     procedure DataModuleCreate(Sender: TObject);  override;
   //Filtre
   public
-    hfNom_de_la_classe: ThfNom_de_la_classe;
+    hfTiming: ThfTiming;
   //Accés général
   public
-    function Get( _id: integer): TblNom_de_la_classe;
+    function Get( _id: integer): TblTiming;
   //Nouveau
   public
-    function Nouveau: TblNom_de_la_classe;
+    function Nouveau: TblTiming;
   //Accés par clé
   protected
     procedure To_Params( _Params: TParams); override;
@@ -67,50 +67,55 @@ type
     function SQLWHERE_ContraintesChamps: String; override;
   //Méthode de création de test
   public
-{Test_Declaration_Key}
-//Details_Pascal_upool_charge_detail_declaration_pas
+    function Test( _t: TDateTime;  _Texte_id: Integer):Integer;
+
+  //Chargement d'un Texte
+  public
+    procedure Charge_Texte( _Texte_id: Integer; _slLoaded: TBatpro_StringList = nil);
+
   //Création d'itérateur
   protected
     class function Classe_Iterateur: TIterateur_Class; override;
   public
-    function Iterateur: TIterateur_Nom_de_la_classe;
-    function Iterateur_Decroissant: TIterateur_Nom_de_la_classe;
+    function Iterateur: TIterateur_Timing;
+    function Iterateur_Decroissant: TIterateur_Timing;
   end;
 
-function poolNom_de_la_classe: TpoolNom_de_la_classe;
+function poolTiming: TpoolTiming;
 
 implementation
 
 
 
 var
-   FpoolNom_de_la_classe: TpoolNom_de_la_classe;
+   FpoolTiming: TpoolTiming;
 
-function poolNom_de_la_classe: TpoolNom_de_la_classe;
+function poolTiming: TpoolTiming;
 begin
-     TPool.class_Get( Result, FpoolNom_de_la_classe, TpoolNom_de_la_classe);
+     TPool.class_Get( Result, FpoolTiming, TpoolTiming);
 //Aggregations_Pascal_upool_affectation_pool_details_pas
 end;
 
-{ TpoolNom_de_la_classe }
+{ TpoolTiming }
 
-procedure TpoolNom_de_la_classe.DataModuleCreate(Sender: TObject);
+procedure TpoolTiming.DataModuleCreate(Sender: TObject);
 begin
-     NomTable:= 'Nom_de_la_table';
-     Classe_Elements:= TblNom_de_la_classe;
-     Classe_Filtre:= ThfNom_de_la_classe;
+     NomTable:= 'Timing';
+     Classe_Elements:= TblTiming;
+     Classe_Filtre:= ThfTiming;
 
      inherited;
 
-     hfNom_de_la_classe:= hf as ThfNom_de_la_classe;
+     hfTiming:= hf as ThfTiming;
+     ChampTri['t']:= +1;
 end;
 
-function TpoolNom_de_la_classe.Get( _id: integer): TblNom_de_la_classe;
+function TpoolTiming.Get( _id: integer): TblTiming;
 begin
      Get_Interne_from_id( _id, Result);
 end;
 
-function TpoolNom_de_la_classe.Nouveau: TblNom_de_la_classe;
+function TpoolTiming.Nouveau: TblTiming;
 begin
      Nouveau_Base( Result);
 end;
@@ -119,7 +124,7 @@ end;
 
 //pattern_Assure_Implementation
 
-procedure TpoolNom_de_la_classe.To_Params( _Params: TParams);
+procedure TpoolTiming.To_Params( _Params: TParams);
 begin
      with _Params
      do
@@ -128,31 +133,49 @@ begin
        end;
 end;
 
-function TpoolNom_de_la_classe.SQLWHERE_ContraintesChamps: String;
+function TpoolTiming.SQLWHERE_ContraintesChamps: String;
 begin
 //pattern_SQLWHERE_ContraintesChamps_Body
 end;
 
-{Test_Implementation_Key}
+function TpoolTiming.Test(_t: TDateTime; _Texte_id: Integer): Integer;
+var                                                 
+   bl: TblTiming;                          
+begin                                               
+     Nouveau_Base( bl);
+       bl.t              := _t            ;
+       bl.Texte_id       := _Texte_id     ;
+     bl.Save_to_database;                            
+     Result:= bl.id;                                 
+end;                                                 
 
-//Details_Pascal_upool_charge_detail_implementation_pas
 
-class function TpoolNom_de_la_classe.Classe_Iterateur: TIterateur_Class;
+procedure TpoolTiming.Charge_Texte( _Texte_id: Integer; _slLoaded: TBatpro_StringList = nil);
+var
+   SQL: String;
 begin
-     Result:= TIterateur_Nom_de_la_classe;
+     SQL:= 'select * from '+NomTable+' where Texte_id = '+IntToStr( _Texte_id);
+
+     Load( SQL, _slLoaded);
 end;
 
-function TpoolNom_de_la_classe.Iterateur: TIterateur_Nom_de_la_classe;
+
+class function TpoolTiming.Classe_Iterateur: TIterateur_Class;
 begin
-     Result:= TIterateur_Nom_de_la_classe( Iterateur_interne);
+     Result:= TIterateur_Timing;
 end;
 
-function TpoolNom_de_la_classe.Iterateur_Decroissant: TIterateur_Nom_de_la_classe;
+function TpoolTiming.Iterateur: TIterateur_Timing;
 begin
-     Result:= TIterateur_Nom_de_la_classe( Iterateur_interne_Decroissant);
+     Result:= TIterateur_Timing( Iterateur_interne);
+end;
+
+function TpoolTiming.Iterateur_Decroissant: TIterateur_Timing;
+begin
+     Result:= TIterateur_Timing( Iterateur_interne_Decroissant);
 end;
 
 initialization
 finalization
-              TPool.class_Destroy( FpoolNom_de_la_classe);
+              TPool.class_Destroy( FpoolTiming);
 end.

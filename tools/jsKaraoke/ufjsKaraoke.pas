@@ -9,6 +9,7 @@ uses
     upooltexte,
     ufTexte_dsb,
     ufChargement,
+    ufTiming_record,
  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls;
 
 type
@@ -18,12 +19,14 @@ type
  TfjsKaraoke = class(TForm)
   bChargement: TButton;
   bTexte: TButton;
+  bRecord: TButton;
   l1: TLabel;
   l2: TLabel;
   l3: TLabel;
   l4: TLabel;
   t: TTimer;
   procedure bChargementClick(Sender: TObject);
+  procedure bRecordClick(Sender: TObject);
   procedure bTexteClick(Sender: TObject);
   procedure FormCreate(Sender: TObject);
   procedure tTimer(Sender: TObject);
@@ -123,6 +126,11 @@ end;
 procedure TfjsKaraoke.bChargementClick(Sender: TObject);
 begin
      fChargement.Show;
+end;
+
+procedure TfjsKaraoke.bRecordClick(Sender: TObject);
+begin
+     fTiming_record.Execute;
 end;
 
 procedure TfjsKaraoke.bTexteClick(Sender: TObject);

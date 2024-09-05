@@ -6,25 +6,10 @@ inherited dkTexte_display: TdkTexte_display
   Caption = 'dkTexte_display'
   ClientHeight = 45
   ClientWidth = 226
-  inherited sSelection: TBatpro_Shape 
+  inherited sSelection: TBatpro_Shape
     Height = 45
   end
-  object clt: TChamp_Label
-    Left = 144
-    Height = 13
-    Top = 2
-    Width = 57
-    Anchors = [akTop, akRight]
-    AutoSize = False
-    Caption = 'clt'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
-    OnClick = FormClick
-    Field = 't'
-  end
-
-  object clCyrillique: TChamp_Label
+  object clCyrillique: TChamp_Label[2]
     Left = 144
     Height = 13
     Top = 2
@@ -38,8 +23,7 @@ inherited dkTexte_display: TdkTexte_display
     OnClick = FormClick
     Field = 'Cyrillique'
   end
-
-  object clTranslitteration: TChamp_Label
+  object clTranslitteration: TChamp_Label[3]
     Left = 144
     Height = 13
     Top = 2
@@ -53,8 +37,7 @@ inherited dkTexte_display: TdkTexte_display
     OnClick = FormClick
     Field = 'Translitteration'
   end
-
-  object clFrancais: TChamp_Label
+  object clFrancais: TChamp_Label[4]
     Left = 144
     Height = 13
     Top = 2
@@ -68,63 +51,46 @@ inherited dkTexte_display: TdkTexte_display
     OnClick = FormClick
     Field = 'Francais'
   end
-
-  object cet: TChamp_Edit
+  object ceCyrillique: TChamp_Edit[5]
     Left = 119
     Height = 21
     Top = 4
     Width = 80
     Anchors = [akTop, akRight]
     AutoSize = False
-    Text = 'cet'
-    ParentColor = False
     ParentShowHint = False
     ShowHint = True
-    Field = 't'
-  end
-
-  object ceCyrillique: TChamp_Edit
-    Left = 119
-    Height = 21
-    Top = 4
-    Width = 80
-    Anchors = [akTop, akRight]
-    AutoSize = False
+    TabOrder = 0
     Text = 'ceCyrillique'
-    ParentColor = False
-    ParentShowHint = False
-    ShowHint = True
     Field = 'Cyrillique'
   end
-
-  object ceTranslitteration: TChamp_Edit
+  object ceTranslitteration: TChamp_Edit[6]
     Left = 119
     Height = 21
     Top = 4
     Width = 80
     Anchors = [akTop, akRight]
     AutoSize = False
-    Text = 'ceTranslitteration'
-    ParentColor = False
     ParentShowHint = False
     ShowHint = True
+    TabOrder = 1
+    Text = 'ceTranslitteration'
     Field = 'Translitteration'
   end
-
-  object ceFrancais: TChamp_Edit
+  object ceFrancais: TChamp_Edit[7]
     Left = 119
     Height = 21
     Top = 4
     Width = 80
     Anchors = [akTop, akRight]
     AutoSize = False
-    Text = 'ceFrancais'
-    ParentColor = False
     ParentShowHint = False
     ShowHint = True
+    TabOrder = 2
+    Text = 'ceFrancais'
     Field = 'Francais'
   end
-  object sbDetruire: TSpeedButton[2]
+  object sbDetruire: TSpeedButton[8]
     Left = 16
     Height = 22
     Hint = 'Supprimer'
@@ -133,7 +99,7 @@ inherited dkTexte_display: TdkTexte_display
     Caption = 'D'
     OnClick = sbDetruireClick
   end
-  object sbCopy_to_current: TSpeedButton[4]
+  object sbCopy_to_current: TSpeedButton[9]
     Left = 203
     Height = 22
     Hint = 'Copie vers courant'

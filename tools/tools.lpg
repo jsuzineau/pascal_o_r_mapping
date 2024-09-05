@@ -19,6 +19,16 @@
           <Mode Name="Release"/>
         </BuildModes>
       </Target>
+      <Target FileName="..\jsWorks\jsWorks.lpi">
+        <BuildModes>
+          <Mode Name="Windows 64 bits Debug" Compile="True"/>
+          <Mode Name="Windows 64 bits Release"/>
+          <Mode Name="Linux Debug"/>
+          <Mode Name="Linux Release"/>
+          <Mode Name="Windows 64 bits Debug Lite"/>
+          <Mode Name="Linux Debug Lite"/>
+        </BuildModes>
+      </Target>
     </Targets>
   </ProjectGroup>
 </CONFIG>

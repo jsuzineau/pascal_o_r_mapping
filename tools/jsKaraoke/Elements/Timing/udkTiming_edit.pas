@@ -1,4 +1,4 @@
-unit udkTexte_display;
+unit udkTiming_edit;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
@@ -29,27 +29,28 @@ uses
     uBatpro_StringList,
     uChamps,
 
-    ublTexte,
-    upoolTexte,
+    ublTiming,
+    upoolTiming,
 
     uDockable, ucBatpro_Shape, ucChamp_Label, ucChamp_Edit,
     ucBatproDateTimePicker, ucChamp_DateTimePicker, ucDockableScrollbox,
+    ucChamp_Lookup_ComboBox,
     Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
     LCLType;
 
 const
-     udkTexte_display_Copy_to_current=0;
+     udkTiming_edit_Copy_to_current=0;
 
 type
 
- { TdkTexte_display }
+ { TdkTiming_edit }
 
- TdkTexte_display
+ TdkTiming_edit
  =
   class(TDockable)
-  clCyrillique: TChamp_Label;
-  clTranslitteration: TChamp_Label;
-  clFrancais: TChamp_Label;
+  cet: TChamp_Edit;
+  ceidTexte: TChamp_Edit;
+//Pascal_udk_edit_declaration_pas
   sbCopy_to_current: TSpeedButton;
   sbDetruire: TSpeedButton;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -63,55 +64,60 @@ type
   procedure SetObjet(const Value: TObject); override;
  //attributs
  private
-   blTexte: TblTexte;
+   blTiming: TblTiming;
  end;
 
 implementation
 
 {$R *.lfm}
 
-{ TdkTexte_display }
+{ TdkTiming_edit }
 
-constructor TdkTexte_display.Create(AOwner: TComponent);
+constructor TdkTiming_edit.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
+     Ajoute_Colonne( cet, 't', 't');
+     Ajoute_Colonne( ceidTexte, 'idTexte', 'idTexte');
+
+//Details_Pascal_udk_edit_Create_AjouteColonne_pas
 end;
 
-destructor TdkTexte_display.Destroy;
+destructor TdkTiming_edit.Destroy;
 begin
      inherited Destroy;
 end;
 
-procedure TdkTexte_display.SetObjet(const Value: TObject);
+procedure TdkTiming_edit.SetObjet(const Value: TObject);
 begin
      inherited SetObjet(Value);
 
-     Affecte( blTexte, TblTexte, Value);
+     Affecte( blTiming, TblTiming, Value);
 
-     Champs_Affecte( blTexte, [clCyrillique,clTranslitteration,clFrancais]);
+     Champs_Affecte( blTiming,[ cet,ceidTexte]);
+     Champs_Affecte( blTiming,[ {Details_Pascal_udk_edit_component_list_pas}]);
 end;
 
-procedure TdkTexte_display.sbDetruireClick(Sender: TObject);
+procedure TdkTiming_edit.sbDetruireClick(Sender: TObject);
 begin
      if IDYES
         <>
-        Application.MessageBox( 'Etes vous sûr de vouloir supprimer Texte ?',
-                                'Suppression de Texte',
+        Application.MessageBox( 'Etes vous sûr de vouloir supprimer Timing ?',
+                                'Suppression de Timing',
                                 MB_ICONQUESTION+MB_YESNO)
      then
          exit;
-     poolTexte .Supprimer( blTexte );
+     poolTiming .Supprimer( blTiming );
      Do_DockableScrollbox_Suppression;
 end;
 
-procedure TdkTexte_display.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TdkTiming_edit.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
      inherited;
 end;
 
-procedure TdkTexte_display.sbCopy_to_currentClick(Sender: TObject);
+procedure TdkTiming_edit.sbCopy_to_currentClick(Sender: TObject);
 begin
-     Envoie_Message( udkTexte_display_Copy_to_current);
+     Envoie_Message( udkTiming_edit_Copy_to_current);
 end;
 
 end.

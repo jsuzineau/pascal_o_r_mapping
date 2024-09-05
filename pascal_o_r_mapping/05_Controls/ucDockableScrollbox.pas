@@ -115,6 +115,7 @@ type
     function Index_from_iDockable( _iDockable: Integer): Integer;
     function iDockable_from_Index( _Index: Integer): Integer;
     function Index_Visible( _Index: Integer): Boolean;
+    procedure Center_Index_Visible( _Index: Integer);
   // Liste des dockables et de leurs panels
   public
     slDockable: TBatpro_StringList;
@@ -1229,6 +1230,13 @@ begin
      TObject( bl):= nil;
 end;
 
+procedure TDockableScrollbox.Center_Index_Visible(_Index: Integer);
+begin
+     sl_Offset:= _Index-slDockable.Count div 2;
+     Verifie_sl_Offset;
+     _from_Scroll;
+end;
+
 procedure TDockableScrollbox.SetIndex(const Value: Integer);
 var
    iDockable: Integer;
@@ -1236,11 +1244,7 @@ var
 begin
      if not Index_Visible( Value)
      then
-         begin
-         sl_Offset:= Value-slDockable.Count div 2;
-         Verifie_sl_Offset;
-         _from_Scroll;
-         end;
+         Center_Index_Visible( Value);
 
      iDockable:= iDockable_from_Index( Value);
 

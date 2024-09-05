@@ -3,7 +3,7 @@ unit upoolTexte;
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
                                                                                 |
-    Copyright 2019 Jean SUZINEAU - MARS42                                       |
+    Copyright 2024 Jean SUZINEAU - MARS42                                       |
                                                                                 |
     This program is free software: you can redistribute it and/or modify        |
     it under the terms of the GNU Lesser General Public License as published by |
@@ -33,7 +33,9 @@ uses
 
   ublTexte,
 
-//Aggregations_Pascal_upool_uses_details_pas
+    ublTiming,
+    upoolTiming,
+
 
   uhfTexte,
   SysUtils, Classes, DB, SqlDB;
@@ -69,7 +71,7 @@ type
     function SQLWHERE_ContraintesChamps: String; override;
   //Méthode de création de test
   public
-    function Test( _t: String;  _Cyrillique: String;  _Translitteration: String;  _Francais: String):Integer;
+    function Test( _Cyrillique: String;  _Translitteration: String;  _Francais: String):Integer;
 
 //Details_Pascal_upool_charge_detail_declaration_pas
   //Création d'itérateur
@@ -92,7 +94,11 @@ var
 function poolTexte: TpoolTexte;
 begin
      TPool.class_Get( Result, FpoolTexte, TpoolTexte);
-//Aggregations_Pascal_upool_affectation_pool_details_pas
+
+     if nil = ublTiming_poolTexte
+     then
+         ublTiming_poolTexte:= Result;
+
 end;
 
 { TpoolTexte }
@@ -147,12 +153,11 @@ begin
 //pattern_SQLWHERE_ContraintesChamps_Body
 end;
 
-function TpoolTexte.Test( _t: String;  _Cyrillique: String;  _Translitteration: String;  _Francais: String):Integer;
+function TpoolTexte.Test( _Cyrillique: String;  _Translitteration: String;  _Francais: String):Integer;
 var                                                 
    bl: TblTexte;                          
 begin                                               
           Nouveau_Base( bl);                        
-       bl.t              := _t            ;
        bl.Cyrillique     := _Cyrillique   ;
        bl.Translitteration:= _Translitteration;
        bl.Francais       := _Francais     ;

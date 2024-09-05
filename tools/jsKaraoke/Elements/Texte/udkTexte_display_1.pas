@@ -1,4 +1,4 @@
-unit udkTexte_display;
+unit udkTexte_display_1;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
@@ -39,19 +39,16 @@ uses
 
 const
      udkTexte_display_Copy_to_current=0;
+     udkTexte_display_1_Field='Cyrillique';//Translitteration //Francais
 
 type
 
- { TdkTexte_display }
+ { TdkTexte_display_1 }
 
- TdkTexte_display
+ TdkTexte_display_1
  =
   class(TDockable)
-  clCyrillique: TChamp_Label;
-  clTranslitteration: TChamp_Label;
-  clFrancais: TChamp_Label;
-  sbCopy_to_current: TSpeedButton;
-  sbDetruire: TSpeedButton;
+  cl: TChamp_Label;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   procedure sbCopy_to_currentClick(Sender: TObject);
   procedure sbDetruireClick(Sender: TObject);
@@ -72,26 +69,27 @@ implementation
 
 { TdkTexte_display }
 
-constructor TdkTexte_display.Create(AOwner: TComponent);
+constructor TdkTexte_display_1.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
 end;
 
-destructor TdkTexte_display.Destroy;
+destructor TdkTexte_display_1.Destroy;
 begin
      inherited Destroy;
 end;
 
-procedure TdkTexte_display.SetObjet(const Value: TObject);
+procedure TdkTexte_display_1.SetObjet(const Value: TObject);
 begin
      inherited SetObjet(Value);
 
      Affecte( blTexte, TblTexte, Value);
 
-     Champs_Affecte( blTexte, [clCyrillique,clTranslitteration,clFrancais]);
+     cl.Field:= udkTexte_display_1_Field;
+     Champs_Affecte( blTexte, [cl]);
 end;
 
-procedure TdkTexte_display.sbDetruireClick(Sender: TObject);
+procedure TdkTexte_display_1.sbDetruireClick(Sender: TObject);
 begin
      if IDYES
         <>
@@ -104,12 +102,12 @@ begin
      Do_DockableScrollbox_Suppression;
 end;
 
-procedure TdkTexte_display.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TdkTexte_display_1.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
      inherited;
 end;
 
-procedure TdkTexte_display.sbCopy_to_currentClick(Sender: TObject);
+procedure TdkTexte_display_1.sbCopy_to_currentClick(Sender: TObject);
 begin
      Envoie_Message( udkTexte_display_Copy_to_current);
 end;

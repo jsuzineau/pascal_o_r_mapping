@@ -1,21 +1,20 @@
-object fTexte_dsb: TfTexte_dsb
+object fTiming_dsb: TfTiming_dsb
   Left = 686
   Height = 451
   Top = 352
   Width = 740
-  Caption = 'Texte'
+  Caption = 'Timing'
   ClientHeight = 451
   ClientWidth = 740
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '3.4.0.0'
+  LCLVersion = '2.2.4.0'
   object Splitter1: TSplitter
     Cursor = crVSplit
     Left = 0
     Height = 6
-    Top = 411
+    Top = 252
     Width = 740
     Align = alBottom
     Color = clLime
@@ -24,8 +23,8 @@ object fTexte_dsb: TfTexte_dsb
   end
   object pc: TPageControl
     Left = 0
-    Height = 34
-    Top = 417
+    Height = 193
+    Top = 258
     Width = 740
     ActivePage = tsPascal_uf_pc_dfm_Aggregation
     Align = alBottom
@@ -38,18 +37,18 @@ object fTexte_dsb: TfTexte_dsb
   end
   object Panel1: TPanel
     Left = 0
-    Height = 411
+    Height = 252
     Top = 0
     Width = 740
     Align = alClient
     Caption = 'Panel1'
-    ClientHeight = 411
+    ClientHeight = 252
     ClientWidth = 740
     TabOrder = 2
     object Panel2: TPanel
       Left = 1
       Height = 41
-      Top = 369
+      Top = 210
       Width = 738
       Align = alBottom
       ClientHeight = 41
@@ -101,8 +100,8 @@ object fTexte_dsb: TfTexte_dsb
         Top = 8
         Width = 75
         Caption = 'Nouveau'
-        TabOrder = 1
         OnClick = bNouveauClick
+        TabOrder = 1
       end
       object bSupprimer: TButton
         Left = 576
@@ -110,8 +109,8 @@ object fTexte_dsb: TfTexte_dsb
         Top = 8
         Width = 75
         Caption = 'Supprimer'
-        TabOrder = 2
         OnClick = bSupprimerClick
+        TabOrder = 2
       end
     end
     object Panel3: TPanel
@@ -142,15 +141,15 @@ object fTexte_dsb: TfTexte_dsb
     end
     object dsb: TDockableScrollbox
       Left = 1
-      Height = 338
+      Height = 179
       Top = 31
       Width = 738
       Align = alClient
       Caption = 'dsb'
-      ClientHeight = 338
+      ClientHeight = 179
       ClientWidth = 738
       TabOrder = 2
-      HauteurLigne = 101
+      HauteurLigne = 32
       BordureLignes = True
       Zebrage = False
       Zebrage1 = 15138790
@@ -158,12 +157,5 @@ object fTexte_dsb: TfTexte_dsb
       OnSelect = dsbSelect
       _LectureSeule = False
     end
-  end
-  object tShow: TTimer
-    Enabled = False
-    Interval = 10
-    OnTimer = tShowTimer
-    Left = 537
-    Top = 52
   end
 end
