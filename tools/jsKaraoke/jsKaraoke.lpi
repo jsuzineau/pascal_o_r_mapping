@@ -104,6 +104,7 @@
         <Filename Value="Elements/Timing/udkTiming_display.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dkTiming_display"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>

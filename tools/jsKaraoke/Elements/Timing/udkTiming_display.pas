@@ -47,10 +47,8 @@ type
  TdkTiming_display
  =
   class(TDockable)
-  clt: TChamp_Label;
-  clidTexte: TChamp_Label;
-  sbCopy_to_current: TSpeedButton;
-  sbDetruire: TSpeedButton;
+  clT: TChamp_Label;
+  clTexte: TChamp_Label;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   procedure sbCopy_to_currentClick(Sender: TObject);
   procedure sbDetruireClick(Sender: TObject);
@@ -87,7 +85,7 @@ begin
 
      Affecte( blTiming, TblTiming, Value);
 
-     Champs_Affecte( blTiming, [clt,clidTexte]);
+     Champs_Affecte( blTiming, [clT, clTexte]);
 end;
 
 procedure TdkTiming_display.sbDetruireClick(Sender: TObject);

@@ -57,7 +57,7 @@ type
     destructor Destroy; override;
   //champs persistants
   public
-    t: TDateTime;
+    t: TDateTime;cT: TChamp;
   //Texte
   private
     FTexte_id: Integer;
@@ -189,8 +189,8 @@ begin
      Champs.ChampDefinitions.NomTable:= 'Timing';
 
      //champs persistants
-     DateTime_from_       ( t      , 't'      );
-
+     cT:= DateTime_from_( t, 't');
+     cT.Definition.Format_DateTime:= 'hh:nn:ss';
 
      FTexte_bl:= nil;
      cTexte_id:= Integer_from_Integer( FTexte_id, 'Texte_id');
@@ -263,6 +263,7 @@ begin
      then 
          Texte_bl.Aggregations.by_Name[ 'Timing'].Ajoute(Self);
      Connect_To( FTexte_bl);
+     Texte_Change;
 end;
 
 procedure TblTiming.Texte_Aggrege;

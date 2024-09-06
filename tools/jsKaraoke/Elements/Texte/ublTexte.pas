@@ -273,7 +273,7 @@ begin
      Champs.ChampDefinitions.NomTable:= 'Texte';
 
      //champs persistants
-     Champs.  String_from_String ( Cyrillique     , 'Cyrillique'     );
+     cLibelle:= Champs.  String_from_String ( Cyrillique     , 'Cyrillique'     );
      Champs.  String_from_String ( Translitteration, 'Translitteration');
      Champs.  String_from_String ( Francais       , 'Francais'       );
 
