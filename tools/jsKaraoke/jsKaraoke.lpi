@@ -120,6 +120,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
+      <Unit>
+        <Filename Value="Elements/Timing/ufTiming_Play.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fTiming_Play"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

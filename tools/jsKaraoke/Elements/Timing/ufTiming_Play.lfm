@@ -1,0 +1,152 @@
+object fTiming_Play: TfTiming_Play
+  Left = 557
+  Height = 451
+  Top = 269
+  Width = 740
+  Caption = 'Texte'
+  ClientHeight = 451
+  ClientWidth = 740
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  OnShow = FormShow
+  Position = poScreenCenter
+  LCLVersion = '3.4.0.0'
+  object Panel1: TPanel
+    Left = 0
+    Height = 451
+    Top = 0
+    Width = 740
+    Align = alClient
+    Caption = 'Panel1'
+    ClientHeight = 451
+    ClientWidth = 740
+    TabOrder = 0
+    object Panel3: TPanel
+      Left = 1
+      Height = 30
+      Top = 1
+      Width = 738
+      Align = alTop
+      ClientHeight = 30
+      ClientWidth = 738
+      TabOrder = 0
+      object Label3: TLabel
+        Left = 11
+        Height = 15
+        Top = 3
+        Width = 30
+        Caption = 'Start :'
+      end
+      object lStart: TLabel
+        Left = 47
+        Height = 15
+        Top = 3
+        Width = 27
+        Caption = 'lStart'
+      end
+      object bRecord: TButton
+        Left = 227
+        Height = 25
+        Top = 2
+        Width = 75
+        Caption = 'Record'
+        TabOrder = 0
+        OnClick = bRecordClick
+      end
+      object bPlay: TButton
+        Left = 328
+        Height = 25
+        Top = 2
+        Width = 75
+        Caption = 'Play'
+        TabOrder = 1
+        OnClick = bPlayClick
+      end
+    end
+    object dsb: TDockableScrollbox
+      Left = 1
+      Height = 419
+      Top = 31
+      Width = 425
+      Align = alClient
+      Caption = 'dsb'
+      ClientHeight = 419
+      ClientWidth = 425
+      TabOrder = 1
+      HauteurLigne = 135
+      BordureLignes = True
+      Zebrage = False
+      Zebrage1 = 15138790
+      Zebrage2 = 16777192
+      OnSelect = dsbSelect
+      _LectureSeule = False
+    end
+    object Panel4: TPanel
+      Left = 426
+      Height = 419
+      Top = 31
+      Width = 5
+      Align = alRight
+      Color = clLime
+      ParentBackground = False
+      ParentColor = False
+      TabOrder = 2
+    end
+    object Splitter2: TSplitter
+      Left = 431
+      Height = 419
+      Top = 31
+      Width = 5
+      Align = alRight
+      Color = clLime
+      ParentColor = False
+      ResizeAnchor = akRight
+    end
+    object dsbTiming: TDockableScrollbox
+      Left = 436
+      Height = 419
+      Top = 31
+      Width = 303
+      Align = alRight
+      Caption = 'dsbTiming'
+      ClientHeight = 419
+      ClientWidth = 303
+      TabOrder = 4
+      HauteurLigne = 45
+      BordureLignes = True
+      Zebrage = False
+      Zebrage1 = 15138790
+      Zebrage2 = 16777192
+      OnSelect = dsbTimingSelect
+      _LectureSeule = False
+    end
+  end
+  object tShow: TTimer
+    Enabled = False
+    Interval = 10
+    OnTimer = tShowTimer
+    Left = 537
+    Top = 52
+  end
+  object tPlay: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = tPlayTimer
+    Left = 584
+    Top = 56
+  end
+  object al: TActionList
+    Left = 517
+    Top = 9
+    object aPlus: TAction
+      Caption = 'aPlus'
+      OnExecute = aPlusExecute
+      ShortCut = 107
+    end
+    object aMoins: TAction
+      Caption = 'aMoins'
+      OnExecute = aMoinsExecute
+      ShortCut = 109
+    end
+  end
+end

@@ -93,6 +93,15 @@ object fjsKaraoke: TfjsKaraoke
     TabOrder = 2
     OnClick = bRecordClick
   end
+  object bPlay: TButton
+    Left = 116
+    Height = 25
+    Top = 120
+    Width = 75
+    Caption = 'Play'
+    TabOrder = 3
+    OnClick = bPlayClick
+  end
   object t: TTimer
     Interval = 500
     OnTimer = tTimer

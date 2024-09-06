@@ -1,0 +1,70 @@
+inherited dkTexte_display_3: TdkTexte_display_3
+  Left = 704
+  Height = 135
+  Top = 420
+  Width = 226
+  Caption = 'dkTexte_display_3'
+  ClientHeight = 135
+  ClientWidth = 226
+  inherited sBackground: TShape
+    Height = 730
+    OnMouseDown = sSelectionMouseDown
+  end
+  inherited sSelection: TBatpro_Shape
+    Height = 135
+  end
+  object clCyrillique: TChamp_Label[2]
+    Left = 12
+    Height = 22
+    Top = 2
+    Width = 212
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'clCyrillique'
+    Font.Color = clWindowText
+    Font.Height = -19
+    Font.Name = 'Arial'
+    ParentColor = False
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    WordWrap = True
+    OnClick = FormClick
+    Field = 'Cyrillique'
+  end
+  object clTranslitteration: TChamp_Label[3]
+    Left = 12
+    Height = 22
+    Top = 47
+    Width = 212
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'clTranslitteration'
+    Font.Color = clWindowText
+    Font.Height = -19
+    Font.Name = 'Arial'
+    ParentColor = False
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    WordWrap = True
+    OnClick = FormClick
+    Field = 'Translitteration'
+  end
+  object clFrancais: TChamp_Label[4]
+    Left = 12
+    Height = 22
+    Top = 92
+    Width = 212
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'clFrancais'
+    Font.Color = clWindowText
+    Font.Height = -19
+    Font.Name = 'Arial'
+    ParentColor = False
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    WordWrap = True
+    OnClick = FormClick
+    Field = 'Francais'
+  end
+end

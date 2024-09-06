@@ -12,7 +12,7 @@ uses
  Interfaces, // this includes the LCL widgetset
  Forms, ufjsKaraoke, ublTexte, upoolTexte, uhfTexte, ufTexte_dsb, udkTexte_edit,
  udkTexte_display, udkTexte_display_1, ufChargement, udkTiming_edit,
- udkTiming_display, ublTiming, upoolTiming, ufTiming_dsb
+ udkTiming_display, ublTiming, upoolTiming, ufTiming_dsb, ufTiming_Play
  { you can add units after this };
 
 {$R *.res}

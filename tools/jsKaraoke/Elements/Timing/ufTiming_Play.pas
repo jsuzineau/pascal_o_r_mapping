@@ -1,4 +1,4 @@
-unit ufTiming_record;
+unit ufTiming_Play;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
@@ -37,7 +37,7 @@ uses
     //Pascal_uf_pc_uses_pas_aggregation
 
     uDockable,
-    udkTexte_display_1,
+    udkTexte_display_3,
     udkTiming_display,
     ucDockableScrollbox,
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
@@ -46,31 +46,23 @@ uses
 
 type
 
- { TfTiming_record }
+ { TfTiming_Play }
 
- TfTiming_record
+ TfTiming_Play
  =
   class(TForm)
    aMoins: TAction;
    aPlus: TAction;
    al: TActionList;
-   bRecord: TButton;
    bPlay: TButton;
+   bRecord: TButton;
     dsb: TDockableScrollbox;
     dsbTiming: TDockableScrollbox;
     Label3: TLabel;
     lStart: TLabel;
-    Panel4: TPanel;
     Panel1: TPanel;
-    Panel2: TPanel;
-    bImprimer: TBitBtn;
-    Label1: TLabel;
-    lNbTotal: TLabel;
     Panel3: TPanel;
-    Label2: TLabel;
-    lTri: TLabel;
-    bNouveau: TButton;
-    bSupprimer: TButton;
+    Panel4: TPanel;
     Splitter2: TSplitter;
     tPlay: TTimer;
     tShow: TTimer;
@@ -82,15 +74,9 @@ type
     procedure dsbTimingSelect(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure bNouveauClick(Sender: TObject);
-    procedure bSupprimerClick(Sender: TObject);
-    procedure bImprimerClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure tPlayTimer(Sender: TObject);
     procedure tShowTimer(Sender: TObject);
-  private
-    { Déclarations privées }
-    procedure NbTotal_Change;
   public
     { Déclarations publiques }
     pool: TpoolTexte;
@@ -118,29 +104,28 @@ type
     blPlay, blPlay_old: TblTiming;
   end;
 
-function fTiming_record: TfTiming_record;
+function fTiming_Play: TfTiming_Play;
 
 implementation
 
 {$R *.lfm}
 
 var
-   FfTiming_record: TfTiming_record;
+   FfTiming_Play: TfTiming_Play;
 
-function fTiming_record: TfTiming_record;
+function fTiming_Play: TfTiming_Play;
 begin
-     Clean_Get( Result, FfTiming_record, TfTiming_record);
+     Clean_Get( Result, FfTiming_Play, TfTiming_Play);
 end;
 
-{ TfTiming_record }
+{ TfTiming_Play }
 
-procedure TfTiming_record.FormCreate(Sender: TObject);
+procedure TfTiming_Play.FormCreate(Sender: TObject);
 begin
      pool:= poolTexte;
      inherited;
      EntreeLigneColonne_:= False;
-     pool.pFiltreChange.Abonne( Self, @NbTotal_Change);
-     dsb.Classe_dockable:= TdkTexte_display_1;
+     dsb.Classe_dockable:= TdkTexte_display_3;
      dsb.Classe_Elements:= TblTexte;
      dsbTiming.Classe_dockable:= TdkTiming_display;
      dsbTiming.Classe_Elements:= TblTiming;
@@ -152,15 +137,14 @@ begin
      blPlay_old:= nil;
 end;
 
-procedure TfTiming_record.FormDestroy(Sender: TObject);
+procedure TfTiming_Play.FormDestroy(Sender: TObject);
 begin
      FreeAndNil( I);
      FreeAndNil( slTiming);
-     pool.pFiltreChange.Desabonne( Self, @NbTotal_Change);
      inherited;
 end;
 
-procedure TfTiming_record.dsbSelect(Sender: TObject);
+procedure TfTiming_Play.dsbSelect(Sender: TObject);
 var
    iDockable: Integer;
    dk: TDockable;
@@ -195,7 +179,7 @@ begin
             end;
 end;
 
-procedure TfTiming_record.dsbTimingSelect(Sender: TObject);
+procedure TfTiming_Play.dsbTimingSelect(Sender: TObject);
 var
    bl: TblTiming;
 begin
@@ -206,36 +190,36 @@ begin
      Start:= Now - bl.t;
 end;
 
-procedure TfTiming_record.lStart_from_Start;
+procedure TfTiming_Play.lStart_from_Start;
 begin
      lStart.Caption:= FormatDateTime( 'hh:nn:ss', Start);
 end;
 
-procedure TfTiming_record.aPlusExecute(Sender: TObject);
+procedure TfTiming_Play.aPlusExecute(Sender: TObject);
 begin
      Start:= Start+(1/3600)/24;
      lStart_from_Start;
 end;
 
-procedure TfTiming_record.aMoinsExecute(Sender: TObject);
+procedure TfTiming_Play.aMoinsExecute(Sender: TObject);
 begin
      Start:= Start-(1/3600)/24;
      lStart_from_Start;
 end;
 
-procedure TfTiming_record.Take_Start;
+procedure TfTiming_Play.Take_Start;
 begin
      Start:= Now;
      lStart_from_Start;
 end;
 
-procedure TfTiming_record.bRecordClick(Sender: TObject);
+procedure TfTiming_Play.bRecordClick(Sender: TObject);
 begin
      Take_Start;
      poolTiming.Vider_table;
 end;
 
-procedure TfTiming_record.bPlayClick(Sender: TObject);
+procedure TfTiming_Play.bPlayClick(Sender: TObject);
 begin
      poolTiming.ToutCharger( slTiming);
      poolTiming.TrierListe( slTiming);
@@ -246,7 +230,7 @@ begin
      blPlay_old:= nil;
 end;
 
-procedure TfTiming_record.tPlayTimer(Sender: TObject);
+procedure TfTiming_Play.tPlayTimer(Sender: TObject);
   procedure Suivant;
   begin
        if I.Continuer
@@ -267,7 +251,7 @@ procedure TfTiming_record.tPlayTimer(Sender: TObject);
      Timing_Index: Integer;
   begin
        try
-          Select_running:= True; //pour désactiver TfTiming_record.dsbSelect(Sender: TObject);
+          Select_running:= True; //pour désactiver TfTiming_Play.dsbSelect(Sender: TObject);
 
           Texte_Index:= poolTexte.slFiltre.IndexOfObject( blPlay.Texte_bl);
           dsb.Index:= Texte_Index;
@@ -291,12 +275,7 @@ begin
 
 end;
 
-procedure TfTiming_record.NbTotal_Change;
-begin
-     lNbTotal.Caption:= IntToStr( pool.slFiltre.Count);
-end;
-
-function TfTiming_record.Execute: Boolean;
+function TfTiming_Play.Execute: Boolean;
 begin
      pool.ToutCharger;
      _from_pool;
@@ -307,75 +286,33 @@ begin
      Show;
 end;
 
-procedure TfTiming_record._from_pool;
+procedure TfTiming_Play._from_pool;
 begin
      dsb.sl:= pool.slFiltre;
      //dsb.sl:= pool.T;
 end;
 
-procedure TfTiming_record._from_Texte;
+procedure TfTiming_Play._from_Texte;
 begin
      Champs_Affecte( blTexte,[ ]);//laissé vide pour l'instant
 
      //Pascal_uf_pc_charge_pas_Aggregation
 end;
 
-procedure TfTiming_record.bNouveauClick(Sender: TObject);
-var
-   blNouveau: TblTexte;
-begin
-     blNouveau:= pool.Nouveau;
-     if blNouveau = nil then exit;
-
-     dsb.sl:= nil;
-     _from_pool;
-end;
-
-procedure TfTiming_record.bSupprimerClick(Sender: TObject);
-var
-   bl: TblTexte;
-begin
-     dsb.Get_bl( bl);
-     if bl = nil then exit;
-
-     if mrYes
-        <>
-        MessageDlg( 'Êtes vous sûr de vouloir supprimer la ligne ?'#13#10
-                    +bl.GetLibelle,
-                    mtConfirmation, [mbYes, mbNo], 0)
-     then
-         exit;
-
-     pool.Supprimer( bl);
-     _from_pool;
-end;
-
-procedure TfTiming_record.bImprimerClick(Sender: TObject);
-begin
-     {
-     Batpro_Ligne_Printer.Execute( 'fTiming_record.stw',
-                                   'Texte',[],[],[],[],
-                                   ['Texte'],
-                                   [poolTexte.slFiltre],
-                                   [ nil],
-                                   [ nil]);
-     }
-end;
-
-procedure TfTiming_record.FormShow(Sender: TObject);
+procedure TfTiming_Play.FormShow(Sender: TObject);
 begin
      tShow.Enabled:= True;
 end;
 
-procedure TfTiming_record.tShowTimer(Sender: TObject);
+procedure TfTiming_Play.tShowTimer(Sender: TObject);
 begin
      tShow.Enabled:= False;
      _from_pool;
 end;
 
 initialization
-              Clean_Create ( FfTiming_record, TfTiming_record);
+              Clean_Create ( FfTiming_Play, TfTiming_Play);
 finalization
-              Clean_Destroy( FfTiming_record);
+              Clean_Destroy( FfTiming_Play);
 end.
 

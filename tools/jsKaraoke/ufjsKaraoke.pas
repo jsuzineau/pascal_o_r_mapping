@@ -10,6 +10,7 @@ uses
     ufTexte_dsb,
     ufChargement,
     ufTiming_record,
+    ufTiming_Play,
  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls;
 
 type
@@ -20,12 +21,14 @@ type
   bChargement: TButton;
   bTexte: TButton;
   bRecord: TButton;
+  bPlay: TButton;
   l1: TLabel;
   l2: TLabel;
   l3: TLabel;
   l4: TLabel;
   t: TTimer;
   procedure bChargementClick(Sender: TObject);
+  procedure bPlayClick(Sender: TObject);
   procedure bRecordClick(Sender: TObject);
   procedure bTexteClick(Sender: TObject);
   procedure FormCreate(Sender: TObject);
@@ -128,14 +131,19 @@ begin
      fChargement.Show;
 end;
 
+procedure TfjsKaraoke.bTexteClick(Sender: TObject);
+begin
+     fTexte_dsb.Execute;
+end;
+
 procedure TfjsKaraoke.bRecordClick(Sender: TObject);
 begin
      fTiming_record.Execute;
 end;
 
-procedure TfjsKaraoke.bTexteClick(Sender: TObject);
+procedure TfjsKaraoke.bPlayClick(Sender: TObject);
 begin
-     fTexte_dsb.Execute;
+     fTiming_Play.Execute;
 end;
 
 end.

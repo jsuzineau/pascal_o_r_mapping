@@ -11,45 +11,20 @@ object fTiming_record: TfTiming_record
   OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '3.4.0.0'
-  object Splitter1: TSplitter
-    Cursor = crVSplit
-    Left = 0
-    Height = 6
-    Top = 411
-    Width = 740
-    Align = alBottom
-    Color = clLime
-    ParentColor = False
-    ResizeAnchor = akBottom
-  end
-  object pc: TPageControl
-    Left = 0
-    Height = 34
-    Top = 417
-    Width = 740
-    ActivePage = tsPascal_uf_pc_dfm_Aggregation
-    Align = alBottom
-    TabIndex = 0
-    TabOrder = 1
-    object tsPascal_uf_pc_dfm_Aggregation: TTabSheet
-      Caption = 'tsPascal_uf_pc_dfm_Aggregation'
-      TabVisible = False
-    end
-  end
   object Panel1: TPanel
     Left = 0
-    Height = 411
+    Height = 451
     Top = 0
     Width = 740
     Align = alClient
     Caption = 'Panel1'
-    ClientHeight = 411
+    ClientHeight = 451
     ClientWidth = 740
-    TabOrder = 2
+    TabOrder = 0
     object Panel2: TPanel
       Left = 1
       Height = 41
-      Top = 369
+      Top = 409
       Width = 738
       Align = alBottom
       ClientHeight = 41
@@ -174,12 +149,12 @@ object fTiming_record: TfTiming_record
     end
     object dsb: TDockableScrollbox
       Left = 1
-      Height = 338
+      Height = 378
       Top = 31
       Width = 425
       Align = alClient
       Caption = 'dsb'
-      ClientHeight = 338
+      ClientHeight = 378
       ClientWidth = 425
       TabOrder = 2
       HauteurLigne = 45
@@ -192,12 +167,12 @@ object fTiming_record: TfTiming_record
     end
     object dsbTiming: TDockableScrollbox
       Left = 436
-      Height = 338
+      Height = 378
       Top = 31
       Width = 303
       Align = alRight
       Caption = 'dsbTiming'
-      ClientHeight = 338
+      ClientHeight = 378
       ClientWidth = 303
       TabOrder = 3
       HauteurLigne = 45
@@ -210,7 +185,7 @@ object fTiming_record: TfTiming_record
     end
     object Splitter2: TSplitter
       Left = 431
-      Height = 338
+      Height = 378
       Top = 31
       Width = 5
       Align = alRight
@@ -220,7 +195,7 @@ object fTiming_record: TfTiming_record
     end
     object Panel4: TPanel
       Left = 426
-      Height = 338
+      Height = 378
       Top = 31
       Width = 5
       Align = alRight
