@@ -1,0 +1,25 @@
+object fPlay: TfPlay
+  Left = 678
+  Height = 240
+  Top = 131
+  Width = 320
+  Caption = 'fPlay'
+  ClientHeight = 240
+  ClientWidth = 320
+  DesignTimePPI = 94
+  LCLVersion = '3.4.0.0'
+  object m: TMemo
+    Left = 0
+    Height = 240
+    Top = 0
+    Width = 320
+    Align = alClient
+    Font.Height = -31
+    Font.Name = 'Arial'
+    Lines.Strings = (
+      'm'
+    )
+    ParentFont = False
+    TabOrder = 0
+  end
+end

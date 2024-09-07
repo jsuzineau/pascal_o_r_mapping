@@ -39,7 +39,9 @@ uses
 
 const
      udkTexte_display_Copy_to_current=0;
-     udkTexte_display_1_Field='Cyrillique';//Translitteration //Francais
+var
+   //udkTexte_display_1_Field='Cyrillique';//Translitteration //Francais
+   udkTexte_display_1_Field:String='Translitteration';//Francais
 
 type
 

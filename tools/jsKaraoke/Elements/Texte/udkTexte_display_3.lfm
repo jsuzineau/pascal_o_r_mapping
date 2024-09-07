@@ -1,21 +1,21 @@
 inherited dkTexte_display_3: TdkTexte_display_3
   Left = 704
-  Height = 135
+  Height = 97
   Top = 420
   Width = 226
   Caption = 'dkTexte_display_3'
-  ClientHeight = 135
+  ClientHeight = 97
   ClientWidth = 226
   inherited sBackground: TShape
-    Height = 730
+    Height = 692
     OnMouseDown = sSelectionMouseDown
   end
   inherited sSelection: TBatpro_Shape
-    Height = 135
+    Height = 97
   end
   object clCyrillique: TChamp_Label[2]
     Left = 12
-    Height = 22
+    Height = 23
     Top = 2
     Width = 212
     Anchors = [akTop, akLeft, akRight]
@@ -33,8 +33,8 @@ inherited dkTexte_display_3: TdkTexte_display_3
   end
   object clTranslitteration: TChamp_Label[3]
     Left = 12
-    Height = 22
-    Top = 47
+    Height = 23
+    Top = 31
     Width = 212
     Anchors = [akTop, akLeft, akRight]
     Caption = 'clTranslitteration'
@@ -51,8 +51,8 @@ inherited dkTexte_display_3: TdkTexte_display_3
   end
   object clFrancais: TChamp_Label[4]
     Left = 12
-    Height = 22
-    Top = 92
+    Height = 23
+    Top = 60
     Width = 212
     Anchors = [akTop, akLeft, akRight]
     Caption = 'clFrancais'

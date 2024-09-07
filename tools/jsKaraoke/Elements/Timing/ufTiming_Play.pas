@@ -37,8 +37,10 @@ uses
     //Pascal_uf_pc_uses_pas_aggregation
 
     uDockable,
+    udkTexte_display_1,
     udkTexte_display_3,
     udkTiming_display,
+    ufPlay,
     ucDockableScrollbox,
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DBCtrls, Grids, DBGrids, ActnList, StdCtrls, ComCtrls, Buttons,
@@ -56,6 +58,9 @@ type
    al: TActionList;
    bPlay: TButton;
    bRecord: TButton;
+   bfPlay: TButton;
+   cbAccrocher_Timing: TCheckBox;
+   cb: TComboBox;
     dsb: TDockableScrollbox;
     dsbTiming: TDockableScrollbox;
     Label3: TLabel;
@@ -68,8 +73,10 @@ type
     tShow: TTimer;
     procedure aMoinsExecute(Sender: TObject);
     procedure aPlusExecute(Sender: TObject);
+    procedure bfPlayClick(Sender: TObject);
     procedure bPlayClick(Sender: TObject);
     procedure bRecordClick(Sender: TObject);
+    procedure cbSelect(Sender: TObject);
     procedure dsbSelect(Sender: TObject);
     procedure dsbTimingSelect(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -125,7 +132,7 @@ begin
      pool:= poolTexte;
      inherited;
      EntreeLigneColonne_:= False;
-     dsb.Classe_dockable:= TdkTexte_display_3;
+     dsb.Classe_dockable:= TdkTexte_display_1;//TdkTexte_display_3;
      dsb.Classe_Elements:= TblTexte;
      dsbTiming.Classe_dockable:= TdkTiming_display;
      dsbTiming.Classe_Elements:= TblTiming;
@@ -201,6 +208,11 @@ begin
      lStart_from_Start;
 end;
 
+procedure TfTiming_Play.bfPlayClick(Sender: TObject);
+begin
+     fPlay.Show;
+end;
+
 procedure TfTiming_Play.aMoinsExecute(Sender: TObject);
 begin
      Start:= Start-(1/3600)/24;
@@ -217,6 +229,11 @@ procedure TfTiming_Play.bRecordClick(Sender: TObject);
 begin
      Take_Start;
      poolTiming.Vider_table;
+end;
+
+procedure TfTiming_Play.cbSelect(Sender: TObject);
+begin
+     udkTexte_display_1_Field:= cb.Text;
 end;
 
 procedure TfTiming_Play.bPlayClick(Sender: TObject);
@@ -243,6 +260,7 @@ procedure TfTiming_Play.tPlayTimer(Sender: TObject);
            begin
            tPlay.Enabled:= False;
            FreeAndNil( I);
+           blPlay:= nil;
            end;
   end;
   procedure Place;
@@ -255,15 +273,18 @@ procedure TfTiming_Play.tPlayTimer(Sender: TObject);
 
           Texte_Index:= poolTexte.slFiltre.IndexOfObject( blPlay.Texte_bl);
           dsb.Index:= Texte_Index;
+          fPlay._from( blPlay, blPlay_old);
 
-          Timing_Index:= poolTiming.slFiltre.IndexOfObject( blPlay);
-          dsbTiming.Index:= Timing_Index;
+          if cbAccrocher_Timing.Checked
+          then
+              begin
+              Timing_Index:= poolTiming.slFiltre.IndexOfObject( blPlay);
+              dsbTiming.Index:= Timing_Index;
+              end;
        finally
               Select_running:= False;
               end;
 
-
-       blPlay:= nil;
        Suivant;
   end;
 begin

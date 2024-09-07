@@ -127,6 +127,19 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
+      <Unit>
+        <Filename Value="Elements/Texte/udkTexte_display_3.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkTexte_display_3"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ufPlay.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fPlay"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
