@@ -76,7 +76,7 @@ begin
 end;
 
 initialization
-              Clean_Create ( FfChampsGrid_Colonnes, TfChampsGrid_Colonnes);
+              //Clean_Create ( FfChampsGrid_Colonnes, TfChampsGrid_Colonnes);
 finalization
               Clean_Destroy( FfChampsGrid_Colonnes);
 end.

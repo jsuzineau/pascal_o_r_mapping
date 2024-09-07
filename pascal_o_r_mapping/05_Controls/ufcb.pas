@@ -141,7 +141,7 @@ begin
 end;
 
 initialization
-              Clean_CreateD( Ffcb, Tfcb);
+              //Clean_CreateD( Ffcb, Tfcb);
 finalization
               Clean_Destroy( Ffcb);
 end.
