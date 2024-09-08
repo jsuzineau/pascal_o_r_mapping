@@ -48,13 +48,13 @@ begin
 
      m.Lines.Clear;
 
-     if T_Old_OK then m.Lines.Add( blT_Old.Translitteration);
+     //if T_Old_OK then m.Lines.Add( blT_Old.Translitteration);
      if T_OK     then m.Lines.Add( blT    .Translitteration);
 
-     if T_Old_OK then m.Lines.Add( blT_Old.Francais);
+     //if T_Old_OK then m.Lines.Add( blT_Old.Francais);
      if T_OK     then m.Lines.Add( blT    .Francais);
 
-     if T_Old_OK then m.Lines.Add( blT_Old.Cyrillique);
+     //if T_Old_OK then m.Lines.Add( blT_Old.Cyrillique);
      if T_OK     then m.Lines.Add( blT    .Cyrillique);
 end;
 

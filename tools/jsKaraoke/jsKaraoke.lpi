@@ -138,6 +138,7 @@
         <Filename Value="ufPlay.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fPlay"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
     </Units>
