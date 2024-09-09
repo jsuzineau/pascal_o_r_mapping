@@ -14,6 +14,7 @@ object fPlay: TfPlay
     Top = 0
     Width = 320
     Align = alClient
+    Font.Color = clBlue
     Font.Height = -31
     Font.Name = 'Arial'
     Lines.Strings = (
