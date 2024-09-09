@@ -26,4 +26,13 @@ object fChargement: TfChargement
     Align = alBottom
     TabOrder = 1
   end
+  object bDecharger: TButton
+    Left = 17
+    Height = 25
+    Top = 50
+    Width = 75
+    Caption = 'Décharger'
+    TabOrder = 2
+    OnClick = bDechargerClick
+  end
 end

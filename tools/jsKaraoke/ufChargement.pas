@@ -15,11 +15,14 @@ type
 
  TfChargement = class(TForm)
   bCharger: TButton;
+  bDecharger: TButton;
   pg: TProgressBar;
   procedure bChargerClick(Sender: TObject);
+  procedure bDechargerClick(Sender: TObject);
   procedure FormCreate(Sender: TObject);
   procedure FormDestroy(Sender: TObject);
  private
+   RepertoireTexte: String;
    slCyrillique      : TStringList;
    slTranslitteration: TStringList;
    slFrancais        : TStringList;
@@ -41,6 +44,11 @@ begin
      slCyrillique      := TStringList.Create;
      slTranslitteration:= TStringList.Create;
      slFrancais        := TStringList.Create;
+
+     RepertoireTexte
+     :=
+        IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName))
+       +'Texte'+DirectorySeparator;
 end;
 
 procedure TfChargement.FormDestroy(Sender: TObject);
@@ -52,15 +60,12 @@ end;
 
 procedure TfChargement.bChargerClick(Sender: TObject);
 var
-   RepertoireTexte: String;
    I: Integer;
    id: Integer;
    blTexte: TblTexte;
 begin
-     RepertoireTexte
-     :=
-        IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName))
-       +'Texte'+DirectorySeparator;
+     poolTexte.Vider_table;
+
      slCyrillique      .LoadFromFile( RepertoireTexte+'01_cyrillique.txt'      , TEncoding.UTF8);
      slTranslitteration.LoadFromFile( RepertoireTexte+'02_translitteration.txt', TEncoding.UTF8);
      slFrancais        .LoadFromFile( RepertoireTexte+'03_français.txt'        , TEncoding.UTF8);
@@ -79,6 +84,44 @@ begin
 
        pg.Position:= I;
        end;
+     ShowMessage( 'Chargement terminé');
+end;
+
+procedure TfChargement.bDechargerClick(Sender: TObject);
+var
+   slLoaded: TslTexte;
+   I: TIterateur_Texte;
+   bl: TblTexte;
+begin
+     slCyrillique      .Clear;
+     slTranslitteration.Clear;
+     slFrancais        .Clear;
+
+     slLoaded:= TslTexte.Create(ClassName+'.bDechargerClick:slLoaded');
+     try
+        poolTexte.ToutCharger( slLoaded);
+        I:= slLoaded.Iterateur;
+        try
+           while I.Continuer
+           do
+             begin
+             if I.not_Suivant( bl) then continue;
+
+             slCyrillique      .Add( bl.Cyrillique      );
+             slTranslitteration.Add( bl.Translitteration);
+             slFrancais        .Add( bl.Francais        );
+             end;
+        finally
+               FreeAndNil( I);
+               end;
+     finally
+            FreeAndNil( slLoaded);
+            end;
+
+     slCyrillique      .SaveToFile( RepertoireTexte+'01_cyrillique.txt'      , TEncoding.UTF8);
+     slTranslitteration.SaveToFile( RepertoireTexte+'02_translitteration.txt', TEncoding.UTF8);
+     slFrancais        .SaveToFile( RepertoireTexte+'03_français.txt'        , TEncoding.UTF8);
+     ShowMessage( 'Déchargement terminé');
 end;
 
 end.
