@@ -26,6 +26,7 @@ type
    slCyrillique      : TStringList;
    slTranslitteration: TStringList;
    slFrancais        : TStringList;
+   sl3               : TStringList;
  public
 
  end;
@@ -44,6 +45,7 @@ begin
      slCyrillique      := TStringList.Create;
      slTranslitteration:= TStringList.Create;
      slFrancais        := TStringList.Create;
+     sl3               := TStringList.Create;
 
      RepertoireTexte
      :=
@@ -96,6 +98,7 @@ begin
      slCyrillique      .Clear;
      slTranslitteration.Clear;
      slFrancais        .Clear;
+     sl3               .Clear;
 
      slLoaded:= TslTexte.Create(ClassName+'.bDechargerClick:slLoaded');
      try
@@ -110,6 +113,10 @@ begin
              slCyrillique      .Add( bl.Cyrillique      );
              slTranslitteration.Add( bl.Translitteration);
              slFrancais        .Add( bl.Francais        );
+
+             sl3.Add( bl.Cyrillique      );
+             sl3.Add( bl.Translitteration);
+             sl3.Add( bl.Francais        );
              end;
         finally
                FreeAndNil( I);
@@ -121,6 +128,7 @@ begin
      slCyrillique      .SaveToFile( RepertoireTexte+'01_cyrillique.txt'      , TEncoding.UTF8);
      slTranslitteration.SaveToFile( RepertoireTexte+'02_translitteration.txt', TEncoding.UTF8);
      slFrancais        .SaveToFile( RepertoireTexte+'03_français.txt'        , TEncoding.UTF8);
+     sl3               .SaveToFile( RepertoireTexte+'04_Paneurythmie.txt'    , TEncoding.UTF8);
      ShowMessage( 'Déchargement terminé');
 end;
 
