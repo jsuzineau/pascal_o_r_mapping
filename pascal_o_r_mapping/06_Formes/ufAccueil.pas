@@ -585,6 +585,7 @@ begin
 end;
 
 initialization
+              {$IFNDEF UNIX}//rajouté car plante sur Ubuntu 24.04, ok sur 22.04, erreurs dans libxml, librsvg
               Clean_Create ( FfAccueil, TfAccueil);
               fAccueil_Erreur_function := fAccueil.Erreur;
               fAccueil_log_procedure   := fAccueil.Log;
@@ -597,6 +598,7 @@ initialization
               if ufAccueil_Erreur_Tampon <> ''
               then
                   fAccueil_Erreur( ufAccueil_Erreur_Tampon);
+              {$ENDIF}
 finalization
               fAccueil_Erreur_function := nil;
               fAccueil_log_procedure   := nil;
