@@ -94,6 +94,11 @@ var
    slLoaded: TslTexte;
    I: TIterateur_Texte;
    bl: TblTexte;
+   procedure sl3_Add( _S: String);
+   begin
+        if '' = _S then _S:= '-';
+        sl3.Add( _S);
+   end;
 begin
      slCyrillique      .Clear;
      slTranslitteration.Clear;
@@ -114,9 +119,9 @@ begin
              slTranslitteration.Add( bl.Translitteration);
              slFrancais        .Add( bl.Francais        );
 
-             sl3.Add( bl.Cyrillique      );
-             sl3.Add( bl.Translitteration);
-             sl3.Add( bl.Francais        );
+             sl3_Add( bl.Cyrillique      );
+             sl3_Add( bl.Translitteration);
+             sl3_Add( bl.Francais        );
              end;
         finally
                FreeAndNil( I);
