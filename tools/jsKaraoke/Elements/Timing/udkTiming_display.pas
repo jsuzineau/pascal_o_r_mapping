@@ -34,8 +34,8 @@ uses
 
     uDockable, ucBatpro_Shape, ucChamp_Label, ucChamp_Edit,
     ucBatproDateTimePicker, ucChamp_DateTimePicker, ucDockableScrollbox,
-    Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
-    LCLType;
+    ucChamp_Lookup_ComboBox, Classes, SysUtils, FileUtil, Forms, Controls,
+    Graphics, Dialogs, Buttons, LCLType;
 
 const
      udkTiming_display_Copy_to_current=0;
@@ -47,8 +47,10 @@ type
  TdkTiming_display
  =
   class(TDockable)
+  ceTexte_id: TChamp_Edit;
   clT: TChamp_Label;
   clTexte: TChamp_Label;
+  sbDetruire: TSpeedButton;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   procedure sbCopy_to_currentClick(Sender: TObject);
   procedure sbDetruireClick(Sender: TObject);
@@ -85,7 +87,7 @@ begin
 
      Affecte( blTiming, TblTiming, Value);
 
-     Champs_Affecte( blTiming, [clT, clTexte]);
+     Champs_Affecte( blTiming, [clT, clTexte, ceTexte_id]);
 end;
 
 procedure TdkTiming_display.sbDetruireClick(Sender: TObject);

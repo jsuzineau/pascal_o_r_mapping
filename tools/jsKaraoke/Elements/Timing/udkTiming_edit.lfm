@@ -2,45 +2,42 @@ inherited dkTiming_edit: TdkTiming_edit
   Left = 704
   Height = 45
   Top = 420
-  Width = 226
+  Width = 393
   Caption = 'dkTiming_edit'
   ClientHeight = 45
-  ClientWidth = 226
-  inherited sSelection: TBatpro_Shape 
-    Height = 45
-  end
+  ClientWidth = 393
   inherited sBackground: TShape
     Height = 45
-    Width = 214
+    Width = 381
   end
-  object cet: TChamp_Edit
-    Left = 119
+  inherited sSelection: TBatpro_Shape
+    Height = 45
+  end
+  object cet: TChamp_Edit[2]
+    Left = 40
     Height = 21
     Top = 4
-    Width = 80
-    Anchors = [akTop, akRight]
+    Width = 123
     AutoSize = False
-    Text = 'cet'
-    ParentColor = False
     ParentShowHint = False
     ShowHint = True
+    TabOrder = 0
+    Text = 'cet'
     Field = 't'
   end
-
-  object ceidTexte: TChamp_Edit
-    Left = 119
+  object ceTexte_id: TChamp_Edit[3]
+    Left = 166
     Height = 21
     Top = 4
     Width = 80
-    Anchors = [akTop, akRight]
     AutoSize = False
-    Text = 'ceidTexte'
-    ParentColor = False
     ParentShowHint = False
     ShowHint = True
-    Field = 'idTexte'
+    TabOrder = 1
+    Text = 'ceTexte_id'
+    Field = 'Texte_id'
   end
-  object sbDetruire: TSpeedButton[2]
+  object sbDetruire: TSpeedButton[4]
     Left = 16
     Height = 22
     Hint = 'Supprimer'
@@ -72,8 +69,8 @@ inherited dkTiming_edit: TdkTiming_edit
     }
     OnClick = sbDetruireClick
   end
-  object sbCopy_to_current: TSpeedButton[3]
-    Left = 203
+  object sbCopy_to_current: TSpeedButton[5]
+    Left = 370
     Height = 22
     Hint = 'Copie vers courant'
     Top = 3
@@ -81,5 +78,22 @@ inherited dkTiming_edit: TdkTiming_edit
     Anchors = [akTop, akRight]
     Caption = '>'
     OnClick = sbCopy_to_currentClick
+  end
+  object clTexte: TChamp_Label[6]
+    Left = 248
+    Height = 22
+    Top = 2
+    Width = 121
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'clTexte'
+    Font.Color = clWindowText
+    Font.Height = -19
+    Font.Name = 'Arial'
+    ParentColor = False
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    WordWrap = True
+    Field = 'Texte'
   end
 end

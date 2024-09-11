@@ -49,7 +49,8 @@ type
  =
   class(TDockable)
   cet: TChamp_Edit;
-  ceidTexte: TChamp_Edit;
+  ceTexte_id: TChamp_Edit;
+  clTexte: TChamp_Label;
 //Pascal_udk_edit_declaration_pas
   sbCopy_to_current: TSpeedButton;
   sbDetruire: TSpeedButton;
@@ -77,7 +78,7 @@ constructor TdkTiming_edit.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
      Ajoute_Colonne( cet, 't', 't');
-     Ajoute_Colonne( ceidTexte, 'idTexte', 'idTexte');
+     Ajoute_Colonne( ceTexte_id, 'idTexte', 'idTexte');
 
 //Details_Pascal_udk_edit_Create_AjouteColonne_pas
 end;
@@ -93,7 +94,7 @@ begin
 
      Affecte( blTiming, TblTiming, Value);
 
-     Champs_Affecte( blTiming,[ cet,ceidTexte]);
+     Champs_Affecte( blTiming,[ cet,ceTexte_id,clTexte]);
      Champs_Affecte( blTiming,[ {Details_Pascal_udk_edit_component_list_pas}]);
 end;
 

@@ -11,6 +11,7 @@ uses
     ufChargement,
     ufTiming_record,
     ufTiming_Play,
+    ufTiming_dsb,
  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls;
 
 type
@@ -22,6 +23,7 @@ type
   bTexte: TButton;
   bRecord: TButton;
   bPlay: TButton;
+  bTiming: TButton;
   l1: TLabel;
   l2: TLabel;
   l3: TLabel;
@@ -31,6 +33,7 @@ type
   procedure bPlayClick(Sender: TObject);
   procedure bRecordClick(Sender: TObject);
   procedure bTexteClick(Sender: TObject);
+  procedure bTimingClick(Sender: TObject);
   procedure FormCreate(Sender: TObject);
   procedure tTimer(Sender: TObject);
  private
@@ -134,6 +137,11 @@ end;
 procedure TfjsKaraoke.bTexteClick(Sender: TObject);
 begin
      fTexte_dsb.Execute;
+end;
+
+procedure TfjsKaraoke.bTimingClick(Sender: TObject);
+begin
+     fTiming_dsb.Execute;
 end;
 
 procedure TfjsKaraoke.bRecordClick(Sender: TObject);

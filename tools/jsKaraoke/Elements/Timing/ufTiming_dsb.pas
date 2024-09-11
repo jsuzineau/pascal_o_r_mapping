@@ -48,8 +48,6 @@ type
  =
   class(TForm)
     dsb: TDockableScrollbox;
-    pc: TPageControl;
-    Splitter1: TSplitter;
     Panel1: TPanel;
     Panel2: TPanel;
     bImprimer: TBitBtn;
@@ -60,7 +58,6 @@ type
     lTri: TLabel;
     bNouveau: TButton;
     bSupprimer: TButton;
-    tsPascal_uf_pc_dfm_Aggregation: TTabSheet;
     procedure dsbSelect(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -138,6 +135,7 @@ end;
 
 procedure TfTiming_dsb._from_pool;
 begin
+     pool.TrierFiltre;
      dsb.sl:= pool.slFiltre;
      //dsb.sl:= pool.T;
 end;

@@ -44,7 +44,7 @@ uses
     ucDockableScrollbox,
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DBCtrls, Grids, DBGrids, ActnList, StdCtrls, ComCtrls, Buttons,
-  ExtCtrls, DB;
+  ExtCtrls, DB,StrUtils;
 
 type
 
@@ -59,6 +59,7 @@ type
    bPlay: TButton;
    bRecord: TButton;
    bfPlay: TButton;
+   bPause: TButton;
    cbAccrocher_Timing: TCheckBox;
    cb: TComboBox;
     dsb: TDockableScrollbox;
@@ -74,6 +75,7 @@ type
     procedure aMoinsExecute(Sender: TObject);
     procedure aPlusExecute(Sender: TObject);
     procedure bfPlayClick(Sender: TObject);
+    procedure bPauseClick(Sender: TObject);
     procedure bPlayClick(Sender: TObject);
     procedure bRecordClick(Sender: TObject);
     procedure cbSelect(Sender: TObject);
@@ -213,6 +215,14 @@ begin
      fPlay.Show;
 end;
 
+procedure TfTiming_Play.bPauseClick(Sender: TObject);
+begin
+     with tPlay do Enabled:= not Enabled;
+     bPause.Caption
+     :=
+       IfThen( tPlay.Enabled, 'Pause','Continue');
+end;
+
 procedure TfTiming_Play.aMoinsExecute(Sender: TObject);
 begin
      Start:= Start-(1/3600)/24;
@@ -302,8 +312,13 @@ begin
      _from_pool;
 
      poolTiming.ToutCharger;
+     poolTiming.TrierFiltre;
      dsbTiming.sl:= poolTiming.slFiltre;
      Result:= True;
+
+     blPlay:= blTiming_from_sl( dsbTiming.sl, 0);
+     fPlay._from( blPlay, nil);
+
      Show;
 end;
 

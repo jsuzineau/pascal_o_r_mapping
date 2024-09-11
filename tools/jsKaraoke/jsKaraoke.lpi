@@ -90,6 +90,7 @@
         <Filename Value="Elements/Timing/ufTiming_dsb.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fTiming_dsb"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
@@ -111,6 +112,7 @@
         <Filename Value="Elements/Timing/udkTiming_edit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dkTiming_edit"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
