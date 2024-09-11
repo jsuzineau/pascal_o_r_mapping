@@ -14,13 +14,13 @@ inherited dkTexte_display_1: TdkTexte_display_1
   end
   object cl: TChamp_Label[2]
     Left = 12
-    Height = 22
+    Height = 21
     Top = 2
     Width = 212
     Anchors = [akTop, akLeft, akRight]
     Caption = 'cl'
     Font.Color = clWindowText
-    Font.Height = -19
+    Font.Height = -18
     Font.Name = 'Arial'
     ParentColor = False
     ParentFont = False
