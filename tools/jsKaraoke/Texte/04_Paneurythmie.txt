@@ -319,8 +319,8 @@ et nous apporte la sagesse !
 13. Тъкане
 13. Tǎkane
 13. Tissage
-Всеки ден, всеки час, всякоя минута
-Vseki den, vseki čas, vsjakoja minuta
+Всеки ден, всеки час, всeкоя минута
+Vseki den, vseki čas, vsekoja minuta
 Chaque jour, chaque heure, chaque minute
 ний сновем и тъчем най-красиви мисли,
 nij snovem i tǎčem naj-krasivi misli,
@@ -336,7 +336,7 @@ Neka mir i ljubov v sǎrca ni da caruva,
 Que la paix et l'amour règnent dans nos cœurs,
 доброта, милосърдие в нази да живей.
 dobrota, milosǎrdie v nazi da živej.
-gentillesse, miséricorde chez les nazis pour vivre.
+bonté, miséricorde en nous vivent.
 Светлина и веселие навред да грей.
 Svetlina i veselie navred da grej.
 Lumière et joie partout pour briller.
@@ -414,13 +414,13 @@ nosi radost za života tja.
 elle apporte de la joie à la vie.
 Сила жива изворна течуща.
 Sila živa izvorna tečušta.
-Pouvoir du fluide de source vivant.
+Force vive de la source coule.
 Зун ме зун, зун ме зун,
 Zun me zun, zun me zun,
-Zun moi zun, zun moi zun,
+Zoun me zoun, zoun me zoun,
 бином ту мето.
 binom tu meto.
-binôme tu meto.
+binom tou meto.
 -
 -
 -
@@ -490,8 +490,8 @@ Brillants rayons partout.
 Бистро изворче шурти.
 Bistro izvorče šurti.
 Claire petite source ruisselle.
-Радост блика в целий свят.
-Radost blika v celij svjat.
+Радост блика в целий свет.
+Radost blika v celij svеt.
 Joie jaillit à travers le monde.
 Птичка весело лети.
 Ptička veselo leti.
@@ -532,8 +532,8 @@ Brillants rayons partout
 Бистро изворче шурти.
 Bistro izvorče šurti.
 Claire petite source ruisselle.
-Радост блика в целий свят.
-Radost blika v celij svjat.
+Радост блика в целий свет.
+Radost blika v celij svеt.
 Joie jaillit à travers le monde.
 Птичка весело лети.
 Ptička veselo leti.
@@ -612,7 +612,7 @@ i tiča tja po svoja pǎt
 et elle continue son chemin
 като девица възлюбена.
 kato devica vǎzljubena.
-comme une vierge amoureuse.
+comme une vierge bien-aimée.
 -
 -
 -
@@ -708,7 +708,7 @@ I dreben dǎžd-rosa šte gi polee
 Et un peu de rosée les arrosera
 и слънцето ще ги възрасти.
 i slǎnceto šte gi vǎzrasti.
-et le soleil les vieillira.
+et soleil les fera croître.
 -
 -
 -
@@ -804,16 +804,16 @@ et nous donne la vie.
 (texte complémentaire : sur la Paneurythmie des Cinq Sœurs)
 Въздух дишам благодат.
 Vǎzduh dišam blagodat.
-Air je respire la grâce.
+Air que je respire est grâce.
 Радостно отивам за дома.
 Radostno otivam za doma.
-Je rentre chez moi heureux.
+Joyeux je rentre au domicile.
 Цялата Природа с мене пей.
 Cjalata Priroda s mene pej.
-Toute la nature chante avec moi.
+Toute la nature avec moi chante.
 Слънцето ме живо грей.
 Slǎnceto me živo grej.
-Le soleil brille sur moi.
+Soleil  brille vie sur moi.
 -
 -
 -
@@ -822,43 +822,43 @@ Men prirodata običa i v života mi pomaga,
 La nature m'aime et m'aide dans la vie,
 чадо свое ме нарича и ми казва дума блага:
 čado svoe me nariča i mi kazva duma blaga:
-il m'appelle son enfant et me dit un mot gentil :
+elle m'appelle son enfant et me dit une douce parole :
 -
 -
 -
 „Работи, учи, време не губи,
 „Raboti, uči, vreme ne gubi,
-" Travaillez, étudiez, ne perdez pas de temps,
+" Travaille, étudie, ne perds pas ton temps,
 време не пилей, скъп живот пази.
 vreme ne pilej, skǎp život pazi.
-ne perdez pas de temps, sauvez votre chère vie.
+ne perds pas ton temps, précieuse vie conserve.
 Той е Божи дар, мил и скъпоцен.
 Toj e Boži dar, mil i skǎpocen.
 Il est le don de Dieu, bon et précieux.
 Ти добре варди го всеки час.“
 Ti dobre vardi go vseki čas.“
-Vous le faites bien bouillir toutes les heures.
+Garde-la bien à toute heure."
 -
 -
 -
 А подир игрите ще отида да работя,
 A podir igrite šte otida da rabotja,
-Et après les jeux j'irai travailler,
+Et après les danses j'irai travailler,
 време да не губя, дор в небето слънце грей.
 vreme da ne gubja, dor v nebeto slǎnce grej.
-temps à ne pas perdre, le soleil brille dans le ciel.
+sans perdre de temps, tant que le soleil brille dans le ciel.
 -
 -
 -
 Хай напред, едно, две, три,
 Haj napred, edno, dve, tri,
-Allez, un, deux, trois,
+Allez en avant, un, deux, trois,
 с бодри стъпки ти ходи.
 s bodri stǎpki ti hodi.
-tu marches à pas joyeux.
+d'un pas joyeux.tu marches
 Още малко ние тук
 Ošte malko nie tuk
-Nous sommes ici un peu plus longtemps
+Encore un peu
 ще си поиграеме сега.
 šte si poigraeme sega.
 nous allons jouer maintenant
@@ -876,16 +876,16 @@ prez rečica bistra, po pǎteka čista.
 -
 О, водице сладка, жива, носиш ти живота нов.
 O, vodice sladka, živa, nosiš ti života nov.
-Oh, eau douce et vivante, tu t'apportes une nouvelle vie.
+O, eau douce et vivante, tu apportes une vie nouvelle.
 Теб обичам, теб жадувам, тебе търся всеки час.
 Teb običam, teb žaduvam, tebe tǎrsja vseki čas.
-Je t'aime, j'ai envie de toi, je te cherche toutes les heures.
+Je t'aime, j'ai soif de toi, je te cherche toutes les heures.
 По ливади и градини непрестанно тичаш ти.
 Po livadi i gradini neprestanno tičaš ti.
-Vous courez constamment à travers les prairies et les jardins.
-Тъй през всичките години бягай, тичай и лети.
-Tǎj prez vsičkite godini bjagaj, tičaj i leti.
-Ainsi, au fil des années, courez, courez et volez.
+Dans prairies et jardins sans cesse tu cours .
+Тъй през всичките години бегай, тичай и лети.
+Tǎj prez vsičkite godini bеgaj, tičaj i leti.
+Ainsi, au fil des années, tu cours, t'écoules et t'envoles.
 -
 -
 -
