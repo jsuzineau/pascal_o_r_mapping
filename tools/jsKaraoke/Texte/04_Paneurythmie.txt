@@ -96,7 +96,7 @@ Et le jour vient après la nuit.
 -
 5. Издигане (Дигане)
 5. Izdigane (Digane)
-5. Monter (Monter)
+5. Ascension (Monter)
 Сила и радост,
 Sila i radost,
 Force et joie,
@@ -123,7 +123,7 @@ San Zi (Le Beau Jour) : exercices 6,7,8
 -
 6. Отваряне
 6. Otvarjane
-6. Ouverture
+6. Ouvrir
 Ето го, ражда се красивий ден.
 Eto go, ražda se krasivij den.
 Voilà, une belle journée est née.
@@ -171,7 +171,7 @@ Et la lune est belle dans le ciel.
 -
 8. Пляскане
 8. Pljaskane
-8. Applaudissements
+8. Battements des mains
 Ето го, ражда се красивий ден.
 Eto go, ražda se krasivij den.
 Voilà, une belle journée est née.
@@ -195,7 +195,7 @@ Elle apporte continuellement de la force dans nos âmes.
 -
 9. Чистене
 9. Čistene
-9. Nettoyage
+9. Purification
 Първият ден на пролетта,
 Pǎrvijat den na proletta,
 le premier jour du printemps
@@ -318,7 +318,7 @@ et nous apporte la sagesse !
 -
 13. Тъкане
 13. Tǎkane
-13. Tissage
+13. Tisser
 Всеки ден, всеки час, всeкоя минута
 Vseki den, vseki čas, vsekoja minuta
 Chaque jour, chaque heure, chaque minute
@@ -369,13 +369,13 @@ et dans nos âmes nous pouvons tisser de belles pensées.
 -
 14. Мисли
 14. Misli
-14. Pensez
+14. Pense
 Мислѝ, право мисли.
 Mislì, pravo misli.
 Pense, juste pense
 Мислѝ, право мисли.
 Mislì, pravo misli.
-Pense, droitement pense
+Pense, juste pense
 Свещени мисли за живота ти крепи.
 Svešteni misli za života ti krepi.
 Sacrée pensée sur la vie te renforce.
@@ -393,10 +393,10 @@ Sacrée pensée sur la vie te renforce.
 -
 15. Аум
 15. Aum
-15. Aum
+15. Aoum
 Аум, Аум, Аум, Аум
 Aum, Aum, Aum, Aum
-Aum, Aum, Aum, Aum
+Aoum, Aoum, Aoum, Aoum
 -
 -
 -
@@ -426,7 +426,7 @@ binom tou meto.
 -
 17. Квадрат
 17. Kvadrat
-17. Place
+17. Le carré
 Слънцето грей,
 Slǎnceto grej,
 Le soleil brille
@@ -543,7 +543,7 @@ Oiseau joyeusement vole.
 -
 20. Побеждаване
 20. Pobeždavane
-20. Gagner
+20. Vaincre
 Денят пристига след нощта
 Denjat pristiga sled noštta
 Le jour vient après la nuit
@@ -669,7 +669,7 @@ avec de douces caresses.
 -
 22. Запознаване
 22. Zapoznavane
-22. Connaissance
+22. Faire connaissance
 Колко приятно птиченце пее
 Kolko prijatno ptičence pee
 Quel joli petit oiseau chante
@@ -714,7 +714,7 @@ et soleil les fera croître.
 -
 23. Хубав ден
 23. Hubav den
-23. Belle journée
+23. Beau jour
 Всеки хубав Божи ден
 Vseki hubav Boži den
 Chaque bon jour de Dieu
@@ -1026,7 +1026,7 @@ réjouissez-vous dans le monde de Dieu.
 -
 28. Промисъл
 28. Promisǎl
-28. Industrie
+28. Providence
 произнася се 3 пъти:
 proiznasja se 3 pǎti:
 prononcé 3 fois :
