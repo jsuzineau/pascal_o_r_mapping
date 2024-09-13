@@ -61,8 +61,8 @@ réjouit nos cœurs.
 Грее, грей слънцето благодатно,
 Gree, grej slǎnceto blagodatno,
 Brille, fais briller le soleil gracieusement,
-целува нежно цялата земя
-celuva nežno cjalata zemja
+целува нежно целата земя
+celuva nežno cеlata zemja
 embrasse doucement la terre entière
 и я окичва с прелестни, безброй цветя.
 i ja okičva s prelestni, bezbroj cvetja.
@@ -84,7 +84,7 @@ Gree čistata luna,
 La lune claire brille,
 безспир лети по своя път
 bezspir leti po svoja pǎt
-des mouches non-stop en route
+vole sans cesse sur son chemin
 по небесна шир.
 po nebesna šir.
 à travers le ciel.
@@ -111,7 +111,7 @@ i vdǎhnovjava,
 et inspire
 и възраства в красота.
 i vǎzrastva v krasota.
-et vieillit en beauté.
+et renaître en beauté.
 -
 -
 -
@@ -259,8 +259,8 @@ L'air est une bénédiction.
 Птички хвъркат весело над нас.
 Ptički hvǎrkat veselo nad nas.
 Les oiseaux volent joyeusement au-dessus de nous.
-Природата сияе цяла в красота.
-Prirodata sijae cjala v krasota.
+Природата сияе цела в красота.
+Prirodata sijae cеla v krasota.
 La nature brille de toute sa beauté.
 Росна тревица блеснала в елмаз.
 Rosna trevica blesnala v elmaz.
@@ -271,8 +271,8 @@ Les fleurs sont parfumées.
 -
 -
 -
-Слънцето грей, праща веселие по цялата земя.
-Slǎnceto grej, prašta veselie po cjalata zemja.
+Слънцето грей, праща веселие по целата земя.
+Slǎnceto grej, prašta veselie po cеlata zemja.
 Le soleil brille et envoie de la joie partout sur la terre.
 Целия мир събужда, вика със любов.
 Celija mir sǎbužda, vika sǎs ljubov.
@@ -738,7 +738,7 @@ milva moeto lice.
 caresse mon visage
 И гласът любим Христов
 I glasǎt ljubim Hristov
-Et la voix du bien-aimé du Christ
+Et la voix bien-aimée du Christ
 шепне в моето сърце:
 šepne v moeto sǎrce:
 murmure dans mon cœur :
@@ -901,8 +901,8 @@ nous allons vers la nouvelle vie.
 Чертаем светли бъднини
 Čertaem svetli bǎdnini
 Nous souhaitons des vacances lumineuses
-за нас и цял човешки род.
-za nas i cjal čoveški rod.
+за нас и цел човешки род.
+za nas i cеl čoveški rod.
 pour nous et pour toute la race humaine.
 -
 -
@@ -961,8 +961,8 @@ mal - une beauté merveilleuse.
 Извори бликат чиста вода.
 Izvori blikat čista voda.
 Les sources jaillissent de l’eau pure.
-Бистра роса всяко листо
-Bistra rosa vsjako listo
+Бистра роса всеко листо
+Bistra rosa vsеko listo
 Effacer la rosée de chaque feuille
 със брилянт краси.
 sǎs briljant krasi.
