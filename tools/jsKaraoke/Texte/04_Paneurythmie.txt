@@ -453,7 +453,7 @@ za radost nova,
 heureusement nouveau
 що в сърцата ни безспирно лей.
 što v sǎrcata ni bezspirno lej.
-que dans nos cœurs lei sans cesse.
+qui dans nos cœurs sans cesse se déverse .
 -
 -
 -
@@ -678,7 +678,7 @@ i blagodatno slǎnceto grej.
 et le soleil brille gracieusement.
 Росни ливадите, свежи поляните,
 Rosni livadite, sveži poljanite,
-Prairies rosées, prairies fraîches,
+Couverte de rosée Prairies, fraîches clairières,
 играем ний и пеем в ранина.
 igraem nij i peem v ranina.
 nous jouons et chantons de bon matin.
@@ -1005,7 +1005,7 @@ Bodra gimnastika, raz, dva, tri.
 Gymnastique joyeuse, un, deux, trois.
 Подвижи се и се спри.
 Podviži se i se spri.
-Il bougea et s'arrêta.
+Se déplacer et s'arrêter.
 Смело пак тръгни напред,
 Smelo pak trǎgni napred,
 Avancez hardiment à nouveau,
