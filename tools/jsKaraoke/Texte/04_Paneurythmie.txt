@@ -153,19 +153,19 @@ Nij planinite običame.
 Nous aimons les montagnes.
 Дивния Мусала възпяваме.
 Divnija Musala vǎzpjavame.
-Nous chantons la merveilleuse Musala.
+Splendide Moussala nous célébrons.
 При седмострунна арфа на Рила седим.
 Pri sedmostrunna arfa na Rila sedim.
-Nous sommes assis devant la harpe à sept cordes de Rila.
+Devant la harpe à sept cordes de Rila nous sommes assis.
 Мощното слънце посрещаме на ранина.
 Moštnoto slǎnce posreštame na ranina.
 Nous allons le matin à la rencontre du puissant soleil.
 Вечер сияйните звезди следим.
 Večer sijajnite zvezdi sledim.
-Le soir, nous suivons les étoiles brillantes.
+Le soir scintillantes étoiles nous contemplons.
 И луната прекрасна в небесната шир.
 I lunata prekrasna v nebesnata šir.
-Et la lune est belle dans le ciel.
+Et lune si belle dans céleste étendue.
 -
 -
 -
@@ -549,18 +549,18 @@ Denjat pristiga sled noštta
 Le jour vient après la nuit
 и радост иде след скръбта.
 i radost ide sled skrǎbta.
-et la joie vient après le chagrin.
+et joie vient après tristesse.
 Вървиме ний по светлий път.
 Vǎrvime nij po svetlij pǎt.
 Nous marchons sur un chemin lumineux.
 Прегради няма да ни спрат.
 Pregradi njama da ni sprat.
-Les barrières ne nous arrêteront pas.
+Barrières ne nous arrêteront pas.
 Тъй безспирно ще вървиме
 Tǎj bezspirno šte vǎrvime
-Alors nous continuerons encore et encore
-с вяра и любов в гърдите,
-s vjara i ljubov v gǎrdite,
+Sans cesse nous irons
+с вера и любов в гърдите,
+s vеra i ljubov v gǎrdite,
 avec la foi et l'amour dans la poitrine,
 към победи ще летиме,
 kǎm pobedi šte letime,
