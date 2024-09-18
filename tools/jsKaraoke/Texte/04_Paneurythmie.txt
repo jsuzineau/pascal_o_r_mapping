@@ -73,8 +73,8 @@ et le décore de belles et innombrables fleurs.
 4. Възлизане
 4. Vǎzlizane
 4. Ascension
-Бляскави звезди – брилянти
-Bljaskavi zvezdi – briljanti
+Блeскави звезди – брилянти
+Bleskavi zvezdi – briljanti
 Étoiles brillantes - brillants
 светли сказания мълвят.
 svetli skazanija mǎlvjat.
@@ -177,7 +177,7 @@ Eto go, ražda se krasivij den.
 Voilà, une belle journée est née.
 Ето го, Слънцето към нази грей.
 Eto go, Slǎnceto kǎm nazi grej.
-Le voici, le Soleil à Nasi Gray.
+Le voici, le Soleil qui brille pour nous.
 Химни в гората весело птиченце пей.
 Himni v gorata veselo ptičence pej.
 Hymnes dans la forêt, joyeux petit oiseau chante.
@@ -355,8 +355,8 @@ ils gazouillent, ils chantent.
 И дъждеца ромоли над ниви и ливади.
 I dǎždeca romoli nad nivi i livadi.
 Et la pluie tombait sur les champs et les prairies.
-Тъй и ний всеки ден, всякоя минута
-Tǎj i nij vseki den, vsjakoja minuta
+Тъй и ний всеки ден, всeкоя минута
+Tǎj i nij vseki den, vsekoja minuta
 Il le fait aussi chaque jour, chaque minute
 ще работим, ще растем и добро ще сеем,
 šte rabotim, šte rastem i dobro šte seem,
@@ -601,8 +601,8 @@ au lever du soleil à une heure matinale.
 21. Радостта на земята
 21. Radostta na zemjata
 21. La joie de la terre
-Ликува цялата земя
-Likuva cjalata zemja
+Ликува целата земя
+Likuva cеlata zemja
 La terre entière se réjouit
 и се радва от сърце,
 i se radva ot sǎrce,
@@ -721,8 +721,8 @@ Chaque bon jour de Dieu
 дишам радост и живот.
 dišam radost i život.
 Je respire la joie et la vie.
-И ликът ми е засмян,
-I likǎt mi e zasmjan,
+И ликът ми е засмен,
+I likǎt mi e zasmеn,
 Et mon visage sourit,
 че обича мен Господ.
 če običa men Gospod.
