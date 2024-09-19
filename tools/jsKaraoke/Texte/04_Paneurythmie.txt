@@ -32,7 +32,7 @@ Réveillez-vous, les enfants.
 Prolet mila več dojde.
 Printemps doux déjà là.
 Целата природа пее;
-Cjelata priroda pee;
+Celata priroda pee;
 Toute la nature chante ;
 Слънце топло вече грей.
 Slǎnce toplo veče grej.
@@ -757,8 +757,8 @@ Avec des chansons, chantez joyeusement
 ти на Бога любовта –
 ti na Boga ljubovta –
 toi à Dieu l'amour –
-наш Баща любим и свят
-naš Bašta ljubim i svjat
+наш Баща любим и свет
+naš Bašta ljubim i svеt
 notre Père bien-aimé et saint
 и на вси души познат.“
 i na vsi duši poznat.“
@@ -957,7 +957,7 @@ Vǎzduh dišam – aromat,
 L'air que je respire est un arôme,
 вредом – чудна красота.
 vredom – čudna krasota.
-mal - une beauté merveilleuse.
+éclate - merveilleuse beauté.
 Извори бликат чиста вода.
 Izvori blikat čista voda.
 Les sources jaillissent de l’eau pure.
