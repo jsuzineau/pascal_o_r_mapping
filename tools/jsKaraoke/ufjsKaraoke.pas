@@ -29,12 +29,15 @@ type
   l3: TLabel;
   l4: TLabel;
   t: TTimer;
+  tShow: TTimer;
   procedure bChargementClick(Sender: TObject);
   procedure bPlayClick(Sender: TObject);
   procedure bRecordClick(Sender: TObject);
   procedure bTexteClick(Sender: TObject);
   procedure bTimingClick(Sender: TObject);
   procedure FormCreate(Sender: TObject);
+  procedure FormShow(Sender: TObject);
+  procedure tShowTimer(Sender: TObject);
   procedure tTimer(Sender: TObject);
  private
    const texte: array of string
@@ -102,6 +105,17 @@ begin
      pooltexte.ToutCharger;
 
      i:= Low(texte);
+end;
+
+procedure TfjsKaraoke.FormShow(Sender: TObject);
+begin
+     tShow.Enabled:= True;
+end;
+
+procedure TfjsKaraoke.tShowTimer(Sender: TObject);
+begin
+     tShow.Enabled:= False;
+     bPlay.Click;
 end;
 
 procedure TfjsKaraoke.tTimer(Sender: TObject);

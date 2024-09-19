@@ -15,7 +15,7 @@ inherited dkTiming_display: TdkTiming_display
   end
   object clTexte: TChamp_Label[2]
     Left = 184
-    Height = 22
+    Height = 23
     Top = 2
     Width = 148
     Anchors = [akTop, akLeft, akRight]
@@ -33,7 +33,7 @@ inherited dkTiming_display: TdkTiming_display
   end
   object clT: TChamp_Label[3]
     Left = 41
-    Height = 22
+    Height = 23
     Top = 0
     Width = 76
     Caption = '88:88:88'
@@ -49,7 +49,7 @@ inherited dkTiming_display: TdkTiming_display
   end
   object ceTexte_id: TChamp_Edit[4]
     Left = 120
-    Height = 22
+    Height = 25
     Top = 3
     Width = 64
     Font.Color = clWindowText

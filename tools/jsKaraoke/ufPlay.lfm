@@ -1,18 +1,20 @@
 object fPlay: TfPlay
   Left = 678
-  Height = 240
+  Height = 252
   Top = 131
-  Width = 320
+  Width = 448
   Caption = 'fPlay'
-  ClientHeight = 240
-  ClientWidth = 320
+  ClientHeight = 252
+  ClientWidth = 448
   DesignTimePPI = 94
+  OnResize = FormResize
+  OnShow = FormShow
   LCLVersion = '3.4.0.0'
   object m: TMemo
     Left = 0
-    Height = 240
+    Height = 252
     Top = 0
-    Width = 320
+    Width = 448
     Align = alClient
     Alignment = taCenter
     Font.Color = clBlue
@@ -23,5 +25,12 @@ object fPlay: TfPlay
     )
     ParentFont = False
     TabOrder = 0
+  end
+  object tShow: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = tShowTimer
+    Left = 37
+    Top = 75
   end
 end

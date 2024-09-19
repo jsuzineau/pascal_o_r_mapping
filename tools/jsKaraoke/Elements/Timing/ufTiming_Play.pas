@@ -44,7 +44,7 @@ uses
     ucDockableScrollbox,
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DBCtrls, Grids, DBGrids, ActnList, StdCtrls, ComCtrls, Buttons,
-  ExtCtrls, DB,StrUtils;
+  ExtCtrls, DB,StrUtils,Math;
 
 type
 
@@ -62,12 +62,13 @@ type
    bPause: TButton;
    cbAccrocher_Timing: TCheckBox;
    cb: TComboBox;
+   cbTiming_modifiable: TCheckBox;
     dsb: TDockableScrollbox;
     dsbTiming: TDockableScrollbox;
     Label3: TLabel;
     lStart: TLabel;
     Panel1: TPanel;
-    Panel3: TPanel;
+    pTop: TPanel;
     Panel4: TPanel;
     Splitter2: TSplitter;
     tPlay: TTimer;
@@ -79,6 +80,7 @@ type
     procedure bPlayClick(Sender: TObject);
     procedure bRecordClick(Sender: TObject);
     procedure cbSelect(Sender: TObject);
+    procedure cbTiming_modifiableChange(Sender: TObject);
     procedure dsbSelect(Sender: TObject);
     procedure dsbTimingSelect(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -111,6 +113,12 @@ type
     slTiming: TslTiming;
     I: TIterateur_Timing;
     blPlay, blPlay_old: TblTiming;
+  //Timing modifiable
+  private
+    procedure _from_cbTiming_modifiable;
+  //fPlay
+  private
+    procedure fPlayShow;
   end;
 
 function fTiming_Play: TfTiming_Play;
@@ -144,6 +152,7 @@ begin
      I:= nil;
      blPlay:= nil;
      blPlay_old:= nil;
+     fPlay.pOnShow:= @fPlayShow;
 end;
 
 procedure TfTiming_Play.FormDestroy(Sender: TObject);
@@ -164,6 +173,8 @@ var
         Result:= Assigned(_bl) and (_bl.Texte_id = blTexte.id);
    end;
 begin
+     if not cbTiming_modifiable.Checked then exit;
+
      if Select_running then exit;
      try
         Select_running:= True;
@@ -213,6 +224,7 @@ end;
 procedure TfTiming_Play.bfPlayClick(Sender: TObject);
 begin
      fPlay.Show;
+     fPlayShow;
 end;
 
 procedure TfTiming_Play.bPauseClick(Sender: TObject);
@@ -244,6 +256,30 @@ end;
 procedure TfTiming_Play.cbSelect(Sender: TObject);
 begin
      udkTexte_display_1_Field:= cb.Text;
+end;
+
+procedure TfTiming_Play.cbTiming_modifiableChange(Sender: TObject);
+begin
+     _from_cbTiming_modifiable;
+end;
+
+procedure TfTiming_Play._from_cbTiming_modifiable;
+begin
+     udkTiming_display_Modifiable:= cbTiming_modifiable.Checked;
+     bRecord.Visible:= udkTiming_display_Modifiable;
+     pTop.ClientHeight
+     :=
+       IfThen
+        (
+        udkTiming_display_Modifiable,
+        bRecord.Top+bRecord.Height,
+        cb     .Top+cb     .Height
+        );
+end;
+
+procedure TfTiming_Play.fPlayShow;
+begin
+     Caption:= Format( '%s: fPlay - %d x %d',[ClassName,fPlay.ClientWidth,fPlay.ClientHeight]);
 end;
 
 procedure TfTiming_Play.bPlayClick(Sender: TObject);
@@ -308,6 +344,7 @@ end;
 
 function TfTiming_Play.Execute: Boolean;
 begin
+     _from_cbTiming_modifiable;
      pool.ToutCharger;
      _from_pool;
 
@@ -320,6 +357,7 @@ begin
      fPlay._from( blPlay, nil);
 
      Show;
+     bfPlay.Click;
 end;
 
 procedure TfTiming_Play._from_pool;

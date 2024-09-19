@@ -6,9 +6,10 @@ interface
 
 uses
     uBatpro_StringList,
+    uPublieur,
     ublTexte,
     ublTiming,
- Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls;
+ Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls;
 
 type
 
@@ -18,7 +19,12 @@ type
  =
   class(TForm)
     m: TMemo;
+    tShow: TTimer;
+    procedure FormResize(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure tShowTimer(Sender: TObject);
   public
+    pOnShow: TAbonnement_Objet_Proc;
     procedure _from( _bl, _blOld:TblTiming);
   end;
 
@@ -30,6 +36,23 @@ implementation
 {$R *.lfm}
 
 { TfPlay }
+
+procedure TfPlay.tShowTimer(Sender: TObject);
+begin
+     tShow.Enabled:= False;
+     ClientWidth:= Trunc( ClientHeight*16/9);
+     if Assigned( pOnShow) then pOnShow;
+end;
+
+procedure TfPlay.FormShow(Sender: TObject);
+begin
+     tShow.Enabled:= True;
+end;
+
+procedure TfPlay.FormResize(Sender: TObject);
+begin
+     tShow.Enabled:= True;
+end;
 
 procedure TfPlay._from(_bl, _blOld: TblTiming);
 var

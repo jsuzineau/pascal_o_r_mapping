@@ -39,6 +39,8 @@ uses
 
 const
      udkTiming_display_Copy_to_current=0;
+var
+   udkTiming_display_Modifiable: Boolean= False;
 
 type
 
@@ -84,6 +86,13 @@ end;
 procedure TdkTiming_display.SetObjet(const Value: TObject);
 begin
      inherited SetObjet(Value);
+
+     ceTexte_id.ReadOnly:= not udkTiming_display_Modifiable;
+     if udkTiming_display_Modifiable
+     then
+         ceTexte_id.Color:= clDefault
+     else
+         ceTexte_id.Color:= clBtnFace;
 
      Affecte( blTiming, TblTiming, Value);
 
