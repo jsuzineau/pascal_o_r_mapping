@@ -210,7 +210,7 @@ nosjat sila i život,
 apporte force et vie,
 носят сила и живот.
 nosjat sila i život.
-ils apportent force et vie.
+apporte force et vie.
 -
 -
 -
