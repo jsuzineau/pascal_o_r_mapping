@@ -101,7 +101,7 @@ type
   class( Tpool_Ancetre_Ancetre)
   //Gestion du cycle de vie
   public
-    constructor Create( _sl: TBatpro_StringList); override;
+    constructor Create( _sl: TBatpro_StringList; _Default_jsDataConnexion: TjsDataConnexion); override;
     destructor Destroy; override;
 
     procedure AfterConstruction; override;
@@ -329,7 +329,7 @@ type
     procedure Cree_nul( var _bl; _Classe_Element_null: TBatpro_Ligne_Class= nil);
   //Gestion de la connection
   public
-    function Connection: TjsDataConnexion; virtual;
+    function Connection: TjsDataConnexion; override;
   //Objet de requete
   public
     function r: TRequete; virtual;
@@ -408,7 +408,6 @@ procedure Reinitialise_pools;//pour passage d'informix à MySQL
 
 var
    uPool_Vide_contexte: String = '';
-   uPool_Default_jsDataConnexion: TjsDataConnexion= nil;
 
 procedure uPool_Vide;
 
@@ -627,7 +626,8 @@ begin
      Result.Save_to_database;
 end;
 
-constructor TPool.Create(_sl: TBatpro_StringList);
+constructor TPool.Create( _sl: TBatpro_StringList;
+                          _Default_jsDataConnexion: TjsDataConnexion);
 begin
      uLog.Log.PrintLn( ClassName+'.Create;, début');
      Load_sqlQuery_Context_class:= TLoad_sqlQuery_Context;
@@ -660,7 +660,7 @@ begin
      Load_N_rows_by_id_ORDER_BY:= '';
 
      uLog.Log.PrintLn( ClassName+'.Create;, avant inherited Create( _sl);');
-     inherited Create( _sl);
+     inherited Create( _sl, _Default_jsDataConnexion);
      uLog.Log.PrintLn( ClassName+'.Create;, fin');
 end;
 
@@ -1926,14 +1926,14 @@ end;
 
 function TPool.Connection: TjsDataConnexion;
 begin
-     if nil = uPool_Default_jsDataConnexion
+     if nil = Default_jsDataConnexion
      then
          begin
-         uLog.Log.PrintLn( ClassName+'.Connection: uPool_Default_jsDataConnexion = nil');
-         uPool_Default_jsDataConnexion:= dmDatabase.jsDataConnexion;
-         uLog.Log.PrintLn( ClassName+'.Connection: aprés uPool_Default_jsDataConnexion:= dmDatabase.jsDataConnexion;');
+         uLog.Log.PrintLn( ClassName+'.Connection: Default_jsDataConnexion = nil');
+         Default_jsDataConnexion:= dmDatabase.jsDataConnexion;
+         uLog.Log.PrintLn( ClassName+'.Connection: aprés Default_jsDataConnexion:= dmDatabase.jsDataConnexion;');
          end;
-     Result:= uPool_Default_jsDataConnexion;
+     Result:= Default_jsDataConnexion;
      uLog.Log.PrintLn( ClassName+'.Connection: Fin');
 end;
 

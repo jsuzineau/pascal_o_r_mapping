@@ -185,7 +185,7 @@ begin
 end;
 
 initialization
-              TPool.class_Create( FpoolG_BECP, TpoolG_BECP);
+              TPool.class_Create( FpoolG_BECP, TpoolG_BECP, nil);
               uBatpro_Element.poolG_BECP_Cree            := FpoolG_BECP.Cree;
               uBatpro_Element.Batpro_ElementClassesParams:= FpoolG_BECP.Get_btsCle;
 

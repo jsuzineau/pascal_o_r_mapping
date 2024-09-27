@@ -28,13 +28,12 @@ interface
 uses
     uBatpro_StringList,
     uClean,
+    uLog,
     u_sys_,
     uContrainte,
     uMotsCles,
     uuStrings,
     uPublieur,
-
-    udmDatabase,
 
     uVide,
     uBatpro_Element,
@@ -178,7 +177,7 @@ type
     procedure Rafraichit_Champs_Calcules; virtual;
   //Gestion de la connection
   public
-    class function jsDataConnexion: TjsDataConnexion; virtual;
+    function jsDataConnexion: TjsDataConnexion; virtual;
   //Gestion des champ de code et de libelle
   public
     cCode   : TChamp;
@@ -962,9 +961,20 @@ begin
 
 end;
 
-class function TBatpro_Ligne.jsDataConnexion: TjsDataConnexion;
+type
+    EBatpro_Ligne_pool_Exception= class(Exception);
+
+function TBatpro_Ligne.jsDataConnexion: TjsDataConnexion;
 begin
-     Result:= dmDatabase.jsDataConnexion;
+     if nil = pool
+     then
+         begin
+         Result:= nil;
+         Log.PrintLn( ClassName+':TBatpro_Ligne.jsDataConnexion: pool=nil');
+         raise EBatpro_Ligne_pool_Exception.Create(ClassName);
+         end
+     else
+         Result:= pool.Connection;
 end;
 
 function TBatpro_Ligne.Champ_a_editer( Contexte: Integer): TChamp;

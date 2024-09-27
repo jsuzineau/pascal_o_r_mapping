@@ -46,6 +46,7 @@ uses
     uDrawInfo,
     uChampDefinitions,
     uChamps,
+    ujsDataContexte,
     //uLog,
     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
     uImpression_Font_Size_Multiplier,
@@ -1163,7 +1164,7 @@ type
   class( TBatpro_Element)
   //Gestion du cycle de vie
   public
-    constructor Create( _sl: TBatpro_StringList);reintroduce;virtual;
+    constructor Create( _sl: TBatpro_StringList; _Default_jsDataConnexion: TjsDataConnexion);reintroduce;virtual;
     destructor Destroy; override;
   public
     class function Name: String;
@@ -1188,9 +1189,14 @@ type
     class var Fclass_sl: Tslpool_Ancetre_Ancetre;
   public
     class function class_sl: Tslpool_Ancetre_Ancetre;
-    class procedure class_Create (               var Reference ; Classe: Tpool_Ancetre_Ancetre_Class);
+    class procedure class_Create (               var Reference ; Classe: Tpool_Ancetre_Ancetre_Class; _Default_jsDataConnexion: TjsDataConnexion);
     class procedure class_Destroy(               var Reference                                      );
-    class procedure class_Get    ( out Resultat; var Reference ; Classe: Tpool_Ancetre_Ancetre_Class);
+    class procedure class_Get    ( out Resultat; var Reference ; Classe: Tpool_Ancetre_Ancetre_Class; _Default_jsDataConnexion: TjsDataConnexion=nil);
+  //Gestion de la connection
+  protected
+    Default_jsDataConnexion: TjsDataConnexion;
+  public
+    function Connection: TjsDataConnexion; virtual; abstract;
   end;
 
  Tfunction_pool_Ancetre_Ancetre= function : Tpool_Ancetre_Ancetre;
@@ -6703,9 +6709,11 @@ end;
 
 { Tpool_Ancetre_Ancetre }
 
-constructor Tpool_Ancetre_Ancetre.Create( _sl: TBatpro_StringList);
+constructor Tpool_Ancetre_Ancetre.Create( _sl: TBatpro_StringList;
+                                          _Default_jsDataConnexion: TjsDataConnexion);
 begin
      inherited Create( _sl);
+     Default_jsDataConnexion:= _Default_jsDataConnexion;
 end;
 
 destructor Tpool_Ancetre_Ancetre.Destroy;
@@ -6731,12 +6739,15 @@ begin
      Result:= Fclass_sl;
 end;
 
-class procedure Tpool_Ancetre_Ancetre.class_Create( var Reference; Classe: Tpool_Ancetre_Ancetre_Class);
+class procedure Tpool_Ancetre_Ancetre.class_Create( var Reference;
+                                                    Classe: Tpool_Ancetre_Ancetre_Class;
+                                                    _Default_jsDataConnexion: TjsDataConnexion
+                                                    );
 var
    Nom: String;
 begin
      //if Assigned(Chrono) then Chrono.Stop( 'Clean_Create , début');
-     Tpool_Ancetre_Ancetre(Reference):= Classe.Create( class_sl);
+     Tpool_Ancetre_Ancetre(Reference):= Classe.Create( class_sl, _Default_jsDataConnexion);
      //Liste.Add( @Reference);
      Nom:= Tpool_Ancetre_Ancetre(Reference).Name;
      //Noms.Add( Nom);
@@ -6749,11 +6760,15 @@ begin
      Clean_Destroy( Reference);
 end;
 
-class procedure Tpool_Ancetre_Ancetre.class_Get( out Resultat; var Reference; Classe: Tpool_Ancetre_Ancetre_Class);
+class procedure Tpool_Ancetre_Ancetre.class_Get( out Resultat;
+                                                 var Reference;
+                                                 Classe: Tpool_Ancetre_Ancetre_Class;
+                                                 _Default_jsDataConnexion: TjsDataConnexion=nil
+                                                 );
 begin
      if not Assigned( Tpool_Ancetre_Ancetre( Reference))
      then
-         class_Create( Reference, Classe);
+         class_Create( Reference, Classe, _Default_jsDataConnexion);
 
      Tpool_Ancetre_Ancetre( Resultat):= Tpool_Ancetre_Ancetre( Reference);
 end;
