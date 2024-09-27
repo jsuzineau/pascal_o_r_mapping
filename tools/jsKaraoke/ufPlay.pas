@@ -18,7 +18,9 @@ type
  TfPlay
  =
   class(TForm)
-    m: TMemo;
+   mFrancais: TMemo;
+   mTranslitteration: TMemo;
+    mCyrillique: TMemo;
     tShow: TTimer;
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -38,9 +40,15 @@ implementation
 { TfPlay }
 
 procedure TfPlay.tShowTimer(Sender: TObject);
+var
+   m_Height: Integer;
 begin
      tShow.Enabled:= False;
      ClientWidth:= Trunc( ClientHeight*16/9);
+
+     m_Height:= ClientHeight div 3;
+     mTranslitteration.Height:= m_Height;
+     mCyrillique      .Height:= m_Height;
      if Assigned( pOnShow) then pOnShow;
 end;
 
@@ -69,16 +77,18 @@ begin
      T_OK    := T_from_( _bl   , blT    );
      T_Old_OK:= T_from_( _blOld, blT_Old);
 
-     m.Lines.Clear;
+     mTranslitteration.Lines.Clear;
+     mFrancais        .Lines.Clear;
+     mCyrillique      .Lines.Clear;
 
-     //if T_Old_OK then m.Lines.Add( blT_Old.Translitteration);
-     if T_OK     then m.Lines.Add( blT    .Translitteration);
+     //if T_Old_OK then mTranslitteration.Lines.Add( blT_Old.Translitteration);
+     if T_OK     then mTranslitteration.Lines.Add( blT    .Translitteration);
 
-     //if T_Old_OK then m.Lines.Add( blT_Old.Francais);
-     if T_OK     then m.Lines.Add( blT    .Francais);
+     //if T_Old_OK then mFrancais.Lines.Add( blT_Old.Francais);
+     if T_OK     then mFrancais.Lines.Add( blT    .Francais);
 
-     //if T_Old_OK then m.Lines.Add( blT_Old.Cyrillique);
-     if T_OK     then m.Lines.Add( blT    .Cyrillique);
+     //if T_Old_OK then mCyrillique.Lines.Add( blT_Old.Cyrillique);
+     if T_OK     then mCyrillique.Lines.Add( blT    .Cyrillique);
 end;
 
 end.

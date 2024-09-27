@@ -1,36 +1,70 @@
 object fPlay: TfPlay
   Left = 678
-  Height = 252
+  Height = 257
   Top = 131
-  Width = 448
+  Width = 458
   Caption = 'fPlay'
-  ClientHeight = 252
-  ClientWidth = 448
-  DesignTimePPI = 94
+  ClientHeight = 257
+  ClientWidth = 458
   OnResize = FormResize
   OnShow = FormShow
   LCLVersion = '3.4.0.0'
-  object m: TMemo
+  object mCyrillique: TMemo
     Left = 0
-    Height = 252
-    Top = 0
-    Width = 448
-    Align = alClient
+    Height = 81
+    Top = 176
+    Width = 458
+    Align = alBottom
     Alignment = taCenter
+    BorderStyle = bsNone
     Font.Color = clBlue
-    Font.Height = -31
+    Font.Height = -32
     Font.Name = 'Arial'
     Lines.Strings = (
-      'm'
+      'mCyrillique'
     )
     ParentFont = False
     TabOrder = 0
+  end
+  object mTranslitteration: TMemo
+    Left = 0
+    Height = 67
+    Top = 0
+    Width = 458
+    Align = alTop
+    Alignment = taCenter
+    BorderStyle = bsNone
+    Font.Color = clBlue
+    Font.Height = -32
+    Font.Name = 'Arial'
+    Lines.Strings = (
+      'mTranslitteration'
+    )
+    ParentFont = False
+    TabOrder = 1
+  end
+  object mFrancais: TMemo
+    Left = 0
+    Height = 109
+    Top = 67
+    Width = 458
+    Align = alClient
+    Alignment = taCenter
+    BorderStyle = bsNone
+    Font.Color = clBlue
+    Font.Height = -32
+    Font.Name = 'Arial'
+    Lines.Strings = (
+      'mFrancais'
+    )
+    ParentFont = False
+    TabOrder = 2
   end
   object tShow: TTimer
     Enabled = False
     Interval = 100
     OnTimer = tShowTimer
-    Left = 37
-    Top = 75
+    Left = 38
+    Top = 77
   end
 end
