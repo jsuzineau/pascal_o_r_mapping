@@ -47,8 +47,8 @@ begin
      ClientWidth:= Trunc( ClientHeight*16/9);
 
      m_Height:= ClientHeight div 3;
-     mTranslitteration.Height:= m_Height;
-     mCyrillique      .Height:= m_Height;
+     mCyrillique.Height:= m_Height;
+     mFrancais  .Height:= m_Height;
      if Assigned( pOnShow) then pOnShow;
 end;
 
