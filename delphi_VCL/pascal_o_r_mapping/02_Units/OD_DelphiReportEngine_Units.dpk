@@ -1,0 +1,134 @@
+package OD_DelphiReportEngine_Units;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  vcl,
+  dbrtl,
+  dsnap,
+  Jcl,
+  dbexpress,
+  dbxcds,
+  vclx;
+
+contains
+  u_db_ in 'u_db_.pas',
+  u_db_Composants in 'u_db_Composants.pas',
+  u_ini_ in 'u_ini_.pas',
+  u_loc_ in 'u_loc_.pas',
+  u_loc_Formes in 'u_loc_Formes.pas',
+  u_reg_ in 'u_reg_.pas',
+  u_sys_ in 'u_sys_.pas',
+  uBatpro_Registry in 'uBatpro_Registry.pas',
+  uBatpro_StringList in 'uBatpro_StringList.pas',
+  uBinary_Tree in 'uBinary_Tree.pas',
+  ubtInteger in 'ubtInteger.pas',
+  uBTree in 'uBTree.pas',
+  ubtString in 'ubtString.pas',
+  uChamp in 'uChamp.pas',
+  uChampDefinition in 'uChampDefinition.pas',
+  uChampDefinitions in 'uChampDefinitions.pas',
+  uChamps in 'uChamps.pas',
+  uChrono in 'uChrono.pas',
+  uClean in 'uClean.pas',
+  uCode_barre in 'uCode_barre.pas',
+  uContrainte in 'uContrainte.pas',
+  uCP1252_from_CP437 in 'uCP1252_from_CP437.pas',
+  uDataUtilsU in 'uDataUtilsU.pas',
+  uEtat in 'uEtat.pas',
+  uEvaluation_Formule in 'uEvaluation_Formule.pas',
+  uEXE_INI in 'uEXE_INI.pas',
+  ufAccueil_Erreur in 'ufAccueil_Erreur.pas',
+  uForms in 'uForms.pas',
+  uhFiltre_Ancetre in 'uhFiltre_Ancetre.pas',
+  uHorloge in 'uHorloge.pas',
+  uIntervalle in 'uIntervalle.pas',
+  uJCL in 'uJCL.pas',
+  uLookupConnection_Ancetre in 'uLookupConnection_Ancetre.pas',
+  uNetwork in 'uNetwork.pas',
+  uOD_Column in 'uOD_Column.pas',
+  uOD_Dataset_Column in 'uOD_Dataset_Column.pas',
+  uOD_Dataset_Columns in 'uOD_Dataset_Columns.pas',
+  uOD_Error in 'uOD_Error.pas',
+  uOD_Forms in 'uOD_Forms.pas',
+  uOD_JCL in 'uOD_JCL.pas',
+  uOD_Merge in 'uOD_Merge.pas',
+  uOD_Patch in 'uOD_Patch.pas',
+  uOD_Printer in 'uOD_Printer.pas',
+  uOD_SpreadsheetManager in 'uOD_SpreadsheetManager.pas',
+  uOD_Styles in 'uOD_Styles.pas',
+  uOD_SurTitre in 'uOD_SurTitre.pas',
+  uOD_Temporaire in 'uOD_Temporaire.pas',
+  uOD_TextFieldsCreator in 'uOD_TextFieldsCreator.pas',
+  uOD_TextTableContext in 'uOD_TextTableContext.pas',
+  uOD_TextTableManager in 'uOD_TextTableManager.pas',
+  uODRE_Table in 'uODRE_Table.pas',
+  uOOoChrono in 'uOOoChrono.pas',
+  uOOoDelphiReportEngineLog in 'uOOoDelphiReportEngineLog.pas',
+  uOOoStringList in 'uOOoStringList.pas',
+  uOOoStrings in 'uOOoStrings.pas',
+  uOpenDocument in 'uOpenDocument.pas',
+  uParametre in 'uParametre.pas',
+  uParametres_Ligne_de_commande in 'uParametres_Ligne_de_commande.pas',
+  uProgression in 'uProgression.pas',
+  uPublieur in 'uPublieur.pas',
+  uPublieur_sans_btree in 'uPublieur_sans_btree.pas',
+  uReal_Field_Formatter in 'uReal_Field_Formatter.pas',
+  uReal_Formatter in 'uReal_Formatter.pas',
+  uReels in 'uReels.pas',
+  uSGBD in 'uSGBD.pas',
+  uskInteger in 'uskInteger.pas',
+  uSkipList in 'uSkipList.pas',
+  uskString in 'uskString.pas',
+  uStringArray in 'uStringArray.pas',
+  uTemporaire in 'uTemporaire.pas',
+  uTri_Ancetre in 'uTri_Ancetre.pas',
+  uUseCase in 'uUseCase.pas',
+  uUseCases in 'uUseCases.pas',
+  uuStrings in 'uuStrings.pas',
+  uVersion in 'uVersion.pas',
+  uWinUtils in 'uWinUtils.pas',
+  uWindows in '..\01_LCL\mswindows\uWindows.pas',
+  uLog in 'uLog.pas',
+  ujsDataContexte in 'ujsDataContexte.pas',
+  uDataUtilsF in 'uDataUtilsF.pas',
+  uVide in 'uVide.pas',
+  uMimeType in 'uMimeType.pas',
+  uODBC_Access in 'uODBC_Access.pas',
+  uSQLite3 in 'uSQLite3.pas',
+  uSQLite3_SQLQuery in 'uSQLite3_SQLQuery.pas',
+  uRegistry in 'uRegistry.pas',
+  uPhi in 'uPhi.pas',
+  uDimensions_Image in 'uDimensions_Image.pas',
+  uCSS_Style_Parser_PYACC in 'CSS_Style_Parser\generated\uCSS_Style_Parser_PYACC.pas',
+  yacclib in '..\07_sources_externes\ndyacclex\src\yacclib.pas',
+  lexlib in '..\07_sources_externes\ndyacclex\src\lexlib.pas',
+  uStreamLexer in '..\07_sources_externes\ndyacclex\src\uStreamLexer.pas';
+
+end.

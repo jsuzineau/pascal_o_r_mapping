@@ -1,0 +1,28 @@
+object fAttente: TfAttente
+  Left = 661
+  Top = 329
+  BorderStyle = None
+  Caption = 'fAttente'
+  ClientHeight = 108
+  ClientWidth = 320
+  Position = ScreenCenter
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop, iPhone, iPad]
+  OnDestroy = FormDestroy
+  Left = 661
+  Top = 329
+  DesignerMasterStyle = 0
+  object Panel1: TPanel
+    Align = Client
+    Size.Width = 320.000000000000000000
+    Size.Height = 108.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+  end
+  object tShow: TTimer
+    Enabled = False
+    Left = 32
+    Top = 16
+  end
+end

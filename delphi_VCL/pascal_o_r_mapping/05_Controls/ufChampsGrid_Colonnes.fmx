@@ -1,0 +1,52 @@
+object fChampsGrid_Colonnes: TfChampsGrid_Colonnes
+  Left = 208
+  Top = 119
+  Caption = 'fChampsGrid_Colonnes'
+  ClientHeight = 403
+  ClientWidth = 448
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop, iPhone, iPad]
+  Left = 208
+  Top = 119
+  DesignerMasterStyle = 0
+  object Panel1: TPanel
+    Align = Bottom
+    Position.Y = 362.000000000000000000
+    Size.Width = 448.000000000000000000
+    Size.Height = 41.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    Top = 328
+    object bOK: TButton
+      Size.Width = 75.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Text = 'OK'
+      Left = 280
+      Top = 8
+    end
+    object bCancel: TButton
+      Position.X = 104.000000000000000000
+      Size.Width = 75.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Text = 'Cancel'
+      Left = 360
+      Top = 8
+    end
+  end
+  object m: TMemo
+    Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+    DataDetectorTypes = []
+    Align = Client
+    Size.Width = 448.000000000000000000
+    Size.Height = 362.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    Viewport.Width = 444.000000000000000000
+    Viewport.Height = 358.000000000000000000
+  end
+end

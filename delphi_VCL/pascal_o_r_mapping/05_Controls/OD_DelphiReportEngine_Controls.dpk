@@ -1,0 +1,81 @@
+package OD_DelphiReportEngine_Controls;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  vcl,
+  OD_DelphiReportEngine_Units,
+  DbxCommonDriver,
+  dbexpress,
+  OD_DelphiReportEngine_Data,
+  vclwinx,
+  vcldb,
+  VclSmp;
+
+contains
+  ucBatproVerifieur in '..\04_Components\ucBatproVerifieur.pas',
+  ucbvCustomConnection in '..\04_Components\ucbvCustomConnection.pas',
+  ucbvQuery_Datasource in '..\04_Components\ucbvQuery_Datasource.pas',
+  ucBatpro_Button in 'ucBatpro_Button.pas',
+  ucBatpro_Contrainte in 'ucBatpro_Contrainte.pas',
+  ucBatpro_OptionButton in 'ucBatpro_OptionButton.pas',
+  ucBatpro_RadioGroup in 'ucBatpro_RadioGroup.pas',
+  ucBatpro_Shape in 'ucBatpro_Shape.pas',
+  ucBatpro_SpeedButton in 'ucBatpro_SpeedButton.pas',
+  ucBatproComboBox in 'ucBatproComboBox.pas',
+  ucBatproDateRange in 'ucBatproDateRange.pas',
+  ucBatproDateTimePicker in 'ucBatproDateTimePicker.pas',
+  ucBatproMaskElement in 'ucBatproMaskElement.pas',
+  ucBatproMasque in 'ucBatproMasque.pas',
+  ucBatproSelector in 'ucBatproSelector.pas',
+  ucBatproSQLMask in 'ucBatproSQLMask.pas',
+  ucBitBtn_antirebond in 'ucBitBtn_antirebond.pas',
+  ucChamp_CheckBox in 'ucChamp_CheckBox.pas',
+  ucChamp_DateTimePicker_CheckBox in 'ucChamp_DateTimePicker_CheckBox.pas',
+  ucChamp_Edit in 'ucChamp_Edit.pas',
+  ucChamp_Integer_SpinEdit in 'ucChamp_Integer_SpinEdit.pas',
+  ucChamp_Label in 'ucChamp_Label.pas',
+  ucChamp_Lookup_ComboBox in 'ucChamp_Lookup_ComboBox.pas',
+  ucChamp_Memo in 'ucChamp_Memo.pas',
+  ucChampsGrid in 'ucChampsGrid.pas',
+  ucDockableScrollbox in 'ucDockableScrollbox.pas',
+  ucDockScrollbox in 'ucDockScrollbox.pas',
+  uDBEdit_WANTTAB in 'uDBEdit_WANTTAB.pas',
+  udmf in 'udmf.pas',
+  uDockable in 'uDockable.pas',
+  uEdit_WANTTAB in 'uEdit_WANTTAB.pas',
+  ufcb in 'ufcb.pas',
+  ufChamp_Date in 'ufChamp_Date.pas',
+  ufChamp_Lookup in 'ufChamp_Lookup.pas',
+  ufChampsGrid_Colonnes in 'ufChampsGrid_Colonnes.pas',
+  ucBitBtn in 'ucBitBtn.pas',
+  ucBatpro_StringGrid in 'ucBatpro_StringGrid.pas',
+  ucChamp_DateTimePicker in 'ucChamp_DateTimePicker.pas';
+
+end.

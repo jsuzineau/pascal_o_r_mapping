@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<test-results name="E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\DUnitX\duxPASCAL_O_R_MAPPING\Win64\Debug\duxPASCAL_O_R_MAPPING.exe" total="1" errors="1" failures="0" ignored="0" inconclusive="0" not-run="0" skipped="0" invalid="0" date="2023-05-09" time="27.896">
+  <culture-info current-culture="en" current-uiculture="en" />
+  <test-suite type="Assembly" name="duxPASCAL_O_R_MAPPING.exe" executed="true" result="Failure" success="False" time="27.896" asserts="0">
+    <results>
+        <test-suite type="Namespace" name="utcOpenDocument_Embed_Image" executed="true" result="Success" success="True" time="27.895" asserts="0" >
+          <results>
+              <test-suite type="Fixture" name="TtcOpenDocument_Embed_Image" executed="True" result="Success" success="True" time="27.895" >
+                <results>
+                  <test-case name="test_Embed_Image.test_Embed_Image" executed="True" result="Error" success="False" time="27.875" asserts="0" >
+                    <failure>
+                      <message>
+                        <![CDATA[ Sevenzip: Failed to load 7z.dll ]]>
+                      </message>
+                      <stack-trace>
+                        <![CDATA[  ]]>
+                      </stack-trace>
+                    </failure>
+                  </test-case>
+                </results>
+              </test-suite>
+          </results>
+        </test-suite>
+    </results>
+  </test-suite>
+</test-results>

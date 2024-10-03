@@ -1,0 +1,10 @@
+object wmjsWorks: TwmjsWorks
+  OldCreateOrder = False
+  Actions = <>
+  OnRequest = DataModuleRequest
+  CreateSession = False
+  Height = 150
+  HorizontalOffset = 519
+  VerticalOffset = 250
+  Width = 150
+end

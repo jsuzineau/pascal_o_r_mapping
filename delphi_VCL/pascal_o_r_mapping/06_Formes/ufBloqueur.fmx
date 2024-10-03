@@ -1,0 +1,21 @@
+object fBloqueur: TfBloqueur
+  Left = 212
+  Top = 114
+  BorderStyle = None
+  Caption = 'fBloqueur'
+  ClientHeight = 622
+  ClientWidth = 1134
+  Cursor = crHourGlass
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop, iPhone, iPad]
+  Left = 212
+  Top = 114
+  DesignerMasterStyle = 0
+  object tShow: TTimer
+    Interval = 100
+    OnTimer = tShowTimer
+    Left = 24
+    Top = 24
+  end
+end

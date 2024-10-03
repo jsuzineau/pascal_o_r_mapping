@@ -1,0 +1,52 @@
+<html ng-app="ATB" >
+  <header>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+  </header>
+  <body>
+
+    <section ng-controller="ctrl_ATB" >
+       <!-- Nested node template -->
+       <script type="text/css" id ="style.css">
+          .name-cell
+            {
+            width: 100px;
+            text-align: left;
+            }
+
+          .another-cell
+            {
+            margin-left: 10px;
+            color: lightseagreen;
+            }
+       </script>
+      <!-- ===== Usage with border & header ===== -->
+      <ad-tree-browser class="ad-border-default"
+                       tree-name="treeDemoBordered"
+                       row-ng-class="{added:item._selected}"
+                       tree-root="root"
+                       child-node="Elements"
+                       children-padding="0"
+                       bordered="true"
+                       on-row-click="rowClicked"
+                       node-header-url="treeHeader.html"
+                       node-template-url="treeNode.html"
+                       custom-toggle="true">
+      </ad-tree-browser>
+    </section>
+    <!-- dependencies -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+
+    <!-- adapt-strap -->
+    <script src="bower_components/adapt-strap/dist/adapt-strap.min.js"></script>
+    <script src="bower_components/adapt-strap/dist/adapt-strap.tpl.min.js"></script>
+    <link rel="stylesheet" href="bower_components/adapt-strap/dist/adapt-strap.min.css"/>
+
+    <!-- Script -->
+    <script type="text/javascript" src="ATB.js"></script>
+  </body>
+</html>

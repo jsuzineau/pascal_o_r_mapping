@@ -1,0 +1,144 @@
+object fAutomatic_VST: TfAutomatic_VST
+  Left = 812
+  Height = 413
+  Top = 226
+  Width = 691
+  Caption = 'fAutomatic_VST'
+  ClientHeight = 413
+  ClientWidth = 691
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  Position = poDesktopCenter
+  LCLVersion = '2.2.0.4'
+  object Panel1: TPanel
+    Left = 0
+    Height = 106
+    Top = 0
+    Width = 691
+    Align = alTop
+    ClientHeight = 106
+    ClientWidth = 691
+    TabOrder = 0
+    object bExecute: TButton
+      Left = 8
+      Height = 25
+      Top = 40
+      Width = 75
+      Caption = 'Execute'
+      Default = True
+      OnClick = bExecuteClick
+      TabOrder = 0
+    end
+    object e: TEdit
+      Left = 88
+      Height = 23
+      Top = 40
+      Width = 519
+      Anchors = [akTop, akLeft, akRight]
+      TabOrder = 1
+    end
+    object bGenere: TButton
+      Left = 11
+      Height = 25
+      Top = 72
+      Width = 75
+      Caption = 'Génère'
+      OnClick = bGenereClick
+      TabOrder = 2
+    end
+    object bGenere_Tout: TButton
+      Left = 101
+      Height = 25
+      Top = 72
+      Width = 147
+      Caption = 'Génère Tout'
+      OnClick = bGenere_ToutClick
+      TabOrder = 3
+    end
+    object cbDatabases: TComboBox
+      Left = 95
+      Height = 23
+      Top = 11
+      Width = 100
+      ItemHeight = 15
+      TabOrder = 4
+      Text = 'cbDatabases'
+    end
+    object bSaveSQL: TButton
+      Left = 609
+      Height = 25
+      Top = 48
+      Width = 75
+      Anchors = [akTop, akRight]
+      Caption = 'bSaveSQL'
+      OnClick = bSaveSQLClick
+      TabOrder = 5
+    end
+    object cbSchemas: TComboBox
+      Left = 219
+      Height = 23
+      Top = 11
+      Width = 100
+      ItemHeight = 15
+      TabOrder = 6
+      Text = 'cbSchemas'
+      Visible = False
+    end
+    object bGenereFromQueryFile: TButton
+      Left = 280
+      Height = 25
+      Top = 72
+      Width = 136
+      Caption = 'bGenereFromQueryFile'
+      OnClick = bGenereFromQueryFileClick
+      TabOrder = 7
+    end
+    object eQueryFileName: TEdit
+      Left = 440
+      Height = 23
+      Top = 78
+      Width = 217
+      Anchors = [akTop, akLeft, akRight]
+      TabOrder = 8
+      Text = 'eQueryFileName'
+    end
+    object bod: TButton
+      Left = 662
+      Height = 23
+      Top = 78
+      Width = 26
+      Caption = '...'
+      OnClick = bodClick
+      TabOrder = 9
+    end
+    object Button1: TButton
+      Left = 12
+      Height = 25
+      Top = 1
+      Width = 75
+      Caption = 'Button1'
+      OnClick = Button1Click
+      TabOrder = 10
+    end
+  end
+  object vst: TVirtualStringTree
+    Left = 0
+    Height = 307
+    Top = 106
+    Width = 691
+    Align = alClient
+    DefaultNodeHeight = 21
+    DefaultText = 'Node'
+    Header.AutoSizeIndex = 0
+    Header.Columns = <>
+    Header.DefaultHeight = 17
+    Header.Height = 17
+    Header.MainColumn = -1
+    Header.Options = [hoColumnResize, hoDblClickResize, hoDrag, hoShowSortGlyphs]
+    TabOrder = 1
+  end
+  object od: TOpenDialog
+    Left = 424
+    Top = 72
+  end
+end

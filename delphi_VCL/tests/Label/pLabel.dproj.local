@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2023/05/10 19:44:50.000.022,=C:\Users\Jean\Documents\Embarcadero\Studio\Projets\Unit1.pas</Transaction>
+    <Transaction>2023/05/10 19:45:41.000.851,E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\Label\ufLabel.pas=C:\Users\Jean\Documents\Embarcadero\Studio\Projets\Unit1.pas</Transaction>
+    <Transaction>2023/05/10 19:45:41.000.851,E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\Label\ufLabel.fmx=C:\Users\Jean\Documents\Embarcadero\Studio\Projets\Unit1.fmx</Transaction>
+    <Transaction>2023/05/10 19:46:11.000.813,E:\01_Projets\13_pascal_o_r_mapping_branch_master\delphi\tests\Label\pLabel.dproj=C:\Users\Jean\Documents\Embarcadero\Studio\Projets\Project1.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

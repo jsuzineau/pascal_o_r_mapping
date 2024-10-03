@@ -1,0 +1,33 @@
+inherited dkTag_LABEL_od: TdkTag_LABEL_od
+  Left = 636
+  Top = 169
+  Caption = 'dkTag_LABEL_od'
+  ClientHeight = 41
+  ClientWidth = 320
+  Left = 636
+  Top = 169
+  DesignerMasterStyle = 0
+  object bOD: TButton
+    Anchors = [akTop, akRight]
+    Size.Width = 19.000000000000000000
+    Size.Height = 18.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    Text = 'od'
+    OnClick = bODClick
+    Left = 297
+    Top = 1
+  end
+  object clName: TChamp_Label
+    Anchors = [akLeft, akTop, akRight]
+    Size.Width = 288.000000000000000000
+    Size.Height = 14.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'clName'
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'Name'
+    Left = 8
+  end
+end

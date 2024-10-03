@@ -1,5 +1,9 @@
 _Configuration..ini
 _Configuration.ini
+_Configuration.ini~
+*.dsk
+*.~dsk
+*.zip
 *.bak
 *.pas.bak
 x86_64-win64
@@ -89,5 +93,5 @@ pascal_o_r_mapping/7_sources_externes/ndyacclex/src/yacc/ndyacc
 /jsWorks/Generateur_de_code/06_Resultat
 /tools/Generateur/Generateur_de_code/04_Parametres
 /tools/Generateur/Generateur_de_code/06_Resultat
-
-/delphi/jsWorks/etc
+/delphi_10.2_FMX/jsWorks/etc
+/delphi_VCL/jsWorks/etc

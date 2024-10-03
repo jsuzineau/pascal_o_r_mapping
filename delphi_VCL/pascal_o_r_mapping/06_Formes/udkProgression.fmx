@@ -1,0 +1,74 @@
+inherited dkProgression: TdkProgression
+  Left = 221
+  Top = 132
+  BorderStyle = None
+  Caption = 'dkProgression'
+  ClientHeight = 53
+  ClientWidth = 422
+  Position = ScreenCenter
+  Left = 221
+  Top = 132
+  DesignerMasterStyle = 0
+  inherited sSelection: TBatpro_Shape
+    Top = 51
+  end
+  object p: TPanel
+    Align = Top
+    Size.Width = 422.000000000000000000
+    Size.Height = 51.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object pLabels: TPanel
+      Align = Top
+      Size.Width = 422.000000000000000000
+      Size.Height = 14.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+      Left = 2
+      Top = 2
+      object lcompte: TLabel
+        Align = Right
+        Position.X = 369.000000000000000000
+        Size.Width = 53.000000000000000000
+        Size.Height = 14.000000000000000000
+        Size.PlatformDefault = False
+        Text = '1000/1000'
+        Left = 365
+      end
+      object lTitre: TLabel
+        Align = Client
+        Size.Width = 369.000000000000000000
+        Size.Height = 14.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'lTitre'
+      end
+    end
+    object pInterrompre: TPanel
+      Align = Right
+      Position.X = 351.000000000000000000
+      Position.Y = 14.000000000000000000
+      Size.Width = 71.000000000000000000
+      Size.Height = 37.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Left = 349
+      Top = 16
+      object bInterrompre: TSpeedButton
+        Size.Width = 73.000000000000000000
+        Size.Height = 25.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Interrompre'
+        OnClick = bInterrompreClick
+        Left = 5
+        Top = 4
+      end
+    end
+    object pb: TProgressBar
+      Align = Client
+      Orientation = Horizontal
+      Size.Width = 351.000000000000000000
+      Size.Height = 37.000000000000000000
+      Size.PlatformDefault = False
+    end
+  end
+end

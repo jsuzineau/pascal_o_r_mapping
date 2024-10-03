@@ -1,0 +1,40 @@
+object fBatpro_Form: TfBatpro_Form
+  Left = 644
+  Top = 363
+  BorderIcons = [biSystemMenu, biMinimize, biMaximize, biHelp]
+  Caption = 'fBatpro_Form'
+  ClientHeight = 228
+  ClientWidth = 354
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop, iPhone, iPad]
+  OnCreate = FormCreate
+  OnClose = FormClose
+  OnDestroy = FormDestroy
+  Left = 644
+  Top = 363
+  DesignerMasterStyle = 0
+  object pSociete: TPanel
+    Align = Top
+    Size.Width = 354.000000000000000000
+    Size.Height = 18.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    object lSociete: TLabel
+      Align = Client
+      Size.Width = 298.000000000000000000
+      Size.Height = 18.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'lSociete'
+    end
+    object lHeure: TLabel
+      Align = Right
+      Position.X = 298.000000000000000000
+      Size.Width = 56.000000000000000000
+      Size.Height = 18.000000000000000000
+      Size.PlatformDefault = False
+      Text = '23:59:59'
+      Left = 298
+    end
+  end
+end

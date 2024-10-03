@@ -1,0 +1,186 @@
+package OD_DelphiReportEngine_Data;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl,
+  OD_DelphiReportEngine_Units,
+  dbxmssqldriver,
+  IndyCore,
+  dbxmysqldriver,
+  vcl,
+  dbxinformixdriver,
+  indyprotocols,
+  DBXSqliteDriver;
+
+contains
+  u_db_Formes in 'u_db_Formes.pas',
+  u_InformixLob in 'u_InformixLob.pas',
+  u_ini_Formes in 'u_ini_Formes.pas',
+  u_sys_Batpro_Element in 'u_sys_Batpro_Element.pas',
+  uBatpro_Element in 'uBatpro_Element.pas',
+  uBatpro_Ligne in 'uBatpro_Ligne.pas',
+  uBatpro_OD_Printer in 'uBatpro_OD_Printer.pas',
+  uBatpro_OD_SpreadSheet_Manager in 'uBatpro_OD_SpreadSheet_Manager.pas',
+  uBatpro_OD_TextFieldsCreator in 'uBatpro_OD_TextFieldsCreator.pas',
+  uBatpro_OD_TextTableManager in 'uBatpro_OD_TextTableManager.pas',
+  uBatproFiltre in 'uBatproFiltre.pas',
+  ubeChamp in 'ubeChamp.pas',
+  ubeCoche in 'ubeCoche.pas',
+  ubeCurseur in 'ubeCurseur.pas',
+  ubeExtended in 'ubeExtended.pas',
+  ubeJalon in 'ubeJalon.pas',
+  ubeListe_Batpro_Elements in 'ubeListe_Batpro_Elements.pas',
+  uberef in 'uberef.pas',
+  ubeSerie in 'ubeSerie.pas',
+  ubeString in 'ubeString.pas',
+  ubeTraits in 'ubeTraits.pas',
+  ublG_BECP in 'ublG_BECP.pas',
+  ublG_BECPCTX in 'ublG_BECPCTX.pas',
+  ublG_CTX in 'ublG_CTX.pas',
+  ublG_CTXTYPE in 'ublG_CTXTYPE.pas',
+  uCD_from_Params in 'uCD_from_Params.pas',
+  uCD_from_SL in 'uCD_from_SL.pas',
+  uChamps_persistance in 'uChamps_persistance.pas',
+  uCharge_100 in 'uCharge_100.pas',
+  uCharMap in 'uCharMap.pas',
+  uContextes in 'uContextes.pas',
+  uDataUtils in 'uDataUtils.pas',
+  udmBatpro_DataModule in 'udmBatpro_DataModule.pas',
+  udmDatabase in 'udmDatabase.pas' {dmDatabase: TDataModule},
+  uDrawInfo in 'uDrawInfo.pas',
+  uGlobal_INI in 'uGlobal_INI.pas',
+  uhAggregation in 'uhAggregation.pas',
+  uhfG_BECP in 'uhfG_BECP.pas',
+  uhfG_BECPCTX in 'uhfG_BECPCTX.pas',
+  uhfG_CTX in 'uhfG_CTX.pas',
+  uhfG_CTXTYPE in 'uhfG_CTXTYPE.pas',
+  uhField in 'uhField.pas',
+  uhFiltre in 'uhFiltre.pas',
+  uhTriColonne in 'uhTriColonne.pas',
+  uInformix in 'uInformix.pas',
+  uINI_Batpro_OD_Report in 'uINI_Batpro_OD_Report.pas',
+  uMailTo in 'uMailTo.pas',
+  uMotsCles in 'uMotsCles.pas',
+  uMySQL in 'uMySQL.pas',
+  uOD_Batpro_Table in 'uOD_Batpro_Table.pas',
+  uOD_BatproTextTableContext in 'uOD_BatproTextTableContext.pas',
+  uOD_Champ in 'uOD_Champ.pas',
+  uOD_Niveau in 'uOD_Niveau.pas',
+  uOOo_NomChamp_utilisateur in 'uOOo_NomChamp_utilisateur.pas',
+  uParametres_Ancetre in 'uParametres_Ancetre.pas',
+  uPool in 'uPool.pas',
+  upool_Ancetre_Ancetre in 'upool_Ancetre_Ancetre.pas',
+  upoolG_BECP in 'upoolG_BECP.pas',
+  upoolG_BECPCTX in 'upoolG_BECPCTX.pas',
+  upoolG_CTX in 'upoolG_CTX.pas',
+  upoolG_CTXTYPE in 'upoolG_CTXTYPE.pas',
+  uPostgres in 'uPostgres.pas',
+  uRequete in 'uRequete.pas',
+  uSQLServer in 'uSQLServer.pas',
+  uSuppression in 'uSuppression.pas',
+  uSVG in 'uSVG.pas',
+  uTraits in 'uTraits.pas',
+  uTri in 'uTri.pas',
+  uXML in 'uXML.pas',
+  uImpression_Font_Size_Multiplier in 'uImpression_Font_Size_Multiplier.pas',
+  uDataClasses in 'uDataClasses.pas',
+  uHTTP_Interface in 'uHTTP_Interface.pas',
+  uOD in 'uOD.pas',
+  uOD_Maitre in 'uOD_Maitre.pas',
+  uOD_Table_Batpro in 'uOD_Table_Batpro.pas',
+  ublAutomatic in 'Automatic\ublAutomatic.pas',
+  upoolAutomatic in 'Automatic\upoolAutomatic.pas',
+  uApplicationJoinPointFile in 'Automatic\Code_Generation\uApplicationJoinPointFile.pas',
+  uContexteClasse in 'Automatic\Code_Generation\uContexteClasse.pas',
+  uContexteMembre in 'Automatic\Code_Generation\uContexteMembre.pas',
+  uf_f_dbgKeyPress_Key_Pattern in 'Automatic\Code_Generation\uf_f_dbgKeyPress_Key_Pattern.pas',
+  uGenerateur_de_code_Ancetre in 'Automatic\Code_Generation\uGenerateur_de_code_Ancetre.pas',
+  ucsMenuHandler in 'Automatic\Code_Generation\File_Handler\ucsMenuHandler.pas',
+  uMenuHandler in 'Automatic\Code_Generation\File_Handler\uMenuHandler.pas',
+  uTemplateHandler in 'Automatic\Code_Generation\File_Handler\uTemplateHandler.pas',
+  uJoinPoint in 'Automatic\Code_Generation\JoinPoint\uJoinPoint.pas',
+  ujpFile in 'Automatic\Code_Generation\JoinPoint\ujpFile.pas',
+  ublPostgres_Foreign_Key in 'Automatic\Code_Generation\Elements\Postgres_Foreign_Key\ublPostgres_Foreign_Key.pas',
+  uhfPostgres_Foreign_Key in 'Automatic\Code_Generation\Elements\Postgres_Foreign_Key\uhfPostgres_Foreign_Key.pas',
+  upoolPostgres_Foreign_Key in 'Automatic\Code_Generation\Elements\Postgres_Foreign_Key\upoolPostgres_Foreign_Key.pas',
+  uAngular_TypeScript_ApplicationHandler in 'Automatic\Code_Generation\File_Handler\05_Angular_TypeScript\uAngular_TypeScript_ApplicationHandler.pas',
+  ujpPascal_Affecte in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Affecte.pas',
+  ujpPascal_aggregation_accesseurs_implementation in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_aggregation_accesseurs_implementation.pas',
+  ujpPascal_aggregation_declaration in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_aggregation_declaration.pas',
+  ujpPascal_Assure_Declaration in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Assure_Declaration.pas',
+  ujpPascal_Assure_Implementation in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Assure_Implementation.pas',
+  ujpPascal_Champ_EditDFM in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Champ_EditDFM.pas',
+  ujpPascal_Champ_EditPAS in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Champ_EditPAS.pas',
+  ujpPascal_creation_champs in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_creation_champs.pas',
+  ujpPascal_declaration_champs in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_declaration_champs.pas',
+  ujpPascal_Declaration_cle in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Declaration_cle.pas',
+  ujpPascal_Detail_declaration in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Detail_declaration.pas',
+  ujpPascal_Detail_pool_get in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Detail_pool_get.pas',
+  ujpPascal_f_Execute_After_Key in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_f_Execute_After_Key.pas',
+  ujpPascal_f_Execute_Before_Key in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_f_Execute_Before_Key.pas',
+  ujpPascal_f_implementation_uses_key in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_f_implementation_uses_key.pas',
+  ujpPascal_Get_by_Cle_Declaration in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Get_by_Cle_Declaration.pas',
+  ujpPascal_Get_by_Cle_Implementation in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Get_by_Cle_Implementation.pas',
+  ujpPascal_LabelsDFM in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_LabelsDFM.pas',
+  ujpPascal_LabelsPAS in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_LabelsPAS.pas',
+  ujpPascal_Ouverture_key in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Ouverture_key.pas',
+  ujpPascal_QCalcFieldsKey in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_QCalcFieldsKey.pas',
+  ujpPascal_QfieldsDFM in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_QfieldsDFM.pas',
+  ujpPascal_QfieldsPAS in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_QfieldsPAS.pas',
+  ujpPascal_sCle_from__Declaration in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_sCle_from__Declaration.pas',
+  ujpPascal_sCle_from__Implementation in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_sCle_from__Implementation.pas',
+  ujpPascal_sCle_Implementation_Body in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_sCle_Implementation_Body.pas',
+  ujpPascal_SQLWHERE_ContraintesChamps_Body in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_SQLWHERE_ContraintesChamps_Body.pas',
+  ujpPascal_Test_Call_Key in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Test_Call_Key.pas',
+  ujpPascal_Test_Declaration_Key in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Test_Declaration_Key.pas',
+  ujpPascal_Test_Implementation_Key in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Test_Implementation_Key.pas',
+  ujpPascal_To_SQLQuery_Params_Body in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_To_SQLQuery_Params_Body.pas',
+  ujpPascal_Traite_Index_key in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_Traite_Index_key.pas',
+  ujpPascal_uses_ubl in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_uses_ubl.pas',
+  ujpPascal_uses_upool in 'Automatic\Code_Generation\JoinPoint\02_Pascal\ujpPascal_uses_upool.pas',
+  ujpCSharp_Champs_persistants in 'Automatic\Code_Generation\JoinPoint\03_CSharp\ujpCSharp_Champs_persistants.pas',
+  ujpCSharp_Chargement_Conteneurs in 'Automatic\Code_Generation\JoinPoint\03_CSharp\ujpCSharp_Chargement_Conteneurs.pas',
+  ujpCSharp_Conteneurs in 'Automatic\Code_Generation\JoinPoint\03_CSharp\ujpCSharp_Conteneurs.pas',
+  ujpCSharp_Contenus in 'Automatic\Code_Generation\JoinPoint\03_CSharp\ujpCSharp_Contenus.pas',
+  ujpCSharp_DocksDetails in 'Automatic\Code_Generation\JoinPoint\03_CSharp\ujpCSharp_DocksDetails.pas',
+  ujpCSharp_DocksDetails_Affiche in 'Automatic\Code_Generation\JoinPoint\03_CSharp\ujpCSharp_DocksDetails_Affiche.pas',
+  ujpPHP_Doctrine_HasMany in 'Automatic\Code_Generation\JoinPoint\04_PHP_Doctrine\ujpPHP_Doctrine_HasMany.pas',
+  ujpPHP_Doctrine_HasOne in 'Automatic\Code_Generation\JoinPoint\04_PHP_Doctrine\ujpPHP_Doctrine_HasOne.pas',
+  ujpPHP_Doctrine_Has_Column in 'Automatic\Code_Generation\JoinPoint\04_PHP_Doctrine\ujpPHP_Doctrine_Has_Column.pas',
+  ujpAngular_TypeScript_declaration_champs in 'Automatic\Code_Generation\JoinPoint\05_Angular_TypeScript\ujpAngular_TypeScript_declaration_champs.pas',
+  ujpAngular_TypeScript_html_editeurs_champs in 'Automatic\Code_Generation\JoinPoint\05_Angular_TypeScript\ujpAngular_TypeScript_html_editeurs_champs.pas',
+  ujpAngular_TypeScript_NomClasseElement in 'Automatic\Code_Generation\JoinPoint\05_Angular_TypeScript\ujpAngular_TypeScript_NomClasseElement.pas',
+  ujpAngular_TypeScript_NomFichierElement in 'Automatic\Code_Generation\JoinPoint\05_Angular_TypeScript\ujpAngular_TypeScript_NomFichierElement.pas',
+  ujpNomTableMinuscule in 'Automatic\Code_Generation\JoinPoint\00_General\ujpNomTableMinuscule.pas',
+  ujpNom_de_la_classe in 'Automatic\Code_Generation\JoinPoint\00_General\ujpNom_de_la_classe.pas',
+  ujpNom_de_la_table in 'Automatic\Code_Generation\JoinPoint\00_General\ujpNom_de_la_table.pas',
+  ujpSQL_CREATE_TABLE in 'Automatic\Code_Generation\JoinPoint\01_SQL\ujpSQL_CREATE_TABLE.pas',
+  ujpSQL_Order_By_Key in 'Automatic\Code_Generation\JoinPoint\01_SQL\ujpSQL_Order_By_Key.pas';
+
+end.

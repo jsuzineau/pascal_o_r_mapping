@@ -1,0 +1,43 @@
+object fcbBase: TfcbBase
+  Left = 221
+  Top = 112
+  BorderStyle = None
+  Caption = 'fcbBase'
+  ClientHeight = 188
+  ClientWidth = 225
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop, iPhone, iPad]
+  OnCreate = FormCreate
+  OnShow = FormShow
+  Left = 221
+  Top = 112
+  DesignerMasterStyle = 0
+  object Panel1: TPanel
+    Align = Bottom
+    Position.Y = 147.000000000000000000
+    Size.Width = 225.000000000000000000
+    Size.Height = 41.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    Top = 147
+  end
+  object Panel2: TPanel
+    Align = Top
+    Size.Width = 225.000000000000000000
+    Size.Height = 20.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 2
+    object eFiltre: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 0
+      Text = 'eFiltre'
+      Size.Width = 224.000000000000000000
+      Size.Height = 21.000000000000000000
+      Size.PlatformDefault = False
+      OnChange = eFiltreChange
+      OnKeyDown = eFiltreKeyDown
+      Left = 1
+    end
+  end
+end

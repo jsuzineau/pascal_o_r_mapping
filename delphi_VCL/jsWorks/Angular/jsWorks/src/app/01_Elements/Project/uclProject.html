@@ -1,0 +1,43 @@
+  <h2>Liste des Projects</h2>
+
+  <div *ngIf="Projects">
+    <table><tr>
+    <td> 
+    <table class="Projects">
+      <tr>
+        <th>id     </th>
+        <th>Libellé</th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let Project of Projects.Elements">
+        <td>
+          <span (click)="onClick( Project)" class="Project_id">
+            <span *ngIf="!Project.modifie">{{Project.id}}</span>
+            <span *ngIf= "Project.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="Project.id"/></span>
+          </span>
+        </td>
+        <td>
+          <span (click)="onClick( Project)" class="Project_Libelle">
+            <span *ngIf="!Project.modifie">{{Project.Libelle}}</span>
+            <span *ngIf= "Project.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="Project.Libelle"/></span>
+          </span>
+        </td>
+        <td>
+          <span (click)="onClick( Project)" class="Project_Valider">
+            <!-- <button *ngIf="Project.modifie" (click)='Project.Valide()'>Valider</button> -->
+          </span>
+        </td>
+      </tr>
+    </table>
+    <div class="Projects_Nouveau">
+      <button (click)='Projects_Nouveau()'>Nouveau</button>
+    </div>
+    </td>
+    <td *ngIf="e">
+    <cProject [e]="e">  
+    </cProject>  
+    </td>  
+    </tr>
+    </table>
+  </div>
+

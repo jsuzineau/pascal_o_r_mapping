@@ -1,0 +1,323 @@
+object fAccueil: TfAccueil
+  Left = 838
+  Top = 182
+  Caption = 'Journal de l'#39'ex'#233'cution du programme'
+  ClientHeight = 494
+  ClientWidth = 576
+  Position = ScreenCenter
+  FormStyle = StayOnTop
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop, iPhone, iPad]
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  Left = 838
+  Top = 182
+  DesignerMasterStyle = 0
+  object Label1: TLabel
+    Align = Top
+    Size.Width = 576.000000000000000000
+    Size.Height = 20.000000000000000000
+    Size.PlatformDefault = False
+    Text = 'Titre'
+  end
+  object Panel2: TPanel
+    Align = Left
+    Position.Y = 20.000000000000000000
+    Size.Width = 91.000000000000000000
+    Size.Height = 474.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    Top = 20
+    object Label2: TLabel
+      Position.X = 24.000000000000000000
+      Position.Y = 104.000000000000000000
+      Size.Width = 65.000000000000000000
+      Size.Height = 13.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'les erreurs'
+      Left = 29
+      Top = 128
+    end
+    object bEnregistrer: TButton
+      Position.Y = 344.000000000000000000
+      Size.Width = 85.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      Text = 'Enregistrer sous'
+      OnClick = bEnregistrerClick
+      Left = 3
+      Top = 256
+    end
+    object bTerminer: TButton
+      Position.X = 8.000000000000000000
+      Position.Y = 280.000000000000000000
+      Size.Width = 75.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 2
+      Text = 'Terminer'
+      OnClick = bTerminerClick
+      Left = 8
+      Top = 192
+    end
+    object bTuer: TButton
+      Position.X = 8.000000000000000000
+      Position.Y = 312.000000000000000000
+      Size.Width = 75.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 3
+      Text = 'Tuer'
+      OnClick = bTuerClick
+      Left = 8
+      Top = 224
+    end
+    object cbErreurModal: TCheckBox
+      Position.Y = 88.000000000000000000
+      Size.Width = 97.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 4
+      Text = 'S'#39'arr'#234'ter sur'
+      Left = 8
+      Top = 112
+    end
+    object gbEnvoyer: TGroupBox
+      Position.Y = 376.000000000000000000
+      Size.Width = 87.000000000000000000
+      Size.Height = 82.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Envoyer'
+      TabOrder = 5
+      Top = 288
+      object bFTP: TButton
+        Position.X = 8.000000000000000000
+        Position.Y = 16.000000000000000000
+        Size.Width = 71.000000000000000000
+        Size.Height = 25.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Text = 'par FTP'
+        OnClick = bFTPClick
+        Left = 8
+        Top = 48
+      end
+      object bMail: TButton
+        Position.X = 8.000000000000000000
+        Position.Y = 48.000000000000000000
+        Size.Width = 71.000000000000000000
+        Size.Height = 25.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        Text = 'par mail'
+        OnClick = bMailClick
+        Left = 8
+        Top = 16
+      end
+    end
+    object bInformix: TButton
+      Position.X = 24.000000000000000000
+      Position.Y = 256.000000000000000000
+      Size.Width = 25.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 6
+      Text = 'I'
+      OnClick = bInformixClick
+      Top = 392
+    end
+    object bMySQL: TButton
+      Position.X = 64.000000000000000000
+      Position.Y = 256.000000000000000000
+      Size.Width = 25.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 7
+      Text = 'M'
+      OnClick = bMySQLClick
+      Left = 30
+      Top = 392
+    end
+    object bVariables_d_environnement: TButton
+      Position.X = 16.000000000000000000
+      Position.Y = 232.000000000000000000
+      Size.Width = 29.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 8
+      Text = 'V'
+      OnClick = bVariables_d_environnementClick
+      Left = 59
+      Top = 392
+    end
+    object bTeleassistance: TButton
+      Position.X = 8.000000000000000000
+      Position.Y = 152.000000000000000000
+      Size.Width = 81.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 9
+      Text = 'T'#233'l'#233'assistance'
+      OnClick = bTeleassistanceClick
+      Left = 2
+      Top = 451
+    end
+    object bParametres: TButton
+      Position.Y = 184.000000000000000000
+      Size.Width = 79.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 10
+      Text = 'Parametres'
+      OnClick = bParametresClick
+      Left = 3
+      Top = 421
+    end
+    object bOPN: TButton
+      Hint = 'OPN'
+      Position.Y = 208.000000000000000000
+      Size.Width = 23.000000000000000000
+      Size.Height = 16.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 11
+      Text = 'O'
+      ParentShowHint = False
+      ShowHint = True
+      OnClick = bOPNClick
+      Left = 2
+      Top = 373
+    end
+    object bOPN_Requeteur: TButton
+      Hint = 'OPN Requ'#234'teur'
+      Position.X = 48.000000000000000000
+      Position.Y = 232.000000000000000000
+      Size.Width = 34.000000000000000000
+      Size.Height = 17.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 12
+      Text = 'R'
+      ParentShowHint = False
+      ShowHint = True
+      OnClick = bOPN_RequeteurClick
+      Left = 32
+      Top = 372
+    end
+  end
+  object SaveDialog: TSaveDialog
+    DefaultExt = 'TXT'
+    Filter = 'Fichier texte|*.TXT'
+    Left = 176
+    Top = 244
+  end
+  object tExecute: TTimer
+    Enabled = False
+    Interval = 200
+    OnTimer = tExecuteTimer
+    Left = 216
+    Top = 244
+  end
+  object tc: TTabControl
+    Align = Client
+    Size.Width = 485.000000000000000000
+    Size.Height = 474.000000000000000000
+    Size.PlatformDefault = False
+    TabIndex = 2
+    TabOrder = 4
+    TabPosition = PlatformDefault
+    Sizes = (
+      485s
+      448s
+      485s
+      448s
+      485s
+      448s)
+    object tiErreur_Courante: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = False
+      Size.Width = 102.000000000000000000
+      Size.Height = 26.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = 'Erreur courante'
+      ExplicitSize.cx = 102.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
+      object m: TMemo
+        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+        DataDetectorTypes = []
+        Align = Client
+        Size.Width = 485.000000000000000000
+        Size.Height = 407.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Top = 41
+        Viewport.Width = 485.000000000000000000
+        Viewport.Height = 407.000000000000000000
+      end
+      object lErreur_Courante: TLabel
+        Align = Top
+        Size.Width = 485.000000000000000000
+        Size.Height = 41.000000000000000000
+        Size.PlatformDefault = False
+        Text = 'Erreur'
+        TabOrder = 1
+      end
+    end
+    object tiHistorique: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = False
+      Size.Width = 137.000000000000000000
+      Size.Height = 26.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = 'Historique des erreurs'
+      ExplicitSize.cx = 137.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
+      object mHistorique: TMemo
+        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+        DataDetectorTypes = []
+        Align = Client
+        Size.Width = 485.000000000000000000
+        Size.Height = 448.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Viewport.Width = 485.000000000000000000
+        Viewport.Height = 448.000000000000000000
+      end
+    end
+    object tiHistorique_Developpeur: TTabItem
+      CustomIcon = <
+        item
+        end>
+      IsSelected = True
+      Size.Width = 147.000000000000000000
+      Size.Height = 26.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = ''
+      TabOrder = 0
+      Text = 'Historique D'#233'veloppeur'
+      ExplicitSize.cx = 147.000000000000000000
+      ExplicitSize.cy = 26.000000000000000000
+      object mHistorique_Developpeur: TMemo
+        Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+        DataDetectorTypes = []
+        Lines.Strings = (
+          'mHistorique_Developpeur')
+        Align = Client
+        Size.Width = 485.000000000000000000
+        Size.Height = 448.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+        Viewport.Width = 481.000000000000000000
+        Viewport.Height = 444.000000000000000000
+      end
+    end
+  end
+end

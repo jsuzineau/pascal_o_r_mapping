@@ -1,0 +1,248 @@
+
+state 0:
+
+	$accept : _ declarationlist $end
+	declaration : _	(3)
+
+	IDENT	shift 4
+	$end	reduce 3
+	';'	reduce 3
+	.	error
+
+	property	goto 1
+	declaration	goto 2
+	declarationlist	goto 3
+
+state 1:
+
+	declaration : property _ ':' value
+
+	':'	shift 5
+	.	error
+
+state 2:
+
+	declarationlist : declaration _	(1)
+
+	.	reduce 1
+
+state 3:
+
+	$accept : declarationlist _ $end
+	declarationlist : declarationlist _ ';' declaration
+
+	$end	accept
+	';'	shift 6
+	.	error
+
+state 4:
+
+	property : IDENT _	(5)
+
+	.	reduce 5
+
+state 5:
+
+	declaration : property ':' _ value
+
+	':'	shift 9
+	IDENT	shift 10
+	ATKEYWORD	shift 11
+	STRING_	shift 12
+	HASH	shift 13
+	NUMBER	shift 14
+	PERCENTAGE	shift 15
+	DIMENSION	shift 16
+	URI	shift 17
+	UNICODE_RANGE	shift 18
+	FUNCTION_	shift 19
+	INCLUDES	shift 20
+	DASHMATCH	shift 21
+	DELIM	shift 22
+	.	error
+
+	any	goto 7
+	value	goto 8
+
+state 6:
+
+	declarationlist : declarationlist ';' _ declaration
+	declaration : _	(3)
+
+	IDENT	shift 4
+	$end	reduce 3
+	';'	reduce 3
+	.	error
+
+	property	goto 1
+	declaration	goto 23
+
+state 7:
+
+	value : any _	(6)
+
+	.	reduce 6
+
+state 8:
+
+	declaration : property ':' value _	(4)
+
+	.	reduce 4
+
+state 9:
+
+	any : ':' _	(20)
+
+	.	reduce 20
+
+state 10:
+
+	any : IDENT _	(8)
+
+	.	reduce 8
+
+state 11:
+
+	value : ATKEYWORD _	(7)
+
+	.	reduce 7
+
+state 12:
+
+	any : STRING_ _	(12)
+
+	.	reduce 12
+
+state 13:
+
+	any : HASH _	(15)
+
+	.	reduce 15
+
+state 14:
+
+	any : NUMBER _	(9)
+
+	.	reduce 9
+
+state 15:
+
+	any : PERCENTAGE _	(10)
+
+	.	reduce 10
+
+state 16:
+
+	any : DIMENSION _	(11)
+
+	.	reduce 11
+
+state 17:
+
+	any : URI _	(14)
+
+	.	reduce 14
+
+state 18:
+
+	any : UNICODE_RANGE _	(16)
+
+	.	reduce 16
+
+state 19:
+
+	any : FUNCTION_ _ paramlist ')'
+	paramlist : _	(21)
+
+	':'	shift 9
+	IDENT	shift 10
+	STRING_	shift 12
+	HASH	shift 13
+	NUMBER	shift 14
+	PERCENTAGE	shift 15
+	DIMENSION	shift 16
+	URI	shift 17
+	UNICODE_RANGE	shift 18
+	FUNCTION_	shift 19
+	INCLUDES	shift 20
+	DASHMATCH	shift 21
+	DELIM	shift 22
+	')'	reduce 21
+	','	reduce 21
+	.	error
+
+	paramlist	goto 24
+	any	goto 25
+
+state 20:
+
+	any : INCLUDES _	(17)
+
+	.	reduce 17
+
+state 21:
+
+	any : DASHMATCH _	(18)
+
+	.	reduce 18
+
+state 22:
+
+	any : DELIM _	(13)
+
+	.	reduce 13
+
+state 23:
+
+	declarationlist : declarationlist ';' declaration _	(2)
+
+	.	reduce 2
+
+state 24:
+
+	any : FUNCTION_ paramlist _ ')'
+	paramlist : paramlist _ ',' any
+
+	')'	shift 26
+	','	shift 27
+	.	error
+
+state 25:
+
+	paramlist : any _	(22)
+
+	.	reduce 22
+
+state 26:
+
+	any : FUNCTION_ paramlist ')' _	(19)
+
+	.	reduce 19
+
+state 27:
+
+	paramlist : paramlist ',' _ any
+
+	':'	shift 9
+	IDENT	shift 10
+	STRING_	shift 12
+	HASH	shift 13
+	NUMBER	shift 14
+	PERCENTAGE	shift 15
+	DIMENSION	shift 16
+	URI	shift 17
+	UNICODE_RANGE	shift 18
+	FUNCTION_	shift 19
+	INCLUDES	shift 20
+	DASHMATCH	shift 21
+	DELIM	shift 22
+	.	error
+
+	any	goto 28
+
+state 28:
+
+	paramlist : paramlist ',' any _	(23)
+
+	.	reduce 23
+

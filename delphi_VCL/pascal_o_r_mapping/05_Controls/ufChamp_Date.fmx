@@ -1,0 +1,23 @@
+object fChamp_Date: TfChamp_Date
+  Left = 269
+  Top = 175
+  BorderStyle = None
+  Caption = 'Saisie d'#39'une date'
+  ClientHeight = 157
+  ClientWidth = 194
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop, iPhone, iPad]
+  Left = 269
+  Top = 175
+  DesignerMasterStyle = 0
+  object c: TCalendar
+    Align = Client
+    Date = 43117.000000000000000000
+    Size.Width = 194.000000000000000000
+    Size.Height = 157.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    OnKeyDown = cKeyDown
+  end
+end

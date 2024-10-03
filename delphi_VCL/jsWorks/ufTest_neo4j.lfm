@@ -1,0 +1,175 @@
+object fTest_neo4j: TfTest_neo4j
+  Left = 1136
+  Height = 240
+  Top = 792
+  Width = 784
+  Caption = 'fTest_neo4j'
+  ClientHeight = 240
+  ClientWidth = 784
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  LCLVersion = '1.4.0.4'
+  object Panel1: TPanel
+    Left = 0
+    Height = 96
+    Top = 0
+    Width = 784
+    Align = alTop
+    ClientHeight = 96
+    ClientWidth = 784
+    TabOrder = 0
+    object eUserName: TLabeledEdit
+      Left = 80
+      Height = 27
+      Top = 40
+      Width = 80
+      EditLabel.AnchorSideTop.Control = eUserName
+      EditLabel.AnchorSideTop.Side = asrCenter
+      EditLabel.AnchorSideRight.Control = eUserName
+      EditLabel.AnchorSideBottom.Control = eUserName
+      EditLabel.AnchorSideBottom.Side = asrBottom
+      EditLabel.Left = 0
+      EditLabel.Height = 17
+      EditLabel.Top = 45
+      EditLabel.Width = 77
+      EditLabel.Caption = 'User Name '
+      EditLabel.ParentColor = False
+      LabelPosition = lpLeft
+      TabOrder = 0
+      Text = 'neo4j'
+    end
+    object ePassword: TLabeledEdit
+      Left = 80
+      Height = 27
+      Top = 68
+      Width = 80
+      EchoMode = emPassword
+      EditLabel.AnchorSideTop.Control = ePassword
+      EditLabel.AnchorSideTop.Side = asrCenter
+      EditLabel.AnchorSideRight.Control = ePassword
+      EditLabel.AnchorSideBottom.Control = ePassword
+      EditLabel.AnchorSideBottom.Side = asrBottom
+      EditLabel.Left = 11
+      EditLabel.Height = 17
+      EditLabel.Top = 73
+      EditLabel.Width = 66
+      EditLabel.Caption = 'Password'
+      EditLabel.ParentColor = False
+      LabelPosition = lpLeft
+      PasswordChar = '*'
+      TabOrder = 1
+      Text = 'azerty'
+    end
+    object bAuthenticate: TButton
+      Left = 176
+      Height = 25
+      Top = 40
+      Width = 96
+      Caption = 'bAuthenticate'
+      OnClick = bAuthenticateClick
+      TabOrder = 2
+    end
+    object bServiceRoot: TButton
+      Left = 280
+      Height = 25
+      Top = 40
+      Width = 88
+      Caption = 'bServiceRoot'
+      OnClick = bServiceRootClick
+      TabOrder = 3
+    end
+    object bProperty_Keys: TButton
+      Left = 176
+      Height = 25
+      Top = 68
+      Width = 96
+      Caption = 'bProperty_Keys'
+      OnClick = bProperty_KeysClick
+      TabOrder = 4
+    end
+    object bCreate_node: TButton
+      Left = 280
+      Height = 25
+      Top = 68
+      Width = 88
+      Caption = 'bCreate_node'
+      OnClick = bCreate_nodeClick
+      TabOrder = 5
+    end
+    object cbStreaming: TCheckBox
+      Left = 385
+      Height = 24
+      Top = 44
+      Width = 111
+      Caption = 'cbStreaming'
+      OnChange = cbStreamingChange
+      TabOrder = 6
+    end
+    object seNode: TSpinEdit
+      Left = 385
+      Height = 27
+      Top = 68
+      Width = 50
+      TabOrder = 7
+    end
+    object bGet_node: TButton
+      Left = 443
+      Height = 25
+      Top = 69
+      Width = 75
+      Caption = 'bGet_node'
+      OnClick = bGet_nodeClick
+      TabOrder = 8
+    end
+    object Label1: TLabel
+      Left = 8
+      Height = 17
+      Top = 14
+      Width = 63
+      Caption = 'Root URL'
+      ParentColor = False
+    end
+    object eRoot_URL: TEdit
+      Left = 76
+      Height = 27
+      Top = 10
+      Width = 488
+      OnChange = eRoot_URLChange
+      TabOrder = 9
+      Text = 'eRoot_URL'
+    end
+  end
+  object m: TMemo
+    Left = 0
+    Height = 144
+    Top = 96
+    Width = 272
+    Align = alLeft
+    Lines.Strings = (
+      'm'
+    )
+    ScrollBars = ssAutoBoth
+    TabOrder = 1
+  end
+  object Splitter1: TSplitter
+    Left = 272
+    Height = 144
+    Top = 96
+    Width = 5
+    Color = clLime
+    ParentColor = False
+  end
+  object vst: TVirtualStringTree
+    Left = 277
+    Height = 144
+    Top = 96
+    Width = 507
+    Align = alClient
+    DefaultText = 'Node'
+    Header.AutoSizeIndex = 0
+    Header.Columns = <>
+    Header.DefaultHeight = 17
+    Header.MainColumn = -1
+    TabOrder = 3
+  end
+end

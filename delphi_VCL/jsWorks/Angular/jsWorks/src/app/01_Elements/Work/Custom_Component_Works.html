@@ -1,0 +1,41 @@
+  <h2>Liste des Works</h2>
+
+  <div *ngIf="Works">
+    <table><tr>
+    <td> 
+    <table class="Works">
+      <tr>
+        <th>id     </th>
+        <th>Libellé</th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let Work of Works.Elements">
+        <td>
+          <span (click)="onClick( Work)" class="Work_id">
+             {{Work.id}}
+          </span>
+        </td>
+        <td>
+          <span (click)="onClick( Work)" class="Work_Libelle">
+              {{Work.Libelle}}
+          </span>
+        </td>
+        <td>
+          <span (click)="onClick( Work)" class="Work_Valider">
+            <!-- <button *ngIf="Work.modifie" (click)='Work.Valide()'>Valider</button> -->
+          </span>
+        </td>
+      </tr>
+    </table>
+    <div class="Works_Nouveau">
+      <button (click)='Works_Nouveau()'>Nouveau</button>
+    </div>
+    </td>
+    <td *ngIf="e">
+    <Custom_Component_Work [e]="e">  
+    </Custom_Component_Work>  
+    </td>  
+    </tr>
+    </table>
+  </div>
+

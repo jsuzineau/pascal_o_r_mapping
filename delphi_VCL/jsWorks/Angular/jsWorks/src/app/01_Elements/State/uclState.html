@@ -1,0 +1,43 @@
+  <h2>Liste des States</h2>
+
+  <div *ngIf="States">
+    <table><tr>
+    <td> 
+    <table class="States">
+      <tr>
+        <th>id     </th>
+        <th>Libellé</th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let State of States.Elements">
+        <td>
+          <span (click)="onClick( State)" class="State_id">
+            <span *ngIf="!State.modifie">{{State.id}}</span>
+            <span *ngIf= "State.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="State.id"/></span>
+          </span>
+        </td>
+        <td>
+          <span (click)="onClick( State)" class="State_Libelle">
+            <span *ngIf="!State.modifie">{{State.Libelle}}</span>
+            <span *ngIf= "State.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="State.Libelle"/></span>
+          </span>
+        </td>
+        <td>
+          <span (click)="onClick( State)" class="State_Valider">
+            <!-- <button *ngIf="State.modifie" (click)='State.Valide()'>Valider</button> -->
+          </span>
+        </td>
+      </tr>
+    </table>
+    <div class="States_Nouveau">
+      <button (click)='States_Nouveau()'>Nouveau</button>
+    </div>
+    </td>
+    <td *ngIf="e">
+    <cState [e]="e">  
+    </cState>  
+    </td>  
+    </tr>
+    </table>
+  </div>
+

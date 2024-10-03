@@ -1,0 +1,47 @@
+  <h2>Liste des NomTableMinuscules</h2>
+
+  <div *ngIf="NomTableMinuscules">
+    <table class="NomTableMinuscules">
+      <tr>
+        <th>Nom         </th>
+        <th>Mot de passe</th>
+        <th>Niveau      </th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr *ngFor="let NomTableMinuscule of NomTableMinuscules">
+        <td>
+          <span (click)="onClick( NomTableMinuscule)" class="NomTableMinuscule_nom">
+            <span *ngIf="!NomTableMinuscule.modifie">{{NomTableMinuscule.nom                                                             }}</span>
+            <span *ngIf= "NomTableMinuscule.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="NomTableMinuscule.nom"/></span>
+          </span>
+        </td>
+        <td>
+          <span (click)="onClick( NomTableMinuscule)" class="NomTableMinuscule_mot_de_passe">
+            <span *ngIf="!NomTableMinuscule.modifie">{{NomTableMinuscule.mot_de_passe                                                             }}</span>
+            <span *ngIf= "NomTableMinuscule.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="NomTableMinuscule.mot_de_passe"/></span>
+          </span>
+        </td>
+        <td>
+          <span (click)="onClick( NomTableMinuscule)" class="NomTableMinuscule_niveau">
+            <span *ngIf="!NomTableMinuscule.modifie">{{NomTableMinuscule.niveau                                                             }}</span>
+            <span *ngIf= "NomTableMinuscule.modifie"><input type="text" (keydown)="onKeyDown($event)" [(ngModel)]="NomTableMinuscule.niveau"/></span>
+          </span>
+        </td>
+        <td>
+          <span (click)="onClick( NomTableMinuscule)" class="NomTableMinuscule_Valider">
+            <button *ngIf="NomTableMinuscule.modifie" (click)='NomTableMinuscule.Valide()'>Valider</button>
+          </span>
+        </td>
+        <td>
+          <span class="NomTableMinuscule_LogTo">
+            <button (click)='LogTo( NomTableMinuscule)'>S'identifier comme ...</button>
+          </span>
+        </td>
+      </tr>
+    </table>
+    <div class="NomTableMinuscules_Nouveau">
+      <button (click)='NomTableMinuscules_Nouveau()'>Nouveau</button>
+    </div>
+  </div>
+
