@@ -54,6 +54,7 @@ inherited dkPiece_display: TdkPiece_display
     Height = 13
     Top = 2
     Width = 114
+    Alignment = taRightJustify
     Anchors = [akTop, akRight]
     AutoSize = False
     Caption = 'clFacture_Montant_s'
