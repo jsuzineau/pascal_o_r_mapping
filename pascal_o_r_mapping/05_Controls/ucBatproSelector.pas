@@ -68,7 +68,7 @@ procedure Register;
 
 implementation
 
-uses                
+uses
     ufcb;
 
 procedure Register;

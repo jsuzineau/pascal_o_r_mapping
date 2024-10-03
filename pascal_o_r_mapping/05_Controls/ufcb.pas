@@ -51,19 +51,12 @@ type
 
 function fcb: Tfcb;
 
-procedure Register;
-
 implementation
 
 uses
     uClean;
 
 {$R *.dfm}
-
-procedure Register;
-begin
-
-end;
 
 var
    Ffcb: Tfcb;

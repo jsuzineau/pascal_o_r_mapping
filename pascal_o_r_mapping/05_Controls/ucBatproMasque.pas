@@ -168,7 +168,7 @@ type
     property bm1ID: String read FID write FID;
   //Contrainte SQL
   public
-    function SQLConstraint: String; 
+    function SQLConstraint: String;
   //Couleur de fond de l'éditeur
   public
     procedure setColorEdit(const Value: TColor);

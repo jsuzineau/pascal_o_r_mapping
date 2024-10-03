@@ -473,7 +473,7 @@ end;
 procedure TBatproMaskElement.BClick(Sender: TObject);
 begin
      SetFocus;
-     
+
      if bme5DataSource = nil
      then
          try
@@ -554,7 +554,7 @@ begin
              GoPrevious;
        VK_F9:
          GoPrevious;
-       VK_LEFT:      
+       VK_LEFT:
          if SelStart = 0
          then
              GoPrevious;

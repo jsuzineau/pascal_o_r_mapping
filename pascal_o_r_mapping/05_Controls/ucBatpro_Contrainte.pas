@@ -302,7 +302,9 @@ end;
 
 procedure TBatpro_Contrainte.To_Entier;
 begin
-     FContrainte.Critere_Entier:= StrToInt( e.Text);
+     if not TryStrToInt( e.Text, FContrainte.Critere_Entier)
+     then
+         FContrainte.Critere_Entier:= 0;
 end;
 
 procedure TBatpro_Contrainte.From_Flottant;
@@ -312,7 +314,9 @@ end;
 
 procedure TBatpro_Contrainte.To_Flottant;
 begin
-     FContrainte.Critere_Flottant:= StrToFloat( e.Text);
+     if not TryStrToFloat( e.Text, FContrainte.Critere_Flottant)
+     then
+         FContrainte.Critere_Flottant:= 0;
 end;
 
 procedure TBatpro_Contrainte.From_Date;
