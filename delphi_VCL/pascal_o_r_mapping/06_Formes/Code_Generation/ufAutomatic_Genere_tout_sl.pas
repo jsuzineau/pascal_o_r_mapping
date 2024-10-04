@@ -7,8 +7,8 @@
 interface
 
 uses
-    uClean, ufpBas, uEXE_INI, Classes, SysUtils,  FMX.Forms,
-    FMX.Dialogs, FMX.StdCtrls, FMX.Memo;
+    uClean, ufpBas, uEXE_INI, Classes, SysUtils,  VCL.Forms,
+    VCL.Dialogs, VCL.StdCtrls;
 
 type
 
@@ -47,7 +47,7 @@ function fAutomatic_Genere_tout_sl: TfAutomatic_Genere_tout_sl;
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 { TfAutomatic_Genere_tout_sl }
 

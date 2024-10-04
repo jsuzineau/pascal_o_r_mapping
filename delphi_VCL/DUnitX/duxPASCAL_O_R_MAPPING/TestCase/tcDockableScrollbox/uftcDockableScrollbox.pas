@@ -30,10 +30,9 @@ uses
     ublTestDockableScrollbox,
     udkTestDockableScrollbox,
     uhdmTestDockableScrollbox,
-    Classes, SysUtils, FMX.Forms, FMX.Controls,
-    FMX.Graphics, FMX.Dialogs, FMX.ExtCtrls, FMX.StdCtrls,
-    ucDockableScrollbox, FMX.ScrollBox, FMX.Memo, FMX.Types,
-  FMX.Controls.Presentation;
+    Classes, SysUtils, VCL.Forms, VCL.Controls,
+    VCL.Graphics, VCL.Dialogs, VCL.ExtCtrls, VCL.StdCtrls,
+    ucDockableScrollbox;
 
 type
 
@@ -43,9 +42,9 @@ type
  =
   class(TForm)
    Button1: TButton;
-   dsb: TDockableScrollbox;
    m: TMemo;
    Panel1: TPanel;
+    dsb: TDockableScrollbox;
    procedure FormCreate(Sender: TObject);
    procedure FormDestroy(Sender: TObject);
 
@@ -56,7 +55,7 @@ type
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 { TftcDockableScrollbox }
 

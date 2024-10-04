@@ -44,20 +44,24 @@ uses
     ufBatpro_Parametres_Client,
 
   Windows, Messages, SysUtils, Classes,
-  FMX.Types, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-  FMX.ExtCtrls, FMX.StdCtrls, FMX.Memo, DB, ucBitBtn,
-  FMX.Controls.Presentation, FMX.TabControl, FMX.ScrollBox,System.UITypes;
+  VCL.Graphics, VCL.Controls, VCL.Forms, VCL.Dialogs,
+  VCL.ExtCtrls, VCL.StdCtrls, DB,
+  System.UITypes, Vcl.ComCtrls, Vcl.Buttons;
 
 type
  TfAccueil
  =
   class(TForm)
     Label1: TLabel;
+    mHistorique_Developpeur: TMemo;
     Panel2: TPanel;
+    bOK: TBitBtn;
     bEnregistrer: TButton;
     SaveDialog: TSaveDialog;
     bTerminer: TButton;
     bTuer: TButton;
+    tRefresh: TTimer;
+    tsHistorique_Developpeur: TTabSheet;
     tExecute: TTimer;
     cbErreurModal: TCheckBox;
     Label2: TLabel;
@@ -67,17 +71,20 @@ type
     bInformix: TButton;
     bMySQL: TButton;
     bVariables_d_environnement: TButton;
-    m: FMX.Memo.TMemo;
-    mHistorique: FMX.Memo.TMemo;
+    pc: TPageControl;
+    tsErreur_Courante: TTabSheet;
+    tsLigne_Courante: TTabSheet;
+    m: TMemo;
+    tsHistorique: TTabSheet;
+    mHistorique: TMemo;
+    Panel1: TPanel;
     bTeleassistance: TButton;
     bParametres: TButton;
-    mHistorique_Developpeur: FMX.Memo.TMemo;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    Panel5: TPanel;
     bOPN: TButton;
     bOPN_Requeteur: TButton;
-    tc: TTabControl;
-    tiErreur_Courante: TTabItem;
-    tiHistorique: TTabItem;
-    tiHistorique_Developpeur: TTabItem;
     procedure bEnregistrerClick(Sender: TObject);
     procedure bTerminerClick(Sender: TObject);
     procedure bTuerClick(Sender: TObject);
@@ -98,10 +105,12 @@ type
     procedure pcChange(Sender: TObject);
     procedure bOPNClick(Sender: TObject);
     procedure bOPN_RequeteurClick(Sender: TObject);
+    procedure tRefreshTimer(Sender: TObject);
   private
     procedure Add( _S_Developpeur, _S: String);
     procedure Add_Developpeur( _S_Developpeur: String);
     function Afficher: Boolean;
+    procedure SendMail;
   public
     publieur_LogChange: TPublieur;
 
@@ -136,7 +145,7 @@ type
 
 function fAccueil: TfAccueil;
 
-procedure Memo_Goto_end( _Memo: FMX.Memo.TMemo);
+procedure Memo_Goto_end( _Memo: TMemo);
 
 implementation
 
@@ -147,9 +156,9 @@ uses
     uMailTo,
     uClean, ufAccueil_Erreur;
 
-{$R *.fmx}
+{$R *.dfm}
 
-procedure Memo_Goto_end( _Memo: FMX.Memo.TMemo);
+procedure Memo_Goto_end( _Memo: TMemo);
 begin
      _Memo.SelStart:= Length( _Memo.Text)-1;
      _Memo.SelLength:= 1;
@@ -167,7 +176,7 @@ end;
 procedure TfAccueil.FormCreate(Sender: TObject);
 begin
      inherited;
-     Label1.Text:= uOD_Forms_Title + ' - ' + GetVersionProgramme;
+     Label1.Caption:= uOD_Forms_Title + ' - ' + GetVersionProgramme;
      publieur_LogChange:= TPublieur.Create('fAccueil.publieur_LogChange');
      pAfficheLog       := TPublieur.Create('fAccueil.pAfficheLog');
      Has_Log:= False;
@@ -183,6 +192,26 @@ begin
      Free_nil( publieur_LogChange);
      Free_nil( pAfficheLog);
      inherited;
+end;
+
+procedure TfAccueil.SendMail;
+var
+   Body: String;
+begin
+     if mrYes<>MessageDlg('Souhaitez vous envoyer automatiquement par mail les '+
+                          'messages d''erreurs à Batpro ?', mtConfirmation,
+                          [mbYes, mbNo], 0)
+     then
+         exit;
+
+
+     Body:=   ParamStr(0)                   +#13#10
+             + 'Version '+GetVersionProgramme+#13#10
+             + mHistorique_Developpeur.Lines.Text;
+
+
+     //MailTo_Batpro( ChangeFileExt( ExtractFileName( ParamStr(0)), sys_Vide),
+     //               Body, []);
 end;
 
 function TfAccueil.Afficher: Boolean;
@@ -244,6 +273,7 @@ begin
      Formate_Liste( S_Developpeur, #13#10, _S);
      Formate_Liste( S_Developpeur, #13#10, _S_Developpeur);
 
+
      mHistorique_Developpeur.Lines.Add( S_Developpeur);
 
      if LogBas_running
@@ -259,10 +289,10 @@ end;
 
 procedure TfAccueil.Affichage_Bouton_OK(Afficher: Boolean);
 begin
-//     bOK.Visible:= Afficher;
-//     if Afficher
-//     then
-//         bOK.SetFocus;
+     bOK.Visible:= Afficher;
+     if Afficher
+     then
+         bOK.SetFocus;
 end;
 
 procedure TfAccueil.Log( _Message_Developpeur: String; _Message: String = '');
@@ -284,7 +314,7 @@ begin
      then
          begin
          Show;
-         //Refresh;   à traduire en FMX
+         Refresh;
          end;
 end;
 
@@ -311,7 +341,7 @@ function TfAccueil.Erreur( _Message_Developpeur: String; _Message: String = ''):
      procedure Do_Show;
      begin
          Show;
-         //Refresh; à traduire en FMX
+         Refresh;
          Result:= True;
      end;
      procedure Do_ShowModal;
@@ -337,16 +367,18 @@ begin
      else
          Add( _Message_Developpeur, _Message);
          
-     tc.ActiveTab:= tiErreur_Courante;
+     pc.ActivePage:= tsHistorique_Developpeur; //bricolage avec tRefresh pour problèmes de rafraichissement sur Ubuntu
+     //pc.ActivePage:= tsLigne_Courante;
 
      Visible:= False;
-     if cbErreurModal.IsChecked
+     tRefresh.Enabled:= True;
+     if cbErreurModal.Checked
      then
          Do_ShowModal
      else
          Do_Show;
 
-//     bOK.Visible:= False;
+     bOK.Visible:= False;
      Visible:= Afficher;
 end;
 
@@ -381,21 +413,21 @@ end;
 procedure TfAccueil.tExecuteTimer(Sender: TObject);
 begin
      tExecute.Enabled:= False;
-     tc.ActiveTab:= tiHistorique;
+     pc.ActivePage:= tsHistorique;
      mHistorique.SetFocus;
      Add( ' ', ' ');
 end;
 
 procedure TfAccueil.bMailClick(Sender: TObject);
 begin
-     //SendMail;
+     SendMail;
 end;
 
 procedure TfAccueil.Send_Errors;
 begin
      if Has_Errors
      then
-         bFTPClick( nil);
+         bFTP.Click;
 end;
 
 procedure TfAccueil.Dataset_Log_row(ds: TDataset);
@@ -442,11 +474,10 @@ begin
        + Network.Nom_Hote                + '_'
        + FormatDateTime( 'yyyy"_"mm"_"dd"_"hh"h"nn"min"ss', Now)
        + '_log_hier.zip';
-     //à traduire en FMX
      //FTP.PutStrings( mHistorique_Developpeur.Lines, NomFichier, False);
      //FTP.PutDirectoryZip( ExcludeTrailingPathDelimiter( uLog.Log.Repertoire), NomZIPLogs, False);
      //FTP.PutDirectoryZip( ExcludeTrailingPathDelimiter( uLog.Log.Repertoire_Hier), NomZIPLogs_Hier, False);
-     //MessageDlg('Transfert effectué avec succés', mtInformation, [mbOK], 0);
+     MessageDlg('Transfert effectué avec succés', mtInformation, [mbOK], 0);
 end;
 
 procedure TfAccueil.bInformixClick(Sender: TObject);
@@ -477,14 +508,14 @@ end;
 procedure TfAccueil.Panel2MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-     if Button = TMouseButton.mbRight
+     if Button = mbRight
      then
          Affichage_lisible;
 end;
 
 procedure TfAccueil.Affichage_lisible;
 begin
-     m.Font.Family:= 'Courier New';
+     m.Font.Name:= 'Courier New';
      m.Font.Size:= 8;
 end;
 
@@ -513,8 +544,8 @@ end;
 
 procedure TfAccueil.pcChange(Sender: TObject);
 begin
-     if tiHistorique            =tc.ActiveTab then Memo_Goto_end(mHistorique            )
-else if tiHistorique_Developpeur=tc.ActiveTab then Memo_Goto_end(mHistorique_Developpeur);
+     if tsHistorique            =pc.ActivePage then Memo_Goto_end(mHistorique            )
+else if tsHistorique_Developpeur=pc.ActivePage then Memo_Goto_end(mHistorique_Developpeur);
 end;
 
 procedure TfAccueil.bOPNClick(Sender: TObject);
@@ -525,6 +556,15 @@ end;
 procedure TfAccueil.bOPN_RequeteurClick(Sender: TObject);
 begin
      uClean_OPN_Requeteur;
+end;
+
+procedure TfAccueil.tRefreshTimer(Sender: TObject);
+begin
+     pc.ActivePage:= tsLigne_Courante;
+     tRefresh.Enabled:= False;
+     m                      .Refresh;
+     mHistorique            .Refresh;;
+     mHistorique_Developpeur.Refresh;;
 end;
 
 procedure TfAccueil.Erreur_OpenDocument( _Message: String);
@@ -543,6 +583,7 @@ begin
 end;
 
 initialization
+              {$IFNDEF UNIX}//rajouté car plante sur Ubuntu 24.04, ok sur 22.04, erreurs dans libxml, librsvg
               Clean_Create ( FfAccueil, TfAccueil);
               fAccueil_Erreur_function := fAccueil.Erreur;
               fAccueil_log_procedure   := fAccueil.Log;
@@ -555,6 +596,7 @@ initialization
               if ufAccueil_Erreur_Tampon <> ''
               then
                   fAccueil_Erreur( ufAccueil_Erreur_Tampon);
+              {$ENDIF}
 finalization
               fAccueil_Erreur_function := nil;
               fAccueil_log_procedure   := nil;

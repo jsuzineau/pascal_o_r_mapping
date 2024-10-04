@@ -44,9 +44,9 @@ uses
     uhDessinnateur,
     ufpBas,
 
-  Windows, Messages, SysUtils, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms, FMX.Dialogs,
-  FMX.ActnList, FMX.ComCtrls, FMX.StdCtrls, Buttons, FMX.ExtCtrls, Grids, DBGrids,
-  Db, DBTables, FMTBcd, Provider, SqlExpr, DBClient, ucChampsGrid, FMX.Menus;
+  Windows, Messages, SysUtils, Classes, VCL.Graphicso, VCL.Controls, VCL.Forms, VCL.Dialogs,
+  VCL.ActnList, VCL.ComCtrls, VCL.StdCtrls, Buttons, VCL.ExtCtrls, Grids, DBGrids,
+  Db, DBTables, FMTBcd, Provider, SqlExpr, DBClient, ucChampsGrid, VCL.Menus;
 
 type
  TfRechercheBatpro_Ligne_ChampGrid
@@ -103,7 +103,7 @@ var
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 procedure TfRechercheBatpro_Ligne_ChampGrid.Loaded;
 begin

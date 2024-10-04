@@ -26,13 +26,13 @@ interface
 
 var
    uProgression_Demarre        : procedure ( Titre: String;
-                                             Min, Max: Single;
+                                             Min, Max: Integer;
                                              _Immediat: Boolean = False;
                                              _Interruptible: Boolean= False) of object = nil;
-   uProgression_DemarreImmediat: procedure ( Titre: String; Min, Max: Single;
+   uProgression_DemarreImmediat: procedure ( Titre: String; Min, Max: Integer;
                                              _Interruptible: Boolean= False) of object = nil;
    uProgression_Termine        : procedure of object = nil;
-   uProgression_AddProgress    : procedure ( Value: Single) of object= nil;
+   uProgression_AddProgress    : procedure ( Value: Integer) of object= nil;
    uProgression_GetInterrompre : function : Boolean of object= nil;
 
 implementation

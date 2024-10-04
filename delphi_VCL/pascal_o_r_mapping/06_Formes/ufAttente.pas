@@ -26,8 +26,8 @@ interface
 
 uses
     uClean,
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, FMX.StdCtrls, FMX.ExtCtrls, FMX.Types, FMX.Controls.Presentation;
+  Windows, Messages, SysUtils, Variants, Classes, VCL.Graphics, VCL.Controls, VCL.Forms,
+  VCL.Dialogs, VCL.StdCtrls, VCL.ExtCtrls;
 
 type
   TfAttente = class(TForm)
@@ -45,7 +45,7 @@ function fAttente: TfAttente;
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 function fAttente: TfAttente;
 begin

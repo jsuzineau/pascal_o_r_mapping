@@ -25,8 +25,8 @@ unit udmxTest_Batpro_Ligne;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, FMTBcd, Provider, DBClient, DB, SqlExpr,
+  Windows, Messages, SysUtils, Variants, Classes, VCL.Graphicso, VCL.Controls, VCL.Forms,
+  VCL.Dialogs, FMTBcd, Provider, DBClient, DB, SqlExpr,
   ucBatproVerifieur,
   ucbvQuery_Datasource,
   uhRequete,
@@ -72,7 +72,7 @@ uses
     uClean,
     udmxcreTest_Batpro_Ligne;
 
-{$R *.fmx}
+{$R *.dfm}
 
 var
    FdmxTest_Batpro_Ligne: TdmxTest_Batpro_Ligne;

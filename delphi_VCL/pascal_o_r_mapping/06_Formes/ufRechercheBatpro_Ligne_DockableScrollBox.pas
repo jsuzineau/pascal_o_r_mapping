@@ -44,10 +44,10 @@ uses
     uhDessinnateur,
     ufpBas,
 
-  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-  FMX.ActnList, FMX.StdCtrls, FMX.ExtCtrls, FMX.Grid,
+  Windows, Messages, SysUtils, Classes, VCL.Graphics, VCL.Controls, VCL.Forms, VCL.Dialogs,
+  VCL.ActnList, VCL.StdCtrls, VCL.ExtCtrls, VCL.Grid,
   Db, FMTBcd, Provider, SqlExpr, DBClient, ucDockableScrollBox,
-  FMX.Menus;
+  VCL.Menus;
 
 type
  TfRechercheBatpro_Ligne_DockableScrollBox
@@ -102,7 +102,7 @@ var
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 procedure TfRechercheBatpro_Ligne_DockableScrollBox.Loaded;
 begin

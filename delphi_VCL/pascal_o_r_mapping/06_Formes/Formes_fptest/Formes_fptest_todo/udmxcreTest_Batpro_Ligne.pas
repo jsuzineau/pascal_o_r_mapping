@@ -25,8 +25,8 @@ unit udmxcreTest_Batpro_Ligne;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
-  FMX.Dialogs,
+  Windows, Messages, SysUtils, Variants, Classes, VCL.Graphicso, VCL.Controls, VCL.Forms,
+  VCL.Dialogs,
   udmxCreator, FMTBcd, DB, SqlExpr;
 
 type
@@ -62,7 +62,7 @@ uses
     uDataUtilsF,
     udmDatabase;
 
-{$R *.fmx}
+{$R *.dfm}
 
 var
    FdmxcreTest_Batpro_Ligne: TdmxcreTest_Batpro_Ligne;

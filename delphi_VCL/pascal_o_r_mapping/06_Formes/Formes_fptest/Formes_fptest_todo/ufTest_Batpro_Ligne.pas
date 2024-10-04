@@ -25,8 +25,8 @@ unit ufTest_Batpro_Ligne;
 interface
 
 uses
-    Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-    FMX.Dialogs, Spin, FMX.StdCtrls, FMX.ActnList, FMX.ComCtrls, Buttons, FMX.ExtCtrls,
+    Windows, Messages, SysUtils, Variants, Classes, VCL.Graphics, VCL.Controls, VCL.Forms,
+    VCL.Dialogs, Spin, VCL.StdCtrls, VCL.ActnList, VCL.ComCtrls, Buttons, VCL.ExtCtrls,
     uClean,
     ucChamp_Integer_SpinEdit,
     ucChamp_Edit,
@@ -53,7 +53,7 @@ function fTest_Batpro_Ligne: TfTest_Batpro_Ligne;
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 var
    FfTest_Batpro_Ligne: TfTest_Batpro_Ligne;

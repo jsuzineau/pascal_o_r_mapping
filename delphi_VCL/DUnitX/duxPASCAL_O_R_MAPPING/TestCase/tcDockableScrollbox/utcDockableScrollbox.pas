@@ -30,7 +30,7 @@ interface
 uses
     uftcDockableScrollbox,
  Classes, DUnitX.TestFramework, System.SysUtils, Winapi.Windows, Winapi.ShellAPI,
- FMX.Forms;
+ VCL.Forms;
 
 type
 
@@ -62,7 +62,6 @@ begin
        f:= TftcDockableScrollbox.Create( nil);
      {$ELSE}
        Application.CreateForm( TftcDockableScrollbox, f);
-       Application.RealCreateForms;
      {$ENDIF}
      f.ShowModal;
      FreeAndNil( f);

@@ -8,11 +8,12 @@ interface
 
 uses
     uClean,
+    uWinUtils,
     uuStrings,
     uVide,
     ujpFile,
     ufjpFile,
- Classes, SysUtils, FMX.Forms, FMX.Controls, FMX.Graphics, FMX.Dialogs, FMX.Menus;
+ Classes, SysUtils, VCL.Forms, VCL.Controls, VCL.Graphics, VCL.Dialogs, VCL.Menus;
 
 type
 
@@ -26,7 +27,6 @@ type
    miNouveau: TMenuItem;
    miFichier: TMenuItem;
    mm: TMainMenu;
-   //sd: TSelectDirectoryDialog;
    procedure FormCreate(Sender: TObject);
    procedure FormDestroy(Sender: TObject);
    procedure FormDropFiles(Sender: TObject; const FileNames: array of string);
@@ -51,7 +51,7 @@ function fjpFiles: TfjpFiles;
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 { TfjpFiles }
 
@@ -65,7 +65,7 @@ end;
 
 procedure TfjpFiles.FormCreate(Sender: TObject);
 begin
-     Racine_Listes:= ExtractFilePath( ParamStr(0))+'Generateur_de_code'+PathDelim+'01_Listes';
+     Racine_Listes:= ExtractFilePath( Application.ExeName)+'Generateur_de_code'+PathDelim+'01_Listes';
      sl:= TslfjpFile.Create( ClassName+'.sl');
 end;
 
@@ -101,8 +101,8 @@ var
         sl.AddObject( sCle, f);
 
         mi:= TMenuItem.Create( mm);
-        //miFenetres.Add( mi); traduction en FMX ?
-        //mi.Caption:= sCle;
+        miFenetres.Add( mi);
+        mi.Caption:= sCle;
         mi.OnClick:= miFenetreClick;
    end;
 begin
@@ -138,7 +138,7 @@ begin
      if not (Sender is TMenuItem) then exit;
 
      mi:= Sender as TMenuItem;
-//     sCle:= mi.Caption; traduction en FMX ?
+     sCle:= mi.Caption;
      f:= fjpFile_from_sl_sCle( sl, sCle);
      if nil = f then exit;
 
@@ -155,11 +155,13 @@ begin
 end;
 
 procedure TfjpFiles.Ouvre;
+var
+   NomRepertoire: String;
 begin
-//     sd.FileName:= Racine_Listes;
-//     if not sd.Execute then exit;
-//
-//     Ouvre( sd.FileName);
+     NomRepertoire:= Racine_Listes;
+     if not SelectionnneRepertoire( Handle, Caption, NomRepertoire) then exit;
+
+     Ouvre( NomRepertoire);
 end;
 
 procedure TfjpFiles.FormDropFiles( Sender: TObject; const FileNames: array of string);
@@ -195,10 +197,9 @@ var
    nfSeparateur: String;
    nfEnd       : String;
 begin
-//     sd.FileName:= Racine_Listes;  traduction en FMX ?
-//     if not sd.Execute then exit;
-//
-//     Directory:= sd.FileName;
+     Directory:= Racine_Listes;
+     if not SelectionnneRepertoire( Handle, Caption, Directory) then exit;
+
      Extension:= InputBox( 'Extension des fichiers template', 'Saisissez l''extension', 'pas');
      Name:= ExtractFileName( Directory);
      nfKey       := IncludeTrailingPathDelimiter( Directory)+Name+s_key_       +Extension;

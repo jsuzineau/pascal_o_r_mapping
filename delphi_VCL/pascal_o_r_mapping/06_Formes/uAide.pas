@@ -30,7 +30,7 @@ Elle est utilisée dans fBatpro_Form (OnHelp:= Objet_Aide.Aide).
 interface
 
 uses
-    Windows, ShellAPI, SysUtils, Classes, FMX.Forms;
+    Windows, ShellAPI, SysUtils, Classes, VCL.Forms;
 
 { class TObjet_Aide
 Cette classe est créée uniquement parce que Application.OnHelp et TForm.OnHelp
@@ -42,10 +42,10 @@ type
  =
   class
   public
-    function Aide_Batpro( Command: Word; Data: Integer;var CallHelp: Boolean): Boolean;
-    function Aide_nulle( Command: Word; Data: Integer;var CallHelp: Boolean): Boolean;
+    function Aide_Batpro( Command: Word; Data: Int64;var CallHelp: Boolean): Boolean;
+    function Aide_nulle( Command: Word; Data: Int64;var CallHelp: Boolean): Boolean;
   public
-    //Aide: THelpEvent; non traduit pour l'instant: n'existe pas en FMX
+    Aide: THelpEvent;
     procedure Accroche_Aide_Batpro;
     procedure Accroche_Aide_nulle;
     procedure Desaccroche;
@@ -116,7 +116,7 @@ begin
 end;
 
 
-function TObjet_Aide.Aide_Batpro( Command: Word; Data: Integer;
+function TObjet_Aide.Aide_Batpro( Command: Word; Data: Int64;
                                   var CallHelp: Boolean): Boolean;
 var
    NomAide: String;
@@ -124,7 +124,6 @@ var
 begin
      NomAide:= sys_Sommaire;
 
-     {
      ActiveForm := Screen.ActiveCustomForm;
      if Assigned(ActiveForm)
      then
@@ -134,7 +133,7 @@ begin
          then
              NomAide:= ActiveForm.Name;
          end;
-     }
+
      if ModeHELP_CREATOR
      then
          Result
@@ -150,7 +149,7 @@ begin
          end;
 end;
 
-function TObjet_Aide.Aide_nulle( Command: Word; Data: Integer;
+function TObjet_Aide.Aide_nulle( Command: Word; Data: Int64;
                                  var CallHelp: Boolean): Boolean;
 begin
      CallHelp:= False;
@@ -159,27 +158,27 @@ end;
 
 procedure TObjet_Aide.Accroche_Aide_Batpro;
 begin
-     //Aide:= Aide_Batpro;
-     //Application.OnHelp:= Aide;
+     Aide:= Aide_Batpro;
+     Application.OnHelp:= Aide;
 end;
 
 procedure TObjet_Aide.Accroche_Aide_nulle;
 begin
-     //Aide:= Aide_nulle;
-     //Application.OnHelp:= Aide;
+     Aide:= Aide_nulle;
+     Application.OnHelp:= Aide;
 end;
 
 procedure TObjet_Aide.Desaccroche;
 begin
-     //Aide:= nil;
-     //Application.OnHelp:= Aide;
+     Aide:= nil;
+     Application.OnHelp:= Aide;
 end;
 
 constructor TObjet_Aide.Create;
 begin
      inherited;
      Accroche_Aide_Batpro;
-     //Desaccroche;
+     Desaccroche;
 end;
 
 destructor TObjet_Aide.Destroy;

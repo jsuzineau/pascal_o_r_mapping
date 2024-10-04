@@ -25,7 +25,7 @@
 interface
 
 uses
-  SysUtils, Classes, VCL.Controls, VCL.ExtCtrls, Types, VCL.Graphics,ucBitBtn;
+  SysUtils, Classes, VCL.Controls, VCL.ExtCtrls, Types, VCL.Graphics, VCL.Buttons;
 
 type
  TBitBtn_antirebond

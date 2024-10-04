@@ -37,26 +37,26 @@ uses
     ufBatpro_Form,
     ufAccueil,
 
-  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-  FMX.StdCtrls, FMX.ExtCtrls, FMX.Memo, FMX.ActnList, FMX.Menus, System.UITypes,
+  Windows, Messages, SysUtils, Classes, VCL.Graphics, VCL.Controls, VCL.Forms, VCL.Dialogs,
+  VCL.StdCtrls, VCL.ExtCtrls, VCL.ActnList, VCL.Menus, System.UITypes, VCL.ComCtrls, VCL.Buttons,
   System.Actions;
 
 type
  TfpBas
  =
   class(TfBatpro_Form)
-    al: FMX.ActnList.TActionList;
+    al: TActionList;
     pBas: TPanel;
     pFermer: TPanel;
-    bAbandon: FMX.StdCtrls.TButton;
+    bAbandon: TBitBtn;
     StatusBar1: TStatusBar;
-    bValidation: FMX.StdCtrls.TButton;
+    bValidation: TBitBtn;
     aValidation: TAction;
     aAbandon: TAction;
     sLog: TSplitter;
     pLog: TPanel;
     lLog: TLabel;
-    mLog: FMX.Memo.TMemo;
+    mLog: TMemo;
     pmValidation: TPopupMenu;
     miModele: TMenuItem;
     miOPN_fpBas: TMenuItem;
@@ -105,7 +105,7 @@ type
     pPostExecute: TPublieur;
   //Accés à la liste d'actions
   protected
-    function ActionList: FMX.ActnList.TActionList; override;
+    function ActionList: TActionList; override;
   //OPN_Requeteur
   public
     function OPN_Requeteur_SQL: String; virtual;
@@ -116,7 +116,7 @@ var
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 { TfpBas }
 
@@ -124,7 +124,7 @@ constructor TfpBas.Create(_Owner: TComponent);
 begin
      inherited;
      pPostExecute:= TPublieur.Create( ClassName+'.pPostExecute');
-     miClassName.Text:= 'Nom de la classe: '+ClassName;
+     miClassName.Caption:= 'Nom de la classe: '+ClassName;
 end;
 
 destructor TfpBas.Destroy;
@@ -156,8 +156,8 @@ begin
      if not bAbandon.Visible
      then
          begin
-         //bValidation.Kind:= bkClose;
-         bValidation.Text:= loc_Fermer;
+         bValidation.Kind:= bkClose;
+         bValidation.Caption:= loc_Fermer;
          aValidation.Caption:= loc_Fermer;
          aAbandon.ShortCut:= scNone;
          end;
@@ -181,7 +181,7 @@ begin
      else
          begin
          if     Execute_Running
-            //or (fsModal in FFormState) à traduire en FMX
+            or (fsModal in FFormState)
          then
              if bAbandon.Visible
              then
@@ -206,7 +206,7 @@ begin
          end;
 
      if     Execute_Running
-        //or (fsModal in FFormState) à traduire en FMX
+        or (fsModal in FFormState)
      then
          if bAbandon.Visible
          then
@@ -251,7 +251,7 @@ begin
      if FAfficher_Log
      then
          begin
-         sLog.Position.Y:= pLog.Position.Y;
+         sLog.Top:= pLog.Top;
          fAccueil.publieur_LogChange.Abonne( Self, LogChange);
          LogChange;
          end
@@ -262,7 +262,7 @@ begin
 
      Dimensionner;
 
-     //Refresh;
+     Refresh;
 end;
 
 procedure TfpBas.AfficheLog; //pour abonnement à fAccueil
@@ -280,7 +280,7 @@ end;
 procedure TfpBas.mLogMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-     if    (TMouseButton.mbRight = Button)
+     if    (mbRight = Button)
         and(ssCtrl in Shift)
      then
          fAccueil.Execute;
@@ -308,13 +308,13 @@ begin
      Result:= inherited PreExecute;
      Valide:= False;
      fAccueil.pAfficheLog.Abonne( Self, AfficheLog);
-     //bValidation.Kind:= bkCustom;
-     //bAbandon   .Kind:= bkCustom;
+     bValidation.Kind:= bkCustom;
+     bAbandon   .Kind:= bkCustom;
      bValidation.ModalResult:= mrNone;
      bAbandon   .ModalResult:= mrNone;
      bValidation.Action:= aValidation;
      bAbandon.Action:= aAbandon;
-     miValidation_AfficherLog.isChecked:= Afficher_Log;
+     miValidation_AfficherLog.Checked:= Afficher_Log;
 end;
 
 procedure TfpBas.PostExecute;
@@ -325,7 +325,7 @@ begin
      pPostExecute.Publie;
 end;
 
-function TfpBas.ActionList: FMX.ActnList.TActionList;
+function TfpBas.ActionList: TActionList;
 begin
      Result:= al;
 end;
@@ -347,8 +347,8 @@ end;
 
 procedure TfpBas.miValidation_AfficherLogClick(Sender: TObject);
 begin
-     with miValidation_AfficherLog do isChecked:= not IsChecked;
-     Afficher_Log:= miValidation_AfficherLog.isChecked;
+     with miValidation_AfficherLog do Checked:= not Checked;
+     Afficher_Log:= miValidation_AfficherLog.Checked;
 end;
 
 function TfpBas.OPN_Requeteur_SQL: String;

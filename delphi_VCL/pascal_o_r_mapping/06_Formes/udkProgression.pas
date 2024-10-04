@@ -27,9 +27,8 @@ interface
 uses
     uOD_Forms,
     uDockable,
-  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-  FMX.StdCtrls, FMX.ExtCtrls, ucBatpro_Shape, FMX.Controls.Presentation,
-  FMX.Types, FMX.Objects;
+  Windows, Messages, SysUtils, Classes, VCL.Graphics, VCL.Controls, VCL.Forms, VCL.Dialogs,
+  VCL.StdCtrls, VCL.ExtCtrls, ucBatpro_Shape, VCL.Buttons, VCL.ComCtrls,VCL.Samples.Gauges;
 
 type
  TdkProgression
@@ -38,10 +37,10 @@ type
     p: TPanel;
     pLabels: TPanel;
     lcompte: TLabel;
-    lTitre: TLabel;
+    Label1: TLabel;
+    g: TGauge;
     pInterrompre: TPanel;
     bInterrompre: TSpeedButton;
-    pb: TProgressBar;
     procedure bInterrompreClick(Sender: TObject);
   //Gestion du cycle de vie
   public
@@ -50,15 +49,15 @@ type
   //Début et fin
   public
     ModeFlyer: Boolean;
-    procedure Demarre( Titre: String; Min, Max: Single; _Interruptible: Boolean= False);
+    procedure Demarre( Titre: String; Min, Max: Integer; _Interruptible: Boolean= False);
   //Progression
   private
-    FProgress: Single;
-    function  GetProgress: Single;
-    procedure SetProgress(const Value: Single);
+    FProgress: Integer;
+    function  GetProgress: Integer;
+    procedure SetProgress(const Value: Integer);
   public
-    procedure AddProgress( Value: Single);
-    property Progress: Single read GetProgress write SetProgress;
+    procedure AddProgress( Value: Integer);
+    property Progress: Integer read GetProgress write SetProgress;
   //Interruption
   public
     Interrompre: Boolean;
@@ -71,7 +70,7 @@ implementation
 uses
     uClean;
 
-{$R *.fmx}
+{$R *.dfm}
 
 var
    FdkProgression: TdkProgression;
@@ -95,69 +94,69 @@ begin
      inherited;
 end;
 
-procedure TdkProgression.Demarre( Titre: String; Min, Max: Single;
+procedure TdkProgression.Demarre( Titre: String; Min, Max: Integer;
                                   _Interruptible: Boolean= False);
 begin
      if Max <= Min then Max:= Min+1;
-     lTitre.Text:= Titre;
-     pb.Min:= Min;
-     pb.Max:= Max;
-     pb.Value:= Min;
-     lCompte.Text:= '';
+     Label1.Caption:= Titre;
+     g.MinValue:= Min;
+     g.MaxValue:= Max;
+     g.Progress:= Min;
+     lCompte.Caption:= '';
      ModeFlyer:= Max = Min + 1;
-     pb.Visible:= not ModeFlyer;
+     g.Visible:= not ModeFlyer;
      pInterrompre.Visible:= _Interruptible;
 
-     ClientHeight:= Trunc( p.Height);
+     ClientHeight:= p.Height;
      //Show;
 
      //Refresh;
-     //uOD_Forms_ProcessMessages;
+     //Application.ProcessMessages;
 end;
 
-function TdkProgression.GetProgress: Single;
+function TdkProgression.GetProgress: Integer;
 begin
      if ModeFlyer
      then
          Result:= FProgress
      else
-         Result:= pb.Value;
+         Result:= g.Progress;
 end;
 
-procedure TdkProgression.SetProgress(const Value: Single);
+procedure TdkProgression.SetProgress(const Value: Integer);
 begin
      if ModeFlyer
      then
          FProgress:= Value
      else
-         pb.Value:= Value;
+         g.Progress:= Value;
      //if Visible and Enabled
      //then
      //    begin
      //    Refresh;
-     //    uOD_Forms_ProcessMessages;
+     //    Application.ProcessMessages;
      //    end;
 end;
 
-procedure TdkProgression.AddProgress( Value: Single);
+procedure TdkProgression.AddProgress(Value: Integer);
 begin
      Progress:= Progress + Value;
      if ModeFlyer
      then
-         lCompte.Text:= Format( '%d', [FProgress])
+         lCompte.Caption:= Format( '%d', [FProgress])
      else
-         lCompte.Text:= Format( '%d de %d', [pb.Value, pb.Max]);
+         lCompte.Caption:= Format( '%d de %d', [g.Progress, g.MaxValue]);
      //if Visible and Enabled
      //then
      //    begin
      //    Refresh;
-     //    uOD_Forms_ProcessMessages;
+     //    Application.ProcessMessages;
      //    end;
 end;
 
 procedure TdkProgression.bInterrompreClick(Sender: TObject);
 begin
-     Interrompre:= bInterrompre.IsPressed;
+     Interrompre:= bInterrompre.Down;
 end;
 
 initialization

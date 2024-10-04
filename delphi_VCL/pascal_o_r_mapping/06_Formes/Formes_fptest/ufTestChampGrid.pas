@@ -25,11 +25,11 @@ unit ufTestChampGrid;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
-  FMX.Dialogs,
+  Windows, Messages, SysUtils, Variants, Classes, VCL.Graphicso, VCL.Controls, VCL.Forms,
+  VCL.Dialogs,
     uBatpro_StringList,
-  ufpBas, Grids, ucChampsGrid, FMX.ActnList, FMX.StdCtrls, FMX.ComCtrls, Buttons,
-  FMX.ExtCtrls, FMX.Menus;
+  ufpBas, Grids, ucChampsGrid, VCL.ActnList, VCL.StdCtrls, VCL.ComCtrls, Buttons,
+  VCL.ExtCtrls, VCL.Menus;
 
 type
  TfTestChampGrid
@@ -50,7 +50,7 @@ implementation
 uses
     uClean;
 
-{$R *.fmx}
+{$R *.dfm}
 
 var
    FfTestChampGrid: TfTestChampGrid;

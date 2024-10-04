@@ -41,7 +41,7 @@ uses
     udmBatpro_DataModule,
     udm,
 
-  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Dialogs,
+  Windows, Messages, SysUtils, Classes, VCL.Graphics, VCL.Controls, VCL.Dialogs,
   DBTables, Db, FMTBcd, SqlExpr;
 
 type
@@ -75,7 +75,7 @@ type
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 procedure TdmxCreator.DataModuleCreate(Sender: TObject);
 begin

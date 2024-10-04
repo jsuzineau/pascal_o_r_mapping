@@ -66,7 +66,7 @@ implementation
 uses
     udmDatabase, uDataUtilsU, uVide, uClean;
 
-{$R *.fmx}
+{$R *.dfm}
 
 procedure Tdmx.Assure_sqlq_Datasource( Defaut: TDatasource);
 begin

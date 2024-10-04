@@ -27,8 +27,8 @@ interface
 uses
     uOD_Forms,
   udkProgression,
-  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-  Gauges, FMX.StdCtrls, FMX.ExtCtrls, ucDockScrollbox;
+  Windows, Messages, SysUtils, Classes, VCL.Graphics, VCL.Controls, VCL.Forms, VCL.Dialogs,
+  Gauges, VCL.StdCtrls, VCL.ExtCtrls, ucDockScrollbox;
 
 type
  TfFlyer
@@ -71,7 +71,7 @@ implementation
 uses
     uClean;
 
-{$R *.fmx}
+{$R *.dfm}
 
 var
    FfFlyer: TfFlyer;

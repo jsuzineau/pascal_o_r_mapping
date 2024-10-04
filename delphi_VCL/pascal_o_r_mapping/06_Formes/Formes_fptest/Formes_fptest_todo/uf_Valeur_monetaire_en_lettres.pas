@@ -25,9 +25,9 @@ unit uf_Valeur_monetaire_en_lettres;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs,
-  ufpBas, FMX.StdCtrls, FMX.ActnList, FMX.ComCtrls, Buttons, FMX.ExtCtrls;
+  Windows, Messages, SysUtils, Variants, Classes, VCL.Graphics, VCL.Controls, VCL.Forms,
+  VCL.Dialogs,
+  ufpBas, VCL.StdCtrls, VCL.ActnList, VCL.ComCtrls, Buttons, VCL.ExtCtrls;
 
 type
  Tf_Valeur_monetaire_en_lettres
@@ -58,7 +58,7 @@ uses
     uuStrings,
     U_BTP;
 
-{$R *.fmx}
+{$R *.dfm}
 
 var
    Ff_Valeur_monetaire_en_lettres: Tf_Valeur_monetaire_en_lettres;

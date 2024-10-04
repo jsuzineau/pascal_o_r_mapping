@@ -28,9 +28,8 @@ uses
     uClean,
     uSGBD,
     uInformix,
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, FMX.StdCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.Controls, FMX.Edit,
-  FMX.Types, FMX.Controls.Presentation;
+  Windows, Messages, SysUtils, Variants, Classes, VCL.Graphics, VCL.Controls, VCL.Forms,
+  VCL.Dialogs, VCL.StdCtrls, Vcl.Buttons;
 
 type
  TfBatpro_Informix
@@ -66,7 +65,7 @@ function fBatpro_Informix: TfBatpro_Informix;
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 var
    FfBatpro_Informix: TfBatpro_Informix;

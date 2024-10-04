@@ -44,8 +44,8 @@ uses
     ufpBas,
     ufAccueil_Erreur,
 
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, FMX.ActnList, FMX.StdCtrls, FMX.ExtCtrls, FMX.Menus;
+  Windows, Messages, SysUtils, Variants, Classes, VCL.Graphics, VCL.Controls, VCL.Forms,
+  VCL.Dialogs, VCL.ActnList, VCL.StdCtrls, VCL.ExtCtrls, VCL.Menus;
 
 type
  TfSchemateur
@@ -59,7 +59,7 @@ function fSchemateur: TfSchemateur;
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 var
    FfSchemateur: TfSchemateur= nil;

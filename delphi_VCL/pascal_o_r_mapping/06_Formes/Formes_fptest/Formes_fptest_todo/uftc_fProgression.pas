@@ -27,8 +27,8 @@ interface
 uses
   uClean,
   ufProgression,
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, FMX.StdCtrls;
+  Windows, Messages, SysUtils, Variants, Classes, VCL.Graphicso, VCL.Controls, VCL.Forms,
+  VCL.Dialogs, VCL.StdCtrls;
 
 type
   Tftc_fProgression = class(TForm)
@@ -49,7 +49,7 @@ var
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 procedure Tftc_fProgression.bDemarreClick(Sender: TObject);
 begin

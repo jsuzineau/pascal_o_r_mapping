@@ -29,9 +29,9 @@ uses
     uBatpro_StringList,
   Windows, Messages, SysUtils, Variants, Classes,
   System.UITypes, System.Actions,
-  FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, FMX.ActnList,
-  FMX.Types, Vcl.ExtCtrls, Vcl.ActnList;
+  VCL.Graphics, VCL.Controls, VCL.Forms,
+  VCL.Dialogs,
+  Vcl.ExtCtrls, Vcl.ActnList;
 
 type
  TfBatpro_Form_Ancetre
@@ -39,14 +39,14 @@ type
   class(TForm)
   //Accés à la liste d'actions
   protected
-    function ActionList: FMX.ActnList.TActionList; virtual; abstract;
+    function ActionList: VCL.ActnList.TActionList; virtual; abstract;
   end;
  Tprocedure_AUTOEXEC= procedure of object;
  TfBatpro_Desk
  =
   class(TForm)
-    tCreate: FMX.Types.TTimer;
-    al: FMX.ActnList.TActionList;
+    tCreate: TTimer;
+    al: VCL.ActnList.TActionList;
     procedure FormCreate(Sender: TObject);
     procedure tCreateTimer(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -85,7 +85,7 @@ var
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 procedure TfBatpro_Desk.FormCreate(Sender: TObject);
 begin
@@ -177,9 +177,9 @@ end;
 
 procedure TfBatpro_Desk.ActionList_from_FenetreCourante;
 var
-   ActionList: FMX.ActnList.TActionList;
+   ActionList: VCL.ActnList.TActionList;
    I: Integer;
-   a: FMX.ActnList.TAction;
+   a: VCL.ActnList.TAction;
    aFenetreCourante: TContainedAction;
 begin
      if nil = FenetreCourante then exit;
@@ -192,7 +192,7 @@ begin
        aFenetreCourante:= ActionList.Actions[ I];
        if aFenetreCourante = nil then continue;
 
-       a:= FMX.ActnList.TAction.Create( Self);
+       a:= VCL.ActnList.TAction.Create( Self);
        if a= nil then continue;
 
        a.Assign( aFenetreCourante);

@@ -31,8 +31,8 @@ uses
     uMailTo,
     ufAccueil_Erreur,
     ufpBas,
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, FMX.ActnList, FMX.StdCtrls, FMX.ExtCtrls, FMX.Menus, Types;
+  Windows, Messages, SysUtils, Variants, Classes, VCL.Graphics, VCL.Controls, VCL.Forms,
+  VCL.Dialogs, VCL.ActnList, VCL.StdCtrls, VCL.ExtCtrls, VCL.Menus, Types;
 
 type
  TfMailTo
@@ -67,7 +67,7 @@ function fMailTo: TfMailTo;
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 var
    FfMailTo: TfMailTo= nil;

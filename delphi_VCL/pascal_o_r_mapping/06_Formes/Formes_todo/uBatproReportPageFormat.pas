@@ -32,7 +32,7 @@ uses
     uhDessinnateur,
     upoolG_PAR,
     ufAccueil_Erreur,
-    Windows, SysUtils, Classes, FMX.ExtCtrls, FMX.Graphicso, Grids, Printers;
+    Windows, SysUtils, Classes, VCL.ExtCtrls, VCL.Graphicso, Grids, Printers;
 
 type
  TBatproReportPageFormat

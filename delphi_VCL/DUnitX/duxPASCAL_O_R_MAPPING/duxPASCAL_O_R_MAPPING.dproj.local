@@ -21,10 +21,10 @@
     <Transaction>2018/01/11 23:23:22.000.699,=C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\02_Units\uContrainte.pas</Transaction>
     <Transaction>2018/01/11 23:23:22.000.745,=C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\02_Units\uDataUtilsU.pas</Transaction>
     <Transaction>2018/01/11 23:23:22.000.927,=C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\02_Units\uJCL.pas</Transaction>
-    <Transaction>2018/01/11 23:23:22.000.441,=C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\02_Units\uBinary_Tree.pas</Transaction>
+    <Transaction>2018/01/11 23:23:22.000.505,=C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\02_Units\uChamp.pas</Transaction>
     <Transaction>2018/01/11 23:23:22.000.562,=C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\02_Units\uChamps.pas</Transaction>
     <Transaction>2018/01/11 23:23:22.000.472,=C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\02_Units\uBTree.pas</Transaction>
-    <Transaction>2018/01/11 23:23:22.000.505,=C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\02_Units\uChamp.pas</Transaction>
+    <Transaction>2018/01/11 23:23:22.000.441,=C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\02_Units\uBinary_Tree.pas</Transaction>
     <Transaction>2018/01/11 23:23:22.000.990,=C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\02_Units\uLookupConnection_Ancetre.pas</Transaction>
     <Transaction>2018/01/11 23:23:22.000.522,=C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\02_Units\uChampDefinition.pas</Transaction>
     <Transaction>2018/01/11 23:23:22.000.541,=C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\02_Units\uChampDefinitions.pas</Transaction>
@@ -291,8 +291,8 @@
     <Transaction>2018/01/17 02:53:10.000.843,C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\02_Units\uuStrings.pas=</Transaction>
     <Transaction>2018/01/17 02:53:10.000.633,C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\02_Units\uNetwork.pas=</Transaction>
     <Transaction>2018/01/17 02:53:10.000.652,C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\02_Units\uOD_Dataset_Column.pas=</Transaction>
-    <Transaction>2018/01/17 02:53:10.000.455,C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\02_Units\uBinary_Tree.pas=</Transaction>
     <Transaction>2018/01/17 02:53:10.000.487,C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\02_Units\uChamp.pas=</Transaction>
+    <Transaction>2018/01/17 02:53:10.000.455,C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\02_Units\uBinary_Tree.pas=</Transaction>
     <Transaction>2018/01/17 02:53:10.000.677,C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\02_Units\uOD_JCL.pas=</Transaction>
     <Transaction>2018/01/17 02:53:10.000.823,C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\02_Units\uStringArray.pas=</Transaction>
     <Transaction>2018/01/17 02:53:10.000.855,C:\_freepascal\pascal_o_r_mapping\delphi\pascal_o_r_mapping\02_Units\u_db_Composants.pas=</Transaction>

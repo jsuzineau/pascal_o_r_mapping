@@ -1,6 +1,7 @@
 _Configuration..ini
 _Configuration.ini
 _Configuration.ini~
+*.dsv
 *.dsk
 *.~dsk
 *.zip

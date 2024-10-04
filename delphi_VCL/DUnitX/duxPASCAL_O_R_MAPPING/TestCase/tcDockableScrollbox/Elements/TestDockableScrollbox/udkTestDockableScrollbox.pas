@@ -34,9 +34,8 @@ uses
 
     uDockable,
     ucBatpro_Shape, ucChamp_Label, ucChamp_Edit, ucBatproDateTimePicker,
-    ucChamp_DateTimePicker, Classes, SysUtils, FMX.Forms, FMX.Controls,
-    FMX.Graphics, FMX.Dialogs, FMX.Controls.Presentation, FMX.StdCtrls,
-  FMX.Types, FMX.Objects, FMX.Colors;
+    ucChamp_DateTimePicker, Classes, SysUtils, VCL.Forms, VCL.Controls,
+    VCL.Graphics, VCL.Dialogs, VCL.StdCtrls;
 
 type
 
@@ -47,7 +46,6 @@ type
   class(TDockable)
   clNom: TChamp_Label;
     Button2: TButton;
-    ColorPanel1: TColorPanel;
  public
   procedure SetObjet(const Value: TObject); override;
  //attributs
@@ -57,7 +55,7 @@ type
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 { TdkTestDockableScrollbox }
 

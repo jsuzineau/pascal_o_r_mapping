@@ -31,8 +31,8 @@ uses
 
     ufpBas,
     
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphicso, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, FMX.ActnList, FMX.StdCtrls, FMX.ComCtrls, Buttons, FMX.ExtCtrls, CheckLst, FMX.Menus;
+  Windows, Messages, SysUtils, Variants, Classes, VCL.Graphicso, VCL.Controls, VCL.Forms,
+  VCL.Dialogs, VCL.ActnList, VCL.StdCtrls, VCL.ComCtrls, Buttons, VCL.ExtCtrls, CheckLst, VCL.Menus;
 
 type
   TfPool = class(TfpBas)
@@ -50,7 +50,7 @@ function fPool: TfPool;
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 var
    FfPool: TfPool;

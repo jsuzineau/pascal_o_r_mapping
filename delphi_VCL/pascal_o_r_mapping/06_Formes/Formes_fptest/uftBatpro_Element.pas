@@ -25,13 +25,13 @@ unit uftBatpro_Element;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, FMX.ActnList, FMX.StdCtrls, FMX.ComCtrls, Buttons, FMX.ExtCtrls, Grids,
+  Windows, Messages, SysUtils, Variants, Classes, VCL.Graphics, VCL.Controls, VCL.Forms,
+  VCL.Dialogs, VCL.ActnList, VCL.StdCtrls, VCL.ComCtrls, Buttons, VCL.ExtCtrls, Grids,
   ufpBas,
   uhDessinnateur,
   uBatpro_Element,
   ubeString,
-  ubeClusterElement, FMX.Menus;
+  ubeClusterElement, VCL.Menus;
 
 const
      ncClusterDebut= 0;
@@ -56,7 +56,7 @@ implementation
 uses
     uClean;
 
-{$R *.fmx}
+{$R *.dfm}
 
 var
    FftBatpro_Element: TftBatpro_Element;

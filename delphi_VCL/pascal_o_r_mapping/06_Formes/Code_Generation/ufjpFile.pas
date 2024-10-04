@@ -29,13 +29,14 @@ interface
 
 uses
     uClean, ujpFile, uBatpro_StringList, Classes, SysUtils, SynEdit,
-    SynHighlighterXML, FMX.Forms, FMX.Controls, FMX.Graphics, FMX.Dialogs, FMX.ExtCtrls, FMX.StdCtrls,
-    FMX.ActnList, strutils, SynEditTypes,
+    SynHighlighterXML, VCL.Forms, VCL.Controls, VCL.Graphics, VCL.Dialogs, VCL.ExtCtrls, VCL.StdCtrls,
+    VCL.ActnList, strutils, SynEditTypes,
     SynEditHighlighter, SynHighlighterPas, SynHighlighterDfm,
-    SynHighlighterJScript, FMX.DialogService, UITypes;
+    SynHighlighterJScript, UITypes, System.Actions, SynEditCodeFolding;
 
 type
- { TfjpFile }
+ { TfjpF, System.Actions,
+  SynEditCodeFoldingile }
 
  TfjpFile
  =
@@ -122,7 +123,7 @@ function fjpFile_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TfjpFile;
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 function fjpFile_from_sl( sl: TBatpro_StringList; Index: Integer): TfjpFile;
 begin
@@ -187,22 +188,10 @@ end;
 
 destructor TfjpFile.Destroy;
 begin
-     if bSauver.Visible
+     if      bSauver.Visible
+        and (mrYes = MessageDlg( 'Enregistrer les modifications ?', mtConfirmation,mbYesNo,0))
      then
-         TDialogService
-         .
-          MessageDialog( 'Enregistrer les modifications ?',
-                         TMsgDlgType.mtConfirmation,
-                         [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo],
-                         TMsgDlgBtn.mbNo,
-                         0,
-                         procedure (const _Result: TModalResult)
-                         begin
-                              if mrYes <> _Result then exit;
-                              Sauver;
-                         end
-                         );
-
+         Sauver;
      inherited Destroy;
 end;
 
@@ -220,7 +209,7 @@ begin
      se04.Lines.LoadFromFile( jpf.nfSeparateur);
      se05.Lines.LoadFromFile( jpf.nfEnd       );
      SetSHL;
-     bSauver.Visible:= False;
+     bSauver.Hide;
 end;
 
 procedure TfjpFile.Sauver;
@@ -230,7 +219,7 @@ begin
      se03.Lines.SaveToFile( jpf.nfElement   );
      se04.Lines.SaveToFile( jpf.nfSeparateur);
      se05.Lines.SaveToFile( jpf.nfEnd       );
-     bSauver.Visible:= False;
+     bSauver.Hide;
 end;
 
 procedure TfjpFile.SetSHL;
@@ -272,7 +261,7 @@ procedure TfjpFile.seStatusChange(Sender: TObject; Changes: TSynStatusChanges);
 begin
      if scModified in Changes
      then
-         bSauver.Visible:= True;
+         bSauver.Show;
 end;
 
 end.

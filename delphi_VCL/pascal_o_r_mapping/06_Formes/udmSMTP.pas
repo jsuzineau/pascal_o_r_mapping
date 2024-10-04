@@ -27,10 +27,10 @@ interface
 uses
     uClean,
     uEXE_INI,
-  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, uOD_Forms, FMX.Dialogs,
-  FMX.ExtCtrls, FMX.ActnList, IniFiles,
+  Windows, Messages, SysUtils, Classes, VCL.Graphics, VCL.Controls, uOD_Forms, VCL.Dialogs,
+  VCL.ExtCtrls, VCL.ActnList, IniFiles,
   IdBaseComponent, IdComponent, IdTCPServer, IdCmdTCPServer, IdFTPList,
-  IdExplicitTLSClientServerBase, IdFTPServer, FMX.StdCtrls, IdFTPListOutput,
+  IdExplicitTLSClientServerBase, IdFTPServer, VCL.StdCtrls, IdFTPListOutput,
   IdTCPConnection, IdTCPClient, IdMessageClient, IdSMTPBase, IdSMTP,
   IdMessageCoder, IdMessageCoderMIME, IdMessage,IdCommandHandlers,
   IdCmdTCPClient, IdContext, IdServerIOHandler, IdSSL,
@@ -59,7 +59,7 @@ function dmSMTP: TdmSMTP;
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 var
    FdmSMTP: TdmSMTP;

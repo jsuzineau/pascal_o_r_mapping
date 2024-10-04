@@ -25,7 +25,7 @@ unit utc_Valeur_monetaire_en_lettres;
 interface
 
 uses
-  SysUtils, FMX.Controls, FMX.Dialogs,
+  SysUtils, VCL.Controls, VCL.Dialogs,
   TestFrameWork;
 
 type

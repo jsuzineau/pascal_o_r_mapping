@@ -28,8 +28,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes,
   Vcl.ImgList, Vcl.Controls, Vcl.Graphics, Vcl.ExtCtrls, Vcl.StdCtrls,
   System.ImageList,
-  FMX.Dialogs,FMX.Forms,
-  FMX.ImgList, FMX.Controls, FMX.Graphics, FMX.ExtCtrls, FMX.StdCtrls, FMX.Objects;
+  VCL.Dialogs,VCL.Forms;
 
 type
   TfBitmaps = class(TForm)
@@ -38,11 +37,11 @@ type
     Label1: TLabel;
     Label2: TLabel;
     GroupBox1: TGroupBox;
-    iBrosse_Trame_50_pourcent: FMX.Objects.TImage;
-    iBrosse_Trame_25_pourcent: FMX.Objects.TImage;
-    iBrosse_Solide           : FMX.Objects.TImage;
-    iBrosse_Vertical_50: FMX.Objects.TImage;
-    iBrosse_Vertical_25: FMX.Objects.TImage;
+    iBrosse_Trame_50_pourcent: TImage;
+    iBrosse_Trame_25_pourcent: TImage;
+    iBrosse_Solide           : TImage;
+    iBrosse_Vertical_50: TImage;
+    iBrosse_Vertical_25: TImage;
     Label3: TLabel;
     LOSANGE: TImageList;
     DOSSIER_KDE_PAR_POSTE: TImageList;
@@ -93,7 +92,7 @@ implementation
 uses
     uClean;
 
-{$R *.fmx}
+{$R *.dfm}
 
 var
    FfBitmaps: TfBitmaps;
@@ -107,27 +106,27 @@ end;
 
 function TfBitmaps.bBrosse_Solide: TBitmap;
 begin
-     Result:= iBrosse_Solide.Bitmap;
+     Result:= iBrosse_Solide.Picture.Bitmap;
 end;
 
 function TfBitmaps.bBrosse_Trame_50_pourcent: TBitmap;
 begin
-     Result:= iBrosse_Trame_50_pourcent.Bitmap;
+     Result:= iBrosse_Trame_50_pourcent.Picture.Bitmap;
 end;
 
 function TfBitmaps.bBrosse_Trame_25_pourcent: TBitmap;
 begin
-     Result:= iBrosse_Trame_25_pourcent.Bitmap;
+     Result:= iBrosse_Trame_25_pourcent.Picture.Bitmap;
 end;
 
 function TfBitmaps.bBrosse_Vertical_50: TBitmap;
 begin
-     Result:= iBrosse_Vertical_50.Bitmap;
+     Result:= iBrosse_Vertical_50.Picture.Bitmap;
 end;
 
 function TfBitmaps.bBrosse_Vertical_25: TBitmap;
 begin
-     Result:= iBrosse_Vertical_25.Bitmap;
+     Result:= iBrosse_Vertical_25.Picture.Bitmap;
 end;
 
 function TfBitmaps.svgDOCSINGL_id: String;
@@ -192,6 +191,11 @@ begin
 +'</svg>                                                                                                                              '#13#10;
 end;
 
+function TfBitmaps.svgLOSANGE_id: String;
+begin
+     Result:= 'svgLOSANGE';
+end;
+
 function TfBitmaps.svgLOSANGE_width: Integer;
 begin
      Result:= 16;
@@ -200,11 +204,6 @@ end;
 function TfBitmaps.svgLOSANGE_height: Integer;
 begin
      Result:= 16;
-end;
-
-function TfBitmaps.svgLOSANGE_id: String;
-begin
-     Result:= 'svgLOSANGE';
 end;
 
 function TfBitmaps.svgLOSANGE: String;
@@ -231,6 +230,11 @@ begin
      ;
 end;
 
+function TfBitmaps.svgLOGIN_id: String;
+begin
+     Result:= 'svgLOGIN';
+end;
+
 function TfBitmaps.svgLOGIN_width: Integer;
 begin
      Result:= 16;
@@ -239,11 +243,6 @@ end;
 function TfBitmaps.svgLOGIN_height: Integer;
 begin
      Result:= 16;
-end;
-
-function TfBitmaps.svgLOGIN_id: String;
-begin
-     Result:= 'svgLOGIN';
 end;
 
 function TfBitmaps.svgLOGIN: String;
@@ -362,6 +361,11 @@ begin
      ;
 end;
 
+function TfBitmaps.svgMEN_AT_WORK_id: String;
+begin
+     Result:= 'svgMEN_AT_WORK';
+end;
+
 function TfBitmaps.svgMEN_AT_WORK_width: Integer;
 begin
      Result:= 16;
@@ -370,11 +374,6 @@ end;
 function TfBitmaps.svgMEN_AT_WORK_height: Integer;
 begin
      Result:= 16;
-end;
-
-function TfBitmaps.svgMEN_AT_WORK_id: String;
-begin
-     Result:= 'svgMEN_AT_WORK';
 end;
 
 function TfBitmaps.svgMEN_AT_WORK: String;
@@ -447,6 +446,11 @@ begin
      ;
 end;
 
+function TfBitmaps.svgDOSSIER_KDE_PAR_POSTE_id: String;
+begin
+     Result:= 'svgDOSSIER_KDE_PAR_POSTE';
+end;
+
 function TfBitmaps.svgDOSSIER_KDE_PAR_POSTE_width: Integer;
 begin
      Result:= 16;
@@ -455,11 +459,6 @@ end;
 function TfBitmaps.svgDOSSIER_KDE_PAR_POSTE_height: Integer;
 begin
      Result:= 16;
-end;
-
-function TfBitmaps.svgDOSSIER_KDE_PAR_POSTE_id: String;
-begin
-     Result:= 'svgDOSSIER_KDE_PAR_POSTE';
 end;
 
 function TfBitmaps.svgDOSSIER_KDE_PAR_POSTE: String;

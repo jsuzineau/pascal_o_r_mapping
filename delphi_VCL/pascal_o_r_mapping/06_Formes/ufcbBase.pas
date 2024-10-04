@@ -26,8 +26,8 @@ interface
 
 uses
     uForms,
-  Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-  FMX.Grid, FMX.ExtCtrls, FMX.StdCtrls, db;
+  Windows, Messages, SysUtils, Classes, VCL.Graphics, VCL.Controls, VCL.Forms, VCL.Dialogs,
+  VCL.Grids, VCL.ExtCtrls, VCL.StdCtrls, db;
 
 type
  TExecuteFunction= function :Boolean of object;
@@ -71,7 +71,7 @@ uses
     uDataUtilsU,
     uDataUtilsF;
 
-{$R *.fmx}
+{$R *.dfm}
 
 (*
 procedure Affecte( Resultat, Valeur: TIntegerField);

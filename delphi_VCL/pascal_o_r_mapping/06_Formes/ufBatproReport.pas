@@ -38,9 +38,9 @@ uses
 
     ufpBas,
     ufAccueil_Erreur,
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, Printers, Grids, FMX.ActnList, FMX.StdCtrls, FMX.ComCtrls, Buttons, FMX.ExtCtrls,
-  Spin, Gauges, Clipbrd, Consts, FMX.Menus;
+  Windows, Messages, SysUtils, Variants, Classes, VCL.Graphics, VCL.Controls, VCL.Forms,
+  VCL.Dialogs, Printers, Grids, VCL.ActnList, VCL.StdCtrls, VCL.ComCtrls, Buttons, VCL.ExtCtrls,
+  Spin, Gauges, Clipbrd, Consts, VCL.Menus;
 
 type
  TfBatproReport
@@ -149,7 +149,7 @@ function fBatproReport: TfBatproReport;
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 
 var

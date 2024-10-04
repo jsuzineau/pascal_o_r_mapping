@@ -27,8 +27,8 @@ interface
 uses
     uClean,
     uPublieur,
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, FMX.ExtCtrls, FMX.Types,System.UITypes;
+  Windows, Messages, SysUtils, Variants, Classes, VCL.Graphics, VCL.Controls, VCL.Forms,
+  VCL.Dialogs, VCL.ExtCtrls, System.UITypes;
 
 type
   TfBloqueur = class(TForm)
@@ -43,7 +43,7 @@ procedure Bloque( _F: TForm; _Proc: TAbonnement_Objet_Proc);
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 procedure Bloque( _F: TForm; _Proc: TAbonnement_Objet_Proc);
 var

@@ -56,8 +56,9 @@ uses
 
     ufAutomatic_Genere_tout_sl,
 
-  Classes, SysUtils, FMX.Forms, FMX.Controls, FMX.Graphics, FMX.Dialogs, FMX.StdCtrls,
-  FMX.ExtCtrls, FMX.ListBox, FMX.Edit, VirtualTrees, ucChampsGrid;
+  Classes, SysUtils, VCL.Forms, VCL.Controls, VCL.Graphics, VCL.Dialogs, VCL.StdCtrls,
+  VCL.ExtCtrls, VirtualTrees, ucChampsGrid, VirtualTrees.BaseAncestorVCL,
+  VirtualTrees.BaseTree, VirtualTrees.AncestorVCL;
 
 type
 
@@ -109,7 +110,7 @@ function fAutomatic_VST: TfAutomatic_VST;
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 { TfAutomatic_VST }
 
@@ -136,14 +137,14 @@ begin
              ShowMessage( e.Message);
              end;
            end;
-     //cbDatabases.Text:= dmDatabase.jsDataConnexion.DataBase;
+     cbDatabases.Text:= dmDatabase.jsDataConnexion.DataBase;
 
      cbSchemas.Visible:= sgbdPOSTGRES;
      if cbSchemas.Visible
      then
          begin
          (dmDatabase.jsDataConnexion as TPostgres).GetSchemaNames( cbSchemas.Items);
-         //cbSchemas.Text:= (dmDatabase.jsDataConnexion as TPostgres).SchemaName;
+         cbSchemas.Text:= (dmDatabase.jsDataConnexion as TPostgres).SchemaName;
          end;
 
      inik_SQL:= ClassName+'.e.Text';
@@ -160,9 +161,9 @@ end;
 
 procedure TfAutomatic_VST.Button1Click(Sender: TObject);
 begin
-//     with dmDatabase.jsDataConnexion as TjsDataConnexion_SQLQuery
-//     do
-//       sqlc.Transaction:= sqlt;
+     //with dmDatabase.jsDataConnexion as TjsDataConnexion_SQLQuery
+     //do
+     //  sqlc.Transaction:= sqlt;
 end;
 
 procedure TfAutomatic_VST.FormDestroy(Sender: TObject);
@@ -178,10 +179,10 @@ begin
      dmDatabase.jsDataConnexion.Ferme_db;
      Old_Database:= dmDatabase.jsDataConnexion.DataBase;
      try
-//        dmDatabase.jsDataConnexion.DataBase:= cbDatabases.Text;
-//        if sgbdPOSTGRES
-//        then
-//            (dmDatabase.jsDataConnexion as TPostgres).Set_Schema( cbSchemas.Text);
+        dmDatabase.jsDataConnexion.DataBase:= cbDatabases.Text;
+        if sgbdPOSTGRES
+        then
+            (dmDatabase.jsDataConnexion as TPostgres).Set_Schema( cbSchemas.Text);
         Execute_SQL;
      finally
             dmDatabase.jsDataConnexion.DataBase:= Old_Database;
@@ -248,10 +249,10 @@ begin
      Old_Database:= dmDatabase.jsDataConnexion.DataBase;
      try
         dmDatabase.jsDataConnexion.Ferme_db;
-//        dmDatabase.jsDataConnexion.DataBase:= cbDatabases.Text;
-//        if sgbdPOSTGRES
-//        then
-//            (dmDatabase.jsDataConnexion as TPostgres).Set_Schema( cbSchemas.Text);
+        dmDatabase.jsDataConnexion.DataBase:= cbDatabases.Text;
+        if sgbdPOSTGRES
+        then
+            (dmDatabase.jsDataConnexion as TPostgres).Set_Schema( cbSchemas.Text);
         try
            sl:= TStringList.Create;
            Requete.GetTableNames( sl);
@@ -272,7 +273,7 @@ begin
                   sgbd_ODBC_Access: e.Text:= 'select top 1 * from '+NomTable;
                   else SGBD_non_gere( Classname+'.bGenere_ToutClick');
                   end;
-                bExecute.onClick( Sender);
+                bExecute.Click;
                 Genere( NomTable);
                 end;
               Generateur_de_code.Application_Produit;

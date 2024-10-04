@@ -16,8 +16,8 @@ unit ufOOoModelSelect;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, Buttons, FMX.StdCtrls, FileCtrl, FMX.ExtCtrls,
+  Windows, Messages, SysUtils, Variants, Classes, VCL.Graphics, VCL.Controls, VCL.Forms,
+  VCL.Dialogs, Buttons, VCL.StdCtrls, FileCtrl, VCL.ExtCtrls,
   uUNO_DeskTop;
 
 type
@@ -46,7 +46,7 @@ function fOOoModelSelect: TfOOoModelSelect;
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 var
    FfOOoModelSelect: TfOOoModelSelect= nil;

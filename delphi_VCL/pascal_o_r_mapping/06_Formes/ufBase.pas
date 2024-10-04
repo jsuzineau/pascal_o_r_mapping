@@ -32,12 +32,15 @@ uses
 
   ufpBas,
   ucChampsGrid,
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, FMX.Grid, FMX.ActnList, FMX.StdCtrls,VCL.ComCtrls,VCL.Buttons,
-  FMX.ExtCtrls, DB, FMX.Menus,
-  FMX.DialogService, UITypes;
+  Windows, Messages, SysUtils, Variants, Classes, VCL.Graphics, VCL.Controls, VCL.Forms,
+  VCL.Dialogs, VCL.Grids, VCL.ActnList, VCL.StdCtrls,VCL.ComCtrls,VCL.Buttons,
+  VCL.ExtCtrls, DB, VCL.Menus,
+  UITypes;
 
 type
+
+ { TfBase }
+
  TfBase
  =
   class(TfpBas)
@@ -59,8 +62,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure aReadOnly_ChangeExecute(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure cgSelectCell(Sender: TObject; ACol, ARow: Integer;
-      var CanSelect: Boolean);
+    procedure cgSelectCell(Sender: TObject; ACol, ARow: Integer; var CanSelect: Boolean);
     procedure bNouveauClick(Sender: TObject);
     procedure bSupprimerClick(Sender: TObject);
   private
@@ -81,7 +83,7 @@ type
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 { TfBase }
 
@@ -94,7 +96,7 @@ begin
      hTriColonneChamps
      :=
        ThTriColonneChamps.Create( cg, pool, lTri);
-     //hTriColonneChamps.OnSelectCell:= cgSelectCell;
+     hTriColonneChamps.OnSelectCell:= cgSelectCell;
 end;
 
 procedure TfBase.FormDestroy(Sender: TObject);
@@ -112,21 +114,21 @@ end;
 
 procedure TfBase.NbTotal_Change;
 begin
-     lNbTotal.Text:= IntToStr( pool.slFiltre.Count);
+     lNbTotal.Caption:= IntToStr( pool.slFiltre.Count);
 end;
 
 procedure TfBase.aReadOnly_ChangeExecute(Sender: TObject);
 begin
-     if cbReadOnly.isChecked
+     if cbReadOnly.Checked
      then
-         cg.Options:= cg.Options - [TGridOption.Editing]
+         cg.Options:= cg.Options - [goEditing]
      else
-         cg.Options:= cg.Options + [TGridOption.Editing];
+         cg.Options:= cg.Options + [goEditing];
 end;
 
 function TfBase.Execute: Boolean;
 begin
-     cbReadOnly.isChecked:= True;
+     cbReadOnly.Checked:= True;
      aReadOnly_Change.Execute;
      pool.ToutCharger;
      _from_pool;
@@ -165,21 +167,16 @@ begin
      cg.Get_bl( bl);
      if bl = nil then exit;
 
-     TDialogService
-     .
-      MessageDialog( 'Êtes vous sûr de vouloir supprimer la ligne ?'#13#10
+     if mrYes
+        <>
+        MessageDlg( 'Êtes vous sûr de vouloir supprimer la ligne ?'#13#10
                     +bl.Cell[0],
-                     TMsgDlgType.mtConfirmation,
-                     [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo],
-                     TMsgDlgBtn.mbNo,
-                     0,
-                     procedure (const _Result: TModalResult)
-                     begin
-                          if mrYes <> _Result then exit;
-                          pool.Supprimer( bl);
-                          _from_pool;
-                     end
-                     );
+                    mtConfirmation, [mbYes, mbNo], 0)
+     then
+         exit;
+
+     pool.Supprimer( bl);
+     _from_pool;
 end;
 
 end.

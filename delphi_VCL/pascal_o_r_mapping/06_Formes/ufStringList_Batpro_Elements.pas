@@ -25,13 +25,13 @@
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs,
+  Windows, Messages, SysUtils, Variants, Classes, VCL.Graphics, VCL.Controls, VCL.Forms,
+  VCL.Dialogs,
     uBatpro_StringList,
-  ufpBas, FMX.Grid, FMX.ActnList, FMX.StdCtrls, FMX.ExtCtrls,
+  ufpBas, VCL.Grids, VCL.ActnList, VCL.StdCtrls, VCL.ExtCtrls,
   uhDessinnateur,
   uDataClasses,
-  uVide, FMX.Menus;
+  uVide, VCL.Menus;
 
 type
  TfStringList_Batpro_Elements
@@ -57,7 +57,7 @@ implementation
 uses
     uClean;
 
-{$R *.fmx}
+{$R *.dfm}
 
 var
    FfStringList_Batpro_Elements: TfStringList_Batpro_Elements;

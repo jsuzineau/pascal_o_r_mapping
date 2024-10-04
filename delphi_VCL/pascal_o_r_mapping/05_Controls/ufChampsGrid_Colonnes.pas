@@ -28,7 +28,7 @@ uses
     uClean,
     uBatpro_StringList,
   Windows, Messages, SysUtils, Variants, Classes, VCL.Graphics, VCL.Controls, VCL.Forms,
-  VCL.Dialogs, VCL.StdCtrls, VCL.ExtCtrls, ucBitBtn, System.UITypes, VCL.ValEdit,
+  VCL.Dialogs, VCL.StdCtrls, VCL.ExtCtrls, System.UITypes, VCL.ValEdit,
   Vcl.Grids, Vcl.Buttons;
 
 type

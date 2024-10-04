@@ -38,7 +38,7 @@ function HauteurTexte( F: TFont; S: String; Largeur: Integer): Integer;
 function HauteurTexte_2( F: TFont; S: String; Largeur: Integer): Integer;
 function LargeurTexte( F: TFont; S: String                  ): Integer;
 
-function NbChars( F: TFont; Width: Single): Single;
+function NbChars( F: TFont; Width: Integer): Integer;
 
 procedure Aligne_Sommet( Source, Cible: TControl);
 
@@ -275,7 +275,7 @@ begin
             end;
 end;
 
-function NbChars( F: TFont; Width: Single): Single;
+function NbChars( F: TFont; Width: Integer): Integer;
 var
    TW: Integer;
 begin
@@ -287,7 +287,7 @@ begin
         then
             Result:= 1
         else
-            Result:= Width / TW;
+            Result:= Width div TW;
      finally
             WinUtils_Contexte.Termine;
             end;

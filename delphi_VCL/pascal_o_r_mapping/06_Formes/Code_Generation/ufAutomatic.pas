@@ -14,8 +14,8 @@ uses
     uRequete,
     ublAutomatic,
     upoolAutomatic,
-  Classes, SysUtils, FMX.Forms,
-  FMX.StdCtrls, FMX.Edit, ucChampsGrid, FMX.Dialogs;
+  Classes, SysUtils, VCL.Forms,
+  VCL.StdCtrls, ucChampsGrid, VCL.Dialogs, VCL.ExtCtrls, Vcl.Controls;
 
 type
 
@@ -42,7 +42,7 @@ function fAutomatic: TfAutomatic;
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 { TfAutomatic }
 
@@ -69,7 +69,7 @@ procedure TfAutomatic.bExecuteClick(Sender: TObject);
 begin
      poolAutomatic.Charge( e.Text, sl);
      cg.sl:= sl;
-     //cg.Refresh;
+     cg.Refresh;
 end;
 
 procedure TfAutomatic.bGenereClick(Sender: TObject);
@@ -111,8 +111,8 @@ begin
         do
           begin
           e.Text:= 'select * from '+sl[I]+' limit 0,5';
-          bExecute.OnClick( Sender);
-          bGenere.OnClick( Sender);
+          bExecute.Click;
+          bGenere.Click;
           end;
      finally
             FreeAndNil( sl);

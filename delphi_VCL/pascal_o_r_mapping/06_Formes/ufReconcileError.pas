@@ -19,8 +19,8 @@ unit ufReconcileError;
 interface
 
 uses
-  SysUtils, Windows, Variants, Messages, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, FMX.StdCtrls, DB, DBClient, Provider, FMX.ExtCtrls,
+  SysUtils, Windows, Variants, Messages, Classes, VCL.Graphics, VCL.Controls, VCL.Forms,
+  VCL.Dialogs, VCL.StdCtrls, DB, DBClient, Provider, VCL.ExtCtrls,
   Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Graphics, Vcl.Controls, Vcl.Grids;
 
 const
@@ -90,7 +90,7 @@ function HandleReconcileError(DataSet: TDataSet;  UpdateKind: TUpdateKind;
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 type
   PFieldData = ^TFieldData;

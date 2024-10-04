@@ -28,23 +28,23 @@ uses
     uForms,
     uBatpro_StringList,
     ufpBas,
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, ShellAPI, FMX.StdCtrls, FMX.ActnList, FMX.Memo, FMX.ExtCtrls, VCL.Samples.Spin,
-  FMX.Menus, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Menus, System.Actions, Vcl.ActnList,
-  Vcl.ComCtrls, Vcl.Buttons, Vcl.Controls, Vcl.ExtCtrls, VCL.Graphics;
+  Windows, Messages, SysUtils, Variants, Classes, VCL.Graphics, VCL.Controls, VCL.Forms,
+  VCL.Dialogs, ShellAPI, VCL.StdCtrls, VCL.ActnList, VCL.ExtCtrls, VCL.Samples.Spin,
+  Vcl.Menus, System.Actions,
+  Vcl.ComCtrls, Vcl.Buttons, VCL.Imaging.jpeg;
 
 type
  TfHelp_Creator
  =
   class(TfpBas)
     Panel1: TPanel;
-    m: FMX.Memo.TMemo;
+    m: TMemo;
     SaveDialogEMF: TSaveDialog;
     bHTML: TButton;
     SaveDialogHTML: TSaveDialog;
     Splitter1: TSplitter;
     Panel2: TPanel;
-    mHTMLPattern: FMX.Memo.TMemo;
+    mHTMLPattern: TMemo;
     Label1: TLabel;
     bAll: TButton;
     SaveDialogBMP: TSaveDialog;
@@ -96,7 +96,7 @@ uses
     uClean,
     u_sys_, Types;
 
-{$R *.fmx}
+{$R *.dfm}
 var
    FfHelp_Creator: TfHelp_Creator;
 
@@ -118,7 +118,7 @@ begin
          FF:= nil;
      CallHelp:= False;
 
-     m.Lines.Clear;
+     m.Clear;
      m.Lines.Add( 'NomFichier: '+NomFichier);
      if Assigned( F)
      then
@@ -140,7 +140,7 @@ begin
          then
              Result
              :=
-               idYes
+               mrYes
                =
                MessageDlg( FileName+' existe déjà.'#13#10+
                            'Voulez vous l''écraser ?',
@@ -158,13 +158,10 @@ begin
      try
         M.Width := FF.ClientWidth;
         M.Height:= FF.ClientHeight;
-        ShowMessage( 'non porté pour FMX');
-        MC:= nil;
-        //#################### à revoir pour FMX ####################"
-        //MC:= TMetafileCanvas.Create( M, Canvas.Handle);
+        MC:= TMetafileCanvas.Create( M, Canvas.Handle);
           MC.Lock;//verrouillage du handle HDC
           try
-             //F.PaintTo( MC, 0, 0);
+             F.PaintTo( MC, 0, 0);
           finally
                  MC.Unlock;
                  end;
@@ -204,7 +201,7 @@ begin
         B.Height:= FF.ClientHeight;
         B.Canvas.Lock;//verrouillage du handle HDC
         try
-           //F.PaintTo( B.Canvas, 0, 0);
+           F.PaintTo( B.Canvas, 0, 0);
         finally
                B.Canvas.Unlock;
                end;
@@ -220,7 +217,7 @@ end;
 procedure TfHelp_Creator.JPEG_Screen_Shot;
 var
    B: TBitmap;
-   Image: TImage;
+   JPEGImage: TJPEGImage;
 begin
      B:= TBitmap.Create;
      try
@@ -228,7 +225,7 @@ begin
         B.Height:= FF.ClientHeight;
         B.Canvas.Lock;//verrouillage du handle HDC
         try
-           //F.PaintTo( B.Canvas, 0, 0);
+           F.PaintTo( B.Canvas, 0, 0);
         finally
                B.Canvas.Unlock;
                end;
@@ -236,13 +233,13 @@ begin
         if Sauver( NomFichierImage, SaveDialogJPEG)
         then
             try
-               Image:= TImage.Create(nil);
-               Image.Assign( B);
-               //Image.CompressionQuality:= speJPEGQuality.Value;
-               //Image.Compress;
-               Image.Picture.SaveToFile( NomFichierImage);
+               JPEGImage:= TJPEGImage.Create;
+               JPEGImage.Assign( B);
+               JPEGImage.CompressionQuality:= speJPEGQuality.Value;
+               (*JPEGImage.Compress;*)
+               JPEGImage.SaveToFile( NomFichierImage);
             finally
-                   Free_Nil( Image);
+                   Free_Nil( JPEGImage);
                    end;
      finally
             Free_nil( B);
@@ -334,7 +331,7 @@ var
 begin
      sHandle
      :=
-       InputBox( 'Screenshot de fenêtre','Donnez le handle de fenêtre', IntToStr(0{Handle}));
+       InputBox( 'Screenshot de fenêtre','Donnez le handle de fenêtre', IntToStr(Handle));
 
      H:= StrToInt(sHandle);
 
@@ -349,9 +346,8 @@ begin
           MC.Lock;//verrouillage du handle HDC
           try
              DC:= MC.Handle;
-             //uForms_ShowMessage( IntToStr(DC));
-             //à reprendre pouyr FMX
-             //ControlState:= ControlState + [ csPaintCopy];
+             //ShowMessage( IntToStr(DC));
+             ControlState:= ControlState + [ csPaintCopy];
              MoveWindowOrg(DC, 0, 0);
              Windows.IntersectClipRect(DC, 0, 0, M.Width, M.Height);
              SendMessage( H, WM_ERASEBKGND, DC, 0);

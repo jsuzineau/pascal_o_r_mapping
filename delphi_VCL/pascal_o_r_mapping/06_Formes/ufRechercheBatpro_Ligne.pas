@@ -44,9 +44,9 @@ uses
     uhTriColonneChamps_StringGrid,
     uhDessinnateur,
     ufpBas,
-    Windows, Messages, SysUtils, Classes, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-    FMX.ActnList, FMX.ComCtrls, FMX.StdCtrls, Buttons, FMX.ExtCtrls, Grids, DBGrids,
-    Db, DBTables, FMTBcd, Provider, SqlExpr, DBClient, FMX.Menus;
+    Windows, Messages, SysUtils, Classes, VCL.Graphics, VCL.Controls, VCL.Forms, VCL.Dialogs,
+    VCL.ActnList, VCL.ComCtrls, VCL.StdCtrls, Buttons, VCL.ExtCtrls, Grids, DBGrids,
+    Db, DBTables, FMTBcd, Provider, SqlExpr, DBClient, VCL.Menus;
 
 type
  TfRechercheBatpro_Ligne
@@ -111,7 +111,7 @@ var
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 procedure TfRechercheBatpro_Ligne.Loaded;
 begin

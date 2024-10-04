@@ -28,9 +28,8 @@ uses
   uClean,
   uuStrings,
   uOD_Forms,
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, Registry, FMX.StdCtrls, WinSock, FMX.ExtCtrls, Vcl.Dialogs,
-  Vcl.StdCtrls, Vcl.Controls, Vcl.ExtCtrls, FMX.Memo;
+  Windows, Messages, SysUtils, Variants, Classes, VCL.Graphics, VCL.Controls, VCL.Forms,
+  VCL.Dialogs, Registry, VCL.StdCtrls, WinSock, VCL.ExtCtrls;
 
 type
  TfBatpro_Parametres_Client
@@ -55,7 +54,7 @@ function fBatpro_Parametres_Client: TfBatpro_Parametres_Client;
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 function fBatpro_Parametres_Client: TfBatpro_Parametres_Client;
 begin

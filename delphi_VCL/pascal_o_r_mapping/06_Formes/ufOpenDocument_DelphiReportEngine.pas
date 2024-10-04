@@ -25,8 +25,8 @@ uses
     JclCompression,
     JclSimpleXml,
     uOOoChrono,
-  Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-  FMX.Dialogs, FMX.StdCtrls, FMX.ExtCtrls, FMX.ComCtrls, Grids, ValEdit, ShellAPI, Registry,
+  Windows, Messages, SysUtils, Variants, Classes, VCL.Graphics, VCL.Controls, VCL.Forms,
+  VCL.Dialogs, VCL.StdCtrls, VCL.ExtCtrls, VCL.ComCtrls, Grids, ValEdit, ShellAPI, Registry,
   Spin,StrUtils;
 
 type
@@ -181,7 +181,7 @@ function ufOpenDocument_DelphiReportEngine_Execute( _NomDocument: String): Boole
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 function ufOpenDocument_DelphiReportEngine_Execute( _NomDocument: String): Boolean;
 var

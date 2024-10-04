@@ -25,8 +25,8 @@
 interface
 
 uses
-    Windows, Messages, SysUtils, Variants, Classes, FMX.Graphics, FMX.Controls, FMX.Forms,
-    FMX.Dialogs, FMTBcd, DB, Provider, DBClient, SqlExpr, FMX.Grid, FMX.StdCtrls,
+    Windows, Messages, SysUtils, Variants, Classes, VCL.Graphics, VCL.Controls, VCL.Forms,
+    VCL.Dialogs, FMTBcd, DB, Provider, DBClient, SqlExpr, VCL.Grids, VCL.StdCtrls,
     uClean,
     u_sys_,
     uuStrings,
@@ -149,7 +149,7 @@ begin
      then
          begin
          l.Visible:= True;
-         l.Text:= 'Aucun tri';
+         l.Caption:= 'Aucun tri';
          end;
 end;
 

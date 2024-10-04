@@ -40,16 +40,15 @@ uses
     ufBatpro_Desk,
     ufAccueil_Erreur,
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
-  FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs,
-  IniFiles, FMX.StdCtrls, FMX.ExtCtrls, DB, ucBatproMasque,
-  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Controls, FMX.Types, FMX.Controls.Presentation;
+  VCL.Graphics, VCL.Controls, VCL.Forms, VCL.Dialogs,
+  IniFiles, VCL.StdCtrls, VCL.ExtCtrls, DB, ucBatproMasque, Windows;
 
 type
  TfBatpro_Form
   =
   class(TfBatpro_Form_Ancetre)
-    pSociete: FMX.StdCtrls.TPanel;
-    lSociete: FMX.StdCtrls.TLabel;
+    pSociete: TPanel;
+    lSociete: TLabel;
     lHeure: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -112,7 +111,7 @@ procedure ufBatpro_Form_Termine_Animation;
 
 implementation
 
-{$R *.fmx}
+{$R *.dfm}
 
 var
    Precedentes: TList;
@@ -190,13 +189,11 @@ var
    WorkArea: TRect;
    W, H: Integer;
 begin
-     {à revoir pour FMX
      SystemParametersInfo( SPI_GETWORKAREA, 0, @WorkArea, 0);
      W:= WorkArea.Right  - WorkArea.Left;
      H:= WorkArea.Bottom - WorkArea.Top ;
      Left:= WorkArea.Left + (W - Width ) div 2;
      Top := WorkArea.Top  + (H - Height) div 2;
-     }
 end;
 
 procedure TfBatpro_Form.Dimensionne_sur_WORKAREA;
@@ -204,7 +201,6 @@ var
    WorkArea: TRect;
    W, H: Integer;
 begin
-     { à revoir pour FMX
      SystemParametersInfo( SPI_GETWORKAREA, 0, @WorkArea, 0);
      W:= WorkArea.Right  - WorkArea.Left;
      H:= WorkArea.Bottom - WorkArea.Top ;
@@ -212,7 +208,6 @@ begin
      Top   := WorkArea.Top ;
      Width := W;
      Height:= H;
-     }
 end;
 
 procedure TfBatpro_Form.FormCreate(Sender: TObject);
@@ -233,10 +228,9 @@ begin
      //Horloge.HeureChange.Abonne( Self, Horloge_Change);
      lHeure.Visible:= False;
 
-     //à revoir pour FMX
-     //OnHelp:= Objet_Aide.Aide;
-     //HelpContext:= 1;
-     //HelpFile:= Name;
+     OnHelp:= Objet_Aide.Aide;
+     HelpContext:= 1;
+     HelpFile:= Name;
 
      Execute_Running:= False;
 
@@ -319,15 +313,14 @@ begin
      if Batpro_Desk
      then
          begin
-         //à revoir pour FMX
-         //ManualDock( fBatpro_Desk, nil, alClient);
+         ManualDock( fBatpro_Desk, nil, alClient);
          fBatpro_Desk.FenetreCourante:= Self;
          fBatpro_Desk.Caption:= Caption;
-         //Align:= alClient;
-         //Left:= 0;
-         //Top:= 0;
-         //Width := fBatpro_Desk.ClientWidth ;
-         //Height:= fBatpro_Desk.ClientHeight;
+         Align:= alClient;
+         Left:= 0;
+         Top:= 0;
+         Width := fBatpro_Desk.ClientWidth ;
+         Height:= fBatpro_Desk.ClientHeight;
          end;
      Show;
 
@@ -400,15 +393,15 @@ end;
 
 procedure TfBatpro_Form.Bandeau_from_;
 var
-   N: Single;
+   N: Integer;
    SD: String;
 begin
      SD:= FormatDateTime( 'dddddd', Now);
      N:= NbChars( lSociete.Font, lSociete.Width);
-     //pSociete.Color:= ufBatpro_Form_Couleur_societe;
-     //lSociete.Color:= ufBatpro_Form_Couleur_Societe;
+     pSociete.Color:= ufBatpro_Form_Couleur_societe;
+     lSociete.Color:= ufBatpro_Form_Couleur_Societe;
      lHeure.Color  := ufBatpro_Form_Couleur_Societe;
-     lSociete.Text:= Justifie( [ufBatpro_Form_code_util+' '+ufBatpro_Form_Nom_Societe,SD], Trunc(N));
+     lSociete.Caption:= Justifie( [ufBatpro_Form_code_util+' '+ufBatpro_Form_Nom_Societe,SD], N);
 end;
 
 procedure TfBatpro_Form.DoShow;

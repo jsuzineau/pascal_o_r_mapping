@@ -8,12 +8,12 @@ interface
 
 uses
     uPhi,
- Classes, SysUtils, FMX.Forms, FMX.Memo,
+ Classes, SysUtils, VCL.Forms, VCL.Stdctrls,
  {$IFDEF LINUX}
    ExtCtrls,
  {$ENDIF}
  System.Generics.Collections,
- System.UITypes, FMX.Graphics, FMX.Types, System.Types;
+ System.UITypes, VCL.Graphics, System.Types;
 
 procedure Phi_Form_Up_horizontal  ( _F: TForm);
 procedure Phi_Form_Up_vertical    ( _F: TForm);
