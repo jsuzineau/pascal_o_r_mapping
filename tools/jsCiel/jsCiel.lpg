@@ -82,6 +82,16 @@
           <Mode Name="Default"/>
         </BuildModes>
       </Target>
+      <Target FileName="..\..\..\32_FPC\packages\wasm-job\examples\leaflet\wasm_leaflet.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="..\..\..\32_FPC\packages\wasm-job\examples\leaflet\js_leaflet.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
     </Targets>
   </ProjectGroup>
 </CONFIG>

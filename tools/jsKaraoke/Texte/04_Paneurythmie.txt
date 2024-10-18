@@ -201,7 +201,7 @@ Pǎrvijat den na proletta,
 le premier jour du printemps
 първият ден на радостта,
 pǎrvijat den na radostta,
-le premier jour de joie
+premier jour de joie
 първият ден на любовта
 pǎrvijat den na ljubovta
 premier jour d'amour
@@ -450,7 +450,7 @@ za novij svetǎl Boži den
 pour un nouveau jour lumineux de Dieu
 за радост нова,
 za radost nova,
-heureusement nouveau
+pour une joie nouvelle,
 що в сърцата ни безспирно лей.
 što v sǎrcata ni bezspirno lej.
 qui dans nos cœurs sans cesse se déverse .
@@ -513,7 +513,7 @@ Lǎči, vǎzduh i rosa
 Rayons, air et rosée
 радват нашите сърца.
 radvat našite sǎrca.
-réjouissez nos cœurs.
+réjouissent nos cœurs.
 Вдъхновени мисли в нас да потекат
 Vdǎhnoveni misli v nas da potekat
 Que pensées inspirées coulent en nous
@@ -579,7 +579,7 @@ smelo trǎgvame napred!
 nous avançons avec audace !
 Дори в неволя и беда
 Dori v nevolja i beda
-Même dans les ennuis et les ennuis
+Même dans les difficultés et la détresse
 за нас е хубав Божий свет.
 za nas e hubav Božij svet.
 Le monde de Dieu est bon pour nous.
