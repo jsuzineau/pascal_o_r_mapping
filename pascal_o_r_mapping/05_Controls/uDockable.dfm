@@ -15,7 +15,7 @@ object Dockable: TDockable
   OnKeyDown = DockableKeyDown
   OnMouseWheelDown = FormMouseWheelDown
   OnMouseWheelUp = FormMouseWheelUp
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '3.4.0.0'
   object sBackground: TShape
     Left = 0
     Height = 640

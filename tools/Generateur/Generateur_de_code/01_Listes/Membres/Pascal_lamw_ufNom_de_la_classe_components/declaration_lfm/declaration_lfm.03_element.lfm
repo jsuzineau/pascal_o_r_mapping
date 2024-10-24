@@ -1,0 +1,35 @@
+    object eMembre.NomChamp: jEditText
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 5
+      Top = 5
+      Width = 213
+      Height = 39
+      Visible = True
+      PosRelativeToAnchor = []
+      PosRelativeToParent = [rpTop, rpLeft]
+      LayoutParamWidth = lpTwoThirdOfParent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Proletna pessen'
+      Alignment = taLeft
+      InputTypeEx = itxText
+      MaxTextLength = -1
+      BackgroundColor = colbrDefault
+      FontColor = colbrDefault
+      FontSize = 0
+      HintTextColor = colbrDefault
+      ScrollBarStyle = scrNone
+      MaxLines = 1
+      HorScrollBar = True
+      VerScrollBar = True
+      WrappingLine = False
+      Editable = False
+      FontSizeUnit = unitDefault
+      CloseSoftInputOnEnter = True
+      CapSentence = False
+      CaptureBackPressed = False
+      GravityInParent = lgNone
+    end

@@ -7,7 +7,7 @@ LazarusResources.Add('TDockable','FORMDATA',[
   +'Font.Height'#2#245#9'Font.Name'#6#13'MS Sans Serif'#7'OnClick'#7#9'FormClic'
   +'k'#10'OnDblClick'#7#12'FormDblClick'#9'OnKeyDown'#7#15'DockableKeyDown'#16
   +'OnMouseWheelDown'#7#18'FormMouseWheelDown'#14'OnMouseWheelUp'#7#16'FormMous'
-  +'eWheelUp'#10'LCLVersion'#6#7'2.2.4.0'#0#6'TShape'#11'sBackground'#4'Left'#2
+  +'eWheelUp'#10'LCLVersion'#6#7'3.4.0.0'#0#6'TShape'#11'sBackground'#4'Left'#2
   +#0#6'Height'#3#128#2#3'Top'#2#0#5'Width'#3#252#2#7'Anchors'#11#5'akTop'#6'ak'
   +'Left'#7'akRight'#8'akBottom'#0#11'Brush.Color'#7#9'clBtnFace'#9'Pen.Style'#7
   +#7'psClear'#0#0#13'TBatpro_Shape'#10'sSelection'#4'Left'#2#0#6'Height'#3#128

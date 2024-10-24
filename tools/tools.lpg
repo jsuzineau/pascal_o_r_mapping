@@ -10,7 +10,9 @@
       </Target>
       <Target FileName="jsKaraoke\jsKaraoke.lpi">
         <BuildModes>
-          <Mode Name="Default"/>
+          <Mode Name="Debug Lite"/>
+          <Mode Name="Debug"/>
+          <Mode Name="Release"/>
         </BuildModes>
       </Target>
       <Target FileName="jsPaneurythmie\jsPaneurythmie.lpi">

@@ -178,9 +178,16 @@ procedure Destroy_Dockable( Dockable: TDockable);
 
 function Dockable_from_sl( sl: TBatpro_StringList; I: Integer): TDockable;
 
+procedure Register;
+
 implementation
 
 {$R *.dfm}
+
+procedure Register;
+begin
+     RegisterClass( TDockable);
+end;
 
 procedure Create_Dockable( var Reference; Classe: TDockableClass;
                            HostDockSite: TWinControl);

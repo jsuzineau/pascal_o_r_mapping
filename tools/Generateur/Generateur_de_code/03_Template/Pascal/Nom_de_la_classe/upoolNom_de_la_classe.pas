@@ -52,6 +52,8 @@ type
   //Accés général
   public
     function Get( _id: integer): TblNom_de_la_classe;
+  public
+    function Iterateur_Filtre: TIterateur_Nom_de_la_classe;
   //Nouveau
   public
     function Nouveau: TblNom_de_la_classe;
@@ -108,6 +110,11 @@ end;
 function TpoolNom_de_la_classe.Get( _id: integer): TblNom_de_la_classe;
 begin
      Get_Interne_from_id( _id, Result);
+end;
+
+function TpoolNom_de_la_classe.Iterateur_Filtre: TIterateur_Nom_de_la_classe;
+begin
+     Result:= TIterateur_Nom_de_la_classe( slFiltre.Iterateur_interne);
 end;
 
 function TpoolNom_de_la_classe.Nouveau: TblNom_de_la_classe;

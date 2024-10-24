@@ -42,6 +42,9 @@ uses
   {$IFDEF LINUX} //rajouté pour jsCompta/linux
   LazUTF8,
   {$ENDIF}
+  {$IFDEF android} //rajouté pour jsCompta/linux
+  LazUTF8,
+  {$ENDIF}
   SysUtils, Classes, syncobjs;
 
 type
