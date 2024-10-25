@@ -97,6 +97,7 @@ function StrToOem(const AnsiStr: string): string;
 function OEMToStr(const OEMStr: string): string;
 
 function Parentheses( S: String): String;
+function Double_Quotes( S: String): String;
 
 function Formate_Affichage( Titre, Valeur: String;
                             Separateur: String = ': '): String;
@@ -316,6 +317,11 @@ Retourne la chaine S entourée par des parenthèses: 'a' --> '(a)'
 function Parentheses( S: String): String;
 begin
      Result:= Format( '(%s)', [S]);
+end;
+
+function Double_Quotes( S: String): String;
+begin
+     Result:= Format( '"%s"', [S]);
 end;
 
 { Formate_Liste
