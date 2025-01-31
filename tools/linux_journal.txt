@@ -1,0 +1,1 @@
+ journalctl --user  --since="2025-01-31T18:57:00" | grep lxqt
