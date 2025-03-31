@@ -20,6 +20,11 @@
           <Mode Name="Release"/>
         </BuildModes>
       </Target>
+      <Target FileName="web_src\pas2js\jsWorks.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
       <Target FileName="..\tools\jsCompta\jsCompta.lpi">
         <BuildModes>
           <Mode Name="Windows 64 bits Release" Compile="True"/>

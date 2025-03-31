@@ -21,7 +21,7 @@
         </OtherDefines>
       </Other>
     </CompilerOptions>
-    <Files Count="146">
+    <Files Count="147">
       <Item1>
         <Filename Value="uBatpro_Element.pas"/>
         <UnitName Value="uBatpro_Element"/>
@@ -607,6 +607,10 @@
         <Filename Value="Automatic/Code_Generation/uTypeMapping.pas"/>
         <UnitName Value="uTypeMapping"/>
       </Item146>
+      <Item147>
+        <Filename Value="Automatic/uXMI.pas"/>
+        <UnitName Value="uXMI"/>
+      </Item147>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="1">

@@ -31,6 +31,20 @@
           <Mode Name="Linux Debug Lite"/>
         </BuildModes>
       </Target>
+      <Target FileName="Generateur\Generateur.lpi">
+        <BuildModes>
+          <Mode Name="Linux_Debug" Compile="True"/>
+          <Mode Name="Linux_Release"/>
+          <Mode Name="Windows_Debug"/>
+          <Mode Name="Windows_Release"/>
+          <Mode Name="Windows_Debug_Lite"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="Generateur\Generateur_XMI.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
     </Targets>
   </ProjectGroup>
 </CONFIG>

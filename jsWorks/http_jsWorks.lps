@@ -7,6 +7,7 @@
       <Unit0>
         <Filename Value="http_jsWorks.lpr"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="16"/>
         <CursorPos Y="27"/>
@@ -692,7 +693,6 @@
       </Unit93>
       <Unit94>
         <Filename Value="../pascal_o_r_mapping/02_Units/uuStrings.pas"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="1050"/>
         <CursorPos X="23" Y="1079"/>

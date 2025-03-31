@@ -1,1 +1,2 @@
- journalctl --user  --since="2025-01-31T18:57:00" | grep lxqt
+journalctl --user  --since="2025-01-31T18:57:00" -g lxqt
+journalctl --since="2025-03-06 17:45:00" -t sshd

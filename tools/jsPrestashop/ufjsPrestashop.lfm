@@ -1,0 +1,17 @@
+object fjsPrestashop: TfjsPrestashop
+  Left = 600
+  Height = 240
+  Top = 223
+  Width = 320
+  Caption = 'fjsPrestashop'
+  OnCreate = FormCreate
+  OnShow = FormShow
+  LCLVersion = '3.4.0.0'
+  object tShow: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = tShowTimer
+    Left = 51
+    Top = 33
+  end
+end

@@ -1,32 +1,138 @@
+[arrayc | array declaration (const)]
+$(AttributesStart)
+EnableMakros=true
+!FileVersion=1
+$(AttributesEnd)
+array[$param(0)..$param(1)] of $param(Type) = (|);
 [arrayd | array declaration (var)]
 $(AttributesStart)
 EnableMakros=true
 RemoveChar=true
-!FileVersion=1
 $(AttributesEnd)
 $Param(VariableName): array[0..$Param(HighNumber)] of $Param(String);
 |
-[arrayc | array declaration (const)]
+[b | begin end]
 $(AttributesStart)
 EnableMakros=true
 $(AttributesEnd)
-array[$param(0)..$param(1)] of $param(Type) = (|);
+begin
+  |
+end;
+[e | $ENDIF | (custom)]
+$(AttributesStart)
+EnableMakros=true
+$(AttributesEnd)
+{$ELSE}
+begin|
+end;
+{$ENDIF}
+
 [function | function declaration]
 $(AttributesStart)
 EnableMakros=true
 $(AttributesEnd)
 function |;
 [hexc | HexStr(Cardinal(),8)]
-HexStr(PtrUInt(|),8)
-[procedure | procedure declaration]
-procedure |;
+[i | (custom)]
+$(AttributesStart)
+EnableMakros=true
+$(AttributesEnd)
+initialization
+              |
+finalization
+[l | (custom)]
+$(AttributesStart)
+EnableMakros=true
+$(AttributesEnd)
+{$IFDEF FPC}
+|
+{$ENDIF}
+[m | {$IFDEF MSWINDOWS} | (custom)]
+$(AttributesStart)
+EnableMakros=true
+$(AttributesEnd)
+{$IFDEF MSWINDOWS}|
+
 [ofall | case of all enums]
 $(AttributesStart)
 EnableMakros=true
 $(AttributesEnd)
 of
 |$OfAll()end;
+[p | procedure declaration]
+$(AttributesStart)
+EnableMakros=true
+$(AttributesEnd)
+procedure |;
+[pdrwd | property Double read write default]
+$(AttributesStart)
+!Version=1
+EnableMakros=true
+$(AttributesEnd)
+property $Param(Name): Double read $Param(Get)$Param(Name,sync=1) write $Param(Set)$Param(Name,sync=1) default $Param(Const);|
+[pdrws | property Double read write]
+$(AttributesStart)
+!Version=1
+EnableMakros=true
+$(AttributesEnd)
+property $Param(Name): Double read $Param(Get)$Param(Name,sync=1) write $Param(Set)$Param(Name,sync=1);|
+[pirwd | property Integer read write default]
+$(AttributesStart)
+!Version=1
+EnableMakros=true
+$(AttributesEnd)
+property $Param(Name): Integer read $Param(Get)$Param(Name,sync=1) write $Param(Set)$Param(Name,sync=1) default $Param(Const);|
+[pirws | property Integer read write]
+$(AttributesStart)
+!Version=1
+EnableMakros=true
+$(AttributesEnd)
+property $Param(Name): Integer read $Param(Get)$Param(Name,sync=1) write $Param(Set)$Param(Name,sync=1);|
+[prwd | property read write default]
+$(AttributesStart)
+!Version=1
+EnableMakros=true
+$(AttributesEnd)
+property $Param(Name) read $Param(Get)$Param(Name,sync=1) write $Param(Set)$Param(Name,sync=1) default $Param(Const);|
+[prws | property read write]
+$(AttributesStart)
+!Version=1
+EnableMakros=true
+$(AttributesEnd)
+property $Param(Name) read $Param(Get)$Param(Name,sync=1) write $Param(Set)$Param(Name,sync=1);|
+[psrw | property string read write]
+$(AttributesStart)
+!Version=1
+EnableMakros=true
+$(AttributesEnd)
+property $Param(Name): string read $Param(Get)$Param(Name,sync=1) write $Param(Set)$Param(Name,sync=1);|
+[r | (custom)]
+$(AttributesStart)
+EnableMakros=true
+$(AttributesEnd)
+//123456789012345678901234567890123456789012345678901234567890123456789
+//         1         2         3         4         5         6
+[todo | ToDo item creator]
+$(AttributesStart)
+EnableMakros=true
+RemoveChar=true
+$(AttributesEnd)
+{ TODO -o$Param(Author) : $Param(Note) } |
+[trycf | try finally (with Create/Free)]
+$(AttributesStart)
+EnableMakros=true
+RemoveChar=true
+$(AttributesEnd)
+$Param(VarName) := $Param(TMyClassName).Create;
+try
+  |
+finally
+  $Param(VarName,Sync=1).Free;
+end;
 [trye | try except]
+$(AttributesStart)
+EnableMakros=true
+$(AttributesEnd)
 try
   | 
 except
@@ -42,17 +148,17 @@ try
 finally
   $Param(FreeStatement,default)
 end;
-[trycf | try finally (with Create/Free)]
+[var | var]
 $(AttributesStart)
 EnableMakros=true
-RemoveChar=true
 $(AttributesEnd)
-$Param(VarName) := $Param(TMyClassName).Create;
-try
-  |
-finally
-  $Param(VarName,Sync=1).Free;
-end;
+var
+   |
+[w | writeln]
+$(AttributesStart)
+EnableMakros=true
+$(AttributesEnd)
+writeln('$ProcedureName() '|);
 [whileb | while statement]
 $(AttributesStart)
 EnableMakros=true
@@ -63,8 +169,6 @@ begin
   |
 end;
 [whiles | while (no begin)]
-while $Param(LoopCondition) do
-  |
 [withb | with statement]
 $(AttributesStart)
 EnableMakros=true
@@ -74,17 +178,6 @@ with $Param(Object) do
 begin
   |
 end;
-[b | begin end]
-begin
-  |
-end;
-[withs | with (no begin)]
-$(AttributesStart)
-EnableMakros=true
-RemoveChar=true
-$(AttributesEnd)
-with $Param(Object) do
-  |
 [withc | with for components]
 $(AttributesStart)
 EnableMakros=true
@@ -101,37 +194,10 @@ begin
   Caption:='$Param(CaptionText)';
 end;
 |
-[todo | ToDo item creator]
+[withs | with (no begin)]
 $(AttributesStart)
 EnableMakros=true
 RemoveChar=true
 $(AttributesEnd)
-{ TODO -o$Param(Author) : $Param(Note) } |
-[w | writeln]
-$(AttributesStart)
-EnableMakros=true
-$(AttributesEnd)
-writeln('$ProcedureName() '|);
-[var | var]
-var
-   |
-[e | $ENDIF | (custom)]
-{$ELSE}
-begin|
-end;
-{$ENDIF}
-
-[m | {$IFDEF MSWINDOWS} | (custom)]
-{$IFDEF MSWINDOWS}|
-
-[i | (custom)]
-initialization
-              |
-finalization
-[l | (custom)]
-{$IFDEF FPC}
-|
-{$ENDIF}
-[r | (custom)]
-//123456789012345678901234567890123456789012345678901234567890123456789
-//         1         2         3         4         5         6
+with $Param(Object) do
+  |

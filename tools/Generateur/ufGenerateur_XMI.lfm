@@ -1,0 +1,42 @@
+object fGenerateur_XMI: TfGenerateur_XMI
+  Left = 200
+  Height = 220
+  Top = 146
+  Width = 320
+  AllowDropFiles = True
+  Caption = 'fGenerateur_XMI'
+  ClientHeight = 220
+  ClientWidth = 320
+  Menu = mm
+  LCLVersion = '4.0.0.2'
+  OnCreate = FormCreate
+  OnDropFiles = FormDropFiles
+  object m: TMemo
+    Left = 0
+    Height = 220
+    Top = 0
+    Width = 320
+    Align = alClient
+    Lines.Strings = (
+      'm'
+    )
+    TabOrder = 0
+  end
+  object mm: TMainMenu
+    Left = 16
+    Top = 8
+    object miFichier: TMenuItem
+      Caption = '&Fichier'
+      object miFichier_Ouvrir: TMenuItem
+        Caption = '&Ouvrir'
+        OnClick = miFichier_OuvrirClick
+      end
+    end
+  end
+  object od: TOpenDialog
+    DefaultExt = '.XMI'
+    Filter = 'Uncompressed XMI files|*.XMI'
+    Left = 16
+    Top = 64
+  end
+end
