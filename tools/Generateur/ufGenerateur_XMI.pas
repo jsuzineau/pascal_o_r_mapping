@@ -7,6 +7,7 @@ interface
 uses
     uOD_JCL,
     uXMI,
+    ublAutomatic,
  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, StdCtrls, DOM;
 
 type
@@ -142,8 +143,10 @@ procedure TfGenerateur_XMI._from_xmi;
                FreeAndNil( cirClasses);
                end;
    end;
-   procedure Traite_Association( _eAssociation: TDOMNode);
+   function Traite_Association( _eAssociation: TDOMNode): String;
    var
+      cirAssociation_Ends: TCherche_Items_Recursif;
+      eAssociation_End: TDOMNode;
       sAggregation: String;
       type_id: String;
       eType: TDOMNode;
@@ -153,31 +156,36 @@ procedure TfGenerateur_XMI._from_xmi;
            sType:= '('+type_id+'non trouvé)';
       end;
    begin
-        type_id:= '';
-        if not_Get_Property( _eAssociation, 'aggregation', sAggregation) then sAggregation:= '(non trouvé)';
-        if not_Get_Property( _eAssociation, 'type'       , type_id     ) then Type_not_found;
-        eType:= xmi.Get_type( type_id);
-             if nil = eType                            then Type_not_found
-        else if not_Get_Property( eType, 'name', sType)then Type_not_found;
+        Result:= '';
+        cirAssociation_Ends:= xmi.Get_Association_ends( _eAssociation);
+        try
+           for eAssociation_End in cirAssociation_Ends.l
+           do
+             begin
+             type_id:= '';
+             if not_Get_Property( eAssociation_End, 'aggregation', sAggregation) then continue;
+             if not_Get_Property( eAssociation_End, 'type'       , type_id     ) then continue;
+             if Result <> '' then Result:=  Result+ ' -> ';
+             eType:= xmi.Get_type( type_id);
+                  if nil = eType                            then Type_not_found
+             else if not_Get_Property( eType, 'name', sType)then Type_not_found;
 
-        m.Lines.Add( '     '+sType+', '+sAggregation);
+             Result:=  Result+sAggregation+', '+sType;
+             end;
+        finally
+               FreeAndNil( cirAssociation_Ends);
+               end;
    end;
    procedure Traite_Associations;
    var
       cirAssociations: TCherche_Items_Recursif;
       eAssociation: TDOMNode;
-      NomAssociation: String;
    begin
         cirAssociations:= xmi.Get_Associations;
         try
            for eAssociation in cirAssociations.l
            do
-             begin
-             if not_Get_Property( eAssociation, 'name', NomAssociation) then continue;
-             m.Lines.Add( '  Association '+NomAssociation);
-
-             Traite_Association( eAssociation);
-             end;
+             m.Lines.Add( '  '+Traite_Association( eAssociation));
         finally
                FreeAndNil( cirAssociations);
                end;
@@ -188,7 +196,14 @@ begin
 
      m.Lines.Add( NomFichier);
      Traite_Classes;
+
+     m.Lines.Add( '');
+     m.Lines.Add( 'Associations');
      Traite_Associations;
+
+     m.Lines.Add( 'Début de la génération ...');
+     Generateur_de_code.Execute_XMI( xmi);
+     m.Lines.Add( 'Génération terminée.');
 end;
 
 end.

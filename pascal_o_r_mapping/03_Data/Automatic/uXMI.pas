@@ -114,7 +114,7 @@ begin
      Result
      :=
        TCherche_Items_Recursif.Create
-         ( _Association,'ownedend', ['xmi:type'], ['uml:AssociationEnd']);
+         ( _Association,'ownedEnd', ['xmi:type'], ['uml:AssociationEnd']);
 end;
 
 function TXMI.Get_type(_type: string): TDOMNode;

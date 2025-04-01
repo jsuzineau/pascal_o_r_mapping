@@ -36,6 +36,8 @@ uses
     uChamps,
     uVide,
     uOD_Forms,
+    uOD_JCL,
+    uXMI,
 
     uBatpro_Element,
     uBatpro_Ligne,
@@ -118,7 +120,7 @@ uses
     ujpFile,
     uApplicationJoinPointFile,
 
-    SysUtils, Classes, DB, Inifiles, FileUtil;
+    SysUtils, Classes, DB, Inifiles, FileUtil, DOM;
 
 type
  { TFieldBuffer }
@@ -294,6 +296,12 @@ type
   public
     bl: TBatpro_Ligne;
     procedure Execute( _bl: TBatpro_Ligne; _Suffixe: String);
+  //Génération par fichier XMI
+  private
+    procedure Execute_XMI_Classe( _xmi: TXMI; _eClasse: TDomNode; _Suffixe: String);
+    procedure Execute_XMI_Classes( _xmi: TXMI);
+  public
+    procedure Execute_XMI( _xmi: TXMI);
   //jpfMembre
   public
     sljpfMembre: TsljpfMembre;
@@ -800,21 +808,6 @@ var
    phPHP_Perso_Set: TTemplateHandler;
    }
 
-   //Gestion des détails
-   NbDetails: Integer;
-   nfDetails: String;
-   slDetails:TStringList;
-
-   //Gestion des Symetrics
-   NbSymetrics: Integer;
-   nfSymetrics: String;
-   slSymetrics:TStringList;
-
-   //Gestion des aggrégations
-   NbAggregations: Integer;
-   nfAggregations: String;
-   slAggregations:TStringList;
-
    {
    procedure CreeTemplateHandler( out phPAS, phDFM: TTemplateHandler; Racine: String);
    var
@@ -980,6 +973,21 @@ var
       J: Integer;
       C: TChamp;
       nfApplication_txt: String;
+
+      //Gestion des détails
+      NbDetails: Integer;
+      nfDetails: String;
+      slDetails:TStringList;
+
+      //Gestion des Symetrics
+      NbSymetrics: Integer;
+      nfSymetrics: String;
+      slSymetrics:TStringList;
+
+      //Gestion des aggrégations
+      NbAggregations: Integer;
+      nfAggregations: String;
+      slAggregations:TStringList;
    begin
         cc:= TContexteClasse.Create( Self, _Suffixe,
                                      bl.Champs.ChampDefinitions.Persistant_Count,
@@ -1148,6 +1156,237 @@ begin
             FreeAndNil( phPHP_Perso_Insert);
             FreeAndNil( phPHP_Perso_Set);
             }
+            slTemplateHandler.Vide;
+            sljpfMembre.Vide;
+            end;
+     slLog.SaveToFile( sRepertoireResultat+ChangeFileExt( ExtractFileName( uClean_EXE_Name), '.log'));
+end;
+
+procedure TGenerateur_de_code.Execute_XMI_Classe( _xmi: TXMI; _eClasse: TDomNode; _Suffixe: String);
+var
+   cc: TContexteClasse;
+   J: Integer;
+   nfApplication_txt: String;
+
+   //Gestion des détails
+   NbDetails: Integer;
+   nfDetails: String;
+   slDetails:TStringList;
+
+   //Gestion des Symetrics
+   NbSymetrics: Integer;
+   nfSymetrics: String;
+   slSymetrics:TStringList;
+
+   //Gestion des aggrégations
+   NbAggregations: Integer;
+   nfAggregations: String;
+   slAggregations:TStringList;
+
+   cirClass_Properties: TCherche_Items_Recursif;
+
+   procedure Traite_Properties;
+   var
+      eProperty: TDOMNode;
+      Property_Name: String;
+      type_id: String;
+      eType: TDOMNode;
+      sType: String;
+      cm: TContexteMembre;
+      procedure Type_not_found;
+      begin
+           sType:= '(non trouvé)';
+      end;
+   begin
+        for eProperty in cirClass_Properties.l
+        do
+          begin
+          if not_Get_Property( eProperty, 'name', Property_Name) then continue;
+          if not_Get_Property( eProperty, 'type', type_id      ) then continue;
+          eType:= _xmi.Get_type( type_id);
+               if nil = eType                            then Type_not_found
+          else if not_Get_Property( eType, 'name', sType)then Type_not_found;
+
+          cm:= TContexteMembre.Create( Self, cc, Property_Name, sType, '');
+          try
+                   uJoinPoint_VisiteMembre( cm, a);
+             sljpfMembre     .VisiteMembre( cm);
+             sljpfDetail     .VisiteMembre( cm);
+             sljpfSymetric   .VisiteMembre( cm);
+             sljpfAggregation.VisiteMembre( cm);
+          finally
+                 FreeAndNil( cm);
+                 end;
+          end;
+   end;
+   procedure Traite_Detail( s_Detail, sNomTableMembre: String);
+   begin
+        if '' = s_Detail then exit;
+        if '' = sNomTableMembre then sNomTableMembre:= s_Detail;
+              uJoinPoint_VisiteDetail( s_Detail, sNomTableMembre, a);
+        sljpfMembre     .VisiteDetail( s_Detail, sNomTableMembre);
+        sljpfDetail     .VisiteDetail( s_Detail, sNomTableMembre);
+        sljpfSymetric   .VisiteDetail( s_Detail, sNomTableMembre);
+        sljpfAggregation.VisiteDetail( s_Detail, sNomTableMembre);
+   end;
+   procedure Traite_Symetric( s_Symetric, sNomTableMembre: String);
+   begin
+        if '' = s_Symetric then exit;
+        if '' = sNomTableMembre then sNomTableMembre:= s_Symetric;
+              uJoinPoint_VisiteSymetric( s_Symetric, sNomTableMembre, a);
+        sljpfMembre     .VisiteSymetric( s_Symetric, sNomTableMembre);
+        sljpfDetail     .VisiteSymetric( s_Symetric, sNomTableMembre);
+        sljpfSymetric   .VisiteSymetric( s_Symetric, sNomTableMembre);
+        sljpfAggregation.VisiteSymetric( s_Symetric, sNomTableMembre);
+   end;
+   procedure Traite_Aggregation( s_Aggregation, sNomTableMembre: String);
+   begin
+        if '' = s_Aggregation then exit;
+        if '' = sNomTableMembre then sNomTableMembre:= s_Aggregation;
+              uJoinPoint_VisiteAggregation( s_Aggregation, sNomTableMembre, a);
+        sljpfMembre     .VisiteAggregation( s_Aggregation, sNomTableMembre);
+        sljpfDetail     .VisiteAggregation( s_Aggregation, sNomTableMembre);
+        sljpfSymetric   .VisiteAggregation( s_Aggregation, sNomTableMembre);
+        sljpfAggregation.VisiteAggregation( s_Aggregation, sNomTableMembre);
+   end;
+begin
+     cirClass_Properties:= _xmi.Get_Class_Properties( _eClasse);
+     try
+        cc:= TContexteClasse.Create( Self, _Suffixe,
+                                     cirClass_Properties.l.Count,
+                                     slParametres);
+        try
+           slParametres.Clear;
+           nfApplication_txt:= sRepertoireParametres+'Application.txt';
+           if FileExists(nfApplication_txt)
+           then
+               slParametres.LoadFromFile(nfApplication_txt)
+           else
+               slParametres.SaveToFile  (nfApplication_txt);
+
+                 uJoinPoint_Initialise( cc, a);
+           sljpfMembre     .Initialise( cc);
+           sljpfDetail     .Initialise( cc);
+           sljpfSymetric   .Initialise( cc);
+           sljpfAggregation.Initialise( cc);
+
+           Traite_Properties;
+
+           //Gestion des détails
+           slDetails:= TStringList.Create;
+           try
+              nfDetails:= sRepertoireParametres+cc.Nom_de_la_classe+'.Details.txt';
+              if FileExists( nfDetails)
+              then
+                  slDetails.LoadFromFile( nfDetails);
+              NbDetails:= slDetails.Count;
+              for J:= 0 to NbDetails-1
+              do
+                Traite_Detail( slDetails.Names[J], slDetails.ValueFromIndex[J]);
+           finally
+                  slDetails.SaveToFile( nfDetails);
+                  FreeAndNil( slDetails);
+                  end;
+
+           //Gestion des Symetrics
+           slSymetrics:= TStringList.Create;
+           try
+              nfSymetrics:= sRepertoireParametres+cc.Nom_de_la_classe+'.Symetrics.txt';
+              if FileExists( nfSymetrics)
+              then
+                  slSymetrics.LoadFromFile( nfSymetrics);
+              NbSymetrics:= slSymetrics.Count;
+              for J:= 0 to NbSymetrics-1
+              do
+                Traite_Symetric( slSymetrics.Names[J], slSymetrics.ValueFromIndex[J]);
+           finally
+                  slSymetrics.SaveToFile( nfSymetrics);
+                  FreeAndNil( slSymetrics);
+                  end;
+
+           //Gestion des aggrégations
+           slAggregations:= TStringList.Create;
+           try
+              nfAggregations:= sRepertoireParametres+cc.Nom_de_la_classe+'.Aggregations.txt';
+              if FileExists( nfAggregations)
+              then
+                  slAggregations.LoadFromFile( nfAggregations);
+              NbAggregations:= slAggregations.Count;
+              for J:= 0 to NbAggregations-1
+              do
+                Traite_Aggregation( slAggregations.Names[J], slAggregations.ValueFromIndex[J]);
+           finally
+                  slAggregations.SaveToFile( nfAggregations);
+                  FreeAndNil( slAggregations);
+                  end;
+
+           //Fermeture des chaines
+                 uJoinPoint_Finalise( a);
+           sljpfMembre     .Finalise;
+           sljpfDetail     .Finalise;
+           sljpfSymetric   .Finalise;
+           sljpfAggregation.Finalise;
+
+                 uJoinPoint_To_Parametres( slParametres, a);
+           sljpfMembre     .To_Parametres( slParametres);
+           sljpfDetail     .To_Parametres( slParametres);
+           sljpfSymetric   .To_Parametres( slParametres);
+           sljpfAggregation.To_Parametres( slParametres);
+
+           slTemplateHandler_Produit;
+           //Produit;
+           slLog.Add( 'aprés Produit');
+           slApplicationJoinPointFile.VisiteClasse( cc);
+           slLog.Add( 'slApplicationJoinPointFile.VisiteClasse( cc);');
+        finally
+               FreeAndNil( cc)
+               end;
+     finally
+            FreeAndNil( cirClass_Properties);
+            end;
+end;
+
+procedure TGenerateur_de_code.Execute_XMI_Classes(_xmi: TXMI);
+var
+   cirClasses: TCherche_Items_Recursif;
+   eClasse: TDOMNode;
+   NomClasse: String;
+begin
+     cirClasses:= _xmi.Get_Classes;
+     try
+        for eClasse in cirClasses.l
+        do
+          begin
+          if not_Get_Property( eClasse, 'name', NomClasse) then continue;
+          Execute_XMI_Classe( _xmi, eClasse, NomClasse);
+          end;
+     finally
+            FreeAndNil( cirClasses);
+            end;
+end;
+
+procedure TGenerateur_de_code.Execute_XMI(_xmi: TXMI);
+begin
+     slLog.Clear;
+     slParametres.Clear;
+     sljpfMembre_from_sRepertoireListeMembres;
+     sljpfDetail_from_sRepertoireListeDetails;
+     sljpfSymetric_from_sRepertoireListeSymetrics;
+     sljpfAggregation_from_sRepertoireListeAggregations;
+     slTemplateHandler_from_sRepertoireTemplate;
+
+     if not Application_Created
+     then
+         Application_Create;
+     try
+        S:= '';
+        Premiere_Classe:= True;
+
+        //Associations?
+        Execute_XMI_Classes( _xmi);
+
+        slLog.Add( S);
+     finally
             slTemplateHandler.Vide;
             sljpfMembre.Vide;
             end;
