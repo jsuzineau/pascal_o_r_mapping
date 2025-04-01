@@ -300,6 +300,8 @@ type
   private
     procedure Execute_XMI_Classe( _xmi: TXMI; _eClasse: TDomNode; _Suffixe: String);
     procedure Execute_XMI_Classes( _xmi: TXMI);
+    procedure Execute_XMI_Association( _xmi: TXMI; _eAssociation: TDOMNode);
+    procedure Execute_XMI_Associations( _xmi: TXMI);
   public
     procedure Execute_XMI( _xmi: TXMI);
   //jpfMembre
@@ -1365,6 +1367,123 @@ begin
             end;
 end;
 
+procedure TGenerateur_de_code.Execute_XMI_Association( _xmi: TXMI; _eAssociation: TDOMNode);
+{
+var
+   nfDetails     : String;
+   nfSymetrics   : String;
+   nfAggregations: String;
+
+   slDetails     : TStringList;
+   slSymetrics   : TStringList;
+   slAggregations: TStringList;
+
+   cirAssociation_Ends: TCherche_Items_Recursif;
+   eAssociation_End: TDOMNode;
+   sAggregation: String;
+   type_id: String;
+   eType: TDOMNode;
+   sType: String;
+
+   Detail_Nom, Detail_Type: String;
+   Symetric_Nom, Symetric_Type: String;
+
+   procedure cas_aggregate;
+   var
+      Aggregation_Nom, Aggregation_Type: String;
+   begin
+        Aggregation_Nom := NomTable+'_'+bl.FOREIGN_KEY;
+        Aggregation_Type:= NomTable;
+        slAggregations.Values[Aggregation_Nom]:= Aggregation_Type;
+   end;
+   procedure cas_none;
+   begin
+
+   end;
+}
+begin
+{
+     slDetails     := TStringList            .Create;
+     slSymetrics   := TStringList            .Create;
+     slAggregations:= TStringList            .Create;
+     try
+        cirAssociation_Ends:= _xmi.Get_Association_ends( _eAssociation);
+        try
+           for eAssociation_End in cirAssociation_Ends.l
+           do
+             begin
+             type_id:= '';
+             if not_Get_Property( eAssociation_End, 'aggregation', sAggregation) then continue;
+             if not_Get_Property( eAssociation_End, 'type'       , type_id     ) then continue;
+
+             eType:= _xmi.Get_type( type_id);
+                  if nil = eType                            then continue
+             else if not_Get_Property( eType, 'name', sType)then continue;
+
+             nfDetails:= sRepertoireParametres+sType+'.Details.txt';
+             if FileExists( nfDetails)
+             then
+                 slDetails.LoadFromFile( nfDetails)
+             else
+                 slDetails.Clear;
+
+             nfSymetrics:= sRepertoireParametres+sType+'.Symetrics.txt';
+             if FileExists( nfSymetrics)
+             then
+                 slSymetrics.LoadFromFile( nfSymetrics)
+             else
+                 slSymetrics.Clear;
+
+             nfAggregations:= sRepertoireParametres+sType+'.Aggregations.txt';
+             if FileExists( nfAggregations)
+             then
+                 slAggregations.LoadFromFile( nfAggregations)
+             else
+                 slAggregations.Clear;
+
+             {
+             Detail_Nom := bl.FOREIGN_KEY;
+             Detail_Type:= bl.Reference_Table;
+             slDetails.Values[Detail_Nom]:= Detail_Type;
+
+             Symetric_Nom := bl.FOREIGN_KEY;
+             Symetric_Type:= bl.Reference_Table;
+             slSymetrics.Values[Symetric_Nom]:= Symetric_Type;
+             }
+{
+                  if 'aggregate' = sAggregation then cas_aggregate
+             else if 'none'      = sAggregation then cas_none;
+
+             slDetails.SaveToFile( nfDetails);
+             slSymetrics.SaveToFile( nfSymetrics);
+             slAggregations.SaveToFile( nfAggregations);
+             end;
+        finally
+               FreeAndNil( cirAssociation_Ends);
+               end;
+     finally
+            FreeAndNil( slDetails);
+            FreeAndNil( slSymetrics);
+            FreeAndNil( slAggregations);
+            end;
+}
+end;
+
+procedure TGenerateur_de_code.Execute_XMI_Associations(_xmi: TXMI);
+var
+   cirAssociations: TCherche_Items_Recursif;
+   eAssociation: TDOMNode;
+begin
+     cirAssociations:= _xmi.Get_Associations;
+     try
+        for eAssociation in cirAssociations.l
+        do
+          Execute_XMI_Association( _xmi, eAssociation);
+     finally
+            FreeAndNil( cirAssociations);
+            end;
+end;
+
 procedure TGenerateur_de_code.Execute_XMI(_xmi: TXMI);
 begin
      slLog.Clear;
@@ -1382,8 +1501,8 @@ begin
         S:= '';
         Premiere_Classe:= True;
 
-        //Associations?
-        Execute_XMI_Classes( _xmi);
+        Execute_XMI_Associations( _xmi);
+        Execute_XMI_Classes     ( _xmi);
 
         slLog.Add( S);
      finally
