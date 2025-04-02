@@ -296,9 +296,15 @@ type
   public
     bl: TBatpro_Ligne;
     procedure Execute( _bl: TBatpro_Ligne; _Suffixe: String);
+  //Gestion fichiers paramètre détail/symétric/aggregation
+  private
+    procedure Parametre_set( _NomFichier, _Name, _Value: String);
+    procedure Parametre_Detail_set( _Classe, _Name, _Value: String);
+    procedure Parametre_Symetric_set( _Classe, _Name, _Value: String);
+    procedure Parametre_Aggregation_set( _Classe, _Name, _Value: String);
   //Génération par fichier XMI
   private
-    procedure Execute_XMI_Classe( _xmi: TXMI; _eClasse: TDomNode; _Suffixe: String);
+    procedure Execute_XMI_Classe( _xmi: TXMI; _eClasse: TDomNode; _NomClasse: String);
     procedure Execute_XMI_Classes( _xmi: TXMI);
     procedure Execute_XMI_Association( _xmi: TXMI; _eAssociation: TDOMNode);
     procedure Execute_XMI_Associations( _xmi: TXMI);
@@ -1164,7 +1170,48 @@ begin
      slLog.SaveToFile( sRepertoireResultat+ChangeFileExt( ExtractFileName( uClean_EXE_Name), '.log'));
 end;
 
-procedure TGenerateur_de_code.Execute_XMI_Classe( _xmi: TXMI; _eClasse: TDomNode; _Suffixe: String);
+procedure TGenerateur_de_code.Parametre_set( _NomFichier, _Name, _Value: String);
+var
+   sl: TStringList;
+begin
+     sl:= TStringList.Create;
+     try
+        if FileExists( _NomFichier)
+        then
+            sl.LoadFromFile( _NomFichier);
+        sl.Values[_Name]:= _Value;
+        sl.SaveToFile( _NomFichier);
+     finally
+            FreeAndNil( sl);
+            end;
+end;
+
+procedure TGenerateur_de_code.Parametre_Detail_set( _Classe, _Name, _Value: String);
+var
+   NomFichier: String;
+begin
+     NomFichier:= sRepertoireParametres+_Classe+'.Details.txt';
+     Parametre_set( NomFichier, _Name, _Value);
+end;
+
+procedure TGenerateur_de_code.Parametre_Symetric_set( _Classe, _Name, _Value: String);
+var
+   NomFichier: String;
+begin
+     NomFichier:= sRepertoireParametres+_Classe+'.Symetrics.txt';
+     Parametre_set( NomFichier, _Name, _Value);
+end;
+
+
+procedure TGenerateur_de_code.Parametre_Aggregation_set( _Classe, _Name, _Value: String);
+var
+   NomFichier: String;
+begin
+     NomFichier:= sRepertoireParametres+_Classe+'.Aggregations.txt';
+     Parametre_set( NomFichier, _Name, _Value);
+end;
+
+procedure TGenerateur_de_code.Execute_XMI_Classe( _xmi: TXMI; _eClasse: TDomNode; _NomClasse: String);
 var
    cc: TContexteClasse;
    J: Integer;
@@ -1208,6 +1255,20 @@ var
           eType:= _xmi.Get_type( type_id);
                if nil = eType                            then Type_not_found
           else if not_Get_Property( eType, 'name', sType)then Type_not_found;
+
+          if nil <> _xmi.Get_Classe_from_type( type_id)
+          then
+              begin
+              //if -1 = slDetails.IndexOfName( Property_Name)
+              //then
+                  slDetails.Values[Property_Name]:= sType;
+              //slSymetrics.Values[Property_Name]:= sType;
+
+              //ici le nom pourrait être personnalisé
+              Parametre_Aggregation_set( sType,
+                                         _NomClasse{identificateur à personnaliser éventuellement},
+                                         _NomClasse);
+              end;
 
           cm:= TContexteMembre.Create( Self, cc, Property_Name, sType, '');
           try
@@ -1254,17 +1315,37 @@ var
 begin
      cirClass_Properties:= _xmi.Get_Class_Properties( _eClasse);
      try
-        cc:= TContexteClasse.Create( Self, _Suffixe,
+        cc:= TContexteClasse.Create( Self, _NomClasse,
                                      cirClass_Properties.l.Count,
                                      slParametres);
+        slDetails:= TStringList.Create;
+        slSymetrics:= TStringList.Create;
+        slAggregations:= TStringList.Create;
         try
            slParametres.Clear;
+
            nfApplication_txt:= sRepertoireParametres+'Application.txt';
            if FileExists(nfApplication_txt)
            then
                slParametres.LoadFromFile(nfApplication_txt)
            else
                slParametres.SaveToFile  (nfApplication_txt);
+
+           nfDetails:= sRepertoireParametres+cc.Nom_de_la_classe+'.Details.txt';
+           if FileExists( nfDetails)
+           then
+               slDetails.LoadFromFile( nfDetails);
+
+           nfSymetrics:= sRepertoireParametres+cc.Nom_de_la_classe+'.Symetrics.txt';
+           if FileExists( nfSymetrics)
+           then
+               slSymetrics.LoadFromFile( nfSymetrics);
+
+           nfAggregations:= sRepertoireParametres+cc.Nom_de_la_classe+'.Aggregations.txt';
+           if FileExists( nfAggregations)
+           then
+               slAggregations.LoadFromFile( nfAggregations);
+
 
                  uJoinPoint_Initialise( cc, a);
            sljpfMembre     .Initialise( cc);
@@ -1275,52 +1356,25 @@ begin
            Traite_Properties;
 
            //Gestion des détails
-           slDetails:= TStringList.Create;
-           try
-              nfDetails:= sRepertoireParametres+cc.Nom_de_la_classe+'.Details.txt';
-              if FileExists( nfDetails)
-              then
-                  slDetails.LoadFromFile( nfDetails);
-              NbDetails:= slDetails.Count;
-              for J:= 0 to NbDetails-1
-              do
-                Traite_Detail( slDetails.Names[J], slDetails.ValueFromIndex[J]);
-           finally
-                  slDetails.SaveToFile( nfDetails);
-                  FreeAndNil( slDetails);
-                  end;
+           NbDetails:= slDetails.Count;
+           for J:= 0 to NbDetails-1
+           do
+             Traite_Detail( slDetails.Names[J], slDetails.ValueFromIndex[J]);
+           slDetails.SaveToFile( nfDetails);
 
            //Gestion des Symetrics
-           slSymetrics:= TStringList.Create;
-           try
-              nfSymetrics:= sRepertoireParametres+cc.Nom_de_la_classe+'.Symetrics.txt';
-              if FileExists( nfSymetrics)
-              then
-                  slSymetrics.LoadFromFile( nfSymetrics);
-              NbSymetrics:= slSymetrics.Count;
-              for J:= 0 to NbSymetrics-1
-              do
-                Traite_Symetric( slSymetrics.Names[J], slSymetrics.ValueFromIndex[J]);
-           finally
-                  slSymetrics.SaveToFile( nfSymetrics);
-                  FreeAndNil( slSymetrics);
-                  end;
+           NbSymetrics:= slSymetrics.Count;
+           for J:= 0 to NbSymetrics-1
+           do
+             Traite_Symetric( slSymetrics.Names[J], slSymetrics.ValueFromIndex[J]);
+           slSymetrics.SaveToFile( nfSymetrics);
 
            //Gestion des aggrégations
-           slAggregations:= TStringList.Create;
-           try
-              nfAggregations:= sRepertoireParametres+cc.Nom_de_la_classe+'.Aggregations.txt';
-              if FileExists( nfAggregations)
-              then
-                  slAggregations.LoadFromFile( nfAggregations);
-              NbAggregations:= slAggregations.Count;
-              for J:= 0 to NbAggregations-1
-              do
-                Traite_Aggregation( slAggregations.Names[J], slAggregations.ValueFromIndex[J]);
-           finally
-                  slAggregations.SaveToFile( nfAggregations);
-                  FreeAndNil( slAggregations);
-                  end;
+           NbAggregations:= slAggregations.Count;
+           for J:= 0 to NbAggregations-1
+           do
+             Traite_Aggregation( slAggregations.Names[J], slAggregations.ValueFromIndex[J]);
+           slAggregations.SaveToFile( nfAggregations);
 
            //Fermeture des chaines
                  uJoinPoint_Finalise( a);
@@ -1341,6 +1395,9 @@ begin
            slApplicationJoinPointFile.VisiteClasse( cc);
            slLog.Add( 'slApplicationJoinPointFile.VisiteClasse( cc);');
         finally
+               FreeAndNil( slDetails);
+               FreeAndNil( slSymetrics);
+               FreeAndNil( slAggregations);
                FreeAndNil( cc)
                end;
      finally
@@ -1503,9 +1560,10 @@ begin
 
         Execute_XMI_Associations( _xmi);
         Execute_XMI_Classes     ( _xmi);
-
+        Generateur_de_code.Application_Produit;
         slLog.Add( S);
      finally
+            Generateur_de_code.Application_Destroy;
             slTemplateHandler.Vide;
             sljpfMembre.Vide;
             end;
