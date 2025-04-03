@@ -1,0 +1,5 @@
+string=CharField(max_length=255)
+float=FloatField()
+integer=IntegerField()
+monetaire=DecimalField()
+Utilisateur=ForeignKey( settings.AUTH_USER_MODEL)

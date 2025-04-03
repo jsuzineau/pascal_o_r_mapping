@@ -69,7 +69,7 @@ end;
 procedure TjpPHP_Doctrine_HasMany.VisiteDetail(s_Detail,sNomTableMembre: String);
 begin
      inherited;
-     if cm.CleEtrangere
+     if Assigned(cm) and cm.CleEtrangere
      then
          begin
          if Valeur <> ''

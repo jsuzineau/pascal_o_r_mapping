@@ -1241,10 +1241,36 @@ var
       type_id: String;
       eType: TDOMNode;
       sType: String;
-      cm: TContexteMembre;
       procedure Type_not_found;
       begin
            sType:= '(non trouvé)';
+      end;
+      procedure Traite_Membre;
+      var
+         cm: TContexteMembre;
+      begin
+           cm:= TContexteMembre.Create( Self, cc, Property_Name, sType, '');
+           try
+                    uJoinPoint_VisiteMembre( cm, a);
+              sljpfMembre     .VisiteMembre( cm);
+              sljpfDetail     .VisiteMembre( cm);
+              sljpfSymetric   .VisiteMembre( cm);
+              sljpfAggregation.VisiteMembre( cm);
+           finally
+                  FreeAndNil( cm);
+                  end;
+      end;
+      procedure Traite_Detail2;
+      begin
+           //if -1 = slDetails.IndexOfName( Property_Name)
+           //then
+               slDetails.Values[Property_Name]:= sType;
+           //slSymetrics.Values[Property_Name]:= sType;
+
+           //ici le nom pourrait être personnalisé
+           Parametre_Aggregation_set( sType,
+                                      _NomClasse{identificateur à personnaliser éventuellement},
+                                      _NomClasse);
       end;
    begin
         for eProperty in cirClass_Properties.l
@@ -1256,30 +1282,11 @@ var
                if nil = eType                            then Type_not_found
           else if not_Get_Property( eType, 'name', sType)then Type_not_found;
 
-          if nil <> _xmi.Get_Classe_from_type( type_id)
+          if nil = _xmi.Get_Classe_from_type( type_id)
           then
-              begin
-              //if -1 = slDetails.IndexOfName( Property_Name)
-              //then
-                  slDetails.Values[Property_Name]:= sType;
-              //slSymetrics.Values[Property_Name]:= sType;
-
-              //ici le nom pourrait être personnalisé
-              Parametre_Aggregation_set( sType,
-                                         _NomClasse{identificateur à personnaliser éventuellement},
-                                         _NomClasse);
-              end;
-
-          cm:= TContexteMembre.Create( Self, cc, Property_Name, sType, '');
-          try
-                   uJoinPoint_VisiteMembre( cm, a);
-             sljpfMembre     .VisiteMembre( cm);
-             sljpfDetail     .VisiteMembre( cm);
-             sljpfSymetric   .VisiteMembre( cm);
-             sljpfAggregation.VisiteMembre( cm);
-          finally
-                 FreeAndNil( cm);
-                 end;
+              Traite_Membre
+          else
+              Traite_Detail2;
           end;
    end;
    procedure Traite_Detail( s_Detail, sNomTableMembre: String);

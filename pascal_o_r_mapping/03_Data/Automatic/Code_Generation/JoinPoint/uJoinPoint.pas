@@ -116,6 +116,7 @@ end;
 procedure TJoinPoint.Initialise(_cc: TContexteClasse);
 begin
      cc:= _cc;
+     cm:= nil;
      Valeur:= '';
 end;
 
