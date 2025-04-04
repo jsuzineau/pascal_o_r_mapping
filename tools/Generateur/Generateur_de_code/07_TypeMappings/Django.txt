@@ -1,5 +1,5 @@
 string=CharField(max_length=255)
 float=FloatField()
 integer=IntegerField()
-monetaire=DecimalField()
-Utilisateur=ForeignKey( settings.AUTH_USER_MODEL)
+monetaire=DecimalField( max_digits=10, decimal_places=2)
+Utilisateur=ForeignKey( settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
