@@ -26,6 +26,7 @@ unit uContexteClasse;
 interface
 
 uses
+    uTypeMapping,
     uGenerateur_de_code_Ancetre,
     uBatpro_StringList,
   SysUtils, Classes;
@@ -36,7 +37,7 @@ type
 
  TContexteClasse
  =
-  class
+  class( TContexteClasse_Ancetre)
   //Gestion du cycle de vie
   public
     constructor Create( _g: TGenerateur_de_code_Ancetre;
@@ -68,7 +69,7 @@ type
     slLog: TBatpro_StringList;
   //Recherche/remplacement par les valeurs dans un modèle
   public
-    function Produit( _Prefixe, _sModele: String): String;
+    function Produit( _Prefixe, _sModele: String): String; override;
   end;
 
 implementation

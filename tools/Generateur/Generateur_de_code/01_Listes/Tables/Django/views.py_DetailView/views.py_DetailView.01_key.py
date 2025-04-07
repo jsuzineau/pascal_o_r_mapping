@@ -1,0 +1,1 @@
+views.py_DetailView

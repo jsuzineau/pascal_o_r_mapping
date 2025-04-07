@@ -29,6 +29,16 @@ uses
 
 type
 
+ { TContexteClasse_Ancetre }
+
+ TContexteClasse_Ancetre
+ =
+  class
+  //Recherche/remplacement par les valeurs dans un modèle
+  public
+    function Produit( _Prefixe, _sModele: String): String; virtual; abstract;
+  end;
+
  { TTypeMapping }
 
  TTypeMapping
@@ -43,7 +53,7 @@ type
     nfTypeMapping: String;
     sTypeMapping: String;
   public
-    function Produit( _Prefixe, _sTypChamp_UPPERCASE, _sModele: String): String;
+    function Produit( _cc: TContexteClasse_Ancetre; _Prefixe, _sTypChamp_UPPERCASE, _sModele: String): String;
   end;
 
  TIterateur_TypeMapping
@@ -71,7 +81,7 @@ type
     function Iterateur: TIterateur_TypeMapping;
     function Iterateur_Decroissant: TIterateur_TypeMapping;
   public
-    function Produit( _Prefixe, _sTypChamp_UPPERCASE, _sModele: String): String;
+    function Produit( _cc: TContexteClasse_Ancetre; _Prefixe, _sTypChamp_UPPERCASE, _sModele: String): String;
   end;
 
 
@@ -139,7 +149,7 @@ begin
      Result:= TIterateur_TypeMapping( Iterateur_interne_Decroissant);
 end;
 
-function TslTypeMapping.Produit(_Prefixe, _sTypChamp_UPPERCASE, _sModele: String): String;
+function TslTypeMapping.Produit(_cc: TContexteClasse_Ancetre; _Prefixe, _sTypChamp_UPPERCASE, _sModele: String): String;
 var
    I: TIterateur_TypeMapping;
    tm: TTypeMapping;
@@ -151,7 +161,7 @@ begin
         do
           begin
           if I.not_Suivant( tm) then Continue;
-          Result:= tm.Produit( _Prefixe, _sTypChamp_UPPERCASE, Result);
+          Result:= tm.Produit( _cc, _Prefixe, _sTypChamp_UPPERCASE, Result);
           end;
      finally
             FreeAndNil( I);
@@ -176,7 +186,8 @@ begin
      //Mapped_Type_
 end;
 
-function TTypeMapping.Produit( _Prefixe,
+function TTypeMapping.Produit( _cc: TContexteClasse_Ancetre;
+                               _Prefixe,
                                _sTypChamp_UPPERCASE,
                                _sModele: String): String;
 var
@@ -191,7 +202,7 @@ var
         then
             Result:= _sTypChamp_UPPERCASE
         else
-            Result:= ValueFromIndex[ I];
+            Result:= _cc.Produit( 'Classe.', ValueFromIndex[ I]);
    end;
 begin
      Key:= _Prefixe+'Mapped_Type_'+sTypeMapping;

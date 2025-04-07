@@ -165,7 +165,7 @@ function TContexteMembre.Produit( _Prefixe, _sModele: String): String;
 begin
      Result:= _sModele;
      Result:= StringReplace( Result, _Prefixe+'Libelle'                    ,sLibelle                    ,[rfReplaceAll,rfIgnoreCase]);
-     Result:= g.slTypeMappings.Produit(_Prefixe, sTypChamp_UPPERCASE, Result);
+     Result:= g.slTypeMappings.Produit(cc, _Prefixe, sTypChamp_UPPERCASE, Result);
      Result:= StringReplace( Result, _Prefixe+'NomChamp_database'          ,sNomChamp_database          ,[rfReplaceAll,rfIgnoreCase]);
      Result:= StringReplace( Result, _Prefixe+'NomChamp'                   ,sNomChamp                   ,[rfReplaceAll,rfIgnoreCase]);
      Result:= StringReplace( Result, _Prefixe+'TypChamp_UPPERCASE'         ,sTypChamp_UPPERCASE         ,[rfReplaceAll,rfIgnoreCase]);
