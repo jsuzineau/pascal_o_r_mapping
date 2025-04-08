@@ -1,0 +1,2 @@
+        Result+= self.Libelle.NomLibelle
+

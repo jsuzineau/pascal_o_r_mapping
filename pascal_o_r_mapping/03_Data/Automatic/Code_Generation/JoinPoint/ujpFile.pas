@@ -95,6 +95,16 @@ type
     procedure VisiteAggregation( s_Aggregation, sNomTableMembre: String); override;
   end;
 
+ { TjpfLibelle }
+
+ TjpfLibelle
+ =
+  class( TjpFile)
+  //Gestion de la visite d'une classe
+  public
+    procedure VisiteLibelle( s_Libelle: String); override;
+  end;
+
  { TIterateur_jpFile }
 
  TIterateur_jpFile
@@ -142,6 +152,15 @@ type
     function  not_Suivant( var _Resultat: TjpfAggregation): Boolean;
   end;
 
+ TIterateur_jpfLibelle
+ =
+  class( TIterateur_jpFile)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: TjpfLibelle);
+    function  not_Suivant( var _Resultat: TjpfLibelle): Boolean;
+  end;
+
  { TsljpFile }
 
  TsljpFile
@@ -164,6 +183,7 @@ type
     procedure VisiteDetail( s_Detail, sNomTableMembre: String);
     procedure VisiteSymetric( s_Symetric, sNomTableMembre: String);
     procedure VisiteAggregation( s_Aggregation, sNomTableMembre: String);
+    procedure VisiteLibelle( s_Libelle: String);
     procedure Finalise;
     procedure To_Parametres( _sl: TStringList);
   end;
@@ -228,6 +248,21 @@ type
     function Iterateur_Decroissant: TIterateur_jpfAggregation;
   end;
 
+ TsljpfLibelle
+ =
+  class( TsljpFile)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_jpfLibelle;
+    function Iterateur_Decroissant: TIterateur_jpfLibelle;
+  end;
+
 
 const
      s_key_       = '.01_key.'       ;
@@ -244,6 +279,7 @@ function jpfMembre_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfMemb
 function jpfDetail_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfDetail;
 function jpfSymetric_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfSymetric;
 function jpfAggregation_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfAggregation;
+function jpfLibelle_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfLibelle;
 
 procedure ujpFile_EnumFiles( _sRepertoire: String; _ffe: TFileFoundEvent; _Mask: String= '*.*');
 
@@ -277,6 +313,11 @@ end;
 function jpfAggregation_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfAggregation;
 begin
      _Classe_from_sl_sCle( Result, TjpfAggregation, sl, sCle);
+end;
+
+function jpfLibelle_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfLibelle;
+begin
+     _Classe_from_sl_sCle( Result, TjpfLibelle, sl, sCle);
 end;
 
 procedure ujpFile_EnumFiles( _sRepertoire: String; _ffe: TFileFoundEvent; _Mask: String= '*.*');
@@ -348,6 +389,18 @@ begin
 end;
 
 procedure TIterateur_jpfAggregation.Suivant( var _Resultat: TjpfAggregation);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TIterateur_jpfLibelle }
+
+function TIterateur_jpfLibelle.not_Suivant( var _Resultat: TjpfLibelle): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_jpfLibelle.Suivant( var _Resultat: TjpfLibelle);
 begin
      Suivant_interne( _Resultat);
 end;
@@ -463,6 +516,24 @@ begin
           begin
           if I.not_Suivant( jpf) then Continue;
           jpf.VisiteAggregation( s_Aggregation, sNomTableMembre);
+          end;
+     finally
+            FreeAndNil( I);
+            end;
+end;
+
+procedure TsljpFile.VisiteLibelle(s_Libelle: String);
+var
+   I: TIterateur_jpFile;
+   jpf: TjpFile;
+begin
+     I:= Iterateur;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( jpf) then Continue;
+          jpf.VisiteLibelle( s_Libelle);
           end;
      finally
             FreeAndNil( I);
@@ -613,6 +684,33 @@ begin
      Result:= TIterateur_jpfAggregation( Iterateur_interne_Decroissant);
 end;
 
+{ TsljpfLibelle }
+
+constructor TsljpfLibelle.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, TjpfLibelle);
+end;
+
+destructor TsljpfLibelle.Destroy;
+begin
+     inherited;
+end;
+
+class function TsljpfLibelle.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_jpfLibelle;
+end;
+
+function TsljpfLibelle.Iterateur: TIterateur_jpfLibelle;
+begin
+     Result:= TIterateur_jpfLibelle( Iterateur_interne);
+end;
+
+function TsljpfLibelle.Iterateur_Decroissant: TIterateur_jpfLibelle;
+begin
+     Result:= TIterateur_jpfLibelle( Iterateur_interne_Decroissant);
+end;
+
 { TjpFile }
 
 constructor TjpFile.Create( _nfKey: String);
@@ -717,6 +815,22 @@ begin
      Element:= StringReplace( Element, 'Aggregation.NomAggregation'   ,s_Aggregation  ,[rfReplaceAll,rfIgnoreCase]);
      Element:= StringReplace( Element, 'Aggregation.ClasseAggregationMinuscule',LowerCase(sNomTableMembre),[rfReplaceAll,rfIgnoreCase]);
      Element:= StringReplace( Element, 'Aggregation.ClasseAggregation',sNomTableMembre,[rfReplaceAll,rfIgnoreCase]);
+     Valeur:= Valeur+ Element;
+end;
+
+procedure TjpfLibelle.VisiteLibelle( s_Libelle: String);
+var
+   Element: String;
+begin
+     inherited;
+     if Premier
+     then
+         Premier:= False
+     else
+         Valeur:= Valeur + sSeparateur;
+
+     Element:= cc.Produit( 'Classe.', sElement);
+     Element:= StringReplace( Element, 'Libelle.NomLibelle'   ,s_Libelle  ,[rfReplaceAll,rfIgnoreCase]);
      Valeur:= Valeur+ Element;
 end;
 

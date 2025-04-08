@@ -93,6 +93,7 @@ type
     sRepertoireListeDetails,
     sRepertoireListeSymetrics,
     sRepertoireListeAggregations,
+    sRepertoireListeLibelles,
     sRepertoireTemplate   ,
     sRepertoireParametres ,
     sRepertoireApplicationTemplate  ,

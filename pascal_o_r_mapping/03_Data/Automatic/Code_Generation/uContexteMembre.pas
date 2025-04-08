@@ -28,7 +28,7 @@ interface
 uses
     uGenerateur_de_code_Ancetre,
     uContexteClasse,
-  SysUtils, Classes;
+  SysUtils, Classes, StrUtils;
 
 type
 
@@ -100,6 +100,7 @@ begin
      g:= _g;
      cc:= _cc;
      sNomChamp:= _sNomChamp;
+
      sNomChamp_database:= sNomChamp;
      sNomChamp_database_quote:= '`'+sNomChamp_database+'`';
      sNomChamp:= StringReplace( sNomChamp, ' ', '_', [rfReplaceAll]);

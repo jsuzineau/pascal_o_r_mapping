@@ -1,7 +1,7 @@
 {% if object_list %}
     <ul>
     {% for NomTableMinuscule in object_list %}
-        <li><a href="/Django_nom_app/Nom_de_la_classe_Detail{{ NomTableMinuscule.id }}/">{{ NomTableMinuscule.id }}</a></li>
+        <li><a href="/Django_nom_app/Nom_de_la_classe_Detail{{ NomTableMinuscule.id }}/">{{ NomTableMinuscule }}</a></li>
     {% endfor %}
     </ul>
 {% else %}

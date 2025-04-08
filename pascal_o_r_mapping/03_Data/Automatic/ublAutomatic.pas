@@ -346,6 +346,15 @@ type
     procedure sljpfAggregation_from_sRepertoireListeAggregations_FileFound( _FileIterator: TFileIterator);
   public
     procedure sljpfAggregation_from_sRepertoireListeAggregations;
+  //jpfLibelle
+  public
+    sljpfLibelle: TsljpfLibelle;
+    function  Cree_jpfLibelle( _nfKey: String): TjpfLibelle;
+  //Création des jpfLibelle par lecture du répertoire de listes de Libelles
+  private
+    procedure sljpfLibelle_from_sRepertoireListeLibelles_FileFound( _FileIterator: TFileIterator);
+  public
+    procedure sljpfLibelle_from_sRepertoireListeLibelles;
   //ApplicationJoinPointFile
   public
     slApplicationJoinPointFile: TslApplicationJoinPointFile;
@@ -662,6 +671,7 @@ begin
      sljpfDetail                 := TsljpfDetail               .Create( ClassName+'.sljpfDetail'                 );
      sljpfSymetric               := TsljpfSymetric             .Create( ClassName+'.sljpfSymetric'               );
      sljpfAggregation            := TsljpfAggregation          .Create( ClassName+'.sljpfAggregation'            );
+     sljpfLibelle                := TsljpfLibelle              .Create( ClassName+'.sljpfLibelle'                );
      slApplicationJoinPointFile  := TslApplicationJoinPointFile.Create( ClassName+'.slApplicationJoinPointFile'  );
      slTypeMappings              := TslTypeMapping             .Create( ClassName+'.slTypeMappings'              );
      slTemplateHandler           := TslTemplateHandler         .Create( ClassName+'.slTemplateHandler'           );
@@ -742,6 +752,7 @@ begin
      FreeAndNil( sljpfDetail);
      FreeAndNil( sljpfSymetric);
      FreeAndNil( sljpfAggregation);
+     FreeAndNil( sljpfLibelle    );
      FreeAndNil( slApplicationJoinPointFile);
      FreeAndNil( slTypeMappings);
      FreeAndNil( slTemplateHandler);
@@ -771,6 +782,7 @@ begin
         sRepertoireListeDetails       :=iRead('sRepertoireListeDetails'     ,Path+'01_Listes'             +PathDelim+'Details'     +PathDelim);
         sRepertoireListeSymetrics     :=iRead('sRepertoireListeSymetrics'   ,Path+'01_Listes'             +PathDelim+'Symetrics'   +PathDelim);
         sRepertoireListeAggregations  :=iRead('sRepertoireListeAggregations',Path+'01_Listes'             +PathDelim+'Aggregations'+PathDelim);
+        sRepertoireListeLibelles      :=iRead('sRepertoireListeLibelles'    ,Path+'01_Listes'             +PathDelim+'Libelles'    +PathDelim);
         sRepertoireTemplate           :=iRead('sRepertoireTemplate'         ,Path+'03_Template'           +PathDelim                         );
         sRepertoireParametres         :=iRead('sRepertoireParametres'       ,Path+'04_Parametres'         +PathDelim                         );
         sRepertoireApplicationTemplate:=iRead('sApplicationTemplate'        ,Path+'05_ApplicationTemplate'+PathDelim                         );
@@ -941,6 +953,7 @@ var
            sljpfDetail     .VisiteMembre( cm);
            sljpfSymetric   .VisiteMembre( cm);
            sljpfAggregation.VisiteMembre( cm);
+           sljpfLibelle    .VisiteMembre( cm);
         finally
                FreeAndNil( cm);
                end;
@@ -954,6 +967,7 @@ var
         sljpfDetail     .VisiteDetail( s_Detail, sNomTableMembre);
         sljpfSymetric   .VisiteDetail( s_Detail, sNomTableMembre);
         sljpfAggregation.VisiteDetail( s_Detail, sNomTableMembre);
+        sljpfLibelle    .VisiteDetail( s_Detail, sNomTableMembre);
    end;
    procedure Traite_Symetric( s_Symetric, sNomTableMembre: String);
    begin
@@ -964,6 +978,7 @@ var
         sljpfDetail     .VisiteSymetric( s_Symetric, sNomTableMembre);
         sljpfSymetric   .VisiteSymetric( s_Symetric, sNomTableMembre);
         sljpfAggregation.VisiteSymetric( s_Symetric, sNomTableMembre);
+        sljpfLibelle    .VisiteSymetric( s_Symetric, sNomTableMembre);
    end;
    procedure Traite_Aggregation( s_Aggregation, sNomTableMembre: String);
    begin
@@ -974,6 +989,7 @@ var
         sljpfDetail     .VisiteAggregation( s_Aggregation, sNomTableMembre);
         sljpfSymetric   .VisiteAggregation( s_Aggregation, sNomTableMembre);
         sljpfAggregation.VisiteAggregation( s_Aggregation, sNomTableMembre);
+        sljpfLibelle    .VisiteAggregation( s_Aggregation, sNomTableMembre);
    end;
    procedure Visite;
    var
@@ -1014,6 +1030,7 @@ var
            sljpfDetail     .Initialise( cc);
            sljpfSymetric   .Initialise( cc);
            sljpfAggregation.Initialise( cc);
+           sljpfLibelle    .Initialise( cc);
 
            I:= bl.Champs.sl.Iterateur;
            try
@@ -1081,12 +1098,14 @@ var
            sljpfDetail     .Finalise;
            sljpfSymetric   .Finalise;
            sljpfAggregation.Finalise;
+           sljpfLibelle    .Finalise;
 
                  uJoinPoint_To_Parametres( slParametres, a);
            sljpfMembre     .To_Parametres( slParametres);
            sljpfDetail     .To_Parametres( slParametres);
            sljpfSymetric   .To_Parametres( slParametres);
            sljpfAggregation.To_Parametres( slParametres);
+           sljpfLibelle    .To_Parametres( slParametres);
 
            slTemplateHandler_Produit;
            //Produit;
@@ -1105,6 +1124,7 @@ begin
      sljpfDetail_from_sRepertoireListeDetails;
      sljpfSymetric_from_sRepertoireListeSymetrics;
      sljpfAggregation_from_sRepertoireListeAggregations;
+     sljpfLibelle_from_sRepertoireListeLibelles;
      slTemplateHandler_from_sRepertoireTemplate;
 
      {
@@ -1232,6 +1252,8 @@ var
    nfAggregations: String;
    slAggregations:TStringList;
 
+   NbLibelles: Integer;
+
    cirClass_Properties: TCherche_Items_Recursif;
 
    procedure Traite_Properties;
@@ -1256,6 +1278,7 @@ var
               sljpfDetail     .VisiteMembre( cm);
               sljpfSymetric   .VisiteMembre( cm);
               sljpfAggregation.VisiteMembre( cm);
+              sljpfLibelle    .VisiteMembre( cm);
            finally
                   FreeAndNil( cm);
                   end;
@@ -1272,7 +1295,15 @@ var
                                       _NomClasse{identificateur à personnaliser éventuellement},
                                       _NomClasse);
       end;
+      procedure TraiteLibelle;
+      begin
+           if '''' <> Copy(Property_Name, 1,1) then exit;
+
+           Delete(Property_Name, 1,1);
+           cc.slLibelle.Add( Property_Name);
+      end;
    begin
+        cc.slLibelle.Clear;
         for eProperty in cirClass_Properties.l
         do
           begin
@@ -1282,12 +1313,14 @@ var
                if nil = eType                            then Type_not_found
           else if not_Get_Property( eType, 'name', sType)then Type_not_found;
 
+          TraiteLibelle;
           if nil = _xmi.Get_Classe_from_type( type_id)
           then
               Traite_Membre
           else
               Traite_Detail2;
           end;
+        cc.slLibelle.SaveToFile( cc.nfLibelle);
    end;
    procedure Traite_Detail( s_Detail, sNomTableMembre: String);
    begin
@@ -1298,6 +1331,7 @@ var
         sljpfDetail     .VisiteDetail( s_Detail, sNomTableMembre);
         sljpfSymetric   .VisiteDetail( s_Detail, sNomTableMembre);
         sljpfAggregation.VisiteDetail( s_Detail, sNomTableMembre);
+        sljpfLibelle    .VisiteDetail( s_Detail, sNomTableMembre);
    end;
    procedure Traite_Symetric( s_Symetric, sNomTableMembre: String);
    begin
@@ -1308,6 +1342,7 @@ var
         sljpfDetail     .VisiteSymetric( s_Symetric, sNomTableMembre);
         sljpfSymetric   .VisiteSymetric( s_Symetric, sNomTableMembre);
         sljpfAggregation.VisiteSymetric( s_Symetric, sNomTableMembre);
+        sljpfLibelle    .VisiteSymetric( s_Symetric, sNomTableMembre);
    end;
    procedure Traite_Aggregation( s_Aggregation, sNomTableMembre: String);
    begin
@@ -1318,6 +1353,17 @@ var
         sljpfDetail     .VisiteAggregation( s_Aggregation, sNomTableMembre);
         sljpfSymetric   .VisiteAggregation( s_Aggregation, sNomTableMembre);
         sljpfAggregation.VisiteAggregation( s_Aggregation, sNomTableMembre);
+        sljpfLibelle    .VisiteAggregation( s_Aggregation, sNomTableMembre);
+   end;
+   procedure Traite_Libelle( s_Libelle: String);
+   begin
+        if '' = s_Libelle then exit;
+              uJoinPoint_VisiteLibelle( s_Libelle, a);
+        sljpfMembre     .VisiteLibelle( s_Libelle);
+        sljpfDetail     .VisiteLibelle( s_Libelle);
+        sljpfSymetric   .VisiteLibelle( s_Libelle);
+        sljpfAggregation.VisiteLibelle( s_Libelle);
+        sljpfLibelle    .VisiteLibelle( s_Libelle);
    end;
 begin
      cirClass_Properties:= _xmi.Get_Class_Properties( _eClasse);
@@ -1359,6 +1405,7 @@ begin
            sljpfDetail     .Initialise( cc);
            sljpfSymetric   .Initialise( cc);
            sljpfAggregation.Initialise( cc);
+           sljpfLibelle    .Initialise( cc);
 
            Traite_Properties;
 
@@ -1383,18 +1430,26 @@ begin
              Traite_Aggregation( slAggregations.Names[J], slAggregations.ValueFromIndex[J]);
            slAggregations.SaveToFile( nfAggregations);
 
+           //Gestion des aggrégations
+           NbLibelles:= cc.slLibelle.Count;
+           for J:= 0 to NbLibelles-1
+           do
+             Traite_Libelle( cc.slLibelle.Strings[J]);
+
            //Fermeture des chaines
                  uJoinPoint_Finalise( a);
            sljpfMembre     .Finalise;
            sljpfDetail     .Finalise;
            sljpfSymetric   .Finalise;
            sljpfAggregation.Finalise;
+           sljpfLibelle    .Finalise;
 
                  uJoinPoint_To_Parametres( slParametres, a);
            sljpfMembre     .To_Parametres( slParametres);
            sljpfDetail     .To_Parametres( slParametres);
            sljpfSymetric   .To_Parametres( slParametres);
            sljpfAggregation.To_Parametres( slParametres);
+           sljpfLibelle    .To_Parametres( slParametres);
 
            slTemplateHandler_Produit;
            //Produit;
@@ -1556,6 +1611,7 @@ begin
      sljpfDetail_from_sRepertoireListeDetails;
      sljpfSymetric_from_sRepertoireListeSymetrics;
      sljpfAggregation_from_sRepertoireListeAggregations;
+     sljpfLibelle_from_sRepertoireListeLibelles;
      slTemplateHandler_from_sRepertoireTemplate;
 
      if not Application_Created
@@ -1675,6 +1731,31 @@ end;
 procedure TGenerateur_de_code.sljpfAggregation_from_sRepertoireListeAggregations;
 begin
      ujpFile_EnumFiles( sRepertoireListeAggregations, sljpfAggregation_from_sRepertoireListeAggregations_FileFound, s_key_mask);
+end;
+
+function TGenerateur_de_code.Cree_jpfLibelle(_nfKey: String): TjpfLibelle;
+begin
+     Result:= jpfLibelle_from_sl_sCle( sljpfLibelle, _nfKey);
+     if nil <> Result then exit;
+
+     Result:= TjpfLibelle.Create( _nfKey);
+     sljpfLibelle.AddObject( _nfKey, Result);
+end;
+
+procedure TGenerateur_de_code.sljpfLibelle_from_sRepertoireListeLibelles_FileFound( _FileIterator: TFileIterator);
+var
+   NomFichier_Key: String;
+begin
+     if _FileIterator.IsDirectory then exit;
+
+     NomFichier_Key:= _FileIterator.FileName;
+
+     Cree_jpfLibelle( NomFichier_Key);
+end;
+
+procedure TGenerateur_de_code.sljpfLibelle_from_sRepertoireListeLibelles;
+begin
+     ujpFile_EnumFiles( sRepertoireListeLibelles, sljpfLibelle_from_sRepertoireListeLibelles_FileFound, s_key_mask);
 end;
 
 function TGenerateur_de_code.Cree_ApplicationJoinPointFile(_nfKey: String): TApplicationJoinPointFile;
