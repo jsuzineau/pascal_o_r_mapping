@@ -1,4 +1,6 @@
 class Classe.Nom_de_la_classe(models.Model):
+Classe.Django_model_EnumStrings
 Classe.Django_model_details
+Classe.Django_model_aggregations
 Classe.Django_model_membres
 Classe.models_Class_Libelle

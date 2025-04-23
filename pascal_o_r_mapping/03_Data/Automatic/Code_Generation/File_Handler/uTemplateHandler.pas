@@ -83,8 +83,8 @@ type
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: TTemplateHandler);
-    function  not_Suivant( var _Resultat: TTemplateHandler): Boolean;
+    procedure Suivant( out _Resultat: TTemplateHandler);
+    function  not_Suivant( out _Resultat: TTemplateHandler): Boolean;
   end;
 
  { TslTemplateHandler }
@@ -121,12 +121,12 @@ end;
 
 { TIterateur_TemplateHandler }
 
-function TIterateur_TemplateHandler.not_Suivant( var _Resultat: TTemplateHandler): Boolean;
+function TIterateur_TemplateHandler.not_Suivant( out _Resultat: TTemplateHandler): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_TemplateHandler.Suivant( var _Resultat: TTemplateHandler);
+procedure TIterateur_TemplateHandler.Suivant( out _Resultat: TTemplateHandler);
 begin
      Suivant_interne( _Resultat);
 end;

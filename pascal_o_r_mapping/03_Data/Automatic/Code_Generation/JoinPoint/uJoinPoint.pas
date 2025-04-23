@@ -49,6 +49,7 @@ type
   public
     procedure Initialise( _cc: TContexteClasse); virtual;
     procedure VisiteMembre( _cm: TContexteMembre); virtual;
+    procedure VisiteEnumString( s_EnumString, sNomTableMembre: String); virtual;
     procedure VisiteDetail( s_Detail, sNomTableMembre: String); virtual;
     procedure VisiteSymetric( s_Symetric, sNomTableMembre: String); virtual;
     procedure VisiteAggregation( s_Aggregation, sNomTableMembre: String); virtual;
@@ -62,8 +63,9 @@ type
     procedure plus( var S: String; Debut: String);
   end;
 
-procedure uJoinPoint_Initialise   ( _cc: TContexteClasse; a: array of TJoinPoint);
-procedure uJoinPoint_VisiteMembre ( _cm: TContexteMembre; a: array of TJoinPoint);
+procedure uJoinPoint_Initialise       ( _cc: TContexteClasse; a: array of TJoinPoint);
+procedure uJoinPoint_VisiteMembre     ( _cm: TContexteMembre; a: array of TJoinPoint);
+procedure uJoinPoint_VisiteEnumString ( s_EnumString     , sNomTableMembre: String; a: array of TJoinPoint);
 procedure uJoinPoint_VisiteDetail     ( s_Detail     , sNomTableMembre: String; a: array of TJoinPoint);
 procedure uJoinPoint_VisiteSymetric   ( s_Symetric   , sNomTableMembre: String; a: array of TJoinPoint);
 procedure uJoinPoint_VisiteAggregation( s_Aggregation, sNomTableMembre: String; a: array of TJoinPoint);
@@ -84,6 +86,12 @@ var
    I: Integer;
 begin
      for I:= Low( a) to High( a) do a[i].VisiteMembre( _cm);
+end;
+procedure uJoinPoint_VisiteEnumString ( s_EnumString,sNomTableMembre: String; a: array of TJoinPoint);
+var
+   I: Integer;
+begin
+     for I:= Low( a) to High( a) do a[i].VisiteEnumString ( s_EnumString, sNomTableMembre);
 end;
 procedure uJoinPoint_VisiteDetail ( s_Detail,sNomTableMembre: String; a: array of TJoinPoint);
 var
@@ -143,6 +151,11 @@ end;
 procedure TJoinPoint.To_Parametres(_sl: TStringList);
 begin
      _sl.Values[ Cle]:= Valeur;
+end;
+
+procedure TJoinPoint.VisiteEnumString(s_EnumString,sNomTableMembre: String);
+begin
+
 end;
 
 procedure TJoinPoint.VisiteDetail(s_Detail,sNomTableMembre: String);

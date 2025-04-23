@@ -29,6 +29,7 @@ uses
     uuStrings,
     uBatpro_StringList,
     uTypeMapping,
+    uEnumString,
     SysUtils, Classes;
 
 const
@@ -90,6 +91,7 @@ type
   public
     sRepertoireListeTables,
     sRepertoireListeMembres,
+    sRepertoireListeEnumStrings,
     sRepertoireListeDetails,
     sRepertoireListeSymetrics,
     sRepertoireListeAggregations,
@@ -98,6 +100,7 @@ type
     sRepertoireParametres ,
     sRepertoireApplicationTemplate  ,
     sRepertoireResultat      ,
+    sRepertoireEnumStrings  ,
     sRepertoireTypeMappings  : String;
   //Méthodes
   public
@@ -111,6 +114,9 @@ type
   //TypeMappings
   public
     slTypeMappings: TslTypeMapping;
+  //EnumStrings
+  public
+    slEnumStrings: TslEnumString;
   end;
 
 implementation

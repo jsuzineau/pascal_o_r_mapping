@@ -65,6 +65,16 @@ type
     procedure VisiteMembre(_cm: TContexteMembre); override;
   end;
 
+ { TjpfEnumString }
+
+ TjpfEnumString
+ =
+  class( TjpFile)
+  //Gestion de la visite d'une classe
+  public
+    procedure VisiteEnumString( s_EnumString, sNomTableMembre: String); override;
+  end;
+
  { TjpfDetail }
 
  TjpfDetail
@@ -125,6 +135,15 @@ type
     function  not_Suivant( var _Resultat: TjpfMembre): Boolean;
   end;
 
+ TIterateur_jpfEnumString
+ =
+  class( TIterateur_jpFile)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: TjpfEnumString);
+    function  not_Suivant( var _Resultat: TjpfEnumString): Boolean;
+  end;
+
  TIterateur_jpfDetail
  =
   class( TIterateur_jpFile)
@@ -180,6 +199,7 @@ type
   public
     procedure Initialise( _cc: TContexteClasse);
     procedure VisiteMembre( _cm: TContexteMembre);
+    procedure VisiteEnumString( s_EnumString, sNomTableMembre: String);
     procedure VisiteDetail( s_Detail, sNomTableMembre: String);
     procedure VisiteSymetric( s_Symetric, sNomTableMembre: String);
     procedure VisiteAggregation( s_Aggregation, sNomTableMembre: String);
@@ -201,6 +221,21 @@ type
   public
     function Iterateur: TIterateur_jpfMembre;
     function Iterateur_Decroissant: TIterateur_jpfMembre;
+  end;
+
+ TsljpfEnumString
+ =
+  class( TsljpFile)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_jpfEnumString;
+    function Iterateur_Decroissant: TIterateur_jpfEnumString;
   end;
 
  TsljpfDetail
@@ -276,6 +311,7 @@ const
 function jpFile_from_sl( sl: TBatpro_StringList; Index: Integer): TjpFile;
 function jpFile_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpFile;
 function jpfMembre_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfMembre;
+function jpfEnumString_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfEnumString;
 function jpfDetail_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfDetail;
 function jpfSymetric_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfSymetric;
 function jpfAggregation_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfAggregation;
@@ -298,6 +334,11 @@ end;
 function jpfMembre_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfMembre;
 begin
      _Classe_from_sl_sCle( Result, TjpfMembre, sl, sCle);
+end;
+
+function jpfEnumString_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfEnumString;
+begin
+     _Classe_from_sl_sCle( Result, TjpfEnumString, sl, sCle);
 end;
 
 function jpfDetail_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfDetail;
@@ -353,6 +394,18 @@ begin
 end;
 
 procedure TIterateur_jpfMembre.Suivant( var _Resultat: TjpfMembre);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TIterateur_jpfEnumString }
+
+function TIterateur_jpfEnumString.not_Suivant( var _Resultat: TjpfEnumString): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_jpfEnumString.Suivant( var _Resultat: TjpfEnumString);
 begin
      Suivant_interne( _Resultat);
 end;
@@ -462,6 +515,24 @@ begin
           begin
           if I.not_Suivant( jpf) then Continue;
           jpf.VisiteMembre( _cm);
+          end;
+     finally
+            FreeAndNil( I);
+            end;
+end;
+
+procedure TsljpFile.VisiteEnumString( s_EnumString, sNomTableMembre: String);
+var
+   I: TIterateur_jpFile;
+   jpf: TjpFile;
+begin
+     I:= Iterateur;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( jpf) then Continue;
+          jpf.VisiteEnumString( s_EnumString, sNomTableMembre);
           end;
      finally
             FreeAndNil( I);
@@ -601,6 +672,33 @@ end;
 function TsljpfMembre.Iterateur_Decroissant: TIterateur_jpfMembre;
 begin
      Result:= TIterateur_jpfMembre( Iterateur_interne_Decroissant);
+end;
+
+{ TsljpfEnumString }
+
+constructor TsljpfEnumString.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, TjpfEnumString);
+end;
+
+destructor TsljpfEnumString.Destroy;
+begin
+     inherited;
+end;
+
+class function TsljpfEnumString.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_jpfEnumString;
+end;
+
+function TsljpfEnumString.Iterateur: TIterateur_jpfEnumString;
+begin
+     Result:= TIterateur_jpfEnumString( Iterateur_interne);
+end;
+
+function TsljpfEnumString.Iterateur_Decroissant: TIterateur_jpfEnumString;
+begin
+     Result:= TIterateur_jpfEnumString( Iterateur_interne_Decroissant);
 end;
 
 { TsljpfDetail }
@@ -763,6 +861,24 @@ begin
          Valeur:= Valeur + sSeparateur;
 
      Valeur:= Valeur+ cm.Produit( 'Membre.', sElement);
+end;
+
+procedure TjpfEnumString.VisiteEnumString(s_EnumString, sNomTableMembre: String);
+var
+   Element: String;
+begin
+     inherited;
+     if Premier
+     then
+         Premier:= False
+     else
+         Valeur:= Valeur + sSeparateur;
+
+     Element:= cc.Produit( 'Classe.', sElement);
+     Element:= StringReplace( Element, 'EnumString.NomEnumString'   ,s_EnumString       ,[rfReplaceAll,rfIgnoreCase]);
+     Element:= StringReplace( Element, 'EnumString.ClasseEnumStringMinuscule',LowerCase(sNomTableMembre),[rfReplaceAll,rfIgnoreCase]);
+     Element:= StringReplace( Element, 'EnumString.ClasseEnumString',sNomTableMembre,[rfReplaceAll,rfIgnoreCase]);
+     Valeur:= Valeur+ Element;
 end;
 
 procedure TjpfDetail.VisiteDetail(s_Detail, sNomTableMembre: String);

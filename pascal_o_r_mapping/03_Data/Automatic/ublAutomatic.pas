@@ -38,6 +38,7 @@ uses
     uOD_Forms,
     uOD_JCL,
     uXMI,
+    uOpenAPI,
 
     uBatpro_Element,
     uBatpro_Ligne,
@@ -48,6 +49,7 @@ uses
     //Code generation
     uTemplateHandler,
     uTypeMapping,
+    uEnumString,
     uGenerateur_de_code_Ancetre,
     uContexteClasse,
     uContexteMembre,
@@ -310,6 +312,13 @@ type
     procedure Execute_XMI_Associations( _xmi: TXMI);
   public
     procedure Execute_XMI( _xmi: TXMI);
+  //Génération par fichier OpenAPI
+  private
+    procedure Execute_OpenAPI_EnumString( _OpenAPI: TOpenAPI; _e: TEnum);
+    procedure Execute_OpenAPI_Schema( _OpenAPI: TOpenAPI; _s: TSchema);
+    procedure Execute_OpenAPI_Schemas( _OpenAPI: TOpenAPI);
+  public
+    procedure Execute_OpenAPI( _OpenAPI: TOpenAPI);
   //jpfMembre
   public
     sljpfMembre: TsljpfMembre;
@@ -319,6 +328,15 @@ type
     procedure sljpfMembre_from_sRepertoireListeMembres_FileFound( _FileIterator: TFileIterator);
   public
     procedure sljpfMembre_from_sRepertoireListeMembres;
+  //jpfEnumString
+  public
+    sljpfEnumString: TsljpfEnumString;
+    function  Cree_jpfEnumString( _nfKey: String): TjpfEnumString;
+  //Création des jpfEnumString par lecture du répertoire de listes de EnumStrings
+  private
+    procedure sljpfEnumString_from_sRepertoireListeEnumStrings_FileFound( _FileIterator: TFileIterator);
+  public
+    procedure sljpfEnumString_from_sRepertoireListeEnumStrings;
   //jpfDetail
   public
     sljpfDetail: TsljpfDetail;
@@ -365,6 +383,14 @@ type
   public
     procedure slApplicationJoinPointFile_from_sRepertoireListeTables;
     procedure slApplicationJoinPointFile_Produit;
+  //EnumStrings
+  public
+    function Cree_EnumStrings( _nfEnumString: String): TEnumString;
+  //Création des EnumStrings par lecture du répertoire de EnumStrings
+  private
+    procedure slEnumStrings_from_sRepertoireEnumStrings_FileFound( _FileIterator: TFileIterator);
+  public
+    procedure slEnumStrings_from_sRepertoireEnumStrings;
   //TypeMappings
   public
     function Cree_TypeMappings( _nfTypeMapping: String): TTypeMapping;
@@ -668,11 +694,13 @@ begin
      inherited Create;
      _From_INI;
      sljpfMembre                 := TsljpfMembre               .Create( ClassName+'.sljpfMembre'                 );
+     sljpfEnumString             := TsljpfEnumString           .Create( ClassName+'.sljpfEnumString'                 );
      sljpfDetail                 := TsljpfDetail               .Create( ClassName+'.sljpfDetail'                 );
      sljpfSymetric               := TsljpfSymetric             .Create( ClassName+'.sljpfSymetric'               );
      sljpfAggregation            := TsljpfAggregation          .Create( ClassName+'.sljpfAggregation'            );
      sljpfLibelle                := TsljpfLibelle              .Create( ClassName+'.sljpfLibelle'                );
      slApplicationJoinPointFile  := TslApplicationJoinPointFile.Create( ClassName+'.slApplicationJoinPointFile'  );
+     slEnumStrings               := TslEnumString              .Create( ClassName+'.slEnumStrings'               );
      slTypeMappings              := TslTypeMapping             .Create( ClassName+'.slTypeMappings'              );
      slTemplateHandler           := TslTemplateHandler         .Create( ClassName+'.slTemplateHandler'           );
      slParametres                := TBatpro_StringList         .Create;
@@ -749,11 +777,13 @@ end;
 destructor TGenerateur_de_code.Destroy;
 begin
      FreeAndNil( sljpfMembre);
+     FreeAndNil( sljpfEnumString);
      FreeAndNil( sljpfDetail);
      FreeAndNil( sljpfSymetric);
      FreeAndNil( sljpfAggregation);
      FreeAndNil( sljpfLibelle    );
      FreeAndNil( slApplicationJoinPointFile);
+     FreeAndNil( slEnumStrings);
      FreeAndNil( slTypeMappings);
      FreeAndNil( slTemplateHandler);
      FreeAndNil( slParametres);
@@ -779,6 +809,7 @@ begin
      try
         sRepertoireListeTables        :=iRead('sRepertoireListeTables'      ,Path+'01_Listes'             +PathDelim+'Tables'      +PathDelim);
         sRepertoireListeMembres       :=iRead('sRepertoireListeMembres'     ,Path+'01_Listes'             +PathDelim+'Membres'     +PathDelim);
+        sRepertoireListeEnumStrings   :=iRead('sRepertoireListeEnumStrings' ,Path+'01_Listes'             +PathDelim+'EnumStrings' +PathDelim);
         sRepertoireListeDetails       :=iRead('sRepertoireListeDetails'     ,Path+'01_Listes'             +PathDelim+'Details'     +PathDelim);
         sRepertoireListeSymetrics     :=iRead('sRepertoireListeSymetrics'   ,Path+'01_Listes'             +PathDelim+'Symetrics'   +PathDelim);
         sRepertoireListeAggregations  :=iRead('sRepertoireListeAggregations',Path+'01_Listes'             +PathDelim+'Aggregations'+PathDelim);
@@ -788,6 +819,7 @@ begin
         sRepertoireApplicationTemplate:=iRead('sApplicationTemplate'        ,Path+'05_ApplicationTemplate'+PathDelim                         );
         sRepertoireResultat           :=iRead('sRepertoireResultat'         ,Path+'06_Resultat'           +PathDelim                         );
         sRepertoireTypeMappings       :=iRead('sRepertoireTypeMappings'     ,Path+'07_TypeMappings'       +PathDelim                         );
+        sRepertoireEnumStrings        :=iRead('sRepertoireEnumStrings'      ,Path+'08_EnumStrings'        +PathDelim                         );
      finally
             FreeAndNil( INI);
             end;
@@ -950,6 +982,7 @@ var
         try
                  uJoinPoint_VisiteMembre( cm, a);
            sljpfMembre     .VisiteMembre( cm);
+           sljpfEnumString .VisiteMembre( cm);
            sljpfDetail     .VisiteMembre( cm);
            sljpfSymetric   .VisiteMembre( cm);
            sljpfAggregation.VisiteMembre( cm);
@@ -958,12 +991,25 @@ var
                FreeAndNil( cm);
                end;
    end;
+   procedure Traite_EnumString( s_EnumString, sNomTableMembre: String);
+   begin
+        if '' = s_EnumString then exit;
+        if '' = sNomTableMembre then sNomTableMembre:= s_EnumString;
+              uJoinPoint_VisiteEnumString( s_EnumString, sNomTableMembre, a);
+        sljpfMembre     .VisiteEnumString( s_EnumString, sNomTableMembre);
+        sljpfEnumString .VisiteEnumString( s_EnumString, sNomTableMembre);
+        sljpfDetail     .VisiteEnumString( s_EnumString, sNomTableMembre);
+        sljpfSymetric   .VisiteEnumString( s_EnumString, sNomTableMembre);
+        sljpfAggregation.VisiteEnumString( s_EnumString, sNomTableMembre);
+        sljpfLibelle    .VisiteEnumString( s_EnumString, sNomTableMembre);
+   end;
    procedure Traite_Detail( s_Detail, sNomTableMembre: String);
    begin
         if '' = s_Detail then exit;
         if '' = sNomTableMembre then sNomTableMembre:= s_Detail;
               uJoinPoint_VisiteDetail( s_Detail, sNomTableMembre, a);
         sljpfMembre     .VisiteDetail( s_Detail, sNomTableMembre);
+        sljpfEnumString .VisiteDetail( s_Detail, sNomTableMembre);
         sljpfDetail     .VisiteDetail( s_Detail, sNomTableMembre);
         sljpfSymetric   .VisiteDetail( s_Detail, sNomTableMembre);
         sljpfAggregation.VisiteDetail( s_Detail, sNomTableMembre);
@@ -975,6 +1021,7 @@ var
         if '' = sNomTableMembre then sNomTableMembre:= s_Symetric;
               uJoinPoint_VisiteSymetric( s_Symetric, sNomTableMembre, a);
         sljpfMembre     .VisiteSymetric( s_Symetric, sNomTableMembre);
+        sljpfEnumString .VisiteSymetric( s_Symetric, sNomTableMembre);
         sljpfDetail     .VisiteSymetric( s_Symetric, sNomTableMembre);
         sljpfSymetric   .VisiteSymetric( s_Symetric, sNomTableMembre);
         sljpfAggregation.VisiteSymetric( s_Symetric, sNomTableMembre);
@@ -986,6 +1033,7 @@ var
         if '' = sNomTableMembre then sNomTableMembre:= s_Aggregation;
               uJoinPoint_VisiteAggregation( s_Aggregation, sNomTableMembre, a);
         sljpfMembre     .VisiteAggregation( s_Aggregation, sNomTableMembre);
+        sljpfEnumString .VisiteAggregation( s_Aggregation, sNomTableMembre);
         sljpfDetail     .VisiteAggregation( s_Aggregation, sNomTableMembre);
         sljpfSymetric   .VisiteAggregation( s_Aggregation, sNomTableMembre);
         sljpfAggregation.VisiteAggregation( s_Aggregation, sNomTableMembre);
@@ -997,6 +1045,11 @@ var
       J: Integer;
       C: TChamp;
       nfApplication_txt: String;
+
+      //Gestion des EnumStrings
+      NbEnumStrings: Integer;
+      nfEnumStrings: String;
+      slEnumStrings:TStringList;
 
       //Gestion des détails
       NbDetails: Integer;
@@ -1027,6 +1080,7 @@ var
 
                  uJoinPoint_Initialise( cc, a);
            sljpfMembre     .Initialise( cc);
+           sljpfEnumString .Initialise( cc);
            sljpfDetail     .Initialise( cc);
            sljpfSymetric   .Initialise( cc);
            sljpfAggregation.Initialise( cc);
@@ -1042,6 +1096,22 @@ var
                 end;
            finally
                   FreeAndNil( I);
+                  end;
+
+           //Gestion des EnumStrings
+           slEnumStrings:= TStringList.Create;
+           try
+              nfEnumStrings:= sRepertoireParametres+cc.Nom_de_la_classe+'.EnumStrings.txt';
+              if FileExists( nfEnumStrings)
+              then
+                  slEnumStrings.LoadFromFile( nfEnumStrings);
+              NbEnumStrings:= slEnumStrings.Count;
+              for J:= 0 to NbEnumStrings-1
+              do
+                Traite_EnumString( slEnumStrings.Names[J], slEnumStrings.ValueFromIndex[J]);
+           finally
+                  slEnumStrings.SaveToFile( nfEnumStrings);
+                  FreeAndNil( slEnumStrings);
                   end;
 
            //Gestion des détails
@@ -1095,6 +1165,7 @@ var
            //Fermeture des chaines
                  uJoinPoint_Finalise( a);
            sljpfMembre     .Finalise;
+           sljpfEnumString .Finalise;
            sljpfDetail     .Finalise;
            sljpfSymetric   .Finalise;
            sljpfAggregation.Finalise;
@@ -1102,6 +1173,7 @@ var
 
                  uJoinPoint_To_Parametres( slParametres, a);
            sljpfMembre     .To_Parametres( slParametres);
+           sljpfEnumString .To_Parametres( slParametres);
            sljpfDetail     .To_Parametres( slParametres);
            sljpfSymetric   .To_Parametres( slParametres);
            sljpfAggregation.To_Parametres( slParametres);
@@ -1121,6 +1193,7 @@ begin
      slLog.Clear;
      slParametres.Clear;
      sljpfMembre_from_sRepertoireListeMembres;
+     sljpfEnumString_from_sRepertoireListeEnumStrings;
      sljpfDetail_from_sRepertoireListeDetails;
      sljpfSymetric_from_sRepertoireListeSymetrics;
      sljpfAggregation_from_sRepertoireListeAggregations;
@@ -1237,6 +1310,11 @@ var
    J: Integer;
    nfApplication_txt: String;
 
+   //Gestion des EnumStrings
+   NbEnumStrings: Integer;
+   nfEnumStrings: String;
+   slEnumStrings:TStringList;
+
    //Gestion des détails
    NbDetails: Integer;
    nfDetails: String;
@@ -1275,6 +1353,7 @@ var
            try
                     uJoinPoint_VisiteMembre( cm, a);
               sljpfMembre     .VisiteMembre( cm);
+              sljpfEnumString .VisiteMembre( cm);
               sljpfDetail     .VisiteMembre( cm);
               sljpfSymetric   .VisiteMembre( cm);
               sljpfAggregation.VisiteMembre( cm);
@@ -1322,12 +1401,25 @@ var
           end;
         cc.slLibelle.SaveToFile( cc.nfLibelle);
    end;
+   procedure Traite_EnumString( s_EnumString, sNomTableMembre: String);
+   begin
+        if '' = s_EnumString then exit;
+        if '' = sNomTableMembre then sNomTableMembre:= s_EnumString;
+              uJoinPoint_VisiteEnumString( s_EnumString, sNomTableMembre, a);
+        sljpfMembre     .VisiteEnumString( s_EnumString, sNomTableMembre);
+        sljpfEnumString .VisiteEnumString( s_EnumString, sNomTableMembre);
+        sljpfDetail     .VisiteEnumString( s_EnumString, sNomTableMembre);
+        sljpfSymetric   .VisiteEnumString( s_EnumString, sNomTableMembre);
+        sljpfAggregation.VisiteEnumString( s_EnumString, sNomTableMembre);
+        sljpfLibelle    .VisiteEnumString( s_EnumString, sNomTableMembre);
+   end;
    procedure Traite_Detail( s_Detail, sNomTableMembre: String);
    begin
         if '' = s_Detail then exit;
         if '' = sNomTableMembre then sNomTableMembre:= s_Detail;
               uJoinPoint_VisiteDetail( s_Detail, sNomTableMembre, a);
         sljpfMembre     .VisiteDetail( s_Detail, sNomTableMembre);
+        sljpfEnumString .VisiteDetail( s_Detail, sNomTableMembre);
         sljpfDetail     .VisiteDetail( s_Detail, sNomTableMembre);
         sljpfSymetric   .VisiteDetail( s_Detail, sNomTableMembre);
         sljpfAggregation.VisiteDetail( s_Detail, sNomTableMembre);
@@ -1339,6 +1431,7 @@ var
         if '' = sNomTableMembre then sNomTableMembre:= s_Symetric;
               uJoinPoint_VisiteSymetric( s_Symetric, sNomTableMembre, a);
         sljpfMembre     .VisiteSymetric( s_Symetric, sNomTableMembre);
+        sljpfEnumString .VisiteSymetric( s_Symetric, sNomTableMembre);
         sljpfDetail     .VisiteSymetric( s_Symetric, sNomTableMembre);
         sljpfSymetric   .VisiteSymetric( s_Symetric, sNomTableMembre);
         sljpfAggregation.VisiteSymetric( s_Symetric, sNomTableMembre);
@@ -1350,6 +1443,7 @@ var
         if '' = sNomTableMembre then sNomTableMembre:= s_Aggregation;
               uJoinPoint_VisiteAggregation( s_Aggregation, sNomTableMembre, a);
         sljpfMembre     .VisiteAggregation( s_Aggregation, sNomTableMembre);
+        sljpfEnumString .VisiteAggregation( s_Aggregation, sNomTableMembre);
         sljpfDetail     .VisiteAggregation( s_Aggregation, sNomTableMembre);
         sljpfSymetric   .VisiteAggregation( s_Aggregation, sNomTableMembre);
         sljpfAggregation.VisiteAggregation( s_Aggregation, sNomTableMembre);
@@ -1360,6 +1454,7 @@ var
         if '' = s_Libelle then exit;
               uJoinPoint_VisiteLibelle( s_Libelle, a);
         sljpfMembre     .VisiteLibelle( s_Libelle);
+        sljpfEnumString .VisiteLibelle( s_Libelle);
         sljpfDetail     .VisiteLibelle( s_Libelle);
         sljpfSymetric   .VisiteLibelle( s_Libelle);
         sljpfAggregation.VisiteLibelle( s_Libelle);
@@ -1384,6 +1479,11 @@ begin
            else
                slParametres.SaveToFile  (nfApplication_txt);
 
+           nfEnumStrings:= sRepertoireParametres+cc.Nom_de_la_classe+'.EnumStrings.txt';
+           if FileExists( nfEnumStrings)
+           then
+               slEnumStrings.LoadFromFile( nfEnumStrings);
+
            nfDetails:= sRepertoireParametres+cc.Nom_de_la_classe+'.Details.txt';
            if FileExists( nfDetails)
            then
@@ -1402,12 +1502,20 @@ begin
 
                  uJoinPoint_Initialise( cc, a);
            sljpfMembre     .Initialise( cc);
+           sljpfEnumString .Initialise( cc);
            sljpfDetail     .Initialise( cc);
            sljpfSymetric   .Initialise( cc);
            sljpfAggregation.Initialise( cc);
            sljpfLibelle    .Initialise( cc);
 
            Traite_Properties;
+
+           //Gestion des détails
+           NbEnumStrings:= slEnumStrings.Count;
+           for J:= 0 to NbEnumStrings-1
+           do
+             Traite_EnumString( slEnumStrings.Names[J], slEnumStrings.ValueFromIndex[J]);
+           slEnumStrings.SaveToFile( nfEnumStrings);
 
            //Gestion des détails
            NbDetails:= slDetails.Count;
@@ -1439,6 +1547,7 @@ begin
            //Fermeture des chaines
                  uJoinPoint_Finalise( a);
            sljpfMembre     .Finalise;
+           sljpfEnumString .Finalise;
            sljpfDetail     .Finalise;
            sljpfSymetric   .Finalise;
            sljpfAggregation.Finalise;
@@ -1446,6 +1555,7 @@ begin
 
                  uJoinPoint_To_Parametres( slParametres, a);
            sljpfMembre     .To_Parametres( slParametres);
+           sljpfEnumString .To_Parametres( slParametres);
            sljpfDetail     .To_Parametres( slParametres);
            sljpfSymetric   .To_Parametres( slParametres);
            sljpfAggregation.To_Parametres( slParametres);
@@ -1608,6 +1718,7 @@ begin
      slLog.Clear;
      slParametres.Clear;
      sljpfMembre_from_sRepertoireListeMembres;
+     sljpfEnumString_from_sRepertoireListeEnumStrings;
      sljpfDetail_from_sRepertoireListeDetails;
      sljpfSymetric_from_sRepertoireListeSymetrics;
      sljpfAggregation_from_sRepertoireListeAggregations;
@@ -1623,6 +1734,334 @@ begin
 
         Execute_XMI_Associations( _xmi);
         Execute_XMI_Classes     ( _xmi);
+        Generateur_de_code.Application_Produit;
+        slLog.Add( S);
+     finally
+            Generateur_de_code.Application_Destroy;
+            slTemplateHandler.Vide;
+            sljpfMembre.Vide;
+            end;
+     slLog.SaveToFile( sRepertoireResultat+ChangeFileExt( ExtractFileName( uClean_EXE_Name), '.log'));
+end;
+
+procedure TGenerateur_de_code.Execute_OpenAPI_EnumString( _OpenAPI: TOpenAPI; _e: TEnum);
+begin
+
+end;
+
+procedure TGenerateur_de_code.Execute_OpenAPI_Schema( _OpenAPI: TOpenAPI; _s: TSchema);
+var
+   cc: TContexteClasse;
+   J: Integer;
+   nfApplication_txt: String;
+
+   //Gestion des EnumString
+   NbEnumStrings: Integer;
+   nfEnumStrings: String;
+   slEnumStrings:TStringList;
+
+   //Gestion des détails
+   NbDetails: Integer;
+   nfDetails: String;
+   slDetails:TStringList;
+
+   //Gestion des Symetrics
+   NbSymetrics: Integer;
+   nfSymetrics: String;
+   slSymetrics:TStringList;
+
+   //Gestion des aggrégations
+   NbAggregations: Integer;
+   nfAggregations: String;
+   slAggregations:TStringList;
+
+   NbLibelles: Integer;
+
+   pl: TProperties_List;
+
+   procedure Traite_Properties;
+   var
+      p: TProperty;
+      procedure Traite_Membre;
+      var
+         cm: TContexteMembre;
+         sType: String;
+      begin
+           sType:= p.typ;
+           if p.typ_is_array then sType:= 'array of '+sType;
+           cm:= TContexteMembre.Create( Self, cc, p.name, sType, '');
+           try
+                    uJoinPoint_VisiteMembre( cm, a);
+              sljpfMembre     .VisiteMembre( cm);
+              sljpfEnumString .VisiteMembre( cm);
+              sljpfDetail     .VisiteMembre( cm);
+              sljpfSymetric   .VisiteMembre( cm);
+              sljpfAggregation.VisiteMembre( cm);
+              sljpfLibelle    .VisiteMembre( cm);
+           finally
+                  FreeAndNil( cm);
+                  end;
+      end;
+      procedure Traite_class;
+      begin
+           if p.typ_is_array
+           then
+               slAggregations.Values[p.name]:= p.typ
+           else
+               if p.typ_is_enum
+               then
+                   slEnumStrings.Values[p.name]:= p.typ
+               else
+                   slDetails.Values[p.name]:= p.typ;
+
+           Parametre_Aggregation_set( p.typ,
+                                      _s.name{identificateur à personnaliser éventuellement},
+                                      _s.name);
+      end;
+   begin
+        for p in pl
+        do
+          begin
+
+          if p.typ_is_class
+          then
+              Traite_class
+          else
+              Traite_Membre;
+          end;
+   end;
+   procedure Traite_EnumString( s_EnumString, sNomTableMembre: String);
+   begin
+        if '' = s_EnumString then exit;
+        if '' = sNomTableMembre then sNomTableMembre:= s_EnumString;
+              uJoinPoint_VisiteEnumString( s_EnumString, sNomTableMembre, a);
+        sljpfMembre     .VisiteEnumString( s_EnumString, sNomTableMembre);
+        sljpfEnumString .VisiteEnumString( s_EnumString, sNomTableMembre);
+        sljpfDetail     .VisiteEnumString( s_EnumString, sNomTableMembre);
+        sljpfSymetric   .VisiteEnumString( s_EnumString, sNomTableMembre);
+        sljpfAggregation.VisiteEnumString( s_EnumString, sNomTableMembre);
+        sljpfLibelle    .VisiteEnumString( s_EnumString, sNomTableMembre);
+   end;
+   procedure Traite_Detail( s_Detail, sNomTableMembre: String);
+   begin
+        if '' = s_Detail then exit;
+        if '' = sNomTableMembre then sNomTableMembre:= s_Detail;
+              uJoinPoint_VisiteDetail( s_Detail, sNomTableMembre, a);
+        sljpfMembre     .VisiteDetail( s_Detail, sNomTableMembre);
+        sljpfEnumString .VisiteDetail( s_Detail, sNomTableMembre);
+        sljpfDetail     .VisiteDetail( s_Detail, sNomTableMembre);
+        sljpfSymetric   .VisiteDetail( s_Detail, sNomTableMembre);
+        sljpfAggregation.VisiteDetail( s_Detail, sNomTableMembre);
+        sljpfLibelle    .VisiteDetail( s_Detail, sNomTableMembre);
+   end;
+   procedure Traite_Symetric( s_Symetric, sNomTableMembre: String);
+   begin
+        if '' = s_Symetric then exit;
+        if '' = sNomTableMembre then sNomTableMembre:= s_Symetric;
+              uJoinPoint_VisiteSymetric( s_Symetric, sNomTableMembre, a);
+        sljpfMembre     .VisiteSymetric( s_Symetric, sNomTableMembre);
+        sljpfEnumString .VisiteSymetric( s_Symetric, sNomTableMembre);
+        sljpfDetail     .VisiteSymetric( s_Symetric, sNomTableMembre);
+        sljpfSymetric   .VisiteSymetric( s_Symetric, sNomTableMembre);
+        sljpfAggregation.VisiteSymetric( s_Symetric, sNomTableMembre);
+        sljpfLibelle    .VisiteSymetric( s_Symetric, sNomTableMembre);
+   end;
+   procedure Traite_Aggregation( s_Aggregation, sNomTableMembre: String);
+   begin
+        if '' = s_Aggregation then exit;
+        if '' = sNomTableMembre then sNomTableMembre:= s_Aggregation;
+              uJoinPoint_VisiteAggregation( s_Aggregation, sNomTableMembre, a);
+        sljpfMembre     .VisiteAggregation( s_Aggregation, sNomTableMembre);
+        sljpfEnumString .VisiteAggregation( s_Aggregation, sNomTableMembre);
+        sljpfDetail     .VisiteAggregation( s_Aggregation, sNomTableMembre);
+        sljpfSymetric   .VisiteAggregation( s_Aggregation, sNomTableMembre);
+        sljpfAggregation.VisiteAggregation( s_Aggregation, sNomTableMembre);
+        sljpfLibelle    .VisiteAggregation( s_Aggregation, sNomTableMembre);
+   end;
+   procedure Traite_Libelle( s_Libelle: String);
+   begin
+        if '' = s_Libelle then exit;
+              uJoinPoint_VisiteLibelle( s_Libelle, a);
+        sljpfMembre     .VisiteLibelle( s_Libelle);
+        sljpfEnumString .VisiteLibelle( s_Libelle);
+        sljpfDetail     .VisiteLibelle( s_Libelle);
+        sljpfSymetric   .VisiteLibelle( s_Libelle);
+        sljpfAggregation.VisiteLibelle( s_Libelle);
+        sljpfLibelle    .VisiteLibelle( s_Libelle);
+   end;
+begin
+     pl:= _s.Get_Properties_List;
+     try
+        cc:= TContexteClasse.Create( Self, _s.name,
+                                     pl.Count,
+                                     slParametres);
+        slEnumStrings := TStringList.Create;
+        slDetails     := TStringList.Create;
+        slSymetrics   := TStringList.Create;
+        slAggregations:= TStringList.Create;
+        try
+           slParametres.Clear;
+
+           nfApplication_txt:= sRepertoireParametres+'Application.txt';
+           if FileExists(nfApplication_txt)
+           then
+               slParametres.LoadFromFile(nfApplication_txt)
+           else
+               slParametres.SaveToFile  (nfApplication_txt);
+
+           nfEnumStrings:= sRepertoireParametres+cc.Nom_de_la_classe+'.EnumStrings.txt';
+           if FileExists( nfEnumStrings)
+           then
+               slEnumStrings.LoadFromFile( nfEnumStrings);
+
+           nfDetails:= sRepertoireParametres+cc.Nom_de_la_classe+'.Details.txt';
+           if FileExists( nfDetails)
+           then
+               slDetails.LoadFromFile( nfDetails);
+
+           nfSymetrics:= sRepertoireParametres+cc.Nom_de_la_classe+'.Symetrics.txt';
+           if FileExists( nfSymetrics)
+           then
+               slSymetrics.LoadFromFile( nfSymetrics);
+
+           nfAggregations:= sRepertoireParametres+cc.Nom_de_la_classe+'.Aggregations.txt';
+           if FileExists( nfAggregations)
+           then
+               slAggregations.LoadFromFile( nfAggregations);
+
+
+                 uJoinPoint_Initialise( cc, a);
+           sljpfMembre     .Initialise( cc);
+           sljpfEnumString .Initialise( cc);
+           sljpfDetail     .Initialise( cc);
+           sljpfSymetric   .Initialise( cc);
+           sljpfAggregation.Initialise( cc);
+           sljpfLibelle    .Initialise( cc);
+
+           Traite_Properties;
+
+           //Gestion des EnumString
+           NbEnumStrings:= slEnumStrings.Count;
+           for J:= 0 to NbEnumStrings-1
+           do
+             Traite_EnumString( slEnumStrings.Names[J], slEnumStrings.ValueFromIndex[J]);
+           slEnumStrings.SaveToFile( nfEnumStrings);
+
+           //Gestion des détails
+           NbDetails:= slDetails.Count;
+           for J:= 0 to NbDetails-1
+           do
+             Traite_Detail( slDetails.Names[J], slDetails.ValueFromIndex[J]);
+           slDetails.SaveToFile( nfDetails);
+
+           //Gestion des Symetrics
+           NbSymetrics:= slSymetrics.Count;
+           for J:= 0 to NbSymetrics-1
+           do
+             Traite_Symetric( slSymetrics.Names[J], slSymetrics.ValueFromIndex[J]);
+           slSymetrics.SaveToFile( nfSymetrics);
+
+           //Gestion des aggrégations
+           NbAggregations:= slAggregations.Count;
+           for J:= 0 to NbAggregations-1
+           do
+             Traite_Aggregation( slAggregations.Names[J], slAggregations.ValueFromIndex[J]);
+           slAggregations.SaveToFile( nfAggregations);
+
+           //Gestion des aggrégations
+           NbLibelles:= cc.slLibelle.Count;
+           for J:= 0 to NbLibelles-1
+           do
+             Traite_Libelle( cc.slLibelle.Strings[J]);
+
+           //Fermeture des chaines
+                 uJoinPoint_Finalise( a);
+           sljpfMembre     .Finalise;
+           sljpfEnumString .Finalise;
+           sljpfDetail     .Finalise;
+           sljpfSymetric   .Finalise;
+           sljpfAggregation.Finalise;
+           sljpfLibelle    .Finalise;
+
+                 uJoinPoint_To_Parametres( slParametres, a);
+           sljpfMembre     .To_Parametres( slParametres);
+           sljpfEnumString .To_Parametres( slParametres);
+           sljpfDetail     .To_Parametres( slParametres);
+           sljpfSymetric   .To_Parametres( slParametres);
+           sljpfAggregation.To_Parametres( slParametres);
+           sljpfLibelle    .To_Parametres( slParametres);
+
+           slTemplateHandler_Produit;
+           //Produit;
+           slLog.Add( 'aprés Produit');
+           slApplicationJoinPointFile.VisiteClasse( cc);
+           slLog.Add( 'slApplicationJoinPointFile.VisiteSchema( cc);');
+        finally
+               FreeAndNil( slEnumStrings );
+               FreeAndNil( slDetails     );
+               FreeAndNil( slSymetrics   );
+               FreeAndNil( slAggregations);
+               FreeAndNil( cc)
+               end;
+     finally
+            FreeAndNil( pl);
+            end;
+end;
+
+procedure TGenerateur_de_code.Execute_OpenAPI_Schemas(_OpenAPI: TOpenAPI);
+   procedure Traite_Enums;
+   var
+      sl: TEnum_List;
+      e: TEnum;
+   begin
+        sl:= _OpenAPI.Get_Enums_List;
+        try
+           for e in sl
+           do
+             Execute_OpenAPI_EnumString( _OpenAPI, e);
+        finally
+               FreeAndNil( sl);
+               end;
+   end;
+   procedure Traite_Schemas;
+   var
+      sl: TSchema_List;
+      s: TSchema;
+   begin
+        sl:= _OpenAPI.Get_Schemas_List;
+        try
+           for s in sl
+           do
+             Execute_OpenAPI_Schema( _OpenAPI, s);
+        finally
+               FreeAndNil( sl);
+               end;
+   end;
+begin
+     Traite_Enums;
+     Traite_Schemas;
+end;
+
+procedure TGenerateur_de_code.Execute_OpenAPI(_OpenAPI: TOpenAPI);
+begin
+     slLog.Clear;
+     slParametres.Clear;
+     sljpfMembre_from_sRepertoireListeMembres;
+     sljpfEnumString_from_sRepertoireListeEnumStrings;
+     sljpfDetail_from_sRepertoireListeDetails;
+     sljpfSymetric_from_sRepertoireListeSymetrics;
+     sljpfAggregation_from_sRepertoireListeAggregations;
+     sljpfLibelle_from_sRepertoireListeLibelles;
+     slTemplateHandler_from_sRepertoireTemplate;
+
+     if not Application_Created
+     then
+         Application_Create;
+     try
+        S:= '';
+        Premiere_Classe:= True;
+
+        Execute_OpenAPI_Schemas     ( _OpenAPI);
         Generateur_de_code.Application_Produit;
         slLog.Add( S);
      finally
@@ -1656,6 +2095,31 @@ end;
 procedure TGenerateur_de_code.sljpfMembre_from_sRepertoireListeMembres;
 begin
      ujpFile_EnumFiles( sRepertoireListeMembres, sljpfMembre_from_sRepertoireListeMembres_FileFound, s_key_mask);
+end;
+
+function TGenerateur_de_code.Cree_jpfEnumString(_nfKey: String): TjpfEnumString;
+begin
+     Result:= jpfEnumString_from_sl_sCle( sljpfEnumString, _nfKey);
+     if nil <> Result then exit;
+
+     Result:= TjpfEnumString.Create( _nfKey);
+     sljpfEnumString.AddObject( _nfKey, Result);
+end;
+
+procedure TGenerateur_de_code.sljpfEnumString_from_sRepertoireListeEnumStrings_FileFound( _FileIterator: TFileIterator);
+var
+   NomFichier_Key: String;
+begin
+     if _FileIterator.IsDirectory then exit;
+
+     NomFichier_Key:= _FileIterator.FileName;
+
+     Cree_jpfEnumString( NomFichier_Key);
+end;
+
+procedure TGenerateur_de_code.sljpfEnumString_from_sRepertoireListeEnumStrings;
+begin
+     ujpFile_EnumFiles( sRepertoireListeEnumStrings, sljpfEnumString_from_sRepertoireListeEnumStrings_FileFound, s_key_mask);
 end;
 
 function TGenerateur_de_code.Cree_jpfDetail(_nfKey: String): TjpfDetail;
@@ -1786,6 +2250,32 @@ end;
 procedure TGenerateur_de_code.slApplicationJoinPointFile_Produit;
 begin
 
+end;
+
+function TGenerateur_de_code.Cree_EnumStrings(_nfEnumString: String): TEnumString;
+begin
+     Result:= EnumString_from_sl_sCle( slEnumStrings, _nfEnumString);
+     if nil <> Result then exit;
+
+     Result:= TEnumString.Create( _nfEnumString);
+     slEnumStrings.AddObject( Result.sEnumString, Result);
+     //Mapped_Type_
+end;
+
+procedure TGenerateur_de_code.slEnumStrings_from_sRepertoireEnumStrings_FileFound( _FileIterator: TFileIterator);
+var
+   NomFichier_Key: String;
+begin
+     if _FileIterator.IsDirectory then exit;
+
+     NomFichier_Key:= _FileIterator.FileName;
+
+     Cree_EnumStrings( NomFichier_Key);
+end;
+
+procedure TGenerateur_de_code.slEnumStrings_from_sRepertoireEnumStrings;
+begin
+     ujpFile_EnumFiles( sRepertoireEnumStrings, slEnumStrings_from_sRepertoireEnumStrings_FileFound, '*.txt');
 end;
 
 function TGenerateur_de_code.Cree_TypeMappings(_nfTypeMapping: String): TTypeMapping;
@@ -1944,6 +2434,7 @@ end;
 
 procedure TGenerateur_de_code.Application_Create;
 begin
+     slEnumStrings_from_sRepertoireEnumStrings;
      slTypeMappings_from_sRepertoireTypeMappings;
      slApplicationJoinPointFile_from_sRepertoireListeTables;
 
