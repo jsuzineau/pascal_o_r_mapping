@@ -58,15 +58,42 @@ type
 
   TSchema_List= TFPGObjectList<TSchema>;
 
+  { TProperty }
+
+  { TEnumValue }
+
+  TEnumValue
+  =
+   class
+   //Gestion du cycle de vie
+   public
+     constructor Create( _name: String; _Libelle: String);
+     destructor Destroy; override;
+   //Attributs
+   public
+     name: String;
+     libelle: String;
+   end;
+  TEnumValue_List= TFPGObjectList<TEnumValue>;
+
   { TEnum }
 
   TEnum
   =
    class( TJSON_Field)
+   //Gestion du cycle de vie
+   public
+     constructor Create( _name: String; _jo: TJSONObject);
+     destructor Destroy; override;
+   //Attributs
+   public
+     slDescription: TStringList;
+     procedure slDescription_from_Description;
    //Méthodes
    public
-     function Get_Properties: TJSONObject;
-     function Get_Properties_List: TProperties_List;
+     function Get_Enum: TJSONArray;
+     function Get_Description: String;
+     function Get_EnumValue_List: TEnumValue_List;
    end;
 
   TEnum_List= TFPGObjectList<TEnum>;
@@ -233,16 +260,104 @@ begin
           end;
 end;
 
-{ TEnum }
+{ TEnumValue }
 
-function TEnum.Get_Properties: TJSONObject;
+constructor TEnumValue.Create(_name: String; _Libelle: String);
 begin
-
+     name   := _name;
+     libelle:= _Libelle;
 end;
 
-function TEnum.Get_Properties_List: TProperties_List;
+destructor TEnumValue.Destroy;
 begin
+     inherited Destroy;
+end;
 
+{ TEnum }
+
+constructor TEnum.Create(_name: String; _jo: TJSONObject);
+begin
+     inherited Create(_name, _jo);
+     slDescription:= TStringList.Create;
+     slDescription_from_Description;
+end;
+
+destructor TEnum.Destroy;
+begin
+     FreeAndNil( slDescription);
+     inherited Destroy;
+end;
+
+procedure TEnum.slDescription_from_Description;
+var
+   sl: TStringList;
+   I: Integer;
+   Line: String;
+   Cle, Libelle: String;
+begin
+     sl:= TStringList.Create;
+     try
+        sl.Text:= Get_Description;
+        for I:= 0 to sl.Count-1
+        do
+          begin
+          Line:= sl[I];
+          StrTok(' - ', Line);
+          Cle    := StrTok(' -> ', Line);
+          Libelle:= Line;
+          slDescription.Values[Cle]:=Libelle;
+          end;
+     finally
+            FreeAndNil( sl);
+            end;
+end;
+
+function TEnum.Get_Enum: TJSONArray;
+begin
+      if -1 <> jo.IndexOfName('enum' )
+      then
+          Result:= jo.Arrays['enum']
+      else
+          Result:= nil;
+end;
+
+function TEnum.Get_Description: String;
+begin
+      if -1 <> jo.IndexOfName('description' )
+      then
+          Result:= jo.Strings['description']
+      else
+          Result:= '';
+end;
+
+function TEnum.Get_EnumValue_List: TEnumValue_List;
+var
+   enum: TJSONArray;
+   I: Integer;
+   name: String;
+   libelle: String;
+   ev: TEnumValue;
+begin
+      Result:= TEnumValue_List.Create(True);
+      enum:= Get_Enum;
+      if Assigned(enum)
+      then
+          for I:= 0 to enum.Count-1
+          do
+            begin
+            name:= enum.Strings[I];
+            if -1 = slDescription.IndexOfName( name)
+            then
+                libelle:= name
+            else
+                libelle:= slDescription.Values[name];
+            ev:= TEnumValue.Create( name, libelle);
+            Result.Add( ev);
+            end
+      else
+          begin
+          //Log.PrintLn( 'Schema sans properties: '+name);
+          end;
 end;
 
 

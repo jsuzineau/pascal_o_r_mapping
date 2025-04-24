@@ -1745,8 +1745,27 @@ begin
 end;
 
 procedure TGenerateur_de_code.Execute_OpenAPI_EnumString( _OpenAPI: TOpenAPI; _e: TEnum);
+var
+   el: TEnumValue_List;
+   ev: TEnumValue;
+   NomFichier: String;
+   sl: TStringList;
 begin
-
+     NomFichier:= sRepertoireEnumStrings+_e.name+'.txt';
+     sl:= TStringList.Create;
+     try
+        el:= _e.Get_EnumValue_List;
+        try
+           for ev in el
+           do
+             sl.Values[ev.name]:= ev.libelle;
+        finally
+               FreeAndNil( el);
+               end;
+     finally
+            sl.SaveToFile( NomFichier);
+            FreeAndNil( sl);
+            end;
 end;
 
 procedure TGenerateur_de_code.Execute_OpenAPI_Schema( _OpenAPI: TOpenAPI; _s: TSchema);
