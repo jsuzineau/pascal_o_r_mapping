@@ -90,8 +90,10 @@ type
   //Attributs
   public
     sRepertoireListeTables,
+    sRepertoireListeEnum,
     sRepertoireListeMembres,
     sRepertoireListeEnumStrings,
+    sRepertoireListe08_EnumStrings,
     sRepertoireListeDetails,
     sRepertoireListeSymetrics,
     sRepertoireListeAggregations,
@@ -100,8 +102,8 @@ type
     sRepertoireParametres ,
     sRepertoireApplicationTemplate  ,
     sRepertoireResultat      ,
-    sRepertoireEnumStrings  ,
-    sRepertoireTypeMappings  : String;
+    sRepertoireTypeMappings  ,
+    sRepertoireEnumStrings: String;
   //Méthodes
   public
     function dbx_from_Type( Typ: String): String;

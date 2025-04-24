@@ -50,6 +50,7 @@ type
     procedure Initialise( _cc: TContexteClasse); virtual;
     procedure VisiteMembre( _cm: TContexteMembre); virtual;
     procedure VisiteEnumString( s_EnumString, sNomTableMembre: String); virtual;
+    procedure Visite08_EnumString( _sIdentificateur, _sCle, _sLibelle: String); virtual;
     procedure VisiteDetail( s_Detail, sNomTableMembre: String); virtual;
     procedure VisiteSymetric( s_Symetric, sNomTableMembre: String); virtual;
     procedure VisiteAggregation( s_Aggregation, sNomTableMembre: String); virtual;
@@ -154,6 +155,11 @@ begin
 end;
 
 procedure TJoinPoint.VisiteEnumString(s_EnumString,sNomTableMembre: String);
+begin
+
+end;
+
+procedure TJoinPoint.Visite08_EnumString( _sIdentificateur, _sCle, _sLibelle: String);
 begin
 
 end;

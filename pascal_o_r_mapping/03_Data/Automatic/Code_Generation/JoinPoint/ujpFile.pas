@@ -75,6 +75,17 @@ type
     procedure VisiteEnumString( s_EnumString, sNomTableMembre: String); override;
   end;
 
+ { Tjpf08_EnumString }
+
+ Tjpf08_EnumString
+ =
+  class( TjpFile)
+  //Gestion de la visite d'une classe
+  public
+    procedure Visite08_EnumString( _sIdentificateur, _sCle, _sLibelle: String);
+     override;
+  end;
+
  { TjpfDetail }
 
  TjpfDetail
@@ -144,6 +155,15 @@ type
     function  not_Suivant( var _Resultat: TjpfEnumString): Boolean;
   end;
 
+ TIterateur_jpf08_EnumString
+ =
+  class( TIterateur_jpFile)
+  //Iterateur
+  public
+    procedure Suivant( var _Resultat: Tjpf08_EnumString);
+    function  not_Suivant( var _Resultat: Tjpf08_EnumString): Boolean;
+  end;
+
  TIterateur_jpfDetail
  =
   class( TIterateur_jpFile)
@@ -200,6 +220,7 @@ type
     procedure Initialise( _cc: TContexteClasse);
     procedure VisiteMembre( _cm: TContexteMembre);
     procedure VisiteEnumString( s_EnumString, sNomTableMembre: String);
+    procedure Visite08_EnumString(_sIdentificateur, _sCle, _sLibelle: String);
     procedure VisiteDetail( s_Detail, sNomTableMembre: String);
     procedure VisiteSymetric( s_Symetric, sNomTableMembre: String);
     procedure VisiteAggregation( s_Aggregation, sNomTableMembre: String);
@@ -236,6 +257,21 @@ type
   public
     function Iterateur: TIterateur_jpfEnumString;
     function Iterateur_Decroissant: TIterateur_jpfEnumString;
+  end;
+
+ Tsljpf08_EnumString
+ =
+  class( TsljpFile)
+  //Gestion du cycle de vie
+  public
+    constructor Create( _Nom: String= ''); override;
+    destructor Destroy; override;
+  //Création d'itérateur
+  protected
+    class function Classe_Iterateur: TIterateur_Class; override;
+  public
+    function Iterateur: TIterateur_jpf08_EnumString;
+    function Iterateur_Decroissant: TIterateur_jpf08_EnumString;
   end;
 
  TsljpfDetail
@@ -312,6 +348,7 @@ function jpFile_from_sl( sl: TBatpro_StringList; Index: Integer): TjpFile;
 function jpFile_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpFile;
 function jpfMembre_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfMembre;
 function jpfEnumString_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfEnumString;
+function jpf08_EnumString_from_sl_sCle( sl: TBatpro_StringList; sCle: String): Tjpf08_EnumString;
 function jpfDetail_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfDetail;
 function jpfSymetric_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfSymetric;
 function jpfAggregation_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfAggregation;
@@ -339,6 +376,11 @@ end;
 function jpfEnumString_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfEnumString;
 begin
      _Classe_from_sl_sCle( Result, TjpfEnumString, sl, sCle);
+end;
+
+function jpf08_EnumString_from_sl_sCle( sl: TBatpro_StringList; sCle: String): Tjpf08_EnumString;
+begin
+     _Classe_from_sl_sCle( Result, Tjpf08_EnumString, sl, sCle);
 end;
 
 function jpfDetail_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TjpfDetail;
@@ -406,6 +448,18 @@ begin
 end;
 
 procedure TIterateur_jpfEnumString.Suivant( var _Resultat: TjpfEnumString);
+begin
+     Suivant_interne( _Resultat);
+end;
+
+{ TIterateur_jpf08_EnumString }
+
+function TIterateur_jpf08_EnumString.not_Suivant( var _Resultat: Tjpf08_EnumString): Boolean;
+begin
+     Result:= not_Suivant_interne( _Resultat);
+end;
+
+procedure TIterateur_jpf08_EnumString.Suivant( var _Resultat: Tjpf08_EnumString);
 begin
      Suivant_interne( _Resultat);
 end;
@@ -533,6 +587,24 @@ begin
           begin
           if I.not_Suivant( jpf) then Continue;
           jpf.VisiteEnumString( s_EnumString, sNomTableMembre);
+          end;
+     finally
+            FreeAndNil( I);
+            end;
+end;
+
+procedure TsljpFile.Visite08_EnumString( _sIdentificateur, _sCle, _sLibelle: String);
+var
+   I: TIterateur_jpFile;
+   jpf: TjpFile;
+begin
+     I:= Iterateur;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( jpf) then Continue;
+          jpf.Visite08_EnumString( _sIdentificateur, _sCle, _sLibelle);
           end;
      finally
             FreeAndNil( I);
@@ -699,6 +771,33 @@ end;
 function TsljpfEnumString.Iterateur_Decroissant: TIterateur_jpfEnumString;
 begin
      Result:= TIterateur_jpfEnumString( Iterateur_interne_Decroissant);
+end;
+
+{ Tsljpf08_EnumString }
+
+constructor Tsljpf08_EnumString.Create( _Nom: String= '');
+begin
+     inherited CreateE( _Nom, Tjpf08_EnumString);
+end;
+
+destructor Tsljpf08_EnumString.Destroy;
+begin
+     inherited;
+end;
+
+class function Tsljpf08_EnumString.Classe_Iterateur: TIterateur_Class;
+begin
+     Result:= TIterateur_jpf08_EnumString;
+end;
+
+function Tsljpf08_EnumString.Iterateur: TIterateur_jpf08_EnumString;
+begin
+     Result:= TIterateur_jpf08_EnumString( Iterateur_interne);
+end;
+
+function Tsljpf08_EnumString.Iterateur_Decroissant: TIterateur_jpf08_EnumString;
+begin
+     Result:= TIterateur_jpf08_EnumString( Iterateur_interne_Decroissant);
 end;
 
 { TsljpfDetail }
@@ -878,6 +977,24 @@ begin
      Element:= StringReplace( Element, 'EnumString.NomEnumString'   ,s_EnumString       ,[rfReplaceAll,rfIgnoreCase]);
      Element:= StringReplace( Element, 'EnumString.ClasseEnumStringMinuscule',LowerCase(sNomTableMembre),[rfReplaceAll,rfIgnoreCase]);
      Element:= StringReplace( Element, 'EnumString.ClasseEnumString',sNomTableMembre,[rfReplaceAll,rfIgnoreCase]);
+     Valeur:= Valeur+ Element;
+end;
+
+procedure Tjpf08_EnumString.Visite08_EnumString( _sIdentificateur, _sCle, _sLibelle: String);
+var
+   Element: String;
+begin
+     inherited;
+     if Premier
+     then
+         Premier:= False
+     else
+         Valeur:= Valeur + sSeparateur;
+
+     Element:= cc.Produit( 'Classe.', sElement);
+     Element:= StringReplace( Element, '08_EnumString.Identificateur',_sIdentificateur,[rfReplaceAll,rfIgnoreCase]);
+     Element:= StringReplace( Element, '08_EnumString.Cle'           ,_sCle           ,[rfReplaceAll,rfIgnoreCase]);
+     Element:= StringReplace( Element, '08_EnumString.Libelle'       ,_sLibelle       ,[rfReplaceAll,rfIgnoreCase]);
      Valeur:= Valeur+ Element;
 end;
 

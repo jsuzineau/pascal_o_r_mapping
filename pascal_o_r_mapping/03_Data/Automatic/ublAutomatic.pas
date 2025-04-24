@@ -39,6 +39,7 @@ uses
     uOD_JCL,
     uXMI,
     uOpenAPI,
+    uuStrings,
 
     uBatpro_Element,
     uBatpro_Ligne,
@@ -122,7 +123,7 @@ uses
     ujpFile,
     uApplicationJoinPointFile,
 
-    SysUtils, Classes, DB, Inifiles, FileUtil, DOM;
+    SysUtils, Classes, DB, Inifiles, FileUtil, DOM,LazUTF8;
 
 type
  { TFieldBuffer }
@@ -337,6 +338,15 @@ type
     procedure sljpfEnumString_from_sRepertoireListeEnumStrings_FileFound( _FileIterator: TFileIterator);
   public
     procedure sljpfEnumString_from_sRepertoireListeEnumStrings;
+  //jpf08_EnumString
+  public
+    sljpf08_EnumString: Tsljpf08_EnumString;
+    function  Cree_jpf08_EnumString( _nfKey: String): Tjpf08_EnumString;
+  //Création des jpf08_EnumString par lecture du répertoire de listes de 08_EnumStrings
+  private
+    procedure sljpf08_EnumString_from_sRepertoireListe08_EnumStrings_FileFound( _FileIterator: TFileIterator);
+  public
+    procedure sljpf08_EnumString_from_sRepertoireListe08_EnumStrings;
   //jpfDetail
   public
     sljpfDetail: TsljpfDetail;
@@ -383,6 +393,16 @@ type
   public
     procedure slApplicationJoinPointFile_from_sRepertoireListeTables;
     procedure slApplicationJoinPointFile_Produit;
+  //ApplicationEnumJoinPointFile
+  public
+    slApplicationEnumJoinPointFile: TslApplicationEnumJoinPointFile;
+    function  Cree_ApplicationEnumJoinPointFile( _nfKey: String): TApplicationEnumJoinPointFile;
+  //Création des ApplicationEnumJoinPointFile par lecture du répertoire de listes de tables
+  private
+    procedure slApplicationEnumJoinPointFile_from_sRepertoireListeEnum_FileFound( _FileIterator: TFileIterator);
+  public
+    procedure slApplicationEnumJoinPointFile_from_sRepertoireListeEnum;
+    procedure slApplicationEnumJoinPointFile_Produit;
   //EnumStrings
   public
     function Cree_EnumStrings( _nfEnumString: String): TEnumString;
@@ -693,18 +713,20 @@ constructor TGenerateur_de_code.Create;
 begin
      inherited Create;
      _From_INI;
-     sljpfMembre                 := TsljpfMembre               .Create( ClassName+'.sljpfMembre'                 );
-     sljpfEnumString             := TsljpfEnumString           .Create( ClassName+'.sljpfEnumString'                 );
-     sljpfDetail                 := TsljpfDetail               .Create( ClassName+'.sljpfDetail'                 );
-     sljpfSymetric               := TsljpfSymetric             .Create( ClassName+'.sljpfSymetric'               );
-     sljpfAggregation            := TsljpfAggregation          .Create( ClassName+'.sljpfAggregation'            );
-     sljpfLibelle                := TsljpfLibelle              .Create( ClassName+'.sljpfLibelle'                );
-     slApplicationJoinPointFile  := TslApplicationJoinPointFile.Create( ClassName+'.slApplicationJoinPointFile'  );
-     slEnumStrings               := TslEnumString              .Create( ClassName+'.slEnumStrings'               );
-     slTypeMappings              := TslTypeMapping             .Create( ClassName+'.slTypeMappings'              );
-     slTemplateHandler           := TslTemplateHandler         .Create( ClassName+'.slTemplateHandler'           );
-     slParametres                := TBatpro_StringList         .Create;
-     slApplicationTemplateHandler:= TslTemplateHandler         .Create( ClassName+'.slApplicationTemplateHandler');
+     sljpfMembre                   := TsljpfMembre                   .Create( ClassName+'.sljpfMembre'                   );
+     sljpfEnumString               := TsljpfEnumString               .Create( ClassName+'.sljpfEnumString'               );
+     sljpf08_EnumString            := Tsljpf08_EnumString            .Create( ClassName+'.sljpf08_EnumString'            );
+     sljpfDetail                   := TsljpfDetail                   .Create( ClassName+'.sljpfDetail'                   );
+     sljpfSymetric                 := TsljpfSymetric                 .Create( ClassName+'.sljpfSymetric'                 );
+     sljpfAggregation              := TsljpfAggregation              .Create( ClassName+'.sljpfAggregation'              );
+     sljpfLibelle                  := TsljpfLibelle                  .Create( ClassName+'.sljpfLibelle'                  );
+     slApplicationJoinPointFile    := TslApplicationJoinPointFile    .Create( ClassName+'.slApplicationJoinPointFile'    );
+     slApplicationEnumJoinPointFile:= TslApplicationEnumJoinPointFile.Create( ClassName+'.slApplicationEnumJoinPointFile');
+     slEnumStrings                 := TslEnumString                  .Create( ClassName+'.slEnumStrings'                 );
+     slTypeMappings                := TslTypeMapping                 .Create( ClassName+'.slTypeMappings'                );
+     slTemplateHandler             := TslTemplateHandler             .Create( ClassName+'.slTemplateHandler'             );
+     slParametres                  := TBatpro_StringList             .Create;
+     slApplicationTemplateHandler  := TslTemplateHandler             .Create( ClassName+'.slApplicationTemplateHandler'  );
      Initialise(
                 [
                 //General
@@ -778,11 +800,13 @@ destructor TGenerateur_de_code.Destroy;
 begin
      FreeAndNil( sljpfMembre);
      FreeAndNil( sljpfEnumString);
+     FreeAndNil( sljpf08_EnumString);
      FreeAndNil( sljpfDetail);
      FreeAndNil( sljpfSymetric);
      FreeAndNil( sljpfAggregation);
      FreeAndNil( sljpfLibelle    );
      FreeAndNil( slApplicationJoinPointFile);
+     FreeAndNil( slApplicationEnumJoinPointFile);
      FreeAndNil( slEnumStrings);
      FreeAndNil( slTypeMappings);
      FreeAndNil( slTemplateHandler);
@@ -807,19 +831,21 @@ begin
      Path:= ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim;
      INI:= TIniFile.Create( ChangeFileExt(EXE_INI.FileName,'_Generateur_de_code.ini'));
      try
-        sRepertoireListeTables        :=iRead('sRepertoireListeTables'      ,Path+'01_Listes'             +PathDelim+'Tables'      +PathDelim);
-        sRepertoireListeMembres       :=iRead('sRepertoireListeMembres'     ,Path+'01_Listes'             +PathDelim+'Membres'     +PathDelim);
-        sRepertoireListeEnumStrings   :=iRead('sRepertoireListeEnumStrings' ,Path+'01_Listes'             +PathDelim+'EnumStrings' +PathDelim);
-        sRepertoireListeDetails       :=iRead('sRepertoireListeDetails'     ,Path+'01_Listes'             +PathDelim+'Details'     +PathDelim);
-        sRepertoireListeSymetrics     :=iRead('sRepertoireListeSymetrics'   ,Path+'01_Listes'             +PathDelim+'Symetrics'   +PathDelim);
-        sRepertoireListeAggregations  :=iRead('sRepertoireListeAggregations',Path+'01_Listes'             +PathDelim+'Aggregations'+PathDelim);
-        sRepertoireListeLibelles      :=iRead('sRepertoireListeLibelles'    ,Path+'01_Listes'             +PathDelim+'Libelles'    +PathDelim);
-        sRepertoireTemplate           :=iRead('sRepertoireTemplate'         ,Path+'03_Template'           +PathDelim                         );
-        sRepertoireParametres         :=iRead('sRepertoireParametres'       ,Path+'04_Parametres'         +PathDelim                         );
-        sRepertoireApplicationTemplate:=iRead('sApplicationTemplate'        ,Path+'05_ApplicationTemplate'+PathDelim                         );
-        sRepertoireResultat           :=iRead('sRepertoireResultat'         ,Path+'06_Resultat'           +PathDelim                         );
-        sRepertoireTypeMappings       :=iRead('sRepertoireTypeMappings'     ,Path+'07_TypeMappings'       +PathDelim                         );
-        sRepertoireEnumStrings        :=iRead('sRepertoireEnumStrings'      ,Path+'08_EnumStrings'        +PathDelim                         );
+        sRepertoireListeTables        :=iRead('sRepertoireListeTables'        ,Path+'01_Listes'             +PathDelim+'Tables'        +PathDelim);
+        sRepertoireListeEnum          :=iRead('sRepertoireListeEnum'          ,Path+'01_Listes'             +PathDelim+'Enums'         +PathDelim);
+        sRepertoireListeMembres       :=iRead('sRepertoireListeMembres'       ,Path+'01_Listes'             +PathDelim+'Membres'       +PathDelim);
+        sRepertoireListeEnumStrings   :=iRead('sRepertoireListeEnumStrings'   ,Path+'01_Listes'             +PathDelim+'EnumStrings'   +PathDelim);
+        sRepertoireListe08_EnumStrings:=iRead('sRepertoireListe08_EnumStrings',Path+'01_Listes'             +PathDelim+'08_EnumStrings'+PathDelim);
+        sRepertoireListeDetails       :=iRead('sRepertoireListeDetails'       ,Path+'01_Listes'             +PathDelim+'Details'       +PathDelim);
+        sRepertoireListeSymetrics     :=iRead('sRepertoireListeSymetrics'     ,Path+'01_Listes'             +PathDelim+'Symetrics'     +PathDelim);
+        sRepertoireListeAggregations  :=iRead('sRepertoireListeAggregations'  ,Path+'01_Listes'             +PathDelim+'Aggregations'  +PathDelim);
+        sRepertoireListeLibelles      :=iRead('sRepertoireListeLibelles'      ,Path+'01_Listes'             +PathDelim+'Libelles'      +PathDelim);
+        sRepertoireTemplate           :=iRead('sRepertoireTemplate'           ,Path+'03_Template'           +PathDelim                           );
+        sRepertoireParametres         :=iRead('sRepertoireParametres'         ,Path+'04_Parametres'         +PathDelim                           );
+        sRepertoireApplicationTemplate:=iRead('sApplicationTemplate'          ,Path+'05_ApplicationTemplate'+PathDelim                           );
+        sRepertoireResultat           :=iRead('sRepertoireResultat'           ,Path+'06_Resultat'           +PathDelim                           );
+        sRepertoireTypeMappings       :=iRead('sRepertoireTypeMappings'       ,Path+'07_TypeMappings'       +PathDelim                           );
+        sRepertoireEnumStrings        :=iRead('sRepertoireEnumStrings'        ,Path+'08_EnumStrings'        +PathDelim                           );
      finally
             FreeAndNil( INI);
             end;
@@ -1194,6 +1220,7 @@ begin
      slParametres.Clear;
      sljpfMembre_from_sRepertoireListeMembres;
      sljpfEnumString_from_sRepertoireListeEnumStrings;
+     sljpf08_EnumString_from_sRepertoireListe08_EnumStrings;
      sljpfDetail_from_sRepertoireListeDetails;
      sljpfSymetric_from_sRepertoireListeSymetrics;
      sljpfAggregation_from_sRepertoireListeAggregations;
@@ -1719,6 +1746,7 @@ begin
      slParametres.Clear;
      sljpfMembre_from_sRepertoireListeMembres;
      sljpfEnumString_from_sRepertoireListeEnumStrings;
+     sljpf08_EnumString_from_sRepertoireListe08_EnumStrings;
      sljpfDetail_from_sRepertoireListeDetails;
      sljpfSymetric_from_sRepertoireListeSymetrics;
      sljpfAggregation_from_sRepertoireListeAggregations;
@@ -1746,25 +1774,83 @@ end;
 
 procedure TGenerateur_de_code.Execute_OpenAPI_EnumString( _OpenAPI: TOpenAPI; _e: TEnum);
 var
+   cc: TContexteClasse;
    el: TEnumValue_List;
    ev: TEnumValue;
    NomFichier: String;
    sl: TStringList;
+   sIdentifier: String;
+   function Identifier_from_String( _s: String): String;
+   var   // from https://wiki.freepascal.org/UTF8_strings_and_characters
+      pCur, pEnd: PChar;
+      Len: Integer;
+      CodePoint: String;
+      cp: String;
+      C: String;
+   begin
+        Result:= '';
+        pCur := PChar(_s);        // if _s='' then PChar(_s) returns a pointer to #0
+        pEnd := pCur + length(_s);
+        while pCur < pEnd
+        do
+          begin
+          Len := UTF8CodepointSize(pCur);
+          SetLength(CodePoint, Len);
+          Move(pCur^, CodePoint[1], Len);
+          // A single codepoint is copied from the string. Do your thing with it.
+          //ShowMessageFmt('CodePoint=%s, Len=%d', [CodePoint, Len]);
+          // ...
+          cp:= LowerCase( CodePoint);
+               if 'é' = cp then C:= 'E'
+          else if 'è' = cp then C:= 'E'
+          else if 'ê' = cp then C:= 'E'
+          else if 'ë' = cp then C:= 'E'
+          else if 'î' = cp then C:= 'I'
+          else if 'ï' = cp then C:= 'I'
+          else if 'à' = cp then C:= 'A'
+          else if 'ç' = cp then C:= 'C'
+          else if 'ô' = cp then C:= 'O'
+          else
+          case CodePoint[1]
+          of
+            '0'..'9','A'..'Z','a'..'z': C:= UpCase(CodePoint[1]);
+            else                        C:= '_';
+            end;
+          Result:= Result + C;
+          inc(pCur, Len);
+          end;
+   end;
 begin
-     NomFichier:= sRepertoireEnumStrings+_e.name+'.txt';
-     sl:= TStringList.Create;
+     cc:= TContexteClasse.Create( Self, _e.name,
+                                  1,
+                                  slParametres);
      try
-        el:= _e.Get_EnumValue_List;
+        slParametres.Clear;
+        sljpf08_EnumString .Initialise( cc);
+        NomFichier:= sRepertoireEnumStrings+_e.name+'.txt';
+        sl:= TStringList.Create;
         try
-           for ev in el
-           do
-             sl.Values[ev.name]:= ev.libelle;
+           el:= _e.Get_EnumValue_List;
+           try
+              for ev in el
+              do
+                begin
+                sl.Values[ev.name]:= ev.libelle;
+                sIdentifier:= 'C_'+Identifier_from_String( ev.name);
+                sljpf08_EnumString .Visite08_EnumString( sIdentifier, ev.name, ev.libelle);
+                end;
+           finally
+                  FreeAndNil( el);
+                  end;
         finally
-               FreeAndNil( el);
+               sl.SaveToFile( NomFichier);
+               FreeAndNil( sl);
                end;
+        sljpf08_EnumString .Finalise;
+        sljpf08_EnumString .To_Parametres( slParametres);
+        slApplicationEnumJoinPointFile.VisiteClasse( cc);
      finally
-            sl.SaveToFile( NomFichier);
-            FreeAndNil( sl);
+            FreeAndNil( cc);
             end;
 end;
 
@@ -1833,9 +1919,11 @@ var
                else
                    slDetails.Values[p.name]:= p.typ;
 
-           Parametre_Aggregation_set( p.typ,
-                                      _s.name{identificateur à personnaliser éventuellement},
-                                      _s.name);
+           if not p.typ_is_enum
+           then
+               Parametre_Aggregation_set( p.typ,
+                                          _s.name{identificateur à personnaliser éventuellement},
+                                          _s.name);
       end;
    begin
         for p in pl
@@ -2067,6 +2155,7 @@ begin
      slParametres.Clear;
      sljpfMembre_from_sRepertoireListeMembres;
      sljpfEnumString_from_sRepertoireListeEnumStrings;
+     sljpf08_EnumString_from_sRepertoireListe08_EnumStrings;
      sljpfDetail_from_sRepertoireListeDetails;
      sljpfSymetric_from_sRepertoireListeSymetrics;
      sljpfAggregation_from_sRepertoireListeAggregations;
@@ -2139,6 +2228,31 @@ end;
 procedure TGenerateur_de_code.sljpfEnumString_from_sRepertoireListeEnumStrings;
 begin
      ujpFile_EnumFiles( sRepertoireListeEnumStrings, sljpfEnumString_from_sRepertoireListeEnumStrings_FileFound, s_key_mask);
+end;
+
+function TGenerateur_de_code.Cree_jpf08_EnumString(_nfKey: String): Tjpf08_EnumString;
+begin
+     Result:= jpf08_EnumString_from_sl_sCle( sljpf08_EnumString, _nfKey);
+     if nil <> Result then exit;
+
+     Result:= Tjpf08_EnumString.Create( _nfKey);
+     sljpf08_EnumString.AddObject( _nfKey, Result);
+end;
+
+procedure TGenerateur_de_code.sljpf08_EnumString_from_sRepertoireListe08_EnumStrings_FileFound( _FileIterator: TFileIterator);
+var
+   NomFichier_Key: String;
+begin
+     if _FileIterator.IsDirectory then exit;
+
+     NomFichier_Key:= _FileIterator.FileName;
+
+     Cree_jpf08_EnumString( NomFichier_Key);
+end;
+
+procedure TGenerateur_de_code.sljpf08_EnumString_from_sRepertoireListe08_EnumStrings;
+begin
+     ujpFile_EnumFiles( sRepertoireListe08_EnumStrings, sljpf08_EnumString_from_sRepertoireListe08_EnumStrings_FileFound, s_key_mask);
 end;
 
 function TGenerateur_de_code.Cree_jpfDetail(_nfKey: String): TjpfDetail;
@@ -2267,6 +2381,36 @@ begin
 end;
 
 procedure TGenerateur_de_code.slApplicationJoinPointFile_Produit;
+begin
+
+end;
+
+function TGenerateur_de_code.Cree_ApplicationEnumJoinPointFile(_nfKey: String): TApplicationEnumJoinPointFile;
+begin
+     Result:= ApplicationEnumJoinPointFile_from_sl_sCle( slApplicationEnumJoinPointFile, _nfKey);
+     if nil <> Result then exit;
+
+     Result:= TApplicationEnumJoinPointFile.Create( _nfKey);
+     slApplicationEnumJoinPointFile.AddObject( _nfKey, Result);
+end;
+
+procedure TGenerateur_de_code.slApplicationEnumJoinPointFile_from_sRepertoireListeEnum_FileFound( _FileIterator: TFileIterator);
+var
+   NomFichier_Key: String;
+begin
+     if _FileIterator.IsDirectory then exit;
+
+     NomFichier_Key:= _FileIterator.FileName;
+
+     Cree_ApplicationEnumJoinPointFile( NomFichier_Key);
+end;
+
+procedure TGenerateur_de_code.slApplicationEnumJoinPointFile_from_sRepertoireListeEnum;
+begin
+     ujpFile_EnumFiles( sRepertoireListeEnum, slApplicationEnumJoinPointFile_from_sRepertoireListeEnum_FileFound, s_key_mask);
+end;
+
+procedure TGenerateur_de_code.slApplicationEnumJoinPointFile_Produit;
 begin
 
 end;
@@ -2456,17 +2600,23 @@ begin
      slEnumStrings_from_sRepertoireEnumStrings;
      slTypeMappings_from_sRepertoireTypeMappings;
      slApplicationJoinPointFile_from_sRepertoireListeTables;
+     slApplicationEnumJoinPointFile_from_sRepertoireListeEnum;
 
      slApplicationTemplateHandler_from_sRepertoireApplicationTemplate;
 
      Application_Created:= True;
      slApplicationJoinPointFile.Initialise;
+     slApplicationEnumJoinPointFile.Initialise;
 end;
 
 procedure TGenerateur_de_code.Application_Produit;
 begin
      slApplicationJoinPointFile.Finalise;
      slApplicationJoinPointFile.To_Parametres( slParametres);
+
+     slApplicationEnumJoinPointFile.Finalise;
+     slApplicationEnumJoinPointFile.To_Parametres( slParametres);
+
      slApplicationTemplateHandler_Produit;
 end;
 
@@ -2474,6 +2624,7 @@ procedure TGenerateur_de_code.Application_Destroy;
 begin
      Application_Created:= False;
      slApplicationJoinPointFile.Vide;
+     slApplicationEnumJoinPointFile.Vide;
      slApplicationTemplateHandler.Vide;
 end;
 

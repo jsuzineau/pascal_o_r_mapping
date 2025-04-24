@@ -95,6 +95,12 @@ type
   end;
 
 
+{ TApplicationJoinPointFile }
+ TApplicationEnumJoinPointFile= TApplicationJoinPointFile;
+ TIterateur_ApplicationEnumJoinPointFile = TIterateur_ApplicationJoinPointFile;
+
+{ TslApplicationEnumJoinPointFile }
+ TslApplicationEnumJoinPointFile= TslApplicationJoinPointFile;
 
 const
      s_key_       = '.01_key.'       ;
@@ -108,6 +114,9 @@ const
 function ApplicationJoinPointFile_from_sl( sl: TBatpro_StringList; Index: Integer): TApplicationJoinPointFile;
 function ApplicationJoinPointFile_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TApplicationJoinPointFile;
 
+function ApplicationEnumJoinPointFile_from_sl( sl: TBatpro_StringList; Index: Integer): TApplicationEnumJoinPointFile;
+function ApplicationEnumJoinPointFile_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TApplicationEnumJoinPointFile;
+
 implementation
 
 function ApplicationJoinPointFile_from_sl( sl: TBatpro_StringList; Index: Integer): TApplicationJoinPointFile;
@@ -118,6 +127,16 @@ end;
 function ApplicationJoinPointFile_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TApplicationJoinPointFile;
 begin
      _Classe_from_sl_sCle( Result, TApplicationJoinPointFile, sl, sCle);
+end;
+
+function ApplicationEnumJoinPointFile_from_sl( sl: TBatpro_StringList; Index: Integer): TApplicationEnumJoinPointFile;
+begin
+     _Classe_from_sl( Result, TApplicationEnumJoinPointFile, sl, Index);
+end;
+
+function ApplicationEnumJoinPointFile_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TApplicationEnumJoinPointFile;
+begin
+     _Classe_from_sl_sCle( Result, TApplicationEnumJoinPointFile, sl, sCle);
 end;
 
 { TIterateur_ApplicationJoinPointFile }
