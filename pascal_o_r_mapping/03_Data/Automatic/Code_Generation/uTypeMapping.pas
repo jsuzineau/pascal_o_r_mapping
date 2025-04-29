@@ -39,6 +39,45 @@ type
     function Produit( _Prefixe, _sModele: String): String; virtual; abstract;
   end;
 
+ { TContexteMembre }
+
+ TContexteMembre_Ancetre
+ =
+  class
+  //Attributs
+  public
+    sNomChamp: String;
+    sNomChamp_database: String;
+    sNomChamp_database_quote: String;
+    sTypChamp: String;
+    sTypChamp_UPPERCASE: String;
+    sTyp: String;
+    sTyp_TS: String;
+    sLibelle: String;
+    sParametre: String;
+    Belongs_to_sCle: Boolean;
+    CleEtrangere: Boolean;
+    nullable: Boolean;
+
+    //Pascal
+    sPascal_DeclarationChamp: String;
+    sPascal_DeclarationParametre: String;
+    s_bl: String;
+    s_pool: String;
+    s_fcb: String;
+    s_NomAggregation: String;
+
+    //CSharp
+    sNomTableMembre: String;
+    Member_Name: String;
+    sDetail: String;
+
+    //Django
+    sDjango_blank: String;
+    description: String;
+  end;
+
+
  { TTypeMapping }
 
  TTypeMapping
@@ -53,7 +92,7 @@ type
     nfTypeMapping: String;
     sTypeMapping: String;
   public
-    function Produit( _cc: TContexteClasse_Ancetre; _Prefixe, _sTypChamp_UPPERCASE, _sModele: String): String;
+    function Produit( _cc: TContexteClasse_Ancetre; _cm: TContexteMembre_Ancetre; _Prefixe, _sTypChamp_UPPERCASE, _sModele: String): String;
   end;
 
  TIterateur_TypeMapping
@@ -81,7 +120,11 @@ type
     function Iterateur: TIterateur_TypeMapping;
     function Iterateur_Decroissant: TIterateur_TypeMapping;
   public
-    function Produit( _cc: TContexteClasse_Ancetre; _Prefixe, _sTypChamp_UPPERCASE, _sModele: String): String;
+    function Produit( _cc: TContexteClasse_Ancetre;
+                      _cm: TContexteMembre_Ancetre;
+                      _Prefixe,
+                      _sTypChamp_UPPERCASE,
+                      _sModele: String): String;
   end;
 
 
@@ -149,7 +192,11 @@ begin
      Result:= TIterateur_TypeMapping( Iterateur_interne_Decroissant);
 end;
 
-function TslTypeMapping.Produit(_cc: TContexteClasse_Ancetre; _Prefixe, _sTypChamp_UPPERCASE, _sModele: String): String;
+function TslTypeMapping.Produit( _cc: TContexteClasse_Ancetre;
+                                 _cm: TContexteMembre_Ancetre;
+                                 _Prefixe,
+                                 _sTypChamp_UPPERCASE,
+                                 _sModele: String): String;
 var
    I: TIterateur_TypeMapping;
    tm: TTypeMapping;
@@ -161,7 +208,7 @@ begin
         do
           begin
           if I.not_Suivant( tm) then Continue;
-          Result:= tm.Produit( _cc, _Prefixe, _sTypChamp_UPPERCASE, Result);
+          Result:= tm.Produit( _cc, _cm, _Prefixe, _sTypChamp_UPPERCASE, Result);
           end;
      finally
             FreeAndNil( I);
@@ -187,6 +234,7 @@ begin
 end;
 
 function TTypeMapping.Produit( _cc: TContexteClasse_Ancetre;
+                               _cm: TContexteMembre_Ancetre;
                                _Prefixe,
                                _sTypChamp_UPPERCASE,
                                _sModele: String): String;
@@ -207,6 +255,7 @@ var
 begin
      Key:= _Prefixe+'Mapped_Type_'+sTypeMapping;
      sMapped_Type:= Mapped_Type_from_sTypChamp_UPPERCASE;
+     sMapped_Type:= StringReplace( sMapped_Type, 'Membre.Django_blank', _cm.sDjango_blank, [rfReplaceAll,rfIgnoreCase]);
      Result:= StringReplace( _sModele, Key, sMapped_Type, [rfReplaceAll,rfIgnoreCase]);
 end;
 

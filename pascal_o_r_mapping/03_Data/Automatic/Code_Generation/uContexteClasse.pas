@@ -54,6 +54,7 @@ type
     NbChamps: Integer;
 
     nfLibelle : String;
+    description: String;
 
     slCle: TStringList;
     slLibelle :TStringList;
@@ -113,6 +114,7 @@ begin
      else
          slLibelle.SaveToFile( nfLibelle);
 
+     description:= '';
 end;
 
 destructor TContexteClasse.Destroy;
@@ -172,6 +174,7 @@ begin
      Result:= StringReplace( Result, _Prefixe+'Nom_de_la_table'  ,Nom_de_la_table  ,[rfReplaceAll,rfIgnoreCase]);
      Result:= StringReplace( Result, _Prefixe+'Nom_de_la_classe' ,Nom_de_la_classe ,[rfReplaceAll,rfIgnoreCase]);
      Result:= StringReplace( Result, _Prefixe+'NomTableMinuscule',NomTableMinuscule,[rfReplaceAll,rfIgnoreCase]);
+     Result:= StringReplace( Result, _Prefixe+'description'      ,description      ,[rfReplaceAll,rfIgnoreCase]);
      Result:= RemplaceParametres( _Prefixe, Result);
 end;
 

@@ -41,6 +41,8 @@ type
      typ_is_array: boolean;
      typ_is_enum: boolean;
      typ: string;
+     nullable: boolean;
+     description: String;
      function sArray: String;
    end;
   TProperties_List= TFPGObjectList<TProperty>;
@@ -50,6 +52,13 @@ type
   TSchema
   =
    class( TJSON_Field)
+   //Gestion du cycle de vie
+   public
+     constructor Create( _name: String; _jo: TJSONObject);
+     destructor Destroy; override;
+   //Attributs
+   public
+     description: String;
    //Méthodes
    public
      function Get_Properties: TJSONObject;
@@ -192,6 +201,21 @@ constructor TProperty.Create(_name: String; _jo: TJSONObject);
          then
              typ:= 'date-time';
     end;
+    procedure Traite_nullable;
+    begin
+         nullable:= -1 <> jo.IndexOfName( 'nullable');
+         if not nullable then exit;
+
+         nullable:= jo.Booleans[ 'nullable'];
+    end;
+    procedure Traite_description;
+    begin
+         if -1 = jo.IndexOfName( 'description')
+         then
+             description:= ''
+         else
+             description:= jo.Strings[ 'description'];
+    end;
 begin
      inherited Create(_name, _jo);
      typ_is_class:= False;
@@ -205,6 +229,8 @@ begin
 
           if 'array'  = typ then Traite_array
      else if 'string' = typ then Traite_string;
+     Traite_nullable;
+     Traite_description;
 end;
 
 destructor TProperty.Destroy;
@@ -226,6 +252,25 @@ begin
 end;
 
 { TSchema }
+
+constructor TSchema.Create(_name: String; _jo: TJSONObject);
+    procedure Traite_description;
+    begin
+         if -1 = jo.IndexOfName( 'description')
+         then
+             description:= ''
+         else
+             description:= jo.Strings[ 'description'];
+    end;
+begin
+     inherited Create(_name, _jo);
+     Traite_description;
+end;
+
+destructor TSchema.Destroy;
+begin
+     inherited Destroy;
+end;
 
 function TSchema.Get_Properties: TJSONObject;
 begin

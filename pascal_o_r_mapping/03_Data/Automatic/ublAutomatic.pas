@@ -1894,8 +1894,9 @@ var
       begin
            sType:= p.typ;
            if p.typ_is_array then sType:= 'array of '+sType;
-           cm:= TContexteMembre.Create( Self, cc, p.name, sType, '');
+           cm:= TContexteMembre.Create( Self, cc, p.name, sType, '', False, p.nullable);
            try
+              cm.description:= p.description;
                     uJoinPoint_VisiteMembre( cm, a);
               sljpfMembre     .VisiteMembre( cm);
               sljpfEnumString .VisiteMembre( cm);
@@ -2002,6 +2003,7 @@ begin
         cc:= TContexteClasse.Create( Self, _s.name,
                                      pl.Count,
                                      slParametres);
+        cc.description:= _s.description;
         slEnumStrings := TStringList.Create;
         slDetails     := TStringList.Create;
         slSymetrics   := TStringList.Create;

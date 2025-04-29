@@ -27,6 +27,7 @@ interface
 
 uses
     uGenerateur_de_code_Ancetre,
+    uTypeMapping,
     uContexteClasse,
   SysUtils, Classes, StrUtils;
 
@@ -36,39 +37,14 @@ type
 
  TContexteMembre
  =
-  class
+  class( TContexteMembre_Ancetre)
   //Attributs
   public
     g: TGenerateur_de_code_Ancetre;
     cc: TContexteClasse;
-    sNomChamp: String;
-    sNomChamp_database: String;
-    sNomChamp_database_quote: String;
-    sTypChamp: String;
-    sTypChamp_UPPERCASE: String;
-    sTyp: String;
-    sTyp_TS: String;
-    sLibelle: String;
-    sParametre: String;
-    Belongs_to_sCle: Boolean;
-    CleEtrangere: Boolean;
-
-    //Pascal
-    sPascal_DeclarationChamp: String;
-    sPascal_DeclarationParametre: String;
-    s_bl: String;
-    s_pool: String;
-    s_fcb: String;
-    s_NomAggregation: String;
-
-    //CSharp
-    sNomTableMembre: String;
-    Member_Name: String;
-    sDetail: String;
-
   //Gestion du cycle de vie
   public
-    constructor Create( _g: TGenerateur_de_code_Ancetre; _cc: TContexteClasse; _sNomChamp, _sTypChamp, _sLibelle: String; _CleEtrangere: Boolean= False);
+    constructor Create( _g: TGenerateur_de_code_Ancetre; _cc: TContexteClasse; _sNomChamp, _sTypChamp, _sLibelle: String; _CleEtrangere: Boolean= False; _nullable: Boolean= False);
   //Méthodes internes
   private
     procedure Traite_NCHAR      ;
@@ -95,7 +71,9 @@ implementation
 
 { TContexteMembre }
 
-constructor TContexteMembre.Create( _g: TGenerateur_de_code_Ancetre; _cc: TContexteClasse; _sNomChamp, _sTypChamp, _sLibelle: String; _CleEtrangere: Boolean= False);
+constructor TContexteMembre.Create(_g: TGenerateur_de_code_Ancetre;
+ _cc: TContexteClasse; _sNomChamp, _sTypChamp, _sLibelle: String;
+ _CleEtrangere: Boolean; _nullable: Boolean);
 begin
      g:= _g;
      cc:= _cc;
@@ -113,6 +91,8 @@ begin
      sLibelle := _sLibelle;
      if sLibelle= '' then sLibelle:= sNomChamp;
      CleEtrangere:= _CleEtrangere;
+
+     nullable:= _nullable;
 
      sTypChamp_UPPERCASE:= UpperCase( sTypChamp);
      sTyp               := sTypChamp;
@@ -145,6 +125,9 @@ begin
 
      sNomTableMembre:= sTyp;
      Member_Name:= sNomchamp;
+
+     sDjango_blank:= ' blank= '+IfThen( nullable, 'True', 'False');
+     description:= '';
 end;
 
 procedure TContexteMembre.Traite_NCHAR     ; begin sTyp:='String'   ;sTyp_TS:='string';end;
@@ -166,13 +149,16 @@ function TContexteMembre.Produit( _Prefixe, _sModele: String): String;
 begin
      Result:= _sModele;
      Result:= StringReplace( Result, _Prefixe+'Libelle'                    ,sLibelle                    ,[rfReplaceAll,rfIgnoreCase]);
-     Result:= g.slTypeMappings.Produit(cc, _Prefixe, sTypChamp_UPPERCASE, Result);
+     Result:= g.slTypeMappings.Produit(cc, Self, _Prefixe, sTypChamp_UPPERCASE, Result);
      Result:= StringReplace( Result, _Prefixe+'NomChamp_database'          ,sNomChamp_database          ,[rfReplaceAll,rfIgnoreCase]);
+     Result:= StringReplace( Result, _Prefixe+'NomChamp_UPPERCASE'         ,Upcase(sNomChamp)           ,[rfReplaceAll,rfIgnoreCase]);
      Result:= StringReplace( Result, _Prefixe+'NomChamp'                   ,sNomChamp                   ,[rfReplaceAll,rfIgnoreCase]);
      Result:= StringReplace( Result, _Prefixe+'TypChamp_UPPERCASE'         ,sTypChamp_UPPERCASE         ,[rfReplaceAll,rfIgnoreCase]);
      Result:= StringReplace( Result, _Prefixe+'TypChamp'                   ,sTypChamp                   ,[rfReplaceAll,rfIgnoreCase]);
      Result:= StringReplace( Result, _Prefixe+'Typ_TS'                     ,sTyp_TS                     ,[rfReplaceAll,rfIgnoreCase]);
      Result:= StringReplace( Result, _Prefixe+'Typ'                        ,sTyp                        ,[rfReplaceAll,rfIgnoreCase]);
+     Result:= StringReplace( Result, _Prefixe+'Django_blank'               ,sDjango_blank               ,[rfReplaceAll,rfIgnoreCase]);
+     Result:= StringReplace( Result, _Prefixe+'description'                ,description                 ,[rfReplaceAll,rfIgnoreCase]);
 end;
 
 end.
