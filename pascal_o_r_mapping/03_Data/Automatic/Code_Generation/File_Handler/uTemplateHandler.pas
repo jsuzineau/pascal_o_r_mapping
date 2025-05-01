@@ -215,7 +215,7 @@ end;
 
 function TTemplateHandler.Calcule_NomCible: String;
 begin
-     Result:= g.sRepertoireResultat+RemplaceParametres( Source);
+     Result:= g.RepertoireResultat_with_Prefixe+RemplaceParametres( Source);
 end;
 
 function TTemplateHandler.RemplaceParametres( S: String): String;

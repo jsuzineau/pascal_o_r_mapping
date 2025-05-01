@@ -40,6 +40,7 @@ uses
     uXMI,
     uOpenAPI,
     uuStrings,
+    udmDatabase,
 
     uBatpro_Element,
     uBatpro_Ligne,
@@ -1218,6 +1219,7 @@ begin
      bl:= _bl;
      slLog.Clear;
      slParametres.Clear;
+     sRepertoireResultatPrefixe:= dmDatabase.jsDataConnexion.Database_identifier;
      sljpfMembre_from_sRepertoireListeMembres;
      sljpfEnumString_from_sRepertoireListeEnumStrings;
      sljpf08_EnumString_from_sRepertoireListe08_EnumStrings;
@@ -1360,6 +1362,7 @@ var
    NbLibelles: Integer;
 
    cirClass_Properties: TCherche_Items_Recursif;
+   comment: String;
 
    procedure Traite_Properties;
    var
@@ -1368,6 +1371,7 @@ var
       type_id: String;
       eType: TDOMNode;
       sType: String;
+      comment: String;
       procedure Type_not_found;
       begin
            sType:= '(non trouvé)';
@@ -1378,6 +1382,7 @@ var
       begin
            cm:= TContexteMembre.Create( Self, cc, Property_Name, sType, '');
            try
+              cm.description:= comment;
                     uJoinPoint_VisiteMembre( cm, a);
               sljpfMembre     .VisiteMembre( cm);
               sljpfEnumString .VisiteMembre( cm);
@@ -1398,7 +1403,7 @@ var
 
            //ici le nom pourrait être personnalisé
            Parametre_Aggregation_set( sType,
-                                      _NomClasse{identificateur à personnaliser éventuellement},
+                                      LowerCase(_NomClasse){identificateur à personnaliser éventuellement},
                                       _NomClasse);
       end;
       procedure TraiteLibelle;
@@ -1418,6 +1423,10 @@ var
           eType:= _xmi.Get_type( type_id);
                if nil = eType                            then Type_not_found
           else if not_Get_Property( eType, 'name', sType)then Type_not_found;
+
+          if not_Get_Property( eProperty, 'comment', comment) or ('' = comment)
+          then
+              comment:= Property_Name;
 
           TraiteLibelle;
           if nil = _xmi.Get_Classe_from_type( type_id)
@@ -1493,6 +1502,11 @@ begin
         cc:= TContexteClasse.Create( Self, _NomClasse,
                                      cirClass_Properties.l.Count,
                                      slParametres);
+        if not_Get_Property( _eClasse, 'comment', comment) or ('' = comment)
+        then
+            comment:= _NomClasse;
+        cc.description:= comment;
+        slEnumStrings := TStringList.Create;
         slDetails:= TStringList.Create;
         slSymetrics:= TStringList.Create;
         slAggregations:= TStringList.Create;
@@ -1744,6 +1758,8 @@ procedure TGenerateur_de_code.Execute_XMI(_xmi: TXMI);
 begin
      slLog.Clear;
      slParametres.Clear;
+     sRepertoireResultatPrefixe:= ExtractFileName( _xmi.Filename);
+     sRepertoireResultatPrefixe:= StringReplace( sRepertoireResultatPrefixe, '.','_',[rfReplaceAll]);
      sljpfMembre_from_sRepertoireListeMembres;
      sljpfEnumString_from_sRepertoireListeEnumStrings;
      sljpf08_EnumString_from_sRepertoireListe08_EnumStrings;
@@ -1762,10 +1778,10 @@ begin
 
         Execute_XMI_Associations( _xmi);
         Execute_XMI_Classes     ( _xmi);
-        Generateur_de_code.Application_Produit;
+        Application_Produit;
         slLog.Add( S);
      finally
-            Generateur_de_code.Application_Destroy;
+            Application_Destroy;
             slTemplateHandler.Vide;
             sljpfMembre.Vide;
             end;
@@ -2155,6 +2171,8 @@ procedure TGenerateur_de_code.Execute_OpenAPI(_OpenAPI: TOpenAPI);
 begin
      slLog.Clear;
      slParametres.Clear;
+     sRepertoireResultatPrefixe:= ExtractFileName( _OpenAPI.Filename);
+     sRepertoireResultatPrefixe:= StringReplace( sRepertoireResultatPrefixe, '.','_',[rfReplaceAll]);
      sljpfMembre_from_sRepertoireListeMembres;
      sljpfEnumString_from_sRepertoireListeEnumStrings;
      sljpf08_EnumString_from_sRepertoireListe08_EnumStrings;
@@ -2172,10 +2190,10 @@ begin
         Premiere_Classe:= True;
 
         Execute_OpenAPI_Schemas     ( _OpenAPI);
-        Generateur_de_code.Application_Produit;
+        Application_Produit;
         slLog.Add( S);
      finally
-            Generateur_de_code.Application_Destroy;
+            Application_Destroy;
             slTemplateHandler.Vide;
             sljpfMembre.Vide;
             end;

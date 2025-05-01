@@ -118,6 +118,7 @@ type
      destructor Destroy; override;
    //Attributs
    public
+     Filename: String;
      jd: TJSONData;
      jo: TJSONObject;
    //Méthodes
@@ -413,7 +414,8 @@ var
    F: TFileStream;
    json: TJSONData;
 begin
-     F:= TFileStream.Create( _Filename, fmOpenRead);
+     Filename:= _Filename;
+     F:= TFileStream.Create( Filename, fmOpenRead);
      try
         jd:= GetJSON( F);
         jo:= jd as TJSONObject;

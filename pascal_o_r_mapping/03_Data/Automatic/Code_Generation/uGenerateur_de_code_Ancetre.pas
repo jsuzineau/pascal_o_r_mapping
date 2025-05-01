@@ -102,12 +102,14 @@ type
     sRepertoireParametres ,
     sRepertoireApplicationTemplate  ,
     sRepertoireResultat      ,
+    sRepertoireResultatPrefixe,
     sRepertoireTypeMappings  ,
     sRepertoireEnumStrings: String;
   //Méthodes
   public
     function dbx_from_Type( Typ: String): String;
     function TailleNom_Quote( S: String): String;
+    function RepertoireResultat_with_Prefixe:String;
   //TemplateHandler
   public
     procedure Cree_TemplateHandler( var _Reference;
@@ -372,6 +374,13 @@ end;
 function TGenerateur_de_code_Ancetre.TailleNom_Quote( S: String): String;
 begin
      Result:= Fixe_Min( ''''+S+'''', TailleMaximumIdentificateur+2);
+end;
+
+function TGenerateur_de_code_Ancetre.RepertoireResultat_with_Prefixe: String;
+begin
+     Result:= IncludeTrailingPathDelimiter(sRepertoireResultat);
+     Result:= Result+sRepertoireResultatPrefixe;
+     Result:= IncludeTrailingPathDelimiter(Result);
 end;
 
 initialization

@@ -78,6 +78,7 @@ type
      function MySQLPath(NomFichier: String): String; virtual;
      procedure Reconnecte; virtual;
      function Base_sur: String; virtual;
+     function Database_identifier: String; virtual;
    //Récupération du nom des bases
    public
      procedure Fill_with_databases( _s: TStrings); virtual;
@@ -989,6 +990,11 @@ end;
 function TjsDataConnexion.Base_sur: String;
 begin
      Result:= 'base '+sSGBD+' '+DataBase+' sur '+HostName;
+end;
+
+function TjsDataConnexion.Database_identifier: String;
+begin
+     Result:= 'database_'+sSGBD+'_'+DataBase+'_on_host_'+HostName;
 end;
 
 { TjsDataContexte_Champ_Info }

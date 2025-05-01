@@ -45,6 +45,11 @@
           <Mode Name="Default"/>
         </BuildModes>
       </Target>
+      <Target FileName="Generateur\Generateur_OpenAPI.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
     </Targets>
   </ProjectGroup>
 </CONFIG>
