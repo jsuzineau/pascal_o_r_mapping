@@ -32,6 +32,7 @@ uses
   SysUtils, Classes, StrUtils;
 
 type
+ TType_Membre= (tm_EnumString, tm_Detail, tm_Membre);
 
  { TContexteMembre }
 
@@ -42,6 +43,9 @@ type
   public
     g: TGenerateur_de_code_Ancetre;
     cc: TContexteClasse;
+    tm: TType_Membre;
+    sTypDetail: String;
+    sTypEnumString: String;
   //Gestion du cycle de vie
   public
     constructor Create( _g: TGenerateur_de_code_Ancetre; _cc: TContexteClasse; _sNomChamp, _sTypChamp, _sLibelle: String; _CleEtrangere: Boolean= False; _nullable: Boolean= False);
@@ -93,6 +97,9 @@ begin
      CleEtrangere:= _CleEtrangere;
 
      nullable:= _nullable;
+     tm:= tm_Membre;
+     sTypDetail:= '';
+     sTypEnumString:= '';
 
      sTypChamp_UPPERCASE:= UpperCase( sTypChamp);
      sTyp               := sTypChamp;

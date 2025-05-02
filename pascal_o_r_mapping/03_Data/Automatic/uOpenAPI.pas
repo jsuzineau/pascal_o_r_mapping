@@ -202,6 +202,13 @@ constructor TProperty.Create(_name: String; _jo: TJSONObject);
          then
              typ:= 'date-time';
     end;
+    procedure Traite_number;
+    begin
+         if     (-1 <> jo.IndexOfName('format' ) )
+            and ( 'float' = jo.Strings['format'])
+         then
+             typ:= 'float';
+    end;
     procedure Traite_nullable;
     begin
          nullable:= -1 <> jo.IndexOfName( 'nullable');
@@ -229,7 +236,8 @@ begin
      then typ:= 'type non trouvé: '+jo.AsJSON;
 
           if 'array'  = typ then Traite_array
-     else if 'string' = typ then Traite_string;
+     else if 'string' = typ then Traite_string
+     else if 'number' = typ then Traite_number;
      Traite_nullable;
      Traite_description;
 end;

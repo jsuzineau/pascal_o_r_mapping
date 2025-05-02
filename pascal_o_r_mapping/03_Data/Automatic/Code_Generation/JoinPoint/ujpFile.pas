@@ -951,6 +951,28 @@ begin
 end;
 
 procedure TjpfMembre.VisiteMembre(_cm: TContexteMembre);
+   procedure Traite_Detail;
+   var
+      Element: String;
+   begin
+        Element:= cm.Produit( 'Membre.', sElement);
+
+        Element:= StringReplace( Element, 'Detail.NomDetail'            ,_cm.sNomChamp            ,[rfReplaceAll,rfIgnoreCase]);
+        Element:= StringReplace( Element, 'Detail.ClasseDetailMinuscule',LowerCase(_cm.sTypDetail),[rfReplaceAll,rfIgnoreCase]);
+        Element:= StringReplace( Element, 'Detail.ClasseDetail'         ,_cm.sTypDetail           ,[rfReplaceAll,rfIgnoreCase]);
+        Valeur:= Valeur+ Element;
+   end;
+   procedure Traite_EnumString;
+   var
+      Element: String;
+   begin
+        Element:= cm.Produit( 'Membre.', sElement);
+
+        Element:= StringReplace( Element, 'EnumString.NomEnumString'            ,_cm.sNomChamp                ,[rfReplaceAll,rfIgnoreCase]);
+        Element:= StringReplace( Element, 'EnumString.ClasseEnumStringMinuscule',LowerCase(_cm.sTypEnumString),[rfReplaceAll,rfIgnoreCase]);
+        Element:= StringReplace( Element, 'EnumString.ClasseEnumString'         ,_cm.sTypEnumString           ,[rfReplaceAll,rfIgnoreCase]);
+        Valeur:= Valeur+ Element;
+   end;
 begin
      inherited;
      if Premier
@@ -959,7 +981,12 @@ begin
      else
          Valeur:= Valeur + sSeparateur;
 
-     Valeur:= Valeur+ cm.Produit( 'Membre.', sElement);
+     case cm.tm
+     of
+       tm_EnumString: Traite_EnumString;
+       tm_Detail    : Traite_Detail;
+       else           Valeur:= Valeur+ cm.Produit( 'Membre.', sElement);
+       end;
 end;
 
 procedure TjpfEnumString.VisiteEnumString(s_EnumString, sNomTableMembre: String);

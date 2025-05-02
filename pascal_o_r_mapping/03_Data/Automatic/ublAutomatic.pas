@@ -1376,26 +1376,44 @@ var
       begin
            sType:= '(non trouvé)';
       end;
+      procedure Traite_ContexteMembre( var _cm: TContexteMembre);
+      begin
+           try
+              _cm.description:= comment;
+                    uJoinPoint_VisiteMembre( _cm, a);
+              sljpfMembre     .VisiteMembre( _cm);
+              sljpfEnumString .VisiteMembre( _cm);
+              sljpfDetail     .VisiteMembre( _cm);
+              sljpfSymetric   .VisiteMembre( _cm);
+              sljpfAggregation.VisiteMembre( _cm);
+              sljpfLibelle    .VisiteMembre( _cm);
+           finally
+                  FreeAndNil( _cm);
+                  end;
+      end;
       procedure Traite_Membre;
       var
          cm: TContexteMembre;
       begin
            cm:= TContexteMembre.Create( Self, cc, Property_Name, sType, '');
            try
-              cm.description:= comment;
-                    uJoinPoint_VisiteMembre( cm, a);
-              sljpfMembre     .VisiteMembre( cm);
-              sljpfEnumString .VisiteMembre( cm);
-              sljpfDetail     .VisiteMembre( cm);
-              sljpfSymetric   .VisiteMembre( cm);
-              sljpfAggregation.VisiteMembre( cm);
-              sljpfLibelle    .VisiteMembre( cm);
+              Traite_ContexteMembre( cm);
            finally
                   FreeAndNil( cm);
                   end;
       end;
       procedure Traite_Detail2;
+      var
+         cm: TContexteMembre;
       begin
+           cm:= TContexteMembre.Create( Self, cc, Property_Name, 'Detail', '');
+           try
+              cm.tm:= tm_Detail;
+              cm.sTypDetail:= sType;
+              Traite_ContexteMembre( cm);
+           finally
+                  FreeAndNil( cm);
+                  end;
            //if -1 = slDetails.IndexOfName( Property_Name)
            //then
                slDetails.Values[Property_Name]:= sType;
@@ -1903,6 +1921,21 @@ var
    procedure Traite_Properties;
    var
       p: TProperty;
+      procedure Traite_ContexteMembre( var _cm: TContexteMembre);
+      begin
+           try
+              _cm.description:= p.description;
+                    uJoinPoint_VisiteMembre( _cm, a);
+              sljpfMembre     .VisiteMembre( _cm);
+              sljpfEnumString .VisiteMembre( _cm);
+              sljpfDetail     .VisiteMembre( _cm);
+              sljpfSymetric   .VisiteMembre( _cm);
+              sljpfAggregation.VisiteMembre( _cm);
+              sljpfLibelle    .VisiteMembre( _cm);
+           finally
+                  FreeAndNil( _cm);
+                  end;
+      end;
       procedure Traite_Membre;
       var
          cm: TContexteMembre;
@@ -1912,29 +1945,51 @@ var
            if p.typ_is_array then sType:= 'array of '+sType;
            cm:= TContexteMembre.Create( Self, cc, p.name, sType, '', False, p.nullable);
            try
-              cm.description:= p.description;
-                    uJoinPoint_VisiteMembre( cm, a);
-              sljpfMembre     .VisiteMembre( cm);
-              sljpfEnumString .VisiteMembre( cm);
-              sljpfDetail     .VisiteMembre( cm);
-              sljpfSymetric   .VisiteMembre( cm);
-              sljpfAggregation.VisiteMembre( cm);
-              sljpfLibelle    .VisiteMembre( cm);
+              Traite_ContexteMembre( cm);
            finally
                   FreeAndNil( cm);
                   end;
       end;
       procedure Traite_class;
+         procedure Traite_Detail;
+         var
+            cm: TContexteMembre;
+         begin
+              cm:= TContexteMembre.Create( Self, cc, p.name, 'Detail', '', True, p.nullable);
+              try
+                 cm.tm:= tm_Detail;
+                 cm.sTypDetail:= p.typ;
+                 Traite_ContexteMembre( cm);
+              finally
+                     FreeAndNil( cm);
+                     end;
+              slDetails.Values[p.name]:= p.typ;
+         end;
+         procedure Traite_EnumString;
+         var
+            cm: TContexteMembre;
+         begin
+              cm:= TContexteMembre.Create( Self, cc, p.name, 'EnumString', '', True, p.nullable);
+              try
+                 cm.tm:= tm_EnumString;
+                 cm.sTypEnumString:= p.typ;
+                 Traite_ContexteMembre( cm);
+              finally
+                     FreeAndNil( cm);
+                     end;
+              slEnumStrings.Values[p.name]:= p.typ
+         end;
       begin
+
            if p.typ_is_array
            then
                slAggregations.Values[p.name]:= p.typ
            else
                if p.typ_is_enum
                then
-                   slEnumStrings.Values[p.name]:= p.typ
+                   Traite_EnumString
                else
-                   slDetails.Values[p.name]:= p.typ;
+                   Traite_Detail;
 
            if not p.typ_is_enum
            then
