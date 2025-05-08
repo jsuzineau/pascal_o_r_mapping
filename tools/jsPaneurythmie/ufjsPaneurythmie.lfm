@@ -7,10 +7,10 @@ object fjsPaneurythmie: TfjsPaneurythmie
   ClientHeight = 338
   ClientWidth = 465
   Color = 16777152
+  LCLVersion = '4.0.0.4'
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnShow = FormShow
-  LCLVersion = '3.4.0.0'
   object Panel1: TPanel
     Left = 0
     Height = 50
@@ -33,17 +33,17 @@ object fjsPaneurythmie: TfjsPaneurythmie
     end
     object seAudioVolume: TSpinEdit
       Left = 62
-      Height = 36
+      Height = 23
       Top = 9
       Width = 58
-      OnChange = seAudioVolumeChange
       TabOrder = 1
+      OnChange = seAudioVolumeChange
     end
     object Label1: TLabel
       Left = 6
-      Height = 21
+      Height = 15
       Top = 13
-      Width = 53
+      Width = 40
       Caption = 'Volume'
     end
   end
@@ -58,47 +58,47 @@ object fjsPaneurythmie: TfjsPaneurythmie
     TabOrder = 1
     object tsPrincipal: TTabSheet
       Caption = 'Principal'
-      ClientHeight = 253
-      ClientWidth = 455
+      ClientHeight = 260
+      ClientWidth = 457
       object Panel2: TPanel
         Left = 0
         Height = 77
-        Top = 176
-        Width = 455
+        Top = 183
+        Width = 457
         Align = alBottom
         ClientHeight = 77
-        ClientWidth = 455
+        ClientWidth = 457
         ParentBackground = False
         TabOrder = 0
         object pb: TProgressBar
           Left = 1
           Height = 20
           Top = 56
-          Width = 453
+          Width = 455
           Align = alBottom
           Max = 1000
-          OnMouseDown = pbMouseDown
-          OnMouseMove = pbMouseMove
           Smooth = True
           TabOrder = 0
+          OnMouseDown = pbMouseDown
+          OnMouseMove = pbMouseMove
         end
         object lTemps: TLabel
           Left = 67
-          Height = 21
+          Height = 15
           Top = 38
-          Width = 56
+          Width = 42
           Caption = '00:00:00'
         end
         object cbDeboucler: TCheckBox
           Left = 232
-          Height = 25
+          Height = 19
           Top = 8
-          Width = 110
+          Width = 83
           Caption = 'Arrêt boucle'
           TabOrder = 1
         end
         object bStop: TButton
-          Left = 377
+          Left = 379
           Height = 25
           Top = 6
           Width = 75
@@ -108,49 +108,49 @@ object fjsPaneurythmie: TfjsPaneurythmie
           OnClick = bStopClick
         end
         object lTemps_pbMouseMove: TLabel
-          Left = 396
-          Height = 21
+          Left = 412
+          Height = 15
           Top = 38
-          Width = 56
+          Width = 42
           Anchors = [akTop, akRight]
           Caption = '00:00:00'
         end
         object lDuree: TLabel
           Left = 127
-          Height = 21
+          Height = 15
           Top = 38
-          Width = 65
+          Width = 50
           Caption = '/ 00:00:00'
         end
         object Label2: TLabel
           Left = 6
-          Height = 21
+          Height = 15
           Top = 38
-          Width = 51
+          Width = 39
           Caption = 'Lecture'
         end
         object Label3: TLabel
-          Left = 345
-          Height = 21
+          Left = 358
+          Height = 15
           Top = 38
-          Width = 43
+          Width = 32
           Anchors = [akTop, akRight]
           Caption = 'Souris'
         end
         object cbVerrouiller: TCheckBox
           Left = 4
-          Height = 25
+          Height = 19
           Top = 8
-          Width = 99
+          Width = 72
           Caption = 'Verrouiller'
           TabOrder = 3
           OnChange = cbVerrouillerChange
         end
         object lVerrouille: TLabel
           Left = 109
-          Height = 27
+          Height = 25
           Top = 4
-          Width = 103
+          Width = 98
           Caption = 'Verrouillé !'
           Font.Height = -19
           Font.Style = [fsBold]
@@ -160,13 +160,13 @@ object fjsPaneurythmie: TfjsPaneurythmie
       end
       object dsb: TDockableScrollbox
         Left = 0
-        Height = 176
+        Height = 183
         Top = 0
-        Width = 455
+        Width = 457
         Align = alClient
         Caption = 'dsb'
-        ClientHeight = 176
-        ClientWidth = 455
+        ClientHeight = 183
+        ClientWidth = 457
         ParentBackground = False
         TabOrder = 1
         HauteurLigne = 52
@@ -180,13 +180,13 @@ object fjsPaneurythmie: TfjsPaneurythmie
     end
     object tsLog: TTabSheet
       Caption = 'Log'
-      ClientHeight = 253
-      ClientWidth = 455
+      ClientHeight = 260
+      ClientWidth = 457
       object m: TMemo
         Left = 0
-        Height = 253
+        Height = 260
         Top = 0
-        Width = 455
+        Width = 457
         Align = alClient
         Lines.Strings = (
           'm'

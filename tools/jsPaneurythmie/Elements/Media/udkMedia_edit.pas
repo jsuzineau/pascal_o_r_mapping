@@ -28,6 +28,7 @@ uses
     uClean,
     uBatpro_StringList,
     uChamps,
+    uDataUtilsU,
 
     ublMedia,
     upoolMedia,
@@ -49,10 +50,13 @@ type
   ceNomFichier: TChamp_Edit;
   cbBoucler: TChamp_CheckBox;
   cbVerrouiller: TChamp_CheckBox;
+  ceHeureFin: TChamp_Edit;
   od: TOpenDialog;
 //Pascal_udk_edit_declaration_pas
   sbNomFichier: TSpeedButton;
   sbDetruire: TSpeedButton;
+  procedure ceHeureFinMouseDown(Sender: TObject; Button: TMouseButton;
+   Shift: TShiftState; X, Y: Integer);
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   procedure sbNomFichierClick(Sender: TObject);
   procedure sbDetruireClick(Sender: TObject);
@@ -95,7 +99,7 @@ begin
 
      Affecte( blMedia, TblMedia, Value);
 
-     Champs_Affecte( blMedia,[ ceTitre,ceNomFichier,cbBoucler,cbVerrouiller]);
+     Champs_Affecte( blMedia,[ ceTitre,ceNomFichier,cbBoucler,cbVerrouiller,ceHeureFin]);
      Champs_Affecte( blMedia,[ {Details_Pascal_udk_edit_component_list_pas}]);
 end;
 
@@ -115,6 +119,13 @@ end;
 procedure TdkMedia_edit.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
      inherited;
+end;
+
+procedure TdkMedia_edit.ceHeureFinMouseDown(Sender: TObject;
+ Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+     if mbRight <> Button then exit;
+     blMedia.cHeureFin.asDatetime:= Now;
 end;
 
 procedure TdkMedia_edit.sbNomFichierClick(Sender: TObject);

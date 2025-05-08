@@ -113,6 +113,9 @@ type
     vlcLengthChanged_fired: Boolean;
     vlcLengthChanged_time: TDateTime;
     procedure Do_vlcLengthChanged;
+  //Ajustement position / duree / heurefin
+  private
+    procedure Position_from_Duree_HeureFin;
   end;
 
 var
@@ -293,6 +296,25 @@ begin
      duree:= vlcLengthChanged_time;
      m.Lines.Add( 'LengthChanged : '+FormatDateTime( 'hh:nn:ss', vlcLengthChanged_time));
      lDuree.Caption:= FormatDateTime( '/ hh:nn:ss', duree);
+     if blMedia.Boucler
+     then
+         Position_from_Duree_HeureFin;
+end;
+
+procedure TfjsPaneurythmie.Position_from_Duree_HeureFin;
+var
+   HeureFin, Heure: TDateTime;
+   Restant: TDateTime;
+   temps: TDateTime;
+begin
+     HeureFin:= Frac(blMedia.HeureFin);
+     Heure   := Frac(Now             );
+
+     if HeureFin <= Heure then HeureFin:= HeureFin+1;
+
+     Restant:= HeureFin-Heure;
+     temps:= (1-Frac(Restant / duree))*duree;
+     vlc.VideoPosition:= Trunc(temps*24*3600*1000);
 end;
 
 procedure TfjsPaneurythmie.vlcLengthChanged( _Sender: TObject; const _time: TDateTime);

@@ -2,14 +2,14 @@ inherited dkMedia_edit: TdkMedia_edit
   Left = 707
   Height = 52
   Top = 420
-  Width = 380
+  Width = 540
   Caption = 'dkMedia_edit'
   ClientHeight = 52
-  ClientWidth = 380
+  ClientWidth = 540
   inherited sBackground: TShape
     Left = 8
     Height = 52
-    Width = 368
+    Width = 528
   end
   inherited sSelection: TBatpro_Shape
     Height = 52
@@ -18,7 +18,7 @@ inherited dkMedia_edit: TdkMedia_edit
     Left = 38
     Height = 21
     Top = 4
-    Width = 173
+    Width = 174
     Anchors = [akTop, akLeft, akRight]
     AutoSize = False
     ParentShowHint = False
@@ -31,7 +31,7 @@ inherited dkMedia_edit: TdkMedia_edit
     Left = 39
     Height = 21
     Top = 28
-    Width = 314
+    Width = 474
     Anchors = [akTop, akLeft, akRight]
     AutoSize = False
     ParentShowHint = False
@@ -40,7 +40,21 @@ inherited dkMedia_edit: TdkMedia_edit
     Text = 'ceNomFichier'
     Field = 'NomFichier'
   end
-  object sbDetruire: TSpeedButton[4]
+  object ceHeureFin: TChamp_Edit[4]
+    Left = 215
+    Height = 21
+    Top = 4
+    Width = 176
+    Anchors = [akTop, akRight]
+    AutoSize = False
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 4
+    Text = 'ceHeureFin'
+    OnMouseDown = ceHeureFinMouseDown
+    Field = 'HeureFin'
+  end
+  object sbDetruire: TSpeedButton[5]
     Left = 16
     Height = 22
     Hint = 'Supprimer'
@@ -72,8 +86,8 @@ inherited dkMedia_edit: TdkMedia_edit
     }
     OnClick = sbDetruireClick
   end
-  object sbNomFichier: TSpeedButton[5]
-    Left = 357
+  object sbNomFichier: TSpeedButton[6]
+    Left = 517
     Height = 22
     Hint = 'Copie vers courant'
     Top = 27
@@ -82,11 +96,11 @@ inherited dkMedia_edit: TdkMedia_edit
     Caption = '...'
     OnClick = sbNomFichierClick
   end
-  object cbBoucler: TChamp_CheckBox[6]
-    Left = 302
-    Height = 23
+  object cbBoucler: TChamp_CheckBox[7]
+    Left = 474
+    Height = 17
     Top = 2
-    Width = 66
+    Width = 54
     Alignment = taLeftJustify
     Anchors = [akTop, akRight]
     Caption = 'Boucler'
@@ -95,11 +109,11 @@ inherited dkMedia_edit: TdkMedia_edit
     ValueTrue = '-1'
     ValueFalse = '0'
   end
-  object cbVerrouiller: TChamp_CheckBox[7]
-    Left = 217
-    Height = 23
+  object cbVerrouiller: TChamp_CheckBox[8]
+    Left = 394
+    Height = 17
     Top = 2
-    Width = 81
+    Width = 64
     Alignment = taLeftJustify
     Anchors = [akTop, akRight]
     Caption = 'Verrouiller'
@@ -108,7 +122,7 @@ inherited dkMedia_edit: TdkMedia_edit
     ValueTrue = '-1'
     ValueFalse = '0'
   end
-  object od: TOpenDialog[8]
+  object od: TOpenDialog[9]
     Left = 486
     Top = 9
   end

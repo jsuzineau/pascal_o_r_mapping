@@ -61,6 +61,7 @@ type
     NomFichier: String;cNomFichier: TChamp;
     Boucler    : Boolean;
     Verrouiller: Boolean;
+    HeureFin   : TDateTime;cHeureFin: TChamp;
 //Pascal_ubl_declaration_pas_detail
   //Gestion de la clé
   public
@@ -178,6 +179,8 @@ begin
      cNomFichier:= Champs. String_from_String( NomFichier , 'NomFichier' );
                    Champs.Boolean_from_      ( Boucler    , 'Boucler'    );
                    Champs.Boolean_from_      ( Verrouiller, 'Verrouiller');
+     cHeureFin:= DateTime_from_( HeureFin, 'HeureFin'      );
+     cHeurefin.Definition.Format_DateTime:= 'yyyy/mm/dd" "hh:nn';
 
 //Pascal_ubl_constructor_pas_detail
 end;

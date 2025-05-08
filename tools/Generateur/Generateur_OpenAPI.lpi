@@ -49,7 +49,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="E:\09_Clients\ZIEMA\03_Numeridic\02_Generateur\Generateur_OpenAPI.exe"/>
+      <Filename Value="Generateur_OpenAPI"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
