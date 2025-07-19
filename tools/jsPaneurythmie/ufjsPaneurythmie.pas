@@ -12,7 +12,7 @@ uses
   udkMedia_Display,
   ufMedia_dsb,
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs,  ucDockableScrollbox,
-  ExtCtrls, StdCtrls, Spin, ComCtrls, lclvlc, vlc;
+  ExtCtrls, StdCtrls, Spin, ComCtrls, EditBtn, lclvlc, vlc;
 
 type
 
@@ -39,6 +39,8 @@ type
     Panel1: TPanel;
     pb: TProgressBar;
     seAudioVolume: TSpinEdit;
+    te: TTimeEdit;
+    tAlarme: TTimer;
     tVLC_Synchronize: TTimer;
     tsLog: TTabSheet;
     tsPrincipal: TTabSheet;
@@ -54,6 +56,7 @@ type
     procedure pbMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure pbMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure seAudioVolumeChange(Sender: TObject);
+    procedure tAlarmeTimer(Sender: TObject);
     procedure tShowTimer(Sender: TObject);
     procedure tVLC_SynchronizeTimer(Sender: TObject);
     procedure vlcOpening(Sender: TObject);
@@ -116,6 +119,9 @@ type
   //Ajustement position / duree / heurefin
   private
     procedure Position_from_Duree_HeureFin;
+  //Alarme
+  private
+    Alarme_running: Boolean;
   end;
 
 var
@@ -165,6 +171,33 @@ end;
 procedure TfjsPaneurythmie.seAudioVolumeChange(Sender: TObject);
 begin
      vlc.AudioVolume:= seAudioVolume.Value;
+end;
+
+procedure TfjsPaneurythmie.tAlarmeTimer(Sender: TObject);
+var
+   delta: double;
+begin
+     if blMedia = nil then exit;
+
+     delta:= Frac(Now)-Frac(te.Time);
+     if (0 <= delta)and(delta<=2/(24*60))// moins de 2 min aprés l'alarme
+     then
+         begin
+         if not Alarme_running
+         then
+             begin
+             Alarme_running:= True;
+             te.Hide;
+             _from_Media;
+             end;
+         end
+     else
+         begin
+         if Alarme_running
+         then
+             te.Show;
+         Alarme_running:= False;
+         end;
 end;
 
 procedure TfjsPaneurythmie._from_pool;
