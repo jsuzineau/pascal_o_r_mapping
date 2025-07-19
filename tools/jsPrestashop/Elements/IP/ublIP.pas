@@ -29,6 +29,8 @@ uses
     uuStrings,
     uBatpro_StringList,
     uChamp,
+    uPublieur,
+    uacCloud_Filter,
 
     uBatpro_Element,
     uBatpro_Ligne,
@@ -39,13 +41,17 @@ uses
 
 //Aggregations_Pascal_ubl_uses_details_pas
 
-
-    SysUtils, Classes, SqlDB, DB;
+    SysUtils, Classes,
+    {$IFDEF WINDOWS}
+    Forms,
+    {$ENDIF}
+    SqlDB, DB, StrUtils;
 
 type
  TblIP= class;
 //pattern_aggregation_classe_declaration
 
+ TIP_Reputation= ( ir_Inconnue, ir_Good, ir_Bad);
  { TblIP }
 
  TblIP
@@ -70,9 +76,23 @@ type
   public
     procedure Unlink(be: TBatpro_Element); override;
 //pattern_aggregation_function_Create_Aggregation_declaration
+  //champ ip_address
+  public
+    function sIP_ADDRESS: String;
   //champ calculé ip
   public
     ip: String;
+  //création de requêtes delete
+  public
+    function Compose_Delete_4_requests: String;
+    function Compose_Delete: String;
+  //Réputation
+  private
+    FReputation: TIP_Reputation;
+    procedure SetReputation( _Value: TIP_Reputation);
+  public
+    pReputation: TPublieur;
+    property Reputation: TIP_Reputation read FReputation write SetReputation;
   end;
 
  TIterateur_IP
@@ -83,6 +103,8 @@ type
     procedure Suivant( out _Resultat: TblIP);
     function  not_Suivant( out _Resultat: TblIP): Boolean;
   end;
+
+ { TslIP }
 
  TslIP
  =
@@ -97,6 +119,9 @@ type
   public
     function Iterateur: TIterateur_IP;
     function Iterateur_Decroissant: TIterateur_IP;
+  //Qualification
+  public
+    procedure Qualification;
   end;
 
 function blIP_from_sl( sl: TBatpro_StringList; Index: Integer): TblIP;
@@ -155,6 +180,37 @@ begin
      Result:= TIterateur_IP( Iterateur_interne_Decroissant);
 end;
 
+procedure TslIP.Qualification;
+var
+   acCloud_Filter: TacCloud_Filter;
+   I: TIterateur_IP;
+   bl: TblIP;
+begin
+     acCloud_Filter:= TacCloud_Filter.Create;
+     try
+        I:= Iterateur;
+        try
+           while I.Continuer
+           do
+             begin
+             if I.not_Suivant( bl) then continue;
+             if acCloud_Filter.Bad_reputation( bl.ip)
+             then
+                 bl.Reputation:= ir_Bad
+             else
+                 bl.Reputation:= ir_Good;
+             {$IFDEF WINDOWS}
+             Application.ProcessMessages;
+             {$ENDIF}
+             end;
+        finally
+               FreeAndNil( I);
+               end;
+     finally
+            FreeAndNil( acCloud_Filter);
+            end;
+end;
+
 //pattern_aggregation_classe_implementation
 
 { TblIP }
@@ -189,13 +245,15 @@ begin
                   Lo(Hi(Longint(ip_address))),
                   Hi(Lo(Longint(ip_address))),
                   Lo(Lo(Longint(ip_address)))
-                  ])
+                  ]);
+     FReputation:= ir_Inconnue;
+     pReputation:= TPublieur.Create(ClassName+'.pReputation');
 //Pascal_ubl_constructor_pas_detail
 end;
 
 destructor TblIP.Destroy;
 begin
-
+     FreeAndNil( pReputation);
      inherited;
 end;
 
@@ -211,6 +269,85 @@ begin
      inherited Unlink( be);
      ;
 
+end;
+
+function TblIP.sIP_ADDRESS: String;
+begin
+     Result:= IntToStr( LongWord(Longint( ip_address)));
+end;
+
+function TblIP.Compose_Delete_4_requests: String;
+begin
+     Result
+     :=
+        '#'+#13#10
+       +'# '+IntToStr(id)+' '+ip+' '+debut+' '+fin+' nb:'+IntToStr(nb)+#13#10
+       +'#'+#13#10
+
+       +'delete                                                           '#13#10
+       +'      g                                                          '#13#10
+       +'from                                                             '#13#10
+       +'              pslx_connections        as c                       '#13#10
+       +'    left join pslx_guest              as g using( id_guest      )'#13#10
+       +'where                                                            '#13#10
+       +'         c.ip_address = '+sIP_ADDRESS+';                         '#13#10
+
+       +'delete                                                           '#13#10
+       +'      p                                                          '#13#10
+       +'from                                                             '#13#10
+       +'              pslx_connections        as c                       '#13#10
+       +'    left join pslx_connections_page   as p using( id_connections)'#13#10
+       +'where                                                            '#13#10
+       +'         c.ip_address = '+sIP_ADDRESS+';                         '#13#10
+
+       +'delete                                                           '#13#10
+       +'from                                                             '#13#10
+       +'    pslx_connections_source                                      '#13#10
+       +'where                                                            '#13#10
+       +'     id_connections                                              '#13#10
+       +'     in                                                           '#13#10
+       +'           (                                                     '#13#10
+       +'           select                                                '#13#10
+       +'                 id_connections                                  '#13#10
+       +'           from                                                  '#13#10
+       +'               pslx_connections        as c                      '#13#10
+       +'           where                                                 '#13#10
+       +'                c.ip_address = '+sIP_ADDRESS+'                   '#13#10
+       +'           )                                                     '#13#10
+       +IfThen( nb < 50000,
+                ';                                                        '#13#10,
+                'limit 50000;                                             '#13#10
+                )
+
+       +'delete                                                           '#13#10
+       +'      c                                                          '#13#10
+       +'from                                                             '#13#10
+       +'              pslx_connections        as c                       '#13#10
+       +'where                                                            '#13#10
+       +'         c.ip_address = '+sIP_ADDRESS+';                '#13#10#13#10;
+
+end;
+
+function TblIP.Compose_Delete: String;
+begin
+     Result
+     :=
+        '# '+IntToStr(id)+' '+ip+' '+debut+' '+fin+' nb:'+IntToStr(nb)+#13#10
+       +'delete                                                           '#13#10
+       +'      c, s, p, g                                                 '#13#10
+       +'from                                                             '#13#10
+       +'              pslx_connections        as c                       '#13#10
+       +'    left join pslx_connections_source as s using( id_connections)'#13#10
+       +'    left join pslx_connections_page   as p using( id_connections)'#13#10
+       +'    left join pslx_guest              as g using( id_guest      )'#13#10
+       +'where                                                            '#13#10
+       +'         c.ip_address = '+sIP_ADDRESS+';                         '#13#10#13#10
+end;
+
+procedure TblIP.SetReputation(_Value: TIP_Reputation);
+begin
+     FReputation:= _Value;
+     pReputation.Publie;
 end;
 
 //pattern_aggregation_accesseurs_implementation

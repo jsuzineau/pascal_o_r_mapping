@@ -11,7 +11,7 @@ uses
  {$ENDIF}
  Interfaces, // this includes the LCL widgetset
  Forms, ufjsPrestashop, uhfIP, ufIP_dsb, udkIP_edit, udkIP_display, ublIP,
- upoolIP
+ upoolIP, uacCloud_Filter
  { you can add units after this };
 
 {$R *.res}

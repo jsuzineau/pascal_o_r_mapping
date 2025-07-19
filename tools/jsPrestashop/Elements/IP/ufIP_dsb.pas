@@ -38,7 +38,7 @@ uses
     ucDockableScrollbox,
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DBCtrls, Grids, DBGrids, ActnList, StdCtrls, ComCtrls, Buttons,
-  ExtCtrls, DB;
+  ExtCtrls, DB, Clipbrd;
 
 type
 
@@ -47,12 +47,12 @@ type
  TfIP_dsb
  =
   class(TForm)
+   bCompose_Delete: TButton;
+   bCompose_Delete_4_requests: TButton;
+   bQualification: TButton;
     dsb: TDockableScrollbox;
-    pc: TPageControl;
-    Splitter1: TSplitter;
     Panel1: TPanel;
     Panel2: TPanel;
-    bImprimer: TBitBtn;
     Label1: TLabel;
     lNbTotal: TLabel;
     Panel3: TPanel;
@@ -60,13 +60,14 @@ type
     lTri: TLabel;
     bNouveau: TButton;
     bSupprimer: TButton;
-    tsPascal_uf_pc_dfm_Aggregation: TTabSheet;
+    procedure bCompose_DeleteClick(Sender: TObject);
+    procedure bCompose_Delete_4_requestsClick(Sender: TObject);
+    procedure bQualificationClick(Sender: TObject);
     procedure dsbSelect(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure bNouveauClick(Sender: TObject);
     procedure bSupprimerClick(Sender: TObject);
-    procedure bImprimerClick(Sender: TObject);
   private
     { Déclarations privées }
     procedure NbTotal_Change;
@@ -131,7 +132,8 @@ end;
 function TfIP_dsb.Execute: Boolean;
 begin
      //pool.ToutCharger;
-     poolIP.Charge_limit(50);
+     //poolIP.Charge_limit(50);
+     poolIP.Charge_limit(500);
      _from_pool;
      Result:= True;
      Show;
@@ -180,16 +182,53 @@ begin
      _from_pool;
 end;
 
-procedure TfIP_dsb.bImprimerClick(Sender: TObject);
+procedure TfIP_dsb.bCompose_Delete_4_requestsClick(Sender: TObject);
+var
+   I: TIterateur_IP;
+   bl: TblIP;
+   S: String;
 begin
-     {
-     Batpro_Ligne_Printer.Execute( 'fIP_dsb.stw',
-                                   'IP',[],[],[],[],
-                                   ['IP'],
-                                   [poolIP.slFiltre],
-                                   [ nil],
-                                   [ nil]);
-     }
+     S:= '';
+     I:= TslIP(pool.slFiltre).Iterateur;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( bl) then continue;
+          S:= S + bl.Compose_Delete_4_requests;
+          end;
+     finally
+            FreeAndNil( I);
+            end;
+     Clipboard.AsText:= S;
+end;
+
+procedure TfIP_dsb.bQualificationClick(Sender: TObject);
+begin
+     TslIP(pool.slFiltre).Qualification;
+     ShowMessage( 'Qualification terminée');
+end;
+
+procedure TfIP_dsb.bCompose_DeleteClick(Sender: TObject);
+var
+   I: TIterateur_IP;
+   bl: TblIP;
+   S: String;
+begin
+     S:= '';
+     I:= TslIP(pool.slFiltre).Iterateur;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( bl) then continue;
+          if bl.Reputation <> ir_Bad then continue;
+          S:= S + bl.Compose_Delete;
+          end;
+     finally
+            FreeAndNil( I);
+            end;
+     Clipboard.AsText:= S;
 end;
 
 initialization
@@ -197,3 +236,4 @@ initialization
 finalization
               Clean_Destroy( FfIP_dsb);
 end.
+

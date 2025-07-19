@@ -28,7 +28,18 @@ var
 
 implementation
 
-//SELECT ip_address, count(*) as nb, min(date_add) as debut, max(date_add) as fin FROM `pslx_connections` group by ip_address order by nb desc;
+// SELECT ip_address, count(*) as nb, min(date_add) as debut, max(date_add) as fin FROM `pslx_connections` group by ip_address order by nb desc;
+
+//essai avec row_number() as id :
+// SELECT row_number() over w as id, ip_address, count(*) as nb, min(date_add) as debut, max(date_add) as fin FROM `pslx_connections` group by ip_address window w as (order by nb desc);
+{
+OPTIMIZE TABLE pslx_connections_page;
+OPTIMIZE TABLE pslx_guest;
+OPTIMIZE TABLE pslx_connections;
+
+OPTIMIZE TABLE pslx_connections_source;
+
+}
 
 {$R *.lfm}
 

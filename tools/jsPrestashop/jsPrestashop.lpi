@@ -50,6 +50,7 @@
         <Filename Value="ufjsPrestashop.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fjsPrestashop"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
@@ -76,10 +77,15 @@
         <Filename Value="Elements\IP\ufIP_dsb.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="fIP_dsb"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
         <Filename Value="Elements\IP\uhfIP.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="uacCloud_Filter.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
     </Units>

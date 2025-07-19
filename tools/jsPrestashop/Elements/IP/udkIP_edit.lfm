@@ -2,19 +2,19 @@ inherited dkIP_edit: TdkIP_edit
   Left = 382
   Height = 45
   Top = 404
-  Width = 564
+  Width = 710
   Caption = 'dkIP_edit'
   ClientHeight = 45
-  ClientWidth = 564
+  ClientWidth = 710
   inherited sBackground: TShape
     Height = 45
-    Width = 552
+    Width = 698
   end
   inherited sSelection: TBatpro_Shape
     Height = 45
   end
   object ceip_address: TChamp_Edit[2]
-    Left = 45
+    Left = 93
     Height = 21
     Top = 4
     Width = 80
@@ -26,7 +26,7 @@ inherited dkIP_edit: TdkIP_edit
     Field = 'ip_address'
   end
   object cenb: TChamp_Edit[3]
-    Left = 288
+    Left = 336
     Height = 21
     Top = 4
     Width = 80
@@ -38,7 +38,7 @@ inherited dkIP_edit: TdkIP_edit
     Field = 'nb'
   end
   object cedebut: TChamp_Edit[4]
-    Left = 371
+    Left = 419
     Height = 21
     Top = 4
     Width = 80
@@ -50,7 +50,7 @@ inherited dkIP_edit: TdkIP_edit
     Field = 'debut'
   end
   object cefin: TChamp_Edit[5]
-    Left = 455
+    Left = 503
     Height = 21
     Top = 4
     Width = 80
@@ -94,7 +94,7 @@ inherited dkIP_edit: TdkIP_edit
     OnClick = sbDetruireClick
   end
   object sbCopy_to_current: TSpeedButton[7]
-    Left = 541
+    Left = 687
     Height = 22
     Hint = 'Copie vers courant'
     Top = 3
@@ -104,7 +104,7 @@ inherited dkIP_edit: TdkIP_edit
     OnClick = sbCopy_to_currentClick
   end
   object ceip: TChamp_Edit[8]
-    Left = 129
+    Left = 177
     Height = 21
     Top = 4
     Width = 156
@@ -114,5 +114,31 @@ inherited dkIP_edit: TdkIP_edit
     TabOrder = 4
     Text = 'ceip'
     Field = 'ip'
+  end
+  object sbCompose_Delete_4_requests: TSpeedButton[9]
+    Left = 587
+    Height = 22
+    Top = 4
+    Width = 25
+    Caption = 'D4'
+    OnClick = sbCompose_Delete_4_requestsClick
+  end
+  object sbCompose_Delete: TSpeedButton[10]
+    Left = 662
+    Height = 22
+    Top = 4
+    Width = 23
+    Anchors = [akTop, akRight]
+    Caption = 'D'
+    OnClick = sbCompose_DeleteClick
+  end
+  object clID: TChamp_Label[11]
+    Left = 69
+    Height = 13
+    Top = 8
+    Width = 19
+    Alignment = taRightJustify
+    Caption = 'clID'
+    Field = 'id'
   end
 end

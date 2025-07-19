@@ -36,7 +36,7 @@ uses
     ucBatproDateTimePicker, ucChamp_DateTimePicker, ucDockableScrollbox,
     ucChamp_Lookup_ComboBox,
     Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
-    LCLType, LCLIntf;
+    LCLType, LCLIntf, StdCtrls, Clipbrd;
 
 const
      udkIP_edit_Copy_to_current=0;
@@ -53,10 +53,15 @@ type
   cenb: TChamp_Edit;
   cedebut: TChamp_Edit;
   cefin: TChamp_Edit;
+  clID: TChamp_Label;
+  sbCompose_Delete: TSpeedButton;
 //Pascal_udk_edit_declaration_pas
   sbCopy_to_current: TSpeedButton;
   sbDetruire: TSpeedButton;
+  sbCompose_Delete_4_requests: TSpeedButton;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+  procedure sbCompose_DeleteClick(Sender: TObject);
+  procedure sbCompose_Delete_4_requestsClick(Sender: TObject);
   procedure sbCopy_to_currentClick(Sender: TObject);
   procedure sbDetruireClick(Sender: TObject);
  //Gestion du cycle de vie
@@ -68,6 +73,9 @@ type
  //attributs
  private
    blIP: TblIP;
+ //Reputation
+ public
+   procedure ReputationChange;
  end;
 
 implementation
@@ -97,10 +105,38 @@ procedure TdkIP_edit.SetObjet(const Value: TObject);
 begin
      inherited SetObjet(Value);
 
+     if Assigned( blIP)
+     then
+         blIP.pReputation.Desabonne( Self, ReputationChange);
      Affecte( blIP, TblIP, Value);
+     if Assigned( blIP)
+     then
+         blIP.pReputation.Abonne( Self, ReputationChange);
 
-     Champs_Affecte( blIP,[ ceip_address,ceip,cenb,cedebut,cefin]);
+     Champs_Affecte( blIP,[ clID, ceip_address,ceip,cenb,cedebut,cefin]);
      Champs_Affecte( blIP,[ {Details_Pascal_udk_edit_component_list_pas}]);
+     ReputationChange;
+end;
+
+procedure TdkIP_edit.ReputationChange;
+var
+   c: TColor;
+begin
+     if nil = blIP then exit;
+
+     case blIP.Reputation
+     of
+       ir_Good    : c:= clGreen;
+       ir_Bad     : c:= clRed;
+       else         c:= clWindowText;
+       end;
+     clID        .Font.Color:= c;
+     ceip_address.Font.Color:= c;
+     ceip        .Font.Color:= c;
+     cenb        .Font.Color:= c;
+     cedebut     .Font.Color:= c;
+     cefin       .Font.Color:= c;
+     Refresh;
 end;
 
 procedure TdkIP_edit.sbDetruireClick(Sender: TObject);
@@ -119,6 +155,17 @@ end;
 procedure TdkIP_edit.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
      inherited;
+end;
+
+procedure TdkIP_edit.sbCompose_Delete_4_requestsClick(Sender: TObject);
+begin
+     if nil = blIP then exit;
+     Clipboard.AsText:= blIP.Compose_Delete_4_requests;
+end;
+
+procedure TdkIP_edit.sbCompose_DeleteClick(Sender: TObject);
+begin
+     Clipboard.AsText:= blIP.Compose_Delete;
 end;
 
 procedure TdkIP_edit.sbCopy_to_currentClick(Sender: TObject);
