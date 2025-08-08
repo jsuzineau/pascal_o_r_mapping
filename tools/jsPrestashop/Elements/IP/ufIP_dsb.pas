@@ -38,7 +38,7 @@ uses
     ucDockableScrollbox,
   Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, DBCtrls, Grids, DBGrids, ActnList, StdCtrls, ComCtrls, Buttons,
-  ExtCtrls, DB, Clipbrd;
+  ExtCtrls, DB, Clipbrd, LCLType;
 
 type
 
@@ -50,7 +50,10 @@ type
    bCompose_Delete: TButton;
    bCompose_Delete_4_requests: TButton;
    bQualification: TButton;
+   bBad_Reputation: TButton;
     dsb: TDockableScrollbox;
+    eFiltre: TEdit;
+    Label3: TLabel;
     Panel1: TPanel;
     Panel2: TPanel;
     Label1: TLabel;
@@ -58,16 +61,15 @@ type
     Panel3: TPanel;
     Label2: TLabel;
     lTri: TLabel;
-    bNouveau: TButton;
-    bSupprimer: TButton;
+    procedure bBad_ReputationClick(Sender: TObject);
     procedure bCompose_DeleteClick(Sender: TObject);
     procedure bCompose_Delete_4_requestsClick(Sender: TObject);
     procedure bQualificationClick(Sender: TObject);
     procedure dsbSelect(Sender: TObject);
+    procedure eFiltreChange(Sender: TObject);
+    procedure eFiltreKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure bNouveauClick(Sender: TObject);
-    procedure bSupprimerClick(Sender: TObject);
   private
     { Déclarations privées }
     procedure NbTotal_Change;
@@ -78,6 +80,7 @@ type
     function Execute: Boolean;
   //Rafraichissement
   protected
+    procedure Filtre;
     procedure _from_pool;
   //IP
   private
@@ -118,6 +121,19 @@ begin
      _from_IP;
 end;
 
+procedure TfIP_dsb.eFiltreChange(Sender: TObject);
+begin
+     eFiltre.Color:= clDefault;
+end;
+
+procedure TfIP_dsb.eFiltreKeyDown(Sender: TObject; var Key: Word;
+ Shift: TShiftState);
+begin
+     if VK_RETURN = Key
+     then
+         Filtre;
+end;
+
 procedure TfIP_dsb.FormDestroy(Sender: TObject);
 begin
      pool.pFiltreChange.Desabonne( Self, NbTotal_Change);
@@ -133,10 +149,20 @@ function TfIP_dsb.Execute: Boolean;
 begin
      //pool.ToutCharger;
      //poolIP.Charge_limit(50);
-     poolIP.Charge_limit(500);
+     poolIP.Charge_limit(500, '');
      _from_pool;
      Result:= True;
      Show;
+end;
+
+procedure TfIP_dsb.Filtre;
+begin
+     poolIP.Charge_limit(500, eFiltre.Text);
+     poolIP.hf.Clear;
+     poolIP.hf.AjouteCritereLIKE_ou_VIDE( 'ip', eFiltre.Text);
+     poolIP.hf.Execute;
+     eFiltre.Color:= clDefault;
+     _from_pool;
 end;
 
 procedure TfIP_dsb._from_pool;
@@ -150,36 +176,6 @@ begin
      Champs_Affecte( blIP,[ ]);//laissé vide pour l'instant
 
      //Pascal_uf_pc_charge_pas_Aggregation
-end;
-
-procedure TfIP_dsb.bNouveauClick(Sender: TObject);
-var
-   blNouveau: TblIP;
-begin
-     blNouveau:= pool.Nouveau;
-     if blNouveau = nil then exit;
-
-     dsb.sl:= nil;
-     _from_pool;
-end;
-
-procedure TfIP_dsb.bSupprimerClick(Sender: TObject);
-var
-   bl: TblIP;
-begin
-     dsb.Get_bl( bl);
-     if bl = nil then exit;
-
-     if mrYes
-        <>
-        MessageDlg( 'Êtes vous sûr de vouloir supprimer la ligne ?'#13#10
-                    +bl.GetLibelle,
-                    mtConfirmation, [mbYes, mbNo], 0)
-     then
-         exit;
-
-     pool.Supprimer( bl);
-     _from_pool;
 end;
 
 procedure TfIP_dsb.bCompose_Delete_4_requestsClick(Sender: TObject);
@@ -229,6 +225,20 @@ begin
             FreeAndNil( I);
             end;
      Clipboard.AsText:= S;
+end;
+
+procedure TfIP_dsb.bBad_ReputationClick(Sender: TObject);
+begin
+     if mrYes
+        <>
+        MessageDlg( 'Etes-vous sûr de vouloir marquer tout la liste en mauvaise reputation ?',
+                    mtConfirmation,
+                    mbYesNo,0, mbNo)
+     then
+         exit;
+
+     TslIP(pool.slFiltre).Qualification_Bad;
+     ShowMessage( 'Qualification terminée');
 end;
 
 initialization

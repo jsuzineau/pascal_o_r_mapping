@@ -34,11 +34,13 @@ uses
 
     uBatpro_Element,
     uBatpro_Ligne,
+    ublReputation,
 
     udmDatabase,
     upool_Ancetre_Ancetre,
     upool,
 
+    upoolReputation,
 //Aggregations_Pascal_ubl_uses_details_pas
 
     SysUtils, Classes,
@@ -67,6 +69,8 @@ type
     nb: Integer;
     debut: String;
     fin: String;
+    ip: String;
+    Reputation_field: Integer;
 //Pascal_ubl_declaration_pas_detail
   //Gestion de la clé
   public
@@ -79,9 +83,6 @@ type
   //champ ip_address
   public
     function sIP_ADDRESS: String;
-  //champ calculé ip
-  public
-    ip: String;
   //création de requêtes delete
   public
     function Compose_Delete_4_requests: String;
@@ -122,6 +123,7 @@ type
   //Qualification
   public
     procedure Qualification;
+    procedure Qualification_bad;
   end;
 
 function blIP_from_sl( sl: TBatpro_StringList; Index: Integer): TblIP;
@@ -185,6 +187,8 @@ var
    acCloud_Filter: TacCloud_Filter;
    I: TIterateur_IP;
    bl: TblIP;
+   blReputation: TblReputation;
+   Bad_reputation: Boolean;
 begin
      acCloud_Filter:= TacCloud_Filter.Create;
      try
@@ -193,12 +197,19 @@ begin
            while I.Continuer
            do
              begin
-             if I.not_Suivant( bl) then continue;
-             if acCloud_Filter.Bad_reputation( bl.ip)
+             if I.not_Suivant( bl)           then continue;
+             if bl.Reputation <> ir_Inconnue then continue;
+             if acCloud_Filter.Max_reached   then exit;
+
+             Bad_reputation:= acCloud_Filter.Bad_reputation( bl.ip);
+             blReputation:= poolReputation.Assure( bl.ip_address);
+             blReputation.Is_Bad:= Bad_reputation;
+             if Bad_reputation
              then
                  bl.Reputation:= ir_Bad
              else
                  bl.Reputation:= ir_Good;
+
              {$IFDEF WINDOWS}
              Application.ProcessMessages;
              {$ENDIF}
@@ -208,6 +219,31 @@ begin
                end;
      finally
             FreeAndNil( acCloud_Filter);
+            end;
+end;
+
+procedure TslIP.Qualification_bad;
+var
+   I: TIterateur_IP;
+   bl: TblIP;
+   blReputation: TblReputation;
+begin
+     I:= Iterateur;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( bl) then continue;
+
+          bl.Reputation:= ir_Bad;
+          blReputation:= poolReputation.Assure( bl.ip_address);
+          blReputation.Is_Bad:= False;
+          {$IFDEF WINDOWS}
+          Application.ProcessMessages;
+          {$ENDIF}
+          end;
+     finally
+            FreeAndNil( I);
             end;
 end;
 
@@ -237,15 +273,21 @@ begin
      Champs. Integer_from_Integer( nb             , 'nb'             );
      Champs.  String_from_String ( debut          , 'debut'          );
      Champs.  String_from_String ( fin            , 'fin'            );
-     Ajoute_String( ip, 'ip',False);
+     Champs.  String_from_String ( ip             , 'ip'             );
+     Champs. Integer_from_Integer( Reputation_field,'Reputation'     );
 
-     ip:= Format( '%d.%d.%d.%d',
-                  [
-                  Hi(Hi(Longint(ip_address))),
-                  Lo(Hi(Longint(ip_address))),
-                  Hi(Lo(Longint(ip_address))),
-                  Lo(Lo(Longint(ip_address)))
-                  ]);
+     if '' = ip
+     then
+         begin
+         ip:= Format( '%d.%d.%d.%d',
+                      [
+                      Hi(Hi(Longint(ip_address))),
+                      Lo(Hi(Longint(ip_address))),
+                      Hi(Lo(Longint(ip_address))),
+                      Lo(Lo(Longint(ip_address)))
+                      ]);
+         Save_to_database;
+         end;
      FReputation:= ir_Inconnue;
      pReputation:= TPublieur.Create(ClassName+'.pReputation');
 //Pascal_ubl_constructor_pas_detail
@@ -345,9 +387,19 @@ begin
 end;
 
 procedure TblIP.SetReputation(_Value: TIP_Reputation);
+var
+   nReputation: Integer;
 begin
      FReputation:= _Value;
      pReputation.Publie;
+
+     nReputation:= Integer(FReputation);
+     if Reputation_field <> nReputation
+     then
+         begin
+         Reputation_field:= nReputation;
+         Save_to_database;
+         end;
 end;
 
 //pattern_aggregation_accesseurs_implementation

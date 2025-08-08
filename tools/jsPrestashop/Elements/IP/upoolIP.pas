@@ -24,6 +24,7 @@ interface
 
 uses
   uClean,
+  uDataUtilsU,
   uBatpro_StringList,
 {implementation_uses_key}
 
@@ -32,11 +33,14 @@ uses
   uPool,
 
   ublIP,
+  ublReputation,
+
+  upoolReputation,
 
 //Aggregations_Pascal_upool_uses_details_pas
 
   uhfIP,
-  SysUtils, Classes, DB, SqlDB;
+  SysUtils, Classes, DB, SqlDB, StrUtils;
 
 type
 
@@ -69,7 +73,7 @@ type
     function SQLWHERE_ContraintesChamps: String; override;
   //Méthode de création de test
   public
-    function Test( _ip_address: Integer;  _nb: Integer;  _debut: String;  _fin: String):Integer;
+    function Test( _ip_address: Integer;  _nb: Integer;  _debut: String;  _fin: String;  _ip: String;  _Reputation: Integer):Integer;
 
 //Details_Pascal_upool_charge_detail_declaration_pas
   //Création d'itérateur
@@ -80,7 +84,7 @@ type
     function Iterateur_Decroissant: TIterateur_IP;
   //Chargement des premières lignes
   public
-    procedure Charge_limit( _N: Integer; _slLoaded: TBatpro_StringList= nil);
+    procedure Charge_limit( _N: Integer; _Filtre: String; _slLoaded: TBatpro_StringList= nil);
   end;
 
 function poolIP: TpoolIP;
@@ -144,7 +148,7 @@ begin
 //pattern_SQLWHERE_ContraintesChamps_Body
 end;
 
-function TpoolIP.Test( _ip_address: Integer;  _nb: Integer;  _debut: String;  _fin: String):Integer;
+function TpoolIP.Test( _ip_address: Integer;  _nb: Integer;  _debut: String;  _fin: String;  _ip: String;  _Reputation: Integer):Integer;
 var                                                 
    bl: TblIP;                          
 begin                                               
@@ -153,6 +157,8 @@ begin
        bl.nb             := _nb           ;
        bl.debut          := _debut        ;
        bl.fin            := _fin          ;
+       bl.ip             := _ip           ;
+       bl.Reputation_field:= _Reputation   ;
      bl.Save_to_database;                            
      Result:= bl.id;                                 
 end;                                                 
@@ -175,19 +181,67 @@ begin
      Result:= TIterateur_IP( Iterateur_interne_Decroissant);
 end;
 
-procedure TpoolIP.Charge_limit(_N: Integer; _slLoaded: TBatpro_StringList= nil);
+procedure TpoolIP.Charge_limit(_N: Integer; _Filtre: String; _slLoaded: TBatpro_StringList);
 var
    SQL: String;
+   I: TIterateur_IP;
+   bl: TblIP;
+   blReputation: TblReputation;
+   Params: TParams;
+   P: TParam;
 begin
-     SQL
-     :=
-        'select                  '#13#10
-       +'      *                 '#13#10
-       +'from                    '#13#10
-       +'    IP                  '#13#10
-       +'limit '+IntToStr(_N)+'  '#13#10
-       ;
-     Load( SQL, _slLoaded);
+     Params:= TParams.Create;
+     try
+        P:= CreeParam(Params, 'ip_filtre');
+        P.AsString:= _Filtre+'%';
+        Params.AddParam( P);
+
+        SQL
+        :=
+           'select                     '#13#10
+          +'      *                    '#13#10
+          +'from                       '#13#10
+          +'    IP                     '#13#10
+          +'where                      '#13#10
+          +'     ip like :ip_filtre    '#13#10
+          +'limit '+IntToStr(_N)   +'  '#13#10
+          ;
+        Load( SQL, _slLoaded, nil, Params);
+     finally
+            FreeAndNil( Params);
+            end;
+
+     if Assigned( _slLoaded)
+     then
+         I:= TslIP(_slLoaded).Iterateur
+     else
+         I:= TslIP(slT).Iterateur;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( bl) then continue;
+
+          blReputation:= poolReputation.Get_by_Cle( bl.ip_address);
+          if nil = blReputation
+          then
+              begin
+              if bl.id > 70 then continue;
+
+              blReputation:= poolReputation.Assure( bl.ip_address);
+              blReputation.Is_Bad:= False;
+              end;
+
+          if blReputation.Is_Bad
+          then
+              bl.Reputation:= ir_Bad
+          else
+              bl.Reputation:= ir_Good;
+          end;
+     finally
+            FreeAndNil( I);
+            end;
+
 end;
 
 initialization

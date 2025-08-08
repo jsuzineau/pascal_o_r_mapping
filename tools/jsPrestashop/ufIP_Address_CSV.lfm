@@ -1,0 +1,25 @@
+object fIP_Address_CSV: TfIP_Address_CSV
+  Left = 501
+  Height = 240
+  Top = 168
+  Width = 320
+  Caption = 'fIP_Address_CSV'
+  ClientHeight = 240
+  ClientWidth = 320
+  LCLVersion = '4.0.0.4'
+  object bOuvrir: TButton
+    Left = 36
+    Height = 25
+    Top = 33
+    Width = 75
+    Caption = 'Ouvrir'
+    TabOrder = 0
+    OnClick = bOuvrirClick
+  end
+  object od: TOpenDialog
+    DefaultExt = '.csv'
+    Filter = 'CSV File|*.csv'
+    Left = 144
+    Top = 22
+  end
+end

@@ -1,4 +1,4 @@
-unit udkIP_edit;
+unit udkReputation_edit;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
@@ -29,40 +29,33 @@ uses
     uBatpro_StringList,
     uChamps,
 
-    ublIP,
-    upoolIP,
+    ublReputation,
+    upoolReputation,
 
     uDockable, ucBatpro_Shape, ucChamp_Label, ucChamp_Edit,
     ucBatproDateTimePicker, ucChamp_DateTimePicker, ucDockableScrollbox,
     ucChamp_Lookup_ComboBox,
     Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
-    LCLType, LCLIntf, StdCtrls, Clipbrd;
+    LCLType;
 
 const
-     udkIP_edit_Copy_to_current=0;
+     udkReputation_edit_Copy_to_current=0;
 
 type
 
- { TdkIP_edit }
+ { TdkReputation_edit }
 
- TdkIP_edit
+ TdkReputation_edit
  =
   class(TDockable)
-  ceip: TChamp_Edit;
   ceip_address: TChamp_Edit;
-  cenb: TChamp_Edit;
-  cedebut: TChamp_Edit;
-  cefin: TChamp_Edit;
-  clID: TChamp_Label;
-  ceReputation: TChamp_Edit;
-  sbCompose_Delete: TSpeedButton;
+  cebad: TChamp_Edit;
+  cetested: TChamp_Edit;
+  ceip: TChamp_Edit;
 //Pascal_udk_edit_declaration_pas
   sbCopy_to_current: TSpeedButton;
   sbDetruire: TSpeedButton;
-  sbCompose_Delete_4_requests: TSpeedButton;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-  procedure sbCompose_DeleteClick(Sender: TObject);
-  procedure sbCompose_Delete_4_requestsClick(Sender: TObject);
   procedure sbCopy_to_currentClick(Sender: TObject);
   procedure sbDetruireClick(Sender: TObject);
  //Gestion du cycle de vie
@@ -73,108 +66,62 @@ type
   procedure SetObjet(const Value: TObject); override;
  //attributs
  private
-   blIP: TblIP;
- //Reputation
- public
-   procedure ReputationChange;
+   blReputation: TblReputation;
  end;
 
 implementation
 
 {$R *.lfm}
 
-{ TdkIP_edit }
+{ TdkReputation_edit }
 
-constructor TdkIP_edit.Create(AOwner: TComponent);
+constructor TdkReputation_edit.Create(AOwner: TComponent);
 begin
      inherited Create(AOwner);
      Ajoute_Colonne( ceip_address, 'ip_address', 'ip_address');
+     Ajoute_Colonne( cebad, 'bad', 'bad');
+     Ajoute_Colonne( cetested, 'tested', 'tested');
      Ajoute_Colonne( ceip, 'ip', 'ip');
-     Ajoute_Colonne( cenb, 'nb', 'nb');
-     Ajoute_Colonne( cedebut, 'debut', 'debut');
-     Ajoute_Colonne( cefin, 'fin', 'fin');
-     Ajoute_Colonne( ceReputation, 'Reputation', 'Reputation');
 
 //Details_Pascal_udk_edit_Create_AjouteColonne_pas
 end;
 
-destructor TdkIP_edit.Destroy;
+destructor TdkReputation_edit.Destroy;
 begin
      inherited Destroy;
 end;
 
-procedure TdkIP_edit.SetObjet(const Value: TObject);
+procedure TdkReputation_edit.SetObjet(const Value: TObject);
 begin
      inherited SetObjet(Value);
 
-     if Assigned( blIP)
-     then
-         blIP.pReputation.Desabonne( Self, ReputationChange);
-     Affecte( blIP, TblIP, Value);
-     if Assigned( blIP)
-     then
-         blIP.pReputation.Abonne( Self, ReputationChange);
+     Affecte( blReputation, TblReputation, Value);
 
-     Champs_Affecte( blIP,[ clID, ceip_address,ceip,cenb,cedebut,cefin,ceReputation]);
-     Champs_Affecte( blIP,[ {Details_Pascal_udk_edit_component_list_pas}]);
-     ReputationChange;
+     Champs_Affecte( blReputation,[ ceip_address,cebad,cetested,ceip]);
+     Champs_Affecte( blReputation,[ {Details_Pascal_udk_edit_component_list_pas}]);
 end;
 
-procedure TdkIP_edit.ReputationChange;
-var
-   c: TColor;
-begin
-     if nil = blIP then exit;
-
-     case blIP.Reputation
-     of
-       ir_Good    : c:= clGreen;
-       ir_Bad     : c:= clRed;
-       else         c:= clWindowText;
-       end;
-     clID        .Font.Color:= c;
-     ceip_address.Font.Color:= c;
-     ceip        .Font.Color:= c;
-     cenb        .Font.Color:= c;
-     cedebut     .Font.Color:= c;
-     cefin       .Font.Color:= c;
-     Refresh;
-end;
-
-procedure TdkIP_edit.sbDetruireClick(Sender: TObject);
+procedure TdkReputation_edit.sbDetruireClick(Sender: TObject);
 begin
      if IDYES
         <>
-        Application.MessageBox( 'Etes vous sûr de vouloir supprimer IP ?',
-                                'Suppression de IP',
+        Application.MessageBox( 'Etes vous sûr de vouloir supprimer Reputation ?',
+                                'Suppression de Reputation',
                                 MB_ICONQUESTION+MB_YESNO)
      then
          exit;
-     poolIP .Supprimer( blIP );
+     poolReputation .Supprimer( blReputation );
      Do_DockableScrollbox_Suppression;
 end;
 
-procedure TdkIP_edit.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
+procedure TdkReputation_edit.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
      inherited;
 end;
 
-procedure TdkIP_edit.sbCompose_Delete_4_requestsClick(Sender: TObject);
+procedure TdkReputation_edit.sbCopy_to_currentClick(Sender: TObject);
 begin
-     if nil = blIP then exit;
-     Clipboard.AsText:= blIP.Compose_Delete_4_requests;
-end;
-
-procedure TdkIP_edit.sbCompose_DeleteClick(Sender: TObject);
-begin
-     Clipboard.AsText:= blIP.Compose_Delete;
-end;
-
-procedure TdkIP_edit.sbCopy_to_currentClick(Sender: TObject);
-begin
-     Envoie_Message( udkIP_edit_Copy_to_current);
-     OpenDocument('https://cloudfilt.com/ip-reputation/lookup?ip='+blIP.ip);
-
+     Envoie_Message( udkReputation_edit_Copy_to_current);
 end;
 
 end.

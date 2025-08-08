@@ -4,9 +4,20 @@ object fjsPrestashop: TfjsPrestashop
   Top = 223
   Width = 320
   Caption = 'fjsPrestashop'
+  ClientHeight = 240
+  ClientWidth = 320
   LCLVersion = '4.0.0.4'
   OnCreate = FormCreate
   OnShow = FormShow
+  object bIP_Address_CSV: TButton
+    Left = 45
+    Height = 25
+    Top = 103
+    Width = 107
+    Caption = 'IP_Address_CSV'
+    TabOrder = 0
+    OnClick = bIP_Address_CSVClick
+  end
   object tShow: TTimer
     Enabled = False
     Interval = 100

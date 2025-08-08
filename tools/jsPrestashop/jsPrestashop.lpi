@@ -88,6 +88,34 @@
         <Filename Value="uacCloud_Filter.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="Elements\Reputation\udkReputation_edit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dkReputation_edit"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Elements\Reputation\ufReputation_dsb.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fReputation_dsb"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Elements\Reputation\upoolReputation.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Elements\Reputation\ublReputation.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ufIP_Address_CSV.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fIP_Address_CSV"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -98,7 +126,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="Elements\IP"/>
+      <OtherUnitFiles Value="Elements\IP;Elements\Reputation"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

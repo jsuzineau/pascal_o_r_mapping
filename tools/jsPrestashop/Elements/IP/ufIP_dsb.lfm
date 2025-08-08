@@ -45,31 +45,13 @@ object fIP_dsb: TfIP_dsb
         Caption = 'lNbTotal'
         ParentColor = False
       end
-      object bNouveau: TButton
-        Left = 496
-        Height = 25
-        Top = 8
-        Width = 75
-        Caption = 'Nouveau'
-        TabOrder = 0
-        OnClick = bNouveauClick
-      end
-      object bSupprimer: TButton
-        Left = 576
-        Height = 25
-        Top = 8
-        Width = 75
-        Caption = 'Supprimer'
-        TabOrder = 1
-        OnClick = bSupprimerClick
-      end
       object bCompose_Delete_4_requests: TButton
         Left = 136
         Height = 25
         Top = 8
         Width = 104
         Caption = 'Compose Delete 4'
-        TabOrder = 2
+        TabOrder = 0
         OnClick = bCompose_Delete_4_requestsClick
       end
       object bCompose_Delete: TButton
@@ -78,7 +60,7 @@ object fIP_dsb: TfIP_dsb
         Top = 8
         Width = 104
         Caption = 'Compose Delete'
-        TabOrder = 3
+        TabOrder = 1
         OnClick = bCompose_DeleteClick
       end
       object bQualification: TButton
@@ -87,8 +69,17 @@ object fIP_dsb: TfIP_dsb
         Top = 8
         Width = 75
         Caption = 'Qualification'
-        TabOrder = 4
+        TabOrder = 2
         OnClick = bQualificationClick
+      end
+      object bBad_Reputation: TButton
+        Left = 487
+        Height = 25
+        Top = 8
+        Width = 105
+        Caption = 'Bad_Reputation'
+        TabOrder = 3
+        OnClick = bBad_ReputationClick
       end
     end
     object Panel3: TPanel
@@ -115,6 +106,23 @@ object fIP_dsb: TfIP_dsb
         Width = 15
         Caption = 'lTri'
         ParentColor = False
+      end
+      object Label3: TLabel
+        Left = 368
+        Height = 15
+        Top = 8
+        Width = 45
+        Caption = 'Filtre IP :'
+      end
+      object eFiltre: TEdit
+        Left = 419
+        Height = 23
+        Top = 5
+        Width = 80
+        Color = clBtnFace
+        TabOrder = 0
+        OnChange = eFiltreChange
+        OnKeyDown = eFiltreKeyDown
       end
     end
     object dsb: TDockableScrollbox
