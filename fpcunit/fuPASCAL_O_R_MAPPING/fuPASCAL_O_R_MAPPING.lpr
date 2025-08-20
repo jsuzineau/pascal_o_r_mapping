@@ -10,7 +10,7 @@ uses
   utcCode_barre_pdf417, ucDockableScrollbox, uCode_barre_pdf417, utcSQLite,
   udmSQLite, uDataUtilsF, ufSQLite, tcSQLITE_LastInsertId,
   utcOpenDocument_AddHTML, ublTest_HTML, utcExcel_from_ODRE_Table,
-  utcOpenDocument_Etiquettes, utcOD_Label_Printer, utcDataUtilsU;
+  utcOpenDocument_Etiquettes, utcOD_Label_Printer, utcDataUtilsU, utc_uuStrings;
 
 {$R *.res}
 

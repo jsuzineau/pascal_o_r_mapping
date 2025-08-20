@@ -27,6 +27,7 @@ uses
     ufAccueil_Erreur,
     u_sys_,
     uuStrings,
+    uDataUtilsU,
     uBatpro_StringList,
     uChamp,
 
@@ -229,14 +230,10 @@ begin
 end;
 
 procedure TblReputation.Set_Is_Bad( _Value: Boolean);
-var
-   Old_bad: Integer;
 begin
-     Old_bad:= bad;
      bad:= IfThen( _Value, 1, 0);
-     if bad <> Old_bad
-     then
-         Save_to_database;
+     tested:= DateTimeSQL_MySQL( Now);
+     Save_to_database;
 end;
 
 //pattern_aggregation_accesseurs_implementation

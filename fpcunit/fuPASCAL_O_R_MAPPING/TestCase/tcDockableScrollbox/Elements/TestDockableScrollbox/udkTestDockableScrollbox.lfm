@@ -9,7 +9,7 @@ inherited dkTestDockableScrollbox: TdkTestDockableScrollbox
   inherited sSelection: TBatpro_Shape
     Height = 77
   end
-  object clNom: TChamp_Label[1]
+  object clNom: TChamp_Label[2]
     Left = 16
     Height = 14
     Top = 4
@@ -23,5 +23,13 @@ inherited dkTestDockableScrollbox: TdkTestDockableScrollbox
     OnClick = FormClick
     OnDblClick = FormDblClick
     Field = 'Nom'
+  end
+  object ciseI: TChamp_Integer_SpinEdit[3]
+    Left = 206
+    Height = 21
+    Top = 1
+    Width = 82
+    TabOrder = 0
+    Field = 'I'
   end
 end

@@ -25,7 +25,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="../../pascal_o_r_mapping/3_Data;Elements/Test;TestCase/tcOpenDocument_Embed_Image;TestCase/tcOpenDocument_Embed_Image/Elements/Test;TestCase/tcWinUtils;TestCase/tcWinUtils/Elements/TestWinUtils;TestCase/tcDockableScrollbox;TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox;TestCase/tcCode_barre_pdf417;../../GPL;TestCase/tcOpenDocument;TestCase/tcSQLite;TestCase/tcSQLITE_LastInsertId;TestCase/tcOpenDocument_AddHTML;TestCase/tcOpenDocument_AddHTML/Elements/Test_HTML;TestCase/tcExcel_from_ODRE_Table;TestCase/tcOpenDocument_Etiquettes;TestCase/tcOD_Label_Printer;TestCase/tcDataUtilsU"/>
+            <OtherUnitFiles Value="../../pascal_o_r_mapping/3_Data;Elements/Test;TestCase/tcOpenDocument_Embed_Image;TestCase/tcOpenDocument_Embed_Image/Elements/Test;TestCase/tcWinUtils;TestCase/tcWinUtils/Elements/TestWinUtils;TestCase/tcDockableScrollbox;TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox;TestCase/tcCode_barre_pdf417;../../GPL;TestCase/tcOpenDocument;TestCase/tcSQLite;TestCase/tcSQLITE_LastInsertId;TestCase/tcOpenDocument_AddHTML;TestCase/tcOpenDocument_AddHTML/Elements/Test_HTML;TestCase/tcExcel_from_ODRE_Table;TestCase/tcOpenDocument_Etiquettes;TestCase/tcOD_Label_Printer;TestCase/tcDataUtilsU;TestCase/tc_uuStrings"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -55,7 +55,7 @@
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="TestCase/tcOpenDocument_Embed_Image;TestCase/tcOpenDocument_Embed_Image/Elements/Test;TestCase/tcWinUtils;TestCase/tcWinUtils/Elements/TestWinUtils;TestCase/tcDockableScrollbox;TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox;TestCase/tcCode_barre_pdf417;../../GPL;TestCase/tcOpenDocument;TestCase/tcSQLite;TestCase/tcSQLITE_LastInsertId;TestCase/tcOpenDocument_AddHTML;TestCase/tcOpenDocument_AddHTML/Elements/Test_HTML;TestCase/tcExcel_from_ODRE_Table;TestCase/tcOpenDocument_Etiquettes;TestCase/tcOD_Label_Printer;TestCase/tcDataUtilsU"/>
+            <OtherUnitFiles Value="TestCase/tcOpenDocument_Embed_Image;TestCase/tcOpenDocument_Embed_Image/Elements/Test;TestCase/tcWinUtils;TestCase/tcWinUtils/Elements/TestWinUtils;TestCase/tcDockableScrollbox;TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox;TestCase/tcCode_barre_pdf417;../../GPL;TestCase/tcOpenDocument;TestCase/tcSQLite;TestCase/tcSQLITE_LastInsertId;TestCase/tcOpenDocument_AddHTML;TestCase/tcOpenDocument_AddHTML/Elements/Test_HTML;TestCase/tcExcel_from_ODRE_Table;TestCase/tcOpenDocument_Etiquettes;TestCase/tcOD_Label_Printer;TestCase/tcDataUtilsU;TestCase/tc_uuStrings"/>
             <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
           </SearchPaths>
           <Parsing>
@@ -70,6 +70,9 @@
             </Optimizations>
           </CodeGeneration>
           <Linking>
+            <Debugging>
+              <DebugInfoType Value="dsDwarf3"/>
+            </Debugging>
             <LinkSmart Value="True"/>
           </Linking>
         </CompilerOptions>
@@ -107,7 +110,7 @@
         <PackageName Value="FCL"/>
       </Item7>
     </RequiredPackages>
-    <Units Count="25">
+    <Units Count="26">
       <Unit0>
         <Filename Value="fuPASCAL_O_R_MAPPING.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -221,6 +224,10 @@
         <Filename Value="TestCase/tcDataUtilsU/utcDataUtilsU.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit24>
+      <Unit25>
+        <Filename Value="TestCase/tc_uuStrings/utc_uuStrings.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit25>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -230,7 +237,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="../../pascal_o_r_mapping/03_Data;TestCase/tcOpenDocument_Embed_Image;TestCase/tcOpenDocument_Embed_Image/Elements/Test;TestCase/tcWinUtils;TestCase/tcWinUtils/Elements/TestWinUtils;TestCase/tcDockableScrollbox;TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox;TestCase/tcCode_barre_pdf417;../../GPL;TestCase/tcOpenDocument;TestCase/tcSQLite;TestCase/tcSQLITE_LastInsertId;TestCase/tcOpenDocument_AddHTML;TestCase/tcOpenDocument_AddHTML/Elements/Test_HTML;TestCase/tcExcel_from_ODRE_Table;TestCase/tcOpenDocument_Etiquettes;TestCase/tcOD_Label_Printer;TestCase/tcDataUtilsU"/>
+      <OtherUnitFiles Value="../../pascal_o_r_mapping/03_Data;TestCase/tcOpenDocument_Embed_Image;TestCase/tcOpenDocument_Embed_Image/Elements/Test;TestCase/tcWinUtils;TestCase/tcWinUtils/Elements/TestWinUtils;TestCase/tcDockableScrollbox;TestCase/tcDockableScrollbox/Elements/TestDockableScrollbox;TestCase/tcCode_barre_pdf417;../../GPL;TestCase/tcOpenDocument;TestCase/tcSQLite;TestCase/tcSQLITE_LastInsertId;TestCase/tcOpenDocument_AddHTML;TestCase/tcOpenDocument_AddHTML/Elements/Test_HTML;TestCase/tcExcel_from_ODRE_Table;TestCase/tcOpenDocument_Etiquettes;TestCase/tcOD_Label_Printer;TestCase/tcDataUtilsU;TestCase/tc_uuStrings"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Parsing>

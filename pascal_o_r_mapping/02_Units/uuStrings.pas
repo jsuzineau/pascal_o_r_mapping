@@ -167,6 +167,11 @@ function Delete_suffix( _S, _Suffix: String): String;
 function EncodeUrl(url: string): string;
 function DecodeUrl(url: string): string;
 
+function Bytes_from_String(const _S: string): TBytes;
+function String_from_Bytes(const _B: TBytes): string;
+
+function Hex_from_Bytes(const _B: TBytes): string;
+function Bytes_from_Hex( _S: String): TBytes;
 
 implementation
 
@@ -1248,5 +1253,56 @@ begin
        Inc(x);
        end;
 end;
+
+function Bytes_from_String(const _S: string): TBytes;
+var
+   i: Integer;
+begin
+     SetLength(Result, Length(_S));
+     for i:= 1 to Length(_S)
+     do
+       Result[i-1]:= Ord(_S[i]);
+end;
+
+function String_from_Bytes(const _B: TBytes): string;
+var
+   i: Integer;
+begin
+     SetLength(Result, Length(_B));
+     for i:= Low(_B) to High(_B)
+     do
+       Result[i+1]:= chr(_B[i]);
+end;
+
+function Hex_from_Bytes(const _B: TBytes): string;
+const
+     HexChars: array [0..15] of Char = '0123456789abcdef';
+var
+  i: Integer;
+begin
+  SetLength(Result, Length(_B)*2);
+  for i := 0 to High(_B) do
+  begin
+    Result[i*2+1] := HexChars[_B[i] shr 4];
+    Result[i*2+2] := HexChars[_B[i] and $F];
+  end;
+end;
+
+function Bytes_from_Hex( _S: String): TBytes;
+var
+   I: Integer;
+   V: Integer;
+   B: Byte;
+begin
+     Result:= [];
+     for I:= 0 to Length(_S) div 2
+     do
+       begin
+       if not TryStrToInt( '$'+Copy( _S, 2*I, 2), V) then continue;
+       B:= V;
+       Result:= Result + [B];
+       end;
+end;
+
 
 end.

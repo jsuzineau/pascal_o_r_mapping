@@ -31,10 +31,10 @@ uses
 
     ublTestDockableScrollbox,
 
-    uDockable,
-    ucBatpro_Shape, ucChamp_Label, ucChamp_Edit, ucBatproDateTimePicker,
-    ucChamp_DateTimePicker, Classes, SysUtils, FileUtil, Forms, Controls,
-    Graphics, Dialogs, Buttons,LCLType;
+    uDockable, ucBatpro_Shape, ucChamp_Label, ucChamp_Edit,
+    ucBatproDateTimePicker, ucChamp_DateTimePicker, ucChamp_Integer_SpinEdit,
+    Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Buttons,
+    LCLType;
 
 type
 
@@ -43,6 +43,7 @@ type
  TdkTestDockableScrollbox
  =
   class(TDockable)
+  ciseI: TChamp_Integer_SpinEdit;
   clNom: TChamp_Label;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
  public
@@ -64,7 +65,10 @@ begin
 
      Affecte( blTestDockableScrollbox, TblTestDockableScrollbox, Value);
 
-     Champs_Affecte( blTestDockableScrollbox, [clNom]);
+     Ajoute_Colonne( clNom, 'Nom', 'Nom');
+     Ajoute_Colonne( ciseI, 'I'  , 'I'  , dsbt_Decimal);
+     Ajoute_Surtitre('Surtitre', 0, 1);
+     Champs_Affecte( blTestDockableScrollbox, [clNom, ciseI]);
 end;
 
 procedure TdkTestDockableScrollbox.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);

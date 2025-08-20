@@ -268,6 +268,7 @@ procedure TDockable.SetObjet( const Value: TObject);
 begin
      FObjet:= Value;
      SetBackgroundColor( Couleur);
+     Visible:= Assigned( FObjet);
 end;
 
 procedure TDockable.SetBackgroundColor( _Color: TColor);

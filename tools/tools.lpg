@@ -55,6 +55,13 @@
           <Mode Name="Default"/>
         </BuildModes>
       </Target>
+      <Target FileName="..\fpcunit\fuPASCAL_O_R_MAPPING\fuPASCAL_O_R_MAPPING.lpi">
+        <BuildModes>
+          <Mode Name="Debug" Compile="True"/>
+          <Mode Name="Release"/>
+          <Mode Name="Debug Lite"/>
+        </BuildModes>
+      </Target>
     </Targets>
   </ProjectGroup>
 </CONFIG>

@@ -10,12 +10,12 @@ object Dockable: TDockable
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
+  LCLVersion = '4.0.0.4'
   OnClick = FormClick
   OnDblClick = FormDblClick
   OnKeyDown = DockableKeyDown
   OnMouseWheelDown = FormMouseWheelDown
   OnMouseWheelUp = FormMouseWheelUp
-  LCLVersion = '3.4.0.0'
   object sBackground: TShape
     Left = 0
     Height = 640
@@ -33,8 +33,8 @@ object Dockable: TDockable
     Align = alLeft
     Brush.Style = bsClear
     Pen.Style = psClear
-    OnMouseDown = sSelectionMouseDown
     Shape = stCircle
+    OnMouseDown = sSelectionMouseDown
     Batpro_Shape = bstRectangle
   end
 end

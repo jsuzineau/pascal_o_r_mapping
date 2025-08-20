@@ -105,6 +105,7 @@ var
         bl:= TblTestDockableScrollbox.Create( sl, nil, nil);
 
         bl.Nom:= _Nom;
+        bl.I:= Random( 50);
 
         Ajoute( bl);
    end;

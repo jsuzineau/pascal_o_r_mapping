@@ -237,7 +237,7 @@ begin
 
           bl.Reputation:= ir_Bad;
           blReputation:= poolReputation.Assure( bl.ip_address);
-          blReputation.Is_Bad:= False;
+          blReputation.Is_Bad:= True;
           {$IFDEF WINDOWS}
           Application.ProcessMessages;
           {$ENDIF}
@@ -409,5 +409,4 @@ end;
 initialization
 finalization
 end.
-
 

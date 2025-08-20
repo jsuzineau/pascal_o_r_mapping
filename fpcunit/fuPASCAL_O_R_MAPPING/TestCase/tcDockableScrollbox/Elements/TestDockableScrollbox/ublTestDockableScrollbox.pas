@@ -47,6 +47,7 @@ type
   public
     Nom: String;
     graphic_Nom: String;
+    I: Integer;
   end;
 
  TIterateur_TestDockableScrollbox
@@ -136,7 +137,8 @@ begin
 
      Champs.ChampDefinitions.NomTable:= 'TestDockableScrollbox';
 
-     Ajoute_String( Nom, 'Nom', False);
+     Ajoute_String ( Nom, 'Nom', False);
+     Ajoute_Integer( I  , 'I'  , False);
 end;
 
 destructor TblTestDockableScrollbox.Destroy;
