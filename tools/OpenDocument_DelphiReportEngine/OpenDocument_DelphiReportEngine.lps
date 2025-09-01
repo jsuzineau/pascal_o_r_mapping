@@ -3,7 +3,7 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Active="Release"/>
+    <BuildModes Active="Linux Debug"/>
     <Units Count="128">
       <Unit0>
         <Filename Value="OpenDocument_DelphiReportEngine.lpr"/>
@@ -13,6 +13,16 @@
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
+        <Filename Value="..\..\pascal_o_r_mapping\07_sources_externes\synapse\source\lib\blcksock.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="1261"/>
+        <CursorPos X="61" Y="1266"/>
+        <UsageCount Value="103"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\uBatpro_Element.pas"/>
         <ComponentName Value="pool_Ancetre_Ancetre"/>
         <HasResources Value="True"/>
@@ -22,8 +32,8 @@
         <CursorPos X="79" Y="4172"/>
         <UsageCount Value="207"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit1>
-      <Unit2>
+      </Unit2>
+      <Unit3>
         <Filename Value="ufXML_Editor.pas"/>
         <ComponentName Value="fXML_Editor"/>
         <HasResources Value="True"/>
@@ -32,15 +42,15 @@
         <TopLine Value="112"/>
         <CursorPos X="62" Y="150"/>
         <UsageCount Value="197"/>
-      </Unit2>
-      <Unit3>
+      </Unit3>
+      <Unit4>
         <Filename Value="..\..\OOo\uOD_Table_Batpro.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="13"/>
         <CursorPos X="6"/>
         <UsageCount Value="179"/>
-      </Unit3>
-      <Unit4>
+      </Unit4>
+      <Unit5>
         <Filename Value="ufFields_vle.pas"/>
         <ComponentName Value="fFields_vle"/>
         <HasResources Value="True"/>
@@ -50,8 +60,8 @@
         <CursorPos X="45" Y="81"/>
         <UsageCount Value="152"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit4>
-      <Unit5>
+      </Unit5>
+      <Unit6>
         <Filename Value="ufTextFile.pas"/>
         <ComponentName Value="fTextFile"/>
         <HasResources Value="True"/>
@@ -60,8 +70,8 @@
         <TopLine Value="11"/>
         <CursorPos X="73" Y="31"/>
         <UsageCount Value="149"/>
-      </Unit5>
-      <Unit6>
+      </Unit6>
+      <Unit7>
         <Filename Value="ufFields_vst.pas"/>
         <ComponentName Value="fFields_vst"/>
         <HasResources Value="True"/>
@@ -70,8 +80,8 @@
         <TopLine Value="136"/>
         <CursorPos X="6" Y="184"/>
         <UsageCount Value="148"/>
-      </Unit6>
-      <Unit7>
+      </Unit7>
+      <Unit8>
         <Filename Value="ufFields_vstInsertion.pas"/>
         <ComponentName Value="fFields_vstInsertion"/>
         <HasResources Value="True"/>
@@ -81,8 +91,8 @@
         <CursorPos X="39" Y="63"/>
         <UsageCount Value="148"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit7>
-      <Unit8>
+      </Unit8>
+      <Unit9>
         <Filename Value="ufFields_vstTables.pas"/>
         <ComponentName Value="fFields_vstTables"/>
         <HasResources Value="True"/>
@@ -91,25 +101,14 @@
         <TopLine Value="12"/>
         <CursorPos X="2" Y="17"/>
         <UsageCount Value="148"/>
-      </Unit8>
-      <Unit9>
+      </Unit9>
+      <Unit10>
         <Filename Value="..\..\pascal_o_r_mapping\03_Data\upoolG_BECP.pas"/>
         <HasResources Value="True"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="113"/>
         <CursorPos Y="128"/>
         <UsageCount Value="103"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit9>
-      <Unit10>
-        <Filename Value="..\..\pascal_o_r_mapping\07_sources_externes\synapse\source\lib\blcksock.pas"/>
-        <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="1261"/>
-        <CursorPos X="61" Y="1266"/>
-        <UsageCount Value="103"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit10>
       <Unit11>
@@ -934,10 +933,11 @@
       </Unit111>
       <Unit112>
         <Filename Value="..\..\pascal_o_r_mapping\05_Controls\ucDockableScrollbox.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="1327"/>
-        <CursorPos X="64" Y="1345"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="6"/>
         <UsageCount Value="11"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit112>
       <Unit113>
@@ -1031,7 +1031,7 @@
       </Unit123>
       <Unit124>
         <Filename Value="..\..\pascal_o_r_mapping\06_Formes\OpenDocument_DelphiReportEngine\Elements\OpenDocument_DelphiReportEngine_Test\uodOpenDocument_DelphiReportEngine_Test.pas"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <TopLine Value="14"/>
         <CursorPos X="5" Y="36"/>
         <UsageCount Value="10"/>
@@ -1047,7 +1047,7 @@
       </Unit125>
       <Unit126>
         <Filename Value="..\..\pascal_o_r_mapping\06_Formes\OpenDocument_DelphiReportEngine\ufOpenDocument_DelphiReportEngine.pas"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <TopLine Value="38"/>
         <CursorPos X="23" Y="42"/>
         <UsageCount Value="10"/>
@@ -1056,7 +1056,7 @@
       </Unit126>
       <Unit127>
         <Filename Value="..\..\pascal_o_r_mapping\06_Formes\OpenDocument_DelphiReportEngine\ufXML_Editor.pas"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="16"/>
         <CursorPos X="32" Y="28"/>
         <UsageCount Value="10"/>
@@ -1064,7 +1064,7 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit127>
     </Units>
-    <JumpHistory Count="8" HistoryIndex="7">
+    <JumpHistory Count="16" HistoryIndex="15">
       <Position1>
         <Filename Value="OpenDocument_DelphiReportEngine.lpr"/>
         <Caret Line="20" Column="79"/>
@@ -1097,6 +1097,38 @@
         <Filename Value="OpenDocument_DelphiReportEngine.lpr"/>
         <Caret Line="31" Column="39"/>
       </Position8>
+      <Position9>
+        <Filename Value="..\..\pascal_o_r_mapping\05_Controls\ucDockableScrollbox.pas"/>
+        <Caret Line="1345" Column="64" TopLine="1327"/>
+      </Position9>
+      <Position10>
+        <Filename Value="..\..\pascal_o_r_mapping\05_Controls\ucDockableScrollbox.pas"/>
+        <Caret Line="279" Column="15" TopLine="391"/>
+      </Position10>
+      <Position11>
+        <Filename Value="..\..\pascal_o_r_mapping\05_Controls\ucDockableScrollbox.pas"/>
+        <Caret Line="99" Column="15" TopLine="78"/>
+      </Position11>
+      <Position12>
+        <Filename Value="..\..\pascal_o_r_mapping\05_Controls\ucDockableScrollbox.pas"/>
+        <Caret Line="1445" Column="11" TopLine="1346"/>
+      </Position12>
+      <Position13>
+        <Filename Value="..\..\pascal_o_r_mapping\05_Controls\ucDockableScrollbox.pas"/>
+        <Caret Line="77" Column="18" TopLine="64"/>
+      </Position13>
+      <Position14>
+        <Filename Value="..\..\pascal_o_r_mapping\05_Controls\ucDockableScrollbox.pas"/>
+        <Caret Line="406" Column="37" TopLine="406"/>
+      </Position14>
+      <Position15>
+        <Filename Value="..\..\pascal_o_r_mapping\05_Controls\ucDockableScrollbox.pas"/>
+        <Caret Line="99" Column="15" TopLine="78"/>
+      </Position15>
+      <Position16>
+        <Filename Value="..\..\pascal_o_r_mapping\05_Controls\ucDockableScrollbox.pas"/>
+        <Caret Line="1451" Column="35" TopLine="1439"/>
+      </Position16>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

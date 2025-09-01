@@ -70,8 +70,10 @@ function InputPassword(const ACaption, APrompt, ADefault: string): String;
 
 procedure uWinUtils_Control_Color( Color: TColor; Controls: array of TControl);
 
+{$IFDEF WINDOWS}
 function LastError_Message( _dwMessageId: DWORD): String; overload;
 function LastError_Message: String; overload;
+{$ENDIF}
 {$ENDIF}
 
 implementation
@@ -478,6 +480,7 @@ begin
        end;
 end;
 
+{$IFDEF WINDOWS}
 function LastError_Message( _dwMessageId: DWORD): String; overload;
 var
    MessageSysteme: PChar;
@@ -501,6 +504,7 @@ function LastError_Message: String; overload;
 begin
      Result:= LastError_Message( GetLastError);
 end;
+{$ENDIF}
 {$ENDIF}
 
 initialization
