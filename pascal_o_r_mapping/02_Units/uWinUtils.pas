@@ -69,6 +69,9 @@ function Panel_from_sl( sl: TBatpro_StringList; I: Integer): TPanel;
 function InputPassword(const ACaption, APrompt, ADefault: string): String;
 
 procedure uWinUtils_Control_Color( Color: TColor; Controls: array of TControl);
+
+function LastError_Message( _dwMessageId: DWORD): String; overload;
+function LastError_Message: String; overload;
 {$ENDIF}
 
 implementation
@@ -473,6 +476,30 @@ begin
        else if C is TComboBox then TComboBox(C).Color:= Color;
        C.Refresh;
        end;
+end;
+
+function LastError_Message( _dwMessageId: DWORD): String; overload;
+var
+   MessageSysteme: PChar;
+   MessageSysteme_raw: RawByteString;
+   sMessageSysteme: String;
+begin
+     FormatMessage( FORMAT_MESSAGE_FROM_SYSTEM or
+                    FORMAT_MESSAGE_ALLOCATE_BUFFER,
+                    nil, _dwMessageId,
+                    0, @MessageSysteme, 0, nil);
+     MessageSysteme_raw:= MessageSysteme;
+     SetCodePage( MessageSysteme_raw, GetACP, False);//CP_ACP ne fonctionne pas
+     sMessageSysteme:= MessageSysteme_raw;
+     Result
+     :=
+         'Erreur Windows '+IntToStr(error)+', $'+IntToHex(error)+#13#10
+       + sMessageSysteme;
+end;
+
+function LastError_Message: String; overload;
+begin
+     Result:= LastError_Message( GetLastError);
 end;
 {$ENDIF}
 
