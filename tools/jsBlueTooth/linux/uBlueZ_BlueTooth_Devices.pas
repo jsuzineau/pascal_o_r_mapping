@@ -97,6 +97,7 @@ uses
     RemoteName: array[0..255] of Char;
     PRemoteName: PCChar;
     i: Integer;
+    flags: clong;
     timeout1: Integer = 5;
     timeout2: Integer = 5000;
  begin
@@ -116,9 +117,11 @@ uses
       sError:= 'Echec de hci_inquiry_1';
       scan_info_ptr:=@scan_info[0];
       FillByte(scan_info[0],Length(scan_info)*SizeOf(inquiry_info),0);
+      flags:= IREQ_CACHE_FLUSH;
+      //flags:= 0;
       found_devices
       :=
-        hci_inquiry_1( Host_id, timeout1, Length(scan_info), nil, @scan_info_ptr, IREQ_CACHE_FLUSH);
+        hci_inquiry_1( Host_id, timeout1, Length(scan_info), nil, @scan_info_ptr, flags);
       if found_devices < 0 then exit;
 
       SetLength(FItems, found_devices);
