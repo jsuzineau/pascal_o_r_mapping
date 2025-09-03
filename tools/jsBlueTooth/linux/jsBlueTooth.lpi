@@ -26,9 +26,6 @@
     </RunParams>
     <RequiredPackages>
       <Item>
-        <PackageName Value="bluetoothlaz"/>
-      </Item>
-      <Item>
         <PackageName Value="OD_DelphiReportEngine_Units"/>
       </Item>
       <Item>
@@ -48,7 +45,7 @@
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
-        <Filename Value="uBlueZ_BlueTooth_Devices.pas"/>
+        <Filename Value="uDBUS_BlueTooth_Devices.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
     </Units>

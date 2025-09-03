@@ -5,7 +5,7 @@ unit ufjsBlueTooth;
 interface
 
 uses
-    uBlueZ_BlueTooth_Devices,
+    uDBUS_BlueTooth_Devices,
  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls;
 
 type
