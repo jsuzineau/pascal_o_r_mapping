@@ -11,7 +11,8 @@ uses
  {$ENDIF}
  Interfaces, // this includes the LCL widgetset
  Forms, ufjsBlueTooth,
- uDBUS_BlueTooth_Devices
+ uDBUS_BlueTooth_Devices, uBlueZ_BlueTooth_Client, bluetoothlaz, 
+uBlueZ_BlueTooth_Server
  { you can add units after this };
 
 {$R *.res}

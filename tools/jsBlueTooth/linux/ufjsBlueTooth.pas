@@ -6,6 +6,8 @@ interface
 
 uses
     uDBUS_BlueTooth_Devices,
+    uBlueZ_BlueTooth_Client,
+    uBlueZ_BlueTooth_Server,
  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls;
 
 type
@@ -78,60 +80,60 @@ begin
 end;
 
 procedure TfjsBlueTooth.bServerClick(Sender: TObject);
-//var
-//   bts: TBluetooth_Server;
+var
+   bts: TBluetooth_Server;
 begin
-      //bts := TBluetooth_Server.Create;
-      //try
-      //  if not bts.Initialize
-      //  then
-      //      m.Lines.Add( 'TBluetooth_Server.Initialize:'+WSALastError_Message)
-      //  else
-      //      begin
-      //      m.Lines.Add( 'Bluetooth server initialized:');
-      //      m.Lines.Add( bts.GetServerAddress);
-      //
-      //      if not bts.Listen
-      //      then
-      //          m.Lines.Add( 'TBluetooth_Server.Listen:'+WSALastError_Message)
-      //      else
-      //          begin
-      //          m.Lines.Add( 'Client connected.');
-      //          bts.Write('Hello from Bluetooth server!');
-      //          end;
-      //      end;
-      //finally
-      //       bts.Free;
-      //end;
+      bts := TBluetooth_Server.Create;
+      try
+        if not bts.Initialize
+        then
+            m.Lines.Add( 'TBluetooth_Server.Initialize:'+bts.sError)
+        else
+            begin
+            m.Lines.Add( 'Bluetooth server initialized:');
+            m.Lines.Add( bts.GetServerAddress);
+
+            if not bts.Listen
+            then
+                m.Lines.Add( 'TBluetooth_Server.Listen:'+bts.sError)
+            else
+                begin
+                m.Lines.Add( 'Client connected.');
+                bts.Write('Hello from Bluetooth server!');
+                end;
+            end;
+      finally
+             bts.Free;
+      end;
 end;
 
 procedure TfjsBlueTooth.bClientClick(Sender: TObject);
-//var
-//   i: Integer;
-//   bd: TBluetoothDevice;
-//   bc: TBluetooth_Client;
-//   s: string;
+var
+   i: Integer;
+   bd: TBluetoothDevice;
+   bc: TBluetooth_Client;
+   s: string;
 begin
-     //i:= lb.ItemIndex;
-     //if -1 = i then exit;
-     //bd:= lb.Items.Objects[i] as TBluetoothDevice;
-     //bc := TBluetooth_Client.Create;
-     //try
-     //  if not bc.ConnectTo( bd.Address)
-     //  then
-     //      m.Lines.Add( 'TBluetooth_Client.ConnectTo:'+WSALastError_Message)
-     //  else
-     //      begin
-     //      m.Lines.Add( 'TBluetooth_Client connecté, envoi');
-     //      bc.WriteString('Hello from client !');
-     //      // Lecture avec timeout, à adapter à ton usage
-     //      if bc.ReadString(s) > 0
-     //      then
-     //          m.Lines.Add( 'TBluetooth_Client Reçu:'+s);
-     //      end;
-     //finally
-     //       bc.Free;
-     //       end;
+     i:= lb.ItemIndex;
+     if -1 = i then exit;
+     bd:= lb.Items.Objects[i] as TBluetoothDevice;
+     bc := TBluetooth_Client.Create;
+     try
+       if not bc.ConnectTo( bd.Address,bd.Channel)
+       then
+           m.Lines.Add( 'TBluetooth_Client.ConnectTo:'+bc.sError)
+       else
+           begin
+           m.Lines.Add( 'TBluetooth_Client connecté, envoi');
+           bc.WriteString('Hello from client !');
+           // Lecture avec timeout, à adapter à ton usage
+           if bc.ReadString(s) > 0
+           then
+               m.Lines.Add( 'TBluetooth_Client Reçu:'+s);
+           end;
+     finally
+            bc.Free;
+            end;
 end;
 
 end.
