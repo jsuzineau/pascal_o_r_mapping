@@ -1,4 +1,4 @@
-# Norme d’Indentation pour Pascal (Delphi/Lazarus) — Style WhiteSmith
+# Norme de codage pour langage Pascal objet
 
 ## 1.Indentation des blocs
 ### 1.1 Règle générale:
@@ -168,3 +168,8 @@ type
     property Items: TBluetoothDevice_array read FItems;
   end;  
 ```
+## 7 Déclarations de variables
+- Ne pas déclarer de variables à l'intérieur d'un bloc "begin end"
+- Toujours ramener la déclaration de variable dans une section "var"
+  précédent le bloc "begin end;" de la "function", "procedure" 
+  ou le le bloc "begin end." du programme 
