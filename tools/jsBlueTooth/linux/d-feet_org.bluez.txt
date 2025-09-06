@@ -1,0 +1,209 @@
+{
+'/org/bluez':
+  {
+  'org.bluez.AgentManager1': {},
+  'org.bluez.HealthManager1': {},
+  'org.bluez.ProfileManager1': {},
+  'org.freedesktop.DBus.Introspectable': {}
+  },
+'/org/bluez/hci0':
+  {
+  'org.bluez.Adapter1':
+    {
+    'Address': '00:1A:7D:DA:71:15',
+    'AddressType': 'public',
+    'Alias': 'First-Boss',
+    'Class': 8126724,
+    'Connectable': False,
+    'Discoverable': False,
+    'DiscoverableTimeout': 180,
+    'Discovering': False,
+    'Manufacturer': 10,
+    'Modalias': 'usb:v1D6Bp0246d054F',
+    'Name': 'First-Boss',
+    'Pairable': True,
+    'PairableTimeout': 0,
+    'PowerState': 'on',
+    'Powered': True,
+    'Roles': ['central', 'peripheral'],
+    'UUIDs': ['00001133-0000-1000-8000-00805f9b34fb',
+              '0000110e-0000-1000-8000-00805f9b34fb',
+              '00001105-0000-1000-8000-00805f9b34fb',
+              '03b80e5a-ede8-4b33-a751-6ce34ec4c700',
+              '00001132-0000-1000-8000-00805f9b34fb',
+              '00001200-0000-1000-8000-00805f9b34fb',
+              '00001104-0000-1000-8000-00805f9b34fb',
+              '00005005-0000-1000-8000-0002ee000001',
+              '0000110c-0000-1000-8000-00805f9b34fb',
+              '00001801-0000-1000-8000-00805f9b34fb',
+              '0000112f-0000-1000-8000-00805f9b34fb',
+              '0000180a-0000-1000-8000-00805f9b34fb',
+              '0000110b-0000-1000-8000-00805f9b34fb',
+              '00001800-0000-1000-8000-00805f9b34fb',
+              '0000111f-0000-1000-8000-00805f9b34fb',
+              '0000110a-0000-1000-8000-00805f9b34fb',
+              '0000112d-0000-1000-8000-00805f9b34fb',
+              '00001106-0000-1000-8000-00805f9b34fb',
+              '0000111e-0000-1000-8000-00805f9b34fb'],
+    'Version': 6
+    },
+  'org.bluez.BatteryProviderManager1': {},
+  'org.bluez.GattManager1': {},
+  'org.bluez.LEAdvertisingManager1':
+    {
+    'ActiveInstances': 0,
+    'SupportedCapabilities':{ 'MaxAdvLen': 31, 'MaxScnRspLen': 31 },
+    'SupportedFeatures': [],
+    'SupportedIncludes': ['tx-power','appearance','local-name'],
+    'SupportedInstances': 5},
+  'org.bluez.Media1':
+    {
+    'SupportedUUIDs':
+      [
+      '0000110a-0000-1000-8000-00805f9b34fb',
+      '0000110b-0000-1000-8000-00805f9b34fb'
+      ]
+    },
+  'org.bluez.NetworkServer1': {},
+  'org.bluez.SimAccess1': {'Connected': False},
+  'org.freedesktop.DBus.Introspectable': {},
+  'org.freedesktop.DBus.Properties': {}
+  },
+'/org/bluez/hci0/dev_FC_58_FA_AC_FD_D6':
+  {
+  'org.bluez.Device1':
+    {
+    'Adapter': '/org/bluez/hci0',
+    'Address': 'FC:58:FA:AC:FD:D6',
+    'AddressType': 'public',
+    'Alias': 'Sly '
+             'Essb',
+    'Blocked': False,
+    'Bonded': True,
+    'Class': 2491396,
+    'Connected': False,
+    'Icon': 'audio-headset',
+    'LegacyPairing': False,
+    'Name': 'Sly '
+            'Essb',
+    'Paired': True,
+    'ServicesResolved': False,
+    'Trusted': True,
+    'UUIDs': ['00001108-0000-1000-8000-00805f9b34fb',
+              '0000110b-0000-1000-8000-00805f9b34fb',
+              '0000110c-0000-1000-8000-00805f9b34fb',
+              '0000110e-0000-1000-8000-00805f9b34fb',
+              '0000111e-0000-1000-8000-00805f9b34fb']},
+  'org.bluez.MediaControl1': {'Connected': False},
+  'org.freedesktop.DBus.Introspectable': {},
+  'org.freedesktop.DBus.Properties': {}
+  },
+'/org/bluez/test':
+  {
+  'org.bluez.SimAccessTest1': {},
+  'org.freedesktop.DBus.Introspectable': {}}
+  }
+
+================================================================================
+{
+'/org/bluez':
+ {
+ 'org.bluez.AgentManager1': {},
+ 'org.bluez.HealthManager1': {},
+ 'org.bluez.ProfileManager1': {},
+ 'org.freedesktop.DBus.Introspectable': {}
+ },
+'/org/bluez/hci0':
+ {
+ 'org.bluez.Adapter1':
+   {
+   'Address': '00:1A:7D:DA:71:15',
+   'AddressType': 'public',
+   'Alias': 'First-Boss',
+   'Class': 8126724,
+   'Connectable': False,
+   'Discoverable': False,
+   'DiscoverableTimeout': 180,
+   'Discovering': False,
+   'Manufacturer': 10,
+   'Modalias': 'usb:v1D6Bp0246d054F',
+   'Name': 'First-Boss',
+   'Pairable': True,
+   'PairableTimeout': 0,
+   'PowerState': 'on',
+   'Powered': True,
+   'Roles': ['central', 'peripheral'],
+   'UUIDs': ['00001133-0000-1000-8000-00805f9b34fb',
+             '0000110e-0000-1000-8000-00805f9b34fb',
+             '00001105-0000-1000-8000-00805f9b34fb',
+             '03b80e5a-ede8-4b33-a751-6ce34ec4c700',
+             '00001132-0000-1000-8000-00805f9b34fb',
+             '00001200-0000-1000-8000-00805f9b34fb',
+             '00001104-0000-1000-8000-00805f9b34fb',
+             '00005005-0000-1000-8000-0002ee000001',
+             '0000110c-0000-1000-8000-00805f9b34fb',
+             '00001801-0000-1000-8000-00805f9b34fb',
+             '0000112f-0000-1000-8000-00805f9b34fb',
+             '0000180a-0000-1000-8000-00805f9b34fb',
+             '0000110b-0000-1000-8000-00805f9b34fb',
+             '00001800-0000-1000-8000-00805f9b34fb',
+             '0000111f-0000-1000-8000-00805f9b34fb',
+             '0000110a-0000-1000-8000-00805f9b34fb',
+             '0000112d-0000-1000-8000-00805f9b34fb',
+             '00001106-0000-1000-8000-00805f9b34fb',
+             '0000111e-0000-1000-8000-00805f9b34fb'],
+   'Version': 6
+   },
+ 'org.bluez.BatteryProviderManager1': {},
+ 'org.bluez.GattManager1': {},
+ 'org.bluez.LEAdvertisingManager1': {'ActiveInstances': 0,
+                                     'SupportedCapabilities': {
+
+                                     'SupportedFeatures': [],
+                                     'SupportedIncludes': ['tx-
+                                                           'app
+                                                           'loc
+                                     'SupportedInstances': 5},
+ 'org.bluez.Media1': {'SupportedUUIDs': ['0000110a-0000-1000-80
+                                         '0000110b-0000-1000-80
+ 'org.bluez.NetworkServer1': {},
+ 'org.bluez.SimAccess1': {'Connected': False},
+ 'org.freedesktop.DBus.Introspectable': {},
+ 'org.freedesktop.DBus.Properties': {}
+ },
+'/org/bluez/hci0/dev_FC_58_FA_AC_FD_D6':
+ {
+ 'org.bluez.Device1':
+   {
+   'Adapter': '/org/bluez/hci0',
+   'Address': 'FC:58:FA:AC:FD:D6',
+   'AddressType': 'public',
+   'Alias': 'Sly '
+            'Essb',
+   'Blocked': False,
+   'Bonded': True,
+   'Class': 2491396,
+   'Connected': False,
+   'Icon': 'audio-headset',
+   'LegacyPairing': False,
+   'Name': 'Sly '
+           'Essb',
+   'Paired': True,
+   'ServicesResolved': False,
+   'Trusted': True,
+   'UUIDs': ['00001108-0000-1000-8000-00805f9b34fb',
+             '0000110b-0000-1000-8000-00805f9b34fb',
+             '0000110c-0000-1000-8000-00805f9b34fb',
+             '0000110e-0000-1000-8000-00805f9b34fb',
+             '0000111e-0000-1000-8000-00805f9b34fb']
+   },
+ 'org.bluez.MediaControl1': {'Connected': False},
+ 'org.freedesktop.DBus.Introspectable': {},
+ 'org.freedesktop.DBus.Properties': {}
+ },
+'/org/bluez/test':
+ {
+ 'org.bluez.SimAccessTest1': {},
+ 'org.freedesktop.DBus.Introspectable': {}
+ }
+}

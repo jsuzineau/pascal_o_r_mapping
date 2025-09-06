@@ -172,4 +172,28 @@ type
 - Ne pas déclarer de variables à l'intérieur d'un bloc "begin end"
 - Toujours ramener la déclaration de variable dans une section "var"
   précédent le bloc "begin end;" de la "function", "procedure" 
-  ou le le bloc "begin end." du programme 
+  ou le le bloc "begin end." du programme
+## 8 Nommage des paramètres de "procedure" et de "function":
+- Le nom des paramètres doit commencer par un caractère _ .
+## 9 Présentation des affectations:
+- Ne pas mettre d'espace entre l'identificateur et le ":=".
+- Exemple:
+```pascal
+Result:= xxx;
+```
+## 10 Formatage des listes de paramètres de l'entête d'une "function" ou d'une "procedure":
+### 10.1 Si la liste des paramètres de l'entête d'une "function" ou d'une "procedure"
+est trop longue pour tenir sur une ligne:
+- faire un saut de ligne aprés chaque paramètre.
+- à partir du deuxième paramètre, aligner le début du paramètre
+  sur le début du premier paramètre.
+- aligner la parenthèse fermante sur le début du premier paramètre.
+- Exemple:
+```pascal
+procedure Truc( _a: Integer;
+                _b: String;
+                _c: Double
+                );
+```
+### 10.2 En dehors de l'entête d'une "function" ou d'une "procedure",
+les variables déclarées dans une section "var" ne doivent pas commencer par "_".
