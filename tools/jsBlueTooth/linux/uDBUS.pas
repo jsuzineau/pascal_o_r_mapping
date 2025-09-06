@@ -104,6 +104,8 @@ type
     function Recurse: TDBUS_Iterateur;
     function ArgType: cint;
     procedure GetBasic(var _Dest);
+    function Basic_String: String;
+    function Basic_Byte: Byte;
     function Next: Boolean;
   end;
 
@@ -239,6 +241,19 @@ end;
 procedure TDBUS_Iterateur.GetBasic(var _Dest);
 begin
      dbus_message_iter_get_basic(@Iter, @_Dest);
+end;
+
+function TDBUS_Iterateur.Basic_String: String;
+var
+   lpstr: PAnsiChar;
+begin
+     GetBasic( lpstr);
+     Result:= StrPas( lpstr);
+end;
+
+function TDBUS_Iterateur.Basic_Byte: Byte;
+begin
+     GetBasic( Result);
 end;
 
 function TDBUS_Iterateur.Next: Boolean;

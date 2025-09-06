@@ -110,16 +110,16 @@ end;
 procedure TfjsBlueTooth.bClientClick(Sender: TObject);
 var
    i: Integer;
-   bd: TBluetoothDevice;
+   spp: TBluetooth_SPP;
    bc: TBluetooth_Client;
    s: string;
 begin
      i:= lb.ItemIndex;
      if -1 = i then exit;
-     bd:= lb.Items.Objects[i] as TBluetoothDevice;
+     spp:= lb.Items.Objects[i] as TBluetooth_SPP;
      bc := TBluetooth_Client.Create;
      try
-       if not bc.ConnectTo( bd.Address,bd.Channel)
+       if not bc.ConnectTo( spp.Address,spp.Channel)
        then
            m.Lines.Add( 'TBluetooth_Client.ConnectTo:'+bc.sError)
        else

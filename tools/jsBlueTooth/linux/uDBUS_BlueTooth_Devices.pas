@@ -11,18 +11,61 @@ uses
 
 // Liste tous les périphériques Bluetooth visibles/appairés sur l'ordi
 type
+ TInterface_Type= (it_Device, it_SPP, it_Unknown);
+
+ { TDevice_Properties }
+
+ TDevice_Properties
+ =
+  class
+  //Gestion du cycle de vie
+  public
+    constructor Create;
+    destructor Destroy;
+  //Attributs
+  public
+    Path: String;
+    Name: String;
+    Address: String;
+  end;
+
+ { TSPP_Properties }
+
+ TSPP_Properties
+ =
+  class
+  //Gestion du cycle de vie
+  public
+    constructor Create;
+    destructor Destroy;
+  //Attributs
+  public
+    Path: String;
+    Channel: Byte;
+  end;
+
  { TBluetoothDevice }
 
  TBluetoothDevice
  =
   class
+   Path: String;
    Address: string;
    Name: string;
+   function Libelle: String; virtual;
+  end;
+
+ { TBluetooth_SPP }
+
+ TBluetooth_SPP
+ =
+  class( TBluetoothDevice)
    Channel: byte;
-   function Libelle: String;
+   function Libelle: String; override;
   end;
 
  TBluetoothDevice_array= array of TBluetoothDevice;
+ TBluetoothSPP_array   = array of TBluetooth_SPP;
 
  { TBluetoothDevices }
 
@@ -33,19 +76,28 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-  //Items
+  //Interfaces
+  public
+    slDevices_Properties: TStringList;
+  //Interfaces SPP
+  public
+    slSPPs_Properties: TStringList;
+  //Devices
   private
-    FItems: TBluetoothDevice_array;
+    FDevices: TBluetoothDevice_array;
+    FSPPs: TBluetoothSPP_array;
     procedure Libere;
   public
-    property Items: TBluetoothDevice_array read FItems;
+    property Devices: TBluetoothDevice_array read FDevices;
+    property SPPs: TBluetoothSPP_array read FSPPs;
+  public
   //Initialisation
   private
     initialized: Boolean;
     sError: String;
-    function Initialize_V1: Boolean;
-    function Initialize_V2: Boolean;
     function Initialize: Boolean;
+    function dp_from_sppp( _sppp: TSPP_Properties): TDevice_Properties;
+    procedure _from_Interfaces;
   //Liste
   public
     function Liste: String;
@@ -56,15 +108,42 @@ type
 
 implementation
 
+{ TDevice_Properties }
+
+constructor TDevice_Properties.Create;
+begin
+
+end;
+
+destructor TDevice_Properties.Destroy;
+begin
+
+end;
+
+{ TSPP_Properties }
+
+constructor TSPP_Properties.Create;
+begin
+
+end;
+
+destructor TSPP_Properties.Destroy;
+begin
+
+end;
+
 { TBluetoothDevice }
 
 function TBluetoothDevice.Libelle: String;
 begin
-     if Channel > 0
-     then
-         Result:= Format( 'Name: %s, Address: %s, Channel: %d', [Name, Address, Channel])
-     else
-         Result:= Format( 'Name: %s, Address: %s', [Name, Address]);
+     Result:= Format( 'Name: %s, Address: %s', [Name, Address]);
+end;
+
+{ TBluetooth_SPP }
+
+function TBluetooth_SPP.Libelle: String;
+begin
+     Result:= Format( 'Name: %s, Address: %s, Channel: %d', [Name, Address, Channel]);
 end;
 
 { TBluetoothDevices }
@@ -72,10 +151,14 @@ end;
 constructor TBluetoothDevices.Create;
 begin
      initialized:= False;
+     slDevices_Properties:= TStringList.Create;
+     slSPPs_Properties       := TStringList.Create;
 end;
 
 destructor TBluetoothDevices.Destroy;
 begin
+     FreeAndNil( slDevices_Properties);
+     FreeAndNil( slSPPs_Properties       );
      Libere;
      inherited Destroy;
 end;
@@ -83,294 +166,61 @@ end;
 procedure TBluetoothDevices.Libere;
 var
    bd: TBluetoothDevice;
+   bspp: TBluetooth_SPP;
 begin
-     for bd in Items do bd.Free;
+     for bd in Devices do bd.Free;
+     SetLength( FDevices, 0);
+
+     for bspp in SPPs do bspp.Free;
+     SetLength( FSPPs, 0);
 end;
 
-function TBluetoothDevices.Initialize_V1: Boolean;
-var
-   Conn: PDBusConnection;
-   Msg, Reply: PDBusMessage;
-   Err: DBusError;
-   Iter, DictIter, ItemIter, PropIter: DBusMessageIter;
-   VariantIter, ValueIter: DBusMessageIter;
-   Path: PAnsiChar;
-   InterfaceName: string;
-   device: TBluetoothDevice;
-   found_devices: Integer;
-   KeyIter, ValIter: DBusMessageIter;
-   KeyStr: PAnsiChar;
-   StrVal: PAnsiChar;
-   channelByte: Byte;
-
-   PropIterChild, VariantIterChild, ValueIterChild: DBusMessageIter;
-   KeyIterChild, ValIterChild: DBusMessageIter;
-   KeyStrChild: PAnsiChar;
-   PathChild: PAnsiChar;
-   InterfaceNameChild: string;
-   ChannelFound: Boolean;
-
-begin
-     Result := False;
-     initialized := False;
-
-     dbus_error_init(@Err);
-     Conn := dbus_bus_get(DBUS_BUS_SYSTEM, @Err);
-     if Conn = nil
-     then
-         begin
-         sError := 'Erreur DBus: ' + Err.message;
-         Exit;
-         end;
-
-     // Appel GetManagedObjects sur le service org.bluez
-     Msg := dbus_message_new_method_call('org.bluez', '/', 'org.freedesktop.DBus.ObjectManager', 'GetManagedObjects');
-     if Msg = nil
-     then
-         begin
-         sError := 'Erreur DBus: création message, dbus_message_new_method_call';
-         Exit;
-         end;
-
-     Reply := dbus_connection_send_with_reply_and_block(Conn, Msg, 3000, @Err);
-     dbus_message_unref(Msg);
-     if (Reply = nil) or (dbus_error_is_set(@Err) <> 0)
-     then
-         begin
-         sError := 'Erreur DBus (reply), dbus_connection_send_with_reply_and_block: ' + Err.message;
-         Exit;
-         end;
-
-     // Init itérateur
-     if 0 = dbus_message_iter_init(Reply, @Iter)
-     then
-         begin
-         sError := 'Erreur DBus, dbus_message_iter_init: structure réponse inattendue';
-         dbus_message_unref(Reply);
-         Exit;
-         end;
-
-     // Parcours le dictionnaire (a{oa{sa{sv}}})
-     dbus_message_iter_recurse(@Iter, @DictIter);
-
-     found_devices := 0;
-     SetLength(FItems, 0);
-
-     while DBUS_TYPE_DICT_ENTRY = dbus_message_iter_get_arg_type(@DictIter)
-     do
-       begin
-       dbus_message_iter_recurse(@DictIter, @ItemIter);
-       // Première entrée : chemin de l'objet
-       if dbus_message_iter_get_arg_type(@ItemIter) = DBUS_TYPE_OBJECT_PATH
-       then
-           begin
-           dbus_message_iter_get_basic(@ItemIter, @Path); // path = /org/bluez/hci0/dev_XX_XX_XX_XX_XX_XX
-           Inc(found_devices);
-           end
-       else
-           begin
-           dbus_message_iter_next(@DictIter);
-           Continue;
-           end;
-
-       dbus_message_iter_next(@ItemIter); // Va vers le dictionnaire d'interfaces
-
-       // Parcours des interfaces de l'objet
-       dbus_message_iter_recurse(@ItemIter, @PropIter);
-
-       while DBUS_TYPE_DICT_ENTRY = dbus_message_iter_get_arg_type(@PropIter)
-       do
-         begin
-         dbus_message_iter_recurse(@PropIter, @VariantIter);
-         // Interface name
-         if dbus_message_iter_get_arg_type(@VariantIter) = DBUS_TYPE_STRING
-         then
-             begin
-             dbus_message_iter_get_basic(@VariantIter, @Path); // Interface name comme chaîne (bizarrement stockée dans Path ici)
-             InterfaceName := StrPas(Path);
-             end
-         else
-             InterfaceName := '';
-
-         dbus_message_iter_next(@VariantIter); // Vers le dictionnaire des propriétés (a{sv})
-
-         if InterfaceName = 'org.bluez.Device1'
-         then
-             begin
-             dbus_message_iter_recurse(@VariantIter, @ValueIter);
-
-             device := TBluetoothDevice.Create;
-             device.Name := '';
-             device.Address := '';
-             device.Channel := 0;  // Initialisation
-
-             // Ensuite, boucler sur chaque propriété...
-             while DBUS_TYPE_DICT_ENTRY = dbus_message_iter_get_arg_type(@ValueIter)
-             do
-               begin
-               dbus_message_iter_recurse(@ValueIter, @KeyIter);
-               dbus_message_iter_get_basic(@KeyIter, @KeyStr); // Propriété ("Address", "Name", etc.)
-               dbus_message_iter_next(@KeyIter);
-               dbus_message_iter_recurse(@KeyIter, @ValIter);
-
-               if StrPas(KeyStr) = 'Address'
-               then
-                   begin
-                   dbus_message_iter_get_basic(@ValIter, @StrVal);
-                   device.Address := StrPas(StrVal);
-                   end
-               else if StrPas(KeyStr) = 'Name'
-               then
-                   begin
-                   dbus_message_iter_get_basic(@ValIter, @StrVal);
-                   device.Name := StrPas(StrVal);
-                   end;
-
-               dbus_message_iter_next(@ValueIter);
-               end;
-
-             // Recherche des canaux RFCOMM dans les interfaces enfants du device (services)
-             // Parcours dictionnaire d’objets encore (Proxy DBus)
-
-             // Parcourir sous-objets enfants (services) liés à cet objet device
-             // C’est le DictIter (principal) qui contient tous les objets, on cherche qui ont un préfixe correspondant à device
-
-             // Parcours des objets pour vérifier les services enfants
-             // Comme le code fait une seule passe du GetManagedObjects, parcourir DictIter dans la boucle externe ci-dessous
-
-             ChannelFound := False;
-
-             // Pour parcourir enfants liés au device (avec chemin commençant par Path)
-             dbus_message_iter_recurse(@Iter, @DictIter);
-
-             while DBUS_TYPE_DICT_ENTRY = dbus_message_iter_get_arg_type(@DictIter)
-             do
-               begin
-               dbus_message_iter_recurse(@DictIter, @ItemIter);
-
-               if dbus_message_iter_get_arg_type(@ItemIter) = DBUS_TYPE_OBJECT_PATH
-               then
-                   begin
-                   dbus_message_iter_get_basic(@ItemIter, @PathChild);
-                   if Pos(StrPas(Path), StrPas(PathChild)) = 1
-                   then // enfant du device
-                       begin
-                       dbus_message_iter_next(@ItemIter);
-                       dbus_message_iter_recurse(@ItemIter, @PropIterChild);
-
-                       while DBUS_TYPE_DICT_ENTRY = dbus_message_iter_get_arg_type(@PropIterChild)
-                       do
-                         begin
-                         dbus_message_iter_recurse(@PropIterChild, @VariantIterChild);
-                         if dbus_message_iter_get_arg_type(@VariantIterChild) = DBUS_TYPE_STRING
-                         then
-                             begin
-                             dbus_message_iter_get_basic(@VariantIterChild, @Path);
-                             InterfaceNameChild := StrPas(Path);
-                             end
-                         else
-                             InterfaceNameChild := '';
-
-                         dbus_message_iter_next(@VariantIterChild);
-
-                         if DBUS_TYPE_ARRAY = dbus_message_iter_get_arg_type(@VariantIterChild)
-                         then
-                             begin
-                             dbus_message_iter_recurse(@VariantIterChild, @ValueIterChild);
-
-                             if InterfaceNameChild = 'org.bluez.SerialPort'
-                             then
-                                 begin
-                                 while DBUS_TYPE_DICT_ENTRY = dbus_message_iter_get_arg_type(@ValueIterChild)
-                                 do
-                                   begin
-                                   dbus_message_iter_recurse(@ValueIterChild, @KeyIterChild);
-                                   dbus_message_iter_get_basic(@KeyIterChild, @KeyStrChild);
-                                   dbus_message_iter_next(@KeyIterChild);
-                                   dbus_message_iter_recurse(@KeyIterChild, @ValIterChild);
-                                   if StrPas(KeyStrChild) = 'Channel'
-                                   then
-                                       begin
-                                       if dbus_message_iter_get_arg_type(@ValIterChild) = DBUS_TYPE_BYTE
-                                       then
-                                           begin
-                                           dbus_message_iter_get_basic(@ValIterChild, @channelByte);
-                                           device.Channel := channelByte;
-                                           ChannelFound := True;
-                                           end;
-                                       end;
-                                   dbus_message_iter_next(@ValueIterChild);
-                                   end;
-                                 end;
-                             end;
-
-                         dbus_message_iter_next(@PropIterChild);
-                         end;
-
-                       if ChannelFound then Break;
-                       end;
-                   end;
-               dbus_message_iter_next(@DictIter);
-               end;
-
-             // Ajoute device si on a au moins l'addresse:
-             if device.Address <> ''
-             then
-                 begin
-                 SetLength(FItems, Length(FItems)+1);
-                 FItems[High(FItems)] := device;
-                 end
-             else
-                 device.Free;
-             end;
-
-         dbus_message_iter_next(@PropIter); // Prochaine interface
-       end;
-       dbus_message_iter_next(@DictIter); // Prochain objet
-     end;
-
-     dbus_message_unref(Reply);
-
-     initialized := True;
-     Result := True;
-end;
-
-function TBluetoothDevices.Initialize_V2:Boolean;
+function TBluetoothDevices.Initialize:Boolean;
 var
    dbus         : TDBUS;
    call         : TDBUS_Method_Call;
    reply        : TDBUS_Reply;
+
    Racine       : TDBUS_Iterateur;
-   Niveau1      : TDBUS_Iterateur;
-   Niveau2      : TDBUS_Iterateur;
-   Niveau3      : TDBUS_Iterateur;
-   Niveau4      : TDBUS_Iterateur;
-   Niveau5      : TDBUS_Iterateur;
-   Niveau6      : TDBUS_Iterateur;
-   Niveau7      : TDBUS_Iterateur;
-   Basic2,Basic4: PAnsiChar;
-   interfaceName: String;
-   device       : TBluetoothDevice;
-   foundDevices : Integer;
-   Basic6       : PAnsiChar;
-   Basic7       : PAnsiChar;
-   Basic7Child  : Byte;
-   Niveau1Child,
-   Niveau2Child,
-   Niveau3Child: TDBUS_Iterateur;
-   Niveau4Child:TDBUS_Iterateur;
-   Niveau5Child: TDBUS_Iterateur;
-   Niveau6Child : TDBUS_Iterateur;
-   Niveau7Child : TDBUS_Iterateur;
-   Basic6Child  : PAnsiChar;
-   Basic2Child, Basic4Child   : PAnsiChar;
-   interfaceNameChild:String;
-   channelFound : Boolean;
+
+   dPaths       : TDBUS_Iterateur;
+   iPath        : TDBUS_Iterateur;
+   Path: String;
+
+   dInterfaces      : TDBUS_Iterateur;
+   iInterface      : TDBUS_Iterateur;
+   Interface_Name: String;
+   it: TInterface_Type;
+
+   dInterface_Properties    : TDBUS_Iterateur;
+   iInterface_Property_Name : TDBUS_Iterateur;
+   iInterface_Property_Value: TDBUS_Iterateur;
+   Interface_Property_Name: String;
+
+   Fdp: TDevice_Properties;
+   Fsppp: TSPP_Properties;
+   function dp: TDevice_Properties;
+   begin
+        if nil = Fdp
+        then
+            begin
+            Fdp:= TDevice_Properties.Create;
+            slDevices_Properties.AddObject( Path, Fdp);
+            end;
+        Result:= Fdp;
+   end;
+   function sppp: TSPP_Properties;
+   begin
+        if nil = Fsppp
+        then
+            begin
+            Fsppp:= TSPP_Properties.Create;
+            slSPPs_Properties.AddObject( Path, Fsppp);
+            end;
+        Result:= Fsppp;
+   end;
 begin
      Result:= False;
-     foundDevices:= 0;
-     SetLength(FItems,0);
-
      dbus:= TDBUS.Create;
      try
         dbus.Conn:= dbus_bus_get( DBUS_BUS_SYSTEM, @dbus.Err);
@@ -410,162 +260,82 @@ begin
                Exit;
                end;
 
-           Niveau1:= Racine.Recurse;
-           while Niveau1.ArgType = DBUS_TYPE_DICT_ENTRY
+           dPaths:= Racine.Recurse;
+           while dPaths.ArgType = DBUS_TYPE_DICT_ENTRY
            do
              begin
              //Path /org.bluez
-             Niveau2:= Niveau1.Recurse;
-             if Niveau2.ArgType = DBUS_TYPE_OBJECT_PATH
-             then
-                 begin
-                 Niveau2.GetBasic(Basic2);
-                 Inc(foundDevices);
-                 end
-             else
-                 begin
-                 Niveau1.Next;
-                 Continue;
-                 end;
-
-
-             Niveau2.Next;
-
              //Path /org/bluez/hci0
              //Path /org/bluez/hci0/dev_FC_58_FA_AC_FD_D6
-             Niveau3:= Niveau2.Recurse;
-             while Niveau3.ArgType = DBUS_TYPE_DICT_ENTRY
+             iPath:= dPaths.Recurse;
+             if iPath.ArgType <> DBUS_TYPE_OBJECT_PATH
+             then
+                 begin
+                 dPaths.Next;
+                 continue;
+                 end;
+             Path:= iPath.Basic_String;
+             iPath.Next;
+
+             dInterfaces:= iPath.Recurse;
+             while dInterfaces.ArgType = DBUS_TYPE_DICT_ENTRY
              do
                begin
+               Fdp  := nil;
+               Fsppp:= nil;
                // org.bluez.Adapter1
                // org.bluez.Device1
-               Niveau4:= Niveau3.Recurse;
-               if Niveau4.ArgType = DBUS_TYPE_STRING
+               iInterface:= dInterfaces.Recurse;
+               if iInterface.ArgType = DBUS_TYPE_STRING
                then
-                   begin
-                   Niveau4.GetBasic(Basic4);
-                   interfaceName:= StrPas(Basic4);
-                   end
+                   Interface_Name:= iInterface.Basic_String
                else
-                   interfaceName:= '';
+                   Interface_Name:= '';
+                    if Interface_Name = 'org.bluez.Device1'    then it:= it_Device
+               else if Interface_Name = 'org.bluez.SerialPort' then it:= it_SPP
+               else                                                 it:= it_Unknown;
 
-               Niveau4.Next;
+               case it
+               of
+                 it_Device: dp  .Path:= Path;
+                 it_SPP   : sppp.Path:= Path;
+                 end;
 
-               if interfaceName = 'org.bluez.Device1'
-               then
-                   begin
-                   device:= TBluetoothDevice.Create;
-                   device.Address:= '';
-                   device.Name:= '';
-                   device.Channel:= 0;
+               iInterface.Next;
+               dInterface_Properties:= iInterface.Recurse;
+               while dInterface_Properties.ArgType = DBUS_TYPE_DICT_ENTRY
+               do
+                 begin
+                 iInterface_Property_Name:= dInterface_Properties.Recurse;
+                 Interface_Property_Name:= iInterface_Property_Name.Basic_String;
+                 iInterface_Property_Name.Next;
 
-                   //Address
-                   Niveau5:= Niveau4.Recurse;
-                   while Niveau5.ArgType = DBUS_TYPE_DICT_ENTRY
-                   do
+                 iInterface_Property_Value:= iInterface_Property_Name.Recurse;
+                 case it
+                 of
+                   it_Device:
                      begin
-                     Niveau6:= Niveau5.Recurse;
-                     Niveau6.GetBasic(Basic6);
-                     Niveau6.Next;
-
-                     Niveau7:= Niveau6.Recurse;
-                     if StrPas(Basic6) = 'Address'
+                          if 'Address' = Interface_Property_Name
                      then
-                         begin
-                         Niveau7.GetBasic(Basic7);
-                         device.Address:= StrPas(Basic7);
-                         end
-                     else if StrPas(Basic6) = 'Name'
+                         dp.Address:= iInterface_Property_Value.Basic_String
+                     else if 'Name' = Interface_Property_Name
                      then
-                         begin
-                         Niveau7.GetBasic(Basic7);
-                         device.Name:= StrPas(Basic7);
-                         end;
-                     Niveau5.Next;
+                         dp.Name:= iInterface_Property_Value.Basic_String;
                      end;
-
-                    channelFound := false;
-                    Niveau1Child:= Racine.Recurse;
-                    while Niveau1Child.ArgType = DBUS_TYPE_DICT_ENTRY
-                    do
-                      begin
-                      Niveau2Child:= Niveau1Child.Recurse;
-                      if Niveau2Child.ArgType = DBUS_TYPE_OBJECT_PATH
-                      then
-                          begin
-                          Niveau2Child.GetBasic(Basic2Child);
-                          if Pos(StrPas(Basic2), StrPas(Basic2Child)) = 1
-                          then
-                              begin
-                              Niveau2Child.Next;
-                              Niveau3Child:= Niveau2Child.Recurse;
-                              while Niveau3Child.ArgType = DBUS_TYPE_DICT_ENTRY
-                              do
-                                begin
-                                Niveau4Child := Niveau3Child.Recurse;
-                                if Niveau4Child.ArgType = DBUS_TYPE_STRING
-                                then
-                                    begin
-                                    Niveau4Child.GetBasic(Basic4Child);
-                                    interfaceNameChild := StrPas(Basic4Child);
-                                    end
-                                else
-                                    interfaceNameChild := '';
-                                Niveau4Child.Next;
-
-                                if Niveau4Child.ArgType = DBUS_TYPE_ARRAY
-                                then
-                                    begin
-                                    Niveau5Child := Niveau4Child.Recurse;
-                                    if interfaceNameChild = 'org.bluez.SerialPort'
-                                    then
-                                        begin
-                                        while Niveau5Child.ArgType = DBUS_TYPE_DICT_ENTRY
-                                        do
-                                          begin
-                                          Niveau6Child := Niveau5Child.Recurse;
-                                          Niveau6Child.GetBasic(Basic6Child);
-                                          Niveau6Child.Next;
-
-                                          Niveau7Child := Niveau6Child.Recurse;
-
-                                          if StrPas(Basic6Child) = 'Channel'
-                                          then
-                                              begin
-                                              if Niveau7Child.ArgType = DBUS_TYPE_BYTE
-                                              then
-                                                  begin
-                                                  Niveau7Child.GetBasic(Basic7Child);
-                                                  device.Channel := Basic7Child;
-                                                  channelFound := true;
-                                                  end;
-                                              end;
-                                          Niveau5Child.Next;
-                                          end;
-                                        end;
-                                    end;
-                                Niveau3Child.Next;
-                                end;
-                              if channelFound then Break;
-                              end;
-                          end;
-                      Niveau1Child.Next;
-                      end;
-
-                    if device.Address <> ''
-                    then
-                        begin
-                        SetLength(FItems, Length(FItems) + 1);
-                        FItems[High(FItems)] := device
-                        end
-                    else
-                        device.Free;
-                  end;
-
-               Niveau3.Next;
+                   it_SPP   :
+                     begin
+                     if 'Channel' = Interface_Property_Name
+                     then
+                         if DBUS_TYPE_BYTE = iInterface_Property_Value.ArgType
+                         then
+                             sppp.Channel := iInterface_Property_Value.Basic_Byte;
+                     end;
+                   end;
+                 dInterface_Properties.Next;
+                 end;
+               dInterfaces.Next;
                end;
-
-             Niveau1.Next;
+             dPaths.Next;
              end;
 
            initialized := true;
@@ -577,39 +347,95 @@ begin
             call.Free;
             dbus.Free;
             end;
+     _from_Interfaces;
 end;
 
-function TBluetoothDevices.Initialize:Boolean;
+function TBluetoothDevices.dp_from_sppp( _sppp: TSPP_Properties): TDevice_Properties;
+var
+   i: Integer;
 begin
-     Result:= Initialize_V2;
+     Result:= nil;
+     for i:= 0 to slDevices_Properties.Count-1
+     do
+       if 1 = Pos(slDevices_Properties[i], _sppp.Path)
+       then
+           begin
+           Result:= slDevices_Properties.Objects[i] as TDevice_Properties;
+           break;
+           end;
+end;
+
+procedure TBluetoothDevices._from_Interfaces;
+var
+   I: Integer;
+   dp: TDevice_Properties;
+   sppp: TSPP_Properties;
+   device: TBluetoothDevice;
+   spp   : TBluetooth_SPP;
+begin
+     SetLength( FDevices, slDevices_Properties.Count);
+     for i:=Low(Devices) to High(Devices)
+     do
+       begin
+       dp:= slDevices_Properties.Objects[i] as TDevice_Properties;
+       device:= TBluetoothDevice.Create;
+       device.Path   := dp.Path;
+       device.Name   := dp.Name;
+       device.Address:= dp.Address;
+       Devices[i]:= device;
+       end;
+
+     SetLength( FSPPs, slSPPs_Properties.Count);
+     for i:=Low(SPPs) to High(SPPs)
+     do
+       begin
+       sppp:= slSPPs_Properties.Objects[i] as TSPP_Properties;
+       dp:= dp_from_sppp( sppp);
+       if nil = dp then continue;
+
+       spp:= TBluetooth_SPP.Create;
+       spp.Path   := sppp.Path;
+       spp.Name   := dp.Name;
+       spp.Address:= dp.Address;
+       spp.Channel:= sppp.Channel;
+       SPPs[i]:= spp;
+       end;
 end;
 
 function TBluetoothDevices.Liste: String;
 var
    i: Integer;
    bd: TBluetoothDevice;
+   spp: TBluetooth_SPP;
 begin
      if not initialized
      then
          Initialize;
 
-          if not initialized    then Result:= sError
-     else if 0 = Length( items) then Result:= 'Pas de périphériques'
-     else
-         begin
-         Result:= '';
-         for i:= Low( items) to High( items)
-         do
-           begin
-           bd:= items[i];
-           Formate_Liste( Result, #13#10, Items[i].Libelle);
-           end;
-         end;
+     if not initialized then begin Result:= sError; exit; end;
+
+     if 0 = Length( Devices) then begin Result:= 'Pas de périphériques';exit; end;
+
+     Result:= 'Devices:';
+     for i:= Low( Devices) to High( Devices)
+     do
+       begin
+       bd:= Devices[i];
+       Formate_Liste( Result, #13#10, bd.Libelle);
+       end;
+
+     Formate_Liste( Result, #13#10, 'SPP :');
+     for i:= Low( SPPs) to High( SPPs)
+     do
+       begin
+       spp:= SPPs[i];
+       Formate_Liste( Result, #13#10, spp.Libelle);
+       end;
 end;
 
 procedure TBluetoothDevices.Remplit_Listbox(_lb: TListBox);
 var
-   bd: TBluetoothDevice;
+   spp: TBluetooth_SPP;
 begin
      _lb.Clear;
 
@@ -618,11 +444,11 @@ begin
          Initialize;
 
           if not initialized    then exit
-     else if 0 = Length( items) then exit
+     else if 0 = Length( SPPs) then exit
      else
-         for bd in items
+         for spp in SPPs
          do
-           _lb.AddItem( bd.Libelle, bd);
+           _lb.AddItem( spp.Libelle, spp);
 end;
 
 
