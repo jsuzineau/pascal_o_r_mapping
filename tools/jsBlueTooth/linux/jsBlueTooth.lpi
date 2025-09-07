@@ -67,6 +67,10 @@
         <Filename Value="d-feet_org.bluez.txt"/>
         <IsPartOfProject Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="uDBUS_BlueTooth_SPP_Server_Register.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

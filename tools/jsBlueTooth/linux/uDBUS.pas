@@ -21,11 +21,17 @@ type
   public
     constructor Create;
     destructor Destroy; override;
-  //Connexion / Erreur
+  //Erreur
   public
-    Conn: PDBusConnection;
-    Err : DBusError;
+    Error: DBusError;
     procedure InitError;
+    function Error_is_set: Boolean;
+  //Connexion
+  private
+    FConn: PDBusConnection;
+    function GetConn: PDBusConnection;
+  public
+    property Conn: PDBusConnection read GetConn;
   end;
 
 //--------------------------------------------------
@@ -33,6 +39,7 @@ type
 //--------------------------------------------------
 
 type
+ TDBUS_Iterateur = class;
  TDBUS_Reply =class;
 
  { TDBUS_Method_Call }
@@ -52,6 +59,9 @@ type
   //Gestion d'erreur
   public
     sError: String;
+  //Paramètres
+  public
+    function Parameters_append: TDBUS_Iterateur;
   //Appel
   private
     Msg : PDBusMessage;
@@ -65,7 +75,6 @@ type
 //--------------------------------------------------
 
 type
- TDBUS_Iterateur = class;
  { TDBUS_Reply }
 
  TDBUS_Reply
@@ -75,13 +84,15 @@ type
   public
     constructor Create(_dbus: TDBUS; _Reply: PDBusMessage);
     destructor Destroy; override;
+  //Attributs
+  private
+    dbus   : TDBUS;
+    Reply: PDBusMessage;
   //Gestion d'erreur
   public
     sError: String;
   //Accès
   public
-    dbus   : TDBUS;
-    Reply: PDBusMessage;
     function Iterateur: TDBUS_Iterateur;
   end;
 
@@ -98,15 +109,35 @@ type
   //Gestion du cycle de vie
   public
     constructor Create(_Iter: DBusMessageIter);
-  //Itérateurs et utilitaires
+    destructor Destroy; override;
+  //Type
   public
-    Iter: DBusMessageIter;
-    function Recurse: TDBUS_Iterateur;
     function ArgType: cint;
+  //Lecture Basic
+  public
     procedure GetBasic(var _Dest);
     function Basic_String: String;
     function Basic_Byte: Byte;
+  //Ajout Basic
+  private
+    Basic_Strings: array of PAnsiChar;
+    procedure Basic_Strings_Libere;
+    procedure Basic_Strings_Add( _lpstr: PAnsiChar);
+  public
+    procedure AppendBasic(_type: cint; var _Source);
+    procedure AppendBasic_String(_type: cint; _S: String);
+  //itération
+  private
+    Iter: DBusMessageIter;
+  public
     function Next: Boolean;
+  //sous itérateur
+  public
+    function Recurse: TDBUS_Iterateur;
+  //ajout de container
+  public
+    function open_container( _type: cint; const _contained_signature: PChar): TDBUS_Iterateur;
+    procedure close_container( _sub: TDBUS_Iterateur);
   end;
 
 implementation
@@ -116,7 +147,7 @@ implementation
 constructor TDBUS.Create;
 begin
      inherited Create;
-     Conn:= nil;
+     FConn:= nil;
      InitError;
 end;
 
@@ -127,7 +158,26 @@ end;
 
 procedure TDBUS.InitError;
 begin
-     dbus_error_init(@Err);
+     dbus_error_init(@Error);
+end;
+
+function TDBUS.Error_is_set: Boolean;
+begin
+     Result:= dbus_error_is_set(@Error) <> 0;
+end;
+
+function TDBUS.GetConn: PDBusConnection;
+begin
+     Result:= nil;
+     if nil = FConn
+     then
+         begin
+         FConn:= dbus_bus_get( DBUS_BUS_SYSTEM, @Error);
+         if nil = FConn
+         then
+             raise Exception.Create('Erreur de la connexion à DBus: '+ Error.message);
+         end;
+     Result:= FConn;
 end;
 
 //--- TDBUS_Method_Call -----------------------------------------
@@ -161,6 +211,15 @@ begin
      inherited Destroy;
 end;
 
+function TDBUS_Method_Call.Parameters_append: TDBUS_Iterateur;
+var
+   Iter: DBusMessageIter;
+begin
+     dbus_message_iter_init_append(Msg, @Iter);
+     sError:= '';
+     Result:= TDBUS_Iterateur.Create( Iter);
+end;
+
 function TDBUS_Method_Call.SendAndBlock(_Timeout: Integer = 3000): TDBUS_Reply;
 var
    Reply: PDBusMessage;
@@ -173,11 +232,11 @@ begin
        dbus_connection_send_with_reply_and_block( dbus.Conn,
                                                   Msg,
                                                   _Timeout,
-                                                  @dbus.Err
+                                                  @dbus.Error
                                                   );
-     if (Reply = nil) or (dbus_error_is_set(@dbus.Err) <> 0)
+     if (Reply = nil) or dbus.Error_is_set
      then
-         sError:= 'Erreur DBus (reply), dbus_connection_send_with_reply_and_block: ' + dbus.Err.message
+         sError:= 'Erreur DBus (reply), dbus_connection_send_with_reply_and_block: ' + dbus.Error.message
      else
          Result:= TDBUS_Reply.Create( dbus, Reply);
 end;
@@ -223,6 +282,21 @@ constructor TDBUS_Iterateur.Create(_Iter: DBusMessageIter);
 begin
      inherited Create;
      Iter:= _Iter;
+     SetLength(Basic_Strings,0);
+end;
+
+destructor TDBUS_Iterateur.Destroy;
+begin
+     Basic_Strings_Libere;
+     inherited Destroy;
+end;
+
+procedure TDBUS_Iterateur.Basic_Strings_Libere;
+var
+   lpstr: PAnsiChar;
+begin
+     for lpstr in Basic_Strings do StrDispose( lpstr);
+     SetLength( Basic_Strings,0);
 end;
 
 function TDBUS_Iterateur.Recurse: TDBUS_Iterateur;
@@ -231,6 +305,20 @@ var
 begin
      dbus_message_iter_recurse(@Iter, @ResultIter);
      Result:= TDBUS_Iterateur.Create( ResultIter);
+end;
+
+function TDBUS_Iterateur.open_container( _type: cint;
+                                         const _contained_signature: PChar): TDBUS_Iterateur;
+var
+   ResultIter: DBusMessageIter;
+begin
+     dbus_message_iter_open_container(@Iter, _type, _contained_signature, @ResultIter);
+     Result:= TDBUS_Iterateur.Create( ResultIter);
+end;
+
+procedure TDBUS_Iterateur.close_container( _sub: TDBUS_Iterateur);
+begin
+     dbus_message_iter_close_container(@Iter, @_sub);
 end;
 
 function TDBUS_Iterateur.ArgType: cint;
@@ -254,6 +342,29 @@ end;
 function TDBUS_Iterateur.Basic_Byte: Byte;
 begin
      GetBasic( Result);
+end;
+
+procedure TDBUS_Iterateur.AppendBasic(_type: cint; var _Source);
+begin
+     dbus_message_iter_append_basic(@Iter, _type, @_Source);
+end;
+
+procedure TDBUS_Iterateur.Basic_Strings_Add(_lpstr: PAnsiChar);
+begin
+     SetLength( Basic_Strings, Length( Basic_Strings)+1);
+     Basic_Strings[High(Basic_Strings)]:= _lpstr;
+end;
+
+procedure TDBUS_Iterateur.AppendBasic_String(_type: cint; _S: String);
+var
+   L: Integer;
+   lpstr: PAnsiChar;
+begin
+     L:= Length(_S)+1;
+     lpstr:= StrAlloc( L);
+     StrPLCopy( lpstr, _s, L);
+     Basic_Strings_Add( lpstr);
+     AppendBasic( _type, lpstr^);//pas trop propre
 end;
 
 function TDBUS_Iterateur.Next: Boolean;

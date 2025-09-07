@@ -223,14 +223,6 @@ begin
      Result:= False;
      dbus:= TDBUS.Create;
      try
-        dbus.Conn:= dbus_bus_get( DBUS_BUS_SYSTEM, @dbus.Err);
-        if not Assigned(dbus.Conn)
-        then
-            begin
-            sError:= 'Erreur DBus: Connexion échouée: '+ dbus.Err.message;;
-            Exit;
-            end;
-
         call:= TDBUS_Method_Call.Create( dbus,
                                          'org.bluez',
                                          '/',
