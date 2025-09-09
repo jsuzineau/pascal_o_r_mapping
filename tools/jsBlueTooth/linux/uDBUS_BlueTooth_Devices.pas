@@ -179,7 +179,7 @@ function TBluetoothDevices.Initialize:Boolean;
 var
    dbus         : TDBUS;
    call         : TDBUS_Method_Call;
-   reply        : TDBUS_Reply;
+   reply        : TDBUS_Message;
 
    Racine       : TDBUS_Iterateur;
 

@@ -8,6 +8,9 @@ uses
   Classes, SysUtils, bluetooth, Sockets,unixtype;
 
 type
+
+  { TBluetooth_Client }
+
   TBluetooth_Client
   =
    class
@@ -15,18 +18,24 @@ type
    public
      constructor Create;
      destructor Destroy; override;
-   //méthodes
+   //Socket
    private
      FSocket: cint; // socket file descriptor sous Linux
+     procedure SetSocket( _Value: cint);
+   public
+     function ConnectTo(const Address: string; Channel: Byte): Boolean;
+     procedure Disconnect;
+     property Socket: cint read FSocket write SetSocket;
+   //Connected
+   private
      FConnected: Boolean;
    public
+     property Connected: Boolean read FConnected;
+   //méthodes
+   public
      sError: String;
-     function ConnectTo(const Address: string; Channel: Byte): Boolean;
      function WriteString(const Msg: string): Integer;
      function ReadString(var Msg: string; MaxLen: Integer = 1024): Integer;
-     procedure Disconnect;
-
-     property Connected: Boolean read FConnected;
    end;
 
 implementation
@@ -45,6 +54,26 @@ destructor TBluetooth_Client.Destroy;
 begin
      Disconnect;
      inherited Destroy;
+end;
+
+procedure TBluetooth_Client.Disconnect;
+begin
+     if FConnected and (FSocket >= 0)
+     then
+         begin
+         fpClose(FSocket);
+         FSocket := -1;
+         FConnected := False;
+         end;
+end;
+
+procedure TBluetooth_Client.SetSocket(_Value: cint);
+begin
+     if Connected then Disconnect;
+
+     FSocket:= _Value;
+     if FSocket < 0 then Exit;
+     FConnected := True;
 end;
 
 function TBluetooth_Client.ConnectTo(const Address: string; Channel: Byte): Boolean;
@@ -79,7 +108,7 @@ begin
      Result := True;
 end;
 
-function TBluetooth_Client.WriteString(const Msg : string) : integer;
+function TBluetooth_Client.WriteString(const Msg: string): Integer;
 var
    Buffer: ansistring;
 begin
@@ -106,17 +135,6 @@ begin
          Msg := '';
 
      Result := BytesRead;
-end;
-
-procedure TBluetooth_Client.Disconnect;
-begin
-     if FConnected and (FSocket >= 0)
-     then
-         begin
-         fpClose(FSocket);
-         FSocket := -1;
-         FConnected := False;
-         end;
 end;
 
 end.

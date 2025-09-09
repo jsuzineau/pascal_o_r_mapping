@@ -12,7 +12,8 @@ uses
  Interfaces, // this includes the LCL widgetset
  Forms, ufjsBlueTooth,
  uDBUS_BlueTooth_Devices, uBlueZ_BlueTooth_Client, bluetoothlaz, 
-uBlueZ_BlueTooth_Server, uDBUS, uDBUS_BlueTooth_SPP_Server_Register;
+uBlueZ_BlueTooth_Server, uDBUS, uDBUS_BlueTooth_SPP_Server_Register, 
+uDBUS_BlueTooth_Profile;
 
 {$R *.res}
 

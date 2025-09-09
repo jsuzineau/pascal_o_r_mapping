@@ -5,7 +5,10 @@ unit ufjsBlueTooth;
 interface
 
 uses
+    uDBUS,
     uDBUS_BlueTooth_Devices,
+    uDBUS_BlueTooth_Profile,
+    uDBUS_BlueTooth_SPP_Server_Register,
     uBlueZ_BlueTooth_Client,
     uBlueZ_BlueTooth_Server,
  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls;
@@ -34,8 +37,11 @@ type
     procedure tTimer(Sender: TObject);
   private
     procedure Liste;
+    procedure Bluez_Server;
   public
-
+  //Serveur
+  private
+    dbus: TDBUS;
   end;
 
 var
@@ -49,10 +55,13 @@ implementation
 
 procedure TfjsBlueTooth.FormCreate(Sender: TObject);
 begin
+     dbus:= TDBUS.Create;
+     uDBUS_BlueTooth_Profile_Abonne( dbus);
 end;
 
 procedure TfjsBlueTooth.FormDestroy(Sender: TObject);
 begin
+     FreeAndNil(dbus);
 end;
 
 procedure TfjsBlueTooth.tTimer(Sender: TObject);
@@ -79,7 +88,7 @@ begin
      Liste;
 end;
 
-procedure TfjsBlueTooth.bServerClick(Sender: TObject);
+procedure TfjsBlueTooth.Bluez_Server;
 var
    bts: TBluetooth_Server;
 begin
@@ -105,6 +114,27 @@ begin
       finally
              bts.Free;
       end;
+end;
+
+procedure TfjsBlueTooth.bServerClick(Sender: TObject);
+const
+     object_path= '/org/bluez/myprofile';
+     service_name= 'jsBlueTooth serveur';
+// Création et exportation du profil
+var
+   sr: TDBUS_BlueTooth_SPP_Server_Register;
+   profile: TBlueTooth_Profile;
+begin
+     sr:= TDBUS_BlueTooth_SPP_Server_Register.Create;
+     try
+        //dbus
+        sr.Register( object_path, service_name);
+     finally
+            FreeAndNil( sr);
+            end;
+
+     profile := TBlueTooth_Profile.Create( dbus, object_path);
+     // RegisterProfile de BlueZ en utilisant ce objectPath...
 end;
 
 procedure TfjsBlueTooth.bClientClick(Sender: TObject);

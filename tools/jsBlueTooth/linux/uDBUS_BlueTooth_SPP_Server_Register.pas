@@ -21,9 +21,9 @@ type
   //Méthode d'enregistrement
   public
     function Register( _objectPath: String;
-                                    _serviceName: String;
-                                    _uuid: String = '00001101-0000-1000-8000-00805F9B34FB'
-                                    ): Boolean;
+                       _serviceName: String;
+                       _uuid: String = '00001101-0000-1000-8000-00805F9B34FB'
+                       ): Boolean;
   //Erreur
   private
     FLastError: String;
@@ -56,7 +56,7 @@ var
    iOptions   : TDBUS_Iterateur;
    iOption_Name: TDBUS_Iterateur;
    iOption_Role: TDBUS_Iterateur;
-   reply      : TDBUS_Reply;
+   reply      : TDBUS_Message;
 
    // Chaine ObjectPath et UUID doivent vivre assez longtemps le temps de l'appel
    NameBuf,
@@ -80,8 +80,15 @@ begin
       iParameters:= call.Parameters_append;
 
       // Paramètre 1: ObjectPath (le chemin D-Bus exporté de votre Profile1)
-      iParameters.AppendBasic_String( DBUS_TYPE_OBJECT_PATH, _objectPath);
-
+      try
+         iParameters.AppendBasic_String( DBUS_TYPE_OBJECT_PATH, _objectPath);
+      except
+            on E: Exception
+            do
+              begin
+              raise Exception.Create( E.Message + ':'+dbus.Error.message);
+              end;
+            end;
       // Paramètre 2: profil UUID de Serial Port
       iParameters.AppendBasic_String( DBUS_TYPE_STRING, _uuid);
 
