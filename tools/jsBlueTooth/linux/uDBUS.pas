@@ -130,7 +130,7 @@ type
   private
     Basic_Strings: array of PAnsiChar;
     procedure Basic_Strings_Libere;
-    procedure Basic_Strings_Add( _lpstr: PAnsiChar);
+    function Basic_Strings_Add( _lpstr: PAnsiChar): PPAnsiChar;
   public
     procedure AppendBasic(_type: cint; _Source: Pointer);
     procedure AppendBasic_String(_type: cint; _S: String);
@@ -312,10 +312,7 @@ begin
 end;
 
 procedure TDBUS_Iterateur.Basic_Strings_Libere;
-var
-   lpstr: PAnsiChar;
 begin
-     for lpstr in Basic_Strings do StrDispose( lpstr);
      SetLength( Basic_Strings,0);
 end;
 
@@ -373,23 +370,25 @@ procedure TDBUS_Iterateur.AppendBasic(_type: cint; _Source: Pointer);
 begin
      dbus_message_iter_append_basic(@Iter, _type, _Source);
 end;
-
-procedure TDBUS_Iterateur.Basic_Strings_Add(_lpstr: PAnsiChar);
+//Est-tu sûr que l'on peut créer une valeur DBUS_TYPE_OBJECT_PATH à l'aide de la fonction dbus_message_iter_append_basic
+function TDBUS_Iterateur.Basic_Strings_Add(_lpstr: PAnsiChar): PPAnsiChar;
+var
+   i: Integer;
 begin
      SetLength( Basic_Strings, Length( Basic_Strings)+1);
-     Basic_Strings[High(Basic_Strings)]:= _lpstr;
+     i:= High(Basic_Strings);
+     Basic_Strings[i]:= _lpstr;
+     Result:= @Basic_Strings[i];
 end;
 
 procedure TDBUS_Iterateur.AppendBasic_String(_type: cint; _S: String);
 var
    L: Integer;
-   lpstr: PAnsiChar;
+   lplpstr: PPAnsiChar;
 begin
      L:= Length(_S)+1;
-     lpstr:= StrAlloc( L);
-     StrPLCopy( lpstr, _s, L);
-     Basic_Strings_Add( lpstr);
-     AppendBasic( _type, lpstr);
+     lplpstr:= Basic_Strings_Add( PAnsiChar(_S));
+     AppendBasic( _type, lplpstr);
 end;
 
 function TDBUS_Iterateur.Next: Boolean;

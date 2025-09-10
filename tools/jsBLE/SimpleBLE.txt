@@ -1,0 +1,4 @@
+https://github.com/simpleble/simpleble/releases/tag/v0.10.3
+
+https://github.com/simpleble/simpleble/releases/tag/v0.6.0
+https://github.com/eriklins/Pascal-Bindings-For-SimpleBLE-Library/releases/tag/v0.6.0
