@@ -53,6 +53,10 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="SimpleBle"/>
       </Unit>
+      <Unit>
+        <Filename Value="uBLE_Client.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

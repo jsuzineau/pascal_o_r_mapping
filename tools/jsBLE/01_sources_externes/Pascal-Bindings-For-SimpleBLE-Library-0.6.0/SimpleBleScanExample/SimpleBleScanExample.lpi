@@ -97,7 +97,7 @@
             </Debugging>
             <Options>
               <PassLinkerOptions Value="True"/>
-              <LinkerOptions Value="-R ./"/>
+              <LinkerOptions Value="-R .\"/>
             </Options>
           </Linking>
         </CompilerOptions>
@@ -128,7 +128,7 @@
             </Debugging>
             <Options>
               <PassLinkerOptions Value="True"/>
-              <LinkerOptions Value="-R ./"/>
+              <LinkerOptions Value="-R .\"/>
             </Options>
           </Linking>
         </CompilerOptions>

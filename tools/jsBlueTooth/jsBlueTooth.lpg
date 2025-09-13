@@ -12,6 +12,29 @@
           <Mode Name="Default"/>
         </BuildModes>
       </Target>
+      <Target FileName="../jsBLE/jsBLE.lpi">
+        <BuildModes>
+          <Mode Name="Default"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="../jsBLE/01_sources_externes/Pascal-Bindings-For-SimpleBLE-Library-0.6.0/SimpleBleScanExample/SimpleBleScanExample.lpi">
+        <BuildModes>
+          <Mode Name="Debug" Compile="True"/>
+          <Mode Name="Win64"/>
+          <Mode Name="Win32"/>
+          <Mode Name="Linux64"/>
+          <Mode Name="Linux32"/>
+        </BuildModes>
+      </Target>
+      <Target FileName="../jsBLE/01_sources_externes/Pascal-Bindings-For-SimpleBLE-Library-0.6.0/SimpleBleConnectExample/SimpleBleConnectExample.lpi">
+        <BuildModes>
+          <Mode Name="Debug" Compile="True"/>
+          <Mode Name="Win64"/>
+          <Mode Name="Win32"/>
+          <Mode Name="Linux64"/>
+          <Mode Name="Linux32"/>
+        </BuildModes>
+      </Target>
     </Targets>
   </ProjectGroup>
 </CONFIG>

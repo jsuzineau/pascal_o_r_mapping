@@ -49,7 +49,7 @@ begin
   if Identifier = '' then
     Exit;
   WriteLn('Adapter ' + Identifier + ' started scanning.');
-  SimpleBleFree(Identifier);
+  //SimpleBleFree(Identifier);
 end;
 
 procedure AdapterOnScanStop(Adapter: TSimplebleAdapter; Userdata: PPointer);
@@ -60,7 +60,7 @@ begin
   if Identifier = '' then
     Exit;
   WriteLn('Adapter ' + Identifier + ' stopped scanning.');
-  SimpleBleFree(Identifier);
+  //SimpleBleFree(Identifier);
 end;
 
 procedure AdapterOnScanFound(Adapter: TSimplebleAdapter; Peripheral: TSimpleBlePeripheral; Userdata: PPointer);
@@ -95,8 +95,8 @@ begin
   writeln();
 
   SimpleBlePeripheralReleaseHandle(Peripheral);
-  SimpleBleFree(PeripheralIdentifier);
-  SimpleBleFree(PeripheralAddress);
+  //SimpleBleFree(PeripheralIdentifier);
+  //SimpleBleFree(PeripheralAddress);
 end;
 
 procedure AdapterOnScanUpdated(Adapter: TSimplebleAdapter; Peripheral: TSimpleBlePeripheral; Userdata: PPointer);
