@@ -11,7 +11,7 @@ uses
  {$ENDIF}
  Interfaces, // this includes the LCL widgetset
  Forms, ufjsBLE,
- SimpleBle, uBLE_Client;
+ SimpleBle;
 
 {$R *.res}
 

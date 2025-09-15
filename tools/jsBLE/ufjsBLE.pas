@@ -5,8 +5,7 @@ unit ufjsBLE;
 interface
 
 uses
-    uBLE_Devices,
-    uBLE_Client,
+    uBLE_Peripherals,
  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls;
 
 type
@@ -32,7 +31,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure tTimer(Sender: TObject);
   private
-    bds: TBLE_Devices;
+    bds: TBLE_Peripherals;
     procedure Liste;
   end;
 
@@ -47,7 +46,7 @@ implementation
 
 procedure TfjsBLE.FormCreate(Sender: TObject);
 begin
-     bds:= TBLE_Devices.Create;
+     bds:= TBLE_Peripherals.Create;
 end;
 
 procedure TfjsBLE.FormDestroy(Sender: TObject);
@@ -97,36 +96,31 @@ end;
 procedure TfjsBLE.bClientClick(Sender: TObject);
 var
    i: Integer;
-   bd: TBLE_Device;
-   bc: TBLE_Client;
+   bp: TBLE_Peripheral;
    s: string;
 begin
      i:= lb.ItemIndex;
      if -1 = i then exit;
-     bd:= lb.Items.Objects[i] as TBLE_Device;
+     bp:= lb.Items.Objects[i] as TBLE_Peripheral;
 
-     bc := TBLE_Client.Create( bds, bd);
-     try
-       if not bc.Connect
-       then
-           m.Lines.Add( 'TBLE_Client.Connect:'+bc.sError)
-       else
-           begin
-           m.Lines.Add( 'TBluetooth_Client connecté, envoi');
-           if bc.WriteString('Hello from client !')
-           then
-               m.Lines.Add( 'TBLE_Client.WriteString: OK')
-           else
-               m.Lines.Add( 'TBLE_Client.WriteString:'+bc.sError);
+     if not bp.Connect
+     then
+         m.Lines.Add( 'TBLE_Peripheral.Connect:'+bp.sError)
+     else
+         begin
+         m.Lines.Add( bp.Liste_services);
+         m.Lines.Add( 'TBLE_Peripheral connecté, envoi');
+         if bp.WriteString('Hello from client !')
+         then
+             m.Lines.Add( 'TBLE_Peripheral.WriteString: OK')
+         else
+             m.Lines.Add( 'TBLE_Peripheral.WriteString:'+bp.sError);
 
-           // Lecture avec timeout, à adapter à ton usage
-           //if bc.ReadString(s) > 0
-           //then
-           //    m.Lines.Add( 'TBluetooth_Client Reçu:'+s);
-           end;
-     finally
-            bc.Free;
-            end;
+         // Lecture avec timeout, à adapter à ton usage
+         //if bc.ReadString(s) > 0
+         //then
+         //    m.Lines.Add( 'TBluetooth_Client Reçu:'+s);
+         end;
 end;
 
 end.

@@ -45,17 +45,13 @@
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
-        <Filename Value="uBLE_Devices.pas"/>
+        <Filename Value="uBLE_Peripherals.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="01_sources_externes\Pascal-Bindings-For-SimpleBLE-Library-0.6.0\SimpleBleUnit\simpleble.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="SimpleBle"/>
-      </Unit>
-      <Unit>
-        <Filename Value="uBLE_Client.pas"/>
-        <IsPartOfProject Value="True"/>
       </Unit>
     </Units>
   </ProjectOptions>

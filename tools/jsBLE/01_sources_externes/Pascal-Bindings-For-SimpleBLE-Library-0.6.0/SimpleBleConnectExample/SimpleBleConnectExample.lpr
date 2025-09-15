@@ -23,7 +23,7 @@ uses
   {$IFDEF UNIX}
   cthreads,
   {$ENDIF}
-  Classes, SysUtils, CustApp, SimpleBle;
+  Classes, SysUtils, CustApp, SimpleBle,Math;
 
 type
 
@@ -203,6 +203,7 @@ begin
   // show gatt table with services and characteristics
   for i := 0 to (ServicesCount - 1) do
   begin
+    fillchar(Service, sizeof(Service),0);
     ErrCode := SimpleBlePeripheralServicesGet(Peripheral, i, Service);
     if ErrCode <> SIMPLEBLE_SUCCESS then
     begin
@@ -210,10 +211,10 @@ begin
       Terminate;
     end;
     WriteLn('Service: ' + Service.Uuid.Value + ' - (' + IntToStr(Service.CharacteristicCount) + ')');
-    for j := 0 to (Service.CharacteristicCount-1) do
+    for j := 0 to (Min(Service.CharacteristicCount,SIMPLEBLE_CHARACTERISTIC_MAX_COUNT)-1) do
     begin
       WriteLn('  Characteristic: ' + Service.Characteristics[j].Uuid.Value + ' - (' + IntToStr(Service.Characteristics[j].DescriptorCount) + ')');
-      for k := 0 to (Service.Characteristics[j].DescriptorCount - 1) do
+      for k := 0 to (Min(Service.Characteristics[j].DescriptorCount, SIMPLEBLE_DESCRIPTOR_MAX_COUNT) - 1) do
         WriteLn('    Descriptor: ' + Service.Characteristics[j].Descriptors[k].Uuid.Value);
     end;
   end;
