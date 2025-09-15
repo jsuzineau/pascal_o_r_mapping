@@ -5,7 +5,7 @@ unit ufjsBLE;
 interface
 
 uses
-    uBLE_Peripherals,
+    uBLE,
  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls;
 
 type
@@ -31,7 +31,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure tTimer(Sender: TObject);
   private
-    bds: TBLE_Peripherals;
+    ba: TBLE_Adapter;
     procedure Liste;
   end;
 
@@ -46,12 +46,12 @@ implementation
 
 procedure TfjsBLE.FormCreate(Sender: TObject);
 begin
-     bds:= TBLE_Peripherals.Create;
+     ba:= TBLE_Adapter.Create;
 end;
 
 procedure TfjsBLE.FormDestroy(Sender: TObject);
 begin
-     FreeAndNil( bds);
+     FreeAndNil( ba);
 end;
 
 procedure TfjsBLE.tTimer(Sender: TObject);
@@ -62,8 +62,8 @@ end;
 
 procedure TfjsBLE.Liste;
 begin
-     m.Lines.Text:= bds.Liste;
-     bds.Remplit_Listbox( lb);
+     m.Lines.Text:= ba.Liste;
+     ba.Remplit_Listbox( lb);
 end;
 
 procedure TfjsBLE.bListeClick(Sender: TObject);

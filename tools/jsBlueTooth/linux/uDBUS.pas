@@ -128,12 +128,20 @@ type
     function Basic_cint: cint;
   //Ajout Basic
   private
-    Basic_Strings: array of PAnsiChar;
+    Basic_Strings: array of PChar;
     procedure Basic_Strings_Libere;
-    function Basic_Strings_Add( _lpstr: PAnsiChar): PPAnsiChar;
+    function Basic_Strings_Add(_s: String): PPChar;
   public
     procedure AppendBasic(_type: cint; _Source: Pointer);
-    procedure AppendBasic_String(_type: cint; _S: String);
+    procedure AppendBasic_type_String(_type: cint; _S: String);
+    procedure Append_OBJECT_PATH( _S: String);
+    procedure Append_String( _S: String);
+  //Ajout variant
+  public
+    procedure Append_Variant_String( _S: String);
+  //Ajout entrée de DICT
+  public
+    procedure Append_DICT_String( _Name, _Value: String);
   //itération
   private
     Iter: DBusMessageIter;
@@ -329,13 +337,15 @@ function TDBUS_Iterateur.open_container( _type: cint;
 var
    ResultIter: DBusMessageIter;
 begin
-     dbus_message_iter_open_container(@Iter, _type, _contained_signature, @ResultIter);
+     if 0 = dbus_message_iter_open_container(@Iter, _type, _contained_signature, @ResultIter)
+     then
+         raise Exception.Create('Call to dbus_message_iter_open_container failed');
      Result:= TDBUS_Iterateur.Create( ResultIter);
 end;
 
 procedure TDBUS_Iterateur.close_container( _sub: TDBUS_Iterateur);
 begin
-     dbus_message_iter_close_container(@Iter, @_sub);
+     dbus_message_iter_close_container(@Iter, @_sub.Iter);
 end;
 
 function TDBUS_Iterateur.ArgType: cint;
@@ -368,27 +378,58 @@ end;
 
 procedure TDBUS_Iterateur.AppendBasic(_type: cint; _Source: Pointer);
 begin
-     dbus_message_iter_append_basic(@Iter, _type, _Source);
+     if 0 = dbus_message_iter_append_basic(@Iter, _type, _Source)
+     then
+         raise Exception.Create('Out Of Memory while calling dbus_message_iter_append_basic');
 end;
-//Est-tu sûr que l'on peut créer une valeur DBUS_TYPE_OBJECT_PATH à l'aide de la fonction dbus_message_iter_append_basic
-function TDBUS_Iterateur.Basic_Strings_Add(_lpstr: PAnsiChar): PPAnsiChar;
+
+function TDBUS_Iterateur.Basic_Strings_Add(_s: String): PPChar;
 var
    i: Integer;
 begin
      SetLength( Basic_Strings, Length( Basic_Strings)+1);
      i:= High(Basic_Strings);
-     Basic_Strings[i]:= _lpstr;
+     Basic_Strings[i]:= PChar(_s);
      Result:= @Basic_Strings[i];
 end;
 
-procedure TDBUS_Iterateur.AppendBasic_String(_type: cint; _S: String);
+procedure TDBUS_Iterateur.AppendBasic_type_String(_type: cint; _S: String);
 var
    L: Integer;
    lplpstr: PPAnsiChar;
 begin
      L:= Length(_S)+1;
-     lplpstr:= Basic_Strings_Add( PAnsiChar(_S));
+     lplpstr:= Basic_Strings_Add( _S);
      AppendBasic( _type, lplpstr);
+end;
+
+procedure TDBUS_Iterateur.Append_OBJECT_PATH(_S: String);
+begin
+     AppendBasic_type_String( DBUS_TYPE_OBJECT_PATH, _S);
+end;
+
+procedure TDBUS_Iterateur.Append_String( _S: String);
+begin
+     AppendBasic_type_String( DBUS_TYPE_STRING, _S);
+end;
+
+procedure TDBUS_Iterateur.Append_Variant_String( _S: String);
+var
+   i: TDBUS_Iterateur;
+begin
+     i:= open_container( DBUS_TYPE_VARIANT, 's');
+       i.Append_String( _S);
+     close_container( i);
+end;
+
+procedure TDBUS_Iterateur.Append_DICT_String(_Name, _Value: String);
+var
+   i: TDBUS_Iterateur;
+begin
+     i:= open_container( DBUS_TYPE_DICT_ENTRY, nil);
+       i.Append_String        ( _Name );
+       i.Append_Variant_String( _Value);
+     close_container( i);
 end;
 
 function TDBUS_Iterateur.Next: Boolean;

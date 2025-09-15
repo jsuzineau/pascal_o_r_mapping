@@ -25,23 +25,21 @@ type
                        _uuid: String = '00001101-0000-1000-8000-00805F9B34FB'
                        ): Boolean;
   //Erreur
-  private
-    FLastError: String;
   public
-    property LastError: String read FLastError;
+    sError: String;
   end;
 
 implementation
 
 constructor TDBUS_BlueTooth_SPP_Server_Register.Create;
 begin
-   inherited Create;
-   FLastError:= '';
+     inherited Create;
+     sError:= '';
 end;
 
 destructor TDBUS_BlueTooth_SPP_Server_Register.Destroy;
 begin
-   inherited Destroy;
+     inherited Destroy;
 end;
 
 // Enregistrement du profil Serial Port (SPP) via RegisterProfile D-Bus
@@ -55,6 +53,7 @@ var
    iParameters: TDBUS_Iterateur;
    iOptions   : TDBUS_Iterateur;
    iOption_Name: TDBUS_Iterateur;
+   iOption_Name_Value: TDBUS_Iterateur;
    iOption_Role: TDBUS_Iterateur;
    reply      : TDBUS_Message;
 
@@ -63,7 +62,7 @@ var
    RoleBuf    : array[0..255] of Char;
 begin
    Result:= False;
-   FLastError:= '';
+   sError:= '';
 
    dbus := TDBUS.Create;
    try
@@ -79,32 +78,12 @@ begin
 
       iParameters:= call.Parameters_append;
 
-      // Paramètre 1: ObjectPath (le chemin D-Bus exporté de votre Profile1)
-      try
-         iParameters.AppendBasic_String( DBUS_TYPE_OBJECT_PATH, _objectPath);
-      except
-            on E: Exception
-            do
-              begin
-              raise Exception.Create( E.Message + ':'+dbus.Error.message);
-              end;
-            end;
-      // Paramètre 2: profil UUID de Serial Port
-      iParameters.AppendBasic_String( DBUS_TYPE_STRING, _uuid);
-
+      iParameters.Append_OBJECT_PATH( _objectPath);
+      iParameters.Append_String     ( _uuid      );
       // Paramètre 3: options (a{sv})
       iOptions:= iParameters.open_container( DBUS_TYPE_ARRAY, '{sv}');
-        // Option "Name"
-        iOption_Name:= iOptions.open_container( DBUS_TYPE_DICT_ENTRY, nil);
-          iOption_Name.AppendBasic_String( DBUS_TYPE_STRING, 'Name');
-          iOption_Name.AppendBasic_String( DBUS_TYPE_VARIANT, _serviceName);
-        iOptions.close_container( iOption_Name);
-
-        // Option "Role" (obligatoire: 'server')
-        iOption_Role:= iOptions.open_container( DBUS_TYPE_DICT_ENTRY, nil);
-          iOption_Role.AppendBasic_String( DBUS_TYPE_STRING, 'Role');
-          iOption_Role.AppendBasic_String( DBUS_TYPE_VARIANT, 'server');
-        iOptions.close_container( iOption_Role);
+        iOptions.Append_DICT_String( 'Name', _serviceName);
+        iOptions.Append_DICT_String( 'Role', 'server'    );
       iParameters.close_container( iOptions);
 
       try
@@ -115,9 +94,9 @@ begin
              begin
              if reply <> nil
              then
-                 FLastError := reply.sError
+                 sError := reply.sError
              else
-                 FLastError := call.sError;
+                 sError := call.sError;
              end;
       finally
              FreeAndNil( reply);

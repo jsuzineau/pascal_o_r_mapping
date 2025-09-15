@@ -45,7 +45,7 @@
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
-        <Filename Value="uBLE_Peripherals.pas"/>
+        <Filename Value="uBLE.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>

@@ -1,4 +1,4 @@
-unit uBLE_Peripherals;
+unit uBLE;
 //{$mode ObjFPC}{$H+}
 
 interface
@@ -11,7 +11,7 @@ uses
 type
  // --- Liste des périphériques BLE découverts ---
 
- TBLE_Peripherals = class;
+ TBLE_Adapter = class;
 
  { TBLE_Peripheral }
 
@@ -20,11 +20,11 @@ type
   class
   // Gestion du cycle de vie
   public
-    constructor Create( _bps: TBLE_Peripherals; _Index: Integer);
+    constructor Create( _ba: TBLE_Adapter; _Index: Integer);
     destructor Destroy; override;
   //Attributs
   public
-    bps: TBLE_Peripherals;
+    ba: TBLE_Adapter;
     Index: Integer;
 
     Identifier: string;
@@ -55,11 +55,9 @@ type
     function WriteString( _s: String ):Boolean;
   end;
 
- // --- Gestion du scan et de la liste BLE ---
+ { TBLE_Adapter }
 
- { TBLE_Peripherals }
-
- TBLE_Peripherals
+ TBLE_Adapter
  =
   class
   // Gestion du cycle de vie
@@ -102,11 +100,11 @@ end;
 
 { TBLE_Peripheral }
 
-constructor TBLE_Peripheral.Create(_bps: TBLE_Peripherals; _Index: Integer);
+constructor TBLE_Peripheral.Create(_ba: TBLE_Adapter; _Index: Integer);
 begin
-     bps:= _bps;
+     ba:= _ba;
      Index:= _Index;
-     Peripheral:= SimpleBleAdapterScanGetResultsHandle(bps.Adapter, Index);
+     Peripheral:= SimpleBleAdapterScanGetResultsHandle(ba.Adapter, Index);
 
      Identifier:= SimpleBlePeripheralIdentifier( Peripheral);
      Address   := SimpleBlePeripheralAddress   ( Peripheral);
@@ -263,9 +261,9 @@ begin
      Result:= True;
 end;
 
-{ TBLE_Peripherals }
+{ TBLE_Adapter }
 
-constructor TBLE_Peripherals.Create;
+constructor TBLE_Adapter.Create;
 begin
      inherited Create;
      initialized:= False;
@@ -277,7 +275,7 @@ begin
          Adapter:= 0;
 end;
 
-destructor TBLE_Peripherals.Destroy;
+destructor TBLE_Adapter.Destroy;
 begin
      if Adapter <> 0
      then
@@ -286,7 +284,7 @@ begin
      inherited Destroy;
 end;
 
-procedure TBLE_Peripherals.Libere;
+procedure TBLE_Adapter.Libere;
 var
    bd: TBLE_Peripheral;
 begin
@@ -294,7 +292,7 @@ begin
      SetLength( Peripherals, 0);
 end;
 
-procedure TBLE_Peripherals.Scan( _Duration: Integer);
+procedure TBLE_Adapter.Scan( _Duration: Integer);
 var
    DeviceCount: NativeUInt;
    I: Integer;
@@ -318,14 +316,14 @@ begin
        Peripherals[I]:= TBLE_Peripheral.Create( Self, I);
 end;
 
-function TBLE_Peripherals.Initialize: Boolean;
+function TBLE_Adapter.Initialize: Boolean;
 begin
      Scan( 2);
      initialized:= True;
      Result:= initialized;
 end;
 
-function TBLE_Peripherals.Liste: String;
+function TBLE_Adapter.Liste: String;
 var
    bd: TBLE_Peripheral;
 begin
@@ -341,7 +339,7 @@ begin
        Formate_Liste( Result, #13#10, bd.Libelle);
 end;
 
-procedure TBLE_Peripherals.Remplit_Listbox( _lb: TListBox);
+procedure TBLE_Adapter.Remplit_Listbox( _lb: TListBox);
 var
    bd: TBLE_Peripheral;
 begin
