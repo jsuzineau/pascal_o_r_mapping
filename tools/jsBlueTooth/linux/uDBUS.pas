@@ -5,7 +5,7 @@ unit uDBUS;
 interface
 
 uses
-  Classes, SysUtils, dbus, unixtype;
+  Classes, SysUtils, dbus, unixtype,StdCtrls;
 
 const
      DBUS_TYPE_UNIX_FD= Integer('h');
@@ -14,6 +14,12 @@ const
 //--------------------------------------------------
 
 type
+ TDBUS_Message =class;
+
+ TDBUS_HandleMessage_Event
+ =
+  function ( _Message: TDBUS_Message): DBusHandlerResult of object;
+
  { TDBUS }
 
  TDBUS
@@ -30,16 +36,29 @@ type
     function Error_is_set: Boolean;
   //Connexion
   private
-    FConn: PDBusConnection;
-    function GetConn: PDBusConnection;
+    FConnection: PDBusConnection;
+    function GetConnection: PDBusConnection;
   public
-    property Conn: PDBusConnection read GetConn;
+    property Connection: PDBusConnection read GetConnection;
   //HasMessage
   public
     function HasMessage: Boolean;
   //Abonnement à des messages
-  public
+  private
+    message_handler: DBusHandleMessageFunction;
     procedure Abonne( _message_handler: DBusHandleMessageFunction);
+    procedure DesAbonne;
+    function Do_HandleMessage( _Message: TDBUS_Message): DBusHandlerResult;
+  private
+    FOnHandleMessage: TDBUS_HandleMessage_Event;
+  public
+    property OnHandleMessage: TDBUS_HandleMessage_Event read FOnHandleMessage write FOnHandleMessage;
+  //Envoi
+  public
+    function Send( _m: TDBUS_Message): Boolean;
+  //Request Name
+  public
+    function Request_Name(_Name: String): String;
   end;
 
 //--------------------------------------------------
@@ -48,7 +67,6 @@ type
 
 type
  TDBUS_Iterateur = class;
- TDBUS_Message =class;
 
  { TDBUS_Method_Call }
 
@@ -90,17 +108,31 @@ type
   class
   //Gestion du cycle de vie
   public
-    constructor Create( _Message: PDBusMessage);
+    constructor Create( _Message: PDBusMessage; _unref_on_destroy: Boolean= False);
     destructor Destroy; override;
   //Attributs
   private
+    unref_on_destroy: Boolean;
     Message: PDBusMessage;
+  public
+    function Path      : String;
+    function Interface_: String;
+    function Member    : String;
   //Gestion d'erreur
   public
     sError: String;
   //Accès
   public
     function Iterateur: TDBUS_Iterateur;
+  //Réponse
+  public
+    function Reply: TDBUS_Message;
+  //Append args
+  public
+    function Append_String( _S: String):Boolean;//non testé positivement
+  //Paramètres
+  public
+    function Parameters_append: TDBUS_Iterateur;
   end;
 
 //--------------------------------------------------
@@ -156,19 +188,84 @@ type
     procedure close_container( _sub: TDBUS_Iterateur);
   end;
 
+type
+
+ { TDBUS_Object }
+
+ TDBUS_Object
+ =
+  class
+  //Gestion du cycle de vie
+  public
+    constructor Create( _O: TObject;
+                        _dbus: TDBUS;
+                        _Path: String;
+                        _callback: DBusObjectPathMessageFunction);
+    destructor Destroy; override;
+  //DBUS
+  private
+    dbus  : TDBUS;
+  //Path
+  private
+    Path: String;
+  //VMT
+  private
+    vmt: DBusObjectPathVTable;
+  //Erreur
+  public
+    sError: String;
+  end;
+
+var
+   m: TMemo= nil;
+procedure uDBUS_Log( _s: String);
+
 implementation
+
+procedure uDBUS_Log(_s: String);
+begin
+     if Assigned(m) then m.Lines.Add( _s);
+     WriteLn( _s);
+end;
+
+function DBusHandleMessage( _connection: PDBusConnection;
+                            _Message: PDBusMessage;
+                            _user_data: Pointer): DBusHandlerResult; cdecl;
+var
+   O: TObject;
+   dbus: TDBUS;
+   Message: TDBUS_Message;
+begin
+     Result:= DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
+
+     if nil = _user_data then exit;
+
+     O:= TObject( _user_data);
+     if not (O is TDBUS) then exit;
+
+     Message:= TDBUS_Message.Create( _Message);
+     try
+        dbus:= TDBUS( O);
+        Result:= dbus.Do_HandleMessage( Message);
+     finally
+            FreeAndNil( Message);
+            end;
+end;
 
 //--- TDBUS -----------------------------------------------------
 
 constructor TDBUS.Create;
 begin
      inherited Create;
-     FConn:= nil;
+     FConnection:= nil;
+     message_handler:= nil;
+     FOnHandleMessage:= nil;
      InitError;
 end;
 
 destructor TDBUS.Destroy;
 begin
+     DesAbonne;
      inherited Destroy;
 end;
 
@@ -182,31 +279,77 @@ begin
      Result:= dbus_error_is_set(@Error) <> 0;
 end;
 
-function TDBUS.GetConn: PDBusConnection;
+function TDBUS.GetConnection: PDBusConnection;
 begin
      Result:= nil;
-     if nil = FConn
+     if nil = FConnection
      then
          begin
-         FConn:= dbus_bus_get( DBUS_BUS_SYSTEM, @Error);
-         if nil = FConn
+         FConnection:= dbus_bus_get( DBUS_BUS_SYSTEM, @Error);
+         if nil = FConnection
          then
              raise Exception.Create('Erreur de la connexion à DBus: '+ Error.message);
+         Abonne( @DBusHandleMessage);
          end;
-     Result:= FConn;
+     Result:= FConnection;
 end;
 
 function TDBUS.HasMessage: Boolean;
 begin
      Result:= False;
-     if nil = Conn then Exit;
-     Result:= dbus_connection_read_write_dispatch( Conn, 0) <> 0;
+     if nil = FConnection then Exit;
+     Result:= dbus_connection_read_write_dispatch( Connection, 0) <> 0;
 end;
 
 procedure TDBUS.Abonne(_message_handler: DBusHandleMessageFunction);
 begin
-     // À ajouter dans l’initialisation du serveur D-Bus de ton application
-     dbus_connection_add_filter( Conn, _message_handler, nil, nil );
+     if Assigned( message_handler) then exit;
+
+     message_handler:= message_handler;
+     if 0 = dbus_connection_add_filter( Connection, _message_handler, Self, nil )
+     then
+         raise Exception.Create( 'TDBUS.Abonne: Out of memory while calling dbus_connection_add_filter');
+end;
+
+procedure TDBUS.DesAbonne;
+begin
+     if nil = message_handler then exit;
+
+     dbus_connection_remove_filter( Connection, message_handler, nil);
+end;
+
+function TDBUS.Do_HandleMessage(_Message: TDBUS_Message): DBusHandlerResult;
+begin
+     Result:= DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
+     if Assigned( OnHandleMessage)
+     then
+         Result:= OnHandleMessage( _Message);
+end;
+
+function TDBUS.Send(_m: TDBUS_Message): Boolean;
+begin
+     Result:= 0 <> dbus_connection_send( Connection, _m.Message, nil);
+end;
+
+function TDBUS.Request_Name(_Name: String): String;
+var
+   Resultat: cint;
+begin
+     Resultat
+     :=
+       dbus_bus_request_name( Connection,
+                              PChar( _Name),
+                              DBUS_NAME_FLAG_REPLACE_EXISTING,
+                              @Error);
+     case Resultat
+     of
+       DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER: Result:= 'Service has become the primary owner of the requested name';
+       DBUS_REQUEST_NAME_REPLY_IN_QUEUE     : Result:= 'Service could not become the primary owner and has been placed in the queue';
+       DBUS_REQUEST_NAME_REPLY_EXISTS       : Result:= 'Service is already in the queue';
+       DBUS_REQUEST_NAME_REPLY_ALREADY_OWNER: Result:= 'Service is already the primary owner';
+       else                                   Result:= IntToStr(Resultat)+#13#10'Erreur '+Error.name+':'#13#10'  '+Error.message;
+       end;
+     uDBUS_Log( 'TDBUS.Request_Name('+_Name+'): '+Result);
 end;
 
 //--- TDBUS_Method_Call -----------------------------------------
@@ -258,7 +401,7 @@ begin
 
      Reply
      :=
-       dbus_connection_send_with_reply_and_block( dbus.Conn,
+       dbus_connection_send_with_reply_and_block( dbus.Connection,
                                                   Msg,
                                                   _Timeout,
                                                   @dbus.Error
@@ -272,19 +415,36 @@ end;
 
 //--- TDBUS_Message -----------------------------------------------
 
-constructor TDBUS_Message.Create(_Message: PDBusMessage);
+constructor TDBUS_Message.Create( _Message: PDBusMessage;
+                                  _unref_on_destroy: Boolean= False);
 begin
      inherited Create;
      Message:= _Message;
+     unref_on_destroy:= _unref_on_destroy;
      sError:= '';
 end;
 
 destructor TDBUS_Message.Destroy;
 begin
-     if Assigned(Message)
+     if Assigned(Message) and unref_on_destroy
      then
           dbus_message_unref( Message);
      inherited Destroy;
+end;
+
+function TDBUS_Message.Path: String;
+begin
+     Result:= dbus_message_get_path( Message );
+end;
+
+function TDBUS_Message.Interface_: String;
+begin
+     Result:= dbus_message_get_interface( Message );
+end;
+
+function TDBUS_Message.Member: String;
+begin
+     Result:= dbus_message_get_member( Message );
 end;
 
 function TDBUS_Message.Iterateur: TDBUS_Iterateur;
@@ -302,6 +462,35 @@ begin
          sError:= '';
          Result:= TDBUS_Iterateur.Create( Iter);
          end;
+end;
+
+function TDBUS_Message.Reply: TDBUS_Message;
+var
+   mReply: PDBusMessage;
+begin
+     mReply := dbus_message_new_method_return( Message);
+     Result:= TDBUS_Message.Create( mReply, True);
+end;
+
+function TDBUS_Message.Append_String( _S: String): Boolean;
+begin
+     Result
+     :=
+       0
+       <>
+       dbus_message_append_args( Message,
+                                 DBUS_TYPE_STRING,
+                                 [ PChar( _S), DBUS_TYPE_INVALID]
+                                 );
+end;
+
+function TDBUS_Message.Parameters_append: TDBUS_Iterateur;
+var
+   Iter: DBusMessageIter;
+begin
+     dbus_message_iter_init_append(Message, @Iter);
+     sError:= '';
+     Result:= TDBUS_Iterateur.Create( Iter);
 end;
 
 //--- TDBUS_Iterateur -------------------------------------------
@@ -435,6 +624,31 @@ end;
 function TDBUS_Iterateur.Next: Boolean;
 begin
      Result:= dbus_message_iter_next(@Iter) <> 0;
+end;
+
+{ TDBUS_Object }
+
+constructor TDBUS_Object.Create( _O: TObject;
+                                 _dbus: TDBUS;
+                                 _Path: String;
+                                 _callback: DBusObjectPathMessageFunction);
+begin
+     dbus:= _dbus;
+     Path:= _Path;
+     FillChar( vmt, SizeOf(vmt),0);
+     vmt.message_function:= _callback;
+     uDBUS_Log(  'TDBUS_Object.Create:'#13#10
+                +'  '+Path+#13#10);
+     sError:= '';
+     if 0 = dbus_connection_register_object_path( dbus.Connection, PChar(Path), @vmt, _O)
+     then
+         sError:= dbus.Error.name+':'+dbus.Error.message;
+end;
+
+destructor TDBUS_Object.Destroy;
+begin
+     dbus_connection_unregister_object_path( dbus.Connection, PChar(Path));
+     inherited Destroy;
 end;
 
 end.

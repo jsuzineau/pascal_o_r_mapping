@@ -74,8 +74,12 @@ type
   class
   //Gestion du cycle de vie
   public
-    constructor Create;
+    constructor Create( _dbus: TDBUS);
+
     destructor Destroy; override;
+  //dbus
+  private
+    dbus: TDBUS;
   //Interfaces
   public
     slDevices_Properties: TStringList;
@@ -148,8 +152,9 @@ end;
 
 { TBluetoothDevices }
 
-constructor TBluetoothDevices.Create;
+constructor TBluetoothDevices.Create(_dbus: TDBUS);
 begin
+     dbus:= _dbus;
      initialized:= False;
      slDevices_Properties:= TStringList.Create;
      slSPPs_Properties       := TStringList.Create;
@@ -177,7 +182,6 @@ end;
 
 function TBluetoothDevices.Initialize:Boolean;
 var
-   dbus         : TDBUS;
    call         : TDBUS_Method_Call;
    reply        : TDBUS_Message;
 
@@ -221,7 +225,6 @@ var
    end;
 begin
      Result:= False;
-     dbus:= TDBUS.Create;
      try
         call:= TDBUS_Method_Call.Create( dbus,
                                          'org.bluez',
@@ -337,7 +340,6 @@ begin
                end;
      finally
             call.Free;
-            dbus.Free;
             end;
      _from_Interfaces;
 end;

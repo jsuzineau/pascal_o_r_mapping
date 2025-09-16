@@ -1,11 +1,11 @@
 object fjsBlueTooth: TfjsBlueTooth
-  Left = 501
-  Height = 240
-  Top = 168
-  Width = 318
+  Left = 626
+  Height = 343
+  Top = 178
+  Width = 731
   Caption = 'fjsBlueTooth'
-  ClientHeight = 240
-  ClientWidth = 318
+  ClientHeight = 343
+  ClientWidth = 731
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   LCLVersion = '3.4.0.0'
@@ -13,10 +13,10 @@ object fjsBlueTooth: TfjsBlueTooth
     Left = 0
     Height = 50
     Top = 0
-    Width = 318
+    Width = 731
     Align = alTop
     ClientHeight = 50
-    ClientWidth = 318
+    ClientWidth = 731
     TabOrder = 0
     object bListe: TButton
       Left = 14
@@ -48,17 +48,17 @@ object fjsBlueTooth: TfjsBlueTooth
   end
   object Panel2: TPanel
     Left = 0
-    Height = 190
+    Height = 293
     Top = 50
-    Width = 318
+    Width = 731
     Align = alClient
     Caption = 'Panel2'
-    ClientHeight = 190
-    ClientWidth = 318
+    ClientHeight = 293
+    ClientWidth = 731
     TabOrder = 1
     object lb: TListBox
-      Left = 177
-      Height = 188
+      Left = 590
+      Height = 291
       Top = 1
       Width = 140
       Align = alRight
@@ -67,8 +67,8 @@ object fjsBlueTooth: TfjsBlueTooth
       TopIndex = -1
     end
     object Splitter1: TSplitter
-      Left = 172
-      Height = 188
+      Left = 585
+      Height = 291
       Top = 1
       Width = 5
       Align = alRight
@@ -76,19 +76,27 @@ object fjsBlueTooth: TfjsBlueTooth
     end
     object m: TMemo
       Left = 1
-      Height = 188
+      Height = 291
       Top = 1
-      Width = 171
+      Width = 584
       Align = alClient
       Lines.Strings = (
         'm'
       )
+      ScrollBars = ssAutoVertical
       TabOrder = 2
     end
   end
-  object t: TTimer
+  object tListe: TTimer
     OnTimer = tTimer
-    Left = 40
-    Top = 5
+    Left = 32
+    Top = 64
+  end
+  object tDBUS_ProcessMessage: TTimer
+    Enabled = False
+    Interval = 250
+    OnTimer = tDBUS_ProcessMessageTimer
+    Left = 80
+    Top = 64
   end
 end

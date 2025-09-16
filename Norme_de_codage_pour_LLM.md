@@ -197,3 +197,8 @@ procedure Truc( _a: Integer;
 ```
 ### 10.2 En dehors de l'entête d'une "function" ou d'une "procedure",
 les variables déclarées dans une section "var" ne doivent pas commencer par "_".
+## 11 Taille des blocs "begin end" du programme principal, d'une "function" ou d'une "procédure"
+La taille d'un tel bloc ne devrait pas dépasser 15 à 20 lignes.
+Au besoin, identifier des groupes de lignes dans ce bloc et les transformer en
+sous procédures ou sous fonctions qui seront créées juste avant ce bloc
+et appelées dans ce bloc.

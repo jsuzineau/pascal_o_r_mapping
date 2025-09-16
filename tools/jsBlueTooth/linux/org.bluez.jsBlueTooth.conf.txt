@@ -1,0 +1,8 @@
+Pour éviter l'erreur:
+```
+TDBUS.Request_Name(org.bluez.myprofile): -1
+Erreur org.freedesktop.DBus.Error.AccessDenied:
+  Connection ":1.1767" is not allowed to own the service "org.bluez.myprofile" due to security policies in the configuration file
+```
+
+Placer org.bluez.jsBlueTooth.conf dans /etc/dbus-1/system.d

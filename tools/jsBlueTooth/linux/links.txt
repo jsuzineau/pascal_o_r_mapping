@@ -1,0 +1,2 @@
+Creating A BLE Peripheral With BlueZ - Punch Through :
+https://punchthrough.com/creating-a-ble-peripheral-with-bluez/
