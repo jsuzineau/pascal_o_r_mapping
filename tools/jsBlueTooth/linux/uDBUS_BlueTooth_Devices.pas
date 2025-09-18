@@ -116,12 +116,10 @@ implementation
 
 constructor TDevice_Properties.Create;
 begin
-
 end;
 
 destructor TDevice_Properties.Destroy;
 begin
-
 end;
 
 { TSPP_Properties }
@@ -286,6 +284,7 @@ begin
                    Interface_Name:= iInterface.Basic_String
                else
                    Interface_Name:= '';
+               uDBUS_Log( Path+':'+Interface_Name);
                     if Interface_Name = 'org.bluez.Device1'    then it:= it_Device
                else if Interface_Name = 'org.bluez.SerialPort' then it:= it_SPP
                else                                                 it:= it_Unknown;

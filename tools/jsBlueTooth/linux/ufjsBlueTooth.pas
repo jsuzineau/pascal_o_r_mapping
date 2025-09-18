@@ -42,7 +42,6 @@ type
   private
     dbus: TDBUS;
     profile: TBlueTooth_Profile;
-    function dbus_HandleMessage( _Message: TDBUS_Message): DBusHandlerResult;
   end;
 
 var
@@ -59,9 +58,7 @@ begin
      profile:= nil;
      uDBUS.m:= m;
      dbus:= TDBUS.Create;
-     //dbus.OnHandleMessage:= @dbus_HandleMessage; Messages traités en double
      dbus.Request_Name( 'org.bluez.jsBlueTooth');
-     //dbus.Request_Name( 'org.bluez');
      tDBUS_ProcessMessage.Enabled:= True;
 end;
 
@@ -69,25 +66,6 @@ procedure TfjsBlueTooth.FormDestroy(Sender: TObject);
 begin
      FreeAndNil(dbus);
      uDBUS.m:= nil;
-end;
-
-function TfjsBlueTooth.dbus_HandleMessage( _Message: TDBUS_Message): DBusHandlerResult;
-var
-   Path: String;
-begin
-     Result:= DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-
-     Path:= _Message.Path      ;
-     m.Lines.Add(  'TfjsBlueTooth.dbus_HandleMessage:'#13#10
-                  +'  path     :'+Path+#13#10
-                  +'  interface:'+_Message.Interface_+#13#10
-                  +'  member:   '+_Message.Member
-                  );
-
-     if nil = profile              then exit;
-     if profile.ObjectPath <> Path then exit;
-
-     Result:= profile.HandleMessage( _Message);
 end;
 
 procedure TfjsBlueTooth.tTimer(Sender: TObject);

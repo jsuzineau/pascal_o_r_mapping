@@ -117,7 +117,7 @@ begin
      dbus       := _dbus;
      ObjectPath := _ObjectPath;
      ServiceName:= _ServiceName;
-     uuid       := GenerateUUID;
+     uuid       := '00001101-0000-1000-8000-00805f9b34fb';//GenerateUUID;
      Channel    := 14;
 
      sError:= '';
@@ -240,6 +240,7 @@ begin
      c:= TBluetooth_Client.Create;
      c.Socket:= _Socket;
      clients.Add( _device_path, c);
+     c.WriteString( 'Hello from Linux !');
 end;
 
 //=================================================
@@ -380,6 +381,22 @@ var
                FreeAndNil( Reply);
                end;
    end;
+   procedure Do_org_freedesktop_DBus_Properties_GetAll;
+   var
+      Reply: TDBUS_Message;
+      iParameters: TDBUS_Iterateur;
+      iArray: TDBUS_Iterateur;
+   begin
+        Reply:= _Message.Reply;
+        try
+           iParameters:= Reply.Parameters_append;
+           iArray:= iParameters.open_container( DBUS_TYPE_ARRAY, 'a{sv}');
+           iParameters.close_container(iArray);
+           dbus.Send( Reply);
+        finally
+               FreeAndNil( Reply);
+               end;
+   end;
    procedure Do_org_bluez_Profile1;
    begin
              if 'Release'              = Method then Do_Release
@@ -389,6 +406,10 @@ var
    procedure Do_org_freedesktop_DBus_Introspectable;
    begin
         if 'Introspect' = Method then Do_Introspect;
+   end;
+   procedure Do_org_freedesktop_DBus_Properties;
+   begin
+        if 'GetAll' = Method then Do_org_freedesktop_DBus_Properties_GetAll;
    end;
 begin
      Result:= DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
@@ -400,7 +421,8 @@ begin
                 +'  Method   :'+Method+#13#10
                 );
           if 'org.bluez.Profile1'                  = Interface_ then Do_org_bluez_Profile1
-     else if 'org.freedesktop.DBus.Introspectable' = Interface_ then Do_org_freedesktop_DBus_Introspectable;
+     else if 'org.freedesktop.DBus.Introspectable' = Interface_ then Do_org_freedesktop_DBus_Introspectable
+     else if 'org.freedesktop.DBus.Properties'     = Interface_ then Do_org_freedesktop_DBus_Properties;
 end;
 
 end.
