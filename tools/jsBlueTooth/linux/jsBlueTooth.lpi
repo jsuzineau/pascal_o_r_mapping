@@ -68,10 +68,6 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="uDBUS_BlueTooth_SPP_Server_Register.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
         <Filename Value="uDBUS_BlueTooth_Profile.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>

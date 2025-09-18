@@ -167,13 +167,19 @@ type
     procedure AppendBasic(_type: cint; _Source: Pointer);
     procedure AppendBasic_type_String(_type: cint; _S: String);
     procedure Append_OBJECT_PATH( _S: String);
-    procedure Append_String( _S: String);
+    procedure Append_String ( _S: String);
+    procedure Append_cuint16(var _n: cuint16);
+    procedure Append_dbus_bool_t  (var _b: dbus_bool_t);
   //Ajout variant
   public
-    procedure Append_Variant_String( _S: String);
+    procedure Append_Variant_String ( _S: String);
+    procedure Append_Variant_cuint16(var _n: cuint16);
+    procedure Append_Variant_dbus_bool_t  (var _b: dbus_bool_t);
   //Ajout entrée de DICT
   public
     procedure Append_DICT_String( _Name, _Value: String);
+    procedure Append_DICT_cuint16(_Name: String; var _Value: cuint16);
+    procedure Append_DICT_dbus_bool_t(_Name: String; var _Value: dbus_bool_t);
   //itération
   private
     Iter: DBusMessageIter;
@@ -602,6 +608,16 @@ begin
      AppendBasic_type_String( DBUS_TYPE_STRING, _S);
 end;
 
+procedure TDBUS_Iterateur.Append_cuint16(var _n: cuint16);
+begin
+     AppendBasic( DBUS_TYPE_UINT16, @_n);
+end;
+
+procedure TDBUS_Iterateur.Append_dbus_bool_t(var _b: dbus_bool_t);
+begin
+     AppendBasic( DBUS_TYPE_BOOLEAN, @_b);
+end;
+
 procedure TDBUS_Iterateur.Append_Variant_String( _S: String);
 var
    i: TDBUS_Iterateur;
@@ -611,6 +627,25 @@ begin
      close_container( i);
 end;
 
+procedure TDBUS_Iterateur.Append_Variant_cuint16(var _n: cuint16);
+var
+   i: TDBUS_Iterateur;
+begin
+     i:= open_container( DBUS_TYPE_VARIANT, 'q');
+       i.Append_cuint16( _n);
+     close_container( i);
+end;
+
+procedure TDBUS_Iterateur.Append_Variant_dbus_bool_t(var _b: dbus_bool_t);
+var
+   i: TDBUS_Iterateur;
+begin
+     i:= open_container( DBUS_TYPE_VARIANT, 'b');
+       i.Append_dbus_bool_t( _b);
+     close_container( i);
+end;
+
+
 procedure TDBUS_Iterateur.Append_DICT_String(_Name, _Value: String);
 var
    i: TDBUS_Iterateur;
@@ -618,6 +653,26 @@ begin
      i:= open_container( DBUS_TYPE_DICT_ENTRY, nil);
        i.Append_String        ( _Name );
        i.Append_Variant_String( _Value);
+     close_container( i);
+end;
+
+procedure TDBUS_Iterateur.Append_DICT_cuint16(_Name: String; var _Value: cuint16);
+var
+   i: TDBUS_Iterateur;
+begin
+     i:= open_container( DBUS_TYPE_DICT_ENTRY, nil);
+       i.Append_String         ( _Name );
+       i.Append_Variant_cuint16( _Value);
+     close_container( i);
+end;
+
+procedure TDBUS_Iterateur.Append_DICT_dbus_bool_t(_Name: String; var _Value: dbus_bool_t);
+var
+   i: TDBUS_Iterateur;
+begin
+     i:= open_container( DBUS_TYPE_DICT_ENTRY, nil);
+       i.Append_String         ( _Name );
+       i.Append_Variant_dbus_bool_t( _Value);
      close_container( i);
 end;
 

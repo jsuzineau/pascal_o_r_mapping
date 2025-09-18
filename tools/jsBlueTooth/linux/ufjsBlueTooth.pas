@@ -8,7 +8,6 @@ uses
     uDBUS,
     uDBUS_BlueTooth_Devices,
     uDBUS_BlueTooth_Profile,
-    uDBUS_BlueTooth_SPP_Server_Register,
     uBlueZ_BlueTooth_Client,
     uBlueZ_BlueTooth_Server,
  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,dbus;
@@ -62,6 +61,7 @@ begin
      dbus:= TDBUS.Create;
      //dbus.OnHandleMessage:= @dbus_HandleMessage; Messages traités en double
      dbus.Request_Name( 'org.bluez.jsBlueTooth');
+     //dbus.Request_Name( 'org.bluez');
      tDBUS_ProcessMessage.Enabled:= True;
 end;
 
@@ -151,24 +151,12 @@ end;
 
 procedure TfjsBlueTooth.bServerClick(Sender: TObject);
 const
-     object_path= '/org/bluez/jsBlueTooth';
-     service_name= 'jsBlueTooth serveur';
-// Création et exportation du profil
-var
-   sr: TDBUS_BlueTooth_SPP_Server_Register;
+     ObjectPath = '/org/bluez/jsBlueTooth';
+     ServiceName= 'jsBlueTooth Serveur';
 begin
-     profile := TBlueTooth_Profile.Create( dbus, object_path);
+     if Assigned(profile) then exit;
 
-     sr:= TDBUS_BlueTooth_SPP_Server_Register.Create;
-     try
-        //dbus
-        if not sr.Register( object_path, service_name)
-        then
-            m.Lines.Add( 'Echec de TDBUS_BlueTooth_SPP_Server_Register.Register');
-
-     finally
-            FreeAndNil( sr);
-            end;
+     profile:= TBlueTooth_Profile.Create( dbus, ObjectPath, ServiceName);
 end;
 
 procedure TfjsBlueTooth.bClientClick(Sender: TObject);

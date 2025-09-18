@@ -16,7 +16,9 @@ type
   class
   //Gestion du cycle de vie
   public
-    constructor Create( _dbus: TDBUS; _ObjectPath: String);
+    constructor Create( _dbus: TDBUS;
+                        _ObjectPath: String;
+                        _ServiceName: String);
     destructor Destroy; override;
   //D-Bus
   private
@@ -24,9 +26,25 @@ type
   //ObjectPath
   public
     ObjectPath: String;
+  //ServiceName
+  public
+    ServiceName: String;
+  //uuid
+  public
+    uuid: String;
+  //Channel
+  public
+    Channel: cuint16;
+  //Gestion d'erreur
+  public
+    sError: String;
   //DBUS_Object
   private
     Object_: TDBUS_Object;
+  //Register
+  private
+    function DBUS_Register: Boolean;
+    function Bluez_Register: Boolean; //RegisterProfile in Bluez
   //liste des clients
   private
     clients: TFPHashObjectList;
@@ -73,20 +91,40 @@ begin
 end;
 
 
+function GenerateUUID: string;
+var
+   Guid: TGUID;
+begin
+     if CreateGUID(Guid) = 0
+     then
+         begin
+         Result := GUIDToString(Guid);
+         Delete(Result,Length(Result),1);
+         Delete(Result,1,1);
+         end
+     else
+         Result := '';
+end;
+
 { TBlueTooth_Profile }
 
 constructor TBlueTooth_Profile.Create( _dbus: TDBUS;
-                                       _ObjectPath: String);
+                                       _ObjectPath: String;
+                                       _ServiceName: String);
 begin
      inherited Create;
-     dbus      := _dbus;
-     ObjectPath:= _ObjectPath;
-     Object_:= TDBUS_Object.Create( Self, dbus, ObjectPath, @DBusObjectPathMessage);
-     if Object_.sError <> ''
-     then
-         uDBUS_Log(  'TBlueTooth_Profile.Create:'#13#10
-                    +'  erreur de TDBUS_Object.Create:'
-                    +'    '+Object_.sError);
+
+     dbus       := _dbus;
+     ObjectPath := _ObjectPath;
+     ServiceName:= _ServiceName;
+     uuid       := GenerateUUID;
+     Channel    := 14;
+
+     sError:= '';
+     Object_:= nil;
+
+     DBUS_Register;
+     Bluez_Register;
      clients:= TFPHashObjectList.Create;
      uDBUS_Log(  'TBlueTooth_Profile.Create:'#13#10
                 +'  '+ObjectPath);
@@ -97,6 +135,97 @@ begin
      FreeAndNil( clients);
      FreeAndNil( Object_);
      inherited Destroy;
+end;
+
+function TBlueTooth_Profile.DBUS_Register: Boolean;
+begin
+     Object_:= TDBUS_Object.Create( Self, dbus, ObjectPath, @DBusObjectPathMessage);
+     Result:= Object_.sError = '';
+     if not Result
+     then
+         uDBUS_Log(  'TBlueTooth_Profile.DBUS_Register:'#13#10
+                    +'  erreur de TDBUS_Object.Create:'
+                    +'    '+Object_.sError);
+end;
+
+function TBlueTooth_Profile.Bluez_Register: Boolean;
+var
+   call       : TDBUS_Method_Call;
+   iParameters: TDBUS_Iterateur;
+   iOptions   : TDBUS_Iterateur;
+   iOption_Name: TDBUS_Iterateur;
+   iOption_Name_Value: TDBUS_Iterateur;
+   iOption_Role: TDBUS_Iterateur;
+   reply      : TDBUS_Message;
+   RequireAuthentication: dbus_bool_t;
+   RequireAuthorization : dbus_bool_t;
+   AutoConnect          : dbus_bool_t;
+begin
+      Result:= False;
+      sError:= '';
+      RequireAuthentication:= 0;
+      RequireAuthorization := 0;
+      AutoConnect          := 0;
+
+      // La plupart des options SDP sont déduites par BlueZ, on renseigne le minimum
+      // Format D-Bus RegisterProfile(o sa{sv})
+      call := TDBUS_Method_Call.Create( dbus,
+                                        'org.bluez',
+                                        '/org/bluez',
+                                        'org.bluez.ProfileManager1',
+                                        'RegisterProfile'
+                                        );
+      try
+         iParameters:= call.Parameters_append;
+
+         iParameters.Append_OBJECT_PATH( ObjectPath);
+         iParameters.Append_String     ( uuid      );
+         // Paramètre 3: options (a{sv})
+         iOptions:= iParameters.open_container( DBUS_TYPE_ARRAY, '{sv}');
+           iOptions.Append_DICT_String     ( 'Name'                 , ServiceName          );
+           iOptions.Append_DICT_String     ( 'Role'                 , 'server'             );
+           iOptions.Append_DICT_dbus_bool_t( 'RequireAuthentication', RequireAuthentication);
+           iOptions.Append_DICT_dbus_bool_t( 'RequireAuthorization' , RequireAuthorization );
+           iOptions.Append_DICT_dbus_bool_t( 'AutoConnect'          , AutoConnect          );
+           //iOptions.Append_DICT_cuint16    ( 'Channel'              , Channel              );
+         iParameters.close_container( iOptions);
+
+         try
+            reply:= call.SendAndBlock( 3000 );
+            Result:= Assigned( reply);
+            if not Result
+            then
+                sError := call.sError
+            else
+                begin
+                Result:= reply.sError = '';
+                if not Result
+                then
+                    sError := reply.sError;
+                end;
+         finally
+                FreeAndNil( reply);
+                end;
+      finally
+             FreeAndNil( call);
+             end;
+     if Result
+     then
+         uDBUS_Log(  'TBlueTooth_Profile.Bluez_Register:'#13#10
+                    +'  ObjectPath :'+ObjectPath +#13#10
+                    +'  uuid       :'+uuid       +#13#10
+                    +'  ServiceName:'+ServiceName+#13#10
+                    //+'  Channel    :'+IntToStr(Channel)+#13#10
+                    )
+     else
+         uDBUS_Log(  'TBlueTooth_Profile.Bluez_Register:'#13#10
+                    +'  erreur lors de RegisterProfile:'#13#10
+                    +'    '+sError+#13#10
+                    +'  ObjectPath :'+ObjectPath +#13#10
+                    +'  uuid       :'+uuid       +#13#10
+                    +'  ServiceName:'+ServiceName+#13#10
+                    //+'  Channel    :'+IntToStr(Channel)+#13#10
+                    );
 end;
 
 //=================================================
