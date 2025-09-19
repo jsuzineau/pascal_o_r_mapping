@@ -154,3 +154,6 @@ tools/jsExplorer/jsExplorer
 tools/jsExplorer/etc/_Configuration.Linux.json
 tools/jsExplorer/*.zip
 tools/jsPaneurythmie/jsPaneurythmie
+/tools/jsBlueTooth/LAMW/jsBlueTooth/build/
+/tools/jsBlueTooth/LAMW/jsBlueTooth/obj/
+/tools/jsBlueTooth/LAMW/jsBlueTooth/libs/

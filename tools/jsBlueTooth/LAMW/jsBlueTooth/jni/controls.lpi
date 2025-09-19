@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="12"/>
+    <PathDelim Value="\"/>
+    <General>
+      <Flags>
+        <MainUnitHasCreateFormStatements Value="False"/>
+        <MainUnitHasTitleStatement Value="False"/>
+        <LRSInOutputDirectory Value="False"/>
+      </Flags>
+      <SessionStorage Value="InProjectDir"/>
+      <Title Value="controls"/>
+      <UseAppBundle Value="False"/>
+      <ResourceType Value="res"/>
+    </General>
+    <CustomData Count="14">
+      <Item0 Name="BuildSystem" Value="Gradle"/>
+      <Item1 Name="KeepMyBuildGradleWhenReopen" Value="YES"/>
+      <Item2 Name="LAMW" Value="GUI"/>
+      <Item3 Name="LamwVersion" Value="0.8.6.4"/>
+      <Item4 Name="MinSdk" Value="21"/>
+      <Item5 Name="NdkApi" Value="android-22"/>
+      <Item6 Name="NdkPath" Value="C:\lamw_manager\LAMW\sdk\ndk-bundle\"/>
+      <Item7 Name="Package" Value="org.lamw.jsbluetooth"/>
+      <Item8 Name="SdkPath" Value="C:\lamw_manager\LAMW\sdk\"/>
+      <Item9 Name="StartModule" Value="fjsBlueTooth"/>
+      <Item10 Name="Support" Value="TRUE"/>
+      <Item11 Name="TargetSdk" Value="34"/>
+      <Item12 Name="Theme" Value="AppCompat.Light.NoActionBar"/>
+      <Item13 Name="TryKotlin" Value="FALSE"/>
+    </CustomData>
+    <BuildModes>
+      <Item Name="Default" Default="True"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+      <UseFileFilters Value="True"/>
+    </PublishOptions>
+    <RunParams>
+      <FormatVersion Value="2"/>
+    </RunParams>
+    <RequiredPackages>
+      <Item>
+        <PackageName Value="tfpandroidbridge_pack"/>
+      </Item>
+    </RequiredPackages>
+    <Units>
+      <Unit>
+        <Filename Value="controls.lpr"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ufjsBlueTooth.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="fjsBlueTooth"/>
+        <HasResources Value="True"/>
+        <CustomData Count="2">
+          <Item0 Name="fclControls"/>
+          <Item1 Name="jControls" Value="jBluetooth;jBluetoothClientSocket;jBluetoothLowEnergy;jBluetoothServerSocket;jButton;jDialogProgress;jForm;jListView;jTextView"/>
+        </CustomData>
+      </Unit>
+    </Units>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="11"/>
+    <PathDelim Value="\"/>
+    <Target>
+      <Filename Value="..\libs\armeabi-v7a\libcontrols"/>
+    </Target>
+    <SearchPaths>
+      <Libraries Value="C:\lamw_manager\LAMW\sdk\ndk-bundle\platforms\android-22\arch-arm\usr\lib\;C:\lamw_manager\LAMW\sdk\ndk-bundle\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\lib\gcc\arm-linux-androideabi\4.9.x\"/>
+      <OtherUnitFiles Value="$(ProjOutDir)"/>
+      <UnitOutputDirectory Value="..\obj\controls"/>
+    </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <SyntaxMode Value="delphi"/>
+        <CStyleMacros Value="True"/>
+      </SyntaxOptions>
+    </Parsing>
+    <CodeGeneration>
+      <SmartLinkUnit Value="True"/>
+      <TargetCPU Value="arm"/>
+      <TargetOS Value="android"/>
+      <Optimizations>
+        <OptimizationLevel Value="3"/>
+      </Optimizations>
+      <SmallerCode Value="True"/>
+    </CodeGeneration>
+    <Linking>
+      <Debugging>
+        <GenerateDebugInfo Value="False"/>
+        <StripSymbols Value="True"/>
+      </Debugging>
+      <LinkSmart Value="True"/>
+      <Options>
+        <ExecutableType Value="Library"/>
+      </Options>
+    </Linking>
+    <Other>
+      <CustomOptions Value="-Xd -CfVFPV3 -CpARMV7A -XParm-linux-androideabi- -FDC:\lamw_manager\LAMW\sdk\ndk-bundle\toolchains\arm-linux-androideabi-4.9\prebuilt\windows-x86_64\bin"/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions>
+      <Item>
+        <Name Value="EAbort"/>
+      </Item>
+      <Item>
+        <Name Value="ECodetoolError"/>
+      </Item>
+      <Item>
+        <Name Value="EFOpenError"/>
+      </Item>
+    </Exceptions>
+  </Debugging>
+</CONFIG>

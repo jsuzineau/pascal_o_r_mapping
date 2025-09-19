@@ -1,0 +1,89 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        google()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.2.0' 
+    }
+}
+allprojects {
+    repositories {
+       jcenter()
+       google()
+       mavenCentral()
+       maven {url 'https://jitpack.io'}
+    }
+}
+apply plugin: 'com.android.application'
+android {
+    namespace "org.lamw.jsbluetooth"
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi-v7a'
+            universalApk false
+        }
+    }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+    compileSdk 34
+    defaultConfig {
+            minSdkVersion 23
+            targetSdkVersion 34
+            versionCode 6682784
+            versionName "1.0"
+            multiDexEnabled true
+            ndk { debugSymbolLevel 'FULL' }
+    }
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
+        }
+        debug.setRoot('build-types/debug')
+        release.setRoot('build-types/release')
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            debuggable true
+            jniDebuggable true
+        }
+        release {
+            minifyEnabled false
+            debuggable false
+            jniDebuggable false
+        }
+    }
+    buildFeatures {
+        aidl true
+    }
+    lint {
+        abortOnError false
+    }
+}
+dependencies {
+    implementation  fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'com.google.android.material:material:1.11.0'
+}
+tasks.register('run', Exec) {
+ dependsOn ':installDebug'
+	if (System.properties['os.name'].toLowerCase().contains('windows')) {
+	    commandLine 'cmd', '/c', 'adb', 'shell', 'am', 'start', '-n', "org.lamw.jsbluetooth/.App"
+	} else {
+	    commandLine 'adb', 'shell', 'am', 'start', '-n', "org.lamw.jsbluetooth/.App"
+	}
+}
+ 
