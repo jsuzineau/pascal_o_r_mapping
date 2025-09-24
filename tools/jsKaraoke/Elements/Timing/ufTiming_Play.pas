@@ -327,6 +327,14 @@ procedure TfTiming_Play.tPlayTimer(Sender: TObject);
               Timing_Index:= poolTiming.slFiltre.IndexOfObject( blPlay);
               dsbTiming.Index:= Timing_Index;
               end;
+          if blPlay.Texte_id = 420
+          then
+              begin
+              fPlay.mCyrillique      .Font.Size:= 14;
+              fPlay.mFrancais        .Font.Size:= 14;
+              fPlay.mTranslitteration.Font.Size:= 14;
+              end;
+
        finally
               Select_running:= False;
               end;
@@ -382,6 +390,8 @@ procedure TfTiming_Play.tShowTimer(Sender: TObject);
 begin
      tShow.Enabled:= False;
      _from_pool;
+     Left:= 0;
+
 end;
 
 initialization

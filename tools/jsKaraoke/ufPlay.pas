@@ -44,6 +44,7 @@ var
    m_Height: Integer;
 begin
      tShow.Enabled:= False;
+     Left:= 0;
      ClientWidth:= Trunc( ClientHeight*16/9);
 
      m_Height:= ClientHeight div 3;

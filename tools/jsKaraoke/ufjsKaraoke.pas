@@ -116,6 +116,7 @@ procedure TfjsKaraoke.tShowTimer(Sender: TObject);
 begin
      tShow.Enabled:= False;
      bPlay.Click;
+     Left:= 0;
 end;
 
 procedure TfjsKaraoke.tTimer(Sender: TObject);
