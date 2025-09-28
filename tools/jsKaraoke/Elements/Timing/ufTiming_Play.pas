@@ -60,6 +60,7 @@ type
    bRecord: TButton;
    bfPlay: TButton;
    bPause: TButton;
+   bFin: TButton;
    cbAccrocher_Timing: TCheckBox;
    cb: TComboBox;
    cbTiming_modifiable: TCheckBox;
@@ -75,6 +76,7 @@ type
     tShow: TTimer;
     procedure aMoinsExecute(Sender: TObject);
     procedure aPlusExecute(Sender: TObject);
+    procedure bFinClick(Sender: TObject);
     procedure bfPlayClick(Sender: TObject);
     procedure bPauseClick(Sender: TObject);
     procedure bPlayClick(Sender: TObject);
@@ -221,6 +223,11 @@ begin
      lStart_from_Start;
 end;
 
+procedure TfTiming_Play.bFinClick(Sender: TObject);
+begin
+     dsbTiming.Goto_Dernier;
+end;
+
 procedure TfTiming_Play.bfPlayClick(Sender: TObject);
 begin
      fPlay.Show;
@@ -330,9 +337,9 @@ procedure TfTiming_Play.tPlayTimer(Sender: TObject);
           if blPlay.Texte_id = 420
           then
               begin
-              fPlay.mCyrillique      .Font.Size:= 14;
-              fPlay.mFrancais        .Font.Size:= 14;
-              fPlay.mTranslitteration.Font.Size:= 14;
+              fPlay.mCyrillique      .Font.Size:= 20;
+              fPlay.mFrancais        .Font.Size:= 20;
+              fPlay.mTranslitteration.Font.Size:= 20;
               end;
 
        finally

@@ -84,7 +84,7 @@ object fTiming_Play: TfTiming_Play
         Left = 343
         Height = 31
         Top = 2
-        Width = 225
+        Width = 203
         ItemHeight = 0
         ItemIndex = 1
         Items.Strings = (
@@ -113,6 +113,15 @@ object fTiming_Play: TfTiming_Play
         Caption = 'Timing modifiable'
         TabOrder = 6
         OnChange = cbTiming_modifiableChange
+      end
+      object bFin: TButton
+        Left = 547
+        Height = 19
+        Top = 11
+        Width = 31
+        Caption = 'bFin'
+        TabOrder = 7
+        OnClick = bFinClick
       end
     end
     object dsb: TDockableScrollbox
