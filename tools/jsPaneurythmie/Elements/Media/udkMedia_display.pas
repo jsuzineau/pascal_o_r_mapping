@@ -44,6 +44,7 @@ type
  TdkMedia_display
  =
   class(TDockable)
+  clNomCourant: TChamp_Label;
   clTitre: TChamp_Label;
   procedure DockableKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   procedure FormResize(Sender: TObject);
@@ -80,7 +81,7 @@ begin
 
      Affecte( blMedia, TblMedia, Value);
 
-     Champs_Affecte( blMedia, [clTitre]);
+     Champs_Affecte( blMedia, [clTitre,clNomCourant]);
 end;
 
 procedure TdkMedia_display.DockableKeyDown( Sender: TObject; var Key: Word; Shift: TShiftState);

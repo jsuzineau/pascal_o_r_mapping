@@ -2,14 +2,14 @@ inherited dkMedia_display: TdkMedia_display
   Left = 704
   Height = 45
   Top = 420
-  Width = 280
+  Width = 295
   Caption = 'dkMedia_display'
   ClientHeight = 45
-  ClientWidth = 280
+  ClientWidth = 295
   Color = 16777152
   OnResize = FormResize
   inherited sBackground: TShape
-    Width = 818
+    Width = 833
     Brush.Color = 16777152
     OnMouseDown = sSelectionMouseDown
   end
@@ -20,7 +20,7 @@ inherited dkMedia_display: TdkMedia_display
     Left = 12
     Height = 36
     Top = 0
-    Width = 87
+    Width = 85
     Caption = 'clTitre'
     Font.Color = clWindowText
     Font.Height = -32
@@ -31,5 +31,22 @@ inherited dkMedia_display: TdkMedia_display
     ShowHint = True
     OnClick = FormClick
     Field = 'Titre'
+  end
+  object clNomCourant: TChamp_Label[3]
+    Left = 88
+    Height = 36
+    Top = 1
+    Width = 203
+    Anchors = [akTop, akRight]
+    Caption = 'clNomCourant'
+    Font.Color = clWindowText
+    Font.Height = -32
+    Font.Name = 'Arial'
+    ParentColor = False
+    ParentFont = False
+    ParentShowHint = False
+    ShowHint = True
+    OnClick = FormClick
+    Field = 'NomCourant'
   end
 end

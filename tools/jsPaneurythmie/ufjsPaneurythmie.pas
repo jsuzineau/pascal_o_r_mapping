@@ -227,13 +227,14 @@ procedure TfjsPaneurythmie.dsbSelect(Sender: TObject);
 begin
      if Verrouille then exit;
      dsb.Get_bl( blMedia);
+     blMedia.Prepare_Liste;
      _from_Media;
 end;
 
 procedure TfjsPaneurythmie._from_Media;
 begin
      StopClicked:= False;
-     vlc.PlayFile(blMedia.NomFichier);
+     vlc.PlayFile(blMedia.NomFichier_from_Liste);
      Volume_from_VLC;
      cbVerrouiller.Checked:= blMedia.Verrouiller;
 end;
@@ -346,8 +347,12 @@ begin
      if HeureFin <= Heure then HeureFin:= HeureFin+1;
 
      Restant:= HeureFin-Heure;
-     temps:= (1-Frac(Restant / duree))*duree;
-     vlc.VideoPosition:= Trunc(temps*24*3600*1000);
+     if (Restant < duree) or not blMedia.Is_Liste
+     then
+         begin
+         temps:= (1-Frac(Restant / duree))*duree;
+         vlc.VideoPosition:= Trunc(temps*24*3600*1000);
+         end;
 end;
 
 procedure TfjsPaneurythmie.vlcLengthChanged( _Sender: TObject; const _time: TDateTime);

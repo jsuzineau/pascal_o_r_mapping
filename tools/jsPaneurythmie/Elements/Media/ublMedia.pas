@@ -37,10 +37,7 @@ uses
     upool_Ancetre_Ancetre,
     uPool,
 
-//Aggregations_Pascal_ubl_uses_details_pas
-
-
-    SysUtils, Classes, SqlDB, DB;
+    SysUtils, Classes, SqlDB, DB, FileUtil;
 
 type
  TblMedia= class;
@@ -62,15 +59,20 @@ type
     Boucler    : Boolean;
     Verrouiller: Boolean;
     HeureFin   : TDateTime;cHeureFin: TChamp;
-//Pascal_ubl_declaration_pas_detail
   //Gestion de la clé
   public
-//pattern_sCle_from__Declaration
     function sCle: String; override;
   //Gestion des déconnexions
   public
     procedure Unlink(be: TBatpro_Element); override;
-//pattern_aggregation_function_Create_Aggregation_declaration
+  //Liste
+  private
+    slListe: TStringList;
+    NomCourant: String; cNomCourant: TChamp;
+  public
+    Is_Liste: Boolean;
+    procedure Prepare_Liste;
+    function NomFichier_from_Liste: String;
   end;
 
  TIterateur_Media
@@ -182,12 +184,15 @@ begin
      cHeureFin:= DateTime_from_( HeureFin, 'HeureFin'      );
      cHeurefin.Definition.Format_DateTime:= 'yyyy/mm/dd" "hh:nn';
 
-//Pascal_ubl_constructor_pas_detail
+     Is_Liste:= DirectoryExists( NomFichier);
+     slListe:= TStringList.Create;
+     cNomCourant:= Ajoute_String(NomCourant,'NomCourant', False);
+     NomCourant:= '';
 end;
 
 destructor TblMedia.Destroy;
 begin
-
+     FreeAndNil( slListe);
      inherited;
 end;
 
@@ -203,6 +208,40 @@ begin
      inherited Unlink( be);
      ;
 
+end;
+
+procedure TblMedia.Prepare_Liste;
+begin
+     NomCourant:= '';
+     Randomize;
+     slListe.Clear;
+     FindAllFiles( slListe, NomFichier, '*.*');
+end;
+
+function TblMedia.NomFichier_from_Liste: String;
+   procedure Cas_Liste;
+   var
+      i: Integer;
+   begin
+        i:= Random( slListe.Count);
+        Result:= slListe[i];
+        slListe.Delete( i);
+        if 0 = slListe.Count
+        then
+            Prepare_Liste;
+
+        cNomCourant.asString:= ExtractFileName( Result);
+   end;
+   procedure Cas_direct;
+   begin
+        Result:= NomFichier;
+   end;
+begin
+     if Is_Liste
+     then
+         Cas_Liste
+     else
+         Cas_direct;
 end;
 
 //pattern_aggregation_accesseurs_implementation
