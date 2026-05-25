@@ -1,0 +1,1 @@
+curl -f -H "Accept: application/json" "http://localhost:8080/wp-json-openapi" -o wordpress-openapi.json

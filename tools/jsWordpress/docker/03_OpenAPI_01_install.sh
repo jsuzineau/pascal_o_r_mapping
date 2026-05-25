@@ -1,0 +1,1 @@
+docker compose exec wpcli wp plugin install wp-openapi --activate --allow-root

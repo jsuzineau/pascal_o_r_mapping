@@ -1,0 +1,1 @@
+docker compose exec wpcli wp core is-installed --allow-root
