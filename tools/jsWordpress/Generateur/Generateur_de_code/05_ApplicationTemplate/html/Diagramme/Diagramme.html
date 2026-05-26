@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style type="text/css">
+      #dSVG
+        {
+        //width: 900px;
+        width: 100%;
+        //height: 600px;
+        //height: 100%;
+        }
+      #sidebar
+        {
+        width:100em;
+        }
+    </style>
+  </head>
+
+  <body>
+    <div id = "div_container" class="container-fluid">
+      <div id = "div_row" class="row flex-nowrap">
+          <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0">
+            <p>Infos sur la sélection :</p>
+            <p><a id="aURL" target="_blank" rel="noopener noreferrer"> <span id="sURL"></span></a></p>
+            <p id="pInfos"> </p>
+            <div class="card">
+              <div class="card-header" id="chElements">
+                <h5 class="mb-0">
+                  <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#Elements" aria-expanded="true" aria-controls="Elements">
+                    <span style="color:orange;font-size:200%;">&bull;&nbsp;</span>Eléments à afficher
+                  </button>
+                </h5>
+              </div>
+              <div id="Elements" class="collapse" aria-labelledby="chElements">
+                <div class="card-body">
+                  <div class="form-group">
+                     <button id="bElements_Decocher">Tout décocher</button>
+                     <button id="bElements_Cocher">Tout cocher</button>
+                     <div id="lcbElements">
+                       <label></label>
+                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header" id="chLogiciels">
+                <h5 class="mb-0">
+                  <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#Logiciels" aria-expanded="true" aria-controls="Logiciels">
+                    <span style="color:blue;font-size:200%;">&bull;&nbsp;</span>Logiciels à afficher
+                  </button>
+                </h5>
+              </div>
+              <div id="Logiciels" class="collapse" aria-labelledby="chLogiciels">
+                <div class="card-body">
+                  <button id="bLogiciels_Decocher">Tout décocher</button>
+                  <button id="bLogiciels_Cocher">Tout cocher</button>
+                  <div class="form-group">
+                     <div id="lcbLogiciels">
+                       <label></label>
+                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header" id="chCategories">
+                <h5 class="mb-0">
+                  <button class="btn btn-link" data-bs-toggle="collapse" data-bs-target="#Categories" aria-expanded="true" aria-controls="Categories">
+                    <span style="color:green;font-size:200%;">&bull;&nbsp;</span>Catégories à afficher
+                  </button>
+                </h5>
+              </div>
+              <div id="Categories" class="collapse" aria-labelledby="chCategories">
+                <div class="card-body">
+                  <button id="bCategories_Decocher">Tout décocher</button>
+                  <button id="bCategories_Cocher">Tout cocher</button>
+                  <div class="form-group">
+                     <div id="lcbCategories">
+                       <label></label>
+                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="position:absolute;bottom:0px;">
+              <button id="bDessinne">Dessinne</button>
+              <p>
+                 <input checked="false" type="checkbox" id="cbFige" /><label for="cbFige">&nbsp;Fige les éléments déplacés à la main</label>
+              </p>
+              <button id="bSVG_export">Exporter en SVG</button>
+              <!--
+              <p>Largeur <span id="sLargeur"></span></p>
+              <p>Hauteur <span id="sHauteur"></span></p>
+              <p></p>
+              -->
+            </div>
+
+          </div>
+          <div id="dSVG" class="col py-3">
+            <svg id="svg"></svg>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
+<script type="module">
+import * as d3 from "https://cdn.skypack.dev/d3@7";
+
+const data_types=
+  [
+  {"id":"élément"          , "color":"orange"},
+  {"id":"logiciel"         , "color":"blue"  },
+  {"id":"logiciel_logiciel", "color":"cyan"  },
+  {"id":"catégorie"        , "color":"green" },
+  ];
+const elements=
+  [
+  {"id":""                     , "type":"élément", "info":""},
+//elements_Diagramme_html
+  ];
+const  elements_elements=
+  [
+  {"source":"", "target":"", "type":"élément"},
+//elements_elements_Diagramme_html_Tables
+  ];
+const logiciels=
+  [
+  //logiciels
+  {"id":""            , "type":"logiciel", "url":""                                , "info":""                                                                       , ponderation:1},
+  ];
+const  elements_logiciels=
+   [
+   //liens élément -> logiciel
+   {"source":"Publicité", "target":"Facebook", "type":"logiciel"},
+   ];
+const logiciels_logiciels=
+   [
+   //liens logiciel -> logiciel
+   {"source":"ThriveCart", "target":"Zapier", "type":"logiciel_logiciel"},
+   ];
+
+const categories=
+  {
+  "nodes":
+       [
+       {"id":""                             , "type":"catégorie", "info":""},
+       ],
+  "links":
+       [
+       {"source":"Carrd"          , "target":"Pages de vente" , "type":"catégorie"},
+       ],
+  };
+function Dessinne()
+  {
+  //var w = window.innerWidth;
+  //var h = window.innerHeight;
+
+  const dSVG= document.querySelector('#dSVG');
+  //const dSVG= document.querySelector('#svg');
+
+  const width= dSVG.clientWidth;
+
+  //const height= dSVG.clientHeight;
+  const height= window.innerHeight;
+
+  //d3.select("#sLargeur").text(width);
+  //d3.select("#sHauteur").text(height);
+
+  var svg = d3.select("#svg");
+  svg.selectAll("*").remove();
+  svg= svg.attr("viewBox", [-width / 2, -height / 2, width, height])
+          .style("font", "14px sans-serif");
+
+
+  var checked_elements= new Set();
+  //checked_elements.add("Futur client");
+  d3.selectAll(".cbElement")
+    .each(function(d)
+      {
+      var cb = d3.select(this);
+      if(cb.property("checked"))
+        {
+        checked_elements.add(cb.property("value"));
+        }
+      }
+      )
+  var checked_logiciels= new Set();
+  //checked_logiciels.add("Carrd");
+  d3.selectAll(".cbLogiciel")
+    .each(function(d)
+      {
+      var cb = d3.select(this);
+      if(cb.property("checked"))
+        {
+        checked_logiciels.add(cb.property("value"));
+        }
+      }
+      )
+  var checked_categories= new Set();
+  d3.selectAll(".cbCategorie")
+    .each(function(d)
+      {
+      var cb = d3.select(this);
+      if(cb.property("checked"))
+        {
+        checked_categories.add(cb.property("value"));
+        }
+      }
+      )
+
+
+  //elements.forEach(element => console.log(element));
+  //     {"id":""                     , "type":"élément", "info":""},
+
+  const nodes= elements
+               .map(function (d)
+                    {
+                    const dx=(1/2)*(width/2);
+
+                    const h2=(height/2)
+                    const dy=(9/10)*h2;
+                    const Marketing_Publicite_y=(8/10)*h2;
+                    const Information_y=(6/10)*h2;
+                    const Paiement_Achat_y=(3/10)*h2;
+                    const Cours_de_base_y=0; //a*sqrt(3)/2
+                    const Education_Fidelisation_Suivi_y=-(2/10)*h2;
+                    const Affiliation_y     =-(3/10)*h2;
+                    const Produits_avances_y=-(4/10)*h2;
+
+                    const Result
+                    =
+                     {
+                     id:d.id,
+                     type:d.type,
+                     info:d.info,
+                     fx:
+                         "Futur client"         ==d.id ? 0
+                        :"Client arrivé"        ==d.id ? 0
+                        :"Information"          ==d.id ? 0
+                        :"Marketing"            ==d.id ? -dx
+                        :"Publicité"            ==d.id ? +dx
+                        :"Paiement Achat"       ==d.id ? 0
+                        :"Produits de base"     ==d.id ? -dx
+                        :"Cours de base"        ==d.id ? 0
+                        :"Construction cours"   ==d.id ? +dx
+                        :"Fidélisation"         ==d.id ? 0
+                        :"Suivi / Communication"==d.id ? +dx
+                        :"Affiliation"          ==d.id ? 0
+                        :"Produits avancés"     ==d.id ? 0
+                        : null,
+                     fy:
+                         "Futur client"      ==d.id ? +dy
+                        :"Client arrivé"     ==d.id ? -dy
+                        :"Information"       ==d.id ? Information_y
+                        :"Marketing"         ==d.id ? Marketing_Publicite_y
+                        :"Publicité"         ==d.id ? Marketing_Publicite_y
+                        :"Paiement Achat"    ==d.id ? Paiement_Achat_y
+                        :"Produits de base"  ==d.id ? Cours_de_base_y
+                        :"Construction cours"==d.id ? Cours_de_base_y
+                        :"Fidélisation"         ==d.id ? Education_Fidelisation_Suivi_y
+                        :"Suivi / Communication"==d.id ? Education_Fidelisation_Suivi_y
+                        :"Affiliation"          ==d.id ? Affiliation_y
+                        :"Produits avancés"     ==d.id ? Produits_avances_y
+                        : null,
+                     };
+                    return Result;
+                    })
+               .filter( d => checked_elements.has(d.id))
+               .concat( logiciels
+                        .map(d => Object.create(d))
+                        .filter( d => checked_logiciels.has(d.id))
+                        )
+               .concat( categories.nodes
+                        .map(d => Object.create(d))
+                        .filter( d => checked_categories.has(d.id))
+                        )
+               ;
+
+
+  const links= elements_elements
+               .map(d => Object.create(d))
+               .filter( d => checked_elements.has(d.source)&&checked_elements.has(d.target))
+               .concat( elements_logiciels
+                        .map(d => Object.create(d))
+                        .filter( d => checked_elements.has(d.source)&&checked_logiciels.has(d.target))
+                        )
+               .concat( logiciels_logiciels
+                        .map(d => Object.create(d))
+                        .filter( d => checked_logiciels.has(d.source)&&checked_logiciels.has(d.target))
+                        )
+               .concat( categories.links
+                        .map(d => Object.create(d))
+                        .filter( d => (checked_elements.has(d.source)||checked_logiciels.has(d.source))&&checked_categories.has(d.target))
+                        )
+               ;
+
+
+  const types= data_types.map(d => d);
+  //const color = d3.scaleOrdinal(types, d3.schemeCategory10)
+
+  const simulation = d3.forceSimulation(nodes)
+        .force("link", d3.forceLink(links).id(node => node.id))
+        .force("charge", d3.forceManyBody().strength(-400))
+        .force("x", d3.forceX())
+        .force("y", d3.forceY())
+        ;
+  const drag = simulation =>
+    {
+    function dragstarted(event, d)
+      {
+      if (!event.active) simulation.alphaTarget(0.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+      d3.select("#sURL").text(d.id);
+      d3.select("#aURL").attr("href",d.url);
+      d3.select("#pInfos").text(d.info);
+      }
+    function dragged(event, d)
+      {
+      d.fx = event.x;
+      d.fy = event.y;
+      }
+    function dragended(event, d)
+      {
+      if (!event.active) simulation.alphaTarget(0);
+      var cbFige = d3.select("#cbFige");
+      if(!cbFige.property("checked"))
+        {
+        d.fx = null;
+        d.fy = null;
+        }
+      else
+        {
+        d.fx = d.x;
+        d.fy = d.y;
+        }
+      }
+
+    return d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended);
+    }
+
+  // Per-type markers, as they don't inherit styles.
+
+  svg.append("defs")
+     .selectAll("marker")
+     .data(types)
+     .join("marker")
+     .attr("id", d => `arrow-${d.id}`)
+     .attr("viewBox", "0 -5 10 10")
+     .attr("refX", 15)
+     .attr("refY", -0.5)
+     .attr("markerWidth", 6)
+     .attr("markerHeight", 6)
+     .attr("orient", "auto")
+     .append("path")
+     .attr("fill", d=>d.color)
+     .attr("d", "M0,-5L10,0L0,5");
+
+  const link = svg.append("g")
+                  .attr("fill", "none")
+                  .attr("stroke-width", 1.5)
+                  .selectAll("path")
+                  .data(links)
+                  .join("path")
+                  .attr( "stroke",
+                         d =>   "élément"           == d.type ? "orange"
+                              : "logiciel"          == d.type ? "blue"
+                              : "logiciel_logiciel" == d.type ? "cyan"
+                              : "green")
+                  .attr( "marker-end",
+                         d => "élément"           == d.type ? `url(${new URL(`#arrow-${d.type}`, location)})`
+                             :"logiciel_logiciel" == d.type ? `url(${new URL(`#arrow-${d.type}`, location)})`
+                             :``);
+
+  const node = svg.append("g")
+                  .attr("fill", "currentColor")
+                  .attr("stroke-linecap", "round")
+                  .attr("stroke-linejoin", "round")
+                  .selectAll("g")
+                  .data(nodes)
+                  .join("g")
+                  .call(drag(simulation));
+
+  node.filter( d => "élément" == d.type)
+      .append("circle")
+      .attr("color", "orange")
+      .attr("stroke", "white")
+      .attr("stroke-width", 1.5)
+      .attr("r", 4);
+
+  const text= node.filter( d => "élément" == d.type)
+      .append("text")
+      .attr("x", 8)
+      .attr("y", "0.31em")
+      //.attr("color", "orange")
+      .text(d => d.id)
+      .clone(true).lower()
+      .attr("fill", "none")
+      .attr("stroke", "white")
+      .attr("stroke-width", 3);
+
+  node.filter( d => "logiciel" == d.type)
+      .append("circle")
+      .attr("color", "blue")
+      .attr("stroke", "white")
+      .attr("stroke-width", 1.5)
+      .attr("r", d => d.ponderation*4);
+
+  node.filter( d => "logiciel" == d.type)
+      .append("text","rect")
+      .attr("x", d => d.ponderation*8)
+      .attr("y", "0.31em")
+      .attr("color", "blue")
+      .text(d => d.id)
+      .clone(true).lower()
+      .attr("fill", "none")
+      .attr("stroke", "white")
+      .attr("stroke-width", 3);
+
+  node.filter( d => "catégorie" == d.type)
+      .append("circle")
+      .attr("color", "green")
+      .attr("stroke", "white")
+      .attr("stroke-width", 1.5)
+      .attr("r", 4);
+
+  node.filter( d => "catégorie" == d.type)
+      .append("text","rect")
+      .attr("x", 8)
+      .attr("y", "0.31em")
+      .attr("color", "green")
+      .text(d => d.id)
+      .clone(true).lower()
+      .attr("fill", "none")
+      .attr("stroke", "white")
+      .attr("stroke-width", 3);
+
+  simulation.on("tick", () =>
+    {
+    function linkArc(d)
+      {
+      const r = Math.hypot(d.target.x - d.source.x, d.target.y - d.source.y);
+      return `
+        M${d.source.x},${d.source.y}
+        A${r},${r} 0 0,1 ${d.target.x},${d.target.y}
+      `;
+      }
+    link.attr("d", linkArc);
+    node.attr("transform", d => `translate(${d.x},${d.y})`);
+    });
+
+  //invalidation.then(() => simulation.stop());
+  d3.select("#bFige").on("click", function(){simulation.stop();});
+  }
+
+const pElement
+= d3.select("#lcbElements")
+    .selectAll("label")
+    .data(elements)
+    .enter()
+    .append('p');
+pElement.append("input")
+        .attr("checked", true)
+        .attr("type", "checkbox")
+        .attr("id", function(d,i) { return 'cbe'+i; })
+        .attr("value", d=>d.id)
+        .attr("class", "cbElement")
+        .on("change",Dessinne)
+        ;
+pElement.append('label')
+        .attr('for',function(d,i){ return 'cbe'+i; })
+        .text(function(d) { return '  '+d.id; })
+        ;
+
+const pLogiciel
+= d3.select("#lcbLogiciels")
+    .selectAll("label")
+    .data(logiciels)
+    .enter()
+    .append('p');
+pLogiciel.append("input")
+         .attr("checked", true)
+         .attr("type", "checkbox")
+         .attr("id", function(d,i) { return 'cbe'+i; })
+         .attr("value", d=>d.id)
+         .attr("class", "cbLogiciel")
+         .on("change",Dessinne)
+         ;
+pLogiciel.append('label')
+         .attr('for',function(d,i){ return 'cbe'+i; })
+         .text(function(d) { return '  '+d.id; })
+         ;
+
+const pCategorie
+= d3.select("#lcbCategories")
+    .selectAll("label")
+    .data(categories.nodes)
+    .enter()
+    .append('p');
+pCategorie.append("input")
+         .attr("checked", true)
+         .attr("type", "checkbox")
+         .attr("id", function(d,i) { return 'cbe'+i; })
+         .attr("value", d=>d.id)
+         .attr("class", "cbCategorie")
+         .on("change",Dessinne)
+         ;
+pCategorie.append('label')
+         .attr('for',function(d,i){ return 'cbe'+i; })
+         .text(function(d) { return '  '+d.id; })
+         ;
+
+d3.select("#cbFige").on("change", Dessinne);
+
+d3.select("#bDessinne").on("click", Dessinne);
+
+function cb_Property( _button_id, _cb_class, _value)
+  {
+  d3.select(_button_id).on("click", function()
+    {
+    d3.selectAll(_cb_class)
+      .each(function(d)
+        {
+        d3.select(this).property("checked", _value)
+        }
+        );
+    Dessinne();
+    });
+  }
+cb_Property( "#bElements_Decocher", ".cbElement", false);
+cb_Property( "#bElements_Cocher"  , ".cbElement", true );
+cb_Property( "#bLogiciels_Decocher", ".cbLogiciel", false);
+cb_Property( "#bLogiciels_Cocher"  , ".cbLogiciel", true );
+cb_Property( "#bCategories_Decocher", ".cbCategorie", false);
+cb_Property( "#bCategories_Cocher"  , ".cbCategorie", true );
+
+// https://stackoverflow.com/questions/23218174/how-do-i-save-export-an-svg-file-after-creating-an-svg-with-d3-js-ie-safari-an
+function saveSvg(svgEl, name)
+  {
+  svgEl.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+  var svgData = svgEl.outerHTML;
+  var preface = '<?xml version="1.0" standalone="no"?>\r\n';
+  var svgBlob = new Blob([preface, svgData], {type:"image/svg+xml;charset=utf-8"});
+  var svgUrl = URL.createObjectURL(svgBlob);
+  var downloadLink = document.createElement("a");
+  downloadLink.href = svgUrl;
+  downloadLink.download = name;
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  document.body.removeChild(downloadLink);
+  }
+
+d3.select("#bSVG_export").on("click", function()
+  {
+  //var svg = d3.select("#svg");
+  var svg = document.querySelector('#svg');
+  saveSvg(svg, "diagramme.svg");
+  });
+
+Dessinne();
+
+</script>

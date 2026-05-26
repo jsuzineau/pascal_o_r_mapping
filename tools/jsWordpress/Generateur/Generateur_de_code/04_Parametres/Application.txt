@@ -1,0 +1,2 @@
+Django_nom_app=app
+Django_nom_projet=projet

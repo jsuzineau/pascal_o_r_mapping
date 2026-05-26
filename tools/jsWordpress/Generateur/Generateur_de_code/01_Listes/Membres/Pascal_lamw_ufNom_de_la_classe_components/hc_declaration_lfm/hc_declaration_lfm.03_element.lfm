@@ -1,0 +1,7 @@
+  object hceMembre.NomChamp: ThChamp_Edit
+    Field = 'Membre.NomChamp'
+    et = eMembre.NomChamp
+    Left = 152
+    Top = 8
+  end
+

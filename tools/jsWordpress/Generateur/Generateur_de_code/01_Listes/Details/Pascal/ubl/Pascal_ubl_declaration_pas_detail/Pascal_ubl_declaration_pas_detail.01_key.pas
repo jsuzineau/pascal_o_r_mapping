@@ -1,0 +1,1 @@
+//Pascal_ubl_declaration_pas_detail

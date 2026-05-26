@@ -1,0 +1,3 @@
+[Options]
+sRepSource=./Generateur_de_code/patterns/
+sRepCible=./Generateur_de_code/Source/

@@ -1,0 +1,1 @@
+//pattern_Pascal_ufPatternMainMenu_methods_declaration

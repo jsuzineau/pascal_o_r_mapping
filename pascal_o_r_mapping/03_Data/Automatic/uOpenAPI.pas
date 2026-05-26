@@ -5,6 +5,7 @@ interface
 uses
     //uLog,
     uuStrings,
+    uBatpro_StringList,
  Classes, SysUtils,fpjson,jsonparser,fgl, StrUtils;
 
 type
@@ -107,6 +108,34 @@ type
 
   TEnum_List= TFPGObjectList<TEnum>;
 
+  { TPath }
+
+  TPath
+  =
+   class( TJSON_Field)
+   //Gestion du cycle de vie
+   public
+     constructor Create( _name: String; _jo: TJSONObject);
+     destructor Destroy; override;
+   //Attributs
+   public
+     Nom_de_la_classe: String;
+   //Parametres (rajouté pour chainage de variables entre niveau classe et niveau application)
+   public
+     slParametres: TBatpro_StringList;
+     function RemplaceParametres( _Prefixe, S: String): String;
+     procedure Log_slParametres;
+   //déboguage
+   private
+     Log_Actif: Boolean;
+     slLog: TBatpro_StringList;
+   //Recherche/remplacement par les valeurs dans un modèle
+   public
+     function Produit( _Prefixe, _sModele: String): String;
+   end;
+
+  TPath_List= TFPGObjectList<TPath>;
+
   { TOpenAPI }
 
   TOpenAPI
@@ -125,8 +154,12 @@ type
    public
      function Get_Components: TJSONObject;
      function Get_Schemas: TJSONObject;
+     function Get_Paths: TJSONObject;
+   //
+   public
      function Get_Schemas_List: TSchema_List;
      function Get_Enums_List: TEnum_List;
+     function Get_Paths_List: TPath_List;
    end;
 
 implementation
@@ -134,6 +167,15 @@ implementation
 function uOpenAPI_ClassName_from_SchemaName( _s: String): String;
 begin
      Result:= StringReplace( _s, '-','_',[rfReplaceAll]);
+end;
+
+function uOpenAPI_ClassName_from_PathName( _s: String): String;
+begin
+     Result:= StringReplace( _s, '-','_',[rfReplaceAll]);
+     Result:= StringReplace( _s, '/','_',[rfReplaceAll]);
+     Result:= StringReplace( _s, '{','_',[rfReplaceAll]);
+     Result:= StringReplace( _s, '}','_',[rfReplaceAll]);
+     Result:= StringReplace( _s, '.','_',[rfReplaceAll]);
 end;
 
 { TJSON_Field }
@@ -162,6 +204,22 @@ constructor TProperty.Create(_name: String; _jo: TJSONObject);
          Result:= uOpenAPI_ClassName_from_SchemaName( Result);
          typ_is_enum:=1 = Pos( 'enum_', Result);
     end;
+    function not_Traite_type( _contexte: String; _jo: TJSONObject): Boolean;
+    var
+       jt: TJSONtype;
+    begin
+         Result:= -1 = _jo.IndexOfName('type' );
+         if Result then exit;
+
+         jt:= _jo.Types['type'];
+         case jt
+         of
+           jtArray:
+             typ:= _jo.Arrays ['type'].Strings[0];//provisoire
+           else
+             typ:= _jo.Strings['type'];
+         end;
+    end;
     function not_Traite_ref( _contexte: String; _jo: TJSONObject): Boolean;
     begin
          Result:= -1 = _jo.IndexOfName('$ref');
@@ -186,14 +244,23 @@ constructor TProperty.Create(_name: String; _jo: TJSONObject);
          Result:= not_Traite_ref( 'anyOf', jo.Arrays['anyOf'].Objects[0]);
     end;
     procedure Traite_array;
-    var
-       items: TJSONObject;
+       procedure Traite_items;
+       var
+          items: TJSONObject;
+       begin
+            items:= jo.Objects['items'];
+                 if not_Traite_type( 'array items', items)
+            then if -1 <> items.IndexOfName('$ref') then typ:= Class_from_ref( items.Strings['$ref'])
+            else                                         typ:= 'Aggregation ref non trouvé : '+items.AsJSON;
+       end;
     begin
          typ_is_array:= True;
-         items:= jo.Objects['items'];
-              if -1 <> items.IndexOfName('type') then typ:= items.Strings['type']
-         else if -1 <> items.IndexOfName('$ref') then typ:= Class_from_ref( items.Strings['$ref'])
-         else                                         typ:= 'Aggregation ref non trouvé : '+items.AsJSON;
+
+         if -1 = jo.IndexOfName('items')
+         then
+             typ:= 'Tableau sans items : '+jo.AsJSON
+         else
+             Traite_items;
     end;
     procedure Traite_string;
     begin
@@ -229,8 +296,8 @@ begin
      typ_is_class:= False;
      typ_is_enum:= False;
      typ_is_array:= False;
-          if -1 <> jo.IndexOfName('type' ) then typ:= jo.Strings['type']
-     else if not_Traite_ref( '', jo)
+          if not_Traite_type( '', jo)
+     then if not_Traite_ref ( '', jo)
      then if not_Traite_allOf
      then if not_Traite_anyOf
      then typ:= 'type non trouvé: '+jo.AsJSON;
@@ -414,6 +481,72 @@ begin
           end;
 end;
 
+{ TPath }
+
+constructor TPath.Create(_name: String; _jo: TJSONObject);
+begin
+     inherited Create(_name, _jo);
+     Nom_de_la_classe:= uOpenAPI_ClassName_from_PathName( name);
+
+     slLog  := TBatpro_StringList.Create;
+end;
+
+destructor TPath.Destroy;
+begin
+     //Log_slParametres;
+     //if Pos( 'Customer', Nom_de_la_table) <> 0
+     //then
+     //    slLog.SaveToFile( g.sRepertoireResultat+'table_'+Nom_de_la_table+'.log');
+
+     inherited Destroy;
+end;
+
+procedure TPath.Log_slParametres;
+var
+   I: Integer;
+   OldKey, NewKey: String;
+begin
+     for I:= 0 to slParametres.Count -1
+     do
+       begin
+       OldKey:= slParametres.Names [ I];
+       NewKey:= slParametres.Values[OldKey];
+       if '' = Trim(NewKey) then continue;
+
+       //if Log_Actif then
+       slLog.Add( ClassName+'.Log_slParametres: Remplacement de:');
+       slLog.Add( OldKey);
+       slLog.Add( 'par :');
+       slLog.Add( NewKey);
+       slLog.Add( '##########################');
+       end;
+end;
+
+function TPath.RemplaceParametres(_Prefixe, S: String): String;
+var
+   I: Integer;
+   OldKey, NewKey: String;
+begin
+     Result:= S;
+     for I:= 0 to slParametres.Count -1
+     do
+       begin
+       OldKey:= slParametres.Names [ I];
+       NewKey:= slParametres.Values[OldKey];
+       //if '' = Trim(NewKey) then continue;
+
+       Result:= StringReplace(Result,_Prefixe+OldKey,NewKey,[rfReplaceAll,rfIgnoreCase]);
+       end;
+end;
+
+function TPath.Produit(_Prefixe, _sModele: String): String;
+begin
+     Result:= _sModele;
+     Result:= StringReplace( Result, _Prefixe+'Name'            , name            ,[rfReplaceAll,rfIgnoreCase]);
+     Result:= StringReplace( Result, _Prefixe+'Nom_de_la_classe', Nom_de_la_classe,[rfReplaceAll,rfIgnoreCase]);
+     Result:= RemplaceParametres( _Prefixe, Result);
+end;
+
 
 { TOpenAPI }
 
@@ -446,6 +579,11 @@ end;
 function TOpenAPI.Get_Schemas: TJSONObject;
 begin
      Result:= Get_Components.Objects['schemas'];
+end;
+
+function TOpenAPI.Get_Paths: TJSONObject;
+begin
+     Result:= jo.Objects['paths'];
 end;
 
 function TOpenAPI.Get_Schemas_List: TSchema_List;
@@ -490,6 +628,24 @@ begin
         e:= TEnum.Create( ClassName, schemas.Objects[name]);
         Result.Add( e);
         end;
+end;
+
+function TOpenAPI.Get_Paths_List: TPath_List;
+var
+   paths: TJSONObject;
+   I: Integer;
+   name: String;
+   p: TPath;
+begin
+     Result:= TPath_List.Create(True);
+     paths:= Get_Paths;
+     for I:= 0 to paths.Count-1
+     do
+       begin
+       name:= paths.Names[I];
+       p:= TPath.Create( name, paths.Objects[name]);
+       Result.Add( p);
+       end;
 end;
 
 end.

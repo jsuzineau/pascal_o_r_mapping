@@ -1,0 +1,1 @@
+//Pascal_udk_edit_declaration_pas

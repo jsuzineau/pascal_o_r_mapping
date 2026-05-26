@@ -1,0 +1,152 @@
+object fNom_de_la_classe: TfNom_de_la_classe
+  MarginLeft = 0
+  MarginTop = 0
+  MarginRight = 0
+  MarginBottom = 0
+  Enabled = True
+  Left = 414
+  Top = 251
+  Width = 320
+  Height = 522
+  Text = 'fChant'
+  ActivityMode = actRecyclable
+  BackgroundColor = colbrWhite
+  ActionBarTitle = abtDefault
+  AnimationDurationIn = 1500
+  AnimationDurationOut = 1500
+  AnimationMode = animNone
+  OnJNIPrompt = fNom_de_la_classeJNIPrompt
+  OnCreateOptionMenu = fNom_de_la_classeCreateOptionMenu
+  OnClickOptionMenuItem = fNom_de_la_classeClickOptionMenuItem
+  OnRequestPermissionResult = fNom_de_la_classeRequestPermissionResult
+  object Panel1: jPanel
+    MarginLeft = 0
+    MarginTop = 0
+    MarginRight = 0
+    MarginBottom = 0
+    Enabled = True
+    Left = 0
+    Top = 0
+    Width = 320
+    Height = 522
+    Visible = True
+    PosRelativeToAnchor = []
+    PosRelativeToParent = [rpTop, rpLeft]
+    LayoutParamWidth = lpMatchParent
+    LayoutParamHeight = lpMatchParent
+    BackgroundColor = colbrWhite
+    MinPinchZoomFactor = 0.25
+    MaxPinchZoomFactor = 4
+    AnimationDurationIn = 1500
+    AnimationDurationOut = 1500
+    AnimationMode = animNone
+//pattern_uf_components_declaration_lfm
+    object bPrecedent: jButton
+      MarginLeft = 0
+      MarginTop = 5
+      MarginRight = 0
+      MarginBottom = 5
+      Enabled = True
+      Left = 0
+      Top = 467
+      Width = 160
+      Height = 50
+      Visible = True
+      PosRelativeToAnchor = []
+      PosRelativeToParent = [rpBottom, rpLeft]
+      LayoutParamWidth = lpHalfOfParent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Précédent'
+      BackgroundColor = colbrLightSkyBlue
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = bPrecedentClick
+    end
+    object bSuivant: jButton
+      MarginLeft = 0
+      MarginTop = 5
+      MarginRight = 0
+      MarginBottom = 5
+      Enabled = True
+      Left = 160
+      Top = 467
+      Width = 160
+      Height = 50
+      Visible = True
+      PosRelativeToAnchor = []
+      PosRelativeToParent = [rpBottom, rpRight]
+      LayoutParamWidth = lpHalfOfParent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Suivant'
+      BackgroundColor = colbrLightSkyBlue
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = bSuivantClick
+    end
+    object bSupprimer: jButton
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 209
+      Top = 354
+      Width = 106
+      Height = 50
+      Visible = True
+      PosRelativeToAnchor = [raBelow]
+      PosRelativeToParent = [rpRight]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Supprimer'
+      BackgroundColor = colbrLightSkyBlue
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = bSupprimerClick
+    end
+    object bCacher: jButton
+      MarginLeft = 5
+      MarginTop = 5
+      MarginRight = 5
+      MarginBottom = 5
+      Enabled = True
+      Left = 5
+      Top = 343
+      Width = 80
+      Height = 50
+      Visible = True
+      PosRelativeToAnchor = [raBelow]
+      PosRelativeToParent = [rpLeft]
+      LayoutParamWidth = lpWrapContent
+      LayoutParamHeight = lpWrapContent
+      Text = 'Cacher'
+      BackgroundColor = colbrLightSkyBlue
+      FontColor = colbrDefault
+      FontSize = 0
+      FontSizeUnit = unitDefault
+      GravityInParent = lgNone
+      OnClick = bCacherClick
+    end
+  end
+//pattern_uf_components_hc_declaration_lfm
+  object jm: jMenu
+    Left = 224
+    Top = 359
+  end
+  object dynSupprimer: jDialogYN
+    Title = 'Confirmation'
+    Msg = 'Etes-vous sûr de vouloir supprimer le Nom_de_la_classe courant  ?'
+    Yes = 'Oui'
+    No = 'Non'
+    TitleAlign = alLeft
+    OnClickYN = dynSupprimerClickYN
+    Left = 120
+    Top = 408
+  end
+end

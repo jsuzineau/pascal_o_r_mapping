@@ -91,6 +91,7 @@ type
   public
     sRepertoireListeTables,
     sRepertoireListeEnum,
+    sRepertoireListePaths,
     sRepertoireListeMembres,
     sRepertoireListeEnumStrings,
     sRepertoireListe08_EnumStrings,

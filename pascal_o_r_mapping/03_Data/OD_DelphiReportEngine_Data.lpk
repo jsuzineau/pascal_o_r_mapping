@@ -21,7 +21,7 @@
         </OtherDefines>
       </Other>
     </CompilerOptions>
-    <Files Count="149">
+    <Files Count="150">
       <Item1>
         <Filename Value="uBatpro_Element.pas"/>
         <UnitName Value="uBatpro_Element"/>
@@ -619,6 +619,10 @@
         <Filename Value="Automatic/Code_Generation/uEnumString.pas"/>
         <UnitName Value="uEnumString"/>
       </Item149>
+      <Item150>
+        <Filename Value="Automatic/Code_Generation/uApplicationJoinPointFile_OpenAPI_Path.pas"/>
+        <UnitName Value="uApplicationJoinPointFile_OpenAPI_Path"/>
+      </Item150>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="1">

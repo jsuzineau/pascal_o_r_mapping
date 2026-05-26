@@ -123,6 +123,7 @@ uses
 
     ujpFile,
     uApplicationJoinPointFile,
+    uApplicationJoinPointFile_OpenAPI_Path,
 
     SysUtils, Classes, DB, Inifiles, FileUtil, DOM,LazUTF8;
 
@@ -318,7 +319,10 @@ type
   private
     procedure Execute_OpenAPI_EnumString( _OpenAPI: TOpenAPI; _e: TEnum);
     procedure Execute_OpenAPI_Schema( _OpenAPI: TOpenAPI; _s: TSchema);
+    procedure Execute_OpenAPI_Path( _OpenAPI: TOpenAPI; _p: TPath);
+
     procedure Execute_OpenAPI_Schemas( _OpenAPI: TOpenAPI);
+    procedure Execute_OpenAPI_Paths( _OpenAPI: TOpenAPI);
   public
     procedure Execute_OpenAPI( _OpenAPI: TOpenAPI);
   //jpfMembre
@@ -404,6 +408,16 @@ type
   public
     procedure slApplicationEnumJoinPointFile_from_sRepertoireListeEnum;
     procedure slApplicationEnumJoinPointFile_Produit;
+  //ApplicationJoinPointFile_OpenAPI_Path
+  public
+    slApplicationJoinPointFile_OpenAPI_Path: TslApplicationJoinPointFile_OpenAPI_Path;
+    function  Cree_ApplicationJoinPointFile_OpenAPI_Path( _nfKey: String): TApplicationJoinPointFile_OpenAPI_Path;
+  //Création des ApplicationJoinPointFile_OpenAPI_Path par lecture du répertoire de listes de tables
+  private
+    procedure slApplicationJoinPointFile_OpenAPI_Path_from_sRepertoireListeTables_FileFound( _FileIterator: TFileIterator);
+  public
+    procedure slApplicationJoinPointFile_OpenAPI_Path_from_sRepertoireListeTables;
+    procedure slApplicationJoinPointFile_OpenAPI_Path_Produit;
   //EnumStrings
   public
     function Cree_EnumStrings( _nfEnumString: String): TEnumString;
@@ -714,20 +728,21 @@ constructor TGenerateur_de_code.Create;
 begin
      inherited Create;
      _From_INI;
-     sljpfMembre                   := TsljpfMembre                   .Create( ClassName+'.sljpfMembre'                   );
-     sljpfEnumString               := TsljpfEnumString               .Create( ClassName+'.sljpfEnumString'               );
-     sljpf08_EnumString            := Tsljpf08_EnumString            .Create( ClassName+'.sljpf08_EnumString'            );
-     sljpfDetail                   := TsljpfDetail                   .Create( ClassName+'.sljpfDetail'                   );
-     sljpfSymetric                 := TsljpfSymetric                 .Create( ClassName+'.sljpfSymetric'                 );
-     sljpfAggregation              := TsljpfAggregation              .Create( ClassName+'.sljpfAggregation'              );
-     sljpfLibelle                  := TsljpfLibelle                  .Create( ClassName+'.sljpfLibelle'                  );
-     slApplicationJoinPointFile    := TslApplicationJoinPointFile    .Create( ClassName+'.slApplicationJoinPointFile'    );
-     slApplicationEnumJoinPointFile:= TslApplicationEnumJoinPointFile.Create( ClassName+'.slApplicationEnumJoinPointFile');
-     slEnumStrings                 := TslEnumString                  .Create( ClassName+'.slEnumStrings'                 );
-     slTypeMappings                := TslTypeMapping                 .Create( ClassName+'.slTypeMappings'                );
-     slTemplateHandler             := TslTemplateHandler             .Create( ClassName+'.slTemplateHandler'             );
-     slParametres                  := TBatpro_StringList             .Create;
-     slApplicationTemplateHandler  := TslTemplateHandler             .Create( ClassName+'.slApplicationTemplateHandler'  );
+     sljpfMembre                            := TsljpfMembre                            .Create( ClassName+'.sljpfMembre'                            );
+     sljpfEnumString                        := TsljpfEnumString                        .Create( ClassName+'.sljpfEnumString'                        );
+     sljpf08_EnumString                     := Tsljpf08_EnumString                     .Create( ClassName+'.sljpf08_EnumString'                     );
+     sljpfDetail                            := TsljpfDetail                            .Create( ClassName+'.sljpfDetail'                            );
+     sljpfSymetric                          := TsljpfSymetric                          .Create( ClassName+'.sljpfSymetric'                          );
+     sljpfAggregation                       := TsljpfAggregation                       .Create( ClassName+'.sljpfAggregation'                       );
+     sljpfLibelle                           := TsljpfLibelle                           .Create( ClassName+'.sljpfLibelle'                           );
+     slApplicationJoinPointFile             := TslApplicationJoinPointFile             .Create( ClassName+'.slApplicationJoinPointFile'             );
+     slApplicationEnumJoinPointFile         := TslApplicationEnumJoinPointFile         .Create( ClassName+'.slApplicationEnumJoinPointFile'         );
+     slApplicationJoinPointFile_OpenAPI_Path:= TslApplicationJoinPointFile_OpenAPI_Path.Create( ClassName+'.slApplicationJoinPointFile_OpenAPI_Path');
+     slEnumStrings                          := TslEnumString                           .Create( ClassName+'.slEnumStrings'                          );
+     slTypeMappings                         := TslTypeMapping                          .Create( ClassName+'.slTypeMappings'                         );
+     slTemplateHandler                      := TslTemplateHandler                      .Create( ClassName+'.slTemplateHandler'                      );
+     slParametres                           := TBatpro_StringList                      .Create;
+     slApplicationTemplateHandler           := TslTemplateHandler                      .Create( ClassName+'.slApplicationTemplateHandler'           );
      Initialise(
                 [
                 //General
@@ -808,6 +823,7 @@ begin
      FreeAndNil( sljpfLibelle    );
      FreeAndNil( slApplicationJoinPointFile);
      FreeAndNil( slApplicationEnumJoinPointFile);
+     FreeAndNil( slApplicationJoinPointFile_OpenAPI_Path);
      FreeAndNil( slEnumStrings);
      FreeAndNil( slTypeMappings);
      FreeAndNil( slTemplateHandler);
@@ -834,6 +850,7 @@ begin
      try
         sRepertoireListeTables        :=iRead('sRepertoireListeTables'        ,Path+'01_Listes'             +PathDelim+'Tables'        +PathDelim);
         sRepertoireListeEnum          :=iRead('sRepertoireListeEnum'          ,Path+'01_Listes'             +PathDelim+'Enums'         +PathDelim);
+        sRepertoireListePaths         :=iRead('sRepertoireListePaths'         ,Path+'01_Listes'             +PathDelim+'Paths'         +PathDelim);
         sRepertoireListeMembres       :=iRead('sRepertoireListeMembres'       ,Path+'01_Listes'             +PathDelim+'Membres'       +PathDelim);
         sRepertoireListeEnumStrings   :=iRead('sRepertoireListeEnumStrings'   ,Path+'01_Listes'             +PathDelim+'EnumStrings'   +PathDelim);
         sRepertoireListe08_EnumStrings:=iRead('sRepertoireListe08_EnumStrings',Path+'01_Listes'             +PathDelim+'08_EnumStrings'+PathDelim);
@@ -2188,6 +2205,11 @@ begin
             end;
 end;
 
+procedure TGenerateur_de_code.Execute_OpenAPI_Path(_OpenAPI: TOpenAPI; _p: TPath);
+begin
+     slApplicationJoinPointFile_OpenAPI_Path.VisitePath( _p);
+end;
+
 procedure TGenerateur_de_code.Execute_OpenAPI_Schemas(_OpenAPI: TOpenAPI);
    procedure Traite_Enums;
    var
@@ -2222,6 +2244,21 @@ begin
      Traite_Schemas;
 end;
 
+procedure TGenerateur_de_code.Execute_OpenAPI_Paths(_OpenAPI: TOpenAPI);
+var
+   pl: TPath_List;
+   p: TPath;
+begin
+     pl:= _OpenAPI.Get_Paths_List;
+     try
+        for p in pl
+        do
+          Execute_OpenAPI_Path( _OpenAPI, p);
+     finally
+            FreeAndNil( pl);
+            end;
+end;
+
 procedure TGenerateur_de_code.Execute_OpenAPI(_OpenAPI: TOpenAPI);
 begin
      slLog.Clear;
@@ -2244,7 +2281,8 @@ begin
         S:= '';
         Premiere_Classe:= True;
 
-        Execute_OpenAPI_Schemas     ( _OpenAPI);
+        Execute_OpenAPI_Schemas( _OpenAPI);
+        Execute_OpenAPI_Paths  ( _OpenAPI);
         Application_Produit;
         slLog.Add( S);
      finally
@@ -2490,6 +2528,36 @@ begin
 
 end;
 
+function TGenerateur_de_code.Cree_ApplicationJoinPointFile_OpenAPI_Path(_nfKey: String): TApplicationJoinPointFile_OpenAPI_Path;
+begin
+     Result:= ApplicationJoinPointFile_OpenAPI_Path_from_sl_sCle( slApplicationJoinPointFile_OpenAPI_Path, _nfKey);
+     if nil <> Result then exit;
+
+     Result:= TApplicationJoinPointFile_OpenAPI_Path.Create( _nfKey);
+     slApplicationJoinPointFile_OpenAPI_Path.AddObject( _nfKey, Result);
+end;
+
+procedure TGenerateur_de_code.slApplicationJoinPointFile_OpenAPI_Path_from_sRepertoireListeTables_FileFound( _FileIterator: TFileIterator);
+var
+   NomFichier_Key: String;
+begin
+     if _FileIterator.IsDirectory then exit;
+
+     NomFichier_Key:= _FileIterator.FileName;
+
+     Cree_ApplicationJoinPointFile_OpenAPI_Path( NomFichier_Key);
+end;
+
+procedure TGenerateur_de_code.slApplicationJoinPointFile_OpenAPI_Path_from_sRepertoireListeTables;
+begin
+     ujpFile_EnumFiles( sRepertoireListePaths, slApplicationJoinPointFile_OpenAPI_Path_from_sRepertoireListeTables_FileFound, s_key_mask);
+end;
+
+procedure TGenerateur_de_code.slApplicationJoinPointFile_OpenAPI_Path_Produit;
+begin
+
+end;
+
 function TGenerateur_de_code.Cree_EnumStrings(_nfEnumString: String): TEnumString;
 begin
      Result:= EnumString_from_sl_sCle( slEnumStrings, _nfEnumString);
@@ -2676,12 +2744,14 @@ begin
      slTypeMappings_from_sRepertoireTypeMappings;
      slApplicationJoinPointFile_from_sRepertoireListeTables;
      slApplicationEnumJoinPointFile_from_sRepertoireListeEnum;
+     slApplicationJoinPointFile_OpenAPI_Path_from_sRepertoireListeTables;
 
      slApplicationTemplateHandler_from_sRepertoireApplicationTemplate;
 
      Application_Created:= True;
-     slApplicationJoinPointFile.Initialise;
-     slApplicationEnumJoinPointFile.Initialise;
+     slApplicationJoinPointFile             .Initialise;
+     slApplicationEnumJoinPointFile         .Initialise;
+     slApplicationJoinPointFile_OpenAPI_Path.Initialise;
 end;
 
 procedure TGenerateur_de_code.Application_Produit;
@@ -2692,6 +2762,9 @@ begin
      slApplicationEnumJoinPointFile.Finalise;
      slApplicationEnumJoinPointFile.To_Parametres( slParametres);
 
+     slApplicationJoinPointFile_OpenAPI_Path.Finalise;
+     slApplicationJoinPointFile_OpenAPI_Path.To_Parametres( slParametres);
+
      slApplicationTemplateHandler_Produit;
 end;
 
@@ -2700,6 +2773,7 @@ begin
      Application_Created:= False;
      slApplicationJoinPointFile.Vide;
      slApplicationEnumJoinPointFile.Vide;
+     slApplicationJoinPointFile_OpenAPI_Path.Vide;
      slApplicationTemplateHandler.Vide;
 end;
 
