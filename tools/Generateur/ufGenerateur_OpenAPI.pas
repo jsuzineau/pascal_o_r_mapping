@@ -105,15 +105,91 @@ procedure TfGenerateur_OpenAPI._from_OpenAPI;
                FreeAndNil( sl);
                end;
    end;
+   procedure Traite_Path( _p: TPath);
+      procedure Traite_Parameters( _v: TVerb);
+      var
+         pl: TVerb_Parameter_List;
+         p: TVerb_Parameter;
+      begin
+           pl:= _v.Get_Parameter_List;
+           try
+              for p in pl
+              do
+                begin
+                m.Lines.Add( '         '+p.name+':'+p.jo.AsJSON);
+                end;
+           finally
+                  FreeAndNil( pl);
+                  end;
+      end;
+      procedure Traite_Properties( _v: TVerb);
+      var
+         pl: TVerb_Property_List;
+         p: TVerb_Property;
+      begin
+           pl:= _v.Get_Property_List;
+           try
+              for p in pl
+              do
+                begin
+                m.Lines.Add( '         '+p.name+':'+p.jo.AsJSON);
+                end;
+           finally
+                  FreeAndNil( pl);
+                  end;
+      end;
+      procedure Traite_Verbs;
+      var
+         vl: TVerb_List;
+         v: TVerb;
+      begin
+           vl:= _p.Get_Verb_List;
+           try
+              for v in vl
+              do
+                begin
+                m.Lines.Add( '     '+v.name);
+                m.Lines.Add( '       Parameters:');
+                Traite_Parameters( v);
+                m.Lines.Add( '       Properties:');
+                Traite_Properties( v);
+                end;
+           finally
+                  FreeAndNil( vl);
+                  end;
+      end;
+   begin
+        Traite_Verbs;
+   end;
+   procedure Traite_Paths;
+   var
+      pl: TPath_List;
+      p: TPath;
+   begin
+        pl:= OpenAPI.Get_Paths_List;
+        try
+           for p in pl
+           do
+             begin
+             m.Lines.Add( '  '+p.name);
+
+             Traite_Path( p);
+             end;
+           m.Lines.Add( 'Traite_Paths terminé. '+IntToStr(pl.Count)+' paths');
+        finally
+               FreeAndNil( pl);
+               end;
+   end;
 begin
      m.Clear;
      if nil = OpenAPI then exit;
 
      m.Lines.Add( NomFichier);
 //     Traite_Schemas;
+     Traite_Paths;
 
      m.Lines.Add( 'Début de la génération ...');
-     Generateur_de_code.Execute_OpenAPI( OpenAPI);
+     //Generateur_de_code.Execute_OpenAPI( OpenAPI);
      m.Lines.Add( 'Génération terminée.');
 end;
 

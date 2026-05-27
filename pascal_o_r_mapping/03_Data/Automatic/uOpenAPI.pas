@@ -108,6 +108,56 @@ type
 
   TEnum_List= TFPGObjectList<TEnum>;
 
+  { TVerb_Parameter }
+
+  TVerb_Parameter
+  =
+   class( TJSON_Field)
+   //Gestion du cycle de vie
+   public
+     constructor Create( _jo: TJSONObject);
+     destructor Destroy; override;
+   //Méthodes
+   public
+   end;
+
+  TVerb_Parameter_List= TFPGObjectList<TVerb_Parameter>;
+
+  { TVerb_Property }
+
+  TVerb_Property
+  =
+   class( TJSON_Field)
+   //Gestion du cycle de vie
+   public
+     constructor Create( _name: String; _jo: TJSONObject);
+     destructor Destroy; override;
+   //Méthodes
+   public
+   end;
+
+  TVerb_Property_List= TFPGObjectList<TVerb_Property>;
+
+  { TVerb }
+
+  TVerb
+  =
+   class( TJSON_Field)
+   //Gestion du cycle de vie
+   public
+     constructor Create( _name: String; _jo: TJSONObject);
+     destructor Destroy; override;
+   //Méthodes
+   public
+     function Get_Parameters: TJSONArray;
+     function Get_Properties: TJSONObject;
+
+     function Get_Parameter_List: TVerb_Parameter_List;
+     function Get_Property_List: TVerb_Property_List;
+   end;
+
+  TVerb_List= TFPGObjectList<TVerb>;
+
   { TPath }
 
   TPath
@@ -120,6 +170,9 @@ type
    //Attributs
    public
      Nom_de_la_classe: String;
+   //Méthodes
+   public
+     function Get_Verb_List: TVerb_List;
    //Parametres (rajouté pour chainage de variables entre niveau classe et niveau application)
    public
      slParametres: TBatpro_StringList;
@@ -481,6 +534,96 @@ begin
           end;
 end;
 
+{ TVerb_Parameter }
+
+constructor TVerb_Parameter.Create( _jo: TJSONObject);
+begin
+     name:= _jo.Strings['name'];
+     inherited Create( name, _jo);
+end;
+
+destructor TVerb_Parameter.Destroy;
+begin
+     inherited Destroy;
+end;
+
+{ TVerb_Property }
+
+constructor TVerb_Property.Create(_name: String; _jo: TJSONObject);
+begin
+     inherited Create(_name, _jo);
+end;
+
+destructor TVerb_Property.Destroy;
+begin
+     inherited Destroy;
+end;
+
+{ TVerb }
+
+constructor TVerb.Create(_name: String; _jo: TJSONObject);
+begin
+     inherited Create(_name, _jo);
+end;
+
+destructor TVerb.Destroy;
+begin
+     inherited Destroy;
+end;
+
+function TVerb.Get_Parameters: TJSONArray;
+var
+   d: TJSONData;
+   //t: TJSONtype;
+begin
+     d:= jo.FindPath( 'parameters');
+     //t:= d.JSONType;
+     Result:= d as TJSONArray;
+end;
+
+function TVerb.Get_Properties: TJSONObject;
+begin
+     Result:= jo.FindPath( 'requestBody.content.application/x-www-form-urlencoded.schema.properties') as TJSONObject;
+end;
+
+function TVerb.Get_Parameter_List: TVerb_Parameter_List;
+var
+   parameters: TJSONArray;
+   I: Integer;
+   p: TVerb_Parameter;
+begin
+     Result:= TVerb_Parameter_List.Create(True);
+     parameters:= Get_Parameters;
+     if nil = parameters then exit;
+
+     for I:= 0 to parameters.Count-1
+     do
+       begin
+       p:= TVerb_Parameter.Create( parameters.Objects[I]);
+       Result.Add( p);
+       end;
+end;
+
+function TVerb.Get_Property_List: TVerb_Property_List;
+var
+   properties: TJSONObject;
+   I: Integer;
+   p_name: String;
+   p: TVerb_Property;
+begin
+     Result:= TVerb_Property_List.Create(True);
+     properties:= Get_Properties;
+     if nil = properties then exit;
+
+     for I:= 0 to properties.Count-1
+     do
+       begin
+       p_name:= properties.Names[I];
+       p:= TVerb_Property.Create( p_name, properties.Objects[p_name]);
+       Result.Add( p);
+       end;
+end;
+
 { TPath }
 
 constructor TPath.Create(_name: String; _jo: TJSONObject);
@@ -499,6 +642,22 @@ begin
      //    slLog.SaveToFile( g.sRepertoireResultat+'table_'+Nom_de_la_table+'.log');
 
      inherited Destroy;
+end;
+
+function TPath.Get_Verb_List: TVerb_List;
+var
+   I: Integer;
+   v_name: String;
+   v: TVerb;
+begin
+     Result:= TVerb_List.Create(True);
+     for I:= 0 to jo.Count-1
+     do
+       begin
+       v_name:= jo.Names[I];
+       v:= TVerb.Create( v_name, jo.Objects[v_name]);
+       Result.Add( v);
+       end;
 end;
 
 procedure TPath.Log_slParametres;

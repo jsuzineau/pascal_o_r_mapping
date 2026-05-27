@@ -1,4 +1,4 @@
-unit uApplicationJoinPointFile;
+unit uApplicationJoinPointFile_OpenAPI_Path_Verb;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                          |
@@ -30,15 +30,16 @@ uses
     uContexteMembre,
     uJoinPoint,
     ujpFile,
+    uOpenAPI,
   SysUtils, Classes;
 
 type
 
- { TApplicationJoinPointFile }
+ { TApplicationJoinPointFile_OpenAPI_Path_Verb }
 
- TApplicationJoinPointFile
+ TApplicationJoinPointFile_OpenAPI_Path_Verb
  =
-  class
+  class(TJoinPointFile_Ancetre)
   public
   //cycle de vie
   public
@@ -58,25 +59,25 @@ type
     Premier: Boolean;
   public
     procedure Initialise;
-    procedure VisiteClasse( _cc: TContexteClasse);
+    procedure VisitePath( _p: TPath);
     procedure Finalise;
     procedure To_Parametres( _sl: TStringList);
   end;
 
- TIterateur_ApplicationJoinPointFile
+ TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb
  =
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: TApplicationJoinPointFile);
-    function  not_Suivant( var _Resultat: TApplicationJoinPointFile): Boolean;
+    procedure Suivant( var _Resultat: TApplicationJoinPointFile_OpenAPI_Path_Verb);
+    function  not_Suivant( var _Resultat: TApplicationJoinPointFile_OpenAPI_Path_Verb): Boolean;
   end;
 
- { TslApplicationJoinPointFile }
+ { TslApplicationJoinPointFile_OpenAPI_Path_Verb }
 
- TslApplicationJoinPointFile
+ TslApplicationJoinPointFile_OpenAPI_Path_Verb
  =
-  class( TBatpro_StringList)
+  class( TslJoinPointFile_Ancetre)
   //Gestion du cycle de vie
   public
     constructor Create( _Nom: String= ''); override;
@@ -85,95 +86,75 @@ type
   protected
     class function Classe_Iterateur: TIterateur_Class; override;
   public
-    function Iterateur: TIterateur_ApplicationJoinPointFile;
-    function Iterateur_Decroissant: TIterateur_ApplicationJoinPointFile;
+    function Iterateur: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb;
+    function Iterateur_Decroissant: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb;
   //Gestion de la visite d'une classe
   public
     procedure Initialise;
-    procedure VisiteClasse( _cc: TContexteClasse);
+    procedure VisitePath( _p: TPath);
     procedure Finalise;
     procedure To_Parametres( _sl: TStringList);
   end;
 
-
-{ TApplicationJoinPointFile }
- TApplicationEnumJoinPointFile= TApplicationJoinPointFile;
- TIterateur_ApplicationEnumJoinPointFile = TIterateur_ApplicationJoinPointFile;
-
-{ TslApplicationEnumJoinPointFile }
- TslApplicationEnumJoinPointFile= TslApplicationJoinPointFile;
-
-function ApplicationJoinPointFile_from_sl( sl: TBatpro_StringList; Index: Integer): TApplicationJoinPointFile;
-function ApplicationJoinPointFile_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TApplicationJoinPointFile;
-
-function ApplicationEnumJoinPointFile_from_sl( sl: TBatpro_StringList; Index: Integer): TApplicationEnumJoinPointFile;
-function ApplicationEnumJoinPointFile_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TApplicationEnumJoinPointFile;
+function ApplicationJoinPointFile_OpenAPI_Path_Verb_from_sl( sl: TBatpro_StringList; Index: Integer): TApplicationJoinPointFile_OpenAPI_Path_Verb;
+function ApplicationJoinPointFile_OpenAPI_Path_Verb_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TApplicationJoinPointFile_OpenAPI_Path_Verb;
 
 implementation
 
-function ApplicationJoinPointFile_from_sl( sl: TBatpro_StringList; Index: Integer): TApplicationJoinPointFile;
+function ApplicationJoinPointFile_OpenAPI_Path_Verb_from_sl( sl: TBatpro_StringList; Index: Integer): TApplicationJoinPointFile_OpenAPI_Path_Verb;
 begin
-     _Classe_from_sl( Result, TApplicationJoinPointFile, sl, Index);
+     _Classe_from_sl( Result, TApplicationJoinPointFile_OpenAPI_Path_Verb, sl, Index);
 end;
 
-function ApplicationJoinPointFile_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TApplicationJoinPointFile;
+function ApplicationJoinPointFile_OpenAPI_Path_Verb_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TApplicationJoinPointFile_OpenAPI_Path_Verb;
 begin
-     _Classe_from_sl_sCle( Result, TApplicationJoinPointFile, sl, sCle);
+     _Classe_from_sl_sCle( Result, TApplicationJoinPointFile_OpenAPI_Path_Verb, sl, sCle);
 end;
 
-function ApplicationEnumJoinPointFile_from_sl( sl: TBatpro_StringList; Index: Integer): TApplicationEnumJoinPointFile;
-begin
-     _Classe_from_sl( Result, TApplicationEnumJoinPointFile, sl, Index);
-end;
+{ TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb }
 
-function ApplicationEnumJoinPointFile_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TApplicationEnumJoinPointFile;
-begin
-     _Classe_from_sl_sCle( Result, TApplicationEnumJoinPointFile, sl, sCle);
-end;
-
-{ TIterateur_ApplicationJoinPointFile }
-
-function TIterateur_ApplicationJoinPointFile.not_Suivant( var _Resultat: TApplicationJoinPointFile): Boolean;
+function TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb.not_Suivant( var _Resultat: TApplicationJoinPointFile_OpenAPI_Path_Verb): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_ApplicationJoinPointFile.Suivant( var _Resultat: TApplicationJoinPointFile);
+procedure TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb.Suivant( var _Resultat: TApplicationJoinPointFile_OpenAPI_Path_Verb);
 begin
      Suivant_interne( _Resultat);
 end;
 
-{ TslApplicationJoinPointFile }
+{ TslApplicationJoinPointFile_OpenAPI_Path_Verb }
 
-constructor TslApplicationJoinPointFile.Create( _Nom: String= '');
+constructor TslApplicationJoinPointFile_OpenAPI_Path_Verb.Create( _Nom: String= '');
 begin
-     inherited CreateE( _Nom, TApplicationJoinPointFile);
+     inherited CreateE( _Nom, TApplicationJoinPointFile_OpenAPI_Path_Verb);
+     Classe_JoinPointFile:= TApplicationJoinPointFile_OpenAPI_Path_Verb;
 end;
 
-destructor TslApplicationJoinPointFile.Destroy;
+destructor TslApplicationJoinPointFile_OpenAPI_Path_Verb.Destroy;
 begin
      inherited;
 end;
 
-class function TslApplicationJoinPointFile.Classe_Iterateur: TIterateur_Class;
+class function TslApplicationJoinPointFile_OpenAPI_Path_Verb.Classe_Iterateur: TIterateur_Class;
 begin
-     Result:= TIterateur_ApplicationJoinPointFile;
+     Result:= TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb;
 end;
 
-function TslApplicationJoinPointFile.Iterateur: TIterateur_ApplicationJoinPointFile;
+function TslApplicationJoinPointFile_OpenAPI_Path_Verb.Iterateur: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb;
 begin
-     Result:= TIterateur_ApplicationJoinPointFile( Iterateur_interne);
+     Result:= TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb( Iterateur_interne);
 end;
 
-function TslApplicationJoinPointFile.Iterateur_Decroissant: TIterateur_ApplicationJoinPointFile;
+function TslApplicationJoinPointFile_OpenAPI_Path_Verb.Iterateur_Decroissant: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb;
 begin
-     Result:= TIterateur_ApplicationJoinPointFile( Iterateur_interne_Decroissant);
+     Result:= TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb( Iterateur_interne_Decroissant);
 end;
 
-procedure TslApplicationJoinPointFile.Initialise;
+procedure TslApplicationJoinPointFile_OpenAPI_Path_Verb.Initialise;
 var
-   I: TIterateur_ApplicationJoinPointFile;
-   jpf: TApplicationJoinPointFile;
+   I: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb;
+   jpf: TApplicationJoinPointFile_OpenAPI_Path_Verb;
 begin
      I:= Iterateur;
      try
@@ -188,10 +169,10 @@ begin
             end;
 end;
 
-procedure TslApplicationJoinPointFile.VisiteClasse( _cc: TContexteClasse);
+procedure TslApplicationJoinPointFile_OpenAPI_Path_Verb.VisitePath(_p: TPath);
 var
-   I: TIterateur_ApplicationJoinPointFile;
-   jpf: TApplicationJoinPointFile;
+   I: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb;
+   jpf: TApplicationJoinPointFile_OpenAPI_Path_Verb;
 begin
      I:= Iterateur;
      try
@@ -199,17 +180,17 @@ begin
         do
           begin
           if I.not_Suivant( jpf) then Continue;
-          jpf.VisiteClasse( _cc);
+          jpf.VisitePath( _p);
           end;
      finally
             FreeAndNil( I);
             end;
 end;
 
-procedure TslApplicationJoinPointFile.Finalise;
+procedure TslApplicationJoinPointFile_OpenAPI_Path_Verb.Finalise;
 var
-   I: TIterateur_ApplicationJoinPointFile;
-   jpf: TApplicationJoinPointFile;
+   I: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb;
+   jpf: TApplicationJoinPointFile_OpenAPI_Path_Verb;
 begin
      I:= Iterateur;
      try
@@ -224,10 +205,10 @@ begin
             end;
 end;
 
-procedure TslApplicationJoinPointFile.To_Parametres(_sl: TStringList);
+procedure TslApplicationJoinPointFile_OpenAPI_Path_Verb.To_Parametres(_sl: TStringList);
 var
-   I: TIterateur_ApplicationJoinPointFile;
-   jpf: TApplicationJoinPointFile;
+   I: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb;
+   jpf: TApplicationJoinPointFile_OpenAPI_Path_Verb;
 begin
      I:= Iterateur;
      try
@@ -242,9 +223,9 @@ begin
             end;
 end;
 
-{ TApplicationJoinPointFile }
+{ TApplicationJoinPointFile_OpenAPI_Path_Verb }
 
-constructor TApplicationJoinPointFile.Create( _nfKey: String);
+constructor TApplicationJoinPointFile_OpenAPI_Path_Verb.Create( _nfKey: String);
    procedure RemoveTrailing_LineEnding( var _s: String);
    var
       ls: Integer;
@@ -277,14 +258,14 @@ begin
      Cle:= sKey;
 end;
 
-procedure TApplicationJoinPointFile.Initialise;
+procedure TApplicationJoinPointFile_OpenAPI_Path_Verb.Initialise;
 begin
      inherited;
      Valeur:= sBegin;
      Premier:= True;
 end;
 
-procedure TApplicationJoinPointFile.VisiteClasse(_cc: TContexteClasse);
+procedure TApplicationJoinPointFile_OpenAPI_Path_Verb.VisitePath(_p: TPath);
 begin
      inherited;
      if Premier
@@ -293,16 +274,16 @@ begin
      else
          Valeur:= Valeur + sSeparateur;
 
-     Valeur:= Valeur+ _cc.Produit( 'Classe.', sElement);
+     Valeur:= Valeur+ _p.Produit( 'Verb.', sElement);
 end;
 
-procedure TApplicationJoinPointFile.Finalise;
+procedure TApplicationJoinPointFile_OpenAPI_Path_Verb.Finalise;
 begin
      Valeur:= Valeur+sEnd;
      inherited;
 end;
 
-procedure TApplicationJoinPointFile.To_Parametres(_sl: TStringList);
+procedure TApplicationJoinPointFile_OpenAPI_Path_Verb.To_Parametres(_sl: TStringList);
 begin
      _sl.Values[ Cle]:= Valeur;
 end;

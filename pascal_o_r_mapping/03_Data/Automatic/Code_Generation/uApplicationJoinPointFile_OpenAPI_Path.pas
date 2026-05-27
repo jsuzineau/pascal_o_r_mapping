@@ -29,6 +29,7 @@ uses
     uContexteClasse,
     uContexteMembre,
     uJoinPoint,
+    ujpFile,
     uOpenAPI,
   SysUtils, Classes;
 
@@ -38,11 +39,11 @@ type
 
  TApplicationJoinPointFile_OpenAPI_Path
  =
-  class
+  class(TJoinPointFile_Ancetre)
   public
   //cycle de vie
   public
-    constructor Create( _nfKey: String);
+    constructor Create( _nfKey: String);override;
   //Attributs
   public
     nfKey       : String; sKey       : String;
@@ -76,7 +77,7 @@ type
 
  TslApplicationJoinPointFile_OpenAPI_Path
  =
-  class( TBatpro_StringList)
+  class( TslJoinPointFile_Ancetre)
   //Gestion du cycle de vie
   public
     constructor Create( _Nom: String= ''); override;
@@ -94,16 +95,6 @@ type
     procedure Finalise;
     procedure To_Parametres( _sl: TStringList);
   end;
-
-
-const
-     s_key_       = '.01_key.'       ;
-     s_begin_     = '.02_begin.'     ;
-     s_element_   = '.03_element.'   ;
-     s_separateur_= '.04_separateur.';
-     s_end_       = '.05_end.'       ;
-
-     s_key_mask='*'+s_key_+'*';
 
 function ApplicationJoinPointFile_OpenAPI_Path_from_sl( sl: TBatpro_StringList; Index: Integer): TApplicationJoinPointFile_OpenAPI_Path;
 function ApplicationJoinPointFile_OpenAPI_Path_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TApplicationJoinPointFile_OpenAPI_Path;
@@ -137,6 +128,7 @@ end;
 constructor TslApplicationJoinPointFile_OpenAPI_Path.Create( _Nom: String= '');
 begin
      inherited CreateE( _Nom, TApplicationJoinPointFile_OpenAPI_Path);
+     Classe_JoinPointFile:= TApplicationJoinPointFile_OpenAPI_Path;
 end;
 
 destructor TslApplicationJoinPointFile_OpenAPI_Path.Destroy;

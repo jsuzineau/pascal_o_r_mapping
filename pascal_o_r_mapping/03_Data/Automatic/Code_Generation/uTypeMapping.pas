@@ -127,17 +127,6 @@ type
                       _sModele: String): String;
   end;
 
-
-
-const
-     s_key_       = '.01_key.'       ;
-     s_begin_     = '.02_begin.'     ;
-     s_element_   = '.03_element.'   ;
-     s_separateur_= '.04_separateur.';
-     s_end_       = '.05_end.'       ;
-
-     s_key_mask='*'+s_key_+'*';
-
 function TypeMapping_from_sl( sl: TBatpro_StringList; Index: Integer): TTypeMapping;
 function TypeMapping_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TTypeMapping;
 

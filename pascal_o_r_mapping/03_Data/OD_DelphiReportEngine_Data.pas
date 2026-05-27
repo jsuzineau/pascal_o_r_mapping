@@ -54,7 +54,10 @@ uses
  ujpAngular_TypeScript_NomFichierElement, 
  ujpAngular_TypeScript_declaration_champs, uOD_Label_Printer, 
  uAPI_Client_pool, uTypeMapping, uXMI, uOpenAPI, uEnumString, 
- uApplicationJoinPointFile_OpenAPI_Path, LazarusPackageIntf;
+ uApplicationJoinPointFile_OpenAPI_Path, 
+ uApplicationJoinPointFile_OpenAPI_Path_Verb, 
+ uApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter, 
+ uApplicationJoinPointFile_OpenAPI_Path_Verb_Property, LazarusPackageIntf;
 
 implementation
 

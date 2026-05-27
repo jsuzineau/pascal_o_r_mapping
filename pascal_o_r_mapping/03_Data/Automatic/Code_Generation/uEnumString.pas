@@ -75,17 +75,6 @@ type
     function Produit( _cc: TContexteClasse_Ancetre; _Prefixe, _sTypChamp_UPPERCASE, _sModele: String): String;
   end;
 
-
-
-const
-     s_key_       = '.01_key.'       ;
-     s_begin_     = '.02_begin.'     ;
-     s_element_   = '.03_element.'   ;
-     s_separateur_= '.04_separateur.';
-     s_end_       = '.05_end.'       ;
-
-     s_key_mask='*'+s_key_+'*';
-
 function EnumString_from_sl( sl: TBatpro_StringList; Index: Integer): TEnumString;
 function EnumString_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TEnumString;
 

@@ -8,7 +8,7 @@ object fGenerateur_OpenAPI: TfGenerateur_OpenAPI
   ClientHeight = 220
   ClientWidth = 320
   Menu = mm
-  LCLVersion = '4.0.0.2'
+  LCLVersion = '4.0.0.4'
   OnCreate = FormCreate
   OnDropFiles = FormDropFiles
   object m: TMemo
@@ -17,9 +17,11 @@ object fGenerateur_OpenAPI: TfGenerateur_OpenAPI
     Top = 0
     Width = 320
     Align = alClient
+    Font.Name = 'Courier New'
     Lines.Strings = (
       'm'
     )
+    ParentFont = False
     ScrollBars = ssVertical
     TabOrder = 0
   end

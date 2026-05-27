@@ -334,6 +334,32 @@ type
     function Iterateur_Decroissant: TIterateur_jpfLibelle;
   end;
 
+ TJoinPointFile_Ancetre
+ =
+  class
+  public
+  //cycle de vie
+  public
+    constructor Create( _nfKey: String); virtual; abstract;
+  end;
+ TJoinPointFile_Ancetre_class= class of TJoinPointFile_Ancetre;
+
+ { TslJoinPointFile_Ancetre }
+
+ TslJoinPointFile_Ancetre
+ =
+  class( TBatpro_StringList)
+  public
+    Classe_JoinPointFile: TJoinPointFile_Ancetre_class;
+  public
+    function  Cree_JoinPointFile( _nfKey: String): TJoinPointFile_Ancetre;
+  private
+    procedure _from_sRepertoire_FileFound( _FileIterator: TFileIterator);
+  public
+    procedure _from_sRepertoire( _sRepertoire: String);
+    procedure Produit;virtual;
+  end;
+
 
 const
      s_key_       = '.01_key.'       ;
@@ -1099,6 +1125,39 @@ begin
      Valeur:= Valeur+cc.Produit( 'Classe.', sEnd);
      inherited;
 end;
+
+{ TslJoinPointFile_Ancetre }
+
+function TslJoinPointFile_Ancetre.Cree_JoinPointFile( _nfKey: String): TJoinPointFile_Ancetre;
+begin
+     _Classe_from_sl_sCle( Result, Classe_JoinPointFile, Self, _nfKey);
+     if nil <> Result then exit;
+
+     Result:= Classe_JoinPointFile.Create( _nfKey);
+     AddObject( _nfKey, Result);
+end;
+
+procedure TslJoinPointFile_Ancetre._from_sRepertoire_FileFound( _FileIterator: TFileIterator);
+var
+   NomFichier_Key: String;
+begin
+     if _FileIterator.IsDirectory then exit;
+
+     NomFichier_Key:= _FileIterator.FileName;
+
+     Cree_JoinPointFile( NomFichier_Key);
+end;
+
+procedure TslJoinPointFile_Ancetre._from_sRepertoire(_sRepertoire: String);
+begin
+     ujpFile_EnumFiles( _sRepertoire, _from_sRepertoire_FileFound, s_key_mask);
+end;
+
+procedure TslJoinPointFile_Ancetre.Produit;
+begin
+
+end;
+
 
 end.
 
