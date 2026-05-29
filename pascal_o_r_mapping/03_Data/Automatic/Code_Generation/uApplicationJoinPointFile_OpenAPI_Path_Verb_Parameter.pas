@@ -59,7 +59,8 @@ type
     Premier: Boolean;
   public
     procedure Initialise;
-    procedure VisitePath( _p: TPath);
+    procedure VisitePath_Verb_Parameter(_path: TPath; _verb: TVerb;
+     _parameter: TVerb_Parameter);
     procedure Finalise;
     procedure To_Parametres( _sl: TStringList);
   end;
@@ -88,10 +89,14 @@ type
   public
     function Iterateur: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
     function Iterateur_Decroissant: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
+  //Création JoinPointFile
+  public
+    function  Create_JoinPointFile( _nfKey: String): TJoinPointFile_Ancetre;override;
   //Gestion de la visite d'une classe
   public
     procedure Initialise;
-    procedure VisitePath( _p: TPath);
+    procedure VisitePath_Verb_Parameter(_path: TPath; _verb: TVerb;
+     _parameter: TVerb_Parameter);
     procedure Finalise;
     procedure To_Parametres( _sl: TStringList);
   end;
@@ -128,7 +133,6 @@ end;
 constructor TslApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Create( _Nom: String= '');
 begin
      inherited CreateE( _Nom, TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter);
-     Classe_JoinPointFile:= TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
 end;
 
 destructor TslApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Destroy;
@@ -151,6 +155,11 @@ begin
      Result:= TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter( Iterateur_interne_Decroissant);
 end;
 
+function TslApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Create_JoinPointFile(_nfKey: String): TJoinPointFile_Ancetre;
+begin
+     Result:= TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Create( _nfKey);
+end;
+
 procedure TslApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Initialise;
 var
    I: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
@@ -169,7 +178,7 @@ begin
             end;
 end;
 
-procedure TslApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.VisitePath(_p: TPath);
+procedure TslApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.VisitePath_Verb_Parameter( _path: TPath; _verb: TVerb; _parameter: TVerb_Parameter);
 var
    I: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
    jpf: TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
@@ -180,7 +189,7 @@ begin
         do
           begin
           if I.not_Suivant( jpf) then Continue;
-          jpf.VisitePath( _p);
+          jpf.VisitePath_Verb_Parameter( _path, _verb, _parameter);
           end;
      finally
             FreeAndNil( I);
@@ -265,7 +274,9 @@ begin
      Premier:= True;
 end;
 
-procedure TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.VisitePath(_p: TPath);
+procedure TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.VisitePath_Verb_Parameter( _path: TPath; _verb: TVerb; _parameter: TVerb_Parameter);
+var
+   s: String;
 begin
      inherited;
      if Premier
@@ -274,7 +285,11 @@ begin
      else
          Valeur:= Valeur + sSeparateur;
 
-     Valeur:= Valeur+ _p.Produit( 'Parameter.', sElement);
+     s:= _parameter.Produit( 'Parameter.', sElement);
+     s:= _verb     .Produit( 'Verb.'     , s);
+     s:= _path     .Produit( 'Path.'     , s);
+
+     Valeur:= Valeur+ s;
 end;
 
 procedure TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Finalise;

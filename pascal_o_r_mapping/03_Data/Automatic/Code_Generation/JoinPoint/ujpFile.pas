@@ -349,8 +349,9 @@ type
  TslJoinPointFile_Ancetre
  =
   class( TBatpro_StringList)
+  //Création JoinPointFile
   public
-    Classe_JoinPointFile: TJoinPointFile_Ancetre_class;
+    function  Create_JoinPointFile( _nfKey: String): TJoinPointFile_Ancetre;virtual;abstract;
   public
     function  Cree_JoinPointFile( _nfKey: String): TJoinPointFile_Ancetre;
   private
@@ -1130,10 +1131,10 @@ end;
 
 function TslJoinPointFile_Ancetre.Cree_JoinPointFile( _nfKey: String): TJoinPointFile_Ancetre;
 begin
-     _Classe_from_sl_sCle( Result, Classe_JoinPointFile, Self, _nfKey);
+     _Classe_from_sl_sCle( Result, Classe_Elements, Self, _nfKey);
      if nil <> Result then exit;
 
-     Result:= Classe_JoinPointFile.Create( _nfKey);
+     Result:= Create_JoinPointFile( _nfKey);
      AddObject( _nfKey, Result);
 end;
 

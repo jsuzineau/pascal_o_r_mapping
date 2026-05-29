@@ -27,6 +27,31 @@ type
 
   TJSON_Field_List= TFPGObjectList<TJSON_Field>;
 
+  { TOpenAPI_JSON_Field }
+
+  TOpenAPI_JSON_Field
+  =
+   class( TJSON_Field)
+   //Gestion du cycle de vie
+   public
+     constructor Create( _name: String; _jo: TJSONObject);
+     destructor Destroy; override;
+   //Parametres (rajouté pour chainage de variables entre niveau classe et niveau application)
+   public
+     slParametres: TBatpro_StringList;
+     function RemplaceParametres( _Prefixe, S: String): String;
+     procedure Log_slParametres;
+   //déboguage
+   private
+     Log_Actif: Boolean;
+     slLog: TBatpro_StringList;
+   //Recherche/remplacement par les valeurs dans un modèle
+   public
+     function Produit( _Prefixe, _sModele: String): String;
+   end;
+
+  TOpenAPI_JSON_Field_List= TFPGObjectList<TOpenAPI_JSON_Field>;
+
   { TProperty }
 
   TProperty
@@ -112,13 +137,14 @@ type
 
   TVerb_Parameter
   =
-   class( TJSON_Field)
+   class( TOpenAPI_JSON_Field)
    //Gestion du cycle de vie
    public
      constructor Create( _jo: TJSONObject);
      destructor Destroy; override;
-   //Méthodes
+   //Recherche/remplacement par les valeurs dans un modèle
    public
+     function Produit( _Prefixe, _sModele: String): String;
    end;
 
   TVerb_Parameter_List= TFPGObjectList<TVerb_Parameter>;
@@ -127,13 +153,14 @@ type
 
   TVerb_Property
   =
-   class( TJSON_Field)
+   class( TOpenAPI_JSON_Field)
    //Gestion du cycle de vie
    public
      constructor Create( _name: String; _jo: TJSONObject);
      destructor Destroy; override;
-   //Méthodes
+   //Recherche/remplacement par les valeurs dans un modèle
    public
+     function Produit( _Prefixe, _sModele: String): String;
    end;
 
   TVerb_Property_List= TFPGObjectList<TVerb_Property>;
@@ -142,7 +169,7 @@ type
 
   TVerb
   =
-   class( TJSON_Field)
+   class( TOpenAPI_JSON_Field)
    //Gestion du cycle de vie
    public
      constructor Create( _name: String; _jo: TJSONObject);
@@ -154,15 +181,20 @@ type
 
      function Get_Parameter_List: TVerb_Parameter_List;
      function Get_Property_List: TVerb_Property_List;
+   //Recherche/remplacement par les valeurs dans un modèle
+   public
+     function Produit( _Prefixe, _sModele: String): String;
    end;
 
   TVerb_List= TFPGObjectList<TVerb>;
+
+  { TOpenAPI_JSON_Field }
 
   { TPath }
 
   TPath
   =
-   class( TJSON_Field)
+   class( TOpenAPI_JSON_Field)
    //Gestion du cycle de vie
    public
      constructor Create( _name: String; _jo: TJSONObject);
@@ -173,15 +205,6 @@ type
    //Méthodes
    public
      function Get_Verb_List: TVerb_List;
-   //Parametres (rajouté pour chainage de variables entre niveau classe et niveau application)
-   public
-     slParametres: TBatpro_StringList;
-     function RemplaceParametres( _Prefixe, S: String): String;
-     procedure Log_slParametres;
-   //déboguage
-   private
-     Log_Actif: Boolean;
-     slLog: TBatpro_StringList;
    //Recherche/remplacement par les valeurs dans un modèle
    public
      function Produit( _Prefixe, _sModele: String): String;
@@ -242,6 +265,63 @@ end;
 destructor TJSON_Field.Destroy;
 begin
      inherited Destroy;
+end;
+
+{ TOpenAPI_JSON_Field }
+
+constructor TOpenAPI_JSON_Field.Create(_name: String; _jo: TJSONObject);
+begin
+     inherited Create(_name, _jo);
+     slLog  := TBatpro_StringList.Create;
+end;
+
+destructor TOpenAPI_JSON_Field.Destroy;
+begin
+     FreeAndNil( slLog);
+     inherited Destroy;
+end;
+
+procedure TOpenAPI_JSON_Field.Log_slParametres;
+var
+   I: Integer;
+   OldKey, NewKey: String;
+begin
+     for I:= 0 to slParametres.Count -1
+     do
+       begin
+       OldKey:= slParametres.Names [ I];
+       NewKey:= slParametres.Values[OldKey];
+       if '' = Trim(NewKey) then continue;
+
+       //if Log_Actif then
+       slLog.Add( ClassName+'.Log_slParametres: Remplacement de:');
+       slLog.Add( OldKey);
+       slLog.Add( 'par :');
+       slLog.Add( NewKey);
+       slLog.Add( '##########################');
+       end;
+end;
+
+function TOpenAPI_JSON_Field.RemplaceParametres(_Prefixe, S: String): String;
+var
+   I: Integer;
+   OldKey, NewKey: String;
+begin
+     Result:= S;
+     for I:= 0 to slParametres.Count -1
+     do
+       begin
+       OldKey:= slParametres.Names [ I];
+       NewKey:= slParametres.Values[OldKey];
+       //if '' = Trim(NewKey) then continue;
+
+       Result:= StringReplace(Result,_Prefixe+OldKey,NewKey,[rfReplaceAll,rfIgnoreCase]);
+       end;
+end;
+
+function TOpenAPI_JSON_Field.Produit(_Prefixe, _sModele: String): String;
+begin
+
 end;
 
 { TProperty }
@@ -547,6 +627,13 @@ begin
      inherited Destroy;
 end;
 
+function TVerb_Parameter.Produit(_Prefixe, _sModele: String): String;
+begin
+     Result:= _sModele;
+     Result:= StringReplace( Result, _Prefixe+'Parameter', name,[rfReplaceAll,rfIgnoreCase]);
+     //Result:= RemplaceParametres( _Prefixe, Result);
+end;
+
 { TVerb_Property }
 
 constructor TVerb_Property.Create(_name: String; _jo: TJSONObject);
@@ -557,6 +644,13 @@ end;
 destructor TVerb_Property.Destroy;
 begin
      inherited Destroy;
+end;
+
+function TVerb_Property.Produit(_Prefixe, _sModele: String): String;
+begin
+     Result:= _sModele;
+     Result:= StringReplace( Result, _Prefixe+'Property', name,[rfReplaceAll,rfIgnoreCase]);
+     //Result:= RemplaceParametres( _Prefixe, Result);
 end;
 
 { TVerb }
@@ -624,14 +718,19 @@ begin
        end;
 end;
 
+function TVerb.Produit(_Prefixe, _sModele: String): String;
+begin
+     Result:= _sModele;
+     Result:= StringReplace( Result, _Prefixe+'Verb', name,[rfReplaceAll,rfIgnoreCase]);
+     //Result:= RemplaceParametres( _Prefixe, Result);
+end;
+
 { TPath }
 
 constructor TPath.Create(_name: String; _jo: TJSONObject);
 begin
      inherited Create(_name, _jo);
      Nom_de_la_classe:= uOpenAPI_ClassName_from_PathName( name);
-
-     slLog  := TBatpro_StringList.Create;
 end;
 
 destructor TPath.Destroy;
@@ -660,50 +759,12 @@ begin
        end;
 end;
 
-procedure TPath.Log_slParametres;
-var
-   I: Integer;
-   OldKey, NewKey: String;
-begin
-     for I:= 0 to slParametres.Count -1
-     do
-       begin
-       OldKey:= slParametres.Names [ I];
-       NewKey:= slParametres.Values[OldKey];
-       if '' = Trim(NewKey) then continue;
-
-       //if Log_Actif then
-       slLog.Add( ClassName+'.Log_slParametres: Remplacement de:');
-       slLog.Add( OldKey);
-       slLog.Add( 'par :');
-       slLog.Add( NewKey);
-       slLog.Add( '##########################');
-       end;
-end;
-
-function TPath.RemplaceParametres(_Prefixe, S: String): String;
-var
-   I: Integer;
-   OldKey, NewKey: String;
-begin
-     Result:= S;
-     for I:= 0 to slParametres.Count -1
-     do
-       begin
-       OldKey:= slParametres.Names [ I];
-       NewKey:= slParametres.Values[OldKey];
-       //if '' = Trim(NewKey) then continue;
-
-       Result:= StringReplace(Result,_Prefixe+OldKey,NewKey,[rfReplaceAll,rfIgnoreCase]);
-       end;
-end;
-
 function TPath.Produit(_Prefixe, _sModele: String): String;
 begin
      Result:= _sModele;
      Result:= StringReplace( Result, _Prefixe+'Name'            , name            ,[rfReplaceAll,rfIgnoreCase]);
      Result:= StringReplace( Result, _Prefixe+'Nom_de_la_classe', Nom_de_la_classe,[rfReplaceAll,rfIgnoreCase]);
-     Result:= RemplaceParametres( _Prefixe, Result);
+     //Result:= RemplaceParametres( _Prefixe, Result);
 end;
 
 

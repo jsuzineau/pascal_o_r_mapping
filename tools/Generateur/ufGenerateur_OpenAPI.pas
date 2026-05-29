@@ -186,10 +186,10 @@ begin
 
      m.Lines.Add( NomFichier);
 //     Traite_Schemas;
-     Traite_Paths;
+//     Traite_Paths;
 
      m.Lines.Add( 'Début de la génération ...');
-     //Generateur_de_code.Execute_OpenAPI( OpenAPI);
+     Generateur_de_code.Execute_OpenAPI( OpenAPI);
      m.Lines.Add( 'Génération terminée.');
 end;
 

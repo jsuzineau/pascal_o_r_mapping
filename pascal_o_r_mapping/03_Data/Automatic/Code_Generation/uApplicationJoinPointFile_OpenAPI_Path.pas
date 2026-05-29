@@ -88,6 +88,9 @@ type
   public
     function Iterateur: TIterateur_ApplicationJoinPointFile_OpenAPI_Path;
     function Iterateur_Decroissant: TIterateur_ApplicationJoinPointFile_OpenAPI_Path;
+  //Création JoinPointFile
+  public
+    function  Create_JoinPointFile( _nfKey: String): TJoinPointFile_Ancetre;override;
   //Gestion de la visite d'une classe
   public
     procedure Initialise;
@@ -128,7 +131,6 @@ end;
 constructor TslApplicationJoinPointFile_OpenAPI_Path.Create( _Nom: String= '');
 begin
      inherited CreateE( _Nom, TApplicationJoinPointFile_OpenAPI_Path);
-     Classe_JoinPointFile:= TApplicationJoinPointFile_OpenAPI_Path;
 end;
 
 destructor TslApplicationJoinPointFile_OpenAPI_Path.Destroy;
@@ -149,6 +151,11 @@ end;
 function TslApplicationJoinPointFile_OpenAPI_Path.Iterateur_Decroissant: TIterateur_ApplicationJoinPointFile_OpenAPI_Path;
 begin
      Result:= TIterateur_ApplicationJoinPointFile_OpenAPI_Path( Iterateur_interne_Decroissant);
+end;
+
+function TslApplicationJoinPointFile_OpenAPI_Path.Create_JoinPointFile( _nfKey: String): TJoinPointFile_Ancetre;
+begin
+     Result:= TApplicationJoinPointFile_OpenAPI_Path.Create( _nfKey);
 end;
 
 procedure TslApplicationJoinPointFile_OpenAPI_Path.Initialise;

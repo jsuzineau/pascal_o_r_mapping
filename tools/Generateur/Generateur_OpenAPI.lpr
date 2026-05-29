@@ -10,8 +10,7 @@ uses
  athreads,
  {$ENDIF}
  Interfaces, // this includes the LCL widgetset
- Forms, ufGenerateur_OpenAPI
- { you can add units after this };
+ Forms, ufGenerateur_OpenAPI;
 
 {$R *.res}
 

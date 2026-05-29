@@ -322,7 +322,7 @@ type
   private
     procedure Execute_OpenAPI_EnumString( _OpenAPI: TOpenAPI; _e: TEnum);
     procedure Execute_OpenAPI_Schema( _OpenAPI: TOpenAPI; _s: TSchema);
-    procedure Execute_OpenAPI_Path( _OpenAPI: TOpenAPI; _p: TPath);
+    procedure Execute_OpenAPI_Path( _OpenAPI: TOpenAPI; _path: TPath);
 
     procedure Execute_OpenAPI_Schemas( _OpenAPI: TOpenAPI);
     procedure Execute_OpenAPI_Paths( _OpenAPI: TOpenAPI);
@@ -866,25 +866,25 @@ begin
      Path:= ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim;
      INI:= TIniFile.Create( ChangeFileExt(EXE_INI.FileName,'_Generateur_de_code.ini'));
      try
-        sRepertoireListeTables              :=iRead('sRepertoireListeTables'              ,Path+'01_Listes'             +PathDelim+'Tables'        +PathDelim);
-        sRepertoireListeEnum                :=iRead('sRepertoireListeEnum'                ,Path+'01_Listes'             +PathDelim+'Enums'         +PathDelim);
-        sRepertoireListePaths               :=iRead('sRepertoireListePaths'               ,Path+'01_Listes'             +PathDelim+'Paths'         +PathDelim);
-        sRepertoireListePaths_Verb          :=iRead('sRepertoireListePaths_Verb'          ,Path+'01_Listes'             +PathDelim+'Paths'         +PathDelim+'Verb'+PathDelim                      );
-        sRepertoireListePaths_Verb_Parameter:=iRead('sRepertoireListePaths_Verb_Parameter',Path+'01_Listes'             +PathDelim+'Paths'         +PathDelim+'Verb'+PathDelim+'Parameter'+PathDelim);
-        sRepertoireListePaths_Verb_Property :=iRead('sRepertoireListePaths_Verb_Property' ,Path+'01_Listes'             +PathDelim+'Paths'         +PathDelim+'Verb'+PathDelim+'Property' +PathDelim);
-        sRepertoireListeMembres             :=iRead('sRepertoireListeMembres'             ,Path+'01_Listes'             +PathDelim+'Membres'       +PathDelim);
-        sRepertoireListeEnumStrings         :=iRead('sRepertoireListeEnumStrings'         ,Path+'01_Listes'             +PathDelim+'EnumStrings'   +PathDelim);
-        sRepertoireListe08_EnumStrings      :=iRead('sRepertoireListe08_EnumStrings'      ,Path+'01_Listes'             +PathDelim+'08_EnumStrings'+PathDelim);
-        sRepertoireListeDetails             :=iRead('sRepertoireListeDetails'             ,Path+'01_Listes'             +PathDelim+'Details'       +PathDelim);
-        sRepertoireListeSymetrics           :=iRead('sRepertoireListeSymetrics'           ,Path+'01_Listes'             +PathDelim+'Symetrics'     +PathDelim);
-        sRepertoireListeAggregations        :=iRead('sRepertoireListeAggregations'        ,Path+'01_Listes'             +PathDelim+'Aggregations'  +PathDelim);
-        sRepertoireListeLibelles            :=iRead('sRepertoireListeLibelles'            ,Path+'01_Listes'             +PathDelim+'Libelles'      +PathDelim);
-        sRepertoireTemplate                 :=iRead('sRepertoireTemplate'                 ,Path+'03_Template'           +PathDelim                           );
-        sRepertoireParametres               :=iRead('sRepertoireParametres'               ,Path+'04_Parametres'         +PathDelim                           );
-        sRepertoireApplicationTemplate      :=iRead('sApplicationTemplate'                ,Path+'05_ApplicationTemplate'+PathDelim                           );
-        sRepertoireResultat                 :=iRead('sRepertoireResultat'                 ,Path+'06_Resultat'           +PathDelim                           );
-        sRepertoireTypeMappings             :=iRead('sRepertoireTypeMappings'             ,Path+'07_TypeMappings'       +PathDelim                           );
-        sRepertoireEnumStrings              :=iRead('sRepertoireEnumStrings'              ,Path+'08_EnumStrings'        +PathDelim                           );
+        sRepertoireListeTables               :=iRead('sRepertoireListeTables'               ,Path+'01_Listes'             +PathDelim+'Tables'        +PathDelim);
+        sRepertoireListeEnum                 :=iRead('sRepertoireListeEnum'                 ,Path+'01_Listes'             +PathDelim+'Enums'         +PathDelim);
+        sRepertoireListePaths                :=iRead('sRepertoireListePaths'                ,Path+'01_Listes'             +PathDelim+'Paths'         +PathDelim);
+        sRepertoireListePaths_Verbs          :=iRead('sRepertoireListePaths_Verbs'          ,Path+'01_Listes'             +PathDelim+'Paths'         +PathDelim+'Verbs'+PathDelim                      );
+        sRepertoireListePaths_Verb_Parameters:=iRead('sRepertoireListePaths_Verb_Parameters',Path+'01_Listes'             +PathDelim+'Paths'         +PathDelim+'Verbs'+PathDelim+'Parameters'+PathDelim);
+        sRepertoireListePaths_Verb_Properties:=iRead('sRepertoireListePaths_Verb_Properties',Path+'01_Listes'             +PathDelim+'Paths'         +PathDelim+'Verbs'+PathDelim+'Properties'+PathDelim);
+        sRepertoireListeMembres              :=iRead('sRepertoireListeMembres'              ,Path+'01_Listes'             +PathDelim+'Membres'       +PathDelim);
+        sRepertoireListeEnumStrings          :=iRead('sRepertoireListeEnumStrings'          ,Path+'01_Listes'             +PathDelim+'EnumStrings'   +PathDelim);
+        sRepertoireListe08_EnumStrings       :=iRead('sRepertoireListe08_EnumStrings'       ,Path+'01_Listes'             +PathDelim+'08_EnumStrings'+PathDelim);
+        sRepertoireListeDetails              :=iRead('sRepertoireListeDetails'              ,Path+'01_Listes'             +PathDelim+'Details'       +PathDelim);
+        sRepertoireListeSymetrics            :=iRead('sRepertoireListeSymetrics'            ,Path+'01_Listes'             +PathDelim+'Symetrics'     +PathDelim);
+        sRepertoireListeAggregations         :=iRead('sRepertoireListeAggregations'         ,Path+'01_Listes'             +PathDelim+'Aggregations'  +PathDelim);
+        sRepertoireListeLibelles             :=iRead('sRepertoireListeLibelles'             ,Path+'01_Listes'             +PathDelim+'Libelles'      +PathDelim);
+        sRepertoireTemplate                  :=iRead('sRepertoireTemplate'                  ,Path+'03_Template'           +PathDelim                           );
+        sRepertoireParametres                :=iRead('sRepertoireParametres'                ,Path+'04_Parametres'         +PathDelim                           );
+        sRepertoireApplicationTemplate       :=iRead('sApplicationTemplate'                 ,Path+'05_ApplicationTemplate'+PathDelim                           );
+        sRepertoireResultat                  :=iRead('sRepertoireResultat'                  ,Path+'06_Resultat'           +PathDelim                           );
+        sRepertoireTypeMappings              :=iRead('sRepertoireTypeMappings'              ,Path+'07_TypeMappings'       +PathDelim                           );
+        sRepertoireEnumStrings               :=iRead('sRepertoireEnumStrings'               ,Path+'08_EnumStrings'        +PathDelim                           );
      finally
             FreeAndNil( INI);
             end;
@@ -2226,16 +2226,64 @@ begin
             end;
 end;
 
-procedure TGenerateur_de_code.Execute_OpenAPI_Path(_OpenAPI: TOpenAPI; _p: TPath);
+procedure TGenerateur_de_code.Execute_OpenAPI_Path(_OpenAPI: TOpenAPI; _path: TPath);
+var
+   vl: TVerb_List;
+   verb: TVerb;
+   procedure Traite_Verb;
+      procedure Traite_Parameters;
+      var
+         pl: TVerb_Parameter_List;
+         parameter: TVerb_Parameter;
+      begin
+           slApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Initialise;
+           pl:= verb.Get_Parameter_List;
+           try
+              for parameter in pl
+              do
+                slApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.VisitePath_Verb_Parameter( _path, verb, parameter);
+           finally
+                  FreeAndNil( pl);
+                  end;
+           slApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Finalise;
+           slApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.To_Parametres( slParametres);
+      end;
+      procedure Traite_Properties;
+      var
+         pl: TVerb_Property_List;
+         property_: TVerb_Property;
+      begin
+           slApplicationJoinPointFile_OpenAPI_Path_Verb_Property.Initialise;
+           pl:= verb.Get_Property_List;
+           try
+              for property_ in pl
+              do
+                slApplicationJoinPointFile_OpenAPI_Path_Verb_Property.VisitePath_Verb_Property( _path, verb, property_);
+           finally
+                  FreeAndNil( pl);
+                  end;
+           slApplicationJoinPointFile_OpenAPI_Path_Verb_Property.Finalise;
+           slApplicationJoinPointFile_OpenAPI_Path_Verb_Property.To_Parametres( slParametres);
+      end;
+   begin
+        slApplicationJoinPointFile_OpenAPI_Path_Verb.Initialise;
+        slParametres.Clear;
+        Traite_Parameters;
+        Traite_Properties;
+        slApplicationJoinPointFile_OpenAPI_Path_Verb.VisitePath_Verb( _path, verb);
+   end;
 begin
-     //boucle verb
-     //  boucle parameter
-     //    #slApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.VisitePath( _p);
-     //  boucle property
-     //    #slApplicationJoinPointFile_OpenAPI_Path_Verb_Property .VisitePath( _p);
-     //  #slApplicationJoinPointFile_OpenAPI_Path_Verb          .VisitePath( _p);
-
-     slApplicationJoinPointFile_OpenAPI_Path.VisitePath( _p);
+     vl:= _path.Get_Verb_List;
+     try
+        slApplicationJoinPointFile_OpenAPI_Path_Verb.Initialise;
+        for verb in vl
+        do
+          Traite_Verb;
+        slApplicationJoinPointFile_OpenAPI_Path_Verb.Finalise;
+     finally
+            FreeAndNil( vl);
+            end;
+     slApplicationJoinPointFile_OpenAPI_Path.VisitePath( _path);
 end;
 
 procedure TGenerateur_de_code.Execute_OpenAPI_Schemas(_OpenAPI: TOpenAPI);
@@ -2277,6 +2325,7 @@ var
    pl: TPath_List;
    p: TPath;
 begin
+     slApplicationJoinPointFile_OpenAPI_Path.Initialise;
      pl:= _OpenAPI.Get_Paths_List;
      try
         for p in pl
@@ -2285,6 +2334,8 @@ begin
      finally
             FreeAndNil( pl);
             end;
+     slApplicationJoinPointFile_OpenAPI_Path.Finalise;
+     slApplicationJoinPointFile_OpenAPI_Path.To_Parametres( slParametres);
 end;
 
 procedure TGenerateur_de_code.Execute_OpenAPI(_OpenAPI: TOpenAPI);
@@ -2309,7 +2360,7 @@ begin
         S:= '';
         Premiere_Classe:= True;
 
-        Execute_OpenAPI_Schemas( _OpenAPI);
+        //Execute_OpenAPI_Schemas( _OpenAPI);
         Execute_OpenAPI_Paths  ( _OpenAPI);
         Application_Produit;
         slLog.Add( S);
@@ -2773,9 +2824,9 @@ begin
      slApplicationJoinPointFile_from_sRepertoireListeTables;
      slApplicationEnumJoinPointFile_from_sRepertoireListeEnum;
      slApplicationJoinPointFile_OpenAPI_Path_from_sRepertoireListeTables;
-     slApplicationJoinPointFile_OpenAPI_Path_Verb          ._from_sRepertoire(sRepertoireListePaths_Verb          );
-     slApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter._from_sRepertoire(sRepertoireListePaths_Verb_Parameter);
-     slApplicationJoinPointFile_OpenAPI_Path_Verb_Property ._from_sRepertoire(sRepertoireListePaths_Verb_Property );
+     slApplicationJoinPointFile_OpenAPI_Path_Verb          ._from_sRepertoire(sRepertoireListePaths_Verbs          );
+     slApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter._from_sRepertoire(sRepertoireListePaths_Verb_Parameters);
+     slApplicationJoinPointFile_OpenAPI_Path_Verb_Property ._from_sRepertoire(sRepertoireListePaths_Verb_Properties );
 
      slApplicationTemplateHandler_from_sRepertoireApplicationTemplate;
 
