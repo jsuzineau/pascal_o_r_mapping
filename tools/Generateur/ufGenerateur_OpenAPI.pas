@@ -3,6 +3,7 @@ unit ufGenerateur_OpenAPI;
 interface
 
 uses
+    uBatpro_StringList,
     uOpenAPI,
     ublAutomatic,
  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, StdCtrls;
@@ -39,7 +40,8 @@ implementation
 procedure TfGenerateur_OpenAPI.FormCreate(Sender: TObject);
 begin
      OpenAPI:= nil;
-     _from_OpenAPI;
+     //_from_OpenAPI;
+     Ouvrir('..\docker\wordpress-openapi.json');
 end;
 
 procedure TfGenerateur_OpenAPI.FormDropFiles( Sender: TObject;
@@ -163,21 +165,28 @@ procedure TfGenerateur_OpenAPI._from_OpenAPI;
    end;
    procedure Traite_Paths;
    var
+      slParametres: TBatpro_StringList;
       pl: TPath_List;
       p: TPath;
    begin
-        pl:= OpenAPI.Get_Paths_List;
+        slParametres:= TBatpro_StringList.Create;
         try
-           for p in pl
-           do
-             begin
-             m.Lines.Add( '  '+p.name);
+           pl:= OpenAPI.Get_Paths_List( slParametres);
+           try
+              for p in pl
+              do
+                begin
+                m.Lines.Add( '  '+p.name);
 
-             Traite_Path( p);
-             end;
-           m.Lines.Add( 'Traite_Paths terminé. '+IntToStr(pl.Count)+' paths');
+                Traite_Path( p);
+                end;
+              m.Lines.Add( 'Traite_Paths terminé. '+IntToStr(pl.Count)+' paths');
+           finally
+                  FreeAndNil( pl);
+                  end;
+
         finally
-               FreeAndNil( pl);
+               FreeAndNil( slParametres);
                end;
    end;
 begin

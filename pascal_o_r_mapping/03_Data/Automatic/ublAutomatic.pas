@@ -866,25 +866,25 @@ begin
      Path:= ExtractFilePath(NomFichierProjet)+'Generateur_de_code'+PathDelim;
      INI:= TIniFile.Create( ChangeFileExt(EXE_INI.FileName,'_Generateur_de_code.ini'));
      try
-        sRepertoireListeTables               :=iRead('sRepertoireListeTables'               ,Path+'01_Listes'             +PathDelim+'Tables'        +PathDelim);
-        sRepertoireListeEnum                 :=iRead('sRepertoireListeEnum'                 ,Path+'01_Listes'             +PathDelim+'Enums'         +PathDelim);
-        sRepertoireListePaths                :=iRead('sRepertoireListePaths'                ,Path+'01_Listes'             +PathDelim+'Paths'         +PathDelim);
-        sRepertoireListePaths_Verbs          :=iRead('sRepertoireListePaths_Verbs'          ,Path+'01_Listes'             +PathDelim+'Paths'         +PathDelim+'Verbs'+PathDelim                      );
-        sRepertoireListePaths_Verb_Parameters:=iRead('sRepertoireListePaths_Verb_Parameters',Path+'01_Listes'             +PathDelim+'Paths'         +PathDelim+'Verbs'+PathDelim+'Parameters'+PathDelim);
-        sRepertoireListePaths_Verb_Properties:=iRead('sRepertoireListePaths_Verb_Properties',Path+'01_Listes'             +PathDelim+'Paths'         +PathDelim+'Verbs'+PathDelim+'Properties'+PathDelim);
-        sRepertoireListeMembres              :=iRead('sRepertoireListeMembres'              ,Path+'01_Listes'             +PathDelim+'Membres'       +PathDelim);
-        sRepertoireListeEnumStrings          :=iRead('sRepertoireListeEnumStrings'          ,Path+'01_Listes'             +PathDelim+'EnumStrings'   +PathDelim);
-        sRepertoireListe08_EnumStrings       :=iRead('sRepertoireListe08_EnumStrings'       ,Path+'01_Listes'             +PathDelim+'08_EnumStrings'+PathDelim);
-        sRepertoireListeDetails              :=iRead('sRepertoireListeDetails'              ,Path+'01_Listes'             +PathDelim+'Details'       +PathDelim);
-        sRepertoireListeSymetrics            :=iRead('sRepertoireListeSymetrics'            ,Path+'01_Listes'             +PathDelim+'Symetrics'     +PathDelim);
-        sRepertoireListeAggregations         :=iRead('sRepertoireListeAggregations'         ,Path+'01_Listes'             +PathDelim+'Aggregations'  +PathDelim);
-        sRepertoireListeLibelles             :=iRead('sRepertoireListeLibelles'             ,Path+'01_Listes'             +PathDelim+'Libelles'      +PathDelim);
-        sRepertoireTemplate                  :=iRead('sRepertoireTemplate'                  ,Path+'03_Template'           +PathDelim                           );
-        sRepertoireParametres                :=iRead('sRepertoireParametres'                ,Path+'04_Parametres'         +PathDelim                           );
-        sRepertoireApplicationTemplate       :=iRead('sApplicationTemplate'                 ,Path+'05_ApplicationTemplate'+PathDelim                           );
-        sRepertoireResultat                  :=iRead('sRepertoireResultat'                  ,Path+'06_Resultat'           +PathDelim                           );
-        sRepertoireTypeMappings              :=iRead('sRepertoireTypeMappings'              ,Path+'07_TypeMappings'       +PathDelim                           );
-        sRepertoireEnumStrings               :=iRead('sRepertoireEnumStrings'               ,Path+'08_EnumStrings'        +PathDelim                           );
+        sRepertoireListeTables               :=iRead('sRepertoireListeTables'               ,Path+'01_Listes'             +PathDelim+'Tables'              +PathDelim);
+        sRepertoireListeEnum                 :=iRead('sRepertoireListeEnum'                 ,Path+'01_Listes'             +PathDelim+'Enums'               +PathDelim);
+        sRepertoireListePaths                :=iRead('sRepertoireListePaths'                ,Path+'01_Listes'             +PathDelim+'Paths'               +PathDelim);
+        sRepertoireListePaths_Verbs          :=iRead('sRepertoireListePaths_Verbs'          ,Path+'01_Listes'             +PathDelim+'Path_Verbs'          +PathDelim);
+        sRepertoireListePaths_Verb_Parameters:=iRead('sRepertoireListePaths_Verb_Parameters',Path+'01_Listes'             +PathDelim+'Path_Verb_Parameters'+PathDelim);
+        sRepertoireListePaths_Verb_Properties:=iRead('sRepertoireListePaths_Verb_Properties',Path+'01_Listes'             +PathDelim+'Path_Verb_Properties'+PathDelim);
+        sRepertoireListeMembres              :=iRead('sRepertoireListeMembres'              ,Path+'01_Listes'             +PathDelim+'Membres'             +PathDelim);
+        sRepertoireListeEnumStrings          :=iRead('sRepertoireListeEnumStrings'          ,Path+'01_Listes'             +PathDelim+'EnumStrings'         +PathDelim);
+        sRepertoireListe08_EnumStrings       :=iRead('sRepertoireListe08_EnumStrings'       ,Path+'01_Listes'             +PathDelim+'08_EnumStrings'      +PathDelim);
+        sRepertoireListeDetails              :=iRead('sRepertoireListeDetails'              ,Path+'01_Listes'             +PathDelim+'Details'             +PathDelim);
+        sRepertoireListeSymetrics            :=iRead('sRepertoireListeSymetrics'            ,Path+'01_Listes'             +PathDelim+'Symetrics'           +PathDelim);
+        sRepertoireListeAggregations         :=iRead('sRepertoireListeAggregations'         ,Path+'01_Listes'             +PathDelim+'Aggregations'        +PathDelim);
+        sRepertoireListeLibelles             :=iRead('sRepertoireListeLibelles'             ,Path+'01_Listes'             +PathDelim+'Libelles'            +PathDelim);
+        sRepertoireTemplate                  :=iRead('sRepertoireTemplate'                  ,Path+'03_Template'           +PathDelim                                 );
+        sRepertoireParametres                :=iRead('sRepertoireParametres'                ,Path+'04_Parametres'         +PathDelim                                 );
+        sRepertoireApplicationTemplate       :=iRead('sApplicationTemplate'                 ,Path+'05_ApplicationTemplate'+PathDelim                                 );
+        sRepertoireResultat                  :=iRead('sRepertoireResultat'                  ,Path+'06_Resultat'           +PathDelim                                 );
+        sRepertoireTypeMappings              :=iRead('sRepertoireTypeMappings'              ,Path+'07_TypeMappings'       +PathDelim                                 );
+        sRepertoireEnumStrings               :=iRead('sRepertoireEnumStrings'               ,Path+'08_EnumStrings'        +PathDelim                                 );
      finally
             FreeAndNil( INI);
             end;
@@ -2246,7 +2246,7 @@ var
                   FreeAndNil( pl);
                   end;
            slApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Finalise;
-           slApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.To_Parametres( slParametres);
+           slApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.To_Parametres( verb.slParametres_Child);
       end;
       procedure Traite_Properties;
       var
@@ -2263,11 +2263,10 @@ var
                   FreeAndNil( pl);
                   end;
            slApplicationJoinPointFile_OpenAPI_Path_Verb_Property.Finalise;
-           slApplicationJoinPointFile_OpenAPI_Path_Verb_Property.To_Parametres( slParametres);
+           slApplicationJoinPointFile_OpenAPI_Path_Verb_Property.To_Parametres( verb.slParametres_Child);
       end;
    begin
         slApplicationJoinPointFile_OpenAPI_Path_Verb.Initialise;
-        slParametres.Clear;
         Traite_Parameters;
         Traite_Properties;
         slApplicationJoinPointFile_OpenAPI_Path_Verb.VisitePath_Verb( _path, verb);
@@ -2280,6 +2279,7 @@ begin
         do
           Traite_Verb;
         slApplicationJoinPointFile_OpenAPI_Path_Verb.Finalise;
+        slApplicationJoinPointFile_OpenAPI_Path_Verb.To_Parametres( _path.slParametres_Child);
      finally
             FreeAndNil( vl);
             end;
@@ -2326,7 +2326,7 @@ var
    p: TPath;
 begin
      slApplicationJoinPointFile_OpenAPI_Path.Initialise;
-     pl:= _OpenAPI.Get_Paths_List;
+     pl:= _OpenAPI.Get_Paths_List( slParametres);
      try
         for p in pl
         do

@@ -1,2 +1,2 @@
-//Chemin  Path.Name
-//Pascal_Path_Verbs_interface
+    //Chemin  Path.name
+Path.Verbs_interface

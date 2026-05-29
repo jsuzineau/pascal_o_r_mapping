@@ -34,11 +34,12 @@ type
    class( TJSON_Field)
    //Gestion du cycle de vie
    public
-     constructor Create( _name: String; _jo: TJSONObject);
+     constructor Create( _name: String; _jo: TJSONObject;
+                         _slParametres: TBatpro_StringList);
      destructor Destroy; override;
    //Parametres (rajouté pour chainage de variables entre niveau classe et niveau application)
    public
-     slParametres: TBatpro_StringList;
+     slParametres, slParametres_Child: TBatpro_StringList;
      function RemplaceParametres( _Prefixe, S: String): String;
      procedure Log_slParametres;
    //déboguage
@@ -133,15 +134,34 @@ type
 
   TEnum_List= TFPGObjectList<TEnum>;
 
+  TPath= class;
+  TVerb= class;
+
   { TVerb_Parameter }
 
+  TVerb_Parameter_Position=(vpp_in_path, vpp_in_query);
   TVerb_Parameter
   =
    class( TOpenAPI_JSON_Field)
    //Gestion du cycle de vie
    public
-     constructor Create( _jo: TJSONObject);
+     constructor Create( _Verb: TVerb; _jo: TJSONObject;
+                         _slParametres: TBatpro_StringList);
      destructor Destroy; override;
+   //Verbe
+   public
+     Verb: TVerb;
+   //Position
+   public
+     Position: TVerb_Parameter_Position;
+     Method: String;
+   //Required
+   public
+      required: Boolean;
+      sRequired: String;
+   //description
+   public
+     description: String;
    //Recherche/remplacement par les valeurs dans un modèle
    public
      function Produit( _Prefixe, _sModele: String): String;
@@ -156,8 +176,15 @@ type
    class( TOpenAPI_JSON_Field)
    //Gestion du cycle de vie
    public
-     constructor Create( _name: String; _jo: TJSONObject);
+     constructor Create( _Verb: TVerb; _name: String; _jo: TJSONObject;
+                         _slParametres: TBatpro_StringList);
      destructor Destroy; override;
+   //Verbe
+   public
+     Verb: TVerb;
+   //description
+   public
+     description: String;
    //Recherche/remplacement par les valeurs dans un modèle
    public
      function Produit( _Prefixe, _sModele: String): String;
@@ -172,8 +199,15 @@ type
    class( TOpenAPI_JSON_Field)
    //Gestion du cycle de vie
    public
-     constructor Create( _name: String; _jo: TJSONObject);
+     constructor Create( _Path: TPath;_name: String; _jo: TJSONObject;
+                         _slParametres: TBatpro_StringList);
      destructor Destroy; override;
+   //Path
+   public
+     Path: TPath;
+   //Nom_de_la_classe
+   public
+     Nom_de_la_classe: String;
    //Méthodes
    public
      function Get_Parameters: TJSONArray;
@@ -197,9 +231,10 @@ type
    class( TOpenAPI_JSON_Field)
    //Gestion du cycle de vie
    public
-     constructor Create( _name: String; _jo: TJSONObject);
+     constructor Create( _name: String; _jo: TJSONObject;
+                         _slParametres: TBatpro_StringList);
      destructor Destroy; override;
-   //Attributs
+   //Nom_de_la_classe
    public
      Nom_de_la_classe: String;
    //Méthodes
@@ -235,7 +270,7 @@ type
    public
      function Get_Schemas_List: TSchema_List;
      function Get_Enums_List: TEnum_List;
-     function Get_Paths_List: TPath_List;
+     function Get_Paths_List(_slParametres: TBatpro_StringList): TPath_List;
    end;
 
 implementation
@@ -247,11 +282,11 @@ end;
 
 function uOpenAPI_ClassName_from_PathName( _s: String): String;
 begin
-     Result:= StringReplace( _s, '-','_',[rfReplaceAll]);
-     Result:= StringReplace( _s, '/','_',[rfReplaceAll]);
-     Result:= StringReplace( _s, '{','_',[rfReplaceAll]);
-     Result:= StringReplace( _s, '}','_',[rfReplaceAll]);
-     Result:= StringReplace( _s, '.','_',[rfReplaceAll]);
+     Result:= StringReplace( _s    , '-','_',[rfReplaceAll]);
+     Result:= StringReplace( Result, '/','_',[rfReplaceAll]);
+     Result:= StringReplace( Result, '{','_',[rfReplaceAll]);
+     Result:= StringReplace( Result, '}','_',[rfReplaceAll]);
+     Result:= StringReplace( Result, '.','_',[rfReplaceAll]);
 end;
 
 { TJSON_Field }
@@ -269,14 +304,18 @@ end;
 
 { TOpenAPI_JSON_Field }
 
-constructor TOpenAPI_JSON_Field.Create(_name: String; _jo: TJSONObject);
+constructor TOpenAPI_JSON_Field.Create( _name: String; _jo: TJSONObject;
+                                        _slParametres: TBatpro_StringList);
 begin
      inherited Create(_name, _jo);
      slLog  := TBatpro_StringList.Create;
+     slParametres:= _slParametres;
+     slParametres_Child:= TBatpro_StringList.Create( ClassName+'.slParametres_Child');
 end;
 
 destructor TOpenAPI_JSON_Field.Destroy;
 begin
+     FreeAndNil( slParametres_Child);
      FreeAndNil( slLog);
      inherited Destroy;
 end;
@@ -308,11 +347,11 @@ var
    OldKey, NewKey: String;
 begin
      Result:= S;
-     for I:= 0 to slParametres.Count -1
+     for I:= 0 to slParametres_Child.Count -1
      do
        begin
-       OldKey:= slParametres.Names [ I];
-       NewKey:= slParametres.Values[OldKey];
+       OldKey:= slParametres_Child.Names [ I];
+       NewKey:= slParametres_Child.Values[OldKey];
        //if '' = Trim(NewKey) then continue;
 
        Result:= StringReplace(Result,_Prefixe+OldKey,NewKey,[rfReplaceAll,rfIgnoreCase]);
@@ -616,10 +655,26 @@ end;
 
 { TVerb_Parameter }
 
-constructor TVerb_Parameter.Create( _jo: TJSONObject);
+constructor TVerb_Parameter.Create( _Verb: TVerb; _jo: TJSONObject;
+                                    _slParametres: TBatpro_StringList);
 begin
      name:= _jo.Strings['name'];
-     inherited Create( name, _jo);
+     inherited Create( name, _jo, _slParametres);
+     Verb:= _Verb;
+     if 'path' = jo.Strings['in']
+     then
+         Position:= vpp_in_path
+     else
+         Position:= vpp_in_query;
+     case Position
+     of
+       vpp_in_path: Method:= 'Parameter_Path' ;
+       else         Method:= 'Parameter_Query';
+       end;
+     required:= jo.Booleans[ 'required'];
+     sRequired:= IfThen( required, 'required', 'optional');
+
+     description:= jo.Strings['description'];
 end;
 
 destructor TVerb_Parameter.Destroy;
@@ -630,15 +685,25 @@ end;
 function TVerb_Parameter.Produit(_Prefixe, _sModele: String): String;
 begin
      Result:= _sModele;
-     Result:= StringReplace( Result, _Prefixe+'Parameter', name,[rfReplaceAll,rfIgnoreCase]);
-     //Result:= RemplaceParametres( _Prefixe, Result);
+     Result:= StringReplace( Result, _Prefixe+'name'       , name       ,[rfReplaceAll,rfIgnoreCase]);
+     Result:= StringReplace( Result, _Prefixe+'required'   , sRequired  ,[rfReplaceAll,rfIgnoreCase]);
+     Result:= StringReplace( Result, _Prefixe+'description', description,[rfReplaceAll,rfIgnoreCase]);
+     Result:= StringReplace( Result, _Prefixe+'Method'     , Method     ,[rfReplaceAll,rfIgnoreCase]);
+     Result:= RemplaceParametres( _Prefixe, Result);
 end;
 
 { TVerb_Property }
 
-constructor TVerb_Property.Create(_name: String; _jo: TJSONObject);
+constructor TVerb_Property.Create( _Verb: TVerb; _name: String; _jo: TJSONObject;
+                                   _slParametres: TBatpro_StringList);
 begin
-     inherited Create(_name, _jo);
+     inherited Create(_name, _jo, _slParametres);
+     Verb:= _Verb;
+     if -1 = jo.IndexOfName('description')
+     then
+         description:= ''
+     else
+         description:= jo.Strings['description'];
 end;
 
 destructor TVerb_Property.Destroy;
@@ -649,15 +714,19 @@ end;
 function TVerb_Property.Produit(_Prefixe, _sModele: String): String;
 begin
      Result:= _sModele;
-     Result:= StringReplace( Result, _Prefixe+'Property', name,[rfReplaceAll,rfIgnoreCase]);
-     //Result:= RemplaceParametres( _Prefixe, Result);
+     Result:= StringReplace( Result, _Prefixe+'name', name,[rfReplaceAll,rfIgnoreCase]);
+     Result:= StringReplace( Result, _Prefixe+'description', description,[rfReplaceAll,rfIgnoreCase]);
+     Result:= RemplaceParametres( _Prefixe, Result);
 end;
 
 { TVerb }
 
-constructor TVerb.Create(_name: String; _jo: TJSONObject);
+constructor TVerb.Create( _Path: TPath; _name: String; _jo: TJSONObject;
+                          _slParametres: TBatpro_StringList);
 begin
-     inherited Create(_name, _jo);
+     inherited Create( _name, _jo, _slParametres);
+     Path:= _Path;
+     Nom_de_la_classe:= Path.Nom_de_la_classe+'_'+uOpenAPI_ClassName_from_PathName( name);
 end;
 
 destructor TVerb.Destroy;
@@ -693,7 +762,7 @@ begin
      for I:= 0 to parameters.Count-1
      do
        begin
-       p:= TVerb_Parameter.Create( parameters.Objects[I]);
+       p:= TVerb_Parameter.Create( Self, parameters.Objects[I], slParametres_Child);
        Result.Add( p);
        end;
 end;
@@ -713,7 +782,7 @@ begin
      do
        begin
        p_name:= properties.Names[I];
-       p:= TVerb_Property.Create( p_name, properties.Objects[p_name]);
+       p:= TVerb_Property.Create( Self, p_name, properties.Objects[p_name], slParametres_Child);
        Result.Add( p);
        end;
 end;
@@ -721,15 +790,17 @@ end;
 function TVerb.Produit(_Prefixe, _sModele: String): String;
 begin
      Result:= _sModele;
-     Result:= StringReplace( Result, _Prefixe+'Verb', name,[rfReplaceAll,rfIgnoreCase]);
-     //Result:= RemplaceParametres( _Prefixe, Result);
+     Result:= StringReplace( Result, _Prefixe+'name',             name            ,[rfReplaceAll,rfIgnoreCase]);
+     Result:= StringReplace( Result, _Prefixe+'Nom_de_la_classe', Nom_de_la_classe,[rfReplaceAll,rfIgnoreCase]);
+     Result:= RemplaceParametres( _Prefixe, Result);
 end;
 
 { TPath }
 
-constructor TPath.Create(_name: String; _jo: TJSONObject);
+constructor TPath.Create( _name: String; _jo: TJSONObject;
+                          _slParametres: TBatpro_StringList);
 begin
-     inherited Create(_name, _jo);
+     inherited Create(_name, _jo, _slParametres);
      Nom_de_la_classe:= uOpenAPI_ClassName_from_PathName( name);
 end;
 
@@ -754,7 +825,7 @@ begin
      do
        begin
        v_name:= jo.Names[I];
-       v:= TVerb.Create( v_name, jo.Objects[v_name]);
+       v:= TVerb.Create( Self, v_name, jo.Objects[v_name], slParametres_Child);
        Result.Add( v);
        end;
 end;
@@ -762,9 +833,9 @@ end;
 function TPath.Produit(_Prefixe, _sModele: String): String;
 begin
      Result:= _sModele;
-     Result:= StringReplace( Result, _Prefixe+'Name'            , name            ,[rfReplaceAll,rfIgnoreCase]);
+     Result:= StringReplace( Result, _Prefixe+'name'            , name            ,[rfReplaceAll,rfIgnoreCase]);
      Result:= StringReplace( Result, _Prefixe+'Nom_de_la_classe', Nom_de_la_classe,[rfReplaceAll,rfIgnoreCase]);
-     //Result:= RemplaceParametres( _Prefixe, Result);
+     Result:= RemplaceParametres( _Prefixe, Result);
 end;
 
 
@@ -850,7 +921,7 @@ begin
         end;
 end;
 
-function TOpenAPI.Get_Paths_List: TPath_List;
+function TOpenAPI.Get_Paths_List( _slParametres: TBatpro_StringList): TPath_List;
 var
    paths: TJSONObject;
    I: Integer;
@@ -863,7 +934,7 @@ begin
      do
        begin
        name:= paths.Names[I];
-       p:= TPath.Create( name, paths.Objects[name]);
+       p:= TPath.Create( name, paths.Objects[name], _slParametres);
        Result.Add( p);
        end;
 end;
