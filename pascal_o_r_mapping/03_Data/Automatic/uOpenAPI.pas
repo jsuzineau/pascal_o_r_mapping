@@ -162,6 +162,9 @@ type
    //description
    public
      description: String;
+   //functionname
+   public
+     functionname: String;
    //Recherche/remplacement par les valeurs dans un modèle
    public
      function Produit( _Prefixe, _sModele: String): String;
@@ -185,6 +188,9 @@ type
    //description
    public
      description: String;
+   //functionname
+   public
+     functionname: String;
    //Recherche/remplacement par les valeurs dans un modèle
    public
      function Produit( _Prefixe, _sModele: String): String;
@@ -287,6 +293,13 @@ begin
      Result:= StringReplace( Result, '{','_',[rfReplaceAll]);
      Result:= StringReplace( Result, '}','_',[rfReplaceAll]);
      Result:= StringReplace( Result, '.','_',[rfReplaceAll]);
+end;
+
+function uOpenAPI_functionname_from_name( _s: String): String;
+begin
+          if _s = 'type'   then Result:= 'type_'
+     else if _s = 'object' then Result:= 'object_'
+     else                       Result:= _s;
 end;
 
 { TJSON_Field }
@@ -675,6 +688,7 @@ begin
      sRequired:= IfThen( required, 'required', 'optional');
 
      description:= jo.Strings['description'];
+     functionname:= uOpenAPI_functionname_from_name( name);
 end;
 
 destructor TVerb_Parameter.Destroy;
@@ -689,6 +703,7 @@ begin
      Result:= StringReplace( Result, _Prefixe+'required'   , sRequired  ,[rfReplaceAll,rfIgnoreCase]);
      Result:= StringReplace( Result, _Prefixe+'description', description,[rfReplaceAll,rfIgnoreCase]);
      Result:= StringReplace( Result, _Prefixe+'Method'     , Method     ,[rfReplaceAll,rfIgnoreCase]);
+     Result:= StringReplace( Result, _Prefixe+'functionname', functionname,[rfReplaceAll,rfIgnoreCase]);
      Result:= RemplaceParametres( _Prefixe, Result);
 end;
 
@@ -704,6 +719,7 @@ begin
          description:= ''
      else
          description:= jo.Strings['description'];
+     functionname:= uOpenAPI_functionname_from_name( name);
 end;
 
 destructor TVerb_Property.Destroy;
@@ -716,6 +732,7 @@ begin
      Result:= _sModele;
      Result:= StringReplace( Result, _Prefixe+'name', name,[rfReplaceAll,rfIgnoreCase]);
      Result:= StringReplace( Result, _Prefixe+'description', description,[rfReplaceAll,rfIgnoreCase]);
+     Result:= StringReplace( Result, _Prefixe+'functionname', functionname,[rfReplaceAll,rfIgnoreCase]);
      Result:= RemplaceParametres( _Prefixe, Result);
 end;
 

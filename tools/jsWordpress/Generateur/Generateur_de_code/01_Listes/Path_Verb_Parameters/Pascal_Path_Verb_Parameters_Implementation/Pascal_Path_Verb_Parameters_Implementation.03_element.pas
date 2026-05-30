@@ -1,4 +1,4 @@
-function TVerb.Nom_de_la_classe.Parameter.name( _jo: TJSONObject): TVerb.Nom_de_la_classe; 
+function TVerb.Nom_de_la_classe.Parameter.functionname( _s: String): TVerb.Nom_de_la_classe; 
 begin
-     Parameter.Method( 'Parameter.name', _jo.ToString);
+     Parameter.Method( 'Parameter.name', _s);
 end;

@@ -6,7 +6,7 @@ interface
 
 uses
 
- Classes, SysUtils, fpjson;
+ Classes, SysUtils, fpjson, httpsend;
 
 type
 
@@ -33,6 +33,9 @@ type
      public
        Properties: TJSONObject;
        procedure Property_( _name: String; _Value: TJSONData);
+     //Exécution
+     public
+       function Execute: String;
      end;
 
 //Pascal_Paths_interface
@@ -71,6 +74,31 @@ end;
 procedure TWordpress_verb.Property_(_name: String; _Value: TJSONData);
 begin
      Properties.Add( _name, _Value);
+end;
+
+function TWordpress_verb.Execute: String;
+var
+   http: THTTPSend;
+begin
+     Verb:= Uppercase( Verb);
+     http:= THTTPSend.Create;
+     try
+        http.Sock.SSL.VerifyCert:= False;
+        try
+           if not http.HTTPMethod( Verb, URL)
+           then
+               Result:= 'Echec de '+URL+', '+Verb+':'#13#10+String_from_http
+           else
+               Result:= String_from_http;
+        except
+              on E: Exception
+              do
+                Result:= 'Echec de '+URL+', GET:'#13#10+E.Message;
+              end;
+     finally
+            FreeAndNil( http);
+            end;
+
 end;
 
 //Pascal_Paths_implementation

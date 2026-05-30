@@ -2266,7 +2266,6 @@ var
            slApplicationJoinPointFile_OpenAPI_Path_Verb_Property.To_Parametres( verb.slParametres_Child);
       end;
    begin
-        slApplicationJoinPointFile_OpenAPI_Path_Verb.Initialise;
         Traite_Parameters;
         Traite_Properties;
         slApplicationJoinPointFile_OpenAPI_Path_Verb.VisitePath_Verb( _path, verb);
@@ -2322,9 +2321,19 @@ end;
 
 procedure TGenerateur_de_code.Execute_OpenAPI_Paths(_OpenAPI: TOpenAPI);
 var
+   nfApplication_txt: String;
    pl: TPath_List;
    p: TPath;
 begin
+     slParametres.Clear;
+
+     nfApplication_txt:= sRepertoireParametres+'Application.txt';
+     if FileExists(nfApplication_txt)
+     then
+         slParametres.LoadFromFile(nfApplication_txt)
+     else
+         slParametres.SaveToFile  (nfApplication_txt);
+
      slApplicationJoinPointFile_OpenAPI_Path.Initialise;
      pl:= _OpenAPI.Get_Paths_List( slParametres);
      try

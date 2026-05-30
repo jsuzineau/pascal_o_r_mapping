@@ -1,0 +1,8 @@
+object fjsWordpress: TfjsWordpress
+  Left = 501
+  Height = 240
+  Top = 168
+  Width = 320
+  Caption = 'fjsWordpress'
+  LCLVersion = '4.0.0.4'
+end
