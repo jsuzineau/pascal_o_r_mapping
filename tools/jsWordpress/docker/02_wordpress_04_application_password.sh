@@ -1,0 +1,1 @@
+docker compose exec wpcli wp user application-password create admin "import-pascal" --porcelain --allow-root > application_password.txt
