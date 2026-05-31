@@ -3,7 +3,7 @@
      class( TWordpress_verb)
      //Gestion du cycle de vie
      public
-       constructor Create;
+       constructor Create( _root_url, _Username, _Password: String);
        destructor Destroy; override;
      //Parameters
      public

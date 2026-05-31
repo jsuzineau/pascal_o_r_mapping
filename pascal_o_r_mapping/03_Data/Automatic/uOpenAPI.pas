@@ -299,6 +299,8 @@ function uOpenAPI_functionname_from_name( _s: String): String;
 begin
           if _s = 'type'   then Result:= 'type_'
      else if _s = 'object' then Result:= 'object_'
+     else if _s = 'url'    then Result:= 'url_'
+     else if _s = 'format' then Result:= 'format_'
      else                       Result:= _s;
 end;
 

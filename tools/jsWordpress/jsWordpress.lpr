@@ -10,7 +10,7 @@ uses
  athreads,
  {$ENDIF}
  Interfaces, // this includes the LCL widgetset
- Forms, ujsWordpress_API_Client, uPascal_nom_app_API_Client, ufjsWordpress
+ Forms, ujsWordpress_API_Client, ufjsWordpress
  { you can add units after this };
 
 {$R *.res}

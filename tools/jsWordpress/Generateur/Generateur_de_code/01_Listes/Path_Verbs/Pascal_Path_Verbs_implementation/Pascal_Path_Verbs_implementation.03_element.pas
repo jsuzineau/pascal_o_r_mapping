@@ -1,9 +1,9 @@
 { TVerb.Nom_de_la_classe }
 
-constructor TVerb.Nom_de_la_classe.Create;
+constructor TVerb.Nom_de_la_classe.Create( _root_url, _Username, _Password: String);
 begin
-     inherited Create;
-     url:= 'Path.name';
+     inherited Create( _Username, _Password);
+     url:= _root_url+'/wp-jsonPath.name';
      Verb:= 'Verb.name';
 end;
 

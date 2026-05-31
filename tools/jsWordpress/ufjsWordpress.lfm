@@ -1,8 +1,188 @@
 object fjsWordpress: TfjsWordpress
-  Left = 501
-  Height = 240
-  Top = 168
+  Left = 885
+  Height = 317
+  Top = 189
   Width = 320
   Caption = 'fjsWordpress'
+  ClientHeight = 317
+  ClientWidth = 320
   LCLVersion = '4.0.0.4'
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
+  object Panel1: TPanel
+    Left = 0
+    Height = 264
+    Top = 0
+    Width = 320
+    Align = alTop
+    ClientHeight = 264
+    ClientWidth = 320
+    TabOrder = 0
+    object bFrom_Slug: TButton
+      Left = 14
+      Height = 25
+      Top = 96
+      Width = 75
+      Caption = 'bFrom_Slug'
+      TabOrder = 0
+      OnClick = bFrom_SlugClick
+    end
+    object eSlug: TEdit
+      Left = 96
+      Height = 23
+      Top = 96
+      Width = 216
+      Anchors = [akTop, akLeft, akRight]
+      TabOrder = 1
+      Text = 'eSlug'
+    end
+    object Label1: TLabel
+      Left = 16
+      Height = 15
+      Top = 64
+      Width = 49
+      Caption = 'Root URL'
+    end
+    object eRoot_URL: TEdit
+      Left = 81
+      Height = 23
+      Top = 63
+      Width = 231
+      Anchors = [akTop, akLeft, akRight]
+      TabOrder = 2
+      Text = 'eRoot_URL'
+    end
+    object eTitle: TEdit
+      Left = 150
+      Height = 23
+      Top = 127
+      Width = 162
+      Anchors = [akTop, akLeft, akRight]
+      TabOrder = 3
+      Text = 'eTitle'
+    end
+    object eContent: TEdit
+      Left = 150
+      Height = 23
+      Top = 160
+      Width = 162
+      Anchors = [akTop, akLeft, akRight]
+      TabOrder = 4
+      Text = 'eContent'
+    end
+    object eStatus: TEdit
+      Left = 154
+      Height = 23
+      Top = 194
+      Width = 158
+      Anchors = [akTop, akLeft, akRight]
+      TabOrder = 5
+      Text = 'eStatus'
+    end
+    object Label2: TLabel
+      Left = 100
+      Height = 15
+      Top = 130
+      Width = 22
+      Caption = 'Title'
+    end
+    object Label3: TLabel
+      Left = 100
+      Height = 15
+      Top = 164
+      Width = 43
+      Caption = 'Content'
+    end
+    object Label4: TLabel
+      Left = 100
+      Height = 15
+      Top = 199
+      Width = 32
+      Caption = 'Status'
+    end
+    object Label5: TLabel
+      Left = 102
+      Height = 15
+      Top = 232
+      Width = 10
+      Caption = 'id'
+    end
+    object eID: TEdit
+      Left = 154
+      Height = 23
+      Top = 232
+      Width = 158
+      Anchors = [akTop, akLeft, akRight]
+      TabOrder = 6
+      Text = 'eID'
+    end
+    object bCreate: TButton
+      Left = 14
+      Height = 25
+      Top = 127
+      Width = 75
+      Caption = 'bCreate'
+      TabOrder = 7
+      OnClick = bCreateClick
+    end
+    object bUpdate: TButton
+      Left = 14
+      Height = 25
+      Top = 158
+      Width = 75
+      Caption = 'bUpdate'
+      TabOrder = 8
+      OnClick = bUpdateClick
+    end
+    object Label6: TLabel
+      Left = 16
+      Height = 15
+      Top = 11
+      Width = 53
+      Caption = 'Username'
+    end
+    object Label7: TLabel
+      Left = 16
+      Height = 15
+      Top = 35
+      Width = 50
+      Caption = 'Password'
+    end
+    object eUserName: TEdit
+      Left = 81
+      Height = 23
+      Top = 8
+      Width = 231
+      TabOrder = 9
+      Text = 'eUserName'
+    end
+    object ePassword: TEdit
+      Left = 81
+      Height = 23
+      Top = 33
+      Width = 231
+      TabOrder = 10
+      Text = 'ePassword'
+    end
+    object bMe: TButton
+      Left = 16
+      Height = 25
+      Top = 191
+      Width = 75
+      Caption = 'bMe'
+      TabOrder = 11
+      OnClick = bMeClick
+    end
+  end
+  object m: TMemo
+    Left = 0
+    Height = 53
+    Top = 264
+    Width = 320
+    Align = alClient
+    Lines.Strings = (
+      'm'
+    )
+    TabOrder = 1
+  end
 end
