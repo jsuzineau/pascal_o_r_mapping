@@ -26,6 +26,9 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="OD_DelphiReportEngine_Data"/>
+      </Item>
+      <Item>
         <PackageName Value="OD_DelphiReportEngine_Units"/>
       </Item>
       <Item>
@@ -46,6 +49,10 @@
       </Unit>
       <Unit>
         <Filename Value="Generateur\Generateur_de_code\06_Resultat\wordpress-openapi_json\Pascal\ujsWordpress_API_Client.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="urust_html_clean.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
     </Units>

@@ -6,7 +6,7 @@ object fTest_rust: TfTest_rust
   Caption = 'fTest_rust'
   ClientHeight = 387
   ClientWidth = 650
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '4.0.0.4'
   object m: TMemo
     Left = 0
     Height = 323
@@ -33,8 +33,8 @@ object fTest_rust: TfTest_rust
       Top = 7
       Width = 208
       Caption = 'Hello_from_rust on console'
-      OnClick = bHello_from_rustClick
       TabOrder = 0
+      OnClick = bHello_from_rustClick
     end
     object bTest_double: TButton
       Left = 240
@@ -42,8 +42,8 @@ object fTest_rust: TfTest_rust
       Top = 7
       Width = 94
       Caption = 'Test_double'
-      OnClick = bTest_doubleClick
       TabOrder = 1
+      OnClick = bTest_doubleClick
     end
     object bTest_String: TButton
       Left = 351
@@ -51,8 +51,8 @@ object fTest_rust: TfTest_rust
       Top = 7
       Width = 94
       Caption = 'Test_String'
-      OnClick = bTest_StringClick
       TabOrder = 2
+      OnClick = bTest_StringClick
     end
   end
 end

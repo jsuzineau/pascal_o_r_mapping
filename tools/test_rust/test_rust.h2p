@@ -4,7 +4,7 @@
   <CHeaderFiles Count="1">
     <File1>
       <Merge Value="False"/>
-      <Filename Value="test_rust_lib\test_rust_lib.h"/>
+      <Filename Value="..\jsWordpress\rust_html_clean\rust_html_clean.h"/>
     </File1>
   </CHeaderFiles>
   <PreH2PasTools Count="1">

@@ -5,7 +5,13 @@ unit ufjsWordpress;
 interface
 
 uses
-    uEXE_INI, uuStrings, uOD_JCL, ujsWordpress_API_Client, Classes, SysUtils,
+    uEXE_INI,
+    uuStrings,
+    uOD_JCL,
+    uMimeType,
+    ujsWordpress_API_Client,
+    urust_html_clean,
+    Classes, SysUtils,
     Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls, ComCtrls, Spin,
     fpjson, DOM, XMLRead, XMLWrite, SAX_HTML, DOM_HTML;
 
@@ -18,9 +24,14 @@ type
   bFrom_Slug: TButton;
   bMe: TButton;
   bUpdate: TButton;
+  bMediaCreate: TButton;
   b_index_htm: TButton;
   cbCodePage: TCheckBox;
+  cbCharset: TCheckBox;
+  cbAdd_DOCTYPE_html: TCheckBox;
   eContent: TEdit;
+  eCharset: TEdit;
+  eMedia: TEdit;
   eID: TEdit;
   ePassword: TEdit;
   eRoot_URL: TEdit;
@@ -37,14 +48,17 @@ type
   Label6: TLabel;
   Label7: TLabel;
   Label8: TLabel;
+  Label9: TLabel;
   m: TMemo;
   pc: TPageControl;
+  rgImport: TRadioGroup;
   seCodePage: TSpinEdit;
   tsHTML_to_Wordpress: TTabSheet;
   tsWorpress_API: TTabSheet;
   procedure bCreateClick(Sender: TObject);
   procedure bFrom_SlugClick(Sender: TObject);
   procedure bMeClick(Sender: TObject);
+  procedure bMediaCreateClick(Sender: TObject);
   procedure bUpdateClick(Sender: TObject);
   procedure b_index_htmClick(Sender: TObject);
   procedure FormCreate(Sender: TObject);
@@ -57,6 +71,7 @@ type
    function Page_Create( _Title, _Content, _slug, _status: String): String;
    function Page_Update( _id, _Title, _Content, _slug, _status: String): String;
    function Me: String;
+   function Media_Create( _NomFichier:String):String;
  //Traitement HTML -> Wordpress
  public
    function Slug_from_url_path( _url_path: String):String;
@@ -79,6 +94,8 @@ begin
      eUserName.Text:=EXE_INI.ReadString( 'Options', 'eUserName', eUserName.Text);
      ePassword.Text:=EXE_INI.ReadString( 'Options', 'ePassword', ePassword.Text);
      eRoot_URL.Text:=EXE_INI.ReadString( 'Options', 'eRoot_URL', eRoot_URL.Text);
+     eMedia   .Text:=EXE_INI.ReadString( 'Options', 'eMedia'   , eMedia   .Text);
+     eCharset .Text:=EXE_INI.ReadString( 'Options', 'eCharset' , eCharset .Text);
 end;
 
 procedure TfjsWordpress.FormDestroy(Sender: TObject);
@@ -87,6 +104,8 @@ begin
      EXE_INI.WriteString( 'Options', 'eUserName', eUserName.Text);
      EXE_INI.WriteString( 'Options', 'ePassword', ePassword.Text);
      EXE_INI.WriteString( 'Options', 'eRoot_URL', eRoot_URL.Text);
+     EXE_INI.WriteString( 'Options', 'eMedia'   , eMedia   .Text);
+     EXE_INI.WriteString( 'Options', 'eCharset' , eCharset .Text);
 end;
 
 function TfjsWordpress.Pages_from_slug( _slug: String): String;
@@ -153,6 +172,51 @@ begin
             end;
 end;
 
+function TfjsWordpress.Media_Create( _NomFichier: String): String;
+   procedure Par_multipart_form_data;//ne fonctionne pas
+   var
+      wp: T_wp_v2_media_post;
+   begin
+        wp:= T_wp_v2_media_post.Create(eRoot_URL.Text, eUserName.Text, ePassword.Text);
+        try
+           wp.Set_multipart_form_data;
+           wp.slug(TJSONString.Create(Slug_from_url_path( _NomFichier)));
+           wp.Add_File( _NomFichier);
+           Result:= wp.Execute;
+        finally
+               FreeAndNil( wp);
+               end;
+   end;
+   procedure Par_deux_appels;
+   var
+      wp1: T_wp_v2_media_post;
+      wp2: T_wp_v2_media__id__patch;
+   begin
+        wp1:= T_wp_v2_media_post.Create(eRoot_URL.Text, eUserName.Text, ePassword.Text);
+        try
+           wp1.Set_attachment;
+           wp1.hc.AddHeader( 'Accept'             , 'application/json'                      );
+           wp1.hc.AddHeader( 'User-Agent'         , 'jsWordpress'                           );
+           wp1.Add_File( _NomFichier);
+           Result:= wp1.Execute;
+           String_to_File( ChangeFileExt(_NomFichier, '_img.json'), Result) ;
+        finally
+               FreeAndNil( wp1);
+               end;
+
+        //wp2:= T_wp_v2_media__id__patch.Create(eRoot_URL.Text, eUserName.Text, ePassword.Text);
+        //try
+        //   wp2.slug(TJSONString.Create(Slug_from_url_path( _NomFichier)));
+        //   Result:= wp1.Execute;
+        //finally
+        //       FreeAndNil( wp1);
+        //       end;
+   end;
+begin
+     //Par_multipart_form_data;
+     Par_deux_appels;
+end;
+
 function TfjsWordpress.Slug_from_url_path(_url_path: String): String;
 begin
      if '' = _url_path
@@ -171,6 +235,8 @@ var
    slug: String;
    sTitle: String;
    sBody: String;
+   slIMG_src: TStringList;
+   slIMG_src_w: TStringList;
 
    function Traite_Codepage: String;
    var
@@ -182,9 +248,18 @@ var
             begin
             SetCodePage( sFichier, seCodePage.Value, False);
             Result:= AnsiToUtf8( sFichier);
+            if cbCharset.Checked
+            then
+                Result:= StringReplace( Result, 'charset='+eCharset.Text, 'charset=UTF8', [rfIgnoreCase,rfReplaceAll]);
             end
         else
             Result:= sFichier;
+        if cbAdd_DOCTYPE_html.Checked
+        then
+            Result:= '<!DOCTYPE html>'+Result;
+        String_to_File( ChangeFileExt(_NomFichier, '_UTF8.html'), Result) ;
+        Result:= html_clean( Result);
+        String_to_File( ChangeFileExt(_NomFichier, '_html_clean.html'), Result) ;
    end;
    procedure Traite_par_html( _s: String); //ne fonctionne pas sur html malformé
    var
@@ -192,6 +267,63 @@ var
       html: THTMLDocument;
       nRoot: TDOMNode;
       nBody: TDOMNode;
+      function Has_img( _s:String):String;
+      var
+         i: Integer;
+      begin
+           i:= slIMG_src.IndexOf( _s);
+           if -1 = i
+           then
+               Result:= ''
+           else
+               Result:= slIMG_src_w[i];
+      end;
+      function src_Wordpress_from_src( _src: String):String;
+      var
+         sPath: String;
+         sJSON: String;
+         jd,e: TJSONData;
+         s:String;
+      begin
+           Result:= _src;
+           if     (1 = Pos( 'http', _src))
+              and not (1 = Pos( eSource.Text, _src))
+           then
+               exit;
+
+           sPath:= IncludeTrailingPathDelimiter( eSource.Text)+_src;
+           Result:= Has_img( sPath);
+           if '' <> Result then exit;
+
+           sJSON:= Media_Create( sPath);
+           jd:= GetJSON( sJSON);
+           e:= jd.FindPath( 'guid.rendered');
+           s:= e.AsString;
+           //strtok( 'wp-content/', s);
+           //Set_Property( cir_e, 'src', 'wp-content/'+s);
+           slIMG_src  .Add( sPath);
+           slIMG_src_w.Add( s);
+           Result:= s;
+      end;
+      procedure Traite_img;
+      var
+         cir: TCherche_Items_Recursif;
+         cir_e: TDOMNode;
+         src: String;
+      begin
+           cir:= TCherche_Items_Recursif.Create( nRoot, 'img', [], []);
+           try
+              for cir_e in cir.l
+              do
+                begin
+                if not_Get_Property( cir_e, 'src', src) then continue;
+
+                Set_Property( cir_e, 'src', src_Wordpress_from_src( src));
+                end;
+           finally
+                  FreeAndNil( cir);
+                  end;
+      end;
    begin
         ss:= TStringStream.Create( _s);
         try
@@ -201,10 +333,12 @@ var
                end;
         try
            nRoot:= html.DocumentElement;
-           sTitle:= Text_from_path( nRoot, 'html/head/title');
+           sTitle:= Text_from_path( nRoot, 'head/title');
+           Traite_img;
 
-           nBody := Elem_from_path( nRoot, 'html/body');
+           nBody := Elem_from_path( nRoot, 'body');
            sBody:= String_from_node( nBody);
+
         finally
                FreeAndNil( html);
                end;
@@ -218,13 +352,23 @@ var
         sBody:= StrToK('</body>', _s);
    end;
 begin
-     slug:= Slug_from_url_path( _url_path);
+     slIMG_src  := TStringList.Create;
+     slIMG_src_w:= TStringList.Create;
+     try
+        slug:= Slug_from_url_path( _url_path);
 
-     //Traite_par_html( Traite_Codepage);
-     Traite_par_StrToK( Traite_Codepage);
+        case rgImport.ItemIndex
+        of
+          0: Traite_par_html( Traite_Codepage);
+          1: Traite_par_StrToK( Traite_Codepage);
+          end;
 
-     //m.Lines.Add( sBody);
-     m.Lines.Add( Page_Create( sTitle, sBody, slug, 'published'));
+        //m.Lines.Add( sBody);
+        m.Lines.Add( Page_Create( sTitle, sBody, slug, 'published'));
+     finally
+            FreeAndNil( slIMG_src  );
+            FreeAndNil( slIMG_src_w);
+            end;
 end;
 
 
@@ -251,6 +395,11 @@ end;
 procedure TfjsWordpress.bMeClick(Sender: TObject);
 begin
      m.Lines.Add( Me);
+end;
+
+procedure TfjsWordpress.bMediaCreateClick(Sender: TObject);
+begin
+     m.Lines.Add( Media_Create( eMedia.Text));
 end;
 
 

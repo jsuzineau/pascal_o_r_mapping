@@ -1,0 +1,1 @@
+meld .\Generateur\Generateur_de_code\06_Resultat\wordpress-openapi_json\Pascal\ujsWordpress_API_Client.pas .\Generateur\Generateur_de_code\05_ApplicationTemplate\Pascal\uPascal_nom_app_API_Client.pas
