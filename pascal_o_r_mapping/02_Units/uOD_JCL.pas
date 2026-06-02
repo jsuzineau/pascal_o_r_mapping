@@ -28,7 +28,7 @@ interface
 uses
     DOM,
     uOOoStrings,
-  SysUtils, Classes,  Math, fgl;
+  SysUtils, Classes,  Math, fgl,XMLWrite;
 
 //Gestion JclSimpleXMLElem
 procedure FullName_Split( _FullName: String; var NameSpace, Name: String);
@@ -39,6 +39,9 @@ function Assure_path   ( _e: TDOMNode; Path: String):TDOMNode;
 function Text_from_path( _Root: TDOMNode; _Path: String): String;
 function Assure_path_TextContent( _e: TDOMNode; _Path: String; _TextContent: String):TDOMNode;
 procedure Delete_from_path( _e: TDOMNode; Path: String);
+
+//convertit un noeud et son contenu en sa chaine XML
+function String_from_node( _e: TDOMNode): String;
 
 //Gestion tableur
 function CellName_from_XY( X, Y: Integer): String;
@@ -205,6 +208,20 @@ begin
      if e= nil then exit;
 
      Result:= e.TextContent;
+end;
+
+function String_from_node( _e: TDOMNode): String;
+var
+   ss: TStringStream;
+begin
+     ss:= TStringStream.Create;
+     try
+        WriteXML( _e, ss);
+
+        Result:= ss.DataString;
+     finally
+            FreeAndNil( ss);
+            end;
 end;
 
 //Gestion tableur

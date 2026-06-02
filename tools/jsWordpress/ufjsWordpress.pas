@@ -5,29 +5,30 @@ unit ufjsWordpress;
 interface
 
 uses
-    uEXE_INI,
-    uuStrings,
-    ujsWordpress_API_Client,
-    Classes, SysUtils, Forms, Controls, Graphics,
-    Dialogs, ExtCtrls, StdCtrls, fpjson;
+    uEXE_INI, uuStrings, uOD_JCL, ujsWordpress_API_Client, Classes, SysUtils,
+    Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls, ComCtrls, Spin,
+    fpjson, DOM, XMLRead, XMLWrite, SAX_HTML, DOM_HTML;
 
 type
 
  { TfjsWordpress }
 
  TfjsWordpress = class(TForm)
-  bFrom_Slug: TButton;
   bCreate: TButton;
-  bUpdate: TButton;
+  bFrom_Slug: TButton;
   bMe: TButton;
+  bUpdate: TButton;
+  b_index_htm: TButton;
+  cbCodePage: TCheckBox;
   eContent: TEdit;
-  ePassword: TEdit;
-  eUserName: TEdit;
   eID: TEdit;
-  eStatus: TEdit;
-  eTitle: TEdit;
+  ePassword: TEdit;
   eRoot_URL: TEdit;
   eSlug: TEdit;
+  eSource: TEdit;
+  eStatus: TEdit;
+  eTitle: TEdit;
+  eUserName: TEdit;
   Label1: TLabel;
   Label2: TLabel;
   Label3: TLabel;
@@ -35,21 +36,31 @@ type
   Label5: TLabel;
   Label6: TLabel;
   Label7: TLabel;
+  Label8: TLabel;
   m: TMemo;
-  Panel1: TPanel;
+  pc: TPageControl;
+  seCodePage: TSpinEdit;
+  tsHTML_to_Wordpress: TTabSheet;
+  tsWorpress_API: TTabSheet;
   procedure bCreateClick(Sender: TObject);
   procedure bFrom_SlugClick(Sender: TObject);
   procedure bMeClick(Sender: TObject);
   procedure bUpdateClick(Sender: TObject);
+  procedure b_index_htmClick(Sender: TObject);
   procedure FormCreate(Sender: TObject);
   procedure FormDestroy(Sender: TObject);
  private
 
+ //API Worpress
  public
    function Pages_from_slug( _slug: String): String;
    function Page_Create( _Title, _Content, _slug, _status: String): String;
    function Page_Update( _id, _Title, _Content, _slug, _status: String): String;
    function Me: String;
+ //Traitement HTML -> Wordpress
+ public
+   function Slug_from_url_path( _url_path: String):String;
+   procedure Traite_Fichier(_NomFichier: String; _url_path: String);
  end;
 
 var
@@ -64,6 +75,7 @@ implementation
 procedure TfjsWordpress.FormCreate(Sender: TObject);
 begin
      m.Clear;
+     eSource  .Text:=EXE_INI.ReadString( 'Options', 'eSource'  , eSource  .Text);
      eUserName.Text:=EXE_INI.ReadString( 'Options', 'eUserName', eUserName.Text);
      ePassword.Text:=EXE_INI.ReadString( 'Options', 'ePassword', ePassword.Text);
      eRoot_URL.Text:=EXE_INI.ReadString( 'Options', 'eRoot_URL', eRoot_URL.Text);
@@ -71,6 +83,7 @@ end;
 
 procedure TfjsWordpress.FormDestroy(Sender: TObject);
 begin
+     EXE_INI.WriteString( 'Options', 'eSource'  , eSource  .Text);
      EXE_INI.WriteString( 'Options', 'eUserName', eUserName.Text);
      EXE_INI.WriteString( 'Options', 'ePassword', ePassword.Text);
      EXE_INI.WriteString( 'Options', 'eRoot_URL', eRoot_URL.Text);
@@ -140,6 +153,80 @@ begin
             end;
 end;
 
+function TfjsWordpress.Slug_from_url_path(_url_path: String): String;
+begin
+     if '' = _url_path
+     then
+         begin
+         Result:= 'accueil';
+         exit;
+         end;
+     Result:= ExtractFileName( _url_path);
+     Result:= StringReplace( Result, '.html', '',[rfIgnoreCase]);
+     Result:= StringReplace( Result, '.htm' , '',[rfIgnoreCase]);
+end;
+
+procedure TfjsWordpress.Traite_Fichier(_NomFichier: String; _url_path: String);
+var
+   slug: String;
+   sTitle: String;
+   sBody: String;
+
+   function Traite_Codepage: String;
+   var
+      sFichier: RawByteString;
+   begin
+        sFichier:= String_from_File( _NomFichier);
+        if cbCodePage.Checked
+        then
+            begin
+            SetCodePage( sFichier, seCodePage.Value, False);
+            Result:= AnsiToUtf8( sFichier);
+            end
+        else
+            Result:= sFichier;
+   end;
+   procedure Traite_par_html( _s: String); //ne fonctionne pas sur html malformé
+   var
+      ss: TStringStream;
+      html: THTMLDocument;
+      nRoot: TDOMNode;
+      nBody: TDOMNode;
+   begin
+        ss:= TStringStream.Create( _s);
+        try
+           ReadHTMLFile( html, ss);
+        finally
+               FreeAndNil( ss);
+               end;
+        try
+           nRoot:= html.DocumentElement;
+           sTitle:= Text_from_path( nRoot, 'html/head/title');
+
+           nBody := Elem_from_path( nRoot, 'html/body');
+           sBody:= String_from_node( nBody);
+        finally
+               FreeAndNil( html);
+               end;
+   end;
+   procedure Traite_par_StrToK( _s: String);
+   begin
+        StrToK('<title>', _s);
+        sTitle:= StrToK('</title>', _s);
+
+        StrToK('<body>', _s);
+        sBody:= StrToK('</body>', _s);
+   end;
+begin
+     slug:= Slug_from_url_path( _url_path);
+
+     //Traite_par_html( Traite_Codepage);
+     Traite_par_StrToK( Traite_Codepage);
+
+     //m.Lines.Add( sBody);
+     m.Lines.Add( Page_Create( sTitle, sBody, slug, 'published'));
+end;
+
 
 procedure TfjsWordpress.bFrom_SlugClick(Sender: TObject);
 begin
@@ -154,6 +241,11 @@ end;
 procedure TfjsWordpress.bUpdateClick(Sender: TObject);
 begin
      m.Lines.Add( Page_Update( eID.Text, eTitle.Text, eContent.Text, eSlug.Text, eStatus.Text));
+end;
+
+procedure TfjsWordpress.b_index_htmClick(Sender: TObject);
+begin
+     Traite_Fichier( IncludeTrailingPathDelimiter( eSource.Text)+'index.htm', '');
 end;
 
 procedure TfjsWordpress.bMeClick(Sender: TObject);
