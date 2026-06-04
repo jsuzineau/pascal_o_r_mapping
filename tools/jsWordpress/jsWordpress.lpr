@@ -10,7 +10,7 @@ uses
  athreads,
  {$ENDIF}
  Interfaces, // this includes the LCL widgetset
- Forms, ujsWordpress_API_Client, ufjsWordpress, urust_html_clean
+ Forms, ujsWordpress_API_Client, ufjsWordpress, urust_html_clean, ufHTML
  { you can add units after this };
 
 {$R *.res}
@@ -23,6 +23,7 @@ begin
  {$POP}
  Application.Initialize;
  Application.CreateForm(TfjsWordpress, fjsWordpress);
+ Application.CreateForm(TfHTML, fHTML);
  Application.Run;
 end.
 

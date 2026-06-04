@@ -158,3 +158,6 @@ tools/jsPaneurythmie/jsPaneurythmie
 /tools/jsBlueTooth/LAMW/jsBlueTooth/obj/
 /tools/jsBlueTooth/LAMW/jsBlueTooth/libs/
 application_password.txt
+/tools/jsWordpress/etc/slIMG_src.txt
+/tools/jsWordpress/etc/slIMG_src_w.txt
+/tools/jsWordpress/etc/slPages.txt

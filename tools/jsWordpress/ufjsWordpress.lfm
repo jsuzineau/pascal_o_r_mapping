@@ -313,6 +313,15 @@ object fjsWordpress: TfjsWordpress
         State = cbChecked
         TabOrder = 9
       end
+      object bTraite_fichiers_htm: TButton
+        Left = 93
+        Height = 25
+        Top = 151
+        Width = 131
+        Caption = 'bTraite_fichiers_htm'
+        TabOrder = 10
+        OnClick = bTraite_fichiers_htmClick
+      end
     end
   end
 end

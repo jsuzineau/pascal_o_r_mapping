@@ -11,6 +11,8 @@ uses
     uMimeType,
     ujsWordpress_API_Client,
     urust_html_clean,
+    ufHTML,
+    uChrono,
     Classes, SysUtils,
     Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls, ComCtrls, Spin,
     fpjson, DOM, XMLRead, XMLWrite, SAX_HTML, DOM_HTML;
@@ -25,6 +27,7 @@ type
   bMe: TButton;
   bUpdate: TButton;
   bMediaCreate: TButton;
+  bTraite_fichiers_htm: TButton;
   b_index_htm: TButton;
   cbCodePage: TCheckBox;
   cbCharset: TCheckBox;
@@ -59,6 +62,7 @@ type
   procedure bFrom_SlugClick(Sender: TObject);
   procedure bMeClick(Sender: TObject);
   procedure bMediaCreateClick(Sender: TObject);
+  procedure bTraite_fichiers_htmClick(Sender: TObject);
   procedure bUpdateClick(Sender: TObject);
   procedure b_index_htmClick(Sender: TObject);
   procedure FormCreate(Sender: TObject);
@@ -76,6 +80,15 @@ type
  public
    function Slug_from_url_path( _url_path: String):String;
    procedure Traite_Fichier(_NomFichier: String; _url_path: String);
+   procedure Traite_fichiers;
+ //Gestion des urls d'images
+ public
+   slIMG_src: TStringList;
+   slIMG_src_w: TStringList;
+ //Gestion des urls de pages
+ public
+   slPages: TStringList;
+   procedure Save_sl;
  end;
 
 var
@@ -89,6 +102,14 @@ implementation
 
 procedure TfjsWordpress.FormCreate(Sender: TObject);
 begin
+     slIMG_src  := TStringList.Create;
+     slIMG_src_w:= TStringList.Create;
+     slPages    := TStringList.Create;
+
+     slPages    .LoadFromFile( ExtractFilePath(EXE_INI_Nom)+'slPages.txt'  );
+     slIMG_src  .LoadFromFile( ExtractFilePath(EXE_INI_Nom)+'slIMG_src.txt'  );
+     slIMG_src_w.LoadFromFile( ExtractFilePath(EXE_INI_Nom)+'slIMG_src_w.txt');
+
      m.Clear;
      eSource  .Text:=EXE_INI.ReadString( 'Options', 'eSource'  , eSource  .Text);
      eUserName.Text:=EXE_INI.ReadString( 'Options', 'eUserName', eUserName.Text);
@@ -106,6 +127,19 @@ begin
      EXE_INI.WriteString( 'Options', 'eRoot_URL', eRoot_URL.Text);
      EXE_INI.WriteString( 'Options', 'eMedia'   , eMedia   .Text);
      EXE_INI.WriteString( 'Options', 'eCharset' , eCharset .Text);
+
+     Save_sl;
+
+     FreeAndNil( slIMG_src  );
+     FreeAndNil( slIMG_src_w);
+     FreeAndNil( slPages    );
+end;
+
+procedure TfjsWordpress.Save_sl;
+begin
+     slPages    .SaveToFile( ExtractFilePath(EXE_INI_Nom)+'slPages.txt'    );
+     slIMG_src  .SaveToFile( ExtractFilePath(EXE_INI_Nom)+'slIMG_src.txt'  );
+     slIMG_src_w.SaveToFile( ExtractFilePath(EXE_INI_Nom)+'slIMG_src_w.txt');
 end;
 
 function TfjsWordpress.Pages_from_slug( _slug: String): String;
@@ -235,8 +269,6 @@ var
    slug: String;
    sTitle: String;
    sBody: String;
-   slIMG_src: TStringList;
-   slIMG_src_w: TStringList;
 
    function Traite_Codepage: String;
    var
@@ -337,6 +369,10 @@ var
            Traite_img;
 
            nBody := Elem_from_path( nRoot, 'body');
+           if nil = nBody
+           then
+               raise Exception.Create( 'tag body introuvable');
+
            sBody:= String_from_node( nBody);
 
         finally
@@ -352,8 +388,7 @@ var
         sBody:= StrToK('</body>', _s);
    end;
 begin
-     slIMG_src  := TStringList.Create;
-     slIMG_src_w:= TStringList.Create;
+     if -1 <> slPages.IndexOf( _NomFichier) then exit;
      try
         slug:= Slug_from_url_path( _url_path);
 
@@ -365,12 +400,46 @@ begin
 
         //m.Lines.Add( sBody);
         m.Lines.Add( Page_Create( sTitle, sBody, slug, 'published'));
-     finally
-            FreeAndNil( slIMG_src  );
-            FreeAndNil( slIMG_src_w);
-            end;
+        slPages.Add( _NomFichier);
+        Save_sl;
+     except
+           on E: Exception
+           do
+             begin
+             fHTML.Ouvre( _NomFichier, e);
+             raise;
+             end;
+           end;
 end;
 
+procedure TfjsWordpress.Traite_fichiers;
+var
+   Source: String;
+   sr: TSearchRec;
+begin
+     Chrono.Start;
+     Chrono.Stop('début Traite_fichiers');
+     Source:= IncludeTrailingPathDelimiter(eSource.Text);
+     if 0 <> FindFirst( Source+'*.htm', faAnyFile, sr)
+     then
+         exit;
+     try
+        repeat
+              if faDirectory = (sr.Attr and faDirectory)
+              then
+                  continue;
+              Traite_Fichier( Source+sr.Name, sr.Name);
+        until 0 <> FindNext( sr);
+     finally
+            FindClose( sr);
+     end;
+     Chrono.Stop('Fin Traite_fichiers');
+     m.Lines.Add( '');
+     m.Lines.Add( '');
+     m.Lines.Add( 'Chrono: ');
+     m.Lines.Add( Chrono.Get_Temps);
+     m.Lines.Add( Chrono.Get_Liste);
+end;
 
 procedure TfjsWordpress.bFrom_SlugClick(Sender: TObject);
 begin
@@ -392,6 +461,11 @@ begin
      Traite_Fichier( IncludeTrailingPathDelimiter( eSource.Text)+'index.htm', '');
 end;
 
+procedure TfjsWordpress.bTraite_fichiers_htmClick(Sender: TObject);
+begin
+     Traite_fichiers;
+end;
+
 procedure TfjsWordpress.bMeClick(Sender: TObject);
 begin
      m.Lines.Add( Me);
@@ -401,8 +475,6 @@ procedure TfjsWordpress.bMediaCreateClick(Sender: TObject);
 begin
      m.Lines.Add( Media_Create( eMedia.Text));
 end;
-
-
 
 end.
 
