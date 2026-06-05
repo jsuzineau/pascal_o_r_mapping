@@ -15,7 +15,7 @@ uses
     uChrono,
     Classes, SysUtils,
     Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls, ComCtrls, Spin,
-    fpjson, DOM, XMLRead, XMLWrite, SAX_HTML, DOM_HTML;
+    fpjson, DOM, XMLRead, XMLWrite, SAX_HTML, DOM_HTML,fphttpclient,opensslsockets;
 
 type
 
@@ -28,12 +28,15 @@ type
   bUpdate: TButton;
   bMediaCreate: TButton;
   bTraite_fichiers_htm: TButton;
+  bTest: TButton;
+  bTest_Source: TButton;
   b_index_htm: TButton;
   cbCodePage: TCheckBox;
   cbCharset: TCheckBox;
   cbAdd_DOCTYPE_html: TCheckBox;
   eContent: TEdit;
   eCharset: TEdit;
+  eRootURL_2: TEdit;
   eMedia: TEdit;
   eID: TEdit;
   ePassword: TEdit;
@@ -62,6 +65,8 @@ type
   procedure bFrom_SlugClick(Sender: TObject);
   procedure bMeClick(Sender: TObject);
   procedure bMediaCreateClick(Sender: TObject);
+  procedure bTestClick(Sender: TObject);
+  procedure bTest_SourceClick(Sender: TObject);
   procedure bTraite_fichiers_htmClick(Sender: TObject);
   procedure bUpdateClick(Sender: TObject);
   procedure b_index_htmClick(Sender: TObject);
@@ -89,6 +94,10 @@ type
  public
    slPages: TStringList;
    procedure Save_sl;
+ //Test des pages
+ public
+   procedure Test_Fichier( _root_url: String; _NomFichier: String; _url_path: String);
+   procedure Test( _root_url: String);
  end;
 
 var
@@ -117,6 +126,7 @@ begin
      eRoot_URL.Text:=EXE_INI.ReadString( 'Options', 'eRoot_URL', eRoot_URL.Text);
      eMedia   .Text:=EXE_INI.ReadString( 'Options', 'eMedia'   , eMedia   .Text);
      eCharset .Text:=EXE_INI.ReadString( 'Options', 'eCharset' , eCharset .Text);
+     eRootURL_2.Text:=EXE_INI.ReadString( 'Options', 'eRootURL_2' , eRootURL_2.Text);
 end;
 
 procedure TfjsWordpress.FormDestroy(Sender: TObject);
@@ -127,6 +137,7 @@ begin
      EXE_INI.WriteString( 'Options', 'eRoot_URL', eRoot_URL.Text);
      EXE_INI.WriteString( 'Options', 'eMedia'   , eMedia   .Text);
      EXE_INI.WriteString( 'Options', 'eCharset' , eCharset .Text);
+     EXE_INI.WriteString( 'Options', 'eRootURL_2' , eRootURL_2.Text);
 
      Save_sl;
 
@@ -233,7 +244,7 @@ function TfjsWordpress.Media_Create( _NomFichier: String): String;
            wp1.hc.AddHeader( 'User-Agent'         , 'jsWordpress'                           );
            wp1.Add_File( _NomFichier);
            Result:= wp1.Execute;
-           String_to_File( ChangeFileExt(_NomFichier, '_img.json'), Result) ;
+           //String_to_File( ChangeFileExt(_NomFichier, '_img.json'), Result) ;
         finally
                FreeAndNil( wp1);
                end;
@@ -289,9 +300,9 @@ var
         if cbAdd_DOCTYPE_html.Checked
         then
             Result:= '<!DOCTYPE html>'+Result;
-        String_to_File( ChangeFileExt(_NomFichier, '_UTF8.html'), Result) ;
+        //String_to_File( ChangeFileExt(_NomFichier, '_UTF8.html'), Result) ;
         Result:= html_clean( Result);
-        String_to_File( ChangeFileExt(_NomFichier, '_html_clean.html'), Result) ;
+        //String_to_File( ChangeFileExt(_NomFichier, '_html_clean.html'), Result) ;
    end;
    procedure Traite_par_html( _s: String); //ne fonctionne pas sur html malformé
    var
@@ -441,6 +452,85 @@ begin
      m.Lines.Add( Chrono.Get_Liste);
 end;
 
+procedure TfjsWordpress.Test_Fichier(_root_url: String; _NomFichier: String; _url_path: String);
+var
+   hc: TFPHTTPClient;
+   url: String;
+   Response: String;
+   procedure Print_Result;
+   begin
+        m.Lines.Add( IntToStr( hc.ResponseStatusCode) + ' '+hc.ResponseStatusText+' : '+url);
+   end;
+begin
+     _url_path:= StringReplace(  _url_path, ' ', '%20', [rfReplaceAll]);
+     url:= IncludeTrailingPathDelimiter( _root_url)+_url_path;
+     hc:= TFPHTTPClient.Create(nil);
+     try
+        hc.AllowRedirect:= True;
+        hc.AddHeader( 'User-Agent','jsWordpress');
+        hc.AddHeader( 'Accept'    ,'text/html'  );
+        try
+           Response:= hc.Get( url);
+           //m.Lines.Add( Response);
+           //m.Lines.Add( 'Entêtes réponse:');
+           //m.Lines.Add( hc.ResponseHeaders.Text);
+           //Print_Result;
+        except
+              on E: EHTTPClient
+              do
+                begin
+                Response:= E.Message;
+                Print_Result;
+                url:= IncludeTrailingPathDelimiter( eRootURL_2.Text)+_url_path;
+                try
+                   Response:= hc.Get( url);
+                   Print_Result;
+                except
+                      on E: EHTTPClient
+                      do
+                        begin
+                        Response:= E.Message;
+                        Print_Result;
+                        end;
+                      end;
+                end;
+              end;
+        Application.ProcessMessages;
+     finally
+            FreeAndNil( hc);
+            end;
+
+end;
+
+procedure TfjsWordpress.Test(_root_url: String);
+var
+   Source: String;
+   sr: TSearchRec;
+begin
+     Chrono.Start;
+     Chrono.Stop('début Test');
+     Source:= IncludeTrailingPathDelimiter(eSource.Text);
+     if 0 <> FindFirst( Source+'*.htm', faAnyFile, sr)
+     then
+         exit;
+     try
+        repeat
+              if faDirectory = (sr.Attr and faDirectory)
+              then
+                  continue;
+              Test_Fichier( _root_url, Source+sr.Name, sr.Name);
+        until 0 <> FindNext( sr);
+     finally
+            FindClose( sr);
+     end;
+     Chrono.Stop('Fin Test');
+     m.Lines.Add( '');
+     m.Lines.Add( '');
+     m.Lines.Add( 'Chrono: ');
+     m.Lines.Add( Chrono.Get_Temps);
+     m.Lines.Add( Chrono.Get_Liste);
+end;
+
 procedure TfjsWordpress.bFrom_SlugClick(Sender: TObject);
 begin
      m.Lines.Add( Pages_from_slug( eSlug.Text));
@@ -474,6 +564,16 @@ end;
 procedure TfjsWordpress.bMediaCreateClick(Sender: TObject);
 begin
      m.Lines.Add( Media_Create( eMedia.Text));
+end;
+
+procedure TfjsWordpress.bTestClick(Sender: TObject);
+begin
+     Test( eRoot_URL.Text);
+end;
+
+procedure TfjsWordpress.bTest_SourceClick(Sender: TObject);
+begin
+     Test( eRootURL_2.Text);
 end;
 
 end.

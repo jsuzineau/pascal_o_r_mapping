@@ -18,6 +18,7 @@ object fjsWordpress: TfjsWordpress
     Lines.Strings = (
       'm'
     )
+    ScrollBars = ssAutoVertical
     TabOrder = 0
   end
   object pc: TPageControl
@@ -321,6 +322,33 @@ object fjsWordpress: TfjsWordpress
         Caption = 'bTraite_fichiers_htm'
         TabOrder = 10
         OnClick = bTraite_fichiers_htmClick
+      end
+      object bTest: TButton
+        Left = 9
+        Height = 25
+        Top = 220
+        Width = 75
+        Caption = 'bTest'
+        TabOrder = 11
+        OnClick = bTestClick
+      end
+      object bTest_Source: TButton
+        Left = 142
+        Height = 25
+        Top = 225
+        Width = 114
+        Caption = 'Test sur source :'
+        TabOrder = 12
+        OnClick = bTest_SourceClick
+      end
+      object eRootURL_2: TEdit
+        Left = 269
+        Height = 23
+        Top = 227
+        Width = 563
+        Anchors = [akTop, akLeft, akRight]
+        TabOrder = 13
+        Text = 'eRootURL_2'
       end
     end
   end

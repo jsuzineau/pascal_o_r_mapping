@@ -103,6 +103,9 @@
       <Item>
         <Name Value="EFOpenError"/>
       </Item>
+      <Item>
+        <Name Value="EHTTPClient"/>
+      </Item>
     </Exceptions>
   </Debugging>
 </CONFIG>
