@@ -54,7 +54,7 @@
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
-        <Filename Value="Generateur\Generateur_de_code\06_Resultat\wordpress-openapi_json\Pascal\ujsWordpress_API_Client.pas"/>
+        <Filename Value="api\ujsWordpress_API_Client.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
@@ -78,7 +78,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="Generateur\Generateur_de_code\06_Resultat\wordpress-openapi_json\Pascal"/>
+      <OtherUnitFiles Value="Generateur\Generateur_de_code\06_Resultat\wordpress-openapi_json\Pascal;api"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>

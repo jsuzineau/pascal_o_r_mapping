@@ -77,8 +77,8 @@ type
  //API Worpress
  public
    function Pages_from_slug( _slug: String): String;
-   function Page_Create( _Title, _Content, _slug, _status: String): String;
-   function Page_Update( _id, _Title, _Content, _slug, _status: String): String;
+   function Page_Create( _Title, _Content, _slug: String; _status: String='private'): String;
+   function Page_Update( _id, _Title, _Content, _slug: String; _status: String='private'): String;
    function Me: String;
    function Media_Create( _NomFichier:String):String;
  //Traitement HTML -> Wordpress
@@ -169,25 +169,27 @@ begin
             end;
 end;
 
-function TfjsWordpress.Page_Create(_Title, _Content, _slug, _status: String): String;
+function TfjsWordpress.Page_Create(_Title, _Content, _slug: String; _status: String='private'): String;
 var
    wp: T_wp_v2_pages_post;
+   //{_status}'publish' 'private'
 begin
      wp:= T_wp_v2_pages_post.Create(eRoot_URL.Text, eUserName.Text, ePassword.Text);
      try
         wp.title  ( TJSONString.Create(_Title  ));
         wp.content( TJSONString.Create(_Content));
         wp.slug   ( TJSONString.Create(_slug   ));
-        wp.status ( TJSONString.Create({_status}'publish' ));
+        wp.status ( TJSONString.Create(_status ));
         Result:= wp.Execute;
      finally
             FreeAndNil( wp);
             end;
 end;
 
-function TfjsWordpress.Page_Update( _id, _Title, _Content, _slug, _status: String): String;
+function TfjsWordpress.Page_Update( _id, _Title, _Content, _slug: String; _status: String='private'): String;
 var
    wp: T_wp_v2_pages__id__post;
+   //{_status}'publish' 'private'
 begin
      wp:= T_wp_v2_pages__id__post.Create(eRoot_URL.Text, eUserName.Text, ePassword.Text);
      try
@@ -195,7 +197,7 @@ begin
         wp.title  ( TJSONString.Create(_Title  ));
         wp.content( TJSONString.Create(_Content));
         wp.slug   ( TJSONString.Create(_slug   ));
-        wp.status ( TJSONString.Create({_status}'publish'));
+        wp.status ( TJSONString.Create(_status ));
         m.Lines.Add( wp.url);
         m.Lines.Add( wp.Properties.AsJSON);
         Result:= wp.Execute;

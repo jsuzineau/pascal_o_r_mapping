@@ -26,14 +26,14 @@ unit uCD_from_SL;
 interface
 
 uses
-    SysUtils, Classes,
-    DB, BufDataset,
     uClean,
     uBatpro_StringList,
+    ujsDataContexte,
     uChamp,
     uChampDefinition,
     uChamps,
-    uBatpro_Ligne;
+    uBatpro_Ligne,
+  DB, BufDataset, SysUtils, Classes;
 
 type
  TCD_from_SL
@@ -111,7 +111,7 @@ begin
        D:= C.Definition;
        FD:= cd.FieldDefs.AddFieldDef;
        FD.Name:= D.Nom;
-       FD.DataType:= D.Typ;
+       FD.DataType:= FieldType_from_jsDataType( D.Typ);
        FD.Size:= D.Longueur;
        end;
 

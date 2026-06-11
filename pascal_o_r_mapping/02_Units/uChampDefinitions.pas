@@ -51,11 +51,11 @@ type
 
     property sl   : TslChampDefinition read Fsl;
 
-    function Ajoute( Field: String; _FieldType: TFieldType;
+    function Ajoute( Field: String; _FieldType: TjsDataType;
                      Persistant: Boolean;
                      _jsdcc: TjsDataContexte_Champ): TChampDefinition;
     function Ajoute_Lookup( Field: String;
-                            _FieldType: TFieldType;
+                            _FieldType: TjsDataType;
                             LookupKey: TChampDefinition): TChampDefinition;
   //persistance
   public
@@ -236,7 +236,7 @@ begin
 end;
 
 function TChampDefinitions.Ajoute( Field: String;
-                                   _FieldType: TFieldType;
+                                   _FieldType: TjsDataType;
                                    Persistant:Boolean;
                                    _jsdcc: TjsDataContexte_Champ): TChampDefinition;
 begin
@@ -245,7 +245,7 @@ begin
 end;
 
 function TChampDefinitions.Ajoute_Lookup( Field                : String;
-                                          _FieldType           : TFieldType;
+                                          _FieldType           : TjsDataType;
                                           LookupKey: TChampDefinition
                                           ): TChampDefinition;
 begin

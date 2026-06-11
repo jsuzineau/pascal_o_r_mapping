@@ -64,18 +64,18 @@ type
     Fsl: TslChamp;
 
     function Ajoute( Memory: Pointer;
-                      Field: String; _FieldType: TFieldType;
+                      Field: String; _FieldType: TjsDataType;
                       Persistant: Boolean; _jsdcc: TjsDataContexte_Champ): TChamp;
     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
     function Ajoute_dmf_Lookup( Memory: Pointer;
                                 Field: String;
-                                _FieldType: TFieldType;
+                                _FieldType: TjsDataType;
                                 dmf: Tdmf;
                                 _LookupKey: TChamp): TChamp;
     {$IFEND}
     function Ajoute_Lookup( Memory: Pointer;
                             Field: String;
-                            _FieldType: TFieldType;
+                            _FieldType: TjsDataType;
                             _LookupKey: TChamp;
                             _OnGetLookupListItems: TOnGetLookupListItems;
                             _Valeur_courante: String): TChamp;
@@ -107,6 +107,7 @@ type
     function  Boolean_from_        (var Memory:  Boolean;Field:String;Persistant:Boolean=True): TChamp;
     function DateTime_from_Date    (var Memory:TDateTime;Field:String;Persistant:Boolean=True): TChamp;
     function DateTime_from_        (var Memory:TDateTime;Field:String;Persistant:Boolean=True): TChamp;
+    function     JSON_from_String  (var Memory:TJSONData;Field:String;Persistant:Boolean=True): TChamp;
     function Cree_Champ_ID         (var Memory:  Integer): TChamp;
     function Ajoute_ShortString    (var Memory:ShortString;Field:String;Persistant:Boolean=True): TChamp;
     function Ajoute_String         (var Memory:   String;Field:String;Persistant:Boolean=True): TChamp;
@@ -118,6 +119,7 @@ type
     function Ajoute_Float          (var Memory:Double   ;Field:String;Persistant:Boolean=True): TChamp;
     function Ajoute_Currency       (var Memory:Currency ;Field:String;Persistant:Boolean=True): TChamp;
     function Ajoute_Boolean        (var Memory:Boolean  ;Field:String;Persistant:Boolean=True): TChamp;
+    function Ajoute_JSON           (var Memory:TJSONData;Field:String;Persistant:Boolean=True): TChamp;
   // lookups
   public
     {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
@@ -401,7 +403,7 @@ begin
 end;
 
 function TChamps.Ajoute( Memory: Pointer;
-                         Field: String; _FieldType: TFieldType;
+                         Field: String; _FieldType: TjsDataType;
                          Persistant: Boolean;
                          _jsdcc: TjsDataContexte_Champ): TChamp;
 var
@@ -427,7 +429,7 @@ end;
 {$IF DEFINED(MSWINDOWS) AND NOT DEFINED(FPC)}
 function TChamps.Ajoute_dmf_Lookup( Memory    : Pointer;
                                     Field     : String;
-                                    _FieldType: TFieldType;
+                                    _FieldType: TjsDataType;
                                     dmf       : Tdmf;
                                     _LookupKey: TChamp): TChamp;
 var
@@ -447,7 +449,7 @@ end;
 
 function TChamps.Ajoute_Lookup( Memory               : Pointer;
                                 Field                : String;
-                                _FieldType           : TFieldType;
+                                _FieldType           : TjsDataType;
                                 _LookupKey           : TChamp;
                                 _OnGetLookupListItems: TOnGetLookupListItems;
                                 _Valeur_courante     : String): TChamp;
@@ -475,27 +477,27 @@ end;
 
 function TChamps.String_from_String   (var Memory:String   ;Field:String;Persistant:Boolean): TChamp;
 begin
-     Result:= Ajoute( @Memory, Field, ftString, Persistant, jsdc.String_from_( Field, Memory));
+     Result:= Ajoute( @Memory, Field, jsdt_String, Persistant, jsdc.String_from_( Field, Memory));
 end;
 
 function TChamps.String_from_Memo     (var Memory:String   ;Field:String;Persistant:Boolean): TChamp;
 begin
-     Result:= Ajoute( @Memory, Field, ftMemo, Persistant, jsdc.String_from_( Field, Memory));
+     Result:= Ajoute( @Memory, Field, jsdt_String{ftMemo}, Persistant, jsdc.String_from_( Field, Memory));
 end;
 
 function TChamps.String_from_Blob(var Memory: String; Field: String; Persistant: Boolean): TChamp;
 begin
-     Result:= Ajoute( @Memory, Field, ftBlob, Persistant, jsdc.String_from_( Field, Memory));
+     Result:= Ajoute( @Memory, Field, jsdt_String{ftBlob}, Persistant, jsdc.String_from_( Field, Memory));
 end;
 
 function TChamps.String_from_( var Memory: String; Field: String; Persistant: Boolean): TChamp;
 var
    jsdcc: TjsDataContexte_Champ;
-   FieldType: TFieldType;
+   jsDataType: TjsDataType;
 begin
      jsdcc:= jsdc.String_from_( Field, Memory);
-     FieldType:= jsdcc.Info.FieldType;
-     Result:= Ajoute( @Memory, Field, FieldType, Persistant, jsdcc);
+     jsDataType:= jsdcc.Info.jsDataType;
+     Result:= Ajoute( @Memory, Field, jsDataType, Persistant, jsdcc);
 end;
 
 function TChamps.Integer_from_Integer (var Memory:Integer  ;Field:String;Persistant:Boolean): TChamp;
@@ -505,7 +507,7 @@ end;
 
 function TChamps.Integer_from_SmallInt(var Memory:Integer  ;Field:String;Persistant:Boolean): TChamp;
 begin
-     Result:= Ajoute( @Memory, Field, ftSmallint, Persistant, jsdc.Integer_from_( Field, Memory));
+     Result:= Ajoute( @Memory, Field, jsdt_Integer{ftSmallint}, Persistant, jsdc.Integer_from_( Field, Memory));
 end;
 
 function TChamps.Integer_from_String( var Memory: Integer; Field: String; Persistant: Boolean): TChamp;
@@ -520,7 +522,7 @@ end;
 
 function TChamps.Integer_from_( var Memory: Integer; Field: String; Persistant: Boolean): TChamp;
 begin
-     Result:= Ajoute( @Memory, Field, ftInteger, Persistant, jsdc.Integer_from_( Field, Memory));
+     Result:= Ajoute( @Memory, Field, jsdt_Integer, Persistant, jsdc.Integer_from_( Field, Memory));
 end;
 
 function TChamps.Integer_from_Double( var Memory: Integer; Field: String; Persistant: Boolean): TChamp;
@@ -530,87 +532,97 @@ end;
 
 function TChamps.DateTime_from_Date   (var Memory:TDateTime;Field:String;Persistant:Boolean): TChamp;
 begin
-     Result:= Ajoute( @Memory, Field, ftDate, Persistant, jsdc.DateTime_from_( Field, Memory));
+     Result:= Ajoute( @Memory, Field, jsdt_Date, Persistant, jsdc.DateTime_from_( Field, Memory));
 end;
 
 function TChamps.DateTime_from_       (var Memory:TDateTime;Field:String;Persistant:Boolean): TChamp;
 var
    jsdcc: TjsDataContexte_Champ;
-   FieldType: TFieldType;
+   jsDataType: TjsDataType;
 begin
      jsdcc:= jsdc.DateTime_from_( Field, Memory);
-     FieldType:= jsdcc.Info.FieldType;
-     Result:= Ajoute( @Memory, Field, FieldType, Persistant, jsdcc);
+     jsDataType:= jsdcc.Info.jsDataType;
+     Result:= Ajoute( @Memory, Field, jsDataType, Persistant, jsdcc);
+end;
+
+function TChamps.JSON_from_String(var Memory: TJSONData; Field: String; Persistant: Boolean): TChamp;
+begin
+     Result:= Ajoute( @Memory, Field, jsdt_JSON, Persistant, jsdc.JSON_from_( Field, Memory));
 end;
 
 function TChamps.Double_from_         (var Memory:Double   ;Field:String;Persistant:Boolean): TChamp;
 begin
-     Result:= Ajoute( @Memory, Field, ftFloat, Persistant, jsdc.Double_from_( Field, Memory));
+     Result:= Ajoute( @Memory, Field, jsdt_Double, Persistant, jsdc.Double_from_( Field, Memory));
 end;
 
 function TChamps.Currency_from_BCD( var Memory:Currency ;Field:String;Persistant:Boolean): TChamp;
 begin
-     Result:= Ajoute( @Memory, Field, ftBCD, Persistant, jsdc.Currency_from_( Field, Memory));
+     Result:= Ajoute( @Memory, Field, jsdt_Currency{ftBCD}, Persistant, jsdc.Currency_from_( Field, Memory));
 end;
 
 function TChamps.Currency_from_( var Memory: Currency; Field: String; Persistant: Boolean): TChamp;
 begin
-     Result:= Ajoute( @Memory, Field, ftCurrency, Persistant, jsdc.Currency_from_( Field, Memory));
+     Result:= Ajoute( @Memory, Field, jsdt_Currency, Persistant, jsdc.Currency_from_( Field, Memory));
 end;
 
 function TChamps.Boolean_from_( var Memory: Boolean; Field: String; Persistant: Boolean): TChamp;
 begin
-     Result:= Ajoute( @Memory, Field, ftBoolean, Persistant, jsdc.Boolean_from_( Field, Memory));
+     Result:= Ajoute( @Memory, Field, jsdt_Boolean, Persistant, jsdc.Boolean_from_( Field, Memory));
 end;
 
 function TChamps.Ajoute_ShortString(var Memory: ShortString; Field: String; Persistant: Boolean): TChamp;
 begin
-     Result:= Ajoute( @Memory, Field, ftFixedChar, Persistant, nil);
+     Result:= Ajoute( @Memory, Field, jsdt_ShortString{ftFixedChar}, Persistant, nil);
 end;
 
 function TChamps.Ajoute_String(var Memory: String; Field: String; Persistant: Boolean): TChamp;
 begin
-     Result:= Ajoute( @Memory, Field, ftString, Persistant, nil);
+     Result:= Ajoute( @Memory, Field, jsdt_String, Persistant, nil);
 end;
 
 function TChamps.Ajoute_Integer(var Memory: Integer; Field: String; Persistant: Boolean): TChamp;
 begin
-     Result:= Ajoute( @Memory, Field, ftInteger, Persistant, nil);
+     Result:= Ajoute( @Memory, Field, jsdt_Integer, Persistant, nil);
 end;
 
 function TChamps.Ajoute_SmallInt(var Memory: Integer; Field: String; Persistant: Boolean): TChamp;
 begin
-     Result:= Ajoute( @Memory, Field, ftSmallInt, Persistant, nil);
+     Result:= Ajoute( @Memory, Field, jsdt_Integer{ftSmallInt}, Persistant, nil);
 end;
 
 function TChamps.Ajoute_DateTime(var Memory: TDatetime; Field: String; Persistant: Boolean): TChamp;
 begin
-     Result:= Ajoute( @Memory, Field, ftDateTime, Persistant, nil);
+     Result:= Ajoute( @Memory, Field, jsdt_DateTime, Persistant, nil);
 end;
 
 function TChamps.Ajoute_Date(var Memory: TDatetime; Field: String; Persistant: Boolean): TChamp;
 begin
-     Result:= Ajoute( @Memory, Field, ftDate, Persistant, nil);
+     Result:= Ajoute( @Memory, Field, jsdt_Date, Persistant, nil);
 end;
 
 function TChamps.Ajoute_BCD(var Memory: Currency; Field: String; Persistant: Boolean): TChamp;
 begin
-     Result:= Ajoute( @Memory, Field, ftBCD, Persistant, nil);
+     Result:= Ajoute( @Memory, Field, jsdt_Currency{ftBCD}, Persistant, nil);
 end;
 
 function TChamps.Ajoute_Float(var Memory: Double; Field: String; Persistant: Boolean): TChamp;
 begin
-     Result:= Ajoute( @Memory, Field, ftFloat, Persistant, nil);
+     Result:= Ajoute( @Memory, Field, jsdt_Double{ftFloat}, Persistant, nil);
 end;
 
 function TChamps.Ajoute_Currency( var Memory: Currency; Field: String; Persistant: Boolean): TChamp;
 begin
-     Result:= Ajoute( @Memory, Field, ftCurrency, Persistant, nil);
+     Result:= Ajoute( @Memory, Field, jsdt_Currency, Persistant, nil);
 end;
 
 function TChamps.Ajoute_Boolean(var Memory: Boolean; Field: String; Persistant: Boolean): TChamp;
 begin
-     Result:= Ajoute( @Memory, Field, ftBoolean, Persistant, nil);
+     Result:= Ajoute( @Memory, Field, jsdt_Boolean, Persistant, nil);
+end;
+
+function TChamps.Ajoute_JSON(var Memory: TJSONData; Field: String; Persistant: Boolean): TChamp;
+begin
+     Result:= Ajoute( @Memory, Field, jsdt_JSON, Persistant, nil);
 end;
 
 procedure TChamps.To_Params_Update( Params: TParams);
@@ -657,6 +669,7 @@ begin
                    jsdt_Double     : AsFloat   := PDouble     ( Valeur)^;
                    jsdt_Boolean    : AsBoolean := PtrBoolean  ( Valeur)^;
                    jsdt_ShortString: AsString  := PShortString( Valeur)^;
+                   jsdt_JSON       : AsString  := PtrTJSONData( Valeur)^.AsString;
                    jsdt_Unknown    : begin end;
                    else              begin end;
                    end;
@@ -706,6 +719,7 @@ begin
                    jsdt_Double     : AsFloat   := PDouble     ( Valeur)^;
                    jsdt_Boolean    : AsBoolean := PtrBoolean  ( Valeur)^;
                    jsdt_ShortString: AsString  := PShortString( Valeur)^;
+                   jsdt_JSON       : AsString  := PtrTJSONData( Valeur)^.AsString;
                    jsdt_Unknown    : begin end;
                    else              begin end;
                    end;
@@ -808,7 +822,7 @@ function TChamps.String_Lookup( var Memory: String;
                                 _OnGetLookupListItems: TOnGetLookupListItems;
                                 _Valeur_courante: String): TChamp;
 begin
-     Result:= Ajoute_Lookup( @Memory, Field, ftString, _LookupKey,
+     Result:= Ajoute_Lookup( @Memory, Field, jsdt_String, _LookupKey,
                              _OnGetLookupListItems, _Valeur_courante);
 end;
 
@@ -933,11 +947,17 @@ begin
        then
            Result:= Result + ',';
        //Result:= Result + #13#10;
-       {$IFDEF FPC}
-       Result:= Result + Format( '"%s":"%s"',[NomChamp, StringToJSONString(C.Chaine)]);
-       {$ELSE}
-       Result:= Result + Format( '"%s":"%s"',[NomChamp, C.Chaine]);
-       {$ENDIF}
+       if jsdt_JSON = c.Definition.Info.jsDataType
+       then
+           Result:= Result + Format( '"%s":"%s"',[NomChamp, PtrTJSONData(c.Valeur)^.AsString])
+       else
+           begin
+           {$IFDEF FPC}
+           Result:= Result + Format( '"%s":"%s"',[NomChamp, StringToJSONString(C.Chaine)]);
+           {$ELSE}
+           Result:= Result + Format( '"%s":"%s"',[NomChamp, C.Chaine]);
+           {$ENDIF}
+           end;
        Inc( IJSON);
        end;
      //Result:= Result + #13#10;
@@ -1145,7 +1165,7 @@ begin
          Result:= C.Chaine;
 end;
 
-procedure TChamps.SetValeur_from_Field( _Field, _Value: String);
+procedure TChamps.SetValeur_from_Field(_Field: String; _Value: String);
 var
    C: TChamp;
 begin

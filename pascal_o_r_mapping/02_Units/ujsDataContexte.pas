@@ -16,7 +16,7 @@ uses
     uDataUtilsF,
     uSGBD,
     uLog,
- Classes, SysUtils, db, sqldb, strutils, DateUtils;
+ Classes, SysUtils, db, sqldb, strutils, DateUtils,fpjson;
 
 type
 
@@ -119,9 +119,21 @@ type
   TjsDataConnexion_Class= class of TjsDataConnexion;
 
   PtrBoolean= ^Boolean;
+  PtrTJSONData= ^TJSONData;
   TjsDataType // when modified update jsDataType_from_FieldType
   =
-   ( jsdt_String, jsdt_Date, jsdt_DateTime, jsdt_Integer, jsdt_Currency, jsdt_Double, jsdt_Boolean, jsdt_ShortString, jsdt_Unknown);
+   (
+   jsdt_String     ,
+   jsdt_Date       ,
+   jsdt_DateTime   ,
+   jsdt_Integer    ,
+   jsdt_Currency   ,
+   jsdt_Double     ,
+   jsdt_Boolean    ,
+   jsdt_ShortString,
+   jsdt_JSON       ,
+   jsdt_Unknown
+   );
 
   { TjsDataContexte_Champ_Info }
 
@@ -166,6 +178,7 @@ type
      function asCurrency: Currency ; virtual;
      function asDouble  : double   ; virtual;
      function asBoolean : Boolean  ; virtual;
+     function asJSON    : TJSONData; virtual;
      procedure Charge( _jsDataType: TjsDataType; _Valeur: Pointer);
    end;
 
@@ -193,6 +206,7 @@ type
      function asCurrency: Currency ; override;
      function asDouble  : double   ; override;
      function asBoolean : Boolean  ; override;
+     function asJSON    : TJSONData; override;
    end;
 
   TIterateur_jsDataContexte_Champ
@@ -268,6 +282,7 @@ type
      function Currency_from_( _Champ_Nom: String; var Memory: Currency ): TjsDataContexte_Champ;
      function   Double_from_( _Champ_Nom: String; var Memory: Double   ): TjsDataContexte_Champ;
      function  Boolean_from_( _Champ_Nom: String; var Memory: Boolean  ): TjsDataContexte_Champ;
+     function     JSON_from_( _Champ_Nom: String; var Memory: TJSONData): TjsDataContexte_Champ;
      procedure Charge( _Champ_Nom: String; _jsDataType: TjsDataType; _Valeur: Pointer);
    //Champ id
    protected
@@ -509,6 +524,8 @@ function jsDataContexte_Dataset_Null: TjsDataContexte_Dataset_Null;
 
 function jsDataType_from_FieldType( _ft: TFieldType):TjsDataType;
 
+function FieldType_from_jsDataType( _jsdt: TjsDataType): TFieldType;
+
 implementation
 
 (*
@@ -573,6 +590,22 @@ begin
        end;
 end;
 
+function FieldType_from_jsDataType( _jsdt: TjsDataType): TFieldType;
+begin
+     case _jsdt
+     of
+       jsdt_String     : Result:= ftString   ;
+       jsdt_Date       : Result:= ftDate     ;
+       jsdt_DateTime   : Result:= ftDateTime ;
+       jsdt_Integer    : Result:= ftInteger  ;
+       jsdt_Currency   : Result:= ftCurrency ;
+       jsdt_Double     : Result:= ftFloat    ;
+       jsdt_Boolean    : Result:= ftBoolean  ;
+       jsdt_ShortString: Result:= ftFixedChar;
+       jsdt_JSON       : Result:= ftString   ;
+       else              Result:= ftUnknown  ;
+       end;
+end;
 { TjsDataConnexion_SQLQuery }
 
 constructor TjsDataConnexion_SQLQuery.Create( _SGBD: TSGBD);
@@ -1078,6 +1111,13 @@ begin
      Info.FieldType_Default( ftBoolean);
 end;
 
+function TjsDataContexte_Champ.asJSON: TJSONData;
+begin
+     Result:= GetJSON('');
+     Info.jsDataType:= jsdt_JSON;
+     Info.FieldType_Default( ftString);
+end;
+
 procedure TjsDataContexte_Champ.Charge( _jsDataType: TjsDataType; _Valeur: Pointer);
 begin
      case _jsDataType
@@ -1090,6 +1130,7 @@ begin
        jsdt_Currency   : PCurrency   ( _Valeur)^:= asCurrency;
        jsdt_Double     : PDouble     ( _Valeur)^:= asDouble  ;
        jsdt_Boolean    : PtrBoolean  ( _Valeur)^:= asBoolean ;
+       jsdt_JSON       : PtrTJSONData( _Valeur)^:= asJSON    ;
        jsdt_Unknown    : begin end;
        end;
 end;
@@ -1352,6 +1393,43 @@ begin
            end;
 end;
 
+function TjsDataContexte_Champ_Dataset.asJSON: TJSONData;
+var
+   sf: TStringField;
+   mf: TMemoField;
+   bf: TBlobField;
+   s: String;
+   procedure Traite_Memo;
+   begin
+        if mf.IsNull
+        then
+            s:= ''
+        else
+            s:= mf.Value;
+   end;
+   procedure Traite_Blob;
+   begin
+        try
+           if bf.IsNull
+           then
+               s:= ''
+           else
+               s:= bf.Value;
+        except
+              on E: Exception do s:= '';
+              end;
+   end;
+begin
+     Result:=inherited asJSON;
+     if nil = F then exit;
+
+          if Affecte( sf, TStringField, F) then s:= TrimRight( sf.Value)
+     else if Affecte( mf, TMemoField  , F) then Traite_Memo
+     else if Affecte( bf, TBlobField  , F) then Traite_Blob;
+
+     Result:= GetJSON( s);
+end;
+
 { TIterateur_jsDataContexte_Champ }
 
 function TIterateur_jsDataContexte_Champ.not_Suivant( out _Resultat: TjsDataContexte_Champ): Boolean;
@@ -1517,6 +1595,12 @@ function TjsDataContexte.Boolean_from_( _Champ_Nom: String; var Memory: Boolean)
 begin
      Result:= Assure_Champ( _Champ_Nom);
      Memory:= Result.asBoolean;
+end;
+
+function TjsDataContexte.JSON_from_(_Champ_Nom: String; var Memory: TJSONData): TjsDataContexte_Champ;
+begin
+     Result:= Assure_Champ( _Champ_Nom);
+     Memory:= Result.asJSON;
 end;
 
 procedure TjsDataContexte.Charge( _Champ_Nom: String; _jsDataType: TjsDataType; _Valeur: Pointer);

@@ -62,7 +62,7 @@ type
   class
   public
     Nom       : String;
-    Typ       : TFieldType;
+    Typ       : TjsDataType;
     Persistant: Boolean;
     Info: TjsDataContexte_Champ_Info;
     property Visible   : Boolean read Info.Visible  write Info.Visible ;
@@ -70,7 +70,7 @@ type
     property Longueur  : Integer read Info.Longueur write Info.Longueur;
     constructor Create(
                         _Nom       : String;
-                        _Typ       : TFieldType;
+                        _Typ       : TjsDataType;
                         _Persistant: Boolean;
                         _jsdcc: TjsDataContexte_Champ
                        );
@@ -84,7 +84,7 @@ type
   public
     LookupKey: TChampDefinition;
     constructor Create_Lookup( _Nom       : String;
-                               _Typ       : TFieldType;
+                               _Typ       : TjsDataType;
                                _LookupKey: TChampDefinition
                                );
     function Is_Lookup: Boolean;
@@ -215,7 +215,7 @@ end;
 { TChampDefinition }
 
 constructor TChampDefinition.Create( _Nom       : String;
-                                     _Typ       : TFieldType;
+                                     _Typ       : TjsDataType;
                                      _Persistant: Boolean;
                                      _jsdcc: TjsDataContexte_Champ
                                      );
@@ -230,8 +230,7 @@ begin
          Info.Libelle := Nom;
          Info.Longueur:= Length(Nom);
          Info.FieldType:= ftUnknown;
-         //Info.jsDataType:= jsdt_Unknown;
-         Info.jsDataType:= jsDataType_from_FieldType( _Typ);
+         Info.jsDataType:= _Typ;
          end
      else
          Info:= _jsdcc.Info;
@@ -250,7 +249,7 @@ begin
 end;
 
 constructor TChampDefinition.Create_Lookup( _Nom:String;
-                                            _Typ: TFieldType;
+                                            _Typ: TjsDataType;
                                             _LookupKey: TChampDefinition);
 begin
      Create( _Nom, _Typ, False, nil);
@@ -289,21 +288,24 @@ begin
      then
          case Typ
          of
-           ftFixedChar,
-           ftString   ,
-           ftMemo     ,
-           ftGuid     ,
-           ftBlob     : FsType:= 'String';
-           ftDate     : FsType:= 'TDateTime';
-           ftAutoInc  ,
-           ftInteger  ,
-           ftSmallint : FsType:= 'Integer';
-           ftBCD      : FsType:= 'FLOAT';
-           ftDateTime ,
-           ftTimeStamp: FsType:= 'TDateTime';
-           ftFloat    : FsType:= 'FLOAT';
-           ftCurrency : FsType:= 'Currency';
-           ftBoolean  : FsType:= 'Boolean';
+           jsdt_ShortString,
+           jsdt_String     //,
+           //ftMemo        ,
+           //ftGuid        ,
+           //ftBlob
+                         : FsType:= 'String';
+           jsdt_Date     : FsType:= 'TDateTime';
+           //ftAutoInc  ,
+           jsdt_Integer  //,
+           (*jsdt_Smallint *): FsType:= 'Integer';
+           //jsdt_Currency : FsType:= 'FLOAT';//ftBCD
+           jsdt_DateTime// ,
+           //ftTimeStamp
+                         : FsType:= 'TDateTime';
+           jsdt_Double(*ftFloat*): FsType:= 'FLOAT';
+           jsdt_Currency : FsType:= 'Currency';
+           jsdt_Boolean  : FsType:= 'Boolean';
+           jsdt_JSON     : FsType:= 'TJSONData';
            end;
      Result:= FsType;
 end;

@@ -62,6 +62,8 @@ type
        procedure Set_attachment;
      //Exécution
      public
+       sResult: String;
+       jdResult: TJSONData;
        function Execute: String;
      end;
 
@@ -254,7 +256,9 @@ begin
         ss:= TStringStream.Create( '');
         try
            hc.HTTPMethod( Verb, URL, ss, []);
-           Result:= ss.DataString;
+           sResult:= ss.DataString;
+           jdResult:= GetJSON( sResult);
+           Result:= sResult;
         except
               on E: Exception
               do

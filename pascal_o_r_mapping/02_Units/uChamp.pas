@@ -43,7 +43,7 @@ uses
   Windows,
   Grids,
   {$ENDIF}
-  SysUtils, Classes,DB;
+  SysUtils, Classes,DB,fpjson;
 
 type
  TOnGetLookupListItems= procedure ( _Current_Key: String;
@@ -467,6 +467,7 @@ begin
        jsdt_Double     : Result:= Definition.Format_Float( PDouble  ( Valeur)^);
        jsdt_Boolean    : Result:=     BoolToStr( PtrBoolean( Valeur)^);
        jsdt_ShortString: Result:= PShortString( Valeur)^;
+       jsdt_JSON       : Result:= PtrTJSONData( Valeur)^.AsString;
        jsdt_Unknown    : Result:= sys_Vide;
        else              Result:= sys_Vide;
        end;
@@ -579,6 +580,7 @@ begin
            jsdt_Double     : TraiteDouble;
            jsdt_Boolean    : TryStrToBool( Value, PtrBoolean( Valeur)^);
            jsdt_ShortString: PShortString( Valeur)^:= Value;
+           jsdt_JSON       : PtrTJSONData( Valeur)^:= GetJSON( Value);
            jsdt_Unknown    : begin end;
            end;
 
@@ -726,6 +728,17 @@ begin
 end;
 
 function TChamp.GetasDatetime: TDatetime;
+   procedure Traite_JSON;
+
+   begin
+        case PtrTJSONData( Valeur)^.JSONType
+        of
+          //(jtUnknown, jtNumber, jtString, jtBoolean, jtNull, jtArray, jtObject)
+          jtNumber: Result:= PtrTJSONData( Valeur)^.AsFloat;
+          jtString: Result:= StrToDateTime( PtrTJSONData( Valeur)^.AsString);//à surveiller
+          else Result:= 0;
+          end;
+   end;
 begin
      case Definition.Info.jsDataType
      of
@@ -737,12 +750,23 @@ begin
        jsdt_Double     : Result:= PDouble  ( Valeur)^;
        jsdt_Boolean    : Result:= Integer  ( PtrBoolean ( Valeur)^);//peu utile
        jsdt_ShortString: Result:= StrToDateTime( PShortString  ( Valeur)^);
+       jsdt_JSON       : Traite_JSON;
        jsdt_Unknown    : Result:= 0;
        else              Result:= 0;
        end;
 end;
 
 procedure TChamp.SetasDatetime(const Value: TDatetime);
+   procedure Traite_JSON;
+
+   begin
+        case PtrTJSONData( Valeur)^.JSONType
+        of
+          //(jtUnknown, jtNumber, jtString, jtBoolean, jtNull, jtArray, jtObject)
+          jtNumber: PtrTJSONData( Valeur)^.AsFloat := Value;
+          jtString: PtrTJSONData( Valeur)^.AsString:= DateTimeToStr( Value);//à surveiller
+          end;
+   end;
 begin
      if not ReadOnly
      then
@@ -756,6 +780,7 @@ begin
            jsdt_Double     : PDouble  ( Valeur)^:= Value;
            jsdt_Boolean    : PtrBoolean ( Valeur)^:= Boolean( Trunc(Value));//peu utile
            jsdt_ShortString: PShortString( Valeur)^:= DateTimeToStr( Value);
+           jsdt_JSON       : Traite_JSON;
            jsdt_Unknown    : begin end;
            else              begin end;
            end;
@@ -764,6 +789,17 @@ begin
 end;
 
 function TChamp.GetasDouble: Double;
+   procedure Traite_JSON;
+
+   begin
+        case PtrTJSONData( Valeur)^.JSONType
+        of
+          //(jtUnknown, jtNumber, jtString, jtBoolean, jtNull, jtArray, jtObject)
+          jtNumber: Result:= PtrTJSONData( Valeur)^.AsFloat;
+          jtString: Result:= StrToFloat( PtrTJSONData( Valeur)^.AsString);//à surveiller
+          else Result:= 0;
+          end;
+   end;
 begin
      case Definition.Info.jsDataType
      of
@@ -775,6 +811,7 @@ begin
        jsdt_Double     : Result:= PDouble  ( Valeur)^;
        jsdt_Boolean    : Result:= Integer  ( PtrBoolean ( Valeur)^);//peu utile
        jsdt_ShortString: Result:= StrToFloat( PShortString  ( Valeur)^);
+       jsdt_JSON       : Traite_JSON;
        jsdt_Unknown    : Result:= 0;
        else              Result:= 0;
        end;
@@ -794,6 +831,7 @@ begin
            jsdt_Double     : PDouble  ( Valeur)^:= Value;
            jsdt_Boolean    : PtrBoolean ( Valeur)^:= Boolean( Trunc(Value));//peu utile
            jsdt_ShortString: PShortString( Valeur)^:= FloatToStr( Value);
+           jsdt_JSON       : PtrTJSONData( Valeur)^.AsFloat:= Value;
            jsdt_Unknown    : begin end;
            else              begin end;
            end;
@@ -801,6 +839,18 @@ begin
 end;
 
 function TChamp.GetasBoolean: Boolean;
+   procedure Traite_JSON;
+
+   begin
+        case PtrTJSONData( Valeur)^.JSONType
+        of
+          //(jtUnknown, jtNumber, jtString, jtBoolean, jtNull, jtArray, jtObject)
+          jtNumber : Result:= Boolean( Trunc( PtrTJSONData( Valeur)^.AsFloat));
+          jtString : Result:= StrToBool( PtrTJSONData( Valeur)^.AsString);//à surveiller
+          jtBoolean: Result:= PtrTJSONData( Valeur)^.AsBoolean;
+          else       Result:= False;
+          end;
+   end;
 begin
      case Definition.Info.jsDataType
      of
@@ -812,6 +862,7 @@ begin
        jsdt_Double     : Result:= Boolean( Trunc( PDouble  ( Valeur)^));
        jsdt_Boolean    : Result:= PtrBoolean ( Valeur)^;
        jsdt_ShortString: Result:= StrToBool( PShortString  ( Valeur)^);
+       jsdt_JSON       : Traite_JSON;
        jsdt_Unknown    : Result:= False;
        else              Result:= False;
        end;
@@ -831,6 +882,7 @@ begin
            jsdt_Double     : PDouble  ( Valeur)^:= Integer( Value);
            jsdt_Boolean    : PtrBoolean( Valeur)^:= Value;
            jsdt_ShortString: PShortString( Valeur)^:= BoolToStr( Value);
+           jsdt_JSON       : PtrTJSONData( Valeur)^.AsBoolean:= Value;
            jsdt_Unknown    : begin end;
            else              begin end;
            end;
@@ -838,6 +890,17 @@ begin
 end;
 
 function TChamp.GetasInteger: Integer;
+   procedure Traite_JSON;
+
+   begin
+        case PtrTJSONData( Valeur)^.JSONType
+        of
+          //(jtUnknown, jtNumber, jtString, jtBoolean, jtNull, jtArray, jtObject)
+          jtNumber : Result:= PtrTJSONData( Valeur)^.AsInteger;
+          jtString : Result:= StrToInt( PtrTJSONData( Valeur)^.AsString);//à surveiller
+          else Result:= 0;
+          end;
+   end;
 begin
      case Definition.Info.jsDataType
      of
@@ -849,6 +912,7 @@ begin
        jsdt_Double     : Result:= Trunc( PDouble  ( Valeur)^);
        jsdt_Boolean    : Result:= Integer( PtrBoolean( Valeur)^);
        jsdt_ShortString: Result:= StrToInt( PShortString  ( Valeur)^);
+       jsdt_JSON       : Traite_JSON;
        jsdt_Unknown    : Result:= 0;
        else              Result:= 0;
        end;
@@ -868,6 +932,7 @@ begin
            jsdt_Double     : PDouble  ( Valeur)^:= Value;
            jsdt_Boolean    : PtrBoolean(Valeur)^:= Boolean( Value);
            jsdt_ShortString: PShortString  ( Valeur)^:= IntToStr( Value);
+           jsdt_JSON       : PtrTJSONData( Valeur)^.AsInteger:= Value;
            jsdt_Unknown    : begin end;
            else              begin end;
            end;
@@ -888,6 +953,17 @@ procedure TChamp.Serialise(S: TStream);
          if Longueur = 0 then exit;
          S.Write( PString( Valeur)^[1], Longueur);
     end;
+    procedure Traite_JSON;
+    var
+       sValeur: String;
+       Longueur: Cardinal;
+    begin
+         sValeur:= PtrTJSONData( Valeur)^.AsString;
+         Longueur:= Length( sValeur);
+         S.Write( Longueur, SizeOf(Longueur));
+         if Longueur = 0 then exit;
+         S.Write( sValeur[1], Longueur);
+    end;
 begin
      case Definition.Info.jsDataType
      of
@@ -899,6 +975,7 @@ begin
        jsdt_Double     : S.Write( Valeur, SizeOf( Double   ));
        jsdt_Boolean    : S.Write( Valeur, SizeOf( Boolean  ));
        jsdt_ShortString: Traite_ShortString;
+       jsdt_JSON       : Traite_JSON;
        jsdt_Unknown    : begin end;
        else              begin end;
        end;
@@ -922,6 +999,18 @@ procedure TChamp.DeSerialise(S: TStream);
          if Longueur = 0 then exit;
          S.Read( PString( Valeur)^[1], Longueur);
     end;
+    procedure Traite_JSON;
+    var
+       sValeur: String;
+       Longueur: Cardinal;
+    begin
+         S.Read( Longueur, SizeOf(Longueur));
+         SetLength( sValeur, Longueur);
+         if Longueur = 0 then exit;
+         S.Read( sValeur[1], Longueur);
+
+         PtrTJSONData( Valeur)^.AsString:= sValeur;
+    end;
 begin
      case Definition.Info.jsDataType
      of
@@ -933,6 +1022,7 @@ begin
        jsdt_Double     : S.Read( Valeur, SizeOf( Double   ));
        jsdt_Boolean    : S.Read( Valeur, SizeOf( Boolean  ));
        jsdt_ShortString: Traite_ShortString;
+       jsdt_JSON       : Traite_JSON;
        jsdt_Unknown    : begin end;
        else              begin end;
        end;
@@ -961,6 +1051,16 @@ end;
 {$IFEND}
 
 procedure TChamp.Applique_MinValue;
+    procedure Traite_JSON;
+
+    begin
+         case PtrTJSONData( Valeur)^.JSONType
+         of
+           //(jtUnknown, jtNumber, jtString, jtBoolean, jtNull, jtArray, jtObject)
+           jtNumber : if PtrTJSONData( Valeur)^.AsFloat < Definition.MinValue then PtrTJSONData( Valeur)^.AsFloat:= Definition.MinValue ;
+           else begin end;
+           end;
+    end;
 begin
      if not Definition.HasMinValue then exit;
 
@@ -974,6 +1074,7 @@ begin
        jsdt_Double     : if PDouble  ( Valeur)^ < Definition.MinValue then PDouble  ( Valeur)^:=       Definition.MinValue ;
        jsdt_Boolean    : begin end;
        jsdt_ShortString: begin end;
+       jsdt_JSON       : Traite_JSON;
        jsdt_Unknown    : begin end;
        else              begin end;
        end;
