@@ -1,0 +1,14 @@
+date-time=TJSON_Data
+object=TJSON_Data
+ARRAY OF STRING=  String
+STRING=  String
+SMALLINT= Integer
+INTEGER= Integer
+DATE=TDateTime
+TDATETIME=TDateTime
+CURRENCY=Currency
+DOUBLE=  Double
+FLOAT=  Double
+BOOLEAN= Boolean
+LONGBLOB=  String
+

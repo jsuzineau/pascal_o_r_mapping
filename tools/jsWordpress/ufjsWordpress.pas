@@ -579,4 +579,4 @@ begin
 end;
 
 end.
-
+Membre.Mapped_Type_Django

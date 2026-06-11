@@ -72,9 +72,7 @@ uses
     ujpPascal_Champ_EditDFM,
     ujpPascal_Champ_EditPAS,
     ujpPascal_Affecte,
-    ujpPascal_declaration_champs,
     ujpPascal_sCle_from__Declaration,
-    ujpPascal_creation_champs,
     ujpPascal_sCle_from__Implementation,
     ujpPascal_sCle_Implementation_Body,
     ujpPascal_Declaration_cle,
@@ -775,9 +773,7 @@ begin
                 jpPascal_Champ_EditDFM,
                 jpPascal_Champ_EditPAS,
                 jpPascal_Affecte      ,
-                jpPascal_declaration_champs,
                 jpPascal_sCle_from__Declaration,
-                jpPascal_creation_champs,
                 jpPascal_sCle_from__Implementation,
                 jpPascal_sCle_Implementation_Body,
                 jpPascal_Declaration_cle,
@@ -2369,7 +2365,7 @@ begin
         S:= '';
         Premiere_Classe:= True;
 
-        //Execute_OpenAPI_Schemas( _OpenAPI);
+        Execute_OpenAPI_Schemas( _OpenAPI);
         Execute_OpenAPI_Paths  ( _OpenAPI);
         Application_Produit;
         slLog.Add( S);

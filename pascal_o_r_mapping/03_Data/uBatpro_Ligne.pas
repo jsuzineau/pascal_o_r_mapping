@@ -135,6 +135,7 @@ type
     function   Double_from_        (var Memory:   Double;Field:String;Persistant:Boolean=True; _Appartient_a_sCle: Boolean= False): TChamp;
     function DateTime_from_Date    (var Memory:TDateTime;Field:String;Persistant:Boolean=True; _Appartient_a_sCle: Boolean= False): TChamp;
     function DateTime_from_        (var Memory:TDateTime;Field:String;Persistant:Boolean=True; _Appartient_a_sCle: Boolean= False): TChamp;
+    function     JSON_from_String  (var Memory:TJSONData;Field:String;Persistant:Boolean=True; _Appartient_a_sCle: Boolean= False): TChamp;
     function Ajoute_ShortString    (var Memory:ShortString;Field:String;Persistant:Boolean=True; _Appartient_a_sCle: Boolean= False): TChamp;
     function Ajoute_String         (var Memory:     String;Field:String;Persistant:Boolean=True; _Appartient_a_sCle: Boolean= False): TChamp;
     function Ajoute_Integer        (var Memory:    Integer;Field:String;Persistant:Boolean=True; _Appartient_a_sCle: Boolean= False): TChamp;
@@ -144,6 +145,7 @@ type
     function Ajoute_BCD            (var Memory:  Currency ;Field:String;Persistant:Boolean=True; _Appartient_a_sCle: Boolean= False): TChamp;
     function Ajoute_Float          (var Memory:  Double   ;Field:String;Persistant:Boolean=True; _Appartient_a_sCle: Boolean= False): TChamp;
     function Ajoute_Boolean        (var Memory:  Boolean  ;Field:String;Persistant:Boolean=True; _Appartient_a_sCle: Boolean= False): TChamp;
+    function Ajoute_JSON           (var Memory:  TJSONData;Field:String;Persistant:Boolean=True; _Appartient_a_sCle: Boolean= False): TChamp;
   //Aggrégation (terme peut-être incorrect) de champ
   //on fait apparaître comme champ de cet objet le champ d'un autre objet
   //==> permet dans P_PLP un filtre sur BP_SAL
@@ -601,6 +603,8 @@ function TBatpro_Ligne.Currency_from_BCD     (var Memory:   Currency;Field:Strin
 function TBatpro_Ligne.  Double_from_        (var Memory:     Double;Field:String;Persistant:Boolean=True; _Appartient_a_sCle: Boolean= False): TChamp; begin Result:= Traite_Appartient_a_sCle( Champs.  Double_from_        (Memory,Field,Persistant),_Appartient_a_sCle);end;
 function TBatpro_Ligne.DateTime_from_Date    (var Memory:  TDateTime;Field:String;Persistant:Boolean=True; _Appartient_a_sCle: Boolean= False): TChamp; begin Result:= Traite_Appartient_a_sCle( Champs.DateTime_from_Date    (Memory,Field,Persistant),_Appartient_a_sCle);end;
 function TBatpro_Ligne.DateTime_from_        (var Memory:  TDateTime;Field:String;Persistant:Boolean=True; _Appartient_a_sCle: Boolean= False): TChamp; begin Result:= Traite_Appartient_a_sCle( Champs.DateTime_from_        (Memory,Field,Persistant),_Appartient_a_sCle);end;
+function TBatpro_Ligne.    JSON_from_String  (var Memory: TJSONData ;Field:String;Persistant:Boolean=True; _Appartient_a_sCle: Boolean= False): TChamp; begin Result:= Traite_Appartient_a_sCle( Champs.    JSON_from_String  (Memory,Field,Persistant),_Appartient_a_sCle);end;
+
 function TBatpro_Ligne.Ajoute_ShortString    (var Memory:ShortString;Field:String;Persistant:Boolean=True; _Appartient_a_sCle: Boolean= False): TChamp; begin Result:= Traite_Appartient_a_sCle( Champs.Ajoute_ShortString    (Memory,Field,Persistant),_Appartient_a_sCle);end;
 function TBatpro_Ligne.Ajoute_String         (var Memory:     String;Field:String;Persistant:Boolean=True; _Appartient_a_sCle: Boolean= False): TChamp; begin Result:= Traite_Appartient_a_sCle( Champs.Ajoute_String         (Memory,Field,Persistant),_Appartient_a_sCle);end;
 function TBatpro_Ligne.Ajoute_Integer        (var Memory:    Integer;Field:String;Persistant:Boolean=True; _Appartient_a_sCle: Boolean= False): TChamp; begin Result:= Traite_Appartient_a_sCle( Champs.Ajoute_Integer        (Memory,Field,Persistant),_Appartient_a_sCle);end;
@@ -610,6 +614,7 @@ function TBatpro_Ligne.Ajoute_Date           (var Memory:  TDatetime;Field:Strin
 function TBatpro_Ligne.Ajoute_BCD            (var Memory:  Currency ;Field:String;Persistant:Boolean=True; _Appartient_a_sCle: Boolean= False): TChamp; begin Result:= Traite_Appartient_a_sCle( Champs.Ajoute_BCD            (Memory,Field,Persistant),_Appartient_a_sCle);end;
 function TBatpro_Ligne.Ajoute_Float          (var Memory:  Double   ;Field:String;Persistant:Boolean=True; _Appartient_a_sCle: Boolean= False): TChamp; begin Result:= Traite_Appartient_a_sCle( Champs.Ajoute_Float          (Memory,Field,Persistant),_Appartient_a_sCle);end;
 function TBatpro_Ligne.Ajoute_Boolean        (var Memory:  Boolean  ;Field:String;Persistant:Boolean=True; _Appartient_a_sCle: Boolean= False): TChamp; begin Result:= Traite_Appartient_a_sCle( Champs.Ajoute_Boolean        (Memory,Field,Persistant),_Appartient_a_sCle);end;
+function TBatpro_Ligne.Ajoute_JSON           (var Memory:  TJSONData;Field:String;Persistant:Boolean=True; _Appartient_a_sCle: Boolean= False): TChamp; begin Result:= Traite_Appartient_a_sCle( Champs.Ajoute_JSON           (Memory,Field,Persistant),_Appartient_a_sCle);end;
 
 procedure TBatpro_Ligne.AggregeChamp( NomChamp: String; _bl: TBatpro_Ligne; _bl_NomChamp: String= '');
 var

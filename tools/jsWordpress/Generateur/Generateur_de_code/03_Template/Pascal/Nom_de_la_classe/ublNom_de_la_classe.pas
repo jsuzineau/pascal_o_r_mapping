@@ -57,7 +57,7 @@ type
     destructor Destroy; override;
   //champs persistants
   public
-//pattern_declaration_champs
+//Pascal_declaration_champs
 //Pascal_ubl_declaration_pas_detail
   //Gestion de la clé
   public
@@ -171,7 +171,7 @@ begin
      Champs.ChampDefinitions.NomTable:= 'Nom_de_la_table';
 
      //champs persistants
-//pattern_creation_champs
+//Pascal_creation_champs
 //Pascal_ubl_constructor_pas_detail
 end;
 

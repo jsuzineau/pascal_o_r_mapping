@@ -1,0 +1,16 @@
+date-time=JSON_from_String
+object=JSON_from_String
+ARRAY OF STRING=JSON_from_String
+STRING=  String_from_String
+SMALLINT= Integer_from_Integer
+INTEGER= Integer_from_Integer
+DATE=DateTime_from_Date
+TDATETIME=DateTime_from_
+CURRENCY=Currency_from_
+DOUBLE=  Double_from_
+FLOAT=  Double_from_
+BOOLEAN= Boolean_from_
+LONGBLOB=  String_from_Blob
+
+
+
