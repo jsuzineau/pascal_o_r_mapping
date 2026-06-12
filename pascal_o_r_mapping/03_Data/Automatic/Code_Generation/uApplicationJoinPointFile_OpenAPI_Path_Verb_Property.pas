@@ -3,7 +3,7 @@ unit uApplicationJoinPointFile_OpenAPI_Path_Verb_Property;
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                          |
                                                                                 |
-    Copyright 2019 Jean SUZINEAU - MARS42                                       |
+    Copyright 2026 Jean SUZINEAU - MARS42                                       |
                                                                                 |
     This program is free software: you can redistribute it and/or modify        |
     it under the terms of the GNU Lesser General Public License as published by |
@@ -59,8 +59,7 @@ type
     Premier: Boolean;
   public
     procedure Initialise;
-    procedure VisitePath_Verb_Property(_path: TPath; _verb: TVerb;
-     _property: TVerb_Property);
+    procedure VisitePath_Verb_Property( _path: TPath; _verb: TVerb; _property: TVerb_Property);
     procedure Finalise;
     procedure To_Parametres( _sl: TStringList);
   end;

@@ -125,6 +125,7 @@ uses
     uApplicationJoinPointFile_OpenAPI_Path_Verb          ,
     uApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter,
     uApplicationJoinPointFile_OpenAPI_Path_Verb_Property ,
+    uApplicationJoinPointFile_OpenAPI_Path_Verb_Response ,
 
     SysUtils, Classes, DB, Inifiles, FileUtil, DOM,LazUTF8;
 
@@ -428,6 +429,9 @@ type
   //ApplicationJoinPointFile_OpenAPI_Path_Verb_Property
   public
     slApplicationJoinPointFile_OpenAPI_Path_Verb_Property: TslApplicationJoinPointFile_OpenAPI_Path_Verb_Property;
+  //ApplicationJoinPointFile_OpenAPI_Path_Verb_Response
+  public
+    slApplicationJoinPointFile_OpenAPI_Path_Verb_Response: TslApplicationJoinPointFile_OpenAPI_Path_Verb_Response;
   //EnumStrings
   public
     function Cree_EnumStrings( _nfEnumString: String): TEnumString;
@@ -751,6 +755,7 @@ begin
      slApplicationJoinPointFile_OpenAPI_Path_Verb          := TslApplicationJoinPointFile_OpenAPI_Path_Verb          .Create( ClassName+'.slApplicationJoinPointFile_OpenAPI_Path_Verb          ');
      slApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter:= TslApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Create( ClassName+'.slApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter');
      slApplicationJoinPointFile_OpenAPI_Path_Verb_Property := TslApplicationJoinPointFile_OpenAPI_Path_Verb_Property .Create( ClassName+'.slApplicationJoinPointFile_OpenAPI_Path_Verb_Property ');
+     slApplicationJoinPointFile_OpenAPI_Path_Verb_Response := TslApplicationJoinPointFile_OpenAPI_Path_Verb_Response .Create( ClassName+'.slApplicationJoinPointFile_OpenAPI_Path_Verb_Response ');
      slEnumStrings                          := TslEnumString                           .Create( ClassName+'.slEnumStrings'                          );
      slTypeMappings                         := TslTypeMapping                          .Create( ClassName+'.slTypeMappings'                         );
      slTemplateHandler                      := TslTemplateHandler                      .Create( ClassName+'.slTemplateHandler'                      );
@@ -838,6 +843,7 @@ begin
      FreeAndNil( slApplicationJoinPointFile_OpenAPI_Path_Verb          );
      FreeAndNil( slApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter);
      FreeAndNil( slApplicationJoinPointFile_OpenAPI_Path_Verb_Property );
+     FreeAndNil( slApplicationJoinPointFile_OpenAPI_Path_Verb_Response );
      FreeAndNil( slEnumStrings);
      FreeAndNil( slTypeMappings);
      FreeAndNil( slTemplateHandler);
@@ -868,6 +874,7 @@ begin
         sRepertoireListePaths_Verbs          :=iRead('sRepertoireListePaths_Verbs'          ,Path+'01_Listes'             +PathDelim+'Path_Verbs'          +PathDelim);
         sRepertoireListePaths_Verb_Parameters:=iRead('sRepertoireListePaths_Verb_Parameters',Path+'01_Listes'             +PathDelim+'Path_Verb_Parameters'+PathDelim);
         sRepertoireListePaths_Verb_Properties:=iRead('sRepertoireListePaths_Verb_Properties',Path+'01_Listes'             +PathDelim+'Path_Verb_Properties'+PathDelim);
+        sRepertoireListePaths_Verb_Responses :=iRead('sRepertoireListePaths_Verb_Responses' ,Path+'01_Listes'             +PathDelim+'Path_Verb_Responses' +PathDelim);
         sRepertoireListeMembres              :=iRead('sRepertoireListeMembres'              ,Path+'01_Listes'             +PathDelim+'Membres'             +PathDelim);
         sRepertoireListeEnumStrings          :=iRead('sRepertoireListeEnumStrings'          ,Path+'01_Listes'             +PathDelim+'EnumStrings'         +PathDelim);
         sRepertoireListe08_EnumStrings       :=iRead('sRepertoireListe08_EnumStrings'       ,Path+'01_Listes'             +PathDelim+'08_EnumStrings'      +PathDelim);
@@ -2261,9 +2268,27 @@ var
            slApplicationJoinPointFile_OpenAPI_Path_Verb_Property.Finalise;
            slApplicationJoinPointFile_OpenAPI_Path_Verb_Property.To_Parametres( verb.slParametres_Child);
       end;
+      procedure Traite_Responses;
+      var
+         rl: TVerb_Response_List;
+         response: TVerb_Response;
+      begin
+           slApplicationJoinPointFile_OpenAPI_Path_Verb_Response.Initialise;
+           rl:= verb.Get_Response_List;
+           try
+              for response in rl
+              do
+                slApplicationJoinPointFile_OpenAPI_Path_Verb_Response.VisitePath_Verb_Response( _path, verb, response);
+           finally
+                  FreeAndNil( rl);
+                  end;
+           slApplicationJoinPointFile_OpenAPI_Path_Verb_Response.Finalise;
+           slApplicationJoinPointFile_OpenAPI_Path_Verb_Response.To_Parametres( verb.slParametres_Child);
+      end;
    begin
         Traite_Parameters;
         Traite_Properties;
+        Traite_Responses;
         slApplicationJoinPointFile_OpenAPI_Path_Verb.VisitePath_Verb( _path, verb);
    end;
 begin
@@ -2831,7 +2856,8 @@ begin
      slApplicationJoinPointFile_OpenAPI_Path_from_sRepertoireListeTables;
      slApplicationJoinPointFile_OpenAPI_Path_Verb          ._from_sRepertoire(sRepertoireListePaths_Verbs          );
      slApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter._from_sRepertoire(sRepertoireListePaths_Verb_Parameters);
-     slApplicationJoinPointFile_OpenAPI_Path_Verb_Property ._from_sRepertoire(sRepertoireListePaths_Verb_Properties );
+     slApplicationJoinPointFile_OpenAPI_Path_Verb_Property ._from_sRepertoire(sRepertoireListePaths_Verb_Properties);
+     slApplicationJoinPointFile_OpenAPI_Path_Verb_Response ._from_sRepertoire(sRepertoireListePaths_Verb_Responses );
 
      slApplicationTemplateHandler_from_sRepertoireApplicationTemplate;
 
@@ -2842,6 +2868,7 @@ begin
      slApplicationJoinPointFile_OpenAPI_Path_Verb          .Initialise;
      slApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Initialise;
      slApplicationJoinPointFile_OpenAPI_Path_Verb_Property .Initialise;
+     slApplicationJoinPointFile_OpenAPI_Path_Verb_Response .Initialise;
 end;
 
 procedure TGenerateur_de_code.Application_Produit;
@@ -2856,6 +2883,7 @@ begin
      slApplicationJoinPointFile_OpenAPI_Path_Verb          .Finalise; slApplicationJoinPointFile_OpenAPI_Path_Verb          .To_Parametres( slParametres);
      slApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Finalise; slApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.To_Parametres( slParametres);
      slApplicationJoinPointFile_OpenAPI_Path_Verb_Property .Finalise; slApplicationJoinPointFile_OpenAPI_Path_Verb_Property .To_Parametres( slParametres);
+     slApplicationJoinPointFile_OpenAPI_Path_Verb_Response .Finalise; slApplicationJoinPointFile_OpenAPI_Path_Verb_Response .To_Parametres( slParametres);
 
      slApplicationTemplateHandler_Produit;
 end;
@@ -2869,6 +2897,7 @@ begin
      slApplicationJoinPointFile_OpenAPI_Path_Verb          .Vide;
      slApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Vide;
      slApplicationJoinPointFile_OpenAPI_Path_Verb_Property .Vide;
+     slApplicationJoinPointFile_OpenAPI_Path_Verb_Response .Vide;
      slApplicationTemplateHandler.Vide;
 end;
 

@@ -198,6 +198,45 @@ type
 
   TVerb_Property_List= TFPGObjectList<TVerb_Property>;
 
+  { TVerb_Response }
+
+  TVerb_Response
+  =
+   class( TOpenAPI_JSON_Field)
+   //Gestion du cycle de vie
+   public
+     constructor Create( _Verb: TVerb; _name: String; _jo: TJSONObject;
+                         _slParametres: TBatpro_StringList);
+     destructor Destroy; override;
+   //Verbe
+   public
+     Verb: TVerb;
+   //description
+   public
+     description: String;
+   //Content
+   public
+     Has_content: Boolean;
+     Has_content_comment:String;
+     Has_content_comment_start:String;
+     Has_content_comment_stop:String;
+     schema: TJSONObject;
+     content_is_array: Boolean;
+
+   //Class_Name
+   public
+     Class_Name: String;
+     Class_Name_array: String;
+     Class_Name_array_declaration: String;
+     Class_Name_Result: String;
+
+   //Recherche/remplacement par les valeurs dans un modèle
+   public
+     function Produit( _Prefixe, _sModele: String): String;
+   end;
+
+  TVerb_Response_List= TFPGObjectList<TVerb_Response>;
+
   { TVerb }
 
   TVerb
@@ -218,9 +257,11 @@ type
    public
      function Get_Parameters: TJSONArray;
      function Get_Properties: TJSONObject;
+     function Get_Responses : TJSONObject;
 
      function Get_Parameter_List: TVerb_Parameter_List;
      function Get_Property_List: TVerb_Property_List;
+     function Get_Response_List: TVerb_Response_List;
    //Recherche/remplacement par les valeurs dans un modèle
    public
      function Produit( _Prefixe, _sModele: String): String;
@@ -738,6 +779,120 @@ begin
      Result:= RemplaceParametres( _Prefixe, Result);
 end;
 
+{ TVerb_Response }
+
+constructor TVerb_Response.Create( _Verb: TVerb; _name: String; _jo: TJSONObject;
+                                   _slParametres: TBatpro_StringList);
+var
+   sRef: String;
+   procedure Traite_ref;
+   var
+      ref: TJSONData;
+   begin
+        sRef:= '';
+        if content_is_array
+        then
+            begin
+            ref:= schema.FindPath( 'items.$ref');
+            if not ref.IsNull
+            then
+                sRef:= ref.AsString;
+            end
+        else
+            begin
+            sRef:= schema.Strings['$ref'];
+            end;
+        if 1 = Pos('#/components/schemas/', sRef)
+        then
+            StrToK( '#/components/schemas/', sRef);
+
+        if '' = sRef
+        then
+            Class_Name:= ''
+        else
+            Class_Name:= uOpenAPI_ClassName_from_SchemaName( sRef);
+   end;
+   procedure Traite_Comment;
+   begin
+        if Has_content
+        then
+            begin
+            Has_content_comment:='';
+            Has_content_comment_start:= '';
+            Has_content_comment_stop:= '';
+            end
+        else
+            begin
+            Has_content_comment:='//';
+            Has_content_comment_start:= '(*';
+            Has_content_comment_stop:= '*)';
+            end;
+   end;
+begin
+     inherited Create(_name, _jo, _slParametres);
+     Verb:= _Verb;
+     if -1 = jo.IndexOfName('description')
+     then
+         description:= ''
+     else
+         description:= jo.Strings['description'];
+
+     content_is_array:= False;
+
+     Has_content:= -1 <> jo.IndexOfName('content');
+     Traite_Comment;
+     if Has_content
+     then
+         begin
+         schema:= jo.FindPath( 'content.application/json.schema') as TJSONObject;
+         content_is_array
+         :=
+               Assigned(schema)
+           and (-1 <> schema.IndexOfName('type'))
+           and ('array' = schema.Strings['type']);
+
+         Traite_ref;
+
+         Class_Name_array_declaration:= '';
+         Class_Name_array:= '';
+         Class_Name_Result:= Class_Name;
+         if content_is_array and ('' <> Class_Name)
+         then
+             begin
+             Class_Name_array:= Class_Name+'_array';
+             Class_Name_array_declaration
+             :=
+               'type T'+Class_Name_array+' = array of T'+Class_Name+';';
+             Class_Name_Result:= Class_Name_array;
+             end;
+         end;
+end;
+
+destructor TVerb_Response.Destroy;
+begin
+     inherited Destroy;
+end;
+
+function TVerb_Response.Produit(_Prefixe, _sModele: String): String;
+   procedure T( _Key, _Value: String);
+   begin
+        Result:= StringReplace( Result, _Prefixe+_Key, _Value,[rfReplaceAll,rfIgnoreCase]);
+   end;
+begin
+     Result:= _sModele;
+     T( 'name'                        , name                        );
+     T( 'description'                 , description                 );
+     T( 'content_is_array'            , BoolToStr(content_is_array,'True','False'));
+     T( 'Class_Name_array_declaration', Class_Name_array_declaration);
+     T( 'Class_Name_array'            , Class_Name_array            );
+     T( 'Class_Name_Result'           , Class_Name_Result           );
+     T( 'Class_Name'                  , Class_Name                  );
+     T( 'Has_content_comment_start'   , Has_content_comment_start   );
+     T( 'Has_content_comment_stop'    , Has_content_comment_stop    );
+     T( 'Has_content_comment'         , Has_content_comment         );
+     Result:= RemplaceParametres( _Prefixe, Result);
+end;
+
 { TVerb }
 
 constructor TVerb.Create( _Path: TPath; _name: String; _jo: TJSONObject;
@@ -766,6 +921,11 @@ end;
 function TVerb.Get_Properties: TJSONObject;
 begin
      Result:= jo.FindPath( 'requestBody.content.application/x-www-form-urlencoded.schema.properties') as TJSONObject;
+end;
+
+function TVerb.Get_Responses: TJSONObject;
+begin
+     Result:= jo.FindPath( 'responses') as TJSONObject;
 end;
 
 function TVerb.Get_Parameter_List: TVerb_Parameter_List;
@@ -802,6 +962,26 @@ begin
        begin
        p_name:= properties.Names[I];
        p:= TVerb_Property.Create( Self, p_name, properties.Objects[p_name], slParametres_Child);
+       Result.Add( p);
+       end;
+end;
+
+function TVerb.Get_Response_List: TVerb_Response_List;
+var
+   responses: TJSONObject;
+   I: Integer;
+   p_name: String;
+   p: TVerb_Response;
+begin
+     Result:= TVerb_Response_List.Create(True);
+     responses:= Get_Responses;
+     if nil = responses then exit;
+
+     for I:= 0 to responses.Count-1
+     do
+       begin
+       p_name:= responses.Names[I];
+       p:= TVerb_Response.Create( Self, p_name, responses.Objects[p_name], slParametres_Child);
        Result.Add( p);
        end;
 end;

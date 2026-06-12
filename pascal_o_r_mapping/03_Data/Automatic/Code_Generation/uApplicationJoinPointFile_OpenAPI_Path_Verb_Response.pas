@@ -1,4 +1,4 @@
-unit uApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
+unit uApplicationJoinPointFile_OpenAPI_Path_Verb_Response;
 {                                                                               |
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                          |
@@ -35,9 +35,9 @@ uses
 
 type
 
- { TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter }
+ { TApplicationJoinPointFile_OpenAPI_Path_Verb_Response }
 
- TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter
+ TApplicationJoinPointFile_OpenAPI_Path_Verb_Response
  =
   class(TJoinPointFile_Ancetre)
   public
@@ -59,24 +59,23 @@ type
     Premier: Boolean;
   public
     procedure Initialise;
-    procedure VisitePath_Verb_Parameter(_path: TPath; _verb: TVerb;
-     _parameter: TVerb_Parameter);
+    procedure VisitePath_Verb_Response( _path: TPath; _verb: TVerb; _response: TVerb_Response);
     procedure Finalise;
     procedure To_Parametres( _sl: TStringList);
   end;
 
- TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter
+ TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Response
  =
   class( TIterateur)
   //Iterateur
   public
-    procedure Suivant( var _Resultat: TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter);
-    function  not_Suivant( var _Resultat: TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter): Boolean;
+    procedure Suivant( var _Resultat: TApplicationJoinPointFile_OpenAPI_Path_Verb_Response);
+    function  not_Suivant( var _Resultat: TApplicationJoinPointFile_OpenAPI_Path_Verb_Response): Boolean;
   end;
 
- { TslApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter }
+ { TslApplicationJoinPointFile_OpenAPI_Path_Verb_Response }
 
- TslApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter
+ TslApplicationJoinPointFile_OpenAPI_Path_Verb_Response
  =
   class( TslJoinPointFile_Ancetre)
   //Gestion du cycle de vie
@@ -87,83 +86,82 @@ type
   protected
     class function Classe_Iterateur: TIterateur_Class; override;
   public
-    function Iterateur: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
-    function Iterateur_Decroissant: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
+    function Iterateur: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Response;
+    function Iterateur_Decroissant: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Response;
   //Création JoinPointFile
   public
     function  Create_JoinPointFile( _nfKey: String): TJoinPointFile_Ancetre;override;
   //Gestion de la visite d'une classe
   public
     procedure Initialise;
-    procedure VisitePath_Verb_Parameter(_path: TPath; _verb: TVerb;
-     _parameter: TVerb_Parameter);
+    procedure VisitePath_Verb_Response(_path: TPath; _verb: TVerb; _response: TVerb_Response);
     procedure Finalise;
     procedure To_Parametres( _sl: TStringList);
   end;
 
-function ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter_from_sl( sl: TBatpro_StringList; Index: Integer): TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
-function ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
+function ApplicationJoinPointFile_OpenAPI_Path_Verb_Response_from_sl( sl: TBatpro_StringList; Index: Integer): TApplicationJoinPointFile_OpenAPI_Path_Verb_Response;
+function ApplicationJoinPointFile_OpenAPI_Path_Verb_Response_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TApplicationJoinPointFile_OpenAPI_Path_Verb_Response;
 
 implementation
 
-function ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter_from_sl( sl: TBatpro_StringList; Index: Integer): TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
+function ApplicationJoinPointFile_OpenAPI_Path_Verb_Response_from_sl( sl: TBatpro_StringList; Index: Integer): TApplicationJoinPointFile_OpenAPI_Path_Verb_Response;
 begin
-     _Classe_from_sl( Result, TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter, sl, Index);
+     _Classe_from_sl( Result, TApplicationJoinPointFile_OpenAPI_Path_Verb_Response, sl, Index);
 end;
 
-function ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
+function ApplicationJoinPointFile_OpenAPI_Path_Verb_Response_from_sl_sCle( sl: TBatpro_StringList; sCle: String): TApplicationJoinPointFile_OpenAPI_Path_Verb_Response;
 begin
-     _Classe_from_sl_sCle( Result, TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter, sl, sCle);
+     _Classe_from_sl_sCle( Result, TApplicationJoinPointFile_OpenAPI_Path_Verb_Response, sl, sCle);
 end;
 
-{ TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter }
+{ TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Response }
 
-function TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.not_Suivant( var _Resultat: TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter): Boolean;
+function TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Response.not_Suivant( var _Resultat: TApplicationJoinPointFile_OpenAPI_Path_Verb_Response): Boolean;
 begin
      Result:= not_Suivant_interne( _Resultat);
 end;
 
-procedure TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Suivant( var _Resultat: TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter);
+procedure TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Response.Suivant( var _Resultat: TApplicationJoinPointFile_OpenAPI_Path_Verb_Response);
 begin
      Suivant_interne( _Resultat);
 end;
 
-{ TslApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter }
+{ TslApplicationJoinPointFile_OpenAPI_Path_Verb_Response }
 
-constructor TslApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Create( _Nom: String= '');
+constructor TslApplicationJoinPointFile_OpenAPI_Path_Verb_Response.Create( _Nom: String= '');
 begin
-     inherited CreateE( _Nom, TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter);
+     inherited CreateE( _Nom, TApplicationJoinPointFile_OpenAPI_Path_Verb_Response);
 end;
 
-destructor TslApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Destroy;
+destructor TslApplicationJoinPointFile_OpenAPI_Path_Verb_Response.Destroy;
 begin
      inherited;
 end;
 
-class function TslApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Classe_Iterateur: TIterateur_Class;
+class function TslApplicationJoinPointFile_OpenAPI_Path_Verb_Response.Classe_Iterateur: TIterateur_Class;
 begin
-     Result:= TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
+     Result:= TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Response;
 end;
 
-function TslApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Iterateur: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
+function TslApplicationJoinPointFile_OpenAPI_Path_Verb_Response.Iterateur: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Response;
 begin
-     Result:= TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter( Iterateur_interne);
+     Result:= TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Response( Iterateur_interne);
 end;
 
-function TslApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Iterateur_Decroissant: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
+function TslApplicationJoinPointFile_OpenAPI_Path_Verb_Response.Iterateur_Decroissant: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Response;
 begin
-     Result:= TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter( Iterateur_interne_Decroissant);
+     Result:= TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Response( Iterateur_interne_Decroissant);
 end;
 
-function TslApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Create_JoinPointFile(_nfKey: String): TJoinPointFile_Ancetre;
+function TslApplicationJoinPointFile_OpenAPI_Path_Verb_Response.Create_JoinPointFile( _nfKey: String): TJoinPointFile_Ancetre;
 begin
-     Result:= TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Create( _nfKey);
+     Result:= TApplicationJoinPointFile_OpenAPI_Path_Verb_Response.Create( _nfKey);
 end;
 
-procedure TslApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Initialise;
+procedure TslApplicationJoinPointFile_OpenAPI_Path_Verb_Response.Initialise;
 var
-   I: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
-   jpf: TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
+   I: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Response;
+   jpf: TApplicationJoinPointFile_OpenAPI_Path_Verb_Response;
 begin
      I:= Iterateur;
      try
@@ -178,10 +176,11 @@ begin
             end;
 end;
 
-procedure TslApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.VisitePath_Verb_Parameter( _path: TPath; _verb: TVerb; _parameter: TVerb_Parameter);
+procedure TslApplicationJoinPointFile_OpenAPI_Path_Verb_Response.VisitePath_Verb_Response
+ (_path: TPath; _verb: TVerb; _response: TVerb_Response);
 var
-   I: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
-   jpf: TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
+   I: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Response;
+   jpf: TApplicationJoinPointFile_OpenAPI_Path_Verb_Response;
 begin
      I:= Iterateur;
      try
@@ -189,17 +188,17 @@ begin
         do
           begin
           if I.not_Suivant( jpf) then Continue;
-          jpf.VisitePath_Verb_Parameter( _path, _verb, _parameter);
+          jpf.VisitePath_Verb_Response( _path, _verb, _response);
           end;
      finally
             FreeAndNil( I);
             end;
 end;
 
-procedure TslApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Finalise;
+procedure TslApplicationJoinPointFile_OpenAPI_Path_Verb_Response.Finalise;
 var
-   I: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
-   jpf: TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
+   I: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Response;
+   jpf: TApplicationJoinPointFile_OpenAPI_Path_Verb_Response;
 begin
      I:= Iterateur;
      try
@@ -214,10 +213,10 @@ begin
             end;
 end;
 
-procedure TslApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.To_Parametres(_sl: TStringList);
+procedure TslApplicationJoinPointFile_OpenAPI_Path_Verb_Response.To_Parametres(_sl: TStringList);
 var
-   I: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
-   jpf: TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter;
+   I: TIterateur_ApplicationJoinPointFile_OpenAPI_Path_Verb_Response;
+   jpf: TApplicationJoinPointFile_OpenAPI_Path_Verb_Response;
 begin
      I:= Iterateur;
      try
@@ -232,9 +231,9 @@ begin
             end;
 end;
 
-{ TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter }
+{ TApplicationJoinPointFile_OpenAPI_Path_Verb_Response }
 
-constructor TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Create( _nfKey: String);
+constructor TApplicationJoinPointFile_OpenAPI_Path_Verb_Response.Create( _nfKey: String);
    procedure RemoveTrailing_LineEnding( var _s: String);
    var
       ls: Integer;
@@ -267,14 +266,14 @@ begin
      Cle:= sKey;
 end;
 
-procedure TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Initialise;
+procedure TApplicationJoinPointFile_OpenAPI_Path_Verb_Response.Initialise;
 begin
      inherited;
      Valeur:= sBegin;
      Premier:= True;
 end;
 
-procedure TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.VisitePath_Verb_Parameter( _path: TPath; _verb: TVerb; _parameter: TVerb_Parameter);
+procedure TApplicationJoinPointFile_OpenAPI_Path_Verb_Response.VisitePath_Verb_Response( _path: TPath; _verb: TVerb; _response: TVerb_Response);
 var
    s: String;
 begin
@@ -285,20 +284,20 @@ begin
      else
          Valeur:= Valeur + sSeparateur;
 
-     s:= _parameter.Produit( 'Parameter.', sElement);
-     s:= _verb     .Produit( 'Verb.'     , s);
-     s:= _path     .Produit( 'Path.'     , s);
+     s:= _response.Produit( 'Response.', sElement);
+     s:= _verb    .Produit( 'Verb.'    , s       );
+     s:= _path    .Produit( 'Path.'    , s       );
 
      Valeur:= Valeur+ s;
 end;
 
-procedure TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.Finalise;
+procedure TApplicationJoinPointFile_OpenAPI_Path_Verb_Response.Finalise;
 begin
      Valeur:= Valeur+sEnd;
      inherited;
 end;
 
-procedure TApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter.To_Parametres(_sl: TStringList);
+procedure TApplicationJoinPointFile_OpenAPI_Path_Verb_Response.To_Parametres(_sl: TStringList);
 begin
      _sl.Values[ Cle]:= Valeur;
 end;

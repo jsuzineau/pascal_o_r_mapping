@@ -11,5 +11,8 @@ Verb.Parameters_Interface
      //Properties
      public
 Verb.Properties_Interface
+     //Responses
+     public
+Verb.Responses_Interface
      end;
 

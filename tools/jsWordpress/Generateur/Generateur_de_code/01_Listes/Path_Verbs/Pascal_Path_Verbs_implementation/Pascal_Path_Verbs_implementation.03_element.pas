@@ -20,4 +20,7 @@ Verb.Parameters_Implementation
 
 Verb.Properties_Implementation
 
+// TVerb.Nom_de_la_classe Responses
+
+Verb.Responses_Implementation
 

@@ -21,7 +21,7 @@
         </OtherDefines>
       </Other>
     </CompilerOptions>
-    <Files Count="151">
+    <Files Count="152">
       <Item1>
         <Filename Value="uBatpro_Element.pas"/>
         <UnitName Value="uBatpro_Element"/>
@@ -627,6 +627,10 @@
         <Filename Value="Automatic/Code_Generation/uApplicationJoinPointFile_OpenAPI_Path_Verb_Property.pas"/>
         <UnitName Value="uApplicationJoinPointFile_OpenAPI_Path_Verb_Property"/>
       </Item151>
+      <Item152>
+        <Filename Value="Automatic/Code_Generation/uApplicationJoinPointFile_OpenAPI_Path_Verb_Response.pas"/>
+        <UnitName Value="uApplicationJoinPointFile_OpenAPI_Path_Verb_Response"/>
+      </Item152>
     </Files>
     <CompatibilityMode Value="True"/>
     <RequiredPkgs Count="1">

@@ -41,8 +41,7 @@ uses
  ujpPascal_aggregation_accesseurs_implementation, 
  ujpPascal_aggregation_declaration, ujpPascal_Assure_Declaration, 
  ujpPascal_Assure_Implementation, ujpPascal_Champ_EditDFM, 
- ujpPascal_Champ_EditPAS,
- ujpPascal_Declaration_cle,
+ ujpPascal_Champ_EditPAS, ujpPascal_Declaration_cle, 
  ujpPascal_Detail_declaration, ujpPascal_Detail_pool_get, 
  ujpPascal_f_Execute_After_Key, ujpPascal_f_Execute_Before_Key, 
  ujpCSharp_Conteneurs, ujpCSharp_Contenus, ujpCSharp_DocksDetails, 
@@ -57,7 +56,8 @@ uses
  uApplicationJoinPointFile_OpenAPI_Path, 
  uApplicationJoinPointFile_OpenAPI_Path_Verb, 
  uApplicationJoinPointFile_OpenAPI_Path_Verb_Parameter, 
- uApplicationJoinPointFile_OpenAPI_Path_Verb_Property, LazarusPackageIntf;
+ uApplicationJoinPointFile_OpenAPI_Path_Verb_Property, 
+ uApplicationJoinPointFile_OpenAPI_Path_Verb_Response, LazarusPackageIntf;
 
 implementation
 
