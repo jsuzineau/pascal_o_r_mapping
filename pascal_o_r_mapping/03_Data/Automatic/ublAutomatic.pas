@@ -453,30 +453,13 @@ type
     slTemplateHandler: TslTemplateHandler;
     procedure Cree_TemplateHandler( var _Reference;
                                    _Source: String;
-                                   _slParametres: TBatpro_StringList= nil); override; overload;
-    function  Cree_TemplateHandler( _Source: String;
-                                   _slParametres: TBatpro_StringList= nil): TTemplateHandler; overload;
-
-  //Création des TemplateHandler par lecture du répertoire de modèles
-  private
-    procedure slTemplateHandler_from_sRepertoireTemplate_FileFound( _FileIterator: TFileIterator);
-  public
-    procedure slTemplateHandler_from_sRepertoireTemplate;
-    procedure slTemplateHandler_Produit;
-  //Paramètres
-  private
-    slParametres: TBatpro_StringList;
+                                   _slParametres: TBatpro_StringList= nil); override;
   //ApplicationTemplateHandler
   public
-    slApplicationTemplateHandler: TslTemplateHandler;
-    function  Cree_ApplicationTemplateHandler( _Source: String; _slParametres: TBatpro_StringList= nil): TTemplateHandler;
-  //Création des TemplateHandler par lecture du répertoire de modèles
-  private
-    procedure slApplicationTemplateHandler_from_sRepertoireApplicationTemplate_FileFound( _FileIterator: TFileIterator);
+    slApplicationTemplateHandler: TslApplicationTemplateHandler;
+  //PathTemplateHandler
   public
-    procedure slApplicationTemplateHandler_from_sRepertoireApplicationTemplate;
-    procedure slApplicationTemplateHandler_Produit;
-
+    slPathTemplateHandler: TslPathTemplateHandler;
   //Gestion de la génération au niveau global de l'application (basés sur liste des tables)
   public
     Application_Created: Boolean;
@@ -758,9 +741,10 @@ begin
      slApplicationJoinPointFile_OpenAPI_Path_Verb_Response := TslApplicationJoinPointFile_OpenAPI_Path_Verb_Response .Create( ClassName+'.slApplicationJoinPointFile_OpenAPI_Path_Verb_Response ');
      slEnumStrings                          := TslEnumString                           .Create( ClassName+'.slEnumStrings'                          );
      slTypeMappings                         := TslTypeMapping                          .Create( ClassName+'.slTypeMappings'                         );
-     slTemplateHandler                      := TslTemplateHandler                      .Create( ClassName+'.slTemplateHandler'                      );
+     slTemplateHandler                      := TslTemplateHandler                      .Create( ClassName+'.slTemplateHandler'                      , Self);
      slParametres                           := TBatpro_StringList                      .Create;
-     slApplicationTemplateHandler           := TslTemplateHandler                      .Create( ClassName+'.slApplicationTemplateHandler'           );
+     slApplicationTemplateHandler           := TslApplicationTemplateHandler           .Create( ClassName+'.slApplicationTemplateHandler'           , Self);
+     slPathTemplateHandler                  := TslPathTemplateHandler                  .Create( ClassName+'.slPathTemplateHandler'           , Self);
      Initialise(
                 [
                 //General
@@ -849,6 +833,7 @@ begin
      FreeAndNil( slTemplateHandler);
      FreeAndNil( slParametres);
      FreeAndNil( slApplicationTemplateHandler);
+     FreeAndNil( slPathTemplateHandler);
      inherited Destroy;
 end;
 
@@ -888,6 +873,7 @@ begin
         sRepertoireResultat                  :=iRead('sRepertoireResultat'                  ,Path+'06_Resultat'           +PathDelim                                 );
         sRepertoireTypeMappings              :=iRead('sRepertoireTypeMappings'              ,Path+'07_TypeMappings'       +PathDelim                                 );
         sRepertoireEnumStrings               :=iRead('sRepertoireEnumStrings'               ,Path+'08_EnumStrings'        +PathDelim                                 );
+        sRepertoirePathTemplate              :=iRead('sRepertoirePathTemplate'              ,Path+'09_PathTemplate'       +PathDelim                                 );
      finally
             FreeAndNil( INI);
             end;
@@ -1247,7 +1233,7 @@ var
            sljpfAggregation.To_Parametres( slParametres);
            sljpfLibelle    .To_Parametres( slParametres);
 
-           slTemplateHandler_Produit;
+           slTemplateHandler.Produit;
            //Produit;
            slLog.Add( 'aprés Produit');
            slApplicationJoinPointFile.VisiteClasse( cc);
@@ -1268,7 +1254,7 @@ begin
      sljpfSymetric_from_sRepertoireListeSymetrics;
      sljpfAggregation_from_sRepertoireListeAggregations;
      sljpfLibelle_from_sRepertoireListeLibelles;
-     slTemplateHandler_from_sRepertoireTemplate;
+     slTemplateHandler._from_sRepertoire( sRepertoireTemplate);
 
      {
      CreeTemplateHandler( phPAS_DMCRE, phDFM_DMCRE, 'dmxcre');
@@ -1661,7 +1647,7 @@ begin
            sljpfAggregation.To_Parametres( slParametres);
            sljpfLibelle    .To_Parametres( slParametres);
 
-           slTemplateHandler_Produit;
+           slTemplateHandler.Produit;
            //Produit;
            slLog.Add( 'aprés Produit');
            slApplicationJoinPointFile.VisiteClasse( cc);
@@ -1826,7 +1812,7 @@ begin
      sljpfSymetric_from_sRepertoireListeSymetrics;
      sljpfAggregation_from_sRepertoireListeAggregations;
      sljpfLibelle_from_sRepertoireListeLibelles;
-     slTemplateHandler_from_sRepertoireTemplate;
+     slTemplateHandler._from_sRepertoire(sRepertoireTemplate);
 
      if not Application_Created
      then
@@ -2212,7 +2198,7 @@ begin
            sljpfAggregation.To_Parametres( slParametres);
            sljpfLibelle    .To_Parametres( slParametres);
 
-           slTemplateHandler_Produit;
+           slTemplateHandler.Produit;
            //Produit;
            slLog.Add( 'aprés Produit');
            slApplicationJoinPointFile.VisiteClasse( cc);
@@ -2381,7 +2367,8 @@ begin
      sljpfSymetric_from_sRepertoireListeSymetrics;
      sljpfAggregation_from_sRepertoireListeAggregations;
      sljpfLibelle_from_sRepertoireListeLibelles;
-     slTemplateHandler_from_sRepertoireTemplate;
+     slTemplateHandler._from_sRepertoire(sRepertoireTemplate);
+     slPathTemplateHandler._from_sRepertoire( sRepertoirePathTemplate);
 
      if not Application_Created
      then
@@ -2719,133 +2706,12 @@ begin
      ujpFile_EnumFiles( sRepertoireTypeMappings, slTypeMappings_from_sRepertoireTypeMappings_FileFound, '*.txt');
 end;
 
-
-function TGenerateur_de_code.Cree_TemplateHandler( _Source: String;
-                                                  _slParametres: TBatpro_StringList= nil): TTemplateHandler;
-var
-   slParametres_local: TBatpro_StringList;
-begin
-     if nil = _slParametres
-     then
-         slParametres_local:= slParametres
-     else
-         slParametres_local:= _slParametres;
-
-     Result
-     :=
-       TemplateHandler_from_sl_sCle( slTemplateHandler, _Source);
-     if nil = Result
-     then
-         begin
-         Result:= TTemplateHandler.Create( Self, _Source, slParametres_local);
-         slTemplateHandler.AddObject( _Source, Result);
-         end
-     else
-         Result.slParametres:= slParametres_local;
-end;
-
 procedure TGenerateur_de_code.Cree_TemplateHandler( var _Reference;
                                                    _Source: String;
                                                    _slParametres: TBatpro_StringList= nil);
 begin
-     TTemplateHandler(_Reference):= Cree_TemplateHandler( _Source, _slParametres);
+     TTemplateHandler(_Reference):= slTemplateHandler.Cree_TemplateHandler( _Source, _slParametres);
 end;
-
-procedure TGenerateur_de_code.slTemplateHandler_from_sRepertoireTemplate_FileFound( _FileIterator: TFileIterator);
-var
-   Source: String;
-begin
-     if _FileIterator.IsDirectory then exit;
-
-     Source:= _FileIterator.FileName;
-     if 0 <> Pos( PathDelim+'backup'+PathDelim, Source) then exit;
-
-     Delete( Source, 1, Length( sRepertoireTemplate));
-
-     Cree_TemplateHandler( Source);
-end;
-
-procedure TGenerateur_de_code.slTemplateHandler_from_sRepertoireTemplate;
-begin
-     ujpFile_EnumFiles( sRepertoireTemplate, slTemplateHandler_from_sRepertoireTemplate_FileFound);
-end;
-
-procedure TGenerateur_de_code.slTemplateHandler_Produit;
-var
-   I: TIterateur_TemplateHandler;
-   ph: TTemplateHandler;
-begin
-     I:= slTemplateHandler.Iterateur;
-     try
-        while I.Continuer
-        do
-          begin
-          if I.not_Suivant( ph) then continue;
-          ph.Produit;
-          end;
-     finally
-            FreeAndNil( I);
-            end;
-end;
-
-function TGenerateur_de_code.Cree_ApplicationTemplateHandler( _Source: String; _slParametres: TBatpro_StringList): TTemplateHandler;
-var
-   slParametres_local: TBatpro_StringList;
-begin
-     if nil = _slParametres
-     then
-         slParametres_local:= slParametres
-     else
-         slParametres_local:= _slParametres;
-
-     Result
-     :=
-       TemplateHandler_from_sl_sCle( slTemplateHandler, _Source);
-     if nil = Result
-     then
-         begin
-         Result:= TApplicationTemplateHandler.Create( Self, _Source, slParametres_local);
-         slApplicationTemplateHandler.AddObject( _Source, Result);
-         end
-     else
-         Result.slParametres:= slParametres_local;
-end;
-
-procedure TGenerateur_de_code.slApplicationTemplateHandler_from_sRepertoireApplicationTemplate_FileFound( _FileIterator: TFileIterator);
-var
-   Source: String;
-begin
-     if _FileIterator.IsDirectory then exit;
-
-     Source:= _FileIterator.FileName;
-     Delete( Source, 1, Length( sRepertoireApplicationTemplate));
-
-     Cree_ApplicationTemplateHandler( Source);
-end;
-
-procedure TGenerateur_de_code.slApplicationTemplateHandler_from_sRepertoireApplicationTemplate;
-begin
-     ujpFile_EnumFiles( sRepertoireApplicationTemplate, slApplicationTemplateHandler_from_sRepertoireApplicationTemplate_FileFound);
-end;
-
-procedure TGenerateur_de_code.slApplicationTemplateHandler_Produit;
-var
-   I: TIterateur_TemplateHandler;
-   ph: TTemplateHandler;
-begin
-     I:= slApplicationTemplateHandler.Iterateur;
-     try
-        while I.Continuer
-        do
-          begin
-          if I.not_Suivant( ph) then continue;
-          ph.Produit;
-          end;
-     finally
-            FreeAndNil( I);
-            end;
-end;
-
 
 procedure TGenerateur_de_code.Application_Create;
 begin
@@ -2859,7 +2725,7 @@ begin
      slApplicationJoinPointFile_OpenAPI_Path_Verb_Property ._from_sRepertoire(sRepertoireListePaths_Verb_Properties);
      slApplicationJoinPointFile_OpenAPI_Path_Verb_Response ._from_sRepertoire(sRepertoireListePaths_Verb_Responses );
 
-     slApplicationTemplateHandler_from_sRepertoireApplicationTemplate;
+     slApplicationTemplateHandler._from_sRepertoire(sRepertoireApplicationTemplate);
 
      Application_Created:= True;
      slApplicationJoinPointFile             .Initialise;
@@ -2885,7 +2751,7 @@ begin
      slApplicationJoinPointFile_OpenAPI_Path_Verb_Property .Finalise; slApplicationJoinPointFile_OpenAPI_Path_Verb_Property .To_Parametres( slParametres);
      slApplicationJoinPointFile_OpenAPI_Path_Verb_Response .Finalise; slApplicationJoinPointFile_OpenAPI_Path_Verb_Response .To_Parametres( slParametres);
 
-     slApplicationTemplateHandler_Produit;
+     slApplicationTemplateHandler.Produit;
 end;
 
 procedure TGenerateur_de_code.Application_Destroy;

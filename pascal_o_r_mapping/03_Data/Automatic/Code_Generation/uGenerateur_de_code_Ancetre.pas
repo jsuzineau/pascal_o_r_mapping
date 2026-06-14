@@ -105,16 +105,20 @@ type
     sRepertoireListeLibelles,
     sRepertoireTemplate   ,
     sRepertoireParametres ,
-    sRepertoireApplicationTemplate  ,
-    sRepertoireResultat      ,
-    sRepertoireResultatPrefixe,
-    sRepertoireTypeMappings  ,
-    sRepertoireEnumStrings: String;
+    sRepertoireApplicationTemplate,
+    sRepertoireResultat           ,
+    sRepertoireResultatPrefixe    ,
+    sRepertoireTypeMappings       ,
+    sRepertoireEnumStrings        ,
+    sRepertoirePathTemplate       : String;
   //Méthodes
   public
     function dbx_from_Type( Typ: String): String;
     function TailleNom_Quote( S: String): String;
     function RepertoireResultat_with_Prefixe:String;
+  //Paramètres
+  public
+    slParametres: TBatpro_StringList;
   //TemplateHandler
   public
     procedure Cree_TemplateHandler( var _Reference;

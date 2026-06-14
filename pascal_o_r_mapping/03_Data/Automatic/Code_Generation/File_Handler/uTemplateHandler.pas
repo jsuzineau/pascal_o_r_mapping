@@ -29,7 +29,8 @@ uses
     uForms,
     uBatpro_StringList,
     uGenerateur_de_code_Ancetre,
-    SysUtils, Classes, Dialogs;
+    ujpFile,
+    SysUtils, Classes, Dialogs, FileUtil;
 
 type
 
@@ -68,9 +69,21 @@ type
     function GetRepertoire: String; virtual;
   end;
 
+ TTemplateHandler_class= class of TTemplateHandler;
+
  { TApplicationTemplateHandler }
 
  TApplicationTemplateHandler
+ =
+  class( TTemplateHandler)
+  //Répertoire racine
+  protected
+    function GetRepertoire: String; override;
+  end;
+
+ { TPathTemplateHandler }
+
+ TPathTemplateHandler
  =
   class( TTemplateHandler)
   //Répertoire racine
@@ -94,7 +107,7 @@ type
   class( TBatpro_StringList)
   //Gestion du cycle de vie
   public
-    constructor Create( _Nom: String= ''); override;
+    constructor Create( _Nom: String= ''; _g: TGenerateur_de_code_Ancetre= nil);
     destructor Destroy; override;
   //Création d'itérateur
   protected
@@ -102,6 +115,44 @@ type
   public
     function Iterateur: TIterateur_TemplateHandler;
     function Iterateur_Decroissant: TIterateur_TemplateHandler;
+  //Generateur de code
+  public
+    g: TGenerateur_de_code_Ancetre;
+  //Classe template handler
+  public
+    class function TemplateHandler_class: TTemplateHandler_class; virtual;
+  //Création TemplateHandler
+  public
+    function  Create_TemplateHandler( _nfKey: String): TTemplateHandler;virtual;abstract;
+  public
+    function  Cree_TemplateHandler( _Source: String;
+                                    _slParametres: TBatpro_StringList= nil): TTemplateHandler;
+  private
+    procedure _from_sRepertoire_FileFound( _FileIterator: TFileIterator);
+  public
+    sRepertoire: String;
+    procedure _from_sRepertoire( _sRepertoire: String);
+    procedure Produit;virtual;
+  end;
+
+ { TslApplicationTemplateHandler }
+
+ TslApplicationTemplateHandler
+ =
+  class( TslTemplateHandler)
+  //Classe template handler
+  public
+    class function TemplateHandler_class: TTemplateHandler_class; override;
+  end;
+
+ { TslPathTemplateHandler }
+
+ TslPathTemplateHandler
+ =
+  class( TslTemplateHandler)
+  //Classe template handler
+  public
+    class function TemplateHandler_class: TTemplateHandler_class; override;
   end;
 
 function TemplateHandler_from_sl( sl: TBatpro_StringList; Index: Integer): TTemplateHandler;
@@ -133,8 +184,9 @@ end;
 
 { TslTemplateHandler }
 
-constructor TslTemplateHandler.Create( _Nom: String= '');
+constructor TslTemplateHandler.Create( _Nom: String; _g: TGenerateur_de_code_Ancetre);
 begin
+     g:= _g;
      inherited CreateE( _Nom, TTemplateHandler);
 end;
 
@@ -158,11 +210,96 @@ begin
      Result:= TIterateur_TemplateHandler( Iterateur_interne_Decroissant);
 end;
 
+class function TslTemplateHandler.TemplateHandler_class: TTemplateHandler_class;
+begin
+     Result:= TTemplateHandler;
+end;
+
+function TslTemplateHandler.Cree_TemplateHandler( _Source: String; _slParametres: TBatpro_StringList): TTemplateHandler;
+var
+   slParametres_local: TBatpro_StringList;
+begin
+     if nil = _slParametres
+     then
+         slParametres_local:= g.slParametres
+     else
+         slParametres_local:= _slParametres;
+
+     Result:= TemplateHandler_from_sl_sCle( Self, _Source);
+     if nil = Result
+     then
+         begin
+         Result:= TemplateHandler_class.Create( g, _Source, slParametres_local);
+         AddObject( _Source, Result);
+         end
+     else
+         Result.slParametres:= slParametres_local;
+end;
+
+procedure TslTemplateHandler._from_sRepertoire_FileFound( _FileIterator: TFileIterator);
+var
+   Source: String;
+begin
+     if _FileIterator.IsDirectory then exit;
+
+     Source:= _FileIterator.FileName;
+     if 0 <> Pos( PathDelim+'backup'+PathDelim, Source) then exit;
+
+     System.Delete( Source, 1, Length( sRepertoire));
+
+     Cree_TemplateHandler( Source);
+end;
+
+procedure TslTemplateHandler._from_sRepertoire(_sRepertoire: String);
+begin
+     sRepertoire:= _sRepertoire;
+     ujpFile_EnumFiles( _sRepertoire, _from_sRepertoire_FileFound);
+end;
+
+procedure TslTemplateHandler.Produit;
+var
+   I: TIterateur_TemplateHandler;
+   ph: TTemplateHandler;
+begin
+     I:= Iterateur;
+     try
+        while I.Continuer
+        do
+          begin
+          if I.not_Suivant( ph) then continue;
+          ph.Produit;
+          end;
+     finally
+            FreeAndNil( I);
+            end;
+end;
+
+{ TslApplicationTemplateHandler }
+
+class function TslApplicationTemplateHandler.TemplateHandler_class: TTemplateHandler_class;
+begin
+     Result:= TApplicationTemplateHandler;
+end;
+
+{ TslPathTemplateHandler }
+
+class function TslPathTemplateHandler.TemplateHandler_class: TTemplateHandler_class;
+begin
+     Result:= TPathTemplateHandler;
+end;
+
 { TApplicationTemplateHandler }
 
 function TApplicationTemplateHandler.GetRepertoire: String;
 begin
      Result:= g.sRepertoireApplicationTemplate;
+end;
+
+{ TPathTemplateHandler }
+
+function TPathTemplateHandler.GetRepertoire: String;
+begin
+     Result:=g.sRepertoirePathTemplate;
 end;
 
 { TTemplateHandler }
