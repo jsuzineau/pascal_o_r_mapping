@@ -1,5 +1,5 @@
-unit uPascal_nom_app_API_Client;
-
+unit uPath_Nom_de_la_classe;
+//Chemin  Path.name
 {$mode Delphi}
 
 interface
@@ -8,14 +8,15 @@ uses
     uuStrings,
     uMimeType,
     uWordpress_verb,
+Verbs_uses
  Classes, SysUtils, fpjson, httpsend,base64,synautil,fphttpclient;
 
 type
-//Pascal_Paths_interface
+Verbs_interface
 
 implementation
 
-//Pascal_Paths_implementation
+Verbs_implementation
 
 end.
 

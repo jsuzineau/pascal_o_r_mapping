@@ -76,6 +76,10 @@
         <Filename Value="Generateur\Generateur_de_code\07_TypeMappings\Pascal_CreeChamp.txt"/>
         <IsPartOfProject Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="uWordpress_verb.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

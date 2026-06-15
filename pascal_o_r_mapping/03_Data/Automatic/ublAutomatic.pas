@@ -326,7 +326,7 @@ type
     procedure Execute_OpenAPI_Schemas( _OpenAPI: TOpenAPI);
     procedure Execute_OpenAPI_Paths( _OpenAPI: TOpenAPI);
   public
-    procedure Execute_OpenAPI( _OpenAPI: TOpenAPI);
+    procedure Execute_OpenAPI( _OpenAPI: TOpenAPI; _Schemas, _Paths: Boolean);
   //jpfMembre
   public
     sljpfMembre: TsljpfMembre;
@@ -2278,18 +2278,20 @@ var
         slApplicationJoinPointFile_OpenAPI_Path_Verb.VisitePath_Verb( _path, verb);
    end;
 begin
+     slApplicationJoinPointFile_OpenAPI_Path_Verb.Initialise;
      vl:= _path.Get_Verb_List;
      try
-        slApplicationJoinPointFile_OpenAPI_Path_Verb.Initialise;
         for verb in vl
         do
           Traite_Verb;
-        slApplicationJoinPointFile_OpenAPI_Path_Verb.Finalise;
-        slApplicationJoinPointFile_OpenAPI_Path_Verb.To_Parametres( _path.slParametres_Child);
      finally
             FreeAndNil( vl);
             end;
+     slApplicationJoinPointFile_OpenAPI_Path_Verb.Finalise;
+     slApplicationJoinPointFile_OpenAPI_Path_Verb.To_Parametres( _path.slParametres_Child);
+
      slApplicationJoinPointFile_OpenAPI_Path.VisitePath( _path);
+     slPathTemplateHandler.Produit( _path.slParametres_Child);
 end;
 
 procedure TGenerateur_de_code.Execute_OpenAPI_Schemas(_OpenAPI: TOpenAPI);
@@ -2354,7 +2356,8 @@ begin
      slApplicationJoinPointFile_OpenAPI_Path.To_Parametres( slParametres);
 end;
 
-procedure TGenerateur_de_code.Execute_OpenAPI(_OpenAPI: TOpenAPI);
+procedure TGenerateur_de_code.Execute_OpenAPI(_OpenAPI: TOpenAPI; _Schemas,
+ _Paths: Boolean);
 begin
      slLog.Clear;
      slParametres.Clear;
@@ -2377,8 +2380,8 @@ begin
         S:= '';
         Premiere_Classe:= True;
 
-        Execute_OpenAPI_Schemas( _OpenAPI);
-        Execute_OpenAPI_Paths  ( _OpenAPI);
+        if _Schemas then Execute_OpenAPI_Schemas( _OpenAPI);
+        if _Paths   then Execute_OpenAPI_Paths  ( _OpenAPI);
         Application_Produit;
         slLog.Add( S);
      finally

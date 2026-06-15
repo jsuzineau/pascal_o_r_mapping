@@ -3,22 +3,28 @@ unit ufGenerateur_OpenAPI;
 interface
 
 uses
+    uEXE_INI,
     uBatpro_StringList,
     uOpenAPI,
     ublAutomatic,
- Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, StdCtrls;
+  Classes, SysUtils, Forms,
+  Controls, Graphics, Dialogs, Menus, StdCtrls, ExtCtrls;
 
 type
  { TfGenerateur_OpenAPI }
  TfGenerateur_OpenAPI
  =
   class(TForm)
+   cbSchemas: TCheckBox;
+   cbPaths: TCheckBox;
    m: TMemo;
     miFichier_Ouvrir: TMenuItem;
     miFichier: TMenuItem;
     mm: TMainMenu;
     od: TOpenDialog;
+    Panel1: TPanel;
     procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure FormDropFiles(Sender: TObject; const FileNames: array of string);
     procedure miFichier_OuvrirClick(Sender: TObject);
   private
@@ -40,8 +46,17 @@ implementation
 procedure TfGenerateur_OpenAPI.FormCreate(Sender: TObject);
 begin
      OpenAPI:= nil;
+     cbSchemas.Checked:= EXE_INI.ReadBool( 'Options', 'cbSchemas', cbSchemas.Checked);
+     cbPaths  .Checked:= EXE_INI.ReadBool( 'Options', 'cbPaths'  , cbPaths  .Checked);
+
      //_from_OpenAPI;
      Ouvrir('..\docker\wordpress-openapi.json');
+end;
+
+procedure TfGenerateur_OpenAPI.FormDestroy(Sender: TObject);
+begin
+     EXE_INI.WriteBool( 'Options', 'cbSchemas', cbSchemas.Checked);
+     EXE_INI.WriteBool( 'Options', 'cbPaths'  , cbPaths  .Checked);
 end;
 
 procedure TfGenerateur_OpenAPI.FormDropFiles( Sender: TObject;
@@ -198,7 +213,7 @@ begin
 //     Traite_Paths;
 
      m.Lines.Add( 'Début de la génération ...');
-     Generateur_de_code.Execute_OpenAPI( OpenAPI);
+     Generateur_de_code.Execute_OpenAPI( OpenAPI, cbSchemas.Checked, cbPaths.Checked);
      m.Lines.Add( 'Génération terminée.');
 end;
 

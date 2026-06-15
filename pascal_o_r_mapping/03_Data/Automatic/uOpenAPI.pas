@@ -1001,6 +1001,8 @@ constructor TPath.Create( _name: String; _jo: TJSONObject;
 begin
      inherited Create(_name, _jo, _slParametres);
      Nom_de_la_classe:= uOpenAPI_ClassName_from_PathName( name);
+     slParametres_Child.Values[ 'name'            ]:= name;
+     slParametres_Child.Values[ 'Nom_de_la_classe']:= Nom_de_la_classe;
 end;
 
 destructor TPath.Destroy;

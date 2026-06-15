@@ -59,7 +59,7 @@ type
   private
     function RemplaceParametres( S: String): String;
   public
-    procedure Produit;
+    procedure Produit( _slParametres: TBatpro_StringList= nil);
   //déboguage
   private
     Log_Actif: Boolean;
@@ -132,7 +132,7 @@ type
   public
     sRepertoire: String;
     procedure _from_sRepertoire( _sRepertoire: String);
-    procedure Produit;virtual;
+    procedure Produit( _slParametres: TBatpro_StringList= nil);virtual;
   end;
 
  { TslApplicationTemplateHandler }
@@ -256,7 +256,7 @@ begin
      ujpFile_EnumFiles( _sRepertoire, _from_sRepertoire_FileFound);
 end;
 
-procedure TslTemplateHandler.Produit;
+procedure TslTemplateHandler.Produit( _slParametres: TBatpro_StringList);
 var
    I: TIterateur_TemplateHandler;
    ph: TTemplateHandler;
@@ -267,7 +267,7 @@ begin
         do
           begin
           if I.not_Suivant( ph) then continue;
-          ph.Produit;
+          ph.Produit( _slParametres);
           end;
      finally
             FreeAndNil( I);
@@ -374,11 +374,14 @@ begin
        end;
 end;
 
-procedure TTemplateHandler.Produit;
+procedure TTemplateHandler.Produit( _slParametres: TBatpro_StringList= nil);
 var
    CibleName: String;
    Chemin: String;
 begin
+     if Assigned( _slParametres)
+     then
+         slParametres:= _slParametres;
      Log_Actif:= False;
      CibleName:= Calcule_NomCible;
      Chemin:= ExtractFilePath( CibleName);
