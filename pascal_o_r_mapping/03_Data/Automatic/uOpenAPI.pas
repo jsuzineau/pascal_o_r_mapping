@@ -855,14 +855,14 @@ begin
 
          Class_Name_array_declaration:= '';
          Class_Name_array:= '';
-         Class_Name_Result:= Class_Name;
+         Class_Name_Result:= 'bl'+Class_Name;
          if content_is_array and ('' <> Class_Name)
          then
              begin
              Class_Name_array:= Class_Name+'_array';
              Class_Name_array_declaration
              :=
-               'type T'+Class_Name_array+' = array of T'+Class_Name+';';
+               'type T'+Class_Name_array+' = array of Tbl'+Class_Name+';';
              Class_Name_Result:= Class_Name_array;
              end;
          end;

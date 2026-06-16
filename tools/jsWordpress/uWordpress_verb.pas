@@ -265,8 +265,6 @@ begin
      finally
             FreeAndNil( ss);
             end;
-     (jdResult as TJSONArray).Count-1;
-     (jdResult as TJSONArray).Items[].AsString:=;
 end;
 
 end.

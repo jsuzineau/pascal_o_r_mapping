@@ -54,10 +54,6 @@
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>
-        <Filename Value="api\ujsWordpress_API_Client.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
         <Filename Value="urust_html_clean.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
@@ -80,6 +76,26 @@
         <Filename Value="uWordpress_verb.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="api\Elements\attachment\ublattachment.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="api\Elements\page\ublpage.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="api\Paths\uPath__wp_v2_media.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="api\Paths\uPath__wp_v2_pages.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="api\Elements\user\ubluser.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -90,7 +106,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="Generateur\Generateur_de_code\06_Resultat\wordpress-openapi_json\Pascal;api"/>
+      <OtherUnitFiles Value="Generateur\Generateur_de_code\06_Resultat\wordpress-openapi_json\Pascal;api\Paths;api\Elements\page;api\Elements\attachment;api\Elements\user"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>

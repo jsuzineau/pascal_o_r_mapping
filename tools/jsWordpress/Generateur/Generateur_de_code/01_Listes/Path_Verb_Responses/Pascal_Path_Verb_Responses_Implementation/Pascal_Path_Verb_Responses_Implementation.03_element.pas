@@ -4,7 +4,7 @@ function TVerb.Nom_de_la_classe.R_Response.name( _i: Integer=0): TResponse.Class
 var
    i: Integer;
    ja: TJSONArray;
-   r: TResponse.Class_Name;
+   r: TblResponse.Class_Name;
 begin
      if Response.content_is_array
      then
@@ -14,14 +14,14 @@ begin
          for i:= 0 to ja.Count-1
          do
            begin
-           r:= TResponse.Class_Name.Create(nil,nil,nil);
+           r:= TblResponse.Class_Name.Create(nil,nil,nil);
            r.JSON:= ja.Items[i].AsString;
            Result[ i]:= r;
            end;
          end
      else
          begin
-         Result:= TResponse.Class_Name.Create(nil,nil,nil);
+         Result:= TblResponse.Class_Name.Create(nil,nil,nil);
          Result.JSON:= sResult;
          end;
 end; 

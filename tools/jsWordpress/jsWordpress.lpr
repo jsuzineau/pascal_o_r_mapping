@@ -10,8 +10,8 @@ uses
  athreads,
  {$ENDIF}
  Interfaces, // this includes the LCL widgetset
- Forms, ujsWordpress_API_Client, ufjsWordpress, urust_html_clean, ufHTML,
-uWordpress_verb;
+ Forms, ufjsWordpress, urust_html_clean, ufHTML, uWordpress_verb,
+ uPath__wp_v2_media, uPath__wp_v2_pages, ublpage, ublattachment, ubluser;
 
 {$R *.res}
 

@@ -1,0 +1,1 @@
+meld .\Generateur\Generateur_de_code\06_Resultat\wordpress-openapi_json\Pascal\ .\api\Elements\

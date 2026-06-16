@@ -40,7 +40,7 @@ uses
 //Aggregations_Pascal_ubl_uses_details_pas
 
 
-    SysUtils, Classes, SqlDB, DB;
+    SysUtils, Classes, SqlDB, DB,fpjson;
 
 type
  TblNom_de_la_classe= class;
