@@ -21,7 +21,8 @@ uses
     uChrono,
     Classes, SysUtils,
     Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls, ComCtrls, Spin,
-    fpjson, DOM, XMLRead, XMLWrite, SAX_HTML, DOM_HTML,fphttpclient,opensslsockets;
+    fpjson, DOM, XMLRead, XMLWrite, SAX_HTML, DOM_HTML,fphttpclient,
+    opensslsockets,StrUtils;
 
 type
 
@@ -36,12 +37,14 @@ type
   bTraite_fichiers_htm: TButton;
   bTest: TButton;
   bTest_Source: TButton;
+  bPage_status_from_slA_href: TButton;
   b_index_htm: TButton;
   cbCodePage: TCheckBox;
   cbCharset: TCheckBox;
   cbAdd_DOCTYPE_html: TCheckBox;
   eContent: TEdit;
   eCharset: TEdit;
+  eSource_Root: TEdit;
   eRootURL_2: TEdit;
   eMedia: TEdit;
   eID: TEdit;
@@ -53,6 +56,7 @@ type
   eTitle: TEdit;
   eUserName: TEdit;
   Label1: TLabel;
+  Label10: TLabel;
   Label2: TLabel;
   Label3: TLabel;
   Label4: TLabel;
@@ -71,6 +75,7 @@ type
   procedure bFrom_SlugClick(Sender: TObject);
   procedure bMeClick(Sender: TObject);
   procedure bMediaCreateClick(Sender: TObject);
+  procedure bPage_status_from_slA_hrefClick(Sender: TObject);
   procedure bTestClick(Sender: TObject);
   procedure bTest_SourceClick(Sender: TObject);
   procedure bTraite_fichiers_htmClick(Sender: TObject);
@@ -100,6 +105,11 @@ type
  public
    slPages: TStringList;
    procedure Save_sl;
+ //Gestion des liens trouvés
+ public
+   slA_href: TStringList;
+   procedure page_set_status( _id: Integer; _status: String);
+   procedure page_status_from_slA_href;
  //Test des pages
  public
    procedure Test_Fichier( _root_url: String; _NomFichier: String; _url_path: String);
@@ -120,36 +130,41 @@ begin
      slIMG_src  := TStringList.Create;
      slIMG_src_w:= TStringList.Create;
      slPages    := TStringList.Create;
+     slA_href   := TStringList.Create;
 
      slPages    .LoadFromFile( ExtractFilePath(EXE_INI_Nom)+'slPages.txt'  );
      slIMG_src  .LoadFromFile( ExtractFilePath(EXE_INI_Nom)+'slIMG_src.txt'  );
      slIMG_src_w.LoadFromFile( ExtractFilePath(EXE_INI_Nom)+'slIMG_src_w.txt');
+     slA_href   .LoadFromFile( ExtractFilePath(EXE_INI_Nom)+'slA_href.txt');
 
      m.Clear;
-     eSource  .Text:=EXE_INI.ReadString( 'Options', 'eSource'  , eSource  .Text);
-     eUserName.Text:=EXE_INI.ReadString( 'Options', 'eUserName', eUserName.Text);
-     ePassword.Text:=EXE_INI.ReadString( 'Options', 'ePassword', ePassword.Text);
-     eRoot_URL.Text:=EXE_INI.ReadString( 'Options', 'eRoot_URL', eRoot_URL.Text);
-     eMedia   .Text:=EXE_INI.ReadString( 'Options', 'eMedia'   , eMedia   .Text);
-     eCharset .Text:=EXE_INI.ReadString( 'Options', 'eCharset' , eCharset .Text);
-     eRootURL_2.Text:=EXE_INI.ReadString( 'Options', 'eRootURL_2' , eRootURL_2.Text);
+     eSource     .Text:=EXE_INI.ReadString( 'Options', 'eSource'     , eSource     .Text);
+     eSource_Root.Text:=EXE_INI.ReadString( 'Options', 'eSource_Root', eSource_Root.Text);
+     eUserName   .Text:=EXE_INI.ReadString( 'Options', 'eUserName'   , eUserName   .Text);
+     ePassword   .Text:=EXE_INI.ReadString( 'Options', 'ePassword'   , ePassword   .Text);
+     eRoot_URL   .Text:=EXE_INI.ReadString( 'Options', 'eRoot_URL'   , eRoot_URL   .Text);
+     eMedia      .Text:=EXE_INI.ReadString( 'Options', 'eMedia'      , eMedia      .Text);
+     eCharset    .Text:=EXE_INI.ReadString( 'Options', 'eCharset'    , eCharset    .Text);
+     eRootURL_2  .Text:=EXE_INI.ReadString( 'Options', 'eRootURL_2'  , eRootURL_2  .Text);
 end;
 
 procedure TfjsWordpress.FormDestroy(Sender: TObject);
 begin
-     EXE_INI.WriteString( 'Options', 'eSource'  , eSource  .Text);
-     EXE_INI.WriteString( 'Options', 'eUserName', eUserName.Text);
-     EXE_INI.WriteString( 'Options', 'ePassword', ePassword.Text);
-     EXE_INI.WriteString( 'Options', 'eRoot_URL', eRoot_URL.Text);
-     EXE_INI.WriteString( 'Options', 'eMedia'   , eMedia   .Text);
-     EXE_INI.WriteString( 'Options', 'eCharset' , eCharset .Text);
-     EXE_INI.WriteString( 'Options', 'eRootURL_2' , eRootURL_2.Text);
+     EXE_INI.WriteString( 'Options', 'eSource'     , eSource     .Text);
+     EXE_INI.WriteString( 'Options', 'eSource_Root', eSource_Root.Text);
+     EXE_INI.WriteString( 'Options', 'eUserName'   , eUserName   .Text);
+     EXE_INI.WriteString( 'Options', 'ePassword'   , ePassword   .Text);
+     EXE_INI.WriteString( 'Options', 'eRoot_URL'   , eRoot_URL   .Text);
+     EXE_INI.WriteString( 'Options', 'eMedia'      , eMedia      .Text);
+     EXE_INI.WriteString( 'Options', 'eCharset'    , eCharset    .Text);
+     EXE_INI.WriteString( 'Options', 'eRootURL_2'  , eRootURL_2  .Text);
 
      Save_sl;
 
      FreeAndNil( slIMG_src  );
      FreeAndNil( slIMG_src_w);
      FreeAndNil( slPages    );
+     FreeAndNil( slA_href   );
 end;
 
 procedure TfjsWordpress.Save_sl;
@@ -157,6 +172,7 @@ begin
      slPages    .SaveToFile( ExtractFilePath(EXE_INI_Nom)+'slPages.txt'    );
      slIMG_src  .SaveToFile( ExtractFilePath(EXE_INI_Nom)+'slIMG_src.txt'  );
      slIMG_src_w.SaveToFile( ExtractFilePath(EXE_INI_Nom)+'slIMG_src_w.txt');
+     slA_href   .SaveToFile( ExtractFilePath(EXE_INI_Nom)+'slA_href.txt'   );
 end;
 
 function TfjsWordpress.Pages_from_slug( _slug: String): String;
@@ -278,7 +294,7 @@ begin
          Result:= 'accueil';
          exit;
          end;
-     Result:= ExtractFileName( _url_path);
+     Result:= ExtractFileName( _url_path); // fonctionne sur / et \
      Result:= StringReplace( Result, '.html', '',[rfIgnoreCase]);
      Result:= StringReplace( Result, '.htm' , '',[rfIgnoreCase]);
 end;
@@ -337,10 +353,15 @@ var
          s:String;
       begin
            Result:= _src;
-           if     (1 = Pos( 'http', _src))
-              and not (1 = Pos( eSource.Text, _src))
+
+           if 1 = Pos( eSource_Root.Text, Result)
            then
-               exit;
+               StrToK( eSource_Root.Text, Result);
+           if 1 = Pos( eSource.Text, Result)
+           then
+               StrToK( eSource.Text, Result);
+
+           if 1 = Pos( 'http', Result) then exit;
 
            sPath:= IncludeTrailingPathDelimiter( eSource.Text)+_src;
            Result:= Has_img( sPath);
@@ -375,6 +396,45 @@ var
                   FreeAndNil( cir);
                   end;
       end;
+      function href_Wordpress_from_href( _href: String):String;
+      begin
+           Result:= _href;
+           if 1 = Pos( eSource_Root.Text, Result)
+           then
+               StrToK( eSource_Root.Text, Result);
+           if 1 = Pos( eSource.Text, Result)
+           then
+               StrToK( eSource.Text, Result);
+
+           if 1 = Pos( 'http', Result) then exit;
+
+           Result:= Slug_from_url_path( Result);
+      end;
+      procedure Traite_a;
+      var
+         cir: TCherche_Items_Recursif;
+         cir_e: TDOMNode;
+         href, href_w: String;
+      begin
+           cir:= TCherche_Items_Recursif.Create( nRoot, 'a', [], []);
+           try
+              for cir_e in cir.l
+              do
+                begin
+                if not_Get_Property( cir_e, 'href', href) then continue;
+
+                href_w:= href_Wordpress_from_href( href);
+                Set_Property( cir_e, 'href', href_w);
+
+                if  1 =   Pos( 'http', href_w)      then continue;
+                if -1 <>  slA_href.IndexOf( href_w) then continue;
+
+                slA_href.Add( href_w);
+                end;
+           finally
+                  FreeAndNil( cir);
+                  end;
+      end;
    begin
         ss:= TStringStream.Create( _s);
         try
@@ -386,6 +446,7 @@ var
            nRoot:= html.DocumentElement;
            sTitle:= Text_from_path( nRoot, 'head/title');
            Traite_img;
+           Traite_a;
 
            nBody := Elem_from_path( nRoot, 'body');
            if nil = nBody
@@ -418,7 +479,7 @@ begin
           end;
 
         //m.Lines.Add( sBody);
-        m.Lines.Add( Page_Create( sTitle, sBody, slug, 'published'));
+        m.Lines.Add( Page_Create( sTitle, sBody, slug, 'private'));
         slPages.Add( _NomFichier);
         Save_sl;
      except
@@ -539,6 +600,70 @@ begin
      m.Lines.Add( Chrono.Get_Liste);
 end;
 
+procedure TfjsWordpress.page_set_status(_id: Integer; _status: String);
+var
+   wp: T_wp_v2_pages__id__post;
+   status: TJSONString;
+begin
+     status:= TJSONString.Create( _status);
+     wp:= T_wp_v2_pages__id__post.Create(eRoot_URL.Text, eUserName.Text, ePassword.Text);
+     try
+        wp.id( IntToStr( _id));
+        wp.status( status);
+     finally
+            FreeAndNil( wp);
+            FreeAndNil( status);
+            end;
+end;
+
+procedure TfjsWordpress.page_status_from_slA_href;
+const
+     per_page= 10;
+var
+   Result_Page_index: Integer;
+   Result_Page_Count: Integer;
+   procedure Traite_Result_Page( _Result_Page_index: Integer);
+   var
+      wp: T_wp_v2_pages_get;
+      pa: T_wp_v2_pages_get.Tpage_array;
+      p: Tblpage;
+      status: String;
+      Result_Page_index: Integer;
+   begin
+        Result_Page_Count:= 1;
+        wp:= T_wp_v2_pages_get.Create(eRoot_URL.Text, eUserName.Text, ePassword.Text);
+        try
+           wp.per_page( IntToStr( per_page));
+           m.Lines.Add( wp.url);
+           wp.Execute;
+           if 200 = wp.hc.ResponseStatusCode
+           then
+               begin
+               pa:= wp.R_200();
+               Result_Page_Count:= Length( pa);
+               for p in pa
+               do
+                 begin
+                 status
+                 :=
+                   IfThen( -1 = slA_href.IndexOf( p.slug),
+                           'private',
+                           'publish');
+                 page_set_status( p.id, status);
+                 end;
+               end;
+        finally
+               FreeAndNil( wp);
+               end;
+   end;
+begin
+     Result_Page_index:= 0;
+     repeat
+           Traite_Result_Page( Result_Page_index);
+           Inc( Result_Page_index);
+     until Result_Page_Count < per_page;
+end;
+
 procedure TfjsWordpress.bFrom_SlugClick(Sender: TObject);
 begin
      m.Lines.Add( Pages_from_slug( eSlug.Text));
@@ -584,5 +709,11 @@ begin
      Test( eRootURL_2.Text);
 end;
 
+procedure TfjsWordpress.bPage_status_from_slA_hrefClick(Sender: TObject);
+begin
+     page_status_from_slA_href;
+end;
+
+
 end.
-Membre.Mapped_Type_Django
+

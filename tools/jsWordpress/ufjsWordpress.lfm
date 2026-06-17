@@ -11,8 +11,8 @@ object fjsWordpress: TfjsWordpress
   OnDestroy = FormDestroy
   object m: TMemo
     Left = 0
-    Height = 413
-    Top = 296
+    Height = 365
+    Top = 344
     Width = 843
     Align = alClient
     Lines.Strings = (
@@ -23,7 +23,7 @@ object fjsWordpress: TfjsWordpress
   end
   object pc: TPageControl
     Left = 0
-    Height = 296
+    Height = 344
     Top = 0
     Width = 843
     ActivePage = tsHTML_to_Wordpress
@@ -32,7 +32,7 @@ object fjsWordpress: TfjsWordpress
     TabOrder = 1
     object tsWorpress_API: TTabSheet
       Caption = 'tsWorpress_API'
-      ClientHeight = 268
+      ClientHeight = 316
       ClientWidth = 835
       object bFrom_Slug: TButton
         Left = 14
@@ -192,7 +192,7 @@ object fjsWordpress: TfjsWordpress
     end
     object tsHTML_to_Wordpress: TTabSheet
       Caption = 'tsHTML_to_Wordpress'
-      ClientHeight = 268
+      ClientHeight = 316
       ClientWidth = 835
       object Label8: TLabel
         Left = 9
@@ -213,7 +213,7 @@ object fjsWordpress: TfjsWordpress
       object b_index_htm: TButton
         Left = 8
         Height = 25
-        Top = 152
+        Top = 176
         Width = 75
         Caption = 'b_index_htm'
         TabOrder = 1
@@ -222,7 +222,7 @@ object fjsWordpress: TfjsWordpress
       object seCodePage: TSpinEdit
         Left = 104
         Height = 23
-        Top = 32
+        Top = 56
         Width = 98
         TabOrder = 2
         Value = 1252
@@ -230,7 +230,7 @@ object fjsWordpress: TfjsWordpress
       object cbCodePage: TCheckBox
         Left = 8
         Height = 19
-        Top = 32
+        Top = 56
         Width = 85
         Caption = 'cbCodePage'
         Checked = True
@@ -240,7 +240,7 @@ object fjsWordpress: TfjsWordpress
       object rgImport: TRadioGroup
         Left = 5
         Height = 57
-        Top = 87
+        Top = 111
         Width = 827
         Anchors = [akTop, akLeft, akRight]
         AutoFill = True
@@ -264,7 +264,7 @@ object fjsWordpress: TfjsWordpress
       object bMediaCreate: TButton
         Left = 10
         Height = 25
-        Top = 181
+        Top = 205
         Width = 94
         Caption = 'bMediaCreate'
         TabOrder = 5
@@ -273,7 +273,7 @@ object fjsWordpress: TfjsWordpress
       object eMedia: TEdit
         Left = 112
         Height = 23
-        Top = 184
+        Top = 208
         Width = 720
         Anchors = [akTop, akLeft, akRight]
         TabOrder = 6
@@ -282,7 +282,7 @@ object fjsWordpress: TfjsWordpress
       object cbCharset: TCheckBox
         Left = 216
         Height = 19
-        Top = 37
+        Top = 61
         Width = 67
         Caption = 'charset ='
         Checked = True
@@ -292,7 +292,7 @@ object fjsWordpress: TfjsWordpress
       object eCharset: TEdit
         Left = 288
         Height = 23
-        Top = 37
+        Top = 61
         Width = 105
         TabOrder = 8
         Text = 'eCharset'
@@ -300,14 +300,14 @@ object fjsWordpress: TfjsWordpress
       object Label9: TLabel
         Left = 397
         Height = 15
-        Top = 38
+        Top = 62
         Width = 40
         Caption = 'to UTF8'
       end
       object cbAdd_DOCTYPE_html: TCheckBox
         Left = 7
         Height = 19
-        Top = 60
+        Top = 84
         Width = 139
         Caption = 'cbAdd_DOCTYPE_html'
         Checked = True
@@ -317,7 +317,7 @@ object fjsWordpress: TfjsWordpress
       object bTraite_fichiers_htm: TButton
         Left = 93
         Height = 25
-        Top = 151
+        Top = 175
         Width = 131
         Caption = 'bTraite_fichiers_htm'
         TabOrder = 10
@@ -326,7 +326,7 @@ object fjsWordpress: TfjsWordpress
       object bTest: TButton
         Left = 9
         Height = 25
-        Top = 220
+        Top = 244
         Width = 75
         Caption = 'bTest'
         TabOrder = 11
@@ -335,7 +335,7 @@ object fjsWordpress: TfjsWordpress
       object bTest_Source: TButton
         Left = 142
         Height = 25
-        Top = 225
+        Top = 249
         Width = 114
         Caption = 'Test sur source :'
         TabOrder = 12
@@ -344,11 +344,36 @@ object fjsWordpress: TfjsWordpress
       object eRootURL_2: TEdit
         Left = 269
         Height = 23
-        Top = 227
+        Top = 251
         Width = 563
         Anchors = [akTop, akLeft, akRight]
         TabOrder = 13
         Text = 'eRootURL_2'
+      end
+      object bPage_status_from_slA_href: TButton
+        Left = 9
+        Height = 25
+        Top = 281
+        Width = 191
+        Caption = 'bPage_status_from_slA_href'
+        TabOrder = 14
+        OnClick = bPage_status_from_slA_hrefClick
+      end
+      object Label10: TLabel
+        Left = 9
+        Height = 15
+        Top = 31
+        Width = 64
+        Caption = 'Source Root'
+      end
+      object eSource_Root: TEdit
+        Left = 85
+        Height = 23
+        Top = 29
+        Width = 746
+        Anchors = [akTop, akLeft, akRight]
+        TabOrder = 15
+        Text = 'eSource_Root'
       end
     end
   end
