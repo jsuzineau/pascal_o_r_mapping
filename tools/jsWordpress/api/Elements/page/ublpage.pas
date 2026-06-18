@@ -195,31 +195,32 @@ begin
      Champs.ChampDefinitions.NomTable:= 'page';
 
      //champs persistants
-     cdate:= JSON_from_String( date, 'date');
-     cdate_gmt:= JSON_from_String( date_gmt, 'date_gmt');
-     cguid:= JSON_from_String( guid, 'guid');
+     Champs.cID.Definition.Persistant:= False;
+     cdate:= JSON_from_String( date, 'date', False);
+     cdate_gmt:= JSON_from_String( date_gmt, 'date_gmt', False);
+     cguid:= JSON_from_String( guid, 'guid', False);
      //cid:=  Integer_from_Integer( id, 'id');
-     clink:=   String_from_String( link, 'link');
-     cmodified:= JSON_from_String( modified_, 'modified');
-     cmodified_gmt:= JSON_from_String( modified_gmt, 'modified_gmt');
-     cslug:=   String_from_String( slug, 'slug');
-     cstatus:=   String_from_String( status, 'status');
-     ctype:=   String_from_String( type_, 'type');
-     cpassword:=   String_from_String( password, 'password');
-     cpermalink_template:=   String_from_String( permalink_template, 'permalink_template');
-     cgenerated_slug:=   String_from_String( generated_slug, 'generated_slug');
-     cclass_list:= JSON_from_String( class_list, 'class_list');
-     cparent:=  Integer_from_Integer( parent, 'parent');
-     ctitle:= JSON_from_String( title, 'title');
-     ccontent:= JSON_from_String( content, 'content');
-     cauthor:=  Integer_from_Integer( author, 'author');
-     cexcerpt:= JSON_from_String( excerpt, 'excerpt');
-     cfeatured_media:=  Integer_from_Integer( featured_media, 'featured_media');
-     ccomment_status:=   String_from_String( comment_status, 'comment_status');
-     cping_status:=   String_from_String( ping_status, 'ping_status');
-     cmenu_order:=  Integer_from_Integer( menu_order, 'menu_order');
-     cmeta:= JSON_from_String( meta, 'meta');
-     ctemplate:=   String_from_String( template, 'template');
+     clink:=   String_from_String( link, 'link', False);
+     cmodified:= JSON_from_String( modified_, 'modified', False);
+     cmodified_gmt:= JSON_from_String( modified_gmt, 'modified_gmt', False);
+     cslug:=   String_from_String( slug, 'slug', False);
+     cstatus:=   String_from_String( status, 'status', False);
+     ctype:=   String_from_String( type_, 'type', False);
+     cpassword:=   String_from_String( password, 'password', False);
+     cpermalink_template:=   String_from_String( permalink_template, 'permalink_template', False);
+     cgenerated_slug:=   String_from_String( generated_slug, 'generated_slug', False);
+     cclass_list:= JSON_from_String( class_list, 'class_list', False);
+     cparent:=  Integer_from_Integer( parent, 'parent', False);
+     ctitle:= JSON_from_String( title, 'title', False);
+     ccontent:= JSON_from_String( content, 'content', False);
+     cauthor:=  Integer_from_Integer( author, 'author', False);
+     cexcerpt:= JSON_from_String( excerpt, 'excerpt', False);
+     cfeatured_media:=  Integer_from_Integer( featured_media, 'featured_media', False);
+     ccomment_status:=   String_from_String( comment_status, 'comment_status', False);
+     cping_status:=   String_from_String( ping_status, 'ping_status', False);
+     cmenu_order:=  Integer_from_Integer( menu_order, 'menu_order', False);
+     cmeta:= JSON_from_String( meta, 'meta', False);
+     ctemplate:=   String_from_String( template, 'template', False);
 //Pascal_ubl_constructor_pas_detail
 end;
 

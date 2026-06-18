@@ -351,7 +351,7 @@ object fjsWordpress: TfjsWordpress
         Text = 'eRootURL_2'
       end
       object bPage_status_from_slA_href: TButton
-        Left = 9
+        Left = 169
         Height = 25
         Top = 281
         Width = 191
@@ -374,6 +374,15 @@ object fjsWordpress: TfjsWordpress
         Anchors = [akTop, akLeft, akRight]
         TabOrder = 15
         Text = 'eSource_Root'
+      end
+      object bCompute_slA_href: TButton
+        Left = 10
+        Height = 25
+        Top = 281
+        Width = 142
+        Caption = 'bCompute_slA_href'
+        TabOrder = 16
+        OnClick = bCompute_slA_hrefClick
       end
     end
   end

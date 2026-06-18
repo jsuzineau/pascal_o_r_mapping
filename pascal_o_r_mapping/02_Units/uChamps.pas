@@ -982,6 +982,10 @@ var
    C: TChamp;
    Champ_Nom: String;
    Champ_Valeur: String;
+   procedure Get_Champ_Valeur;
+   begin
+        Champ_Valeur:= _jso.Elements[Champ_Nom].AsString;
+   end;
 begin
      try
         //uChamp_Publier_Modifications:= False;
@@ -993,7 +997,16 @@ begin
           C        := Champ_from_Index( I);
           Champ_Nom:= Field_from_Index( I);
 
-          Champ_Valeur:= _jso.Elements[Champ_Nom].AsString;
+          if 'Selected' = Champ_Nom
+          then
+              begin
+              if -1 <> _jso.IndexOfName( Champ_Nom)
+              then
+                  Get_Champ_Valeur;
+              end
+          else
+              Get_Champ_Valeur;
+
           if C.Chaine= Champ_Valeur then continue;
 
           C.Chaine:= Champ_Valeur;

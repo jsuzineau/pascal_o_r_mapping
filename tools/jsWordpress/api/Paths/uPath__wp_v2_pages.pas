@@ -281,7 +281,7 @@ begin
          do
            begin
            r:= Tblpage.Create(nil,nil,nil);
-           r.JSON:= ja.Items[i].AsString;
+           r.JSON:= ja.Items[i].AsJSON;
            Result[ i]:= r;
            end;
      //    end

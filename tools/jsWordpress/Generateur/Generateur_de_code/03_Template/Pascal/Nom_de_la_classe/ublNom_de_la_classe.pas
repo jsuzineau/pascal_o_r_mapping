@@ -3,7 +3,7 @@ unit ublNom_de_la_classe;
     Author: Jean SUZINEAU <Jean.Suzineau@wanadoo.fr>                            |
             http://www.mars42.com                                               |
                                                                                 |
-    Copyright 2024 Jean SUZINEAU - MARS42                                       |
+    Copyright 2026 Jean SUZINEAU - MARS42                                       |
                                                                                 |
     This program is free software: you can redistribute it and/or modify        |
     it under the terms of the GNU Lesser General Public License as published by |
@@ -171,6 +171,7 @@ begin
      Champs.ChampDefinitions.NomTable:= 'Nom_de_la_table';
 
      //champs persistants
+     Champs.cID.Definition.Persistant:= False;
 //Pascal_creation_champs
 //Pascal_ubl_constructor_pas_detail
 end;

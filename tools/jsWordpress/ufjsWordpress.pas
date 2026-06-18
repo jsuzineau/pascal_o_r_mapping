@@ -38,6 +38,7 @@ type
   bTest: TButton;
   bTest_Source: TButton;
   bPage_status_from_slA_href: TButton;
+  bCompute_slA_href: TButton;
   b_index_htm: TButton;
   cbCodePage: TCheckBox;
   cbCharset: TCheckBox;
@@ -71,6 +72,7 @@ type
   seCodePage: TSpinEdit;
   tsHTML_to_Wordpress: TTabSheet;
   tsWorpress_API: TTabSheet;
+  procedure bCompute_slA_hrefClick(Sender: TObject);
   procedure bCreateClick(Sender: TObject);
   procedure bFrom_SlugClick(Sender: TObject);
   procedure bMeClick(Sender: TObject);
@@ -95,7 +97,7 @@ type
  //Traitement HTML -> Wordpress
  public
    function Slug_from_url_path( _url_path: String):String;
-   procedure Traite_Fichier(_NomFichier: String; _url_path: String);
+   procedure Traite_Fichier(_NomFichier: String; _url_path: String; _Create: Boolean= True);
    procedure Traite_fichiers;
  //Gestion des urls d'images
  public
@@ -110,6 +112,7 @@ type
    slA_href: TStringList;
    procedure page_set_status( _id: Integer; _status: String);
    procedure page_status_from_slA_href;
+   procedure compute_slA_href;
  //Test des pages
  public
    procedure Test_Fichier( _root_url: String; _NomFichier: String; _url_path: String);
@@ -288,18 +291,23 @@ end;
 
 function TfjsWordpress.Slug_from_url_path(_url_path: String): String;
 begin
-     if '' = _url_path
+     _url_path:= LowerCase( _url_path);
+
+     if    (''           = _url_path)
+        //or ('index.htm'  = _url_path)
+        //or ('index.html' = _url_path)
      then
          begin
          Result:= 'accueil';
          exit;
          end;
+
      Result:= ExtractFileName( _url_path); // fonctionne sur / et \
      Result:= StringReplace( Result, '.html', '',[rfIgnoreCase]);
      Result:= StringReplace( Result, '.htm' , '',[rfIgnoreCase]);
 end;
 
-procedure TfjsWordpress.Traite_Fichier(_NomFichier: String; _url_path: String);
+procedure TfjsWordpress.Traite_Fichier(_NomFichier: String; _url_path: String; _Create: Boolean= True);
 var
    slug: String;
    sTitle: String;
@@ -396,7 +404,7 @@ var
                   FreeAndNil( cir);
                   end;
       end;
-      function href_Wordpress_from_href( _href: String):String;
+      function href_Wordpress_from_href( _href: String; out _href_Source: String):String;
       begin
            Result:= _href;
            if 1 = Pos( eSource_Root.Text, Result)
@@ -406,6 +414,8 @@ var
            then
                StrToK( eSource.Text, Result);
 
+           _href_Source:= Result;
+
            if 1 = Pos( 'http', Result) then exit;
 
            Result:= Slug_from_url_path( Result);
@@ -414,7 +424,8 @@ var
       var
          cir: TCherche_Items_Recursif;
          cir_e: TDOMNode;
-         href, href_w: String;
+         href, href_Source, href_w: String;
+
       begin
            cir:= TCherche_Items_Recursif.Create( nRoot, 'a', [], []);
            try
@@ -423,13 +434,13 @@ var
                 begin
                 if not_Get_Property( cir_e, 'href', href) then continue;
 
-                href_w:= href_Wordpress_from_href( href);
+                href_w:= href_Wordpress_from_href( href, href_Source);
                 Set_Property( cir_e, 'href', href_w);
 
                 if  1 =   Pos( 'http', href_w)      then continue;
                 if -1 <>  slA_href.IndexOf( href_w) then continue;
 
-                slA_href.Add( href_w);
+                slA_href.Add( href_Source);
                 end;
            finally
                   FreeAndNil( cir);
@@ -478,9 +489,13 @@ begin
           1: Traite_par_StrToK( Traite_Codepage);
           end;
 
-        //m.Lines.Add( sBody);
-        m.Lines.Add( Page_Create( sTitle, sBody, slug, 'private'));
-        slPages.Add( _NomFichier);
+        if _Create
+        then
+            begin
+            //m.Lines.Add( sBody);
+            m.Lines.Add( Page_Create( sTitle, sBody, slug, 'private'));
+            slPages.Add( _NomFichier);
+            end;
         Save_sl;
      except
            on E: Exception
@@ -508,7 +523,7 @@ begin
               if faDirectory = (sr.Attr and faDirectory)
               then
                   continue;
-              Traite_Fichier( Source+sr.Name, sr.Name);
+              Traite_Fichier( Source+sr.Name, sr.Name, True);
         until 0 <> FindNext( sr);
      finally
             FindClose( sr);
@@ -664,6 +679,64 @@ begin
      until Result_Page_Count < per_page;
 end;
 
+procedure TfjsWordpress.compute_slA_href;
+var
+   slProcessed: TStringList;
+   Source: String;
+   NomFichier: String;
+   Slug: String;
+   procedure Traite_slug;
+   var
+      wp: T_wp_v2_pages_get;
+      pa: T_wp_v2_pages_get.Tpage_array;
+      p: Tblpage;
+   begin
+        wp:= T_wp_v2_pages_get.Create(eRoot_URL.Text, eUserName.Text, ePassword.Text);
+        try
+           wp.slug( Slug);
+           //wp.per_page( '100');
+           //wp.page('1');
+           wp.Execute;
+
+           if 200 = wp.hc.ResponseStatusCode
+           then
+               begin
+               pa:= wp.R_200();
+               for p in pa
+               do
+                 page_set_status( p.id, 'publish');
+               end;
+        finally
+               FreeAndNil( wp);
+               end;
+   end;
+begin
+     slProcessed:=  TStringList.Create;
+     try
+        Source:= IncludeTrailingPathDelimiter(eSource.Text);
+        slA_href.Text:= 'index.htm';
+        repeat
+              while     (slA_href.Count > 0)
+                    and (-1 <> slProcessed.IndexOf( slA_href.Strings[0]))
+              do
+                slA_href.Delete( 0);
+
+              NomFichier:= slA_href.Strings[0];
+              slA_href.Delete( 0);
+
+              Slug:= Slug_from_url_path( NomFichier);
+
+              Traite_Fichier( Source+NomFichier, NomFichier, False);
+
+              Traite_slug;
+
+              slProcessed.Add( NomFichier);
+        until 0 = slA_href.Count;
+     finally
+            FreeAndNil( slProcessed);
+            end;
+end;
+
 procedure TfjsWordpress.bFrom_SlugClick(Sender: TObject);
 begin
      m.Lines.Add( Pages_from_slug( eSlug.Text));
@@ -672,6 +745,11 @@ end;
 procedure TfjsWordpress.bCreateClick(Sender: TObject);
 begin
      m.Lines.Add( Page_Create( eTitle.Text, eContent.Text, eSlug.Text, eStatus.Text));
+end;
+
+procedure TfjsWordpress.bCompute_slA_hrefClick(Sender: TObject);
+begin
+     compute_slA_href;
 end;
 
 procedure TfjsWordpress.bUpdateClick(Sender: TObject);

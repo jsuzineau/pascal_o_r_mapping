@@ -449,6 +449,14 @@ function TChamp.GetChaine_interne: String;
         D:= PDateTime(Valeur)^;
         Result:= Definition.Formate_DateTime( D);
    end;
+   procedure Traite_JSON;
+   begin
+        if nil = PtrTJSONData( Valeur)^
+        then
+            Result:= ''
+        else
+            Result:= PtrTJSONData( Valeur)^.AsString;
+   end;
 begin
      if Self = nil
      then
@@ -467,7 +475,7 @@ begin
        jsdt_Double     : Result:= Definition.Format_Float( PDouble  ( Valeur)^);
        jsdt_Boolean    : Result:=     BoolToStr( PtrBoolean( Valeur)^);
        jsdt_ShortString: Result:= PShortString( Valeur)^;
-       jsdt_JSON       : Result:= PtrTJSONData( Valeur)^.AsString;
+       jsdt_JSON       : Traite_JSON;
        jsdt_Unknown    : Result:= sys_Vide;
        else              Result:= sys_Vide;
        end;
@@ -565,6 +573,11 @@ procedure TChamp.SetChaine(Value: String);
             Convertit;
         PDateTime( Valeur)^:= D;
    end;
+   procedure Traite_JSON;
+   begin
+        FreeAndNil( PtrTJSONData( Valeur)^);
+        PtrTJSONData( Valeur)^:= GetJSON( Value);
+   end;
 begin
      if Self = nil then exit;
 
@@ -580,7 +593,7 @@ begin
            jsdt_Double     : TraiteDouble;
            jsdt_Boolean    : TryStrToBool( Value, PtrBoolean( Valeur)^);
            jsdt_ShortString: PShortString( Valeur)^:= Value;
-           jsdt_JSON       : PtrTJSONData( Valeur)^:= GetJSON( Value);
+           jsdt_JSON       : Traite_JSON;
            jsdt_Unknown    : begin end;
            end;
 
