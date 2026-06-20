@@ -11,7 +11,25 @@ function Extension_from_MimeType( _MimeType: String): String;
 
 function MimeType_from_Extension( _Extension: String): String;
 
+function Is_Media_Extension( _Extension: String): Boolean;
+
 implementation
+
+function Is_Media_Extension( _Extension: String): Boolean;
+var
+   Extension: String;
+begin
+     Extension:= LowerCase( _Extension);
+     Result
+     :=
+         ('.gif' = Extension)
+       or('.jpg' = Extension)
+       or('.jpeg' = Extension)
+       or('.png' = Extension)
+       or('.svg' = Extension)
+       or('.webp' = Extension)
+       or('.pdf' = Extension)
+end;
 
 function Extension_from_MimeType( _MimeType: String): String;
 begin

@@ -984,7 +984,11 @@ var
    Champ_Valeur: String;
    procedure Get_Champ_Valeur;
    begin
-        Champ_Valeur:= _jso.Elements[Champ_Nom].AsString;
+        if jsdt_JSON = c.Definition.Typ
+        then
+            Champ_Valeur:= _jso.Elements[Champ_Nom].AsJSON
+        else
+            Champ_Valeur:= _jso.Elements[Champ_Nom].AsString;
    end;
 begin
      try
@@ -997,15 +1001,11 @@ begin
           C        := Champ_from_Index( I);
           Champ_Nom:= Field_from_Index( I);
 
-          if 'Selected' = Champ_Nom
+          if -1 <> _jso.IndexOfName( Champ_Nom)
           then
-              begin
-              if -1 <> _jso.IndexOfName( Champ_Nom)
-              then
-                  Get_Champ_Valeur;
-              end
+              Get_Champ_Valeur
           else
-              Get_Champ_Valeur;
+              Champ_Valeur:= '';
 
           if C.Chaine= Champ_Valeur then continue;
 
@@ -1014,7 +1014,7 @@ begin
      finally
             uChamp_Publier_Modifications:= True;
             end;
-     Save_to_database;
+     //Save_to_database;
 end;
 
 procedure TChamps.SetJSON( _Value: String);

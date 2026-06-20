@@ -113,6 +113,10 @@ type
    procedure page_set_status( _id: Integer; _status: String);
    procedure page_status_from_slA_href;
    procedure compute_slA_href;
+ //Gestion des liens cassés
+ public
+   slNotFound: TSTringList;
+   function NotFound( _Fichier_htm, _Cible_Lien: String): Boolean;
  //Test des pages
  public
    procedure Test_Fichier( _root_url: String; _NomFichier: String; _url_path: String);
@@ -134,11 +138,13 @@ begin
      slIMG_src_w:= TStringList.Create;
      slPages    := TStringList.Create;
      slA_href   := TStringList.Create;
+     slNotFound := TStringList.Create;
 
      slPages    .LoadFromFile( ExtractFilePath(EXE_INI_Nom)+'slPages.txt'  );
      slIMG_src  .LoadFromFile( ExtractFilePath(EXE_INI_Nom)+'slIMG_src.txt'  );
      slIMG_src_w.LoadFromFile( ExtractFilePath(EXE_INI_Nom)+'slIMG_src_w.txt');
      slA_href   .LoadFromFile( ExtractFilePath(EXE_INI_Nom)+'slA_href.txt');
+     slNotFound .LoadFromFile( ExtractFilePath(EXE_INI_Nom)+'slNotFound.txt');
 
      m.Clear;
      eSource     .Text:=EXE_INI.ReadString( 'Options', 'eSource'     , eSource     .Text);
@@ -168,6 +174,7 @@ begin
      FreeAndNil( slIMG_src_w);
      FreeAndNil( slPages    );
      FreeAndNil( slA_href   );
+     FreeAndNil( slNotFound );
 end;
 
 procedure TfjsWordpress.Save_sl;
@@ -176,6 +183,7 @@ begin
      slIMG_src  .SaveToFile( ExtractFilePath(EXE_INI_Nom)+'slIMG_src.txt'  );
      slIMG_src_w.SaveToFile( ExtractFilePath(EXE_INI_Nom)+'slIMG_src_w.txt');
      slA_href   .SaveToFile( ExtractFilePath(EXE_INI_Nom)+'slA_href.txt'   );
+     slNotFound .SaveToFile( ExtractFilePath(EXE_INI_Nom)+'slNotFound.txt' );
 end;
 
 function TfjsWordpress.Pages_from_slug( _slug: String): String;
@@ -285,6 +293,12 @@ function TfjsWordpress.Media_Create( _NomFichier: String): String;
         //       end;
    end;
 begin
+     if not FileExists( _NomFichier)
+     then
+         begin
+         ShowMessage( 'Fichier non trouvé: '+_NomFichier);
+         m.Lines.Add( 'Fichier non trouvé: '+_NomFichier);
+         end;
      //Par_multipart_form_data;
      Par_deux_appels;
 end;
@@ -305,6 +319,23 @@ begin
      Result:= ExtractFileName( _url_path); // fonctionne sur / et \
      Result:= StringReplace( Result, '.html', '',[rfIgnoreCase]);
      Result:= StringReplace( Result, '.htm' , '',[rfIgnoreCase]);
+end;
+
+function TfjsWordpress.NotFound(_Fichier_htm, _Cible_Lien: String): Boolean;
+var
+   sNotFound: String;
+begin
+     _Cible_Lien:= StringReplace( _Cible_Lien, '%20', ' ',[rfReplaceAll]);
+
+     Result:= not FileExists( _Cible_Lien);
+     if not Result then exit;
+
+     sNotFound:= _Fichier_htm+':'+ExtractFileName( _Cible_Lien);
+     if -1 = slNotFound.IndexOf( sNotFound)
+     then
+         slNotFound.Add( sNotFound);
+     m.Lines.Add( 'Dans '+_Fichier_htm);
+     m.Lines.Add( 'Fichier non trouvé: '+ExtractFileName( _Cible_Lien));
 end;
 
 procedure TfjsWordpress.Traite_Fichier(_NomFichier: String; _url_path: String; _Create: Boolean= True);
@@ -373,7 +404,8 @@ var
 
            sPath:= IncludeTrailingPathDelimiter( eSource.Text)+_src;
            Result:= Has_img( sPath);
-           if '' <> Result then exit;
+           if '' <> Result                  then exit;//déjà traité
+           if NotFound( _NomFichier, sPath) then exit;//non trouvé
 
            sJSON:= Media_Create( sPath);
            jd:= GetJSON( sJSON);
@@ -425,7 +457,8 @@ var
          cir: TCherche_Items_Recursif;
          cir_e: TDOMNode;
          href, href_Source, href_w: String;
-
+         Extension: String;
+         Is_Media: Boolean;
       begin
            cir:= TCherche_Items_Recursif.Create( nRoot, 'a', [], []);
            try
@@ -435,10 +468,33 @@ var
                 if not_Get_Property( cir_e, 'href', href) then continue;
 
                 href_w:= href_Wordpress_from_href( href, href_Source);
+                href_Source:= StrTok( '#', href_Source);
+                Extension:= ExtractFileExt( href_Source);
+                Is_Media:= Is_Media_Extension( Extension);
+                if Is_Media
+                then
+                    href_w:= src_Wordpress_from_src( href_Source);
+
                 Set_Property( cir_e, 'href', href_w);
 
+                if Is_Media                         then continue;
                 if  1 =   Pos( 'http', href_w)      then continue;
                 if -1 <>  slA_href.IndexOf( href_w) then continue;
+
+                if 0 = Pos( 'mailto:', href_Source)
+                then
+                    NotFound( ExtractFileName( _NomFichier), IncludeTrailingPathDelimiter( eSource.Text)+href_Source);//juste pour alimenter slNotFound
+
+                if not
+                      (
+                        (Extension = '.htm')
+                      or(Extension = '.html')
+                      )
+                then
+                    begin
+                    m.Lines.Add( _url_path+' : '+href_Source);
+                    continue;
+                    end;
 
                 slA_href.Add( href_Source);
                 end;
@@ -479,7 +535,6 @@ var
         sBody:= StrToK('</body>', _s);
    end;
 begin
-     if -1 <> slPages.IndexOf( _NomFichier) then exit;
      try
         slug:= Slug_from_url_path( _url_path);
 
@@ -511,6 +566,7 @@ procedure TfjsWordpress.Traite_fichiers;
 var
    Source: String;
    sr: TSearchRec;
+   NomFichier: String;
 begin
      Chrono.Start;
      Chrono.Stop('début Traite_fichiers');
@@ -520,10 +576,12 @@ begin
          exit;
      try
         repeat
-              if faDirectory = (sr.Attr and faDirectory)
-              then
-                  continue;
-              Traite_Fichier( Source+sr.Name, sr.Name, True);
+              if faDirectory = (sr.Attr and faDirectory) then continue;
+
+              NomFichier:= Source+sr.Name;
+              if -1 <> slPages.IndexOf( NomFichier)     then continue;
+
+              Traite_Fichier( NomFichier, sr.Name, True);
         until 0 <> FindNext( sr);
      finally
             FindClose( sr);
@@ -625,6 +683,7 @@ begin
      try
         wp.id( IntToStr( _id));
         wp.status( status);
+        wp.Execute;
      finally
             FreeAndNil( wp);
             FreeAndNil( status);
@@ -694,6 +753,7 @@ var
         wp:= T_wp_v2_pages_get.Create(eRoot_URL.Text, eUserName.Text, ePassword.Text);
         try
            wp.slug( Slug);
+           wp.status('any');
            //wp.per_page( '100');
            //wp.page('1');
            wp.Execute;
@@ -720,6 +780,7 @@ begin
                     and (-1 <> slProcessed.IndexOf( slA_href.Strings[0]))
               do
                 slA_href.Delete( 0);
+              if slA_href.Count = 0 then continue;
 
               NomFichier:= slA_href.Strings[0];
               slA_href.Delete( 0);
@@ -731,10 +792,12 @@ begin
               Traite_slug;
 
               slProcessed.Add( NomFichier);
+              Application.ProcessMessages;
         until 0 = slA_href.Count;
      finally
             FreeAndNil( slProcessed);
             end;
+     m.Lines.Add( 'compute_slA_href terminé');
 end;
 
 procedure TfjsWordpress.bFrom_SlugClick(Sender: TObject);
