@@ -10,11 +10,14 @@ uses
     uOD_JCL,
     uMimeType,
     ublpage,
+    ublpost,
     ublattachment,
     uPath__wp_v2_media,
     uPath__wp_v2_media__id_,
     uPath__wp_v2_pages,
     uPath__wp_v2_pages__id_,
+    uPath__wp_v2_posts,
+    uPath__wp_v2_posts__id_,
     uPath__wp_v2_users_me,
     urust_html_clean,
     ufHTML,
@@ -68,6 +71,7 @@ type
   Label9: TLabel;
   m: TMemo;
   pc: TPageControl;
+  rgPagePost: TRadioGroup;
   rgImport: TRadioGroup;
   seCodePage: TSpinEdit;
   tsHTML_to_Wordpress: TTabSheet;
@@ -92,6 +96,7 @@ type
    function Pages_from_slug( _slug: String): String;
    function Page_Create( _Title, _Content, _slug: String; _status: String='private'): String;
    function Page_Update( _id, _Title, _Content, _slug: String; _status: String='private'): String;
+   function Post_Create( _Title, _Content, _slug: String; _status: String='private'): String;
    function Me: String;
    function Media_Create( _NomFichier:String):String;
  //Traitement HTML -> Wordpress
@@ -111,6 +116,7 @@ type
  public
    slA_href: TStringList;
    procedure page_set_status( _id: Integer; _status: String);
+   procedure post_set_status( _id: Integer; _status: String);
    procedure page_status_from_slA_href;
    procedure compute_slA_href;
  //Gestion des liens cassés
@@ -239,6 +245,22 @@ begin
             end;
 end;
 
+function TfjsWordpress.Post_Create( _Title, _Content, _slug: String; _status: String): String;
+var
+   wp: T_wp_v2_posts_post;
+begin
+     wp:= T_wp_v2_posts_post.Create(eRoot_URL.Text, eUserName.Text, ePassword.Text);
+     try
+        wp.title  ( TJSONString.Create(_Title  ));
+        wp.content( TJSONString.Create(_Content));
+        wp.slug   ( TJSONString.Create(_slug   ));
+        wp.status ( TJSONString.Create(_status ));
+        Result:= wp.Execute;
+     finally
+            FreeAndNil( wp);
+            end;
+end;
+
 function TfjsWordpress.Me: String;
 var
    wp: T_wp_v2_users_me_get;
@@ -343,6 +365,7 @@ var
    slug: String;
    sTitle: String;
    sBody: String;
+   sResponse: String;
 
    function Traite_Codepage: String;
    var
@@ -548,7 +571,12 @@ begin
         then
             begin
             //m.Lines.Add( sBody);
-            m.Lines.Add( Page_Create( sTitle, sBody, slug, 'private'));
+            if 0 = rgPagePost.ItemIndex
+            then
+                sResponse:= Page_Create( sTitle, sBody, slug, 'private')
+            else
+                sResponse:= Post_Create( sTitle, sBody, slug, 'private');
+            m.Lines.Add( sResponse);
             slPages.Add( _NomFichier);
             end;
         Save_sl;
@@ -690,6 +718,23 @@ begin
             end;
 end;
 
+procedure TfjsWordpress.post_set_status(_id: Integer; _status: String);
+var
+   wp: T_wp_v2_posts__id__post;
+   status: TJSONString;
+begin
+     status:= TJSONString.Create( _status);
+     wp:= T_wp_v2_posts__id__post.Create(eRoot_URL.Text, eUserName.Text, ePassword.Text);
+     try
+        wp.id( IntToStr( _id));
+        wp.status( status);
+        wp.Execute;
+     finally
+            FreeAndNil( wp);
+            FreeAndNil( status);
+            end;
+end;
+
 procedure TfjsWordpress.page_status_from_slA_href;
 const
      per_page= 10;
@@ -744,7 +789,7 @@ var
    Source: String;
    NomFichier: String;
    Slug: String;
-   procedure Traite_slug;
+   procedure Traite_slug_page;
    var
       wp: T_wp_v2_pages_get;
       pa: T_wp_v2_pages_get.Tpage_array;
@@ -770,6 +815,32 @@ var
                FreeAndNil( wp);
                end;
    end;
+   procedure Traite_slug_post;
+   var
+      wp: T_wp_v2_posts_get;
+      pa: T_wp_v2_posts_get.Tpost_array;
+      p: Tblpost;
+   begin
+        wp:= T_wp_v2_posts_get.Create(eRoot_URL.Text, eUserName.Text, ePassword.Text);
+        try
+           wp.slug( Slug);
+           wp.status('any');
+           //wp.per_page( '100');
+           //wp.page('1');
+           wp.Execute;
+
+           if 200 = wp.hc.ResponseStatusCode
+           then
+               begin
+               pa:= wp.R_200();
+               for p in pa
+               do
+                 post_set_status( p.id, 'publish');
+               end;
+        finally
+               FreeAndNil( wp);
+               end;
+   end;
 begin
      slProcessed:=  TStringList.Create;
      try
@@ -789,7 +860,11 @@ begin
 
               Traite_Fichier( Source+NomFichier, NomFichier, False);
 
-              Traite_slug;
+              if 0 = rgPagePost.ItemIndex
+              then
+                  Traite_slug_page
+              else
+                  Traite_slug_post;
 
               slProcessed.Add( NomFichier);
               Application.ProcessMessages;

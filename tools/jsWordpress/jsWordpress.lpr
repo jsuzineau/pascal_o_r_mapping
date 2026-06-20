@@ -11,7 +11,8 @@ uses
  {$ENDIF}
  Interfaces, // this includes the LCL widgetset
  Forms, ufjsWordpress, urust_html_clean, ufHTML, uWordpress_verb,
- uPath__wp_v2_media, uPath__wp_v2_pages, ublpage, ublattachment, ubluser;
+ uPath__wp_v2_media, uPath__wp_v2_pages, uPath__wp_v2_posts__id_,
+ uPath__wp_v2_posts, ublpage, ublattachment, ubluser, ublpost;
 
 {$R *.res}
 

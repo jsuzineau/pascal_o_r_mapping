@@ -241,8 +241,7 @@ object fjsWordpress: TfjsWordpress
         Left = 5
         Height = 57
         Top = 111
-        Width = 827
-        Anchors = [akTop, akLeft, akRight]
+        Width = 139
         AutoFill = True
         Caption = 'rgImport'
         ChildSizing.LeftRightSpacing = 6
@@ -253,7 +252,7 @@ object fjsWordpress: TfjsWordpress
         ChildSizing.Layout = cclLeftToRightThenTopToBottom
         ChildSizing.ControlsPerLine = 1
         ClientHeight = 37
-        ClientWidth = 823
+        ClientWidth = 135
         ItemIndex = 0
         Items.Strings = (
           'Traite_par_html'
@@ -383,6 +382,29 @@ object fjsWordpress: TfjsWordpress
         Caption = 'bCompute_slA_href'
         TabOrder = 16
         OnClick = bCompute_slA_hrefClick
+      end
+      object rgPagePost: TRadioGroup
+        Left = 168
+        Height = 55
+        Top = 112
+        Width = 82
+        AutoFill = True
+        Caption = 'rgPagePost'
+        ChildSizing.LeftRightSpacing = 6
+        ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+        ChildSizing.EnlargeVertical = crsHomogenousChildResize
+        ChildSizing.ShrinkHorizontal = crsScaleChilds
+        ChildSizing.ShrinkVertical = crsScaleChilds
+        ChildSizing.Layout = cclLeftToRightThenTopToBottom
+        ChildSizing.ControlsPerLine = 1
+        ClientHeight = 35
+        ClientWidth = 78
+        ItemIndex = 1
+        Items.Strings = (
+          'Page'
+          'Post'
+        )
+        TabOrder = 17
       end
     end
   end

@@ -96,6 +96,18 @@
         <Filename Value="api\Elements\user\ubluser.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="api\Elements\post\ublpost.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="api\Paths\uPath__wp_v2_posts.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="api\Paths\uPath__wp_v2_posts__id_.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -106,7 +118,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <OtherUnitFiles Value="Generateur\Generateur_de_code\06_Resultat\wordpress-openapi_json\Pascal;api\Paths;api\Elements\page;api\Elements\attachment;api\Elements\user"/>
+      <OtherUnitFiles Value="Generateur\Generateur_de_code\06_Resultat\wordpress-openapi_json\Pascal;api\Paths;api\Elements\page;api\Elements\attachment;api\Elements\user;api\Elements\post"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>

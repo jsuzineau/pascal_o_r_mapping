@@ -1,6 +1,7 @@
 date-time=TJSONData
 object=TJSONData
 ARRAY OF STRING=TJSONData
+ARRAY OF INTEGER=TJSONData
 STRING=  String
 SMALLINT= Integer
 INTEGER= Integer
