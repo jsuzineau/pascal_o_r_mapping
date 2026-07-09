@@ -59,6 +59,24 @@ services:
       HOME: /tmp
     entrypoint: ["tail", "-f", "/dev/null"]
 
+  ftp:
+    image: fauria/vsftpd
+    container_name: wp-local-ftp
+    restart: unless-stopped
+    ports:
+      - "21:21"
+      - "20:20"
+      - "21100-21110:21100-21110"
+    environment:
+      FTP_USER: updraft
+      FTP_PASS: change_me_ftp_password
+      PASV_ADDRESS: 127.0.0.1
+      PASV_MIN_PORT: 21100
+      PASV_MAX_PORT: 21110
+    volumes:
+      - ftp_data:/home/vsftpd/updraft
+
 volumes:
   db_data:
   wp_data:
+  ftp_data:

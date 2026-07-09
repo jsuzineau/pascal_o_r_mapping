@@ -1,0 +1,1 @@
+docker compose exec wpcli wp plugin list --allow-root

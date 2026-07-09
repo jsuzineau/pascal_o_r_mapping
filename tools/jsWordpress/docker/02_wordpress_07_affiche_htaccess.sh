@@ -1,0 +1,1 @@
+docker compose exec wordpress cat /var/www/html/.htaccess

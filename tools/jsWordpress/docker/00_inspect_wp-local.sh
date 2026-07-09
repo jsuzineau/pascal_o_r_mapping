@@ -1,0 +1,1 @@
+docker inspect wp-local --format '{{range .Mounts}}{{println .Source "->" .Destination}}{{end}}'

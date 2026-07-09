@@ -1,0 +1,1 @@
+docker compose exec wpcli wp plugin install updraftplus --activate --allow-root
