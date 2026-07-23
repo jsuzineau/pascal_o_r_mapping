@@ -1,1 +1,1 @@
-iptables-save -c
+sudo -s iptables-save -c
