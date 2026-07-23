@@ -163,3 +163,4 @@ application_password.txt
 /tools/jsWordpress/etc/slPages.txt
 /tools/jsWordpress/etc/slA_href.txt
 /tools/jsWordpress/etc/slNotFound.txt
+/tools/jsWordpress/docker/.env
