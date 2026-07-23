@@ -1,1 +1,1 @@
-iptables -L -v --line-numbers
+sudo iptables -L -v --line-numbers

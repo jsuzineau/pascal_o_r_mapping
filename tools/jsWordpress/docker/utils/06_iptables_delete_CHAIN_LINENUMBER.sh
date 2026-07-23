@@ -1,1 +1,1 @@
-iptables -D $1 $2
+sudo iptables -D $1 $2
