@@ -1,1 +1,1 @@
-sudo -s iptables-save -c
+sudo iptables-save > /etc/iptables/rules.v4
