@@ -1,2 +1,3 @@
-sudo iptables -A INPUT ! -i (your outside interface here) tcp --dport 53 -j ACCEPT
-sudo iptables -A INPUT ! -i (your outside interface here) udp --dport 53 -j ACCEPT
+export interface_externe=(your outside interface here)
+sudo iptables -A INPUT ! -i $interface_externe -p tcp --dport 53 -j ACCEPT
+sudo iptables -A INPUT ! -i $interface_externe -p udp --dport 53 -j ACCEPT
