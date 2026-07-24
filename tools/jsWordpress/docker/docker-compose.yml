@@ -56,7 +56,10 @@ services:
     container_name: wp-local-cli
     user: "33:33"
     depends_on:
+      - db
       - wordpress
+    networks:
+      - wpnet
     volumes:
       - wp_data:/var/www/html
     environment:

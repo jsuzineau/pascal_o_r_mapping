@@ -1,0 +1,1 @@
+resolvectl query $1
