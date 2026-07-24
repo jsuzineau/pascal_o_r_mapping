@@ -1,1 +1,3 @@
-sudo iptables -I DOCKER-USER -i (your outside interface here)  -j DROP
+export interface_externe=(your outside interface here) 
+sudo iptables -A DOCKER-USER -i $interface_externe -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+sudo iptables -A DOCKER-USER -i $interface_externe -j DROP
